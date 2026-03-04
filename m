@@ -1,56 +1,74 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A6AC341ADD;
-	Wed,  4 Mar 2026 15:03:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44BC134B682
+	for <linux-doc@vger.kernel.org>; Wed,  4 Mar 2026 15:05:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772636615; cv=none; b=V2TwnQHoDjQoQaOKnxt5dyKXlMEtL9ux8agK/wu0UqNnKU/oDwqcvm90MRmLvsc1KFnm1u56dVXvklJr+n+jZWAD9ehsOYoSQ9arTfvRESQr5XQig3ESOysagU7ygTHF0dwZW6buIvKtcf2D/nyHeCrtcdXUE73Db6nu2OCZleA=
+	t=1772636705; cv=none; b=o9m71IaHbER5YGpN1uN/8zFxEQoD23JPu2IlFuthsy7VzTAxSSmtUY61HIMmgwFrZbWT4VP9v/FTBYl7rKLmxQm11sWn54NtQASi/QIUvmNzmHJ4ydUgN9rhPkx2PoAZ68JclA8qcJkyBArh6g9LvjJ6peaevNJe84Po8FLiQQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772636615; c=relaxed/simple;
-	bh=mE040friD/D8vUlGR6SF6lCV5t9rYG9oPgW77/JY5bw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qr9pN6nIcMdTCTr13xT9w/XlHm0ozhnbjJpOgYLP0X7fY/TmHVNoD9MY6/QTETSJc3vzo+wU1szn5soyqPl/ET2gMtrmPqMx4i4LRIpsE6GUnL9eZkeEyyJ2255+J/8wTsoy1QKGn2lora7Fetpyiyvmr7fLqczrZ9THj34HNPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GJAqghuQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772636705; c=relaxed/simple;
+	bh=jHAcgKXcKNebtrlpWLGfC+a4usAjvIac1SzYg4lDCRw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=XRyI5DwQ2I0Vz/wwPo2Yns/ii+t8QRc1PFQkB/RS+nwzWBsnyuF4SYSYDLsae0I3E7MmHgSmnkqEh3H8z1v+AmCXsQ5ewmYb7J5sOEcMDSAzej3fjstOPg8j5JTu4n8XaCpnTyOTLfcaRGasqMzG1uD0BxF2rw1k8Uhmby9zs1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kQTw27Ii; arc=none smtp.client-ip=209.85.216.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GJAqghuQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CAB9C4CEF7;
-	Wed,  4 Mar 2026 15:03:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772636614;
-	bh=mE040friD/D8vUlGR6SF6lCV5t9rYG9oPgW77/JY5bw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=GJAqghuQ0TJn+SKiqRfKLM05J6MzDxoz3ubM1FnAUsKVkhZKV/rlhFG8jkc6FrLBQ
-	 rVBxbihRWUo+j/hmjHxVYVU/PyIyG/lsNEyi1T4yWbleHpa1RJct0xyZ6VqTsKK8xM
-	 /NtKB1W0z4N67tvUK8suaSegffaOU3yBHYGtuqI4f4x8DlVzQMT3CIUf0Ww7n3e5qo
-	 MBLukmLDkYuLAHHCsdj3dHmTa0uHdqgjPUJ2K8JZjrHxGstCpXGlDftEIXBE8oNTF+
-	 PAxbThpYqfTUBZSw03Qz2N96iHdBeWUf8bAfHtWR5YO8fcTq2VRcP/pD1gUKbq/05h
-	 GcbgPiA8Z63jQ==
-From: SeongJae Park <sj@kernel.org>
-To: Gutierrez Asier <gutierrez.asier@huawei-partners.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Shuah Khan <shuah@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	damon@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kQTw27Ii"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-35994d84c6dso1266586a91.2
+        for <linux-doc@vger.kernel.org>; Wed, 04 Mar 2026 07:05:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772636701; x=1773241501; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fqTYOMIsNClRzqswixiS8WEm00nS5ICygdS6xEi4uwI=;
+        b=kQTw27IiEZ4ibhEU5iS8az0NOijK4o9pwKVvcNC+g7wmpWsb/QBjXjyhkyiOf8qC4G
+         Qt4CW7yUDVAxiKVemZpR5POxtbHpU6enzu69gRBrf1fN0965ZGdjSAjzYNHyGU9Vv9CQ
+         zu5r9eks7mSikUoFWdmRGvqPlKSNzVX/EP4ldpMbvQibN37UESLfgExF1+gU5Dn9OFr6
+         Sl0O7n7lXj52jCpGbTwg2PcVkpwl6mYyGwBOlhoIgG75cKXHkRWQmW1R8h4VXHNALbvt
+         93zXMkyGwGS1Z7nga21z8uK/gVGtmkhBoZEFj9n3UFb8Q76ZkLVdaujwAJboJK/IOkQ4
+         OV1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772636701; x=1773241501;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fqTYOMIsNClRzqswixiS8WEm00nS5ICygdS6xEi4uwI=;
+        b=OeOhUKkXFcXNo2D9ZSq1BgZZ73ku++zc4a2Q5so4bILPFuIFkfoO8U5e+wvSq7335k
+         fq/E2PKEVa59Kb+D/Xd29RKL/hbzRNcGH1Q3UuSdQD2Av26Ijf2ItZbiYE8FT5J/RElX
+         EbT9b1tDflApLg64HjuCmf0lel9Madu278xgJaTlYESAf9aChRsC/qov2+rH188jyD27
+         GAFliJWID7gzSGd0Iac0TLSZfbGz0gFT3kCDT6ry/PxSvkAaXJqMf5IMjAWOr6/icdqB
+         9mutEimrbSbbe657wisTss3cphs+EDwlNxWZRNUHWwTgaLgmRumjHd9GLuru10vCKHUf
+         252g==
+X-Forwarded-Encrypted: i=1; AJvYcCUS/I/SSmGr7On33u+WW+4Vnrrw/caYYxbHODeQnoIKeah4wwe5uB07aSckXk2/7vtNFdLGTTYjVzE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxMFB8SIt2FM/11Ug5NJY2mhjUnNASLWpyvwyGJioMCIZv+Peiz
+	dlHhaDC2L6kIZG9+F5c7t0tN/OrU4eA1+4757hwME5Fa8/E1bwi3e48S
+X-Gm-Gg: ATEYQzzbhXkZVbHkptXIW9XgIyX76yzsPkKQpvQYWqxwLV5sK4SN1LFbKa38sSzLFqw
+	jVJ0b2eXSvPB2Oxour+X3WaUfEIIGEoXnnaZfYcPM4LjzrT0H64jHr26FM++3pQ7BcsseBrQoPG
+	fZMZ2nWXBkAypB1HQG0GEbsXLpuzXlone+7+y0h1Ez2ytFr3cdtBqJfk89njClv7h/ieudxh4z2
+	uETF+m/tKvtltT+aPyC48PldpPLMX1qnMqSgZEOP+wdl/17DA7nhjJ7eE1BpdW5S/YP3EY8zc78
+	O0dnqyim/+d1KSavCbq2UVKWuBLU7omnmEIUo97F2Nbm1EGO3jh0eGWdsZao/h59zEl6aanGDku
+	ssgYbRdvV6LjfM8eNGJQDjYY3ujzWPtsllHE9aDegx00v2SQJZQ0uP35bGPg46Xl7DJHSnkb5Wf
+	3Sxn/lJbe+1C8ZoUVI0xJbyC820nVsAJ2zkLir7rr35Qsjxfg0dZzpa333YrJGUQ==
+X-Received: by 2002:a17:90b:48cd:b0:34a:8c77:d37b with SMTP id 98e67ed59e1d1-359a6a21536mr2121281a91.16.1772636701366;
+        Wed, 04 Mar 2026 07:05:01 -0800 (PST)
+Received: from localhost.localdomain ([47.30.254.178])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-359aa3eb916sm516439a91.11.2026.03.04.07.04.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Mar 2026 07:05:00 -0800 (PST)
+From: Shubham Chakraborty <chakrabortyshubham66@gmail.com>
+To: corbet@lwn.net,
+	jgross@suse.com
+Cc: sstabellini@kernel.org,
+	boris.ostrovsky@oracle.com,
 	linux-doc@vger.kernel.org,
+	xen-devel@lists.xenproject.org,
 	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: Re: [RFC PATCH v2 00/10] mm/damon: support multiple goal-based quota tuning algorithms
-Date: Wed,  4 Mar 2026 07:03:26 -0800
-Message-ID: <20260304150327.172442-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <3c9449c1-95c7-4770-8e06-1ee50e263db8@huawei-partners.com>
-References: 
+	Shubham Chakraborty <chakrabortyshubham66@gmail.com>
+Subject: [PATCH v2] docs: sysctl: Add documentation for /proc/sys/xen/
+Date: Wed,  4 Mar 2026 20:34:19 +0530
+Message-Id: <20260304150419.16738-1-chakrabortyshubham66@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -59,67 +77,79 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Wed, 4 Mar 2026 13:15:29 +0300 Gutierrez Asier <gutierrez.asier@huawei-partners.com> wrote:
+Add documentation for the Xen hypervisor sysctl controls in
+/proc/sys/xen/balloon/.
 
-> Hi SeongJae!
-> 
-> Nice idea for dynamic environments.
+Documents the hotplug_unpopulated tunable (available when
+CONFIG_XEN_BALLOON_MEMORY_HOTPLUG is enabled) which controls
+whether unpopulated memory regions are automatically hotplugged
+when the Xen balloon driver needs to reclaim memory.
 
-Thank you :)
+The documentation is based on source code analysis of
+drivers/xen/balloon.c.
 
-> 
-> On 3/4/2026 7:41 AM, SeongJae Park wrote:
-> > Aim-oriented DAMOS quota auto-tuning uses a single tuning algorithm.
-> > The algorithm is designed to find a quota value that should be
-> > consistently kept for achieving the aimed goal for long term.  It is
-> > useful and reliable at automatically operating systems that have dynamic
-> > environments in the long term.
-> > 
-> > As always, however, no single algorithm fits all.  When the environment
-> > has static characteristics or there are control towers in not only the
-> > kernel space but also the user space, the algorithm shows some
-> > limitations.  In such environments, users want kernel work in a more
-> > short term deterministic way.  Actually there were at least two reports
-> > [1,2] of such cases.
-> > 
-> > Extend DAMOS quotas goal to support multiple quota tuning algorithms
-> > that users can select.  Keep the current algorithm as the default one,
-> > to not break the old users.  Also give it a name, "consist", as it is
-> > designed to "consistently" apply the DAMOS action.  And introduce a new
-> > tuning algorithm, namely "temporal".  It is designed to apply the DAMOS
-> > action only temporally, in a deterministic way.  In more detail, as long
-> > as the goal is under-achieved, it uses the maximum quota available.
-> > Once the goal is over-achieved, it sets the quota zero.
-> 
-> I'm not sure "temporal" is the best name for this type of behaviour.
+Signed-off-by: Shubham Chakraborty <chakrabortyshubham66@gmail.com>
+---
+ Documentation/admin-guide/sysctl/index.rst |  3 ++-
+ Documentation/admin-guide/sysctl/xen.rst   | 31 ++++++++++++++++++++++
+ 2 files changed, 33 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/admin-guide/sysctl/xen.rst
 
-I agree there could be a better name.
+diff --git a/Documentation/admin-guide/sysctl/index.rst b/Documentation/admin-guide/sysctl/index.rst
+index 4dd2c9b5d752..aae68373902f 100644
+--- a/Documentation/admin-guide/sysctl/index.rst
++++ b/Documentation/admin-guide/sysctl/index.rst
+@@ -84,7 +84,7 @@ sunrpc/		SUN Remote Procedure Call (NFS)
+ user/		Per user namespace limits
+ vm/		memory management tuning
+ 		buffer and cache management
+-xen/		<undocumented>
++xen/		Xen hypervisor controls
+ =============== ===============================================================
+ 
+ These are the subdirs I have on my system or have been discovered by
+@@ -102,3 +102,4 @@ it :-)
+    sunrpc
+    user
+    vm
++   xen
+diff --git a/Documentation/admin-guide/sysctl/xen.rst b/Documentation/admin-guide/sysctl/xen.rst
+new file mode 100644
+index 000000000000..6c5edc3e5e4c
+--- /dev/null
++++ b/Documentation/admin-guide/sysctl/xen.rst
+@@ -0,0 +1,31 @@
++===============
++/proc/sys/xen/
++===============
++
++Copyright (c) 2026, Shubham Chakraborty <chakrabortyshubham66@gmail.com>
++
++For general info and legal blurb, please look in
++Documentation/admin-guide/sysctl/index.rst.
++
++------------------------------------------------------------------------------
++
++These files show up in ``/proc/sys/xen/``, depending on the
++kernel configuration:
++
++.. contents:: :local:
++
++balloon/hotplug_unpopulated
++===========================
++
++This flag controls whether unpopulated memory ranges are automatically
++hotplugged as system RAM.
++
++- ``0``: Unpopulated ranges are not hotplugged (default).
++- ``1``: Unpopulated ranges are automatically hotplugged.
++
++When enabled, the Xen balloon driver will add memory regions that are
++marked as unpopulated in the Xen memory map to the system as usable RAM.
++This allows for dynamic memory expansion in Xen guest domains.
++
++This option is only available when the kernel is built with
++``CONFIG_XEN_BALLOON_MEMORY_HOTPLUG`` enabled.
+-- 
+2.39.5
 
-> 
-> How about "by_score?". For example, "damos_goal_tune_esz_bp_by_score" and
-> DAMOS_QUOTA_GOAL_TUNER_BY_SCORE.
-
-And thank you for the suggestion!
-
-But... I don't think "by_score" is much better, because all tuners are assumed
-to, and actually do the tuning of the quota based on the score.  Or, maybe you
-mean it makes non-zero quota only until the score becomes the goal?  That makes
-sense, but again, in a sense, that's same for "consistent" tuner.
-
-Naming is difficult...
-
-I was also thinking about a few more names, but my conclusion after the self
-discussion was that some of ambitious names are inevitable here.  Otherwise,
-the name will be too long.  I therefore picked the shortest and simplest ones
-on my list, which at least contrasts the current two tuners.  I agree that
-could still be difficult to understand.  But as long as there is a good
-documentation, I think difficult-to-understnd names that encourage users to
-read the document is ok and might even be better in some cases.
-
-I'm of course open to other suggestions.
-
-
-Thanks,
-SJ
-
-[...]
