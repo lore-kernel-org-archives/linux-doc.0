@@ -1,696 +1,241 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB306382F19
-	for <linux-doc@vger.kernel.org>; Wed,  4 Mar 2026 20:07:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E549434A78F;
+	Wed,  4 Mar 2026 20:17:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772654850; cv=none; b=XpWMH7gjZ/Gs7czorbY5jsAl/baiHzjrVQzbbRKvuiu0SfTlOAAyAqDnbScsgq+9IMLMB+0dTpCqOjMAarwkv29S/RHLvVPtMrvH9mxw7ewL9Sgqy871exSR9FgYYUFz+QWY7+CDNHdMrU4zb++Z3lmvxucrQgPCPZfhW6wibK0=
+	t=1772655466; cv=none; b=kUl5oJIiXtWEWFOf4oaXL5Sdw8FHHO4xnkm4Co9s4txsV1ViB0HkQ2ucNks36u+38676leZFjXLOXB/sfbGMPRIzlI1L+HKh4vOo5SIgF0HAq0JjZiRtB+2ZZMh6f6gBFMvGZ4YANqrhyW55DyAKzIrzwT4AYsYundJQGVGoVp0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772654850; c=relaxed/simple;
-	bh=4Q5gXi1VGH4oSJdRfVGArQRJrUqRNfVe/YivtZ9jmpM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=g9Hf2JyD54bNJKP0yqka7K4s2tkfv5SxgY9hnCtWHWwSgHpyyy8OceSTRl7W0qoKxapj28kgmioH1DL2fnXRIrAzZxoTSjwMytQM2hMvnsJvZv1b/YFL7WTs5UovHzfpDQpOstBZZLfMkGm3naFhOAPvcyq9D03EgSnNQ3maPMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mCd/y9zD; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1772655466; c=relaxed/simple;
+	bh=PYvdxZiw1RfZX+K+ZkvKCJ48cH0uwPbklG5oNBSPXCQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jB+yuS0q2xxshB1+fqhHVWAz2S+Q+qSsKoQPSnTPM/9zokaj6Lj8z72b10Jzx5XxR6r3XgtAB5gImEx0TxA7IDsXF2oJPnktAl2QJLPyEelc2bEwH6tebGlgyt4UxSet9lBESfcRGnL7JdNi0OIoIN5v3jYqLaHPGmZo5g2BENc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=deller@gmx.de header.b=JjMwmxvu; arc=none smtp.client-ip=212.227.17.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mCd/y9zD"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-48374014a77so87510285e9.3
-        for <linux-doc@vger.kernel.org>; Wed, 04 Mar 2026 12:07:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772654847; x=1773259647; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=P4sIPSqa5rL8sJXD2bRZv3ZVoA8xgp/jeEH+qTYdci4=;
-        b=mCd/y9zD+IcOe7UX1N+C0ue40D/EBgUh5o5PuZPe479unfT3OpGZuyHNCCDXZSdGqs
-         jMRaUWiaPfFJwYoE2Xh9WMvUeai1ar0j/sb46geIOVj+f/dn/JnFm/fiHqpz3R/b8vxr
-         GSOnfsBGtuiDiKAjXYGPGDE0LE6VVlnbU0KDormpokjLb6ODFpSSkxE2jJ0JLhc6IX6c
-         wXdypP+kGSV1v22CoRTBOhHPayPGc+tj4cZFqlcG34PN0WwnDU2XaSbqWpKyAdeWbp1E
-         RQr5XE0YGzAxbmu9BrnQQ7TebfQwbvAzXFzdC4QA7JQL79ssfVX9dR6axYiYBFD+oj8j
-         0bsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772654847; x=1773259647;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=P4sIPSqa5rL8sJXD2bRZv3ZVoA8xgp/jeEH+qTYdci4=;
-        b=MweScumLncKC/7IPBC0htqb8iUWYZ34ijUf+1wuGxfYdnPdp5IS1Klj7APFCzo7wDd
-         G99FY3Tg5JZcMSmW+QTHBXAPBcTZK8g1jINesTR/jYnbZNAd2zaoB0ojpcQjNi82v1kP
-         esMWwvQ7NQyib/zUvDpOqZCUmePh0CcHxtErxncZzdYSc5f4ZWZRrEWxu9yny8p3bo9q
-         1f9KxUOxoR/Cq/odOCYULREzoPeYcUBpx40wFEWZyIIWF/2rBig//2UAhsty2oQ5/gHX
-         dUNXpr4faCfngxB4KtiAilWI7B/tiNJHRfSf9cbKHTEsfNiPCNn+N2hZK0v7zE8NmYWP
-         XUfg==
-X-Forwarded-Encrypted: i=1; AJvYcCWoPnHzeSA03WJDapG1enNtQD7PI0k9bpaa7QztoQwjtNKCOK6z9EPI/+mgAZal1Hz5XbVNvmlnj84=@vger.kernel.org
-X-Gm-Message-State: AOJu0YylRiaC5jDcTX8EYDODSBlJv7TKkYuIZgeAjL32NEktJSleQiNp
-	4JFgtX5+t4Gv/wM2K/GUiJID8fjxQVjVncRK4TBO9g8svMjWJ1Qs6gqS
-X-Gm-Gg: ATEYQzxvwcohw+TUCEx32EKwf0A6dETj+gbIUHy0dRMHynIBMtgtCrjN3IL2rTYyF79
-	YcihJ1PQUy8cut3RHsvmPaKBMBox0tTBzTaEH2slvdjEr/9fUAtcJ29pK35bHpRVAJa+0wEDxjC
-	p2TOSUk/OV4nSBkU8Jd46xXh7TAenTdmy1u1i+dX1fPtXCHYRe9moB8B2tBle2J+rEU1iPbTHp/
-	E/lwniH62lCGkHg3fVNLE2VsqBRhUJad9tWAhapuJFZ2ee+ocDqgB6ha43z6mFLFotnVkwJrWNK
-	sXCMOejW31N7LMm6PQkRaQB79Y+aIwPK2/6bW7ETMDwhOyhX2qlxWZnOYVCziW7FEZ580a1qRNW
-	n3EAtuoXTv7lZ7zVT7kuPe0Ab/1WsCuUTcWXjkBq6dqjjJbRriqAUshzq3sppC7NyglwyGvAgA+
-	dMT5nogEsqwuK5VyI01AHYMxc01q9bS4DrmfFxFkXSXVjokQZ0sxVbCEKOu9Mlm7L40JLpOkZZj
-	fx6/dKffeGIiJLJJFf5U4hpSuetHybujGan6wylD/YeU0g=
-X-Received: by 2002:a05:600c:1f13:b0:477:5af7:6fa with SMTP id 5b1f17b1804b1-485198b1d3emr49221405e9.32.1772654846795;
-        Wed, 04 Mar 2026 12:07:26 -0800 (PST)
-Received: from localhost.localdomain ([80.233.57.185])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4851881224csm68872885e9.13.2026.03.04.12.07.25
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 04 Mar 2026 12:07:26 -0800 (PST)
-From: Edwin Toribio <edwin.toribio.j@gmail.com>
-To: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
-Cc: carlos.bilbao@kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	rust-for-linux@vger.kernel.org,
-	Edwin Toribio <edwin.toribio.j@gmail.com>
-Subject: [PATCH v2 3/3] docs: sp_SP: Add Spanish translation for Rust coding guidelines
-Date: Wed,  4 Mar 2026 20:07:13 +0000
-Message-ID: <20260304200715.76360-4-edwin.toribio.j@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260304200715.76360-1-edwin.toribio.j@gmail.com>
-References: <20260304200715.76360-1-edwin.toribio.j@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=deller@gmx.de header.b="JjMwmxvu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1772655462; x=1773260262; i=deller@gmx.de;
+	bh=BuJg84OdiykMj8ycqKLmDhSVlFL1Ozm7lCuoZPZCiGY=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=JjMwmxvuc0IFD3oL8yLcagUam7KjqaDVpjXMy1UUyld0J5iMzIleWGnjNY86KLy6
+	 KOuQJ4rm+GEK7IJ1wHk1SO6q3agBMeIM8QMvVS9S1n+ESLbHLkIZ4Vmh0fTlJPQD8
+	 BpuQb/bseJhatYyhGizqb081UYPyZZvTdqqWSOOYMAI8YeatgNgnw7pwKUFQlH4lA
+	 QTAa+m7mfPvHT6kSHin7wxsZLTzdoU093RJJg3e8+YMYorDyqk1/5WOayp6vB0xIy
+	 NoLNBWDgNlA7tW+jucKnUgA6twn2YjFKZdMvKb4Xy/bI5VlgrFrtMDSwZNtYZi0dw
+	 xEgwnkZGjl/1XhtueA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from client.hidden.invalid by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1M42nY-1vxsf73MFU-00GGO6; Wed, 04
+ Mar 2026 21:17:41 +0100
+Message-ID: <258d7167-2e82-4402-9545-108c501ae69e@gmx.de>
+Date: Wed, 4 Mar 2026 21:17:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] kallsyms: embed source file:line info in kernel stack
+ traces
+To: Sasha Levin <sashal@kernel.org>, Andrew Morton
+ <akpm@linux-foundation.org>, Masahiro Yamada <masahiroy@kernel.org>,
+ Luis Chamberlain <mcgrof@kernel.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Richard Weinberger <richard@nod.at>, Juergen Gross <jgross@suse.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ James Bottomley <James.Bottomley@HansenPartnership.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nsc@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
+ Daniel Gomez <da.gomez@kernel.org>, Greg KH <gregkh@linuxfoundation.org>,
+ Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Kees Cook <kees@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ Thorsten Leemhuis <linux@leemhuis.info>, Vlastimil Babka
+ <vbabka@kernel.org>, linux-kernel@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linux-modules@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20260303182103.3523438-1-sashal@kernel.org>
+ <20260303182103.3523438-2-sashal@kernel.org>
+Content-Language: en-US
+From: Helge Deller <deller@gmx.de>
+Autocrypt: addr=deller@gmx.de; keydata=
+ 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
+In-Reply-To: <20260303182103.3523438-2-sashal@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:q6PsiMN4dSeQZnkkakOBqi966mM343mTRHc088cSuN+FqngqEfg
+ gAHJeyEKw12gEBoceUmZz+HYATzw6vklqngfHquJprCpQ2IMXsz8bjC73vXHHi/GL+IAkLI
+ prl0qPK1C5QC1HAXzA4zYNWOTgtmHX7pZiNSLM8ZDJlJO24AzRrTyD1evhOgjqKRU+p0da+
+ 4PPV0/QQIF8e0atPYAfqg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:xQabxkf/k2o=;zKxHw793N1dZ63SsnRGYe7jpNJX
+ 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
+ SbSwWATs=
 
-Signed-off-by: Edwin Toribio <edwin.toribio.j@gmail.com>
----
- .../sp_SP/rust/coding-guidelines.rst          | 543 ++++++++++++++++++
- .../translations/sp_SP/rust/index.rst         |  45 ++
- 2 files changed, 588 insertions(+)
- create mode 100644 Documentation/translations/sp_SP/rust/coding-guidelines.rst
- create mode 100644 Documentation/translations/sp_SP/rust/index.rst
+On 3/3/26 19:21, Sasha Levin wrote:
+> Add CONFIG_KALLSYMS_LINEINFO, which embeds a compact address-to-line
+> lookup table in the kernel image so stack traces directly print source
+> file and line number information:
+>=20
+>    root@localhost:~# echo c > /proc/sysrq-trigger
+>    [   11.201987] sysrq: Trigger a crash
+>    [   11.202831] Kernel panic - not syncing: sysrq triggered crash
+>    [   11.206218] Call Trace:
+>    [   11.206501]  <TASK>
+>    [   11.206749]  dump_stack_lvl+0x5d/0x80 (lib/dump_stack.c:94)
+>    [   11.207403]  vpanic+0x36e/0x620 (kernel/panic.c:650)
+>    [   11.208565]  ? __lock_acquire+0x465/0x2240 (kernel/locking/lockdep=
+.c:4674)
+>    [   11.209324]  panic+0xc9/0xd0 (kernel/panic.c:787)
+>    [   11.211873]  ? find_held_lock+0x2b/0x80 (kernel/locking/lockdep.c:=
+5350)
+>    [   11.212597]  ? lock_release+0xd3/0x300 (kernel/locking/lockdep.c:5=
+535)
+>    [   11.213312]  sysrq_handle_crash+0x1a/0x20 (drivers/tty/sysrq.c:154=
+)
+>    [   11.214005]  __handle_sysrq.cold+0x66/0x256 (drivers/tty/sysrq.c:6=
+11)
+>    [   11.214712]  write_sysrq_trigger+0x65/0x80 (drivers/tty/sysrq.c:12=
+21)
+>    [   11.215424]  proc_reg_write+0x1bd/0x3c0 (fs/proc/inode.c:330)
+>    [   11.216061]  vfs_write+0x1c6/0xff0 (fs/read_write.c:686)
+>    [   11.218848]  ksys_write+0xfa/0x200 (fs/read_write.c:740)
+>    [   11.222394]  do_syscall_64+0xf3/0x690 (arch/x86/entry/syscall_64.c=
+:63)
+>    [   11.223942]  entry_SYSCALL_64_after_hwframe+0x77/0x7f (arch/x86/en=
+try/entry_64.S:121)
 
-diff --git a/Documentation/translations/sp_SP/rust/coding-guidelines.rst b/Documentation/translations/sp_SP/rust/coding-guidelines.rst
-new file mode 100644
-index 000000000..084925d3d
---- /dev/null
-+++ b/Documentation/translations/sp_SP/rust/coding-guidelines.rst
-@@ -0,0 +1,543 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../disclaimer-sp.rst
-+
-+:Original: Documentation/rust/coding-guidelines.rst
-+:Translator: Edwin Toribio <edwin.toribio.j@gmail.com>
-+
-+.. _sp_rust_coding_guidelines:
-+
-+===============================
-+Pautas de codificación de Rust
-+===============================
-+
-+Este documento describe cómo escribir código Rust en el kernel.
-+
-+Estilo y formato
-+----------------
-+
-+El código debe formatearse utilizando ``rustfmt``. De esta manera, una persona
-+que contribuya de vez en cuando al kernel no necesita aprender y recordar una
-+guía de estilo adicional. Más importante aún, los revisores y mantenedores
-+ya no necesitan dedicar tiempo a señalar problemas de estilo y, por lo tanto,
-+es posible que se necesiten menos rondas de parches para aplicar un cambio.
-+
-+.. note:: Las convenciones sobre comentarios y documentación no son verificadas por
-+  ``rustfmt``. Por lo tanto, todavía es necesario encargarse de ellas.
-+
-+Se utilizan los ajustes predeterminados de ``rustfmt``. Esto significa que se sigue
-+el estilo idiomático de Rust. Por ejemplo, se utilizan 4 espacios para la
-+sangría en lugar de tabulaciones.
-+
-+Es conveniente configurar los editores/IDE para que formateen al escribir, al
-+guardar o al momento de realizar el commit. Sin embargo, si por alguna
-+razón es necesario reformatear todas las fuentes de Rust del kernel en algún
-+momento, se puede ejecutar lo siguiente::
-+
-+	make LLVM=1 rustfmt
-+
-+También es posible comprobar si todo está formateado (imprimiendo un diff en
-+caso contrario), p. ej., para una CI (Integración Continua), con::
-+
-+	make LLVM=1 rustfmtcheck
-+
-+Al igual que ``clang-format`` para el resto del kernel, ``rustfmt`` funciona en
-+archivos individuales y no requiere una configuración del kernel. A veces,
-+incluso puede funcionar con código que contenga errores.
-+
-+Importaciones
-+~~~~~~~~~~~~~
-+
-+``rustfmt``, por defecto, formatea las importaciones de una manera propensa a
-+conflictos durante las fusiones (*merges*) y reajustes (*rebases*), ya que en algunos
-+casos condensa varios elementos en la misma línea. Por ejemplo:
-+
-+.. code-block:: rust
-+
-+	// No use este estilo.
-+	use crate::{
-+	    example1,
-+	    example2::{example3, example4, example5},
-+	    example6, example7,
-+	    example8::example9,
-+	};
-+
-+En su lugar, el kernel utiliza un diseño vertical que se ve así:
-+
-+.. code-block:: rust
-+
-+	use crate::{
-+	    example1,
-+	    example2::{
-+	        example3,
-+	        example4,
-+	        example5, //
-+	    },
-+	    example6,
-+	    example7,
-+	    example8::example9, //
-+	};
-+
-+Es decir, cada elemento va en su propia línea, y se utilizan llaves tan pronto como
-+haya más de un elemento en una lista. 
-+
-+El comentario vacío al final permite preservar este formato. No solo eso, ``rustfmt`` 
-+reformateará de hecho las importaciones verticalmente cuando se añade el comentario vacío.
-+Importaciones
-+~~~~~~~~~~~~~
-+
-+``rustfmt``, por defecto, formatea las importaciones de una manera propensa a
-+conflictos durante las fusiones (*merges*) y reajustes (*rebases*), ya que en algunos
-+casos condensa varios elementos en la misma línea. Por ejemplo:
-+
-+.. code-block:: rust
-+
-+	// No use este estilo.
-+	use crate::{
-+	    example1,
-+	    example2::{example3, example4, example5},
-+	    example6, example7,
-+	    example8::example9,
-+	};
-+
-+En su lugar, el kernel utiliza un diseño vertical que se ve así:
-+
-+.. code-block:: rust
-+
-+	use crate::{
-+	    example1,
-+	    example2::{
-+	        example3,
-+	        example4,
-+	        example5, //
-+	    },
-+	    example6,
-+	    example7,
-+	    example8::example9, //
-+	};
-+
-+Es decir, cada elemento va en su propia línea, y se utilizan llaves tan pronto como
-+haya más de un elemento en una lista.
-+
-+El comentario vacío al final permite preservar este formato. No solo eso,
-+``rustfmt`` reformateará de hecho las importaciones verticalmente cuando se añade el
-+comentario vacío. Es decir, es posible reformatear fácilmente el ejemplo original
-+al estilo esperado ejecutando ``rustfmt`` sobre una entrada como:
-+
-+.. code-block:: rust
-+
-+    // No use este estilo.
-+    use crate::{
-+        example1,
-+        example2::{example3, example4, example5, //
-+        },
-+        example6, example7,
-+        example8::example9, //
-+    };
-+
-+El comentario vacío al final funciona para importaciones anidadas, como se muestra
-+arriba, así como para importaciones de un solo elemento; esto puede ser útil para
-+minimizar los diffs dentro de las series de parches:
-+
-+.. code-block:: rust
-+
-+    use crate::{
-+        example1, //
-+    };
-+
-+El comentario vacío al final funciona en cualquiera de las líneas dentro de las
-+llaves, pero se prefiere mantenerlo en el último elemento, ya que recuerda a la
-+coma final en otros formateadores. A veces puede ser más sencillo evitar mover el
-+comentario varias veces dentro de una serie de parches debido a cambios en la lista.
-+
-+Puede haber casos en los que sea necesario hacer excepciones, p. ej., nada de esto es
-+una regla estricta. También hay código que aún no ha sido migrado a este estilo, pero
-+por favor, no introduzca código en otros estilos.
-+
-+Eventualmente, el objetivo es conseguir que ``rustfmt`` soporte este estilo de
-+formateo (o uno similar) automáticamente en una versión estable sin requerir el
-+comentario vacío al final. Por lo tanto, en algún momento, el objetivo es eliminar
-+esos comentarios.
-+
-+
-+Comentarios
-+-----------
-+
-+Los comentarios "normales" (p. ej., ``//``, en lugar de la documentación del
-+código que comienza con ``///`` o ``//!``) se escriben en Markdown de la misma
-+manera que los comentarios de documentación, aunque no se renderizarán. Esto
-+mejora la consistencia, simplifica las reglas y permite mover contenido entre
-+los dos tipos de comentarios más fácilmente. Por ejemplo:
-+
-+.. code-block:: rust
-+
-+    // `object` está listo para ser manejado ahora.
-+    f(object);
-+
-+Además, al igual que la documentación, los comentarios comienzan con mayúscula
-+al principio de una oración y terminan con un punto (aunque sea una sola
-+oración). Esto incluye ``// SAFETY:``, ``// TODO:`` y otros comentarios
-+"etiquetados", p. ej.:
-+
-+.. code-block:: rust
-+
-+    // FIXME: El error debe manejarse adecuadamente.
-+
-+Los comentarios no deben utilizarse con fines de documentación: los comentarios
-+están destinados a los detalles de implementación, no a los usuarios. Esta
-+distinción es útil incluso si el lector del archivo fuente es tanto un
-+implementador como un usuario de una API. De hecho, a veces es útil usar tanto
-+comentarios como documentación al mismo tiempo. Por ejemplo, para una lista
-+``TODO`` o para comentar sobre la documentación misma. En este último caso,
-+los comentarios pueden insertarse en el medio; es decir, más cerca de la línea
-+de documentación que se desea comentar. Para cualquier otro caso, los
-+comentarios se escriben después de la documentación, p. ej.:
-+
-+.. code-block:: rust
-+
-+    /// Devuelve un nuevo [`Foo`].
-+    ///
-+    /// # Ejemplos
-+    ///
-+    // TODO: Encontrar un mejor ejemplo.
-+    /// ```
-+    /// let foo = f(42);
-+    /// ```
-+    // FIXME: Usar un enfoque falible(basado en errores).
-+    pub fn f(x: i32) -> Foo {
-+        // ...
-+    }
-+
-+Esto se aplica tanto a elementos públicos como privados. Esto aumenta la
-+consistencia con los elementos públicos, permite cambios de visibilidad con
-+menos cambios involucrados y nos permitirá generar potencialmente la
-+documentación también para elementos privados. En otras palabras, si se escribe
-+documentación para un elemento privado, se debe seguir utilizando ``///``.
-+Por ejemplo:
-+
-+.. code-block:: rust
-+
-+    /// Mi función privada.
-+    // TODO: ...
-+    fn f() {}
-+
-+Un tipo especial de comentarios son los comentarios ``// SAFETY:``. Estos deben
-+aparecer antes de cada bloque ``unsafe``, y explican por qué el código dentro
-+del bloque es correcto/seguro, es decir, por qué no puede activar un
-+comportamiento indefinido en ningún caso, p. ej.:
-+
-+.. code-block:: rust
-+
-+    // SAFETY: `p` es válido según los requisitos de seguridad.
-+    unsafe { *p = 0; }
-+
-+Los comentarios ``// SAFETY:`` no deben confundirse con las secciones
-+``# Safety`` en la documentación del código. Las secciones ``# Safety``
-+especifican el contrato de quienes invocan (para funciones) o los
-+implementadores (para traits) deben cumplir. Los comentarios ``// SAFETY:``
-+muestran por qué una llamada (para funciones) o una implementación (para
-+traits) realmente respeta las condiciones previas establecidas en una sección
-+``# Safety`` o en la referencia del lenguaje.
-+
-+Documentación del código
-+------------------------
-+
-+El código de Rust del kernel no se documenta como el código de C del kernel (p. ej.,
-+a través de kernel-doc). En su lugar, se utiliza el sistema habitual para
-+documentar código Rust: la herramienta ``rustdoc``, que utiliza Markdown (un
-+lenguaje de marcado ligero).
-+
-+Para aprender Markdown, hay muchas guías disponibles. Por ejemplo, la que se
-+encuentra en:
-+
-+    https://commonmark.org/help/
-+
-+Así es como podría verse una función de Rust bien documentada:
-+
-+.. code-block:: rust
-+
-+    /// Devuelve el valor [`Some`] contenido, consumiendo el valor `self`,
-+    /// sin comprobar que el valor no sea [`None`].
-+    ///
-+    /// # Safety
-+    ///
-+    /// Invocar este método en [`None`] es *[comportamiento indefinido]*.
-+    ///
-+    /// [comportamiento indefinido]: https://doc.rust-lang.org/reference/behavior-considered-undefined.html
-+    ///
-+    /// # Ejemplos
-+    ///
-+    /// ```
-+    /// let x = Some("aire");
-+    /// assert_eq!(unsafe { x.unwrap_unchecked() }, "aire");
-+    /// ```
-+    pub unsafe fn unwrap_unchecked(self) -> T {
-+        match self {
-+            Some(val) => val,
-+
-+            // SAFETY: El contrato de seguridad debe ser respetado por quien invoca.
-+            None => unsafe { hint::unreachable_unchecked() },
-+        }
-+    }
-+
-+Este ejemplo muestra algunas características de ``rustdoc`` y algunas convenciones
-+seguidas en el kernel:
-+
-+- El primer párrafo debe ser una sola oración que describa brevemente lo que
-+  hace el elemento documentado. Las explicaciones adicionales deben ir en
-+  párrafos extra.
-+
-+- Las funciones inseguras (``unsafe``) deben documentar sus condiciones previas
-+  de seguridad bajo una sección ``# Safety``.
-+
-+- Aunque no se muestra aquí, si una función puede entrar en pánico (``panic``),
-+  las condiciones bajo las cuales esto sucede deben describirse bajo una
-+  sección ``# Panics``.
-+
-+  Por favor, tenga en cuenta que entrar en pánico debe ser muy raro y usarse
-+  solo con una buena razón. En casi todos los casos, se debe usar un enfoque
-+  basado en errores, devolviendo típicamente un ``Result``.
-+
-+- Si proporcionar ejemplos de uso ayudara a los lectores, estos deben escribirse
-+  en una sección llamada ``# Ejemplos``.
-+
-+- Los elementos de Rust (funciones, tipos, constantes...) deben estar vinculados
-+  apropiadamente (``rustdoc`` creará un enlace automáticamente).
-+
-+- Cualquier bloque ``unsafe`` debe estar precedido por un comentario ``// SAFETY:``
-+  que describa por qué el código interior es seguro.
-+
-+  Aunque a veces la razón pueda parecer trivial y, por lo tanto, innecesaria,
-+  escribir estos comentarios no es solo una buena manera de documentar lo que
-+  se ha tenido en cuenta, sino que, lo más importante, proporciona una forma de
-+  saber que no existen restricciones implícitas *adicionales*.
-+
-+Para obtener más información sobre cómo escribir documentación para Rust y
-+características adicionales, consulte el libro de ``rustdoc`` en:
-+
-+    https://doc.rust-lang.org/rustdoc/how-to-write-documentation.html
-+
-+Además, el kernel admite la creación de enlaces relativos al árbol de fuentes
-+anteponiendo al destino del enlace ``srctree/``. Por ejemplo:
-+
-+.. code-block:: rust
-+
-+    //! Cabecera C: [`include/linux/printk.h`](srctree/include/linux/printk.h)
-+
-+o:
-+
-+.. code-block:: rust
-+
-+    /// [`struct mutex`]: srctree/include/linux/mutex.h
-+
-+
-+Tipos FFI de C
-+--------------
-+
-+El código de Rust del kernel se refiere a los tipos de C, como ``int``, utilizando
-+alias de tipos como ``c_int``, que están disponibles en el preludio de ``kernel``.
-+Por favor, no use los alias de ``core::ffi``; es posible que no se mapeen a los
-+tipos correctos.
-+
-+Por lo general, se debe hacer referencia a estos alias directamente por su
-+identificador; es decir, como una ruta de un solo segmento. Por ejemplo:
-+
-+.. code-block:: rust
-+
-+    fn f(p: *const c_char) -> c_int {
-+        // ...
-+    }
-+
-+Nomenclatura
-+------------
-+
-+El código de Rust del kernel sigue las convenciones habituales de nomenclatura de Rust:
-+
-+    https://rust-lang.github.io/api-guidelines/naming.html
-+
-+Cuando los conceptos de C existentes (p. ej., macros, funciones, objetos...) se
-+envuelven en una abstracción de Rust, se debe utilizar un nombre lo más cercano
-+posible al lado de C para evitar confusiones y mejorar la legibilidad al cambiar
-+entre los lados de C y Rust. Por ejemplo, las macros como ``pr_info``
-+de C se nombran igual en el lado de Rust.
-+
-+Dicho esto, el uso de mayúsculas y minúsculas (*casing*) debe ajustarse para seguir
-+las convenciones de nomenclatura de Rust, y el espacio de nombres (*namespacing*)
-+introducido por módulos y tipos no debe repetirse en los nombres de los elementos.
-+Por ejemplo, al envolver constantes como:
-+
-+.. code-block:: c
-+
-+    #define GPIO_LINE_DIRECTION_IN  0
-+    #define GPIO_LINE_DIRECTION_OUT 1
-+
-+El equivalente en Rust podría verse así (ignorando la documentación):
-+
-+.. code-block:: rust
-+
-+    pub mod gpio {
-+        pub enum LineDirection {
-+            In = bindings::GPIO_LINE_DIRECTION_IN as _,
-+            Out = bindings::GPIO_LINE_DIRECTION_OUT as _,
-+        }
-+    }
-+
-+Es decir, el equivalente de ``GPIO_LINE_DIRECTION_IN`` se referenciaría como
-+``gpio::LineDirection::In``. En particular, no debería nombrarse
-+``gpio::gpio_line_direction::GPIO_LINE_DIRECTION_IN``.
-+
-+Lints
-+-----
-+
-+En Rust, es posible permitir (``allow``) advertencias particulares (diagnósticos,
-+lints) localmente, haciendo que el compilador ignore las instancias de una
-+advertencia determinada dentro de una función, módulo o bloque específico, etc.
-+
-+Es similar a ``#pragma GCC diagnostic push`` + ``ignored`` + ``pop`` en C
-+[#]_:
-+
-+.. code-block:: c
-+
-+    #pragma GCC diagnostic push
-+    #pragma GCC diagnostic ignored "-Wunused-function"
-+    static void f(void) {}
-+    #pragma GCC diagnostic pop
-+
-+.. [#] En este caso particular, pueden utilizarse los atributos
-+       ``__{always,maybe}_unused`` del kernel (el ``[[maybe_unused]]`` de C23);
-+       sin embargo, el ejemplo pretende reflejar el lint equivalente en Rust
-+       que se analiza a continuación.
-+
-+Pero es mucho menos prolijo(``verbose``):
-+
-+.. code-block:: rust
-+
-+    #[allow(dead_code)]
-+    fn f() {}
-+
-+Gracias a esa virtud, es posible habilitar cómodamente más diagnósticos por
-+defecto (es decir, fuera de los niveles ``W=``). En particular, aquellos que
-+pueden tener algunos falsos positivos pero que, de otro modo, son bastante útiles
-+de mantener habilitados para detectar posibles errores.
-+
-+Además de eso, Rust proporciona el atributo ``expect``, que lleva esto más allá.
-+Hace que el compilador advierta si la advertencia no se produjo. Por ejemplo, lo
-+siguiente asegurará que, cuando se llame a ``f()`` en algún lugar, tengamos que
-+eliminar el atributo:
-+
-+.. code-block:: rust
-+
-+    #[expect(dead_code)]
-+    fn f() {}
-+
-+Si no lo hacemos, recibimos una advertencia del compilador::
-+
-+    warning: this lint expectation is unfulfilled
-+     --> x.rs:3:10
-+      |
-+    3 | #[expect(dead_code)]
-+      |          ^^^^^^^^^
-+      |
-+      = note: `#[warn(unfulfilled_lint_expectations)]` on by default
-+
-+Esto significa que los ``expect`` no se olvidan cuando ya no son necesarios, lo
-+que puede ocurrir en varias situaciones, p. ej.:
-+
-+- Atributos temporales añadidos durante el desarrollo.
-+
-+- Mejoras en los lints del compilador, Clippy o herramientas personalizadas que
-+  pueden eliminar un falso positivo.
-+
-+- Cuando el lint ya no es necesario porque se esperaba que fuera eliminado en
-+  algún momento, como el ejemplo de ``dead_code`` anterior.
-+
-+También aumenta la visibilidad de los ``allow`` restantes y reduce la posibilidad
-+de aplicar uno incorrectamente.
-+
-+Por lo tanto, prefiera ``expect`` sobre ``allow`` a menos que:
-+
-+- La compilación condicional active la advertencia en algunos casos pero no en
-+  otros.
-+
-+  Si solo hay unos pocos casos en los que se activa la advertencia (o no se
-+  activa) en comparación con el número total de casos, entonces se puede
-+  considerar el uso de un ``expect`` condicional (es decir,
-+  ``cfg_attr(..., expect(...))``). De lo contrario, es probable que sea más
-+  sencillo usar simplemente ``allow``.
-+
-+- Dentro de macros, cuando las diferentes invocaciones pueden crear código
-+  expandido que activa la advertencia en algunos casos pero no en otros.
-+
-+- Cuando el código puede activar una advertencia para algunas arquitecturas
-+  pero no para otras, como un moldeado (*cast*) ``as`` a un tipo FFI de C.
-+
-+Como ejemplo más desarrollado, considere por ejemplo este programa:
-+
-+.. code-block:: rust
-+
-+    fn g() {}
-+
-+    fn main() {
-+        #[cfg(CONFIG_X)]
-+        g();
-+    }
-+
-+Aquí, la función ``g()`` es código muerto (*dead code*) si ``CONFIG_X`` no está
-+establecido. ¿Podemos usar ``expect`` aquí?
-+
-+.. code-block:: rust
-+
-+    #[expect(dead_code)]
-+    fn g() {}
-+
-+    fn main() {
-+        #[cfg(CONFIG_X)]
-+        g();
-+    }
-+
-+Esto emitiría un lint si ``CONFIG_X`` está establecido, ya que no es código muerto
-+en esa configuración. Por lo tanto, en casos como este, no podemos usar ``expect``
-+tal cual.
-+
-+Una posibilidad simple es usar ``allow``:
-+
-+.. code-block:: rust
-+
-+    #[allow(dead_code)]
-+    fn g() {}
-+
-+    fn main() {
-+        #[cfg(CONFIG_X)]
-+        g();
-+    }
-+
-+Una alternativa sería usar un ``expect`` condicional:
-+
-+.. code-block:: rust
-+
-+    #[cfg_attr(not(CONFIG_X), expect(dead_code))]
-+    fn g() {}
-+
-+    fn main() {
-+        #[cfg(CONFIG_X)]
-+        g();
-+    }
-+
-+Esto aseguraría que, si alguien introduce otra llamada a ``g()`` en algún lugar
-+(p. ej., de forma incondicional), entonces se detectaría que ya no es código muerto.
-+Sin embargo, el ``cfg_attr`` es más complejo que un simple ``allow``.
-+
-+Por lo tanto, es probable que no valga la pena usar ``expect`` condicionales cuando
-+están involucradas más de una o dos configuraciones o cuando el lint puede
-+activarse debido a cambios no locales (como ``dead_code``).
-+
-+Para obtener más información sobre diagnósticos en Rust, consulte:
-+
-+    https://doc.rust-lang.org/stable/reference/attributes/diagnostics.html
-+
-+Manejo de errores
-+-----------------
-+
-+Para obtener información de referencia y pautas sobre el manejo de errores
-+específicos de Rust para Linux, consulte:
-+
-+    https://rust.docs.kernel.org/kernel/error/type.Result.html#error-codes-in-c-and-rust
-\ No newline at end of file
-diff --git a/Documentation/translations/sp_SP/rust/index.rst b/Documentation/translations/sp_SP/rust/index.rst
-new file mode 100644
-index 000000000..ff1db4487
---- /dev/null
-+++ b/Documentation/translations/sp_SP/rust/index.rst
-@@ -0,0 +1,45 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../disclaimer-sp.rst
-+
-+:Original: Documentation/rust/quick-start.rst
-+:Translator: Edwin Toribio <edwin.toribio.j@gmail.com>
-+
-+.. _sp_rust_index:
-+
-+Rust
-+====
-+
-+Documentación relacionada con Rust dentro del kernel. Para empezar a usar Rust
-+en el kernel, por favor lea la guía quick-start.rst.
-+
-+Documentación del código
-+------------------------
-+
-+Dada una configuración del kernel, el kernel puede generar documentación del
-+código Rust, p. ej., HTML renderizado por la herramienta ``rustdoc``.
-+
-+.. only:: rustdoc and html
-+
-+    Esta documentación del kernel fue construida con la `documentación del código Rust
-+    <rustdoc/kernel/index.html>`_.
-+
-+.. only:: not rustdoc and html
-+
-+    Esta documentación del kernel no fue construida con la documentación del código Rust.
-+
-+Se proporciona una versión pregenerada en:
-+
-+    https://rust.docs.kernel.org
-+
-+Por favor, consulte la sección :ref:`Documentación del código <rust_code_documentation>`
-+para más detalles.
-+
-+.. toctree::
-+    :maxdepth: 1
-+
-+    quick-start
-+    general-information
-+    coding-guidelines
-+
-+También puede encontrar materiales de aprendizaje para Rust en su sección en
-+:doc:`../process/kernel-docs`.
-\ No newline at end of file
--- 
-2.53.0
+As mentioned in the other series, I really like this patch series.
 
+I tested this series again on the parisc architecture, and the relative
+directories are now stripped with this version of your patch.
+IIRC, the previous patch did show the subdirectory names.
+[  132.840382] Backtrace:
+[  132.840382]  [<104254d8>] show_stack+0x50/0x64 (traps.c:212)
+[  132.840382]  [<1041c0c8>] dump_stack_lvl+0x6c/0xa0 (dump_stack.c:122)
+[  132.840382]  [<1041c118>] dump_stack+0x1c/0x2c (dump_stack.c:130)
+[  132.840382]  [<10402218>] vpanic+0x154/0x344 (panic.c:550)
+[  132.840382]  [<10402438>] panic+0x30/0x34 (panic.c:787)
+[  132.840382]  [<10bebea8>] sysrq_handle_crash+0x30/0x34 (rcupdate.h:110)
+[  132.840382]  [<10bec720>] __handle_sysrq+0xc0/0x1e4 (preempt.h:14)
+
+Helge
