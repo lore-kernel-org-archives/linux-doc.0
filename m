@@ -1,135 +1,156 @@
-Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A5693314A1
-	for <linux-doc@vger.kernel.org>; Wed,  4 Mar 2026 15:20:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D831A33F8D6
+	for <linux-doc@vger.kernel.org>; Wed,  4 Mar 2026 15:28:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772637609; cv=none; b=opCcDc5hp/LVWT77R0bNjHl9PSnpvpVwsBL9f69C7sAe8UcpGjnTe/rjhUAn7CQL8QTwHtSeJqKbznm3yxTIQ1GZPlELayDAcpRMzAXOtV30if4vjGoi8pJYi/jsEymbYTAyjdKErIcA1uuaK3xj4zZVppsllSSWaOuWEYVW/NU=
+	t=1772638084; cv=none; b=KVA+bJPpXCtYWzh1SQqThofi0qJ9wuRK897+4mLel/dm1ar8dGuYdopgVZf0hvbMEUexUOMqJfvhmLK7upaBimmm4Hn8j8Fz4vIokveswt2+ZhZHQDp/iPhYweTG+18EsAsmoL6sg0ybvpDKJFWtTHLVALxRSeTMzUcOxhocBI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772637609; c=relaxed/simple;
-	bh=ymmy16BjMJcdh8G+bL7CjvElhjsLisNNHit5+UJLzlM=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=Ukfcwc2SiyOh54FDMFwdclUzymdomIF0RleW8+iR5TeUMdNIN3ILKdD0HjRQnl3mxdYqyxGdbyfDUJyfqg8a9pS2fD58knkSE16jyt3bELwuZTKhgMCbB5+lXp3LYlZ4wr7H4Suyoc4mHIgNrRn5l0ynDGBniyBd5M6v8gEpyAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ctThmodO; arc=none smtp.client-ip=209.85.216.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1772638084; c=relaxed/simple;
+	bh=4Uhi0QlTwzgQc5rwFHf8CwgRiHlRT+OzQOSYUnatPQ8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hHZeKLwee8ZuR+R72BujBuS8tJw+LQa2BG5vsW4j+XdjekRlsyOmqGsHZWJWyoMvwKM5HLV4rO8X4IiXRhE+ZYJT4h2oe04g5awg0erzXaTrETPC5KcQK3Zsh4C4Khf5bTUEnxIYQqOSeW+iAKvrrWOOz0QW+plEEG7+09bg4tk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YLh3PbYg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ctThmodO"
-Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-35845fcf0f5so7756578a91.0
-        for <linux-doc@vger.kernel.org>; Wed, 04 Mar 2026 07:20:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1772637608; x=1773242408; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=fhVDxVUPn4sMysutwLd1doihcMglzApjUEnzyngJQcA=;
-        b=ctThmodOTSNFb3kgmbSZ/GYMrzAfdDVaHPnzskj4iIXvOJzBmiNkroMZ3CnM6PUMcV
-         RZ7xvjgNl8WufSJzbZlWKl7u20cqm913AoI4U3kmMd0yJ5hCx98XjZYQ9hiFAI2jmGkW
-         pi3HufjXBi9DppljA/9eURhR3uIB361dSH1fyVjXYVZ7fhLeomZoVPyRCD3BgmBFSixA
-         2tjYcQD1ORR0VMJxkwKeN+54mNFCMf7Ab0krgsoVrRfUxJiNJtfPaHfMdV2mRf9b1ppT
-         Y4/Bbp7HPtwTa2fL9JWqQc1WXwcTWvVTYl3KV9PU4BSJTOo2+RW7Gog5xalFqAIz/R6J
-         bC6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772637608; x=1773242408;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fhVDxVUPn4sMysutwLd1doihcMglzApjUEnzyngJQcA=;
-        b=uh5mmoZLBoWUzq6+eKQ+XQM4U5IA91SDXXoCMt3pphc4+3fOOo0sUta5pI+uzMhIFD
-         62vB9uDZckihr8JbPFujQKE9TQjIX2BgSvG12OUqhIJd/G8OdaoEx9ffTBuaZhwswpYZ
-         mjyK00bp5t8Y1kfkk8KMBe22z+ESs5xHdriAnM1+n0+RVyauqMzWsIoX7a/wex4symJq
-         FmvBxhOWjAifsc0XwRgOo50/b0YVXiKAdEHGS25CrloqPrMfHVLzyXXolhhnLjQpoA/k
-         eFJEXqQ1nRHU2/8HzQHoiCuUtqpya3dHXeXuPN7NkL16rDzZT9EudXIKQh4r35EWjRaJ
-         Mobg==
-X-Forwarded-Encrypted: i=1; AJvYcCXYAokMvFJDIkOCSO+omN1UyVX6tIHa9CZJNZDekdW5BksGPmgGtoZfdRj75C97uU5bJlblCiv2WpI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxRgueKZ0STxoXtoOKLwBLE4Og8RBFrYp8J2wAn41WzNeVmp1Vs
-	UDFoKVnq2vXKtmCtwhHTJI5nPBV70yRokyh5kyqeJEEJcoNxjuFiTxqXNkdLInjXXK+8+sC/eW1
-	MN5beFQ==
-X-Received: from pjbmz4.prod.google.com ([2002:a17:90b:3784:b0:358:fc29:4815])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:3e4d:b0:359:8ca0:308d
- with SMTP id 98e67ed59e1d1-359a6d8f5b3mr1977021a91.14.1772637607566; Wed, 04
- Mar 2026 07:20:07 -0800 (PST)
-Date: Wed, 4 Mar 2026 07:20:06 -0800
-In-Reply-To: <5097ff66-b727-4eac-b845-3bd08d1a0ead@suse.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YLh3PbYg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95282C2BCB4
+	for <linux-doc@vger.kernel.org>; Wed,  4 Mar 2026 15:28:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772638084;
+	bh=4Uhi0QlTwzgQc5rwFHf8CwgRiHlRT+OzQOSYUnatPQ8=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=YLh3PbYgXGp2v3C6KnPZu44bNeXrA+51KuQHTzYyw27y6BqAZ0LJyuMZgR/nRtBT7
+	 Y4D+tHIysm63trLL2LxN2D8GYwx1NiAhpsRoz+gI0a7Ely3TJReyJxJVrCgxUtIKg+
+	 avgF2+mbM2lcegc8OIj1cIQVKArFB0cF7ba5n6wMnPFc8PFVrR3xkzPaN6zrMZ3s4P
+	 ZsHxBOBni1s84woCGzvDqENShD61CQci6rWXSpjk2BhlxvkE+4R0up21FWZeUs5Ivp
+	 f6WkWpxC33pZjxBDoHYhxTcDHo+Ir+YZvqF3QNOVCw9rB3HJRvr6ZU02UWVK1GF1xN
+	 Aj15557fVZdtA==
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-38a33070b32so1874711fa.0
+        for <linux-doc@vger.kernel.org>; Wed, 04 Mar 2026 07:28:04 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUP31TIBOWcKaHudubYotnyk6gl+Eto8TfYphkCjkTewgxggI1IR90xMYqmt2n1PtBC9xUSjW5gLfQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwPMSTTdZhbHNHJAOmvnD8EhSI40Id+6/DJ7b1lxIjpEfOUcc1v
+	xJCwnTlxIg3DHaRFwI6yM9U8rHvrBauukKFA1ZiJBTyfHoItodKnuqStjzT40vJXZAO+je8ST9M
+	ArfbSbC/KCPsmsHRxKlcMdTmR/cBaXOZQwREJJB7mKA==
+X-Received: by 2002:a2e:be8b:0:b0:38a:314f:b80e with SMTP id
+ 38308e7fff4ca-38a314fb8e2mr8868381fa.37.1772638083128; Wed, 04 Mar 2026
+ 07:28:03 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260225-gmem-st-blocks-v2-0-87d7098119a9@google.com>
- <20260225-gmem-st-blocks-v2-2-87d7098119a9@google.com> <5097ff66-b727-4eac-b845-3bd08d1a0ead@suse.com>
-Message-ID: <aahNprLw0_Cdhzxp@google.com>
-Subject: Re: [PATCH RFC v2 2/6] KVM: guest_memfd: Directly allocate folios
- with filemap_alloc_folio()
-From: Sean Christopherson <seanjc@google.com>
-To: Vlastimil Babka <vbabka@suse.com>
-Cc: Ackerley Tng <ackerleytng@google.com>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Shuah Khan <shuah@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, rientjes@google.com, 
-	rick.p.edgecombe@intel.com, yan.y.zhao@intel.com, fvdl@google.com, 
-	jthoughton@google.com, vannapurve@google.com, shivankg@amd.com, 
-	michael.roth@amd.com, pratyush@kernel.org, pasha.tatashin@soleen.com, 
-	kalyazin@amazon.com, tabba@google.com, kvm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+References: <20260302-qcom-qce-cmd-descr-v11-0-4bf1f5db4802@oss.qualcomm.com>
+ <20260302-qcom-qce-cmd-descr-v11-12-4bf1f5db4802@oss.qualcomm.com> <aahHeR9j7q4_ynYK@vaman>
+In-Reply-To: <aahHeR9j7q4_ynYK@vaman>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Wed, 4 Mar 2026 16:27:50 +0100
+X-Gmail-Original-Message-ID: <CAMRc=Mc48+NyMPkFRa8GPv-odCe=r9WXJWUZYkTsaY53Ev_stQ@mail.gmail.com>
+X-Gm-Features: AaiRm53PjeLrZbaX46W-h8Hoc8doSIzcwlm0W7I8e3WNmtZGuh6x2grvktVUNBA
+Message-ID: <CAMRc=Mc48+NyMPkFRa8GPv-odCe=r9WXJWUZYkTsaY53Ev_stQ@mail.gmail.com>
+Subject: Re: [PATCH RFC v11 12/12] dmaengine: qcom: bam_dma: add support for
+ BAM locking
+To: Vinod Koul <vkoul@kernel.org>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Thara Gopinath <thara.gopinath@gmail.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	"David S. Miller" <davem@davemloft.net>, Udit Tiwari <quic_utiwari@quicinc.com>, 
+	Daniel Perez-Zoghbi <dperezzo@quicinc.com>, Md Sadre Alam <mdalam@qti.qualcomm.com>, 
+	Dmitry Baryshkov <lumag@kernel.org>, Peter Ujfalusi <peter.ujfalusi@gmail.com>, 
+	Michal Simek <michal.simek@amd.com>, Frank Li <Frank.Li@kernel.org>, dmaengine@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-crypto@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 02, 2026, Vlastimil Babka wrote:
-> On 2/25/26 08:20, Ackerley Tng wrote:
-> > __filemap_get_folio_mpol() is parametrized by a bunch of GFP flags, which
-> 
->                                                            FGP?
-> 
-> > adds complexity for the reader. Since guest_memfd doesn't meaningfully use
-> > any of the other FGP flags, undo that complexity by directly calling
-> > filemap_alloc_folio().
-> > 
-> > Directly calling filemap_alloc_folio() also allows the order of 0 to be
-> > explicitly specified, which is the only order guest_memfd supports. This is
-> > easier to understand,
+On Wed, Mar 4, 2026 at 3:53=E2=80=AFPM Vinod Koul <vkoul@kernel.org> wrote:
+>
+> On 02-03-26, 16:57, Bartosz Golaszewski wrote:
+> > Add support for BAM pipe locking. To that end: when starting the DMA on
+> > an RX channel - wrap the already issued descriptors with additional
+> > command descriptors performing dummy writes to the base register
+> > supplied by the client via dmaengine_slave_config() (if any) alongside
+> > the lock/unlock HW flags.
+> >
+> > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.co=
+m>
 
-That's debatable.  IMO, one isn't clearly better than the other, especially since
-filemap_lock_folio() is itself a wrapper for __filemap_get_folio_mpol().  And there
-is a cost to open-coding, as it means we risk missing something if there's a change
-in __filemap_get_folio_mpol() that's beneficial to guest_memfd.
+[snip]
 
-As Vlastimil said, if this greatly simplifies accounting, then I'm ok with it.
-But the changelog needs to focus on that aspect, because I don't see this as a
-clear win versus using __filemap_get_folio_mpol().
-
-And if we go through with this, we should probably revert 16a542e22339 ("mm/filemap:
-Extend __filemap_get_folio() to support NUMA memory policies"), because guest_memfd
-is/was the only user.
-
-> > +static struct folio *__kvm_gmem_get_folio(struct inode *inode, pgoff_t index)
+> > +static struct bam_async_desc *
+> > +bam_make_lock_desc(struct bam_chan *bchan, struct scatterlist *sg,
+> > +                struct bam_cmd_element *ce, unsigned int flag)
 > > +{
-> > +	/* TODO: Support huge pages. */
-> > +	struct mempolicy *policy;
-> > +	struct folio *folio;
-> > +	gfp_t gfp;
-> > +	int ret;
+> > +     struct dma_chan *chan =3D &bchan->vc.chan;
+> > +     struct bam_async_desc *async_desc;
+> > +     struct bam_desc_hw *desc;
+> > +     struct virt_dma_desc *vd;
+> > +     struct virt_dma_chan *vc;
+> > +     unsigned int mapped;
+> > +     dma_cookie_t cookie;
+> > +     int ret;
 > > +
-> > +	/*
-> > +	 * Fast-path: See if folio is already present in mapping to avoid
-> > +	 * policy_lookup.
-> > +	 */
-> > +	folio = filemap_lock_folio(inode->i_mapping, index);
-> > +	if (!IS_ERR(folio))
-> > +		return folio;
+> > +     async_desc =3D kzalloc_flex(*async_desc, desc, 1, GFP_NOWAIT);
+> > +     if (!async_desc) {
+> > +             dev_err(bchan->bdev->dev, "failed to allocate the BAM loc=
+k descriptor\n");
+> > +             return NULL;
+> > +     }
 > > +
-> > +	gfp = mapping_gfp_mask(inode->i_mapping);
+> > +     async_desc->num_desc =3D 1;
+> > +     async_desc->curr_desc =3D async_desc->desc;
+> > +     async_desc->dir =3D DMA_MEM_TO_DEV;
 > > +
-> > +	policy = mpol_shared_policy_lookup(&GMEM_I(inode)->policy, index);
+> > +     desc =3D async_desc->desc;
+> > +
+> > +     bam_prep_ce_le32(ce, bchan->slave.dst_addr, BAM_WRITE_COMMAND, 0)=
+;
+> > +     sg_set_buf(sg, ce, sizeof(*ce));
+> > +
+> > +     mapped =3D dma_map_sg_attrs(chan->slave, sg, 1, DMA_TO_DEVICE, DM=
+A_PREP_CMD);
+> > +     if (!mapped) {
+> > +             kfree(async_desc);
+> > +             return NULL;
+> > +     }
+> > +
+> > +     desc->flags |=3D cpu_to_le16(DESC_FLAG_CMD | flag);
+> > +     desc->addr =3D sg_dma_address(sg);
+> > +     desc->size =3D sizeof(struct bam_cmd_element);
+> > +
+> > +     vc =3D &bchan->vc;
+> > +     vd =3D &async_desc->vd;
+> > +
+> > +     dma_async_tx_descriptor_init(&vd->tx, &vc->chan);
+> > +     vd->tx.flags =3D DMA_PREP_CMD;
+> > +     vd->tx.desc_free =3D vchan_tx_desc_free;
+> > +     vd->tx_result.result =3D DMA_TRANS_NOERROR;
+> > +     vd->tx_result.residue =3D 0;
+> > +
+> > +     cookie =3D dma_cookie_assign(&vd->tx);
+> > +     ret =3D dma_submit_error(cookie);
+>
+> I am not sure I understand this.
+>
+> At start you add a descriptor in the queue, ideally which should be
+> queued after the existing descriptors are completed!
+>
+> Also I thought you want to append Pipe cmd to descriptors, why not do
+> this while preparing the descriptors and add the pipe cmd and start and
+> end of the sequence when you prepare... This was you dont need to create
+> a cookie like this
+>
 
-This is a potential performance regression.  Previously, KVM would do a policy
-lookup once per retry loop.  Now KVM will do the lookup 
+Client (in this case - crypto engine) can call
+dmaengine_prep_slave_sg() multiple times adding several logical
+descriptors which themselves can have several hardware descriptors. We
+want to lock the channel before issuing the first queued descriptor
+(for crypto: typically data descriptor) and unlock it once the final
+descriptor is processed (typically command descriptor). To that end:
+we insert the dummy command descriptor with the lock flag at the head
+of the queue and the one with the unlock flag at the tail - "wrapping"
+the existing queue with lock/unlock operations.
 
-I doubt it will matter in practice, because on EEXIST filemap_lock_folio() should
-be all but guaranteed to find the existing folio.  But it's also something that
-should be easy enough to avoid, and it's also another argument for using
-__filemap_get_folio_mpol() instead of open coding our own version.
+Bart
