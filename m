@@ -1,79 +1,64 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 108173A4519
-	for <linux-doc@vger.kernel.org>; Wed,  4 Mar 2026 10:34:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 476633A5E85;
+	Wed,  4 Mar 2026 10:45:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772620463; cv=none; b=mv+j0J4rzlMee3lPgKp+MRxhJZtYRsu4owRgNjD9anxsS27fTVg3hj5z6FD/kVgUPc1pKTnGyZVagD/y5UnXYcOfong9kHkXkTOrYawPJUQf/uy+hkSQFaQ1k+S3OK3yqWJWXCnl7FIHAs4hW/ZKbVqwqQYNQq9OuqvMudKdYs4=
+	t=1772621135; cv=none; b=ZbjLCT/mLsxgVW7OoY96X/DRH4NSm5i/zMwYwjuxoNXRI9sTVQJR8esPY3KXwdA0I/fF85aHDfMR1rGhPQwfailpvr0X9KUd5AkKSSre88t7XN/6GhaIFIMklbRLIwAMMV5sQ3b7z2wAT0b8Kr97uEMXjE8CQ8oLVnL0Fzq+kMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772620463; c=relaxed/simple;
-	bh=rsnQDpKzEj4Z2yTxDa6CF8A7GwiuAZWpSeFHHfKXoIk=;
+	s=arc-20240116; t=1772621135; c=relaxed/simple;
+	bh=h7E/8o1/7HTV0SVvlIZbDHxgfXZolheekA9fIw186h4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iD01rTqz3HlR4hPZgAEN7+Q0OMz/B1No4vFTTdziH8ie8fe4GANY83/oJH6m/vbPm0IpPsEw9UPgvii45UtkxfEj9aKHOykTe8IaOlwm+EvM5zNeOisEVwIS0FS90wxommtfMM9pHo3/DIsfLcDJgiOO6BaAkZuHf7c6dDjKt5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=v2rTtyqr; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+	 Content-Type:Content-Disposition:In-Reply-To; b=NISiMa+i0Qspp7IswbhK5lv4ATt1RbChkARzng2HDtA58pn1wGRYUPh/2eXWkWgZWQrcgp57XYEWktfHQYzH2Oh+lE4cHrN07IpNQd/iOJwXXAOgTFOijQVD1HbJIFirFoCJbtwgYYmsbGgcQMAvqMiL4XRTB5Wy25A8087Dimg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A/+kkbzt; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="v2rTtyqr"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4806cc07ce7so76057925e9.1
-        for <linux-doc@vger.kernel.org>; Wed, 04 Mar 2026 02:34:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1772620459; x=1773225259; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=32nyzB5LhHXwJ+wC7E/bptZjPbk/YG6iOgM6+tf22gE=;
-        b=v2rTtyqrqtUBZRZMayOIVCD6cb/dRadEr1ZBV+xfFXusUUFhTF3mrzfOOrD7c/opYZ
-         YQgH0hqbWZKce4PpDbXZ8a8RwGDvrG2M64JofNhHGVUMfdTPYUYdK8tu2d2PoU2Ytkv6
-         LxVxw/wOPG6Q68agLIzHmXKpat2iiGwS7W3V2vTdOhR5rF2g78dN4Bf0MSsOpZ4KidJ8
-         EVzwdyijcHyYft4V3uwpiy3hlz85lFcUsc56iWsFje+KBd3d3vC56CT2Dn12nL00neu+
-         /9KDjPoQY3dgsbyjB7uYkAnKpdBg1V7V46rOb7ItSsVB633YyHNx0zo4R6evplg3NNTC
-         RQgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772620459; x=1773225259;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=32nyzB5LhHXwJ+wC7E/bptZjPbk/YG6iOgM6+tf22gE=;
-        b=CHwk4vv6tN2Dl+gkMAFtNS8dVXBTZ+8Muhrf4e6xBGSRndZRHTCi+H6PDtS51JDgkS
-         Ihwn+60/jLYLnD6HekY+cPzCDVM73bck3dNSsmyLvL9oqeA+3bqUZepW6Mp0vMOypvoY
-         EC7UeqkuvCiTLzAsUfOWDaJmBSsEyS3ZYp3+mF7pZ5I2oddCVCmV9xt63tcnRlm6Jt1G
-         vGInUPSvewza1RdiUZ/KhpGvVGft1ggr7fylCYjxWFxrmXkbcnXyU534dLRmgNHuOZT9
-         BSI42GN10ToaMnE1uiJRG2Bp7aIO4IGXqfzdOQqEIfbU14RcTnfCBGFSR2ORgOPlXGXK
-         ziyQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUnGS/+FSlT/smqnAIXwBER08VkhiuhhAkupoInMLn3JkYtp6W5++ZOQPuYWtIPCYtga/HSst9uvUQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzDnjRzZuPgmvV+ZEnyYGsXNpRT7Rw0SMerqaz0CZQ1dMEyyt6u
-	d+L6IM70JN/UtOMVNf2DLr71Hf1/DvuH/OzTebhEEGxOuE5R4NAwaal6QBh3Y4oaWbo=
-X-Gm-Gg: ATEYQzyPHVSRAR0B0q7Ist0C8HcH5nKkBGiq5Raf8usIwOpIoW418NyNWPCQNA51R8E
-	X1+9NLKczOlXhib1Q3QqP3cUdsBAGQAMyATeHlYc5eHdTKZs6fYFPED4hoJDgyHOUnM+qpx7+Hn
-	xui9gRxrYglcN126kRpsbbe00tO3uwDK3jVCGk+GNLeUJIAh0hZ7Z6pzcv5BM5+kRV5GJUmGoRf
-	KfRofExOQC4bOM4A6l64WQU8D3a1h05whJH2jPYhqs3CBtFkk9pcVAX/NmOw06JXbm5pyqXCz9G
-	LolqlzNGA4T1+uftG+0Es5UePMGFOb8oyXH67MQj9ZYhqdRYSm1JryTGNeAMwlaOOCebKfvHAAz
-	/l1QlRvWIlDf/Vyjl4W92GWNbybaTWLQ3Wg4ZXNICy9Ra/MPpt3ExqxE4SHOYA2alyy/CXGzNYg
-	0gpkA+B6OWosv9QJ7OxsVb+uQv+zNM7vlqJA==
-X-Received: by 2002:a05:600c:1e2a:b0:465:a51d:d4 with SMTP id 5b1f17b1804b1-48519848388mr21825225e9.6.1772620459148;
-        Wed, 04 Mar 2026 02:34:19 -0800 (PST)
-Received: from FV6GYCPJ69 ([140.209.217.211])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4399c75a25dsm41054094f8f.21.2026.03.04.02.34.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Mar 2026 02:34:18 -0800 (PST)
-Date: Wed, 4 Mar 2026 11:34:13 +0100
-From: Jiri Pirko <jiri@resnulli.us>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Tariq Toukan <tariqt@nvidia.com>, Eric Dumazet <edumazet@google.com>, 
-	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Donald Hunter <donald.hunter@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed <saeedm@nvidia.com>, 
-	Leon Romanovsky <leon@kernel.org>, Mark Bloch <mbloch@nvidia.com>, Shuah Khan <shuah@kernel.org>, 
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, linux-kselftest@vger.kernel.org, Gal Pressman <gal@nvidia.com>, 
-	Dragos Tatulea <dtatulea@nvidia.com>, Shay Drory <shayd@nvidia.com>, Jiri Pirko <jiri@nvidia.com>, 
-	Moshe Shemesh <moshe@nvidia.com>
-Subject: Re: [PATCH net-next V3 00/10] devlink: add per-port resource support
-Message-ID: <jssifysprwuafkinc3dguspngxmplrngqxvotp76vhvu4e5lp6@e7mdrjqc5rme>
-References: <20260226221916.1800227-1-tariqt@nvidia.com>
- <20260302192640.49af074f@kernel.org>
- <pmxkihhtsskkwsvdia4z2ss4wxpfc4a4kqxkjv5wk3mwdmpzii@6go7pizk2nst>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A/+kkbzt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772621133; x=1804157133;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=h7E/8o1/7HTV0SVvlIZbDHxgfXZolheekA9fIw186h4=;
+  b=A/+kkbztBcLjdMl7mkMCAFjqlZ7/3GEq/QZ+FQIVyI6Ih6IWsJqtS4f7
+   +1GD1uNsu+ZKke/nk885Lp/Vc+1lg0v3/Oin5BuVr44hL9K3Q7UZ8T3jf
+   R+Lr3gXIJNqyZxGs6BIs8QRMTLYVqztPkzKeFO9mh4NP3XbJO+Npcv6RY
+   QXYKHjrsxLGlS6TiGsb488p4U694IqALi9nd4PadEK94Dc86jMrfXjl30
+   muMN38JHg1p65+dLqEIlMdeZHlj+9mW24OdJoPE6NjTsfG5249hRHQY9v
+   LQgL6DggLkBAt+E7GhrB/+U11RvYX3N+MaGxa9kL1uVb3rUqCkldAFQyA
+   g==;
+X-CSE-ConnectionGUID: Fgp39bdORZG+99RU+0HuTw==
+X-CSE-MsgGUID: WXWxnHQCQFuA2iCiu6siBw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11718"; a="77522355"
+X-IronPort-AV: E=Sophos;i="6.21,323,1763452800"; 
+   d="scan'208";a="77522355"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 02:45:32 -0800
+X-CSE-ConnectionGUID: oVDTgMTCR6Gc0LsRhX4bPw==
+X-CSE-MsgGUID: 5mOij3zGQFObPS2/aj14bA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,323,1763452800"; 
+   d="scan'208";a="222799590"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa004.jf.intel.com with ESMTP; 04 Mar 2026 02:45:28 -0800
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vxjjJ-000000001fd-2npX;
+	Wed, 04 Mar 2026 10:45:25 +0000
+Date: Wed, 4 Mar 2026 11:44:26 +0100
+From: kernel test robot <lkp@intel.com>
+To: alistair23@gmail.com, chuck.lever@oracle.com, hare@kernel.org,
+	kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, kbusch@kernel.org, axboe@kernel.dk,
+	hch@lst.de, sagi@grimberg.me, kch@nvidia.com, hare@suse.de,
+	alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>
+Subject: Re: [PATCH v7 4/5] nvme-tcp: Support KeyUpdate
+Message-ID: <202603041124.uCwVY2n8-lkp@intel.com>
+References: <20260304053500.590630-5-alistair.francis@wdc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -82,49 +67,62 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <pmxkihhtsskkwsvdia4z2ss4wxpfc4a4kqxkjv5wk3mwdmpzii@6go7pizk2nst>
+In-Reply-To: <20260304053500.590630-5-alistair.francis@wdc.com>
 
-Wed, Mar 04, 2026 at 11:05:06AM +0100, jiri@resnulli.us wrote:
->Tue, Mar 03, 2026 at 04:26:40AM +0100, kuba@kernel.org wrote:
->>On Fri, 27 Feb 2026 00:19:06 +0200 Tariq Toukan wrote:
->>> With this series, users can query per-port resources:
->>> 
->>> $ devlink port resource show pci/0000:03:00.0/196608
->>> pci/0000:03:00.0/196608:
->>>   name max_SFs size 20 unit entry
->>> 
->>> $ devlink port resource show
->>> pci/0000:03:00.0/196608:
->>>   name max_SFs size 20 unit entry
->>> pci/0000:03:00.1/262144:
->>>   name max_SFs size 20 unit entry
->>
->>Code LGTM, I have a question about having a new cmd, tho.
->>
->>Does it matter to the user how the resource is scoped? 
->>Whether the resource is at the instance level or at the port level?
->>
->>I worry we are mechanically following the design of other commands.
->>Since the dump handler is new we could just dump resources with port-id
->>there. No existing user space may be using it. Alternatively we could
->>add a new attribute to select a bitmask of which scope user wants to
->>dump.
->
->You can specify what you want to dump with dump selectors. For example,
->if you are interensted only in port of specific devlink. That should be
->enough for most of the cases, no?
->
->>
->>I have a strong suspicion that the user will want to access all
->>resources of a device. `devlink resource show [$dev]` should dump 
->>all resources devlink knows about, including port ones.
->>
->>What's the reason for the new command?
->
->You are right, one cmd would do. Good thing someone forgot to implement
->dump for it :)
+Hi,
 
-On a second thought, if we merge multiple objects into one dump, how
-does this extend? I mean, the userspace has to check there are no extra
-attributes, as they may be used as a handle to another new object
-introduced in the future... Idk, it's a bit odd.
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on trondmy-nfs/linux-next]
+[also build test ERROR on net/main net-next/main linus/master v7.0-rc2 next-20260303]
+[cannot apply to linux-nvme/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/alistair23-gmail-com/net-handshake-Store-the-key-serial-number-on-completion/20260304-134148
+base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
+patch link:    https://lore.kernel.org/r/20260304053500.590630-5-alistair.francis%40wdc.com
+patch subject: [PATCH v7 4/5] nvme-tcp: Support KeyUpdate
+config: x86_64-rhel-9.4-kunit (https://download.01.org/0day-ci/archive/20260304/202603041124.uCwVY2n8-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260304/202603041124.uCwVY2n8-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603041124.uCwVY2n8-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/nvme/host/tcp.c: In function 'nvme_tcp_try_recv':
+>> drivers/nvme/host/tcp.c:1429:31: error: 'const struct proto_ops' has no member named 'read_sock_cmsg'; did you mean 'read_sock'?
+    1429 |         consumed = sock->ops->read_sock_cmsg(sk, &rd_desc, nvme_tcp_recv_skb,
+         |                               ^~~~~~~~~~~~~~
+         |                               read_sock
+
+
+vim +1429 drivers/nvme/host/tcp.c
+
+  1417	
+  1418	static int nvme_tcp_try_recv(struct nvme_tcp_queue *queue)
+  1419	{
+  1420		struct socket *sock = queue->sock;
+  1421		struct sock *sk = sock->sk;
+  1422		read_descriptor_t rd_desc;
+  1423		int consumed;
+  1424	
+  1425		rd_desc.arg.data = queue;
+  1426		rd_desc.count = 1;
+  1427		lock_sock(sk);
+  1428		queue->nr_cqe = 0;
+> 1429		consumed = sock->ops->read_sock_cmsg(sk, &rd_desc, nvme_tcp_recv_skb,
+  1430						     nvme_tcp_recv_cmsg);
+  1431		release_sock(sk);
+  1432		return consumed == -EAGAIN ? 0 : consumed;
+  1433	}
+  1434	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
