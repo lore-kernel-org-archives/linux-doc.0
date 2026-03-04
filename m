@@ -1,84 +1,157 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9248156C6A;
-	Wed,  4 Mar 2026 13:56:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E96C239EF10
+	for <linux-doc@vger.kernel.org>; Wed,  4 Mar 2026 14:17:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772632608; cv=none; b=Ob6v8P+22+gTlawAHQqIvinP1IucJ9lepz/R74KsdkxyndOKe/8t7GC4DtsXcgcGDj0C7xDmSwjAs+V0l0F7M3fEm3pZ6A8VdZWJZuKlsRsPuzLSlm0q9c2IRLeqFZe7hBxmOBQch1x/q2VAi4g/7CGFyjYRR4h+g9mgcHTEjl8=
+	t=1772633837; cv=none; b=ggypGZ3QrhLZsDGH5sR+kGllj3/+h81Y5MI49bOTrLtmB3EDUVs59xh7iSmexy1OWuJeqZ6xzbglBXidy9u70acqvP12TJW2esFmnHpYWSAWCSwF41V8Bbz0wgkgSmyOxpaMJ5dvPbKgk3jVqzj2rYj08iV9QlSGrY/Pv3kbKCQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772632608; c=relaxed/simple;
-	bh=dzQ5Z0aWE6Qj7FDEDXMAwnOwPDdvOzGKs3TewCc9a34=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iQdhvzxx7/r9vSeVeAq04/X5gIwAWy0ivUvNFsQ2P6C0wNJQ1TloCSwjBau31xYy+uGK6s5Q5XoccBJJ6owUjZigfmyKy+iSgQAVWA9fpB3P/p6BF3bhjrdk19Fnwy39g9MGa57n8bNLa3QsPofNUKQYGoUiUVYcY1sPobbA6LM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=odAkdFgD; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1772633837; c=relaxed/simple;
+	bh=a67v7clOxOnJ034y/9ps5aCT7nYggDeXwqs818leoG4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=HHPe63b1IXAhUDXX3v4e+F+ZRlk8Z7hZ/KTjTBmniMn73LrNl3PvKJDaHBkPfRAQQq/zlPv4lagff3stQQa29SgoWqZ/MGyyqHPBfAMqIuB22r7KMQKtQyFjnX/UbAEsP0DU8AMFXkVF7jtDKdYcVPw9o6sw1XaHpfSpOLIN2IU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PB8uCv2Y; arc=none smtp.client-ip=209.85.215.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="odAkdFgD"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=dRGxkNI+jiy5ziDfD2yEF2JYrz4BhhOkGGuTJeJcL4c=; b=odAkdFgD9Sc7pzOLhuhHoxkP/H
-	FPePLdcjvJzQe5LVNXJSoYY1GiNHZUGPPRuiTP8G10My3T0lfTNfuE/Thlkco5BXomdY71oighoYb
-	PP8HtVCH9U5izk4EfDOReAPO6bhhxe/dX5ertTDqsTiXrXZM3ktJ218wUy0W1BmOMfZ8=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1vxmi6-00A6Wz-Om; Wed, 04 Mar 2026 14:56:22 +0100
-Date: Wed, 4 Mar 2026 14:56:22 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Illusion Wang <Illusion.Wang@nebula-matrix.com>
-Cc: Dimon <dimon.zhao@nebula-matrix.com>,
-	Alvin <alvin.wang@nebula-matrix.com>,
-	Sam <sam.chen@nebula-matrix.com>, netdev <netdev@vger.kernel.org>,
-	andrew+netdev <andrew+netdev@lunn.ch>, corbet <corbet@lwn.net>,
-	kuba <kuba@kernel.org>, linux-doc <linux-doc@vger.kernel.org>,
-	lorenzo <lorenzo@kernel.org>, pabeni <pabeni@redhat.com>,
-	horms <horms@kernel.org>,
-	"vadim.fedorenko" <vadim.fedorenko@linux.dev>,
-	"lukas.bulwahn" <lukas.bulwahn@redhat.com>,
-	edumazet <edumazet@google.com>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: =?utf-8?B?5Zue5aSN77yaW1BBVENIIHY1IG5l?= =?utf-8?Q?t-nex?=
- =?utf-8?Q?t?= 11/11] net/nebula-matrix: add common dev start/stop operation
-Message-ID: <66a61cf8-7dbf-4b33-b687-b44debf7e726@lunn.ch>
-References: <20260226073840.3222-1-illusion.wang@nebula-matrix.com>
- <20260226073840.3222-12-illusion.wang@nebula-matrix.com>
- <b8f71f46-735b-4b1f-8df8-01a532bc7964@lunn.ch>
- <34c4ed3f-fef6-4c4c-8b0f-9951fedf580c.Illusion.Wang@nebula-matrix.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PB8uCv2Y"
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-c70378ddaafso4498136a12.3
+        for <linux-doc@vger.kernel.org>; Wed, 04 Mar 2026 06:17:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772633835; x=1773238635; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2HHesXUFzgL5YUe0UTlW0VJee6vfQ7EH/6Wc6oNHvRQ=;
+        b=PB8uCv2YmccDUANs9HHQd/bjeKy0n/Hpb9ykGenSR5xGlUVOIkEnsUyG4n4ytRKkTW
+         zOi3XsLAvfk8cRiYAAtZWrSXl/rRVL3d1i06JSqzb/8EvPmrv6XHj/ZPXIAIEV8p67IA
+         qtlRWpBZeTWtZLbGqUG3cBiiFt5Ymu2OLL2b3WaH47iEYg/a7erirJAhbC05AEh6g2qB
+         i/4zeV6ARBAYdzDTAWoNDc/Ktojed6J3BijY6l6lnD+Fkxby0D+bfoBzdh4N4PiSIE0a
+         CeCmjvfjgFwmSer2ZE4arE3XGF+f2VNVL/zmgJibEebwVU8b7ty2eg+4QSnecPXMd/lL
+         Rusw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772633835; x=1773238635;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2HHesXUFzgL5YUe0UTlW0VJee6vfQ7EH/6Wc6oNHvRQ=;
+        b=UnnCsTZt4k8l/Df4juStkj6qqP5HNhoOWTTUttyHdML3UJriNO336HJJigYgkOHHiM
+         F7bBfT7tkogwAkNKDlPOZqQtC4rnMEY/6OWuo5dQHpDSRkBWEGIkhRuWHLWR7ckCE36U
+         3RoIAMQTv89uteL37nkz7TVfFXGk2Bu7eID5yUXgHTt3S3QdfpGcX5235Dy02Ey8lrGV
+         Grt55g8ph9BT4KuolpC6ZSZoVaGnlPKSlWq+bcl4mSWkpiO+4CtnLfnoNlBmFkqva1jh
+         p9NrKsjRzZXMPeMZ44efMy9sNzLsegDOt/cOue3FjdtoIHTgF2/f4kT4uD5F667YoMMj
+         NXBA==
+X-Forwarded-Encrypted: i=1; AJvYcCV5/ALte+iT1UwiIefx71u+4r0uzTQtWZ/Gp/bJyZ1gf4VXxwBeX2qeLId79ZqCCiD7gREY8G2ISg0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YysMijRXV8UWnuRxYatkQbqYLYsBF2S6s66dgfjxjXr1QMtzM6+
+	HtSj0V05vPcdkEPJ/uNdlpuhSenTSPM4gM8RIEZ9ceGt+4L1CHFt9pl4
+X-Gm-Gg: ATEYQzxDE9xm3fAdUcSyNPiD/Df7QChn7KXb8zKSpgNws+HuxCZ1sA4t6v9qXEouFn3
+	X3/GbesnoxbvPUgFpcd/GtRhRmeYcZJ+VBNY7rraD2E03oIchEXzVY+9WyA3K64gp+bSL6G+Ic8
+	J0tkk1pB6+ywa2J2py01AnchT8WnnYeLkqpvouNpML0UMd0/ovsPpth3/jTTJQoBf2jjXDGXHo8
+	abod9+PrN3mhAQGPIex7kqx+1jzOaVlYAKiIvAj0Et4Yh6fixe8Rku12oN3DxUjxr3pn7cseDFK
+	xv0ZBa0H0ZfwE6pVZrp/2ngVJfqnNcVYkVMxYzJPHWTxb3AG+JIkue5EqJ7rOEMc7cpgiqt4Nca
+	AdVi35myFjhOjAOzHKuJxWmNBFgFabIwRYc8lNhOb/SvzBccxL+LCXnuTjucChL+76gmr9nv7KA
+	kWzB+Sk4Zv6Qno3bsaX2qqknjgG6l1tgafB1pTPDCDtDHsDpYpFGA7
+X-Received: by 2002:a17:902:e5c6:b0:2ae:50ec:fa35 with SMTP id d9443c01a7336-2ae6aa36151mr22864825ad.24.1772633835197;
+        Wed, 04 Mar 2026 06:17:15 -0800 (PST)
+Received: from localhost.localdomain ([2409:40e5:116b:88d4:1c32:f854:c933:d139])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ae3d1b2c51sm128138145ad.19.2026.03.04.06.17.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Mar 2026 06:17:12 -0800 (PST)
+From: Shubham Chakraborty <chakrabortyshubham66@gmail.com>
+To: corbet@lwn.net,
+	jgross@suse.com
+Cc: sstabellini@kernel.org,
+	boris.ostrovsky@oracle.com,
+	linux-doc@vger.kernel.org,
+	xen-devel@lists.xenproject.org,
+	linux-kernel@vger.kernel.org,
+	Shubham Chakraborty <chakrabortyshubham66@gmail.com>
+Subject: [PATCH] docs: sysctl: Add documentation for /proc/sys/xen/
+Date: Wed,  4 Mar 2026 19:46:44 +0530
+Message-Id: <20260304141644.28777-1-chakrabortyshubham66@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <34c4ed3f-fef6-4c4c-8b0f-9951fedf580c.Illusion.Wang@nebula-matrix.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Mar 04, 2026 at 03:20:44PM +0800, Illusion Wang wrote:
-> 
-> > > +int nbl_dev_start(struct nbl_adapter *adapter, struct nbl_init_param *param)
-> > > +{
-> > > + int ret;
-> > > +
-> > > + ret = nbl_dev_start_common_dev(adapter, param);
-> > > + return ret;
-> 
-> >return nbl_dev_start_common_dev(adapter, param);
-> 
-> >But then i have to ask, why bother having nbl_dev_start() when you can
-> >just call nbl_dev_start_common().
-> 
-> You're absolutely right. However, we're considering facilitating future
-> expansion for the next-stage netdev configuration.
+Add documentation for the Xen hypervisor sysctl controls in
+/proc/sys/xen/balloon/.
 
-You seem to be over engineering this whole driver. It seems a lot more
-complex than it needs to be. Complex drivers take a lot longer to get
-merged, some never get merged. Drivers which start KISS, and slowly
-get features added get merged a lot faster.
+Documents the hotplug_unpopulated tunable (available when
+CONFIG_XEN_BALLOON_MEMORY_HOTPLUG is enabled) which controls
+whether unpopulated memory regions are automatically hotplugged
+when the Xen balloon driver needs to reclaim memory.
 
-    Andrew
+The documentation is based on source code analysis of
+drivers/xen/balloon.c.
+
+Signed-off-by: Shubham Chakraborty <chakrabortyshubham66@gmail.com>
+---
+ Documentation/admin-guide/sysctl/index.rst |  3 +-
+ Documentation/admin-guide/sysctl/xen.rst   | 33 ++++++++++++++++++++++
+ 2 files changed, 35 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/admin-guide/sysctl/xen.rst
+
+diff --git a/Documentation/admin-guide/sysctl/index.rst b/Documentation/admin-guide/sysctl/index.rst
+index 4dd2c9b5d752..aae68373902f 100644
+--- a/Documentation/admin-guide/sysctl/index.rst
++++ b/Documentation/admin-guide/sysctl/index.rst
+@@ -84,7 +84,7 @@ sunrpc/		SUN Remote Procedure Call (NFS)
+ user/		Per user namespace limits
+ vm/		memory management tuning
+ 		buffer and cache management
+-xen/		<undocumented>
++xen/		Xen hypervisor controls
+ =============== ===============================================================
+ 
+ These are the subdirs I have on my system or have been discovered by
+@@ -102,3 +102,4 @@ it :-)
+    sunrpc
+    user
+    vm
++   xen
+diff --git a/Documentation/admin-guide/sysctl/xen.rst b/Documentation/admin-guide/sysctl/xen.rst
+new file mode 100644
+index 000000000000..957febd6bab9
+--- /dev/null
++++ b/Documentation/admin-guide/sysctl/xen.rst
+@@ -0,0 +1,33 @@
++===============
++/proc/sys/xen/
++===============
++
++These files show up in ``/proc/sys/xen/``, depending on the
++kernel configuration:
++
++.. contents:: :local:
++
++balloon/hotplug_unpopulated
++===========================
++
++This flag controls whether unpopulated memory ranges are automatically
++hotplugged as system RAM.
++
++- ``0``: Unpopulated ranges are not hotplugged (default).
++- ``1``: Unpopulated ranges are automatically hotplugged.
++
++When enabled, the Xen balloon driver will add memory regions that are
++marked as unpopulated in the Xen memory map to the system as usable RAM.
++This allows for dynamic memory expansion in Xen guest domains.
++
++This option is only available when the kernel is built with
++``CONFIG_XEN_BALLOON_MEMORY_HOTPLUG`` enabled.
++
++Copyright (c) 2026, Shubham Chakraborty <chakrabortyshubham66@gmail.com>
++
++For general info and legal blurb, please look in
++Documentation/admin-guide/sysctl/index.rst.
++
++.. See scripts/check-sysctl-docs to keep this up to date:
++.. scripts/check-sysctl-docs -vtable="xen" \
++..         $(git grep -l register_sysctl_)
+-- 
+2.39.5
 
