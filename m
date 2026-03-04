@@ -1,168 +1,63 @@
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out198-7.us.a.mail.aliyun.com (out198-7.us.a.mail.aliyun.com [47.90.198.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4B6F37269D
-	for <linux-doc@vger.kernel.org>; Wed,  4 Mar 2026 07:06:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.176
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772607971; cv=pass; b=V8XyvH/n9C7gDULL+90/Qq51Eu3yspEhMvRZ2lTVsHFUBkvRt+IRdpSQWU2powelvjowNa4rK/8V7cbYr87cVShe+B47AmzaHC7dWhsclZX2ydt2DfHZcM6Zjj60tYfs8Y1YVJCzTaMPvE2RJ8j394iYFDeHcv3OU5HZFR/0aQA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772607971; c=relaxed/simple;
-	bh=5FMa/KTakjsB2RpAU5JFI/6InFaYGKgA6rSgGqMbG0M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ePAQAS074nNCNGTV4afMWFErCjN8aOIaqhE4yoJHdbgbXCbbSpMi4xj/N/4NfbWY0wHcpso92x0ZQq1XYIjGwYd1ZLUndSCInw9HV5ccr49PzLz/peyTJwOG7SonFxZ3WhsTagrYOSfYt8tdoOtzEJS8qIYjl1EBS5zqZ6gQWLk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=fgGXYhJp; arc=pass smtp.client-ip=209.85.128.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="fgGXYhJp"
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-7927261a3acso56989247b3.0
-        for <linux-doc@vger.kernel.org>; Tue, 03 Mar 2026 23:06:09 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772607969; cv=none;
-        d=google.com; s=arc-20240605;
-        b=bLYOXBZYRnqjgEduCP+X2i91nK1haDrZwghOzCMDkKq4Sk9kgPlbWo8V1acCR5FXkQ
-         lr0B3Xuu7q4Yk3hluj0NL9pM4PTR2EH6xUKgbL0KXILeCWX+bmHSngR1jYxSg3Lp5U6j
-         tK5mPQSJjRVfGFv9xhjAnxKqrX5ApuDCwJM4F/5X9AEP7cdmD3I+S+XCjVzZynwKh20h
-         u5+stfdlxUcBh7wsNmG5EN3uB2ioywFl+pERfOHBxrWpsB0JMFvNAj3PvLrfGZCOh96w
-         PgpMHnPPzCl7vq4GwjLs8bFC61EceZV7wFy8QZ0p24OEiFIef6H/n/oL1YgSKRBuqyEK
-         HHaQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=AZiJ0P6FeuXfkf1uICr5BAvwgdVgvq6hWrZTwzE0OBM=;
-        fh=e3W+gJh1A2RjeKN+2gZyAQHpAvrKCA2pkt4iartH8TM=;
-        b=R0PjqOTdTLPm+zOk0neD0QMADVeeFZf/fY13Du+X5UygI+fDnEjrD/cIiB+6MvKqm3
-         anPZsf7Aw3a4KJmjHKKAqdU8LUpogT2FcwA2tmDZXBf38ZiS9RtH3SLhFEr9fBrfyoat
-         212cbbGCHdVrYrB952/c7WxekfgGRHt9CszKxujyNE4QbzqyaaQ/OkEvhi9YyHTfNDeM
-         OBi4ngnX2KiOUjv0+A7z5dzH72akjLEFY5vnVIePJRNOcu2SYRw/LixVoXdIoLyDJmy3
-         Q/f+F8EvREy9mzVkPoPjQaQj98V5+8iRQ1oZPi+X/FhpsGq+rffQ+snGxb2kpeQJ/EqK
-         A9eg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1772607969; x=1773212769; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AZiJ0P6FeuXfkf1uICr5BAvwgdVgvq6hWrZTwzE0OBM=;
-        b=fgGXYhJp6yuRgSzT+30Bf4yGNKadTNZrK5KOoMiTTjtRABXAN1Hc6+DFdllLZVhUcq
-         vfIHqwuEYAiq/6oJUgiPLhxs8SIDZ7uYT7gZVVI3VezKWmczWMypL1O4Utc2A57zU16w
-         P6wulT8l4+r3APO6vJdNSWtMI+4Mtqb0axYzzKmV6ltHDe7dumA4wqPREouTE1X5AFBx
-         fF18EQWUUKtJwiEi50LwhWRh9aQrVSZmQCu0dckT16pbD0f8BXpsaLXmRTIp7Y/MA0wQ
-         npN3ZIJjtY6C33S8Us/YrDVuUiUkUhtfQ5ECX1/uSyKKMuZePh+Gk8EbgjkK0KoMDZsu
-         X7xA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772607969; x=1773212769;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=AZiJ0P6FeuXfkf1uICr5BAvwgdVgvq6hWrZTwzE0OBM=;
-        b=bxsnGi9ADeNAZFt5Vhvh2v3MUXgdl3yXR5wgFqSKtGCYpXFGteBDgaQvLxhiApZSFi
-         25OQJ1veZirlhHBDZCewbO54sWqzZd0oVRJK7pHYkjEOA2KfFgeCAV3nSiS0D8LrUl8v
-         lGz2W5Ce1PL8fYchqtEJlzwsGWfeFqZ254ZlmU3UZZes/Rh8uWuobkmF/8bLFOBn8Gzg
-         kWg/m8Q8ZAYXfU9YrJryLtf1Ki1bSY0mL5ygLj1cHOeVdkwfl7i/4PuEOfuXBDC04oyQ
-         ABOCJIzNKEBesuPWhZuHzt0ZvdUCL8WGpRRuNNoCKrt/2IfVzYCNJJj7OtuO+dyct+gs
-         zeUQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVKoh/BBwgTdY2tgonTYAJKyP3WAf8eLiWZ6iLOW2fKcczO9dpZT4TolWVnu1MHUOy8hOnY3eHpJCE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw/3RhtZXvEEzKms7lnB2fuHN3Vvcod4/daEJyamk4dLNS/vhUV
-	JkqO9tg8f96VZAXBqa4P5qMr+CvGuObqeTjPilqH2yyqMxx+sIps5l2KxN3J9czsk7/91MpZPMP
-	8f0twtUuehrAYWDn0Dd40BfH5RAQONihWWmqWjdpb
-X-Gm-Gg: ATEYQzzp14Dr3R1hhUtNukg+PavVvqFUbA6o2ACU+6+EW/gil9G2aObAVvBKcdJhFBc
-	bESTMSA929PDlShq4uVwaRPhBYcIRF3cWSrg1cuCOpDoye1WJEQwcoPcMNkhZdqNUm77QLM2oH5
-	4X+PGq17lvyKYM+k4coyL7rTdrpgMgSTzss/YKwngBFUqG1d8vVKL+1HEmK/bC1/E/c9koCtD2Q
-	pM/BfYV3/N7ZYi7ZhzvuH2xm73bwHPSBqBW3Dne2ClOENPQpHT3RxABsTejJzzm7EgrS3xEuMmt
-	mknJe588ciisstqr5DA=
-X-Received: by 2002:a05:690c:18:b0:78f:9801:7606 with SMTP id
- 00721157ae682-798c6ca0062mr7711847b3.34.1772607968270; Tue, 03 Mar 2026
- 23:06:08 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8516534D907;
+	Wed,  4 Mar 2026 07:26:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=47.90.198.7
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772609196; cv=none; b=IkaOz7f8/abNTbsa/GQX/1oLCNzHaZLsu6xmEmf/pvVhFWyFfBh2Ys4zdCBkmswshLBczei/rkEU0iQoWZeNi+Mn+bMifHRrtji+7Fhl6Qw0F+2M2lkFJec2zPIOzQOR23OVXMFR+1b8ZWX+dMoX3eT8Oqdc9xoDddhRTDfYvEc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772609196; c=relaxed/simple;
+	bh=ZR7JanFqGwsEU+eVdemdOmJHuhYJMpgpUzstcLswt70=;
+	h=Date:From:To:Cc:Message-ID:Subject:MIME-Version:References:
+	 In-Reply-To:Content-Type; b=TK9H3K3wK0Y6G4+riNsMbCxpe22cOYFAi/O3YSb7mpyLG+GdL5K/v3hxDIXwL70M3KpD8FPdMdABKt/c/ezmbRZFz/Az2MKMSSYYsPJwZJc56VKvUY7krgUyI+lPIuZjOzd4+m9dE32QV/tC+4BJmS04YlUyYQXEYzdvMig1s20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com; spf=pass smtp.mailfrom=nebula-matrix.com; arc=none smtp.client-ip=47.90.198.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nebula-matrix.com
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.1157588|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.195383-0.00812595-0.796491;FP=9254858517572092112|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033068016216;MF=illusion.wang@nebula-matrix.com;NM=1;PH=DW;RN=16;RT=16;SR=0;TI=W4_0.2.3_212518A3_1772608678116_o7001c49u;
+Received: from WS-web (Illusion.Wang@nebula-matrix.com[W4_0.2.3_212518A3_1772608678116_o7001c49u] cluster:ay29) at Wed, 04 Mar 2026 15:20:44 +0800
+Date: Wed, 04 Mar 2026 15:20:44 +0800
+From: "Illusion Wang" <Illusion.Wang@nebula-matrix.com>
+To: "Andrew Lunn" <andrew@lunn.ch>
+Cc: "Dimon" <dimon.zhao@nebula-matrix.com>,
+  "Alvin" <alvin.wang@nebula-matrix.com>,
+  "Sam" <sam.chen@nebula-matrix.com>,
+  "netdev" <netdev@vger.kernel.org>,
+  "andrew+netdev" <andrew+netdev@lunn.ch>,
+  "corbet" <corbet@lwn.net>,
+  "kuba" <kuba@kernel.org>,
+  "linux-doc" <linux-doc@vger.kernel.org>,
+  "lorenzo" <lorenzo@kernel.org>,
+  "pabeni" <pabeni@redhat.com>,
+  "horms" <horms@kernel.org>,
+  "vadim.fedorenko" <vadim.fedorenko@linux.dev>,
+  "lukas.bulwahn" <lukas.bulwahn@redhat.com>,
+  "edumazet" <edumazet@google.com>,
+  "open list" <linux-kernel@vger.kernel.org>
+Reply-To: "Illusion Wang" <Illusion.Wang@nebula-matrix.com>
+Message-ID: <34c4ed3f-fef6-4c4c-8b0f-9951fedf580c.Illusion.Wang@nebula-matrix.com>
+Subject: =?UTF-8?B?5Zue5aSN77yaW1BBVENIIHY1IG5ldC1uZXh0IDExLzExXSBuZXQvbmVidWxhLW1hdHJpeDog?=
+  =?UTF-8?B?YWRkIGNvbW1vbiBkZXYgc3RhcnQvc3RvcCBvcGVyYXRpb24=?=
+X-Mailer: [Alimail-Mailagent revision 1106][W4_0.2.3][null][Chrome]
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260303172949.4741-1-fmancera@suse.de>
-In-Reply-To: <20260303172949.4741-1-fmancera@suse.de>
-From: Eric Dumazet <edumazet@google.com>
-Date: Wed, 4 Mar 2026 08:05:56 +0100
-X-Gm-Features: AaiRm51uqRKZdNzq2YMUx8iG_-hKGXVeQSw95FSgMQdqYsgot7vSFbE39PqPeb0
-Message-ID: <CANn89i+ntGv0gGYvRq8yziGTE01ozBJ_Mn_RDPXLgs+yU5whrg@mail.gmail.com>
-Subject: Re: [PATCH net-next v3] inet: add ip_local_port_step_width sysctl to
- improve port usage distribution
-To: Fernando Fernandez Mancera <fmancera@suse.de>
-Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, chia-yu.chang@nokia-bell-labs.com, 
-	idosch@nvidia.com, willemb@google.com, dsahern@kernel.org, kuniyu@google.com, 
-	ncardwell@google.com, skhan@linuxfoundation.org, corbet@lwn.net, 
-	horms@kernel.org, pabeni@redhat.com, kuba@kernel.org, davem@davemloft.net
+x-aliyun-im-through: {"version":"v1.0"}
+References: <20260226073840.3222-1-illusion.wang@nebula-matrix.com> <20260226073840.3222-12-illusion.wang@nebula-matrix.com>,<b8f71f46-735b-4b1f-8df8-01a532bc7964@lunn.ch>
+x-aliyun-mail-creator: W4_0.2.3_null_EuMTW96aWxsYS81LjAgKFdpbmRvd3MgTlQgMTAuMDsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEzMy4wLjY5NDMuMTQyIFNhZmFyaS81MzcuMzYgZGluZ3RhbGstd2luLzEuMC4wIG53KDAuMTQuNykgRGluZ1RhbGsoOC4yLjE1LVJlbGVhc2UuMjYwMjI1MDAxKSBNb2pvLzEuMC4wIE5hdGl2ZSBBcHBUeXBlKHJlbGVhc2UpIENoYW5uZWwvMjAxMjAwIEFyY2hpdGVjdHVyZS94ODZfNjQgd2ViRHQvUEM=uL
+In-Reply-To: <b8f71f46-735b-4b1f-8df8-01a532bc7964@lunn.ch>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: base64
 
-On Tue, Mar 3, 2026 at 6:30=E2=80=AFPM Fernando Fernandez Mancera
-<fmancera@suse.de> wrote:
->
-> With the current port selection algorithm, ports after a reserved port
-> range or long time used port are used more often than others [1]. This
-> causes an uneven port usage distribution. This combines with cloud
-> environments blocking connections between the application server and the
-> database server if there was a previous connection with the same source
-> port, leading to connectivity problems between applications on cloud
-> environments.
->
-> The real issue here is that these firewalls cannot cope with
-> standards-compliant port reuse. This is a workaround for such situations
-> and an improvement on the distribution of ports selected.
->
-> The proposed solution is to implement a variant of RFC 6056 Algorithm 5.
-> The step size is selected randomly on every connect() call ensuring it
-> is a coprime with respect to the size of the range of ports we want to
-> scan. This way, we can ensure that all ports within the range are
-> scanned before returning an error. To enable this algorithm, the user
-> must configure the new sysctl option "net.ipv4.ip_local_port_step_width".
->
-> In addition, on graphs generated we can observe that the distribution of
-> source ports is more even with the proposed approach. [2]
->
-> [1] https://0xffsoftware.com/port_graph_current_alg.html
->
-> [2] https://0xffsoftware.com/port_graph_random_step_alg.html
->
-> Signed-off-by: Fernando Fernandez Mancera <fmancera@suse.de>
-> ---
-> v2: used step to calculate remaining as (remaining / step) and avoid
-> calculating gcd when scan_step and range are both even
-> v3: xmas tree formatting and break the gdc() loop once scan_step is 1
-> ---
->  Documentation/networking/ip-sysctl.rst        |  9 ++++++
->  .../net_cachelines/netns_ipv4_sysctl.rst      |  1 +
->  include/net/netns/ipv4.h                      |  1 +
->  net/ipv4/inet_hashtables.c                    | 28 +++++++++++++++++--
->  net/ipv4/sysctl_net_ipv4.c                    |  7 +++++
->  5 files changed, 43 insertions(+), 3 deletions(-)
->
-> diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/netwo=
-rking/ip-sysctl.rst
-> index 265158534cda..da29806700e9 100644
-> --- a/Documentation/networking/ip-sysctl.rst
-> +++ b/Documentation/networking/ip-sysctl.rst
-> @@ -1630,6 +1630,15 @@ ip_local_reserved_ports - list of comma separated =
-ranges
->
->         Default: Empty
->
-> +ip_local_port_step_width - INTEGER
-> +        Defines the numerical maximum increment between successive port
-> +        allocations within the ephemeral port range when an unavailable =
-port is
-> +        reached. This can be used to mitigate accumulated nodes in port
-> +        distribution when reserved ports have been configured. Please no=
-te that
-> +        port collisions may be more frequent in a system with a very hig=
-h load.
-> +
-
-Patch SGTM, but I find this documentation obscure.
-
-Some guidance would be nice. What values have you tested/tried ?
-
-Reviewed-by: Eric Dumazet <edumazet@google.com>
+Cj4gPiAraW50IG5ibF9kZXZfc3RhcnQoc3RydWN0IG5ibF9hZGFwdGVyICphZGFwdGVyLCBzdHJ1
+Y3QgbmJsX2luaXRfcGFyYW0gKnBhcmFtKQo+ID4gK3sKPiA+ICsgaW50IHJldDsKPiA+ICsKPiA+
+ICsgcmV0ID0gbmJsX2Rldl9zdGFydF9jb21tb25fZGV2KGFkYXB0ZXIsIHBhcmFtKTsKPiA+ICsg
+cmV0dXJuIHJldDsKCj5yZXR1cm4gbmJsX2Rldl9zdGFydF9jb21tb25fZGV2KGFkYXB0ZXIsIHBh
+cmFtKTsKCj5CdXQgdGhlbiBpIGhhdmUgdG8gYXNrLCB3aHkgYm90aGVyIGhhdmluZyBuYmxfZGV2
+X3N0YXJ0KCkgd2hlbiB5b3UgY2FuCj5qdXN0IGNhbGwgbmJsX2Rldl9zdGFydF9jb21tb24oKS4K
+CllvdSdyZSBhYnNvbHV0ZWx5IHJpZ2h0LiBIb3dldmVyLCB3ZSdyZSBjb25zaWRlcmluZyBmYWNp
+bGl0YXRpbmcgZnV0dXJlCmV4cGFuc2lvbiBmb3IgdGhlIG5leHQtc3RhZ2UgbmV0ZGV2IGNvbmZp
+Z3VyYXRpb24uCgotLWlsbHVzaW9uLndhbmc=
