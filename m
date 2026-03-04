@@ -1,147 +1,90 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0000B394788;
-	Wed,  4 Mar 2026 09:42:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B90F349B16;
+	Wed,  4 Mar 2026 09:51:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772617353; cv=none; b=YBEYuCTFXr82lh8WmAthu3AcqB7Ccd0ddd96fsNfl/+9+2HRyiNbHHwJNO42tLSzyTipXBiFu/B90FcXE4WW6VfXmFfRkZCsC1ewCrxFmJ3j2WIPzR4QzO70D4lNAbQzmthH7KQnJMlym33yi0cETjHZnHObRK87s1POxi8zwBE=
+	t=1772617890; cv=none; b=kP1xRk/XSQX7EY2tOsp5Yq+h1mSXVYd3BaqnPS06KypHpeholGyBS4T7q2crQNsAgAJ3qtpdNPfWgmGKDQ1OfxrWff59YjjFzV5tzPMV5nSKihl3xYGBQtKJB0MhCneDMj5rT+hYmSkl2NxHjDGOCUn7rgbk3Erx3PDyMIaIpIU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772617353; c=relaxed/simple;
-	bh=9mhfdJo0bDUC45KIo47E4QnPpQe8tEohErhoklbBl8Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RpkMs5ASxjBTJJEjqWPXsyBxZLGY8Gkk62kmiv166k02kSAAFIHLAgfz8aRuVUvJS9R6MeN/fMx2MWojKN6mCh7kcX8IkO/JN+/tyEOmSYjZM9B3Svnhjz1hIM81WuDio6qy5Ehw8hF0O76E6nLRUlbO+pw27ADuGfbUudnIvCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 05F4A339;
-	Wed,  4 Mar 2026 01:42:25 -0800 (PST)
-Received: from [10.1.196.46] (e134344.arm.com [10.1.196.46])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D9E153F694;
-	Wed,  4 Mar 2026 01:42:26 -0800 (PST)
-Message-ID: <6259fddb-62f3-4874-8188-6ca82e3586a8@arm.com>
-Date: Wed, 4 Mar 2026 09:42:25 +0000
+	s=arc-20240116; t=1772617890; c=relaxed/simple;
+	bh=hOx8/u7ut1L3MguJoU5B49CkW48rFlxVpSD60jdidy0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=A7T6zLxzH5VuJgOLNz8l9w9hunTjc8hsxEfo2HvOUh2oDDdtqH0GtxQNSR+/+TbxhNhQp8qcJJPSP6Iai5Yu3+Kq6LXi9zAKF7ZVeRoJRzv7r8F1AlrOKoqZL/D4WOeQqUg0Mz/nn9oxpox2kB7XNshme9IIagMGdL9WHgqVocM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=csEKBYBu; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="csEKBYBu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772617887; x=1804153887;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=hOx8/u7ut1L3MguJoU5B49CkW48rFlxVpSD60jdidy0=;
+  b=csEKBYBuAX//Y2+Brl6PPI6zqp5CBjVFW7BFFZD8ozMomJaKA1v+9Ptl
+   WerKnqd/YnuevJ1WL5jOMawfpLcK9tO9zDqFb7JHNgpwZYi9pwC62da79
+   hrLymL/xCj38pN7AY5ahvsHMfEG4SDWOBlT6wE0I1eZK1H3bjgnqlQ5Md
+   wxcrkEqFAfv7ZKYiwjYasAKr8ULQm12XqPXmyICvk43ulKODGvFndg3D3
+   XqoyMCRIk2yrDsNTSY1ro4cNlJTt7x0wG5soBA7v5nDEdrco8A/6tUpID
+   boK3tgTWB1fmEtqjrk8TwTsszS/KfGKaHXj7JI8v842kYe2GiVtCrpa6g
+   w==;
+X-CSE-ConnectionGUID: BRSQMSytQgGfiP79giFJNw==
+X-CSE-MsgGUID: ojRkMuIgSWuQ8FdSBb0TPw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11718"; a="73374994"
+X-IronPort-AV: E=Sophos;i="6.21,323,1763452800"; 
+   d="scan'208";a="73374994"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 01:51:26 -0800
+X-CSE-ConnectionGUID: 1Ea7458+RDWErlLELTBiWg==
+X-CSE-MsgGUID: 4l180kpJQLGqACFXzt6ovw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,323,1763452800"; 
+   d="scan'208";a="217531444"
+Received: from krybak-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.246.84])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 01:51:22 -0800
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Alexander Lobakin <aleksander.lobakin@intel.com>, Jonathan Corbet
+ <corbet@lwn.net>, Kees Cook <kees@kernel.org>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, intel-wired-lan@lists.osuosl.org,
+ linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org, "Gustavo A. R.
+ Silva" <gustavoars@kernel.org>, Aleksandr Loktionov
+ <aleksandr.loktionov@intel.com>, Randy Dunlap <rdunlap@infradead.org>,
+ Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH 00/38] docs: several improvements to kernel-doc
+In-Reply-To: <20260303155310.5235b367@localhost>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
+ 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+References: <cover.1771408406.git.mchehab+huawei@kernel.org>
+ <33d214091909b9a060637f56f81fb8f525cf433b@intel.com>
+ <20260303155310.5235b367@localhost>
+Date: Wed, 04 Mar 2026 11:51:18 +0200
+Message-ID: <b345179eb9c440c597f6618697b7272a8e383eff@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 00/41] arm_mpam: Add KVM/arm64 and resctrl glue code
-To: Punit Agrawal <punit.agrawal@oss.qualcomm.com>
-Cc: amitsinght@marvell.com, baisheng.gao@unisoc.com,
- baolin.wang@linux.alibaba.com, carl@os.amperecomputing.com,
- dave.martin@arm.com, david@kernel.org, dfustini@baylibre.com,
- fenghuay@nvidia.com, gshan@redhat.com, james.morse@arm.com,
- jonathan.cameron@huawei.com, kobak@nvidia.com, lcherian@marvell.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- peternewman@google.com, quic_jiles@quicinc.com, reinette.chatre@intel.com,
- rohit.mathew@arm.com, scott@os.amperecomputing.com, sdonthineni@nvidia.com,
- tan.shaopeng@fujitsu.com, xhao@linux.alibaba.com, catalin.marinas@arm.com,
- will@kernel.org, corbet@lwn.net, maz@kernel.org, oupton@kernel.org,
- joey.gouly@arm.com, suzuki.poulose@arm.com, kvmarm@lists.linux.dev,
- zengheng4@huawei.com, linux-doc@vger.kernel.org
-References: <20260224175720.2663924-1-ben.horgan@arm.com>
- <87y0k8r7j1.fsf@stealth>
-From: Ben Horgan <ben.horgan@arm.com>
-Content-Language: en-US
-In-Reply-To: <87y0k8r7j1.fsf@stealth>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-Hi Punit,
+On Tue, 03 Mar 2026, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> On Mon, 23 Feb 2026 15:47:00 +0200
+> Jani Nikula <jani.nikula@linux.intel.com> wrote:
+>> There's always the question, if you're putting a lot of effort into
+>> making kernel-doc closer to an actual C parser, why not put all that
+>> effort into using and adapting to, you know, an actual C parser?
+>
+> Playing with this idea, it is not that hard to write an actual C
+> parser - or at least a tokenizer.
 
-On 3/3/26 20:18, Punit Agrawal wrote:
-> Hi Ben,
-> 
-> Ben Horgan <ben.horgan@arm.com> writes:
-> 
->> The main change in this version of the mpam missing pieces series is to
->> update the cdp emulation to match the resctrl interface. L2 and L3
->> resources can now enable cdp separately. Cdp can't be hidden correctly for
->> memory bandwidth allocation, as max per partid can't be emulated with more
->> partids, and so we hide this completely when cdp is enabled. There is a little
->> restructuring and a few smaller changes.
->>
->> Changelogs in patches
->>
->> It would be great to get this series merged this cycle. For that we'll need
->> more testing and reviewing. Thanks!
->>
->> From James' cover letter:
->>
->> This is the missing piece to make MPAM usable resctrl in user-space. This has
->> shed its debugfs code and the read/write 'event configuration' for the monitors
->> to make the series smaller.
->>
->> This adds the arch code and KVM support first. I anticipate the whole thing
->> going via arm64, but if goes via tip instead, the an immutable branch with those
->> patches should be easy to do.
->>
->> Generally the resctrl glue code works by picking what MPAM features it can expose
->> from the MPAM drive, then configuring the structs that back the resctrl helpers.
->> If your platform is sufficiently Xeon shaped, you should be able to get L2/L3 CPOR
->> bitmaps exposed via resctrl. CSU counters work if they are on/after the L3. MBWU
->> counters are considerably more hairy, and depend on hueristics around the topology,
->> and a bunch of stuff trying to emulate ABMC.
->> If it didn't pick what you wanted it to, please share the debug messages produced
->> when enabling dynamic debug and booting with:
->> | dyndbg="file mpam_resctrl.c +pl"
->>
->> I've not found a platform that can test all the behaviours around the monitors,
->> so this is where I'd expect the most bugs.
->>
->> The MPAM spec that describes all the system and MMIO registers can be found here:
->> https://developer.arm.com/documentation/ddi0598/db/?lang=en
->> (Ignored the 'RETIRED' warning - that is just arm moving the documentation around.
->>  This document has the best overview)
->>
->>
->> Based on v7.0-rc1
->>
->> The series can be retrieved from:
->> https://gitlab.arm.com/linux-arm/linux-bh.git mpam_resctrl_glue_v5
-> 
-> I booted with the series applied on an MPAM capable platform. The driver
-> is able to probe the L2 attached MSCs.
-> 
-> In terms of features, bit-mapped based cache portion partitioning works
-> as expected. The platform also supports additional controls (cache
-> capacity and priority partitioning) and monitors (memory bandwidth and
-> cache storage). The ones supported in MPAM driver probe OK but don't
-> seem to be exposed. E.g.,
-> 
->     mpam:mpam_resctrl_pick_counters: class 2 is a cache but not the L3
->     
-> 
-> It looks like some of it is due to an impedance mismatch with resctrl
+Just for the record, I suggested using an existing parser, not going all
+NIH and writing your own.
 
-Yes, what you describe is expected behaviour. There is no support yet
-for cache capacity (CMAX) or bandwidth priority partitioning and
-monitors are only exposed on the L3.
+BR,
+Jani.
 
-> expectations but hopefully we can get to it with the basics in-place.
-
-I hope so. The CMAX and the bandwidth priority partitioning should be
-easy to add once there is a generic way of adding new schema. There is a
-plan/discussion here [1] and I don't expect adding monitoring on L2 to
-be hard.
-
-[1] https://lore.kernel.org/lkml/aPtfMFfLV1l%2FRB0L@e133380.arm.com/
-
-> 
-> Feel free to add
-> 
-> Tested-by: Punit Agrawal <punit.agrawal@oss.qualcomm.com>
-
-Thanks for testing!
-
-> 
-> Thanks,
-> Punit
-> 
-
-Thanks,
-
-Ben
-
+-- 
+Jani Nikula, Intel
