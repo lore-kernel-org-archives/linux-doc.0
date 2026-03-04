@@ -1,325 +1,179 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011006.outbound.protection.outlook.com [52.101.52.6])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB0AE35F178
-	for <linux-doc@vger.kernel.org>; Wed,  4 Mar 2026 16:00:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772640055; cv=none; b=BH7KLdKkfumE6LJTd3i5tU12VSpRSfjyXhYQuOPWh1lhWChxE053OV64vZqHT2iBC3Iz37r7VoAbrqyYqYZxi7KtV2JyYo1VmlsKGv+Cq8BnzeRbzM2pWjXpoOcQ9VoPu2uq3E1/po8o0wKWQjWqkrJTDSjt6rHYgyjAYE5v/Ew=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772640055; c=relaxed/simple;
-	bh=nAUS3G3ePSgJTCurwLZklAEdq9FSoOxVlxZL3wKzHh4=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52DD9260592;
+	Wed,  4 Mar 2026 16:04:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.6
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772640287; cv=fail; b=QSeFPVTZx49rAkESdJ+B+UUg1ME8cMQ+Bonb7qg8YMZHr1hFPujirIjXIWLwsXYZPWU3yXKMK7CxEc59iEmBCi36SVAxuEd9L0PSG5vwJrkcxhY8hYBuU4HMBxFG4P821fGAkL7iMlCo9Fsqc3b8KglP/Xr6QNUhZqSuqf7h9mc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772640287; c=relaxed/simple;
+	bh=6WGfV9HGB7+s5c542IzJOfxrNs2SX0Alb2C7Inci1Yw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tM6JfYY55py2UeOlI6nw4WZ0oP9R+fD3viTmPuKd3Gbhmexl0E8/AigmNY95QwZU1k81CiamvDGCsYzSq2PMja85XF42R2Bdkn1ps1xAhkxR+kAgm9PPQbPecxF3Bqh9iq4vJXYDGrA6xJxFksNZiU4aNW8KHrj8mmoRUh8L9lQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=zshcCcTM; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+	 Content-Type:MIME-Version; b=TFBVLc0DrRvcL1etbogKwwHH4yw/6Uy49ydwdyTZ42q1NCaqdNnKCDiaPnVxvISNFchyp1shqbOmmi4e8hPEmq6li199MbTddLQ5Q7v441zNhIX6ngKG4pyOBQiU4WwSyWgkl5PDxjkOoNsodRsE4oplDK9qdSBKJZskMz5H7J0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=hWewGYZi; arc=fail smtp.client-ip=52.101.52.6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="zshcCcTM"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-439c9eb5d36so716202f8f.2
-        for <linux-doc@vger.kernel.org>; Wed, 04 Mar 2026 08:00:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1772640052; x=1773244852; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sq+BNITtc6p+HH6jh9NI7lkPW1WCKPvQbV7cZpOCkHI=;
-        b=zshcCcTM5vzhC3nX68hniKrLraivQekWsnTGJLY5YKSMG1x7POpaW1KgWQoziwYpqZ
-         DASnhyT2QYMl630e9eql3oegGnmh8ei58/+mkkBMQELoFe56ciUH4I02cxtl4v4nIFku
-         CVQ4OE4/RCDbWW5128LlZTSh3MaJhlhVOXOyIaC5vLWF/qx2/w3IacaYk1XgT0lGiwrX
-         dyK2lS9q30KmG1utBq+z2D6qEYNf4ij1oLsjX3lM+TafqAE2ef47HDYZbTEUR8worxYU
-         tqUd0g+ZfsHXs5aWcvW71VMYWXhwn0e1KbSYkg/gZW9qqv71Y3hQ8TvJUnsL+nrDHqAc
-         2EjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772640052; x=1773244852;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=sq+BNITtc6p+HH6jh9NI7lkPW1WCKPvQbV7cZpOCkHI=;
-        b=fyzp/kzjpVmc40/Rt7sXKYHQ5Cy3Y2qWWhX9L6xJWqSRJxsoolyv5w3SImSXij0n9k
-         djnmS9tTGDsVedbdaNAiWHlJQ13LkVq+216QuiN50JTdgISUJjbqFyMSWLbnMkHJp/eU
-         exxQKBzg7F+nqmLsPZGZcQKF8424c0d3+OrOJ7Dc4K6R2p8Atdjpe+rSpNGWi9DFd/2G
-         /KuRmBkkRPUncEF2PzQ9gqWws8kFxvn++L78J28CPoRmw+qq+84WVWEep8yW+OAZgkRL
-         j486UTm6ocYtfcC5SOQWXJQAVUafVgK/Q/BcsgSdAOdvXKPkAIM+ZegdyJ/8ZafNznc5
-         1TEg==
-X-Forwarded-Encrypted: i=1; AJvYcCUF6uN6vjlA9hquZDMFEo1aMnep9oi/cD+Lxfj1Yg47qQUa/Em+nfxEATs65h1JUKUCLpK2viZpBa4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxGsdlWtbNtL37zze8PiGyAd/tlcjzsutxtiOYv5uUU3MxwrVdG
-	KRvu7dOsBFkv4Pz4gT63ITgvl2QDY2it+596iEorKITJTHvL/Sy8iIvvhziaKpVw3PE=
-X-Gm-Gg: ATEYQzwKM8xfA3LW0iKKISzlhSQT9iQzTpgL3n/BsBSi/pC6F08sxcG1BtWNrY3npiV
-	tc0cixNZXF1qwdb8xGjHJHEvryQSjwwq0hINf2iH7pqeFsskirDzOO9sSit9M1O6lVSra6kNyXl
-	x8fLrkW/EOWze8XdLdX/Fqyv/BB94q/S2aN5CiUklDmWwqEG3Xdv0Tmw10RG6aqqQTCDKJLlV/U
-	N2LrNXqbAFiFfMHaLlKOXLSvJqg6pfVE7fhEfcuGRNXfGBFzK0jVb5135saA0OMOVFDKPv5lUag
-	FYADd13en2D4KNTc0R1r2eWrxQFQuJD1P6A4xKGZFY0WBk1jLZI6Y4UOE/4SYVc6Q5htteQ3pqV
-	9n59eqoYpnPo/MCF5J/Q5UvQVoRoaTYwimswJ+GUfAXbE0zHU6ONNEG04vVbnzEI+rXHXOottb8
-	coM07Umb2k7AGMA+too3yFg0B5qfYLjJBkLFRWW/2ahnM+3Q==
-X-Received: by 2002:a05:6000:230c:b0:439:b619:33b2 with SMTP id ffacd0b85a97d-439c7fe64b4mr4723346f8f.43.1772640052085;
-        Wed, 04 Mar 2026 08:00:52 -0800 (PST)
-Received: from localhost (46-13-72-179.customers.tmcz.cz. [46.13.72.179])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439c65e0b23sm7919924f8f.32.2026.03.04.08.00.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Mar 2026 08:00:51 -0800 (PST)
-From: Jiri Pirko <jiri@resnulli.us>
-To: netdev@vger.kernel.org
-Cc: davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	donald.hunter@gmail.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	saeedm@nvidia.com,
-	leon@kernel.org,
-	tariqt@nvidia.com,
-	mbloch@nvidia.com,
-	przemyslaw.kitszel@intel.com,
-	mschmidt@redhat.com,
-	andrew+netdev@lunn.ch,
-	rostedt@goodmis.org,
-	mhiramat@kernel.org,
-	mathieu.desnoyers@efficios.com,
-	chuck.lever@oracle.com,
-	matttbe@kernel.org,
-	cjubran@nvidia.com,
-	daniel.zahka@gmail.com,
-	linux-doc@vger.kernel.org,
-	linux-rdma@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org
-Subject: [PATCH net-next v3 13/13] net/mlx5: Add a shared devlink instance for PFs on same chip
-Date: Wed,  4 Mar 2026 17:00:22 +0100
-Message-ID: <20260304160022.6114-14-jiri@resnulli.us>
-X-Mailer: git-send-email 2.51.1
-In-Reply-To: <20260304160022.6114-1-jiri@resnulli.us>
-References: <20260304160022.6114-1-jiri@resnulli.us>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="hWewGYZi"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=cVy70QdKfKCulalwVW/OynGakw+xW/kcSAFpIrsKzPs1FM3O2qsWJ3AGk3c/Ofbpf7N0/unDR1M7rL4qJdHMSxUutfLqcaRXALnR7A2E4VQG3Aem6+iRN7MUPNC0E1EMJ2Gb9rbMYF0OT3HYT6MvM2JG2v2mYt+Mt4h0gSPjNJtV8uyOT3DAJH8s5ihDPTfcXN4WQD6eAFXFqrAH9PWJoLQodw0XRNRkbzgS/oPb9TWDU//xKUUB42r8My9ZAMA9/nuwYZVwNymsXRlQrpSbNxFuOxbZoRkNqvitNIo3Jee/BePLnqdBujsP/3zpywGJTGyOnDxz+1uxN01VpDE8ig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BereyiT9j5+vbs3lDBWyI6g8D7TU967T+gbGfPmC/hA=;
+ b=rRj472tBHKlDSvIW1LtLv5Ciy7ztwS+v3bkDuWLcC/Wha/RPspvHVwIpL44JYJMAXLn0Tl6hWBlZrfJ1EbhHeV1OpImWBFaJX5jqugqdJwdTdgp/HMtkP9QaIq5gK7NIHnTCknb0Lrtle++m9S6NApR0IYGOGDejeFk3dC+pTdKjZuDtMaNL5N5TWGtydofeXVi/ji2QJdhrp8PAYc7bVqRBDXLyGSzLc+JKaF+nGhTVnqX8MvLVAP5bK1zcTIBFVTEWpDDLScAKl78CVsUOWsslQZWqCFE82eEJ4aFCuTX26hN5/9lkI+v1+f5lqG5W4pAsh6PUi+DvXQQ4a+M0+A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BereyiT9j5+vbs3lDBWyI6g8D7TU967T+gbGfPmC/hA=;
+ b=hWewGYZi5hdMvxhHfWAnfTqqiMOMRUKNoIXEkEK9PC3iQuWuzs0QCbSLGYg271JST1LPOTGCeNQ1mb5HaMwOfsYOUuPg+8SKhK17GloMX9unlOcXsRypkbTXnuTDnXNiu0g6bSgGuLES5m6UWYeG6zxufVfEypsIvaGAhUJa1c8Gn78p3/piFXCcrOzyu6H8/WFVON6DuhWiaWdwK0Z1irpwqXCM+hLcDrgS/shOKqHe3it8LZ4F+Pz0N10RkPcbDKPbzL5C0yPucRb+HZYzFDAFinrhngheokT2m6iAt8Cus6ws0kC8Ii/SQaZfwgjsamnz2EAD+BjS0IXqmbCPAg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
+ DS5PPF482CFEB7D.namprd12.prod.outlook.com (2603:10b6:f:fc00::64a) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9654.22; Wed, 4 Mar
+ 2026 16:04:40 +0000
+Received: from DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::f01d:73d2:2dda:c7b2]) by DS7PR12MB9473.namprd12.prod.outlook.com
+ ([fe80::f01d:73d2:2dda:c7b2%4]) with mapi id 15.20.9654.020; Wed, 4 Mar 2026
+ 16:04:40 +0000
+From: Zi Yan <ziy@nvidia.com>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-mm@kvack.org,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>, Nico Pache <npache@redhat.com>,
+ Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
+ Lance Yang <lance.yang@linux.dev>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Usama Arif <usamaarif642@gmail.com>,
+ Andi Kleen <ak@linux.intel.com>
+Subject: Re: [PATCH v1] docs: filesystems: clarify KernelPageSize vs.
+ MMUPageSize in smaps
+Date: Wed, 04 Mar 2026 11:04:35 -0500
+X-Mailer: MailMate (2.0r6290)
+Message-ID: <6DDF4B32-4AC3-42E6-8791-B063FCC9C9C4@nvidia.com>
+In-Reply-To: <20260304155636.77433-1-david@kernel.org>
+References: <20260304155636.77433-1-david@kernel.org>
+Content-Type: text/plain
+X-ClientProxiedBy: BYAPR08CA0010.namprd08.prod.outlook.com
+ (2603:10b6:a03:100::23) To DS7PR12MB9473.namprd12.prod.outlook.com
+ (2603:10b6:8:252::5)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|DS5PPF482CFEB7D:EE_
+X-MS-Office365-Filtering-Correlation-Id: a55ee953-046e-4fa7-48c9-08de7a07bdd4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|366016|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	KFvq6+TQnGbR5j85lfDwyQUDT2OWX2grj/1eZ2ttVnrf/yGh4sAoybMCNrsZcDg1LKcLHqQzl39gRAVQ6sgxeRJiRjT9FYcuZM6qcFtLFELDyaqhQJ3Wmok7PJHtybJVI1QlsYRWMqsVKu4gdx0WGhlp5Y7r/R+AA+X/MOcuV7tUk1wCwA/72rlvTDdJcNqlzzBciRTXCu71uFJt8pdQdZIfrbE1dRy9//l5oGguVphfSlkNPv1XyIhliY5A/Ufx1pCCw2nzmxGeQzspkoumq23Z/6L0AoojasTpgghk33YnNk/KbQI5aTJZO5F9wxTMj8CVrnIP7M+DYuOR+HNujt3EbFUlvOPElwz9600dZfnH1eYaYQGt5GKhg4LOMZCTvDuonKRslnN9Hf2c/ql4qMfS5zDml0gtjtz+NDkcAvG6ao3DSeYyiW1uBtrfZDD3NLmrXT+/ZVp0mTZdICh3CntvVadoyc68ZfOx/ehPU+x42+xHgtYrGsnLi1VKMoSyv31ZMCe3VBYpgUQqETUU+FxqtE8uZMjde1ExD3pkYKHlfc6wuWOxX7CEoUDKtbPHNTYTmXCsQhemZiSG7fwDpIGPg1Yn3CT1escMRTStYBXb7UsTAgrP1u6q+vT8PukIWn3Q7a1XnT5ErSpiO5naSyEXXDUl3H9QUHcYzcBgKNFVPhD8/SsBEFWgJBDIfzkClN6EPPG2yLYIDJP6FjJ3WryyiA3cIzUQmDFNPQsBRKM=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?1zDxu+T4Na1jusY77ugohL/CN71LlyEKm37K3ieBV6Ir+yiwtQbzleH98Wed?=
+ =?us-ascii?Q?ZhnGU2gHn+usA+sFYQ+MbyH4QTI+yeKl4up1AqHSlpA2/qhlgZWyIhk6ws8/?=
+ =?us-ascii?Q?isHj7faNVJUabADa+ywnb9nv5XiBV6yrH7CRmRMiLB2Y9MBGW2N5wKZI5Ckr?=
+ =?us-ascii?Q?KfCu6BFxFcoIWQwLWxVAHg0d675SQPn3uDE3ye5KIP9yvpY/5XP8gIh8iSWv?=
+ =?us-ascii?Q?lQIGic/Wn3/VQwf69KHJDs9wQweaiiTMQRZcV6ZBsmWx9SnX9QuYQplOWoL1?=
+ =?us-ascii?Q?Iv9B1z8MGI36rxQDFBmTi43IS/yNi7WWd0RV8bVujdG0mt1b1rjZFyYFTG00?=
+ =?us-ascii?Q?FKlE8QSS0Kb9QIEa+MrhKa+cw7bmTpXayebgKWMnuiVgRCRkH94jGBqBY+rr?=
+ =?us-ascii?Q?IXOVhXC1+galX7sKi8e7yIsT6zuBvq5IbTBwjNTMx06zRVQaNqgDYq7Tyta7?=
+ =?us-ascii?Q?cP/ekJrXACvwbKY/xI1vpGJEAaEvMm0ofEyvAn2aWgkq04cVb22jvs57M8Vf?=
+ =?us-ascii?Q?86fRznIx5G4zQuxThln1g0Ov/FnMsxJLZPu6rpm91SLeWuS0JRGXxP9FH0bu?=
+ =?us-ascii?Q?JD1Ls8GtBHmP7m33WOx2mnpVZ11aqnM9Gm2ByqWfDLcrEOjw0Ux7xnk4vhNy?=
+ =?us-ascii?Q?PcAnmBwws6X7+Vpr+WswDnFNDGlnlBj8z6aUUCHr/PaWSB65z/h3ERy7/oPO?=
+ =?us-ascii?Q?GS3wpZYRPpHSTd6ORgY/TKJVcvn3ElECGYLvsOEQ/ChE6re+58SuBcThGP2a?=
+ =?us-ascii?Q?D478FyuaE/w+2pAo74VUXAjZAAUHPCWFp827ElfnEicbKJiaaHIMKe2GadkP?=
+ =?us-ascii?Q?d8cdtHGa0MCVql8+63GB/A3qlbdJZHn3gYp3FEUdqPQEjtCEinEllKuH5d1t?=
+ =?us-ascii?Q?6zWuGaDA28EnNFpKyirBs7nWwn9aiB5O6voD0IbWVWtqu/5+E4qVrdhtaisf?=
+ =?us-ascii?Q?Hr1/FG5vSIL9YfzsKUYC5clJoS5lGaZuVrDKCyPddgXwyH38jiDLcPGYovbq?=
+ =?us-ascii?Q?M7T3hsg5GmnDfNLVA3j4Duj4iMIGLiFKfB83XkLzdwVEKi+wSb+r8gnvtLIu?=
+ =?us-ascii?Q?PMXGeLl8c0v6WWtNBUNaOdEwesxooeoGazEPHKwjmOGMLEKcoAkfS9JEND85?=
+ =?us-ascii?Q?UjS7eMeN+BCSMudXUybTmHBsuUW5N1ZAGVOz8PrChspJabeTCyncjSK5vt8g?=
+ =?us-ascii?Q?a4tNkM5lzy6BmIeqSu9B2zd/Xx6Z5zOQfWKmYPEHZmqxowlNPrjshceurMoD?=
+ =?us-ascii?Q?yPgCcbnH1wKX+RceAl+VDcypiHCwuwvwakLTnqg11Agv8H+Q5KnBjOiYa+3/?=
+ =?us-ascii?Q?YXYiyw7Qf5PwRrpqWjTwOgrh/02SZPPdWPyRuZ+xroiJHvVvFwyzqUq50OOm?=
+ =?us-ascii?Q?rLboFSLsIgWskLuyrvgJ6VXV4nFoS5klfDEjyrro6Ufl6SS5pHAfYfk87cg2?=
+ =?us-ascii?Q?0ZNnws1IP7U0k+g+LFs4skgqx4x8FD1ZxZ7nkaY3XaFbzWon5H9AeT0u25wy?=
+ =?us-ascii?Q?m0wYAOu2cNEk4bL17LpZSutihkF5YgcJa/42Gm+10eoosIkvofrlGViy1zZP?=
+ =?us-ascii?Q?gqpB4hamX5obz66EzRaVwexQFIC0sK/+XBWEqn1+o1S/KVsIYa4LtJFuB/cB?=
+ =?us-ascii?Q?UYdxErG7K/SMc9T3TYMvjTCnA+0Oi+UXL/f2dZojA3heAXQhEjExod18HZ1S?=
+ =?us-ascii?Q?1VjChZzvcnfae4MNsVGqrb+8tQSe1tKwFWy/J8jzFQz/ns519vubWad25U7J?=
+ =?us-ascii?Q?sg5yob1NHw=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a55ee953-046e-4fa7-48c9-08de7a07bdd4
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2026 16:04:40.2530
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hQNaLOu0gy7ehH7WSzyuP/u6uP62gRRGWI3YjIuSzXEycy2u0hF1f88LpQIxL8E9
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS5PPF482CFEB7D
 
-From: Jiri Pirko <jiri@nvidia.com>
+On 4 Mar 2026, at 10:56, David Hildenbrand (Arm) wrote:
 
-Use the previously introduced shared devlink infrastructure to create
-a shared devlink instance for mlx5 PFs that reside on the same physical
-chip. The shared instance is identified by the chip's serial number
-extracted from PCI VPD (V3 keyword, with fallback to serial number
-for older devices).
+> There was recently some confusion around THPs and the interaction with
+> KernelPageSize / MMUPageSize. Historically, these entries always
+> correspond to the smallest size we could encounter, not any current
+> usage of transparent huge pages or larger sizes used by the MMU.
+>
+> Ever since we added THP support many, many years ago, these entries
+> would keep reporting the smallest (fallback) granularity in a VMA.
+>
+> For this reason, they default to PAGE_SIZE for all VMAs except for
+> VMAs where we have the guarantee that the system and the MMU will
+> always use larger page sizes. hugetlb, for example, exposes a custom
+> vm_ops->pagesize callback to handle that. Similarly, dax/device
+> exposes a custom vm_ops->pagesize callback and provides similar
+> guarantees.
+>
+> Let's clarify the historical meaning of KernelPageSize / MMUPageSize,
+> and point at "AnonHugePages", "ShmemPmdMapped" and "FilePmdMapped"
+> regarding PMD entries.
+>
+> While at it, document "FilePmdMapped", clarify what the "AnonHugePages"
+> and "ShmemPmdMapped" entries really mean, and make it clear that there
+> are no other entries for other THP/folio sizes or mappings.
+>
+> Link: https://lore.kernel.org/all/20260225232708.87833-1-ak@linux.intel.com/
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> Cc: Zi Yan <ziy@nvidia.com>
+> Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
+> Cc: Liam R. Howlett <Liam.Howlett@oracle.com>
+> Cc: Nico Pache <npache@redhat.com>
+> Cc: Ryan Roberts <ryan.roberts@arm.com
+> Cc: Dev Jain <dev.jain@arm.com>
+> Cc: Barry Song <baohua@kernel.org>
+> Cc: Lance Yang <lance.yang@linux.dev>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Shuah Khan <skhan@linuxfoundation.org>
+> Cc: Usama Arif <usamaarif642@gmail.com>
+> Cc: Andi Kleen <ak@linux.intel.com>
+> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+> ---
+>  Documentation/filesystems/proc.rst | 37 ++++++++++++++++++++++--------
+>  1 file changed, 27 insertions(+), 10 deletions(-)
+>
+LGTM.
 
-Each PF that probes calls mlx5_shd_init() which extracts the chip serial
-number and uses devlink_shd_get() to get or create the shared instance.
-When a PF is removed, mlx5_shd_uninit() calls devlink_shd_put()
-to release the reference. The shared instance is automatically destroyed
-when the last PF is removed.
+Reviewed-by: Zi Yan <ziy@nvidia.com>
 
-Make the PF devlink instances nested in this shared devlink instance,
-allowing userspace to identify which PFs belong to the same physical
-chip.
-
-Example:
-
-pci/0000:08:00.0: index 0
-  nested_devlink:
-    auxiliary/mlx5_core.eth.0
-devlink_index/1: index 1
-  nested_devlink:
-    pci/0000:08:00.0
-    pci/0000:08:00.1
-auxiliary/mlx5_core.eth.0: index 2
-pci/0000:08:00.1: index 3
-  nested_devlink:
-    auxiliary/mlx5_core.eth.1
-auxiliary/mlx5_core.eth.1: index 4
-
-Signed-off-by: Jiri Pirko <jiri@nvidia.com>
----
-v2->v3:
-- removed "const" from "sn"
-- passing driver pointer to devlink_shd_get()
----
- .../net/ethernet/mellanox/mlx5/core/Makefile  |  5 +-
- .../net/ethernet/mellanox/mlx5/core/main.c    | 17 ++++++
- .../ethernet/mellanox/mlx5/core/sh_devlink.c  | 61 +++++++++++++++++++
- .../ethernet/mellanox/mlx5/core/sh_devlink.h  | 12 ++++
- include/linux/mlx5/driver.h                   |  1 +
- 5 files changed, 94 insertions(+), 2 deletions(-)
- create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/sh_devlink.c
- create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/sh_devlink.h
-
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/Makefile b/drivers/net/ethernet/mellanox/mlx5/core/Makefile
-index 8ffa286a18f5..d39fe9c4a87c 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/Makefile
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/Makefile
-@@ -16,8 +16,9 @@ mlx5_core-y :=	main.o cmd.o debugfs.o fw.o eq.o uar.o pagealloc.o \
- 		transobj.o vport.o sriov.o fs_cmd.o fs_core.o pci_irq.o \
- 		fs_counters.o fs_ft_pool.o rl.o lag/debugfs.o lag/lag.o dev.o events.o wq.o lib/gid.o \
- 		lib/devcom.o lib/pci_vsc.o lib/dm.o lib/fs_ttc.o diag/fs_tracepoint.o \
--		diag/fw_tracer.o diag/crdump.o devlink.o diag/rsc_dump.o diag/reporter_vnic.o \
--		fw_reset.o qos.o lib/tout.o lib/aso.o wc.o fs_pool.o lib/nv_param.o
-+		diag/fw_tracer.o diag/crdump.o devlink.o sh_devlink.o diag/rsc_dump.o \
-+		diag/reporter_vnic.o fw_reset.o qos.o lib/tout.o lib/aso.o wc.o fs_pool.o \
-+		lib/nv_param.o
- 
- #
- # Netdev basic
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/main.c b/drivers/net/ethernet/mellanox/mlx5/core/main.c
-index fdc3ba20912e..1c35c3fc3bb3 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/main.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/main.c
-@@ -74,6 +74,7 @@
- #include "mlx5_irq.h"
- #include "hwmon.h"
- #include "lag/lag.h"
-+#include "sh_devlink.h"
- 
- MODULE_AUTHOR("Eli Cohen <eli@mellanox.com>");
- MODULE_DESCRIPTION("Mellanox 5th generation network adapters (ConnectX series) core driver");
-@@ -1520,10 +1521,16 @@ int mlx5_init_one(struct mlx5_core_dev *dev)
- 	int err;
- 
- 	devl_lock(devlink);
-+	if (dev->shd) {
-+		err = devl_nested_devlink_set(dev->shd, devlink);
-+		if (err)
-+			goto unlock;
-+	}
- 	devl_register(devlink);
- 	err = mlx5_init_one_devl_locked(dev);
- 	if (err)
- 		devl_unregister(devlink);
-+unlock:
- 	devl_unlock(devlink);
- 	return err;
- }
-@@ -2005,6 +2012,13 @@ static int probe_one(struct pci_dev *pdev, const struct pci_device_id *id)
- 		goto pci_init_err;
- 	}
- 
-+	err = mlx5_shd_init(dev);
-+	if (err) {
-+		mlx5_core_err(dev, "mlx5_shd_init failed with error code %d\n",
-+			      err);
-+		goto shd_init_err;
-+	}
-+
- 	err = mlx5_init_one(dev);
- 	if (err) {
- 		mlx5_core_err(dev, "mlx5_init_one failed with error code %d\n",
-@@ -2018,6 +2032,8 @@ static int probe_one(struct pci_dev *pdev, const struct pci_device_id *id)
- 	return 0;
- 
- err_init_one:
-+	mlx5_shd_uninit(dev);
-+shd_init_err:
- 	mlx5_pci_close(dev);
- pci_init_err:
- 	mlx5_mdev_uninit(dev);
-@@ -2039,6 +2055,7 @@ static void remove_one(struct pci_dev *pdev)
- 	mlx5_drain_health_wq(dev);
- 	mlx5_sriov_disable(pdev, false);
- 	mlx5_uninit_one(dev);
-+	mlx5_shd_uninit(dev);
- 	mlx5_pci_close(dev);
- 	mlx5_mdev_uninit(dev);
- 	mlx5_adev_idx_free(dev->priv.adev_idx);
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/sh_devlink.c b/drivers/net/ethernet/mellanox/mlx5/core/sh_devlink.c
-new file mode 100644
-index 000000000000..bc33f95302df
---- /dev/null
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/sh_devlink.c
-@@ -0,0 +1,61 @@
-+// SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB
-+/* Copyright (c) 2025, NVIDIA CORPORATION & AFFILIATES. All rights reserved. */
-+
-+#include <linux/mlx5/driver.h>
-+#include <net/devlink.h>
-+
-+#include "sh_devlink.h"
-+
-+static const struct devlink_ops mlx5_shd_ops = {
-+};
-+
-+int mlx5_shd_init(struct mlx5_core_dev *dev)
-+{
-+	u8 *vpd_data __free(kfree) = NULL;
-+	struct pci_dev *pdev = dev->pdev;
-+	unsigned int vpd_size, kw_len;
-+	struct devlink *devlink;
-+	char *sn, *end;
-+	int start;
-+	int err;
-+
-+	if (!mlx5_core_is_pf(dev))
-+		return 0;
-+
-+	vpd_data = pci_vpd_alloc(pdev, &vpd_size);
-+	if (IS_ERR(vpd_data)) {
-+		err = PTR_ERR(vpd_data);
-+		return err == -ENODEV ? 0 : err;
-+	}
-+	start = pci_vpd_find_ro_info_keyword(vpd_data, vpd_size, "V3", &kw_len);
-+	if (start < 0) {
-+		/* Fall-back to SN for older devices. */
-+		start = pci_vpd_find_ro_info_keyword(vpd_data, vpd_size,
-+						     PCI_VPD_RO_KEYWORD_SERIALNO, &kw_len);
-+		if (start < 0)
-+			return -ENOENT;
-+	}
-+	sn = kstrndup(vpd_data + start, kw_len, GFP_KERNEL);
-+	if (!sn)
-+		return -ENOMEM;
-+	/* Firmware may return spaces at the end of the string, strip it. */
-+	end = strchrnul(sn, ' ');
-+	*end = '\0';
-+
-+	/* Get or create shared devlink instance */
-+	devlink = devlink_shd_get(sn, &mlx5_shd_ops, 0, pdev->dev.driver);
-+	kfree(sn);
-+	if (!devlink)
-+		return -ENOMEM;
-+
-+	dev->shd = devlink;
-+	return 0;
-+}
-+
-+void mlx5_shd_uninit(struct mlx5_core_dev *dev)
-+{
-+	if (!dev->shd)
-+		return;
-+
-+	devlink_shd_put(dev->shd);
-+}
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/sh_devlink.h b/drivers/net/ethernet/mellanox/mlx5/core/sh_devlink.h
-new file mode 100644
-index 000000000000..8ab8d6940227
---- /dev/null
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/sh_devlink.h
-@@ -0,0 +1,12 @@
-+/* SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB */
-+/* Copyright (c) 2025, NVIDIA CORPORATION & AFFILIATES. All rights reserved. */
-+
-+#ifndef __MLX5_SH_DEVLINK_H__
-+#define __MLX5_SH_DEVLINK_H__
-+
-+#include <linux/mlx5/driver.h>
-+
-+int mlx5_shd_init(struct mlx5_core_dev *dev);
-+void mlx5_shd_uninit(struct mlx5_core_dev *dev);
-+
-+#endif /* __MLX5_SH_DEVLINK_H__ */
-diff --git a/include/linux/mlx5/driver.h b/include/linux/mlx5/driver.h
-index 04dcd09f7517..1268fcf35ec7 100644
---- a/include/linux/mlx5/driver.h
-+++ b/include/linux/mlx5/driver.h
-@@ -798,6 +798,7 @@ struct mlx5_core_dev {
- 	enum mlx5_wc_state wc_state;
- 	/* sync write combining state */
- 	struct mutex wc_state_lock;
-+	struct devlink *shd;
- };
- 
- struct mlx5_db {
--- 
-2.51.1
-
+Best Regards,
+Yan, Zi
