@@ -1,177 +1,187 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010017.outbound.protection.outlook.com [52.101.85.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E23843890FA
-	for <linux-doc@vger.kernel.org>; Wed,  4 Mar 2026 08:07:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772611622; cv=none; b=cEfU08F+sbAnonG0+lfPr493DzHVPR81JazcpwF4l2aa7+TD2oBEP+Xzrq152J8NlwGHaFhsPvywwkkgAAVB1pjSpmQJN6/T336hpKG8tyFqt1yZAl1glXT+BkAib1IC96xBgPASyHgr1L6q8ebL7hr6Me+j4yAhSZ+YtfCoFCM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772611622; c=relaxed/simple;
-	bh=+5kKHgCbfIr6HZ3Ur8u9/0KCgquM6MW/BxUYCxIK5I8=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Uq03lbxPHcwSkzsPEUSgsxqzjDt+Y8J9pea9L4XO9idABTM6RlEFNCuchrdM9IxnfAQVv1lbJGngv0GV7Gg1w9axBhacrp8HLexb32mbK3eRPQFg7hSMqPnsXmACzdx1OuFXBdCROFswsHr0JfuGe/3D4HL6tYcVtPW8pDoPgPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=W6L+jXLz; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 744AF2E2DF3;
+	Wed,  4 Mar 2026 08:15:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.17
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772612141; cv=fail; b=J1MF/9pH7yheMtom3ThLQR6vjF9rBPzIS6YKlWrdgB6ZrOnl4LY4b3dnfWVUTFDcIzGOvRs3ejJz4dylNoTpX+4PNasArs2fAxdKIp38D1yX6HBHEwlftYEUb0efAU6MTFdesPNfOFA3QQGgVw1Gt1+Bdoy3scg+rzTfE6cRa6U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772612141; c=relaxed/simple;
+	bh=y61it8vyPqc0EnkuwzQvimMaMRIeE8Wxb0gQ0HFMqWY=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=hIhkN9r7wsa5YYv0kaYLmiDtuVMQqFmgsgw/iYoMNOfM/89poF1I0ZipFMinwPdFBI8wbG2bFwGhxXjxFRy4wZN/lKNlIjl614CKe5cjN5IU/rX+5fR3vRvS8/S0aSxvHe/zPYrLRdwa8HhXTzhBRdysZTKBj+ldxpvDZctBp3w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=MXiUXpv3; arc=fail smtp.client-ip=52.101.85.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="W6L+jXLz"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-439b97a8a8cso2908889f8f.1
-        for <linux-doc@vger.kernel.org>; Wed, 04 Mar 2026 00:07:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1772611619; x=1773216419; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tZaP3R+BOklF7RhKo03SxE9I1TxjdRO6hcgS5F2nTkQ=;
-        b=W6L+jXLzrfAxTdt9qJK2kS95KWTgMwPeNVXelnWQZ7vfPf5oEKhEuM1WbMDrt1fHK3
-         OVlSD5lWKuNkpZOzSJnzG0EoUDggKiWLGCsOxcn+aN3GH9wGruLma3n4HV4+b0hyj79r
-         R28U0IDqJ0RkrC3HT/5/Gr2xM7klq1/l9ejwmtppB/1mDWVfeudlHVdV4VaD67PfefGg
-         UH6NRM+ppS1YqnHcC7xWHYcmPfqbJzdSnIRco2GRJ6EV0wIkd3Ns2fATq2fnxVcHy83g
-         GS2b3UqaCPEri3G0641v38t2NkH//D3fiVybckUOwPg1yNL5ZhUTTQwSeX0bLdxmmQQp
-         CL2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772611619; x=1773216419;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=tZaP3R+BOklF7RhKo03SxE9I1TxjdRO6hcgS5F2nTkQ=;
-        b=T/3uqVyOc9B6VLi6l4ad7M2yogQeIKoJv1g5ltWzzQwttvBceHN2pxgxe2wQrKQ6ZC
-         Rv3OnjuB49IGXG/1xsHJ7P3cBC0TsSvTtMVSAen1rhIyl0yi25s/KQ85pKGsUkcIdNmL
-         YVoCZ8MTz0BOw3K2WfoL8f4fezh3hGEz6kDqaRZ/pR+m399Rvh0Zx9RjzEZ4Db5oquaz
-         +mWHt+puZdmsqMyOIFIAwX3iz/Hem5ZCJKSh+GWu5h2qydqv3lCmwpjOQW8Z7JJFcutr
-         sFjaxg7Wmy6MtVbauJaQYDdBa9N28xgj/bFPOUWJ7aup1EYZUTBGPH++XYyfnEGDoKIl
-         my7w==
-X-Forwarded-Encrypted: i=1; AJvYcCVPlZ7risNMFMxChle7DryFCwWMcGi13QUeyvuVxsNY1vZs4NodTHVJxzFcz8TmuOSHD9TKniFOd+0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzwK9y0FOiJDLsjt7Y0kOa/cmePDhuxD1FXkWRBhaqMK0X9k72u
-	uVWCvVyNVolNWyYWR3VJPpqhib6y3PgKJjEbWlFH9EcLo/ajVAiGEvW/J+TpieHTBVo=
-X-Gm-Gg: ATEYQzxXve+ixqRpsak7mMaxwYqVqgG/y1eD4L29AR8mZdlvk80wy3wJLji6mO8JBvh
-	KDPeD3Z2i4FnPbah7pI4Prb4OmWA7bjxk/jtYfXHU2epaL/3uqWidX1no400Z4Em9cCSolSQfn9
-	gOfCb0k973ILtHG0nMQO/rMqhNb83NQLhp3SljJ2X2E8irRuRXb0iDQXTs91PSUy408M5FU6vkM
-	N+R1BzwUvpVDXOouPm0K66uw/svJOOylGD3KGfQ9zYapnXnyfACgYl48MxNDo4ZaioA1Tk9H4zw
-	p8n85rlC6Vjdh6ok9MHbmeLFfaLOJTqrvje6dZk6i7HCLGYbZl9ErgD2j70d6WQmr7RC6tKGX0K
-	i9jEgqafsND6lnIV76c4HoylFIufo/or53MwdyBwNaZT8oJEYDS+JYB2Z3+8djYa1OGNG
-X-Received: by 2002:a05:6000:1842:b0:439:b7c9:2efd with SMTP id ffacd0b85a97d-439c7fd3e2emr1972255f8f.37.1772611619243;
-        Wed, 04 Mar 2026 00:06:59 -0800 (PST)
-Received: from localhost ([151.19.177.89])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439b485a0b6sm24871128f8f.39.2026.03.04.00.06.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Mar 2026 00:06:59 -0800 (PST)
-From: Francesco Lavra <flavra@baylibre.com>
-To: Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v7 4/6] iio: ABI: Add support for floating-point numbers in buffer scan elements
-Date: Wed,  4 Mar 2026 09:06:57 +0100
-Message-Id: <20260304080658.2844434-1-flavra@baylibre.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20260304080519.2844101-1-flavra@baylibre.com>
-References: <20260304080519.2844101-1-flavra@baylibre.com>
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="MXiUXpv3"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=p6esLdXaNx368VQLzU/yc9exuFhjlOLptvessPmiMJGVU8vQWU3cHqzJHsSrihQOlE+dhcOy/wfJ9eqdl61G2NASPRH24vzPTojuu4khlgrCf/DvB65a1ZE5NPiwXkzSYdc14rtMlS42vRYtoNvpNlLcbIIf7fLr2CczNHWxVKGqOuV5NLCkkyY7v0+2e2ircyif1rkF8JeZny+uvT9lDUG/jLZzZG8Vt9P2oRmeh1bqaToxOy6HPYlFndayEohQRYK7nnOCw1ivEL7j8bZzoniJhPSdE4h6/v6m67Yr5fF1KaTmNtzX8M79r6RVA/4fqY0WOCrfUQXs2Bx6PJ8sUQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=y61it8vyPqc0EnkuwzQvimMaMRIeE8Wxb0gQ0HFMqWY=;
+ b=vIRXy1pRQuvTYLUKu99C21ySPxklzPAGTlLuDqazIjrHhWrHbQSCWi6AUycRrEymwFwkt1pbptIDbpCyPrnXLuy3W+lTAEtrFCmgFRVJOyAHlaJz66w5FbqUnfsDXKQyIUi9+ulPzwZEnQpGpk7QXxBBGddTsyhQ7hIa1AH354tDTdofMVhs9ufFL+glfAV77gisHrB7J++5HgF+SEXpdci4BhqTf/OW86FaPKzOkj253RlxchxlOTLeQkpf/tvuTPhDOvYjeRPkFXLxIUnIGMCK81zAEZVnLIvt6tSIyZDsf3NYiLTuJ4Sgl3Eqb83vR2MxfxLOO/6Sor8rKZJ7bA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microchip.com; dmarc=pass action=none
+ header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microchip.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=y61it8vyPqc0EnkuwzQvimMaMRIeE8Wxb0gQ0HFMqWY=;
+ b=MXiUXpv3Z3/eAg7bsVp/JPTDdW8MQDSK5/kCq2G+df/y+NDR6Lu2/08BfiAw0DpJXqu0k4YtHxpd+xxcrpVsEVORbsY5UwjL7RQyth3AJ8v4farTwIrpZhP7LFGW5Ozp4s/wm0wCBgAe6u/pYMmk/2F1ellMYe3QAhRmo6QT95RM1gVtZQTLuvl+EezU13Q3EdsUqAfgJfCyJsfrmwYYIP2nkhAkJKi2suqIRUUor6CIki7eJKelfrh5akJTmqQkW2BMSEV5Ffhdec/QIte/tZoGCWTZrXEoNc0E22q6FW9GWGtKQJ0+XD4P+MWqZEJJ1Z4IXIBNEMdYYk/HJk5UHA==
+Received: from SN7PR11MB7511.namprd11.prod.outlook.com (2603:10b6:806:347::17)
+ by LV1PR11MB8849.namprd11.prod.outlook.com (2603:10b6:408:2b3::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.17; Wed, 4 Mar
+ 2026 08:15:33 +0000
+Received: from SN7PR11MB7511.namprd11.prod.outlook.com
+ ([fe80::b0d5:a33a:26fd:3fa0]) by SN7PR11MB7511.namprd11.prod.outlook.com
+ ([fe80::b0d5:a33a:26fd:3fa0%6]) with mapi id 15.20.9654.022; Wed, 4 Mar 2026
+ 08:15:33 +0000
+From: <Victor.Duicu@microchip.com>
+To: <krzk@kernel.org>
+CC: <corbet@lwn.net>, <linux@roeck-us.net>, <linux-hwmon@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <robh@kernel.org>,
+	<linux-kernel@vger.kernel.org>, <krzk+dt@kernel.org>,
+	<linux-doc@vger.kernel.org>, <conor+dt@kernel.org>,
+	<Marius.Cristea@microchip.com>
+Subject: Re: [PATCH v10 1/2] dt-bindings: hwmon: add support for MCP998X
+Thread-Topic: [PATCH v10 1/2] dt-bindings: hwmon: add support for MCP998X
+Thread-Index:
+ AQHcoBa9pxaxrTCHNUam0PksYnBYNrWHUwkAgARfnYCAAYuegIAC61YAgAADx4CADfCVAA==
+Date: Wed, 4 Mar 2026 08:15:33 +0000
+Message-ID: <77012a7d3ac4b7a6b66322fb84fa1adc42f1ff7f.camel@microchip.com>
+References: <20260217-add-mcp9982-hwmon-v10-0-5e0aaae6f289@microchip.com>
+	 <20260217-add-mcp9982-hwmon-v10-1-5e0aaae6f289@microchip.com>
+	 <20260217-sincere-spotted-lionfish-d7abca@quoll>
+	 <9a39d9f1d97eea245dd194a2db481297b92c6fbf.camel@microchip.com>
+	 <4a84d57c-ede6-4038-9883-42aeafce2687@kernel.org>
+	 <e32684ab5fd4e86ad61d2ca0e4f219fa29bd26fc.camel@microchip.com>
+	 <17f4acc7-28ff-4325-b628-cf8d9307754e@kernel.org>
+In-Reply-To: <17f4acc7-28ff-4325-b628-cf8d9307754e@kernel.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microchip.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SN7PR11MB7511:EE_|LV1PR11MB8849:EE_
+x-ms-office365-filtering-correlation-id: 91a98c10-b28a-402d-b422-08de79c63505
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|376014|7416014|1800799024|38070700021;
+x-microsoft-antispam-message-info:
+ S+0tLxjWfCzpMZ1kmxAbQe5qN2PRC5kiYg9WphoWcyNo2T1/qHqTw77AhyZaISo3n3HGSY9GLx/Nzxg3qKamEQ9EYT8EZrLVy+Wv2kLcMxb3cNlJdonNcmvty3ai3j8TqDK/V8Pyz4CoPNGaxiR9JieZo92tHqx8mwV3HcwrDxkVhasbXXKVTXNka8XhCvVLeunao+gXQDUKRaa26WvsxUvYIe5exV+Rhl0LbD01AGlBD+xwxMIwZE2pkrsMgKhohfXNgtbc8r2ttxeUzKNrzh7BLQsKf8u6lbp/4jaFEt3KoGlhQZDvXV5Ejj9zDm97H/7jmkBQFQwd+8Q2mrc0fW75kAI7IWG7AtSJsjUuUbjKVXK44iYN03cZ3v8BVnR/VnizQapDiV+DcbSW/eJu3nh3qbdzdR071XNLXOAelRc1HDUEDFmqE4CwnEZ7qaJM9HKj7kJTSixWu/ykt7FSPOEk8Z0tkhLYn/QlaDuHn2f2KUlJ+2JA9q9vmZMOtDEw6OCz7EbwNRKOv/GjzUg2+hBu7MAtchWMZYWQWlxphgMtaQVc0KmHiMDKzz6bB0EcE7oszvJfOcY41M00pwDCbks2lKqAD/sxgkAfABFsozL/vxkfwsLWEsHFXhn8XR6/qyr5m0QuNNYNDEHjtVddIvQ0dzZ7fTTDrk3MbT+Yz4FBu8YsqnoH03eQ4xdFKhllVYZ5x6iKDryW0mrpwnFEnNJMT8jktYLgmoiOReh5ZcS/R9zYPZmGc9x0PQLaln6heTK0TMhg0B8t/xfOIJD4/Kjw2IQ1EwhDudDBfV5yOck=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR11MB7511.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?OHorZ1RySTJCOUZ0a2k1RklBYmVQd1A0Z05GdmQ1NFJwT1ZtNzRETnVXd1hq?=
+ =?utf-8?B?RjZ3cXlTdys2NUkrUDJUNkhpV0h5SDlqQk5HZ3JlM3NlcXNzT2J6QVBobkpN?=
+ =?utf-8?B?Z21UYmZJM3czTVpYOU9wNzI0dHZBcVNCOWVjdGVFbHJDMDVjWE4zRjJIdzJv?=
+ =?utf-8?B?cWdBSkQyQkhoSHRuQ2V5aytoNkQ0Q0xRSVpjQjFUQ2x3Nkhld2h3RjdPSlVT?=
+ =?utf-8?B?aVQ3RzFDdldyaWJta01sRlUvbHBBN1c1VjhBazJqeFc0dit6QU55K3ZWemhs?=
+ =?utf-8?B?ajQ5VHhUZFN0NlpaQ1J4WkQ1TEhWWkQvamw2dTdKUkIycDRrb2JlQnFRSXBk?=
+ =?utf-8?B?WmhZV0N1S3JwcWowSVViTHpqbFZKa29PWE5EQ21rTHI5MmRkeEhGOHhramZN?=
+ =?utf-8?B?dEgyUG45OHZTMkVOUWVDY3B4bVkydXNSWVhlckxXNXpFQ3BmbXNwZEczNWJX?=
+ =?utf-8?B?bXFZVTJBdkNNYTJsdk1lc1g0NzI4K214c1dmWXZrUXl5bXlIUWo4dlExMVZu?=
+ =?utf-8?B?UFhXbWhoRUtUMHNYbXJYYWllenBTZXVrMnl2UUJCL3lMOVFjaHo2cmYvcXhk?=
+ =?utf-8?B?RHBTekI3Qzd5eENWTitBOFFxM3FIWTFPbDUrNXQ0UU0xcnR5QVo5QW02K2xF?=
+ =?utf-8?B?WWJHWFVvZTRnT1lpODEwOHZZejJmZ055MU8rbnJ3aWdCRGVrYk03ZXo0RkxQ?=
+ =?utf-8?B?SEZaVGd4cFE0RVE5anR0cjBwSjAreHM4QXN0c29zUXRha2xmODk4YzhWeU9T?=
+ =?utf-8?B?V1E5R0xUV0t2bnI4U0U1NmxoaEFpcnpURHJlbHFEOEkwYzJJN2NjWDFBVFQ0?=
+ =?utf-8?B?MDRjZUxTYmhwWWNiditla0diNkFzUXV2VVI3ZkpKandZRFY0MEU2ckx0QXdD?=
+ =?utf-8?B?OHAyYWQwUDRlRVRLcW5wQ3NyNWVyVmV5RWpYcFRWdG1sSXZiQ3FRL2M1RzFG?=
+ =?utf-8?B?dVJEQkV5dDRNSi9oSjZQTlY5U3h2UGxSWkx3NXQ5T2xPdSs3VkYzZkxTZHJF?=
+ =?utf-8?B?MUxCcE9QTGU4R2JhaW54dCtONGpFc0dwOThWUXZXTjdQcld5bGpkZGhVSldu?=
+ =?utf-8?B?SWU3cjd1dHgzY3duNjJsZUJQQk9iQUtpRys4Q29NZ1c5WTFKU1ZPMGY5SEhB?=
+ =?utf-8?B?eFp3KzFBU1BPK3VScGRmKzhubFp5L2EzdkVDaG42QTBmck1MTXJKQ1IrQVdL?=
+ =?utf-8?B?M3hvYmZtaFhiZTZrUDB5K2V4SkNncENWS3l4eTVxbmZvZ1ZsTUxVeXdybFMr?=
+ =?utf-8?B?TStxaTZIdyt1V2VsR3pObWhma3hCN3c4ZmwyVFJxakhsbE11a0R3WXorazFs?=
+ =?utf-8?B?T0xQaDdQWjVXZFJJMG1BZG5heEM4aXNxN1ViMlorOUNtZWRFZmlIZG1aL042?=
+ =?utf-8?B?cnNjV2tEZ2M2T1RQSERWeTNXUlk0VEZJc05HZXUrRGJXejgzUTVoTzdWUk1D?=
+ =?utf-8?B?RE1kVTkzeitIdUZDS1pCNDBPYk5HR1ZrR1R0dUxud2dXVTJwcUZJSG93YVlZ?=
+ =?utf-8?B?cWhwM2dZN3lpZVRmQmRIYmlWZ2pTUFV2T1RmVi9BSU5pMXBDWlR2NkI4YkNs?=
+ =?utf-8?B?SjhEWUVwRGw0NTZVUi9wbmlwTWswL0xnR2M2elE2ZVhNMmNMRE9iNDVaeHVn?=
+ =?utf-8?B?Mkd5dGpqQWovNVJmU1hCMHdLcnlSWFNISHN4ZUFVZ1l6TVVKY2hzRHJuN1JI?=
+ =?utf-8?B?SCtESFh6aUc5UFNKYmJOcVFkbDFrQ1pydy9QZ2dISGFIMkU4QkM1V3ZpOHBP?=
+ =?utf-8?B?bVlDSGFkWG1vdmJGWHNna1c0OGd4amZ0aVdsOCtaMEJCVnVBM09YWE15dlNh?=
+ =?utf-8?B?eXRzT2xESHZqc2FkOTNYa1lGV2ZGY1RyMzRZbnBwVk41OXE1MmdTMTJvK2xk?=
+ =?utf-8?B?TlVERkxHcmxjSDUvSjN2ZXVZaVlQWFJ0bFR1VmxqRVYvZWsvZDljeDZFODlV?=
+ =?utf-8?B?VkkzSWVBdjdrY3FRK0ZPb2NUUTZkL2JhOXRiYmlTT0FxM3YvRGxMUzc4eTNJ?=
+ =?utf-8?B?N3BhdmFOOHRRaHE0ZGRsaXBoM1oxbmNGTi92NVZOdG9keGFLaFdNdDIrOVE1?=
+ =?utf-8?B?WGVWcWU1Qk5YMDYrUUg3RmpzZkJFK09CY3dzeWw3aDRjK0RSQTRMcUJxdzlV?=
+ =?utf-8?B?OXBxRmRZNUZ3MWtqWlV6U3ZQMnlFd0NGdmZ4WElPL2VteTJQRVJxUDFmMmg5?=
+ =?utf-8?B?c1NOOUw5azZQL2hLVjR1Y0RaMEY0YlptVGxCSitjM3dxRzhBZHpiY0NaMlNT?=
+ =?utf-8?B?U1hpaUlzeU1wUE5NdW94dmpmTE1ocW5KS1kvYmZoU2hhQ2xIYVN4bWg4RVZa?=
+ =?utf-8?B?bzhMendFMlNpYUkwZ08zeVlsOHFHc040S2hOYVphTmpWVDR6NVZjbUZIbmpt?=
+ =?utf-8?Q?0auihkEJjHKodFWQ=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <D1C5ED7D22251D479F3AF6FBD99838B8@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5093; i=flavra@baylibre.com; h=from:subject; bh=+5kKHgCbfIr6HZ3Ur8u9/0KCgquM6MW/BxUYCxIK5I8=; b=owEB7QES/pANAwAKAe3xO3POlDZfAcsmYgBpp+ghK4q2jVvRC8PObm6sJmhgdvHZvM9gDB29A M83+5Wz02WJAbMEAAEKAB0WIQSGV4VPlTvcox7DFObt8TtzzpQ2XwUCaafoIQAKCRDt8TtzzpQ2 X6slC/0XZSNizAK3tm1OWubsiLQa5nXOJpvHb8jg/m4uuPzciIyRHz5Q6VL81bbV6rXDqwveI9V JMMwKIvxIqz3HHM6MpUb7MDs+684wwHXFPm7gEXnyGIDDZxAGKEo8n74oFNoNNIzjCbV6xbrxhx hkFnKjc9GTZ5lTafjFxmosZvRG7oy+CKZroTMpeISDq42O3oVO4GshAOE9oE3BsvNrqQafX/xMi 6XhmhSYWRSWohKrgrihmLluiSVYrdBKnC/7gRBKNne9afD9ZAax4kYIl/zXLqWGr6NVZt2kNLIn x7UPPY1bBu94mymOlJRbd5BqSszVUF8FBXRMttMPW5nSv6+nVZ2mLgLqo0RGW2Iimvxj0qLzK2l L4cl4SCvS3XGIjrsmRdbUMgIqLLgFyUlVjM2Mm9x8EbnpnE4ALxSJ++OYoW5L05gqZjtPdhtnjr 97mpjcraJwlz9FsJV0JVhRM02yG7UiPQD2Ag+CH6Zk8kadHcpnbpI/tWFQXtygssqsEnE=
-X-Developer-Key: i=flavra@baylibre.com; a=openpgp; fpr=8657854F953BDCA31EC314E6EDF13B73CE94365F
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: microchip.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB7511.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 91a98c10-b28a-402d-b422-08de79c63505
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Mar 2026 08:15:33.2899
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: jLaQ4gqynE/87BGmqfJeROsrUJw7D4L2fcFcD0G9XOSVFSZRXmlsnqZczqjLr3zdBl0HV7U8b/oAZSIT8FLaaV8mDLBn270s+0zDWU8O4KU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV1PR11MB8849
 
-In the data storage description of a scan element, the first character
-after the colon can have the values 's' and 'u' to specify signed and
-unsigned integers, respectively.
-Add 'f' as an allowed value to specify floating-point numbers formatted
-according to the IEEE 754 standard.
-
-Signed-off-by: Francesco Lavra <flavra@baylibre.com>
----
- Documentation/ABI/testing/sysfs-bus-iio  | 33 +++++++++++++-----------
- Documentation/driver-api/iio/buffers.rst |  3 ++-
- Documentation/iio/iio_devbuf.rst         |  3 ++-
- 3 files changed, 22 insertions(+), 17 deletions(-)
-
-diff --git a/Documentation/ABI/testing/sysfs-bus-iio b/Documentation/ABI/testing/sysfs-bus-iio
-index 5f87dcee78f7..bd6c3305dd2b 100644
---- a/Documentation/ABI/testing/sysfs-bus-iio
-+++ b/Documentation/ABI/testing/sysfs-bus-iio
-@@ -1510,21 +1510,24 @@ Contact:	linux-iio@vger.kernel.org
- Description:
- 		Description of the scan element data storage within the buffer
- 		and hence the form in which it is read from user-space.
--		Form is [be|le]:[s|u]bits/storagebits[>>shift].
--		be or le specifies big or little endian. s or u specifies if
--		signed (2's complement) or unsigned. bits is the number of bits
--		of data and storagebits is the space (after padding) that it
--		occupies in the buffer. shift if specified, is the shift that
--		needs to be applied prior to masking out unused bits. Some
--		devices put their data in the middle of the transferred elements
--		with additional information on both sides.  Note that some
--		devices will have additional information in the unused bits
--		so to get a clean value, the bits value must be used to mask
--		the buffer output value appropriately.  The storagebits value
--		also specifies the data alignment.  So s48/64>>2 will be a
--		signed 48 bit integer stored in a 64 bit location aligned to
--		a 64 bit boundary. To obtain the clean value, shift right 2
--		and apply a mask to zero the top 16 bits of the result.
-+		Form is [be|le]:[f|s|u]bits/storagebits[>>shift].
-+		be or le specifies big or little endian. f means floating-point
-+		(IEEE 754 binary format), s means signed (2's complement), u means
-+		unsigned. bits is the number of bits of data and storagebits is the
-+		space (after padding) that it occupies in the buffer; when using a
-+		floating-point format, bits must be one of the width values defined
-+		in the IEEE 754 standard for binary interchange formats (e.g. 16
-+		indicates the binary16 format for half-precision numbers). shift,
-+		if specified, is the shift that needs to be applied prior to
-+		masking out unused bits. Some devices put their data in the middle
-+		of the transferred elements with additional information on both
-+		sides. Note that some devices will have additional information in
-+		the unused bits, so to get a clean value the bits value must be
-+		used to mask the buffer output value appropriately. The storagebits
-+		value also specifies the data alignment. So s48/64>>2 will be a
-+		signed 48 bit integer stored in a 64 bit location aligned to a 64
-+		bit boundary. To obtain the clean value, shift right 2 and apply a
-+		mask to zero the top 16 bits of the result.
- 		For other storage combinations this attribute will be extended
- 		appropriately.
- 
-diff --git a/Documentation/driver-api/iio/buffers.rst b/Documentation/driver-api/iio/buffers.rst
-index f36e6d00173f..2fc9c2951a9d 100644
---- a/Documentation/driver-api/iio/buffers.rst
-+++ b/Documentation/driver-api/iio/buffers.rst
-@@ -37,9 +37,10 @@ directory contains attributes of the following form:
- * :file:`index`, the scan_index of the channel.
- * :file:`type`, description of the scan element data storage within the buffer
-   and hence the form in which it is read from user space.
--  Format is [be|le]:[s|u]bits/storagebits[Xrepeat][>>shift] .
-+  Format is [be|le]:[f|s|u]bits/storagebits[Xrepeat][>>shift] .
- 
-   * *be* or *le*, specifies big or little endian.
-+  * *f*, specifies if floating-point.
-   * *s* or *u*, specifies if signed (2's complement) or unsigned.
-   * *bits*, is the number of valid data bits.
-   * *storagebits*, is the number of bits (after padding) that it occupies in the
-diff --git a/Documentation/iio/iio_devbuf.rst b/Documentation/iio/iio_devbuf.rst
-index dca1f0200b0d..e91730fa3cea 100644
---- a/Documentation/iio/iio_devbuf.rst
-+++ b/Documentation/iio/iio_devbuf.rst
-@@ -83,9 +83,10 @@ and the relevant _type attributes to establish the data storage format.
- 
- Read-only attribute containing the description of the scan element data storage
- within the buffer and hence the form in which it is read from userspace. Format
--is [be|le]:[s|u]bits/storagebits[Xrepeat][>>shift], where:
-+is [be|le]:[f|s|u]bits/storagebits[Xrepeat][>>shift], where:
- 
- - **be** or **le** specifies big or little-endian.
-+- **f** specifies if floating-point.
- - **s** or **u** specifies if signed (2's complement) or unsigned.
- - **bits** is the number of valid data bits.
- - **storagebits** is the number of bits (after padding) that it occupies in the
--- 
-2.39.5
-
+SGkgS3J6eXN6dG9mLA0KDQouLi4NCj4gPiA+ID4gPiA+ICtwcm9wZXJ0aWVzOg0KPiA+ID4gPiA+
+ID4gK8KgIGNvbXBhdGlibGU6DQo+ID4gPiA+ID4gPiArwqDCoMKgIGVudW06DQo+ID4gPiA+ID4g
+PiArwqDCoMKgwqDCoCAtIG1pY3JvY2hpcCxtY3A5OTMzDQo+ID4gPiA+ID4gPiArwqDCoMKgwqDC
+oCAtIG1pY3JvY2hpcCxtY3A5OTMzZA0KPiA+ID4gPiA+ID4gK8KgwqDCoMKgwqAgLSBtaWNyb2No
+aXAsbWNwOTk4Mg0KPiA+ID4gPiA+ID4gK8KgwqDCoMKgwqAgLSBtaWNyb2NoaXAsbWNwOTk4MmQN
+Cj4gPiA+ID4gPiA+ICvCoMKgwqDCoMKgIC0gbWljcm9jaGlwLG1jcDk5ODMNCj4gPiA+ID4gPiA+
+ICvCoMKgwqDCoMKgIC0gbWljcm9jaGlwLG1jcDk5ODNkDQo+ID4gPiA+ID4gPiArwqDCoMKgwqDC
+oCAtIG1pY3JvY2hpcCxtY3A5OTg0DQo+ID4gPiA+ID4gPiArwqDCoMKgwqDCoCAtIG1pY3JvY2hp
+cCxtY3A5OTg0ZA0KPiA+ID4gPiA+ID4gK8KgwqDCoMKgwqAgLSBtaWNyb2NoaXAsbWNwOTk4NQ0K
+PiA+ID4gPiA+ID4gK8KgwqDCoMKgwqAgLSBtaWNyb2NoaXAsbWNwOTk4NWQNCj4gPiA+ID4gPiA+
+ICsNCj4gPiA+ID4gPiA+ICvCoCByZWc6DQo+ID4gPiA+ID4gPiArwqDCoMKgIG1heEl0ZW1zOiAx
+DQo+ID4gPiA+ID4gPiArDQo+ID4gPiA+ID4gPiArwqAgaW50ZXJydXB0czoNCj4gPiA+ID4gPiAN
+Cj4gPiA+ID4gPiBZb3VyIGludGVycnVwdC1uYW1lcyBzYXkgMSBpdGVtIGlzIGNvcnJlY3QsIHNv
+IHRoZXNlIGFyZSBkZS0NCj4gPiA+ID4gPiBzeW5jZWQuDQo+ID4gPiA+ID4gVGhleQ0KPiA+ID4g
+PiA+IHNob3VsZCBiZSBhbHdheXMgY29uc3RyYWluZWQgdGhlIHNhbWUgd2F5Lg0KPiA+ID4gPiA+
+IA0KPiA+ID4gPiANCj4gPiA+ID4gV2Ugd2FudCB0byBhbGxvdyB0aGUgdXNlciB0byB1c2Ugbm9u
+ZSwgb25lIG9yIGJvdGggaW50ZXJydXB0cy4NCj4gPiA+IA0KPiA+ID4gV2hvIGlzIHRoZSAidXNl
+ciIgaGVyZT8gSU9XLCBjYW4gdGhlICpoYXJkd2FyZSogd29yayBjb3JyZWN0bHkNCj4gPiA+IHdp
+dGhvdXQNCj4gPiA+IHRoZSBpbnRlcnJ1cHQgbGluZSBjb25uZWN0ZWQgYW55d2hlcmU/DQo+ID4g
+PiANCj4gPiANCj4gPiBZZXMsIHRoZSBoYXJkd2FyZSBjYW4gd29yayB3aGlsZSB0aGUgaW50ZXJy
+dXB0IGxpbmVzIGFyZSBub3QNCj4gPiBjb25uZWN0ZWQuDQo+IA0KPiBBbG1vc3QgdGhlcmUuLi4N
+Cj4gDQo+ID4gQXQgdGhlIG1vbWVudCB0aGUgZHJpdmVyIGRvZXMgbm90IHN1cHBvcnQgaW50ZXJy
+dXB0cy4NCj4gDQo+IA0KPiAuLi5hbmQgcnVpbmVkIGl0LiBUaGlzIGRvZXMgbm90IG1hdHRlciBh
+bmQgdXNpbmcgaXQgYXMgYXJndW1lbnQgbWVhbnMNCj4gSQ0KPiBkbyBub3QgYmVsaWV2ZSB5b3Ug
+YWN0dWFsbHkgY2hlY2tlZCBpZiBoYXJkd2FyZSBjYW4gd29yayB3aXRob3V0DQo+IGludGVycnVw
+dCBsaW5lcyBjb25uZWN0ZWQuIFlvdSBvbmx5IGNoZWNrZWQgdGhlIGRyaXZlci4gUGxlYXNlIHJl
+YWQNCj4geW91cg0KPiBkYXRhc2hlZXQgY2FyZWZ1bGx5Lg0KPiANCj4gQmVzdCByZWdhcmRzLA0K
+PiBLcnp5c3p0b2YNCg0KQXMgZGVzY3JpYmVkIG9uIHBhZ2UgMTEgb2YgdGhlIGRvY3VtZW50YXRp
+b24gdGhlIGFsZXJ0LXRoZXJtLA0KdGhlcm0tYWRkciBhbmQgc3lzLXNodGR3biBwaW5zIGFyZSBv
+ZiB0eXBlIG9wZW4tZHJhaW4uDQpNb3N0IG9mIHRoZSBkZXZpY2VzIG5lZWQgYSBwdWxsLXVwIHJl
+c2lzdG9yIGluIG9yZGVyIHRvIHNldHVwIHRoZSBJMkMNCmFkZHJlc3MoZm9yIHBhcnRzIHdpdGgg
+bmFtZSBlbmRpbmcgaW4gIi1BIikgb3IgdG8gY29udHJvbCB0aGUNCmhhcmR3YXJlIHRoZXJtYWwg
+c2h1dGRvd24gbGltaXQoZm9yIGNoaXBzIHdpdGggIkQiIGluIHRoZSBuYW1lKS4NCkluIGFsbCBv
+dGhlciBjYXNlcyBpdCBpcyByZWNvbW1lbmRlZCB0byBjb25uZWN0IGEgcHVsbC11cCByZXNpc3Rv
+ciB0bw0KdGhlIHBpbiwgYnV0IGl0IGlzIG5vdCBtYW5kYXRvcnkuIElmIHRoZSBoYXJkd2FyZSBk
+b2VzIG5vdCB1c2UgdGhhdA0Kc2lnbmFsLCB0aGUgcHVsbC11cCBjYW4gYmUgbWlzc2luZy4NCklm
+IHRoZSBpbnRlcnJ1cHQgZnVuY3Rpb25hbGl0eSBpcyB1c2VkIHRoZW4gaXQncyBtYW5kYXRvcnkg
+dG8gdXNlIGENCnB1bGwtdXAgcmVzaXN0b3IuDQoNCkluIG15IHZpZXcgdGhlICJ1c2VyIiBpcyB0
+aGUgcGVyc29uIGRvaW5nIHRoZSBkZXNpZ24gZm9yIGEgc3lzdGVtDQp3aGljaCBpbmNsdWRlcyB0
+aGUgTUNQOTk4WCBjaGlwLiBQbGVhc2UgY29ycmVjdCBtZSBpZiBJJ20gd3JvbmcsDQpJIGFtIHVu
+ZGVyIHRoZSBpbXByZXNzaW9uIHRoYXQgdGhlIGRldmljZSB0cmVlIGlzIGEgaGFyZHdhcmUgZGVz
+Y3JpcHRvcg0KZm9yIHRoZSBkcml2ZXIgdG8ga25vdyBob3cgdGhlIGhhcmR3YXJlIGlzIHNldHVw
+L2NvbmZpZ3VyZWQgYnV0DQpzaG91bGQgbm90IHN1cGVyc2VkZSB0aGUgZGF0YXNoZWV0IGZvciBk
+ZXNpZ25pbmcgbmV3IHN5c3RlbXMuDQoNCktpbmQgcmVnYXJkcywNClZpY3Rvcg0K
