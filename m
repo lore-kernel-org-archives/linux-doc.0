@@ -1,106 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0AD336A029;
-	Wed,  4 Mar 2026 10:17:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1037C3890FB
+	for <linux-doc@vger.kernel.org>; Wed,  4 Mar 2026 10:29:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772619430; cv=none; b=R3/2/amNKih8DBctYfi69gmbTGEPZZySBDVLpMoMQVuS8uj7BMj/iqk55hO6FeDaYh8RrN42ZRLslslkrSaiwwLWBHBHZAuiOf3l0ccY+VASUXO5vF14ObVS5KdT+3jp66RoQgvKIYjjb+qt0sPPYMdbY+9dWqxk7+eEqf8YfbI=
+	t=1772620145; cv=none; b=l0WFmmc4yzybSWiBJ1NkOP/W3XIyal/HopQ2nue2kUCoyKVg2mOH4pyHbNJhEVYDAxwZlzVxnMIGB4OBFXU050c1ydcg4H56wgC5wsFcOxw9CB4CB+1TA8YnEYj+MwakxQLf3ztGbC7BrIjxdBHWH5sHj+Ln2MwPkmz1nsBtAEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772619430; c=relaxed/simple;
-	bh=Oy7ryrZDnPvluOVj01dEpy0ZZDiJCTqPr/cX/fkZcP0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Ly7rzK3bB5c6UUMkn7GO2/Yp6agHetkhdLLaRYanIWN6y0vEjuVSIUUqWGzglCqBgNfyohvWABy1n8ibnIMXIs5w4bUIQQtAryQTJz90g5nQ8cLy+6IPxZ5Hv/kxvmRfVzACYd5cCIW59b7qnOMhWfPqPs0GJBdQ4mcjzDH/K6U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lfL65dmM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772620145; c=relaxed/simple;
+	bh=/LgUGSZMGY8uEem49KViRfs+8g+RfbwUJHSe6ipt2Z0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=hbHeoUiz0/tn1iF33x2ZNFzNETDgYwiT/JKW2X5QyVGwEQCd0Cf5TSIbHszun+7beI+oJD4E7d41kiVq3a1zJIfAPoSPHZmpzdMESxgW4xBjIe2DFgB7THzf22/uuoR5rEWUv40dm9pKHej0f6iS78yqkLbMKLTOCIt0CzO1w64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RhowHUW1; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lfL65dmM"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 9031CC19425;
-	Wed,  4 Mar 2026 10:17:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772619430;
-	bh=Oy7ryrZDnPvluOVj01dEpy0ZZDiJCTqPr/cX/fkZcP0=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=lfL65dmMjh0cLf/2SneU0q/hRoSTvkCUVh416xMlIGhqimBqcjSS0Kq0ze6Dlf5Hh
-	 rUJY512GQn6y+LuZCORzErefaAy/ue3sqVreKoKszSUrK7WzfD5IVU9+6/oOhNLvkE
-	 B2jt4Svbrr+rcc8mjZu428oFfhZ3PxSAw0mvoJiW4LIYCImdDlUfyKfflKtFeAIiOR
-	 DKyiOwMXD5l3sWqNd+76sQfVGmD25jPPCp4SgWhlrvOKpYZYQ1+7hVI5DcVzaSdkay
-	 0fkfo9qs/Ur3E+OfkczEOYz5zBCznyeOci4rzcwPWeFK9b7xsx9wqXmL1mbtTQHbaI
-	 orcuPZoxDns9A==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85BA7EB7EB9;
-	Wed,  4 Mar 2026 10:17:10 +0000 (UTC)
-From: =?utf-8?q?Nuno_S=C3=A1_via_B4_Relay?= <devnull+nuno.sa.analog.com@kernel.org>
-Date: Wed, 04 Mar 2026 10:17:48 +0000
-Subject: [PATCH 2/2] hwmon: (ltc4282) Add default rsense value
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RhowHUW1"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-439b9cf8cb5so2681459f8f.0
+        for <linux-doc@vger.kernel.org>; Wed, 04 Mar 2026 02:29:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772620142; x=1773224942; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/LgUGSZMGY8uEem49KViRfs+8g+RfbwUJHSe6ipt2Z0=;
+        b=RhowHUW1rIRm7ZZ3sKor7KYqtRu81LZOc32xiRWptlwT0+nFWJ6Ls15+NwGD4CvTYV
+         dUDH/FE6qXrQqLF8KO9TUM4T3z44utqGqgR0ocLNf981EWQHoAn+nldoQlKxr72Dx+SI
+         UQKRUiWFaVVMW1AoYtu4j3+SF0JDR+lhLWEB03xjB5mqHnReziPTk9IHpJ1ucW0aj15G
+         N5l/FGWiO+H7MR/ZQ93p+GkjZRdUF96SZ6kf8pUM36pqA6a7dutuY8RSd1zEXemu9U+A
+         cLVk1/S6RytzfrPxJrmXELdG9Fb2dskBgUwJJriD8AHf87s2VJ/IezL9yXmmKgqmTbM+
+         sRCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772620142; x=1773224942;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=/LgUGSZMGY8uEem49KViRfs+8g+RfbwUJHSe6ipt2Z0=;
+        b=HJ1iJyTQMFkzjqpxIT4SfViHrjx78/hBMd6i+fuvRx/fwUlZ9OZirC/LCiWGzngUM/
+         2idUIQJVtkqgrdzk9rM6qTjkY6e6EUGUS/2leY0xgaov1rXb80jp6nSPfQKLN2OHef7n
+         kGYBSdpRJIQEcbV9oF7QUPblXNnQfCC7hxC4R3kDa/j1Mn0a9DchOFo+4o9kJJXBPFxT
+         /R/dPphiEv75NoqTn0QKpdwP58jrGhURQzqZj/gYWCAOu7BumwzeXeMvAn8GYpqA+2HJ
+         IrB1C/24nxtblIMkGIWFqGWH+wGuyRxV2eYAIVCqx7d4Gnd2DQ2z97ZyJZfsUt0JzNaT
+         dj8A==
+X-Forwarded-Encrypted: i=1; AJvYcCUooGuRmSZNS+iW0MTUW/5jo8MlzGjDelHzb0CdaCBf/u9aR0zvQPe1I41swCJccJfjpcPGWtWxAdo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzj7EJixA6Y1RjCPxDiRZKAa9cGLZ6+U7ieHv5Bqm+XydN8jz2Z
+	7rY5boExvzc+DhtpOIDOz0Un3enSFdZW2IVlS5hKBk/2zhc/5v8X1eu+
+X-Gm-Gg: ATEYQzzYqQKXPtd8ZwdZQuSPTE5qGVFPPWZ5QGhfJqzKuB0dKa9iy8hVRfN/JL8mmqq
+	S6rMDdWZEPLq3dxEQvbp2tMTZKELnee2Dc1VvEfcA1SjziPObKZznQ/kYzKtZEp65BkKOB/jcCE
+	e8gUosxODOWWxVJRrjvrKAzuoDYDlHzbUhmE8aY1hnZFNcNufLMHl5+oGvooDMUW1IqFt1/6JrO
+	t0wU3FQKOa7zDUCT5cs2EFdzpkjNPz0YwtUJo8KFVoDZVZ7fjPyWeVR3S5+BP5MDQoJaNbiw05K
+	HfI7ZUpXsnoSUj4CvEkOvcz+nM93l/DJr38nFwrVJocG+8oAvaneNhGY6ePasG/z00R6MLCmVaY
+	VkWY0QR915b3S4hBh5cTaYqtEqmR399hBCCNE0tjiph8qtPtTYvVy3vbkPjpZYxGIvc1u2W+MV/
+	voeZUAsCa0lnDJ1+6RsagVt1zN2yyNGkvPv+WObIjpI/kU61kwlsDH2W2+67Iee/R7HIHjhbWlF
+	ZdQ
+X-Received: by 2002:a05:6000:2891:b0:439:b3d2:3766 with SMTP id ffacd0b85a97d-439c7fae450mr2692590f8f.19.1772620142349;
+        Wed, 04 Mar 2026 02:29:02 -0800 (PST)
+Received: from laptom.homenet.telecomitalia.it ([193.205.82.17])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439c6129017sm5824734f8f.31.2026.03.04.02.29.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Mar 2026 02:29:01 -0800 (PST)
+From: Tommaso Cucinotta <tommaso.cucinotta@gmail.com>
+X-Google-Original-From: Tommaso Cucinotta <tommaso.cucinotta@santannapisa.it>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Tommaso Cucinotta <tommaso.cucinotta@santannapisa.it>,
+	linux-api@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Shashank Balaji <shashank.mahadasyam@sony.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] sched/deadline: document new sched_getattr() feature for retrieving current parameters for DEADLINE tasks
+Date: Wed,  4 Mar 2026 11:28:15 +0100
+Message-ID: <20260304102843.1373905-1-tommaso.cucinotta@santannapisa.it>
+X-Mailer: git-send-email 2.45.2
+In-Reply-To: <20260303104215.1324243-1-tommaso.cucinotta@santannapisa.it>
+References: <20260303104215.1324243-1-tommaso.cucinotta@santannapisa.it>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260304-hwmon-ltc4282-minor-improvs-v1-2-344622924d3a@analog.com>
-References: <20260304-hwmon-ltc4282-minor-improvs-v1-0-344622924d3a@analog.com>
-In-Reply-To: <20260304-hwmon-ltc4282-minor-improvs-v1-0-344622924d3a@analog.com>
-To: linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org
-Cc: Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1772619475; l=1381;
- i=nuno.sa@analog.com; s=20231116; h=from:subject:message-id;
- bh=1K80NKgB8MIVoZ4myHTgOKtZ/0xG3qVAlLQ5ld8hUek=;
- b=kxY5Ss5sCb/V23P159h1ab5UWHaWON3Zq3/b4JhCG6EoFGlTeOk2QyxcreQdMgYqJN3qdFQy8
- rS5MQbuZGJfB6zQQgtTDjtTNfR+lmtvqpTyVVe6Ke9vh1CSihFp4yHy
-X-Developer-Key: i=nuno.sa@analog.com; a=ed25519;
- pk=3NQwYA013OUYZsmDFBf8rmyyr5iQlxV/9H4/Df83o1E=
-X-Endpoint-Received: by B4 Relay for nuno.sa@analog.com/20231116 with
- auth_id=100
-X-Original-From: =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>
-Reply-To: nuno.sa@analog.com
-
-From: Nuno Sá <nuno.sa@analog.com>
-
-Instead of failing probe when the "adi,rsense-nano-ohms" firmware
-property is not provided, default rsense to 1 * MICRO. This allows
-the device to probe without requiring firmware properties, which
-might be useful for some high level testing.
-
-Signed-off-by: Nuno Sá <nuno.sa@analog.com>
----
- drivers/hwmon/ltc4282.c | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/hwmon/ltc4282.c b/drivers/hwmon/ltc4282.c
-index db6534e67991..53dbf904a172 100644
---- a/drivers/hwmon/ltc4282.c
-+++ b/drivers/hwmon/ltc4282.c
-@@ -1328,15 +1328,16 @@ static int ltc4282_setup(struct ltc4282_state *st, struct device *dev)
- 	if (ret)
- 		return ret;
- 
-+	/* default to 1 micro ohm so we can probe without FW properties */
-+	st->rsense = 1 * MICRO;
- 	ret = device_property_read_u32(dev, "adi,rsense-nano-ohms",
- 				       &st->rsense);
--	if (ret)
--		return dev_err_probe(dev, ret,
--				     "Failed to read adi,rsense-nano-ohms\n");
--	if (st->rsense < CENTI)
--		return dev_err_probe(dev, -EINVAL,
--				     "adi,rsense-nano-ohms too small (< %lu)\n",
--				     CENTI);
-+	if (!ret) {
-+		if (st->rsense < CENTI)
-+			return dev_err_probe(dev, -EINVAL,
-+					     "adi,rsense-nano-ohms too small (< %lu)\n",
-+					     CENTI);
-+	}
- 
- 	/*
- 	 * The resolution for rsense is tenths of micro (eg: 62.5 uOhm) which
-
--- 
-2.53.0
 
 
+Compared to the initially submitted documentation patch, this
+version addresses the issue highlighted by Juri of the wrong wrapping
+of the commit message, and the one found by the chatbot of the wrong
+use of quotes around the flags parameter. I'm also adding "v2" in
+the subject line, as requested by Randy.
