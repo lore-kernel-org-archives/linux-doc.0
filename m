@@ -1,127 +1,117 @@
-Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E20A426FA5A
-	for <linux-doc@vger.kernel.org>; Wed,  4 Mar 2026 16:23:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A10EC366058;
+	Wed,  4 Mar 2026 16:27:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772641415; cv=none; b=mazRDgI5O2hbCSgu6l+7bRDfs8GZ4gVFTc7DEUfv8NiqGKVQggRImjmz5pGWWku+gr++e6Vxa9QbyYAJ9tOmVqX9IYdeB/C0X9mhEcQIfIkWppRzxtlcgsIzT2cY2roTdYTsaJy0goL5161gvEDc9OULefJABAHS8AgmMCPzKWY=
+	t=1772641635; cv=none; b=Xq8HoZBKB6rIidHwVoVFcS5uNMhuBhbfJYC7Gg2PTdDtt24cqm9jUifzNLaPllAWLWDfly/GT5rOHIWRNeVMy0EindR/n8VgFpwZt4aVBeLaRsUGaO5p6rB9vW2mzqjOnIvP75z4nknvFVaQDZPyZmuuOEQ7jZV0Ls9rm5yUw38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772641415; c=relaxed/simple;
-	bh=+59wknHGTRW+W9SSh+h7PF3GSLLzGVapIaIAou5Ber0=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=A/qGGAxkbRHP31z6G+kd2JlPydi74nwxjSAa9+lkALAK5Q0RWn8X4TUJdqhRrkG7OVNnEIo3knELBiWCxwF8MPDYDOyYtGtqQWQmzzv9lBEX/A0u/tXHvP3/kaoX+PG4beTcY2wtOilHDijYWTt/+vB+3q7HXa46sSySRUAcVlQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=qttMyaJY; arc=none smtp.client-ip=209.85.214.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1772641635; c=relaxed/simple;
+	bh=AfCEMFEFaW523pTkeEMztclMFG542ecaBMBKu13UGZU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=i+Lw41hWcPcjfOIza0+0Dux01W9FREK645zDwtpKxdKSqbR4/GGlD8uLPyih0wuGThxXSQnNcGQ4zmJZkUTLrNjo8B/sVgmwn/lu4HVSvBAafajHiA3DUfGKJ9kq6Hp5McJJtwDoP2XffvpMC/Aie8BKlP+2xHgxqAgPC0ruuFE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KV8L5eiQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qttMyaJY"
-Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-2ae57228f64so33020355ad.0
-        for <linux-doc@vger.kernel.org>; Wed, 04 Mar 2026 08:23:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1772641414; x=1773246214; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=yrzSKo5+wXzomm7lL9SdcMFqNMmtfJshxUqsLyJWiLk=;
-        b=qttMyaJYEkbbGPVshz/281IVwU/9Xus572XoR7cZ/lJhVdLZwGGGo0qSNqOi7zd+kO
-         8dxI/FIHnMJYBd64NhGYhgGdTB2O7L0RhpejDVKzVeMyCou2bfPsuoZDKdZsQ+Dv/lVS
-         mLunqPQAYUupxi/U/PmgW5EowL9CQKCqarelt4pb2Aoche0PNojPzSaRVE0ZeeZFcK7K
-         uVa4u6OQF/hZMowLwsxmU3VBwL3Fk0xqP+Mat9Kgn1Dff5KvYA4gDwlHplL9GMM9gS0f
-         SS+QSWGs28kxsys8+SYuYOLO5rsricW3+MH7T8ovNGXhVmvy66/nyXOqFEEHhcIC9h3R
-         l0Nw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772641414; x=1773246214;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yrzSKo5+wXzomm7lL9SdcMFqNMmtfJshxUqsLyJWiLk=;
-        b=vBbtXllR1JjPwEfh5g/+kG/XIUxaaud7T35TUQ25wH/B2Zkb2U5DAJcz8XCA6N9Y/b
-         DfaJjV8/n0kab49UVcGOTxBaRqnBUU0j6omzp+G5A0vDfAmNY0uv8IqXt8yJyk8FhTrW
-         7EtsnDJIzucwMkrB3fnsruGP68kJQ9WMmE0mc1eX6qk0N4hZgLh5Y3LJaOD1UcW3nJbI
-         6HkoG9yetIo9qkBgXDjbr3dbd9CikpkYoAHQulCb/Dw3DUZnkt10Qns58Un9VdZxBuRU
-         LZ4OLqYne0EdyiUZQk5NrUpJfCwojs+dw34mIg8DIqjkVtRzAzIX3qKGJoC2XXDOeM7m
-         Kq6w==
-X-Forwarded-Encrypted: i=1; AJvYcCVVgJWeKBkst5OnFNIq6hPaXp3ERLMJl3bxl4v8Jzi825TBxWqc/ZfhxVxJdoFqnUPj2Arsstms+Z4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyhP+vMwEV+qEstT6l337gm4un/AKYzhMg6FEX3KvFrMftZ7HHn
-	3LIpYF6bnpMyoC/kd5+9NFJ7j3yxWeUf2VZTOvopGMc3xOOlixdabAW5n/HcC+KPEQ0IBgx6cMl
-	zwXtXww==
-X-Received: from play21.prod.google.com ([2002:a17:902:e195:b0:2ae:5075:50d4])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:b4f:b0:2ae:3b9b:db41
- with SMTP id d9443c01a7336-2ae6ab4305fmr29611105ad.38.1772641413940; Wed, 04
- Mar 2026 08:23:33 -0800 (PST)
-Date: Wed, 4 Mar 2026 08:23:32 -0800
-In-Reply-To: <8731e234-22b8-4ccf-89ef-63feed09e9c5@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KV8L5eiQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB2EBC4CEF7;
+	Wed,  4 Mar 2026 16:27:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772641635;
+	bh=AfCEMFEFaW523pTkeEMztclMFG542ecaBMBKu13UGZU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KV8L5eiQbBVOpo+OeokNyKPYBoKK5g7vSE/nknwa473tAFw/QjlmcNO0ix4gySsJR
+	 P8HGEuYKgLhs2iM5qBup4aRAoDdpXBSoN6aXuQpuSZQdcyK32b9CU44GBf06JQKrxe
+	 A0138itmdBGIzt7qc/FuKDjEYCSXJY2vYvZFDzZpkQ24AdU2CATXVuKtzKQ417beN1
+	 1HdgzguxGjgcfat/rasyFw88NZA2mgp2RTQ+oZK6lzIyI5/4MvYgarsiLUsmNN3co+
+	 4kUUCcvOouTRL65YcHGShRf++I/qi/7S9VXcwYBddr2f7ugd4CGFQAwpy46t5yyczu
+	 ppjBkqA5Ki4Cg==
+Date: Wed, 4 Mar 2026 18:27:11 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, Peter Colberg <pcolberg@redhat.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Abdiel Janulgue <abdiel.janulgue@gmail.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dave Ertman <david.m.ertman@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>, David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>,
+	Xu Yilun <yilun.xu@intel.com>, Tom Rix <trix@redhat.com>,
+	Moritz Fischer <mdf@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Boqun Feng <boqun@kernel.org>, linux-pci@vger.kernel.org,
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	John Hubbard <jhubbard@nvidia.com>, Zhi Wang <zhiw@nvidia.com>,
+	nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org, linux-fpga@vger.kernel.org,
+	driver-core@lists.linux.dev
+Subject: Re: [PATCH v3 00/10] rust: pci: add abstractions for SR-IOV
+ capability
+Message-ID: <20260304162711.GI12611@unreal>
+References: <20260303-rust-pci-sriov-v3-0-4443c35f0c88@redhat.com>
+ <20260304084750.GW12611@unreal>
+ <20260304141852.GF964116@ziepe.ca>
+ <20260304142600.GB12611@unreal>
+ <DGU347RJX5BV.1CZYELSZ9GS9D@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20251026201911.505204-1-xin@zytor.com> <20251026201911.505204-8-xin@zytor.com>
- <8731e234-22b8-4ccf-89ef-63feed09e9c5@linux.intel.com>
-Message-ID: <aahchI7oiFrjFAmb@google.com>
-Subject: Re: [PATCH v9 07/22] KVM: VMX: Initialize VMCS FRED fields
-From: Sean Christopherson <seanjc@google.com>
-To: Binbin Wu <binbin.wu@linux.intel.com>
-Cc: "Xin Li (Intel)" <xin@zytor.com>, linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net, 
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, luto@kernel.org, 
-	peterz@infradead.org, andrew.cooper3@citrix.com, chao.gao@intel.com, 
-	hch@infradead.org, sohil.mehta@intel.com
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <DGU347RJX5BV.1CZYELSZ9GS9D@kernel.org>
 
-On Wed, Jan 21, 2026, Binbin Wu wrote:
-> On 10/27/2025 4:18 AM, Xin Li (Intel) wrote:
-> > diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-> > index fcfa99160018..c8b5359123bf 100644
-> > --- a/arch/x86/kvm/vmx/vmx.c
-> > +++ b/arch/x86/kvm/vmx/vmx.c
-> > @@ -1459,6 +1459,15 @@ void vmx_vcpu_load_vmcs(struct kvm_vcpu *vcpu, int cpu)
-> >  				    (unsigned long)(cpu_entry_stack(cpu) + 1));
-> >  		}
-> >  
-> > +		/* Per-CPU FRED MSRs */
-
-Meh, this is pretty self-explanatory code.
-
-> > +		if (kvm_cpu_cap_has(X86_FEATURE_FRED)) {
-> > +#ifdef CONFIG_X86_64
+On Wed, Mar 04, 2026 at 03:57:57PM +0100, Danilo Krummrich wrote:
+> On Wed Mar 4, 2026 at 3:26 PM CET, Leon Romanovsky wrote:
+> > On Wed, Mar 04, 2026 at 10:18:52AM -0400, Jason Gunthorpe wrote:
+> >> On Wed, Mar 04, 2026 at 10:47:50AM +0200, Leon Romanovsky wrote:
+> >> > On Tue, Mar 03, 2026 at 04:15:20PM -0500, Peter Colberg wrote:
+> >> > > Add Rust abstractions for the Single Root I/O Virtualization (SR-IOV)
+> >> > > capability of a PCI device. Provide a minimal set of wrappers for the
+> >> > > SR-IOV C API to enable and disable SR-IOV for a device, and query if
+> >> > > a PCI device is a Physical Function (PF) or Virtual Function (VF).
+> >> > 
+> >> > <...>
+> >> > 
+> >> > > For PF drivers written in C, disabling SR-IOV on remove() may be opted
+> >> > > into by setting the flag managed_sriov in the pci_driver structure. For
+> >> > > PF drivers written in Rust, disabling SR-IOV on unbind() is mandatory.
+> >> > 
+> >> > Why? Could you explain the rationale behind this difference between C and
+> >> > Rust? Let me remind you that SR‑IOV devices which do not disable VFs do so
+> >> > for a practical and well‑established reason: maximizing hardware
+> >> > utilization.
+> >> 
+> >> Personally I think drivers doing this are wrong. That such a driver
+> >> bug was allowed to become UAPI is pretty bad. The rust approach is
+> >> better.
+> >
+> > We already had this discussion. I see this as a perfectly valid
+> > use-case.
 > 
-> Nit:
-> 
-> Is this needed?
-> 
-> FRED is initialized by X86_64_F(), if CONFIG_X86_64 is not enabled, this
-> path is not reachable.
-> There should be no compilation issue without #ifdef CONFIG_X86_64 / #endif.
-> 
-> There are several similar patterns in this patch, using  #ifdef CONFIG_X86_64 / 
-> #endif or not seems not consistent. E.g. __vmx_vcpu_reset() and init_vmcs()
-> doesn't check the config, but here does.
-> 
-> > +			vmcs_write64(HOST_IA32_FRED_RSP1, __this_cpu_ist_top_va(ESTACK_DB));
-> > +			vmcs_write64(HOST_IA32_FRED_RSP2, __this_cpu_ist_top_va(ESTACK_NMI));
-> > +			vmcs_write64(HOST_IA32_FRED_RSP3, __this_cpu_ist_top_va(ESTACK_DF));
+> Can you remind about a specific use-case for this please? (Ideally, one that
+> can't be solved otherwise.)
 
-IMO, this is flawed for other reasons.  KVM shouldn't be relying on kernel
-implementation details with respect to what FRED stack handles what event.
+You create X VFs through sriov_configure, unbind PF, bind it to vfio
+instead and forward (X + 1) functions to different VMs.
 
-The simplest approach would be to read the actual MSR.  _If_ using a per-CPU read
-provides meaningful performance benefits over RDMSR (or RDMSR w/ immediate?  I
-don't see an API for that...), then have the kernel provide a dedicated accessor.
+If you destroy VFs on PF unbind, you will find yourself with one
+function less per-device, as you will have not-utilized PF now,
+which consumes HW resources anyway.
 
-Then the accessor can be a non-inlined functions, and this code can be e.g.:
-
-	if (IS_ENABLED(CONFIG_X86_64) && kvm_cpu_cap_has(X86_FEATURE_FRED)) {
-		vmcs_write64(HOST_IA32_FRED_RSP1, fred_rsp(MSR_IA32_FRED_RSP1));
-		vmcs_write64(HOST_IA32_FRED_RSP2, fred_rsp(MSR_IA32_FRED_RSP2));
-		vmcs_write64(HOST_IA32_FRED_RSP3, fred_rsp(MSR_IA32_FRED_RSP2));
-	}
-
-where fred_rsp() is _declared_ unconditionally, but implemented only for 64-bit.
-That way the compiler will be happy, and the actual usage will be dropped before
-linking via dead-code elimination.
-
-Actually, we can probably do one better?
-
-	if (cpu_feature_enabled(X86_FEATURE_FRED) && kvm_cpu_cap_has(X86_FEATURE_FRED)) {
+Thanks 
