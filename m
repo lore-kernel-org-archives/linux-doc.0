@@ -1,145 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41B613321D8;
-	Wed,  4 Mar 2026 12:20:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9248156C6A;
+	Wed,  4 Mar 2026 13:56:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772626815; cv=none; b=B0YOg87mBsBaFtVEBjHjraHI6NP6gE8L/BhUmeBoI1xo2mB38kcY33tWbDPiMzpUF/cOBMEMpfZsW7wTRx+8I/VECnp/GOurXomPUWHo10t6mmsXqC99XqgKFyvKp8m76sYHBBFigyLeEw6pHKw89zi7mrt4S550NAGfQAH5O/o=
+	t=1772632608; cv=none; b=Ob6v8P+22+gTlawAHQqIvinP1IucJ9lepz/R74KsdkxyndOKe/8t7GC4DtsXcgcGDj0C7xDmSwjAs+V0l0F7M3fEm3pZ6A8VdZWJZuKlsRsPuzLSlm0q9c2IRLeqFZe7hBxmOBQch1x/q2VAi4g/7CGFyjYRR4h+g9mgcHTEjl8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772626815; c=relaxed/simple;
-	bh=WnoeAiH2zeYFOAvm4hMpg8jxN72aiERbJc4YfUHDZDQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MoOl23hFG+KmuSM7wNFqxi+BaClBlniK6g2ihG+4j6lVc1hKm1E2213yS0ytviUr2iOQCZs0XCheZBSh6HGVPPIKEF2TVcYIUw7fJflqPL8eh2XvQahbkvlLfqsB+mWA8vrc04EliWyaz+OcB5hARfRqGD4DmFlE1WqjdU7KMaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CsaHi6sB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772632608; c=relaxed/simple;
+	bh=dzQ5Z0aWE6Qj7FDEDXMAwnOwPDdvOzGKs3TewCc9a34=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iQdhvzxx7/r9vSeVeAq04/X5gIwAWy0ivUvNFsQ2P6C0wNJQ1TloCSwjBau31xYy+uGK6s5Q5XoccBJJ6owUjZigfmyKy+iSgQAVWA9fpB3P/p6BF3bhjrdk19Fnwy39g9MGa57n8bNLa3QsPofNUKQYGoUiUVYcY1sPobbA6LM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=odAkdFgD; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CsaHi6sB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C382BC19423;
-	Wed,  4 Mar 2026 12:20:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772626814;
-	bh=WnoeAiH2zeYFOAvm4hMpg8jxN72aiERbJc4YfUHDZDQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=CsaHi6sBwsPfp+NPjbz2Ilf7H2PfoN78U0IiIBUR7ZEsgvy/StYpQiCXoCbsVjdVh
-	 uIajtSgfMOWXoR5kBOMZgxml5ZKxV8s4pVAs1I9rDpqJnu4cYOvuJneB/aLBPwECrH
-	 FjWIvg1nw7NqJdX9gDc3RWowg5IRaYCCywN7nBxuZLSbYT7npvOGy713OjEla6wbf1
-	 caFy362tRt7y/cuxjfFkh7Ur+qpOjZ54lm7TjUcdH4Km4lTEPbzyTPJSeAa00bBy5h
-	 eLhgctkNXLFCEeRs6EgEflzgOR+9ThZEI1kmWEvK/daxZ2qRS5JJb115fYSW+VQ8Eg
-	 8TwoXf5+SjXLQ==
-Received: from localhost ([::1])
-	by mail.kernel.org with esmtp (Exim 4.99.1)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vxlD2-0000000BmbB-2bXO;
-	Wed, 04 Mar 2026 13:20:12 +0100
-Date: Wed, 4 Mar 2026 13:20:11 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Alexander Lobakin
- <aleksander.lobakin@intel.com>, Kees Cook <kees@kernel.org>, Mauro Carvalho
- Chehab <mchehab@kernel.org>, intel-wired-lan@lists.osuosl.org,
- linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org, "Gustavo A. R. Silva"
- <gustavoars@kernel.org>, Aleksandr Loktionov
- <aleksandr.loktionov@intel.com>, Randy Dunlap <rdunlap@infradead.org>,
- Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [Intel-wired-lan] [PATCH 00/38] docs: several improvements to
- kernel-doc
-Message-ID: <20260304132011.1a9567b7@localhost>
-In-Reply-To: <352c3f9f8ffd2d031c86a476e532a8ea6ffcf1ed@intel.com>
-References: <cover.1771408406.git.mchehab+huawei@kernel.org>
-	<33d214091909b9a060637f56f81fb8f525cf433b@intel.com>
-	<878qcj8pvw.fsf@trenco.lwn.net>
-	<352c3f9f8ffd2d031c86a476e532a8ea6ffcf1ed@intel.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="odAkdFgD"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=dRGxkNI+jiy5ziDfD2yEF2JYrz4BhhOkGGuTJeJcL4c=; b=odAkdFgD9Sc7pzOLhuhHoxkP/H
+	FPePLdcjvJzQe5LVNXJSoYY1GiNHZUGPPRuiTP8G10My3T0lfTNfuE/Thlkco5BXomdY71oighoYb
+	PP8HtVCH9U5izk4EfDOReAPO6bhhxe/dX5ertTDqsTiXrXZM3ktJ218wUy0W1BmOMfZ8=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1vxmi6-00A6Wz-Om; Wed, 04 Mar 2026 14:56:22 +0100
+Date: Wed, 4 Mar 2026 14:56:22 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Illusion Wang <Illusion.Wang@nebula-matrix.com>
+Cc: Dimon <dimon.zhao@nebula-matrix.com>,
+	Alvin <alvin.wang@nebula-matrix.com>,
+	Sam <sam.chen@nebula-matrix.com>, netdev <netdev@vger.kernel.org>,
+	andrew+netdev <andrew+netdev@lunn.ch>, corbet <corbet@lwn.net>,
+	kuba <kuba@kernel.org>, linux-doc <linux-doc@vger.kernel.org>,
+	lorenzo <lorenzo@kernel.org>, pabeni <pabeni@redhat.com>,
+	horms <horms@kernel.org>,
+	"vadim.fedorenko" <vadim.fedorenko@linux.dev>,
+	"lukas.bulwahn" <lukas.bulwahn@redhat.com>,
+	edumazet <edumazet@google.com>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: =?utf-8?B?5Zue5aSN77yaW1BBVENIIHY1IG5l?= =?utf-8?Q?t-nex?=
+ =?utf-8?Q?t?= 11/11] net/nebula-matrix: add common dev start/stop operation
+Message-ID: <66a61cf8-7dbf-4b33-b687-b44debf7e726@lunn.ch>
+References: <20260226073840.3222-1-illusion.wang@nebula-matrix.com>
+ <20260226073840.3222-12-illusion.wang@nebula-matrix.com>
+ <b8f71f46-735b-4b1f-8df8-01a532bc7964@lunn.ch>
+ <34c4ed3f-fef6-4c4c-8b0f-9951fedf580c.Illusion.Wang@nebula-matrix.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <34c4ed3f-fef6-4c4c-8b0f-9951fedf580c.Illusion.Wang@nebula-matrix.com>
 
-
-On Wed, 04 Mar 2026 12:07:45 +0200
-Jani Nikula <jani.nikula@linux.intel.com> wrote:
-
-> On Mon, 23 Feb 2026, Jonathan Corbet <corbet@lwn.net> wrote:
-> > Jani Nikula <jani.nikula@linux.intel.com> writes:
-> >  
-> >> There's always the question, if you're putting a lot of effort into
-> >> making kernel-doc closer to an actual C parser, why not put all that
-> >> effort into using and adapting to, you know, an actual C parser?  
-> >
-> > Not speaking to the current effort but ... in the past, when I have
-> > contemplated this (using, say, tree-sitter), the real problem is that
-> > those parsers simply strip out the comments.  Kerneldoc without comments
-> > ... doesn't work very well.  If there were a parser without those
-> > problems, and which could be made to do the right thing with all of our
-> > weird macro usage, it would certainly be worth considering.  
+On Wed, Mar 04, 2026 at 03:20:44PM +0800, Illusion Wang wrote:
 > 
-> I think e.g. libclang and its Python bindings can be made to work. The
-> main problems with that are passing proper compiler options (because
-> it'll need to include stuff to know about types etc. because it is a
-> proper parser), preprocessing everything is going to take time, you need
-> to invest a bunch into it to know how slow exactly compared to the
-> current thing and whether it's prohitive, and it introduces an extra
-> dependency.
-
-It is not just that. Assume we're parsing something like this:
-
-	static __always_inline int _raw_read_trylock(rwlock_t *lock)
-		__cond_acquires_shared(true, lock);
-
-
-using a cpp (or libclang). We would need to define/undefine 3 symbols:
-
-	#if defined(WARN_CONTEXT_ANALYSIS) && !defined(__CHECKER__) && !defined(__GENKSYMS__)
-
-(in this particular case, the default is OK, but on others, it may not
-be)
-
-This is by far more complex than just writing a logic that would
-convert the above into:
-
-	static int _raw_read_trylock(rwlock_t *lock);
-
-which is the current kernel-doc approach.
-
--
-
-Using a C preprocessor, we might have a very big prototype - and even have
-arch-specific defines affecting it, as some includes may be inside 
-arch/*/include.
-
-So, we would need a kernel-doc ".config" file with a set of defines
-that can be hard to maintain.
-
-> So yeah, there are definitely tradeoffs there. But it's not like this
-> constant patching of kernel-doc is exactly burden free either. I don't
-> know, is it just me, but I'd like to think as a profession we'd be past
-> writing ad hoc C parsers by now.
-
-I'd say that the binding logic and the ".config" kernel-doc defines will
-be complex to maintain. Maybe more complex than kernel-doc patching and
-a simple C parser, like the one on my test.
-
-> > On Mon, 23 Feb 2026 15:47:00 +0200
-> > Jani Nikula <jani.nikula@linux.intel.com> wrote:  
-> >> There's always the question, if you're putting a lot of effort into
-> >> making kernel-doc closer to an actual C parser, why not put all that
-> >> effort into using and adapting to, you know, an actual C parser?  
-> >
-> > Playing with this idea, it is not that hard to write an actual C
-> > parser - or at least a tokenizer.  
+> > > +int nbl_dev_start(struct nbl_adapter *adapter, struct nbl_init_param *param)
+> > > +{
+> > > + int ret;
+> > > +
+> > > + ret = nbl_dev_start_common_dev(adapter, param);
+> > > + return ret;
 > 
-> Just for the record, I suggested using an existing parser, not going all
-> NIH and writing your own.
+> >return nbl_dev_start_common_dev(adapter, param);
+> 
+> >But then i have to ask, why bother having nbl_dev_start() when you can
+> >just call nbl_dev_start_common().
+> 
+> You're absolutely right. However, we're considering facilitating future
+> expansion for the next-stage netdev configuration.
 
-I know, but I suspect that a simple tokenizer similar to my example might
-do the job without any major impact, but yeah, tests are needed.
+You seem to be over engineering this whole driver. It seems a lot more
+complex than it needs to be. Complex drivers take a lot longer to get
+merged, some never get merged. Drivers which start KISS, and slowly
+get features added get merged a lot faster.
 
+    Andrew
 
--- 
-Thanks,
-Mauro
