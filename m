@@ -1,108 +1,125 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 280F53B4E94;
-	Wed,  4 Mar 2026 14:58:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A6AC341ADD;
+	Wed,  4 Mar 2026 15:03:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772636287; cv=none; b=ateR9XdZPzUmtkG7U+JwS4vNB2JhJodZvnXg0NtwPg0RBlxz12Ye3KxlnHr3u8imyBB6ppjxQ7bqKs9XVaA6OlNBX7pBdP6xSbZ/7MpdFJm42Cz9K4hV/9oX9B26oxF9BvOi/1JDlGl4/rX5VQTZuiRlNoUeMUjTyWVNyIPsO84=
+	t=1772636615; cv=none; b=V2TwnQHoDjQoQaOKnxt5dyKXlMEtL9ux8agK/wu0UqNnKU/oDwqcvm90MRmLvsc1KFnm1u56dVXvklJr+n+jZWAD9ehsOYoSQ9arTfvRESQr5XQig3ESOysagU7ygTHF0dwZW6buIvKtcf2D/nyHeCrtcdXUE73Db6nu2OCZleA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772636287; c=relaxed/simple;
-	bh=dOS1j2epf5TPYMaiUEFBxK4GWJCF7AnlRNLv83KiR6E=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=Nc1GFWo3KdYYtI80GJqIBI7UEDMvYhnJpxm9GQLaWNKKzZvcZyIKM8y4ulpMlXR/i9tde7Hiv7M7q7lSP+j/xwgB2/8cnVSdzLfmVpcRR7Blhu94Ae4iKjEWd715lgvVjbMKj5fvCx7Z0BLxATCY1ommkrOw58j0o3iiidMApUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ym9EQcZf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772636615; c=relaxed/simple;
+	bh=mE040friD/D8vUlGR6SF6lCV5t9rYG9oPgW77/JY5bw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=qr9pN6nIcMdTCTr13xT9w/XlHm0ozhnbjJpOgYLP0X7fY/TmHVNoD9MY6/QTETSJc3vzo+wU1szn5soyqPl/ET2gMtrmPqMx4i4LRIpsE6GUnL9eZkeEyyJ2255+J/8wTsoy1QKGn2lora7Fetpyiyvmr7fLqczrZ9THj34HNPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GJAqghuQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ym9EQcZf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46750C2BC9E;
-	Wed,  4 Mar 2026 14:57:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GJAqghuQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CAB9C4CEF7;
+	Wed,  4 Mar 2026 15:03:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772636286;
-	bh=dOS1j2epf5TPYMaiUEFBxK4GWJCF7AnlRNLv83KiR6E=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
-	b=Ym9EQcZfkOKBQHZvEQz/FhHVNSqmg+h+6mOr4awZN6lqVP89047H95oA7hDTD8Lxp
-	 3/zrrsmHItaW0dHSdzHTPMNUEEPPrdDoAQGGe9wmG6r942WlV+NEL+DcbydsnltayO
-	 SnkhnV7y40XDZUGJYiA6FsWGZM40iGremynvaU5Cw1rh8jc4wDHWy/miN2N3sbvfLc
-	 Rn1TTCZbSsbm8xMotdnloy7atDTjiCMTCuYwLsPrm4P+VZShXKneJTrYQO7TL2CS2W
-	 aGLtKXusmSvGJfMzJsY89VPeZZyDFz0aM8vrKSLF2R5CeTp1fFyviINf8C+4nr6mjK
-	 wEsHpF7yuJvaA==
+	s=k20201202; t=1772636614;
+	bh=mE040friD/D8vUlGR6SF6lCV5t9rYG9oPgW77/JY5bw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=GJAqghuQ0TJn+SKiqRfKLM05J6MzDxoz3ubM1FnAUsKVkhZKV/rlhFG8jkc6FrLBQ
+	 rVBxbihRWUo+j/hmjHxVYVU/PyIyG/lsNEyi1T4yWbleHpa1RJct0xyZ6VqTsKK8xM
+	 /NtKB1W0z4N67tvUK8suaSegffaOU3yBHYGtuqI4f4x8DlVzQMT3CIUf0Ww7n3e5qo
+	 MBLukmLDkYuLAHHCsdj3dHmTa0uHdqgjPUJ2K8JZjrHxGstCpXGlDftEIXBE8oNTF+
+	 PAxbThpYqfTUBZSw03Qz2N96iHdBeWUf8bAfHtWR5YO8fcTq2VRcP/pD1gUKbq/05h
+	 GcbgPiA8Z63jQ==
+From: SeongJae Park <sj@kernel.org>
+To: Gutierrez Asier <gutierrez.asier@huawei-partners.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Shuah Khan <shuah@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	damon@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: Re: [RFC PATCH v2 00/10] mm/damon: support multiple goal-based quota tuning algorithms
+Date: Wed,  4 Mar 2026 07:03:26 -0800
+Message-ID: <20260304150327.172442-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <3c9449c1-95c7-4770-8e06-1ee50e263db8@huawei-partners.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 04 Mar 2026 15:57:57 +0100
-Message-Id: <DGU347RJX5BV.1CZYELSZ9GS9D@kernel.org>
-Subject: Re: [PATCH v3 00/10] rust: pci: add abstractions for SR-IOV
- capability
-Cc: "Jason Gunthorpe" <jgg@ziepe.ca>, "Peter Colberg" <pcolberg@redhat.com>,
- "Bjorn Helgaas" <bhelgaas@google.com>,
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, "Miguel
- Ojeda" <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>, "Gary
- Guo" <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "Abdiel Janulgue"
- <abdiel.janulgue@gmail.com>, "Daniel Almeida"
- <daniel.almeida@collabora.com>, "Robin Murphy" <robin.murphy@arm.com>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Dave Ertman"
- <david.m.ertman@intel.com>, "Ira Weiny" <ira.weiny@intel.com>, "David
- Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Jonathan
- Corbet" <corbet@lwn.net>, "Xu Yilun" <yilun.xu@intel.com>, "Tom Rix"
- <trix@redhat.com>, "Moritz Fischer" <mdf@kernel.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
- <linux-pci@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, "Alexandre Courbot" <acourbot@nvidia.com>,
- "Alistair Popple" <apopple@nvidia.com>, "Joel Fernandes"
- <joelagnelf@nvidia.com>, "John Hubbard" <jhubbard@nvidia.com>, "Zhi Wang"
- <zhiw@nvidia.com>, <nouveau@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <linux-doc@vger.kernel.org>,
- <linux-fpga@vger.kernel.org>, <driver-core@lists.linux.dev>
-To: "Leon Romanovsky" <leon@kernel.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260303-rust-pci-sriov-v3-0-4443c35f0c88@redhat.com>
- <20260304084750.GW12611@unreal> <20260304141852.GF964116@ziepe.ca>
- <20260304142600.GB12611@unreal>
-In-Reply-To: <20260304142600.GB12611@unreal>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed Mar 4, 2026 at 3:26 PM CET, Leon Romanovsky wrote:
-> On Wed, Mar 04, 2026 at 10:18:52AM -0400, Jason Gunthorpe wrote:
->> On Wed, Mar 04, 2026 at 10:47:50AM +0200, Leon Romanovsky wrote:
->> > On Tue, Mar 03, 2026 at 04:15:20PM -0500, Peter Colberg wrote:
->> > > Add Rust abstractions for the Single Root I/O Virtualization (SR-IOV=
-)
->> > > capability of a PCI device. Provide a minimal set of wrappers for th=
-e
->> > > SR-IOV C API to enable and disable SR-IOV for a device, and query if
->> > > a PCI device is a Physical Function (PF) or Virtual Function (VF).
->> >=20
->> > <...>
->> >=20
->> > > For PF drivers written in C, disabling SR-IOV on remove() may be opt=
-ed
->> > > into by setting the flag managed_sriov in the pci_driver structure. =
-For
->> > > PF drivers written in Rust, disabling SR-IOV on unbind() is mandator=
-y.
->> >=20
->> > Why? Could you explain the rationale behind this difference between C =
-and
->> > Rust? Let me remind you that SR=E2=80=91IOV devices which do not disab=
-le VFs do so
->> > for a practical and well=E2=80=91established reason: maximizing hardwa=
-re
->> > utilization.
->>=20
->> Personally I think drivers doing this are wrong. That such a driver
->> bug was allowed to become UAPI is pretty bad. The rust approach is
->> better.
->
-> We already had this discussion. I see this as a perfectly valid
-> use-case.
+On Wed, 4 Mar 2026 13:15:29 +0300 Gutierrez Asier <gutierrez.asier@huawei-partners.com> wrote:
 
-Can you remind about a specific use-case for this please? (Ideally, one tha=
-t
-can't be solved otherwise.)
+> Hi SeongJae!
+> 
+> Nice idea for dynamic environments.
+
+Thank you :)
+
+> 
+> On 3/4/2026 7:41 AM, SeongJae Park wrote:
+> > Aim-oriented DAMOS quota auto-tuning uses a single tuning algorithm.
+> > The algorithm is designed to find a quota value that should be
+> > consistently kept for achieving the aimed goal for long term.  It is
+> > useful and reliable at automatically operating systems that have dynamic
+> > environments in the long term.
+> > 
+> > As always, however, no single algorithm fits all.  When the environment
+> > has static characteristics or there are control towers in not only the
+> > kernel space but also the user space, the algorithm shows some
+> > limitations.  In such environments, users want kernel work in a more
+> > short term deterministic way.  Actually there were at least two reports
+> > [1,2] of such cases.
+> > 
+> > Extend DAMOS quotas goal to support multiple quota tuning algorithms
+> > that users can select.  Keep the current algorithm as the default one,
+> > to not break the old users.  Also give it a name, "consist", as it is
+> > designed to "consistently" apply the DAMOS action.  And introduce a new
+> > tuning algorithm, namely "temporal".  It is designed to apply the DAMOS
+> > action only temporally, in a deterministic way.  In more detail, as long
+> > as the goal is under-achieved, it uses the maximum quota available.
+> > Once the goal is over-achieved, it sets the quota zero.
+> 
+> I'm not sure "temporal" is the best name for this type of behaviour.
+
+I agree there could be a better name.
+
+> 
+> How about "by_score?". For example, "damos_goal_tune_esz_bp_by_score" and
+> DAMOS_QUOTA_GOAL_TUNER_BY_SCORE.
+
+And thank you for the suggestion!
+
+But... I don't think "by_score" is much better, because all tuners are assumed
+to, and actually do the tuning of the quota based on the score.  Or, maybe you
+mean it makes non-zero quota only until the score becomes the goal?  That makes
+sense, but again, in a sense, that's same for "consistent" tuner.
+
+Naming is difficult...
+
+I was also thinking about a few more names, but my conclusion after the self
+discussion was that some of ambitious names are inevitable here.  Otherwise,
+the name will be too long.  I therefore picked the shortest and simplest ones
+on my list, which at least contrasts the current two tuners.  I agree that
+could still be difficult to understand.  But as long as there is a good
+documentation, I think difficult-to-understnd names that encourage users to
+read the document is ok and might even be better in some cases.
+
+I'm of course open to other suggestions.
+
+
+Thanks,
+SJ
+
+[...]
