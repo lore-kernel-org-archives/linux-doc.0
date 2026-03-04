@@ -1,63 +1,280 @@
-Received: from out198-7.us.a.mail.aliyun.com (out198-7.us.a.mail.aliyun.com [47.90.198.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8516534D907;
-	Wed,  4 Mar 2026 07:26:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=47.90.198.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 920D637186E
+	for <linux-doc@vger.kernel.org>; Wed,  4 Mar 2026 07:40:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772609196; cv=none; b=IkaOz7f8/abNTbsa/GQX/1oLCNzHaZLsu6xmEmf/pvVhFWyFfBh2Ys4zdCBkmswshLBczei/rkEU0iQoWZeNi+Mn+bMifHRrtji+7Fhl6Qw0F+2M2lkFJec2zPIOzQOR23OVXMFR+1b8ZWX+dMoX3eT8Oqdc9xoDddhRTDfYvEc=
+	t=1772610007; cv=none; b=XQ8VVVLMr4p3f11fEwvzOej/CGfXFWPzk6agi3TnCvhB7qjCulAbPir0pT/24WpQmGcgZRA1CvnZVCzR/ms4+eCpyAf/IVCCyExi228JN9S/VHqLVbPP0B1yjlwPSt8ugI6/uF4ZxugV6RKYlclpeS120UE9b19/gS3MVJd6ICI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772609196; c=relaxed/simple;
-	bh=ZR7JanFqGwsEU+eVdemdOmJHuhYJMpgpUzstcLswt70=;
-	h=Date:From:To:Cc:Message-ID:Subject:MIME-Version:References:
-	 In-Reply-To:Content-Type; b=TK9H3K3wK0Y6G4+riNsMbCxpe22cOYFAi/O3YSb7mpyLG+GdL5K/v3hxDIXwL70M3KpD8FPdMdABKt/c/ezmbRZFz/Az2MKMSSYYsPJwZJc56VKvUY7krgUyI+lPIuZjOzd4+m9dE32QV/tC+4BJmS04YlUyYQXEYzdvMig1s20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com; spf=pass smtp.mailfrom=nebula-matrix.com; arc=none smtp.client-ip=47.90.198.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nebula-matrix.com
-X-Alimail-AntiSpam:AC=CONTINUE;BC=0.1157588|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.195383-0.00812595-0.796491;FP=9254858517572092112|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033068016216;MF=illusion.wang@nebula-matrix.com;NM=1;PH=DW;RN=16;RT=16;SR=0;TI=W4_0.2.3_212518A3_1772608678116_o7001c49u;
-Received: from WS-web (Illusion.Wang@nebula-matrix.com[W4_0.2.3_212518A3_1772608678116_o7001c49u] cluster:ay29) at Wed, 04 Mar 2026 15:20:44 +0800
-Date: Wed, 04 Mar 2026 15:20:44 +0800
-From: "Illusion Wang" <Illusion.Wang@nebula-matrix.com>
-To: "Andrew Lunn" <andrew@lunn.ch>
-Cc: "Dimon" <dimon.zhao@nebula-matrix.com>,
-  "Alvin" <alvin.wang@nebula-matrix.com>,
-  "Sam" <sam.chen@nebula-matrix.com>,
-  "netdev" <netdev@vger.kernel.org>,
-  "andrew+netdev" <andrew+netdev@lunn.ch>,
-  "corbet" <corbet@lwn.net>,
-  "kuba" <kuba@kernel.org>,
-  "linux-doc" <linux-doc@vger.kernel.org>,
-  "lorenzo" <lorenzo@kernel.org>,
-  "pabeni" <pabeni@redhat.com>,
-  "horms" <horms@kernel.org>,
-  "vadim.fedorenko" <vadim.fedorenko@linux.dev>,
-  "lukas.bulwahn" <lukas.bulwahn@redhat.com>,
-  "edumazet" <edumazet@google.com>,
-  "open list" <linux-kernel@vger.kernel.org>
-Reply-To: "Illusion Wang" <Illusion.Wang@nebula-matrix.com>
-Message-ID: <34c4ed3f-fef6-4c4c-8b0f-9951fedf580c.Illusion.Wang@nebula-matrix.com>
-Subject: =?UTF-8?B?5Zue5aSN77yaW1BBVENIIHY1IG5ldC1uZXh0IDExLzExXSBuZXQvbmVidWxhLW1hdHJpeDog?=
-  =?UTF-8?B?YWRkIGNvbW1vbiBkZXYgc3RhcnQvc3RvcCBvcGVyYXRpb24=?=
-X-Mailer: [Alimail-Mailagent revision 1106][W4_0.2.3][null][Chrome]
+	s=arc-20240116; t=1772610007; c=relaxed/simple;
+	bh=9XDwVawTB5i0dwNPOvXRjbdJoKpYXoXFga4KM/0Z2gM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=o+NoqfAJt7iqbbRtYXXVZhh1EdnOpXLCgcfY+q/eQUSSAoFdBYUJPJ/X47n1Ce20ZFgxs87a6Qb2lyIhHIx8v1S3jy4/8GFcgcm84zjgU3ecR5CPRijtLIDvfyEA95yGkMLbWnYchujJ/VUSi4bRx2ZnFT+IRkiPZitWRF64YwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=E6vGClwN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=+nB8IvXR; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=geFxisl7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=42wvlBEb; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="E6vGClwN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="+nB8IvXR";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="geFxisl7";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="42wvlBEb"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id F3AA13F778;
+	Wed,  4 Mar 2026 07:40:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1772610004; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Hx6QBAZ/g48FrY3KwtZ+m4mLgleN1Z8nKszuKUbXlAA=;
+	b=E6vGClwNDLUB3Nt39zL+Uv4g1EKF3tgURy5iNvMD+VJarmFyYTHzOFjvUMo6scb5TIqdJK
+	iy599/BxOghpLpRIZ8sRdbl7kaS+jg9Mm4Lg5M9ibzncHs1KqFXu5BI5dQnk5LdP9vgSEU
+	P5t7B9zcIzbSieTxh7iKt+5IhPtUvS8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1772610004;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Hx6QBAZ/g48FrY3KwtZ+m4mLgleN1Z8nKszuKUbXlAA=;
+	b=+nB8IvXRH00vrXkJdtdgl4/RhZYEQdVF1yhm1Gi4gfTza1Uq+1pq/Iwdv7DkR5NxYWC6qS
+	pkQeJfnDaErPEuBw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1772610002; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Hx6QBAZ/g48FrY3KwtZ+m4mLgleN1Z8nKszuKUbXlAA=;
+	b=geFxisl7YkRy/RMf7sQhkfF87QEmHXiE6wv3B9DQ8u8rO8C4RgLdwgNfxotkflNc0A1oiN
+	sU4O9kj2lIb95pICnKkjyNYhKX9LuomKgsUbr94Ck1T//ofYkoxkZDAyPOoS1UN//mEIGB
+	nGq0Tgzq3N3PHcXl1uDnZHTaCkUbhGk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1772610002;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Hx6QBAZ/g48FrY3KwtZ+m4mLgleN1Z8nKszuKUbXlAA=;
+	b=42wvlBEbt9zZEV1FWhsWg2TdimuiQ5+IIAlcFn92nVDxXbn0xY6zUvpMi4Vttjl5GHkeyI
+	ifX1ghQc5aBpXbBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E2F733EA69;
+	Wed,  4 Mar 2026 07:40:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ytg2MtDhp2kWWgAAD6G6ig
+	(envelope-from <hare@suse.de>); Wed, 04 Mar 2026 07:40:00 +0000
+Message-ID: <103c958f-d5f9-47d3-9be8-dd7225368fd5@suse.de>
+Date: Wed, 4 Mar 2026 08:40:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-x-aliyun-im-through: {"version":"v1.0"}
-References: <20260226073840.3222-1-illusion.wang@nebula-matrix.com> <20260226073840.3222-12-illusion.wang@nebula-matrix.com>,<b8f71f46-735b-4b1f-8df8-01a532bc7964@lunn.ch>
-x-aliyun-mail-creator: W4_0.2.3_null_EuMTW96aWxsYS81LjAgKFdpbmRvd3MgTlQgMTAuMDsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEzMy4wLjY5NDMuMTQyIFNhZmFyaS81MzcuMzYgZGluZ3RhbGstd2luLzEuMC4wIG53KDAuMTQuNykgRGluZ1RhbGsoOC4yLjE1LVJlbGVhc2UuMjYwMjI1MDAxKSBNb2pvLzEuMC4wIE5hdGl2ZSBBcHBUeXBlKHJlbGVhc2UpIENoYW5uZWwvMjAxMjAwIEFyY2hpdGVjdHVyZS94ODZfNjQgd2ViRHQvUEM=uL
-In-Reply-To: <b8f71f46-735b-4b1f-8df8-01a532bc7964@lunn.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 4/5] nvme-tcp: Support KeyUpdate
+To: alistair23@gmail.com, chuck.lever@oracle.com, hare@kernel.org,
+ kernel-tls-handshake@lists.linux.dev, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-nvme@lists.infradead.org, linux-nfs@vger.kernel.org
+Cc: kbusch@kernel.org, axboe@kernel.dk, hch@lst.de, sagi@grimberg.me,
+ kch@nvidia.com, Alistair Francis <alistair.francis@wdc.com>
+References: <20260304053500.590630-1-alistair.francis@wdc.com>
+ <20260304053500.590630-5-alistair.francis@wdc.com>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20260304053500.590630-5-alistair.francis@wdc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	FREEMAIL_TO(0.00)[gmail.com,oracle.com,kernel.org,lists.linux.dev,vger.kernel.org,lists.infradead.org];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ietf.org:url,wdc.com:email,suse.de:mid,suse.de:email]
+X-Spam-Flag: NO
+X-Spam-Score: -4.30
+X-Spam-Level: 
 
-Cj4gPiAraW50IG5ibF9kZXZfc3RhcnQoc3RydWN0IG5ibF9hZGFwdGVyICphZGFwdGVyLCBzdHJ1
-Y3QgbmJsX2luaXRfcGFyYW0gKnBhcmFtKQo+ID4gK3sKPiA+ICsgaW50IHJldDsKPiA+ICsKPiA+
-ICsgcmV0ID0gbmJsX2Rldl9zdGFydF9jb21tb25fZGV2KGFkYXB0ZXIsIHBhcmFtKTsKPiA+ICsg
-cmV0dXJuIHJldDsKCj5yZXR1cm4gbmJsX2Rldl9zdGFydF9jb21tb25fZGV2KGFkYXB0ZXIsIHBh
-cmFtKTsKCj5CdXQgdGhlbiBpIGhhdmUgdG8gYXNrLCB3aHkgYm90aGVyIGhhdmluZyBuYmxfZGV2
-X3N0YXJ0KCkgd2hlbiB5b3UgY2FuCj5qdXN0IGNhbGwgbmJsX2Rldl9zdGFydF9jb21tb24oKS4K
-CllvdSdyZSBhYnNvbHV0ZWx5IHJpZ2h0LiBIb3dldmVyLCB3ZSdyZSBjb25zaWRlcmluZyBmYWNp
-bGl0YXRpbmcgZnV0dXJlCmV4cGFuc2lvbiBmb3IgdGhlIG5leHQtc3RhZ2UgbmV0ZGV2IGNvbmZp
-Z3VyYXRpb24uCgotLWlsbHVzaW9uLndhbmc=
+On 3/4/26 06:34, alistair23@gmail.com wrote:
+> From: Alistair Francis <alistair.francis@wdc.com>
+> 
+> If the nvme_tcp_try_send() or nvme_tcp_try_recv() functions return
+> EKEYEXPIRED then the underlying TLS keys need to be updated. This occurs
+> on an KeyUpdate event as described in RFC8446
+> https://datatracker.ietf.org/doc/html/rfc8446#section-4.6.3.
+> 
+> If the NVMe Target (TLS server) initiates a KeyUpdate this patch will
+> allow the NVMe layer to process the KeyUpdate request and forward the
+> request to userspace. Userspace must then update the key to keep the
+> connection alive.
+> 
+> This patch allows us to handle the NVMe target sending a KeyUpdate
+> request without aborting the connection. At this time we don't support
+> initiating a KeyUpdate.
+> 
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+> v7:
+>   - Use read_sock_cmsg instead of recvmsg() to handle KeyUpdate
+> v6:
+>   - Don't use `struct nvme_tcp_hdr` to determine TLS_HANDSHAKE_KEYUPDATE,
+>     instead look at the cmsg fields.
+>   - Don't flush async_event_work
+> v5:
+>   - Cleanup code flow
+>   - Check for MSG_CTRUNC in the msg_flags return from recvmsg
+>     and use that to determine if it's a control message
+> v4:
+>   - Remove all support for initiating KeyUpdate
+>   - Don't call cancel_work() when updating keys
+> v3:
+>   - Don't cancel existing handshake requests
+> v2:
+>   - Don't change the state
+>   - Use a helper function for KeyUpdates
+>   - Continue sending in nvme_tcp_send_all() after a KeyUpdate
+>   - Remove command message using recvmsg
+> 
+>   drivers/nvme/host/tcp.c | 59 ++++++++++++++++++++++++++++++++++++++++-
+>   1 file changed, 58 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/tcp.c b/drivers/nvme/host/tcp.c
+> index 8b6172dd1c0f..ade11d2ac9ef 100644
+> --- a/drivers/nvme/host/tcp.c
+> +++ b/drivers/nvme/host/tcp.c
+> @@ -171,6 +171,7 @@ struct nvme_tcp_queue {
+>   	bool			tls_enabled;
+>   	u32			rcv_crc;
+>   	u32			snd_crc;
+> +	key_serial_t		handshake_session_id;
+>   	__le32			exp_ddgst;
+>   	__le32			recv_ddgst;
+>   	struct completion       tls_complete;
+> @@ -1361,6 +1362,59 @@ static int nvme_tcp_try_send(struct nvme_tcp_queue *queue)
+>   	return ret;
+>   }
+>   
+> +static void update_tls_keys(struct nvme_tcp_queue *queue)
+> +{
+> +	int qid = nvme_tcp_queue_id(queue);
+> +	int ret;
+> +
+> +	dev_dbg(queue->ctrl->ctrl.device,
+> +		"updating key for queue %d\n", qid);
+> +
+> +	ret = nvme_tcp_start_tls(&(queue->ctrl->ctrl),
+> +				 queue, queue->ctrl->ctrl.tls_pskid,
+> +				 HANDSHAKE_KEY_UPDATE_TYPE_RECEIVED);
+> +
+> +	if (ret < 0) {
+> +		dev_err(queue->ctrl->ctrl.device,
+> +			"failed to update the keys %d\n", ret);
+> +		nvme_tcp_fail_request(queue->request);
+> +	}
+> +}
+> +
+> +static int nvme_tcp_recv_cmsg(read_descriptor_t *desc,
+> +			      struct sk_buff *skb,
+> +			      unsigned int offset, size_t len,
+> +			      u8 content_type)
+> +{
+> +	struct nvme_tcp_queue *queue = desc->arg.data;
+> +	struct socket *sock = queue->sock;
+> +	struct sock *sk = sock->sk;
+> +
+> +	switch (content_type) {
+> +	case TLS_RECORD_TYPE_HANDSHAKE:
+> +		if (len == 5) {
+> +			u8 header[5];
+> +
+> +			if (!skb_copy_bits(skb, offset, header,
+> +					   sizeof(header))) {
+> +				if (header[0] == TLS_HANDSHAKE_KEYUPDATE) {
+> +					dev_err(queue->ctrl->ctrl.device, "KeyUpdate message\n");
+> +					release_sock(sk);
+> +					update_tls_keys(queue);
+> +					lock_sock(sk);
+> +					return 0;
+> +				}
+> +			}
+> +		}
+> +
+> +		break;
+> +	default:
+> +		break;
+> +	}
+
+I think a simple 'if' condition would be sufficient here, or do you have
+handling of other TLS record types queued somewhere?
+And we should log unhandled TLS records.
+
+> +
+> +	return -EAGAIN;
+> +}
+> +
+>   static int nvme_tcp_try_recv(struct nvme_tcp_queue *queue)
+>   {
+>   	struct socket *sock = queue->sock;
+> @@ -1372,7 +1426,8 @@ static int nvme_tcp_try_recv(struct nvme_tcp_queue *queue)
+>   	rd_desc.count = 1;
+>   	lock_sock(sk);
+>   	queue->nr_cqe = 0;
+> -	consumed = sock->ops->read_sock(sk, &rd_desc, nvme_tcp_recv_skb);
+> +	consumed = sock->ops->read_sock_cmsg(sk, &rd_desc, nvme_tcp_recv_skb,
+> +					     nvme_tcp_recv_cmsg);
+>   	release_sock(sk);
+>   	return consumed == -EAGAIN ? 0 : consumed;
+>   }
+> @@ -1708,6 +1763,7 @@ static void nvme_tcp_tls_done(void *data, int status, key_serial_t pskid,
+>   			ctrl->ctrl.tls_pskid = key_serial(tls_key);
+>   		key_put(tls_key);
+>   		queue->tls_err = 0;
+> +		queue->handshake_session_id = handshake_session_id;
+>   	}
+>   
+>   out_complete:
+> @@ -1737,6 +1793,7 @@ static int nvme_tcp_start_tls(struct nvme_ctrl *nctrl,
+>   		keyring = key_serial(nctrl->opts->keyring);
+>   	args.ta_keyring = keyring;
+>   	args.ta_timeout_ms = tls_handshake_timeout * 1000;
+> +	args.ta_handshake_session_id = queue->handshake_session_id;
+>   	queue->tls_err = -EOPNOTSUPP;
+>   	init_completion(&queue->tls_complete);
+>   	if (keyupdate == HANDSHAKE_KEY_UPDATE_TYPE_UNSPEC)
+
+Otherwise looks good.
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
