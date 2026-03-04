@@ -1,145 +1,112 @@
-Received: from relay.yourmailgateway.de (relay.yourmailgateway.de [188.68.63.162])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f201.google.com (mail-pg1-f201.google.com [209.85.215.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD14534846D;
-	Wed,  4 Mar 2026 15:31:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.68.63.162
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 452E4348895
+	for <linux-doc@vger.kernel.org>; Wed,  4 Mar 2026 15:39:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772638311; cv=none; b=UrpUw/hvk5oQr57VC3KqgbkxV9QpsR+DU8AB4cpS6Gs51kQJwZl89BPE10nk0gH3wZ1V+8ZJ1nz9d5DPddRo5t3WrZOkISVULAlwZP0GFWp/5kBvonXMd/Ca1v+p1YD++olyaS6DYhl72JuIy6F/FxLtodItJi+QBnvgHqQdo84=
+	t=1772638769; cv=none; b=C7kyLh7dMcYhVlNEb4Bi+8bjjYgTMgt0l2TlrJq2tsRj4J5f6iBvcZYL2ip0QZEOctjktqLedZ+TABr0WC5bGt/z9smq1F00zkCcG5rT6R+i6PYXLPNPX36/aBzaqHNPXSywYRy3ARmT+6rLKl5fcJMmW9Pe5bkFDyh224oWgQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772638311; c=relaxed/simple;
-	bh=OGSMo+NquOAsUe1dVTaQz5uTuv7KI8qRBbpyfw9azD4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rbxvTybNhxLStnnPexAYSSPpCTOCUaHFYUpbGHtmQ5EYyVfZPCX+FmWlPIu8J7d/Dewjk3pKmKFIVcHae4mbI4QCHshSYU2QVUMmC8YciqoyPJQGLPdsvRltDXWaCTxYH+D6lLBjrGaEpgtA6OpHvDQ21N31ooI7fBznRmC6EnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=XyHDtfNa; arc=none smtp.client-ip=188.68.63.162
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
+	s=arc-20240116; t=1772638769; c=relaxed/simple;
+	bh=AwQySQ6RU/E0+QND+fYEQvAaI0LFcEIbgSecZ8phsbg=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=QJ8J4BgieiAbFmn1AsVBSE6Pa25FIp1WOlFy6zKYQSaOKW44f6LrVS+U6QofwyPPQc8YRdB94a/qf7Sg8MqtQmdtH7d3bYjue0k+U42eiSgV6tjezJEgHuHonXgUxIUvSxjExozrkeY2V49OzgEV+I65j6Aj8/JjK5IAJWMLNYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gDq38F3r; arc=none smtp.client-ip=209.85.215.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="XyHDtfNa"
-Received: from mors-relay-8201.netcup.net (localhost [127.0.0.1])
-	by mors-relay-8201.netcup.net (Postfix) with ESMTPS id 4fQxV51nbPz4180;
-	Wed,  4 Mar 2026 16:31:41 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=leemhuis.info;
-	s=key2; t=1772638301;
-	bh=OGSMo+NquOAsUe1dVTaQz5uTuv7KI8qRBbpyfw9azD4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=XyHDtfNaySHVbEWPAmVe/fuBBFPtvPoW62amykXnsIbSkjtyCcmqGFjN2WFcawJd2
-	 HU0e9Q0IAffbBvCBA+ZYukcB2tBSqr1FwfQwqoJP9xs8Q00OeNA5DSNXKBN0XDcNQf
-	 WRpmchNj9L4fvOUlt9mFPitkkkO/GbT+Xo7vScaegcIpT8sa1gszqO68ZCUiD491SS
-	 uQjs8NiyPLjiokKSOhb1FS+yIoacK1VMc16lWfoJB/sSp1dXR4jNvJ0KDJyaEC5ZA8
-	 /S/6Y0dpE+9lMYSS/06e468EYHDQvdQYXS28tMzD60LNZ9qWpK12ba+Fx4zlXCLg+y
-	 ZI50fu8tLausw==
-Received: from policy01-mors.netcup.net (unknown [46.38.225.35])
-	by mors-relay-8201.netcup.net (Postfix) with ESMTPS id 4fQxV513KQz3wD6;
-	Wed,  4 Mar 2026 16:31:41 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at policy01-mors.netcup.net
-X-Spam-Flag: NO
-X-Spam-Score: -2.899
-X-Spam-Level: 
-Received: from mxe9fb.netcup.net (unknown [10.243.12.53])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by policy01-mors.netcup.net (Postfix) with ESMTPS id 4fQxV075dLz8tYG;
-	Wed,  4 Mar 2026 16:31:36 +0100 (CET)
-Received: from [IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f] (unknown [IPv6:2a02:8108:8984:1d00:a0cf:1912:4be:477f])
-	by mxe9fb.netcup.net (Postfix) with ESMTPSA id 4483F6173C;
-	Wed,  4 Mar 2026 16:31:36 +0100 (CET)
-Authentication-Results: mxe9fb;
-        spf=pass (sender IP is 2a02:8108:8984:1d00:a0cf:1912:4be:477f) smtp.mailfrom=regressions@leemhuis.info smtp.helo=[IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f]
-Received-SPF: pass (mxe9fb: connection is authenticated)
-Message-ID: <3e1d90fc-b35f-4785-8263-fd7427c4455a@leemhuis.info>
-Date: Wed, 4 Mar 2026 16:31:33 +0100
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gDq38F3r"
+Received: by mail-pg1-f201.google.com with SMTP id 41be03b00d2f7-b6097ca315bso31695756a12.3
+        for <linux-doc@vger.kernel.org>; Wed, 04 Mar 2026 07:39:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1772638767; x=1773243567; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=4obgg0pL0Jwl8Tcok03QPH04x1vAD8j3dmd1EmRfQ2U=;
+        b=gDq38F3rsuckH0rPx7rhpJFYxvQ6WBwP0N6fJCqdVi26RQZxk4I7JoW5g9SceqoUR9
+         5iihYF5ntaRW9pamVgpgtiso38tLeDHyYRnGntMqTjWGN35G5Kx3SFRMXmyvUUiu1T7B
+         yCYrZCyo1PdH8TpFTcDELiwsuT8IfxB1CgoXxdHSuIDPfHrReqlLG5ipwlL71L48QYaJ
+         e4gETHY5c2rbmvkikHZFOmIAAoHLuqVIKJBgHtUWk7oL/z6OhCxHp4rJ62pxOhggnIfU
+         iqQIm5xa31TQNRyEjb7iBH4eXrfn363JYDAKXF5d4/gvEQgnq1KZ+h/yBtDrIdEfwIgN
+         Cfbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772638767; x=1773243567;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4obgg0pL0Jwl8Tcok03QPH04x1vAD8j3dmd1EmRfQ2U=;
+        b=X7EYM2RwNyNINjzZ8tpuAbVJ/YHKTT9ly+MSYPxgAyxzFJv1y+3nI2nc/dT335C+Zw
+         Q6qGOp3voILasbwkMVNgRJKj24Ks0XCxArHuRfUe1W7jTW9DvhENp4poME4wYPKGGFjx
+         JdmEAKdbyep+8lkeJ5r2FB/zJyxeqawjAqGaFX5aVm/kNLvAn2COgOvPLSg6Er/rTWQq
+         MBA2oInXAkj9W0LE4nhPxi/ftAJIGvGF7uPwZNZ/3PgveaZvIv9oKifcwS/WH2nkbjnz
+         ueVDYAkWQT22uZ/76zYWTR2n3HaPIKj3tDQSb1EJ9v7WEYfUxmP3QVf8nGHkeaVOEzBr
+         x6oA==
+X-Forwarded-Encrypted: i=1; AJvYcCVHvVXDq0/fWimfRoaV7Q9diyeEBkBotA99tX+gZigmJqYVekad9Kuzv9vx4xswZAmt0nAA9W3nTBc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzyyhtPc2Cf/8KVfbbsqrheiZLVVLS8JLfnob0jTAnjw5ATx680
+	rZR/lwHOPO6/NDAEeq2mUyFUwAEj8LHxLLUuOUqSG0eHpu7CgJaIxAnrx/AKEUMGZEHhSO/kWYT
+	ufgpZfQ==
+X-Received: from pgbcs14.prod.google.com ([2002:a05:6a02:418e:b0:c63:5306:c11d])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:a124:b0:366:5d1a:c737
+ with SMTP id adf61e73a8af0-3982deccfb6mr2418979637.16.1772638766352; Wed, 04
+ Mar 2026 07:39:26 -0800 (PST)
+Date: Wed, 4 Mar 2026 07:39:24 -0800
+In-Reply-To: <20250806215133.43475-2-jthoughton@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [REGRESSION BISECTED] Unexpected section title false positive
- warnings on DOC: directive
-To: Bagas Sanjaya <bagasdotme@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Documentation <linux-doc@vger.kernel.org>,
- Linux Regressions <regressions@lists.linux.dev>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>, Jonathan Corbet <corbet@lwn.net>
-References: <aZu9muHK02vPPl8E@archie.me>
-From: Thorsten Leemhuis <regressions@leemhuis.info>
-Content-Language: de-DE, en-US
-In-Reply-To: <aZu9muHK02vPPl8E@archie.me>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-PPP-Message-ID: <177263829659.1718426.8734949187560132349@mxe9fb.netcup.net>
-X-Rspamd-Server: rspamd-worker-8404
-X-Rspamd-Queue-Id: 4483F6173C
-X-NC-CID: aiTWVA2+ZzZsHFqiTuajvao5b5i4fQUhwQeKFF96/ZhCzoTIecE=
+Mime-Version: 1.0
+References: <20250806215133.43475-1-jthoughton@google.com> <20250806215133.43475-2-jthoughton@google.com>
+Message-ID: <aahSLC2-KNA9zC_F@google.com>
+Subject: Re: [PATCH 1/2] KVM: Add fault injection for some MMU operations
+From: Sean Christopherson <seanjc@google.com>
+To: James Houghton <jthoughton@google.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Akinobu Mita <akinobu.mita@gmail.com>, 
+	David Matlack <dmatlack@google.com>, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 
-On 2/23/26 03:38, Bagas Sanjaya wrote:
-> [this is actually a repost of [1] since that thread didn't get any attention
-> from the regressor.]
+On Wed, Aug 06, 2025, James Houghton wrote:
+> Provide fault injection hooks for three operations:
+> 1. For all architectures, retries due to invalidation notifiers.
+> 2. For x86, TDP MMU cmpxchg updates for SPTEs.
+> 3. For x86, TDP MMU SPTE iteration rescheduling.
+> 
+> For all of these, fault injection can induce the uncommon cases: (1)
+> that an invalidation occurred, (2) a cmpxchg failed, and (3) that the
+> MMU lock is contended.
 
-"Regressor" feels like a odd word choice here (one that according to
-lore nobody has used before). Makes way more sense (and at least to me
-feels more polite) to say something like "the culprit's author (Mauro)"
-– especially as the person might have forgotten already that they
-authored the change in questions.
+...
 
-> Building htmldocs on docs-next currenly produces about 80 new warnings; which
-> all of them are unexpected section title on DOC: kernel-doc directive, like:
+> @@ -689,7 +691,8 @@ static inline int __must_check __tdp_mmu_set_spte_atomic(struct kvm *kvm,
+>  		 * operates on fresh data, e.g. if it retries
+>  		 * tdp_mmu_set_spte_atomic()
+>  		 */
+> -		if (!try_cmpxchg64(sptep, &iter->old_spte, new_spte))
+> +		if (tdp_mmu_cmpxchg_should_fail() ||
+> +		    !try_cmpxchg64(sptep, &iter->old_spte, new_spte))
 
-For now it looks like your the only one to see that problem, so maybe
-it's something that is odd on your systems; and given that these are
-warnings I'm included to stop tracking this as a regression.
+As discovered internally, this can cause the WARN_ON_ONCE() at the end of
+kvm_tdp_mmu_zap_possible_nx_huge_page() to fire, because the flow *guarantees*
+success.
 
-Ciao, Thorsten
+Thinking about this all a bit more, while I *really* like the idea of triggering
+uncommon paths in theory, I'm having strong reservations about enabling this in
+upstream, as I'm worried the signal:noise ratio could be abysmal.
 
-> /home/bagas/repo/linux-kernel/Documentation/driver-api/target:25: ./drivers/target/target_core_user.c:35: CRITICAL: Unexpected section title.
-> 
-> Userspace I/O
-> ------------- [docutils]
-> WARNING: kernel-doc 'scripts/kernel-doc.py -rst -enable-lineno -function 'Userspace I/O' ./drivers/target/target_core_user.c' processing failed with: SystemMessage('/home/bagas/repo/linux-kernel/Documentation/driver-api/target:25: ./drivers/target/target_core_user.c:35: (SEVERE/4) Unexpected section title.\n\nUserspace I/O\n-------------')
-> /home/bagas/repo/linux-kernel/Documentation/driver-api/target:28: ./include/uapi/linux/target_core_user.h:14: CRITICAL: Unexpected section title.
-> 
-> Ring Design
-> ----------- [docutils]
-> WARNING: kernel-doc 'scripts/kernel-doc.py -rst -enable-lineno -function 'Ring Design' ./include/uapi/linux/target_core_user.h' processing failed with: SystemMessage('/home/bagas/repo/linux-kernel/Documentation/driver-api/target:28: ./include/uapi/linux/target_core_user.h:14: (SEVERE/4) Unexpected section title.\n\nRing Design\n-----------')
-> 
-> These turns out to be false-positive as touching the source file in question
-> (e.g. drivers/target/target_core_user.c) and making htmldocs again makes the
-> regression go away for the corresponding docs.
-> 
-> Bisection (with git-bisect(1)) points to bea467aa5da1f5 ("docs: media:
-> v4l2-ioctl.h: document two global variables") as the first bad commit, even
-> though that I suspect that bdd1cf87847ff6 ("kernel-doc: add support to handle
-> DEFINE_ variables") may be the actual culprit (regressor).
-> 
-> The full bisection log:
-> 
-> git bisect start
-> # status: waiting for both good and bad commits
-> # bad: [7f3c3a0a9103dc92c823f27db3284ac2914e7558] MAINTAINERS: Add doc files on real-time support to Real-time Linux
-> git bisect bad 7f3c3a0a9103dc92c823f27db3284ac2914e7558
-> # status: waiting for good commit(s), bad commit known
-> # good: [9448598b22c50c8a5bb77a9103e2d49f134c9578] Linux 6.19-rc2
-> git bisect good 9448598b22c50c8a5bb77a9103e2d49f134c9578
-> # bad: [5188f6bd408f937d81c0c37eb59ddc1035cd912c] docs: admin: devices: /dev/sr<N> for SCSI CD-ROM
-> git bisect bad 5188f6bd408f937d81c0c37eb59ddc1035cd912c
-> # bad: [bea467aa5da1f51834501da3ac3c40204027a221] docs: media: v4l2-ioctl.h: document two global variables
-> git bisect bad bea467aa5da1f51834501da3ac3c40204027a221
-> # good: [82e87387f6e2af9f69a7528733e953fd22e815aa] Documentation: kernel-hacking: Remove comma
-> git bisect good 82e87387f6e2af9f69a7528733e953fd22e815aa
-> # good: [bdd1cf87847ff6aaadd53a185209d2bb2db72165] kernel-doc: add support to handle DEFINE_ variables
-> git bisect good bdd1cf87847ff6aaadd53a185209d2bb2db72165
-> # first bad commit: [bea467aa5da1f51834501da3ac3c40204027a221] docs: media: v4l2-ioctl.h: document two global variables
-> 
-> Mauro: Since you're the author of regressor, can you please take a look on it?
-> 
-> Thanks.
-> 
-> #regzbot introduced: bea467aa5da1f5
-> 
-> [1]: https://lore.kernel.org/regressions/aUuLHzk5jdyBAxD7@archie.me/
-> 
+For many configurations and setups, mmu_notifier invalidations and MMU lock
+contention is actually quite common, i.e. in the aggregate, KVM actually gets
+good coverage of those paths.  Giving userspace a way to deliberate induce retry
+for those cases doesn't seem like it will add much value, while at the same time
+it could lead to a rash of "bugs" due to e.g. syzkaller setting extreme retry
+percentages and manufacturing scenarios like stuck tasks that can't happen in
+practice.
 
+The CMPXCHG thing definitely has value, but as above even that is error prone to
+some degree.
+
+So if we want to take this forward, I think we should limit it to CMPXCHG, figure
+out a clean way for callers to prevent failure injection, and set a fairly high
+bar for extending failure injection to other areas.  E.g. as was the case with
+the CMPXCHG injection, a real KVM bug that is extremely rare in practice, but
+relatively easy to trigger with artificial failure.
