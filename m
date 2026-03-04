@@ -1,53 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F12B6350299;
-	Wed,  4 Mar 2026 15:56:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D01F34CFA8
+	for <linux-doc@vger.kernel.org>; Wed,  4 Mar 2026 16:00:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772639807; cv=none; b=J7s0XozQVGDQCCON5tRaHcChDJ7SgRNApcdIWxDrWpRmii95Bchf87M66iNp/BEpB5fF6M+ecH8ncp5hzz5JpIj2Punvu7QZlKc04GsNOpDxWiw7wD8ST9ij7+qNpH0RgaExpI9Cnn9XDRz1ysBt6WepUMS3i6NAgo2oZY/GTnU=
+	t=1772640031; cv=none; b=jIoS6l5L9DOYlJhOPIGACqX3B+lDmpfxRKGyF/rLZ/Zb0f9qUOX1jogzrfT5YynOSfeYKbEa8cNLOB1jQzgUPSjOrOKdg7IW5jpyWhE9gJaUo2tEt8CBYxf9UiZnBxPT+OUl20IImNWpOPWyPuHp95d2csdoC3PThE1/gMzlr7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772639807; c=relaxed/simple;
-	bh=SJm4GuSnbYszVKyxT4amRwFe33V6qzxh/kVyiR1igu4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ANL1ypVNb+tBew4yJKa/CbLZP2+5T/TuvGes6Rt4rhy0WGLrS/cGpPZ/AYcvorqLC5ofugzr+d2c4k7uOqT1YOR1eoZNi/n2xHrKedL3D/Ho3C8Hwc5fAcewPyt7mJAbSY/LkZ23ndxKal351ehEDr+H4yoHm0kz19T0kJh3yrY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JpXrKQDJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772640031; c=relaxed/simple;
+	bh=KEeOkJm0EmRV6jqNyOAEXWp0ZZ6RYVxsvyRyrfSxNkY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=azmcSl7oMVlHRyiOrcCEuaH4oeVE5V3AvKxN9WsY8oipjk75ewJQtocc6JzE2EsRKVj4dNfzQV/8pLX9KE0vF2Z6R9pXgKNWZVJUZ+fUpyKapWw6EVakvclLnRMbvUYeOFVAeCjBCyvFsOWLzJsQY1BWzy1qHg8m8b38vDpxO10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=IGxS4qVu; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JpXrKQDJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB04FC19423;
-	Wed,  4 Mar 2026 15:56:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772639806;
-	bh=SJm4GuSnbYszVKyxT4amRwFe33V6qzxh/kVyiR1igu4=;
-	h=From:To:Cc:Subject:Date:From;
-	b=JpXrKQDJgkQZ5nG7H5rajo8ti08hDhRDHS0Tcbebrb7Ko8lnA2n0pO/doWPie//Zs
-	 VcywXdRhl7TM3rlw2Uho0gplR/QjKPWxoX3a+HNIUQaF5gy9Np8lKkCIFqoHvyA1Yr
-	 4LV6yCaWvW644thqATm0sSN/0t4QIFk1Tqg7OVgTX7/FgvWw4DjnXO+Qf1n1KjpxQw
-	 LnQobDBjB9gI2SdhbtLpH4wqu+/plM2RyykoBGYN9yo873BZ2TyQOJUsJwWu1/fxSb
-	 FCqZhXnj4y9xe2plxkG9qT2ZmKdgH8ZDAR61yYmTP6CKnLwkP6+lLGfKfin5Zd3c4g
-	 sz+yU7Y3T+OPw==
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-To: linux-kernel@vger.kernel.org
-Cc: linux-fsdevel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="IGxS4qVu"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-439c4a93841so1066609f8f.1
+        for <linux-doc@vger.kernel.org>; Wed, 04 Mar 2026 08:00:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1772640025; x=1773244825; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OU95bHZuJNtP/VAPwIGit/Pa+QghFNKlhnRH3cB9CJ4=;
+        b=IGxS4qVuGVB6ooSFrgfLPbkfALb0ex4ep8cdG7ROwi1Hg+ZbwYXU6KMOfoW6Xd+Ehk
+         QTv5gwAKX4qmvsXMcu1w84NJvl/2i/46rktxrKqu5BY7LvGd/MhO8cnWicAa7wLsoEVl
+         6qCG/RgEMQPYUdyWvSN3wxY1l37FC+grgQKIlDI/MwiRh5Uxu6aqG9mnAKw4gCmTQHwf
+         x0KlDbch2jXuHkGQyd5VQGMQsgdugtR718PY2w/NODfxNvtRp7uF2ZZgSXuWrGRq/o33
+         4wBLaBCQKJ4J4BzSXhWLpLNd1tRUC4FGhyli0YXa7QAhn3+Ym7bvxh+2sFiGZfMFvns4
+         w5rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772640025; x=1773244825;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OU95bHZuJNtP/VAPwIGit/Pa+QghFNKlhnRH3cB9CJ4=;
+        b=nGBX/QoOsdaz4HXhYghylRER+63rwbeflCB6vYpq35FKJOXb9O+bEe2fSy5G5JqftN
+         V/3YrDjm0YqAUJsbznNf1j617GFMOz3SWydKpwpAIuNT25Appf3kfqNs0xhDHeEVKTuH
+         gKB4sfpenqI0DkS7HHYv+3/UHyl+hMbjsWX8aB/0/H4EXIlJt4XOViw1WlcShSRb2JhN
+         UxkNd3bdfyrGVJXh8ejbxADfLKrmm9Bs9G4Uyy/oBTVxOq/fmvq4XbPcH+vZsQDEBlpe
+         UiYzuYcQ3I9KlyGLPQSz2PS7rHAu/ZJA2s/1VD3xJ9DQ+1worL6TxanbGq+H2P+ozUz5
+         gl2A==
+X-Forwarded-Encrypted: i=1; AJvYcCVDS8d5X2ag257uKQWJfzd0O01OvSD6ToYAu5xyWUM+y6aqvkSU0+envv7pdnVpRKUB71hHwnhgy9U=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxLjfWwo5kd1KWDAEV0U+fGSmZEFXPE1nUPsO8YgRZXMImJ1T7L
+	v+C5o92mR+DUCtEzsUGsEjB28ICcJnptJWp37gsIylImK0ki+48Yfg7jVCCHSrbkkS4=
+X-Gm-Gg: ATEYQzzPdRY8XVLHfGBYYX+XsEzdplXrlJtgA7tk1iVFuyVT3WIEU7Nn1/BFA1/aaH8
+	yP1lk25n/FL7ATvkahIrjEiJCcWPr2BZOzvirWX66oEUq+bC9xAhQanS3HrMU+YlVgjqzp+XygF
+	AlKqWsgpfSLKc6o9tDOMSQMneN49mUkkYLbz7fVfRZUyLUjKcbVHJQH1WpIWxPnT9sdsqIDskYh
+	Nh9X9mU6JMbopQxmhpIFKumtBgMX3NZNuDwbZKDfl8aKJw/tI1nneo3XpjP+PEkLh/tPWoeVvdz
+	Nh4jsQdWiMQUCD0vX9TNz6/OzDm/zJnK166GWgFkwRBTyJvrPFxQzVRCs8m/lIHLwJlziE+pki7
+	/AxnNlQcG2Mvy1f30iVRwqrRzSmynNjxCYD62m+uQF+kFrAaKL/Pd2JkOTWE/w+cNvMNmcE9ax2
+	GOmLsAmboJIfq2Vy2ynVKW9fmeS15z8tjQUW9yR4j396z4sg==
+X-Received: by 2002:a05:6000:1acf:b0:439:b3ff:9ab9 with SMTP id ffacd0b85a97d-439c7ffcb29mr5150381f8f.48.1772640024040;
+        Wed, 04 Mar 2026 08:00:24 -0800 (PST)
+Received: from localhost (46-13-72-179.customers.tmcz.cz. [46.13.72.179])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439b59723fesm25578351f8f.38.2026.03.04.08.00.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Mar 2026 08:00:23 -0800 (PST)
+From: Jiri Pirko <jiri@resnulli.us>
+To: netdev@vger.kernel.org
+Cc: davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	donald.hunter@gmail.com,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	saeedm@nvidia.com,
+	leon@kernel.org,
+	tariqt@nvidia.com,
+	mbloch@nvidia.com,
+	przemyslaw.kitszel@intel.com,
+	mschmidt@redhat.com,
+	andrew+netdev@lunn.ch,
+	rostedt@goodmis.org,
+	mhiramat@kernel.org,
+	mathieu.desnoyers@efficios.com,
+	chuck.lever@oracle.com,
+	matttbe@kernel.org,
+	cjubran@nvidia.com,
+	daniel.zahka@gmail.com,
 	linux-doc@vger.kernel.org,
-	linux-mm@kvack.org,
-	"David Hildenbrand (Arm)" <david@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Zi Yan <ziy@nvidia.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Nico Pache <npache@redhat.com>,
-	Dev Jain <dev.jain@arm.com>,
-	Barry Song <baohua@kernel.org>,
-	Lance Yang <lance.yang@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Usama Arif <usamaarif642@gmail.com>,
-	Andi Kleen <ak@linux.intel.com>
-Subject: [PATCH v1] docs: filesystems: clarify KernelPageSize vs. MMUPageSize in smaps
-Date: Wed,  4 Mar 2026 16:56:36 +0100
-Message-ID: <20260304155636.77433-1-david@kernel.org>
-X-Mailer: git-send-email 2.43.0
+	linux-rdma@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org
+Subject: [PATCH net-next v3 00/13] devlink: introduce shared devlink instance for PFs on same chip
+Date: Wed,  4 Mar 2026 17:00:09 +0100
+Message-ID: <20260304160022.6114-1-jiri@resnulli.us>
+X-Mailer: git-send-email 2.51.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -56,112 +95,100 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-There was recently some confusion around THPs and the interaction with
-KernelPageSize / MMUPageSize. Historically, these entries always
-correspond to the smallest size we could encounter, not any current
-usage of transparent huge pages or larger sizes used by the MMU.
+From: Jiri Pirko <jiri@nvidia.com>
 
-Ever since we added THP support many, many years ago, these entries
-would keep reporting the smallest (fallback) granularity in a VMA.
+Multiple PFs on a network adapter often reside on the same physical
+chip, running a single firmware. Some resources and configurations
+are inherently shared among these PFs - PTP clocks, VF group rates,
+firmware parameters, and others. Today there is no good object in
+the devlink model to attach these chip-wide configuration knobs to.
+Drivers resort to workarounds like pinning shared state to PF0 or
+maintaining ad-hoc internal structures (e.g., ice_adapter) that are
+invisible to userspace.
 
-For this reason, they default to PAGE_SIZE for all VMAs except for
-VMAs where we have the guarantee that the system and the MMU will
-always use larger page sizes. hugetlb, for example, exposes a custom
-vm_ops->pagesize callback to handle that. Similarly, dax/device
-exposes a custom vm_ops->pagesize callback and provides similar
-guarantees.
+This problem was discussed extensively starting with Przemek Kitszel's
+"whole device devlink instance" RFC for the ice driver [1]. Several
+approaches for representing the parent instance were considered:
+using a partial PCI BDF as the dev_name (breaks when PFs have different
+BDFs in VMs), creating a per-driver bus, using auxiliary devices, or
+using faux devices. All of these required a backing struct device for
+the parent devlink instance, which does not naturally exist - there is
+no PCI device that represents the chip as a whole.
 
-Let's clarify the historical meaning of KernelPageSize / MMUPageSize,
-and point at "AnonHugePages", "ShmemPmdMapped" and "FilePmdMapped"
-regarding PMD entries.
+This patchset takes a different approach: allow devlink instances to
+exist without any backing struct device. The instance is identified
+purely by its internal index, exposed over devlin netlink. This avoids
+fabricating fake devices and keeps the devlink handle semantics clean.
 
-While at it, document "FilePmdMapped", clarify what the "AnonHugePages"
-and "ShmemPmdMapped" entries really mean, and make it clear that there
-are no other entries for other THP/folio sizes or mappings.
+The first ten patches prepare the devlink core for device-less
+instances by decoupling the handle from the parent device. The last
+three introduce the shared devlink infrastructure and its first user
+in the mlx5 driver.
 
-Link: https://lore.kernel.org/all/20260225232708.87833-1-ak@linux.intel.com/
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Zi Yan <ziy@nvidia.com>
-Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
-Cc: Liam R. Howlett <Liam.Howlett@oracle.com>
-Cc: Nico Pache <npache@redhat.com>
-Cc: Ryan Roberts <ryan.roberts@arm.com
-Cc: Dev Jain <dev.jain@arm.com>
-Cc: Barry Song <baohua@kernel.org>
-Cc: Lance Yang <lance.yang@linux.dev>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Cc: Usama Arif <usamaarif642@gmail.com>
-Cc: Andi Kleen <ak@linux.intel.com>
-Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+Example output showing the shared instance and nesting:
+
+  pci/0000:08:00.0: index 0
+    nested_devlink:
+      auxiliary/mlx5_core.eth.0
+  devlink_index/1: index 1
+    nested_devlink:
+      pci/0000:08:00.0
+      pci/0000:08:00.1
+  auxiliary/mlx5_core.eth.0: index 2
+  pci/0000:08:00.1: index 3
+    nested_devlink:
+      auxiliary/mlx5_core.eth.1
+  auxiliary/mlx5_core.eth.1: index 4
+
+[1] https://lore.kernel.org/netdev/20250219164410.35665-1-przemyslaw.kitszel@intel.com/
+
 ---
- Documentation/filesystems/proc.rst | 37 ++++++++++++++++++++++--------
- 1 file changed, 27 insertions(+), 10 deletions(-)
+Decoupled from "devlink and mlx5: Support cross-function rate scheduling"
+patchset to maintain 15-patches limit.
 
-diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-index b0c0d1b45b99..0f67e47528fc 100644
---- a/Documentation/filesystems/proc.rst
-+++ b/Documentation/filesystems/proc.rst
-@@ -464,6 +464,7 @@ Memory Area, or VMA) there is a series of lines such as the following::
-     KSM:                   0 kB
-     LazyFree:              0 kB
-     AnonHugePages:         0 kB
-+    FilePmdMapped:         0 kB
-     ShmemPmdMapped:        0 kB
-     Shared_Hugetlb:        0 kB
-     Private_Hugetlb:       0 kB
-@@ -477,13 +478,25 @@ Memory Area, or VMA) there is a series of lines such as the following::
- 
- The first of these lines shows the same information as is displayed for
- the mapping in /proc/PID/maps.  Following lines show the size of the
--mapping (size); the size of each page allocated when backing a VMA
--(KernelPageSize), which is usually the same as the size in the page table
--entries; the page size used by the MMU when backing a VMA (in most cases,
--the same as KernelPageSize); the amount of the mapping that is currently
--resident in RAM (RSS); the process's proportional share of this mapping
--(PSS); and the number of clean and dirty shared and private pages in the
--mapping.
-+mapping (size); the smallest possible page size allocated when
-+backing a VMA (KernelPageSize), which is the granularity in which VMA
-+modifications can be performed; the smallest possible page size that could
-+be used by the MMU (MMUPageSize) when backing a VMA; the amount of the
-+mapping that is currently resident in RAM (RSS); the process's proportional
-+share of this mapping (PSS); and the number of clean and dirty shared and
-+private pages in the mapping.
-+
-+Historically, the "KernelPageSize" always corresponds to the "MMUPageSize",
-+except when a larger kernel page size is emulated on a system with a smaller
-+page size used by the MMU, which was the case for PPC64 in the past.
-+Further, "KernelPageSize" and "MMUPageSize" always correspond to the
-+smallest possible granularity (fallback) that could be encountered in a
-+VMA throughout its lifetime.  These values are not affected by any current
-+transparent grouping of pages by Linux (Transparent Huge Pages) or any
-+current usage of larger MMU page sizes (either through architectural
-+huge-page mappings or other transparent groupings done by the MMU).
-+"AnonHugePages", "ShmemPmdMapped" and "FilePmdMapped" provide insight into
-+the usage of some architectural huge-page mappings.
- 
- The "proportional set size" (PSS) of a process is the count of pages it has
- in memory, where each page is divided by the number of processes sharing it.
-@@ -528,10 +541,14 @@ pressure if the memory is clean. Please note that the printed value might
- be lower than the real value due to optimizations used in the current
- implementation. If this is not desirable please file a bug report.
- 
--"AnonHugePages" shows the amount of memory backed by transparent hugepage.
-+"AnonHugePages", "ShmemPmdMapped" and "FilePmdMapped" show the amount of
-+memory backed by transparent hugepages that are currently mapped through
-+architectural huge-page mappings (PMD). "AnonHugePages" corresponds to memory
-+that does not belong to a file, "ShmemPmdMapped" to shared memory (shmem/tmpfs)
-+and "FilePmdMapped" to file-backed memory (excluding shmem/tmpfs).
- 
--"ShmemPmdMapped" shows the amount of shared (shmem/tmpfs) memory backed by
--huge pages.
-+There are no dedicated entries for transparent huge pages (or similar concepts)
-+that are not mapped through architectural huge-page mappings (PMD).
- 
- "Shared_Hugetlb" and "Private_Hugetlb" show the amounts of memory backed by
- hugetlbfs page which is *not* counted in "RSS" or "PSS" field for historical
+See individual patches for changelog.
+
+Jiri Pirko (13):
+  devlink: expose devlink instance index over netlink
+  devlink: add helpers to get bus_name/dev_name
+  devlink: avoid extra iterations when found devlink is not registered
+  devlink: allow to use devlink index as a command handle
+  devlink: support index-based lookup via bus_name/dev_name handle
+  devlink: support index-based notification filtering
+  devlink: introduce __devlink_alloc() with dev driver pointer
+  devlink: add devlink_dev_driver_name() helper and use it in trace
+    events
+  devlink: add devl_warn() helper and use it in port warnings
+  devlink: allow devlink instance allocation without a backing device
+  devlink: introduce shared devlink instance for PFs on same chip
+  documentation: networking: add shared devlink documentation
+  net/mlx5: Add a shared devlink instance for PFs on same chip
+
+ Documentation/netlink/specs/devlink.yaml      |  56 +++
+ .../networking/devlink/devlink-shared.rst     |  97 +++++
+ Documentation/networking/devlink/index.rst    |   1 +
+ .../net/ethernet/mellanox/mlx5/core/Makefile  |   5 +-
+ .../net/ethernet/mellanox/mlx5/core/main.c    |  17 +
+ .../ethernet/mellanox/mlx5/core/sh_devlink.c  |  61 +++
+ .../ethernet/mellanox/mlx5/core/sh_devlink.h  |  12 +
+ include/linux/mlx5/driver.h                   |   1 +
+ include/net/devlink.h                         |  10 +
+ include/trace/events/devlink.h                |  36 +-
+ include/uapi/linux/devlink.h                  |   4 +
+ net/devlink/Makefile                          |   2 +-
+ net/devlink/core.c                            |  91 ++++-
+ net/devlink/dev.c                             |   8 +-
+ net/devlink/devl_internal.h                   |  34 +-
+ net/devlink/netlink.c                         |  57 ++-
+ net/devlink/netlink_gen.c                     | 350 +++++++++++-------
+ net/devlink/port.c                            |  19 +-
+ net/devlink/sh_dev.c                          | 161 ++++++++
+ 19 files changed, 813 insertions(+), 209 deletions(-)
+ create mode 100644 Documentation/networking/devlink/devlink-shared.rst
+ create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/sh_devlink.c
+ create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/sh_devlink.h
+ create mode 100644 net/devlink/sh_dev.c
+
 -- 
-2.43.0
+2.51.1
 
