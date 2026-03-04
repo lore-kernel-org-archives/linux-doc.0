@@ -1,131 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF1923A0EAB;
-	Wed,  4 Mar 2026 17:50:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B28B43594A;
+	Wed,  4 Mar 2026 18:13:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772646612; cv=none; b=Wc82MASWhsix8ozrmPl1SV9Ev8pzdFKGs8r7Hz1D8kGfBHr9cobRnqpVDXeEKERbocsD4GG1f7vFp8ucao6fm7e8WSaRjj4HISWg0kKYlVo4lP/FK2bxEYnmfvmI0AtszYCPpTSvgwWFjt8OzsQbGxADFDkR2y+i1tQe2Ig4SWE=
+	t=1772648014; cv=none; b=rRhnUs/A+V4/bOHNRSJHYnyMNMm3BzULNjNwyIokF41xOml0AfH5G3jz7e4/dz5eXluZVQ43fhZoR8vWyPNKwkO3ga32h7AIuqI5wLew7Re+QyntFzKlcOijD1qJ5OBtVMEqp7y5SVhHZoOCSZilxeoGQln6EiBJOxTZXTWOMlA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772646612; c=relaxed/simple;
-	bh=E4znfVinBg671eglK8T1taFw+aFY5/rXYKUjl3WI3wk=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=or+2Xg9iOIA2/rh/o17WpP22ilBBN1RCqZ/FSlDHfdgirmTTlxLw8IdsdjfNMxnRcJ6vo4o+tFHR/6egod1ftgde27puVZe5d3byo1ZSot4kUCxI9CYq+GYaswZzI7jobc96cOIC7pyvY84GCLeMX65704X8GV+xbeBbHwLojS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BnxaPJez; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BnxaPJez"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F283C4CEF7;
-	Wed,  4 Mar 2026 17:50:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772646611;
-	bh=E4znfVinBg671eglK8T1taFw+aFY5/rXYKUjl3WI3wk=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
-	b=BnxaPJez/SGvWsdn9rFcxp1SWi2seMtpjZi8xUe0Em3idKqLKyZUYNWYn5P8zZSAL
-	 J1sdpkcRmZ5TJ03pG7ShVlWlXqP2po1Dqta5bAqqQBQeiFn8l1In6EXafPYi9hNSWj
-	 7LkWlTwuYY6dQNI6zjtrp0cVxXMR+r53gJCFfTVOKZWm3HmOa2KWXuE0c4v3e6XegB
-	 DO3RcT+4GZS9MPpiApeygGxi09mPDKR3qNT/v4y3tgtK3WQdKd1km1ffLByhFC4zf+
-	 q4DWNAG1ulOiDVZOpKolL38Gdck7at60opVYY6NlMIViFWDgQvDP7APYg2Nf+MhV78
-	 S6Jpfw8wqH5YQ==
+	s=arc-20240116; t=1772648014; c=relaxed/simple;
+	bh=cVjS6siBmXlktPnQ1M9cg9OdBWf0lLql1obqeYw8Q9o=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=kWWYVXJEVocsCYgDP2jusEZs+N4dbWhLBwGCmfDdDHapo6mDXY53KeDcNh8qMefGExWkNqVVbdIHAPtfjF0+4arUrhQTJiB53QhvI+69veP3LRx78gGS8dLcVZS9rB8E1BtLorW1WjSAjhZbz/epeudR0q1ulZWWpKAvGmLHAIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=n0toose.net; spf=pass smtp.mailfrom=n0toose.net; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=n0toose.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=n0toose.net
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4fR14g2zbbz9v68;
+	Wed,  4 Mar 2026 19:13:23 +0100 (CET)
+Authentication-Results: outgoing_mbo_mout;
+	dkim=none;
+	spf=pass (outgoing_mbo_mout: domain of git@n0toose.net designates 2001:67c:2050:b231:465::202 as permitted sender) smtp.mailfrom=git@n0toose.net
+From: "Panagiotis \"Ivory\" Vasilopoulos" <git@n0toose.net>
+Date: Wed, 04 Mar 2026 19:13:04 +0100
+Subject: [PATCH v4] landlock: Expand restrict flags example for ABI version
+ 8
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 04 Mar 2026 18:50:02 +0100
-Message-Id: <DGU6RZ7MWNAV.21PQC3NNK05D6@kernel.org>
-Subject: Re: [PATCH v3 00/10] rust: pci: add abstractions for SR-IOV
- capability
-Cc: "Jason Gunthorpe" <jgg@ziepe.ca>, "Peter Colberg" <pcolberg@redhat.com>,
- "Bjorn Helgaas" <bhelgaas@google.com>,
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, "Miguel
- Ojeda" <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>, "Gary
- Guo" <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "Abdiel Janulgue"
- <abdiel.janulgue@gmail.com>, "Daniel Almeida"
- <daniel.almeida@collabora.com>, "Robin Murphy" <robin.murphy@arm.com>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Dave Ertman"
- <david.m.ertman@intel.com>, "Ira Weiny" <ira.weiny@intel.com>, "David
- Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Jonathan
- Corbet" <corbet@lwn.net>, "Xu Yilun" <yilun.xu@intel.com>, "Tom Rix"
- <trix@redhat.com>, "Moritz Fischer" <mdf@kernel.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
- <linux-pci@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, "Alexandre Courbot" <acourbot@nvidia.com>,
- "Alistair Popple" <apopple@nvidia.com>, "Joel Fernandes"
- <joelagnelf@nvidia.com>, "John Hubbard" <jhubbard@nvidia.com>, "Zhi Wang"
- <zhiw@nvidia.com>, <nouveau@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, <linux-doc@vger.kernel.org>,
- <linux-fpga@vger.kernel.org>, <driver-core@lists.linux.dev>
-To: "Leon Romanovsky" <leon@kernel.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260303-rust-pci-sriov-v3-0-4443c35f0c88@redhat.com>
- <20260304084750.GW12611@unreal> <20260304141852.GF964116@ziepe.ca>
- <20260304142600.GB12611@unreal> <DGU347RJX5BV.1CZYELSZ9GS9D@kernel.org>
- <20260304162711.GI12611@unreal> <20260304164551.GG964116@ziepe.ca>
- <20260304170249.GJ12611@unreal>
-In-Reply-To: <20260304170249.GJ12611@unreal>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260304-landlock-docs-add-tsync-example-v4-1-819a276f05c5@n0toose.net>
+X-B4-Tracking: v=1; b=H4sIADB2qGkC/5XOsQ7CIBDG8VdpmD1zQEvAyfcwDhSulljBlKbRm
+ L676GR0UMf/Db/vbizTGCizTXVjI80hhxRL1KuKud7GA0HwpZlAoVAIDoONfkjuCD65DNZ7mPI
+ 1OqCLPZ0HAtKdb5yqrVSKFeU8Uhcuz4XdvnQf8pTG63Nw5o/r7/bMgUOnjdRSo6G23kacUsq0j
+ jSxhz6LP0VRRIXGoNGqbW3zKcpXUX8XZRF5jbZtsMNGvP24LMsdQpY4q3QBAAA=
+X-Change-ID: 20260221-landlock-docs-add-tsync-example-e8fd5c64a366
+To: =?utf-8?q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, 
+ =?utf-8?q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Dan Cojocaru <dan@dcdev.ro>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1772647999; l=3864;
+ i=git@n0toose.net; s=20260221; h=from:subject:message-id;
+ bh=cVjS6siBmXlktPnQ1M9cg9OdBWf0lLql1obqeYw8Q9o=;
+ b=PQdpzyizuWfktM7QLX8rGyjBABdXYdPNMddVmbYYDi927c+AkiLSKgptGJMUePyCDd7MHxjbC
+ Iwcm3borzxBCHbYZK7NCwS16pCjkAkH6jp+nim13WShKeESIKWYsfmW
+X-Developer-Key: i=git@n0toose.net; a=ed25519;
+ pk=Tis+3ti1x0lr71vFYBVrYAzcO2UpGQijF0kXwupcsXE=
+X-Rspamd-Queue-Id: 4fR14g2zbbz9v68
 
-On Wed Mar 4, 2026 at 6:02 PM CET, Leon Romanovsky wrote:
-> On Wed, Mar 04, 2026 at 12:45:51PM -0400, Jason Gunthorpe wrote:
->> On Wed, Mar 04, 2026 at 06:27:11PM +0200, Leon Romanovsky wrote:
->> > On Wed, Mar 04, 2026 at 03:57:57PM +0100, Danilo Krummrich wrote:
->> > > On Wed Mar 4, 2026 at 3:26 PM CET, Leon Romanovsky wrote:
->> > > > On Wed, Mar 04, 2026 at 10:18:52AM -0400, Jason Gunthorpe wrote:
->> > > >> On Wed, Mar 04, 2026 at 10:47:50AM +0200, Leon Romanovsky wrote:
->> > > >> > On Tue, Mar 03, 2026 at 04:15:20PM -0500, Peter Colberg wrote:
->> > > >> > > Add Rust abstractions for the Single Root I/O Virtualization =
-(SR-IOV)
->> > > >> > > capability of a PCI device. Provide a minimal set of wrappers=
- for the
->> > > >> > > SR-IOV C API to enable and disable SR-IOV for a device, and q=
-uery if
->> > > >> > > a PCI device is a Physical Function (PF) or Virtual Function =
-(VF).
->> > > >> >=20
->> > > >> > <...>
->> > > >> >=20
->> > > >> > > For PF drivers written in C, disabling SR-IOV on remove() may=
- be opted
->> > > >> > > into by setting the flag managed_sriov in the pci_driver stru=
-cture. For
->> > > >> > > PF drivers written in Rust, disabling SR-IOV on unbind() is m=
-andatory.
->> > > >> >=20
->> > > >> > Why? Could you explain the rationale behind this difference bet=
-ween C and
->> > > >> > Rust? Let me remind you that SR=E2=80=91IOV devices which do no=
-t disable VFs do so
->> > > >> > for a practical and well=E2=80=91established reason: maximizing=
- hardware
->> > > >> > utilization.
->> > > >>=20
->> > > >> Personally I think drivers doing this are wrong. That such a driv=
-er
->> > > >> bug was allowed to become UAPI is pretty bad. The rust approach i=
-s
->> > > >> better.
->> > > >
->> > > > We already had this discussion. I see this as a perfectly valid
->> > > > use-case.
->> > >=20
->> > > Can you remind about a specific use-case for this please? (Ideally, =
-one that
->> > > can't be solved otherwise.)
->> >=20
->> > You create X VFs through sriov_configure, unbind PF, bind it to vfio
->> > instead and forward (X + 1) functions to different VMs.
->>=20
->> No, illegal, and it doesn't even work right. When VFIO FLRs the PF it
->> will blow up the half baked SRIOV and break everything.
->
-> The FLR can be disabled. For example, PCI_DEV_FLAGS_NO_FLR_RESET flag
-> will do it.
+Add LANDLOCK_RESTRICT_SELF_TSYNC to the backwards compatibility example
+for restrict flags. This introduces completeness, similar to that of
+the ruleset attributes example. However, as the new example can impact
+enforcement in certain cases, an appropriate warning is also included.
 
-But this is a quirk and not a feature, no? So, we shouldn't use it as a bas=
-eline
-for actual features.
+Additionally, I modified the two comments of the example to make them
+more consistent with the ruleset attributes example's.
+
+Signed-off-by: Panagiotis 'Ivory' Vasilopoulos <git@n0toose.net>
+Co-developed-by: Dan Cojocaru <dan@dcdev.ro>
+Signed-off-by: Dan Cojocaru <dan@dcdev.ro>
+---
+Changes in v4:
+- Make warning somewhat more terse, merge comments.
+  - Remove some sensationalization. ("Don't copy-paste this just yet!")
+  - Apply Günther's suggestion (v3 "recycled" some phrases, was long)
+    - ... but also retain some of the wording on ABI differences
+- Provide a brief overview that contextualizes the example further:
+  - Clarify the difference behind ABI < 8 & ABI v8, to avoid
+    misunderstandings on which option is the default.
+  - Make "linear reading" easier.
+- Based on Mickaël's feedback: Avoid cans of worms w.r.t. use cases
+- Link to v3: https://lore.kernel.org/r/20260228-landlock-docs-add-tsync-example-v3-1-140ab50f0524@n0toose.net
+
+Changes in v3:
+- Add __attribute__((fallthrough)) like in earlier example.
+- Improve comment for LANDLOCK_RESTRICT_SELF_TSYNC (ABI < 8) example.
+- Add relevant warning for ABI < 8 example based on Günther's feedback.
+- Link to v2: https://lore.kernel.org/r/20260221-landlock-docs-add-tsync-example-v2-1-60990986bba5@n0toose.net
+
+Changes in v2:
+- Fix formatting error.
+- Link to v1: https://lore.kernel.org/r/20260221-landlock-docs-add-tsync-example-v1-1-f89383809eb4@n0toose.net
+---
+ Documentation/userspace-api/landlock.rst | 22 ++++++++++++++++++----
+ 1 file changed, 18 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/userspace-api/landlock.rst b/Documentation/userspace-api/landlock.rst
+index 13134bccdd39d78ddce3daf454f32dda162ce91b..64c7138a788d74f99da0a71428da392b3d873bf8 100644
+--- a/Documentation/userspace-api/landlock.rst
++++ b/Documentation/userspace-api/landlock.rst
+@@ -196,13 +196,27 @@ similar backwards compatibility check is needed for the restrict flags
+ (see sys_landlock_restrict_self() documentation for available flags):
+ 
+ .. code-block:: c
+-
+-    __u32 restrict_flags = LANDLOCK_RESTRICT_SELF_LOG_NEW_EXEC_ON;
+-    if (abi < 7) {
+-        /* Clear logging flags unsupported before ABI 7. */
++    __u32 restrict_flags =
++        LANDLOCK_RESTRICT_SELF_LOG_NEW_EXEC_ON |
++        LANDLOCK_RESTRICT_SELF_TSYNC;
++    switch (abi) {
++    case 1 ... 6:
++        /* Clear logging flags unsupported for ABI < 7 */
+         restrict_flags &= ~(LANDLOCK_RESTRICT_SELF_LOG_SAME_EXEC_OFF |
+                             LANDLOCK_RESTRICT_SELF_LOG_NEW_EXEC_ON |
+                             LANDLOCK_RESTRICT_SELF_LOG_SUBDOMAINS_OFF);
++        __attribute__((fallthrough));
++    case 7:
++        /*
++         * Removes multithreaded enforcement flag unsupported for ABI < 8
++         *
++         * WARNING: Without this flag, calling landlock_restrict_self(2) is
++         * only equivalent if the calling process is single-threaded. Below
++         * ABI v8 (and as of ABI v8, when not using this flag), a Landlock
++         * policy would only be enforced for the calling thread and its
++         * children (and not for all threads, including parents and siblings).
++         */
++        restrict_flags &= ~LANDLOCK_RESTRICT_SELF_TSYNC;
+     }
+ 
+ The next step is to restrict the current thread from gaining more privileges
+
+---
+base-commit: ceb977bfe9e8715e6cd3a4785c7aab8ea5cd2b77
+change-id: 20260221-landlock-docs-add-tsync-example-e8fd5c64a366
+
+Best regards,
+-- 
+Panagiotis "Ivory" Vasilopoulos <git@n0toose.net>
+
