@@ -1,90 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2354624676D;
-	Wed,  4 Mar 2026 15:16:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A5693314A1
+	for <linux-doc@vger.kernel.org>; Wed,  4 Mar 2026 15:20:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772637410; cv=none; b=IfFIwjI1WV/enKkxrqVjtglnQZWxy1dfMLsa/p32OGHeRXx3v5ZXZ6VgEYjZtRkU3LohCM4/K2wsb5OJNzgWVLm3s2dlzFkZmaG++A3xdcqibmHKLB+GO8ku3NqsseuqWoqxKDjcD9Ze7l3SBGfJzKfqnSV23d1QeCcrcXwO3AQ=
+	t=1772637609; cv=none; b=opCcDc5hp/LVWT77R0bNjHl9PSnpvpVwsBL9f69C7sAe8UcpGjnTe/rjhUAn7CQL8QTwHtSeJqKbznm3yxTIQ1GZPlELayDAcpRMzAXOtV30if4vjGoi8pJYi/jsEymbYTAyjdKErIcA1uuaK3xj4zZVppsllSSWaOuWEYVW/NU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772637410; c=relaxed/simple;
-	bh=Hwalj6XGGeHJHa78r5hc0CzaU3kjmvKcFZnz/ZUApGQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VOMRQZw+VcuObkHqu1sUyFf6MqKF4LlU6q9ul8dt/GoHxtOgmV+H1OWytnqKDX69mwRHPSBzuwbrbr89k/ZqaM1V4pkCupSig6dMKn4Y+rfm2xgMaahJxuSHpz/OYRQ0zceHhzaKQL1qaPu6DP0V1WL9ziC7LG31gjHJjct8CqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kP9BjpKE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772637609; c=relaxed/simple;
+	bh=ymmy16BjMJcdh8G+bL7CjvElhjsLisNNHit5+UJLzlM=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=Ukfcwc2SiyOh54FDMFwdclUzymdomIF0RleW8+iR5TeUMdNIN3ILKdD0HjRQnl3mxdYqyxGdbyfDUJyfqg8a9pS2fD58knkSE16jyt3bELwuZTKhgMCbB5+lXp3LYlZ4wr7H4Suyoc4mHIgNrRn5l0ynDGBniyBd5M6v8gEpyAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ctThmodO; arc=none smtp.client-ip=209.85.216.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kP9BjpKE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C4A5C4CEF7;
-	Wed,  4 Mar 2026 15:16:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772637409;
-	bh=Hwalj6XGGeHJHa78r5hc0CzaU3kjmvKcFZnz/ZUApGQ=;
-	h=From:To:Cc:Subject:Date:From;
-	b=kP9BjpKEgVUse0CsIZYAp+9Aw4PewrgVr24UbBpYTEYxGJ7wLuj0W4Tc0t/kFeWbH
-	 tI4ROeHMM+bCxICrweSU04teCK9rCHkiy7xUe6iW3LuJgH41e9mlajsXRsX+gni7xL
-	 YT4MP45Yh/mDuMPyDDe5VSitq3PJD+Gxss9xwxqpi9SSZi3M9sYTINCI3CPSDIxRQ0
-	 FD2cDYc+21busLPjtewCzOjPlXTCYwcqGZORgGUM7HvyXoAOHZB4tMn6/GmAkQk4fk
-	 C+ffaukk1XvRvTXUdYMkLAwlZs6QEbcARI/Q1cJhQ2vimK+TIFkpR+xVkOQy9YsUa0
-	 oxN3f/g9IMtuw==
-From: Jakub Kicinski <kuba@kernel.org>
-To: davem@davemloft.net
-Cc: netdev@vger.kernel.org,
-	edumazet@google.com,
-	pabeni@redhat.com,
-	andrew+netdev@lunn.ch,
-	horms@kernel.org,
-	Jakub Kicinski <kuba@kernel.org>,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH net-next] docs: netdev: refine netdevsim testing guidance
-Date: Wed,  4 Mar 2026 07:16:46 -0800
-Message-ID: <20260304151647.2770466-1-kuba@kernel.org>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ctThmodO"
+Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-35845fcf0f5so7756578a91.0
+        for <linux-doc@vger.kernel.org>; Wed, 04 Mar 2026 07:20:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1772637608; x=1773242408; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=fhVDxVUPn4sMysutwLd1doihcMglzApjUEnzyngJQcA=;
+        b=ctThmodOTSNFb3kgmbSZ/GYMrzAfdDVaHPnzskj4iIXvOJzBmiNkroMZ3CnM6PUMcV
+         RZ7xvjgNl8WufSJzbZlWKl7u20cqm913AoI4U3kmMd0yJ5hCx98XjZYQ9hiFAI2jmGkW
+         pi3HufjXBi9DppljA/9eURhR3uIB361dSH1fyVjXYVZ7fhLeomZoVPyRCD3BgmBFSixA
+         2tjYcQD1ORR0VMJxkwKeN+54mNFCMf7Ab0krgsoVrRfUxJiNJtfPaHfMdV2mRf9b1ppT
+         Y4/Bbp7HPtwTa2fL9JWqQc1WXwcTWvVTYl3KV9PU4BSJTOo2+RW7Gog5xalFqAIz/R6J
+         bC6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772637608; x=1773242408;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=fhVDxVUPn4sMysutwLd1doihcMglzApjUEnzyngJQcA=;
+        b=uh5mmoZLBoWUzq6+eKQ+XQM4U5IA91SDXXoCMt3pphc4+3fOOo0sUta5pI+uzMhIFD
+         62vB9uDZckihr8JbPFujQKE9TQjIX2BgSvG12OUqhIJd/G8OdaoEx9ffTBuaZhwswpYZ
+         mjyK00bp5t8Y1kfkk8KMBe22z+ESs5xHdriAnM1+n0+RVyauqMzWsIoX7a/wex4symJq
+         FmvBxhOWjAifsc0XwRgOo50/b0YVXiKAdEHGS25CrloqPrMfHVLzyXXolhhnLjQpoA/k
+         eFJEXqQ1nRHU2/8HzQHoiCuUtqpya3dHXeXuPN7NkL16rDzZT9EudXIKQh4r35EWjRaJ
+         Mobg==
+X-Forwarded-Encrypted: i=1; AJvYcCXYAokMvFJDIkOCSO+omN1UyVX6tIHa9CZJNZDekdW5BksGPmgGtoZfdRj75C97uU5bJlblCiv2WpI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxRgueKZ0STxoXtoOKLwBLE4Og8RBFrYp8J2wAn41WzNeVmp1Vs
+	UDFoKVnq2vXKtmCtwhHTJI5nPBV70yRokyh5kyqeJEEJcoNxjuFiTxqXNkdLInjXXK+8+sC/eW1
+	MN5beFQ==
+X-Received: from pjbmz4.prod.google.com ([2002:a17:90b:3784:b0:358:fc29:4815])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:3e4d:b0:359:8ca0:308d
+ with SMTP id 98e67ed59e1d1-359a6d8f5b3mr1977021a91.14.1772637607566; Wed, 04
+ Mar 2026 07:20:07 -0800 (PST)
+Date: Wed, 4 Mar 2026 07:20:06 -0800
+In-Reply-To: <5097ff66-b727-4eac-b845-3bd08d1a0ead@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+References: <20260225-gmem-st-blocks-v2-0-87d7098119a9@google.com>
+ <20260225-gmem-st-blocks-v2-2-87d7098119a9@google.com> <5097ff66-b727-4eac-b845-3bd08d1a0ead@suse.com>
+Message-ID: <aahNprLw0_Cdhzxp@google.com>
+Subject: Re: [PATCH RFC v2 2/6] KVM: guest_memfd: Directly allocate folios
+ with filemap_alloc_folio()
+From: Sean Christopherson <seanjc@google.com>
+To: Vlastimil Babka <vbabka@suse.com>
+Cc: Ackerley Tng <ackerleytng@google.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Shuah Khan <shuah@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, rientjes@google.com, 
+	rick.p.edgecombe@intel.com, yan.y.zhao@intel.com, fvdl@google.com, 
+	jthoughton@google.com, vannapurve@google.com, shivankg@amd.com, 
+	michael.roth@amd.com, pratyush@kernel.org, pasha.tatashin@soleen.com, 
+	kalyazin@amazon.com, tabba@google.com, kvm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 
-The library to create tests for both NIC HW and netdevsim has existed
-for almost a year. netdevsim-only tests we get increasingly feel like
-a waste, we should try to write tests that work both on netdevsim and
-real HW. Refine the guidance accordingly.
+On Mon, Mar 02, 2026, Vlastimil Babka wrote:
+> On 2/25/26 08:20, Ackerley Tng wrote:
+> > __filemap_get_folio_mpol() is parametrized by a bunch of GFP flags, which
+> 
+>                                                            FGP?
+> 
+> > adds complexity for the reader. Since guest_memfd doesn't meaningfully use
+> > any of the other FGP flags, undo that complexity by directly calling
+> > filemap_alloc_folio().
+> > 
+> > Directly calling filemap_alloc_folio() also allows the order of 0 to be
+> > explicitly specified, which is the only order guest_memfd supports. This is
+> > easier to understand,
 
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
----
-CC: corbet@lwn.net
-CC: skhan@linuxfoundation.org
-CC: workflows@vger.kernel.org
-CC: linux-doc@vger.kernel.org
----
- Documentation/process/maintainer-netdev.rst | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+That's debatable.  IMO, one isn't clearly better than the other, especially since
+filemap_lock_folio() is itself a wrapper for __filemap_get_folio_mpol().  And there
+is a cost to open-coding, as it means we risk missing something if there's a change
+in __filemap_get_folio_mpol() that's beneficial to guest_memfd.
 
-diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
-index 6bce4507d5d3..3aa13bc2405d 100644
---- a/Documentation/process/maintainer-netdev.rst
-+++ b/Documentation/process/maintainer-netdev.rst
-@@ -479,8 +479,14 @@ netdevsim
- 
- ``netdevsim`` is a test driver which can be used to exercise driver
- configuration APIs without requiring capable hardware.
--Mock-ups and tests based on ``netdevsim`` are strongly encouraged when
--adding new APIs, but ``netdevsim`` in itself is **not** considered
-+Mock-ups and tests based on ``netdevsim`` are encouraged when
-+adding new APIs with complex logic in the stack. The tests should
-+be written so that they can run both against ``netdevsim`` and a real
-+device (see ``tools/testing/selftests/drivers/net/README.rst``).
-+``netdevsim``-only tests should focus on testing corner cases
-+and failure paths in the core which are hard to exercise with a real driver.
-+
-+``netdevsim`` in itself is **not** considered
- a use case/user. You must also implement the new APIs in a real driver.
- 
- We give no guarantees that ``netdevsim`` won't change in the future
--- 
-2.53.0
+As Vlastimil said, if this greatly simplifies accounting, then I'm ok with it.
+But the changelog needs to focus on that aspect, because I don't see this as a
+clear win versus using __filemap_get_folio_mpol().
 
+And if we go through with this, we should probably revert 16a542e22339 ("mm/filemap:
+Extend __filemap_get_folio() to support NUMA memory policies"), because guest_memfd
+is/was the only user.
+
+> > +static struct folio *__kvm_gmem_get_folio(struct inode *inode, pgoff_t index)
+> > +{
+> > +	/* TODO: Support huge pages. */
+> > +	struct mempolicy *policy;
+> > +	struct folio *folio;
+> > +	gfp_t gfp;
+> > +	int ret;
+> > +
+> > +	/*
+> > +	 * Fast-path: See if folio is already present in mapping to avoid
+> > +	 * policy_lookup.
+> > +	 */
+> > +	folio = filemap_lock_folio(inode->i_mapping, index);
+> > +	if (!IS_ERR(folio))
+> > +		return folio;
+> > +
+> > +	gfp = mapping_gfp_mask(inode->i_mapping);
+> > +
+> > +	policy = mpol_shared_policy_lookup(&GMEM_I(inode)->policy, index);
+
+This is a potential performance regression.  Previously, KVM would do a policy
+lookup once per retry loop.  Now KVM will do the lookup 
+
+I doubt it will matter in practice, because on EEXIST filemap_lock_folio() should
+be all but guaranteed to find the existing folio.  But it's also something that
+should be easy enough to avoid, and it's also another argument for using
+__filemap_get_folio_mpol() instead of open coding our own version.
