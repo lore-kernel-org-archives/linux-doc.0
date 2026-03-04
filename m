@@ -1,242 +1,108 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4881425B30D;
-	Wed,  4 Mar 2026 14:53:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 280F53B4E94;
+	Wed,  4 Mar 2026 14:58:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772636029; cv=none; b=oZscLGCV8Cle2GQBgN+iEoIfz6oy3aBAsJuLb2OTexOA7ImGSMkMkTan7ilOyhcrAv+dFCKp/UoLdrwGkE8TYwR2Unp4HXQ9b9cKu3wxh9SCd8AtoPm8WUQsy36vZi+i9rnU5geezLVJSAu4n0uTU0Mn5GGZ6ir6RdSN4L5wuQs=
+	t=1772636287; cv=none; b=ateR9XdZPzUmtkG7U+JwS4vNB2JhJodZvnXg0NtwPg0RBlxz12Ye3KxlnHr3u8imyBB6ppjxQ7bqKs9XVaA6OlNBX7pBdP6xSbZ/7MpdFJm42Cz9K4hV/9oX9B26oxF9BvOi/1JDlGl4/rX5VQTZuiRlNoUeMUjTyWVNyIPsO84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772636029; c=relaxed/simple;
-	bh=BQ44oQAbUgWr8U493meAVTfSHv7WjBkib8olnp0zRU8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fwO0KKnpLN4Mo/AyZ9xEb5p64TP+bZW9ikbmEh22bWArykB14eOoRdLKeBeswcHZL+1Dm2ZZBOfYHYRNvJoKyWScvQMKFiegpkNbY/OZygKoVqTXEbP/1EgSU5kiM0kdc8EWCMilVLFbffh6FdOlRhvuXU4r+ryhadFWyHX2PYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f6MmgnWD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772636287; c=relaxed/simple;
+	bh=dOS1j2epf5TPYMaiUEFBxK4GWJCF7AnlRNLv83KiR6E=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=Nc1GFWo3KdYYtI80GJqIBI7UEDMvYhnJpxm9GQLaWNKKzZvcZyIKM8y4ulpMlXR/i9tde7Hiv7M7q7lSP+j/xwgB2/8cnVSdzLfmVpcRR7Blhu94Ae4iKjEWd715lgvVjbMKj5fvCx7Z0BLxATCY1ommkrOw58j0o3iiidMApUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ym9EQcZf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f6MmgnWD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4591BC4CEF7;
-	Wed,  4 Mar 2026 14:53:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ym9EQcZf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46750C2BC9E;
+	Wed,  4 Mar 2026 14:57:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772636028;
-	bh=BQ44oQAbUgWr8U493meAVTfSHv7WjBkib8olnp0zRU8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=f6MmgnWD9JwZT5Tvq6TfWT4O2Q0Ys4L4GsXTR99rvN4VdJSfEj4ZluNmAQMjsZdxp
-	 V+DtoAa1YNw7+qyrec0lX+nJFl7SrGE4eD/3irtT21i9lHBv65L+TYP9+yAb5XnS2c
-	 ii/X5EXVyth4FxwEx9IZk5taVpjq8CK4yhqtt7WdaaM7MW8xFIZnzobXi7X3qX+/Z0
-	 VyurzjP7sF2JONPbrejSJI8uOkRAalAjh9N3ZKSMLGGDiPyWcFTMVECa3/jJjnyI0V
-	 gp3jyR/fUwsIuD+Hpo/UMOBhQXYANsZpjjQDEKWr1J392kst//oRBLVVnd9k4VL5FB
-	 oY+zrqBmrPvhg==
-Date: Wed, 4 Mar 2026 20:23:45 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Thara Gopinath <thara.gopinath@gmail.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Udit Tiwari <quic_utiwari@quicinc.com>,
-	Daniel Perez-Zoghbi <dperezzo@quicinc.com>,
-	Md Sadre Alam <mdalam@qti.qualcomm.com>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-	Michal Simek <michal.simek@amd.com>, Frank Li <Frank.Li@kernel.org>,
-	dmaengine@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	brgl@kernel.org,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: Re: [PATCH RFC v11 12/12] dmaengine: qcom: bam_dma: add support for
- BAM locking
-Message-ID: <aahHeR9j7q4_ynYK@vaman>
-References: <20260302-qcom-qce-cmd-descr-v11-0-4bf1f5db4802@oss.qualcomm.com>
- <20260302-qcom-qce-cmd-descr-v11-12-4bf1f5db4802@oss.qualcomm.com>
+	s=k20201202; t=1772636286;
+	bh=dOS1j2epf5TPYMaiUEFBxK4GWJCF7AnlRNLv83KiR6E=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
+	b=Ym9EQcZfkOKBQHZvEQz/FhHVNSqmg+h+6mOr4awZN6lqVP89047H95oA7hDTD8Lxp
+	 3/zrrsmHItaW0dHSdzHTPMNUEEPPrdDoAQGGe9wmG6r942WlV+NEL+DcbydsnltayO
+	 SnkhnV7y40XDZUGJYiA6FsWGZM40iGremynvaU5Cw1rh8jc4wDHWy/miN2N3sbvfLc
+	 Rn1TTCZbSsbm8xMotdnloy7atDTjiCMTCuYwLsPrm4P+VZShXKneJTrYQO7TL2CS2W
+	 aGLtKXusmSvGJfMzJsY89VPeZZyDFz0aM8vrKSLF2R5CeTp1fFyviINf8C+4nr6mjK
+	 wEsHpF7yuJvaA==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260302-qcom-qce-cmd-descr-v11-12-4bf1f5db4802@oss.qualcomm.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 04 Mar 2026 15:57:57 +0100
+Message-Id: <DGU347RJX5BV.1CZYELSZ9GS9D@kernel.org>
+Subject: Re: [PATCH v3 00/10] rust: pci: add abstractions for SR-IOV
+ capability
+Cc: "Jason Gunthorpe" <jgg@ziepe.ca>, "Peter Colberg" <pcolberg@redhat.com>,
+ "Bjorn Helgaas" <bhelgaas@google.com>,
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, "Miguel
+ Ojeda" <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>, "Gary
+ Guo" <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Trevor Gross" <tmgross@umich.edu>, "Abdiel Janulgue"
+ <abdiel.janulgue@gmail.com>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, "Robin Murphy" <robin.murphy@arm.com>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Dave Ertman"
+ <david.m.ertman@intel.com>, "Ira Weiny" <ira.weiny@intel.com>, "David
+ Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Jonathan
+ Corbet" <corbet@lwn.net>, "Xu Yilun" <yilun.xu@intel.com>, "Tom Rix"
+ <trix@redhat.com>, "Moritz Fischer" <mdf@kernel.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
+ <linux-pci@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, "Alexandre Courbot" <acourbot@nvidia.com>,
+ "Alistair Popple" <apopple@nvidia.com>, "Joel Fernandes"
+ <joelagnelf@nvidia.com>, "John Hubbard" <jhubbard@nvidia.com>, "Zhi Wang"
+ <zhiw@nvidia.com>, <nouveau@lists.freedesktop.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-doc@vger.kernel.org>,
+ <linux-fpga@vger.kernel.org>, <driver-core@lists.linux.dev>
+To: "Leon Romanovsky" <leon@kernel.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20260303-rust-pci-sriov-v3-0-4443c35f0c88@redhat.com>
+ <20260304084750.GW12611@unreal> <20260304141852.GF964116@ziepe.ca>
+ <20260304142600.GB12611@unreal>
+In-Reply-To: <20260304142600.GB12611@unreal>
 
-On 02-03-26, 16:57, Bartosz Golaszewski wrote:
-> Add support for BAM pipe locking. To that end: when starting the DMA on
-> an RX channel - wrap the already issued descriptors with additional
-> command descriptors performing dummy writes to the base register
-> supplied by the client via dmaengine_slave_config() (if any) alongside
-> the lock/unlock HW flags.
-> 
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-> ---
->  drivers/dma/qcom/bam_dma.c | 100 ++++++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 99 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/dma/qcom/bam_dma.c b/drivers/dma/qcom/bam_dma.c
-> index 83491e7c2f17d8c9d12a1a055baea7e3a0a75a53..b149cbe9613f0bdc8e26cae4f0cc6922997480d5 100644
-> --- a/drivers/dma/qcom/bam_dma.c
-> +++ b/drivers/dma/qcom/bam_dma.c
-> @@ -28,11 +28,13 @@
->  #include <linux/clk.h>
->  #include <linux/device.h>
->  #include <linux/dma-mapping.h>
-> +#include <linux/dma/qcom_bam_dma.h>
->  #include <linux/dmaengine.h>
->  #include <linux/init.h>
->  #include <linux/interrupt.h>
->  #include <linux/io.h>
->  #include <linux/kernel.h>
-> +#include <linux/lockdep.h>
->  #include <linux/module.h>
->  #include <linux/of_address.h>
->  #include <linux/of_dma.h>
-> @@ -60,6 +62,8 @@ struct bam_desc_hw {
->  #define DESC_FLAG_EOB BIT(13)
->  #define DESC_FLAG_NWD BIT(12)
->  #define DESC_FLAG_CMD BIT(11)
-> +#define DESC_FLAG_LOCK BIT(10)
-> +#define DESC_FLAG_UNLOCK BIT(9)
->  
->  struct bam_async_desc {
->  	struct virt_dma_desc vd;
-> @@ -391,6 +395,12 @@ struct bam_chan {
->  	struct list_head desc_list;
->  
->  	struct list_head node;
-> +
-> +	/* BAM locking infrastructure */
-> +	struct scatterlist lock_sg;
-> +	struct scatterlist unlock_sg;
-> +	struct bam_cmd_element lock_ce;
-> +	struct bam_cmd_element unlock_ce;
->  };
->  
->  static inline struct bam_chan *to_bam_chan(struct dma_chan *common)
-> @@ -1012,14 +1022,92 @@ static void bam_apply_new_config(struct bam_chan *bchan,
->  	bchan->reconfigure = 0;
->  }
->  
-> +static struct bam_async_desc *
-> +bam_make_lock_desc(struct bam_chan *bchan, struct scatterlist *sg,
-> +		   struct bam_cmd_element *ce, unsigned int flag)
-> +{
-> +	struct dma_chan *chan = &bchan->vc.chan;
-> +	struct bam_async_desc *async_desc;
-> +	struct bam_desc_hw *desc;
-> +	struct virt_dma_desc *vd;
-> +	struct virt_dma_chan *vc;
-> +	unsigned int mapped;
-> +	dma_cookie_t cookie;
-> +	int ret;
-> +
-> +	async_desc = kzalloc_flex(*async_desc, desc, 1, GFP_NOWAIT);
-> +	if (!async_desc) {
-> +		dev_err(bchan->bdev->dev, "failed to allocate the BAM lock descriptor\n");
-> +		return NULL;
-> +	}
-> +
-> +	async_desc->num_desc = 1;
-> +	async_desc->curr_desc = async_desc->desc;
-> +	async_desc->dir = DMA_MEM_TO_DEV;
-> +
-> +	desc = async_desc->desc;
-> +
-> +	bam_prep_ce_le32(ce, bchan->slave.dst_addr, BAM_WRITE_COMMAND, 0);
-> +	sg_set_buf(sg, ce, sizeof(*ce));
-> +
-> +	mapped = dma_map_sg_attrs(chan->slave, sg, 1, DMA_TO_DEVICE, DMA_PREP_CMD);
-> +	if (!mapped) {
-> +		kfree(async_desc);
-> +		return NULL;
-> +	}
-> +
-> +	desc->flags |= cpu_to_le16(DESC_FLAG_CMD | flag);
-> +	desc->addr = sg_dma_address(sg);
-> +	desc->size = sizeof(struct bam_cmd_element);
-> +
-> +	vc = &bchan->vc;
-> +	vd = &async_desc->vd;
-> +
-> +	dma_async_tx_descriptor_init(&vd->tx, &vc->chan);
-> +	vd->tx.flags = DMA_PREP_CMD;
-> +	vd->tx.desc_free = vchan_tx_desc_free;
-> +	vd->tx_result.result = DMA_TRANS_NOERROR;
-> +	vd->tx_result.residue = 0;
-> +
-> +	cookie = dma_cookie_assign(&vd->tx);
-> +	ret = dma_submit_error(cookie);
+On Wed Mar 4, 2026 at 3:26 PM CET, Leon Romanovsky wrote:
+> On Wed, Mar 04, 2026 at 10:18:52AM -0400, Jason Gunthorpe wrote:
+>> On Wed, Mar 04, 2026 at 10:47:50AM +0200, Leon Romanovsky wrote:
+>> > On Tue, Mar 03, 2026 at 04:15:20PM -0500, Peter Colberg wrote:
+>> > > Add Rust abstractions for the Single Root I/O Virtualization (SR-IOV=
+)
+>> > > capability of a PCI device. Provide a minimal set of wrappers for th=
+e
+>> > > SR-IOV C API to enable and disable SR-IOV for a device, and query if
+>> > > a PCI device is a Physical Function (PF) or Virtual Function (VF).
+>> >=20
+>> > <...>
+>> >=20
+>> > > For PF drivers written in C, disabling SR-IOV on remove() may be opt=
+ed
+>> > > into by setting the flag managed_sriov in the pci_driver structure. =
+For
+>> > > PF drivers written in Rust, disabling SR-IOV on unbind() is mandator=
+y.
+>> >=20
+>> > Why? Could you explain the rationale behind this difference between C =
+and
+>> > Rust? Let me remind you that SR=E2=80=91IOV devices which do not disab=
+le VFs do so
+>> > for a practical and well=E2=80=91established reason: maximizing hardwa=
+re
+>> > utilization.
+>>=20
+>> Personally I think drivers doing this are wrong. That such a driver
+>> bug was allowed to become UAPI is pretty bad. The rust approach is
+>> better.
+>
+> We already had this discussion. I see this as a perfectly valid
+> use-case.
 
-I am not sure I understand this.
-
-At start you add a descriptor in the queue, ideally which should be
-queued after the existing descriptors are completed!
-
-Also I thought you want to append Pipe cmd to descriptors, why not do
-this while preparing the descriptors and add the pipe cmd and start and
-end of the sequence when you prepare... This was you dont need to create
-a cookie like this
-
-
-> +	if (ret)
-> +		return NULL;
-> +
-> +	return async_desc;
-> +}
-> +
-> +static int bam_setup_pipe_lock(struct bam_chan *bchan)
-> +{
-> +	struct bam_async_desc *lock_desc, *unlock_desc;
-> +
-> +	lock_desc = bam_make_lock_desc(bchan, &bchan->lock_sg,
-> +				       &bchan->lock_ce, DESC_FLAG_LOCK);
-> +	if (!lock_desc)
-> +		return -ENOMEM;
-> +
-> +	unlock_desc = bam_make_lock_desc(bchan, &bchan->unlock_sg,
-> +					 &bchan->unlock_ce, DESC_FLAG_UNLOCK);
-> +	if (!unlock_desc) {
-> +		kfree(lock_desc);
-> +		return -ENOMEM;
-> +	}
-> +
-> +	list_add(&lock_desc->vd.node, &bchan->vc.desc_issued);
-> +	list_add_tail(&unlock_desc->vd.node, &bchan->vc.desc_issued);
-> +
-> +	return 0;
-> +}
-> +
->  /**
->   * bam_start_dma - start next transaction
->   * @bchan: bam dma channel
->   */
->  static void bam_start_dma(struct bam_chan *bchan)
->  {
-> -	struct virt_dma_desc *vd = vchan_next_desc(&bchan->vc);
-> +	struct virt_dma_desc *vd;
->  	struct bam_device *bdev = bchan->bdev;
-> +	const struct bam_device_data *bdata = bdev->dev_data;
->  	struct bam_async_desc *async_desc = NULL;
->  	struct bam_desc_hw *desc;
->  	struct bam_desc_hw *fifo = PTR_ALIGN(bchan->fifo_virt,
-> @@ -1030,6 +1118,16 @@ static void bam_start_dma(struct bam_chan *bchan)
->  
->  	lockdep_assert_held(&bchan->vc.lock);
->  
-> +	if (bdata->pipe_lock_supported && bchan->slave.dst_addr &&
-> +	    bchan->slave.direction == DMA_MEM_TO_DEV) {
-> +		ret = bam_setup_pipe_lock(bchan);
-> +		if (ret) {
-> +			dev_err(bdev->dev, "Failed to set up the BAM lock\n");
-> +			return;
-> +		}
-> +	}
-> +
-> +	vd = vchan_next_desc(&bchan->vc);
->  	if (!vd)
->  		return;
->  
-> 
-> -- 
-> 2.47.3
-
--- 
-~Vinod
+Can you remind about a specific use-case for this please? (Ideally, one tha=
+t
+can't be solved otherwise.)
