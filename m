@@ -1,43 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00D693C6A23;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31F983C6A2E;
 	Thu,  5 Mar 2026 15:16:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772723789; cv=none; b=QIhoKVWt+ghHB6I5chYwH3crBybfBa9O3vMqxs9N4fQl3i3LcQfoDxV/hIcn6GGLGF7m0EBUnKycSQv7IS9bYc1hcpO1VlrDbQ39KaBtR/qaWMobFhMbGm91Hp9GEM0aTwLjAG+DCRkEHD1sQTGXQ3fsbc1WbfHTKnMZAeoWAkg=
+	t=1772723789; cv=none; b=mTjERiJ/zwVbDI8exNE1OWKZvHOJjD2IBSx0xpaTXOvgfKnFKcDTVQNMLf8ma0qJUO0xgFUbCKK4GMuZJ1XftDig5n8Zucyvu94F+hF8FOHQLOKDdlK0WaO/K5D/p8oQmjTZTuM/o6jqSZLh2XIauE7IvbVwemBfGi09bPudTOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1772723789; c=relaxed/simple;
-	bh=ZNZ2mFKPm+G9plRvw4WRwSksYn8HB30/8SoYLAYS4yM=;
+	bh=KRhaVj36QPpFVRt1j0+gEDFYVEUP/qyFJd2IndbJHfA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=c9NHC+/DyT8OA0F126cswSsB7DM51FmTKrUcIbi/SAen2oqjODIcPWaZenXdoDwcDSVkGT3P8G1Jr7tkuMOm09Ce6TWuZjKcZE04IwCZxtHB8dFKBuypJZwpf6rymCl026uEIZMJyVxCPHhHZRwIbQQMlQa6m0J9cJ47PbHwb5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZROBnyn8; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=XNzl1lson5pPTNMNlNdF68a3RIK6Tq+c3iKW9YwJgcESXAS25Ub0XU40PiZjrw4DZdfOU2EQRsGg0JBXR2PvsYswHsZbFmzNrCUUG1hakGb28qUtZjq7UvpRLwFPEKt/MTNZwa196p/7she3yEEoeXPRJ2DFD3aDwUX3s2Yba7k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kSFIuG7I; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZROBnyn8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D470CC2BC87;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kSFIuG7I"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB3BCC19423;
 	Thu,  5 Mar 2026 15:16:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1772723788;
-	bh=ZNZ2mFKPm+G9plRvw4WRwSksYn8HB30/8SoYLAYS4yM=;
+	bh=KRhaVj36QPpFVRt1j0+gEDFYVEUP/qyFJd2IndbJHfA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ZROBnyn8LoKoDWsT8Q590A8E2tRzecZaRoov4PaRwU92zao694dz2OzST1Ay20p3P
-	 yeN73l7B3rsiwrK4TvgXwbXpY87HRX31hitS63+5zSFiIJJCnLL/PonneMIGiK5/mw
-	 exhipSzx6YR4xIRRq5AOod+cT/y+30AvAeLzNZrliMHzNbmdHoAWV+Fs7UY9kCSkDP
-	 y5Co/7A0H2SY6MHl4r2cT3Z3ipNa7wpwbLRE9YN/aEf2l7fVuQepmx+RY0PG1FrLFA
-	 IHXvCXWi62IXUeHHmfwQnAdUYvzWJ7TtodW1hJ64aHoQQ9aXfZn282IEa86fhF1jx+
-	 yfb7mP/o2Lv3w==
+	b=kSFIuG7IZonQGHHdPJDQwAjl54WLr6jkqE/S3GQf/C1Ze62oUQeu0hDwPSdhHTJqn
+	 oRl2DoKqSJiOAInkCUnAeqQyOHygMU09nxb5nkHkjsuGf+xwPhXkA5QN2eRIqUXdOx
+	 TSEA7zNqo9sslNsI7OkIOOJfV6nWDWdE9RuE4RVfuNklaDagQ5Hq1vUbBcPwgNhMx4
+	 9PHcxZWYS06uuUVOqm/QbXZn2gQtlXyEnuKUm5DMSRPjwTsF0QNAw2OF/964U4CHqv
+	 JKNRkzjGzB1Y9v8zY/EoMrblnMwg3o51tWSkvln1g8vjfNsbvomCacPXtgW6GzBxQm
+	 Sca8Lr63JvzAw==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vyAR8-0000000HKEB-46YB;
-	Thu, 05 Mar 2026 16:16:26 +0100
+	id 1vyAR9-0000000HKFO-0jdT;
+	Thu, 05 Mar 2026 16:16:27 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 10/11] docs: kdoc_output: describe the class init parameters
-Date: Thu,  5 Mar 2026 16:16:17 +0100
-Message-ID: <b771c7d4fe0741292799ab13e5ae78d125d6c678.1772722474.git.mchehab+huawei@kernel.org>
+	linux-kernel@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: [PATCH 11/11] docs: kdoc_output: pick a better default for modulename
+Date: Thu,  5 Mar 2026 16:16:18 +0100
+Message-ID: <651be6529cd926802cc555840595421dbb158ab8.1772722474.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1772722474.git.mchehab+huawei@kernel.org>
 References: <cover.1772722474.git.mchehab+huawei@kernel.org>
@@ -51,55 +53,153 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-As this class is part of the ABI used by both Sphinx kerneldoc
-extension and docs/tools/kernel-doc, better describe what
-parmeters are used to initialize ManOutput class.
+Instead of placing the same data for modulename for all generated
+man pages, use the directory from the filename used to produce
+kernel docs as basis.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tools/lib/python/kdoc/kdoc_output.py | 29 +++++++++++++++++++++++++++-
- 1 file changed, 28 insertions(+), 1 deletion(-)
+ tools/docs/kernel-doc                |  1 -
+ tools/lib/python/kdoc/kdoc_output.py | 41 +++++++++++++++++-----------
+ 2 files changed, 25 insertions(+), 17 deletions(-)
 
+diff --git a/tools/docs/kernel-doc b/tools/docs/kernel-doc
+index aed09f9a54dd..3a932f95bdf5 100755
+--- a/tools/docs/kernel-doc
++++ b/tools/docs/kernel-doc
+@@ -210,7 +210,6 @@ def main():
+                         help="Enable debug messages")
+ 
+     parser.add_argument("-M", "-modulename", "--modulename",
+-                        default="Kernel API",
+                         help="Allow setting a module name at the output.")
+ 
+     parser.add_argument("-l", "-enable-lineno", "--enable_lineno",
 diff --git a/tools/lib/python/kdoc/kdoc_output.py b/tools/lib/python/kdoc/kdoc_output.py
-index 968e1d43de47..52fc41bd17b7 100644
+index 52fc41bd17b7..8d415b79b6f9 100644
 --- a/tools/lib/python/kdoc/kdoc_output.py
 +++ b/tools/lib/python/kdoc/kdoc_output.py
-@@ -580,7 +580,34 @@ class RestFormat(OutputFormat):
+@@ -589,7 +589,8 @@ class ManFormat(OutputFormat):
+     ``modulename``
+         Defines the module name to be used at the troff ``.TH`` output.
  
+-        This argument is mandatory.
++        This argument is optional. If not specified, it will be filled
++        with the directory which contains the documented file.
  
- class ManFormat(OutputFormat):
--    """Consts and functions used by man pages output."""
-+    """
-+    Consts and functions used by man pages output.
-+
-+    This class has one mandatory parameter and some optional ones, which
-+    are needed to define the title header contents:
-+
-+    ``modulename``
-+        Defines the module name to be used at the troff ``.TH`` output.
-+
-+        This argument is mandatory.
-+
-+    ``section``
-+        Usually a numeric value from 0 to 9, but man pages also accept
-+        some strings like "p".
-+
-+        Defauls to ``9``
-+
-+    ``manual``
-+        Defaults to ``Kernel API Manual``.
-+
-+    The above controls the output of teh corresponding fields on troff
-+    title headers, which will be filled like this::
-+
-+        .TH "{name}" {section} "{date}" "{modulename}" "{manual}"
-+
-+    where ``name``` will match the API symbol name, and ``date`` will be
-+    either the date where the Kernel was compiled or the current date
-+    """
+     ``section``
+         Usually a numeric value from 0 to 9, but man pages also accept
+@@ -634,14 +635,21 @@ class ManFormat(OutputFormat):
+         "%m %d %Y",
+     ]
  
-     highlights = (
-         (type_constant, r"\1"),
+-    def emit_th(self, name):
++    def emit_th(self, name, args):
+         """Emit a title header line."""
+-        name = name.strip()
++        title = name.strip()
++        module = self.modulename(args)
+ 
+-        self.data += f'.TH "{name}" {self.section} "{self.date}" '
+-        self.data += f'"{self.modulename}" "{self.manual}"\n'
++        self.data += f'.TH "{title}" {self.section} "{self.date}" '
++        self.data += f'"{module}" "{self.manual}"\n'
+ 
+-    def __init__(self, modulename, section="9", manual="Kernel API Manual"):
++    def modulename(self, args):
++        if self._modulename:
++            return self._modulename
++
++        return os.path.dirname(args.fname)
++
++    def __init__(self, modulename=None, section="9", manual="Kernel API Manual"):
+         """
+         Creates class variables.
+ 
+@@ -651,7 +659,7 @@ class ManFormat(OutputFormat):
+ 
+         super().__init__()
+ 
+-        self.modulename = modulename
++        self._modulename = modulename
+         self.section = section
+         self.manual = manual
+ 
+@@ -685,7 +693,8 @@ class ManFormat(OutputFormat):
+         dtype = args.type
+ 
+         if dtype == "doc":
+-            return self.modulename
++            return name
++#            return os.path.basename(self.modulename(args))
+ 
+         if dtype in ["function", "typedef"]:
+             return name
+@@ -762,7 +771,7 @@ class ManFormat(OutputFormat):
+ 
+         out_name = self.arg_name(args, name)
+ 
+-        self.emit_th(out_name)
++        self.emit_th(out_name, args)
+ 
+         for section, text in args.sections.items():
+             self.data += f'.SH "{section}"' + "\n"
+@@ -772,7 +781,7 @@ class ManFormat(OutputFormat):
+ 
+         out_name = self.arg_name(args, name)
+ 
+-        self.emit_th(out_name)
++        self.emit_th(out_name, args)
+ 
+         self.data += ".SH NAME\n"
+         self.data += f"{name} \\- {args['purpose']}\n"
+@@ -818,7 +827,7 @@ class ManFormat(OutputFormat):
+     def out_enum(self, fname, name, args):
+         out_name = self.arg_name(args, name)
+ 
+-        self.emit_th(out_name)
++        self.emit_th(out_name, args)
+ 
+         self.data += ".SH NAME\n"
+         self.data += f"enum {name} \\- {args['purpose']}\n"
+@@ -851,7 +860,7 @@ class ManFormat(OutputFormat):
+         out_name = self.arg_name(args, name)
+         full_proto = args.other_stuff["full_proto"]
+ 
+-        self.emit_th(out_name)
++        self.emit_th(out_name, args)
+ 
+         self.data += ".SH NAME\n"
+         self.data += f"{name} \\- {args['purpose']}\n"
+@@ -868,11 +877,11 @@ class ManFormat(OutputFormat):
+             self.output_highlight(text)
+ 
+     def out_typedef(self, fname, name, args):
+-        module = self.modulename
++        module = self.modulename(args)
+         purpose = args.get('purpose')
+         out_name = self.arg_name(args, name)
+ 
+-        self.emit_th(out_name)
++        self.emit_th(out_name, args)
+ 
+         self.data += ".SH NAME\n"
+         self.data += f"typedef {name} \\- {purpose}\n"
+@@ -882,12 +891,12 @@ class ManFormat(OutputFormat):
+             self.output_highlight(text)
+ 
+     def out_struct(self, fname, name, args):
+-        module = self.modulename
++        module = self.modulename(args)
+         purpose = args.get('purpose')
+         definition = args.get('definition')
+         out_name = self.arg_name(args, name)
+ 
+-        self.emit_th(out_name)
++        self.emit_th(out_name, args)
+ 
+         self.data += ".SH NAME\n"
+         self.data += f"{args.type} {name} \\- {purpose}\n"
 -- 
 2.52.0
 
