@@ -1,72 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAEF53793B8;
-	Thu,  5 Mar 2026 15:32:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF9E73C1996
+	for <linux-doc@vger.kernel.org>; Thu,  5 Mar 2026 15:35:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772724748; cv=none; b=NeUvRcQdQTLjelzSdMjLK0cR766eHbfjqKW3XO/343wnNb+Rti9KtJW+2cbyvalXV7sg6HBTWUlrHyljREpTOx37mdoqEaEwGhDLAj2L6KcsFBKYe8GvE8MuE3JGoQTvrJSl1ndO2mOYr9htq8gnz1AMr97vTgFht3qqqbqvFTM=
+	t=1772724917; cv=none; b=gFxLlQdL3icEA2LZA1/bpf+sKwpXUR/+tGC4B1eoloet2EnuagtxCh6xW2OByDiWpr4wq+kZ4i/2rJc+xcNiSkgN35tJM0Vfd8ld7oli66nD8/rSNGr4W87f+V3HnqUUvffwuYFUdeuPktZrAm8w8zpbwG1DU37c2CMnnnM/E7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772724748; c=relaxed/simple;
-	bh=KljzhEINbuB2Omdwc/HSpviQ7Totqq5KjdVxNPAaWEQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C6xsi4evOWE1ztBqczolSpRPKaba3de0nZs++xaLNP7eNgnrh1wHszamKQNXJWZTOQvK23E8MChumU+jAKF4Hnyp3xuIvfS/N8HZcckk9pQtqyIq9A875mtY3134ci5w3dKo/lYv24HJEm36iX4/oZDOhUyqYdKfV8r4cjjvwxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HVUBJSrh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772724917; c=relaxed/simple;
+	bh=xPxR7A1KpL6unFCuzXfwTzWyLcM4UNIGR0JOSYbIUDM=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=OcaDorVr0159uEO6mCItoss1VaZ07X3ZO1M3nWBXoWH8qAJtRxqcVPRS/NveMMvoRQPqGZINaTnt0qOw9sMqyhzjEG/yJRGp8WXC6SVzHyIy+hvpojMqiqHI29plnTu5FvTs8MUrJ65cIPNIKiEXOMyPhbLVCTKBjGmy1B7g/Ks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=JLZdnS1n; arc=none smtp.client-ip=209.85.216.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HVUBJSrh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5C20C116C6;
-	Thu,  5 Mar 2026 15:32:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772724747;
-	bh=KljzhEINbuB2Omdwc/HSpviQ7Totqq5KjdVxNPAaWEQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HVUBJSrhzoBz6u8EZgSQADIyp8xjzfkc9RHf5Jb6jHB4VfwRQpIm+8nRNFFs80myf
-	 ljh8T9vmkRvyOTU49lEIkvyA2t8y+W+XAGTSNpuHwKOfJ7cQuPGK5FCaX/v9Sh+4oE
-	 qA2+bkhIG/mcnKulyb+luXvgy4sSM8mQXirnI4jPMAx724EBje3se5iAlYCRaWchxp
-	 5Dyx5KyjJ/OecZ/m7RI6hNg6f9tflein41VS2EY4ONYFd8AvbBjLTXQPnMpMFSNoZc
-	 H9V5AAu9ZCvhr8XMk48DG1SFE13JTmNabEOjZE2CnfkQEIt5rmaeAo3a668OKvX8nH
-	 XGHbxjrnN1utA==
-Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vyAgb-0000000HN8v-3gyP;
-	Thu, 05 Mar 2026 16:32:25 +0100
-Date: Thu, 5 Mar 2026 16:32:25 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Randy Dunlap <rdunlap@infradead.org>, Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH 00/11] kernel-doc improvements
-Message-ID: <aamhhBqINYYHj66v@foz.lan>
-References: <cover.1772722474.git.mchehab+huawei@kernel.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JLZdnS1n"
+Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-35980affbf3so3558753a91.0
+        for <linux-doc@vger.kernel.org>; Thu, 05 Mar 2026 07:35:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1772724914; x=1773329714; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Nb1Po5uhA8ajtfdop0hCLXdvKmdr6sjlbz1AVD84as4=;
+        b=JLZdnS1nC/l4jr9dJj9Fq1IrWvMm6ttJo6dxGgsE22hy2Zs1qDPCN1ORDIMxbuRrG5
+         lESbKZKQ2ntD+dV8xS0UIODaHYsq7EDnAZYzJIthmBj/3AhoPhVv4lpEE6CeJHzssyOp
+         dMeXcHNpfIw77lNX9s96/LbaCY3bsvqnMSgihGYxuxrLbjM9etmm1B3Z158psDNtIXNI
+         idIaeFtSFkxQV0eS2p35KKgY+z72iVS1kcxiqm+87ACMBi9tDZnjPU/6heQ5JFXOr6Aj
+         QpHlD1CcciDvE/+yEmgLPdLK8RSD2eslMkUoNkIqvHIZUv8o3wZA+kU4vzhQPnnoLZRj
+         rUeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772724914; x=1773329714;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Nb1Po5uhA8ajtfdop0hCLXdvKmdr6sjlbz1AVD84as4=;
+        b=aHONUAgFbJ+XnDArot8JlvoUBMmTCrQNtPBh8EFm+2jLDGJ7jrtoyUYLUlscqtvPbH
+         PQ7uffhm5QI41mq2mdjZaae9pfc1O2hnWQJuqi0vEogopWZq9taRAgxHCSX9+gsQy5CG
+         nO1opNqiSJUM5BXDb0c7F++8EeqwrsUtoIlGGKqOJp5C+7APranvV6HQNNKfseMmQJV1
+         k8FN3iyEXwC7JxjCpu3YsnXXpoU1vQ/jHLNgzAmd8Z7gJlByAllCbU//sErlkdL5PO4h
+         Cr3zmeVA0P+CT55tjnPYKpKQFiBM1ni0BNCFjDZVJ6wp/wN/bPw+B1Oxu91CotmWTjIk
+         Z+Uw==
+X-Forwarded-Encrypted: i=1; AJvYcCXAmoKNh+U61b9Oh039lfVyzzPYnkntNkIzwFVCBgDl15dM6zV4MHN+imvwlSbyOTD6dOzViMUakwI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzzlAcvkF4JdNF8a/0S1ocMC/JEGmFoMVtBJSYmIzGd98AXc/3o
+	bxcgpdH3pGnK/l+qHGGpZKwfoYFQcweV9nTKB2LI+ruVJUxxScBhrMN8X63kX7sHb0AkDJKErOb
+	jmqqIsA==
+X-Received: from pjbof5.prod.google.com ([2002:a17:90b:39c5:b0:359:86b9:176d])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:1a91:b0:359:7c55:c160
+ with SMTP id 98e67ed59e1d1-359a69da7d6mr5554358a91.13.1772724913982; Thu, 05
+ Mar 2026 07:35:13 -0800 (PST)
+Date: Thu, 5 Mar 2026 07:35:12 -0800
+In-Reply-To: <263F364B-D516-40B3-B065-A5369BFB1A7F@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1772722474.git.mchehab+huawei@kernel.org>
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Mime-Version: 1.0
+References: <20251026201911.505204-1-xin@zytor.com> <20251026201911.505204-16-xin@zytor.com>
+ <aR1xNLrhqEWu+rmE@intel.com> <aajVJlU2Zg4Djqqz@google.com> <263F364B-D516-40B3-B065-A5369BFB1A7F@zytor.com>
+Message-ID: <aamisPkG1JZ2UDdQ@google.com>
+Subject: Re: [PATCH v9 15/22] KVM: x86: Mark CR4.FRED as not reserved
+From: Sean Christopherson <seanjc@google.com>
+To: Xin Li <xin@zytor.com>
+Cc: Chao Gao <chao.gao@intel.com>, linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net, 
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, luto@kernel.org, 
+	peterz@infradead.org, andrew.cooper3@citrix.com, hch@infradead.org, 
+	sohil.mehta@intel.com
+Content-Type: text/plain; charset="us-ascii"
 
-On Thu, Mar 05, 2026 at 04:16:07PM +0100, Mauro Carvalho Chehab wrote:
-> Hi Jon,
+On Wed, Mar 04, 2026, Xin Li wrote:
 > 
-> This series contains some patches that were submitted originally
-> on this /41 patch series:
+> >> 2. mk_cr_64() drops the high 32 bits of the new CR4 value. So, CR4.FRED is always
+> >>   dropped. This may need an update.
+> > 
+> > Ugh, I didn't realize FRED broke into bits 63:32.  Yeah, that needs to be updated,
+> > and _that_ one is unique to the emulator.
+> > 
+> > Unless Chao and I can't read code and are missing magic, KVM's virtualization of
+> > FRED is quite lacking.
+> > 
+> > More importantly, I don't see *any* tests.  At a bare minimum, KVM's msrs_test
+> > needs to be updated too get coverage for userspace vs. guest accesses, save/restore
+> > needs to be covered (maybe nothing additional required?), and there need to be
+> > negative tests for things like leaving 64-bit mode with FRED=1.  We can probably
+> > get enough confidence in the "happy" paths just by running VMs, but even then I
+> > would ideally like to see tests for edge cases that are relatively rare when just
+> > running a VM.
+> > 
+> > I'm straight up not going to look at new versions if there aren't tests.  Like
+> > CET before it, both Intel and AMD are pushing FRED and want to get it merged,
+> > yet no one is providing tests.  That's not going to fly this time, as I don't
+> > have the bandwidth to help write the number of testcases FRED warrants.
 > 
-> 	https://patchew.org/linux/cover.1769867953.git.mchehab+huawei@kernel.org/fc6723d13b96db014eaf0f14354d8821ea2085b8.1769867954.git.mchehab+huawei@kernel.org/
+> I must admit the issues Chao raised were a clear oversight on my part.
+> 
+> I wrote some basic functionality unit tests in kernel selftests, which were
+> included in v1 and v2.
+> 
+> Later I started to create FRED tests in kvm-unit-tests and extended one
+> nested test case to CET:
+> 
+> https://lore.kernel.org/kvm/aJ9DB12YVJEyDORD@intel.com/
+> 
+> I planned to send out these new kvm unit tests (not just FRED tests) after
+> KVM FRED patch series gets merged.
 
-Hi Jon,
-
-Don't apply this one. It ends I lost something among all rebases this
-series passed thoug on this patch:
-
-    fcf10d80e7a5 ("docs: kdoc_output: use a more standard order for .TH on man pages")
-
-I'll be sending a version 2 later after sorting things out.
-
--- 
-Thanks,
-Mauro
+Definitely send them before.  Even if no one outside of Intel can run them (I
+forget when FRED hardware is coming), people like me can at least see what you're
+testing, which makes it more likely that we'll spot bugs.  E.g. in this case, the
+lack of negative tests for CR4.FRED is a big red flag.
