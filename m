@@ -1,130 +1,150 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 966FE37881E
-	for <linux-doc@vger.kernel.org>; Thu,  5 Mar 2026 09:22:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772702556; cv=none; b=hrwuhuyvj4aleUsvDDGaY8bAdq88CDMS3rOnO7OZDzPNbYYM7QocMFjqi87c8M6Bbg1NLC17gi4gMVSHMOlDfvFnq4vbnRYvMUq9keWiS9+Gj7NtDr8eNL9qxpavkFqvePs5kYWusGo3ulYlxvHduRX15x5BOruJ3bi5TghTbMw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772702556; c=relaxed/simple;
-	bh=dYZDEIYcGDDCKCSK5WQGTMeJS/coZs66ym1GE96/J5Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=u1LCX8DpxeST5HU+wZZd5Bb0mSjShOxYG8Ztd4fQj+inOMGxHF52uB7H/MdjCMGTj748MROWczAWgCcxFnWB7hQ27D9akOxC4+q6fbeLmLHVsR8nc5zK2FHCHAsJCYqKEEbXB0Ve1TP1BK8HQnxzDfoNHsc4S3+2QFj739jpyKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PwemhpW0; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA2D1344DB3
+	for <linux-doc@vger.kernel.org>; Thu,  5 Mar 2026 09:24:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772702649; cv=pass; b=Z9BeuNeNEOpPDSXkX2CmSW9Uq6vsyT00cLCgBJb1xseIO5zwQ0BBgu5PnVx+K2FrkzP8zdx8Pgq52hZizgW3+z1/d2TORponasthvIiit7w1jdZKuscUZNzVeraFXD5hMG09snOXBJR98ZhEM/JeEe6H8IcOnDh8TB1XQIry+DA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772702649; c=relaxed/simple;
+	bh=yOGSzeXM/fJTAPIw5zs6GzDVPcLedX2kJhZdWG+5xLo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=utLuyOLO5uYyRvsXGVEIdRwKyTXB32mjATy03y4qnnkW4iBH6fWjP1VtrA2UNy/QWEOorDrpWC/AXyX3ilvntxvx0Vsrx6YmDLRvNvP+CMiYG8iRgvMUrugl/rMFwYP3bOKWtVvHSJJssxVG69NO9n5b0mJtAD6a32r3j1xxg1U=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EzDsPtOF; arc=pass smtp.client-ip=209.85.218.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PwemhpW0"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-827390e8a3cso5122418b3a.0
-        for <linux-doc@vger.kernel.org>; Thu, 05 Mar 2026 01:22:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EzDsPtOF"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b8fbb24a9a9so1299761666b.0
+        for <linux-doc@vger.kernel.org>; Thu, 05 Mar 2026 01:24:07 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772702646; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Kr5cysecplsdTQV1UA9ujPQs6lWpbeic5leJPfs8Mti4f9fW57xqQ24nU6fmrmeDyb
+         hxT4um4Xxhah5O1NE1PKoC4ia0o/mAg3gXFwiJ12KSZmHAiFbban/Hq3HuSduwXfwhFX
+         Gc+ubCfbSc05XKDUiDRlp7dbQRhMcYjLHpkFrjo9UztHr/B4nveY/45Xz5RUb82bN1DO
+         WXVZwQa9kpdAMMFjOqMF3OApWwQGatgBvROJEL7c1K62TDpUmYscCoBZevnARYEIuyeV
+         5aSX0GMN6FOYWX1jzP6P3B9n39K2NlhdMigQKlzjwWUuMtebFJxym241N4GaY7Mfu3Tj
+         2t2A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=O7V/aynPgarI00J6RHHmZxLR/eFY6yKbzGs2AV4GWAE=;
+        fh=2Lotj7P5SgcbTebzOU+UbSax46ZaRPY9Oz3DzNrzXMs=;
+        b=Ymribbokzk9MEG0oX72OuUyF3J3U5pEW2qEvPs0WXPzgx4QOuVSU0f5/3yC0uRUX0a
+         b5lDeKiulyyobKARinrVzZ+g0gx2Cd1wlf4NQ3IztBSZtbJyWw6u9cG76EGvnsJjAekm
+         UjkwoTuwXXuIEDqvdcn4XglOjpmtl9Mw8ASpMtPil7QTHifG9S+cfsxJETvmzLr3XElM
+         KG6sHhChimQfkzUwzpNihsVMK5+JaekpJoQvB9tuafRG9LzPEBTBh4h9Ap2SRE51Uxwo
+         xw+wrIbIs7u0R6K7W/Vs33DxMDmUVoEzJPQ9byPyfVzmXbsL1s6PC8FZgjzhdOS8V6x4
+         hJ8Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772702553; x=1773307353; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1772702646; x=1773307446; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2uyvuUTwLbkE6jxPZnMZ5J4m41aIY7BYEiJ0R23tsYQ=;
-        b=PwemhpW0R83JAmXmTaWfZ9ywyil7JFxC5A76ERZU66OEWxvNExbE3eIvOtcM0wNyMR
-         W08M11fZcPMnqgtccC5cl6Kvw34wwleNIkyJwyP5ir1CNYcCJrd87UZMIYIeaeTYmLlc
-         WS56szCdxbE33mzeaOn43NB5XhpkAp3uhF7Zu+bhShvsxNvB8gUzR7XLhP3l1aqdtOuS
-         rPaOmn7roLkJ83eFVBUUhIDke7GiHkc3CwKA/vmsLVyb1SkgLFJI2/Pu85VQzPX/c4ad
-         7+bKOCb83dq2kwqw6pf2mHPvGTGcLXn9AMC7tqXz/cjn3a1/ru+wopxJ7l+P2fnPU8HH
-         dCRw==
+        bh=O7V/aynPgarI00J6RHHmZxLR/eFY6yKbzGs2AV4GWAE=;
+        b=EzDsPtOFsUZzB5vhFUBXdFfTG5CnS3MCa2zjysCqIrZbXCqIsbA6W1Ht9vlfAG9d7/
+         qDDYEGRUC3UZAReaUZICoSWpvpa2bvtjvd9c7UfRYp8A7gpK+hQMHWLa/A+ZBJZndjvb
+         RMFDQivCn3tNY1Bt7hSxeLQwEFdYUicsMsqtvbNkNtDsTMXG8BvYhlYqbnlp2xYeYQiA
+         vG+oZlaL6okJW31wjk/k5G6G6OQ2nFF9dYYB6k92acst23CaPvB8UoA+q0s8VQUcLoBG
+         ecjBH69qI/3b1VQC/vRcpTqXF3CuSqeXUyTb1f6SF/2XQ7h+B36p5aCT2FcoPuHyALtE
+         I9yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772702553; x=1773307353;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20230601; t=1772702646; x=1773307446;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=2uyvuUTwLbkE6jxPZnMZ5J4m41aIY7BYEiJ0R23tsYQ=;
-        b=rW9RwnFT0rVFp3lHNDVBmhtQsKcOQ8lfMYcV7CZgPBWexhd/6oWqzO68QKxbYCqST0
-         tgyQj4qS21D5kHiby2GXPz9y2C9sRYvcYpk+dYAsq3xFmHbqyYACbuBn7gPwYEDaxkJt
-         SDN2kwMMrxA/HW4GdbKfsHqMl2CzJ/GGYWuhyYjFquJ6yfnRPP2G4p9ZTcGc3wQvJozZ
-         UrIAXJ4ppJSH7VSWshgW+FzkOHU99AwTXLJl1SCsPHc3WfrKs1D2X+o6VNvK5RvDOJZd
-         N9qU3jabJhOwjJavLl65wwVwdAPqY/u6uRzZSXR+QYo6jnmvL7vuxm8yfmNPXNAGGL+M
-         UdDQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVmxuVN8HfSjZhV0Nw461GI9C8y0+hyesVKz5rrZ1Qhks63vndIexoGUJ/P/wPLsBv6qfytyAd/vcY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy9bjkZP+gf7oQxQsU1wFQlMJ1uzWFInXDeaMVrNvB1erw5aEq3
-	IN2tG2cdOL2XPyGzTkGQs3kgSQbGD8Fr6b5hIi1VMF71F7mr90EsTIo/
-X-Gm-Gg: ATEYQzwBmIjy5VAsthE35zIzX4nscre8bdT95IwpNRSXS1y+PrLguFFqlt3SS/tc+Jn
-	M5OG46cQ6P6YvxqYafUJ+pCbxzccFpnjpPOuPAFlKA1rVcjyhI4lSDYXxhWsuQN86XxE+auk/+6
-	xubs/OhIR9ZneduYsFgkYjg9i7oQIavlJHibBt4xtmLqa6WC6LFdL/k2Vi8xC4zLKaDB8EGkPdl
-	u1CFMD6aC5xcjwoz835moVDpWEx5gTQokZrarMg9AJiO2nU+gq7hvZMz/7e3rGkns6lRBebeyzp
-	a0ThYrXuwGy5hvM1VKjUF0FiBB1q/LY7MjSzeo0Uo5kYG9uuBab3XaDCZtVo0N3VwfQkmNLEEGP
-	SGPo27gOANCwqKzvA0UnURAB0SgS+DGZK/C7qD5eax2e0Du8X0B8ZmmRHo9n4oMjDN9shiOVmFY
-	dTr/eLDiNuvPDBQgoQg1agq//eIiv1p5OseGL8CBesxig0hfyoVF4aPnV4CbRN
-X-Received: by 2002:a05:6a00:1415:b0:81d:9862:a140 with SMTP id d2e1a72fcca58-829855dde46mr1547767b3a.3.1772702552996;
-        Thu, 05 Mar 2026 01:22:32 -0800 (PST)
-Received: from ubuntu24-04.. (120-51-71-230.tokyo.ap.gmo-isp.jp. [120.51.71.230])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82739ff34fesm19718200b3a.42.2026.03.05.01.22.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Mar 2026 01:22:32 -0800 (PST)
-From: sawara04.o@gmail.com
-To: davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org
-Cc: Kyoji Ogasawara <sawara04.o@gmail.com>,
-	netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH net-next 2/2] net/smc: Add documentation for limit_smc_hs and hs_ctrl
-Date: Thu,  5 Mar 2026 18:22:24 +0900
-Message-ID: <20260305092226.27379-3-sawara04.o@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260305092226.27379-1-sawara04.o@gmail.com>
-References: <20260305092226.27379-1-sawara04.o@gmail.com>
+        bh=O7V/aynPgarI00J6RHHmZxLR/eFY6yKbzGs2AV4GWAE=;
+        b=gSzOhIIu6F7lFiANCM2uA0laZeN2Zhf8c+BXErOMFSPnd434j9vbyFvIUbpoBTKos5
+         HR+9J2+i4Xn4FqTl7WIvcXACw+uh6S5MiWp5EIT9Iqfjg44e/eXnGUhfms9Q2cn9y+vh
+         AnXgId/IxCf82QmDB3H/T3PhPPLvgN46VnXhfuGcn2QYFTfrABkmVzluzbYqehGUXQRi
+         0mi1VSIKACAC3kAp0+AK/joXbhoghb/feBYjj8By56cUAU1woy54hzToOdcknqV5KUhZ
+         MHHKY0Ld+2SeuJriHIuCoFxwJr7Xxo2E6iARaWS2lCWoB3mHWZNkLctTQQ9fCXso9hiO
+         9mJg==
+X-Forwarded-Encrypted: i=1; AJvYcCVGFYVIRnufyw9tser8z3L1kNCKxvnYV5suXfTbzXc6lUAGKR9elIhxDp3G0icqX4oC8v8w2RMrwwg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+McpDtny7MJyJTJeAm80oxoAiV/G06eGmZZbCb/URMN3lWSSg
+	xAjIWNBu6e0600MWoD50fKLHkazxtz6ZaWFTZsoHQoO8UKJ1uAX0/Vz2wKJhi2vS7y+5DfRTlCt
+	Q4Xrno+g/pf8skA1fOeZ8cmA/19hxGDQ=
+X-Gm-Gg: ATEYQzw4G6aJBxI0Rlk/QiX7ysn5/ngjLeU1jTExYo6Zx7df/zo6gLbQQIjoYi/Jkpy
+	rZx7tzGbuEvjqaWY3zWz5V978UTQao2lnpRash5ZG0hHhg4hNuw7RmIbLQV+SC2QKYZ3OnP+Lo9
+	eGDiRAccOPAEswwyyazi6T558J3j+OzK8vAA7d9bXe8x5wghtLnHUlh38e753IufaKO7CN5KzCB
+	v9FGFj2OyRWNA9i+IkAlz5aODSucwO1C3+2WN7LXi+4hZaSIQn47RPpC+8bbrxf3QIJgmoApELo
+	Bo/+2qZlmSNqH0gBUeGQbF64dPMfm2cTl+AHuUyTcNKU7DPlPSkKFshObBN0uQQmjWw/ZOZBQi5
+	jgnpS7m0=
+X-Received: by 2002:a17:906:f594:b0:b8f:de15:8334 with SMTP id
+ a640c23a62f3a-b9409e6c303mr96538466b.24.1772702645754; Thu, 05 Mar 2026
+ 01:24:05 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260304080519.2844101-1-flavra@baylibre.com> <20260304080658.2844434-1-flavra@baylibre.com>
+ <70f25902-5c79-46f9-8c67-99633b22b5ac@baylibre.com> <098886563f5fdcde837989d0556ed9a2d8d3203b.camel@baylibre.com>
+In-Reply-To: <098886563f5fdcde837989d0556ed9a2d8d3203b.camel@baylibre.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Thu, 5 Mar 2026 11:23:29 +0200
+X-Gm-Features: AaiRm53YqAUMQyvSLktnGg5SuN9kQ9-08zQw4GXGWg1FP3qWaxXWqtsvLa9Yl24
+Message-ID: <CAHp75Vdni=OgHiDi8G5s6CgBFZZuypOyJSo5DFjaKYFkLGPqkQ@mail.gmail.com>
+Subject: Re: [PATCH v7 4/6] iio: ABI: Add support for floating-point numbers
+ in buffer scan elements
+To: Francesco Lavra <flavra@baylibre.com>
+Cc: David Lechner <dlechner@baylibre.com>, Jonathan Cameron <jic23@kernel.org>, 
+	=?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	Andy Shevchenko <andy@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Kyoji Ogasawara <sawara04.o@gmail.com>
+On Thu, Mar 5, 2026 at 11:09=E2=80=AFAM Francesco Lavra <flavra@baylibre.co=
+m> wrote:
+> On Wed, 2026-03-04 at 16:45 -0600, David Lechner wrote:
+> > On 3/4/26 2:06 AM, Francesco Lavra wrote:
+> > > In the data storage description of a scan element, the first characte=
+r
+> > > after the colon can have the values 's' and 'u' to specify signed and
+> > > unsigned integers, respectively.
+> > > Add 'f' as an allowed value to specify floating-point numbers formatt=
+ed
+> > > according to the IEEE 754 standard.
 
-Document missing SMC sysctl parameters limit_smc_hs and hs_ctrl
+...
 
-Signed-off-by: Kyoji Ogasawara <sawara04.o@gmail.com>
----
- Documentation/networking/smc-sysctl.rst | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+> > > -  Format is [be|le]:[s|u]bits/storagebits[Xrepeat][>>shift] .
+> > > +  Format is [be|le]:[f|s|u]bits/storagebits[Xrepeat][>>shift] .
+> > >
+> > >    * *be* or *le*, specifies big or little endian.
+> > > +  * *f*, specifies if floating-point.
+> > >    * *s* or *u*, specifies if signed (2's complement) or unsigned.
+> >
+> > I would keep all of the format options on one bullet point.
+>
+> That's what I did initially, but Andy suggested doing differently [1].
 
-diff --git a/Documentation/networking/smc-sysctl.rst b/Documentation/networking/smc-sysctl.rst
-index 17b8314c0e5e..67c2bdc533d7 100644
---- a/Documentation/networking/smc-sysctl.rst
-+++ b/Documentation/networking/smc-sysctl.rst
-@@ -111,3 +111,27 @@ smcr_max_recv_wr - INTEGER
- 	like before having this control.
- 
- 	Default: 48
-+
-+limit_smc_hs - INTEGER
-+	Whether to limit SMC handshake for newly created sockets.
-+
-+	When enabled, SMC listen path applies handshake limitation based on
-+	handshake worker congestion and queued SMC handshake load.
-+
-+	Possible values:
-+
-+	- 0 - Disable handshake limitation
-+	- 1 - Enable handshake limitation
-+
-+	Default: 0 (disable)
-+
-+hs_ctrl - STRING
-+	Select the SMC handshake control profile by name.
-+
-+	The selected profile controls whether SMC options are advertised
-+	during TCP SYN/SYN-ACK handshake.
-+
-+	Only available when CONFIG_SMC_HS_CTRL_BPF is enabled.
-+	Write an empty string to clear the current profile.
-+
-+	Default: empty string
-\ No newline at end of file
--- 
-2.43.0
+And still I think it's better to not mix them. The floating in the
+same sentence is confusing (along with 2's complement mention and
+sign).
 
+...
+
+> > > -is [be|le]:[s|u]bits/storagebits[Xrepeat][>>shift], where:
+> > > +is [be|le]:[f|s|u]bits/storagebits[Xrepeat][>>shift], where:
+> > >
+> > >  - **be** or **le** specifies big or little-endian.
+> > > +- **f** specifies if floating-point.
+> > >  - **s** or **u** specifies if signed (2's complement) or unsigned.
+> >
+> > same here
+>
+> [1] https://lore.kernel.org/linux-iio/aZ7dCdLs5xcJ4UGW@smile.fi.intel.com=
+/
+
+Same here.
+
+--=20
+With Best Regards,
+Andy Shevchenko
