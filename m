@@ -1,108 +1,115 @@
-Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com [216.40.44.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC1A1245014
-	for <linux-doc@vger.kernel.org>; Thu,  5 Mar 2026 01:49:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DE771A23A4;
+	Thu,  5 Mar 2026 02:18:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772675371; cv=none; b=SAMLfj/jkJopnI1j3+BbGfSbKy+jJKzmzqmMY34rdu1XhH/XhDjmu9mEnNJ4K1Q8Q+49vJ2f/KBPyFUrQMFYcWZnl0GJfUfXCSZEnRGBe72VnGEeK+AjVz7uiRuGvL1xkM35CMNwPzPtDzG5jNL+1nAcDdCCfEUVZpEudtFCLlw=
+	t=1772677139; cv=none; b=lVAfPmk6XghPbHLCn89LHJUWgzHKkCKUAJzmmDoRRMrZ5kReTd5HI2710Q+me/AuJqlDXgavsN1UsrSsXsTozjpjj9igbDRGFnuDGxV/UKHIEWWQf1nEsgIuPqOvCuSr4yzCe9pdAziIEGXqaXzIxmHP24aVAO+UVcH6HYznWPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772675371; c=relaxed/simple;
-	bh=Np4ShKJhjd/UsVZCCVkMIXyUkSYRhUpk9SUmJO1RszE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ieBHRGKTVoHmxvVQCVCjF0sMuZegx4cl+puBOL0GfvNG/fp6yivFkNk4gj2lcQkFNcGuKdNAp7/vfg7M2nIHc2FwTBdGl4vZOrHvP9wECctsfYh1HfD8DMM6713SpCO0fh9O1q1pqRZyK/nxMfBP4vgvnKQKifw8g6oULqlr1oM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf13.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay02.hostedemail.com (Postfix) with ESMTP id 8375213B923;
-	Thu,  5 Mar 2026 01:49:22 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf13.hostedemail.com (Postfix) with ESMTPA id 6A6D02000D;
-	Thu,  5 Mar 2026 01:49:20 +0000 (UTC)
-Date: Wed, 4 Mar 2026 20:49:18 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: hujinfei <3288824963@qq.com>
-Cc: linux-doc@vger.kernel.org, pmladek@suse.com, senozhatsky@chromium.org,
- qujingling@huawei.com, zhangjiaji1@huawei.com, xushuangxing@huawei.com,
- john.ogness@linutronix.de, hujinfei3@huawei.com
-Subject: Re: [PATCH] Documentation: printk: warn about lockups from
- excessive use
-Message-ID: <20260304204918.53abe94c@fedora>
-In-Reply-To: <tencent_D970CEB1BE717D3D5E259943CB4510A99308@qq.com>
-References: <tencent_D970CEB1BE717D3D5E259943CB4510A99308@qq.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1772677139; c=relaxed/simple;
+	bh=Ls/7mcA2DK1yUNDKwWVDb+Xk7O6ZAGJS7ZHtXQtS4sk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o1ljOGZAXFZ2NMdl4XaBoXcTYlCsj3uomhRQwB+TATS5EAYmNFLB0Iu54+vWrr5HCfYihXFSd3O85MXokPj+JYamyZwFmVyGFUP9DG7timw1t3ZKQCIR0FTxhCpIs9A68PoAM5DBVzI7xEZV/TlHBZn6x6FMM6Pe9rNkAWdS6Sw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pawCvHiZ; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pawCvHiZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B6EAC4CEF7;
+	Thu,  5 Mar 2026 02:18:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772677138;
+	bh=Ls/7mcA2DK1yUNDKwWVDb+Xk7O6ZAGJS7ZHtXQtS4sk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pawCvHiZSp7TytfXL17wDR0K9R0m/k1ZLv5M80Yj6FEjwhe66HcUrZniCaGC8bysk
+	 2MrZySXtcpKszetZbzw6Cli/lg1vdfeueZuBn3ABqQjfzlmMLQxOjPQaO0LH4YJ1WD
+	 Haw14DWcqB+POm5YJLoIveLxljpRGnFTSoM8C7m3lIvfiwh38t8J3pcCXP7rYez8Dn
+	 8iJRLmNzJXXK5bBPw3TAK/O554ERaOPj/8RioVipVJTzHgGuEkqdEdiufjvnybbplc
+	 aXUh3zhMwepJ8hj0ckPvlNfFQHaQt3ti/caRF4/yFvnftgP+Gss5XMIfri38yProH6
+	 XPpGtFnHD7Qhw==
+Date: Wed, 4 Mar 2026 21:18:57 -0500
+From: Sasha Levin <sashal@kernel.org>
+To: Helge Deller <deller@gmx.de>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Richard Weinberger <richard@nod.at>,
+	Juergen Gross <jgross@suse.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	James Bottomley <James.Bottomley@hansenpartnership.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Greg KH <gregkh@linuxfoundation.org>,
+	Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>, Kees Cook <kees@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thorsten Leemhuis <linux@leemhuis.info>,
+	Vlastimil Babka <vbabka@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-modules@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/3] kallsyms: embed source file:line info in kernel
+ stack traces
+Message-ID: <aajoETEtX9r2XzT7@laps>
+References: <20260303182103.3523438-1-sashal@kernel.org>
+ <20260303182103.3523438-2-sashal@kernel.org>
+ <258d7167-2e82-4402-9545-108c501ae69e@gmx.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Stat-Signature: uqeho639ny6g9r8yhunkxuaqzbd8w1os
-X-Rspamd-Server: rspamout01
-X-Rspamd-Queue-Id: 6A6D02000D
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX1/Mkw2VZVy96heZTK+URNisEyPsrFd6TXw=
-X-HE-Tag: 1772675360-310425
-X-HE-Meta: U2FsdGVkX1+FdnYvN1QLFGkOO9s+Je6phw363ubXKHO8wYnZ3nTPKn1ypE8PJKjlh2Fvb00Gn/XV4ABA/hroVPTfphCVdWF7kE3LrC1wSWRiLOXXrVk/Bmm5HlxTFhxVtIMDm2s0km12ka/yqj0oc1KWiIXkQIDtW8nOWwg5C35tbHffvE9OZKQsXjQGfdE8sXRX/YyDtaCZtgBdJkHlfUJ1YfHMKioMszR/tY/6QpN1YnGBDylX7PVEaBT0gG84LYUIDJ9zVKrEjHR/6BwWbsTFNzO5ErbMGhNZr131apZW1grAkAAguMMLwsXJ/vIW5FgiKlU08Y1tk7NYqk2xzwMrn6jhQJfsNijajGOig2wa0x8YP5zEVQ==
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <258d7167-2e82-4402-9545-108c501ae69e@gmx.de>
 
-On Wed,  4 Mar 2026 22:40:32 +0800
-hujinfei <3288824963@qq.com> wrote:
+On Wed, Mar 04, 2026 at 09:17:37PM +0100, Helge Deller wrote:
+>On 3/3/26 19:21, Sasha Levin wrote:
+>>Add CONFIG_KALLSYMS_LINEINFO, which embeds a compact address-to-line
+>>lookup table in the kernel image so stack traces directly print source
+>>file and line number information:
+>>
+>>   root@localhost:~# echo c > /proc/sysrq-trigger
+>>   [   11.201987] sysrq: Trigger a crash
+>>   [   11.202831] Kernel panic - not syncing: sysrq triggered crash
+>>   [   11.206218] Call Trace:
+>>   [   11.206501]  <TASK>
+>>   [   11.206749]  dump_stack_lvl+0x5d/0x80 (lib/dump_stack.c:94)
+>>   [   11.207403]  vpanic+0x36e/0x620 (kernel/panic.c:650)
+>>   [   11.208565]  ? __lock_acquire+0x465/0x2240 (kernel/locking/lockdep.c:4674)
+>>   [   11.209324]  panic+0xc9/0xd0 (kernel/panic.c:787)
+>>   [   11.211873]  ? find_held_lock+0x2b/0x80 (kernel/locking/lockdep.c:5350)
+>>   [   11.212597]  ? lock_release+0xd3/0x300 (kernel/locking/lockdep.c:5535)
+>>   [   11.213312]  sysrq_handle_crash+0x1a/0x20 (drivers/tty/sysrq.c:154)
+>>   [   11.214005]  __handle_sysrq.cold+0x66/0x256 (drivers/tty/sysrq.c:611)
+>>   [   11.214712]  write_sysrq_trigger+0x65/0x80 (drivers/tty/sysrq.c:1221)
+>>   [   11.215424]  proc_reg_write+0x1bd/0x3c0 (fs/proc/inode.c:330)
+>>   [   11.216061]  vfs_write+0x1c6/0xff0 (fs/read_write.c:686)
+>>   [   11.218848]  ksys_write+0xfa/0x200 (fs/read_write.c:740)
+>>   [   11.222394]  do_syscall_64+0xf3/0x690 (arch/x86/entry/syscall_64.c:63)
+>>   [   11.223942]  entry_SYSCALL_64_after_hwframe+0x77/0x7f (arch/x86/entry/entry_64.S:121)
+>
+>As mentioned in the other series, I really like this patch series.
+>
+>I tested this series again on the parisc architecture, and the relative
+>directories are now stripped with this version of your patch.
+>IIRC, the previous patch did show the subdirectory names.
+>[  132.840382] Backtrace:
+>[  132.840382]  [<104254d8>] show_stack+0x50/0x64 (traps.c:212)
+>[  132.840382]  [<1041c0c8>] dump_stack_lvl+0x6c/0xa0 (dump_stack.c:122)
+>[  132.840382]  [<1041c118>] dump_stack+0x1c/0x2c (dump_stack.c:130)
+>[  132.840382]  [<10402218>] vpanic+0x154/0x344 (panic.c:550)
+>[  132.840382]  [<10402438>] panic+0x30/0x34 (panic.c:787)
+>[  132.840382]  [<10bebea8>] sysrq_handle_crash+0x30/0x34 (rcupdate.h:110)
+>[  132.840382]  [<10bec720>] __handle_sysrq+0xc0/0x1e4 (preempt.h:14)
 
-> From: hujinfei <hujinfei3@huawei.com>
-> 
-> Add a section 'Avoiding lockups from excessive printk() use' to
-> printk-basics.rst, explaining the risk of calling printk() in hot paths
-> with slow consoles and suggesting alternatives like ratelimited printing,
-> tracepoints, nbcon, and log level filtering.
-> 
-> Signed-off-by: hujinfei <hujinfei3@huawei.com>
-> ---
->  Documentation/core-api/printk-basics.rst | 22 ++++++++++++++++++++++
->  1 file changed, 22 insertions(+)
-> 
-> diff --git a/Documentation/core-api/printk-basics.rst b/Documentation/core-api/printk-basics.rst
-> index 2dde24ca7..a9da8c336 100644
-> --- a/Documentation/core-api/printk-basics.rst
-> +++ b/Documentation/core-api/printk-basics.rst
-> @@ -103,6 +103,28 @@ For debugging purposes there are also two conditionally-compiled macros:
->  pr_debug() and pr_devel(), which are compiled-out unless ``DEBUG`` (or
->  also ``CONFIG_DYNAMIC_DEBUG`` in the case of pr_debug()) is defined.
->  
-> +Avoiding lockups from excessive printk() use
-> +============================================
-> +
-> +Do not use ``printk()`` in hot paths such as interrupt handlers, timer callbacks,
-> +or high-frequency network receive routines. When a slow console (e.g., ``console=ttyS0``)
-> +is active, ``printk()`` may synchronously acquire ``console_sem`` and block while
-> +flushing messages, potentially disabling interrupts long enough to trigger hard or
-> +soft lockup detectors.
-> +
-> +To avoid this:
-> +
-> +- Avoid ``printk()`` in hot paths and interrupt contexts.
-> +- Use rate-limited variants (e.g., pr_xxx_ratelimited()) or one-time macros (e.g., pr_*_once()).
-> +- Assign lower log levels (e.g., ``KERN_DEBUG``) to non-essential messages and filter
-> +  console output via ``console_loglevel``.
-> +- Use consoles that implement the non-blocking ``nbcon`` API (indicated by ``CON_NBCON``),
-> +  which offload message printing to a dedicated kernel thread outside emergency contexts.
-> +  Note that asynchronous printing increases the risk of message loss during crashes;
-> +  increasing the kernel log buffer size may help retain more messages.
-> +
-> +Temporary debugging may use ``trace_printk()``, but it must not appear in mainline
-> +code. See the section about ``trace_printk()`` in Documentation/trace/debugging.rst.
+Ugh... Can you confirm that you've build this kernel with O=?
 
-You could also add:
+The RFC had a dirty dirty hack around how we turn these absolute paths into
+relative ones, but I tried to re-do it so no one would yell at me :)
 
-  If more permanent output is needed in a hot path, trace events can be
-  used. See Documentation/trace/events.rst and
-  samples/trace_events/trace-events-sample.[ch]
-
--- Steve
-
-
->  
->  Function reference
->  ==================
-
+-- 
+Thanks,
+Sasha
