@@ -1,151 +1,191 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F92E2B9B7
-	for <linux-doc@vger.kernel.org>; Thu,  5 Mar 2026 16:45:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2104C3D75AD
+	for <linux-doc@vger.kernel.org>; Thu,  5 Mar 2026 16:54:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772729153; cv=none; b=MMWNWqi4VZsday0fUroxst530jkDcDKMy67kvgG5FKAZwlTjWzrVpxAfYpN3lc2a50xlcatMRP8KCri97FPD5OA7bHJzQ1B4OcpOfBCH1clqMl6jT2IoLpSPJH3MzJOVPLQGuDSApNixLRNZQq3lFv2BvEoMX054FKxOwY0hHsc=
+	t=1772729670; cv=none; b=i9KUKANiU9xHV+ty1AcX9+tJs6QHVpx8w1qpR2DCkqZDNx30y3wjzxAferb+ET2QXjVFdpW0zPXujWQe1Vkd7NXX1U2PqLR60Z2m2Zff9kxLtxFiYJg216TkY6BzxoFwPMnS8w1BwbAHxisOowNU71mMARbBR6RP4XBenCImDT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772729153; c=relaxed/simple;
-	bh=Bh+vbRWEtCHPr3v/TxYVyQlY9eCw+4jKdzJK15venuc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ReRq4I3fqZ5+dxVXDbbeQ6pgfjRHw5stHVnNGJjP/s500zivrSzPa8ejB2ydwSQ0BGHr7e4pCWTj4vJfiksYfdvLFYQha9HZgBymL0mENZ4J3CBKt8F7HlXqgAVIV8tYah4Xox2eMz0Xn6+/E0cqfWDrpFYyHJkiVKm5E0KFV2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=UHcfZfA4; arc=none smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1772729670; c=relaxed/simple;
+	bh=s0Oics6Xn5AHyPCT14/XnF0BJ1fix4G/sFQqfUg2/bs=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=EHVC7LWx38K5Q9N2A3GhksRR324tH9lO7UZUyHg2KfB2zWWfQKkJEWQpFImRvtEKkjpeYA1sOQItZzrdyjZaYDF8nze9Rb69ntvO14hDnm1MBvCs3dHDR9bd4nnS+UVfFCJ+IIhZ2ecsIKJ+TArH3MTF0GrKncq/GqURwr6ftdk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--sidnayyar.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=nDagf5Iu; arc=none smtp.client-ip=209.85.128.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--sidnayyar.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="UHcfZfA4"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-660be63279bso4157754a12.1
-        for <linux-doc@vger.kernel.org>; Thu, 05 Mar 2026 08:45:52 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="nDagf5Iu"
+Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-48071615686so65055125e9.1
+        for <linux-doc@vger.kernel.org>; Thu, 05 Mar 2026 08:54:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1772729148; x=1773333948; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Qrp021dMmWJfdhg6nU795sTIB1YrtAZr2/z7VwA518s=;
-        b=UHcfZfA47idtY+KGeSHAP72e4QLVyxdIn2t51TLjBZVku9eriLGNp6a3VWR7ZzZZam
-         S4opISnSOgl2PknMwFw/CPHY8cdZVzvKuO0bh0w8bbvs8TBk8mtoaJ+oM+wIH8XGNo2B
-         0dP8x1CwOUbLc5A2puV4shQmJQ/nsMNv4xbLE=
+        d=google.com; s=20230601; t=1772729667; x=1773334467; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=h0/N2d7xj++tCyhYWP1OaGkKTLDjkAyApILw+NOXPFo=;
+        b=nDagf5IulOL1DjodlFERBUUicPKF5LKntGPzj/jS73j6iPwej5+IejE0dYtFHSq2ml
+         8QOAI0na157VgRkbpEFyYMn+MGiNg8/O6ykZQe7Y7MHhBSzzMV41vV5TIEVBpXQYLR5E
+         rNGVOE2SbJhIEECTSQSmTNLaZomJsQwWkFUed7InGgkS0ew3F1y6GdsQZhgVhv+LtVta
+         H+xDx18DoCi88IhdBL6uYYTIEFWsGibk8z3WcjZC0uP3t7yaVxlq9aKsoO3xsq2Op2qS
+         9eBcP28OPaQtTY5RLL+ZhKNBz++bGYCBTKbBQzhjx81hyeQDLW7xq1xF0+yKAZTkwYHR
+         dptQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772729148; x=1773333948;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Qrp021dMmWJfdhg6nU795sTIB1YrtAZr2/z7VwA518s=;
-        b=reaUTVF2Xr+q4qsx1CpH+n36QSBPvFo78dHmHnBhKcuX/z8TzrD4A88XgbGy7LmGgN
-         rZ+bW67ZhIua1x14LCLNV82pBEK61618pvYRalSelERjIoMY/egyKOtSDSQhjaBTK33F
-         HsUMdQdL7ZuFxBlErkKdti1o5nJV+UN44UIdMqDu8xxvSsUxGMLQu/rPyUMJDj5FAG8R
-         TFxoqBYiFJkyIWHHVHiVjwXeG9DAOj4lmp+UPW+2ri0Vq8d00JO2BldlZ9N5UgPzbuyp
-         wMx1hv1AwFl+4LMw6Q+/IxXIaYitz++Lfk3V8hoDPHw6XiK7u7oVf0dz914VAD1dynvk
-         0N4A==
-X-Forwarded-Encrypted: i=1; AJvYcCUzKnkKHjMTkv7lN3pKmvwMGLhp8fnLkfRIiT+4hCG2PFlc3NnGe/8R3ttybBKEL7gzGmSnd/vogDE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzn24TR1ejNwPQQpJp3KriiCkDKz4DuWBB59oWCzT1QYunZNaAR
-	0sm7lJUeAuqmvCZVe7kGC5042i8GgtKey9yEV+MBGz7d73I4bjfvPZHaB8R455uRSl3rcYg/XAL
-	I155OX9UC
-X-Gm-Gg: ATEYQzzXzlZosYkToJXmx/DvLfZawbgTtwO16DvcCq2tkSMT33uPEbbcX9O2quNPOGp
-	W5w7d21DkkjeehFbT6+24pc891mXByRQgDmgWHzP+lh2GzhjWHEJS7/4ZAf4QGGrpBLyM/Wd8rs
-	XAjJPtHtEUvrVXqrH+o4HxAiZWMNboKWSrpizLon8Fw13XIL3lNVIXU90C17YMG/pzN+iQrhEAG
-	JU19zPL6RcyamBTOL+kQvS4+uMB3l4z8cbb5PcLCRVQjt2+nA/mXFhQqfX4qoSTenn8FyX/fReW
-	weOGIzzlgJguZUXycYSwI5usOVjE4Y62uf0NvqXg7Jj8IupJETkzZ25uL4/puFjW02WhlO9kII4
-	kHo5iEzwJvIkdGywVn7pln1kDHojqbiDzwxy7CtM5y9okXyjYn/rk73rw9RWukQmLf/P4FXmH1V
-	hivL3Qpth2/KTIYxpeJiwPGgWf65P8xEmgLvYg/wg5YRpK18JXhYB1mzk6+WuDzg==
-X-Received: by 2002:a17:907:9412:b0:b8f:dec3:6606 with SMTP id a640c23a62f3a-b9409e542f4mr193435766b.23.1772729147995;
-        Thu, 05 Mar 2026 08:45:47 -0800 (PST)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com. [209.85.221.41])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9415790e49sm87786066b.23.2026.03.05.08.45.46
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Mar 2026 08:45:46 -0800 (PST)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-439baf33150so3610022f8f.0
-        for <linux-doc@vger.kernel.org>; Thu, 05 Mar 2026 08:45:46 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXTyt7JBGtgDzEIclIcbYDrmYxFzgWsFB+Rniry60nJKIjEMtn/s8FNrV8L+e7ZPwUwM6saD3SeOjg=@vger.kernel.org
-X-Received: by 2002:a5d:6745:0:b0:439:d0bd:225a with SMTP id
- ffacd0b85a97d-439d0bd2512mr4218262f8f.7.1772729146093; Thu, 05 Mar 2026
- 08:45:46 -0800 (PST)
+        d=1e100.net; s=20230601; t=1772729667; x=1773334467;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=h0/N2d7xj++tCyhYWP1OaGkKTLDjkAyApILw+NOXPFo=;
+        b=p4ZhbcKbYdHpxgqcHPsMYMgXhoUm6UnTwgC7ONcZtoxJgEIgMmj7dkdUDeeCWVmqAY
+         F8YeiBH3GqeSbd6Ahnhhxd7GhxKOmsGuvRQbE5KJ2nuTDgfQnYaYaf7yiWsSraHsuHY5
+         3BO2BGPUHhrQ4TUlTwdgzxUqtu6WdKgbfLCauk2VcJteqMg2b7YcYhNIfdHWzakHpFqC
+         uOBEoRqBrthpoIvCT0NvSE3E+IhxNu6yZ0y83lB2nYLzZaG1LrWYeZf4VDncNw0cezi4
+         fchFOp2jZBRNi6hBNMtr2zKD5NasVHS0NOzsZv01mwlI2o56Er8b8g3hbIxaA2H4YcHM
+         uCYg==
+X-Forwarded-Encrypted: i=1; AJvYcCULPLTM7DgR/SndM/wGxh+amGky/CwJY2dlRGhiWtjL6rzZDBIkemq5cWZAk9ZgM51OLYUGMtBOYDE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy94H3LMSngrSV8/0Nn7/QAUmy0a0IETv+3l5+IfhintFCwcYmo
+	dh7XgvzGAInBQkGkc9QFuLe7GFxg9tiaDq+W0NUAwYa+imiGr/r2SsHihajL4H65Bte1uc97gGV
+	VxJQ7NsdYWF4VUHjZBg==
+X-Received: from wmbbd15.prod.google.com ([2002:a05:600c:1f0f:b0:477:9dee:b5d5])
+ (user=sidnayyar job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:6383:b0:46f:d682:3c3d with SMTP id 5b1f17b1804b1-485235b4cbdmr2436905e9.13.1772729667399;
+ Thu, 05 Mar 2026 08:54:27 -0800 (PST)
+Date: Thu, 05 Mar 2026 16:54:20 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260212-hardlockup-watchdog-fixes-v1-0-745f1dce04c3@google.com>
- <20260212-hardlockup-watchdog-fixes-v1-3-745f1dce04c3@google.com> <aamJUImqf4WfTu3d@pathway.suse.cz>
-In-Reply-To: <aamJUImqf4WfTu3d@pathway.suse.cz>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 5 Mar 2026 08:45:35 -0800
-X-Gmail-Original-Message-ID: <CAD=FV=U1sthV5amOahSe1Yc1tkg39JcUUcUDCCHrKtx8i0f-4g@mail.gmail.com>
-X-Gm-Features: AaiRm53ZnpY7v-U0Z82fLW6LB8JMvQGKpQVQHkflePvgnIejGRkGGTdAQ9chhDk
-Message-ID: <CAD=FV=U1sthV5amOahSe1Yc1tkg39JcUUcUDCCHrKtx8i0f-4g@mail.gmail.com>
-Subject: Re: [PATCH 3/4] watchdog/hardlockup: improve buddy system detection timeliness
-To: Petr Mladek <pmladek@suse.com>
-Cc: mrungta@google.com, Jonathan Corbet <corbet@lwn.net>, 
-	Jinchao Wang <wangjinchao600@gmail.com>, Yunhui Cui <cuiyunhui@bytedance.com>, 
-	Stephane Eranian <eranian@google.com>, Ian Rogers <irogers@google.com>, 
-	Li Huafei <lihuafei1@huawei.com>, Feng Tang <feng.tang@linux.alibaba.com>, 
-	Max Kellermann <max.kellermann@ionos.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIADy1qWkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyTHQUlJIzE
+ vPSU3UzU4B8JSMDIzMDYwNT3ey0nMT04pLEJF1Tw0QDi9S01BQjExMloPqCotS0zAqwWdGxtbU AeehqmVsAAAA=
+X-Change-Id: 20260305-kflagstab-51a08efed244
+X-Mailer: b4 0.14.3
+Message-ID: <20260305-kflagstab-v4-0-4fe6eea27e30@google.com>
+Subject: [PATCH v4 0/8] scalable symbol flags with __kflagstab
+From: Siddharth Nayyar <sidnayyar@google.com>
+To: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
+	Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
+	Aaron Tomlin <atomlin@atomlin.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Siddharth Nayyar <sidnayyar@google.com>, maennich@google.com, 
+	gprocida@google.com
+Content-Type: text/plain; charset="utf-8"
 
-Hi,
+This patch series implements a mechanism for scalable exported symbol
+flags using a separate section called __kflagstab. The series introduces
+__kflagstab support, removes *_gpl sections in favor of a GPL flag,
+simplifies symbol resolution during module loading.
 
-On Thu, Mar 5, 2026 at 5:47=E2=80=AFAM Petr Mladek <pmladek@suse.com> wrote=
-:
->
-> > --- a/kernel/watchdog.c
-> > +++ b/kernel/watchdog.c
-> > @@ -163,8 +171,13 @@ static bool is_hardlockup(unsigned int cpu)
-> >  {
-> >       int hrint =3D atomic_read(&per_cpu(hrtimer_interrupts, cpu));
-> >
-> > -     if (per_cpu(hrtimer_interrupts_saved, cpu) =3D=3D hrint)
-> > -             return true;
-> > +     if (per_cpu(hrtimer_interrupts_saved, cpu) =3D=3D hrint) {
-> > +             per_cpu(hrtimer_interrupts_missed, cpu)++;
-> > +             if (per_cpu(hrtimer_interrupts_missed, cpu) >=3D watchdog=
-_hardlockup_miss_thresh)
->
-> This would return true for every check when missed >=3D 3.
-> As a result, the hardlockup would be reported every 4s.
->
-> I would keep the 12s cadence and change this to:
->
->                 if (per_cpu(hrtimer_interrupts_missed, cpu) % watchdog_ha=
-rdlockup_miss_thresh =3D=3D 0)
+The __kflagstab contains an 8-bit bitset which can represent up to 8
+boolean flags per symbol exported in the __ksymtab. The patch series
+also uses this bitset to store GPL-only flag values for kernel symbols,
+thereby eliminating the need for *_gpl sections for representing GPL
+only symbols.
 
-I could be confused, but I don't think this is needed because we clear
-"hrtimer_interrupts_missed" to 0 any time we save the timer count.
-While I believe the "%" will functionally work, it seems harder to
-understand, at least to me.
+Petr Pavlu ran a small test to get a better understanding of the
+different section sizes resulting from this patch series.  He used
+v6.17-rc6 together with the openSUSE x86_64 config [1], which is fairly
+large. The resulting vmlinux.bin (no debuginfo) had an on-disk size of
+58 MiB, and included 5937 + 6589 (GPL-only) exported symbols.
 
+The following table summarizes his measurements and calculations
+regarding the sizes of all sections related to exported symbols:
 
-> > +                     return true;
-> > +
-> > +             return false;
-> > +     }
-> >
-> >       /*
-> >        * NOTE: we don't need any fancy atomic_t or READ_ONCE/WRITE_ONCE
-> > --- a/kernel/watchdog_buddy.c
-> > +++ b/kernel/watchdog_buddy.c
-> > @@ -86,14 +87,6 @@ void watchdog_buddy_check_hardlockup(int hrtimer_int=
-errupts)
-> >  {
-> >       unsigned int next_cpu;
-> >
-> > -     /*
-> > -      * Test for hardlockups every 3 samples. The sample period is
-> > -      *  watchdog_thresh * 2 / 5, so 3 samples gets us back to slightl=
-y over
-> > -      *  watchdog_thresh (over by 20%).
-> > -      */
-> > -     if (hrtimer_interrupts % 3 !=3D 0)
-> > -             return;
->
-> It would be symetric with the "% 3" above.
+                      |  HAVE_ARCH_PREL32_RELOCATIONS  | !HAVE_ARCH_PREL32_RELOCATIONS
+ Section              | Base [B] | Ext. [B] | Sep. [B] | Base [B] | Ext. [B] | Sep. [B]
+----------------------------------------------------------------------------------------
+ __ksymtab            |    71244 |   200416 |   150312 |   142488 |   400832 |   300624
+ __ksymtab_gpl        |    79068 |       NA |       NA |   158136 |       NA |       NA
+ __kcrctab            |    23748 |    50104 |    50104 |    23748 |    50104 |    50104
+ __kcrctab_gpl        |    26356 |       NA |       NA |    26356 |       NA |       NA
+ __ksymtab_strings    |   253628 |   253628 |   253628 |   253628 |   253628 |   253628
+ __kflagstab          |       NA |       NA |    12526 |       NA |       NA |    12526
+----------------------------------------------------------------------------------------
+ Total                |   454044 |   504148 |   466570 |   604356 |   704564 |   616882
+ Increase to base [%] |       NA |     11.0 |      2.8 |       NA |     16.6 |      2.1
 
-Here we weren't resetting the count, so the "%" _was_ important. In
-the new code where we're resetting the count back to 0...
+The column "HAVE_ARCH_PREL32_RELOCATIONS -> Base" contains themeasured
+numbers. The rest of the values are calculated. The "Ext." column
+represents an alternative approach of extending __ksymtab to include a
+bitset of symbol flags, and the "Sep." column represents the approach of
+having a separate __kflagstab. With HAVE_ARCH_PREL32_RELOCATIONS, each
+kernel_symbol is 12 B in size and is extended to 16 B. With
+!HAVE_ARCH_PREL32_RELOCATIONS, it is 24 B, extended to 32 B. Note that
+this does not include the metadata needed to relocate __ksymtab*, which
+is freed after the initial processing.
 
--Doug
+The base export data in this case totals 0.43 MiB. About 50% is used for
+storing the names of exported symbols.
+
+Adding __kflagstab as a separate section has a negligible impact, as
+expected. When extending __ksymtab (kernel_symbol) instead, the worst
+case with !HAVE_ARCH_PREL32_RELOCATIONS increases the export data size
+by 16.6%. Note that the larger increase in size for the latter approach
+is due to 4-byte alignment of kernel_symbol data structure, instead of
+1-byte alignment for the flags bitset in __kflagstab in the former
+approach.
+
+Based on the above, it was concluded that introducing __kflagstab makes
+senses, as the added complexity is minimal over extending kernel_symbol,
+and there is overall simplification of symbol finding logic in the
+module loader.
+
+Thank you Petr Pavlu for doing a section size analysis as well as Sami
+Tolvanen, Petr Pavlu and Jonathan Corbet for their valuable feedback.
+
+---
+Changes from v3:
+- made commit messages more descriptive
+
+v3:
+https://lore.kernel.org/20251103161954.1351784-1-sidnayyar@google.com/
+
+Changes from v2:
+- dropped symbol import protection to spin off into its own series
+
+v2:
+https://lore.kernel.org/20251013153918.2206045-1-sidnayyar@google.com/
+
+Changes from v1:
+- added a check to ensure __kflagstab is present
+- added warnings for the obsolete *_gpl sections
+- moved protected symbol check before ref_module() call
+- moved protected symbol check failure warning to issue detection point
+
+v1:
+https://lore.kernel.org/20250829105418.3053274-1-sidnayyar@google.com/
+
+[1] https://github.com/openSUSE/kernel-source/blob/307f149d9100a0e229eb94cbb997ae61187995c3/config/x86_64/default
+
+Signed-off-by: Siddharth Nayyar <sidnayyar@google.com>
+
+---
+Siddharth Nayyar (8):
+      define ksym_flags enumeration to represent kernel symbol flags
+      linker: add kflagstab section to vmlinux and modules
+      modpost: populate kflagstab
+      module loader: use kflagstab instead of *_gpl sections
+      modpost: remove fragmentation of ksymtab and kcrctab sections
+      module loader: deprecate usage of *_gpl sections
+      linker: remove *_gpl sections from vmlinux and modules
+      documentation: remove references to *_gpl sections
+
+ Documentation/kbuild/modules.rst  |  11 +++--
+ include/asm-generic/vmlinux.lds.h |  21 +++-----
+ include/linux/export-internal.h   |  28 +++++++----
+ include/linux/module.h            |   4 +-
+ include/linux/module_symbol.h     |   5 ++
+ kernel/module/internal.h          |   4 +-
+ kernel/module/main.c              | 101 ++++++++++++++++++--------------------
+ scripts/mod/modpost.c             |  16 ++++--
+ scripts/module.lds.S              |   3 +-
+ 9 files changed, 98 insertions(+), 95 deletions(-)
+---
+base-commit: c107785c7e8dbabd1c18301a1c362544b5786282
+change-id: 20260305-kflagstab-51a08efed244
+
+Best regards,
+-- 
+Siddharth Nayyar <sidnayyar@google.com>
+
