@@ -1,208 +1,113 @@
-Received: from canpmsgout03.his.huawei.com (canpmsgout03.his.huawei.com [113.46.200.218])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 456273A0B05;
-	Thu,  5 Mar 2026 14:22:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.218
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772720537; cv=none; b=bhu7ovabHnjdK1rZTSOVffzliixiY4LUMI0MCXQDK4t7OUV4HYFXmNQvlzY64ed6WZzLLyRE6nQGXue3XqxSTcQWMMn4CH97mvzbsyoOCvVG65Oofkxwkiv8rJL1IJecoq8Rw4+eLdYTg1gSmYnfIB2bfFlVIIQNkhs5kQsjerI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772720537; c=relaxed/simple;
-	bh=hJIiuCinADs+F2K0CXoXYmOInua1H1sOGul+Z4K2VSs=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eMWiwhrnP9yPVNbBmjwTv93AF8diZUq31xUaKPww6iHPb05NBoTggo1N2rBTgUcASpDCiDCaJgGfGF+mO0E4wYdwuasUjvOs4ba98L/703xa/Y7EHGUvI2RAOx2RRxeLi5QwoKSq8x9+Hk5+ZDTWcwcS1uUPGjeaxtjStqWzUSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=b89yRSvG; arc=none smtp.client-ip=113.46.200.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68F543A9001;
+	Thu,  5 Mar 2026 14:22:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772720539; cv=pass; b=MoS5KouepoSWj4SrQ3ElqFGCpzJ5ga0QrgPsdap08N8AVjb29452ML0C/6I2g0OnEWR3/fMC3rzptuFtqb4jrvXJe1/hM1Gs4DAThwoTqPH3oXIioQYcGhVw8Z9LoP6kp6OgshjgU7f+9sujSd0aqPFuJUF+JLx/2LHglyqFHSA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772720539; c=relaxed/simple;
+	bh=aofyhEbMaL60N7WvX0FkZ8CNdPkgnbdqfv/2Itq/FY8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=CzG9eNa3bDqAvg3xEiKZBV1DMULJQFJRU+WX4b21H8cEZuzKbhhDF+R296EJDHKrTaTGfXyvgpYzpwa+u4yMTtr5vEnsmXOItNeQeHp1CEDvt+DqIaRkK1X9XfCYberWGaB+pCAtE1+cIIwsz0B2LIcWA0PA91gVZEg4QWXMPZE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=fgKrtGek; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="b89yRSvG"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=A4OhSwwajnlbJjvs/Q79oC2Uvf5aCohLYBqTNgiZ5oo=;
-	b=b89yRSvGMrh+gtH8+5gf0Iva+IGYO7lLRUGf6akpxjCx1TehG07XJ+9wV6OjFn4vTMDoGicq3
-	MIxs/k06f3fLBHW/BxMYiTItmn2dvTNcNMV0XzYR1AkEWFLhU2QiC4wAQYllhG071pXWxP9ByYf
-	exr88Uptb7sEkm+bX939kOg=
-Received: from mail.maildlp.com (unknown [172.19.162.197])
-	by canpmsgout03.his.huawei.com (SkyGuard) with ESMTPS id 4fRWnb6BSGzpStZ;
-	Thu,  5 Mar 2026 22:17:07 +0800 (CST)
-Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
-	by mail.maildlp.com (Postfix) with ESMTPS id 5BA1840569;
-	Thu,  5 Mar 2026 22:22:09 +0800 (CST)
-Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.189.124) by
- kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.36; Thu, 5 Mar 2026 22:22:08 +0800
-From: Fan Gong <gongfan1@huawei.com>
-To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>,
-	<netdev@vger.kernel.org>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Andrew Lunn
-	<andrew+netdev@lunn.ch>
-CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, luosifu
-	<luosifu@huawei.com>, Xin Guo <guoxin09@huawei.com>, Zhou Shuai
-	<zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, Shi Jing
-	<shijing34@huawei.com>, Luo Yang <luoyang82@h-partners.com>
-Subject: [PATCH net-next v02 1/4] hinic3: Fix code Style(remove empty lines between error handling)
-Date: Thu, 5 Mar 2026 22:21:58 +0800
-Message-ID: <a1d1dfe965fd293d00849ed9cf9b714d88ead572.1769142701.git.zhuyikai1@h-partners.com>
-X-Mailer: git-send-email 2.51.0.windows.1
-In-Reply-To: <cover.1769142701.git.zhuyikai1@h-partners.com>
-References: <cover.1769142701.git.zhuyikai1@h-partners.com>
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="fgKrtGek"
+ARC-Seal: i=1; a=rsa-sha256; t=1772720487; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=RThC1fTEKhRYqYBkW4WMILbeqyLK/S3n9jKPH02xiXkxzqxKOtv74rJ8Bx3AKB9fFpEZe18/RYr+I7b6ETb5PtbeyhlS00LDoAV5096uLdsSK40w4txOn17qS66HXx3d3Vmr2i0TNF96E5vnKo23+E2rkjScU/QDxyVrfQoX9Vg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1772720487; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=rwxTJdKl/d602FDC0mIdoL/MoUbuZ1KesTpLdFtLuuU=; 
+	b=NOIJndCzvBQ7s74gTuefEhYJwiW2zG2YBcBoeE2+l/vf/mqycbzryZ7RuwuiQ4W6hDMNYb2jXfmUZik1xEfaWY+0VDimZ/Osr+liqlTTDq1AycxJJOKs0X0lNLOCsOfVRVE0LQhHW2r7iJOkqjQZjEGLIYs1eu3JEF5/h2oKR+s=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772720487;
+	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
+	bh=rwxTJdKl/d602FDC0mIdoL/MoUbuZ1KesTpLdFtLuuU=;
+	b=fgKrtGekN4Sxs5mbNvSepMcQYCz7U/Kte6Hy5MLwOCoFB+Qhf8qCod60ffsnmn+0
+	rMpBUewSHxk1YN/CVdsznCKFQyj1pW+OwdNkOFbOKVOMQfuc2N3Mi4BEPSxJLg39EmQ
+	DScjpzh9JUrAQ/5MVHebZparYhaKh73bJM67il0Q=
+Received: by mx.zohomail.com with SMTPS id 1772720485432477.3720868934895;
+	Thu, 5 Mar 2026 06:21:25 -0800 (PST)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Date: Thu, 05 Mar 2026 15:19:37 +0100
+Subject: [PATCH v10 11/22] drm/rockchip: vop2: Add RK3576 to the RG swap
+ special case
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
- kwepemf100013.china.huawei.com (7.202.181.12)
-Message-ID: <20260305142158.i_TLHOL__A9XRooqTh-Oxloz8T6Vrjfzx-rr5glDs6s@z>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260305-color-format-v10-11-a58c68a11868@collabora.com>
+References: <20260305-color-format-v10-0-a58c68a11868@collabora.com>
+In-Reply-To: <20260305-color-format-v10-0-a58c68a11868@collabora.com>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+ Rodrigo Siqueira <siqueira@igalia.com>, 
+ Alex Deucher <alexander.deucher@amd.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: kernel@collabora.com, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+ linux-doc@vger.kernel.org, 
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
+ Andy Yan <andyshrk@163.com>
+X-Mailer: b4 0.14.3
 
-Fix code style of removing empty lines between the actions on the
-error handling path.
+Much like RK3588, RK3576 requires an RG swap to be performed for YUV444
+8-bit and YUV444 10-bit bus formats.
 
-Co-developed-by: Zhu Yikai <zhuyikai1@h-partners.com>
-Signed-off-by: Zhu Yikai <zhuyikai1@h-partners.com>
-Signed-off-by: Fan Gong <gongfan1@huawei.com>
+Add its version to the already existing check for RK3588, so that YUV444
+output is correct on this platform.
+
+Fixes: 944757a4cba6 ("drm/rockchip: vop2: Add support for rk3576")
+Reviewed-by: Andy Yan <andyshrk@163.com>
+Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 ---
- drivers/net/ethernet/huawei/hinic3/hinic3_cmdq.c | 3 ---
- drivers/net/ethernet/huawei/hinic3/hinic3_eqs.c  | 1 -
- drivers/net/ethernet/huawei/hinic3/hinic3_lld.c  | 5 -----
- drivers/net/ethernet/huawei/hinic3/hinic3_main.c | 4 ----
- drivers/net/ethernet/huawei/hinic3/hinic3_mbox.c | 2 --
- drivers/net/ethernet/huawei/hinic3/hinic3_tx.c   | 1 -
- 6 files changed, 16 deletions(-)
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_cmdq.c b/drivers/net/ethernet/huawei/hinic3/hinic3_cmdq.c
-index ef539d1b69a3..86720bb119e9 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_cmdq.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_cmdq.c
-@@ -878,14 +878,11 @@ int hinic3_cmdqs_init(struct hinic3_hwdev *hwdev)
- 	}
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+index a195f5c819a2..39c64296174f 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop2.c
+@@ -337,7 +337,8 @@ static bool vop2_output_uv_swap(u32 bus_format, u32 output_mode)
  
- 	hinic3_free_db_addr(hwdev, cmdqs->cmdqs_db_base);
--
- err_destroy_cmdq_wq:
- 	destroy_cmdq_wq(hwdev, cmdqs);
--
- err_free_cmdqs:
- 	dma_pool_destroy(cmdqs->cmd_buf_pool);
- 	kfree(cmdqs);
--
- err_out:
- 	return err;
- }
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_eqs.c b/drivers/net/ethernet/huawei/hinic3/hinic3_eqs.c
-index 1ecc2aca1e35..a2c3962116d5 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_eqs.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_eqs.c
-@@ -686,7 +686,6 @@ int hinic3_aeqs_init(struct hinic3_hwdev *hwdev, u16 num_aeqs,
- 	}
- 
- 	destroy_workqueue(aeqs->workq);
--
- err_free_aeqs:
- 	kfree(aeqs);
- 
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_lld.c b/drivers/net/ethernet/huawei/hinic3/hinic3_lld.c
-index 2b77fea1e0b3..87413e192f10 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_lld.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_lld.c
-@@ -230,7 +230,6 @@ static int hinic3_mapping_bar(struct pci_dev *pdev,
- 		iounmap(pci_adapter->mgmt_reg_base);
- err_unmap_intr_reg_base:
- 	iounmap(pci_adapter->intr_reg_base);
--
- err_unmap_cfg_reg_base:
- 	iounmap(pci_adapter->cfg_reg_base);
- 
-@@ -285,10 +284,8 @@ static int hinic3_pci_init(struct pci_dev *pdev)
- err_release_regions:
- 	pci_clear_master(pdev);
- 	pci_release_regions(pdev);
--
- err_disable_device:
- 	pci_disable_device(pdev);
--
- err_free_pci_adapter:
- 	pci_set_drvdata(pdev, NULL);
- 	mutex_destroy(&pci_adapter->pdev_mutex);
-@@ -382,7 +379,6 @@ static int hinic3_probe_func(struct hinic3_pcidev *pci_adapter)
- 	hinic3_func_uninit(pdev);
- err_unmap_bar:
- 	hinic3_unmapping_bar(pci_adapter);
--
- err_out:
- 	dev_err(&pdev->dev, "PCIe device probe function failed\n");
- 
-@@ -415,7 +411,6 @@ static int hinic3_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 
- err_uninit_pci:
- 	hinic3_pci_uninit(pdev);
--
- err_out:
- 	dev_err(&pdev->dev, "PCIe device probe failed\n");
- 
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_main.c b/drivers/net/ethernet/huawei/hinic3/hinic3_main.c
-index a33f86675954..6275d94dfefd 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_main.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_main.c
-@@ -104,7 +104,6 @@ static int hinic3_alloc_txrxqs(struct net_device *netdev)
- 
- err_free_rxqs:
- 	hinic3_free_rxqs(netdev);
--
- err_free_txqs:
- 	hinic3_free_txqs(netdev);
- 
-@@ -475,17 +474,14 @@ static int hinic3_nic_probe(struct auxiliary_device *adev,
- 	disable_delayed_work_sync(&nic_dev->periodic_work);
- 	hinic3_update_nic_feature(nic_dev, 0);
- 	hinic3_set_nic_feature_to_hw(nic_dev);
--
- err_uninit_sw:
- 	hinic3_sw_uninit(netdev);
--
- err_free_nic_io:
- 	hinic3_free_nic_io(nic_dev);
- err_free_nic_dev:
- 	hinic3_free_nic_dev(nic_dev);
- err_free_netdev:
- 	free_netdev(netdev);
--
- err_unregister_adev_event:
- 	hinic3_adev_event_unregister(adev);
- 	dev_err(&pdev->dev, "NIC service probe failed\n");
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_mbox.c b/drivers/net/ethernet/huawei/hinic3/hinic3_mbox.c
-index 6eb441d6a590..c871fd0fb109 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_mbox.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_mbox.c
-@@ -446,10 +446,8 @@ int hinic3_init_mbox(struct hinic3_hwdev *hwdev)
- 		hinic3_uninit_func_mbox_msg_channel(hwdev);
- err_uninit_mgmt_msg_ch:
- 	uninit_mgmt_msg_channel(mbox);
--
- err_destroy_workqueue:
- 	destroy_workqueue(mbox->workq);
--
- err_free_mbox:
- 	kfree(mbox);
- 
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c b/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
-index ef32aed7d761..4e361c9bd043 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
-@@ -609,7 +609,6 @@ static netdev_tx_t hinic3_send_one_skb(struct sk_buff *skb,
- 
- err_drop_pkt:
- 	dev_kfree_skb_any(skb);
--
- err_out:
- 	return NETDEV_TX_OK;
- }
+ static bool vop2_output_rg_swap(struct vop2 *vop2, u32 bus_format)
+ {
+-	if (vop2->version == VOP_VERSION_RK3588) {
++	if (vop2->version == VOP_VERSION_RK3588 ||
++	    vop2->version == VOP_VERSION_RK3576) {
+ 		if (bus_format == MEDIA_BUS_FMT_YUV8_1X24 ||
+ 		    bus_format == MEDIA_BUS_FMT_YUV10_1X30)
+ 			return true;
+
 -- 
-2.43.0
+2.53.0
 
