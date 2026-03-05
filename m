@@ -1,142 +1,218 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18DFC364EA0;
-	Thu,  5 Mar 2026 22:55:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A36C364EA5;
+	Thu,  5 Mar 2026 23:07:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772751335; cv=none; b=mGRq6oWxlsc6k4S1NLnJnbNbRzWQ3OgwOMSIkI63RdRa+W2f/cNf5AP5slt0D6w0r5je7HNBH/AyuHhx7ABk/y/ldAzWKBoGm5qbx6GQyGVJE0pewVbJK9D6Nhj/6i/L6Vju3V/Wn7sDVgt70GYccpHz8aqcrYKVr/rWlt8n22E=
+	t=1772752068; cv=none; b=bfu+0nWUFROTBE4XSlXF92eu4xJS3jCWzeoZOaICC0DiAJZ5jHh33awQp/B4ABKuUih4U8DLRVBYEUVwZYifa6SF1lVD9gGXIw4yvaysGgX/T1R/nnwbEnS0fjkIk+KCdFZcpc/vvBLsBhPQegLCdfUwlHfqFOleck9+aVtAj2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772751335; c=relaxed/simple;
-	bh=0WSs8a5NYbU6+fIELTvoRl1PamGFQXLIBvAN6eHidDM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lvwyNaJmtj29U4KSYnp4sOzXIjeX61/2UP+pImqjOJqJ9SzK44XRkQ3aqU2n/VEt3/TZfuR26elU6NDirYboIhaRf33BIRCZ3SyrdcTBl3vRbOJqTtzqkEJxw91nszNr5csmW7FcqpGqkusD3iUY5W2TmfDkGEFeTUl5bYPJcgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=TSwkgePL; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="TSwkgePL"
-Received: from [172.27.2.41] (c-76-133-66-138.hsd1.ca.comcast.net [76.133.66.138])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 625MMTJA3999960
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Thu, 5 Mar 2026 14:22:52 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 625MMTJA3999960
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2026022301; t=1772749375;
-	bh=WdnaxFYzkS7/Cig9gljHa02ekMGWM3ioEow8ByxwYww=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=TSwkgePLCGKzEDfTxuXJ42NK4dGRcUUau3FRMDzERUEFYPqWsOYecyWov9TfRI3s0
-	 r6MXpa4jg787yxMQ6YuVZjNicSdWN50r3gkXzPXCj7wPojMQcYES5/rqxlyJofR+jL
-	 FC9dHkz5QhrI5E5QJUCBIPFgA0lsunREZOsqPVrBZtcqSsdUnoNBOaj2L7VBIK26GA
-	 Xj8YS0wAQGiJp2yCd4xTtz9VJ8+UQRqzqJPogGxqmnf0tJjhlH44umm0y6Uh5m0Qm3
-	 ANjhtZI45d9qaE+qt49xXE1jPb+apm2Wqxq8k6S3zPb81DXj8f1dagmsUOss7VCGPS
-	 EApHFNupun3MA==
-Message-ID: <1ff952b1-7f8e-4062-9741-5469b5f91eeb@zytor.com>
-Date: Thu, 5 Mar 2026 14:22:24 -0800
+	s=arc-20240116; t=1772752068; c=relaxed/simple;
+	bh=6vkn9RGfycYWW3Rnndysdl2DVF6yOew9y7fmGirUJf4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=oLh4piSx2cjzfvkO+iLAhBEs1cweJfyUpn0rTIQv62Lp9JFSIuluRQVyMDgtuC0MOGlZMVB4EFJ9m9bfRgJraVkb+byBJWGLNdOYlHv0iIa7ZrkX6X5Qh99EdG7G1JCU7aPLwXlV5PORk5bESuKiUZdPP/8/zkX7fqaw7zUSSfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf20.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay03.hostedemail.com (Postfix) with ESMTP id BFC83B71F1;
+	Thu,  5 Mar 2026 23:07:44 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf20.hostedemail.com (Postfix) with ESMTPA id AEB9B20025;
+	Thu,  5 Mar 2026 23:07:42 +0000 (UTC)
+Date: Thu, 5 Mar 2026 18:07:41 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: "Ahmed S. Darwish" <darwi@linutronix.de>
+Cc: Jonathan Corbet <corbet@lwn.net>, Clark Williams <clrkwllms@kernel.org>,
+ linux-rt-devel@lists.linux.dev, Sebastian Andrzej Siewior
+ <bigeasy@linutronix.de>, John Ogness <john.ogness@linutronix.de>, Derek
+ Barbosa <debarbos@redhat.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/1] Documentation: real-time: Add kernel
+ configuration guide
+Message-ID: <20260305180741.7bd114f4@gandalf.local.home>
+In-Reply-To: <20260305205023.361530-2-darwi@linutronix.de>
+References: <20260305205023.361530-1-darwi@linutronix.de>
+	<20260305205023.361530-2-darwi@linutronix.de>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/5] x86/traps: Consolidate user fixups in the #GP
- handler
-To: Sohil Mehta <sohil.mehta@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Andy Lutomirski <luto@kernel.org>, Borislav Petkov <bp@alien8.de>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-        Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Kiryl Shutsemau <kas@kernel.org>,
-        Brendan Jackman <jackmanb@google.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Nam Cao <namcao@linutronix.de>, Cedric Xing <cedric.xing@intel.com>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        Andrew Cooper <andrew.cooper3@citrix.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Maciej Wieczor-Retman <m.wieczorretman@pm.me>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260305214026.3887452-1-sohil.mehta@intel.com>
- <20260305214026.3887452-3-sohil.mehta@intel.com>
-Content-Language: en-US, sv-SE
-From: "H. Peter Anvin" <hpa@zytor.com>
-In-Reply-To: <20260305214026.3887452-3-sohil.mehta@intel.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-Rspamd-Server: rspamout07
+X-Rspamd-Queue-Id: AEB9B20025
+X-Stat-Signature: z5o75ma7sayq8tw47zzqrafys4qj81bi
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX19NDJgygpWrsWb1PYpHdPezzEuUTIlJhLo=
+X-HE-Tag: 1772752062-894614
+X-HE-Meta: U2FsdGVkX1+Uo6DLkJ0nb4AD1Y4oP/on/GXFnfOUjOQOtkFncBjTuyK67cBAfYZWfCJhzekqUy3NiRNTK2GqIAnb16gmNeMTNP6GQkdBbqL/rHYcDJyTi77E69cnSGuqBaSfbF9bKzB6smxfi9S9iFUX3Ehz9TY5Tf7SRjNmmztpaZJJFh+16w1sh98PBazgOL5I7iGV2DoYWE86DMhpR+VZg4VkiUVAuni1kR1/3dVH7H7WjYKHbq1pxTggILuNDz2+mkjBii7WkXYP7nSZjB4op8gPkz5mu9K5vB39qlwUjaUt4qlexiIoAnMUB/uaRU2180aUuiipUhQaHZif+MHdhJmyS3AZSNTFgkawKa5nQyz7vTGMrNEeO/Xu6se4tGWzRDfNmHDOJp3AGGbQJve7eZD8zEh0yz/dsbtl2M0=
 
-On 2026-03-05 13:40, Sohil Mehta wrote:
-> Move the UMIP exception fixup under the common "if (user_mode(regs))"
-> condition where the rest of user mode fixups reside. Also, move the UMIP
-> feature check into its fixup function to keep the calling code
-> consistent and clean.
+On Thu,  5 Mar 2026 21:50:12 +0100
+"Ahmed S. Darwish" <darwi@linutronix.de> wrote:
+
+> Add a configuration guide for real-time kernels.
 > 
-> No functional change intended.
+> List all Kconfig options that are recommended to be either enabled or
+> disabled.  Explicitly add a table of contents at the top of the document,
+> so that all the options can be seen in a glance.
 > 
-> Suggested-by: Dave Hansen <dave.hansen@intel.com>
-> Signed-off-by: Sohil Mehta <sohil.mehta@intel.com>
-> Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
+> Whenever appropriate, link to other kernel guides; e.g. cpuidle, cpufreq,
+> power management, and no_hz.
+> 
+> Add a summary at the end of the document warning users that there is a no
+> "one size fits all solution" for configuring a real-time system.
+> 
+
+Very nice document!
+
+> Signed-off-by: Ahmed S. Darwish <darwi@linutronix.de>
 > ---
-> v2:
->  - No change
-> ---
->  arch/x86/kernel/traps.c | 8 +++-----
->  arch/x86/kernel/umip.c  | 3 +++
->  2 files changed, 6 insertions(+), 5 deletions(-)
+>  Documentation/core-api/real-time/index.rst    |   1 +
+>  .../real-time/kernel-configuration.rst        | 297 ++++++++++++++++++
+>  2 files changed, 298 insertions(+)
+>  create mode 100644 Documentation/core-api/real-time/kernel-configuration.rst
 > 
-> diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
-> index 4dbff8ef9b1c..614a281bd419 100644
-> --- a/arch/x86/kernel/traps.c
-> +++ b/arch/x86/kernel/traps.c
-> @@ -921,11 +921,6 @@ DEFINE_IDTENTRY_ERRORCODE(exc_general_protection)
->  
->  	cond_local_irq_enable(regs);
->  
-> -	if (static_cpu_has(X86_FEATURE_UMIP)) {
-> -		if (user_mode(regs) && fixup_umip_exception(regs))
-> -			goto exit;
-> -	}
-> -
->  	if (v8086_mode(regs)) {
->  		local_irq_enable();
->  		handle_vm86_fault((struct kernel_vm86_regs *) regs, error_code);
-> @@ -940,6 +935,9 @@ DEFINE_IDTENTRY_ERRORCODE(exc_general_protection)
->  		if (fixup_vdso_exception(regs, X86_TRAP_GP, error_code, 0))
->  			goto exit;
->  
-> +		if (fixup_umip_exception(regs))
-> +			goto exit;
+
+> +``CONFIG_EFI_DISABLE_RUNTIME``
+> +------------------------------
 > +
->  		gp_user_force_sig_segv(regs, X86_TRAP_GP, error_code, desc);
->  		goto exit;
->  	}
-> diff --git a/arch/x86/kernel/umip.c b/arch/x86/kernel/umip.c
-> index d432f3824f0c..3ce99cbcf187 100644
-> --- a/arch/x86/kernel/umip.c
-> +++ b/arch/x86/kernel/umip.c
-> @@ -354,6 +354,9 @@ bool fixup_umip_exception(struct pt_regs *regs)
->  	void __user *uaddr;
->  	struct insn insn;
->  
-> +	if (!cpu_feature_enabled(X86_FEATURE_UMIP))
-> +		return false;
+> +:Expectation: enabled
+> +:Severity: *medium*
 > +
->  	if (!regs)
->  		return false;
->  
+> +EFI is the standard boot and firmware interface for multiple
+> +architectures.  EFI runtime services provide callback functions to be
+> +called from the kernel; e.g., as utilized by (``CONFIG_EFI_VARS*``) or
+> +(``CONFIG_RTC_DRV_EFI``).  For the former, the kernel calls into EFI to
+> +update the EFI variables.
+> +
+> +Calling into EFI means invoking firmware callbacks.  During such
+> +invocations, the system might not be able to react to interrupts and will
+> +thus not be able to perform a context switch.  This can cause significant
+> +latency spikes for the real-time system.
 
-[General comment, not really applicable to this patch]
 
-I like this kind cleanups. However, if this had been a hot path (which it
-isn't) and if UMIP wasn't very common (which it is), then it probably would be
-desirable to push the cpu_feature_enabled() into the call site. This is
-trivially done with an inline function in the header file where this is exported:
+> +
+> +``CONFIG_PREEMPT_RT`` enables this option by default.  If this option is
+> +disabled during the kernel build, pass the following boot parameter [1]_::
+> +
+> +  efi=noruntime
 
-static inline bool fixup_umip_exception(struct pt_regs *regs)
-{
-	return cpu_feature_enabled(X86_FEATURE_UMIP) &&
-		__fixup_umip_exception(regs);
-}
+The above reads a bit funny. Maybe reword it to:
+
+  ``CONFIG_PREEMPT_RT`` enables this option by default. If this option is
+  manually disabled at build time, the following boot parameter [1]_ may
+  be used to disable EFI runtime at boot up::
+
+Or something like that.
+
+> +
+> +There is ongoing `development work`_ to allow EFI variables access for a
+> +real-time Linux system.
+
+  .. to allow access to EFI variables for a real-time Linux system
+
+ ?
+
+> +``CONFIG_TRACING`` (and tracing options)
+> +----------------------------------------
+> +
+> +:Expectation: enabled
+> +:Severity: *info*
+> +
+> +Shipping kernels with tracing support enabled (but not actively running)
+> +is highly recommended.  This will allow the users to extract more
+> +information if latency problems arise.
+> +
+> +.. caution::
+> +
+> +  Users should *not* make use of tracers or trace events during production
+> +  real-time kernel operation as they can add considerable overhead and
+> +  degrade the system's latency.
+
+I wonder if a special note should be called out for:
+
+  CONFIG_IRQSOFF_TRACER and CONFIG_PREEMPT_TRACER should be avoided as they
+  do incur measurable overhead even when tracing is not currently active.
+
+Maybe the above should be added in the "Problematic debug options"?
+
+
+> +Kernel Debug Options
+> +====================
+> +
+> +Most kernel debug options add runtime overhead that increases the
+> +worst-case latency.
+> +
+> +.. caution::
+> +
+> +  During development and early testing, users are encouraged to run their
+> +  real-time workloads and peripherals with lockdep and other kernel debug
+> +  options enabled, for a considerable amount of time.  Such workloads
+> +  might trigger kernel code paths that were not triggered during the
+> +  internal Linux real-time kernel development, thus helping to uncover any
+> +  real-time latency issues in the kernel.
+
+Hmm, perhaps there should be some note that connects the use of "lockdep"
+with CONFIG_PROVE_LOCKING below (as that is what enables lockdep). The last
+sentence above makes it sound like lockdep can uncover latency issues, but
+it will most likely cause latency issues. Perhaps a bit more explanation
+should be used here.
+
+> +
+> +Problematic debug options
+> +-------------------------
+> +
+> +``CONFIG_LOCKUP_DETECTOR``
+> +^^^^^^^^^^^^^^^^^^^^^^^^^^
+> +
+> +Severity: *high*
+> +
+> +The lockup detector creates kernel timer callbacks that execute every few
+> +seconds, in hard-IRQ context, even on real-time kernels.  These periodic
+> +interrupts can cause latency spikes.
+> +
+> +Users should use hardware watchdogs instead, which will provide a similar
+> +functionality without the software-induced latency.
+> +
+> +``CONFIG_PROVE_LOCKING``
+> +^^^^^^^^^^^^^^^^^^^^^^^^
+> +
+> +Severity: *high*
+> +
+> +Proving the correctness of all kernel locking adds substantial overhead
+> +and significantly increases worst-case latency.
+
+
+
+> +Summary
+> +=======
+> +
+> +There is no "one size fits all" solution for configuring a real-time Linux
+> +system.  Beginning with the system real-time requirements, integrators
+> +must consider the features and functions of the system's hardware, kernel,
+> +and userspace.  All such components must be properly configured in order
+> +to establish and constrain the system's maximum latency.
+> +
+> +With that in mind, any false real-time kernel configuration could cause a
+
+  s/false/incorrect/ ?
+
+> +new maximum latency that shows up at the wrong time and is catastrophic
+> +for the real-time system's latency.
+> +
+> +References
+> +==========
+> +
+> +.. [1] See :doc:`/admin-guide/kernel-parameters`
+> +
+> +.. _development work: https://lore.kernel.org/r/20260205115559.1625236-1-bigeasy@linutronix.de
+> +
+> +.. _Real-Time and Graphics\: A Contradiction?: https://web.archive.org/web/20221025085614/https://linutronix.de/PDF/Realtime_and_graphics-acontradiction2021.pdf
+
+Nice job!
+
+-- Steve
 
