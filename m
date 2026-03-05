@@ -1,99 +1,108 @@
-Received: from canpmsgout05.his.huawei.com (canpmsgout05.his.huawei.com [113.46.200.220])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DAC221E091;
-	Thu,  5 Mar 2026 14:22:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.220
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772720545; cv=none; b=KBdJ4/6CSXQgJN5jAzgW+tNugfUI7nLR9fz9AmNbaeJkZFecSmey+jPmABI6fOZiNPR2/iP0hHA+UPW3+tb14UpH9czrA0Lr15sIMRNErCrgeCKzOzTcRL/CqEmOi5yFTpFZSCTvIlWpDwy70t2qCA5Yjj+mEsjkMzayjoo7JZA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772720545; c=relaxed/simple;
-	bh=kCqO2ZJkcDyyuTwrrkKrfVhZlwsoYyDv6tsJCP9WnZ0=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YVSOB29BmVgzSR8kGc6L3AD/ELrSUg29vImTqHYweKI6pzVjQO8qcQhZDcDvp+vorOtbAEXrc1JOTryxknaZGkUX1XCyF69hltrvOSIp8Sc3w6potjJvpq0f9jCrsCxlmfBApy2+oMVHodR+rES0kBwdfIvar4lLkhEYuPaMwwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=jFYrdIlD; arc=none smtp.client-ip=113.46.200.220
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E4393A7831;
+	Thu,  5 Mar 2026 14:22:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772720550; cv=pass; b=IHKIQWtzZsL/0UDgkHiUWd64FiHl67gIiiezXylXAsi9nxZ5biU6/LnqxL0GkXdMU4Tp8BrpYEx+sa0TLedYsQaQiIgND8mIsUaszx4/0XHoBkyYwkIO6BbtNf7QFVuCy5lipaH0VfsTSWrnX3LKaFaDr5I84TqsXMgtEbaZ54o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772720550; c=relaxed/simple;
+	bh=XWzyI12Gln35Ef6oX0dcDRg6SxThLkLzbtLwV9oTYZY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=EUNV9M0cgn64YMORcoZZkB/693dRi4xSnZiScyz9s5BhCGR3CCtrrVyT+1m9kgbMo6/Fl9/dUmRVPz8Ri25RwlmGwTPzbYrq3jha6994Dt6w245BaHUs21fT0zi7y+oxmDWfueYo/joHBp6KYyP9YHQDc2JjYR4pJCr8HQlDAL8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=TJb/ytvR; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="jFYrdIlD"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=oTXEVLgDumVCBFxpbO8s07ckXDCKC5Us7m6vOmueETk=;
-	b=jFYrdIlD6scNu1lCaG+lOb4ovAPAm3AE9S1DxjPS7XzWJTmJ91siw+9jJyf+J11uZU12gG9yH
-	LrnTfdTLhSwbMToijlqDkRUVizKzS3vHaCZhmU4HQ65F+hNejkdJvNhi2AWqUghbMyFPrVX1hO0
-	jCqW7GUZ1Ef7kIbZk0dcWgE=
-Received: from mail.maildlp.com (unknown [172.19.162.223])
-	by canpmsgout05.his.huawei.com (SkyGuard) with ESMTPS id 4fRWpC4cqwz12LDV;
-	Thu,  5 Mar 2026 22:17:39 +0800 (CST)
-Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
-	by mail.maildlp.com (Postfix) with ESMTPS id 6EFDB40561;
-	Thu,  5 Mar 2026 22:22:15 +0800 (CST)
-Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.189.124) by
- kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.36; Thu, 5 Mar 2026 22:22:14 +0800
-From: Fan Gong <gongfan1@huawei.com>
-To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>,
-	<netdev@vger.kernel.org>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Andrew Lunn
-	<andrew+netdev@lunn.ch>
-CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, luosifu
-	<luosifu@huawei.com>, Xin Guo <guoxin09@huawei.com>, Zhou Shuai
-	<zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, Shi Jing
-	<shijing34@huawei.com>, Luo Yang <luoyang82@h-partners.com>
-Subject: [PATCH net-next v02 4/4] hinic3: RQ use RQ_CTXT_PREF_CI_HI instead of SQ_CTXT_PREF_CI_HI
-Date: Thu, 5 Mar 2026 22:22:01 +0800
-Message-ID: <522daf5931c4554fcc67672a0bcfa714ca1dce93.1769142701.git.zhuyikai1@h-partners.com>
-X-Mailer: git-send-email 2.51.0.windows.1
-In-Reply-To: <cover.1769142701.git.zhuyikai1@h-partners.com>
-References: <cover.1769142701.git.zhuyikai1@h-partners.com>
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="TJb/ytvR"
+ARC-Seal: i=1; a=rsa-sha256; t=1772720507; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=ZCOC9OaprCxtGj0Yb+dpCCfPtY3GytO9xzeeTdqXt1fj9rgNGZ6wzf+z1Eam0ZGqjNQd0a8Qi5K+ZcYUSWXm9DCQTMerfUnVqQPKj7PbNiwvAu5SSGvcRnBMe0/IZhRquP/6/oGUIaQ3Uusk5ES3H+LpQ4IsH/mCf6WnKO6e97g=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1772720507; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=t/dnVgI7fpEd80dvmVAwi2N0KKlVRgu8xS2S1qfcz+Q=; 
+	b=IuaFHSB6/ZenzgxF5mLHMEVpM6hCtwBNbsV9QiRxcm32KMvTxhGphfde7nkEi73OaD6o5F+FiaSMNfbLHWCQre3kBSypLRb8AdZVJE1+3V5+o+QOzdlVbdCrXGvEJD+9B8oNiX85pQ2bGPcL9e1NvQTX04737ZegOTSBj8HYsI8=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772720507;
+	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
+	bh=t/dnVgI7fpEd80dvmVAwi2N0KKlVRgu8xS2S1qfcz+Q=;
+	b=TJb/ytvRrFjDeAWrUrKfiJWRNbI7YmBqmhgdVie6YyyNRFze7MEB/Qlwj6W3DDnq
+	JG9dIsDNvuztYJVDxXIwG3SiKAnu00lHT1CVvD1Y1l+knivolzfdmAN5p65QreixeJp
+	uXqIPdjPowb5x60BuTAdBzwTzRs+IOd+Aps1y+mU=
+Received: by mx.zohomail.com with SMTPS id 1772720506967307.65299238357863;
+	Thu, 5 Mar 2026 06:21:46 -0800 (PST)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Date: Thu, 05 Mar 2026 15:19:40 +0100
+Subject: [PATCH v10 14/22] drm/bridge: dw-hdmi-qp: Use common HDMI output
+ bus fmts helper
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
- kwepemf100013.china.huawei.com (7.202.181.12)
-Message-ID: <20260305142201.ITvDSsKgDFvKD95lIazCfVDizNzxYL28J90VTcHsAsU@z>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260305-color-format-v10-14-a58c68a11868@collabora.com>
+References: <20260305-color-format-v10-0-a58c68a11868@collabora.com>
+In-Reply-To: <20260305-color-format-v10-0-a58c68a11868@collabora.com>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+ Rodrigo Siqueira <siqueira@igalia.com>, 
+ Alex Deucher <alexander.deucher@amd.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: kernel@collabora.com, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+ linux-doc@vger.kernel.org, 
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+X-Mailer: b4 0.14.3
 
-Separate the CTX_PREF_CI_HI of rq and sq to improve readability.
+Make use of the common drm_bridge_funcs.atomic_get_output_bus_fmts
+helper for HDMI bridge connectors.
 
-Co-developed-by: Zhu Yikai <zhuyikai1@h-partners.com>
-Signed-off-by: Zhu Yikai <zhuyikai1@h-partners.com>
-Signed-off-by: Fan Gong <gongfan1@huawei.com>
+This allows dw-hdmi-qp HDMI bridges to participate in recursive bus
+format selection in a meaningful way.
+
+Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 ---
- drivers/net/ethernet/huawei/hinic3/hinic3_nic_io.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_io.c b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_io.c
-index d86cd1ba4605..90887d2bb127 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_io.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_io.c
-@@ -162,6 +162,9 @@ struct hinic3_clean_queue_ctxt {
- #define SQ_CTXT_WQ_BLOCK_SET(val, member)  \
- 	FIELD_PREP(SQ_CTXT_WQ_BLOCK_##member##_MASK, val)
+diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
+index d649a1cf07f5..5380aa7d82a8 100644
+--- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
++++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c
+@@ -1192,6 +1192,7 @@ static int dw_hdmi_qp_cec_transmit(struct drm_bridge *bridge, u8 attempts,
+ #endif /* CONFIG_DRM_DW_HDMI_QP_CEC */
  
-+/* reuse SQ macro for RQ because the hardware format is identical */
-+#define RQ_CTXT_PREF_CI_HI(val)            SQ_CTXT_PREF_CI_HI(val)
-+
- #define RQ_CTXT_PI_IDX_MASK                GENMASK(15, 0)
- #define RQ_CTXT_CI_IDX_MASK                GENMASK(31, 16)
- #define RQ_CTXT_CI_PI_SET(val, member)  \
-@@ -629,7 +632,8 @@ static void hinic3_rq_prepare_ctxt(struct hinic3_io_queue *rq,
- 			    RQ_CTXT_PREF_SET(RQ_WQ_PREFETCH_THRESHOLD, CACHE_THRESHOLD));
- 
- 	rq_ctxt->pref_ci_owner =
--		cpu_to_le32(RQ_CTXT_PREF_SET(SQ_CTXT_PREF_CI_HI(ci_start), CI_HI) |
-+		cpu_to_le32(RQ_CTXT_PREF_SET(RQ_CTXT_PREF_CI_HI(ci_start),
-+					     CI_HI) |
- 			    RQ_CTXT_PREF_SET(1, OWNER));
- 
- 	rq_ctxt->pref_wq_pfn_hi_ci =
+ static const struct drm_bridge_funcs dw_hdmi_qp_bridge_funcs = {
++	.atomic_get_output_bus_fmts = drm_atomic_helper_bridge_get_hdmi_output_bus_fmts,
+ 	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+ 	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+ 	.atomic_reset = drm_atomic_helper_bridge_reset,
+
 -- 
-2.43.0
+2.53.0
 
