@@ -1,142 +1,121 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9329E3C6A59
-	for <linux-doc@vger.kernel.org>; Thu,  5 Mar 2026 19:49:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4E9D411610
+	for <linux-doc@vger.kernel.org>; Thu,  5 Mar 2026 19:59:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772740200; cv=none; b=F4Vae/cETtk6Q5LGn4wGY5oGAuC+whKbDg5GwQn5SS2BW2dgp76eb7RP2J+FeR+ZyLi7P2DIAX4S4BofTM88qm71LC2xhdh7UOGpY/cdLXNe7d1J//j10PLeYED0/ztk2/ApkdpKtdHDQe4vskDn0jR/6Di9ocGYCfyR6S/NXho=
+	t=1772740795; cv=none; b=be9plVD4oRZKy6cDI6I+OsYEmZAKAajOOKgOG5JVNrnGzYQygDeluls4zAbZhLZQ/6WhiWVlw4TfRO3DRE7nOINpYH6TAgjYveaRvA3jmtuvib8h8GLieL79qWZKzHjFrFWLy3Nsdb7K6cu6jQL94tRj/8dSEA5kHS7hllXpQUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772740200; c=relaxed/simple;
-	bh=qlSti5DpZENgsi07jvU39xUxPwxfHv/F34mcYL59KrE=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jjtSBsUoU2oKRaRjV2l4c5PXdO9GSMFiKZM3InJ5VwqVLGkcbC6s0Hzv7glPuND46xeaMz06+V0vlmCo9+lK2hGVtGyblMfQX02aGuoMWK48wpGCklXyXuqlmnrmXPtS3tB+XjZj1DNDi+zx0RJCocU0qyJrFLFs0hvk0CkuCG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=C8RPtlUi; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=8VZ9Hqvc; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=VVPAgtur; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=g6GJVhzA; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1772740795; c=relaxed/simple;
+	bh=pibzqU6aoeWQpdp1zuQaediImQZYkvHSU60rb8p3Ue0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=rRmLE/f6y7gppSV6qk5KRkfOZP7PPpM2bGNe83aixetLhLnmcKBRT0cbCjYKlCU2ke6xBZ9n8JY1Rfxd45+/F+QOrgbkS3jzQxZnlANuOjn/rcBKMlVBUHd+hFKCqTc60rOXnWomYahtCGJFj4MisT0JC4Hujpd8B2fcHTOt3Hk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MK8CQfFT; arc=none smtp.client-ip=209.85.216.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="C8RPtlUi";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="8VZ9Hqvc";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="VVPAgtur";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="g6GJVhzA"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id DC8633E75E;
-	Thu,  5 Mar 2026 19:49:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772740197; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SFbMs6AM9oEkgX+aR2yN5v1Rfgkxs3pvR0coNM4DIKk=;
-	b=C8RPtlUiFhWqHknpSyp359rHsVfXyA+0rW9ECuI0mJeVZo76JQu9+J68k6AHvP04qdGwPe
-	ve6pUXy9RMO3WvsCgDQTwFLektqj6My6nIjWWvSbCOHA7mO/fC/lox2k6ZMTIrQ3jwzDmE
-	MRxbBAM8qGMLmw9A+dqBHty5HnQTdC8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772740197;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SFbMs6AM9oEkgX+aR2yN5v1Rfgkxs3pvR0coNM4DIKk=;
-	b=8VZ9HqvcpKnnazB1LT1qD86w38oM8MEsSHyI8/KPPeYYp+u39XhL80kLVTj88fq/vVPwdV
-	1xw2VjmwUc8kQzBg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1772740196; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SFbMs6AM9oEkgX+aR2yN5v1Rfgkxs3pvR0coNM4DIKk=;
-	b=VVPAgturNf0FseloeEnUWgeD8RNb+tMwWaFc9owZeWv5B+Ys4Xt4DjLPWPYTQNp7eM8+v0
-	MxqNHTYPGLIY2kO76yMOIeYmaTEfsw94o60KB2quGLw+zvJk0ShqdsuZG7htfGVWmbiCi/
-	adZn7IODRcIA7v9nPwjJpFmXS7aIDVI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1772740196;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SFbMs6AM9oEkgX+aR2yN5v1Rfgkxs3pvR0coNM4DIKk=;
-	b=g6GJVhzAcV4K2rPLg5UIpqo0Lp3ONsMfcQk1zs6Arwl4lSWTP2+siw/vXfJJFA3p6lOadv
-	OiIftDudLWpplFAA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8CD373EA68;
-	Thu,  5 Mar 2026 19:49:56 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id jmgiIWTeqWmsQQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Thu, 05 Mar 2026 19:49:56 +0000
-Date: Thu, 05 Mar 2026 20:49:56 +0100
-Message-ID: <87a4wmvyxn.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Rong Zhang <i@rong.moe>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Cryolitia PukNgae <cryolitia@uniontech.com>,
-	Arun Raghavan <arunr@valvesoftware.com>,
-	linux-sound@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Icenowy Zheng <uwu@icenowy.me>,
-	Terry Junge <linuxsound@cosmicgizmosystems.com>
-Subject: Re: [PATCH] ALSA: usb-audio: Refine string-descriptor-based quirk matching
-In-Reply-To: <20260305174711.1106324-1-i@rong.moe>
-References: <20260305174711.1106324-1-i@rong.moe>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MK8CQfFT"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-35990245493so2995781a91.2
+        for <linux-doc@vger.kernel.org>; Thu, 05 Mar 2026 11:59:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772740785; x=1773345585; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=E+FGFhYASWu15dVGsznpbd992cpWDX99r4xQ1fzHvHY=;
+        b=MK8CQfFTaMRvauMzKa42++UAiyaoWzW2oZrLPtI6hCC0JZZ5riHrIBxN2bWmoQhP5E
+         7XYzMdWQshtrvo3jNzYATVTvh/vbOrTl1LFZ0E9RqAJkClYZXeuGHGP+MS3YF8sAKRi0
+         rYav5KArroUBO71+v5MoAJsDdiFl+ZQpsYbrrsj/YjeQ7Dv83D/O/JW4ML/ppx9+c9ZB
+         YCFjMZO7I4STLrdzJqqNryWH0eGLHzIDcZ7xh0NTLGGCgI1C6a3EwFv245QbPKsujTxT
+         FrVSc16YGFoh8kvPJ0rgdN+Z+KmOJbC1M/RKXMyVPrPEZXNvvKeC8ZD5dppYX+bTL1le
+         ddJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772740785; x=1773345585;
+        h=content-transfer-encoding:in-reply-to:from:references:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=E+FGFhYASWu15dVGsznpbd992cpWDX99r4xQ1fzHvHY=;
+        b=U8FJSokyQARDsaJFmHLQWgqX7RD4ChDgOrz2Na/tcN1tLsXV3Bf8oLdVqnfDs9sBht
+         OLTb9cyG2pApT8X1F6tzFeNsp9OTCOP/K5A+yH9MgsQdKgDDd3UUZ2WetzwJlapRSNRY
+         WaSCLdUlIUVK3AAmvJPcvhEAitHBWMyPsgd4EfwREpkPT75/50B3u6tLmSd9sFRWXCkw
+         db7brDtD+kaQaiK5jZ69Cp4qGFx10je8lBvY5FHetIYPuqi9ywfCQ2HF9WiqsZaab1XY
+         taZTDnST8xh6jRv+DYOib8BbG/e7mT4EpnBdEpYoiERZDzoC9xqrTfEzVUz3XzaCRyGy
+         lP+g==
+X-Forwarded-Encrypted: i=1; AJvYcCVVQPlB8ze4Qfe+s/ENofIxjXi6wNE8YUEEffpR1500EdEG8hOs7oGHPosKZkg2BKOKqAgnlPsqr+g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxlFRpaFMiIbYBwYRTfeTntoZiSnlS1aQCKcA36hY9QdsnAk1A9
+	RTr/Is9h2BPyKm6YLlQ0C2bK8wSOknx9ALmbHw3gprsZYQm4hH2bw9+5
+X-Gm-Gg: ATEYQzyU2BYEHxXEe78hx8PDjEIeo6mKxV6bmKK4aEW8rNQXu/m1W0z2zhcL4DCH6zU
+	6EAX3VHs5xiFPg/nGG2SOAlqat6g41b39AIEg59jEnbqmhj1vrnp6GfyAlBRuck2xACx6zXu8mr
+	Hem8AkW5yY5Pil316sHU6K28hJZj2eV/8jrL9Hp73Een5s1/Pydwl2bBsVqJ/0mGMvTtlsdSNMx
+	LlgRXItE7i0vQwziIcyoaHM8tcmcgbAPjoX8o5REn/9NNcGo1EboTpKZ3vMPgfwTG8XsMzw8pEz
+	FA73CatEC6/wOoeIaoeYL8RjjdSPApuoiyaQF7kqV33pMFxY8wj80h/amhlFAySQTQIYCUGtOVP
+	T49KXsFrVjwOJetqALYSrgdBHNm3zfHpO7u711NhCV+9NGqHLEJ1JQSjoahklKYLtvL6r8abZDb
+	hY7zL6CLtD7bzBri3P9PIXgZP+U6RfVNg3FBCtRj8cimTxnDEMGVnemRAfAg==
+X-Received: by 2002:a17:90b:528b:b0:359:8e1c:53e with SMTP id 98e67ed59e1d1-359a6a87c77mr6124295a91.31.1772740784932;
+        Thu, 05 Mar 2026 11:59:44 -0800 (PST)
+Received: from [10.79.58.83] (wf121-083.ust.hk. [175.159.121.83])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-359b2d56adasm2850044a91.12.2026.03.05.11.59.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 05 Mar 2026 11:59:44 -0800 (PST)
+Message-ID: <29bd0dbc-c6f9-43ce-b95f-4e787e3fe9c3@gmail.com>
+Date: Fri, 6 Mar 2026 03:59:42 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.989];
-	MIME_GOOD(-0.10)[text/plain];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid]
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spam-Level: 
-
-On Thu, 05 Mar 2026 18:46:39 +0100,
-Rong Zhang wrote:
-> 
-> Remove snd_usb_get_string() and use the manufacturer and product strings
-> stored in struct usb_device directly to match quirk table entries. Their
-> NULLity can be checked to determine if the device has no these strings.
-> This simplifies the code a lot.
-> 
-> Meanwhile, allow quirk table entries to match "no string" explicitly, and
-> add appropriate comments to show the expected usages of
-> DEVICE_STRING_FLG() and VENDOR_STRING_FLG(). These changes are tiny and
-> doesn't form another separate patch, so that back-and-forth changes can
-> be avoided.
-> 
-> Suggested-by: Terry Junge <linuxsound@cosmicgizmosystems.com>
-> Link: https://lore.kernel.org/r/b59da54a-9c80-4212-a337-c5ea98da52d1@cosmicgizmosystems.com
-> Signed-off-by: Rong Zhang <i@rong.moe>
-
-Thanks, applied now.
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs/zh_CN: fix an inconsistent statement in
+ dev-tools/testing-overview
+To: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
+ Dongliang Mu <dzm91@hust.edu.cn>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20260305192048.16405-1-tttturtleruss@gmail.com>
+From: Haoyang Liu <tttturtleruss@gmail.com>
+In-Reply-To: <20260305192048.16405-1-tttturtleruss@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
-Takashi
+On 3/6/2026 3:20 AM, TurtleRuss wrote:
+> From: LIU Haoyang <tttturtleruss@gmail.com>
+>
+> This patch fixes an inconsistent describtion in testing-overview.rst,
+> which should be ``kmalloc`` instead of ``kmalloc_arry``.
+
+Dear all,
+
+I just find out that there are some errors in the commit message, I've 
+sent the V2 patch to fix. Sorry for that.
+
+Sincerely,
+Haoyang
+
+>
+> Signed-off-by: LIU Haoyang <tttturtleruss@gmail.com>
+> ---
+>   Documentation/translations/zh_CN/dev-tools/testing-overview.rst | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/translations/zh_CN/dev-tools/testing-overview.rst b/Documentation/translations/zh_CN/dev-tools/testing-overview.rst
+> index 286ed6b01f65..5efa8c6db867 100644
+> --- a/Documentation/translations/zh_CN/dev-tools/testing-overview.rst
+> +++ b/Documentation/translations/zh_CN/dev-tools/testing-overview.rst
+> @@ -154,7 +154,7 @@ Smatch和Coccinelle的强项
+>   Coccinelle可能是最容易写检查的。它在预处理器之前工作，所以用Coccinelle
+>   检查宏中的错误更容易。Coccinelle还能为你创建补丁，这是其他工具无法做到的。
+>   
+> -例如，用Coccinelle你可以从 ``kmalloc_array(x, size, GFP_KERNEL)``
+> +例如，用Coccinelle你可以从 ``kmalloc(x * size, GFP_KERNEL)``
+>   到 ``kmalloc_array(x, size, GFP_KERNEL)`` 进行大规模转换，这真的很
+>   有用。如果你只是创建一个Smatch警告，并试图把转换的工作推给维护者，他们会很
+>   恼火。你将不得不为每个警告争论是否真的可以溢出。
+
+-- 
+Sincerely,
+Haoyang
+
