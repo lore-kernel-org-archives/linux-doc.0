@@ -1,238 +1,213 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8629B34A76E;
-	Thu,  5 Mar 2026 17:42:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772732555; cv=none; b=eG9nQmr9UeRXLczQvqabIK+b0tU6FJJNAsAQZ6IaW7100ZWiz8xR+fQPmVaO9Tljy+F7YIaqdUXZIxc4IrcNVehZgcG/fn4civy+fYF/dnsGJFF4Z87WTnywtBDNtFi9p7vaGemmKLoeV5Q3JJyY3a99AAoh91zTj8XFco/r7gY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772732555; c=relaxed/simple;
-	bh=21WHh1VsCuYCMG20K/554Bw6H0yUrjgPIUyOm0VP6KM=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=lwxIjG3lCOYh8XcIp0Lh2ymXFN1chfiIZlgvY4yIvvzItj5ft3s3TjkTDqgoRLt8SQk2aZRIxzQzKpTU2YAgBNc1D/zeP0CcsuY6ocCkiqReCAncl5xGdL7+o3W3k6EyavZRVqfwfEHLXUi62h0QGf7iWkfoOOaj+Dtf6XMPd4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=U9hTis9y; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C0E3371054;
+	Thu,  5 Mar 2026 17:47:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772732867; cv=pass; b=U+RXpDqxZ4uwSYK/8urqKrsCNNPzJHxdZSazcMmfWrf4pA+1bi7ZqVfrNn8Myhqw7pLhLWG/i+mx3RrdajnjZVB0SgCMWvFI1gwpj6uJCZlC9LGLwQkilRAJe7ALGjJqY8k6qAqhUjFpF5OId8QFb3bh6SuZAKtwyj0RyKWhyHQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772732867; c=relaxed/simple;
+	bh=FHW5U5LimJCxTQHX4k4mumzkhqANr+afJlLHUpM7fQI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=W6TpN8XTKFjfwqIXg6o5CHE8US4f61pEb0pFyw5oYAJH7LIAPKZ+66Ak8SMn8KQDOH528Y5RnXatxcDVSPmNzR/tN/LHl646dArsqgpQFdKyIVd8y0pYh2aC4mKJDIv1J7ixtTmCb1tPXnc2dIwVyT/r3C/9QRkCKQss9sqAEzs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=GzhbzmeR; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="U9hTis9y"
-Received: from smtpclient.apple (c-24-130-165-117.hsd1.ca.comcast.net [24.130.165.117])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 625HQ60A3525601
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Thu, 5 Mar 2026 09:26:07 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 625HQ60A3525601
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2026022301; t=1772731568;
-	bh=5hn0jF1YKw9oU65oOl9+YoH/Q746A6JZMd0p082/8yY=;
-	h=Subject:From:In-Reply-To:Date:Cc:References:To:From;
-	b=U9hTis9yQetdUD4O8Tma/KbBrXx/4Y1qaKcvrvWkR6pb3jWhOKlMohMJWZev/fZKb
-	 LBXzqGICgkf0B5THX7WJTvOTCfRW1NWQCrnIezGgI994IM7F1i5jOs4ejtjyTKrSsw
-	 paSNYsLtQjoeETbL9H2ePWhxunMSsR9R+GW4gNBbAqSYeTW1j4qdNg3Wmyl0HJ8eNd
-	 vZ+UsHTFmlQ4Z7kywhfH7lz42PmgUO9L4lMW7WryTDF+sPTuGiETySr9acKnOT/2Jm
-	 G3UdPgThz1M0aj9lkx55zWNr7vHnKXH+TgfWFNgoXcRwIgUfowT0LCMmjnd9DeYufT
-	 a6471Yi9uF4ig==
-Content-Type: text/plain;
-	charset=utf-8
+	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="GzhbzmeR"
+ARC-Seal: i=1; a=rsa-sha256; t=1772732841; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=VtrkeHVb17Pv9UHf/NAaAYs0u091YYbOb6p9nNoGjL90i6DNxMDx5X4BZrcg1TKi10VUujd0fM4ySnf7O93qTfg2/+krUT/6Km0UY/XxQfwO7i+aMdHTLJD5s7XnwStjvb3cRe20NBqKxwmPJZI9NMKTS3X4KGEAvINEHm31jwQ=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1772732841; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=/M3Zc6FeipLmvGRey4I0i8sTJWwCU3xoQY4oC+FGgHE=; 
+	b=cVDJe1CP9LkE8jlHlhmpEU6xtge+48vYs41FjSp34aunsYOXphsb5TnCzIxiGVvaZDrhXEvBWSC7jDx6LIY5cMNj5Tkb7fz1gcXO4XN5ljHyL5P8ZFgiUNWfsvGPw/d0NWToYqbnSpu9PV6iCQt2S62ZOcxC2ueO5HbBpf3OhMk=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=rong.moe;
+	spf=pass  smtp.mailfrom=i@rong.moe;
+	dmarc=pass header.from=<i@rong.moe>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772732841;
+	s=zmail2048; d=rong.moe; i=i@rong.moe;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=/M3Zc6FeipLmvGRey4I0i8sTJWwCU3xoQY4oC+FGgHE=;
+	b=GzhbzmeR1avIv7UXiahyRDLAUgMXmNUBjv7IccVtvp5grrUsrkDKH1hlTeMMFTDo
+	vh5jFq5xjTYjtNusibhamSE4tqHW7BGT2PnkKnfYAqBschKoCqDjm400XF0AV8Qbtno
+	/OIAZ5cIv6aiErnVX63HFYEavmSJZgFWI4/7tXbLHzAoH+OHb/6Ot40I0N3I2TKGQf8
+	pwXWNNKwqWIJc1E2ilY8CctKs10ib80snCvIKx2pS6TFo5lljw47hzfvSlSwIlaPIG/
+	ZRUmE2x6k34w3BW0vboRLjUIH/lhrwakBZYMkgbCAKcQLxmYJslZ411+BO67my5J+55
+	tG9KgNF9kQ==
+Received: by mx.zohomail.com with SMTPS id 1772732838388757.0467718429193;
+	Thu, 5 Mar 2026 09:47:18 -0800 (PST)
+From: Rong Zhang <i@rong.moe>
+To: Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>
+Cc: Rong Zhang <i@rong.moe>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Cryolitia PukNgae <cryolitia@uniontech.com>,
+	Arun Raghavan <arunr@valvesoftware.com>,
+	linux-sound@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Icenowy Zheng <uwu@icenowy.me>,
+	Terry Junge <linuxsound@cosmicgizmosystems.com>
+Subject: [PATCH] ALSA: usb-audio: Refine string-descriptor-based quirk matching
+Date: Fri,  6 Mar 2026 01:46:39 +0800
+Message-ID: <20260305174711.1106324-1-i@rong.moe>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.400.21\))
-Subject: Re: [PATCH v9 07/22] KVM: VMX: Initialize VMCS FRED fields
-From: Xin Li <xin@zytor.com>
-In-Reply-To: <aamfka09bDZV0iUO@google.com>
-Date: Thu, 5 Mar 2026 09:25:56 -0800
-Cc: Binbin Wu <binbin.wu@linux.intel.com>, linux-kernel@vger.kernel.org,
-        kvm@vger.kernel.org, linux-doc@vger.kernel.org, pbonzini@redhat.com,
-        corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        luto@kernel.org, peterz@infradead.org, andrew.cooper3@citrix.com,
-        chao.gao@intel.com, hch@infradead.org, sohil.mehta@intel.com
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <1034AC94-928A-4588-909F-A943E867A53C@zytor.com>
-References: <20251026201911.505204-1-xin@zytor.com>
- <20251026201911.505204-8-xin@zytor.com>
- <8731e234-22b8-4ccf-89ef-63feed09e9c5@linux.intel.com>
- <aahchI7oiFrjFAmb@google.com>
- <99463361-58F3-42F9-9BCC-4BF0BF73D247@zytor.com>
- <aamfka09bDZV0iUO@google.com>
-To: Sean Christopherson <seanjc@google.com>
-X-Mailer: Apple Mail (2.3864.400.21)
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
+Remove snd_usb_get_string() and use the manufacturer and product strings
+stored in struct usb_device directly to match quirk table entries. Their
+NULLity can be checked to determine if the device has no these strings.
+This simplifies the code a lot.
 
->>>>> + /* Per-CPU FRED MSRs */
->>>=20
->>> Meh, this is pretty self-explanatory code.
->>=20
->> I want to remind that this is =E2=80=9CPer-CPU=E2=80=9D.
->>=20
->> On the other side, FRED_CONFIG and FRED_STKLVLS are typically the =
-same on
->> all CPUs, and they don=E2=80=99t need to be updated during vCPU =
-migration.
->>=20
->> But anyway vCPU migration only cares per-CPU MSRs, so this is =
-redundant.
->>=20
->> It often bothers me whether to explain the code a bit more or not, =
-with a
->> short brief comment or a lengthy one.
->=20
-> Oh, I'm all for comments,  But I generally dislike terse comments like =
-the above,
-> as they're only useful for readers that *already* know many of the =
-gory details,
-> and for everyone else, it's largely just noise.
->=20
-> E.g. in this case, what the subtlety of what you were trying to convey =
-with
-> "Per-CPU" was completely lost on me.  It would have been a wee bit =
-more helpful
-> in earlier versions that used RDMSR, but even then it required the =
-reader to make
-> large leaps of intuition to understand the full context.
->=20
-> And the terse comment is also "wrong" in the sense that it lies by =
-omission,
-> because this isn't *all* of the per-CPU MSRs.
->=20
-> E.g.
->=20
-> /*
->  * Update the FRED RSP MSRs values that are restored on VM-Exit, as
->  * Linux uses dedicated per-CPU stacks for things like #DBs and NMIs.
->  * Note, RSP0 is _only_ used to load RSP on user=3D>kernel =
-transitions,
->  * i.e. doesn't need to be loaded on VM-Exit and so doesn't have a =
-VMCS
->  * field.  Note #2, the SSP MSRs will likely be per-CPU as well, but
->  * Linux doesn't yet support supervisor shadow stacks.
->  */=20
+Meanwhile, allow quirk table entries to match "no string" explicitly, and
+add appropriate comments to show the expected usages of
+DEVICE_STRING_FLG() and VENDOR_STRING_FLG(). These changes are tiny and
+doesn't form another separate patch, so that back-and-forth changes can
+be avoided.
 
-You=E2=80=99re right, terse comment could be bad.
+Suggested-by: Terry Junge <linuxsound@cosmicgizmosystems.com>
+Link: https://lore.kernel.org/r/b59da54a-9c80-4212-a337-c5ea98da52d1@cosmicgizmosystems.com
+Signed-off-by: Rong Zhang <i@rong.moe>
+---
+ sound/usb/quirks.c | 90 +++++++++++++++++++++-------------------------
+ 1 file changed, 40 insertions(+), 50 deletions(-)
 
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index 17f6be4d2350..ab67f7826e9b 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -2153,7 +2153,28 @@ struct usb_audio_quirk_flags_table {
+ 	{ .id = USB_ID(vid, pid), .flags = (_flags) }
+ #define VENDOR_FLG(vid, _flags) DEVICE_FLG(vid, 0, _flags)
+ 
+-/* Use as a last resort if using DEVICE_FLG() is prone to VID/PID conflicts. */
++/*
++ * Use as a last resort if using DEVICE_FLG() is prone to VID/PID conflicts.
++ *
++ * Usage:
++ *   // match vid, pid, "manufacturer", and "product"
++ *   DEVICE_STRING_FLG(vid, pid, "manufacturer", "product", flags)
++ *
++ *   // match vid, pid, "manufacturer", and any product string
++ *   DEVICE_STRING_FLG(vid, pid, "manufacturer", NULL,      flags)
++ *
++ *   // match vid, pid, "manufacturer", and device must have no product string
++ *   DEVICE_STRING_FLG(vid, pid, "manufacturer", "",        flags)
++ *
++ *   // match vid, pid, any manufacturer string, and "product"
++ *   DEVICE_STRING_FLG(vid, pid, NULL,           "product", flags)
++ *
++ *   // match vid, pid, no manufacturer string, and "product"
++ *   DEVICE_STRING_FLG(vid, pid, "",             "product", flags)
++ *
++ *   // match vid, pid, no manufacturer string, and no product string
++ *   DEVICE_STRING_FLG(vid, pid, "",             "",        flags)
++ */
+ #define DEVICE_STRING_FLG(vid, pid, _manufacturer, _product, _flags)	\
+ {									\
+ 	.id = USB_ID(vid, pid),						\
+@@ -2164,7 +2185,16 @@ struct usb_audio_quirk_flags_table {
+ 	.flags = (_flags),						\
+ }
+ 
+-/* Use as a last resort if using VENDOR_FLG() is prone to VID conflicts. */
++/*
++ * Use as a last resort if using VENDOR_FLG() is prone to VID conflicts.
++ *
++ * Usage:
++ *   // match vid, and "manufacturer"
++ *   VENDOR_STRING_FLG(vid, "manufacturer", flags)
++ *
++ *   // match vid, and device must have no manufacturer string
++ *   VENDOR_STRING_FLG(vid, "",             flags)
++ */
+ #define VENDOR_STRING_FLG(vid, _manufacturer, _flags)			\
+ 	DEVICE_STRING_FLG(vid, 0, _manufacturer, NULL, _flags)
+ 
+@@ -2595,63 +2625,23 @@ void snd_usb_apply_flag_dbg(const char *reason,
+ 	}
+ }
+ 
+-#define USB_STRING_SIZE 128
+-
+-static char *snd_usb_get_string(struct snd_usb_audio *chip, int id)
+-{
+-	char *buf;
+-	int ret;
+-
+-	/*
+-	 * Devices without the corresponding string descriptor.
+-	 * This is non-fatal as *_STRING_FLG have nothing to do in this case.
+-	 */
+-	if (id == 0)
+-		return ERR_PTR(-ENODATA);
+-
+-	buf = kmalloc(USB_STRING_SIZE, GFP_KERNEL);
+-	if (buf == NULL)
+-		return ERR_PTR(-ENOMEM);
+-
+-	ret = usb_string(chip->dev, id, buf, USB_STRING_SIZE);
+-	if (ret < 0) {
+-		usb_audio_warn(chip, "failed to get string for id%d: %d\n", id, ret);
+-		kfree(buf);
+-		return ERR_PTR(ret);
+-	}
+-
+-	return buf;
+-}
+-
+ void snd_usb_init_quirk_flags_table(struct snd_usb_audio *chip)
+ {
+ 	const struct usb_audio_quirk_flags_table *p;
+-	char *manufacturer __free(kfree) = NULL;
+-	char *product __free(kfree) = NULL;
+ 
+ 	for (p = quirk_flags_table; p->id; p++) {
+ 		if (chip->usb_id == p->id ||
+ 		    (!USB_ID_PRODUCT(p->id) &&
+ 		     USB_ID_VENDOR(chip->usb_id) == USB_ID_VENDOR(p->id))) {
+ 			/* Handle DEVICE_STRING_FLG/VENDOR_STRING_FLG. */
+-			if (p->usb_string_match && p->usb_string_match->manufacturer) {
+-				if (!manufacturer) {
+-					manufacturer = snd_usb_get_string(chip,
+-						chip->dev->descriptor.iManufacturer);
+-				}
+-				if (IS_ERR_OR_NULL(manufacturer) ||
+-				    strcmp(p->usb_string_match->manufacturer, manufacturer))
+-					continue;
+-			}
+-			if (p->usb_string_match && p->usb_string_match->product) {
+-				if (!product) {
+-					product = snd_usb_get_string(chip,
+-						chip->dev->descriptor.iProduct);
+-				}
+-				if (IS_ERR_OR_NULL(product) ||
+-				    strcmp(p->usb_string_match->product, product))
+-					continue;
+-			}
++			if (p->usb_string_match && p->usb_string_match->manufacturer &&
++			    strcmp(p->usb_string_match->manufacturer,
++				   chip->dev->manufacturer ? chip->dev->manufacturer : ""))
++				continue;
++			if (p->usb_string_match && p->usb_string_match->product &&
++			    strcmp(p->usb_string_match->product,
++				   chip->dev->product ? chip->dev->product : ""))
++				continue;
+ 
+ 			snd_usb_apply_flag_dbg("builtin table", chip, p->flags);
+ 			chip->quirk_flags |= p->flags;
 
->=20
->>>>> + if (kvm_cpu_cap_has(X86_FEATURE_FRED)) {
->>>>> +#ifdef CONFIG_X86_64
->>>>=20
->>>> Nit:
->>>>=20
->>>> Is this needed?
->>>>=20
->>>> FRED is initialized by X86_64_F(), if CONFIG_X86_64 is not enabled, =
-this
->>>> path is not reachable.
->>>> There should be no compilation issue without #ifdef CONFIG_X86_64 / =
-#endif.
->>>>=20
->>>> There are several similar patterns in this patch, using  #ifdef =
-CONFIG_X86_64 /=20
->>>> #endif or not seems not consistent. E.g. __vmx_vcpu_reset() and =
-init_vmcs()
->>>> doesn't check the config, but here does.
->>>>=20
->>>>> + vmcs_write64(HOST_IA32_FRED_RSP1, =
-__this_cpu_ist_top_va(ESTACK_DB));
->>>>> + vmcs_write64(HOST_IA32_FRED_RSP2, =
-__this_cpu_ist_top_va(ESTACK_NMI));
->>>>> + vmcs_write64(HOST_IA32_FRED_RSP3, =
-__this_cpu_ist_top_va(ESTACK_DF));
->>>=20
->>> IMO, this is flawed for other reasons.  KVM shouldn't be relying on =
-kernel
->>> implementation details with respect to what FRED stack handles what =
-event.
->>>=20
->>> The simplest approach would be to read the actual MSR.  _If_ using a =
-per-CPU read
->>> provides meaningful performance benefits over RDMSR (or RDMSR w/ =
-immediate?  I
->>> don't see an API for that...), then have the kernel provide a =
-dedicated accessor.
->>=20
->> I think you asked for it:
->>=20
->> https://lore.kernel.org/kvm/ZmoWB_XtA0wR2K4Q@google.com/
->=20
-> Gah, so I did.  FWIW, comments like that aren't intended to be "you =
-must do it
-> this way", i.e. it's ok to push back (if there's justification to do =
-so), but I
-> can totally see how it came across that way.
->=20
->> I assume fetching through per-CPU cache is fast, but I might have =
-misunderstood
->> your suggestion.
->=20
-> Oh, per-CPU cache is likely faster than RDMSR (though it would be nice =
-to verify).
-> The part I specifically don't like is referencing DB, NMI, and DF =
-stacks.
->=20
->>> Then the accessor can be a non-inlined functions, and this code can =
-be e.g.:
->>>=20
->>> if (IS_ENABLED(CONFIG_X86_64) && kvm_cpu_cap_has(X86_FEATURE_FRED)) =
-{
->>> vmcs_write64(HOST_IA32_FRED_RSP1, fred_rsp(MSR_IA32_FRED_RSP1));
->>> vmcs_write64(HOST_IA32_FRED_RSP2, fred_rsp(MSR_IA32_FRED_RSP2));
->>> vmcs_write64(HOST_IA32_FRED_RSP3, fred_rsp(MSR_IA32_FRED_RSP2));
->                                                                ^
->                                                                |
->                                                                3 =
-(guess who failed at copy+paste)
->>> }
->>>=20
->>> where fred_rsp() is _declared_ unconditionally, but implemented only =
-for 64-bit.
->>> That way the compiler will be happy, and the actual usage will be =
-dropped before
->>> linking via dead-code elimination.
->>=20
->> If KVM can=E2=80=99t rely on kernel side implementation details, =
-fred_rsp() has to read
->> directly from the corresponding MSRs, right?
->=20
-> No.  If the kernel provides an API specifically for getting RSP =
-values, then KVM
-> isn't rely on implementation details, KVM is relying on an (exported?) =
-API, and
-> it's the _kernel's_ responsibility to ensure that API is updated as =
-needed.
->=20
-> Yeah, yeah, KVM is also part of the kernel, but it's a _lot_ easier to =
-forget to
-> update code when the implementation details change when some of the =
-usage is "far"
-> away.
-
-Okay, I think it=E2=80=99s clearer to me what bothers you.
-
-A self-explanatory API is the right thing, and should be a standard =
-practice.
-
->=20
->>> Actually, we can probably do one better?
->>>=20
->>> if (cpu_feature_enabled(X86_FEATURE_FRED) && =
-kvm_cpu_cap_has(X86_FEATURE_FRED)) {
->>=20
->> I think KVM now forces X86_FEATURE_FRED=3Dy, no?
->=20
-> 32-bit doesn't :-D
->=20
-> But even for 64-bit, X86_FEATURE_FRED should be cleared when FRED =
-isn't supported
-> by hardware, in which case cpu_feature_enabled() still patches out the =
-text.
-
-Right, it can be patched out thus has =E2=80=9Czero=E2=80=9D impact on =
-existing hardwares.
-
-(Just that the FRED IRQ handling code is not as it=E2=80=99s used by =
-KVM.)
-
+base-commit: b364a0d23cae157691cde2c0137998d66b45b703
+-- 
+2.53.0
 
