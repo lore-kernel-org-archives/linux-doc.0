@@ -1,115 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DE771A23A4;
-	Thu,  5 Mar 2026 02:18:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AFF83368A8
+	for <linux-doc@vger.kernel.org>; Thu,  5 Mar 2026 03:22:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772677139; cv=none; b=lVAfPmk6XghPbHLCn89LHJUWgzHKkCKUAJzmmDoRRMrZ5kReTd5HI2710Q+me/AuJqlDXgavsN1UsrSsXsTozjpjj9igbDRGFnuDGxV/UKHIEWWQf1nEsgIuPqOvCuSr4yzCe9pdAziIEGXqaXzIxmHP24aVAO+UVcH6HYznWPw=
+	t=1772680928; cv=none; b=hJTNR3miDsrzmasQqb1/pXiYBk3+DfMTTlhMjze66NWQa8hlsHuhruD6lBixX5Fx1cKGb6PQtLZ0qkmi7E50mpfpUqPQ1YCqi4horMEqcsZBmVMBEXdbElmrEntGC4wJa1X2HjH9AFWn58JF5lmqkUSQx1M0qlFc4zLK3SkbD/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772677139; c=relaxed/simple;
-	bh=Ls/7mcA2DK1yUNDKwWVDb+Xk7O6ZAGJS7ZHtXQtS4sk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o1ljOGZAXFZ2NMdl4XaBoXcTYlCsj3uomhRQwB+TATS5EAYmNFLB0Iu54+vWrr5HCfYihXFSd3O85MXokPj+JYamyZwFmVyGFUP9DG7timw1t3ZKQCIR0FTxhCpIs9A68PoAM5DBVzI7xEZV/TlHBZn6x6FMM6Pe9rNkAWdS6Sw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pawCvHiZ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772680928; c=relaxed/simple;
+	bh=QZ0hNcuNlpQuyiiY34XUhZUoyz0Dwe6vjkiCfycRTck=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=V8XQoq/S4TMO3zaUl63gmQgbvO3McgVDTHXkDXD/ZQ9eh84CSoMa8SG1hQv4EDJxn77HyFuABr5BudRl7Xqi7qL2wDoLMACSh2p/RwX0BlL9sf+crUOixiW3K0/iMnOdZbBlzd3mlZWWqRQk211u4HOlvZ2c3P4/ZFcUQfqWHaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=nQqMSLj1; arc=none smtp.client-ip=91.218.175.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pawCvHiZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B6EAC4CEF7;
-	Thu,  5 Mar 2026 02:18:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772677138;
-	bh=Ls/7mcA2DK1yUNDKwWVDb+Xk7O6ZAGJS7ZHtXQtS4sk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pawCvHiZSp7TytfXL17wDR0K9R0m/k1ZLv5M80Yj6FEjwhe66HcUrZniCaGC8bysk
-	 2MrZySXtcpKszetZbzw6Cli/lg1vdfeueZuBn3ABqQjfzlmMLQxOjPQaO0LH4YJ1WD
-	 Haw14DWcqB+POm5YJLoIveLxljpRGnFTSoM8C7m3lIvfiwh38t8J3pcCXP7rYez8Dn
-	 8iJRLmNzJXXK5bBPw3TAK/O554ERaOPj/8RioVipVJTzHgGuEkqdEdiufjvnybbplc
-	 aXUh3zhMwepJ8hj0ckPvlNfFQHaQt3ti/caRF4/yFvnftgP+Gss5XMIfri38yProH6
-	 XPpGtFnHD7Qhw==
-Date: Wed, 4 Mar 2026 21:18:57 -0500
-From: Sasha Levin <sashal@kernel.org>
-To: Helge Deller <deller@gmx.de>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Richard Weinberger <richard@nod.at>,
-	Juergen Gross <jgross@suse.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	James Bottomley <James.Bottomley@hansenpartnership.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Greg KH <gregkh@linuxfoundation.org>,
-	Petr Mladek <pmladek@suse.com>,
-	Steven Rostedt <rostedt@goodmis.org>, Kees Cook <kees@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Thorsten Leemhuis <linux@leemhuis.info>,
-	Vlastimil Babka <vbabka@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-modules@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/3] kallsyms: embed source file:line info in kernel
- stack traces
-Message-ID: <aajoETEtX9r2XzT7@laps>
-References: <20260303182103.3523438-1-sashal@kernel.org>
- <20260303182103.3523438-2-sashal@kernel.org>
- <258d7167-2e82-4402-9545-108c501ae69e@gmx.de>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="nQqMSLj1"
+Message-ID: <7ef528c1-b09c-48ba-bd59-bcf13880e105@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1772680923;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gus2TbXg7gV4yotO25GDeDjmZGlpM2f+fKw3//D+yIA=;
+	b=nQqMSLj1tjlyJYZMSeOMcrUjLwkiQXIkpZMDbTxUeW4EXdyaALv/totjOTniIeC6JO9Tb+
+	nN4dIP7ddh+mLx7p2xWqLpogvBGLmHMhocAyCiCv1LL/5YNEFVmKuNVnJMPakmyrjRGUCl
+	GUGWZtENkEFZJXNvmDPtIT8tN+UUHNk=
+Date: Thu, 5 Mar 2026 11:21:51 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <258d7167-2e82-4402-9545-108c501ae69e@gmx.de>
+Subject: Re: [PATCH v1] docs: filesystems: clarify KernelPageSize vs.
+ MMUPageSize in smaps
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>,
+ Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>, Nico Pache
+ <npache@redhat.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-kernel@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>,
+ Usama Arif <usamaarif642@gmail.com>, Andi Kleen <ak@linux.intel.com>
+References: <20260304155636.77433-1-david@kernel.org>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Lance Yang <lance.yang@linux.dev>
+In-Reply-To: <20260304155636.77433-1-david@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Wed, Mar 04, 2026 at 09:17:37PM +0100, Helge Deller wrote:
->On 3/3/26 19:21, Sasha Levin wrote:
->>Add CONFIG_KALLSYMS_LINEINFO, which embeds a compact address-to-line
->>lookup table in the kernel image so stack traces directly print source
->>file and line number information:
->>
->>   root@localhost:~# echo c > /proc/sysrq-trigger
->>   [   11.201987] sysrq: Trigger a crash
->>   [   11.202831] Kernel panic - not syncing: sysrq triggered crash
->>   [   11.206218] Call Trace:
->>   [   11.206501]  <TASK>
->>   [   11.206749]  dump_stack_lvl+0x5d/0x80 (lib/dump_stack.c:94)
->>   [   11.207403]  vpanic+0x36e/0x620 (kernel/panic.c:650)
->>   [   11.208565]  ? __lock_acquire+0x465/0x2240 (kernel/locking/lockdep.c:4674)
->>   [   11.209324]  panic+0xc9/0xd0 (kernel/panic.c:787)
->>   [   11.211873]  ? find_held_lock+0x2b/0x80 (kernel/locking/lockdep.c:5350)
->>   [   11.212597]  ? lock_release+0xd3/0x300 (kernel/locking/lockdep.c:5535)
->>   [   11.213312]  sysrq_handle_crash+0x1a/0x20 (drivers/tty/sysrq.c:154)
->>   [   11.214005]  __handle_sysrq.cold+0x66/0x256 (drivers/tty/sysrq.c:611)
->>   [   11.214712]  write_sysrq_trigger+0x65/0x80 (drivers/tty/sysrq.c:1221)
->>   [   11.215424]  proc_reg_write+0x1bd/0x3c0 (fs/proc/inode.c:330)
->>   [   11.216061]  vfs_write+0x1c6/0xff0 (fs/read_write.c:686)
->>   [   11.218848]  ksys_write+0xfa/0x200 (fs/read_write.c:740)
->>   [   11.222394]  do_syscall_64+0xf3/0x690 (arch/x86/entry/syscall_64.c:63)
->>   [   11.223942]  entry_SYSCALL_64_after_hwframe+0x77/0x7f (arch/x86/entry/entry_64.S:121)
->
->As mentioned in the other series, I really like this patch series.
->
->I tested this series again on the parisc architecture, and the relative
->directories are now stripped with this version of your patch.
->IIRC, the previous patch did show the subdirectory names.
->[  132.840382] Backtrace:
->[  132.840382]  [<104254d8>] show_stack+0x50/0x64 (traps.c:212)
->[  132.840382]  [<1041c0c8>] dump_stack_lvl+0x6c/0xa0 (dump_stack.c:122)
->[  132.840382]  [<1041c118>] dump_stack+0x1c/0x2c (dump_stack.c:130)
->[  132.840382]  [<10402218>] vpanic+0x154/0x344 (panic.c:550)
->[  132.840382]  [<10402438>] panic+0x30/0x34 (panic.c:787)
->[  132.840382]  [<10bebea8>] sysrq_handle_crash+0x30/0x34 (rcupdate.h:110)
->[  132.840382]  [<10bec720>] __handle_sysrq+0xc0/0x1e4 (preempt.h:14)
 
-Ugh... Can you confirm that you've build this kernel with O=?
 
-The RFC had a dirty dirty hack around how we turn these absolute paths into
-relative ones, but I tried to re-do it so no one would yell at me :)
+On 2026/3/4 23:56, David Hildenbrand (Arm) wrote:
+> There was recently some confusion around THPs and the interaction with
+> KernelPageSize / MMUPageSize. Historically, these entries always
+> correspond to the smallest size we could encounter, not any current
+> usage of transparent huge pages or larger sizes used by the MMU.
+> 
+> Ever since we added THP support many, many years ago, these entries
+> would keep reporting the smallest (fallback) granularity in a VMA.
+> 
+> For this reason, they default to PAGE_SIZE for all VMAs except for
+> VMAs where we have the guarantee that the system and the MMU will
+> always use larger page sizes. hugetlb, for example, exposes a custom
+> vm_ops->pagesize callback to handle that. Similarly, dax/device
+> exposes a custom vm_ops->pagesize callback and provides similar
+> guarantees.
+> 
+> Let's clarify the historical meaning of KernelPageSize / MMUPageSize,
+> and point at "AnonHugePages", "ShmemPmdMapped" and "FilePmdMapped"
+> regarding PMD entries.
+> 
+> While at it, document "FilePmdMapped", clarify what the "AnonHugePages"
+> and "ShmemPmdMapped" entries really mean, and make it clear that there
+> are no other entries for other THP/folio sizes or mappings.
+> 
+> Link: https://lore.kernel.org/all/20260225232708.87833-1-ak@linux.intel.com/
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> Cc: Zi Yan <ziy@nvidia.com>
+> Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
+> Cc: Liam R. Howlett <Liam.Howlett@oracle.com>
+> Cc: Nico Pache <npache@redhat.com>
+> Cc: Ryan Roberts <ryan.roberts@arm.com
+> Cc: Dev Jain <dev.jain@arm.com>
+> Cc: Barry Song <baohua@kernel.org>
+> Cc: Lance Yang <lance.yang@linux.dev>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Shuah Khan <skhan@linuxfoundation.org>
+> Cc: Usama Arif <usamaarif642@gmail.com>
+> Cc: Andi Kleen <ak@linux.intel.com>
+> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+> ---
 
--- 
-Thanks,
-Sasha
+Makes sense to me. Feel free to add:
+
+Reviewed-by: Lance Yang <lance.yang@linux.dev>
