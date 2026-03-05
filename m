@@ -1,115 +1,155 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FEE335DA70;
-	Thu,  5 Mar 2026 21:26:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A03C135F163;
+	Thu,  5 Mar 2026 21:42:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772746016; cv=none; b=rkZg3BVmhcoXLKL82q5I7iGga0Njl+dctFCDtc4gSvaOaZXWSoZrVoe/Uspw1fr33sh41Zvi7Vf1alqNzFwdeVviTKd8VasiZX1Gfz1mhn2SMhZ/NeY4z4V2jfyuMIFoF9nasSAEDoNBqovEKI99Iwa+hgwPY3rFVsVCiCB1bIs=
+	t=1772746980; cv=none; b=j75/XqwM6Yfd/u77bgGQhvslnhgBjwpsA3LPi7xEtJYe/4hRW5P0diInMwM/yGUlaIcYQymtrvYBz0/3Q0NVN2ROTE6iA1rF3Nbq3Fp1s3ow6JlZSWhYUjwHvsriEsujX1rSxzEVw2kpdTdfN0wG6PJ3bW0Aa0RdxuAtgAytCY4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772746016; c=relaxed/simple;
-	bh=iD1ugdy4XbORgVksUifPKd41kQW/M/+DNYCa3YgLHTc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uXMDJRYWNUGGE0SnndEmKXMKTvQ/RiHVI+/XRHNgI/npEApMm/rZwFS4SM/3G1t9b7sJ5qea+6gbkCALblSCHdFMOid55AbSGmOrejFjKfhNoZYmgyVB9KriSDrzFHm8Izu0J8ERDEK3iy7TFZ0DitX5gsX6e/ksYg9u2BCst1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ug9lAcQy; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1772746980; c=relaxed/simple;
+	bh=+Oer6TNv8UyvVi1qJXa9XSFeoFF8acMLP/IDYKtkZfY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lIiUqkb8n14cky49tQrYsPU3gUaLgl0ZmmGz5hJLQV7YF7afPaSVATQgTzSnFsLChZaSzL11IDgGekI1DMlyFTFcoDE8memPIHT3N8Rne/Qk+uqgem490wODJgYAJ22kLNeeDKWdqFUVkD+NS5i3rOqwRj60uxnIizrwXJEIZoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NqJebRzO; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ug9lAcQy"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=JbbaphU/d1BJA2KazkvkpYO7r0IGk4H0CbY/uL0wE4s=; b=ug9lAcQyl9wJUgxup+L07qNR2O
-	rOgz1R3qis+gC4OA0hbY23KvmEyBudui/6SKJOooGFvkSs6g2ddJggnYaXD8sPcsfllpYMD9RTpJe
-	DIs1cW2XM0LUhLd6EYWBHEM0Z+6WITbcykkGUXZ8SJfC4AgUbp9BdX2r/BZXCyed0oz7YMjE4W4OU
-	Y7SQmNuzvxaDtfVLbzJXCZmkvrKiEusekY1ubGDklRal/i7a4fh27ESKfjYfovcKpRdczdGhQDquG
-	JUwTqPHlcCHVIIa87hGtqC0s2CZpQpjzNbOl5ECINkn2T8V5vCHLecUvBCJDZaOsK6/qV0QRYLCcS
-	qpV/W3OQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vyGDb-00000002aS9-3JxJ;
-	Thu, 05 Mar 2026 21:26:51 +0000
-Message-ID: <23a6d1d8-5b72-4ed0-9281-b2d84d539324@infradead.org>
-Date: Thu, 5 Mar 2026 13:26:51 -0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NqJebRzO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772746978; x=1804282978;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=+Oer6TNv8UyvVi1qJXa9XSFeoFF8acMLP/IDYKtkZfY=;
+  b=NqJebRzOjvLWEv4Y7EV95FLNCWBXEJsPTBAeeWohrIL92r/0hAVwwPAU
+   RNdQkSygfvSc0Kf6YMz9juyymXUQ9z2ie9yvQX/hWJ7JhbaU9k+kJAstn
+   1x7XmUobCVqRBKZ0gdVy+NY87CgZ+fH/Quoufp6fXdnUQIaSYPecUbQTC
+   KTZcJr91fFjdlDoRogj7qfvHcN3DHTgLPyZkYJdp+IqDm54BWgb1Lq/uv
+   UcZ+n25wl+rMNCZuiieIHeJdkYQvAjPDvSEHO1nSHAmL5SGwodtHPkzH8
+   wlO496FsUXTlPJLcl9JEKdiEmTndYStiCZF9ghOD1Xjh+rDgEcZlZJSN3
+   w==;
+X-CSE-ConnectionGUID: Xj6oRfSkQvGcOG/AGo+F1A==
+X-CSE-MsgGUID: tN6Y3smASdKa1HlhXraLmg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11720"; a="73043853"
+X-IronPort-AV: E=Sophos;i="6.23,103,1770624000"; 
+   d="scan'208";a="73043853"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 13:42:57 -0800
+X-CSE-ConnectionGUID: 0BqT/flNRdGfCTvE7XLaeQ==
+X-CSE-MsgGUID: RXyFnEuJTFmp5iIyRTvj9g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,103,1770624000"; 
+   d="scan'208";a="215562930"
+Received: from sohilmeh.sc.intel.com ([172.25.103.65])
+  by fmviesa006.fm.intel.com with ESMTP; 05 Mar 2026 13:42:57 -0800
+From: Sohil Mehta <sohil.mehta@intel.com>
+To: Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	Andy Lutomirski <luto@kernel.org>,
+	Borislav Petkov <bp@alien8.de>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Sohil Mehta <sohil.mehta@intel.com>,
+	Kiryl Shutsemau <kas@kernel.org>,
+	Brendan Jackman <jackmanb@google.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Nam Cao <namcao@linutronix.de>,
+	Cedric Xing <cedric.xing@intel.com>,
+	Rick Edgecombe <rick.p.edgecombe@intel.com>,
+	Andrew Cooper <andrew.cooper3@citrix.com>,
+	Tony Luck <tony.luck@intel.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Maciej Wieczor-Retman <m.wieczorretman@pm.me>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/5] x86: Enable LASS support with vsyscall=xonly mode
+Date: Thu,  5 Mar 2026 13:40:21 -0800
+Message-ID: <20260305214026.3887452-1-sohil.mehta@intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] MAINTAINERS: fix '*' wildcard formatting
-To: Joe Perches <joe@perches.com>, linux-kernel@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-doc@vger.kernel.org, Kees Cook <kees@kernel.org>
-References: <20260304224201.1072044-1-rdunlap@infradead.org>
- <1d96c26a14026c7f914e95fba1af10e7a2726bda.camel@perches.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <1d96c26a14026c7f914e95fba1af10e7a2726bda.camel@perches.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+
+Linear Address Space Separation (LASS) is currently disabled [1] when
+support for vsyscall emulation is configured. This series extends LASS
+support specifically to the default XONLY mode (vsyscall=xonly).
+
+Changes in v2
+-------------
+- Pick up review tags from Dave.
+- Improve commit messages based on feedback from Dave and Peter.
+- Minor change in patch 4 to avoid unnecessary clearing of CR4.LASS.
+
+v1: https://lore.kernel.org/lkml/20260219233600.154313-1-sohil.mehta@intel.com/
+
+Patches
+-------
+These patches were originally part of the v10 LASS series [2] before
+being split out into a smaller series to make it easier to review and
+merge. The overall approach to enable vsyscall support was okayed by
+Andy Lutomirski [3].
+
+The patches are based on the tip x86/cpu branch which has the recently
+merged LASS-EFI series [4].
+
+Issue
+-----
+Userspace attempts to access any kernel address generate a #GP when LASS
+is enabled. Legacy vsyscall functions are located in the address range
+0xffffffffff600000 - 0xffffffffff601000. Prior to LASS, default access
+(XONLY) to the vsyscall page would generate a page fault and the access
+would be emulated in the kernel. Currently, as the #GP handler lacks any
+emulation support, LASS is disabled when config X86_VSYSCALL_EMULATION
+is set.
+
+Solution
+--------
+These patches primarily update the #GP handler to reuse the existing
+vsyscall emulation code for #PF. In XONLY mode, the faulting RIP is
+readily available and can be used to determine if the #GP was triggered
+due to a vsyscall access.
+
+In contrast, the vsyscall EMULATE mode is deprecated and not expected to
+be used by anyone. Supporting EMULATE mode with LASS would require
+complex instruction decoding in the #GP fault handler, which is not
+worth the effort. So, LASS is disabled in the rare case when someone
+absolutely needs to enable vsyscall=emulate via the command line.
+
+Please find more details in the individual commit messages.
+
+Links
+-----
+[1]: https://lore.kernel.org/lkml/20251118182911.2983253-1-sohil.mehta@intel.com/
+[2]: https://lore.kernel.org/lkml/20251007065119.148605-1-sohil.mehta@intel.com/
+[3]: https://lore.kernel.org/lkml/f4ae0030-9bc2-4675-ae43-e477cd894750@app.fastmail.com/
+[4]: https://lore.kernel.org/lkml/20260120234730.2215498-1-sohil.mehta@intel.com/
+
+Sohil Mehta (5):
+  x86/vsyscall: Reorganize the page fault emulation code
+  x86/traps: Consolidate user fixups in the #GP handler
+  x86/vsyscall: Restore vsyscall=xonly mode under LASS
+  x86/vsyscall: Disable LASS if vsyscall mode is set to EMULATE
+  x86/cpu: Remove LASS restriction on vsyscall emulation
+
+ .../admin-guide/kernel-parameters.txt         |  4 +-
+ arch/x86/entry/vsyscall/vsyscall_64.c         | 89 +++++++++++--------
+ arch/x86/include/asm/vsyscall.h               | 13 ++-
+ arch/x86/kernel/cpu/common.c                  | 15 ----
+ arch/x86/kernel/traps.c                       | 12 +--
+ arch/x86/kernel/umip.c                        |  3 +
+ arch/x86/mm/fault.c                           |  2 +-
+ 7 files changed, 77 insertions(+), 61 deletions(-)
 
 
-
-On 3/5/26 1:24 AM, Joe Perches wrote:
-> On Wed, 2026-03-04 at 14:42 -0800, Randy Dunlap wrote:
->> It seems that these wildcards confuse some parser (docutils, sphinx,
->> or maintainers_include.py), so quote them to avoid this issue.
->> Also insert a hyphen ('-') before "all files" in several places
->> to make the html output easier to read.
->>
->> Fixes this htmldocs warning:
->>
->> linux-next-20260304/MAINTAINERS:40: WARNING: Inline strong start-string without end-string. [docutils]
-> 
-> I think there should be a better way than this.
-> This just uglifies the perfectly readable ascii.
-> 
-
-Sure, we can just get along with this one warning. No problem.
-Thanks.
-
->>
->> Signed-off-by: Randy Dunlap <[rdunlap@infradead.org](mailto:rdunlap@infradead.org)>
->> ---
->> Cc: Jonathan Corbet <[corbet@lwn.net](mailto:corbet@lwn.net)>
->> Cc: Shuah Khan <[skhan@linuxfoundation.org](mailto:skhan@linuxfoundation.org)>
->> Cc: [linux-doc@vger.kernel.org](mailto:linux-doc@vger.kernel.org)
->> Cc: Kees Cook <[kees@kernel.org](mailto:kees@kernel.org)>
->>
->>  MAINTAINERS |   10 +++++-----
->>  1 file changed, 5 insertions(+), 5 deletions(-)
->>
->> --- linux-next-20260304.orig/MAINTAINERS
->> +++ linux-next-20260304/MAINTAINERS
->> @@ -32,10 +32,10 @@ Descriptions of section entries and pref
->>  	   Type is one of: git, hg, quilt, stgit, topgit
->>  	F: *Files* and directories wildcard patterns.
->>  	   A trailing slash includes all files and subdirectory files.
->> -	   F:	drivers/net/	all files in and below drivers/net
->> -	   F:	drivers/net/*	all files in drivers/net, but not below
->> -	   F:	*/net/*		all files in "any top level directory"/net
->> -	   F:	fs/**/*foo*.c	all *foo*.c files in any subdirectory of fs
->> +	   F:	``drivers/net/``  -	all files in and below drivers/net
->> +	   F:	``drivers/net/*`` -	all files in drivers/net, but not below
->> +	   F:	``*/net/*``       -	all files in "any top level directory"/net
->> +	   F:	``fs/**/*foo*.c`` -	all *foo*.c files in any subdirectory of fs
->>  	   One pattern per line.  Multiple F: lines acceptable.
->>  	X: *Excluded* files and directories that are NOT maintained, same
->>  	   rules as F:. Files exclusions are tested before file matches.
->> @@ -44,7 +44,7 @@ Descriptions of section entries and pref
->>  	   X:	net/ipv6/
->>  	   matches all files in and below net excluding net/ipv6/
->>  	N: Files and directories *Regex* patterns.
->> -	   N:	[^a-z]tegra	all files whose path contains tegra
->> +	   N:	[^a-z]tegra -	all files whose path contains tegra
->>  	                        (not including files like integrator)
->>  	   One pattern per line.  Multiple N: lines acceptable.
->>  	   scripts/get_maintainer.pl has different behavior for files that
-
-
+base-commit: 68400c1aaf02636a97c45ba198110b66feb270a9
 -- 
-~Randy
+2.43.0
 
