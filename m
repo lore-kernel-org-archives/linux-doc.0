@@ -1,46 +1,48 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A0293BFE54;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A451F3C2760;
 	Thu,  5 Mar 2026 15:16:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772723787; cv=none; b=FiqkI+d75r+GqbMz5gAQYIcN3FeX5muZQ9w3HTeM0djFXtJPcJqSmbOl0M/pqz6DKAE+3AGgmujMvJZAq4EId9KTqC7Ztm8Hn9Ehp0N79y1b0KdncuNUHqmXkdZllS3xYbNB9ICscR7dhxFEOaq9tcPRy6uAQEZTuYpSN23MFb0=
+	t=1772723787; cv=none; b=pqK0J44Qx3OMbYxwyhbEgEYXK4aGYg7nkwnmznHhK5lzTk40RqTmLWvQ/cJxMpyhr5FAkutqbWinxXVYxRHoyQyTZHhaH4EdSjoPaDbTtSgvxeTOAwHcqqkH/JXV8Un4E5624B3LC39umRzSETbeBDI6AcqeiL1YbWdkuAvo3K8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1772723787; c=relaxed/simple;
-	bh=7XrzRQZSWI4TFDuEEM1AGdycXBGZf9IZAxSBO7iPUqE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ulUamLzIoeyIlRWIrrAvjFnbNs6Yv3z4o4/74ycrd+gbWkIuu1tzfwpjOkJkfcYSvMjlL2pdHGC0Ovd5HS9TSexLbuCoaJClGnBvDTgBKymSS4owVnQUIxkWVkAVKHzBe2LzG0JOZSXAmLbjUrFR+DYWSObcJv5S/W/p+VDgCqo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kQGxLAfX; arc=none smtp.client-ip=10.30.226.201
+	bh=J9gpBcUhWSmksHEje7HfFrvd/UJKiZjrUhxoxqAfK3o=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=KRJC8XZfZjmQZeb0h063kz2efby3xNYLGrDOqQkwjFvZWyeZptvNAgOz/yRbkYUsbku9zeislPVgw8yZKJiCpVEZJynJnBcg3xaTr+cByZV4+u/5Z7DLSn8RA0VxaSXynA7Q9X/LfAFLKF72gaC1mT5um7u7hwjU+tLKkuNWfSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qe+XJMPk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kQGxLAfX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 199C2C2BCB2;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qe+XJMPk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55EF2C2BCC9;
 	Thu,  5 Mar 2026 15:16:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1772723787;
-	bh=7XrzRQZSWI4TFDuEEM1AGdycXBGZf9IZAxSBO7iPUqE=;
-	h=From:To:Cc:Subject:Date:From;
-	b=kQGxLAfXhj5qnEcMUMB8/DrHIPl/mb8ODvqPbaCZ1Sua+oBc0qjvwpsg+fCim+WKV
-	 8m6ky8brD+o5T3xcgmY4MNli60o1oBw6ltRIrOB8BW0vi+dHJ3PKxNXLZwQ4RziHp+
-	 MuJc0I0qJwH5TQEGu5PW66WGiGpqkxMMT3+WLyzKV80yXW9p2dr4COPY5NL3OY1V/+
-	 BOss0b/uXXOiM60r9trkS3U5imDEui0+ASujHtw+EgDECQxxcImYCtEz1aKkzFGcjX
-	 sjrwlh3FX9UBH0QFZjl66QxJOxRvBUEpiJAQwRDn/E9/MNwaTxlzff1jZ0NMgr5ZzF
-	 J4lvSt1yc6dFw==
+	bh=J9gpBcUhWSmksHEje7HfFrvd/UJKiZjrUhxoxqAfK3o=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Qe+XJMPkMOKvN00ZZXQ2GyvcXqPtPdJwYyv4ACjAPFa7NNONL99ziy9DcRmL9MbKm
+	 ZoQT1G+lTHUCXUPSZsSArf4vLScwAx5jqZR/6iDruhA7E7l9LkVL+q1Olz1Le+xGRq
+	 BcAk5zXAJnOmZDJv61U+j88w0ivZHxub8LtrazguCUvFT4V574Xrdeo9GfEFUX3RrZ
+	 DShEfaTcbPd+s+baonbwk7PCkcNMAciv7J7xJbpWTGODOp6lyUHLqxJR+oGFS/4Nx5
+	 ufRfjRjlGq176tP0pbPDHxLq2OUNqIRSvg4MQFx0npS5Shj5Yq3U02GonIidLdRVw8
+	 oIe0pJO/nwlIw==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vyAR6-0000000HK1a-4BAl;
+	id 1vyAR7-0000000HK5J-2Yl6;
 	Thu, 05 Mar 2026 16:16:25 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Randy Dunlap <rdunlap@infradead.org>,
 	Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH 00/11] kernel-doc improvements
-Date: Thu,  5 Mar 2026 16:16:07 +0100
-Message-ID: <cover.1772722474.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 03/11] docs: sphinx-build-wrapper: better handle troff .TH markups
+Date: Thu,  5 Mar 2026 16:16:10 +0100
+Message-ID: <9436806316d33aaf68625c00ce068463d3917660.1772722474.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
+In-Reply-To: <cover.1772722474.git.mchehab+huawei@kernel.org>
+References: <cover.1772722474.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,74 +53,49 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Hi Jon,
+Using a regular expression to match .TH is problematic, as it
+doesn't handle well quotation marks.
 
-This series contains some patches that were submitted originally
-on this /41 patch series:
+Use shlex instead.
 
-	https://patchew.org/linux/cover.1769867953.git.mchehab+huawei@kernel.org/fc6723d13b96db014eaf0f14354d8821ea2085b8.1769867954.git.mchehab+huawei@kernel.org/
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ tools/docs/sphinx-build-wrapper | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-It consists on two parts:
-
-- the first two patches are meant to better allow using kernel-doc
-  inside QEMU and to improve KernelFiles ABI, which will be used
-  there. I'm placing it here just to avoid on extra PR with just
-  two patches on it.
-
-- the second part do some improvements on how man pages are produced.
-
-The second part is related to man pages. It is focused mostly on
-TH, but, as a side effect, it also change the name of man pages
-generated from DOC kernel-doc annotations.
-
-The rationale is that modern troff/man page specs say that .TH has
-up to 5 arguments,, as defined at [1]:
-
-       .TH topic section [footer-middle] [footer-inside] [header-middle]
-
-[1] https://man7.org/linux/man-pages/man7/groff_man_style.7.html
-
-Right now, Kernel uses 6 arguments, probably due to some legacy
-man page definitions.
-
-After double checking, this is typically used like this:
-
-	.TH "{name}" {section} "{date}" "{modulename}" "{manual}"
-
-Right now, man pages generation are messing up on how it encodes
-each position at .TH, depending on the type of object it emits.
-
-After this series, the definition is more consistent and file
-output is better named.
-
-It also fixes two issues at sphinx-build-wrapper related to how
-it generate files names from the .TH header.
-
-This series hould not affect HTML documentation. It only changes
-man pages.
-
-As the names are now better defined, it also prevents some
-file name duplication.
-
-Mauro Carvalho Chehab (11):
-  docs: kdoc_files: allows the caller to use a different xforms class
-  docs: kdoc_files: document KernelFiles() ABI
-  docs: sphinx-build-wrapper: better handle troff .TH markups
-  docs: sphinx-build-wrapper: don't allow "/" on file names
-  docs: kdoc_output: use a method to emit the .TH header
-  docs: kdoc_output: remove extra attribute on man .TH headers
-  docs: kdoc_output: use a single manual for everything
-  docs: kdoc_output: don't use a different modulename for functions
-  docs: kdoc_output: use a more standard order for .TH on man pages
-  docs: kdoc_output: describe the class init parameters
-  docs: kdoc_output: pick a better default for modulename
-
- tools/docs/kernel-doc                |  1 -
- tools/docs/sphinx-build-wrapper      |  9 ++--
- tools/lib/python/kdoc/kdoc_files.py  | 53 ++++++++++++++++++--
- tools/lib/python/kdoc/kdoc_output.py | 73 +++++++++++++++++++++++-----
- 4 files changed, 115 insertions(+), 21 deletions(-)
-
+diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrapper
+index b7c149dff06b..e6418e22e2ff 100755
+--- a/tools/docs/sphinx-build-wrapper
++++ b/tools/docs/sphinx-build-wrapper
+@@ -576,7 +576,6 @@ class SphinxBuilder:
+         """
+ 
+         re_kernel_doc = re.compile(r"^\.\.\s+kernel-doc::\s*(\S+)")
+-        re_man = re.compile(r'^\.TH "[^"]*" (\d+) "([^"]*)"')
+ 
+         if docs_dir == src_dir:
+             #
+@@ -616,8 +615,7 @@ class SphinxBuilder:
+         fp = None
+         try:
+             for line in result.stdout.split("\n"):
+-                match = re_man.match(line)
+-                if not match:
++                if not line.startswith(".TH"):
+                     if fp:
+                         fp.write(line + '\n')
+                     continue
+@@ -625,7 +623,9 @@ class SphinxBuilder:
+                 if fp:
+                     fp.close()
+ 
+-                fname = f"{output_dir}/{match.group(2)}.{match.group(1)}"
++                # Use shlex here, as it handles well parameters with commas
++                args = shlex.split(line)
++                fname = f"{output_dir}/{args[3]}.{args[2]}"
+ 
+                 if self.verbose:
+                     print(f"Creating {fname}")
 -- 
 2.52.0
 
