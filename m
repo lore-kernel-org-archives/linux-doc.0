@@ -1,240 +1,387 @@
-Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CB7E3BED74
-	for <linux-doc@vger.kernel.org>; Thu,  5 Mar 2026 15:22:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9C2139E6C0;
+	Thu,  5 Mar 2026 15:28:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772724123; cv=none; b=cjvsipX8kb9QHHrCsDFxSxPdxboJLCC0DXonKMGyVnio9sTgZzoNEr5sk0KOeSKU0gn8cXhqt8heHWVGQrmEuZWeSWs7NdNG/Z8ZX6vSRYa29vFXL4z6ngGXHr4kRRnFiCKD+6kVL2KoXbRCBk2psQukkR6tRDV5s8CTEJfC2LQ=
+	t=1772724499; cv=none; b=ByPhSYnKtQcn/kaq9zmP7q61QDrPTsXCBolTO0XZD6umPQlUqGE/4mFqf2ZZrmJtHHr+1qNquvLVFwaUI1BXXS5IPbIOYbE53LvfXTvLN1SgbMC7f9JHbYbnTRCh4W3ozU1SL5nBmR34fHX1UWMeD/a1uko0n+DHChtpeGNCDeY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772724123; c=relaxed/simple;
-	bh=hVwWUyTaBA1X0Qtv3VS+VDzhq2Nom128L7vHpqlnT6Q=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=JspefxXLMm7C2XHOuBOY9kYYHOIZ2Zlq+iAhhlyr5rCi9aTmRhNwkMpeBfHrtni91ooZlF7DVGW6OkmXGQNZz51VTopndhJyDVszc79JnO4X8XasUrFrp7iEJUyLr38kjitx8N1lgMdkSjVD9FBjhkWfc9dc1FHIDqAqxelZMcQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=p1fFDBNS; arc=none smtp.client-ip=209.85.216.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1772724499; c=relaxed/simple;
+	bh=a4+tYvjegW9WAovr1voFCbPfh0sPS43HpuJb5he5JuA=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=CVV7yuOWfLLQ9KvW7H3iKtEQVe0WmhKo9kraoNtJ4nU1aIF6mCKg76kBN7pFa6Ma+uPpKa8TqknauiE4iE7nck1HNpZRXI3qP6dYJapJZq/kTHY+E4MUWU2w0c3bUfAIAg8iqj0q14nm6iyocovmxyj3WxyKy/pC+xnoE4Ip2xE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=LNx5kzsZ; arc=none smtp.client-ip=68.232.154.123
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="p1fFDBNS"
-Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-3598007eb74so25868804a91.3
-        for <linux-doc@vger.kernel.org>; Thu, 05 Mar 2026 07:22:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1772724121; x=1773328921; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0L2qC3HnwuZHtn35QgRRL4tVQXqNGluOA+1BljQbEOw=;
-        b=p1fFDBNSvRzFGBz37YQq5XBLg9u6JzIyvcAeK0vbP0w+7FpU+yBZzUb3MK8wb2W+27
-         lc07v29E/YQbHqIRIKgwE2zP02L2qnBMPoE8JzBhAHpY2jZbAWXKxuaqbrHMLstUdfxV
-         NnIp5tkCAg4S4s707/WwqqhbsVhcKdbejBn5u9J6s156D/K1jNuWuTM2Jh7olHngde21
-         Pz2DuKNBLZr2NA9TPsNkoYDw3Jomit28pizECuMX23Xo/fVQLaFmOnXD/ny8ZMdmjNYd
-         FoQQlp+f6EmkAWndn2mwKDQ/OOiQviSuMbf9Ahf0ww/kPQ/4rJ8/tV77QV0zxFIRvaeZ
-         iUOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772724121; x=1773328921;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=0L2qC3HnwuZHtn35QgRRL4tVQXqNGluOA+1BljQbEOw=;
-        b=DXAFWgzcohmWaE0eleqQv9del4Oo+jcPOOgT1QBS8GfMaib/1VHcsqtrKP22Db6Noj
-         I/cv+hXauGR6YcCe1I3Y1hYoUyUOOlkqi4hvYQ4UmiT98OS8E+5PYiZcr7yq85qDRbWt
-         GTsalbv4XrfuBxDJTF4N+83XW8pSyqEuviZQETAYMt52J6F0CdqLgNLvxV3fusxaoD6W
-         4xTLnS4zHurVbya17LukmHi/stKtIpTBU0Vkn+pM5WQl3mAZHIJkQs8ZA2w/nycdbDvM
-         h4JUORnIMNyQVMsyzX/dS0OToHlYYHVFG9r+8I9r5UeijjVOZ1CEthOYPmk9Tr7tof4C
-         I7HQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVAJMyJWzcARW+TqgFeY0LJ9HAApKcBYFd3sWWoXtYhOStD+mYduiVPorzy2OSiOUswNkmBK3gD0LU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwugwGLkPs3a/SYXcrcfcp3vTal7BNc2hYdXrcEjx/U6ogGLI9Q
-	WbCgGraXsNM41a2BkqyGQOuwwnlMGJMhZyEdySUXz6kmxDqcSIkwAoNXPSEs1mdU8zUPNY+UgZ7
-	DUyOJzw==
-X-Received: from pjbcu12.prod.google.com ([2002:a17:90a:fa8c:b0:359:9633:e147])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:390a:b0:356:1edc:b6e
- with SMTP id 98e67ed59e1d1-359a69c1bcamr5203409a91.8.1772724120543; Thu, 05
- Mar 2026 07:22:00 -0800 (PST)
-Date: Thu, 5 Mar 2026 07:21:53 -0800
-In-Reply-To: <99463361-58F3-42F9-9BCC-4BF0BF73D247@zytor.com>
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="LNx5kzsZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1772724497; x=1804260497;
+  h=from:subject:date:message-id:mime-version:
+   content-transfer-encoding:to:cc;
+  bh=a4+tYvjegW9WAovr1voFCbPfh0sPS43HpuJb5he5JuA=;
+  b=LNx5kzsZLm20FRYU3NmtDZmwMv+fAb3/jScoA/EkyZM98DwnzgC3oXrN
+   9Jrkd+hz0T3FiAxBrXrmVZolEAPuUieaol/XojqOHm1xyt3xlom+KqAej
+   eVIlMYtZZuapd+EQk45pyrbPZ1/xVuGGPhaVz+zXj99Oqn65QMonCi7us
+   uP0WD/sIWiokov7sNnJFdv/rWVbPUIh9rhLAdm4RlvFYgJwRsB6/XU8s6
+   v5JOnXoyl6LurrOUsCA0hdBrvdGTLd3zlP8jFhvBxeuU+0XT0lTajfGj9
+   Z+NiToo8H5mkk7JkXU3jgCHGGFigi4S6XXvwcfJFewriuIrCclFVUR9ou
+   w==;
+X-CSE-ConnectionGUID: LCs7HLkxStyCc3wBuEkvQA==
+X-CSE-MsgGUID: zYPBCWxXQ3GupXfgN3+AfQ==
+X-IronPort-AV: E=Sophos;i="6.23,103,1770620400"; 
+   d="scan'208";a="221541615"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 05 Mar 2026 08:28:16 -0700
+Received: from chn-vm-ex04.mchp-main.com (10.10.85.152) by
+ chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.58; Thu, 5 Mar 2026 08:27:46 -0700
+Received: from [127.0.1.1] (10.10.85.11) by chn-vm-ex04.mchp-main.com
+ (10.10.85.152) with Microsoft SMTP Server id 15.1.2507.58 via Frontend
+ Transport; Thu, 5 Mar 2026 08:27:44 -0700
+From: Victor Duicu <victor.duicu@microchip.com>
+Subject: [PATCH v11 0/2] add support in hwmon for MCP998X
+Date: Thu, 5 Mar 2026 17:26:03 +0200
+Message-ID: <20260305-add-mcp9982-hwmon-v11-0-6e914ba63239@microchip.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20251026201911.505204-1-xin@zytor.com> <20251026201911.505204-8-xin@zytor.com>
- <8731e234-22b8-4ccf-89ef-63feed09e9c5@linux.intel.com> <aahchI7oiFrjFAmb@google.com>
- <99463361-58F3-42F9-9BCC-4BF0BF73D247@zytor.com>
-Message-ID: <aamfka09bDZV0iUO@google.com>
-Subject: Re: [PATCH v9 07/22] KVM: VMX: Initialize VMCS FRED fields
-From: Sean Christopherson <seanjc@google.com>
-To: Xin Li <xin@zytor.com>
-Cc: Binbin Wu <binbin.wu@linux.intel.com>, linux-kernel@vger.kernel.org, 
-	kvm@vger.kernel.org, linux-doc@vger.kernel.org, pbonzini@redhat.com, 
-	corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, luto@kernel.org, 
-	peterz@infradead.org, andrew.cooper3@citrix.com, chao.gao@intel.com, 
-	hch@infradead.org, sohil.mehta@intel.com
+MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAIugqWkC/x2MywqAIBAAfyX23ILag7ZfiQ6iW+0hC4UKpH9PO
+ s7ATIbEUTjBWGWIfEmSIxTQuq7AbTasjOKLAKNMrxrVofUed3cSDQa3ez8CknXUt842mjSU7oy
+ 8yPNPp/l9P9vcPqxkAAAA
+X-Change-ID: 20260305-add-mcp9982-hwmon-9ac964ca3191
+To: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+CC: <linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<marius.cristea@microchip.com>, <victor.duicu@microchip.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1772724465; l=14334;
+ i=victor.duicu@microchip.com; s=20260213; h=from:subject:message-id;
+ bh=a4+tYvjegW9WAovr1voFCbPfh0sPS43HpuJb5he5JuA=;
+ b=5SBtAPhIiwdP38v8+T3sGox9d8TxFgKmP09VS1cDErkaJnGnXwUhxsPslJMK6Sz4GjBDJi3W0
+ PHu3QhXLgO5Dw1C8qxS+jE8pEJJHtD/15G7m/ax+993JfCCG4wqVwBl
+X-Developer-Key: i=victor.duicu@microchip.com; a=ed25519;
+ pk=/o+aE26HN3Piv9T5t+efqb0aeJw9ErwMPeSC8lYXQsA=
 
-On Wed, Mar 04, 2026, Xin Li wrote:
->=20
->=20
-> > On Mar 4, 2026, at 8:23=E2=80=AFAM, Sean Christopherson <seanjc@google.=
-com> wrote:
-> >=20
-> > On Wed, Jan 21, 2026, Binbin Wu wrote:
-> >> On 10/27/2025 4:18 AM, Xin Li (Intel) wrote:
-> >>> diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-> >>> index fcfa99160018..c8b5359123bf 100644
-> >>> --- a/arch/x86/kvm/vmx/vmx.c
-> >>> +++ b/arch/x86/kvm/vmx/vmx.c
-> >>> @@ -1459,6 +1459,15 @@ void vmx_vcpu_load_vmcs(struct kvm_vcpu *vcpu,=
- int cpu)
-> >>>    (unsigned long)(cpu_entry_stack(cpu) + 1));
-> >>> }
-> >>>=20
-> >>> + /* Per-CPU FRED MSRs */
-> >=20
-> > Meh, this is pretty self-explanatory code.
->=20
-> I want to remind that this is =E2=80=9CPer-CPU=E2=80=9D.
->=20
-> On the other side, FRED_CONFIG and FRED_STKLVLS are typically the same on
-> all CPUs, and they don=E2=80=99t need to be updated during vCPU migration=
-.
->=20
-> But anyway vCPU migration only cares per-CPU MSRs, so this is redundant.
->=20
-> It often bothers me whether to explain the code a bit more or not, with a
-> short brief comment or a lengthy one.
+Add support in hwmon for Microchip MCP998X/33 and MCP998XD/33D
+Multichannel Automotive Temperature Monitor Family.
 
-Oh, I'm all for comments,  But I generally dislike terse comments like the =
-above,
-as they're only useful for readers that *already* know many of the gory det=
-ails,
-and for everyone else, it's largely just noise.
+The chips in the family have different numbers of external channels,
+ranging from 1(MCP9982) to 4 channels (MCP9985).
+Reading diodes in anti-parallel connection is supported by MCP9984/85/33
+and MCP9984D/85D/33D.
+Dedicated hardware shutdown circuitry is present only in MCP998XD
+and MCP9933D.
 
-E.g. in this case, what the subtlety of what you were trying to convey with
-"Per-CPU" was completely lost on me.  It would have been a wee bit more hel=
-pful
-in earlier versions that used RDMSR, but even then it required the reader t=
-o make
-large leaps of intuition to understand the full context.
+The driver supports reading the temperature channels, the temperature
+limits, the limit hysteresis and their corresponding alarms. The user can
+set the limits, the update interval and the hysteresis value through
+the critical limit hysteresis.
 
-And the terse comment is also "wrong" in the sense that it lies by omission=
-,
-because this isn't *all* of the per-CPU MSRs.
+Differences related to previous patch:
+v11:
+- in devicetree set minItems to interrupts.
+- in interrupt-names define both items and remove maxItems.
+- in conditionals list the items that must be present.
+- in driver in mcp9982_write_limit() calculate regh and regl
+  at the start of the function.
+- link to v10: https://lore.kernel.org/all/20260217-add-mcp9982-hwmon-v10-0-5e0aaae6f289@microchip.com/
 
-E.g.
+v10:
+- in devicetree rework interrupt-names.
+- rework conditionals to disable the channels that are not used.
+- in patternProperties remove minItems from reg and change maxItems to 1.
+- in mcp9982.rst fix indentation errors and clarify sysfs entries
+  regarding limit hysteresis.
+- add power state in the list of devicetree parameters.
+- in driver change default high and critical temperature limit
+  value to 85000.
+- rework driver to not force wait until the next conversion is done.
+  Only in Standby state wait the wake up time.
+- fix typo in comment about mcp9982_priv.
+- remove bitwise operations with mask FF.
+- remove clamp_val() from limit hysteresis calculation.
+- edit comments regarding block read and write.
+- in mcp9982_write_limit() replace bulk write with two writes.
+- in mcp9982_write() remove pointless assignment to ret.
+- in mcp9982_init() do not override update interval.
+- define mcp998x_chip_info as static const struct.
+- link to v9: https://lore.kernel.org/all/20260127151823.9728-1-victor.duicu@microchip.com/
 
-	/*
-	 * Update the FRED RSP MSRs values that are restored on VM-Exit, as
-	 * Linux uses dedicated per-CPU stacks for things like #DBs and NMIs.
-	 * Note, RSP0 is _only_ used to load RSP on user=3D>kernel transitions,
-	 * i.e. doesn't need to be loaded on VM-Exit and so doesn't have a VMCS
-	 * field.  Note #2, the SSP MSRs will likely be per-CPU as well, but
-	 * Linux doesn't yet support supervisor shadow stacks.
-	 */=20
+v9:
+- update copyright year.
+- add tempX_max_hyst and tempX_crit_hyst attributes and document
+  them in mcp9982.rst.
+- in include list add byteorder/generic.h and remove unaligned.h.
+- remove definitions for temperature memory block
+  and status memory block.
+- remove individual definitions for register addresses 1Dh->21h.
+- add constants MCP9982_WAKE_UP_TIME_MAX_US and
+  MCP9982_TIMER_BUFFER_US.
+- add checks to ensure that values read from registers are on 8 bits.
+- in mcp9982_read_limit() simplify calculation, replace bulk read
+  with individual operations and add comment.
+- in mcp9982_read_limit() add explicit case branches for limits
+  that are on 16 bits.
+- in mcp9982_read() replace mdelay() with usleep_range().
+- in mcp9982_read() replace block reading for temperature values with
+  individual operations, add comment and remove unnecessary
+  mask variable.
+- in regmap_read_poll_timeout() add final timeout.
+- in mcp9982_read_label() remove label check.
+- in mcp9982_write_limit() replace put_unaligned_be16() with cpu_to_be16().
+- in mcp9982_write_limit() add explicit case branches for limits
+  that are on 16 bits.
+- in mcp9982_init() write default value for diode alert mask register.
+- in mcp9982_parse_fw_config() replace E2BIG with EINVAL.
+- link to v8: https://lore.kernel.org/all/20251120071248.3767-1-victor.duicu@microchip.com/
 
-> >>> + if (kvm_cpu_cap_has(X86_FEATURE_FRED)) {
-> >>> +#ifdef CONFIG_X86_64
-> >>=20
-> >> Nit:
-> >>=20
-> >> Is this needed?
-> >>=20
-> >> FRED is initialized by X86_64_F(), if CONFIG_X86_64 is not enabled, th=
-is
-> >> path is not reachable.
-> >> There should be no compilation issue without #ifdef CONFIG_X86_64 / #e=
-ndif.
-> >>=20
-> >> There are several similar patterns in this patch, using  #ifdef CONFIG=
-_X86_64 /=20
-> >> #endif or not seems not consistent. E.g. __vmx_vcpu_reset() and init_v=
-mcs()
-> >> doesn't check the config, but here does.
-> >>=20
-> >>> + vmcs_write64(HOST_IA32_FRED_RSP1, __this_cpu_ist_top_va(ESTACK_DB))=
-;
-> >>> + vmcs_write64(HOST_IA32_FRED_RSP2, __this_cpu_ist_top_va(ESTACK_NMI)=
-);
-> >>> + vmcs_write64(HOST_IA32_FRED_RSP3, __this_cpu_ist_top_va(ESTACK_DF))=
-;
-> >=20
-> > IMO, this is flawed for other reasons.  KVM shouldn't be relying on ker=
-nel
-> > implementation details with respect to what FRED stack handles what eve=
-nt.
-> >=20
-> > The simplest approach would be to read the actual MSR.  _If_ using a pe=
-r-CPU read
-> > provides meaningful performance benefits over RDMSR (or RDMSR w/ immedi=
-ate?  I
-> > don't see an API for that...), then have the kernel provide a dedicated=
- accessor.
->=20
-> I think you asked for it:
->=20
-> https://lore.kernel.org/kvm/ZmoWB_XtA0wR2K4Q@google.com/
+v8:
+- in Kconfig add select REGMAP_I2C.
+- in yaml add power state attribute. For chips with "D" in the name
+  check that Run mode is set in yaml and driver.
+- in the include list: remove cleanup.h, add math.h, minmax.h and
+  util_macros.h.
+- add min, max and crit limits for all channels. These attributes can
+  be read and written. In mcp9982_init() set default values for limits.
+- add alarms for limits.
+- edit regmap ranges to add the limit registers.
+- when writing update interval, don't force the user to set exact value.
+  Search for closest valid value.
+- in mcp9982_parse_fw_config() check value from fwnode_property_read_u32().
+- edit coding style and comments.
+- remove constant MCP9982_SCALE.
+- rename variable sampl_idx from mcp9982_priv to interval_idx.
+- in mcp9982_write() rename variable use_previous_freq
+  to use_previous_interval.
+- link to v7: https://lore.kernel.org/all/20251031155831.42763-1-victor.duicu@microchip.com/
 
-Gah, so I did.  FWIW, comments like that aren't intended to be "you must do=
- it
-this way", i.e. it's ok to push back (if there's justification to do so), b=
-ut I
-can totally see how it came across that way.
+v7:
+- send driver to hwmon subsystem.
+- include index.rst and mcp9982.rst.
+- in microchip,mcp9982.yaml set microchip,parasitic-res-on-channel1-2
+  and 3-4 to required.
+- in mcp9982.c rework read raw, read label and write raw functions.
+- remove avail parameters.
+- rework sampling frequency to update interval.
+- lock running average filter to off.
+- rework definition of channels.
+- add cache type Maple to mcp9982_regmap_config().
+- define constants for the numerical values used.
+- in include list add: bitops.h, cleanup.h, device.h, hwmon.h,
+  time64.h, unaligned.h. Remove iio.h, math64.h, string.h, units.h.
+- add explicit definitions for beta and ideality registers.
+- add definitions for status memory block registers.
+- add mcp9982_is_visible() and set visible only the channels
+  that are enabled.
+- in mcp9982_parse_fw_config() add branch with default values for
+  systems that do not have devicetree or firmware nodes.
+- remove mutex.
+- link to v6: https://lore.kernel.org/all/20250930133131.13797-1-victor.duicu@microchip.com/
 
-> I assume fetching through per-CPU cache is fast, but I might have misunde=
-rstood
-> your suggestion.
+Differences related to the IIO patch:
 
-Oh, per-CPU cache is likely faster than RDMSR (though it would be nice to v=
-erify).
-The part I specifically don't like is referencing DB, NMI, and DF stacks.
+v6:
+- in yaml first condition list part numbers instead
+  of regular expression. Add ^ to regular expression.
+- edit coding style and comments.
+- use hex values in defines.
+- remove MCP9982_TEMP_MEM_BLOCK_LOW and
+  MCP9982_TEMP_MEM_BLOCK_HIGH.
+- in MCP9982_CHAN() place macro parameters in ().
+- move all variable definitions at the start of functions.
+- in mcp9982_parse_fw_config() initialise iio_idx to 0.
+- remove bit flags.
+- in MCP9982_CHAN remove outer ().
+- remove variable start in mcp9982_write_raw().
+- replace constant in .max_register.
+- use get_unaligned_be16 in mcp9982_read_raw().
+- link to v5: https://lore.kernel.org/all/20250918111937.5150-1-victor.duicu@microchip.com/
 
-> > Then the accessor can be a non-inlined functions, and this code can be =
-e.g.:
-> >=20
-> > if (IS_ENABLED(CONFIG_X86_64) && kvm_cpu_cap_has(X86_FEATURE_FRED)) {
-> > vmcs_write64(HOST_IA32_FRED_RSP1, fred_rsp(MSR_IA32_FRED_RSP1));
-> > vmcs_write64(HOST_IA32_FRED_RSP2, fred_rsp(MSR_IA32_FRED_RSP2));
-> > vmcs_write64(HOST_IA32_FRED_RSP3, fred_rsp(MSR_IA32_FRED_RSP2));
-                                                                ^
-                                                                |
-                                                                3 (guess wh=
-o failed at copy+paste)
-> > }
-> >=20
-> > where fred_rsp() is _declared_ unconditionally, but implemented only fo=
-r 64-bit.
-> > That way the compiler will be happy, and the actual usage will be dropp=
-ed before
-> > linking via dead-code elimination.
->=20
-> If KVM can=E2=80=99t rely on kernel side implementation details, fred_rsp=
-() has to read
-> directly from the corresponding MSRs, right?
+v5:
+- in yaml edit description of interrupts.
+- add min and maxItems to reg.
+- remove ideality parameter.
+- use pattern recognition in conditionals.
+- group conditions based on the chip.
+- correct microchip,parasitic-res-on-channel3-4 to true.
+- in driver include bitops.h.
+- change name of some variables.
+- rename mcp9982_parse_of_config() to mcp9982_parse_fw_config().
+- implement bulk reading of temp registers.
+- lock ideality parameter to default value.
+- implement bit flags.
+- add compound literal to MCP9982_CHAN.
+- remove hysteresis parameter.
+- edit comments.
+- change values from int to bool in mcp9982_features.
+- remove mcp9982_calc_all_3db_values() and hardcode values.
+  When filter is OFF the 3db value is equal to frequency.
+- add .max_register to regmap_config.
+- remove devm_kcalloc().
+- in mcp9982_read_avail() add an else branch to hw_thermal_shutdown
+  check.
+- in mcp9982_read_raw use USEC_PER_MSEC and set regmap_read_poll_timeout
+  to never timeout.
+  Replace switch with bitmap_weight.
+- in mcp9982_read_label() remove unnecessary if.
+- in mcp9982_write_raw() remove duplicated code.
+- in mcp9982_init add error messages when APDD and RECD are incorrectly
+  set.
+- in mcp9982_parse_fw_config() add default for reg_nr.
+- link to v4: https://lore.kernel.org/all/20250829143447.18893-1-victor.duicu@microchip.com/
 
-No.  If the kernel provides an API specifically for getting RSP values, the=
-n KVM
-isn't rely on implementation details, KVM is relying on an (exported?) API,=
- and
-it's the _kernel's_ responsibility to ensure that API is updated as needed.
+v4:
+- lock beta parameters to default value of beta-autodetect.
+  Remove beta parameters and checks from devicetree.
+- lock temperature range to extended.
+  This change avoids the issue of the average filter using raw values
+  with different scales when changing the range.
+- change driver to wait an amount of time before reading a raw value
+  to ensure it is valid.
+- change driver to stop calculating the physical temp when reading
+  in_tempx_raw. Reading from in_tempx_raw will return the raw value.
+  The physical temp will be calculated with in_tempx_raw, scale and
+  offset parameters.
+- add scale parameter to channel definition.
+- initialise chips with "D" to work in Run state and those without
+  in Standby state.
+- when activating the low pass filter for chips without "D",
+  set the power state to RUN to ensure fresh values for the average.
+- add minimum and maximum to microchip,beta1 and microchip,beta2 in yaml.
+- rename microchip,resistance-comp-ch1-2-enable and
+  microchip,resistance-comp-ch3-4-enable to
+  microchip,parasitic-res-on-channel1-2
+  and microchip,parasitic-res-on-channel3-4
+  and edit description in yaml.
+- add conditional logic to check if the chip supports APDD
+  and force default values where necessary in yaml.
+- edit comments and coding style.
+- replace asm/div64.h with linux/math64.h.
+- add delay.h to includes.
+- redefine mcp9982_sampl_fr with new structure division.
+- in mcp9982_priv remove dev_name,extended_temp_range and beta_values.
+  Add run_state, wait_before_read, time_limit and pointer to chip
+  structure to remove all instances of matching strings.
+  Reorder parameters for memory optimization.
+- in mcp9982_features add flags to know if the chip has thermal shutdown
+  circuitry and supports APDD.
+- in mcp9982_read_avail() rework verification of chip type in sampling
+  frequency case.
+- in mcp9982_read_raw() rework switch in low pass filter case.
+- in mcp9982_parse_of_config() replace generic -EINVAL code
+  with -E2BIG and -EOVERFLOW.
+- link to v3: https://lore.kernel.org/all/20250613130207.8560-1-victor.duicu@microchip.com/
 
-Yeah, yeah, KVM is also part of the kernel, but it's a _lot_ easier to forg=
-et to
-update code when the implementation details change when some of the usage i=
-s "far"
-away.
+v3:
+- move beta parameters to devicetree.
+- change the name of the interrupts and add
+  check to match them to the device in yaml.
+- remove label for device and remove "0x" from
+  channel registers in example in yaml.
+- edit comments in yaml and driver.
+- add minItems to interrupts in yaml.
+- rename microchip,recd12 and microchip,recd34 to
+  microchip,resistance-comp-ch1-2-enable
+  and microchip,resistance-comp-ch3-4-enable.
+- rename microchip,apdd-state to microchip,enable-anti-parallel.
+- add static to mcp9982_3db_values_map_tbl to fix
+  kernel test robot warning.
+- in mcp9982_init() add check to ensure that hardware
+  shutdown feature can't be overridden.
+- replace div_u64_rem with do_div and add
+  asm/div64.h to includes.
+- remove unused includes.
+- add iio_chan_spec in the macro definition of MCP9982_CHAN.
+- remove MCP9982_EXT_BETA_ENBL.
+- in mcp9982_init() replace regmap_assign_bits
+  with regmap_write when setting beta compensation.
+- remove custom attribute enable_extended_temp_range and
+  map it to IIO_CHAN_INFO_OFFSET.
+- add unsigned to int variables that allow it.
+- reorder parameters in mcp9982_priv, change some
+  from int to bool, add const to labels and add dev_name.
+- add check for chips with "D" in the name to not
+  allow sampling frequencies lower than 1 to
+  prevent overriding of hardware shutdown.
+- remove mcp9982_attributes.
+- move mcp9982_calc_all_3db_values() to before
+  mcp9982_init().
+- use MICRO instead of number constant.
+- in mcp9982_write_raw replace ">=" with "==".
+- rename index2 to idx in mcp9982_read_raw().
+- remove i2c_set_clientdata() in mcp9982_probe().
+- since there are no more custom ABI attributes
+  the testing file was removed.
+- link to v2: https://lore.kernel.org/all/20250529093628.15042-1-victor.duicu@microchip.com/
 
-> > Actually, we can probably do one better?
-> >=20
-> > if (cpu_feature_enabled(X86_FEATURE_FRED) && kvm_cpu_cap_has(X86_FEATUR=
-E_FRED)) {
->=20
-> I think KVM now forces X86_FEATURE_FRED=3Dy, no?
+v2:
+- move hysteresis, extended temperature range and beta parameters
+  from devicetree into user space.
+- edit comments in yaml and driver.
+- remove "|" in descpriptions, remove "+" from PatternProperties in yaml.
+- add default to microchip,ideality-factor, delete blank lines and wrap to
+  80 chars in yaml.
+- remove variables with upper case.
+- add check for microchip,apdd-state and microchip,recd34 in yaml.
+- improve coding style in driver code.
+- add includes for all functions used.
+- rename MCP9982_INT_HIGH_BYTE_ADDR to MCP9982_INT_VALUE_ADDR and
+  MCP9982_INT_LOW_BYTE_ADDR to MCP9982_FRAC_VALUE_ADDR.
+- remove custom attribute running_average_window and
+  running_average_window_available and map them to a low pass filter.
+- update sysfs-bus-iio-temperature-mcp9982 to reflect current
+  driver attributes and point to next kernel version (6.17).
+- use compound literal to define driver channels.
+- replace device_property_read_string() with i2c_get_match_data() to read
+  chip name from devicetree.
+- remove MCP9982_DEV_ATTR and mcp9982_prep_custom_attributes().
+- remove client, chip_name, iio_info from mcp9982_priv.
+- replace sprintf() with sysfs_emit().
+- remove error messages which are triggered by keyboard input.
+- replace devm_kzalloc() with devm_kcalloc(), array mcp9982_chip_config[]
+  with individual structures, device_property_present() with
+  device_property_read_bool().
+- reordered parameters in mcp9982_features and mcp9982_priv to optimize
+  memory allocation.
+- remove .endianness from channel properties.
+- change name of some parameters in mcp9982_priv.
+- add check for reg value 0 from devicetree (channel 0 is for internal
+  temperature and can't be disabled).
+- link to v1: https://lore.kernel.org/all/20250415132623.14913-1-victor.duicu@microchip.com/
 
-32-bit doesn't :-D
+v1:
+- initial version.
 
-But even for 64-bit, X86_FEATURE_FRED should be cleared when FRED isn't sup=
-ported
-by hardware, in which case cpu_feature_enabled() still patches out the text=
-.
+Signed-off-by: Victor Duicu <victor.duicu@microchip.com>
+---
+Victor Duicu (2):
+      dt-bindings: hwmon: add support for MCP998X
+      hwmon: add support for MCP998X
+
+ .../bindings/hwmon/microchip,mcp9982.yaml          | 222 +++++
+ Documentation/hwmon/index.rst                      |   1 +
+ Documentation/hwmon/mcp9982.rst                    | 111 +++
+ MAINTAINERS                                        |   8 +
+ drivers/hwmon/Kconfig                              |  11 +
+ drivers/hwmon/Makefile                             |   1 +
+ drivers/hwmon/mcp9982.c                            | 952 +++++++++++++++++++++
+ 7 files changed, 1306 insertions(+)
+---
+base-commit: 05f7e89ab9731565d8a62e3b5d1ec206485eeb0b
+change-id: 20260305-add-mcp9982-hwmon-9ac964ca3191
+
+Best regards,
+-- 
+Victor Duicu <victor.duicu@microchip.com>
+
