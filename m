@@ -1,189 +1,155 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013044.outbound.protection.outlook.com [40.107.159.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE3CA2EBB86;
-	Thu,  5 Mar 2026 14:57:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772722643; cv=none; b=HgbuxveQVxQJ4z9z+M4jrCJjWSpFAPCvcFDz3uissA1Ywx376arCAOv9okTBwf3aneC71u4jxXtbKryp1ZZsImfE1UmTweFrdTaSKL98A6eSZ1IFwOHxqI7gB+iPnnJ87ql8+WEVz1+Gd5mveDhlFgACQjeX8mOhvDYWnjJJ7WE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772722643; c=relaxed/simple;
-	bh=IEc4WYX37mgMOxzZzlTDIloDSaDnVqxnv/57atbWyWw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eL+MxmJFqywmK22vZ12Yhtvj1Jr74E2emIuplaOUKda/ZeHAKsWMReaswvcO+edlQVSzUWqqhPt861JXWaCQPMFPPKd8InrqDRV7eRFKPBmdV4JmSbAae+uwzX9rgF4W3/8FrWtSYrZg5Ejg/1OuvkUt2jc74zuwmIkD8YrAFfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E5aWxIL9; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5C4F242925;
+	Thu,  5 Mar 2026 15:16:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772723786; cv=fail; b=ZPb7QGG3OHAZ4NF+XJhLJEcHoIpA/daAvqx2eHs65PzTr8+yCfbsQaSxtS6C32hRV0ScuVNc+vC4RKFeWR6fZFai/B6l9uzcbZ7YLTdOQQUWBjlq+QaR4UmMJipVm2n0Xl1mcAbOF5j14BHpB/vIuSJRbsK//k3CBTInKi88Ud8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772723786; c=relaxed/simple;
+	bh=KxDxtDM4hdJfAtxwrDcgsOBvP1L692ehy/n1/sUrZxI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=tvV/bcp8J6qDDX3lpW7fMQdmKIl1sJp2saQiuYhf5xRYM9Zj7K+O8Lg6+hSIn2MMWv01K2uMPlIfNW0nOEFmPcQVQSHcfbcioFCgzlyiWaoeokYyvhQlsYNSU9S5Kk2xpi/FWswOqQOY50mFVYhS3lP5VjzrzdIv7/+AgBhVbig=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=RrUC29Zi; arc=fail smtp.client-ip=40.107.159.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E5aWxIL9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4D36C116C6;
-	Thu,  5 Mar 2026 14:57:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772722643;
-	bh=IEc4WYX37mgMOxzZzlTDIloDSaDnVqxnv/57atbWyWw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=E5aWxIL9Xu+PK4R9e7q1xeRi0FX0o9xCenpXCKB0U4U+owli7skTbsyyslJA/lkPm
-	 R1YydSBWrVKOZGhRUvXAWj/YIErLLyuPQ5CvZcOdjAIV/VqRMJ3IfAFzGQA2D8Yjvj
-	 9s3IMZSw4W0eZH9QmIOn4I93x/3BEGL7B06H5A/d0q5RyJFzI1KcN8x7Id7K6/6qmr
-	 9xDu1wb90DW+DVRqFOzY8R1yR5SiCywbr+jN2MWhNOIh4pbj09o2XUuATQM+Lvktd6
-	 65asY8zz6HYED2m/Ji7XhXjpm+WkbdwPmj1O5hMbwnNl5R+ySaNmpys6O+iFYPQnlj
-	 GFXci6SveISgw==
-Date: Thu, 5 Mar 2026 14:57:15 +0000
-From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
-	Nico Pache <npache@redhat.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Usama Arif <usamaarif642@gmail.com>, 
-	Andi Kleen <ak@linux.intel.com>
-Subject: Re: [PATCH v1] docs: filesystems: clarify KernelPageSize vs.
- MMUPageSize in smaps
-Message-ID: <ce2f4343-8bc4-4edd-a922-dd71a09a34e3@lucifer.local>
-References: <20260304155636.77433-1-david@kernel.org>
- <b24be8c2-32d3-4e3e-9fbf-8a0068c360d6@lucifer.local>
- <c5330f9e-db41-496b-b580-73ebec9cd811@kernel.org>
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="RrUC29Zi"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=XM91ne7DM/BgIwdP63maSwRvKOPxzbq6gy17XEIlNrb1QRxdgn+ggmVbj0x8LqUkibSbUoBymSWuxgUqQMPQ4n43He4DmDT1yDcCjeMZvSUE4h526HkDOz8vjzWsFRyEB6llhwP5GxTRylDne8WiD/FE9IUJtVjlXgq+7KEIMp5xLu5Ij9dIeHqfPn1X0CGalMYHcwuZWJleRWheB/wM6EAIP/fpr8Hp0BQB9Jnt4hfecWFIaxYZD1kBWRYdouomgPQtFQblFndEuZyhhYv7Ypnak5NI9NHYlFLF6veFSsl61O5+BIUY/80S8EWHQs4wTcehiI9+1t1t2BHjS6caTQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oc4qnS8GL6TG/1RA+WhZAeDw1iKcEvDUV1t9wWCPGv0=;
+ b=ywqI6bxjXxSLeK62+hyWsqiMQqzEHsHFzgVRPj+0OWOtwwISbTr93YhnWZALkJhAbE94rkY9Tzlstkd93kt5N+9xB+64V4HG/fViYUFsvaRKpzoffDF6GGNPdLczoIoQM4WWKvWscNpg74IidSH2LmNLiD1xUCN2MktWhXPtMZQzG60cE7aUY8kmzVebArTB/kkc9Q8vsq2bOir4gAZj97z6xnvZfM0lGODqoxIZgC08pbJenNTjimoZ1oUE5YgsKuLlD1rKfHR/vWM/xpKSz54rYrvmlHlN7dcQW+A/5JreIPisX5T8hnBH+lU+t8/QzqnwGnB48nj9x3otIuKtTQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oc4qnS8GL6TG/1RA+WhZAeDw1iKcEvDUV1t9wWCPGv0=;
+ b=RrUC29ZiQQ7yZPeN61DcN1xglprMoiD+jvoPus/fPH/uh71dLZf9Va//fsuewFcyc/YJdDVuQJUizfYQulkbUvjmChqXrBOph2SYM9E+JJVErCqY7DgCYHMsjjAsZ/bZRMHRS35pAKpiOIjvYUU3u3T2Q7IALUyVLs829So72j90wK9VHhY/er8uCdAfLXOsMcLY4zk1wFqhh931Do0iNoacgqM/5l9ZtMMvPQpI+Z64afkXeUha+CT0/9QMMssDVIyK6ZxdlRpuyx7Hir3NaqgSiKlSUj0Y+Tq5oZhty8Ek7OwQMxXjxbEFd9Va8+61lwCCxTHVy72MYJNTo59oiw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PA4PR04MB9366.eurprd04.prod.outlook.com (2603:10a6:102:2a9::8)
+ by DB8PR04MB6874.eurprd04.prod.outlook.com (2603:10a6:10:11d::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.17; Thu, 5 Mar
+ 2026 15:16:19 +0000
+Received: from PA4PR04MB9366.eurprd04.prod.outlook.com
+ ([fe80::75e4:8143:ddbc:6588]) by PA4PR04MB9366.eurprd04.prod.outlook.com
+ ([fe80::75e4:8143:ddbc:6588%6]) with mapi id 15.20.9654.020; Thu, 5 Mar 2026
+ 15:16:19 +0000
+From: Frank Li <Frank.Li@nxp.com>
+To: Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	arnaud.pouliquen@foss.st.com
+Cc: Frank Li <frank.li@nxp.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-gpio@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Shenwei Wang <shenwei.wang@nxp.com>,
+	Peng Fan <peng.fan@nxp.com>,
+	devicetree@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-imx@nxp.com
+Subject: Re: [PATCH v9 4/5] gpio: rpmsg: add support for NXP legacy firmware protocol
+Date: Thu,  5 Mar 2026 10:16:01 -0500
+Message-ID: <20260305151602.3913147-1-Frank.Li@nxp.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260304211808.1437846-5-shenwei.wang@nxp.com>
+References: <20260304211808.1437846-5-shenwei.wang@nxp.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SA1P222CA0038.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:806:2d0::19) To PA4PR04MB9366.eurprd04.prod.outlook.com
+ (2603:10a6:102:2a9::8)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c5330f9e-db41-496b-b580-73ebec9cd811@kernel.org>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA4PR04MB9366:EE_|DB8PR04MB6874:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2dd5a581-e788-4e90-e56d-08de7aca2704
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|1800799024|52116014|19092799006|366016|921020|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	jgm2gCL58E9yliLyRQaS4z+QdBi0CVSQNWkcoZHw/x/rsS1u97O2+JZVHm7Cxhvd4Ayv9PdaO4qS+qjIKD7di8o/By5rI+Y+YuBD1+9Z9rmqPP25nZ94U+Ul/G0CDO9/9TGVcI5ao5GHNIoCsD7teqamFSL8QXabVElUZqukWf+bsyAlvchuT/je8OR39hKJ3mR/LJZs2EKd5iQSRLPVNn3xAtiW6+dgMoUzgdmSWoyON5Wm20XcSPboXIQ2k2/XpSyDaO+eK7I2pPpZs5y83Jpdudng9/MAOMU/Bzgldk+Dude0wnCXDVVTyzpqQsB+ocmtFo4ndWQvPq2QLnGRkZAjQth9StxrElGJm6+Oy6ifkst+Ijp8xTwKRjOlurJR/3qvqBUPJ3eF1WO4OkKwMZlVarNWzm0yxMfsEBFi/PmURutHg+gMpw0e/bu+Z0XPqJbDXg/cyW1g4HwGludP9bOaKeixOKLx6pYeM/KUc8TWfIXN3SdO11be9+iDRN/Z5nq5QOPcmDZIwisOCVhvBn11eVIs6Fx88hfdKLUodbRVDKzvsqzjw70Z8n5mpMg9nLWqWyNk+AEr5fenvgZ5ZapN7jTunHoFCUoGBWJzd2JDv4VFcc03mCnW7aOYgbjr1M9w7h7jmtMkEMyfSlQC95cfDxOVa1cXgZLfyx+wb0xP/TQxopfWm3KtzwnpGlvldqK28ZrhHqijWuQhgE+S4kilkmyh4U+DXNCCi36uA+Xiuzimf+xg1iR3OdU3jpVu/dc1WsmMEoxHfFGsfih6IWv6pzi+QrhB8EoV35IZi/87gsHLJKyJhNHhQZgO7T3/
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9366.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(52116014)(19092799006)(366016)(921020)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?87G0f9buCU3N0m3mQ3Y62mChxxQOLKL/52zKogUPO8O+w9oyp9FqZXcw5LC/?=
+ =?us-ascii?Q?dc4UQJBzXDgC4xAtVa4+BntvHwWbsKfca3+vFc3mEp+kIFq6UFx3VoWhUF2L?=
+ =?us-ascii?Q?QoKPP+waRBH1jLLOPzJViyU8pR5gdamY1q6z6PGKNITy8oF47vL9cD+/pyGp?=
+ =?us-ascii?Q?MPbW3gJ3u13rH+Z1Cpmx863Q3E3i5fKYe6IyRYk4Li6WW7uo4cXQLV20P4SK?=
+ =?us-ascii?Q?XUV6e0BFz3D9rrPSGH7wFVEC0EijJkbTDW256Dg/IBF4VSE9s8Iv/GP8ktlU?=
+ =?us-ascii?Q?bXLK5w8aIk2C/1CWwWYk5Kc2cMSoklQ9qA/0nilCFz2jAw3jxwCxJpobBZPZ?=
+ =?us-ascii?Q?1YpOGObgpc16OngQWX4AzpLD9fdLEQBUAI8oBecssw6H/+gGsMk3eK9XXQKA?=
+ =?us-ascii?Q?S12zDMp2SYUVnxzWmf6HU27+vjkQrd2s4OCoh6KmmWsoAD2b1ipzIz5Oa7Xc?=
+ =?us-ascii?Q?m/oHZvzhlBIJXz4GgDAlvVGmCGd/AB70E4AoegpIk8ZWfBjSC+wjb4+BU9s/?=
+ =?us-ascii?Q?ESnS4TApEPGD0Ugelhaxx8sATH63KYYBQdWNRrP4WFJlbq6kEQJ6BZTqqc3p?=
+ =?us-ascii?Q?hWLJaYfiUHyrgJIvJJDtvJIk969lz8EDKrSSECe3+iN7gDoeNmOVHt9ZpkLn?=
+ =?us-ascii?Q?HkOqRy6kwteKGSJQBIa4Vo5c6iLuRAWjPB/psVCguoOKY4BVF/1pnlIpS4nm?=
+ =?us-ascii?Q?s4HqA3V93YKRuG7Rd6aSxuk65Cb6hm5I2TLt6WUUwX+Fvgg/26GRTmSPuSqZ?=
+ =?us-ascii?Q?c1isDxXWoGaqCsJUc1NtF4cpQPoyR7kY7PWSFcF/5S3kAoKAzu9EJx8MLEsv?=
+ =?us-ascii?Q?52HOpeHKgtDTm7CFPiXCbkgnX07TyDeHZwEhqhbumVa/X8WHO3BpzWJLiOGv?=
+ =?us-ascii?Q?UCYuXN+38tTq1dxkUTs8dTfEpwL/jU38tlpuZ2/IVNS8r0OD0jG28ePpsYPC?=
+ =?us-ascii?Q?N+qLzWBNVMegpkRtiutalcRVcivOVYQ+N53RbtlQjuYkOG/NEkLM1MZifLEo?=
+ =?us-ascii?Q?rKsna/adQXQH2yd+f/YP1Uz9URNeV2FnrH4GixqdPgtPdI7y+8oLVwaSnNk/?=
+ =?us-ascii?Q?iR7OXV190YqH577pGSgP62xf1H1+0JLDRFVS1w/HVnk3/o4OkcTJ8RUqX1S5?=
+ =?us-ascii?Q?6LHAga7vLJNhFz2KzkTQpA5q4jkAozfRl6Fq59mI8aTaxNgz5JV8UixJCHRZ?=
+ =?us-ascii?Q?3qrACYslSOkXTY2UAqOaQjy3bKk8nYTriF3i23x0wefpsnc9+4pQDpHysvT+?=
+ =?us-ascii?Q?G7HTg5uxnmZg6RkSQNyqtylajgaHWV0SScf9YR+VyzQU64ynCtggmu2gVITJ?=
+ =?us-ascii?Q?H/Ka+BMxJO6F2GWEDjA10vWbew++kykyYhgRy2FnhI7Zqhd7Aj2+ktz4SfK2?=
+ =?us-ascii?Q?596TsBzQ6743wT8VeFC5oHmzIw2ZPcaTAzZ09+sLPfBVZyLRGuTb7gXFEkGP?=
+ =?us-ascii?Q?LALv3cKoQi6+GC1TrFOvj6agj6skJ6YEJtz90GhGRU3V66HXQfFbrxdF63Ib?=
+ =?us-ascii?Q?2itS7bjXfOmERCIE8rQUHk1/YKVZAwBKGBu2J35WIpXoKEXPP/LzG6RbBqMr?=
+ =?us-ascii?Q?B4Qa1YniZBf9j+iaNwyHMSHHNTym0K5sZbdzF0RxK3Mj62HU1mKQCU7t5+4C?=
+ =?us-ascii?Q?M7aXL2BBbZriFWORc6d9UsIh+6oCDz6KzfpANiqMsj19v4SRxS7B6NjoWpGm?=
+ =?us-ascii?Q?W52qXfq/8qXc4Vxx27PU/TjMiiqWLNoffIYEF9B9+TIHqPPFyF1STzF0VeuR?=
+ =?us-ascii?Q?5s7VBelgww=3D=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2dd5a581-e788-4e90-e56d-08de7aca2704
+X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9366.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Mar 2026 15:16:19.3676
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FQ0LAxkzFmpUZr8d+pLSHnvHywCAj+ecoAVGjSzT8Ip+b4MThI+sNxh1WGt5DuIxA5+ZgqTNY0H7VednynsrjQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR04MB6874
 
-On Thu, Mar 05, 2026 at 02:32:49PM +0100, David Hildenbrand (Arm) wrote:
->
-> >
-> > Ah wait you dedicate a whole paragraph after this to tha :)
->
-> Correct :)
->
-> >
-> >> +mapping that is currently resident in RAM (RSS); the process's proportional
-> >> +share of this mapping (PSS); and the number of clean and dirty shared and
-> >> +private pages in the mapping.
-> >> +
-> >> +Historically, the "KernelPageSize" always corresponds to the "MMUPageSize",
-> >> +except when a larger kernel page size is emulated on a system with a smaller
-> >
-> > NIT: is -> was, as historically implies past tense.
-> >
-> > But it's maybe better to say:
-> >
-> > +Historically, the "KernelPageSize" has always corresponded to the "MMUPageSize",
-> >
-> > And:
-> >
-> > +except when a larger kernel page size is being emulated on a system with a smaller
-> >
->
-> Given that the PPC64 thingy still exists in the tree, I'll probably do:
->
-> "KernelPageSize" always corresponds to "MMUPageSize", except when a
-> larger kernel page size is emulated on a system with a smaller page size
-> used by the MMU, which is the case for some PPC64 setups with hugetlb.
->
-> >> +page size used by the MMU, which was the case for PPC64 in the past.
-> >> +Further, "KernelPageSize" and "MMUPageSize" always correspond to the
-> >
-> > NIT: Further -> Furthermore
-> >
->
-> Helpful.
->
-> >> +smallest possible granularity (fallback) that could be encountered in a
-> >
-> > could be -> can be
-> >
-> > Since we are really talking about the current situation, even if this, is
-> > effect, a legacy thing.
-> >
-> >> +VMA throughout its lifetime.  These values are not affected by any current
-> >> +transparent grouping of pages by Linux (Transparent Huge Pages) or any
-> >
-> > 'transparent grouping of pages' reads a bit weirdly.
-> >
-> > Maybe simplify to:
-> >
-> > +These values are not affected by Transparent Huge Pages being in effect, or any...
->
-> Works for me.
->
-> >
-> >> +current usage of larger MMU page sizes (either through architectural
-> >
-> > NIT: current usage -> usage
->
-> Ack.
->
-> >
-> >> +huge-page mappings or other transparent groupings done by the MMU).
-> >
-> > Again I think 'transparent groupings' is a bit unclear. Perhaps instead:
-> >
-> > +huge-page mappings or other explicit or implicit coalescing of virtual ranges
-> > +performed by the MMU).
->
-> I'd assume the educated reader does not know what "explicit/implicit
-> coalescing" even means, but works for me. :)
->
-> >
-> > ?
-> >
-> >> +"AnonHugePages", "ShmemPmdMapped" and "FilePmdMapped" provide insight into
-> >> +the usage of some architectural huge-page mappings.
-> >
-> > Is 'some' necessary here? Seems to make it a bit vague.
->
-> I had PUDs in mind. I can just call it
->
-> "PMD-level architectural ..."
->
-> >
-> >>
-> >>  The "proportional set size" (PSS) of a process is the count of pages it has
-> >>  in memory, where each page is divided by the number of processes sharing it.
-> >> @@ -528,10 +541,14 @@ pressure if the memory is clean. Please note that the printed value might
-> >>  be lower than the real value due to optimizations used in the current
-> >>  implementation. If this is not desirable please file a bug report.
-> >>
-> >> -"AnonHugePages" shows the amount of memory backed by transparent hugepage.
-> >> +"AnonHugePages", "ShmemPmdMapped" and "FilePmdMapped" show the amount of
-> >> +memory backed by transparent hugepages that are currently mapped through
-> >> +architectural huge-page mappings (PMD). "AnonHugePages" corresponds to memory
-> >
-> > 'mapped through architectural huge-page mappings (PMD)' reads a bit strangely to
-> > me,
-> >
-> > Perhaps 'mapped by transparent huge pages at a PMD page table level' instead?
-> >
->
-> I'll simplify to
->
-> "mapped by architectural huge-page mappings at the PMD level"
->
->
-> >> +that does not belong to a file, "ShmemPmdMapped" to shared memory (shmem/tmpfs)
-> >> +and "FilePmdMapped" to file-backed memory (excluding shmem/tmpfs).
-> >>
-> >> -"ShmemPmdMapped" shows the amount of shared (shmem/tmpfs) memory backed by
-> >> -huge pages.
-> >> +There are no dedicated entries for transparent huge pages (or similar concepts)
-> >> +that are not mapped through architectural huge-page mappings (PMD).
-> >
-> > similarly, perhaps better as 'are not mapped by transparent huge pages at a PMD
-> > page table level'?
->
-> I'll similarly call it "mapped by architectural huge-page mappings at
-> the PMD level"
->
-> Thanks a bunch!
->
-> --
-> Cheers,
->
-> David
+From: Frank Li (AI-BOT) <frank.li@nxp.com>
 
-Thanks on all!
+
+> +static int imx_std_cmd_map[] = {
+
+AI: Should be 'static const int' since this is a read-only lookup table.
+
+> +	if (msg->cmd >= sizeof(imx_std_cmd_map))
+
+AI: Use ARRAY_SIZE(imx_std_cmd_map) instead of sizeof() for clarity.
+
+because imx_std_cmd_map is array, AI most likely is correct.
+
+Frank
