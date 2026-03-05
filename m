@@ -1,59 +1,73 @@
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C0E3371054;
-	Thu,  5 Mar 2026 17:47:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772732867; cv=pass; b=U+RXpDqxZ4uwSYK/8urqKrsCNNPzJHxdZSazcMmfWrf4pA+1bi7ZqVfrNn8Myhqw7pLhLWG/i+mx3RrdajnjZVB0SgCMWvFI1gwpj6uJCZlC9LGLwQkilRAJe7ALGjJqY8k6qAqhUjFpF5OId8QFb3bh6SuZAKtwyj0RyKWhyHQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772732867; c=relaxed/simple;
-	bh=FHW5U5LimJCxTQHX4k4mumzkhqANr+afJlLHUpM7fQI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=W6TpN8XTKFjfwqIXg6o5CHE8US4f61pEb0pFyw5oYAJH7LIAPKZ+66Ak8SMn8KQDOH528Y5RnXatxcDVSPmNzR/tN/LHl646dArsqgpQFdKyIVd8y0pYh2aC4mKJDIv1J7ixtTmCb1tPXnc2dIwVyT/r3C/9QRkCKQss9sqAEzs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=GzhbzmeR; arc=pass smtp.client-ip=136.143.188.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97FA43E3D9C
+	for <linux-doc@vger.kernel.org>; Thu,  5 Mar 2026 18:08:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772734090; cv=none; b=MRg4aNpR+uY2JMeWNGdaoI51pMQRi8PcwF5wRoKLuy4kt6xKahUeZu9Tj4TwvOO46vvvAVU4c6Ex1ZA1qJKMvrryOoJhw7j1OA1mdH3daEYiln8vMAUr5SfsmRrAi/fzIZF2GhLntQvnZCXhZfgsNv3O2thm57Ov7WTla0Ac2I4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772734090; c=relaxed/simple;
+	bh=2ctX1mZz+0YJrGol754hzx2Gmt4W2jykkiI3ik0bJWk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=B3wTfF2JWXoKMLRQbr5F9qnOHMAtfQaEByfGh4usoMxxvhu9d7jOxlCXATtRvEumzQOqI2u7z5tK3TowtoEIaN3U4A9nflIgmmr2ooy+Y1vMD1lnPODPdxle27aFfr/5DABpJh8AQZQNpixeG4EMZ1T1DQIZW+3f2VQ183sBI6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BkNw8Yqs; arc=none smtp.client-ip=209.85.216.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="GzhbzmeR"
-ARC-Seal: i=1; a=rsa-sha256; t=1772732841; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=VtrkeHVb17Pv9UHf/NAaAYs0u091YYbOb6p9nNoGjL90i6DNxMDx5X4BZrcg1TKi10VUujd0fM4ySnf7O93qTfg2/+krUT/6Km0UY/XxQfwO7i+aMdHTLJD5s7XnwStjvb3cRe20NBqKxwmPJZI9NMKTS3X4KGEAvINEHm31jwQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1772732841; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=/M3Zc6FeipLmvGRey4I0i8sTJWwCU3xoQY4oC+FGgHE=; 
-	b=cVDJe1CP9LkE8jlHlhmpEU6xtge+48vYs41FjSp34aunsYOXphsb5TnCzIxiGVvaZDrhXEvBWSC7jDx6LIY5cMNj5Tkb7fz1gcXO4XN5ljHyL5P8ZFgiUNWfsvGPw/d0NWToYqbnSpu9PV6iCQt2S62ZOcxC2ueO5HbBpf3OhMk=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=rong.moe;
-	spf=pass  smtp.mailfrom=i@rong.moe;
-	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772732841;
-	s=zmail2048; d=rong.moe; i=i@rong.moe;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=/M3Zc6FeipLmvGRey4I0i8sTJWwCU3xoQY4oC+FGgHE=;
-	b=GzhbzmeR1avIv7UXiahyRDLAUgMXmNUBjv7IccVtvp5grrUsrkDKH1hlTeMMFTDo
-	vh5jFq5xjTYjtNusibhamSE4tqHW7BGT2PnkKnfYAqBschKoCqDjm400XF0AV8Qbtno
-	/OIAZ5cIv6aiErnVX63HFYEavmSJZgFWI4/7tXbLHzAoH+OHb/6Ot40I0N3I2TKGQf8
-	pwXWNNKwqWIJc1E2ilY8CctKs10ib80snCvIKx2pS6TFo5lljw47hzfvSlSwIlaPIG/
-	ZRUmE2x6k34w3BW0vboRLjUIH/lhrwakBZYMkgbCAKcQLxmYJslZ411+BO67my5J+55
-	tG9KgNF9kQ==
-Received: by mx.zohomail.com with SMTPS id 1772732838388757.0467718429193;
-	Thu, 5 Mar 2026 09:47:18 -0800 (PST)
-From: Rong Zhang <i@rong.moe>
-To: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>
-Cc: Rong Zhang <i@rong.moe>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BkNw8Yqs"
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-35995cb33a8so2477454a91.0
+        for <linux-doc@vger.kernel.org>; Thu, 05 Mar 2026 10:08:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772734088; x=1773338888; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=UQsGapjWvt7DkE/WwtDK7xc0/QU5KL1TvsMkrixcHyA=;
+        b=BkNw8YqsHxFLxkl8W8//VPR5ycoQEtMxba5W97UEHblfXsU/ct49SJ4uSE/1DOra7o
+         KvW+yafNVkSq6zs4h9oExchTczqjWfka1MBFs46wW4GgKj/IqajhQQYMi6yFpwDj0Hgq
+         RZekSCKx29GjNcUcq/pBBk2SuTJOBoQSJjV1+jQ+KCU0lJ3wtyP3cgq1JsKehuZaOXDk
+         /n9zrDYb4VoYDGPZJX9KI+4Lo+TOtVkRbnpJbZeIDf82Kca2Y6YS+kHUHUbAoZOfOb4Y
+         83gKufrlfKeavFSjHt3Vf/St0MeyUymYjPDP3Ds89jqCww26ziswGZkjKnyWvNlH1A5m
+         eLQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772734088; x=1773338888;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UQsGapjWvt7DkE/WwtDK7xc0/QU5KL1TvsMkrixcHyA=;
+        b=Wpu9uQ6eoJfdeLJAelXbg9Yi6dpI2qo5oaAMizAJCpieVebLvOXg0tovbMoXvPIcI0
+         ilPODS5EzQXOoXT7GdQH1O2izSy6rbIqDWTl1iuEHkIb1UsCekc1B47nQTuSPD3DgBy6
+         yD+3Bg0nD7bcrn8Fn7IUp6AfgDDhn2bGN5aC9c/n6xUfqRXyujLZQyoc481xS+l+C0jn
+         QqR++s9NMTAdFLLWEJ0NhS9MqZkuXdgvtB+k6ARUQB/dgpW6bvUxQPMmV/l7/jnMNLOe
+         /NEiZO1xXKgfvSjk50S1D6VRB8FJknLSrX4Pxvr4wVwtuIpGHcGJzqy9vXAuDDP4okTu
+         7mvw==
+X-Gm-Message-State: AOJu0YyBPcpr2WUp6lvAZpoJ+ufG1MPMGL+Z7XPcoTq7HeMEGMuEWwLk
+	iFOCUX+6CiYphwtuXXPD8FYg4+waAPSzmRjTOcKNRijQMhiRKmECVbqnK822o31B
+X-Gm-Gg: ATEYQzyisre3bxJRN5oJCtEJPrKM+0oVA5E+NnAulIAmTX5vBLBXfsWicZMWBIfTmdS
+	/0KvtGsclUJDP92teeaHr91PssvufAnF976VLHPwj3meV9mtIfkWU1bZjX+NYkIt6oR39XbmwX9
+	lUiRqMQ1BeklCJpn9uIT2fIjmFNwfPdTgmLrjAg7QatPuf1Ro4yZl1dLNzjZEK02wmKrzua/6cS
+	Hn/gbO3lAIP6fyDtQuNlCQV56akeN4za4ruKjVsAlwIX1snQdsNhuH/88Xxs6n4Tn23/h/ZRoHY
+	TW0CfC4r6BQC4q71P8ed9udd1k5j1t5Er+SFTHJO9h/nqho4LeJ5qRT3rMR1pbarf/MYTad2VpN
+	hynY7w4Jg2oLPtAceMcQXTRqxaOAk/bfA7DxnMr+NHu0pAMIWip6dkuTm4n8oLG3IZncUkrPguV
+	0+kAYW9HD0gYVfmeST8JEBs7XPCmkaIbR4HFG3XDERdvEStCLypjzNAMyASWv/RTu/vDY=
+X-Received: by 2002:a17:90b:55c8:b0:356:24c8:2291 with SMTP id 98e67ed59e1d1-359b1ac4e05mr2725431a91.0.1772734088524;
+        Thu, 05 Mar 2026 10:08:08 -0800 (PST)
+Received: from fedora.mrout-thinkpadp16vgen1.punetw6.csb ([223.181.53.201])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-359b2d40427sm2638396a91.5.2026.03.05.10.08.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Mar 2026 10:08:07 -0800 (PST)
+From: Malaya Kumar Rout <malayarout91@gmail.com>
+To: linux-doc@vger.kernel.org
+Cc: mrout@redhat.com,
+	skhan@linuxfoundation.org,
+	me@brighamcampbell.com,
+	Malaya Kumar Rout <malayarout91@gmail.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Cryolitia PukNgae <cryolitia@uniontech.com>,
-	Arun Raghavan <arunr@valvesoftware.com>,
-	linux-sound@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Icenowy Zheng <uwu@icenowy.me>,
-	Terry Junge <linuxsound@cosmicgizmosystems.com>
-Subject: [PATCH] ALSA: usb-audio: Refine string-descriptor-based quirk matching
-Date: Fri,  6 Mar 2026 01:46:39 +0800
-Message-ID: <20260305174711.1106324-1-i@rong.moe>
+	Marneni PoornaChandu <poornachandumarneni@gmail.com>,
+	Kevin Paul Reddy Janagari <kevinpaul468@gmail.com>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: driver-api: usb: Document USBDEVFS_BULK return value and short reads
+Date: Thu,  5 Mar 2026 23:37:50 +0530
+Message-ID: <20260305180753.114732-1-malayarout91@gmail.com>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -62,152 +76,39 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
 
-Remove snd_usb_get_string() and use the manufacturer and product strings
-stored in struct usb_device directly to match quirk table entries. Their
-NULLity can be checked to determine if the device has no these strings.
-This simplifies the code a lot.
+Remove a longstanding FIXME comment in the USBDEVFS_BULK documentation
+by properly documenting the return value behavior. The ioctl returns the
+actual number of bytes transferred on success, which naturally handles
+short reads (where fewer bytes are read than requested) by returning a
+value less than the requested length.
 
-Meanwhile, allow quirk table entries to match "no string" explicitly, and
-add appropriate comments to show the expected usages of
-DEVICE_STRING_FLG() and VENDOR_STRING_FLG(). These changes are tiny and
-doesn't form another separate patch, so that back-and-forth changes can
-be avoided.
+This information was verified by examining the implementation in
+drivers/usb/core/devio.c:do_proc_bulk(), which returns the actual
+transfer length on success.
 
-Suggested-by: Terry Junge <linuxsound@cosmicgizmosystems.com>
-Link: https://lore.kernel.org/r/b59da54a-9c80-4212-a337-c5ea98da52d1@cosmicgizmosystems.com
-Signed-off-by: Rong Zhang <i@rong.moe>
+Signed-off-by: Malaya Kumar Rout <malayarout91@gmail.com>
 ---
- sound/usb/quirks.c | 90 +++++++++++++++++++++-------------------------
- 1 file changed, 40 insertions(+), 50 deletions(-)
+ Documentation/driver-api/usb/usb.rst | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
-index 17f6be4d2350..ab67f7826e9b 100644
---- a/sound/usb/quirks.c
-+++ b/sound/usb/quirks.c
-@@ -2153,7 +2153,28 @@ struct usb_audio_quirk_flags_table {
- 	{ .id = USB_ID(vid, pid), .flags = (_flags) }
- #define VENDOR_FLG(vid, _flags) DEVICE_FLG(vid, 0, _flags)
+diff --git a/Documentation/driver-api/usb/usb.rst b/Documentation/driver-api/usb/usb.rst
+index 7f2f41e80c1c..a01d72af479b 100644
+--- a/Documentation/driver-api/usb/usb.rst
++++ b/Documentation/driver-api/usb/usb.rst
+@@ -539,6 +539,12 @@ USBDEVFS_BULK
+     kernels support requests up to about 128KBytes. *FIXME say how read
+     length is returned, and how short reads are handled.*.
  
--/* Use as a last resort if using DEVICE_FLG() is prone to VID/PID conflicts. */
-+/*
-+ * Use as a last resort if using DEVICE_FLG() is prone to VID/PID conflicts.
-+ *
-+ * Usage:
-+ *   // match vid, pid, "manufacturer", and "product"
-+ *   DEVICE_STRING_FLG(vid, pid, "manufacturer", "product", flags)
-+ *
-+ *   // match vid, pid, "manufacturer", and any product string
-+ *   DEVICE_STRING_FLG(vid, pid, "manufacturer", NULL,      flags)
-+ *
-+ *   // match vid, pid, "manufacturer", and device must have no product string
-+ *   DEVICE_STRING_FLG(vid, pid, "manufacturer", "",        flags)
-+ *
-+ *   // match vid, pid, any manufacturer string, and "product"
-+ *   DEVICE_STRING_FLG(vid, pid, NULL,           "product", flags)
-+ *
-+ *   // match vid, pid, no manufacturer string, and "product"
-+ *   DEVICE_STRING_FLG(vid, pid, "",             "product", flags)
-+ *
-+ *   // match vid, pid, no manufacturer string, and no product string
-+ *   DEVICE_STRING_FLG(vid, pid, "",             "",        flags)
-+ */
- #define DEVICE_STRING_FLG(vid, pid, _manufacturer, _product, _flags)	\
- {									\
- 	.id = USB_ID(vid, pid),						\
-@@ -2164,7 +2185,16 @@ struct usb_audio_quirk_flags_table {
- 	.flags = (_flags),						\
- }
- 
--/* Use as a last resort if using VENDOR_FLG() is prone to VID conflicts. */
-+/*
-+ * Use as a last resort if using VENDOR_FLG() is prone to VID conflicts.
-+ *
-+ * Usage:
-+ *   // match vid, and "manufacturer"
-+ *   VENDOR_STRING_FLG(vid, "manufacturer", flags)
-+ *
-+ *   // match vid, and device must have no manufacturer string
-+ *   VENDOR_STRING_FLG(vid, "",             flags)
-+ */
- #define VENDOR_STRING_FLG(vid, _manufacturer, _flags)			\
- 	DEVICE_STRING_FLG(vid, 0, _manufacturer, NULL, _flags)
- 
-@@ -2595,63 +2625,23 @@ void snd_usb_apply_flag_dbg(const char *reason,
- 	}
- }
- 
--#define USB_STRING_SIZE 128
--
--static char *snd_usb_get_string(struct snd_usb_audio *chip, int id)
--{
--	char *buf;
--	int ret;
--
--	/*
--	 * Devices without the corresponding string descriptor.
--	 * This is non-fatal as *_STRING_FLG have nothing to do in this case.
--	 */
--	if (id == 0)
--		return ERR_PTR(-ENODATA);
--
--	buf = kmalloc(USB_STRING_SIZE, GFP_KERNEL);
--	if (buf == NULL)
--		return ERR_PTR(-ENOMEM);
--
--	ret = usb_string(chip->dev, id, buf, USB_STRING_SIZE);
--	if (ret < 0) {
--		usb_audio_warn(chip, "failed to get string for id%d: %d\n", id, ret);
--		kfree(buf);
--		return ERR_PTR(ret);
--	}
--
--	return buf;
--}
--
- void snd_usb_init_quirk_flags_table(struct snd_usb_audio *chip)
- {
- 	const struct usb_audio_quirk_flags_table *p;
--	char *manufacturer __free(kfree) = NULL;
--	char *product __free(kfree) = NULL;
- 
- 	for (p = quirk_flags_table; p->id; p++) {
- 		if (chip->usb_id == p->id ||
- 		    (!USB_ID_PRODUCT(p->id) &&
- 		     USB_ID_VENDOR(chip->usb_id) == USB_ID_VENDOR(p->id))) {
- 			/* Handle DEVICE_STRING_FLG/VENDOR_STRING_FLG. */
--			if (p->usb_string_match && p->usb_string_match->manufacturer) {
--				if (!manufacturer) {
--					manufacturer = snd_usb_get_string(chip,
--						chip->dev->descriptor.iManufacturer);
--				}
--				if (IS_ERR_OR_NULL(manufacturer) ||
--				    strcmp(p->usb_string_match->manufacturer, manufacturer))
--					continue;
--			}
--			if (p->usb_string_match && p->usb_string_match->product) {
--				if (!product) {
--					product = snd_usb_get_string(chip,
--						chip->dev->descriptor.iProduct);
--				}
--				if (IS_ERR_OR_NULL(product) ||
--				    strcmp(p->usb_string_match->product, product))
--					continue;
--			}
-+			if (p->usb_string_match && p->usb_string_match->manufacturer &&
-+			    strcmp(p->usb_string_match->manufacturer,
-+				   chip->dev->manufacturer ? chip->dev->manufacturer : ""))
-+				continue;
-+			if (p->usb_string_match && p->usb_string_match->product &&
-+			    strcmp(p->usb_string_match->product,
-+				   chip->dev->product ? chip->dev->product : ""))
-+				continue;
- 
- 			snd_usb_apply_flag_dbg("builtin table", chip, p->flags);
- 			chip->quirk_flags |= p->flags;
-
-base-commit: b364a0d23cae157691cde2c0137998d66b45b703
++    kernels support requests up to about 128KBytes. On success, the
++    ioctl returns the number of bytes actually transferred. Short reads
++    are supported; if fewer bytes are received than requested, only the
++    actual number of bytes received are copied to the buffer and that
++    count is returned. On error, a negative error code is returned.
++
+ USBDEVFS_CLEAR_HALT
+     Clears endpoint halt (stall) and resets the endpoint toggle. This is
+     only meaningful for bulk or interrupt endpoints. The ioctl parameter
 -- 
 2.53.0
 
