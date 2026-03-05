@@ -1,233 +1,198 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24E5C20C477;
-	Thu,  5 Mar 2026 13:32:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20CBC3822B7
+	for <linux-doc@vger.kernel.org>; Thu,  5 Mar 2026 13:43:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772717579; cv=none; b=JQBwTD3xU0k9DPnlH/fraYHbeg9HD3Zk6geyBg9K7jPaMmW2GMVYPNKxzAkea8sjyketTf3Kvo2ETm+dNqjdwmxQJQ2B6shqOTq+JZvm+JqrYyGuLKnGcmB+0gDtRYCouvaDdKqNPTRC7kQfsmcb0rkPukr/auBVHb6xbJ9PW7o=
+	t=1772718222; cv=none; b=Z8W4gqM7HrQSFEEpwyMDF4eAKiuxrQGdgRLQs3lHbtlmyuydwtzMMCO1X4FECjkbpMblEcLHH42Bs0QbgF7pURNMfHc018aNBrVqWoKYIxigMEZtcnjjcBsr50X8sLQtE2NDjxYjPTEWHirXZyMTmTzMz0EgdbHtiGteuj1cU8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772717579; c=relaxed/simple;
-	bh=siCDPUyJkhmZJ+Z9bW2VgMjcMK37fNr6QVsSBWZ4794=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hvSdZC7jRIHLKu5evGLyzpNTucqCjX3KO8tL2AAOIpFBbPlLTm0E45V7NLuH70sNZK/fCHirZ9WxJ3b+hT7SZue3CBFitos5NTCepqwxGMZQKEiP/tMoTzuTKm9+RIoJmztYH4ksp44GuYa3l1HLE35zG8KRoYAyorGEu+wA310=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RPcRkrdS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772718222; c=relaxed/simple;
+	bh=HM8oIQ4Gc+cpXMqGxUXGIs6+1o5nvkNDglwNlY3B8KY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YXIwsIeUDfIoCIovOQ08cvmSHbdbU1m9ic7xO91dJpuTTOjguPFmuamtoQSr8dZiWCiPG2whMoElL30LohaAZOv+icpTXSG0eX67JIFrKcR5gHb0cAxq5dJ01hH31krdKg5BTfNlCv6H+7RB61uru+fFYTNJEbc4EdLGlORpJhw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=k6NTIPzP; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RPcRkrdS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 549B7C116C6;
-	Thu,  5 Mar 2026 13:32:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772717578;
-	bh=siCDPUyJkhmZJ+Z9bW2VgMjcMK37fNr6QVsSBWZ4794=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=RPcRkrdSnQlgCCOm5dAW5evRzE0anV8F9AUk+zy5lNaC77Dl99PL+duuKShSHMr6N
-	 AazFdGtXtGiyPBV+5aB2O0MiW3P7yUIX0K2npXhP0JzEtDR9u9IQu3d4Le8xuYP1Xm
-	 mLIbPNMUQrHuulR3FkDQ1XCh12+/TvxwgrNSuw4kQzKLepia6V9DjiKKzKsFJS6WU4
-	 5ocJPdt8T5wzYdBN8vOvKqYPOdZE81PryU7nwQgbSWzTLfyXK77kh7gWtvHXSKSYaK
-	 cyC7uUqY+lTXrzPFhAbHr6DTZ3DzgKdaAgvOF9Q7HHD7K0Gy3LEtpB2ebfs6Ij+mZq
-	 +49fFjmPcKjIQ==
-Message-ID: <c5330f9e-db41-496b-b580-73ebec9cd811@kernel.org>
-Date: Thu, 5 Mar 2026 14:32:49 +0100
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="k6NTIPzP"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4837584120eso61194805e9.1
+        for <linux-doc@vger.kernel.org>; Thu, 05 Mar 2026 05:43:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1772718219; x=1773323019; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=grtuVtzx4dqYeuDSNsG3zL/G5fmjx189tw7ngaV+0gc=;
+        b=k6NTIPzPPFB853DPJHeDxAyYaI5x8GIXeCATLTryh9iJGnH30nXYvcx3z6Z6TLGaAU
+         pZPtBBHH0PDjc4JBAIkikFV2y5yDIB6m/+08Z5zYXJ4dM2fI+ksgDEw/ZvzNCREV/txX
+         RPt5LmJaP1bzy3lZ3HgfNNt3qnuQxOgz7kkBSXDQEHPrR2gCukDLWUQ+WWT+E2OH+gqT
+         hW2nFmQIVk87wWDyK5O+ZhxygyTuKcqvvPdXVaCJq7z9pWGDgklUNyoVRn+IUsQpjBZ4
+         IgV3gF5wBTc4F/EYaDmzNfaCN9F/csr8F4vwR/upP+yZKNcIjQXxvktst8UoE2sdmgEf
+         ID4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772718219; x=1773323019;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=grtuVtzx4dqYeuDSNsG3zL/G5fmjx189tw7ngaV+0gc=;
+        b=IqwwsJDel0mlu3Rd2wND0lPiM7LUHRKVsjMMDDII+tFenK93IoiyJtjfwDOJ1yZnAn
+         ATZrte/cPFTitMqdN9eQohtCMy3WYXIy3WKXT4h58uCoK2nMHEgCwQmNBdLlElrXZN9b
+         Xvw+H5VDQsMeIVwowcqKqMyYSyWqhzwGM/rujYVoFOfvAqIp/YKtNMhcBpBfsKrAT7oS
+         QYKIu2I8I4aFR9ikhPVsJ6k9AoyrBQimz81C/rr8TL/vvpPpAKhEi6R7psNHcqJrRCVs
+         EjLIwq9rzoz7PmIdFzoQFVSGN6U4UPNtrvcDGSnchx10pg26R9Z9BUoXkeVE136LJYqR
+         XlPA==
+X-Forwarded-Encrypted: i=1; AJvYcCWupxscRpYMseXxSdlIBln6er4ohFGY+VQJMM0FKRk3uTkb5onYDbM4gLly2jyzGXyn3RjHSssRS+8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwIgmqb7XhZjZw4/PtcMz1whQ+tPXvl4PlIbq9arg0xH6M52xsm
+	27cLsvWCGZ9JzsOnnNlFj31fG66iO3AXA3ZYgAm9Xppfb+7NbdC3oHOGDChg59qDcQA=
+X-Gm-Gg: ATEYQzyupGUzUZv38vermHpdyak120/vIC2QX0m9C0CKmxaimANaw5gd8Vvt+s64/Nl
+	a9lBVPH1B3Y4bQkU7lQh+UBCgRVJ9gdrFZib6bVvh++chkyUQMZtiJarYOMZnHxlqxlv/ykMKOk
+	8YbDBbSFBVUX2gwFDzjottZDjbTWk2EOiPBFdcdGpN7hQwHdtXsjltxyzkohrRHXqvq/MCGgs3r
+	RQzmrcnQRsuIcBkoqNJVMoUODNhLsc9pVATpaI/ZMOlHSiCEQmj2D8vDODGpD6T00FZfokHVNo0
+	1PZv9BMGhd+gbkLY7rNL7x6Fwouxe1JfWOvrFRhgyd8dHaF8UXGbV2xNU3IDWw7kEL1Ag0TbqOS
+	T9CjrPqw4reWcREhuU2Trq4Wb4oN0h2GX7QbkF6vJwT+scCM/wvUPtEf9H8iJSAchmXHBbOKrFu
+	7lDTpwcUOIXo1c0za7wHn4Qe8Kxl9DUbNZ/qA=
+X-Received: by 2002:a05:600c:8b5c:b0:480:1c69:9d36 with SMTP id 5b1f17b1804b1-48519871622mr110409665e9.17.1772718219395;
+        Thu, 05 Mar 2026 05:43:39 -0800 (PST)
+Received: from linaro.org ([2a02:2454:ff23:4441:1c2c:7aff:fe45:362e])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4851faeaea1sm35241535e9.10.2026.03.05.05.43.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Mar 2026 05:43:38 -0800 (PST)
+Date: Thu, 5 Mar 2026 14:43:27 +0100
+From: Stephan Gerhold <stephan.gerhold@linaro.org>
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Thara Gopinath <thara.gopinath@gmail.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Udit Tiwari <quic_utiwari@quicinc.com>,
+	Daniel Perez-Zoghbi <dperezzo@quicinc.com>,
+	Md Sadre Alam <mdalam@qti.qualcomm.com>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+	Michal Simek <michal.simek@amd.com>, Frank Li <Frank.Li@kernel.org>,
+	dmaengine@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Bjorn Andersson <andersson@kernel.org>
+Subject: Re: [PATCH RFC v11 00/12] crypto/dmaengine: qce: introduce BAM
+ locking and use DMA for register I/O
+Message-ID: <aamIf8JethKzLW93@linaro.org>
+References: <20260302-qcom-qce-cmd-descr-v11-0-4bf1f5db4802@oss.qualcomm.com>
+ <scr5qvxa7f7k22pms4c6k5gwiky7lhssrw6qryfngexlek44g2@rayinnnwqgbt>
+ <aalwMwN3qMlzrql5@linaro.org>
+ <CAMRc=MfjknN1AYF_NPLzR0YbdWuoET25D9o0zsvx56VN+u59HQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] docs: filesystems: clarify KernelPageSize vs.
- MMUPageSize in smaps
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-mm@kvack.org,
- Andrew Morton <akpm@linux-foundation.org>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>, Nico Pache
- <npache@redhat.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Usama Arif <usamaarif642@gmail.com>, Andi Kleen <ak@linux.intel.com>
-References: <20260304155636.77433-1-david@kernel.org>
- <b24be8c2-32d3-4e3e-9fbf-8a0068c360d6@lucifer.local>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <b24be8c2-32d3-4e3e-9fbf-8a0068c360d6@lucifer.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMRc=MfjknN1AYF_NPLzR0YbdWuoET25D9o0zsvx56VN+u59HQ@mail.gmail.com>
 
+On Thu, Mar 05, 2026 at 02:10:55PM +0100, Bartosz Golaszewski wrote:
+> On Thu, Mar 5, 2026 at 1:00 PM Stephan Gerhold
+> <stephan.gerhold@linaro.org> wrote:
+> >
+> > On Tue, Mar 03, 2026 at 06:13:56PM +0530, Manivannan Sadhasivam wrote:
+> > > On Mon, Mar 02, 2026 at 04:57:13PM +0100, Bartosz Golaszewski wrote:
+> > > > NOTE: Please note that even though this is version 11, I changed the
+> > > > prefix to RFC as this is an entirely new approach resulting from
+> > > > discussions under v9. I AM AWARE of the existing memory leaks in the
+> > > > last patch of this series - I'm sending it because I want to first
+> > > > discuss the approach and get a green light from Vinod as well as Mani
+> > > > and Bjorn. Especially when it comes to communicating the address for the
+> > > > dummy rights from the client to the BAM driver.
+> > > > /NOTE
+> > > >
+> > > > Currently the QCE crypto driver accesses the crypto engine registers
+> > > > directly via CPU. Trust Zone may perform crypto operations simultaneously
+> > > > resulting in a race condition. To remedy that, let's introduce support
+> > > > for BAM locking/unlocking to the driver. The BAM driver will now wrap
+> > > > any existing issued descriptor chains with additional descriptors
+> > > > performing the locking when the client starts the transaction
+> > > > (dmaengine_issue_pending()). The client wanting to profit from locking
+> > > > needs to switch to performing register I/O over DMA and communicate the
+> > > > address to which to perform the dummy writes via a call to
+> > > > dmaengine_slave_config().
+> > > >
+> > >
+> > > Thanks for moving the LOCK/UNLOCK bits out of client to the BAM driver. It looks
+> > > neat now. I understand the limitation that for LOCK/UNLOCK, BAM needs to perform
+> > > a dummy write to an address in the client register space. So in this case, you
+> > > can also use the previous metadata approach to pass the scratchpad register to
+> > > the BAM driver from clients. The BAM driver can use this register to perform
+> > > LOCK/UNLOCK.
+> > >
+> > > It may sound like I'm suggesting a part of your previous design, but it fits the
+> > > design more cleanly IMO. The BAM performs LOCK/UNLOCK on its own, but it gets
+> > > the scratchpad register address from the clients through the metadata once.
+> > >
+> > > It is very unfortunate that the IP doesn't accept '0' address for LOCK/UNLOCK or
+> > > some of them cannot append LOCK/UNLOCK to the actual CMD descriptors passed from
+> > > the clients. These would've made the code/design even more cleaner.
+> > >
+> >
+> > I was staring at the downstream drivers for QCE (qce50.c?) [1] for a bit
+> > and my impression is that they manage to get along without dummy writes.
+> > It's a big mess, but it looks like they always have some commands
+> > (depending on the crypto operation) that they are sending anyway and
+> > they just assign the LOCK/UNLOCK flag to the command descriptor of that.
+> >
+> > It is similar for the second relevant user of the LOCK/UNLOCK flags, the
+> > QPIC NAND driver (msm_qpic_nand.c in downstream [2], qcom_nandc.c in
+> > mainline), it is assigned as part of the register programming sequence
+> > instead of using a dummy write. In addition, the UNLOCK flag is
+> > sometimes assigned to a READ command descriptor rather than a WRITE.
+> >
+> > @Bartosz: Can we get by without doing any dummy writes?
+> > If not, would a dummy read perhaps be less intrusive than a dummy write?
+> >
+> 
+> The HPG says that the LOCK/UNLOCK flag *must* be set on a command
+> descriptor, not a data descriptor. For a simple encryption we will
+> typically have a data descriptor and a command descriptor with
+> register writes. So we need a command descriptor in front of the data
+> and - while we could technically set the UNLOCK bit on the subsequent
+> command descriptor - it's unclear from the HPG whether it will unlock
+> before or after processing the command descriptor with the UNLOCK bit
+> set. Hence the additional command descriptor at the end.
+>
 
-> 
-> Ah wait you dedicate a whole paragraph after this to tha :)
+I won't pretend that I actually understand what the downstream QCE
+driver is doing, but e.g. qce_ablk_cipher_req() in the qce50.c I linked
+looks like they just put the command descriptor with all the register
+writes first and then the data second (followed by another command
+descriptor for cleanup/unlocking). Is it actually required to put the
+data first?
 
-Correct :)
+> The HPG also only mentions a write command and says nothing about a
+> read. In any case: that's the least of the problems as switching to
+> read doesn't solve the issue of passing the address of the scratchpad
+> register.
 
-> 
->> +mapping that is currently resident in RAM (RSS); the process's proportional
->> +share of this mapping (PSS); and the number of clean and dirty shared and
->> +private pages in the mapping.
->> +
->> +Historically, the "KernelPageSize" always corresponds to the "MMUPageSize",
->> +except when a larger kernel page size is emulated on a system with a smaller
-> 
-> NIT: is -> was, as historically implies past tense.
-> 
-> But it's maybe better to say:
-> 
-> +Historically, the "KernelPageSize" has always corresponded to the "MMUPageSize",
-> 
-> And:
-> 
-> +except when a larger kernel page size is being emulated on a system with a smaller
-> 
-
-Given that the PPC64 thingy still exists in the tree, I'll probably do:
-
-"KernelPageSize" always corresponds to "MMUPageSize", except when a
-larger kernel page size is emulated on a system with a smaller page size
-used by the MMU, which is the case for some PPC64 setups with hugetlb.
-
->> +page size used by the MMU, which was the case for PPC64 in the past.
->> +Further, "KernelPageSize" and "MMUPageSize" always correspond to the
-> 
-> NIT: Further -> Furthermore
-> 
-
-Helpful.
-
->> +smallest possible granularity (fallback) that could be encountered in a
-> 
-> could be -> can be
-> 
-> Since we are really talking about the current situation, even if this, is
-> effect, a legacy thing.
-> 
->> +VMA throughout its lifetime.  These values are not affected by any current
->> +transparent grouping of pages by Linux (Transparent Huge Pages) or any
-> 
-> 'transparent grouping of pages' reads a bit weirdly.
-> 
-> Maybe simplify to:
-> 
-> +These values are not affected by Transparent Huge Pages being in effect, or any...
-
-Works for me.
+True.
 
 > 
->> +current usage of larger MMU page sizes (either through architectural
-> 
-> NIT: current usage -> usage
-
-Ack.
-
-> 
->> +huge-page mappings or other transparent groupings done by the MMU).
-> 
-> Again I think 'transparent groupings' is a bit unclear. Perhaps instead:
-> 
-> +huge-page mappings or other explicit or implicit coalescing of virtual ranges
-> +performed by the MMU).
-
-I'd assume the educated reader does not know what "explicit/implicit
-coalescing" even means, but works for me. :)
-
-> 
-> ?
-> 
->> +"AnonHugePages", "ShmemPmdMapped" and "FilePmdMapped" provide insight into
->> +the usage of some architectural huge-page mappings.
-> 
-> Is 'some' necessary here? Seems to make it a bit vague.
-
-I had PUDs in mind. I can just call it
-
-"PMD-level architectural ..."
-
-> 
->>
->>  The "proportional set size" (PSS) of a process is the count of pages it has
->>  in memory, where each page is divided by the number of processes sharing it.
->> @@ -528,10 +541,14 @@ pressure if the memory is clean. Please note that the printed value might
->>  be lower than the real value due to optimizations used in the current
->>  implementation. If this is not desirable please file a bug report.
->>
->> -"AnonHugePages" shows the amount of memory backed by transparent hugepage.
->> +"AnonHugePages", "ShmemPmdMapped" and "FilePmdMapped" show the amount of
->> +memory backed by transparent hugepages that are currently mapped through
->> +architectural huge-page mappings (PMD). "AnonHugePages" corresponds to memory
-> 
-> 'mapped through architectural huge-page mappings (PMD)' reads a bit strangely to
-> me,
-> 
-> Perhaps 'mapped by transparent huge pages at a PMD page table level' instead?
+> So while some of this *may* just work, I would prefer to stick to what
+> documentation says *will* work. :)
 > 
 
-I'll simplify to
+Well, the question is if there is always a dummy register that can be
+safely written (without causing any side effects). This will be always
+just based on experiments, since the concept of a dummy write doesn't
+seem to exist downstream (and I assume the documentation doesn't suggest
+a specific register to use either).
 
-"mapped by architectural huge-page mappings at the PMD level"
+NAND_VERSION (0xf08) might work for qcom_nandc.c (which might be the
+only other relevant user of the BAM locking functionality...).
 
-
->> +that does not belong to a file, "ShmemPmdMapped" to shared memory (shmem/tmpfs)
->> +and "FilePmdMapped" to file-backed memory (excluding shmem/tmpfs).
->>
->> -"ShmemPmdMapped" shows the amount of shared (shmem/tmpfs) memory backed by
->> -huge pages.
->> +There are no dedicated entries for transparent huge pages (or similar concepts)
->> +that are not mapped through architectural huge-page mappings (PMD).
-> 
-> similarly, perhaps better as 'are not mapped by transparent huge pages at a PMD
-> page table level'?
-
-I'll similarly call it "mapped by architectural huge-page mappings at
-the PMD level"
-
-Thanks a bunch!
-
--- 
-Cheers,
-
-David
+Thanks,
+Stephan
