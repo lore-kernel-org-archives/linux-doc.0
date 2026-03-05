@@ -1,138 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B95CD33689A;
-	Thu,  5 Mar 2026 01:45:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0043433688A;
+	Thu,  5 Mar 2026 01:46:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772675147; cv=none; b=oIVqJvbV9d1xRlP229TRyegwPdpNpomqOLxwVtZSzKF4QZT+2gBSViR1K3JXEo13uVBsZouhT4ow7eozbfRKqbFoG3LSFg8H5BJHQdlI+FIyYmTnuVd3OXF15OPoiliHavjp+XgDpv3byIF+YSSuVpnfCERZoc9s5R7E54EHzW8=
+	t=1772675166; cv=none; b=Jw1xQ9rgaB9ICwRFVRnDhROhpA9CeM+5KGKQv2uTyC8mSa3sk7F3EErBzsky4iE1rQR/pDM6lHiBTQ/uv7VGeSjJMz76xn/ppiD0b3B9O+J8dmA6xlQaEvfAPT2WKgs6R+CI2Mhe6x9v3GboaNQ+pLSEW+ZmQeJpgCDobDkF9Hw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772675147; c=relaxed/simple;
-	bh=smt4+y9Zrtkso3ObiLhXR2z7+tFVytIjdBNlR6ozHm8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lOB5ZBjE66JBrBp2oJxvMJlrPsaq9/DOGljSCojVy77qsHlkqdqX5+vDmo3VvMiZe13XvxpnL2JEjWtDfwJINjaDaTh9zdNBVEK0QVCqhEI60sdUZapxRv7gOsmvvOOJs0XV2kIvZSaKWxghKLCSvVSjelqINQQMl52PBeGqAzI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g72B8aDW; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1772675166; c=relaxed/simple;
+	bh=jGgua4ZWYKGM0DDprbPTGzqt9oIqL8qOxD6wHpeP3uo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fX9dA4EpGb5j+3gzkLf6QvALswvt5JoTSD8ObtRKuFckdjWnfCF2ig5xlWEzeSgpCUQ9Jnb2ZvJEb2rGg1OfNqXaZnZ4SLjR/c9XSqD1gw/BGRXfn3dMUasQxGrNMKlYlB8ILiHuxWnSQqnCz0AjWnappg/HdN5wW0/KvaAkFWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EJGjVU+c; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g72B8aDW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772675144; x=1804211144;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=smt4+y9Zrtkso3ObiLhXR2z7+tFVytIjdBNlR6ozHm8=;
-  b=g72B8aDWWjUFFAiylOyhyV+4fpZP00ZgjmVXcJRFrDfRsFLEaQei5tCY
-   GQHAfW3Sbl1D1wybsUPI2GxJ2FEiGoAKw14TI0BO+4UnaBMzXoZBSPWL0
-   NnIhwCT2qD43wtTofbg7vCzQWnqrva6ADeA0zZB42sDIiL2ytAC37MQnO
-   k4mqSrYXEz9fIYrUIacsL5AE6PRFsF8k/XddcPmJkrGaNhtnp0pJXxhec
-   QXf8Z5794ga2A5c5MhiSH2kruRuxXHaftWN8btGmpj4MjCbJBL3NevHgT
-   1HQanz3AuH029teQmsVvU6W6QuY3OoWYp3kJChCh7GKoAC3rFRVydYyNx
-   Q==;
-X-CSE-ConnectionGUID: wXmNya8BQvK78vvyueFDDQ==
-X-CSE-MsgGUID: R6ZiCWo0QeeZ9izkpMVTzw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11719"; a="91142674"
-X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
-   d="scan'208";a="91142674"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 17:45:44 -0800
-X-CSE-ConnectionGUID: EzUqYm8SQ82J1ux+nftfdA==
-X-CSE-MsgGUID: zJy66tDfQ3ed2nvIvfqxWQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,325,1763452800"; 
-   d="scan'208";a="223195477"
-Received: from msatwood-mobl.amr.corp.intel.com (HELO [10.125.108.245]) ([10.125.108.245])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2026 17:45:43 -0800
-Message-ID: <2e3b1765-ae56-4642-8a94-61805a64497e@intel.com>
-Date: Wed, 4 Mar 2026 17:45:48 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EJGjVU+c"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1CDFC4CEF7;
+	Thu,  5 Mar 2026 01:46:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772675165;
+	bh=jGgua4ZWYKGM0DDprbPTGzqt9oIqL8qOxD6wHpeP3uo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=EJGjVU+cOtI5RyIEXCbqJ828Q1ibQEdgbo9sc/wx47Ilgmm3cw7h6BsReAuH4mLt6
+	 WdrTGh1opCXFFG/hBBg3P7o/pBianXFBVYB6rXNZ603xLTqgN45v9PvzxQ2DSlFJRJ
+	 iiCv0LoeHNqW7M7hjQJSdjSMIyLFuyeE36PodbiZKQdPAU1Jl3VauGCEn3dyb5drJ7
+	 r+OuyzUD09bkTSkj7R7zELmo9TCl/KJ6xtQF7brvz+PYamRLVR8PVSuEwUIvrWtqH3
+	 QqQ4vDCTkH4Z9iqVW+T1IRqrh2oYHiGRmcKnDbNNCsz8vnCLCOR8Ymv1Acub0hZiH2
+	 ZfeaAUIGbaa5Q==
+Date: Wed, 4 Mar 2026 17:46:03 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Fernando Fernandez Mancera <fmancera@suse.de>
+Cc: Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ chia-yu.chang@nokia-bell-labs.com, idosch@nvidia.com, willemb@google.com,
+ dsahern@kernel.org, kuniyu@google.com, ncardwell@google.com,
+ skhan@linuxfoundation.org, corbet@lwn.net, horms@kernel.org,
+ pabeni@redhat.com, davem@davemloft.net
+Subject: Re: [PATCH net-next v3] inet: add ip_local_port_step_width sysctl
+ to improve port usage distribution
+Message-ID: <20260304174603.72553f70@kernel.org>
+In-Reply-To: <aa36b48c-6184-46f3-bf6e-4750c2266f35@suse.de>
+References: <20260303172949.4741-1-fmancera@suse.de>
+	<CANn89i+ntGv0gGYvRq8yziGTE01ozBJ_Mn_RDPXLgs+yU5whrg@mail.gmail.com>
+	<aa36b48c-6184-46f3-bf6e-4750c2266f35@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/5] x86/vsyscall: Add vsyscall emulation for #GP
-To: Sohil Mehta <sohil.mehta@intel.com>, "H. Peter Anvin" <hpa@zytor.com>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- Andy Lutomirski <luto@kernel.org>, Borislav Petkov <bp@alien8.de>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Peter Zijlstra <peterz@infradead.org>, Kiryl Shutsemau <kas@kernel.org>,
- Brendan Jackman <jackmanb@google.com>,
- Sean Christopherson <seanjc@google.com>, Nam Cao <namcao@linutronix.de>,
- Cedric Xing <cedric.xing@intel.com>,
- Rick Edgecombe <rick.p.edgecombe@intel.com>,
- Andrew Cooper <andrew.cooper3@citrix.com>, Tony Luck <tony.luck@intel.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Maciej Wieczor-Retman <m.wieczorretman@pm.me>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260219233600.154313-1-sohil.mehta@intel.com>
- <20260219233600.154313-4-sohil.mehta@intel.com>
- <1383b357-2a10-4b36-afb9-42e2724faa31@intel.com>
- <faf58379-36df-4535-8c17-bcfe838ae4c4@intel.com>
- <3212161f-64b2-4825-8bcc-c36201ab6589@zytor.com>
- <eeec4ac0-be05-4a4e-a9c7-8716de50cfbb@intel.com>
-From: Dave Hansen <dave.hansen@intel.com>
-Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-In-Reply-To: <eeec4ac0-be05-4a4e-a9c7-8716de50cfbb@intel.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 3/4/26 16:10, Sohil Mehta wrote:
-> Vsyscall emulation has two modes of operation, specified by the
-> vsyscall={xonly, emulate} kernel command line option. The vsyscall page
-> is marked as execute-only in XONLY mode or read-execute in EMULATE mode.
+On Wed, 4 Mar 2026 10:54:16 +0100 Fernando Fernandez Mancera wrote:
+> > Some guidance would be nice. What values have you tested/tried ?
+> 
+> As I am working on a patch series with improvements to ip-sysctl.rst 
+> documentation I will handle that there.
 
-Is it really "marked as execute only"? We don't have a real execute-only
-paging permission on x86, the closest we've got is memory marked with a
-pkey that's got the AccessDisable bit set.
-
-I think it's _called_ execute-only because the kernel makes it behave
-like execute-only memory when it's handling the page fault. But I dobn't
-think it is super accurate to say it is "marked" as execute-only.
-
-The rest of it looks great to me, though.
+I'd prefer a respin please.
