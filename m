@@ -1,46 +1,41 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out30-113.freemail.mail.aliyun.com (out30-113.freemail.mail.aliyun.com [115.124.30.113])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF90436404A;
-	Thu,  5 Mar 2026 10:47:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 102C3347FEE;
+	Thu,  5 Mar 2026 11:24:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.113
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772707620; cv=none; b=eMppiopIZ493GYJYhm5+fo+1o/2qRs2cYwlxvGb/tZTt65bPE47DnghQvfhWhPBzOxf6icRuJ+KiBedcyJuXYpCxQguPT8K86+qWu2XS+Y0sn3Bre1bzzq9i0nCIfROAm9F/z7Ws2lr8O6oRRVlI7nvYRtAVXuD8BBCSTEH4ul8=
+	t=1772709877; cv=none; b=BVDbbiAhhQ+lg3iv299pczRBkj6ujJCgFSLiG4a2w6WJzZHJYuyfUSSveqMsAfqebF3PpropJfJ8n9j6Sh+xpxLkfOjGCtJsTz5QSqeWP+maC99X6Pz1tLz193jf9pgeu7XlErBUPj/lGfh2gkKORQRREvB073WAs/B/3nDyzn0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772707620; c=relaxed/simple;
-	bh=fKOrLuMwio1ZP0YPBsS9inqCOMrl5JjAkwjIp9f4jAI=;
+	s=arc-20240116; t=1772709877; c=relaxed/simple;
+	bh=DMNhvzrgXP9OiLu4K7KpyXETlnZrSn3rv2sewPh6MLU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hz792yI0dSzqxKQPOLLzAcJzuj/T81LvPkcLxLPYthB/7Bsd5NgfYnDA72L7PSU5FEkoWwRFGeGMcZBNuIqyXQpKenfKpjbX7p7BR0TsWIhzsoUG3SsEM1Pn2n2LGfG/RsVae0YiuaPXUZCTeHETEvWx45PXojcHmFTAAlvQGyI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P8iMxX5n; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=gjk9g01HcEFMIzoSIYUK/1ZrhE3HdaosdQpUZV5ZP1MVj6myxc2l498yem5AUanPA3IYcyi8hxe7xIk8c7PUrrK2W4htmO3p4ou9IznPNw5MQfgAlvL3CNfSc1s1h1U6pAbwSCtZqN1bNWZ6wDSgUkgZfTlDBSb4SBNpVdbVLo8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=QRQGFCYu; arc=none smtp.client-ip=115.124.30.113
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P8iMxX5n"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38A19C116C6;
-	Thu,  5 Mar 2026 10:46:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772707620;
-	bh=fKOrLuMwio1ZP0YPBsS9inqCOMrl5JjAkwjIp9f4jAI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=P8iMxX5nSzneOSi9DkWzhHtCk3Bken5y71jhO21gleP/c48oYbeayMLPMHsuL12JA
-	 wF94j45h8dI+3TNWOoFhQspiV32f2HKTRjYN1NFX7eWGSjyJ66KA+WrrZstwjrHCP6
-	 p3f0Wfu8IX7Sy1s+jLr4AGoI5oJfRQFN9DMLGyyRjW4AQoHnMhNBSFdh71iEdfsT7n
-	 2lmqiBbKrnynCaD1Y6GsxPJq0EO8HTAwOnWoXOOMhBTJpPJJe/FBnCCocCfxn73LRI
-	 nV2+QniAS3KN6RQEeKnoVoaRlR4X2EpYY6ZW+ogBDifX1F25fQ8U5dUgxnJKQ5kWVJ
-	 m1etZQ4+03aBQ==
-Date: Thu, 5 Mar 2026 10:46:57 +0000
-From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
-	Nico Pache <npache@redhat.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Usama Arif <usamaarif642@gmail.com>, 
-	Andi Kleen <ak@linux.intel.com>
-Subject: Re: [PATCH v1] docs: filesystems: clarify KernelPageSize vs.
- MMUPageSize in smaps
-Message-ID: <b24be8c2-32d3-4e3e-9fbf-8a0068c360d6@lucifer.local>
-References: <20260304155636.77433-1-david@kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="QRQGFCYu"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1772709869; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type;
+	bh=vvTlZrXhHafuL5ISIBMXPqy33iMyPkUxCrG6mnIfRsg=;
+	b=QRQGFCYuNGn211kL0Sn5tJvqQVaEmBoqZC3IMPPhSaXz/PTbX4QlUzo8tgobCExstuuEMPvy6HtpNbmcjDhZYiJV9uxHKeuq9mLR/ly0Vsburf4BA3TXjNbV6UZC7+SCYis3kL9itEoxLlDTTSi4L81le4N+uSWUsOaS1DFJxMo=
+Received: from localhost(mailfrom:alibuda@linux.alibaba.com fp:SMTPD_---0X-K9U76_1772709868 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Thu, 05 Mar 2026 19:24:29 +0800
+Date: Thu, 5 Mar 2026 19:24:28 +0800
+From: "D. Wythe" <alibuda@linux.alibaba.com    >
+To: sawara04.o@gmail.com
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
+	skhan@linuxfoundation.org, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next 2/2] net/smc: Add documentation for limit_smc_hs
+ and hs_ctrl
+Message-ID: <20260305112428.GA57792@j66a10360.sqa.eu95>
+References: <20260305092226.27379-1-sawara04.o@gmail.com>
+ <20260305092226.27379-3-sawara04.o@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,176 +44,56 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260304155636.77433-1-david@kernel.org>
+In-Reply-To: <20260305092226.27379-3-sawara04.o@gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 
-On Wed, Mar 04, 2026 at 04:56:36PM +0100, David Hildenbrand (Arm) wrote:
-> There was recently some confusion around THPs and the interaction with
-> KernelPageSize / MMUPageSize. Historically, these entries always
-> correspond to the smallest size we could encounter, not any current
-> usage of transparent huge pages or larger sizes used by the MMU.
->
-> Ever since we added THP support many, many years ago, these entries
-> would keep reporting the smallest (fallback) granularity in a VMA.
->
-> For this reason, they default to PAGE_SIZE for all VMAs except for
-> VMAs where we have the guarantee that the system and the MMU will
-> always use larger page sizes. hugetlb, for example, exposes a custom
-> vm_ops->pagesize callback to handle that. Similarly, dax/device
-> exposes a custom vm_ops->pagesize callback and provides similar
-> guarantees.
->
-> Let's clarify the historical meaning of KernelPageSize / MMUPageSize,
-> and point at "AnonHugePages", "ShmemPmdMapped" and "FilePmdMapped"
-> regarding PMD entries.
->
-> While at it, document "FilePmdMapped", clarify what the "AnonHugePages"
-> and "ShmemPmdMapped" entries really mean, and make it clear that there
-> are no other entries for other THP/folio sizes or mappings.
->
-> Link: https://lore.kernel.org/all/20260225232708.87833-1-ak@linux.intel.com/
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-> Cc: Zi Yan <ziy@nvidia.com>
-> Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
-> Cc: Liam R. Howlett <Liam.Howlett@oracle.com>
-> Cc: Nico Pache <npache@redhat.com>
-> Cc: Ryan Roberts <ryan.roberts@arm.com
-> Cc: Dev Jain <dev.jain@arm.com>
-> Cc: Barry Song <baohua@kernel.org>
-> Cc: Lance Yang <lance.yang@linux.dev>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Shuah Khan <skhan@linuxfoundation.org>
-> Cc: Usama Arif <usamaarif642@gmail.com>
-> Cc: Andi Kleen <ak@linux.intel.com>
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
-
-Overall this is great, some various nits and comments below so we can tweak it.
-
-Cheers, Lorenzo
-
+On Thu, Mar 05, 2026 at 06:22:24PM +0900, sawara04.o@gmail.com wrote:
+> From: Kyoji Ogasawara <sawara04.o@gmail.com>
+> 
+> Document missing SMC sysctl parameters limit_smc_hs and hs_ctrl
+> 
+> Signed-off-by: Kyoji Ogasawara <sawara04.o@gmail.com>
 > ---
->  Documentation/filesystems/proc.rst | 37 ++++++++++++++++++++++--------
->  1 file changed, 27 insertions(+), 10 deletions(-)
->
-> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-> index b0c0d1b45b99..0f67e47528fc 100644
-> --- a/Documentation/filesystems/proc.rst
-> +++ b/Documentation/filesystems/proc.rst
-> @@ -464,6 +464,7 @@ Memory Area, or VMA) there is a series of lines such as the following::
->      KSM:                   0 kB
->      LazyFree:              0 kB
->      AnonHugePages:         0 kB
-> +    FilePmdMapped:         0 kB
->      ShmemPmdMapped:        0 kB
->      Shared_Hugetlb:        0 kB
->      Private_Hugetlb:       0 kB
-> @@ -477,13 +478,25 @@ Memory Area, or VMA) there is a series of lines such as the following::
->
->  The first of these lines shows the same information as is displayed for
->  the mapping in /proc/PID/maps.  Following lines show the size of the
-> -mapping (size); the size of each page allocated when backing a VMA
-> -(KernelPageSize), which is usually the same as the size in the page table
-> -entries; the page size used by the MMU when backing a VMA (in most cases,
-> -the same as KernelPageSize); the amount of the mapping that is currently
-> -resident in RAM (RSS); the process's proportional share of this mapping
-> -(PSS); and the number of clean and dirty shared and private pages in the
-> -mapping.
-> +mapping (size); the smallest possible page size allocated when
-> +backing a VMA (KernelPageSize), which is the granularity in which VMA
-> +modifications can be performed; the smallest possible page size that could
-> +be used by the MMU (MMUPageSize) when backing a VMA; the amount of the
-
-Is it worth retaining 'in most cases the same as KernelPageSize' here?
-
-Ah wait you dedicate a whole paragraph after this to tha :)
-
-> +mapping that is currently resident in RAM (RSS); the process's proportional
-> +share of this mapping (PSS); and the number of clean and dirty shared and
-> +private pages in the mapping.
+>  Documentation/networking/smc-sysctl.rst | 24 ++++++++++++++++++++++++
+>  1 file changed, 24 insertions(+)
+> 
+> diff --git a/Documentation/networking/smc-sysctl.rst b/Documentation/networking/smc-sysctl.rst
+> index 17b8314c0e5e..67c2bdc533d7 100644
+> --- a/Documentation/networking/smc-sysctl.rst
+> +++ b/Documentation/networking/smc-sysctl.rst
+> @@ -111,3 +111,27 @@ smcr_max_recv_wr - INTEGER
+>  	like before having this control.
+>  
+>  	Default: 48
 > +
-> +Historically, the "KernelPageSize" always corresponds to the "MMUPageSize",
-> +except when a larger kernel page size is emulated on a system with a smaller
+> +limit_smc_hs - INTEGER
+> +	Whether to limit SMC handshake for newly created sockets.
+> +
+> +	When enabled, SMC listen path applies handshake limitation based on
+> +	handshake worker congestion and queued SMC handshake load.
+> +
+> +	Possible values:
+> +
+> +	- 0 - Disable handshake limitation
+> +	- 1 - Enable handshake limitation
+> +
+> +	Default: 0 (disable)
+> +
+> +hs_ctrl - STRING
+> +	Select the SMC handshake control profile by name.
+> +
+> +	The selected profile controls whether SMC options are advertised
+> +	during TCP SYN/SYN-ACK handshake.
+> +
+> +	Only available when CONFIG_SMC_HS_CTRL_BPF is enabled.
+> +	Write an empty string to clear the current profile.
 
-NIT: is -> was, as historically implies past tense.
+It would be better to clarify that this string refers to the name of a
+BPF struct_ops (type smc_hs_ctrl) implemented by the user.
 
-But it's maybe better to say:
-
-+Historically, the "KernelPageSize" has always corresponded to the "MMUPageSize",
-
-And:
-
-+except when a larger kernel page size is being emulated on a system with a smaller
-
-> +page size used by the MMU, which was the case for PPC64 in the past.
-> +Further, "KernelPageSize" and "MMUPageSize" always correspond to the
-
-NIT: Further -> Furthermore
-
-> +smallest possible granularity (fallback) that could be encountered in a
-
-could be -> can be
-
-Since we are really talking about the current situation, even if this, is
-effect, a legacy thing.
-
-> +VMA throughout its lifetime.  These values are not affected by any current
-> +transparent grouping of pages by Linux (Transparent Huge Pages) or any
-
-'transparent grouping of pages' reads a bit weirdly.
-
-Maybe simplify to:
-
-+These values are not affected by Transparent Huge Pages being in effect, or any...
-
-> +current usage of larger MMU page sizes (either through architectural
-
-NIT: current usage -> usage
-
-> +huge-page mappings or other transparent groupings done by the MMU).
-
-Again I think 'transparent groupings' is a bit unclear. Perhaps instead:
-
-+huge-page mappings or other explicit or implicit coalescing of virtual ranges
-+performed by the MMU).
-
-?
-
-> +"AnonHugePages", "ShmemPmdMapped" and "FilePmdMapped" provide insight into
-> +the usage of some architectural huge-page mappings.
-
-Is 'some' necessary here? Seems to make it a bit vague.
-
->
->  The "proportional set size" (PSS) of a process is the count of pages it has
->  in memory, where each page is divided by the number of processes sharing it.
-> @@ -528,10 +541,14 @@ pressure if the memory is clean. Please note that the printed value might
->  be lower than the real value due to optimizations used in the current
->  implementation. If this is not desirable please file a bug report.
->
-> -"AnonHugePages" shows the amount of memory backed by transparent hugepage.
-> +"AnonHugePages", "ShmemPmdMapped" and "FilePmdMapped" show the amount of
-> +memory backed by transparent hugepages that are currently mapped through
-> +architectural huge-page mappings (PMD). "AnonHugePages" corresponds to memory
-
-'mapped through architectural huge-page mappings (PMD)' reads a bit strangely to
-me,
-
-Perhaps 'mapped by transparent huge pages at a PMD page table level' instead?
-
-> +that does not belong to a file, "ShmemPmdMapped" to shared memory (shmem/tmpfs)
-> +and "FilePmdMapped" to file-backed memory (excluding shmem/tmpfs).
->
-> -"ShmemPmdMapped" shows the amount of shared (shmem/tmpfs) memory backed by
-> -huge pages.
-> +There are no dedicated entries for transparent huge pages (or similar concepts)
-> +that are not mapped through architectural huge-page mappings (PMD).
-
-similarly, perhaps better as 'are not mapped by transparent huge pages at a PMD
-page table level'?
-
->
->  "Shared_Hugetlb" and "Private_Hugetlb" show the amounts of memory backed by
->  hugetlbfs page which is *not* counted in "RSS" or "PSS" field for historical
-> --
+> +
+> +	Default: empty string
+> \ No newline at end of file
+> -- 
 > 2.43.0
->
+> 
