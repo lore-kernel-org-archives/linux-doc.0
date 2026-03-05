@@ -1,231 +1,180 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9903F37EFF1
-	for <linux-doc@vger.kernel.org>; Thu,  5 Mar 2026 09:52:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772704322; cv=none; b=rrI6gWMhlZcPHGVwL7hwJ6xm6T3h47yYwS/n9q2ZRx+ErlcIHQRhzNPlGHKoUU/oRndXabQfQFUBU8DAVrnngfLkCsXAlea48BKXPeUUtXqAWcijYSEo+dHiZK3GMqqZF7hBJrOKJiSvr6ppP/m6D685fBdCY3BOT5av8wiv7WA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772704322; c=relaxed/simple;
-	bh=HHxKSnrx8QF12IYAV4N9qkzXGUbUGiRNZBd69B8GJus=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=TQf31SKf3mlLXHveGRmBKa44I5NlAFQE9keoEShEH8pof7g9jJBn2WQxXYNXV0As96/7M2vBgtxZt/3FLBtMufpCNOzfbAa2zLBg8zchncbEPyEL7P81VZdbjYh+dkzYBzHTTR/bVHifd6j4XopOdsP1fBn1T655/iyqoLbjrT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=am21ufQP; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=HWHBddrk; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31213366064;
+	Thu,  5 Mar 2026 10:08:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772705306; cv=pass; b=G1H4toMA8N5cTL1F4I9a8Cm1SMqGHoGbQ5p0WRDZjX7Q8Cn5yS1FF53NXZofwCJTxiAFMBZWArI1WDR/EjFBXaVD72UDnL1Prbb2X7Nm1GOASC69OpP80CIxpkFeRejbYHM8bEhiPWSzdVN7FIh4Pv3hlTL7UFTWwFaonAV8F0c=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772705306; c=relaxed/simple;
+	bh=4VUqalmLfhG9P3j4EI0hDT4lquN0HpIclhY/AJdCJ3A=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QGXf38T5WQC1WQxesimr1GW5dSRTLNH/LAjj7vmBsvJw4dAWtWmKS7uW8mrMvzzxsqmumLcX/BNwZO2NYRxjJBFgKnZ6/f+czBMwh07Hi3AlV565nBfPY6TqEzq/G7/RtPkS24KWzkgsmdD0gitUByiC0h+4ALmcvKQ4hTPP63Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=bT09/vEj; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="am21ufQP";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="HWHBddrk"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6259DLk23665136
-	for <linux-doc@vger.kernel.org>; Thu, 5 Mar 2026 09:52:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	CHD0ZvMybN/f9h6/Y0JvrxV1/0Bjsr+YtXr5TqQuVw0=; b=am21ufQPh0hu2PwZ
-	4Wg+bv86mBQiRBwf/Ej1najcNbnmrAMFcJkEeRUX1AOkHd+pe+guARxGfTpJHLAG
-	fiRzI4lzaQHdYJx/E4RXfKcRp4ecSfTMwgzfUd9eVpVhXAHYIom9ldftEMRt8Xya
-	wv6XDGDhdRoPmAYzPk3Tk7UanyNku573qvtwxshE9vwfiL2uuX3bMgJDYwsvCYpw
-	ctroLjqDJaPmvisffJAyN7d1hhdvljE92rZt5I9YMMhhGy1YjM2hqz6tZhCJPtaE
-	jDc/7PeUHEDGk+QhLJu7TzyJDRlf+nq6ZM5BHMfOXaUenIbBoRETNMP6heP8THWM
-	9ayEOA==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cq04u1hp5-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Thu, 05 Mar 2026 09:52:01 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-8cb52a9c0eeso5839100785a.2
-        for <linux-doc@vger.kernel.org>; Thu, 05 Mar 2026 01:52:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1772704320; x=1773309120; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CHD0ZvMybN/f9h6/Y0JvrxV1/0Bjsr+YtXr5TqQuVw0=;
-        b=HWHBddrkO2hA9iLfqsYrmwUa3DFYkl34890wOKLTVnvhyafby4cU6gz9TZUft8g6bA
-         RdhhO1DYtvIMaJ75GpIWcniRQxf3/pMIafL/rsUbZqVs/8nGuroKzuGu3TkEcESJVJ58
-         3S6D39Z32rP+23gqtueB3iWpLtt5P+un3SAIP6A73iyYy66/0t1NfZA03znWgm1t9zdV
-         h/eOwsumf0kHusG5fX26EZGu1JPP6OVV/myzqDjQ5EyxnD9tDUbO/EFRNzB6xOhHQsmb
-         iGSDDAI4D74nKjz+ZlEQEJ8SPL/n9edCHdL5PwNTYXbbWHrg2oEMTl+agvF0Ddh8XH+h
-         7fFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772704320; x=1773309120;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=CHD0ZvMybN/f9h6/Y0JvrxV1/0Bjsr+YtXr5TqQuVw0=;
-        b=eh+Oam/igKIVbkg0rfEY9vI78j6at9rgO4IbcNYggGLO21NaRjvrvXqw4yOJoM7jIe
-         QlF7JUCv8PmCWQqLrhqoDITDTlsXQC3TOyfTdRpFxa+bK3SkJv81skaMHDRBgHr2mlEp
-         0fOlE+BjgtfVNPdx5c19gRa27TjTUDegMXO5d59fJMn86HDBXTBAoBhDR/co0go3YJRE
-         /iF9mW2IG0g+nOeI4fR7A0eGdXBUcDogXK48rjj9QfP/bTaIj8v5k9J5yx+VAN2n2JK9
-         UERLN138qhMrUFTFju/uUUdCOCQupOi7rVdpJA1yk1w3WmB0VwnTFGhOYFs1JE1Zww4j
-         iiNQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWQu9m+rAXFKFE9NUX7cKVmvYY4JztAaTE6x9COAabb1VZGaOxn4ipyQwakq9bUN3FFnra1e4+uAiU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwCLfPuU4JTJlg4bsld9+8NIsJ9l/51HE1GhMRFyMCT4cQfa92c
-	vUMWBzT55v7JM8fXv3fYivSEr80SkYDOR7JPF1S72AYDnVJ33zoMURMGKrvsfv8/bji57Id+rHe
-	xtOxfr45DNhOd2nWWrOoQhdbK04sVozT8j/h0WEspDwdxZM1pVWBNqWIFBTkVCFKwLmCyinU=
-X-Gm-Gg: ATEYQzzfRIagTSQnErMwDDhViyYX2VxEx9zolqy5M1C5Atb2Www0n4i4FyXBUx41duh
-	yRf7EMGx7nsqb52q8DiI4/jVYyHjVKh4k5zX9WvBA5xq5Evtq2tIZOKOCt8iMpo63AR4B42sDz4
-	zEcRx9KIt5kTh5OhHNJ2H4s1PaTLl6R2Ee/Tv0jmmG0wmyxSwRQUmfqlxRFxiux6MV/MalYPD5V
-	q9KiUUpgerpP+hfNbKsaD8BuK7BfZG0h3oZ0FK2Rh2kefgjAO86T/KNcWcx7mG+jkoy2CCNp4Rl
-	jUGocVsoWrYRY4EaDfzYbgoGeg0J2yV3melZ7fTOo9PMy4CeXtyI4HYIi8J4yqyl91bRzlOu0z0
-	tvLLNPKG7xTtYMcxDm7BL2fjtWGcL+Xfhw++Io9PvtKjD8vMPDlZG
-X-Received: by 2002:a05:620a:29d1:b0:8cb:72b2:2a15 with SMTP id af79cd13be357-8cd5af12a64mr588826085a.33.1772704320005;
-        Thu, 05 Mar 2026 01:52:00 -0800 (PST)
-X-Received: by 2002:a05:620a:29d1:b0:8cb:72b2:2a15 with SMTP id af79cd13be357-8cd5af12a64mr588823785a.33.1772704319561;
-        Thu, 05 Mar 2026 01:51:59 -0800 (PST)
-Received: from brgl-qcom.local ([2a01:cb1d:dc:7e00:8314:9d33:34c1:88ef])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4851ad1656bsm35598215e9.24.2026.03.05.01.51.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Mar 2026 01:51:58 -0800 (PST)
-From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Date: Thu, 05 Mar 2026 10:51:31 +0100
-Subject: [PATCH 6/6] gpio: sim: allow to define the active-low setting of a
- simulated hog
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="bT09/vEj"
+ARC-Seal: i=1; a=rsa-sha256; t=1772705241; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=JyfVnP4+KszQmwuoXFZ8ruIZigZfqrPygzLjs/1DRhk05ABitc8xkW/a70ttnvAIlnkhv9vm5jBb1evLXmu8LLKNpxw0hcUJUB1WUcIBnGdNgdCbYmZclDOKZNoQSjlAkIB6Aku5ctzZ/EEhO4TsAa+tImSBL5aG5oKKh68gKqg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1772705241; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=nszGsxugf+CGTQes71iM3DAN6Pzn2MLUlpTJlv1vBJI=; 
+	b=TsmeHq/rZ93VEmsTOB6uoSvG8hVoDmDbtT5QPjlJFPmzWzfvMdcqJD2mNWBv/B6p/6hRcYN8bDX25/lPRMYkDE4+sLlAyM3RvWVQcBlkDBFB/6ErcCHquAoL0WCQEtdtR8x9GMozNsxBLQsYKGNLz4SqWLjSkWHmUGuVByLmdts=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772705241;
+	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+	bh=nszGsxugf+CGTQes71iM3DAN6Pzn2MLUlpTJlv1vBJI=;
+	b=bT09/vEjLQZtoqDIHdb9LiaSgYzDW0jBTU6ABmJ+Zndtis8AZZw4PxDwFtuuAz7J
+	z6/YDMnfDNqNed5d0JD1VmhrN0hraVni8ZJSH9/0onUpXW4Pbtby87TuYDDCYnGXAfu
+	7ZKGkVloRwcZglAOZWYmlVHdKU4MLxKWdWcfbN30=
+Received: by mx.zohomail.com with SMTPS id 1772705239022996.0545573857447;
+	Thu, 5 Mar 2026 02:07:19 -0800 (PST)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ kernel@collabora.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, Andri Yngvason <andri@yngvason.is>,
+ Werner Sembach <wse@tuxedocomputers.com>,
+ Marius Vlad <marius.vlad@collabora.com>
+Subject: Re: [PATCH v9 02/19] drm: Add new general DRM property "color format"
+Date: Thu, 05 Mar 2026 11:07:09 +0100
+Message-ID: <5733371.31r3eYUQgx@workhorse>
+In-Reply-To: <20260305-just-oxpecker-of-reward-e05e4f@houat>
+References:
+ <20260227-color-format-v9-0-658c3b9db7ef@collabora.com>
+ <20260227-color-format-v9-2-658c3b9db7ef@collabora.com>
+ <20260305-just-oxpecker-of-reward-e05e4f@houat>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260305-gpio-hog-fwnode-v1-6-97d7df6bbd17@oss.qualcomm.com>
-References: <20260305-gpio-hog-fwnode-v1-0-97d7df6bbd17@oss.qualcomm.com>
-In-Reply-To: <20260305-gpio-hog-fwnode-v1-0-97d7df6bbd17@oss.qualcomm.com>
-To: Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Mika Westerberg <westeri@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Aaro Koskinen <aaro.koskinen@iki.fi>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Tony Lindgren <tony@atomide.com>, Russell King <linux@armlinux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-omap@vger.kernel.org, linux-doc@vger.kernel.org, brgl@kernel.org,
-        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2203;
- i=bartosz.golaszewski@oss.qualcomm.com; h=from:subject:message-id;
- bh=HHxKSnrx8QF12IYAV4N9qkzXGUbUGiRNZBd69B8GJus=;
- b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBpqVItGibV7CIxkL+FQcAk1MH5WBNN2KFBq4i2N
- nNYJebj6OOJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCaalSLQAKCRAFnS7L/zaE
- w1gjD/9X6GlKnqvOTIly4upROqqQSVnKHqiA8DysHPSXiS5iN3krsYiZb4kjSRWtLDsjs6N9RSH
- 66v14HXZDcxmd97WQE2xt0cqBYYxE3LKHrw0901xDk1HzAcPxeoAOB8j6tOQbGN9N8U+frKyruq
- 6hRZNl6N4C4w60ZvrFbVT5KD0dJ7aynBsLgIFaB5v6bDK2uf993Pelr/fAVd3Wc64YtUUuM4Y4K
- Y82r8lGxsfD/t+wvUxxPu8GAkqGTuAEww+g+sGNR4F15yFwGTD1UXWmMiAaupBwB9D2XDTj5rxA
- 9d3GBcO/NXSX38ro2o6SlgMT5ZpZvXsAU28+rVB81JrKYavQn+u2B5Njj20vpXVHbOipFk1ZxpV
- PDxU0lZD9uOcaGv45XumkJVu52UROm9GhPYlfQE4y/NIIFChQ6YHwcxXR/NbR1VBn0EbHOL1+77
- 6eVE1ytqDcMd3kvU4aqZdvBMlL48SGz8x1c9rCnwAjcB1SYvzwMaOfWkXKgqsF0H9mC0CXJl77V
- EHGvjr8+nTeytrqVFiD9cQcB0f7L1rHDcJnztVNxu8uQYh68/3EUw0frZec8ZpGW67RQnC4JW5W
- uTN0EOg0HQSGwnKfd5gzUOVdVaYJxnZ+ykuxZ144n8Bbx474aE5atdX5Hn81viTWRb7pBy8dDwu
- t4r0f46Ohl1gLZg==
-X-Developer-Key: i=bartosz.golaszewski@oss.qualcomm.com; a=openpgp;
- fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
-X-Proofpoint-GUID: jiKMCpGfs8aiC-mvhUznnj0vsLB8SdYF
-X-Authority-Analysis: v=2.4 cv=eqTSD4pX c=1 sm=1 tr=0 ts=69a95241 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22 a=EUspDBNiAAAA:8
- a=Z_vE--IGminT9Q5MwdQA:9 a=QEXdDO2ut3YA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-ORIG-GUID: jiKMCpGfs8aiC-mvhUznnj0vsLB8SdYF
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA1MDA3OSBTYWx0ZWRfX52Jg0RjcBiws
- r3v4bnyNQ2fWMPEUg+QGaqk91YqDZ2lxuQr0jKhOXJSD0eeo6gO97jUseW9wTSFal+OazAipIbr
- +Aw6HOe9FLjCNd/2YDqtP93Y2DuhNPZqAtSZHs1NvkjZgPQosKUOJIUEZp2Z0Lj6eEohUGSimkK
- DIFl7jMxLkd8Jd0mUMAVmn4TSl0zzBB4wEAkRfiOB4ys2jlyv95DcYmSYfA865VUjLZp4vJ+0tO
- kdzs/NLnDgpJvIE1/ZfF+wxq45vev/BWwvqhYP9K2QdFcXyWd4cXtXRyBg485NVG49rOic34gx7
- c9WSIs0il0eFLYy9ox2byKm4TrxQftqerQOpcmFnJGwu11qeZZX9+lCSgl3EL2OBm2JdbbObnT9
- b4n3cPtSNVqzobvZJjf3Eb3Jb9U11GeAaQksJHZiqvzIfZCe70tELu+MH5XdXGl09BSD+htPFlm
- 95XDD2EvDyXDJUEL4eg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-05_02,2026-03-04_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0 clxscore=1015 priorityscore=1501 malwarescore=0
- lowpriorityscore=0 spamscore=0 impostorscore=0 adultscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603050079
 
-Add a new configfs attribute to the hog group allowing to configure the
-active-low lookup flag for hogged lines.
+On Thursday, 5 March 2026 10:28:11 Central European Standard Time Maxime Ripard wrote:
+> Hi,
+> 
+> On Fri, Feb 27, 2026 at 08:20:07PM +0100, Nicolas Frattaroli wrote:
+> > diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> > index 4af91e252fbd..b5bc93856ad1 100644
+> > --- a/include/drm/drm_connector.h
+> > +++ b/include/drm/drm_connector.h
+> > @@ -579,6 +579,91 @@ enum drm_output_color_format {
+> >  	DRM_OUTPUT_COLOR_FORMAT_YCBCR420,
+> >  };
+> >  
+> > +/* Do not forget to adjust after modifying &enum drm_output_color_format */
+> > +#define DRM_OUTPUT_COLOR_FORMAT_COUNT 4
+> 
+> Maybe we can put that as the last variant of our enum so we don't have
+> to always update it?
 
-Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
----
- drivers/gpio/gpio-sim.c | 40 +++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 39 insertions(+), 1 deletion(-)
+That will then cause a bunch of potential warnings for any of the switch
+cases that convert from one thing to the other. At least my LSP indicated
+so. I guess I can ignore those (and wouldn't be surprised if they were
+already ignored by the Makefiles and the LSP just didn't pick up on this
+somehow.) I'll do that in the next revision if you're fine with this.
+Potentially, I'll have to add a default case to some switch statements
+that just does a WARN() or something.
 
-diff --git a/drivers/gpio/gpio-sim.c b/drivers/gpio/gpio-sim.c
-index 51bcbdd91b4b027b7a340971a11cce5280ca1295..f32674230237eb08bbf8dd1337a79b5d0aa13259 100644
---- a/drivers/gpio/gpio-sim.c
-+++ b/drivers/gpio/gpio-sim.c
-@@ -654,6 +654,7 @@ struct gpio_sim_hog {
- 
- 	char *name;
- 	int dir;
-+	bool active_low;
- };
- 
- static struct gpio_sim_hog *to_gpio_sim_hog(struct config_item *item)
-@@ -836,7 +837,7 @@ static int gpio_sim_bank_add_hogs(struct gpio_sim_bank *bank)
- 		hog = line->hog;
- 
- 		gpios[0] = line->offset;
--		gpios[1] = 0;
-+		gpios[1] = hog->active_low ? 1 : 0;
- 
- 		memset(properties, 0, sizeof(properties));
- 
-@@ -1315,9 +1316,46 @@ gpio_sim_hog_config_direction_store(struct config_item *item,
- 
- CONFIGFS_ATTR(gpio_sim_hog_config_, direction);
- 
-+static ssize_t gpio_sim_hog_config_active_low_show(struct config_item *item,
-+						   char *page)
-+{
-+	struct gpio_sim_hog *hog = to_gpio_sim_hog(item);
-+	struct gpio_sim_device *dev = gpio_sim_hog_get_device(hog);
-+
-+	guard(mutex)(&dev->lock);
-+
-+	return sprintf(page, "%c\n", hog->active_low ? '1' : '0');
-+}
-+
-+static ssize_t
-+gpio_sim_hog_config_active_low_store(struct config_item *item,
-+				     const char *page, size_t count)
-+{
-+	struct gpio_sim_hog *hog = to_gpio_sim_hog(item);
-+	struct gpio_sim_device *dev = gpio_sim_hog_get_device(hog);
-+	bool active_low;
-+	int ret;
-+
-+	guard(mutex)(&dev->lock);
-+
-+	if (gpio_sim_device_is_live(dev))
-+		return -EBUSY;
-+
-+	ret = kstrtobool(page, &active_low);
-+	if (ret)
-+		return ret;
-+
-+	hog->active_low = active_low;
-+
-+	return count;
-+}
-+
-+CONFIGFS_ATTR(gpio_sim_hog_config_, active_low);
-+
- static struct configfs_attribute *gpio_sim_hog_config_attrs[] = {
- 	&gpio_sim_hog_config_attr_name,
- 	&gpio_sim_hog_config_attr_direction,
-+	&gpio_sim_hog_config_attr_active_low,
- 	NULL
- };
- 
+I do wish C had a better way to deal with setting a symbol to the number
+of valid enum values without making it itself a valid enum value.
 
--- 
-2.47.3
+> 
+> > +/**
+> > + * enum drm_connector_color_format - Connector Color Format Request
+> > + *
+> > + * This enum, unlike &enum drm_output_color_format, is used to specify requests
+> > + * for a specific color format on a connector through the DRM "color format"
+> > + * property. The difference is that it has an "AUTO" value to specify that
+> > + * no specific choice has been made.
+> > + */
+> > +enum drm_connector_color_format {
+> > +	/**
+> > +	 * @DRM_CONNECTOR_COLOR_FORMAT_AUTO: The driver or display protocol
+> > +	 * helpers should pick a suitable color format. All implementations of a
+> > +	 * specific display protocol must behave the same way with "AUTO", but
+> > +	 * different display protocols do not necessarily have the same "AUTO"
+> > +	 * semantics.
+> > +	 *
+> > +	 * For HDMI, "AUTO" picks RGB, but falls back to YCbCr 4:2:0 if the
+> > +	 * bandwidth required for full-scale RGB is not available, or the mode
+> > +	 * is YCbCr 4:2:0-only, as long as the mode and output both support
+> > +	 * YCbCr 4:2:0.
+> > +	 *
+> > +	 * For display protocols other than HDMI, the recursive bridge chain
+> > +	 * format selection picks the first chain of bridge formats that works,
+> > +	 * as has already been the case before the introduction of the "color
+> > +	 * format" property. Non-HDMI bridges should therefore either sort their
+> > +	 * bus output formats by preference, or agree on a unified auto format
+> > +	 * selection logic that's implemented in a common state helper (like
+> > +	 * how HDMI does it).
+> > +	 */
+> > +	DRM_CONNECTOR_COLOR_FORMAT_AUTO = 0,
+> > +
+> > +	/**
+> > +	 * @DRM_CONNECTOR_COLOR_FORMAT_RGB444: RGB output format
+> > +	 */
+> > +	DRM_CONNECTOR_COLOR_FORMAT_RGB444,
+> > +
+> > +	/**
+> > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR444: YCbCr 4:4:4 output format (ie.
+> > +	 * not subsampled)
+> > +	 */
+> > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR444,
+> > +
+> > +	/**
+> > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR422: YCbCr 4:2:2 output format (ie.
+> > +	 * with horizontal subsampling)
+> > +	 */
+> > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR422,
+> > +
+> > +	/**
+> > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR420: YCbCr 4:2:0 output format (ie.
+> > +	 * with horizontal and vertical subsampling)
+> > +	 */
+> > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR420,
+> > +};
+> > +
+> > +/* Do not forget to adjust after modifying &enum drm_connector_color_format */
+> > +#define DRM_CONNECTOR_COLOR_FORMAT_COUNT 5
+> 
+> Ditto
+> 
+> Maxime
+> 
+
+
+
 
