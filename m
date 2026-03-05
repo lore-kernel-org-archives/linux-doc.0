@@ -1,87 +1,118 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A5F434C808;
-	Thu,  5 Mar 2026 21:05:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772744724; cv=none; b=erSEcMycX/SYfMQZN66xxFieHW1ATbR0BnMJJ7Ic6hcgUx4+k6vhJ9uiuSKqOhSK8kfFLOwLwKQW/lrKT8x5M8FvUydXI5sqab5qWMKDJZUr9cqzqbvOGmJzJ/44tx7oMiW6O0LsabpOgGMm3KPWNJuHVdE7fkvgAP+hGBH3jQI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772744724; c=relaxed/simple;
-	bh=oDct3wkkDkvzXVyDoc3/OxjAVH/7WQOliRg3Z7GPQ4k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L1k6i0+w+Oq1SmLqLyCjUrtJxFMZ806gj1V6VVJbqHkfpJV8VoNlwCkhkl5/D4N48xgWFhaTfF5txOkUq3lWIZqdGM2M7BCt0RNqLIzWAEdPSCCIfhy8XDVga5KPxmzcSo8EM77rGkqqulRTxAw7h+Za7nyOctyp2H5mUg4uXIY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=IreocQWj; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDE5D35DA47
+	for <linux-doc@vger.kernel.org>; Thu,  5 Mar 2026 21:22:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.177
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772745756; cv=pass; b=IpgsHASpXKkug1nt6/+oX992P4jACf+C7bpPAqI5dNiUlZWbwtaCqCGgJMM7ISiKsb+97EYSzlbWdpnsnpx98GsZky81zaraB/Toz6tTXZcjsLlhYIZ27Fr+KVjZxp+HaucYe2/geojd3t3Wd7f9ySNF5V+MqY2/WvoTViF2HdA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772745756; c=relaxed/simple;
+	bh=xRV4KrgPufJHYoouG5oBzfgHa9sX1mic2JP1prCF/Sk=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qQwfIEw81xvZWsT3So/oiSMxcSJo5S6urml3q9wTUqhPydZe+Jjo4JpVTokleDJiajZ/61hzfSEMt+BtTrMgVktdN0Zyf66IoAktqsbD/qwTCGQq++JbBu18Od8GVRsx/WatAA3ZEYkTj3A4qHD6kAmMIBnxdPXU7msYJDwpHHg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UwCD8JD5; arc=pass smtp.client-ip=209.85.128.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="IreocQWj"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=HcTdYTXdgwQjq3ZeCQXDIArUfEJ3wy2VSCnmkdCGjy0=; b=IreocQWjMemR2FKtMBP5a/Zsq1
-	I6IFFuEFdE4eWdMwyhoz4VeSWpgLDgiDhK5fG+xkI/YS9Nv20yBjNOoNsColmDn1NRvb/cW6oARJa
-	le8hFSQYirhjHDfHNRocVnqkmaBK8PHiW/D38yX1drVQC7vmcSv/SgCZ3UY5hwCC+S9ENt6vRuzH8
-	mQSeliMYYQIu5oEBQ7r6ik4/USrOwgCqyS2l+rOzULmeTL4NULnusMP/7i6xdCnMXV9Bokd6C8zcg
-	k54o8xt6NOLKTKW3S/ZrzIbw82EupS9+yiGpqzI18ltaIdCKiPnz2aM6DC9hEyyxaa/2oUORxZdhI
-	owShPkzw==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vyFsh-0000000Fddg-48Hh;
-	Thu, 05 Mar 2026 21:05:16 +0000
-Date: Thu, 5 Mar 2026 21:05:15 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: "Ahmed S. Darwish" <darwi@linutronix.de>
-Cc: Jonathan Corbet <corbet@lwn.net>, Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-rt-devel@lists.linux.dev,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	John Ogness <john.ogness@linutronix.de>,
-	Derek Barbosa <debarbos@redhat.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 1/1] Documentation: real-time: Add kernel
- configuration guide
-Message-ID: <aanwC228bGTa38LK@casper.infradead.org>
-References: <20260305205023.361530-1-darwi@linutronix.de>
- <20260305205023.361530-2-darwi@linutronix.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UwCD8JD5"
+Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-79652789a0cso5204417b3.3
+        for <linux-doc@vger.kernel.org>; Thu, 05 Mar 2026 13:22:34 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1772745754; cv=none;
+        d=google.com; s=arc-20240605;
+        b=jilbhBke+ZRdnCbQ0dE4hW13BLpmlPkxh8scJiaFnIO9rwIrkDaEGDmDdumb+3PxXX
+         kKT2Ao7VMDNTSXb5NGfn1Eagnfw7J/nJp+EZIo1StbOTIfDnaKX9V8TzWi1hLSoFpXlX
+         KVmevU4kWz1IGIe/s7TBVvfO5o1vKIEcuN4vFaafrluVJgisJQKR7JTXcrEYZtb2oF+K
+         f73+4vVySP8htiVbX2W9XKfail1lPOLEGW6D6Y4bIAky9J3QbIOlMAfTzN7NhkJpfdV8
+         SErEtDQ6Vc+XNnWSQX6hVnv3X6whrkWSEnuMg2Xzxm75ITTZ8zFaDNyF1qqwq8sKNFcP
+         qlig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:dkim-signature;
+        bh=xRV4KrgPufJHYoouG5oBzfgHa9sX1mic2JP1prCF/Sk=;
+        fh=ZWoDXTALOUXd6f8Cg6Yx2GZB/8o3Zo7TMkDtPOyAdcE=;
+        b=h7sIV5LYd7UmwNIvFEP/WVwf3GKaK6t8mfJX3d90M7ksmOV6AwOBOFtQhl4U6xj4aU
+         1ZykoDwl9IxQrmDJNuha6I9YHPQPh2hrFR3Yanq2CTURArVuA0cxEKJqJ/ZebHF6OEmw
+         4p3g8xozh0UIEo9DQm2lg0Vki0MYCYgZYaKD4l1u/Rdc05syYYUd0hZ2iOkaDRPBWKgU
+         MycxNvA42S/yaBmEANlJyGByBl8p9lq3ycLTQv3fun0D/Ldu2COurs8H2WjqzpH0soAJ
+         PMbDA2kxyrJEtHRgIUsQz7jlMnObXaLYRYGfUPpH1GIHO0sd4/Rd9EFQk8Mq+wijddx0
+         jerg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772745754; x=1773350554; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xRV4KrgPufJHYoouG5oBzfgHa9sX1mic2JP1prCF/Sk=;
+        b=UwCD8JD5Nt7KVwhWhvDouar5AnDLfUEEyRwNPxz9WD/FSEPNLoLTdxjOwT0oH/q9uM
+         RAFrFY41HkHXmJpWnbVYikJaV2bSiN0wYMHmJ/YJbOSiG3cA3ygsUys2RthW7E5t7JiQ
+         RKdC4HWMbIFSBkCJywpD5h5T1JKKAzTR9ylkzAo+dAAGLnBae61AtPWU5AvAbyY0jOJc
+         WdP/OUVv29xMyWQ3tbS1dWORmSWv1GPtzB2iSY9xgjTgE8HRGEIIxwGgQFhx+qdr9EG5
+         1hhQRo+3KObCWa1OE6k67gpTgK9nr3bvj7bWwHH0kLnBfOCeMu7RjTRHoYSj2T6m4Eig
+         QH1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772745754; x=1773350554;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xRV4KrgPufJHYoouG5oBzfgHa9sX1mic2JP1prCF/Sk=;
+        b=Xg3q6rA1qf8IYmUuAw7VCZ24aN2AR92/vyuYlgXFUBra2uxd+4v0e48is3rRd106ba
+         pr1sgDRXSwDcGQyhKaAWgBVP+zkw0L48iLG//SMI69KuQYrnhQYVM1JP4e2oKdueH63Z
+         PpRnMGT59RIMIzqwJtnpQKC0XSeJXGOWMnwYxWbYacvag85dET7ExMCreq0l/978RLIn
+         3qDkG9zxchn8DB6niIbmqZUJN9QAv+JevcE8IrY/UOfbeLGbp/TnKIeexdFdMEoAVdMW
+         /Q8n2b09U94eO8rkAzIj6EMXci7RKZoE2kE+NCOVjfpbwE+U95FNkai4qFWKpRSAX15Q
+         AQtA==
+X-Forwarded-Encrypted: i=1; AJvYcCUhvEutlbFqhxGkDYvJRFGJDF/nalNhhIWt55O3GfI/oLOK6QC/ohi97R8oph+qiX/FPG+x5Gcx6hE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywm3WwGmukSKT3WDscE2vWzRgnHebuPnPncYvMbgoPXu9Wk4ZFW
+	wg2miN2E7/3/SARAJ3EwR0LdYmUDH038yXT+hmaS1UbNRIF3po+b883f4iG3wfr8//tEMIAjmoq
+	ZRoLQfOgexJBZpTDwfOjYGFx+8BmJSYk=
+X-Gm-Gg: ATEYQzzEN3x2ir9U0PWMfUAED3HnYBXQE66Jhc7KbGXti6aAZPLm7SXTb87kI4GmO2v
+	rZXiB4meJrGKqa2azifBXhCxaANw7LVzVPM3rbk3qm7LHZwSDVQKlPtR1rRaNXW1rnoyZZEERqm
+	JG04xbeBS6lw9Ky5rIbeXk9W2aI6j2HALoUIN+NddAdOOL3lLGLyXWoE584nsvUxV6GVCTeiBp0
+	nywZs1QUize3pq9cIJy3Lt/h618oRe7e8WEL2S3787W3HAVK33H5sdR9LfJxwujEZ+v5PLhx0Kj
+	uvvOMps6
+X-Received: by 2002:a05:690c:385:b0:794:2fca:81a with SMTP id
+ 00721157ae682-798c6cdffacmr55975367b3.8.1772745753906; Thu, 05 Mar 2026
+ 13:22:33 -0800 (PST)
+Received: from 95991385052 named unknown by gmailapi.google.com with HTTPREST;
+ Fri, 6 Mar 2026 06:22:32 +0900
+Received: from 95991385052 named unknown by gmailapi.google.com with HTTPREST;
+ Fri, 6 Mar 2026 06:22:32 +0900
+From: Andrey Ryabinin <ryabinin.a.a@gmail.com>
+In-Reply-To: <aanievpHCv0Sz3Bf@wieczorr-mobl1.localdomain>
+References: <cover.1770232424.git.m.wieczorretman@pm.me> <bd935d83b2fe3ddfedff052323a2b84e85061042.1770232424.git.m.wieczorretman@pm.me>
+ <CAPAsAGxpHBqzppoKCrqvH0mfhEn6p0aEHR30ZifB3uv81v68EA@mail.gmail.com> <aanievpHCv0Sz3Bf@wieczorr-mobl1.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260305205023.361530-2-darwi@linutronix.de>
+Date: Fri, 6 Mar 2026 06:22:32 +0900
+X-Gm-Features: AaiRm539DykMmBy-Zg-BtYOlfUPQKOJ6bwMQcvFff9WH9ZMuhoRcwF9c8D83p3A
+Message-ID: <CAPAsAGyiukChPLYO_tQci-7Bvmnnxh+w=bO6eUYLrO3RVuUThw@mail.gmail.com>
+Subject: Re: [PATCH v10 01/13] kasan: sw_tags: Use arithmetic shift for shadow computation
+To: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Alexander Potapenko <glider@google.com>, 
+	Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Vincenzo Frascino <vincenzo.frascino@arm.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Jan Kiszka <jan.kiszka@siemens.com>, Kieran Bingham <kbingham@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+	Samuel Holland <samuel.holland@sifive.com>, 
+	Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>, linux-arm-kernel@lists.infradead.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	kasan-dev@googlegroups.com, workflows@vger.kernel.org, linux-mm@kvack.org, 
+	llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Mar 05, 2026 at 09:50:12PM +0100, Ahmed S. Darwish wrote:
-> +==============================
-> +Real-Time Kernel configuration
-> +==============================
-> +
-> +.. Add a ToC so that all options can be seen in a glance
+Maciej Wieczor-Retman <m.wieczorretman@pm.me> writes:
 
-Is this a useful comment?
+> Thanks, that looks really neat! I should've thought of that instead of making
+> separate arch versions :)
+>
+> Do you want me to attach the code you posted here to this patchset or do you
+> intend to post it yourself?
 
-> +.. contents:: Table of Contents
-> +   :depth: 3
-> +   :local:
-
-[...]
-
-> +``CONFIG_CPU_FREQ``
-> +-------------------
-> +
-> +:Expectation: enabled
-> +:Severity: *high*
-
-Importance rather than Severity, perhaps?
-
-And high/medium/low rather than high/medium/info.
-
-> +With that in mind, any false real-time kernel configuration could cause a
-
-incorrect rather than false, perhaps?
-
-> +new maximum latency that shows up at the wrong time and is catastrophic
-> +for the real-time system's latency.
+I think you can just squash my diff into the subject patch.
