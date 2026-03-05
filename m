@@ -1,45 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C65E33C3C11;
-	Thu,  5 Mar 2026 15:16:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00D693C6A23;
+	Thu,  5 Mar 2026 15:16:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772723788; cv=none; b=mLRdJiW/ulvVIpVTDS83ri8AuAf4GjGqEK4Iwa63kMXL4SJs6Uz4arkL3ZzegC/NtFMaC5l1PQVkz3v/ccLDZK5gPiZrwl4saQy2d0YlT4Qaugm67HpfBBc7xfiuHie5VC3LcB5UyrgZynaS56b8p7Zgjm4yJviEZt8+p+iT/7U=
+	t=1772723789; cv=none; b=QIhoKVWt+ghHB6I5chYwH3crBybfBa9O3vMqxs9N4fQl3i3LcQfoDxV/hIcn6GGLGF7m0EBUnKycSQv7IS9bYc1hcpO1VlrDbQ39KaBtR/qaWMobFhMbGm91Hp9GEM0aTwLjAG+DCRkEHD1sQTGXQ3fsbc1WbfHTKnMZAeoWAkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772723788; c=relaxed/simple;
-	bh=1bL9ZrKbJcLEeJVsYJFtpZiURmsITtjUamQCEe8R0Hc=;
+	s=arc-20240116; t=1772723789; c=relaxed/simple;
+	bh=ZNZ2mFKPm+G9plRvw4WRwSksYn8HB30/8SoYLAYS4yM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OtLmV0Jy9WvNzeRcj9K5qiUHEN7gnGwnAkkmSrRHV2ZbXFrsnLEoUP4GtdMEMrE8YSq4eRf+w5LZQSlfFvsWFj46k6x8EqXdAn2LL7Y/tFfqeAPIlscYgRvnGQ75QbfenSC7Vl/7ki6xrf4aH6fGhvTiVNtlKPgp7WrsHjhT5tY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gs3xH7Iy; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=c9NHC+/DyT8OA0F126cswSsB7DM51FmTKrUcIbi/SAen2oqjODIcPWaZenXdoDwcDSVkGT3P8G1Jr7tkuMOm09Ce6TWuZjKcZE04IwCZxtHB8dFKBuypJZwpf6rymCl026uEIZMJyVxCPHhHZRwIbQQMlQa6m0J9cJ47PbHwb5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZROBnyn8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gs3xH7Iy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1683C116C6;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZROBnyn8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D470CC2BC87;
 	Thu,  5 Mar 2026 15:16:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1772723788;
-	bh=1bL9ZrKbJcLEeJVsYJFtpZiURmsITtjUamQCEe8R0Hc=;
+	bh=ZNZ2mFKPm+G9plRvw4WRwSksYn8HB30/8SoYLAYS4yM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Gs3xH7IyVGIeOHCVlZUqHY4gy2Cs5HTweK5QO3kekarJG23n9QAYcbDCoh+yCdEGZ
-	 Ez5DDzHeAyIQdNKgpSWwIDMWP8k0+87ZACH+8btJhBn3yLH77o5nTzb0FCUYjYm+JC
-	 +4izAYpw4Xk2nrJ2ryP9Op4zHDMLzHjzO9hYJ8vzN1qV6spu4512q5yjK983yqZp4E
-	 KUu16oBb25CNg42PsfcYk4DURzF/SivLzBhFvIsYzsdahIj2X3BFrJUu1y6lTFhjfS
-	 0ZK0/k6fdUn8bD8ScR9kmK7kkLnlsFfecBK4/Yglip8Bff9Fk4JidNvoGczX7BgxKl
-	 aeT4gE5rCvuAA==
+	b=ZROBnyn8LoKoDWsT8Q590A8E2tRzecZaRoov4PaRwU92zao694dz2OzST1Ay20p3P
+	 yeN73l7B3rsiwrK4TvgXwbXpY87HRX31hitS63+5zSFiIJJCnLL/PonneMIGiK5/mw
+	 exhipSzx6YR4xIRRq5AOod+cT/y+30AvAeLzNZrliMHzNbmdHoAWV+Fs7UY9kCSkDP
+	 y5Co/7A0H2SY6MHl4r2cT3Z3ipNa7wpwbLRE9YN/aEf2l7fVuQepmx+RY0PG1FrLFA
+	 IHXvCXWi62IXUeHHmfwQnAdUYvzWJ7TtodW1hJ64aHoQQ9aXfZn282IEa86fhF1jx+
+	 yfb7mP/o2Lv3w==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vyAR8-0000000HKCy-3IVF;
+	id 1vyAR8-0000000HKEB-46YB;
 	Thu, 05 Mar 2026 16:16:26 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH 09/11] docs: kdoc_output: use a more standard order for .TH on man pages
-Date: Thu,  5 Mar 2026 16:16:16 +0100
-Message-ID: <fcf10d80e7a523b06b7a74099b2470fe60ea7f38.1772722474.git.mchehab+huawei@kernel.org>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 10/11] docs: kdoc_output: describe the class init parameters
+Date: Thu,  5 Mar 2026 16:16:17 +0100
+Message-ID: <b771c7d4fe0741292799ab13e5ae78d125d6c678.1772722474.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1772722474.git.mchehab+huawei@kernel.org>
 References: <cover.1772722474.git.mchehab+huawei@kernel.org>
@@ -53,44 +51,55 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-The generated man pages are not following the current standards
-for Linux documentation. Reorder .TH fields for them to look
-like other Linux man pages.
+As this class is part of the ABI used by both Sphinx kerneldoc
+extension and docs/tools/kernel-doc, better describe what
+parmeters are used to initialize ManOutput class.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tools/docs/sphinx-build-wrapper      | 2 +-
- tools/lib/python/kdoc/kdoc_output.py | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ tools/lib/python/kdoc/kdoc_output.py | 29 +++++++++++++++++++++++++++-
+ 1 file changed, 28 insertions(+), 1 deletion(-)
 
-diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrapper
-index 4572328e379d..3b3b8dd074a8 100755
---- a/tools/docs/sphinx-build-wrapper
-+++ b/tools/docs/sphinx-build-wrapper
-@@ -626,7 +626,7 @@ class SphinxBuilder:
-                 # Use shlex here, as it handles well parameters with commas
-                 args = shlex.split(line)
-                 name = args[1].replace("/", " ")
--                fname = f"{output_dir}/{args[3]}.{args[2]}"
-+                fname = f"{output_dir}/{args[1]}.{args[2]}"
- 
-                 if self.verbose:
-                     print(f"Creating {fname}")
 diff --git a/tools/lib/python/kdoc/kdoc_output.py b/tools/lib/python/kdoc/kdoc_output.py
-index 62e300e65405..968e1d43de47 100644
+index 968e1d43de47..52fc41bd17b7 100644
 --- a/tools/lib/python/kdoc/kdoc_output.py
 +++ b/tools/lib/python/kdoc/kdoc_output.py
-@@ -611,8 +611,8 @@ class ManFormat(OutputFormat):
-         """Emit a title header line."""
-         name = name.strip()
+@@ -580,7 +580,34 @@ class RestFormat(OutputFormat):
  
--        self.data += f'.TH "{self.modulename}" {self.section} "{name}" '
--        self.data += f'"{self.date}" "{self.manual}"\n'
-+        self.data += f'.TH "{name}" {self.section} "{self.date}" '
-+        self.data += f'"{self.modulename}" "{self.manual}"\n'
  
-     def __init__(self, modulename, section="9", manual="Kernel API Manual"):
-         """
+ class ManFormat(OutputFormat):
+-    """Consts and functions used by man pages output."""
++    """
++    Consts and functions used by man pages output.
++
++    This class has one mandatory parameter and some optional ones, which
++    are needed to define the title header contents:
++
++    ``modulename``
++        Defines the module name to be used at the troff ``.TH`` output.
++
++        This argument is mandatory.
++
++    ``section``
++        Usually a numeric value from 0 to 9, but man pages also accept
++        some strings like "p".
++
++        Defauls to ``9``
++
++    ``manual``
++        Defaults to ``Kernel API Manual``.
++
++    The above controls the output of teh corresponding fields on troff
++    title headers, which will be filled like this::
++
++        .TH "{name}" {section} "{date}" "{modulename}" "{manual}"
++
++    where ``name``` will match the API symbol name, and ``date`` will be
++    either the date where the Kernel was compiled or the current date
++    """
+ 
+     highlights = (
+         (type_constant, r"\1"),
 -- 
 2.52.0
 
