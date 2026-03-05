@@ -1,84 +1,189 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 498B1394786;
-	Thu,  5 Mar 2026 14:54:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE3CA2EBB86;
+	Thu,  5 Mar 2026 14:57:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772722451; cv=none; b=I13hV5xF2bvPGZ4V5OqbHKIfjIQYlEhix0U4P9pE2rl5CJ6gV88y4YqI9HuJ0PLjSRC6StGASO0ktjFqNZjVvN2rB7MOUUWSPzqbfKVBZpmxF6Dwb0AJJomz3M/y3rtw0Z2UeV6R0K8oygN4Abpk4H/4byL5IgSKExDEd12YMVM=
+	t=1772722643; cv=none; b=HgbuxveQVxQJ4z9z+M4jrCJjWSpFAPCvcFDz3uissA1Ywx376arCAOv9okTBwf3aneC71u4jxXtbKryp1ZZsImfE1UmTweFrdTaSKL98A6eSZ1IFwOHxqI7gB+iPnnJ87ql8+WEVz1+Gd5mveDhlFgACQjeX8mOhvDYWnjJJ7WE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772722451; c=relaxed/simple;
-	bh=e9jryshronyw/hf+XUuhNDCAysBrxR3TuZBcZe/Tgdc=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Yt+0cO9A0zsOl6GkOTDcmthYizhX/imDz2pjvaXVw21CPvvWv6m+XsELC0CkLLcdGnMPnq56PPkiLQ1jjnnJZPNml+Jf0A+DMqwEkBwUuh3/6ziEBvrTd0lsQ4ViFkKqhPQQM8TEwxo+liLOd95TmLv+54BBiCwtx0zqM78NAno=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.224.150])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fRXb85pd4zHnGkd;
-	Thu,  5 Mar 2026 22:53:08 +0800 (CST)
-Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
-	by mail.maildlp.com (Postfix) with ESMTPS id A5CEC4056B;
-	Thu,  5 Mar 2026 22:54:06 +0800 (CST)
-Received: from localhost (10.203.177.15) by dubpeml500005.china.huawei.com
- (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 5 Mar
- 2026 14:54:04 +0000
-Date: Thu, 5 Mar 2026 14:54:03 +0000
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
-To: fengchengwen <fengchengwen@huawei.com>
-CC: Huacai Chen <chenhuacai@kernel.org>, <linux-pci@vger.kernel.org>,
-	<bhelgaas@google.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
-	<skhan@linuxfoundation.org>, Catalin Marinas <catalin.marinas@arm.com>, Will
- Deacon <will@kernel.org>, WANG Xuerui <kernel@xen0n.name>, "Paul Walmsley"
-	<pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
-	<aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Thomas Gleixner
-	<tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
-	<bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, <x86@kernel.org>,
-	"H. Peter Anvin" <hpa@zytor.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, Andy Gospodarek
-	<andrew.gospodarek@broadcom.com>, Eric Van Tassell <Eric.VanTassell@amd.com>,
-	Ajit Khaparde <ajit.khaparde@broadcom.com>, Somnath Kotur
-	<somnath.kotur@broadcom.com>, <linux-acpi@vger.kernel.org>,
-	<wei.huang2@amd.com>, <wangzhou1@hisilicon.com>, <wanghuiqiang@huawei.com>,
-	<liuyonglong@huawei.com>, <stable@vger.kernel.org>, <jeremy.linton@arm.com>,
-	<sunilvl@ventanamicro.com>, <sunilvl@oss.qualcomm.com>,
-	<chenhuacai@loongson.cn>, <wangliupu@loongson.cn>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <loongarch@lists.linux.dev>,
-	<linux-riscv@lists.infradead.org>
-Subject: Re: [PATCH v2] PCI/TPH: Fix get cpu steer-tag fail on ARM64
- platform
-Message-ID: <20260305145403.0000394e@huawei.com>
-In-Reply-To: <795a9167-6c49-4c7c-9a36-385bf543cacf@huawei.com>
-References: <20260303003625.39035-1-fengchengwen@huawei.com>
-	<20260305083650.54611-1-fengchengwen@huawei.com>
-	<CAAhV-H4xZsyLdzswPxPGHoQNd4LKXrTOL-oPGZHyVt8dj0xu6A@mail.gmail.com>
-	<795a9167-6c49-4c7c-9a36-385bf543cacf@huawei.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1772722643; c=relaxed/simple;
+	bh=IEc4WYX37mgMOxzZzlTDIloDSaDnVqxnv/57atbWyWw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eL+MxmJFqywmK22vZ12Yhtvj1Jr74E2emIuplaOUKda/ZeHAKsWMReaswvcO+edlQVSzUWqqhPt861JXWaCQPMFPPKd8InrqDRV7eRFKPBmdV4JmSbAae+uwzX9rgF4W3/8FrWtSYrZg5Ejg/1OuvkUt2jc74zuwmIkD8YrAFfs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E5aWxIL9; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E5aWxIL9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4D36C116C6;
+	Thu,  5 Mar 2026 14:57:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772722643;
+	bh=IEc4WYX37mgMOxzZzlTDIloDSaDnVqxnv/57atbWyWw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=E5aWxIL9Xu+PK4R9e7q1xeRi0FX0o9xCenpXCKB0U4U+owli7skTbsyyslJA/lkPm
+	 R1YydSBWrVKOZGhRUvXAWj/YIErLLyuPQ5CvZcOdjAIV/VqRMJ3IfAFzGQA2D8Yjvj
+	 9s3IMZSw4W0eZH9QmIOn4I93x/3BEGL7B06H5A/d0q5RyJFzI1KcN8x7Id7K6/6qmr
+	 9xDu1wb90DW+DVRqFOzY8R1yR5SiCywbr+jN2MWhNOIh4pbj09o2XUuATQM+Lvktd6
+	 65asY8zz6HYED2m/Ji7XhXjpm+WkbdwPmj1O5hMbwnNl5R+ySaNmpys6O+iFYPQnlj
+	 GFXci6SveISgw==
+Date: Thu, 5 Mar 2026 14:57:15 +0000
+From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
+	Nico Pache <npache@redhat.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Usama Arif <usamaarif642@gmail.com>, 
+	Andi Kleen <ak@linux.intel.com>
+Subject: Re: [PATCH v1] docs: filesystems: clarify KernelPageSize vs.
+ MMUPageSize in smaps
+Message-ID: <ce2f4343-8bc4-4edd-a922-dd71a09a34e3@lucifer.local>
+References: <20260304155636.77433-1-david@kernel.org>
+ <b24be8c2-32d3-4e3e-9fbf-8a0068c360d6@lucifer.local>
+ <c5330f9e-db41-496b-b580-73ebec9cd811@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml100009.china.huawei.com (7.191.174.83) To
- dubpeml500005.china.huawei.com (7.214.145.207)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c5330f9e-db41-496b-b580-73ebec9cd811@kernel.org>
 
+On Thu, Mar 05, 2026 at 02:32:49PM +0100, David Hildenbrand (Arm) wrote:
+>
+> >
+> > Ah wait you dedicate a whole paragraph after this to tha :)
+>
+> Correct :)
+>
+> >
+> >> +mapping that is currently resident in RAM (RSS); the process's proportional
+> >> +share of this mapping (PSS); and the number of clean and dirty shared and
+> >> +private pages in the mapping.
+> >> +
+> >> +Historically, the "KernelPageSize" always corresponds to the "MMUPageSize",
+> >> +except when a larger kernel page size is emulated on a system with a smaller
+> >
+> > NIT: is -> was, as historically implies past tense.
+> >
+> > But it's maybe better to say:
+> >
+> > +Historically, the "KernelPageSize" has always corresponded to the "MMUPageSize",
+> >
+> > And:
+> >
+> > +except when a larger kernel page size is being emulated on a system with a smaller
+> >
+>
+> Given that the PPC64 thingy still exists in the tree, I'll probably do:
+>
+> "KernelPageSize" always corresponds to "MMUPageSize", except when a
+> larger kernel page size is emulated on a system with a smaller page size
+> used by the MMU, which is the case for some PPC64 setups with hugetlb.
+>
+> >> +page size used by the MMU, which was the case for PPC64 in the past.
+> >> +Further, "KernelPageSize" and "MMUPageSize" always correspond to the
+> >
+> > NIT: Further -> Furthermore
+> >
+>
+> Helpful.
+>
+> >> +smallest possible granularity (fallback) that could be encountered in a
+> >
+> > could be -> can be
+> >
+> > Since we are really talking about the current situation, even if this, is
+> > effect, a legacy thing.
+> >
+> >> +VMA throughout its lifetime.  These values are not affected by any current
+> >> +transparent grouping of pages by Linux (Transparent Huge Pages) or any
+> >
+> > 'transparent grouping of pages' reads a bit weirdly.
+> >
+> > Maybe simplify to:
+> >
+> > +These values are not affected by Transparent Huge Pages being in effect, or any...
+>
+> Works for me.
+>
+> >
+> >> +current usage of larger MMU page sizes (either through architectural
+> >
+> > NIT: current usage -> usage
+>
+> Ack.
+>
+> >
+> >> +huge-page mappings or other transparent groupings done by the MMU).
+> >
+> > Again I think 'transparent groupings' is a bit unclear. Perhaps instead:
+> >
+> > +huge-page mappings or other explicit or implicit coalescing of virtual ranges
+> > +performed by the MMU).
+>
+> I'd assume the educated reader does not know what "explicit/implicit
+> coalescing" even means, but works for me. :)
+>
+> >
+> > ?
+> >
+> >> +"AnonHugePages", "ShmemPmdMapped" and "FilePmdMapped" provide insight into
+> >> +the usage of some architectural huge-page mappings.
+> >
+> > Is 'some' necessary here? Seems to make it a bit vague.
+>
+> I had PUDs in mind. I can just call it
+>
+> "PMD-level architectural ..."
+>
+> >
+> >>
+> >>  The "proportional set size" (PSS) of a process is the count of pages it has
+> >>  in memory, where each page is divided by the number of processes sharing it.
+> >> @@ -528,10 +541,14 @@ pressure if the memory is clean. Please note that the printed value might
+> >>  be lower than the real value due to optimizations used in the current
+> >>  implementation. If this is not desirable please file a bug report.
+> >>
+> >> -"AnonHugePages" shows the amount of memory backed by transparent hugepage.
+> >> +"AnonHugePages", "ShmemPmdMapped" and "FilePmdMapped" show the amount of
+> >> +memory backed by transparent hugepages that are currently mapped through
+> >> +architectural huge-page mappings (PMD). "AnonHugePages" corresponds to memory
+> >
+> > 'mapped through architectural huge-page mappings (PMD)' reads a bit strangely to
+> > me,
+> >
+> > Perhaps 'mapped by transparent huge pages at a PMD page table level' instead?
+> >
+>
+> I'll simplify to
+>
+> "mapped by architectural huge-page mappings at the PMD level"
+>
+>
+> >> +that does not belong to a file, "ShmemPmdMapped" to shared memory (shmem/tmpfs)
+> >> +and "FilePmdMapped" to file-backed memory (excluding shmem/tmpfs).
+> >>
+> >> -"ShmemPmdMapped" shows the amount of shared (shmem/tmpfs) memory backed by
+> >> -huge pages.
+> >> +There are no dedicated entries for transparent huge pages (or similar concepts)
+> >> +that are not mapped through architectural huge-page mappings (PMD).
+> >
+> > similarly, perhaps better as 'are not mapped by transparent huge pages at a PMD
+> > page table level'?
+>
+> I'll similarly call it "mapped by architectural huge-page mappings at
+> the PMD level"
+>
+> Thanks a bunch!
+>
+> --
+> Cheers,
+>
+> David
 
-> >> +       ret = acpi_get_cpu_acpi_id(cpu);  
-> > Can we use get_acpi_id_for_cpu() directly? Then just x86 needs a wrapper.  
-> 
-> Yes, it indeed simple.
-> 
-> But I prefer to have the acpi_ prefix for such API names because it's a cross-subsystem API reference.
-
-Can we just do a global rename of get_acpi_id_for_cpu() as a precursor
-patch?  Then this just becomes adding x86 implementation and using
-it on all architectures.
-
-J
-
-
+Thanks on all!
