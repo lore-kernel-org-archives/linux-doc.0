@@ -1,103 +1,80 @@
-Received: from mail-m49219.qiye.163.com (mail-m49219.qiye.163.com [45.254.49.219])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A12239A066;
-	Thu,  5 Mar 2026 12:55:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.219
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18CF638836C
+	for <linux-doc@vger.kernel.org>; Thu,  5 Mar 2026 12:58:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772715306; cv=none; b=EbmGebhwxK3zKO23Rwo2ILY38gDFyZS9zPeAs6m51mgXZmggWr6qlyC5V1ZpI31FS05SV8ZVWNV7VobYg3JF3YY0WvIPN59JFSdLe18m2TEO+271+iEfo/O/7ORp7rPmKU86t11a4SNFCmzmQFYeNu+OfopoZKyO4OuHK/L3+kA=
+	t=1772715523; cv=none; b=uYq4dHFL1vdb5+E3iYyDjFM1nHlCROoIwepiLXfDyVUko/H3zo6UpcM0o6mcVS0XHXOqJCKc9b+mZf7PMMjlBeCfNpYjvBglg6/CmxcgDUgiKD3SqPVI2mf4ZCZ29iQSaO6rtB8W5m1r5TudZtR7wvNIAS7E/LvrG7ZultA8+ds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772715306; c=relaxed/simple;
-	bh=qwvSwYba19jJlXmtjjdzLM+ULHTaOqxxHHdeNvPUlUo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MTjhOsOASufPISZVNIVLfOW0QB4coeVuuojMGZC9fc0/BRfEew4Ntp3CK2Kdkd1+PIgB51K3CLn+Ca/yTesBfiul4GzORk1CosLKv/ZeQsiPM56Lw1K/0zTTO5t+ml6C3hIxpdyFqYHoToekXFtFRH4e/KwXpfX9b0j3gPHNFfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com; spf=pass smtp.mailfrom=leap-io-kernel.com; dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b=Ts1fVfqQ; arc=none smtp.client-ip=45.254.49.219
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leap-io-kernel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leap-io-kernel.com
+	s=arc-20240116; t=1772715523; c=relaxed/simple;
+	bh=5are5agdAPBNhp9zXXwfI62i9NhVAzVx4EzODqm4TGU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YL4BwnxKMvsXmmJW3qRoXiVK4JrI0Cqfkm0R7UqU8+RD87nJq7/3+KROwW4zLvp6vWHoD/Ybm0g1e30mgQ3ZPp0V76A/7+OgUlpZwHxI3iggBqrQ2MNkfm6d8BWbNjIosEV/GGZH9RBm2dcWFgrZmDyEVNebZx3ELS5mD28ESUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dV+iriVY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leap-io-kernel.com header.i=@leap-io-kernel.com header.b="Ts1fVfqQ"
-Received: from localhost (unknown [222.130.22.244])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 35e22f452;
-	Thu, 5 Mar 2026 20:19:32 +0800 (GMT+08:00)
-Date: Thu, 5 Mar 2026 20:19:30 +0800
-From: BaiKefan <baikefan@leap-io-kernel.com>
-To: Alex Shi <seakeel@gmail.com>, Greg KH <gregkh@linuxfoundation.org>
-Cc: si.yanteng@linux.dev, linux-usb@vger.kernel.org, alexs@kernel.org,
- dzm91@hust.edu.cn, corbet@lwn.net, linux-doc@vger.kernel.org,
- doubled@leap-io-kernel.com
-Subject: Re: [PATCH v5 0/8] Add Chinese translation for USB subsystem
-Message-ID: <20260305201930.00006c0b@leap-io-kernel.com>
-In-Reply-To: <9e1d404b-2145-481d-930d-c3ba5be0a520@gmail.com>
-References: <cover.1765180570.git.baikefan@leap-io-kernel.com>
-	<20260303194105.00004696@leap-io-kernel.com>
-	<2026030412-mystify-ride-9103@gregkh>
-	<9e1d404b-2145-481d-930d-c3ba5be0a520@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dV+iriVY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6897C2BCB9
+	for <linux-doc@vger.kernel.org>; Thu,  5 Mar 2026 12:58:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772715522;
+	bh=5are5agdAPBNhp9zXXwfI62i9NhVAzVx4EzODqm4TGU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=dV+iriVYRSVkaLwZWL3RYxUVzrSC8aD09FYxF5jNKwSm5Q1YyPTJsFvSzgCigsGzx
+	 HTMHgHkuc6N4hI6dLH2FrL4N6624GGkh2DzGuYN82jY6oeYT+0ZZnShusqFd4BG/Kg
+	 B1JkTJG72xoKJ5V5FpMaG3Mde4MvfUWAe6CEvDOvdpIy1wzvO2zDb4SjHoqi08W4+n
+	 btTVRpbcLf83Ku7WUyELXiwkcystoAPidj7LlhvuXaGCjIxxaUHfn6lHoq+76cQZRJ
+	 8fJ63KdmGO1rwKGTsIhQpXPFjeeJEKbzRjR4F1fnBj4tMXrZ/dSOKAtgx8OzbOSDqF
+	 t6okvHWVh3vLQ==
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-798374d0f44so120735417b3.0
+        for <linux-doc@vger.kernel.org>; Thu, 05 Mar 2026 04:58:42 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCVDSvbdEw7sGwmNzagjjNzNGp7thxhDkqC7uCNcw7JJpXJauG3nYcTDZBETXGxtbbux8qPVMAVKRaA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx7V43zPoTaYjB3efDuaEPjrQO57d182eBry98shGMXk7UL5YGq
+	cgnm9XzrzgSZ9WATvQJbCplRUOX7zyiW9PbV/KawjQzElbH39HUGDkh0XKbF8ElQGk06tMPzHko
+	WFP0uwCMPIhesSZA2NAIMcfOr6zunFDQ=
+X-Received: by 2002:a53:e19e:0:b0:64a:e56f:49fc with SMTP id
+ 956f58d0204a3-64d07111ed8mr1184395d50.20.1772715522083; Thu, 05 Mar 2026
+ 04:58:42 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9cbdf05e6c09d5kunm7938b13fcc5c14
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVlCQk1IVk5KHUIaS0seGEJLHlYVFAkWGhdVEwETFh
-	oSFyQUDg9ZV1kYEgtZQVlJSUlVSkhLVUlJVUlPT1lXWRYaDxIVHRRZQVlPS0hVSktISk5MSVVKS0
-	tVSkJLS1kG
-DKIM-Signature: a=rsa-sha256;
-	b=Ts1fVfqQu2zuY/OhsvcltWFJIquLv0WWqk+wuYzZxmtU3erLXvuO2oJIy+R0ZWlM662+e6l+BkYJPbuox/UgeeHH614MdndgTR6OkBCHQ10b7IMqpA8orx7Rnn3zGcOj/6uDDiOSGKSGSANuUtJzfM4MGiJX8PAEDhFGltU/kt//4wHrceKKectPyEZx56A1jmpAIkXuLWcDGvYRdn3G8F/GPRKohzhJK/3lkopNR7PLlkUnZTPeYg8N1Tl0J1rz2QLyKGCWwF1TWqf7gnGYexnJ1cb7ridLfjP4trFXxDU0a24YOEziCgfXr7ePnPtNaUcboG0zvZbQC14jf2DmbQ==; c=relaxed/relaxed; s=default; d=leap-io-kernel.com; v=1;
-	bh=Z6f7UgrbRcIQ/IcPMyGkShWzDBGiW/B99fzjRD7oIFs=;
-	h=date:mime-version:subject:message-id:from;
+References: <20260305-gpio-hog-fwnode-v1-0-97d7df6bbd17@oss.qualcomm.com> <20260305-gpio-hog-fwnode-v1-1-97d7df6bbd17@oss.qualcomm.com>
+In-Reply-To: <20260305-gpio-hog-fwnode-v1-1-97d7df6bbd17@oss.qualcomm.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Thu, 5 Mar 2026 13:58:30 +0100
+X-Gmail-Original-Message-ID: <CAD++jL=Zog5wPPiDDBp=mv1nhCgjOZkuG8NtZjvzfhc0KK5Z7Q@mail.gmail.com>
+X-Gm-Features: AaiRm52DhevPDbjjg-MMnWaC2zgG9VailzGdf5hJANa7pRgxzk-RHGIdAAju58g
+Message-ID: <CAD++jL=Zog5wPPiDDBp=mv1nhCgjOZkuG8NtZjvzfhc0KK5Z7Q@mail.gmail.com>
+Subject: Re: [PATCH 1/6] gpio: of: clear OF_POPULATED on hog nodes in remove path
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Bartosz Golaszewski <brgl@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Frank Rowand <frowand.list@gmail.com>, Mika Westerberg <westeri@kernel.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Aaro Koskinen <aaro.koskinen@iki.fi>, 
+	Janusz Krzysztofik <jmkrzyszt@gmail.com>, Tony Lindgren <tony@atomide.com>, 
+	Russell King <linux@armlinux.org.uk>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, linux-gpio@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org, 
+	linux-doc@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, Mar 5, 2026 at 10:51=E2=80=AFAM Bartosz Golaszewski
+<bartosz.golaszewski@oss.qualcomm.com> wrote:
 
-Hi Greg, Alex,
+> The previously set OF_POPULATED flag should be cleared on the hog nodes
+> when removing the chip.
+>
+> Cc: stable@vger.kernel.org
+> Fixes: 63636d956c455 ("gpio: of: Add DT overlay support for GPIO hogs")
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
-To clarify, I did send this patchset to the USB subsystem maintainers
-in Dec 2025. At that time, I received Greg’s patch-bot auto-reply
-noting the tree was closed during the merge window, so no further
-review occurred, which made me assume it had been noted but was still
-pending.
+I have no idea how OF_POPULATED is supposed to be used
+so I just trust you on this one:
+Acked-by: Linus Walleij <linusw@kernel.org>
 
-Per Alex’s suggestion, I will rebase on the latest docs-next, retest,
-and resend to the USB maintainers.
-
-Thanks for your guidance and patience.
-
-Best regards,
-Kefan
-
-
-On Thu, 5 Mar 2026 09:36:39 +0800
-Alex Shi <seakeel@gmail.com> wrote:
-
-> Hi Baikefan,
-> 
-> Please rebase the patchset on latest Jon's tree 
-> (git://git.lwn.net/linux.git docs-next) and cc to USB maintainers
-> with all testing you past.
-> 
-> Thanks
-> Alex
-> 
-> On 2026/3/4 22:51, Greg KH wrote:
-> > On Tue, Mar 03, 2026 at 07:41:05PM +0800, BaiKefan wrote:  
-> >> Hi Yanteng and Alexs,
-> >>
-> >> A few months ago, I submitted a patch for the Chinese translation
-> >> of the USB documentation.
-> >>
-> >> Following your suggestion, I forwarded it to the USB subsystem
-> >> maintainer for further review, but I haven’t received any response
-> >> yet.  
-> > I do not see the forward to the USB subsystem maintainer, where did
-> > that happen?
-> > 
-> > thanks,
-> > 
-> > greg k-h  
-> 
-> 
-> 
-
+Yours,
+Linus Walleij
