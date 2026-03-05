@@ -1,160 +1,952 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9355934F47D
-	for <linux-doc@vger.kernel.org>; Thu,  5 Mar 2026 13:11:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3BF4221D96
+	for <linux-doc@vger.kernel.org>; Thu,  5 Mar 2026 13:23:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772716268; cv=none; b=czfiKSTi4tpdVrvFfeQIrF4zGIkkZSVSuQi910d+vZr9a+2wX8ptk8zYbQblikXRiUAgnr1+M5GC1ziryyvvmvIg17FlxaR3uKUg09uQavU/67MtacUbRoFQjaK7/49CKvcJhAJY0g5AbVUGVS4dVwwvQwd+AcA7ke6x655hNPA=
+	t=1772716991; cv=none; b=RpwqU08BM8wgEj2S38vEnK7wr+NfSSo/lYimlmjmUs5u+uq7eU6b+zl4jF6tHMgBOswmz9CY1mZxps8jhG5qinvMStN45sLXgwRxQxswyTP8xPO4MZyq9z/ST4ZP6dpUvSKB6+1vV3q/9Sc3qOd7uepequSU9VEkqYDw6Z5Dmg0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772716268; c=relaxed/simple;
-	bh=ISJ9IeJb4bdYq8e9zGFzYpxXmxiQlQWQQQm3BHAO9ac=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=r2q1HTncHpbCg21HCg4c8Wit/6wzLSC1eRAjIuozEYON9kkxySQyw/IZL2RwOT4pysvuR22UvaVRoG6Nj9TnD+4JVaVwsUWTYfldRWY2pkhvd5R1N5+GW85rjR8kKC6oKW/U2nav4CnrmhTWWj6ba18cU0eWO/3+j3j+rFPZq18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G9tX/hM7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772716991; c=relaxed/simple;
+	bh=SjgSJC50IJyhnvF1aLdfibucPyEwVMEqD9zqij2MKLg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Z6bfATDikFNn73cUMZtcm+CyEixJkmy1FZ4E5o1Z7qtXvKlAbwR9Yq0x90uI3tcYxZkGBHPc2cvVl58MRtGwjmbi6Ks5+BF/c73hHLGD5zC3FjWpQE4U8iRY/EeKqiCLD/nBTouGhUe59xi1SesKG3ajm5+k7ZohZK7YYyKw9nk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HNbw5w/A; arc=none smtp.client-ip=209.85.217.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G9tX/hM7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E97BC4AF09
-	for <linux-doc@vger.kernel.org>; Thu,  5 Mar 2026 13:11:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772716268;
-	bh=ISJ9IeJb4bdYq8e9zGFzYpxXmxiQlQWQQQm3BHAO9ac=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=G9tX/hM7Mw5zGuhmFHkyyRDc++MrZfNxmP/ZNpmTsla4iANpe9h6kxmyvipqjVzAz
-	 Je4rF+N2HacpqEUtA56nQtcW1Htkr75+BA+vYEBrXZ0N0EhwNnymUo/bk0Yb2nmnJI
-	 6At5t1N+ZbugQP602yqM+0ekCuw5r/LjlLyjizp7gjfUKgG9DbIFhqJ5snjfsbc7qL
-	 tRdXzb1bCUDZ+74i3CHKIzvC2Qvcl0Pbqfwm7DRHg9NWxMR797L8CIY5ZgcM1SXhW3
-	 gdQRt7gvL13nfQWGsJz8VdZ6LjcxwV1aDfNTS9fN+gdaJEhCSsx11FW798ngQVwGtG
-	 1h6WZhARdxABQ==
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-389e139ee5eso132452341fa.0
-        for <linux-doc@vger.kernel.org>; Thu, 05 Mar 2026 05:11:08 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXrxPWI8ApRXp6EV/Xaw32pwo3OKrEEwHmZDVdFMxjyC6pKxqT9OJl2N43ErhCsPl2lvTOQwYt04HY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzcQ+nf++sNxD5vaQbOkNsEVX+DVEfRhJIU3dv6/hjaKej3GbXD
-	+l+THoum3AU1QOzwmeX8UNNndkS3h7J9w3CGUsGxUXMCxOeIfuLSmBl6unE/uxNfvB+6X+6zpH0
-	vfrzyamch8LdaGki3Gb/7uHne6m4Ef3YBqwvn/3bdnQ==
-X-Received: by 2002:a2e:22c4:0:b0:383:7f85:8eef with SMTP id
- 38308e7fff4ca-38a2c7c74e6mr37197791fa.29.1772716266754; Thu, 05 Mar 2026
- 05:11:06 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HNbw5w/A"
+Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-5ffca37e8cdso378037137.2
+        for <linux-doc@vger.kernel.org>; Thu, 05 Mar 2026 05:23:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772716988; x=1773321788; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZArMkV0C7nRrc3AHzhMfRm5JWaVfzWv+jdlpYxoAnU0=;
+        b=HNbw5w/ADTlEjIwzJ+y6AxCl77PSIkao0TNF3GI+pO11/UHyXCYKBaCbufeP9tqbh3
+         JxkyZS0jWBaRSWIMVDSJdgmCy0AEKjXhuZXMFDB4Sq9MnTTzZPuSqXkhGKxdAbDFq7tc
+         EDcZujKCn+xr43cuY8HpPAxEqc9ysDerSYwNAaDfJXZd5vJybVyY6NdH1h/An+GEJSBg
+         w3LpuJJIZtLCpGgmEVkDQUGZULi7LarOyfrz4HXj3ZDGhbHKmadZ16WTPdHShiIRgicW
+         IiTXSHKUoyznNlbRaXBzkHPIsqVqoMMl74cQwFN3amUvOzF/6TvVOZGiWxiTMuJZG1Xh
+         QXMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772716988; x=1773321788;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZArMkV0C7nRrc3AHzhMfRm5JWaVfzWv+jdlpYxoAnU0=;
+        b=qBqxNbUa/bYCRwU95MmIptYxrwiBTxv0kWO+HBiTMfmbK1YZvpaaaRV5TA/v8HSqrS
+         rGATsW4/uefJ7epcJO4rX0lCau0dvTVK7ur1rnC2zg1km4WfSlqOClc0zNFoZ/z0lku1
+         dLJUpKFGU/rqPhT6QTVHkaJKOGVw9b7XumOV70hBQxzpOsOsnXzyYf0JmmPeTVYbQJvU
+         H9gBPCGTIBeuUalLtBH9lMJMjDHX18BlIkc88QDE2+i8AHyHKUdjgjMTd+av7kCyUo1C
+         GQg2a6cpmsmhUlpW3JqdN3me/mkZwKI0BDksZlAK1k/mMjCzUL1VHaXr/dHlFEgdlKZG
+         eZ0Q==
+X-Gm-Message-State: AOJu0YwrlQUfKAwZSsu8KCqOWEDov2TuxuH1dkHgqcxhnY+yFGiFamGM
+	uppgrVfnk89k3egk4bUUtyyIFs60t4WevAZm3fFrN1hJEgExCm9I9cvC
+X-Gm-Gg: ATEYQzzZJ9Gof3Z02+A57pIgO3WFQXOR2o6+6KgyohcAvY6Ln5higDhnEZEn2GXGDo5
+	15KqKiLHtDUO9w8w6I89xzO9h3naWpt6pYrRuQUmEbBOrhiZrMR8snXoS7FHBW/DS92qJXbKbk+
+	HpJXLQIy1y/uSF/AUN9IZlJRNGHnScW1GXgkXpd+R1be8miU/yQjOpJXIFqRtzU5XqBEhVNrveu
+	6ukBAxM6VbfWHKuvIkdwHnA3tKfkBOBhJnI66IOY1FI6zGRLxnh6VYe2Oc9ZOhnpncVRhz1qguj
+	9YOL3vO3BrjViSekaz+O58/5EbXGZluomzLCXHJnIAhZU8r9hLFukTywfwcx+oIxnOFRFtAWPb+
+	6R8h8LzEiJN2mMHzAllPQqfO9bhlQH4rcw86oZKByFFWd6ckie8NfaX0t5DIEillz/Mo8OOeKm0
+	g/LURCA2eCxtI1AruB3VIwpIC5EaWQoJT1RH0oC79S7krbPWQThUroVtBjn5sQFjLGniYVsYAFm
+	xh6pQWmkzta7P9Jnps=
+X-Received: by 2002:a05:6102:947:b0:5f8:e4c1:7bd2 with SMTP id ada2fe7eead31-5ffaace11afmr2559417137.16.1772716987011;
+        Thu, 05 Mar 2026 05:23:07 -0800 (PST)
+Received: from localhost.localdomain (smtp.hostdime.com.br. [187.45.177.18])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-94df645b877sm21039785241.8.2026.03.05.05.23.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Mar 2026 05:23:06 -0800 (PST)
+From: Daniel Pereira <danielmaraboo@gmail.com>
+To: corbet@lwn.net
+Cc: linux-doc@vger.kernel.org,
+	Daniel Silva <danielmaraboo@gmail.com>
+Subject: [PATCH docs-next] docs: pt_BR: add netdev and maintainer handbook translations
+Date: Thu,  5 Mar 2026 10:22:42 -0300
+Message-ID: <20260305132243.30244-1-danielmaraboo@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260302-qcom-qce-cmd-descr-v11-0-4bf1f5db4802@oss.qualcomm.com>
- <scr5qvxa7f7k22pms4c6k5gwiky7lhssrw6qryfngexlek44g2@rayinnnwqgbt> <aalwMwN3qMlzrql5@linaro.org>
-In-Reply-To: <aalwMwN3qMlzrql5@linaro.org>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Thu, 5 Mar 2026 14:10:55 +0100
-X-Gmail-Original-Message-ID: <CAMRc=MfjknN1AYF_NPLzR0YbdWuoET25D9o0zsvx56VN+u59HQ@mail.gmail.com>
-X-Gm-Features: AaiRm53riIL1Ev5aiOi4LeHVM1opButAi-QDELWr9rH7US3VnOIMoqa9uDUU7UY
-Message-ID: <CAMRc=MfjknN1AYF_NPLzR0YbdWuoET25D9o0zsvx56VN+u59HQ@mail.gmail.com>
-Subject: Re: [PATCH RFC v11 00/12] crypto/dmaengine: qce: introduce BAM
- locking and use DMA for register I/O
-To: Stephan Gerhold <stephan.gerhold@linaro.org>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Thara Gopinath <thara.gopinath@gmail.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	"David S. Miller" <davem@davemloft.net>, Udit Tiwari <quic_utiwari@quicinc.com>, 
-	Daniel Perez-Zoghbi <dperezzo@quicinc.com>, Md Sadre Alam <mdalam@qti.qualcomm.com>, 
-	Dmitry Baryshkov <lumag@kernel.org>, Peter Ujfalusi <peter.ujfalusi@gmail.com>, 
-	Michal Simek <michal.simek@amd.com>, Frank Li <Frank.Li@kernel.org>, dmaengine@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-crypto@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, 
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Bjorn Andersson <andersson@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Mar 5, 2026 at 1:00=E2=80=AFPM Stephan Gerhold
-<stephan.gerhold@linaro.org> wrote:
->
-> On Tue, Mar 03, 2026 at 06:13:56PM +0530, Manivannan Sadhasivam wrote:
-> > On Mon, Mar 02, 2026 at 04:57:13PM +0100, Bartosz Golaszewski wrote:
-> > > NOTE: Please note that even though this is version 11, I changed the
-> > > prefix to RFC as this is an entirely new approach resulting from
-> > > discussions under v9. I AM AWARE of the existing memory leaks in the
-> > > last patch of this series - I'm sending it because I want to first
-> > > discuss the approach and get a green light from Vinod as well as Mani
-> > > and Bjorn. Especially when it comes to communicating the address for =
-the
-> > > dummy rights from the client to the BAM driver.
-> > > /NOTE
-> > >
-> > > Currently the QCE crypto driver accesses the crypto engine registers
-> > > directly via CPU. Trust Zone may perform crypto operations simultaneo=
-usly
-> > > resulting in a race condition. To remedy that, let's introduce suppor=
-t
-> > > for BAM locking/unlocking to the driver. The BAM driver will now wrap
-> > > any existing issued descriptor chains with additional descriptors
-> > > performing the locking when the client starts the transaction
-> > > (dmaengine_issue_pending()). The client wanting to profit from lockin=
-g
-> > > needs to switch to performing register I/O over DMA and communicate t=
-he
-> > > address to which to perform the dummy writes via a call to
-> > > dmaengine_slave_config().
-> > >
-> >
-> > Thanks for moving the LOCK/UNLOCK bits out of client to the BAM driver.=
- It looks
-> > neat now. I understand the limitation that for LOCK/UNLOCK, BAM needs t=
-o perform
-> > a dummy write to an address in the client register space. So in this ca=
-se, you
-> > can also use the previous metadata approach to pass the scratchpad regi=
-ster to
-> > the BAM driver from clients. The BAM driver can use this register to pe=
-rform
-> > LOCK/UNLOCK.
-> >
-> > It may sound like I'm suggesting a part of your previous design, but it=
- fits the
-> > design more cleanly IMO. The BAM performs LOCK/UNLOCK on its own, but i=
-t gets
-> > the scratchpad register address from the clients through the metadata o=
-nce.
-> >
-> > It is very unfortunate that the IP doesn't accept '0' address for LOCK/=
-UNLOCK or
-> > some of them cannot append LOCK/UNLOCK to the actual CMD descriptors pa=
-ssed from
-> > the clients. These would've made the code/design even more cleaner.
-> >
->
-> I was staring at the downstream drivers for QCE (qce50.c?) [1] for a bit
-> and my impression is that they manage to get along without dummy writes.
-> It's a big mess, but it looks like they always have some commands
-> (depending on the crypto operation) that they are sending anyway and
-> they just assign the LOCK/UNLOCK flag to the command descriptor of that.
->
-> It is similar for the second relevant user of the LOCK/UNLOCK flags, the
-> QPIC NAND driver (msm_qpic_nand.c in downstream [2], qcom_nandc.c in
-> mainline), it is assigned as part of the register programming sequence
-> instead of using a dummy write. In addition, the UNLOCK flag is
-> sometimes assigned to a READ command descriptor rather than a WRITE.
->
-> @Bartosz: Can we get by without doing any dummy writes?
-> If not, would a dummy read perhaps be less intrusive than a dummy write?
->
+From: Daniel Silva <danielmaraboo@gmail.com>
 
-The HPG says that the LOCK/UNLOCK flag *must* be set on a command
-descriptor, not a data descriptor. For a simple encryption we will
-typically have a data descriptor and a command descriptor with
-register writes. So we need a command descriptor in front of the data
-and - while we could technically set the UNLOCK bit on the subsequent
-command descriptor - it's unclear from the HPG whether it will unlock
-before or after processing the command descriptor with the UNLOCK bit
-set. Hence the additional command descriptor at the end.
+Translate the netdev development process and the maintainer handbooks
+into Brazilian Portuguese. Also, update the main pt_BR index to
+link these documents.
 
-The HPG also only mentions a write command and says nothing about a
-read. In any case: that's the least of the problems as switching to
-read doesn't solve the issue of passing the address of the scratchpad
-register.
+- Documentation/translations/pt_BR/index.rst
+- Documentation/translations/pt_BR/process/maintainer-netdev.rst
+- Documentation/translations/pt_BR/process/maintainer-handbooks.rst
 
-So while some of this *may* just work, I would prefer to stick to what
-documentation says *will* work. :)
+Validated with sphinx build and checkpatch.pl.
 
-Bartosz
+Signed-off-by: Daniel Silva <danielmaraboo@gmail.com>
+---
+ Documentation/translations/pt_BR/index.rst    |   1 +
+ .../pt_BR/process/maintainer-handbooks.rst    |   8 +
+ .../pt_BR/process/maintainer-netdev.rst       | 822 ++++++++++++++++++
+ 3 files changed, 831 insertions(+)
+ create mode 100644 Documentation/translations/pt_BR/process/maintainer-netdev.rst
+
+diff --git a/Documentation/translations/pt_BR/index.rst b/Documentation/translations/pt_BR/index.rst
+index de5c005f9..09fc49555 100644
+--- a/Documentation/translations/pt_BR/index.rst
++++ b/Documentation/translations/pt_BR/index.rst
+@@ -69,3 +69,4 @@ kernel e sobre como ver seu trabalho integrado.
+    Como começar <process/howto>
+    Requisitos mínimos <process/changes>
+    Manuais dos mantenedores <process/maintainer-handbooks>
++   Processo do subsistema de rede (netdev) <process/maintainer-netdev>
+\ No newline at end of file
+diff --git a/Documentation/translations/pt_BR/process/maintainer-handbooks.rst b/Documentation/translations/pt_BR/process/maintainer-handbooks.rst
+index eb650bc60..6cb2bda4c 100644
+--- a/Documentation/translations/pt_BR/process/maintainer-handbooks.rst
++++ b/Documentation/translations/pt_BR/process/maintainer-handbooks.rst
+@@ -6,3 +6,11 @@ Notas sobre o processo de desenvolvimento de subsistemas e mantenedores
+ O propósito deste documento é fornecer informações específicas de
+ subsistemas que são suplementares ao manual geral do processo de
+ desenvolvimento :ref:`Documentation/process <development_process_main>`.
++
++COnteúdos:
++
++.. toctree::
++   :numbered:
++   :maxdepth: 2
++
++   maintainer-netdev
+diff --git a/Documentation/translations/pt_BR/process/maintainer-netdev.rst b/Documentation/translations/pt_BR/process/maintainer-netdev.rst
+new file mode 100644
+index 000000000..81af13d02
+--- /dev/null
++++ b/Documentation/translations/pt_BR/process/maintainer-netdev.rst
+@@ -0,0 +1,822 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++
++=====================================
++Subsistema de Rede do Linux (netdev)
++=====================================
++
++tl;dr
++-----
++
++- **Direcione seu patch para uma árvore** – use ``[PATCH net]``
++para correções
++  ou ``[PATCH net-next]`` para novas funcionalidades.
++- **Tag Fixes** – para correções, a tag ``Fixes:`` é obrigatória,
++  independentemente da árvore de destino.
++- **Tamanho da série** – não envie séries grandes (> 15 patches);
++divida-as em
++  partes menores.
++- **Intervalo de envio** – não reenvie seus patches dentro de um
++período de 24
++  horas.
++- **Reverse xmas tree** – organize as declarações de variáveis
++locais da mais
++  longa para a mais curta.
++
++netdev
++------
++A **netdev** é a lista de discussão para todos os assuntos do Linux
++relacionados
++a rede. Isso inclui qualquer item encontrado em ``net/`` (ex: código
++principal
++como IPv6) e  em ``drivers/net`` (ex: drivers específicos de hardware)
++na árvore
++de diretórios do Linux.
++
++Note que alguns subsistemas (ex: drivers de rede sem fio/wireless),
++que possuem
++um  alto volume de tráfego, possuem suas próprias listas de discussão
++e árvores
++específicas.
++
++Como muitas outras listas de discussão do Linux, a lista netdev é
++hospedada no
++`kernel.org <https://www.kernel.org/>`_, com arquivos disponíveis em
++https://lore.kernel.org/netdev/.
++
++À exceção dos subsistemas mencionados anteriormente, todo o
++desenvolvimento de
++rede  do Linux (ex: RFCs, revisões, comentários, etc.) ocorre na
++**netdev**.
++
++Ciclo de Desenvolvimento
++------------------------
++
++Aqui está um pouco de informação contextual sobre a cadência de
++desenvolvimento
++do Linux. Cada nova versão (release) inicia-se com uma "janela de
++mesclagem"
++(*merge window*) de duas semanas, onde os mantenedores principais
++enviam suas
++novas implementações para o Linus para incorporação na árvore
++principal
++(*mainline tree*).
++
++Após as duas semanas, a janela de mesclagem é fechada e a versão é
++nomeada/etiquetada  como ``-rc1``. Nenhuma funcionalidade nova é
++incorporada à
++árvore principal após  isso -- espera-se apenas correções (*fixes*)
++para o
++conteúdo da rc1.
++
++Após cerca de uma semana coletando correções para a rc1, a rc2 é
++lançada. Isso
++se  repete semanalmente até a rc7 (tipicamente; às vezes rc6 se o
++ritmo estiver
++calmo, ou rc8 se houver muita instabilidade); uma semana após a última
++vX.Y-rcN
++ser  concluída, a versão oficial vX.Y é lançada.
++
++Para descobrir em que ponto do ciclo estamos agora - carregue a página da
++mainline (Linus) aqui:
++
++  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
++
++e observe o topo da seção de "tags". Se for rc1, estamos no início
++do ciclo
++de desenvolvimento. Se a rc7 foi marcada há uma semana, então um
++lançamento
++é provavelmente iminente. Se a tag mais recente for uma tag de
++lançamento
++final (sem o sufixo ``-rcN``) - muito provavelmente estamos em uma
++janela de
++mesclagem (*merge window*) e o ``net-next`` está fechado.
++
++Árvores git e fluxo de patches
++------------------------------
++
++Existem duas árvores de rede (repositórios git) em jogo. Ambas são
++coordenadas
++por David Miller, o mantenedor principal de rede. Há a árvore ``net``
++e a
++árvore ``net-next``. Como você provavelmente pode adivinhar pelos
++nomes, a
++árvore ``net`` é para correções de código existente já na árvore
++mainline de
++Linus, e a ``net-next`` é para onde o novo código vai para o lançamento
++futuro.
++Você pode encontrar as árvores aqui:
++
++- https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net.git
++- https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git
++
++Relacionando isso ao desenvolvimento do kernel: no início da janela
++de mesclagem
++(*merge window*) de 2 semanas, a árvore ``net-next`` será fechada --
++sem novas
++mudanças ou funcionalidades. O conteúdo novo acumulado nas últimas
++~10 semanas
++será passado para a mainline/Linus via um *pull request* para a vX.Y --
++ao mesmo
++tempo, a árvore ``net`` começará a acumular correções para este
++conteúdo enviado
++relacionado à vX.Y.
++
++Um anúncio indicando quando a ``net-next`` foi fechada é geralmente
++enviado para
++a netdev, mas sabendo o que foi dito acima, você pode prever isso com
++antecedência.
++
++.. warning::
++  Não envie novo conteúdo para a ``net-next`` para a netdev durante
++  o período
++  em que a árvore ``net-next`` estiver fechada.
++
++Patches RFC enviados apenas para revisão são obviamente bem-vindos
++a qualquer
++momento (use ``--subject-prefix='RFC net-next'`` com ``git
++format-patch``).
++
++Pouco depois das duas semanas terem passado (e a vX.Y-rc1 ser lançada),
++a árvore
++para a ``net-next`` reabre para coletar conteúdo para o próximo
++lançamento
++(vX.Y+1).
++
++Se você não estiver inscrito na netdev e/ou simplesmente não tiver
++certeza se a
++``net-next`` já reabriu, basta verificar o link do repositório git da
++``net-next`` acima para quaisquer novos *commits* relacionados à
++rede. Você
++também pode verificar o seguinte site para o status atual:
++
++  https://netdev.bots.linux.dev/net-next.html
++
++A árvore ``net`` continua a coletar correções para o conteúdo da
++vX.Y e é
++enviada de volta para Linus em intervalos regulares (~semanais). Isso
++significa
++que o foco da ``net`` é a estabilização e correções de bugs.
++
++Finalmente, a vX.Y é lançada e todo o ciclo recomeça.
++
++Revisão de patches da netdev
++----------------------------
++
++Status do patch
++~~~~~~~~~~~~~~~
++
++O status de um patch pode ser verificado olhando a fila principal do
++patchwork
++para a netdev:
++
++  https://patchwork.kernel.org/project/netdevbpf/list/
++
++O campo "State" informará exatamente onde as coisas estão com o
++seu patch:
++
++==================
++=============================================================
++Estado do patch    Descrição
++==================
++=============================================================
++New, Under review  revisão pendente, o patch está na fila do mantenedor
++para
++                   revisão; os dois estados são usados alternadamente
++                   (dependendo do co-mantenedor exato que estiver lidando
++                   com o
++                   patchwork no momento)
++Accepted           o patch foi aplicado à árvore de rede apropriada,
++isso é
++                   geralmente definido de forma automática pelo pw-bot
++Needs ACK          aguardando um "ack" de um especialista da área
++ou testes
++Changes requested  o patch não passou na revisão, espera-se uma nova
++revisão
++                   com mudanças apropriadas no código e na mensagem
++                   de commit
++Rejected           o patch foi rejeitado e não se espera uma nova
++revisão
++Not applicable     espera-se que o patch seja aplicado fora do
++subsistema de
++                   rede
++Awaiting upstream  o patch deve ser revisado e tratado pelo sub-mantenedor
++                   apropriado, que o enviará para as árvores de rede;
++                   patches
++                   definidos como ``Awaiting upstream`` no patchwork
++                   da netdev
++                   geralmente permanecerão neste estado,
++                   independentemente de
++                   o sub-mantenedor ter solicitado mudanças, aceito ou
++                   rejeitado o patch
++Deferred           o patch precisa ser reenviado mais tarde, geralmente
++devido
++                   a alguma dependência ou porque foi enviado para
++                   uma árvore
++                   fechada
++Superseded         uma nova versão do patch foi enviada, geralmente
++definido
++                   pelo pw-bot
++RFC                não deve ser aplicado, geralmente não está na
++fila de
++                   revisão do mantenedor; o pw-bot pode definir
++                   patches para
++                   este estado automaticamente com base nas tags do
++                   assunto
++==================
++=============================================================
++
++Os patches são indexados pelo cabeçalho ``Message-ID`` dos e-mails
++que os
++transportaram; portanto, se você tiver problemas para encontrar seu
++patch,
++anexe o valor do ``Message-ID`` à URL acima.
++
++Atualizando o status do patch
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++Colaboradores e revisores não têm permissões para atualizar o estado
++do patch
++diretamente no patchwork. O Patchwork não expõe muitas informações
++sobre o
++histórico do estado dos patches; portanto, ter várias pessoas
++atualizando o
++estado leva a confusões.
++
++Em vez de delegar permissões do patchwork, a netdev usa um robô
++de e-mail
++simples (bot) que procura por comandos/linhas especiais dentro dos e-mails
++enviados para a lista de discussão. Por exemplo, para marcar uma
++série como
++Mudanças Solicitadas (*Changes Requested*), é necessário enviar
++a seguinte
++linha em qualquer lugar na thread do e-mail::
++
++  pw-bot: changes-requested
++
++Como resultado, o bot definirá toda a série como Mudanças
++Solicitadas. Isso
++pode ser útil quando o autor descobre um bug em sua própria série
++e deseja
++evitar que ela seja aplicada.
++
++O uso do bot é totalmente opcional; em caso de dúvida, ignore
++completamente a
++existência dele. Os mantenedores classificarão e atualizarão o
++estado dos
++patches por conta própria. Nenhum e-mail deve ser enviado à lista com o
++propósito principal de se comunicar com o bot; os comandos do bot
++devem ser
++vistos como metadados.
++
++O uso do bot é restrito aos autores dos patches (o cabeçalho ``From:``
++no envio
++do patch e no comando deve coincidir!), mantenedores do código
++modificado de
++acordo com o arquivo MAINTAINERS (novamente, o ``From:`` deve coincidir
++com a
++entrada no MAINTAINERS) e alguns revisores seniores.
++
++O bot registra sua atividade aqui:
++
++  https://netdev.bots.linux.dev/pw-bot.html
++
++Prazos de revisão
++~~~~~~~~~~~~~~~~~
++
++De modo geral, os patches são triados rapidamente (em menos de 48h). Mas
++seja
++paciente; se o seu patch estiver ativo no patchwork (ou seja, listado
++na lista
++de patches do projeto), as chances de ele ter sido esquecido são
++próximas de
++zero.
++
++O alto volume de desenvolvimento na netdev faz com que os revisores
++encerrem
++discussões de forma relativamente rápida. É muito improvável que novos
++comentários e respostas cheguem após uma semana de silêncio. Se um
++patch não
++estiver mais ativo no patchwork e a thread ficar inativa por mais de uma
++semana - esclareça os próximos passos e/ou envie a próxima versão.
++
++Especificamente para envios de RFC, se ninguém responder em uma semana -
++ou os
++revisores perderam o envio ou não têm opiniões fortes a respeito. Se
++o código
++estiver pronto, reenvie como um PATCH.
++
++E-mails dizendo apenas "ping" ou "bump" são considerados rudes. Se
++você não
++conseguir identificar o status do patch pelo patchwork ou onde a
++discussão
++parou - descreva sua melhor suposição e pergunte se ela está
++correta. Por
++exemplo::
++
++  Não entendo quais são os próximos passos. A Pessoa X parece estar
++  descontente
++  com A; devo fazer B e enviar novamente os patches?
++
++.. _Solicitações de mudanças:
++
++Mudanças solicitadas
++~~~~~~~~~~~~~~~~~~~~
++
++Patches marcados como ``Changes Requested`` precisam
++ser revisados. A nova versão deve vir com um registro de alterações
++(changelog),
++preferencialmente incluindo links para as postagens anteriores, por
++exemplo::
++
++  [PATCH net-next v3] net: faz as vacas dizerem "muuu"
++
++  Mesmo os usuários que não bebem leite apreciam ouvir as vacas dizendo
++  "muuu".
++
++  A quantidade de mugidos dependerá da taxa de pacotes, portanto, deve
++  corresponder muito bem ao ciclo diurno.
++
++  Signed-off-by: Joe Defarmer <joe@barn.org>
++  ---
++  v3:
++    - adicionada uma nota sobre a flutuação do mugido conforme a hora
++    do dia na
++      mensagem de commit
++  v2: https://lore.kernel.org/netdev/123themessageid@barn.org/
++    - corrigido argumento ausente na kernel doc para netif_is_bovine()
++    - corrigido vazamento de memória (memory leak) em
++    netdev_register_cow()
++  v1: https://lore.kernel.org/netdev/456getstheclicks@barn.org/
++
++A mensagem de commit deve ser revisada para responder a quaisquer
++perguntas que
++os revisores tenham feito em discussões anteriores. Ocasionalmente, a
++atualização da mensagem de commit será a única mudança na nova
++versão.
++
++Reenvios parciais
++~~~~~~~~~~~~~~~~~
++
++Por favor, sempre reenvie a série completa de patches e certifique-se de
++numerar seus patches de forma que fique claro que este é o conjunto mais
++recente e completo de patches que pode ser aplicado. Não tente reenviar
++apenas
++os patches que foram alterados.
++
++Lidando com patches aplicados incorretamente
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++Ocasionalmente, uma série de patches é aplicada antes de receber
++feedback
++crítico, ou a versão errada de uma série é aplicada.
++
++Não é possível fazer o patch desaparecer uma vez que ele foi enviado
++(pushed);
++o histórico de commits nas árvores netdev é imutável. Por favor,
++envie versões
++incrementais sobre o que foi mesclado para corrigir os patches da
++maneira que
++eles ficariam se a sua série de patches mais recente fosse mesclada.
++
++Em casos onde uma reversão completa (revert) é necessária, a reversão
++deve ser
++enviada como um patch para a lista com uma mensagem de commit explicando
++os
++problemas técnicos com o commit revertido. Reversões devem ser
++usadas como
++último recurso, quando a mudança original está completamente errada;
++correções
++incrementais são preferidas.
++
++Árvore estável
++~~~~~~~~~~~~~~
++
++Embora antigamente as submissões para a netdev não devessem carregar
++tags
++explícitas ``CC: stable@vger.kernel.org``, esse não é mais o caso
++hoje em dia.
++Por favor, siga as regras padrão de estabilidade em
++``Documentation/process/stable-kernel-rules.rst``, e certifique-se de
++incluir as
++tags Fixes apropriadas!
++
++Correções de segurança
++~~~~~~~~~~~~~~~~~~~~~~
++
++Não envie e-mails diretamente para os mantenedores da netdev se você
++acha que
++descobriu um bug que possa ter possíveis implicações de segurança. O
++atual
++mantenedor da netdev tem solicitado consistentemente que as pessoas
++usem as
++listas de discussão e não entrem em contato diretamente. Se você
++não estiver
++de acordo com isso, considere enviar um e-mail para security@kernel.org ou
++ler sobre http://oss-security.openwall.org/wiki/mailing-lists/distros como
++possíveis mecanismos alternativos.
++
++Envio conjunto de mudanças em componentes de espaço do usuário
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++O código de espaço do usuário (*user space*) que exercita
++funcionalidades do
++kernel deve ser enviado juntamente com os patches do kernel. Isso dá aos
++revisores a chance de ver como qualquer nova interface é usada e quão
++bem ela
++funciona.
++
++Quando as ferramentas de espaço do usuário residem no próprio
++repositório do
++kernel, todas as alterações devem geralmente vir em uma única
++série. Se a série
++se tornar muito grande ou se o projeto de espaço do usuário não for
++revisado na
++netdev, inclua um link para um repositório público onde os patches de
++espaço do
++usuário possam ser vistos.
++
++No caso de ferramentas de espaço do usuário residirem em um repositório
++separado, mas serem revisadas na netdev (por exemplo, patches para
++ferramentas
++``iproute2``), os patches do kernel e do espaço do usuário devem
++formar séries
++(threads) separadas quando postados na lista de discussão, por exemplo::
++
++  [PATCH net-next 0/3] net: carta de apresentação de alguma
++  funcionalidade
++   └─ [PATCH net-next 1/3] net: preparação para alguma
++   funcionalidade
++   └─ [PATCH net-next 2/3] net: implementação de alguma
++   funcionalidade
++   └─ [PATCH net-next 3/3] selftest: net: alguma funcionalidade
++
++  [PATCH iproute2-next] ip: adiciona suporte para alguma funcionalidade
++
++A postagem em uma única thread é desencorajada porque confunde
++o patchwork
++(a partir da versão 2.2.2 do patchwork).
++
++Envio conjunto de selftests
++~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++Os selftests devem fazer parte da mesma série que as mudanças de
++código.
++Especificamente para correções, tanto a mudança de código quanto
++o teste
++relacionado devem ir para a mesma árvore (os testes podem não ter
++uma tag
++Fixes, o que é esperado). Misturar mudanças de código e mudanças de
++teste em
++um único commit é desencorajado.
++
++Preparando as mudanças
++----------------------
++
++Atenção aos detalhes é importante. Releia seu próprio trabalho como
++se você
++fosse o revisor. Você pode começar usando o ``checkpatch.pl``, talvez
++até com
++a flag ``--strict``. Mas não seja robótico e irracional ao fazer
++isso. Se sua
++mudança for uma correção de bug, certifique-se de que seu log de
++commit indique
++o sintoma visível para o usuário final, a razão subjacente de por
++que isso
++acontece e, se necessário, explique por que a correção proposta é
++a melhor
++maneira de resolver as coisas. Não corrompa espaços em branco e,
++como é comum,
++não use recuos incorretos em argumentos de função que abrangem
++várias linhas.
++Se for o seu primeiro patch, envie-o para si mesmo por e-mail para
++que você
++possa testar a aplicação em uma árvore sem patches para confirmar que a
++infraestrutura não o danificou.
++
++Finalmente, volte e leia
++``Documentation/process/submitting-patches.rst``
++para ter certeza de que não está repetindo algum erro comum documentado
++lá.
++
++Indicando a árvore de destino
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++Para ajudar os mantenedores e os bots de CI, você deve marcar
++explicitamente
++qual árvore seu patch tem como alvo. Supondo que você use git, utilize
++a flag
++de prefixo::
++
++  git format-patch --subject-prefix='PATCH net-next' inicio..fim
++
++Use ``net`` em vez de ``net-next`` (sempre em letras minúsculas)
++no comando
++acima para conteúdos de correção de bugs da árvore ``net``.
++
++Dividindo o trabalho em patches
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++Coloque-se no lugar do revisor. Cada patch é lido separadamente e,
++portanto,
++deve constituir um passo compreensível em direção ao seu objetivo
++declarado.
++
++Evite enviar séries com mais de 15 patches. Séries maiores levam
++mais tempo
++para serem revisadas, pois os revisores adiarão a análise até
++encontrarem um
++grande bloco de tempo disponível. Uma série pequena pode ser revisada
++em pouco
++tempo, então os mantenedores simplesmente a revisam de imediato. Como
++resultado,
++uma sequência de séries menores é mesclada mais rapidamente e com
++melhor
++cobertura de revisão. Reenviar séries grandes também aumenta o tráfego
++na lista
++de discussão.
++
++Limitar patches pendentes na lista de discussão
++-----------------------------------------------
++
++Evite ter mais de 15 patches, em todas as séries, pendentes de revisão
++na lista
++de discussão para uma única árvore. Em outras palavras, um máximo
++de 15 patches
++sob revisão na ``net`` e um máximo de 15 patches sob revisão na
++``net-next``.
++
++Este limite tem o objetivo de focar o esforço do desenvolvedor nos
++testes dos
++patches antes da revisão upstream, auxiliando a qualidade das submissões
++upstream e aliviando a carga sobre os revisores.
++
++
++Ordenação de variáveis locais ("árvore invertida", "RCS")
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++A netdev tem uma convenção para ordenar variáveis locais em
++funções. Ordene as
++linhas de declaração de variáveis da mais longa para a mais curta,
++por exemplo::
++
++  struct scatterlist *sg;
++  struct sk_buff *skb;
++  int err, i;
++
++Se houver dependências entre as variáveis que impeçam a ordenação,
++mova a
++inicialização para fora da linha de declaração.
++
++Precedência de formatação
++~~~~~~~~~~~~~~~~~~~~~~~~~
++
++Ao trabalhar em código existente que utiliza formatação não padrão,
++faça com
++que seu código siga as diretrizes mais recentes, para que, eventualmente,
++todo
++o código no domínio da netdev esteja no formato preferido.
++
++Uso de construções gerenciadas por dispositivo e cleanup.h
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++Historicamente, a netdev permanece cética em relação às promessas
++de todas as
++APIs de "auto-limpeza" (auto-cleanup), incluindo até mesmo os auxiliares
++``devm_``. Eles não são o estilo preferido de implementação, apenas
++um estilo
++aceitável.
++
++O uso de ``guard()`` é desencorajado em qualquer função com mais de
++20 linhas;
++``scoped_guard()`` é considerado mais legível. O uso de lock/unlock
++normal
++ainda é (levemente) preferido.
++
++Construções de limpeza de baixo nível (como ``__free()``) podem ser
++usadas ao
++construir APIs e auxiliares, especialmente iteradores com escopo. No
++entanto, o
++uso direto de ``__free()`` dentro do núcleo de rede (networking core)
++e drivers
++é desencorajado. Orientações semelhantes se aplicam à declaração
++de variáveis
++no meio da função.
++
++Patches de limpeza (Clean-up patches)
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++A netdev desencoraja patches que realizam limpezas simples que não
++estejam no
++contexto de outro trabalho. Por exemplo:
++
++* Tratar avisos do ``checkpatch.pl`` e outros avisos triviais de estilo de
++  codificação
++* Tratar problemas de Ordenação de variáveis locais
++* Conversões para APIs gerenciadas por dispositivo (auxiliares ``devm_``)
++
++Isso ocorre porque se considera que a agitação (*churn*) que tais
++mudanças
++produzem tem um custo maior do que o valor de tais limpezas.
++
++Por outro lado, correções de ortografia e gramática não são
++desencorajadas.
++
++Reenviando após a revisão
++~~~~~~~~~~~~~~~~~~~~~~~~~
++
++Aguarde pelo menos 24 horas entre as postagens. Isso garantirá que
++revisores de
++todas as localizações geográficas tenham a chance de se
++manifestar. Não espere
++muito tempo (semanas) entre as postagens, pois isso tornará mais
++difícil para
++os revisores lembrarem de todo o contexto.
++
++Certifique-se de tratar todo o feedback em sua nova postagem. Não
++envie uma
++nova versão do código se a discussão sobre a versão anterior ainda
++estiver em
++andamento, a menos que seja instruído diretamente por um revisor.
++
++A nova versão dos patches deve ser postada como uma thread separada,
++não como
++uma resposta à postagem anterior. O registro de alterações (changelog)
++deve
++incluir um link para a postagem anterior (veja :ref:`Solicitações
++de mudanças`).
++
++Testes
++------
++
++Nível de teste esperado
++~~~~~~~~~~~~~~~~~~~~~~~
++
++No mínimo, suas alterações devem passar por uma compilação
++``allyesconfig`` e
++uma ``allmodconfig`` com ``W=1`` definido, sem novos avisos ou falhas.
++
++O ideal é que você tenha feito testes em tempo de execução
++específicos para sua
++alteração, e que a série de patches contenha um conjunto de selftests
++do kernel
++para ``tools/testing/selftests/net`` ou usando o framework KUnit.
++
++Espera-se que você teste suas alterações no topo da árvore de rede
++relevante
++(``net`` ou ``net-next``) e não, por exemplo, em uma árvore estável
++ou na
++``linux-next``.
++
++Verificações do patchwork
++~~~~~~~~~~~~~~~~~~~~~~~~~
++
++As verificações (*checks*) no patchwork são, em sua maioria, wrappers
++simples
++em torno de scripts existentes do kernel; as fontes estão disponíveis
++em:
++
++https://github.com/linux-netdev/nipa/tree/master/tests
++
++**Não** envie seus patches apenas para executá-los nas
++verificações. Você deve
++garantir que seus patches estejam prontos, testando-os localmente antes de
++postar na lista de discussão. A instância do bot de build do patchwork
++fica
++sobrecarregada com muita facilidade e a netdev@vger realmente não
++precisa de
++mais tráfego se pudermos evitar.
++
++netdevsim
++~~~~~~~~~
++
++O ``netdevsim`` é um driver de teste que pode ser usado para exercitar
++APIs de
++configuração de driver sem a necessidade de hardware
++compatível. Mock-ups e
++testes baseados no ``netdevsim`` são fortemente encorajados ao adicionar
++novas
++APIs, mas o ``netdevsim`` em si **não** é considerado um caso de
++uso/usuário.
++Você também deve implementar as novas APIs em um driver real.
++
++Não damos garantias de que o ``netdevsim`` mudará no futuro de uma
++forma que
++quebraria o que normalmente seria considerado uAPI.
++
++O ``netdevsim`` é reservado apenas para uso por testes upstream,
++portanto,
++quaisquer novos recursos do ``netdevsim`` devem ser acompanhados de
++selftests
++em ``tools/testing/selftests/``.
++
++Status de suporte para drivers
++------------------------------
++
++.. note: Os requisitos a seguir aplicam-se apenas a drivers de NIC
++Ethernet.
++
++A netdev define requisitos adicionais para drivers que desejam adquirir o
++status ``Supported`` (Suportado) no arquivo MAINTAINERS. Drivers
++``Supported``
++devem executar todos os testes de driver upstream e relatar os resultados
++duas
++vezes por dia. Drivers que não cumprirem este requisito devem usar
++o status
++``Maintained`` (Mantido). Atualmente, não há diferença na forma como os
++drivers ``Supported`` e ``Maintained`` são tratados no upstream.
++
++As regras exatas que um driver deve seguir para adquirir o status
++``Supported``:
++
++1. Deve executar todos os testes sob os alvos ``drivers/net`` e
++   ``drivers/net/hw`` dos selftests do Linux. A execução e o relato
++   de testes
++   privados / internos também são bem-vindos, mas os testes upstream
++   são
++   obrigatórios.
++
++2. A frequência mínima de execução é uma vez a cada 12 horas. Deve
++testar o
++   branch designado a partir do feed de branches selecionado. Observe
++   que os
++   branches são construídos automaticamente e estão expostos à
++   postagem
++   intencional de patches maliciosos; portanto, os sistemas de teste
++   devem ser
++   isolados.
++
++1. Drivers que suportam múltiplas gerações de dispositivos devem
++testar pelo
++   menos um dispositivo de cada geração. Um manifesto do ambiente
++   de teste
++   (*testbed manifest* - formato exato a definir) deve descrever os
++   modelos de
++   dispositivos testados.
++
++1. Os testes devem ser executados de forma confiável; se múltiplos
++branches
++   forem ignorados ou se os testes falharem devido a problemas no
++   ambiente de
++   execução, o status ``Supported`` será retirado.
++
++1. Falhas nos testes devido a bugs no driver ou no próprio teste,
++ou falta de
++   suporte para a funcionalidade que o teste visa, *não* são motivo
++   para a
++   perda do status ``Supported``.
++
++O CI da netdev manterá uma página oficial de dispositivos suportados,
++listando
++seus resultados de testes recentes.
++
++O mantenedor do driver pode providenciar para que outra pessoa execute
++o teste;
++não há exigência de que a pessoa listada como mantenedora (ou seu
++empregador)
++seja responsável pela execução dos testes. Colaborações entre
++fornecedores,
++hospedagem de CI no GitHub (GH CI), outros repositórios sob o
++linux-netdev,
++etc., são muito bem-vindas.
++
++Veja https://github.com/linux-netdev/nipa/wiki para mais informações
++sobre o CI
++da netdev. Sinta-se à vontade para entrar em contato com os mantenedores
++ou com
++a lista para quaisquer dúvidas.
++
++Orientações para revisores
++--------------------------
++
++Revisar patches de outras pessoas na lista é altamente incentivado,
++independentemente do nível de experiência. Para orientações gerais
++e dicas
++úteis, consulte `revisão de tópicos avançados de desenvolvimento`.
++
++É seguro assumir que os mantenedores da netdev conhecem a comunidade
++e o nível
++de experiência dos revisores. Os revisores não devem se preocupar com
++o fato de
++seus comentários impedirem ou desviarem o fluxo de patches.
++Less experienced reviewers are highly encouraged to do more in-depth
++review of submissions and not focus exclusively on trivial or subjective
++matters like code formatting, tags etc.
++
++Depoimentos / feedback
++----------------------
++
++Algumas empresas utilizam o feedback de colegas em revisões de
++desempenho de
++funcionários. Sinta-se à vontade para solicitar feedback dos
++mantenedores da
++netdev, especialmente se você dedica uma quantidade significativa
++de tempo
++revisando código e se esforça além do esperado para melhorar a
++infraestrutura
++compartilhada.
++
++O feedback deve ser solicitado por você, o colaborador, e será sempre
++compartilhado com você (mesmo que você solicite que ele seja enviado
++ao seu
++gerente).
+-- 
+2.47.3
+
