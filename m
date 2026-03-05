@@ -1,201 +1,196 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39A0D37BE7E;
-	Thu,  5 Mar 2026 09:33:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D00F37AA7A
+	for <linux-doc@vger.kernel.org>; Thu,  5 Mar 2026 09:51:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772703182; cv=none; b=suF98kfVROhPKy4ovjG6taazGksgnDhKTjq/Gu9geLjzbuZps3npTdJj1nC1a8pNr7bc8EihyTSMCOU/nC26VwoKiwwXQ73yQactIdzDvh6odH30IrsqUwXxAfs3BnukGsBrDyue6ySdrse3Vc6mePho2GuFcxhJdjljtodmUxs=
+	t=1772704307; cv=none; b=MNn9guWGhEm6+gGw6/mhNmwTqh+kDTBBuRy5kKEKh82eJWJ/sju6bl0wq4MNJ6LpxycP1e5w/rGYQVgj0asTEc/BbenQMGMKK/mfG9tR9qLNc6dTHFLCVYTUSgCQi+M+qP3u14xHYXFo0Q02yayZEU49iEsaFjeXGvOhSHjzBh8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772703182; c=relaxed/simple;
-	bh=J1mPT0AS8G1kySDxO52H0dygz5R6XVL35p3Y+NkqEgs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tO7fsSrYIRWQR0h55FtC2LU9QzjF46nFEyPPvDMcMHBKkGfouKbQDckYEsjqucR1g/2FKdBBzfP3nfJNTlJdgrSrbcQRhGit7KfcftIats9vtAy4u+LuX88YJPPmR3LkErqp+RepjsogCgYvDtJMYENF/LcUGlTwTer3M4EKuq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a95GeOy3; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772704307; c=relaxed/simple;
+	bh=rQwmOJb4O8I8mlsbHO9IDxXCoYF1W2cwc11R5kOlHIw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=R/vIVzqNWD8GzDyOK5n8oVN6vFnN4S9YHuBiUdndfhZU5R15TUKNJL8MoU/GQsL0G1WPlE5x4pwLiJyXIyfFQo79HzZfYT3qxcgszFnd3jGP8I6IJGtnwaZvoIGYshK1H5zGQ2XWcRbSoNLQcbN7+jjSGciKlDIHYcitOMJXWiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=IjwycJoz; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=apqdJKb6; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a95GeOy3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43DBBC19423;
-	Thu,  5 Mar 2026 09:33:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772703181;
-	bh=J1mPT0AS8G1kySDxO52H0dygz5R6XVL35p3Y+NkqEgs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=a95GeOy3NiPdBOqMQASBUPOamqYfl0FLVGcbxOgvYBHwGTjZVrzEX5K33FLrVBezv
-	 xsGGp75ylQLEv0gME68PFfq67dpOdq+tFzm7dRZw8OHjs5O7YA+t0USAlx2OkXZxsE
-	 0F6pJeDYsNDp4MncGFvuL/NgDTNFA44ahWG0eQ7YI3kHLsqNFMwbuBanMj9T8ISewP
-	 ZLa8wISf1QPRTlFmAoHnRRMGe9HtJ09u++rOeW2kjpE9CfiHGzGD+gkpIMOqmtyyCy
-	 58qwM1coJUmNA4IX49yeejBpXhcJ6Piw8c6vtCgf5xS5r0RuJEFRUCuB6LxUkedn0I
-	 mADgD+p2e1AxA==
-Date: Thu, 5 Mar 2026 10:32:59 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
-	Rodrigo Siqueira <siqueira@igalia.com>, Alex Deucher <alexander.deucher@amd.com>, 
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Sandy Huang <hjc@rock-chips.com>, 
-	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, 
-	Jani Nikula <jani.nikula@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
-	Dmitry Baryshkov <lumag@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Rob Herring <robh@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, kernel@collabora.com, amd-gfx@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
-	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v9 04/19] drm/display: hdmi-state-helper: Act on color
- format DRM property
-Message-ID: <20260305-sweet-boar-of-certainty-70f15f@houat>
-References: <20260227-color-format-v9-0-658c3b9db7ef@collabora.com>
- <20260227-color-format-v9-4-658c3b9db7ef@collabora.com>
- <20260302-literate-shrew-of-health-ec19d2@houat>
- <8648916.T7Z3S40VBb@workhorse>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="IjwycJoz";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="apqdJKb6"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62591lVl3665160
+	for <linux-doc@vger.kernel.org>; Thu, 5 Mar 2026 09:51:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=l4dDUc9FKxci0scJ6kHbvI
+	vVEUKnC5+r57TdAfo6P2A=; b=IjwycJozHkc4TDTOvjpyY1NZOr1UOQIcuqh7UR
+	ozgyF9oYbYgSLELweLxgJ83V6jlkNpW2PDyNXVdNB/Wy7CKR55XEv2n4xINUbVyn
+	nz9e32mOVSGSSQeIfZaV+RBzVgWDMiCHoLCEJHPxswmUqMNa/t7tgqaqW7v8/dNR
+	Yg+KdNnUN/w3eo3Mwlg/hLt9FKJzl9jWC3O0DUTKrKbynjEW4/drwiLw2iADjrDI
+	cd416GVaYbXH8os33v5xXOtZBGt6Ty9LVo+K/hj1v8BCCuZDBS1kgypTrPTi5Rio
+	4ORMDo8c3R6R8kluva3E4bhznqiZiZNEOxdGUGQxywIQBn1g==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cq04u1hma-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Thu, 05 Mar 2026 09:51:46 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-8cb37db8b79so5716097685a.3
+        for <linux-doc@vger.kernel.org>; Thu, 05 Mar 2026 01:51:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1772704305; x=1773309105; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=l4dDUc9FKxci0scJ6kHbvIvVEUKnC5+r57TdAfo6P2A=;
+        b=apqdJKb6B4o+2y5o7+HdUkkNCLe33wfi9q+d38a1KOYvjjStlsk2VLAsZGgjYXwUq+
+         PCqr5xHHBwTCxCwoit/KsuwdpQOXtrpUZFI6aXoPQNhwBe5UeEalFtBOwNA14OnWFpwj
+         INyMgAD7d+ygX6V0VuGZ10evhJ9ik3D2SXzZEAYNTZTEJLSrOS6ixlSf5RVKrke+Pmek
+         qrPud/MeDrkOEiYTK3I2bo4IRSSHozGhQT08URuL4gkIV/D71fAMKTFiIAdynFLo+jyW
+         YervH7tVg+00it+v1RfBc7sISmfVoiOsKidpNtBc4kWOINqKKn4xbVRcRTLP03L9yvtc
+         F7yA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772704305; x=1773309105;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=l4dDUc9FKxci0scJ6kHbvIvVEUKnC5+r57TdAfo6P2A=;
+        b=Xivai1XAtjn7V2ip8sm8/eYHjJwGHY5+Lo7IS1n1G3NhmZ0zNMjHMZ8L5vNVe0p08Z
+         rd9Lh0YerMgPyuCuK22QtBpwDSdlFSjmmoTOe1q+GDl+0tJB4xpVp+qV535GdCjAxQzO
+         V/Ln+7+C4rjmfmQl6v7av3zTPFIYrnhS9ju9mhuGQ61tSPj4gpjU9xW3pIdMIHOJezh3
+         dN+KDfmZkoDSvdQ4ZYb6lVht+/0qze6QvtGSCcA8k+8zu1c0hYTiA5us2Fm6aqFtbEUW
+         q62sXqbghEXUHGZMfrd76DXewLlEJHMkswxBHni7KMl//rs6Kyza3kuk7HourpWUsegy
+         Ijng==
+X-Forwarded-Encrypted: i=1; AJvYcCU+hivIznB0fWNh1jwSbDCf8E56u7sK6GcF0KqYoaQKREACz8WsA8+uHLN1Q1E09cbqN8wqbwJFY6I=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzaMscF3ccuvQSBNgiTDSNgWHYLOBMoAWL6qdTJphzIJPie7oVb
+	mcxD+Z8yC0cxoYlauVea0PZ0iy50/Du9Po0uE4ljHoMbWqQThN6MI+uWDIEa/6Ph31t/YLTlDMW
+	ub0utPCJ9COteK1UuYOqDxVBSyQhewOOUDQoHPYMp4aHzmdAXWAg75+dyf13O0UZpjR4cI4o=
+X-Gm-Gg: ATEYQzwUEOISRD6zhyCa7eJY/Xb+422EHqMfvtwieBBwQJONNc4XdOH73JE34kDG3J3
+	jbjL2jnGpw5k22Ztn7Tx7+zr5Ss1ncUc9SYyStcYqYWypIpUFVeQEwky8BSD5id9wcLY4NlwTgw
+	1JzBXcOjiL2M6CeWAxQbc5qfdBZZFRu3xT3iRvSSmt0sYI5rFzxp4oC+kTtJALX+go7Pq+xiv/I
+	x7XnwUX9kTbEEf8syZxxcQX3K+r8fy8HVwPjTZ8aoU9Z5i/3uEUhETuKqms3YjLNsfvxIN/gHwY
+	vZ5Lc2ekAD/L1zTepWAOZxmocDDzpeA4aXmbb/NcnoOpA09atCrs9WSDjWqIxrbMR8ugz1vrwRq
+	LyfShMxTddlflwvOGWHm+LvOH3AgRyHu3IF6lLtXCXQ2HSwVb1w62
+X-Received: by 2002:a05:620a:25cf:b0:89f:8bb8:c103 with SMTP id af79cd13be357-8cd5af7a53fmr647679485a.49.1772704304917;
+        Thu, 05 Mar 2026 01:51:44 -0800 (PST)
+X-Received: by 2002:a05:620a:25cf:b0:89f:8bb8:c103 with SMTP id af79cd13be357-8cd5af7a53fmr647675885a.49.1772704304504;
+        Thu, 05 Mar 2026 01:51:44 -0800 (PST)
+Received: from brgl-qcom.local ([2a01:cb1d:dc:7e00:8314:9d33:34c1:88ef])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4851ad1656bsm35598215e9.24.2026.03.05.01.51.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Mar 2026 01:51:43 -0800 (PST)
+From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: [PATCH 0/6] gpiolib: unify gpio-hog code
+Date: Thu, 05 Mar 2026 10:51:25 +0100
+Message-Id: <20260305-gpio-hog-fwnode-v1-0-97d7df6bbd17@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="etgtgheqnhe6g46r"
-Content-Disposition: inline
-In-Reply-To: <8648916.T7Z3S40VBb@workhorse>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAB5SqWkC/x3MTQqAIBBA4avIrBuoMYW6SrToZ9LZaChUIN09a
+ fkt3iuQOQlnGFWBxJdkiaGiaxRsfgmOUfZqoJZsS9SjOyWijw6PO8Sdce3tYnQ3WDIaanUmPuT
+ 5j9P8vh9JWtyHYQAAAA==
+X-Change-ID: 20260224-gpio-hog-fwnode-b46a53196253
+To: Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Mika Westerberg <westeri@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Aaro Koskinen <aaro.koskinen@iki.fi>,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+        Tony Lindgren <tony@atomide.com>, Russell King <linux@armlinux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-omap@vger.kernel.org, linux-doc@vger.kernel.org, brgl@kernel.org,
+        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+        stable@vger.kernel.org
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2098;
+ i=bartosz.golaszewski@oss.qualcomm.com; h=from:subject:message-id;
+ bh=rQwmOJb4O8I8mlsbHO9IDxXCoYF1W2cwc11R5kOlHIw=;
+ b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBpqVIkgjKn8wsYQdnDa6vZ12Pc+Y6pTgCNa4C74
+ pXtrDKcXs2JAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCaalSJAAKCRAFnS7L/zaE
+ wx1OEACIl6fRdGiMY6XiNPs+wPhYwJCCC7ygnK5SKbf4ZfA4QVw8jZtlPnuxDGPTKGWKzh2ce5u
+ jKyxn6s5tTcytgFl+vlLG0t4ZEOgTOFdedlbN26Dlo02avU3BY7FmBTypt6FpiZyuu3dnpn711e
+ WgS3NiiasnpGAl8MD5zfxqkij2t78hkzrRc+pXuOP48atyJwOYOKjDvFMU+ZJXWb15l+pmQfj+0
+ XZaL/Jkarq2qOuFXiNuhsIsxm7jo03Ts7M8bBnKtcdKr9e0ksbQLT6ethIDmPkfvEVoffAwpewO
+ zKl9v4bWIrVtI1cyo9Mq1CbRlff4myd/gVRMrJUm5r+sM+iXds8zKGEqp+8k+kftNcnwYJD7wIP
+ 1ADDJ9fbvXRo8pSjHTihqBpfSo8Uc7zodC09ywWi+sIWxWRjTUv4yYVVA9BS/GhzJAw+TXmDWMU
+ 7E+s7qApuBQvA0l8XrzKuU2L8Z8C9+voBZ8B3qhg9+d3qy8aWM7RHiaLJpifmImH6yXYTl6l9I+
+ zb5YHUnjLJ/0Xg45FWfXIe7sghEiO7LIbbsbaF7jlFDe0VmtCcaJEwYE1VRU8RXTLZuMIpaYY8w
+ rDNN20awgzHH+CM0JhjXqdSoOlq2PL2PMgghzfyE4eCOqVstL6oJEwCVwrnRMs8d2skyU8m/EZX
+ 1rXdW7DFDhYPaeg==
+X-Developer-Key: i=bartosz.golaszewski@oss.qualcomm.com; a=openpgp;
+ fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
+X-Proofpoint-GUID: oJdCb5vWqbQoAxwg3Q-hFjTkZGJSju_C
+X-Authority-Analysis: v=2.4 cv=eqTSD4pX c=1 sm=1 tr=0 ts=69a95232 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22 a=EUspDBNiAAAA:8
+ a=KhiCW88sooxdVpxl3PQA:9 a=QEXdDO2ut3YA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
+X-Proofpoint-ORIG-GUID: oJdCb5vWqbQoAxwg3Q-hFjTkZGJSju_C
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA1MDA3OSBTYWx0ZWRfX4Qxcb10+bp6U
+ KjXZDyJL+EXvywxUgrhw7tFDOBJz/N3EzdSTxtvgp8UgkY4H6MQD0kVZMD0Z9TigZCsoPCwWy4u
+ qDdDmInvsOheDFhuwRt5aWPAxoo0zGx90PL11Q9AdeTB7ZBnTKNfxN2hwDV0+Tna+sL0Bw9LddM
+ iP2UqQ8GipXwzXRl3TaHndvMUyzr1c4PrUpSdDMYM/NbjrCNz/sWNm4RccN17UK09hahYZ2nL5T
+ lrZrT20LF9RR01RZeprwhIG28I93ry7gyS/I44XkBYnVxpf2eZ49+xCwCt+s3mhysY+sKI4ZEUz
+ x4bcFOn/5S0neW/wLqE6atsmNF8J9R4G+VDsNNU+uW9lDeY1VVCIufNfABwtGN5//0/K++INXmK
+ zeVCNnQTps/ylv6/tg986/yQtCe6IWHD+xjsWOlz3Jb3dKEXGaxKlhOSHErAGUjqJF8qkq9Uopz
+ hFp2NIwvlmgji9XpTCQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-05_02,2026-03-04_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 bulkscore=0 clxscore=1015 priorityscore=1501 malwarescore=0
+ lowpriorityscore=0 spamscore=0 impostorscore=0 adultscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603050079
 
+GPIO hogs are handled separately in three places: for OF, ACPI and
+machine lookup. In addition hogs cannot be set up using software nodes.
+A lot of that code is actually redundant and - except for some special
+handling of OF nodes - can be unified in one place.
 
---etgtgheqnhe6g46r
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v9 04/19] drm/display: hdmi-state-helper: Act on color
- format DRM property
-MIME-Version: 1.0
+This series moves hogging into GPIO core and bases it on fwnode API
+(with a single helper from OF to translate devicetree properties into
+lookup flags), converts the two remaining users of machine hogs to using
+software node approach and removes machine hog support entirely. In
+addition, there's a patch extending the configurability of gpio-sim now
+that it uses software nodes for hogs.
 
-On Mon, Mar 02, 2026 at 01:53:34PM +0100, Nicolas Frattaroli wrote:
-> On Monday, 2 March 2026 09:46:06 Central European Standard Time Maxime Ri=
-pard wrote:
-> > Hi,
-> >=20
-> > On Fri, Feb 27, 2026 at 08:20:09PM +0100, Nicolas Frattaroli wrote:
-> > > With the introduction of the "color format" DRM property, which allows
-> > > userspace to request a specific color format, the HDMI state helper
-> > > should implement this.
-> > >=20
-> > > Implement it by translating the requested drm_connector_color_format =
-to
-> > > a drm_output_color_format enum value as per the logic HDMI should use
-> > > for this: Auto is translated to RGB, and a fallback to YUV420 is only
-> > > performed if the original color format was auto.
-> > >=20
-> > > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-> > > ---
-> > >  drivers/gpu/drm/display/drm_hdmi_state_helper.c | 28 +++++++++++++++=
-++++++++--
-> > >  1 file changed, 26 insertions(+), 2 deletions(-)
-> > >=20
-> > > diff --git a/drivers/gpu/drm/display/drm_hdmi_state_helper.c b/driver=
-s/gpu/drm/display/drm_hdmi_state_helper.c
-> > > index 9f3b696aceeb..31c6d55fa995 100644
-> > > --- a/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> > > +++ b/drivers/gpu/drm/display/drm_hdmi_state_helper.c
-> > > @@ -669,10 +669,34 @@ hdmi_compute_config(const struct drm_connector =
-*connector,
-> > >  	unsigned int max_bpc =3D clamp_t(unsigned int,
-> > >  				       conn_state->max_bpc,
-> > >  				       8, connector->max_bpc);
-> > > +	enum drm_output_color_format fmt;
-> > >  	int ret;
-> > > =20
-> > > -	ret =3D hdmi_compute_format_bpc(connector, conn_state, mode, max_bp=
-c,
-> > > -				      DRM_OUTPUT_COLOR_FORMAT_RGB444);
-> > > +	switch (conn_state->color_format) {
-> > > +	case DRM_CONNECTOR_COLOR_FORMAT_AUTO:
-> > > +	case DRM_CONNECTOR_COLOR_FORMAT_RGB444:
-> > > +		fmt =3D DRM_OUTPUT_COLOR_FORMAT_RGB444;
-> > > +		break;
-> > > +	case DRM_CONNECTOR_COLOR_FORMAT_YCBCR444:
-> > > +		fmt =3D DRM_OUTPUT_COLOR_FORMAT_YCBCR444;
-> > > +		break;
-> > > +	case DRM_CONNECTOR_COLOR_FORMAT_YCBCR422:
-> > > +		fmt =3D DRM_OUTPUT_COLOR_FORMAT_YCBCR422;
-> > > +		break;
-> > > +	case DRM_CONNECTOR_COLOR_FORMAT_YCBCR420:
-> > > +		fmt =3D DRM_OUTPUT_COLOR_FORMAT_YCBCR420;
-> > > +		break;
-> > > +	default:
-> > > +		drm_dbg_kms(connector->dev, "HDMI does not support color format '%=
-d'.\n",
-> > > +			    conn_state->color_format);
-> > > +		return -EINVAL;
-> > > +	}
-> > > +
-> > > +	ret =3D hdmi_compute_format_bpc(connector, conn_state, mode, max_bp=
-c, fmt);
-> > > +
-> > > +	if (conn_state->color_format !=3D DRM_CONNECTOR_COLOR_FORMAT_AUTO)
-> > > +		return ret;
-> > > +
-> >=20
-> > We discussed it before, and it wasn't as trivial as it should have been,
-> > but now, I really feel something like the following would be simpler:
-> >=20
-> > if (conn_state->color_format !=3D DRM_CONNECTOR_COLOR_FORMAT_AUTO) {
-> > 	enum drm_output_color_format fmt;
-> >=20
-> > 	switch (conn_state->color_format) {
-> > 	case DRM_CONNECTOR_COLOR_FORMAT_AUTO:
-> > 	     drm_warn(connector->dev, "The format shouldn't be auto here"); //=
- or any better message
-> > 	     fallthrough;
->=20
-> Why shouldn't it be auto there? This is the function where the auto->rgb
-> mapping is explicitly handled.
+For merging: I think this should go through the GPIO tree with an Ack
+from OMAP1 maintainers.
 
-We just tested above that it wasn't, so if we took that branch but it's
-still auto, something is very wrong :)
+Even with the new feature for gpio-sim, this series still removes twice
+the number of lines, it adds.
 
-> > 	case DRM_CONNECTOR_COLOR_FORMAT_RGB444:
-> > 	     fmt =3D DRM_OUTPUT_COLOR_FORMAT_RGB444;
-> > 	     break;
-> > 	....
-> > 	}
-> >=20
-> > 	return hdmi_compute_format_bpc(connector, conn_state, mode, max_bpc, f=
-mt);
-> > }
-> >=20
-> > ret =3D hdmi_compute_format_bpc(connector, conn_state, mode, max_bpc,
-> > 			      DRM_OUTPUT_COLOR_FORMAT_RGB444);
-> >=20
-> > It makes it much clearer what the two branches are, and we don't have to
-> > test for auto multiple times.
->=20
-> Testing for auto multiple times is done for the "4:2:0 fallback on
-> AUTO only" case. If you fall through from AUTO to RGB and then return
-> the result of hdmi_compute_format_bpc on RGB, then you will not let
-> AUTO fall back to 4:2:0. hdmi_compute_format_bpc only does a fallback
-> for lower bit depths, not different color formats.
+Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+---
+Bartosz Golaszewski (6):
+      gpio: of: clear OF_POPULATED on hog nodes in remove path
+      gpio: move hogs into GPIO core
+      gpio: sim: use fwnode-based GPIO hogs
+      ARM: omap1: ams-delta: convert GPIO hogs to using firmware nodes
+      gpio: remove machine hogs
+      gpio: sim: allow to define the active-low setting of a simulated hog
 
-The part above wasn't meant to be the whole function but only the part
-covered by your patch. My point is you should have a test of whether we
-have auto or not. If we don't we use whatever we have and early return.
-If we have auto, we do RGB then YUV420 like we used to.
+ Documentation/driver-api/gpio/board.rst |  16 ---
+ arch/arm/mach-omap1/board-ams-delta.c   |  32 ++++-
+ drivers/gpio/gpio-sim.c                 | 200 +++++++++++++++-----------------
+ drivers/gpio/gpiolib-acpi-core.c        |  70 -----------
+ drivers/gpio/gpiolib-of.c               | 148 +++--------------------
+ drivers/gpio/gpiolib-of.h               |   9 ++
+ drivers/gpio/gpiolib.c                  | 139 +++++++++++++---------
+ drivers/gpio/gpiolib.h                  |   3 +
+ include/linux/gpio/machine.h            |  33 ------
+ 9 files changed, 233 insertions(+), 417 deletions(-)
+---
+base-commit: c025f6cf4209e1542ec2afebe49f42bbaf1a5c7b
+change-id: 20260224-gpio-hog-fwnode-b46a53196253
 
-Maxime
+Best regards,
+-- 
+Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
---etgtgheqnhe6g46r
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaalNygAKCRAnX84Zoj2+
-dhnCAX9DNAh/ZSZ/rCHg5+5ZYomOTbZkZfYVH9tmTzU1bVK4L/QKl1+OT4JFZgi4
-MOwWQH4BegMzSI+E4j/H8ZJUYoTCAU2UluDtmLLmQt5+1qE3ZOKXXBngFnNDHiYU
-ARwHaTH91w==
-=n+uK
------END PGP SIGNATURE-----
-
---etgtgheqnhe6g46r--
