@@ -1,104 +1,172 @@
-Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AFF83368A8
-	for <linux-doc@vger.kernel.org>; Thu,  5 Mar 2026 03:22:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A4013D891;
+	Thu,  5 Mar 2026 06:00:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772680928; cv=none; b=hJTNR3miDsrzmasQqb1/pXiYBk3+DfMTTlhMjze66NWQa8hlsHuhruD6lBixX5Fx1cKGb6PQtLZ0qkmi7E50mpfpUqPQ1YCqi4horMEqcsZBmVMBEXdbElmrEntGC4wJa1X2HjH9AFWn58JF5lmqkUSQx1M0qlFc4zLK3SkbD/s=
+	t=1772690402; cv=none; b=WPzp00VT+8U3UkLBrEkCJSqTcwl7pkgTR4/XzmfEW2nz6Q81pKQlC/iN/uW6LSj4vYPpXs0EUtbg2OlMyI39Cc6KgNJ6ZO5wvz0/RnjCImxrcWE18OlzU+x2vEzeda9RB0x7ydkiQVx6BUzzOhawAUuWWM/Z4K2pysS/6EdkyeE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772680928; c=relaxed/simple;
-	bh=QZ0hNcuNlpQuyiiY34XUhZUoyz0Dwe6vjkiCfycRTck=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=V8XQoq/S4TMO3zaUl63gmQgbvO3McgVDTHXkDXD/ZQ9eh84CSoMa8SG1hQv4EDJxn77HyFuABr5BudRl7Xqi7qL2wDoLMACSh2p/RwX0BlL9sf+crUOixiW3K0/iMnOdZbBlzd3mlZWWqRQk211u4HOlvZ2c3P4/ZFcUQfqWHaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=nQqMSLj1; arc=none smtp.client-ip=91.218.175.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1772690402; c=relaxed/simple;
+	bh=kRl0dFzmzJVFvVrDPwTGJzGoVWZ8CXbDkZD9sYp1f38=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=Qy7JOSrihaUx4DphJDW9pmNxj30tFcDR1J0jaVxlhu0+90JR567W4/1FRcOPAVSR32/y224HvGHwH5Vb0m1UBl0BNhwCrM3oiCzD0bm6nutEOgkitu/zkw1NvrX9rd7BxV+BO3/jmuEU3MC/FkET7uXuc5QZz0NprztjljDyYLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=SomfLdAg; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="nQqMSLj1"
-Message-ID: <7ef528c1-b09c-48ba-bd59-bcf13880e105@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1772680923;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gus2TbXg7gV4yotO25GDeDjmZGlpM2f+fKw3//D+yIA=;
-	b=nQqMSLj1tjlyJYZMSeOMcrUjLwkiQXIkpZMDbTxUeW4EXdyaALv/totjOTniIeC6JO9Tb+
-	nN4dIP7ddh+mLx7p2xWqLpogvBGLmHMhocAyCiCv1LL/5YNEFVmKuNVnJMPakmyrjRGUCl
-	GUGWZtENkEFZJXNvmDPtIT8tN+UUHNk=
-Date: Thu, 5 Mar 2026 11:21:51 +0800
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="SomfLdAg"
+Received: from smtpclient.apple (c-24-130-165-117.hsd1.ca.comcast.net [24.130.165.117])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 6255RIQs2343052
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Wed, 4 Mar 2026 21:27:18 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 6255RIQs2343052
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2026022301; t=1772688440;
+	bh=KA5gN2wC89NrKPDnrGFrieYaC050Cg169d1qgwroiwc=;
+	h=Subject:From:In-Reply-To:Date:Cc:References:To:From;
+	b=SomfLdAgQhI/vJVfqLfsic/psO4zSViGxGwX9XiWanqa1wF/QLw68781ii0LsTcRE
+	 qJkiUOdZ5AupVw9Ig1/cDsJc+9rcGobpAWzRxGUJvqFGjZ+fY8OaHZXojGH0gc0BBX
+	 9JJJOTJyqfecYZCYSQFM/nTj6X2EChZbkdNHkoH6SJLWln4ZKboSw2llOUxCsbHrMa
+	 oFWCi4YhORn9rosomWuuuupfhGXLuH2ldhT0KofMv9wJxmVjAhvLVyUqeTNUWr858U
+	 rsTZnIwg+H6oRBcdmTl6VNCJIa8nqzPsEzqw3s/0uLM7fro59ejCfbBSqllwOjypFu
+	 BA1f4u8zay5zg==
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Subject: Re: [PATCH v1] docs: filesystems: clarify KernelPageSize vs.
- MMUPageSize in smaps
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Zi Yan <ziy@nvidia.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>, Nico Pache
- <npache@redhat.com>, Dev Jain <dev.jain@arm.com>,
- Barry Song <baohua@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-kernel@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>,
- Usama Arif <usamaarif642@gmail.com>, Andi Kleen <ak@linux.intel.com>
-References: <20260304155636.77433-1-david@kernel.org>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Lance Yang <lance.yang@linux.dev>
-In-Reply-To: <20260304155636.77433-1-david@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.400.21\))
+Subject: Re: [PATCH v9 07/22] KVM: VMX: Initialize VMCS FRED fields
+From: Xin Li <xin@zytor.com>
+In-Reply-To: <aahchI7oiFrjFAmb@google.com>
+Date: Wed, 4 Mar 2026 21:27:07 -0800
+Cc: Binbin Wu <binbin.wu@linux.intel.com>, linux-kernel@vger.kernel.org,
+        kvm@vger.kernel.org, linux-doc@vger.kernel.org, pbonzini@redhat.com,
+        corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        luto@kernel.org, peterz@infradead.org, andrew.cooper3@citrix.com,
+        chao.gao@intel.com, hch@infradead.org, sohil.mehta@intel.com
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <99463361-58F3-42F9-9BCC-4BF0BF73D247@zytor.com>
+References: <20251026201911.505204-1-xin@zytor.com>
+ <20251026201911.505204-8-xin@zytor.com>
+ <8731e234-22b8-4ccf-89ef-63feed09e9c5@linux.intel.com>
+ <aahchI7oiFrjFAmb@google.com>
+To: Sean Christopherson <seanjc@google.com>
+X-Mailer: Apple Mail (2.3864.400.21)
 
 
 
-On 2026/3/4 23:56, David Hildenbrand (Arm) wrote:
-> There was recently some confusion around THPs and the interaction with
-> KernelPageSize / MMUPageSize. Historically, these entries always
-> correspond to the smallest size we could encounter, not any current
-> usage of transparent huge pages or larger sizes used by the MMU.
-> 
-> Ever since we added THP support many, many years ago, these entries
-> would keep reporting the smallest (fallback) granularity in a VMA.
-> 
-> For this reason, they default to PAGE_SIZE for all VMAs except for
-> VMAs where we have the guarantee that the system and the MMU will
-> always use larger page sizes. hugetlb, for example, exposes a custom
-> vm_ops->pagesize callback to handle that. Similarly, dax/device
-> exposes a custom vm_ops->pagesize callback and provides similar
-> guarantees.
-> 
-> Let's clarify the historical meaning of KernelPageSize / MMUPageSize,
-> and point at "AnonHugePages", "ShmemPmdMapped" and "FilePmdMapped"
-> regarding PMD entries.
-> 
-> While at it, document "FilePmdMapped", clarify what the "AnonHugePages"
-> and "ShmemPmdMapped" entries really mean, and make it clear that there
-> are no other entries for other THP/folio sizes or mappings.
-> 
-> Link: https://lore.kernel.org/all/20260225232708.87833-1-ak@linux.intel.com/
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-> Cc: Zi Yan <ziy@nvidia.com>
-> Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
-> Cc: Liam R. Howlett <Liam.Howlett@oracle.com>
-> Cc: Nico Pache <npache@redhat.com>
-> Cc: Ryan Roberts <ryan.roberts@arm.com
-> Cc: Dev Jain <dev.jain@arm.com>
-> Cc: Barry Song <baohua@kernel.org>
-> Cc: Lance Yang <lance.yang@linux.dev>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Shuah Khan <skhan@linuxfoundation.org>
-> Cc: Usama Arif <usamaarif642@gmail.com>
-> Cc: Andi Kleen <ak@linux.intel.com>
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
-> ---
+> On Mar 4, 2026, at 8:23=E2=80=AFAM, Sean Christopherson =
+<seanjc@google.com> wrote:
+>=20
+> On Wed, Jan 21, 2026, Binbin Wu wrote:
+>> On 10/27/2025 4:18 AM, Xin Li (Intel) wrote:
+>>> diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
+>>> index fcfa99160018..c8b5359123bf 100644
+>>> --- a/arch/x86/kvm/vmx/vmx.c
+>>> +++ b/arch/x86/kvm/vmx/vmx.c
+>>> @@ -1459,6 +1459,15 @@ void vmx_vcpu_load_vmcs(struct kvm_vcpu =
+*vcpu, int cpu)
+>>>    (unsigned long)(cpu_entry_stack(cpu) + 1));
+>>> }
+>>>=20
+>>> + /* Per-CPU FRED MSRs */
+>=20
+> Meh, this is pretty self-explanatory code.
 
-Makes sense to me. Feel free to add:
+I want to remind that this is =E2=80=9CPer-CPU=E2=80=9D.
 
-Reviewed-by: Lance Yang <lance.yang@linux.dev>
+On the other side, FRED_CONFIG and FRED_STKLVLS are typically the same =
+on
+all CPUs, and they don=E2=80=99t need to be updated during vCPU =
+migration.
+
+But anyway vCPU migration only cares per-CPU MSRs, so this is redundant.
+
+It often bothers me whether to explain the code a bit more or not, with =
+a
+short brief comment or a lengthy one.
+
+>=20
+>>> + if (kvm_cpu_cap_has(X86_FEATURE_FRED)) {
+>>> +#ifdef CONFIG_X86_64
+>>=20
+>> Nit:
+>>=20
+>> Is this needed?
+>>=20
+>> FRED is initialized by X86_64_F(), if CONFIG_X86_64 is not enabled, =
+this
+>> path is not reachable.
+>> There should be no compilation issue without #ifdef CONFIG_X86_64 / =
+#endif.
+>>=20
+>> There are several similar patterns in this patch, using  #ifdef =
+CONFIG_X86_64 /=20
+>> #endif or not seems not consistent. E.g. __vmx_vcpu_reset() and =
+init_vmcs()
+>> doesn't check the config, but here does.
+>>=20
+>>> + vmcs_write64(HOST_IA32_FRED_RSP1, =
+__this_cpu_ist_top_va(ESTACK_DB));
+>>> + vmcs_write64(HOST_IA32_FRED_RSP2, =
+__this_cpu_ist_top_va(ESTACK_NMI));
+>>> + vmcs_write64(HOST_IA32_FRED_RSP3, =
+__this_cpu_ist_top_va(ESTACK_DF));
+>=20
+> IMO, this is flawed for other reasons.  KVM shouldn't be relying on =
+kernel
+> implementation details with respect to what FRED stack handles what =
+event.
+>=20
+> The simplest approach would be to read the actual MSR.  _If_ using a =
+per-CPU read
+> provides meaningful performance benefits over RDMSR (or RDMSR w/ =
+immediate?  I
+> don't see an API for that...), then have the kernel provide a =
+dedicated accessor.
+
+I think you asked for it:
+
+https://lore.kernel.org/kvm/ZmoWB_XtA0wR2K4Q@google.com/
+
+I assume fetching through per-CPU cache is fast, but I might have =
+misunderstood
+your suggestion.
+
+
+>=20
+> Then the accessor can be a non-inlined functions, and this code can be =
+e.g.:
+>=20
+> if (IS_ENABLED(CONFIG_X86_64) && kvm_cpu_cap_has(X86_FEATURE_FRED)) {
+> vmcs_write64(HOST_IA32_FRED_RSP1, fred_rsp(MSR_IA32_FRED_RSP1));
+> vmcs_write64(HOST_IA32_FRED_RSP2, fred_rsp(MSR_IA32_FRED_RSP2));
+> vmcs_write64(HOST_IA32_FRED_RSP3, fred_rsp(MSR_IA32_FRED_RSP2));
+> }
+>=20
+> where fred_rsp() is _declared_ unconditionally, but implemented only =
+for 64-bit.
+> That way the compiler will be happy, and the actual usage will be =
+dropped before
+> linking via dead-code elimination.
+
+If KVM can=E2=80=99t rely on kernel side implementation details, =
+fred_rsp() has to read
+directly from the corresponding MSRs, right?
+
+
+>=20
+> Actually, we can probably do one better?
+>=20
+> if (cpu_feature_enabled(X86_FEATURE_FRED) && =
+kvm_cpu_cap_has(X86_FEATURE_FRED)) {
+
+I think KVM now forces X86_FEATURE_FRED=3Dy, no?
+
+
