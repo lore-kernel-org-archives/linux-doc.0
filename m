@@ -1,99 +1,234 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cosmicgizmosystems.com (cosmicgizmosystems.com [63.249.102.155])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12D9F1D47B4;
-	Thu,  5 Mar 2026 06:13:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BC8429B22F;
+	Thu,  5 Mar 2026 06:21:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.249.102.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772691200; cv=none; b=bf7S/PCg6ZpuQZA1R9OEa/9veoDzUwn7Q4p1gDSG2wgk6kqbeViIE5OHuwlk7LQdi+3r0BMTSELpVDp0g+ayR1DuqRjDvx5MPu/yfgEh4NuADmsZXTVKjmMzRCHerD0vy18AomLAqRQkydFpxlvOl7HTt0aKdLuK3S0cOB9Wb14=
+	t=1772691688; cv=none; b=uCjnfT/3BCOn9VMt0+HIAtPE0X1OnYAVlYoSlacTQCNbPaKHmM1pKZOKcylMrzrN2ebPat9nc2HawAUVSPwx2M8mSdobS2DSKiL8WScKWGJ/WvqCVw2seY44GiBMv4jEzyLqA3WcxFXYNFWhrx8kAQUuS5J9kp61z4SPynHiVgo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772691200; c=relaxed/simple;
-	bh=ko7F95C/qNfEuKQ7fgpE6IoqafkSggugoMhxPZdpimc=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=f9pqZ/HYN7+tFZp6P0bNx21SZwE5M9lFpTAR5kA3VE+uxJUo+yaChDL4ibg1VRzJvu7tpJrsQKpYML14BPVjgLYCebpjeRNq9T+MrYElNxUMVgwvi1ODWr/JP92edCHuxRghKBkWgs8YZhUVyDW6FHp4nX22v201EpsgPj9bRI0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=lED43wNG; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="lED43wNG"
-Received: from smtpclient.apple (c-24-130-165-117.hsd1.ca.comcast.net [24.130.165.117])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 6255uqoE2389035
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Wed, 4 Mar 2026 21:56:53 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 6255uqoE2389035
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2026022301; t=1772690215;
-	bh=ko7F95C/qNfEuKQ7fgpE6IoqafkSggugoMhxPZdpimc=;
-	h=Subject:From:In-Reply-To:Date:Cc:References:To:From;
-	b=lED43wNG7PaOWoUEpDO8IcogseMsNgNxMXF7oXdhEK9RO4Tg3ummE/XQxc9Vv7SIZ
-	 Flk94mMxOoBqcfigznNlwzZ4ysarTWAOQZqqGg4BLIkVmuAFTszwwUqbrauP6/eFba
-	 yTQoNx0tyTjxUp1q6qgdYvDKAww1gjHZmNc9D5JMdsEx+PKTXjYp3shZuZ7a+KOmtc
-	 C5wfznj0a7EXi09daEf7ZsRsAQL3jyCMzAKgUOjX38n/IQBTOeNFGebmhsaQX4GbgO
-	 GYOwHBd4l6lZ23Yq+gSOJWBNNoGa40ebFNO8nM2/znl2YnycTVfBNogGyp2hu3yaHO
-	 u/3WycfhKVI2g==
-Content-Type: text/plain;
-	charset=utf-8
+	s=arc-20240116; t=1772691688; c=relaxed/simple;
+	bh=F7C4BRk18D0QQDUoxo6NttmALDgv2k9ynY+QQZdT1eU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=POhNbmwr37Gip+lYFSCrRnqiqp5VmGxsYj78tKnhBiG7Bc2KkMFJA662tA3F4ryb5xmd64OghPNKDGMqIU5GO1lKjtnMVgh6vYwrJcr1DE/hdwd1ThyQrFrsSE5ZYFlVkz9l0EC93tyDBJmTu5qLcTaec8RbYAGwxXH6DNzBMp4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com; spf=pass smtp.mailfrom=cosmicgizmosystems.com; arc=none smtp.client-ip=63.249.102.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cosmicgizmosystems.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cosmicgizmosystems.com
+Received: from [10.0.0.100] (unknown [76.144.184.162])
+	by host11.cruzio.com (Postfix) with ESMTPSA id DC7B81F0DB57;
+	Wed,  4 Mar 2026 22:13:33 -0800 (PST)
+Message-ID: <b59da54a-9c80-4212-a337-c5ea98da52d1@cosmicgizmosystems.com>
+Date: Wed, 4 Mar 2026 22:13:32 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.400.21\))
-Subject: Re: [PATCH v9 08/22] KVM: VMX: Set FRED MSR intercepts
-From: Xin Li <xin@zytor.com>
-In-Reply-To: <aajS9HFx5HabmCTq@google.com>
-Date: Wed, 4 Mar 2026 21:56:42 -0800
-Cc: Chao Gao <chao.gao@intel.com>, linux-kernel@vger.kernel.org,
-        kvm@vger.kernel.org, linux-doc@vger.kernel.org, pbonzini@redhat.com,
-        corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        luto@kernel.org, peterz@infradead.org, andrew.cooper3@citrix.com,
-        hch@infradead.org, sohil.mehta@intel.com
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <C5C396E6-0C34-4419-8F7A-F6EE07B2346C@zytor.com>
-References: <20251026201911.505204-1-xin@zytor.com>
- <20251026201911.505204-9-xin@zytor.com> <aRQf1sQZ9Z3CTB8i@intel.com>
- <aajS9HFx5HabmCTq@google.com>
-To: Sean Christopherson <seanjc@google.com>
-X-Mailer: Apple Mail (2.3864.400.21)
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/9] ALSA: usb-audio: Support string-descriptor-based
+ quirk table entry
+To: Rong Zhang <i@rong.moe>, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Cryolitia PukNgae <cryolitia@uniontech.com>,
+ Arun Raghavan <arunr@valvesoftware.com>, linux-sound@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Icenowy Zheng <uwu@icenowy.me>
+References: <20260301213726.428505-1-i@rong.moe>
+ <20260301213726.428505-5-i@rong.moe>
+Content-Language: en-US
+From: Terry Junge <linuxsound@cosmicgizmosystems.com>
+In-Reply-To: <20260301213726.428505-5-i@rong.moe>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
 
-> On Mar 4, 2026, at 4:48=E2=80=AFPM, Sean Christopherson =
-<seanjc@google.com> wrote:
->=20
-> On Wed, Nov 12, 2025, Chao Gao wrote:
->> On Sun, Oct 26, 2025 at 01:18:56PM -0700, Xin Li (Intel) wrote:
->>> From: Xin Li <xin3.li@intel.com>
->>>=20
->>> On a userspace MSR filter change, set FRED MSR intercepts.
->>>=20
->>> The eight FRED MSRs, MSR_IA32_FRED_RSP[123], MSR_IA32_FRED_STKLVLS,
->>> MSR_IA32_FRED_SSP[123] and MSR_IA32_FRED_CONFIG, are all safe to
->>> passthrough, because each has a corresponding host and guest field
->>> in VMCS.
->>=20
->> Sean prefers to pass through MSRs only when there is a reason to do =
-that rather
->> than just because it is free. My thinking is that RSPs and SSPs are =
-per-task
->> and are context-switched frequently, so we need to pass through them. =
-But I am
->> not sure if there is a reason for STKLVLS and CONFIG.
->=20
-> There are VMCS fields, at which point intercepting and emulating is =
-probably
-> more work than just letting the guest access directly. :-/
->=20
-> Ah, and there needs to be VMCS fields because presumably everything =
-needs to be
-> switch atomically, e.g. an NMI that arrives shortly after VM-Exit =
-presumbably
-> consumes STKLVLS and CONFIG.
+On 3/1/26 1:37 PM, Rong Zhang wrote:
+> Some quirky devices do not have a unique VID/PID. Matching them using
+> DEVICE_FLG() or VENDOR_FLG() may result in conflicts.
+> 
+> Add two new macros DEVICE_STRING_FLG() and VENDOR_STRING_FLG() to match
+> USB string descriptors (manufacturer and/or product) in addition to VID
+> and/or PID, so that we can deconflict these devices safely.
+> 
+> No functional change intended.
+> 
+> Signed-off-by: Rong Zhang <i@rong.moe>
+> ---
+>  sound/usb/quirks.c | 82 ++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 82 insertions(+)
+> 
+> diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+> index c6a78efbcaa30..495dd46ce515c 100644
+> --- a/sound/usb/quirks.c
+> +++ b/sound/usb/quirks.c
+> @@ -2,8 +2,10 @@
+>  /*
+>   */
+>  
+> +#include <linux/build_bug.h>
+>  #include <linux/init.h>
+>  #include <linux/slab.h>
+> +#include <linux/string.h>
+>  #include <linux/usb.h>
+>  #include <linux/usb/audio.h>
+>  #include <linux/usb/midi.h>
+> @@ -2135,16 +2137,39 @@ void snd_usb_audioformat_attributes_quirk(struct snd_usb_audio *chip,
+>  /*
+>   * driver behavior quirk flags
+>   */
+> +struct usb_string_match {
+> +	const char *manufacturer;
+> +	const char *product;
+> +};
+> +
+>  struct usb_audio_quirk_flags_table {
+>  	u32 id;
+>  	u32 flags;
+> +	const struct usb_string_match *usb_string_match;
+>  };
+>  
+>  #define DEVICE_FLG(vid, pid, _flags) \
+>  	{ .id = USB_ID(vid, pid), .flags = (_flags) }
+>  #define VENDOR_FLG(vid, _flags) DEVICE_FLG(vid, 0, _flags)
+>  
+> +/* Use as a last resort if using DEVICE_FLG() is prone to VID/PID conflicts. */
+> +#define DEVICE_STRING_FLG(vid, pid, _manufacturer, _product, _flags)	\
+> +{									\
+> +	.id = USB_ID(vid, pid),						\
+> +	.usb_string_match = &(const struct usb_string_match) {		\
+> +		.manufacturer = _manufacturer,				\
+> +		.product = _product,					\
+> +	},								\
+> +	.flags = (_flags),						\
+> +}
+> +
+> +/* Use as a last resort if using VENDOR_FLG() is prone to VID conflicts. */
+> +#define VENDOR_STRING_FLG(vid, _manufacturer, _flags)			\
+> +	DEVICE_STRING_FLG(vid, 0, _manufacturer, NULL, _flags)
+> +
+>  static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+> +	/* Device and string descriptor matches */
+> +
+>  	/* Device matches */
+>  	DEVICE_FLG(0x001f, 0x0b21, /* AB13X USB Audio */
+>  		   QUIRK_FLAG_FORCE_IFACE_RESET | QUIRK_FLAG_IFACE_DELAY),
+> @@ -2414,6 +2439,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+>  	DEVICE_FLG(0x534d, 0x2109, /* MacroSilicon MS2109 */
+>  		   QUIRK_FLAG_ALIGN_TRANSFER),
+>  
+> +	/* Vendor and string descriptor matches */
+> +
+>  	/* Vendor matches */
+>  	VENDOR_FLG(0x045e, /* MS Lifecam */
+>  		   QUIRK_FLAG_GET_SAMPLE_RATE),
+> @@ -2558,14 +2585,69 @@ void snd_usb_apply_flag_dbg(const char *reason,
+>  	}
+>  }
+>  
+> +#define USB_STRING_SIZE 128
+> +
+> +static inline int snd_usb_get_strings(struct snd_usb_audio *chip,
+> +				      char *manufacturer, char *product)
 
-Yes, first it is a correctness issue and I assumed it=E2=80=99s obvious =
-(like we
-need a valid IDT/GDT immediately after VM exit).
+Hi Rong,
 
-Anyway, Peter had given a much better write-up and I switched to it.=
+This function is not necessary.
+Both the manufacturer and product strings can be found in struct usb_device.
+
+If the device has a manufacturer string then chip->dev->manufacturer points to it.
+Otherwise chip->dev->manufacturer is null.
+
+Likewise, chip->dev->product points to the product string if there is one, else null.
+
+> +{
+> +	int ret;
+> +
+> +	if (manufacturer) {
+> +		ret = usb_string(chip->dev, chip->dev->descriptor.iManufacturer,
+> +				 manufacturer, USB_STRING_SIZE);
+> +		if (ret < 0) {
+> +			usb_audio_warn(chip, "failed to get manufacturer string: %d\n", ret);
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	if (product) {
+> +		ret = usb_string(chip->dev, chip->dev->descriptor.iProduct,
+> +				 product, USB_STRING_SIZE);
+> +		if (ret < 0) {
+> +			usb_audio_warn(chip, "failed to get product string: %d\n", ret);
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	return 1; /* ok */
+> +}
+> +
+>  void snd_usb_init_quirk_flags_table(struct snd_usb_audio *chip)
+>  {
+>  	const struct usb_audio_quirk_flags_table *p;
+> +	char manufacturer[USB_STRING_SIZE];
+> +	char product[USB_STRING_SIZE];
+> +	int got_usb_strings = 0; /* <0: error, 0: pending, >0: ok */
+>  
+>  	for (p = quirk_flags_table; p->id; p++) {
+>  		if (chip->usb_id == p->id ||
+>  		    (!USB_ID_PRODUCT(p->id) &&
+>  		     USB_ID_VENDOR(chip->usb_id) == USB_ID_VENDOR(p->id))) {
+> +			if (!p->usb_string_match)
+> +				goto apply; /* DEVICE_FLG or VENDOR_FLG */
+> +
+> +			/* DEVICE_STRING_FLG or VENDOR_STRING_FLG */
+> +			if (!got_usb_strings) {
+> +				got_usb_strings = snd_usb_get_strings(chip,
+> +					p->usb_string_match->manufacturer ? manufacturer : NULL,
+> +					p->usb_string_match->product ? product : NULL);
+> +			}
+
+No need to get the strings as they can be found at chip->dev->manufacturer and chip->dev->product
+if the device declared them.
+
+> +
+> +			BUILD_BUG_ON(!got_usb_strings);
+> +
+> +			if (got_usb_strings < 0)
+> +				continue;
+> +
+> +			if (p->usb_string_match->manufacturer &&
+> +			    strcmp(p->usb_string_match->manufacturer, manufacturer))
+> +				continue;
+
+Examples and intent:
+
+DEVICE_STRING_FLG(vid, pid, "acme", "alpha", flags) // match vid, pid, "acme", and "alpha" strings
+DEVICE_STRING_FLG(vid, pid, "acme", "", flags) // match vid, pid, "acme", and device has no product string
+DEVICE_STRING_FLG(vid, pid, "acme", 0, flags) // match vid, pid, "acme", and any product string
+DEVICE_STRING_FLG(vid, pid, 0, "alpha", flags) // match vid, pid, any manufacturer string, and "alpha"
+DEVICE_STRING_FLG(vid, pid, "", "alpha", flags) // match vid, pid, no manufacturer string, and "alpha"
+DEVICE_STRING_FLG(vid, pid, "", "", flags) // match vid, pid, no manufacturer, and no product strings
+
+This test would change to something like
+
+	if (p->usb_string_match->manufacturer &&
+	    strcmp(p->usb_string_match->manufacturer, chip->dev->manufacturer ? chip->dev->manufacturer : ""))
+		continue; 
+
+> +
+> +			if (p->usb_string_match->product &&
+> +			    strcmp(p->usb_string_match->product, product))
+> +				continue;
+
+Same here but product instead of manufacturer.
+
+Thanks,
+Terry
+
+> +
+> +apply:
+>  			snd_usb_apply_flag_dbg("builtin table", chip, p->flags);
+>  			chip->quirk_flags |= p->flags;
+>  			return;
+
