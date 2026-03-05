@@ -1,90 +1,91 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D92143A0B05;
-	Thu,  5 Mar 2026 14:25:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BD71223702;
+	Thu,  5 Mar 2026 14:37:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772720709; cv=none; b=pALOe9G6mNyA7OY9gfxjwZICJN5txFv+njW2cBBI4o0dQpbO/FojRFqOIJkDEBl1bEFiIdJ6p18+595O9o2fAe4yr59GOyFn62k7Qi2PXYuQEGzEcLmoZ+CgaaJLjRqpvYvAZHZL00w4HwVKoBMZVRQSvfIhNJmxWbO38rT5ewY=
+	t=1772721452; cv=none; b=ePMypGe3UpqdAM+7nap1KBxYQq6nKBYfp92nA/cHMkugJyThwywL/PXQ//cyEPer9o9sbmh75x+G9fmHjXNKZSp+vDxlfCax5vYtvYrgh3Jhtn8jM7xgQs2ff8jN9VuJlMEspJ4GfQ849+07e12F4sGHmIEM22ixMAMC/gFhXlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772720709; c=relaxed/simple;
-	bh=UND8xvhahcE7q/80K7vvrBC8EEtbqKcSL68hzKgc8Lw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Aw/tX3k/fHAl0BfqGGGJF3pvUfNqrPnryzlBnTuesr96KKnGQE3Xv9mbbXkhwDuaPFXWGqo+CV7lkxDeChZzXq5qh2jV3PBWU4ySQhfnBK8QxQCAfpBb99J2GqjdDOkVSCTe7PAkCpNrPg9/uKlk8YNp/3dN0jz/L+ibvFmbmNg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WcVX9lqP; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1772721452; c=relaxed/simple;
+	bh=hydBV9IBNGLgutex0pxGm+Z79BQWju5lSIVQ6eQRkwE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Uihdmy08RQQmRVa9nwGEKaPrkBIChTyLf6DVfUaLvwr9UUFjIh+ZrWB0/WGl2ZkSifULJxVh5EuVDBOZxuBfpD5Vu2pMB7bbOB/J5PD9RCCaPiF6EO7nS/FuQ5FsWf5v8gtPQsY4WGbjhqanEbRpDibrlPun5wHuGFV97S1TLpI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KrN7lwbL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WcVX9lqP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772720707; x=1804256707;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UND8xvhahcE7q/80K7vvrBC8EEtbqKcSL68hzKgc8Lw=;
-  b=WcVX9lqPvGat+f7l/F/SnHSVbcasb/nn2NT3Hzq72m7NmUUzX5YrAvdD
-   xNqLS44b2VxNsA8RmAGwE6Faff9Navr9TZFRFQEk+9WjbeskyAPKZxvl6
-   itUh7IbBja8/1TB5PLyNIA4+2etaK0cimXgr4OmzAeFRk8jTqKmk6Euw/
-   D9sjhT6nDY6kUUhyShYlVLMxm/0g00Pr3p4XcuEydzfb9DXr6p2ulQv2d
-   H9wl3R2+0otgGyyXLQppLOrnPgKU/iQDptQDcS6gE3jbrM9q2TGDK6kxf
-   bfO/HtjAFHglRHL2Eq+DltAT3QV/eviAzAzL5tPtaPscKAjIvk/wj5L0F
-   w==;
-X-CSE-ConnectionGUID: XhTww3hNQjmnNUpoemuXUA==
-X-CSE-MsgGUID: xF7VZhfzT3Ok2HLJrptGUA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11720"; a="72835923"
-X-IronPort-AV: E=Sophos;i="6.23,103,1770624000"; 
-   d="scan'208";a="72835923"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 06:25:06 -0800
-X-CSE-ConnectionGUID: F23Q4HAtQZOHCQj1Y+ZJiQ==
-X-CSE-MsgGUID: 8InoVMI7SAakhBhZj/4klQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,103,1770624000"; 
-   d="scan'208";a="217938311"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa010.jf.intel.com with ESMTP; 05 Mar 2026 06:25:02 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id B050B95; Thu, 05 Mar 2026 15:25:00 +0100 (CET)
-Date: Thu, 5 Mar 2026 15:25:00 +0100
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Frank Rowand <frowand.list@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Aaro Koskinen <aaro.koskinen@iki.fi>,
-	Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-	Tony Lindgren <tony@atomide.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/6] gpio: move hogs into GPIO core
-Message-ID: <20260305142500.GB2275908@black.igk.intel.com>
-References: <20260305-gpio-hog-fwnode-v1-0-97d7df6bbd17@oss.qualcomm.com>
- <20260305-gpio-hog-fwnode-v1-2-97d7df6bbd17@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KrN7lwbL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5B77C116C6;
+	Thu,  5 Mar 2026 14:37:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772721451;
+	bh=hydBV9IBNGLgutex0pxGm+Z79BQWju5lSIVQ6eQRkwE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=KrN7lwbLfNoQJYzuLMdjDvbZCrS7+wvGBPeA8mSxwxcUWfbiE0ZFxkmJ0TcZiFx5U
+	 NXGS5NKsjAQ+2Y+68yEaKFbUIz/S7ZyPIL2yoDhR6TEYK8JYon1J6g4pouBsbyACEa
+	 SpCwTbqeE3JPJbSbYKlt9Jmk2g484JJ60TB2i9Wc7d+EkKw3xGyHOtLFWoqYGZGdW6
+	 vAuw5HgG7G5Gk4FGDGeMsca4kRHPO+u8HFvLCYDw9zql57cgKEB4oily6bfc8SEgLC
+	 N9+q/TmYoQnXZ7DFJYcGPqO3NzeZh6l9asdYodxLz371jzw64QHk9fFTx1n6uQi9qc
+	 FqRfFORCV3GSg==
+Date: Thu, 5 Mar 2026 06:37:29 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Jiri Pirko <jiri@resnulli.us>
+Cc: Tariq Toukan <tariqt@nvidia.com>, Eric Dumazet <edumazet@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Donald Hunter
+ <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed
+ <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Mark Bloch
+ <mbloch@nvidia.com>, Shuah Khan <shuah@kernel.org>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-rdma@vger.kernel.org, linux-kselftest@vger.kernel.org, Gal Pressman
+ <gal@nvidia.com>, Dragos Tatulea <dtatulea@nvidia.com>, Shay Drory
+ <shayd@nvidia.com>, Jiri Pirko <jiri@nvidia.com>, Moshe Shemesh
+ <moshe@nvidia.com>
+Subject: Re: [PATCH net-next V3 00/10] devlink: add per-port resource
+ support
+Message-ID: <20260305063729.7e40775d@kernel.org>
+In-Reply-To: <np44uzfn6jea56uht4yq4te5clapgj7pk6ygyvkl22wxumwnvt@nrpvzjqzxenq>
+References: <20260226221916.1800227-1-tariqt@nvidia.com>
+	<20260302192640.49af074f@kernel.org>
+	<pmxkihhtsskkwsvdia4z2ss4wxpfc4a4kqxkjv5wk3mwdmpzii@6go7pizk2nst>
+	<jssifysprwuafkinc3dguspngxmplrngqxvotp76vhvu4e5lp6@e7mdrjqc5rme>
+	<20260304101522.09da1f58@kernel.org>
+	<np44uzfn6jea56uht4yq4te5clapgj7pk6ygyvkl22wxumwnvt@nrpvzjqzxenq>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260305-gpio-hog-fwnode-v1-2-97d7df6bbd17@oss.qualcomm.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Thu, Mar 05, 2026 at 10:51:27AM +0100, Bartosz Golaszewski wrote:
-> Refactor line hogging code by moving the parts duplicated in
-> gpiolib-acpi-core.c and gpiolib-of.c into gpiolib.c, leaving just the
-> OF-specific bits in the latter.
+On Thu, 5 Mar 2026 08:56:42 +0100 Jiri Pirko wrote:
+> Wed, Mar 04, 2026 at 07:15:22PM +0100, kuba@kernel.org wrote:
+> >On Wed, 4 Mar 2026 11:34:13 +0100 Jiri Pirko wrote:  
+> >> On a second thought, if we merge multiple objects into one dump, how
+> >> does this extend? I mean, the userspace has to check there are no extra
+> >> attributes, as they may be used as a handle to another new object
+> >> introduced in the future... Idk, it's a bit odd.  
+> >
+> >That's true, the user space must be able to interpret the object
+> >identifier. So if we extend the command to add more identifiers
+> >we will have to add the bitmask to the dump request, and have
+> >the user space tell the kernel which objects it can recognize.
+> >I was just saying that we don't have to add such attribute now,
+> >maybe leave a comment in a strategic place for our future selves?  
 > 
-> This makes fwnode the primary API for setting up hogs and allows to use
-> software nodes in addition to ACPI and OF nodes.
-> 
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> Or, alternatively, we can have per-object dumps as we have for all
+> objects and command right now and leave things simple and
+> straightforward? I mean, I don't really see a benefit of a single dump
+> for more objects :/
 
-Reviewed-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+What do you mean by straightforward, exactly?
+
+User will most likely want to see all resources of a device in a single
+dump / command.
+
+The objects themselves are identical, they only differ by the handle,
+and yet we'd have two separate commands to access them.
+
+It's as if we had separate GETLINK commands in rtnetlink for devices on
+the PCIe bus vs connected via USB.
