@@ -1,127 +1,168 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B708238C15;
-	Thu,  5 Mar 2026 20:17:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEB5C329C7F;
+	Thu,  5 Mar 2026 20:18:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772741827; cv=none; b=SHKVOkbflEvGQG7arYB1i300xK0/c4tP2XynO9S+E5mB47rWbRX4yJfEmThfEDaExQ3uDHvcqw/YNVuUL+Ye1YjJuYhrbea+QDDrI3JfPhHbUdu44S0vgGeYZGiQ7n8rpZgz7JS0LaqGFCPGWxh5GGPvSJHoBnAh8LlBieHWv74=
+	t=1772741939; cv=none; b=G+uzuK7vuk3ftBt8816bxCOSG3crhddc1FvkJQre1UxWaaVZalFjlyKGRFaDY792uAoqjSAwAnp3EAxStW5RUbeVwpVrKbanMUFqxZT2uamE584Yyg9InVrBDIDMmxCvRja56TR1gxtCXEbyHGDyihXQxKG6HtQ8xROGw/6WN0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772741827; c=relaxed/simple;
-	bh=T49Iokg4MDGYhn1yBad35qamzXQshEHGXwEOPwmI3qI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=p9PKvcA9Gwcm4+RIOl104j6qvTtf0CjE9SqeY8kqc1ESP++0jXhduB/fT/mzTEg6bYG41kT/aiayeyITat6X+EBayGsU/x+yWA6twFQPlQQfqqNiSYu7SKW91+ubWibCypR4CtxVLz2U8BzigRFjccksIiS4xb0A/nQrHrH8yf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RyPvU7EQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772741939; c=relaxed/simple;
+	bh=WoGxPTpl582Hvxdb9noJ7KVlLf4+8/SXA7XD6G9PZVU=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qnaU1OjBbPqKcbCKatTtnlleXNHdyZZSlcqwfExuLDnDjaqCaBaLOOROdan9f+fanLQhqgUkXWld7ThjeebSHVw0YVnfJ0/ClJ3S4+JV7DAtWU4NivIuiKogcrM5ZtYXY7Hs+V9wDAs9H5evuytZzakCzeC65LbCpRXsoqoYmOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=dNz8L5X6; arc=none smtp.client-ip=185.70.43.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RyPvU7EQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 859B5C116C6;
-	Thu,  5 Mar 2026 20:17:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772741826;
-	bh=T49Iokg4MDGYhn1yBad35qamzXQshEHGXwEOPwmI3qI=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=RyPvU7EQwmXTLBgsFNsqCesrW94aFdSnTPuhMfRkVQs3IPEHwhSG0VA0vvfl85p+5
-	 2KyVkoJBNT/FibDuxz1j1FlBwRRigxaagrx5IbqQFGMIJF+Uqk8Mrpb7JPgx/FfpWP
-	 IK1GMx4q1W0/ObUbB5Mr1gkM8Q5VxsmFUSnTAOHHRAZYSMlpoOUNYnSQk2Z/0GuPiE
-	 QanIU3+uSEP+51789ZlKF94SLrFObTufBiZOxeA8a9Ah7dlo4mgACYMWvAdx6nm/Xa
-	 QffmgxuKjJpzgkSixU1AOnXYislkN1A8uXMxe2dL9QGMVg9sdeBmqQqQzW1owpDHdd
-	 C9Vg4BpvhYEOA==
-Message-ID: <cf757315-06a2-4d8c-8b9d-f478b431822e@kernel.org>
-Date: Thu, 5 Mar 2026 21:16:59 +0100
+	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="dNz8L5X6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
+	s=protonmail3; t=1772741935; x=1773001135;
+	bh=cjzFn4m2KpajID2eW6dWgmxkcxpNABzXQGduS9dF8ns=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=dNz8L5X63nDoQARcDMQxpm32vzIVI1W+y1jCcus19DIdSagIgv54Z7QznvUpUW+yf
+	 Ciu2kOkw8iuNDo96EOYRcaD4l4WA34pkf+9a+qhClIk6Q0MRDajnOcXgwrxA+sHYy6
+	 A0390rDNYyQDd1ZlTQ+4KUwH0Yt+Plc+nPjyssLGMI3D4lM+7Cqo0cy1L9qLp8ASd/
+	 uYPsnoiKCnWWH+YitCnxAFJcUF7oUg3AYn5s4Zzsprbjt9cPa7hBqkJy4scquF8Fbu
+	 n2sZk2mskLaGN7p2BUJWMj1gbJJuRbe8DHh9IAbzo8TDHdnDReoAyqPIx3BkuO9M+6
+	 /fNj+9wDGGWhg==
+Date: Thu, 05 Mar 2026 20:18:49 +0000
+To: Andrey Ryabinin <ryabinin.a.a@gmail.com>
+From: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>, Andrew Morton <akpm@linux-foundation.org>, Jan Kiszka <jan.kiszka@siemens.com>, Kieran Bingham <kbingham@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, Samuel Holland <samuel.holland@sifive.com>, Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>, linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, workflows@vger.kernel.org, linux-mm@kvack.org, llvm@lists.linux.dev
+Subject: Re: [PATCH v10 01/13] kasan: sw_tags: Use arithmetic shift for shadow computation
+Message-ID: <aanievpHCv0Sz3Bf@wieczorr-mobl1.localdomain>
+In-Reply-To: <CAPAsAGxpHBqzppoKCrqvH0mfhEn6p0aEHR30ZifB3uv81v68EA@mail.gmail.com>
+References: <cover.1770232424.git.m.wieczorretman@pm.me> <bd935d83b2fe3ddfedff052323a2b84e85061042.1770232424.git.m.wieczorretman@pm.me> <CAPAsAGxpHBqzppoKCrqvH0mfhEn6p0aEHR30ZifB3uv81v68EA@mail.gmail.com>
+Feedback-ID: 164464600:user:proton
+X-Pm-Message-ID: 5b2989690457c011b9b0d41c90461138ce83d507
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/9] workqueue: devres: Add device-managed allocate
- workqueue
-To: Tejun Heo <tj@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Lai Jiangshan <jiangshanlai@gmail.com>,
- Tobias Schrammm <t.schramm@manjaro.org>, Sebastian Reichel <sre@kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Dan Carpenter <dan.carpenter@linaro.org>, Lee Jones <lee@kernel.org>,
- Dzmitry Sankouski <dsankouski@gmail.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
- driver-core@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, chrome-platform@lists.linux.dev
-References: <20260223-workqueue-devm-v1-0-10b3a6087586@oss.qualcomm.com>
- <20260223-workqueue-devm-v1-1-10b3a6087586@oss.qualcomm.com>
- <aZx1UpYSNmapYBpU@slm.duckdns.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <aZx1UpYSNmapYBpU@slm.duckdns.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 23/02/2026 16:42, Tejun Heo wrote:
-> Hello,
-> 
-> On Mon, Feb 23, 2026 at 08:27:29AM +0100, Krzysztof Kozlowski wrote:
->> @@ -568,19 +588,31 @@ alloc_workqueue_lockdep_map(const char *fmt, unsigned int flags, int max_active,
->>   */
->>  #define alloc_ordered_workqueue(fmt, flags, args...)			\
->>  	alloc_workqueue(fmt, WQ_UNBOUND | __WQ_ORDERED | (flags), 1, ##args)
->> +#define devm_alloc_ordered_workqueue(dev, fmt, flags, args...)		\
->> +	devm_alloc_workqueue(dev, fmt, WQ_UNBOUND | __WQ_ORDERED | (flags), 1, ##args)
-> 
-> Let's just add devm_alloc_workqueue() and devm_alloc_ordered_workqueue() and
-> skip the legacy wrappers.
+Thanks, that looks really neat! I should've thought of that instead of maki=
+ng
+separate arch versions :)
 
-Ack, I will replace legacy calls then in the drivers.
+Do you want me to attach the code you posted here to this patchset or do yo=
+u
+intend to post it yourself? I'm working out Dave's comments on the x86 part=
+s and
+I wanted to post v11 sometime next week.
 
-Best regards,
-Krzysztof
+Kind regards
+Maciej Wiecz=C3=B3r-Retman
+
+On 2026-03-05 at 13:05:48 -0600, Andrey Ryabinin wrote:
+>Maciej Wieczor-Retman <m.wieczorretman@pm.me> writes:
+>
+>> --- a/mm/kasan/kasan.h
+>> +++ b/mm/kasan/kasan.h
+>> @@ -558,6 +558,13 @@ static inline bool kasan_arch_is_ready(void)=09{ re=
+turn true; }
+>>  #error kasan_arch_is_ready only works in KASAN generic outline mode!
+>>  #endif
+>>
+>> +#ifndef arch_kasan_non_canonical_hook
+>> +static inline bool arch_kasan_non_canonical_hook(unsigned long addr)
+>> +{
+>> +=09return false;
+>> +}
+>> +#endif
+>> +
+>>  #if IS_ENABLED(CONFIG_KASAN_KUNIT_TEST)
+>>
+>>  void kasan_kunit_test_suite_start(void);
+>> diff --git a/mm/kasan/report.c b/mm/kasan/report.c
+>> index 62c01b4527eb..53152d148deb 100644
+>> --- a/mm/kasan/report.c
+>> +++ b/mm/kasan/report.c
+>> @@ -642,10 +642,19 @@ void kasan_non_canonical_hook(unsigned long addr)
+>>  =09const char *bug_type;
+>>
+>>  =09/*
+>> -=09 * All addresses that came as a result of the memory-to-shadow mappi=
+ng
+>> -=09 * (even for bogus pointers) must be >=3D KASAN_SHADOW_OFFSET.
+>> +=09 * For Generic KASAN, kasan_mem_to_shadow() uses the logical right s=
+hift
+>> +=09 * and never overflows with the chosen KASAN_SHADOW_OFFSET values. T=
+hus,
+>> +=09 * the possible shadow addresses (even for bogus pointers) belong to=
+ a
+>> +=09 * single contiguous region that is the result of kasan_mem_to_shado=
+w()
+>> +=09 * applied to the whole address space.
+>>  =09 */
+>> -=09if (addr < KASAN_SHADOW_OFFSET)
+>> +=09if (IS_ENABLED(CONFIG_KASAN_GENERIC)) {
+>> +=09=09if (addr < (unsigned long)kasan_mem_to_shadow((void *)(0ULL)) ||
+>> +=09=09    addr > (unsigned long)kasan_mem_to_shadow((void *)(~0ULL)))
+>> +=09=09=09return;
+>> +=09}
+>> +
+>> +=09if (arch_kasan_non_canonical_hook(addr))
+>>  =09=09return;
+>>
+>
+>I've noticed that we currently classify bugs incorrectly in SW_TAGS
+>mode. I've sent the fix for it [1] :
+> [1] https://lkml.kernel.org/r/20260305185659.20807-1-ryabinin.a.a@gmail.c=
+om
+>
+>While at it, I was thinking whether we can make the logic above more
+>arch/mode agnotstic and without per-arch hooks, so I've ended up with
+>the following patch (it is on top of [1] fix).
+>I think it should work with any arch or mode and both with signed or
+>unsigned shifting.
+>
+>diff --git a/mm/kasan/report.c b/mm/kasan/report.c
+>index e804b1e1f886..1e4521b5ef14 100644
+>--- a/mm/kasan/report.c
+>+++ b/mm/kasan/report.c
+>@@ -640,12 +640,20 @@ void kasan_non_canonical_hook(unsigned long addr)
+> {
+> =09unsigned long orig_addr, user_orig_addr;
+> =09const char *bug_type;
+>+=09void *tagged_null =3D set_tag(NULL, KASAN_TAG_KERNEL);
+>+=09void *tagged_addr =3D set_tag((void *)addr, KASAN_TAG_KERNEL);
+>
+> =09/*
+>-=09 * All addresses that came as a result of the memory-to-shadow mapping
+>-=09 * (even for bogus pointers) must be >=3D KASAN_SHADOW_OFFSET.
+>+=09 * Filter out addresses that cannot be shadow memory accesses generate=
+d
+>+=09 * by the compiler.
+>+=09 *
+>+=09 * In SW_TAGS mode, when computing a shadow address, the compiler alwa=
+ys
+>+=09 * sets the kernel tag (some top bits) on the pointer *before* computi=
+ng
+>+=09 * the memory-to-shadow mapping. As a result, valid shadow addresses
+>+=09 * are derived from tagged kernel pointers.
+> =09 */
+>-=09if (addr < KASAN_SHADOW_OFFSET)
+>+=09if (tagged_addr < kasan_mem_to_shadow(tagged_null) ||
+>+=09    tagged_addr > kasan_mem_to_shadow((void *)(~0ULL)))
+> =09=09return;
+>
+> =09orig_addr =3D (unsigned long)kasan_shadow_to_mem((void *)addr);
+>@@ -670,7 +678,7 @@ void kasan_non_canonical_hook(unsigned long addr)
+> =09} else if (user_orig_addr < TASK_SIZE) {
+> =09=09bug_type =3D "probably user-memory-access";
+> =09=09orig_addr =3D user_orig_addr;
+>-=09} else if (addr_in_shadow((void *)addr))
+>+=09} else if (addr_in_shadow(tagged_addr))
+> =09=09bug_type =3D "probably wild-memory-access";
+> =09else
+> =09=09bug_type =3D "maybe wild-memory-access";
+>--
+>2.52.0
+
