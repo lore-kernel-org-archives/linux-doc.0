@@ -1,169 +1,90 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 866CE3A963C;
-	Thu,  5 Mar 2026 14:23:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772720607; cv=pass; b=JSYY/VkdG2+J9UuQTfVXy2U8ZGeQqdDcFCO1pW26MmWEvyPlefDNm4AtHSWpHu7Uyqr2ec6nWRUfYD8o/wkOpn0FDnKyh9JuTJYuJ4sBgy2yZ9LSmHZwYWU9po9jjFJwQvVYOtn8/ZPsmwjTdql7D6xGRFJY6oTdNZw71ndXG88=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772720607; c=relaxed/simple;
-	bh=bLd8Uu0e9nJuphcl9D2pXwY1JYP1ONvBa3+qkzpNOo8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=CTc6z/BoMtPcDX4Wf9wHHbZ47z/7Svfq9vk8ClyTzw/XeQvNm2bnFgqud4WbOspPeWfm2LVYY+28d2AkKoACJzKUnatnuGTCVi2q/vXWSFGW1uLU73N04aaWC4ycW9aWljVSJflJXbtf1M9IQzC2QTmwykCff++JE4ZzHIANz1I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=R3BTto6H; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D92143A0B05;
+	Thu,  5 Mar 2026 14:25:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772720709; cv=none; b=pALOe9G6mNyA7OY9gfxjwZICJN5txFv+njW2cBBI4o0dQpbO/FojRFqOIJkDEBl1bEFiIdJ6p18+595O9o2fAe4yr59GOyFn62k7Qi2PXYuQEGzEcLmoZ+CgaaJLjRqpvYvAZHZL00w4HwVKoBMZVRQSvfIhNJmxWbO38rT5ewY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772720709; c=relaxed/simple;
+	bh=UND8xvhahcE7q/80K7vvrBC8EEtbqKcSL68hzKgc8Lw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Aw/tX3k/fHAl0BfqGGGJF3pvUfNqrPnryzlBnTuesr96KKnGQE3Xv9mbbXkhwDuaPFXWGqo+CV7lkxDeChZzXq5qh2jV3PBWU4ySQhfnBK8QxQCAfpBb99J2GqjdDOkVSCTe7PAkCpNrPg9/uKlk8YNp/3dN0jz/L+ibvFmbmNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WcVX9lqP; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="R3BTto6H"
-ARC-Seal: i=1; a=rsa-sha256; t=1772720565; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=QO7S6+tMxYLUuPbcO1pLetZx8TWaiv7sSs9huh2qqwUqPqxB753ovpQMr9s0MqIOtUx84k8ZYOm2RgKzmRwqWm5AQV7VYzbRwbFUj/jTgbaWfuo6H8nrGAFC4VbYi7bLuo/BAACJNVM/IsDhZumC0R5JVli/8y3Fg4hYd3AJupc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1772720565; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=yE8vbeYdKcftvYs+PymllWj2E1+jwIq94xvRBnlmVWA=; 
-	b=VWeSKUxEcuISXPdF/ECTat7ENYuPtHg11EyI2q0B3+gochGu2/NPdlsjvpYeDNjhb1RYAG6eryoG8LFl3gNTGwmgOFLGfQdCcA4Lt7bxAxmDL/W75rrHZGt72bL3xcd+VGKe6ZoMavXW4sJP97o998Kr/cjtbuzmz+dP14EMv/Q=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
-	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1772720565;
-	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
-	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
-	bh=yE8vbeYdKcftvYs+PymllWj2E1+jwIq94xvRBnlmVWA=;
-	b=R3BTto6H/5Kl0ixzAFRKP2l3+2zayBXVO42c8lsz0pYykas8PF7bi2fKrL3HnApz
-	dPUVNP3DWMwNXqK2bhAV//hSWh/4ywfSYpUufsI56X/nBfxoF3VYuse8Es5mA5ExJQd
-	B7qEIZRstoljb7U4+B+NktmpET4Uw8DYccQnOKv0=
-Received: by mx.zohomail.com with SMTPS id 1772720564028953.1845608441924;
-	Thu, 5 Mar 2026 06:22:44 -0800 (PST)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Thu, 05 Mar 2026 15:19:48 +0100
-Subject: [PATCH v10 22/22] drm/bridge: Document bridge chain format
- selection
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WcVX9lqP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772720707; x=1804256707;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UND8xvhahcE7q/80K7vvrBC8EEtbqKcSL68hzKgc8Lw=;
+  b=WcVX9lqPvGat+f7l/F/SnHSVbcasb/nn2NT3Hzq72m7NmUUzX5YrAvdD
+   xNqLS44b2VxNsA8RmAGwE6Faff9Navr9TZFRFQEk+9WjbeskyAPKZxvl6
+   itUh7IbBja8/1TB5PLyNIA4+2etaK0cimXgr4OmzAeFRk8jTqKmk6Euw/
+   D9sjhT6nDY6kUUhyShYlVLMxm/0g00Pr3p4XcuEydzfb9DXr6p2ulQv2d
+   H9wl3R2+0otgGyyXLQppLOrnPgKU/iQDptQDcS6gE3jbrM9q2TGDK6kxf
+   bfO/HtjAFHglRHL2Eq+DltAT3QV/eviAzAzL5tPtaPscKAjIvk/wj5L0F
+   w==;
+X-CSE-ConnectionGUID: XhTww3hNQjmnNUpoemuXUA==
+X-CSE-MsgGUID: xF7VZhfzT3Ok2HLJrptGUA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11720"; a="72835923"
+X-IronPort-AV: E=Sophos;i="6.23,103,1770624000"; 
+   d="scan'208";a="72835923"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2026 06:25:06 -0800
+X-CSE-ConnectionGUID: F23Q4HAtQZOHCQj1Y+ZJiQ==
+X-CSE-MsgGUID: 8InoVMI7SAakhBhZj/4klQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,103,1770624000"; 
+   d="scan'208";a="217938311"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa010.jf.intel.com with ESMTP; 05 Mar 2026 06:25:02 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id B050B95; Thu, 05 Mar 2026 15:25:00 +0100 (CET)
+Date: Thu, 5 Mar 2026 15:25:00 +0100
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Frank Rowand <frowand.list@gmail.com>,
+	Mika Westerberg <westeri@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Aaro Koskinen <aaro.koskinen@iki.fi>,
+	Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+	Tony Lindgren <tony@atomide.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH 2/6] gpio: move hogs into GPIO core
+Message-ID: <20260305142500.GB2275908@black.igk.intel.com>
+References: <20260305-gpio-hog-fwnode-v1-0-97d7df6bbd17@oss.qualcomm.com>
+ <20260305-gpio-hog-fwnode-v1-2-97d7df6bbd17@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260305-color-format-v10-22-a58c68a11868@collabora.com>
-References: <20260305-color-format-v10-0-a58c68a11868@collabora.com>
-In-Reply-To: <20260305-color-format-v10-0-a58c68a11868@collabora.com>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- Rodrigo Siqueira <siqueira@igalia.com>, 
- Alex Deucher <alexander.deucher@amd.com>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, 
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: kernel@collabora.com, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
- linux-doc@vger.kernel.org, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-X-Mailer: b4 0.14.3
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260305-gpio-hog-fwnode-v1-2-97d7df6bbd17@oss.qualcomm.com>
 
-The bridge chain format selection behaviour was, until now,
-undocumented. With the addition of the "color format" DRM property, it's
-not sufficiently complex enough that documentation is warranted,
-especially for driver authors trying to do the right thing.
+On Thu, Mar 05, 2026 at 10:51:27AM +0100, Bartosz Golaszewski wrote:
+> Refactor line hogging code by moving the parts duplicated in
+> gpiolib-acpi-core.c and gpiolib-of.c into gpiolib.c, leaving just the
+> OF-specific bits in the latter.
+> 
+> This makes fwnode the primary API for setting up hogs and allows to use
+> software nodes in addition to ACPI and OF nodes.
+> 
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
-Add a high-level overview of how the process is supposed to work, and
-mention what the display driver is supposed to do if it wants to make
-use of this functionality.
-
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
-Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
----
- Documentation/gpu/drm-kms-helpers.rst |  6 ++++++
- drivers/gpu/drm/drm_bridge.c          | 40 +++++++++++++++++++++++++++++++++++
- 2 files changed, 46 insertions(+)
-
-diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/drm-kms-helpers.rst
-index 781129f78b06..47c4f593cf9d 100644
---- a/Documentation/gpu/drm-kms-helpers.rst
-+++ b/Documentation/gpu/drm-kms-helpers.rst
-@@ -181,6 +181,12 @@ Bridge Operations
- .. kernel-doc:: drivers/gpu/drm/drm_bridge.c
-    :doc: bridge operations
- 
-+Bridge Chain Format Selection
-+-----------------------------
-+
-+.. kernel-doc:: drivers/gpu/drm/drm_bridge.c
-+   :doc: bridge chain format selection
-+
- Bridge Connector Helper
- -----------------------
- 
-diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index 6ad725e511f3..da021b49acc6 100644
---- a/drivers/gpu/drm/drm_bridge.c
-+++ b/drivers/gpu/drm/drm_bridge.c
-@@ -198,6 +198,46 @@
-  * driver.
-  */
- 
-+/**
-+ * DOC: bridge chain format selection
-+ *
-+ * A bridge chain, from display output processor to connector, may contain
-+ * bridges capable of converting between bus formats on their inputs, and
-+ * output formats on their outputs. For example, a bridge may be able to convert
-+ * from RGB to YCbCr 4:4:4, and pass through YCbCr 4:2:0 as-is, but not convert
-+ * from RGB to YCbCr 4:2:0. This means not all input formats map to all output
-+ * formats.
-+ *
-+ * Further adding to this, a desired output color format, as specified with the
-+ * "color format" DRM property, might not correspond 1:1 to what the display
-+ * driver should set at its output. The bridge chain it feeds into may only be
-+ * able to reach the desired output format, if a conversion from a different
-+ * starting format is performed.
-+ *
-+ * To deal with this complexity, the recursive bridge chain bus format selection
-+ * logic starts with the last bridge in the chain, usually the connector, and
-+ * then recursively walks the chain of bridges backwards to the first bridge,
-+ * trying to find a path.
-+ *
-+ * For a display driver to work in such a scenario, it should read the first
-+ * bridge's bridge state to figure out which bus format the chain resolved to.
-+ * If the first bridge's input format resolved to %MEDIA_BUS_FMT_FIXED, then its
-+ * output format should be used.
-+ *
-+ * Special handling is done for HDMI as it relates to format selection. Instead
-+ * of directly using the "color format" DRM property for bridge chains that end
-+ * in HDMI bridges, the bridge chain format selection logic will trust the logic
-+ * that set the HDMI output format. For the common HDMI state helper
-+ * functionality, this means that %DRM_CONNECTOR_COLOR_FORMAT_AUTO will allow
-+ * fallbacks to YCBCr 4:2:0 if the bandwidth requirements would otherwise be too
-+ * high but the mode and connector allow it.
-+ *
-+ * For bridge chains that do not end in an HDMI bridge,
-+ * %DRM_CONNECTOR_COLOR_FORMAT_AUTO will be satisfied with the first output
-+ * format on the last bridge for which it can find a path back to the first
-+ * bridge.
-+ */
-+
- /* Protect bridge_list and bridge_lingering_list */
- static DEFINE_MUTEX(bridge_lock);
- static LIST_HEAD(bridge_list);
-
--- 
-2.53.0
-
+Reviewed-by: Mika Westerberg <mika.westerberg@linux.intel.com>
