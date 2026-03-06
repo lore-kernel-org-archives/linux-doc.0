@@ -1,97 +1,108 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B05853596E1;
-	Fri,  6 Mar 2026 11:28:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A23A3596E1;
+	Fri,  6 Mar 2026 11:29:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772796530; cv=none; b=VwNrl39W3Fey28yXTPh41X8INAUsJLdjpLjWz1zo4RsiSJUNgN5CGvQ68KjcA6c9j74h4JwHJ+91P2bz+ZzMHwoI87qyiiLruz6iIPVwa3z8vJCZsUlsWUec+W2RAZ+N6ew2HC7CRC7pU1O3rhAFRwf0pt866FtbZR/VW1CDieE=
+	t=1772796570; cv=none; b=lEA/pu8Gln3vfFrUNo9kVSkGJypqgV7aRlZKXF2gxl/94B9E5DOOWXmUFZg2SLX4j2wADgcaNhKzPfHRGJvEeAKh4RJq18t1i0jbFl64EQdnFJx8OTP+UIxJKsT/TuHDmF7gMv0Oxs5XWq7Xq+NMoF9toVU+JirL557jkozoGeA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772796530; c=relaxed/simple;
-	bh=Cf5Ri36aqGZAeA3gVwYv7tsS/cl+PXdpzlMVXeOVd1o=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=KqhHTia90fCIz3rW2Q+1249yH4TssoCB76C2ni0bnBVZpscONeDFrxGUHbavNnvCXbOGgsXXfujSQPtftSj0Rp56dHom0mzUE5KV40di9idrIBts1T4NDVV45TvcgWVmRjKEm5RWq5DOE1hATuUVl0TFHCEqXG8jdqYL1qdoPUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=LnWQQVNy; arc=none smtp.client-ip=220.197.31.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1772796570; c=relaxed/simple;
+	bh=XryNqzJpAbwoPPJDceu+o/RMktCv0sL78kkwIFXfp2Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MOgBWwgizguscq8jIQ/mwve/p7V2i1CfEyscdd9Zld2jYhWiFZLu6ZIs0kwIj6ZgIgfakqnXBMSo4ndggom8aCFNBAcx/3l99c0O6iQGfKw9ZojNHYWuCKpU2P8E3mq+nLz5D4cexIIfHoImLfNqS/jl1BQCDIH0tpMoLGFWFwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KqRr2BgD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="LnWQQVNy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=4J
-	BTRCBGa5ROeLIwLaPxKksydAUTfA05obJQkDOCbsg=; b=LnWQQVNyi5y/GIBzfF
-	WpnpUoHBcvX+HseGqzedTjEz2pujuDzn2o91dScKHgmrJyfuDbJK893UJwa7I2Eo
-	ky/pESt80mxw+7NzWPqPyG4ASUfgSf84fPzMGhe3HFg+8Ij+0cu+Vn1M7fbZx1Bg
-	PULJUQyIjRsMvSyoMRYO4Du6w=
-Received: from localhost.localdomain (unknown [])
-	by gzga-smtp-mtada-g0-1 (Coremail) with SMTP id _____wAnZc8ouqppZ42WOA--.54025S2;
-	Fri, 06 Mar 2026 19:27:38 +0800 (CST)
-From: "rom.wang" <r4o5m6e8o@163.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundatio.org>,
-	Paul Walmsley <pjw@kernel.org>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexandre Ghiti <alex@ghiti.fr>
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	Yufeng Wang <wangyufeng@kylinos.cn>
-Subject: [PATCH] riscv: enable HAVE_IOREMAP_PROT
-Date: Fri,  6 Mar 2026 19:27:34 +0800
-Message-Id: <20260306112734.108186-1-r4o5m6e8o@163.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KqRr2BgD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEE51C4CEF7;
+	Fri,  6 Mar 2026 11:29:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772796569;
+	bh=XryNqzJpAbwoPPJDceu+o/RMktCv0sL78kkwIFXfp2Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KqRr2BgDwmSvs5Hlh9XDngsdSc53G1yIc7aGX1uFjRRiZqnxwB1lRMQoq7QTxqesg
+	 JLfbnw7piKywWe9WtsSPASsCyxqBVPcdadgdgT3IM8ZM5CnX6N5rvkonx1QbasGG2s
+	 rOhRetD5OuGYkCOvvj+lWOYRVK7S6HfjiFhA0xcOZd9JPaT8sATuB85OOD8aiJnfRX
+	 y5ayFUc3Fe6Q8fXtNA6kFZrQTFk7fF/KAxeM4RQp7S34+xaBsSDpmKw6i5ncas/DuK
+	 yUG1/h2o/p2YUu+Yaxam0qqlC+uixpO1i7fkgLzVRc7uyVhZAefMsB+SrgcbquCpaD
+	 A65RtASmO4M2g==
+Date: Fri, 6 Mar 2026 11:29:18 +0000
+From: Lee Jones <lee@kernel.org>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Boqun Feng <boqun@kernel.org>, Waiman Long <longman@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Orson Zhai <orsonzhai@gmail.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Antonio Borneo <antonio.borneo@foss.st.com>,
+	Linus Walleij <linusw@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	linux-remoteproc@vger.kernel.org, linux-doc@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-iio@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-spi@vger.kernel.org
+Subject: Re: [PATCH v3 15/15] hwspinlock/treewide: refactor consumer.h from
+ public header
+Message-ID: <20260306112918.GG183676@google.com>
+References: <20260303192600.7224-17-wsa+renesas@sang-engineering.com>
+ <20260303192600.7224-32-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wAnZc8ouqppZ42WOA--.54025S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7ZrW8Jry3AF1fCFW7tr45GFg_yoW8XFW3pa
-	y3ur9a9rnxZrn8CFWqgry7WrWUJas3G39Fgw10kay8Wr1DAFy8Z3sayFnxJFyUXFZ5WFW8
-	WF9ag34Fya1jyrUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07U6OJrUUUUU=
-X-CM-SenderInfo: 3uurkzkwhy0qqrwthudrp/xtbCzgq9M2mquir+agAA3N
+In-Reply-To: <20260303192600.7224-32-wsa+renesas@sang-engineering.com>
 
-From: Yufeng Wang <wangyufeng@kylinos.cn>
+On Tue, 03 Mar 2026, Wolfram Sang wrote:
 
-RISC-V has implemented pte_pgprot() and selects GENERIC_IOREMAP,
-which provides a generic ioremap_prot() implementation. Enable
-HAVE_IOREMAP_PROT to activate generic_access_phys() support, which
-is useful for debugging (e.g., accessing /dev/mem via gdb).
+> Factor out the entries only needed for consumers from the generic public
+> header. This allows for a clean separation between providers and
+> consumers. Also remove contact field in favor of MAINTAINERS entries.
+> Fix the users, too.
+> 
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> Acked-by: Mark Brown <broonie@kernel.org>
+> Acked-by: Jonathan Cameron <jonathan.cameron@huawei.com> # for IIO
+> ---
+>  Documentation/locking/hwspinlock.rst              |  2 +-
+>  MAINTAINERS                                       |  1 -
+>  drivers/base/regmap/regmap.c                      |  2 +-
+>  drivers/hwspinlock/hwspinlock_core.c              |  2 +-
+>  drivers/iio/adc/sc27xx_adc.c                      |  2 +-
+>  drivers/irqchip/irq-stm32mp-exti.c                |  2 +-
+>  drivers/mfd/syscon.c                              |  2 +-
 
-Also update the architecture support documentation accordingly.
+Acked-by: Lee Jones <lee@kernel.org>
 
-Signed-off-by: Yufeng Wang <wangyufeng@kylinos.cn>
----
- Documentation/features/vm/ioremap_prot/arch-support.txt | 2 +-
- arch/riscv/Kconfig                                      | 1 +
- 2 files changed, 2 insertions(+), 1 deletion(-)
+>  drivers/nvmem/sc27xx-efuse.c                      |  2 +-
+>  drivers/nvmem/sprd-efuse.c                        |  2 +-
+>  drivers/pinctrl/stm32/pinctrl-stm32.c             |  2 +-
+>  drivers/soc/qcom/smem.c                           |  2 +-
+>  drivers/spi/spi-sprd-adi.c                        |  2 +-
+>  .../linux/{hwspinlock.h => hwspinlock/consumer.h} | 15 ++++++---------
 
-diff --git a/Documentation/features/vm/ioremap_prot/arch-support.txt b/Documentation/features/vm/ioremap_prot/arch-support.txt
-index 1638c2cb17f1..c0a2d8f56046 100644
---- a/Documentation/features/vm/ioremap_prot/arch-support.txt
-+++ b/Documentation/features/vm/ioremap_prot/arch-support.txt
-@@ -20,7 +20,7 @@
-     |    openrisc: | TODO |
-     |      parisc: | TODO |
-     |     powerpc: |  ok  |
--    |       riscv: | TODO |
-+    |       riscv: |  ok  |
-     |        s390: |  ok  |
-     |          sh: |  ok  |
-     |       sparc: | TODO |
-diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
-index 90c531e6abf5..32b6aa8dece7 100644
---- a/arch/riscv/Kconfig
-+++ b/arch/riscv/Kconfig
-@@ -113,6 +113,7 @@ config RISCV
- 	select GENERIC_GETTIMEOFDAY if HAVE_GENERIC_VDSO && 64BIT
- 	select GENERIC_IDLE_POLL_SETUP
- 	select GENERIC_IOREMAP if MMU
-+	select HAVE_IOREMAP_PROT if MMU
- 	select GENERIC_IRQ_IPI if SMP
- 	select GENERIC_IRQ_IPI_MUX if SMP
- 	select GENERIC_IRQ_MULTI_HANDLER
 -- 
-2.34.1
-
+Lee Jones [李琼斯]
