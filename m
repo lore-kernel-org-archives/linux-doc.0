@@ -1,113 +1,227 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22067340D93;
-	Fri,  6 Mar 2026 22:18:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A64C3469F5;
+	Fri,  6 Mar 2026 23:21:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772835511; cv=none; b=Gzs6syGKO+6iOPBrISuDSJiy7euVaLatbORXmwJ9MyjiYQljq/n4ohtHknEv5D/P4zU8YnObOyEJOy3GsKmGPRmMBGy0o4X0fyc0nrUwqLw6TUvef4RlykU5SG1hi6Lfeqq+Uuh5Aii1cAVrPZXTH/qgiBMjZxLLNL6v/pekapU=
+	t=1772839273; cv=none; b=mD026SSI8CCY04Bl1wh7ZZhFYl1YuNOZTHje8TYtushizLw3l9r38I6mjqY5TQS3oLw4NFF6TjvbrYMnDNzV8o+u3o/57BqvcaashTW9CtQNKR5kA8mzFOPEkPUC1vAL9VUgekvqpW5yo+294bh9TbBuipLEdu4HvpBCmJSqeT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772835511; c=relaxed/simple;
-	bh=tte0RWWh1kXRgBDYPj76mH/8y95f+zY1/V7jnGKnpyg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QIR1KtZ/wPJCppmQ5aGeSM5tdIgvu3XVVcijLNNi4qgHcn6zDpPuDLrr9j0v3riiiZHPTyuAzV8TpvUTBBMDU+QA6U+nFANjtn3Gp9LG2DOqJgVPEDUDOTUqWNn5HcIm/DpESOOsx1QS4x0jFvnlhEcezOLIboMPzmhbuPLrJ5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=J4aDUp0t; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1772839273; c=relaxed/simple;
+	bh=ZjpQiHtNAaS5LFI62C8zACHMj2QEe04oG7hntNQrOgM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Torp8yRzxGFXshxMpy0cdiDEVBA4suNRjgy4GhNUDMXeOFsFlwn9mFdTtSq2xiWSUjbbKcktCqmLN8RvzkEigGL8AYDNvjYGjCLYv1b28XsLVvdQmXnvXcLuDlBx49bpjQaBv7J+g9/CiU25T+YXWNNoMcw+LEOmv5Xs7xE3vts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=WOIwu40N; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="J4aDUp0t"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=w1eXp0O3uBCTO/YYQjX7PUW51b+uMamwJnIw7U+f004=; b=J4aDUp0trZWBhMSK0i7M5kdI52
-	coDTyPn5o+6/hT9DOdYePG2OnjQ6aTw6PLBjac+PqTQKbGQnfNRA3ZvRzzrKkN2RDIYH3vC4Z8RnJ
-	XUMTd5R4BpPd6l/8gjkL6mDkHjBf9or97fvspsGDmjJXgOmLk4WTCiBnRrJ9v2bRSvaRO0qhsN+D2
-	3/PccvXZnjWttZaRtHSlKeBY2oqT9DznnWP9AdQY5gHrFdMoLfRiblJjj6gIS0VQFhs7CdUfTqjYC
-	ZdnzYdOm8Y9zTcghUic5C5Uh5O27dkjpkkd/FuuCKr1NbS63mWDG/pweFQrJBHLbIGMz20qxcFmWh
-	ldrrLCaA==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vydV7-00000004aFd-0KAV;
-	Fri, 06 Mar 2026 22:18:29 +0000
-Message-ID: <e9898533-6ec0-430f-aa56-b8f472b612a5@infradead.org>
-Date: Fri, 6 Mar 2026 14:18:26 -0800
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="WOIwu40N"
+Received: by linux.microsoft.com (Postfix, from userid 1006)
+	id 06A8120B6F02; Fri,  6 Mar 2026 15:21:12 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 06A8120B6F02
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1772839272;
+	bh=Fq7q9rl4Q/OOimOveUu4mF0Owb2cGJSM+ebh2G6WOis=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=WOIwu40NLfRqorK49KjVi5xno87F2nlNm2EyjyWtHpxTDagoV4S5jr0d3Irj5YaD2
+	 RELGidEnOT9YUfZnFZyxEzIMHsP/bU3KE+hzSlzfiEd6cLfQacuPbNjihcNAUaYOmK
+	 /bG6OurF20Z2nyxhTAFy+QgFyMAQGMGieb7GmkxQ=
+From: Haiyang Zhang <haiyangz@linux.microsoft.com>
+To: linux-hyperv@vger.kernel.org,
+	netdev@vger.kernel.org,
+	Andrew Lunn <andrew@lunn.ch>,
+	Jakub Kicinski <kuba@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	"Kory Maincent (Dent Project)" <kory.maincent@bootlin.com>,
+	Gal Pressman <gal@nvidia.com>,
+	Oleksij Rempel <o.rempel@pengutronix.de>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: haiyangz@microsoft.com,
+	paulros@microsoft.com
+Subject: [PATCH net-next,V3, 1/3] net: ethtool: add ethtool COALESCE_RX_CQE_FRAMES/NSECS
+Date: Fri,  6 Mar 2026 15:19:13 -0800
+Message-ID: <20260306231936.549499-2-haiyangz@linux.microsoft.com>
+X-Mailer: git-send-email 2.43.7
+In-Reply-To: <20260306231936.549499-1-haiyangz@linux.microsoft.com>
+References: <20260306231936.549499-1-haiyangz@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs/gpu: fix spelling mistakes in todo.rst
-To: Mikael Rothig <mrrothig@gmail.com>, corbet@lwn.net
-Cc: airlied@gmail.com, simona@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260306215647.67980-1-mrrothig@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260306215647.67980-1-mrrothig@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+From: Haiyang Zhang <haiyangz@microsoft.com>
 
+Add two parameters for drivers supporting Rx CQE Coalescing.
 
-On 3/6/26 1:56 PM, Mikael Rothig wrote:
-> Fix three spelling mistakes in todo.rst:
-> - 'varios' -> 'various'
-> - 'implementions' -> 'implementations'
-> - 'complection' -> 'completion'
-> 
-> Signed-off-by: Mikael Rothig <mrrothig@gmail.com>
+ETHTOOL_A_COALESCE_RX_CQE_FRAMES:
+Maximum number of frames that can be coalesced into a CQE.
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
+ETHTOOL_A_COALESCE_RX_CQE_NSECS:
+Time out value in nanoseconds after the first packet arrival in a
+coalesced CQE to be sent.
 
-In the future, please insert the patch version number into the
-email subject line, like
-[PATCH v3] docs/gpu: fix spelling mistakes in gpu.rst
-The patch version can be (is usually) omitted for v1.
+Signed-off-by: Haiyang Zhang <haiyangz@microsoft.com>
+---
+ Documentation/netlink/specs/ethtool.yaml       |  8 ++++++++
+ Documentation/networking/ethtool-netlink.rst   | 10 ++++++++++
+ include/linux/ethtool.h                        |  6 +++++-
+ include/uapi/linux/ethtool_netlink_generated.h |  2 ++
+ net/ethtool/coalesce.c                         | 14 +++++++++++++-
+ 5 files changed, 38 insertions(+), 2 deletions(-)
 
-Thanks.
-
-> ---
-> v3: Added CC for DRM maintainers and patch description
-> v2: Squashed 3 patches into one as requested
-> ---
->  Documentation/gpu/todo.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> index 520da44a04a6..686a94bead07 100644
-> --- a/Documentation/gpu/todo.rst
-> +++ b/Documentation/gpu/todo.rst
-> @@ -269,7 +269,7 @@ Various hold-ups:
->    valid formats for atomic drivers.
->  
->  - Many drivers subclass drm_framebuffer, we'd need a embedding compatible
-> -  version of the varios drm_gem_fb_create functions. Maybe called
-> +  version of the various drm_gem_fb_create functions. Maybe called
->    drm_gem_fb_create/_with_dirty/_with_funcs as needed.
->  
->  Contact: Simona Vetter
-> @@ -294,7 +294,7 @@ everything after it has done the write-protect/mkwrite trickery:
->  
->        vma->vm_page_prot = pgprot_wrprotect(vma->vm_page_prot);
->  
-> -- Set the mkwrite and fsync callbacks with similar implementions to the core
-> +- Set the mkwrite and fsync callbacks with similar implementations to the core
->    fbdev defio stuff. These should all work on plain ptes, they don't actually
->    require a struct page.  uff. These should all work on plain ptes, they don't
->    actually require a struct page.
-> @@ -882,7 +882,7 @@ Querying errors from drm_syncobj
->  ================================
->  
->  The drm_syncobj container can be used by driver independent code to signal
-> -complection of submission.
-> +completion of submission.
->  
->  One minor feature still missing is a generic DRM IOCTL to query the error
->  status of binary and timeline drm_syncobj.
-
+diff --git a/Documentation/netlink/specs/ethtool.yaml b/Documentation/netlink/specs/ethtool.yaml
+index 4707063af3b4..d254e26c014c 100644
+--- a/Documentation/netlink/specs/ethtool.yaml
++++ b/Documentation/netlink/specs/ethtool.yaml
+@@ -861,6 +861,12 @@ attribute-sets:
+         name: tx-profile
+         type: nest
+         nested-attributes: profile
++      -
++        name: rx-cqe-frames
++        type: u32
++      -
++        name: rx-cqe-nsecs
++        type: u32
+ 
+   -
+     name: pause-stat
+@@ -2257,6 +2263,8 @@ operations:
+             - tx-aggr-time-usecs
+             - rx-profile
+             - tx-profile
++            - rx-cqe-frames
++            - rx-cqe-nsecs
+       dump: *coalesce-get-op
+     -
+       name: coalesce-set
+diff --git a/Documentation/networking/ethtool-netlink.rst b/Documentation/networking/ethtool-netlink.rst
+index 32179168eb73..a9fbb16891fa 100644
+--- a/Documentation/networking/ethtool-netlink.rst
++++ b/Documentation/networking/ethtool-netlink.rst
+@@ -1076,6 +1076,8 @@ Kernel response contents:
+   ``ETHTOOL_A_COALESCE_TX_AGGR_TIME_USECS``    u32     time (us), aggr, Tx
+   ``ETHTOOL_A_COALESCE_RX_PROFILE``            nested  profile of DIM, Rx
+   ``ETHTOOL_A_COALESCE_TX_PROFILE``            nested  profile of DIM, Tx
++  ``ETHTOOL_A_COALESCE_RX_CQE_FRAMES``         u32     max packets, Rx CQE
++  ``ETHTOOL_A_COALESCE_RX_CQE_NSECS``          u32     delay (ns), Rx CQE
+   ===========================================  ======  =======================
+ 
+ Attributes are only included in reply if their value is not zero or the
+@@ -1109,6 +1111,12 @@ well with frequent small-sized URBs transmissions.
+ to DIM parameters, see `Generic Network Dynamic Interrupt Moderation (Net DIM)
+ <https://www.kernel.org/doc/Documentation/networking/net_dim.rst>`_.
+ 
++Rx CQE coalescing allows multiple received packets to be coalesced into a single
++Completion Queue Entry (CQE). ``ETHTOOL_A_COALESCE_RX_CQE_FRAMES`` describes the
++maximum number of frames that can be coalesced into a CQE.
++``ETHTOOL_A_COALESCE_RX_CQE_NSECS`` describes max time in nanoseconds after the
++first packet arrival in a coalesced CQE to be sent.
++
+ COALESCE_SET
+ ============
+ 
+@@ -1147,6 +1155,8 @@ Request contents:
+   ``ETHTOOL_A_COALESCE_TX_AGGR_TIME_USECS``    u32     time (us), aggr, Tx
+   ``ETHTOOL_A_COALESCE_RX_PROFILE``            nested  profile of DIM, Rx
+   ``ETHTOOL_A_COALESCE_TX_PROFILE``            nested  profile of DIM, Tx
++  ``ETHTOOL_A_COALESCE_RX_CQE_FRAMES``         u32     max packets, Rx CQE
++  ``ETHTOOL_A_COALESCE_RX_CQE_NSECS``          u32     delay (ns), Rx CQE
+   ===========================================  ======  =======================
+ 
+ Request is rejected if it attributes declared as unsupported by driver (i.e.
+diff --git a/include/linux/ethtool.h b/include/linux/ethtool.h
+index 83c375840835..656d465bcd06 100644
+--- a/include/linux/ethtool.h
++++ b/include/linux/ethtool.h
+@@ -332,6 +332,8 @@ struct kernel_ethtool_coalesce {
+ 	u32 tx_aggr_max_bytes;
+ 	u32 tx_aggr_max_frames;
+ 	u32 tx_aggr_time_usecs;
++	u32 rx_cqe_frames;
++	u32 rx_cqe_nsecs;
+ };
+ 
+ /**
+@@ -380,7 +382,9 @@ bool ethtool_convert_link_mode_to_legacy_u32(u32 *legacy_u32,
+ #define ETHTOOL_COALESCE_TX_AGGR_TIME_USECS	BIT(26)
+ #define ETHTOOL_COALESCE_RX_PROFILE		BIT(27)
+ #define ETHTOOL_COALESCE_TX_PROFILE		BIT(28)
+-#define ETHTOOL_COALESCE_ALL_PARAMS		GENMASK(28, 0)
++#define ETHTOOL_COALESCE_RX_CQE_FRAMES		BIT(29)
++#define ETHTOOL_COALESCE_RX_CQE_NSECS		BIT(30)
++#define ETHTOOL_COALESCE_ALL_PARAMS		GENMASK(30, 0)
+ 
+ #define ETHTOOL_COALESCE_USECS						\
+ 	(ETHTOOL_COALESCE_RX_USECS | ETHTOOL_COALESCE_TX_USECS)
+diff --git a/include/uapi/linux/ethtool_netlink_generated.h b/include/uapi/linux/ethtool_netlink_generated.h
+index 114b83017297..8134baf7860f 100644
+--- a/include/uapi/linux/ethtool_netlink_generated.h
++++ b/include/uapi/linux/ethtool_netlink_generated.h
+@@ -371,6 +371,8 @@ enum {
+ 	ETHTOOL_A_COALESCE_TX_AGGR_TIME_USECS,
+ 	ETHTOOL_A_COALESCE_RX_PROFILE,
+ 	ETHTOOL_A_COALESCE_TX_PROFILE,
++	ETHTOOL_A_COALESCE_RX_CQE_FRAMES,
++	ETHTOOL_A_COALESCE_RX_CQE_NSECS,
+ 
+ 	__ETHTOOL_A_COALESCE_CNT,
+ 	ETHTOOL_A_COALESCE_MAX = (__ETHTOOL_A_COALESCE_CNT - 1)
+diff --git a/net/ethtool/coalesce.c b/net/ethtool/coalesce.c
+index 3e18ca1ccc5e..349bb02c517a 100644
+--- a/net/ethtool/coalesce.c
++++ b/net/ethtool/coalesce.c
+@@ -118,6 +118,8 @@ static int coalesce_reply_size(const struct ethnl_req_info *req_base,
+ 	       nla_total_size(sizeof(u32)) +	/* _TX_AGGR_MAX_BYTES */
+ 	       nla_total_size(sizeof(u32)) +	/* _TX_AGGR_MAX_FRAMES */
+ 	       nla_total_size(sizeof(u32)) +	/* _TX_AGGR_TIME_USECS */
++	       nla_total_size(sizeof(u32)) +	/* _RX_CQE_FRAMES */
++	       nla_total_size(sizeof(u32)) +	/* _RX_CQE_NSECS */
+ 	       total_modersz * 2;		/* _{R,T}X_PROFILE */
+ }
+ 
+@@ -269,7 +271,11 @@ static int coalesce_fill_reply(struct sk_buff *skb,
+ 	    coalesce_put_u32(skb, ETHTOOL_A_COALESCE_TX_AGGR_MAX_FRAMES,
+ 			     kcoal->tx_aggr_max_frames, supported) ||
+ 	    coalesce_put_u32(skb, ETHTOOL_A_COALESCE_TX_AGGR_TIME_USECS,
+-			     kcoal->tx_aggr_time_usecs, supported))
++			     kcoal->tx_aggr_time_usecs, supported) ||
++	    coalesce_put_u32(skb, ETHTOOL_A_COALESCE_RX_CQE_FRAMES,
++			     kcoal->rx_cqe_frames, supported) ||
++	    coalesce_put_u32(skb, ETHTOOL_A_COALESCE_RX_CQE_NSECS,
++			     kcoal->rx_cqe_nsecs, supported))
+ 		return -EMSGSIZE;
+ 
+ 	if (!req_base->dev || !req_base->dev->irq_moder)
+@@ -338,6 +344,8 @@ const struct nla_policy ethnl_coalesce_set_policy[] = {
+ 	[ETHTOOL_A_COALESCE_TX_AGGR_MAX_BYTES] = { .type = NLA_U32 },
+ 	[ETHTOOL_A_COALESCE_TX_AGGR_MAX_FRAMES] = { .type = NLA_U32 },
+ 	[ETHTOOL_A_COALESCE_TX_AGGR_TIME_USECS] = { .type = NLA_U32 },
++	[ETHTOOL_A_COALESCE_RX_CQE_FRAMES] = { .type = NLA_U32 },
++	[ETHTOOL_A_COALESCE_RX_CQE_NSECS] = { .type = NLA_U32 },
+ 	[ETHTOOL_A_COALESCE_RX_PROFILE] =
+ 		NLA_POLICY_NESTED(coalesce_profile_policy),
+ 	[ETHTOOL_A_COALESCE_TX_PROFILE] =
+@@ -570,6 +578,10 @@ __ethnl_set_coalesce(struct ethnl_req_info *req_info, struct genl_info *info,
+ 			 tb[ETHTOOL_A_COALESCE_TX_AGGR_MAX_FRAMES], &mod);
+ 	ethnl_update_u32(&kernel_coalesce.tx_aggr_time_usecs,
+ 			 tb[ETHTOOL_A_COALESCE_TX_AGGR_TIME_USECS], &mod);
++	ethnl_update_u32(&kernel_coalesce.rx_cqe_frames,
++			 tb[ETHTOOL_A_COALESCE_RX_CQE_FRAMES], &mod);
++	ethnl_update_u32(&kernel_coalesce.rx_cqe_nsecs,
++			 tb[ETHTOOL_A_COALESCE_RX_CQE_NSECS], &mod);
+ 
+ 	if (dev->irq_moder && dev->irq_moder->profile_flags & DIM_PROFILE_RX) {
+ 		ret = ethnl_update_profile(dev, &dev->irq_moder->rx_profile,
 -- 
-~Randy
+2.34.1
+
