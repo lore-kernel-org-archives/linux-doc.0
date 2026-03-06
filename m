@@ -1,40 +1,40 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE7F92BEC3F;
-	Fri,  6 Mar 2026 21:27:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6C8820A5F3;
+	Fri,  6 Mar 2026 21:32:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772832479; cv=none; b=F6f70lNlQEDcEvF4xbmcJM0BGjth0d4hcY9iJI+5p+fCgitSUNVLe8BwwYnG2jfbOzfTXOEfUuIeLMKLqWRB/QA4+hCXtMSQNBUu+E3RGhqHdolSccVxMlJJAzal4fti6wPZxaoDyxGnE7sCrzS2V4kWJ4hNHQeQ82OTHu56eT0=
+	t=1772832743; cv=none; b=IJqniXJVb8YFEOY96MUUT5qmssIUv0T3ObAZZFsdiJj6+cTx2PVJCcHz8nMb1kewgapc3IUnC/IIFsI+QkQvX+p/wHzRamdUn7RRNQv+AaFGfmR0oCUqb9NAhw2CCLYSkAXucntLKS4a+DxMHk/SokvJ9cqUCLLGH5/8J6yJ144=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772832479; c=relaxed/simple;
-	bh=8AcXATpPHhAW6+VsEJt3fbqjfR+nRZ5oVmrac43OOrg=;
+	s=arc-20240116; t=1772832743; c=relaxed/simple;
+	bh=aHU0GZS6zTBPMdXOwCrTKTzH8C6YwZmjPue47grujys=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AZGSK6nfbvIKGL7VQwbY+zt+xONE30GdqBYiTFYa6t2ECPk/tYAh2uZ7hnAf9VW/iSLbr2CxFVrLQK/8IhYHa6SRc6p8TDYhLlsH/jH4VuVUfeqSec3teYMzSYXBOJVhp8ZC/2rHee8gE2PDdOieR0xCI17mAsZQknz2NTS7NA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=TKuE5TCY; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:Content-Type; b=b+XhL2qc/R73hDCOoOTj85vMOk9h6GNAM6Vzl7/3/Sag+dlhzbbkiMn3Hd0/CHmsyNmiKAvAg7yQm0YfvChcbdM9xMa1B5pv94XsyjmJsuosaiZLQC7wwkYFIyVAS2DJLrznInFRjmroGqP2RtdNthJcIhb+aEcpvH8NlgoR/nA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=eFUrMb1I; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="TKuE5TCY"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="eFUrMb1I"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1772832476;
-	bh=8AcXATpPHhAW6+VsEJt3fbqjfR+nRZ5oVmrac43OOrg=;
+	s=mail; t=1772832740;
+	bh=aHU0GZS6zTBPMdXOwCrTKTzH8C6YwZmjPue47grujys=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=TKuE5TCY9pEao6ovX2ljN+08xIEW10blai+3m0jm5lIqeNw1ZtMCznKG1mP5WDIZa
-	 RMy8xazy/23QolllpOLPnM3DiBpIdv86oGjBjzgKGYmPUFe0o5AZVmGdLurCUda0JQ
-	 OmEwFnoXG8n8ZNpeIqkW8oVCvVmcmF6s7Wg5DfvXLqXrnEX6+tZM4LQN4fZNcuLEEG
-	 Jfy9uq4P/0HDrrTyIYtoAlj/aDYFhzyuRf91VNqojzpQFlYt4I1WkkkkteEwnp8djt
-	 WxIJeugI63Mz6WslOt1Hk6ceagZFYi5AwF1vZ4o3IqKEguUiKdtrQEyR4KlT6/MbPW
-	 1vV1T6W5Cx2Hg==
+	b=eFUrMb1I3poRqCks/sKIZUbqF9uYwi2jBuezsO7ZNqi43m8Ilf2849gKI7YKgafAK
+	 W08P8uJd7EPMfKmi9NkYCLwmb2UprPhWzXTmW/onNnKBLX0LFz6IKErczKao9jvGa7
+	 sN9XEc2xvnSQzjo70mWuXzqTxwm+zzU63DGLYn3sUUPm8wWFKhhSFO85gAQZqs7GGW
+	 eJ4Fa4zVu8xkypUJPZ4IYRYQtSNJ/g0FUnaHlW2OaGYJfDSe+sI+vnxGqYpjizQCM3
+	 /yd7pd+cbrDQBSSHWUlKAH/HTSeJTG6mkjtS3soVaeDbWhOSL9qTLeAxA3SaCyhNKR
+	 NyV/BtVeDPn7A==
 Received: from [192.168.1.90] (unknown [86.123.23.225])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
 	(Authenticated sender: cristicc)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id C482617E0959;
-	Fri,  6 Mar 2026 22:27:54 +0100 (CET)
-Message-ID: <84b30917-5d09-4432-bc49-873d1b2674df@collabora.com>
-Date: Fri, 6 Mar 2026 23:27:53 +0200
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id D56CB17E0071;
+	Fri,  6 Mar 2026 22:32:18 +0100 (CET)
+Message-ID: <7ec93603-8d30-4f7c-99f8-64b09da13346@collabora.com>
+Date: Fri, 6 Mar 2026 23:32:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -42,8 +42,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 15/22] drm/rockchip: dw_hdmi_qp: Implement "color
- format" DRM property
+Subject: Re: [PATCH v10 16/22] drm/rockchip: dw_hdmi_qp: Set supported_formats
+ platdata
 To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
  Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
  Rodrigo Siqueira <siqueira@igalia.com>,
@@ -70,25 +70,23 @@ Cc: kernel@collabora.com, amd-gfx@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
  linux-doc@vger.kernel.org
 References: <20260305-color-format-v10-0-a58c68a11868@collabora.com>
- <20260305-color-format-v10-15-a58c68a11868@collabora.com>
+ <20260305-color-format-v10-16-a58c68a11868@collabora.com>
 Content-Language: en-US
 From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-In-Reply-To: <20260305-color-format-v10-15-a58c68a11868@collabora.com>
+In-Reply-To: <20260305-color-format-v10-16-a58c68a11868@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 3/5/26 4:19 PM, Nicolas Frattaroli wrote:
-> Switch between requested color formats by setting the right bus formats,
-> configuring the VO GRF registers, and setting the right output mode.
+> With the introduction of the supported_formats member in the
+> dw-hdmi-qp platform data struct, drivers that have access to this
+> information should now set it.
 > 
-> To do this, the encoder's atomic_check queries the bus format of the
-> first bridge, which was determined by the bridge chain recursive format
-> selection. Pick the input format if it's !FIXED, otherwise, pick the
-> output format.
+> Set it in the rockchip dw_hdmi_qp glue driver.
 > 
-> The previously unused GRF register color format defines are redone as
-> well. Both RK3588 and RK3576 use the same defines; it didn't look like
-> this as there was a typo in the previously (unused) definition.
+> This allows this information to be passed down to the dw-hdmi-qp core,
+> which sets it in the bridge it creates, and consequently will allow the
+> common HDMI bridge code to act on it.
 > 
 > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 
