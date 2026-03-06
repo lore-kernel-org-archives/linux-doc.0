@@ -1,73 +1,73 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE3E830E838
-	for <linux-doc@vger.kernel.org>; Fri,  6 Mar 2026 09:29:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD7E8345CC3
+	for <linux-doc@vger.kernel.org>; Fri,  6 Mar 2026 09:29:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772789379; cv=none; b=CVNYmnrdVWN2kAAlT/82gdzAscolsXzHU+0Op0lr6qh3JjmfDkynXSFJDoTW3ZcaIttq2AZmsvQizFrk7glVWAfoq6i+obFZ9hQT5DpMXob8EOWv5DbLCi6fuqK5YLCKuy7O2n5UlLogmNX4su7bVybLDU3WZQo51SRbZPILZvY=
+	t=1772789382; cv=none; b=cpjfDZ72vvKbZ6b87gIAzg+ic/ZUF1UWm2eqkH24OJyMk96SwSg0FQTkYKUgrouJCmCnCz/IUjEaZyoLo8RuNnC2bKr+tcWVleoQ4O6KRLzRMHR/oyrebDFw9LHFaxIS+hH1mWuwjGfQfyysmg/h7fZRjGIGkT+oYJx8m8tvvBs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772789379; c=relaxed/simple;
-	bh=OhZGOlTBF13Mqs3FLTxL2JDmSrIm5aYAHFnS6dI8ETo=;
+	s=arc-20240116; t=1772789382; c=relaxed/simple;
+	bh=YJNhliH5mDyNmZ3Uu8qu771SyOYHVYt940VTRvNI4yU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tnBJlWsddaJ9b0f5e2P+DyQ4Ydq0ggMtcyPpze7zzv/kNl4SyTrp+MgQEl3zgrR1kVGnY5s1Dm/jKEf63j9tWmoF2kXC6tq+OCO7F4HtJxI8gsd/52lSylH837a+M4TWKCqYbkAzmVjFCid3mDAjVRG39mQuI2Ui39AivyO1aWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GbU3hQBe; arc=none smtp.client-ip=209.85.218.46
+	 MIME-Version; b=tgXN7TMFTFXXS0HUyS/bzmPXtB0sX2InLu8/vbAjnyiYcMROsNQ7fD0GkhWdWBphm5g8a4m20n4lBeoIcmw+bWwDQQV27IvFWkMTw28k3kJ9i2DtMTK/r49UA36iJVuKrR3wBtQcftiqF+tcFMD/0e07EIKAvKMg9msNplPJ5qM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rm1q3EY4; arc=none smtp.client-ip=209.85.208.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GbU3hQBe"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-b936331787bso1469566766b.3
-        for <linux-doc@vger.kernel.org>; Fri, 06 Mar 2026 01:29:37 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rm1q3EY4"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-660f1a1e977so3227898a12.3
+        for <linux-doc@vger.kernel.org>; Fri, 06 Mar 2026 01:29:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772789376; x=1773394176; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1772789380; x=1773394180; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=BLeEDEhf9GDxufVHFP+D7orc27n/ELYDA5X3/DN5+c0=;
-        b=GbU3hQBeDLZBCZsh4Oa/9qk0M54CeyOORnhThcQrKHKkKNE8P6StNaqG/pxuuX99zR
-         BCctaV+X6IkiiD9ASzN05wESsnkm2uL9jvgoiAdWIyG7KLaFca201iSErdC5bd93Y/LF
-         X31aWX7SjsUC3m+q4FtbukDJhS/909gaoqxm585qybvTKU6NMluszmzPrWSgfUegyu7S
-         X8nC1HLLIJeWMcja6HIg3cER1/pCd4Jvk5J2ZQ7Wqad/I2ED9IpFdMRkY4zHp6BYewdf
-         d/QXes687U4ElpnIiko+C80ELrj7LYmGNwILxUG+ArTVomJFtrSRJZoZnEVLJyTuLxA5
-         TSDw==
+        bh=seZ2v6Zztz5cdfyw5k6l6tZogyzOdhCkgzc4DJO4PEE=;
+        b=Rm1q3EY4z+uJSbJdx94xIufLlpYCMG/lL7+w/KKrHixG6Cw+EFhgfTC2TUNHPyc54D
+         MbsIeJUI15xrgMTwm1zDZnrzPZ91yPCej+EVDlyKvJ3BXtygxq+TbT90zWf4iyHsm6qS
+         uRsOVY//Fa0ZZbkYHEd2+2Nu4cG5EhsekJxI9EQr9R2VW8SD/5buhe3yfk4IUgjzUZJh
+         NRhDaSW4TyAmqVu8ay37mfIr6AsAV/QjV9CGEX1pMwVBrYojvTlLxiAdOb2USGcqrL5b
+         vqNr3MoHOFq3v1WLPr212WbkJNmxe9mvmFaiVDC5qagnQ4N5SDscl8TX4JWKA817Z+nr
+         iLyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772789376; x=1773394176;
+        d=1e100.net; s=20230601; t=1772789380; x=1773394180;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=BLeEDEhf9GDxufVHFP+D7orc27n/ELYDA5X3/DN5+c0=;
-        b=vsQol0kbB8S6Sn2g6IYcpfG/xJDXQaf6uJDGbbX3277VHHLz769fIGUwmotK8ro4N2
-         rahoCddeaTbZ7IX912kzpEik+iEy8Ubl7WUiDM/4Hz+cAggxGci+WbE0mnJ3EU0/EnSV
-         rsYWzsRdjpHkenqgXepx1BfMyXwQ4pFXMtH60+TleNFNNZ2XV7yA9imX1dB5WaWIHRjd
-         hBtUVot7ixxpiVJkjH6uLCyq+rxX7CjuvFPiAZe8hZL/seSUtP5De0N3f8x9l72ePY04
-         cFIYMK7RGYBcjjuObX3XErfmF04TOHhwooM7oJjlJ/lcrVUzn8URxgWrbYG6r4jphl9c
-         dwFg==
-X-Forwarded-Encrypted: i=1; AJvYcCXAOHmErzr+gSlGZDuqfMMvZgCVLa87h1cgxa1UJUnmNNU+jQwhiwnGnXbbkfXaKKI8rjjghYKWa9Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyb+zIVM6krICvEK03q5rProfjS0A+vW34r2lqgZqiZGIasrX6I
-	6EIKtXgUHDYF+wiCmd1ZC1c7dbnvTWBABRWW+/6GnzIICImdz/ePz7ya
-X-Gm-Gg: ATEYQzyTS/zoGtysUKMMCG5C/jVXJFhL1Wr+ofXGDHkSZUJQPB3nWo+cm1HltUuxu8w
-	+1yQ0+6Rbajc57BuTjkJQr8+4bOCzUoAZYHjz6LQsezTSluN0pcYf6JVQFdP7jHL8hj7N3i1hpv
-	frtGHosY38RXCOtt8G6T8xELejaWgKDHsxy6F55wJeYljcnXZo+E639PhybKg5m0E6+cK5hP08p
-	7ycf9xhcW8Dld9eG+mNSNfjUK99fdiRbmBw4dOsnEawN/gbQ3FmQ3ccz8QMabt1nF2IHhPNzrxU
-	/w41Krw2dGtQ0OCdr7J86gXukBzgAMEWSpYtX37DznxIIULMHNxPgnAbyj508O2NFWghj1jGQNw
-	Wx8/G4ays3R8+YB0Wg4hVuE0en+hTnOctISgTM9f3uIS9MX3HjzRSa+OpIjh1xIiyMemHH+R9S4
-	+9FLEfMK86/va68WykLqLagRVNBOYW33jo+v1hnf3VTzU7Frc92OELPzyqVyV1jQy6cmc/VUoM+
-	fWtMXjHhk4NLbeavH2xuds+Sb3x8Uy/7EcbnuKIr4F06B2Z6QDG82obBQ==
-X-Received: by 2002:a17:907:d09:b0:b8f:f070:8c30 with SMTP id a640c23a62f3a-b942df8ad63mr78594766b.49.1772789375925;
-        Fri, 06 Mar 2026 01:29:35 -0800 (PST)
+        bh=seZ2v6Zztz5cdfyw5k6l6tZogyzOdhCkgzc4DJO4PEE=;
+        b=icCPbqWzxVA+YEbb2Cvpub2N2KoZSAVe0HQ/6hfu0ZlYfMKjOsO9y4HbNJBE2i2ve9
+         YGzWMRGa2JMusvXLnXnhjVPlp1GS6cE8CWAHR2CmL3X88ZwrLq2D9xbdQrhosmiI4ycV
+         ouKkNz9yQl5E1HCnnGGmxI3SYNIkpgbGgslwds97EEE5LSV8+Pzfitm9yD7umOaRdLPx
+         jf5fTYr1mfn4eXM+n61k+iYdwr2b3krqvcK3QhAbyVtBJ3UOw9g7Y4fHU6jP3McAqUgG
+         I9JU26avt1K98F/ZS3GP1LAJnvNuAmQZDg1iQJa20V106SRonC8W2LD5GQjNXfzkPVSY
+         IQiw==
+X-Forwarded-Encrypted: i=1; AJvYcCXRIKaewyv37kRLjxj2sLxKmtZ7cx4btCvR7o+2NBeA1v34NJ56XvP0/Vs/j0zFyFRskzdz41W6CTQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz8vL6+pxDQN1agLa+lLVo0Qr4yZQ6nbip1zp33Cc7tjL7czjsy
+	tqEURnDfVBlf1UvuVAocSkWo14XXvl8ZpJDtSyLBqkilV4GvmIjhb36cqPjY43OK3h0=
+X-Gm-Gg: ATEYQzwkFdF9COUCE1BtRCGT5rSqIt9t7Dp6l/1T7lU1mOPPtck0yOiGJoFmj4yOcXb
+	HVDgEZQ5HFlnM9mKQPRCcVZ6ghpoGWJm98zOHQVA0dQ5mBYjofXUNbhY5lRz6nPKAYuL7sbC8nN
+	05LY2NpYZuE5vM88lA5jQkgf5RnfQ7Bs8yvjKnw/3/4Z6KqK8D+zahqpkJH9ieWMFKr4Sv1RwiE
+	Lt485+MUiv2Um6ZVfIQmoKKgao0meaL78vNtZh54cJtgxKyeIaMwfMztE+hm1mZegS8ajafTInG
+	SGaaatwiqoiDq6/OWGtAQH5rk8+q5haxMPFAnjYPLnGYSFeSGT0bVM04um3SX/5uXYsNMNPClu0
+	9OvTLcxNvFkbm1dIAIRfA4GThOeJRWK4me14KZrC3bE+BBVryQwH81yWjfX7fvBql2Ppe8fHjjW
+	fZreDz8dIEoFeYvXqhe9IWJuAEIKR96p9s3ZUEpzKxbnKCMHKviSgKteSMKaKesLJKBM571sY+Q
+	4HOzxFzYPH+0qcMivX1xjMNZooarOKL33ma6lYfzIKhZe2+Ekbj6iE2YQ==
+X-Received: by 2002:a05:6402:5209:b0:65c:2377:3344 with SMTP id 4fb4d7f45d1cf-6619d54b1a1mr755276a12.25.1772789379944;
+        Fri, 06 Mar 2026 01:29:39 -0800 (PST)
 Received: from localhost.localdomain (84-24-131-219.cable.dynamic.v4.ziggo.nl. [84.24.131.219])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-661a4fd5e87sm307163a12.18.2026.03.06.01.29.35
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-661a4fd5e87sm307163a12.18.2026.03.06.01.29.39
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 06 Mar 2026 01:29:35 -0800 (PST)
+        Fri, 06 Mar 2026 01:29:39 -0800 (PST)
 From: MikaelRothig <mrrothig@gmail.com>
 To: corbet@lwn.net
 Cc: dri-devel@lists.freedesktop.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	MikaelRothig <mrrothig@gmail.com>
-Subject: [PATCH 2/3] docs/gpu: fix typo 'implementions' -> 'implementations' in todo.rst
-Date: Fri,  6 Mar 2026 10:28:21 +0100
-Message-ID: <20260306092822.48393-2-mrrothig@gmail.com>
+Subject: [PATCH 3/3] docs/gpu: fix typo 'complection' -> 'completion' in todo.rst
+Date: Fri,  6 Mar 2026 10:28:22 +0100
+Message-ID: <20260306092822.48393-3-mrrothig@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20260306092822.48393-1-mrrothig@gmail.com>
 References: <20260306092822.48393-1-mrrothig@gmail.com>
@@ -84,18 +84,18 @@ Content-Transfer-Encoding: 8bit
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 33678b669339..4de61d19ecc6 100644
+index 4de61d19ecc6..686a94bead07 100644
 --- a/Documentation/gpu/todo.rst
 +++ b/Documentation/gpu/todo.rst
-@@ -294,7 +294,7 @@ everything after it has done the write-protect/mkwrite trickery:
+@@ -882,7 +882,7 @@ Querying errors from drm_syncobj
+ ================================
  
-       vma->vm_page_prot = pgprot_wrprotect(vma->vm_page_prot);
+ The drm_syncobj container can be used by driver independent code to signal
+-complection of submission.
++completion of submission.
  
--- Set the mkwrite and fsync callbacks with similar implementions to the core
-+- Set the mkwrite and fsync callbacks with similar implementations to the core
-   fbdev defio stuff. These should all work on plain ptes, they don't actually
-   require a struct page.  uff. These should all work on plain ptes, they don't
-   actually require a struct page.
+ One minor feature still missing is a generic DRM IOCTL to query the error
+ status of binary and timeline drm_syncobj.
 -- 
 2.49.0
 
