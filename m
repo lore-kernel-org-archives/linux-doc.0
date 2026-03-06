@@ -1,103 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8432369992;
-	Fri,  6 Mar 2026 04:08:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 855BA4A0C;
+	Fri,  6 Mar 2026 05:28:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772770124; cv=none; b=sisoCdxOtCL1ifnyGVFWmExGmevZ/y35B2x1Lq8l8odr1dCNul2ZQZP8NcyYz1xtXidVfQldDFyp+2gYx6gP/fTvSU0aQOrLx/i0WIj+5INJHwrnDx6UOPhWZ/+ACdluwG6f5Sq5iFf54Yq81W2CTeNxmyq0I8obL1G52i0wBKQ=
+	t=1772774909; cv=none; b=T3m7F4e19a3Xzm94iMffzUxayPDdAECX/GoRqfk25kkocwTPyJLO8bX5LY8GJQeoO0nviou9W9i/jKGG8vzouA/lAoLAh3Xth/NF+cl6mneo6R7tnqjGu45jajVstbGVBPWQCFNFDFzfv+Cz2LEo8yYM9n5rxierQ+tcnKy0DcA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772770124; c=relaxed/simple;
-	bh=2PV8N8MDNTOIV9r2E8N///4zaacKBlEGosc7fKjx3Ks=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s9johSnYA8dEtGmYUeApgoeeQp9dGus9/kuk9DA0q4PRp5jLFK0quefh84qtH7l7WPOCW3r2pCkm8l6X5IxnuV+7fqeM/+Ew5nfU434TrU6olMXfJMDOO8QCwx7nndGo+9IMbz2grgpqv1ZAVPGDvoAF4nSAUCIXgJ1u8RqHivk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tmxtOwOh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772774909; c=relaxed/simple;
+	bh=Mymp5YMe/lwJlGb/YeUoaONjTRY+VLjELsuskVN91j0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YY+w3i4c0kYMVZmYeZEUanv+8nI7WF5vVdAUEkEnmHIK2zkkhwYkDOj8Vo1ZoUj0zFKA7+t44AklDMcBB0xK0sYXS4J596hISVshAyu3mcv7dq0PYjlCIkx1Hc3eua0/BXCErHsARLxXxCqWw7zJezqpvsjafw5jjD5a7xN/2vA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=nQUCEu9O; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tmxtOwOh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27164C4CEF7;
-	Fri,  6 Mar 2026 04:08:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772770124;
-	bh=2PV8N8MDNTOIV9r2E8N///4zaacKBlEGosc7fKjx3Ks=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tmxtOwOhkKzMEj+l4kjbSGSuOg7q9bHOnXBu+LsMBBRZo8TYzqttB3ZNEaxUX6m28
-	 igTKTyxj3cQRvmuvLaRvYHJw+nt5jnTp7wXY0m0QnUm8yu091nD34pKpvnSAIgAccP
-	 uGSdwoFTKF/uACYkjMzjVw6CB1kQiTp6zQpGjdX/pX/SAiO6clV+uztpVXo+ZntuvP
-	 agHB0e4n7vRHhepIRQFJ6LpOgMB2Be8yKcppfPk6Jvp/CpYr9ZeC46kfu4CB73QFsA
-	 XOow38xou8xbkFJRc/SM44AAtfsLR94yXX8ZlwSrgYBRZWXksYlLpcZSRrXYMwN8DN
-	 J+X+j28Gsr7mQ==
-Date: Thu, 5 Mar 2026 18:08:43 -1000
-From: Tejun Heo <tj@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Tobias Schrammm <t.schramm@manjaro.org>,
-	Sebastian Reichel <sre@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>, Lee Jones <lee@kernel.org>,
-	Dzmitry Sankouski <dsankouski@gmail.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Benson Leung <bleung@chromium.org>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	driver-core@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, chrome-platform@lists.linux.dev
-Subject: Re: [PATCH v2 01/10] workqueue: devres: Add device-managed allocate
- workqueue
-Message-ID: <aapTSyrkqqZ8j_XL@slm.duckdns.org>
-References: <20260305-workqueue-devm-v2-0-66a38741c652@oss.qualcomm.com>
- <20260305-workqueue-devm-v2-1-66a38741c652@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="nQUCEu9O"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=Vkfetqs+xpuG5oD7JT2fp2BAiX2HJc/0mpwWIS+EuZA=; b=nQUCEu9OEPJLY3czN25dwPTfJ5
+	rmbiVdnd5/maK1qpOsCtJkMYiUi1zsvvIBPdtlF0ZwdS9EIl8GlYuTr/rLGlf0wURU6wKgC4AeYdU
+	eWxmCjDAtxlZckaAmtqQiOjdyMfLRX+K0FLp70cjbE/y0j2stYSok5UTNKypGPypkXQfBXdrsfvi+
+	T0+L2RrWZzNvrAtdth/A303CX6+vgv3yQwo8Br7C+X31BAz5zWMnx+GeULLXg4jucp7GgjT3O8P5d
+	U7caQXDvfe3n0iZ75Z4t106YTdvtQ1ZjHzKlQRWORCtJ3de0KrQyZEDPRtH1A07d4gSNXlQ10BASW
+	YNdhM80g==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vyNjN-000000032qp-3jvw;
+	Fri, 06 Mar 2026 05:28:09 +0000
+Message-ID: <d7b0ec9a-85b6-469f-9058-322866ce2cdd@infradead.org>
+Date: Thu, 5 Mar 2026 21:28:09 -0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260305-workqueue-devm-v2-1-66a38741c652@oss.qualcomm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] kallsyms: embed source file:line info in kernel stack
+ traces
+To: Sasha Levin <sashal@kernel.org>, Andrew Morton
+ <akpm@linux-foundation.org>, Masahiro Yamada <masahiroy@kernel.org>,
+ Luis Chamberlain <mcgrof@kernel.org>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Richard Weinberger <richard@nod.at>, Juergen Gross <jgross@suse.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ James Bottomley <James.Bottomley@HansenPartnership.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nsc@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
+ Daniel Gomez <da.gomez@kernel.org>, Greg KH <gregkh@linuxfoundation.org>,
+ Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Kees Cook <kees@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ Thorsten Leemhuis <linux@leemhuis.info>, Vlastimil Babka
+ <vbabka@kernel.org>, linux-kernel@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linux-modules@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20260303182103.3523438-1-sashal@kernel.org>
+ <20260303182103.3523438-2-sashal@kernel.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260303182103.3523438-2-sashal@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Mar 05, 2026 at 10:45:40PM +0100, Krzysztof Kozlowski wrote:
-> Add a Resource-managed version of alloc_workqueue() to fix common
-> problem of drivers mixing devm() calls with destroy_workqueue.  Such
-> naive and discouraged driver approach leads to difficult to debug bugs
-> when the driver:
-> 
-> 1. Allocates workqueue in standard way and destroys it in driver
->    remove() callback,
-> 2. Sets work struct with devm_work_autocancel(),
-> 3. Registers interrupt handler with devm_request_threaded_irq().
-> 
-> Which leads to following unbind/removal path:
-> 
-> 1. destroy_workqueue() via driver remove(),
->    Any interrupt coming now would still execute the interrupt handler,
->    which queues work on destroyed workqueue.
-> 2. devm_irq_release(),
-> 3. devm_work_drop() -> cancel_work_sync() on destroyed workqueue.
-> 
-> devm_alloc_workqueue() has two benefits:
-> 1. Solves above problem of mix-and-match devres and non-devres code in
->    driver,
-> 2. Simplify any sane drivers which were correctly using
->    alloc_workqueue() + devm_add_action_or_reset().
-> 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-Acked-by: Tejun Heo <tj@kernel.org>
 
-Please let me know how you wanna route the patch.
+On 3/3/26 10:21 AM, Sasha Levin wrote:
+> diff --git a/Documentation/admin-guide/kallsyms-lineinfo.rst b/Documentation/admin-guide/kallsyms-lineinfo.rst
+> new file mode 100644
+> index 0000000000000..4dffc18dbcf5a
+> --- /dev/null
+> +++ b/Documentation/admin-guide/kallsyms-lineinfo.rst
+> @@ -0,0 +1,72 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +==================================
+> +Kallsyms Source Line Info (LINEINFO)
+> +==================================
 
-Thanks.
+Heading over/under lines must be at least as long as the heading.
+
+> +
+> +Overview
+> +========
+> +
+> +``CONFIG_KALLSYMS_LINEINFO`` embeds DWARF-derived source file and line number
+> +mappings into the kernel image so that stack traces include
+> +``(file.c:123)`` annotations next to each symbol.  This makes it significantly
+> +easier to pinpoint the exact source location during debugging, without needing
+> +to manually cross-reference addresses with ``addr2line``.
+
+
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 61bf550fd37c2..ab987e74bb0f5 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -14278,6 +14278,12 @@ F:	lib/Kconfig.kmsan
+>  F:	mm/kmsan/
+>  F:	scripts/Makefile.kmsan
+>  
+> +KALLSYMS LINEINFO
+> +M:	Sasha Levin <sashal@kernel.org>
+> +S:	Maintained
+> +F:	Documentation/admin-guide/kallsyms-lineinfo.rst
+> +F:	scripts/gen_lineinfo.c
+
+This entry should be in alphabetical order, just before KASAN.
+
+> +
+>  KPROBES
+>  M:	Naveen N Rao <naveen@kernel.org>
+>  M:	"David S. Miller" <davem@davemloft.net>
 
 -- 
-tejun
+~Randy
+
