@@ -1,75 +1,147 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79CE9366831
-	for <linux-doc@vger.kernel.org>; Thu,  5 Mar 2026 23:25:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEBB92E1EE7
+	for <linux-doc@vger.kernel.org>; Fri,  6 Mar 2026 00:45:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772753109; cv=none; b=mZjTnsL5aoISYQpy7SWYRDF6ajQ8C4f4DzP3rrUuDim0KQhGWc1l0exDAMZdwlOoqHheTrSjKp+Xq7PQB1rLiuT1aR8xtSBQ3dKUvEf6NAdtYXYX0r0fq7st8oZCnUqxfYpGZxvUmIMuNmOxTLXgKRw0+A7J7g6GZUa1mE8Nykw=
+	t=1772757903; cv=none; b=CSBdSeVmCUp0A+IrD565jvZX6XYxa4PC694SD8vS6wzLVoutquIRMtIBD6BhP+MSDpgooR7kq3Ub19Yb0EO3m1j/K/4QfLUsE51MIYSXlTIWTWx1w4Hl/XqsAOPeyu+znHmw7m+frdBHhM7DNHsz7gcmEOU0MtZigUt7XogWU3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772753109; c=relaxed/simple;
-	bh=I8bx73URgsv+B3XTQJSC92UQ3HusOP8ucy62VFj9MGg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=U4DuS74EzWuCQFJLAH8gPJSiPZNe0/XF3U/uxo0hBiy8z8XIYuxbCZnAX/5VfOpjTIb/m5aYmUc3h0PY6JifsDG+7ZkTFEj0X0K7KR9YtspPo62W6iHfkbTAj3vMywYFWWIIkI5M35xVvV4mT0RitM6Xz7A6cgOlr92rM845uQQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=q7328M9N; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="q7328M9N"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=8k/b0+8LyXoIZMHfVUIfx66lAJ/OS9UpbQwaLIKWq68=; b=q7328M9NNiN1wLQh23EDWeySmY
-	o2jyE36EnBdbkONaoiR5NtNX1UwOiTbR5At3vwd0RG8ItJQ4nQ/NZ/RBwFXTa+SKR/UNfKHV/HhjP
-	0oarY6t4tkwP65vTUhnZr0Fw0otiXIXOWNI5NeOfAozR9u0yLjLvdz5w1KsVor46QW+PqIJoLoNSH
-	3RDNYbEwgdLmJiiCZg3ARil6tLQJA8ZCSYW60d+dKUxWh/EW3C97HYAZkO3+Lq3tZAZ+9or/Q58sn
-	IBxmgDv7lfrfef6a/w7yuHXPalflGJvNfxvehhEI6FOH/DQWwMMMf6NmXGgSliLTrdcGg1UmfEfFQ
-	dLsmdbMg==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vyI3x-00000002ilM-3yj8;
-	Thu, 05 Mar 2026 23:25:01 +0000
-Message-ID: <4c5323a3-73a0-465f-b31f-b7737b92613d@infradead.org>
-Date: Thu, 5 Mar 2026 15:25:01 -0800
+	s=arc-20240116; t=1772757903; c=relaxed/simple;
+	bh=G9zzbkUUMAkORAuT7yKEFCmmFIF56otd76cutMRNMYQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=mJCjUBlVOaDEwRDAGd61kMkj1mbFVusvhS/GxLw1vn8f3Jm1qOmEIMonQdXlgXCKbBiO+a9NE9gGt5QgNXsEdGj31+eOI5ngh9EutSFIJPkzOZ7rTrPI4S2QUlIRuRhe4gtDRucII0qqHSWu3Mt5tDZp5p3kTMJW9x5CgnlkTVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=pass smtp.mailfrom=baylibre.com; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2ae8177446fso1473055ad.0
+        for <linux-doc@vger.kernel.org>; Thu, 05 Mar 2026 16:45:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772757900; x=1773362700;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XBIID2C3tYCLC3ROIp9HZ27Vwpuc9s7YKBLnBBIirXY=;
+        b=i/mzB9MkVr79/JECW3aAyDXS58x1uFA2WY94rJqE4025YGWWfFzOjAhPNk2uGBAvF/
+         6UDvId18q0EhLD5dvkleb8cB0ZBINEuPxD+iORzSnDRJ6IALK5FyfbNCxFTfkGHeRiLX
+         hGlnGhfVbNv0EjykYBEPRlzHGFb5C604PoREa1pq/2vSXW1dpuLTIEutQBhxiBA20ZB/
+         MRCxpwHNgFKows1m5avyjSGLw1IdPc+mFMo6FwDNy+2RiBEQ82ntfWY2wLVIYikJhWda
+         qS+fCuWSglK/YJVCmNvl6IDV69WBV9utvWKyyqHN+8qwEmQJM0/wq7FXIoEPConCMJvZ
+         ZhWA==
+X-Forwarded-Encrypted: i=1; AJvYcCVQY9/HE+Rw5VAMCRnCZCdI4LMGHhmTPZXKgz5ly9ycCeEOcO/RzYOvLhEodc3/WCoeU1PQgw7AvBg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw1WsOeBk8XCrsVvMOrJlHhfVrR3Q5tfq78MXR85mnKAQMjvnnC
+	UZEJhWgNQ2hERUB+HTLchGMz6xfR7ks8IJL9WqI6PiD+pgV6eLWjyh/hLNDH7wxKin8=
+X-Gm-Gg: ATEYQzyi//d3dvqilVhR0euHnsfgrrPLMABSNRdi/lLS3DTMNjhayXtJwpNhVLJB8ss
+	0O3iCcquv5EOSMwnDGVnAzxA4AkdUBDw6lNJIRmjnYWRJsn/dL8VPfRle1kmQSEhBRPitp/F3l3
+	wdmB9DDnK0kziw5QushJ7N5KAseIWFHwg5v3Ca5KQhu0cOCnK1BesDGf44CZ5ctBSyDALS/rH3p
+	pfmxhvwGeDssvIwmT/rTt9PCqRYTIJFtKHSx6B1Fi6ofqWcd3/5joB53VxoXcTsqTpW1nquEUL+
+	Hy90Jtz1BUH0jcGgNzwv2j+ph7lKFX6jfEnFc7PGcQ0kuIO12jB+hOofz/JEfomnkq2flxq4r1O
+	f+TfwCghDyPMqfY5Ljx0ltYV0kl9m50BovDMolioMbY30ccYu6eHKdPDiGUfnsCG5C87uudDsZH
+	QmJTGOJi4n8JQATDuxUIR9
+X-Received: by 2002:a17:903:18d:b0:2ae:5eee:7a5 with SMTP id d9443c01a7336-2ae8241df4emr3858265ad.12.1772757900350;
+        Thu, 05 Mar 2026 16:45:00 -0800 (PST)
+Received: from localhost ([71.212.200.220])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ae4651e409sm180143885ad.44.2026.03.05.16.44.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Mar 2026 16:44:59 -0800 (PST)
+From: Kevin Hilman <khilman@kernel.org>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Linus
+ Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, Geert
+ Uytterhoeven <geert+renesas@glider.be>, Frank Rowand
+ <frowand.list@gmail.com>, Mika Westerberg <westeri@kernel.org>, Andy
+ Shevchenko <andriy.shevchenko@linux.intel.com>, Aaro Koskinen
+ <aaro.koskinen@iki.fi>, Janusz Krzysztofik <jmkrzyszt@gmail.com>, Tony
+ Lindgren <tony@atomide.com>, Russell King <linux@armlinux.org.uk>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-omap@vger.kernel.org, linux-doc@vger.kernel.org, brgl@kernel.org,
+ Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: Re: [PATCH 4/6] ARM: omap1: ams-delta: convert GPIO hogs to using
+ firmware nodes
+In-Reply-To: <20260305-gpio-hog-fwnode-v1-4-97d7df6bbd17@oss.qualcomm.com>
+References: <20260305-gpio-hog-fwnode-v1-0-97d7df6bbd17@oss.qualcomm.com>
+ <20260305-gpio-hog-fwnode-v1-4-97d7df6bbd17@oss.qualcomm.com>
+Date: Thu, 05 Mar 2026 16:44:59 -0800
+Message-ID: <7hy0k5okfo.fsf@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: printk: warn about lockups from excessive
- use
-To: hujinfei <3288824963@qq.com>, linux-doc@vger.kernel.org
-Cc: pmladek@suse.com, senozhatsky@chromium.org, qujingling@huawei.com,
- zhangjiaji1@huawei.com, xushuangxing@huawei.com, rostedt@goodmis.org,
- john.ogness@linutronix.de, hujinfei3@huawei.com
-References: <tencent_6D5FBEBE0E2FDACC93E50D0893497F676407@qq.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <tencent_6D5FBEBE0E2FDACC93E50D0893497F676407@qq.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
+Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com> writes:
 
+> Setup a software node hierarchy for the latch2 GPIO controller defining
+> the required hog and stop using legacy machine hog API.
+>
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
-On 3/4/26 10:41 PM, hujinfei wrote:
-> From: hujinfei <hujinfei3@huawei.com>
-> 
-> Add a section 'Avoiding lockups from excessive printk() use' to
-> printk-basics.rst, explaining the risk of calling printk() in hot paths
-> with slow consoles and suggesting alternatives like ratelimited printing,
-> tracepoints, nbcon, and log level filtering.
-> 
-> Signed-off-by: hujinfei <hujinfei3@huawei.com>
+Acked-by: Kevin Hilman <khilman@baylibre.com>
+
 > ---
->  Documentation/core-api/printk-basics.rst | 29 ++++++++++++++++++++++++
->  1 file changed, 29 insertions(+)
-
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-
-thanks.
--- 
-~Randy
+>  arch/arm/mach-omap1/board-ams-delta.c | 32 +++++++++++++++++++++++++++-----
+>  1 file changed, 27 insertions(+), 5 deletions(-)
+>
+> diff --git a/arch/arm/mach-omap1/board-ams-delta.c b/arch/arm/mach-omap1/board-ams-delta.c
+> index 16392720296cd224732450c85419c35bbab506f6..1bec4fa0bd5e8bfc58103d1f24b22176707fd26f 100644
+> --- a/arch/arm/mach-omap1/board-ams-delta.c
+> +++ b/arch/arm/mach-omap1/board-ams-delta.c
+> @@ -556,10 +556,30 @@ static struct gpiod_lookup_table *ams_delta_gpio_tables[] __initdata = {
+>  	&ams_delta_nand_gpio_table,
+>  };
+>  
+> -static struct gpiod_hog ams_delta_gpio_hogs[] = {
+> -	GPIO_HOG(LATCH2_LABEL, LATCH2_PIN_KEYBRD_DATAOUT, "keybrd_dataout",
+> -		 GPIO_ACTIVE_HIGH, GPIOD_OUT_LOW),
+> -	{},
+> +static const struct software_node latch2_gpio_swnode = {
+> +	.name = LATCH2_LABEL,
+> +};
+> +
+> +static const u32 latch2_hog_gpios[] = { LATCH2_PIN_KEYBRD_DATAOUT, 0 };
+> +
+> +static const struct property_entry latch2_gpio_hog_props[] = {
+> +	PROPERTY_ENTRY_BOOL("gpio-hog"),
+> +	PROPERTY_ENTRY_U32_ARRAY("gpios", latch2_hog_gpios),
+> +	PROPERTY_ENTRY_STRING("line-name", "keybrd_dataout"),
+> +	PROPERTY_ENTRY_BOOL("output-low"),
+> +	{ }
+> +};
+> +
+> +static const struct software_node latch2_gpio_hog_swnode = {
+> +	.parent = &latch2_gpio_swnode,
+> +	.name = "latch2-hog",
+> +	.properties = latch2_gpio_hog_props,
+> +};
+> +
+> +static const struct software_node *const latch2_gpio_swnodes[] = {
+> +	&latch2_gpio_swnode,
+> +	&latch2_gpio_hog_swnode,
+> +	NULL
+>  };
+>  
+>  static struct plat_serial8250_port ams_delta_modem_ports[];
+> @@ -684,7 +704,6 @@ static void __init ams_delta_init(void)
+>  
+>  	omap_gpio_deps_init();
+>  	ams_delta_latch2_init();
+> -	gpiod_add_hogs(ams_delta_gpio_hogs);
+>  
+>  	omap_serial_init();
+>  	omap_register_i2c_bus(1, 100, NULL, 0);
+> @@ -693,6 +712,9 @@ static void __init ams_delta_init(void)
+>  	platform_add_devices(ams_delta_devices, ARRAY_SIZE(ams_delta_devices));
+>  
+>  	platform_device_register_full(&latch1_gpio_devinfo);
+> +
+> +	software_node_register_node_group(latch2_gpio_swnodes);
+> +	latch2_gpio_devinfo.fwnode = software_node_fwnode(&latch2_gpio_swnode);
+>  	platform_device_register_full(&latch2_gpio_devinfo);
+>  
+>  	/*
+>
+> -- 
+> 2.47.3
