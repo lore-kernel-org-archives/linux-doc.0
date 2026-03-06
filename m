@@ -1,272 +1,221 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E1123F0775;
-	Fri,  6 Mar 2026 17:14:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1413F344DA4
+	for <linux-doc@vger.kernel.org>; Fri,  6 Mar 2026 17:23:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772817287; cv=none; b=mNfpbLHu5xJyL2xH6ZpGY7tRg6t1gLVboMPbIdy7Ui4CIGNywE0HJF9z5p9iyiS5+kh0JjPNM+UHA9FVsQiGz64c7KfSh9hR1CB7j+U/TBm7d3KaxMoXPyePne08mUfp3Xilq71xbCnnjIMwYbtSp72pC1CvEuZYpzaLHe6Dpjs=
+	t=1772817795; cv=none; b=sZOWdnM/V0RqZ9LzlplUCQqjwMwvhQPJ6BpV7aB9ard7wmaR/ZW73y9G7yShHLi0hxn8boQakVw5gSuJSSd2tROQhwuWbzWMTpLokDNIMgd8RhfipJJiouByJTjUzCRcMREvMp3jvctCVhWvRV9EgPoRqbJih3GQZ1KsoHZzRtg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772817287; c=relaxed/simple;
-	bh=lpakn6rDgrUOoPMBtHcGIDZVCwWXH4+PKRrLVmfU6ls=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cqDqMY4Dovy/e5a/kyEc4Yci4YgKb1JL2TraMxgZi4bSGFxfOWEBcXkzq/d1NgOKNAWP0+PqSvqdcdiB8RkcH4AZSnTGnZV45PFSWQ8Y9HRK6UE7FRHsxgDOKohzJe/e4fFf5qwfnRrXY08qK1kd2qJeuA8a7yZYWfkKgpceZ8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u7up+pTV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772817795; c=relaxed/simple;
+	bh=aYPUqTpCzM5Tkwp+W8Jx1IUDJDoRaxbtu36jmeGo27w=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=X7+s6U5PT4HvCiFgI+b1M7i6NXdJKiIKJ0N/A657rzy34m7AoWPW+bONJErIKcFvAikAKK+0ALamlxZU5bxH9C5aVsE4pOXc2iZupRtzmxxtczCETnZZatdd+J4ZmvzX9Wkv90ToUrxuMKA7nfazI7vuAJnCOX/sfIFCzuM+YrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=lH5dkCw2; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=aloeGv5Q; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u7up+pTV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C404DC4CEF7;
-	Fri,  6 Mar 2026 17:14:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772817287;
-	bh=lpakn6rDgrUOoPMBtHcGIDZVCwWXH4+PKRrLVmfU6ls=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=u7up+pTVJoNlVgn/INPXa3TulXtn7QufEdeCHdlp/W2RYrBdPDAR7AgHoggI6XcMx
-	 vUZt3PAEbHwa3L9vxNv1CDHw/ZVi0OdW6dNNyJaexBo/Jz8Onf5uhnHa+9d9TaGZ3l
-	 feSe2v+fx/ZClwGd3C+CO3RbRdYs7gNzps7GiwbG2YMuRMk3RihBAkzUZeFPeKI83o
-	 a9OJFSmWZwl++Yg9iqoz73qG2735DPl4wpIBXI2sUhFVw+9XuK/l22aWyxmfRdgMCp
-	 vAvwNABlRCruuBAtpa/LQsXvAeFYRLgUBo4awwkW1jE5JRplOec8bv0CgNfZGELqXh
-	 njtYujszVwJfw==
-Date: Fri, 6 Mar 2026 12:14:45 -0500
-From: Sasha Levin <sashal@kernel.org>
-To: Petr Mladek <pmladek@suse.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Richard Weinberger <richard@nod.at>,
-	Juergen Gross <jgross@suse.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	James Bottomley <James.Bottomley@hansenpartnership.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Greg KH <gregkh@linuxfoundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>, Kees Cook <kees@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Thorsten Leemhuis <linux@leemhuis.info>,
-	Vlastimil Babka <vbabka@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-modules@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/3] kallsyms: embed source file:line info in kernel
- stack traces
-Message-ID: <aasLhbZmvcQ8sA9P@laps>
-References: <20260303182103.3523438-1-sashal@kernel.org>
- <20260303182103.3523438-2-sashal@kernel.org>
- <aasClESfxETxliLB@pathway.suse.cz>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="lH5dkCw2";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="aloeGv5Q"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 626H29j5668835
+	for <linux-doc@vger.kernel.org>; Fri, 6 Mar 2026 17:23:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=MnfkUfPC/9+ueKGLdBxBI+
+	FLbF+ag8oMCFFK5lvPNNk=; b=lH5dkCw2u5HzHmkz7ByF58qUuv6P+toz1ZbCGa
+	QaFyYBT/uNrRgoM1N9jYiv1ektNUg8QbymnB9bx1PRnRT9HuOoEcy96mqh4D6XzT
+	tEBmNFWln/yU0Q5Ybq0ujOiMauUUnWP19N+xVGwe1u64D21eu3TTj+WbjKiRdbnn
+	6OcWx1gMh3ow/ayoJ7Dt5C7U4Ksr/8uj3IqSISPRY9QKXyC6JJZ8/6KEJP5Rd3pt
+	FoyR6///1yzBBC5Wxb7mYLq3NOD+cDqbwVfzmBSDJIJlrsegWmdEeuJvk1ebPdqU
+	K+T5eR07KptEwjTv5BQirkLgELRw6HXT6E/yWA5qo1OXBpUA==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cr2ye03bg-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Fri, 06 Mar 2026 17:23:13 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-5033b4d599eso685404741cf.2
+        for <linux-doc@vger.kernel.org>; Fri, 06 Mar 2026 09:23:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1772817792; x=1773422592; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MnfkUfPC/9+ueKGLdBxBI+FLbF+ag8oMCFFK5lvPNNk=;
+        b=aloeGv5QO3zwrc95IDB48sHoP5rP92PsIquFkVFJFy4sLk6DLC1cY5SP2Xvt0a013b
+         xv/+z6dVcdiWzJO5W1x1XgZ6nPuJ3RTazqmgnRkJ2sZNxPSz6ygZ1S7SsbkOunIEyqbW
+         uSP+OkQ+4kY9Ndv+/VR1KhE5wHjcObpFGuc1GxAPKHUN+Z2h7w0d91x58ernwyKGPoNv
+         P/408LrtSYOB++kaPPfqUWdlcAVEv3zjms6cLvbRS02n3ERoYq/jdGqmK93suiv6wibE
+         9Gyq+Z8vLpUm9291DvpOjH28pjUgoWsSDJ+IXSOfHCvt/OnyJHTfChvr3KKOyOlvDPQZ
+         GVWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772817792; x=1773422592;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MnfkUfPC/9+ueKGLdBxBI+FLbF+ag8oMCFFK5lvPNNk=;
+        b=lgLV6xMD6GI6LEkHJD2jETY0zhev5ZI/B+sU5hwSUyY7PkRgPFAeAdhmWbXYYsFrdg
+         eclb3kJascYeTIIvFCVZR056fxu/p48eTzq6goJqpyb24cO3us8qNn75+7T6Oh0TKCvk
+         rc1Bv1/04MgAWH7Qh2N1y6y04m38szQlL67o6ZjsxtNoYfhd/K4ihRYXBA9tJzY7cFaJ
+         rEcj2sY6YWFP192SXfh/K+zdlCil5RgyCBOaGZaQOn3Z4Cu76wfUECPmwoqruBN0Rm8V
+         IqegasLN5Cm6SgFSJBhUzQq0eTea4WtAiIWS2iu4qd438CpuegDkXRU0ZOaIAGCtH/r/
+         ZrUA==
+X-Forwarded-Encrypted: i=1; AJvYcCWnWubbTZwQIet5sARLqFeH4UHxxDdQ190ek5ED2rR5z5bDeZBG1ExHbm5hJjZSAtPc76SLWPp5vXw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwcGDVEdTpHuoamw3vT56cHqrJ2MJwwzlZ27n2/3lStVDFyHqnd
+	5BeKMJfV8kvCi1fH+ALwg2ZheZpSNSDx58EDO5EQgZIldcyhJ/XgX2fdg5LFtcAUICmBncuGq23
+	t2UvIncX3yowzhY5Io8gmd86Iw5xrYB0vwFJOKDNTf/IUkPmC4MVIi2q1xtLXcrY=
+X-Gm-Gg: ATEYQzy4y76jiRGmCzFkxSkKvmyuQQDZAxjGqEGouHPAWAnUhBawRZU7MjmfPcPziU3
+	5RmT1Tp9e+DLzMoHm9bnBSh5H4JPPMGy/nPIK46UXZbHBqNPTUF2zBDzbNqBWYrv/6TMGSar1wH
+	BrdCbbi0QOA2d6yk4ft5Ts15PYuzad7gRohTvkA2YNJcTywrmHYUxwZ67pUWz6qGYUq8T+U33l6
+	Me0Q2lbTfIUNLfzTxNF5uUgWhKbl5iWhW/bizH43eO4tYUjidqwY7zdkTnBNttSYUk89Jxc+66V
+	BOBy5TBKLe6xMhv6XU5ihmEURXpEOVBlArJR6TBwaRpE4b4APIvLQQbPcJNFIPwGxGPS65S/u+o
+	X9wLWBPT+/GicCpuXe/uiboH9TUES0foa1Sp31t/+4x9M8KVIwjxP
+X-Received: by 2002:a05:620a:4093:b0:8c7:106c:cbd4 with SMTP id af79cd13be357-8cd6d324021mr370878585a.12.1772817792177;
+        Fri, 06 Mar 2026 09:23:12 -0800 (PST)
+X-Received: by 2002:a05:620a:4093:b0:8c7:106c:cbd4 with SMTP id af79cd13be357-8cd6d324021mr370875085a.12.1772817791695;
+        Fri, 06 Mar 2026 09:23:11 -0800 (PST)
+Received: from brgl-qcom.local ([2a01:cb1d:dc:7e00:28b1:4950:7702:bb20])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48527686fa9sm61488475e9.8.2026.03.06.09.23.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Mar 2026 09:23:10 -0800 (PST)
+From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: [PATCH v3 00/14] reset: major reset core refactoring
+Date: Fri, 06 Mar 2026 18:22:44 +0100
+Message-Id: <20260306-reset-core-refactor-v3-0-599349522876@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <aasClESfxETxliLB@pathway.suse.cz>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGUNq2kC/23NzRKCIBAH8FdxOIcDi6R06j2aDrRiMpNSYEyN4
+ 7u3eunihdn/fvyYWXLRu8ROxcyiyz75MFJQh4Jhb8e7476lzECAlgDAo0tu4hiio7KzOIXIdWf
+ bWpoab9gxunzSxH829XKl3PtEa9/tkyzX7uodhRR618uSC26xqpQUqjJNew4pla+3fWAYhpIet
+ rIZ/hSA2qeAKO20raEx0gjcoZZl+QG/LjSmCAEAAA==
+X-Change-ID: 20251222-reset-core-refactor-5fad7197cbcf
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, brgl@kernel.org, linux-doc@vger.kernel.org,
+        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3493;
+ i=bartosz.golaszewski@oss.qualcomm.com; h=from:subject:message-id;
+ bh=aYPUqTpCzM5Tkwp+W8Jx1IUDJDoRaxbtu36jmeGo27w=;
+ b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBpqw1sVxjKpShgxSgSQ2bNvR/tjWGUonyD27ROB
+ QqhGvkJYsGJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCaasNbAAKCRAFnS7L/zaE
+ w/KmD/4mVMydQmIRk1//2XYV8z/lQn1BrsperzD8l+shsA+2MP2o1rLVFHQp77lXcMfuYuC9upg
+ b8uxI6iNstfdm4cvyZxWW0hJe+bZ7u1kbxANY2Pg8jG9nl5N3nLV95RAcSFBo7L4TpFpedvSWqV
+ 8eIU33WNzBY2R/0Fp725DYgKD7xVIw0FeaCcQja80nqHtWj4WJx+E6MEo3Cxl+DOBaPC0JNPKbK
+ kd7o6dAJEeb7WK+bOW52v07hcZc0rPlOhj7TSDkEu0eBh7hFvsSl3Xpt6cMu/9w8BJ3/AhcDmOZ
+ NnE/2pvSoEyInAWIMYCNbLM/9lMRgILo72dH/SXFkwYDrXY/fJKee9vSaDcztfABEWpazeubXSA
+ Nl+fgkW9wKeRDl6/oIkJ9SgNOEbU/q1S3svB8GAxOMAix64Xr5rNkZzg4DoPkDvf0t8M0bWdno2
+ 0uPEXDbtjKDeqoA1TKmd95Z5wffzNpYJX95xXw/5e5X/6kuSbSwzep7KQPp8Ir/dhXKzSRkfL8s
+ CEp8sClJ5mePLkEvZMbssJ/ojjoKCzma4Ls/3c063H2k9T4hb2BtVDgnddreBB9QxJaQ+kokm2L
+ k7K3SNQBaEepsLm6R6oPTMOQ50apODQynjh5J7cU3LAgw2LvsLWbNzNJsE2NOlVF4UENiM4g1v/
+ ndWOzkvUKc2qebA==
+X-Developer-Key: i=bartosz.golaszewski@oss.qualcomm.com; a=openpgp;
+ fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA2MDE2NCBTYWx0ZWRfX+0ncH+MyE5sr
+ OA45iRA9PA+n8CCeyWqVfE7Uk/jMK5AEqJjvLlDTZtDB//lDrqMrpXKoOLJuuVGX+o3pRmpCmef
+ RBnbXOT3Po7JvU6jJEICFfR9eYpnKYemo/bRd+BI0oOIPXo8701iEYwyhiA5cx0o1FaMzI2GU59
+ egm4IOgeqSO8/tJJXIGd7EsVXiQlluMxV638GDC/2OAkuwC0O4djh/UewFPCuP7q1OL+415Z/rF
+ jFPUHOgwD2nQ4Ed0y9yo8fto9q/QJ37e8fFHrbYhKE7jGA1epK00V6yx0T04W+oZ5MgM+qLgIUt
+ 4PgnHTYLnl/HfPONx2Ze8dCt3J66zxupNbjfsmRttLTQT3IndBP4OUWsrsemc+9zV7DwTcD/JwS
+ DAY0nNyw6BvIUQBPhbDc533TMhArWxwLTh3BQq27uNPCwYV+2phY7HDZgM2SaYhbTpZosAk9etH
+ 2hGBv+EArifzRQ2V3Vw==
+X-Authority-Analysis: v=2.4 cv=Bt+QAIX5 c=1 sm=1 tr=0 ts=69ab0d81 cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22 a=bC-a23v3AAAA:8
+ a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8 a=NkTeoEEA0MArJt8Sc6EA:9 a=QEXdDO2ut3YA:10
+ a=a_PwQJl-kcHnX1M80qC6:22 a=FO4_E8m0qiDe52t0p3_H:22
+X-Proofpoint-GUID: H0-cQRQGjedn5DftW4HzACmCvMBLWcMh
+X-Proofpoint-ORIG-GUID: H0-cQRQGjedn5DftW4HzACmCvMBLWcMh
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-06_05,2026-03-06_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 priorityscore=1501 bulkscore=0 adultscore=0 clxscore=1015
+ phishscore=0 impostorscore=0 suspectscore=0 malwarescore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603060164
 
-On Fri, Mar 06, 2026 at 05:36:36PM +0100, Petr Mladek wrote:
->On Tue 2026-03-03 13:21:01, Sasha Levin wrote:
->> Add CONFIG_KALLSYMS_LINEINFO, which embeds a compact address-to-line
->> lookup table in the kernel image so stack traces directly print source
->> file and line number information:
->>
->>   root@localhost:~# echo c > /proc/sysrq-trigger
->>   [   11.201987] sysrq: Trigger a crash
->>   [   11.202831] Kernel panic - not syncing: sysrq triggered crash
->>   [   11.206218] Call Trace:
->>   [   11.206501]  <TASK>
->>   [   11.206749]  dump_stack_lvl+0x5d/0x80 (lib/dump_stack.c:94)
->>   [   11.207403]  vpanic+0x36e/0x620 (kernel/panic.c:650)
->>   [   11.208565]  ? __lock_acquire+0x465/0x2240 (kernel/locking/lockdep.c:4674)
->>   [   11.209324]  panic+0xc9/0xd0 (kernel/panic.c:787)
->>   [   11.211873]  ? find_held_lock+0x2b/0x80 (kernel/locking/lockdep.c:5350)
->>   [   11.212597]  ? lock_release+0xd3/0x300 (kernel/locking/lockdep.c:5535)
->>   [   11.213312]  sysrq_handle_crash+0x1a/0x20 (drivers/tty/sysrq.c:154)
->>   [   11.214005]  __handle_sysrq.cold+0x66/0x256 (drivers/tty/sysrq.c:611)
->>   [   11.214712]  write_sysrq_trigger+0x65/0x80 (drivers/tty/sysrq.c:1221)
->>   [   11.215424]  proc_reg_write+0x1bd/0x3c0 (fs/proc/inode.c:330)
->>   [   11.216061]  vfs_write+0x1c6/0xff0 (fs/read_write.c:686)
->>   [   11.218848]  ksys_write+0xfa/0x200 (fs/read_write.c:740)
->>   [   11.222394]  do_syscall_64+0xf3/0x690 (arch/x86/entry/syscall_64.c:63)
->>   [   11.223942]  entry_SYSCALL_64_after_hwframe+0x77/0x7f (arch/x86/entry/entry_64.S:121)
->>
->> --- a/include/linux/kallsyms.h
->> +++ b/include/linux/kallsyms.h
->> @@ -16,10 +16,19 @@
->>  #include <asm/sections.h>
->>
->>  #define KSYM_NAME_LEN 512
->> +
->> +#ifdef CONFIG_KALLSYMS_LINEINFO
->> +/* Extra space for " (path/to/file.c:12345)" suffix */
->> +#define KSYM_LINEINFO_LEN 128
->> +#else
->> +#define KSYM_LINEINFO_LEN 0
->> +#endif
->> +
->>  #define KSYM_SYMBOL_LEN (sizeof("%s+%#lx/%#lx [%s %s]") + \
->
->I guess that this is used also in ftrace where there formatting
->is delayed. We might want:
->
->  #define KSYM_SYMBOL_LEN (sizeof("%s+%#lx/%#lx [%s %s] (%s:%u)") + \
+Here is the promised refactoring of the reset core. The main goal of the
+series is to make the reset subsystem fwnode-agnostic - meaning it can
+work with all kinds of firmware nodes instead of being OF-centric - but
+there are some other related changes in here as well. I'm sending it all
+out for review to give Phillipp a better picture of the end result but
+individual pieces can be picked up earlier if accepted.
 
-KSYM_LINEINFO_LEN already covers the full expansion of the path and line
-number, not just the literal format characters. ftrace stores raw addresses and
-formats via %pS at print time into a KSYM_SYMBOL_LEN-sized buffer, so there
-shouldn't be an issue here.
+The series is logically split into several parts:
 
->>  			(KSYM_NAME_LEN - 1) + \
->>  			2*(BITS_PER_LONG*3/10) + (MODULE_NAME_LEN - 1) + \
->> -			(BUILD_ID_SIZE_MAX * 2) + 1)
->> +			(BUILD_ID_SIZE_MAX * 2) + 1 + \
->> +			KSYM_LINEINFO_LEN)
->>
->>  struct cred;
->>  struct module;
->> --- a/kernel/kallsyms.c
->> +++ b/kernel/kallsyms.c
->> @@ -467,6 +467,62 @@ static int append_buildid(char *buffer,   const char *modname,
->>
->>  #endif /* CONFIG_STACKTRACE_BUILD_ID */
->>
->> +#ifdef CONFIG_KALLSYMS_LINEINFO
->> +bool kallsyms_lookup_lineinfo(unsigned long addr, unsigned long sym_start,
->> +			      const char **file, unsigned int *line)
->> +{
->> +	unsigned long long raw_offset;
->> +	unsigned int offset, low, high, mid, file_id;
->> +	unsigned long line_addr;
->> +
->> +	if (!lineinfo_num_entries)
->> +		return false;
->> +
->> +	/* Compute offset from _text */
->> +	if (addr < (unsigned long)_text)
->> +		return false;
->> +
->> +	raw_offset = addr - (unsigned long)_text;
->> +	if (raw_offset > UINT_MAX)
->> +		return false;
->> +	offset = (unsigned int)raw_offset;
->> +
->> +	/* Binary search for largest entry <= offset */
->> +	low = 0;
->> +	high = lineinfo_num_entries;
->> +	while (low < high) {
->> +		mid = low + (high - low) / 2;
->> +		if (lineinfo_addrs[mid] <= offset)
->> +			low = mid + 1;
->> +		else
->> +			high = mid;
->> +	}
->> +
->> +	if (low == 0)
->> +		return false;
->> +	low--;
->> +
->> +	/*
->> +	 * Validate that the matched lineinfo entry belongs to the same
->> +	 * symbol.  Without this check, assembly routines or other
->> +	 * functions lacking DWARF data would inherit the file:line of
->> +	 * a preceding C function.
->> +	 */
->> +	line_addr = (unsigned long)_text + lineinfo_addrs[low];
->> +	if (line_addr < sym_start)
->> +		return false;
->
->This is suspicious. The binary search does "low = mid + 1".
->I would expect that lineinfo_addrs[low] would point to
->a higher address when the exact match is not found.
->
->Anyway, I think that we should accept only the exact match and do:
->
->	if (lineinfo_addrs[low] != offset)
->		return false;
->
->Or do I miss something? (Friday evening here ;-)
+Patches 1-5: Several reset-gpio improvements. Most are not very
+controversial but I included a reworked version of the patch adding a
+firmware device link between the auxiliary reset device and its
+consumers.
 
-Right, when there's no exact match, low ends up pointing to the next higher
-entry. The table is sparse, with one entry per source-line transition, not per
-instruction address. The correct result for a given PC is the nearest
-preceding entry, so the code uses low - 1 in that case. Same semantics as
-kallsyms symbol lookup.
+Patches 6-7: Just general improvements.
 
->> +	file_id = lineinfo_file_ids[low];
->> +	*line = lineinfo_lines[low];
->> +
->> +	if (file_id >= lineinfo_num_files)
->> +		return false;
->> +
->> +	*file = &lineinfo_filenames[lineinfo_file_offsets[file_id]];
->> +	return true;
->> +}
->> +#endif /* CONFIG_KALLSYMS_LINEINFO */
->> +
->>  /* Look up a kernel symbol and return it in a text buffer. */
->>  static int __sprint_symbol(char *buffer, unsigned long address,
->>  			   int symbol_offset, int add_offset, int add_buildid)
->> @@ -497,6 +553,19 @@ static int __sprint_symbol(char *buffer, unsigned long address,
->>  		len += sprintf(buffer + len, "]");
->>  	}
->>
->> +#ifdef CONFIG_KALLSYMS_LINEINFO
->> +	if (!modname) {
->> +		const char *li_file;
->> +		unsigned int li_line;
->> +		unsigned long sym_start = address - offset;
->> +
->> +		if (kallsyms_lookup_lineinfo(address, sym_start,
->> +					     &li_file, &li_line))
->> +			len += snprintf(buffer + len, KSYM_SYMBOL_LEN - len,
->
->s/KSYM_SYMBOL_LEN/KSYM_LINEINFO_LEN/
+Patch 8: Before we support all firmware nodes (even software nodes for
+which no devlinks are created) we need to make sure reset drivers can
+survive a sudden unbinding of the supplier with consumers still holding
+references to the controller. This patch addresses it using SRCU.
 
-KSYM_SYMBOL_LEN - len is the remaining capacity of the output buffer.  len
-tracks total bytes written (symbol + offset + module + buildid), which can
-easily exceed 128.
+Patches 9,10: Rework locking in reset core. Make locking fine-grained
+instead of using a single global lock for everything.
 
->> +					" (%s:%u)", li_file, li_line);
->> +	}
->> +#endif
->> +
->>  	return len;
->>  }
->
->
->I was rather curious how the code looked like and the mentioned things
->caught my eyes. And I focused on the kernel/kallsyms code.
->
->Unfortunately, I do not have time for a proper full review at the
->moment.
->
->The code seems to work. And it generates relative paths for me, for example:
->
->[  305.678609] sysrq: Show backtrace of all active CPUs
->[  305.680615] NMI backtrace for cpu 0
->[  305.680620] CPU: 0 UID: 0 PID: 1540 Comm: bash Kdump: loaded Not tainted 7.0.0-rc2-default+ #561 PREEMPT(full)  0d0ba470fd9bf64113a65472ab47c033a2658d88
->[  305.680626] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.17.0-2-g4f253b9b-prebuilt.qemu.org 04/01/2014
->[  305.680628] Call Trace:
->[  305.680631]  <TASK>
->[  305.680640]  dump_stack_lvl+0x6c/0xa0 (lib/dump_stack.c:94)
->[  305.680680]  nmi_cpu_backtrace.cold+0x51/0x6a (lib/nmi_backtrace.c:113)
->[  305.680689]  ? __pfx_nmi_raise_cpu_backtrace+0x10/0x10
->[  305.680702]  nmi_trigger_cpumask_backtrace+0x113/0x130 (lib/nmi_backtrace.c:62)
->[  305.680720]  __handle_sysrq.cold+0x9b/0xde (drivers/tty/sysrq.c:611)
->[  305.680734]  write_sysrq_trigger+0x6a/0xb0 (drivers/tty/sysrq.c:1221)
->[  305.680750]  proc_reg_write+0x59/0xa0 (fs/proc/inode.c:330)
->[  305.680763]  vfs_write+0xd0/0x570 (fs/read_write.c:686)
->[  305.680771]  ? srso_alias_return_thunk+0x5/0xfbef5 (arch/x86/lib/retpoline.S:220)
->[  305.680776]  ? srso_alias_return_thunk+0x5/0xfbef5 (arch/x86/lib/retpoline.S:220)
->[  305.680779]  ? __lock_release.isra.0+0x1c9/0x300 (kernel/locking/lockdep.c:342)
->[  305.680796]  ? srso_alias_return_thunk+0x5/0xfbef5 (arch/x86/lib/retpoline.S:220)
->[  305.680813]  ksys_write+0x70/0xf0 (fs/read_write.c:738)
->[  305.680826]  do_syscall_64+0x11d/0x660 (arch/x86/entry/syscall_64.c:63)
->[  305.680832]  ? irqentry_exit+0x94/0x5f0 (./include/linux/irq-entry-common.h:298)
->[  305.680846]  entry_SYSCALL_64_after_hwframe+0x76/0x7e (arch/x86/entry/entry_64.S:121)
+Patches 11-14: Make reset core use fwnode as primary source of
+device properties and references. Convert reset-gpio to becoming the
+first fwnode-agnostic driver.
 
-Thanks for the review and testing! Have a great weekend!
+Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+---
+Changes in v3:
+- make kerneldocs for new locks more precise
+- in patch 10: rework the release path to fix a race between
+  reset_control_get() and reset_control_put()
+- in patch 13: in case neither of_node nor fwnode is set: try to get the
+  fwnode from rcdev->dev and if that too fails: bail out with -EINVAL
+- Link to v2: https://patch.msgid.link/20260223-reset-core-refactor-v2-0-5e5a7289190c@oss.qualcomm.com
 
+Changes in v2:
+- fix lock guard usage
+- tweak commit messages
+- fix potential NULL-pointer dereference
+- drop unneeded patch (squash it into another one)
+- collect tags
+- rebase on top of v7.0-rc1
+- Link to v1: https://lore.kernel.org/r/20260105-reset-core-refactor-v1-0-ac443103498d@oss.qualcomm.com
+
+---
+Bartosz Golaszewski (14):
+      reset: gpio: remove unneeded OF-node put
+      reset: gpio: add a devlink between reset-gpio and its consumer
+      reset: gpio: simplify fallback device matching
+      reset: gpio: remove unneeded auxiliary_set_drvdata()
+      reset: warn on reset-gpio release
+      reset: fold ida_alloc() into reset_create_gpio_aux_device()
+      reset: use lock guards in reset core
+      reset: handle removing supplier before consumers
+      reset: protect struct reset_controller_dev with its own mutex
+      reset: protect struct reset_control with its own mutex
+      reset: convert of_reset_control_get_count() to using firmware nodes
+      reset: convert the core API to using firmware nodes
+      reset: convert reset core to using firmware nodes
+      reset: gpio: make the driver fwnode-agnostic
+
+ Documentation/driver-api/reset.rst |   1 -
+ drivers/reset/core.c               | 503 ++++++++++++++++++++++++-------------
+ drivers/reset/reset-gpio.c         |  27 +-
+ include/linux/reset-controller.h   |  21 +-
+ include/linux/reset.h              |  43 ++--
+ 5 files changed, 382 insertions(+), 213 deletions(-)
+---
+base-commit: 18faab1eb02810f006d269e923fe0964beff42d0
+change-id: 20251222-reset-core-refactor-5fad7197cbcf
+
+Best regards,
 -- 
-Thanks,
-Sasha
+Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+
