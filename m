@@ -1,87 +1,87 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65619425CDE
-	for <linux-doc@vger.kernel.org>; Fri,  6 Mar 2026 17:23:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91CAF426D11
+	for <linux-doc@vger.kernel.org>; Fri,  6 Mar 2026 17:23:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772817812; cv=none; b=jGnkRtf9cWNxtDaDN73+/jh091VrrXwB9wCmKXoCEfy8yhcdmW1aH+IbAmzAvF2q83Q5IWG42dw1i6W0bbRwBUp/T+EJTsYQcmkInkByj+xaAGQZud17uomKxGLkH4haUlVZCOMRYyjmRzv/YsPVHRSyf9tAIGBD6gU/6Vmeozc=
+	t=1772817814; cv=none; b=c6ihscOURZJy6UWi7svIMJOnwqjQd8avnFsIOMrCszT2c460I+84ktj5Q9BZYSzJYXguyvjpUI64uM9l1f3jsVa1l8vetSQi6vyVd9adhK3UswKEoblHofwTXtYbt5Aghguou8prt36JpKZZl2ShHrEEmkPXUAV6NbkLMGvvANM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772817812; c=relaxed/simple;
-	bh=cFVRek2ApJRDsXIzvIHRimHH12mRJMFB9qA0OR3X75s=;
+	s=arc-20240116; t=1772817814; c=relaxed/simple;
+	bh=R1f/gn/CCqQNQe1p8nz4Iaf4f8ssq3xNMEkgqrIOH7g=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=qUWoThXm9vC0DLoQ9zYdS0YND2P+b53T9pQdQ/SJWFRkEpIvjMADJ10TnxX7t8QBHHzjAtP1+xPWMdCe04zl+YACeuYGecApmuy1NrUvyMeS3k95Z3jyZ65UX45L0yHojZLEMLD8zjZxy58u87ug+l41FSWkiq+4uVkUb2Q7IwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=XuDEZbTB; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=eBgLCJle; arc=none smtp.client-ip=205.220.168.131
+	 In-Reply-To:To:Cc; b=L3EuOsvFuLpcRmK3XYoHr1eLBjoAy6l+JbrwUutpS29iPoArtIjzd4ZbwTpncLtpcGz1QsCLyoWR5yQRauI2vrJePvAAOu3+sb/TWWJjAFHSc5vO2gDiCg1dIH1Xr0TBpKvVeWLLTAVWUsp15iJcc7WrZHyG9Vt2+f4dntrcI8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=XdkUDiwU; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=dExWOlYr; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="XuDEZbTB";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="eBgLCJle"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 626H1Z6a3957935
-	for <linux-doc@vger.kernel.org>; Fri, 6 Mar 2026 17:23:31 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="XdkUDiwU";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="dExWOlYr"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 626H2R5p742790
+	for <linux-doc@vger.kernel.org>; Fri, 6 Mar 2026 17:23:32 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	Mvf/fMp10klr3lNcw5FhLLQnphhOnIvjXrPlO1YIOoA=; b=XuDEZbTBDUms0QL3
-	pFHun+6dMmZl22RgOFv5W6Ag0v5s4encCtJ3efLqQzC2Zx6Yu2ch3aiLDcB8NDdZ
-	PDGuL53/ZPNMq6Z4HCsAk++Je84zgNgzN+NAf0R5HWfM678CLKCLe6krhHFnOEM6
-	pGUHt2Y8oCXy2ZEO4CqpX/zFck0ItQwBQc7nAFhA/Rk/BtSK4pMJ1aA7jrV7QYve
-	hdmD08c13KFofXIGntrQEvKwQs8ENpa5GHbCXlp20mLR2kypV/FPfTOBWLpNaenj
-	/2RtjtpNF7wo9ORVcFayT+dwWp3D5zZikxHEzqEOfFM0fw/NfnAZf+iNa9m2MWAq
-	MpFJOg==
+	IxmVpfU4ghgx7p0NFFaaSzcbw/Vegvb2ZtWvuV7tfgQ=; b=XdkUDiwU1kGRMBSv
+	SEHM6pHR2LYW+iZVJiGfDf0r8oiHsLca3cVrgqtjmyclz7KLO86HOzq9s9IhyUCp
+	58LvTI9C8ame/t5R059emASZlkLNI3iz5DnZWKvk1IWo+rJwtSjxQS4jIfiFELnm
+	Hw/TaQI4IOhnbUU8Lj6bb5Apb9y7EL2mCXyTccolfx7zpR3A/6z1I4SxcZE9KOiW
+	524ezU9xczqGVL9pnhW0itjMI9f6/rdWTuD2UQCmbX8XN6ioU9GkB87034+r8e7i
+	a6rRiAM8fZJe+MSGtwtZ5nYAgSbPiItBxTl7Ye3pMnEjxrWFYn9CMD+cGcjCrq8G
+	Y3CV5g==
 Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cr2up04cu-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cqpxdtqbj-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Fri, 06 Mar 2026 17:23:30 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-8cb42f56c4aso5409211585a.3
-        for <linux-doc@vger.kernel.org>; Fri, 06 Mar 2026 09:23:30 -0800 (PST)
+	for <linux-doc@vger.kernel.org>; Fri, 06 Mar 2026 17:23:32 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-8cb4e37a796so5218266585a.2
+        for <linux-doc@vger.kernel.org>; Fri, 06 Mar 2026 09:23:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1772817810; x=1773422610; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1772817812; x=1773422612; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Mvf/fMp10klr3lNcw5FhLLQnphhOnIvjXrPlO1YIOoA=;
-        b=eBgLCJleTEdO0QfhkCsSl5R5t2P0hJP88DDTqb3Zhw/z2anYp7PhuLbEEM2Rs3b4t2
-         CRUptjSHK6UJb3Vz2vmpYvrwSNK78MvRTLTynzSpOIUbdcoYoqaIe3ba/Y5TC7KqRisW
-         eWf/67bqJjYVgFAzLxeRemwMBIzWCqc/v379Z0eY+9eSHaon0iJ++QI1kaD9hxi49avy
-         8ZRdDI1OvJqNDzMlrAYyZSSbkVKHTPGwqRFkpVoZsio0ysRoBDmotBv9juABvU7iFsQS
-         fwrBkggOIHg47NAwur8Axoomo1dkycEhxS7iJmmlpKBstEfCh8azICzD45HUjVOcTddD
-         erRg==
+        bh=IxmVpfU4ghgx7p0NFFaaSzcbw/Vegvb2ZtWvuV7tfgQ=;
+        b=dExWOlYr/xb+SGbmlWUbf0b6vdw3J4eSFZP6++pkI8jh7CY3uEC4rTUU3LQezDcIB0
+         OFyW2RrUWuh0CYgY29nVa7HqIRLDLwvZFPoM/1tbHia2rzP2LupyhZDAKpKUrYpOC2JI
+         67Arfd4FZ3jk3afkrCttPaS0S+t3kEeZWriSX4C8Qk2FVdKFtANtA9qm44ZlojUUvIHq
+         rdgMUxvfgi2p/3sYOxWLOkNUOqcF92zcFH42tV3O1aGGgjghhrTsSzIRXJDGHtZARvDo
+         30OOUdHnky54xeCKbbmWzVpBOPtoCjQ1VBl9XHnd79GcqFJ42SAM2ZTtkzraPo6YNliv
+         ht4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772817810; x=1773422610;
+        d=1e100.net; s=20230601; t=1772817812; x=1773422612;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=Mvf/fMp10klr3lNcw5FhLLQnphhOnIvjXrPlO1YIOoA=;
-        b=ErkaV3upZ6+7/9WbTKcY7aazVJiKl+kIh3171qaWBpqDsr1sxBsA8USjyRUiq0on3J
-         ddbxLEUUv2PgSuI5U0wsVTE6NA5TV5tBDfu5cpS6V8ofJ4LewqZl8zD5FPNi+ldlbWcE
-         QfZUp5pJ5RUWRT0gdOUhVHHeFBWa6rMvnSsqvPntqsrZUKMEatZ33VVlPmSI/kZj/ZKa
-         kPpcGHFHNcoAgJ7AAK4inXVzBvDkZ5Wgv+QNv7NqztE5xDbjJvnfNisU6jcpISxzBKSM
-         OoMlVZ2mutFyEznNlmvA9+zs/gDEbYktJ0U/wDPjTMO5iGMhq4HWLa+1JyGW+ZctI/uH
-         xVGw==
-X-Forwarded-Encrypted: i=1; AJvYcCUw4q8T0aS2oHtFKUskh0X8c3fZHoq3NjsJuBh76nUGvc3/CGe5MP6ASoEvJxlgZA6doJljPO6CYOs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwlokODMPYWA9zem4IYVvhQW6wJ48rNUii5h4RfhqmxOZhTfvUZ
-	oGTC125ZEGZspK+mITjDwvHOKKHgQ328opEXqzvIxKy52xWjZQdlZQzZWis2ICEQ9typLC5Ov44
-	X5zN1PWDwTTh5KT5l6pDkKPIXH49Fx6LEVtBMyE1G9oR8N0KRijwlCW/ROZA57EM=
-X-Gm-Gg: ATEYQzw9c/ThReio/s6Pk/oSyxPh7c5e1adTKHlDBKqEl26GfyWBiD8UmoVU7KbPCm1
-	bepwW7KYwBU4EML68+fZGHOZvXikttQKLa7X1T5AyLA0HKzHeaQ+KqHZSIHFZ1uVtx5O5lGoe6L
-	eXW6Sqhv7eunwn56XOr7dLS1k0yN1jL2PS7MQ/FXB+5Gd/bX71GkO9HnRpf1Dz1XkRHWQIyTq+9
-	/wN9iZfFWVIxARNvd61PujTM9uKHzQMbhUGQq/nVSUhRAMbzT5nMEU1sua7s6SosTYBVQDG3A7S
-	SSgwzcow3vw18TkuMuahqiWWm4djFy/+0TMh79HcjSjqOcsBbgQXd+k7yKj2XHjV5oDYONgZaqQ
-	5LS3wrvqC5rX7Y180X+oX6q0JpJacK67bEp9MUHmKXfhXHJirGplt
-X-Received: by 2002:a05:620a:4048:b0:8a9:ef98:6835 with SMTP id af79cd13be357-8cd6d427f8cmr362535185a.33.1772817809734;
-        Fri, 06 Mar 2026 09:23:29 -0800 (PST)
-X-Received: by 2002:a05:620a:4048:b0:8a9:ef98:6835 with SMTP id af79cd13be357-8cd6d427f8cmr362530285a.33.1772817809266;
-        Fri, 06 Mar 2026 09:23:29 -0800 (PST)
+        bh=IxmVpfU4ghgx7p0NFFaaSzcbw/Vegvb2ZtWvuV7tfgQ=;
+        b=UCnrDny7SQXzJGN316bM4V7iYDd0JSvgK5890RlLaEmBhZpDfFbUoNHIT7YyBXLQLy
+         UHfnGPbCLZeuA5faaUlP5COM+hbsnbrE/dmrweXdey5pfkvvuxEDZXJwYnaSZQ1+ewIo
+         K4fN9EQuk4l6xSBm3+UyfdU48KjceD2O2MWLIbbHFuZK3O1fXIUUeMl4K46RMPYd/HBl
+         17auaPbCulFilwrFFR4QoHJyP4WJixOJ1Yw/IOhwvHL/TzzIYuWt/7on+TWOZSBlpGRZ
+         6gVUp1ydYyRT3L2leDM/F5boOQ46ONggSRgCW93Nmb25D0fgTHtFqx3E3D7nm6sshbhT
+         +3eg==
+X-Forwarded-Encrypted: i=1; AJvYcCVeaiDWWmdj/vKj/yVwq1R3LnYTAOhVpy+wueORD7C3jPg7VnBObd0DqCXtrKFWY0wptVJPlSuXtz4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw3vcm29mzGLxWphsJglaG0GK/GiOrfoE+8kQSTZVktTd0cOYuo
+	E4gQg8D1AYKonWuruLyQTyW6shRewsXearLJno4T6NPHcfmEZmPaeaLxU1T2rH/T5SMF7ykKOcH
+	lYzvBSX9GRqAKEY9uQyZTud3wi14pkbLcX1GjX6W1jo8vF69ktZcYf19HYfs7ZvU=
+X-Gm-Gg: ATEYQzyOM3i//kIknY4GLWP3QWdBIMWD6N3pQfWd8JaatBW4vy3Dq692heBARP/3aHU
+	fzrsgzgIVStUJJEBBt1/umgAAv45qmOMeWRFTatH7fuyKzlt8nd1txB5XQFe1j4c0sLypUKcll/
+	21aR/0iZtPcFb9/508vrdeZxP+zJ0KP6dkYrqZcgR+K1xv0RF/NqxRrvR5m9pp4bumV6FXflgzG
+	IJuqEbodoIkhslZOd/j61kZHh3G+F9Bi7IiQzAMkfHqEFwSLX+uHyIng6jtSxEP0HIAaQeJxuSe
+	4USp0K6+6etl7ugSkK7PDOZYYhZHXdHQTu3SbpBMiRU3jC3DcMtPCBc9oyWJpcK4qV4uarKqmCd
+	AyKvcvPjSzh6ihix8r5ET+ABgSnXLkAN0pvVmXyOawIwsqJkqyQMF
+X-Received: by 2002:a05:620a:4688:b0:8c6:a341:ac1a with SMTP id af79cd13be357-8cd6d4d63b1mr356714885a.52.1772817811485;
+        Fri, 06 Mar 2026 09:23:31 -0800 (PST)
+X-Received: by 2002:a05:620a:4688:b0:8c6:a341:ac1a with SMTP id af79cd13be357-8cd6d4d63b1mr356710085a.52.1772817810984;
+        Fri, 06 Mar 2026 09:23:30 -0800 (PST)
 Received: from brgl-qcom.local ([2a01:cb1d:dc:7e00:28b1:4950:7702:bb20])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48527686fa9sm61488475e9.8.2026.03.06.09.23.27
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48527686fa9sm61488475e9.8.2026.03.06.09.23.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Mar 2026 09:23:28 -0800 (PST)
+        Fri, 06 Mar 2026 09:23:30 -0800 (PST)
 From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Date: Fri, 06 Mar 2026 18:22:54 +0100
-Subject: [PATCH v3 10/14] reset: protect struct reset_control with its own
- mutex
+Date: Fri, 06 Mar 2026 18:22:55 +0100
+Subject: [PATCH v3 11/14] reset: convert of_reset_control_get_count() to
+ using firmware nodes
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -90,7 +90,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260306-reset-core-refactor-v3-10-599349522876@oss.qualcomm.com>
+Message-Id: <20260306-reset-core-refactor-v3-11-599349522876@oss.qualcomm.com>
 References: <20260306-reset-core-refactor-v3-0-599349522876@oss.qualcomm.com>
 In-Reply-To: <20260306-reset-core-refactor-v3-0-599349522876@oss.qualcomm.com>
 To: Krzysztof Kozlowski <krzk@kernel.org>,
@@ -100,229 +100,141 @@ To: Krzysztof Kozlowski <krzk@kernel.org>,
 Cc: linux-kernel@vger.kernel.org, brgl@kernel.org, linux-doc@vger.kernel.org,
         Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5788;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2924;
  i=bartosz.golaszewski@oss.qualcomm.com; h=from:subject:message-id;
- bh=cFVRek2ApJRDsXIzvIHRimHH12mRJMFB9qA0OR3X75s=;
- b=owEBbAKT/ZANAwAKAQWdLsv/NoTDAcsmYgBpqw17iaFtggQHPnqQeoX6wV2u7jiA/Zt0AhKg5
- G4sX5hoQcCJAjIEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCaasNewAKCRAFnS7L/zaE
- w7M3D/iEPA6rpq1rm36ayc2LrKWizgL8xoiQf8aOOk4cvBH3DBgINVNvndeijAGsro1UpJ9XKfO
- h9YaXg6YuQHWcuC1SzzPDWZ0wvUEKwzOXzSxktr+QvEHQ4O3Isyqz/MKdiEv5lp/0BB0GECg6/x
- DJD8ojCR6GpPvxFz9quWIRm+ARh9HO2DHwEl7mEz1LMEzwusI//JhaSUZGvRzrCl/38Q8wRn9E4
- wtM0B4tkbBjpUqhTjHybXtu27ewTSZCIV5nRltIHpXFyAH+4+d9adfQUTBndjZaodNItzyqs64r
- ghTEP3NgvtcnppN7zG9FtI7lvi6osuB4jxV9T8wI9SioW2ELpkM8yvJWPeNVpBl8/gzGxWpH1V/
- lH/gWnQ337c6qjwxcpjvoxC6cleT91+Ago3gx1MUvG+C57eI10rrpbv7XKg+XnEKgP9IypqIUM6
- e/wL+LfmXIYBehAY4kLHc4uzgJ4X+wds7+Cc6PiSc28TOXmG/eafmDWGabM8lZJ2a8MDEPp4243
- mIyBe8vDF4oxQ0Myn7Vf2IklMR56NQid0QZt/Y2h3bigR1+CoiyVR6ZKBYXx/+Go6kvOChepvYH
- 4jQn/iXc4fX8UqFpVl9EdaANlXRh9y2zXlrhX+SvvTU+6faHjPoJ/l30JYtLP1YidqQ9IXdamv5
- NUJz02liJG2Td
+ bh=R1f/gn/CCqQNQe1p8nz4Iaf4f8ssq3xNMEkgqrIOH7g=;
+ b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBpqw17lVTX4EKuRXHHBiaq6cA/KuA6+/Qm/yyj1
+ R1DSIlxVLaJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCaasNewAKCRAFnS7L/zaE
+ w7XZD/42P+FpdYFpJfThvXqK/68bEYjomYfC1GNnVhBwbqUEB71+6fKnWpIlFGM8auYK0004n5u
+ qVOO8a4NkhM3gT4unWDrUMUhPCbwTZ/ZFSshDGxhLHj1WX4YBlDNIqD9EvU09C+2Yx9/yDu6/Ji
+ hcIQp+0Y9RXAZItT2sT8Diajtfu2s9Vp86sN58nK/01Pfh4vIEQiedLVEb9ixiFb0kGCYtu6iQ5
+ Pdu8uKFmKzPNW+mpDopJayKi5tgX+35N3OU5WyHwcezZbSjbm7xk4kyBtAXA0fpY8yCcBVZbcDN
+ /8l6c6NXuIB+ck9eCeRJHlEyooDRMmQbmkuug827+6eFMTpCDbg5wkIxQr/rr84iHb1gBXI0uI5
+ 3eeXlNd94x8ByVxjCn0h2MGHrryHP1uWXAVc7HrN9oblB8gxdWZvN4pcCqqLy3JcsK2mLnnFzPT
+ BA1BKcDz/D5I9UgprBUhPAwhqV+40QF/YaOudB5w/EI9wxalHwLvhXI5j+JJEytAVxHjBf5UOwz
+ v0nS+mX+xUzkWiqVGmqOAZAAu/XoHgJEm9ho6VlEES8uqJ3MeJb7fpbOA5GZ1qQQXhQn5cumZd7
+ ytADcAJIWcvRDCwPScv9Y5aAlmTVN1FaUT/aHDFP4hmcdzqladuOoglvUCg58CiNrRcfQcRZSsz
+ RCt+yl7JrXptqXQ==
 X-Developer-Key: i=bartosz.golaszewski@oss.qualcomm.com; a=openpgp;
  fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA2MDE2NCBTYWx0ZWRfXz0VAcckS6Afc
- 7zmM8dOD2wtvnh7og/B5gCIF/jKI+mwybWP/ivB81rUdRXYdoB8XhA3lOUUBkhWKe9hTIVIgCol
- 9tG20aMQ9z2i9w71lWRJwL1XbhQZT14SKst2MoIq09aIKt49k9etP6pQo1EBVe1/mkBsjKE/Jok
- YwiiaGuDobUqFwuNVwH6NC/N9h9VszxKDHV6MJw48nkGjPG0mOdguisABTpMa8JNFzcUAXtmED+
- MmGys4LvOgMdtrHENpma732AoR5izkDCw0Vd+2/gCUxxqohoJND9bE3vp0lbXCeEIRniiN7f0mz
- Q8At7TtFi42+/xe7DcV0rdFRZOAeKlkmqMUmibfRHAlkC7J8zo5tYQsOgdNQF+k7DPcyUlJDXnp
- mp3Pg0wG3PLZmftSv1GJ+tc4lS4imGom+SVzd6yWEsu1qdyb4/WRN9MhAGnyFS7iZm4I7LJ5fq8
- FSnJ6K/YJEPEhsfakKQ==
-X-Authority-Analysis: v=2.4 cv=QfBrf8bv c=1 sm=1 tr=0 ts=69ab0d92 cx=c_pps
+X-Proofpoint-ORIG-GUID: JlQ2-OrVp5v7704sgxhirVwiHO6vXW9G
+X-Authority-Analysis: v=2.4 cv=E83AZKdl c=1 sm=1 tr=0 ts=69ab0d94 cx=c_pps
  a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
  a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22 a=EUspDBNiAAAA:8
- a=BqEP8_E81RGvC7HVDgcA:9 a=QEXdDO2ut3YA:10 a=IoWCM6iH3mJn3m4BftBB:22
-X-Proofpoint-ORIG-GUID: cWYdvDOLB5vNxYV9AokRmNQurEtom5Hd
-X-Proofpoint-GUID: cWYdvDOLB5vNxYV9AokRmNQurEtom5Hd
+ a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22 a=EUspDBNiAAAA:8
+ a=xt4VrH2ZgDK96Vd3V1EA:9 a=QEXdDO2ut3YA:10 a=IoWCM6iH3mJn3m4BftBB:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA2MDE2NCBTYWx0ZWRfX1gqnGh5dmu4d
+ dDoC5NUlGFUUtiEwWFEX58y5+NfpWCGt/mLvs+THIaDq7G66bY/PCrjCK4AGm3llYy6ttwGfv8u
+ TG3JVAE8fsFh6I7I2qGD+7SvrFHGlQkvDp8IKyei5U5zGI69Je6pT7hkjhyXHKEwRIqU305QZ3M
+ JrKZ63WUbADObKcoke9FDUEKQlN2lBFpbx/dwNrMIhM/9b9ardyMYCl2XGvSlUuyxNje+m2g/ZE
+ W3W7XUA1XQSNRFWStYd7HObfu62mf2CrhSQBfDLTZksr1MF5f86vqfV9G89wPbNIRjFpbF47IWa
+ DXts8l9B8QsmO82CgxboB9krmhqj0B/lQNkvzJt/FkLik0TsjyHQjFpuf7Y5NLQVAfo8j+Nqe+k
+ pd2HEK7lYb8jNTI4Dy/qCabAwdJuVKsW81vLAm32bCFRKB7LoY0A7EvthMtCHeS99OSWhYDI2KI
+ sbCdnGVdLs6BMIkfFWg==
+X-Proofpoint-GUID: JlQ2-OrVp5v7704sgxhirVwiHO6vXW9G
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-03-06_05,2026-03-06_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 spamscore=0 clxscore=1015 malwarescore=0 phishscore=0
- priorityscore=1501 lowpriorityscore=0 suspectscore=0 adultscore=0 bulkscore=0
+ clxscore=1015 suspectscore=0 bulkscore=0 phishscore=0 impostorscore=0
+ adultscore=0 lowpriorityscore=0 priorityscore=1501 malwarescore=0 spamscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603060164
 
-Currently we use a single, global mutex - misleadingly names
-reset_list_mutex - to protect the global list of reset devices,
-per-controller list of reset control handles and also internal fields of
-struct reset_control. Locking can be made a lot more fine-grained if we
-use a separate mutex for serializing operations on the list AND
-accessing the reset control handle.
+Start the conversion of reset core to using firmware nodes by reworking
+of_reset_control_get_count(). Unfortunately there is no fwnode-based
+alternative to of_count_phandle_with_args() so we have to hand-code it.
 
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
 Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 ---
- drivers/reset/core.c | 68 +++++++++++++++++++++++++++-------------------------
- 1 file changed, 36 insertions(+), 32 deletions(-)
+ drivers/reset/core.c | 36 +++++++++++++++++++++++++++---------
+ 1 file changed, 27 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/reset/core.c b/drivers/reset/core.c
-index d4813c712abf3df7993b0c2be1fe292b89241d11..34b11a68f28cd32e7b0ac852503193b0d9514915 100644
+index 34b11a68f28cd32e7b0ac852503193b0d9514915..a00a08b3ca9e90853659a4a94607947fddcfcff4 100644
 --- a/drivers/reset/core.c
 +++ b/drivers/reset/core.c
-@@ -49,6 +49,7 @@ static DEFINE_IDA(reset_gpio_ida);
-  * @triggered_count: Number of times this reset line has been reset. Currently
-  *                   only used for shared resets, which means that the value
-  *                   will be either 0 or 1.
-+ * @lock: serializes the internals of reset_control_acquire()
+@@ -12,6 +12,7 @@
+ #include <linux/device.h>
+ #include <linux/err.h>
+ #include <linux/export.h>
++#include <linux/fwnode.h>
+ #include <linux/gpio/driver.h>
+ #include <linux/gpio/machine.h>
+ #include <linux/gpio/property.h>
+@@ -20,6 +21,7 @@
+ #include <linux/kref.h>
+ #include <linux/module.h>
+ #include <linux/of.h>
++#include <linux/property.h>
+ #include <linux/reset.h>
+ #include <linux/reset-controller.h>
+ #include <linux/slab.h>
+@@ -1430,21 +1432,35 @@ EXPORT_SYMBOL_GPL(__device_reset);
   */
- struct reset_control {
- 	struct reset_controller_dev __rcu *rcdev;
-@@ -61,6 +62,7 @@ struct reset_control {
- 	bool array;
- 	atomic_t deassert_count;
- 	atomic_t triggered_count;
-+	struct mutex lock;
- };
  
  /**
-@@ -707,7 +709,7 @@ int reset_control_acquire(struct reset_control *rstc)
- 	if (reset_control_is_array(rstc))
- 		return reset_control_array_acquire(rstc_to_array(rstc));
- 
--	guard(mutex)(&reset_list_mutex);
-+	guard(mutex)(&rstc->lock);
- 
- 	if (rstc->acquired)
- 		return 0;
-@@ -859,6 +861,7 @@ __reset_control_get_internal(struct reset_controller_dev *rcdev,
- 	list_add(&rstc->list, &rcdev->reset_control_head);
- 	rstc->id = index;
- 	kref_init(&rstc->refcnt);
-+	mutex_init(&rstc->lock);
- 	rstc->acquired = acquired;
- 	rstc->shared = shared;
- 	get_device(rcdev->dev);
-@@ -872,29 +875,40 @@ static void __reset_control_release(struct kref *kref)
- 						  refcnt);
- 	struct reset_controller_dev *rcdev;
- 
--	lockdep_assert_held(&reset_list_mutex);
-+	lockdep_assert_held(&rstc->srcu);
- 
--	scoped_guard(srcu, &rstc->srcu) {
--		rcdev = rcu_replace_pointer(rstc->rcdev, NULL, true);
--		if (rcdev) {
--			guard(mutex)(&rcdev->lock);
--			reset_controller_remove(rcdev, rstc);
--		}
-+	rcdev = rcu_replace_pointer(rstc->rcdev, NULL, true);
-+	if (rcdev) {
-+		lockdep_assert_held(&rcdev->lock);
-+		reset_controller_remove(rcdev, rstc);
- 	}
- 
--	synchronize_srcu(&rstc->srcu);
--	cleanup_srcu_struct(&rstc->srcu);
--	kfree(rstc);
-+	mutex_destroy(&rstc->lock);
- }
- 
--static void __reset_control_put_internal(struct reset_control *rstc)
-+static void reset_control_put_internal(struct reset_control *rstc)
- {
--	lockdep_assert_held(&reset_list_mutex);
-+	struct reset_controller_dev *rcdev;
-+	int ret = 0;
- 
- 	if (IS_ERR_OR_NULL(rstc))
- 		return;
- 
--	kref_put(&rstc->refcnt, __reset_control_release);
-+	scoped_guard(srcu, &rstc->srcu) {
-+		rcdev = srcu_dereference(rstc->rcdev, &rstc->srcu);
-+		if (!rcdev)
-+			/* Already released. */
-+			return;
-+
-+		guard(mutex)(&rcdev->lock);
-+		ret = kref_put(&rstc->refcnt, __reset_control_release);
-+	}
-+
-+	if (ret) {
-+		synchronize_srcu(&rstc->srcu);
-+		cleanup_srcu_struct(&rstc->srcu);
-+		kfree(rstc);
-+	}
- }
- 
- static void reset_gpio_aux_device_release(struct device *dev)
-@@ -1104,7 +1118,7 @@ __of_reset_control_get(struct device_node *node, const char *id, int index,
- {
- 	bool optional = flags & RESET_CONTROL_FLAGS_BIT_OPTIONAL;
- 	bool gpio_fallback = false;
--	struct reset_control *rstc;
-+	struct reset_control *rstc = ERR_PTR(-EINVAL);
- 	struct reset_controller_dev *rcdev;
- 	struct of_phandle_args args;
- 	int rstc_id;
-@@ -1169,8 +1183,8 @@ __of_reset_control_get(struct device_node *node, const char *id, int index,
- 
- 	flags &= ~RESET_CONTROL_FLAGS_BIT_OPTIONAL;
- 
--	/* reset_list_mutex also protects the rcdev's reset_control list */
--	rstc = __reset_control_get_internal(rcdev, rstc_id, flags);
-+	scoped_guard(mutex, &rcdev->lock)
-+		rstc = __reset_control_get_internal(rcdev, rstc_id, flags);
- 
- out_put:
- 	of_node_put(args.np);
-@@ -1213,10 +1227,8 @@ int __reset_control_bulk_get(struct device *dev, int num_rstcs,
- 	return 0;
- 
- err:
--	guard(mutex)(&reset_list_mutex);
--
- 	while (i--)
--		__reset_control_put_internal(rstcs[i].rstc);
-+		reset_control_put_internal(rstcs[i].rstc);
- 
- 	return ret;
- }
-@@ -1226,10 +1238,8 @@ static void reset_control_array_put(struct reset_control_array *resets)
- {
- 	int i;
- 
--	guard(mutex)(&reset_list_mutex);
--
- 	for (i = 0; i < resets->num_rstcs; i++)
--		__reset_control_put_internal(resets->rstc[i]);
-+		reset_control_put_internal(resets->rstc[i]);
- 	kfree(resets);
- }
- 
-@@ -1247,9 +1257,7 @@ void reset_control_put(struct reset_control *rstc)
- 		return;
- 	}
- 
--	guard(mutex)(&reset_list_mutex);
--
--	__reset_control_put_internal(rstc);
-+	reset_control_put_internal(rstc);
- }
- EXPORT_SYMBOL_GPL(reset_control_put);
- 
-@@ -1260,10 +1268,8 @@ EXPORT_SYMBOL_GPL(reset_control_put);
+- * of_reset_control_get_count - Count number of resets available with a device
++ * fwnode_reset_control_get_count - Count number of resets available with a device
+  *
+- * @node: device node that contains 'resets'.
++ * @fwnode: firmware node that contains 'resets'.
+  *
+  * Returns positive reset count on success, or error number on failure and
+  * on count being zero.
   */
- void reset_control_bulk_put(int num_rstcs, struct reset_control_bulk_data *rstcs)
+-static int of_reset_control_get_count(struct device_node *node)
++static int fwnode_reset_control_get_count(struct fwnode_handle *fwnode)
  {
--	guard(mutex)(&reset_list_mutex);
--
- 	while (num_rstcs--)
--		__reset_control_put_internal(rstcs[num_rstcs].rstc);
-+		reset_control_put_internal(rstcs[num_rstcs].rstc);
+-	int count;
++	struct fwnode_reference_args args;
++	int count = 0, ret;
+ 
+-	if (!node)
++	if (!fwnode)
+ 		return -EINVAL;
+ 
+-	count = of_count_phandle_with_args(node, "resets", "#reset-cells");
++	for (;;) {
++		ret = fwnode_property_get_reference_args(fwnode, "resets", "#reset-cells",
++							 0, count, &args);
++		if (ret) {
++			if (ret == -ENOENT)
++				break;
++
++			return ret;
++		}
++
++		fwnode_handle_put(args.fwnode);
++		count++;
++	}
++
+ 	if (count == 0)
+ 		count = -ENOENT;
+ 
+@@ -1468,7 +1484,7 @@ of_reset_control_array_get(struct device_node *np, enum reset_control_flags flag
+ 	struct reset_control *rstc;
+ 	int num, i;
+ 
+-	num = of_reset_control_get_count(np);
++	num = fwnode_reset_control_get_count(of_fwnode_handle(np));
+ 	if (num < 0)
+ 		return optional ? NULL : ERR_PTR(num);
+ 
+@@ -1542,8 +1558,10 @@ EXPORT_SYMBOL_GPL(devm_reset_control_array_get);
+  */
+ int reset_control_get_count(struct device *dev)
+ {
+-	if (dev->of_node)
+-		return of_reset_control_get_count(dev->of_node);
++	struct fwnode_handle *fwnode = dev_fwnode(dev);
++
++	if (fwnode)
++		return fwnode_reset_control_get_count(fwnode);
+ 
+ 	return -ENOENT;
  }
- EXPORT_SYMBOL_GPL(reset_control_bulk_put);
- 
-@@ -1482,10 +1488,8 @@ of_reset_control_array_get(struct device_node *np, enum reset_control_flags flag
- 	return &resets->base;
- 
- err_rst:
--	guard(mutex)(&reset_list_mutex);
--
- 	while (--i >= 0)
--		__reset_control_put_internal(resets->rstc[i]);
-+		reset_control_put_internal(resets->rstc[i]);
- 
- 	kfree(resets);
- 
 
 -- 
 2.47.3
