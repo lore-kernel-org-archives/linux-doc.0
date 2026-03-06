@@ -1,80 +1,86 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F1273431FD;
-	Fri,  6 Mar 2026 18:41:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27F6C23EA94;
+	Fri,  6 Mar 2026 20:03:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772822500; cv=none; b=eguHs7xmZ/nconCUXTM+dnuMqptrhYPZCbu/gFVFXxqZ/rzZOGnwbzKp+8rjpwXtdvnq3jvuOOp9gCgx+fWhpZL387JisFOgTP1hKBt+3g5L3CEP19/bWZ2VPZ2dcRYEZTnpTnm9ZVqZJFRvcuAeCfI6/Gq7gVviTZvK4efTcQY=
+	t=1772827384; cv=none; b=nt47D50skpBFmWcKrnjfPxi5tpY+bEouN6FYQO4xeHo74RuGEqn86OlHoiOGyYCpq0HCur1+LW+UPzYgb0Ej9evDt8bp1Z9m/p8Gn9OclbJgH2wmH+0OXxS+T/2BzqPf94wQqUhauGcYKlzfEqs7+xj051clrTL5bNAOboDP8qA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772822500; c=relaxed/simple;
-	bh=4J1hqdT0pqrcrGfryBLBKrq7Os0xsVkdbFk1Sk70JdQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=stvYAXgqtpGHpJar3j9UKPMKnI5sFrck4Mfjgkm1RmG+s1ZpU0J2eGyzBg2Cyr+nzzAV2BZpXCNXZzFkHbM+O5xAowJv5P8EncpuztqydcdOXQYtlNC0/Z8d+Nf1kxcTgC2h7U1mxivrSJy18BeiBxu2Fmu4E/6r70vU/H97cBQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=E8oJf4b/; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1772827384; c=relaxed/simple;
+	bh=qahHLobAMT9yxV+pCSgqBlfqphTkEHwnL3IOJgHvXQ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=CcKBCBN4tiBr5dRO7ppYsYz/AEjtzK4Lvw5WWWnQ/80CKcB4poMLYL3dBYmtX0qY1rNeEaCCcO/Ns02yszbIcr4VWUivfKS7GJyzTB8vQf3ys3Dp5NytGukUwfkWvXKsCms5OcAYBmLEVUalGMhN8Hwz74hs2Uh9wo3oKdwqyJE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AeWz6ga2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="E8oJf4b/"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=ks2Fc16oJU6Q2v56F0xsiVlNgwQ9ICF+yP+izHjclXc=; b=E8oJf4b/KEI+hRIX5r9Im5vlGE
-	9KPC1WZdA8WVrjdX0Wxu2hSHRje+rcAkcTFNfbIDqljAZZz+FX79nyDMzMsS+G39U3xtN3vsO23nA
-	By7A5Z5rg5/aOhSY3AxdzhZN4O/C2HyFksg4eLrxGqxeTaqTTVlzPYBTnR1dO3+RzCjOspNxQSG+k
-	UlhF2vMxwqKRAb9FsJbQIXwSDrM/cNXHGJEXgr4jlESpBhcoiRUb1Ndhb/HBnHG4TeywhgxM20ZWG
-	/I3QFyyzcSvGqrrqCnVrbofLJwLnSbSVIxFOVk7g7N6XDj3XqBCx0tdTv518Lfg8bbBNFt0Q/ANgG
-	7x5Lsh2g==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1vya7G-00000004LeO-0FED;
-	Fri, 06 Mar 2026 18:41:38 +0000
-Message-ID: <224b24c7-abb8-4a1b-afd8-541aec492a96@infradead.org>
-Date: Fri, 6 Mar 2026 10:41:36 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AeWz6ga2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB3EDC4CEF7;
+	Fri,  6 Mar 2026 20:03:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772827383;
+	bh=qahHLobAMT9yxV+pCSgqBlfqphTkEHwnL3IOJgHvXQ4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=AeWz6ga2R98oPoiuLJ29E083Irjhy3TASp+fJgLx/43WSTUT+owB5XPYeuMZWBROa
+	 iYeyeeel/OlvUpKCVaMufR61f2Kdpz0MG9MO1dUQyrT8cbrSV4sqc23YxmfhljsGby
+	 apFdPVzfELh7631LATPMkz9rgtYNYlNbtboZnDl/sSvHSA8EtpZxzeLXQSNKtXhPdt
+	 XkZWLbs5FtFo7ZG1xL980/AafTsPnxLotsU1EGhAbwKBcc8Z10bESPIcr4olVZ2AH0
+	 JROXIqG0lZr0ukXQVk50ZN3EIfCfoFRRd7EIsFC2ncyc0vDKP0bUn9t3vX+kFLEurK
+	 Ysq9MxwM9FFBA==
+Date: Fri, 6 Mar 2026 12:03:01 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Jiri Pirko <jiri@resnulli.us>
+Cc: Tariq Toukan <tariqt@nvidia.com>, Eric Dumazet <edumazet@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Donald Hunter
+ <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed
+ <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Mark Bloch
+ <mbloch@nvidia.com>, Shuah Khan <shuah@kernel.org>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-rdma@vger.kernel.org, linux-kselftest@vger.kernel.org, Gal Pressman
+ <gal@nvidia.com>, Dragos Tatulea <dtatulea@nvidia.com>, Shay Drory
+ <shayd@nvidia.com>, Jiri Pirko <jiri@nvidia.com>, Moshe Shemesh
+ <moshe@nvidia.com>
+Subject: Re: [PATCH net-next V3 00/10] devlink: add per-port resource
+ support
+Message-ID: <20260306120301.0ebe1ab2@kernel.org>
+In-Reply-To: <ni23r4jiwgc6zjjsubtl4ujjgxzwpxrylumofdwxgozfnieynm@zirlbneaz6p2>
+References: <20260226221916.1800227-1-tariqt@nvidia.com>
+	<20260302192640.49af074f@kernel.org>
+	<pmxkihhtsskkwsvdia4z2ss4wxpfc4a4kqxkjv5wk3mwdmpzii@6go7pizk2nst>
+	<jssifysprwuafkinc3dguspngxmplrngqxvotp76vhvu4e5lp6@e7mdrjqc5rme>
+	<20260304101522.09da1f58@kernel.org>
+	<np44uzfn6jea56uht4yq4te5clapgj7pk6ygyvkl22wxumwnvt@nrpvzjqzxenq>
+	<20260305063729.7e40775d@kernel.org>
+	<ni23r4jiwgc6zjjsubtl4ujjgxzwpxrylumofdwxgozfnieynm@zirlbneaz6p2>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] docs/gpu: fix typo 'varios' -> 'various' in todo.rst
-To: MikaelRothig <mrrothig@gmail.com>, corbet@lwn.net
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260306092822.48393-1-mrrothig@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260306092822.48393-1-mrrothig@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-
-
-On 3/6/26 1:28 AM, MikaelRothig wrote:
-> ---
->  Documentation/gpu/todo.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On Fri, 6 Mar 2026 13:13:26 +0100 Jiri Pirko wrote:
+> Thu, Mar 05, 2026 at 03:37:29PM +0100, kuba@kernel.org wrote:
+> >On Thu, 5 Mar 2026 08:56:42 +0100 Jiri Pirko wrote:  
+> >> Or, alternatively, we can have per-object dumps as we have for all
+> >> objects and command right now and leave things simple and
+> >> straightforward? I mean, I don't really see a benefit of a single dump
+> >> for more objects :/  
+> >
+> >What do you mean by straightforward, exactly?
+> >
+> >User will most likely want to see all resources of a device in a single
+> >dump / command.  
 > 
-> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> index 520da44a04a6..33678b669339 100644
-> --- a/Documentation/gpu/todo.rst
-> +++ b/Documentation/gpu/todo.rst
-> @@ -269,7 +269,7 @@ Various hold-ups:
->    valid formats for atomic drivers.
->  
->  - Many drivers subclass drm_framebuffer, we'd need a embedding compatible
-> -  version of the varios drm_gem_fb_create functions. Maybe called
-> +  version of the various drm_gem_fb_create functions. Maybe called
->    drm_gem_fb_create/_with_dirty/_with_funcs as needed.
->  
->  Contact: Simona Vetter
+> Hmm. We actually already have this for region and health reporter dumps.
+> Only for params we have that separate.
+> So let's do it for resource too.
 
-These 3 patches should all be in one patch.
+That's not a good argument, as I said in my first response to the
+thread:
 
-The corrections LGTM.
+  I worry we are mechanically following the design of other commands.
 
--- 
-~Randy
-
+https://lore.kernel.org/all/20260302192640.49af074f@kernel.org/
