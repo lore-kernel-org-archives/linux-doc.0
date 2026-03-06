@@ -1,131 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 745462DEA9B;
-	Fri,  6 Mar 2026 12:09:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3E6738E5D0
+	for <linux-doc@vger.kernel.org>; Fri,  6 Mar 2026 12:13:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772798998; cv=none; b=JsLuorBj068dN1kHLXaBVKyJNtCk6yZcI5oNHwkkUvhtCjgpoBetpXSUnwNm8V0oVHP3+s03Ha8Eu+zzXLk77vIwDfygHSMkqZW3EGpPvmfcUsI9NEgwtdaqpJx8fdTBL5gG0s+GYqLUJ89YJEWCOqC4OHR+949tiA+Z/eL1wfE=
+	t=1772799213; cv=none; b=rYs4CZNpt9HGfikJN+GsRu7hQ8077iprPRVig77FbvulAj/cTO44aEINuYgu4o6571d0Dt0k39tT/kVCCiVLLKtBCq0yPd9ZWYGRv2G9uLjaO/PJT2PTsbhcuP7x/Y2W/9Qa2AM+pN95P/XDy/lzLJvPoN204JQhGJ2LlhWOeXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772798998; c=relaxed/simple;
-	bh=nVVub8fwfY6QBhQ2M77L7oG9jsYVZgUizfpDlI1q/aA=;
+	s=arc-20240116; t=1772799213; c=relaxed/simple;
+	bh=iL3nHsj2qbN/ptZ32yL5eiwUDcUBsCkMTT+rcB3PMxA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Hw0N3S+UHpoksCCjt691yHoyJqOnxG1g3zo/oeyZDvDGVCHSoBYWqgjHKIr/n9FbttFwRdsuhbR8A62FswOEDQdyGk1S3Jz3u4OJkjT19Xaa7uDV/QsotvO7/4EvFG+wWLgtu66ubR540eiC0gzyltPQTv7aLlEErnl7quUJLms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VHBPk8gX; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=M3CfRsJ5yGBKMGto61Mz8UugTxkuXFT8w1vYMjhucaM5g8LOpwDtUQPY8/Qs0ex2orEMu5MDSnOuq3Q/3+XJfWBFDQ30fHqH1GG2Zmk+M4TwXLjYzCDtnjEF3KStQxsmNMcc46/UaCvLyLe7GmKtTGhRbYpyuLZEqyqgJYBy7rI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=ebePal5t; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VHBPk8gX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772798998; x=1804334998;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=nVVub8fwfY6QBhQ2M77L7oG9jsYVZgUizfpDlI1q/aA=;
-  b=VHBPk8gX6BDVqWK2fFC3lGbauh3BhL8jJAjuXu7dC5TYSfmb0uRFUVE2
-   /2a8/69n16ACpTHppdyyx91VM5jIJbuuhCj2mp4q00UxIZFmGmRCzplia
-   /KDoRTku3ioQ5PjQCu4pmEws5FoJgJ1cac7khl1lBrgR32Nn5IVpEwfLQ
-   XjE7rMIKHmhyBcTw12/M8ziQ2C8RdOwk256VlD4I8BxQi5XTULeoAGMXQ
-   artHyjlO74awDHkT4p+P6fwBwbh/OzOChXZ1nqhib54ggPMAdYt2jOfVE
-   NX26FQl+M6ifX8LFWBMwXzjHVYBotth0w2XM+0iGlji3aBsNbPPcMeGZn
-   Q==;
-X-CSE-ConnectionGUID: eNPGMou+Q+yKwJW/TuGxWA==
-X-CSE-MsgGUID: DBWUqi3URhmxYxj+o5mF8g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11720"; a="73605303"
-X-IronPort-AV: E=Sophos;i="6.23,104,1770624000"; 
-   d="scan'208";a="73605303"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2026 04:09:57 -0800
-X-CSE-ConnectionGUID: N+BTpeh3TRKfLK77LLHkTw==
-X-CSE-MsgGUID: iC4M1LnJSBKpRfjdq8Ysgg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,104,1770624000"; 
-   d="scan'208";a="215690111"
-Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.245.1])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2026 04:09:54 -0800
-Date: Fri, 6 Mar 2026 14:09:51 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Francesco Lavra <flavra@baylibre.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7 4/6] iio: ABI: Add support for floating-point numbers
- in buffer scan elements
-Message-ID: <aarED5TAWg2qFtxi@ashevche-desk.local>
-References: <20260304080519.2844101-1-flavra@baylibre.com>
- <20260304080658.2844434-1-flavra@baylibre.com>
- <70f25902-5c79-46f9-8c67-99633b22b5ac@baylibre.com>
- <098886563f5fdcde837989d0556ed9a2d8d3203b.camel@baylibre.com>
- <CAHp75Vdni=OgHiDi8G5s6CgBFZZuypOyJSo5DFjaKYFkLGPqkQ@mail.gmail.com>
- <dd6d1436-d509-4233-ba1f-5a3f870f35fb@baylibre.com>
+	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="ebePal5t"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4838c15e3cbso83852645e9.3
+        for <linux-doc@vger.kernel.org>; Fri, 06 Mar 2026 04:13:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1772799210; x=1773404010; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=PTpTiYCmYefmS8voVHhTmV6UthynmjNZaFJx1xqdpVE=;
+        b=ebePal5t6HxHoJBNoARUWaa23plUvf87O/bmUdgs1xJyNY8MgzRCJ4pZYxQwDqbNqI
+         CzdVMwW/wuYjxdrwhOEHph9kMh8D4v0osXRgDx11NoFqv6QSQpzM4fhWtLja24HmA7xX
+         0DfZdgtURfiBXxa8luOdr4FZpOxGgaVTLFrD5VS3R9IL8rp/dRpPJSHe5730iobk+v3e
+         XdzW/mYri2yNMKXJtn/A3EmBtBIt8vS/hWWYK/eqXmjtfgqJjy7bqiOeI0FQS/obIDs0
+         ArZaLYnwwKZWVKTUdwudnZDxTxRmgZKJ6gWudyK+aq7SJq3u/2DyZkjttkw/n5bZLXKX
+         03EA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772799210; x=1773404010;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PTpTiYCmYefmS8voVHhTmV6UthynmjNZaFJx1xqdpVE=;
+        b=URvIZoKeZkDoM8lb4m28KgJ7TL75f4/Ru/+o24XaekUK5d/y1i73v8w1yHJBwTF4EK
+         I269pcwIvZwEB6+oEn0BfnlJE3uOh1VwxjExrUmAyv9zFbbFNJpnkk0AudiXvHMpnqKb
+         91mbXu/1mptDTBNwwjs6e9fhOKD6XZEy0sam4hii7lXSZdPm9WZ9C9mKbjB55a7U1rWP
+         Zu6A2GMQC0xXJkxsTaTqrtYPO+HjJ7/K8n7qBs3rAO5RnXOUwkopLiGBNw4rYFe65YiB
+         9e6Z1Bl4zkGxjEkqypVkraa1g8pRowsg8eHQltrKe0/jLat2iq+/qfjallW8iyRa6SrC
+         vqQg==
+X-Forwarded-Encrypted: i=1; AJvYcCXo1v1X9HHpftvIYwt+6KCDmyvZAUtn761RGImjqTh50m2AlvFDv9TLZiJrIAapHkbOVipWF3OEAAc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy4lDJfzBIWmRiCUWOkN+Q3c5vUKlOXdIJLOE0O6+9NjfVb12XO
+	BsA2UqP0ERHrB+fNyKbETHnXUikMeDVFLTxac3ZSFJ8UQQB46DupMCiaBvUuulzZQL0=
+X-Gm-Gg: ATEYQzyQ/Rx6OdUoRH96NuKW/ogcriFZm6CSGYn6bOYJE53kgo8UKBIrq2Ua8w0wwKs
+	GMBkzYNS/RV4haCoaSSsNJHpz6mWxRSLUzcsyqrGX732V8e/7poqaeRN2x9Tx9Lcd9v8+VlQ35V
+	LMEdlzAUS9OJCl6wl82qTjSQcTFVgjAxhqyDaPfqA3UT0woh7QIkd/Q2/7j0LUaZkOiM4AMvvTj
+	q52jEUh08wX4GIcDW2KcMd5KW9B+rlmd6ur6yNCUYQZk3147OmXXCtZIGqfANVGNcgArBG4f5Y0
+	ueNKWcetBw1gpxD+5xIy3dTlHumshclzPRZYnvhjH+ONRw4JuKW5sJn8vvr1jeRuRHW9tvROa/c
+	OmBF4YEEv6X9vaICjekDf1WxTWxALa7uqlg0zHy1HNS/O+p22mkH7j+TKVxoRfADmZmDk0gzliU
+	nzOysjhbdLFx0K/7JhP2AZtaS8EiOOTdUuWQPlNKhxkA==
+X-Received: by 2002:a05:600c:4fc2:b0:477:a1a2:d829 with SMTP id 5b1f17b1804b1-4852692bfa5mr30418785e9.13.1772799209987;
+        Fri, 06 Mar 2026 04:13:29 -0800 (PST)
+Received: from FV6GYCPJ69 ([208.127.45.21])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-485256b1eacsm30285005e9.0.2026.03.06.04.13.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Mar 2026 04:13:29 -0800 (PST)
+Date: Fri, 6 Mar 2026 13:13:26 +0100
+From: Jiri Pirko <jiri@resnulli.us>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Tariq Toukan <tariqt@nvidia.com>, Eric Dumazet <edumazet@google.com>, 
+	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Donald Hunter <donald.hunter@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed <saeedm@nvidia.com>, 
+	Leon Romanovsky <leon@kernel.org>, Mark Bloch <mbloch@nvidia.com>, Shuah Khan <shuah@kernel.org>, 
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, linux-kselftest@vger.kernel.org, Gal Pressman <gal@nvidia.com>, 
+	Dragos Tatulea <dtatulea@nvidia.com>, Shay Drory <shayd@nvidia.com>, Jiri Pirko <jiri@nvidia.com>, 
+	Moshe Shemesh <moshe@nvidia.com>
+Subject: Re: [PATCH net-next V3 00/10] devlink: add per-port resource support
+Message-ID: <ni23r4jiwgc6zjjsubtl4ujjgxzwpxrylumofdwxgozfnieynm@zirlbneaz6p2>
+References: <20260226221916.1800227-1-tariqt@nvidia.com>
+ <20260302192640.49af074f@kernel.org>
+ <pmxkihhtsskkwsvdia4z2ss4wxpfc4a4kqxkjv5wk3mwdmpzii@6go7pizk2nst>
+ <jssifysprwuafkinc3dguspngxmplrngqxvotp76vhvu4e5lp6@e7mdrjqc5rme>
+ <20260304101522.09da1f58@kernel.org>
+ <np44uzfn6jea56uht4yq4te5clapgj7pk6ygyvkl22wxumwnvt@nrpvzjqzxenq>
+ <20260305063729.7e40775d@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <dd6d1436-d509-4233-ba1f-5a3f870f35fb@baylibre.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <20260305063729.7e40775d@kernel.org>
 
-On Thu, Mar 05, 2026 at 08:37:48AM -0600, David Lechner wrote:
-> On 3/5/26 3:23 AM, Andy Shevchenko wrote:
-> > On Thu, Mar 5, 2026 at 11:09 AM Francesco Lavra <flavra@baylibre.com> wrote:
-> >> On Wed, 2026-03-04 at 16:45 -0600, David Lechner wrote:
-> >>> On 3/4/26 2:06 AM, Francesco Lavra wrote:
-> >>>> In the data storage description of a scan element, the first character
-> >>>> after the colon can have the values 's' and 'u' to specify signed and
-> >>>> unsigned integers, respectively.
-> >>>> Add 'f' as an allowed value to specify floating-point numbers formatted
-> >>>> according to the IEEE 754 standard.
+Thu, Mar 05, 2026 at 03:37:29PM +0100, kuba@kernel.org wrote:
+>On Thu, 5 Mar 2026 08:56:42 +0100 Jiri Pirko wrote:
+>> Wed, Mar 04, 2026 at 07:15:22PM +0100, kuba@kernel.org wrote:
+>> >On Wed, 4 Mar 2026 11:34:13 +0100 Jiri Pirko wrote:  
+>> >> On a second thought, if we merge multiple objects into one dump, how
+>> >> does this extend? I mean, the userspace has to check there are no extra
+>> >> attributes, as they may be used as a handle to another new object
+>> >> introduced in the future... Idk, it's a bit odd.  
+>> >
+>> >That's true, the user space must be able to interpret the object
+>> >identifier. So if we extend the command to add more identifiers
+>> >we will have to add the bitmask to the dump request, and have
+>> >the user space tell the kernel which objects it can recognize.
+>> >I was just saying that we don't have to add such attribute now,
+>> >maybe leave a comment in a strategic place for our future selves?  
+>> 
+>> Or, alternatively, we can have per-object dumps as we have for all
+>> objects and command right now and leave things simple and
+>> straightforward? I mean, I don't really see a benefit of a single dump
+>> for more objects :/
+>
+>What do you mean by straightforward, exactly?
+>
+>User will most likely want to see all resources of a device in a single
+>dump / command.
 
-...
+Hmm. We actually already have this for region and health reporter dumps.
+Only for params we have that separate.
+So let's do it for resource too.
 
-> >>>> -  Format is [be|le]:[s|u]bits/storagebits[Xrepeat][>>shift] .
-> >>>> +  Format is [be|le]:[f|s|u]bits/storagebits[Xrepeat][>>shift] .
-> >>>>
-> >>>>    * *be* or *le*, specifies big or little endian.
-> >>>> +  * *f*, specifies if floating-point.
-> >>>>    * *s* or *u*, specifies if signed (2's complement) or unsigned.
-> >>>
-> >>> I would keep all of the format options on one bullet point.
-> >>
-> >> That's what I did initially, but Andy suggested doing differently [1].
-> > 
-> > And still I think it's better to not mix them. The floating in the
-> > same sentence is confusing (along with 2's complement mention and
-> > sign).
-> 
-> Then I would split up all 3. It is strange to mix some and not
-> all.
+Thanks!
 
-I don't find it 'strange'. The integer are grouped together, floats do not
-belong to that group.
-
-...
-
-> >>>> -is [be|le]:[s|u]bits/storagebits[Xrepeat][>>shift], where:
-> >>>> +is [be|le]:[f|s|u]bits/storagebits[Xrepeat][>>shift], where:
-> >>>>
-> >>>>  - **be** or **le** specifies big or little-endian.
-> >>>> +- **f** specifies if floating-point.
-> >>>>  - **s** or **u** specifies if signed (2's complement) or unsigned.
-> >>>
-> >>> same here
-> >>
-> >> [1] https://lore.kernel.org/linux-iio/aZ7dCdLs5xcJ4UGW@smile.fi.intel.com/
-> > 
-> > Same here.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+>
+>The objects themselves are identical, they only differ by the handle,
+>and yet we'd have two separate commands to access them.
+>
+>It's as if we had separate GETLINK commands in rtnetlink for devices on
+>the PCIe bus vs connected via USB.
