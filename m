@@ -1,116 +1,89 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7247746AEC5
-	for <linux-doc@vger.kernel.org>; Fri,  6 Mar 2026 20:58:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2302311C35;
+	Fri,  6 Mar 2026 21:15:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772830705; cv=none; b=op70gKBg/8lWFEebgQfe6sRkpT3mYkHVKQRDhiHzP/yLOO1h6h6AWdNAW2A8lZvUZBjz75sjDM19rG/nBdkTC04asdmmtWcU92+Ix5cWOvGmPt2R1Lb0j3a1QlEY0PhEW/o4are9RvJEFjHnLNp2gPf2W2Xj6vSjNjzSQgcjjhg=
+	t=1772831704; cv=none; b=UL2pzGHfB//5DqdxSinu80iRU/pv4tjdWpHnJr1xPNXWYp/JsR5OkSlr8GJL9TTz77ZKLWii1N59ReSHK04PGofXbipVcv1Ke1q/xF8hYFpUWULoiR54fdSuPYWlyX5/5VOtWn08ojFQB3KV0mqiGh5i8rbuP9yRxhCRGOCx190=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772830705; c=relaxed/simple;
-	bh=Qkx2gSFDFTT+aES88PTKO/DLSriAtCDtrijXgu+5LoE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ead8fa+2NNFT2OSvL3u0HOdqKlTqnUN+M+CzsJF3EDEyFtwmjx9NGkXURmTRSiAGLa71yML0/rn0qb5JzCM3Eaf3Dv+aLutfIbZ8qdl9AT2hav6kVHmb40bAPPfGLirSX0E5e5+TpmwE0RmSEXbTrZfPvkMiIt3aPYyclnDX7PQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JPVORuUR; arc=none smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1772831704; c=relaxed/simple;
+	bh=b2xKIZVvU9oNpwWfGskzivc5542W5iNveuIWwtPS3D4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=skhXB2gzr6a2wptbW2fnZSt9+gLJIyf9f/sJ2nymbQ37E7ThF+ALxyV1UReCu/nRAW7k/rCQOdDnWuLFzvmKT/MiZetGhzW/1TWdRfWJweVdadcfDdjCzE7aK/wJZ8QMHW0ofEcmw0rptqd2f6K/A33h7heT3ruWByqCdr1RKJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=SMAvJLpM; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JPVORuUR"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-661d20c9787so654716a12.0
-        for <linux-doc@vger.kernel.org>; Fri, 06 Mar 2026 12:58:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772830703; x=1773435503; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jwO02ZCPgD0VxK8Lt5yXmyrunUSd8TBuKbL6rr91DD0=;
-        b=JPVORuURM6ROcXu3HMbyzqCU0fST3DBsKIhyFJ7sW6y0M4GKEi2wW6gXZI8VZfJ+1K
-         qzp+gohYcqERuqpjLhNnvg94HRC9GeP0He/wjOJHlJviDctcuYJzGo9mcwMPFGlVwaWn
-         s3ufgmkZ0he5uA3H2moAJnMdmSXjX7dkt+Ep7i58wWEqf+fkXK7o49guD5wE+IeppCsd
-         owC8bPwoiELQ2yzRKBEROuxPReoG8sndYyjQ294KZ6dAWTSp+M8ISCQlGCpUi1aWZ9t6
-         JZf66q+1UnjPESdFoEtPegjp0oUDMo2hutxoUTS8AvUDUJw80dO6Xh1Bk7TMG5rNuSZ6
-         8MKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772830703; x=1773435503;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jwO02ZCPgD0VxK8Lt5yXmyrunUSd8TBuKbL6rr91DD0=;
-        b=Cgz4pj+ES5WrBnyT5NEAeU3dKnPUE51FkZDaHOIiZ3fg1xRPTwP0BbSuwBR+K66GU7
-         OaWHVCUqKWuM3KS3nPevkoSGFoK6AIoez1+o5zZIuhohUxGvcXtxvMwZkaUgdwCxkMoC
-         Wz98BWoBfJM0pHEOY6WUX3rIq+vOgt9suW/VulxgH0mJe5oo3LzRUgVEdaz4PLlDqLcP
-         8rdNrBPVlo7iSpUDVoJr0oO2eCASksRPwQhi/wMZxF7jyaVbXg67HOc+fx//7hV30Yo4
-         XYMbndh6CCNynGxrfpPZyIFuYv9saup6mruz3PuB8lAgI66rJTjuAtBDq6r25FjQoNaX
-         Ev9A==
-X-Forwarded-Encrypted: i=1; AJvYcCUgAAHgSxzemsku1EdY6Z56Aq7jUKx5MMgHqf1U5rn/qKLh7qsMiaLNqjwBRypDOl/hatzWT4tIaL4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzAnIAsgVQX+BhHTyZuM1g/HkGSJC4iKOoKqVEaofC0sbSFhuZ+
-	UdwQ9389TrzQbJTXoO7egoQOGOEAz5v99EuDE1MZh7dYUu3Q46ZJO97jpALUDoO2mYI=
-X-Gm-Gg: ATEYQzxVYs4FBPuHGuD43T+NMVGuqgSAKhbZ/EspPoBS6SizCf7lxhtLxxsTXM35JI5
-	w4PAb2Z66wra7rAz9BLuieSz7x0mxNl4U+ihjsAZebbk+/Za59oMsVD9wkSgU+W3kFySFLPngZu
-	TAMuVwy42JgOQMiPoOvPy03CD6gEIpby+GyeJys4Zb/M14o6i8dJ5eGSqMspQi5TOoOIp1lQY6a
-	ecyropA3z8IXGDRu+dVD0L9Aqr1tx7qV9EFP/CMecML8Rc7J4NDddZZr3MkMNZIuqbi2yKEUJSF
-	HE5Bf0gSwARlCXIiKeXn5L6mZW9OHrDZlsIXiCCRsmjVGzfVaUbcKzM0l6GVIRTK/UbOkfSbSKx
-	HtnZeIR+wqiniv3luSxWmP9X/FuN2Dq6CHtkUFKdTWEWz2Z9CLE6XJtJ2kXiPkVr7LfEnoB+WES
-	bnNwQiiAxGxBDdgTkSwTyA7eDC4yvZLpOdodo74tq+haJpC1r2r9qpzSXJUg4MjZI3+kzv2fJ1N
-	gCJPnPzKVBZF5ZOFAzm4nq0zOso4mbu0GFgupNiVIe6sMo=
-X-Received: by 2002:a17:907:3e10:b0:b8f:e424:ae56 with SMTP id a640c23a62f3a-b942e107988mr220848066b.44.1772830702548;
-        Fri, 06 Mar 2026 12:58:22 -0800 (PST)
-Received: from localhost.localdomain (84-24-131-219.cable.dynamic.v4.ziggo.nl. [84.24.131.219])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b942f18baadsm89155066b.67.2026.03.06.12.58.21
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 06 Mar 2026 12:58:21 -0800 (PST)
-From: Mikael Rothig <mrrothig@gmail.com>
-To: corbet@lwn.net
-Cc: dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Mikael Rothig <mrrothig@gmail.com>
-Subject: [PATCH v2] docs/gpu: fix spelling mistakes in todo.rst
-Date: Fri,  6 Mar 2026 21:57:39 +0100
-Message-ID: <20260306205754.65746-1-mrrothig@gmail.com>
-X-Mailer: git-send-email 2.49.0
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="SMAvJLpM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1772831700;
+	bh=b2xKIZVvU9oNpwWfGskzivc5542W5iNveuIWwtPS3D4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=SMAvJLpM0AucH2FC7JWxiudQ1BoadPrwmgjnGc17sKtxxIxs/mJGmiNX5x5j+V1oQ
+	 Z9C56kerzEd6F4vGEj91VkStUeFOGhghtmxo1VYp5gSTYHQT18TV5flyL93s5TPL63
+	 FlGjh0XLuuYOzUd1gazWPzVODg2rbkDwqtN7r1JnWWDSdjYwxNNiR1yTF1QL8389/N
+	 Wa5rGoNJqw+YLbgF1o7Zi2pfVRSP+MZt0P2Bx3iHcVMFNWTdCQiATScYEPK+hkE0UY
+	 0t02Kd9hILR8RM7DxXSf1LiN0PctHRg/Y4Mtac385Hnz+Feub6CBoH9qKgFB7Sli9y
+	 vTNjcFeZa8SUw==
+Received: from [192.168.1.90] (unknown [86.123.23.225])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	(Authenticated sender: cristicc)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 7787A17E0071;
+	Fri,  6 Mar 2026 22:14:59 +0100 (CET)
+Message-ID: <8360f269-7f10-44e7-9654-dd5894a88abd@collabora.com>
+Date: Fri, 6 Mar 2026 23:14:58 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 14/22] drm/bridge: dw-hdmi-qp: Use common HDMI output
+ bus fmts helper
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: kernel@collabora.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-doc@vger.kernel.org
+References: <20260305-color-format-v10-0-a58c68a11868@collabora.com>
+ <20260305-color-format-v10-14-a58c68a11868@collabora.com>
+Content-Language: en-US
+From: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+In-Reply-To: <20260305-color-format-v10-14-a58c68a11868@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Mikael Rothig <mrrothig@gmail.com>
----
- Documentation/gpu/todo.rst | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+On 3/5/26 4:19 PM, Nicolas Frattaroli wrote:
+> Make use of the common drm_bridge_funcs.atomic_get_output_bus_fmts
+> helper for HDMI bridge connectors.
+> 
+> This allows dw-hdmi-qp HDMI bridges to participate in recursive bus
+> format selection in a meaningful way.
+> 
+> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 520da44a04a6..686a94bead07 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -269,7 +269,7 @@ Various hold-ups:
-   valid formats for atomic drivers.
- 
- - Many drivers subclass drm_framebuffer, we'd need a embedding compatible
--  version of the varios drm_gem_fb_create functions. Maybe called
-+  version of the various drm_gem_fb_create functions. Maybe called
-   drm_gem_fb_create/_with_dirty/_with_funcs as needed.
- 
- Contact: Simona Vetter
-@@ -294,7 +294,7 @@ everything after it has done the write-protect/mkwrite trickery:
- 
-       vma->vm_page_prot = pgprot_wrprotect(vma->vm_page_prot);
- 
--- Set the mkwrite and fsync callbacks with similar implementions to the core
-+- Set the mkwrite and fsync callbacks with similar implementations to the core
-   fbdev defio stuff. These should all work on plain ptes, they don't actually
-   require a struct page.  uff. These should all work on plain ptes, they don't
-   actually require a struct page.
-@@ -882,7 +882,7 @@ Querying errors from drm_syncobj
- ================================
- 
- The drm_syncobj container can be used by driver independent code to signal
--complection of submission.
-+completion of submission.
- 
- One minor feature still missing is a generic DRM IOCTL to query the error
- status of binary and timeline drm_syncobj.
--- 
-2.49.0
-
+Reviewed-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
