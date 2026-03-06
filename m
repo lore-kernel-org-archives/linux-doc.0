@@ -1,94 +1,147 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E968B19F48D;
-	Fri,  6 Mar 2026 07:32:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD1B6374198
+	for <linux-doc@vger.kernel.org>; Fri,  6 Mar 2026 07:35:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772782361; cv=none; b=d7CZVNNnZvN7zrC0MNkq1Aua/gdMal5wBkUfhgCYvuEQsBc8LnPkek90EK9J04mndEq8p1n+xsfl2pisf9m1WHS9PrNBB0/RzeWWhyujRMfdRXi2+QF6F0cYnzGE8vMhDkV65coUx8Fk4CUayosf56BPsdWMBBB/vYiW9mFi4HY=
+	t=1772782516; cv=none; b=hNc9zDJEbTxtT2Ruv0kJYYcSopNjkfsoIgVvVQr0ppINyPJu8ZxpBXHFveq2TpYEaAx3FBSDq4l8a8+r6Ab00eU3DBnpf0TxB+tsD12dlRlujo1SINgbj9P3KYO8109P9BQgN+O0uwQfq5IXOA6aWbWuokouEg0pgBp8YoWEwPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772782361; c=relaxed/simple;
-	bh=DVzgvb8y4ShBZBiB5XfsC+MoSBbpxmPP73ac6hYIeNw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M5xVqMIGmdnsFn03KpcgkiGCTnoLY5sZ6jEfZEQZR0fcPQKLc53hXlR7ZuTFuIgh4/8mryqNM273PLPtcDa+M4LTQlsEjf09nbG2bgNpB8KBHrCGM+9i7Hi7fy9CSqAtQsj/1KJBtN49nyDGKsIBynybze6PyAZqdi6LfREKhA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FF3w4aOI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772782516; c=relaxed/simple;
+	bh=6UStxTN0ltHJ/GkEo7bx/EfcLlbOuCrV481hg4emXsc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=s+0Bk5kBeSXXyiHGiD9Dd/vXgNQ5aZb1MfN9xORQRBAJ6aE2PlJgZ9dPtPFMq2kLWwQMAaj9fDeTKQ/LSVUFIEm+JT1e8gjZv5hWH+8QeE6739UJ/KrRw7WKVrxPaja+AG0LjHcrAZmBEeEIqj/bQtV82XqypwjiKTdoD7L9hIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=EM40PIl3; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FF3w4aOI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFF94C4CEF7;
-	Fri,  6 Mar 2026 07:32:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772782360;
-	bh=DVzgvb8y4ShBZBiB5XfsC+MoSBbpxmPP73ac6hYIeNw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FF3w4aOIbJ0brVEkGQQ8zRx/LmvMFUFfe+HepOLyVKtX6t8j4Hr05bu7jWXzBg29U
-	 ZAK7AX/EPaBCIzwaMMAXHLRNspS6SXkmezALwpZJxDMJ1RGjq8vghPamP/gdvbyFeM
-	 x0NfDtL6+zean8JYahUdtrb9FuovZycdTwXcfp76mXZkO63/k3pCI47VY0T0NSogtz
-	 3TXo5/stD4BmQ8FjTSSyurTj9ADgXeV2dif2n9C/MWM29+kOOwaepxmk720OrjdJsB
-	 rys+OZ9ClJsOO+E6yombFnOAzumbpBss3D2yT4oKvYnxMDwybmVkWS0ipWHVttFw75
-	 10o/nokcY59kw==
-Date: Fri, 6 Mar 2026 08:32:37 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Victor Duicu <victor.duicu@microchip.com>
-Cc: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, marius.cristea@microchip.com
-Subject: Re: [PATCH v11 1/2] dt-bindings: hwmon: add support for MCP998X
-Message-ID: <20260306-mellow-warthog-of-security-d12ae3@quoll>
-References: <20260305-add-mcp9982-hwmon-v11-0-6e914ba63239@microchip.com>
- <20260305-add-mcp9982-hwmon-v11-1-6e914ba63239@microchip.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EM40PIl3"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4807068eacbso74464165e9.2
+        for <linux-doc@vger.kernel.org>; Thu, 05 Mar 2026 23:35:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1772782513; x=1773387313; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y6XoprPGy2obVCQE2uQgSeOts5auhhet8rC7x7T+9nI=;
+        b=EM40PIl3oC8AvBM9s2nfJZo4h6hSmBkn1M3E60cXyupESAl/YpD9NcmBBp9xHqzvXP
+         cVg1ms4rFDZH2YdNEIGFWeHchjBTPrg5aLsWX3Ix+UhXFKUOEcOcYzs1eZzPTdaoL/7+
+         DWMn1/qN031qigecNUIXfnelZwDK1HTweTTcFkFd8oqbLH2Lk9sIn7uPwVCMAS9LhOot
+         Gjr27j8tye7Ku02D94lqefFgmF3UniDvYfOvGYTTRJ0Ap8QZJNC2oohC6hpGZ78bP4n0
+         ATCoCadkhQThOTpioqDYEA8qsE6xvakPTRBV+DQm9ah9MSEld+m+F1JBNEFwwtM8AvXI
+         bQQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772782513; x=1773387313;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Y6XoprPGy2obVCQE2uQgSeOts5auhhet8rC7x7T+9nI=;
+        b=dOxmalNFtagYq4XlSH2ar5Axcj2Brsd6KHNKVHnnrFnGWe9mSwAVhp/jov1omc38Dc
+         CE0GrITaDjKT06VslTFPN7du5/RM1DLo99KPf6j/3DvEuiKi3KXT0nry3x+BqF0crERc
+         EKUIbyeQ9MQdpqao51Z4Wa4USvI/GER5nRn0gC1YvNpz9yTdcDQH310DMvXj2aYytqrU
+         X81RNdgHrfrZu7PES1OZOWjJzdU4UxWitCkw7JhQkpkJrlzwfd2HO2XfbUx29NtFifrs
+         iFkFsNXDNl8uXY+iJkhMQt+FtPhjm20p3wr0acZPmUYWr4YgNZ34tG4OyhWuHAvWuXvS
+         4h/g==
+X-Forwarded-Encrypted: i=1; AJvYcCWOKY3mN1USyXtfuPePqiyEo2v3+SVP3/m53kaIEqSM6nAp0LKSIQVOjZ/hUiovHBGdwU3PUTF1uBA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzc4Z455pa3yqiJ7zs1FvQvo6dRGRhp48kKEa6SZRMHPvhUw7WR
+	8jQDYdn9WHLI0IAPvBs2fy33WHLHQALBU2udAYSkAOtOEnCCcEh0rJLWd8HniKq+OA8=
+X-Gm-Gg: ATEYQzzF7gFIJnu1vgCEBFVt9MUuPgQO+JfCCFcaO7LoQv68fhrWXYLaJYZ5O663B8w
+	KLbYF48GEZZSNI6lw5s2sf9V0YCbZoLkADSLPM0mWJxippY5sh5lEHMHcy0QPVGU4ayv37CAkgD
+	ws26EB8HJvW6NsailvxBLnJFUZ35pIu9iWwUnZdCURtmzpZJA8NHXa6wSnVckChVmJYEkuH+q8x
+	IkUBPBN6KpJJywaG6Kl1LJQx796fGGWYLdIOLvy8RBwg5hAMjh8ARGOhLzlPmcdqnf99TM3OkQh
+	gtUCMxvj98E1PbNw1wCj4oVj+4OI+cxj5wi/Z286D8Vz5RH/CU5ACslt/d1ottj4CuC5SNFuXSA
+	CrkdoQEw4+peEBiZJvqbemjYr5u8y7pTWaQIPlnXk4/5DFe+ZmaePeVf0hiBCVMmtIspbryApIW
+	u1m37DXRO5dSCXNqPGht0hYYfl64ETh0eTdcZH8B8=
+X-Received: by 2002:a05:600c:4e89:b0:45d:d97c:236c with SMTP id 5b1f17b1804b1-48526951430mr16785555e9.21.1772782512990;
+        Thu, 05 Mar 2026 23:35:12 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439dae2bdf8sm1953812f8f.25.2026.03.05.23.35.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Mar 2026 23:35:12 -0800 (PST)
+Date: Fri, 6 Mar 2026 10:35:09 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Shenwei Wang <shenwei.wang@nxp.com>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+	arnaud.pouliquen@foss.st.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-gpio@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Shenwei Wang <shenwei.wang@nxp.com>, Peng Fan <peng.fan@nxp.com>,
+	devicetree@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-imx@nxp.com
+Subject: Re: [PATCH v9 4/5] gpio: rpmsg: add support for NXP legacy firmware
+ protocol
+Message-ID: <202603060910.Q5zBquzF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260305-add-mcp9982-hwmon-v11-1-6e914ba63239@microchip.com>
+In-Reply-To: <20260304211808.1437846-5-shenwei.wang@nxp.com>
 
-On Thu, Mar 05, 2026 at 05:26:04PM +0200, Victor Duicu wrote:
-> Add devicetree schema for Microchip MCP998X/33 and MCP998XD/33D
-> Multichannel Automotive Temperature Monitor Family.
-> 
-> Signed-off-by: Victor Duicu <victor.duicu@microchip.com>
-> ---
+Hi Shenwei,
 
-Why you are making it every time DIFFERENT changeset? Just look at your
-change-ids. You made it impossible to compare your work!
+kernel test robot noticed the following build warnings:
 
-b4 diff '20260305-add-mcp9982-hwmon-v11-0-6e914ba63239@microchip.com'
-Grabbing thread from lore.kernel.org/all/20260305-add-mcp9982-hwmon-v11-0-6e914ba63239@microchip.com/t.mbox.gz
-Checking for older revisions
----
-Analyzing 4 messages in the thread
-Could not find lower series to compare against.
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-This is completly broken way of using b4.
+url:    https://github.com/intel-lab-lkp/linux/commits/Shenwei-Wang/docs-driver-api-gpio-rpmsg-gpio-driver-over-rpmsg-bus/20260305-052440
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
+patch link:    https://lore.kernel.org/r/20260304211808.1437846-5-shenwei.wang%40nxp.com
+patch subject: [PATCH v9 4/5] gpio: rpmsg: add support for NXP legacy firmware protocol
+config: x86_64-randconfig-161-20260306 (https://download.01.org/0day-ci/archive/20260306/202603060910.Q5zBquzF-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+smatch: v0.5.0-9004-gb810ac53
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202603060910.Q5zBquzF-lkp@intel.com/
 
-...
+smatch warnings:
+drivers/gpio/gpio-rpmsg.c:188 rpmsg_gpio_imx_send_fixed_up() error: buffer overflow 'imx_std_cmd_map' 7 <= 27
 
-> +
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - microchip,mcp9982d
-> +              - microchip,mcp9983d
-> +              - microchip,mcp9984d
-> +              - microchip,mcp9985d
-> +              - microchip,mcp9933d
-> +    then:
-> +      properties:
-> +        interrupt-names:
-> +          items:
-> +            enum: [alert-therm, sys-shtdwn]
+vim +/imx_std_cmd_map +188 drivers/gpio/gpio-rpmsg.c
 
-You need to list the items, so the first item is fixed.
+49a0cb20cd49a59 Shenwei Wang 2026-03-04  176  static int rpmsg_gpio_imx_send_fixed_up(struct rpmsg_gpio_info *info,
+49a0cb20cd49a59 Shenwei Wang 2026-03-04  177  				   struct rpmsg_gpio_packet *msg)
+49a0cb20cd49a59 Shenwei Wang 2026-03-04  178  {
+49a0cb20cd49a59 Shenwei Wang 2026-03-04  179  	struct rpmsg_gpio_nxp_packet imx_msg;
+49a0cb20cd49a59 Shenwei Wang 2026-03-04  180  
+49a0cb20cd49a59 Shenwei Wang 2026-03-04  181  	if (msg->cmd >= sizeof(imx_std_cmd_map))
 
-Best regards,
-Krzysztof
+This looks like a sizeof() vs ARRAY_SIZE() bug.
+
+49a0cb20cd49a59 Shenwei Wang 2026-03-04  182  		return -EINVAL;
+49a0cb20cd49a59 Shenwei Wang 2026-03-04  183  
+49a0cb20cd49a59 Shenwei Wang 2026-03-04  184  	imx_msg.id = IMX_RPMSG_ID;
+49a0cb20cd49a59 Shenwei Wang 2026-03-04  185  	imx_msg.vendor = IMX_RPMSG_VENDOR;
+49a0cb20cd49a59 Shenwei Wang 2026-03-04  186  	imx_msg.version = IMX_RPMSG_VERSION;
+49a0cb20cd49a59 Shenwei Wang 2026-03-04  187  	imx_msg.type = msg->type;
+49a0cb20cd49a59 Shenwei Wang 2026-03-04 @188  	imx_msg.cmd = imx_std_cmd_map[msg->cmd];
+                                                                              ^^^^^^^^
+Out of bounds.
+
+49a0cb20cd49a59 Shenwei Wang 2026-03-04  189  	imx_msg.port_idx = msg->port_idx;
+49a0cb20cd49a59 Shenwei Wang 2026-03-04  190  	imx_msg.line = msg->line;
+49a0cb20cd49a59 Shenwei Wang 2026-03-04  191  	imx_msg.val1 = msg->val1;
+49a0cb20cd49a59 Shenwei Wang 2026-03-04  192  	imx_msg.val2 = msg->val2;
+49a0cb20cd49a59 Shenwei Wang 2026-03-04  193  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
