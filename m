@@ -1,86 +1,118 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C94BC3ED10B;
-	Fri,  6 Mar 2026 15:46:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F13F73B9611
+	for <linux-doc@vger.kernel.org>; Fri,  6 Mar 2026 15:54:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772811960; cv=none; b=NsSqPxCCU2YTPX3PWQkENbZ6nYirv5VsA7mNT3BVSe5Fpe/XZG7ySC7gCOsJwHBkVlrBB8v6n0qKcZiy6wcYHS0UEYOq4zvMRwnSgrVvZyMM0jHOJ3nGqx1rWrUUzjK2UXCzaq9eNn+Eg64fK5nITJf7OQA/eyhf8daw4nvdbOY=
+	t=1772812471; cv=none; b=ZvHMwZG1SATj7DQ0qZ62ku8kbCXmn9SUsul9Oiy3qPkKlM8HxJ2sanfaeVnO7iLTsOxbLM9sImMUy0+Z1FAIcGvNhr1AX7n/QuU5Rrr7Fhsd5iHQyj7wIfvOXJCDKPAGApzFcfZfX86ebvfJEo94mIt9i2YbEadA4NizQpW42DA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772811960; c=relaxed/simple;
-	bh=I8pl1ObNgYBcBYQMqbLazkhnglEI29k6aw48idb2oew=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bzCt9vC5GERgghrfbmLWY2WtPUFszhw3RAZZKZsQnkPcfTFHsigXb9Mfkyz0ss59oFZqtf2OUNsliRXuI11TdOjH+P6J7VmeCpiLff3uZxBIu5+WOgOTlMgGmzFlaeCw+YUbL2PX2y5bx1v3MqM/4OLo4phwc+r1w2KfPIXhGgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k4Nlu4cu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772812471; c=relaxed/simple;
+	bh=DCdYafJ1q85ldEBfRTNqL/Y3XaF2wiN51HteaKHK1yo=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=uWR4kpJfZgy5iPkX80sqCdG9o5Uv3N2BS6fLqEEQWIWJScxJBuw5l7kjAjAQenQ4uyS3mCsxH5uDtFz5asbK/qqbkJff/s4285niiqJ0AyRoz2Fw1FEbiVKqPejLf7A0jBd0AA5/QJkfeKPnhHzoqAF2awmVujymlfWqDDXDFm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=kS9SQa4o; arc=none smtp.client-ip=209.85.210.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k4Nlu4cu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61A84C2BCAF;
-	Fri,  6 Mar 2026 15:46:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772811960;
-	bh=I8pl1ObNgYBcBYQMqbLazkhnglEI29k6aw48idb2oew=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=k4Nlu4cuybc12bpnN6RHsliagb4P49/Oejk962NY8Z5HC88jUv/+1FsiWZu6eXH0q
-	 jn0nZvtGXBJRS8/s8126f1RGd4Ca7HwFJYZZwd2lvURKKZRz5eUpTqFgN+Db8iNh/I
-	 93dXA1hBgzocLNU9sqb7vL9AciTk747WJa66aZZ7c5T9w6uOhcAWM0ev5B5/wOfBxa
-	 qW6hqtmKK2RNZ871DECFWxsxTaWl6KUQRljlIJ91iSBR1glUUCZ1UAbHlbjoYacnxD
-	 J2wxmY3xu7jRaT9fiF59HHQ3/PR7edlhPb4c9EDkKciMOT5FlSkK4PjB+Rb4l83SBH
-	 bsRnvADvuWj4Q==
-Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vyXNG-00000007ElA-20Da;
-	Fri, 06 Mar 2026 16:45:58 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 13/13] docs: kdoc_output: better handle lists
-Date: Fri,  6 Mar 2026 16:45:51 +0100
-Message-ID: <edea87623550a51086c23c9af0edc5e9fcce0ed6.1772810752.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <cover.1772810752.git.mchehab+huawei@kernel.org>
-References: <cover.1772810752.git.mchehab+huawei@kernel.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="kS9SQa4o"
+Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-824b3532298so3624451b3a.0
+        for <linux-doc@vger.kernel.org>; Fri, 06 Mar 2026 07:54:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1772812469; x=1773417269; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/X89hp+5U+/q1xbg5uksPepQg6bue5vmq9BCayk/Rl4=;
+        b=kS9SQa4o10cSJ2+NsKla5FLvy1bxQNCsx70vkV8CEU0wNnbpDNa8912g/x6MVME/TV
+         GvL1qHmPaUSnx8FYiHymJJ/di/Mt8wScksgj/mv9IvYrxExH3r/GFgE0MPW9KBDLVCI6
+         7KUOFV872krAkndgS1Qf5GkWOF86fEQH9B5q08TEBuNdbb6M8GRKFetJ9fiGohIvHA0g
+         h4comjQGPbCuu8s6GtHpFjbjNoeP4QyM+pvCtxA7bBvIoizkxTNz+v7MCbIlt9pfzIJa
+         yh0Mt24fw4SX2qkyynKR6gNc0oyETdIIBwybnvyb/Dt2kqVoDfDbmPa5Ga2tB7DkIt9U
+         7ejw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772812469; x=1773417269;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/X89hp+5U+/q1xbg5uksPepQg6bue5vmq9BCayk/Rl4=;
+        b=LPCamDiE17tOLjIWeFrguyxNzLiNofM1f6XXIyV6aOxPLzYm6L+aCC5SzAkXatWuQ6
+         th3Qwqvqv40qwjRCl04bIhnJLPiGHUjuyT53rtDoj9TXtLwOtGfMNJ34OuIUSGjxgNf8
+         14nwpVKBmju8jHXK+yL8GWlV/v8JsXmxwvcBgpChMI86XzMbMRk9ZUX6x13sfrMUA3NE
+         9EVShFcN4OZV7NpgGyhTW6QpKAggMxA8oaAYAdaWBf9dOrJ6Elb3yrvszP9oQD1VwXDh
+         dgvFcDFGjxvlubvtkzsBtc5DIqOafJft40brV11tPDItmU/Yly3kysEvKdItZctaTQov
+         1foA==
+X-Forwarded-Encrypted: i=1; AJvYcCWkZVa8JvLJJrc7+nMcDj+Ez+9aP3bxQvQpNzS1UOA7EOp85O/jADI3d9uX8pVrbOpCa8LXikKnfdQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQPa6UCwudMeDkNIL56wxA1wHNXhhp1SPqlR8eylmMlndrMIcG
+	gOlE8U929ka3XdkaNGYl8aII1tfzaDqTAO8UVf2gRkyt8M9fRdpMiXREzlez5zQPn3LYmqIXlRw
+	CMqVggA==
+X-Received: from pfbfa30.prod.google.com ([2002:a05:6a00:2d1e:b0:829:9a65:4170])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:1a8c:b0:800:8fdf:1a54
+ with SMTP id d2e1a72fcca58-829a2f4a0bbmr2373665b3a.34.1772812469067; Fri, 06
+ Mar 2026 07:54:29 -0800 (PST)
+Date: Fri, 6 Mar 2026 07:54:27 -0800
+In-Reply-To: <aao8SbZMHT302dDS@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Mime-Version: 1.0
+References: <20251026201911.505204-1-xin@zytor.com> <20251026201911.505204-9-xin@zytor.com>
+ <aRQf1sQZ9Z3CTB8i@intel.com> <aajS9HFx5HabmCTq@google.com> <aao8SbZMHT302dDS@intel.com>
+Message-ID: <aar4s6pGYOlKQp4Q@google.com>
+Subject: Re: [PATCH v9 08/22] KVM: VMX: Set FRED MSR intercepts
+From: Sean Christopherson <seanjc@google.com>
+To: Chao Gao <chao.gao@intel.com>
+Cc: "Xin Li (Intel)" <xin@zytor.com>, linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net, 
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, luto@kernel.org, 
+	peterz@infradead.org, andrew.cooper3@citrix.com, hch@infradead.org, 
+	sohil.mehta@intel.com
+Content-Type: text/plain; charset="us-ascii"
 
-On several functions, the return values are inside a bullet
-list. Also, on some places, there are numbered lists as well.
+On Fri, Mar 06, 2026, Chao Gao wrote:
+> On Wed, Mar 04, 2026 at 04:48:52PM -0800, Sean Christopherson wrote:
+> >On Wed, Nov 12, 2025, Chao Gao wrote:
+> >> On Sun, Oct 26, 2025 at 01:18:56PM -0700, Xin Li (Intel) wrote:
+> >> >From: Xin Li <xin3.li@intel.com>
+> >> >
+> >> >On a userspace MSR filter change, set FRED MSR intercepts.
+> >> >
+> >> >The eight FRED MSRs, MSR_IA32_FRED_RSP[123], MSR_IA32_FRED_STKLVLS,
+> >> >MSR_IA32_FRED_SSP[123] and MSR_IA32_FRED_CONFIG, are all safe to
+> >> >passthrough, because each has a corresponding host and guest field
+> >> >in VMCS.
+> >> 
+> >> Sean prefers to pass through MSRs only when there is a reason to do that rather
+> >> than just because it is free. My thinking is that RSPs and SSPs are per-task
+> >> and are context-switched frequently, so we need to pass through them. But I am
+> >> not sure if there is a reason for STKLVLS and CONFIG.
+> >
+> >There are VMCS fields, at which point intercepting and emulating is probably
+> >more work than just letting the guest access directly. :-/
+> 
+> Just drop the MSR intercepting code and everything should work, right? KVM
+> needs to handle userspace writes anyway. so, there is no "more work" to me.
 
-Use a troff markup to format them, to avoid placing everything
-on a single line.
+True.  I was thinking KVM would need to marshall the value to/from the hardware
+MSR, but that's obviously not necessary :-)  (and also would be comically wrong).
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- tools/lib/python/kdoc/kdoc_output.py | 8 ++++++++
- 1 file changed, 8 insertions(+)
+After working through the various implications, I think it makes to adjust the
+"rule" to be "if necessary for performance OR it's _completely_ free (minus the
+interception toggling)" (and in both cases, obviously disabling interception needs
+to be functionally safe/correct too).  Because I think we'll end up with confusing
+code if we limit disable interception only for performance reasons.
 
-diff --git a/tools/lib/python/kdoc/kdoc_output.py b/tools/lib/python/kdoc/kdoc_output.py
-index df9af444da57..08539dd92cbb 100644
---- a/tools/lib/python/kdoc/kdoc_output.py
-+++ b/tools/lib/python/kdoc/kdoc_output.py
-@@ -963,6 +963,14 @@ class ManFormat(OutputFormat):
-                     i += 1
-                     continue
- 
-+                #
-+                # Handle lists
-+                #
-+                line = KernRe(r'^[-*]\s+').sub(r'.IP \[bu]\n', line)
-+                line = KernRe(r'^(\d+|a-z)[\.\)]\s+').sub(r'.IP \1\n', line)
-+            else:
-+                line = ".PP\n"
-+
-             i += 1
- 
-             self.data += line + "\n"
--- 
-2.52.0
+E.g. I can't imagine MSR_IA32_S_CET will get modified post-boot, so by the
+performance-only rule, KVM should always intercept S_CET.  But MSR_IA32_U_CET
+can be read/written much more frequency, and so should be passed through.  And
+then we'd end up intercept S_CET but not U_CET, which _looks_ wrong.
 
+The FRED MSRs fall into the same boat.  Intercepting only STKLVLS and CONFIG is
+likely a-ok from a performance perspective, but once this is all merged and folks
+that weren't part of this discussion come along, readers will likely be wondering
+why STKLVLS and CONFIG are "missing".
+
+All in all, unless someone has an functional or performance argument against
+disabling interception, I think it makes sense to disabling interception for all
+FRED MSRs that are context switched by hardware.
