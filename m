@@ -1,73 +1,54 @@
-Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010068.outbound.protection.outlook.com [52.101.201.68])
+Received: from fra-out-009.esa.eu-central-1.outbound.mail-perimeter.amazon.com (fra-out-009.esa.eu-central-1.outbound.mail-perimeter.amazon.com [3.64.237.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7667638F247;
-	Fri,  6 Mar 2026 12:14:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.68
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772799265; cv=fail; b=GOfkpN0N6ioLmCrnsWzrdJMcSEw3xibmwZVksFj6p8YkOKd2ZJ6z5nKouOPUdrVu82wkBEgiKYI3DqLYScvOXXqbLmO2d7sBOaOaRaOxaaGuR1tdkGL87g0v1Zs5EToqUWRuxljBGxJb7Lnkjyi99Q1Q32YZEdDQ5eMqQlLVEA8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772799265; c=relaxed/simple;
-	bh=T2Rihzd4W7pcTlelIruDKU/W7vn9vrtP+KlP8kuITFI=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C79A038F244;
+	Fri,  6 Mar 2026 12:48:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=3.64.237.68
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772801329; cv=none; b=eLWs/Yys7miASR9VEw+yWKT925EoLZdAExanmiOSrZOZKOMqMXL9BFFpYE7tfqU+oaJlRGiLclwkD4hftMMTH08L7jTRPMtg9KVgzyQIJohAAkSV1yyiIpv5h2WD2PjjERFPodlWL62d2Ys77tyv1YC/Niz+ydh7CfpzFayCN1o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772801329; c=relaxed/simple;
+	bh=A4w55fhkSP5SYqH4itJWFNtaO6TtNfPXoavYXd9Qto0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=OIUZiqJ3RyPjuKwRp84FIBl43Be8iheGCtAd28CdaqaZwcUzYQprT9HXQAiY0ko7fOb57yuDYc38lf88T6sa9F2o2peATiCoiqKYIzrUqyf+WcyZVW4KmzjcdI56IQBfweubh30tduvaDu18s4wj0fmr2/0R8TRZOtQ4q+152PI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=CNMC8amu; arc=fail smtp.client-ip=52.101.201.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	 In-Reply-To:Content-Type; b=Yi76rrrboO7WgW+mkJGTWkZNVm4h33Iokc2cd6VqXVFDDsjMll4LgnJVaWs0enkXuQyEbW6ZA3LeNwhs8OF0lHexOE6UICt5I6VXiu0nwxEzikmjDBJJjp2PNJ9gykIPwsOrwLY4w4NCSe8tD8NeWX+mj2mm9CVAG8iFc5nuWhM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=qJl9tLI6; arc=none smtp.client-ip=3.64.237.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="CNMC8amu"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FZ5k77fBZUeLx/I7ORfiZQ/DSDf5KLXnLSMSJHUV3gl0x3lobXLiJOiGQhcIYwCBlOZoWrRrt1b39jx6rGXUv/NSfwb/0nlpjMOcTjuIRvBK2PqfP39VBMvUjfJIba+UNaWoe8xSjhdYnQ5lEuDd7isCHbUCJFfBI1Cc07IPm/HQSJ92ogTqTC5LgKcy3/iGaZSJqHOpBDDMyPgec+aAWrji1hoOf64H5vQ2M0nkazbyG/xWK8diCPy7428PBSAympYMYImEOr7WxVoC1QoJ/q5nJtm/+0vdkf2Nzw7/yVtIWPZK+bu8gtIzu1LVHQqErILfP1g8DbVaRB6KH8viZw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RdjIJ0nMeZYZKbO40/GLR+QpLrTHUeu3UmPwKzatuc8=;
- b=cWG+REBRSQFfEWvD+hNCtle8++KsigczKlvKTq6qSxLTvWZxyjwsTsw1aB+mVjJ1uWXts82qPjr78y9m9y/VLRngxFfHw+fvuuhfIRlmWwwrd2pw/TWOL6Q6klmR6/+J1MQopVDkJfTzCiVhlE7rsbEDSq1r31pvvzig+tmXJbmB6DTtRGvnN5vrKdsJHpy0w52RfFK77zma2p1m36KXlu9FixVp971WTo20Fs9Au6TMglT7D9fSmmH9og5HLUIWieMROPxZLEwdCjqUGT6ev6bv3p9qYtm6VxtK7UGNo+v8rVWEHU77vcp/2PxlPFTfUGodqRemMAhvh9Tr5OKB6A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.21.195) smtp.rcpttodomain=lists.infradead.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RdjIJ0nMeZYZKbO40/GLR+QpLrTHUeu3UmPwKzatuc8=;
- b=CNMC8amuVSh9WLVWWkXb1e5rUSbcKPG9fcd5hfOGNfesyP7wnvCIMUKJFVo9RKPWjamfazGjpvSpz5lTC/3B8PEkeOmhxi4h5LcKQoPnO5xofFAHmTHbcbQe5gy0o2XiPcJ+yJaqSeONCGKjtOEt2yzpa573KTkac+Gqrv7kqmc=
-Received: from DM6PR08CA0066.namprd08.prod.outlook.com (2603:10b6:5:1e0::40)
- by MW4PR10MB6396.namprd10.prod.outlook.com (2603:10b6:303:1e9::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.18; Fri, 6 Mar
- 2026 12:14:20 +0000
-Received: from CY4PEPF0000E9D1.namprd03.prod.outlook.com
- (2603:10b6:5:1e0:cafe::8e) by DM6PR08CA0066.outlook.office365.com
- (2603:10b6:5:1e0::40) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9678.19 via Frontend Transport; Fri,
- 6 Mar 2026 12:14:18 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.195)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.21.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.21.195; helo=flwvzet201.ext.ti.com; pr=C
-Received: from flwvzet201.ext.ti.com (198.47.21.195) by
- CY4PEPF0000E9D1.mail.protection.outlook.com (10.167.241.136) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9678.18 via Frontend Transport; Fri, 6 Mar 2026 12:14:19 +0000
-Received: from DFLE207.ent.ti.com (10.64.6.65) by flwvzet201.ext.ti.com
- (10.248.192.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 6 Mar
- 2026 06:14:08 -0600
-Received: from DFLE210.ent.ti.com (10.64.6.68) by DFLE207.ent.ti.com
- (10.64.6.65) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 6 Mar
- 2026 06:14:08 -0600
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE210.ent.ti.com
- (10.64.6.68) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Fri, 6 Mar 2026 06:14:08 -0600
-Received: from [172.24.231.225] (a0507033-hp.dhcp.ti.com [172.24.231.225])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 626CE4Ol3780763;
-	Fri, 6 Mar 2026 06:14:05 -0600
-Message-ID: <9e5f094b-a55e-40db-95f6-afcf487b3f40@ti.com>
-Date: Fri, 6 Mar 2026 17:44:04 +0530
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="qJl9tLI6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1772801327; x=1804337327;
+  h=message-id:date:mime-version:reply-to:subject:to:cc:
+   references:from:in-reply-to:content-transfer-encoding;
+  bh=bMQYOYMXLfYYqfrzv9J2aTP1fDeqWn0su8Gslng5WAw=;
+  b=qJl9tLI6Hmyo/cvynocC/dXRUh6jTzwgUewXZHe5Qx3AqbGjsC/cvgHe
+   GYoZXOO1tUCAOOHHOfR+Q9AO0pYhzUQCBYe4g8OUwMtZPU8+mNmklmL1X
+   6ifSEp2IHSGmA2Hzq1YxFJfLl2A+gzoDp+LWtP932fRUaBKSdIqSocb7K
+   84GfU5suoK6/w2pac4s/CoUj/ce6Ack1D+uodCJsgwqOeAIYjB1rhzA9+
+   qzT/ArGvxWtrLw4J9sxk/meMNDwTYlRwRB4OPeH2VvkKNXhOJR9KrmMA6
+   eSITT6cdyNGNGTSbyS0SKMWH7iodhFgbkfXgOsA0VYTtMtQ+ZlqoTB+Nl
+   w==;
+X-CSE-ConnectionGUID: Yx/EHmQHRFy5mQfbcc7SOQ==
+X-CSE-MsgGUID: vFI11kARTzO+6Dwqg0rWgg==
+X-IronPort-AV: E=Sophos;i="6.23,104,1770595200"; 
+   d="scan'208";a="10334043"
+Received: from ip-10-6-3-216.eu-central-1.compute.internal (HELO smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.3.216])
+  by internal-fra-out-009.esa.eu-central-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2026 12:48:42 +0000
+Received: from EX19MTAEUB002.ant.amazon.com [54.240.197.224:9741]
+ by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.16.189:2525] with esmtp (Farcaster)
+ id 782955b1-d49c-41df-ab22-e29b6a3853bb; Fri, 6 Mar 2026 12:48:42 +0000 (UTC)
+X-Farcaster-Flow-ID: 782955b1-d49c-41df-ab22-e29b6a3853bb
+Received: from EX19D005EUB003.ant.amazon.com (10.252.51.31) by
+ EX19MTAEUB002.ant.amazon.com (10.252.51.59) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
+ Fri, 6 Mar 2026 12:48:41 +0000
+Received: from [192.168.2.180] (10.106.83.26) by EX19D005EUB003.ant.amazon.com
+ (10.252.51.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37; Fri, 6 Mar 2026
+ 12:48:36 +0000
+Message-ID: <92fcec4f-43f9-4207-8472-eb94874f2efd@amazon.com>
+Date: Fri, 6 Mar 2026 12:48:35 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -75,104 +56,189 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 3/4] PCI/DOE: Add DOE mailbox support for endpoint
- functions
-To: Manivannan Sadhasivam <mani@kernel.org>, Alistair Francis
-	<alistair@alistair23.me>
-CC: <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<bhelgaas@google.com>, <corbet@lwn.net>, <cassel@kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<s-vadapalli@ti.com>, <danishanwar@ti.com>, <srk@ti.com>
-References: <20260213123603.420941-1-a-garg7@ti.com>
- <20260213123603.420941-4-a-garg7@ti.com>
- <1907366a-e6d6-41ac-b61d-6e65e9dafe9a@alistair23.me>
- <m7zyatomfy37j3dmvefkxr2waokhgj3qjl65fsnn7tsug3bti4@q77qhwwmauwo>
+Reply-To: <kalyazin@amazon.com>
+Subject: Re: [PATCH v10 01/15] set_memory: set_direct_map_* to take address
+To: "David Hildenbrand (Arm)" <david@kernel.org>, "Kalyazin, Nikita"
+	<kalyazin@amazon.co.uk>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "kvmarm@lists.linux.dev"
+	<kvmarm@lists.linux.dev>, "linux-fsdevel@vger.kernel.org"
+	<linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+	"kernel@xen0n.name" <kernel@xen0n.name>, "linux-riscv@lists.infradead.org"
+	<linux-riscv@lists.infradead.org>, "linux-s390@vger.kernel.org"
+	<linux-s390@vger.kernel.org>, "loongarch@lists.linux.dev"
+	<loongarch@lists.linux.dev>
+CC: "pbonzini@redhat.com" <pbonzini@redhat.com>, "corbet@lwn.net"
+	<corbet@lwn.net>, "maz@kernel.org" <maz@kernel.org>, "oupton@kernel.org"
+	<oupton@kernel.org>, "joey.gouly@arm.com" <joey.gouly@arm.com>,
+	"suzuki.poulose@arm.com" <suzuki.poulose@arm.com>, "yuzenghui@huawei.com"
+	<yuzenghui@huawei.com>, "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+	"will@kernel.org" <will@kernel.org>, "seanjc@google.com" <seanjc@google.com>,
+	"tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>,
+	"bp@alien8.de" <bp@alien8.de>, "dave.hansen@linux.intel.com"
+	<dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>,
+	"hpa@zytor.com" <hpa@zytor.com>, "luto@kernel.org" <luto@kernel.org>,
+	"peterz@infradead.org" <peterz@infradead.org>, "willy@infradead.org"
+	<willy@infradead.org>, "akpm@linux-foundation.org"
+	<akpm@linux-foundation.org>, "lorenzo.stoakes@oracle.com"
+	<lorenzo.stoakes@oracle.com>, "vbabka@suse.cz" <vbabka@suse.cz>,
+	"rppt@kernel.org" <rppt@kernel.org>, "surenb@google.com" <surenb@google.com>,
+	"mhocko@suse.com" <mhocko@suse.com>, "ast@kernel.org" <ast@kernel.org>,
+	"daniel@iogearbox.net" <daniel@iogearbox.net>, "andrii@kernel.org"
+	<andrii@kernel.org>, "martin.lau@linux.dev" <martin.lau@linux.dev>,
+	"eddyz87@gmail.com" <eddyz87@gmail.com>, "song@kernel.org" <song@kernel.org>,
+	"yonghong.song@linux.dev" <yonghong.song@linux.dev>,
+	"john.fastabend@gmail.com" <john.fastabend@gmail.com>, "kpsingh@kernel.org"
+	<kpsingh@kernel.org>, "sdf@fomichev.me" <sdf@fomichev.me>,
+	"haoluo@google.com" <haoluo@google.com>, "jolsa@kernel.org"
+	<jolsa@kernel.org>, "jgg@ziepe.ca" <jgg@ziepe.ca>, "jhubbard@nvidia.com"
+	<jhubbard@nvidia.com>, "peterx@redhat.com" <peterx@redhat.com>,
+	"jannh@google.com" <jannh@google.com>, "pfalcato@suse.de" <pfalcato@suse.de>,
+	"shuah@kernel.org" <shuah@kernel.org>, "riel@surriel.com" <riel@surriel.com>,
+	"ryan.roberts@arm.com" <ryan.roberts@arm.com>, "jgross@suse.com"
+	<jgross@suse.com>, "yu-cheng.yu@intel.com" <yu-cheng.yu@intel.com>,
+	"kas@kernel.org" <kas@kernel.org>, "coxu@redhat.com" <coxu@redhat.com>,
+	"kevin.brodsky@arm.com" <kevin.brodsky@arm.com>, "ackerleytng@google.com"
+	<ackerleytng@google.com>, "maobibo@loongson.cn" <maobibo@loongson.cn>,
+	"prsampat@amd.com" <prsampat@amd.com>, "mlevitsk@redhat.com"
+	<mlevitsk@redhat.com>, "jmattson@google.com" <jmattson@google.com>,
+	"jthoughton@google.com" <jthoughton@google.com>, "agordeev@linux.ibm.com"
+	<agordeev@linux.ibm.com>, "alex@ghiti.fr" <alex@ghiti.fr>,
+	"aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>, "borntraeger@linux.ibm.com"
+	<borntraeger@linux.ibm.com>, "chenhuacai@kernel.org" <chenhuacai@kernel.org>,
+	"dev.jain@arm.com" <dev.jain@arm.com>, "gor@linux.ibm.com"
+	<gor@linux.ibm.com>, "hca@linux.ibm.com" <hca@linux.ibm.com>,
+	"palmer@dabbelt.com" <palmer@dabbelt.com>, "pjw@kernel.org" <pjw@kernel.org>,
+	"shijie@os.amperecomputing.com" <shijie@os.amperecomputing.com>,
+	"svens@linux.ibm.com" <svens@linux.ibm.com>, "thuth@redhat.com"
+	<thuth@redhat.com>, "wyihan@google.com" <wyihan@google.com>,
+	"yang@os.amperecomputing.com" <yang@os.amperecomputing.com>,
+	"Jonathan.Cameron@huawei.com" <Jonathan.Cameron@huawei.com>,
+	"Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>, "urezki@gmail.com"
+	<urezki@gmail.com>, "zhengqi.arch@bytedance.com"
+	<zhengqi.arch@bytedance.com>, "gerald.schaefer@linux.ibm.com"
+	<gerald.schaefer@linux.ibm.com>, "jiayuan.chen@shopee.com"
+	<jiayuan.chen@shopee.com>, "lenb@kernel.org" <lenb@kernel.org>,
+	"osalvador@suse.de" <osalvador@suse.de>, "pavel@kernel.org"
+	<pavel@kernel.org>, "rafael@kernel.org" <rafael@kernel.org>,
+	"vannapurve@google.com" <vannapurve@google.com>, "jackmanb@google.com"
+	<jackmanb@google.com>, "aneesh.kumar@kernel.org" <aneesh.kumar@kernel.org>,
+	"patrick.roy@linux.dev" <patrick.roy@linux.dev>, "Thomson, Jack"
+	<jackabt@amazon.co.uk>, "Itazuri, Takahiro" <itazur@amazon.co.uk>,
+	"Manwaring, Derek" <derekmn@amazon.com>, "Cali, Marco"
+	<xmarcalx@amazon.co.uk>
+References: <20260126164445.11867-1-kalyazin@amazon.com>
+ <20260126164445.11867-2-kalyazin@amazon.com>
+ <90058ff2-9dea-4090-b2e6-da4c3cdba81b@kernel.org>
 Content-Language: en-US
-From: Aksh Garg <a-garg7@ti.com>
-In-Reply-To: <m7zyatomfy37j3dmvefkxr2waokhgj3qjl65fsnn7tsug3bti4@q77qhwwmauwo>
+From: Nikita Kalyazin <kalyazin@amazon.com>
+In-Reply-To: <90058ff2-9dea-4090-b2e6-da4c3cdba81b@kernel.org>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000E9D1:EE_|MW4PR10MB6396:EE_
-X-MS-Office365-Filtering-Correlation-Id: f638d2a3-7577-40bb-e5f7-08de7b79e4c1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|36860700016|1800799024|34020700016|82310400026;
-X-Microsoft-Antispam-Message-Info:
-	LCbqqTR1nuBMuYJhAjWYQ07GSu8xo4X+JLEdGUd5OiNyv/rqU3114XD2bI8so5nhQq7igwwcCRJngUFVDNlD8BZEzsMHUWnMaO3edEjftoBoMrFTWnJT1D/MHniHe/MHt2tbwAG010ZEwZW78WOzOoHfDJD9h+t850j1yxL230AeyjmoPwtlLlb0UP+uXscrReOo7VEPCY9eBEVOm8QiEq2IJt6on2eq7isu16eU6cqGcg31db/1C3qKa5D+VOpdGDeIttSFG8cbCt9CXLkkwRlgv0xiPp+t0ANCVHlVx3kjNMdT8eb5JkNBM1vzzfbksVOwrmbLJqOW45vQjmU7zSCCQwm3ytiyTIpPOnLWSLFc9coeMRuZeg3+n+xTGAC7fOnAVS5OH+2umy3xB0XS7iVte4ZB2aMPVlu+EzgeoaotdTAtE6bXq4IOTAUzH6tufluxnFS1Xqg0vP40pY2h/iqjlDjWvPlOjTMsRHjjdqStm/dPqPdVG3VcKZvaByLX/an3itwG3Y7dn0lgsaNaLqWIuySPs3bsucE9u8tbeI+lQmoSJpfYoOTrQ4skzVUls/fmihX+cKfKUmQnLxH1sJaZ1ehiupb1F7+BfDebvL8GwUIYMkv0Zr6yD1q4DAqQgb/3whOR5POG+fMGx3WpVaZJOYNvj/gi2wqdFvhsEDD8peOraAaecpgiHpin211bTBYvoZc0mi7io98dFij8nHUz+yedy9AGj7ebyIFis7L56nB6XgxlQnzGjZ5PTkoynnl9ZjnySAksV1lcLuVrlw==
-X-Forefront-Antispam-Report:
-	CIP:198.47.21.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet201.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(376014)(36860700016)(1800799024)(34020700016)(82310400026);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	6XTr0RTsG/UzOlQqkfWX0lnmS3EwfvXTkDFQRaPDx92BgTbdCKpQpMpvUq3Jy6Mjdz8wa29b6SdV8/ymXmXPM4FxML+i2VZimOm3isWE1MBUFlZ61P2u6JsjLruIgIsxxQ+SAlJLj+PVJjI8EWpxjEoSyq2pSdIc5XGOR2D68VAZD79wrFp6H8Q8WXzzKRgsjGqUD6zd/0vch4gsxu/xukjxmBnUhU0IgtvKPOEOqjQfvD0BlNJ59hSkmWmlIGH8tTeVCjffCLD2LmrJP9Or6w1eT1nvNGzo4M8mBTYiJE6TmtTea8GScoJr1f+XzuO1GNKOGZ/mkA2nx+M269SPhYk9izBUNODmUSZH3ACKpi7v1DSngYeWtL7c+bbrqN0a7pzW7BTaymI3e9JVjEsS6OQjFO7hIoetQSBY/d2Hz+UlLzsaf8MnxtZIW/0BWTiY
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2026 12:14:19.1555
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f638d2a3-7577-40bb-e5f7-08de7b79e4c1
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.195];Helo=[flwvzet201.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CY4PEPF0000E9D1.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR10MB6396
+X-ClientProxiedBy: EX19D002EUA002.ant.amazon.com (10.252.50.7) To
+ EX19D005EUB003.ant.amazon.com (10.252.51.31)
 
-Mani, Alistair
 
-On 04/03/26 19:48, Manivannan Sadhasivam wrote:
-> On Wed, Feb 18, 2026 at 02:28:23PM +1000, Alistair Francis wrote:
->> On 13/2/26 22:36, Aksh Garg wrote:
->>> From: Aksh Garg <a-garg7@ti.com>
->>>
->>> DOE (Data Object Exchange) is a standard PCIe extended capability
->>> feature introduced in the Data Object Exchange (DOE) ECN for
->>> PCIe r5.0. It provides a communication mechanism primarily used for
->>> implementing PCIe security features such as device authentication, and
->>> secure link establishment. Think of DOE as a sophisticated mailbox
->>> system built into PCIe. The root complex can send structured requests
->>> to the endpoint device through DOE mailboxes, and the endpoint device
->>> responds with appropriate data.
->>>
->>> Add the DOE support for PCIe endpoint devices, enabling endpoint
->>> functions to process the DOE requests from the host. The implementation
->>> provides framework APIs for controller drivers to register mailboxes,
->>> protocol handler registration for different DOE data object types, and
->>> request processing with workqueues ensuring sequential handling per
->>> mailbox. The Discovery protocol is handled internally by the DOE core.
->>>
->>> This implementation complements the existing DOE implementation for
->>> root complex in drivers/pci/doe.c.
+
+On 05/03/2026 17:23, David Hildenbrand (Arm) wrote:
+> On 1/26/26 17:46, Kalyazin, Nikita wrote:
+>> From: Nikita Kalyazin <kalyazin@amazon.com>
 >>
->> This looks good to me!
+>> This is to avoid excessive conversions folio->page->address when adding
+>> helpers on top of set_direct_map_valid_noflush() in the next patch.
 >>
->> I would love to see a handler implementation and integration with a driver
->> as well.
->>
->> For SPDM the handler could even be in userspace
->>
+>> Signed-off-by: Nikita Kalyazin <kalyazin@amazon.com>
+>> ---
+>>   arch/arm64/include/asm/set_memory.h     |  7 ++++---
+>>   arch/arm64/mm/pageattr.c                | 19 +++++++++----------
+>>   arch/loongarch/include/asm/set_memory.h |  7 ++++---
+>>   arch/loongarch/mm/pageattr.c            | 25 ++++++++++++-------------
+>>   arch/riscv/include/asm/set_memory.h     |  7 ++++---
+>>   arch/riscv/mm/pageattr.c                | 17 +++++++++--------
+>>   arch/s390/include/asm/set_memory.h      |  7 ++++---
+>>   arch/s390/mm/pageattr.c                 | 13 +++++++------
+>>   arch/x86/include/asm/set_memory.h       |  7 ++++---
+>>   arch/x86/mm/pat/set_memory.c            | 23 ++++++++++++-----------
+>>   include/linux/set_memory.h              |  9 +++++----
+>>   kernel/power/snapshot.c                 |  4 ++--
+>>   mm/execmem.c                            |  6 ++++--
+>>   mm/secretmem.c                          |  6 +++---
+>>   mm/vmalloc.c                            | 11 +++++++----
+>>   15 files changed, 90 insertions(+), 78 deletions(-)
 > 
-> +1. We should not be introducing dead APIs.
+> [...]
 > 
-> - Mani
+>> --- a/arch/loongarch/mm/pageattr.c
+>> +++ b/arch/loongarch/mm/pageattr.c
+>> @@ -198,32 +198,31 @@ bool kernel_page_present(struct page *page)
+>>        return pte_present(ptep_get(pte));
+>>   }
+>>
+>> -int set_direct_map_default_noflush(struct page *page)
+>> +int set_direct_map_default_noflush(const void *addr)
+>>   {
+>> -     unsigned long addr = (unsigned long)page_address(page);
+>> -
+>> -     if (addr < vm_map_base)
+>> +     if ((unsigned long)addr < vm_map_base)
+>>                return 0;
+>>
+>> -     return __set_memory(addr, 1, PAGE_KERNEL, __pgprot(0));
+>> +     return __set_memory((unsigned long)addr, 1, PAGE_KERNEL, __pgprot(0));
+>>   }
+>>
+>> -int set_direct_map_invalid_noflush(struct page *page)
+>> +int set_direct_map_invalid_noflush(const void *addr)
+>>   {
+>> -     unsigned long addr = (unsigned long)page_address(page);
+>> +     unsigned long addr = (unsigned long)addr;
+> 
+> Are you sure you want a local variable with the exact same name
 > 
 
-I am planning to remove the register/unregister protocol APIs, and add a
-static array of 'struct pci_doe_protocol' instead of a dynamic xarray.
-By this, we would not be relying on someone to call the register
-protocol on behalf of a library.
-Whenever a new library comes up for DOE protocol, the library would have
-the handler function, and the static array simply needs to populated
-with this handler function in doe-ep.c
+You're right.  Thanks for spotting that.
 
-Please share your thoughts on this approach.
-
->> Alistair
+> ...
+> 
 >>
->>>
->>> Co-developed-by: Siddharth Vadapalli <s-vadapalli@ti.com>
->>> Signed-off-by: Siddharth Vadapalli <s-vadapalli@ti.com>
->>> Signed-off-by: Aksh Garg <a-garg7@ti.com>
->>> ---
+>> -     if (addr < vm_map_base)
+>> +     if ((unsigned long)addr < vm_map_base)
+>>                return 0;
+>>
+>> -     return __set_memory(addr, 1, __pgprot(0), __pgprot(_PAGE_PRESENT | _PAGE_VALID));
+>> +     return __set_memory((unsigned long)addr, 1, __pgprot(0),
+>> +                         __pgprot(_PAGE_PRESENT | _PAGE_VALID));
+> 
+> And cast it to (unsigned long) even though not required two times? :)
+> 
+> I assume you wanted to get rid of the local varable.
+
+Yes, that's what I meant.
+
+> 
+>>   }
+>>
+>> -int set_direct_map_valid_noflush(struct page *page, unsigned nr, bool valid)
+>> +int set_direct_map_valid_noflush(const void *addr, unsigned long numpages,
+>> +                              bool valid)
+> 
+> 
+> 
+> Nothing else jumped at me.
+> 
+> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+
+Thanks!
+
+> 
+> It would be good to get some ACK from some arch people that are CCed :)
+> 
+> --
+> Cheers,
+> 
+> David
+
