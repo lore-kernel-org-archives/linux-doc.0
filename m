@@ -1,142 +1,272 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 081464218BE;
-	Fri,  6 Mar 2026 17:11:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E1123F0775;
+	Fri,  6 Mar 2026 17:14:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772817098; cv=none; b=mXl2QPA0uEa6LdVuGdpequZYFCC/fEgTmqCpn1IP+nEDODxefsaYiTRvPpC97byiOGRvlNHhGKAo3mlMDls3zbb+PRca32MkAXuFNEJ2iGVp7CkvnILcsqCeHp3xO37p1fIPppJhIXRdIzq2DQhGUVM7NXo/H42aMxYsnqISn3A=
+	t=1772817287; cv=none; b=mNfpbLHu5xJyL2xH6ZpGY7tRg6t1gLVboMPbIdy7Ui4CIGNywE0HJF9z5p9iyiS5+kh0JjPNM+UHA9FVsQiGz64c7KfSh9hR1CB7j+U/TBm7d3KaxMoXPyePne08mUfp3Xilq71xbCnnjIMwYbtSp72pC1CvEuZYpzaLHe6Dpjs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772817098; c=relaxed/simple;
-	bh=NZIFgTqhh8EXiLLs/nxGZ8SnCnhPPbRnuUWQ0HANKVQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=emdUhYUlyxQqTv+0pWpa56wlDsTD6cJtTBvece6LR9APyRDcPFfk0PiX7rey8sY057bn4Ix8RFLMQ7S7QeMvZCt97p91wiKglzMlh0/IaTCY+bQo758p4FZZBGiqzNihY8kMRi4kMSaGT1DNzxw09o9XbKXrUW+dG3/WrHpMdO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pkYVXB8H; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772817287; c=relaxed/simple;
+	bh=lpakn6rDgrUOoPMBtHcGIDZVCwWXH4+PKRrLVmfU6ls=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cqDqMY4Dovy/e5a/kyEc4Yci4YgKb1JL2TraMxgZi4bSGFxfOWEBcXkzq/d1NgOKNAWP0+PqSvqdcdiB8RkcH4AZSnTGnZV45PFSWQ8Y9HRK6UE7FRHsxgDOKohzJe/e4fFf5qwfnRrXY08qK1kd2qJeuA8a7yZYWfkKgpceZ8o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u7up+pTV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pkYVXB8H"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDDFDC19425;
-	Fri,  6 Mar 2026 17:11:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u7up+pTV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C404DC4CEF7;
+	Fri,  6 Mar 2026 17:14:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772817097;
-	bh=NZIFgTqhh8EXiLLs/nxGZ8SnCnhPPbRnuUWQ0HANKVQ=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=pkYVXB8H7vKkPXZgZCgjPpnjMqxBKbjFIMuRJTGiM3BUto0m1fiQYC25++c4eJM17
-	 oJqfV9pYBzTYXjU1zqbJhPBjEdHUTALKi3cU3lhLHBm4tOom7isS2/Ic9hkO5Sqx6o
-	 kqRdqZZGyKzwpdpGWcu4k57LympBFNwhusj+bhQKjH/2j5JhFTQaIKbHcfASRJSAeq
-	 Hz9zs88t2F9ocLtbPVFKc6Cqk/D3b23MaSjA31Kqq3xDBNnJ2SqZYCZrKM37SzvJ+3
-	 z84LQBq2wY8fSSsHnsxDgrlDyu5D5r9El6Y+5ft1ZlR029CD081PO05YP6sLnoiqdM
-	 GK0vy12EpfhUg==
-From: Mark Brown <broonie@kernel.org>
-Date: Fri, 06 Mar 2026 17:01:22 +0000
-Subject: [PATCH v10 30/30] KVM: arm64: selftests: Add SME to set_id_regs
- test
+	s=k20201202; t=1772817287;
+	bh=lpakn6rDgrUOoPMBtHcGIDZVCwWXH4+PKRrLVmfU6ls=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=u7up+pTVJoNlVgn/INPXa3TulXtn7QufEdeCHdlp/W2RYrBdPDAR7AgHoggI6XcMx
+	 vUZt3PAEbHwa3L9vxNv1CDHw/ZVi0OdW6dNNyJaexBo/Jz8Onf5uhnHa+9d9TaGZ3l
+	 feSe2v+fx/ZClwGd3C+CO3RbRdYs7gNzps7GiwbG2YMuRMk3RihBAkzUZeFPeKI83o
+	 a9OJFSmWZwl++Yg9iqoz73qG2735DPl4wpIBXI2sUhFVw+9XuK/l22aWyxmfRdgMCp
+	 vAvwNABlRCruuBAtpa/LQsXvAeFYRLgUBo4awwkW1jE5JRplOec8bv0CgNfZGELqXh
+	 njtYujszVwJfw==
+Date: Fri, 6 Mar 2026 12:14:45 -0500
+From: Sasha Levin <sashal@kernel.org>
+To: Petr Mladek <pmladek@suse.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Richard Weinberger <richard@nod.at>,
+	Juergen Gross <jgross@suse.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	James Bottomley <James.Bottomley@hansenpartnership.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Greg KH <gregkh@linuxfoundation.org>,
+	Steven Rostedt <rostedt@goodmis.org>, Kees Cook <kees@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thorsten Leemhuis <linux@leemhuis.info>,
+	Vlastimil Babka <vbabka@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-modules@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/3] kallsyms: embed source file:line info in kernel
+ stack traces
+Message-ID: <aasLhbZmvcQ8sA9P@laps>
+References: <20260303182103.3523438-1-sashal@kernel.org>
+ <20260303182103.3523438-2-sashal@kernel.org>
+ <aasClESfxETxliLB@pathway.suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260306-kvm-arm64-sme-v10-30-43f7683a0fb7@kernel.org>
-References: <20260306-kvm-arm64-sme-v10-0-43f7683a0fb7@kernel.org>
-In-Reply-To: <20260306-kvm-arm64-sme-v10-0-43f7683a0fb7@kernel.org>
-To: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>, 
- Catalin Marinas <catalin.marinas@arm.com>, 
- Suzuki K Poulose <suzuki.poulose@arm.com>, Will Deacon <will@kernel.org>, 
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <shuah@kernel.org>, Oliver Upton <oupton@kernel.org>
-Cc: Dave Martin <Dave.Martin@arm.com>, Fuad Tabba <tabba@google.com>, 
- Mark Rutland <mark.rutland@arm.com>, Ben Horgan <ben.horgan@arm.com>, 
- linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
- linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- Peter Maydell <peter.maydell@linaro.org>, 
- Eric Auger <eric.auger@redhat.com>, Mark Brown <broonie@kernel.org>
-X-Mailer: b4 0.15-dev-6ac23
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3538; i=broonie@kernel.org;
- h=from:subject:message-id; bh=NZIFgTqhh8EXiLLs/nxGZ8SnCnhPPbRnuUWQ0HANKVQ=;
- b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBpqwpAv2zOEHkFm+GcJUqJtudd25zDjFhwHvj1S
- uW+4xwJ6NOJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCaasKQAAKCRAk1otyXVSH
- 0Ni7B/0T3XlbJIMnbMh8OG9XDj/dYjlfpsSNvzZ+HLVd+tbRo7mKD0KbCYe7XgRKmDz7DMpZKre
- 0XR0UtnEAYMps41HkT4Iu8Rinj+UjHHeRTeDL066+LWleOkQrCrWzEjsepMaZJVoxsS1jWiFpue
- tuW5vhiKv8bRuWc3y67+T5oe/kCIr3VaUm1GK1q5KRWOktz1qK61RwqP5BVIkCYSmV3MyfGuqmM
- pETU5l8Osql5i7d7hFZLXtmgqhhosg83Bx5HpBWigsMMbmg/3SKX8zRPP0kMw+Eyz8kkjAnoEBD
- zUH8q6rNnIJ4aRHIFRa6fXrm1zNom8U7TMSSAn28D/FoK2Ea
-X-Developer-Key: i=broonie@kernel.org; a=openpgp;
- fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <aasClESfxETxliLB@pathway.suse.cz>
 
-Add coverage of the SME ID registers to set_id_regs, ID_AA64PFR1_EL1.SME
-becomes writable and we add ID_AA64SMFR0_EL1 and it's subfields.
+On Fri, Mar 06, 2026 at 05:36:36PM +0100, Petr Mladek wrote:
+>On Tue 2026-03-03 13:21:01, Sasha Levin wrote:
+>> Add CONFIG_KALLSYMS_LINEINFO, which embeds a compact address-to-line
+>> lookup table in the kernel image so stack traces directly print source
+>> file and line number information:
+>>
+>>   root@localhost:~# echo c > /proc/sysrq-trigger
+>>   [   11.201987] sysrq: Trigger a crash
+>>   [   11.202831] Kernel panic - not syncing: sysrq triggered crash
+>>   [   11.206218] Call Trace:
+>>   [   11.206501]  <TASK>
+>>   [   11.206749]  dump_stack_lvl+0x5d/0x80 (lib/dump_stack.c:94)
+>>   [   11.207403]  vpanic+0x36e/0x620 (kernel/panic.c:650)
+>>   [   11.208565]  ? __lock_acquire+0x465/0x2240 (kernel/locking/lockdep.c:4674)
+>>   [   11.209324]  panic+0xc9/0xd0 (kernel/panic.c:787)
+>>   [   11.211873]  ? find_held_lock+0x2b/0x80 (kernel/locking/lockdep.c:5350)
+>>   [   11.212597]  ? lock_release+0xd3/0x300 (kernel/locking/lockdep.c:5535)
+>>   [   11.213312]  sysrq_handle_crash+0x1a/0x20 (drivers/tty/sysrq.c:154)
+>>   [   11.214005]  __handle_sysrq.cold+0x66/0x256 (drivers/tty/sysrq.c:611)
+>>   [   11.214712]  write_sysrq_trigger+0x65/0x80 (drivers/tty/sysrq.c:1221)
+>>   [   11.215424]  proc_reg_write+0x1bd/0x3c0 (fs/proc/inode.c:330)
+>>   [   11.216061]  vfs_write+0x1c6/0xff0 (fs/read_write.c:686)
+>>   [   11.218848]  ksys_write+0xfa/0x200 (fs/read_write.c:740)
+>>   [   11.222394]  do_syscall_64+0xf3/0x690 (arch/x86/entry/syscall_64.c:63)
+>>   [   11.223942]  entry_SYSCALL_64_after_hwframe+0x77/0x7f (arch/x86/entry/entry_64.S:121)
+>>
+>> --- a/include/linux/kallsyms.h
+>> +++ b/include/linux/kallsyms.h
+>> @@ -16,10 +16,19 @@
+>>  #include <asm/sections.h>
+>>
+>>  #define KSYM_NAME_LEN 512
+>> +
+>> +#ifdef CONFIG_KALLSYMS_LINEINFO
+>> +/* Extra space for " (path/to/file.c:12345)" suffix */
+>> +#define KSYM_LINEINFO_LEN 128
+>> +#else
+>> +#define KSYM_LINEINFO_LEN 0
+>> +#endif
+>> +
+>>  #define KSYM_SYMBOL_LEN (sizeof("%s+%#lx/%#lx [%s %s]") + \
+>
+>I guess that this is used also in ftrace where there formatting
+>is delayed. We might want:
+>
+>  #define KSYM_SYMBOL_LEN (sizeof("%s+%#lx/%#lx [%s %s] (%s:%u)") + \
 
-Signed-off-by: Mark Brown <broonie@kernel.org>
----
- tools/testing/selftests/kvm/arm64/set_id_regs.c | 30 +++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+KSYM_LINEINFO_LEN already covers the full expansion of the path and line
+number, not just the literal format characters. ftrace stores raw addresses and
+formats via %pS at print time into a KSYM_SYMBOL_LEN-sized buffer, so there
+shouldn't be an issue here.
 
-diff --git a/tools/testing/selftests/kvm/arm64/set_id_regs.c b/tools/testing/selftests/kvm/arm64/set_id_regs.c
-index 928e7d9e5ab7..042a7496ec83 100644
---- a/tools/testing/selftests/kvm/arm64/set_id_regs.c
-+++ b/tools/testing/selftests/kvm/arm64/set_id_regs.c
-@@ -145,6 +145,7 @@ static const struct reg_ftr_bits ftr_id_aa64pfr0_el1[] = {
- static const struct reg_ftr_bits ftr_id_aa64pfr1_el1[] = {
- 	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64PFR1_EL1, DF2, 0),
- 	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64PFR1_EL1, CSV2_frac, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64PFR1_EL1, SME, 0),
- 	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64PFR1_EL1, SSBS, ID_AA64PFR1_EL1_SSBS_NI),
- 	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64PFR1_EL1, BT, 0),
- 	REG_FTR_END,
-@@ -202,6 +203,33 @@ static const struct reg_ftr_bits ftr_id_aa64mmfr3_el1[] = {
- 	REG_FTR_END,
- };
- 
-+static const struct reg_ftr_bits ftr_id_aa64smfr0_el1[] = {
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, FA64, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, LUTv2, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, SMEver, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, I16I64, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, F64F64, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, I16I32, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, B16B16, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, F16F16, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, F8F16, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, F8F32, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, I8I32, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, F16F32, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, B16F32, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, BI32I32, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, F32F32, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, SF8FMA, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, SF8DP4, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, SF8DP2, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, SBitPerm, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, AES, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, SFEXPA, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, STMOP, 0),
-+	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64SMFR0_EL1, SMOP4, 0),
-+	REG_FTR_END,
-+};
-+
- static const struct reg_ftr_bits ftr_id_aa64zfr0_el1[] = {
- 	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64ZFR0_EL1, F64MM, 0),
- 	REG_FTR_BITS(FTR_LOWER_SAFE, ID_AA64ZFR0_EL1, F32MM, 0),
-@@ -234,6 +262,7 @@ static struct test_feature_reg test_regs[] = {
- 	TEST_REG(SYS_ID_AA64MMFR1_EL1, ftr_id_aa64mmfr1_el1),
- 	TEST_REG(SYS_ID_AA64MMFR2_EL1, ftr_id_aa64mmfr2_el1),
- 	TEST_REG(SYS_ID_AA64MMFR3_EL1, ftr_id_aa64mmfr3_el1),
-+	TEST_REG(SYS_ID_AA64SMFR0_EL1, ftr_id_aa64smfr0_el1),
- 	TEST_REG(SYS_ID_AA64ZFR0_EL1, ftr_id_aa64zfr0_el1),
- };
- 
-@@ -253,6 +282,7 @@ static void guest_code(void)
- 	GUEST_REG_SYNC(SYS_ID_AA64MMFR1_EL1);
- 	GUEST_REG_SYNC(SYS_ID_AA64MMFR2_EL1);
- 	GUEST_REG_SYNC(SYS_ID_AA64MMFR3_EL1);
-+	GUEST_REG_SYNC(SYS_ID_AA64SMFR0_EL1);
- 	GUEST_REG_SYNC(SYS_ID_AA64ZFR0_EL1);
- 	GUEST_REG_SYNC(SYS_MPIDR_EL1);
- 	GUEST_REG_SYNC(SYS_CLIDR_EL1);
+>>  			(KSYM_NAME_LEN - 1) + \
+>>  			2*(BITS_PER_LONG*3/10) + (MODULE_NAME_LEN - 1) + \
+>> -			(BUILD_ID_SIZE_MAX * 2) + 1)
+>> +			(BUILD_ID_SIZE_MAX * 2) + 1 + \
+>> +			KSYM_LINEINFO_LEN)
+>>
+>>  struct cred;
+>>  struct module;
+>> --- a/kernel/kallsyms.c
+>> +++ b/kernel/kallsyms.c
+>> @@ -467,6 +467,62 @@ static int append_buildid(char *buffer,   const char *modname,
+>>
+>>  #endif /* CONFIG_STACKTRACE_BUILD_ID */
+>>
+>> +#ifdef CONFIG_KALLSYMS_LINEINFO
+>> +bool kallsyms_lookup_lineinfo(unsigned long addr, unsigned long sym_start,
+>> +			      const char **file, unsigned int *line)
+>> +{
+>> +	unsigned long long raw_offset;
+>> +	unsigned int offset, low, high, mid, file_id;
+>> +	unsigned long line_addr;
+>> +
+>> +	if (!lineinfo_num_entries)
+>> +		return false;
+>> +
+>> +	/* Compute offset from _text */
+>> +	if (addr < (unsigned long)_text)
+>> +		return false;
+>> +
+>> +	raw_offset = addr - (unsigned long)_text;
+>> +	if (raw_offset > UINT_MAX)
+>> +		return false;
+>> +	offset = (unsigned int)raw_offset;
+>> +
+>> +	/* Binary search for largest entry <= offset */
+>> +	low = 0;
+>> +	high = lineinfo_num_entries;
+>> +	while (low < high) {
+>> +		mid = low + (high - low) / 2;
+>> +		if (lineinfo_addrs[mid] <= offset)
+>> +			low = mid + 1;
+>> +		else
+>> +			high = mid;
+>> +	}
+>> +
+>> +	if (low == 0)
+>> +		return false;
+>> +	low--;
+>> +
+>> +	/*
+>> +	 * Validate that the matched lineinfo entry belongs to the same
+>> +	 * symbol.  Without this check, assembly routines or other
+>> +	 * functions lacking DWARF data would inherit the file:line of
+>> +	 * a preceding C function.
+>> +	 */
+>> +	line_addr = (unsigned long)_text + lineinfo_addrs[low];
+>> +	if (line_addr < sym_start)
+>> +		return false;
+>
+>This is suspicious. The binary search does "low = mid + 1".
+>I would expect that lineinfo_addrs[low] would point to
+>a higher address when the exact match is not found.
+>
+>Anyway, I think that we should accept only the exact match and do:
+>
+>	if (lineinfo_addrs[low] != offset)
+>		return false;
+>
+>Or do I miss something? (Friday evening here ;-)
+
+Right, when there's no exact match, low ends up pointing to the next higher
+entry. The table is sparse, with one entry per source-line transition, not per
+instruction address. The correct result for a given PC is the nearest
+preceding entry, so the code uses low - 1 in that case. Same semantics as
+kallsyms symbol lookup.
+
+>> +	file_id = lineinfo_file_ids[low];
+>> +	*line = lineinfo_lines[low];
+>> +
+>> +	if (file_id >= lineinfo_num_files)
+>> +		return false;
+>> +
+>> +	*file = &lineinfo_filenames[lineinfo_file_offsets[file_id]];
+>> +	return true;
+>> +}
+>> +#endif /* CONFIG_KALLSYMS_LINEINFO */
+>> +
+>>  /* Look up a kernel symbol and return it in a text buffer. */
+>>  static int __sprint_symbol(char *buffer, unsigned long address,
+>>  			   int symbol_offset, int add_offset, int add_buildid)
+>> @@ -497,6 +553,19 @@ static int __sprint_symbol(char *buffer, unsigned long address,
+>>  		len += sprintf(buffer + len, "]");
+>>  	}
+>>
+>> +#ifdef CONFIG_KALLSYMS_LINEINFO
+>> +	if (!modname) {
+>> +		const char *li_file;
+>> +		unsigned int li_line;
+>> +		unsigned long sym_start = address - offset;
+>> +
+>> +		if (kallsyms_lookup_lineinfo(address, sym_start,
+>> +					     &li_file, &li_line))
+>> +			len += snprintf(buffer + len, KSYM_SYMBOL_LEN - len,
+>
+>s/KSYM_SYMBOL_LEN/KSYM_LINEINFO_LEN/
+
+KSYM_SYMBOL_LEN - len is the remaining capacity of the output buffer.  len
+tracks total bytes written (symbol + offset + module + buildid), which can
+easily exceed 128.
+
+>> +					" (%s:%u)", li_file, li_line);
+>> +	}
+>> +#endif
+>> +
+>>  	return len;
+>>  }
+>
+>
+>I was rather curious how the code looked like and the mentioned things
+>caught my eyes. And I focused on the kernel/kallsyms code.
+>
+>Unfortunately, I do not have time for a proper full review at the
+>moment.
+>
+>The code seems to work. And it generates relative paths for me, for example:
+>
+>[  305.678609] sysrq: Show backtrace of all active CPUs
+>[  305.680615] NMI backtrace for cpu 0
+>[  305.680620] CPU: 0 UID: 0 PID: 1540 Comm: bash Kdump: loaded Not tainted 7.0.0-rc2-default+ #561 PREEMPT(full)  0d0ba470fd9bf64113a65472ab47c033a2658d88
+>[  305.680626] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.17.0-2-g4f253b9b-prebuilt.qemu.org 04/01/2014
+>[  305.680628] Call Trace:
+>[  305.680631]  <TASK>
+>[  305.680640]  dump_stack_lvl+0x6c/0xa0 (lib/dump_stack.c:94)
+>[  305.680680]  nmi_cpu_backtrace.cold+0x51/0x6a (lib/nmi_backtrace.c:113)
+>[  305.680689]  ? __pfx_nmi_raise_cpu_backtrace+0x10/0x10
+>[  305.680702]  nmi_trigger_cpumask_backtrace+0x113/0x130 (lib/nmi_backtrace.c:62)
+>[  305.680720]  __handle_sysrq.cold+0x9b/0xde (drivers/tty/sysrq.c:611)
+>[  305.680734]  write_sysrq_trigger+0x6a/0xb0 (drivers/tty/sysrq.c:1221)
+>[  305.680750]  proc_reg_write+0x59/0xa0 (fs/proc/inode.c:330)
+>[  305.680763]  vfs_write+0xd0/0x570 (fs/read_write.c:686)
+>[  305.680771]  ? srso_alias_return_thunk+0x5/0xfbef5 (arch/x86/lib/retpoline.S:220)
+>[  305.680776]  ? srso_alias_return_thunk+0x5/0xfbef5 (arch/x86/lib/retpoline.S:220)
+>[  305.680779]  ? __lock_release.isra.0+0x1c9/0x300 (kernel/locking/lockdep.c:342)
+>[  305.680796]  ? srso_alias_return_thunk+0x5/0xfbef5 (arch/x86/lib/retpoline.S:220)
+>[  305.680813]  ksys_write+0x70/0xf0 (fs/read_write.c:738)
+>[  305.680826]  do_syscall_64+0x11d/0x660 (arch/x86/entry/syscall_64.c:63)
+>[  305.680832]  ? irqentry_exit+0x94/0x5f0 (./include/linux/irq-entry-common.h:298)
+>[  305.680846]  entry_SYSCALL_64_after_hwframe+0x76/0x7e (arch/x86/entry/entry_64.S:121)
+
+Thanks for the review and testing! Have a great weekend!
 
 -- 
-2.47.3
-
+Thanks,
+Sasha
