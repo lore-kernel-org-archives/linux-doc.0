@@ -1,86 +1,87 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A74C23659F8
-	for <linux-doc@vger.kernel.org>; Fri,  6 Mar 2026 17:23:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7430536CDE7
+	for <linux-doc@vger.kernel.org>; Fri,  6 Mar 2026 17:23:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772817796; cv=none; b=oG8d8uPdCMKlqpNZyEO2mWgSh59DHOJdHiXE/nGjtFn9Oo6VYIM3tSExN9C7Gci2W5QaRhB0hwHEMRU/tjwJnzzxeH7znI+VIO4FGM09fWy4TxiCh9dEzEWYMblPU4HBju7JUXZ9YUUmxCO+NxpVlCyHvE+tRXgWPVsY9zEeUWs=
+	t=1772817798; cv=none; b=gCiLJGpdhBqrv1s3F0Q7EyfJIVyfQ83RMG8FypsRDr/w9WUq1S3KClDhnoPep95mPyNjHz+70geEV+HWKxEaY4JrL93zCOoijTrDD8Et7J5l8R/xYb5hbqFvSikaXgzDTesb8LRuADhKzVaxy/hNKgXYcqTpLBj5VkUyAsDXr+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772817796; c=relaxed/simple;
-	bh=+mk4ppL9XWF9OnQIKVkGYEAnsfhU9QaSc9cxpk6TKTM=;
+	s=arc-20240116; t=1772817798; c=relaxed/simple;
+	bh=JZWuny8/TcvSZjzaVdqaESeV6oNV6YTL1+iT2y0pExo=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=OYYnxV+1KrEV56KuCY0tpaV37IIJi4wodDmk5myCeVTHCTUnshAbu2xW7RdeF5dZi5QqGASGTBQR83vKlwPEFXXSjxstwas31hII9SVo4R+ItM5UhV/WAyECGony3ZbJPZ8epCNaYz8OafbRRZ9zLMZcG4Oyzi7l2XdvNeO1oI0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=OpTHM7dz; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=TXCgZxVq; arc=none smtp.client-ip=205.220.168.131
+	 In-Reply-To:To:Cc; b=IZC/JVExly6MWjdDgepdlwr0yEQrf3bdlUUpukuf+8tptyRGoeIrV3WoaGE5D26hgwFMp+/bOl+9DNav621LTJw5RwlHTRtqJkI4T/rkUxQAropFFjhRZXFTdBnbCgufgzRtNKRtoS8CAWJja//PVZIqEzV2Yp+faaHe8ZwKnG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Zps6wFoa; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Vfm1AI6g; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="OpTHM7dz";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="TXCgZxVq"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Zps6wFoa";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Vfm1AI6g"
 Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 626H1p441898321
-	for <linux-doc@vger.kernel.org>; Fri, 6 Mar 2026 17:23:15 GMT
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 626H1p451898321
+	for <linux-doc@vger.kernel.org>; Fri, 6 Mar 2026 17:23:17 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	Q3cNLjTDzr/nLnZnG7PjL1WTHdf61SjrQzPwxu8BAtc=; b=OpTHM7dzpodWzTs/
-	yxAFrzmlkm4P9xoroXuQUvIrzvmk1AJcLRAoPAo+WCJxXWuRsWGqlc3bJ8Gtl15a
-	bYNQkIvlxSdQefk8kKKWrVF//YCD3y9yuILPjKMSPvsEJ2AAFnW68mhiH9GWdiy2
-	5wA4by7nvNdU7O0JJ5oJEnxiq+TSggIgVPhRTaUPCrLuCqK5VbotSP72g6/461hK
-	9wz/3BahAJbW2HVdx1EUYjQQDDSndR8Q7n1K2lYyIkRidsCLVaj4KbHWo+Uke6qk
-	viIiGGsz/sJSykg+vWDNotEzeQmi4EoX+H4/sKaaFZCg+Lfo9fQ5L9AaKGsINg28
-	DFNOLQ==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cqx14h5da-1
+	R3rlwUodHa1xBLQFp92Dedtm+Zhls9xlJ8VVyipx7aA=; b=Zps6wFoawyBN9+Y8
+	eJbXqIFiwJkGTe2NPepBopSoIK8oVN9m9cQJyzzb8X+f0a7x2QYBrbVtVIx/hp+7
+	Y5RChy8/ClJIt3q42jgsFUCkkTtZsm3AOEmAx9OoLWHwDJtAfN2Cw39JRK+WbR0t
+	R37+R19Z4DYiY/GdFgJGkXNYnMNVIIOUl+zM3pscDdn2AV8gj//3YP7R+FZT5Tgq
+	i+yvsiUVupWDcFlO5W6I1dHYQ+sPtCrHkq92KPKsYctxxfjQxCsHZK0wcCi89Cga
+	Z7qOLMKSIFd59Wo8A0dKFvYTgHsCbxvkNQ6z/E8Z56BwLHmPulyID2e4rZK8r5LF
+	zPf61w==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cqx14h5de-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Fri, 06 Mar 2026 17:23:14 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-8c881d0c617so5086758885a.1
-        for <linux-doc@vger.kernel.org>; Fri, 06 Mar 2026 09:23:14 -0800 (PST)
+	for <linux-doc@vger.kernel.org>; Fri, 06 Mar 2026 17:23:16 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8cb0595def4so6488285785a.0
+        for <linux-doc@vger.kernel.org>; Fri, 06 Mar 2026 09:23:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1772817794; x=1773422594; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1772817796; x=1773422596; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Q3cNLjTDzr/nLnZnG7PjL1WTHdf61SjrQzPwxu8BAtc=;
-        b=TXCgZxVqEjhPpp3hqL114kl4xhfnqouzuOty8wX2cPHmX0IMyJAx/oDVqAKMhBbDHW
-         1X4l7ja5RU88MLzRx2kMqFmuwdME4gAQwCs4ndsHG83kY0zY1K7tUlxn4+D9ZHF0MpiG
-         q6TOUz7ysqaPZjG5R+eZBZUN6b8nuhF4C6JJVrYigtpspV2+JSOdMAKVIwt72bF8AObY
-         i/Sqm7Fon8nXnl6lp7ILHyeAgOWb/hh/2JhUuAjaqnlkfeLxfyjgka3cj9YipLa0bZRu
-         qefMMXFNe2odcgGbudjasfV5QNE+oSUFzDu7HOxtnCiubY10nw+dDg5sC1ZsWbiGU1DE
-         wtOQ==
+        bh=R3rlwUodHa1xBLQFp92Dedtm+Zhls9xlJ8VVyipx7aA=;
+        b=Vfm1AI6gyfe+ZSVskaxgb93ojl8hyL0J/Pgqfe3Uec18jWbZs8LuZQHxpcGHAlV0vv
+         sGlVBDvQNvR9+RpuBA2Kq5VFHZnebqs+bVzflGW7/SE1uSPtvZIPF5nXsZmVq4fCH1To
+         mrt9dgF+h0l7TRNeteI718W6OetgjqwnuMheU4ldpyNHRIKSvHYM0enW0wJfyckxhHTY
+         7B7UCs4swYilYgmL1SI7mAtw37nqASOCYTRxCNCq/VFSgbJDTzDO5NgozVvMqMZF43uE
+         S/8Q0rv6GHjmJthF0S3GUM7yL4zb87rS7Ez3c8+ng4fVy8umFzlHdqlrc0nhtjgVUQYf
+         Uqxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772817794; x=1773422594;
+        d=1e100.net; s=20230601; t=1772817796; x=1773422596;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=Q3cNLjTDzr/nLnZnG7PjL1WTHdf61SjrQzPwxu8BAtc=;
-        b=reF8kDhzMjWkUnj/WVLmQigiz4lCWZwVEzKhNOrdms6YQLcdGS4lvKk9PaDwGtvaBB
-         rswMX3dDp+euuWDZoKJJs4KGQIs9MeEAueoVSaUPjW6DoZ7crQRpm20BLSurXFAiwm4+
-         QOmcwp1QT+M+5E7oTNsZ5p2VVp989yF0OVprbU5CG66Pyaboe5GHz2zyIaF4sSqSjuT4
-         nFDveFHpePewfoNSCOH7iV0HM1INaIY8P9OcSATpXWPSF2+CceCDY+AA7LjBTVRqAvct
-         P81J7EEC1esFNn92rt+69AHdM9+PSRJU7X8K2ylTk0HbUxcW4nWa0pnTUFOkC9saYerj
-         Qk+w==
-X-Forwarded-Encrypted: i=1; AJvYcCXRWVavxMHGt7UMVVTbFmDCjPSauumFoVi4vtqsUlXJ0t8eoj4UaaRAUvQmcX20lmKiksKVlR3/DB4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzYDbYQe8GyOXMNKaP6okXfphdKtcKK6Rk303X1XPWoGFZBlQiU
-	1b8jZ2VTcpQTTXQAvBp+RuT6H1X/+JoR2iieJO2LsNbxRlSTnyHTeBJnQmdRrFk5LZlLkm04tDO
-	IHf56hAawqJwCUHY1Y8Wlrizg0SIQ1tPtBKhNoJ+XVvhbSeCLp7DiHaykuyzlt0Y=
-X-Gm-Gg: ATEYQzzD6Vw+hgy9FgAGW7mCda3ra2t/nLKINt80MPSunHt++Rq44og/gVF+HUYcQ+t
-	Y3Yz5ADtNQCj8yyhNWUjfFQnj9IMo1YKvvuclGUG0/Q2WmZCrLZG7GmSDxVYupQCLhFtpjTirOx
-	WCFWT3VtvoQxCoe5VdBZbgaJaMwcIpC9NYSjoj36rYuiTuR+3q1VSS4wO2q8eXQrF/lEcZwkj2O
-	oUG8q2XBlu0vTqOPDQHkFahR8h5XWH2QWUHmjbB8ObsghyilSbteGoZcWAH5uljrfKP6QjFYBbu
-	7oUeeU1wnHeDA2Dkmaf0mp9Z5MMuMzEzaloWKaimq+P20qIM04eoNvhyqWD5f3ira9uPG1n52wu
-	UE2GzguRnIVkQcSizqnL5hL4afJ2iPpT296SndRxcnmhtQy1EzVxU
-X-Received: by 2002:a05:620a:1925:b0:8c9:f4ed:c383 with SMTP id af79cd13be357-8cd6d47f328mr338634385a.33.1772817793841;
-        Fri, 06 Mar 2026 09:23:13 -0800 (PST)
-X-Received: by 2002:a05:620a:1925:b0:8c9:f4ed:c383 with SMTP id af79cd13be357-8cd6d47f328mr338630085a.33.1772817793417;
-        Fri, 06 Mar 2026 09:23:13 -0800 (PST)
+        bh=R3rlwUodHa1xBLQFp92Dedtm+Zhls9xlJ8VVyipx7aA=;
+        b=lUrfiWm0IL9iS7gt7zFTgA+shMBQ2AQzTW/u3LEGf+OAOJzgRhY9gRfT0ySqESNHHj
+         SkDEVwXMEPDG9hkV/aXex2yzVFqRH4iwaOIFfX3lkFE4Ppk/POCV1KfUm0s1qRFXGi5j
+         SQ9flVC/DwHgv9DqAXGgSerGSj6vDvWRG7zyo5wotnK2/okVbXNYCDcK9mKbVoGXgeAm
+         GlTouXEKqCQPpq5FbS9h7P+WBW6Tf7qVD9eTh5VGkBl/1p0bJTgdDbmNFrA3umxdoiO+
+         OmK3EYpy3igKMBzNZI6OAp+iqpNImmxq98o4uvOTpGq3GlsKxihnlscTZ9VspbZkwrKJ
+         BHbQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU06QfB9k/yJi4lRZ42N8wMfz8bymxJCNRc4GrhCvF+jBuFGT2iBICdSeEVFZFed+ZxX+79quzjaVc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwXTSF4sI46h1Z5bI0xPRg4hqv2Is+vrGyMr/mPyPAhz5XGi5aC
+	wmXB8jcG2fRPlpSqdNh9iOzNrT/UNu7wYTAXHeq9gc/G2ZILrtv+EEyznCzqnrnpzl7VYjp+IT4
+	AjTvSsqKdFm92UnKyJG2WDbFfPQtKVpEbAnOXS67xiVkUcHz7CSp7YDqrZHfwxpqh4l8fVJc=
+X-Gm-Gg: ATEYQzxlDi1stUrGUWhN+ycCHFA7dQikoUm4rpTfbKbiEt2tI8c0DALAfuBwBvDR9U7
+	BgSvIB0q5eGwRy8Pv2G5CV/ee88o2uOTFpUx8bX4hUV+aMRt5ZRW2W7JJFIIOmTmeZDgnFGlEdw
+	CWmpWzfvVsx7/fRDziJ0b1/d58bx9es/IurMv5G+BHsx1DpKAQaMxS6dx/w+ABEnBokYCS7ieLL
+	zMoIwQzwloI3MSqTzfsO1GyYUYOuwaa0gWv9kQWczlXVL9mHVK5lx2J82/tX4mkbk/trYXaqq1y
+	Tl8gtyO7rOw1+mKJjm2yBwf+kBfPPsCdF5fsT6970u8EyYbAJdNpcLGf4xqe08t9nNMK6yR5asg
+	N5zX/9jxooBiWWKeURWv1Epu8AhOMtcWO1ZueIlCqci3WsQKrxbR5
+X-Received: by 2002:a05:620a:4108:b0:8c7:1271:f336 with SMTP id af79cd13be357-8cd6340948fmr779455685a.2.1772817795577;
+        Fri, 06 Mar 2026 09:23:15 -0800 (PST)
+X-Received: by 2002:a05:620a:4108:b0:8c7:1271:f336 with SMTP id af79cd13be357-8cd6340948fmr779451685a.2.1772817795106;
+        Fri, 06 Mar 2026 09:23:15 -0800 (PST)
 Received: from brgl-qcom.local ([2a01:cb1d:dc:7e00:28b1:4950:7702:bb20])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48527686fa9sm61488475e9.8.2026.03.06.09.23.12
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48527686fa9sm61488475e9.8.2026.03.06.09.23.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Mar 2026 09:23:12 -0800 (PST)
+        Fri, 06 Mar 2026 09:23:14 -0800 (PST)
 From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Date: Fri, 06 Mar 2026 18:22:45 +0100
-Subject: [PATCH v3 01/14] reset: gpio: remove unneeded OF-node put
+Date: Fri, 06 Mar 2026 18:22:46 +0100
+Subject: [PATCH v3 02/14] reset: gpio: add a devlink between reset-gpio and
+ its consumer
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -89,7 +90,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260306-reset-core-refactor-v3-1-599349522876@oss.qualcomm.com>
+Message-Id: <20260306-reset-core-refactor-v3-2-599349522876@oss.qualcomm.com>
 References: <20260306-reset-core-refactor-v3-0-599349522876@oss.qualcomm.com>
 In-Reply-To: <20260306-reset-core-refactor-v3-0-599349522876@oss.qualcomm.com>
 To: Krzysztof Kozlowski <krzk@kernel.org>,
@@ -99,38 +100,38 @@ To: Krzysztof Kozlowski <krzk@kernel.org>,
 Cc: linux-kernel@vger.kernel.org, brgl@kernel.org, linux-doc@vger.kernel.org,
         Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1749;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5824;
  i=bartosz.golaszewski@oss.qualcomm.com; h=from:subject:message-id;
- bh=+mk4ppL9XWF9OnQIKVkGYEAnsfhU9QaSc9cxpk6TKTM=;
- b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBpqw1xOkQhd+rB6pDIeELX9xfWtZzzDx0q39wy6
- j5KEYFbCTSJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCaasNcQAKCRAFnS7L/zaE
- wwx5EACstGVJDVO7uTcvBIPfJlwLjEfER2IA2XhDmvu0hwG8oLhF+1KWbY6Io2rAmfOx/ypJmDe
- nl+VNpEryICAbvye3FZXLDoc2mrbySNHcdRY/uIC6D4VxZXNtlatAQnUGfdCFdpm2WRliBdpZrk
- Np2pUL7rwogp2gc9Mp+YiNN9ELeDmehGg9+QzMP2QCNWNTzr11zXE9bZyrDbLvv4T2Nou02AaUD
- Rg8gIoSibOEJ22Xls24z6DdRIw2c1C4P13rtv7FQbo1RZDRpwUjUQnrA4xxcQ5xLjVGbyg6MSjx
- hhm3rOjtTzPVRrWc6xY9unW+FWEMeaVbn7Oyopcacz/nzUQ39KEmwY+7YlG+2zzK7aZh7SMHjNP
- Nz+vo4UP1NJ+qxZCeuofxMxoLstXdLFCtasgKFp6X317VL9ypo52m87H8JOrzWHBOuoApkchYog
- 3HLPbf6DIKOvl6vFj232hFwQX/nkESA5ctYpWXQEal6ymt4Ircy65vgrGWcEEX9sCRcIwR88Lfs
- M8iO9y5QCtiGHr+SpsppTT8GL/IVgO+86ewSbJY+1qNV8vzx6upQcTg8APSWEgZlAAwhHlOov2w
- 7rCSV5EsMp2HU4G7FfYJbJZ2/ywphbSSrS/4Z5gskuuFNEdE41O5wk4Wi+TcTZ5UcHx5cQCqW4j
- UPFSVYm6YJi20aA==
+ bh=JZWuny8/TcvSZjzaVdqaESeV6oNV6YTL1+iT2y0pExo=;
+ b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBpqw1ylgyDtzyxnSBJ24a/2UESI44Vwgd9VFqsN
+ tz+8PXs1DKJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCaasNcgAKCRAFnS7L/zaE
+ wxyrD/99l7U7KDDr9wuTxIwPv9ff1I3RQKIiY6Vp8F0GiURx96KPkJWYoTeLAespzrgy6+fB0pV
+ mkHfKW/O4MrU4c4dU+qQV84X9Het4FF94PRM0t5800yEqNOY5n0O7JX/qtmhwrZ1CS8L3bYPjeP
+ fe/yCoZ6oG0SB1zYP7NU4+kVDHK3XRg8xEFgBer+Z9ql2T3iu5oFtYyxVCaoHTQ8cr/G3y/aXPF
+ 6OJ3xhGMzMDMf76T98vdnxexmLbx6RNjg7KFSQLHtg6bIzIjxMOpCzpGYQbAkBgqsrfIS9flZfW
+ abzRi6BuwMokF4suOtAZ0y6NgHyQ2hnj5KQXgwKmdeWvpQDCO2xydvforQPGaF+GX/iIwWydlah
+ 9E0U8Gl3bkUl1aHUWmxOlM+2nCuRo8GxNZ76d5AjUMHj4QTiCv7qyubtTuQ05k/qcIM9BBZEAAu
+ M+td4muLTfGW5nBwML+AKlLllDQr3EKP2LYKceuOn1o4xXWMMBhJ1ojj8oAcgH0lPfm+xnhi/qO
+ 0wqbx824cFtg2pLfZh1xQohZQQoRbMNGfKFgL6iyKn/KqH2gdvIuXhNk3VrbZi21/1v1ekayei7
+ oBvZVq0nCzSRKSN76K/RHxRsoGFSuCjhxsVwSVGJcs+bA7t0NukXwMibrDABqWKn6kGmi96RubQ
+ IG6vzetDZ0LEyeA==
 X-Developer-Key: i=bartosz.golaszewski@oss.qualcomm.com; a=openpgp;
  fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA2MDE2NCBTYWx0ZWRfXzcBdIOTRRak5
- K429KtiEEz5TwaLV2+eP/KdREIKewBsUzqnISRFdkEaZbo13hFsfPMTdtNHgivuYU6DU90dyRZ2
- At2WH+WpPWDMdhDlSPihNY8ZVfEDgDVIP0/g9qkLpUJo2wdcRzPOWURlY4LrvvqdDsDamj3MbYb
- J1Z928iy0qPaT9DPFQw5cHl4O7ea5VUh0DIhiPHxkrZzCfkVVuoF5Ecc4PEcZew06YLfALsMgK2
- PRvn9zU8ry9pOW6EWGGDaxxCSoH8zyd79iIDx18sBMlIzZcDqhLE88LOZteO17CkmF3mai4WTsH
- oZh5ZRR4wXilV5yVZkuDo1jPQTE8Ammr2X7L2TPcrqZmzQowIthYq1U7LKyEHJ+NDHxxzRKyig1
- fexv94PREheAoMOTkcSRi2kBAPWuOsTW6ESpKB85MExkFGSQK0evMqqIpZ40rKq8cOHwGVAHGre
- L4kJmP662s9yTugS28g==
-X-Proofpoint-GUID: c3uGqmfBogYaZU08AqCtgiCOAMfktg5J
-X-Proofpoint-ORIG-GUID: c3uGqmfBogYaZU08AqCtgiCOAMfktg5J
-X-Authority-Analysis: v=2.4 cv=e/MLiKp/ c=1 sm=1 tr=0 ts=69ab0d82 cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA2MDE2NCBTYWx0ZWRfX1VUjzXa95EdU
+ rRZmu6zT0FxPE/BVIw+75pBsBf8FRmDIbLaegqFcU9bi69nbaGoiYvLwsC/WI/xiwcyCNdBzfy/
+ 6iMUKinO3NIi5Nj39y/ox3gddRd08mkD+OL5iiCt/+G+sbkFMR3NWMp/RYEQ9LuPkt8H6/ad4aF
+ FVohxDi34W+WUtuv+cmSWnXc/nc91LOaoasdEYBhuJnBbXifSXcwRjCFP3nSC25dcby6tVOBTa0
+ jXK4slsvMMKs1dD/fA4EbDN6PBoKzQ+wn4KQHyi/uxZY8nabS8k6Z2gzCIMwvNLu83sverjCwjY
+ UdnQGjfaLXV1r9H6wPUClExj2p/ovIZlww+2tkxxfR7eAV4f481PMtn/h+265oImf7Dgi3mGv3n
+ h7JpcWpxNpYGGJ8KTpEROrUy+AkvK65mN3sp9WLqZepDrVnLkmlvnMmK8BnA2PeCSsWDJryFFzn
+ LsZw1wlW/50l4fAnD+g==
+X-Proofpoint-GUID: dsxAqtrUlhE6Wvn3Hejn1JreuAVhZJdo
+X-Proofpoint-ORIG-GUID: dsxAqtrUlhE6Wvn3Hejn1JreuAVhZJdo
+X-Authority-Analysis: v=2.4 cv=e/MLiKp/ c=1 sm=1 tr=0 ts=69ab0d84 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
  a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
  a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22 a=EUspDBNiAAAA:8
- a=ygpbbqW4ee5_35vKHe4A:9 a=QEXdDO2ut3YA:10 a=IoWCM6iH3mJn3m4BftBB:22
+ a=gl4R_IGdbvU1KyCt79YA:9 a=QEXdDO2ut3YA:10 a=PEH46H7Ffwr30OY-TuGO:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-03-06_05,2026-03-06_02,2025-10-01_01
@@ -140,53 +141,172 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603060164
 
-priv->rc.of_node is never set in reset core. Even if it were: tasking
-the reset-gpio driver with controlling the reference count of an OF node
-set up in reset core is a weird inversion of responsability. But it's
-also wrong in that the underlying device never actually gets removed so
-the node should not be put at all and especially not at driver detach.
-Remove the devres action.
+The device that requests the reset control managed by the reset-gpio
+device is effectively its consumer but the devlink is only established
+between it and the GPIO controller exposing the reset pin. Add a devlink
+between the consumer of the reset control and its supplier. This will
+allow us to simplify the GPIOLIB code managing shared GPIOs when
+handling the corner case of reset-gpio and gpiolib-shared interacting.
+While at it and since we need to store the address of the auxiliary
+device: don't allocate memory for the device separately but fold it into
+struct reset_gpio_lookup instead.
 
 Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
 Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 ---
- drivers/reset/reset-gpio.c | 10 ----------
- 1 file changed, 10 deletions(-)
+ drivers/reset/core.c | 79 ++++++++++++++++++++++++++++++++++++----------------
+ 1 file changed, 55 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/reset/reset-gpio.c b/drivers/reset/reset-gpio.c
-index 0a1610d9e78a3f1db8f523654a548fbba6087106..ad5bfe27aaef7de57f9566330253333aa2b1253f 100644
---- a/drivers/reset/reset-gpio.c
-+++ b/drivers/reset/reset-gpio.c
-@@ -52,18 +52,12 @@ static int reset_gpio_of_xlate(struct reset_controller_dev *rcdev,
- 	return reset_spec->args[0];
+diff --git a/drivers/reset/core.c b/drivers/reset/core.c
+index fceec45c8afc1e74fe46311bdc023ff257e8d770..3845e77a8d32bf615c9d430847b497af0ba374ad 100644
+--- a/drivers/reset/core.c
++++ b/drivers/reset/core.c
+@@ -77,11 +77,13 @@ struct reset_control_array {
+  * @of_args: phandle to the reset controller with all the args like GPIO number
+  * @swnode: Software node containing the reference to the GPIO provider
+  * @list: list entry for the reset_gpio_lookup_list
++ * @adev: Auxiliary device representing the reset controller
+  */
+ struct reset_gpio_lookup {
+ 	struct of_phandle_args of_args;
+ 	struct fwnode_handle *swnode;
+ 	struct list_head list;
++	struct auxiliary_device adev;
+ };
+ 
+ static const char *rcdev_name(struct reset_controller_dev *rcdev)
+@@ -824,49 +826,72 @@ static void __reset_control_put_internal(struct reset_control *rstc)
+ 
+ static void reset_gpio_aux_device_release(struct device *dev)
+ {
+-	struct auxiliary_device *adev = to_auxiliary_dev(dev);
+ 
+-	kfree(adev);
  }
  
--static void reset_gpio_of_node_put(void *data)
--{
--	of_node_put(data);
--}
--
- static int reset_gpio_probe(struct auxiliary_device *adev,
- 			    const struct auxiliary_device_id *id)
+-static int reset_add_gpio_aux_device(struct device *parent,
+-				     struct fwnode_handle *swnode,
+-				     int id, void *pdata)
++static int reset_create_gpio_aux_device(struct reset_gpio_lookup *rgpio_dev,
++					struct device *parent, int id)
  {
- 	struct device *dev = &adev->dev;
- 	struct of_phandle_args *platdata = dev_get_platdata(dev);
- 	struct reset_gpio_priv *priv;
--	int ret;
+-	struct auxiliary_device *adev;
++	struct auxiliary_device *adev = &rgpio_dev->adev;
+ 	int ret;
  
- 	if (!platdata)
- 		return -EINVAL;
-@@ -83,10 +77,6 @@ static int reset_gpio_probe(struct auxiliary_device *adev,
- 	priv->rc.owner = THIS_MODULE;
- 	priv->rc.dev = dev;
- 	priv->rc.of_args = platdata;
--	ret = devm_add_action_or_reset(dev, reset_gpio_of_node_put,
--				       priv->rc.of_node);
--	if (ret)
--		return ret;
+-	adev = kzalloc_obj(*adev);
+-	if (!adev)
+-		return -ENOMEM;
+-
+ 	adev->id = id;
+ 	adev->name = "gpio";
+ 	adev->dev.parent = parent;
+-	adev->dev.platform_data = pdata;
++	adev->dev.platform_data = &rgpio_dev->of_args;
+ 	adev->dev.release = reset_gpio_aux_device_release;
+-	device_set_node(&adev->dev, swnode);
++	device_set_node(&adev->dev, rgpio_dev->swnode);
  
- 	/* Cells to match GPIO specifier, but it's not really used */
- 	priv->rc.of_reset_n_cells = 2;
+ 	ret = auxiliary_device_init(adev);
+-	if (ret) {
+-		kfree(adev);
++	if (ret)
+ 		return ret;
+-	}
+ 
+ 	ret = __auxiliary_device_add(adev, "reset");
+ 	if (ret) {
+ 		auxiliary_device_uninit(adev);
+-		kfree(adev);
+ 		return ret;
+ 	}
+ 
+-	return ret;
++	return 0;
++}
++
++static void reset_gpio_add_devlink(struct device_node *np,
++				   struct reset_gpio_lookup *rgpio_dev)
++{
++	struct device *consumer;
++
++	/*
++	 * We must use get_dev_from_fwnode() and not of_find_device_by_node()
++	 * because the latter only considers the platform bus while we want to
++	 * get consumers of any kind that can be associated with firmware
++	 * nodes: auxiliary, soundwire, etc.
++	 */
++	consumer = get_dev_from_fwnode(of_fwnode_handle(np));
++	if (consumer) {
++		if (!device_link_add(consumer, &rgpio_dev->adev.dev,
++				     DL_FLAG_AUTOREMOVE_CONSUMER))
++			pr_warn("Failed to create a device link between reset-gpio and its consumer");
++
++		put_device(consumer);
++	}
++	/*
++	 * else { }
++	 *
++	 * TODO: If ever there's a case where we need to support shared
++	 * reset-gpios retrieved from a device node for which there's no
++	 * device present yet, this is where we'd set up a notifier waiting
++	 * for the device to appear in the system. This would be a lot of code
++	 * that would go unused for now so let's cross that bridge when and if
++	 * we get there.
++	 */
+ }
+ 
+ /*
+- * @args:	phandle to the GPIO provider with all the args like GPIO number
++ * @np: OF-node associated with the consumer
++ * @args: phandle to the GPIO provider with all the args like GPIO number
+  */
+-static int __reset_add_reset_gpio_device(const struct of_phandle_args *args)
++static int __reset_add_reset_gpio_device(struct device_node *np,
++					 const struct of_phandle_args *args)
+ {
+ 	struct property_entry properties[3] = { };
+ 	unsigned int offset, of_flags, lflags;
+@@ -916,8 +941,14 @@ static int __reset_add_reset_gpio_device(const struct of_phandle_args *args)
+ 
+ 	list_for_each_entry(rgpio_dev, &reset_gpio_lookup_list, list) {
+ 		if (args->np == rgpio_dev->of_args.np) {
+-			if (of_phandle_args_equal(args, &rgpio_dev->of_args))
+-				return 0; /* Already on the list, done */
++			if (of_phandle_args_equal(args, &rgpio_dev->of_args)) {
++				/*
++				 * Already on the list, create the device link
++				 * and stop here.
++				 */
++				reset_gpio_add_devlink(np, rgpio_dev);
++				return 0;
++			}
+ 		}
+ 	}
+ 
+@@ -951,11 +982,11 @@ static int __reset_add_reset_gpio_device(const struct of_phandle_args *args)
+ 		goto err_put_of_node;
+ 	}
+ 
+-	ret = reset_add_gpio_aux_device(parent, rgpio_dev->swnode, id,
+-					&rgpio_dev->of_args);
++	ret = reset_create_gpio_aux_device(rgpio_dev, parent, id);
+ 	if (ret)
+ 		goto err_del_swnode;
+ 
++	reset_gpio_add_devlink(np, rgpio_dev);
+ 	list_add(&rgpio_dev->list, &reset_gpio_lookup_list);
+ 
+ 	return 0;
+@@ -1035,7 +1066,7 @@ __of_reset_control_get(struct device_node *node, const char *id, int index,
+ 
+ 		gpio_fallback = true;
+ 
+-		ret = __reset_add_reset_gpio_device(&args);
++		ret = __reset_add_reset_gpio_device(node, &args);
+ 		if (ret) {
+ 			rstc = ERR_PTR(ret);
+ 			goto out_put;
 
 -- 
 2.47.3
