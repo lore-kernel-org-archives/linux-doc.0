@@ -1,128 +1,178 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010068.outbound.protection.outlook.com [52.101.201.68])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3E6738E5D0
-	for <linux-doc@vger.kernel.org>; Fri,  6 Mar 2026 12:13:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772799213; cv=none; b=rYs4CZNpt9HGfikJN+GsRu7hQ8077iprPRVig77FbvulAj/cTO44aEINuYgu4o6571d0Dt0k39tT/kVCCiVLLKtBCq0yPd9ZWYGRv2G9uLjaO/PJT2PTsbhcuP7x/Y2W/9Qa2AM+pN95P/XDy/lzLJvPoN204JQhGJ2LlhWOeXA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772799213; c=relaxed/simple;
-	bh=iL3nHsj2qbN/ptZ32yL5eiwUDcUBsCkMTT+rcB3PMxA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M3CfRsJ5yGBKMGto61Mz8UugTxkuXFT8w1vYMjhucaM5g8LOpwDtUQPY8/Qs0ex2orEMu5MDSnOuq3Q/3+XJfWBFDQ30fHqH1GG2Zmk+M4TwXLjYzCDtnjEF3KStQxsmNMcc46/UaCvLyLe7GmKtTGhRbYpyuLZEqyqgJYBy7rI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=ebePal5t; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7667638F247;
+	Fri,  6 Mar 2026 12:14:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.68
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772799265; cv=fail; b=GOfkpN0N6ioLmCrnsWzrdJMcSEw3xibmwZVksFj6p8YkOKd2ZJ6z5nKouOPUdrVu82wkBEgiKYI3DqLYScvOXXqbLmO2d7sBOaOaRaOxaaGuR1tdkGL87g0v1Zs5EToqUWRuxljBGxJb7Lnkjyi99Q1Q32YZEdDQ5eMqQlLVEA8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772799265; c=relaxed/simple;
+	bh=T2Rihzd4W7pcTlelIruDKU/W7vn9vrtP+KlP8kuITFI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=OIUZiqJ3RyPjuKwRp84FIBl43Be8iheGCtAd28CdaqaZwcUzYQprT9HXQAiY0ko7fOb57yuDYc38lf88T6sa9F2o2peATiCoiqKYIzrUqyf+WcyZVW4KmzjcdI56IQBfweubh30tduvaDu18s4wj0fmr2/0R8TRZOtQ4q+152PI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=CNMC8amu; arc=fail smtp.client-ip=52.101.201.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="ebePal5t"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4838c15e3cbso83852645e9.3
-        for <linux-doc@vger.kernel.org>; Fri, 06 Mar 2026 04:13:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1772799210; x=1773404010; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=PTpTiYCmYefmS8voVHhTmV6UthynmjNZaFJx1xqdpVE=;
-        b=ebePal5t6HxHoJBNoARUWaa23plUvf87O/bmUdgs1xJyNY8MgzRCJ4pZYxQwDqbNqI
-         CzdVMwW/wuYjxdrwhOEHph9kMh8D4v0osXRgDx11NoFqv6QSQpzM4fhWtLja24HmA7xX
-         0DfZdgtURfiBXxa8luOdr4FZpOxGgaVTLFrD5VS3R9IL8rp/dRpPJSHe5730iobk+v3e
-         XdzW/mYri2yNMKXJtn/A3EmBtBIt8vS/hWWYK/eqXmjtfgqJjy7bqiOeI0FQS/obIDs0
-         ArZaLYnwwKZWVKTUdwudnZDxTxRmgZKJ6gWudyK+aq7SJq3u/2DyZkjttkw/n5bZLXKX
-         03EA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772799210; x=1773404010;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PTpTiYCmYefmS8voVHhTmV6UthynmjNZaFJx1xqdpVE=;
-        b=URvIZoKeZkDoM8lb4m28KgJ7TL75f4/Ru/+o24XaekUK5d/y1i73v8w1yHJBwTF4EK
-         I269pcwIvZwEB6+oEn0BfnlJE3uOh1VwxjExrUmAyv9zFbbFNJpnkk0AudiXvHMpnqKb
-         91mbXu/1mptDTBNwwjs6e9fhOKD6XZEy0sam4hii7lXSZdPm9WZ9C9mKbjB55a7U1rWP
-         Zu6A2GMQC0xXJkxsTaTqrtYPO+HjJ7/K8n7qBs3rAO5RnXOUwkopLiGBNw4rYFe65YiB
-         9e6Z1Bl4zkGxjEkqypVkraa1g8pRowsg8eHQltrKe0/jLat2iq+/qfjallW8iyRa6SrC
-         vqQg==
-X-Forwarded-Encrypted: i=1; AJvYcCXo1v1X9HHpftvIYwt+6KCDmyvZAUtn761RGImjqTh50m2AlvFDv9TLZiJrIAapHkbOVipWF3OEAAc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy4lDJfzBIWmRiCUWOkN+Q3c5vUKlOXdIJLOE0O6+9NjfVb12XO
-	BsA2UqP0ERHrB+fNyKbETHnXUikMeDVFLTxac3ZSFJ8UQQB46DupMCiaBvUuulzZQL0=
-X-Gm-Gg: ATEYQzyQ/Rx6OdUoRH96NuKW/ogcriFZm6CSGYn6bOYJE53kgo8UKBIrq2Ua8w0wwKs
-	GMBkzYNS/RV4haCoaSSsNJHpz6mWxRSLUzcsyqrGX732V8e/7poqaeRN2x9Tx9Lcd9v8+VlQ35V
-	LMEdlzAUS9OJCl6wl82qTjSQcTFVgjAxhqyDaPfqA3UT0woh7QIkd/Q2/7j0LUaZkOiM4AMvvTj
-	q52jEUh08wX4GIcDW2KcMd5KW9B+rlmd6ur6yNCUYQZk3147OmXXCtZIGqfANVGNcgArBG4f5Y0
-	ueNKWcetBw1gpxD+5xIy3dTlHumshclzPRZYnvhjH+ONRw4JuKW5sJn8vvr1jeRuRHW9tvROa/c
-	OmBF4YEEv6X9vaICjekDf1WxTWxALa7uqlg0zHy1HNS/O+p22mkH7j+TKVxoRfADmZmDk0gzliU
-	nzOysjhbdLFx0K/7JhP2AZtaS8EiOOTdUuWQPlNKhxkA==
-X-Received: by 2002:a05:600c:4fc2:b0:477:a1a2:d829 with SMTP id 5b1f17b1804b1-4852692bfa5mr30418785e9.13.1772799209987;
-        Fri, 06 Mar 2026 04:13:29 -0800 (PST)
-Received: from FV6GYCPJ69 ([208.127.45.21])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-485256b1eacsm30285005e9.0.2026.03.06.04.13.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Mar 2026 04:13:29 -0800 (PST)
-Date: Fri, 6 Mar 2026 13:13:26 +0100
-From: Jiri Pirko <jiri@resnulli.us>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Tariq Toukan <tariqt@nvidia.com>, Eric Dumazet <edumazet@google.com>, 
-	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Donald Hunter <donald.hunter@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed <saeedm@nvidia.com>, 
-	Leon Romanovsky <leon@kernel.org>, Mark Bloch <mbloch@nvidia.com>, Shuah Khan <shuah@kernel.org>, 
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, linux-kselftest@vger.kernel.org, Gal Pressman <gal@nvidia.com>, 
-	Dragos Tatulea <dtatulea@nvidia.com>, Shay Drory <shayd@nvidia.com>, Jiri Pirko <jiri@nvidia.com>, 
-	Moshe Shemesh <moshe@nvidia.com>
-Subject: Re: [PATCH net-next V3 00/10] devlink: add per-port resource support
-Message-ID: <ni23r4jiwgc6zjjsubtl4ujjgxzwpxrylumofdwxgozfnieynm@zirlbneaz6p2>
-References: <20260226221916.1800227-1-tariqt@nvidia.com>
- <20260302192640.49af074f@kernel.org>
- <pmxkihhtsskkwsvdia4z2ss4wxpfc4a4kqxkjv5wk3mwdmpzii@6go7pizk2nst>
- <jssifysprwuafkinc3dguspngxmplrngqxvotp76vhvu4e5lp6@e7mdrjqc5rme>
- <20260304101522.09da1f58@kernel.org>
- <np44uzfn6jea56uht4yq4te5clapgj7pk6ygyvkl22wxumwnvt@nrpvzjqzxenq>
- <20260305063729.7e40775d@kernel.org>
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="CNMC8amu"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=FZ5k77fBZUeLx/I7ORfiZQ/DSDf5KLXnLSMSJHUV3gl0x3lobXLiJOiGQhcIYwCBlOZoWrRrt1b39jx6rGXUv/NSfwb/0nlpjMOcTjuIRvBK2PqfP39VBMvUjfJIba+UNaWoe8xSjhdYnQ5lEuDd7isCHbUCJFfBI1Cc07IPm/HQSJ92ogTqTC5LgKcy3/iGaZSJqHOpBDDMyPgec+aAWrji1hoOf64H5vQ2M0nkazbyG/xWK8diCPy7428PBSAympYMYImEOr7WxVoC1QoJ/q5nJtm/+0vdkf2Nzw7/yVtIWPZK+bu8gtIzu1LVHQqErILfP1g8DbVaRB6KH8viZw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RdjIJ0nMeZYZKbO40/GLR+QpLrTHUeu3UmPwKzatuc8=;
+ b=cWG+REBRSQFfEWvD+hNCtle8++KsigczKlvKTq6qSxLTvWZxyjwsTsw1aB+mVjJ1uWXts82qPjr78y9m9y/VLRngxFfHw+fvuuhfIRlmWwwrd2pw/TWOL6Q6klmR6/+J1MQopVDkJfTzCiVhlE7rsbEDSq1r31pvvzig+tmXJbmB6DTtRGvnN5vrKdsJHpy0w52RfFK77zma2p1m36KXlu9FixVp971WTo20Fs9Au6TMglT7D9fSmmH9og5HLUIWieMROPxZLEwdCjqUGT6ev6bv3p9qYtm6VxtK7UGNo+v8rVWEHU77vcp/2PxlPFTfUGodqRemMAhvh9Tr5OKB6A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.21.195) smtp.rcpttodomain=lists.infradead.org smtp.mailfrom=ti.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RdjIJ0nMeZYZKbO40/GLR+QpLrTHUeu3UmPwKzatuc8=;
+ b=CNMC8amuVSh9WLVWWkXb1e5rUSbcKPG9fcd5hfOGNfesyP7wnvCIMUKJFVo9RKPWjamfazGjpvSpz5lTC/3B8PEkeOmhxi4h5LcKQoPnO5xofFAHmTHbcbQe5gy0o2XiPcJ+yJaqSeONCGKjtOEt2yzpa573KTkac+Gqrv7kqmc=
+Received: from DM6PR08CA0066.namprd08.prod.outlook.com (2603:10b6:5:1e0::40)
+ by MW4PR10MB6396.namprd10.prod.outlook.com (2603:10b6:303:1e9::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.18; Fri, 6 Mar
+ 2026 12:14:20 +0000
+Received: from CY4PEPF0000E9D1.namprd03.prod.outlook.com
+ (2603:10b6:5:1e0:cafe::8e) by DM6PR08CA0066.outlook.office365.com
+ (2603:10b6:5:1e0::40) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9678.19 via Frontend Transport; Fri,
+ 6 Mar 2026 12:14:18 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.195)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.21.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.21.195; helo=flwvzet201.ext.ti.com; pr=C
+Received: from flwvzet201.ext.ti.com (198.47.21.195) by
+ CY4PEPF0000E9D1.mail.protection.outlook.com (10.167.241.136) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9678.18 via Frontend Transport; Fri, 6 Mar 2026 12:14:19 +0000
+Received: from DFLE207.ent.ti.com (10.64.6.65) by flwvzet201.ext.ti.com
+ (10.248.192.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 6 Mar
+ 2026 06:14:08 -0600
+Received: from DFLE210.ent.ti.com (10.64.6.68) by DFLE207.ent.ti.com
+ (10.64.6.65) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 6 Mar
+ 2026 06:14:08 -0600
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE210.ent.ti.com
+ (10.64.6.68) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Fri, 6 Mar 2026 06:14:08 -0600
+Received: from [172.24.231.225] (a0507033-hp.dhcp.ti.com [172.24.231.225])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 626CE4Ol3780763;
+	Fri, 6 Mar 2026 06:14:05 -0600
+Message-ID: <9e5f094b-a55e-40db-95f6-afcf487b3f40@ti.com>
+Date: Fri, 6 Mar 2026 17:44:04 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260305063729.7e40775d@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 3/4] PCI/DOE: Add DOE mailbox support for endpoint
+ functions
+To: Manivannan Sadhasivam <mani@kernel.org>, Alistair Francis
+	<alistair@alistair23.me>
+CC: <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<bhelgaas@google.com>, <corbet@lwn.net>, <cassel@kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<s-vadapalli@ti.com>, <danishanwar@ti.com>, <srk@ti.com>
+References: <20260213123603.420941-1-a-garg7@ti.com>
+ <20260213123603.420941-4-a-garg7@ti.com>
+ <1907366a-e6d6-41ac-b61d-6e65e9dafe9a@alistair23.me>
+ <m7zyatomfy37j3dmvefkxr2waokhgj3qjl65fsnn7tsug3bti4@q77qhwwmauwo>
+Content-Language: en-US
+From: Aksh Garg <a-garg7@ti.com>
+In-Reply-To: <m7zyatomfy37j3dmvefkxr2waokhgj3qjl65fsnn7tsug3bti4@q77qhwwmauwo>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000E9D1:EE_|MW4PR10MB6396:EE_
+X-MS-Office365-Filtering-Correlation-Id: f638d2a3-7577-40bb-e5f7-08de7b79e4c1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|36860700016|1800799024|34020700016|82310400026;
+X-Microsoft-Antispam-Message-Info:
+	LCbqqTR1nuBMuYJhAjWYQ07GSu8xo4X+JLEdGUd5OiNyv/rqU3114XD2bI8so5nhQq7igwwcCRJngUFVDNlD8BZEzsMHUWnMaO3edEjftoBoMrFTWnJT1D/MHniHe/MHt2tbwAG010ZEwZW78WOzOoHfDJD9h+t850j1yxL230AeyjmoPwtlLlb0UP+uXscrReOo7VEPCY9eBEVOm8QiEq2IJt6on2eq7isu16eU6cqGcg31db/1C3qKa5D+VOpdGDeIttSFG8cbCt9CXLkkwRlgv0xiPp+t0ANCVHlVx3kjNMdT8eb5JkNBM1vzzfbksVOwrmbLJqOW45vQjmU7zSCCQwm3ytiyTIpPOnLWSLFc9coeMRuZeg3+n+xTGAC7fOnAVS5OH+2umy3xB0XS7iVte4ZB2aMPVlu+EzgeoaotdTAtE6bXq4IOTAUzH6tufluxnFS1Xqg0vP40pY2h/iqjlDjWvPlOjTMsRHjjdqStm/dPqPdVG3VcKZvaByLX/an3itwG3Y7dn0lgsaNaLqWIuySPs3bsucE9u8tbeI+lQmoSJpfYoOTrQ4skzVUls/fmihX+cKfKUmQnLxH1sJaZ1ehiupb1F7+BfDebvL8GwUIYMkv0Zr6yD1q4DAqQgb/3whOR5POG+fMGx3WpVaZJOYNvj/gi2wqdFvhsEDD8peOraAaecpgiHpin211bTBYvoZc0mi7io98dFij8nHUz+yedy9AGj7ebyIFis7L56nB6XgxlQnzGjZ5PTkoynnl9ZjnySAksV1lcLuVrlw==
+X-Forefront-Antispam-Report:
+	CIP:198.47.21.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet201.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(376014)(36860700016)(1800799024)(34020700016)(82310400026);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	6XTr0RTsG/UzOlQqkfWX0lnmS3EwfvXTkDFQRaPDx92BgTbdCKpQpMpvUq3Jy6Mjdz8wa29b6SdV8/ymXmXPM4FxML+i2VZimOm3isWE1MBUFlZ61P2u6JsjLruIgIsxxQ+SAlJLj+PVJjI8EWpxjEoSyq2pSdIc5XGOR2D68VAZD79wrFp6H8Q8WXzzKRgsjGqUD6zd/0vch4gsxu/xukjxmBnUhU0IgtvKPOEOqjQfvD0BlNJ59hSkmWmlIGH8tTeVCjffCLD2LmrJP9Or6w1eT1nvNGzo4M8mBTYiJE6TmtTea8GScoJr1f+XzuO1GNKOGZ/mkA2nx+M269SPhYk9izBUNODmUSZH3ACKpi7v1DSngYeWtL7c+bbrqN0a7pzW7BTaymI3e9JVjEsS6OQjFO7hIoetQSBY/d2Hz+UlLzsaf8MnxtZIW/0BWTiY
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2026 12:14:19.1555
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f638d2a3-7577-40bb-e5f7-08de7b79e4c1
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.195];Helo=[flwvzet201.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CY4PEPF0000E9D1.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR10MB6396
 
-Thu, Mar 05, 2026 at 03:37:29PM +0100, kuba@kernel.org wrote:
->On Thu, 5 Mar 2026 08:56:42 +0100 Jiri Pirko wrote:
->> Wed, Mar 04, 2026 at 07:15:22PM +0100, kuba@kernel.org wrote:
->> >On Wed, 4 Mar 2026 11:34:13 +0100 Jiri Pirko wrote:  
->> >> On a second thought, if we merge multiple objects into one dump, how
->> >> does this extend? I mean, the userspace has to check there are no extra
->> >> attributes, as they may be used as a handle to another new object
->> >> introduced in the future... Idk, it's a bit odd.  
->> >
->> >That's true, the user space must be able to interpret the object
->> >identifier. So if we extend the command to add more identifiers
->> >we will have to add the bitmask to the dump request, and have
->> >the user space tell the kernel which objects it can recognize.
->> >I was just saying that we don't have to add such attribute now,
->> >maybe leave a comment in a strategic place for our future selves?  
->> 
->> Or, alternatively, we can have per-object dumps as we have for all
->> objects and command right now and leave things simple and
->> straightforward? I mean, I don't really see a benefit of a single dump
->> for more objects :/
->
->What do you mean by straightforward, exactly?
->
->User will most likely want to see all resources of a device in a single
->dump / command.
+Mani, Alistair
 
-Hmm. We actually already have this for region and health reporter dumps.
-Only for params we have that separate.
-So let's do it for resource too.
+On 04/03/26 19:48, Manivannan Sadhasivam wrote:
+> On Wed, Feb 18, 2026 at 02:28:23PM +1000, Alistair Francis wrote:
+>> On 13/2/26 22:36, Aksh Garg wrote:
+>>> From: Aksh Garg <a-garg7@ti.com>
+>>>
+>>> DOE (Data Object Exchange) is a standard PCIe extended capability
+>>> feature introduced in the Data Object Exchange (DOE) ECN for
+>>> PCIe r5.0. It provides a communication mechanism primarily used for
+>>> implementing PCIe security features such as device authentication, and
+>>> secure link establishment. Think of DOE as a sophisticated mailbox
+>>> system built into PCIe. The root complex can send structured requests
+>>> to the endpoint device through DOE mailboxes, and the endpoint device
+>>> responds with appropriate data.
+>>>
+>>> Add the DOE support for PCIe endpoint devices, enabling endpoint
+>>> functions to process the DOE requests from the host. The implementation
+>>> provides framework APIs for controller drivers to register mailboxes,
+>>> protocol handler registration for different DOE data object types, and
+>>> request processing with workqueues ensuring sequential handling per
+>>> mailbox. The Discovery protocol is handled internally by the DOE core.
+>>>
+>>> This implementation complements the existing DOE implementation for
+>>> root complex in drivers/pci/doe.c.
+>>
+>> This looks good to me!
+>>
+>> I would love to see a handler implementation and integration with a driver
+>> as well.
+>>
+>> For SPDM the handler could even be in userspace
+>>
+> 
+> +1. We should not be introducing dead APIs.
+> 
+> - Mani
+> 
 
-Thanks!
+I am planning to remove the register/unregister protocol APIs, and add a
+static array of 'struct pci_doe_protocol' instead of a dynamic xarray.
+By this, we would not be relying on someone to call the register
+protocol on behalf of a library.
+Whenever a new library comes up for DOE protocol, the library would have
+the handler function, and the static array simply needs to populated
+with this handler function in doe-ep.c
 
->
->The objects themselves are identical, they only differ by the handle,
->and yet we'd have two separate commands to access them.
->
->It's as if we had separate GETLINK commands in rtnetlink for devices on
->the PCIe bus vs connected via USB.
+Please share your thoughts on this approach.
+
+>> Alistair
+>>
+>>>
+>>> Co-developed-by: Siddharth Vadapalli <s-vadapalli@ti.com>
+>>> Signed-off-by: Siddharth Vadapalli <s-vadapalli@ti.com>
+>>> Signed-off-by: Aksh Garg <a-garg7@ti.com>
+>>> ---
