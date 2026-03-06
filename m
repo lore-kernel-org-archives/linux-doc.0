@@ -1,166 +1,97 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AF1535839C;
-	Fri,  6 Mar 2026 11:17:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B05853596E1;
+	Fri,  6 Mar 2026 11:28:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772795821; cv=none; b=DumukOqA0JhMQ/EU/KaRHmP+egaHmB+37n+NR3p2/8WWgwtAn56DPkO4+M7ZAGe8iLVbIU3Kpbl/aEu3pFqysJ8UPJIyvGczXhBfqMIJx6YD40yMncMEi3DbsCvN3TLpJVztwDnB1OrkhuUINf7kH4SZvDurKFTVMiaeMNBk1Wg=
+	t=1772796530; cv=none; b=VwNrl39W3Fey28yXTPh41X8INAUsJLdjpLjWz1zo4RsiSJUNgN5CGvQ68KjcA6c9j74h4JwHJ+91P2bz+ZzMHwoI87qyiiLruz6iIPVwa3z8vJCZsUlsWUec+W2RAZ+N6ew2HC7CRC7pU1O3rhAFRwf0pt866FtbZR/VW1CDieE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772795821; c=relaxed/simple;
-	bh=0ct0kpKeDc+z2OOgJb8NVSmKtUsozpuK8513SX1J5pA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kQNboLL/1zrK5xSDNXOd+bXaQ5Vai64erLBdeBLPPUFpQK9B5AhyhO7z6GAOEEkpvyCol9fLqoo+Kudzrv8/gMDpHcAjiYcDIa/uJzHSM6uRE/1gOxOBuKoVXk8X+0CO6jHInxNTNb8+DAXSPqWJ15dqtVrUDLoePNtZgO6sLLs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=mai2BBne; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=OEBLTa5P; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1772796530; c=relaxed/simple;
+	bh=Cf5Ri36aqGZAeA3gVwYv7tsS/cl+PXdpzlMVXeOVd1o=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=KqhHTia90fCIz3rW2Q+1249yH4TssoCB76C2ni0bnBVZpscONeDFrxGUHbavNnvCXbOGgsXXfujSQPtftSj0Rp56dHom0mzUE5KV40di9idrIBts1T4NDVV45TvcgWVmRjKEm5RWq5DOE1hATuUVl0TFHCEqXG8jdqYL1qdoPUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=LnWQQVNy; arc=none smtp.client-ip=220.197.31.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="mai2BBne";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="OEBLTa5P"
-Date: Fri, 6 Mar 2026 12:16:56 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1772795818;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=edgyxK5qi6Ep8DqwcjmWXemGWVZZ1w6pXK2DL1BBElk=;
-	b=mai2BBne1Lvz/o4lG4LVp1PHvaevfcxrH2Pa+kzYR2eFhnNCPfgJzUk3oAEIMjINmunPan
-	52Pq2znicPpmIqcLfo52ws1HBIp5jLUyOoOoDoAha+JQBMhzB9UhEBBb4rwczD1+WfGUSL
-	eddh5Vv0szLz0gqKB5VJk39gIEd6TjomNAgwhg5a+XcA/X2DotqeSKJEde/W82HcIQx/hi
-	IfFT/ZJUPwneQ5szp77UlOaZZHs7HDfty7pqG/4kMrf9iuCHcPiplcc5yWwSCgCVVsIGJT
-	tZxajdpvxJGFvAdf7ogxRNMy1d9RgvvuwzoQ4JMrFyBOhRBLcO1eLOWVICkQCw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1772795818;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=edgyxK5qi6Ep8DqwcjmWXemGWVZZ1w6pXK2DL1BBElk=;
-	b=OEBLTa5PmPF5m1WV/SXWK4ehaTH7Al34TIPSQaG77cUS64gJMn/2EJBhlC9cPzyyXnGbgF
-	ARy5lta9E5rY59Aw==
-From: "Ahmed S. Darwish" <darwi@linutronix.de>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Clark Williams <clrkwllms@kernel.org>,
-	linux-rt-devel@lists.linux.dev,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	John Ogness <john.ogness@linutronix.de>,
-	Derek Barbosa <debarbos@redhat.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 1/1] Documentation: real-time: Add kernel
- configuration guide
-Message-ID: <aaq3qN_mdpvJ0ixY@lx-t490>
-References: <20260305205023.361530-1-darwi@linutronix.de>
- <20260305205023.361530-2-darwi@linutronix.de>
- <20260305180741.7bd114f4@gandalf.local.home>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="LnWQQVNy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=4J
+	BTRCBGa5ROeLIwLaPxKksydAUTfA05obJQkDOCbsg=; b=LnWQQVNyi5y/GIBzfF
+	WpnpUoHBcvX+HseGqzedTjEz2pujuDzn2o91dScKHgmrJyfuDbJK893UJwa7I2Eo
+	ky/pESt80mxw+7NzWPqPyG4ASUfgSf84fPzMGhe3HFg+8Ij+0cu+Vn1M7fbZx1Bg
+	PULJUQyIjRsMvSyoMRYO4Du6w=
+Received: from localhost.localdomain (unknown [])
+	by gzga-smtp-mtada-g0-1 (Coremail) with SMTP id _____wAnZc8ouqppZ42WOA--.54025S2;
+	Fri, 06 Mar 2026 19:27:38 +0800 (CST)
+From: "rom.wang" <r4o5m6e8o@163.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundatio.org>,
+	Paul Walmsley <pjw@kernel.org>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	Yufeng Wang <wangyufeng@kylinos.cn>
+Subject: [PATCH] riscv: enable HAVE_IOREMAP_PROT
+Date: Fri,  6 Mar 2026 19:27:34 +0800
+Message-Id: <20260306112734.108186-1-r4o5m6e8o@163.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260305180741.7bd114f4@gandalf.local.home>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wAnZc8ouqppZ42WOA--.54025S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7ZrW8Jry3AF1fCFW7tr45GFg_yoW8XFW3pa
+	y3ur9a9rnxZrn8CFWqgry7WrWUJas3G39Fgw10kay8Wr1DAFy8Z3sayFnxJFyUXFZ5WFW8
+	WF9ag34Fya1jyrUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07U6OJrUUUUU=
+X-CM-SenderInfo: 3uurkzkwhy0qqrwthudrp/xtbCzgq9M2mquir+agAA3N
 
-On Thu, 05 Mar 2026, Steven Rostedt wrote:
->
-> Very nice document!
->
+From: Yufeng Wang <wangyufeng@kylinos.cn>
 
-Oh, thanks :)
+RISC-V has implemented pte_pgprot() and selects GENERIC_IOREMAP,
+which provides a generic ioremap_prot() implementation. Enable
+HAVE_IOREMAP_PROT to activate generic_access_phys() support, which
+is useful for debugging (e.g., accessing /dev/mem via gdb).
 
->
-> > +
-> > +``CONFIG_PREEMPT_RT`` enables this option by default.  If this option is
-> > +disabled during the kernel build, pass the following boot parameter [1]_::
-> > +
-> > +  efi=noruntime
->
-> The above reads a bit funny. Maybe reword it to:
->
->   ``CONFIG_PREEMPT_RT`` enables this option by default. If this option is
->   manually disabled at build time, the following boot parameter [1]_ may
->   be used to disable EFI runtime at boot up::
->
-> Or something like that.
->
+Also update the architecture support documentation accordingly.
 
-Yes, much better; will do.
+Signed-off-by: Yufeng Wang <wangyufeng@kylinos.cn>
+---
+ Documentation/features/vm/ioremap_prot/arch-support.txt | 2 +-
+ arch/riscv/Kconfig                                      | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-> > +
-> > +There is ongoing `development work`_ to allow EFI variables access for a
-> > +real-time Linux system.
->
->   .. to allow access to EFI variables for a real-time Linux system
->
->  ?
->
+diff --git a/Documentation/features/vm/ioremap_prot/arch-support.txt b/Documentation/features/vm/ioremap_prot/arch-support.txt
+index 1638c2cb17f1..c0a2d8f56046 100644
+--- a/Documentation/features/vm/ioremap_prot/arch-support.txt
++++ b/Documentation/features/vm/ioremap_prot/arch-support.txt
+@@ -20,7 +20,7 @@
+     |    openrisc: | TODO |
+     |      parisc: | TODO |
+     |     powerpc: |  ok  |
+-    |       riscv: | TODO |
++    |       riscv: |  ok  |
+     |        s390: |  ok  |
+     |          sh: |  ok  |
+     |       sparc: | TODO |
+diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+index 90c531e6abf5..32b6aa8dece7 100644
+--- a/arch/riscv/Kconfig
++++ b/arch/riscv/Kconfig
+@@ -113,6 +113,7 @@ config RISCV
+ 	select GENERIC_GETTIMEOFDAY if HAVE_GENERIC_VDSO && 64BIT
+ 	select GENERIC_IDLE_POLL_SETUP
+ 	select GENERIC_IOREMAP if MMU
++	select HAVE_IOREMAP_PROT if MMU
+ 	select GENERIC_IRQ_IPI if SMP
+ 	select GENERIC_IRQ_IPI_MUX if SMP
+ 	select GENERIC_IRQ_MULTI_HANDLER
+-- 
+2.34.1
 
-Yup.
-
-> > +``CONFIG_TRACING`` (and tracing options)
-> > +----------------------------------------
-> > +
-> > +:Expectation: enabled
-> > +:Severity: *info*
-> > +
-> > +Shipping kernels with tracing support enabled (but not actively running)
-> > +is highly recommended.  This will allow the users to extract more
-> > +information if latency problems arise.
-> > +
-> > +.. caution::
-> > +
-> > +  Users should *not* make use of tracers or trace events during production
-> > +  real-time kernel operation as they can add considerable overhead and
-> > +  degrade the system's latency.
->
-> I wonder if a special note should be called out for:
->
->   CONFIG_IRQSOFF_TRACER and CONFIG_PREEMPT_TRACER should be avoided as they
->   do incur measurable overhead even when tracing is not currently active.
->
-> Maybe the above should be added in the "Problematic debug options"?
->
-
-Oh, didn't know about that; I'll add them for sure.
-
->
-> > +Kernel Debug Options
-> > +====================
-> > +
-> > +Most kernel debug options add runtime overhead that increases the
-> > +worst-case latency.
-> > +
-> > +.. caution::
-> > +
-> > +  During development and early testing, users are encouraged to run their
-> > +  real-time workloads and peripherals with lockdep and other kernel debug
-> > +  options enabled, for a considerable amount of time.  Such workloads
-> > +  might trigger kernel code paths that were not triggered during the
-> > +  internal Linux real-time kernel development, thus helping to uncover any
-> > +  real-time latency issues in the kernel.
->
-> Hmm, perhaps there should be some note that connects the use of "lockdep"
-> with CONFIG_PROVE_LOCKING below (as that is what enables lockdep). The last
-> sentence above makes it sound like lockdep can uncover latency issues, but
-> it will most likely cause latency issues. Perhaps a bit more explanation
-> should be used here.
->
-
-will do.
-
-> > +
-> > +With that in mind, any false real-time kernel configuration could cause a
->
->   s/false/incorrect/ ?
->
-
-Yup.
-
->
-> Nice job!
->
-
-Thanks!  I'll send a v2 on Monday.
-
-All the best,
-Ahmed
