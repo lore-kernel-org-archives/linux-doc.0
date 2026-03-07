@@ -1,55 +1,55 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A64C3469F5;
-	Fri,  6 Mar 2026 23:21:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 118652741B6;
+	Sat,  7 Mar 2026 00:33:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772839273; cv=none; b=mD026SSI8CCY04Bl1wh7ZZhFYl1YuNOZTHje8TYtushizLw3l9r38I6mjqY5TQS3oLw4NFF6TjvbrYMnDNzV8o+u3o/57BqvcaashTW9CtQNKR5kA8mzFOPEkPUC1vAL9VUgekvqpW5yo+294bh9TbBuipLEdu4HvpBCmJSqeT8=
+	t=1772843620; cv=none; b=aGiPPooz0Y648KRtivXQWx9Lm2xNDSBpJgVzQDGSmlXECR3wchqFO+xbt6FcajbxBrCtKiszciM2QbCLZi8qtCSWyegy/Pq2eXIFxC/VqUgVvQ2EXgS58S48iRNic2Vh35dOOh1OsfTTF3+ISZqdyTsFPGoB0UQNejgJSoF1HfU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772839273; c=relaxed/simple;
-	bh=ZjpQiHtNAaS5LFI62C8zACHMj2QEe04oG7hntNQrOgM=;
+	s=arc-20240116; t=1772843620; c=relaxed/simple;
+	bh=emm5hofz+4Swmt0IujrmOwV5BydfZR5A4wBWzsREwNI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Torp8yRzxGFXshxMpy0cdiDEVBA4suNRjgy4GhNUDMXeOFsFlwn9mFdTtSq2xiWSUjbbKcktCqmLN8RvzkEigGL8AYDNvjYGjCLYv1b28XsLVvdQmXnvXcLuDlBx49bpjQaBv7J+g9/CiU25T+YXWNNoMcw+LEOmv5Xs7xE3vts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=WOIwu40N; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	 MIME-Version; b=NiyBfVwcpDcQPrkDi+XKoe7apNYs5dj3IJU8fPm0pzL2LJHRGU0vPTSpjQLZFHdcF1MmKRU1oJCLJ/B0cLvzc+zcyOsw66t6K0Syzh17lk6dXeRzCBfuzh2/kd43SphmrUN6YH/iKfkI3a02OjADnVDmv7fG8ohD2y+2Xhctvto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=atyXmy4N; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="WOIwu40N"
-Received: by linux.microsoft.com (Postfix, from userid 1006)
-	id 06A8120B6F02; Fri,  6 Mar 2026 15:21:12 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 06A8120B6F02
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1772839272;
-	bh=Fq7q9rl4Q/OOimOveUu4mF0Owb2cGJSM+ebh2G6WOis=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="atyXmy4N"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6810C2BCAF;
+	Sat,  7 Mar 2026 00:33:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772843619;
+	bh=emm5hofz+4Swmt0IujrmOwV5BydfZR5A4wBWzsREwNI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=WOIwu40NLfRqorK49KjVi5xno87F2nlNm2EyjyWtHpxTDagoV4S5jr0d3Irj5YaD2
-	 RELGidEnOT9YUfZnFZyxEzIMHsP/bU3KE+hzSlzfiEd6cLfQacuPbNjihcNAUaYOmK
-	 /bG6OurF20Z2nyxhTAFy+QgFyMAQGMGieb7GmkxQ=
-From: Haiyang Zhang <haiyangz@linux.microsoft.com>
-To: linux-hyperv@vger.kernel.org,
-	netdev@vger.kernel.org,
-	Andrew Lunn <andrew@lunn.ch>,
-	Jakub Kicinski <kuba@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Donald Hunter <donald.hunter@gmail.com>,
+	b=atyXmy4N/F7bDXE1BJs9nOpPUHx+0VJvLqlE0iC00MsdHhG6oCx8pC2fmzP6ykVie
+	 3vjMuecaXqFp+iJh4o2hWaYmGOsyUT2MdEJcQ4nnq7dsFcsqbt9v+sbl6R1e5ajWrT
+	 d3NXF5yFDdsLUHAMb+oeq+8hS6Q3FubDmYxtdgwWhixTe/mfJTC4vrETEFRmLEHxTw
+	 L4IMNam3MBXp1YYx+yRAfTjRPiUajPcrwy2Pt2aaqll3w2KJ9HSidSrYJwUgPtQM0k
+	 +n58JrPxPXYWdxZ1liRwyft8KpXK0VLk7MPruZ0ljENifrHPNrtwrHO5M8KR/sH7Xf
+	 1Cl2f/YYPys2Q==
+From: SeongJae Park <sj@kernel.org>
+To: SeongJae Park <sj@kernel.org>
+Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Shuah Khan <shuah@kernel.org>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	"Kory Maincent (Dent Project)" <kory.maincent@bootlin.com>,
-	Gal Pressman <gal@nvidia.com>,
-	Oleksij Rempel <o.rempel@pengutronix.de>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	damon@lists.linux.dev,
+	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: haiyangz@microsoft.com,
-	paulros@microsoft.com
-Subject: [PATCH net-next,V3, 1/3] net: ethtool: add ethtool COALESCE_RX_CQE_FRAMES/NSECS
-Date: Fri,  6 Mar 2026 15:19:13 -0800
-Message-ID: <20260306231936.549499-2-haiyangz@linux.microsoft.com>
-X-Mailer: git-send-email 2.43.7
-In-Reply-To: <20260306231936.549499-1-haiyangz@linux.microsoft.com>
-References: <20260306231936.549499-1-haiyangz@linux.microsoft.com>
+	linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: Re: [RFC PATCH v2 00/10] mm/damon: support multiple goal-based quota tuning algorithms
+Date: Fri,  6 Mar 2026 16:33:20 -0800
+Message-ID: <20260307003321.109390-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260304044122.79394-1-sj@kernel.org>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -58,170 +58,146 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Haiyang Zhang <haiyangz@microsoft.com>
+On Tue,  3 Mar 2026 20:41:09 -0800 SeongJae Park <sj@kernel.org> wrote:
 
-Add two parameters for drivers supporting Rx CQE Coalescing.
+> Aim-oriented DAMOS quota auto-tuning uses a single tuning algorithm.
+> The algorithm is designed to find a quota value that should be
+> consistently kept for achieving the aimed goal for long term.  It is
+> useful and reliable at automatically operating systems that have dynamic
+> environments in the long term.
+> 
+> As always, however, no single algorithm fits all.  When the environment
+> has static characteristics or there are control towers in not only the
+> kernel space but also the user space, the algorithm shows some
+> limitations.  In such environments, users want kernel work in a more
+> short term deterministic way.  Actually there were at least two reports
+> [1,2] of such cases.
+> 
+> Extend DAMOS quotas goal to support multiple quota tuning algorithms
+> that users can select.  Keep the current algorithm as the default one,
+> to not break the old users.  Also give it a name, "consist", as it is
+> designed to "consistently" apply the DAMOS action.  And introduce a new
+> tuning algorithm, namely "temporal".  It is designed to apply the DAMOS
+> action only temporally, in a deterministic way.  In more detail, as long
+> as the goal is under-achieved, it uses the maximum quota available.
+> Once the goal is over-achieved, it sets the quota zero.
+> 
+> Tests
+> =====
+> 
+> I confirmed the feature is working as expected using the latest version
+> of DAMON user-space tool, like below.
+> 
+>     $ # start DAMOS for reclaiming memory aiming 30% free memory
+>     $ sudo ./damo/damo start --damos_action pageout \
+>             --damos_quota_goal_tuner temporal \
+>             --damos_quota_goal node_mem_free_bp 30% 0 \
+>             --damos_quota_interval 1s \
+>             --damos_quota_space 100M
+> 
+> Note that >=3.1.8 version of DAMON user-space tool supports this feature
+> (--damos_quota_goal_tuner).  As expected, DAMOS stops reclaiming memory
+> as soon as the goal amount of free memory is made.  When 'consist' tuner
+> is used, the reclamation was continued even after the goal amount of
+> free memory is made, resulting in more than goal amount of free memory,
+> as expected.
+> 
+> Patch Sequence
+> ==============
+> 
+> First four patches implement the features.  Patch 1 extends core API to
+> allow multiple tuners and make the current tuner as the default and only
+> available tuner, namely 'consist'.  Patch 2 allows future tuners setting
+> zero effective quota.  Patch 3 introduces the second tuner, namely
+> 'temporal'.  Patch 4 further extends DAMON sysfs API to let users use
+> that.
+> 
+> Three following patches (patches 5-7) update design, usage, and ABI
+> documents, respectively.
+> 
+> Final three patches (patches 8-10) are for adding selftests.  The eighth
+> and the ninth patches extend the testing-purpose DAMON sysfs control
+> helper and DAMON status dumping tool to support the newly added feature.
+> The tenth patch extends the existing online commit test to cover the new
+> feature.
+> 
+> References
+> ==========
+> 
+> [1] https://lore.kernel.org/CALa+Y17__d=ZsM1yX+MXx0ozVdsXnFqF4p0g+kATEitrWyZFfg@mail.gmail.com
+> [2] https://lore.kernel.org/20260204022537.814-1-yunjeong.mun@sk.com
+> 
+> Changelog
+> =========
+> 
+> Changes from RFC v1
+> (https://lore.kernel.org/20260212062314.69961-1-sj@kernel.org)
+> - Add selftest for goal_tuner commitment.
+> - Set goal tuner inside damon_new_scheme().
+> - Allow zero size effective size quota.
+> - Update the ABI document.
+> - Wordsmith change descriptions.
+> 
+> SeongJae Park (10):
+>   mm/damon/core: introduce damos_quota_goal_tuner
+>   mm/damon/core: allow quota goals set zero effective size quota
+>   mm/damon/core: introduce DAMOS_QUOTA_GOAL_TUNER_TEMPORAL
+>   mm/damon/sysfs-schemes: implement quotas->goal_tuner file
+>   Docs/mm/damon/design: document the goal-based quota tuner selections
+>   Docs/admin-guide/mm/damon/usage: document goal_tuner sysfs file
+>   Docs/ABI/damon: update for goal_tuner
+>   selftests/damon/_damon_sysfs: support goal_tuner setup
+>   selftests/damon/drgn_dump_damon_status: support quota goal_tuner
+>     dumping
+>   selftests/damon/sysfs.py: test goal_tuner commit
 
-ETHTOOL_A_COALESCE_RX_CQE_FRAMES:
-Maximum number of frames that can be coalesced into a CQE.
+Maybe it is better to add a kunit test for the goal_tuner online commit, like
+below.  I will add it to the next spin of this series.
 
-ETHTOOL_A_COALESCE_RX_CQE_NSECS:
-Time out value in nanoseconds after the first packet arrival in a
-coalesced CQE to be sent.
 
-Signed-off-by: Haiyang Zhang <haiyangz@microsoft.com>
+Thanks,
+SJ
+
+[...]
+=== >8 ===
+From 15d87f41d0d960e3c337899629cf4e05d09dc042 Mon Sep 17 00:00:00 2001
+From: SeongJae Park <sj@kernel.org>
+Date: Fri, 6 Mar 2026 16:27:45 -0800
+Subject: [PATCH] mm/damon/tests/core-kunit: test goal_tuner commit
+
+Signed-off-by: SeongJae Park <sj@kernel.org>
 ---
- Documentation/netlink/specs/ethtool.yaml       |  8 ++++++++
- Documentation/networking/ethtool-netlink.rst   | 10 ++++++++++
- include/linux/ethtool.h                        |  6 +++++-
- include/uapi/linux/ethtool_netlink_generated.h |  2 ++
- net/ethtool/coalesce.c                         | 14 +++++++++++++-
- 5 files changed, 38 insertions(+), 2 deletions(-)
+ mm/damon/tests/core-kunit.h | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/Documentation/netlink/specs/ethtool.yaml b/Documentation/netlink/specs/ethtool.yaml
-index 4707063af3b4..d254e26c014c 100644
---- a/Documentation/netlink/specs/ethtool.yaml
-+++ b/Documentation/netlink/specs/ethtool.yaml
-@@ -861,6 +861,12 @@ attribute-sets:
-         name: tx-profile
-         type: nest
-         nested-attributes: profile
-+      -
-+        name: rx-cqe-frames
-+        type: u32
-+      -
-+        name: rx-cqe-nsecs
-+        type: u32
- 
-   -
-     name: pause-stat
-@@ -2257,6 +2263,8 @@ operations:
-             - tx-aggr-time-usecs
-             - rx-profile
-             - tx-profile
-+            - rx-cqe-frames
-+            - rx-cqe-nsecs
-       dump: *coalesce-get-op
-     -
-       name: coalesce-set
-diff --git a/Documentation/networking/ethtool-netlink.rst b/Documentation/networking/ethtool-netlink.rst
-index 32179168eb73..a9fbb16891fa 100644
---- a/Documentation/networking/ethtool-netlink.rst
-+++ b/Documentation/networking/ethtool-netlink.rst
-@@ -1076,6 +1076,8 @@ Kernel response contents:
-   ``ETHTOOL_A_COALESCE_TX_AGGR_TIME_USECS``    u32     time (us), aggr, Tx
-   ``ETHTOOL_A_COALESCE_RX_PROFILE``            nested  profile of DIM, Rx
-   ``ETHTOOL_A_COALESCE_TX_PROFILE``            nested  profile of DIM, Tx
-+  ``ETHTOOL_A_COALESCE_RX_CQE_FRAMES``         u32     max packets, Rx CQE
-+  ``ETHTOOL_A_COALESCE_RX_CQE_NSECS``          u32     delay (ns), Rx CQE
-   ===========================================  ======  =======================
- 
- Attributes are only included in reply if their value is not zero or the
-@@ -1109,6 +1111,12 @@ well with frequent small-sized URBs transmissions.
- to DIM parameters, see `Generic Network Dynamic Interrupt Moderation (Net DIM)
- <https://www.kernel.org/doc/Documentation/networking/net_dim.rst>`_.
- 
-+Rx CQE coalescing allows multiple received packets to be coalesced into a single
-+Completion Queue Entry (CQE). ``ETHTOOL_A_COALESCE_RX_CQE_FRAMES`` describes the
-+maximum number of frames that can be coalesced into a CQE.
-+``ETHTOOL_A_COALESCE_RX_CQE_NSECS`` describes max time in nanoseconds after the
-+first packet arrival in a coalesced CQE to be sent.
-+
- COALESCE_SET
- ============
- 
-@@ -1147,6 +1155,8 @@ Request contents:
-   ``ETHTOOL_A_COALESCE_TX_AGGR_TIME_USECS``    u32     time (us), aggr, Tx
-   ``ETHTOOL_A_COALESCE_RX_PROFILE``            nested  profile of DIM, Rx
-   ``ETHTOOL_A_COALESCE_TX_PROFILE``            nested  profile of DIM, Tx
-+  ``ETHTOOL_A_COALESCE_RX_CQE_FRAMES``         u32     max packets, Rx CQE
-+  ``ETHTOOL_A_COALESCE_RX_CQE_NSECS``          u32     delay (ns), Rx CQE
-   ===========================================  ======  =======================
- 
- Request is rejected if it attributes declared as unsupported by driver (i.e.
-diff --git a/include/linux/ethtool.h b/include/linux/ethtool.h
-index 83c375840835..656d465bcd06 100644
---- a/include/linux/ethtool.h
-+++ b/include/linux/ethtool.h
-@@ -332,6 +332,8 @@ struct kernel_ethtool_coalesce {
- 	u32 tx_aggr_max_bytes;
- 	u32 tx_aggr_max_frames;
- 	u32 tx_aggr_time_usecs;
-+	u32 rx_cqe_frames;
-+	u32 rx_cqe_nsecs;
- };
- 
- /**
-@@ -380,7 +382,9 @@ bool ethtool_convert_link_mode_to_legacy_u32(u32 *legacy_u32,
- #define ETHTOOL_COALESCE_TX_AGGR_TIME_USECS	BIT(26)
- #define ETHTOOL_COALESCE_RX_PROFILE		BIT(27)
- #define ETHTOOL_COALESCE_TX_PROFILE		BIT(28)
--#define ETHTOOL_COALESCE_ALL_PARAMS		GENMASK(28, 0)
-+#define ETHTOOL_COALESCE_RX_CQE_FRAMES		BIT(29)
-+#define ETHTOOL_COALESCE_RX_CQE_NSECS		BIT(30)
-+#define ETHTOOL_COALESCE_ALL_PARAMS		GENMASK(30, 0)
- 
- #define ETHTOOL_COALESCE_USECS						\
- 	(ETHTOOL_COALESCE_RX_USECS | ETHTOOL_COALESCE_TX_USECS)
-diff --git a/include/uapi/linux/ethtool_netlink_generated.h b/include/uapi/linux/ethtool_netlink_generated.h
-index 114b83017297..8134baf7860f 100644
---- a/include/uapi/linux/ethtool_netlink_generated.h
-+++ b/include/uapi/linux/ethtool_netlink_generated.h
-@@ -371,6 +371,8 @@ enum {
- 	ETHTOOL_A_COALESCE_TX_AGGR_TIME_USECS,
- 	ETHTOOL_A_COALESCE_RX_PROFILE,
- 	ETHTOOL_A_COALESCE_TX_PROFILE,
-+	ETHTOOL_A_COALESCE_RX_CQE_FRAMES,
-+	ETHTOOL_A_COALESCE_RX_CQE_NSECS,
- 
- 	__ETHTOOL_A_COALESCE_CNT,
- 	ETHTOOL_A_COALESCE_MAX = (__ETHTOOL_A_COALESCE_CNT - 1)
-diff --git a/net/ethtool/coalesce.c b/net/ethtool/coalesce.c
-index 3e18ca1ccc5e..349bb02c517a 100644
---- a/net/ethtool/coalesce.c
-+++ b/net/ethtool/coalesce.c
-@@ -118,6 +118,8 @@ static int coalesce_reply_size(const struct ethnl_req_info *req_base,
- 	       nla_total_size(sizeof(u32)) +	/* _TX_AGGR_MAX_BYTES */
- 	       nla_total_size(sizeof(u32)) +	/* _TX_AGGR_MAX_FRAMES */
- 	       nla_total_size(sizeof(u32)) +	/* _TX_AGGR_TIME_USECS */
-+	       nla_total_size(sizeof(u32)) +	/* _RX_CQE_FRAMES */
-+	       nla_total_size(sizeof(u32)) +	/* _RX_CQE_NSECS */
- 	       total_modersz * 2;		/* _{R,T}X_PROFILE */
- }
- 
-@@ -269,7 +271,11 @@ static int coalesce_fill_reply(struct sk_buff *skb,
- 	    coalesce_put_u32(skb, ETHTOOL_A_COALESCE_TX_AGGR_MAX_FRAMES,
- 			     kcoal->tx_aggr_max_frames, supported) ||
- 	    coalesce_put_u32(skb, ETHTOOL_A_COALESCE_TX_AGGR_TIME_USECS,
--			     kcoal->tx_aggr_time_usecs, supported))
-+			     kcoal->tx_aggr_time_usecs, supported) ||
-+	    coalesce_put_u32(skb, ETHTOOL_A_COALESCE_RX_CQE_FRAMES,
-+			     kcoal->rx_cqe_frames, supported) ||
-+	    coalesce_put_u32(skb, ETHTOOL_A_COALESCE_RX_CQE_NSECS,
-+			     kcoal->rx_cqe_nsecs, supported))
- 		return -EMSGSIZE;
- 
- 	if (!req_base->dev || !req_base->dev->irq_moder)
-@@ -338,6 +344,8 @@ const struct nla_policy ethnl_coalesce_set_policy[] = {
- 	[ETHTOOL_A_COALESCE_TX_AGGR_MAX_BYTES] = { .type = NLA_U32 },
- 	[ETHTOOL_A_COALESCE_TX_AGGR_MAX_FRAMES] = { .type = NLA_U32 },
- 	[ETHTOOL_A_COALESCE_TX_AGGR_TIME_USECS] = { .type = NLA_U32 },
-+	[ETHTOOL_A_COALESCE_RX_CQE_FRAMES] = { .type = NLA_U32 },
-+	[ETHTOOL_A_COALESCE_RX_CQE_NSECS] = { .type = NLA_U32 },
- 	[ETHTOOL_A_COALESCE_RX_PROFILE] =
- 		NLA_POLICY_NESTED(coalesce_profile_policy),
- 	[ETHTOOL_A_COALESCE_TX_PROFILE] =
-@@ -570,6 +578,10 @@ __ethnl_set_coalesce(struct ethnl_req_info *req_info, struct genl_info *info,
- 			 tb[ETHTOOL_A_COALESCE_TX_AGGR_MAX_FRAMES], &mod);
- 	ethnl_update_u32(&kernel_coalesce.tx_aggr_time_usecs,
- 			 tb[ETHTOOL_A_COALESCE_TX_AGGR_TIME_USECS], &mod);
-+	ethnl_update_u32(&kernel_coalesce.rx_cqe_frames,
-+			 tb[ETHTOOL_A_COALESCE_RX_CQE_FRAMES], &mod);
-+	ethnl_update_u32(&kernel_coalesce.rx_cqe_nsecs,
-+			 tb[ETHTOOL_A_COALESCE_RX_CQE_NSECS], &mod);
- 
- 	if (dev->irq_moder && dev->irq_moder->profile_flags & DIM_PROFILE_RX) {
- 		ret = ethnl_update_profile(dev, &dev->irq_moder->rx_profile,
+diff --git a/mm/damon/tests/core-kunit.h b/mm/damon/tests/core-kunit.h
+index d759314df00d8..28e5de749db04 100644
+--- a/mm/damon/tests/core-kunit.h
++++ b/mm/damon/tests/core-kunit.h
+@@ -791,6 +791,7 @@ static void damos_test_commit_quota(struct kunit *test)
+ 		.reset_interval = 1,
+ 		.ms = 2,
+ 		.sz = 3,
++		.goal_tuner = DAMOS_QUOTA_GOAL_TUNER_CONSIST,
+ 		.weight_sz = 4,
+ 		.weight_nr_accesses = 5,
+ 		.weight_age = 6,
+@@ -799,6 +800,7 @@ static void damos_test_commit_quota(struct kunit *test)
+ 		.reset_interval = 7,
+ 		.ms = 8,
+ 		.sz = 9,
++		.goal_tuner = DAMOS_QUOTA_GOAL_TUNER_TEMPORAL,
+ 		.weight_sz = 10,
+ 		.weight_nr_accesses = 11,
+ 		.weight_age = 12,
+@@ -812,6 +814,7 @@ static void damos_test_commit_quota(struct kunit *test)
+ 	KUNIT_EXPECT_EQ(test, dst.reset_interval, src.reset_interval);
+ 	KUNIT_EXPECT_EQ(test, dst.ms, src.ms);
+ 	KUNIT_EXPECT_EQ(test, dst.sz, src.sz);
++	KUNIT_EXPECT_EQ(test, dst.goal_tuner, src.goal_tuner);
+ 	KUNIT_EXPECT_EQ(test, dst.weight_sz, src.weight_sz);
+ 	KUNIT_EXPECT_EQ(test, dst.weight_nr_accesses, src.weight_nr_accesses);
+ 	KUNIT_EXPECT_EQ(test, dst.weight_age, src.weight_age);
 -- 
-2.34.1
+2.47.3
 
