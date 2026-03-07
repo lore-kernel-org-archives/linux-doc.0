@@ -1,206 +1,109 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DB8536A038;
-	Sat,  7 Mar 2026 07:55:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 249B22D7DDB;
+	Sat,  7 Mar 2026 09:00:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772870140; cv=none; b=IfrNJh6voSBqQEqhbQmL+wo7aQBUXmG6dSynKj5UgirED7l+fQMt4OQTUhuh9zA+QxTzY64FSN8FPFw/bPGLQayvFPrm3Ndno6zmEIlPiaCoDW1jxQAaJn1OLPvLpUTTR229YXLyoXx0WpJnJ32zwqeTs3jsS/aY/J551yH2ooE=
+	t=1772874024; cv=none; b=u9yF4BeoT6OWuwAeRfdTs2ahp0NCxfQG2GS8gOpfvWzeI0fEA2HSboNzf5wzZm8rGJIlUTo/SwCCj/FFRsfKetIDbzIHsoYhIjQPzMBKZDJwEDrK7EhMy4Xpf25zrmqM2EX+74ic8gqcp+QBdwph5HGLjuw3dehwDJnSiQgWJOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772870140; c=relaxed/simple;
-	bh=m+kDAlHpZMgyzLCXzTnP2rLM+4ft45GgD67xyyvlZeY=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=EV0r3g50ilMNcWZml29aMVqrX7t0irXQLkkqa3K46artwPXhHRYdzsbRYS3NCDFfNA8rdHbMKRWmRDDWTtYlZn4piteou6EOtiJaiOqyd1pFz/NBV69+Vdd6GH3H2P514sp1a998pp9/Qe6J580d1nioE5m8Cz7z4aZTSBautvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=SZhI9T0E; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	s=arc-20240116; t=1772874024; c=relaxed/simple;
+	bh=rZDUnuQy7P9XaYnLYn16SJaXfibyQK3FL3f/3cZOGXU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FNL10Put+2IrEuCRml1AyMg95qcfv7rbeBhoY0Tn+/juO85SSBS/wjGoF/AfAMbCSbg6ykyve9CgZZVZJeauQSbgkB/1zM6gBK9eHM5qF2sPndvKj+4Zwajt3BlKhe1dW2OKkTP/rAkhaoe5kBL2RGWBvE+Eqoba6pU07ncdOc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=opensource.nslick.com; spf=none smtp.mailfrom=opensource.nslick.com; dkim=pass (2048-bit key) header.d=nslick.com header.i=@nslick.com header.b=LRjlzkf5; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=PeaKTDBk; arc=none smtp.client-ip=202.12.124.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=opensource.nslick.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=opensource.nslick.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="SZhI9T0E"
-Received: from smtpclient.apple (c-24-130-165-117.hsd1.ca.comcast.net [24.130.165.117])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 6277csat3020761
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Fri, 6 Mar 2026 23:38:55 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 6277csat3020761
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2026022301; t=1772869137;
-	bh=/Ojkb0/5+828CnroCrUuMqypM5ZIVGO/UKtCTFnfxAc=;
-	h=Subject:From:In-Reply-To:Date:Cc:References:To:From;
-	b=SZhI9T0EmONOG2TCRzdn1v6sRq6xqyUqjnDmL/M4FH5jH3J20CkmsUJ9pOf8JizZK
-	 5TNMbHJPPqsOotU9qkPzChGPcJC1n18QSbkeowY1Ohxr8Psh2rM8E8mxaBjZcR6VxS
-	 azyrNY3xnjR9VNBrgkYnitXq9bjOfSzexTs7rHQbNAtPmrc36aeCZo53YSM858ahlf
-	 MukF2eapx1Bp4cqg8/4dKVyT/v8ohNczbhuZ7gOFX4Hh0iy+22Z+FXi+uTN8h3I2XK
-	 jshyih+kVd0ed6awjsv3LhJHRLQpjJ1OBti2YoYRzzrxXoCqwfxUbP7ayPxMFViIEm
-	 7+fPQvHL7GOWg==
-Content-Type: text/plain;
-	charset=utf-8
+	dkim=pass (2048-bit key) header.d=nslick.com header.i=@nslick.com header.b="LRjlzkf5";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="PeaKTDBk"
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id A2B3C7A026E;
+	Sat,  7 Mar 2026 04:00:21 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-03.internal (MEProxy); Sat, 07 Mar 2026 04:00:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nslick.com; h=cc
+	:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm2; t=1772874021; x=1772960421; bh=Os7er9WYslCoaajGmGRTM
+	57xLafy+XkKflJDIrwq9N0=; b=LRjlzkf58uZq9lzJ1m5MK6+Cz0KkwOIezPq6c
+	9DJAWQyVeXISNkWPQnwCKu0KP2c5eEGeHgqM7tPFQVctNKtVZd9MQ7g62YPfiWR3
+	fQd/oTxfCY1nLtcld+7oINs6v2qOJE7k6pJXNiO7u9PATu7JcJqLMVqWyW4W8pY0
+	1GVFJULiMzQLHsJCIIiSQDLSgzR7WqB5hdNYevz8g6psoL7BdJDBIWiLT/1aJuwW
+	ZrYOkgu3CZaU2e7Eoat+Vltgdg7l1ZJVe9iMIbMft9xAOXo0nhSrnnYIjCA2Q8iN
+	d1ud40ZsFEz6mX6qYqwehA5p2gSqd23g3JMB8BkRSIZXYjYyA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1772874021; x=1772960421; bh=Os7er9WYslCoaajGmGRTM57xLafy+XkKflJ
+	DIrwq9N0=; b=PeaKTDBkC5Ry75jUHCGhzL0vUpENgax/ALb8UFe0Z9o1mve/JAZ
+	miNkRwuNG/QNZC1CaIBodJIEOjbgn/pNo0nge9oIJnibLu+xFn3YeDTjm6pu7+Ro
+	IDs9hhaEsWoyeRoyVtAYQijoX6oNbXh5qxkue0nokLgbtERSWeraKqgtC5rWntfH
+	NTBxcJS2uVdQ8VgV6hVwNJwAWEzRRw1esOIWESPASZQSlOlXl3V3uS9IthKCmk8y
+	i7X7SeEbOISmemGRK8a81kRHQWlMZ2j2hJzq7jO0Wco+ZowfE9oVwqsqvTFmj0k+
+	QgHYL/k2q126tT7F5f6zdXMz2dDuGOfaOGw==
+X-ME-Sender: <xms:IumraZkVXaMwaEXdLITmJZf3IAwsRVfGTYJngO1O1_jfJIJn1YrRJw>
+    <xme:IumraRMo9gcbufsoRVVKrq1WauxeTcKGXI9AnwGTeBdgU0QfenW977k7hJ3hVwj_L
+    edTl5tpkckpEeHB2jVCMblOjQcYMZwfBRW3-9jZOCYjBN5hYp4t--Q>
+X-ME-Received: <xmr:IumraUGzDzrABNZyUv7oRiMh8MQqPuu7TMuTTBd5_-4tATY5c8XolJEZkD4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvjedukedtucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomheppfhitghhohhlrghs
+    ucfuihgvlhhitghkihcuoehlihhnuhigsehophgvnhhsohhurhgtvgdrnhhslhhitghkrd
+    gtohhmqeenucggtffrrghtthgvrhhnpeduieeuffeguddvuefhteetueeuffevgeekueei
+    tedvkeffkeelteefhfehveffvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+    epmhgrihhlfhhrohhmpehlihhnuhigsehophgvnhhsohhurhgtvgdrnhhslhhitghkrdgt
+    ohhmpdhnsggprhgtphhtthhopedugedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoh
+    epmhgtghhrohhfsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehpvghtrhdrphgrvhhl
+    uhesshhushgvrdgtohhmpdhrtghpthhtohepuggrrdhgohhmvgiisehkvghrnhgvlhdroh
+    hrghdprhgtphhtthhopehsrghmihhtohhlvhgrnhgvnhesghhoohhglhgvrdgtohhmpdhr
+    tghpthhtoheprghtohhmlhhinhesrghtohhmlhhinhdrtghomhdprhgtphhtthhopehmrg
+    gvnhhnihgthhesghhoohhglhgvrdgtohhmpdhrtghpthhtohepphgvthgvrhiisehinhhf
+    rhgruggvrggurdhorhhgpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvghtpdhrtg
+    hpthhtohepshhkhhgrnheslhhinhhugihfohhunhgurghtihhonhdrohhrgh
+X-ME-Proxy: <xmx:IumraXvN3Pho6LzadnRMWwkL3IE3SxeFlxHGrw7NZJEOHVZ5ich5bg>
+    <xmx:IumraUSfyhq6jySZ-916wrYTO4jqu4-rrk5KGKdgNmWr8NsTmae__w>
+    <xmx:IumraRMMdFkvkCM3IbQtdqTn3RvVU6E98x2SDVSCxpIJWq7JPgscdA>
+    <xmx:IumraS478Yg-M0VprUTp_gxQYcR2KhWc0b3URopc1BbE5XzXXyKMbg>
+    <xmx:JemraXwCksR8kvoEOnNNAOs1IzTvE3sBuC6qwRf01Y991PX8OFElgXuQ>
+Feedback-ID: i78f146c6:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 7 Mar 2026 04:00:13 -0500 (EST)
+From: Nicholas Sielicki <linux@opensource.nslick.com>
+To: Luis Chamberlain <mcgrof@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>
+Cc: Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	Matthias Maennich <maennich@google.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-modules@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Nicholas Sielicki <linux@opensource.nslick.com>
+Subject: [PATCH v2 0/2] module: expose imported namespaces via sysfs
+Date: Sat,  7 Mar 2026 03:00:08 -0600
+Message-ID: <20260307090010.20828-1-linux@opensource.nslick.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.400.21\))
-Subject: Re: [PATCH v9 06/22] x86/cea: Export __this_cpu_ist_top_va() to KVM
-From: Xin Li <xin@zytor.com>
-In-Reply-To: <20260130134644.GUaXy2RNbwEaRSgLUN@fat_crate.local>
-Date: Fri, 6 Mar 2026 23:38:44 -0800
-Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, pbonzini@redhat.com, seanjc@google.com,
-        corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        luto@kernel.org, peterz@infradead.org, andrew.cooper3@citrix.com,
-        chao.gao@intel.com, hch@infradead.org, sohil.mehta@intel.com
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <9C6FC4E7-DF8A-4583-93A8-3B82806D11CD@zytor.com>
-References: <20251026201911.505204-1-xin@zytor.com>
- <20251026201911.505204-7-xin@zytor.com>
- <20260130134644.GUaXy2RNbwEaRSgLUN@fat_crate.local>
-To: Borislav Petkov <bp@alien8.de>
-X-Mailer: Apple Mail (2.3864.400.21)
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
+Add /sys/module/*/import_ns to expose the symbol namespaces imported
+by a loaded module.
 
-
-> On Jan 30, 2026, at 5:46=E2=80=AFAM, Borislav Petkov <bp@alien8.de> =
-wrote:
->=20
-> On Sun, Oct 26, 2025 at 01:18:54PM -0700, Xin Li (Intel) wrote:
->> @@ -36,6 +41,7 @@ noinstr unsigned long __this_cpu_ist_top_va(enum =
-exception_stack_ordering stack)
->> {
->> return __this_cpu_ist_bottom_va(stack) + EXCEPTION_STKSZ;
->> }
->> +EXPORT_SYMBOL_FOR_MODULES(__this_cpu_ist_top_va, "kvm-intel");
->=20
-> Why is this function name still kept with the "__" prefix but it is =
-being
-> exported at the same time?
->=20
-> It looks to me like we're exporting the wrong thing as the "__" kinda =
-says it
-> is an internal helper.
->=20
-> Just drop the prefix and call it something more sensible please. The =
-caller
-> couldn't care less about "ist_top_va".
-
-Sean suggested to replace direct, raw use of __this_cpu_ist_top_va() =
-with
-a self-explanatory this_cpu_fred_rsp() helper for better readability.
-
-https://lore.kernel.org/lkml/aahchI7oiFrjFAmb@google.com/
-
-So __this_cpu_ist_top_va() no longer needs to be exported, thus no need =
-to
-do the renaming.
-
-The new patch is below:
-
-commit 7f0d77e48751bd2f3f65f93eaf466257382a25b9
-Author: Xin Li <xin@zytor.com>
-Date:   Fri Oct 24 11:52:32 2025 -0700
-
-    x86/fred: Export this_cpu_fred_rsp() for KVM usage
-   =20
-    Introduce and export this_cpu_fred_rsp() to provide KVM with a self-
-    explanatory interface for retrieving per-CPU FRED regular stacks for
-    stack levels 1->3.
-   =20
-    FRED introduced new fields in the VMCS host-state area for stack =
-levels
-    1=E2=80=93>3 (HOST_IA32_FRED_RSP[123]), which correspond to the =
-per-CPU FRED
-    regular stacks for stack levels 1->3.  KVM must populate these =
-fields
-    each time a vCPU is loaded onto a CPU to ensure a complete valid =
-FRED
-    event delivery context immediately after any VM-Exits.
-   =20
-    Signed-off-by: Xin Li <xin@zytor.com>
-    ---
-   =20
-    Change in v10:
-    * Replace direct, raw use of __this_cpu_ist_top_va() with a self-
-      explanatory this_cpu_fred_rsp() helper for better readability =
-(Sean).
-
-diff --git a/arch/x86/include/asm/fred.h b/arch/x86/include/asm/fred.h
-index 2bb65677c079..7eea65bfc838 100644
---- a/arch/x86/include/asm/fred.h
-+++ b/arch/x86/include/asm/fred.h
-@@ -35,6 +35,13 @@
-=20
- #ifndef __ASSEMBLER__
-=20
-+enum fred_stack_level {
-+	FRED_STACK_LEVEL_0,
-+	FRED_STACK_LEVEL_1,
-+	FRED_STACK_LEVEL_2,
-+	FRED_STACK_LEVEL_3
-+};
-+
- #ifdef CONFIG_X86_FRED
- #include <linux/kernel.h>
- #include <linux/sched/task_stack.h>
-@@ -105,6 +112,8 @@ static __always_inline void fred_update_rsp0(void)
- 		__this_cpu_write(fred_rsp0, rsp0);
- 	}
- }
-+
-+unsigned long this_cpu_fred_rsp(enum fred_stack_level lvl);
- #else /* CONFIG_X86_FRED */
- static __always_inline unsigned long fred_event_data(struct pt_regs =
-*regs) { return 0; }
- static inline void cpu_init_fred_exceptions(void) { }
-@@ -113,6 +122,7 @@ static inline void =
-fred_complete_exception_setup(void) { }
- static inline void fred_entry_from_kvm(unsigned int type, unsigned int =
-vector) { }
- static inline void fred_sync_rsp0(unsigned long rsp0) { }
- static inline void fred_update_rsp0(void) { }
-+static unsigned long this_cpu_fred_rsp(enum fred_stack_level lvl) { =
-return 0; }
- #endif /* CONFIG_X86_FRED */
- #endif /* !__ASSEMBLER__ */
-=20
-diff --git a/arch/x86/kernel/fred.c b/arch/x86/kernel/fred.c
-index 433c4a6f1773..363c53701012 100644
---- a/arch/x86/kernel/fred.c
-+++ b/arch/x86/kernel/fred.c
-@@ -72,6 +72,23 @@ void cpu_init_fred_exceptions(void)
- 	setup_clear_cpu_cap(X86_FEATURE_SYSCALL32);
- }
-=20
-+unsigned long this_cpu_fred_rsp(enum fred_stack_level lvl)
-+{
-+	switch (lvl) {
-+	case FRED_STACK_LEVEL_0:
-+		return __this_cpu_read(fred_rsp0);
-+	case FRED_STACK_LEVEL_1:
-+		return __this_cpu_ist_top_va(ESTACK_DB);
-+	case FRED_STACK_LEVEL_2:
-+		return __this_cpu_ist_top_va(ESTACK_NMI);
-+	case FRED_STACK_LEVEL_3:
-+		return __this_cpu_ist_top_va(ESTACK_DF);
-+	default:
-+		BUG();
-+	}
-+}
-+EXPORT_SYMBOL_FOR_MODULES(this_cpu_fred_rsp, "kvm-intel");
-+
- /* Must be called after setup_cpu_entry_areas() */
- void cpu_init_fred_rsps(void)
- {
-@@ -87,7 +104,7 @@ void cpu_init_fred_rsps(void)
- 	       FRED_STKLVL(X86_TRAP_DF,  FRED_DF_STACK_LEVEL));
-=20
- 	/* The FRED equivalents to IST stacks... */
--	wrmsrq(MSR_IA32_FRED_RSP1, __this_cpu_ist_top_va(ESTACK_DB));
--	wrmsrq(MSR_IA32_FRED_RSP2, __this_cpu_ist_top_va(ESTACK_NMI));
--	wrmsrq(MSR_IA32_FRED_RSP3, __this_cpu_ist_top_va(ESTACK_DF));
-+	wrmsrq(MSR_IA32_FRED_RSP1, =
-this_cpu_fred_rsp(FRED_STACK_LEVEL_1));
-+	wrmsrq(MSR_IA32_FRED_RSP2, =
-this_cpu_fred_rsp(FRED_STACK_LEVEL_2));
-+	wrmsrq(MSR_IA32_FRED_RSP3, =
-this_cpu_fred_rsp(FRED_STACK_LEVEL_3));
- }=
+Changes since v1:
+- Simplified commit message to drop unnecessary/incorrect background
+- Use .setup/.free callbacks in module_attribute to ensure
+  imported_namespaces is NULL-initialized before error paths and
+  NULL'd after kfree (Sami)
+- Updated KernelVersion to 7.1 in docs for next merge window
