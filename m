@@ -1,106 +1,206 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E205B1DDC1B
-	for <linux-doc@vger.kernel.org>; Sat,  7 Mar 2026 07:52:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DB8536A038;
+	Sat,  7 Mar 2026 07:55:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772869954; cv=none; b=ZCOncaTtNv9A+mFl3Qa7XJcnIKJNhuh8l6QaBlqCxdOspQWQX+NVWwS85YDUNSNVz0cMRb/Jnt822QbEt/xhdmwMWi+NIfUV2dlBkjsS5ip/Q9/S+vnlYIQVzADHgx6pNGZwiOWfrSf7eYmpIyvZ0US+7aDfPRHRALF45Fs8tBg=
+	t=1772870140; cv=none; b=IfrNJh6voSBqQEqhbQmL+wo7aQBUXmG6dSynKj5UgirED7l+fQMt4OQTUhuh9zA+QxTzY64FSN8FPFw/bPGLQayvFPrm3Ndno6zmEIlPiaCoDW1jxQAaJn1OLPvLpUTTR229YXLyoXx0WpJnJ32zwqeTs3jsS/aY/J551yH2ooE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772869954; c=relaxed/simple;
-	bh=PLl3ybbEvtBt4usL1tVzzE3ceztfK3Ph05TigYRMy6o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RvKQWo31YuNk11Sb9jkGEeh4dYIIGjfhPR4Jq12RIuFgwb7a6660g9AktVcNM3whsrLEg9jYSs0YJpZteJww/LrtEtfMADm5QcPTRvoLU4dj+DQywxjtzxt6mdcV6s/mJHXFmc2wassfIDFkdd0WObO6UOgmT62N2oBUeK2pqy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=Mzgeg7MI; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+	s=arc-20240116; t=1772870140; c=relaxed/simple;
+	bh=m+kDAlHpZMgyzLCXzTnP2rLM+4ft45GgD67xyyvlZeY=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=EV0r3g50ilMNcWZml29aMVqrX7t0irXQLkkqa3K46artwPXhHRYdzsbRYS3NCDFfNA8rdHbMKRWmRDDWTtYlZn4piteou6EOtiJaiOqyd1pFz/NBV69+Vdd6GH3H2P514sp1a998pp9/Qe6J580d1nioE5m8Cz7z4aZTSBautvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=SZhI9T0E; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="Mzgeg7MI"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4807068eacbso83799095e9.2
-        for <linux-doc@vger.kernel.org>; Fri, 06 Mar 2026 23:52:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1772869949; x=1773474749; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q82vwVSYqsxgUfO5PF4fV0qSf8sFXrhZ9cxXt5gjXgk=;
-        b=Mzgeg7MIOIrjh+c3vI3Akf/UIjsNyGah6a6RbQ11xw0pXsGQ+c9Wsv43WQfpej1Mfo
-         dtehQ3GsKzPO+PydcLr/RnoknSaS27Z/tH49od5FsnCCB7MeCkj8qyLutf1JLXc7Fdd7
-         ThvyXVsnu+Q7c2an3F+1SjedMiGdA5C3dSfulg93qQwup8IWQ6elfpQlhRQOTAZH1tP6
-         P+tdaZ+mC23yQicU1Zdxxf+JCJiq4BYqQ74/jU3PUECHrc1dPph9IWH5Nv+NXSVTl1AT
-         cDQz1MeaW1cB5T9aGQK5Xs7tR9qRJPLK5Fki8r80GzKu0VJmH1PfO3WLJzy6zXgIMh7V
-         I2Zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772869949; x=1773474749;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Q82vwVSYqsxgUfO5PF4fV0qSf8sFXrhZ9cxXt5gjXgk=;
-        b=Smp7l+uLDIBaLxlnj9cjKeM6g69bdez16sOrsOBeVpQ/w3s3/rRt1mqSVHa9kbNBtJ
-         SEuhFSZ6OI/wN2lg8PX+R85MhtGTtIAcQWlGaEdlD3/z83lEY3/01zPa88uZIoDBH7LE
-         s7m5r9vSIiOio7h1bOEFKOK0an1PKCEunEg/6vy3wCptOTf2HR4qsKVsw61E+fDHPdLI
-         oMdMMVobFeRM+Oghsa9rmx2GKkGqp82bk6QOysZmZbTfWYOTdCfC+Ug9TkPj5hKDiR0g
-         KgFXYEZ1nvVWnDGSqepGheBAq9VpcJfVMwarbkKi/zgIJxD0PEJudAKEUt8AEKYOuprH
-         JkPw==
-X-Forwarded-Encrypted: i=1; AJvYcCXKZLVu5qaPOXJ3WVB5sVuTiDw07FLQMOrHi7eKAdqPFmnvlFpLDhKjc7pzOgIJFcAjhHrqdsybgbc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwWgxKYncbnNvCEkE8tzLBZGQ0mEi0qpuat4amN338/FOoygKsg
-	ZdibviKQ0Of5/DaDgWHIMeIyEUgvSPsiE3xbR3STCnXDHuVq0iX6H95NDtdzZIguBxI=
-X-Gm-Gg: ATEYQzx6DqxtZHiuNg5eD6ENWXDykh9m5WvXPcU2p5PUNOVbNbvhcHE3p7i20SSzNPz
-	VPHbuhSM6CyxHF8JMLX9ijKeDpkQ05iKWx1BaDgPHlWVJwXJS8mWqOrGiATgcoMBpQJFCecSYwH
-	U9d/nJQ6RFjkr4XoPUddji+tlG6dIX4IwK32iLBxzSd8ulMtdwys22MvAcLQwllesd/Lva5r0oG
-	Xx02pWoGbyGbl2xzAERBGY7Nk6LAlm1u6ocjBqRVfYVCII0tT8nu1b5ItDHSLg9cmX+5jLqe/oD
-	z5qIsBoxn29gbvRBARo028x5Lld4ZtDLR4SvQfPThDCDcbR9/5daMIfTWZ4Nd3hi94M3kJ8PG1g
-	CBhkyq6GM2mLOIyXEtJGAJFtqhboSDZmN383Kg9qBiDixNuML79dH0aRM0u24er1ENaXDPRSgJ+
-	fpLqAoPtki1u+gEsrHu1Tuh3m8qV/RVk4=
-X-Received: by 2002:a05:600c:870e:b0:47b:e2a9:2bd7 with SMTP id 5b1f17b1804b1-48526951415mr82861225e9.19.1772869949098;
-        Fri, 06 Mar 2026 23:52:29 -0800 (PST)
-Received: from FV6GYCPJ69 ([208.127.45.21])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4852381c61csm36839135e9.11.2026.03.06.23.52.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Mar 2026 23:52:28 -0800 (PST)
-Date: Sat, 7 Mar 2026 08:52:24 +0100
-From: Jiri Pirko <jiri@resnulli.us>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com, 
-	pabeni@redhat.com, horms@kernel.org, donald.hunter@gmail.com, corbet@lwn.net, 
-	skhan@linuxfoundation.org, saeedm@nvidia.com, leon@kernel.org, tariqt@nvidia.com, 
-	mbloch@nvidia.com, przemyslaw.kitszel@intel.com, mschmidt@redhat.com, 
-	andrew+netdev@lunn.ch, rostedt@goodmis.org, mhiramat@kernel.org, 
-	mathieu.desnoyers@efficios.com, chuck.lever@oracle.com, matttbe@kernel.org, cjubran@nvidia.com, 
-	daniel.zahka@gmail.com, linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v3 01/13] devlink: expose devlink instance index
- over netlink
-Message-ID: <xf2qlcvpmw64zpqsjogibda2ys33vwyectptwo5imdstwtp6a6@qokwax4d2iwn>
-References: <20260304160022.6114-1-jiri@resnulli.us>
- <20260304160022.6114-2-jiri@resnulli.us>
- <20260306193253.6d7d2383@kernel.org>
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="SZhI9T0E"
+Received: from smtpclient.apple (c-24-130-165-117.hsd1.ca.comcast.net [24.130.165.117])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 6277csat3020761
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Fri, 6 Mar 2026 23:38:55 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 6277csat3020761
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2026022301; t=1772869137;
+	bh=/Ojkb0/5+828CnroCrUuMqypM5ZIVGO/UKtCTFnfxAc=;
+	h=Subject:From:In-Reply-To:Date:Cc:References:To:From;
+	b=SZhI9T0EmONOG2TCRzdn1v6sRq6xqyUqjnDmL/M4FH5jH3J20CkmsUJ9pOf8JizZK
+	 5TNMbHJPPqsOotU9qkPzChGPcJC1n18QSbkeowY1Ohxr8Psh2rM8E8mxaBjZcR6VxS
+	 azyrNY3xnjR9VNBrgkYnitXq9bjOfSzexTs7rHQbNAtPmrc36aeCZo53YSM858ahlf
+	 MukF2eapx1Bp4cqg8/4dKVyT/v8ohNczbhuZ7gOFX4Hh0iy+22Z+FXi+uTN8h3I2XK
+	 jshyih+kVd0ed6awjsv3LhJHRLQpjJ1OBti2YoYRzzrxXoCqwfxUbP7ayPxMFViIEm
+	 7+fPQvHL7GOWg==
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260306193253.6d7d2383@kernel.org>
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.400.21\))
+Subject: Re: [PATCH v9 06/22] x86/cea: Export __this_cpu_ist_top_va() to KVM
+From: Xin Li <xin@zytor.com>
+In-Reply-To: <20260130134644.GUaXy2RNbwEaRSgLUN@fat_crate.local>
+Date: Fri, 6 Mar 2026 23:38:44 -0800
+Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, pbonzini@redhat.com, seanjc@google.com,
+        corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        luto@kernel.org, peterz@infradead.org, andrew.cooper3@citrix.com,
+        chao.gao@intel.com, hch@infradead.org, sohil.mehta@intel.com
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <9C6FC4E7-DF8A-4583-93A8-3B82806D11CD@zytor.com>
+References: <20251026201911.505204-1-xin@zytor.com>
+ <20251026201911.505204-7-xin@zytor.com>
+ <20260130134644.GUaXy2RNbwEaRSgLUN@fat_crate.local>
+To: Borislav Petkov <bp@alien8.de>
+X-Mailer: Apple Mail (2.3864.400.21)
 
-Sat, Mar 07, 2026 at 04:32:53AM +0100, kuba@kernel.org wrote:
->On Wed,  4 Mar 2026 17:00:10 +0100 Jiri Pirko wrote:
->> +      -
->> +        name: index
->> +        type: uint
->> +        doc: Unique devlink instance index.
->
->AI complains on patch 6 that the index is truncated because it's saved
->to a u32. Let's add:
->
->        checks:
->           max: u32-max
->
->here and the policy will take care of the check, you can then remove
->the explicit checks too
 
-Okay. Thanks!
 
->-- 
->pw-bot: cr
+> On Jan 30, 2026, at 5:46=E2=80=AFAM, Borislav Petkov <bp@alien8.de> =
+wrote:
+>=20
+> On Sun, Oct 26, 2025 at 01:18:54PM -0700, Xin Li (Intel) wrote:
+>> @@ -36,6 +41,7 @@ noinstr unsigned long __this_cpu_ist_top_va(enum =
+exception_stack_ordering stack)
+>> {
+>> return __this_cpu_ist_bottom_va(stack) + EXCEPTION_STKSZ;
+>> }
+>> +EXPORT_SYMBOL_FOR_MODULES(__this_cpu_ist_top_va, "kvm-intel");
+>=20
+> Why is this function name still kept with the "__" prefix but it is =
+being
+> exported at the same time?
+>=20
+> It looks to me like we're exporting the wrong thing as the "__" kinda =
+says it
+> is an internal helper.
+>=20
+> Just drop the prefix and call it something more sensible please. The =
+caller
+> couldn't care less about "ist_top_va".
+
+Sean suggested to replace direct, raw use of __this_cpu_ist_top_va() =
+with
+a self-explanatory this_cpu_fred_rsp() helper for better readability.
+
+https://lore.kernel.org/lkml/aahchI7oiFrjFAmb@google.com/
+
+So __this_cpu_ist_top_va() no longer needs to be exported, thus no need =
+to
+do the renaming.
+
+The new patch is below:
+
+commit 7f0d77e48751bd2f3f65f93eaf466257382a25b9
+Author: Xin Li <xin@zytor.com>
+Date:   Fri Oct 24 11:52:32 2025 -0700
+
+    x86/fred: Export this_cpu_fred_rsp() for KVM usage
+   =20
+    Introduce and export this_cpu_fred_rsp() to provide KVM with a self-
+    explanatory interface for retrieving per-CPU FRED regular stacks for
+    stack levels 1->3.
+   =20
+    FRED introduced new fields in the VMCS host-state area for stack =
+levels
+    1=E2=80=93>3 (HOST_IA32_FRED_RSP[123]), which correspond to the =
+per-CPU FRED
+    regular stacks for stack levels 1->3.  KVM must populate these =
+fields
+    each time a vCPU is loaded onto a CPU to ensure a complete valid =
+FRED
+    event delivery context immediately after any VM-Exits.
+   =20
+    Signed-off-by: Xin Li <xin@zytor.com>
+    ---
+   =20
+    Change in v10:
+    * Replace direct, raw use of __this_cpu_ist_top_va() with a self-
+      explanatory this_cpu_fred_rsp() helper for better readability =
+(Sean).
+
+diff --git a/arch/x86/include/asm/fred.h b/arch/x86/include/asm/fred.h
+index 2bb65677c079..7eea65bfc838 100644
+--- a/arch/x86/include/asm/fred.h
++++ b/arch/x86/include/asm/fred.h
+@@ -35,6 +35,13 @@
+=20
+ #ifndef __ASSEMBLER__
+=20
++enum fred_stack_level {
++	FRED_STACK_LEVEL_0,
++	FRED_STACK_LEVEL_1,
++	FRED_STACK_LEVEL_2,
++	FRED_STACK_LEVEL_3
++};
++
+ #ifdef CONFIG_X86_FRED
+ #include <linux/kernel.h>
+ #include <linux/sched/task_stack.h>
+@@ -105,6 +112,8 @@ static __always_inline void fred_update_rsp0(void)
+ 		__this_cpu_write(fred_rsp0, rsp0);
+ 	}
+ }
++
++unsigned long this_cpu_fred_rsp(enum fred_stack_level lvl);
+ #else /* CONFIG_X86_FRED */
+ static __always_inline unsigned long fred_event_data(struct pt_regs =
+*regs) { return 0; }
+ static inline void cpu_init_fred_exceptions(void) { }
+@@ -113,6 +122,7 @@ static inline void =
+fred_complete_exception_setup(void) { }
+ static inline void fred_entry_from_kvm(unsigned int type, unsigned int =
+vector) { }
+ static inline void fred_sync_rsp0(unsigned long rsp0) { }
+ static inline void fred_update_rsp0(void) { }
++static unsigned long this_cpu_fred_rsp(enum fred_stack_level lvl) { =
+return 0; }
+ #endif /* CONFIG_X86_FRED */
+ #endif /* !__ASSEMBLER__ */
+=20
+diff --git a/arch/x86/kernel/fred.c b/arch/x86/kernel/fred.c
+index 433c4a6f1773..363c53701012 100644
+--- a/arch/x86/kernel/fred.c
++++ b/arch/x86/kernel/fred.c
+@@ -72,6 +72,23 @@ void cpu_init_fred_exceptions(void)
+ 	setup_clear_cpu_cap(X86_FEATURE_SYSCALL32);
+ }
+=20
++unsigned long this_cpu_fred_rsp(enum fred_stack_level lvl)
++{
++	switch (lvl) {
++	case FRED_STACK_LEVEL_0:
++		return __this_cpu_read(fred_rsp0);
++	case FRED_STACK_LEVEL_1:
++		return __this_cpu_ist_top_va(ESTACK_DB);
++	case FRED_STACK_LEVEL_2:
++		return __this_cpu_ist_top_va(ESTACK_NMI);
++	case FRED_STACK_LEVEL_3:
++		return __this_cpu_ist_top_va(ESTACK_DF);
++	default:
++		BUG();
++	}
++}
++EXPORT_SYMBOL_FOR_MODULES(this_cpu_fred_rsp, "kvm-intel");
++
+ /* Must be called after setup_cpu_entry_areas() */
+ void cpu_init_fred_rsps(void)
+ {
+@@ -87,7 +104,7 @@ void cpu_init_fred_rsps(void)
+ 	       FRED_STKLVL(X86_TRAP_DF,  FRED_DF_STACK_LEVEL));
+=20
+ 	/* The FRED equivalents to IST stacks... */
+-	wrmsrq(MSR_IA32_FRED_RSP1, __this_cpu_ist_top_va(ESTACK_DB));
+-	wrmsrq(MSR_IA32_FRED_RSP2, __this_cpu_ist_top_va(ESTACK_NMI));
+-	wrmsrq(MSR_IA32_FRED_RSP3, __this_cpu_ist_top_va(ESTACK_DF));
++	wrmsrq(MSR_IA32_FRED_RSP1, =
+this_cpu_fred_rsp(FRED_STACK_LEVEL_1));
++	wrmsrq(MSR_IA32_FRED_RSP2, =
+this_cpu_fred_rsp(FRED_STACK_LEVEL_2));
++	wrmsrq(MSR_IA32_FRED_RSP3, =
+this_cpu_fred_rsp(FRED_STACK_LEVEL_3));
+ }=
