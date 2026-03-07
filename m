@@ -1,86 +1,71 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B5C11E7C23;
-	Sat,  7 Mar 2026 03:21:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F25C2DD5F6;
+	Sat,  7 Mar 2026 03:32:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772853715; cv=none; b=MT4Qd7Lf2BmBdwx52pPimkZhGkUOpZMB5svvCPHp7L3E7LAAQ74DtKK7gZNxlDIi2l/LNnhuWKZ9x0JX4g+HaPUiwg9kNfMSV7IgJmgN5MIOFnX1Wg31ftPw3Sy3QLQ/4xGPaCMe+M7s3OrWce/fmUIv/mzJ69IDZX+yj4kZO8M=
+	t=1772854376; cv=none; b=nEMmfeKP5df/6O//xhsIYQCRl5B8jvhVxL+lOv/5Kp4UkB5ghoq5iXYW+GoTEDOdMKbVgDG2WVHnHDZx5375qEjW57SO0cOVYMK1BDsDcmwbYumF+sphbe9kpBFOINzgomfuDstDvPTN8pfYPNUv9pbsK8+zK+6WbDFv2lp+NuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772853715; c=relaxed/simple;
-	bh=UuKtYQLEpbZzXF4D203RAUfvz14kMMGl6TPKP4QK4eA=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=lFfTZbbFkSjNKX0m1aOA0m5VDK/GP61/ZYzKsmP1n0oZ5mH4K5vzSRNDmq2tBWpDcRuznBoIVKXFNl7Kv/Q+G9qCmG1TNq/QBlv+CwC0CY3DiCZGCJYjJUVnMwj/24aixBT4gfDlVrdKtKANqZvYwbjWrxabBpjM9U6UJKXIaQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=WwmfJOVX; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	s=arc-20240116; t=1772854376; c=relaxed/simple;
+	bh=UB4aqVHBkq7Z6U0PCU86267heuJHua5cm31mgeVxY3I=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XeBiXyw78tiQFs5MfApf+8vdLMKGom0epL5lEQ4b4PfyANrSDfeDRvU+lI7eOqM4IH5APNidQNrgirQJ4TnLqMHgSr2ffJH9U+ZA7LcBj3eJBe6wKjA5vqRx1gs1S+niU04oj3qOag1MbvexUDhSfPDtO2+hOoTaeWvyZc/WlEU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lGyqRF/3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="WwmfJOVX"
-Received: from smtpclient.apple (c-24-130-165-117.hsd1.ca.comcast.net [24.130.165.117])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 62735SVf2594941
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Fri, 6 Mar 2026 19:05:28 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 62735SVf2594941
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2026022301; t=1772852729;
-	bh=Lg/cqXkxdh6j/9Vx7MayeK1i/ddSevoVsnuXd/tRki0=;
-	h=Subject:From:In-Reply-To:Date:Cc:References:To:From;
-	b=WwmfJOVXBs7PcVo13W3mUkrnrMY3knNv49gmfvuKuu3h+4GTZrIqjTjySTUWjhqBk
-	 3Ux2WInQ2riniuOpqEOnI5L/79IqMJd9rqhjSryUDIrn6HuWRLQhqm4+z/dgdpxZiV
-	 5FxvzK8Mezwc2y7vg2I19qDEBgluB0RDMj9NPdQqh9oYSPSZnsUXrC6S2FnGCR27Q3
-	 71bIdKHir94r9zRq1qPEPFJgp4epnt1OpS/qT/Ah33wRQSRarsA7uXwqJ9fonIiDI1
-	 VJp8gQxYHpW5wqX5vmrzeD8+Q2MDCCC18ylRgTPXhj+NC6vYUVC9LIodm89X+FFjuJ
-	 86OWLdG6OQRmg==
-Content-Type: text/plain;
-	charset=utf-8
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lGyqRF/3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A69D9C19422;
+	Sat,  7 Mar 2026 03:32:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772854375;
+	bh=UB4aqVHBkq7Z6U0PCU86267heuJHua5cm31mgeVxY3I=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=lGyqRF/3qzEa7lUUuOdYRlHTYZ8SUHXAAJTLsEiatdGzW/HtZ0lre9XP1JLBn9FT4
+	 FiB8d6JjDEBERM5v9dDKjL9ZRFWnIVKcKCTQRNG7/LAaP3Zzc6Lp3//EjpID8pnFBo
+	 5e4K9pd3jXePOLfbQ0bga42/+X20Gs37yz3iGKGwbReGfvo40vSYXrE1bB/+hs79JN
+	 MMDMX/wuV8tpMKLLtpSofe2S1yk+kr/shs1IGhF6wbU0DhCnRHIFxH+VE+EzBgOMHN
+	 OVIU0NfXL/Uspb2E4ksgXotAe2pnN7Dlf5zwCRTtf9Yu9yGKT//AWVXjEX4wsf421L
+	 i0ORcG8R3BMzA==
+Date: Fri, 6 Mar 2026 19:32:53 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Jiri Pirko <jiri@resnulli.us>
+Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
+ pabeni@redhat.com, horms@kernel.org, donald.hunter@gmail.com,
+ corbet@lwn.net, skhan@linuxfoundation.org, saeedm@nvidia.com,
+ leon@kernel.org, tariqt@nvidia.com, mbloch@nvidia.com,
+ przemyslaw.kitszel@intel.com, mschmidt@redhat.com, andrew+netdev@lunn.ch,
+ rostedt@goodmis.org, mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
+ chuck.lever@oracle.com, matttbe@kernel.org, cjubran@nvidia.com,
+ daniel.zahka@gmail.com, linux-doc@vger.kernel.org,
+ linux-rdma@vger.kernel.org, linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v3 01/13] devlink: expose devlink instance
+ index over netlink
+Message-ID: <20260306193253.6d7d2383@kernel.org>
+In-Reply-To: <20260304160022.6114-2-jiri@resnulli.us>
+References: <20260304160022.6114-1-jiri@resnulli.us>
+	<20260304160022.6114-2-jiri@resnulli.us>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.400.21\))
-Subject: Re: [PATCH v9 13/22] KVM: VMX: Virtualize FRED nested exception
- tracking
-From: Xin Li <xin@zytor.com>
-In-Reply-To: <aauIT-6fK5Jl2Ig6@google.com>
-Date: Fri, 6 Mar 2026 19:05:18 -0800
-Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, pbonzini@redhat.com, corbet@lwn.net,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        luto@kernel.org, peterz@infradead.org, andrew.cooper3@citrix.com,
-        chao.gao@intel.com, hch@infradead.org, sohil.mehta@intel.com
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <C6F155DA-70F1-4DC3-8317-ED40ABCA05E5@zytor.com>
-References: <20251026201911.505204-1-xin@zytor.com>
- <20251026201911.505204-14-xin@zytor.com> <aauIT-6fK5Jl2Ig6@google.com>
-To: Sean Christopherson <seanjc@google.com>
-X-Mailer: Apple Mail (2.3864.400.21)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Wed,  4 Mar 2026 17:00:10 +0100 Jiri Pirko wrote:
+> +      -
+> +        name: index
+> +        type: uint
+> +        doc: Unique devlink instance index.
 
+AI complains on patch 6 that the index is truncated because it's saved
+to a u32. Let's add:
 
-> On Mar 6, 2026, at 6:07=E2=80=AFPM, Sean Christopherson =
-<seanjc@google.com> wrote:
->=20
->> @@ -2231,7 +2232,8 @@ void kvm_queue_exception(struct kvm_vcpu *vcpu, =
-unsigned nr);
->> void kvm_queue_exception_e(struct kvm_vcpu *vcpu, unsigned nr, u32 =
-error_code);
->> void kvm_queue_exception_p(struct kvm_vcpu *vcpu, unsigned nr, =
-unsigned long payload);
->> void kvm_requeue_exception(struct kvm_vcpu *vcpu, unsigned int nr,
->> -    bool has_error_code, u32 error_code, u64 event_data);
->> +    bool has_error_code, u32 error_code, bool nested,
->=20
-> I think we should pick a different name, as both VMX and SVM declare =
-"nested" as
-> a global boolean.  I.e. this creates some nasty variable shadowing.
->=20
-> Maybe is_nested?
+        checks:
+           max: u32-max
 
-is_nested looks good to me.
-
-I thought about is_nested_exp, however the function names already =
-contain
-=E2=80=9Cexception=E2=80=9D, no point to duplicate it.=
+here and the policy will take care of the check, you can then remove
+the explicit checks too
+-- 
+pw-bot: cr
