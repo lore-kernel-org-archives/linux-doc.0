@@ -1,133 +1,186 @@
-Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
+Received: from canpmsgout05.his.huawei.com (canpmsgout05.his.huawei.com [113.46.200.220])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2797387570;
-	Sat,  7 Mar 2026 09:00:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CC3036EAB5;
+	Sat,  7 Mar 2026 09:29:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.220
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772874027; cv=none; b=WLhhZ4h6glf2Na8XRkSSdJz3HwgRSN1frE96KsLF7amR+SpPVBuujAABiXQ7uYzkxTBLj1dMZxrbZFqs7nMk01BmS3LOxqYR+MW6hWB2BvpiX5Ou2j3k7oqIYcRA6DAXueCfJbC1pfWrqXhbsd/UqBkQ1kNvdKJDSC/iOSKurDQ=
+	t=1772875762; cv=none; b=DYKlh1vDMh/5HcMPusdvaIttnImV6EVLKqyxG9cY1ggu8BZv1UYSMby9H+WwHOWHbYkwsL0g0lT27T7Cu30LiNg0aayt/kWIGNpoasbC5L8vR591JJJC1P8cBxagUl1k37gdRg0zFY0h17dLFJgFccZ89eyrkAYqbtaVnMEKN/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772874027; c=relaxed/simple;
-	bh=4FUgOUrZ1hC5U7kxPWVLWjuecLqnImFCvvAOKygFs8Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JYWU3UNSNGnr/E1ODfQQpEZr2pzWnXQmD2JG7ky35BsSBsr8y2P01ceL7M6MQLPLd4ovXDmAEMXZDfdHn0nFwldITTXi1DCbnn/3Id1EBYikxi0V/KaSP5TONLNCEA+YnnvmcKEWzuI2xDjmZW0ylta1vXH9XbWlrP79bPYQul8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=opensource.nslick.com; spf=none smtp.mailfrom=opensource.nslick.com; dkim=pass (2048-bit key) header.d=nslick.com header.i=@nslick.com header.b=CwnRupca; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=PMlJx67J; arc=none smtp.client-ip=202.12.124.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=opensource.nslick.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=opensource.nslick.com
+	s=arc-20240116; t=1772875762; c=relaxed/simple;
+	bh=FTFaF964VuEEZyY/+Up2UNacEAMIhe96dGfInsY5dUY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=hAIz1vcX5r0Msdj6TAZ0ji+ZlbS3bC7eI2KDBHnFWQHPBsOw/uxMbxlGW2r3l+PSL+Q6Ti3xU8J7KIj4tj/49DvxMKWkR22SskGHvk6YsH50hYcglUMCY8oS7T+/t+YKt7b1PiJb6mEHwPYlJsTXQb1jp/xl++hgkFY/AjKFCaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=h-partners.com; dkim=pass (1024-bit key) header.d=h-partners.com header.i=@h-partners.com header.b=Fs11xKyQ; arc=none smtp.client-ip=113.46.200.220
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=h-partners.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nslick.com header.i=@nslick.com header.b="CwnRupca";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="PMlJx67J"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 1717A7A0269;
-	Sat,  7 Mar 2026 04:00:25 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Sat, 07 Mar 2026 04:00:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nslick.com; h=cc
-	:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm2; t=1772874024; x=
-	1772960424; bh=1KxeQ6pIsqLba7ZzzJifr8CDCAYKv5nTwzGMM4oSELs=; b=C
-	wnRupcalwbQotZPwwKH/WUxkOkFOl2hnXZ3vavRhxuzxeQJqqP1UUEyGdeitlzwV
-	Zb8gPmK4fKpDjqxdYbcMbqNjJtNlx+sx9kqVImIzZPXSH6a2jpjxemqyJL1bmstr
-	Dh1rtL5P/bQ6B4Dt6oDGOpQzl2FvEqVzBUvXQI5meLc+SsikGDgBzHHOiBJqz1XF
-	P7GZvsg0lWuHazn0+5y20OseymEd5GfExNF85T7NnqbUwfd5osZmEqXeA1KdQe4P
-	JZOQ+O7QPuB53LlG+lmW3m1sn+kugvQDT5Io/ZvDQQNNgS0reeouYW4gq2BeDze+
-	ZCUaMAgtP7d6twRzrfPzA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm1; t=1772874024; x=1772960424; bh=1
-	KxeQ6pIsqLba7ZzzJifr8CDCAYKv5nTwzGMM4oSELs=; b=PMlJx67JpN/syT8H6
-	Syvaouami92MLjow2oOI+y6iOh1xI1B457MW/EM3xvmyTD+R6tD5FSP6P7LNIHTN
-	dL7vo7K9gZlZAH+tF+UlGo1XX0DO+I4nqQrAPyNBbelbYaKlmIVZ4FLnD5va+HqD
-	pdGwE6gJSQGwrgMKnx7aKn8+z0rCmrB3yXACY/JfeP12c8heS7Iqdf75nsmReyfH
-	ljbT/q2FArSxQbgZUBNkNawUp2/gAUQVJvmCfdpJ73xQQE42i1ancwH18/RkLJgu
-	DtZFK718wmNH5NEmq6+n+4dwoc1nZjwAvGVEBF3NH0BW9VTIYzIIQUPDQXxEKRQi
-	2W0tg==
-X-ME-Sender: <xms:KOmraakW8y4h0f6-djhLWDuSj_3-agRGDNIB3n6s9BpWR7TlUVwF8w>
-    <xme:KOmraeP7iBbas1ymYgrMv2KofPM8ZhwdsfNIMPwchKBp0Ci2-WywppIiMpb5HwnNT
-    HAaFcqsOrXZri-kKVkQRNyd9FwI4mwNr8Lm-u2ylK_1vb0zjKsAmc0>
-X-ME-Received: <xmr:KOmradHCoPxzSLw5sVd4Q0sxQRHX5bzpeFY_WJXM4vnzvDF7aVKkGiDF08s>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvjedukedtucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomheppfhitghhohhl
-    rghsucfuihgvlhhitghkihcuoehlihhnuhigsehophgvnhhsohhurhgtvgdrnhhslhhitg
-    hkrdgtohhmqeenucggtffrrghtthgvrhhnpeetudevkeeuvefghfetleehkeegudeigfel
-    gffhtedvkeevgfekueelfeevfeelieenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
-    grmhepmhgrihhlfhhrohhmpehlihhnuhigsehophgvnhhsohhurhgtvgdrnhhslhhitghk
-    rdgtohhmpdhnsggprhgtphhtthhopedugedpmhhouggvpehsmhhtphhouhhtpdhrtghpth
-    htohepmhgtghhrohhfsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehpvghtrhdrphgr
-    vhhluhesshhushgvrdgtohhmpdhrtghpthhtohepuggrrdhgohhmvgiisehkvghrnhgvlh
-    drohhrghdprhgtphhtthhopehsrghmihhtohhlvhgrnhgvnhesghhoohhglhgvrdgtohhm
-    pdhrtghpthhtoheprghtohhmlhhinhesrghtohhmlhhinhdrtghomhdprhgtphhtthhope
-    hmrggvnhhnihgthhesghhoohhglhgvrdgtohhmpdhrtghpthhtohepphgvthgvrhiisehi
-    nhhfrhgruggvrggurdhorhhgpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvghtpd
-    hrtghpthhtohepshhkhhgrnheslhhinhhugihfohhunhgurghtihhonhdrohhrgh
-X-ME-Proxy: <xmx:KOmracvNW13Mz5nvEoSlW98YL2MIomrkoKKAGSrM5xq3_CilvZMdfQ>
-    <xmx:KOmraVSh5ajyUPBsb60Fn1DPnol4YRcnSkb0_horsMm-mB2Z8I0zOg>
-    <xmx:KOmraeNMjuXDEa2qr_g-S9i_RCc1qbTKENXe_tliSVNu88oywZOj3w>
-    <xmx:KOmrab6zGeYtnmUzxBPewDoiTKB5AmYYDfOvdwq0E2AyjoM3GoUBTw>
-    <xmx:KOmraUw7SqtJjkqtGHXZuXXTIu7ms1W04yB9Rj9BHv8n8nKCmtxMysuv>
-Feedback-ID: i78f146c6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 7 Mar 2026 04:00:24 -0500 (EST)
-From: Nicholas Sielicki <linux@opensource.nslick.com>
-To: Luis Chamberlain <mcgrof@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Daniel Gomez <da.gomez@kernel.org>
-Cc: Sami Tolvanen <samitolvanen@google.com>,
-	Aaron Tomlin <atomlin@atomlin.com>,
-	Matthias Maennich <maennich@google.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-modules@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Nicholas Sielicki <linux@opensource.nslick.com>
-Subject: [PATCH v2 2/2] docs: symbol-namespaces: mention sysfs attribute
-Date: Sat,  7 Mar 2026 03:00:10 -0600
-Message-ID: <20260307090010.20828-3-linux@opensource.nslick.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260307090010.20828-1-linux@opensource.nslick.com>
-References: <20260307090010.20828-1-linux@opensource.nslick.com>
+	dkim=pass (1024-bit key) header.d=h-partners.com header.i=@h-partners.com header.b="Fs11xKyQ"
+dkim-signature: v=1; a=rsa-sha256; d=h-partners.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=Itfyi6buFhW0nHsJ4qojlX1bMfsgLsC91Ah779lyCrk=;
+	b=Fs11xKyQ7nYIUgH7UvxH6gth0KfIDoXe3uaHwUa+hP2mJzVZJigFyib1O/8y8bMWZ9PynqOJq
+	LeDP3LD9iI2HZWoHuWR/+AH7FhJ+VYRsBva+lTGdx7OXB8Qp3JRCwAsF1AfzAwAczndgMMb+Si9
+	peMQSuEjhf5GAUkAIcxM3i4=
+Received: from mail.maildlp.com (unknown [172.19.163.0])
+	by canpmsgout05.his.huawei.com (SkyGuard) with ESMTPS id 4fSdCD6B2Rz12LCy;
+	Sat,  7 Mar 2026 17:24:40 +0800 (CST)
+Received: from kwepemf100008.china.huawei.com (unknown [7.202.181.222])
+	by mail.maildlp.com (Postfix) with ESMTPS id 971AB40561;
+	Sat,  7 Mar 2026 17:29:15 +0800 (CST)
+Received: from [10.174.179.37] (10.174.179.37) by
+ kwepemf100008.china.huawei.com (7.202.181.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.36; Sat, 7 Mar 2026 17:29:13 +0800
+Message-ID: <96ffc81d-3f37-7f48-f9f4-6a58da3e0f99@huawei.com>
+Date: Sat, 7 Mar 2026 17:29:13 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v5 31/41] arm_mpam: resctrl: Add resctrl_arch_rmid_read()
+ and resctrl_arch_reset_rmid()
+Content-Language: en-US
+To: Ben Horgan <ben.horgan@arm.com>, James Morse <james.morse@arm.com>
+CC: <amitsinght@marvell.com>, <baisheng.gao@unisoc.com>,
+	<baolin.wang@linux.alibaba.com>, <carl@os.amperecomputing.com>,
+	<dave.martin@arm.com>, <david@kernel.org>, <dfustini@baylibre.com>,
+	<fenghuay@nvidia.com>, <gshan@redhat.com>, <james.morse@arm.com>,
+	<jonathan.cameron@huawei.com>, <kobak@nvidia.com>, <lcherian@marvell.com>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<peternewman@google.com>, <punit.agrawal@oss.qualcomm.com>,
+	<quic_jiles@quicinc.com>, <reinette.chatre@intel.com>,
+	<rohit.mathew@arm.com>, <scott@os.amperecomputing.com>,
+	<sdonthineni@nvidia.com>, <tan.shaopeng@fujitsu.com>,
+	<xhao@linux.alibaba.com>, <catalin.marinas@arm.com>, <will@kernel.org>,
+	<corbet@lwn.net>, <maz@kernel.org>, <oupton@kernel.org>,
+	<joey.gouly@arm.com>, <suzuki.poulose@arm.com>, <kvmarm@lists.linux.dev>,
+	<linux-doc@vger.kernel.org>, Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>,
+	Kefeng Wang <wangkefeng.wang@huawei.com>
+References: <20260224175720.2663924-1-ben.horgan@arm.com>
+ <20260224175720.2663924-32-ben.horgan@arm.com>
+From: Zeng Heng <zengheng4@huawei.com>
+In-Reply-To: <20260224175720.2663924-32-ben.horgan@arm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
+ kwepemf100008.china.huawei.com (7.202.181.222)
 
-Reference the new /sys/module/*/import_ns sysfs attribute in docs as an
-alternative to modinfo for inspecting imported namespaces of loaded
-modules.
+Hi Ben,
 
-Signed-off-by: Nicholas Sielicki <linux@opensource.nslick.com>
----
- Documentation/core-api/symbol-namespaces.rst | 5 +++++
- 1 file changed, 5 insertions(+)
+On 2026/2/25 1:57, Ben Horgan wrote:
+> From: James Morse <james.morse@arm.com>
+> 
+> resctrl uses resctrl_arch_rmid_read() to read counters. CDP emulation means
+> the counter may need reading in three different ways. The same goes for
+> reset.
+> 
+> The helpers behind the resctrl_arch_ functions will be re-used for the ABMC
+> equivalent functions.
+> 
+> Add the rounding helper for checking monitor values while we're here.
+> 
+> Tested-by: Gavin Shan <gshan@redhat.com>
+> Tested-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+> Tested-by: Peter Newman <peternewman@google.com>
+> Tested-by: Zeng Heng <zengheng4@huawei.com>
+> Reviewed-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+> Signed-off-by: James Morse <james.morse@arm.com>
+> Signed-off-by: Ben Horgan <ben.horgan@arm.com>
+> ---
 
-diff --git a/Documentation/core-api/symbol-namespaces.rst b/Documentation/core-api/symbol-namespaces.rst
-index 034898e81ba2..2304d5bffcce 100644
---- a/Documentation/core-api/symbol-namespaces.rst
-+++ b/Documentation/core-api/symbol-namespaces.rst
-@@ -114,6 +114,11 @@ inspected with modinfo::
- 	import_ns:      USB_STORAGE
- 	[...]
- 
-+For modules that are currently loaded, imported namespaces are also available
-+via sysfs::
-+
-+	$ cat /sys/module/ums_karma/import_ns
-+	USB_STORAGE
- 
- It is advisable to add the MODULE_IMPORT_NS() statement close to other module
- metadata definitions like MODULE_AUTHOR() or MODULE_LICENSE().
--- 
-2.53.0
+[...]
 
+> +
+> +static int read_mon_cdp_safe(struct mpam_resctrl_mon *mon, struct mpam_component *mon_comp,
+> +			     enum mpam_device_features mon_type,
+> +			     int mon_idx, u32 closid, u32 rmid, u64 *val)
+> +{
+> +	if (cdp_enabled) {
+
+While reviewing the resctrl limbo handling code, I noticed a issue in
+__check_limbo() that could lead to premature RMID release when CDP is
+enabled.
+
+In __check_limbo(), RMIDs in limbo state undergo L3 occupancy checks
+before being released. This check is performed via
+resctrl_arch_rmid_read(), on arm64 MPAM, which relies on the cdp_enabled
+state to determine to check which PARTID.
+
+The concern arises in the following scenario: Filesystem is mounted with
+CDP enabled. During normal operation, some RMIDs enter limbo. On umount,
+cdp_enabled is reset to false. __check_limbo() may then run and perform
+L3 checks with cdp_enabled = false. This could cause RMIDs to be
+incorrectly released from limbo while still effectively busy after
+remount.
+
+Apologies for not providing a ready-made fix in this email. However,
+I would appreciate to hear the community's thoughts on this issue.
+
+
+> +		u64 code_val = 0, data_val = 0;
+> +		int err;
+> +
+> +		err = __read_mon(mon, mon_comp, mon_type, mon_idx,
+> +				 CDP_CODE, closid, rmid, &code_val);
+> +		if (err)
+> +			return err;
+> +
+> +		err = __read_mon(mon, mon_comp, mon_type, mon_idx,
+> +				 CDP_DATA, closid, rmid, &data_val);
+> +		if (err)
+> +			return err;
+> +
+> +		*val += code_val + data_val;
+> +		return 0;
+> +	}
+> +
+> +	return __read_mon(mon, mon_comp, mon_type, mon_idx,
+> +			  CDP_NONE, closid, rmid, val);
+> +}
+> +
+> +/* MBWU when not in ABMC mode, and CSU counters. */
+> +int resctrl_arch_rmid_read(struct rdt_resource *r, struct rdt_domain_hdr *hdr,
+> +			   u32 closid, u32 rmid, enum resctrl_event_id eventid,
+> +			   void *arch_priv, u64 *val, void *arch_mon_ctx)
+> +{
+> +	struct mpam_resctrl_dom *l3_dom;
+> +	struct mpam_component *mon_comp;
+> +	u32 mon_idx = *(u32 *)arch_mon_ctx;
+> +	enum mpam_device_features mon_type;
+> +	struct mpam_resctrl_mon *mon = &mpam_resctrl_counters[eventid];
+> +
+> +	resctrl_arch_rmid_read_context_check();
+> +
+> +	if (eventid >= QOS_NUM_EVENTS || !mon->class)
+> +		return -EINVAL;
+> +
+> +	l3_dom = container_of(hdr, struct mpam_resctrl_dom, resctrl_mon_dom.hdr);
+> +	mon_comp = l3_dom->mon_comp[eventid];
+> +
+> +	switch (eventid) {
+> +	case QOS_L3_OCCUP_EVENT_ID:
+> +		mon_type = mpam_feat_msmon_csu;
+> +		break;
+> +	case QOS_L3_MBM_LOCAL_EVENT_ID:
+> +	case QOS_L3_MBM_TOTAL_EVENT_ID:
+> +		mon_type = mpam_feat_msmon_mbwu;
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	return read_mon_cdp_safe(mon, mon_comp, mon_type, mon_idx,
+> +				 closid, rmid, val);
+> +}
+> +
+
+
+Best regards,
+Zeng Heng
