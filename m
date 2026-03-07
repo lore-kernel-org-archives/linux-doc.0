@@ -1,107 +1,89 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8635A33438F;
-	Sat,  7 Mar 2026 19:51:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91AE0329367;
+	Sat,  7 Mar 2026 19:54:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772913077; cv=none; b=GGFqYJXrJL3t5nFU+GEho5YSCBmbapxzWh/7V5WNIuLDMM/NEifP5o+a1wRQ86RnDuXyqr2sZ9S2ZIdjVwPSHJwVz4miTBx2itlD3k/zVLlfNlRzIR1u2c8IpGJiQu9iB26BsF9TLaDi/5/aN+CJG1JtTWRWQHrdUlNRQyz/Hwg=
+	t=1772913247; cv=none; b=J0GvRiJ2VMD2/4J3l4sqoUU+HgqLzkj2aSG05E7eBbUHDzO51K9BxKfSeItqVO04fNV//qzf8BsFa/YAu9TX0IU2h/OBrhIkC9f5Pt4RHWfl1zwYl898vBmzd81q1f5eYiH56gSnmhqVLcOm+wRCLkmT26mslPA14D7f/zn5Wy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772913077; c=relaxed/simple;
-	bh=bL+fsILHY8SFCA6sd7umGOjm0Z8wXDR/4aGTwz0NooQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nJMyF5UGkHYvqSa0yGjwSBVfRT6aNs1WsknfTYrv4+79pX65/Am9SjYKdB3p30pfsG6az9xRbfwxRQwuS4oeonniUupNcnMMpq3Ek0YS9VkIzdlh3DIzbreiBwUzG2xOutJT2P6dtg1WZEFcwJ0xZcEc8gmoSAdKjt8YKR28eBQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PCZkLNKL; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1772913247; c=relaxed/simple;
+	bh=7ODZDQJM/Fjl22DmH1XWyzvb3MSVSALXM4f2MjB/9Bw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=C1hzhEtylq4iZNhtsgOf2DYifrde05BrUpyH/qowfLaZXnxfOo1aSR9HuLHc2hPUaoIcEiHtbMaB2GRoBHXkexHxqXc1JLRbJQThAJKhezpt9DS3eCuyBeylvptGaGvo/UC6NU3MN6Hf7JjFkz7B3ABJlAJrd0ISj0IFAnrorjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wq2xWmi4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PCZkLNKL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772913076; x=1804449076;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bL+fsILHY8SFCA6sd7umGOjm0Z8wXDR/4aGTwz0NooQ=;
-  b=PCZkLNKLAysrf4Q1ispvwXgClLsX2v77NqJebODW1s++XbQ+cTYRo++m
-   77jlnBHbZgqtDlFOLRMZBdMnZOtEavuUz+wd+3tL1U/QNFi2ieh38Htn0
-   V6/1JXIN3ttBvg16TfBzWCOXD+5MmbcmJydU8I5Xp5y+pcRHFePiOYeny
-   co3T+0HE7rE0FFuXPC3Szqo0ZPEfetFDg+fGn6Inca9fXjW8tgj3UmLxC
-   0wlZ09a39BLq8WGsCjezMwDKhF/v3FUAWhmP5scvts0FCWb1pnf+Q0vq3
-   QPNPs1rlbNgHFONLLqvrEzVhnYiFdJl6m/D7M/JmeTiid5pi9EFIfMwFv
-   Q==;
-X-CSE-ConnectionGUID: rOBcWyOQSum8McYcH1+wEg==
-X-CSE-MsgGUID: Z4IWCBM5R9yh6GMtyb4nHg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11722"; a="74102723"
-X-IronPort-AV: E=Sophos;i="6.23,107,1770624000"; 
-   d="scan'208";a="74102723"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2026 11:51:15 -0800
-X-CSE-ConnectionGUID: k/yn7nIgQKS6O1t/YqCwow==
-X-CSE-MsgGUID: lQMfxZJtS7+XKT/kDIfohA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,107,1770624000"; 
-   d="scan'208";a="217477031"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 07 Mar 2026 11:51:13 -0800
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vyxg5-000000002XB-3MJ3;
-	Sat, 07 Mar 2026 19:51:09 +0000
-Date: Sat, 7 Mar 2026 20:50:15 +0100
-From: kernel test robot <lkp@intel.com>
-To: Kishore Batta <kishore.batta@oss.qualcomm.com>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wq2xWmi4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7A1FC19422;
+	Sat,  7 Mar 2026 19:54:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1772913247;
+	bh=7ODZDQJM/Fjl22DmH1XWyzvb3MSVSALXM4f2MjB/9Bw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Wq2xWmi4yYSpo/lcxJhDT7T/lmEBVCzdUEzZ2yMEyV3qoLcloM1VKkdIj7rsIXgVR
+	 FYtUGLSd9bra3Wexb8R0tSfamwTQreuDrEcbOSm1wW6I0lhEhhirxA41zJfXd6+qxi
+	 DCXY4vwLz3zObm8iS8eQASFKWKJRcJH07joiDvCBU/Zf0KIKR4DrFu8oWq/wpdjko3
+	 EhQ0nP2bpfc8BGngw24mek2z0jtmguzblsnmosh3AdMS0CTWU/rmCqpJDbJcBB5eoT
+	 vN0XbGWsW1arlYmE5rlmZ97LKGwjLN5FvnoPxNhNN0vmgyhBezB1dp7SqiOjA4uDaW
+	 5y4/i99PboWoQ==
+From: SeongJae Park <sj@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: SeongJae Park <sj@kernel.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@google.com>,
+	David Hildenbrand <david@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
-	Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>,
-	Oded Gabbay <ogabbay@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, mhi@lists.linux.dev,
-	Kishore Batta <kishore.batta@oss.qualcomm.com>
-Subject: Re: [PATCH v2 1/9] Add documentation for Sahara protocol.
-Message-ID: <202603072040.pXq0BYgd-lkp@intel.com>
-References: <20260307-sahara_protocol_new_v2-v2-1-29dc748b5e9c@oss.qualcomm.com>
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	damon@lists.linux.dev,
+	kunit-dev@googlegroups.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org,
+	wang lian <lianux.mm@gmail.com>
+Subject: [PATCH 0/7] mm/damon: improve/fixup/update ratio calculation, test and documentation
+Date: Sat,  7 Mar 2026 11:53:48 -0800
+Message-ID: <20260307195356.203753-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260307-sahara_protocol_new_v2-v2-1-29dc748b5e9c@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Kishore,
+Yet another batch of misc/minor improvements and fixups.  Use
+mult_frac() instead of the worse open-coding for rate calculations
+(patch 1).  Add a test for a previously found and fixed bug (patch 2).
+Improve and update comments and documentations for easier code review
+and up-to-date information (patches 3-6).  Finally, fix an obvious typo
+(patch 7).
 
-kernel test robot noticed the following build warnings:
+SeongJae Park (7):
+  mm/damon/core: use mult_frac()
+  mm/damon/tests/core-kunit: add a test for damon_is_last_region()
+  mm/damon/core: clarify damon_set_attrs() usages
+  mm/damon: document non-zero length damon_region assumption
+  Docs/admin-guide/mm/damn/lru_sort: fix intervals autotune parameter
+    name
+  Docs/mm/damon/maintainer-profile: use flexible review cadence
+  Docs/mm/damon/index: fix typo: autoamted -> automated
 
-[auto build test WARNING on a0ae2a256046c0c5d3778d1a194ff2e171f16e5f]
+ .../admin-guide/mm/damon/lru_sort.rst         |  4 +--
+ Documentation/mm/damon/index.rst              |  2 +-
+ Documentation/mm/damon/maintainer-profile.rst |  8 ++---
+ include/linux/damon.h                         |  2 ++
+ mm/damon/core.c                               | 32 ++++++++++++-------
+ mm/damon/tests/core-kunit.h                   | 23 +++++++++++++
+ 6 files changed, 52 insertions(+), 19 deletions(-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kishore-Batta/Add-documentation-for-Sahara-protocol/20260307-194417
-base:   a0ae2a256046c0c5d3778d1a194ff2e171f16e5f
-patch link:    https://lore.kernel.org/r/20260307-sahara_protocol_new_v2-v2-1-29dc748b5e9c%40oss.qualcomm.com
-patch subject: [PATCH v2 1/9] Add documentation for Sahara protocol.
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260307/202603072040.pXq0BYgd-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603072040.pXq0BYgd-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   bit to be cleared.  Note that the vmcs02
-   bit is still completely controlled by the
-   host, regardless of the quirk setting.
-   =================================== ============================================ [docutils]
-   Documentation/core-api/percpu-counter-tree.rst: WARNING: document isn't included in any toctree [toc.not_included]
->> Documentation/sahara/index.rst: WARNING: document isn't included in any toctree [toc.not_included]
-   Documentation/networking/skbuff:36: ./include/linux/skbuff.h:181: WARNING: Failed to create a cross reference. A title or caption not found: 'crc' [ref.ref]
-
+base-commit: fa1e30b2dede645519bf6743439d3925922651bc
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.47.3
