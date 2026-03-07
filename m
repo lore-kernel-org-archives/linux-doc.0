@@ -1,186 +1,71 @@
-Received: from canpmsgout05.his.huawei.com (canpmsgout05.his.huawei.com [113.46.200.220])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CC3036EAB5;
-	Sat,  7 Mar 2026 09:29:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.220
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12D62368268;
+	Sat,  7 Mar 2026 09:30:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772875762; cv=none; b=DYKlh1vDMh/5HcMPusdvaIttnImV6EVLKqyxG9cY1ggu8BZv1UYSMby9H+WwHOWHbYkwsL0g0lT27T7Cu30LiNg0aayt/kWIGNpoasbC5L8vR591JJJC1P8cBxagUl1k37gdRg0zFY0h17dLFJgFccZ89eyrkAYqbtaVnMEKN/U=
+	t=1772875818; cv=none; b=eTaqNvj2Arwvn19/AkYvmmA9YXZcuJlq4i9ohnjOT94kgxI0MMZhOV/eQXJfWLZH0NnhJt6BtAjvcL4rNLKHCyokZtQaZ6O2ptY7z2ayXdPg1Mhdd8+Y+/pBN8s7y59/XXgYvC2WcakSKxvZM7c008LqAVv+unddKc52BltcFt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772875762; c=relaxed/simple;
-	bh=FTFaF964VuEEZyY/+Up2UNacEAMIhe96dGfInsY5dUY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=hAIz1vcX5r0Msdj6TAZ0ji+ZlbS3bC7eI2KDBHnFWQHPBsOw/uxMbxlGW2r3l+PSL+Q6Ti3xU8J7KIj4tj/49DvxMKWkR22SskGHvk6YsH50hYcglUMCY8oS7T+/t+YKt7b1PiJb6mEHwPYlJsTXQb1jp/xl++hgkFY/AjKFCaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=h-partners.com; dkim=pass (1024-bit key) header.d=h-partners.com header.i=@h-partners.com header.b=Fs11xKyQ; arc=none smtp.client-ip=113.46.200.220
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=h-partners.com
+	s=arc-20240116; t=1772875818; c=relaxed/simple;
+	bh=oOxzKQwICj7Br0UxUZXEZbfs0K50wQ/IldByW5/G2Mc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bePmfOIGXpj5j3tSBfxU7IhF/sCyRbBuP8xToj6sNAk1CIUSEvxdBjiPqpfQuULC+d3UYj3e+Fg4yLwttsDDqH46goxEaov7RtyNTGu1dLKmul5vAEDnFwOEDIrYe8SHlabLcljjiijh79+wgjOLs2QAirw480AY7Q6kOR287l4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=GvPoYmk3; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=h-partners.com header.i=@h-partners.com header.b="Fs11xKyQ"
-dkim-signature: v=1; a=rsa-sha256; d=h-partners.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=Itfyi6buFhW0nHsJ4qojlX1bMfsgLsC91Ah779lyCrk=;
-	b=Fs11xKyQ7nYIUgH7UvxH6gth0KfIDoXe3uaHwUa+hP2mJzVZJigFyib1O/8y8bMWZ9PynqOJq
-	LeDP3LD9iI2HZWoHuWR/+AH7FhJ+VYRsBva+lTGdx7OXB8Qp3JRCwAsF1AfzAwAczndgMMb+Si9
-	peMQSuEjhf5GAUkAIcxM3i4=
-Received: from mail.maildlp.com (unknown [172.19.163.0])
-	by canpmsgout05.his.huawei.com (SkyGuard) with ESMTPS id 4fSdCD6B2Rz12LCy;
-	Sat,  7 Mar 2026 17:24:40 +0800 (CST)
-Received: from kwepemf100008.china.huawei.com (unknown [7.202.181.222])
-	by mail.maildlp.com (Postfix) with ESMTPS id 971AB40561;
-	Sat,  7 Mar 2026 17:29:15 +0800 (CST)
-Received: from [10.174.179.37] (10.174.179.37) by
- kwepemf100008.china.huawei.com (7.202.181.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.36; Sat, 7 Mar 2026 17:29:13 +0800
-Message-ID: <96ffc81d-3f37-7f48-f9f4-6a58da3e0f99@huawei.com>
-Date: Sat, 7 Mar 2026 17:29:13 +0800
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="GvPoYmk3"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=ZyUQ8o6mITxtK3FKnjFG1H9al+LDuFL7rOLaCjVBue4=; b=GvPoYmk3hdvo7H2EN6iqkFLctW
+	lcHpHWbDe9VEzhaCCc1eAxTMvXIgvPbhnuo4ZhzvXd1Hd+sc3JMQLB2MFhr8mQh/EXqre/xuc3Jsy
+	EbV0QTzM1CTbwWszKDtBITzoLhauPWVpaQQbkrl2RhQLJyBG/yxJs3CoSHo7V3BqljhJSYiPI4le3
+	ZciMDHpcXUIB/kH/6KNkOScjqMiRAjiQimJ1eKCkL51z0X+54Tw9AVCz4eG4CA4/0cMLUUYSTt2HP
+	JHhuLOswkhsbq8wnLTA2SLz2jGyWSvBgGomxAPPuC5nq8+QJs2Djq9fHwFIgJJpH39diHoAC0VXew
+	1AoK07Hg==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vynz5-00000000cbD-34EP;
+	Sat, 07 Mar 2026 09:30:07 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 6760B301150; Sat, 07 Mar 2026 10:30:06 +0100 (CET)
+Date: Sat, 7 Mar 2026 10:30:06 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Nicholas Sielicki <linux@opensource.nslick.com>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	Matthias Maennich <maennich@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-modules@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] module: expose imported namespaces via sysfs
+Message-ID: <20260307093006.GU606826@noisy.programming.kicks-ass.net>
+References: <20260307090010.20828-1-linux@opensource.nslick.com>
+ <20260307090010.20828-2-linux@opensource.nslick.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v5 31/41] arm_mpam: resctrl: Add resctrl_arch_rmid_read()
- and resctrl_arch_reset_rmid()
-Content-Language: en-US
-To: Ben Horgan <ben.horgan@arm.com>, James Morse <james.morse@arm.com>
-CC: <amitsinght@marvell.com>, <baisheng.gao@unisoc.com>,
-	<baolin.wang@linux.alibaba.com>, <carl@os.amperecomputing.com>,
-	<dave.martin@arm.com>, <david@kernel.org>, <dfustini@baylibre.com>,
-	<fenghuay@nvidia.com>, <gshan@redhat.com>, <james.morse@arm.com>,
-	<jonathan.cameron@huawei.com>, <kobak@nvidia.com>, <lcherian@marvell.com>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<peternewman@google.com>, <punit.agrawal@oss.qualcomm.com>,
-	<quic_jiles@quicinc.com>, <reinette.chatre@intel.com>,
-	<rohit.mathew@arm.com>, <scott@os.amperecomputing.com>,
-	<sdonthineni@nvidia.com>, <tan.shaopeng@fujitsu.com>,
-	<xhao@linux.alibaba.com>, <catalin.marinas@arm.com>, <will@kernel.org>,
-	<corbet@lwn.net>, <maz@kernel.org>, <oupton@kernel.org>,
-	<joey.gouly@arm.com>, <suzuki.poulose@arm.com>, <kvmarm@lists.linux.dev>,
-	<linux-doc@vger.kernel.org>, Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>,
-	Kefeng Wang <wangkefeng.wang@huawei.com>
-References: <20260224175720.2663924-1-ben.horgan@arm.com>
- <20260224175720.2663924-32-ben.horgan@arm.com>
-From: Zeng Heng <zengheng4@huawei.com>
-In-Reply-To: <20260224175720.2663924-32-ben.horgan@arm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
- kwepemf100008.china.huawei.com (7.202.181.222)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260307090010.20828-2-linux@opensource.nslick.com>
 
-Hi Ben,
-
-On 2026/2/25 1:57, Ben Horgan wrote:
-> From: James Morse <james.morse@arm.com>
+On Sat, Mar 07, 2026 at 03:00:09AM -0600, Nicholas Sielicki wrote:
+> Previously, the only way for userspace to inspect the symbol
+> namespaces a module imports is to locate the .ko on disk and invoke
+> modinfo(8) to decompress/parse the metadata. The kernel validated
+> namespaces at load time, but it was otherwise discarded.
 > 
-> resctrl uses resctrl_arch_rmid_read() to read counters. CDP emulation means
-> the counter may need reading in three different ways. The same goes for
-> reset.
-> 
-> The helpers behind the resctrl_arch_ functions will be re-used for the ABMC
-> equivalent functions.
-> 
-> Add the rounding helper for checking monitor values while we're here.
-> 
-> Tested-by: Gavin Shan <gshan@redhat.com>
-> Tested-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
-> Tested-by: Peter Newman <peternewman@google.com>
-> Tested-by: Zeng Heng <zengheng4@huawei.com>
-> Reviewed-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
-> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
-> Signed-off-by: James Morse <james.morse@arm.com>
-> Signed-off-by: Ben Horgan <ben.horgan@arm.com>
-> ---
+> Add /sys/module/*/import_ns to expose imported namespaces for
+> currently loaded modules. The file contains one namespace per line and
+> only exists for modules that import at least one namespace.
 
-[...]
-
-> +
-> +static int read_mon_cdp_safe(struct mpam_resctrl_mon *mon, struct mpam_component *mon_comp,
-> +			     enum mpam_device_features mon_type,
-> +			     int mon_idx, u32 closid, u32 rmid, u64 *val)
-> +{
-> +	if (cdp_enabled) {
-
-While reviewing the resctrl limbo handling code, I noticed a issue in
-__check_limbo() that could lead to premature RMID release when CDP is
-enabled.
-
-In __check_limbo(), RMIDs in limbo state undergo L3 occupancy checks
-before being released. This check is performed via
-resctrl_arch_rmid_read(), on arm64 MPAM, which relies on the cdp_enabled
-state to determine to check which PARTID.
-
-The concern arises in the following scenario: Filesystem is mounted with
-CDP enabled. During normal operation, some RMIDs enter limbo. On umount,
-cdp_enabled is reset to false. __check_limbo() may then run and perform
-L3 checks with cdp_enabled = false. This could cause RMIDs to be
-incorrectly released from limbo while still effectively busy after
-remount.
-
-Apologies for not providing a ready-made fix in this email. However,
-I would appreciate to hear the community's thoughts on this issue.
-
-
-> +		u64 code_val = 0, data_val = 0;
-> +		int err;
-> +
-> +		err = __read_mon(mon, mon_comp, mon_type, mon_idx,
-> +				 CDP_CODE, closid, rmid, &code_val);
-> +		if (err)
-> +			return err;
-> +
-> +		err = __read_mon(mon, mon_comp, mon_type, mon_idx,
-> +				 CDP_DATA, closid, rmid, &data_val);
-> +		if (err)
-> +			return err;
-> +
-> +		*val += code_val + data_val;
-> +		return 0;
-> +	}
-> +
-> +	return __read_mon(mon, mon_comp, mon_type, mon_idx,
-> +			  CDP_NONE, closid, rmid, val);
-> +}
-> +
-> +/* MBWU when not in ABMC mode, and CSU counters. */
-> +int resctrl_arch_rmid_read(struct rdt_resource *r, struct rdt_domain_hdr *hdr,
-> +			   u32 closid, u32 rmid, enum resctrl_event_id eventid,
-> +			   void *arch_priv, u64 *val, void *arch_mon_ctx)
-> +{
-> +	struct mpam_resctrl_dom *l3_dom;
-> +	struct mpam_component *mon_comp;
-> +	u32 mon_idx = *(u32 *)arch_mon_ctx;
-> +	enum mpam_device_features mon_type;
-> +	struct mpam_resctrl_mon *mon = &mpam_resctrl_counters[eventid];
-> +
-> +	resctrl_arch_rmid_read_context_check();
-> +
-> +	if (eventid >= QOS_NUM_EVENTS || !mon->class)
-> +		return -EINVAL;
-> +
-> +	l3_dom = container_of(hdr, struct mpam_resctrl_dom, resctrl_mon_dom.hdr);
-> +	mon_comp = l3_dom->mon_comp[eventid];
-> +
-> +	switch (eventid) {
-> +	case QOS_L3_OCCUP_EVENT_ID:
-> +		mon_type = mpam_feat_msmon_csu;
-> +		break;
-> +	case QOS_L3_MBM_LOCAL_EVENT_ID:
-> +	case QOS_L3_MBM_TOTAL_EVENT_ID:
-> +		mon_type = mpam_feat_msmon_mbwu;
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	return read_mon_cdp_safe(mon, mon_comp, mon_type, mon_idx,
-> +				 closid, rmid, val);
-> +}
-> +
-
-
-Best regards,
-Zeng Heng
+What I'm missing here is why users would care about this?
