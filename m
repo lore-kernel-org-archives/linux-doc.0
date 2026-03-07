@@ -1,92 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 768BA38F244;
-	Sat,  7 Mar 2026 19:42:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8635A33438F;
+	Sat,  7 Mar 2026 19:51:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772912547; cv=none; b=U2bdQ7LE/gikXdB7wiz3NnZA1ODZZfhxuTS8c9T/tB7Gi6eru1R5e/8+DYBp5KEc2OKGk83XtD3Hfsf3yGXEMT51ePR73GHTlTUAGKEtU2AnRvW4y4FqakEuJR6kVRhpg2d3hyvsmU7pcmbJNDIpXwThPZLLtAY0rSh7L1JJKv4=
+	t=1772913077; cv=none; b=GGFqYJXrJL3t5nFU+GEho5YSCBmbapxzWh/7V5WNIuLDMM/NEifP5o+a1wRQ86RnDuXyqr2sZ9S2ZIdjVwPSHJwVz4miTBx2itlD3k/zVLlfNlRzIR1u2c8IpGJiQu9iB26BsF9TLaDi/5/aN+CJG1JtTWRWQHrdUlNRQyz/Hwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772912547; c=relaxed/simple;
-	bh=hW/2ycay+HzENCaHwC79wBirLF865EtYyfXIYZ2Fx5U=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=q+1a6VaEOm8c8Q8BS/+R2fWYDN/7OCbEtbC5jqAGIlmZJtKrS4WmyCm4JR8cEC0ndHBWuF5DFSG5EdJ6fsDuZ/W9vwTc6GJq6US9k3SmyVphwwXbKotLYm7KeaS8h2ueX9E7Obv4mEoZNumXuIbhYN4RwwhiekAS6tPa44J4LVo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cxcdUQH0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772913077; c=relaxed/simple;
+	bh=bL+fsILHY8SFCA6sd7umGOjm0Z8wXDR/4aGTwz0NooQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nJMyF5UGkHYvqSa0yGjwSBVfRT6aNs1WsknfTYrv4+79pX65/Am9SjYKdB3p30pfsG6az9xRbfwxRQwuS4oeonniUupNcnMMpq3Ek0YS9VkIzdlh3DIzbreiBwUzG2xOutJT2P6dtg1WZEFcwJ0xZcEc8gmoSAdKjt8YKR28eBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PCZkLNKL; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cxcdUQH0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 115ABC19423;
-	Sat,  7 Mar 2026 19:42:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772912547;
-	bh=hW/2ycay+HzENCaHwC79wBirLF865EtYyfXIYZ2Fx5U=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=cxcdUQH0a72LRUKSuKr2PQIYUV7QCuuqMbyh0lvh+rbp4NC15TkcqN7yqbsEiNNdW
-	 UyC3v6strUjJ6vR7fJFz+JmYgiXuyJ859bS4erZvLJ1Bc9SHn9Az3SutHOxiyAUiO/
-	 53e5x7bHFeoPboFbdotMv3aKrkbVBl5Igi6hJSb5nLKbc24BohDnqK28AO3dm2ZLSI
-	 nzLAtE7QgfWRFdIlqYQneMIB7cUyB93R/V1oWqKdIg6D07IoHfqGpzCoYSRKnMGsKp
-	 cFWDG5glsciRKnAnPBe7ZZM5dnVlT9Fzk7Zq+5UVpUQ9+lEh5zcfeWL3M2eY2QYL3k
-	 SbZHA3hgnOFKA==
-From: SeongJae Park <sj@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: SeongJae Park <sj@kernel.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	David Hildenbrand <david@kernel.org>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PCZkLNKL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772913076; x=1804449076;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bL+fsILHY8SFCA6sd7umGOjm0Z8wXDR/4aGTwz0NooQ=;
+  b=PCZkLNKLAysrf4Q1ispvwXgClLsX2v77NqJebODW1s++XbQ+cTYRo++m
+   77jlnBHbZgqtDlFOLRMZBdMnZOtEavuUz+wd+3tL1U/QNFi2ieh38Htn0
+   V6/1JXIN3ttBvg16TfBzWCOXD+5MmbcmJydU8I5Xp5y+pcRHFePiOYeny
+   co3T+0HE7rE0FFuXPC3Szqo0ZPEfetFDg+fGn6Inca9fXjW8tgj3UmLxC
+   0wlZ09a39BLq8WGsCjezMwDKhF/v3FUAWhmP5scvts0FCWb1pnf+Q0vq3
+   QPNPs1rlbNgHFONLLqvrEzVhnYiFdJl6m/D7M/JmeTiid5pi9EFIfMwFv
+   Q==;
+X-CSE-ConnectionGUID: rOBcWyOQSum8McYcH1+wEg==
+X-CSE-MsgGUID: Z4IWCBM5R9yh6GMtyb4nHg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11722"; a="74102723"
+X-IronPort-AV: E=Sophos;i="6.23,107,1770624000"; 
+   d="scan'208";a="74102723"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2026 11:51:15 -0800
+X-CSE-ConnectionGUID: k/yn7nIgQKS6O1t/YqCwow==
+X-CSE-MsgGUID: lQMfxZJtS7+XKT/kDIfohA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,107,1770624000"; 
+   d="scan'208";a="217477031"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa008.fm.intel.com with ESMTP; 07 Mar 2026 11:51:13 -0800
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vyxg5-000000002XB-3MJ3;
+	Sat, 07 Mar 2026 19:51:09 +0000
+Date: Sat, 7 Mar 2026 20:50:15 +0100
+From: kernel test robot <lkp@intel.com>
+To: Kishore Batta <kishore.batta@oss.qualcomm.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	damon@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [PATCH 2/2] Docs/mm/damon/design: document the power-of-two limitation for addr_unit
-Date: Sat,  7 Mar 2026 11:42:21 -0800
-Message-ID: <20260307194222.202075-3-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260307194222.202075-1-sj@kernel.org>
-References: <20260307194222.202075-1-sj@kernel.org>
+	Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+	Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>,
+	Oded Gabbay <ogabbay@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, mhi@lists.linux.dev,
+	Kishore Batta <kishore.batta@oss.qualcomm.com>
+Subject: Re: [PATCH v2 1/9] Add documentation for Sahara protocol.
+Message-ID: <202603072040.pXq0BYgd-lkp@intel.com>
+References: <20260307-sahara_protocol_new_v2-v2-1-29dc748b5e9c@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260307-sahara_protocol_new_v2-v2-1-29dc748b5e9c@oss.qualcomm.com>
 
-The min_region_sz is set as max(DAMON_MIN_REGION_SZ / addr_unit, 1).
-DAMON_MIN_REGION_SZ is the same to PAGE_SIZE, and addr_unit is what the
-user can arbitrarily set.  Commit c80f46ac228b ("mm/damon/core: disallow
-non-power of two min_region_sz") made min_region_sz to always be a power
-of two.  Hence, addr_unit should be a power of two when it is smaller
-than PAGE_SIZE.  While 'addr_unit' is a user-exposed parameter, the rule
-is not documented.  This can confuse users.  Specifically, if the user
-sets addr_unit as a value that is smaller than PAGE_SIZE and not a power
-of two, the setup will explicitly fail.
+Hi Kishore,
 
-Document the rule on the design document.  Usage documents reference the
-design document for detail, so updating only the design document should
-suffice.
+kernel test robot noticed the following build warnings:
 
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- Documentation/mm/damon/design.rst | 2 ++
- 1 file changed, 2 insertions(+)
+[auto build test WARNING on a0ae2a256046c0c5d3778d1a194ff2e171f16e5f]
 
-diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
-index 28d932ceaf7ed..29fff20b3c2a9 100644
---- a/Documentation/mm/damon/design.rst
-+++ b/Documentation/mm/damon/design.rst
-@@ -150,6 +150,8 @@ address on the given address space.  Support of ``address unit`` parameter is
- up to each operations set implementation.  ``paddr`` is the only operations set
- implementation that supports the parameter.
- 
-+If the value is smaller than ``PAGE_SIZE``, only a power of two should be used.
-+
- .. _damon_core_logic:
- 
- Core Logics
+url:    https://github.com/intel-lab-lkp/linux/commits/Kishore-Batta/Add-documentation-for-Sahara-protocol/20260307-194417
+base:   a0ae2a256046c0c5d3778d1a194ff2e171f16e5f
+patch link:    https://lore.kernel.org/r/20260307-sahara_protocol_new_v2-v2-1-29dc748b5e9c%40oss.qualcomm.com
+patch subject: [PATCH v2 1/9] Add documentation for Sahara protocol.
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260307/202603072040.pXq0BYgd-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603072040.pXq0BYgd-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   bit to be cleared.  Note that the vmcs02
+   bit is still completely controlled by the
+   host, regardless of the quirk setting.
+   =================================== ============================================ [docutils]
+   Documentation/core-api/percpu-counter-tree.rst: WARNING: document isn't included in any toctree [toc.not_included]
+>> Documentation/sahara/index.rst: WARNING: document isn't included in any toctree [toc.not_included]
+   Documentation/networking/skbuff:36: ./include/linux/skbuff.h:181: WARNING: Failed to create a cross reference. A title or caption not found: 'crc' [ref.ref]
+
 -- 
-2.47.3
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
