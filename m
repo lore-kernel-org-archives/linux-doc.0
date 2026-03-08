@@ -1,319 +1,284 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11013038.outbound.protection.outlook.com [40.107.201.38])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA82E2F60A7
-	for <linux-doc@vger.kernel.org>; Sun,  8 Mar 2026 17:34:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772991283; cv=none; b=LMrbrQIYJc/ynakUPEAGmdd6S92+eYOqGGjc8rdCWzC8Dl32YS4TOWmYuvwHIxLul5EboWxrYrUFifM3MQFmeFXAmQoXrmC+9GNSUGTV/sy0T+ow36LOhzd4tToFdj4XeUcpuLa846YaN6Fg/rfGsp+fT70r8DyJWR9+bGycx/c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772991283; c=relaxed/simple;
-	bh=eQ5hlI3vgUf9rlJcgQ07JXsapvXneGIZp4TpqI+70Bg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TSea5/ea4SrsaPVbHvb4Rfr23rwcvl7JdLdaZCcuw5knDFkwb0d6oZevqtYFnNoaPd7WaaX9j2bwA5UkyFNw+8X29L6SOO4FuobGc+xhO8DISm25r0jkt+vujgvPfYck215TXbuJgsnFbsGpJeGgpbKw7+xfzqlilIAIw27I9mc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dN9VgWI5; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91DC233D4FF;
+	Sun,  8 Mar 2026 18:04:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.201.38
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772993089; cv=fail; b=fHGnh208sB3htXwI9sAL4sFbttYaQanzV+UP4Dl2zrR2HzfobW7QFl2R2AqfLcAiBbpkb0GiPbW0DHnjyKshwZE580EZUAVAXXfpY0CbSotejlcLudXI6RspGWNTt6biowWUOGHcZdY8nCrXGwfLPZX61AffGd5yzAPMJu12TT4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772993089; c=relaxed/simple;
+	bh=6mk2d/JH2mT0rZOPkzaGwq8UCNpm9Hi5t7mMv3zHtns=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=i8xNuBV6nJvVFESAdIa+RIirCKZBKFlve9PtAqu6BdH+WuZ2TrW3l76KSGhSPyirIUlM2XWAHIK0HcDa9pVucuCZRi0B8VYxsXqOHTEB+NJ0FmLrWDMDeN++I804695mcFjORDHZdy6uMdOFi4yyCOCSNj74Ah97yByOaAvQK8Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=UoipFnRL; arc=fail smtp.client-ip=40.107.201.38
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dN9VgWI5"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2ad617d5b80so71252195ad.1
-        for <linux-doc@vger.kernel.org>; Sun, 08 Mar 2026 10:34:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772991281; x=1773596081; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WL0HsBRBkkHgBOwL69XfPNOVZWpVtL9CtLnpRauXWrI=;
-        b=dN9VgWI5/gU128dx1FlT9emgi5oNCTLy0R3WLxpOEPVKkjc7En0huESH9u9+Z0x20B
-         aMwFhOyTIOVWF8g92fzXX5KAB/kCiqLCVPsgN668dZJW/nA+GgvCPOgxjGUo+r9FQ6Rd
-         452eB1EPsE9MyMCovJdy8RvNPauu7EKLHCCtXYfupmo/WP03G6uX/qc4aqV74IF+lgb7
-         GJBQ9JvwuEJbVzU2EvAPgWemdhlROZ5MBOwhl7Rsz7I5Jh8o0PxYg4LeqakbD9kyZEH2
-         3NAFw0dcrUqtfYX3uUAc/pS6tHVoSQvZtim09k+5cGdOt1xjwuJld39+Th28ayGJXSIL
-         OCMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772991281; x=1773596081;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=WL0HsBRBkkHgBOwL69XfPNOVZWpVtL9CtLnpRauXWrI=;
-        b=QDaRuSBnQDdegY68hrFw86kdZAib+QLrj5VxmBo8RrRDmohIwXXqeJBTPeMAr5fmC3
-         Hmir7t50w2lyYWXQkvrQxJ7Kiik60uqHtJ1lap8YrTzNYUn5PTO7clrik3d/yZ9zeV4x
-         hVes++x0fOgJdwxqxbEkgt38FucDJDf97+SiGLf7EjK7ccIzBa6rA4iSJZcaYp3XWei6
-         eknARfnosfoqD3YDrEAbtULaj03uMsNIvEfkg9ozB/Ssw7ys3cHQpm6SmXPfm9Ly0lFR
-         OowLT3A9qkHHnstJ+I8Vy1Ws0Y32aYxliMTMA3TdCKMuSSheTxpcTuCnVl3rSJb1mSLk
-         MDKg==
-X-Forwarded-Encrypted: i=1; AJvYcCXPjKcNrrez6i1jKQ0zqBpu7sWDQyoZxR1S2cTadyuE+g+ydCPW5XXrGzO/D1K+1WkDa7DKRZ2IzFk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxPYe8FixYsxVoxbszFMNhW99seglzoxr2ch14X6Z2zWJciiNsZ
-	E4P8yQ+w/jwRouQk2hGzMBX3i3TqnlYsk6V5rBYbgLiG6n5YaA8nEZdN
-X-Gm-Gg: ATEYQzz41r5nFtqSE0/7qPQcyTB83MaI7Z7vSYA/NSo9xPEpNxkW1wm/mwe8RA+gMmQ
-	3AbN2CH/M7aoyimKUkNQ1IxrvwJ4XP/7Mi34l5dw300yKKraaXoUgxUj3dwKPGsTDDIiw0JLQZR
-	Hw+gdOiYZv5KUwkQofYPAq5TV2tU+EsEWTkpX38N5ueOp3+8LcB3JOin57ZfdK2cEheYquix6Q8
-	3w3nbhRdSEceRQ1VFQ1Fb2JGFycCasCZIesvonqPqnmPESO1NXP9f45ePDAAq+PpILFUOVn8Mwg
-	nwHK4VX24C7OXS6CuN7Jczbij/YC8L7QC/vlN+hEgPzjBwnyKlZQnE1sIF7MxXMlh1pG7TELZGG
-	mTMu/reGhPxJPVN0Spkr5W7EmS1+Wexv6s+mgDKWrv3ZRjU1SM/trk0zxyjydHj54PAU0EbCdpp
-	0eP6GeMPt0J+0HeMVbMTRRq4CbxEveILtSwA3l
-X-Received: by 2002:a17:902:d544:b0:2ae:7efa:c5b0 with SMTP id d9443c01a7336-2ae82538b70mr86897085ad.56.1772991281183;
-        Sun, 08 Mar 2026 10:34:41 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ae83e57b14sm110217825ad.19.2026.03.08.10.34.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Mar 2026 10:34:40 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Sun, 8 Mar 2026 10:34:39 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Stoyan Bogdanov <sbogdanov@baylibre.com>
-Cc: jbrunet@baylibre.com, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
-	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 3/3] hwmon: (pmbus/tps1689): Add TPS1689 support
-Message-ID: <0b2f3bdd-e79c-4892-8523-2cab87596d97@roeck-us.net>
-References: <20260217081203.1792025-1-sbogdanov@baylibre.com>
- <20260217081203.1792025-4-sbogdanov@baylibre.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="UoipFnRL"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=MTurcWn75uGAN4xKlcN3Y6EP0Gr3DBj+edhp8D8pxF7Hj1ZlLqEiQJJ+TVg/dEWfk1ugKAOB0rcEvU4Vbx4rZbVMmGizQPd9/EhoNnE3GidueqBeeDqFre/GDwpHD5JXNzQhkdL9JTS7RDJfbveH6EdeNZI6f4QPofRP2WXJK700BFnU3mLCw2zrJvsef/7hzPffCUFMZCJqanpIvTG8qDUZeuha/jVcMLJA3z3TX3iM6eLVkHFEefvc+qRHipv1TnMA24mBkn/syIixfWgEinYtx0D0ghe1vaTgAdha9ij1w777lCi7JJWMuSrdPBAdJYt8ubcsCKyQrjopLwXKpQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Vm/yi/B0SiRtuoazW8QXTYVEUol9azZQQ9DlDHCtI9o=;
+ b=l2hUmVcfIQ3bw3X0OtNzKHZvV9SRb+knFEmjq0OnBnDGlP/MmVVKqaIexg6M7t7R6iCde3Tu44NVNR4OU1ay9Ramvey9g/Xd95i1OSiEZ+qqAeBVhnJBAVz6/si26gKgdwDBZIutIHwLpgi09JbGEj8xj2rzShIB08QtQMtC6EEX85LzVm1gNEKF7uQxEBZO7v/RZvdGCRu92FhqzwHas6orydisNrWhdCD0YK+Q5c7MTfN0RF32488YQNycHSdQtjuVBE3+rphx1jMDaA5o6Husi9/w/IR9RnNKP9Ev2ltekXwTENaOawD+9jkPxM7+qAYPJGjJPLd2A2sNUefKXw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Vm/yi/B0SiRtuoazW8QXTYVEUol9azZQQ9DlDHCtI9o=;
+ b=UoipFnRLQ+35ExOWmYPc1hgryO1cijMGEtbSNu/Fwq/uwvLPp5bsFkX5gdOyDElrzTgbZRw3j2Navzl1/r+ucuj0NmvqM25yrpbIMjUOZXhAtGDgQPGHHcXx4vgYfdQfC2uBm+LWg3YmPRci5WI3tz43dp6W5mj7WcFmykmzU6eWivXNgLNFqtcVYJgy56C3urxNU2AVTmPLy10hHUMyaxvP0IYtn9D3XOcxUAYVhOxgIsFaeAV8e5i+Kau8B9cMNGrpaAQEvYuKMTacdE6FS1OfDZA+dF4Bp0neK2mooyBVcmXTCYwY8Gfn/1fYJZ8ojtXvdwdR0uV/5HJ/FX9RpQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
+ DS7PR12MB6022.namprd12.prod.outlook.com (2603:10b6:8:86::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9700.9; Sun, 8 Mar 2026 18:04:37 +0000
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9700.006; Sun, 8 Mar 2026
+ 18:04:36 +0000
+From: Joel Fernandes <joelagnelf@nvidia.com>
+To: linux-kernel@vger.kernel.org
+Cc: Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dave Airlie <airlied@redhat.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Koen Koning <koen.koning@linux.intel.com>,
+	dri-devel@lists.freedesktop.org,
+	nouveau@lists.freedesktop.org,
+	rust-for-linux@vger.kernel.org,
+	Nikola Djukic <ndjukic@nvidia.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	Huang Rui <ray.huang@amd.com>,
+	Matthew Auld <matthew.auld@intel.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Lucas De Marchi <lucas.demarchi@intel.com>,
+	=?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	Helge Deller <deller@gmx.de>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	John Hubbard <jhubbard@nvidia.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Timur Tabi <ttabi@nvidia.com>,
+	Edwin Peer <epeer@nvidia.com>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Andrea Righi <arighi@nvidia.com>,
+	Andy Ritger <aritger@nvidia.com>,
+	Zhi Wang <zhiw@nvidia.com>,
+	Balbir Singh <balbirs@nvidia.com>,
+	Philipp Stanner <phasta@kernel.org>,
+	Elle Rhumsaa <elle@weathered-steel.dev>,
+	alexeyi@nvidia.com,
+	Eliot Courtney <ecourtney@nvidia.com>,
+	joel@joelfernandes.org,
+	linux-doc@vger.kernel.org,
+	amd-gfx@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org,
+	Joel Fernandes <joelagnelf@nvidia.com>
+Subject: [PATCH v12 0/1] Rust GPU buddy allocator bindings
+Date: Sun,  8 Mar 2026 14:04:06 -0400
+Message-Id: <20260308180407.3988286-1-joelagnelf@nvidia.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: CY5PR15CA0145.namprd15.prod.outlook.com
+ (2603:10b6:930:67::13) To DS0PR12MB6486.namprd12.prod.outlook.com
+ (2603:10b6:8:c5::21)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260217081203.1792025-4-sbogdanov@baylibre.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|DS7PR12MB6022:EE_
+X-MS-Office365-Filtering-Correlation-Id: fb8aaf5e-a432-47de-a243-08de7d3d28d1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016;
+X-Microsoft-Antispam-Message-Info:
+	YrplS0I3IVIn3sX/Px231fd2NQsiXjWtpWrFoItTyMADJEjf6P4ssO2hL+umywd46itnQOTyrkObhNKNFTSlDY9pFP4Y3ZxiY1Gvrhd89J/DHxvbYNTTlXjy2jk+GnMiJI0/4WtwuhinzW1AdpIaN350rZlONm6VcuVcQtPMrXY7gCt+kyoe0TzF37H4oAgN+P4A/QG1f98tlgepMgG0I4L+pE2g6Ixpak2oqdV9HTzy/gRSdTBxsrvpPE0wGaHr9ytuxORe9nUJdDnrd/+B6CfHl8dRrR00T6AiVv5b9TuFw/+NXH/9mDD3batvBIlILUZtWacv92MNF98swvB09pe40js5c+g4rFKGdPJcbXlHFG2gOgbch34iHqhL+UPJYSuDVoM6P01CPVZdi02FOUnXUwcDOTXnevPHLXzNVPQF+0jg7nLdJWC1upKatdz8utUVxktleXgN50wRa6t9cv83VreQTrywM4b5DdlKZcQ3BSMcL0U2aKYTdx0ojXa23LeHYEj4d9x8Htl6HY8s7Gtl6IO0NeqPD/yq5KUiu0x+VwTUNFK49Pk8aL7qHv//PpBSE8HMar06l3GMxHZ1XCoAIBpy5gZawvnqLzT9YFPb7TlU/KSaccsSjdKzo5kaUm2TKfLu+ntvj6kZrGGh+o+ATR+nY+slO4XT9uLThsWuyFkwcUYAgo7SFPNPR7eZyLMw3kWZk2TGsrjoBkwU4Sxm3y+N6yx5LjxyU9h0FGc=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?stwp3e6ORK8sFGXA+zyS37dS8a6iIsHOLmjL6478v5zV8Kx9qXh6lq8fINKQ?=
+ =?us-ascii?Q?NQPRaL40wykV5gndLQ09ffjCteujswDw0ItSDxqOgWB0rxmYLbYKCTQN5k56?=
+ =?us-ascii?Q?bGMTdBKDeI2odhftWnog+UKzoS7IYmgx3qWCNXOB8zw75sQUJljG5J4dzMBs?=
+ =?us-ascii?Q?96A9Zz90deBPXjQiZi04aEEUYtoVKi9ZSjYG1BhjnwWAHk0nI1fgO833gpIj?=
+ =?us-ascii?Q?acLOE3PxAVEcP5A1vq6VunIOHY/W/hnelbja1plwsSl4pFOG1HveBHFuTNrl?=
+ =?us-ascii?Q?NUcgdCMZTfnzoTMM9VHhvuFYL++1MPhuGzCGpl0C4XXLao/krXuIi/Adl2bC?=
+ =?us-ascii?Q?Jbd1FOnURmHcup3AudzZx/w1LKnxNEGXQyTEFA1I8uHEm0vtEmbNTtoCAHPx?=
+ =?us-ascii?Q?zT4RnbsoN1euf2Ov4A3jNY9rCHVf3sdqwRv7f59rPNZZBt9dofmNonmxbSuN?=
+ =?us-ascii?Q?XKxNcMgYYzkM31Xvvh/vDSVMNINg7pETMgJs2lYqXpcpfZbhVXWXAKh6lPOu?=
+ =?us-ascii?Q?omEkqqrOoA+8MEnjHGguG1JwaSnfDj6CpOGOEYZczxTWZuc2RpUvf+h6bfF8?=
+ =?us-ascii?Q?QVrsIkRcwA90siciZUCO7qzEwkdEMyEJSz1berP/tHuowy/7p7HjDhomCnm+?=
+ =?us-ascii?Q?65U0lpZETIKz3fR6QGkPfMURtc2vntipY1nazRTtEbaQMuzbkuwS4SZxmf5i?=
+ =?us-ascii?Q?oozSsgNPLJ+dEGpGk3VAon+d9fUxnTrnZed8Px5Tvq+K/ZNXdk9RTUjNb8up?=
+ =?us-ascii?Q?qW5iJlRcBZArSnqi2EVIugXDHOLtGXyFmRmA9q4uhIySYWnDfCJYNV9uZiTE?=
+ =?us-ascii?Q?J7AehoFltWaoPbBPCW5cIbQchdvbnZZToFaU3MwQHvouvUC5zN11Wu5q+lnP?=
+ =?us-ascii?Q?uyFpRcy1PAYFWjSTKlgsAWPfDXF2c1fsWnXQTIQ2dYcHU3hzfTcdxjFwmJJa?=
+ =?us-ascii?Q?AWO9IOhR0eOHI6cuxEsaoDwbVF+Llj7VUns7sfWjMAy4fA8aw+jm1SesAc7B?=
+ =?us-ascii?Q?Al5oe9kAswNemizANziNpoUig4LG26iU6sH9ymNWzTDzhBvDgI2tQ0LJSCNn?=
+ =?us-ascii?Q?TT4+0Vka8YrrJCNIjXIBJtaM4T/FIPJMPkoQ30DuJhQdD2+1ZklHB+E6jpzN?=
+ =?us-ascii?Q?eySZXawAHJIqHWcUwPcxDvcJkrqq3bSVp2G59rvhYnpP1p8QLW/coRkLF9iK?=
+ =?us-ascii?Q?w8TYL3HOCwCiJ4S+xQCRKzGBTsgkeyPqkszca6tgba+inunCyv28luhkPEUc?=
+ =?us-ascii?Q?MRCvCBKny9mVcAnvYTqltodJb2D++8VlalW5sPu5kO0OywHIB42/DIQLezP4?=
+ =?us-ascii?Q?8uRuCdGNFRfdwBl9Pmaqawm1ZuLdJMHc5QsZAaqhm6mehX4gFTRpuXNiMf60?=
+ =?us-ascii?Q?wobxRIuK32S12ScSLO+B5ihTR8bb7efTu5u+87zcpYFtn6KpzGIrpazq2qC5?=
+ =?us-ascii?Q?qs/3mZR0cbPU49opK5M/7/+uYAjJoR2PqxHOD6z8ZJhayIGpCcO4VXxLlrAn?=
+ =?us-ascii?Q?O62B0WmCXPNN+Sh2IdHrTPaknWFT6UtXdTxiILb1f/ml571uXi3jrrCGqH4m?=
+ =?us-ascii?Q?v/RRHWbJu0HIWzZSdptjJUBUMfVAjeXO7u0tHpeFMHp4J5Ibe00aPct/3cNf?=
+ =?us-ascii?Q?JOAv5AVtTCFy697f52aY8Q8qRLb6pnS+7Gaib1LQ7h5lFt5y0BqepkkaxjwM?=
+ =?us-ascii?Q?R9D66jgQWr2EpvisE0+OUhf2GuFl5PJAKakxEBTg+YzXX85IfD/OsVqbdHDx?=
+ =?us-ascii?Q?ArIXY9MY1A=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fb8aaf5e-a432-47de-a243-08de7d3d28d1
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Mar 2026 18:04:36.6408
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ElYqE94SjxhkWdd+DDv/YuyXP9TRt99RjpajKVWl6sfJRqtoYRc3/u2jhazOhYu67JFiBE4KKr5ycR5UC2Rkgg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6022
 
-On Tue, Feb 17, 2026 at 10:12:03AM +0200, Stoyan Bogdanov wrote:
-> Extend tps25990 existing driver to support tps1689 eFuse,
-> since they are sharing command interface and functionality
-> Update documentation for tps1689
-> 
-> Signed-off-by: Stoyan Bogdanov <sbogdanov@baylibre.com>
-> ---
->  Documentation/hwmon/tps25990.rst | 15 ++++--
->  drivers/hwmon/pmbus/tps25990.c   | 91 ++++++++++++++++++++++++++++----
->  2 files changed, 92 insertions(+), 14 deletions(-)
-> 
-> diff --git a/Documentation/hwmon/tps25990.rst b/Documentation/hwmon/tps25990.rst
-> index 04faec780d26..e8bc9a550bda 100644
-> --- a/Documentation/hwmon/tps25990.rst
-> +++ b/Documentation/hwmon/tps25990.rst
-> @@ -9,26 +9,31 @@ Supported chips:
->  
->      Prefix: 'tps25990'
->  
-> -  * Datasheet
-> +    Datasheet: Publicly available at Texas Instruments website: https://www.ti.com/lit/gpn/tps25990
->  
-> -    Publicly available at Texas Instruments website: https://www.ti.com/lit/gpn/tps25990
-> +  * TI TPS1689
-> +
-> +    Prefix: 'tps1689'
-> +
-> +    Datasheet: Publicly available at Texas Instruments website: https://www.ti.com/lit/gpn/tps1689
->  
->  Author:
->  
->  	Jerome Brunet <jbrunet@baylibre.com>
-> +	Stoyan Bogdanov <sbogdanov@baylibre.com>
->  
->  Description
->  -----------
->  
-> -This driver implements support for TI TPS25990 eFuse.
-> +This driver implements support for TI TPS25990 and TI TPS1689 eFuse chips.
->  This is an integrated, high-current circuit protection and power
->  management device with PMBUS interface
->  
-> -Device compliant with:
-> +Devices are compliant with:
->  
->  - PMBus rev 1.3 interface.
->  
-> -Device supports direct format for reading input voltages,
-> +Devices supports direct format for reading input voltages,
->  output voltage, input current, input power and temperature.
->  
->  Due to the specificities of the chip, all history reset attributes
-> diff --git a/drivers/hwmon/pmbus/tps25990.c b/drivers/hwmon/pmbus/tps25990.c
-> index 33f6367f797c..f9ff4edadf53 100644
-> --- a/drivers/hwmon/pmbus/tps25990.c
-> +++ b/drivers/hwmon/pmbus/tps25990.c
-> @@ -58,34 +58,38 @@ struct tps25990_data {
->  	struct local_direct_value *info_local;
->  };
->  
-> -static int tps25990_raw_to_value(struct i2c_client *client, int param, int raw)
-> +static int tps25990_raw_to_value(struct i2c_client *client, int param, u32 raw)
->  {
->  	struct tps25990_data *data = (struct tps25990_data *)of_device_get_match_data(&client->dev);
->  	struct local_direct_value *info_local = data->info_local;
-> +	int val;
->  
->  	/* Formula : X = (Y / 10^R - b) / m */
->  	if (info_local->R[param] >= 0)
-> -		raw /= int_pow(10, info_local->R[param]);
-> +		val = DIV_ROUND_CLOSEST_ULL(raw, int_pow(10, info_local->R[param]));
->  	else
-> -		raw *= int_pow(10, -info_local->R[param]);
-> +		val = raw * int_pow(10, -info_local->R[param]);
+This patch adds safe Rust abstractions over the Linux kernel's GPU buddy
+allocator for physical memory management. The prerequisite infrastructure
+patches (DRM buddy code movement and the uninitialized buddy fix) have been
+absorbed into upstream -next, so this is now a standalone patch.
 
-Can the calculation in the 'else' branch overflow?
+The series along with all dependencies, including clist and nova-core mm
+patches, are available at:
+git://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git (tag: nova-mm-current-3-8)
 
-If info_local->R[param] is -6 (as it is for TPS25990_IIN_OCF), then
-int_pow(10, 6) is 1,000,000. If raw is a 16-bit word like 65535, the product
-is 65,535,000,000.
+This patch is also here:
+https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git/commit/?id=gpu-buddy-bindings-v12 
 
-Since val is an int, it will overflow on 32-bit systems (and even on 64-bit
-systems if int is 32-bit, which is the case in the kernel).
+Change log:
 
-Should val be a 64-bit type for the intermediate calculation?
+Changes from v11 to v12:
+- Rebased on linux-next his is now a standalone single patch as dependencies
+  are absorbed (but not clist is a prequisite)
+- Redesigned allocation API (Alexandre Courbot) for better Rust ergonomics.
+- Split single long example into 4 self-contained examples (Alexandre Courbot).
+- Several safety and invariant comment changes (Danilo).
+- MAINTAINERS changes (Arun, Mathew, Danilo, Dave).
+- Fixed `#[cfg(CONFIG_GPU_BUDDY)]` to `#[cfg(CONFIG_GPU_BUDDY = "y")]` (Danilo Krummrich).
+- Updated `ffi::clist::CListHead` to `interop::list::CListHead`.
 
->  
-> -	return DIV_ROUND_CLOSEST(raw - info_local->b[param], info_local->m[param]);
-> +	val = DIV_ROUND_CLOSEST(val - info_local->b[param], info_local->m[param]);
-> +
-> +	return val;
->  }
->  
->  static unsigned int tps25990_value_to_raw(struct i2c_client *client, int param, int val)
->  {
->  	struct tps25990_data *data = (struct tps25990_data *)of_device_get_match_data(&client->dev);
->  	struct local_direct_value *info_local = data->info_local;
-> +	u32 raw; // return raw up to u16 -> u32
->  
->  	/* Formula : Y = ( m * X + b) * 10^R */
-> -	val = (long)val * info_local->m[param] + info_local->b[param];
-> +	raw = ((long)val * info_local->m[param]) + info_local->b[param];
->  
->  	if (info_local->R[param] >= 0)
-> -		val *= int_pow(10, info_local->R[param]);
-> +		raw *= int_pow(10, info_local->R[param]);
->  	else
-> -		val = DIV_ROUND_CLOSEST(val, int_pow(10, -info_local->R[param]));
-> +		raw = DIV_ROUND_CLOSEST_ULL(raw, int_pow(10, -info_local->R[param]));
->  
-> -	return val;
-> +	return raw;
+Changes from v10 to v11:
+- Dropped "rust: ffi: Convert pub use to pub mod and create ffi module" patch;
+  the ffi module restructuring will go through a different path.
+- Dropped "rust: clist: Add support to interface with C linked lists" patch;
+  the clist module will be submitted separately.
+- Dropped "nova-core: Kconfig: Sort select statements alphabetically" cosmetic
+  patch.
+- Patches 1-3 (DRM buddy movement and fix) are included as reference only;
+  they are already being pulled into upstream via drm-misc-next.
+- Removed clist patches as those can go in independently (Alice).
+- Moved the Kconfig GPU_BUDDY selection patch to nova-core mm series to enable
+  it when it is actually used.
+- Various nits to comments, etc.
 
-Does this change handle negative results correctly?
+Changes from v9 to v10:
+- Absorbed the DRM buddy code movement patches into this series as patches 1-2.
+  Dave Airlie reworked these into two parts for better git history.
+- Added "gpu: Fix uninitialized buddy for built-in drivers" fix by Koen Koning,
+  using subsys_initcall instead of module_init to fix NULL pointer dereference
+  when built-in drivers use the buddy allocator before initialization.
+- Added "rust: ffi: Convert pub use to pub mod and create ffi module" to prepare
+  the ffi module for hosting clist as a sub-module.
+- Moved clist from rust/kernel/clist.rs to rust/kernel/ffi/.
+- Added "nova-core: Kconfig: Sort select statements alphabetically" (Danilo).
 
-If (val * m + b) is negative, assigning it to the u32 raw variable will
-result in a very large positive number due to underflow. Subsequent
-scaling and clamping in the caller will then produce an incorrect result
-(e.g., 0xf instead of 0).
+Changes from v8 to v9:
+- Updated nova-core Kconfig patch: addressed sorting of Kconfig options.
+- Added Daniel Almeida's Reviewed-by tag to clist patch.
+- Minor refinements to GPU buddy bindings.
 
-The previous implementation used a signed type for the intermediate result.
-Is there a reason to switch to u32 before the final result is determined?
+Changes from v7 to v8:
+- Added nova-core Kconfig patch to select GPU_BUDDY for VRAM allocation.
+- Various changes suggested by Danilo Krummrich, Gary Guo, and Daniel Almeida.
+- Added Acked-by: Gary Guo for clist patch.
 
->  }
->  
->  /*
-> @@ -281,7 +285,6 @@ static int tps25990_write_word_data(struct i2c_client *client,
->  		value = clamp_val(value, 0, 0xff);
->  		ret = pmbus_write_word_data(client, page, reg, value);
->  		break;
-> -
->  	case PMBUS_VIN_OV_FAULT_LIMIT:
->  		value = tps25990_value_to_raw(client, TPS25990_VIN_OVF, value);
->  		value = clamp_val(value, 0, 0xf);
-> @@ -370,6 +373,15 @@ static const struct regulator_desc tps25990_reg_desc[] = {
->  };
->  #endif
->  
-> +struct local_direct_value tps1689_local_info = {
-> +	.m[TPS25990_VIN_OVF] = 3984,
-> +	.b[TPS25990_VIN_OVF] = -63750,
-> +	.R[TPS25990_VIN_OVF] = -3,
-> +	.m[TPS25990_IIN_OCF] = 7111,
-> +	.b[TPS25990_IIN_OCF] = -2133,
-> +	.R[TPS25990_IIN_OCF] = -2,
-> +};
-> +
->  struct local_direct_value tps25590_local_info = {
->  	.m[TPS25990_VIN_OVF] = 10163,
->  	.b[TPS25990_VIN_OVF] = -30081,
-> @@ -379,6 +391,60 @@ struct local_direct_value tps25590_local_info = {
->  	.R[TPS25990_IIN_OCF] = -6,
->  };
->  
-> +static struct pmbus_driver_info tps1689_base_info = {
-> +	.pages = 1,
-> +	.format[PSC_VOLTAGE_IN] = direct,
-> +	.m[PSC_VOLTAGE_IN] = 1166,
-> +	.b[PSC_VOLTAGE_IN] = 0,
-> +	.R[PSC_VOLTAGE_IN] = -2,
-> +	.format[PSC_VOLTAGE_OUT] = direct,
-> +	.m[PSC_VOLTAGE_OUT] = 1166,
-> +	.b[PSC_VOLTAGE_OUT] = 0,
-> +	.R[PSC_VOLTAGE_OUT] = -2,
-> +	.format[PSC_TEMPERATURE] = direct,
-> +	.m[PSC_TEMPERATURE] = 140,
-> +	.b[PSC_TEMPERATURE] = 32103,
-> +	.R[PSC_TEMPERATURE] = -2,
-> +	/*
-> +	 * Current and Power measurement depends on the ohm value
-> +	 * of Rimon. m is multiplied by 1000 below to have an integer
-> +	 * and -3 is added to R to compensate.
-> +	 */
-> +	.format[PSC_CURRENT_IN] = direct,
-> +	.m[PSC_CURRENT_IN] = 9548,
-> +	.b[PSC_CURRENT_IN] = 0,
-> +	.R[PSC_CURRENT_IN] = -6,
-> +	.format[PSC_CURRENT_OUT] = direct,
-> +	.m[PSC_CURRENT_OUT] = 24347,
-> +	.b[PSC_CURRENT_OUT] = 0,
-> +	.R[PSC_CURRENT_OUT] = -3,
-> +	.format[PSC_POWER] = direct,
-> +	.m[PSC_POWER] = 2775,
-> +	.b[PSC_POWER] = 0,
-> +	.R[PSC_POWER] = -4,
-> +	.func[0] = (PMBUS_HAVE_VIN |
-> +		    PMBUS_HAVE_VOUT |
-> +		    PMBUS_HAVE_VMON |
-> +		    PMBUS_HAVE_IIN |
-> +		    PMBUS_HAVE_PIN |
-> +		    PMBUS_HAVE_TEMP |
-> +		    PMBUS_HAVE_STATUS_VOUT |
-> +		    PMBUS_HAVE_STATUS_IOUT |
-> +		    PMBUS_HAVE_STATUS_INPUT |
-> +		    PMBUS_HAVE_STATUS_TEMP |
-> +		    PMBUS_HAVE_SAMPLES),
-> +
-> +	.read_word_data = tps25990_read_word_data,
-> +	.write_word_data = tps25990_write_word_data,
-> +	.read_byte_data = tps25990_read_byte_data,
-> +	.write_byte_data = tps25990_write_byte_data,
-> +
-> +#if IS_ENABLED(CONFIG_SENSORS_TPS25990_REGULATOR)
-> +	.reg_desc = tps25990_reg_desc,
-> +	.num_regulators = ARRAY_SIZE(tps25990_reg_desc),
-> +#endif
-> +};
-> +
->  static struct pmbus_driver_info tps25990_base_info = {
->  	.pages = 1,
->  	.format[PSC_VOLTAGE_IN] = direct,
-> @@ -428,18 +494,25 @@ static struct pmbus_driver_info tps25990_base_info = {
->  #endif
->  };
->  
-> +struct tps25990_data data_tps1689 = {
-> +	.info = &tps1689_base_info,
-> +	.info_local = &tps1689_local_info,
-> +};
-> +
->  struct tps25990_data data_tps25990 = {
->  	.info = &tps25990_base_info,
->  	.info_local = &tps25590_local_info,
->  };
->  
->  static const struct i2c_device_id tps25990_i2c_id[] = {
-> +	{ .name = "tps1689", .driver_data = (kernel_ulong_t)&data_tps1689 },
->  	{ .name = "tps25990", .driver_data = (kernel_ulong_t)&data_tps25990 },
->  	{}
->  };
->  MODULE_DEVICE_TABLE(i2c, tps25990_i2c_id);
->  
->  static const struct of_device_id tps25990_of_match[] = {
-> +	{ .compatible = "ti,tps1689", .data = &data_tps1689 },
->  	{ .compatible = "ti,tps25990", .data = &data_tps25990 },
->  	{}
->  };
+Changes from v6 to v7:
+- Major restructuring: split the large 26-patch v6 RFC series. v7 only contains
+  the Rust infrastructure patches (clist + GPU buddy bindings), extracted from
+  the full nova-core MM series. The nova-core MM patches follow separately.
+- Rebased on linux-next.
+
+Changes from v5 to v6:
+- Rebased on drm-rust-kernel/drm-rust-next.
+- Expanded from 6 to 26 patches with full nova-core MM infrastructure including
+  page table walker, VMM, BAR1 user interface, TLB flush, and GpuMm manager.
+
+Changes from v4 to v5:
+- Added PRAMIN aperture support with documentation and self-tests.
+- Improved buddy allocator bindings (fewer lines of code).
+- Based on drm-rust-next instead of linux-next.
+
+Changes from v3 to v4:
+- Combined the clist and DRM buddy series into a single coherent series.
+- Added DRM buddy allocator movement from drivers/gpu/drm/ up to drivers/gpu/,
+  renaming API from drm_buddy to gpu_buddy.
+- Added Rust bindings for the GPU buddy allocator.
+
+Changes from v2 to v3:
+- Squashed 3 clist patches into one due to inter-dependencies.
+- Changed Clist to Clist<'a, T> using const generic offset (Alex Courbot).
+- Simplified C helpers to only list_add_tail (Alex Courbot, John Hubbard).
+- Added init_list_head() Rust function (Alex Courbot).
+- Added FusedIterator, PartialEq/Eq impls.
+- Added MAINTAINERS entry (Miguel Ojeda).
+
+Changes from v1 (RFC) to v2:
+- Dropped DRM buddy allocator patches; series focuses solely on clist module.
+- Dropped sample modules, replaced with doctests.
+- Added proper lifetime management similar to scatterlist.
+- Split clist into 3 separate patches.
+
+Link to v11: https://lore.kernel.org/all/20260224224005.3232841-1-joelagnelf@nvidia.com/
+
+Joel Fernandes (1):
+  rust: gpu: Add GPU buddy allocator bindings
+
+ MAINTAINERS                     |   6 +-
+ rust/bindings/bindings_helper.h |  11 +
+ rust/helpers/gpu.c              |  23 ++
+ rust/helpers/helpers.c          |   1 +
+ rust/kernel/gpu/buddy.rs        | 611 ++++++++++++++++++++++++++++++++
+ rust/kernel/gpu/mod.rs          |   5 +
+ rust/kernel/lib.rs              |   2 +
+ 7 files changed, 658 insertions(+), 1 deletion(-)
+ create mode 100644 rust/helpers/gpu.c
+ create mode 100644 rust/kernel/gpu/buddy.rs
+ create mode 100644 rust/kernel/gpu/mod.rs
+
+--
+2.34.1
+
