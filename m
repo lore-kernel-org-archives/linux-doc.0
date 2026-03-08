@@ -1,119 +1,134 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B245D340A62
-	for <linux-doc@vger.kernel.org>; Sun,  8 Mar 2026 07:48:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99DC23603D9;
+	Sun,  8 Mar 2026 08:57:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772956099; cv=none; b=gZ/8icfquPo1HFV411xfEBoDgBjJhpVZMi0uAX/0KusLLCpeFW1H2lsdQfv0W22ZpIKR4I0RhI2xdw1xm4YWGBFtXvwxiY3cpFdXypYQLTCGbfrdOvA2EH+EaUuCJCBcuLKVHM2ELlnAavMdD9mBKw9T/cAW/qIOR7H+gz3i5+c=
+	t=1772960225; cv=none; b=kvW0G0DBVOZTcPyTEEAIov0hnyHacjk/JF3EL63+Km/9ZX6ZW9UNLXnx4HECUjppjwhNTI+RysuPbY78L9msIIpqRGmLGC05JFTeDM1s1Fh/vbpbAla3TqzGuHknO2qwv/fjn969JuQgPMvzOclxMKIORpce4xjEWMqs6A2ywb8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772956099; c=relaxed/simple;
-	bh=5Kn1rIgXr/VfSh2FYokFQ5Xhl/V9jSbyumwCwi8VucI=;
+	s=arc-20240116; t=1772960225; c=relaxed/simple;
+	bh=x3L8/hSJukNMi+lmDq/Se3gidbTHfKkxioCsvzYz/9c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RasV5S8ya+009lHS1AJgSTK1QrP60X/Yg6T4kICblOu/Q8QR4Lny7fkis7FbuUfFSIM/WbFDEthnxdR+VnSfWJ4vp6iIgf3GpkCZ49ggZxFpxSPHragHdwozxt8g6YV5jEoa3rIFsPZUeFi7qSKUV9Gt38YglotXolDgV3iBGng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fLCiyfsE; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=FljA3yLxJAfulNn4SMpfJozzVWptTXTQKQw6EisY+6YphgoagdqxojIupbCKoiFn+UEdse3DUZa5WgvM2QNCSo5RhAocwr7Qg+IZvqJj+iH4456bBgn19Fyi6MUx2bDaPCFEyme8umFanA8vlUOaQ9VdaprM8CXr0fNH6zy942k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dPU/e8Kh; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fLCiyfsE"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2ad9516a653so43680685ad.0
-        for <linux-doc@vger.kernel.org>; Sat, 07 Mar 2026 23:48:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772956098; x=1773560898; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=OmbQKad/yw7sNPhRMboDHSs+lSb0BUfzcUHLjfJzC4c=;
-        b=fLCiyfsEb4aFwrwUI47NuHrA0s3FSv4le9OAIXnim1UqAxzzt0EbAm4egXa2K9kUvx
-         tLjjnr3AUcAfdiD6GNj5s9SQNoaefySw8qwe25FaSi9y9gtfnYvlH8UKdrweJZX7aqUw
-         dSaqJxuT4N6HXiaHSpa8j7Vsy9hursjmjUWpx/IPJnuieXz2oV9iCBX5MrpJ598JPv8t
-         +HThstHwvmEeC/XuRyuzgPc+C0VBVCgnd+1hj0mI19+P0OxtFjV9WXQKkeKluHxgSrq6
-         VRO+mW/nSm38nXeRygpyC12U6FRSsWY2AHJH1l6Sj6+vNp4kFvivULcMF8c40KBzR22F
-         jWwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772956098; x=1773560898;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OmbQKad/yw7sNPhRMboDHSs+lSb0BUfzcUHLjfJzC4c=;
-        b=hz5s8D5OZ730ANPMAcSUj8vwlzlPT08A6y3+7ChYO3f7WtcT/1t4+YDLeeiYfj2R1p
-         lgd5okrZZnnG2df78ohBHOWMlD0yni9GzazpR/tFUPow+W7xIQTrYOjNGnJC14aWY7mz
-         SfYu8S5HekNPoHUxtgdIrJe3+14rgoMOfEH5OHV1X9RTLmUHcfta5OUhQSUCNBiEuB0b
-         gQzZ2lLKI9beN2sTQISmUE+a0W9sfrbohRDEajjBZKV/GRyOakA5pYc/M2MxBjUOqc6x
-         dooqJ7S/Goun/HZsd51oNYrocTKn2ksjgnOa4GG/dHjDb7ajN2p+OO0h+Aq5aY7NRoLQ
-         J49A==
-X-Forwarded-Encrypted: i=1; AJvYcCVdPz6fpgH5rV3IeguScGlmY87wJ62E1XYXcPnfX/OGEHvV93YrGcwmOAAM1SUxv4ya5MwZul9zigo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz5vSKXaf7fRjAlkjpJL+eCbOghzziAgalWhOKDF1YscxPZ/MLb
-	cTX7hphYRGJcWlV/i5j/NWFa2+1lOZMxdPT+zL+B35TcTCVImfQKzprh
-X-Gm-Gg: ATEYQzyk3EP6bVZ3Np/nifUt4vToBq51U+8Lt2RmH9OCCMjPtr9a+hUXNks52k1UAnp
-	C5WUn/OzS8d6UxlsDxanLJ12XqDQrgcoy9N94i9jwl0Dul9RMdlOs4Y6OnzPHtaiN4BS+J880ie
-	3TYxJtqmRWReH7I/ASms8CZtADTqSqIOkTumGhjA2/Cae+uK7la1hqitMF/3snwNq9hgV+kTqJJ
-	DAHzrwgF2EAEFQmW6/3hgQK+Fhqfyvhkeyp7FLkwPhhR0WNZyH/ZBuNWsf/2SCC0/x9SU1WCkWK
-	CcQ36fP5LUFgSGe8YPdxkOJTlk/6G2d3x1BjuY4HwdoiUnUZOjTKC0GejxcICtj3kOtiiD2FO+R
-	bYlRd60GfW9Rpxsx+ZgtXrgLJn91B7CFbQwJio1M1ZYUeAUQtuRPyc2QkRKMUr6FwxFiuzU/VAY
-	khLNxSGPWrnk+a+Rr7Co8=
-X-Received: by 2002:a17:902:cf4c:b0:2ae:6b54:27b1 with SMTP id d9443c01a7336-2ae82450ddemr76055945ad.40.1772956097968;
-        Sat, 07 Mar 2026 23:48:17 -0800 (PST)
-Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ae83e57b14sm93468275ad.19.2026.03.07.23.48.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Mar 2026 23:48:17 -0800 (PST)
-Received: by archie.me (Postfix, from userid 1000)
-	id 6FAFF41FD8A6; Sun, 08 Mar 2026 14:48:13 +0700 (WIB)
-Date: Sun, 8 Mar 2026 14:48:13 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Evan Ducas <evan.j.ducas@gmail.com>, wufan@kernel.org, corbet@lwn.net,
-	skhan@linuxfoundation.org
-Cc: linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: security: ipe: fix typos and grammar
-Message-ID: <aa0pvREYJYrAZRsB@archie.me>
-References: <20260308031633.28890-1-evan.j.ducas@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dPU/e8Kh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772960224; x=1804496224;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=x3L8/hSJukNMi+lmDq/Se3gidbTHfKkxioCsvzYz/9c=;
+  b=dPU/e8Kh57hbt9VxXkO0UP4ucbUkM9Ak+CFsBhjTwmMSK19jN77RVbfh
+   /vrMTmVwKjFz+O6pYW/mmmiUyYyoaHsaovz1NXBU1ljuOhHVAkjTdqycE
+   MWUL8lfeZFWAe5QKs/Ku4tIhIQQ39/TlkQ48zuMaQQ65goVHdkDtwGaGq
+   Q2XjAWQy03pl2SOfQTERYEJETm2RpOeJvFIgJb/7gx17o8vyDaqKkNHLc
+   /mVA1PUHVdSWhPlRINIAI5Z2mhFS9luN38WRncGlrq5CLPdl+pT5MUyIx
+   JVG1c01Aq/GJtecSGQZ2nzvRMji2/XCuPU+U8lfIzH7Mpp86LCqMxSH6F
+   A==;
+X-CSE-ConnectionGUID: SowMNRNYTV+R5gI00tNMqg==
+X-CSE-MsgGUID: ooY5WhT3SBK+m3LPTHE0zw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11722"; a="74202442"
+X-IronPort-AV: E=Sophos;i="6.23,108,1770624000"; 
+   d="scan'208";a="74202442"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2026 00:57:03 -0800
+X-CSE-ConnectionGUID: qaGVg+KyTWmMdGABz88xqw==
+X-CSE-MsgGUID: KiZ3vj7/QA+yk4CkqqYqtQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,108,1770624000"; 
+   d="scan'208";a="223920453"
+Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 08 Mar 2026 00:57:00 -0800
+Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vz9wX-00000000305-2YXB;
+	Sun, 08 Mar 2026 08:56:57 +0000
+Date: Sun, 8 Mar 2026 16:56:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kishore Batta <kishore.batta@oss.qualcomm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+	Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>,
+	Oded Gabbay <ogabbay@kernel.org>,
+	Manivannan Sadhasivam <mani@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, mhi@lists.linux.dev,
+	Kishore Batta <kishore.batta@oss.qualcomm.com>
+Subject: Re: [PATCH v2 4/9] bus: mhi: Centralize firmware image table
+ selection at probe time
+Message-ID: <202603081641.KSZC3Jla-lkp@intel.com>
+References: <20260307-sahara_protocol_new_v2-v2-4-29dc748b5e9c@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="vB29sbE/bA8VxDG8"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260308031633.28890-1-evan.j.ducas@gmail.com>
+In-Reply-To: <20260307-sahara_protocol_new_v2-v2-4-29dc748b5e9c@oss.qualcomm.com>
+
+Hi Kishore,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on a0ae2a256046c0c5d3778d1a194ff2e171f16e5f]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kishore-Batta/Add-documentation-for-Sahara-protocol/20260307-194417
+base:   a0ae2a256046c0c5d3778d1a194ff2e171f16e5f
+patch link:    https://lore.kernel.org/r/20260307-sahara_protocol_new_v2-v2-4-29dc748b5e9c%40oss.qualcomm.com
+patch subject: [PATCH v2 4/9] bus: mhi: Centralize firmware image table selection at probe time
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20260308/202603081641.KSZC3Jla-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260308/202603081641.KSZC3Jla-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603081641.KSZC3Jla-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/bus/mhi/sahara/sahara.c: In function 'sahara_select_variant':
+>> drivers/bus/mhi/sahara/sahara.c:270:32: warning: the comparison will always evaluate as 'true' for the address of 'chan' will never be NULL [-Waddress]
+     270 |                         if (id && id->chan && !strcmp(id->chan, v->match))
+         |                                ^~
+   In file included from drivers/bus/mhi/sahara/sahara.c:12:
+   include/linux/mod_devicetable.h:867:20: note: 'chan' declared here
+     867 |         const char chan[MHI_NAME_SIZE];
+         |                    ^~~~
 
 
---vB29sbE/bA8VxDG8
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+vim +270 drivers/bus/mhi/sahara/sahara.c
 
-On Sat, Mar 07, 2026 at 10:16:33PM -0500, Evan Ducas wrote:
->  As requirements change over time (vulnerabilities are found in previously
-> -trusted applications, keys roll, etcetera). Updating a kernel to change =
-the
-> +trusted applications, keys roll, etcetera). Updating a kernel to change =
-to
->  meet those security goals is not always a suitable option, as updates ar=
-e not
->  always risk-free, and blocking a security update leaves systems vulnerab=
-le.
->  This means IPE requires a policy that can be completely updated (allowing
+   260	
+   261	static const struct sahara_variant *sahara_select_variant(struct mhi_device *mhi_dev,
+   262								  const struct mhi_device_id *id)
+   263	{
+   264		int i;
+   265	
+   266		for (i = 0; i < ARRAY_SIZE(sahara_variants); i++) {
+   267			const struct sahara_variant *v = &sahara_variants[i];
+   268	
+   269			if (v->match_is_chan) {
+ > 270				if (id && id->chan && !strcmp(id->chan, v->match))
+   271					return v;
+   272			} else {
+   273				if (mhi_dev->mhi_cntrl && mhi_dev->mhi_cntrl->name &&
+   274				    !strcmp(mhi_dev->mhi_cntrl->name, v->match))
+   275					return v;
+   276			}
+   277		}
+   278		return NULL;
+   279	}
+   280	
 
-As requirements change over time ..., updating a kernel to meet ..., yet
-blocking a security update ... .
-
-Thanks.
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---vB29sbE/bA8VxDG8
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaa0puAAKCRD2uYlJVVFO
-o5byAQDwdsUfbgqZLGBn546xcdOSlCftJat4qLbiS2NcDKE+9wEAhe+mAGEuqNq3
-sg2kekxxONJDUWS1X7oX5QJCwRIH4AM=
-=3l/q
------END PGP SIGNATURE-----
-
---vB29sbE/bA8VxDG8--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
