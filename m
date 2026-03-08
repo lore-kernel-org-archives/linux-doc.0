@@ -1,103 +1,132 @@
-Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com [74.125.224.42])
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15CE728150F
-	for <linux-doc@vger.kernel.org>; Sun,  8 Mar 2026 03:05:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772939122; cv=pass; b=EN5v53b3McRh/nT48I/w+VX7Z/953AQVb1uSzGkfNhbwcHZuq78X+8D4JSjtHGnoltwYWts50yx1P8EbYqQuxqVSLLrkD9H+p4p8SHAfU/rBFbpjS9A9EO5qM+LToTaaxzqh5gjJtYSTrsOc66B6NaBPDe5N1SVWDxDOQ1pyniQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772939122; c=relaxed/simple;
-	bh=XqVF/p+ImAQye2fndI2NjUpZzhPeVdmdlRhtFwnS3FM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GWYse+jW/HF7ww50jbui/vr9IO6cOShIR+0lCV15jcdGxrRYDmG9biYt1juQwii2mFWfEvlFmimYKK0NjI3I+bVaEumn85ODo3yLffUUg03dpWbXeX68kMJ38PhPZ7g7aZM/fSTWrMeIjuj6LNO9wv3C4LkibozPSMKdCMLMxa0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mqZEf1IF; arc=pass smtp.client-ip=74.125.224.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8545187346
+	for <linux-doc@vger.kernel.org>; Sun,  8 Mar 2026 03:19:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1772939947; cv=none; b=JtBA8MsN0MWkmViuJiHb0r6a3ZnvsR3uWG77Rwcg5eBfBn4kvSiPtLs3HHFoBRd/9VqzjH9FUf+GA5v1XOQrYUMzFWeTYrXTOkM0X2EN6CRgyK2bK4XpQu2kWeap+29ttzobZcLF0ayr3MRY6GrVjm+/FP8fsKXkMCUNHwbV7xg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1772939947; c=relaxed/simple;
+	bh=dy/k8Ld8lreAZZpwnSwCEzMD/M4mnZXel/sJ/te+YEc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lSFFKychKTP0utAk2jRJ+omDMKdMjsArwEMouy1/lVxyt1BEdkM5NwGn5d/opis7uo/t4nHyZFEE7hrCUctp3Ae+M6f5XnLi4SzY8k2n5oxUHgTA7RNAWmzJ83HqiLfYLABKFqT20gIquCGsruZPcd3yvy4ZXf9PaVoXS9XahZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GVNlos+5; arc=none smtp.client-ip=209.85.160.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mqZEf1IF"
-Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-64c9a398bc7so9722303d50.2
-        for <linux-doc@vger.kernel.org>; Sat, 07 Mar 2026 19:05:20 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1772939120; cv=none;
-        d=google.com; s=arc-20240605;
-        b=PBD7GaiU8z/6fyQTcGEQWCnwVaPFLm460BGCX/CbQkS/E+jIK+rcvG/FevtFH9Vcom
-         O8fUQYfBf01SQ1WgRcBsruD59qPGZY8V8xVVK5Dj6rl+Io/EPUOIfFHmNhOAu3eLvJxA
-         R/CDQmqeHym2MmXeU+UhKqCCZtt5TJ8/FhczZesus5WkaU7t/VOjX2zhHrdUtM9Xcr/H
-         jldfbnFNeM32LvSrHuio1jjGtChe70v+MwVwGUXztCZp7ErRC+akFSP1d2RHkiLycLSp
-         JmD2uwjGqkcD1/tRKLcEYONp6H8AwzfEhOzxbTEkwcE0XNXL7PrvigycBlnFAv2EoJP4
-         ivXA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=XqVF/p+ImAQye2fndI2NjUpZzhPeVdmdlRhtFwnS3FM=;
-        fh=GiETUksAhhUNkddUi89uuZ+jC5GRvwCwMD2vbeC4OD0=;
-        b=kmHPBbzkhLOHPx+LB6RA+FrOEI+8PanVuA+ZyGOsJ3gh4gg4jGIWJB8Hqi5NuJSMvV
-         JpWSPaBKujU1NQxbgqDPM7wzYB3zutXOdBGiE8LtMyk4o7ErQIh9iZCR0RS4IO5XP6Gz
-         DDbY032UUxxzZHNezB58gEnC0rC+i/dNv8FuiYbY/jA6oFJPbFLfFJbM0rUJ+k53GNbS
-         qapi5bZ5CKxgijfv2oythHiaRUSsJgLYDxk6rcAMzxcht7v+Of78lvQFAQBAwM9PHMQM
-         bDFcpKCZD4S5+uVWcw8IfJsJXZP2Kr/e9AUNTxVwatcTe4nTnPQ1B2s9GWztqHEKtkkP
-         ACNQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GVNlos+5"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-506cb1b63d0so12622121cf.2
+        for <linux-doc@vger.kernel.org>; Sat, 07 Mar 2026 19:19:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772939120; x=1773543920; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=XqVF/p+ImAQye2fndI2NjUpZzhPeVdmdlRhtFwnS3FM=;
-        b=mqZEf1IFB5PnYS957IQPQw5HZwh0keia8MaZhRo4Wg+9rWipW0PLFX9AmiMJI2JuJU
-         sl63xBpUgZJPBcYIvXT6OHwaSOtZntuvZmgtFqR4BZSuV2QwEQbOQP279bw9sxCaN9Uq
-         fD80TFTFfA533FDtwyr3PnMz8xzIRRF0jsrYkRR5urqofTOE4a+fFqz/jl5Cg72SfAiR
-         4n9ThQGoU46k5voFf2N+n7z2YY2zlnMKfz8ygK54t+e8dk2y9mkL4SA6WtNqodjN95UG
-         jobnOMJFvP+sP0Jlka1JKlmzVcliBh9OHmKEHxutEDN7O/Uz4akWJWzfk5p9H2Lgh0MQ
-         jHcw==
+        d=gmail.com; s=20230601; t=1772939945; x=1773544745; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/5PPTP1bytZy0bNsMCBbdG+U9hPc2DiZHiMu5MgnVGQ=;
+        b=GVNlos+5TSYZQRR8TNnt+Q3TmNtfjaw2icEcv5T6aQOcNq/GD4aR/i6ZYvkgsQFHln
+         PbvykDXNovS6KMGt6pfzRjYJu67MmVR7MLcWM4dW6fb3Qn68AqcaxJItdXr28k0EZ69w
+         EqvlgsCh02mqaiA36iSqiIPxxmnqvxb8VzDm19zw0w+Qfhh6SGm9XhEPZWDRfy+EWGpL
+         xdG3JZ4cemxOod04rPEj3VoED+vGzAsbZz10Wl2oO+drTkDiird9AZN8XvtQQuqQRzsW
+         0lQaXh8x+7OrFhcI9SN6ncWsCn3aIWasuV2rGNBCWTeHGMIrIJMY3F/KbqzzEsTsyJOF
+         EZxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772939120; x=1773543920;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1772939945; x=1773544745;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XqVF/p+ImAQye2fndI2NjUpZzhPeVdmdlRhtFwnS3FM=;
-        b=TFejQ62Z4+QmvplDbCGCQ/4KLHtVznqbbaxLbpAs/uklhAUW7Miw0TYz9T+mHb/0FC
-         rq2D5ACePSpZH9f3iyEGtLiJ/7Q0/I6b2TJLH01gJLTeT6892y/eOjvCd47zsHXDCS45
-         oPcQsuuZL131wdvZl7bSN0lmKC4zo6AG1fY8ABAGPYXb7l22ceaIs0E3qt/TivcoUWi9
-         7eNJVE/tRlLe4Yscaqot4kgAzkyvSxTPtPS2b1qrO1+IgK+pyTiAd45DEcE1twYSzGQT
-         muXMpxjibPsbZUu0t9sco7Sk09wjNFtGCVPSL4ZA/SJDP4N14ZVfON/+H/uHrl3suAy5
-         EIUQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW5TaZQqlJ2gTL6aADn2SVnoeRb049zXVMP65fbEUW1PQFsU7r+W6BIZ67mgxwJKaYeqrLyEloNGkw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzGhHnLtwWIanZWXAyXn2kPWJWCy8g1OzbYeqmK5V/OzB/ZzQ6y
-	Tb/nLxVQYnQO2R4UMOhFMfEXT9AhQ1rEBm8h1ZgfIHKlqNVfZEBoSj8HFP2cg5Xh2/76WfiZGsb
-	jYYxdX80Ykw7citP45TtLhdgDmgVssVYPn09OE8fKQA==
-X-Gm-Gg: ATEYQzxX7hIy4n1H0+HzzodShDGNCehMb1xz8iyNU8xl9h8BFBV3sNZs8zUoW07mvF+
-	YsX4yqzabfJglCfHM0yGM4VRoVnpdc/GXR8uLffRl1K+z6xRRrd4rPbkGxMFXuLvUrj2xKBQMv6
-	SDpzbUFWRllBPATX7mRNDBTfIZ5v21lPZZjCoYRUyBshJ2ILi/dMyqL9ipHUrbFx68fVN+i1ZVN
-	Sn0If1+zWCTjc1Jcs0rIsFCd2sVD7tstU+2YPpXzqq/U1G7du5UyROhrwo7F7kINha9+Qn0x9lL
-	6W+6nVP+BkeYx5tAnt+bVFVuzEmNGAGRvM50nTz60A==
-X-Received: by 2002:a05:690e:205f:b0:64c:a0eb:c4b5 with SMTP id
- 956f58d0204a3-64d14293d66mr5095532d50.52.1772939119973; Sat, 07 Mar 2026
- 19:05:19 -0800 (PST)
+        bh=/5PPTP1bytZy0bNsMCBbdG+U9hPc2DiZHiMu5MgnVGQ=;
+        b=m7V5RUjdQUP/6dEZBhbXXyw/CN4n7TgZadHYUDN1tYUFirDC6TVuMnIH0k5F92tzW+
+         /WWFXqjh+0mov8+FYFcT/dS60IG9etdiw+AmOGvR8xoV4MBA9vk4+6RdBgigX4FBybYo
+         wgzs+sXX7/tm7uNj1YGthgOi83euUnFFRf9wUGuscHIdo4PQEqn3pATb9S3yetYD2DLf
+         PrTdGmxpM39AKUEYFJSmkAfXnr3V2gqGjCqfwMaD4RZ0OgQB/tjInSUen9c/AGg3sYzX
+         i+lUsl0qeW+pk+kop2p7q1ncSCf0ZVkEa+vOsKBq8T9dTvUr+BllRBnlVaXiK4iUwhaL
+         0DZw==
+X-Forwarded-Encrypted: i=1; AJvYcCUsSo9kxlHvso6GZv9mtD+c7UNrDxJrAwCtZISb3eueGcKiiSELaRiTcqL85929xX0xjwaZTInfh0I=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxhu5SsPQ/Kc5WHkLqugZ8uzg2TRmwlfV6IBgAhHX27X6IkVD4k
+	YuM6eHBWi19aOHnz8aSLUwi8ZG1Y+AJmR2dHvH/Z3HK2buJ77e0hY7adYnW7KhQ/
+X-Gm-Gg: ATEYQzz2oMgTZXb/XJpMgAGC/+hsDxK/iKU4q4LJP5v0D4msOjMyTiGXtl9rGRubCEw
+	GJUw1FTgtlmtIoNkj0lzvCid+0j0752snWZsCNqIvBAx+SmFezMYP94bEM/zX2NeuGN593wCVgs
+	UIpGZ4Y9yGdRPD0UzNk5kgmn2tJXiSrSxM0fx3WLQ+eeJvNPTCnPlbPnUta1hgbWGn67YK1mHXV
+	exZ7LhYODSHDwkcxxDP6yRFS6EMLwFltTt/CGSG3WzbCU5w2X5CyOEDaNNarE5jY2jEEJwN+snn
+	0CyVTzY+8C5+bOMniRWANaDxvCuhDUrgrl2jlmcguYffXM79QruI/pVGLkQHljvtv83XpPnPivg
+	5avzfyOKyg1xN2eRg3bI/PCNX9EUsyjz1OAmJqv+jYmdV04Y3Frs5Y/gMrv19TTZo5xfEWdWFRg
+	WNFQZwYby/1UBI0QfMEeeeonkseU4vaMHTAWgo/vFKyvlv8omubAChjYPh2k5FMt29rzweLUSXc
+	VkG
+X-Received: by 2002:a05:622a:1914:b0:4f1:e9da:e876 with SMTP id d75a77b69052e-508f499ef56mr92284771cf.62.1772939944685;
+        Sat, 07 Mar 2026 19:19:04 -0800 (PST)
+Received: from Ecomp.localdomain ([163.252.225.68])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-508fd453ff3sm31481581cf.17.2026.03.07.19.19.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 07 Mar 2026 19:19:04 -0800 (PST)
+From: Evan Ducas <evan.j.ducas@gmail.com>
+To: wufan@kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org
+Cc: linux-security-module@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Evan Ducas <evan.j.ducas@gmail.com>
+Subject: [PATCH] docs: security: ipe: fix typos and grammar
+Date: Sat,  7 Mar 2026 22:16:33 -0500
+Message-ID: <20260308031633.28890-1-evan.j.ducas@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260308021811.41199-1-aethernet65535@gmail.com>
-In-Reply-To: <20260308021811.41199-1-aethernet65535@gmail.com>
-From: Aether <aethernet65535@gmail.com>
-Date: Sun, 8 Mar 2026 11:05:09 +0800
-X-Gm-Features: AaiRm52I6jeA7gxZoERyr5HYwntXkI-cPR1yC_IGGfyUOLCoDxZg9DJSDG__lis
-Message-ID: <CAPLv50pFasDAnFMX8OgXjo2Nrn8rGhUgm1=K5aOeVyKf57Z3BQ@mail.gmail.com>
-Subject: Re: [PATCH] Documentation/mm/damon: fix typo in index.rst
-To: SeongJae Park <sj@kernel.org>
-Cc: damon@lists.linux.dev, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi SeongJae,
+Fix several spelling and grammar mistakes in the IPE
+documentation.
 
-I just noticed that you already submitted the same fix for the type in
-Documentation/mm/damon/index.rst. Sorry for the duplicate!
+No functional change.
 
-I'll make sure to search the mailing list first next time before submitting a
-patch. Thanks for the quick fix, and thanks for maintaining DAMON!
+Signed-off-by: Evan Ducas <evan.j.ducas@gmail.com>
+---
+ Documentation/security/ipe.rst | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Best regards,
-Liew Rui Yan
+diff --git a/Documentation/security/ipe.rst b/Documentation/security/ipe.rst
+index 4a7d953abcdc..d29824d7fd2d 100644
+--- a/Documentation/security/ipe.rst
++++ b/Documentation/security/ipe.rst
+@@ -18,7 +18,7 @@ strong integrity guarantees over both the executable code, and specific
+ *data files* on the system, that were critical to its function. These
+ specific data files would not be readable unless they passed integrity
+ policy. A mandatory access control system would be present, and
+-as a result, xattrs would have to be protected. This lead to a selection
++as a result, xattrs would have to be protected. This led to a selection
+ of what would provide the integrity claims. At the time, there were two
+ main mechanisms considered that could guarantee integrity for the system
+ with these requirements:
+@@ -195,7 +195,7 @@ of the policy to apply the minute usermode starts. Generally, that storage
+ can be handled in one of three ways:
+ 
+   1. The policy file(s) live on disk and the kernel loads the policy prior
+-     to an code path that would result in an enforcement decision.
++     to a code path that would result in an enforcement decision.
+   2. The policy file(s) are passed by the bootloader to the kernel, who
+      parses the policy.
+   3. There is a policy file that is compiled into the kernel that is
+@@ -235,7 +235,7 @@ Updatable, Rebootless Policy
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+ As requirements change over time (vulnerabilities are found in previously
+-trusted applications, keys roll, etcetera). Updating a kernel to change the
++trusted applications, keys roll, etcetera). Updating a kernel to change to
+ meet those security goals is not always a suitable option, as updates are not
+ always risk-free, and blocking a security update leaves systems vulnerable.
+ This means IPE requires a policy that can be completely updated (allowing
+@@ -370,7 +370,7 @@ Simplified Policy:
+ Finally, IPE's policy is designed for sysadmins, not kernel developers. Instead
+ of covering individual LSM hooks (or syscalls), IPE covers operations. This means
+ instead of sysadmins needing to know that the syscalls ``mmap``, ``mprotect``,
+-``execve``, and ``uselib`` must have rules protecting them, they must simple know
++``execve``, and ``uselib`` must have rules protecting them, they must simply know
+ that they want to restrict code execution. This limits the amount of bypasses that
+ could occur due to a lack of knowledge of the underlying system; whereas the
+ maintainers of IPE, being kernel developers can make the correct choice to determine
+-- 
+2.43.0
+
