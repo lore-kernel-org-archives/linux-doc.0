@@ -1,132 +1,144 @@
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8545187346
-	for <linux-doc@vger.kernel.org>; Sun,  8 Mar 2026 03:19:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 883961C84A6;
+	Sun,  8 Mar 2026 04:26:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772939947; cv=none; b=JtBA8MsN0MWkmViuJiHb0r6a3ZnvsR3uWG77Rwcg5eBfBn4kvSiPtLs3HHFoBRd/9VqzjH9FUf+GA5v1XOQrYUMzFWeTYrXTOkM0X2EN6CRgyK2bK4XpQu2kWeap+29ttzobZcLF0ayr3MRY6GrVjm+/FP8fsKXkMCUNHwbV7xg=
+	t=1772943984; cv=none; b=ZZKY7G8GME6nYXmoOfpJCp8R/VmZymX0opP+Cem/EyT9gFAg8U/XCS6DqM276dUg000dEklAp56MyB+k/ey18fKO1RunCQjuVO5dCmXjVpNF5nU3+e768PEJh7eAhV56hTiWp1BqHrFpMPns7619PClEYeU5I1zfFedeMJ9BM4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772939947; c=relaxed/simple;
-	bh=dy/k8Ld8lreAZZpwnSwCEzMD/M4mnZXel/sJ/te+YEc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lSFFKychKTP0utAk2jRJ+omDMKdMjsArwEMouy1/lVxyt1BEdkM5NwGn5d/opis7uo/t4nHyZFEE7hrCUctp3Ae+M6f5XnLi4SzY8k2n5oxUHgTA7RNAWmzJ83HqiLfYLABKFqT20gIquCGsruZPcd3yvy4ZXf9PaVoXS9XahZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GVNlos+5; arc=none smtp.client-ip=209.85.160.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1772943984; c=relaxed/simple;
+	bh=XNY0rSi3p70citvBmYhhGSIYumaAqYRRuG37tYjCdLc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=N76C1MoncKN8FOB0taHh5nXl5vT1/uZ1/gYtck4At6jcYHXUO06n+zATaSffwF6kCm3vPkzOR74IQShH8BM+IwCVk4cUfdY08uDewQbjGMmRyI1Rlf8CW81PmycR/KWcpOJJwubRVOjno2IrGSFqLeIiJr3A/usOYd5Z/iLiIcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=as2W/YBR; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GVNlos+5"
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-506cb1b63d0so12622121cf.2
-        for <linux-doc@vger.kernel.org>; Sat, 07 Mar 2026 19:19:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772939945; x=1773544745; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/5PPTP1bytZy0bNsMCBbdG+U9hPc2DiZHiMu5MgnVGQ=;
-        b=GVNlos+5TSYZQRR8TNnt+Q3TmNtfjaw2icEcv5T6aQOcNq/GD4aR/i6ZYvkgsQFHln
-         PbvykDXNovS6KMGt6pfzRjYJu67MmVR7MLcWM4dW6fb3Qn68AqcaxJItdXr28k0EZ69w
-         EqvlgsCh02mqaiA36iSqiIPxxmnqvxb8VzDm19zw0w+Qfhh6SGm9XhEPZWDRfy+EWGpL
-         xdG3JZ4cemxOod04rPEj3VoED+vGzAsbZz10Wl2oO+drTkDiird9AZN8XvtQQuqQRzsW
-         0lQaXh8x+7OrFhcI9SN6ncWsCn3aIWasuV2rGNBCWTeHGMIrIJMY3F/KbqzzEsTsyJOF
-         EZxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772939945; x=1773544745;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/5PPTP1bytZy0bNsMCBbdG+U9hPc2DiZHiMu5MgnVGQ=;
-        b=m7V5RUjdQUP/6dEZBhbXXyw/CN4n7TgZadHYUDN1tYUFirDC6TVuMnIH0k5F92tzW+
-         /WWFXqjh+0mov8+FYFcT/dS60IG9etdiw+AmOGvR8xoV4MBA9vk4+6RdBgigX4FBybYo
-         wgzs+sXX7/tm7uNj1YGthgOi83euUnFFRf9wUGuscHIdo4PQEqn3pATb9S3yetYD2DLf
-         PrTdGmxpM39AKUEYFJSmkAfXnr3V2gqGjCqfwMaD4RZ0OgQB/tjInSUen9c/AGg3sYzX
-         i+lUsl0qeW+pk+kop2p7q1ncSCf0ZVkEa+vOsKBq8T9dTvUr+BllRBnlVaXiK4iUwhaL
-         0DZw==
-X-Forwarded-Encrypted: i=1; AJvYcCUsSo9kxlHvso6GZv9mtD+c7UNrDxJrAwCtZISb3eueGcKiiSELaRiTcqL85929xX0xjwaZTInfh0I=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxhu5SsPQ/Kc5WHkLqugZ8uzg2TRmwlfV6IBgAhHX27X6IkVD4k
-	YuM6eHBWi19aOHnz8aSLUwi8ZG1Y+AJmR2dHvH/Z3HK2buJ77e0hY7adYnW7KhQ/
-X-Gm-Gg: ATEYQzz2oMgTZXb/XJpMgAGC/+hsDxK/iKU4q4LJP5v0D4msOjMyTiGXtl9rGRubCEw
-	GJUw1FTgtlmtIoNkj0lzvCid+0j0752snWZsCNqIvBAx+SmFezMYP94bEM/zX2NeuGN593wCVgs
-	UIpGZ4Y9yGdRPD0UzNk5kgmn2tJXiSrSxM0fx3WLQ+eeJvNPTCnPlbPnUta1hgbWGn67YK1mHXV
-	exZ7LhYODSHDwkcxxDP6yRFS6EMLwFltTt/CGSG3WzbCU5w2X5CyOEDaNNarE5jY2jEEJwN+snn
-	0CyVTzY+8C5+bOMniRWANaDxvCuhDUrgrl2jlmcguYffXM79QruI/pVGLkQHljvtv83XpPnPivg
-	5avzfyOKyg1xN2eRg3bI/PCNX9EUsyjz1OAmJqv+jYmdV04Y3Frs5Y/gMrv19TTZo5xfEWdWFRg
-	WNFQZwYby/1UBI0QfMEeeeonkseU4vaMHTAWgo/vFKyvlv8omubAChjYPh2k5FMt29rzweLUSXc
-	VkG
-X-Received: by 2002:a05:622a:1914:b0:4f1:e9da:e876 with SMTP id d75a77b69052e-508f499ef56mr92284771cf.62.1772939944685;
-        Sat, 07 Mar 2026 19:19:04 -0800 (PST)
-Received: from Ecomp.localdomain ([163.252.225.68])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-508fd453ff3sm31481581cf.17.2026.03.07.19.19.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Mar 2026 19:19:04 -0800 (PST)
-From: Evan Ducas <evan.j.ducas@gmail.com>
-To: wufan@kernel.org,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org
-Cc: linux-security-module@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Evan Ducas <evan.j.ducas@gmail.com>
-Subject: [PATCH] docs: security: ipe: fix typos and grammar
-Date: Sat,  7 Mar 2026 22:16:33 -0500
-Message-ID: <20260308031633.28890-1-evan.j.ducas@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="as2W/YBR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1772943983; x=1804479983;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=XNY0rSi3p70citvBmYhhGSIYumaAqYRRuG37tYjCdLc=;
+  b=as2W/YBRXIf4kXFMoD1LWVZo4wb92WkThoRDdX8gX5O+gL5zu05IwA6c
+   9+yytYT7PUVjxheoLoNqvc/qfkUpM1IoGldWAy8kMBdIerMhcyoxulhdy
+   QvFlOyMlKpIXi3ttfHHUM45Y5vt+75boJVoST4JU8ZlGrRtiX5thftVuS
+   EZcawW1KwoM4udWjhVWfmonRa5ZPLVFau/M6P1wxLHylZnsiIQb4vV56e
+   C0dUFtuRIMvDgaTICQnmUBGU5LJA4TX9Hax6eHoPzcTj1Vt0izJ7LMgVt
+   9V7WkR5Sqi/LUxuR1FuCcbPiN8gmaRliwXmHxhcgrf1jdZe886JOW5adW
+   A==;
+X-CSE-ConnectionGUID: GI/vjLJTST6gKjiehJcMMA==
+X-CSE-MsgGUID: evUqcZVBSVWIv6cu9gi2gA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11722"; a="73701735"
+X-IronPort-AV: E=Sophos;i="6.23,108,1770624000"; 
+   d="scan'208";a="73701735"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2026 20:26:22 -0800
+X-CSE-ConnectionGUID: YtqTOBL+Q0SlQGRJRDLbAQ==
+X-CSE-MsgGUID: HFSeOeqFTFm7wTBYtMyoBA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,108,1770624000"; 
+   d="scan'208";a="217074682"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 07 Mar 2026 20:26:16 -0800
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1vz5iY-000000002cz-1hcE;
+	Sun, 08 Mar 2026 04:26:14 +0000
+Date: Sun, 8 Mar 2026 05:25:50 +0100
+From: kernel test robot <lkp@intel.com>
+To: Aaron Tomlin <atomlin@atomlin.com>, rafael@kernel.org, dakr@kernel.org,
+	pavel@kernel.org, lenb@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, zhongqiu.han@oss.qualcomm.com,
+	akpm@linux-foundation.org, bp@alien8.de, pmladek@suse.com,
+	rdunlap@infradead.org, feng.tang@linux.alibaba.com,
+	pawan.kumar.gupta@linux.intel.com, kees@kernel.org,
+	elver@google.com, arnd@arndb.de, fvdl@google.com,
+	lirongqing@baidu.com, bhelgaas@google.com, neelx@suse.com,
+	sean@ashe.io, mproche@gmail.com, chjohnst@gmail.com,
+	nick.lange@gmail.com, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3] PM: QoS: Introduce boot parameter
+ pm_qos_resume_latency_us
+Message-ID: <202603080526.A162fF4D-lkp@intel.com>
+References: <20260307200736.4192234-1-atomlin@atomlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260307200736.4192234-1-atomlin@atomlin.com>
 
-Fix several spelling and grammar mistakes in the IPE
-documentation.
+Hi Aaron,
 
-No functional change.
+kernel test robot noticed the following build errors:
 
-Signed-off-by: Evan Ducas <evan.j.ducas@gmail.com>
----
- Documentation/security/ipe.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+[auto build test ERROR on driver-core/driver-core-testing]
+[also build test ERROR on driver-core/driver-core-next driver-core/driver-core-linus rafael-pm/linux-next rafael-pm/bleeding-edge akpm-mm/mm-everything linus/master v6.16-rc1 next-20260306]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/Documentation/security/ipe.rst b/Documentation/security/ipe.rst
-index 4a7d953abcdc..d29824d7fd2d 100644
---- a/Documentation/security/ipe.rst
-+++ b/Documentation/security/ipe.rst
-@@ -18,7 +18,7 @@ strong integrity guarantees over both the executable code, and specific
- *data files* on the system, that were critical to its function. These
- specific data files would not be readable unless they passed integrity
- policy. A mandatory access control system would be present, and
--as a result, xattrs would have to be protected. This lead to a selection
-+as a result, xattrs would have to be protected. This led to a selection
- of what would provide the integrity claims. At the time, there were two
- main mechanisms considered that could guarantee integrity for the system
- with these requirements:
-@@ -195,7 +195,7 @@ of the policy to apply the minute usermode starts. Generally, that storage
- can be handled in one of three ways:
- 
-   1. The policy file(s) live on disk and the kernel loads the policy prior
--     to an code path that would result in an enforcement decision.
-+     to a code path that would result in an enforcement decision.
-   2. The policy file(s) are passed by the bootloader to the kernel, who
-      parses the policy.
-   3. There is a policy file that is compiled into the kernel that is
-@@ -235,7 +235,7 @@ Updatable, Rebootless Policy
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
- As requirements change over time (vulnerabilities are found in previously
--trusted applications, keys roll, etcetera). Updating a kernel to change the
-+trusted applications, keys roll, etcetera). Updating a kernel to change to
- meet those security goals is not always a suitable option, as updates are not
- always risk-free, and blocking a security update leaves systems vulnerable.
- This means IPE requires a policy that can be completely updated (allowing
-@@ -370,7 +370,7 @@ Simplified Policy:
- Finally, IPE's policy is designed for sysadmins, not kernel developers. Instead
- of covering individual LSM hooks (or syscalls), IPE covers operations. This means
- instead of sysadmins needing to know that the syscalls ``mmap``, ``mprotect``,
--``execve``, and ``uselib`` must have rules protecting them, they must simple know
-+``execve``, and ``uselib`` must have rules protecting them, they must simply know
- that they want to restrict code execution. This limits the amount of bypasses that
- could occur due to a lack of knowledge of the underlying system; whereas the
- maintainers of IPE, being kernel developers can make the correct choice to determine
+url:    https://github.com/intel-lab-lkp/linux/commits/Aaron-Tomlin/PM-QoS-Introduce-boot-parameter-pm_qos_resume_latency_us/20260308-040909
+base:   driver-core/driver-core-testing
+patch link:    https://lore.kernel.org/r/20260307200736.4192234-1-atomlin%40atomlin.com
+patch subject: [PATCH v3] PM: QoS: Introduce boot parameter pm_qos_resume_latency_us
+config: i386-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260308/202603080526.A162fF4D-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260308/202603080526.A162fF4D-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603080526.A162fF4D-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> kernel/power/qos.c:344:5: error: redefinition of 'pm_qos_get_boot_cpu_latency_limit'
+     344 | s32 pm_qos_get_boot_cpu_latency_limit(unsigned int cpu)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from kernel/power/qos.c:25:
+   ./include/linux/pm_qos.h:222:19: note: previous definition of 'pm_qos_get_boot_cpu_latency_limit' with type 's32(unsigned int)' {aka 'int(unsigned int)'}
+     222 | static inline s32 pm_qos_get_boot_cpu_latency_limit(unsigned int cpu)
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/pm_qos_get_boot_cpu_latency_limit +344 kernel/power/qos.c
+
+   332	
+   333	/**
+   334	 * pm_qos_get_boot_cpu_latency_limit - Get boot-time latency limit for a CPU.
+   335	 * @cpu: Logical CPU number to check.
+   336	 *
+   337	 * Checks the read-only boot-time constraints list to see if a specific
+   338	 * PM QoS latency override was requested for this CPU via the kernel
+   339	 * command line.
+   340	 *
+   341	 * Return: The latency limit in microseconds if a constraint exists,
+   342	 * or PM_QOS_RESUME_LATENCY_NO_CONSTRAINT if no boot override applies.
+   343	 */
+ > 344	s32 pm_qos_get_boot_cpu_latency_limit(unsigned int cpu)
+   345	{
+   346		struct pm_qos_boot_entry *entry;
+   347	
+   348		if (list_empty(&pm_qos_boot_list))
+   349			return PM_QOS_RESUME_LATENCY_NO_CONSTRAINT;
+   350	
+   351		list_for_each_entry(entry, &pm_qos_boot_list, node) {
+   352			if (cpumask_test_cpu(cpu, &entry->mask))
+   353				return entry->latency;
+   354		}
+   355	
+   356		return PM_QOS_RESUME_LATENCY_NO_CONSTRAINT;
+   357	}
+   358	EXPORT_SYMBOL_GPL(pm_qos_get_boot_cpu_latency_limit);
+   359	
+
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
