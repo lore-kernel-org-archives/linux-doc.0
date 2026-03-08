@@ -1,135 +1,133 @@
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D66293603E0
-	for <linux-doc@vger.kernel.org>; Sun,  8 Mar 2026 18:09:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 821FC28851F
+	for <linux-doc@vger.kernel.org>; Sun,  8 Mar 2026 18:19:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772993398; cv=none; b=YCDYeNpCJNJsEYZ9tT9aHUsD5evCa8Fz1iW+h0uff9kaWaTKfzHQUpHVZ7o+81JZDszLbXqai6x5S+IFM6PN5izOsCumwDwux/s2LluMYaSLeoplCZQ4k6dtxt1Ydi68ngF3meDTYrqguBE1I5tClM9cU/TbeHQt7ZYklTwvVrg=
+	t=1772993964; cv=none; b=t337fhPs1ak+9jTq74/SiWHbmhh4hE0REngvfAw6hXjsAAGaiMSdM8gDXDTPRj2mojltG8NFNkA/++cQf0XKwUVCWkS1/LpOcRJ7gwR+L1vZV4ZFKg+Zt1zYDX+UI34mv5KNvb8pLoY3d0fup25ZcdhkC3FEC6x7txkDqpQBhIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772993398; c=relaxed/simple;
-	bh=XmsYEmCoXNT/C2GWn7qZw2zbifEAERePDgg8h4oumeg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sSd8MvfYSbWbC8QZzjZ+M8zjvp8SWDPqBJ3IgaEBP7nICVqtXK1Zpa1yc7bnsE+PrB7XLhvHb5WYdSE7UvHG5GMRfZRHxDKUjbidFzyeruGtH+AutTceSkdm4hFzbcpQqpZ5xackPzgc+uxvkSeDqtFzYHz+g/8eVik4bWN18GE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dtDHfvUJ; arc=none smtp.client-ip=209.85.219.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1772993964; c=relaxed/simple;
+	bh=RFwQC+ynapVSJqHtn5HxtDxJR3xhkceo/7GA/6B7F8o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XhBnbJjj4XYb+I/g6fJD0QAehajVv/vknyi0nKtOSWDu/A6n1HtoibdBNg+tnIinLy+XEj+Gg32TlAfuLpQfQ5abSux1aj0mI87obVRYOmX93eaNwwohlxYsU+ua9GsrukZYj1RbxGcTDEhctdG35OuUph1hxyIV+0OcXZlKhJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=NSnqhmW4; arc=none smtp.client-ip=209.85.160.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dtDHfvUJ"
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-899fb030812so105872256d6.2
-        for <linux-doc@vger.kernel.org>; Sun, 08 Mar 2026 11:09:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="NSnqhmW4"
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-506a747448dso97745771cf.0
+        for <linux-doc@vger.kernel.org>; Sun, 08 Mar 2026 11:19:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1772993396; x=1773598196; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Iqw/4Eli0nG5osMBUIJSgBSBQi9kdXgUAruDyKaARRE=;
-        b=dtDHfvUJ1WFF2sTZDvvFrFtg6D81PCInwoXsetZzb5DpU5b3C46gcNb79o5Bru/Q2e
-         t82TkAz8NFOBBK8c4sWkeDrJhq/shnd6ZHBo5stpeKkGZ86evX39vddEBS4WyH3Erskk
-         HW3yyKcL6vGKkd8tptIHDEFdMnF6QS6AEXs8XqbgHWgAIRkvgkvHOUzKRJxt9e8VzEBx
-         LvwqFoA0NIsM9J1/VyEVYgsblRNp5ES6seqgiDcZ99Zalj+RSMVTVSjGB8mnJ7vWhGby
-         S8lNiRDdpGqNLr0GEKLz9Wv8hgOi/6BNMfPkiJRt2jauNJJmnQW3BKcaPTujmSyaDQ5R
-         oA9g==
+        d=ziepe.ca; s=google; t=1772993962; x=1773598762; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=8l9HCiIJk8f6YJBdD7T3EgoBIxuKKvMDtuYccvH3ixY=;
+        b=NSnqhmW4iChRXfe2lxZ7cshJTxxstp6S+yBIZcsp4Xk82pT2z6pheqN7RQMMHKBrCi
+         g/pUtXqwZe/1lIyCFZoUqFeLyUryjPubE0qMegn7MrC8b1mHdhA0bReaQouYG5wf8ASg
+         PRd1v4B4kbMPd8qB9JYc2AhZDRrvi5ULhlWmFX6xZr/JZ8bYa3+amMtn/lWIdq3JR3QH
+         d80TfpbTF4mlT+vuxw9kW0YdD58LMesn/mEM8U/hfTucUpdhI23wqFFZD0iBUQmTcZkK
+         pIpH7JInxVyHoaXEPHroaPNxqaxXFencPSbUD/hZ3iGtjgAhF/zeHFOWN8V08/fGZJFa
+         n81A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772993396; x=1773598196;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Iqw/4Eli0nG5osMBUIJSgBSBQi9kdXgUAruDyKaARRE=;
-        b=qfrSGoky1sO2bT+BrCz4SnhbBWJLu/u6OlyJrmRCUZNLTEWX5CYmYe+rq4DNWtkevX
-         xT1145zMGEPQPwHulYP/va4W2k8DCTs56tE3krltEFP6DDUeL5yR25Fh+30jlQFQJfrD
-         mnpgjt0pjbe3F8QAuVAtWBXPSAiQIHonXSfk4VGZbKTzRHdrTUqwnRnIa5v9L0rjLPpO
-         zLvauPdNlBNhiku2N1bfox7Vwd/jAAbJxbsvdm754nt6tDouzXq4129KNC9/d+j1Ms1H
-         ZrC+HTFcx8SVxkveZlxNoQczIttEk+dWO8YeJnwzJiY0uiI/TRf2ssu3IlOMRI5XjY0U
-         HoWA==
-X-Forwarded-Encrypted: i=1; AJvYcCXYm9rASQbQjvXnZRB4KXdB6QTPFNn58lTs/3xXJ4D8VFMeE3YA12O0nsWNpjaS6QgmIhwgCKrt4FE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw4DHeRgjUY5i/jpNi5KyXApAXQreLjFUMwLEwj1ZEAKO+G0nut
-	qy21iBiZrWAtfWLxvqd5NK1jgXPENiLFoQblrQDS7glPF7nu6k6QZWn/
-X-Gm-Gg: ATEYQzxy5Gr24wo5myB18Ll7Zfgo8vDmk9DLlTpFcFnjZ7UL24rAzIKJwLYOufZxFtj
-	k3jUWDBQgCM0yNQ5RXeENCj9Ld408NAc6Wbqbvx8I7QJ108qMFkWQjliWSBPpMe2ACiJYkiQcBP
-	ANLpAulOOgvT0gsiXXEn4kEy2eiQBjFizPah1SNyYweg9g0z6W6HeYo7InBvAqbTEUQujgQuYaC
-	WFQdq2qkX1crQcrnkjA11ixkOSCRkvCYshGtmHPdWo2Ky3s4jyj2g3fAuuGhymF9YIItnfGQsxH
-	1CZZ1CoFuK5JPWnILc0j2X6C3/bq46UAVOmcoHZA3xxvtVUd1Ig27XH8qOT9vLdb8PebTUlHvVv
-	K7YB4N8GdUFUGIrAY0cU8M14gW4kQrugY2IEOisYQuntRJOsvONFFlQWinHyMJJ8qaaVPFmMwVC
-	4K0wfrkUgbfmdWPr7t5pA/elz1gm4QHvni6uekQjLzaRkjCdVZsEoXqh2lz9M54QrGcw==
-X-Received: by 2002:a05:6214:c2a:b0:89a:1536:2529 with SMTP id 6a1803df08f44-89a30a31b87mr120367666d6.15.1772993395869;
-        Sun, 08 Mar 2026 11:09:55 -0700 (PDT)
-Received: from Ecomp.localdomain ([163.252.225.68])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89a31719574sm63773696d6.48.2026.03.08.11.09.54
+        d=1e100.net; s=20230601; t=1772993962; x=1773598762;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8l9HCiIJk8f6YJBdD7T3EgoBIxuKKvMDtuYccvH3ixY=;
+        b=QG1IHjH/8ohl0hpE0dBbKdavDQTW6PsVRe8zUWhWrwtz3bKSCBug3cVRihRdxHTT38
+         nIeAHmV40s1s7V0PmdlzkC0Ey5SB17Y9YdcGaaGSK0yqdQTDp3G/RRyVW15s7qAsosTm
+         oFChg5G/WjwO8nt/+sWDu3Be/tKeIoG0wNAqEAsE33Fe+IDrVfBq5BHpS7/rTIBAWhuY
+         e1JOA1Cak4TIvK7/T0GLhNp2WXTJDIjPv3eyZQjy24wXsRLl7UOh7V8gMj0+f4d7VPKo
+         ngJWpYoHq8azI/iG9YP95jmhFq1xlEndmJCABbFOmSC6S4LhWu4v5GGsM72K432JDEUV
+         BNsQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXVrokZJfZp6qW4B1PjaZnG+FdqS1M8IPLA6th7TNUt5AJS+vaJI5F3ArBT+fXluekWDiakx2AALQg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxzjEcGO/KyDHS2ZSGhkq+tyPMzQ6fWSHm2LmsZRq+Yf7FkFblA
+	aXV7wrgxBOBylhluMJK4XYOVvI35awZzQLaTz9IKLCuhZ3M3h3TAXjxcrv/DNE2WArE=
+X-Gm-Gg: ATEYQzwBUN12WSBA8JrK1SvBeK+jcaNpUNvZ0bHPdQB9gymaz2YB8ZPLYc0qyFTkx4z
+	QMP9iS/O49FKNzZu8mZub273q/9a+jRhXlPOgf7Y9jrlyrs0kmjpSzfzKUjJNuHhElyn+ahl5oH
+	D0Kyq6Va3A4mk2Xm+gZ+Bk1pHLWqO6g5xQK72V2QlvxKib/9wFuP4kmGmaxwE8BwbUpCxXipM23
+	AOslNanvdrGulhzmYSdS/CoGRdtkjDPkNvTf37YK6WYYbQdFriD+JlnzPlL+UoDqePi+NF+keM2
+	58isioJsZJDraXS8+E7Eup2d902pg+mw2VyQTD6xy7pKCkBDAsFLu5YCrLjwMjo0yeXmOzdLyIT
+	kgFyauUlV5LrUbVsO33DnN4jZihijgdpVxpXqAtP4fMKPZHoRWve4GflzT6WBtYBGyx/zTQpGiQ
+	3XBGMUCJubrHWmiPIjL7e6XxU2K3mfXPk3Jt7sr3XR0TPXrjnIfGHDQxctmLkVguwcpJeA0Do0T
+	KpGbMWyhD2mF2EMcXk=
+X-Received: by 2002:ac8:574b:0:b0:506:534b:7871 with SMTP id d75a77b69052e-508f496e9b7mr109431651cf.46.1772993962390;
+        Sun, 08 Mar 2026 11:19:22 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.112.119])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-508f653c566sm48622921cf.8.2026.03.08.11.19.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Mar 2026 11:09:55 -0700 (PDT)
-From: Evan Ducas <evan.j.ducas@gmail.com>
-To: wufan@kernel.org,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org
-Cc: rdunlap@infradead.org,
-	bagasdotme@gmail.com,
-	linux-security-module@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Evan Ducas <evan.j.ducas@gmail.com>
-Subject: [PATCH v2] docs: security: ipe: fix typos and grammar
-Date: Sun,  8 Mar 2026 14:07:34 -0400
-Message-ID: <20260308180734.5792-1-evan.j.ducas@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Sun, 08 Mar 2026 11:19:21 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1vzIim-0000000AbBt-0YB7;
+	Sun, 08 Mar 2026 15:19:20 -0300
+Date: Sun, 8 Mar 2026 15:19:20 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Petr Tesarik <ptesarik@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
+	iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, virtualization@lists.linux.dev,
+	linux-rdma@vger.kernel.org
+Subject: Re: [PATCH 2/3] dma-mapping: Clarify valid conditions for CPU cache
+ line overlap
+Message-ID: <20260308181920.GH1687929@ziepe.ca>
+References: <20260307-dma-debug-overlap-v1-0-c034c38872af@nvidia.com>
+ <20260307-dma-debug-overlap-v1-2-c034c38872af@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260307-dma-debug-overlap-v1-2-c034c38872af@nvidia.com>
 
-Fix several spelling and grammar mistakes in the IPE
-documentation.
+On Sat, Mar 07, 2026 at 06:49:56PM +0200, Leon Romanovsky wrote:
 
-No functional change.
+> -This attribute indicates the CPU will not dirty any cacheline overlapping this
+> -DMA_FROM_DEVICE/DMA_BIDIRECTIONAL buffer while it is mapped. This allows
+> -multiple small buffers to safely share a cacheline without risk of data
+> -corruption, suppressing DMA debug warnings about overlapping mappings.
+> -All mappings sharing a cacheline should have this attribute.
+> +DMA_ATTR_CPU_CACHE_OVERLAP
 
-Signed-off-by: Evan Ducas <evan.j.ducas@gmail.com>
----
- Documentation/security/ipe.rst | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+This is a very specific and well defined use case that allows some cache
+flushing behaviors to work only under the promise that the CPU doesn't
+touch the memory to cause cache inconsistencies.
 
-diff --git a/Documentation/security/ipe.rst b/Documentation/security/ipe.rst
-index 4a7d953abcdc..5eb3e6265fbd 100644
---- a/Documentation/security/ipe.rst
-+++ b/Documentation/security/ipe.rst
-@@ -18,7 +18,7 @@ strong integrity guarantees over both the executable code, and specific
- *data files* on the system, that were critical to its function. These
- specific data files would not be readable unless they passed integrity
- policy. A mandatory access control system would be present, and
--as a result, xattrs would have to be protected. This lead to a selection
-+as a result, xattrs would have to be protected. This led to a selection
- of what would provide the integrity claims. At the time, there were two
- main mechanisms considered that could guarantee integrity for the system
- with these requirements:
-@@ -195,7 +195,7 @@ of the policy to apply the minute usermode starts. Generally, that storage
- can be handled in one of three ways:
- 
-   1. The policy file(s) live on disk and the kernel loads the policy prior
--     to an code path that would result in an enforcement decision.
-+     to a code path that would result in an enforcement decision.
-   2. The policy file(s) are passed by the bootloader to the kernel, who
-      parses the policy.
-   3. There is a policy file that is compiled into the kernel that is
-@@ -235,8 +235,8 @@ Updatable, Rebootless Policy
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
- As requirements change over time (vulnerabilities are found in previously
--trusted applications, keys roll, etcetera). Updating a kernel to change the
--meet those security goals is not always a suitable option, as updates are not
-+trusted applications, keys roll, etcetera), updating a kernel to meet
-+those security goals is not always a suitable option, as updates are not
- always risk-free, and blocking a security update leaves systems vulnerable.
- This means IPE requires a policy that can be completely updated (allowing
- revocations of existing policy) from a source external to the kernel (allowing
-@@ -370,7 +370,7 @@ Simplified Policy:
- Finally, IPE's policy is designed for sysadmins, not kernel developers. Instead
- of covering individual LSM hooks (or syscalls), IPE covers operations. This means
- instead of sysadmins needing to know that the syscalls ``mmap``, ``mprotect``,
--``execve``, and ``uselib`` must have rules protecting them, they must simple know
-+``execve``, and ``uselib`` must have rules protecting them, they must simply know
- that they want to restrict code execution. This limits the amount of bypasses that
- could occur due to a lack of knowledge of the underlying system; whereas the
- maintainers of IPE, being kernel developers can make the correct choice to determine
--- 
-2.43.0
+> +Another valid use case is on systems that are CPU-coherent and do not use
+> +SWIOTLB, where the caller can guarantee that no cache maintenance operations
+> +(such as flushes) will be performed that could overwrite shared cache lines.
 
+This is something completely unrelated. 
+
+What I would really like is a new DMA_ATTR_REQUIRE_COHERENT which
+fails any mappings requests that would use any SWIOTLB or cache
+flushing.
+
+It should only be used by callers like RDMA/DRM/etc where they have
+historical uAPI that has never supported incoherent DMA operation and
+are an exception to the normal DMA API requirements.
+
+The problem is to limit the use of that flag to only a few approved
+places. I fear adding such a flag wide open would open the door to
+widespread driver abuse. These days we have 'export symbol for module'
+so maybe there is a way to do it with safety?
+
+I'd really like this right now because CC systems are forcing SWIOTLB
+and things like RDMA userspace are unfixably broken with SWIOTLB. The
+uAPI it has simply cannot work with it. I'd much rather to immediate
+fail than suffer data corruption. Jiri was looking at adding some
+hacky "is cc" check, but I'd far prefer a proper flag that covered all
+the uAPI breaking cases.
+
+Jason
