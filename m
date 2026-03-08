@@ -1,133 +1,119 @@
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 821FC28851F
-	for <linux-doc@vger.kernel.org>; Sun,  8 Mar 2026 18:19:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC68839524E
+	for <linux-doc@vger.kernel.org>; Sun,  8 Mar 2026 18:29:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772993964; cv=none; b=t337fhPs1ak+9jTq74/SiWHbmhh4hE0REngvfAw6hXjsAAGaiMSdM8gDXDTPRj2mojltG8NFNkA/++cQf0XKwUVCWkS1/LpOcRJ7gwR+L1vZV4ZFKg+Zt1zYDX+UI34mv5KNvb8pLoY3d0fup25ZcdhkC3FEC6x7txkDqpQBhIQ=
+	t=1772994594; cv=none; b=D/6oi6jI6QkUgX545ednJbdAP6drEeaHudc619EUVKCalGp7zYriUa492SDtHfez+0fETFReal9QhMzb3MBLaDxvmxxlbHeGoyw67Va9A8rhA8G2h1B0hVqPBwzdCtpugGmnrcLWYzJvuxzH1Dh+5/5+BroWfYEjazAu9OPcQ7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772993964; c=relaxed/simple;
-	bh=RFwQC+ynapVSJqHtn5HxtDxJR3xhkceo/7GA/6B7F8o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XhBnbJjj4XYb+I/g6fJD0QAehajVv/vknyi0nKtOSWDu/A6n1HtoibdBNg+tnIinLy+XEj+Gg32TlAfuLpQfQ5abSux1aj0mI87obVRYOmX93eaNwwohlxYsU+ua9GsrukZYj1RbxGcTDEhctdG35OuUph1hxyIV+0OcXZlKhJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=NSnqhmW4; arc=none smtp.client-ip=209.85.160.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	s=arc-20240116; t=1772994594; c=relaxed/simple;
+	bh=arzKqSNGevaBW7ZdocNBXHLJxNKmMFdb7TG9ttHmyr8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UVCku8JDnmHvdawR9pEDXf1zo+8KdHlKFvAHhlaRRLc6Kz4B2Wzb5tKLRVLjD+hntyd5UYGU+Pj+YPYm3Quppe1BXlc3VmFqY03ovW9VHcjNQWBKwWmYPc9sXS0ttHp8MRu3w4NJaPPBC/pNHZMtNt44+Wuq+LRmNN8HC3CupQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cTJhJZu2; arc=none smtp.client-ip=74.125.82.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="NSnqhmW4"
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-506a747448dso97745771cf.0
-        for <linux-doc@vger.kernel.org>; Sun, 08 Mar 2026 11:19:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cTJhJZu2"
+Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-2be06c02f66so4313822eec.1
+        for <linux-doc@vger.kernel.org>; Sun, 08 Mar 2026 11:29:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1772993962; x=1773598762; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8l9HCiIJk8f6YJBdD7T3EgoBIxuKKvMDtuYccvH3ixY=;
-        b=NSnqhmW4iChRXfe2lxZ7cshJTxxstp6S+yBIZcsp4Xk82pT2z6pheqN7RQMMHKBrCi
-         g/pUtXqwZe/1lIyCFZoUqFeLyUryjPubE0qMegn7MrC8b1mHdhA0bReaQouYG5wf8ASg
-         PRd1v4B4kbMPd8qB9JYc2AhZDRrvi5ULhlWmFX6xZr/JZ8bYa3+amMtn/lWIdq3JR3QH
-         d80TfpbTF4mlT+vuxw9kW0YdD58LMesn/mEM8U/hfTucUpdhI23wqFFZD0iBUQmTcZkK
-         pIpH7JInxVyHoaXEPHroaPNxqaxXFencPSbUD/hZ3iGtjgAhF/zeHFOWN8V08/fGZJFa
-         n81A==
+        d=gmail.com; s=20230601; t=1772994593; x=1773599393; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8HTB42B5AkCVJd+JbUlotXstzfyeA5ZRbWHS4OQQdLU=;
+        b=cTJhJZu2fLxvVt9Algmc2klX+bEO2kusJhX3IyxubVGiqumT7RBHMBPxfGMAaiSZtj
+         FnpPtOStV+I9+wZ/ouy27jzSWjRmMOUd59rNfnJQogKTlCI3f59rJGOAUFMX9fT323t0
+         LqsjIoglvCeLaGxvelgqLT530WJropyZkjuiPD3ukENi/HbodVAdbuR8apfRD1S3HDOK
+         iGvIR1oiZm0NAmqd0Pkxfrrsbw3XVO8fN7rDxIgNSUxSdew2oJvxwVfdQ5htSYYTNu71
+         7Lc6wyWyOl+MVqgV7oesPGPEeI1/YhgsgEYfvleOpwRdTD6bq+0lkGxewawHFcuDMFTO
+         4+jQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1772993962; x=1773598762;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8l9HCiIJk8f6YJBdD7T3EgoBIxuKKvMDtuYccvH3ixY=;
-        b=QG1IHjH/8ohl0hpE0dBbKdavDQTW6PsVRe8zUWhWrwtz3bKSCBug3cVRihRdxHTT38
-         nIeAHmV40s1s7V0PmdlzkC0Ey5SB17Y9YdcGaaGSK0yqdQTDp3G/RRyVW15s7qAsosTm
-         oFChg5G/WjwO8nt/+sWDu3Be/tKeIoG0wNAqEAsE33Fe+IDrVfBq5BHpS7/rTIBAWhuY
-         e1JOA1Cak4TIvK7/T0GLhNp2WXTJDIjPv3eyZQjy24wXsRLl7UOh7V8gMj0+f4d7VPKo
-         ngJWpYoHq8azI/iG9YP95jmhFq1xlEndmJCABbFOmSC6S4LhWu4v5GGsM72K432JDEUV
-         BNsQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXVrokZJfZp6qW4B1PjaZnG+FdqS1M8IPLA6th7TNUt5AJS+vaJI5F3ArBT+fXluekWDiakx2AALQg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxzjEcGO/KyDHS2ZSGhkq+tyPMzQ6fWSHm2LmsZRq+Yf7FkFblA
-	aXV7wrgxBOBylhluMJK4XYOVvI35awZzQLaTz9IKLCuhZ3M3h3TAXjxcrv/DNE2WArE=
-X-Gm-Gg: ATEYQzwBUN12WSBA8JrK1SvBeK+jcaNpUNvZ0bHPdQB9gymaz2YB8ZPLYc0qyFTkx4z
-	QMP9iS/O49FKNzZu8mZub273q/9a+jRhXlPOgf7Y9jrlyrs0kmjpSzfzKUjJNuHhElyn+ahl5oH
-	D0Kyq6Va3A4mk2Xm+gZ+Bk1pHLWqO6g5xQK72V2QlvxKib/9wFuP4kmGmaxwE8BwbUpCxXipM23
-	AOslNanvdrGulhzmYSdS/CoGRdtkjDPkNvTf37YK6WYYbQdFriD+JlnzPlL+UoDqePi+NF+keM2
-	58isioJsZJDraXS8+E7Eup2d902pg+mw2VyQTD6xy7pKCkBDAsFLu5YCrLjwMjo0yeXmOzdLyIT
-	kgFyauUlV5LrUbVsO33DnN4jZihijgdpVxpXqAtP4fMKPZHoRWve4GflzT6WBtYBGyx/zTQpGiQ
-	3XBGMUCJubrHWmiPIjL7e6XxU2K3mfXPk3Jt7sr3XR0TPXrjnIfGHDQxctmLkVguwcpJeA0Do0T
-	KpGbMWyhD2mF2EMcXk=
-X-Received: by 2002:ac8:574b:0:b0:506:534b:7871 with SMTP id d75a77b69052e-508f496e9b7mr109431651cf.46.1772993962390;
-        Sun, 08 Mar 2026 11:19:22 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.112.119])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-508f653c566sm48622921cf.8.2026.03.08.11.19.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Mar 2026 11:19:21 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1vzIim-0000000AbBt-0YB7;
-	Sun, 08 Mar 2026 15:19:20 -0300
-Date: Sun, 8 Mar 2026 15:19:20 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Petr Tesarik <ptesarik@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
-	iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, virtualization@lists.linux.dev,
-	linux-rdma@vger.kernel.org
-Subject: Re: [PATCH 2/3] dma-mapping: Clarify valid conditions for CPU cache
- line overlap
-Message-ID: <20260308181920.GH1687929@ziepe.ca>
-References: <20260307-dma-debug-overlap-v1-0-c034c38872af@nvidia.com>
- <20260307-dma-debug-overlap-v1-2-c034c38872af@nvidia.com>
+        d=1e100.net; s=20230601; t=1772994593; x=1773599393;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8HTB42B5AkCVJd+JbUlotXstzfyeA5ZRbWHS4OQQdLU=;
+        b=IvsSPKcHsJLMYRCDYMqcT8AnJXLDHtlNwCzLmyVUZsRvPGINDUW3GIEv7njxQtzYM8
+         LesWtydx3Q4tTs+sqbpnyb/t9pprWkC6n2O25BmsMNb4LNlbfQEqSdqBfZMLrO4i5qai
+         d/IZeQn/N4G4I9rimF7jjKhycjcJLgifPOAg0AWAADA/YvoA+sazpg+uWDcxenXxblm0
+         zeRf2RqGgs1Hq+DLFnEdtPSq8uy+eYedttxH8wMDWj0iK63WELY638JKxPtvzJ/3eTGY
+         T/YYESUU6XV9TN62tEztaKGSBrQ6sp+pst23CMJ9CS15Pd6neKT/Vixw/UpiOBqR+nJT
+         8jKg==
+X-Forwarded-Encrypted: i=1; AJvYcCXsN98jysk6YN0S0753HHhl2dXXNhebRlHa5jaCOPKP2SHIJWxdSFZ/TORb8oiH3/8P/p4/ls8of5o=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyNvqr8/G7NfOZvLNU/2lYrBraQNDfJbo2XywjfWDtTqqBEjSzk
+	ye2aQgyyHZ6T1hR4cTTrrrXpOlEP0AMKFKgSLX0ANZ9GUdo/AJL8irHn
+X-Gm-Gg: ATEYQzzOkLGL5IYbpwOCk3emOk0PG0MmNvafbUOd4Nc66diJh3FzZjc7L94ACwTMmtB
+	ZdqSxNCVJKL7AmuK2j+hp/MLpCqJ8AvHEbNpzxHJR5st7xoy/slAj0tjEna8YdlQR+RXqWQJ4Yy
+	0jQhstZEwvfdRi4nrxcZc3t9GvQtSR38UlAClwY0IfBlXqueLiVRx1BL7hjrv36+U+8lqzvNuxi
+	Pg9QLT8D0RSTiGKdf9GZg7rPyVMekGJmNXLwk23vIuTpn2KMlSBG6Wds7K1Ki0GEim5ohiUWqoQ
+	xdNtDIdt9sMvaga56ppbEDp9Rkwv2HFAslKqIOQHM/Z5TplXT6p+aBXbNSnyH2f4jdA2z6hRY3k
+	7SlenqidOJOg3bT4obYS0b5Ky1pp+B0j3ldglzJGxy8Sk2LR6P8C5vgxZaTubmQ2KVxenZmRfnB
+	f5kDEcZK34dqzm+O0+jp1Tcq+TMe7MRQyxHf3/sNlv
+X-Received: by 2002:a05:693c:3104:b0:2b8:26b8:3444 with SMTP id 5a478bee46e88-2be4e065b0fmr3639035eec.19.1772994592727;
+        Sun, 08 Mar 2026 11:29:52 -0700 (PDT)
+Received: from [192.168.86.23] ([136.25.189.61])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2be4f82850fsm7599999eec.9.2026.03.08.11.29.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 08 Mar 2026 11:29:52 -0700 (PDT)
+Message-ID: <f7e1ce48-cc0f-4365-bb6f-1af2635dffd2@gmail.com>
+Date: Sun, 8 Mar 2026 11:29:44 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260307-dma-debug-overlap-v1-2-c034c38872af@nvidia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/3] docs: sp_SP: Add Rust documentation section
+To: Edwin Toribio <edwin.toribio.j@gmail.com>
+Cc: carlos.bilbao@kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ Miguel Ojeda <ojeda@kernel.org>
+References: <20260304200715.76360-1-edwin.toribio.j@gmail.com>
+Content-Language: en-US
+From: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+In-Reply-To: <20260304200715.76360-1-edwin.toribio.j@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sat, Mar 07, 2026 at 06:49:56PM +0200, Leon Romanovsky wrote:
+Hello Edwin,
 
-> -This attribute indicates the CPU will not dirty any cacheline overlapping this
-> -DMA_FROM_DEVICE/DMA_BIDIRECTIONAL buffer while it is mapped. This allows
-> -multiple small buffers to safely share a cacheline without risk of data
-> -corruption, suppressing DMA debug warnings about overlapping mappings.
-> -All mappings sharing a cacheline should have this attribute.
-> +DMA_ATTR_CPU_CACHE_OVERLAP
+On 3/4/26 12:07, Edwin Toribio wrote:
+> This series provides the Spanish translation for the Rust documentation
+> section in the Linux kernel, including the quick-start guide, general
+> information, and coding guidelines.
+>
+> In this second version, all documents have been unified and updated to
+> comply with the feedback provided regarding style and technical accuracy.
+>
+> Changes in v2:
+> - Added new translations: coding-guidelines.rst and index.rst.
+> - Standardized the use of "p. ej." abbreviation throughout all files.
+> - Fixed the Hacking section truncation in quick-start.rst.
+>
+> Edwin Toribio (3):
+>    docs: sp_SP: Add Spanish translation for Rust quick-start
+>    docs: sp_SP: Add Spanish translation for Rust general information
+>    docs: sp_SP: Add Spanish translation for Rust coding guidelines
+>
+>   .../sp_SP/rust/coding-guidelines.rst          | 543 ++++++++++++++++++
+>   .../sp_SP/rust/general-information.rst        | 178 ++++++
+>   .../translations/sp_SP/rust/index.rst         |  45 ++
+>   .../translations/sp_SP/rust/quick-start.rst   | 384 +++++++++++++
+>   4 files changed, 1150 insertions(+)
+>   create mode 100644 Documentation/translations/sp_SP/rust/coding-guidelines.rst
+>   create mode 100644 Documentation/translations/sp_SP/rust/general-information.rst
+>   create mode 100644 Documentation/translations/sp_SP/rust/index.rst
+>   create mode 100644 Documentation/translations/sp_SP/rust/quick-start.rst
 
-This is a very specific and well defined use case that allows some cache
-flushing behaviors to work only under the promise that the CPU doesn't
-touch the memory to cause cache inconsistencies.
+Thanks, Edwin, this is much better! We're close, but not quite there yet.
+We'll need a v3 for a couple of reasons.
 
-> +Another valid use case is on systems that are CPU-coherent and do not use
-> +SWIOTLB, where the caller can guarantee that no cache maintenance operations
-> +(such as flushes) will be performed that could overwrite shared cache lines.
+Thanks,
 
-This is something completely unrelated. 
+Carlos
 
-What I would really like is a new DMA_ATTR_REQUIRE_COHERENT which
-fails any mappings requests that would use any SWIOTLB or cache
-flushing.
-
-It should only be used by callers like RDMA/DRM/etc where they have
-historical uAPI that has never supported incoherent DMA operation and
-are an exception to the normal DMA API requirements.
-
-The problem is to limit the use of that flag to only a few approved
-places. I fear adding such a flag wide open would open the door to
-widespread driver abuse. These days we have 'export symbol for module'
-so maybe there is a way to do it with safety?
-
-I'd really like this right now because CC systems are forcing SWIOTLB
-and things like RDMA userspace are unfixably broken with SWIOTLB. The
-uAPI it has simply cannot work with it. I'd much rather to immediate
-fail than suffer data corruption. Jiri was looking at adding some
-hacky "is cc" check, but I'd far prefer a proper flag that covered all
-the uAPI breaking cases.
-
-Jason
