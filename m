@@ -1,152 +1,489 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FA2433344C;
-	Sun,  8 Mar 2026 18:38:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACD5A3932FC
+	for <linux-doc@vger.kernel.org>; Sun,  8 Mar 2026 18:38:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772995108; cv=none; b=AKGT6JY09XsHcIy4htN3JlJH60Y14qS0kmCtt84FehA/nZVkHJptGgzkU9sW2qSY58A1pEMzncW3ohPC7/3ByCiW1/vxdg30eg9a9LJSCF4BsAW8Sy6TOpXFN+9EMI7691F5FQpSvnXO8HNk10OZQWinCcj1GOCZA63Hi4Z50oI=
+	t=1772995137; cv=none; b=dPy2xss3FnNZ5TpqJgqISjlVE25zRzVGVBOEfp0LztA594nSL3WX90ooy3IZfFwjSWrsb9XtghEPGKDUBpYT34H4KdFy1OOfGjTvruepW3HN+BenlGh0G/0dCqDg7RmpVgwBBi2cLuarc069F9p7t/Vs4C4+LAdqumNJ0G6hmjk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772995108; c=relaxed/simple;
-	bh=jZJBIlksgatlFHsMEq+0aBvFqu9v03d1c2RJYYj3/Vw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dYTUq7dQ7zqCAtabLk0Z5qbDhfQc8+oCvLFIGqbe4nvq27MXgm7si51Jm6sWjlhkEa7IfShH+OQSmSpZGy5mLD0ZwoFVR9gGH60/BUyvy/u72/V3eQ24G/xPJQ4R16X0suMUSY7XNaDCnPkLtCq7W1el8fTHIJS90fHZrREWHJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZdlCCoG6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1772995137; c=relaxed/simple;
+	bh=/8bipe/3tMY4IJIMVQf4wllkt8Udd65TDepU8wPKQd8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MMAKo92yl8WkCcIZqNUEiHDEP2vlGjmWE/CzD1pL4m+/EuqtteAAxSpYV0YrG8Nn+eaizYtzQaNWpq+rcGdcg69a/9Zq5mLN3IgwupBtyAhe4r8ohUZhJIuBlvhIhuxIzWYhT1l0catKIj1AB4BYXljrBya3mFGhyMqycWFE50M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k4v0JDY9; arc=none smtp.client-ip=74.125.82.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZdlCCoG6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71AEAC116C6;
-	Sun,  8 Mar 2026 18:38:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1772995107;
-	bh=jZJBIlksgatlFHsMEq+0aBvFqu9v03d1c2RJYYj3/Vw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZdlCCoG6Ebyt/aF+JtWn7ConBk0iCh3KFkGnTKE7yJGso4f70z61PDqQtRXrEOvn2
-	 +D+NCfDBND9QYYPFr66KckKOiSR3m0BQhweE79tNRn93I4FRQXoq6ZKxKoMywkv6fG
-	 58+nryM1wSgC25gN5Vo3PMjWHJPatD085BEbVbAQkOwyCHW6nSZ3B272MaIDA7+oX6
-	 Wjh0NMvkNbAq29M3izmciA6W9WXnJUws4C0qPWRd11j5Yk5e0boHvq2MrXovrJbyXe
-	 PZKUwnTHoVX6Hq1byo/tE/oypmbk8JJ7+VS1/tE76gWKfhc0dijkSg0SWLt/e4DO1Z
-	 /6tTN6EBTF5xA==
-Date: Sun, 8 Mar 2026 14:38:26 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Helge Deller <deller@gmx.de>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Richard Weinberger <richard@nod.at>,
-	Juergen Gross <jgross@suse.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	James Bottomley <James.Bottomley@hansenpartnership.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Greg KH <gregkh@linuxfoundation.org>,
-	Petr Mladek <pmladek@suse.com>,
-	Steven Rostedt <rostedt@goodmis.org>, Kees Cook <kees@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Thorsten Leemhuis <linux@leemhuis.info>,
-	Vlastimil Babka <vbabka@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-modules@vger.kernel.org,
-	linux-doc@vger.kernel.org, rdunlap@infradead.org,
-	laurent.pinchart@ideasonboard.com
-Subject: Re: [PATCH v2 1/4] kallsyms: embed source file:line info in kernel
- stack traces
-Message-ID: <aa3CIjVhSsQUXSej@laps>
-References: <20260307172022.460402-1-sashal@kernel.org>
- <20260307172022.460402-2-sashal@kernel.org>
- <3ab0cad6-bf55-4ae5-afb7-d9129ac2032e@gmx.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k4v0JDY9"
+Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-2be1c918173so11533420eec.1
+        for <linux-doc@vger.kernel.org>; Sun, 08 Mar 2026 11:38:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772995135; x=1773599935; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5KvLNpj9GFBrM6+ftSwcXj1FerE3X7/0dOdyWMKFg5A=;
+        b=k4v0JDY9SBlOQ4N061OZlMHQzqrY1P14C46LUbr55aWzsdjwfLEsaN2ptrRR1/S7SV
+         D9IIRnJRaltV14IPTzAfnQLYHJJGSq8pVKBuWFl8ciASPIm3y7SJviSt2PsrSKGy3xij
+         f0jYDOsrfSBpiyW8MXK91IWjEX/0pFOe46yIyYuUWkCI4WGjwkcyri9hVoaBpCbWnHbc
+         6Zq7DRMC2xlFLNP56Y+kMazWeTHSbLyaIofOCeQS/I50LvyuFbE0ujthblaGBoE7U/Xs
+         SYFPYNIiKNAQyFEGDgMRoD5b6yJ7VYwqSApugcLO378BdgvJdRO1HnMMiT65j8IEw1Ci
+         AruQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772995135; x=1773599935;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5KvLNpj9GFBrM6+ftSwcXj1FerE3X7/0dOdyWMKFg5A=;
+        b=C9tQg17kE/t4vN7z1PUDNVWQuSNXRrpj6elzx8PVI4vTsx3RfN95VgVF7VzgRD7lGT
+         /spND0BMVYzsyv4Iyv+qFojmrqd5gWMpT7p6IRyCzCaenQAPWYfxLC+7o4BUBAzzIlCr
+         nBYS4mnC8YaVAm9H51cxqnPs6PIMXcuXHPOsYrvCaGVSaHF9qa8IbwFwYJ5vzj48Gzvo
+         EClp5Kq9fE52hLij7vJUbhSYYJKNEj+dBEcSsOF0UodBRZvyjFK6O4Tj1dl8Iog8B/Nk
+         j3feuNgqMm2CKCH625LHRqGQZAn4KgUqH1kw79gnbmkySNhoq4D7VBE485UKZ+qYGk3W
+         TjHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVHJ7GRxeM+IqDTW8lQPZA7RDr+iUG7SwzQvGKV/BHlABUHgsy+gD3BDjwv0LLB8uruUYlePMijd18=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxMuiMthtHad/jJyldPWyQMH5fE6An21PvFs6Iabgtxyr7Y3Dkm
+	bgvhV0+eDJbtPlU7dHKXjLZI1HhSxIBo5n7lWq7wp3GfTRBs77CE+K34
+X-Gm-Gg: ATEYQzyb9bBKSHmty1eUXB1zmXdk5JU3YdtEWlGcnboHLbzFlgqkXmbis9uVf09zKG6
+	+cYnEIvdancWX68ERKCzymkjOwMUfjAnySy+8MCRJseu3dkOdUOfF+M+Rn2RxZaJ/UGJzaDFm9D
+	TJjhxglT9W2ZhFpmUlA1W3ozE5zU8Ire0/0iaxsw0wNxmnlbyIqxdrw0tWBKZHEuRd6u2PJUWDa
+	j+8K/BHg8P7E9zi5Ku6corLMnJ3rgH+g2X1VdLl83m1aVJFXiEKTv+Cr8XSPfWSu6vEDXZtOJrY
+	EvarvJMTvsPtMbokiVtGMqIfYcdCVlLTCReb/4IGojgcbgy3/xwVkxmjbbBXjMetgVgaVZyERNP
+	3/GFISl4Il7G6Xpufmnsq0FXVZxYUerTILjjaxk/YciBLhbY50ltFnwsmQ1d8HABJXkD/qK6O06
+	8GLC5d6JGTvU6Z/VDrXxcWm7+2cf7JyTCmhRSIlVtB
+X-Received: by 2002:a05:7301:4094:b0:2be:1dc7:999a with SMTP id 5a478bee46e88-2be4de901bfmr3867624eec.4.1772995134564;
+        Sun, 08 Mar 2026 11:38:54 -0700 (PDT)
+Received: from [192.168.86.23] ([136.25.189.61])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2be4f82851esm6032243eec.10.2026.03.08.11.38.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 08 Mar 2026 11:38:54 -0700 (PDT)
+Message-ID: <21e89ec2-074c-48dc-9a35-ee8ce45b7b69@gmail.com>
+Date: Sun, 8 Mar 2026 11:38:53 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <3ab0cad6-bf55-4ae5-afb7-d9129ac2032e@gmx.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] docs: sp_SP: Add Spanish translation for Rust
+ quick-start
+To: Edwin Toribio <edwin.toribio.j@gmail.com>
+Cc: carlos.bilbao@kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, rust-for-linux@vger.kernel.org
+References: <20260304200715.76360-1-edwin.toribio.j@gmail.com>
+ <20260304200715.76360-2-edwin.toribio.j@gmail.com>
+Content-Language: en-US
+From: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+In-Reply-To: <20260304200715.76360-2-edwin.toribio.j@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Sat, Mar 07, 2026 at 10:41:20PM +0100, Helge Deller wrote:
->Hi Sasha,
->
->On 3/7/26 18:20, Sasha Levin wrote:
->>Add CONFIG_KALLSYMS_LINEINFO, which embeds a compact address-to-line
->>lookup table in the kernel image so stack traces directly print source
->>file and line number information:
->>
->>   root@localhost:~# echo c > /proc/sysrq-trigger
->>   [   11.201987] sysrq: Trigger a crash
->>   [   11.202831] Kernel panic - not syncing: sysrq triggered crash
->>   [   11.206218] Call Trace:
->>   [   11.206501]  <TASK>
->>   [   11.206749]  dump_stack_lvl+0x5d/0x80 (lib/dump_stack.c:94)
->>   [   11.207403]  vpanic+0x36e/0x620 (kernel/panic.c:650)
->>   [   11.208565]  ? __lock_acquire+0x465/0x2240 (kernel/locking/lockdep.c:4674)
->>[...]
->>
->>Assisted-by: Claude:claude-opus-4-6
->>Signed-off-by: Sasha Levin <sashal@kernel.org>
->
->Shows relative paths and works OK on 32- and 64-bit parisc kernel.
->You may add
->Tested-by: Helge Deller <deller@gmx.de>
 
-Thanks for testing! I'm happy the regression was fixed.
+On 3/4/26 12:07, Edwin Toribio wrote:
+> Signed-off-by: Edwin Toribio <edwin.toribio.j@gmail.com>
+> ---
+>   .../translations/sp_SP/rust/quick-start.rst   | 384 ++++++++++++++++++
+>   1 file changed, 384 insertions(+)
+>   create mode 100644 Documentation/translations/sp_SP/rust/quick-start.rst
+>
+> diff --git a/Documentation/translations/sp_SP/rust/quick-start.rst b/Documentation/translations/sp_SP/rust/quick-start.rst
+> new file mode 100644
+> index 000000000..276b81971
+> --- /dev/null
+> +++ b/Documentation/translations/sp_SP/rust/quick-start.rst
+> @@ -0,0 +1,384 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +.. include:: ../disclaimer-sp.rst
+> +
+> +:Original: Documentation/rust/quick-start.rst
+> +:Translator: Edwin Toribio <edwin.toribio.j@gmail.com>
+> +
+> +.. _sp_rust_quick_start:
+> +
+> +Guía de inicio rápido
+> +=====================
+> +
+> +Este documento describe cómo empezar con el desarrollo del kernel en Rust.
+> +
+> +Existen varias formas de instalar el conjunto de herramientas (toolchain) de Rust
+> +necesario para el desarrollo del kernel. Una forma sencilla es utilizar los
+> +paquetes de su distribución de Linux si son adecuados; la primera sección a
+> +continuación explica este enfoque. Una ventaja de este método es que,
+> +normalmente, la distribución hará coincidir el LLVM utilizado por Rust y Clang.
+> +
+> +Otra forma es utilizar las versiones estables precompiladas de LLVM+Rust
+> +proporcionadas en `kernel.org <https://kernel.org/pub/tools/llvm/rust/>`_.
+> +Estas son las mismas herramientas de LLVM ligeras y rápidas de
+> +:ref:`Obtener LLVM <getting_llvm>` con versiones de Rust añadidas que son
 
->A few notes/suggestions below....
->
->
->>---
->>  Documentation/admin-guide/index.rst           |   1 +
->>  .../admin-guide/kallsyms-lineinfo.rst         |  72 +++
->>  MAINTAINERS                                   |   6 +
->>  include/linux/kallsyms.h                      |  32 +-
->>  init/Kconfig                                  |  20 +
->>  kernel/kallsyms.c                             |  61 +++
->>  kernel/kallsyms_internal.h                    |  11 +
->>  scripts/.gitignore                            |   1 +
->>  scripts/Makefile                              |   3 +
->>  scripts/gen_lineinfo.c                        | 510 ++++++++++++++++++
->>  scripts/kallsyms.c                            |  16 +
->>  scripts/link-vmlinux.sh                       |  70 ++-
->>  12 files changed, 799 insertions(+), 4 deletions(-)
->>  create mode 100644 Documentation/admin-guide/kallsyms-lineinfo.rst
->>  create mode 100644 scripts/gen_lineinfo.c
->
->>diff --git a/kernel/kallsyms.c b/kernel/kallsyms.c
->>index aec2f06858afd..c94d8f332c5df 100644
->>--- a/kernel/kallsyms.c
->>+++ b/kernel/kallsyms.c
->>@@ -467,6 +467,54 @@ static int append_buildid(char *buffer,   const char *modname,
->>  #endif /* CONFIG_STACKTRACE_BUILD_ID */
->>+#ifdef CONFIG_KALLSYMS_LINEINFO
->>+bool kallsyms_lookup_lineinfo(unsigned long addr, unsigned long sym_start,
->>+			      const char **file, unsigned int *line)
->>+{
->>+	unsigned long long raw_offset;
->>+	unsigned int offset, low, high, mid, file_id;
->>+
->>+	if (!lineinfo_num_entries)
->>+		return false;
->
->The "#ifdef CONFIG_KALLSYMS_LINEINFO" above prevents that this function
->is compiled when the option is disabled.
->
->Instead, you *could* move the "CONFIG_KALLSYMS_LINEINFO" option into
->the function with "IS_ENABLED()", like this...:
->+	if (!IS_ENABLED(CONFIG_KALLSYMS_LINEINFO) || !lineinfo_num_entries)
->+		return false;
->
->That way your code will always be compiled, and the code will be optimized
->away by the compiler if the option is disabled. The huge benefit is, that
->the compiler will do syntax-checking at every build, so you will see coding
->bugs early.
->
->You could use the same semantic at other places in your patches, and of
->course you then need to remove the #ifdef ...
 
-Ack, this makes sense. I'll do it in the v3 if it's needed.
+BTW, I did get a warning here:
 
--- 
-Thanks,
-Sasha
+quick-start.rst:21: WARNING: undefined label: 'getting_llvm'
+
+
+> +compatibles con Rust para Linux. Se proporcionan dos conjuntos: el "LLVM más
+> +reciente" (latest LLVM) y el "LLVM coincidente" (matching LLVM) (consulte el
+> +enlace para más información).
+> +
+> +Alternativamente, las dos secciones siguientes de "Requisitos" explican cada
+> +componente y cómo instalarlos a través de ``rustup``, los instaladores
+> +independientes de Rust y/o compilándolos.
+> +
+> +El resto del documento explica otros aspectos sobre cómo empezar.
+> +
+> +
+> +Distribuciones
+> +--------------
+> +
+> +Arch Linux
+> +**********
+> +
+> +Arch Linux proporciona versiones recientes de Rust y, por lo tanto, debería
+> +funcionar directamente, p. ej.::
+> +
+> +    pacman -S rust rust-src rust-bindgen
+> +
+> +
+> +Debian
+> +******
+> +
+> +Debian 13 (Trixie), así como Testing y Debian Unstable (Sid) proporcionan
+> +versiones recientes de Rust y, por lo tanto, deberían funcionar directamente, p. ej.::
+> +
+> +    apt install rustc rust-src bindgen rustfmt rust-clippy
+> +
+> +
+> +Fedora Linux
+> +************
+> +
+> +Fedora Linux proporciona versiones recientes de Rust y, por lo tanto, debería
+> +funcionar directamente, p. ej.::
+> +
+> +    dnf install rust rust-src bindgen-cli rustfmt clippy
+> +
+> +
+> +Gentoo Linux
+> +************
+> +
+> +Gentoo Linux (y especialmente la rama de pruebas) proporciona versiones
+> +recientes de Rust y, por lo tanto, debería funcionar directamente, p. ej.::
+> +
+> +    USE='rust-src rustfmt clippy' emerge dev-lang/rust dev-util/bindgen
+> +
+> +Es posible que sea necesario configurar ``LIBCLANG_PATH``.
+> +
+> +
+> +Nix
+> +***
+> +
+> +Nix (canal unstable) proporciona versiones recientes de Rust y, por lo tanto,
+> +debería funcionar directamente, p. ej.::
+> +
+> +    { pkgs ? import <nixpkgs> {} }:
+> +    pkgs.mkShell {
+> +      nativeBuildInputs = with pkgs; [ rustc rust-bindgen rustfmt clippy ];
+> +      RUST_LIB_SRC = "${pkgs.rust.packages.stable.rustPlatform.rustLibSrc}";
+> +    }
+> +
+> +
+> +openSUSE
+> +********
+> +
+> +openSUSE Slowroll y openSUSE Tumbleweed proporcionan versiones recientes de Rust
+> +y, por lo tanto, deberían funcionar directamente, p. ej.::
+> +
+> +    zypper install rust rust1.79-src rust-bindgen clang
+> +
+> +
+> +Ubuntu
+> +******
+> +
+> +25.04
+> +~~~~~
+> +
+> +Las versiones más recientes de Ubuntu proporcionan versiones recientes de Rust
+> +y, por lo tanto, deberían funcionar directamente, p. ej.::
+> +
+> +    apt install rustc rust-src bindgen rustfmt rust-clippy
+> +
+> +Además, es necesario configurar ``RUST_LIB_SRC``, p. ej.::
+> +
+> +    RUST_LIB_SRC=/usr/src/rustc-$(rustc --version | cut -d' ' -f2)/library
+> +
+> +Para mayor comodidad, ``RUST_LIB_SRC`` puede exportarse al entorno global.
+> +
+> +
+> +24.04 LTS y anteriores
+> +~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +Aunque Ubuntu 24.04 LTS y versiones anteriores todavía proporcionan versiones
+> +recientes de Rust, requieren que se establezca alguna configuración adicional,
+> +utilizando los paquetes con versión, p. ej.::
+> +
+> +    apt install rustc-1.80 rust-1.80-src bindgen-0.65 rustfmt-1.80 \
+> +        rust-1.80-clippy
+> +    ln -s /usr/lib/rust-1.80/bin/rustfmt /usr/bin/rustfmt-1.80
+> +    ln -s /usr/lib/rust-1.80/bin/clippy-driver /usr/bin/clippy-driver-1.80
+> +
+> +Ninguno de estos paquetes establece sus herramientas como predeterminadas; por
+> +lo tanto, deben especificarse explícitamente, p. ej.::
+> +
+> +    make LLVM=1 RUSTC=rustc-1.80 RUSTDOC=rustdoc-1.80 RUSTFMT=rustfmt-1.80 \
+> +        CLIPPY_DRIVER=clippy-driver-1.80 BINDGEN=bindgen-0.65
+> +
+> +Alternativamente, modifique la variable ``PATH`` para colocar los binarios de
+> +Rust 1.80 primero y establezca ``bindgen`` como predeterminado, p. ej.::
+> +
+> +    PATH=/usr/lib/rust-1.80/bin:$PATH
+> +    update-alternatives --install /usr/bin/bindgen bindgen \
+> +        /usr/bin/bindgen-0.65 100
+> +    update-alternatives --set bindgen /usr/bin/bindgen-0.65
+> +
+> +``RUST_LIB_SRC`` debe configurarse cuando se usan los paquetes con versión, p. ej.::
+> +
+> +    RUST_LIB_SRC=/usr/src/rustc-$(rustc-1.80 --version | cut -d' ' -f2)/library
+> +
+> +Para mayor comodidad, ``RUST_LIB_SRC`` puede exportarse al entorno global.
+> +
+> +Además, ``bindgen-0.65`` está disponible en versiones más nuevas (24.04 LTS y
+> +24.10), pero puede no estar disponible en las más antiguas (20.04 LTS y 22.04 LTS),
+> +por lo que es posible que sea necesario compilar ``bindgen`` manualmente
+> +(consulte más abajo).
+> +
+> +
+> +Requisitos: Compilación
+> +-----------------------
+> +
+> +Esta sección explica cómo obtener las herramientas necesarias para la compilación.
+> +
+> +Para comprobar fácilmente si se cumplen los requisitos, se puede utilizar el
+> +siguiente objetivo (target)::
+> +
+> +    make LLVM=1 rustavailable
+> +
+> +Esto activa la misma lógica utilizada por Kconfig para determinar si debe
+> +habilitarse ``RUST_IS_AVAILABLE``; pero también explica por qué no en caso
+> +de que así sea.
+> +
+> +
+> +rustc
+> +*****
+> +
+> +Se requiere una versión reciente del compilador de Rust.
+> +
+> +Si se está utilizando ``rustup``, entre en el directorio de compilación del
+> +kernel (o use el argumento ``--path=<build-dir>`` para el subcomando ``set``)
+> +y ejecute, por ejemplo::
+> +
+> +    rustup override set stable
+> +
+> +Esto configurará su directorio de trabajo para usar la versión dada de
+> +``rustc`` sin afectar a su conjunto de herramientas predeterminado.
+> +
+> +Tenga en cuenta que la anulación (override) se aplica al directorio de trabajo
+> +actual (y sus subdirectorios).
+> +
+> +Si no está utilizando ``rustup``, obtenga un instalador independiente de:
+> +
+> +    https://forge.rust-lang.org/infra/other-installation-methods.html#standalone
+> +
+> +
+> +Código fuente de la biblioteca estándar de Rust
+> +***********************************************
+> +
+> +Se requiere el código fuente de la biblioteca estándar de Rust porque el sistema
+> +de compilación compilará de forma cruzada ``core``.
+> +
+> +Si se está utilizando ``rustup``, ejecute::
+> +
+> +    rustup component add rust-src
+> +
+> +Los componentes se instalan por conjunto de herramientas, por lo que actualizar
+> +la versión del compilador de Rust más adelante requiere volver a añadir el
+> +componente.
+> +
+> +De lo contrario, si se utiliza un instalador independiente, el árbol de fuentes
+> +de Rust puede descargarse en la carpeta de instalación del conjunto de
+> +herramientas::
+> +
+> +    curl -L "https://static.rust-lang.org/dist/rust-src-$(rustc --version | cut -d' ' -f2).tar.gz" |
+> +        tar -xzf - -C "$(rustc --print sysroot)/lib" \
+> +        "rust-src-$(rustc --version | cut -d' ' -f2)/rust-src/lib/" \
+> +        --strip-components=3
+> +
+> +En este caso, actualizar la versión del compilador de Rust más adelante requiere
+> +actualizar manualmente el árbol de fuentes (esto se puede hacer eliminando
+> +``$(rustc --print sysroot)/lib/rustlib/src/rust`` y volviendo a ejecutar el
+> +comando anterior).
+> +
+> +
+> +libclang
+> +********
+> +
+> +``libclang`` (parte de LLVM) es utilizado por ``bindgen`` para entender el
+> +código C en el kernel, lo que significa que LLVM debe estar instalado; al igual
+> +que cuando el kernel se compila con ``LLVM=1``.
+> +
+> +Es probable que las distribuciones de Linux tengan una adecuada disponible, por
+> +lo que es mejor comprobarlo primero.
+> +
+> +También hay algunos binarios para varios sistemas y arquitecturas subidos a:
+> +
+> +    https://releases.llvm.org/download.html
+> +
+> +De lo contrario, compilar LLVM lleva bastante tiempo, pero no es un proceso
+> +complejo:
+> +
+> +    https://llvm.org/docs/GettingStarted.html#getting-the-source-code-and-building-llvm
+> +
+> +Consulte Documentation/kbuild/llvm.rst para obtener más información y otras
+> +formas de obtener versiones precompiladas y paquetes de distribuciones.
+> +
+> +
+> +bindgen
+> +*******
+> +
+> +Los vínculos (bindings) con la parte de C del kernel se generan en tiempo de
+> +compilación utilizando la herramienta ``bindgen``.
+> +
+> +Instálela, por ejemplo, mediante (tenga en cuenta que esto descargará y
+> +compilará la herramienta desde el código fuente)::
+> +
+> +    cargo install --locked bindgen-cli
+> +
+> +``bindgen`` utiliza la caja (crate) ``clang-sys`` para encontrar un
+> +``libclang`` adecuado (que puede estar vinculado estáticamente, dinámicamente
+> +o cargado en tiempo de ejecución). Por defecto, el comando ``cargo`` anterior
+> +producirá un binario ``bindgen`` que cargará ``libclang`` en tiempo de
+> +ejecución. Si no se encuentra (o si se debe usar un ``libclang`` diferente al
+> +encontrado), el proceso se puede ajustar, p. ej. utilizando la variable de entorno
+> +``LIBCLANG_PATH``. Para más detalles, consulte la documentación de
+> +``clang-sys`` en:
+> +
+> +    https://github.com/KyleMayes/clang-sys#linking
+> +
+> +    https://github.com/KyleMayes/clang-sys#environment-variables
+> +
+> +
+> +Requisitos: Desarrollo
+> +----------------------
+> +
+> +Esta sección explica cómo obtener las herramientas necesarias para el
+> +desarrollo. Es decir, no son necesarias cuando solo se compila el kernel.
+> +
+> +
+> +rustfmt
+> +*******
+> +
+> +La herramienta ``rustfmt`` se utiliza para formatear automáticamente todo el
+> +código Rust del kernel, incluyendo los vínculos de C generados (para más
+> +detalles, consulte coding-guidelines.rst).
+> +
+> +Si se utiliza ``rustup``, su perfil ``default`` ya instala la herramienta, por
+> +lo que no es necesario hacer nada. Si se utiliza otro perfil, el componente
+> +puede instalarse manualmente::
+> +
+> +    rustup component add rustfmt
+> +
+> +Los instaladores independientes también vienen con ``rustfmt``.
+> +
+> +
+> +clippy
+> +******
+> +
+> +``clippy`` es un linter de Rust. Ejecutarlo proporciona advertencias
+> +adicionales para el código Rust. Se puede ejecutar pasando ``CLIPPY=1`` a
+> +``make`` (para más detalles, consulte general-information.rst).
+> +
+> +Si se utiliza ``rustup``, su perfil ``default`` ya instala la herramienta, por
+> +lo que no es necesario hacer nada. Si se utiliza otro perfil, el componente
+> +puede instalarse manualmente::
+> +
+> +    rustup component add clippy
+> +
+> +Los instaladores independientes también vienen con ``clippy``.
+> +
+> +
+> +rustdoc
+> +*******
+> +
+> +``rustdoc`` es la herramienta de documentación para Rust. Genera una atractiva
+> +documentación en HTML para el código Rust (para más detalles, consulte
+> +general-information.rst).
+> +
+> +``rustdoc`` también se utiliza para probar los ejemplos proporcionados en el
+> +código Rust documentado (llamados doctests o pruebas de documentación). El
+> +objetivo de Make ``rusttest`` utiliza esta función.
+> +
+> +Si se utiliza ``rustup``, todos los perfiles ya instalan la herramienta, por
+> +lo que no es necesario hacer nada.
+> +
+> +Los instaladores independientes también vienen con ``rustdoc``.
+> +
+> +
+> +rust-analyzer
+> +*************
+> +
+> +El servidor de lenguaje `rust-analyzer <https://rust-analyzer.github.io/>`_
+> +puede utilizarse con muchos editores para habilitar el resaltado de sintaxis,
+> +el completado, el salto a la definición y otras funciones.
+> +
+> +``rust-analyzer`` necesita un archivo de configuración, ``rust-project.json``,
+> +que puede generarse mediante el objetivo de Make ``rust-analyzer``::
+> +
+> +    make LLVM=1 rust-analyzer
+> +
+> +
+> +Configuración
+> +-------------
+> +
+> +El ``Rust support`` (``CONFIG_RUST``) debe habilitarse en el menú
+> +``General setup``. La opción solo se muestra si se encuentra un conjunto de
+> +herramientas de Rust adecuado (véase arriba), siempre que se cumplan los demás
+> +requisitos. A su vez, esto hará visibles el resto de las opciones que
+> +dependen de Rust.
+> +
+> +A continuación, vaya a::
+> +
+> +    Kernel hacking
+> +        -> Sample kernel code
+> +            -> Rust samples
+> +
+> +Y habilite algunos módulos de ejemplo, ya sea como integrados (built-in) o
+> +como cargables.
+> +
+> +
+> +Compilación
+> +-----------
+> +
+> +Compilar un kernel con un conjunto de herramientas LLVM completo es la
+> +configuración mejor soportada en este momento. Es decir::
+> +
+> +    make LLVM=1
+> +
+> +El uso de GCC también funciona para algunas configuraciones, pero es muy
+> +experimental en este momento.
+> +
+> +
+> +Hacking
+> +-------
+> +
+> +Para profundizar más, eche un vistazo al código fuente de los ejemplos en
+> +``samples/rust/``, al código de soporte de Rust bajo ``rust/`` y al menú
+> +``Rust hacking`` bajo ``Kernel hacking``.
+> +
+> +Si se utiliza GDB/Binutils y los símbolos de Rust no se decodifican (demangle)
+> +correctamente, la razón es que el conjunto de herramientas aún no soporta el
+> +nuevo esquema de decoración de nombres (mangling) v0 de Rust. Hay algunas
+> +soluciones:
+> +
+> +- Instalar una versión más reciente (GDB >= 10.2, Binutils >= 2.36).
+> +
+> +- Algunas versiones de GDB (p. ej. GDB 10.1 estándar) pueden utilizar los nombres
+> +  pre-decodificados incrustados en la información de depuración(``CONFIG_DEBUG_INFO``).
+> \ No newline at end of file
