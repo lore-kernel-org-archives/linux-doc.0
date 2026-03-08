@@ -1,134 +1,118 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99DC23603D9;
-	Sun,  8 Mar 2026 08:57:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B38BE1D5CFB
+	for <linux-doc@vger.kernel.org>; Sun,  8 Mar 2026 09:06:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1772960225; cv=none; b=kvW0G0DBVOZTcPyTEEAIov0hnyHacjk/JF3EL63+Km/9ZX6ZW9UNLXnx4HECUjppjwhNTI+RysuPbY78L9msIIpqRGmLGC05JFTeDM1s1Fh/vbpbAla3TqzGuHknO2qwv/fjn969JuQgPMvzOclxMKIORpce4xjEWMqs6A2ywb8=
+	t=1772960790; cv=none; b=B+IMsATlqojnnC4tG/eHp8B1z+ZiWmD/LNonbY9I8ua1eNm1a6ARHe0ZkZa9zpezN3xzsxmzolPuAMcMXtJH+j7gjgTz15Ke/DtBv7NDiF/uXJJ9B/7lPFdTa8ihWHQFMAsstGkJMvZGgKELo6pd9YRyEhpsHjBnj+6rjb/Qbd4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1772960225; c=relaxed/simple;
-	bh=x3L8/hSJukNMi+lmDq/Se3gidbTHfKkxioCsvzYz/9c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FljA3yLxJAfulNn4SMpfJozzVWptTXTQKQw6EisY+6YphgoagdqxojIupbCKoiFn+UEdse3DUZa5WgvM2QNCSo5RhAocwr7Qg+IZvqJj+iH4456bBgn19Fyi6MUx2bDaPCFEyme8umFanA8vlUOaQ9VdaprM8CXr0fNH6zy942k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dPU/e8Kh; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1772960790; c=relaxed/simple;
+	bh=JsNAl8WVMEKBfTmc/KX3qTDxx0gkZOBj8lf5LAO8h2I=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ob4Xq4EL/D4XbzIRE8yg+mq36b1KD/8GG9bEoYYhsb1hXJo8IfFHG2DiEd5CiLe1aoy4L9a/HF6GjzsFcM3lh4D7J268/bwzzKD/HbkGPHN+pa822/gmuv1p0gV7dcaRGdfdRSaSeVBEeC1hLN4RmvGjrcc3X0j7dvE5EKb/2No=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZmqveW1x; arc=none smtp.client-ip=209.85.215.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dPU/e8Kh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1772960224; x=1804496224;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=x3L8/hSJukNMi+lmDq/Se3gidbTHfKkxioCsvzYz/9c=;
-  b=dPU/e8Kh57hbt9VxXkO0UP4ucbUkM9Ak+CFsBhjTwmMSK19jN77RVbfh
-   /vrMTmVwKjFz+O6pYW/mmmiUyYyoaHsaovz1NXBU1ljuOhHVAkjTdqycE
-   MWUL8lfeZFWAe5QKs/Ku4tIhIQQ39/TlkQ48zuMaQQ65goVHdkDtwGaGq
-   Q2XjAWQy03pl2SOfQTERYEJETm2RpOeJvFIgJb/7gx17o8vyDaqKkNHLc
-   /mVA1PUHVdSWhPlRINIAI5Z2mhFS9luN38WRncGlrq5CLPdl+pT5MUyIx
-   JVG1c01Aq/GJtecSGQZ2nzvRMji2/XCuPU+U8lfIzH7Mpp86LCqMxSH6F
-   A==;
-X-CSE-ConnectionGUID: SowMNRNYTV+R5gI00tNMqg==
-X-CSE-MsgGUID: ooY5WhT3SBK+m3LPTHE0zw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11722"; a="74202442"
-X-IronPort-AV: E=Sophos;i="6.23,108,1770624000"; 
-   d="scan'208";a="74202442"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2026 00:57:03 -0800
-X-CSE-ConnectionGUID: qaGVg+KyTWmMdGABz88xqw==
-X-CSE-MsgGUID: KiZ3vj7/QA+yk4CkqqYqtQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,108,1770624000"; 
-   d="scan'208";a="223920453"
-Received: from lkp-server01.sh.intel.com (HELO 058beb05654c) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 08 Mar 2026 00:57:00 -0800
-Received: from kbuild by 058beb05654c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vz9wX-00000000305-2YXB;
-	Sun, 08 Mar 2026 08:56:57 +0000
-Date: Sun, 8 Mar 2026 16:56:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kishore Batta <kishore.batta@oss.qualcomm.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
-	Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>,
-	Oded Gabbay <ogabbay@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, mhi@lists.linux.dev,
-	Kishore Batta <kishore.batta@oss.qualcomm.com>
-Subject: Re: [PATCH v2 4/9] bus: mhi: Centralize firmware image table
- selection at probe time
-Message-ID: <202603081641.KSZC3Jla-lkp@intel.com>
-References: <20260307-sahara_protocol_new_v2-v2-4-29dc748b5e9c@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZmqveW1x"
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-c7377119453so1931353a12.1
+        for <linux-doc@vger.kernel.org>; Sun, 08 Mar 2026 01:06:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1772960789; x=1773565589; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hs7hPfZchDfkvHX8fv1Yt61YddgThCI8nWKUUUU6CWs=;
+        b=ZmqveW1xXcjOo2KkZbsVja+2A6XPbCQfz1Jz+DOYLNErzyx1ttQVxRtgdC44Yz0ywT
+         aPV1+5XT15SFq1p8xQpazfWZ6G6lAyYHdl49XLHQfekokrvXmRzQZs7QJRZiqTc6TXrN
+         6F+NhP5/XJvAm43r4DtKgLJKrIQdkaDHEc0mPQ93XMqXBGNkrMNC03IkDPFVluUDzPIL
+         lifoPYgQF0DAkq8ODr4Q13bFNDy7hqV6C+6nHPKosvU/qdl65NRyKCvFGegmFPj4X0Z4
+         PcWX6bZZTrKmuD1mfDC/fE8q4fgVx7WnJWC20/onBBY7Jum9WR40qcRhlxE0TW3b4QiY
+         iPUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1772960789; x=1773565589;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hs7hPfZchDfkvHX8fv1Yt61YddgThCI8nWKUUUU6CWs=;
+        b=O5DNOAtSCiKNDOB8U53QwHHEF3tyBep7TAfjZUipcPdBL4qwIqSu5Dp4SLQgxSyxSm
+         HR6JRtEjBW5yrNIlh2aPcLRxFEGSKwjZP06OmBBFTsITbjIAJ71s0pYaNZoT/lQ/s/tX
+         q+sZxflUxuS4f3IpcRrv51O8XQfKq8zMvo9zFAbhxN8/EM905v8FvL4mE2IfyTgDlnZV
+         WnKjXi2UHdUaKg6Ok6SsGaue+Xu/R8qmoD6GbJ51pRzU+2pLPX35pPEvcq8pD6w2eeP7
+         FFh07qbtz4wGvFVAyJenhmbmyStkjdjmZu5LYAGXdAw7Gn2pT1egcX732f0fCsyd4Tl/
+         nqXA==
+X-Forwarded-Encrypted: i=1; AJvYcCWlgNsFbrvJ/buFA6ZSMTF9Q906DST91yziD+6aWrebjJvVCY0/wFvNuXckH40wr8cbA9JWVzspiCE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx8jww5B3aM+FqPORD8ZM5Zs3Y6yiJBFfQXi0H8e1GGMpw7787j
+	lcvqi2hYjM7RaAYnLEcJq+zZ+wMsBsU3MXRwPWdLYxDU0iAmUOIQAkEU
+X-Gm-Gg: ATEYQzw+mt4hr62t1HTA/P49513MpdNxNtSNjkwnG9tmloWgvVrIck9WmXQQZrcL3Rb
+	a4d+uxl9gb9zro0i/WKv2l8WoCTkMRXyUQpXzF3UjrNEmkTHSbs6OGwzrtxfE3MPW6hkqufC1vK
+	Dmrw2KyE82QoL41L6M7te1mGfdMmsf6ClUmmzeMxv55YjnuyKr59ezdL2y9fYvufwbzsXSOzelL
+	bgD3SXugruGAF9GXBKlzJsbRfySGZcnD8qbnB1777IZ77f0Bl4KFpMx7E4ZWMzMCmCRcPEBiBeG
+	J+RjXrLcBJSTu6/nV/bxXf8N/r4rs3rSm4goJ0BpZsPslszi5aBzLeGg1hY40fPdmMFJac/9KdB
+	jytKv1NjA7ZNe2p1Ul23w8cNxvo33enM7niEbnXK58Dh+NF/tNlXkYkrUUgjTtNN67/x7xWppXe
+	OalHTUl/YRqKJHgcubzIGAfIsW3HvY1nUCAv23UnAKxA==
+X-Received: by 2002:a17:903:11c4:b0:2ae:47f9:de12 with SMTP id d9443c01a7336-2ae8251b8famr80857345ad.46.1772960789007;
+        Sun, 08 Mar 2026 01:06:29 -0800 (PST)
+Received: from [172.16.80.107] ([210.228.119.9])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ae83f74e7bsm73369025ad.46.2026.03.08.01.06.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Mar 2026 01:06:28 -0800 (PST)
+From: Ryota Sakamoto <sakamo.ryota@gmail.com>
+Date: Sun, 08 Mar 2026 18:06:20 +0900
+Subject: [PATCH] kunit: Add documentation of --list_suites
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260307-sahara_protocol_new_v2-v2-4-29dc748b5e9c@oss.qualcomm.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260308-kunit-list_suites-doc-v1-1-4ccd7641a484@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDYwNT3ezSvMwS3ZzM4pL44tLMktRi3ZT8ZN1kg6Q08yQjEwujFAsloN6
+ CotS0zAqwudGxtbUAS3IAQ2cAAAA=
+X-Change-ID: 20260305-kunit-list_suites-doc-c0bf7b2482d8
+To: Brendan Higgins <brendan.higgins@linux.dev>, 
+ David Gow <davidgow@google.com>, Rae Moar <raemoar63@gmail.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, David Gow <david@davidgow.net>, 
+ Ryota Sakamoto <sakamo.ryota@gmail.com>
+X-Mailer: b4 0.14.2
 
-Hi Kishore,
+Commit 60f3ada4174f ("kunit: Add --list_suites to show suites") introduced
+the --list_suites option to kunit.py, but the update to the corresponding
+run_wrapper documentation was omitted.
 
-kernel test robot noticed the following build warnings:
+Add the missing description for --list_suites to keep the documentation in
+sync with the tool's supported arguments.
 
-[auto build test WARNING on a0ae2a256046c0c5d3778d1a194ff2e171f16e5f]
+Fixes: 60f3ada4174f ("kunit: Add --list_suites to show suites")
+Signed-off-by: Ryota Sakamoto <sakamo.ryota@gmail.com>
+---
+ Documentation/dev-tools/kunit/run_wrapper.rst | 2 ++
+ 1 file changed, 2 insertions(+)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kishore-Batta/Add-documentation-for-Sahara-protocol/20260307-194417
-base:   a0ae2a256046c0c5d3778d1a194ff2e171f16e5f
-patch link:    https://lore.kernel.org/r/20260307-sahara_protocol_new_v2-v2-4-29dc748b5e9c%40oss.qualcomm.com
-patch subject: [PATCH v2 4/9] bus: mhi: Centralize firmware image table selection at probe time
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20260308/202603081641.KSZC3Jla-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260308/202603081641.KSZC3Jla-lkp@intel.com/reproduce)
+diff --git a/Documentation/dev-tools/kunit/run_wrapper.rst b/Documentation/dev-tools/kunit/run_wrapper.rst
+index 3c0b585dcfffbd3929d0eef1ab9376fa4f380872..770bb09a475ae799d9247d4c5558fc3306b9cd64 100644
+--- a/Documentation/dev-tools/kunit/run_wrapper.rst
++++ b/Documentation/dev-tools/kunit/run_wrapper.rst
+@@ -336,6 +336,8 @@ command line arguments:
+ - ``--list_tests_attr``: If set, lists all tests that will be run and all of their
+   attributes.
+ 
++- ``--list_suites``: If set, lists all suites that will be run.
++
+ Command-line completion
+ ==============================
+ 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603081641.KSZC3Jla-lkp@intel.com/
+---
+base-commit: fa2c3ed5f079d41db0433a8dc829b9f6fb408aaf
+change-id: 20260305-kunit-list_suites-doc-c0bf7b2482d8
 
-All warnings (new ones prefixed by >>):
-
-   drivers/bus/mhi/sahara/sahara.c: In function 'sahara_select_variant':
->> drivers/bus/mhi/sahara/sahara.c:270:32: warning: the comparison will always evaluate as 'true' for the address of 'chan' will never be NULL [-Waddress]
-     270 |                         if (id && id->chan && !strcmp(id->chan, v->match))
-         |                                ^~
-   In file included from drivers/bus/mhi/sahara/sahara.c:12:
-   include/linux/mod_devicetable.h:867:20: note: 'chan' declared here
-     867 |         const char chan[MHI_NAME_SIZE];
-         |                    ^~~~
-
-
-vim +270 drivers/bus/mhi/sahara/sahara.c
-
-   260	
-   261	static const struct sahara_variant *sahara_select_variant(struct mhi_device *mhi_dev,
-   262								  const struct mhi_device_id *id)
-   263	{
-   264		int i;
-   265	
-   266		for (i = 0; i < ARRAY_SIZE(sahara_variants); i++) {
-   267			const struct sahara_variant *v = &sahara_variants[i];
-   268	
-   269			if (v->match_is_chan) {
- > 270				if (id && id->chan && !strcmp(id->chan, v->match))
-   271					return v;
-   272			} else {
-   273				if (mhi_dev->mhi_cntrl && mhi_dev->mhi_cntrl->name &&
-   274				    !strcmp(mhi_dev->mhi_cntrl->name, v->match))
-   275					return v;
-   276			}
-   277		}
-   278		return NULL;
-   279	}
-   280	
-
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Ryota Sakamoto <sakamo.ryota@gmail.com>
+
