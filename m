@@ -1,143 +1,179 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010025.outbound.protection.outlook.com [52.101.56.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 283833382FE;
-	Mon,  9 Mar 2026 18:12:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773079965; cv=none; b=SWjSC/3KOL1hRwHRNyF4JSONqrRS5jKNwOulOWuBI4Fyc1lU28tL5hh0QbGotPYACGCM7zH3+ez6EC6FcPw+Zrw9e6N6DGXxspqmEye/9i3aNFAuglUEP5wIdcvNUcrpRyyDGeoPx/TMw6NUPWpIP1xftZ3+iBmtq9fx8uUUE4s=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773079965; c=relaxed/simple;
-	bh=1qzEqFPdZuX9j2z6MnjXL40+sdQNv2B1yHC6um5bTq0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dTl1NWnXKR+ghHDDZAt/8vBGjGUtpx+4xW1jAhUxFOMjns0ARmPiQYnB3lLQyRiiEUgwwxpOU9v9M3wiIy0/Pkbl9IhqeiuQ2QJWKIA9ojBx066/WAbqRbg2mDY4nEeTSiKL1yu5bCW02QpfNCvpE5lyjeC1o0e0Lb712233MOM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HQhRLy78; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F4932EC0A4;
+	Mon,  9 Mar 2026 18:26:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.25
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773080786; cv=fail; b=i/4BYa9o7VMWqftBQ8fyihPHlqVUOC2k2bTktVfur29gxn/OLE2n0O5/y0ye8owvW4hFmWowS98alzvnLebh5NeRXmCSRe9UYoreBlJ+jnqx+y+z7ZiYl4qJ3RVdlmg1GmWrs+Elw9tVe0pBzHcwj+3IU7J97QzDWrihKbFXAsg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773080786; c=relaxed/simple;
+	bh=86Fuw+/fbbGXNYAAQsLgqx5CLh3wIMMltCbYHA8j0T4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=D5tJAnrVfD+BcNlFyroFKAtBTP6WJgV8WyiUZLjUVEAoleeNuDxWJq0PBPic7O4k/rvg4mtUzJ3q97taJk4PxgEK67vM0hjvqpqWtugV+xrkcPeLvRkdyoKUPJF9s5PwD2HiF51FliSdwbpJWTcXjDBui1oHgKxP29gGzIVT4wE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=xeEEk/jr; arc=fail smtp.client-ip=52.101.56.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HQhRLy78"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773079964; x=1804615964;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=1qzEqFPdZuX9j2z6MnjXL40+sdQNv2B1yHC6um5bTq0=;
-  b=HQhRLy78FWxfoXyMpDe7xjfxiav4dTTZjgo7iCbe2NsZRXDrjV5S1owC
-   kEMKDuhfC5h1LTna09yj/prmfWJY3UDec3hJetzxDJH7TcQ8dtRz6raJX
-   ShUYSLy3tuFd01RAjtz+YabNstV0OExoIRCeG7820OCuMEZwm4lPos8nm
-   NzNF4TWWhDjmhWvtBbLiiTJU4KjQ8qCaqKIX/KOEK4i6feyEI9PvHQ/ue
-   iMz3V8oiilZDOnTMNo4zrH9cEgke1V/tVTJEp6am/yRd5mYZmCFM5/5Qp
-   eeL1poCYReJV5U8VspW2iroLvkJbiY6CuhwnqYTe8dy8bqZh2rI4hYjZn
-   Q==;
-X-CSE-ConnectionGUID: 9U2c3t/YTc6DhJ1tC4oObA==
-X-CSE-MsgGUID: 3ml5G/RGRbazBxX+eWQMsg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11724"; a="73992089"
-X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
-   d="scan'208";a="73992089"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2026 11:12:44 -0700
-X-CSE-ConnectionGUID: PG4ZSg2IQPCV+zKGdBk47A==
-X-CSE-MsgGUID: LO2whBOJS7WCRSTi7miORg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
-   d="scan'208";a="224774483"
-Received: from sohilmeh.sc.intel.com ([172.25.103.65])
-  by orviesa005.jf.intel.com with ESMTP; 09 Mar 2026 11:12:43 -0700
-From: Sohil Mehta <sohil.mehta@intel.com>
-To: Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	Andy Lutomirski <luto@kernel.org>,
-	Borislav Petkov <bp@alien8.de>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Sohil Mehta <sohil.mehta@intel.com>,
-	Kiryl Shutsemau <kas@kernel.org>,
-	Brendan Jackman <jackmanb@google.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Nam Cao <namcao@linutronix.de>,
-	Cedric Xing <cedric.xing@intel.com>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>,
-	Andrew Cooper <andrew.cooper3@citrix.com>,
-	Tony Luck <tony.luck@intel.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Maciej Wieczor-Retman <m.wieczorretman@pm.me>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 5/5] x86/cpu: Remove LASS restriction on vsyscall emulation
-Date: Mon,  9 Mar 2026 11:10:29 -0700
-Message-ID: <20260309181029.398498-6-sohil.mehta@intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260309181029.398498-1-sohil.mehta@intel.com>
-References: <20260309181029.398498-1-sohil.mehta@intel.com>
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="xeEEk/jr"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VnDGkwPk9ay/TSqCblkkUYCgKIh706eN9uAUXf8JOV9cuHFrHg4oGQTRAxx+6J5u9LPx8HPaWlT8YWs+ZTbXkuFFNbIguad2RDRcTh02OlS264Jm1HQRL4olEA2XNR5/BZa44dFueSPFcAB4Y/GMvdMEl0rGSjZUeBB83234+ddJe5Uw6Ykw8jakpVsUCj5prEgR0mBatxbMuvJcJKEWFdAg59RnpJzmBpyHqPz2Z5wLNUnUNPo6JssUiLXjWICdMlIIl1VkQxevESAwBMdnWJs/WzANfuoTTWd93ANoZ8w8O/rXhYG54IE692EmYVqCzGQgdD3P2kUkJct61uutFQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TtKG/6VK25Gl7JYUn8gxbQzlED5CnAtT+7BLr0BKffY=;
+ b=SiJcAODUG+y93qRNOKEmVLIW+BuyrI2WUTTBZ5qGrpIKH2qoo52Q9eQ342FuIuRzt2c97sI79m3fQjDQzfm6i/gn7ajHStfmrGGZ5flr30E8t4/eNl+5PF9BqXNLsVjw1lg4ofMvojm0OYuzaXR+HWl9lHmKALeWNyyo6VfV9i2ujVWxExk+suO59r07eaQpkUfzlTLoye0UXyMGAHTvhkdBsjoYPkmUMiQuw2jQH0me47vFc5Mh3psg6KWbpa4fGD/cyVg+jNn6VHQWXvBI+X96/Gl0F+zyvo1jlnVlvFAvCAg1Tan27EcnIuzA68WK9H+G73Lf+AGefefbuq4HxA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.21.194) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TtKG/6VK25Gl7JYUn8gxbQzlED5CnAtT+7BLr0BKffY=;
+ b=xeEEk/jr7Xa9kH+BEIwnF1xHG0S0jQFZnvymOw/Tt2+7uGWsO0psxVQveyS3TElfjOBVCVodIkwKgUE8AjyrOS58rtjwFLXyiYZ9JDBz1W/AA6K/G/PBgbM/JT7xS71+BQyWzlu3RGgppHWCmpbI4ePcwtxGHNPrsMQeYD1sh20=
+Received: from MN2PR16CA0058.namprd16.prod.outlook.com (2603:10b6:208:234::27)
+ by MN0PR10MB5982.namprd10.prod.outlook.com (2603:10b6:208:3ca::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.23; Mon, 9 Mar
+ 2026 18:26:19 +0000
+Received: from BL6PEPF0002256F.namprd02.prod.outlook.com
+ (2603:10b6:208:234:cafe::fe) by MN2PR16CA0058.outlook.office365.com
+ (2603:10b6:208:234::27) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9678.25 via Frontend Transport; Mon,
+ 9 Mar 2026 18:26:02 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.194)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.21.194 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
+Received: from flwvzet200.ext.ti.com (198.47.21.194) by
+ BL6PEPF0002256F.mail.protection.outlook.com (10.167.249.37) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9678.18 via Frontend Transport; Mon, 9 Mar 2026 18:26:17 +0000
+Received: from DFLE208.ent.ti.com (10.64.6.66) by flwvzet200.ext.ti.com
+ (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 9 Mar
+ 2026 13:26:15 -0500
+Received: from DFLE208.ent.ti.com (10.64.6.66) by DFLE208.ent.ti.com
+ (10.64.6.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 9 Mar
+ 2026 13:26:15 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE208.ent.ti.com
+ (10.64.6.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Mon, 9 Mar 2026 13:26:15 -0500
+Received: from [10.249.42.149] ([10.249.42.149])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 629IQFUZ1598363;
+	Mon, 9 Mar 2026 13:26:15 -0500
+Message-ID: <8cd7ad67-f279-4864-906e-f4166fcd4cc4@ti.com>
+Date: Mon, 9 Mar 2026 13:26:15 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] docs: driver-api: device-io: Split out relaxed access
+ mention
+To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+CC: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20260303183628.80776-1-afd@ti.com>
+ <87a4whvura.fsf@trenco.lwn.net>
+Content-Language: en-US
+From: Andrew Davis <afd@ti.com>
+In-Reply-To: <87a4whvura.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL6PEPF0002256F:EE_|MN0PR10MB5982:EE_
+X-MS-Office365-Filtering-Correlation-Id: 91d297e4-4116-4d50-f58b-08de7e095ad8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|36860700016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	p+A2wV31DOYQmXGk9hFmwE8Ysq0J70zicmxAfHVKfdKOyJ/gJxvtcKMEguNxPdMO/zMuCTKjEJn440fxO2yX/VTZ9W9ihLA4eEwHGgEQpwLgEHmGwELJE0b2u2MpGLg2dUrYZtVSmh6u8RA6ECkYFOgDlEtZWhfJ4y2xI0siwvkdIZBpjF46H/iPzz+BVEcnxfrtYfuAh5xVXV1T3CQ8EVs8cwAfaToiI+xhgGFURcGqp7xZlEkSEULgM8l5dxuTXRpEKAtLHzl8W5khVah3gpN+YQWfRu9TqtdpjH3Uv2xxE34Lz+VHvc8jTL428GQNj+oJtc5DicNLhQER+COZVwJqxn8wjOsvYl8GiJ5jxpMSksCbdEhL9emQkmUn/5xPVLkV/qfVqpewPWKMImP3sRpoQzk03OVfrshP/DDCmmhcw9Ot73QGPWunEjHr3LhsqevCq+XyDxYKXLAr0oToiXrPRJcuzfKBMH3kV0nBL+C4ONEQs7H3evoo67QVDrJCq4SrgN3wE4Tm+G0LLKRwWBp8DH1JrEd9U4QHbA9C2EbA4Hk5O1g+RIXtnH/bY3JGeDKzdNSIpayLknO8OuZcKz9UUBIUvOzeSN7tjBCgVRgu3QofadeZxse8VeIPVpQWb3FwzzQ7ZeRY9w5PPMiOqkya0XWtMdkUxk8M92uPtLLLdpEiz6xdPBL5IUwrbhSbF7bwGTmPXYbsJoydxmgfLYqz+NjwHwbPSYOaTAru7+kXsU1Vvqoy8RgOZ2StRO3d4NAtSSgBXU4F81e5BNk73w==
+X-Forefront-Antispam-Report:
+	CIP:198.47.21.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet200.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(82310400026)(36860700016)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	u1IixdNPCKiL3PlWQFvflLJWwkDASPKQg9zJx8+QvBprjjKSKaL5r5fsyOajpMp0nVe1LVMhveCl+OTkqwDNf2lrJmiqoMIgaS+Zd3pNXcd1r0uLLc4L3Ujq5aOHz5MpxRE1pEN2woFnLoJcbBHLFEWQ3oK8HWExP3y2I6Xe5qb2MUr8k3BaRB+/2PCa6VXzw0T/p8lb8whUv+Qh0lvVUu97fftGqTm2cOiLTTBHZ6XTqiKPgIy5iuAHs0ZuWn9Jw280FrHjWnGJbT+TyPb9y+jc1iRly7y3EtKKc6ZDB9nWnWxP7XcDXMpByZZdkUnludT7LDT94yOH828Nn4doryT7CC6NQu/VCcp4PKCuzzV0qZiIOvHDhR5UAiaPS27tOzLiK6JLHZJrxhJX/CA5y58J0ZhrXcZTZqA6AeOw7gECcpWfjEWhBeJXU/P6Tr05
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2026 18:26:17.5980
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 91d297e4-4116-4d50-f58b-08de7e095ad8
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.194];Helo=[flwvzet200.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BL6PEPF0002256F.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR10MB5982
 
-Vsyscall emulation has two modes of operation: XONLY and EMULATE. The
-default XONLY mode is now supported with a LASS-triggered #GP. OTOH,
-LASS is disabled if someone requests the deprecated EMULATE mode via the
-vsyscall=emulate command line option. So, remove the restriction on LASS
-when the overall vsyscall emulation support is compiled in.
+On 3/9/26 11:21 AM, Jonathan Corbet wrote:
+> Andrew Davis <afd@ti.com> writes:
+> 
+>> We list all the normal non-relaxed device io functions first, but also
+>> list just the "read" versions of the relaxed device io functions.
+>> Instead of adding the "write" versions to that list, fix a statement
+>> below which should describe the relaxed versions so it is understood
+>> that both read and write have relaxed versions.
+>>
+>> Signed-off-by: Andrew Davis <afd@ti.com>
+>> ---
+>>
+>> Changes for v2:
+>>   - None, rebase on v7.0-rc2 and resend
+>>
+>>   Documentation/driver-api/device-io.rst | 3 +--
+>>   1 file changed, 1 insertion(+), 2 deletions(-)
+>>
+>> diff --git a/Documentation/driver-api/device-io.rst b/Documentation/driver-api/device-io.rst
+>> index d1aaa961cac4d..5b94973f44762 100644
+>> --- a/Documentation/driver-api/device-io.rst
+>> +++ b/Documentation/driver-api/device-io.rst
+>> @@ -56,7 +56,6 @@ Both read and write accesses are supported; there is no prefetch support
+>>   at this time.
+>>   
+>>   The functions are named readb(), readw(), readl(), readq(),
+>> -readb_relaxed(), readw_relaxed(), readl_relaxed(), readq_relaxed(),
+>>   writeb(), writew(), writel() and writeq().
+>>   
+>>   Some devices (such as framebuffers) would like to use larger transfers than
+>> @@ -67,7 +66,7 @@ guaranteed to copy data in order.
+>>   
+>>   The read and write functions are defined to be ordered. That is the
+>>   compiler is not permitted to reorder the I/O sequence. When the ordering
+>> -can be compiler optimised, you can use __readb() and friends to
+>> +can be compiler optimised, you can use readb_relaxed() and friends to
+>>   indicate the relaxed ordering. Use this with care.
+> 
+> ...and we really think it's better to not just list the functions that
+> are available?
+> 
 
-As a result, there is no need for setup_lass() anymore. LASS is enabled
-by default through a late_initcall().
+They are listed, down below in the section that explains the _relaxed() part[0]
 
-Signed-off-by: Sohil Mehta <sohil.mehta@intel.com>
-Reviewed-by: Dave Hansen <dave.hansen@linux.intel.com>
-Reviewed-by: H. Peter Anvin (Intel) <hpa@zytor.com>
-Tested-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
----
-v3:
- - Pick up review and tested-by tags.
+Up here at the top, only the regular non-postfixed versions are listed, except
+the "read" relaxed, but not the "write" ones. To be consistent I removed those.
 
-v2:
- - Picked up Dave's review tag
- - Improve commit message
----
- arch/x86/kernel/cpu/common.c | 15 ---------------
- 1 file changed, 15 deletions(-)
+Maybe it would be better to remove the whole list here at the top since the
+documentation has been expanded and this list up here is now nowhere near
+comprehensive of all the variations available.
 
-diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
-index 3557f0e6b3aa..02472fc763d9 100644
---- a/arch/x86/kernel/cpu/common.c
-+++ b/arch/x86/kernel/cpu/common.c
-@@ -406,20 +406,6 @@ static __always_inline void setup_umip(struct cpuinfo_x86 *c)
- 	cr4_clear_bits(X86_CR4_UMIP);
- }
- 
--static __always_inline void setup_lass(struct cpuinfo_x86 *c)
--{
--	if (!cpu_feature_enabled(X86_FEATURE_LASS))
--		return;
--
--	/*
--	 * Legacy vsyscall page access causes a #GP when LASS is active.
--	 * Disable LASS because the #GP handler doesn't support vsyscall
--	 * emulation.
--	 */
--	if (IS_ENABLED(CONFIG_X86_VSYSCALL_EMULATION))
--		setup_clear_cpu_cap(X86_FEATURE_LASS);
--}
--
- static int enable_lass(unsigned int cpu)
- {
- 	cr4_set_bits(X86_CR4_LASS);
-@@ -2061,7 +2047,6 @@ static void identify_cpu(struct cpuinfo_x86 *c)
- 	setup_smep(c);
- 	setup_smap(c);
- 	setup_umip(c);
--	setup_lass(c);
- 
- 	/* Enable FSGSBASE instructions if available. */
- 	if (cpu_has(c, X86_FEATURE_FSGSBASE)) {
--- 
-2.43.0
+Andrew
+
+[0] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/driver-api/device-io.rst?h=v7.0-rc1#n179
+
+> Among other things, the list would then automatically link to the
+> documentation for each function ... assuming, of course, that we ever
+> got around to documenting them...
+> 
+> Thanks,
+> 
+> jon
 
