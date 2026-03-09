@@ -1,48 +1,54 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05DEF3B52EF;
-	Mon,  9 Mar 2026 16:39:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A13463B5307;
+	Mon,  9 Mar 2026 16:39:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773074350; cv=none; b=JDZDCgXBujP4n87qYFQNK1b2nYlZzCdz/YtNcmL6SQ5FZf12Gy0KX60FLLQYh3+4koiW0l3RmK8FDxY/QQSaSfA3/nuNHDZI3bu5SNl/4aTGBxdr38lvFkQJGLi1rPy+dSfa/M2F4sTopggyK87m1LVDoRH9lhaHGsAie3VKEBk=
+	t=1773074388; cv=none; b=YFe2D3taCNh7RFvTHBs3Q0/S7GRFPoGQzCLnNwlw661gJzxo6wTfpwWmY2JMsd6YSK+XuCvWzy4zauCSB1uqboEWRnkXl7jUhUafU1vDLNeZ/5ETX31ji6yMmRXEm5WZxNrhmFXXXMpIOZ8XcxO98a3NYIJrKrEqma34meZ9YHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773074350; c=relaxed/simple;
-	bh=wVpBiWemAt9F48ut3m/CDIT+uUcMN/HtPGk4CqnPbqc=;
+	s=arc-20240116; t=1773074388; c=relaxed/simple;
+	bh=bXYSkHY17HtECgpDQua1zdQqh0CmVbiJL+TdSR4Lw+k=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=RUZ8hkKPvnG7gRCsgqpRcL4YVNQCwhVWrnAk9bQnzHtUAIs4vpgcJUWb4VzlVMvx971uj6kyfAGQwFfDoMLQkViuoozFf5u9Lp8UtfSWvMLJg17dgWJFqXI0KV9hgfYCJ0sZG9OAEEhapQ8zwpzYNk/GoTTYnYRk6WNEwACUizY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=DDCHLhbG; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=CRguDXycxNf5bRVIEbUIFhyG2PcN8X0Zo/jr60e5cQoWFl1PRG21RWrxTqVzX6WM7KfGrERfIhJKHPED74Xl5verEfYBcf6A+mrSois9r4DsXzA8XdceU8BzGr4Hr/dVHSRpErrOHf5NQIWJmnsatY2zNAnHtZGuU2TvsFumJBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Ue6ZOJpF; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="DDCHLhbG"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 54CC340C9C
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Ue6ZOJpF"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 04D1E40C9C
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1773074348; bh=wVpBiWemAt9F48ut3m/CDIT+uUcMN/HtPGk4CqnPbqc=;
+	t=1773074387; bh=IHcXnOJGe4wi/1j99x89ioNGBTSZLhQ504eFvqa86O4=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=DDCHLhbG9G9x7wnMahD3WWwv2eowi+GCB5pSt1uyMac2NcjhLXAo5eY3NLpV2RVJ+
-	 tReRIv7mTEIOGSvXh8Pk9akx1pvWI06vPsgVtGuSkV9+qL1u5gn629K0NOc7yTfAeC
-	 /BRHxFqR3SaK09TKTHppIr2BsVUkS8dkLHJ0HIuFMGLwLdPQ8ZIBc2/tYqp1TW0qdl
-	 DiBlBQXmCKKK7tpcipgQneRDaqUTpvRHH42w6sc2/OwQemcjU806yb0UyIR27/gMj8
-	 54RKbZpTU0RXKrO/LkyjLR9jl1IQlGELaJK8Zs2gLhriAbkHa1sjqR5S0vZiaUE1J7
-	 E6y8eqnu+zWYA==
+	b=Ue6ZOJpFeisd/rkz0nG+XaKXo2SBAxu02lcrMfuatlB1gZHPEEFeZp5J6cWHwMhHC
+	 VaLxxOut7dKRtPkkJECMxC2oFMjlygtfU4vV7yHpKcP/dK8UFvURrJ8S+/BDvu6qPz
+	 8SXy4DMPj0E9ZIpVyxGrVh9blnc+k1l3am0NzuAk6+3t2RWOUKvh5WzFN5t4EizOjE
+	 ESk8TmE+ZXTINj6nzDgCCOrnwGKqnUtUtGanphuq0SmCJ+t0dEa0+GQB1GVHy4MMUG
+	 hKrRoALj1dTgaCDUWXxeW3XyjtljEmhos7UpFNsJ9/UhZQfpA/U+ouqWG9o/ZBmN1D
+	 cmjf86XBSg0mA==
 Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 54CC340C9C;
-	Mon,  9 Mar 2026 16:39:08 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 04D1E40C9C;
+	Mon,  9 Mar 2026 16:39:46 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Mauro Carvalho Chehab
- <mchehab@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Shuah Khan
- <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v2 00/13] kernel-doc improvements
-In-Reply-To: <cover.1772810752.git.mchehab+huawei@kernel.org>
-References: <cover.1772810752.git.mchehab+huawei@kernel.org>
-Date: Mon, 09 Mar 2026 10:39:07 -0600
-Message-ID: <87wlzlufdg.fsf@trenco.lwn.net>
+To: Haoyang Liu <tttturtleruss@gmail.com>, Dongliang Mu <dzm91@hust.edu.cn>,
+ Yanteng Si <si.yanteng@linux.dev>, Alex Shi <alexs@kernel.org>, Shuah Khan
+ <skhan@linuxfoundation.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers
+ <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>,
+ Justin Stitt <justinstitt@google.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ llvm@lists.linux.dev
+Subject: Re: [PATCH] tools/docs/checktransupdate.py: add support for
+ scanning directory
+In-Reply-To: <13926087-127d-423e-a4d6-55b8aabb32ce@gmail.com>
+References: <20260308111314.27333-1-tttturtleruss@gmail.com>
+ <87zf4hvvep.fsf@trenco.lwn.net>
+ <13926087-127d-423e-a4d6-55b8aabb32ce@gmail.com>
+Date: Mon, 09 Mar 2026 10:39:45 -0600
+Message-ID: <87sea9ufce.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,13 +57,36 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+Haoyang Liu <tttturtleruss@gmail.com> writes:
 
-> Hi Jon,
+> On 3/10/2026 12:07 AM, Jonathan Corbet wrote:
+>> Haoyang LIU <tttturtleruss@gmail.com> writes:
+>>
+>>> Origin script can only accept a file as parameter, this commit enables
+>>> it to scan a directory.
+>>>
+>>> Usage example:
+>>> ./scripts/checktransupdate.py Documentation/translations/zh_CN/dev-tools
+>> I've applied this, with one tweak:
+>>
+>>> +    else:
+>>> +        # check if the files are directories or files
+>>> +        new_files = []
+>>> +        for file in files:
+>>> +            if os.path.isfile(file):
+>>> +                new_files.append(file)
+>>> +            elif os.path.isdir(file):
+>>> +                # for directories, list all files in the directory and its subfolders
+>>> +                new_files.extend(list_files_with_excluding_folders(
+>>> +                    file, [], "rst"))
+>> There's no reason to break that line there, so I took the liberty of
+>> joining it back together.
 >
-> This patch kernel-doc improvements. On v2, I'm keeping just
-> the patches related to man pages generation.
+> Dear Jon,
+>
+> Thanks for pointing it out, I didn't notice when I make this change, and 
+> I'm sorry for that.
 
-I've applied this set, thanks.
+Not a big problem!  Thanks for working to make our tools better.
 
 jon
