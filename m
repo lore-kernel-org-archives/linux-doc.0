@@ -1,47 +1,48 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 975E92C0303;
-	Mon,  9 Mar 2026 18:12:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 696571DC9B3;
+	Mon,  9 Mar 2026 18:12:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773079961; cv=none; b=DOJxsQIHRJLB5r+lZX5VSDUTMkITsgHdABMtBygCe6gSzvYIG6T2s50beyKhRzTrDGA+Q80H+ie7mnkecw24vOun9CelaU+gojeq7ZfX3mbZtRlwWfJwDBt/+g9Ib+hfL8khk+medHWqpJa/nSmlxMW4yOVFP6MDar96TbsrBC4=
+	t=1773079961; cv=none; b=pcrRyFSxU1h8JnCwjUuBfYhHEeGHxtkJkeOSe2ZbYMvxhrRYn0ykwbe+cfFK6ylqQrSQIiPMPxE3KoL0XcNqO1xVqyqeu+q4DSQFeCd84MrBRpqmsFR7aDGEaYC8m/iWdUKbidASm0pfujQT4EaMsxKwWvXsVrUyZGw4xp0NyfI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1773079961; c=relaxed/simple;
-	bh=oaES2sEc9N3xIIhZcMfmd7bFcesKKy2fZX/llHamKwc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uzsUDHVhzyIpbMJIuCFdpBOYnrn1uiijtvF+nghmWiiUGFhydjgdxAkw2ocyvpnh0by3Jmv8POBMabATpOt73O/mXDaIQPBZYTJ1+4VWe/N7f0f2Ph2fEE1GQ9eQ0q2fwRR/qlwIVKX0dl2fc8giWmQpcC8QFKlpH9XOSg0Xmjg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XT+MySc7; arc=none smtp.client-ip=198.175.65.21
+	bh=SMQ9y/Ah5jn6S89OyyLNHHww/Di58CFAF1TDAO2VSoU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=oLVqtZNd6Da8YMRQS3jmGm9/KrkKDsSZZPfBxR9BtlzX2JZsYSPlFxuHk31bAr1FpEVvRLcMKPAeisOIGgb4IGrtmi21+XX+2nGyiVwMgoKYwto+stYdIANHCQp9Ne96Wma4IZaoqCYfk8TjPt1hxgx/m8nZSdpiibT37pbPnfM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U4QdY+bR; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XT+MySc7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U4QdY+bR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773079959; x=1804615959;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=oaES2sEc9N3xIIhZcMfmd7bFcesKKy2fZX/llHamKwc=;
-  b=XT+MySc7TGD/fQCIFKfA0wI6W6U/jp24Bu0/yRolYH/FQQjymZ8/0eXA
-   Ekmf6r1wWX/S5ruKtS3fY2yyfX44Wb5Lnku2eIZAOTMuIV49w5YR1/ZL9
-   YUcV12+9J52wbM1R2K2HtD8iPTkujPts4p2jrGg6tMLyA4EXUXly3X5s1
-   erHWUVsGCJFpKqm+J0DQUZG0Q8jGAoQAKP+lvovePwjqtA9ywJJbIZgn2
-   1AFLf3pSm+6rEibllB3luGHFmNQR0y+IgqXXo0p9EWpr3ljaZHQIEk1ag
-   oLc5SJArknpRDPhuieYvsuTuM//5gDNw51aSgGW4XNSdcaTSYXOzEnqft
-   g==;
-X-CSE-ConnectionGUID: n9O3FPPaTCypyaCj0cUzAQ==
-X-CSE-MsgGUID: g1lLZ5gHRd+p45xkXzlAgA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11724"; a="73992013"
+  t=1773079961; x=1804615961;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=SMQ9y/Ah5jn6S89OyyLNHHww/Di58CFAF1TDAO2VSoU=;
+  b=U4QdY+bRNTzuCNLm1bDAu3jWfB9+C72egnxiW3H8MIlvE6Nzg/Bd/1ML
+   yrUmg35QJu9vnjtPDGpmvnQNSlbAOeB+ZSbi5yP/wg8tUOc8UMwG2colD
+   wei7Qh2y2RPvvvCJilImlbFT25MvDQOJQ4njH91ApuooquAMYyOsdqVbE
+   /oQqYV+O3AsLD1pA7B+P3Ja2P4lpI4ifqz5kO5qa6WXRyy7No5F/8udt7
+   aw42uBgzpWZNN4aNKYfEdahmLJCU/DiSgvJL+QRI9HApaJXem6oMX173p
+   Qh4O4uzksYIm8nCQgadcgrH8+iA4NuIVXyChVIvEMjMigpqUJyaK6TfIB
+   Q==;
+X-CSE-ConnectionGUID: /jxiYesmSfieTDe7MGeZ1g==
+X-CSE-MsgGUID: PIrEJpONTW6LVhwlbuo0iQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11724"; a="73992027"
 X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
-   d="scan'208";a="73992013"
+   d="scan'208";a="73992027"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2026 11:12:37 -0700
-X-CSE-ConnectionGUID: VZa45FFDQnKViOT+7U8qIA==
-X-CSE-MsgGUID: ZyRW4zXQSLqt2TudOrdmaA==
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2026 11:12:39 -0700
+X-CSE-ConnectionGUID: NcA/pOJAR3SnisfrCv/qJQ==
+X-CSE-MsgGUID: ogReXCc9SECCh3N2YXWxgw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
-   d="scan'208";a="224774431"
+   d="scan'208";a="224774442"
 Received: from sohilmeh.sc.intel.com ([172.25.103.65])
-  by orviesa005.jf.intel.com with ESMTP; 09 Mar 2026 11:12:36 -0700
+  by orviesa005.jf.intel.com with ESMTP; 09 Mar 2026 11:12:38 -0700
 From: Sohil Mehta <sohil.mehta@intel.com>
 To: Dave Hansen <dave.hansen@linux.intel.com>,
 	x86@kernel.org,
@@ -66,10 +67,12 @@ Cc: Jonathan Corbet <corbet@lwn.net>,
 	Maciej Wieczor-Retman <m.wieczorretman@pm.me>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 0/5] x86: Enable LASS support with vsyscall=xonly mode
-Date: Mon,  9 Mar 2026 11:10:24 -0700
-Message-ID: <20260309181029.398498-1-sohil.mehta@intel.com>
+Subject: [PATCH v3 1/5] x86/vsyscall: Reorganize the page fault emulation code
+Date: Mon,  9 Mar 2026 11:10:25 -0700
+Message-ID: <20260309181029.398498-2-sohil.mehta@intel.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260309181029.398498-1-sohil.mehta@intel.com>
+References: <20260309181029.398498-1-sohil.mehta@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -78,83 +81,153 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Linear Address Space Separation (LASS) is currently disabled [1] when
-support for vsyscall emulation is configured. This series extends LASS
-support specifically to the default mode (vsyscall=xonly).
+With LASS, vsyscall page accesses will cause a #GP instead of a #PF.
+Separate out the core vsyscall emulation code from the #PF specific
+handling in preparation for the upcoming #GP emulation.
 
-Changes in v3
--------------
- - Pick up review tags from Peter Anvin.
- - Pick up tested-by tags from Maciej.
- - Minor change in patch 1 to make the reorganized code flow similar to
-   the original.
+No functional change intended.
 
-Note, Peter suggested a few more changes to tighten the #PF vsyscall
-emulation code. I'll post those separately as they are beyond the scope
-of this series.
+Signed-off-by: Sohil Mehta <sohil.mehta@intel.com>
+Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
+Reviewed-by: H. Peter Anvin (Intel) <hpa@zytor.com>
+Tested-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+---
+v3:
+ - Minor change to keep the data access return code flow the same as the
+   original.
+ - Pick up review and tested-by tags.
 
-v2: https://lore.kernel.org/lkml/20260305214026.3887452-1-sohil.mehta@intel.com/
+v2:
+ - No change
+---
+ arch/x86/entry/vsyscall/vsyscall_64.c | 66 ++++++++++++++-------------
+ arch/x86/include/asm/vsyscall.h       |  7 ++-
+ arch/x86/mm/fault.c                   |  2 +-
+ 3 files changed, 39 insertions(+), 36 deletions(-)
 
-Patches
--------
-These patches were originally part of the v10 LASS series [2] before
-being split out into a smaller series to make it easier to review and
-merge. The overall approach to enable vsyscall support was okayed by
-Andy Lutomirski [3].
-
-The patches are based on the tip x86/cpu branch which has the recently
-merged LASS-EFI series [4].
-
-Issue
------
-Userspace attempts to access any kernel address generate a #GP when LASS
-is enabled. Legacy vsyscall functions are located in the address range
-0xffffffffff600000 - 0xffffffffff601000. Prior to LASS, default access
-(XONLY) to the vsyscall page would generate a page fault and the access
-would be emulated in the kernel. Currently, as the #GP handler lacks any
-emulation support, LASS is disabled when config X86_VSYSCALL_EMULATION
-is set.
-
-Solution
---------
-These patches primarily update the #GP handler to reuse the existing
-vsyscall emulation code for #PF. In XONLY mode, the faulting RIP is
-readily available and can be used to determine if the #GP was triggered
-due to a vsyscall access.
-
-In contrast, the vsyscall EMULATE mode is deprecated and not expected to
-be used by anyone. Supporting EMULATE mode with LASS would require
-complex instruction decoding in the #GP fault handler, which is not
-worth the effort. So, LASS is disabled in the rare case when someone
-absolutely needs to enable vsyscall=emulate via the command line.
-
-Please find more details in the individual commit messages.
-
-Links
------
-[1]: https://lore.kernel.org/lkml/20251118182911.2983253-1-sohil.mehta@intel.com/
-[2]: https://lore.kernel.org/lkml/20251007065119.148605-1-sohil.mehta@intel.com/
-[3]: https://lore.kernel.org/lkml/f4ae0030-9bc2-4675-ae43-e477cd894750@app.fastmail.com/
-[4]: https://lore.kernel.org/lkml/20260120234730.2215498-1-sohil.mehta@intel.com/
-
-Sohil Mehta (5):
-  x86/vsyscall: Reorganize the page fault emulation code
-  x86/traps: Consolidate user fixups in the #GP handler
-  x86/vsyscall: Restore vsyscall=xonly mode under LASS
-  x86/vsyscall: Disable LASS if vsyscall mode is set to EMULATE
-  x86/cpu: Remove LASS restriction on vsyscall emulation
-
- .../admin-guide/kernel-parameters.txt         |  4 +-
- arch/x86/entry/vsyscall/vsyscall_64.c         | 91 ++++++++++++-------
- arch/x86/include/asm/vsyscall.h               | 13 ++-
- arch/x86/kernel/cpu/common.c                  | 15 ---
- arch/x86/kernel/traps.c                       | 12 ++-
- arch/x86/kernel/umip.c                        |  3 +
- arch/x86/mm/fault.c                           |  2 +-
- 7 files changed, 79 insertions(+), 61 deletions(-)
-
-
-base-commit: 68400c1aaf02636a97c45ba198110b66feb270a9
+diff --git a/arch/x86/entry/vsyscall/vsyscall_64.c b/arch/x86/entry/vsyscall/vsyscall_64.c
+index 4bd1e271bb22..398b1ed16f1e 100644
+--- a/arch/x86/entry/vsyscall/vsyscall_64.c
++++ b/arch/x86/entry/vsyscall/vsyscall_64.c
+@@ -111,43 +111,13 @@ static bool write_ok_or_segv(unsigned long ptr, size_t size)
+ 	}
+ }
+ 
+-bool emulate_vsyscall(unsigned long error_code,
+-		      struct pt_regs *regs, unsigned long address)
++static bool __emulate_vsyscall(struct pt_regs *regs, unsigned long address)
+ {
+ 	unsigned long caller;
+ 	int vsyscall_nr, syscall_nr, tmp;
+ 	long ret;
+ 	unsigned long orig_dx;
+ 
+-	/* Write faults or kernel-privilege faults never get fixed up. */
+-	if ((error_code & (X86_PF_WRITE | X86_PF_USER)) != X86_PF_USER)
+-		return false;
+-
+-	/*
+-	 * Assume that faults at regs->ip are because of an
+-	 * instruction fetch. Return early and avoid
+-	 * emulation for faults during data accesses:
+-	 */
+-	if (address != regs->ip) {
+-		/* Failed vsyscall read */
+-		if (vsyscall_mode == EMULATE)
+-			return false;
+-
+-		/*
+-		 * User code tried and failed to read the vsyscall page.
+-		 */
+-		warn_bad_vsyscall(KERN_INFO, regs, "vsyscall read attempt denied -- look up the vsyscall kernel parameter if you need a workaround");
+-		return false;
+-	}
+-
+-	/*
+-	 * X86_PF_INSTR is only set when NX is supported.  When
+-	 * available, use it to double-check that the emulation code
+-	 * is only being used for instruction fetches:
+-	 */
+-	if (cpu_feature_enabled(X86_FEATURE_NX))
+-		WARN_ON_ONCE(!(error_code & X86_PF_INSTR));
+-
+ 	/*
+ 	 * No point in checking CS -- the only way to get here is a user mode
+ 	 * trap to a high address, which means that we're in 64-bit user code.
+@@ -280,6 +250,40 @@ bool emulate_vsyscall(unsigned long error_code,
+ 	return true;
+ }
+ 
++bool emulate_vsyscall_pf(unsigned long error_code, struct pt_regs *regs,
++			 unsigned long address)
++{
++	/* Write faults or kernel-privilege faults never get fixed up. */
++	if ((error_code & (X86_PF_WRITE | X86_PF_USER)) != X86_PF_USER)
++		return false;
++
++	/*
++	 * Assume that faults at regs->ip are because of an instruction
++	 * fetch. Return early and avoid emulation for faults during
++	 * data accesses:
++	 */
++	if (address != regs->ip) {
++		/* Failed vsyscall read */
++		if (vsyscall_mode == EMULATE)
++			return false;
++
++		/* User code tried and failed to read the vsyscall page. */
++		warn_bad_vsyscall(KERN_INFO, regs,
++				  "vsyscall read attempt denied -- look up the vsyscall kernel parameter if you need a workaround");
++		return false;
++	}
++
++	/*
++	 * X86_PF_INSTR is only set when NX is supported.  When
++	 * available, use it to double-check that the emulation code
++	 * is only being used for instruction fetches:
++	 */
++	if (cpu_feature_enabled(X86_FEATURE_NX))
++		WARN_ON_ONCE(!(error_code & X86_PF_INSTR));
++
++	return __emulate_vsyscall(regs, address);
++}
++
+ /*
+  * A pseudo VMA to allow ptrace access for the vsyscall page.  This only
+  * covers the 64bit vsyscall page now. 32bit has a real VMA now and does
+diff --git a/arch/x86/include/asm/vsyscall.h b/arch/x86/include/asm/vsyscall.h
+index 472f0263dbc6..f34902364972 100644
+--- a/arch/x86/include/asm/vsyscall.h
++++ b/arch/x86/include/asm/vsyscall.h
+@@ -14,12 +14,11 @@ extern void set_vsyscall_pgtable_user_bits(pgd_t *root);
+  * Called on instruction fetch fault in vsyscall page.
+  * Returns true if handled.
+  */
+-extern bool emulate_vsyscall(unsigned long error_code,
+-			     struct pt_regs *regs, unsigned long address);
++bool emulate_vsyscall_pf(unsigned long error_code, struct pt_regs *regs, unsigned long address);
+ #else
+ static inline void map_vsyscall(void) {}
+-static inline bool emulate_vsyscall(unsigned long error_code,
+-				    struct pt_regs *regs, unsigned long address)
++static inline bool emulate_vsyscall_pf(unsigned long error_code,
++				       struct pt_regs *regs, unsigned long address)
+ {
+ 	return false;
+ }
+diff --git a/arch/x86/mm/fault.c b/arch/x86/mm/fault.c
+index b83a06739b51..f0e77e084482 100644
+--- a/arch/x86/mm/fault.c
++++ b/arch/x86/mm/fault.c
+@@ -1314,7 +1314,7 @@ void do_user_addr_fault(struct pt_regs *regs,
+ 	 * to consider the PF_PK bit.
+ 	 */
+ 	if (is_vsyscall_vaddr(address)) {
+-		if (emulate_vsyscall(error_code, regs, address))
++		if (emulate_vsyscall_pf(error_code, regs, address))
+ 			return;
+ 	}
+ #endif
 -- 
 2.43.0
 
