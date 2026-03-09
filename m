@@ -1,197 +1,160 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A1CE376BE4
-	for <linux-doc@vger.kernel.org>; Mon,  9 Mar 2026 09:58:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65491364056;
+	Mon,  9 Mar 2026 10:59:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773050320; cv=none; b=hKXvPLjue5o+qEzyXyFEii2xf3CtMWJC+WiLI342IR3Qk1JxOPmTvDQs4HtfYC+lQLb+LeVIF13TTg4acBddGOqPpSiby0YkCSVHedM8x5kJeLiOAZdt4uSx3Jk7TZsywLCYcXb4SXp5ZJ1E2yYUx/SfGUBvlgjNsrzR0Jgx0MU=
+	t=1773053989; cv=none; b=rFFGz/KpnsviMWY7nTqGosATO5/uxZMil4vYdei5fAVr507Hk7x2g+oYeoJvsKE+isQYr09tQ21xuWcoBzplNbMJWS8g2G1LGd4erIB9VOEpISDHHhf3pnksud4YVJRYrIQ8eEix2/1M2mJRlaFBaX5B4FX3YNbDqObWMzGcGcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773050320; c=relaxed/simple;
-	bh=HFUCoglJbXbiR8kUrCXuOUU8Xmz7mxY7BJqznpbLkm0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KM5Xq6+i8BgVzMDvd7mX9EzDQBM9osPuLCAT5wIUFrONiAJz9kf6SlyOm5xdMqO4KSirH0nH684yLA6nGafztMVbH0LuitSXtu2o1ppMQLe7r2RoVDSN5ktiUOzCMEbrr7ZUqyyxeFclTmt5rx/OTy8fAk36kqa3kStKqO3jOOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EOPQDGZ+; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EOPQDGZ+"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2ae43042ea7so91249355ad.0
-        for <linux-doc@vger.kernel.org>; Mon, 09 Mar 2026 02:58:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773050319; x=1773655119; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=8Yvkz94goFK1X6HfxlloW5SpPhXOJ/hm+dKJ/2I7lmU=;
-        b=EOPQDGZ+XBZOawrpIts+mBeBTf12QehaJYAy4j+89Th+rfFKzemhpSpeqyGnDzmfNB
-         h0BrNTP3Z96yBXLiWI4Pf1RjOtrYTzJaqo1jJJP/0Z9XMQoQeC/CGCw88ofJxtqPK2iI
-         NMophoBE8DPXxac4wC5Z7m1QeIiNoe528rRpETojyh2KT5H9amklzANgPdV8Y7qL63nU
-         UoSOzctQDkyLXxnQEdjaZJITUvhihbfIBexWquQ5nYjLmf8GvJdDpghOyAZ7rvXPurUD
-         KFUxsYsjt7xD4MMqzP+QvgaWLZGHNOGe8Fmpf9nu/hWavqfXBjkguXRLpjFELoKaWUgs
-         y+kQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773050319; x=1773655119;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8Yvkz94goFK1X6HfxlloW5SpPhXOJ/hm+dKJ/2I7lmU=;
-        b=IVGaDfPCyAO8Q32LjGY4Ee2V/RgVN4yShqd/QiypGzo8BT6TKRMwxyWaZqBxnl/DBu
-         zqhbTHW0xLZYelpNyAMdmeijBX5HFdXi9Qwz30aBTkIveJRMmBHP8NiNc+UmePncek9E
-         koEbPA0FcjTkibpV4ma4da6l6zZXJJEOmAz5zfMbhJGemuPzgKQkoqo01XbFO4tRZfa0
-         Q4ENL1L3qptoI+hkq4RYATHawdqn5ommZOmhfMsxvin+bBAKy5FqFUhk0vC+K9nzOGTY
-         OkqxOLIyxmD9L83CqqwuDiKU5QVDDxX77DrbfPiHHJvptxpMbIrdKnRO1Jtp4j7eZTAF
-         RvVg==
-X-Forwarded-Encrypted: i=1; AJvYcCUmkVkQ5VQqFjuH0/Y3utmfR2zoOXzs4kOLdrp/rKX/8wphRqH6FP43ZppRwEag2NwCQ4dFau90VJ0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzruqTWCaQcJ5d1dOfksnGjlEgx52q9JeDhQ18w/kpD2YBpRjOQ
-	ZLeFTyQoOO7ODXJx7gycMyAhX/I7uid1Zqd5c9wvLZsqorSMkeEHMkPN
-X-Gm-Gg: ATEYQzzW2AuVUC40pYVX3CqYAuH9cY9CVEpRGQDGCksrUMzc6NguqwIgeP1mf/bAZew
-	filNge+ocutTySZsEcWswi2l2PTYFHv51o0nbwSe6k9Hi479LW+4vEnrvzwjEoHJE4iHzLyacWV
-	FTSsAuef5yMd+JF6Cthid1sLEsxvNSo6f8lfhghOFlSVpOjgvorYovc8ACobvs51LKyhZupksTV
-	1S+I3Qs8cp4h1cOZl+i77DoS1ayucTZEA72AlB4WFtN69sgTH4O9gJB3yuCq8NhBqjTj6kVjc6W
-	kXwEerwz6lZn6tEzmgzqjmaTyEldBkfgK018LtXbIOxj4lT86LEVhRoWLPN+dFZ8Ta8aM9F96/w
-	EhQTjx5X4SrDKaiNY/Fnn7F8VSLCkc0B40Uq2q0v+VTvq9Poij2NYUMJt2YAPeA9hrdPuLy2fQ9
-	Er0Ff6WhtuW4IAWm197loI8YbXT3zVUEIsh9bdhHGIZcSLROAmHgCm9EmPTB2EKM3SG0i0BUyvV
-	MrEXTAvhWbItgme9A==
-X-Received: by 2002:a17:903:b4e:b0:2a9:622e:fd46 with SMTP id d9443c01a7336-2ae82265ddemr106533375ad.0.1773050318715;
-        Mon, 09 Mar 2026 02:58:38 -0700 (PDT)
-Received: from russ.ust.hk (ec2-54-255-20-216.ap-southeast-1.compute.amazonaws.com. [54.255.20.216])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ae83e77197sm109972725ad.20.2026.03.09.02.58.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Mar 2026 02:58:38 -0700 (PDT)
-From: Haoyang LIU <tttturtleruss@gmail.com>
-To: Dongliang Mu <dzm91@hust.edu.cn>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	Alex Shi <alexs@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: Haoyang LIU <tttturtleruss@gmail.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] tools/docs/checktransupdate.py: use metadata to lookup origin path
-Date: Mon,  9 Mar 2026 17:58:31 +0800
-Message-ID: <20260309095832.41209-1-tttturtleruss@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	s=arc-20240116; t=1773053989; c=relaxed/simple;
+	bh=mU3WuS90d/NXHU6qT4OYOGJxAioyi0NsU/d4pUdpfrI=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WCjIhrqVaZ6Bwmn5BvArIlycy7INy85x+Eqb5DLlaHIJ14MWpBfJFqlEArbvXJKIQXFx0SLf/OZnuzpRoi7jTh++71bSHRV/zDH+LCceMvjOLUm4WmcqWNDUFx1LNw9TToxEdyhmQF7JUFwgsAjyV4iEBsor28fNEt0sD26tpfs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.83])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fTvC75nN2zJ46p5;
+	Mon,  9 Mar 2026 18:58:59 +0800 (CST)
+Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
+	by mail.maildlp.com (Postfix) with ESMTPS id 97A1940086;
+	Mon,  9 Mar 2026 18:59:42 +0800 (CST)
+Received: from localhost (10.203.177.15) by dubpeml500005.china.huawei.com
+ (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 9 Mar
+ 2026 10:59:41 +0000
+Date: Mon, 9 Mar 2026 10:59:39 +0000
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
+To: Chengwen Feng <fengchengwen@huawei.com>
+CC: <linux-pci@vger.kernel.org>, <bhelgaas@google.com>, Jonathan Corbet
+	<corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner
+	<tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
+	<bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, <x86@kernel.org>,
+	"H. Peter Anvin" <hpa@zytor.com>, Andy Gospodarek
+	<andrew.gospodarek@broadcom.com>, Somnath Kotur <somnath.kotur@broadcom.com>,
+	Wei Huang <wei.huang2@amd.com>, "Eric Van Tassell" <Eric.VanTassell@amd.com>,
+	<linux-acpi@vger.kernel.org>, <rafael@kernel.org>, <lenb@kernel.org>,
+	<wangzhou1@hisilicon.com>, <wanghuiqiang@huawei.com>,
+	<liuyonglong@huawei.com>, <stable@vger.kernel.org>, <jeremy.linton@arm.com>,
+	<sunilvl@ventanamicro.com>, <sunilvl@oss.qualcomm.com>,
+	<chenhuacai@loongson.cn>, <wangliupu@loongson.cn>, Ajit Khaparde
+	<ajit.khaparde@broadcom.com>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v4 2/2] PCI/TPH: Fix get cpu steer-tag fail on ARM64
+ platform
+Message-ID: <20260309105939.0000142b@huawei.com>
+In-Reply-To: <20260309041659.18815-3-fengchengwen@huawei.com>
+References: <20260303003625.39035-1-fengchengwen@huawei.com>
+	<20260309041659.18815-1-fengchengwen@huawei.com>
+	<20260309041659.18815-3-fengchengwen@huawei.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100010.china.huawei.com (7.191.174.197) To
+ dubpeml500005.china.huawei.com (7.214.145.207)
 
-The get_origin_path() function assumes that translation files have the
-same relative path as their origin files, just with "translations/{locale}"
-inserted after "Documentation/". However, this assumption is incorrect
-for several translation files where the origin path differs. For example:
-translations/zh_CN/dev-tools/gdb-kernel-debugging.rst
--> process/debugging/gdb-kernel-debugging.rst
+On Mon, 9 Mar 2026 12:16:58 +0800
+Chengwen Feng <fengchengwen@huawei.com> wrote:
+
+> Currently the pcie_tph_get_cpu_st() has an issue on ARM64 platform:
+> 1. The pcie_tph_get_cpu_st() function directly uses cpu_uid as the input
+>    parameter to call the PCI ACPI DSM method. According to the DSM
+>    definition, the input value should be the ACPI Processor UID (see [1]
+>    for details).
+> 2. In the Broadcom driver implementation [2] (which invokes
+>    pcie_tph_get_cpu_st()), cpu_uid is obtained via
+>    cpumask_first(irq->cpu_mask) - this is the logical CPU ID of a CPU
+>    core, generated and managed by kernel (e.g., [0,255] for a system
+>    with 256 logical CPU cores).
+> 3. On ARM64 platforms, ACPI assigns Processor UID to cores listed in the
+>    MADT table, and this UID may not match the kernel's logical CPU ID.
+>    As a result, the current implementation fails to retrieve the correct
+>    CPU steer-tag in such cases.
+> 4. The function works on AMD x86 platforms only because the logical CPU
+>    ID is identical to the ACPI Processor UID on those systems.
+> 
+> This commit fixes it by:
+> 1. Add new acpi_get_cpu_acpi_id() implementation on x86 that wraps
+>    cpu_acpi_id(), completing the unified ACPI CPU ID retrieval interface
+>    across ACPI-enabled platforms.
+> 2. Update pcie_tph_get_cpu_st() to use acpi_get_cpu_acpi_id(cpu) to get
+>    valid ACPI Processor UID for DSM calls.
+> 3. Renaming pcie_tph_get_cpu_st()'s input parameter cpu_uid to cpu for
+>    clarity, as the parameter now represents a logical CPU ID (not a
+>    UID).
+> 
+> [1] According to ECN_TPH-ST_Revision_20200924
+>     (https://members.pcisig.com/wg/PCI-SIG/document/15470), the input
+>     is defined as: "If the target is a processor, then this field
+>     represents the ACPI Processor UID of the processor as specified in
+>     the MADT. If the target is a processor container, then this field
+>     represents the ACPI Processor UID of the processor container as
+>     specified in the PPTT."
+> [2] commit c214410c47d6e ("bnxt_en: Add TPH support in BNXT driver")
+> 
+> Fixes: d2e8a34876ce ("PCI/TPH: Add Steering Tag support")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Chengwen Feng <fengchengwen@huawei.com>
+Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+
+If you do respin, might be worth some minor edits to the patch description
+just to make it more concise.  If not, I'm fine with current text, just takes
+a bit more reading than strictly necessary :)
+
+"
+pcie_tph_get_cpu_st() is broken on ARM64:
+1. pcie_tph_get_cpu_st() passes cpu_uid to the PCI ACPI DSM method.
+   cpu_uid should be the ACPI Processor UID [1].
+2. In BNXT, pcie_tph_get_cpu_st() is passed a cpu_uid obtained via
+   cpumask_first(irq->cpu_mask) - the logical CPU ID of a CPU core,
+   generated and managed by kernel (e.g., [0,255] for a system  with 256
+   logical CPU cores).
+3. On ARM64 platforms, ACPI assigns Processor UID to cores listed in the
+   MADT table, and this UID may not match the kernel's logical CPU ID.
+   When this occurs, the mismatch results in the wrong CPU steer-tag.
+4. On AMD x86 the logical CPU ID is identical to the ACPI Processor UID
+   so the mismatch is not seen.
+
+Resolution:
+1. Implement acpi_get_cpu_acpi_id() for x86, wrapping cpu_acpi_id().
+   All ACPI platforms now have an implementation.
+2. Use acpi_get_cpu_acpi_id() in pcie_tph_get_cpu_st() to translate from
+   logical CPU ID to ACPI Processor UID needed for the DSM call.
+3. Rename pcie_tpu_get_cpu_st() parameter from cpu_uid to cpu to
+   reflect that it is a logical CPU_ID.
+"
 
 
-The correct origin path is specified in each translation file's
-:Original: metadata field, which can appear in several formats:
-1. Plain path: :Original: Documentation/path/to/file.rst
-2. With :ref: :Original: :ref:`Documentation/path/to/file.rst <label>`
-3. With :doc: :Original: :doc:`../../../path/to/file`
+The references are fine as is.
+
+Thanks,
+
+Jonathan
 
 
-Add get_origin_path_from_metadata() to parse the :Original: metadata
-from translation files and extract the actual origin path. Update
-check_per_file() to use metadata-based lookup first, falling back to
-the path manipulation heuristic only when no metadata is found.
-
-Signed-off-by: Haoyang LIU <tttturtleruss@gmail.com>
----
- tools/docs/checktransupdate.py | 63 ++++++++++++++++++++++++++++++++--
- 1 file changed, 61 insertions(+), 2 deletions(-)
-
-diff --git a/tools/docs/checktransupdate.py b/tools/docs/checktransupdate.py
-index cc07cda667fc..b3c695fa0f7a 100755
---- a/tools/docs/checktransupdate.py
-+++ b/tools/docs/checktransupdate.py
-@@ -32,7 +32,7 @@ from datetime import datetime
- 
- 
- def get_origin_path(file_path):
--    """Get the origin path from the translation path"""
-+    """Get the origin path from the translation path by path manipulation (fallback)"""
-     paths = file_path.split("/")
-     tidx = paths.index("translations")
-     opaths = paths[:tidx]
-@@ -40,6 +40,62 @@ def get_origin_path(file_path):
-     return "/".join(opaths)
- 
- 
-+def get_origin_path_from_metadata(file_path):
-+    """Get the origin path from the :Original: metadata in the translation file.
-+
-+    The :Original: metadata can have several formats:
-+    1. Plain path: :Original: Documentation/path/to/file.rst
-+    2. With :ref: directive: :Original: :ref:`Documentation/path/to/file.rst <label>`
-+    3. With :doc: directive: :Original: :doc:`../../../path/to/file`
-+
-+    Returns the origin path if found, None otherwise.
-+    """
-+    # Pattern to match :Original: line
-+    original_re = re.compile(r'^:Original:\s*(.+?)\s*$', re.IGNORECASE)
-+    # Pattern to extract path from :ref:`path <label>` or :ref:`path`
-+    ref_re = re.compile(r':ref:`([^`<]+?)(?:\s*<[^>]+>)?`')
-+    # Pattern to extract path from :doc:`path`
-+    doc_re = re.compile(r':doc:`([^`]+)`')
-+
-+    try:
-+        with open(file_path, 'r', encoding='utf-8') as f:
-+            # Only check the first 20 lines for metadata
-+            for _ in range(20):
-+                line = f.readline()
-+                if not line:
-+                    break
-+                match = original_re.match(line.strip())
-+                if match:
-+                    original_value = match.group(1).strip()
-+
-+                    # Try to extract from :ref:`...`
-+                    ref_match = ref_re.search(original_value)
-+                    if ref_match:
-+                        return ref_match.group(1).strip()
-+
-+                    # Try to extract from :doc:`...`
-+                    doc_match = doc_re.search(original_value)
-+                    if doc_match:
-+                        doc_path = doc_match.group(1).strip()
-+                        # Handle relative paths - resolve relative to translation file
-+                        if doc_path.startswith('../'):
-+                            trans_dir = os.path.dirname(file_path)
-+                            resolved = os.path.normpath(os.path.join(trans_dir, doc_path))
-+                            # Add .rst extension if not present
-+                            if not resolved.endswith('.rst'):
-+                                resolved += '.rst'
-+                            return resolved
-+
-+                    # Plain path (no directive wrapper)
-+                    if original_value.startswith('Documentation/'):
-+                        return original_value
-+
-+    except (IOError, OSError) as e:
-+        logging.debug("Could not read file %s: %s", file_path, e)
-+
-+    return None
-+
-+
- def get_latest_commit_from(file_path, commit):
-     """Get the latest commit from the specified commit for the specified file"""
-     command = f"git log --pretty=format:%H%n%aD%n%cD%n%n%B {commit} -1 -- {file_path}"
-@@ -128,7 +184,10 @@ def valid_commit(commit):
- 
- def check_per_file(file_path):
-     """Check the translation status for the specified file"""
--    opath = get_origin_path(file_path)
-+    opath = get_origin_path_from_metadata(file_path)
-+    if opath is None:
-+        opath = get_origin_path(file_path)
-+        logging.debug("No :Original: metadata found, using path-based fallback for %s", file_path)
- 
-     if not os.path.isfile(opath):
-         logging.error("Cannot find the origin path for %s", file_path)
--- 
-2.53.0
+> This commit fixes it by:
+> 1. Add new acpi_get_cpu_acpi_id() implementation on x86 that wraps
+>    cpu_acpi_id(), completing the unified ACPI CPU ID retrieval interface
+>    across ACPI-enabled platforms.
+> 2. Update pcie_tph_get_cpu_st() to use acpi_get_cpu_acpi_id(cpu) to get
+>    valid ACPI Processor UID for DSM calls.
+> 3. Renaming pcie_tph_get_cpu_st()'s input parameter cpu_uid to cpu for
+>    clarity, as the parameter now represents a logical CPU ID (not a
+>    UID).
+> 
+> [1] According to ECN_TPH-ST_Revision_20200924
+>     (https://members.pcisig.com/wg/PCI-SIG/document/15470), the input
+>     is defined as: "If the target is a processor, then this field
+>     represents the ACPI Processor UID of the processor as specified in
+>     the MADT. If the target is a processor container, then this field
+>     represents the ACPI Processor UID of the processor container as
+>     specified in the PPTT."
+> [2] commit c214410c47d6e ("bnxt_en: Add TPH support in BNXT driver")
 
