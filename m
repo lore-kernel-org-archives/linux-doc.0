@@ -1,123 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D33153BD647;
-	Mon,  9 Mar 2026 12:54:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 804A53BD65B
+	for <linux-doc@vger.kernel.org>; Mon,  9 Mar 2026 13:20:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773060873; cv=none; b=GUcCjxtZ4uB2GIYE8sZYj/h2/Jd+mF7poXi51WH9PlkR3XTbhCCFjuCRV5GQsnSJ91ZK1qZjQ9nXJvlkRHxgwXQzEDcVM5IYUlX5pL6FPTvWrkLk5+Sr0v0vjrL0+vlHprufSrTztiy5GxXqiYWR1cVKf4hCOKC5aJEP3O53odE=
+	t=1773062441; cv=none; b=fZ4kFNL5UWRx90xlLm2YJ0DjG0e9bhDeuUJKG7xC4CIEMGfy+R1TKwBw+dWw/qUoBeVAk8kEZ/jXjDfCyEYeRHyJN3wb/UPHaHT0IbGH6XH5PIFrwn+JVLpepVsvQQbK26fcqLnrHdR/MVKotp+j+CJHgepKPJ7ZBu0P6ZXPwiE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773060873; c=relaxed/simple;
-	bh=bmv2yxNC4kv3255SjuxNbeF6y4xHz5zJ8lAJJi0EVuQ=;
-	h=Content-Type:MIME-Version:Message-Id:In-Reply-To:References:
-	 Subject:From:To:Cc:Date; b=VnUiRSaRj5DaijlE5l+9Ip45hCA3tt7I4LX6H0nl6gStg/rVKw45HlbLk9TXgxTlygzLDGLtupnxUMDCE/b43NyUgOJWPkJKAYokPoxX2hxnh+9Xth/1Nzodx9p3gSuXXq3dP/Q6QYPf/J8cAqG5dln0h3Iczhj6XeqhjfJceHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jq8tAq0i; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773062441; c=relaxed/simple;
+	bh=j2vrFZdiKMAYuLt1g2IsWM44uA/l0EgALyShPIZleAs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GMXjdIIlBTuBm2CDGDYEc+9gvYleKLGjvg5T8k+oXQAE/+YSn9JNH3R7EuKnwQjGS4uwefuV82oJJy6hmHQPgpqB6UqCgOT6TcXDsUh9xsumc7UruCtZ8wctqIufMjvHYAPDTavUVwtSJPIJsELiEjGrYABGo2enIq4LSJnrvAI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=CN9uuD88; arc=none smtp.client-ip=209.85.219.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jq8tAq0i"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31BF3C4CEF7;
-	Mon,  9 Mar 2026 12:54:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773060873;
-	bh=bmv2yxNC4kv3255SjuxNbeF6y4xHz5zJ8lAJJi0EVuQ=;
-	h=In-Reply-To:References:Subject:From:To:Cc:Date:From;
-	b=Jq8tAq0inoxR9GqEaSUKLy5RuK7UAFy7A3TVS2uXXnfemQE2NYukZRMJgYV+XT+0U
-	 sW/M331Vcx7NsT5f3zMWNM4H7QVr6Hna+IXBvK/DjU7anYSsHiDDQ4dmySTOyOcexh
-	 Thbu4iF3tQdlyekMdtp/KN1GC9m2CtBcGWAkxYtQz/DqKHQSwwyLcw8IqNgcISM3DQ
-	 GEAoSHNrT5cnYVZHBDs6jgwCJHt6erpABT1//qQ4jEyRhYmlnzDqzSJnkLRBCemvab
-	 J5cCuFmQt7N821O89dQeKDBthYJNGD05TGPheHxch+p2ka7dxmchxhhWio4Mdx+ucI
-	 d6npd1rPok7Vg==
-Content-Type: multipart/mixed; boundary="===============0450728247394666353=="
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="CN9uuD88"
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-89a0d53f3d1so71553346d6.3
+        for <linux-doc@vger.kernel.org>; Mon, 09 Mar 2026 06:20:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1773062439; x=1773667239; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=yNhIcDXSP15bQbG0gfsf887zPsyic2zzORmBXzBTWec=;
+        b=CN9uuD88F9vzYXsS8YRsdthDpxhCmm8pt01yMkmT7p4xLFpxceiHKIFtPZ4QGlRhs9
+         jQSYQo7GVpZu1sYH68J2aBQBoAuz2ouHVjKzFU70cMFyPFdxL9l1OJGm68+SiFgsw1MP
+         EtuThe0SAIu0IAOvpi7DEe96q9kLUytvrnXv5Q9zKLtX12GylYbQ2NT9JVfLGJ99I0q0
+         U0sNAsqfVOT7lgxGq5DeddaVzWO2s2uFvtBXSL73WXYg4pHJCiwbay5Dvu86Z30irVjO
+         w2Ji+IeYley+jt5A0tx4V8orkd84yiaMoBzcmB0psmQUdSkZe99POfLBisbOzr5U4mrV
+         i4uA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773062439; x=1773667239;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yNhIcDXSP15bQbG0gfsf887zPsyic2zzORmBXzBTWec=;
+        b=FqQTVb2tzAVShJ1GhpfRlVh2uDY2VrSpdlqkX+DYTrjCGo8daPzXA5NvrX+T45VrJ2
+         ulex4upJ+jPaV+cU/4HDzx1dXdvhD1thgV8l7fPU0/6yEQjj9PWkenMXVfAwNzuKeDsZ
+         chQP3/5A//q8JX0vIOfk733nrrauN0C4PpFw2PFhIrkWJD5aFZsNdIsDzkVDuZQoV1T6
+         1geXnUdYtCeUdOknYK1dSs5UuWZAjowoupOxu7ANsfbZUwInDvDl+ZewC73B844FPFTK
+         DQAdsso1eNIAMvcQqCaZshRACPFqLal9q6t1Z9vFjAwrRxFuSx9Twvm/u3Txtk8+KYZf
+         fAmw==
+X-Forwarded-Encrypted: i=1; AJvYcCWCsLGp5xbD7bxDfkXYPzJg1Gkc4Q61y3zcz+VQz4jQVjOCoZkj8tiB7qtYqppIfxGH+g883g2cJ/E=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz8s3EfeiP6KPMLEK/nAkNp9lIOdVryApG2mBTXD/M3YXoUFk8d
+	xQDyyc/sEa3eyYp2+nU6P2ZEEfCYSg2LbW52ZrqadSvroG0ARtnRjVV3daQvtI9sXyo=
+X-Gm-Gg: ATEYQzw7+WssVSa9aBuyJ3lA6cefIVSs4yMca923p/vWOFaku5lu3u5su9oxrJzhLjU
+	aV37u6HZ3MSS7l2sUYwNPNr1F7kTJ9UgkWj35lvNnNgDjUccs6iVE/lRrUTfW/ZGZpCE1Alb4tO
+	vTlAsE7KXHTXC9X1GU3v9exOSHA52cas8s7WcMDDlvxoUIbWPC+d4xx8MtaZOdH+9utrbm+ftjK
+	aHB1b4gj8PCaLTWvMBuWfj3l6InF9jbhu2T0iIYEn/iRPz/se5wU6cTvw7aUUpkT51CbUmn5qNZ
+	xA0oRBrminQalO5nwvbfYYJZmbLbodMkBqBImrabNa2aG92a/8zGwM1RlHxDzLxuPZnoDU/50UC
+	tK9IrR0GTgLG3H3fLqOgdXQGO6NbfUGmXhidwhN18KXq55lquhzwyRt+DFFInUtNH6a6h1rZcwP
+	gx0Wp7KJVAIesNyu9zqaJTJPg1tZ73gmqfu2+fDjqOo/XIclYUck80HeY/2RyxAXkDSqtkboCwn
+	64CGbaQ
+X-Received: by 2002:ad4:5f05:0:b0:89a:77:42d1 with SMTP id 6a1803df08f44-89a30c2c07dmr163990476d6.66.1773062439445;
+        Mon, 09 Mar 2026 06:20:39 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.112.119])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89a3140f7ebsm74752146d6.6.2026.03.09.06.20.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Mar 2026 06:20:38 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1vzaXG-0000000G7pH-11Zd;
+	Mon, 09 Mar 2026 10:20:38 -0300
+Date: Mon, 9 Mar 2026 10:20:38 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Leon Romanovsky <leon@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Petr Tesarik <ptesarik@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
+	iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, virtualization@lists.linux.dev,
+	linux-rdma@vger.kernel.org
+Subject: Re: [PATCH 2/3] dma-mapping: Clarify valid conditions for CPU cache
+ line overlap
+Message-ID: <20260309132038.GL1687929@ziepe.ca>
+References: <20260307-dma-debug-overlap-v1-0-c034c38872af@nvidia.com>
+ <20260307-dma-debug-overlap-v1-2-c034c38872af@nvidia.com>
+ <20260308181920.GH1687929@ziepe.ca>
+ <20260308184902.GR12611@unreal>
+ <20260308230916.GI1687929@ziepe.ca>
+ <CGME20260309090352eucas1p283a75c78cac495b5ad87df74c79aab07@eucas1p2.samsung.com>
+ <20260309090342.GS12611@unreal>
+ <c1d058f3-f864-4ed7-9f7a-683d6f4bf1ce@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <847cfc0fded072f6930f8ae9680f22f3d6b4191de77abeda97d430cf8a4f83d0@mail.kernel.org>
-In-Reply-To: <20260309121033.2594457-2-bqe@google.com>
-References: <20260309121033.2594457-2-bqe@google.com>
-Subject: Re: [RFC PATCH 1/1] bpf, docs: structured docs for the verifier
-From: bot+bpf-ci@kernel.org
-To: bqe@google.com,ast@kernel.org,daniel@iogearbox.net,andrii@kernel.org
-Cc: bqe@google.com,martin.lau@linux.dev,eddyz87@gmail.com,song@kernel.org,yonghong.song@linux.dev,john.fastabend@gmail.com,kpsingh@kernel.org,sdf@fomichev.me,haoluo@google.com,jolsa@kernel.org,corbet@lwn.net,bpf@vger.kernel.org,linux-doc@vger.kernel.org,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,clm@meta.com,ihor.solodrai@linux.dev
-Date: Mon,  9 Mar 2026 12:54:33 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c1d058f3-f864-4ed7-9f7a-683d6f4bf1ce@samsung.com>
 
---===============0450728247394666353==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+On Mon, Mar 09, 2026 at 01:30:24PM +0100, Marek Szyprowski wrote:
 
-> Multi-part docseries (verifier-formal-*.rst) for BPF verifier.
+> My question here is if RDMA works on any non-coherent DMA systems? 
 
-The files are named verifier-overview-*.rst, not
-verifier-formal-*.rst.
+The in kernel components do work, like storage, nvme over fabrics, netdev.
 
-> diff --git a/Documentation/bpf/verifier-overview-2-domain.rst b/Documentation/bpf/verifier-overview-2-domain.rst
-> new file mode 100644
-> index 000000000000..8a9d36818f24
-> --- /dev/null
-> +++ b/Documentation/bpf/verifier-overview-2-domain.rst
+The user API (uverbs) does not work at all, and has never worked.
 
-[ ... ]
+I think DRM has similar issues too where most of their DMA API usage
+is OK but some places where they interact win pin_user_pages() have
+the same issues as RDMA.
 
-> +* **Top ($\top$)**: The most general state. It represents *any* possible value. The verifier has zero knowledge. In the code, this is represented by the ``tnum_unknown`` bitmask and the widest possible numeric bounds (``umin_value = 0``, ``umax_value = U64_MAX``, ``smin_value = S64_MIN``, ``smax_value = S64_MAX``), applied via functions like ``__mark_reg_unknown()`` and ``__mark_reg_unbounded()``.
-> +* **Intermediate Values**: Partial knowledge (e.g., "the value is between 5 and 10," or "the lower 3 bits are 0").
-> +* **Bottom ($\bot$)**: The most specific state. It represents an impossible or contradictory state (e.g., a value that must be simultaneously > 10 and < 5). The verifier does not have an explicit ``struct`` for Bottom; instead, it manifests as contradictory bounds (e.g., ``umin_value > umax_value``). When the verifier encounters this, it identifies the execution path as dead code and stops exploring it.
+This is why I'd like a new attribute DMA_ATTR_REQUIRE_COHERENCE that
+these special cases can use to fail instead of data corrupt.
 
-The $\top$ and $\bot$ LaTeX notations will not render in Sphinx
-RST. The kernel documentation build uses Sphinx with mathjax as
-the math renderer, but dollar-sign delimiters are not enabled by
-default. These will appear literally as "$\top$" and "$\bot$" in
-the generated HTML.
-
-The standard RST inline math syntax would be :math:`\top` and
-:math:`\bot`. The same issue appears in a few other places across
-Parts 2, 3, and 4 (e.g. the $\top$ in the tnum_unknown example
-and in Part 3's overflow section and Part 4's subsumption
-examples).
-
-> diff --git a/Documentation/bpf/verifier-overview-4-pruning.rst b/Documentation/bpf/verifier-overview-4-pruning.rst
-> new file mode 100644
-> index 000000000000..f1515011d721
-> --- /dev/null
-> +++ b/Documentation/bpf/verifier-overview-4-pruning.rst
-
-[ ... ]
-
-> +The verifier tracks this using ``REG_LIVE_READ`` and ``REG_LIVE_WRITTEN`` flags. During the ``states_equal()`` check, if a register is marked as dead in the *existing state*, the verifier knows that this register will remain dead regardless of how the current path is explored. As a result, it completely ignores the value of that register in the *current state*.
-
-REG_LIVE_READ and REG_LIVE_WRITTEN do not exist anywhere in the
-current kernel tree. The actual liveness mechanism is implemented
-in compute_live_registers(), which uses bitmask-based
-insn_live_regs structs with in/out/use/def fields, and stores the
-results as insn_aux[i].live_regs_before.
-
-Could these references be updated to describe the actual
-implementation?
-
-> diff --git a/Documentation/bpf/verifier-overview-5-advanced.rst b/Documentation/bpf/verifier-overview-5-advanced.rst
-> new file mode 100644
-> index 000000000000..f18d13dd8cab
-> --- /dev/null
-> +++ b/Documentation/bpf/verifier-overview-5-advanced.rst
-
-[ ... ]
-
-> +The ``struct bpf_verifier_state`` includes fields like ``active_spin_lock`` and ``active_rcu_lock``.
-> +
-> +* **Spinlocks**: When a program calls the helper ``bpf_spin_lock(map_value)``, the verifier's transfer function asserts that no lock is currently held. It then updates ``active_spin_lock`` with the identity of the map value.
-
-The field active_spin_lock does not exist in struct
-bpf_verifier_state. The actual fields are active_locks (u32),
-active_lock_id (u32), and active_lock_ptr (void *).
-
-Similarly, active_rcu_lock should be active_rcu_locks (plural) to
-match the actual field name in the struct.
-
-
----
-AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
-See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
-
-CI run summary: https://github.com/kernel-patches/bpf/actions/runs/22853419607
---===============0450728247394666353==--
+Jason
