@@ -1,227 +1,118 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC61733C18B;
-	Mon,  9 Mar 2026 21:21:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 651B538E5D5
+	for <linux-doc@vger.kernel.org>; Mon,  9 Mar 2026 22:24:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773091289; cv=none; b=GFOp9KJCmQXXukNZek8ZNLOG5K0QvPjYbfzviJ99xcgCqKgEkWWZzrdJPkzWC3dvdi33SKtlnfS5ROoBIQCPG/LvInHiCR3Ph8r/Y/55kXPXIbLG6NubYWk9vaoNXPAKPG+IQtcIqA3Of9nMwuYR5YhtM/dL/D0lF50WfRNajaM=
+	t=1773095055; cv=none; b=hAeDCt9H1fde62WSUwEkud2A6twB+IRvAcmDg/ontQvHrp1sSm4PqkJWWk6kQuiPSzTXddWMy9QBAzhBYfChz3mDgLY88t8pG+32qfumTig24NiVq765iUI2n2TmL11jg00L6oXI9qklQ5cJ1HX6WODYjqHLg0fMfKN5h+IXWFU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773091289; c=relaxed/simple;
-	bh=ZjpQiHtNAaS5LFI62C8zACHMj2QEe04oG7hntNQrOgM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eIQ9Qya2Rn3ECqpaMXnHx4ovUyArzBleQzAqMPzFG9Dim8y5Xu6ZqbSdo0HZOV1mHlxZnY1Aod+uxAqOVA9cnZdSDPMjLlHKUpUHkddaYZ+Z7pZSetrKUm/2Eeex4rBySNipohpjQUiEtxshzA2vqZNW50d65DtkrEijkQbaYtY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=IK4ZNeQu; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1773095055; c=relaxed/simple;
+	bh=p74FA63573R7vSgP0Ymlo382GmnT2c2KE5hGfqtfC/4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qpDe5gnniDibj/QKZ3Wzeoy3j2Pw+/Mj8pm5Pg7M/rKwGYchmOlpfcN38rVkz7a0sJebdYY2396CklAiabw76xO7xrmcH/mW5HoyP8ZCzDvGX8b/ZMfMt4pJXNHUjm8r7gQBbjzdXUXHpgpngwkMsMvJU6ERpF2Ir5arNPId61c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=FWQ/dZZp; arc=none smtp.client-ip=209.85.210.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="IK4ZNeQu"
-Received: by linux.microsoft.com (Postfix, from userid 1006)
-	id BA01C20B710C; Mon,  9 Mar 2026 14:21:27 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com BA01C20B710C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1773091287;
-	bh=Fq7q9rl4Q/OOimOveUu4mF0Owb2cGJSM+ebh2G6WOis=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=IK4ZNeQuur+mx1d5C70OB8dXRB+hA4X/MeFh5vhA6o+yaBtcn1MeiYte5SKmcVNw4
-	 IbHefCecPV1ZL4KVQw+6mAXtfYbjl0BeUHvjmi+SPxHtCXOvlPdIErb1GWDXQ4EZB0
-	 L5eu3XhZ/H0XtxmGWd9ehRTJ95MaR9XWQzy+db+k=
-From: Haiyang Zhang <haiyangz@linux.microsoft.com>
-To: linux-hyperv@vger.kernel.org,
-	netdev@vger.kernel.org,
-	Andrew Lunn <andrew@lunn.ch>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	"Kory Maincent (Dent Project)" <kory.maincent@bootlin.com>,
-	Gal Pressman <gal@nvidia.com>,
-	Oleksij Rempel <o.rempel@pengutronix.de>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: haiyangz@microsoft.com,
-	paulros@microsoft.com
-Subject: [PATCH net-next,V4, 1/3] net: ethtool: add ethtool COALESCE_RX_CQE_FRAMES/NSECS
-Date: Mon,  9 Mar 2026 14:20:43 -0700
-Message-ID: <20260309212106.764156-2-haiyangz@linux.microsoft.com>
-X-Mailer: git-send-email 2.43.7
-In-Reply-To: <20260309212106.764156-1-haiyangz@linux.microsoft.com>
-References: <20260309212106.764156-1-haiyangz@linux.microsoft.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="FWQ/dZZp"
+Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-7d749f99691so829886a34.3
+        for <linux-doc@vger.kernel.org>; Mon, 09 Mar 2026 15:24:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1773095051; x=1773699851; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=SHnLn6sNqEV/ng1JAOx90FzzxM70L3M7Mka9F9TdMQ4=;
+        b=FWQ/dZZpZ8MAhDSERJVLDYZr9GXgNv9ZhTnkIjdqAo2D2KqEojLnCVyWLzJahB2YJ1
+         rOe6eckQkDVxozsaN3gSKctLYrFOiodHeblIKTTB8nGpEMWfXUmh4wIYtQGo38PulTIt
+         3nfWppAgg4UX5On29+w3COYySDlEdLfo2SbUQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773095051; x=1773699851;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SHnLn6sNqEV/ng1JAOx90FzzxM70L3M7Mka9F9TdMQ4=;
+        b=YWa5OVlaF1W+hMGJK1PL8lX+FIDtccFXnHx3/jM97sLIzhxA+nTOwW8ezWH199Q+hd
+         NidoixDAVqA6fUNVQIeTy/2i1C4iGeU0GYt+riYmSGe7NGcto0O9wTYB1gXYfopj8YUt
+         agWF+0pvOreo+3gOauhVuzLpLhyUpB8bQn9k/hmERf/0O5Sw2GkWYHP+IE3H8sb1w48K
+         YTxYB8H4+hroqhoSB1ufB//B+mk+Bp7F5lI2Vfl8Whpl9ssHCm8qWbTJA9SsVZTzsSgD
+         Y+VktJ77/EkhMEUxwJBy+nJtJit/rs56Bg9yBsqff3GqiAslqWhI9J1q3lC7lArmHP1c
+         D3Ww==
+X-Forwarded-Encrypted: i=1; AJvYcCVgtZ5Z3iDhZzQ0wZJaDYQob8GkL4epthsbYlNFPZWFhVw6RItb3B2jmq5BrotIIKJxhsfZxeS7OTA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwXuxhT6ebMHY2WT3ZjAxPA0DNeBZR8tN5dsK5nZoZShI4W5/Z3
+	NTsHfEB18selufpSRWZJ1eJufcAGT8cFoxMubDfsjFWUmI4CLlmt1/N0tAMKlmvGGws=
+X-Gm-Gg: ATEYQzw8HsiaKIb5Ba8uSKLl0ASDWsqZgm5R4mFj5HTLRD9d151/qj2c7ttN5QQ7b8U
+	bj7BRGmTauLyhqfsLnjQVwSjYjhXb+mDPKap6f6/G1QLlAGzhPodgAKTUbrlv/j2na9bW5QjUos
+	e8fE8W+Z4Q2dY8+rDUjHmhYXlJng33NFb0Su5EiQsNAmwjj6z2SRdez/3Kt7eULLY6bw4weMTvn
+	edDFTM/9yLn7nnqss+jtKGplfi3xoV/BwlEGe3ZVMBpBWhxXEuXXhQi5L+LgwZVQlaMzJtxEbIr
+	3r+iNCX7pFrTDcsFKuMVRRXIehskOEG+MVvZqCvO5tJ8vIHQmQeYJAImfzhUvJj8kgQBfQ4BQjK
+	Vf65NdTDmIj9YhEXQwnK5XvbsSIR58yQWAtdz96UljA1py1v9k/YE8mf+cOXebjW3ODYPCZ1RKp
+	t4kJbUPMBdI/1RK27HeIt4nSkNVrrvlhfG+/Y=
+X-Received: by 2002:a05:6820:151f:b0:677:d91c:2e26 with SMTP id 006d021491bc7-67b9bd3a2camr8004764eaf.51.1773095051333;
+        Mon, 09 Mar 2026 15:24:11 -0700 (PDT)
+Received: from [192.168.1.14] ([38.175.187.108])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-67ba42709e9sm5372733eaf.0.2026.03.09.15.24.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 Mar 2026 15:24:10 -0700 (PDT)
+Message-ID: <03136b99-1bcc-44a9-bfc8-bb4ee96c5414@linuxfoundation.org>
+Date: Mon, 9 Mar 2026 16:24:08 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 1/5] docs: driver-api: gpio: rpmsg gpio driver over
+ rpmsg bus
+To: Shenwei Wang <shenwei.wang@nxp.com>, Linus Walleij <linusw@kernel.org>,
+ Bartosz Golaszewski <brgl@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>, Frank Li <Frank.Li@nxp.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, arnaud.pouliquen@foss.st.com
+Cc: linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Pengutronix Kernel Team
+ <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
+ Peng Fan <peng.fan@nxp.com>, devicetree@vger.kernel.org,
+ linux-remoteproc@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20260309205532.1794202-1-shenwei.wang@nxp.com>
+ <20260309205532.1794202-2-shenwei.wang@nxp.com>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20260309205532.1794202-2-shenwei.wang@nxp.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Haiyang Zhang <haiyangz@microsoft.com>
+On 3/9/26 14:55, Shenwei Wang wrote:
+> Describes the gpio rpmsg transport protocol over the rpmsg bus between
+> the remote system and Linux.
+> 
+> Signed-off-by: Shenwei Wang <shenwei.wang@nxp.com>
+> ---
+>   Documentation/driver-api/gpio/gpio-rpmsg.rst | 266 +++++++++++++++++++
+>   Documentation/driver-api/gpio/index.rst      |   1 +
+>   2 files changed, 267 insertions(+)
+>   create mode 100644 Documentation/driver-api/gpio/gpio-rpmsg.rst
+> 
+> diff --git a/Documentation/driver-api/gpio/gpio-rpmsg.rst b/Documentation/driver-api/gpio/gpio-rpmsg.rst
+> new file mode 100644
+> index 000000000000..0f0a3ce3806b
+> --- /dev/null
+> +++ b/Documentation/driver-api/gpio/gpio-rpmsg.rst
+> @@ -0,0 +1,266 @@
+> +.. SPDX-License-Identifier: GPL-2.0-or-later
+> +
+> +GPIO RPMSG Protocol
 
-Add two parameters for drivers supporting Rx CQE Coalescing.
+Let's expand RPMSG for the first time. Looks there is another
+RPMSG acronym that is completely different.
 
-ETHTOOL_A_COALESCE_RX_CQE_FRAMES:
-Maximum number of frames that can be coalesced into a CQE.
+The rest looks good to me.
 
-ETHTOOL_A_COALESCE_RX_CQE_NSECS:
-Time out value in nanoseconds after the first packet arrival in a
-coalesced CQE to be sent.
-
-Signed-off-by: Haiyang Zhang <haiyangz@microsoft.com>
----
- Documentation/netlink/specs/ethtool.yaml       |  8 ++++++++
- Documentation/networking/ethtool-netlink.rst   | 10 ++++++++++
- include/linux/ethtool.h                        |  6 +++++-
- include/uapi/linux/ethtool_netlink_generated.h |  2 ++
- net/ethtool/coalesce.c                         | 14 +++++++++++++-
- 5 files changed, 38 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/netlink/specs/ethtool.yaml b/Documentation/netlink/specs/ethtool.yaml
-index 4707063af3b4..d254e26c014c 100644
---- a/Documentation/netlink/specs/ethtool.yaml
-+++ b/Documentation/netlink/specs/ethtool.yaml
-@@ -861,6 +861,12 @@ attribute-sets:
-         name: tx-profile
-         type: nest
-         nested-attributes: profile
-+      -
-+        name: rx-cqe-frames
-+        type: u32
-+      -
-+        name: rx-cqe-nsecs
-+        type: u32
- 
-   -
-     name: pause-stat
-@@ -2257,6 +2263,8 @@ operations:
-             - tx-aggr-time-usecs
-             - rx-profile
-             - tx-profile
-+            - rx-cqe-frames
-+            - rx-cqe-nsecs
-       dump: *coalesce-get-op
-     -
-       name: coalesce-set
-diff --git a/Documentation/networking/ethtool-netlink.rst b/Documentation/networking/ethtool-netlink.rst
-index 32179168eb73..a9fbb16891fa 100644
---- a/Documentation/networking/ethtool-netlink.rst
-+++ b/Documentation/networking/ethtool-netlink.rst
-@@ -1076,6 +1076,8 @@ Kernel response contents:
-   ``ETHTOOL_A_COALESCE_TX_AGGR_TIME_USECS``    u32     time (us), aggr, Tx
-   ``ETHTOOL_A_COALESCE_RX_PROFILE``            nested  profile of DIM, Rx
-   ``ETHTOOL_A_COALESCE_TX_PROFILE``            nested  profile of DIM, Tx
-+  ``ETHTOOL_A_COALESCE_RX_CQE_FRAMES``         u32     max packets, Rx CQE
-+  ``ETHTOOL_A_COALESCE_RX_CQE_NSECS``          u32     delay (ns), Rx CQE
-   ===========================================  ======  =======================
- 
- Attributes are only included in reply if their value is not zero or the
-@@ -1109,6 +1111,12 @@ well with frequent small-sized URBs transmissions.
- to DIM parameters, see `Generic Network Dynamic Interrupt Moderation (Net DIM)
- <https://www.kernel.org/doc/Documentation/networking/net_dim.rst>`_.
- 
-+Rx CQE coalescing allows multiple received packets to be coalesced into a single
-+Completion Queue Entry (CQE). ``ETHTOOL_A_COALESCE_RX_CQE_FRAMES`` describes the
-+maximum number of frames that can be coalesced into a CQE.
-+``ETHTOOL_A_COALESCE_RX_CQE_NSECS`` describes max time in nanoseconds after the
-+first packet arrival in a coalesced CQE to be sent.
-+
- COALESCE_SET
- ============
- 
-@@ -1147,6 +1155,8 @@ Request contents:
-   ``ETHTOOL_A_COALESCE_TX_AGGR_TIME_USECS``    u32     time (us), aggr, Tx
-   ``ETHTOOL_A_COALESCE_RX_PROFILE``            nested  profile of DIM, Rx
-   ``ETHTOOL_A_COALESCE_TX_PROFILE``            nested  profile of DIM, Tx
-+  ``ETHTOOL_A_COALESCE_RX_CQE_FRAMES``         u32     max packets, Rx CQE
-+  ``ETHTOOL_A_COALESCE_RX_CQE_NSECS``          u32     delay (ns), Rx CQE
-   ===========================================  ======  =======================
- 
- Request is rejected if it attributes declared as unsupported by driver (i.e.
-diff --git a/include/linux/ethtool.h b/include/linux/ethtool.h
-index 83c375840835..656d465bcd06 100644
---- a/include/linux/ethtool.h
-+++ b/include/linux/ethtool.h
-@@ -332,6 +332,8 @@ struct kernel_ethtool_coalesce {
- 	u32 tx_aggr_max_bytes;
- 	u32 tx_aggr_max_frames;
- 	u32 tx_aggr_time_usecs;
-+	u32 rx_cqe_frames;
-+	u32 rx_cqe_nsecs;
- };
- 
- /**
-@@ -380,7 +382,9 @@ bool ethtool_convert_link_mode_to_legacy_u32(u32 *legacy_u32,
- #define ETHTOOL_COALESCE_TX_AGGR_TIME_USECS	BIT(26)
- #define ETHTOOL_COALESCE_RX_PROFILE		BIT(27)
- #define ETHTOOL_COALESCE_TX_PROFILE		BIT(28)
--#define ETHTOOL_COALESCE_ALL_PARAMS		GENMASK(28, 0)
-+#define ETHTOOL_COALESCE_RX_CQE_FRAMES		BIT(29)
-+#define ETHTOOL_COALESCE_RX_CQE_NSECS		BIT(30)
-+#define ETHTOOL_COALESCE_ALL_PARAMS		GENMASK(30, 0)
- 
- #define ETHTOOL_COALESCE_USECS						\
- 	(ETHTOOL_COALESCE_RX_USECS | ETHTOOL_COALESCE_TX_USECS)
-diff --git a/include/uapi/linux/ethtool_netlink_generated.h b/include/uapi/linux/ethtool_netlink_generated.h
-index 114b83017297..8134baf7860f 100644
---- a/include/uapi/linux/ethtool_netlink_generated.h
-+++ b/include/uapi/linux/ethtool_netlink_generated.h
-@@ -371,6 +371,8 @@ enum {
- 	ETHTOOL_A_COALESCE_TX_AGGR_TIME_USECS,
- 	ETHTOOL_A_COALESCE_RX_PROFILE,
- 	ETHTOOL_A_COALESCE_TX_PROFILE,
-+	ETHTOOL_A_COALESCE_RX_CQE_FRAMES,
-+	ETHTOOL_A_COALESCE_RX_CQE_NSECS,
- 
- 	__ETHTOOL_A_COALESCE_CNT,
- 	ETHTOOL_A_COALESCE_MAX = (__ETHTOOL_A_COALESCE_CNT - 1)
-diff --git a/net/ethtool/coalesce.c b/net/ethtool/coalesce.c
-index 3e18ca1ccc5e..349bb02c517a 100644
---- a/net/ethtool/coalesce.c
-+++ b/net/ethtool/coalesce.c
-@@ -118,6 +118,8 @@ static int coalesce_reply_size(const struct ethnl_req_info *req_base,
- 	       nla_total_size(sizeof(u32)) +	/* _TX_AGGR_MAX_BYTES */
- 	       nla_total_size(sizeof(u32)) +	/* _TX_AGGR_MAX_FRAMES */
- 	       nla_total_size(sizeof(u32)) +	/* _TX_AGGR_TIME_USECS */
-+	       nla_total_size(sizeof(u32)) +	/* _RX_CQE_FRAMES */
-+	       nla_total_size(sizeof(u32)) +	/* _RX_CQE_NSECS */
- 	       total_modersz * 2;		/* _{R,T}X_PROFILE */
- }
- 
-@@ -269,7 +271,11 @@ static int coalesce_fill_reply(struct sk_buff *skb,
- 	    coalesce_put_u32(skb, ETHTOOL_A_COALESCE_TX_AGGR_MAX_FRAMES,
- 			     kcoal->tx_aggr_max_frames, supported) ||
- 	    coalesce_put_u32(skb, ETHTOOL_A_COALESCE_TX_AGGR_TIME_USECS,
--			     kcoal->tx_aggr_time_usecs, supported))
-+			     kcoal->tx_aggr_time_usecs, supported) ||
-+	    coalesce_put_u32(skb, ETHTOOL_A_COALESCE_RX_CQE_FRAMES,
-+			     kcoal->rx_cqe_frames, supported) ||
-+	    coalesce_put_u32(skb, ETHTOOL_A_COALESCE_RX_CQE_NSECS,
-+			     kcoal->rx_cqe_nsecs, supported))
- 		return -EMSGSIZE;
- 
- 	if (!req_base->dev || !req_base->dev->irq_moder)
-@@ -338,6 +344,8 @@ const struct nla_policy ethnl_coalesce_set_policy[] = {
- 	[ETHTOOL_A_COALESCE_TX_AGGR_MAX_BYTES] = { .type = NLA_U32 },
- 	[ETHTOOL_A_COALESCE_TX_AGGR_MAX_FRAMES] = { .type = NLA_U32 },
- 	[ETHTOOL_A_COALESCE_TX_AGGR_TIME_USECS] = { .type = NLA_U32 },
-+	[ETHTOOL_A_COALESCE_RX_CQE_FRAMES] = { .type = NLA_U32 },
-+	[ETHTOOL_A_COALESCE_RX_CQE_NSECS] = { .type = NLA_U32 },
- 	[ETHTOOL_A_COALESCE_RX_PROFILE] =
- 		NLA_POLICY_NESTED(coalesce_profile_policy),
- 	[ETHTOOL_A_COALESCE_TX_PROFILE] =
-@@ -570,6 +578,10 @@ __ethnl_set_coalesce(struct ethnl_req_info *req_info, struct genl_info *info,
- 			 tb[ETHTOOL_A_COALESCE_TX_AGGR_MAX_FRAMES], &mod);
- 	ethnl_update_u32(&kernel_coalesce.tx_aggr_time_usecs,
- 			 tb[ETHTOOL_A_COALESCE_TX_AGGR_TIME_USECS], &mod);
-+	ethnl_update_u32(&kernel_coalesce.rx_cqe_frames,
-+			 tb[ETHTOOL_A_COALESCE_RX_CQE_FRAMES], &mod);
-+	ethnl_update_u32(&kernel_coalesce.rx_cqe_nsecs,
-+			 tb[ETHTOOL_A_COALESCE_RX_CQE_NSECS], &mod);
- 
- 	if (dev->irq_moder && dev->irq_moder->profile_flags & DIM_PROFILE_RX) {
- 		ret = ethnl_update_profile(dev, &dev->irq_moder->rx_profile,
--- 
-2.34.1
-
+thanks,
+-- Shuah
