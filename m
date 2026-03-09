@@ -1,63 +1,63 @@
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0BCA34CFCA
-	for <linux-doc@vger.kernel.org>; Mon,  9 Mar 2026 05:54:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B1871E834E
+	for <linux-doc@vger.kernel.org>; Mon,  9 Mar 2026 05:54:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773035682; cv=none; b=Hv6o40ePN/i0fZidEB4lI6RQeFdev0J6AFHF2lEwyOpu96DqbE957SR54bB0GayuLsJ/s2urxp2yZbKGKENIAy+eLt7iqaGmUWHa4eyEoG9eGCk/C3AyO0HOyo9YliGz8lEDMAFI209tRIAgJudxKdkXRd2rX14Fa1r+r/E5MHg=
+	t=1773035688; cv=none; b=E5sJSYT8C5EfdZ+M7ubg3V2al823EMZYQVQU1ScceUm7MEhuLW7ObDEzocMITD4QP3V4INWPsxNHpcNV92t2tyM7Vs4PW9ad7XD7ltg6PmIMO2+KJjRYGGu78izrDpEh6MGtY88+Oud4Lt1IrZWLnllAn2Q1rjPgqqctktygPPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773035682; c=relaxed/simple;
-	bh=naXvgUL1vrrylA++ctQr+L9oQ71V0LFb27f4Yj4ef0M=;
+	s=arc-20240116; t=1773035688; c=relaxed/simple;
+	bh=UreViDwj5CK4brJrjfQ7EURHubCS5eOib6jZhMepOdk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TOelDaRveGZQt2Vd4zlizHlB1jiFIxrofy6LV0eFTFp5E7409Qptja+1Q7XuKLFBL0+fSskyQ3f3p1p6RMZW7YoFF+rvgqhBcHGcka3LgIB/OedXxCUOPm+hxG/X8THTzPQe0lv9UD0IuKLUuAtyScUk+siTac6m5/YgByRMTEA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XHjUVd+v; arc=none smtp.client-ip=209.85.215.181
+	 MIME-Version; b=nxd7F3rRdFAd1OxtCC2Ocn2fRN8Z3ZKeNQigPvjRn9X6wl8xQlswySLERoitaoqaoV1MtVghHpZUAVpBLAIBv/X4xRR0OUcnafKVMlVE9hYAepIpErqGjabcyrhEyaSitPLkEdZpeu36KyntGEx5Ut9SOHh2gjCcmRH8MaJO6XI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=diN4NXLb; arc=none smtp.client-ip=209.85.215.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XHjUVd+v"
-Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-c738d327336so2346889a12.0
-        for <linux-doc@vger.kernel.org>; Sun, 08 Mar 2026 22:54:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="diN4NXLb"
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-c7358a7a8d1so5081403a12.3
+        for <linux-doc@vger.kernel.org>; Sun, 08 Mar 2026 22:54:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773035680; x=1773640480; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1773035687; x=1773640487; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AZOR83ZELRZ96AOmva1kehfsvl1uJwm5zQkZMO8Il2Y=;
-        b=XHjUVd+vX7DcB+Fj7synsk8LCV3UWf+1e66c906/v23ZdJ/zJStor8Bbf9TTQ7aEDz
-         iiXNwAYiGpKi+6UTqVRpQL8VUgAUs/qAfgBGWhPOcmbyMVXux9oWwYxGgKnyTmOSFRwl
-         u/+xnYaTuFgcxCbEYuxd9hZZrXCCm3dqsRr+w967bOxDrE5toqCnNUH4Wfh3td8Ss4U8
-         K+CHHDwKrSDbKbxIpn0HJUhlL4BlTuIUJiAwjMX3aESfrpLsgT2Itc8Wxzdxf99ZaqVa
-         1kGLJ9cNWgE6Aefdn9BU1KmRboXWQjjkWJbk8zCoEKSGtE9xxKOvk5k2wa/2Dbw/rfXg
-         2SBQ==
+        bh=+eXVlNI+VPppaY/morooabCwuSYEtf9ABnZ29jfqnh4=;
+        b=diN4NXLbF4APbkdr50c/3buNpeiadWd82VxtjgPvoGcoRutc3j2Nu6wHNgxkIkqdBW
+         YpXtsql8z0v6B5UM1N/XMPUdZ+HiZ9WoYIAMyAN7Nogld0k4WR4b0qmEW3gihjzXvLlt
+         rGxenB7Pof6NqcF9rrbN6olzW6/MUZNQP/EA1n4AYKKND2xdCdKG2Kq9UtrC7lPlFDtT
+         tZPnZmxaeAzXJVtdjiEQu1u0mzcySl7jJEZxGw6svm2rf1Rsdy69EP0sn5rS8tDx+1/J
+         OTnrdUSrzf6ye0uEAJILUDvQoTxLo6qHy6pjaZtqoFWAUGLC8h3uH9lrTNC9/p5TllkG
+         5QrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773035680; x=1773640480;
+        d=1e100.net; s=20230601; t=1773035687; x=1773640487;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=AZOR83ZELRZ96AOmva1kehfsvl1uJwm5zQkZMO8Il2Y=;
-        b=EhukiS1NY90ynsrfOQ+7Kx4Khb1YIxSNO41lVGrr+f491PbkHpfhhEsSaGfqCwWPLV
-         CEOpoTNheV0I8YU03prRMv2x6FdzwUUDbrMEhfZKUUscKYzSg+9sQ5w8SwN3Yyje2Ev0
-         uzg4QP/DfHgQdjIq5QShdy/XsQGUx7zyDxtKFmjZxOHuV5LzVIxHJsq+MOst8o5iIrR/
-         TOvYq+Mf9TI+SFo6RTK0RzkMEvRIN+K6gH2mTqpG8+bjVMQz0+nGy7bpRtDNvzAt40xy
-         BczqJMiRG9GbKfN4Jte92qfu71OaNKCXRlTugSPxbE5s+gG6d77Gc9jhld1sKFuQ+Pa8
-         uYsg==
-X-Forwarded-Encrypted: i=1; AJvYcCXVDVnS5/CIS6MPfuck/YvhcXX5v+PM8FV/LeDIIdfyzGW+WhzdRR0kcy62wo/Tcyh1LBnnqXlrKQY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy5UUrz4IJfucw4x215+SYHmnvOnbLbqXTgiqV1f41cTsZs3go8
-	kIsJNfunaFzl4aA8IyE5tx2czMLljpShl/PqX86rq5TBNYZVBTPsEtrM
-X-Gm-Gg: ATEYQzw53XxdFMfSgu3OfOGVnzCJpMuYAELCxeVmPmPCGRBjRVjSrX7NnbXx8sEvdEk
-	+d8AHgjpCro1MEwCCGWvftLUFOWxQS+JcDpm69hfx5ugsUn66XmdCNvDeN9Q5YDqPpP7v0TpIsb
-	ybOvJhp4RiKL+SqWf3iEyKS14MLYvkgi8we/L/oSkwas41jDXqf91Zu0ck0dPQ8N1fPBgMKP0W8
-	sDLXn4ku5V3g4mbehC8QWJbiz6r8LfpQMfbZT+ds+HtrViC0lhvAX5XFxN6P8VBr2+XKI9lTlQ6
-	rVLCP/7lKWffl/xCjLBT518wBoBheFNz6tGecRe5C0Frdb+l+VAEo99iu55MbZMG0DQM4XCD3ml
-	LFg3bb84j/j6XGYN1qdabQrul8Ri6Z4Fad18zQWd3hP2sUHPJaq1qSaGCiZI0L7qTW02qIq/TBo
-	oPYkrqcPRc0GZ3amr1LzLQZqwKIl4xWoEhTx5LRHd73Jy56G9AHoJfWUEV/LPWJ3W7jKuNQPE=
-X-Received: by 2002:a05:6a20:a10e:b0:398:7853:c495 with SMTP id adf61e73a8af0-3987853c6d0mr5367983637.3.1773035679994;
-        Sun, 08 Mar 2026 22:54:39 -0700 (PDT)
+        bh=+eXVlNI+VPppaY/morooabCwuSYEtf9ABnZ29jfqnh4=;
+        b=BBB9sVMlbWuFPA2TGqzwL/5ZK++JWS3MjU9RhWsHhiQB98LQDAE1+9l6MmjGvwGVtx
+         WhMNDlQiT/xMfAPsaf2i0cHIOJBjjSNmrxRA5j55ldjijuuGq+kC8APbVA+hOMUfYzKn
+         7ocVaG/p9sibthaCm0HOBDLWz+rpAUoOhVyyImdMJp/zVTquVnGi2PkOWtJt85sFanbA
+         CZFW1V86/DIhQH7iXqvNp9Z074znzxL679PxgPvMDbuIhAotQ802covchpvyL7MCsHIw
+         x/MPQuMgsG1urmDgxTskJhyUbVXzFfQSH+jDC/K6lv/mylsrLL/4iFithEqGzUaQf27b
+         dp4A==
+X-Forwarded-Encrypted: i=1; AJvYcCU7BiUjhHlnP+PspNt5sr0p1+1b5Q+iKVGkahxFwAE4U5s5mbrKLhecQxAmUtJ+o1GmQHyU2eE4ZaU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yze0iJ8GAhLW6kbl//gTGI43AKqSN1GAlR4tC7LXpGpYetxo06F
+	64XulHGkVL4yBJlUe0GnHquHevxvR+qo+ZrXWWOzdx0HTjHg2f92nr80
+X-Gm-Gg: ATEYQzwhGESr+XaoVg3LssbQbAGi0Lv8DsOu+pjWHzK27GyOcF3VJAbpgugdopraigU
+	xrJTF9UvbQC9HhsV2kCNzRIhwIZK/ZkaTkiq8/3lkiLWbjN9Snz9z0N6ubDjEjncgftV93NYOyU
+	wKCiVa3YXMbYkhTWNU0sDxt9RrZPy5oQGJ99XTar20hylie3l03GpvuHAZakHH6f0R7dW50syVX
+	uRYHY5Ygjt27AeB8aKRKr1GdvSzvkF42LsX5GMf2P+LS76nPQPx3jFEWjuuSF44voKEOj05beIR
+	rkXDzpwsnweUCv7u7d1FE52FZ1p9AKmXxHPB0SyzFpXgtGncFE/yVoVB2JWk3vaKmXZ0Jzygg8B
+	5ayeMhJkRtwpKa/oQp4pVwfJoRsWeBjRZN4S2vB+Tef3DO1vEHPTAroYfU2Yq7MPZk6cVmm1x1L
+	9q9QbZQgVMPwHa39wNuCUEs57DdE2Ha+RoXSFbH4j5ZrdonZ+Gpt2R+Kw1Zvme
+X-Received: by 2002:a05:6a20:cf8b:b0:38e:90ca:5a4b with SMTP id adf61e73a8af0-39859089f98mr9851848637.45.1773035686645;
+        Sun, 08 Mar 2026 22:54:46 -0700 (PDT)
 Received: from zenbook ([159.196.5.243])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c739e170923sm7933716a12.17.2026.03.08.22.54.34
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c739e170923sm7933716a12.17.2026.03.08.22.54.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Mar 2026 22:54:39 -0700 (PDT)
+        Sun, 08 Mar 2026 22:54:46 -0700 (PDT)
 From: Wilfred Mallawa <wilfred.opensource@gmail.com>
 To: John Fastabend <john.fastabend@gmail.com>,
 	Jakub Kicinski <kuba@kernel.org>,
@@ -75,9 +75,9 @@ Cc: netdev@vger.kernel.org,
 	Alistair Francis <alistair.francis@wdc.com>,
 	Damien Le'Moal <dlemoal@kernel.org>,
 	Wilfred Mallawa <wilfred.mallawa@wdc.com>
-Subject: [RFC net-next 1/3] net/tls_sw: support randomized zero padding
-Date: Mon,  9 Mar 2026 15:48:36 +1000
-Message-ID: <20260309054837.2299732-3-wilfred.opensource@gmail.com>
+Subject: [RFC net-next 2/3] net/tls: add randomized zero padding socket option
+Date: Mon,  9 Mar 2026 15:48:37 +1000
+Message-ID: <20260309054837.2299732-4-wilfred.opensource@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260309054837.2299732-2-wilfred.opensource@gmail.com>
 References: <20260309054837.2299732-2-wilfred.opensource@gmail.com>
@@ -97,218 +97,204 @@ traffic patterns from an observer. TLS is susceptible to a variety of traffic
 analysis attacks based on observing the length and timing of encrypted
 packets [2]. Upcoming Western Digital NVMe-TCP hardware controllers
 implement TLS 1.3. Which from a security perspective, can benefit from having
-record zero padding enabled to mitigate against traffic analysis attacks [2].
+record zero padding enabled to mitigate against traffic analysis attacks
+[2].
 
-Thus, for TX, add support to appending a randomized number of zero padding
-bytes to end-of-record (EOR) records that are not full. The number of zero
-padding bytes to append is determined by the remaining record room and the
-user specified upper bound (minimum of the two). That is
-rand([0, min(record_room, upper_bound)]).
+Add a new TLS_TX_RANDOM_PAD ktls socket option that allows userspace to
+enable and specify an upperbound for randomized record zero padding
+in TLS 1.3. When this value is set and non-zero, ktls will append a
+randomized amount of [0, min(record_room, upper_bound)] bytes to records
+that are end-of-record (EOR) and aren't full. This can be set back to zero
+to disable appending zero padding. By default, no record zero padding is added.
 
-For TLS 1.3, zero padding is added after the content type byte, as such,
-if the record in context meets the above conditions for zero padding,
-attach a zero padding buffer to the content type byte before a record is
-encrypted. The padding buffer is freed when the record is freed.
-
-By default, record zero padding is disabled, and userspace may enable it
-by using the setsockopt TLS_TX_RANDOM_PAD option.
+The number of zero padding bytes is randomised primarilly to reduce some of
+the throughput overhead of using a fixed zero padding amount up to the
+record size limit.
 
 [1] https://datatracker.ietf.org/doc/html/rfc8446#section-5.4l
 [2] https://datatracker.ietf.org/doc/html/rfc8446#appendix-E.3
 
 Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 ---
- include/net/tls.h  |  1 +
- net/tls/tls.h      |  6 ++++-
- net/tls/tls_main.c |  2 ++
- net/tls/tls_sw.c   | 58 ++++++++++++++++++++++++++++++++++++++--------
- 4 files changed, 56 insertions(+), 11 deletions(-)
+ Documentation/networking/tls.rst | 21 ++++++++++
+ include/uapi/linux/tls.h         |  2 +
+ net/tls/tls_main.c               | 70 ++++++++++++++++++++++++++++++++
+ 3 files changed, 93 insertions(+)
 
-diff --git a/include/net/tls.h b/include/net/tls.h
-index ebd2550280ae..1feef72cc339 100644
---- a/include/net/tls.h
-+++ b/include/net/tls.h
-@@ -229,6 +229,7 @@ struct tls_context {
- 	u8 zerocopy_sendfile:1;
- 	u8 rx_no_pad:1;
- 	u16 tx_max_payload_len;
-+	u16 tx_record_zero_pad;
+diff --git a/Documentation/networking/tls.rst b/Documentation/networking/tls.rst
+index 980c442d7161..e112a68a9bfb 100644
+--- a/Documentation/networking/tls.rst
++++ b/Documentation/networking/tls.rst
+@@ -300,6 +300,27 @@ extra byte used by the ContentType field.
  
- 	int (*push_pending_record)(struct sock *sk, int flags);
- 	void (*sk_write_space)(struct sock *sk);
-diff --git a/net/tls/tls.h b/net/tls/tls.h
-index e8f81a006520..3a86eb145332 100644
---- a/net/tls/tls.h
-+++ b/net/tls/tls.h
-@@ -121,8 +121,12 @@ struct tls_rec {
- 	/* AAD | msg_encrypted.sg.data (data contains overhead for hdr & iv & tag) */
- 	struct scatterlist sg_aead_out[2];
+ [1] https://datatracker.ietf.org/doc/html/rfc8449
  
-+	/* TLS 1.3 record zero padding */
-+	char *zero_padding;
-+	u16 zero_padding_len;
++TLS_TX_RANDOM_PAD
++~~~~~~~~~~~~~~~~~
 +
- 	char content_type;
--	struct scatterlist sg_content_type;
-+	struct scatterlist sg_content_trail[2];
++Enable and set the limit for randomized zero padding [1] of outgoing
++TLS records.
++
++When enabled, TLS records that are not full and are end of record (EOR)
++will be padded with a randomly chosen amount of zero padding up to the remaining
++record capacity or the limit provided by this option (smaller of the two).
++Randomized zero padding can reduce information leakage via observable TLS
++record lengths and mitigates traffic analysis based on message size.
++
++Padding never exceeds the protocol maximum record size and full-sized records
++are unchanged.
++
++This increases bandwidth usage and may add CPU overhead due to padding
++generation and larger encryption operations. For workloads with small records,
++the bandwidth overhead may be significant.
++
++[1] https://datatracker.ietf.org/doc/html/rfc8446#section-5.4
++
+ Statistics
+ ==========
  
- 	struct sock *sk;
+diff --git a/include/uapi/linux/tls.h b/include/uapi/linux/tls.h
+index b8b9c42f848c..42a318cb5eb8 100644
+--- a/include/uapi/linux/tls.h
++++ b/include/uapi/linux/tls.h
+@@ -42,6 +42,7 @@
+ #define TLS_TX_ZEROCOPY_RO	3	/* TX zerocopy (only sendfile now) */
+ #define TLS_RX_EXPECT_NO_PAD	4	/* Attempt opportunistic zero-copy */
+ #define TLS_TX_MAX_PAYLOAD_LEN	5	/* Maximum plaintext size */
++#define TLS_TX_RANDOM_PAD	6	/* TLS TX randomized record zero padding */
  
+ /* Supported versions */
+ #define TLS_VERSION_MINOR(ver)	((ver) & 0xFF)
+@@ -196,6 +197,7 @@ enum {
+ 	TLS_INFO_ZC_RO_TX,
+ 	TLS_INFO_RX_NO_PAD,
+ 	TLS_INFO_TX_MAX_PAYLOAD_LEN,
++	TLS_INFO_TX_RANDOM_PAD,
+ 	__TLS_INFO_MAX,
+ };
+ #define TLS_INFO_MAX (__TLS_INFO_MAX - 1)
 diff --git a/net/tls/tls_main.c b/net/tls/tls_main.c
-index fd39acf41a61..b0702effbc26 100644
+index b0702effbc26..62c525afbc14 100644
 --- a/net/tls/tls_main.c
 +++ b/net/tls/tls_main.c
-@@ -1076,6 +1076,8 @@ static int tls_init(struct sock *sk)
- 	ctx->tx_conf = TLS_BASE;
- 	ctx->rx_conf = TLS_BASE;
- 	ctx->tx_max_payload_len = TLS_MAX_PAYLOAD_SIZE;
-+	/* TX record zero padding is disabled by default */
-+	ctx->tx_record_zero_pad = 0;
- 	update_sk_prot(sk, ctx);
- out:
- 	write_unlock_bh(&sk->sk_callback_lock);
-diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
-index a656ce235758..84b167607e1f 100644
---- a/net/tls/tls_sw.c
-+++ b/net/tls/tls_sw.c
-@@ -389,6 +389,7 @@ static void tls_free_rec(struct sock *sk, struct tls_rec *rec)
- {
- 	sk_msg_free(sk, &rec->msg_encrypted);
- 	sk_msg_free(sk, &rec->msg_plaintext);
-+	kfree(rec->zero_padding);
- 	kfree(rec);
+@@ -563,6 +563,30 @@ static int do_tls_getsockopt_tx_payload_len(struct sock *sk, char __user *optval
+ 	return 0;
  }
  
-@@ -430,6 +431,7 @@ int tls_tx_records(struct sock *sk, int flags)
- 		 */
- 		list_del(&rec->list);
- 		sk_msg_free(sk, &rec->msg_plaintext);
-+		kfree(rec->zero_padding);
- 		kfree(rec);
- 	}
- 
-@@ -450,6 +452,7 @@ int tls_tx_records(struct sock *sk, int flags)
- 
- 			list_del(&rec->list);
- 			sk_msg_free(sk, &rec->msg_plaintext);
-+			kfree(rec->zero_padding);
- 			kfree(rec);
- 		} else {
- 			break;
-@@ -779,12 +782,29 @@ static int tls_push_record(struct sock *sk, int flags,
- 	sk_msg_iter_var_prev(i);
- 
- 	rec->content_type = record_type;
++static int do_tls_getsockopt_tx_random_pad(struct sock *sk, char __user *optval,
++					   int __user *optlen)
++{
++	struct tls_context *ctx = tls_get_ctx(sk);
++	u16 pad_limit = ctx->tx_record_zero_pad;
++	int len;
 +
- 	if (prot->version == TLS_1_3_VERSION) {
--		/* Add content type to end of message.  No padding added */
--		sg_set_buf(&rec->sg_content_type, &rec->content_type, 1);
--		sg_mark_end(&rec->sg_content_type);
-+		/*
-+		 * Add content type to end of message with zero padding
-+		 * if available.
-+		 */
-+		sg_init_table(rec->sg_content_trail, 2);
-+		sg_set_buf(&rec->sg_content_trail[0], &rec->content_type, 1);
-+		if (rec->zero_padding_len) {
-+			rec->zero_padding = kzalloc(rec->zero_padding_len,
-+						    sk->sk_allocation);
-+			if (!rec->zero_padding)
-+				return -ENOMEM;
++	if (ctx->prot_info.version != TLS_1_3_VERSION)
++		return -EOPNOTSUPP;
 +
-+			sg_set_buf(&rec->sg_content_trail[1],
-+				   rec->zero_padding, rec->zero_padding_len);
-+			sg_mark_end(&rec->sg_content_trail[1]);
-+		} else {
-+			sg_mark_end(&rec->sg_content_trail[0]);
-+		}
++	if (get_user(len, optlen))
++		return -EFAULT;
 +
- 		sg_chain(msg_pl->sg.data, msg_pl->sg.end + 1,
--			 &rec->sg_content_type);
-+			 rec->sg_content_trail);
- 	} else {
- 		sg_mark_end(sk_msg_elem(msg_pl, i));
- 	}
-@@ -805,19 +825,21 @@ static int tls_push_record(struct sock *sk, int flags,
- 	i = msg_en->sg.start;
- 	sg_chain(rec->sg_aead_out, 2, &msg_en->sg.data[i]);
- 
--	tls_make_aad(rec->aad_space, msg_pl->sg.size + prot->tail_size,
--		     tls_ctx->tx.rec_seq, record_type, prot);
-+	tls_make_aad(rec->aad_space, msg_pl->sg.size + prot->tail_size +
-+		     rec->zero_padding_len, tls_ctx->tx.rec_seq,
-+		     record_type, prot);
- 
- 	tls_fill_prepend(tls_ctx,
- 			 page_address(sg_page(&msg_en->sg.data[i])) +
- 			 msg_en->sg.data[i].offset,
--			 msg_pl->sg.size + prot->tail_size,
--			 record_type);
-+			 msg_pl->sg.size + prot->tail_size +
-+			 rec->zero_padding_len, record_type);
- 
- 	tls_ctx->pending_open_record_frags = false;
- 
- 	rc = tls_do_encryption(sk, tls_ctx, ctx, req,
--			       msg_pl->sg.size + prot->tail_size, i);
-+			       msg_pl->sg.size + prot->tail_size +
-+			       rec->zero_padding_len, i);
- 	if (rc < 0) {
- 		if (rc != -EINPROGRESS) {
- 			tls_err_abort(sk, -EBADMSG);
-@@ -1033,6 +1055,8 @@ static int tls_sw_sendmsg_locked(struct sock *sk, struct msghdr *msg,
- 	unsigned char record_type = TLS_RECORD_TYPE_DATA;
- 	bool is_kvec = iov_iter_is_kvec(&msg->msg_iter);
- 	bool eor = !(msg->msg_flags & MSG_MORE);
-+	bool tls_13 = (prot->version == TLS_1_3_VERSION);
-+	bool rec_zero_pad = eor && tls_13 && tls_ctx->tx_record_zero_pad;
- 	size_t try_to_copy;
- 	ssize_t copied = 0;
- 	struct sk_msg *msg_pl, *msg_en;
-@@ -1043,6 +1067,7 @@ static int tls_sw_sendmsg_locked(struct sock *sk, struct msghdr *msg,
- 	int record_room;
- 	int num_zc = 0;
- 	int orig_size;
-+	int max_zero_pad_len, zero_pad_len = 0;
- 	int ret = 0;
- 
- 	if (!eor && (msg->msg_flags & MSG_EOR))
-@@ -1085,8 +1110,19 @@ static int tls_sw_sendmsg_locked(struct sock *sk, struct msghdr *msg,
- 			full_record = true;
- 		}
- 
-+		if (rec_zero_pad && !full_record)
-+			zero_pad_len = record_room - try_to_copy;
++	if (len < sizeof(pad_limit))
++		return -EINVAL;
 +
-+		if (zero_pad_len > prot->tail_size) {
-+			max_zero_pad_len = min(zero_pad_len,
-+					       tls_ctx->tx_record_zero_pad);
-+			zero_pad_len =
-+				get_random_u32_inclusive(0, max_zero_pad_len);
-+			rec->zero_padding_len = zero_pad_len;
-+		}
++	if (put_user(sizeof(pad_limit), optlen))
++		return -EFAULT;
 +
- 		required_size = msg_pl->sg.size + try_to_copy +
--				prot->overhead_size;
-+				prot->overhead_size + rec->zero_padding_len;
++	if (copy_to_user(optval, &pad_limit, sizeof(pad_limit)))
++		return -EFAULT;
++
++	return 0;
++}
+ static int do_tls_getsockopt(struct sock *sk, int optname,
+ 			     char __user *optval, int __user *optlen)
+ {
+@@ -585,6 +609,9 @@ static int do_tls_getsockopt(struct sock *sk, int optname,
+ 	case TLS_TX_MAX_PAYLOAD_LEN:
+ 		rc = do_tls_getsockopt_tx_payload_len(sk, optval, optlen);
+ 		break;
++	case TLS_TX_RANDOM_PAD:
++		rc = do_tls_getsockopt_tx_random_pad(sk, optval, optlen);
++		break;
+ 	default:
+ 		rc = -ENOPROTOOPT;
+ 		break;
+@@ -860,6 +887,33 @@ static int do_tls_setsockopt_tx_payload_len(struct sock *sk, sockptr_t optval,
+ 	return 0;
+ }
  
- 		if (!sk_stream_memory_free(sk))
- 			goto wait_for_sndbuf;
-@@ -2555,6 +2591,7 @@ void tls_sw_release_resources_tx(struct sock *sk)
- 				       struct tls_rec, list);
- 		list_del(&rec->list);
- 		sk_msg_free(sk, &rec->msg_plaintext);
-+		kfree(rec->zero_padding);
- 		kfree(rec);
- 	}
++static int do_tls_setsockopt_tx_random_pad(struct sock *sk, sockptr_t optval,
++					   unsigned int optlen)
++{
++	struct tls_context *ctx = tls_get_ctx(sk);
++	struct tls_sw_context_tx *sw_ctx = tls_sw_ctx_tx(ctx);
++	u16 value;
++
++	if (ctx->prot_info.version != TLS_1_3_VERSION)
++		return -EOPNOTSUPP;
++
++	if (sw_ctx && sw_ctx->open_rec)
++		return -EBUSY;
++
++	if (sockptr_is_null(optval) || optlen != sizeof(value))
++		return -EINVAL;
++
++	if (copy_from_sockptr(&value, optval, sizeof(value)))
++		return -EFAULT;
++
++	if (value >= ctx->tx_max_payload_len)
++		return -EINVAL;
++
++	ctx->tx_record_zero_pad = value;
++
++	return 0;
++}
++
+ static int do_tls_setsockopt(struct sock *sk, int optname, sockptr_t optval,
+ 			     unsigned int optlen)
+ {
+@@ -886,6 +940,11 @@ static int do_tls_setsockopt(struct sock *sk, int optname, sockptr_t optval,
+ 		rc = do_tls_setsockopt_tx_payload_len(sk, optval, optlen);
+ 		release_sock(sk);
+ 		break;
++	case TLS_TX_RANDOM_PAD:
++		lock_sock(sk);
++		rc = do_tls_setsockopt_tx_random_pad(sk, optval, optlen);
++		release_sock(sk);
++		break;
+ 	default:
+ 		rc = -ENOPROTOOPT;
+ 		break;
+@@ -1173,6 +1232,13 @@ static int tls_get_info(struct sock *sk, struct sk_buff *skb, bool net_admin)
+ 	if (err)
+ 		goto nla_failure;
  
-@@ -2562,6 +2599,7 @@ void tls_sw_release_resources_tx(struct sock *sk)
- 		list_del(&rec->list);
- 		sk_msg_free(sk, &rec->msg_encrypted);
- 		sk_msg_free(sk, &rec->msg_plaintext);
-+		kfree(rec->zero_padding);
- 		kfree(rec);
- 	}
++	if (version != TLS_1_3_VERSION) {
++		err = nla_put_u16(skb, TLS_INFO_TX_RANDOM_PAD,
++				  ctx->tx_record_zero_pad);
++		if (err)
++			goto nla_failure;
++	}
++
+ 	rcu_read_unlock();
+ 	nla_nest_end(skb, start);
+ 	return 0;
+@@ -1185,6 +1251,7 @@ static int tls_get_info(struct sock *sk, struct sk_buff *skb, bool net_admin)
+ 
+ static size_t tls_get_info_size(const struct sock *sk, bool net_admin)
+ {
++	struct tls_context *ctx = tls_get_ctx(sk);
+ 	size_t size = 0;
+ 
+ 	size += nla_total_size(0) +		/* INET_ULP_INFO_TLS */
+@@ -1197,6 +1264,9 @@ static size_t tls_get_info_size(const struct sock *sk, bool net_admin)
+ 		nla_total_size(sizeof(u16)) +   /* TLS_INFO_TX_MAX_PAYLOAD_LEN */
+ 		0;
+ 
++	if (ctx->prot_info.version == TLS_1_3_VERSION)
++		size += nla_total_size(sizeof(u16)); /* TLS_INFO_TX_RANDOM_PAD */
++
+ 	return size;
+ }
  
 -- 
 2.53.0
