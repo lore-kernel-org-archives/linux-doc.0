@@ -1,80 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EA8A25487C
-	for <linux-doc@vger.kernel.org>; Mon,  9 Mar 2026 09:34:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A3BB3859CC
+	for <linux-doc@vger.kernel.org>; Mon,  9 Mar 2026 09:54:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773048881; cv=none; b=B3UehRdZBC8cpIDe62iU/sT6CRdfgFW5bwZeLegAP0/7IWcnRSoo71Q7gjP2Ggl48J7bujVbBrgsNjSkIgCLpaq3Mhr20ZhiIEVqAXOWro67use4bKPFkmlJ25nOT5TIzsgdr0AGCmTPi47iTj/5C9LhI6/bwaeZ3v1OFOjcMA0=
+	t=1773050055; cv=none; b=fpriCDL4dqVH1SM9Eh9xnbod38puI0249TtsVyfwJrjIZDolbWZdwG1yRV38FTAv0QTUS+v+cApuGLA5+3oHyhZh/JKzhlu5v8RvNaLUVV7xXfDvbwoT690F+1k71/et1o+YIbeXuK2Ncz+Ynhd/+DqShKrKeHG/7z1I3Uda6Dw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773048881; c=relaxed/simple;
-	bh=aSDtFRn4EaqcL0JtQ1Pica6QwSGSR4ven1YTRVkwbIE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dPwYlFKJIgD2xdAjNqurrutDbkUzRwpnSToQXXB751Iu7NFbaagwNI4WY9QTXqebgiLLkPKJAqE12ybPD0zloSt6VzgPHGbdLr+tHTkwjX7QLUloPdrgttfJp855m2hIweNmSrItNW4rERJ++Cw2iNK2K5VYbpwylw0KeagyB3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WGD559HI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773050055; c=relaxed/simple;
+	bh=68O4lC98Vin61Vk35g2/k0cZz6nrw+/Eb7DGyikKBoQ=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=u3g25kyHCuAS6QwYFiexxlaBrpFZlp2xIlaHwAXDaBSLo3QQL3Ar8QJ37+eVG1gG/GS1EwQ93ckhjay9sfZhBxAc1q8J2XAEK67oFOEnNRFFXa0z2Xxz9SjPklW2Xn1X4pKoj0kxmACf083rR1fSFnpaHYs5VWsMTIN4Td7MgpM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--ackerleytng.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mfarBoXx; arc=none smtp.client-ip=209.85.216.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--ackerleytng.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WGD559HI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20AE2C19423
-	for <linux-doc@vger.kernel.org>; Mon,  9 Mar 2026 09:34:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773048881;
-	bh=aSDtFRn4EaqcL0JtQ1Pica6QwSGSR4ven1YTRVkwbIE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=WGD559HImmMCNzI/WuToummqRVLLDoVlcJwXJWgjNFClFjfGpfTRhZaL5zrFcyyCu
-	 lj8MVvLF3N1vZRtPt7wIRNlsNyhX5ZDaeKmM3DvAV7EFysyMlyRZPO6glwmuyOrYAs
-	 AC11w4x3uA/2BW+6BWmjYlqHNj8t3pRe2wSNuro6LaTRjCGqfoqyHSbGpbM8VapRyO
-	 TQwGDuUNXCX6Ho2I964ul6yPP0jhHTuGUSZlt8oY7L7XdqA2LXJH/z9xdk6a11fK6X
-	 8l7UuYgFhZp92IN7t7LYUbrIPvRdwsJ8CUGaiOattPKiaVADI0c/Ktg8xzJGEsro4w
-	 4fEOf47KMOHlA==
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5a133502accso4311749e87.3
-        for <linux-doc@vger.kernel.org>; Mon, 09 Mar 2026 02:34:41 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCX/bmgG4jJwsX5MPm3/S9RScwG4RyXmEmb9zyS9x9k7WRa4ckiMEIqbKk27CRh+z5HePv0YjqN2FiA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzP7oS4pCCIhecpuWnMS1dA54ij6U0JRPunM+0CU819G2e7ib6A
-	uS1g/INfA9Z6xfTwzDW9KHIb9ax+CPzf+LWsTtbTgEFEUiFxMY9PoqFtmkb8E/yNWAZIlWB9rZs
-	llY/eEyvCFdrNuHSvgIVTftog4tWfYLtq6FEsT6k0Kg==
-X-Received: by 2002:a05:6512:1316:b0:5a1:3b7f:450e with SMTP id
- 2adb3069b0e04-5a13ccf50b7mr3398140e87.42.1773048879758; Mon, 09 Mar 2026
- 02:34:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mfarBoXx"
+Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-35979a03106so8575273a91.1
+        for <linux-doc@vger.kernel.org>; Mon, 09 Mar 2026 02:54:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1773050052; x=1773654852; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=pIf0vYFKMELNG2TTEBOnMZwDB9piTsTF1zoj75pjk5Y=;
+        b=mfarBoXxzLr9cwzacMVTJpjp7xdm9dvlrQ7PNJHlTDuCIqKV4evvsfFAQpQGmMJ/Gd
+         /65YWc9ChTqFJRq5WWSjTDqQ8cpJn5A9wbC25aa8nMeiOUlBn1+nNjl9NZgKt7aSm0tI
+         Tc9EBtM5gT3RRfF0Ickc556L70XG9d61bwKL1nVhr9QrjHhaLLoDc/jJjZwbxvbz69ru
+         6mCALJ00Ib7PfHGEtmCGld4w+oQG3MWexD5kKE+WtI2+MMh/JUhVZykR83lHP228+GO1
+         H4GgluuSX00cKxnHb6K3L/xwSDSU3yNs6VfQydGJZrNl+8JrX2i9uefCI2BtCY4YOrZS
+         KiRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773050052; x=1773654852;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=pIf0vYFKMELNG2TTEBOnMZwDB9piTsTF1zoj75pjk5Y=;
+        b=GC8s9/C3Zofd31ujSEEQCAxlKZIsXhPZF/iTNlGA5OHW9gjWRJAbbyJKcxyq0aPJ9f
+         YPb4Opqqe1mlAoccBg7I1ZPZn/UdxYvEUlXPQcXKweuB9pe1R0mhMBw6bycfm5BjCh1j
+         SpteHI9ksL5r+5PSLmwa3L3gZ3KiCJZXnamCWjhiHQt9iV94Z4N0wwMLSG5+xy3NpWmv
+         w6tqTQ2DAYRGapW/XvfdZPvD0hc1K2M3KUbttouO4Ybl5aYGoIh0WAUSVC0YOgaAuAzI
+         fqc3hAhFX24318eV9LLqcEu8UC/jg7dMm41yx3JegVqTw9s4GTWHovQdzAbTWg5KyC7i
+         ATvA==
+X-Forwarded-Encrypted: i=1; AJvYcCUVAh1RTyPtzSXwy3OUcAkdgmm/z2R0fqQ3YCwd5na3Syy2Wm0utPPhTNIPwAVXHciC1d0/Zb3GEew=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxIXZSZNH40nnmHt50plZkVJ5bFmqgDcjWmW8X1RHuUoHbgALNV
+	xLgtdtnYvmxmPjB/Koz2P9VhRafNg6Yrkm2HN8UAD21gadoORZr7k1gnA+gpLY1cPgYYr/p2otS
+	eTEUhANJhSB0thzLnY9Oyj793Fg==
+X-Received: from plbv8.prod.google.com ([2002:a17:903:44c8:b0:2a3:1bf9:d25])
+ (user=ackerleytng job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:902:e80b:b0:2ae:54b2:27d1 with SMTP id d9443c01a7336-2ae82467157mr111432675ad.44.1773050052185;
+ Mon, 09 Mar 2026 02:54:12 -0700 (PDT)
+Date: Mon, 09 Mar 2026 09:53:51 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260306-reset-core-refactor-v3-0-599349522876@oss.qualcomm.com> <8dc9221ea83c9adeba3183cc370a6a4874562376.camel@pengutronix.de>
-In-Reply-To: <8dc9221ea83c9adeba3183cc370a6a4874562376.camel@pengutronix.de>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Mon, 9 Mar 2026 10:34:28 +0100
-X-Gmail-Original-Message-ID: <CAMRc=McOuT00zo=sN3OqgRJEXemk=f7ORb1B7KQprn==EaTERQ@mail.gmail.com>
-X-Gm-Features: AaiRm53Ijyx8Y34_Uq4hR47hwN2bkV0LzbkWqINCodIgieEUXN41GQBW3NxxoVU
-Message-ID: <CAMRc=McOuT00zo=sN3OqgRJEXemk=f7ORb1B7KQprn==EaTERQ@mail.gmail.com>
-Subject: Re: [PATCH v3 00/14] reset: major reset core refactoring
-To: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIAK+YrmkC/x2MywqDMBAAf0X23KV5oC29FvyAXsVDElcNNrFkR
+ QLivzftcQZmDmBKnhge1QGJds9+jQX0pQI3mzgR+qEwKKEaoVSNU6CAvKF9r25hvGk96nqQQkk JJfokGn3+Dzt4tU/oi7SGCW0y0c2/17IHzPfmGilvcJ5fe4EsdoQAAAA=
+X-Change-Id: 20260225-gmem-st-blocks-733f35d10211
+X-Developer-Key: i=ackerleytng@google.com; a=ed25519; pk=sAZDYXdm6Iz8FHitpHeFlCMXwabodTm7p8/3/8xUxuU=
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1773050050; l=1868;
+ i=ackerleytng@google.com; s=20260225; h=from:subject:message-id;
+ bh=68O4lC98Vin61Vk35g2/k0cZz6nrw+/Eb7DGyikKBoQ=; b=ESwVyUWcaPjwEE0yP3Xk8C7LGm2Jq8bAYp6gfzWYbQj40hBFC3hJqHMd7GHOzniNAxF11gI5E
+ q/oaiFZvM1hCbkoIMF3gQqAFMwjT0SDV8AXTcEaNL2gvCD6adqoDxsi
+X-Mailer: b4 0.14.3
+Message-ID: <20260309-gmem-st-blocks-v3-0-815f03d9653e@google.com>
+Subject: [PATCH RFC v3 0/4] guest_memfd: Track amount of memory allocated on inode
+From: Ackerley Tng <ackerleytng@google.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	seanjc@google.com, rientjes@google.com, rick.p.edgecombe@intel.com, 
+	yan.y.zhao@intel.com, fvdl@google.com, jthoughton@google.com, 
+	vannapurve@google.com, shivankg@amd.com, michael.roth@amd.com, 
+	pratyush@kernel.org, pasha.tatashin@soleen.com, kalyazin@amazon.com, 
+	tabba@google.com, Vlastimil Babka <vbabka@kernel.org>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Ackerley Tng <ackerleytng@google.com>
+Content-Type: text/plain; charset="utf-8"
 
-On Mon, Mar 9, 2026 at 10:25=E2=80=AFAM Philipp Zabel <p.zabel@pengutronix.=
-de> wrote:
->
-> On Fr, 2026-03-06 at 18:22 +0100, Bartosz Golaszewski wrote:
-> > Here is the promised refactoring of the reset core. The main goal of th=
-e
-> > series is to make the reset subsystem fwnode-agnostic - meaning it can
-> > work with all kinds of firmware nodes instead of being OF-centric - but
-> > there are some other related changes in here as well. I'm sending it al=
-l
-> > out for review to give Phillipp a better picture of the end result but
-> > individual pieces can be picked up earlier if accepted.
-> [...]
-> > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.co=
-m>
->
-> Applied to reset/next, thanks!
->
+Hi,
 
-Thanks for the careful reviews and spotting all the corner-cases!
+Currently, guest_memfd doesn't update inode's i_blocks or i_bytes at
+all. Hence, st_blocks in the struct populated by a userspace fstat()
+call on a guest_memfd will always be 0. This patch series makes
+guest_memfd track the amount of memory allocated on an inode, which
+allows fstat() to accurately report that on requests from userspace.
 
-Bartosz
+The inode's i_blocks and i_bytes fields are updated when the folio is
+associated or disassociated from the guest_memfd inode, which are at
+allocation and truncation times respectively.
+
+RFC v3 uses the .invalidate_folio() callback to update accounting in inode
+fields at truncation time, and sets AS_RELEASE_ALWAYS for guest_memfd
+mappings to enable .invalidate_folio() for guest_memfd.
+
+RFC v3 series is based on kvm-x86/next.
+
++ RFC v2: Removed a full custom implementation of .evict_inode for
+  guest_memfd in favor of adding .unaccount_folio callback.
+  + https://lore.kernel.org/all/20260225-gmem-st-blocks-v2-0-87d7098119a9@google.com/T/
++ RFC v1: https://lore.kernel.org/all/cover.1771826352.git.ackerleytng@google.com/T/
+
+Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+---
+Ackerley Tng (4):
+      KVM: guest_memfd: Track amount of memory allocated on inode
+      KVM: guest_memfd: Set release always on guest_memfd mappings
+      KVM: selftests: Wrap fstat() to assert success
+      KVM: selftests: Test that st_blocks is updated on allocation
+
+ tools/testing/selftests/kvm/guest_memfd_test.c     | 32 +++++++++++++++-------
+ tools/testing/selftests/kvm/include/kvm_syscalls.h |  2 ++
+ virt/kvm/guest_memfd.c                             | 15 ++++++++++
+ 3 files changed, 39 insertions(+), 10 deletions(-)
+---
+base-commit: 5128b972fb2801ad9aca54d990a75611ab5283a9
+change-id: 20260225-gmem-st-blocks-733f35d10211
+
+Best regards,
+--
+Ackerley Tng <ackerleytng@google.com>
+
