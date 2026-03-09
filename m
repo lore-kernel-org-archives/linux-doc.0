@@ -1,45 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DAD93BED5F;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DA423BE14A;
 	Mon,  9 Mar 2026 16:48:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773074886; cv=none; b=a4XclYHn6ppbtEZ+iRSrJyPMcbG8In4oNWl0T+2rmJCm4qz9OWkn5iMuntYGRwzGlLbWAKI4ITGjy32CkVm5o7PeK9h3PgcQMSVoKGTV/uHLTo2IHKD10t3mpJQv6wKUshiSqiPDSUmpBWhvVZAXiqCeM25cpIhnnUmOoV+c8ik=
+	t=1773074886; cv=none; b=YkRFwjUAeJu35TA5lFVjKyjJKXQVkllUvmFJtIB/LMPa5Q1gPBAnWJG/oM3FIKJM3FS0vOpfgmGqC4sWWJ5LnOB3GUgiJ/lyBlU3T2+yNNwi8QzIZ1KxigTrVy/aEVXWpbZHyREsK50tnykD7VojxGDIsRkYT+xiMY7Yc+hFiCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1773074886; c=relaxed/simple;
-	bh=iR9cZEMBrhxbAljLc1W53eZP2bmd/b55ybR+IN+0RyI=;
+	bh=QUqLYmPuQ3O4ZK29hZAwAg0doyghqKMTrXuQP8pJrMQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=g4QRRa95AahatHbYZFRQUz6kPH87SuL8OCacXwDAMNsaxlbTj4I+hL+YjHx5klWki5SS5d232R4kwmmM7c6EGDayvGl/g9RSQHWawUx/vmAgepzbKhTE9DbibFDBURvN/vXXMEaNdjWRVZ2LZc3Zk8hq7v/VsQCIRlfsi5jAn7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TvFjYCzy; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=e4wL8zUMdU8nuNWlT+/iXkakgf7zZ/onDRLqi9xtW0Vr+3E5dJ8WvPXvK3iaVVzv1Mv1r2wJKopXQnDPi/HNEugO7IrUF6gAWjEDW6P3C/ZSnxsegv8TI+F/jvXhgwAXyvG6MDMzflKZOa98DcfhbPAGedUAqNhxhyiLtGz/h34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OAJ3jtqZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TvFjYCzy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B320C2BCB1;
-	Mon,  9 Mar 2026 16:48:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OAJ3jtqZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C14D5C2BCB0;
+	Mon,  9 Mar 2026 16:48:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1773074886;
-	bh=iR9cZEMBrhxbAljLc1W53eZP2bmd/b55ybR+IN+0RyI=;
+	bh=QUqLYmPuQ3O4ZK29hZAwAg0doyghqKMTrXuQP8pJrMQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=TvFjYCzye2aOkH4hWram9Eq8FP4qUiAKApgNOe1HTEtvR72dz42lSH599bcDMmUJO
-	 Ac149IMP0jZ+mqDysTamGGDm6S8tZc6QHxWbhiz8rNvyCHP4JATQfVXfpX9f5wL0Z2
-	 8oA5QkIW4m+5z59uFKtqSX063uifDl6vcci4/cTH/fYiOs6AFZW9mI+PjXp1RFxoge
-	 1Fe/6yqSSA2rHHpHQZTCIAUiwjppjiSz9lbk+ksdV06rNo4Zi+y3eRDUA8+SFr7Id8
-	 zgAsxw8edUifZOBP7QbbB426RLY8nZwEt6O2Zax5COtyIWRZLno/CMUcFpVggElaGS
-	 I5Y+ZQc5M9mLA==
+	b=OAJ3jtqZsO3bO8eiCpMFkYulaN4oCuILxwC6HxXPAmoVbien7B+BIMovr0arFnnyx
+	 47GYt+L4ilEjQlywGBKLbAQK6IRNCPE06vD37lBkHEKy6iIbYdHt2wOSvX70sdOebm
+	 jbqdOHr28XdiuRhvlmpC+bQ8RzJgSX8VaL6SZFf4bhXfoV8vCmPb20aC7+VMUETHQl
+	 9M+aZpI8WwFV6YU5uRnJIN50enflnzIDt3AlGwZtuTO+DFfuSsrl9FC4EASFMLCE+l
+	 nV0YrqA5sje/cGzjFyMQDD40S8LKiBa4jI+WWVGtK5vU2cIvdkXoO5TlAWTnqPITIT
+	 uO8PviTZvrCFA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vzdm0-0000000Bhbt-1BFg;
-	Mon, 09 Mar 2026 17:48:04 +0100
+	id 1vzdlz-0000000BhZR-3cs0;
+	Mon, 09 Mar 2026 17:48:03 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH 4/8] docs: kdoc: properly handle empty enum arguments
-Date: Mon,  9 Mar 2026 17:47:55 +0100
-Message-ID: <4182bfb7e5f5b4bbaf05cee1bede691e56247eaf.1773074166.git.mchehab+huawei@kernel.org>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 2/8] unittests: add a testbench to check public/private kdoc comments
+Date: Mon,  9 Mar 2026 17:47:53 +0100
+Message-ID: <144f4952e0cb74fe9c9adc117e9a21ec8aa1cc10.1773074166.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1773074166.git.mchehab+huawei@kernel.org>
 References: <cover.1773074166.git.mchehab+huawei@kernel.org>
@@ -53,33 +51,371 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Depending on how the enum proto is written, a comma at the end
-may incorrectly make kernel-doc parse an arg like " ".
+Add unit tests to check if the public/private and comments strip
+is working properly.
 
-Strip spaces before checking if arg is empty.
+Running it shows that, on several cases, public/private is not
+doing what it is expected:
+
+  test_private:
+    TestPublicPrivate:
+        test balanced_inner_private:                                 OK
+        test balanced_non_greddy_private:                            OK
+        test balanced_private:                                       OK
+        test no private:                                             OK
+        test unbalanced_inner_private:                               FAIL
+        test unbalanced_private:                                     FAIL
+        test unbalanced_struct_group_tagged_with_private:            FAIL
+        test unbalanced_two_struct_group_tagged_first_with_private:  FAIL
+        test unbalanced_without_end_of_line:                         FAIL
+
+  Ran 9 tests
+
+  FAILED (failures=5)
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tools/lib/python/kdoc/kdoc_parser.py | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ tools/unittests/test_private.py | 331 ++++++++++++++++++++++++++++++++
+ 1 file changed, 331 insertions(+)
+ create mode 100755 tools/unittests/test_private.py
 
-diff --git a/tools/lib/python/kdoc/kdoc_parser.py b/tools/lib/python/kdoc/kdoc_parser.py
-index 086579d00b5c..4b3c555e6c8e 100644
---- a/tools/lib/python/kdoc/kdoc_parser.py
-+++ b/tools/lib/python/kdoc/kdoc_parser.py
-@@ -810,9 +810,10 @@ class KernelDoc:
-         member_set = set()
-         members = KernRe(r'\([^;)]*\)').sub('', members)
-         for arg in members.split(','):
--            if not arg:
--                continue
-             arg = KernRe(r'^\s*(\w+).*').sub(r'\1', arg)
-+            if not arg.strip():
-+                continue
+diff --git a/tools/unittests/test_private.py b/tools/unittests/test_private.py
+new file mode 100755
+index 000000000000..eae245ae8a12
+--- /dev/null
++++ b/tools/unittests/test_private.py
+@@ -0,0 +1,331 @@
++#!/usr/bin/env python3
 +
-             self.entry.parameterlist.append(arg)
-             if arg not in self.entry.parameterdescs:
-                 self.entry.parameterdescs[arg] = self.undescribed
++"""
++Unit tests for struct/union member extractor class.
++"""
++
++
++import os
++import re
++import unittest
++import sys
++
++from unittest.mock import MagicMock
++
++SRC_DIR = os.path.dirname(os.path.realpath(__file__))
++sys.path.insert(0, os.path.join(SRC_DIR, "../lib/python"))
++
++from kdoc.kdoc_parser import trim_private_members
++from unittest_helper import run_unittest
++
++#
++# List of tests.
++#
++# The code will dynamically generate one test for each key on this dictionary.
++#
++
++#: Tests to check if CTokenizer is handling properly public/private comments.
++TESTS_PRIVATE = {
++    #
++    # Simplest case: no private. Ensure that trimming won't affect struct
++    #
++    "no private": {
++        "source": """
++            struct foo {
++                int a;
++                int b;
++                int c;
++            };
++        """,
++        "trimmed": """
++            struct foo {
++                int a;
++                int b;
++                int c;
++            };
++        """,
++    },
++
++    #
++    # Play "by the books" by always having a public in place
++    #
++
++    "balanced_private": {
++        "source": """
++            struct foo {
++                int a;
++                /* private: */
++                int b;
++                /* public: */
++                int c;
++            };
++        """,
++        "trimmed": """
++            struct foo {
++                int a;
++                int c;
++            };
++        """,
++    },
++
++    "balanced_non_greddy_private": {
++        "source": """
++            struct foo {
++                int a;
++                /* private: */
++                int b;
++                /* public: */
++                int c;
++                /* private: */
++                int d;
++                /* public: */
++                int e;
++
++            };
++        """,
++        "trimmed": """
++            struct foo {
++                int a;
++                int c;
++                int e;
++            };
++        """,
++    },
++
++    "balanced_inner_private": {
++        "source": """
++            struct foo {
++                struct {
++                    int a;
++                    /* private: ignore below */
++                    int b;
++                /* public: but this should not be ignored */
++                };
++                int b;
++            };
++        """,
++        "trimmed": """
++            struct foo {
++                struct {
++                    int a;
++                };
++                int b;
++            };
++        """,
++    },
++
++    #
++    # Test what happens if there's no public after private place
++    #
++
++    "unbalanced_private": {
++        "source": """
++            struct foo {
++                int a;
++                /* private: */
++                int b;
++                int c;
++            };
++        """,
++        "trimmed": """
++            struct foo {
++                int a;
++            };
++        """,
++    },
++
++    "unbalanced_inner_private": {
++        "source": """
++            struct foo {
++                struct {
++                    int a;
++                    /* private: ignore below */
++                    int b;
++                /* but this should not be ignored */
++                };
++                int b;
++            };
++        """,
++        "trimmed": """
++            struct foo {
++                struct {
++                    int a;
++                };
++                int b;
++            };
++        """,
++    },
++
++    "unbalanced_struct_group_tagged_with_private": {
++        "source": """
++            struct page_pool_params {
++                struct_group_tagged(page_pool_params_fast, fast,
++                        unsigned int    order;
++                        unsigned int    pool_size;
++                        int             nid;
++                        struct device   *dev;
++                        struct napi_struct *napi;
++                        enum dma_data_direction dma_dir;
++                        unsigned int    max_len;
++                        unsigned int    offset;
++                };
++                struct_group_tagged(page_pool_params_slow, slow,
++                        struct net_device *netdev;
++                        unsigned int queue_idx;
++                        unsigned int    flags;
++                        /* private: used by test code only */
++                        void (*init_callback)(netmem_ref netmem, void *arg);
++                        void *init_arg;
++                };
++            };
++        """,
++        "trimmed": """
++            struct page_pool_params {
++                struct_group_tagged(page_pool_params_fast, fast,
++                        unsigned int    order;
++                        unsigned int    pool_size;
++                        int             nid;
++                        struct device   *dev;
++                        struct napi_struct *napi;
++                        enum dma_data_direction dma_dir;
++                        unsigned int    max_len;
++                        unsigned int    offset;
++                };
++                struct_group_tagged(page_pool_params_slow, slow,
++                        struct net_device *netdev;
++                        unsigned int queue_idx;
++                        unsigned int    flags;
++                };
++            };
++        """,
++    },
++
++    "unbalanced_two_struct_group_tagged_first_with_private": {
++        "source": """
++            struct page_pool_params {
++                struct_group_tagged(page_pool_params_slow, slow,
++                        struct net_device *netdev;
++                        unsigned int queue_idx;
++                        unsigned int    flags;
++                        /* private: used by test code only */
++                        void (*init_callback)(netmem_ref netmem, void *arg);
++                        void *init_arg;
++                };
++                struct_group_tagged(page_pool_params_fast, fast,
++                        unsigned int    order;
++                        unsigned int    pool_size;
++                        int             nid;
++                        struct device   *dev;
++                        struct napi_struct *napi;
++                        enum dma_data_direction dma_dir;
++                        unsigned int    max_len;
++                        unsigned int    offset;
++                };
++            };
++        """,
++        "trimmed": """
++            struct page_pool_params {
++                struct_group_tagged(page_pool_params_slow, slow,
++                        struct net_device *netdev;
++                        unsigned int queue_idx;
++                        unsigned int    flags;
++                };
++                struct_group_tagged(page_pool_params_fast, fast,
++                        unsigned int    order;
++                        unsigned int    pool_size;
++                        int             nid;
++                        struct device   *dev;
++                        struct napi_struct *napi;
++                        enum dma_data_direction dma_dir;
++                        unsigned int    max_len;
++                        unsigned int    offset;
++                };
++            };
++        """,
++    },
++    "unbalanced_without_end_of_line": {
++        "source": """ \
++            struct page_pool_params { \
++                struct_group_tagged(page_pool_params_slow, slow, \
++                        struct net_device *netdev; \
++                        unsigned int queue_idx; \
++                        unsigned int    flags;
++                        /* private: used by test code only */
++                        void (*init_callback)(netmem_ref netmem, void *arg); \
++                        void *init_arg; \
++                }; \
++                struct_group_tagged(page_pool_params_fast, fast, \
++                        unsigned int    order; \
++                        unsigned int    pool_size; \
++                        int             nid; \
++                        struct device   *dev; \
++                        struct napi_struct *napi; \
++                        enum dma_data_direction dma_dir; \
++                        unsigned int    max_len; \
++                        unsigned int    offset; \
++                }; \
++            };
++        """,
++        "trimmed": """
++            struct page_pool_params {
++                struct_group_tagged(page_pool_params_slow, slow,
++                        struct net_device *netdev;
++                        unsigned int queue_idx;
++                        unsigned int    flags;
++                };
++                struct_group_tagged(page_pool_params_fast, fast,
++                        unsigned int    order;
++                        unsigned int    pool_size;
++                        int             nid;
++                        struct device   *dev;
++                        struct napi_struct *napi;
++                        enum dma_data_direction dma_dir;
++                        unsigned int    max_len;
++                        unsigned int    offset;
++                };
++            };
++        """,
++    },
++}
++
++
++class TestPublicPrivate(unittest.TestCase):
++    """
++    Main test class. Populated dynamically at runtime.
++    """
++
++    def setUp(self):
++        self.maxDiff = None
++
++    def add_test(cls, name, source, trimmed):
++        """
++        Dynamically add a test to the class
++        """
++        def test(cls):
++            result = trim_private_members(source)
++
++            result = re.sub(r"\s++", " ", result).strip()
++            expected = re.sub(r"\s++", " ", trimmed).strip()
++
++            msg = f"failed when parsing this source:\n" + source
++
++            cls.assertEqual(result, expected, msg=msg)
++
++        test.__name__ = f'test {name}'
++
++        setattr(TestPublicPrivate, test.__name__, test)
++
++
++#
++# Populate TestPublicPrivate class
++#
++test_class = TestPublicPrivate()
++for name, test in TESTS_PRIVATE.items():
++    test_class.add_test(name, test["source"], test["trimmed"])
++
++
++#
++# main
++#
++if __name__ == "__main__":
++    run_unittest(__file__)
 -- 
 2.52.0
 
