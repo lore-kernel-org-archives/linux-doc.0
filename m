@@ -1,43 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DA423BE14A;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 970633DA5BB;
 	Mon,  9 Mar 2026 16:48:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773074886; cv=none; b=YkRFwjUAeJu35TA5lFVjKyjJKXQVkllUvmFJtIB/LMPa5Q1gPBAnWJG/oM3FIKJM3FS0vOpfgmGqC4sWWJ5LnOB3GUgiJ/lyBlU3T2+yNNwi8QzIZ1KxigTrVy/aEVXWpbZHyREsK50tnykD7VojxGDIsRkYT+xiMY7Yc+hFiCM=
+	t=1773074886; cv=none; b=lkbSNHHOR1BHb+x8pygfHWxvYe+cFFRXEIxCaYH0WlUH6HIMXSbV4DBNgc5P0/rAs9YHfU8YKyTmpSa17uq+eIuaf0ADLzz4uD/X9TWMPsPNJT2h0hUhpPsoaB39s3+kxvkbRwqj9fR8UTURPfDMhEHxiQbDlZT/xmlaqeXUhro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1773074886; c=relaxed/simple;
-	bh=QUqLYmPuQ3O4ZK29hZAwAg0doyghqKMTrXuQP8pJrMQ=;
+	bh=Zxtsgu1TemvpgcnmCFSJTgzfv8FPAfvXqLO7ecUkY9U=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=e4wL8zUMdU8nuNWlT+/iXkakgf7zZ/onDRLqi9xtW0Vr+3E5dJ8WvPXvK3iaVVzv1Mv1r2wJKopXQnDPi/HNEugO7IrUF6gAWjEDW6P3C/ZSnxsegv8TI+F/jvXhgwAXyvG6MDMzflKZOa98DcfhbPAGedUAqNhxhyiLtGz/h34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OAJ3jtqZ; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=oKlNMr3WGP6NurSqJMUCq2SsbFHGtOZdx7MHWnoBenTDRAvzUvSpvRydEAwMat2H2JHMjeY4/MmZgAG2g80gq1BljKJBF/l/H8I/0gDkrTkFrwhcZSUCYlmaGhX1EXJROUy29e4PT801c46ZBOs/inY0GRt3crB9vqmZold6rYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tHaLgfeA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OAJ3jtqZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C14D5C2BCB0;
-	Mon,  9 Mar 2026 16:48:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tHaLgfeA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5021FC4CEF7;
+	Mon,  9 Mar 2026 16:48:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1773074886;
-	bh=QUqLYmPuQ3O4ZK29hZAwAg0doyghqKMTrXuQP8pJrMQ=;
+	bh=Zxtsgu1TemvpgcnmCFSJTgzfv8FPAfvXqLO7ecUkY9U=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=OAJ3jtqZsO3bO8eiCpMFkYulaN4oCuILxwC6HxXPAmoVbien7B+BIMovr0arFnnyx
-	 47GYt+L4ilEjQlywGBKLbAQK6IRNCPE06vD37lBkHEKy6iIbYdHt2wOSvX70sdOebm
-	 jbqdOHr28XdiuRhvlmpC+bQ8RzJgSX8VaL6SZFf4bhXfoV8vCmPb20aC7+VMUETHQl
-	 9M+aZpI8WwFV6YU5uRnJIN50enflnzIDt3AlGwZtuTO+DFfuSsrl9FC4EASFMLCE+l
-	 nV0YrqA5sje/cGzjFyMQDD40S8LKiBa4jI+WWVGtK5vU2cIvdkXoO5TlAWTnqPITIT
-	 uO8PviTZvrCFA==
+	b=tHaLgfeA922HnEX8sKFd/khIphSQhIXouJcQ3/xldgHhaIW4DzxQVSRqkktvc3Yqs
+	 y2HUmnIZ6mizYdKIBV0mf6nchp/CjCq2PqSsUhzpwSCEKmqbquLNO0J4n2/fWhEDQI
+	 AR27htYMdR9VgcYEqNlokIMYJJXzjKEKZZzKvgANNwcx5H1y+DRq1FC0A3uwnie2Gh
+	 QtLDCTDObnnyzFHcKQzPl9wu0aihTyc49MZ2hufOf7PhvXrdyOIY8ZC0TJ3uHRFjxo
+	 dDImNZfoRXL0eCAr+G9DKi1L3vR04sQIgcRb1NUnbx/fL3j668LkD3xeogkDKoz/bv
+	 LLawyLuiUc/4w==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1vzdlz-0000000BhZR-3cs0;
-	Mon, 09 Mar 2026 17:48:03 +0100
+	id 1vzdm0-0000000Bhd6-22YC;
+	Mon, 09 Mar 2026 17:48:04 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/8] unittests: add a testbench to check public/private kdoc comments
-Date: Mon,  9 Mar 2026 17:47:53 +0100
-Message-ID: <144f4952e0cb74fe9c9adc117e9a21ec8aa1cc10.1773074166.git.mchehab+huawei@kernel.org>
+	linux-kernel@vger.kernel.org,
+	Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH 5/8] docs: kdoc_re: add a C tokenizer
+Date: Mon,  9 Mar 2026 17:47:56 +0100
+Message-ID: <c63ad36c81fe043e9e33ca55630414893f127413.1773074166.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1773074166.git.mchehab+huawei@kernel.org>
 References: <cover.1773074166.git.mchehab+huawei@kernel.org>
@@ -51,371 +53,264 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Add unit tests to check if the public/private and comments strip
-is working properly.
+Handling C code purely using regular expressions doesn't work well.
 
-Running it shows that, on several cases, public/private is not
-doing what it is expected:
+Add a C tokenizer to help doing it the right way.
 
-  test_private:
-    TestPublicPrivate:
-        test balanced_inner_private:                                 OK
-        test balanced_non_greddy_private:                            OK
-        test balanced_private:                                       OK
-        test no private:                                             OK
-        test unbalanced_inner_private:                               FAIL
-        test unbalanced_private:                                     FAIL
-        test unbalanced_struct_group_tagged_with_private:            FAIL
-        test unbalanced_two_struct_group_tagged_first_with_private:  FAIL
-        test unbalanced_without_end_of_line:                         FAIL
-
-  Ran 9 tests
-
-  FAILED (failures=5)
+The tokenizer was written using as basis the Python re documentation
+tokenizer example from:
+	https://docs.python.org/3/library/re.html#writing-a-tokenizer
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tools/unittests/test_private.py | 331 ++++++++++++++++++++++++++++++++
- 1 file changed, 331 insertions(+)
- create mode 100755 tools/unittests/test_private.py
+ tools/lib/python/kdoc/kdoc_re.py | 234 +++++++++++++++++++++++++++++++
+ 1 file changed, 234 insertions(+)
 
-diff --git a/tools/unittests/test_private.py b/tools/unittests/test_private.py
-new file mode 100755
-index 000000000000..eae245ae8a12
---- /dev/null
-+++ b/tools/unittests/test_private.py
-@@ -0,0 +1,331 @@
-+#!/usr/bin/env python3
+diff --git a/tools/lib/python/kdoc/kdoc_re.py b/tools/lib/python/kdoc/kdoc_re.py
+index 085b89a4547c..7bed4e9a8810 100644
+--- a/tools/lib/python/kdoc/kdoc_re.py
++++ b/tools/lib/python/kdoc/kdoc_re.py
+@@ -141,6 +141,240 @@ class KernRe:
+ 
+         return self.last_match.groups()
+ 
++class TokType():
 +
-+"""
-+Unit tests for struct/union member extractor class.
-+"""
++    @staticmethod
++    def __str__(val):
++        """Return the name of an enum value"""
++        return TokType._name_by_val.get(val, f"UNKNOWN({val})")
 +
-+
-+import os
-+import re
-+import unittest
-+import sys
-+
-+from unittest.mock import MagicMock
-+
-+SRC_DIR = os.path.dirname(os.path.realpath(__file__))
-+sys.path.insert(0, os.path.join(SRC_DIR, "../lib/python"))
-+
-+from kdoc.kdoc_parser import trim_private_members
-+from unittest_helper import run_unittest
-+
-+#
-+# List of tests.
-+#
-+# The code will dynamically generate one test for each key on this dictionary.
-+#
-+
-+#: Tests to check if CTokenizer is handling properly public/private comments.
-+TESTS_PRIVATE = {
-+    #
-+    # Simplest case: no private. Ensure that trimming won't affect struct
-+    #
-+    "no private": {
-+        "source": """
-+            struct foo {
-+                int a;
-+                int b;
-+                int c;
-+            };
-+        """,
-+        "trimmed": """
-+            struct foo {
-+                int a;
-+                int b;
-+                int c;
-+            };
-+        """,
-+    },
-+
-+    #
-+    # Play "by the books" by always having a public in place
-+    #
-+
-+    "balanced_private": {
-+        "source": """
-+            struct foo {
-+                int a;
-+                /* private: */
-+                int b;
-+                /* public: */
-+                int c;
-+            };
-+        """,
-+        "trimmed": """
-+            struct foo {
-+                int a;
-+                int c;
-+            };
-+        """,
-+    },
-+
-+    "balanced_non_greddy_private": {
-+        "source": """
-+            struct foo {
-+                int a;
-+                /* private: */
-+                int b;
-+                /* public: */
-+                int c;
-+                /* private: */
-+                int d;
-+                /* public: */
-+                int e;
-+
-+            };
-+        """,
-+        "trimmed": """
-+            struct foo {
-+                int a;
-+                int c;
-+                int e;
-+            };
-+        """,
-+    },
-+
-+    "balanced_inner_private": {
-+        "source": """
-+            struct foo {
-+                struct {
-+                    int a;
-+                    /* private: ignore below */
-+                    int b;
-+                /* public: but this should not be ignored */
-+                };
-+                int b;
-+            };
-+        """,
-+        "trimmed": """
-+            struct foo {
-+                struct {
-+                    int a;
-+                };
-+                int b;
-+            };
-+        """,
-+    },
-+
-+    #
-+    # Test what happens if there's no public after private place
-+    #
-+
-+    "unbalanced_private": {
-+        "source": """
-+            struct foo {
-+                int a;
-+                /* private: */
-+                int b;
-+                int c;
-+            };
-+        """,
-+        "trimmed": """
-+            struct foo {
-+                int a;
-+            };
-+        """,
-+    },
-+
-+    "unbalanced_inner_private": {
-+        "source": """
-+            struct foo {
-+                struct {
-+                    int a;
-+                    /* private: ignore below */
-+                    int b;
-+                /* but this should not be ignored */
-+                };
-+                int b;
-+            };
-+        """,
-+        "trimmed": """
-+            struct foo {
-+                struct {
-+                    int a;
-+                };
-+                int b;
-+            };
-+        """,
-+    },
-+
-+    "unbalanced_struct_group_tagged_with_private": {
-+        "source": """
-+            struct page_pool_params {
-+                struct_group_tagged(page_pool_params_fast, fast,
-+                        unsigned int    order;
-+                        unsigned int    pool_size;
-+                        int             nid;
-+                        struct device   *dev;
-+                        struct napi_struct *napi;
-+                        enum dma_data_direction dma_dir;
-+                        unsigned int    max_len;
-+                        unsigned int    offset;
-+                };
-+                struct_group_tagged(page_pool_params_slow, slow,
-+                        struct net_device *netdev;
-+                        unsigned int queue_idx;
-+                        unsigned int    flags;
-+                        /* private: used by test code only */
-+                        void (*init_callback)(netmem_ref netmem, void *arg);
-+                        void *init_arg;
-+                };
-+            };
-+        """,
-+        "trimmed": """
-+            struct page_pool_params {
-+                struct_group_tagged(page_pool_params_fast, fast,
-+                        unsigned int    order;
-+                        unsigned int    pool_size;
-+                        int             nid;
-+                        struct device   *dev;
-+                        struct napi_struct *napi;
-+                        enum dma_data_direction dma_dir;
-+                        unsigned int    max_len;
-+                        unsigned int    offset;
-+                };
-+                struct_group_tagged(page_pool_params_slow, slow,
-+                        struct net_device *netdev;
-+                        unsigned int queue_idx;
-+                        unsigned int    flags;
-+                };
-+            };
-+        """,
-+    },
-+
-+    "unbalanced_two_struct_group_tagged_first_with_private": {
-+        "source": """
-+            struct page_pool_params {
-+                struct_group_tagged(page_pool_params_slow, slow,
-+                        struct net_device *netdev;
-+                        unsigned int queue_idx;
-+                        unsigned int    flags;
-+                        /* private: used by test code only */
-+                        void (*init_callback)(netmem_ref netmem, void *arg);
-+                        void *init_arg;
-+                };
-+                struct_group_tagged(page_pool_params_fast, fast,
-+                        unsigned int    order;
-+                        unsigned int    pool_size;
-+                        int             nid;
-+                        struct device   *dev;
-+                        struct napi_struct *napi;
-+                        enum dma_data_direction dma_dir;
-+                        unsigned int    max_len;
-+                        unsigned int    offset;
-+                };
-+            };
-+        """,
-+        "trimmed": """
-+            struct page_pool_params {
-+                struct_group_tagged(page_pool_params_slow, slow,
-+                        struct net_device *netdev;
-+                        unsigned int queue_idx;
-+                        unsigned int    flags;
-+                };
-+                struct_group_tagged(page_pool_params_fast, fast,
-+                        unsigned int    order;
-+                        unsigned int    pool_size;
-+                        int             nid;
-+                        struct device   *dev;
-+                        struct napi_struct *napi;
-+                        enum dma_data_direction dma_dir;
-+                        unsigned int    max_len;
-+                        unsigned int    offset;
-+                };
-+            };
-+        """,
-+    },
-+    "unbalanced_without_end_of_line": {
-+        "source": """ \
-+            struct page_pool_params { \
-+                struct_group_tagged(page_pool_params_slow, slow, \
-+                        struct net_device *netdev; \
-+                        unsigned int queue_idx; \
-+                        unsigned int    flags;
-+                        /* private: used by test code only */
-+                        void (*init_callback)(netmem_ref netmem, void *arg); \
-+                        void *init_arg; \
-+                }; \
-+                struct_group_tagged(page_pool_params_fast, fast, \
-+                        unsigned int    order; \
-+                        unsigned int    pool_size; \
-+                        int             nid; \
-+                        struct device   *dev; \
-+                        struct napi_struct *napi; \
-+                        enum dma_data_direction dma_dir; \
-+                        unsigned int    max_len; \
-+                        unsigned int    offset; \
-+                }; \
-+            };
-+        """,
-+        "trimmed": """
-+            struct page_pool_params {
-+                struct_group_tagged(page_pool_params_slow, slow,
-+                        struct net_device *netdev;
-+                        unsigned int queue_idx;
-+                        unsigned int    flags;
-+                };
-+                struct_group_tagged(page_pool_params_fast, fast,
-+                        unsigned int    order;
-+                        unsigned int    pool_size;
-+                        int             nid;
-+                        struct device   *dev;
-+                        struct napi_struct *napi;
-+                        enum dma_data_direction dma_dir;
-+                        unsigned int    max_len;
-+                        unsigned int    offset;
-+                };
-+            };
-+        """,
-+    },
-+}
-+
-+
-+class TestPublicPrivate(unittest.TestCase):
++class CToken():
 +    """
-+    Main test class. Populated dynamically at runtime.
++    Data class to define a C token.
 +    """
 +
-+    def setUp(self):
-+        self.maxDiff = None
++    # Tokens that can be used by the parser. Works like an C enum.
 +
-+    def add_test(cls, name, source, trimmed):
++    COMMENT = 0     #: A standard C or C99 comment, including delimiter.
++    STRING = 1      #: A string, including quotation marks.
++    CHAR = 2        #: A character, including apostophes.
++    NUMBER = 3      #: A number.
++    PUNC = 4        #: A puntuation mark: ``;`` / ``,`` / ``.``.
++    BEGIN = 5       #: A begin character: ``{`` / ``[`` / ``(``.
++    END = 6         #: A end character: ``}`` / ``]`` / ``)``.
++    CPP = 7         #: A preprocessor macro.
++    HASH = 8        #: The hash character - useful to handle other macros.
++    OP = 9          #: A C operator (add, subtract, ...).
++    STRUCT = 10     #: A ``struct`` keyword.
++    UNION = 11      #: An ``union`` keyword.
++    ENUM = 12       #: A ``struct`` keyword.
++    TYPEDEF = 13    #: A ``typedef`` keyword.
++    NAME = 14       #: A name. Can be an ID or a type.
++    SPACE = 15      #: Any space characters, including new lines
++
++    MISMATCH = 255  #: an error indicator: should never happen in practice.
++
++    # Dict to convert from an enum interger into a string.
++    _name_by_val = {v: k for k, v in dict(vars()).items() if isinstance(v, int)}
++
++    # Dict to convert from string to an enum-like integer value.
++    _name_to_val = {k: v for v, k in _name_by_val.items()}
++
++    @staticmethod
++    def to_name(val):
++        """Convert from an integer value from CToken enum into a string"""
++
++        return CToken._name_by_val.get(val, f"UNKNOWN({val})")
++
++    @staticmethod
++    def from_name(name):
++        """Convert a string into a CToken enum value"""
++        if name in CToken._name_to_val:
++            return CToken._name_to_val[name]
++
++        return CToken.MISMATCH
++
++    def __init__(self, kind, value, pos,
++                 brace_level, paren_level, bracket_level):
++        self.kind = kind
++        self.value = value
++        self.pos = pos
++        self.brace_level = brace_level
++        self.paren_level = paren_level
++        self.bracket_level = bracket_level
++
++    def __repr__(self):
++        name = self.to_name(self.kind)
++        if isinstance(self.value, str):
++            value = '"' + self.value + '"'
++        else:
++            value = self.value
++
++        return f"CToken({name}, {value}, {self.pos}, " \
++               f"{self.brace_level}, {self.paren_level}, {self.bracket_level})"
++
++#: Tokens to parse C code.
++TOKEN_LIST = [
++    (CToken.COMMENT, r"//[^\n]*|/\*[\s\S]*?\*/"),
++
++    (CToken.STRING,  r'"(?:\\.|[^"\\])*"'),
++    (CToken.CHAR,    r"'(?:\\.|[^'\\])'"),
++
++    (CToken.NUMBER,  r"0[xX][0-9a-fA-F]+[uUlL]*|0[0-7]+[uUlL]*|"
++                     r"[0-9]+(\.[0-9]*)?([eE][+-]?[0-9]+)?[fFlL]*"),
++
++    (CToken.PUNC,    r"[;,\.]"),
++
++    (CToken.BEGIN,   r"[\[\(\{]"),
++
++    (CToken.END,     r"[\]\)\}]"),
++
++    (CToken.CPP,     r"#\s*(define|include|ifdef|ifndef|if|else|elif|endif|undef|pragma)\b"),
++
++    (CToken.HASH,    r"#"),
++
++    (CToken.OP,      r"\+\+|\-\-|\->|==|\!=|<=|>=|&&|\|\||<<|>>|\+=|\-=|\*=|/=|%="
++                     r"|&=|\|=|\^=|=|\+|\-|\*|/|%|<|>|&|\||\^|~|!|\?|\:"),
++
++    (CToken.STRUCT,  r"\bstruct\b"),
++    (CToken.UNION,   r"\bunion\b"),
++    (CToken.ENUM,    r"\benum\b"),
++    (CToken.TYPEDEF, r"\bkinddef\b"),
++
++    (CToken.NAME,      r"[A-Za-z_][A-Za-z0-9_]*"),
++
++    (CToken.SPACE,   r"[\s]+"),
++
++    (CToken.MISMATCH,r"."),
++]
++
++#: Handle C continuation lines.
++RE_CONT = KernRe(r"\\\n")
++
++RE_COMMENT_START = KernRe(r'/\*\s*')
++
++#: tokenizer regex. Will be filled at the first CTokenizer usage.
++re_scanner = None
++
++class CTokenizer():
++    """
++    Scan C statements and definitions and produce tokens.
++
++    When converted to string, it drops comments and handle public/private
++    values, respecting depth.
++    """
++
++    # This class is inspired and follows the basic concepts of:
++    #   https://docs.python.org/3/library/re.html#writing-a-tokenizer
++
++    def _tokenize(self, source):
 +        """
-+        Dynamically add a test to the class
++        Interactor that parses ``source``, splitting it into tokens, as defined
++        at ``self.TOKEN_LIST``.
++
++        The interactor returns a CToken class object.
 +        """
-+        def test(cls):
-+            result = trim_private_members(source)
 +
-+            result = re.sub(r"\s++", " ", result).strip()
-+            expected = re.sub(r"\s++", " ", trimmed).strip()
++        # Handle continuation lines. Note that kdoc_parser already has a
++        # logic to do that. Still, let's keep it for completeness, as we might
++        # end re-using this tokenizer outsize kernel-doc some day - or we may
++        # eventually remove from there as a future cleanup.
++        source = RE_CONT.sub("", source)
 +
-+            msg = f"failed when parsing this source:\n" + source
++        brace_level = 0
++        paren_level = 0
++        bracket_level = 0
 +
-+            cls.assertEqual(result, expected, msg=msg)
++        for match in re_scanner.finditer(source):
++            kind = CToken.from_name(match.lastgroup)
++            pos = match.start()
++            value = match.group()
 +
-+        test.__name__ = f'test {name}'
++            if kind == CToken.MISMATCH:
++                raise RuntimeError(f"Unexpected token '{value}' on {pos}:\n\t{source}")
++            elif kind == CToken.BEGIN:
++                if value == '(':
++                    paren_level += 1
++                elif value == '[':
++                    bracket_level += 1
++                else:  # value == '{'
++                    brace_level += 1
 +
-+        setattr(TestPublicPrivate, test.__name__, test)
++            elif kind == CToken.END:
++                if value == ')' and paren_level > 0:
++                    paren_level -= 1
++                elif value == ']' and bracket_level > 0:
++                    bracket_level -= 1
++                elif brace_level > 0:    # value == '}'
++                    brace_level -= 1
++
++            yield CToken(kind, value, pos,
++                         brace_level, paren_level, bracket_level)
++
++    def __init__(self, source):
++        """
++        Create a regular expression to handle TOKEN_LIST.
++
++        While I generally don't like using regex group naming via:
++            (?P<name>...)
++
++        in this particular case, it makes sense, as we can pick the name
++        when matching a code via re_scanner().
++        """
++        global re_scanner
++
++        if not re_scanner:
++            re_tokens = []
++
++            for kind, pattern in TOKEN_LIST:
++                name = CToken.to_name(kind)
++                re_tokens.append(f"(?P<{name}>{pattern})")
++
++            re_scanner = KernRe("|".join(re_tokens), re.MULTILINE | re.DOTALL)
++
++        self.tokens = []
++        for tok in self._tokenize(source):
++            self.tokens.append(tok)
++
++    def __str__(self):
++        out=""
++        show_stack = [True]
++
++        for tok in self.tokens:
++            if tok.kind == CToken.BEGIN:
++                show_stack.append(show_stack[-1])
++
++            elif tok.kind == CToken.END:
++                prev = show_stack[-1]
++                if len(show_stack) > 1:
++                    show_stack.pop()
++
++                if not prev and show_stack[-1]:
++                    #
++                    # Try to preserve indent
++                    #
++                    out += "\t" * (len(show_stack) - 1)
++
++                    out += str(tok.value)
++                    continue
++
++            elif tok.kind == CToken.COMMENT:
++                comment = RE_COMMENT_START.sub("", tok.value)
++
++                if comment.startswith("private:"):
++                    show_stack[-1] = False
++                    show = False
++                elif comment.startswith("public:"):
++                    show_stack[-1] = True
++
++                continue
++
++            if show_stack[-1]:
++                    out += str(tok.value)
++
++        return out
 +
 +
-+#
-+# Populate TestPublicPrivate class
-+#
-+test_class = TestPublicPrivate()
-+for name, test in TESTS_PRIVATE.items():
-+    test_class.add_test(name, test["source"], test["trimmed"])
-+
-+
-+#
-+# main
-+#
-+if __name__ == "__main__":
-+    run_unittest(__file__)
+ #: Nested delimited pairs (brackets and parenthesis)
+ DELIMITER_PAIRS = {
+     '{': '}',
 -- 
 2.52.0
 
