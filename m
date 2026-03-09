@@ -1,25 +1,84 @@
-Received: from zg8tmja5ljk3lje4mi4ymjia.icoremail.net (zg8tmja5ljk3lje4mi4ymjia.icoremail.net [209.97.182.222])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B85127BF7D;
-	Mon,  9 Mar 2026 03:51:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.97.182.222
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773028291; cv=none; b=ge3e2Gy+a+VkExauLEv0mR9JPVFItLM/xSW5humvjJCiTaO79ifX6U0saHoDSRXsUe/mozcvN0V87s1OwzSo7OIqtvjw3BFAZextOguwJdaKdiwQxCKsXwAWDkMKk3Pa1uNh/eycoZ8zpgzSbzkTa5v01eabTyiTt2zpbTQE9Oc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773028291; c=relaxed/simple;
-	bh=kcL23/BdYll5Xu9h2gvxF/onFl2mGbt0GelRCWkQ+eI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XQUqqEbwrwiqb36Bp6I3K0QwsrKXIGS4/HvPvzrAuGdLqygoe8ve4/FnuKAlM/6ciAiLBu86w0xF++u3+q4B33psxR+25Ps9rkgL+IYAXxfQWhv49uswXV9qotxf7HyMVEUGpbwcLKOud/5e+eZVyNQj4heUQx529B0Da1lK2N4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=209.97.182.222
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.50])
-	by app2 (Coremail) with SMTP id HwEQrADHeDmIQ65pf3KmAA--.45893S2;
-	Mon, 09 Mar 2026 11:50:32 +0800 (CST)
-Received: from [10.12.170.148] (unknown [10.12.170.148])
-	by gateway (Coremail) with SMTP id _____wAHANd9Q65pcUAaAA--.6504S2;
-	Mon, 09 Mar 2026 11:50:22 +0800 (CST)
-Message-ID: <4bea49ae-cd00-4f5f-801b-60320293c41c@hust.edu.cn>
-Date: Mon, 9 Mar 2026 11:50:21 +0800
+Received: from relay1-c.mailbaby.net (relay1-c.mailbaby.net [64.20.36.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0306127F01E
+	for <linux-doc@vger.kernel.org>; Mon,  9 Mar 2026 03:57:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=64.20.36.196
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773028680; cv=pass; b=XTRfA8ugyUaNDaVkbE/dq6qbVSaOWqsCyvuoKNRnPbTUEVPj1dSy/RLS3rq6lpKOkyT0qSYv4r4XbbZ1eltZlfNP80139oOhIMJYfCmgBKpxk0VWmBUrowCh6V/TLMq0I7FqRn5XkcT6iQEQKVBaARbm7IWGi2PQGnx0A/SOu0g=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773028680; c=relaxed/simple;
+	bh=lwwoDMt07BHVae2SSuCm++Lq88pVo29Jxl5PRDwfYYo=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=msdMm38bhRAkuzQGqJhpD5fRHVpRX8zTSRfd8FLR2NiEi3pnjoNJfll6gH5ocQH5MEbY70AvKs/6kzkSTfz2NN/hjf7MegcnpPTxc7lNmVVm9CTcgQGqKs4bCnHSoQbz7hHBwAcqrWUqbTDEANhC0Mgiom4y/PGk1x1vIhjV6Fs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aosc.io; spf=pass smtp.mailfrom=aosc.io; dkim=pass (1024-bit key) header.d=mailbaby.net header.i=@mailbaby.net header.b=VLkDzgE3; dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b=YaJhHei8; arc=pass smtp.client-ip=64.20.36.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=aosc.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aosc.io
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=mailbaby.net header.i=@mailbaby.net header.b="VLkDzgE3";
+	dkim=pass (1024-bit key) header.d=aosc.io header.i=@aosc.io header.b="YaJhHei8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbaby.net;
+ q=dns/txt; s=key2; bh=lwwoDMt07BHVae2SSuCm++Lq88pVo29Jxl5PRDwfYYo=;
+ h=from:subject:date:message-id:to:cc:mime-version:content-type:content-transfer-encoding:in-reply-to:references:feedback-id;
+ b=VLkDzgE3OGbb8Vzk68XKf2ucmQVWpaqCmdwOWds8VRRGjoVUf0H+vtQkOsMEu7A6fsiBAjY6D
+ Afp/Mfp0TGxJ0p3vvlJtoxSZPSWs9PNSdlXd3wWNVX4gVGp5/pPHayyTTp3Lj2sCg75zZu7/nuh
+ goIuIFme3svYYOgtxWdmSPc=
+Received: from mb-nj-kvm1.internal (mb-nj-kvm1.internal [10.10.2.10])
+ (Authenticated sender: mb86144)
+ by relay1-c.mailbaby.net (MailBabyMTA) with ESMTPSA id 19cd0b9c0600003c69.002
+ for <linux-doc@vger.kernel.org>
+ (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
+ Mon, 09 Mar 2026 03:52:40 +0000
+X-Zone-Loop: 918b3378cc2f0b291922c122de53b77ec97920b705ca
+ARC-Authentication-Results: i=1;	rspamdcluster9.mailbaby.net;	auth=pass
+ smtp.auth=mb86144 smtp.mailfrom=liushuyu@aosc.io
+ARC-Seal: i=1; a=rsa-sha256; d=mailbaby.net; s=detka; cv=none;
+ t=1773028360;
+	b=WARoSrt8GSSjWdM7b02KAe/7w0dF0zfSIm9Dl/yNQcaZkXnioTQXNJJA08D3A+xDkGFrrl
+	8pzTEuPtwHyMBp/K1uy96mZOhwyflBYAifX8+5cUQfAw858uNTkyUk4/a50NE/lUHYuu1l
+	g4bRsH2BDFEDpu//fLNYVe+lLSFVb5bbYkxHmeiG80Z6Q8yaf93BdXsxYYftrkLjBDkWTl
+	Bwq5ejy4v1a+HSKt9uxECv+1o9u5XXj8YmqoI9pJcfHqraXnr/iLFxORoG1aR4diAYz5vu
+	uj/UGZj09SHx3328eqiQbh9FRl7IO8hPnlGPRI7BY0GCjbfWPqb6wCDZYMG4AA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailbaby.net;	s=detka; t=1773028360;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:dkim-signature;
+	bh=lwwoDMt07BHVae2SSuCm++Lq88pVo29Jxl5PRDwfYYo=;
+	b=cSOv5hNAqjai+OcBb56RWBWmi+reQuL2NfNs1z3JOSmFirMUugzm7qfWAMI7QaBt4Kg9ph
+	6Tavt8DH5wivkgTMXELj/z5Tfm+mFHhu2WdrcD0PYjzhCB62kJ2FAQWuWB6ahje1z1ZaWC
+	N6d6cfXEHQaLL9wWX+zi+QmHh0X5OrW43oHQ9IiCNBzP4FguIrceGn2l9Sw0Xk+oton4/U
+	wttFGibIyWkOuWMpFUvZ5rbY8Pjvb77glMGpFg9ldff/S+AC93qowSF0wyiVoUp3r3Iur0
+	Piu6whDLX9RBtNhc7NdLeaEgH4e4o3cymzyG7ZUC0A992CEpxMRi83y4pUigMQ==
+X-MB-ID: mb86144
+X-SPF: pass
+Feedback-ID: mb86144:19cd0b9c0600003c69:587f4d465843594778405947455d:mbaby
+X-NS-SCAN: PASS
+X-MAILBABY-ORIGIN: PASS
+Received: from relay2.mymailcheap.com (relay2.mymailcheap.com [217.182.113.132])
+	by relay5.mymailcheap.com (Postfix) with ESMTPS id 8F56220130;
+	Mon,  9 Mar 2026 03:52:30 +0000 (UTC)
+Received: from nf1.mymailcheap.com (nf1.mymailcheap.com [51.75.14.91])
+	by relay2.mymailcheap.com (Postfix) with ESMTPS id 429653EB87;
+	Mon,  9 Mar 2026 03:52:22 +0000 (UTC)
+Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
+	by nf1.mymailcheap.com (Postfix) with ESMTPSA id 0A7CE40087;
+	Mon,  9 Mar 2026 03:52:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
+	t=1773028341; bh=lwwoDMt07BHVae2SSuCm++Lq88pVo29Jxl5PRDwfYYo=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+	b=YaJhHei8YyBBteM0/73IuHjvJ4YA5IX1eyAPh0R7r47WGTBXoQzSr0R+CUEBF2WmT
+	 fh2Z4Ef8uIP6BggGtP0nJ86kqugBRyeDMF8p9Lp/OTDZDK+3vay7X60YQDjb8Bgmy2
+	 USehboiKw4Y3vNOW6t8eDGZgbiQBenKpe/NraWOw=
+Received: from [127.0.0.1] (unknown [117.151.13.182])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail20.mymailcheap.com (Postfix) with ESMTPSA id 9049640D09;
+	Mon,  9 Mar 2026 03:52:17 +0000 (UTC)
+Message-ID: <f39c14fc-6fe9-4478-b595-b7480f859443@aosc.io>
+Date: Mon, 9 Mar 2026 11:52:15 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -27,72 +86,310 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] tools/docs/checktransupdate.py: fix missing prefix in
- f-string
-To: LIU Haoyang <tttturtleruss@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Yanteng Si <si.yanteng@linux.dev>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260308104135.9037-1-tttturtleruss@gmail.com>
-From: Dongliang Mu <dzm91@hust.edu.cn>
-In-Reply-To: <20260308104135.9037-1-tttturtleruss@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:HwEQrADHeDmIQ65pf3KmAA--.45893S2
-Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvdXoWrur13uw1xtF1UCF1kur18Grg_yoWkArb_Zr
-	97Aw4UtFykXFy3tFWktw1fuF1F9r1UXrn0qFs5tayxuF90qFs8XF90yrZ8Gw18JFZxXFy7
-	uasxWwnFva9I9jkaLaAFLSUrUUUU0b8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbPAYjsxI4VWxJwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
-	s7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI
-	8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJwA2z4x0Y4vE
-	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_JF
-	0_Jw1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
-	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
-	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
-	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkF7I0En4kS14v26r126r1DMxAIw2
-	8IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_GFW3Jr1UJwCFx2IqxVCFs4IE7xkEbVWU
-	JVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
-	vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IY
-	x2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26c
-	xKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAF
-	wI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU0XVy3UUUUU==
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+From: liushuyu <liushuyu@aosc.io>
+Subject: Re: [PATCH v5] KVM: Add KVM_GET_REG_LIST ioctl for LoongArch
+To: Bibo Mao <maobibo@loongson.cn>, WANG Xuerui <kernel@xen0n.name>,
+ Huacai Chen <chenhuacai@kernel.org>
+Cc: Kexy Biscuit <kexybiscuit@aosc.io>, Mingcong Bai <jeffbai@aosc.io>,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Tianrui Zhao <zhaotianrui@loongson.cn>, Paul Walmsley <pjw@kernel.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Alexandre Ghiti <alex@ghiti.fr>, kvm@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ loongarch@lists.linux.dev, linux-riscv@lists.infradead.org
+References: <20260205051822.1318253-1-liushuyu@aosc.io>
+ <aa35c7a6-6361-9f83-a726-89d7deff8560@loongson.cn>
+ <c4be7e68-6e51-4f2b-8a51-bef658a8ac4a@aosc.io>
+ <f4ba7538-e413-d8c8-d4b6-7c8686c4aec6@loongson.cn>
+Content-Language: en-US-large, en-US
+In-Reply-To: <f4ba7538-e413-d8c8-d4b6-7c8686c4aec6@loongson.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-0.30 / 10.00];
+	R_DKIM_ALLOW(-0.10)[aosc.io:s=default];
+	R_SPF_ALLOW(-0.10)[+mx];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_ONE(0.00)[1];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DMARC_POLICY_ALLOW(0.00)[aosc.io,quarantine];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	LOCAL_OUTBOUND(0.00)[];
+	DKIM_TRACE(0.00)[aosc.io:+]
+X-Rspamd-Action: no action
+X-Rspamd-Server: nf1.mymailcheap.com
+X-Rspamd-Queue-Id: 0A7CE40087
 
+Hi Bibo,
 
-On 3/8/26 6:41 PM, LIU Haoyang wrote:
-> Add a f prefix to f-string in checktransupdate.py.
+It seems like my last email might have got bounced or landed in your
+spam filter.
+
+So this email is a re-send of the last one.
+
+> On 2026/2/10 上午11:23, liushuyu wrote:
+>> Hi Bibo,
+>>
+>>>
+>>> On 2026/2/5 下午1:18, Zixing Liu wrote:
+>>>> This ioctl can be used by the userspace applications to determine
+>>>> which
+>>>> (special) registers are get/set-able in a meaningful way.
+>>>>
+>>>> This can be very useful for cross-platform VMMs so that they do not
+>>>> have
+>>>> to hardcode register indices for each supported architectures.
+>>>>
+>>>> Signed-off-by: Zixing Liu <liushuyu@aosc.io>
+>>>> ---
+>>>>    Documentation/virt/kvm/api.rst |   2 +-
+>>>>    arch/loongarch/kvm/vcpu.c      | 120
+>>>> +++++++++++++++++++++++++++++++++
+>>>>    2 files changed, 121 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/Documentation/virt/kvm/api.rst
+>>>> b/Documentation/virt/kvm/api.rst
+>>>> index 01a3abef8abb..f46dd8be282f 100644
+>>>> --- a/Documentation/virt/kvm/api.rst
+>>>> +++ b/Documentation/virt/kvm/api.rst
+>>>> @@ -3603,7 +3603,7 @@ VCPU matching underlying host.
+>>>>    ---------------------
+>>>>      :Capability: basic
+>>>> -:Architectures: arm64, mips, riscv, x86 (if KVM_CAP_ONE_REG)
+>>>> +:Architectures: arm64, loongarch, mips, riscv, x86 (if
+>>>> KVM_CAP_ONE_REG)
+>>>>    :Type: vcpu ioctl
+>>>>    :Parameters: struct kvm_reg_list (in/out)
+>>>>    :Returns: 0 on success; -1 on error
+>>>> diff --git a/arch/loongarch/kvm/vcpu.c b/arch/loongarch/kvm/vcpu.c
+>>>> index 656b954c1134..de02e409ae39 100644
+>>>> --- a/arch/loongarch/kvm/vcpu.c
+>>>> +++ b/arch/loongarch/kvm/vcpu.c
+>>>> @@ -5,6 +5,7 @@
+>>>>      #include <linux/kvm_host.h>
+>>>>    #include <asm/fpu.h>
+>>>> +#include <asm/kvm_host.h>
+>>>>    #include <asm/lbt.h>
+>>>>    #include <asm/loongarch.h>
+>>>>    #include <asm/setup.h>
+>>>> @@ -14,6 +15,8 @@
+>>>>    #define CREATE_TRACE_POINTS
+>>>>    #include "trace.h"
+>>>>    +#define NUM_LBT_REGS 6
+>>>> +
+>>>>    const struct _kvm_stats_desc kvm_vcpu_stats_desc[] = {
+>>>>        KVM_GENERIC_VCPU_STATS(),
+>>>>        STATS_DESC_COUNTER(VCPU, int_exits),
+>>>> @@ -1186,6 +1189,105 @@ static int kvm_loongarch_vcpu_set_attr(struct
+>>>> kvm_vcpu *vcpu,
+>>>>        return ret;
+>>>>    }
+>>>>    +static int kvm_loongarch_walk_csrs(struct kvm_vcpu *vcpu, u64
+>>>> __user *uindices)
+>>>> +{
+>>>> +    unsigned int i, count;
+>>>> +    const unsigned int csrs_to_save[] = {
+>>>> +        LOONGARCH_CSR_CRMD,      LOONGARCH_CSR_PRMD,
+>>>> +        LOONGARCH_CSR_EUEN,      LOONGARCH_CSR_MISC,
+>>>> +        LOONGARCH_CSR_ECFG,      LOONGARCH_CSR_ESTAT,
+>>>> +        LOONGARCH_CSR_ERA,      LOONGARCH_CSR_BADV,
+>>>> +        LOONGARCH_CSR_BADI,      LOONGARCH_CSR_EENTRY,
+>>>> +        LOONGARCH_CSR_TLBIDX,      LOONGARCH_CSR_TLBEHI,
+>>>> +        LOONGARCH_CSR_TLBELO0,      LOONGARCH_CSR_TLBELO1,
+>>>> +        LOONGARCH_CSR_ASID,      LOONGARCH_CSR_PGDL,
+>>>> +        LOONGARCH_CSR_PGDH,      LOONGARCH_CSR_PGD,
+>>>> +        LOONGARCH_CSR_PWCTL0,      LOONGARCH_CSR_PWCTL1,
+>>>> +        LOONGARCH_CSR_STLBPGSIZE, LOONGARCH_CSR_RVACFG,
+>>>> +        LOONGARCH_CSR_CPUID,      LOONGARCH_CSR_PRCFG1,
+>>>> +        LOONGARCH_CSR_PRCFG2,      LOONGARCH_CSR_PRCFG3,
+>>>> +        LOONGARCH_CSR_KS0,      LOONGARCH_CSR_KS1,
+>>>> +        LOONGARCH_CSR_KS2,      LOONGARCH_CSR_KS3,
+>>>> +        LOONGARCH_CSR_KS4,      LOONGARCH_CSR_KS5,
+>>>> +        LOONGARCH_CSR_KS6,      LOONGARCH_CSR_KS7,
+>>>> +        LOONGARCH_CSR_TMID,      LOONGARCH_CSR_CNTC,
+>>>> +        LOONGARCH_CSR_TINTCLR,      LOONGARCH_CSR_LLBCTL,
+>>>> +        LOONGARCH_CSR_IMPCTL1,      LOONGARCH_CSR_IMPCTL2,
+>>>> +        LOONGARCH_CSR_TLBRENTRY,  LOONGARCH_CSR_TLBRBADV,
+>>>> +        LOONGARCH_CSR_TLBRERA,      LOONGARCH_CSR_TLBRSAVE,
+>>>> +        LOONGARCH_CSR_TLBRELO0,      LOONGARCH_CSR_TLBRELO1,
+>>>> +        LOONGARCH_CSR_TLBREHI,      LOONGARCH_CSR_TLBRPRMD,
+>>>> +        LOONGARCH_CSR_DMWIN0,      LOONGARCH_CSR_DMWIN1,
+>>>> +        LOONGARCH_CSR_DMWIN2,      LOONGARCH_CSR_DMWIN3,
+>>>> +        LOONGARCH_CSR_TVAL,      LOONGARCH_CSR_TCFG,
+>>>> +    };
+>>> this increases much kernel stack size usage :)
+>>>
+>>> Please wait a moment, I am considering how to cleanup code about CSR
+>>> registers.
+>> Okay.
+
+I am also very interested in how this CSR register logic clean-up would
+work.
+
+Can you share some details regarding this clean-up?
+
+>>> And KVM_GET_REG_LIST is not so urgent, else there is
+>>> KVM_read_from_REG_LIST/KVM_write_from_REG_LIST ioctl commands to
+>>> access registers in batch mode.
+>>>
+>> Adding KVM_GET_REG_LIST is not urgent. However, unlike
+>> KVM_read_from_REG_LIST and KVM_write_from_REG_LIST, KVM_GET_REG_LIST
+>> serves a different purpose.
+>>
+>> The KVM_GET_REG_LIST ioctl lets user-space VMMs determine the number of
+>> get/set-able registers (via KVM_GET_ONE_REG/KVM_SET_ONE_REG) and their
+>> register IDs. User-space VMMs use this ioctl so they don't have to
+>> hardcode a register ID table for each architecture.
+> In theory it is so, I only know QEMU VMM now, is there other VMMs
+> which does not use hardcoded register ID for different architecture?
+> Which one if there is actually.
+There is https://github.com/firecracker-microvm/firecracker (from
+Amazon), which uses https://github.com/rust-vmm/kvm as the VMM library
+(which uses the KVM_GET_REG_LIST ioctl to determine how many registers
+to save).
+> There is some potential issues by my knowledge such as:
+> 1. How to solve the compatible issue if KVM_GET_REG_LIST does not
+> support? 
+I agree this could be an issue for LoongArch as we are trying to add
+this ioctl very late. I am guessing we either tell the user that you
+will need to use Linux 7.1 or something for this to work; or, for older
+kernel versions, we have to resort to embedding a table in the
+user-space VMM (and maybe remove it after a few years). For other
+architectures, they implemented it somewhat early and did not have this
+issue.
+> 2. How to solve dependency between registers? Dependency should be
+> solved in VMM or KVM hypervisr. 
+If the dependency issue can be solved by simply re-ordering the register
+IDs in the list returned to the user space, we can help the user space
+VMM by sorting the list to the correct order when the kernel-side is
+walking the CSR list (for instance, put the registers that require other
+registers to be saved last). If that is not the case, we will need to
+add a paragraph to the KVM documentation explaining how to properly
+interpret the list returned by this ioctl.
+> Regards
+> Bibo Mao
+>> I also had trouble finding information on the KVM_read_from_REG_LIST and
+>> KVM_write_from_REG_LIST ioctl commands. As of commit
+>> 3d29a326eba82d987a82fd59379d6d668b769965, I could not find any logic or
+>> identifiers for these two ioctls.
+>>
+>> In some cases, KVM_GET_REG_LIST is a prerequisite for using
+>> KVM_read_from_REG_LIST or KVM_write_from_REG_LIST (assuming they exist),
+>> as you still need to know the register IDs to use these ioctls.
+>>
+>>> Regards
+>>> Bibo Mao
+>>>
+>>>> +
+>>>> +    for (i = 0, count = 0;
+>>>> +         i < sizeof(csrs_to_save) / sizeof(csrs_to_save[0]); i++) {
+>>>> +        const u64 reg = KVM_IOC_CSRID(i);
+>>>> +        if (uindices && put_user(reg, uindices++))
+>>>> +            return -EFAULT;
+>>>> +        count++;
+>>>> +    }
+>>>> +
+>>>> +    /* Skip PMU CSRs if not supported by the guest */
+>>>> +    if (!kvm_guest_has_pmu(&vcpu->arch))
+>>>> +        return count;
+>>>> +    for (i = LOONGARCH_CSR_PERFCTRL0; i <= LOONGARCH_CSR_PERFCNTR3;
+>>>> i++) {
+>>>> +        const u64 reg = KVM_IOC_CSRID(i);
+>>>> +        if (uindices && put_user(reg, uindices++))
+>>>> +            return -EFAULT;
+>>>> +        count++;
+>>>> +    }
+>>>> +
+>>>> +    return count;
+>>>> +}
+>>>> +
+>>>> +static unsigned long kvm_loongarch_num_regs(struct kvm_vcpu *vcpu)
+>>>> +{
+>>>> +    /* +1 for the KVM_REG_LOONGARCH_COUNTER register */
+>>>> +    unsigned long res =
+>>>> +        kvm_loongarch_walk_csrs(vcpu, NULL) + KVM_MAX_CPUCFG_REGS
+>>>> + 1;
+>>>> +
+>>>> +    if (kvm_guest_has_lbt(&vcpu->arch))
+>>>> +        res += NUM_LBT_REGS;
+>>>> +
+>>>> +    return res;
+>>>> +}
+>>>> +
+>>>> +static int kvm_loongarch_copy_reg_indices(struct kvm_vcpu *vcpu,
+>>>> +                      u64 __user *uindices)
+>>>> +{
+>>>> +    u64 reg;
+>>>> +    unsigned int i;
+>>>> +
+>>>> +    i = kvm_loongarch_walk_csrs(vcpu, uindices);
+>>>> +    if (i < 0)
+>>>> +        return i;
+>>>> +    uindices += i;
+>>>> +
+>>>> +    for (i = 0; i < KVM_MAX_CPUCFG_REGS; i++) {
+>>>> +        reg = KVM_IOC_CPUCFG(i);
+>>>> +        if (put_user(reg, uindices++))
+>>>> +            return -EFAULT;
+>>>> +    }
+>>>> +
+>>>> +    reg = KVM_REG_LOONGARCH_COUNTER;
+>>>> +    if (put_user(reg, uindices++))
+>>>> +        return -EFAULT;
+>>>> +
+>>>> +    if (!kvm_guest_has_lbt(&vcpu->arch))
+>>>> +        return 0;
+>>>> +
+>>>> +    for (i = 1; i <= NUM_LBT_REGS; i++) {
+>>>> +        reg = (KVM_REG_LOONGARCH_LBT | KVM_REG_SIZE_U64 | i);
+>>>> +        if (put_user(reg, uindices++))
+>>>> +            return -EFAULT;
+>>>> +    }
+>>>> +
+>>>> +    return 0;
+>>>> +}
+>>>> +
+>>>>    long kvm_arch_vcpu_ioctl(struct file *filp,
+>>>>                 unsigned int ioctl, unsigned long arg)
+>>>>    {
+>>>> @@ -1251,6 +1353,24 @@ long kvm_arch_vcpu_ioctl(struct file *filp,
+>>>>            r = kvm_loongarch_vcpu_set_attr(vcpu, &attr);
+>>>>            break;
+>>>>        }
+>>>> +    case KVM_GET_REG_LIST: {
+>>>> +        struct kvm_reg_list __user *user_list = argp;
+>>>> +        struct kvm_reg_list reg_list;
+>>>> +        unsigned n;
+>>>> +
+>>>> +        r = -EFAULT;
+>>>> +        if (copy_from_user(&reg_list, user_list, sizeof(reg_list)))
+>>>> +            break;
+>>>> +        n = reg_list.n;
+>>>> +        reg_list.n = kvm_loongarch_num_regs(vcpu);
+>>>> +        if (copy_to_user(user_list, &reg_list, sizeof(reg_list)))
+>>>> +            break;
+>>>> +        r = -E2BIG;
+>>>> +        if (n < reg_list.n)
+>>>> +            break;
+>>>> +        r = kvm_loongarch_copy_reg_indices(vcpu, user_list->reg);
+>>>> +        break;
+>>>> +    }
+>>>>        default:
+>>>>            r = -ENOIOCTLCMD;
+>>>>            break;
+>>>>
+>>>
+>> Thanks,
+>> Zixing
+>>
 >
-> Fixes: 63e96ce050e5 ("scripts: fix all issues reported by pylint")
-> Signed-off-by: LIU Haoyang <tttturtleruss@gmail.com>
-
-Hi Haoyang,
-
-could you help fix all the issues mentioned by pylint? There is another 
-issue reported by pylint.
-
-
-tools/docs/checktransupdate.py:79:4: C0103: Variable name "HASH" doesn't 
-conform to snake_case naming style (invalid-name)
-
-Dongliang Mu
-
-> ---
->   tools/docs/checktransupdate.py | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/tools/docs/checktransupdate.py b/tools/docs/checktransupdate.py
-> index e894652369a5..bf735562aeeb 100755
-> --- a/tools/docs/checktransupdate.py
-> +++ b/tools/docs/checktransupdate.py
-> @@ -131,7 +131,7 @@ def check_per_file(file_path):
->       opath = get_origin_path(file_path)
->   
->       if not os.path.isfile(opath):
-> -        logging.error("Cannot find the origin path for {file_path}")
-> +        logging.error(f"Cannot find the origin path for {file_path}")
->           return
->   
->       o_from_head = get_latest_commit_from(opath, "HEAD")
-
+Thanks,
+Zixing
