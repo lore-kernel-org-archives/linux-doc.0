@@ -1,235 +1,106 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 856993BD636
-	for <linux-doc@vger.kernel.org>; Mon,  9 Mar 2026 12:43:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 829C73BD65D
+	for <linux-doc@vger.kernel.org>; Mon,  9 Mar 2026 12:45:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773060197; cv=none; b=LZEN4emQzBETH43PpddVxFmVzm3cbuwNI+6YJJVtB2y7pP87RhcDkH5gSVJzej1LIHfmt2tJq7Utfw/PfWbEjLrgw/FwcQzoixHy+dhFXs+qXpWBI/Y/PiZxeEVXttGvBY0V7k9PPzOUXMcsmn5YRg9xhWI2MguASX4tEexdw0A=
+	t=1773060348; cv=none; b=ELpAu07LeE43K6Eb0tkB7KG1PieDf3yxcWX6Rz1MEukbdrVkj6ZxzM2b95lwBxrfcjwRpdpcGJxZznURraLol50fGOcK4716+2LgSusn2tp0CgsxuyWJpWG/NZcAUKZWuD7NiRY1/J2N6fETDHiSknnydUjvdFWWnCRZtaibNt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773060197; c=relaxed/simple;
-	bh=R4Ywu/pAKIvIVEZDR6pAqvPYf0v/XCn2dkIco/jqnjY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=DHOq6Kb+HA/uokKKPpwNw3v2Mkdxx4xSnECjHnmHSwCkUd9YYCnKaq+MgSTHNNQySrGyGlbpHpV8j54YXPca06HpuR7LAk0d5elK4RRDlpAr0+KuorJIj4/IVpDLNM0hUBqdH0pXPIriQLcM5lsl72suAlNB3uVThW61Zvtbyl8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=keI0l7AZ; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=YbTNz15L; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1773060348; c=relaxed/simple;
+	bh=td9mtcqNyCoWzzi/ND+cgmuQulM++m9brhPZsmPZ8yA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aHoKgllLl5ZrRuaaagGg/Zk9L6/EanuJ1UKeLeUJzhtXhe+Z1pUhqTfDq0EqY2YfU9vU/YzCm16RLNK3MhoXYZgDRUvTdI8uejX7cT2b1/zr6gAy7h5WWaE3NDk9jTUJs/6CuU1AIzivXWsN5TLgTMDKlrmFn3By8xmcDu6n39k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=itXUpGGs; arc=none smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="keI0l7AZ";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="YbTNz15L"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62988TU73477078
-	for <linux-doc@vger.kernel.org>; Mon, 9 Mar 2026 12:43:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	4+44pNLvKD6wmlyUHopw7JCev4MUbKdOMecmtcoK78I=; b=keI0l7AZufa5NJR9
-	FxGOQJ82CTfr4mFRHFugkpK3cXX+IIsYH5lra08dS+9AK9XSvgBD5JKR2q6iWWuZ
-	G8MRhRAlcnvmPlUbQKn47suu4v6aPEvDVZv8G8kqBAA05GiP/GR3mwa/R6A0hBk8
-	DvgFbcQbQ/V/rgisY+O9yAaHxvTChxp8wpZ8PVrlzO1OPGydIInKtfEhGUhftXU6
-	eUiH8X4FzkJMa/99XU6OgK67g3k5UqBsez9pUt6e04/tmfM0KdwodjRo3xWzoqs+
-	lgk29vdKF1kcH+bRQQBndZoexA0ScP6R/hBdKJRSK5k1SzCBs9R9qf94OesuLpDa
-	1EIqxw==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4crcd8dbj9-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Mon, 09 Mar 2026 12:43:11 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-8cd900cd3a7so160060385a.0
-        for <linux-doc@vger.kernel.org>; Mon, 09 Mar 2026 05:43:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="itXUpGGs"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-3567e2b4159so6606292a91.0
+        for <linux-doc@vger.kernel.org>; Mon, 09 Mar 2026 05:45:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1773060190; x=1773664990; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4+44pNLvKD6wmlyUHopw7JCev4MUbKdOMecmtcoK78I=;
-        b=YbTNz15LnNMMkisg21hFJps1dDul6em0VMvPTSben8utXN3ZBrmZKR/KyizmTEB2zE
-         FP4ULGR+UGmgV9+56Axwee5F+B5O4b0Pg/VBAVIPCFiHQKsV9K0mI8SGidkn2WWGJ+Oi
-         9d8Elw2oTxjzQJXRp63ymzXr7TTjv5KtJY35OZPGFD41T2MXy4XYjHwrkCMbylQTimV2
-         p0XG80Cjq1PFBumXp603kCWt0IoJAYXBYmCoBn/s7eyGQi/leNiAZzkBoQpQeRtbyECO
-         gxPqg+NMnWSV1O+75+EJmn/MutUUSIynm4SvSLkob+3w/PlGM2QIWEFvLRgvA9MT073L
-         R/Rw==
+        d=gmail.com; s=20230601; t=1773060347; x=1773665147; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hX/CT0FDleEvdCw/BsUoSYklLMZdXCYL0N1qTX3Ll/E=;
+        b=itXUpGGsv9gkMK5Od/uIqOwKN9CbHgTwxmnP/PBX958zH/WAq2nMp6ebnp5pE8szx3
+         +aElHs8YABH9BeHLy2QYQnIlDOH3qRtIi6OFTzWQ+SZ7PIDzYoRXRtkwI4MnezoCDy2h
+         9gLurKUsdbfsJMpsJqG0pzkWbgsGefRRUKTLqWrmRMSQaBSC1yjcy1RZKgcVXa73ebz0
+         YFijarChe+Af3V25z7ENLx+XklQxw/XdEqRx4hPc+4m8j3GWkzyJpMig9FXe67+w0/EC
+         y3GT9IJWchX3jcAseGzbhJg4PjSjN039r3eA+3QqDGTsZ5dWcRjSjFgj3VyQmZiouOwP
+         uaoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773060190; x=1773664990;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=4+44pNLvKD6wmlyUHopw7JCev4MUbKdOMecmtcoK78I=;
-        b=swVsxqXL1WJJ+XwU0GR4BL8/yFGX7hX1rc8mznHtRZROfpIdErrR/q7MRn00F8maYi
-         JZfz8/hq1ZlWoibqyqZshLuP+bc+dsH6YPTSlExuCEr2o6vZSCOCCJDN92oR3ouKiaeu
-         8M24lpB+ZSgfaMkd3rXGXwAYSJqCz+K/emm1jeSDS7ET8mePfnaIuEpxgWm8UyvOHFNB
-         QczpkogwcPBUKS7OHSnOTsa16nJTFRnm9qcwWW36Y4n3A6sJckVcbxi3h19zNCCNZIU0
-         AHBR/HWoF/+qJ5DNUixfiwYRAqG9jT1v9KySr15YPg/yMaAdkwsgiz0EXvCZBn8x3YmJ
-         z5cA==
-X-Forwarded-Encrypted: i=1; AJvYcCX3JFMZGmb+KL7hhiZT9u8MwxunFUZ4/eAi3DzsVjszVH5vBQSBMMLyIIr+T5ERhU30COLrIKw3kcc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxbcWzhJW8quPN4I1c3+Ld93+A6DDTP/nVpESeu/ZFeu+4Yp9bD
-	s60e/hm4FH8QGkofNWc/OtoeuSZKrCHSLMBVZxZ75AMqX1dZB0SBx6NzJABvlsQyWldv9myBPUh
-	a3Ruj8xplGnMAltw8p5x6OoR9+fenbZ4k7DAfib+516suDnSxn3+JllgLZV7FjCh41tW72bs=
-X-Gm-Gg: ATEYQzx9fa+VKfQaP1oTB2iucUV6mTaei77qew+2Gy7Hj8nxGuXq4wakBA5rlADLsfo
-	u7aIEv57wiqEiSQshZue6Il+5kEyd7HXrysPx41k115AzbNFbfAmZq4ND5BAjx5tmDz8XAia7ea
-	actFju1XWFMTRm/tdDLeOFrMY9qkiRqmXC02eCyIv9TNWWTDG1ezHNhZA35yjbEZGtJ3vAm7Kvy
-	Hy9RSWK6nPfmaKrqjNrCPh0MsVWLjyKnVT2QXJ/ru0DsfJUeROegfaOzjUnb4hDnNYNu1O0w0FQ
-	JXVK5f4W/xJ+1qGIkRXXcZoDPG7KOGC8YZTDxY/BDdgEzqlzvJxqIRM2yT2o3NEWUHm9d7UbUXx
-	A0/qo7VWUpGXCqXpcrgrhvt7JmmPqNFqqgfKl8SBtqvRo4GJcxHzQ
-X-Received: by 2002:a05:620a:400b:b0:8cd:8efb:b7d9 with SMTP id af79cd13be357-8cd8efbbe47mr163771785a.28.1773060190466;
-        Mon, 09 Mar 2026 05:43:10 -0700 (PDT)
-X-Received: by 2002:a05:620a:400b:b0:8cd:8efb:b7d9 with SMTP id af79cd13be357-8cd8efbbe47mr163765685a.28.1773060189835;
-        Mon, 09 Mar 2026 05:43:09 -0700 (PDT)
-Received: from brgl-qcom.local ([2a01:cb1d:dc:7e00:494a:62d9:d95b:cb98])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48539e574b5sm107803345e9.8.2026.03.09.05.43.08
+        d=1e100.net; s=20230601; t=1773060347; x=1773665147;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hX/CT0FDleEvdCw/BsUoSYklLMZdXCYL0N1qTX3Ll/E=;
+        b=NXTAt7Y57ajZeS+QYjob9pb05STjjHGiR4DsFvkIBlNTkKr6OXNQNPqO1VkNTrQGPm
+         g6NRgqshgyK24Cv4qyQjACzUPk1Ekqh0xlbhSRo5a/eA4R/aNRDWhZ+ictZbdbWq0tl5
+         oH1g2T7RSNSW3Sp1faUTsdZWADSw7k/+sw3+t8gcO6Mwy/j2qI382EW46KvbuwMdoT60
+         3by+lnEK/OT6wBtYMaoZdL5vdR1REw+p8OzBgC7KfluHoEW6AKzGoR6nPRhQbeXgwgsx
+         YgfgPIFwXw2J/quHajjziwNGRaM9CzTRbmWQFx71ud9fds/f45nmgpvyRVgPea6G8wnX
+         CMpw==
+X-Forwarded-Encrypted: i=1; AJvYcCU40l++Y7vJgjH00AzNxhluTdGb+8kV6ZAJGDENUPGe2nlO5kTLSjm7jJhf2qKUb5E6XrR8MeRcY1M=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw8Tj5/zhCSMOOCelFnHF5nGNWIsvgbwQ2HfLal/stQ0RDsciHK
+	WVovZp5qbM15Ik6vllKeLG82rICDXpIBR+xwTOnghtzKbVLN8flsWAAg
+X-Gm-Gg: ATEYQzz/rkz86YyiFzR3Q/xiJ1OCJfwyaYkGgLiKlkSdePxEWdZpcLvITcFTz3YyNwh
+	muqNtqBqNsqbaU+KUhJvD3vhzm8coLVRomXtIXFU3qOEGb0FqTvIE5qko5wuKvm+OcuU5/qzrLa
+	65BA8mhQCi8XsVLoD2IgLSEVbcDNth2E9kmh81bPeKGBzlMerrY4eAmW8pcCyVXZtIEaXggb+1Z
+	p3JmPCPKT+OV4V5FM8KfBLJrkap+TD+4BAeRYw3TvB4UP07MpveEImn28+0lqiHlLpwUwASSoYW
+	okXpkT8Zqw4lqYeeCGikGP4LRiw9wStQ80ypRxdYuZtWa0CDDH61i+yG3gYS7N0h7ShyLEN8bHE
+	ojq1JnWx/2PxyzAIYCSwVh2qtC+fMxXIhCvzEV6m8w7XyoVGrxSaI/K3FWqU+y7zDXAZgvoQcIx
+	CRYYmJFUJqgsf4UZHuzGaCy9iAPFUk4LyzDWVuBbIWGcXutIdGtOaWxH7lHnJJ
+X-Received: by 2002:a17:90b:3f4d:b0:354:bd08:480c with SMTP id 98e67ed59e1d1-359be376e89mr9615343a91.30.1773060346835;
+        Mon, 09 Mar 2026 05:45:46 -0700 (PDT)
+Received: from ubuntu24-04.. (120-51-71-230.tokyo.ap.gmo-isp.jp. [120.51.71.230])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c739e183596sm9178830a12.27.2026.03.09.05.45.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Mar 2026 05:43:09 -0700 (PDT)
-From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Date: Mon, 09 Mar 2026 13:42:42 +0100
-Subject: [PATCH v2 6/6] gpio: sim: allow to define the active-low setting
- of a simulated hog
+        Mon, 09 Mar 2026 05:45:46 -0700 (PDT)
+From: sawara04.o@gmail.com
+To: davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org
+Cc: Kyoji Ogasawara <sawara04.o@gmail.com>,
+	netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v2 net-next 0/2] smc-sysctl formatting and missing entries
+Date: Mon,  9 Mar 2026 21:45:38 +0900
+Message-ID: <20260309124541.22723-1-sawara04.o@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260309-gpio-hog-fwnode-v2-6-4e61f3dbf06a@oss.qualcomm.com>
-References: <20260309-gpio-hog-fwnode-v2-0-4e61f3dbf06a@oss.qualcomm.com>
-In-Reply-To: <20260309-gpio-hog-fwnode-v2-0-4e61f3dbf06a@oss.qualcomm.com>
-To: Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Mika Westerberg <westeri@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Aaro Koskinen <aaro.koskinen@iki.fi>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Tony Lindgren <tony@atomide.com>, Russell King <linux@armlinux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-omap@vger.kernel.org, linux-doc@vger.kernel.org, brgl@kernel.org,
-        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2420;
- i=bartosz.golaszewski@oss.qualcomm.com; h=from:subject:message-id;
- bh=R4Ywu/pAKIvIVEZDR6pAqvPYf0v/XCn2dkIco/jqnjY=;
- b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBprsBNxYsA8Q1LF5HZoRzIH4kwEDuPpcFPljJRv
- aDgYFtdqiKJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCaa7ATQAKCRAFnS7L/zaE
- wzp8D/sFgjA+zH/WzHB4KtIHoXip9zBsEn/LDT+Fc0zQjsN9Pq30alODEdm8KQ+4kbj30kiNHoX
- dstNie7A4CFOFdJPwCFC30iLABL/O3LGw0GcuGqDLpQyrQzw4wvdqKrSTu4mtdwyiivYzCRq8os
- u0H8OQF4+84yB9DQkNLZeGhmzmvXwz6+k/kpqHKJOzFIV5SHNHdwPV4n0+GKX0dM1YnGl9ggY7y
- isMrdgdf2mRdxkcuoHIq5Rj6e0TbaRn0noJig2+VwRyCSYbvQBCj88TIvDvzed0M+mp9Gwp2EnP
- x3fzOCgD8Gsava3M/x+mNa8MI3AGFCYHBrEGa3ST13BvF5u1P7NyvfgbHLY3qhafqoSd6Wk7WHw
- HUxKt/9nSykSy5BiCq8bbEr/Regwj3eWvVt0kOmfUNkz7oN5aFhS30szutYVtyIv+pyz//vvlvf
- PIVRWLbKRPH+narFofUFn7ynAgZf5cS/RKt89sbbM7qbCPisCZRLuX/kHvgtAujYbJy8N4cM0U+
- mrzJYamb4ipvmCxMdOG+2WG+3LqW/9omjYlWFhOzZ2v6+VJa+yxmVSfptO5zH1GoTfymaly/vir
- 6u5EXCUzF9qDtPLwu6tfIR25m1CcmZU5WRnXPt9lPRFZ8NNZmctQoaUAdle8rpzM7F7e/dp0JPJ
- Mt+lWwKr5E+YH+Q==
-X-Developer-Key: i=bartosz.golaszewski@oss.qualcomm.com; a=openpgp;
- fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
-X-Proofpoint-ORIG-GUID: -UT8jmTfot3Nl3rfe3DN0h1PJN0wOxsO
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA5MDExNiBTYWx0ZWRfX8PplwIcRtLZm
- kSwH6BUDy8Z8N9FJs0btGVhtYxoDZmEbnCG+UKtjjPkQus2LfTVRzfJaOEBbLdEANJuzzxPkyV0
- nTLYUyk96CQAVS21Sx7JCN9CIQ0sx1VBfKmyIy66nVQ5xIsd3DfDWTpWlL8vT5rpH21rAGq2PjZ
- v46e/aI/yOS19sfI0v2DkCqLb+TDEUjxmD301mi126teBbjwREaelm2vlGgc14K08IGQnebgFQu
- 5+wIH08YsywHKuDpftQ/0Dij0+5UMNrPZ+mpuM7ORu2/9tfx+qa4u2SvhmaDfoI+8Es2fAZ08l9
- 0/kntsh2zzhHSBuzP1A5/agvVf4tUH87Q2gN7mJ0h7FiIyUtLtSKA7zZBNNdt4vxaFhXEj9nfKq
- MYu55vX7x0llJuz27E6+IywDsBmd06uRNYSuQWJaOdBRMtXEsOSiwiwVfO1ukiNCCP/YZN+4Q66
- beJaZdCNKeWUl7LH1Ug==
-X-Authority-Analysis: v=2.4 cv=O/w0fR9W c=1 sm=1 tr=0 ts=69aec05f cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22 a=VwQbUJbxAAAA:8
- a=QyXUC8HyAAAA:8 a=EUspDBNiAAAA:8 a=Z_vE--IGminT9Q5MwdQA:9 a=QEXdDO2ut3YA:10
- a=IoWCM6iH3mJn3m4BftBB:22
-X-Proofpoint-GUID: -UT8jmTfot3Nl3rfe3DN0h1PJN0wOxsO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-09_03,2026-03-06_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 clxscore=1015 spamscore=0 phishscore=0 priorityscore=1501
- lowpriorityscore=0 adultscore=0 impostorscore=0 bulkscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603090116
+Content-Transfer-Encoding: 8bit
 
-Add a new configfs attribute to the hog group allowing to configure the
-active-low lookup flag for hogged lines. This will allow us to extend
-tests to also cover the line config of hogs set up using software nodes.
+From: Kyoji Ogasawara <sawara04.o@gmail.com>
 
-Reviewed-by: Linus Walleij <linusw@kernel.org>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
----
- drivers/gpio/gpio-sim.c | 40 +++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 39 insertions(+), 1 deletion(-)
+Hi,
 
-diff --git a/drivers/gpio/gpio-sim.c b/drivers/gpio/gpio-sim.c
-index 51bcbdd91b4b027b7a340971a11cce5280ca1295..f32674230237eb08bbf8dd1337a79b5d0aa13259 100644
---- a/drivers/gpio/gpio-sim.c
-+++ b/drivers/gpio/gpio-sim.c
-@@ -654,6 +654,7 @@ struct gpio_sim_hog {
- 
- 	char *name;
- 	int dir;
-+	bool active_low;
- };
- 
- static struct gpio_sim_hog *to_gpio_sim_hog(struct config_item *item)
-@@ -836,7 +837,7 @@ static int gpio_sim_bank_add_hogs(struct gpio_sim_bank *bank)
- 		hog = line->hog;
- 
- 		gpios[0] = line->offset;
--		gpios[1] = 0;
-+		gpios[1] = hog->active_low ? 1 : 0;
- 
- 		memset(properties, 0, sizeof(properties));
- 
-@@ -1315,9 +1316,46 @@ gpio_sim_hog_config_direction_store(struct config_item *item,
- 
- CONFIGFS_ATTR(gpio_sim_hog_config_, direction);
- 
-+static ssize_t gpio_sim_hog_config_active_low_show(struct config_item *item,
-+						   char *page)
-+{
-+	struct gpio_sim_hog *hog = to_gpio_sim_hog(item);
-+	struct gpio_sim_device *dev = gpio_sim_hog_get_device(hog);
-+
-+	guard(mutex)(&dev->lock);
-+
-+	return sprintf(page, "%c\n", hog->active_low ? '1' : '0');
-+}
-+
-+static ssize_t
-+gpio_sim_hog_config_active_low_store(struct config_item *item,
-+				     const char *page, size_t count)
-+{
-+	struct gpio_sim_hog *hog = to_gpio_sim_hog(item);
-+	struct gpio_sim_device *dev = gpio_sim_hog_get_device(hog);
-+	bool active_low;
-+	int ret;
-+
-+	guard(mutex)(&dev->lock);
-+
-+	if (gpio_sim_device_is_live(dev))
-+		return -EBUSY;
-+
-+	ret = kstrtobool(page, &active_low);
-+	if (ret)
-+		return ret;
-+
-+	hog->active_low = active_low;
-+
-+	return count;
-+}
-+
-+CONFIGFS_ATTR(gpio_sim_hog_config_, active_low);
-+
- static struct configfs_attribute *gpio_sim_hog_config_attrs[] = {
- 	&gpio_sim_hog_config_attr_name,
- 	&gpio_sim_hog_config_attr_direction,
-+	&gpio_sim_hog_config_attr_active_low,
- 	NULL
- };
- 
+this series updates SMC sysctl documentation in two small steps.
+
+- patch 1 fixes indentation in the smcr_buf_type section
+- patch 2 documents missing sysctl parameters limit_smc_hs and hs_ctrl,
+  including values/defaults and hs_ctrl usage notes
+
+No code or runtime behavior is changed.
+
+Thanks,
+Kyoji
+
+Kyoji Ogasawara (2):
+  net/smc: fix indentation in smcr_buf_type section
+  net/smc: Add documentation for limit_smc_hs and hs_ctrl
+
+ Documentation/networking/smc-sysctl.rst | 43 ++++++++++++++++++++-----
+ 1 file changed, 35 insertions(+), 8 deletions(-)
 
 -- 
-2.47.3
+2.43.0
 
