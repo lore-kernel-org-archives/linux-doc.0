@@ -1,164 +1,107 @@
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF73824C076
-	for <linux-doc@vger.kernel.org>; Mon,  9 Mar 2026 15:45:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.217.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773071115; cv=pass; b=SbX2DRf3rI2BrZPRLF71e6FDmWHwOaDXF99PQlNMnz9P1p6tLtRG1CeN4MHx3FEZ68KNncMZ842W9Wuv5tfEXr+bkcOL8hwrK259yojSc9xD143V5tB8MJXbj9ZdAwS7MuWJrs9R7fNnXvFTOQY1tjBgRX2oarAjXFymaJyKKZM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773071115; c=relaxed/simple;
-	bh=FQ+rfw6YSM+Ur2t0O+8S8EZHYkkVvAytEeux3uABvPk=;
-	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=r2K0SLwR0aTbNKsKJwE/+JDOSftvaseIQzhG3S97ghS7U3VYmtm5x4RIczK1YXjXah8zt8TNNbnlbn/NG6OxwM5F5TJ97FYRVz+WF575m3hNlc79rUTQRcuZFRHJaOXQoMNMLAI26r4s6Y1JwaihefFpYL9SjMHYQpET0NDz+zQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=xI5mH1Ok; arc=pass smtp.client-ip=209.85.217.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 772CE18024;
+	Mon,  9 Mar 2026 15:54:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773071688; cv=none; b=hzRY3hhQJDUMfk+bIfr0klUNz1S0TkGc/oVr6Q6ihJBhC/H1xbeBUDD3ha8v0gPOrZUGF1urpqdWHjPBeiWfn+JkOqtHsXNHff+Kv1xmOCmiMpNe0zCn6E/Q9pq899iJfBGDdEo52jfK3iFf5guNO9dYgu06zFeV4JAMa4nLclk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773071688; c=relaxed/simple;
+	bh=l+jC9WfgYrvomBhwxV4emfkoI4UXBrnGpiFzo+C80NE=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=MSQXSkZSfHETlXWgFzo7d9bVbU0pPwiVSjs5dMCvWEp4s51ybo2abogQN3OFJkUsA2fSoisPauGhACqmc0jtDU+m3GZdVTPyukil3je9lnx6fP/4hdfP9xHLSA4y19dyb156Q1w6O7u6LDvZNh64+/HUXlDjk2siENSQhokgxqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=HX7cEUR3; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="xI5mH1Ok"
-Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-5ffabb1dfbaso3107260137.3
-        for <linux-doc@vger.kernel.org>; Mon, 09 Mar 2026 08:45:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773071112; cv=none;
-        d=google.com; s=arc-20240605;
-        b=BZGScxIUqVL5ChSI0IfFPbYy3cxfBQzC2jBdmHKINoZDYlCE3T2ZyGa5Ir8cS9rn6y
-         A796ptpAnle6cJyOMkgVAWcj/7dwbmVwwY3KEpdQlaJxqQEUmeIVOYm3uuL3qLNBldyM
-         YJ45AVIs21WWWGmYPX8mfpNxNHQ/340yajbQmVy5fNHZNTOhM1i5ZE4nyYolutoVPMZM
-         ztjuqdny0cRAnUoUNCy/Xp7GtZREW9pX5z8YJgYB4duGoCLbJ+vMYk5jTDWaaVR5/OlM
-         6BMxpFRX9HadSPFfYGl1N+w0lrofnRQHNXyusRBYvVSDKPWcf/0xDbKzyWvsQSzw/UWX
-         KWEw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:dkim-signature;
-        bh=bKp7UfWwsR+Qtr2/5qSzMlZ35ZQUtFxqOaPiGk/f9/o=;
-        fh=O/QkMWLp7Ze2mFYNNBStr5o3Vlu8Ct4BQk8eU8cQBcI=;
-        b=cWvUZROzeZMul4X7rWzPg3EeVfm8nWy3V317itLWH/jdmUaktWHDPEc+01rTLD6S4f
-         AubveEqMj8HDUMk/gsSPU8jwdBz0JQNsgS6Qq9wX/Z0ROK4HCeJOjDQ5ScwLYWNEjm04
-         rG7MWJKR8B8sEQvfQTuhVH6Vc+5KH3eNETzHV0E8pLUy4NClcux8M9V4uk4hOL2tcyad
-         b1IwFAO3hs21hpuzGzlcRgq/9vDYWengLKskHMlTnVSraAMVEPWVz69Pwt4JOPlGmm1c
-         XHX0zCDjaJwpNkzWjCYMo8EIqlZAe1kKBgocj3ChZBIXRmSQDZp8cviVeG0uJjG2k05R
-         U1fg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1773071112; x=1773675912; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=bKp7UfWwsR+Qtr2/5qSzMlZ35ZQUtFxqOaPiGk/f9/o=;
-        b=xI5mH1OkbEx5rEciwSIW1r8sSiLBgdGlSOlZdRK6ui/M4nAvFHW8cqdINYfAXsV8uG
-         nI8bSnfXg0WmJyzGTT4KYmmik5uOhjiWXFNNN14RCQ6kfG8md8JpD12d9PnsFp8CBb1s
-         M8dPVYwMPiKqykvvLzCaRCNuF6x88XCJz0UtP/nxZjLTELP5LxX3WZ9mmh4rvorqeHDC
-         FyXPy7Jpc0aPA/cTi1HrTrP/p+3xCtoe/TNwAtZwTewTH8loPRekj2HfeUsE0o5Y8BdT
-         E9EMgjx38u6ekuFmEvOkfZ9NWw8lFW9GeB+xS0zv/EBLsB1y0gkdSa1SZtV4LgVKrjRb
-         EGow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773071112; x=1773675912;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bKp7UfWwsR+Qtr2/5qSzMlZ35ZQUtFxqOaPiGk/f9/o=;
-        b=HLuc76k8KKDzDCKHvEXa5RNA6zgrIq3/sSBnOr85CIEq9hMgDtOLBYM/E6FMoHImpt
-         uzV8dwotkV0td0YqTUX1Zr3j1JFQzwzIhyyw9FSn5avCZe3K0XyarYYYuhL7P3IqrC6Y
-         p2+dUjMhEIoVLhuRTXPjojLrqhgvY8V1Yyr+mQiReyXumvEahwoQf0ekkWpOi00nVcai
-         lNvkEvr3dqZvRiOKt6qlNVTbl6Xju8aeDBl5LP9YKR86LlwgvhFCBE/tthRY84TUIMgO
-         rgk4bup9QpwQ7vgjSnkIWOgDLR5JN1rxElp/gk8OMog8X+BygvLdIYHv4WZwseSPesqx
-         X4vg==
-X-Forwarded-Encrypted: i=1; AJvYcCV7IA+5YXlPve0RLm6EidnEgW3ck0u7/kQzIp9BSaKcxJmqCIwcvYNwrngOteRJJ1WQpjjYdkFHX40=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx2QQgw3NP2gzZYCJsfGJ9dJC80wlwF6XMtvlYvScDc1y2mvIqr
-	w6viiwHeZRTjoVz1RusmVeGFnamaC6DbLSagDVS0Nx8W7IvVCczlC2+VlkrwCWRTT7j4alAM514
-	eXGF+jtMDAS0dV9aCgxb+NKeQCQgC7ljb7kPD9Su4
-X-Gm-Gg: ATEYQzx9ukIqglCVJ1+p5U+mrnEL1U085PRYMgowk8j8En9vp9uc9U/SGe8NmCuA49s
-	DJ9evBRw7u0sLRFR0ORKbdAmCq16hhTxl32B8OGXpXqQkESoBqOad59L0qy9bWWdfAZ1Anf9zIO
-	jXaSaRqU4puDxWxK+mST4pDMoMWfihCMzGU3QIzERE2MvNK8Mw6t52MjJ5bv7Ry8fJ+bj9yGl1z
-	6pY+LXwUR5IDM6dvezZ+ai2Ax/DkkHmMVhQfp8ct/Pvs2t9QDVjROj/CYDjOLE5w7aA9mfP6sGV
-	sN85IKhm0n8xJLe9DJUUdjDbQOV9gHPCZs1TX2FsBA==
-X-Received: by 2002:a05:6102:ccf:b0:600:131f:b68a with SMTP id
- ada2fe7eead31-600131fe1bemr2252059137.23.1773071109964; Mon, 09 Mar 2026
- 08:45:09 -0700 (PDT)
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 9 Mar 2026 08:45:09 -0700
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 9 Mar 2026 08:45:09 -0700
-From: Ackerley Tng <ackerleytng@google.com>
-In-Reply-To: <577c4725-7eda-4693-a55a-413572541161@kernel.org>
-References: <20260309-gmem-st-blocks-v3-0-815f03d9653e@google.com>
- <20260309-gmem-st-blocks-v3-1-815f03d9653e@google.com> <577c4725-7eda-4693-a55a-413572541161@kernel.org>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="HX7cEUR3"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4D56940429
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1773071686; bh=ZrBiDZvh1f78RuF1rTS0QXSdJymjyO6c7fzrOAD+2zg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=HX7cEUR3na3iM/osZulCWBgO2/DmXZkpXH6zPTmWQA3AyfGpC6d7zD15QJfIMnnqe
+	 j1avvxf5fBthUyXo8YdMi6qfz/UAyQvGo1P6jtnGiwEDMW5NAp/agPLQ8nd0aJFQR8
+	 5YI/PIPYLr0QdMmo0A6EKKJjVGGsPEKDtQspElyundDZrviz6He7zsS4gPpBUgU/rB
+	 0UNDLgUNToZVlxySn2DZsyNg0b15lUPA5TL3+PoTTiMnkNP2/m4zIqlPx/ue5s3O1l
+	 +8gmBJcor34iwY2u/vVjBpoQwNqqjXy3O5noH5LtQ32wbor6k4TOBSvwWhoemss+mV
+	 F4QgPXG4Ncv1Q==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 4D56940429;
+	Mon,  9 Mar 2026 15:54:46 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Haoyang LIU <tttturtleruss@gmail.com>, tttturtleruss@gmail.com, Shuah
+ Khan <skhan@linuxfoundation.org>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Dongliang Mu <dzm91@hust.edu.cn>, Yanteng Si
+ <si.yanteng@linux.dev>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] tools/docs/checktransupdate.py: fix all issues
+ reported by pylint
+In-Reply-To: <20260309074716.10739-1-tttturtleruss@gmail.com>
+References: <20260308104135.9037-1-tttturtleruss@gmail.com>
+ <20260309074716.10739-1-tttturtleruss@gmail.com>
+Date: Mon, 09 Mar 2026 09:54:45 -0600
+Message-ID: <87cy1dxaka.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Mon, 9 Mar 2026 08:45:09 -0700
-X-Gm-Features: AaiRm50NI2W_b1s4wqVK3z2E19_F4wrYli0WrzITukeFFAKkCo-7bYk8Lb2_YMI
-Message-ID: <CAEvNRgHhFoyh__shK_YefhUOTP4RaG-sivUH=4Gj-2iy1HX+tw@mail.gmail.com>
-Subject: Re: [PATCH RFC v3 1/4] KVM: guest_memfd: Track amount of memory
- allocated on inode
-To: "David Hildenbrand (Arm)" <david@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	seanjc@google.com, rientjes@google.com, rick.p.edgecombe@intel.com, 
-	yan.y.zhao@intel.com, fvdl@google.com, jthoughton@google.com, 
-	vannapurve@google.com, shivankg@amd.com, michael.roth@amd.com, 
-	pratyush@kernel.org, pasha.tatashin@soleen.com, kalyazin@amazon.com, 
-	tabba@google.com, Vlastimil Babka <vbabka@kernel.org>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 
-"David Hildenbrand (Arm)" <david@kernel.org> writes:
+Haoyang LIU <tttturtleruss@gmail.com> writes:
 
-> On 3/9/26 10:53, Ackerley Tng wrote:
->> The guest memfd currently does not update the inode's i_blocks and i_bytes
->> count when memory is allocated or freed. Hence, st_blocks returned from
->> fstat() is always 0.
->>
->> Introduce byte accounting for guest memfd inodes.  When a new folio is
->> added to the filemap, add the folio's size.  Use the .invalidate_folio()
->> callback to subtract the folio's size from inode fields when folios are
->> truncated and removed from the filemap.
->>
->> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
->> ---
->>  virt/kvm/guest_memfd.c | 14 ++++++++++++++
->>  1 file changed, 14 insertions(+)
->>
->> diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
->> index 462c5c5cb602a..77219551056a7 100644
->> --- a/virt/kvm/guest_memfd.c
->> +++ b/virt/kvm/guest_memfd.c
->> @@ -136,6 +136,9 @@ static struct folio *kvm_gmem_get_folio(struct inode *inode, pgoff_t index)
->>  					 mapping_gfp_mask(inode->i_mapping), policy);
->>  	mpol_cond_put(policy);
->>
->> +	if (!IS_ERR(folio))
->> +		inode_add_bytes(inode, folio_size(folio));
->> +
+> This patch fixes all issues reported by pylint, including:
+> 1. Format issue in logging.
+> 2. Variable name style issue.
+
+I'm somewhat unconvinced about that second change.  We haven't come up
+with a coding style for Python code in the kernel, but I think we do
+want it to look at least a bit like kernel code and not just defer all
+decisions to tools like pylint.  I'm not really opposed to this change
+either, mind you, but the process of getting there worries me a bit.
+
+> Fixes: 63e96ce050e5 ("scripts: fix all issues reported by pylint")
+> Signed-off-by: Haoyang LIU <tttturtleruss@gmail.com>
+> ---
+> V1 -> V2: fix variable name style name and keep the format consistent with other logging format
 >
-> Can't we have two concurrent calls to __filemap_get_folio_mpol(), and we
-> don't really know whether our call allocated the folio or simply found
-> one (the other caller allocated) in the pagecache?
+>  tools/docs/checktransupdate.py | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 >
+> diff --git a/tools/docs/checktransupdate.py b/tools/docs/checktransupdate.py
+> index e894652369a5..cc07cda667fc 100755
+> --- a/tools/docs/checktransupdate.py
+> +++ b/tools/docs/checktransupdate.py
+> @@ -76,11 +76,11 @@ def get_origin_from_trans_smartly(origin_path, t_from_head):
+>      (2) Update the translation through commit HASH (TITLE)
+>      """
+>      # catch flag for 12-bit commit hash
+> -    HASH = r'([0-9a-f]{12})'
+> +    hash_re = r'([0-9a-f]{12})'
+>      # pattern 1: contains "update to commit HASH"
+> -    pat_update_to = re.compile(rf'update to commit {HASH}')
+> +    pat_update_to = re.compile(rf'update to commit {hash_re}')
+>      # pattern 2: contains "Update the translation through commit HASH"
+> -    pat_update_translation = re.compile(rf'Update the translation through commit {HASH}')
+> +    pat_update_translation = re.compile(rf'Update the translation through commit {hash_re}')
+>  
+>      origin_commit_hash = None
+>      for line in t_from_head["message"]:
+> @@ -131,7 +131,7 @@ def check_per_file(file_path):
+>      opath = get_origin_path(file_path)
+>  
+>      if not os.path.isfile(opath):
+> -        logging.error("Cannot find the origin path for {file_path}")
+> +        logging.error("Cannot find the origin path for %s", file_path)
 
-Ah that is true. Two threads can get past filemap_lock_folio(), then get
-to __filemap_get_folio_mpol(), and then thread 1 will return from
-__filemap_get_folio_mpol() with an allocated folio while thread 2
-returns with the folio allocated by thread 1. Both threads would end up
-incrementing the number of bytes in the inode.
+Why was this change made?  The first time around, you'd simply added the
+obviously missing "f", which seems better?
 
-Sean, Vlastimil, is this a good argument for open coding, like in RFC v2
-[1]? So that guest_memfd can do inode_add_bytes() specifically when the
-folio is added to the filemap.
+Thanks,
 
-An alternative I can think of is to add a callback that is called from
-within __filemap_add_folio(). Would that be preferred?
-
-[1] https://lore.kernel.org/all/20260225-gmem-st-blocks-v2-2-87d7098119a9@google.com/
-
-> --
-> Cheers,
->
-> David
+jon
