@@ -1,133 +1,123 @@
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB5CB3BED09
-	for <linux-doc@vger.kernel.org>; Mon,  9 Mar 2026 12:45:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D33153BD647;
+	Mon,  9 Mar 2026 12:54:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773060354; cv=none; b=Q/bxCuvxsdBeYHBY5gRVg5Lc0nNJXJUM+5QxT/M39OlwOeEaqu0JNHQRjhk4LyTVuY028tKhW/RxL0XBR03XiH2yksdAB/DKeLIRGxosuyQ6wM87WuAlvejmlyFGBwNh65DGZuDuH3ynMbOdbutdhx1cwow+iR8vUML/UPZHRKU=
+	t=1773060873; cv=none; b=GUcCjxtZ4uB2GIYE8sZYj/h2/Jd+mF7poXi51WH9PlkR3XTbhCCFjuCRV5GQsnSJ91ZK1qZjQ9nXJvlkRHxgwXQzEDcVM5IYUlX5pL6FPTvWrkLk5+Sr0v0vjrL0+vlHprufSrTztiy5GxXqiYWR1cVKf4hCOKC5aJEP3O53odE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773060354; c=relaxed/simple;
-	bh=msrA7wGjRRGTCwCsfx7ePt2yNBhyVAifse7Q2+9fCm0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GoXWl/zhM9HtMEoaGwep/3ws546KcmH4PCskA6BRj5sF3uhV20A58xZ7lWrb0/JJoSQKFFRbzhcVQOP4uQhDPv9jXxbd+BXQiLI3SK3f7xnRTTefshboqaOev7luXui2ZE/wd86XV0Hp93dwduot5bxVuqjr4Qdd8FwiWAdGQE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=awEHbyIp; arc=none smtp.client-ip=209.85.215.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773060873; c=relaxed/simple;
+	bh=bmv2yxNC4kv3255SjuxNbeF6y4xHz5zJ8lAJJi0EVuQ=;
+	h=Content-Type:MIME-Version:Message-Id:In-Reply-To:References:
+	 Subject:From:To:Cc:Date; b=VnUiRSaRj5DaijlE5l+9Ip45hCA3tt7I4LX6H0nl6gStg/rVKw45HlbLk9TXgxTlygzLDGLtupnxUMDCE/b43NyUgOJWPkJKAYokPoxX2hxnh+9Xth/1Nzodx9p3gSuXXq3dP/Q6QYPf/J8cAqG5dln0h3Iczhj6XeqhjfJceHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jq8tAq0i; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="awEHbyIp"
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-c73a12af63cso1487969a12.0
-        for <linux-doc@vger.kernel.org>; Mon, 09 Mar 2026 05:45:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773060352; x=1773665152; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TQsAUyUgurtuYPOjOt9kS2ZoheMJQ/CgpVDQoe0FZmA=;
-        b=awEHbyIphba0IKRzVQ8WeBRDsxVx+4o0gw7U+SZzzkV3PAs84V2TmVieNA0HmDckuI
-         HfDrGy6HDaDSKmz+mD2kx3KfhKsE14/Vgi+CgYtOP/vblX1rWORcq20Pf4J0qD3fZy1w
-         o03KtrtpSvVRL1NoWaabUwm/J9eO0yhrLwsOVdROU5I5pQO0zzsYsuUZYWvZAxKCI/yo
-         u+EzgXRVqacbt1kmfN5zA02UJ9Xm8xcY/KRMr3YBqSxiiGl9zQM5uBzNDP6tDrm+uBk0
-         ZK62u6PgxldMn2HZXQ6NDf33M6BiT154b9IVhUJjS/ldZR7/yj4HM5h/4PQ2u9Aj0740
-         HA8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773060352; x=1773665152;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=TQsAUyUgurtuYPOjOt9kS2ZoheMJQ/CgpVDQoe0FZmA=;
-        b=pGWWHktUXUSpLhrmOvWYTzTiv7L00JEAt3JzjARBFTtDHM+O0sTsKMte1V6I9jMKrm
-         QHJDQY7s7k1XwzcpAyFILzfPROCNtBJ9JpfZoazW6tHz58ZrfLpelgQOJbs+1+N0u0Uv
-         PqTtwCE4m2IRUpL2p8mEex21XfRaTKKWQ+GU+6Ew6MdlHh1Y+S0nGeJX59N4pikfyd/S
-         QyOurG3gC6Q3HEhevjBa/DZVCxibkQ08ICycD6bCYpFqHqpfe1ga/4n9Q+2RFZBWZqQf
-         wmjwQj6JoEOIBw1ZTcEx6m5/QpoQoQNG/VuF7Yg+t5cFtWu0jPnzgsFC1LPmaUh53FLp
-         HXug==
-X-Forwarded-Encrypted: i=1; AJvYcCVDxjdpRILrcoOw2oiCR1ISmbNboqAM4BTpIWAW7IwHMilbPjSgpzVznZ9pNYFGOLDAPcavkrn4+Ek=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywrq0R81flrGCXIYi3XtRNEw4wg1HhQRbAguw9Ktmsx84VhQ+ME
-	/6pWKBzeNg29H//lDwXP7uyZFnuGZgRWD508Oxw6KyOJkC1Ov2DJ6NWv
-X-Gm-Gg: ATEYQzxPbwooiods8aMFwmipG04EUMA7fAkKrziemaDtB0+KAuvcMQc/VXMSgXV8xBr
-	+VBQ2r/nGSq0x4DXhIYbcZ06UvISmORKsHCs1JAtb1jOYjl4CbDXrIIW0Bk/OMFy8P6JmlqXcJR
-	g+sOndAYUR+z72aFblwfhfI0QjDpf53yujJCh4pI5+aHs3ue4g6KAltPmgpFT1mgC4X3HsEiaj4
-	0j7wIO5vMNcBXuXCUyROUapWR0vO2HH6lYAo7nyz/PDkPE1qkqGjvQMojG09m1hQTSTsUmN7t2O
-	JoILJOcxIZrbYXmlD0838Zi3HAmLr9zCtD0wsrD4ttxNThvLlwTZlZdcI2egU/lT4qzN88Duh/U
-	DQ289Bv4E4YI0fkJVIfQEShjBxXby5jo5lIEV0fuqUUc5g9qTsdEwyTxZjv3pmos7hsdRfMwAXm
-	1IygKzgXS83O0UFE00tXc5aZgD00BvXSMdfBM38mEZ7RQU89Kf6ym0/w8k5ALh
-X-Received: by 2002:a05:6a20:d807:b0:398:8546:c3e1 with SMTP id adf61e73a8af0-3988546ca4bmr4730270637.62.1773060352201;
-        Mon, 09 Mar 2026 05:45:52 -0700 (PDT)
-Received: from ubuntu24-04.. (120-51-71-230.tokyo.ap.gmo-isp.jp. [120.51.71.230])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c739e183596sm9178830a12.27.2026.03.09.05.45.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Mar 2026 05:45:51 -0700 (PDT)
-From: sawara04.o@gmail.com
-To: davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org
-Cc: Kyoji Ogasawara <sawara04.o@gmail.com>,
-	netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v2 net-next 2/2] net/smc: Add documentation for limit_smc_hs and hs_ctrl
-Date: Mon,  9 Mar 2026 21:45:40 +0900
-Message-ID: <20260309124541.22723-3-sawara04.o@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260309124541.22723-1-sawara04.o@gmail.com>
-References: <20260309124541.22723-1-sawara04.o@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jq8tAq0i"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31BF3C4CEF7;
+	Mon,  9 Mar 2026 12:54:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773060873;
+	bh=bmv2yxNC4kv3255SjuxNbeF6y4xHz5zJ8lAJJi0EVuQ=;
+	h=In-Reply-To:References:Subject:From:To:Cc:Date:From;
+	b=Jq8tAq0inoxR9GqEaSUKLy5RuK7UAFy7A3TVS2uXXnfemQE2NYukZRMJgYV+XT+0U
+	 sW/M331Vcx7NsT5f3zMWNM4H7QVr6Hna+IXBvK/DjU7anYSsHiDDQ4dmySTOyOcexh
+	 Thbu4iF3tQdlyekMdtp/KN1GC9m2CtBcGWAkxYtQz/DqKHQSwwyLcw8IqNgcISM3DQ
+	 GEAoSHNrT5cnYVZHBDs6jgwCJHt6erpABT1//qQ4jEyRhYmlnzDqzSJnkLRBCemvab
+	 J5cCuFmQt7N821O89dQeKDBthYJNGD05TGPheHxch+p2ka7dxmchxhhWio4Mdx+ucI
+	 d6npd1rPok7Vg==
+Content-Type: multipart/mixed; boundary="===============0450728247394666353=="
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Message-Id: <847cfc0fded072f6930f8ae9680f22f3d6b4191de77abeda97d430cf8a4f83d0@mail.kernel.org>
+In-Reply-To: <20260309121033.2594457-2-bqe@google.com>
+References: <20260309121033.2594457-2-bqe@google.com>
+Subject: Re: [RFC PATCH 1/1] bpf, docs: structured docs for the verifier
+From: bot+bpf-ci@kernel.org
+To: bqe@google.com,ast@kernel.org,daniel@iogearbox.net,andrii@kernel.org
+Cc: bqe@google.com,martin.lau@linux.dev,eddyz87@gmail.com,song@kernel.org,yonghong.song@linux.dev,john.fastabend@gmail.com,kpsingh@kernel.org,sdf@fomichev.me,haoluo@google.com,jolsa@kernel.org,corbet@lwn.net,bpf@vger.kernel.org,linux-doc@vger.kernel.org,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,clm@meta.com,ihor.solodrai@linux.dev
+Date: Mon,  9 Mar 2026 12:54:33 +0000 (UTC)
 
-From: Kyoji Ogasawara <sawara04.o@gmail.com>
+--===============0450728247394666353==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-Document missing SMC sysctl parameters limit_smc_hs and hs_ctrl
+> Multi-part docseries (verifier-formal-*.rst) for BPF verifier.
 
-Signed-off-by: Kyoji Ogasawara <sawara04.o@gmail.com>
+The files are named verifier-overview-*.rst, not
+verifier-formal-*.rst.
+
+> diff --git a/Documentation/bpf/verifier-overview-2-domain.rst b/Documentation/bpf/verifier-overview-2-domain.rst
+> new file mode 100644
+> index 000000000000..8a9d36818f24
+> --- /dev/null
+> +++ b/Documentation/bpf/verifier-overview-2-domain.rst
+
+[ ... ]
+
+> +* **Top ($\top$)**: The most general state. It represents *any* possible value. The verifier has zero knowledge. In the code, this is represented by the ``tnum_unknown`` bitmask and the widest possible numeric bounds (``umin_value = 0``, ``umax_value = U64_MAX``, ``smin_value = S64_MIN``, ``smax_value = S64_MAX``), applied via functions like ``__mark_reg_unknown()`` and ``__mark_reg_unbounded()``.
+> +* **Intermediate Values**: Partial knowledge (e.g., "the value is between 5 and 10," or "the lower 3 bits are 0").
+> +* **Bottom ($\bot$)**: The most specific state. It represents an impossible or contradictory state (e.g., a value that must be simultaneously > 10 and < 5). The verifier does not have an explicit ``struct`` for Bottom; instead, it manifests as contradictory bounds (e.g., ``umin_value > umax_value``). When the verifier encounters this, it identifies the execution path as dead code and stops exploring it.
+
+The $\top$ and $\bot$ LaTeX notations will not render in Sphinx
+RST. The kernel documentation build uses Sphinx with mathjax as
+the math renderer, but dollar-sign delimiters are not enabled by
+default. These will appear literally as "$\top$" and "$\bot$" in
+the generated HTML.
+
+The standard RST inline math syntax would be :math:`\top` and
+:math:`\bot`. The same issue appears in a few other places across
+Parts 2, 3, and 4 (e.g. the $\top$ in the tnum_unknown example
+and in Part 3's overflow section and Part 4's subsumption
+examples).
+
+> diff --git a/Documentation/bpf/verifier-overview-4-pruning.rst b/Documentation/bpf/verifier-overview-4-pruning.rst
+> new file mode 100644
+> index 000000000000..f1515011d721
+> --- /dev/null
+> +++ b/Documentation/bpf/verifier-overview-4-pruning.rst
+
+[ ... ]
+
+> +The verifier tracks this using ``REG_LIVE_READ`` and ``REG_LIVE_WRITTEN`` flags. During the ``states_equal()`` check, if a register is marked as dead in the *existing state*, the verifier knows that this register will remain dead regardless of how the current path is explored. As a result, it completely ignores the value of that register in the *current state*.
+
+REG_LIVE_READ and REG_LIVE_WRITTEN do not exist anywhere in the
+current kernel tree. The actual liveness mechanism is implemented
+in compute_live_registers(), which uses bitmask-based
+insn_live_regs structs with in/out/use/def fields, and stores the
+results as insn_aux[i].live_regs_before.
+
+Could these references be updated to describe the actual
+implementation?
+
+> diff --git a/Documentation/bpf/verifier-overview-5-advanced.rst b/Documentation/bpf/verifier-overview-5-advanced.rst
+> new file mode 100644
+> index 000000000000..f18d13dd8cab
+> --- /dev/null
+> +++ b/Documentation/bpf/verifier-overview-5-advanced.rst
+
+[ ... ]
+
+> +The ``struct bpf_verifier_state`` includes fields like ``active_spin_lock`` and ``active_rcu_lock``.
+> +
+> +* **Spinlocks**: When a program calls the helper ``bpf_spin_lock(map_value)``, the verifier's transfer function asserts that no lock is currently held. It then updates ``active_spin_lock`` with the identity of the map value.
+
+The field active_spin_lock does not exist in struct
+bpf_verifier_state. The actual fields are active_locks (u32),
+active_lock_id (u32), and active_lock_ptr (void *).
+
+Similarly, active_rcu_lock should be active_rcu_locks (plural) to
+match the actual field name in the struct.
+
+
 ---
- Documentation/networking/smc-sysctl.rst | 27 +++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
+See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
 
-diff --git a/Documentation/networking/smc-sysctl.rst b/Documentation/networking/smc-sysctl.rst
-index 17b8314c0e5e..3bbc5739f8ac 100644
---- a/Documentation/networking/smc-sysctl.rst
-+++ b/Documentation/networking/smc-sysctl.rst
-@@ -111,3 +111,30 @@ smcr_max_recv_wr - INTEGER
- 	like before having this control.
- 
- 	Default: 48
-+
-+limit_smc_hs - INTEGER
-+	Whether to limit SMC handshake for newly created sockets.
-+
-+	When enabled, SMC listen path applies handshake limitation based on
-+	handshake worker congestion and queued SMC handshake load.
-+
-+	Possible values:
-+
-+	- 0 - Disable handshake limitation
-+	- 1 - Enable handshake limitation
-+
-+	Default: 0 (disable)
-+
-+hs_ctrl - STRING
-+	Select the SMC handshake control profile by name.
-+
-+	This string refers to the name of a user-implemented
-+	BPF struct_ops instance of type smc_hs_ctrl.
-+
-+	The selected profile controls whether SMC options are advertised
-+	during TCP SYN/SYN-ACK handshake.
-+
-+	Only available when CONFIG_SMC_HS_CTRL_BPF is enabled.
-+	Write an empty string to clear the current profile.
-+
-+	Default: empty string
-\ No newline at end of file
--- 
-2.43.0
-
+CI run summary: https://github.com/kernel-patches/bpf/actions/runs/22853419607
+--===============0450728247394666353==--
