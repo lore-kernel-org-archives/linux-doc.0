@@ -1,128 +1,164 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 276213DA5DB
-	for <linux-doc@vger.kernel.org>; Mon,  9 Mar 2026 15:42:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF73824C076
+	for <linux-doc@vger.kernel.org>; Mon,  9 Mar 2026 15:45:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.217.47
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773070945; cv=pass; b=iKlnLl7uVMPeEqgW1L8Y/vmfkvP3SK+DiC+6PUgIWO4704UxvdZuBGYmCEHhMmq8lPtQ+FWXBWTPESGFoHFPcFKKxBkgm0gJpqooxNI2ru1ysPNgOsUDkuWXRXXlv0gAqP0uBRjPQhfUSas8qUtSRD+PZc5Ld25OoKSn0saI4Sc=
+	t=1773071115; cv=pass; b=SbX2DRf3rI2BrZPRLF71e6FDmWHwOaDXF99PQlNMnz9P1p6tLtRG1CeN4MHx3FEZ68KNncMZ842W9Wuv5tfEXr+bkcOL8hwrK259yojSc9xD143V5tB8MJXbj9ZdAwS7MuWJrs9R7fNnXvFTOQY1tjBgRX2oarAjXFymaJyKKZM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773070945; c=relaxed/simple;
-	bh=kGw5voA1KmJwKFY6CkPWjSKKQ3x715P8GBp4QFY51nw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BkvKa1C8khubdkCdQ1ZdZZEz2tKAEmECRMsoWRjgiicH/NytIpEAQpLpbCqzD9oB2j70Km8ADT7HaSbJ/zvFVcqF/8dGjhvkAXG/tqHxbLHBJ4hYAr1OhEi4i0o0MVntNiePyzaL/VUkgDo9QDI+KEgtq/0m2JZRPI2cbsog+HI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m2Csianl; arc=pass smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773071115; c=relaxed/simple;
+	bh=FQ+rfw6YSM+Ur2t0O+8S8EZHYkkVvAytEeux3uABvPk=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=r2K0SLwR0aTbNKsKJwE/+JDOSftvaseIQzhG3S97ghS7U3VYmtm5x4RIczK1YXjXah8zt8TNNbnlbn/NG6OxwM5F5TJ97FYRVz+WF575m3hNlc79rUTQRcuZFRHJaOXQoMNMLAI26r4s6Y1JwaihefFpYL9SjMHYQpET0NDz+zQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=xI5mH1Ok; arc=pass smtp.client-ip=209.85.217.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m2Csianl"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-439b78b638eso9020817f8f.2
-        for <linux-doc@vger.kernel.org>; Mon, 09 Mar 2026 08:42:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773070942; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="xI5mH1Ok"
+Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-5ffabb1dfbaso3107260137.3
+        for <linux-doc@vger.kernel.org>; Mon, 09 Mar 2026 08:45:12 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773071112; cv=none;
         d=google.com; s=arc-20240605;
-        b=ZiTxiiWkilCu1OFMFFesL5D+k/RM8l+3qUt/PsK/EW/as7dmySB89TWX1kdMpX9f/T
-         JiPGPVvgyhT1asOHuTdJJGmzPDjEFTad5y5Du36WH/tzKVyjOj5XKEruWbUNMNzBmE3b
-         Q/7jlCJqL7Y3UWQOlccA/y6O/n2LhYIEtMVFzHwBvdu1z80lIC95Kpa8TKG0IaJlZynN
-         v5CY32vW1FB+MnNR/inrY5wCR+7hc0Qn/nGNX1jcXxYkK8crLqcNgbsBG+6W3+ZyiULy
-         RP+KI7xd4NSthYVdj1SF83E+Y1545UrhT7jM04ilRb/1O+nQE/fF3DgMGhLw6EnO1zBZ
-         azaw==
+        b=BZGScxIUqVL5ChSI0IfFPbYy3cxfBQzC2jBdmHKINoZDYlCE3T2ZyGa5Ir8cS9rn6y
+         A796ptpAnle6cJyOMkgVAWcj/7dwbmVwwY3KEpdQlaJxqQEUmeIVOYm3uuL3qLNBldyM
+         YJ45AVIs21WWWGmYPX8mfpNxNHQ/340yajbQmVy5fNHZNTOhM1i5ZE4nyYolutoVPMZM
+         ztjuqdny0cRAnUoUNCy/Xp7GtZREW9pX5z8YJgYB4duGoCLbJ+vMYk5jTDWaaVR5/OlM
+         6BMxpFRX9HadSPFfYGl1N+w0lrofnRQHNXyusRBYvVSDKPWcf/0xDbKzyWvsQSzw/UWX
+         KWEw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=kGw5voA1KmJwKFY6CkPWjSKKQ3x715P8GBp4QFY51nw=;
-        fh=tnmjEOXOwQkn+YtYOhOTOg7eNM8MFjSaKVUoWE+yFb4=;
-        b=WT3+bpqHEfd5iUZzTXYJYq5+JAbyGoVltor7jRRLC1EIeSzpuH0Z35u/TZsIx7R84p
-         am95+/bv02wRLVXzy5HR9Nzn8vnXJvMtwaW5k5hVaWI8eZROyUPfWXUpmXh/FvBvkANv
-         YPF7PPy/GMuYdyFUtQVkd05dLG5UiJcnrh9PvIJPY4d1hTzXpELY9pSCnCM1xx9NuJcn
-         3nXQPkfAwgi4VX1XjU3BPG+/2IvsxHCn/hYFCPLJhNK0tj2CQi5dz4HjxAickmr59xEa
-         GR+SQKYWgyev4QIehZ3SzBOPucRoFFHgTA7avIHZSz72po8xKKTc7VMisxbcyvsb+Uje
-         8NDg==;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:dkim-signature;
+        bh=bKp7UfWwsR+Qtr2/5qSzMlZ35ZQUtFxqOaPiGk/f9/o=;
+        fh=O/QkMWLp7Ze2mFYNNBStr5o3Vlu8Ct4BQk8eU8cQBcI=;
+        b=cWvUZROzeZMul4X7rWzPg3EeVfm8nWy3V317itLWH/jdmUaktWHDPEc+01rTLD6S4f
+         AubveEqMj8HDUMk/gsSPU8jwdBz0JQNsgS6Qq9wX/Z0ROK4HCeJOjDQ5ScwLYWNEjm04
+         rG7MWJKR8B8sEQvfQTuhVH6Vc+5KH3eNETzHV0E8pLUy4NClcux8M9V4uk4hOL2tcyad
+         b1IwFAO3hs21hpuzGzlcRgq/9vDYWengLKskHMlTnVSraAMVEPWVz69Pwt4JOPlGmm1c
+         XHX0zCDjaJwpNkzWjCYMo8EIqlZAe1kKBgocj3ChZBIXRmSQDZp8cviVeG0uJjG2k05R
+         U1fg==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773070942; x=1773675742; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kGw5voA1KmJwKFY6CkPWjSKKQ3x715P8GBp4QFY51nw=;
-        b=m2CsianlYhiJf7cBMwPK8ILm29kV01cmwxqJiGfM72MbrMQL4XFiNi+JHu4qMny3m2
-         tvdPX6vpHlShHx1vim+yL16kEbfJx5FfkHwHq4/QRkShf35ASVj/qMmwgA9em+Tw2YjA
-         91lGRMnrJLCTlDgA8qcn1CQMNp04E+HsTyGDDevAuHcBabyvLqPcMh0LzAacn0jN/ats
-         wuu1pZKS3ZXluLYG+11mZzJmjs25dg4AOfPSps9ZehokQGOCJNqNl8RbbgihgsmGJweU
-         cy04bEstzCbyiIjdGx6G1a5yGiSBitzjndz9PU7TC/BKg+155GQNdKYKqq/LOD/MqcCC
-         SUeg==
+        d=google.com; s=20230601; t=1773071112; x=1773675912; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bKp7UfWwsR+Qtr2/5qSzMlZ35ZQUtFxqOaPiGk/f9/o=;
+        b=xI5mH1OkbEx5rEciwSIW1r8sSiLBgdGlSOlZdRK6ui/M4nAvFHW8cqdINYfAXsV8uG
+         nI8bSnfXg0WmJyzGTT4KYmmik5uOhjiWXFNNN14RCQ6kfG8md8JpD12d9PnsFp8CBb1s
+         M8dPVYwMPiKqykvvLzCaRCNuF6x88XCJz0UtP/nxZjLTELP5LxX3WZ9mmh4rvorqeHDC
+         FyXPy7Jpc0aPA/cTi1HrTrP/p+3xCtoe/TNwAtZwTewTH8loPRekj2HfeUsE0o5Y8BdT
+         E9EMgjx38u6ekuFmEvOkfZ9NWw8lFW9GeB+xS0zv/EBLsB1y0gkdSa1SZtV4LgVKrjRb
+         EGow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773070942; x=1773675742;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=kGw5voA1KmJwKFY6CkPWjSKKQ3x715P8GBp4QFY51nw=;
-        b=QA87TvizFZBi4RSTHCaUc0ttBIi7UUXUU9hay+NQig9RWTOS+jeLTrWQmxtXI+gnfE
-         ozgjGLsh4G38MdB3Co0oQZ/F3Ko7OFEPsUfWTFblWm+Ym77c5aFa26oD+cXpWY8l6lqY
-         CM+f7/F/SHeU/qlkLVQdtZUB2rwvLZoQLmh528fBfhKU8Qz8rHXxpbzp6r1RORR7bZ78
-         7pPsJsD+nUHLDPHASvMS5AQ8u/fUf5QYspBOgmQvfMV69ddJoNNDHanQxYyjBax7Ycdo
-         iuo/HnpsNH1vgF1V86SbVnIADwBGZquRi2JVq2Si+XQPZ9RfsAgGCSVdFTJdfBdr7wEY
-         R53g==
-X-Forwarded-Encrypted: i=1; AJvYcCUJ+bDtQMVHNTqkVbAPh0nnA7Syq21Ll6hiJUY3tza6oULF/zibYVI5x3rdhTn25ux8iqLPv+keY7M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyhmC7Xzj7VlOdvvF5JqKRfEfGCpstvT/Oai6BvEix9butTz5PD
-	Y4mJ3WXeyzkrkHupFBbZkTwiT2mW3dOTS3lR14gcvQuwxlZgK944ceYtGz4S7yTV1mkCOqpE8pz
-	IxHYlefpysDzbDYnS3Yu+nJzGFviQS5I=
-X-Gm-Gg: ATEYQzy3mTBxrpXWvxL8khLed6AaL7lXewUa6r8ab/UqUc42eie+g+tXKWApBnPz/si
-	fZTmEGIM6GXRu+4qGxm96Dr5ijTJUE6BRJnOFZ0a1WGUzRmUfnJkocbIZoMrXPE2fscJenYWvL1
-	RMCNLWkGcxYm83zzMu8jy2fLkTUYhGyTBelRDWhvsNVbAzfZ71NlDNprm15QQI6IeoT9rvn8YVN
-	B/vp3W1EJaZhxX82X0X2bIY9qgEzgkI+xO0vCbkXMQKH4VrdVWHb9rwJXj6av6amC7n5P87c0TU
-	rPq3yQrch/r8ZzXwMlw3/Eohcpxv6CDN1fFdlOT0qbl+ywSc6hma7Qv580B3B7oQWjuz0aNHMJW
-	PQsiv0Bc2MSTjjl5tu9w53xPJYwrxYh+og4T9
-X-Received: by 2002:a05:6000:288b:b0:439:b2ec:1710 with SMTP id
- ffacd0b85a97d-439da654313mr18931718f8f.3.1773070942410; Mon, 09 Mar 2026
- 08:42:22 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1773071112; x=1773675912;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bKp7UfWwsR+Qtr2/5qSzMlZ35ZQUtFxqOaPiGk/f9/o=;
+        b=HLuc76k8KKDzDCKHvEXa5RNA6zgrIq3/sSBnOr85CIEq9hMgDtOLBYM/E6FMoHImpt
+         uzV8dwotkV0td0YqTUX1Zr3j1JFQzwzIhyyw9FSn5avCZe3K0XyarYYYuhL7P3IqrC6Y
+         p2+dUjMhEIoVLhuRTXPjojLrqhgvY8V1Yyr+mQiReyXumvEahwoQf0ekkWpOi00nVcai
+         lNvkEvr3dqZvRiOKt6qlNVTbl6Xju8aeDBl5LP9YKR86LlwgvhFCBE/tthRY84TUIMgO
+         rgk4bup9QpwQ7vgjSnkIWOgDLR5JN1rxElp/gk8OMog8X+BygvLdIYHv4WZwseSPesqx
+         X4vg==
+X-Forwarded-Encrypted: i=1; AJvYcCV7IA+5YXlPve0RLm6EidnEgW3ck0u7/kQzIp9BSaKcxJmqCIwcvYNwrngOteRJJ1WQpjjYdkFHX40=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx2QQgw3NP2gzZYCJsfGJ9dJC80wlwF6XMtvlYvScDc1y2mvIqr
+	w6viiwHeZRTjoVz1RusmVeGFnamaC6DbLSagDVS0Nx8W7IvVCczlC2+VlkrwCWRTT7j4alAM514
+	eXGF+jtMDAS0dV9aCgxb+NKeQCQgC7ljb7kPD9Su4
+X-Gm-Gg: ATEYQzx9ukIqglCVJ1+p5U+mrnEL1U085PRYMgowk8j8En9vp9uc9U/SGe8NmCuA49s
+	DJ9evBRw7u0sLRFR0ORKbdAmCq16hhTxl32B8OGXpXqQkESoBqOad59L0qy9bWWdfAZ1Anf9zIO
+	jXaSaRqU4puDxWxK+mST4pDMoMWfihCMzGU3QIzERE2MvNK8Mw6t52MjJ5bv7Ry8fJ+bj9yGl1z
+	6pY+LXwUR5IDM6dvezZ+ai2Ax/DkkHmMVhQfp8ct/Pvs2t9QDVjROj/CYDjOLE5w7aA9mfP6sGV
+	sN85IKhm0n8xJLe9DJUUdjDbQOV9gHPCZs1TX2FsBA==
+X-Received: by 2002:a05:6102:ccf:b0:600:131f:b68a with SMTP id
+ ada2fe7eead31-600131fe1bemr2252059137.23.1773071109964; Mon, 09 Mar 2026
+ 08:45:09 -0700 (PDT)
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 9 Mar 2026 08:45:09 -0700
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 9 Mar 2026 08:45:09 -0700
+From: Ackerley Tng <ackerleytng@google.com>
+In-Reply-To: <577c4725-7eda-4693-a55a-413572541161@kernel.org>
+References: <20260309-gmem-st-blocks-v3-0-815f03d9653e@google.com>
+ <20260309-gmem-st-blocks-v3-1-815f03d9653e@google.com> <577c4725-7eda-4693-a55a-413572541161@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260309134630.2638181-1-bqe@google.com> <87ldg1xdo9.fsf@trenco.lwn.net>
-In-Reply-To: <87ldg1xdo9.fsf@trenco.lwn.net>
-From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date: Mon, 9 Mar 2026 08:42:11 -0700
-X-Gm-Features: AaiRm5118CIPDNbRTQ7etk8QlzD8w22P_KVYQ1O3uzq1vYrQVgyo0KfbrfC-gtA
-Message-ID: <CAADnVQKqzM0FXv-UgeBismj8o281Lcg+dPOf9OMnLb9sy45HYw@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 0/1] bpf, docs: structured overview of verifier
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Burak Emir <bqe@google.com>, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
-	Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, bpf <bpf@vger.kernel.org>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Date: Mon, 9 Mar 2026 08:45:09 -0700
+X-Gm-Features: AaiRm50NI2W_b1s4wqVK3z2E19_F4wrYli0WrzITukeFFAKkCo-7bYk8Lb2_YMI
+Message-ID: <CAEvNRgHhFoyh__shK_YefhUOTP4RaG-sivUH=4Gj-2iy1HX+tw@mail.gmail.com>
+Subject: Re: [PATCH RFC v3 1/4] KVM: guest_memfd: Track amount of memory
+ allocated on inode
+To: "David Hildenbrand (Arm)" <david@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	seanjc@google.com, rientjes@google.com, rick.p.edgecombe@intel.com, 
+	yan.y.zhao@intel.com, fvdl@google.com, jthoughton@google.com, 
+	vannapurve@google.com, shivankg@amd.com, michael.roth@amd.com, 
+	pratyush@kernel.org, pasha.tatashin@soleen.com, kalyazin@amazon.com, 
+	tabba@google.com, Vlastimil Babka <vbabka@kernel.org>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-fsdevel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-doc@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 9, 2026 at 7:47=E2=80=AFAM Jonathan Corbet <corbet@lwn.net> wro=
-te:
->
-> Burak Emir <bqe@google.com> writes:
->
-> > This is an RFC for adding overview documentation for the BPF verifier.
-> >
-> > The existing verifier.rst has detail but IMHO it lacks structure and
-> > background. Here is my humble proposal to make the verifier docs
-> > more helpful for newcomers.
-> >
-> > Finding a balance between overview and detail in documentation is
-> > never easy. The idea here is to describe abstract interpretation and ha=
-ve
-> > enough information that anyone interested can learn what is going on.
-> >
-> > Please let me know what you think. I used Gemini 3 to get a first draft=
-,
-> > which I then checked word-for-word and reworked.
->
-> I only got the cover letter for the second version, so these overall
-> comments are based on the first.
+"David Hildenbrand (Arm)" <david@kernel.org> writes:
 
-Jon,
-don't bother.
-This is a no go.
+> On 3/9/26 10:53, Ackerley Tng wrote:
+>> The guest memfd currently does not update the inode's i_blocks and i_bytes
+>> count when memory is allocated or freed. Hence, st_blocks returned from
+>> fstat() is always 0.
+>>
+>> Introduce byte accounting for guest memfd inodes.  When a new folio is
+>> added to the filemap, add the folio's size.  Use the .invalidate_folio()
+>> callback to subtract the folio's size from inode fields when folios are
+>> truncated and removed from the filemap.
+>>
+>> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+>> ---
+>>  virt/kvm/guest_memfd.c | 14 ++++++++++++++
+>>  1 file changed, 14 insertions(+)
+>>
+>> diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
+>> index 462c5c5cb602a..77219551056a7 100644
+>> --- a/virt/kvm/guest_memfd.c
+>> +++ b/virt/kvm/guest_memfd.c
+>> @@ -136,6 +136,9 @@ static struct folio *kvm_gmem_get_folio(struct inode *inode, pgoff_t index)
+>>  					 mapping_gfp_mask(inode->i_mapping), policy);
+>>  	mpol_cond_put(policy);
+>>
+>> +	if (!IS_ERR(folio))
+>> +		inode_add_bytes(inode, folio_size(folio));
+>> +
+>
+> Can't we have two concurrent calls to __filemap_get_folio_mpol(), and we
+> don't really know whether our call allocated the folio or simply found
+> one (the other caller allocated) in the pagecache?
+>
+
+Ah that is true. Two threads can get past filemap_lock_folio(), then get
+to __filemap_get_folio_mpol(), and then thread 1 will return from
+__filemap_get_folio_mpol() with an allocated folio while thread 2
+returns with the folio allocated by thread 1. Both threads would end up
+incrementing the number of bytes in the inode.
+
+Sean, Vlastimil, is this a good argument for open coding, like in RFC v2
+[1]? So that guest_memfd can do inode_add_bytes() specifically when the
+folio is added to the filemap.
+
+An alternative I can think of is to add a callback that is called from
+within __filemap_add_folio(). Would that be preferred?
+
+[1] https://lore.kernel.org/all/20260225-gmem-st-blocks-v2-2-87d7098119a9@google.com/
+
+> --
+> Cheers,
+>
+> David
