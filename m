@@ -1,179 +1,181 @@
-Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010025.outbound.protection.outlook.com [52.101.56.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F4932EC0A4;
-	Mon,  9 Mar 2026 18:26:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.25
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773080786; cv=fail; b=i/4BYa9o7VMWqftBQ8fyihPHlqVUOC2k2bTktVfur29gxn/OLE2n0O5/y0ye8owvW4hFmWowS98alzvnLebh5NeRXmCSRe9UYoreBlJ+jnqx+y+z7ZiYl4qJ3RVdlmg1GmWrs+Elw9tVe0pBzHcwj+3IU7J97QzDWrihKbFXAsg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773080786; c=relaxed/simple;
-	bh=86Fuw+/fbbGXNYAAQsLgqx5CLh3wIMMltCbYHA8j0T4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=D5tJAnrVfD+BcNlFyroFKAtBTP6WJgV8WyiUZLjUVEAoleeNuDxWJq0PBPic7O4k/rvg4mtUzJ3q97taJk4PxgEK67vM0hjvqpqWtugV+xrkcPeLvRkdyoKUPJF9s5PwD2HiF51FliSdwbpJWTcXjDBui1oHgKxP29gGzIVT4wE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=xeEEk/jr; arc=fail smtp.client-ip=52.101.56.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DF7134B18E
+	for <linux-doc@vger.kernel.org>; Mon,  9 Mar 2026 18:35:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773081323; cv=none; b=pPfbzTesFi6nird3h/fmdU9QaT/Iu0F/g21aSakWctaIiYpsvBgdGlZXbKZd8oRW2Lchuidq4I0hMcVo0hlaRC6z+yG/2uhdeZT/Qev14g2+j7wiw/MLBCFZ02mscO0SUrgZ1nshQLe/9SSBM+W4F9Slf5ZBAzp1HV+OgrP98rM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773081323; c=relaxed/simple;
+	bh=srg+dxIhiAQAT4kVm4zitW6wSGv/aiVh6j6o8T2Wnnw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oYFO7xxWJmOiBCKVCrHOQJtMelcDnjQ2R0cn5SoCFRhZb04PT9v1aDxd19jKWQffIaVXlsB0ZPof4MZYSd54Cna0+acuRmxqwAFTZRgftEa3qnWUQYnhpkZll8W9VgLsPGzUiAihKxaPtf85rpsX77b1jDmDl9+8cfqGibBQJsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kPetDQ0y; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="xeEEk/jr"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VnDGkwPk9ay/TSqCblkkUYCgKIh706eN9uAUXf8JOV9cuHFrHg4oGQTRAxx+6J5u9LPx8HPaWlT8YWs+ZTbXkuFFNbIguad2RDRcTh02OlS264Jm1HQRL4olEA2XNR5/BZa44dFueSPFcAB4Y/GMvdMEl0rGSjZUeBB83234+ddJe5Uw6Ykw8jakpVsUCj5prEgR0mBatxbMuvJcJKEWFdAg59RnpJzmBpyHqPz2Z5wLNUnUNPo6JssUiLXjWICdMlIIl1VkQxevESAwBMdnWJs/WzANfuoTTWd93ANoZ8w8O/rXhYG54IE692EmYVqCzGQgdD3P2kUkJct61uutFQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TtKG/6VK25Gl7JYUn8gxbQzlED5CnAtT+7BLr0BKffY=;
- b=SiJcAODUG+y93qRNOKEmVLIW+BuyrI2WUTTBZ5qGrpIKH2qoo52Q9eQ342FuIuRzt2c97sI79m3fQjDQzfm6i/gn7ajHStfmrGGZ5flr30E8t4/eNl+5PF9BqXNLsVjw1lg4ofMvojm0OYuzaXR+HWl9lHmKALeWNyyo6VfV9i2ujVWxExk+suO59r07eaQpkUfzlTLoye0UXyMGAHTvhkdBsjoYPkmUMiQuw2jQH0me47vFc5Mh3psg6KWbpa4fGD/cyVg+jNn6VHQWXvBI+X96/Gl0F+zyvo1jlnVlvFAvCAg1Tan27EcnIuzA68WK9H+G73Lf+AGefefbuq4HxA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.21.194) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TtKG/6VK25Gl7JYUn8gxbQzlED5CnAtT+7BLr0BKffY=;
- b=xeEEk/jr7Xa9kH+BEIwnF1xHG0S0jQFZnvymOw/Tt2+7uGWsO0psxVQveyS3TElfjOBVCVodIkwKgUE8AjyrOS58rtjwFLXyiYZ9JDBz1W/AA6K/G/PBgbM/JT7xS71+BQyWzlu3RGgppHWCmpbI4ePcwtxGHNPrsMQeYD1sh20=
-Received: from MN2PR16CA0058.namprd16.prod.outlook.com (2603:10b6:208:234::27)
- by MN0PR10MB5982.namprd10.prod.outlook.com (2603:10b6:208:3ca::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.23; Mon, 9 Mar
- 2026 18:26:19 +0000
-Received: from BL6PEPF0002256F.namprd02.prod.outlook.com
- (2603:10b6:208:234:cafe::fe) by MN2PR16CA0058.outlook.office365.com
- (2603:10b6:208:234::27) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9678.25 via Frontend Transport; Mon,
- 9 Mar 2026 18:26:02 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.194)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.21.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
-Received: from flwvzet200.ext.ti.com (198.47.21.194) by
- BL6PEPF0002256F.mail.protection.outlook.com (10.167.249.37) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9678.18 via Frontend Transport; Mon, 9 Mar 2026 18:26:17 +0000
-Received: from DFLE208.ent.ti.com (10.64.6.66) by flwvzet200.ext.ti.com
- (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 9 Mar
- 2026 13:26:15 -0500
-Received: from DFLE208.ent.ti.com (10.64.6.66) by DFLE208.ent.ti.com
- (10.64.6.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 9 Mar
- 2026 13:26:15 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE208.ent.ti.com
- (10.64.6.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Mon, 9 Mar 2026 13:26:15 -0500
-Received: from [10.249.42.149] ([10.249.42.149])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 629IQFUZ1598363;
-	Mon, 9 Mar 2026 13:26:15 -0500
-Message-ID: <8cd7ad67-f279-4864-906e-f4166fcd4cc4@ti.com>
-Date: Mon, 9 Mar 2026 13:26:15 -0500
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kPetDQ0y"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-439b7a87fb5so5490279f8f.3
+        for <linux-doc@vger.kernel.org>; Mon, 09 Mar 2026 11:35:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773081320; x=1773686120; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=dHSASEtvOfEiBqmxuf7zhZcsqNoilbHkrVseGDfvsXw=;
+        b=kPetDQ0y6fBaOc5IIyI/eB4U78IWK7YFrH4bskAlLavqNBSWSmv+zPfRHAx5fE7vn7
+         bwH16kkGOJKUeKxtqQNVWzx+gMQKikEf+EHXHlBMtfOWkVtdNisFHJUndOrWB+m52Tbh
+         YF1NRGyd5lZX6nVtVsdQDWl/FHr6s4MTQmXm6QznPYNJZQ9cuQjKritvC7CfIGSRvQ2S
+         UoX4CM9SIYy7oAtexG3njEUeMyAQLx+ANx+zupdgDi5V1cBKlFfN1oifhqeOpBIDbvdn
+         2TqRwFB1FAT89Cs9FWMwvzv17J1Pga4qOYskDm2ZjayvKtsdFRLtDbkD2/2QVTzYoOb/
+         ZO0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773081320; x=1773686120;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dHSASEtvOfEiBqmxuf7zhZcsqNoilbHkrVseGDfvsXw=;
+        b=CQpQVDGR8UHWnT9F98UbCwa5rGVOZVylVXwZ9O/s7jtr04yvX7TiuUbKSl+j3tG2Jr
+         OphNL7wlkfe+NZ551G0A9UnYLVNKt7nczU3pOOnB8v8Nsu5UTGjNRG63SRbRYopDknkW
+         kL30Rwyu15AeBgvcjKHhSKxp5VQOimR8LloAuVlO9REKePb9SQTK0MVGvizMuNfJycKz
+         US4F3tNahqmFLmhcpLkRe1Hj38aLjs18m3Be0kkhpdIqS+bkjcDBE9bp8HPgyQOEfKks
+         JF9DZbKPeA9eiEERNKxhL1KVIz/wF6RaL2Nql9suIycUngo6mt/pWH2tjORs1P10/8z2
+         obGA==
+X-Forwarded-Encrypted: i=1; AJvYcCVxVKdI30s/SKMdNaOQw23e4CSwIlke3ZmNff/rvQeqElNZk03wAUWttd9FavJIQS0q2Y70/HcaUBU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxNZFJcBdFMQoM58/WRe06i+n0o+/DtZgdFKUvD6wBZ7Kwa9p+F
+	cuEj9mHaZTcFk0xZPvJeKne9+OE0cMCEuded2OU/9vUPTeyBtvqcg5i6
+X-Gm-Gg: ATEYQzz9A9QGMD4EWxyWh2aFUvB4m244R0YUjzFG09qBruSsThKR8cf0xzfS34agJID
+	Nh/Hw5sNdOyQ6qlcQipLBYiBBsnJQscCJJoHT24eq+zQLZ5wi03Zn+HoTgX5FSUJi7G3sBAOvGS
+	m3cB5bWOmfDJ/S6HYJV7enYrvHddGLQ+trQ0j4rsOX9wOPCltL3nmmyegZe0Nl9Jw61uMMI86pf
+	zmMxmDOVf70XNFXzNolPQmM9FnaCAq+Mg9xk4ARFsCWSqY3R7fMJgDsuZ7SBOAswuFdC9gAvnPb
+	prwg8QlTWLbvO3n4x28+9+8K/COUzP2tL/SDUuLpZKQk1DJoJRXoQLJ0eNDFxnuHseKXt9MPchO
+	9g9yqRwyNc484ll3d3TQUvoYIOWQQppTfD4PQgSeGJK4iT4LiWCyFNHjKaVb7OMPqN9kMtrejrf
+	suH7PtYM6ZlGDH1t2B5dBQUTt5mn9OAhyyrhKbYdSGfJzgsAdWf3XHdYf4607oPXtb30hZYPeQ4
+	x27wssIgG/6pD6oHhkCqYo=
+X-Received: by 2002:a05:6000:2285:b0:439:c67d:9fe8 with SMTP id ffacd0b85a97d-439da3526ddmr20856163f8f.22.1773081319621;
+        Mon, 09 Mar 2026 11:35:19 -0700 (PDT)
+Received: from gandalf.schnuecks.de (p200300c14f1996009e6b00fffe39b8a7.dip0.t-ipconnect.de. [2003:c1:4f19:9600:9e6b:ff:fe39:b8a7])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439dad1cb7csm29257753f8f.0.2026.03.09.11.35.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Mar 2026 11:35:19 -0700 (PDT)
+Received: by gandalf.schnuecks.de (Postfix, from userid 500)
+	id AB67F30287C9; Mon, 09 Mar 2026 19:35:18 +0100 (CET)
+Date: Mon, 9 Mar 2026 19:35:18 +0100
+From: Simon Baatz <gmbnomis@gmail.com>
+To: Eric Dumazet <edumazet@google.com>
+Cc: Neal Cardwell <ncardwell@google.com>,
+	Kuniyuki Iwashima <kuniyu@google.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	David Ahern <dsahern@kernel.org>, Jon Maloy <jmaloy@redhat.com>,
+	Jason Xing <kerneljasonxing@gmail.com>, mfreemon@cloudflare.com,
+	Shuah Khan <shuah@kernel.org>, Stefano Brivio <sbrivio@redhat.com>,
+	Matthieu Baerts <matttbe@kernel.org>,
+	Mat Martineau <martineau@kernel.org>,
+	Geliang Tang <geliang@kernel.org>, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, mptcp@lists.linux.dev
+Subject: Re: [PATCH net-next v3 1/6] tcp: implement RFC 7323 window
+ retraction receiver requirements
+Message-ID: <aa8S5pEbxXIG5oZQ@gandalf.schnuecks.de>
+References: <20260309-tcp_rfc7323_retract_wnd_rfc-v3-0-4c7f96b1ec69@gmail.com>
+ <20260309-tcp_rfc7323_retract_wnd_rfc-v3-1-4c7f96b1ec69@gmail.com>
+ <CANn89i+38t+PpB5duS_-FX_=PwyCQaN2HYohocJBAvZ7Cd8-KQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] docs: driver-api: device-io: Split out relaxed access
- mention
-To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-CC: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20260303183628.80776-1-afd@ti.com>
- <87a4whvura.fsf@trenco.lwn.net>
-Content-Language: en-US
-From: Andrew Davis <afd@ti.com>
-In-Reply-To: <87a4whvura.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF0002256F:EE_|MN0PR10MB5982:EE_
-X-MS-Office365-Filtering-Correlation-Id: 91d297e4-4116-4d50-f58b-08de7e095ad8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|36860700016|376014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	p+A2wV31DOYQmXGk9hFmwE8Ysq0J70zicmxAfHVKfdKOyJ/gJxvtcKMEguNxPdMO/zMuCTKjEJn440fxO2yX/VTZ9W9ihLA4eEwHGgEQpwLgEHmGwELJE0b2u2MpGLg2dUrYZtVSmh6u8RA6ECkYFOgDlEtZWhfJ4y2xI0siwvkdIZBpjF46H/iPzz+BVEcnxfrtYfuAh5xVXV1T3CQ8EVs8cwAfaToiI+xhgGFURcGqp7xZlEkSEULgM8l5dxuTXRpEKAtLHzl8W5khVah3gpN+YQWfRu9TqtdpjH3Uv2xxE34Lz+VHvc8jTL428GQNj+oJtc5DicNLhQER+COZVwJqxn8wjOsvYl8GiJ5jxpMSksCbdEhL9emQkmUn/5xPVLkV/qfVqpewPWKMImP3sRpoQzk03OVfrshP/DDCmmhcw9Ot73QGPWunEjHr3LhsqevCq+XyDxYKXLAr0oToiXrPRJcuzfKBMH3kV0nBL+C4ONEQs7H3evoo67QVDrJCq4SrgN3wE4Tm+G0LLKRwWBp8DH1JrEd9U4QHbA9C2EbA4Hk5O1g+RIXtnH/bY3JGeDKzdNSIpayLknO8OuZcKz9UUBIUvOzeSN7tjBCgVRgu3QofadeZxse8VeIPVpQWb3FwzzQ7ZeRY9w5PPMiOqkya0XWtMdkUxk8M92uPtLLLdpEiz6xdPBL5IUwrbhSbF7bwGTmPXYbsJoydxmgfLYqz+NjwHwbPSYOaTAru7+kXsU1Vvqoy8RgOZ2StRO3d4NAtSSgBXU4F81e5BNk73w==
-X-Forefront-Antispam-Report:
-	CIP:198.47.21.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet200.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(82310400026)(36860700016)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	u1IixdNPCKiL3PlWQFvflLJWwkDASPKQg9zJx8+QvBprjjKSKaL5r5fsyOajpMp0nVe1LVMhveCl+OTkqwDNf2lrJmiqoMIgaS+Zd3pNXcd1r0uLLc4L3Ujq5aOHz5MpxRE1pEN2woFnLoJcbBHLFEWQ3oK8HWExP3y2I6Xe5qb2MUr8k3BaRB+/2PCa6VXzw0T/p8lb8whUv+Qh0lvVUu97fftGqTm2cOiLTTBHZ6XTqiKPgIy5iuAHs0ZuWn9Jw280FrHjWnGJbT+TyPb9y+jc1iRly7y3EtKKc6ZDB9nWnWxP7XcDXMpByZZdkUnludT7LDT94yOH828Nn4doryT7CC6NQu/VCcp4PKCuzzV0qZiIOvHDhR5UAiaPS27tOzLiK6JLHZJrxhJX/CA5y58J0ZhrXcZTZqA6AeOw7gECcpWfjEWhBeJXU/P6Tr05
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2026 18:26:17.5980
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 91d297e4-4116-4d50-f58b-08de7e095ad8
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.194];Helo=[flwvzet200.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BL6PEPF0002256F.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR10MB5982
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANn89i+38t+PpB5duS_-FX_=PwyCQaN2HYohocJBAvZ7Cd8-KQ@mail.gmail.com>
 
-On 3/9/26 11:21 AM, Jonathan Corbet wrote:
-> Andrew Davis <afd@ti.com> writes:
+Hi Eric,
+
+thank you for the quick review.
+
+On Mon, Mar 09, 2026 at 10:22:39AM +0100, Eric Dumazet wrote:
+> On Mon, Mar 9, 2026 at 9:03???AM Simon Baatz via B4 Relay
+> <devnull+gmbnomis.gmail.com@kernel.org> wrote:
+> >
+> > From: Simon Baatz <gmbnomis@gmail.com>
+> >
+> > By default, the Linux TCP implementation does not shrink the
+> > advertised window (RFC 7323 calls this "window retraction") with the
+> > following exceptions:
+> >
+> > - When an incoming segment cannot be added due to the receive buffer
+> >   running out of memory. Since commit 8c670bdfa58e ("tcp: correct
+> >   handling of extreme memory squeeze") a zero window will be
+> >   advertised in this case. It turns out that reaching the required
+> >   memory pressure is easy when window scaling is in use. In the
+> >   simplest case, sending a sufficient number of segments smaller than
+> >   the scale factor to a receiver that does not read data is enough.
+> >
+> > - Commit b650d953cd39 ("tcp: enforce receive buffer memory limits by
+> >   allowing the tcp window to shrink") addressed the "eating memory"
+> >   problem by introducing a sysctl knob that allows shrinking the
+> >   window before running out of memory.
+> >
+> > However, RFC 7323 does not only state that shrinking the window is
+> > necessary in some cases, it also formulates requirements for TCP
+> > implementations when doing so (Section 2.4).
+> >
+> > This commit addresses the receiver-side requirements: After retracting
+> > the window, the peer may have a snd_nxt that lies within a previously
+> > advertised window but is now beyond the retracted window. This means
+> > that all incoming segments (including pure ACKs) will be rejected
+> > until the application happens to read enough data to let the peer's
+> > snd_nxt be in window again (which may be never).
+> >
+> > To comply with RFC 7323, the receiver MUST honor any segment that
+> > would have been in window for any ACK sent by the receiver and, when
+> > window scaling is in effect, SHOULD track the maximum window sequence
+> > number it has advertised. This patch tracks that maximum window
+> > sequence number rcv_mwnd_seq throughout the connection and uses it in
+> > tcp_sequence() when deciding whether a segment is acceptable.
+> >
+> > rcv_mwnd_seq is updated together with rcv_wup and rcv_wnd in
+> > tcp_select_window(). If we count tcp_sequence() as fast path, it is
+> > read in the fast path. Therefore, rcv_mwnd_seq is put into rcv_wnd's
+> > cacheline group.
+> >
+> > The logic for handling received data in tcp_data_queue() is already
+> > sufficient and does not need to be updated.
+> >
+> > Signed-off-by: Simon Baatz <gmbnomis@gmail.com>
 > 
->> We list all the normal non-relaxed device io functions first, but also
->> list just the "read" versions of the relaxed device io functions.
->> Instead of adding the "write" versions to that list, fix a statement
->> below which should describe the relaxed versions so it is understood
->> that both read and write have relaxed versions.
->>
->> Signed-off-by: Andrew Davis <afd@ti.com>
->> ---
->>
->> Changes for v2:
->>   - None, rebase on v7.0-rc2 and resend
->>
->>   Documentation/driver-api/device-io.rst | 3 +--
->>   1 file changed, 1 insertion(+), 2 deletions(-)
->>
->> diff --git a/Documentation/driver-api/device-io.rst b/Documentation/driver-api/device-io.rst
->> index d1aaa961cac4d..5b94973f44762 100644
->> --- a/Documentation/driver-api/device-io.rst
->> +++ b/Documentation/driver-api/device-io.rst
->> @@ -56,7 +56,6 @@ Both read and write accesses are supported; there is no prefetch support
->>   at this time.
->>   
->>   The functions are named readb(), readw(), readl(), readq(),
->> -readb_relaxed(), readw_relaxed(), readl_relaxed(), readq_relaxed(),
->>   writeb(), writew(), writel() and writeq().
->>   
->>   Some devices (such as framebuffers) would like to use larger transfers than
->> @@ -67,7 +66,7 @@ guaranteed to copy data in order.
->>   
->>   The read and write functions are defined to be ordered. That is the
->>   compiler is not permitted to reorder the I/O sequence. When the ordering
->> -can be compiler optimised, you can use __readb() and friends to
->> +can be compiler optimised, you can use readb_relaxed() and friends to
->>   indicate the relaxed ordering. Use this with care.
+> ...
 > 
-> ...and we really think it's better to not just list the functions that
-> are available?
+> > diff --git a/net/ipv4/tcp_output.c b/net/ipv4/tcp_output.c
+> > index f0ebcc7e287173be6198fd100130e7ba1a1dbf03..c86910d147f2394bf414d7691d8f90ed41c1b0e3 100644
+> > --- a/net/ipv4/tcp_output.c
+> > +++ b/net/ipv4/tcp_output.c
+> > @@ -293,6 +293,7 @@ static u16 tcp_select_window(struct sock *sk)
+> >                 tp->pred_flags = 0;
+> >                 tp->rcv_wnd = 0;
+> >                 tp->rcv_wup = tp->rcv_nxt;
+> > +               tcp_update_max_rcv_wnd_seq(tp);
 > 
+> Presumably we do not need  tcp_update_max_rcv_wnd_seq() here ?
 
-They are listed, down below in the section that explains the _relaxed() part[0]
+When we don't update here and are forced to accept a beyond-window
+packet because the receive queue is empty, we can reach a state where
 
-Up here at the top, only the regular non-postfixed versions are listed, except
-the "read" relaxed, but not the "write" ones. To be consistent I removed those.
+ rcv_mwnd_seq < rcv_wup + rcv_wnd == rcv_nxt 
 
-Maybe it would be better to remove the whole list here at the top since the
-documentation has been expanded and this list up here is now nowhere near
-comprehensive of all the variations available.
+I noticed this case when instrumenting the kernel and got violations
+of the invariant rcv_wup + rcv_wnd <= rcv_mwnd_seq.
 
-Andrew
+So, while not strictly needed (tcp_max_receive_window() would still
+be 0 as rcv_nxt > rcv_mwnd_seq), I opted to include the call here to
+keep rcv_mwnd_seq the actual maximum sequence number at all times.
 
-[0] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/driver-api/device-io.rst?h=v7.0-rc1#n179
-
-> Among other things, the list would then automatically link to the
-> documentation for each function ... assuming, of course, that we ever
-> got around to documenting them...
 > 
-> Thanks,
-> 
-> jon
+> Otherwise patch looks good, thanks.
 
+-- 
+Simon Baatz <gmbnomis@gmail.com>
