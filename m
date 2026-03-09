@@ -1,139 +1,211 @@
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 790B23A5E84
-	for <linux-doc@vger.kernel.org>; Mon,  9 Mar 2026 12:30:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 695FA3B8BA4
+	for <linux-doc@vger.kernel.org>; Mon,  9 Mar 2026 12:42:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773059436; cv=none; b=ScCkdkqrxPWkxRLBu+dQPA8HQTERiKuAyHnhr2PoH3yWaFbzRrm/ROcqN3Gm/y0URZIWQ8gK6rOqfBniEzXMZyIQO6vjRp7jQ1/uZVgIt6jqdIQeQ9WefAPqvwYyOSwNURmNmpDMVzKUkLN9IL/U6bKeUxXex1Pfcbs9cthoNok=
+	t=1773060179; cv=none; b=E6pVu30tWYfSQlFSJ8oj8bpdZ774Qd1D1t6G+mFzH4HPQt7HJwvwRU24ByCdd0oo33DtvM7CUPRYesbD/mQG2odFfr71NDmoovve2M1XrgcWkxA3MhSrRbQasj8mBlK664A95YS4YsNNhF9t1pNkCOShSk3FiGkzm1lbjpvCRV8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773059436; c=relaxed/simple;
-	bh=Atjx7GL+YNwbnYSuuJvvyi/2Xx/LTpvi9huTzoYuERw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
-	 Content-Type:References; b=TnYQtVOfDLSlYDcAQ8T7Jdh29GUPF6++kitWOKy+462QUEwLVzSlz37tmuoYI1+b50omfla4IXzyHykzGTy/fBF4WL1bsQr53CuJOlHaOKcNpVWNpnLzY+XlAExFOeV4xrXBHXH1bly3gEWzxPUl07ZGUe/2qgDJEaEEPC7S568=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=ZHEYuoVE; arc=none smtp.client-ip=210.118.77.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1773060179; c=relaxed/simple;
+	bh=Xj0gmt0RexpVsqfhALjHcAJE7cfbo9jtVd+NFBum06o=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=bsfVnPYTpGi+5y27BDUs6xKyk+4bMeAsP2o31qUnQDYl1CsMwdNxZEn6SiV8SuFcwF4GtSSCyKk9FC2psUsuewCMU4qU6WYOQXxzEKQNa4Gm4TEbRMJvNlwrPz06PiY6LoIJq0e4VvFLq0kb5adLI9uzNLm5tSIu8Y7Hc7Wp0Ms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=lqxw9ISY; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=AdEpLSSm; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="ZHEYuoVE"
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20260309123026euoutp025fcb6709267d51d186f577b0fd8e5c13~bLCeL6t4l1561815618euoutp02P
-	for <linux-doc@vger.kernel.org>; Mon,  9 Mar 2026 12:30:26 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20260309123026euoutp025fcb6709267d51d186f577b0fd8e5c13~bLCeL6t4l1561815618euoutp02P
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1773059426;
-	bh=gp98JWQznNkZR98zt3gnsF+GVRheVa4QaSz8tPoGX4A=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=ZHEYuoVENPNznd0xqoljK61UHKR3Hw36bx/GKYTBnu1Us7nFDI8Up96iFqiq8oROY
-	 pfLEU5iHAKMwbW1m8NX8yv5QNOoIrcakV5Aaa9smsGUU2cMxFu1/e51fxPC6K3YijR
-	 v7YhHKq3PlBrYH8w3DotscIKEAjnxh+MXlMzpaBk=
-Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-	20260309123026eucas1p218b4b7e463c3f96e1a48eca954009827~bLCd364Di0084200842eucas1p2W;
-	Mon,  9 Mar 2026 12:30:26 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
-	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20260309123025eusmtip2240c0ac5f812e2669c819f74be51bf3c~bLCdK_wth2997829978eusmtip2R;
-	Mon,  9 Mar 2026 12:30:25 +0000 (GMT)
-Message-ID: <c1d058f3-f864-4ed7-9f7a-683d6f4bf1ce@samsung.com>
-Date: Mon, 9 Mar 2026 13:30:24 +0100
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="lqxw9ISY";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="AdEpLSSm"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6298UXDw3466070
+	for <linux-doc@vger.kernel.org>; Mon, 9 Mar 2026 12:42:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=7HBaxrO2k4GTWb2jS1UOro
+	FLGj68Wui7NVYAS6ltQjo=; b=lqxw9ISY/iilcf4MLQRNereHLgM3TpoHnFNJp+
+	zMCdTJcO0wY9pFjfguyEEnwtK8va3Vsg2ua4IqpzpofAJhUtSYORY7zBiO8LVlzc
+	sJqbM0Py3KhePLPFbw5voFB7ISFF0rz/NrPhfkfCmuRTvh4g6UPGQvSVEZYWmGkx
+	DfNQmaug/64RokxxpAzH8Q9jMf+tMCDpHkpmLzPZO7ZBsOa0wYKPgOqLVymXBqEn
+	mnf1cHjTg1D7iYF57ucmtMD+aGxqqNEVXo6WgGC5gxmM+qdaVQA2QzR2BGY2ftQX
+	s5dSt/+W2jjenPz2VhfvDog++ZmtREB540envEBILqbTq1mQ==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4crcd8dbgy-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Mon, 09 Mar 2026 12:42:57 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8cd7f6ac239so906514285a.2
+        for <linux-doc@vger.kernel.org>; Mon, 09 Mar 2026 05:42:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1773060177; x=1773664977; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7HBaxrO2k4GTWb2jS1UOroFLGj68Wui7NVYAS6ltQjo=;
+        b=AdEpLSSmTrxcQ9XmJHbg2YVHc35tGH0glW1vcxB66oQEwTUdZNlzFOQpmziUnnf5ej
+         mWQ1zHzouCGyNuQ0P/Eq5sRWOEEBqVdtXjOTOs3GjSZ4dxEawbfF88le7BfWInHZp82u
+         RKOrXmQgJlDNg+6N1y1tgXYqUKWUemaD4f5sj+JjcMYgy7yI8qABN0A7HUS3b6fYcAer
+         iT2flhF7lS3f46NVJcbrK0ljX2o4pUAhrvCvGyNh181k6h5Hb8i1g7hmcGcO+fKXanXd
+         x1FdOHieuagRtLDM3llcG9kuu3TOhIUH/ilGwrNdgRdtOzAX1SXznIWz8Y4UbXUlP4St
+         B6tQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773060177; x=1773664977;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7HBaxrO2k4GTWb2jS1UOroFLGj68Wui7NVYAS6ltQjo=;
+        b=kNRfgvLLh6VK0hrP3q2LnDkd6ss96+47IzGADxOOQHvNWlAD3vEGE2O3yFc5MSqk5p
+         NM5v2UOu7T5c3Elt6jSbzDztHaEWRW3KLpt9I3ZTmtHHNft9SzSUKxeRWJ5iYOFNJNDu
+         3iG0chkrGNBppfJVEBKHNsM8+GUREEE/8M5vsOGwBJsjPkNpUi2jgvpoJwHHFyZP9+ts
+         IeV1GUR86FGsXhI5IquDo4wkBYnS7Yice89DB0Ra06skb6WKX9oARcCFxCFxv3b4KGTQ
+         ZMEvmO3Uuqlaj4p9bbiHM2DFTMZeoD0Luzu8ErBEakZbNWLdIWf5ucsnUlfnx486PezN
+         xdIg==
+X-Forwarded-Encrypted: i=1; AJvYcCWkGoMiBwc6ckiTqY80C3MryiqsCRkQOvpOuo8qbkrheYEOgt7xyH7Ty4PT7Fdje80aVdJrauTAL88=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxvaqV7wsvd8Ti39vjowsH0sIQPRIipvWFOHGkJ6MMdvJCwVsO7
+	iBYxnH/ug/fTC695O46/Wy318M4wQzeQZiK9JWSi+VNCozMhN05LSilBOsqfVnCAsPCNXYyWsU5
+	VlvADBI/MxoAMBKI7WCkcEL0AGFOat6xoHRKIQoCop3LdrbX1qLbsH78FdB9K4FA=
+X-Gm-Gg: ATEYQzx2scvl6GrKDu8g8Zuli1EHTSaqJ76WN3UlZJDNdTU4EDFSpFPr/jtKlJVPYLK
+	4woYtATeIf4YZEJCyAPp9XAXZu6zj64pzGClgicBVqgwzu7a64rfkEBcaHygExtydk+RVAec2tm
+	FGpbXbO6XDnLsiv+2sF/z1Kz+YH2dT02QV/Hj67e+LWbi1OdUlyVT5Gi7aDnPMa9Qil6OsayS6g
+	V6W+L5UnD5DFyfTGg9CbAywlpyhUIBoR4TFV9dnAC7lQm6J6Hfg2E9CkbT3AHR/R/Jj6a8BbbAO
+	lqgiHwdNOlxkMoWKMpvVCKolGojQhMt/Qa6Xp+mSfNKS5WcQXBIwA9hhLXlY7e1Y9J3ZyKx5eAT
+	Vl/mSdFTAvfbdZc6Sz1dJtvgFWygIJ0I0u7eHNnqMFxAtIZ1qqDVm
+X-Received: by 2002:a05:620a:4046:b0:8cb:4a64:f482 with SMTP id af79cd13be357-8cd6d34ab0dmr1378441285a.18.1773060176751;
+        Mon, 09 Mar 2026 05:42:56 -0700 (PDT)
+X-Received: by 2002:a05:620a:4046:b0:8cb:4a64:f482 with SMTP id af79cd13be357-8cd6d34ab0dmr1378436285a.18.1773060176243;
+        Mon, 09 Mar 2026 05:42:56 -0700 (PDT)
+Received: from brgl-qcom.local ([2a01:cb1d:dc:7e00:494a:62d9:d95b:cb98])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48539e574b5sm107803345e9.8.2026.03.09.05.42.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Mar 2026 05:42:55 -0700 (PDT)
+From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Subject: [PATCH v2 0/6] gpiolib: unify gpio-hog code
+Date: Mon, 09 Mar 2026 13:42:36 +0100
+Message-Id: <20260309-gpio-hog-fwnode-v2-0-4e61f3dbf06a@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Betterbird (Windows)
-Subject: Re: [PATCH 2/3] dma-mapping: Clarify valid conditions for CPU cache
- line overlap
-To: Leon Romanovsky <leon@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Robin Murphy <robin.murphy@arm.com>, "Michael S. Tsirkin"
-	<mst@redhat.com>, Petr Tesarik <ptesarik@suse.com>, Jonathan Corbet
-	<corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Jason Wang
-	<jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	=?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, iommu@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	virtualization@lists.linux.dev, linux-rdma@vger.kernel.org
-Content-Language: en-US
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20260309090342.GS12611@unreal>
-Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20260309123026eucas1p218b4b7e463c3f96e1a48eca954009827
-X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20260309090352eucas1p283a75c78cac495b5ad87df74c79aab07
-X-EPHeader: CA
-X-CMS-RootMailID: 20260309090352eucas1p283a75c78cac495b5ad87df74c79aab07
-References: <20260307-dma-debug-overlap-v1-0-c034c38872af@nvidia.com>
-	<20260307-dma-debug-overlap-v1-2-c034c38872af@nvidia.com>
-	<20260308181920.GH1687929@ziepe.ca> <20260308184902.GR12611@unreal>
-	<20260308230916.GI1687929@ziepe.ca>
-	<CGME20260309090352eucas1p283a75c78cac495b5ad87df74c79aab07@eucas1p2.samsung.com>
-	<20260309090342.GS12611@unreal>
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAD3ArmkC/2WNwQ6CMBBEf4Xs2SVtgRI8+R+GA9ACmwgLraKG9
+ N+tePQyyZtk3uzgrSPr4Zzs4OxGnniOoE4JdGMzDxbJRAYllBZK5TgsxDjygP1zZmOxzXVTZLL
+ SqsggrhZne3odxmsdeSR/Z/c+Djb5bX+uTBR/rk2iwKo0pel12xpZXtj7dH00t46nKY0BdQjhA
+ 9K2p1O1AAAA
+X-Change-ID: 20260224-gpio-hog-fwnode-b46a53196253
+To: Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Mika Westerberg <westeri@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Aaro Koskinen <aaro.koskinen@iki.fi>,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+        Tony Lindgren <tony@atomide.com>, Russell King <linux@armlinux.org.uk>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-omap@vger.kernel.org, linux-doc@vger.kernel.org, brgl@kernel.org,
+        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+        stable@vger.kernel.org,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Kevin Hilman <khilman@baylibre.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2513;
+ i=bartosz.golaszewski@oss.qualcomm.com; h=from:subject:message-id;
+ bh=Xj0gmt0RexpVsqfhALjHcAJE7cfbo9jtVd+NFBum06o=;
+ b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBprsBB1aZLZwdS1DQIku31HGfa2MoNhnTpMGzZb
+ JLRFop2WcWJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCaa7AQQAKCRAFnS7L/zaE
+ w+UjD/0ccqlsrSqJu19sPl9xke01einnbpk5+JXINWT54AT2zeHBzHoVQRUkJPxP5iQARZVWUHl
+ Ci05G7NvTTpYWQMEbHTKW9mhnCb08ULMAoxCtHR8CFDpOI7xtHKpXjPOaynWMqp9iu5Rsf/34Sc
+ asB5k1ehZRzwOh1q+4NQMiYnkuosvGPo6xa2gQkUF75C2lRMUNFDnovS80kjYAt7VBVDzsxnaWo
+ PnqrSNRzPKs3TajFTDqc7o3h+QBCMJag4D8vTlIUls/+A9LZ9otxftRgd7p4U2iWvMsdKaBKBX1
+ kYWNcRQBX4waH/POSwSRgiXF6LvUuX3gyCELFpxCZmoMNTk97mKIRCE7tFjAiU/FgcrZdceNh4N
+ M1lUcY8gTFLLfit52BTuJl3cNuca6HaoA2ptkX6vH3UrHoUWWVE0DMVSgakeZMK8JKE7pN7sG0o
+ G90n1LhL9vq/DXJrQoWA71yModHPyQbyWOT8IK7MIOfD3qAmGGbFLGkc83Oi0+D5gU4wZufn8xC
+ gSQ1TaX9/M4nIYkl5fhrj8NGlo1bjkGzB57FGB0SIOOs/mdt9AGrHG+KBttYziGAwSJa9YIfYuV
+ 2zzHgpwsCSpCe/eU3lRRm/ZusPTgG8DJNgxZdPcfVRGhgMPakNTVv7N8Hn30of52SzijfW90DEo
+ 0WuNsgl4p5SjZtw==
+X-Developer-Key: i=bartosz.golaszewski@oss.qualcomm.com; a=openpgp;
+ fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
+X-Proofpoint-ORIG-GUID: o5sj34oW7j4Pqv-8nWbQylrxu9WrS9sY
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA5MDExNiBTYWx0ZWRfX+cuD+7P3kekr
+ 7vVNx3O2Iepxz9DAQ8oIxb0AIC+s7ulglLmoWTCFHjALAIZ1pkUThlWV3NBoiaF5AScOX5oGaAh
+ f5U8rtGSd8XUgwPPr90O6hMdBkiM98RNvfzKRZzh69kyIEL0aYlQffIsCgYZ2vjYvn22mga2j4E
+ Lr7IVan6M9klp7x+FkH+ioTSBszSKioF7d3X7Hl5zFVDBMU5OYIDmgoHXMGrrj1xKkB9lmEgwUk
+ Fjx5z8ECq2kNor3/yfVZW8hunxf9epg9DV9f+oeVCacq3/imawZsV6kfFoEs3QZIkxRp/WpNGkw
+ ZXB+idvBlVr+UwMtMlyIOO4cyoYMx9iThMsfrFWK1KFNPmGy73JvXceBX7ywBVEo2rdxTsESsTv
+ /k9yQhiycDsh6fgx/QYBqt6FdmnDTCov3iBSrU4WhdOw1SNw9Xk/QHK9Ih+w3vfhB+T0P1a6Hbv
+ n0Jfij6gc6kdqxSIG8w==
+X-Authority-Analysis: v=2.4 cv=O/w0fR9W c=1 sm=1 tr=0 ts=69aec051 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22 a=bC-a23v3AAAA:8
+ a=EUspDBNiAAAA:8 a=KhiCW88sooxdVpxl3PQA:9 a=QEXdDO2ut3YA:10
+ a=PEH46H7Ffwr30OY-TuGO:22 a=FO4_E8m0qiDe52t0p3_H:22
+X-Proofpoint-GUID: o5sj34oW7j4Pqv-8nWbQylrxu9WrS9sY
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-09_03,2026-03-06_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 clxscore=1015 spamscore=0 phishscore=0 priorityscore=1501
+ lowpriorityscore=0 adultscore=0 impostorscore=0 bulkscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603090116
 
-On 09.03.2026 10:03, Leon Romanovsky wrote:
-> On Sun, Mar 08, 2026 at 08:09:16PM -0300, Jason Gunthorpe wrote:
->> On Sun, Mar 08, 2026 at 08:49:02PM +0200, Leon Romanovsky wrote:
->>> On Sun, Mar 08, 2026 at 03:19:20PM -0300, Jason Gunthorpe wrote:
->>>> On Sat, Mar 07, 2026 at 06:49:56PM +0200, Leon Romanovsky wrote:
->>>>
->>>>> -This attribute indicates the CPU will not dirty any cacheline overlapping this
->>>>> -DMA_FROM_DEVICE/DMA_BIDIRECTIONAL buffer while it is mapped. This allows
->>>>> -multiple small buffers to safely share a cacheline without risk of data
->>>>> -corruption, suppressing DMA debug warnings about overlapping mappings.
->>>>> -All mappings sharing a cacheline should have this attribute.
->>>>> +DMA_ATTR_CPU_CACHE_OVERLAP
->>>> This is a very specific and well defined use case that allows some cache
->>>> flushing behaviors to work only under the promise that the CPU doesn't
->>>> touch the memory to cause cache inconsistencies.
->>>>
->>>>> +Another valid use case is on systems that are CPU-coherent and do not use
->>>>> +SWIOTLB, where the caller can guarantee that no cache maintenance operations
->>>>> +(such as flushes) will be performed that could overwrite shared cache lines.
->>>> This is something completely unrelated.
->>> I disagree. The situation is equivalent in that callers guarantee the
->>> CPU cache will not be overwritten.
->> The RDMA callers do no such thing, they just don't work at all if
->> there is non-coherence in the mapping which is why it is not a bug.
->>
->> virtio looks like it does actually keep the caches clean for different
->> mappings (and probably also in practice forced coherent as well given
->> qemu is coherent with the VM and VFIO doesn't allow non-coherent DMA
->> devices)
->>
->>>> What I would really like is a new DMA_ATTR_REQUIRE_COHERENT which
->>>> fails any mappings requests that would use any SWIOTLB or cache
->>>> flushing.
->>> You are proposing something orthogonal that operates at a different layer
->>> (DMA mapping). However, for DMA debugging, your new attribute will be
->>> equivalent to DMA_ATTR_CPU_CACHE_OVERLAP.
->> DMA_ATTR is a dma mapping flag, if you want some weird dma debugging
->> flag it should be called DMA_ATTR_DEBUGGING_IGNORE_CACHELINES with
->> some kind of statement at the user why it is OK.
-> And this is the issue: the existing DMA_ATTR_CPU_CACHE_CLEAN is essentially
-> a debug-oriented attribute. The upper layers are already handled through
-> __dma_from_device_group_begin()/end(), which pad cache lines on
-> non-coherent systems.
->
-> Marek,
->
-> What do you see as the right path forward here? RDMA has a legitimate use
-> case where CPU cache lines may overlap. The underlying reason differs from
-> VirtIO, but the outcome is the same. Should I keep the current name? Should
-> we rename it to the proposed DMA_ATTR_CPU_CACHE_OVERLAP or
-> DMA_ATTR_DEBUGGING_IGNORE_CACHELINES? Should we introduce a new
-> DMA_ATTR_REQUIRE_COHERENT attribute instead? Or do you have another
-> recommendation?
+GPIO hogs are handled separately in three places: for OF, ACPI and
+machine lookup. In addition hogs cannot be set up using software nodes.
+A lot of that code is actually redundant and - except for some special
+handling of OF nodes - can be unified in one place.
 
-My question here is if RDMA works on any non-coherent DMA systems? If 
-not then it should fail early (during init or probe?) to avoid potential 
-data corruption and new DMA attributes won't help it. On the other hand, 
-theDMA_ATTR_CPU_CACHE_OVERLAP attribute is a bit more descriptive to me 
-than DMA_ATTR_CPU_CACHE_CLEAN, but this indeed looks like a separate 
-issue from the RDMA case.
+This series moves hogging into GPIO core and bases it on fwnode API
+(with a single helper from OF to translate devicetree properties into
+lookup flags), converts the two remaining users of machine hogs to using
+software node approach and removes machine hog support entirely. In
+addition, there's a patch extending the configurability of gpio-sim now
+that it uses software nodes for hogs.
 
-Best regards
+For merging: I think this should go through the GPIO tree with an Ack
+from OMAP1 maintainers.
+
+Even with the new feature for gpio-sim, this series still removes twice
+the number of lines, it adds.
+
+Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+---
+Changes in v2:
+- reduce the leakage of OF APIs into GPIO core by replacing
+  of_phandle_args with fwnode_reference_args
+- fix return value check in patch 2/6
+- shrink code in patch 2/6
+- don't allow #gpio-cells to be 0
+- extend commit message of patch 6/6 to explain the need for this new
+  feature
+- Link to v1: https://patch.msgid.link/20260305-gpio-hog-fwnode-v1-0-97d7df6bbd17@oss.qualcomm.com
+
+---
+Bartosz Golaszewski (6):
+      gpio: of: clear OF_POPULATED on hog nodes in remove path
+      gpio: move hogs into GPIO core
+      gpio: sim: use fwnode-based GPIO hogs
+      ARM: omap1: ams-delta: convert GPIO hogs to using firmware nodes
+      gpio: remove machine hogs
+      gpio: sim: allow to define the active-low setting of a simulated hog
+
+ Documentation/driver-api/gpio/board.rst |  16 ---
+ arch/arm/mach-omap1/board-ams-delta.c   |  32 ++++-
+ drivers/gpio/gpio-sim.c                 | 200 +++++++++++++++-----------------
+ drivers/gpio/gpiolib-acpi-core.c        |  70 -----------
+ drivers/gpio/gpiolib-of.c               | 152 ++++--------------------
+ drivers/gpio/gpiolib-of.h               |  10 ++
+ drivers/gpio/gpiolib.c                  | 137 +++++++++++++---------
+ drivers/gpio/gpiolib.h                  |   3 +
+ include/linux/gpio/machine.h            |  33 ------
+ 9 files changed, 238 insertions(+), 415 deletions(-)
+---
+base-commit: a0ae2a256046c0c5d3778d1a194ff2e171f16e5f
+change-id: 20260224-gpio-hog-fwnode-b46a53196253
+
+Best regards,
 -- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
