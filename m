@@ -1,243 +1,147 @@
-Received: from mx1.secunet.com (mx1.secunet.com [62.96.220.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E36B2745E;
-	Mon,  9 Mar 2026 18:47:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.96.220.36
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 753063314C5
+	for <linux-doc@vger.kernel.org>; Mon,  9 Mar 2026 20:14:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773082072; cv=none; b=hmlszjIsjkwO8k2M3NNeRv+VsLrZZGVU0qo2sNj3tnDyXf4KGmNmkw27GmXDKfl0rH+1yrKR61Q1SAvde4pthd5aL6Ba2F3nbzSYIe8kpc7V8C2189LY4yIyBMIe7IRfyOmrG/WxpRSUlGV7oG7GgMuyjGzJF+F6Bz9Y2z9Q+CE=
+	t=1773087290; cv=none; b=iREoseuEQamJY+tN3No8HdXZjKhA/Q1UeX8GMfwBoNtvp84BYZ3pA5icgW1bXJZ/R4vitfXKSTrZMyVFgTkEgpk0uoqBd9JY1CTqt4NOhhH/PovJogIanT02Fheqjq3EZGc+Rhe7+DXxwFIsAp9GKwG3naCgYttKSvv7ywR0TRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773082072; c=relaxed/simple;
-	bh=xsB/r3qOE/OQ+/BJxTSb5dND+3sonmeJ5XkT+x8aITE=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Nm1eJuprJ4IezuU/5MOLWCPTbnAthTrKgQ3EM35wu7f9a41d8znhwHv96tlP2205EJT8Bo9n+YaSA1NIGPK7anTkB454L80nsjrSOg15CJv49a8CIoSkTDLvHZNwuQ1x+O210wHNPQIXlMZNQ7qlgyGz7C5qjTnMM+9QjEI0C/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=secunet.com; spf=pass smtp.mailfrom=secunet.com; dkim=pass (2048-bit key) header.d=secunet.com header.i=@secunet.com header.b=ClR3M7Aw; arc=none smtp.client-ip=62.96.220.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=secunet.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=secunet.com
+	s=arc-20240116; t=1773087290; c=relaxed/simple;
+	bh=t2ELUrTRrIA43qxN6ICa2HlQbYlezzntw2IcTVfori8=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=TK3OgSlrMlVE564481ipUyn/gdq12gPxD9pX1vtEV1r0UejNXLjP3AiH8JCLhFN1KFraw1ncvZ5raDd2nN2YgYHXVm5bPEInZWWEjMwHjTaVQGTcdBOfGfpcxfPwnc51DO0zdejQ6C0DdLkHXPa57VoDlFmGv/4NHsASpR3CDgc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WgRGBO0+; arc=none smtp.client-ip=209.85.210.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=secunet.com header.i=@secunet.com header.b="ClR3M7Aw"
-Received: from localhost (localhost [127.0.0.1])
-	by mx1.secunet.com (Postfix) with ESMTP id E574F20612;
-	Mon,  9 Mar 2026 19:47:49 +0100 (CET)
-X-Virus-Scanned: by secunet
-Received: from mx1.secunet.com ([127.0.0.1])
- by localhost (mx1.secunet.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 1v00vC2oOZ5v; Mon,  9 Mar 2026 19:47:49 +0100 (CET)
-Received: from EXCH-02.secunet.de (rl2.secunet.de [10.32.0.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mx1.secunet.com (Postfix) with ESMTPS id 27C7020538;
-	Mon,  9 Mar 2026 19:47:49 +0100 (CET)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.secunet.com 27C7020538
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=secunet.com;
-	s=202301; t=1773082069;
-	bh=+zNliWaMa9sPXEJu+7k/iqbvxt1hislj2AXZOyaP+dM=;
-	h=From:To:CC:Subject:Date:In-Reply-To:References:From;
-	b=ClR3M7Aw4XHgT0gOz1DTKc0OkA0vUwPSvoloU9etS2u97S7hVsAAt4jx+D62jMnS0
-	 qUsaKkIu5x9aRmw8Q1rpAgQTrZ/T/dSfxvW5T7Yobf+NEeMRRnLpQbdrMdGHPin7+B
-	 CiO1aXkeEgv6broce58KRhcSYwc36aPviVyYzZz+/Qp12+x68XS5miR4jUtg6CzvvP
-	 Xpg7l3GIMv8KaPnhgBHN60xa9rjN3LQYVxEkh7N5m++2nbYcVbnc3cHEJzxt2FuCXy
-	 7stY15i8xNbFAqW8g6w0ow2IrQjVWQqch+VtRNB/IMyoJsPCoxHEv5d/0tHwlTjsWZ
-	 QocRZZumqPDKA==
-Received: from moon.secunet.de (172.18.149.1) by EXCH-02.secunet.de
- (10.32.0.172) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Mon, 9 Mar
- 2026 19:47:47 +0100
-From: Antony Antony <antony.antony@secunet.com>
-To: Antony Antony <antony.antony@secunet.com>, Steffen Klassert
-	<steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon
- Horman <horms@kernel.org>, David Ahern <dsahern@kernel.org>, Masahide
- NAKAMURA <nakam@linux-ipv6.org>, Paul Moore <paul@paul-moore.com>, Stephen
- Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek
-	<omosnace@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
-	<skhan@linuxfoundation.org>
-CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<selinux@vger.kernel.org>, <linux-doc@vger.kernel.org>, Chiachang Wang
-	<chiachangwang@google.com>, Yan Yan <evitayan@google.com>,
-	<devel@linux-ipsec.org>
-Subject: [PATCH ipsec-next v6 14/14] xfrm: docs: add documentation for XFRM_MSG_MIGRATE_STATE
-Date: Mon, 9 Mar 2026 19:47:36 +0100
-Message-ID: <migrate-state-v6-14-9df9764ddb9e@secunet.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <migrate-state-v6-0-9df9764ddb9e@secunet.com>
-References: <migrate-state-v6-0-9df9764ddb9e@secunet.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WgRGBO0+"
+Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-8299499d587so1823174b3a.0
+        for <linux-doc@vger.kernel.org>; Mon, 09 Mar 2026 13:14:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1773087289; x=1773692089; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=vcDGw75J1CjJnpglqCPC5b33UOnC1+NDU+DgqlhrL+E=;
+        b=WgRGBO0+3RQ6BaSZPMkHwYilzNG8yrke4nzj1NAESScOp4X6GEQis6YsI7ISlipbAL
+         yYDFZ4mOXT/QRu9wc2T/xvZ8Y2aLoOvC0U0TWM7WF4GyVMktCEYHpV/hrwNt+Egi27aH
+         7nl//d2I8E4pn1k3m/k8A5KjlHiBo5VY+AQSNigeWV1OWhb+MEPI5LpBP5flJe3JdFyW
+         1QF9eoPbQOW/PFrTLUkIuz54K0UiBeFz6FRHkCS52qu7bWKuBjghOLVz7Vfz8PR7o7a2
+         YoTQ+3opfFU3Itul/vLveK0qLdmz8WYTSdT3Z6bsZ+bEfdRJoNYQq+0X2XTnI0RD1ZSD
+         KNuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773087289; x=1773692089;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vcDGw75J1CjJnpglqCPC5b33UOnC1+NDU+DgqlhrL+E=;
+        b=hN1L3d4qhZa/4/CBc1v9djy2tIv0qDdyHUS4ONhe0kZWshVAlNNoWl6ihcJNpHB9tY
+         Mp5c8MsuGlWIdWtWkr6+EqBpe39HqIg7L0bVXxKHXNgaRzfbGSX7w0hjXtz2Vcw6TN8y
+         yrAC4buZ6C5wRI4gqw0Urz0jZIJJ2p5D7YOCfYodLUvLrQQieOYXnObMPW7r6ljdn41F
+         Tzf8pIkLP0xvVXzjiDZtCckkfB/jbKFa/AqQeWw7TSszjII79yX/jnxvyQWBC/RQazOX
+         I2Vn9ST0v2ECC8hXyvrHdzQH/hnlWsremaA3A4A7sozOnkrEYvckxKckFfnmCUkttuuz
+         RQNQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVmS3fDhldmqDGql7rWF3zeOGvGcjWqcooAbUwUWDXJ987r8SHufXnc6s3ZUKGVAmkGDeKahSo8i/c=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywd4W/2MSfRIwasAPLWE8h6VLCtkMo7cwgraRmhv9A5s3AMjMhV
+	u/ObjJpMTimkJGrJs9KV6rFOCHuxa7XTChIvr1TmklPOM+HJzrbgagiEgKSp3gsFS43dGbp5Ppp
+	tNJZJfw==
+X-Received: from pfqz27.prod.google.com ([2002:aa7:9e5b:0:b0:821:82a1:fe7d])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:4519:b0:821:8ea4:480e
+ with SMTP id d2e1a72fcca58-829a2d88f61mr11174600b3a.10.1773087288647; Mon, 09
+ Mar 2026 13:14:48 -0700 (PDT)
+Date: Mon, 9 Mar 2026 13:14:47 -0700
+In-Reply-To: <CAEvNRgHhFoyh__shK_YefhUOTP4RaG-sivUH=4Gj-2iy1HX+tw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Mailer: b4 0.14.2
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: EXCH-03.secunet.de (10.32.0.183) To EXCH-02.secunet.de
- (10.32.0.172)
+Mime-Version: 1.0
+References: <20260309-gmem-st-blocks-v3-0-815f03d9653e@google.com>
+ <20260309-gmem-st-blocks-v3-1-815f03d9653e@google.com> <577c4725-7eda-4693-a55a-413572541161@kernel.org>
+ <CAEvNRgHhFoyh__shK_YefhUOTP4RaG-sivUH=4Gj-2iy1HX+tw@mail.gmail.com>
+Message-ID: <aa8qNz_52Qe6x1Kv@google.com>
+Subject: Re: [PATCH RFC v3 1/4] KVM: guest_memfd: Track amount of memory
+ allocated on inode
+From: Sean Christopherson <seanjc@google.com>
+To: Ackerley Tng <ackerleytng@google.com>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	rientjes@google.com, rick.p.edgecombe@intel.com, yan.y.zhao@intel.com, 
+	fvdl@google.com, jthoughton@google.com, vannapurve@google.com, 
+	shivankg@amd.com, michael.roth@amd.com, pratyush@kernel.org, 
+	pasha.tatashin@soleen.com, kalyazin@amazon.com, tabba@google.com, 
+	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 
-Add documentation for the new XFRM_MSG_MIGRATE_STATE netlink message,
-which migrates a single SA identified by SPI and mark without involving
-policies.
+On Mon, Mar 09, 2026, Ackerley Tng wrote:
+> "David Hildenbrand (Arm)" <david@kernel.org> writes:
+> 
+> > On 3/9/26 10:53, Ackerley Tng wrote:
+> >> The guest memfd currently does not update the inode's i_blocks and i_bytes
+> >> count when memory is allocated or freed. Hence, st_blocks returned from
+> >> fstat() is always 0.
+> >>
+> >> Introduce byte accounting for guest memfd inodes.  When a new folio is
+> >> added to the filemap, add the folio's size.  Use the .invalidate_folio()
+> >> callback to subtract the folio's size from inode fields when folios are
+> >> truncated and removed from the filemap.
+> >>
+> >> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+> >> ---
+> >>  virt/kvm/guest_memfd.c | 14 ++++++++++++++
+> >>  1 file changed, 14 insertions(+)
+> >>
+> >> diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
+> >> index 462c5c5cb602a..77219551056a7 100644
+> >> --- a/virt/kvm/guest_memfd.c
+> >> +++ b/virt/kvm/guest_memfd.c
+> >> @@ -136,6 +136,9 @@ static struct folio *kvm_gmem_get_folio(struct inode *inode, pgoff_t index)
+> >>  					 mapping_gfp_mask(inode->i_mapping), policy);
+> >>  	mpol_cond_put(policy);
+> >>
+> >> +	if (!IS_ERR(folio))
+> >> +		inode_add_bytes(inode, folio_size(folio));
+> >> +
+> >
+> > Can't we have two concurrent calls to __filemap_get_folio_mpol(), and we
+> > don't really know whether our call allocated the folio or simply found
+> > one (the other caller allocated) in the pagecache?
+> >
+> 
+> Ah that is true. Two threads can get past filemap_lock_folio(), then get
+> to __filemap_get_folio_mpol(), and then thread 1 will return from
+> __filemap_get_folio_mpol() with an allocated folio while thread 2
+> returns with the folio allocated by thread 1. Both threads would end up
+> incrementing the number of bytes in the inode.
+> 
+> Sean, Vlastimil, is this a good argument for open coding, like in RFC v2
+> [1]? So that guest_memfd can do inode_add_bytes() specifically when the
+> folio is added to the filemap.
 
-The document covers the motivation and design differences from the
-existing XFRM_MSG_MIGRATE, the SA lookup mechanism, supported attributes
-with their omit-to-inherit semantics, and usage examples.
+Heh, I assumed that was going to be _the_ argument, i.e. I was expecting the answer
+to my implicit question of "if this greatly simplifies accounting" was going to be
+"trying to do the right thing while using __filemap_get_folio_mpol() is insane".
 
-Signed-off-by: Antony Antony <antony.antony@secunet.com>
----
-v5->v6: added this patch
----
- Documentation/networking/xfrm/index.rst            |   1 +
- .../networking/xfrm/xfrm_migrate_state.rst         | 129 +++++++++++++++++++++
- 2 files changed, 130 insertions(+)
+> An alternative I can think of is to add a callback that is called from
+> within __filemap_add_folio(). Would that be preferred?
 
-diff --git a/Documentation/networking/xfrm/index.rst b/Documentation/networking/xfrm/index.rst
-index 7d866da836fe76642d36d8bf9a9c11757427453f..90191848f8db907148d610e14572f4ba43390114 100644
---- a/Documentation/networking/xfrm/index.rst
-+++ b/Documentation/networking/xfrm/index.rst
-@@ -9,5 +9,6 @@ XFRM Framework
- 
-    xfrm_device
-    xfrm_proc
-+   xfrm_migrate_state
-    xfrm_sync
-    xfrm_sysctl
-diff --git a/Documentation/networking/xfrm/xfrm_migrate_state.rst b/Documentation/networking/xfrm/xfrm_migrate_state.rst
-new file mode 100644
-index 0000000000000000000000000000000000000000..a218dd6510ca17df3f5a88adb55b9a7de26e6c35
---- /dev/null
-+++ b/Documentation/networking/xfrm/xfrm_migrate_state.rst
-@@ -0,0 +1,129 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=====================
-+XFRM SA Migrate State
-+=====================
-+
-+Overview
-+========
-+
-+``XFRM_MSG_MIGRATE_STATE`` migrates a single SA, looked up using SPI and
-+mark, without involving policies. Unlike ``XFRM_MSG_MIGRATE``, which couples
-+SA and policy migration and allows migrating multiple SAs in one call, this
-+interface identifies the SA unambiguously via SPI and supports changing
-+the reqid, addresses, encapsulation, and other SA-specific parameters.
-+
-+Because IKE daemons such as strongSwan manage policies independently of
-+the kernel, this interface allows precise per-SA migration without
-+requiring policy involvement. Optional XFRM attributes follow an
-+omit-to-inherit model.
-+
-+SA Identification
-+=================
-+
-+The struct is defined in ``include/uapi/linux/xfrm.h``. The SA is looked
-+up using ``xfrm_state_lookup()`` with ``id.spi``,
-+``id.daddr``, ``id.proto``, ``id.family``, and ``old_mark``::
-+
-+    struct xfrm_user_migrate_state {
-+        struct xfrm_usersa_id id;       /* spi, daddr, proto, family */
-+        xfrm_address_t        new_daddr;
-+        xfrm_address_t        new_saddr;
-+        __u16                 new_family;
-+        __u16                 reserved;
-+        __u32                 new_reqid;
-+        struct xfrm_mark      old_mark; /* SA lookup */
-+    };
-+
-+Supported Attributes
-+====================
-+
-+The following fields in ``xfrm_user_migrate_state`` are always explicit
-+and are not inherited from the existing SA. Passing zero is not equivalent
-+to "keep unchanged" — zero is used as-is:
-+
-+- ``new_daddr`` - new destination address
-+- ``new_saddr`` - new source address
-+- ``new_family`` - new address family
-+- ``new_reqid`` - new reqid (0 = no reqid)
-+
-+The following netlink attributes are also accepted. Omitting an attribute
-+inherits the value from the existing SA (omit-to-inherit).
-+
-+.. list-table::
-+   :widths: 30 70
-+   :header-rows: 1
-+
-+   * - Attribute
-+     - Description
-+   * - ``XFRMA_MARK``
-+     - Mark on the migrated SA (``struct xfrm_mark``). Absent inherits
-+       ``old_mark``. To use no mark on the new SA, send ``XFRMA_MARK``
-+       with ``{0, 0}``.
-+   * - ``XFRMA_ENCAP``
-+     - UDP encapsulation template; only ``UDP_ENCAP_ESPINUDP`` is supported.
-+       Set ``encap_type=0`` to remove encap.
-+   * - ``XFRMA_OFFLOAD_DEV``
-+     - Hardware offload configuration. Set ``ifindex=0`` to remove offload.
-+   * - ``XFRMA_SET_MARK``
-+     - Output mark on the migrated SA; pair with ``XFRMA_SET_MARK_MASK``.
-+       Send 0 to clear.
-+   * - ``XFRMA_NAT_KEEPALIVE_INTERVAL``
-+     - NAT keepalive interval in seconds. Requires encap. Send 0 to clear.
-+       Automatically cleared when encap is removed; setting a non-zero
-+       value without encap returns ``-EINVAL``.
-+   * - ``XFRMA_MTIMER_THRESH``
-+     - Mapping maxage threshold. Requires encap. Send 0 to clear.
-+       Automatically cleared when encap is removed; setting a non-zero
-+       value without encap returns ``-EINVAL``.
-+
-+The following SA properties are immutable and cannot be changed via
-+``XFRM_MSG_MIGRATE_STATE``: algorithms (``XFRMA_ALG_*``), replay state,
-+direction (``XFRMA_SA_DIR``), and security context (``XFRMA_SEC_CTX``).
-+
-+Migration Steps
-+===============
-+
-+#. Install a block policy to drop traffic on the affected selector.
-+#. Remove the old policy.
-+#. Call ``XFRM_MSG_MIGRATE_STATE`` for each SA.
-+#. Reinstall the policies.
-+#. Remove the block policy.
-+
-+Block Policy and IV Safety
-+--------------------------
-+
-+Installing a block policy before migration is required to prevent
-+traffic leaks and IV reuse.
-+
-+AES-GCM IV uniqueness is critical: reusing a (key, IV) pair allows
-+an attacker to recover the authentication subkey and forge
-+authentication tags, breaking both confidentiality and integrity.
-+
-+``XFRM_MSG_MIGRATE_STATE`` atomically deletes the old SA and installs
-+the new one with the sequence counter and replay window copied. The
-+block policy ensures no outgoing packets are sent in the migration
-+window, preventing IV reuse under the same key.
-+
-+Feature Detection
-+=================
-+
-+Userspace can probe for kernel support by sending a minimal
-+``XFRM_MSG_MIGRATE_STATE`` message with a non-existent SPI:
-+
-+- ``-ENOPROTOOPT``: not supported (``CONFIG_XFRM_MIGRATE`` not enabled)
-+- any other error: supported
-+
-+Error Handling
-+==============
-+
-+If the target SA tuple (daddr, SPI, proto, family) is occupied by an existing
-+unrelated SA, the operation returns ``-EEXIST``. In this case both the old and
-+the new SA are gone. The old SA cannot be restored as doing so would risk
-+duplicate sequence number and IV reuse, which must not occur. Userspace should
-+handle ``-EEXIST``, for example by re-establishing the SA at the IKE level.
-+
-+If the multicast notification (``XFRMNLGRP_MIGRATE``) fails to send,
-+the migration itself has already completed successfully and the new SA
-+is installed. The operation returns success, 0, with an extack warning,
-+but listeners will not receive the migration event.
+Probably not.  Poking around, it definitely seems like guest_memfd is the oddball.
+E.g. as David pointed out, even shmem participates in disk quota stuff, and HugeTLB
+is its own beast.  In other words, I doubt any "real" filesystem will want to hook
+__filemap_add_folio() in this way.
 
--- 
-2.47.3
+So as I said before, "if this greatly simplifies accounting, then I'm ok with it".
+And it sounds like the answer is an emphatic "yes".  And again as I said before,
+all I ask at this point is that the refactoring changelog focuses on that point.
 
+P.S. In future versions, please explain _why_ you want to add fstat() support,
+i.e. why you want to account allocated bytes/folios.  For folks like me that do
+very little userspace programming, and even less filesystems work, fstat() not
+working means nothing.  Even if the answer is "because literally every other FS
+in Linux works".
