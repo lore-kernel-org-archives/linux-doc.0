@@ -1,135 +1,133 @@
-Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD1E6331A4B
-	for <linux-doc@vger.kernel.org>; Mon,  9 Mar 2026 05:44:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5886826E709
+	for <linux-doc@vger.kernel.org>; Mon,  9 Mar 2026 05:54:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773035095; cv=none; b=hNofW5+Lk4gEjX9wFDymKnwsExYPA+diZyZ3wPXX1p2Rme/Hu3DNezd3aCn+t6efz6kcGXBDaN7zKnd5U2y3BKB8UrhS0eBX+rwqiAtjQeS7KMIeYASyFeEuWSUZo68NZb6aI9BS7jGoRBPau9My6AfJHFwFKkZxPuR7wTAlEf8=
+	t=1773035675; cv=none; b=FDvs39l5es3jUCvCGwo8GSixT2U+tpjpTzvjSW0cP48uzC4dRr1e1zv2AH/Bvge2tZFp1UJaKVL0ryF/UjPAgSoZnso4qFMIdVYSfnMDjZcg+/bSP4722QH/nbP92S6wdJoP11y0wnGSVY13bEvvMAvBaQ5Mw5NYP+AILZIrQNA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773035095; c=relaxed/simple;
-	bh=hqi/Df1JPDp/BlPm0GTdyjJF+qjIicQyIWh3azQlrf8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QIIUmO3Fk/5sUIbCEbgRvc94gz1WUCrLQcZ5IQfw+EMiJclFyubrhBDuUCy7nxBzE6B8ZomymcGePP8fFBYeCeZwQ+6mkHv8+GTyfAmWr8kROq/wu5MkTCjsAuMUCvocA+MXpN3sayNapWdsIq2esomamDVcQ436OcfhIezy+0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PH9kTvFY; arc=none smtp.client-ip=74.125.82.45
+	s=arc-20240116; t=1773035675; c=relaxed/simple;
+	bh=yhRXDuYeW+cftAqeXj832wG18URrEw+/ciyn8otv1bs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KFm68RS96ykbPDsrPs2kwGiaFB1N5xOUYgGHCb/JONE3OnAwf/H3kQ0xC93cXlBsGjiPlHIweEe3BadH2NYViNTJDKp3kNsqfXzVoTJ+kp3jcC1Xh6S1xy5ZO1AzuIL4weru88uCsg3OkpZLkn+nKuSJo16d/BaItrcOg393s0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cV6Zl/kq; arc=none smtp.client-ip=209.85.215.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PH9kTvFY"
-Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-1271195d2a7so6040539c88.0
-        for <linux-doc@vger.kernel.org>; Sun, 08 Mar 2026 22:44:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cV6Zl/kq"
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-c06cb8004e8so4344427a12.0
+        for <linux-doc@vger.kernel.org>; Sun, 08 Mar 2026 22:54:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773035093; x=1773639893; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Ug9w3Bfo3Ur8mbdFfczjnMxT2pbrXyiERJeMtAuIh8g=;
-        b=PH9kTvFYazGcAHB330To/OeFzVVVoAetzeAqLqtqgO8FTevOSlJFg0vBVgSis1D2qx
-         ei4tNvhFPmh9rlOXr2szTzSoqAD0b7HIcOIrEvL5+ngd6IVklpLZT6rHLnG7PimKZxJ9
-         WNgr1m+pUKPVhXczgU5mbe5tNGgj5xXXBCyEvkqnAFWkvr0DnL5lcVxj8bcLuaBKAWQj
-         nuRXFxAHJBYhnJ9oofghicqrvnLlnsy7xl+xR5W6CAGNw7Ab3S8+FdKBlMHTEgwLb98/
-         MWsGRvDGo8vDBF/Va9cyyNDPmbCaaATQfCaHXHHlieVPDqYlbgqs+bSBorjqAbNtezJr
-         wD2g==
+        d=gmail.com; s=20230601; t=1773035674; x=1773640474; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pQy7F8PJ6uvy5F2yRW0mdhvL40ZL+dX8MEO00CpDqi0=;
+        b=cV6Zl/kqBNxv607ftvljCrRKjOqcbnx0iTV0DaBN+eXRUoTGEGfoAT3LlezY2XsY13
+         RisOZV4Kn7yZqBC8sxM9rcXjoY/18AtzqBboyHhQ1Rv0x/mTfVpuNj72cLMw+gdGamv2
+         unI+FZ3nF+Ls0H53ywqXupejOUsIDfxUSi5epsMQ6pXIWGy7cZaY0/pB6Q13I9DTy+Pm
+         6fYz0ORxpJOZjrYX7ywp0QFEwwWnsQQGdbBvrrvv4cMw4gAdIHbE4yVy1DHASb02oS65
+         mc/EbhJGwDPyhDnLwvTltSf6Ew0cHf1qkF9WQJYZ+Y9eaSSRkP2+yyJl9RBBopo49QrD
+         lRaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773035093; x=1773639893;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ug9w3Bfo3Ur8mbdFfczjnMxT2pbrXyiERJeMtAuIh8g=;
-        b=lvM4m29L4glxqYvhC87KwEznIpjwbPFdMQlrEnFh6yl08GhwlkFTzRxRsFxPzLM0tv
-         kD4Xl3PfQqn+NIir3H7YFC7C3V2XlnmxvMIJooLUrS//+im+kKLSW67r1sEDoprcjHVP
-         L4k0Iga+5K7+4hF0tQbZgaiDwcjygtesC1RLjWEYmxIKVTKE39dBmetcDGG3u2Ga3GZj
-         2pOrLXn+iuN08ZgcAqk757ltC4H3hvr/mQXi1HUwK4iJgvYvAc8S80XA612XY1lCYrWm
-         5uOHUuko+7uRkRtK/rfxOjUekg3ok3s2NuhrCbAHeP7IVh8h9f13mmfaFH81sWSA2X0b
-         kcLQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUrrFpLKkv293a/jbjsEcW8wxmxlloo+AF8Bx/ghi5Vqz3FmCtyXwvxdx97b02rfS/GwSuJpto1+A8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzqOTh+gaCb2g5IZw8gsR780Llr8Lup1a4uyk72Uu71sLktKUf6
-	lGq9LWPwcCxxMPGex3AuXpO8oTLpBCy8/+LoKBVUREMenkhshaov/QJy
-X-Gm-Gg: ATEYQzzawhSWU+YWgCrPzx9bobbnrUvbyQ0fI8YoqCv9zQoMRzN3N0gCII9mFVc+0Xu
-	W5Jm9dX/VBWoTdhnner3GV46a3g655pf9M6rpl3sKcA/quMXfRuv0iWaVvYsjZYS5AOqLUu/Z78
-	2AnGE/TmIcQmE4uXAhZb2nlNzv7SSukDkGURN19+Ut0PW/QVhkw6vtHlb0F9GTeUC37fRpLHbCn
-	K6L2wzubnop11g9kadFEeVm7hmFbA3stt/Sl0wOMm6+29nXZ95ptus4Mx2zD05omAG7fakz+KdV
-	XtVuDQUTP9Gznjyarm/Yb4QtcFJmlfQh2DrsFaQd5XtbPvzaL0uDE0ryZlJT4gsXS6Ie+jsIW0y
-	QFRrV2aP6Hd8D0Dt2E9ei+I2Ne28l4Eiusdlscs+JVG8OHjQK5kV5WsMFim2sD6XcvH8Dj+2KUr
-	kWbUzW+q4279TcxJYJfrrQou6Np0zglMU=
-X-Received: by 2002:a05:7022:906:b0:127:5cfd:785 with SMTP id a92af1059eb24-128c2d8f553mr4232707c88.4.1773035092704;
-        Sun, 08 Mar 2026 22:44:52 -0700 (PDT)
-Received: from google.com ([2601:647:5e00:4acd:af9:a43b:9d9e:841c])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-128c3f43593sm8122381c88.9.2026.03.08.22.44.51
+        d=1e100.net; s=20230601; t=1773035674; x=1773640474;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pQy7F8PJ6uvy5F2yRW0mdhvL40ZL+dX8MEO00CpDqi0=;
+        b=NW8hLaK7lu/tLh7DmcC7bbM8L/qk9eIcI4DPx9ieWRKgZg4DYU9lYGHC4avBvy79Hu
+         GtsENByqD8n7m0ZKPEBqMmJ+IRTcGe+9Jc46L6QoUF/YvWhCt7NvXkZd/9FxcUP+95Wp
+         kej8MwRD6nlL9I2PtwIQehOHItv1YtxjTUDzDUbfqZ5PRSdouyHML0RY3ByFlkyXbPHf
+         UHSlgNhMc4Ba65VivnTGgB/37wNxQuM3tXhZPf5iPH5NgckBRecAStdwO7GC/4Yl+Qxs
+         SSz5bLYM5b9qLiWBIgumQvXMS82WCVfuR6/b7YZoV8TypknbNNjcJuldyXR5tAHuh+pz
+         UH9g==
+X-Forwarded-Encrypted: i=1; AJvYcCW736XEAB/O6cgJLCsWI6fOegjeLZXVNXGFUkbDNaxOnGRUOuWp+sR19qsJS2nbZ8Mj3KQcJiVH1oM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwToeyjT1GeLrgIYVQuAvoYkaNtOGBq1SU3tUzID2YvQOkyvDey
+	VY1iwVzTZYYC7YQUHCx0qdTCkck9rnFQE1gEjKlE6Mq8u6pd/5EyIEYi
+X-Gm-Gg: ATEYQzyZw5VUcu+XG+2B61Da7IJTn11g77eu3QVnNpw6/ohx9ybFlRPD4YHZyx6Zbzw
+	dsJofoRAq80cGiJe2OPUETkbHKeUrRsb1axhNpJPpn+5DdFV9OYW2fG3emVV8TZRUMXSK8vDapl
+	1A6yM8JFHQXHt+paNUDDykjSWz+2CMq5hedPISzRDjgnBH1N2ypU8NKiu1GR/1fW3Y66ef21GvZ
+	FCjey0eHhRSgZubFclJfxiebCHAwgGNjFKg9D0gYk4VNdgzyNIxqMFOj23fUywAmLCC8xPjeD9v
+	qKVKFYKwCBD8vxlhR0ADglfBjXL67vNidYn5ro9OaRT8BLbE158zlg8mZeUgFHXV73i5aQ+28+s
+	GaAwrhQ7xRaqDmDjxpCJcNF4x7N5pCqmSIpwtiRtaTuBmiTCSwagIjjCPE1YlNRmWTCSqlUsWMd
+	x0txPuPeRg0zKt7YzVisSl5rbzeSXaqZdYA9WF3KAa3EO2GZfRj/Grw+9TEZa0
+X-Received: by 2002:a05:6a20:d527:b0:395:b6ff:fe57 with SMTP id adf61e73a8af0-398590d3b1dmr9399688637.63.1773035673636;
+        Sun, 08 Mar 2026 22:54:33 -0700 (PDT)
+Received: from zenbook ([159.196.5.243])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c739e170923sm7933716a12.17.2026.03.08.22.54.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Mar 2026 22:44:52 -0700 (PDT)
-Date: Mon, 9 Mar 2026 05:44:48 +0000
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Val Packett <val@packett.cool>
-Cc: Jingyuan Liang <jingyliang@chromium.org>, 
-	Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Mark Brown <broonie@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-input@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, devicetree@vger.kernel.org, hbarnor@chromium.org, 
-	Dmitry Antipov <dmanti@microsoft.com>, Jarrett Schultz <jaschultz@microsoft.com>
-Subject: Re: [PATCH 09/12] dt-bindings: input: Document hid-over-spi DT schema
-Message-ID: <aa5cxFcZrI89g-8s@google.com>
-References: <20260303-send-upstream-v1-0-1515ba218f3d@chromium.org>
- <20260303-send-upstream-v1-9-1515ba218f3d@chromium.org>
- <1cc6de61-8b56-492e-ab78-e3aa448f58ad@packett.cool>
+        Sun, 08 Mar 2026 22:54:33 -0700 (PDT)
+From: Wilfred Mallawa <wilfred.opensource@gmail.com>
+To: John Fastabend <john.fastabend@gmail.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Sabrina Dubroca <sd@queasysnail.net>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Alistair Francis <alistair.francis@wdc.com>,
+	Damien Le'Moal <dlemoal@kernel.org>,
+	Wilfred Mallawa <wilfred.mallawa@wdc.com>
+Subject: [RFC net-next 0/3] tls_sw: add tx record zero padding
+Date: Mon,  9 Mar 2026 15:48:35 +1000
+Message-ID: <20260309054837.2299732-2-wilfred.opensource@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1cc6de61-8b56-492e-ab78-e3aa448f58ad@packett.cool>
 
-On Sat, Mar 07, 2026 at 04:25:44AM -0300, Val Packett wrote:
-> 
-> On 3/3/26 3:13 AM, Jingyuan Liang wrote:
-> > Documentation describes the required and optional properties for
-> > implementing Device Tree for a Microsoft G6 Touch Digitizer that
-> > supports HID over SPI Protocol 1.0 specification.
-> > […]
-> > +properties:
-> > +  compatible:
-> > +    oneOf:
-> > +      - items:
-> > +          - enum:
-> > +              - microsoft,g6-touch-digitizer
-> > +          - const: hid-over-spi
-> > +      - description: Just "hid-over-spi" alone is allowed, but not recommended.
-> > […]
-> > +required:
-> > +  - compatible
-> > +  - interrupts
-> > +  - reset-gpios
-> 
-> Why is reset required? Is it so implausible on some device implementing the
-> spec there wouldn't be a reset gpio?
+From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 
-No, because it is mandated by the spec:
+Currently, for TLS 1.3, ktls does not support record zero padding [1].
+Record zero padding is used to allow the sender to hide the size of the
+traffic patterns from an observer. TLS is susceptible to a variety of traffic
+analysis attacks based on observing the length and timing of encrypted
+packets [2]. Upcoming Western Digital NVMe-TCP hardware controllers
+implement TLS 1.3. Which from a security perspective, can benefit from having
+record zero padding enabled to mitigate against traffic analysis attacks [2].
 
-"HID SPI peripheral must provide a dedicated reset line, driven by the
-HOST, which, when toggled (pulled LOW for at least 10ms, normally HIGH),
-will have the effect of resetting the device. If a HID SPI peripheral is
-enumerated via ACPI, the device ASL configuration must expose an ACPI
-FLDR (_RST) method to control this line."
+Thus, for TX, this series adds support to adding randomized number of zero
+padding bytes to end-of-record (EOR) records that are not full. This
+feature is disabled by default and can be enabled by the new
+TLS_TX_RANDOM_PAD socket option. TLS_TX_RANDOM_PAD allows users to set an upper
+bound for the number of bytes to be used in zero padding, and can be set
+back to 0 to disable zero padding altogher. The number of zero padding bytes
+to append is determined by the remaining record room and the user specified
+upper bound (minimum of the two). That is
+rand([0, min(record_room, upper_bound)]).
 
-The spec also states that the host must initiate reset during
-initialization of the device.
+Also a selftest is added to test the usage of TLS_TX_RANDOM_PAD.
+However, it does not test for zero padding bytes as that is stripped in
+the ktls RX path. Additional testing done on a linux NVMe Target with
+TLS by issuing an FIO workload to the target and asserting that the target
+kernel sees and strips the zero padding attached.
 
-> 
-> > +  - vdd-supply
-> Linux makes up a dummy regulator if DT doesn't provide one, so can
-> regulators even be required?
+[1] https://datatracker.ietf.org/doc/html/rfc8446#section-5.4l
+[2] https://datatracker.ietf.org/doc/html/rfc8446#appendix-E.3
 
-There is still a supply line to the chip even if it is not exposed to
-the OS control. So as far as chip is concerned the supply is required.
+Wilfred Mallawa (3):
+  net/tls_sw: support randomized zero padding
+  net/tls: add randomized zero padding socket option
+  selftest: tls: add tls record zero pad test
 
-Thanks.
+ Documentation/networking/tls.rst  | 21 +++++++++
+ include/net/tls.h                 |  1 +
+ include/uapi/linux/tls.h          |  2 +
+ net/tls/tls.h                     |  6 ++-
+ net/tls/tls_main.c                | 72 +++++++++++++++++++++++++++++++
+ net/tls/tls_sw.c                  | 58 ++++++++++++++++++++-----
+ tools/testing/selftests/net/tls.c | 45 +++++++++++++++++++
+ 7 files changed, 194 insertions(+), 11 deletions(-)
 
 -- 
-Dmitry
+2.53.0
+
