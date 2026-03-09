@@ -1,160 +1,127 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65491364056;
-	Mon,  9 Mar 2026 10:59:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773053989; cv=none; b=rFFGz/KpnsviMWY7nTqGosATO5/uxZMil4vYdei5fAVr507Hk7x2g+oYeoJvsKE+isQYr09tQ21xuWcoBzplNbMJWS8g2G1LGd4erIB9VOEpISDHHhf3pnksud4YVJRYrIQ8eEix2/1M2mJRlaFBaX5B4FX3YNbDqObWMzGcGcU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773053989; c=relaxed/simple;
-	bh=mU3WuS90d/NXHU6qT4OYOGJxAioyi0NsU/d4pUdpfrI=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WCjIhrqVaZ6Bwmn5BvArIlycy7INy85x+Eqb5DLlaHIJ14MWpBfJFqlEArbvXJKIQXFx0SLf/OZnuzpRoi7jTh++71bSHRV/zDH+LCceMvjOLUm4WmcqWNDUFx1LNw9TToxEdyhmQF7JUFwgsAjyV4iEBsor28fNEt0sD26tpfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.224.83])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fTvC75nN2zJ46p5;
-	Mon,  9 Mar 2026 18:58:59 +0800 (CST)
-Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
-	by mail.maildlp.com (Postfix) with ESMTPS id 97A1940086;
-	Mon,  9 Mar 2026 18:59:42 +0800 (CST)
-Received: from localhost (10.203.177.15) by dubpeml500005.china.huawei.com
- (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 9 Mar
- 2026 10:59:41 +0000
-Date: Mon, 9 Mar 2026 10:59:39 +0000
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
-To: Chengwen Feng <fengchengwen@huawei.com>
-CC: <linux-pci@vger.kernel.org>, <bhelgaas@google.com>, Jonathan Corbet
-	<corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner
-	<tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
-	<bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, <x86@kernel.org>,
-	"H. Peter Anvin" <hpa@zytor.com>, Andy Gospodarek
-	<andrew.gospodarek@broadcom.com>, Somnath Kotur <somnath.kotur@broadcom.com>,
-	Wei Huang <wei.huang2@amd.com>, "Eric Van Tassell" <Eric.VanTassell@amd.com>,
-	<linux-acpi@vger.kernel.org>, <rafael@kernel.org>, <lenb@kernel.org>,
-	<wangzhou1@hisilicon.com>, <wanghuiqiang@huawei.com>,
-	<liuyonglong@huawei.com>, <stable@vger.kernel.org>, <jeremy.linton@arm.com>,
-	<sunilvl@ventanamicro.com>, <sunilvl@oss.qualcomm.com>,
-	<chenhuacai@loongson.cn>, <wangliupu@loongson.cn>, Ajit Khaparde
-	<ajit.khaparde@broadcom.com>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4 2/2] PCI/TPH: Fix get cpu steer-tag fail on ARM64
- platform
-Message-ID: <20260309105939.0000142b@huawei.com>
-In-Reply-To: <20260309041659.18815-3-fengchengwen@huawei.com>
-References: <20260303003625.39035-1-fengchengwen@huawei.com>
-	<20260309041659.18815-1-fengchengwen@huawei.com>
-	<20260309041659.18815-3-fengchengwen@huawei.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6025039A813
+	for <linux-doc@vger.kernel.org>; Mon,  9 Mar 2026 11:15:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.179
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773054946; cv=pass; b=mo2670bp87anvKsVpdBDkQVvGN6yxAsQPhXIqu7iKsisAK3mG7dAUME/K9hlqwWV/7q9TOZZwtSTimevXrgv6uqBI4pb8X/8Qlqu2Th9pg9f4bQEZ0SFXVNl2HZPwKL3GmodyZzMmcz9eEI+vMYTCl+M3BP+ckf4rA0Wkn2QGRs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773054946; c=relaxed/simple;
+	bh=bwnTPQewhTZfBV+DUD3SsbtLeKJPcVZC52nT9OgQfwk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=J+nDlnBDYGQsmtNxy3VER7w4PTX8umR72b91nUmmiq3j1eAWai56nHtqwy9XY2r3g03F5hT2bKd3X7SkhXsd+P5MGbDH43+m5pYW4OayPedyK8v+ZbbQz/Yw1KWwJkbZuvSraMT4ItUldWkectOmVpewL+xRkHKpMmacAHfoa88=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=3YPkrhXS; arc=pass smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="3YPkrhXS"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-509062d829dso733731cf.1
+        for <linux-doc@vger.kernel.org>; Mon, 09 Mar 2026 04:15:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773054944; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Y33CVLTl2nnFA9Hjts5ZQiMRHIWSQ8R4jSGoFoPSJorJi8SnaqgsHrN4WYJAmUwTgQ
+         x3Brm9CR6Y+IY8Sl92rNIRgLpFOfj5F0BgynHCblHV9c9ouz7Y3TsUBjSmNLVJw5Imnf
+         +6Is2R9Su5f0HIto16Wf9mj29Fzd5ievg9TNH+kGbuEd1vuD0GCT46lbssNkBjUfokE5
+         vdQmr2YjBGGFZilg4wnhiYaWyAK5s3iwAI69wKcpLp/vyFd738ZjWV+3sS3PQiknUa3g
+         7jMghaB1zdKL4tUOuCuNDetr5sDTCnV75bAoWGYywFzpdrVhQfjLYP4e4AgAza+3cNsh
+         dSHQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=bwnTPQewhTZfBV+DUD3SsbtLeKJPcVZC52nT9OgQfwk=;
+        fh=tkfjXsb3L275BZdC35fx3oqroVlzjNYzbNjOCTn70XA=;
+        b=fazgGrQS9LQRUNezkyYPSkyHeiwLChJ+XOt4WZuW5wHNZepW6F5JBMab8c058ruZt5
+         0mm4888sXiMrEBlRRFkAX40J8B3dIFiyLw8/C1lFydB2i0yutdKAkYagINri+ekrrZmA
+         L2dNagR9FGEpuvo3kHpcIHwuFxc/S4D/hFFd2ATeDCc8VJNMmo/8CxSke/7zc07cQaWi
+         +2ot9RruFliuBF4QXUB4+DjOVCN9DW6i5J8750115ujuz3ljNEG7LVvn8o50XTOn/1w3
+         LI3+7WPsKZQ1TjRYPfLiEB7+zKurj2/XnHLW50zX5gL+o+IYW5hEbvKXVEs17D2Acj1N
+         xEcQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1773054944; x=1773659744; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=bwnTPQewhTZfBV+DUD3SsbtLeKJPcVZC52nT9OgQfwk=;
+        b=3YPkrhXSm3GaAy9SxVLzdt94rUHSB+eXLPeosRqRxoAI0ep5W6GAZGf/jCY3OQDu+0
+         hYlxZV5tvhH7VVEupO4NO1fNUXfhrjtvN7PRNkHGpCZ6AvnLItNROnPtj2Zz0uoPM0D7
+         L3jVb7o+GDp1O6Bfa66iiJey97f9aSvu5nEAgTrKA9XKwSU3WdKV7ytrJjNjx8oeL2Da
+         pMJbk6J8JAkE1YvwnJC7kTz7yRBcphUudl6qTAm3cTt4d+07QYw/Hq9iYob1sYVmk9n/
+         oSKL0UhjCYNTs4l/+7m+Wfwh8e+y2ytopKZ2TCBtCYf7grNtYC9ehkLq0O8CRfeM4kaa
+         kZZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773054944; x=1773659744;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=bwnTPQewhTZfBV+DUD3SsbtLeKJPcVZC52nT9OgQfwk=;
+        b=j/o0c9n3sDc66x4kNjb0gP8XQSJE0ny99Wawn66FJyd+xI1BUCHupfq15H5oswamhW
+         C0C4FTJ/F17qf7S5DqU0TH+LXdV9rfsQMVXHTuqft0hACcnHUdTtSUH7k+hNPRqxGjZq
+         IURG3C8QWQTegMkaLO98ElwneOwGBPT8ev11P2+rbaIOYDPUYeCFJusaj73K0YJjVdr6
+         rLKzXhQPSd33T9lzkyVut0pEJ/OcDzRQTGGfXDBcs3hyIsDfBd4LzLgZkiSs/hpJN9DT
+         2cPv/2FobQZx09nItGwQf0l+aBnIHLH/dYkXVRErA5bYt1AFH0nItD7uEYnv6QGg+wbr
+         LT/w==
+X-Forwarded-Encrypted: i=1; AJvYcCWWIHhEiDXr0fljLh8+3SnOt/ZteQidcYbd1Dr6ABCCc4tf/MOeXDlrf/QuVtybKhE1KvGp7K+m1ak=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzt3jKVhQPrOLWb3/wd+sr5NgOrzuFsI7OQ4sKF6cuEhAqZ9+8p
+	B8a2jROXQ97O8DK44yLg+5pyXQ8g/gniflEpQl3t+dkQsv+OQWZB6wsvy7oKaYQeZMq60IbaCO/
+	PiBi2qSSbAqN3wExxKmkoZ3EwniVGdPqM3dyWL8hv
+X-Gm-Gg: ATEYQzwceiIWgaIXv26+4hb1g/gRdIdcvCYeHSuJFqe2n79Eoxesu+U+Ic9EH60uHpY
+	OPiJ1LGTFECGco2NjgofqutVtVhp8kPjgdAcDZcIjeg/9ow0U6CB22BogPFfRtkNfyWQUg76Khw
+	137B9S1XzXlNXo/VW1eSQ4hew/1Mu15wVLKjGy5m9k01ztVr8ryqC20ksXjF6r5awFVp/jIyiju
+	miUuF84zCIh/Ga0UIJNc8ADOHT2ALx4oaBh0omHBcRwlpgHGJRYZMYkXs/6aw/vc7o+PerhpDH7
+	jQwBuNtmIJ0cpj6Id8E3e5nlBo3bUs6M8U07vvbW6Q==
+X-Received: by 2002:a05:622a:309:b0:4ed:8103:8c37 with SMTP id
+ d75a77b69052e-50900fa7fa4mr22518531cf.12.1773054943674; Mon, 09 Mar 2026
+ 04:15:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml100010.china.huawei.com (7.191.174.197) To
- dubpeml500005.china.huawei.com (7.214.145.207)
+References: <20260307090010.20828-1-linux@opensource.nslick.com>
+ <20260307090010.20828-2-linux@opensource.nslick.com> <20260307093006.GU606826@noisy.programming.kicks-ass.net>
+In-Reply-To: <20260307093006.GU606826@noisy.programming.kicks-ass.net>
+From: =?UTF-8?Q?Matthias_M=C3=A4nnich?= <maennich@google.com>
+Date: Mon, 9 Mar 2026 11:15:27 +0000
+X-Gm-Features: AaiRm537s3HnYYKX-9TgG4VRgrwS-5joKWrN8ricsEVy1qLcUU_sUcpVi_zjyDg
+Message-ID: <CAJFNNnoweqzaTn6GVb2L7dpvnby7Zi0je25hVbQHXS_kX2O08g@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] module: expose imported namespaces via sysfs
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Nicholas Sielicki <linux@opensource.nslick.com>, Luis Chamberlain <mcgrof@kernel.org>, 
+	Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@kernel.org>, 
+	Sami Tolvanen <samitolvanen@google.com>, Aaron Tomlin <atomlin@atomlin.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, linux-modules@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 9 Mar 2026 12:16:58 +0800
-Chengwen Feng <fengchengwen@huawei.com> wrote:
+On Sat, Mar 7, 2026 at 9:30=E2=80=AFAM Peter Zijlstra <peterz@infradead.org=
+> wrote:
+>
+> On Sat, Mar 07, 2026 at 03:00:09AM -0600, Nicholas Sielicki wrote:
+> > Previously, the only way for userspace to inspect the symbol
+> > namespaces a module imports is to locate the .ko on disk and invoke
+> > modinfo(8) to decompress/parse the metadata. The kernel validated
+> > namespaces at load time, but it was otherwise discarded.
+> >
+> > Add /sys/module/*/import_ns to expose imported namespaces for
+> > currently loaded modules. The file contains one namespace per line and
+> > only exists for modules that import at least one namespace.
+>
+> What I'm missing here is why users would care about this?
 
-> Currently the pcie_tph_get_cpu_st() has an issue on ARM64 platform:
-> 1. The pcie_tph_get_cpu_st() function directly uses cpu_uid as the input
->    parameter to call the PCI ACPI DSM method. According to the DSM
->    definition, the input value should be the ACPI Processor UID (see [1]
->    for details).
-> 2. In the Broadcom driver implementation [2] (which invokes
->    pcie_tph_get_cpu_st()), cpu_uid is obtained via
->    cpumask_first(irq->cpu_mask) - this is the logical CPU ID of a CPU
->    core, generated and managed by kernel (e.g., [0,255] for a system
->    with 256 logical CPU cores).
-> 3. On ARM64 platforms, ACPI assigns Processor UID to cores listed in the
->    MADT table, and this UID may not match the kernel's logical CPU ID.
->    As a result, the current implementation fails to retrieve the correct
->    CPU steer-tag in such cases.
-> 4. The function works on AMD x86 platforms only because the logical CPU
->    ID is identical to the ACPI Processor UID on those systems.
-> 
-> This commit fixes it by:
-> 1. Add new acpi_get_cpu_acpi_id() implementation on x86 that wraps
->    cpu_acpi_id(), completing the unified ACPI CPU ID retrieval interface
->    across ACPI-enabled platforms.
-> 2. Update pcie_tph_get_cpu_st() to use acpi_get_cpu_acpi_id(cpu) to get
->    valid ACPI Processor UID for DSM calls.
-> 3. Renaming pcie_tph_get_cpu_st()'s input parameter cpu_uid to cpu for
->    clarity, as the parameter now represents a logical CPU ID (not a
->    UID).
-> 
-> [1] According to ECN_TPH-ST_Revision_20200924
->     (https://members.pcisig.com/wg/PCI-SIG/document/15470), the input
->     is defined as: "If the target is a processor, then this field
->     represents the ACPI Processor UID of the processor as specified in
->     the MADT. If the target is a processor container, then this field
->     represents the ACPI Processor UID of the processor container as
->     specified in the PPTT."
-> [2] commit c214410c47d6e ("bnxt_en: Add TPH support in BNXT driver")
-> 
-> Fixes: d2e8a34876ce ("PCI/TPH: Add Steering Tag support")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Chengwen Feng <fengchengwen@huawei.com>
-Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+FWIW, we use a symbol namespace in Android (GKI) [1] for symbols that
+should not be used by all drivers (e.g. direct file system access).
+This change would make it much easier to surface at runtime, which
+drivers are using which namespace and thus have access to symbols they
+should not.
 
-If you do respin, might be worth some minor edits to the patch description
-just to make it more concise.  If not, I'm fine with current text, just takes
-a bit more reading than strictly necessary :)
+Cheers,
+Matthias
 
-"
-pcie_tph_get_cpu_st() is broken on ARM64:
-1. pcie_tph_get_cpu_st() passes cpu_uid to the PCI ACPI DSM method.
-   cpu_uid should be the ACPI Processor UID [1].
-2. In BNXT, pcie_tph_get_cpu_st() is passed a cpu_uid obtained via
-   cpumask_first(irq->cpu_mask) - the logical CPU ID of a CPU core,
-   generated and managed by kernel (e.g., [0,255] for a system  with 256
-   logical CPU cores).
-3. On ARM64 platforms, ACPI assigns Processor UID to cores listed in the
-   MADT table, and this UID may not match the kernel's logical CPU ID.
-   When this occurs, the mismatch results in the wrong CPU steer-tag.
-4. On AMD x86 the logical CPU ID is identical to the ACPI Processor UID
-   so the mismatch is not seen.
-
-Resolution:
-1. Implement acpi_get_cpu_acpi_id() for x86, wrapping cpu_acpi_id().
-   All ACPI platforms now have an implementation.
-2. Use acpi_get_cpu_acpi_id() in pcie_tph_get_cpu_st() to translate from
-   logical CPU ID to ACPI Processor UID needed for the DSM call.
-3. Rename pcie_tpu_get_cpu_st() parameter from cpu_uid to cpu to
-   reflect that it is a logical CPU_ID.
-"
-
-
-The references are fine as is.
-
-Thanks,
-
-Jonathan
-
-
-> This commit fixes it by:
-> 1. Add new acpi_get_cpu_acpi_id() implementation on x86 that wraps
->    cpu_acpi_id(), completing the unified ACPI CPU ID retrieval interface
->    across ACPI-enabled platforms.
-> 2. Update pcie_tph_get_cpu_st() to use acpi_get_cpu_acpi_id(cpu) to get
->    valid ACPI Processor UID for DSM calls.
-> 3. Renaming pcie_tph_get_cpu_st()'s input parameter cpu_uid to cpu for
->    clarity, as the parameter now represents a logical CPU ID (not a
->    UID).
-> 
-> [1] According to ECN_TPH-ST_Revision_20200924
->     (https://members.pcisig.com/wg/PCI-SIG/document/15470), the input
->     is defined as: "If the target is a processor, then this field
->     represents the ACPI Processor UID of the processor as specified in
->     the MADT. If the target is a processor container, then this field
->     represents the ACPI Processor UID of the processor container as
->     specified in the PPTT."
-> [2] commit c214410c47d6e ("bnxt_en: Add TPH support in BNXT driver")
-
+[1] https://android.googlesource.com/kernel/common/+/a38b207d4f4e02041f72a8=
+168bb24d1617099988
