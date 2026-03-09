@@ -1,120 +1,82 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB66536B075;
-	Mon,  9 Mar 2026 08:03:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77BA136CDE5;
+	Mon,  9 Mar 2026 08:04:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773043427; cv=none; b=QcnTcbRjuLLr8A2Id4szHFnDwORwcLoLC2zNq0BWOfaeY88n9P2QGZ7w70AuCIkGA7JkqzE4yx/y2cJiYwTRoZX1/cD23RyfaMJ8d/d8mkD4YSklxJBUCoXbMuAutMy9b8NUBjB7GpG4dziOhjzncGrGW8J0zS/QsUhOUvCDPo8=
+	t=1773043454; cv=none; b=jhqPD+tWIgnpn/lP5rPRzaqLQeZvpazC1sYBgZEpkBD3/Zhd39mkcPNyAAkOqsz1bRpyUlXJOtsNt9NG3Ymx5gPKxyKauJXd9yzdEGRK9eSkaSOy8EoGJg7K0YYv4uOl5cJVrohljwzcoTWFRIKX8HcCXyd2aN0zJCfXTEYmkxc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773043427; c=relaxed/simple;
-	bh=emTIU1TaBbIx/tDTZhzmiIjXQ7JpqWXdQa8oeCKbuEQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=aHk5yrEehq+l1hFrEqVteW1YDhvggGdj1JV2kxClgxkhrrQQ+Uy0bxUHBnK+EnOkgXT4yM3WTskgYJR/eU5/ZQJ9Bc8M0sHwC/ogOnN67mW1+2RZuHCweEzJ7JjQw3PgIYoyZGde0kOcxG2FWhY+z+e4Iu9Cm1vNV2MyafW7fGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oHylr5Sr; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773043454; c=relaxed/simple;
+	bh=X0tGs7O6QiGQrhYYpAs9gFpBAMdmWTPYXOMZQs/6F64=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=tkYTelF6P5cSAelWJSccNf7Xt76MG0nsbtXCqLIs89dq/1PCIph6KbeE2FDPFUBPc3V5TXSzXRwCRW4ajhch6BMCX3fYCsmhp08+68ECdYqAvX3ufRm0HU+czG3T36PI1rz7gfWN/Gl+eRe6Pfl/w3co0MO7Po0jzNKwW+0N3dA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cwdPXbQp; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oHylr5Sr"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id AB3B9C2BCB6;
-	Mon,  9 Mar 2026 08:03:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773043426;
-	bh=emTIU1TaBbIx/tDTZhzmiIjXQ7JpqWXdQa8oeCKbuEQ=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=oHylr5SrJEEJoOjUUMs9zV6AckkonQRN0XrGTbbHE83Da7QroQPZaES3D+Z5aZ2N8
-	 3usNEzeJuI7aoNsGkKob0GnInh4jvA4pkGJjMA6y+NKBBeYvZOD5Pg6AZEnNnGmPKK
-	 XSdEFvXZ0lsm0hV7vxWkfXUvVfqCGEGio3Nla9LhPhbINCYNbLpKRVD/zHwCQoiWEA
-	 5+iuEjOaHRvI2u1Zd4zlyDIERUdoupdeBJX1uCOPDa0HfU1Q+Wr1Vs9Brtb+zewo4b
-	 nQIWLYM4duf1ofqydrzmjchMYOh7qxgWJMi6A7iritfagvFJ/kNSROhrJmMETEEI8T
-	 uoqHbwT2velXw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1F02EF3709;
-	Mon,  9 Mar 2026 08:03:46 +0000 (UTC)
-From: Simon Baatz via B4 Relay <devnull+gmbnomis.gmail.com@kernel.org>
-Date: Mon, 09 Mar 2026 09:02:31 +0100
-Subject: [PATCH net-next v3 6/6] selftests/net: packetdrill: add
- tcp_rcv_neg_window.pkt
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cwdPXbQp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773043453; x=1804579453;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=X0tGs7O6QiGQrhYYpAs9gFpBAMdmWTPYXOMZQs/6F64=;
+  b=cwdPXbQpe+6gq5ESofzLDrMFQCjRVY8dtaKJj4wmMRB/4a9HK/BJxRz2
+   rO590wh8AsU3WNY3D6+KRk5CNNdg7/uTO/z0PAx4ZQ1Kq6ueD/VvPjfno
+   bPOTrMPN6NzRmzS17ICCOFAF7QATvSunuUT8OwoUypq2ETUszrNBw0Ubu
+   lGcAZceogq5bBVynyxcXW8+5aDWfB+RU2R5jZ/m0DSUpUfhumm2SpuOzH
+   ZgrrGG8+g9apIEYvIheOP7W/epKx0ko2bOd3cculiWhEHr14bgnf+m5vN
+   Gm6mOkwV31TaL0hXt4PTYNSsBlfuOjExF/XepFHoO1JIIVU7PJhoUxTNP
+   Q==;
+X-CSE-ConnectionGUID: Q9e1zHmsRzinjPk2w2AW8A==
+X-CSE-MsgGUID: xmo4nqPxQEehP06ZFT9ubw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11723"; a="74105487"
+X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
+   d="scan'208";a="74105487"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2026 01:04:02 -0700
+X-CSE-ConnectionGUID: +L2ubFWOR3yT7PUUUDn4+A==
+X-CSE-MsgGUID: wfr1KBATQeagsjDEmfx/tg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,109,1770624000"; 
+   d="scan'208";a="224138855"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.153])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2026 01:03:58 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Mon, 9 Mar 2026 10:03:53 +0200 (EET)
+To: Vishnu Sankar <vishnuocv@gmail.com>
+cc: Mark Pearson <mpearson-lenovo@squebb.ca>, dmitry.torokhov@gmail.com, 
+    hmh@hmh.eng.br, Hans de Goede <hansg@kernel.org>, corbet@lwn.net, 
+    derekjohn.clark@gmail.com, linux-input@vger.kernel.org, 
+    LKML <linux-kernel@vger.kernel.org>, ibm-acpi-devel@lists.sourceforge.net, 
+    linux-doc@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+    vsankar@lenovo.com
+Subject: Re: [PATCH v7 3/3] Documentation: thinkpad-acpi - Document
+ doubletap_enable attribute
+In-Reply-To: <20260209063355.491189-4-vishnuocv@gmail.com>
+Message-ID: <991f8a08-7c5d-5611-7904-6c5d336a74a3@linux.intel.com>
+References: <20260209063355.491189-1-vishnuocv@gmail.com> <20260209063355.491189-4-vishnuocv@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260309-tcp_rfc7323_retract_wnd_rfc-v3-6-4c7f96b1ec69@gmail.com>
-References: <20260309-tcp_rfc7323_retract_wnd_rfc-v3-0-4c7f96b1ec69@gmail.com>
-In-Reply-To: <20260309-tcp_rfc7323_retract_wnd_rfc-v3-0-4c7f96b1ec69@gmail.com>
-To: Eric Dumazet <edumazet@google.com>, 
- Neal Cardwell <ncardwell@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
- "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- David Ahern <dsahern@kernel.org>, Jon Maloy <jmaloy@redhat.com>, 
- Jason Xing <kerneljasonxing@gmail.com>, mfreemon@cloudflare.com, 
- Shuah Khan <shuah@kernel.org>, Stefano Brivio <sbrivio@redhat.com>, 
- Matthieu Baerts <matttbe@kernel.org>, Mat Martineau <martineau@kernel.org>, 
- Geliang Tang <geliang@kernel.org>
-Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- mptcp@lists.linux.dev, Simon Baatz <gmbnomis@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1773043425; l=1560;
- i=gmbnomis@gmail.com; s=20260220; h=from:subject:message-id;
- bh=/JWWw4Fx6ONTjfm9hTqMNguk1B74iLUSkQSY5L1syFw=;
- b=2D7v4mt8UrAsF6NRbarJgDDGMJrIAAIk6UGHgHlbR6lGUYUnBAQbYbj1gZaxxGqnn6xPfh8YQ
- y5j57Qjr1c9BLHK8/b0/n69p50Qeg1agzXfds2tVH6K9S9xPkL77w9u
-X-Developer-Key: i=gmbnomis@gmail.com; a=ed25519;
- pk=T/JIz/6F5bf1uQJr69lmyi7czVG+F9TVZ/8x5z9Wtqw=
-X-Endpoint-Received: by B4 Relay for gmbnomis@gmail.com/20260220 with
- auth_id=641
-X-Original-From: Simon Baatz <gmbnomis@gmail.com>
-Reply-To: gmbnomis@gmail.com
+Content-Type: text/plain; charset=US-ASCII
 
-From: Simon Baatz <gmbnomis@gmail.com>
+On Mon, 9 Feb 2026, Vishnu Sankar wrote:
 
-The test ensures we correctly apply the maximum advertised window limit
-when rcv_nxt advances past rcv_mwnd_seq, so that the "usable window"
-is properly clamped to zero rather than becoming negative.
+> Document the doubletap_enable sysfs attribute for ThinkPad ACPI driver.
+> 
+> Signed-off-by: Vishnu Sankar <vishnuocv@gmail.com>
+> ---
 
-Signed-off-by: Simon Baatz <gmbnomis@gmail.com>
----
- .../net/packetdrill/tcp_rcv_neg_window.pkt         | 26 ++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+> +        * 1 - doubletap events are processed (default)
+> +	* 0 - doubletap events are filtered out (ignored)
 
-diff --git a/tools/testing/selftests/net/packetdrill/tcp_rcv_neg_window.pkt b/tools/testing/selftests/net/packetdrill/tcp_rcv_neg_window.pkt
-new file mode 100644
-index 0000000000000000000000000000000000000000..15a9b4938f16d175ac54f3fd192ed2b59b0a4399
---- /dev/null
-+++ b/tools/testing/selftests/net/packetdrill/tcp_rcv_neg_window.pkt
-@@ -0,0 +1,26 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+--mss=1000
-+
-+`./defaults.sh`
-+
-+// Establish a connection.
-+   +0 socket(..., SOCK_STREAM, IPPROTO_TCP) = 3
-+   +0 setsockopt(3, SOL_SOCKET, SO_REUSEADDR, [1], 4) = 0
-+   +0 setsockopt(3, SOL_SOCKET, SO_RCVBUF, [20000], 4) = 0
-+   +0 bind(3, ..., ...) = 0
-+   +0 listen(3, 1) = 0
-+
-+   +0 < S 0:0(0) win 32792 <mss 1000,nop,wscale 7>
-+   +0 > S. 0:0(0) ack 1 win 18980 <mss 1460,nop,wscale 0>
-+  +.1 < . 1:1(0) ack 1 win 257
-+
-+   +0 accept(3, ..., ...) = 4
-+
-+// A too big packet is accepted if the receive queue is empty
-+   +0 < P. 1:20001(20000) ack 1 win 257
-+// Send a RST immediately so that there is no rcv_wup/rcv_mwnd_seq update yet
-+   +0 < R. 20001:20001(0) ack 1 win 257
-+
-+  +.1 %{ assert tcpi_state == TCP_CLOSE, tcpi_state }%
-+
+There's something odd in space vs tab here.
 
 -- 
-2.53.0
-
+ i.
 
