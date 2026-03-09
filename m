@@ -1,87 +1,86 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FE013B961B
-	for <linux-doc@vger.kernel.org>; Mon,  9 Mar 2026 12:43:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B67B3BA256
+	for <linux-doc@vger.kernel.org>; Mon,  9 Mar 2026 12:43:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773060190; cv=none; b=IQjvBzaUUNSLfCdIsjo+d+7gTLTMJ65dBvMVtO58nsCOy3HZbEC412sT++wjUaaKiYXL4+hB2wnDtMu4V6bbl3lhqzAhA78bbKx+iXLkHNRoadHwB02zAig4tG3ImwnLEMR5mpqSeIUw2xxuyfGRLd7A9Qt+mnrv2Y4/31luzR8=
+	t=1773060194; cv=none; b=TtHzObP6SKpiv21TDX+PPqT/Ac6YAzCRh0jKbMu5f7NG+VcZOMsMbi2cp7Yepjoy3ZXfsDGLGMxSEjB6Jwbgdica/y7sU8zq7UaNvqWC1OMlVKizJvTd8Tbvk42rBJFz0CIebQyS6vIQBB8qGeEDRkRmySt9lEQ90wl6pCSqW1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773060190; c=relaxed/simple;
-	bh=657u5VcsdCwH5K3uh0YA0oSgSY82ZXzp8LKA80Hy5Pc=;
+	s=arc-20240116; t=1773060194; c=relaxed/simple;
+	bh=4BnEUtmMiOiwXU1lQlZ9yMyJWb+fawm1Al0WC9Bh4bA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=AOhEGa00kwUr8lLv+yTrN42KMyADTRD0QXDpDiM4jQ6X/d2/aM+kVwqBnSC2ENR4kR6XFuc4miT5y+xqCdtr93HF7IPZxtJwFTi9AyD3cT4FXQFEHM05b3WWqT3Jr5n95LhQ+QR/EJDTOb7Wnetzl/FgNiFBRL/+c84kwoN90xs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=bqmHL/4V; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=KsRaZrwc; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:To:Cc; b=epi/Z9Xkaggu1DdMein4GIKnb/yvboF/6fYOKaJ0gB7oCq9LONCk+Qcd5983R5+lTlIYNW6acQcB3bmn11Mz6IUamrKiJEFuvHaoRZlT9VXcJA3V762dieOuU/fyMRZxnyZ10Dv1Yd2+CNf8miXLmCdl90OTNNCRyptzm/vIISo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=a71wUr1p; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=X8PFY3vb; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="bqmHL/4V";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="KsRaZrwc"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="a71wUr1p";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="X8PFY3vb"
 Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6298WD2N3773276
-	for <linux-doc@vger.kernel.org>; Mon, 9 Mar 2026 12:43:07 GMT
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6298WPrp3774286
+	for <linux-doc@vger.kernel.org>; Mon, 9 Mar 2026 12:43:09 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	SQwazpAS/p8xBP8ywiNVLcoVJEL1G6gSbs/PG65TAEg=; b=bqmHL/4VSNwRWM8b
-	zRkOwuPJXJcW6NCQgD7/GLLOPdIJx/ohQONcGW6ViXOnvgJn6xsI0ZJVyeREi792
-	XaWQuUNMQQltO7/iZLEc+JwdlnQAIeqsUUvnkkZEf69jnbPH3fGeX3tgn8bnDdWk
-	YouR8i1kZZ7SnOXQzUTrfHZLTMfvLTwOMuaBiokL9Yb7r8dZrdVXesdVziwlGIMu
-	eO7DFHN47nbr/+w/CjDYnHcGCE0aAcMkxuaCiqm8uggZo0mj1PYqLgKi10tOm370
-	qyqgTwG0jEQLGNKeJYx8uxHBqLa2apnj9oZwXGUsE7InwozSFb4Lih/SuM6T/ALF
-	/kO0Cg==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cstsa8ur1-1
+	l5nIeS9X1YbhohJRIffAt90+vLpOah8/bJUe3CSaJyU=; b=a71wUr1pe4R5IEa8
+	iSygIp4wnj5qqTTJPqGOhK+aYYo7Cw2zreCRcO89hfNNn3LzGoViM3kFxy4dtvtb
+	klXS5g3nnay5U+/kKE2PJStRpbmuBpEpqs7f55uUHXRlCg1WVwVw3huhJpYKI6mI
+	RU48Bv9snpSqu/J7BEd3HbcmiTyLIliDKgMrQ6Hd3R3qt+GWK+/n+wP+PqVowCk4
+	7Ut1SVvEpVrjiJACPEuonRem4fz16fQvrjWl/NbqeX4oua2BIoh1L2BHDtdgUJYO
+	f1pI+VpqKAhZw5BS3uqHmqYqmTdWVvGfPvt/zAeebjQXUQHIA5MmFEI1M4e7tHCd
+	wmhs4A==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cstsa8ur7-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Mon, 09 Mar 2026 12:43:07 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-8cd7fec8d44so728094185a.2
-        for <linux-doc@vger.kernel.org>; Mon, 09 Mar 2026 05:43:07 -0700 (PDT)
+	for <linux-doc@vger.kernel.org>; Mon, 09 Mar 2026 12:43:09 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8cd7d4cc049so1649628185a.0
+        for <linux-doc@vger.kernel.org>; Mon, 09 Mar 2026 05:43:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1773060186; x=1773664986; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1773060188; x=1773664988; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=SQwazpAS/p8xBP8ywiNVLcoVJEL1G6gSbs/PG65TAEg=;
-        b=KsRaZrwc9L4twFk7N8+iRsoRruHTQXrMe6ELEY6JEsrl+VeyFZeihC/SGO81sZF/7S
-         zeLucgF/C5Jv/AboRUMrgdOK6b1NlQDJz8rpDl4jH9k6T4FOkW9fG6qvy3bBeG2WC0VF
-         Pl1aLcMzrWzU4lICPDaD/RQKaTP26Au7ZLxtU+4REfJx+EfTEJpkS5+5t6NsGpuYs0sU
-         lpfLKMlrz5dJTL75IHOhbCrJriQBGwdtJteIztxui5uYUm0+kGuUI3XxzZS32KliXLVm
-         9CT1eII34/36wgNcOQdl4w61+UL5+fgXx9ERUWmBuBMrNXMyJcoSH+K/aBxplTgTOV4c
-         /8MA==
+        bh=l5nIeS9X1YbhohJRIffAt90+vLpOah8/bJUe3CSaJyU=;
+        b=X8PFY3vbfxCqnt1Ny/ouL+ra97T8KmmsMNTOfb96vxKPqmxkSgazmFQ4tksbRuCRml
+         nvrCZY9R0HcW2Uz56ZElv7/ifk1hcolPDNiPcTx2NWIE/y9zQTQc+tuoGHzVwC5uNebc
+         XqN422AfIIpJUxk3LBWchqONGHz2AE+5bStfq4LiHeKsbytlxrFWK3DtinLz8skNmBbQ
+         qmYbg5NAZZCe9++TG2EMe0bPQdVawyr0CpYE4oaeoWM8rTP+I0mo+WZAfmNx97+71YyH
+         NC29AswurEfGa1h550wsfNUet/NtDbAeAp11zvVGUFIqqwgu2uvjD1CRjwnosgOWOZYn
+         /UiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773060186; x=1773664986;
+        d=1e100.net; s=20230601; t=1773060188; x=1773664988;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=SQwazpAS/p8xBP8ywiNVLcoVJEL1G6gSbs/PG65TAEg=;
-        b=HzqRV1fUxl4AJk6YhUphgA+CDddQkiC0R7WtOrqgi1usRJRlgdombWPRVx5ngWPlH5
-         BXsmCNJQW4UiOkS5SebtxCnj1qMC8AKhUgAm8n/rrz1qBJy9Ks2q4GzqJDXtJ4zEgwsc
-         MmKbe72xtBsFCv7gxXbPMvff8xa9rg9jo0DXfJzdY6uWyOvwcsk2bk0W5WUL5n/af0PO
-         I/ixM/p+cMv0DxRSNznbvVp73KOhOVvuSDPZtP2OnvyvvCtbZHfbQGa5kYcoPhWLmGcu
-         LYdlBJVr592Z38KGXPj9coHBBow2rtBNpRc4Ln1elXSAzz3GZT8ca8bsJCNwCOPyUH9V
-         Xzjw==
-X-Forwarded-Encrypted: i=1; AJvYcCXcB4H2cUsrlPrEaTQ1KIiWJuwuHul8KGWkc2XSbB931kB1B5NHMP9cOqX6xC+1ZfWS5xjiGGV0O7U=@vger.kernel.org
-X-Gm-Message-State: AOJu0YytbkdS7wf+pAAVLQPgXQL1Pwh9HfYpbbxqvUODKVMP1+76Ynj3
-	1GTEq68EN4hkj51MDTtKCrSRwRp+D7mheEG7+xhm2uAuLBekNiR3yVP7wMKSJ4TO7F/ozKgeY/p
-	z0bpQ4B/NQ7Y5TtgHavnBITuQnGA+lDAlbKZHxSsXjuKKDFwcNRrR8s/BP3swc+8=
-X-Gm-Gg: ATEYQzzmzuKNpjrE3HAnOTmBAsnLdCq5dn4aHp4T//l/OPoMfk0c2dfs49B8+WtkVbX
-	KyDFgnqKZmen948QKo+rlT5ull4RUGZlx+t1ZEVHXQ78ruoZjBKBT/7lvW9aO7k9L9q1gFouhx/
-	Wb4d3UF8MyJBIEQdS7jJnDw1n0tMp3kRxsS+d3rdPE9BHpLnB73Vp5AUuKvlEX1caWDgFHFus6M
-	KI8FyeSowVfY4Z5Jkp0s6d6UqABVG3Hcxzf6ia7qxphz6Y+uN1VT6I2giF/N8fvHxpIs1WyVLlu
-	6knmZwj/Ai1EOIQhUH6nJ8MhSDs+l5cxLdztaP+baxsknJFXM4XcU7oHYvXa8SMxr/E9dbxWKPB
-	iGAtOl3+znyDdinjftc+p/aT0LcTQdLLARiLb9Af2sMdD7HaLPFhh
-X-Received: by 2002:a05:620a:4002:b0:8cb:3e86:d98b with SMTP id af79cd13be357-8cd6d49b8a4mr1509511185a.70.1773060186321;
-        Mon, 09 Mar 2026 05:43:06 -0700 (PDT)
-X-Received: by 2002:a05:620a:4002:b0:8cb:3e86:d98b with SMTP id af79cd13be357-8cd6d49b8a4mr1509506985a.70.1773060185863;
-        Mon, 09 Mar 2026 05:43:05 -0700 (PDT)
+        bh=l5nIeS9X1YbhohJRIffAt90+vLpOah8/bJUe3CSaJyU=;
+        b=u2qxxBgjtZXBnz91DjkspLE9lo/BAQGY8oJI7Q/SkgTuLz03INUvCsoVhhKdn9qOLm
+         QAjxXS2eECm4T37T1dmJii8pwSgqjsjwjmiV+NnvVKP/mwRqppETCALjKgrLnRWzbEwE
+         qpoi6QRqGsAodOnVJNSHCoc1NXJSjcGo+u/yxBsvpSPtk5qNVW38XYxww5VRi4thQBOa
+         gf6e3OUGir1ZqEPCGtoP2ZwNG8GGjTwQsnx5Q5QY8WtkwtSLcrD4xGE/tmQ4BIBwBbfe
+         VdA8K8UdsP43v9hlEKno+cwUWiW6i1P4R2bnjUm70JRBIG7/YalnW/IRZiGP/2mDoMxX
+         zYpg==
+X-Forwarded-Encrypted: i=1; AJvYcCXl5loiMHqIChd1iTt2eeJ5mjPoTufEpalhNQ2HqjOVnvtUl3mHDE5aS8Eo3Iyum1mdoR6NnyYHdH8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxYqSTzbkyRTBQmNj4YrksfHidYl9vKGDLt43fJyXG0L+O+G/bj
+	WYdov9f2ZmC3bSw9pC4IbDpAGlmVCmWoyktAhmIVu/XfqSE6iM5BcqqTTZzfO4JJ6miuRMGMBYI
+	vHsHojfT5DGZrio02zsYRBgZGEQ2eCM0gXclTtSxZO158TPFrlNalqJ4Xx+zE8Tc=
+X-Gm-Gg: ATEYQzxdDNzBlIjQQPWsv47a5CenwKrN2sZ8gYcD5EgTUcyAXkRHieajpVvUA1Fu9L5
+	T1gki/LUfLxIpGwkdSTtUX9zJpEy+gu+s4OrlviflaIXUIdfbxvA7jFhaj0CSz5djcbgJLotCi/
+	FY2Grz9/LoD/IlHum10WoKJgMPf/lQYdBncJ38rCkkkvlBAcG+E9FkRcb2EdVUiMOi+4NXbu7mR
+	O2XMaW7A999tvKq9d5dwPpQFoW+YlmGTybO9cxU35lABL10zN/CAcQaLg5p+xr8LT3OqzlKd6R/
+	cB6+8eD6i98cGnHf+2Oh98M9yJjT9EvMakXvdoyo/7vTohrHZ+LJbovkjA27uHZRf59BMXDmrxb
+	McpQMbOT2ZBbWZ3FfDqjeBXdgWPpvxCNSKZh+1bee7hBqn1voP4L2
+X-Received: by 2002:a05:620a:4586:b0:8cb:72b2:2a01 with SMTP id af79cd13be357-8cd6d42728emr1388185785a.18.1773060188402;
+        Mon, 09 Mar 2026 05:43:08 -0700 (PDT)
+X-Received: by 2002:a05:620a:4586:b0:8cb:72b2:2a01 with SMTP id af79cd13be357-8cd6d42728emr1388181585a.18.1773060187916;
+        Mon, 09 Mar 2026 05:43:07 -0700 (PDT)
 Received: from brgl-qcom.local ([2a01:cb1d:dc:7e00:494a:62d9:d95b:cb98])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48539e574b5sm107803345e9.8.2026.03.09.05.43.04
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48539e574b5sm107803345e9.8.2026.03.09.05.43.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Mar 2026 05:43:05 -0700 (PDT)
+        Mon, 09 Mar 2026 05:43:07 -0700 (PDT)
 From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Date: Mon, 09 Mar 2026 13:42:40 +0100
-Subject: [PATCH v2 4/6] ARM: omap1: ams-delta: convert GPIO hogs to using
- firmware nodes
+Date: Mon, 09 Mar 2026 13:42:41 +0100
+Subject: [PATCH v2 5/6] gpio: remove machine hogs
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -90,7 +89,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260309-gpio-hog-fwnode-v2-4-4e61f3dbf06a@oss.qualcomm.com>
+Message-Id: <20260309-gpio-hog-fwnode-v2-5-4e61f3dbf06a@oss.qualcomm.com>
 References: <20260309-gpio-hog-fwnode-v2-0-4e61f3dbf06a@oss.qualcomm.com>
 In-Reply-To: <20260309-gpio-hog-fwnode-v2-0-4e61f3dbf06a@oss.qualcomm.com>
 To: Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>,
@@ -106,42 +105,41 @@ To: Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>,
 Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-omap@vger.kernel.org, linux-doc@vger.kernel.org, brgl@kernel.org,
-        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-        Kevin Hilman <khilman@baylibre.com>
+        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2531;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7227;
  i=bartosz.golaszewski@oss.qualcomm.com; h=from:subject:message-id;
- bh=657u5VcsdCwH5K3uh0YA0oSgSY82ZXzp8LKA80Hy5Pc=;
- b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBprsBK0MJaZuCEcNXm/8LzHDpWPQN1bHIaz1w2v
- TCs2lep/p6JAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCaa7ASgAKCRAFnS7L/zaE
- w1F+D/4u8ii/H1cE8fIlALXnOq3ppXSQii0gcpwUkzxyl2aq8K2iP9cVIuRXmWGSQBm8jrGtlLI
- uEKZW8XuSSvPq0v1kKz7ocOoUX62HTnzfjnWVp/fqmt62t2FXJaf4e877htmTDMfuu4WAOJv3Vi
- aycFNT86SGgLs7TNaQR8pKpxpVs8K2OXwZkFBdAiWtYE9m3fmtVYO142796Ldt9ZJk2hLEqQQ1s
- Dlm8xOOMtF6PBpBCUjy1N7795nGEocaF28EagBGJ3E+hzSPDkhV7e7BETT2xqAqUV2+D5LtYYm4
- WvG/bcLqvWHzhuvepS3qaRzRBwdbPEDzKgK6NEt/FcN1zjEuPX+rNE9LXgmjOiqKD72AIg/nvMZ
- JePKfzK5cfgOM17iAOXpQCpnNgYdWqUGxZpFzfTMTBPEKTfgtoCF2wCTUWnVJg/Z6HE5YyTGfSS
- rFR+lZgSRmmoDexhb9G3i2US0rL4NW2s70miKvDL/8OGOurFkHImhCc4C1+HNNyhNKPOCmoP7es
- e1UNoclkcwxf4CIvOsOcVEV7yejTycZD3CzLRdAZ8poSH8lgPEqKzss/XQfySnVXDe1UmDWgnmV
- gLqXZvGZoHK5xrjEX5+eyErEz7y58ofVkYqFx0icSyFPJR6v3IrCuoCLMWqToRxANhsryXTsWJI
- DAiNr1FHZFSJGJA==
+ bh=4BnEUtmMiOiwXU1lQlZ9yMyJWb+fawm1Al0WC9Bh4bA=;
+ b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBprsBM34X8qWjOEe+ZIX7SQxEMQg+Byczj+gL/y
+ 9GR18NPlZaJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCaa7ATAAKCRAFnS7L/zaE
+ w+JFD/9QC8D34cOdqUHb/kJTimscTHraiX+HApC9PJcT8Ybsb9sRAhOhzU8XdLexeM9OyapI3IL
+ ftjBOhqv7huCWsA5ChENpkS/mhZyFmjNZCpDgf9Mc/dHJIl5cKwYYIGSTNmTZ2bN4ONtQMoagfa
+ gz7Kfe64CE3mayaZKIQq97j431fJPAYCdfusPtQZimHCFkPKPLQ/LDf0Sxl5buLpl7gQMLai36z
+ aY1wG5XpLxhM5/NRicW56ARQg2DxOZbKGdLWkxQTkd4jVuZGNB2ef9dzmamHYRxqMVG23U81/JB
+ XQTdpbY8q0boVBQTi8M8B/1kHxA/Hr12CQhxMEon0ZwM8WIop3/30+N1SJBJgSpXK+BaSuvrS86
+ yJ4nbV/KRmCwHcptGuGZ5vQ3tBKm0yRpYA7/DO9iigjXJvciROMp69HCS7Yonv4JfHFBpEzt3zZ
+ yzO8FK+TTWKZpjdoy7vEQQHbpftOmJv5KRo5pdnZTSejilcUfNn6wZK2Opj4VvJFxwuwsZkyq5D
+ 8E6xChvRWAn1p8FHOxz/hH9WfUkOY5KzNaCo6Ue8S4iovjzAHCIii2vnZ2bfxjIJIV4dctBKNwx
+ YpzfO9YDXGcNa9zWTdgBBhaSwRRhymFfk3hoLBhr31i7DBeuDBHkAkDeyvLKqVoxrE5TUDi286f
+ 08Oz7S3X9LtMxIg==
 X-Developer-Key: i=bartosz.golaszewski@oss.qualcomm.com; a=openpgp;
  fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
-X-Proofpoint-GUID: 1v9RVGmtxVDbH-aSyB0q00VtDzwNQUQe
-X-Authority-Analysis: v=2.4 cv=I+Vohdgg c=1 sm=1 tr=0 ts=69aec05b cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+X-Proofpoint-GUID: 8lDbKNGZlhbPhaLW24gjk_u-JFAQPPsW
+X-Authority-Analysis: v=2.4 cv=I+Vohdgg c=1 sm=1 tr=0 ts=69aec05d cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
  a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22 a=IpJZQVW2AAAA:8
- a=VwQbUJbxAAAA:8 a=QyXUC8HyAAAA:8 a=EUspDBNiAAAA:8 a=5psZAbpHc07LGj0ksyMA:9
- a=QEXdDO2ut3YA:10 a=NFOGd7dJGGMPyQGDc5-O:22 a=IawgGOuG5U0WyFbmm1f5:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA5MDExNiBTYWx0ZWRfX1PTwHtmfIJp/
- howIBsgzJQ8ODIPE1QGB0j9WDNfBJEZeNZIIEKois2bh+xZgxt4o8s/EkjTtdV1a+srRbub6H5s
- 7H3K0gIfTZjxnZyPKqqfbxi53wc2fdTPJCF4RU+Co3mBivWThcPyQBSXc/QKI9L3gdnHMIbB1UV
- U8kgPJk/mVXnxzvixJ0sGPtK1NrOAL27PB1uNUfhIJ4WL+9XtUdyPqOrHhqAKbelnCRgUpNzn93
- TYTSoCVBkIs88c2nayHvm+yEof2S7kjC9366h5nc3bgASH9Lu8InMPRQpBUWjgJQSaPmU0eqdY7
- 4+73No1dlenVvRPHE6QTY5gbtP140Dif0tDMYUO2WmqGg8vmRx2iyVdyzqREBEHhoyg+wKfpc5B
- WyuCxYgkFP1EcxP8rXC93mph2AqA0mkLNpKT/h6V1VdgocjSvXrp5lxbOxmkpIn53G8aTwVizm1
- fxxiH04wooDgP75AUQw==
-X-Proofpoint-ORIG-GUID: 1v9RVGmtxVDbH-aSyB0q00VtDzwNQUQe
+ a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22 a=VwQbUJbxAAAA:8
+ a=QyXUC8HyAAAA:8 a=EUspDBNiAAAA:8 a=EJ0IlyYtn7jNkuMCNfoA:9 a=QEXdDO2ut3YA:10
+ a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzA5MDExNiBTYWx0ZWRfX375YV13glLFV
+ Uphg1FXR2NKfKCSYEcqje++YZXXd1fWnD0mwC/pvsw5mahI46oasy6XJeJiDgyeSt/Jv6b+lQod
+ op6luNHxpvKYqV9ayGtsSc6/lHKGecOUe63W6PVXp8lNBvufDlj8Au71/5ZES1IOHGtmRrC751Q
+ NFgsuSZ2ROjUYNH3GFFyCsBzwcefoVZfnNfHm2gciFoHFLFBxNQpkzplBjHhRBpw23NeiShaL8Q
+ 7lJOyRNqOwOGrt7ZQsCbPKXOKb2gU3uUXsV+ATuPbIkwk7kZFe6uuGTT6DzctdjQrg3pykwU0Xl
+ xo1RPqw8KTfVv3LP5SqhTusZniUTlU+zJ2Ufo4JQgz8I003FIJDMjx/w9T55wMv02lmIT9jd8of
+ Vguclv55hbQs4AQLitkCW81CoXQJ3x7M7IM4t6jxDEv+7WSDphde4l32XbTCuPEDqik84wqnxSU
+ timILAXnyB8KUB7Kabg==
+X-Proofpoint-ORIG-GUID: 8lDbKNGZlhbPhaLW24gjk_u-JFAQPPsW
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-03-09_03,2026-03-06_02,2025-10-01_01
@@ -151,74 +149,209 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603090116
 
-Setup a software node hierarchy for the latch2 GPIO controller defining
-the required hog and stop using legacy machine hog API.
+With no more users, remove legacy machine hog API from the kernel.
 
-Acked-by: Kevin Hilman <khilman@baylibre.com>
 Reviewed-by: Linus Walleij <linusw@kernel.org>
 Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 ---
- arch/arm/mach-omap1/board-ams-delta.c | 32 +++++++++++++++++++++++++++-----
- 1 file changed, 27 insertions(+), 5 deletions(-)
+ Documentation/driver-api/gpio/board.rst | 16 --------
+ drivers/gpio/gpiolib.c                  | 71 ---------------------------------
+ include/linux/gpio/machine.h            | 33 ---------------
+ 3 files changed, 120 deletions(-)
 
-diff --git a/arch/arm/mach-omap1/board-ams-delta.c b/arch/arm/mach-omap1/board-ams-delta.c
-index 16392720296cd224732450c85419c35bbab506f6..1bec4fa0bd5e8bfc58103d1f24b22176707fd26f 100644
---- a/arch/arm/mach-omap1/board-ams-delta.c
-+++ b/arch/arm/mach-omap1/board-ams-delta.c
-@@ -556,10 +556,30 @@ static struct gpiod_lookup_table *ams_delta_gpio_tables[] __initdata = {
- 	&ams_delta_nand_gpio_table,
+diff --git a/Documentation/driver-api/gpio/board.rst b/Documentation/driver-api/gpio/board.rst
+index 069b54d8591bdeb975a6c650d643db4f7eb98ab7..0993cac891fb5e4887a1aee6deae273197c6aae1 100644
+--- a/Documentation/driver-api/gpio/board.rst
++++ b/Documentation/driver-api/gpio/board.rst
+@@ -239,22 +239,6 @@ mapping and is thus transparent to GPIO consumers.
+ A set of functions such as gpiod_set_value() is available to work with
+ the new descriptor-oriented interface.
+ 
+-Boards using platform data can also hog GPIO lines by defining GPIO hog tables.
+-
+-.. code-block:: c
+-
+-        struct gpiod_hog gpio_hog_table[] = {
+-                GPIO_HOG("gpio.0", 10, "foo", GPIO_ACTIVE_LOW, GPIOD_OUT_HIGH),
+-                { }
+-        };
+-
+-And the table can be added to the board code as follows::
+-
+-        gpiod_add_hogs(gpio_hog_table);
+-
+-The line will be hogged as soon as the gpiochip is created or - in case the
+-chip was created earlier - when the hog table is registered.
+-
+ Arrays of pins
+ --------------
+ In addition to requesting pins belonging to a function one by one, a device may
+diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
+index b993cdae79e6dc389ca42ed079b3e39d1f9fed5a..829774322f3595d191e13e89ef83001507f6fdea 100644
+--- a/drivers/gpio/gpiolib.c
++++ b/drivers/gpio/gpiolib.c
+@@ -103,9 +103,6 @@ static DEFINE_MUTEX(gpio_devices_lock);
+ /* Ensures coherence during read-only accesses to the list of GPIO devices. */
+ DEFINE_STATIC_SRCU(gpio_devices_srcu);
+ 
+-static DEFINE_MUTEX(gpio_machine_hogs_mutex);
+-static LIST_HEAD(gpio_machine_hogs);
+-
+ const char *const gpio_suffixes[] = { "gpios", "gpio", NULL };
+ 
+ static void gpiochip_free_hogs(struct gpio_chip *gc);
+@@ -930,36 +927,6 @@ static int gpiochip_setup_dev(struct gpio_chip *gc)
+ 	return ret;
+ }
+ 
+-static void gpiochip_machine_hog(struct gpio_chip *gc, struct gpiod_hog *hog)
+-{
+-	struct gpio_desc *desc;
+-	int rv;
+-
+-	desc = gpiochip_get_desc(gc, hog->chip_hwnum);
+-	if (IS_ERR(desc)) {
+-		gpiochip_err(gc, "%s: unable to get GPIO desc: %ld\n",
+-			     __func__, PTR_ERR(desc));
+-		return;
+-	}
+-
+-	rv = gpiod_hog(desc, hog->line_name, hog->lflags, hog->dflags);
+-	if (rv)
+-		gpiod_err(desc, "%s: unable to hog GPIO line (%s:%u): %d\n",
+-			  __func__, gc->label, hog->chip_hwnum, rv);
+-}
+-
+-static void gpiochip_machine_hog_lines(struct gpio_chip *gc)
+-{
+-	struct gpiod_hog *hog;
+-
+-	guard(mutex)(&gpio_machine_hogs_mutex);
+-
+-	list_for_each_entry(hog, &gpio_machine_hogs, list) {
+-		if (!strcmp(gc->label, hog->chip_label))
+-			gpiochip_machine_hog(gc, hog);
+-	}
+-}
+-
+ int gpiochip_add_hog(struct gpio_chip *gc, struct fwnode_handle *fwnode)
+ {
+ 	struct fwnode_handle *gc_node = dev_fwnode(&gc->gpiodev->dev);
+@@ -1047,8 +1014,6 @@ static int gpiochip_hog_lines(struct gpio_chip *gc)
+ 			return ret;
+ 	}
+ 
+-	gpiochip_machine_hog_lines(gc);
+-
+ 	return 0;
+ }
+ 
+@@ -4582,42 +4547,6 @@ void gpiod_remove_lookup_table(struct gpiod_lookup_table *table)
+ }
+ EXPORT_SYMBOL_GPL(gpiod_remove_lookup_table);
+ 
+-/**
+- * gpiod_add_hogs() - register a set of GPIO hogs from machine code
+- * @hogs: table of gpio hog entries with a zeroed sentinel at the end
+- */
+-void gpiod_add_hogs(struct gpiod_hog *hogs)
+-{
+-	struct gpiod_hog *hog;
+-
+-	guard(mutex)(&gpio_machine_hogs_mutex);
+-
+-	for (hog = &hogs[0]; hog->chip_label; hog++) {
+-		list_add_tail(&hog->list, &gpio_machine_hogs);
+-
+-		/*
+-		 * The chip may have been registered earlier, so check if it
+-		 * exists and, if so, try to hog the line now.
+-		 */
+-		struct gpio_device *gdev __free(gpio_device_put) =
+-				gpio_device_find_by_label(hog->chip_label);
+-		if (gdev)
+-			gpiochip_machine_hog(gpio_device_get_chip(gdev), hog);
+-	}
+-}
+-EXPORT_SYMBOL_GPL(gpiod_add_hogs);
+-
+-void gpiod_remove_hogs(struct gpiod_hog *hogs)
+-{
+-	struct gpiod_hog *hog;
+-
+-	guard(mutex)(&gpio_machine_hogs_mutex);
+-
+-	for (hog = &hogs[0]; hog->chip_label; hog++)
+-		list_del(&hog->list);
+-}
+-EXPORT_SYMBOL_GPL(gpiod_remove_hogs);
+-
+ static bool gpiod_match_lookup_table(struct device *dev,
+ 				     const struct gpiod_lookup_table *table)
+ {
+diff --git a/include/linux/gpio/machine.h b/include/linux/gpio/machine.h
+index 44e5f162973eb6f6e85188f56ec34e1e3e2beab6..5eb88f5d0630f83b6a3a0e6727103c319e139b27 100644
+--- a/include/linux/gpio/machine.h
++++ b/include/linux/gpio/machine.h
+@@ -46,23 +46,6 @@ struct gpiod_lookup_table {
+ 	struct gpiod_lookup table[];
  };
  
--static struct gpiod_hog ams_delta_gpio_hogs[] = {
--	GPIO_HOG(LATCH2_LABEL, LATCH2_PIN_KEYBRD_DATAOUT, "keybrd_dataout",
--		 GPIO_ACTIVE_HIGH, GPIOD_OUT_LOW),
--	{},
-+static const struct software_node latch2_gpio_swnode = {
-+	.name = LATCH2_LABEL,
-+};
-+
-+static const u32 latch2_hog_gpios[] = { LATCH2_PIN_KEYBRD_DATAOUT, 0 };
-+
-+static const struct property_entry latch2_gpio_hog_props[] = {
-+	PROPERTY_ENTRY_BOOL("gpio-hog"),
-+	PROPERTY_ENTRY_U32_ARRAY("gpios", latch2_hog_gpios),
-+	PROPERTY_ENTRY_STRING("line-name", "keybrd_dataout"),
-+	PROPERTY_ENTRY_BOOL("output-low"),
-+	{ }
-+};
-+
-+static const struct software_node latch2_gpio_hog_swnode = {
-+	.parent = &latch2_gpio_swnode,
-+	.name = "latch2-hog",
-+	.properties = latch2_gpio_hog_props,
-+};
-+
-+static const struct software_node *const latch2_gpio_swnodes[] = {
-+	&latch2_gpio_swnode,
-+	&latch2_gpio_hog_swnode,
-+	NULL
- };
+-/**
+- * struct gpiod_hog - GPIO line hog table
+- * @chip_label: name of the chip the GPIO belongs to
+- * @chip_hwnum: hardware number (i.e. relative to the chip) of the GPIO
+- * @line_name: consumer name for the hogged line
+- * @lflags: bitmask of gpio_lookup_flags GPIO_* values
+- * @dflags: GPIO flags used to specify the direction and value
+- */
+-struct gpiod_hog {
+-	struct list_head list;
+-	const char *chip_label;
+-	u16 chip_hwnum;
+-	const char *line_name;
+-	unsigned long lflags;
+-	int dflags;
+-};
+-
+ /*
+  * Helper for lookup tables with just one single lookup for a device.
+  */
+@@ -95,24 +78,10 @@ static struct gpiod_lookup_table _name = {				\
+ 	.flags = _flags,                                                  \
+ }
  
- static struct plat_serial8250_port ams_delta_modem_ports[];
-@@ -684,7 +704,6 @@ static void __init ams_delta_init(void)
+-/*
+- * Simple definition of a single GPIO hog in an array.
+- */
+-#define GPIO_HOG(_chip_label, _chip_hwnum, _line_name, _lflags, _dflags)  \
+-(struct gpiod_hog) {                                                      \
+-	.chip_label = _chip_label,                                        \
+-	.chip_hwnum = _chip_hwnum,                                        \
+-	.line_name = _line_name,                                          \
+-	.lflags = _lflags,                                                \
+-	.dflags = _dflags,                                                \
+-}
+-
+ #ifdef CONFIG_GPIOLIB
+ void gpiod_add_lookup_table(struct gpiod_lookup_table *table);
+ void gpiod_add_lookup_tables(struct gpiod_lookup_table **tables, size_t n);
+ void gpiod_remove_lookup_table(struct gpiod_lookup_table *table);
+-void gpiod_add_hogs(struct gpiod_hog *hogs);
+-void gpiod_remove_hogs(struct gpiod_hog *hogs);
+ #else /* ! CONFIG_GPIOLIB */
+ static inline
+ void gpiod_add_lookup_table(struct gpiod_lookup_table *table) {}
+@@ -120,8 +89,6 @@ static inline
+ void gpiod_add_lookup_tables(struct gpiod_lookup_table **tables, size_t n) {}
+ static inline
+ void gpiod_remove_lookup_table(struct gpiod_lookup_table *table) {}
+-static inline void gpiod_add_hogs(struct gpiod_hog *hogs) {}
+-static inline void gpiod_remove_hogs(struct gpiod_hog *hogs) {}
+ #endif /* CONFIG_GPIOLIB */
  
- 	omap_gpio_deps_init();
- 	ams_delta_latch2_init();
--	gpiod_add_hogs(ams_delta_gpio_hogs);
- 
- 	omap_serial_init();
- 	omap_register_i2c_bus(1, 100, NULL, 0);
-@@ -693,6 +712,9 @@ static void __init ams_delta_init(void)
- 	platform_add_devices(ams_delta_devices, ARRAY_SIZE(ams_delta_devices));
- 
- 	platform_device_register_full(&latch1_gpio_devinfo);
-+
-+	software_node_register_node_group(latch2_gpio_swnodes);
-+	latch2_gpio_devinfo.fwnode = software_node_fwnode(&latch2_gpio_swnode);
- 	platform_device_register_full(&latch2_gpio_devinfo);
- 
- 	/*
+ #endif /* __LINUX_GPIO_MACHINE_H */
 
 -- 
 2.47.3
