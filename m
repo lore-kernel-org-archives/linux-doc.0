@@ -1,217 +1,246 @@
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB07434C802
-	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 06:47:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D7B83E5EF5
+	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 07:22:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773125267; cv=none; b=huQl0Q3DXXKYUEjdIbnUr8BLJmpuzuN7yVXs3aOgP1CtbvbBqq6Ghkzu3TjpEO2TG+s8hfZ3II0h69n5Z5bnGcMbGJCNZ7h/9lgv7WKJm2gtCoZ1A/xqTF2d5RleXKY6mEewT6Lov4zzzWH1TNwNarFu8Jj0G6XSaJOhwSdPycg=
+	t=1773127336; cv=none; b=TtzykYo1gH6JqaXqujeXnnYClZD82IdclOsxqvUeJP2TUcQ6PTGQhCO0ZSbrTFYynfUfrn4uuoauQXmmaFY4CKxEicLQcwlMj02+OGIAPh5M/KhA9V9QsfYpWzBgHH2BvHvwggS0Z2D032dX6V1WPX94lPJLVQePOUnL8/c/YCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773125267; c=relaxed/simple;
-	bh=LIXiQ58eevZKhvwQMxvCY7Hx7/LM+Yyz1vh1tUGJRk4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=fwAiL3JqcHUJL70y5dit3fJzrvaUbnVb95WjgSieemLHQABzFPp7kpDKTLAlXCGoAA8RY+AZTpR2bZ09zMcqpPcHtkUtilf0TNs9SV57w+YFz1Nc+r9Lt0jtX4LWCjtHxsAmy4VSaU5XqJwpvlsaTet71VtVC2F00C7hN2DV05g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CHMDkxcm; arc=none smtp.client-ip=209.85.210.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773127336; c=relaxed/simple;
+	bh=3wPl/p7STummudz4gDu/8803TKuECDOrkGo5XhXfE5g=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=DrzqX3lOyrqGvn//cVEBhydZo+uCM2zcLbhpO9+mZrvqiE+ew7zRp7Gsz9Rk/QanDrc2MUsNgr3shWw2+LVDggjwtdDQGUpTicNHNh9J7DV/dJIsCnGRUwBP0ltuv1qzKKkNxF/Qjua60vU7hSkUDO6lvVUgyDykuifMw5be9eQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=CpDvCTbW; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=XCWK9rIw; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CHMDkxcm"
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-7d743cd9e5bso1287455a34.2
-        for <linux-doc@vger.kernel.org>; Mon, 09 Mar 2026 23:47:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="CpDvCTbW";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="XCWK9rIw"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62A2ENxf2020551
+	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 07:22:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=dol8ejvArCi8fxJhixn/pT
+	rEdqItoDa+4yoar+GweDQ=; b=CpDvCTbWVfzzjjBdjvtU53eHfiepBYmAXeAOYL
+	SlNq1R/EA2OsMbEXSX3wyqBsSYEnGenOYiH2PbawJoGoRajGz7rdIDbXFTbeM1q+
+	vwPJimy7a7hcawJWEw/mZx/yuVolH/K5EiDY99dPhloTYLkjVi9R99WLwApko6TT
+	9sKznzJJPt0dITRhDYqpITefatXi2YiVDN1lgWfqmavTe7pLcRJ0Rub+L7+r1eNC
+	j7Lu0+72PYX8zf3NZK1/4mYsiDxdbDMhZf+yOA1oUIW+lWk9FEu0ejVbOEYXTcVm
+	cRc6AA4I5fgaGfp1JPgmHlQ9D2529ha0m+ciLiMZnZuviRdA==
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4csyhbu2ng-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 07:22:14 +0000 (GMT)
+Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2ae4a6bb316so92334795ad.1
+        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 00:22:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773125265; x=1773730065; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TfOj7sKndwZ7txCEcuOMoH8c4ZIJOpSaRVSzXZlYGws=;
-        b=CHMDkxcmsIFxBFY+iAIxVRDhHtGiEmiIxzxVLTISC5XO9Yk8VMjRYj3kWPAs+eWs8n
-         THkbHWfC4zzGLS8qNw8OoDFcwaqvimqN3ixTgpRrI/V6KjYq7ifWTFjJUwUD9IEyKVBz
-         G3JFGMe6WY3oiBsytfxn6MoiRHtLeV55pk4SWHL0X4x62bZHBa1p3FCqmIi5cbl5U28E
-         5oQ3wkbTkR7rQAgItoVvgbU1/7egyW5ldIL2fMfjZcP3J0TurljgkTedAn4PL36f3LYG
-         PbK5cP+/s6pESUbXCA1jB2qpuoPK1xBALjdY3GPcn7po0Yg3UJPpk8NP/pbqJm/0YXgG
-         I8hg==
+        d=oss.qualcomm.com; s=google; t=1773127333; x=1773732133; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dol8ejvArCi8fxJhixn/pTrEdqItoDa+4yoar+GweDQ=;
+        b=XCWK9rIwsWdI0eQBnPxu8clG8+UKvAyk9KetcSSwtD8Q8WoAFbjWjrW1kbSJG57UV7
+         rigQPFx/11oltoM6FwsKhlr24ILUjIjZ4KGEgZa6TRtwsK0RMVDxuRzkW0L8cWcoGYEI
+         sjeYnUpGkniutWAvBAsHNkWKvVKxLaeMLGfDWgy+NHMPWNlqB1JF58J9vSgGk9wQRDaD
+         7+WoHfaYmRYkaxZiXd2sWL5PqL4abQMPIvgZduDXh+ZuKzH3zfIm2e0v+H6b73nZBDn8
+         Snk9JLWcz7kB5Mx0rpgzOnyepr8G+VvEaNLDUdKAdqpc7Kpfou/T3HL0kAID2pZ+h4EN
+         ptyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773125265; x=1773730065;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=TfOj7sKndwZ7txCEcuOMoH8c4ZIJOpSaRVSzXZlYGws=;
-        b=m5hG4CpzePad3zlyWlXQDdpWS7sD8MeNflSmNJfx12LQ3Y6ZUCBuQEC24L21PUcyQZ
-         e5D5c+az88WFBw92QlSVYgQK6tYbbJRqmf7N3gACL23P6DK8Wd2Ei0A7J1liOuNfQXxu
-         XIaRlLzvGIfw+8+jtysRnC9lwiz0wNfQiSojUpwfci4acpfSTIag1NyGASuwLAbd9/Iw
-         M81CEwS/x4m9DUPnXHwZR2AFoXWDor2nFJ67PTFDyaMJxwVt+lGvHR07s+rQcRBUJQC8
-         0TZToltq4zB4o9Amd2d0JGe8AIij2YhuF9/ADy/j2gS4mnHdg6JJTUVVl1XfPgUPpEFH
-         YmEA==
-X-Forwarded-Encrypted: i=1; AJvYcCXu+5N8t0vYdHSjYrU391LZciuF62/HSy0a0x0E+rXo05UUXFLQp9laU+VSuqQ7xLMJ5IPUpwUex0o=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwWv/VEMnTrECu5AgMvVTEVUej7v71gKdIyyTRoHg95S35HT3Fg
-	Z5LD9Q0CAXCjMs7nGpewsfbswJ6w6g8an4I/L8Bv+RSKPJYgedSnmum3
-X-Gm-Gg: ATEYQzxApt103z/7c6ks+w8xa4lK/FOw9R+v/y3xwYAyPV6Rd/L8djDqRGJFEEVleuI
-	8MGP0evFmfeqiXEVmIjmBnw5KgDqcPoZWuf/mJ9TGh9oSx2GOOL92rC9f7WUAyBn7LvMMqgAXPY
-	ZH12OYw5/O+vrB7oS99x95wzgSE/xPwXcKyXfigbS9QBNETzXOShxh/W7KEMnsC5HFlprKF46op
-	ReT/+sLfr0IeaiNdJHZgWIOWS2egg7svzhpJIowaIdO5M9qb0tFECqSO2HUyFXjszjNLmIJ/edb
-	B73t7+BECp5Er1xKPbt59lpCoqAdsvNAvT78suqpr95rkSex9C8QV9ytipVXnvhdkOsI2Qd3FSp
-	/wJnB2gUu+Y5vOtQCw4U5c24MFal2v420m7ID93rMK3+5ssYvPYdrJB+inKjUPTNJRCNqGderPP
-	yhSjKqqRxsBrX1kGX7lV4su7/B873tVeBwqwe6vZel3WPfwaCLit7yLkO5fPQgAVe462qhGQHXg
-	lz+jHOm7dJ2u1ZLQX14v8vn4bnXb2XYGROegtVhDfowxun7
-X-Received: by 2002:a05:6820:996:b0:67b:b6d2:6d5c with SMTP id 006d021491bc7-67bb6d2731dmr3269623eaf.40.1773125264724;
-        Mon, 09 Mar 2026 23:47:44 -0700 (PDT)
-Received: from localhost.localdomain (108-212-132-20.lightspeed.irvnca.sbcglobal.net. [108.212.132.20])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-67bb666de5bsm2600618eaf.7.2026.03.09.23.47.43
+        d=1e100.net; s=20230601; t=1773127333; x=1773732133;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dol8ejvArCi8fxJhixn/pTrEdqItoDa+4yoar+GweDQ=;
+        b=JLZF2I2R3m6a/hw9YDrcc2hLV9np9PVseDTYzFD9YRCZlolLZX2wZZM3v4poMamsrd
+         Ax/V92B/kW600nwqCZfUwG9OHByg5ir0jRtiIzm9tNTB5ODdpYNfD+OuKIZjwxXcq1pK
+         xJhJgbF4l+uGtivgy+pRVETzvEqAFFsoeJkl7IE9CQyeI1lpL2wzb0Beheg9QJwZ6vTn
+         wCYW9GMQ0SE72RU3+ViETeWZgsXaz+kYXfspN6hQf+LgYWBvglRdMJuB+H/HN/TgEYcW
+         z2CdfOsS5/LoaoUdjQYYSRamiRnDibuy3BNuT9hv67XvB89A/540LJAYH7HiYchrGcdL
+         yn7Q==
+X-Gm-Message-State: AOJu0YwoG+uEk/JQygKdi7t2FmLlpkGbcL+JaVsUm5ZJ4G3EA+fcG0rR
+	+qRZ5A3SNwNrhoN5SvxlduYKfTcyZsllKapI/82pgC//q8J6mZnfwOp6TAejJMERwy62ytP49kt
+	wZEqS1oxG47YezKIdAYr/Zuu9dVy5P710KW1dsay2OaHxNRLkzvnhThfaGnSNQsory8IoURY=
+X-Gm-Gg: ATEYQzyhoxVPzQeFk0ZRCBQWSQXwUx2gl30+oG+kOgiq1K8TUBq5ri5DLcBhUkyv0zx
+	jQsslWjBiVP+XzGXZXOGjrP21Zyo0jVHqi5MEV/2xLstGfVoEGUfYrfK+L2k00S79lAc2o/ZJsE
+	rtFzNdkjJdPpLpmi/YQcuTlFIfSCdI696ZZiVMdDWpNXnrISonSbb800AAs7xBvkd6x8N3INhFz
+	jEYunzR7tPfJy+0wAWzgk4UmLU8isySSiaETUM/jTqbxbJZmEkJ1G+tIZWJdBYxkbbUZZKdvMFI
+	5TajxJclDW2RAynsJGqyWRqAKJukSvUShFKGiO72oHvfmwILvzhM8PfNqn1rMGTtsRoiUas9DTe
+	dhhnudnPz1y47qpsD+hmpJoxEScCnAAJH6RreOoOU9vwSqO90xoU=
+X-Received: by 2002:a17:902:e544:b0:2ae:7edc:91be with SMTP id d9443c01a7336-2ae824eb08dmr124767345ad.27.1773127333098;
+        Tue, 10 Mar 2026 00:22:13 -0700 (PDT)
+X-Received: by 2002:a17:902:e544:b0:2ae:7edc:91be with SMTP id d9443c01a7336-2ae824eb08dmr124766975ad.27.1773127332571;
+        Tue, 10 Mar 2026 00:22:12 -0700 (PDT)
+Received: from hu-batta-hyd.qualcomm.com ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ae840b2e9dsm185200325ad.85.2026.03.10.00.22.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Mar 2026 23:47:44 -0700 (PDT)
-From: Wesley Atwell <atwellwea@gmail.com>
-To: rostedt@goodmis.org,
-	mhiramat@kernel.org
-Cc: mark.rutland@arm.com,
-	mathieu.desnoyers@efficios.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	Wesley Atwell <atwellwea@gmail.com>
-Subject: [PATCH v3 2/2] tracing: drain deferred trigger frees if kthread startup fails
-Date: Tue, 10 Mar 2026 00:47:15 -0600
-Message-Id: <20260310064715.527906-3-atwellwea@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260310064715.527906-1-atwellwea@gmail.com>
-References: <20260310064715.527906-1-atwellwea@gmail.com>
+        Tue, 10 Mar 2026 00:22:12 -0700 (PDT)
+From: Kishore Batta <kishore.batta@oss.qualcomm.com>
+Subject: [PATCH v3 0/9] Qualcomm Sahara protocol enhancements.
+Date: Tue, 10 Mar 2026 12:51:57 +0530
+Message-Id: <20260310-sahara_protocol_new_v2-v3-0-994ea4b0d5ad@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJXGr2kC/32O0QqDIBSGXyW8nqGn1NrV3mOMMLMlq2zq2kb07
+ rNgd2Nw+OE7cL7/LMhrZ7RHx2RBTs/GGztGyA4JUp0crxqbJjICApxkRGAvO+lkNTkbrLJ9Nep
+ nNQPmHAqWC5GpVqB4PDndmtcuPl8id8YH6957z0y37aZkpABGCS2Bp0A5YSzHFN+M76zTaS1Dk
+ CfrfXp/yF7ZYUhjoE03w1fx96s4BEPZKJEXNdOl+mFb1/UD2azRvwYBAAA=
+X-Change-ID: 20260307-sahara_protocol_new_v2-662854773cf7
+To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+        Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+        Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>,
+        Oded Gabbay <ogabbay@kernel.org>,
+        Manivannan Sadhasivam <mani@kernel.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        mhi@lists.linux.dev, Kishore Batta <kishore.batta@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1773127328; l=5595;
+ i=kishore.batta@oss.qualcomm.com; s=20260206; h=from:subject:message-id;
+ bh=3wPl/p7STummudz4gDu/8803TKuECDOrkGo5XhXfE5g=;
+ b=R+X2+4O6wl1uLwElI8uYBmMvkmi1hAd9Y17iMHYN8I3mG2QBTSAitqo0MBz7M1syDKRvRkM11
+ bwLkwUA+HyIBLtVHaZSlIZHOcLvVHly/oznnoUyOzifKC8zILniRruO
+X-Developer-Key: i=kishore.batta@oss.qualcomm.com; a=ed25519;
+ pk=vJo8RvTf+HZpRLK2oOIljmbn9l3zFkibCGh+blaqZCw=
+X-Authority-Analysis: v=2.4 cv=Rcmdyltv c=1 sm=1 tr=0 ts=69afc6a6 cx=c_pps
+ a=IZJwPbhc+fLeJZngyXXI0A==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=lG-yCPvlEGbsawO-O7cA:9 a=QEXdDO2ut3YA:10
+ a=uG9DUKGECoFWVXl0Dc02:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzEwMDA2MCBTYWx0ZWRfXxFyHbUbHtSAw
+ TdyMqnu/bV+dZtXZCcZFI+M7oPTjXEjlEWvBbvwFsAGIKmq68xjKltl4ovHyHhGI+zR9wTA1Jl5
+ TfScBFFSweGdYD7ESEuAkcDZNmAQUZlDyO44VtPphUqIcuR/ZHQHKMN6CbYmR6Jod4LA+u0fazQ
+ ZdYD9A8ygjgYSW0uT2NZfVMXV1jO/alEf0XzL8rEC3UyGwUFv7TzlYTX6wY2rueTdMO7HAswVKg
+ oTsOpTKIA6nHtf7hNgk+vIvrZ97fYDrF8G3G3zjXeD0YLoNiBWUYTfRinDqK4KYSkz+6pf+QDLr
+ pLmnf/PQ6EQJ4Cegar12HDxFARMkMk4DBg3MEd7OUaEQNeM+F41KE4rqxvHJoq19sRM2U3hq7fN
+ UYQfOlFIIjWnn1IBUryoQmdro1tiZI8LzpkohweqMZ4tjr2ARGuqRvLj8KyoXW7mh7oMvvDCs9U
+ oG2NfdLqsbrIGebAwNw==
+X-Proofpoint-GUID: DREvvwlZkj87i1CTMO0et73HlHmUY0km
+X-Proofpoint-ORIG-GUID: DREvvwlZkj87i1CTMO0et73HlHmUY0km
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-10_01,2026-03-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 adultscore=0 suspectscore=0 spamscore=0 priorityscore=1501
+ impostorscore=0 clxscore=1015 bulkscore=0 phishscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603100060
 
-Boot-time trigger registration can fail before the trigger-data cleanup
-kthread exists. Deferring those frees until late init is fine, but the
-post-boot fallback must still drain the deferred list if kthread
-creation never succeeds.
+Hi All,
 
-Otherwise, boot-deferred nodes can accumulate on
-trigger_data_free_list, later frees fall back to synchronously freeing
-only the current object, and the older queued entries are leaked
-forever.
+This series reworks the Sahara protocol driver to make it reusable for
+multiple MHI based devices and adds support for capturing, restoring and
+exposing DDR training data using the Sahara command mode.
 
-Keep the deferred boot-time behavior, but when kthread creation fails,
-drain the whole queued list synchronously. Do the same in the late-init
-drain path so queued entries are not stranded there either.
+The Sahara protocol is transported over the MHI bus and is used by multiple
+flashless devices to transfer firmware images, retrieve memory dumps and
+exchange command mode data during early boot. However, the current
+implementation lives under the QAIC accelerator driver and contains
+device-specific assumptions that limit reuse.
 
-Fixes: 61d445af0a7c ("tracing: Add bulk garbage collection of freeing event_trigger_data")
-Signed-off-by: Wesley Atwell <atwellwea@gmail.com>
+Some MHI devices (for example, QDU100) expose the sahara protocol directly
+on a "SAHARA" MHI channel and rely on command mode to exchange DDR training
+data with the host. The existing driver does not bind to such devices and
+ignores Sahara command mode packets, causing training data to be dropped.
+
+This series addresses these issues by relocating the Sahara driver to the
+MHI subsystem, centralizing device specific configuration and adding command
+mode handling for DDR training data.
+
+Overview of the changes in this series -
+1. Move Sahara under the MHI subsystem:
+   a. Relocate the sahara protocol driver from QAIC accelerator tree to
+      drivers/bus/mhi.
+   b. Register Sahara as an independent MHI protocol driver.
+
+2. Generalize device matching and configuration
+   a. Allow the driver to bind to devices exposing the protocol on a
+      SAHARA MHI channel.
+   b. Centralize firmware image table selection at probe time using a variant
+      table, instead of scattered conditionals.
+   c. Preserve existing behavior on AIC devices.
+
+3. Add QDU100 firmware image table support
+   a. Add a QDU100 image table and select it based on the matched MHI channel.
+   b. No separate client driver or registration mechanism is required.
+
+4. Add Sahara command mode support for DDR training.
+   a. Handle command mode packets(CMD_READY, EXECUTE, EXECUTE_DATA).
+   b. Query supported commands and retrieve DDR training data from the device.
+   c. Allocate receive buffers based on the reported payload size and copy
+      raw data from the MHI DL.
+   d. Store training data in controller-scoped memory using devres so it
+      survives sahara channel teardown.
+
+5. Expose DDR training data to userspace
+   a. Add a read-only binary sysfs attribute under the MHI controller device.
+   b. The attribute reads directly from controller-scoped storage and remains
+      available after the Sahara channel device is removed.
+   c. Cleanup is handled automatically via device-managed resources.
+
+6. Document the sysfs ABI
+   a. Add ABI documentation describing the DDR training data sysfs node.
+
+Signed-off-by: Kishore Batta <kishore.batta@oss.qualcomm.com>
 ---
- kernel/trace/trace_events_trigger.c | 79 ++++++++++++++++++++++++-----
- 1 file changed, 66 insertions(+), 13 deletions(-)
+Changes in v3:
+- Dropped the explicit image table entry for the boot critical image ID and
+  added a generic image ID based firmware lookup fallback.
+- Link to v2: https://lore.kernel.org/r/20260307-sahara_protocol_new_v2-v2-0-29dc748b5e9c@oss.qualcomm.com
 
-diff --git a/kernel/trace/trace_events_trigger.c b/kernel/trace/trace_events_trigger.c
-index d5230b759a2d..428b46272ac8 100644
---- a/kernel/trace/trace_events_trigger.c
-+++ b/kernel/trace/trace_events_trigger.c
-@@ -22,6 +22,39 @@ static struct task_struct *trigger_kthread;
- static struct llist_head trigger_data_free_list;
- static DEFINE_MUTEX(trigger_data_kthread_mutex);
- 
-+static int trigger_kthread_fn(void *ignore);
-+
-+static void trigger_start_kthread_locked(void)
-+{
-+	lockdep_assert_held(&trigger_data_kthread_mutex);
-+
-+	if (!trigger_kthread) {
-+		struct task_struct *kthread;
-+
-+		kthread = kthread_create(trigger_kthread_fn, NULL,
-+					 "trigger_data_free");
-+		if (!IS_ERR(kthread))
-+			WRITE_ONCE(trigger_kthread, kthread);
-+	}
-+}
-+
-+static void trigger_data_free_queued_locked(void)
-+{
-+	struct event_trigger_data *data, *tmp;
-+	struct llist_node *llnodes;
-+
-+	lockdep_assert_held(&trigger_data_kthread_mutex);
-+
-+	llnodes = llist_del_all(&trigger_data_free_list);
-+	if (!llnodes)
-+		return;
-+
-+	tracepoint_synchronize_unregister();
-+
-+	llist_for_each_entry_safe(data, tmp, llnodes, llist)
-+		kfree(data);
-+}
-+
- /* Bulk garbage collection of event_trigger_data elements */
- static int trigger_kthread_fn(void *ignore)
- {
-@@ -56,30 +89,50 @@ void trigger_data_free(struct event_trigger_data *data)
- 	if (data->cmd_ops->set_filter)
- 		data->cmd_ops->set_filter(NULL, data, NULL);
- 
-+	/*
-+	 * Boot-time trigger registration can fail before kthread creation
-+	 * works. Keep the deferred-free semantics during boot and let late
-+	 * init start the kthread to drain the list.
-+	 */
-+	if (system_state == SYSTEM_BOOTING && !trigger_kthread) {
-+		llist_add(&data->llist, &trigger_data_free_list);
-+		return;
-+	}
-+
- 	if (unlikely(!trigger_kthread)) {
- 		guard(mutex)(&trigger_data_kthread_mutex);
-+
-+		trigger_start_kthread_locked();
- 		/* Check again after taking mutex */
- 		if (!trigger_kthread) {
--			struct task_struct *kthread;
--
--			kthread = kthread_create(trigger_kthread_fn, NULL,
--						 "trigger_data_free");
--			if (!IS_ERR(kthread))
--				WRITE_ONCE(trigger_kthread, kthread);
-+			llist_add(&data->llist, &trigger_data_free_list);
-+			/* Drain the queued frees synchronously if startup failed. */
-+			trigger_data_free_queued_locked();
-+			return;
- 		}
- 	}
- 
--	if (!trigger_kthread) {
--		/* Do it the slow way */
--		tracepoint_synchronize_unregister();
--		kfree(data);
--		return;
--	}
--
- 	llist_add(&data->llist, &trigger_data_free_list);
- 	wake_up_process(trigger_kthread);
- }
- 
-+static int __init trigger_data_free_init(void)
-+{
-+	guard(mutex)(&trigger_data_kthread_mutex);
-+
-+	if (llist_empty(&trigger_data_free_list))
-+		return 0;
-+
-+	trigger_start_kthread_locked();
-+	if (trigger_kthread)
-+		wake_up_process(trigger_kthread);
-+	else
-+		trigger_data_free_queued_locked();
-+
-+	return 0;
-+}
-+late_initcall(trigger_data_free_init);
-+
- static inline void data_ops_trigger(struct event_trigger_data *data,
- 				    struct trace_buffer *buffer,  void *rec,
- 				    struct ring_buffer_event *event)
+Changes in v2:
+- Rebased onto latest linux-next tip.
+- Reworked commit messages to clearly start with the problem being solved and
+  end with a technical description of the change.
+- Moved the Sahara driver to drivers/bus/mhi instead of drivers/soc/qcom,
+  reflecting that its an MHI protocol driver rather than a SoC specific driver.
+- Removed client side image table registration and consolidated firmware
+  selection directly in the sahara driver using a probe-time variant
+  mechanism.
+- Ensured each patch is self-contained and does not break the build or runtime
+  behavior at any intermediate point.
+- Simplified state handling and lifetime management to avoid duplicated state
+  tracking and ad-hoc cleanup.
+- Updated sysfs handling to use controller-scoped devres and avoid one-shot
+  reads or manual teardown.
+- Link to v1: https://lore.kernel.org/r/20250825101926.2160554-1-kishore.batta@oss.qualcomm.com
+
+---
+Kishore Batta (9):
+      Add documentation for Sahara protocol.
+      bus: mhi: Move sahara protocol driver under drivers/bus/mhi
+      bus: mhi: Match devices exposing the protocol on the SAHARA channel
+      bus: mhi: Centralize firmware image table selection at probe time
+      bus: mhi: Add QDU100 variant and image_id firmware fallback
+      bus: mhi: Load DDR training data using per-device serial number
+      bus: mhi: Capture DDR training data using command mode
+      bus: mhi: Expose DDR training data via controller sysfs
+      Documentation: ABI: Add sysfs ABI documentation for DDR training data
+
+ .../ABI/testing/sysfs-bus-mhi-ddr_training_data    |   19 +
+ Documentation/sahara/index.rst                     |   14 +
+ Documentation/sahara/sahara_protocol.rst           | 1241 ++++++++++++++++++++
+ drivers/accel/qaic/Kconfig                         |    1 +
+ drivers/accel/qaic/Makefile                        |    3 +-
+ drivers/accel/qaic/qaic_drv.c                      |   11 +-
+ drivers/bus/mhi/Kconfig                            |    1 +
+ drivers/bus/mhi/Makefile                           |    3 +
+ drivers/bus/mhi/sahara/Kconfig                     |   18 +
+ drivers/bus/mhi/sahara/Makefile                    |    2 +
+ drivers/{accel/qaic => bus/mhi/sahara}/sahara.c    |  601 +++++++++-
+ {drivers/accel/qaic => include/linux}/sahara.h     |    0
+ 12 files changed, 1869 insertions(+), 45 deletions(-)
+---
+base-commit: a0ae2a256046c0c5d3778d1a194ff2e171f16e5f
+change-id: 20260307-sahara_protocol_new_v2-662854773cf7
+
+Best regards,
 -- 
-2.34.1
+Kishore Batta <kishore.batta@oss.qualcomm.com>
 
