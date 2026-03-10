@@ -1,87 +1,93 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C100371CE6
-	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 23:09:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 516071D5CFB
+	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 23:34:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773184158; cv=none; b=UPnLvr801Xm1ht/gyXzA0oQ1KfzmluHHJ9esL5QmHOHyV3iNG5yC2z9KCBxsK0fyLTwlnpqM9ZgUAPME3i1FI7jyY9TXZFsk2sIvKfzgNU9rEK1EEps+22e0Obyvmk2XKMRxCQzoKp7N+EcO6JqiR7dMcFWJ7QTO7pPGWbt3sic=
+	t=1773185660; cv=none; b=dxOuaZLJyqi0cjIHY4gdvidCUY+RRT/2oWc/hYE0+p1HST2MXgrzfHYWucU97WGUsbOC9eGVJoUxD6pw5Sy1e2KMOu09TU+nTHSM9MGvr2AD28o0IgTWKomr5d6tpFvf/AT3FlAwfrkuBD30VGQ4YiKtEUK1NwCvpC7zIqaiFiE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773184158; c=relaxed/simple;
-	bh=pZ58cNGp7FiVPONqDxgEYxZYyOKBMFQVjpjV6yX9SsQ=;
+	s=arc-20240116; t=1773185660; c=relaxed/simple;
+	bh=zCDQLm/ti7Fh+tEKDvr17wEEpnNO9M6S1JIlwzo9Acs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=da6xsAbqZCUrMJUp97dkuXWkmKJNBdGg9aIc0n6tDNtpoB+4SpzPwRHzg8dOvyUzPkbjOacWHT1U16jMiGvFp4i3usdANnbrTvglMAdLSyDtayDNa7vuvll+bIdakjaFjBYH0NOisVDle9T/mhmTUKSiOV1o54LIB4yYXA4wwi4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PxKoj/ko; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=T97+lkNHguXQfs0GoMmFzr9um9XB3VYawdYj7NFJeqbBboHsXctuTWu69ifaVIZloJRv8uISUtstSrZw3RSj2HG4dBaLVmfNFVbrM6WpUP9WiVAhMu5Ffy4MxNAFCt0NccylC6lF/Nx7ja7Nf35Quf2aeuyCT9qf/KWKy2PJdRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=n6uuBTok; arc=none smtp.client-ip=209.85.222.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PxKoj/ko"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-48334ee0aeaso110058855e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 16:09:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="n6uuBTok"
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-8cd8dbf4f2eso258041685a.2
+        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 16:34:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773184156; x=1773788956; darn=vger.kernel.org;
+        d=ziepe.ca; s=google; t=1773185658; x=1773790458; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=DbJBr0HEiXYCW71Jk8MuoGm/RlPukS0X9H3Qzzqpl0U=;
-        b=PxKoj/koMG1EKEnLP8c4P1pMUdx6ABVSrlNJzSuUyQyTpQBwzVebz1TdWympwqvPCF
-         Zi+tpSjUGkRoaPVyHE+wmrFxwSETTO8tqCdg2jNljYPCxKa8Mm8pnkbupVJLQTtfcfe2
-         UPUZ7lzp7D1Y47TK4tS6gIVChDgrgwjOJb08+b93BQADN5ECHK2FTdu+WrD0LpnRZ9HR
-         JlQliJ7asZ9NzQRh1B9LlwvYOHZU0r/mStlWzu+rpoOx4eLMUybHit5q/u+Ld2VwhTdH
-         eezWmVHjvFiuKQylEQvEVLMFN2qeOfVL8GpNLvTmHt5tjpANQyD/Q6io9EQ+d0Q1R5zP
-         mz/w==
+        bh=ZsiIyQd4tPWumA9ZQMQURKCway9cLZHNLfL2p5j0zPY=;
+        b=n6uuBToksVmxqHTOnwcTLm8SqOdVqzC9hwvnG5NmSIkRODM387iQ8/SB+lOT8Ptfs7
+         AntGAIHr2j+KJKd7Ht01wP3JHYioR+yBvDmqCsxS0ZNUT/MfxjV/9iKVqU6jWGvn3FRd
+         S7jFewWF6fcI2P1pRFuDDfkRKgVTzvVxjdp0HaNP0zGhB+xerwfmKufsEJ37kdXXGPaa
+         L84tACDnV+c6YuNSiEucEikNCfCd1GAteMIYcxM7lzkcrrj1/3QbYYdvDNNIEfwaYc81
+         8qiLskG8qTIoCan1P8afsUeS7SOEGHdb8kkMe3+/G8joQgBS/Im9O8htDcO36Lu65AaN
+         NtxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773184156; x=1773788956;
+        d=1e100.net; s=20230601; t=1773185658; x=1773790458;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=DbJBr0HEiXYCW71Jk8MuoGm/RlPukS0X9H3Qzzqpl0U=;
-        b=qMgNklLxc6+FrNAyP63SdivHA1rehc/jB897giqZM/C//fMM6xZOmxIviZdloVqFlu
-         4S5yJasPqgXUs85BcywBgiUcWW7gUUTgoZo34qd5P/sAxk+7ZDV8UCJSyaKdSBXSy2pe
-         GfxoImdWrA/ib6skKp13+v9Un4mqtnZQq6iEasW6/DZvMO1GMCc4AfIgsbz9Zo7Mhzol
-         THMMxvBISOj6OuXLlyc0ug/zGws3Dfrg4/t59VOgyprEVrYZFKPGQ5aEbDRYQr8pTus7
-         Km4On2WTlmDiGYud+I9eebDoArz0Kp6PEgnY22+iD8MzjVS+6v10W0lFR1PNc/nsGCPq
-         taNA==
-X-Forwarded-Encrypted: i=1; AJvYcCU2C3eyFtcFJghruV/j/U30zyBqbT4Ue9TtvvYSa1T3Yiw7y06Bf+1sC5YNRc21vvxXAmAocFUGtlE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyceYk6JsMqy7JXxVdDuRTXC4OkAVHOnwmF/TSboFMt/r6It36T
-	7yJpL6qQsgmdo4NVoHMSDLZFMYtNLg3nBnZPJbIo/TNw5+UHbu7UB2Bt
-X-Gm-Gg: ATEYQzwpwVHW6YiRcYt6oA504ocnmo8yKbkmZfRLTKXDxJnxuZTY/sKAAXgBwkYVzui
-	TftRxenFCLd0wOuE3FBOAn1oFer//O6Ns27u84byxbcjqLOXHYErOaafFo2ni/85MPMVUDybzvx
-	84z1IvGpCrGB/d9qg08cKBr6bfWY31uq09OUhv/S0TJgTLe5zDJWwsyrsvUBuQgZVeBTUSXS+LG
-	5scvoqaCl1Stb84b2gZTbn//C3J8tV9xBWftSGXY8cNkO5skN+M7zVLisz5hwHZHPE12IqC3GYR
-	hZ6wsYRt+8s7JS/LgmZeK6WM3CKajtgydk1XS9s1tBixSFItPwUajCaL1Ky/M/UxnofNdzor2no
-	Hzv1ovBuAsxppXlI9RbejYQXspIW2KXfpaaJATDyHfh5E2XYG3EX3E8z/S6dWUBqnLAzvmacFZ2
-	sR0Rjw8c5gjMptrQd0VD5Yp/8bQxFGcJE/HV4jk4JC79MUqhBb4maIsCxlnjnq5A==
-X-Received: by 2002:a05:600c:4710:b0:485:3b00:f939 with SMTP id 5b1f17b1804b1-4854b0bafa5mr8549225e9.8.1773184155268;
-        Tue, 10 Mar 2026 16:09:15 -0700 (PDT)
-Received: from gandalf.schnuecks.de (p5b2e2ef5.dip0.t-ipconnect.de. [91.46.46.245])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4854a18bcf4sm11438625e9.0.2026.03.10.16.09.14
+        bh=ZsiIyQd4tPWumA9ZQMQURKCway9cLZHNLfL2p5j0zPY=;
+        b=cyjBxXJ8L706ucYggDI9GXjDmGVSXpKK1/kVklqwk5pALSTSWD/mOhgUBeepEhodfL
+         MbZN0joi6emDcbGJYzOzfKg50wDjrPLGeJ8bKaLe8/jfZdYjrPNX8XNczI+7rhpgog58
+         RvL/xGjK8Gj5H030l5/JL/hIQm93ps26+y5VIGlITW+/Ze1KBy445IDbXSYsrjUC9FyA
+         UNfVI6uOfddJFkbU3FHFGLtvVnpDXu8WSQ0w2Rvwk0MSw87b0Gzvp8lr2c9RHW2nRy0B
+         HiTq9yPLGfpcOolV0S5jDBknsYaxNk+JiZeOG0LpTy3e1XGMUp/+hrWSYRj32hYKpVS8
+         k2Dw==
+X-Forwarded-Encrypted: i=1; AJvYcCWC4y84iWsqvTejbBgcpcXtPq5P9rGahmVbiy5wNS2Yzc7T3166m7BG6au3pHi9k7lvU7b2Q/x7yXg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyq/VAyJJ7kuR+2+73FLLkmOXBRFtypUeM/JVIAVqZBr9xNZ9Tl
+	3LEHm+S1MHtXJ6oieoziRoF6h8dapfgkWcPpjp7gahGSqOYJP1yRt5IK/YX93w1R6LY=
+X-Gm-Gg: ATEYQzyhLLyvFPSz2ir/szY0D30Plaeu/Rd2DnxZ60q2cky9pznEULg6yPPdp+d9X3b
+	WjmxgF4mQjV8nkQtQH73fGaXJk7+tjMcetWwMulgazR5aTm35RZfEHTdWRgMc4xOafcDyMT79vg
+	H9MkQS2tlzymMszFGsvQDgJKqxd1CU2XEoGqr/zJ36y6Umx2RbPxwJj8yQQY+Oa+NkwGviMI1s9
+	+N/dUzOADQAaoRVJMXTb6kzhDcpEOsXlnlT8OI67rbOjLqDmxLWFeT/G+7ojK6SHvGlVpMcF/og
+	YoqvXXC8Jh1qtljiRXZlENVQAg22M8HLcu5a3zShwBGYzkxnjYYEGzHdmdWv+01p6hu0gBgwLCb
+	qyUdGRrJSm+CYvVPt8GlfEv22rlfEC/Ep0xtGaT7tpGg8N7xmJ+diW7NCJfb+l+FIG2x/gXpoP/
+	bGkZ563qFEjWtrXBE+Lb/NurojoJWpmyTzDa/cK1Zl8VrDTumCMNZKRIxIMlk/X2V9SUVAgyK8j
+	9SP+rtb
+X-Received: by 2002:a05:620a:3941:b0:8cd:982d:4101 with SMTP id af79cd13be357-8cda1a28be2mr93012785a.27.1773185658222;
+        Tue, 10 Mar 2026 16:34:18 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.112.119])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cda1fd6325sm24946085a.11.2026.03.10.16.34.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2026 16:09:14 -0700 (PDT)
-Received: by gandalf.schnuecks.de (Postfix, from userid 500)
-	id 390E7302C898; Wed, 11 Mar 2026 00:09:14 +0100 (CET)
-Date: Wed, 11 Mar 2026 00:09:14 +0100
-From: Simon Baatz <gmbnomis@gmail.com>
-To: Eric Dumazet <edumazet@google.com>
-Cc: Neal Cardwell <ncardwell@google.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Tue, 10 Mar 2026 16:34:17 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1w06ae-000000064gS-3fKz;
+	Tue, 10 Mar 2026 20:34:16 -0300
+Date: Tue, 10 Mar 2026 20:34:16 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Leon Romanovsky <leon@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Petr Tesarik <ptesarik@suse.com>, Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	David Ahern <dsahern@kernel.org>, Jon Maloy <jmaloy@redhat.com>,
-	Jason Xing <kerneljasonxing@gmail.com>, mfreemon@cloudflare.com,
-	Shuah Khan <shuah@kernel.org>, Stefano Brivio <sbrivio@redhat.com>,
-	Matthieu Baerts <matttbe@kernel.org>,
-	Mat Martineau <martineau@kernel.org>,
-	Geliang Tang <geliang@kernel.org>, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, mptcp@lists.linux.dev
-Subject: Re: [PATCH net-next v3 6/6] selftests/net: packetdrill: add
- tcp_rcv_neg_window.pkt
-Message-ID: <abCkmiCSPkmxzECa@gandalf.schnuecks.de>
-References: <20260309-tcp_rfc7323_retract_wnd_rfc-v3-0-4c7f96b1ec69@gmail.com>
- <20260309-tcp_rfc7323_retract_wnd_rfc-v3-6-4c7f96b1ec69@gmail.com>
- <CANn89i+PypF1cK4mnp8L_eCG_z+3Aj6uxJoohm_=DwGfR1=4FA@mail.gmail.com>
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
+	iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, virtualization@lists.linux.dev,
+	linux-rdma@vger.kernel.org
+Subject: Re: [PATCH 2/3] dma-mapping: Clarify valid conditions for CPU cache
+ line overlap
+Message-ID: <20260310233416.GT1687929@ziepe.ca>
+References: <20260308184902.GR12611@unreal>
+ <20260308230916.GI1687929@ziepe.ca>
+ <CGME20260309090352eucas1p283a75c78cac495b5ad87df74c79aab07@eucas1p2.samsung.com>
+ <20260309090342.GS12611@unreal>
+ <c1d058f3-f864-4ed7-9f7a-683d6f4bf1ce@samsung.com>
+ <20260309150502.GX12611@unreal>
+ <20260309151356.GN1687929@ziepe.ca>
+ <aaebc5b6-2805-46d3-a68e-549c26a3ef03@samsung.com>
+ <20260310123405.GR1687929@ziepe.ca>
+ <a61f8814-b896-4ec0-bb83-a8cbd8aca4e8@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -90,73 +96,37 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CANn89i+PypF1cK4mnp8L_eCG_z+3Aj6uxJoohm_=DwGfR1=4FA@mail.gmail.com>
+In-Reply-To: <a61f8814-b896-4ec0-bb83-a8cbd8aca4e8@samsung.com>
 
-Hi Eric,
-
-On Tue, Mar 10, 2026 at 09:54:58AM +0100, Eric Dumazet wrote:
-> On Mon, Mar 9, 2026 at 9:03???AM Simon Baatz via B4 Relay
-> <devnull+gmbnomis.gmail.com@kernel.org> wrote:
-> >
-> > From: Simon Baatz <gmbnomis@gmail.com>
-> >
-> > The test ensures we correctly apply the maximum advertised window limit
-> > when rcv_nxt advances past rcv_mwnd_seq, so that the "usable window"
-> > is properly clamped to zero rather than becoming negative.
-> >
-> > Signed-off-by: Simon Baatz <gmbnomis@gmail.com>
-> > ---
-> >  .../net/packetdrill/tcp_rcv_neg_window.pkt         | 26 ++++++++++++++++++++++
-> >  1 file changed, 26 insertions(+)
-> >
-> > diff --git a/tools/testing/selftests/net/packetdrill/tcp_rcv_neg_window.pkt b/tools/testing/selftests/net/packetdrill/tcp_rcv_neg_window.pkt
-> > new file mode 100644
-> > index 0000000000000000000000000000000000000000..15a9b4938f16d175ac54f3fd192ed2b59b0a4399
-> > --- /dev/null
-> > +++ b/tools/testing/selftests/net/packetdrill/tcp_rcv_neg_window.pkt
-> > @@ -0,0 +1,26 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +
-> > +--mss=1000
-> > +
-> > +`./defaults.sh`
-> > +
-> > +// Establish a connection.
-> > +   +0 socket(..., SOCK_STREAM, IPPROTO_TCP) = 3
-> > +   +0 setsockopt(3, SOL_SOCKET, SO_REUSEADDR, [1], 4) = 0
-> > +   +0 setsockopt(3, SOL_SOCKET, SO_RCVBUF, [20000], 4) = 0
-> > +   +0 bind(3, ..., ...) = 0
-> > +   +0 listen(3, 1) = 0
-> > +
-> > +   +0 < S 0:0(0) win 32792 <mss 1000,nop,wscale 7>
-> > +   +0 > S. 0:0(0) ack 1 win 18980 <mss 1460,nop,wscale 0>
-> > +  +.1 < . 1:1(0) ack 1 win 257
-> > +
-> > +   +0 accept(3, ..., ...) = 4
-> > +
-> > +// A too big packet is accepted if the receive queue is empty
-> > +   +0 < P. 1:20001(20000) ack 1 win 257
+On Tue, Mar 10, 2026 at 10:08:38PM +0100, Marek Szyprowski wrote:
+> On 10.03.2026 13:34, Jason Gunthorpe wrote:
+> > On Tue, Mar 10, 2026 at 10:45:38AM +0100, Marek Szyprowski wrote:
+> >> Jason is right. Indeed the rdma/uverbs case needs some extension to
+> >> ensure that the coherent mapping is used, what is not possible now. This
+> >> however doesn't mean that the DMA_ATTR_CPU_CACHE_OVERLAP is not needed
+> >> for that use case too. I'm open to accept both. The only question I have
+> >> is which name should we use? We already have DMA_ATTR_CPU_CACHE_CLEAN,
+> >> while DMA_ATTR_CPU_CACHE_OVERLAP and
+> >> DMA_ATTR_DEBUGGING_IGNORE_CACHELINES were proposed here. The last seems
+> >> to be most descriptive.
+> > If we do DMA_ATTR_REQUIRE_COHERENCE then I imagine it would internally
+> > also set DMA_ATTR_DEBUGGING_IGNORE_CACHELINES, but I'd prefer that
+> > detail not leak into the callers.
 > 
-> We do not see the answer, it seems this test is not complete ?
+> Why DMA_ATTR_REQUIRE_COHERENCE should imply 
+> DMA_ATTR_DEBUGGING_IGNORE_CACHELINES?
 
-Actually we do not want to see an answer.  The packet won't trigger
-an immediate ACK (it is larger than the advertised window, but does
-not cause immediate memory pressure).
+AFAICT the purpose of the DMA API debugging cacheline tracking is to
+ensure that drivers are mapping things properly such that the cache
+flushing in incoherent systems can properly cache flush them without
+creating bugs (ie a dirty line overwriteing DMA'd data or something).
 
-When we then send a RST before the delayed ACK would be generated:
- 
-> > +// Send a RST immediately so that there is no rcv_wup/rcv_mwnd_seq update yet
-> > +   +0 < R. 20001:20001(0) ack 1 win 257
+If the mapping is REQUIRE_COHERENCE then it is prevented from running
+on systems where these cache artifacts can cause corruption, so we
+don't need to track them and we don't need the strict restrictions on
+what can be mapped.
 
-We are in a state where rcv_wup, rcv_wnd, and rcv_mwnd_seq have not
-been updated yet, but we must still accept the RST 
-(rcv_nxt == 20001 > rcv_mwnd_seq, tcp_max_receive_window() == 0)
+Which trips up and gives false positives for cases like RDMA, DRM, etc
+that are allowing userspace to multi-map userspace memory.
 
-> > +
-> > +  +.1 %{ assert tcpi_state == TCP_CLOSE, tcpi_state }%
-
-And we verify that we accepted the RST here.
-
-Given how subtle this sequence is, and considering the limited value
-of this test, I am also fine with dropping it if it is too fragile or
-confusing.
+Jason
