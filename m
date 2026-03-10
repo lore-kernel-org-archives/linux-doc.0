@@ -1,110 +1,181 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6D5A2E9730;
-	Tue, 10 Mar 2026 01:05:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4F05238C1F
+	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 01:06:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773104740; cv=none; b=rqFP4bRs5SBTo8foGATfrHTaiEYOWM1G3bTgO4JTe4EZagfLtgiRzjshsimpBnC2zQ8Mwhw6brTsPjQgpUHhHbkmQ4wmI+JNTdRMs6RPC1PfG2YfzFOrXmy7lSdEW4iktwWiJGJO/jUcXwIRVU/vif08+TzErai6bvYzsNPbw9w=
+	t=1773104781; cv=none; b=SeUWZYay58IGEPQJ7YdRfAs+EhJ+tyvJU+tQMLBTpo00kM94AGmABWB42jY8b1CBQCROALARJZ56jnH4PzaGwDbr9ZvO1iPzWxOydiZ4iGlivED1D+of5qeYFlVX3BO1CrpgOgp8Yfg7UEu6sOU2B6FqubQ0LwgidFE9BAxSihM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773104740; c=relaxed/simple;
-	bh=8g5RM84PzzTOH9XhkrAPhPyfvWGkJhpn6rsV5ukGTjU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KiZu7cSZJi3QJuQz+X/8konwTMf3zpPeqpgBub8PSv95m2f1omxP5VXS7IUStz17AbUh2aG1x/2iX5hmh9OgUQmr3p3weGGISbiyhWaHCH7PbgT7zYt0hs6P4qqsXW6UPJUGvnTVIf7kYJ21BNdOFm2rr6j7k8qcPU5K9p6oO1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gBwjHDJb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773104781; c=relaxed/simple;
+	bh=Ps/B2Z4YbD6//yK0FTkoaGlvSB+kH3TEFIAsJhiHCps=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=o8YI16aVnp076yEGth3yjizkIsfhQyyFcG5bTeAWZ/qg5cST2vpG9jXEOaTNSSzVSmFHX4Bhm4jz9ssQWxSQMUBCjCsCSJty6ujUZ6T0EeZnyjBz/UbTsoMXCgmUgyOtE4ZkUd8Cidj1mY2d8tdXuu3IhUvjdpYD0UOAcjgvDl4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=YCdCasmV; arc=none smtp.client-ip=209.85.210.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gBwjHDJb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21F16C2BCB0;
-	Tue, 10 Mar 2026 01:05:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773104740;
-	bh=8g5RM84PzzTOH9XhkrAPhPyfvWGkJhpn6rsV5ukGTjU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=gBwjHDJb5FNMs4+6fg//+BneuH8gokx0udvi/q2s3S9GwqombT+uPVubEw41mquHE
-	 UuxckTAdvSweLAQLwEUFz5Ryfw6r0J3YtrYe6dR3C9GSzp1EbGMaTIBNtKUS90y/wa
-	 /X4w8R210/TNxc1imAGaUtgPWt4VkMELhjnNx+spUf/N0CWxP5mez3pGE7o63VHpsx
-	 TQRXaUY2jRdnYMoNYStNFqNCI2bRb5vQteR3qBhrUoHXnQdoh/CK8yY7lnAaJy2PAn
-	 p1G9XxX2JdLXPjRQoFBxyurqvS9jXtpTn+gXn4EhdDl5cLfyWweNFv1TOEY7c7iHM/
-	 3/l4Cc3Avg+NA==
-From: SeongJae Park <sj@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: SeongJae Park <sj@kernel.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	David Hildenbrand <david@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	damon@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [PATCH 06/11] Docs/admin-guide/mm/damon/usage: document goal_tuner sysfs file
-Date: Mon,  9 Mar 2026 18:05:22 -0700
-Message-ID: <20260310010529.91162-7-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260310010529.91162-1-sj@kernel.org>
-References: <20260310010529.91162-1-sj@kernel.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YCdCasmV"
+Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-8299499d582so12414687b3a.2
+        for <linux-doc@vger.kernel.org>; Mon, 09 Mar 2026 18:06:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1773104779; x=1773709579; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=O/pJjCJQTxqUtKgBQ/nXqQmMajRmz8+Q8yoKiNddz8s=;
+        b=YCdCasmVb7hZfq0q1E7i+qOoXnasgWLJJCsBBBY3YhG6VdJ8x7uczFdesdQ3nn8LOa
+         OY/D8zVdl9Oe+HR16c8hwj103vyW5gjGU+RoRZcM5FjGlPWsq6ajc1GDMaPOe+TIqMrq
+         9sl+AGcfoqQnQ5YChJNxrXlOZnaXQ0RKHCMZJHuk352zQB8ryB+sJVN3mYuzLcay90op
+         UOZbqfyDE3cMRnZUKOOHW1QokP2iq4WajIo6Eh/BtfHiV5Eh13r4Ngc/zMLRbHPzEZKI
+         1T4AR4tzXKXeHyTQa9TigT+I1vfqiWEWB3Lbd2shUhCEiUw1vjAqMhBddiC/9FD1pzbi
+         Qe8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773104779; x=1773709579;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=O/pJjCJQTxqUtKgBQ/nXqQmMajRmz8+Q8yoKiNddz8s=;
+        b=TJRdbYTSmzlN8py7K2Qj/REcsdSo++jMaZXJhAJNmmblq33e2SkmAcTQmXHMXWgjfd
+         LG4LgRXxABLAX636PmiQzfNJ44YKg7ZQXX63NdSuBLUME+/LAqttDVAsCyPSQbhXm/Va
+         o2YXgSxdJsTV6F3vdqWzT9HS8ijVgZbSqRdAqksmUS7Yc618MXL5Q3bmu3UpnXa5ohWy
+         O+qkvHVOtCkmbtDmsAzBsEWiasZhOfT2gvCu6z0Oy7FRsTiAk90QIXBEJ0srHOODEGjA
+         hhYrzg1mIwQBHF4xUpZ0u7nAHB3KGGzYju6hk4QxxYhhHaNp4Buk8a5L+ev7AcgKQ1KT
+         CSDw==
+X-Forwarded-Encrypted: i=1; AJvYcCVCzq+7kQ8d9Z0DNfeqswaJHe1KbnAUxPXMlvJS8do0hOugmFEkyqCK2GBfIgZQO4WF2K6oiSpUS20=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxLTskY1KwqoQXOvehePBUTzHR8uVoWEK/XxN/VvRu2Fw1IebwQ
+	/rj8kxw43UxiISu0PCOXRi0mnUSv52dCXCy2LVlqJz9eBtPlAvpSrVXFG9/0DDSyZ+XdEBJAJgw
+	IBYu39A==
+X-Received: from pfld9.prod.google.com ([2002:a05:6a00:1989:b0:7dd:8bba:6393])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:3d98:b0:827:3307:170
+ with SMTP id d2e1a72fcca58-829a2eaad00mr8915615b3a.37.1773104779156; Mon, 09
+ Mar 2026 18:06:19 -0700 (PDT)
+Date: Mon, 9 Mar 2026 18:06:17 -0700
+In-Reply-To: <20260309-gmem-st-blocks-v3-2-815f03d9653e@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+References: <20260309-gmem-st-blocks-v3-0-815f03d9653e@google.com> <20260309-gmem-st-blocks-v3-2-815f03d9653e@google.com>
+Message-ID: <aa9uiQ_KBcX7X0My@google.com>
+Subject: Re: [PATCH RFC v3 2/4] KVM: guest_memfd: Set release always on
+ guest_memfd mappings
+From: Sean Christopherson <seanjc@google.com>
+To: Ackerley Tng <ackerleytng@google.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	rientjes@google.com, rick.p.edgecombe@intel.com, yan.y.zhao@intel.com, 
+	fvdl@google.com, jthoughton@google.com, vannapurve@google.com, 
+	shivankg@amd.com, michael.roth@amd.com, pratyush@kernel.org, 
+	pasha.tatashin@soleen.com, kalyazin@amazon.com, tabba@google.com, 
+	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 
-Update the DAMON usage document for the new sysfs file for the goal
-based quota auto-tuning algorithm selection.
+On Mon, Mar 09, 2026, Ackerley Tng wrote:
+> Set release always on guest_memfd mappings to enable the use of
+> .invalidate_folio, which performs inode accounting for guest_memfd.
+> 
+> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+> ---
+>  virt/kvm/guest_memfd.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
+> index 77219551056a7..8246b9fbcf832 100644
+> --- a/virt/kvm/guest_memfd.c
+> +++ b/virt/kvm/guest_memfd.c
+> @@ -607,6 +607,7 @@ static int __kvm_gmem_create(struct kvm *kvm, loff_t size, u64 flags)
+>  	mapping_set_inaccessible(inode->i_mapping);
+>  	/* Unmovable mappings are supposed to be marked unevictable as well. */
+>  	WARN_ON_ONCE(!mapping_unevictable(inode->i_mapping));
+> +	mapping_set_release_always(inode->i_mapping);
 
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- Documentation/admin-guide/mm/damon/usage.rst | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
+*sigh*
 
-diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-index b0f3969b6b3b1..534e1199cf091 100644
---- a/Documentation/admin-guide/mm/damon/usage.rst
-+++ b/Documentation/admin-guide/mm/damon/usage.rst
-@@ -83,7 +83,7 @@ comma (",").
-     │ │ │ │ │ │ │ │ sz/min,max
-     │ │ │ │ │ │ │ │ nr_accesses/min,max
-     │ │ │ │ │ │ │ │ age/min,max
--    │ │ │ │ │ │ │ :ref:`quotas <sysfs_quotas>`/ms,bytes,reset_interval_ms,effective_bytes
-+    │ │ │ │ │ │ │ :ref:`quotas <sysfs_quotas>`/ms,bytes,reset_interval_ms,effective_bytes,goal_tuner
-     │ │ │ │ │ │ │ │ weights/sz_permil,nr_accesses_permil,age_permil
-     │ │ │ │ │ │ │ │ :ref:`goals <sysfs_schemes_quota_goals>`/nr_goals
-     │ │ │ │ │ │ │ │ │ 0/target_metric,target_value,current_value,nid,path
-@@ -377,9 +377,9 @@ schemes/<N>/quotas/
- The directory for the :ref:`quotas <damon_design_damos_quotas>` of the given
- DAMON-based operation scheme.
- 
--Under ``quotas`` directory, four files (``ms``, ``bytes``,
--``reset_interval_ms``, ``effective_bytes``) and two directories (``weights`` and
--``goals``) exist.
-+Under ``quotas`` directory, five files (``ms``, ``bytes``,
-+``reset_interval_ms``, ``effective_bytes`` and ``goal_tuner``) and two
-+directories (``weights`` and ``goals``) exist.
- 
- You can set the ``time quota`` in milliseconds, ``size quota`` in bytes, and
- ``reset interval`` in milliseconds by writing the values to the three files,
-@@ -390,6 +390,14 @@ apply the action to only up to ``bytes`` bytes of memory regions within the
- quota limits unless at least one :ref:`goal <sysfs_schemes_quota_goals>` is
- set.
- 
-+You can set the goal-based effective quota auto-tuning algorithm to use, by
-+writing the algorithm name to ``goal_tuner`` file.  Reading the file returns
-+the currently selected tuner algorithm.  Refer to the design documentation of
-+:ref:`automatic quota tuning goals <damon_design_damos_quotas_auto_tuning>` for
-+the background design of the feature and the name of the selectable algorithms.
-+Refer to :ref:`goals directory <sysfs_schemes_quota_goals>` for the goals
-+setup.
-+
- The time quota is internally transformed to a size quota.  Between the
- transformed size quota and user-specified size quota, smaller one is applied.
- Based on the user-specified :ref:`goal <sysfs_schemes_quota_goals>`, the
--- 
-2.47.3
+So... an internal AI review bot flagged setting AS_RELEASE_ALWAYS as being
+potentially problematic, and I started poking around, mostly because I was
+curious.  I'm pretty sure the exact scenario painted by the bot isn't possible,
+but I do think a similar issue exists in at least truncate_error_folio().  Or at
+least, *should* exist, but doesn't because of a different bug.
+
+On memory error, kvm_gmem_error_folio() will get invoked via this code.  Note
+the "err != 0" check.  kvm_gmem_error_folio() returns MF_DELAYED, which has an
+arbitrary value of '2', and so KVM is always signalling "failure".
+
+		int err = mapping->a_ops->error_remove_folio(mapping, folio);
+
+		if (err != 0)
+			pr_info("%#lx: Failed to punch page: %d\n", pfn, err);
+		else if (!filemap_release_folio(folio, GFP_NOIO))
+			pr_info("%#lx: failed to release buffers\n", pfn);
+
+I _think_ that's bad?  On x86, if I'm following the breadcrubs correctly, we'll
+end up in this code in kill_me_maybe()
+
+	pr_err("Memory error not recovered");
+	kill_me_now(cb);
+
+and send what I assume is a relatively useless SIGBUS and likely kill the VM.
+
+	struct task_struct *p = container_of(ch, struct task_struct, mce_kill_me);
+
+	p->mce_count = 0;
+	force_sig(SIGBUS);
+
+But even if that's somehow the "right" behavior, we're doing it purely by
+accident.
+
+As for this patch, if we fix that bug by returning 0, then filemap_release_folio()
+is definitely reachable by at least one flow, so I think guest_memfd also needs
+to implement release_folio()?
+
+
+    
+Full AI bot text:
+--
+Setting the AS_RELEASE_ALWAYS flag causes folio_needs_release() to return
+true. This correctly triggers .invalidate_folio during truncation, but does
+it also unintentionally expose guest_memfd folios to eviction via
+posix_fadvise(POSIX_FADV_DONTNEED)?
+
+If userspace calls posix_fadvise() on a guest_memfd file, the core mm
+calls mapping_evict_folio(). Because folio_needs_release() is true, it
+calls filemap_release_folio().
+
+Since guest_memfd does not implement a .release_folio address space
+operation, filemap_release_folio() falls back to calling
+try_to_free_buffers(). Could this fallback cause a warning?
+
+fs/buffer.c:try_to_free_buffers() {
+	...
+	/* Misconfigured folio check */
+	if (WARN_ON_ONCE(!folio_buffers(folio)))
+		return true;
+	...
+}
+
+Because the guest_memfd folio has no private data, folio_buffers()
+is NULL, which will trigger this WARN_ON_ONCE.
+
+Furthermore, try_to_free_buffers() returns true, allowing the folio to be
+removed from the page cache. Because this eviction path bypasses
+truncate_cleanup_folio(), it never calls .invalidate_folio.
+
+Does this mean inode_sub_bytes() is skipped, leaking the inode block
+accounting?
+
+Userspace could potentially trigger the warning and infinitely inflate the
+inode's block count with:
+    struct kvm_create_guest_memfd args = { .size = 4096 };
+    int fd = ioctl(kvm_vm_fd, KVM_CREATE_GUEST_MEMFD, &args);
+    fallocate(fd, 0, 0, 4096);
+    posix_fadvise(fd, 0, 4096, POSIX_FADV_DONTNEED);
+Should guest_memfd implement a .release_folio callback that simply
+returns false to prevent these folios from being evicted?
+--
