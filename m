@@ -1,232 +1,321 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out28-98.mail.aliyun.com (out28-98.mail.aliyun.com [115.124.28.98])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D26BE3ED119
-	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 11:55:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773143720; cv=pass; b=iWrwEtnQrTYxKbkgj0jSgeVp887hTAIEo/S3aUOYfbNZ/Ksg10x1XtMAw5qAWb/kBFjeTQD/evtsLPj2zzeyFROFaIigRMdheFexpzbfCtzpWIiNG2RZbcy6YFlGhAdHDVvCNUu/HuxJf53CSueSBTVMR//ecDo0sOjNEfsWr9M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773143720; c=relaxed/simple;
-	bh=KJ34G7jXVW6vaVlUYzHj+z8DcGKlvG+6o58Yti9Gnh4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AYDZeKD9819l6gVmeYxqzRBBgmtgTuPdokfN+a8dbsNFHLbVJS1fJn+DLHT5CWyCUCoVknhoWPz9Ur0Pxpacz6PnzUTIHT/oN74oZcQopGL/JGpTljwcEs1HYQqun+WMY0Qfh18S5eDXdlxmmL9m+0AV86p0sgI6/LY7LCKCqsQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X6wKgHzv; arc=pass smtp.client-ip=209.85.167.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X6wKgHzv"
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-59e4989dacdso7260191e87.1
-        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 04:55:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773143717; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Q3I6y3/9AkKUGlH37g/Ai9hTm8+yxNMmJX5W33luB8v+rqNRmqFJoNOPvY0JO3ZdhJ
-         g1C48Rke0f4Aj3yUqZeAa6qQeNq81KSgvv0aRVcCXmCe7A9b9oQHWeT9oCFQqgdkp2B8
-         1rPFuhByPlF4xm49/xPMxw1WxIMnpZorpNZc8fHjZGM7bIb0K7qnzriJ+f2enwZHWRrb
-         NKyZYB9iOMIGzSmUqTCj8l/1frBkOCD5zTD5ONq65z49bp8xoEWkGKRhyIrDGaULcUih
-         QS+AI7A0t7VXGIv4NM57Cbj526gpKAdWlLAnVEMR8qGbzw3JbAoCoYt0bk8kNhD/P3ZT
-         0SFg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=W70+Vn6PejFfPeY6VWdAiMcWtVOjKl21UuQnq+3EYxE=;
-        fh=o4Fr+v7yCrSDQSuVt4m0avWf7NSlNikT9SU+5iVEIRY=;
-        b=bjyVYMfPgHL4voAaJyovidBy9nmG9X88xBzaEsBi975Bp+tKjURkYn2iScbwHsw883
-         715kCEE8chvVNptYpXBI9wUvJ4x9FHYml3zntc4bWYEhy4np5ALlXuCGevhUo3xEvrSP
-         jtIOWwnZd3rl/8SGcJV+DVkqjefwkoJLicMpLA0QEiNSUSgZ5qhAjLehzxiurABpRFrC
-         WltzP1TCG+a5P5hec8bs6JtX3TMefhJeuPS0YRqh6EkAmpmihF001ESSy4MYEu+Wl1ah
-         e/Au9N/tZSc/hanzGJsQjmdmoOTQk/KMOXMj55Q5cMHIGs2sO0IPeWaX6UYarYDN78YF
-         KH5Q==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773143717; x=1773748517; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=W70+Vn6PejFfPeY6VWdAiMcWtVOjKl21UuQnq+3EYxE=;
-        b=X6wKgHzvGfZjbb1VVXQ4DqgxIlVZOJBD9U1LIvi4mW/O5C0P62KEy9HGblhr0BMtAM
-         npdmJAQ9sUaSzeKYQ1R7qXnh++b6/ua7hVl4hFVp1dmMq8r0++Oqq097Q+rF1V+u8b9f
-         otHVbs4H/CtAwLry9pjvlj4kY9oYBtNTzCy+mYpoBhik9xRHRdfm60SKlML/GENR9IM4
-         0BfEP69xzxRmg967Xb0piwhVLFux37sZJGAPweJxGVy4HgQqwuCrKwgyKqaSdxhMgwXH
-         5173A89GAwer+msqJZPK8tcuJETMTkmYKmMTjILAFDieO4nk2vyjiSx06I3cHXOR3ytA
-         0/QQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773143717; x=1773748517;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=W70+Vn6PejFfPeY6VWdAiMcWtVOjKl21UuQnq+3EYxE=;
-        b=iJ9+r90nDT2jXIFSYmwIcpLKp79AfJLJpkPDUnsuRNsySNHVh4TT8mq0tjmOBBPK3G
-         suwGocaHNRIJxZ1Krk4T51+KYcIZsq53pC+/2zpFYH9sRZQ3OLPpb6CAgudNFs7i3taL
-         MwaqgnzqL9thek1uh+24ddbtKf/QLmgPK72juJnyCSWV1MckMNp5+Y7vlUHHV3vi0eBG
-         N22ig1n88YYKWZ5HMscIumyEoM2Y0wtXVxBSKaOJKNLBasAGtLc6EF41Ub/bS+hdsT59
-         JeJUfA+44KSxt5RrDqJAwz8GNzdm+vXE+pEzuv9wq9YH2t7RAN5niUIisEGMAsHrian9
-         SCUQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVLDBNqS5iThutd27P0zBABJEpNC7ZbuX+mXjrCb5a3VB3ngt8UfzECvNrqGsvLEN0cfQNytbatUfc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxBH/t/UB29KPJkaqEbfAlanIjR2sKhdGVES9QhC47JWyqOUCL3
-	oxbnHOlIow2avStdE2gbPFzowfA/VIjHv+8m62NLmcjCSZvd8Il54IZeaHZs/S4wSvlF6WEkLqo
-	0R2LvM70U0qqNtJ2X3GRf2iWGPvCoL3E=
-X-Gm-Gg: ATEYQzwz+0Nal2v+M7wPT9GunM9N/UnVoMGreWm9hlJ1JcjuORm32ntEm/p8QzwDhJZ
-	c103xoZY8xWF+3MsHr7OFe0bsmaUGAfJJBSKo6LytvAS/8MqdUoTd+lLRe9/SIkoP1w3QUILFCe
-	KbYD1rzjOt1RAd0AKTWNvHUvw8HBmY2OyZLSe+saz4mr1UP4BSZs6s6pEnOeeeEcjG2LeBc52t0
-	Lp6EzQSwdTeHj/M3u8KASrSBwudfba62Upd0hvkVWFOVchpfGhNFbzunBkmuuigoF3d3yQC2VoJ
-	MICpupg=
-X-Received: by 2002:a05:6512:6c8:b0:5a1:18f0:930b with SMTP id
- 2adb3069b0e04-5a13cd1c912mr4967420e87.42.1773143716734; Tue, 10 Mar 2026
- 04:55:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A5A33A3E90;
+	Tue, 10 Mar 2026 12:10:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.98
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773144620; cv=none; b=UhmVT860Cam26ZtDOF9bvm/vL2xwmwA/3q8L3qYmRRPs0C4BhkJ7UDF3ucbJbMeFdI+rOBh9xeYnylsNZFrWuV+4S1IjeTZb9L6pgCWUW57/IZ6X7pwYASZi55BhLSbVgo2kuGDsWjKL05onlNQdJS9MuejLEQFG7I6XvsKDHQc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773144620; c=relaxed/simple;
+	bh=G3sAync9bhhfmd0bG6KbKK1biLeprVfsbXh8Kq1s1xk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=cgMwaChFz+gVRcpNit5phAYFXy4dMVpPXKM1vhOQkvO67b1c7dQhpqG77Tk1idudU8WWdPKrB5dADVrDn2MCXTjpQwBZ+W7qRMSObXqFawMqJkaz5R3FUzvl4MDYunjZqzR9zPDdavVp+aD9DvTQqXrZelvrI20dw+lmEsbysiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com; spf=pass smtp.mailfrom=nebula-matrix.com; arc=none smtp.client-ip=115.124.28.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nebula-matrix.com
+Received: from localhost.localdomain(mailfrom:illusion.wang@nebula-matrix.com fp:SMTPD_---.gpIYKZy_1773144606 cluster:ay29)
+          by smtp.aliyun-inc.com;
+          Tue, 10 Mar 2026 20:10:07 +0800
+From: "illusion.wang" <illusion.wang@nebula-matrix.com>
+To: dimon.zhao@nebula-matrix.com,
+	illusion.wang@nebula-matrix.com,
+	alvin.wang@nebula-matrix.com,
+	sam.chen@nebula-matrix.com,
+	netdev@vger.kernel.org
+Cc: andrew+netdev@lunn.ch,
+	corbet@lwn.net,
+	kuba@kernel.org,
+	linux-doc@vger.kernel.org,
+	lorenzo@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	vadim.fedorenko@linux.dev,
+	lukas.bulwahn@redhat.com,
+	edumazet@google.com,
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v7 net-next 04/11] net/nebula-matrix: channel msg value and msg struct
+Date: Tue, 10 Mar 2026 20:09:48 +0800
+Message-ID: <20260310120959.22015-5-illusion.wang@nebula-matrix.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260310120959.22015-1-illusion.wang@nebula-matrix.com>
+References: <20260310120959.22015-1-illusion.wang@nebula-matrix.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260209063355.491189-1-vishnuocv@gmail.com> <20260209063355.491189-2-vishnuocv@gmail.com>
- <fdd1d48e-61b7-2543-8a30-c7ad416f5dd3@linux.intel.com> <CABxCQKtf=RYrpgnbM0ODo3GA0oW3jgR=_erc9RCD6gEasasA+A@mail.gmail.com>
- <0df2daf8-31ee-4fe3-fc38-de138b302549@linux.intel.com> <CABxCQKt_1Hv2hPDpzQQ3TxFJWbRNHs-vRDi9hNhBq4oaoGkt3w@mail.gmail.com>
- <8216aaaf-bdaa-2a48-a7de-b0b81d49eda5@linux.intel.com>
-In-Reply-To: <8216aaaf-bdaa-2a48-a7de-b0b81d49eda5@linux.intel.com>
-From: Vishnu Sankar <vishnuocv@gmail.com>
-Date: Tue, 10 Mar 2026 20:54:40 +0900
-X-Gm-Features: AaiRm53Z7FInzVa7AHviwaQEjkqy6ucSeO9srFBPc2Ymkf_rnYJvGp7zbxxDC7Q
-Message-ID: <CABxCQKsWtmM5zJDKM35WL_bvi=01QLT0ot5fidH-9yZ70_Q5cw@mail.gmail.com>
-Subject: Re: [PATCH v7 1/3] input: trackpoint - Enable doubletap by default on
- capable devices
-To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: Mark Pearson <mpearson-lenovo@squebb.ca>, dmitry.torokhov@gmail.com, hmh@hmh.eng.br, 
-	Hans de Goede <hansg@kernel.org>, corbet@lwn.net, derekjohn.clark@gmail.com, 
-	linux-input@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
-	ibm-acpi-devel@lists.sourceforge.net, linux-doc@vger.kernel.org, 
-	platform-driver-x86@vger.kernel.org, vsankar@lenovo.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Ilpo,
+For compatibility, the msg id value is fixed, and each msg struct can
+only have fields added (not removed), new fields must be appended
 
-Thanks again.
+Signed-off-by: illusion.wang <illusion.wang@nebula-matrix.com>
+---
+ .../nbl/nbl_include/nbl_def_channel.h         | 249 ++++++++++++++++++
+ 1 file changed, 249 insertions(+)
 
-On Tue, Mar 10, 2026 at 6:30=E2=80=AFPM Ilpo J=C3=A4rvinen
-<ilpo.jarvinen@linux.intel.com> wrote:
->
-> On Tue, 10 Mar 2026, Vishnu Sankar wrote:
->
-> > Hi Ilpo,
-> >
-> > Thank you.
-> >
-> > On Tue, Mar 10, 2026 at 6:15=E2=80=AFPM Ilpo J=C3=A4rvinen
-> > <ilpo.jarvinen@linux.intel.com> wrote:
-> > >
-> > > On Tue, 10 Mar 2026, Vishnu Sankar wrote:
-> > >
-> > > > Hi Ilpo,
-> > > >
-> > > > Thank you so much for the review.
-> > > >
-> > > > On Mon, Mar 9, 2026 at 5:01=E2=80=AFPM Ilpo J=C3=A4rvinen
-> > > > <ilpo.jarvinen@linux.intel.com> wrote:
-> > > > >
-> > > > > On Mon, 9 Feb 2026, Vishnu Sankar wrote:
-> > > > >
-> > > > > > Enable doubletap functionality by default on TrackPoint devices=
- that
-> > > > > > support it. The feature is detected using firmware ID pattern m=
-atching
-> > > > > > (PNP: LEN03xxx) with a deny list of incompatible devices.
-> > > > > >
-> > > > > > This provides immediate doubletap functionality without requiri=
-ng
-> > > > > > userspace configuration. The hardware is enabled during device
-> > > > > > detection, while event filtering continues to be handled by the
-> > > > > > thinkpad_acpi driver as before.
-> > > > > >
-> > > > > > Signed-off-by: Vishnu Sankar <vishnuocv@gmail.com>
-> > > > > > Suggested-by: Mark Pearson <mpearson-lenovo@squebb.ca>
-> > > > > > Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> > > > > > ---
-> > > > > > Changes in v7:
-> > > > > > - Removed unwanted comments
-> > > > > > - Removed psmouse_info ()
-> > > > > >
-> > > > > > Changes in v6:
-> > > > > > - No Changes
-> > > > > >
-> > > > > > Changes in v5:
-> > > > > > - Renamed function to trackpoint_is_dt_capable()
-> > > > > > - Simplified string comparison without sscanf()
-> > > > > > - Removed wrapper function as suggested
-> > > > > > - Fixed missing period in comment
-> > > > > >
-> > > > > > Changes in v4:
-> > > > > > - Simplified approach: removed all sysfs attributes and user in=
-terface
-> > > > > > - Enable doubletap by default during device detection
-> > > > > > - Removed global variables and complex attribute infrastructure
-> > > > > > - Uses minimal firmware ID detection with deny list
-> > > > > > - Follows KISS principle as suggested by reviewers
-> > > > > >
-> > > > > > Changes in v3:
-> > > > > > - No changes
-> > > > > >
-> > > > > > Changes in v2:
-> > > > > > - Improve commit messages
-> > > > > > - Sysfs attributes moved to trackpoint.c
-> > > > > > - Removed unnecessary comments
-> > > > > > - Removed unnecessary debug messages
-> > > > > > - Using strstarts() instead of strcmp()
-> > > > > > - is_trackpoint_dt_capable() modified
-> > > > > > - Removed _BIT suffix and used BIT() define
-> > > > > > - Reverse the trackpoint_doubletap_status() logic to return err=
-or first
-> > > > > > - Removed export functions as a result of the design change
-> > > > > > - Changed trackpoint_dev->psmouse to parent_psmouse
-> > > > > > - The path of trackpoint.h is not changed
-> > > > > > ---
-> > > > > >  drivers/input/mouse/trackpoint.c | 45 ++++++++++++++++++++++++=
-++++++++
-> > > > > >  drivers/input/mouse/trackpoint.h |  5 ++++
-> > > > > >  2 files changed, 50 insertions(+)
-> > > > > >
-> > >
-> > > > > > diff --git a/drivers/input/mouse/trackpoint.c b/drivers/input/m=
-ouse/trackpoint.c
-> > > > > > index 5f6643b69a2c..e12d76350252 100644
-> > > > > > --- a/drivers/input/mouse/trackpoint.c
-> > > > > > +++ b/drivers/input/mouse/trackpoint.c
-> > >
-> > > > > > +     /* Must start with "PNP: LEN03" */
-> > > > > > +     if (!strstarts(pnp_id, "PNP: LEN03"))
-> > > > >
-> > > > > Missing include.
-> > > >
-> > > > Sorry, I am a bit confused here:
-> > > > strstarts() is already available through the existing
-> > > > #include <linux/string.h> in thinkpad_acpi.c.
-> > > >
-> > > > Do you think I should do anything else here?
-> > >
-> > > Yes.
-> > >
-> > > The file you're modifying in this patch is trackpoint.c which doesn't
-> > > have that include so please add it also there. :-)
-> > Aaah, Sorry!!. Got it.
-> > I=E2=80=99ll add the missing #include <linux/string.h>
-> > Thank you for pointing it out.
->
-> Thanks. Please also double check you added inux/array_size.h into the
-> correct file in case you were confused what file this patch modifies.
-Thanks, and yes =E2=80=94 I got mixed up earlier and checked the includes i=
-n
-the wrong file, which led to my confusion.
-Sorry about that.
->
-> --
->  i.
+diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_channel.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_channel.h
+index a295154307e5..a8ec16e130c2 100644
+--- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_channel.h
++++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_channel.h
+@@ -6,6 +6,255 @@
+ #ifndef _NBL_DEF_CHANNEL_H_
+ #define _NBL_DEF_CHANNEL_H_
+ 
++enum nbl_chan_msg_type {
++	NBL_CHAN_MSG_ACK,
++	NBL_CHAN_MSG_ADD_MACVLAN,
++	NBL_CHAN_MSG_DEL_MACVLAN,
++	NBL_CHAN_MSG_ADD_MULTI_RULE,
++	NBL_CHAN_MSG_DEL_MULTI_RULE,
++	NBL_CHAN_MSG_SETUP_MULTI_GROUP,
++	NBL_CHAN_MSG_REMOVE_MULTI_GROUP,
++	NBL_CHAN_MSG_REGISTER_NET,
++	NBL_CHAN_MSG_UNREGISTER_NET,
++	NBL_CHAN_MSG_ALLOC_TXRX_QUEUES,
++	NBL_CHAN_MSG_FREE_TXRX_QUEUES,
++	NBL_CHAN_MSG_SETUP_QUEUE,
++	NBL_CHAN_MSG_REMOVE_ALL_QUEUES,
++	NBL_CHAN_MSG_CFG_DSCH,
++	NBL_CHAN_MSG_SETUP_CQS,
++	NBL_CHAN_MSG_REMOVE_CQS,
++	NBL_CHAN_MSG_CFG_QDISC_MQPRIO,
++	NBL_CHAN_MSG_CONFIGURE_MSIX_MAP,
++	NBL_CHAN_MSG_DESTROY_MSIX_MAP,
++	NBL_CHAN_MSG_MAILBOX_ENABLE_IRQ,
++	NBL_CHAN_MSG_GET_GLOBAL_VECTOR,
++	NBL_CHAN_MSG_GET_VSI_ID,
++	NBL_CHAN_MSG_SET_PROSISC_MODE,
++	NBL_CHAN_MSG_GET_FIRMWARE_VERSION,
++	NBL_CHAN_MSG_GET_QUEUE_ERR_STATS,
++	NBL_CHAN_MSG_GET_COALESCE,
++	NBL_CHAN_MSG_SET_COALESCE,
++	NBL_CHAN_MSG_SET_SPOOF_CHECK_ADDR,
++	NBL_CHAN_MSG_SET_VF_SPOOF_CHECK,
++	NBL_CHAN_MSG_GET_RXFH_INDIR_SIZE,
++	NBL_CHAN_MSG_GET_RXFH_INDIR,
++	NBL_CHAN_MSG_GET_RXFH_RSS_KEY,
++	NBL_CHAN_MSG_GET_RXFH_RSS_ALG_SEL,
++	NBL_CHAN_MSG_GET_HW_CAPS,
++	NBL_CHAN_MSG_GET_HW_STATE,
++	NBL_CHAN_MSG_REGISTER_RDMA,
++	NBL_CHAN_MSG_UNREGISTER_RDMA,
++	NBL_CHAN_MSG_GET_REAL_HW_ADDR,
++	NBL_CHAN_MSG_GET_REAL_BDF,
++	NBL_CHAN_MSG_GRC_PROCESS,
++	NBL_CHAN_MSG_SET_SFP_STATE,
++	NBL_CHAN_MSG_SET_ETH_LOOPBACK,
++	NBL_CHAN_MSG_CHECK_ACTIVE_VF,
++	NBL_CHAN_MSG_GET_PRODUCT_FLEX_CAP,
++	NBL_CHAN_MSG_ALLOC_KTLS_TX_INDEX,
++	NBL_CHAN_MSG_FREE_KTLS_TX_INDEX,
++	NBL_CHAN_MSG_CFG_KTLS_TX_KEYMAT,
++	NBL_CHAN_MSG_ALLOC_KTLS_RX_INDEX,
++	NBL_CHAN_MSG_FREE_KTLS_RX_INDEX,
++	NBL_CHAN_MSG_CFG_KTLS_RX_KEYMAT,
++	NBL_CHAN_MSG_CFG_KTLS_RX_RECORD,
++	NBL_CHAN_MSG_ADD_KTLS_RX_FLOW,
++	NBL_CHAN_MSG_DEL_KTLS_RX_FLOW,
++	NBL_CHAN_MSG_ALLOC_IPSEC_TX_INDEX,
++	NBL_CHAN_MSG_FREE_IPSEC_TX_INDEX,
++	NBL_CHAN_MSG_ALLOC_IPSEC_RX_INDEX,
++	NBL_CHAN_MSG_FREE_IPSEC_RX_INDEX,
++	NBL_CHAN_MSG_CFG_IPSEC_TX_SAD,
++	NBL_CHAN_MSG_CFG_IPSEC_RX_SAD,
++	NBL_CHAN_MSG_ADD_IPSEC_TX_FLOW,
++	NBL_CHAN_MSG_DEL_IPSEC_TX_FLOW,
++	NBL_CHAN_MSG_ADD_IPSEC_RX_FLOW,
++	NBL_CHAN_MSG_DEL_IPSEC_RX_FLOW,
++	NBL_CHAN_MSG_NOTIFY_IPSEC_HARD_EXPIRE,
++	NBL_CHAN_MSG_GET_MBX_IRQ_NUM,
++	NBL_CHAN_MSG_CLEAR_FLOW,
++	NBL_CHAN_MSG_CLEAR_QUEUE,
++	NBL_CHAN_MSG_GET_ETH_ID,
++	NBL_CHAN_MSG_SET_OFFLOAD_STATUS,
++	NBL_CHAN_MSG_INIT_OFLD,
++	NBL_CHAN_MSG_INIT_CMDQ,
++	NBL_CHAN_MSG_DESTROY_CMDQ,
++	NBL_CHAN_MSG_RESET_CMDQ,
++	NBL_CHAN_MSG_INIT_FLOW,
++	NBL_CHAN_MSG_DEINIT_FLOW,
++	NBL_CHAN_MSG_OFFLOAD_FLOW_RULE,
++	NBL_CHAN_MSG_GET_ACL_SWITCH,
++	NBL_CHAN_MSG_GET_VSI_GLOBAL_QUEUE_ID,
++	NBL_CHAN_MSG_INIT_REP,
++	NBL_CHAN_MSG_GET_LINE_RATE_INFO,
++	NBL_CHAN_MSG_REGISTER_NET_REP,
++	NBL_CHAN_MSG_UNREGISTER_NET_REP,
++	NBL_CHAN_MSG_REGISTER_ETH_REP,
++	NBL_CHAN_MSG_UNREGISTER_ETH_REP,
++	NBL_CHAN_MSG_REGISTER_UPCALL_PORT,
++	NBL_CHAN_MSG_UNREGISTER_UPCALL_PORT,
++	NBL_CHAN_MSG_GET_PORT_STATE,
++	NBL_CHAN_MSG_SET_PORT_ADVERTISING,
++	NBL_CHAN_MSG_GET_MODULE_INFO,
++	NBL_CHAN_MSG_GET_MODULE_EEPROM,
++	NBL_CHAN_MSG_GET_LINK_STATE,
++	NBL_CHAN_MSG_NOTIFY_LINK_STATE,
++	NBL_CHAN_MSG_GET_QUEUE_CXT,
++	NBL_CHAN_MSG_CFG_LOG,
++	NBL_CHAN_MSG_INIT_VDPAQ,
++	NBL_CHAN_MSG_DESTROY_VDPAQ,
++	NBL_CHAN_MSG_GET_UPCALL_PORT,
++	NBL_CHAN_MSG_NOTIFY_ETH_REP_LINK_STATE,
++	NBL_CHAN_MSG_SET_ETH_MAC_ADDR,
++	NBL_CHAN_MSG_GET_FUNCTION_ID,
++	NBL_CHAN_MSG_GET_CHIP_TEMPERATURE,
++	NBL_CHAN_MSG_DISABLE_HW_FLOW,
++	NBL_CHAN_MSG_ENABLE_HW_FLOW,
++	NBL_CHAN_MSG_SET_UPCALL_RULE,
++	NBL_CHAN_MSG_UNSET_UPCALL_RULE,
++	NBL_CHAN_MSG_GET_REG_DUMP,
++	NBL_CHAN_MSG_GET_REG_DUMP_LEN,
++	NBL_CHAN_MSG_CFG_LAG_HASH_ALGORITHM,
++	NBL_CHAN_MSG_CFG_LAG_MEMBER_FWD,
++	NBL_CHAN_MSG_CFG_LAG_MEMBER_LIST,
++	NBL_CHAN_MSG_CFG_LAG_MEMBER_UP_ATTR,
++	NBL_CHAN_MSG_ADD_LAG_FLOW,
++	NBL_CHAN_MSG_DEL_LAG_FLOW,
++	NBL_CHAN_MSG_SWITCHDEV_INIT_CMDQ,
++	NBL_CHAN_MSG_SWITCHDEV_DEINIT_CMDQ,
++	NBL_CHAN_MSG_SET_TC_FLOW_INFO,
++	NBL_CHAN_MSG_UNSET_TC_FLOW_INFO,
++	NBL_CHAN_MSG_INIT_ACL,
++	NBL_CHAN_MSG_UNINIT_ACL,
++	NBL_CHAN_MSG_CFG_LAG_MCC,
++	NBL_CHAN_MSG_REGISTER_VSI2Q,
++	NBL_CHAN_MSG_SETUP_Q2VSI,
++	NBL_CHAN_MSG_REMOVE_Q2VSI,
++	NBL_CHAN_MSG_SETUP_RSS,
++	NBL_CHAN_MSG_REMOVE_RSS,
++	NBL_CHAN_MSG_GET_REP_QUEUE_INFO,
++	NBL_CHAN_MSG_CTRL_PORT_LED,
++	NBL_CHAN_MSG_NWAY_RESET,
++	NBL_CHAN_MSG_SET_INTL_SUPPRESS_LEVEL,
++	NBL_CHAN_MSG_GET_ETH_STATS,
++	NBL_CHAN_MSG_GET_MODULE_TEMPERATURE,
++	NBL_CHAN_MSG_GET_BOARD_INFO,
++	NBL_CHAN_MSG_GET_P4_USED,
++	NBL_CHAN_MSG_GET_VF_BASE_VSI_ID,
++	NBL_CHAN_MSG_ADD_LLDP_FLOW,
++	NBL_CHAN_MSG_DEL_LLDP_FLOW,
++	NBL_CHAN_MSG_CFG_ETH_BOND_INFO,
++	NBL_CHAN_MSG_CFG_DUPPKT_MCC,
++	NBL_CHAN_MSG_ADD_ND_UPCALL_FLOW,
++	NBL_CHAN_MSG_DEL_ND_UPCALL_FLOW,
++	NBL_CHAN_MSG_GET_BOARD_ID,
++	NBL_CHAN_MSG_SET_SHAPING_DPORT_VLD,
++	NBL_CHAN_MSG_SET_DPORT_FC_TH_VLD,
++	NBL_CHAN_MSG_REGISTER_RDMA_BOND,
++	NBL_CHAN_MSG_UNREGISTER_RDMA_BOND,
++	NBL_CHAN_MSG_RESTORE_NETDEV_QUEUE,
++	NBL_CHAN_MSG_RESTART_NETDEV_QUEUE,
++	NBL_CHAN_MSG_RESTORE_HW_QUEUE,
++	NBL_CHAN_MSG_KEEP_ALIVE,
++	NBL_CHAN_MSG_GET_BASE_MAC_ADDR,
++	NBL_CHAN_MSG_CFG_BOND_SHAPING,
++	NBL_CHAN_MSG_CFG_BGID_BACK_PRESSURE,
++	NBL_CHAN_MSG_ALLOC_KT_BLOCK,
++	NBL_CHAN_MSG_FREE_KT_BLOCK,
++	NBL_CHAN_MSG_GET_USER_QUEUE_INFO,
++	NBL_CHAN_MSG_GET_ETH_BOND_INFO,
++	NBL_CHAN_MSG_CLEAR_ACCEL_FLOW,
++	NBL_CHAN_MSG_SET_BRIDGE_MODE,
++	NBL_CHAN_MSG_GET_VF_FUNCTION_ID,
++	NBL_CHAN_MSG_NOTIFY_LINK_FORCED,
++	NBL_CHAN_MSG_SET_PMD_DEBUG,
++	NBL_CHAN_MSG_REGISTER_FUNC_MAC,
++	NBL_CHAN_MSG_SET_TX_RATE,
++	NBL_CHAN_MSG_REGISTER_FUNC_LINK_FORCED,
++	NBL_CHAN_MSG_GET_LINK_FORCED,
++	NBL_CHAN_MSG_REGISTER_FUNC_VLAN,
++	NBL_CHAN_MSG_GET_FD_FLOW,
++	NBL_CHAN_MSG_GET_FD_FLOW_CNT,
++	NBL_CHAN_MSG_GET_FD_FLOW_ALL,
++	NBL_CHAN_MSG_GET_FD_FLOW_MAX,
++	NBL_CHAN_MSG_REPLACE_FD_FLOW,
++	NBL_CHAN_MSG_REMOVE_FD_FLOW,
++	NBL_CHAN_MSG_CFG_FD_FLOW_STATE,
++	NBL_CHAN_MSG_REGISTER_FUNC_RATE,
++	NBL_CHAN_MSG_NOTIFY_VLAN,
++	NBL_CHAN_MSG_GET_XDP_QUEUE_INFO,
++	NBL_CHAN_MSG_STOP_ABNORMAL_SW_QUEUE,
++	NBL_CHAN_MSG_STOP_ABNORMAL_HW_QUEUE,
++	NBL_CHAN_MSG_NOTIFY_RESET_EVENT,
++	NBL_CHAN_MSG_ACK_RESET_EVENT,
++	NBL_CHAN_MSG_GET_VF_VSI_ID,
++	NBL_CHAN_MSG_CONFIGURE_QOS,
++	NBL_CHAN_MSG_GET_PFC_BUFFER_SIZE,
++	NBL_CHAN_MSG_SET_PFC_BUFFER_SIZE,
++	NBL_CHAN_MSG_GET_VF_STATS,
++	NBL_CHAN_MSG_REGISTER_FUNC_TRUST,
++	NBL_CHAN_MSG_NOTIFY_TRUST,
++	NBL_CHAN_MSG_CHECK_VF_IS_ACTIVE,
++	NBL_CHAN_MSG_GET_ETH_ABNORMAL_STATS,
++	NBL_CHAN_MSG_GET_ETH_CTRL_STATS,
++	NBL_CHAN_MSG_GET_PAUSE_STATS,
++	NBL_CHAN_MSG_GET_ETH_MAC_STATS,
++	NBL_CHAN_MSG_GET_FEC_STATS,
++	NBL_CHAN_MSG_CFG_MULTI_MCAST_RULE,
++	NBL_CHAN_MSG_GET_LINK_DOWN_COUNT,
++	NBL_CHAN_MSG_GET_LINK_STATUS_OPCODE,
++	NBL_CHAN_MSG_GET_RMON_STATS,
++	NBL_CHAN_MSG_REGISTER_PF_NAME,
++	NBL_CHAN_MSG_GET_PF_NAME,
++	NBL_CHAN_MSG_CONFIGURE_RDMA_BW,
++	NBL_CHAN_MSG_SET_RATE_LIMIT,
++	NBL_CHAN_MSG_SET_TC_WGT,
++	NBL_CHAN_MSG_REMOVE_QUEUE,
++	NBL_CHAN_MSG_GET_MIRROR_TABLE_ID,
++	NBL_CHAN_MSG_CONFIGURE_MIRROR,
++	NBL_CHAN_MSG_CONFIGURE_MIRROR_TABLE,
++	NBL_CHAN_MSG_CLEAR_MIRROR_CFG,
++	NBL_CHAN_MSG_MIRROR_OUTPUTPORT_NOTIFY,
++	NBL_CHAN_MSG_CHECK_FLOWTABLE_SPEC,
++	NBL_CHAN_MSG_CHECK_VF_IS_VDPA,
++	NBL_CHAN_MSG_GET_VDPA_VF_STATS,
++	NBL_CHAN_MSG_SET_RX_RATE,
++	NBL_CHAN_MSG_GET_UVN_PKT_DROP_STATS,
++	NBL_CHAN_MSG_GET_USTORE_PKT_DROP_STATS,
++	NBL_CHAN_MSG_GET_USTORE_TOTAL_PKT_DROP_STATS,
++	NBL_CHAN_MSG_SET_WOL,
++	NBL_CHAN_MSG_INIT_VF_MSIX_MAP,
++	NBL_CHAN_MSG_GET_ST_NAME,
++	NBL_CHAN_MSG_MTU_SET = 501,
++	NBL_CHAN_MSG_SET_RXFH_INDIR = 506,
++	NBL_CHAN_MSG_SET_RXFH_RSS_ALG_SEL = 508,
++	/* mailbox msg end */
++	NBL_CHAN_MSG_MAILBOX_MAX,
++};
++
++struct nbl_chan_param_cfg_msix_map {
++	u16 num_net_msix;
++	u16 num_others_msix;
++	u16 msix_mask_en;
++};
++
++struct nbl_chan_param_enable_mailbox_irq {
++	u16 vector_id;
++	bool enable_msix;
++};
++
++struct nbl_chan_param_get_vsi_id {
++	u16 vsi_id;
++	u16 type;
++};
++
++struct nbl_chan_param_get_eth_id {
++	u16 vsi_id;
++	u8 eth_mode;
++	u8 eth_id;
++	u8 logic_eth_id;
++};
++
+ enum nbl_channel_type {
+ 	NBL_CHAN_TYPE_MAILBOX,
+ 	NBL_CHAN_TYPE_MAX
+-- 
+2.47.3
 
-
-
---=20
-
-Regards,
-
-      Vishnu Sankar
