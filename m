@@ -1,54 +1,55 @@
-Received: from canpmsgout09.his.huawei.com (canpmsgout09.his.huawei.com [113.46.200.224])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF7C82F83B7;
-	Tue, 10 Mar 2026 01:05:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.224
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F5383090C6;
+	Tue, 10 Mar 2026 01:05:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773104736; cv=none; b=ptXyzC0pcDxOLfNKiDO/d03CuAk5vBW+lQPRY1Xd8ViJhKy20cuqyVKPRDhzcI+t68Qh62QmBcpGsHTpsbuhoeICL+5rQ7IMWDtLinJhAYdXVP7csRz4mT7hGo3oCuXNhkksK7g2rN3ToCc5ur6nLJQndtCW1jjQINbc8XlLaAw=
+	t=1773104739; cv=none; b=TeiRwWBAQ6p2iqmvaTBAE8F7HtZebchbsiHOhuoCmhzg78wAxSVB64/iNZ4gBYxBIa4ut4dP+EMEHCVHKRTK9sAJFNwaFPKhxp4noX2A6/kVjZHMGj2NvBif8BKkX1mStyUwW4BJ4/BBaZTuXV1zlp/qrmzgmz3unECbbIob8Dk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773104736; c=relaxed/simple;
-	bh=cvjmKAKhEq1h4g27mLn1x/IfFjZtptKlo2+AsMA7DS0=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Wx9gYQjBEVODUmfzYzVLpGsCGvO+E2Z1wY2nXz14StVsUp67THupW2VA2ZHWLEpLBdaBwaW0jdNSz2QWJR2VVYGlp7E3T8cpR3jo4EAxEANmt+JdjppVpTkIed4QIfh/iWFu6fK9KImdfpT6+QjRTmEb2xErVxSW1yYS+Q0egZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=CbM3ef6Z; arc=none smtp.client-ip=113.46.200.224
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1773104739; c=relaxed/simple;
+	bh=fBp4nXBnDNZJmCsR8X2jOaOiWLrxo+bveGhLd1RBkFs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XGxP8c/BrznAeVuNr0l2tMoXteU6lkrZVkdXZvpC0P1f4Bh70UsqeAMKND8jPod+JYsqMZq598N/5va0ep/3yC+BI7USn1h8C2vdpPBrq//QqWyH75v70s65nPqOayx/Tyv5T41eZGrA6TV+7ukm+arivpHVThc/RT85f2/u7iI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iXPCHjCa; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="CbM3ef6Z"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=MFA1o2Bv6mBXv9NnXLBlEOC0J1Am8EXz+TrfM0cRERo=;
-	b=CbM3ef6ZVrXSdKqOIhEYrjVDz/6YTv54D8jw4h+wqcg3Hec27M4Kp157Dnrs3fitpfVZZQ1W4
-	bycR/I4Iws5r3qasZY5AYgxnIU01x0yXPcctf0/6LdJqmA/FAUNWNzDo8mfh/1nTKQV3vwa2rPN
-	p2WzLqvV51v2x95WodYLVEg=
-Received: from mail.maildlp.com (unknown [172.19.163.200])
-	by canpmsgout09.his.huawei.com (SkyGuard) with ESMTPS id 4fVFt25Q6zz1cyT6;
-	Tue, 10 Mar 2026 09:00:26 +0800 (CST)
-Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
-	by mail.maildlp.com (Postfix) with ESMTPS id 0CAFD4055B;
-	Tue, 10 Mar 2026 09:05:21 +0800 (CST)
-Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.189.124) by
- kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.36; Tue, 10 Mar 2026 09:05:19 +0800
-From: Fan Gong <gongfan1@huawei.com>
-To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>,
-	<netdev@vger.kernel.org>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Andrew Lunn
-	<andrew+netdev@lunn.ch>
-CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, luosifu
-	<luosifu@huawei.com>, Xin Guo <guoxin09@huawei.com>, Zhou Shuai
-	<zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, Shi Jing
-	<shijing34@huawei.com>, Zheng Jiezhen <zhengjiezhen@h-partners.com>
-Subject: [PATCH net-next v03 8/9] hinic3: Add PF/VF capability parsing and parameter validation
-Date: Tue, 10 Mar 2026 09:04:56 +0800
-Message-ID: <ac4733f2c0409bb778b4624ed1632dcb2ded6632.1773062356.git.zhuyikai1@h-partners.com>
-X-Mailer: git-send-email 2.51.0.windows.1
-In-Reply-To: <cover.1773062356.git.zhuyikai1@h-partners.com>
-References: <cover.1773062356.git.zhuyikai1@h-partners.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iXPCHjCa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41162C19423;
+	Tue, 10 Mar 2026 01:05:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773104738;
+	bh=fBp4nXBnDNZJmCsR8X2jOaOiWLrxo+bveGhLd1RBkFs=;
+	h=From:To:Cc:Subject:Date:From;
+	b=iXPCHjCa5+tLyFlskpunswITojbf48yGauAKjSbwFrj62NuwQiBkl5ab9daUrxklP
+	 2X1kd/0JilV1ueLI43Cv3BNm+lGeIOKI3FsKo+hLmzRv0+rM7pXUuSFtugeRf4Y2XF
+	 OfmiZaQUxNBk3V8oxq46BlDhc+ZS5pgjtIn33e2pCJvRl/+Hj4BwzQwlz2mfXL6VCl
+	 PUPmYRTT1V0XWOiDVoCVpP6ochcinMteWy/bdAVjdNsjhvta4zKM9/fYSufHuldPHh
+	 /q7NqJVglcvPurW43Ktog1jrUjKonybv1CsYGG+D+z+ZbI1pLVHZB9jAzmxxrmirN0
+	 N6JT/TQUN7c9A==
+From: SeongJae Park <sj@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: SeongJae Park <sj@kernel.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@google.com>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Shuah Khan <shuah@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	damon@lists.linux.dev,
+	kunit-dev@googlegroups.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [PATCH 00/11] mm/damon: support multiple goal-based quota tuning algorithms
+Date: Mon,  9 Mar 2026 18:05:16 -0700
+Message-ID: <20260310010529.91162-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -56,133 +57,121 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
- kwepemf100013.china.huawei.com (7.202.181.12)
 
-  Add the ability to parse PF and VF capabilities and validate
-related parameters(SQ & RQ).
+Aim-oriented DAMOS quota auto-tuning uses a single tuning algorithm.
+The algorithm is designed to find a quota value that should be
+consistently kept for achieving the aimed goal for long term.  It is
+useful and reliable at automatically operating systems that have dynamic
+environments in the long term.
 
-Co-developed-by: Zhu Yikai <zhuyikai1@h-partners.com>
-Signed-off-by: Zhu Yikai <zhuyikai1@h-partners.com>
-Signed-off-by: Fan Gong <gongfan1@huawei.com>
----
- .../ethernet/huawei/hinic3/hinic3_hw_cfg.c    | 47 +++++++++++++++++--
- .../ethernet/huawei/hinic3/hinic3_hw_cfg.h    |  8 ++++
- 2 files changed, 52 insertions(+), 3 deletions(-)
+As always, however, no single algorithm fits all.  When the environment
+has static characteristics or there are control towers in not only the
+kernel space but also the user space, the algorithm shows some
+limitations.  In such environments, users want kernel work in a more
+short term deterministic way.  Actually there were at least two reports
+[1,2] of such cases.
 
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_hw_cfg.c b/drivers/net/ethernet/huawei/hinic3/hinic3_hw_cfg.c
-index ca60cf4b6282..2dfa4fb39627 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_hw_cfg.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_hw_cfg.c
-@@ -17,6 +17,17 @@ static void hinic3_parse_pub_res_cap(struct hinic3_hwdev *hwdev,
- {
- 	cap->port_id = dev_cap->port_id;
- 	cap->supp_svcs_bitmap = dev_cap->svc_cap_en;
-+
-+	cap->cos_valid_bitmap = dev_cap->valid_cos_bitmap;
-+	cap->port_cos_valid_bitmap = dev_cap->port_cos_valid_bitmap;
-+
-+	if (type != HINIC3_FUNC_TYPE_VF)
-+		cap->max_vf = dev_cap->max_vf;
-+	else
-+		cap->max_vf = 0;
-+
-+	dev_dbg(hwdev->dev, "Port_id: 0x%x, cos_bitmap: 0x%x, Max_vf: 0x%x\n",
-+		cap->port_id, cap->cos_valid_bitmap, cap->max_vf);
- }
- 
- static void hinic3_parse_l2nic_res_cap(struct hinic3_hwdev *hwdev,
-@@ -28,6 +39,13 @@ static void hinic3_parse_l2nic_res_cap(struct hinic3_hwdev *hwdev,
- 
- 	nic_svc_cap->max_sqs = min(dev_cap->nic_max_sq_id + 1,
- 				   HINIC3_CFG_MAX_QP);
-+
-+	nic_svc_cap->max_rqs = min(dev_cap->nic_max_rq_id + 1,
-+				   HINIC3_CFG_MAX_QP);
-+	nic_svc_cap->default_num_queues = dev_cap->nic_default_num_queues;
-+
-+	dev_dbg(hwdev->dev, "L2nic resource capbility, max_sqs: 0x%x, max_rqs: 0x%x\n",
-+		nic_svc_cap->max_sqs, nic_svc_cap->max_rqs);
- }
- 
- static void hinic3_parse_dev_cap(struct hinic3_hwdev *hwdev,
-@@ -44,8 +62,8 @@ static void hinic3_parse_dev_cap(struct hinic3_hwdev *hwdev,
- 		hinic3_parse_l2nic_res_cap(hwdev, cap, dev_cap, type);
- }
- 
--static int get_cap_from_fw(struct hinic3_hwdev *hwdev,
--			   enum hinic3_func_type type)
-+static int hinic3_get_cap_from_fw(struct hinic3_hwdev *hwdev,
-+				  enum hinic3_func_type type)
- {
- 	struct mgmt_msg_params msg_params = {};
- 	struct cfg_cmd_dev_cap dev_cap = {};
-@@ -69,6 +87,29 @@ static int get_cap_from_fw(struct hinic3_hwdev *hwdev,
- 	return 0;
- }
- 
-+static int hinic3_get_dev_cap(struct hinic3_hwdev *hwdev)
-+{
-+	enum hinic3_func_type type = HINIC3_FUNC_TYPE(hwdev);
-+	int err;
-+
-+	switch (type) {
-+	case HINIC3_FUNC_TYPE_PF:
-+	case HINIC3_FUNC_TYPE_VF:
-+		err = hinic3_get_cap_from_fw(hwdev, type);
-+		if (err) {
-+			dev_err(hwdev->dev, "Failed to get FW capability\n");
-+			return err;
-+		}
-+		break;
-+	default:
-+		dev_err(hwdev->dev, "Unsupported PCI Function type: %d\n",
-+			type);
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
- static int hinic3_init_irq_info(struct hinic3_hwdev *hwdev)
- {
- 	struct hinic3_cfg_mgmt_info *cfg_mgmt = hwdev->cfg_mgmt;
-@@ -215,7 +256,7 @@ void hinic3_free_irq(struct hinic3_hwdev *hwdev, u32 irq_id)
- 
- int hinic3_init_capability(struct hinic3_hwdev *hwdev)
- {
--	return get_cap_from_fw(hwdev, HINIC3_FUNC_TYPE_VF);
-+	return hinic3_get_dev_cap(hwdev);
- }
- 
- bool hinic3_support_nic(struct hinic3_hwdev *hwdev)
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_hw_cfg.h b/drivers/net/ethernet/huawei/hinic3/hinic3_hw_cfg.h
-index 58806199bf54..361c0b6a70f0 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_hw_cfg.h
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_hw_cfg.h
-@@ -26,6 +26,8 @@ struct hinic3_irq_info {
- 
- struct hinic3_nic_service_cap {
- 	u16 max_sqs;
-+	u16 max_rqs;
-+	u16 default_num_queues;
- };
- 
- /* Device capabilities */
-@@ -34,6 +36,12 @@ struct hinic3_dev_cap {
- 	u16                           supp_svcs_bitmap;
- 	/* Physical port */
- 	u8                            port_id;
-+
-+	u8                            cos_valid_bitmap;
-+	u8                            port_cos_valid_bitmap;
-+	/* max number of VFs that PF supports */
-+	u16                           max_vf;
-+
- 	struct hinic3_nic_service_cap nic_svc_cap;
- };
- 
+Extend DAMOS quotas goal to support multiple quota tuning algorithms
+that users can select.  Keep the current algorithm as the default one,
+to not break the old users.  Also give it a name, "consist", as it is
+designed to "consistently" apply the DAMOS action.  And introduce a new
+tuning algorithm, namely "temporal".  It is designed to apply the DAMOS
+action only temporally, in a deterministic way.  In more detail, as long
+as the goal is under-achieved, it uses the maximum quota available.
+Once the goal is over-achieved, it sets the quota zero.
+
+Tests
+=====
+
+I confirmed the feature is working as expected using the latest version
+of DAMON user-space tool, like below.
+
+    $ # start DAMOS for reclaiming memory aiming 30% free memory
+    $ sudo ./damo/damo start --damos_action pageout \
+            --damos_quota_goal_tuner temporal \
+            --damos_quota_goal node_mem_free_bp 30% 0 \
+            --damos_quota_interval 1s \
+            --damos_quota_space 100M
+
+Note that >=3.1.8 version of DAMON user-space tool supports this feature
+(--damos_quota_goal_tuner).  As expected, DAMOS stops reclaiming memory
+as soon as the goal amount of free memory is made.  When 'consist' tuner
+is used, the reclamation was continued even after the goal amount of
+free memory is made, resulting in more than goal amount of free memory,
+as expected.
+
+Patch Sequence
+==============
+
+First four patches implement the features.  Patch 1 extends core API to
+allow multiple tuners and make the current tuner as the default and only
+available tuner, namely 'consist'.  Patch 2 allows future tuners setting
+zero effective quota.  Patch 3 introduces the second tuner, namely
+'temporal'.  Patch 4 further extends DAMON sysfs API to let users use
+that.
+
+Three following patches (patches 5-7) update design, usage, and ABI
+documents, respectively.
+
+Final four patches (patches 8-11) are for adding tests.  The eighth
+patch (patch 8) extends the kunit test for online parameters commit for
+validating the goal_tuner.  The ninth and the tenth patches (patches
+9-10) extend the testing-purpose DAMON sysfs control helper and DAMON
+status dumping tool to support the newly added feature.  The final
+eleventh one (patch 11) extends the existing online commit selftest to
+cover the new feature.
+
+References
+==========
+
+[1] https://lore.kernel.org/CALa+Y17__d=ZsM1yX+MXx0ozVdsXnFqF4p0g+kATEitrWyZFfg@mail.gmail.com
+[2] https://lore.kernel.org/20260204022537.814-1-yunjeong.mun@sk.com
+
+Changelog
+=========
+
+Changes from RFC v2
+(https://lore.kernel.org/20260304044122.79394-1-sj@kernel.org)
+- Rename damos_quota_set() to damos_quota_is_set().
+- Drop unnecessary ->goal_tuner set on damos_new_quota().
+- Add kunit test.
+- Add goal_tuenr kernel-doc comment.
+
+Changes from RFC v1
+(https://lore.kernel.org/20260212062314.69961-1-sj@kernel.org)
+- Add selftest for goal_tuner commitment.
+- Set goal tuner inside damon_new_scheme().
+- Allow zero size effective size quota.
+- Update the ABI document.
+- Wordsmith change descriptions.
+
+SeongJae Park (11):
+  mm/damon/core: introduce damos_quota_goal_tuner
+  mm/damon/core: allow quota goals set zero effective size quota
+  mm/damon/core: introduce DAMOS_QUOTA_GOAL_TUNER_TEMPORAL
+  mm/damon/sysfs-schemes: implement quotas->goal_tuner file
+  Docs/mm/damon/design: document the goal-based quota tuner selections
+  Docs/admin-guide/mm/damon/usage: document goal_tuner sysfs file
+  Docs/ABI/damon: update for goal_tuner
+  mm/damon/tests/core-kunit: test goal_tuner commit
+  selftests/damon/_damon_sysfs: support goal_tuner setup
+  selftests/damon/drgn_dump_damon_status: support quota goal_tuner
+    dumping
+  selftests/damon/sysfs.py: test goal_tuner commit
+
+ .../ABI/testing/sysfs-kernel-mm-damon         |  6 ++
+ Documentation/admin-guide/mm/damon/usage.rst  | 16 +++--
+ Documentation/mm/damon/design.rst             | 12 ++++
+ include/linux/damon.h                         | 12 ++++
+ mm/damon/core.c                               | 61 ++++++++++++++++---
+ mm/damon/sysfs-schemes.c                      | 58 ++++++++++++++++++
+ mm/damon/tests/core-kunit.h                   |  3 +
+ tools/testing/selftests/damon/_damon_sysfs.py | 12 +++-
+ .../selftests/damon/drgn_dump_damon_status.py |  1 +
+ tools/testing/selftests/damon/sysfs.py        |  7 +++
+ 10 files changed, 171 insertions(+), 17 deletions(-)
+
+
+base-commit: 65dad07b05cbdda486d599772f908f1df45dd306
 -- 
-2.43.0
-
+2.47.3
