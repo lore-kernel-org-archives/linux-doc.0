@@ -1,181 +1,154 @@
-Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout09.his.huawei.com (canpmsgout09.his.huawei.com [113.46.200.224])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4F05238C1F
-	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 01:06:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE0F6175A80;
+	Tue, 10 Mar 2026 01:34:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.224
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773104781; cv=none; b=SeUWZYay58IGEPQJ7YdRfAs+EhJ+tyvJU+tQMLBTpo00kM94AGmABWB42jY8b1CBQCROALARJZ56jnH4PzaGwDbr9ZvO1iPzWxOydiZ4iGlivED1D+of5qeYFlVX3BO1CrpgOgp8Yfg7UEu6sOU2B6FqubQ0LwgidFE9BAxSihM=
+	t=1773106480; cv=none; b=Hu5XNdi8c0PQk05xIAWmj8u0FXfg8LQ4kuJk0uOCVDghBzNLyW+VmuObtoMWb+0IS+5QA1QpG/eO/7joW2jBG6yQWja8a8dn59fCioZhiVar291MURtGXYNsI/39QVMWWZdWi+PdqlA07YPZxXO6hQFjhd1IG+BeFLauJCMJNjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773104781; c=relaxed/simple;
-	bh=Ps/B2Z4YbD6//yK0FTkoaGlvSB+kH3TEFIAsJhiHCps=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=o8YI16aVnp076yEGth3yjizkIsfhQyyFcG5bTeAWZ/qg5cST2vpG9jXEOaTNSSzVSmFHX4Bhm4jz9ssQWxSQMUBCjCsCSJty6ujUZ6T0EeZnyjBz/UbTsoMXCgmUgyOtE4ZkUd8Cidj1mY2d8tdXuu3IhUvjdpYD0UOAcjgvDl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=YCdCasmV; arc=none smtp.client-ip=209.85.210.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1773106480; c=relaxed/simple;
+	bh=4lS/imIJYen+jan8HNwdwFG3iwaHqOkvD4bjX5Hunbg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=BHgxt460Ash+cJN9JSgI2aF1cpqzpgQQ6A1z+RTzQHmuRxpRYKG1mWWmbuKhEc8Kl6BPCCsqvqq/PAKHW+azB2h6cOWFkFaeuYFAr5wJXzCIlLcwgzNVsfNx+kZymHQxW561idVi3VJKHtaJgqdwSZxG9kN8WQr6Pa5486XdHWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=Kh676+Q/; arc=none smtp.client-ip=113.46.200.224
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YCdCasmV"
-Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-8299499d582so12414687b3a.2
-        for <linux-doc@vger.kernel.org>; Mon, 09 Mar 2026 18:06:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1773104779; x=1773709579; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=O/pJjCJQTxqUtKgBQ/nXqQmMajRmz8+Q8yoKiNddz8s=;
-        b=YCdCasmVb7hZfq0q1E7i+qOoXnasgWLJJCsBBBY3YhG6VdJ8x7uczFdesdQ3nn8LOa
-         OY/D8zVdl9Oe+HR16c8hwj103vyW5gjGU+RoRZcM5FjGlPWsq6ajc1GDMaPOe+TIqMrq
-         9sl+AGcfoqQnQ5YChJNxrXlOZnaXQ0RKHCMZJHuk352zQB8ryB+sJVN3mYuzLcay90op
-         UOZbqfyDE3cMRnZUKOOHW1QokP2iq4WajIo6Eh/BtfHiV5Eh13r4Ngc/zMLRbHPzEZKI
-         1T4AR4tzXKXeHyTQa9TigT+I1vfqiWEWB3Lbd2shUhCEiUw1vjAqMhBddiC/9FD1pzbi
-         Qe8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773104779; x=1773709579;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=O/pJjCJQTxqUtKgBQ/nXqQmMajRmz8+Q8yoKiNddz8s=;
-        b=TJRdbYTSmzlN8py7K2Qj/REcsdSo++jMaZXJhAJNmmblq33e2SkmAcTQmXHMXWgjfd
-         LG4LgRXxABLAX636PmiQzfNJ44YKg7ZQXX63NdSuBLUME+/LAqttDVAsCyPSQbhXm/Va
-         o2YXgSxdJsTV6F3vdqWzT9HS8ijVgZbSqRdAqksmUS7Yc618MXL5Q3bmu3UpnXa5ohWy
-         O+qkvHVOtCkmbtDmsAzBsEWiasZhOfT2gvCu6z0Oy7FRsTiAk90QIXBEJ0srHOODEGjA
-         hhYrzg1mIwQBHF4xUpZ0u7nAHB3KGGzYju6hk4QxxYhhHaNp4Buk8a5L+ev7AcgKQ1KT
-         CSDw==
-X-Forwarded-Encrypted: i=1; AJvYcCVCzq+7kQ8d9Z0DNfeqswaJHe1KbnAUxPXMlvJS8do0hOugmFEkyqCK2GBfIgZQO4WF2K6oiSpUS20=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxLTskY1KwqoQXOvehePBUTzHR8uVoWEK/XxN/VvRu2Fw1IebwQ
-	/rj8kxw43UxiISu0PCOXRi0mnUSv52dCXCy2LVlqJz9eBtPlAvpSrVXFG9/0DDSyZ+XdEBJAJgw
-	IBYu39A==
-X-Received: from pfld9.prod.google.com ([2002:a05:6a00:1989:b0:7dd:8bba:6393])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:3d98:b0:827:3307:170
- with SMTP id d2e1a72fcca58-829a2eaad00mr8915615b3a.37.1773104779156; Mon, 09
- Mar 2026 18:06:19 -0700 (PDT)
-Date: Mon, 9 Mar 2026 18:06:17 -0700
-In-Reply-To: <20260309-gmem-st-blocks-v3-2-815f03d9653e@google.com>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="Kh676+Q/"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=KynWhPmsq2hgGRdlS5xCodsoSRLB81yWfnaTYob3MHk=;
+	b=Kh676+Q/BlPxtpIddEk+9ICljaWAqVwx0/XgQUgVlvFz1XcZ20W27ChKwIzLEUVcWTbJx6HbV
+	ikPNF9Y2vHA7hELlqoXqrDU2ad2lXumKu5JNd9anYgbNv9VSKDnpeFJJS+kiKxEVvLmGqL2v9A7
+	aE0Nov/WUJOUyJeqCQokOIQ=
+Received: from mail.maildlp.com (unknown [172.19.162.92])
+	by canpmsgout09.his.huawei.com (SkyGuard) with ESMTPS id 4fVGWm0gfVz1cyTP;
+	Tue, 10 Mar 2026 09:29:40 +0800 (CST)
+Received: from dggpemf500011.china.huawei.com (unknown [7.185.36.131])
+	by mail.maildlp.com (Postfix) with ESMTPS id 60F4240565;
+	Tue, 10 Mar 2026 09:34:34 +0800 (CST)
+Received: from [10.67.109.254] (10.67.109.254) by
+ dggpemf500011.china.huawei.com (7.185.36.131) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Tue, 10 Mar 2026 09:34:29 +0800
+Message-ID: <f46f7987-3d47-ec25-ea45-e1b643d380e3@huawei.com>
+Date: Tue, 10 Mar 2026 09:34:28 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260309-gmem-st-blocks-v3-0-815f03d9653e@google.com> <20260309-gmem-st-blocks-v3-2-815f03d9653e@google.com>
-Message-ID: <aa9uiQ_KBcX7X0My@google.com>
-Subject: Re: [PATCH RFC v3 2/4] KVM: guest_memfd: Set release always on
- guest_memfd mappings
-From: Sean Christopherson <seanjc@google.com>
-To: Ackerley Tng <ackerleytng@google.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	rientjes@google.com, rick.p.edgecombe@intel.com, yan.y.zhao@intel.com, 
-	fvdl@google.com, jthoughton@google.com, vannapurve@google.com, 
-	shivankg@amd.com, michael.roth@amd.com, pratyush@kernel.org, 
-	pasha.tatashin@soleen.com, kalyazin@amazon.com, tabba@google.com, 
-	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH v8 0/5] arm64/riscv: Add support for crashkernel CMA
+ reservation
+Content-Language: en-US
+To: <corbet@lwn.net>, <skhan@linuxfoundation.org>, <catalin.marinas@arm.com>,
+	<will@kernel.org>, <chenhuacai@kernel.org>, <kernel@xen0n.name>,
+	<maddy@linux.ibm.com>, <mpe@ellerman.id.au>, <npiggin@gmail.com>,
+	<chleroy@kernel.org>, <pjw@kernel.org>, <palmer@dabbelt.com>,
+	<aou@eecs.berkeley.edu>, <alex@ghiti.fr>, <tglx@kernel.org>,
+	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
+	<hpa@zytor.com>, <robh@kernel.org>, <saravanak@kernel.org>,
+	<akpm@linux-foundation.org>, <bhe@redhat.com>, <vgoyal@redhat.com>,
+	<dyoung@redhat.com>, <rdunlap@infradead.org>, <pmladek@suse.com>,
+	<dapeng1.mi@linux.intel.com>, <kees@kernel.org>, <paulmck@kernel.org>,
+	<lirongqing@baidu.com>, <fvdl@google.com>, <rppt@kernel.org>,
+	<ardb@kernel.org>, <leitao@debian.org>, <sourabhjain@linux.ibm.com>,
+	<jbohac@suse.cz>, <cfsworks@gmail.com>, <osandov@fb.com>,
+	<tangyouling@kylinos.cn>, <ritesh.list@gmail.com>, <hbathini@linux.ibm.com>,
+	<eajames@linux.ibm.com>, <songshuaishuai@tinylab.org>,
+	<kevin.brodsky@arm.com>, <samuel.holland@sifive.com>,
+	<vishal.moola@gmail.com>, <junhui.liu@pigmoral.tech>, <coxu@redhat.com>,
+	<liaoyuanhong@vivo.com>, <fuqiang.wang@easystack.cn>, <brgerst@gmail.com>,
+	<x86@kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<loongarch@lists.linux.dev>, <linuxppc-dev@lists.ozlabs.org>,
+	<linux-riscv@lists.infradead.org>, <devicetree@vger.kernel.org>,
+	<kexec@lists.infradead.org>
+References: <20260302035315.3892241-1-ruanjinjie@huawei.com>
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+In-Reply-To: <20260302035315.3892241-1-ruanjinjie@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
+ dggpemf500011.china.huawei.com (7.185.36.131)
 
-On Mon, Mar 09, 2026, Ackerley Tng wrote:
-> Set release always on guest_memfd mappings to enable the use of
-> .invalidate_folio, which performs inode accounting for guest_memfd.
+
+
+On 2026/3/2 11:53, Jinjie Ruan wrote:
+> The crash memory allocation, and the exclude of crashk_res, crashk_low_res
+> and crashk_cma memory are almost identical across different architectures,
+> This patch set handle them in crash core in a general way, which eliminate
+> a lot of duplication code.
 > 
-> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
-> ---
->  virt/kvm/guest_memfd.c | 1 +
->  1 file changed, 1 insertion(+)
+> And add support for crashkernel CMA reservation for arm64 and riscv.
+
+Hi all,
+
+Do you have any new review comments on this patch set?
+
+Thanks,
+
 > 
-> diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
-> index 77219551056a7..8246b9fbcf832 100644
-> --- a/virt/kvm/guest_memfd.c
-> +++ b/virt/kvm/guest_memfd.c
-> @@ -607,6 +607,7 @@ static int __kvm_gmem_create(struct kvm *kvm, loff_t size, u64 flags)
->  	mapping_set_inaccessible(inode->i_mapping);
->  	/* Unmovable mappings are supposed to be marked unevictable as well. */
->  	WARN_ON_ONCE(!mapping_unevictable(inode->i_mapping));
-> +	mapping_set_release_always(inode->i_mapping);
-
-*sigh*
-
-So... an internal AI review bot flagged setting AS_RELEASE_ALWAYS as being
-potentially problematic, and I started poking around, mostly because I was
-curious.  I'm pretty sure the exact scenario painted by the bot isn't possible,
-but I do think a similar issue exists in at least truncate_error_folio().  Or at
-least, *should* exist, but doesn't because of a different bug.
-
-On memory error, kvm_gmem_error_folio() will get invoked via this code.  Note
-the "err != 0" check.  kvm_gmem_error_folio() returns MF_DELAYED, which has an
-arbitrary value of '2', and so KVM is always signalling "failure".
-
-		int err = mapping->a_ops->error_remove_folio(mapping, folio);
-
-		if (err != 0)
-			pr_info("%#lx: Failed to punch page: %d\n", pfn, err);
-		else if (!filemap_release_folio(folio, GFP_NOIO))
-			pr_info("%#lx: failed to release buffers\n", pfn);
-
-I _think_ that's bad?  On x86, if I'm following the breadcrubs correctly, we'll
-end up in this code in kill_me_maybe()
-
-	pr_err("Memory error not recovered");
-	kill_me_now(cb);
-
-and send what I assume is a relatively useless SIGBUS and likely kill the VM.
-
-	struct task_struct *p = container_of(ch, struct task_struct, mce_kill_me);
-
-	p->mce_count = 0;
-	force_sig(SIGBUS);
-
-But even if that's somehow the "right" behavior, we're doing it purely by
-accident.
-
-As for this patch, if we fix that bug by returning 0, then filemap_release_folio()
-is definitely reachable by at least one flow, so I think guest_memfd also needs
-to implement release_folio()?
-
-
-    
-Full AI bot text:
---
-Setting the AS_RELEASE_ALWAYS flag causes folio_needs_release() to return
-true. This correctly triggers .invalidate_folio during truncation, but does
-it also unintentionally expose guest_memfd folios to eviction via
-posix_fadvise(POSIX_FADV_DONTNEED)?
-
-If userspace calls posix_fadvise() on a guest_memfd file, the core mm
-calls mapping_evict_folio(). Because folio_needs_release() is true, it
-calls filemap_release_folio().
-
-Since guest_memfd does not implement a .release_folio address space
-operation, filemap_release_folio() falls back to calling
-try_to_free_buffers(). Could this fallback cause a warning?
-
-fs/buffer.c:try_to_free_buffers() {
-	...
-	/* Misconfigured folio check */
-	if (WARN_ON_ONCE(!folio_buffers(folio)))
-		return true;
-	...
-}
-
-Because the guest_memfd folio has no private data, folio_buffers()
-is NULL, which will trigger this WARN_ON_ONCE.
-
-Furthermore, try_to_free_buffers() returns true, allowing the folio to be
-removed from the page cache. Because this eviction path bypasses
-truncate_cleanup_folio(), it never calls .invalidate_folio.
-
-Does this mean inode_sub_bytes() is skipped, leaking the inode block
-accounting?
-
-Userspace could potentially trigger the warning and infinitely inflate the
-inode's block count with:
-    struct kvm_create_guest_memfd args = { .size = 4096 };
-    int fd = ioctl(kvm_vm_fd, KVM_CREATE_GUEST_MEMFD, &args);
-    fallocate(fd, 0, 0, 4096);
-    posix_fadvise(fd, 0, 4096, POSIX_FADV_DONTNEED);
-Should guest_memfd implement a .release_folio callback that simply
-returns false to prevent these folios from being evicted?
---
+> Rebased on v7.0-rc1.
+> 
+> Basic second kernel boot test were performed on QEMU platforms for x86,
+> ARM64, and RISC-V architectures with the following parameters:
+> 
+> 	"cma=256M crashkernel=256M crashkernel=64M,cma"
+> 
+> Changes in v8:
+> - Fix the build issues reported by kernel test robot and Sourabh.
+> - Link to v7: https://lore.kernel.org/all/20260226130437.1867658-1-ruanjinjie@huawei.com/
+> 
+> Changes in v7:
+> - Correct the inclusion of CMA-reserved ranges for kdump kernel in of/kexec
+>   for arm64 and riscv.
+> - Add Acked-by.
+> - Link to v6: https://lore.kernel.org/all/20260224085342.387996-1-ruanjinjie@huawei.com/
+> 
+> Changes in v6:
+> - Update the crash core exclude code as Mike suggested.
+> - Rebased on v7.0-rc1.
+> - Add acked-by.
+> - Link to v5: https://lore.kernel.org/all/20260212101001.343158-1-ruanjinjie@huawei.com/
+> 
+> Changes in v5:
+> - Fix the kernel test robot build warnings.
+> - Sort crash memory ranges before preparing elfcorehdr for powerpc
+> - Link to v4: https://lore.kernel.org/all/20260209095931.2813152-1-ruanjinjie@huawei.com/
+> 
+> Changes in v4:
+> - Move the size calculation (and the realloc if needed) into the
+>   generic crash.
+> - Link to v3: https://lore.kernel.org/all/20260204093728.1447527-1-ruanjinjie@huawei.com/
+> 
+> Jinjie Ruan (4):
+>   crash: Exclude crash kernel memory in crash core
+>   crash: Use crash_exclude_core_ranges() on powerpc
+>   arm64: kexec: Add support for crashkernel CMA reservation
+>   riscv: kexec: Add support for crashkernel CMA reservation
+> 
+> Sourabh Jain (1):
+>   powerpc/crash: sort crash memory ranges before preparing elfcorehdr
+> 
+>  .../admin-guide/kernel-parameters.txt         |  16 +--
+>  arch/arm64/kernel/machine_kexec_file.c        |  39 +++----
+>  arch/arm64/mm/init.c                          |   5 +-
+>  arch/loongarch/kernel/machine_kexec_file.c    |  39 +++----
+>  arch/powerpc/include/asm/kexec_ranges.h       |   1 -
+>  arch/powerpc/kexec/crash.c                    |   5 +-
+>  arch/powerpc/kexec/ranges.c                   | 101 +-----------------
+>  arch/riscv/kernel/machine_kexec_file.c        |  38 +++----
+>  arch/riscv/mm/init.c                          |   5 +-
+>  arch/x86/kernel/crash.c                       |  89 +++------------
+>  drivers/of/fdt.c                              |   9 +-
+>  drivers/of/kexec.c                            |   9 ++
+>  include/linux/crash_core.h                    |   9 ++
+>  kernel/crash_core.c                           |  89 ++++++++++++++-
+>  14 files changed, 178 insertions(+), 276 deletions(-)
+> 
