@@ -1,64 +1,64 @@
-Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
+Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9E453E958F
-	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 07:29:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33387410D30
+	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 07:29:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773127793; cv=none; b=WkkecMRj5qizD4wbD4cuSeLR8BaGL+zVDC3S3/4f2Zi9W8iF0bUmy2ftJwWYut++D5eDV5+ICjROTS+lU7kVHfbzImpu2rqax4mTzKmU7nJg83fpZUOk+DzkcMX7bQ/Tlubu1bySTjsnfYYyBtZXYCEFJlfX4WtwMpqZdpxTcf0=
+	t=1773127796; cv=none; b=S25XVW4nsdn5pGAekWFKF93WS9XmQ2m39oY4YRfVhAvl237S9aBDOnT2WeWDgKIslXDMwZc358WJnxcn+M0oAHHfVYtHebltOQmpUcrkMOk+N2U2q3za+wgGL6Y/IVxfm1vzxcmqDbliCYEMZwXGWa2qK1BYp8DTjmmQ84b70uQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773127793; c=relaxed/simple;
-	bh=yWkVa/Jth/oJdDOe1ihirkRp8Fbw+pPWZBYFbTWg034=;
+	s=arc-20240116; t=1773127796; c=relaxed/simple;
+	bh=31RASrZgzJyk2MSTHxv8uLXms4mbg9GhAuwpXPNdv9M=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Y6uP6NZ5mfDFAGt5z26Q6CgcMGU3nFXs3o/IswGvdkzuI8Au38Tvuxj1js165uWeAVE63Ci46bK7zAalMW3ZZv3k6uC2HDdTvbM06jP/ZmDVoBTRcK98vn7XLyLIQZoNKAOS0YLpsCocpJ6+s0K5Kzri4luWaJ/cMDhfDsaI73A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vy107Vtx; arc=none smtp.client-ip=74.125.82.179
+	 MIME-Version; b=ik2WL/O4Iep3fbtHLpsd41AYYj+nu9benoE+1pfELlFazOkBTTmf47UpqSyoeUPf9HHf6fifBfV8AB7V32lr4pmPDfhHO3n+1dRl+74nzwxi+qdYJN7bf2nnXSypf7nAqq71DhXag40EoY/8v0W1bCJxHhb9cXk3+eS+4gtlLHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H5UiUChw; arc=none smtp.client-ip=74.125.82.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vy107Vtx"
-Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-2be1c918173so14212422eec.1
-        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 00:29:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H5UiUChw"
+Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-2be26842fd5so4130617eec.1
+        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 00:29:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773127791; x=1773732591; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1773127793; x=1773732593; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UPGAxlsgnQwH8V6ZIVfcEYRPqGnb7Td9A0j4ncYAqN0=;
-        b=Vy107Vtxq8++Xkgtbs6Y3PSL11sp7SFTvd0ZhHtQjOHezOuhN8KWTaOdpSjuRycNjL
-         ww4FgP+sxpuxFdbDXEk2uW/seDRjbzxUWWHgg8dUMlPyGGNddVBHi9FRTVbxqUZEhsiM
-         ekX4cjYncpsym7wbHiEFUoAJZemfmlpqYzlaCN14OAUnCAiv56GX1SzmyiTeyem2fVf8
-         cbYwUPh+SIBadMM2iRpRrC249yQIUFyfKEMRMK4Q9ZdGlaPeAEk3W1JOGeIAa4Mwxqyx
-         EPrAqLFqFAaXSMfE9TX58MqMnTcuyN9cCXEGlcgPlRIC3bJhpoaX8ysgtDduHzLqflal
-         NWJQ==
+        bh=4HYa6ycaKvi1sWbnN46hq7wdNbqGIWJQ59Ad+I4hx/o=;
+        b=H5UiUChwsjZ5Qgp0jY0oZlSxuyX9tmwT+ADAeHIeYC7664FCBpqBFC4jV1U/RgEN76
+         EMk6N0hGZ3/kKC0EWkJdulaYAmq2HEYubMyqvOreG0PrrrL55AgnzOFWwf4vcQI6HdBQ
+         /6l1OazW8v6CnymV0141aVXWBg+m9nStjzBPtvBwk6IqnGIUjHJ4FE+/ZBMYfBLHx62o
+         gst6DYSPHd5FAIxb3tEjVeeuFS0mdE+CQMxNNUkArDG0AA7NXxEheX6vUpB32sV/rxbt
+         mzvf7Hc8xZl7vmdQ9UAFLHvjXM6q8uGHkHlWdch1IDe6EHl++CQe5kdc9eP+IlGJdr9g
+         xuGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773127791; x=1773732591;
+        d=1e100.net; s=20230601; t=1773127793; x=1773732593;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=UPGAxlsgnQwH8V6ZIVfcEYRPqGnb7Td9A0j4ncYAqN0=;
-        b=jcjXUrTLDXy2o9oy8HGY8uSR7eDnEfpZU9zv/6KmwWs1rrjcQm7wKXjWTODjVKVjIH
-         jh0o0RbNQwi56Fz3unoBoFWgSFkuYV0mFcaVWHs+qIkbSLi4kqr/waI9GnHkfxSW2SBo
-         152PecC6LAtqPq0hdhBNVQtZm7EM3cg9c9071ZVXow68ZWaTaQChAJ93KI5nakZszECT
-         H4bO5MM5JCBNxvkh7/r8qlEXYYYiZWnAnqcFCpyTuGaXTcF5IK0Zt+TqHJFu+mVB/lF5
-         cSgOZXnSq0MaehiWGA6hIgAjIl/y4gjPIMpuCX6B8SZTIJZ9smmcuDqf8W6kL0XlhCpo
-         3k9g==
-X-Forwarded-Encrypted: i=1; AJvYcCX97qT0xRXuIgVXMkQo/rnase26Oyb5EC7NcPOVi0C0k862hYzsyWxG6FfErHMBRxCOD2iIqIV0IyA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzyrj1TMvmNPIf11gcgeH5NthQVKzYaP9SkKg1ZD27NPFgChHUO
-	/h7k666b8ZJF4m4DwKRJAWit4Dv1GU/ixOYY4SSzDlyQSR/BzCTY6beH
-X-Gm-Gg: ATEYQzydJG5uHH79JjUZz7ocAc++jSS01kTRLW6HBmqRJ/Ju/rVDxu0uTkSHRklYt6R
-	L2cbDAY+hjzcFc3yc3kSv1sGQpHhz3/5e66VEJgIr1fXIClxAfSGOdJzY+AIgKE9CiCa5wTLRFs
-	cvJoWAj/Vab6qpFzA+KgAkG5cwYyQZMG830CCVuYFoqCAHLhe3S1p6t2pfBiALE2yBO/cHiEAVK
-	vLZNtCK4Mm4eswWn6Sejm+m+RDCkORyDyNGy+NMTmflonST4TY+sS0C408IOKp5cVCu1FKYmT5W
-	uUy3o6iOWyGHGDcVvwAUgGmt+ohvMqV5IkZyQlcCCcUx5zQQma8Xy675hGhBFxTitd6ycwC9zVq
-	JlyUQ5NSzl8gqySED9Qnm++dK19yC4Buez12tKoPu7o22VNuMGdFDMwcwzuIzWmKhFyxq6IuyLM
-	n0bxKsiBzHcFLFYboftwI5CbmlAWXvr2q+9iHYDe4F9ct23EpfQfeB9n1mb9E7UNMRwCxIeo7GV
-	w2Z0NRa82WJYuE=
-X-Received: by 2002:a05:693c:8087:b0:2be:6f30:f2f9 with SMTP id 5a478bee46e88-2be6f30fabemr2064806eec.26.1773127790942;
-        Tue, 10 Mar 2026 00:29:50 -0700 (PDT)
+        bh=4HYa6ycaKvi1sWbnN46hq7wdNbqGIWJQ59Ad+I4hx/o=;
+        b=OmGFyokNuzXJHRnFJfgjAiMI4jMfjToNGsfOqGhAHRKKxYDJqyLJdfEL1T+AK2ck3H
+         w8SlCNl+9fOABV+CoBRrhPkspNRQuHTOO/oDLToaAaYSsIVT/t/F14gGgL/jiJVwnwHh
+         krHdpukDY68CUDx7D1oEueH2cyfjZTecuKvfAj7yFgZ8UKoPb7fRzH2EFPFzqrOmv5gS
+         CsQgK2t6UY0kmVi3d0PVAvvVmJmNW8C4Fqm1eKn2W2MLlWcYBLjAJBmjlSZZ1SkuvePj
+         OXcAxJ2bmyGZYR24q0FhDxb1TbYyumdr//XPzPFiPwcjfDjCU0l1gMtKKCaqDA15hAwl
+         zuRg==
+X-Forwarded-Encrypted: i=1; AJvYcCU88VmbJmSOdx0ZLTty8uwTTMlGah7gdnMJopXGgXY5qmmrta6Vv1hkSvOnrSL4CJSp21AI2cXzoPI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwUpPq+0l6PsNsfyTkU06C8hFGzwJ2lL+x+yAFHmGRd3Kjum0+x
+	FWVLJFdynMVMso0RIE7+I+wYX3vhr6HR2OKW4Uaww8ECVDdjV1gfive8
+X-Gm-Gg: ATEYQzyBRt5cjRflIHNOgIxWTqa3+xs4dK4Hm5pvrSrLeu8uRKCbyl4N96jmDeem9NK
+	l1cjtX2+SuCdOsyJDTm589Ju49TmzNiZbDFlChbKMvSqDBPKHNVTQeTXWuZ6FiNgBbMYAPVs296
+	3iJfFeUfR1v6R6WIwZ05Cq4SElJht1d8Xtqku+gPJA67+CB/i6ZyfwTuSVNike3zeFbfhV8wV3F
+	tKPaqIGIkDbQT6vXHq2hUAmLPs8ABDrKwMU6QaPhxMPlVodAfIzQi7HJHOFzQRtx2BNe3CjJmkg
+	PnjIeuRsRTyfGt8aYtzheRMp08tKwJ/MUnzaKbinQgPriuwaKmDd1gGis02tWnALuVzfXT/0vos
+	jq7KEOResOFYOZptXXr+ev2lAxNFcupMj2s29mrcB+ylfeaR0wCBQj8m9qvPSwCMEKpmSz+2C1n
+	PuvN0BtHdc7RxzPlIny5yvWxF024Bpo97lP6jOjDWSOynBfN3M7jNRdTPwXA7C/bkvjWEQoHD+v
+	Lp6
+X-Received: by 2002:a05:7300:bc97:b0:2a4:701a:b9ba with SMTP id 5a478bee46e88-2be7a123402mr897945eec.14.1773127793162;
+        Tue, 10 Mar 2026 00:29:53 -0700 (PDT)
 Received: from lappy (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2be81209142sm721925eec.12.2026.03.10.00.29.50
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2be81209142sm721925eec.12.2026.03.10.00.29.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2026 00:29:50 -0700 (PDT)
+        Tue, 10 Mar 2026 00:29:52 -0700 (PDT)
 From: "Derek J. Clark" <derekjohn.clark@gmail.com>
 To: Jiri Kosina <jikos@kernel.org>,
 	Benjamin Tissoires <bentiss@kernel.org>
@@ -71,10 +71,11 @@ Cc: Richard Hughes <hughsient@gmail.com>,
 	"Derek J . Clark" <derekjohn.clark@gmail.com>,
 	linux-input@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v6 11/19] HID: hid-lenovo-go-s: Add MCU ID Attribute
-Date: Tue, 10 Mar 2026 07:29:29 +0000
-Message-ID: <20260310072937.3295875-12-derekjohn.clark@gmail.com>
+	linux-kernel@vger.kernel.org,
+	Ethan Tidmore <ethantidmore06@gmail.com>
+Subject: [PATCH v6 12/19] HID: hid-lenovo-go-s: Add Feature Status Attributes
+Date: Tue, 10 Mar 2026 07:29:30 +0000
+Message-ID: <20260310072937.3295875-13-derekjohn.clark@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260310072937.3295875-1-derekjohn.clark@gmail.com>
 References: <20260310072937.3295875-1-derekjohn.clark@gmail.com>
@@ -86,52 +87,181 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Adds command to probe for the MCU ID of the Lenovo Legion Go S
-Controller and assign it to a device attribute.
+Adds features status attributes for the gamepad, MCU, touchpad/mouse,
+and IMU devices.
 
 Reviewed-by: Mark Pearson <mpearson-lenovo@squebb.ca>
+Co-developed-by: Ethan Tidmore <ethantidmore06@gmail.com>
+Signed-off-by: Ethan Tidmore <ethantidmore06@gmail.com>
 Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
 ---
 v6:
+  - Include positive promotion bug fix from Ethan Tidmore.
+  - Include impossible condition bug fix from Ethan Tidmore.
+  - Make local attributes static.
   - Use NULL instead of 0 in mcu_propery_out when there is no data.
+v4:
+  - Cleaner formatting on debug message.
 ---
- drivers/hid/hid-lenovo-go-s.c | 56 +++++++++++++++++++++++++++++++++++
- 1 file changed, 56 insertions(+)
+ drivers/hid/hid-lenovo-go-s.c | 484 +++++++++++++++++++++++++++++++++-
+ 1 file changed, 483 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/hid/hid-lenovo-go-s.c b/drivers/hid/hid-lenovo-go-s.c
-index c9f57dfa145a..8ee75f724b5b 100644
+index 8ee75f724b5b..97c572cfe66c 100644
 --- a/drivers/hid/hid-lenovo-go-s.c
 +++ b/drivers/hid/hid-lenovo-go-s.c
-@@ -18,6 +18,7 @@
+@@ -15,6 +15,7 @@
+ #include <linux/device.h>
+ #include <linux/hid.h>
+ #include <linux/jiffies.h>
++#include <linux/kstrtox.h>
  #include <linux/mutex.h>
  #include <linux/printk.h>
  #include <linux/string.h>
-+#include <linux/sysfs.h>
- #include <linux/types.h>
- #include <linux/unaligned.h>
- #include <linux/usb.h>
-@@ -34,8 +35,13 @@ static struct hid_gos_cfg {
+@@ -35,7 +36,17 @@ static struct hid_gos_cfg {
  	struct completion send_cmd_complete;
  	struct hid_device *hdev;
  	struct mutex cfg_mutex; /*ensure single synchronous output report*/
-+	u8 mcu_id[12];
++	u8 gp_auto_sleep_time;
++	u8 gp_dpad_mode;
++	u8 gp_mode;
++	u8 gp_poll_rate;
++	u8 imu_bypass_en;
++	u8 imu_sensor_en;
+ 	u8 mcu_id[12];
++	u8 mouse_step;
++	u8 os_mode;
++	u8 rgb_en;
++	u8 tp_en;
  } drvdata;
  
-+struct gos_cfg_attr {
-+	u8 index;
+ struct gos_cfg_attr {
+@@ -66,7 +77,73 @@ enum mcu_command_index {
+ 	GET_PL_TEST = 0xdf,
+ };
+ 
+-#define FEATURE_NONE 0x00
++enum feature_enabled_index {
++	FEATURE_DISABLED,
++	FEATURE_ENABLED,
 +};
 +
- struct command_report {
- 	u8 cmd;
- 	u8 sub_cmd;
-@@ -70,6 +76,14 @@ static int hid_gos_version_event(u8 *data)
++static const char *const feature_enabled_text[] = {
++	[FEATURE_DISABLED] = "false",
++	[FEATURE_ENABLED] = "true",
++};
++
++enum feature_status_index {
++	FEATURE_NONE = 0x00,
++	FEATURE_GAMEPAD_MODE = 0x01,
++	FEATURE_AUTO_SLEEP_TIME = 0x04,
++	FEATURE_IMU_BYPASS,
++	FEATURE_RGB_ENABLE,
++	FEATURE_IMU_ENABLE,
++	FEATURE_TOUCHPAD_ENABLE,
++	FEATURE_OS_MODE = 0x0A,
++	FEATURE_POLL_RATE = 0x10,
++	FEATURE_DPAD_MODE,
++	FEATURE_MOUSE_WHEEL_STEP,
++};
++
++enum gamepad_mode_index {
++	XINPUT,
++	DINPUT,
++};
++
++static const char *const gamepad_mode_text[] = {
++	[XINPUT] = "xinput",
++	[DINPUT] = "dinput",
++};
++
++enum os_type_index {
++	WINDOWS,
++	LINUX,
++};
++
++static const char *const os_type_text[] = {
++	[WINDOWS] = "windows",
++	[LINUX] = "linux",
++};
++
++enum poll_rate_index {
++	HZ125,
++	HZ250,
++	HZ500,
++	HZ1000,
++};
++
++static const char *const poll_rate_text[] = {
++	[HZ125] = "125",
++	[HZ250] = "250",
++	[HZ500] = "500",
++	[HZ1000] = "1000",
++};
++
++enum dpad_mode_index {
++	DIR8,
++	DIR4,
++};
++
++static const char *const dpad_mode_text[] = {
++	[DIR8] = "8-way",
++	[DIR4] = "4-way",
++};
+ 
+ static int hid_gos_version_event(u8 *data)
+ {
+@@ -84,6 +161,57 @@ static int hid_gos_mcu_id_event(struct command_report *cmd_rep)
  	return 0;
  }
  
-+static int hid_gos_mcu_id_event(struct command_report *cmd_rep)
++static int hid_gos_gamepad_cfg_event(struct command_report *cmd_rep)
 +{
-+	drvdata.mcu_id[0] = cmd_rep->sub_cmd;
-+	memcpy(&drvdata.mcu_id[1], cmd_rep->data, 11);
++	int ret = 0;
++
++	switch (cmd_rep->sub_cmd) {
++	case FEATURE_GAMEPAD_MODE:
++		drvdata.gp_mode = cmd_rep->data[0];
++		break;
++	case FEATURE_AUTO_SLEEP_TIME:
++		drvdata.gp_auto_sleep_time = cmd_rep->data[0];
++		break;
++	case FEATURE_IMU_BYPASS:
++		drvdata.imu_bypass_en = cmd_rep->data[0];
++		break;
++	case FEATURE_RGB_ENABLE:
++		drvdata.rgb_en = cmd_rep->data[0];
++		break;
++	case FEATURE_IMU_ENABLE:
++		drvdata.imu_sensor_en = cmd_rep->data[0];
++		break;
++	case FEATURE_TOUCHPAD_ENABLE:
++		drvdata.tp_en = cmd_rep->data[0];
++		break;
++	case FEATURE_OS_MODE:
++		drvdata.os_mode = cmd_rep->data[0];
++		break;
++	case FEATURE_POLL_RATE:
++		drvdata.gp_poll_rate = cmd_rep->data[0];
++		break;
++	case FEATURE_DPAD_MODE:
++		drvdata.gp_dpad_mode = cmd_rep->data[0];
++		break;
++	case FEATURE_MOUSE_WHEEL_STEP:
++		drvdata.mouse_step = cmd_rep->data[0];
++		break;
++	default:
++		ret = -EINVAL;
++		break;
++	}
++
++	return ret;
++}
++
++static int hid_gos_set_event_return(struct command_report *cmd_rep)
++{
++	if (cmd_rep->data[0] != 0)
++		return -EIO;
 +
 +	return 0;
 +}
@@ -139,80 +269,394 @@ index c9f57dfa145a..8ee75f724b5b 100644
  static int get_endpoint_address(struct hid_device *hdev)
  {
  	struct usb_interface *intf = to_usb_interface(hdev->dev.parent);
-@@ -103,6 +117,9 @@ static int hid_gos_raw_event(struct hid_device *hdev, struct hid_report *report,
- 	case GET_VERSION:
- 		ret = hid_gos_version_event(data);
+@@ -120,6 +248,12 @@ static int hid_gos_raw_event(struct hid_device *hdev, struct hid_report *report,
+ 	case GET_MCU_ID:
+ 		ret = hid_gos_mcu_id_event(cmd_rep);
  		break;
-+	case GET_MCU_ID:
-+		ret = hid_gos_mcu_id_event(cmd_rep);
++	case GET_GAMEPAD_CFG:
++		ret = hid_gos_gamepad_cfg_event(cmd_rep);
++		break;
++	case SET_GAMEPAD_CFG:
++		ret = hid_gos_set_event_return(cmd_rep);
 +		break;
  	default:
  		ret = -EINVAL;
  		break;
-@@ -157,10 +174,41 @@ static int mcu_property_out(struct hid_device *hdev, u8 command, u8 index,
+@@ -174,17 +308,329 @@ static int mcu_property_out(struct hid_device *hdev, u8 command, u8 index,
  	return 0;
  }
  
-+static ssize_t mcu_id_show(struct device *dev, struct device_attribute *attr,
-+			   char *buf)
++static ssize_t gamepad_property_store(struct device *dev,
++				      struct device_attribute *attr,
++				      const char *buf, size_t count,
++				      enum feature_status_index index)
 +{
-+	return sysfs_emit(buf, "%*phN\n", 12, &drvdata.mcu_id);
++	size_t size = 1;
++	u8 val = 0;
++	int ret;
++
++	switch (index) {
++	case FEATURE_GAMEPAD_MODE:
++		ret = sysfs_match_string(gamepad_mode_text, buf);
++		if (ret < 0)
++			return ret;
++		val = ret;
++		break;
++	case FEATURE_AUTO_SLEEP_TIME:
++		ret = kstrtou8(buf, 10, &val);
++		if (ret)
++			return ret;
++		break;
++	case FEATURE_IMU_ENABLE:
++		ret = sysfs_match_string(feature_enabled_text, buf);
++		if (ret < 0)
++			return ret;
++		val = ret;
++		break;
++	case FEATURE_IMU_BYPASS:
++		ret = sysfs_match_string(feature_enabled_text, buf);
++		if (ret < 0)
++			return ret;
++		val = ret;
++		break;
++	case FEATURE_RGB_ENABLE:
++		ret = sysfs_match_string(feature_enabled_text, buf);
++		if (ret < 0)
++			return ret;
++		val = ret;
++		break;
++	case FEATURE_TOUCHPAD_ENABLE:
++		ret = sysfs_match_string(feature_enabled_text, buf);
++		if (ret < 0)
++			return ret;
++		val = ret;
++		break;
++	case FEATURE_OS_MODE:
++		ret = sysfs_match_string(os_type_text, buf);
++		if (ret < 0)
++			return ret;
++		val = ret;
++		break;
++	case FEATURE_POLL_RATE:
++		ret = sysfs_match_string(poll_rate_text, buf);
++		if (ret < 0)
++			return ret;
++		val = ret;
++		break;
++	case FEATURE_DPAD_MODE:
++		ret = sysfs_match_string(dpad_mode_text, buf);
++		if (ret < 0)
++			return ret;
++		val = ret;
++		break;
++	case FEATURE_MOUSE_WHEEL_STEP:
++		ret = kstrtou8(buf, 10, &val);
++		if (ret)
++			return ret;
++		if (val < 1 || val > 127)
++			return -EINVAL;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	if (!val)
++		size = 0;
++
++	ret = mcu_property_out(drvdata.hdev, SET_GAMEPAD_CFG, index, &val,
++			       size);
++	if (ret < 0)
++		return ret;
++
++	return count;
 +}
 +
-+/* MCU */
-+static DEVICE_ATTR_RO(mcu_id);
++static ssize_t gamepad_property_show(struct device *dev,
++				     struct device_attribute *attr, char *buf,
++				     enum feature_status_index index)
++{
++	ssize_t count = 0;
++	u8 i;
 +
-+static struct attribute *legos_mcu_attrs[] = {
-+	&dev_attr_mcu_id.attr,
++	count = mcu_property_out(drvdata.hdev, GET_GAMEPAD_CFG, index, NULL, 0);
++	if (count < 0)
++		return count;
++
++	switch (index) {
++	case FEATURE_GAMEPAD_MODE:
++		i = drvdata.gp_mode;
++		if (i >= ARRAY_SIZE(gamepad_mode_text))
++			return -EINVAL;
++		count = sysfs_emit(buf, "%s\n", gamepad_mode_text[i]);
++		break;
++	case FEATURE_AUTO_SLEEP_TIME:
++		count = sysfs_emit(buf, "%u\n", drvdata.gp_auto_sleep_time);
++		break;
++	case FEATURE_IMU_ENABLE:
++		i = drvdata.imu_sensor_en;
++		if (i >= ARRAY_SIZE(feature_enabled_text))
++			return -EINVAL;
++		count = sysfs_emit(buf, "%s\n", feature_enabled_text[i]);
++		break;
++	case FEATURE_IMU_BYPASS:
++		i = drvdata.imu_bypass_en;
++		if (i >= ARRAY_SIZE(feature_enabled_text))
++			return -EINVAL;
++		count = sysfs_emit(buf, "%s\n", feature_enabled_text[i]);
++		break;
++	case FEATURE_RGB_ENABLE:
++		i = drvdata.rgb_en;
++		if (i >= ARRAY_SIZE(feature_enabled_text))
++			return -EINVAL;
++		count = sysfs_emit(buf, "%s\n", feature_enabled_text[i]);
++		break;
++	case FEATURE_TOUCHPAD_ENABLE:
++		i = drvdata.tp_en;
++		if (i >= ARRAY_SIZE(feature_enabled_text))
++			return -EINVAL;
++		count = sysfs_emit(buf, "%s\n", feature_enabled_text[i]);
++		break;
++	case FEATURE_OS_MODE:
++		i = drvdata.os_mode;
++		if (i >= ARRAY_SIZE(os_type_text))
++			return -EINVAL;
++		count = sysfs_emit(buf, "%s\n", os_type_text[i]);
++		break;
++	case FEATURE_POLL_RATE:
++		i = drvdata.gp_poll_rate;
++		if (i >= ARRAY_SIZE(poll_rate_text))
++			return -EINVAL;
++		count = sysfs_emit(buf, "%s\n", poll_rate_text[i]);
++		break;
++	case FEATURE_DPAD_MODE:
++		i = drvdata.gp_dpad_mode;
++		if (i >= ARRAY_SIZE(dpad_mode_text))
++			return -EINVAL;
++		count = sysfs_emit(buf, "%s\n", dpad_mode_text[i]);
++		break;
++	case FEATURE_MOUSE_WHEEL_STEP:
++		i = drvdata.mouse_step;
++		if (i < 1 || i > 127)
++			return -EINVAL;
++		count = sysfs_emit(buf, "%u\n", i);
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	return count;
++}
++
++static ssize_t gamepad_property_options(struct device *dev,
++					struct device_attribute *attr,
++					char *buf,
++					enum feature_status_index index)
++{
++	size_t count = 0;
++	unsigned int i;
++
++	switch (index) {
++	case FEATURE_GAMEPAD_MODE:
++		for (i = 0; i < ARRAY_SIZE(gamepad_mode_text); i++) {
++			count += sysfs_emit_at(buf, count, "%s ",
++					       gamepad_mode_text[i]);
++		}
++		break;
++	case FEATURE_AUTO_SLEEP_TIME:
++		return sysfs_emit(buf, "0-255\n");
++	case FEATURE_IMU_ENABLE:
++		for (i = 0; i < ARRAY_SIZE(feature_enabled_text); i++) {
++			count += sysfs_emit_at(buf, count, "%s ",
++					       feature_enabled_text[i]);
++		}
++		break;
++	case FEATURE_IMU_BYPASS:
++	case FEATURE_RGB_ENABLE:
++	case FEATURE_TOUCHPAD_ENABLE:
++		for (i = 0; i < ARRAY_SIZE(feature_enabled_text); i++) {
++			count += sysfs_emit_at(buf, count, "%s ",
++					       feature_enabled_text[i]);
++		}
++		break;
++	case FEATURE_OS_MODE:
++		for (i = 0; i < ARRAY_SIZE(os_type_text); i++) {
++			count += sysfs_emit_at(buf, count, "%s ",
++					       os_type_text[i]);
++		}
++		break;
++	case FEATURE_POLL_RATE:
++		for (i = 0; i < ARRAY_SIZE(poll_rate_text); i++) {
++			count += sysfs_emit_at(buf, count, "%s ",
++					       poll_rate_text[i]);
++		}
++		break;
++	case FEATURE_DPAD_MODE:
++		for (i = 0; i < ARRAY_SIZE(dpad_mode_text); i++) {
++			count += sysfs_emit_at(buf, count, "%s ",
++					       dpad_mode_text[i]);
++		}
++		break;
++	case FEATURE_MOUSE_WHEEL_STEP:
++		return sysfs_emit(buf, "1-127\n");
++	default:
++		return count;
++	}
++
++	if (count)
++		buf[count - 1] = '\n';
++
++	return count;
++}
++
+ static ssize_t mcu_id_show(struct device *dev, struct device_attribute *attr,
+ 			   char *buf)
+ {
+ 	return sysfs_emit(buf, "%*phN\n", 12, &drvdata.mcu_id);
+ }
+ 
++#define LEGOS_DEVICE_ATTR_RW(_name, _attrname, _rtype, _group)                 \
++	static ssize_t _name##_store(struct device *dev,                       \
++				     struct device_attribute *attr,            \
++				     const char *buf, size_t count)            \
++	{                                                                      \
++		return _group##_property_store(dev, attr, buf, count,          \
++					       _name.index);                   \
++	}                                                                      \
++	static ssize_t _name##_show(struct device *dev,                        \
++				    struct device_attribute *attr, char *buf)  \
++	{                                                                      \
++		return _group##_property_show(dev, attr, buf, _name.index);    \
++	}                                                                      \
++	static ssize_t _name##_##_rtype##_show(                                \
++		struct device *dev, struct device_attribute *attr, char *buf)  \
++	{                                                                      \
++		return _group##_property_options(dev, attr, buf, _name.index); \
++	}                                                                      \
++	static DEVICE_ATTR_RW_NAMED(_name, _attrname)
++
++#define LEGOS_DEVICE_ATTR_RO(_name, _attrname, _group)                        \
++	static ssize_t _name##_show(struct device *dev,                       \
++				    struct device_attribute *attr, char *buf) \
++	{                                                                     \
++		return _group##_property_show(dev, attr, buf, _name.index);   \
++	}                                                                     \
++	static DEVICE_ATTR_RO_NAMED(_name, _attrname)
++
++/* Gamepad */
++static struct gos_cfg_attr auto_sleep_time = { FEATURE_AUTO_SLEEP_TIME };
++LEGOS_DEVICE_ATTR_RW(auto_sleep_time, "auto_sleep_time", range, gamepad);
++static DEVICE_ATTR_RO(auto_sleep_time_range);
++
++static struct gos_cfg_attr dpad_mode = { FEATURE_DPAD_MODE };
++LEGOS_DEVICE_ATTR_RW(dpad_mode, "dpad_mode", index, gamepad);
++static DEVICE_ATTR_RO(dpad_mode_index);
++
++static struct gos_cfg_attr gamepad_mode = { FEATURE_GAMEPAD_MODE };
++LEGOS_DEVICE_ATTR_RW(gamepad_mode, "mode", index, gamepad);
++static DEVICE_ATTR_RO_NAMED(gamepad_mode_index, "mode_index");
++
++static struct gos_cfg_attr gamepad_poll_rate = { FEATURE_POLL_RATE };
++LEGOS_DEVICE_ATTR_RW(gamepad_poll_rate, "poll_rate", index, gamepad);
++static DEVICE_ATTR_RO_NAMED(gamepad_poll_rate_index, "poll_rate_index");
++
++static struct attribute *legos_gamepad_attrs[] = {
++	&dev_attr_auto_sleep_time.attr,
++	&dev_attr_auto_sleep_time_range.attr,
++	&dev_attr_dpad_mode.attr,
++	&dev_attr_dpad_mode_index.attr,
++	&dev_attr_gamepad_mode.attr,
++	&dev_attr_gamepad_mode_index.attr,
++	&dev_attr_gamepad_poll_rate.attr,
++	&dev_attr_gamepad_poll_rate_index.attr,
 +	NULL,
 +};
 +
-+static const struct attribute_group mcu_attr_group = {
-+	.attrs = legos_mcu_attrs,
++static const struct attribute_group gamepad_attr_group = {
++	.name = "gamepad",
++	.attrs = legos_gamepad_attrs,
 +};
 +
-+static const struct attribute_group *top_level_attr_groups[] = {
-+	&mcu_attr_group,
++/* IMU */
++static struct gos_cfg_attr imu_bypass_enabled = { FEATURE_IMU_BYPASS };
++LEGOS_DEVICE_ATTR_RW(imu_bypass_enabled, "bypass_enabled", index, gamepad);
++static DEVICE_ATTR_RO_NAMED(imu_bypass_enabled_index, "bypass_enabled_index");
++
++static struct gos_cfg_attr imu_sensor_enabled = { FEATURE_IMU_ENABLE };
++LEGOS_DEVICE_ATTR_RW(imu_sensor_enabled, "sensor_enabled", index, gamepad);
++static DEVICE_ATTR_RO_NAMED(imu_sensor_enabled_index, "sensor_enabled_index");
++
++static struct attribute *legos_imu_attrs[] = {
++	&dev_attr_imu_bypass_enabled.attr,
++	&dev_attr_imu_bypass_enabled_index.attr,
++	&dev_attr_imu_sensor_enabled.attr,
++	&dev_attr_imu_sensor_enabled_index.attr,
 +	NULL,
 +};
 +
- static void cfg_setup(struct work_struct *work)
- {
- 	int ret;
- 
-+	/* MCU */
-+	ret = mcu_property_out(drvdata.hdev, GET_MCU_ID, FEATURE_NONE, NULL, 0);
-+	if (ret) {
-+		dev_err(&drvdata.hdev->dev, "Failed to retrieve MCU ID: %i\n",
-+			ret);
-+		return;
-+	}
++static const struct attribute_group imu_attr_group = {
++	.name = "imu",
++	.attrs = legos_imu_attrs,
++};
 +
- 	ret = mcu_property_out(drvdata.hdev, GET_VERSION, FEATURE_NONE, NULL, 0);
- 	if (ret) {
- 		dev_err(&drvdata.hdev->dev, "Failed to retrieve MCU Version: %i\n", ret);
-@@ -177,6 +225,13 @@ static int hid_gos_cfg_probe(struct hid_device *hdev,
- 	drvdata.hdev = hdev;
- 	mutex_init(&drvdata.cfg_mutex);
+ /* MCU */
+ static DEVICE_ATTR_RO(mcu_id);
  
-+	ret = sysfs_create_groups(&hdev->dev.kobj, top_level_attr_groups);
-+	if (ret) {
-+		dev_err_probe(&hdev->dev, ret,
-+			      "Failed to create gamepad configuration attributes\n");
-+		return ret;
-+	}
++static struct gos_cfg_attr os_mode = { FEATURE_OS_MODE };
++LEGOS_DEVICE_ATTR_RW(os_mode, "os_mode", index, gamepad);
++static DEVICE_ATTR_RO(os_mode_index);
 +
- 	init_completion(&drvdata.send_cmd_complete);
+ static struct attribute *legos_mcu_attrs[] = {
+ 	&dev_attr_mcu_id.attr,
++	&dev_attr_os_mode.attr,
++	&dev_attr_os_mode_index.attr,
+ 	NULL,
+ };
  
- 	/* Executing calls prior to returning from probe will lock the MCU. Schedule
-@@ -196,6 +251,7 @@ static void hid_gos_cfg_remove(struct hid_device *hdev)
- {
- 	guard(mutex)(&drvdata.cfg_mutex);
- 	cancel_delayed_work_sync(&drvdata.gos_cfg_setup);
-+	sysfs_remove_groups(&hdev->dev.kobj, top_level_attr_groups);
- 	hid_hw_close(hdev);
- 	hid_hw_stop(hdev);
- 	hid_set_drvdata(hdev, NULL);
+@@ -192,8 +638,44 @@ static const struct attribute_group mcu_attr_group = {
+ 	.attrs = legos_mcu_attrs,
+ };
+ 
++/* Mouse */
++static struct gos_cfg_attr mouse_wheel_step = { FEATURE_MOUSE_WHEEL_STEP };
++LEGOS_DEVICE_ATTR_RW(mouse_wheel_step, "step", range, gamepad);
++static DEVICE_ATTR_RO_NAMED(mouse_wheel_step_range, "step_range");
++
++static struct attribute *legos_mouse_attrs[] = {
++	&dev_attr_mouse_wheel_step.attr,
++	&dev_attr_mouse_wheel_step_range.attr,
++	NULL,
++};
++
++static const struct attribute_group mouse_attr_group = {
++	.name = "mouse",
++	.attrs = legos_mouse_attrs,
++};
++
++/* Touchpad */
++static struct gos_cfg_attr touchpad_enabled = { FEATURE_TOUCHPAD_ENABLE };
++LEGOS_DEVICE_ATTR_RW(touchpad_enabled, "enabled", index, gamepad);
++static DEVICE_ATTR_RO_NAMED(touchpad_enabled_index, "enabled_index");
++
++static struct attribute *legos_touchpad_attrs[] = {
++	&dev_attr_touchpad_enabled.attr,
++	&dev_attr_touchpad_enabled_index.attr,
++	NULL,
++};
++
++static const struct attribute_group touchpad_attr_group = {
++	.name = "touchpad",
++	.attrs = legos_touchpad_attrs,
++};
++
+ static const struct attribute_group *top_level_attr_groups[] = {
++	&gamepad_attr_group,
++	&imu_attr_group,
+ 	&mcu_attr_group,
++	&mouse_attr_group,
++	&touchpad_attr_group,
+ 	NULL,
+ };
+ 
 -- 
 2.53.0
 
