@@ -1,133 +1,98 @@
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4001F306498
-	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 15:00:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 831682E9749
+	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 15:18:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773154841; cv=none; b=CbZyC1iU/VwHk4qLMpiIkvSjlOiFQTCHR3CGuVtVaZZFnX/c4Ma1ToVAhL/ejIa+DzILThQg/kMa45//tX/JPzsu+Nnp0kCV8iyf8txQBiFhqjgZ1tibP8+UuSENUkg4jDmqJU/oR7l5sMYdVb1ZbEprzBENuPdeDjvuy8PQJFc=
+	t=1773155938; cv=none; b=iPEIvl0aj5rpSFmUldvlZrPuv4IEh/Th7gE7DhnlJuzQo4ZJoDLHqyFiqkNhuS2hLjB8bhVXKA7OHYJ3U7vh/Y2ebZw9QcMG9sKjJNvc+q9WyH5dJeeEmxau1zbgCiphNcFblZfCj47v6NzkTZV+Ri7vUf4PAR1k7IWrGfHrsDM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773154841; c=relaxed/simple;
-	bh=E4y5SjxQYFIHYx8OjoVFKchVjF6kT29GZOvgR2ljlWM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=juu9ykZhH5KZTAgzrzyzeKIAZhnW5ZikVa1TS6obY9e1uK+Ow1rSaGK3ey9+vPnHY9C/5MjhwTvrbaemtMsnt4QYLg7zCnO5SCWlhDFXHXzAiiiciOb/fKzSYrrjjm7PxSFnqKZQafhxYysPLslRlTqpnAquxsytHmXPneC8TZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	s=arc-20240116; t=1773155938; c=relaxed/simple;
+	bh=mHV1PgZGz2Vr0PogfSP9+zDd6Cac9V6lHQQyCpfY644=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sJ44WVjU21IXeP9tTG1F0q3ZOxzwj1lN6M6tfasf+j2NPFDys7DUkgTW7q9Qv9Ll+HtGPM4eDGNAYH8GwDx62ppkuQpyrQECtplpRSKg7Iqj7Dt3TM2yF3jyHgMI45eDROdaAjst+OGvOQTuX4Me51hrHr+gVXDAeF0dLBuNzgY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TJL0wNfI; arc=none smtp.client-ip=209.85.210.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-94dd0f3c4b7so7640458241.1
-        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 08:00:38 -0700 (PDT)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TJL0wNfI"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-82976220e97so3514373b3a.3
+        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 08:18:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773155937; x=1773760737; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dF0egp0NMjHto7AOlBLmoDYpDU8LRY2oTuHXLlJABsE=;
+        b=TJL0wNfIx+H+rIlehKynL+fyzRHCaInXr+ElFUEv9SM9wreLfpM6ZQ7YYCz185daK5
+         vx8V2bGe46RE0ZxcoFj9Rqss+s/VZD+HFO9hfbhp+0zOhjcXkhtzKEPZAu7sx0aSQExE
+         eVBUKUZwDS/ugU86Su8M/vY1ay5aFHedu1f1wjDFQr5zlsvK31/FDen/xhS9rLn7oymO
+         9riFdCnnLScNV39aITzi+WdIesyzDrj605jGJ9pHh5sYW4WoWcXhx+QlS1cHbI9kAEKW
+         C+lr2J9b6GBe7QFaXFq63p3VOJ8bJcS0GDia8DgjI0hoKVq7uAu+SSe/seQDleMCRMSg
+         8AdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773154837; x=1773759637;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1773155937; x=1773760737;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LbdnccCezu2uMC00sjJ2cmGPWS7DRd2NbCZXVo+mkHA=;
-        b=Kxy5TQRDUK/iR3eWgTVIkDprC0NnwYMePN5Zx3voTNZb9uwHjlEyUtvhteNSHYZH82
-         tOv3Qf0sbIHtbXzhwAAnDgklB8YZIfaz6KBDvHPwep5uEO1eIzyd/p3vtBoDaF6asVfE
-         /aJfeGlOIDmqLNirYCHgO1zVwv6K43BKMMIZ5Ch83p6IwXgA2knCAo+V9476TSa8H0M+
-         K4Xaomyz7PHrBszXwRG6u3xk/33pwX1U8VV5i9p6huKlUw4epcVoFoQowkVHtj3zmI24
-         HEIfJkPSSKKXRxxyTevtDk3NPeikuC3r7jjJKyEpH0344YNzLeCrpDQ1hJyup9E79zDw
-         G0Dw==
-X-Forwarded-Encrypted: i=1; AJvYcCVIGjGUSi3nV5CnrNGmMTJOq3UX7y/McR0I+kA6rfZX9mSFhOVH94uetFtxrNZLuIxV2hzBd48k8Vs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxgYYZXKBsWA2fFgw8qBpMqm3vCxPCqK4W5n5JM3C3t9SHT/HLK
-	WzkSjOotQvdTMyZIjYvTk851pgl9CfexpjiPYaeeyLTAB7dPyuN3bvK3/AHGL5JP
-X-Gm-Gg: ATEYQzy6kC3APDgYEZ1x+t2u68ovz3dqrFA9WlWi7kIttcdEFuEE3FmsQ2vegOtIail
-	4GB2a8qb7pGo7g8YE21jjUWD99lq+7BtNVegaawcYllXlieNN6S+QczwXbbV70hr2QcIyNt3+Du
-	l4LcKQLHo/+z8z/3Krd1wRmIbkhENWYGSddbbrD/eSTjgbOKHZ9k3BqxzgCcsmRD/1XHYUO9p59
-	Nkp6w5XT0mUK/MYui3MZrziRvSLQApLbFM+0GoqV1knhKJoAyh1tInM807tDh81gadhp8oQ2END
-	21C6fomtNcIFFUVagU6J6ZPI9EE9B8G3D1kd6NDhZM/05EJdpD1J4I3XkHgauTDG16+R66po3l1
-	koGvHA7cmjgHYmhdHQgA6d6B1JHq6gjBXG+IWgohaTFLYXDM9GA8sLgwjurGtk5aiymghnwGYYY
-	4NNkdaAsRgAZQLaaoVfYxl+3uGrAUktntgwDLZrGaYcFljqQ/onqJI98J+n+Di8wNU
-X-Received: by 2002:a05:6102:32c1:b0:5ff:b684:f7c5 with SMTP id ada2fe7eead31-5ffe5ed0a52mr5820579137.8.1773154836712;
-        Tue, 10 Mar 2026 08:00:36 -0700 (PDT)
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com. [209.85.221.177])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-94ea681505csm2868619241.4.2026.03.10.08.00.35
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Mar 2026 08:00:36 -0700 (PDT)
-Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-5675d609621so10887463e0c.2
-        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 08:00:35 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXp5usAwZQUf7kUH8uSTrAVeQ8f3gJcjKbHTP+xF+4ZRKfu3gAdslT2qD3/Vr2QPHrjb7CybXVo2Pc=@vger.kernel.org
-X-Received: by 2002:a05:6102:b10:b0:5ff:ae5c:c669 with SMTP id
- ada2fe7eead31-5ffe635a574mr5925123137.37.1773154835193; Tue, 10 Mar 2026
- 08:00:35 -0700 (PDT)
+        bh=dF0egp0NMjHto7AOlBLmoDYpDU8LRY2oTuHXLlJABsE=;
+        b=dzquv6s1S3ukMxbVbqFdAs6jKh5yDPMnINHu5E3vVzQQmVih6NLfbSnv/OF+vPvFFk
+         7Kzbn5RFhEoMbQn+an6XeAcPR25SQ1zQg1iah9up2X/N27rUAIpdb6TE48IL3t5SJR+7
+         pcHI8hd/Y/rW/894sI2DmjLFLzuIPn2YcWyqC6DJBCiS5XlICGlzfBVq7Nx5hjY5CjZQ
+         30xB6e+j+G0AKnQSqS2bQ9LHzinA710rKbzcZqhPCWaF/15BRPKdZdRTE8K+dLW5oDx/
+         LWKhtOENKAzl1TxDyN/xFg/y+UEXC+ttRKhUP4EgpXoTOe3fIRk07wq50YQSCw1NjZUG
+         f84Q==
+X-Gm-Message-State: AOJu0Yx69vSW63pzeeoQrKw4cUZQP/h9KnmGVwb/nkwobV4my5yndFpv
+	z12dARL0C65Q+5oF4SzZBkay3oLfffwT7kSVDOqJVq6J18kS/eYl3oJW7zFhXw==
+X-Gm-Gg: ATEYQzwqF2HvLE/VCgqBVIEOwAuIF1uwP2qgw47Wauts8EsuJKQ1mAc0jevbY+Cz2hC
+	cgfc7H5RyH0o+9YVuX4SbM7zCrqhv04s6XCd+yA2mk+dwOoAOmdfPniCEgAqTFlRpAvuVliK3yf
+	K58d9tyHIDkqjSJ5uP6KCBI9un3fnf6n8FN9U1aZKvxqLDW9Zv347pvfQtAKHCaJExr4oEOfJsv
+	xQ+VkuA5JmK8t3CN232n+uAyBM/0sS/as++KQ6vQt30kbCLqdZHrz+75xUi2dsj9M69PBvLgd4C
+	8nkzk2usxzFLle7u8/83X3zi2Ev30rTM9gAqMptNg7eZCAYbV3jwX1txzC2cYwT5e0FPM9KsSUH
+	hw9j2aXk/I5rgo3FcIshsi1IrZr3w4Vt5JjDh9KzXccPtZyi87MMaUBYX3FiO0bxc+4xiAQfAHe
+	R74/05bElok3Bk39nSvMDcSfnhBOgzW2m8w2lTyA==
+X-Received: by 2002:a05:6a00:2d89:b0:827:28ba:ff00 with SMTP id d2e1a72fcca58-829a2dbc7e3mr13800245b3a.18.1773155936776;
+        Tue, 10 Mar 2026 08:18:56 -0700 (PDT)
+Received: from localhost.localdomain ([240f:34:212d:1:42d1:111d:2b5b:9957])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-829a48a20c0sm17011548b3a.43.2026.03.10.08.18.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Mar 2026 08:18:56 -0700 (PDT)
+From: Akinobu Mita <akinobu.mita@gmail.com>
+To: linux-mm@kvack.org
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	akpm@linux-foundation.org,
+	Akinobu Mita <akinobu.mita@gmail.com>
+Subject: [PATCH] docs: mm: fix typo in numa_memory_policy.rst
+Date: Wed, 11 Mar 2026 00:18:37 +0900
+Message-ID: <20260310151837.5888-1-akinobu.mita@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260306-reset-core-refactor-v3-0-599349522876@oss.qualcomm.com> <20260306-reset-core-refactor-v3-13-599349522876@oss.qualcomm.com>
-In-Reply-To: <20260306-reset-core-refactor-v3-13-599349522876@oss.qualcomm.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 10 Mar 2026 16:00:24 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUiF0qF35Lyti=7ts9Uw35Z8Q234BHH7BmEteM=hHOGZw@mail.gmail.com>
-X-Gm-Features: AaiRm53MlUq7KDaXohTp5AuH5MwNn7SEvlXJchnY2cRz9zIrHfYicONv2V0J46M
-Message-ID: <CAMuHMdUiF0qF35Lyti=7ts9Uw35Z8Q234BHH7BmEteM=hHOGZw@mail.gmail.com>
-Subject: Re: [PATCH v3 13/14] reset: convert reset core to using firmware nodes
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org, 
-	brgl@kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Bartosz,
+Fix a typo: MPOL_INTERLEAVED -> MPOL_INTERLEAVE.
 
-On Fri, 6 Mar 2026 at 18:30, Bartosz Golaszewski
-<bartosz.golaszewski@oss.qualcomm.com> wrote:
-> With everything else now in place, we can convert the remaining parts of
-> the reset subsystem to becoming fwnode-agnostic - meaning it will work
-> with all kinds of firmware nodes, not only devicetree.
->
-> To that end: extend struct reset_controller_dev with fields taking
-> information relevant for using firmware nodes (which mirrors what we
-> already do for OF-nodes) and limit using of_ APIs only to where it's
-> absolutely necessary (mostly around the of_xlate callback).
->
-> For backward compatibility of existing drivers we still support OF-nodes
-> but firmware nodes become the preferred method.
->
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Signed-off-by: Akinobu Mita <akinobu.mita@gmail.com>
+---
+ Documentation/admin-guide/mm/numa_memory_policy.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks for your patch, which is now commit 9035073d0ef1de81 ("reset:
-convert reset core to using firmware nodes") in reset/next.
-
-> --- a/drivers/reset/core.c
-> +++ b/drivers/reset/core.c
-
-> @@ -951,18 +965,18 @@ static int reset_create_gpio_aux_device(struct reset_gpio_lookup *rgpio_dev,
->         return 0;
->  }
->
-> -static void reset_gpio_add_devlink(struct device_node *np,
-> +static void reset_gpio_add_devlink(struct fwnode_handle *fwnode,
->                                    struct reset_gpio_lookup *rgpio_dev)
->  {
->         struct device *consumer;
->
->         /*
-> -        * We must use get_dev_from_fwnode() and not of_find_device_by_node()
-> +        * We must use get_dev_from_fwnode() and not ref_find_device_by_node()
-
-ref_find_device_by_node() does not exist. What should it be?
-
->          * because the latter only considers the platform bus while we want to
->          * get consumers of any kind that can be associated with firmware
->          * nodes: auxiliary, soundwire, etc.
->          */
-> -       consumer = get_dev_from_fwnode(of_fwnode_handle(np));
-> +       consumer = get_dev_from_fwnode(fwnode);
->         if (consumer) {
->                 if (!device_link_add(consumer, &rgpio_dev->adev.dev,
->                                      DL_FLAG_AUTOREMOVE_CONSUMER))
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/Documentation/admin-guide/mm/numa_memory_policy.rst b/Documentation/admin-guide/mm/numa_memory_policy.rst
+index a70f20ce1ffb..90ab26e805a9 100644
+--- a/Documentation/admin-guide/mm/numa_memory_policy.rst
++++ b/Documentation/admin-guide/mm/numa_memory_policy.rst
+@@ -217,7 +217,7 @@ MPOL_PREFERRED
+ 	the MPOL_F_STATIC_NODES or MPOL_F_RELATIVE_NODES flags
+ 	described below.
+ 
+-MPOL_INTERLEAVED
++MPOL_INTERLEAVE
+ 	This mode specifies that page allocations be interleaved, on a
+ 	page granularity, across the nodes specified in the policy.
+ 	This mode also behaves slightly differently, based on the
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.43.0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
