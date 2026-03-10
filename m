@@ -1,154 +1,119 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E43333E5EF6;
-	Tue, 10 Mar 2026 08:14:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773130470; cv=none; b=PZvf7PWfQJ0AngmjigjaRk3PWf1qUSPvM3cRnejJHNRPS0fvLp76iiVV9MdCFY2d2gArepVz1Mak/B1LfJiGxEGFirU/J9/1xt0oSi8mc5oDUGOgAE+I50LVZZzrLR+a+J9Jyro2tDTfFLkkIEm54KsQbYTpUS5sbYwHQOXGEkw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773130470; c=relaxed/simple;
-	bh=II7xDeyDb8rZ8V8baxQPCPWqwwmcxZxEG38xOW9GOEQ=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=V8csBDpfNda+WUbh5TjXMK4H5ZubDpWyhKbKdboIN4AIk1h0ZPpoG1Ucj57/e+NNYSoQQTwkAylCKifP/w7IJ2boJWxrX7Bpn4q+9u8b9c2F+P2398VR3VoTi6ViDgG85egCswFusRVe8DOco6negPb+E4hxlW7a/NrOyGE5oiw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=M3hv1glX; arc=none smtp.client-ip=192.134.164.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1740542EECB
+	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 08:46:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.170
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773132398; cv=pass; b=bIasNNt1gk5y9ymFtmA3zGpHDEybSfTEz/4eE77l/kQlZsbXCvfy2D196oSjyvadPB3uNvCpDwSY+j1xjCSx2+Rf3BCo0O8/NDDlJdYL+tfkbGCUKikvdg07bmL4RE7AxCb3HoMcOR+91GaXP2pr9I8VOe8GFXskytYIP5RqxEw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773132398; c=relaxed/simple;
+	bh=RszETrACILeYN/zC7YLvxSjKCkmrXHy7cyN9O/Mz3ik=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qxNUSzSHTxHpq4i021rhPCv6XzDFIdSbo6hJGpf1vXdaj1PbsAsLPVzfawQhJlz9bXJBDB7/mT4XlveVXtl7tfZfnbbN2eJUcmYTbsbmxDLhZAK2/0IH5UoJZ5BmTnUWfhs/M/lzQ51mJUZ1psN8++RRbJOD2dExHRG9JGrfgl8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WfoLbIQA; arc=pass smtp.client-ip=209.85.160.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="M3hv1glX"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WfoLbIQA"
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-50904a8f421so26140071cf.2
+        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 01:46:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773132396; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ZlukUxzdgwAgprNJAwptAXYvzOcNwYn+VZZnCksGCfnqyR0B9MxNjEIlwMqfYr/CgT
+         bZoZjAAEdzfDXxNf1x1Gj0/K4jxtF8SgjiqqGqN0YWQq53eYBqmHMn2U0LyseJVi1iZP
+         RWud0JFjzb6Xr0siJ3K/h/uTCCfxvmYdWB2aebCib6gCHwUqxvJtpickVmndh89kwubd
+         evpjvVTLdyPKdaeoWiqNlOvecqOrgiyHe1ilTvQArdqiWp4K36esGS/L76uvEyO9twAS
+         nacVFFnYlmYJyVLI5+DlIvTOc+a7f89w8BYYuvcPTFs+jOJKoBvJzINx38etbUQ2XjXb
+         Lqfg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=3nEimDqly9kpV/fuktlYtnq2NPSlAX7VPlv+iNqng0A=;
+        fh=7+dzb8tG2cJQPBEHYVEIlbhlfy9wXwGYzY+c1eaDycM=;
+        b=hnYARnyjdb8bQ6DEPBgzvOIsLNjkehz0bNtNawv+sRIhg94uHJKM4OnCGRtsbwXVhd
+         I24718L+mWe/qMa0ErcraRxYsq6TQrzhCkO8Gyv2JMefCxBf4JVLKOaEMsgwhju8EC9l
+         aCCHWLV8IZTJOZcO+R2sUiiNOztX6kETHMDboHeIUbIxGU6hM++sjV0c7F5cKG7a+V2f
+         SWhRLRK2Z7EEv7jDtwUCjeVmCLpROZ7M78AqKU6bb4MDwqdk9WuEYrxojVB96hkKw+63
+         PrsiSA9cHDYctqrSZwaZy4NCH4/8peCghMxvuNRfE2qgCCaZgZwZBciDK/urZeDpoewT
+         Wbrg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=G84E1BFqzDmZlmhqiq+SlF9cM59SN/DfFX3Qxra8O5Y=;
-  b=M3hv1glXA0XkkebVoyawLB3dTM3SyLH1ELUwAMZ7JdOpeXAT0544Zm+U
-   MYon8+RC2R/iLI0atV48UQgQLYLN5qsLBHoKLff1YG9fNF/Thxh70JvvL
-   Twjy3hVnUGSWYir/37bPfvoiDX5XoEeebmIwISMKec7GsNkmJIY4YgkrB
-   A=;
-X-CSE-ConnectionGUID: g3jONuHpQmisF6aPYpfdCw==
-X-CSE-MsgGUID: tz7cn+BsSHqG/Bf0jWEJxA==
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.23,111,1770591600"; 
-   d="scan'208";a="267018386"
-Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 09:14:27 +0100
-Date: Tue, 10 Mar 2026 09:14:26 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Julia Lawall <Julia.Lawall@inria.fr>
-cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-    workflows@vger.kernel.org, cocci@inria.fr, 
-    Nicolas Palix <nicolas.palix@imag.fr>, 
-    Hu Haowen <2023002089@link.tyut.edu.cn>, Alex Shi <alexs@kernel.org>, 
-    Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, 
-    linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-    Federico Vaga <federico.vaga@vaga.pv.it>, 
-    Carlos Bilbao <carlos.bilbao@kernel.org>, 
-    Avadhut Naik <avadhut.naik@amd.com>, LIU Haoyang <tttturtleruss@gmail.com>
-Subject: Re: [cocci] [PATCH] coccinelle: update Coccinelle URL
-In-Reply-To: <20260310081112.354802-1-Julia.Lawall@inria.fr>
-Message-ID: <7db99952-d1ef-7148-4c8f-1e6ae8f0d875@inria.fr>
-References: <20260310081112.354802-1-Julia.Lawall@inria.fr>
+        d=google.com; s=20230601; t=1773132396; x=1773737196; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3nEimDqly9kpV/fuktlYtnq2NPSlAX7VPlv+iNqng0A=;
+        b=WfoLbIQAD6GXIH2YYz4hBqNgFaASWppvh7aqRvCgMSoJK+r9lpVxAjRyzI69G5zxAM
+         GCZYAQS6+GZyBzp2OxNDykljQK3vnDfi7y14Yea7YvEUhvTz2XjTgRbsagmtQ9bCmRM7
+         /A68e0V1XxoDf5c3TZswd2LYDIqW7iIijVLbQmMlYau0H2m25MZRILLfCYwGacgvSPKL
+         gRTgExW6j6eiTxE+VzNWqYWdUX5TWdWML8Hd+b0l5anKjAIaoiPIOdJd+8sFcjUlT35I
+         2xe6xItTljxBeWLasuLgyjxvrD/lPRi0RlnTWarmTN+zKfvlTVR0brk8bN0sT9ZNsjTe
+         kmLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773132396; x=1773737196;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=3nEimDqly9kpV/fuktlYtnq2NPSlAX7VPlv+iNqng0A=;
+        b=NQnYV6ffD3nUCeSUCbLxM15nSouxPASdykOcE3jieokUqln74x7ygf5tT1V4IwOLe6
+         BiuitGGwQw3xSeepCdL2K9+Udh1H+uw9WzKRazfvmGV8cuAJPhc/wZr8C3aDu6N6pVEK
+         1Hp6kHKi8w5jcvMEbhWHXPpkFaaEiFrpau5AxSgGjNvX40TgMzAxfQL/b0wRRxuCdFcm
+         vKN+/fN2rNUBV70Xme75CCLmRREypNcUs2gxzpAXqv1FtIpEZQM4VfM6VfO7guJ5GtZO
+         sgLMvlJ6ATvKpDvw5MzNBX3SsefsKv2364IfZD5T8v+AnXqb3ov8qMZ5I5orFOyxxk+l
+         OFug==
+X-Forwarded-Encrypted: i=1; AJvYcCXNjvflt7+/ufbwGTbUR8Ge650bm9hUdnKMCyeJvV+G6WGp/U7uaFuCHXRizrVWq7EY2iKCk5Ps7uk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzo0iiTvMkt+3NM4QQYPtm2hPldemSfrkO2KityUSEany8asPbB
+	DRSVdcLiA5vW9R4rK8q2fCubeEGeardsGvvbiEMdWgd16S0qi6QRCdfkp1L4R9ZbSwcAZ/2JpJ3
+	PqUVlEBLbg7rL8Y03psQUPxrFQP4CcGrlzhKTVZdr
+X-Gm-Gg: ATEYQzxlAZ39b6KrnarO+5x1N6lIGiPn6kqGA7o7LOUc8Xyy4+Oll0wsXGSOibNe51V
+	9cu2l2qw6m8uIH8OzUhcULzmBVe3Auf86XiimjKJahh+QgMfgZ1vieiRF49zXL8rXlLF+MU1wxM
+	vxaQ1UOXcXOmamxVonv7brQrFdj8lcp5UaSGYbmPBag/PY/bur6AfsG0jaW1Rzpmpy1R1T9qSgz
+	ayeR3wzcpbWXyNjjZ87pe1hTRMM8wpXggbva7ZuRlLGKy7+fA3GE9kMtW6JD1KoVlZ8FGAZUFnc
+	/kjMRvygFn/kgTAjVw==
+X-Received: by 2002:a05:622a:1a84:b0:509:21f6:df9b with SMTP id
+ d75a77b69052e-50921f6ea75mr47026791cf.15.1773132395635; Tue, 10 Mar 2026
+ 01:46:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+References: <20260309-tcp_rfc7323_retract_wnd_rfc-v3-0-4c7f96b1ec69@gmail.com> <20260309-tcp_rfc7323_retract_wnd_rfc-v3-2-4c7f96b1ec69@gmail.com>
+In-Reply-To: <20260309-tcp_rfc7323_retract_wnd_rfc-v3-2-4c7f96b1ec69@gmail.com>
+From: Eric Dumazet <edumazet@google.com>
+Date: Tue, 10 Mar 2026 09:46:24 +0100
+X-Gm-Features: AaiRm50AVSa2QQoRJnA4Sp6RmxAkhC4YiZSP7XkFIO_4j9Qiq68pO__J-NefzKc
+Message-ID: <CANn89iJU2ejyGSm-OyBeRUNZpdzds6H-bNA8KnR085ekF+W0dw@mail.gmail.com>
+Subject: Re: [PATCH net-next v3 2/6] mptcp: keep rcv_mwnd_seq in sync with
+ subflow rcv_wnd
+To: gmbnomis@gmail.com
+Cc: Neal Cardwell <ncardwell@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
+	"David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, David Ahern <dsahern@kernel.org>, 
+	Jon Maloy <jmaloy@redhat.com>, Jason Xing <kerneljasonxing@gmail.com>, mfreemon@cloudflare.com, 
+	Shuah Khan <shuah@kernel.org>, Stefano Brivio <sbrivio@redhat.com>, 
+	Matthieu Baerts <matttbe@kernel.org>, Mat Martineau <martineau@kernel.org>, 
+	Geliang Tang <geliang@kernel.org>, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	mptcp@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, Mar 9, 2026 at 9:03=E2=80=AFAM Simon Baatz via B4 Relay
+<devnull+gmbnomis.gmail.com@kernel.org> wrote:
+>
+> From: Simon Baatz <gmbnomis@gmail.com>
+>
+> MPTCP shares a receive window across subflows and applies it at the
+> subflow level by adjusting each subflow's rcv_wnd when needed.  With
+> the new TCP tracking of the maximum advertised window sequence,
+> rcv_mwnd_seq must stay consistent with these subflow-level rcv_wnd
+> adjustments.
+>
+> Signed-off-by: Simon Baatz <gmbnomis@gmail.com>
 
-
-On Tue, 10 Mar 2026, Julia Lawall wrote:
-
-> The LIP6 URL no longer functions.
->
-> Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
->
-> ---
->
-> I used the UTF-8 encoding for the email.
-> Let me know if this was not the right choice.
-
-OK, this doesn't look good.  Sorry for the noise.  What is the proper
-encoding?
-
-thanks,
-julia
-
->
->  Documentation/dev-tools/coccinelle.rst                |    2 +-
->  Documentation/translations/it_IT/process/4.Coding.rst |    3 ++-
->  Documentation/translations/sp_SP/process/4.Coding.rst |    3 ++-
->  Documentation/translations/zh_CN/process/4.Coding.rst |    2 +-
->  Documentation/translations/zh_TW/process/4.Coding.rst |    2 +-
->  5 files changed, 7 insertions(+), 5 deletions(-)
->
-> diff --git a/Documentation/translations/zh_CN/process/4.Coding.rst b/Documentation/translations/zh_CN/process/4.Coding.rst
-> index 4cc35d410dbc..a00ad5d6b81e 100644
-> --- a/Documentation/translations/zh_CN/process/4.Coding.rst
-> +++ b/Documentation/translations/zh_CN/process/4.Coding.rst
-> @@ -216,7 +216,7 @@ Documentation/fault-injection/fault-injection.rst???
->  ????????? https://sparse.wiki.kernel.org/index.php/Main_page ?????????,
->  ?????????????????????make??????????????????C=1???????????????????????????
->
-> -???Coccinelle????????? :ref:`http://coccinelle.lip6.fr/ <devtools_coccinelle>`
-> +???Coccinelle????????? :ref:`https://coccinelle.gitlabpages.inria.fr/website/ <devtools_coccinelle>`
->  ?????????????????????????????????????????????????????????????????????????????????????????????
->  scripts/coccinelle?????????????????????????????????????????????????????????????????????
->  ???make coccicheck?????????????????????????????????????????????????????????????????????????????????????????????
-> diff --git a/Documentation/translations/zh_TW/process/4.Coding.rst b/Documentation/translations/zh_TW/process/4.Coding.rst
-> index e90a6b51fb98..233e8718ed41 100644
-> --- a/Documentation/translations/zh_TW/process/4.Coding.rst
-> +++ b/Documentation/translations/zh_TW/process/4.Coding.rst
-> @@ -219,7 +219,7 @@ Documentation/fault-injection/fault-injection.rst???
->  ????????? https://sparse.wiki.kernel.org/index.php/Main_page ?????????,
->  ?????????????????????make??????????????????C=1???????????????????????????
->
-> -???Coccinelle????????? :ref:`http://coccinelle.lip6.fr/ <devtools_coccinelle>`
-> +???Coccinelle????????? :ref:`https://coccinelle.gitlabpages.inria.fr/website/ <devtools_coccinelle>`
->  ?????????????????????????????????????????????????????????????????????????????????????????????
->  scripts/coccinelle?????????????????????????????????????????????????????????????????????
->  ???make coccicheck?????????????????????????????????????????????????????????????????????????????????????????????
-> diff --git a/Documentation/translations/it_IT/process/4.Coding.rst b/Documentation/translations/it_IT/process/4.Coding.rst
-> index 3126342c4b4a..a2ec35e016b7 100644
-> --- a/Documentation/translations/it_IT/process/4.Coding.rst
-> +++ b/Documentation/translations/it_IT/process/4.Coding.rst
-> @@ -329,7 +329,8 @@ Sparse deve essere installato separatamente (se il vostra distribuzione non
->  lo prevede, potete trovarlo su https://sparse.wiki.kernel.org/index.php/Main_Page);
->  pu?? essere attivato sul codice aggiungendo "C=1" al comando make.
->
-> -Lo strumento "Coccinelle" (http://coccinelle.lip6.fr/) ?? in grado di trovare
-> +Lo strumento "Coccinelle" (https://coccinelle.gitlabpages.inria.fr/website/)
-> +?? in grado di trovare
->  una vasta variet?? di potenziali problemi di codifica; e pu?? inoltre proporre
->  soluzioni per risolverli.  Un buon numero di "patch semantiche" per il kernel
->  sono state preparate nella cartella scripts/coccinelle; utilizzando
-> diff --git a/Documentation/dev-tools/coccinelle.rst b/Documentation/dev-tools/coccinelle.rst
-> index c714780d458a..05614c469b47 100644
-> --- a/Documentation/dev-tools/coccinelle.rst
-> +++ b/Documentation/dev-tools/coccinelle.rst
-> @@ -34,7 +34,7 @@ of many distributions, e.g. :
->
->  Some distribution packages are obsolete and it is recommended
->  to use the latest version released from the Coccinelle homepage at
-> -http://coccinelle.lip6.fr/
-> +https://coccinelle.gitlabpages.inria.fr/website
->
->  Or from Github at:
->
-> diff --git a/Documentation/translations/sp_SP/process/4.Coding.rst b/Documentation/translations/sp_SP/process/4.Coding.rst
-> index 7cc347c34354..6c3750ccdea2 100644
-> --- a/Documentation/translations/sp_SP/process/4.Coding.rst
-> +++ b/Documentation/translations/sp_SP/process/4.Coding.rst
-> @@ -336,7 +336,8 @@ https://sparse.wiki.kernel.org/index.php/Main_Page si su distribuci??n no lo
->  empaqueta); luego, puede ejecutarse en el c??digo agregando "C=1" a su
->  comando make.
->
-> -La herramienta "Coccinelle" (http://coccinelle.lip6.fr/) puede encontrar
-> +La herramienta "Coccinelle" (https://coccinelle.gitlabpages.inria.fr/website/)
-> +puede encontrar
->  una amplia variedad de posibles problemas de codificaci??n; tambi??n puede
->  proponer correcciones para esos problemas. Bastantes "parches sem??nticos"
->  para el kernel se han empaquetado en el directorio scripts/coccinelle;
->
->
+Reviewed-by: Eric Dumazet <edumazet@google.com>
