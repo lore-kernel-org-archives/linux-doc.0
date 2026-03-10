@@ -1,120 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from 013.lax.mailroute.net (013.lax.mailroute.net [199.89.1.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6C623C3444;
-	Tue, 10 Mar 2026 16:07:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AFEE3033F5;
+	Tue, 10 Mar 2026 16:32:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773158869; cv=none; b=j0cXSj3RPPR7ty6vT//GYm7NsVuXSYBh7WP9KqMpcQBLh1spb3jI0degL+pE/N1Wj0ZOlN3g51SoKC2JYjcS+XWy5sjnFdB1d/GexaCdymhjzlui7xsZTx6I5zrbC5GdVJPFAh7pZ7fNylCZDFHeBbzH//maTr1pBf4kb9ZNkVs=
+	t=1773160357; cv=none; b=FpNBtuBk16pc+lfSOj8Qau6YXG/6QiUFax+TCGrxuwr9+llJiLz5OfoXWkIeWJlin0ZlxX5X+p5LPl61Mlwt5IAtTE2Mpq9+ZoiSjpSaWq25wufOwnejUvt7jd/ffgJrQsLSoKLSaZx/MafZEVnnV9PFTWjqBVMIRn4jvl6wNWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773158869; c=relaxed/simple;
-	bh=QxfzcvVPW0aFM70zbpbJXgcgM90rh002u3bQmLOy+YE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=eHVM+L26uGZUup4er017zZSiWLuBehp0FJkpkfzFLBdBTlGIMPjYC3U6RdMzUsi8cKCc13H+8dcwSZtGCBG4LWqAWtHJlYcHOwJmqeGY8JGtGzjRrseUwb668j0qPhRKO3MaGkRPowba6sw/cyLSyX+w/WpLUZGByD6ZnAA2r2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S1VWal32; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773160357; c=relaxed/simple;
+	bh=x9iALpY6G4Ml5mRRbk10hcvbICb8Ewklma/HD/k6pEY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=d4DsCAFm0XAFef7J6fIGtze1ZfA2/ywgnNmxyVWTVTD968pCjkkt/MjZL1Nqk290I6SIsPPzbTNNYU0AzbktHXPEmiNQjCyxV7FNkDfYFbiJ/KgoZTt9hLaIbvkDHewXtCqvqjwK3wG0pmdAxhXSLYTYCDnEEw0mreb/4LKDtDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=Ck9w+8s6; arc=none smtp.client-ip=199.89.1.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S1VWal32"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10422C19425;
-	Tue, 10 Mar 2026 16:07:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773158869;
-	bh=QxfzcvVPW0aFM70zbpbJXgcgM90rh002u3bQmLOy+YE=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=S1VWal32GmVLOUnQmKwE4b7WY9M1o/kDLaFwOcRlkuACNA4hcGwa3ES82K3e6vL3s
-	 OTzZgDIo2yb2/OdZYH8r9Hyyj/uz3JMY08FlaDkrY93jYSPbOZFsaMQVP0m+IPp0rU
-	 +fcHdqhLJx4lJvD04hewcwMzaxooH5IFZ+5HXJs9tquG4OJfOLDVLpYxjPYHYxDUKf
-	 iRErQbG+hGEYAZp+1CMG11TQh288GljsRHqgv/ld/VZkfs0CHCKQ+p/b5sc6j5yq9y
-	 adsRhuXyqKVufTkuMcgtlaCimsrmGBOFL79CHweXOQX8NPCp0GdXxUtcyfYTBXxfEu
-	 WMRNhlr7I5Lbg==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 10 Mar 2026 17:07:06 +0100
-Subject: [PATCH 14/14] drm/bridge_connector: Convert to atomic_create_state
+	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="Ck9w+8s6"
+Received: from localhost (localhost [127.0.0.1])
+	by 013.lax.mailroute.net (Postfix) with ESMTP id 4fVfYc08Cfzlh1Rr;
+	Tue, 10 Mar 2026 16:32:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1773160351; x=1775752352; bh=zERgmMY9V+IHJrTMUF6d9gh4
+	Gu9YL29LJtkjNQW+J1c=; b=Ck9w+8s6qPA+Pt8/hzOdv9oPlXd4unNkiK6N5yTA
+	pKcSYUrOJ3bvVA9QnD374a9GU6SOcy5/BOM+Zk6Fb4Yyd39k3jOkiAHHFXZ1Lns3
+	QtnWvrkc8Z9wWIYdRynq9rlmVnbJv1iyGkAW8GFJpQ8R6nEWX8VT4lmxM4Fhv6X1
+	98hEwYRoagrSQ809IgrTDVvB0Lk4DCfecbR7Lj1i3x+CFPcR6BSTkr5joB8xwdEH
+	tY2Zcmon7wWUUef/ebA8svKmiAiztsFv4QVsd3AT9EeU/I6h8CYUo7hbKJqp5xSt
+	HWSQX+k44U0lkaEwo0+6z0vorTlCG7SB58BHk4ZuDiWLmA==
+X-Virus-Scanned: by MailRoute
+Received: from 013.lax.mailroute.net ([127.0.0.1])
+ by localhost (013.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id uActVqqKw_CV; Tue, 10 Mar 2026 16:32:31 +0000 (UTC)
+Received: from [100.119.48.131] (unknown [104.135.180.219])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 013.lax.mailroute.net (Postfix) with ESMTPSA id 4fVfYT1d5QzlfpMB;
+	Tue, 10 Mar 2026 16:32:28 +0000 (UTC)
+Message-ID: <2c7e0149-c178-41b8-ac5e-270bfea8b1f8@acm.org>
+Date: Tue, 10 Mar 2026 09:32:28 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] docs: add AI Coding Assistants documentation
+To: Sasha Levin <sashal@kernel.org>, corbet@lwn.net
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>,
+ Dwaipayan Ray <dwaipayanray1@gmail.com>,
+ Lukas Bulwahn <lukas.bulwahn@gmail.com>
+References: <877bue18ch.fsf@trenco.lwn.net>
+ <20251223122110.2496946-1-sashal@kernel.org>
+Content-Language: en-US
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <20251223122110.2496946-1-sashal@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260310-drm-mode-config-init-v1-14-de7397c8e1cf@kernel.org>
-References: <20260310-drm-mode-config-init-v1-0-de7397c8e1cf@kernel.org>
-In-Reply-To: <20260310-drm-mode-config-init-v1-0-de7397c8e1cf@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- Jyri Sarha <jyri.sarha@iki.fi>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2138; i=mripard@kernel.org;
- h=from:subject:message-id; bh=QxfzcvVPW0aFM70zbpbJXgcgM90rh002u3bQmLOy+YE=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJkbHFfmzvp4b3f7OoPGmCqxQj7x2GCjw6/jHZ5mpvxSX
- 8T8M3Z1x1QWBmFOBlkxRZYnMmGnl7cvrnKwX/kDZg4rE8gQBi5OAZjIg42MDYs71vUdf7fAgEf5
- HPftD2VaZRv1rl9/lHZg4dqEuT4PXj+Unv9Lmuvzu2+1a59LGiRXljLWu6S6TNb5ODt14+NvEgl
- qXFkTTUJZ/lvKTH245M55vYWZ3nXdc8X7g06o/gkpSuHfe5UTAA==
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
-The connector created by drm_bridge_connector only initializes a
-pristine state in reset, which is equivalent to that atomic_create_state
-would expect. Let's convert to it.
+On 12/23/25 4:21 AM, Sasha Levin wrote:
+> +Attribution
+> +===========
+> +
+> +When AI tools contribute to kernel development, proper attribution
+> +helps track the evolving role of AI in the development process.
+> +Contributions should include an Assisted-by tag in the following format::
+> +
+> +  Assisted-by: AGENT_NAME:MODEL_VERSION [TOOL1] [TOOL2]
 
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
- drivers/gpu/drm/display/drm_bridge_connector.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+This patch requires the use of a new tag but does not add support in
+checkpatch for the new tag. Checkpatch complains about this tag. An
+example is available below. Does anyone plan to add support in
+checkpatch for this new tag?
 
-diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu/drm/display/drm_bridge_connector.c
-index f686aa5c0ed9b84dbe5e0957df22d08aff2f1945..2f73576783f5f69ebce277a7537accefc94645a9 100644
---- a/drivers/gpu/drm/display/drm_bridge_connector.c
-+++ b/drivers/gpu/drm/display/drm_bridge_connector.c
-@@ -263,26 +263,33 @@ static void drm_bridge_connector_debugfs_init(struct drm_connector *connector,
- 		if (bridge->funcs->debugfs_init)
- 			bridge->funcs->debugfs_init(bridge, root);
- 	}
- }
- 
--static void drm_bridge_connector_reset(struct drm_connector *connector)
-+static struct drm_connector_state *
-+drm_bridge_connector_create_state(struct drm_connector *connector)
- {
- 	struct drm_bridge_connector *bridge_connector =
- 		to_drm_bridge_connector(connector);
-+	struct drm_connector_state *conn_state;
-+
-+	conn_state = drm_atomic_helper_connector_create_state(connector);
-+	if (IS_ERR(conn_state))
-+		return conn_state;
- 
--	drm_atomic_helper_connector_reset(connector);
- 	if (bridge_connector->bridge_hdmi)
- 		__drm_atomic_helper_connector_hdmi_reset(connector,
--							 connector->state);
-+							 conn_state);
-+
-+	return conn_state;
- }
- 
- static const struct drm_connector_funcs drm_bridge_connector_funcs = {
--	.reset = drm_bridge_connector_reset,
- 	.detect = drm_bridge_connector_detect,
- 	.force = drm_bridge_connector_force,
- 	.fill_modes = drm_helper_probe_single_connector_modes,
-+	.atomic_create_state = drm_bridge_connector_create_state,
- 	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
- 	.debugfs_init = drm_bridge_connector_debugfs_init,
- 	.oob_hotplug_event = drm_bridge_connector_oob_hotplug_event,
- };
+Thanks,
 
--- 
-2.53.0
+Bart.
+
+------------------------------------------------------------------------
+$ git format-patch -1 457965c13f0837a289c9164b842d0860133f6274
+0001-tracing-Add-NULL-pointer-check-to-trigger_data_free.patch
+$ scripts/checkpatch.pl 
+0001-tracing-Add-NULL-pointer-check-to-trigger_data_free.patch
+WARNING: Non-standard signature: Assisted-by:
+#23:
+Assisted-by: Gemini:gemini-3.1-pro
+
+ERROR: Unrecognized email address: 'Gemini:gemini-3.1-pro'
+#23:
+Assisted-by: Gemini:gemini-3.1-pro
+
+total: 1 errors, 1 warnings, 9 lines checked
+
+NOTE: For some of the reported defects, checkpatch may be able to
+       mechanically convert to the typical style using --fix or 
+--fix-inplace.
+
+0001-tracing-Add-NULL-pointer-check-to-trigger_data_free.patch has style 
+problems, please review.
+
+NOTE: If any of the errors are false positives, please report
+       them to the maintainer, see CHECKPATCH in MAINTAINERS.
+bvanassche@bvanassche:~/software/linux-kernel$ git log 
+Documentation/process/coding-assistants.rst
+------------------------------------------------------------------------
 
