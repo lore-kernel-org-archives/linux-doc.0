@@ -1,127 +1,110 @@
-Received: from canpmsgout10.his.huawei.com (canpmsgout10.his.huawei.com [113.46.200.225])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B990C2DE6FF;
-	Tue, 10 Mar 2026 01:05:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.225
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F2682F363C
+	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 01:05:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773104727; cv=none; b=lp//TS0M2+w0zi/HEdwbGjsP9Nk+dRIJ6q9rbSxAFp8Mk4Z4U1j1jFUUvnYepVMjIhUFgNdq9W+UGqxA4mgoInXg5tWZRSo9gjKQqrineYFs7458Nl+6rMzFy4fzq3BGb63Z6tZKs1h5rn2XWHcoNPC+c9o6hcU5pGcpKDQXHnY=
+	t=1773104731; cv=none; b=Qkd0IdWY24BKKkkFgBWPyy9wqMF7cgX3F2cm53/nlE6o7EBIbPZi2qKBC181z0stuigi1gu0cPREar6eStMfzRU92TBoA6ErV0Rc+PAQX9EXjnpO8JLh+rLFpdJj4pubT2PbWg/kHnEb1+x93A0h6DIJ6oL2chBwzuftxOkKEHk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773104727; c=relaxed/simple;
-	bh=eHgaqAtHbJyOpJAZlYAAYp/D85yr9tg4xNOBbnoJ7ho=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bIWWfu9PlZO2DMHhU8XnCNzDa4usPcx/HA/iuBSVutyPkaJ1s7zSQZ68Qe6McmpX18uVcAgVDfrLCMbeTyYudrXJDY+xVxC/roQlcLpOOHdgHn4arZT67i1ZTw4CMZIPZtjwS0Trr0Haie5C1oU0A4kyKW1FucGiIjJghY3n0V4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=fbK5H1+k; arc=none smtp.client-ip=113.46.200.225
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1773104731; c=relaxed/simple;
+	bh=Ecww305Ia0sJAMrTE+J6RL1VvL3KyXvIMciOwyWcBtQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mAqceKKq6t2LzFhHKF5XwK+AYlLsYRpBX9yqEuJRHAQCzs6h5aoIIF3CuneUWFdb08f8BuUETf9XVe+Ihy5c7MwPpsz9svaoXI3OzYnj62/lCeFRAy5Zt3LoeqX/yIri7We0O3Pj9357B/53Oo5FAOANuEUGUWEK3K6RDLGnt9o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mwfJFewq; arc=none smtp.client-ip=209.85.219.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="fbK5H1+k"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=rd9YSCz4HUPlKdajNb7K73BKr4WWIz5l0s2dAgJkSbA=;
-	b=fbK5H1+kee4/CbJUdZrhvSy7GKjrgnRfSQVsJpmaqpR12uJZMkOogunPpMJmfTTtTHEPFfW2p
-	PB3CKp6uS29mC86fRYVtmgVj5mBSTUSrwiE3H8kWrsg+Lx5qTBZHT1DZD9VlIH9oQe0SZTK0MDh
-	125foVoexKje34vMR5PY79o=
-Received: from mail.maildlp.com (unknown [172.19.163.214])
-	by canpmsgout10.his.huawei.com (SkyGuard) with ESMTPS id 4fVFt25Rmnz1K9Cg;
-	Tue, 10 Mar 2026 09:00:26 +0800 (CST)
-Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
-	by mail.maildlp.com (Postfix) with ESMTPS id ED95C4056C;
-	Tue, 10 Mar 2026 09:05:18 +0800 (CST)
-Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.189.124) by
- kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.36; Tue, 10 Mar 2026 09:05:17 +0800
-From: Fan Gong <gongfan1@huawei.com>
-To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>,
-	<netdev@vger.kernel.org>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Andrew Lunn
-	<andrew+netdev@lunn.ch>
-CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, luosifu
-	<luosifu@huawei.com>, Xin Guo <guoxin09@huawei.com>, Zhou Shuai
-	<zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, Shi Jing
-	<shijing34@huawei.com>, Zheng Jiezhen <zhengjiezhen@h-partners.com>
-Subject: [PATCH net-next v03 7/9] hinic3: Add PF FLR wait and timeout handling
-Date: Tue, 10 Mar 2026 09:04:55 +0800
-Message-ID: <7a1b21426fd4274831733aca962eb209b806f4bd.1773062356.git.zhuyikai1@h-partners.com>
-X-Mailer: git-send-email 2.51.0.windows.1
-In-Reply-To: <cover.1773062356.git.zhuyikai1@h-partners.com>
-References: <cover.1773062356.git.zhuyikai1@h-partners.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mwfJFewq"
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-89a018cbbf8so105405336d6.0
+        for <linux-doc@vger.kernel.org>; Mon, 09 Mar 2026 18:05:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773104724; x=1773709524; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PqXEa8MxQJga17ye0Ey4zThMjFUzQyDDE9YHUeEmLhY=;
+        b=mwfJFewqTOsm+ZOWQyhkx5SnoU+/CnF/jhVyfetITEdXDlwguqu2nJo3vbP7+HPOgW
+         YQFFg/knJxD8k+NA7wOIWjILy3iGj/HKjBoXIDIVbg+F9Uqy+hgZiyD4Jj0TRCCH+gt8
+         Kd9xXFtTd9HAakgxz2Uo5fXARSvmpBmTTCaRLDHZLzEQwCHtPbzFYD4weRBYC3b6w7qW
+         lT3HwPafDXN8/QcC6GOfojqXpcEero+xcX40GLZI0Yxi6L5saYnIuNn0wsMhqwtYqYiz
+         xXQih5QMBtByKoewhGr0dloNzT84UM+SIR5+UFefyKf7DCoDxDyBC6OBAx01eeBLWiwt
+         mCYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773104724; x=1773709524;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=PqXEa8MxQJga17ye0Ey4zThMjFUzQyDDE9YHUeEmLhY=;
+        b=mGRRtN7q2bIGQciseW5TB2ndWMBoJo2mPETwTxQbSjmig9KT3baMGpKtQBJaFdvWZ6
+         ocZ57MolZLwN7UsjNp4n5tWVykHafgP4y+7DT8WwGHUSDP1F0i2tRZxbrqnHaNgy6nvO
+         8kj433aapXlDkaxW7CO092m6h+MIhMa3rK3wG+yNhhL9LolsF0xUHRdM1QyiOMRLT6iu
+         +ruakJPPkgL2oDhCP9dnqN6xRlc66tZ9+oPEmxNbik4nM8T/qfC+UTPU30cpuIY34oRo
+         FHqQExKTErLMA+/JhXtlNYrlUW8zILlyFeXxCJSHQhe6lG9Ywpp+oKYrSAnf7705EWSn
+         mS7A==
+X-Gm-Message-State: AOJu0YzPtgpDrJ+SMvJG5QOQ49+eXuLQ9Alq9WCKM6cnZ9T9mLCbGrEQ
+	6blwrdLuwTEuYJI0F/07STzKHCJ4Fbb0rAqadt99f8Mu6VsNKWlk2k9sUH6dnQ==
+X-Gm-Gg: ATEYQzwZ4Vd2/C0YHDxw3MqlRl2ixQoBw+e/vsGfivm0jbXkpNPgFyZ5rOQpy2mXUFr
+	IWM8yfLiTb2Z5WVs51R4qalH3otVEap7zmK5skHkodeleHUodc1TSuHVDC/DZw59Yc5c0X40Lr7
+	jF5bO3g7xvnZbUfdnlYU2y5VKQpxN8Zgl92PvfxXGokSJ9PxR5ZNxGqT2vE8xcHhewaWOJLknYS
+	4cWpG+y/gk56UM4H2bqPDdkkpRLzs36adQlZmqA5X4rEcw8mEQ6k1ctMUppn6i0oqBoRvKNbzsc
+	ikOeoca3/YAZJv5Pki6IAV4Pln9kOBkW0iOYUJiJmN2pDQ3PKQFGpy0vIbrxsX6te+T9Od8n6Ls
+	3xlR7wU23IqPdXCTMzRB4O1EbxcY+QgKlbhOKjwquSvRPuQDTbxixU3qgI88oa/6vPtZ33EZuU0
+	KCFZ7r2sZ/5LDSzXf68CoVn1Y5gM9trg12jA+ZNDEFdQkM4u1iZd04kQ==
+X-Received: by 2002:a05:6214:5089:b0:89a:424:984b with SMTP id 6a1803df08f44-89a57ce97bcmr23637116d6.31.1773104724541;
+        Mon, 09 Mar 2026 18:05:24 -0700 (PDT)
+Received: from daniel-desktop3.localnet ([204.48.79.143])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89a57c21650sm8852266d6.39.2026.03.09.18.05.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Mar 2026 18:05:23 -0700 (PDT)
+From: Daniel Tang <danielzgtg.opensource@gmail.com>
+To: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Fox Chen <foxhlchen@gmail.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: NeilBrown <neilb@suse.de>, vegard.nossum@oracle.com,
+ viro@zeniv.linux.org.uk, rdunlap@infradead.org, grandmaster@al2klimov.de
+Subject: [PATCH v3] docs: path-lookup: fix unrenamed WALK_GET
+Date: Mon, 09 Mar 2026 21:05:21 -0400
+Message-ID: <13011949.O9o76ZdvQC@daniel-desktop3>
+In-Reply-To: <87ecltvuvr.fsf@trenco.lwn.net>
+References:
+ <13098721.O9o76ZdvQC@daniel-desktop3> <5332975.31r3eYUQgx@daniel-desktop3>
+ <87ecltvuvr.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
- kwepemf100013.china.huawei.com (7.202.181.12)
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-  Add a mechanism for PF to wait for the completion of FLR, ensuring
-hardware state consistency after an FLR event.
+The symbol WALK_GET does not appears in the codebase as of
+0031c06807cfa8aa. It was renamed as of 8f64fb1ccef33107. A previous
+documentation update, de9414adafe4, renamed one occurrence in
+path-lookup.rst, but forgot to change another occurrence later in the
+file.
 
-Co-developed-by: Zhu Yikai <zhuyikai1@h-partners.com>
-Signed-off-by: Zhu Yikai <zhuyikai1@h-partners.com>
-Signed-off-by: Fan Gong <gongfan1@huawei.com>
+Fixes: de9414adafe4 ("docs: path-lookup: update WALK_GET, WALK_PUT desc")
+Signed-off-by: Daniel Tang <danielzgtg.opensource@gmail.com>
 ---
- .../ethernet/huawei/hinic3/hinic3_hw_comm.c   | 34 +++++++++++++++++++
- 1 file changed, 34 insertions(+)
+ Documentation/filesystems/path-lookup.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_hw_comm.c b/drivers/net/ethernet/huawei/hinic3/hinic3_hw_comm.c
-index 1defd6800790..a6e4e9968334 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_hw_comm.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_hw_comm.c
-@@ -292,6 +292,32 @@ int hinic3_set_cmdq_depth(struct hinic3_hwdev *hwdev, u16 cmdq_depth)
- 	return 0;
- }
+diff --git a/Documentation/filesystems/path-lookup.rst b/Documentation/filesystems/path-lookup.rst
+index 9ced1135608e..6957c70f18db 100644
+--- a/Documentation/filesystems/path-lookup.rst
++++ b/Documentation/filesystems/path-lookup.rst
+@@ -1364,7 +1364,7 @@ it sets ``LOOKUP_AUTOMOUNT``, as does "``quotactl()``" and the handling of
+ symlinks.  Some system calls set or clear it implicitly, while
+ others have API flags such as ``AT_SYMLINK_FOLLOW`` and
+ ``UMOUNT_NOFOLLOW`` to control it.  Its effect is similar to
+-``WALK_GET`` that we already met, but it is used in a different way.
++``WALK_TRAILING`` that we already met, but it is used in a different way.
  
-+#define HINIC3_FLR_TIMEOUT    1000
-+
-+static enum hinic3_wait_return hinic3_check_flr_finish_handler(void *priv_data)
-+{
-+	struct hinic3_hwdev *hwdev = priv_data;
-+	struct hinic3_hwif *hwif = hwdev->hwif;
-+	enum hinic3_pf_status status;
-+
-+	if (!hwdev->chip_present_flag)
-+		return HINIC3_WAIT_PROCESS_ERR;
-+
-+	status = hinic3_get_pf_status(hwif);
-+	if (status == HINIC3_PF_STATUS_FLR_FINISH_FLAG) {
-+		hinic3_set_pf_status(hwif, HINIC3_PF_STATUS_ACTIVE_FLAG);
-+		return HINIC3_WAIT_PROCESS_CPL;
-+	}
-+
-+	return HINIC3_WAIT_PROCESS_WAITING;
-+}
-+
-+static int hinic3_wait_for_flr_finish(struct hinic3_hwdev *hwdev)
-+{
-+	return hinic3_wait_for_timeout(hwdev, hinic3_check_flr_finish_handler,
-+				       HINIC3_FLR_TIMEOUT, 0xa * USEC_PER_MSEC);
-+}
-+
- #define HINIC3_WAIT_CMDQ_IDLE_TIMEOUT    5000
- 
- static enum hinic3_wait_return check_cmdq_stop_handler(void *priv_data)
-@@ -389,6 +415,14 @@ int hinic3_func_rx_tx_flush(struct hinic3_hwdev *hwdev)
- 		ret = err;
- 	}
- 
-+	if (HINIC3_FUNC_TYPE(hwdev) != HINIC3_FUNC_TYPE_VF) {
-+		err = hinic3_wait_for_flr_finish(hwdev);
-+		if (err) {
-+			dev_warn(hwdev->dev, "Wait firmware FLR timeout\n");
-+			ret = err;
-+		}
-+	}
-+
- 	hinic3_toggle_doorbell(hwif, ENABLE_DOORBELL);
- 
- 	err = hinic3_reinit_cmdq_ctxts(hwdev);
+ ``LOOKUP_DIRECTORY`` insists that the final component is a directory.
+ Various callers set this and it is also set when the final component
 -- 
-2.43.0
+2.51.0
+
+
 
