@@ -1,64 +1,64 @@
-Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
+Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E24083E8C5E
-	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 07:29:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EBB93E95A0
+	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 07:29:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773127786; cv=none; b=uGJv4HAuoIrUrbJiUwI09CQqRnWZsgNUJn2O2elHNyPt/acgFC0CNIC2dPkWK0JuJyPRos80wWUq9eDRmeAD7f4HAHWVv+EIuCUT7UU455js0jd5QIoDQbW3Q9OnmPbbfBByd3TW693/Z9q7knhSwuoYoT4hT2Dxajwemb6D8Ac=
+	t=1773127787; cv=none; b=hYxU91CzyKGm3ZvkiSwUn7n90+sCYkD+FBOEV9tc3yLipKX3lMCodwpA7+Rifu3N50r/RO/8Jl+AkHGRBJPXJhsykJlQ0z4BWI6/CohuBhLyAz33lucyzscOkk7l2+nhrcDyZlRtXy99rmCJiJBmj5DeJYCi6rbG5aCEBUtCxSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773127786; c=relaxed/simple;
-	bh=Z+3l3k1U2vdMyA8Jk5loUT5RkYG3Zwq2HYeMIff2wuY=;
+	s=arc-20240116; t=1773127787; c=relaxed/simple;
+	bh=akFvcySx2qtpMSSr4YkidwPl/PnWdnvEe1ChDcvUnFM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Knnkx4Kg0G2Q46rdI09ugnwKPf+gOFt15ct8349IraiIXOmBBY6MXZI7Docy1EXoehwZm36mVuXhV1S+dc88pqa5XMFlya3VSTYRMclR9cbjN3P3xBj43uoxMqvfOrDfN0YhKfDRDe6J0eou5+JSalce08T0j2UuosU/VamjGtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DMDm9YaN; arc=none smtp.client-ip=74.125.82.176
+	 MIME-Version; b=WVac9zqC0hOW22Dh7hFCPEsFbvrTHlnnAYQ3/738KqH1QTDgKaSgx79TxPtFUhHMZYMcdCDlcA5oXGyqHvsQBE2uXrVm0+WQMJ8AltEpLct+cykfUIjbpL+knK7HTwMh5Lraiqdpkrlft/dcef53qeKkjLY5RdfUdm2vKTh2Oio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jH17nJUc; arc=none smtp.client-ip=74.125.82.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DMDm9YaN"
-Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-2be1b5fe11cso9716668eec.0
-        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 00:29:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jH17nJUc"
+Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-2be3bdfda8eso5908970eec.1
+        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 00:29:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773127782; x=1773732582; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1773127784; x=1773732584; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1DcKeokK00rX4KoznzviE7R13UnLuz7mDJgy81EP1Zc=;
-        b=DMDm9YaN+XwTNifkfc6FrCVdwWeFeQfcBZ+QedIRUC6TTyuNPO7SmNCvXk5mN+2R4O
-         mN08DTGYu6hQm3A/uOuie7wo2wtkvxSDFFOm0lwmJfkDGR5nAfiL4KR7TGEQTYoj2hrq
-         LDkJXPDr9pJ62IDj1x0Hf/jXup/JopKfNkG0XM7e9EjBCSojQBBaQgRN8BknlHPMtW4l
-         JvtgJd/fwJRYpbIXwzExDdU2qJEm7C/aLF6yBnpPK9YrSGB1rFfCXEl8dtxVlew/EyE1
-         5QKCl+KLytmUEDdTZw94P9jc15yOPPOLQtpn1qfvuDpDNGKD0bkzPcHTEnV7j4tJTNfe
-         TpvA==
+        bh=h0FyZLQ4D0JfML3/RqbwC4ixUWu6cfpE5AZW99yvfRg=;
+        b=jH17nJUceyvnUg9T6Tu/jfnP6cL24lUVE9OULPINGXgOdfNw30uqJFByOw8JJEDwcn
+         HxpOMEwxZ13v1EIb2akr+0CCCl+XbUef9W8jYt1/lZwrtm2c/ZqO8/+KlVj5P2NcHXJz
+         wP6isi0BCEDTW9vb1IooHH1cG1bXrQACQTbJdEX8Qa8YWCQgULR4X8c0x7jJk3j/tOC7
+         SWzRkx9twhwWxSk9MerCL6CQxxuJPWqXKpcfMTLJDXdA6zW0tMhpnQN3Lks+JHpAwwPo
+         Ww3vbyRYBTw6ahLtEQ2sXSy/Bo/bLxtNlIz3uVA/eQTOjjvWsbRgDTqQISh6/3A34MjY
+         HuLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773127782; x=1773732582;
+        d=1e100.net; s=20230601; t=1773127784; x=1773732584;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=1DcKeokK00rX4KoznzviE7R13UnLuz7mDJgy81EP1Zc=;
-        b=qBbbQJ0CuWis/K4r3/Ries08H2Z7GWkYOnV5aDGDDKts+C2HxfBvyJETgGkwC8/Usl
-         fPxDZWxW/uzneTFMbak4mM3QbqykBfhSGua/xmIAQrs7tIT0fTEAt0rdtriVmJ9vIdJJ
-         7sR8p6f50O7tRU6zg7MOXL7+wcheU+FcRBXvuJ/64ulTVng1k7iaH17viYE1gzS4zZDa
-         IQHYVrfx+DbsCAnGdxN3TRn99g9cfBmdRi6Jw1uiDMoQqiMG6JTVZ7Ac0Qxe2jkBhXKV
-         cD4D1K+6OEKbzY2QG/Srh8AfM7UE+KX2ecBtvK+LzbCyuy8MSi06h0mL/hcYRtxH2+IC
-         g4yQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUMXR09WpW1vniWe0Ck9m5vxJip1Hu9jXD73ZbV22tU2cXaOCZBZCN3lKLBOPUM+cevAnxv5oYtlWk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwCMJyBu8xTJYVHPl5MN5IJK0ofu5IG6gdeS5s9m4Wjdn1K0HuT
-	awiV3+qRkaomqKHQ3NMQOAHqZJUJV1ugnrqH92fRmfTo6bpT/TkfYLUx
-X-Gm-Gg: ATEYQzwnFFdZRxFtiBnfg7fPXESlgq0RxOpReGKcbyB8hUVEi2f3FKL9MjBVHULthPZ
-	6uqhd6gNFz8nFuwkYftMeGbaMwVKOwuYm1JxYIS4xls3oQcZbuBQBvdH6rCK7Sm/UXZfJ0P4bt+
-	by9jnJ5yj9uzByw3/bKjHqRFnWAd1q25RrG+c5e25jHds2VdBCDXe3YzzLKHPxV/rvpMyWdxPwn
-	IkrX2XtEmYq9ksMqp2dyM9GQPeTvRk3TqG921gXZXPkAlQvr8emtMUbd/U20SiaI9P6dBXj/2xI
-	ioCEOToUemEEG8pn5lUKhZF9bVxtoXv0LcUFyMWp7HhEMcQ73XycwXn0cZ7qqrdxvqf7IiNPPHO
-	g+/VrHeKKK79pHNmFJ/cwNBtBxPZ9chKg2AVmvpZGlcKBe9BHh5EpdEMAtD1+zOFX7EZB0hYb4l
-	t/wJOjOgK8aHxXAgojI1vZPS+zZEUCcUoWUdaFEOYhaA8lfjacXzpqFWXs1+v1Ww/s0lrx5/di3
-	/Z+
-X-Received: by 2002:a05:7300:e614:b0:2a4:3593:c7d3 with SMTP id 5a478bee46e88-2be4e08e1d8mr5161051eec.19.1773127781807;
-        Tue, 10 Mar 2026 00:29:41 -0700 (PDT)
+        bh=h0FyZLQ4D0JfML3/RqbwC4ixUWu6cfpE5AZW99yvfRg=;
+        b=c+kGJ3voa2DwuRRbyKwdE606CkfdlRG0kuoX6xK9MkbhuZnzb+5PT1yfngqstAxbFy
+         zNotG+obQXaZtpnH5Gr8kJSPQR6gweOzRBz1kzvf+QuoSLgLY0tV//hanHVADhJiTIia
+         G/5FUedOzMcRwA1M2v3ZwzvtwhKXT9k83OSGzPkqV4okDrOtAWT8Vb612S2vp85SdNqd
+         cxyq6/NnP9XxZtbpXR/WcLGsEcc7yZkLUbkAwcm4yz7NxMJ8X+kh+vySWYxtYPMBDlER
+         bPfGpQ2qnDb/qQ/j3QeutQtUVoMDxewMCmqo1NPPrhP+ciazd5P4erQIr2e0yAL5KSK2
+         w9ow==
+X-Forwarded-Encrypted: i=1; AJvYcCXWPF0n0HGru+lz37MYf+7NT9SQMvtlhl1DHesCxaLvk0BiBC6fBewQluQsTSYDIxClNaFQXhuK5jw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw5tAFKU2CFXk52+BVxB63hqo6799S77RLGEATyFwbTfhW253JK
+	ZtLU68lvr9Dz2jcGMwjmP4PbhUOzxCuc1LbB7xuHHDKofRTO8a8YS8Zb
+X-Gm-Gg: ATEYQzydyLGfbMcA/G/z0bpxtE9p384eU7REjzEAeXMpZtCfsa604yHbwvnTEfb6CvH
+	Ns97N6bFrqntgYr6N6/8qb9tjp21Lp4Ueq+loHaR07S16isyFJUAee10bDABkROUe9WLkYDxmGF
+	42TEfN5Ju/f+7YDI5L3UVzTScgbmqROda1s74Bh/7sHJjY1t8+v4uGAT60r4mmUiZFlw9BiZ+hi
+	9Mr3xFu1/ffFDZ6xqrGAYqL517lCJcA/RYXQVKtlKxn4QYEcjf+lbv4nSwdfRJYuI3LBd+8wIwM
+	7UYJONav6De69ZB/mWsj47T7GiqM8yw4paMnAzAJ0eofOItwfpFSFIYkhpApI0nlp6fn+ULvma7
+	HeVfOOOGx92/C0t6t6PRfhEgT6eBCNUJHf7mlcSwbaDr+Scp8B+xfhlzF0uOpfD57cwW9f1mcXA
+	dNNrTUHYyhEWi0KSAhQyK3F41Q87+f6N5DcynbrlQRL85diewEs74KzaIhcHQXbGQwyn+BNa9fH
+	g91
+X-Received: by 2002:a05:7300:5723:b0:2be:833c:14a7 with SMTP id 5a478bee46e88-2be833c19d5mr37980eec.1.1773127784235;
+        Tue, 10 Mar 2026 00:29:44 -0700 (PDT)
 Received: from lappy (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2be81209142sm721925eec.12.2026.03.10.00.29.41
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2be81209142sm721925eec.12.2026.03.10.00.29.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2026 00:29:41 -0700 (PDT)
+        Tue, 10 Mar 2026 00:29:43 -0700 (PDT)
 From: "Derek J. Clark" <derekjohn.clark@gmail.com>
 To: Jiri Kosina <jikos@kernel.org>,
 	Benjamin Tissoires <bentiss@kernel.org>
@@ -72,9 +72,9 @@ Cc: Richard Hughes <hughsient@gmail.com>,
 	linux-input@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v6 02/19] HID: hid-lenovo-go: Add Lenovo Legion Go Series HID Driver
-Date: Tue, 10 Mar 2026 07:29:20 +0000
-Message-ID: <20260310072937.3295875-3-derekjohn.clark@gmail.com>
+Subject: [PATCH v6 05/19] HID: hid-lenovo-go: Add FPS Mode DPI settings
+Date: Tue, 10 Mar 2026 07:29:23 +0000
+Message-ID: <20260310072937.3295875-6-derekjohn.clark@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260310072937.3295875-1-derekjohn.clark@gmail.com>
 References: <20260310072937.3295875-1-derekjohn.clark@gmail.com>
@@ -86,1034 +86,135 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Adds initial framework for a new HID driver, hid-lenovo-go, along with
-attributes that report the firmware and hardware version for each
-component of the HID device, of which there are 4 parts: The MCU, the
-transmission dongle, the left "handle" controller half, and the right
-"handle" controller half. Each of these devices are provided an attribute
-group to contain its device specific attributes. Additionally, the touchpad
-device attributes are logically separated from the other components in
-another attribute group.
-
-This driver primarily provides access to the configurable settings of the
-Lenovo Legion Go and Lenovo Legion Go 2 controllers running the latest
-firmware. As previously noted, the Legion Go controllers recently had a
-firmware update[1] which switched from the original "SepentiaUSB" protocol
-to a brand new protocol for the Go 2, primarily to ensure backwards and
-forwards compatibility between the Go and Go 2 devices. As part of that
-update the PIDs for the controllers were changed, so there is no risk of
-this driver attaching to controller firmware that it doesn't support.
+Adds attribute that enables selection of the DPI of the optical sensor
+when the right handle toggle is set to FPS mode.
 
 Reviewed-by: Mark Pearson <mpearson-lenovo@squebb.ca>
 Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
---
-v6:
-  - Make attributes static.
-  - Use NULL instead of 0 in mcu_propery_out when there is no data.
-v5:
-  - Make version attributes static, retrieve them using delayed work
-    during probe.
-  - Fix endianness of version strings and print as hex.
-v3:
-  - Add hid-lenovo.c and Mark Pearson to LENOVO HID DRIVERS entry in MAINTAINERS
 ---
- MAINTAINERS                 |   8 +
- drivers/hid/Kconfig         |  12 +
- drivers/hid/Makefile        |   1 +
- drivers/hid/hid-ids.h       |   3 +
- drivers/hid/hid-lenovo-go.c | 914 ++++++++++++++++++++++++++++++++++++
- 5 files changed, 938 insertions(+)
- create mode 100644 drivers/hid/hid-lenovo-go.c
+v6:
+  - Use NULL instead of 0 in mcu_propery_out when there is no data.
+---
+ drivers/hid/hid-lenovo-go.c | 68 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 68 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index bacaec38aaf1..75d89590f3d2 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14415,6 +14415,14 @@ L:	platform-driver-x86@vger.kernel.org
- S:	Maintained
- F:	drivers/platform/x86/lenovo/wmi-hotkey-utilities.c
- 
-+LENOVO HID drivers
-+M:	Derek J. Clark <derekjohn.clark@gmail.com>
-+M:	Mark Pearson <mpearson-lenovo@squebb.ca>
-+L:	linux-input@vger.kernel.org
-+S:	Maintained
-+F:	drivers/hid/hid-lenovo-go.c
-+F:	drivers/hid/hid-lenovo.c
-+
- LETSKETCH HID TABLET DRIVER
- M:	Hans de Goede <hansg@kernel.org>
- L:	linux-input@vger.kernel.org
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index c1d9f7c6a5f2..2925dba429f5 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -623,6 +623,18 @@ config HID_LENOVO
- 	- ThinkPad Compact Bluetooth Keyboard with TrackPoint (supports Fn keys)
- 	- ThinkPad Compact USB Keyboard with TrackPoint (supports Fn keys)
- 
-+config HID_LENOVO_GO
-+	tristate "HID Driver for Lenovo Legion Go Series Controllers"
-+	depends on USB_HID
-+	select LEDS_CLASS
-+	select LEDS_CLASS_MULTICOLOR
-+	help
-+	Support for Lenovo Legion Go devices with detachable controllers.
-+
-+	Say Y here to include configuration interface support for the Lenovo Legion Go
-+	and Legion Go 2 Handheld Console Controllers. Say M here to compile this
-+	driver as a module. The module will be called hid-lenovo-go.
-+
- config HID_LETSKETCH
- 	tristate "Letsketch WP9620N tablets"
- 	depends on USB_HID
-diff --git a/drivers/hid/Makefile b/drivers/hid/Makefile
-index e01838239ae6..79fbe4e3e2f4 100644
---- a/drivers/hid/Makefile
-+++ b/drivers/hid/Makefile
-@@ -76,6 +76,7 @@ obj-$(CONFIG_HID_KYE)		+= hid-kye.o
- obj-$(CONFIG_HID_KYSONA)	+= hid-kysona.o
- obj-$(CONFIG_HID_LCPOWER)	+= hid-lcpower.o
- obj-$(CONFIG_HID_LENOVO)	+= hid-lenovo.o
-+obj-$(CONFIG_HID_LENOVO_GO)	+= hid-lenovo-go.o
- obj-$(CONFIG_HID_LETSKETCH)	+= hid-letsketch.o
- obj-$(CONFIG_HID_LOGITECH)	+= hid-logitech.o
- obj-$(CONFIG_HID_LOGITECH)	+= hid-lg-g15.o
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index 3e299a30dcde..093ee86ebf90 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -858,7 +858,10 @@
- #define USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_602E	0x602e
- #define USB_DEVICE_ID_LENOVO_PIXART_USB_MOUSE_6093	0x6093
- #define USB_DEVICE_ID_LENOVO_LEGION_GO_DUAL_DINPUT	0x6184
-+#define USB_DEVICE_ID_LENOVO_LEGION_GO2_XINPUT		0x61eb
-+#define USB_DEVICE_ID_LENOVO_LEGION_GO2_DINPUT		0x61ec
- #define USB_DEVICE_ID_LENOVO_LEGION_GO2_DUAL_DINPUT	0x61ed
-+#define USB_DEVICE_ID_LENOVO_LEGION_GO2_FPS		0x61ee
- 
- #define USB_VENDOR_ID_LETSKETCH		0x6161
- #define USB_DEVICE_ID_WP9620N		0x4d15
 diff --git a/drivers/hid/hid-lenovo-go.c b/drivers/hid/hid-lenovo-go.c
-new file mode 100644
-index 000000000000..a13ddbe28c7d
---- /dev/null
+index f2a54865cfbb..24f9444c93cd 100644
+--- a/drivers/hid/hid-lenovo-go.c
 +++ b/drivers/hid/hid-lenovo-go.c
-@@ -0,0 +1,914 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ *  HID driver for Lenovo Legion Go series gamepads.
-+ *
-+ *  Copyright (c) 2026 Derek J. Clark <derekjohn.clark@gmail.com>
-+ *  Copyright (c) 2026 Valve Corporation
-+ */
+@@ -67,6 +67,7 @@ static struct hid_go_cfg {
+ 	u32 mcu_version_hardware;
+ 	u32 mcu_version_product;
+ 	u32 mcu_version_protocol;
++	u32 mouse_dpi;
+ 	u8 rgb_en;
+ 	u8 tp_en;
+ 	u8 tp_vibration_en;
+@@ -220,6 +221,8 @@ static const char *const rumble_mode_text[] = {
+ 	[RUMBLE_MODE_RPG] = "rpg",
+ };
+ 
++#define FPS_MODE_DPI           0x02
 +
-+#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-+
-+#include <linux/array_size.h>
-+#include <linux/cleanup.h>
-+#include <linux/completion.h>
-+#include <linux/delay.h>
-+#include <linux/dev_printk.h>
-+#include <linux/device.h>
-+#include <linux/device/devres.h>
-+#include <linux/hid.h>
-+#include <linux/jiffies.h>
-+#include <linux/kstrtox.h>
-+#include <linux/mutex.h>
-+#include <linux/printk.h>
-+#include <linux/sysfs.h>
-+#include <linux/types.h>
-+#include <linux/unaligned.h>
-+#include <linux/usb.h>
-+#include <linux/workqueue.h>
-+#include <linux/workqueue_types.h>
-+
-+#include "hid-ids.h"
-+
-+#define GO_GP_INTF_IN		0x83
-+#define GO_OUTPUT_REPORT_ID	0x05
-+#define GO_GP_RESET_SUCCESS	0x01
-+#define GO_PACKET_SIZE		64
-+
-+static struct hid_go_cfg {
-+	struct delayed_work go_cfg_setup;
-+	struct completion send_cmd_complete;
-+	struct hid_device *hdev;
-+	struct mutex cfg_mutex; /*ensure single synchronous output report*/
-+	u32 gp_left_version_firmware;
-+	u8 gp_left_version_gen;
-+	u32 gp_left_version_hardware;
-+	u32 gp_left_version_product;
-+	u32 gp_left_version_protocol;
-+	u32 gp_right_version_firmware;
-+	u8 gp_right_version_gen;
-+	u32 gp_right_version_hardware;
-+	u32 gp_right_version_product;
-+	u32 gp_right_version_protocol;
-+	u32 mcu_version_firmware;
-+	u8 mcu_version_gen;
-+	u32 mcu_version_hardware;
-+	u32 mcu_version_product;
-+	u32 mcu_version_protocol;
-+	u32 tx_dongle_version_firmware;
-+	u8 tx_dongle_version_gen;
-+	u32 tx_dongle_version_hardware;
-+	u32 tx_dongle_version_product;
-+	u32 tx_dongle_version_protocol;
-+} drvdata;
-+
-+struct go_cfg_attr {
-+	u8 index;
-+};
-+
-+struct command_report {
-+	u8 report_id;
-+	u8 id;
-+	u8 cmd;
-+	u8 sub_cmd;
-+	u8 device_type;
-+	u8 data[59];
-+} __packed;
-+
-+enum command_id {
-+	MCU_CONFIG_DATA = 0x00,
-+	OS_MODE_DATA = 0x06,
-+	GAMEPAD_DATA = 0x3c,
-+};
-+
-+enum mcu_command_index {
-+	GET_VERSION_DATA = 0x02,
-+	GET_FEATURE_STATUS,
-+	SET_FEATURE_STATUS,
-+	GET_MOTOR_CFG,
-+	SET_MOTOR_CFG,
-+	GET_DPI_CFG,
-+	SET_DPI_CFG,
-+	SET_TRIGGER_CFG = 0x0a,
-+	SET_JOYSTICK_CFG = 0x0c,
-+	SET_GYRO_CFG = 0x0e,
-+	GET_RGB_CFG,
-+	SET_RGB_CFG,
-+	GET_DEVICE_STATUS = 0xa0,
-+
-+};
-+
-+enum dev_type {
-+	UNSPECIFIED,
-+	USB_MCU,
-+	TX_DONGLE,
-+	LEFT_CONTROLLER,
-+	RIGHT_CONTROLLER,
-+};
-+
-+enum version_data_index {
-+	PRODUCT_VERSION = 0x02,
-+	PROTOCOL_VERSION,
-+	FIRMWARE_VERSION,
-+	HARDWARE_VERSION,
-+	HARDWARE_GENERATION,
-+};
-+
-+static int hid_go_version_event(struct command_report *cmd_rep)
+ static int hid_go_version_event(struct command_report *cmd_rep)
+ {
+ 	switch (cmd_rep->sub_cmd) {
+@@ -427,6 +430,16 @@ static int hid_go_motor_event(struct command_report *cmd_rep)
+ 	return -EINVAL;
+ }
+ 
++static int hid_go_fps_dpi_event(struct command_report *cmd_rep)
 +{
-+	switch (cmd_rep->sub_cmd) {
-+	case PRODUCT_VERSION:
-+		switch (cmd_rep->device_type) {
-+		case USB_MCU:
-+			drvdata.mcu_version_product =
-+				get_unaligned_be32(cmd_rep->data);
-+			return 0;
-+		case TX_DONGLE:
-+			drvdata.tx_dongle_version_product =
-+				get_unaligned_be32(cmd_rep->data);
-+			return 0;
-+		case LEFT_CONTROLLER:
-+			drvdata.gp_left_version_product =
-+				get_unaligned_be32(cmd_rep->data);
-+			return 0;
-+		case RIGHT_CONTROLLER:
-+			drvdata.gp_right_version_product =
-+				get_unaligned_be32(cmd_rep->data);
-+			return 0;
-+		default:
-+			return -EINVAL;
-+		}
-+	case PROTOCOL_VERSION:
-+		switch (cmd_rep->device_type) {
-+		case USB_MCU:
-+			drvdata.mcu_version_protocol =
-+				get_unaligned_be32(cmd_rep->data);
-+			return 0;
-+		case TX_DONGLE:
-+			drvdata.tx_dongle_version_protocol =
-+				get_unaligned_be32(cmd_rep->data);
-+			return 0;
-+		case LEFT_CONTROLLER:
-+			drvdata.gp_left_version_protocol =
-+				get_unaligned_be32(cmd_rep->data);
-+			return 0;
-+		case RIGHT_CONTROLLER:
-+			drvdata.gp_right_version_protocol =
-+				get_unaligned_be32(cmd_rep->data);
-+			return 0;
-+		default:
-+			return -EINVAL;
-+		}
-+	case FIRMWARE_VERSION:
-+		switch (cmd_rep->device_type) {
-+		case USB_MCU:
-+			drvdata.mcu_version_firmware =
-+				get_unaligned_be32(cmd_rep->data);
-+			return 0;
-+		case TX_DONGLE:
-+			drvdata.tx_dongle_version_firmware =
-+				get_unaligned_be32(cmd_rep->data);
-+			return 0;
-+		case LEFT_CONTROLLER:
-+			drvdata.gp_left_version_firmware =
-+				get_unaligned_be32(cmd_rep->data);
-+			return 0;
-+		case RIGHT_CONTROLLER:
-+			drvdata.gp_right_version_firmware =
-+				get_unaligned_be32(cmd_rep->data);
-+			return 0;
-+		default:
-+			return -EINVAL;
-+		}
-+	case HARDWARE_VERSION:
-+		switch (cmd_rep->device_type) {
-+		case USB_MCU:
-+			drvdata.mcu_version_hardware =
-+				get_unaligned_be32(cmd_rep->data);
-+			return 0;
-+		case TX_DONGLE:
-+			drvdata.tx_dongle_version_hardware =
-+				get_unaligned_be32(cmd_rep->data);
-+			return 0;
-+		case LEFT_CONTROLLER:
-+			drvdata.gp_left_version_hardware =
-+				get_unaligned_be32(cmd_rep->data);
-+			return 0;
-+		case RIGHT_CONTROLLER:
-+			drvdata.gp_right_version_hardware =
-+				get_unaligned_be32(cmd_rep->data);
-+			return 0;
-+		default:
-+			return -EINVAL;
-+		}
-+	case HARDWARE_GENERATION:
-+		switch (cmd_rep->device_type) {
-+		case USB_MCU:
-+			drvdata.mcu_version_gen = cmd_rep->data[0];
-+			return 0;
-+		case TX_DONGLE:
-+			drvdata.tx_dongle_version_gen = cmd_rep->data[0];
-+			return 0;
-+		case LEFT_CONTROLLER:
-+			drvdata.gp_left_version_gen = cmd_rep->data[0];
-+			return 0;
-+		case RIGHT_CONTROLLER:
-+			drvdata.gp_right_version_gen = cmd_rep->data[0];
-+			return 0;
-+		default:
-+			return -EINVAL;
-+		}
-+	default:
++	if (cmd_rep->sub_cmd != FPS_MODE_DPI)
 +		return -EINVAL;
-+	}
-+}
 +
-+static int get_endpoint_address(struct hid_device *hdev)
-+{
-+	struct usb_interface *intf = to_usb_interface(hdev->dev.parent);
-+	struct usb_host_endpoint *ep;
++	drvdata.mouse_dpi = get_unaligned_le32(cmd_rep->data);
 +
-+	if (!intf)
-+		return -ENODEV;
-+
-+	ep = intf->cur_altsetting->endpoint;
-+	if (!ep)
-+		return -ENODEV;
-+
-+	return ep->desc.bEndpointAddress;
-+}
-+
-+static int hid_go_raw_event(struct hid_device *hdev, struct hid_report *report,
-+			    u8 *data, int size)
-+{
-+	struct command_report *cmd_rep;
-+	int ep, ret;
-+
-+	if (size != GO_PACKET_SIZE)
-+		goto passthrough;
-+
-+	ep = get_endpoint_address(hdev);
-+	if (ep != GO_GP_INTF_IN)
-+		goto passthrough;
-+
-+	cmd_rep = (struct command_report *)data;
-+
-+	switch (cmd_rep->id) {
-+	case MCU_CONFIG_DATA:
-+		switch (cmd_rep->cmd) {
-+		case GET_VERSION_DATA:
-+			ret = hid_go_version_event(cmd_rep);
-+			break;
-+		default:
-+			ret = -EINVAL;
-+			break;
-+		};
-+		break;
-+	default:
-+		goto passthrough;
-+	};
-+	dev_dbg(&hdev->dev, "Rx data as raw input report: [%*ph]\n",
-+		GO_PACKET_SIZE, data);
-+
-+	complete(&drvdata.send_cmd_complete);
-+	return ret;
-+
-+passthrough:
-+	/* Forward other HID reports so they generate events */
-+	hid_input_report(hdev, HID_INPUT_REPORT, data, size, 1);
 +	return 0;
 +}
 +
-+static int mcu_property_out(struct hid_device *hdev, u8 id, u8 command,
-+			    u8 index, enum dev_type device, u8 *data, size_t len)
+ static int hid_go_set_event_return(struct command_report *cmd_rep)
+ {
+ 	if (cmd_rep->data[0] != 0)
+@@ -477,8 +490,12 @@ static int hid_go_raw_event(struct hid_device *hdev, struct hid_report *report,
+ 		case GET_MOTOR_CFG:
+ 			ret = hid_go_motor_event(cmd_rep);
+ 			break;
++		case GET_DPI_CFG:
++			ret = hid_go_fps_dpi_event(cmd_rep);
++			break;
+ 		case SET_FEATURE_STATUS:
+ 		case SET_MOTOR_CFG:
++		case SET_DPI_CFG:
+ 			ret = hid_go_set_event_return(cmd_rep);
+ 			break;
+ 		default:
+@@ -1016,6 +1033,52 @@ static ssize_t motor_config_options(struct device *dev,
+ 	return count;
+ }
+ 
++static ssize_t fps_mode_dpi_store(struct device *dev,
++				  struct device_attribute *attr,
++				  const char *buf, size_t count)
++
 +{
-+	unsigned char *dmabuf __free(kfree) = NULL;
-+	u8 header[] = { GO_OUTPUT_REPORT_ID, id, command, index, device };
-+	size_t header_size = ARRAY_SIZE(header);
-+	int timeout = 50;
++	size_t size = 4;
++	u32 value;
++	u8 val[4];
 +	int ret;
 +
-+	if (header_size + len > GO_PACKET_SIZE)
-+		return -EINVAL;
-+
-+	guard(mutex)(&drvdata.cfg_mutex);
-+	/* We can't use a devm_alloc reusable buffer without side effects during suspend */
-+	dmabuf = kzalloc(GO_PACKET_SIZE, GFP_KERNEL);
-+	if (!dmabuf)
-+		return -ENOMEM;
-+
-+	memcpy(dmabuf, header, header_size);
-+	memcpy(dmabuf + header_size, data, len);
-+
-+	dev_dbg(&hdev->dev, "Send data as raw output report: [%*ph]\n",
-+		GO_PACKET_SIZE, dmabuf);
-+
-+	ret = hid_hw_output_report(hdev, dmabuf, GO_PACKET_SIZE);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = ret == GO_PACKET_SIZE ? 0 : -EINVAL;
++	ret = kstrtou32(buf, 10, &value);
 +	if (ret)
 +		return ret;
 +
-+	ret = wait_for_completion_interruptible_timeout(&drvdata.send_cmd_complete,
-+							msecs_to_jiffies(timeout));
++	if (value != 500 && value != 800 && value != 1200 && value != 1800)
++		return -EINVAL;
 +
-+	if (ret == 0) /* timeout occurred */
-+		ret = -EBUSY;
++	put_unaligned_le32(value, val);
 +
-+	reinit_completion(&drvdata.send_cmd_complete);
-+	return 0;
-+}
-+
-+static ssize_t version_show(struct device *dev, struct device_attribute *attr,
-+			    char *buf, enum version_data_index index,
-+			    enum dev_type device_type)
-+{
-+	ssize_t count = 0;
-+
-+	switch (index) {
-+	case PRODUCT_VERSION:
-+		switch (device_type) {
-+		case USB_MCU:
-+			count = sysfs_emit(buf, "%x\n",
-+					   drvdata.mcu_version_product);
-+			break;
-+		case TX_DONGLE:
-+			count = sysfs_emit(buf, "%x\n",
-+					   drvdata.tx_dongle_version_product);
-+			break;
-+		case LEFT_CONTROLLER:
-+			count = sysfs_emit(buf, "%x\n",
-+					   drvdata.gp_left_version_product);
-+			break;
-+		case RIGHT_CONTROLLER:
-+			count = sysfs_emit(buf, "%x\n",
-+					   drvdata.gp_right_version_product);
-+			break;
-+		default:
-+			return -EINVAL;
-+		}
-+		break;
-+	case PROTOCOL_VERSION:
-+		switch (device_type) {
-+		case USB_MCU:
-+			count = sysfs_emit(buf, "%x\n",
-+					   drvdata.mcu_version_protocol);
-+			break;
-+		case TX_DONGLE:
-+			count = sysfs_emit(buf, "%x\n",
-+					   drvdata.tx_dongle_version_protocol);
-+			break;
-+		case LEFT_CONTROLLER:
-+			count = sysfs_emit(buf, "%x\n",
-+					   drvdata.gp_left_version_protocol);
-+			break;
-+		case RIGHT_CONTROLLER:
-+			count = sysfs_emit(buf, "%x\n",
-+					   drvdata.gp_right_version_protocol);
-+			break;
-+		default:
-+			return -EINVAL;
-+		}
-+		break;
-+	case FIRMWARE_VERSION:
-+		switch (device_type) {
-+		case USB_MCU:
-+			count = sysfs_emit(buf, "%x\n",
-+					   drvdata.mcu_version_firmware);
-+			break;
-+		case TX_DONGLE:
-+			count = sysfs_emit(buf, "%x\n",
-+					   drvdata.tx_dongle_version_firmware);
-+			break;
-+		case LEFT_CONTROLLER:
-+			count = sysfs_emit(buf, "%x\n",
-+					   drvdata.gp_left_version_firmware);
-+			break;
-+		case RIGHT_CONTROLLER:
-+			count = sysfs_emit(buf, "%x\n",
-+					   drvdata.gp_right_version_firmware);
-+			break;
-+		default:
-+			return -EINVAL;
-+		}
-+		break;
-+	case HARDWARE_VERSION:
-+		switch (device_type) {
-+		case USB_MCU:
-+			count = sysfs_emit(buf, "%x\n",
-+					   drvdata.mcu_version_hardware);
-+			break;
-+		case TX_DONGLE:
-+			count = sysfs_emit(buf, "%x\n",
-+					   drvdata.tx_dongle_version_hardware);
-+			break;
-+		case LEFT_CONTROLLER:
-+			count = sysfs_emit(buf, "%x\n",
-+					   drvdata.gp_left_version_hardware);
-+			break;
-+		case RIGHT_CONTROLLER:
-+			count = sysfs_emit(buf, "%x\n",
-+					   drvdata.gp_right_version_hardware);
-+			break;
-+		default:
-+			return -EINVAL;
-+		}
-+		break;
-+	case HARDWARE_GENERATION:
-+		switch (device_type) {
-+		case USB_MCU:
-+			count = sysfs_emit(buf, "%x\n",
-+					   drvdata.mcu_version_gen);
-+			break;
-+		case TX_DONGLE:
-+			count = sysfs_emit(buf, "%x\n",
-+					   drvdata.tx_dongle_version_gen);
-+			break;
-+		case LEFT_CONTROLLER:
-+			count = sysfs_emit(buf, "%x\n",
-+					   drvdata.gp_left_version_gen);
-+			break;
-+		case RIGHT_CONTROLLER:
-+			count = sysfs_emit(buf, "%x\n",
-+					   drvdata.gp_right_version_gen);
-+			break;
-+		default:
-+			return -EINVAL;
-+		}
-+		break;
-+	}
++	ret = mcu_property_out(drvdata.hdev, MCU_CONFIG_DATA, SET_DPI_CFG,
++			       FPS_MODE_DPI, UNSPECIFIED, val, size);
++	if (ret < 0)
++		return ret;
 +
 +	return count;
 +}
 +
-+#define LEGO_DEVICE_ATTR_RW(_name, _attrname, _dtype, _rtype, _group)         \
-+	static ssize_t _name##_store(struct device *dev,                      \
-+				     struct device_attribute *attr,           \
-+				     const char *buf, size_t count)           \
-+	{                                                                     \
-+		return _group##_store(dev, attr, buf, count, _name.index,     \
-+				      _dtype);                                \
-+	}                                                                     \
-+	static ssize_t _name##_show(struct device *dev,                       \
-+				    struct device_attribute *attr, char *buf) \
-+	{                                                                     \
-+		return _group##_show(dev, attr, buf, _name.index, _dtype);    \
-+	}                                                                     \
-+	static ssize_t _name##_##_rtype##_show(                               \
-+		struct device *dev, struct device_attribute *attr, char *buf) \
-+	{                                                                     \
-+		return _group##_options(dev, attr, buf, _name.index);         \
-+	}                                                                     \
-+	static DEVICE_ATTR_RW_NAMED(_name, _attrname)
-+
-+#define LEGO_DEVICE_ATTR_WO(_name, _attrname, _dtype, _group)             \
-+	static ssize_t _name##_store(struct device *dev,                  \
-+				     struct device_attribute *attr,       \
-+				     const char *buf, size_t count)       \
-+	{                                                                 \
-+		return _group##_store(dev, attr, buf, count, _name.index, \
-+				      _dtype);                            \
-+	}                                                                 \
-+	static DEVICE_ATTR_WO_NAMED(_name, _attrname)
-+
-+#define LEGO_DEVICE_ATTR_RO(_name, _attrname, _dtype, _group)                 \
-+	static ssize_t _name##_show(struct device *dev,                       \
-+				    struct device_attribute *attr, char *buf) \
-+	{                                                                     \
-+		return _group##_show(dev, attr, buf, _name.index, _dtype);    \
-+	}                                                                     \
-+	static DEVICE_ATTR_RO_NAMED(_name, _attrname)
-+
-+/* Gamepad - MCU */
-+static struct go_cfg_attr version_product_mcu = { PRODUCT_VERSION };
-+LEGO_DEVICE_ATTR_RO(version_product_mcu, "product_version", USB_MCU, version);
-+
-+static struct go_cfg_attr version_protocol_mcu = { PROTOCOL_VERSION };
-+LEGO_DEVICE_ATTR_RO(version_protocol_mcu, "protocol_version", USB_MCU, version);
-+
-+static struct go_cfg_attr version_firmware_mcu = { FIRMWARE_VERSION };
-+LEGO_DEVICE_ATTR_RO(version_firmware_mcu, "firmware_version", USB_MCU, version);
-+
-+static struct go_cfg_attr version_hardware_mcu = { HARDWARE_VERSION };
-+LEGO_DEVICE_ATTR_RO(version_hardware_mcu, "hardware_version", USB_MCU, version);
-+
-+static struct go_cfg_attr version_gen_mcu = { HARDWARE_GENERATION };
-+LEGO_DEVICE_ATTR_RO(version_gen_mcu, "hardware_generation", USB_MCU, version);
-+
-+static struct attribute *mcu_attrs[] = {
-+	&dev_attr_version_firmware_mcu.attr,
-+	&dev_attr_version_gen_mcu.attr,
-+	&dev_attr_version_hardware_mcu.attr,
-+	&dev_attr_version_product_mcu.attr,
-+	&dev_attr_version_protocol_mcu.attr,
-+	NULL,
-+};
-+
-+static const struct attribute_group mcu_attr_group = {
-+	.attrs = mcu_attrs,
-+};
-+
-+/* Gamepad - TX Dongle */
-+static struct go_cfg_attr version_product_tx_dongle = { PRODUCT_VERSION };
-+LEGO_DEVICE_ATTR_RO(version_product_tx_dongle, "product_version", TX_DONGLE, version);
-+
-+static struct go_cfg_attr version_protocol_tx_dongle = { PROTOCOL_VERSION };
-+LEGO_DEVICE_ATTR_RO(version_protocol_tx_dongle, "protocol_version", TX_DONGLE, version);
-+
-+static struct go_cfg_attr version_firmware_tx_dongle = { FIRMWARE_VERSION };
-+LEGO_DEVICE_ATTR_RO(version_firmware_tx_dongle, "firmware_version", TX_DONGLE, version);
-+
-+static struct go_cfg_attr version_hardware_tx_dongle = { HARDWARE_VERSION };
-+LEGO_DEVICE_ATTR_RO(version_hardware_tx_dongle, "hardware_version", TX_DONGLE, version);
-+
-+static struct go_cfg_attr version_gen_tx_dongle = { HARDWARE_GENERATION };
-+LEGO_DEVICE_ATTR_RO(version_gen_tx_dongle, "hardware_generation", TX_DONGLE, version);
-+
-+static struct attribute *tx_dongle_attrs[] = {
-+	&dev_attr_version_hardware_tx_dongle.attr,
-+	&dev_attr_version_firmware_tx_dongle.attr,
-+	&dev_attr_version_gen_tx_dongle.attr,
-+	&dev_attr_version_product_tx_dongle.attr,
-+	&dev_attr_version_protocol_tx_dongle.attr,
-+	NULL,
-+};
-+
-+static const struct attribute_group tx_dongle_attr_group = {
-+	.name = "tx_dongle",
-+	.attrs = tx_dongle_attrs,
-+};
-+
-+/* Gamepad - Left */
-+static struct go_cfg_attr version_product_left = { PRODUCT_VERSION };
-+LEGO_DEVICE_ATTR_RO(version_product_left, "product_version", LEFT_CONTROLLER, version);
-+
-+static struct go_cfg_attr version_protocol_left = { PROTOCOL_VERSION };
-+LEGO_DEVICE_ATTR_RO(version_protocol_left, "protocol_version", LEFT_CONTROLLER, version);
-+
-+static struct go_cfg_attr version_firmware_left = { FIRMWARE_VERSION };
-+LEGO_DEVICE_ATTR_RO(version_firmware_left, "firmware_version", LEFT_CONTROLLER, version);
-+
-+static struct go_cfg_attr version_hardware_left = { HARDWARE_VERSION };
-+LEGO_DEVICE_ATTR_RO(version_hardware_left, "hardware_version", LEFT_CONTROLLER, version);
-+
-+static struct go_cfg_attr version_gen_left = { HARDWARE_GENERATION };
-+LEGO_DEVICE_ATTR_RO(version_gen_left, "hardware_generation", LEFT_CONTROLLER, version);
-+
-+static struct attribute *left_gamepad_attrs[] = {
-+	&dev_attr_version_hardware_left.attr,
-+	&dev_attr_version_firmware_left.attr,
-+	&dev_attr_version_gen_left.attr,
-+	&dev_attr_version_product_left.attr,
-+	&dev_attr_version_protocol_left.attr,
-+	NULL,
-+};
-+
-+static const struct attribute_group left_gamepad_attr_group = {
-+	.name = "left_handle",
-+	.attrs = left_gamepad_attrs,
-+};
-+
-+/* Gamepad - Right */
-+static struct go_cfg_attr version_product_right = { PRODUCT_VERSION };
-+LEGO_DEVICE_ATTR_RO(version_product_right, "product_version", RIGHT_CONTROLLER, version);
-+
-+static struct go_cfg_attr version_protocol_right = { PROTOCOL_VERSION };
-+LEGO_DEVICE_ATTR_RO(version_protocol_right, "protocol_version", RIGHT_CONTROLLER, version);
-+
-+static struct go_cfg_attr version_firmware_right = { FIRMWARE_VERSION };
-+LEGO_DEVICE_ATTR_RO(version_firmware_right, "firmware_version", RIGHT_CONTROLLER, version);
-+
-+static struct go_cfg_attr version_hardware_right = { HARDWARE_VERSION };
-+LEGO_DEVICE_ATTR_RO(version_hardware_right, "hardware_version", RIGHT_CONTROLLER, version);
-+
-+static struct go_cfg_attr version_gen_right = { HARDWARE_GENERATION };
-+LEGO_DEVICE_ATTR_RO(version_gen_right, "hardware_generation", RIGHT_CONTROLLER, version);
-+
-+static struct attribute *right_gamepad_attrs[] = {
-+	&dev_attr_version_hardware_right.attr,
-+	&dev_attr_version_firmware_right.attr,
-+	&dev_attr_version_gen_right.attr,
-+	&dev_attr_version_product_right.attr,
-+	&dev_attr_version_protocol_right.attr,
-+	NULL,
-+};
-+
-+static const struct attribute_group right_gamepad_attr_group = {
-+	.name = "right_handle",
-+	.attrs = right_gamepad_attrs,
-+};
-+
-+/* Touchpad */
-+static struct attribute *touchpad_attrs[] = {
-+	NULL,
-+};
-+
-+static const struct attribute_group touchpad_attr_group = {
-+	.name = "touchpad",
-+	.attrs = touchpad_attrs,
-+};
-+
-+static const struct attribute_group *top_level_attr_groups[] = {
-+	&mcu_attr_group,	  &tx_dongle_attr_group,
-+	&left_gamepad_attr_group, &right_gamepad_attr_group,
-+	&touchpad_attr_group,	  NULL,
-+};
-+
-+static void cfg_setup(struct work_struct *work)
++static ssize_t fps_mode_dpi_show(struct device *dev,
++				 struct device_attribute *attr, char *buf)
 +{
 +	int ret;
 +
-+	/* MCU Version Attrs */
-+	ret = mcu_property_out(drvdata.hdev, MCU_CONFIG_DATA, GET_VERSION_DATA,
-+			       PRODUCT_VERSION, USB_MCU, NULL, 0);
-+	if (ret < 0) {
-+		dev_err(&drvdata.hdev->dev,
-+			"Failed to retrieve USB_MCU Product Version: %i\n", ret);
-+		return;
-+	}
-+
-+	ret = mcu_property_out(drvdata.hdev, MCU_CONFIG_DATA, GET_VERSION_DATA,
-+			       PROTOCOL_VERSION, USB_MCU, NULL, 0);
-+	if (ret < 0) {
-+		dev_err(&drvdata.hdev->dev,
-+			"Failed to retrieve USB_MCU Protocol Version: %i\n", ret);
-+		return;
-+	}
-+
-+	ret = mcu_property_out(drvdata.hdev, MCU_CONFIG_DATA, GET_VERSION_DATA,
-+			       FIRMWARE_VERSION, USB_MCU, NULL, 0);
-+	if (ret < 0) {
-+		dev_err(&drvdata.hdev->dev,
-+			"Failed to retrieve USB_MCU Firmware Version: %i\n", ret);
-+		return;
-+	}
-+
-+	ret = mcu_property_out(drvdata.hdev, MCU_CONFIG_DATA, GET_VERSION_DATA,
-+			       HARDWARE_VERSION, USB_MCU, NULL, 0);
-+	if (ret < 0) {
-+		dev_err(&drvdata.hdev->dev,
-+			"Failed to retrieve USB_MCU Hardware Version: %i\n", ret);
-+		return;
-+	}
-+
-+	ret = mcu_property_out(drvdata.hdev, MCU_CONFIG_DATA, GET_VERSION_DATA,
-+			       HARDWARE_GENERATION, USB_MCU, NULL, 0);
-+	if (ret < 0) {
-+		dev_err(&drvdata.hdev->dev,
-+			"Failed to retrieve USB_MCU Hardware Generation: %i\n", ret);
-+		return;
-+	}
-+
-+	/* TX Dongle Version Attrs */
-+	ret = mcu_property_out(drvdata.hdev, MCU_CONFIG_DATA, GET_VERSION_DATA,
-+			       PRODUCT_VERSION, TX_DONGLE, NULL, 0);
-+	if (ret < 0) {
-+		dev_err(&drvdata.hdev->dev,
-+			"Failed to retrieve TX_DONGLE Product Version: %i\n", ret);
-+		return;
-+	}
-+
-+	ret = mcu_property_out(drvdata.hdev, MCU_CONFIG_DATA, GET_VERSION_DATA,
-+			       PROTOCOL_VERSION, TX_DONGLE, NULL, 0);
-+	if (ret < 0) {
-+		dev_err(&drvdata.hdev->dev,
-+			"Failed to retrieve TX_DONGLE Protocol Version: %i\n", ret);
-+		return;
-+	}
-+
-+	ret = mcu_property_out(drvdata.hdev, MCU_CONFIG_DATA, GET_VERSION_DATA,
-+			       FIRMWARE_VERSION, TX_DONGLE, NULL, 0);
-+	if (ret < 0) {
-+		dev_err(&drvdata.hdev->dev,
-+			"Failed to retrieve TX_DONGLE Firmware Version: %i\n", ret);
-+		return;
-+	}
-+
-+	ret = mcu_property_out(drvdata.hdev, MCU_CONFIG_DATA, GET_VERSION_DATA,
-+			       HARDWARE_VERSION, TX_DONGLE, NULL, 0);
-+	if (ret < 0) {
-+		dev_err(&drvdata.hdev->dev,
-+			"Failed to retrieve TX_DONGLE Hardware Version: %i\n", ret);
-+		return;
-+	}
-+
-+	ret = mcu_property_out(drvdata.hdev, MCU_CONFIG_DATA, GET_VERSION_DATA,
-+			       HARDWARE_GENERATION, TX_DONGLE, NULL, 0);
-+	if (ret < 0) {
-+		dev_err(&drvdata.hdev->dev,
-+			"Failed to retrieve TX_DONGLE Hardware Generation: %i\n", ret);
-+		return;
-+	}
-+
-+	/* Left Handle Version Attrs */
-+	ret = mcu_property_out(drvdata.hdev, MCU_CONFIG_DATA, GET_VERSION_DATA,
-+			       PRODUCT_VERSION, LEFT_CONTROLLER, NULL, 0);
-+	if (ret < 0) {
-+		dev_err(&drvdata.hdev->dev,
-+			"Failed to retrieve LEFT_CONTROLLER Product Version: %i\n", ret);
-+		return;
-+	}
-+
-+	ret = mcu_property_out(drvdata.hdev, MCU_CONFIG_DATA, GET_VERSION_DATA,
-+			       PROTOCOL_VERSION, LEFT_CONTROLLER, NULL, 0);
-+	if (ret < 0) {
-+		dev_err(&drvdata.hdev->dev,
-+			"Failed to retrieve LEFT_CONTROLLER Protocol Version: %i\n", ret);
-+		return;
-+	}
-+
-+	ret = mcu_property_out(drvdata.hdev, MCU_CONFIG_DATA, GET_VERSION_DATA,
-+			       FIRMWARE_VERSION, LEFT_CONTROLLER, NULL, 0);
-+	if (ret < 0) {
-+		dev_err(&drvdata.hdev->dev,
-+			"Failed to retrieve LEFT_CONTROLLER Firmware Version: %i\n", ret);
-+		return;
-+	}
-+
-+	ret = mcu_property_out(drvdata.hdev, MCU_CONFIG_DATA, GET_VERSION_DATA,
-+			       HARDWARE_VERSION, LEFT_CONTROLLER, NULL, 0);
-+	if (ret < 0) {
-+		dev_err(&drvdata.hdev->dev,
-+			"Failed to retrieve LEFT_CONTROLLER Hardware Version: %i\n", ret);
-+		return;
-+	}
-+
-+	ret = mcu_property_out(drvdata.hdev, MCU_CONFIG_DATA, GET_VERSION_DATA,
-+			       HARDWARE_GENERATION, LEFT_CONTROLLER, NULL, 0);
-+	if (ret < 0) {
-+		dev_err(&drvdata.hdev->dev,
-+			"Failed to retrieve LEFT_CONTROLLER Hardware Generation: %i\n", ret);
-+		return;
-+	}
-+
-+	/* Right Handle Version Attrs */
-+	ret = mcu_property_out(drvdata.hdev, MCU_CONFIG_DATA, GET_VERSION_DATA,
-+			       PRODUCT_VERSION, RIGHT_CONTROLLER, NULL, 0);
-+	if (ret < 0) {
-+		dev_err(&drvdata.hdev->dev,
-+			"Failed to retrieve RIGHT_CONTROLLER Product Version: %i\n", ret);
-+		return;
-+	}
-+
-+	ret = mcu_property_out(drvdata.hdev, MCU_CONFIG_DATA, GET_VERSION_DATA,
-+			       PROTOCOL_VERSION, RIGHT_CONTROLLER, NULL, 0);
-+	if (ret < 0) {
-+		dev_err(&drvdata.hdev->dev,
-+			"Failed to retrieve RIGHT_CONTROLLER Protocol Version: %i\n", ret);
-+		return;
-+	}
-+
-+	ret = mcu_property_out(drvdata.hdev, MCU_CONFIG_DATA, GET_VERSION_DATA,
-+			       FIRMWARE_VERSION, RIGHT_CONTROLLER, NULL, 0);
-+	if (ret < 0) {
-+		dev_err(&drvdata.hdev->dev,
-+			"Failed to retrieve RIGHT_CONTROLLER Firmware Version: %i\n", ret);
-+		return;
-+	}
-+
-+	ret = mcu_property_out(drvdata.hdev, MCU_CONFIG_DATA, GET_VERSION_DATA,
-+			       HARDWARE_VERSION, RIGHT_CONTROLLER, NULL, 0);
-+	if (ret < 0) {
-+		dev_err(&drvdata.hdev->dev,
-+			"Failed to retrieve RIGHT_CONTROLLER Hardware Version: %i\n", ret);
-+		return;
-+	}
-+
-+	ret = mcu_property_out(drvdata.hdev, MCU_CONFIG_DATA, GET_VERSION_DATA,
-+			       HARDWARE_GENERATION, RIGHT_CONTROLLER, NULL, 0);
-+	if (ret < 0) {
-+		dev_err(&drvdata.hdev->dev,
-+			"Failed to retrieve RIGHT_CONTROLLER Hardware Generation: %i\n", ret);
-+		return;
-+	}
-+}
-+
-+static int hid_go_cfg_probe(struct hid_device *hdev,
-+			    const struct hid_device_id *_id)
-+{
-+	unsigned char *buf;
-+	int ret;
-+
-+	buf = devm_kzalloc(&hdev->dev, GO_PACKET_SIZE, GFP_KERNEL);
-+	if (!buf)
-+		return -ENOMEM;
-+
-+	hid_set_drvdata(hdev, &drvdata);
-+	drvdata.hdev = hdev;
-+	mutex_init(&drvdata.cfg_mutex);
-+
-+	ret = sysfs_create_groups(&hdev->dev.kobj, top_level_attr_groups);
-+	if (ret) {
-+		dev_err_probe(&hdev->dev, ret,
-+			      "Failed to create gamepad configuration attributes\n");
++	ret = mcu_property_out(drvdata.hdev, MCU_CONFIG_DATA, GET_DPI_CFG,
++			       FPS_MODE_DPI, UNSPECIFIED, NULL, 0);
++	if (ret < 0)
 +		return ret;
-+	}
 +
-+	init_completion(&drvdata.send_cmd_complete);
-+
-+	/* Executing calls prior to returning from probe will lock the MCU. Schedule
-+	 * initial data call after probe has completed and MCU can accept calls.
-+	 */
-+	INIT_DELAYED_WORK(&drvdata.go_cfg_setup, &cfg_setup);
-+	ret = schedule_delayed_work(&drvdata.go_cfg_setup, msecs_to_jiffies(2));
-+	if (!ret) {
-+		dev_err(&hdev->dev,
-+			"Failed to schedule startup delayed work\n");
-+		return -ENODEV;
-+	}
-+	return 0;
++	return sysfs_emit(buf, "%u\n", drvdata.mouse_dpi);
 +}
 +
-+static void hid_go_cfg_remove(struct hid_device *hdev)
++static ssize_t fps_mode_dpi_index_show(struct device *dev,
++				       struct device_attribute *attr, char *buf)
 +{
-+	guard(mutex)(&drvdata.cfg_mutex);
-+	sysfs_remove_groups(&hdev->dev.kobj, top_level_attr_groups);
-+	hid_hw_close(hdev);
-+	hid_hw_stop(hdev);
-+	hid_set_drvdata(hdev, NULL);
++	return sysfs_emit(buf, "500 800 1200 1800\n");
 +}
 +
-+static int hid_go_probe(struct hid_device *hdev, const struct hid_device_id *id)
-+{
-+	int ret, ep;
+ #define LEGO_DEVICE_ATTR_RW(_name, _attrname, _dtype, _rtype, _group)         \
+ 	static ssize_t _name##_store(struct device *dev,                      \
+ 				     struct device_attribute *attr,           \
+@@ -1087,7 +1150,12 @@ LEGO_DEVICE_ATTR_RW(gamepad_rumble_intensity, "rumble_intensity", UNSPECIFIED,
+ static DEVICE_ATTR_RO_NAMED(gamepad_rumble_intensity_index,
+ 			    "rumble_intensity_index");
+ 
++static DEVICE_ATTR_RW(fps_mode_dpi);
++static DEVICE_ATTR_RO(fps_mode_dpi_index);
 +
-+	hdev->quirks |= HID_QUIRK_INPUT_PER_APP | HID_QUIRK_MULTI_INPUT;
-+
-+	ret = hid_parse(hdev);
-+	if (ret) {
-+		hid_err(hdev, "Parse failed\n");
-+		return ret;
-+	}
-+
-+	ret = hid_hw_start(hdev, HID_CONNECT_DEFAULT);
-+	if (ret) {
-+		hid_err(hdev, "Failed to start HID device\n");
-+		return ret;
-+	}
-+
-+	ret = hid_hw_open(hdev);
-+	if (ret) {
-+		hid_err(hdev, "Failed to open HID device\n");
-+		hid_hw_stop(hdev);
-+		return ret;
-+	}
-+
-+	ep = get_endpoint_address(hdev);
-+	if (ep != GO_GP_INTF_IN) {
-+		dev_dbg(&hdev->dev, "Started interface %x as generic HID device\n", ep);
-+		return 0;
-+	}
-+
-+	ret = hid_go_cfg_probe(hdev, id);
-+	if (ret)
-+		dev_err_probe(&hdev->dev, ret, "Failed to start configuration interface\n");
-+
-+	dev_dbg(&hdev->dev, "Started Legion Go HID Device: %x\n", ep);
-+
-+	return ret;
-+}
-+
-+static void hid_go_remove(struct hid_device *hdev)
-+{
-+	int ep = get_endpoint_address(hdev);
-+
-+	if (ep <= 0)
-+		return;
-+
-+	switch (ep) {
-+	case GO_GP_INTF_IN:
-+		hid_go_cfg_remove(hdev);
-+		break;
-+	default:
-+		hid_hw_close(hdev);
-+		hid_hw_stop(hdev);
-+		break;
-+	}
-+}
-+
-+static const struct hid_device_id hid_go_devices[] = {
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO,
-+			 USB_DEVICE_ID_LENOVO_LEGION_GO2_XINPUT) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO,
-+			 USB_DEVICE_ID_LENOVO_LEGION_GO2_DINPUT) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO,
-+			 USB_DEVICE_ID_LENOVO_LEGION_GO2_DUAL_DINPUT) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_LENOVO,
-+			 USB_DEVICE_ID_LENOVO_LEGION_GO2_FPS) },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(hid, hid_go_devices);
-+
-+static struct hid_driver hid_lenovo_go = {
-+	.name = "hid-lenovo-go",
-+	.id_table = hid_go_devices,
-+	.probe = hid_go_probe,
-+	.remove = hid_go_remove,
-+	.raw_event = hid_go_raw_event,
-+};
-+module_hid_driver(hid_lenovo_go);
-+
-+MODULE_AUTHOR("Derek J. Clark");
-+MODULE_DESCRIPTION("HID Driver for Lenovo Legion Go Series Gamepads.");
-+MODULE_LICENSE("GPL");
+ static struct attribute *mcu_attrs[] = {
++	&dev_attr_fps_mode_dpi.attr,
++	&dev_attr_fps_mode_dpi_index.attr,
+ 	&dev_attr_fps_switch_status.attr,
+ 	&dev_attr_gamepad_mode.attr,
+ 	&dev_attr_gamepad_mode_index.attr,
 -- 
 2.53.0
 
