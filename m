@@ -1,295 +1,162 @@
-Received: from canpmsgout08.his.huawei.com (canpmsgout08.his.huawei.com [113.46.200.223])
+Received: from canpmsgout12.his.huawei.com (canpmsgout12.his.huawei.com [113.46.200.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9843399007;
-	Tue, 10 Mar 2026 03:21:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.223
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFC61186284;
+	Tue, 10 Mar 2026 03:23:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.227
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773112876; cv=none; b=DYlNnMU5v9JGzsr0TWlKkdtIT/C2WNNQ3MkXY/WPdY1dnLFArFPva+W+zjPNMfb1iOAfF6O4P3Py2QgnKWfsDWlZlBoG2wTp7thUL3DP9Y9Ib76RqzRoq9t4VdIcAGer0/+q5k+mFiWJj2eSQfGQSn6GPKdbr6r2XLvzfzjT/DQ=
+	t=1773113016; cv=none; b=G+YOquLTX+xvEEn+GBcJ94LXOMSyabR3TaWfGf4yL0lGEwah21puV2jkDwCl8MozcXZf6DqYME/IIbsgnFEh++m2cO3TA12lo1XzvtmA/MKbJNRWt2b+EUT4ptXmqqUZzd0mdD9rNe5D0UsKum9j6Im9wI0CMwU+Q/PPmUMOy9k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773112876; c=relaxed/simple;
-	bh=FKWCa7KvkqcFm/L3Gue8UPFLyQnFbaSJbPinN6lpzBA=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Juw683owuZUqtLivln38qINdqsCrTx7P9OpN7lUe+scl4SEFq99fCdG4ZPp1tHtT6yJwMxb/4TqMXo26pe4UPfRgGuf+l7BpYG6vgpaCVCxrGPZBGxJTIn4QER0zDXyH2d3opL/snVzHTkU3DwcMsCuZvMy+CoqR4l6KTnGVSuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=ixI1woUG; arc=none smtp.client-ip=113.46.200.223
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1773113016; c=relaxed/simple;
+	bh=+t/J1XOsAaxgVbbDdD1c/zWt7xTXoMlNp3nGiFEgIDw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=owT0iBBCdfbi4GXFTOpc/HLvbdd4U2VZa51j1ccfEOvjmQuiOh73LiN9OFFm6MdRYWDdAChl5A90N4mDK3bi5ctCodBzJp0QsvfyuS6lLkPWcgnAyDhmEmrh7XxF+eAplbhqyyg7Cf4P73KCQifq/VWmU9zCQpDwWSe3qrdczyg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=h-partners.com; dkim=pass (1024-bit key) header.d=h-partners.com header.i=@h-partners.com header.b=AAya+XVr; arc=none smtp.client-ip=113.46.200.227
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=h-partners.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="ixI1woUG"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	dkim=pass (1024-bit key) header.d=h-partners.com header.i=@h-partners.com header.b="AAya+XVr"
+dkim-signature: v=1; a=rsa-sha256; d=h-partners.com; s=dkim;
 	c=relaxed/relaxed; q=dns/txt;
 	h=From;
-	bh=TT+M/HNYlJSQX27HOtuYm2otltrl3F+s0X9BiZbUIzc=;
-	b=ixI1woUGB7ctC3EgDtiIAVXDQtMwKnAm6gqjEcu7Ioth6mixa7zzjeYU4cmcrR0mR18bNy8h5
-	5nViuN/Xfbli6I4fMQTda7HIJzjMdDsiCUSXnOVb/xk+/dR+/rXDufXhWuvtusN+MT0rkLw8hMj
-	lKjtF9p/nZ4Uip8uiGMHUyY=
+	bh=kbl1GuBV78eycC1jHqRBmTAj3PiiMREwP/FsZOaQ8N8=;
+	b=AAya+XVr2pkgKguJ77tN58qWtp1064/0IaQZZP/M4JT+BZLM2G9Bqx/AHhQgAUbUBf4xNu8Ba
+	htIR3H9uMil8GhIfcI8T3RMBUaJWr4znqwmQfHqgq/t0jqP4gFyjt6vDYs6oKMhtj9ze7+irQZn
+	sBwJ1iUwFPWpYVRXMKI2fDQ=
 Received: from mail.maildlp.com (unknown [172.19.162.92])
-	by canpmsgout08.his.huawei.com (SkyGuard) with ESMTPS id 4fVJtY2xXbzmV8y;
-	Tue, 10 Mar 2026 11:16:05 +0800 (CST)
-Received: from kwepemk500009.china.huawei.com (unknown [7.202.194.94])
-	by mail.maildlp.com (Postfix) with ESMTPS id E197640565;
-	Tue, 10 Mar 2026 11:21:00 +0800 (CST)
-Received: from localhost.localdomain (10.50.163.32) by
- kwepemk500009.china.huawei.com (7.202.194.94) with Microsoft SMTP Server
+	by canpmsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4fVJwY3HK2znTZ4;
+	Tue, 10 Mar 2026 11:17:49 +0800 (CST)
+Received: from kwepemf100008.china.huawei.com (unknown [7.202.181.222])
+	by mail.maildlp.com (Postfix) with ESMTPS id E860540565;
+	Tue, 10 Mar 2026 11:23:25 +0800 (CST)
+Received: from [10.174.179.37] (10.174.179.37) by
+ kwepemf100008.china.huawei.com (7.202.181.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Tue, 10 Mar 2026 11:20:59 +0800
-From: Chengwen Feng <fengchengwen@huawei.com>
-To: Bjorn Helgaas <bhelgaas@google.com>, Catalin Marinas
-	<catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, "Rafael J .
- Wysocki" <rafael@kernel.org>
-CC: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-	Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, Paul
- Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
-	<aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Thomas Gleixner
-	<tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
-	<bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, <x86@kernel.org>,
-	"H . Peter Anvin" <hpa@zytor.com>, Juergen Gross <jgross@suse.com>, Boris
- Ostrovsky <boris.ostrovsky@oracle.com>, Len Brown <lenb@kernel.org>, Sunil V
- L <sunilvl@ventanamicro.com>, Mark Rutland <mark.rutland@arm.com>, Chengwen
- Feng <fengchengwen@huawei.com>, Jonathan Cameron
-	<jonathan.cameron@huawei.com>, Kees Cook <kees@kernel.org>, Yanteng Si
-	<si.yanteng@linux.dev>, Sean Christopherson <seanjc@google.com>, Kai Huang
-	<kai.huang@intel.com>, Tom Lendacky <thomas.lendacky@amd.com>, Thomas Huth
-	<thuth@redhat.com>, Thorsten Blum <thorsten.blum@linux.dev>, Kevin Loughlin
-	<kevinloughlin@google.com>, Zheyun Shen <szy0127@sjtu.edu.cn>, Peter Zijlstra
-	<peterz@infradead.org>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, Xin
- Li <xin@zytor.com>, "Ahmed S . Darwish" <darwi@linutronix.de>, Sohil Mehta
-	<sohil.mehta@intel.com>, Ilkka Koskinen <ilkka@os.amperecomputing.com>, Robin
- Murphy <robin.murphy@arm.com>, James Clark <james.clark@linaro.org>, Besar
- Wicaksono <bwicaksono@nvidia.com>, Ma Ke <make24@iscas.ac.cn>, Ajit Khaparde
-	<ajit.khaparde@broadcom.com>, Wei Huang <wei.huang2@amd.com>, Andy Gospodarek
-	<andrew.gospodarek@broadcom.com>, Somnath Kotur <somnath.kotur@broadcom.com>,
-	<wangzhou1@hisilicon.com>, <wanghuiqiang@huawei.com>,
-	<liuyonglong@huawei.com>, <linux-pci@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <loongarch@lists.linux.dev>,
-	<linux-riscv@lists.infradead.org>, <xen-devel@lists.xenproject.org>,
-	<linux-acpi@vger.kernel.org>, <linux-perf-users@vger.kernel.org>,
-	<stable@vger.kernel.org>
-Subject: [PATCH v5 2/2] PCI/TPH: Fix get cpu steer-tag fail on ARM64 platform
-Date: Tue, 10 Mar 2026 11:20:49 +0800
-Message-ID: <20260310032049.25387-3-fengchengwen@huawei.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20260310032049.25387-1-fengchengwen@huawei.com>
-References: <20260310032049.25387-1-fengchengwen@huawei.com>
+ 15.2.1544.36; Tue, 10 Mar 2026 11:23:23 +0800
+Message-ID: <7a5d23e0-1e43-bcf2-c114-b3785834df5e@huawei.com>
+Date: Tue, 10 Mar 2026 11:23:23 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
- kwepemk500009.china.huawei.com (7.202.194.94)
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v5 31/41] arm_mpam: resctrl: Add resctrl_arch_rmid_read()
+ and resctrl_arch_reset_rmid()
+Content-Language: en-US
+To: Ben Horgan <ben.horgan@arm.com>, James Morse <james.morse@arm.com>
+CC: <amitsinght@marvell.com>, <baisheng.gao@unisoc.com>,
+	<baolin.wang@linux.alibaba.com>, <carl@os.amperecomputing.com>,
+	<dave.martin@arm.com>, <david@kernel.org>, <dfustini@baylibre.com>,
+	<fenghuay@nvidia.com>, <gshan@redhat.com>, <jonathan.cameron@huawei.com>,
+	<kobak@nvidia.com>, <lcherian@marvell.com>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<peternewman@google.com>, <punit.agrawal@oss.qualcomm.com>,
+	<quic_jiles@quicinc.com>, <reinette.chatre@intel.com>,
+	<rohit.mathew@arm.com>, <scott@os.amperecomputing.com>,
+	<sdonthineni@nvidia.com>, <tan.shaopeng@fujitsu.com>,
+	<xhao@linux.alibaba.com>, <catalin.marinas@arm.com>, <will@kernel.org>,
+	<corbet@lwn.net>, <maz@kernel.org>, <oupton@kernel.org>,
+	<joey.gouly@arm.com>, <suzuki.poulose@arm.com>, <kvmarm@lists.linux.dev>,
+	<linux-doc@vger.kernel.org>, Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>,
+	Kefeng Wang <wangkefeng.wang@huawei.com>
+References: <20260224175720.2663924-1-ben.horgan@arm.com>
+ <20260224175720.2663924-32-ben.horgan@arm.com>
+ <96ffc81d-3f37-7f48-f9f4-6a58da3e0f99@huawei.com>
+ <b95077d7-c036-4a8f-8e42-8f1dc0288075@arm.com>
+From: Zeng Heng <zengheng4@huawei.com>
+In-Reply-To: <b95077d7-c036-4a8f-8e42-8f1dc0288075@arm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
+ kwepemf100008.china.huawei.com (7.202.181.222)
 
-pcie_tph_get_cpu_st() is broken on ARM64:
-1. pcie_tph_get_cpu_st() passes cpu_uid to the PCI ACPI DSM method.
-   cpu_uid should be the ACPI Processor UID [1].
-2. In BNXT, pcie_tph_get_cpu_st() is passed a cpu_uid obtained via
-   cpumask_first(irq->cpu_mask) - the logical CPU ID of a CPU core,
-   generated and managed by kernel (e.g., [0,255] for a system  with 256
-   logical CPU cores).
-3. On ARM64 platforms, ACPI assigns Processor UID to cores listed in the
-   MADT table, and this UID may not match the kernel's logical CPU ID.
-   When this occurs, the mismatch results in the wrong CPU steer-tag.
-4. On AMD x86 the logical CPU ID is identical to the ACPI Processor UID
-   so the mismatch is not seen.
+Hi Ben,
 
-Resolution:
-1. Implement acpi_get_cpu_acpi_id() for x86, which replaces
-   cpu_acpi_id(). All ACPI platforms now have an implementation.
-2. Use acpi_get_cpu_acpi_id() in pcie_tph_get_cpu_st() to translate from
-   logical CPU ID to ACPI Processor UID needed for the DSM call.
-3. Rename pcie_tpu_get_cpu_st() parameter from cpu_uid to cpu to
-   reflect that it is a logical CPU_ID.
+On 2026/3/10 0:30, Ben Horgan wrote:
+> Hi Zeng,
+> 
+> On 3/7/26 09:29, Zeng Heng wrote:
+>> Hi Ben,
+>>
+>> On 2026/2/25 1:57, Ben Horgan wrote:
+>>> From: James Morse <james.morse@arm.com>
+>>>
+>>> resctrl uses resctrl_arch_rmid_read() to read counters. CDP emulation
+>>> means
+>>> the counter may need reading in three different ways. The same goes for
+>>> reset.
+>>>
+>>> The helpers behind the resctrl_arch_ functions will be re-used for the
+>>> ABMC
+>>> equivalent functions.
+>>>
+>>> Add the rounding helper for checking monitor values while we're here.
+>>>
+>>> Tested-by: Gavin Shan <gshan@redhat.com>
+>>> Tested-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+>>> Tested-by: Peter Newman <peternewman@google.com>
+>>> Tested-by: Zeng Heng <zengheng4@huawei.com>
+>>> Reviewed-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+>>> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+>>> Signed-off-by: James Morse <james.morse@arm.com>
+>>> Signed-off-by: Ben Horgan <ben.horgan@arm.com>
+>>> ---
+>>
+>> [...]
+>>
+>>> +
+>>> +static int read_mon_cdp_safe(struct mpam_resctrl_mon *mon, struct
+>>> mpam_component *mon_comp,
+>>> +                 enum mpam_device_features mon_type,
+>>> +                 int mon_idx, u32 closid, u32 rmid, u64 *val)
+>>> +{
+>>> +    if (cdp_enabled) {
+>>
+>> While reviewing the resctrl limbo handling code, I noticed a issue in
+>> __check_limbo() that could lead to premature RMID release when CDP is
+>> enabled.
+>>
+>> In __check_limbo(), RMIDs in limbo state undergo L3 occupancy checks
+>> before being released. This check is performed via
+>> resctrl_arch_rmid_read(), on arm64 MPAM, which relies on the cdp_enabled
+>> state to determine to check which PARTID.
+>>
+>> The concern arises in the following scenario: Filesystem is mounted with
+>> CDP enabled. During normal operation, some RMIDs enter limbo. On umount,
+>> cdp_enabled is reset to false. __check_limbo() may then run and perform
+>> L3 checks with cdp_enabled = false. This could cause RMIDs to be
+>> incorrectly released from limbo while still effectively busy after
+>> remount.
+> 
+> I think a stale limbo list cause more problems than that. If you mount
+> with cdp disabled, cause some rmids to be dirty, unmount and then
+> remount with cdp enabled then you may have some of the entries in upper
+> half marked as busy but when the limbo code checks them it ends up using
+> an out of range partid and may trigger an mpam error interrupt.
+> 
+> To avoid a stale list we could disable the limbo checking at unmount and
+> at remount remake the bitmap. This would involve some resctrl changes
+> which I will have a further look into. For now, to avoid the dependency
+> without a lot of patch churn in this series I think we can hide the cdp
+> enablement behind CONFIG_EXPERT. Does that sound ok to you?
+> 
+> Thanks,
+> 
+> Ben
+> 
 
-[1] According to ECN_TPH-ST_Revision_20200924
-    (https://members.pcisig.com/wg/PCI-SIG/document/15470), the input
-    is defined as: "If the target is a processor, then this field
-    represents the ACPI Processor UID of the processor as specified in
-    the MADT. If the target is a processor container, then this field
-    represents the ACPI Processor UID of the processor container as
-    specified in the PPTT."
+Confirmed. Toggling between non-CDP and CDP mount modes leads to
+out-of-range PARTID hardware errors and memory access violations. This
+can cause MPAM to halt by provoking mpam_broken_work.
 
-Fixes: d2e8a34876ce ("PCI/TPH: Add Steering Tag support")
-Cc: stable@vger.kernel.org
-Signed-off-by: Chengwen Feng <fengchengwen@huawei.com>
-Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
----
- Documentation/PCI/tph.rst    |  4 ++--
- arch/x86/include/asm/acpi.h  |  2 ++
- arch/x86/include/asm/cpu.h   |  1 -
- arch/x86/include/asm/smp.h   |  1 -
- arch/x86/kernel/cpu/common.c | 12 ++++++++++++
- arch/x86/xen/enlighten_hvm.c |  4 ++--
- drivers/pci/tph.c            | 11 ++++++-----
- include/linux/pci-tph.h      |  4 ++--
- 8 files changed, 26 insertions(+), 13 deletions(-)
+I agreed properly fixing this will require resctrl modifications to
+handle the limbo state across mount cycles. Hiding CDP behind
+CONFIG_EXPERT is acceptable as a short-term mitigation to prevent users
+from hitting this bug accidentally.
 
-diff --git a/Documentation/PCI/tph.rst b/Documentation/PCI/tph.rst
-index e8993be64fd6..b6cf22b9bd90 100644
---- a/Documentation/PCI/tph.rst
-+++ b/Documentation/PCI/tph.rst
-@@ -79,10 +79,10 @@ To retrieve a Steering Tag for a target memory associated with a specific
- CPU, use the following function::
- 
-   int pcie_tph_get_cpu_st(struct pci_dev *pdev, enum tph_mem_type type,
--                          unsigned int cpu_uid, u16 *tag);
-+                          unsigned int cpu, u16 *tag);
- 
- The `type` argument is used to specify the memory type, either volatile
--or persistent, of the target memory. The `cpu_uid` argument specifies the
-+or persistent, of the target memory. The `cpu` argument specifies the
- CPU where the memory is associated to.
- 
- After the ST value is retrieved, the device driver can use the following
-diff --git a/arch/x86/include/asm/acpi.h b/arch/x86/include/asm/acpi.h
-index a03aa6f999d1..b968369715c1 100644
---- a/arch/x86/include/asm/acpi.h
-+++ b/arch/x86/include/asm/acpi.h
-@@ -157,6 +157,8 @@ static inline bool acpi_has_cpu_in_madt(void)
- 	return !!acpi_lapic;
- }
- 
-+u32 acpi_get_cpu_acpi_id(unsigned int cpu);
-+
- #define ACPI_HAVE_ARCH_SET_ROOT_POINTER
- static __always_inline void acpi_arch_set_root_pointer(u64 addr)
- {
-diff --git a/arch/x86/include/asm/cpu.h b/arch/x86/include/asm/cpu.h
-index ad235dda1ded..57a0786dfd75 100644
---- a/arch/x86/include/asm/cpu.h
-+++ b/arch/x86/include/asm/cpu.h
-@@ -11,7 +11,6 @@
- 
- #ifndef CONFIG_SMP
- #define cpu_physical_id(cpu)			boot_cpu_physical_apicid
--#define cpu_acpi_id(cpu)			0
- #endif /* CONFIG_SMP */
- 
- #ifdef CONFIG_HOTPLUG_CPU
-diff --git a/arch/x86/include/asm/smp.h b/arch/x86/include/asm/smp.h
-index 84951572ab81..05d1d479b4cf 100644
---- a/arch/x86/include/asm/smp.h
-+++ b/arch/x86/include/asm/smp.h
-@@ -130,7 +130,6 @@ __visible void smp_call_function_interrupt(struct pt_regs *regs);
- __visible void smp_call_function_single_interrupt(struct pt_regs *r);
- 
- #define cpu_physical_id(cpu)	per_cpu(x86_cpu_to_apicid, cpu)
--#define cpu_acpi_id(cpu)	per_cpu(x86_cpu_to_acpiid, cpu)
- 
- /*
-  * This function is needed by all SMP systems. It must _always_ be valid
-diff --git a/arch/x86/kernel/cpu/common.c b/arch/x86/kernel/cpu/common.c
-index 1c3261cae40c..93f4f3283c81 100644
---- a/arch/x86/kernel/cpu/common.c
-+++ b/arch/x86/kernel/cpu/common.c
-@@ -29,6 +29,7 @@
- #include <linux/utsname.h>
- #include <linux/efi.h>
- 
-+#include <asm/acpi.h>
- #include <asm/alternative.h>
- #include <asm/cmdline.h>
- #include <asm/cpuid/api.h>
-@@ -57,6 +58,7 @@
- #include <asm/asm.h>
- #include <asm/bugs.h>
- #include <asm/cpu.h>
-+#include <asm/smp.h>
- #include <asm/mce.h>
- #include <asm/msr.h>
- #include <asm/cacheinfo.h>
-@@ -2643,3 +2645,13 @@ void __init arch_cpu_finalize_init(void)
- 	 */
- 	mem_encrypt_init();
- }
-+
-+u32 acpi_get_cpu_acpi_id(unsigned int cpu)
-+{
-+#ifndef CONFIG_SMP
-+	return 0;
-+#else
-+	return per_cpu(x86_cpu_to_acpiid, cpu);
-+#endif
-+}
-+EXPORT_SYMBOL_GPL(acpi_get_cpu_acpi_id);
-diff --git a/arch/x86/xen/enlighten_hvm.c b/arch/x86/xen/enlighten_hvm.c
-index fe57ff85d004..0a5cde7865b2 100644
---- a/arch/x86/xen/enlighten_hvm.c
-+++ b/arch/x86/xen/enlighten_hvm.c
-@@ -161,8 +161,8 @@ static int xen_cpu_up_prepare_hvm(unsigned int cpu)
- 	 */
- 	xen_uninit_lock_cpu(cpu);
- 
--	if (cpu_acpi_id(cpu) != CPU_ACPIID_INVALID)
--		per_cpu(xen_vcpu_id, cpu) = cpu_acpi_id(cpu);
-+	if (acpi_get_cpu_acpi_id(cpu) != CPU_ACPIID_INVALID)
-+		per_cpu(xen_vcpu_id, cpu) = acpi_get_cpu_acpi_id(cpu);
- 	else
- 		per_cpu(xen_vcpu_id, cpu) = cpu;
- 	xen_vcpu_setup(cpu);
-diff --git a/drivers/pci/tph.c b/drivers/pci/tph.c
-index ca4f97be7538..c1bd60637b5a 100644
---- a/drivers/pci/tph.c
-+++ b/drivers/pci/tph.c
-@@ -236,18 +236,19 @@ static int write_tag_to_st_table(struct pci_dev *pdev, int index, u16 tag)
-  * with a specific CPU
-  * @pdev: PCI device
-  * @mem_type: target memory type (volatile or persistent RAM)
-- * @cpu_uid: associated CPU id
-+ * @cpu: associated CPU id
-  * @tag: Steering Tag to be returned
-  *
-  * Return the Steering Tag for a target memory that is associated with a
-- * specific CPU as indicated by cpu_uid.
-+ * specific CPU as indicated by cpu.
-  *
-  * Return: 0 if success, otherwise negative value (-errno)
-  */
- int pcie_tph_get_cpu_st(struct pci_dev *pdev, enum tph_mem_type mem_type,
--			unsigned int cpu_uid, u16 *tag)
-+			unsigned int cpu, u16 *tag)
- {
- #ifdef CONFIG_ACPI
-+	u32 cpu_uid = acpi_get_cpu_acpi_id(cpu);
- 	struct pci_dev *rp;
- 	acpi_handle rp_acpi_handle;
- 	union st_info info;
-@@ -265,9 +266,9 @@ int pcie_tph_get_cpu_st(struct pci_dev *pdev, enum tph_mem_type mem_type,
- 
- 	*tag = tph_extract_tag(mem_type, pdev->tph_req_type, &info);
- 
--	pci_dbg(pdev, "get steering tag: mem_type=%s, cpu_uid=%d, tag=%#04x\n",
-+	pci_dbg(pdev, "get steering tag: mem_type=%s, cpu=%d, tag=%#04x\n",
- 		(mem_type == TPH_MEM_TYPE_VM) ? "volatile" : "persistent",
--		cpu_uid, *tag);
-+		cpu, *tag);
- 
- 	return 0;
- #else
-diff --git a/include/linux/pci-tph.h b/include/linux/pci-tph.h
-index ba28140ce670..be68cd17f2f8 100644
---- a/include/linux/pci-tph.h
-+++ b/include/linux/pci-tph.h
-@@ -25,7 +25,7 @@ int pcie_tph_set_st_entry(struct pci_dev *pdev,
- 			  unsigned int index, u16 tag);
- int pcie_tph_get_cpu_st(struct pci_dev *dev,
- 			enum tph_mem_type mem_type,
--			unsigned int cpu_uid, u16 *tag);
-+			unsigned int cpu, u16 *tag);
- void pcie_disable_tph(struct pci_dev *pdev);
- int pcie_enable_tph(struct pci_dev *pdev, int mode);
- u16 pcie_tph_get_st_table_size(struct pci_dev *pdev);
-@@ -36,7 +36,7 @@ static inline int pcie_tph_set_st_entry(struct pci_dev *pdev,
- { return -EINVAL; }
- static inline int pcie_tph_get_cpu_st(struct pci_dev *dev,
- 				      enum tph_mem_type mem_type,
--				      unsigned int cpu_uid, u16 *tag)
-+				      unsigned int cpu, u16 *tag)
- { return -EINVAL; }
- static inline void pcie_disable_tph(struct pci_dev *pdev) { }
- static inline int pcie_enable_tph(struct pci_dev *pdev, int mode)
--- 
-2.17.1
 
+Best regards,
+Zeng Heng
