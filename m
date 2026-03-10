@@ -1,177 +1,207 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 875B73E8C5B
-	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 07:22:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E54883E8C67
+	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 07:29:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773127372; cv=none; b=rYzPJ/Pi6lwYZTfppcmC7MLDgSHhUAHmlCy8SBJnK/iKuiaRpAO5kAwaX92WWowl5gVXbmACnayDk4MxCtWlcyKa0+MOQb1Ebvysz/Z9xke57P3fatsqg2eViawdxyn4u13LBFsSfMcEg/CEaCpfWDf3kL5Ear7zt24Q1L52+3g=
+	t=1773127783; cv=none; b=eBRLWOmqGnJ1vUSIw5Qg1Pj+KbNbjWsBQIdnb7ZAMGo6UNfFhLJLEl1EtmjMTSjEk6p22wvjGQ/UyutWEvWeEFMuODa2747DdJQqOtw0ux1ueoga68ijkdfbDo8bRphWvq9iw/OlPOvPxbcO2QrrsR9qfZks7/idUDRdXDrxdVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773127372; c=relaxed/simple;
-	bh=PYlMjATY4SM1+jaLjbUMOn336QEIJpGFcRpjUcyzz/4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=tDWFZlXD4DfTsK8PE4kRdepRwNoJJBbC/0wXYh9X9g1I0zd9VfvHjzwopeAAkZG/zE3ZOouwgZzRepcdU+OiRgbdse2FfE9j4I9ai4DEGBbfzLlEbKKVNtrHj71sfLlUHIEscTSNiO/UvqU0Lw9K99JP6LdAzV64Xmlyv+cqHow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=OSQUoMBa; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=aoIVQuo/; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1773127783; c=relaxed/simple;
+	bh=bpBQJR0Lh7t53ADUklCY+fVEC2VAWri9ShCtFOB9yXU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=CfTAG03ATDjmdbR/uZlxdFWdVKtZX3Ute8A5a/WjWJkCrg3D9pKuKoWsO6sCKnw21Nv8kPPCDQXmKNLh3F2rWOXm08kdonS4n8GBRWhoIApxLm60DKZx7HJqZT1P1yv82bi4gGnBb09UYf7WA1DcknH5Mavfu5fp6j/+a59yrwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CmiPnC1A; arc=none smtp.client-ip=74.125.82.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="OSQUoMBa";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="aoIVQuo/"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62A2EdN93587453
-	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 07:22:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	AhZtQR443/E19GewAj1186Zwj+uyAl6zxJPtQ9r8Toc=; b=OSQUoMBakbHD4hGg
-	hdEEZESxYnrKgEiNiGZF9XYy6J7UY0NiX8arF6UUes3B04tI4z439vt9YTljux8Z
-	uhRy3tfLRjLA0tZOLflDX0Rc20zO8/pYDIqD59X01yk/zY51ov6dATB6WQREYciM
-	WsntOdOthV9ni3EuJyVt4J56Tkn7jUVCnjq32UDMeJXRkvgkopgC/tmJ9IWVG+Wf
-	tJpi5uGyx4GjJgYSMVF8BACx48dl4pqe7ZtCtdcfZltevIiy23eXyS0pNknN7M/M
-	hkxcAWT93Cdo9L7FBQjBZrZRRwnN4Lg4xeLfcK7GmWysLZy21XJo8Y4n+G/pBhM3
-	aa6Shw==
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ct1ektptp-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 07:22:49 +0000 (GMT)
-Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2ae4cdfc468so88618315ad.2
-        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 00:22:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CmiPnC1A"
+Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-2be26842fd5so4130511eec.1
+        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 00:29:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1773127369; x=1773732169; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AhZtQR443/E19GewAj1186Zwj+uyAl6zxJPtQ9r8Toc=;
-        b=aoIVQuo/NVgwsjEXYNZkTsXj5mEe7CJbtj65DoJml4ZT/UmDmDVHQGkd2Z6x23PtH4
-         g3Lf2YXUeki41cjg3DT8+rR+kgPlR55IooDSNl+u0pMN6B/6at47SjgF0BKIslSBqgs8
-         hL06siIzWUpAPjCLsBRMur3hfXciYajBAU7a4PcfPzgHM4C/dTg9YxzawVlXNjxeCIMO
-         XOR6NTeMBQWSrpA7YGl0I69hppkEBwNz5AJSMQLxVM6IVxxdTPxtsxpUElLOqNayk50j
-         kKxHzQnX58hk6hCEPrr9bPe2s0G4ePVD37BWEfyON6pAzQYo582v+iLDC0Sa86R1Dnki
-         7iqw==
+        d=gmail.com; s=20230601; t=1773127781; x=1773732581; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8XpzAJs17AL49DrJB7/7GFvQC9N3pX4aoTE0ck01glE=;
+        b=CmiPnC1ADHVve5+P2uBi660XU8nmd0O7OKjZQIxEIaupAtgdg25ds4sd/8hAu2zgtX
+         lx4cf2TUoAnom468+1WEjVfOTr4J4egqJmTndpBIztNzfEZSPRBh+fSVPDlcJTrk027S
+         VoUYFxmOXpehBRrmWqcS5HolJn5eA0dq0SXwoa5JK4e0YXe2M5UVGO6St2C3UrzEVEud
+         gmbbAs+zaLotT452odH5l2T74Md0DiHTiyVS41Rh1UAIlOcY4/xVSmOf+IHm8JAWrllw
+         6xJXCFoNNT2kMGYLR6OP3PWEbNsF0aMM/DyJeKQmCtwg4bGZvhjHyd8LsqKiPy31PnUq
+         Cydg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773127369; x=1773732169;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=AhZtQR443/E19GewAj1186Zwj+uyAl6zxJPtQ9r8Toc=;
-        b=e9gW+gzSw8Ei7Y5PzTR+trV4KDhPSYcPSOuf3AGSj3Yw0h31VUORXV2jPchWmyZsnC
-         YO6hdI92GXlKgiXW84jc2aZLpgPkZRvwfKtuRFVwP6EWq6jve7ZTvEGljEVCqxQna31L
-         caEcQNWwNz10WVYxv4sCxPSS96YKrMHktyfYfo38XrY4v0AUHgerYHrFHo8JZP47JgK/
-         qtl7f0O1T6a6ZRVRQvb+zaVUbslPBvkJ2EU9O316+S2UWvjPOQBuVK2ISkrUsVxrzV5G
-         eNdPbUoa1i/qDYHyypeB5ujMtHWWAq+FealmntSR8ErF5ahJUnW8M63WvsO5Dw/i9wlM
-         oo2A==
-X-Gm-Message-State: AOJu0Ywdpz+nGSrWy7VsU7oCgphVg7/Dnh8HyaonDmljy11Kj3oiWb4x
-	N2zknIPQxzLW8f23YCZ1xpC2YnBnPrUAhlhfSb5PWfTDg0iQPJppDVqLd2LoleVfD81l5mY9CAM
-	ZTHtJQHKY7Z1SEeWBIZd/iNRPP4M9HQsMvkWHVD4qN3+DRrD96VvmHGoRdvf3ZLl3Ff1HpMQ=
-X-Gm-Gg: ATEYQzxDZ9d/i5m5kkyr/J+aZbwpr5pEejXnbQS7PV9AugVYBXe+4XxjfeqASF7csNK
-	IOK4aTQpa2F5sgAhVgGZH74rizvs1+yl+qkfg3c3pjKGAVNmXjP6MyJTSGekdDpeBk0ut3owm0e
-	dbaIiSq0QMNHc2vtRNdFZxS54re5NVvsp3w3aDuDgcYmcc8gf++09Ya8zSJs8pSLDPzDMD8ezW/
-	pln9IVJSfMU6E0gXcMQ8R6ApqF6VjA3ONrRpIGHyvXC9yzEnff8H5enQZd5Fu1yMHnkvRszymmp
-	Ite9VQ6H2CFTjQ6jWEtIw7C0r6KdV9xiuPYIIyu8maFrPIM4vDaWl/MMy/XuplIGw6dEZb0u69z
-	B8o3nK544cDtLGwn0q3DA628vIPb2sbyVZNEjZq+2nGQjXfUD5yQ=
-X-Received: by 2002:a17:902:cf05:b0:2ae:829d:3c33 with SMTP id d9443c01a7336-2ae829d3f2emr149862905ad.8.1773127369014;
-        Tue, 10 Mar 2026 00:22:49 -0700 (PDT)
-X-Received: by 2002:a17:902:cf05:b0:2ae:829d:3c33 with SMTP id d9443c01a7336-2ae829d3f2emr149862565ad.8.1773127368570;
-        Tue, 10 Mar 2026 00:22:48 -0700 (PDT)
-Received: from hu-batta-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ae840b2e9dsm185200325ad.85.2026.03.10.00.22.45
+        d=1e100.net; s=20230601; t=1773127781; x=1773732581;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=8XpzAJs17AL49DrJB7/7GFvQC9N3pX4aoTE0ck01glE=;
+        b=lzeFQ+AkRYfY0IpP8I8MhvlAAVUsYLHqrlHgFarLJTgGUWSOx0T5fRHkNLfIGwZ9ZW
+         uzIzHrxvZPyhuy9z2KsFxWr+qh5NP/bl8Sy24Duj5P9wEnJiZLXnkBtw9vrCNtkHGgAe
+         wo4/JwvsWD+tzsY62cyWaRnmAukvnKw9aBR1ZSZQsGQE0R6atu9v5ZsERHHbgMf+nB26
+         XSqFzdIbOslwhh7g63C2s92ts12yYFCA6Q5y9SQqRzbXZi6vHwZHL82ziFgxuJfdV+z+
+         4c1VxlVCHeeOzQ/0taSm5j13ek9COMVuEfKCKJXVD1+6s6PlQRzlYwBglgCRlF8rEeDo
+         ZLcg==
+X-Forwarded-Encrypted: i=1; AJvYcCUttYX7B5ynt25SBZZjatSunQ22poEJ2oQTbsoyM7lQXEjNd9Ahfzn4cMUilFOm3KmGpGiYXZIACCs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyR76J1Ns1ANp8A45FSGx8SsvLP9wdVfocLHdg93I6pfNfd0DdC
+	03ZMCiC+SyT8iJ+PLGMKo4CpSRf1b7nL0M2coVw+YJqvo63qPqaeIX5L
+X-Gm-Gg: ATEYQzyRnmCCmlF0jjuC0KkmF+mdqpM0SGnXycqHA/2MfRRhum+9Ol4KctC4Bk7klWc
+	79mPXCBTinPb2iz5Y5PA/tQapKYWuJQJwzGMY+seYPQA4BfHBuA2hGPiLkabiASsVthziSGu4w9
+	RjOz+jXdBnTjy5qX6kHUgktMZQIHTP4cAeYUOViSzLiQs/S+mNP8uTu4SiZVnJRW198aKYO1+gt
+	o6VWS0aUHvvqyy35HiSE9dBPIcBQuPCbAk/9AOzH9CUVNhyK7qq7yOy2aQe8234mlaheMiU6Hdr
+	CqvyU9wbw8DlEGQa3s5cvTng9Mz4rYYzw629EGYDLpQW6v52jLwHaM2zL+NfF7kow78K9fQGpNo
+	j6F6h3KvUuaQDWwzDCeDHiFnoEu2D3dwcBNRme0hwacldS9ffPGfoCJfsOKCTyU94OqfnkSkVZG
+	elmt7Q/po1x8tXKDFQKsc3DBXbKmdsTrCOAuLmZ1cBF3d4liS0Jex12e9xhTOSInwKOxYGuukXn
+	F/o
+X-Received: by 2002:a05:7300:5712:b0:2ba:9cc4:aebb with SMTP id 5a478bee46e88-2be7a0ff626mr852103eec.10.1773127781051;
+        Tue, 10 Mar 2026 00:29:41 -0700 (PDT)
+Received: from lappy (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2be81209142sm721925eec.12.2026.03.10.00.29.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2026 00:22:48 -0700 (PDT)
-From: Kishore Batta <kishore.batta@oss.qualcomm.com>
-Date: Tue, 10 Mar 2026 12:52:06 +0530
-Subject: [PATCH v3 9/9] Documentation: ABI: Add sysfs ABI documentation for
- DDR training data
+        Tue, 10 Mar 2026 00:29:40 -0700 (PDT)
+From: "Derek J. Clark" <derekjohn.clark@gmail.com>
+To: Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>
+Cc: Richard Hughes <hughsient@gmail.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Zhixin Zhang <zhangzx36@lenovo.com>,
+	Mia Shao <shaohz1@lenovo.com>,
+	Mark Pearson <mpearson-lenovo@squebb.ca>,
+	"Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
+	"Derek J . Clark" <derekjohn.clark@gmail.com>,
+	linux-input@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH v6 01/19] include: device.h: Add named device attributes
+Date: Tue, 10 Mar 2026 07:29:19 +0000
+Message-ID: <20260310072937.3295875-2-derekjohn.clark@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260310072937.3295875-1-derekjohn.clark@gmail.com>
+References: <20260310072937.3295875-1-derekjohn.clark@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260310-sahara_protocol_new_v2-v3-9-994ea4b0d5ad@oss.qualcomm.com>
-References: <20260310-sahara_protocol_new_v2-v3-0-994ea4b0d5ad@oss.qualcomm.com>
-In-Reply-To: <20260310-sahara_protocol_new_v2-v3-0-994ea4b0d5ad@oss.qualcomm.com>
-To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-        Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
-        Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>,
-        Oded Gabbay <ogabbay@kernel.org>,
-        Manivannan Sadhasivam <mani@kernel.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        mhi@lists.linux.dev, Kishore Batta <kishore.batta@oss.qualcomm.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1773127328; l=1903;
- i=kishore.batta@oss.qualcomm.com; s=20260206; h=from:subject:message-id;
- bh=PYlMjATY4SM1+jaLjbUMOn336QEIJpGFcRpjUcyzz/4=;
- b=A2ngy+Vh6mGbywAacQ1WhpnAXl4OfWSksXvxmtXi88x0yTGDf+9jd2T6SE6lkrsx9nv4dwTSR
- O/grnwx19PsAypGENZxaAsrKGNdaoKkokxmqVFwm6mmcVFtenk5b9bW
-X-Developer-Key: i=kishore.batta@oss.qualcomm.com; a=ed25519;
- pk=vJo8RvTf+HZpRLK2oOIljmbn9l3zFkibCGh+blaqZCw=
-X-Proofpoint-GUID: BRnpcK15kGy0Gh9-LIaQprqhbPejPQ8p
-X-Proofpoint-ORIG-GUID: BRnpcK15kGy0Gh9-LIaQprqhbPejPQ8p
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzEwMDA2MSBTYWx0ZWRfX7hNNuwKdZHCh
- L980EqUvkvQiw6ay4NuYqKRGcyd/7lnZPjfJTmzuXh6BFLUM6OzMiQHHqTRFTd7FJsioTBVfxDx
- LHNPP+I8V4s3fp0ZTTW8C5Jn3dR/DJ6kUITLvv4k54RERnlCTAN+yP5sXoW2CaZ6UL29B+Hzk8v
- IcktGZ7gT1/uXqiMQcsehE7ws902g5YI7jmIDywDpCHtocqdkx3MgWYOIr0DDtZijq3Ispk7PQd
- e6t98XtpWEMrb1CKMiUmd4EBSvkLDpAr1p0KXaCVaRc0JKfPaWZPBaSFXBGNLpTA5z7tYop4v8F
- DDdApAPxCiqtE0kzJMcSg2FhfJCPBVfJOV2DjDC9FIh1x/m4NY4j5qxIXeO/AgdJW72+SM7Vx3x
- QGZBF5qbAkQTjbkCQ5NjOye4+EV7wIg+BBAhUNQ9Zz/4VTWBrkgox5BV8BqyxDG2WIKazgm+t6p
- Jj8dcfZCvrrxumWvfJQ==
-X-Authority-Analysis: v=2.4 cv=eIEeTXp1 c=1 sm=1 tr=0 ts=69afc6c9 cx=c_pps
- a=IZJwPbhc+fLeJZngyXXI0A==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
- a=EUspDBNiAAAA:8 a=dkV1H7vRkoxx0F9zaYgA:9 a=QEXdDO2ut3YA:10
- a=uG9DUKGECoFWVXl0Dc02:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-10_01,2026-03-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 bulkscore=0 lowpriorityscore=0 adultscore=0 suspectscore=0
- spamscore=0 priorityscore=1501 malwarescore=0 clxscore=1015 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603100061
+Content-Transfer-Encoding: 8bit
 
-Add ABI documentation for the DDR training data sysfs attribute exposed by
-the sahara MHI driver.
+Adds DEVICE_ATTR_[RW|RO|WO]_NAMED macros for adding attributes that
+reuse the same sysfs name in a driver under separate subdirectories.
 
-The documented sysfs node provides read-only access to the DDR training
-data captured during sahara command mode and exposed via the MHI
-controller device. This allows userspace to read the training data and
-manage it as needed outside the kernel.
+When dealing with some devices it can be useful to be able to reuse
+the same name for similar attributes under a different subdirectory.
+For example, a single logical HID endpoint may provide a configuration
+interface for multiple physical devices. In such a case it is useful to
+provide symmetrical attribute names under different subdirectories on
+the configuration device. The Lenovo Legion Go is one such device,
+providing configuration to a detachable left controller, detachable
+right controller, the wireless transmission dongle, and the MCU. It is
+therefore beneficial to treat each of these as individual devices in
+the driver, providing a subdirectory for each physical device in the
+sysfs. As some attributes are reused by each physical device, it
+provides a much cleaner interface if the same driver can reuse the same
+attribute name in sysfs while uniquely distinguishing the store/show
+functions in the driver, rather than repeat string portions.
 
-Signed-off-by: Kishore Batta <kishore.batta@oss.qualcomm.com>
+Example new WO attrs:
+ATTRS{left_handle/reset}=="(not readable)"
+ATTRS{right_handle/reset}=="(not readable)"
+ATTRS{tx_dongle/reset}=="(not readable)"
+
+vs old WO attrs in a subdir:
+ATTRS{left_handle/left_handle_reset}=="(not readable)"
+ATTRS{right_handle/right_handle_reset}=="(not readable)"
+ATTRS{tx_dongle/tx_dongle_reset}=="(not readable)"
+
+or old WO attrs with no subdir:
+ATTRS{left_handle_reset}=="(not readable)"
+ATTRS{right_handle_reset}=="(not readable)"
+ATTRS{tx_dongle_reset}=="(not readable)"
+
+While the third option is usable, it doesn't logically break up the
+physical devices and creates a device directory with over 80 attributes
+once all attrs are defined.
+
+Reviewed-by: Mark Pearson <mpearson-lenovo@squebb.ca>
+Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- .../ABI/testing/sysfs-bus-mhi-ddr_training_data       | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ include/linux/device.h | 46 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 46 insertions(+)
 
-diff --git a/Documentation/ABI/testing/sysfs-bus-mhi-ddr_training_data b/Documentation/ABI/testing/sysfs-bus-mhi-ddr_training_data
-new file mode 100644
-index 0000000000000000000000000000000000000000..810b487b5a5fdba133d81255f9879844e3938a10
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-bus-mhi-ddr_training_data
-@@ -0,0 +1,19 @@
-+What:                   /sys/bus/mhi/devices/<mhi-cntrl>/ddr_training_data
+diff --git a/include/linux/device.h b/include/linux/device.h
+index 0be95294b6e6..381463baed6d 100644
+--- a/include/linux/device.h
++++ b/include/linux/device.h
+@@ -189,6 +189,22 @@ ssize_t device_show_string(struct device *dev, struct device_attribute *attr,
+ #define DEVICE_ATTR_ADMIN_RW(_name) \
+ 	struct device_attribute dev_attr_##_name = __ATTR_RW_MODE(_name, 0600)
+ 
++/**
++ * DEVICE_ATTR_RW_NAMED - Define a read-write device attribute with a sysfs name
++ * that differs from the function name.
++ * @_name: Attribute function preface
++ * @_attrname: Attribute name as it wil be exposed in the sysfs.
++ *
++ * Like DEVICE_ATTR_RW(), but allows for reusing names under separate paths in
++ * the same driver.
++ */
++#define DEVICE_ATTR_RW_NAMED(_name, _attrname)                            \
++	struct device_attribute dev_attr_##_name = {                      \
++		.attr = { .name = _attrname, .mode = 0644 }, \
++		.show = _name##_show,                                     \
++		.store = _name##_store,                                   \
++	}
 +
-+Date:                   March 2026
+ /**
+  * DEVICE_ATTR_RO - Define a readable device attribute.
+  * @_name: Attribute name.
+@@ -207,6 +223,21 @@ ssize_t device_show_string(struct device *dev, struct device_attribute *attr,
+ #define DEVICE_ATTR_ADMIN_RO(_name) \
+ 	struct device_attribute dev_attr_##_name = __ATTR_RO_MODE(_name, 0400)
+ 
++/**
++ * DEVICE_ATTR_RO_NAMED - Define a read-only device attribute with a sysfs name
++ * that differs from the function name.
++ * @_name: Attribute function preface
++ * @_attrname: Attribute name as it wil be exposed in the sysfs.
++ *
++ * Like DEVICE_ATTR_RO(), but allows for reusing names under separate paths in
++ * the same driver.
++ */
++#define DEVICE_ATTR_RO_NAMED(_name, _attrname)                            \
++	struct device_attribute dev_attr_##_name = {                      \
++		.attr = { .name = _attrname, .mode = 0444 }, \
++		.show = _name##_show,                                     \
++	}
 +
-+Contact:                Kishore Batta <kishore.batta@oss.qualcomm.com>
+ /**
+  * DEVICE_ATTR_WO - Define an admin-only writable device attribute.
+  * @_name: Attribute name.
+@@ -216,6 +247,21 @@ ssize_t device_show_string(struct device *dev, struct device_attribute *attr,
+ #define DEVICE_ATTR_WO(_name) \
+ 	struct device_attribute dev_attr_##_name = __ATTR_WO(_name)
+ 
++/**
++ * DEVICE_ATTR_WO_NAMED - Define a read-only device attribute with a sysfs name
++ * that differs from the function name.
++ * @_name: Attribute function preface
++ * @_attrname: Attribute name as it wil be exposed in the sysfs.
++ *
++ * Like DEVICE_ATTR_WO(), but allows for reusing names under separate paths in
++ * the same driver.
++ */
++#define DEVICE_ATTR_WO_NAMED(_name, _attrname)                            \
++	struct device_attribute dev_attr_##_name = {                      \
++		.attr = { .name = _attrname, .mode = 0200 }, \
++		.store = _name##_store,                                   \
++	}
 +
-+Description:            Contains the DDR training data for the Qualcomm device
-+                        connected. MHI driver populates different controller
-+                        nodes for each device. The DDR training data is exposed
-+                        to userspace to read and save the training data file to
-+                        the filesystem. In the subsequent boot up of the device,
-+                        the training data is restored from host to device
-+                        optimizing the boot up time of the device.
-+
-+Usage:                  Example for reading DDR training data:
-+                        cat /sys/bus/mhi/devices/mhi0/ddr_training_data
-+
-+Permissions:            The file permissions are set to 0444 allowing read
-+                        access.
-
+ /**
+  * DEVICE_ULONG_ATTR - Define a device attribute backed by an unsigned long.
+  * @_name: Attribute name.
 -- 
-2.34.1
+2.53.0
 
