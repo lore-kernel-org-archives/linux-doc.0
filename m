@@ -1,75 +1,80 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED4AC3B637E;
-	Tue, 10 Mar 2026 16:55:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E18FA28B7DA;
+	Tue, 10 Mar 2026 17:05:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773161721; cv=none; b=kz5Dis1v9e84Wjp2/ZigJxkzXIyWP4pn9iNii7pbKDrs7TPKazSeoslZfYpUsijRY5FFdrK80Uo61nVW8Zy69uGefN9a1J+cleK8OdMaRdEuB/sOL+1zY5C1e492Onq3ssuSzQolWvvoNlKiGDpHVnZtulK80t8DTI1m3OENCLI=
+	t=1773162328; cv=none; b=Oz9dvn1pVS7pqAVXyOTtWgo3MwsfDrhhKPLNwhAViatAEZUQgGJxXpBQOrP/njSnp8cWseiNDtxr6GRUc7eqm7PYysCuMybbExrQ2iIbLbaJvdR7GzSDk+ALlnKTaaZ4l2UEOWbx9c1lPbla4VRjXOxAjgQ6SnjiMWrIDcwaJo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773161721; c=relaxed/simple;
-	bh=VHZgvCX1bkh1jPkqu7ZCoMK6C4dI4lVgzI4dnYB/aVs=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=GFeanC7P0k9v7HJiB9LfFSNf/50XAKMM4SnLSv1fqkuSoAkZQxflRBp/D4q1BxiJNNx46ChBfkbEFcvz14WAND7xbIgIR7nwnSSZRNafZV9F+Ch/eKay1GlSmlE9IMXTo9eADArVtGf44RSYCS5Y2tu/eOBrsANcrH6U9eidlRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GyYBVG1Y; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773162328; c=relaxed/simple;
+	bh=8XCjPyMkbQAR6V06f2fG0uPF2MRjPbY71EQ3H3l08wc=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References; b=nW0C9Q0CKU+LHhYLKFESVnbNim66QSESUWmsqrje3oMFtGBf7JF2hflwet1+RKTH+Kl3pXKhq1I7covjJ47fXz7LVB6BhtpcFPRFEr230SiwJtdvCR3vRzwi5JlqVt1sQthm1U4/3p/tAHm8m+wAC9mW7C36QOwv01SAOTo59Uc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qZ5/ht5m; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GyYBVG1Y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DA2FC19423;
-	Tue, 10 Mar 2026 16:55:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qZ5/ht5m"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 696D5C19423;
+	Tue, 10 Mar 2026 17:05:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773161720;
-	bh=VHZgvCX1bkh1jPkqu7ZCoMK6C4dI4lVgzI4dnYB/aVs=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=GyYBVG1YmZnYluZmOQg+ZnxQ4LVKzjmumnSBWgVv52XemCZUiTYNlByekdB7flM67
-	 FtCqmRgSq8nUlhc5jNnMr7rW4+064z5zLUpJpP4c4OSyfiqJgWrrw6neK5rDvaLjpB
-	 vR10zPtTmGZbn3o+igXtY29hkLxqyvPc4Ayv4eqLRizk5/lj1F/Z5n8fQx2pfnkRlC
-	 7LkYIMCmH9xxzLUYpQVhBRHQRdl23VYv0P+mlPxXl2Cjrd5hoGMZQHjfhKingfCxq1
-	 9NJoJsmWvkaO80r5nzwK0nwwLVLsTlEPgc3E6Pt78wxAPRIbpI5Ws82McY4J7SmxR8
-	 kq2bD6cQkzVUg==
-Date: Tue, 10 Mar 2026 17:55:17 +0100 (CET)
-From: Jiri Kosina <jikos@kernel.org>
-To: "Derek J. Clark" <derekjohn.clark@gmail.com>
-cc: Benjamin Tissoires <bentiss@kernel.org>, 
-    Richard Hughes <hughsient@gmail.com>, 
-    Mario Limonciello <mario.limonciello@amd.com>, 
-    Zhixin Zhang <zhangzx36@lenovo.com>, Mia Shao <shaohz1@lenovo.com>, 
-    Mark Pearson <mpearson-lenovo@squebb.ca>, 
-    "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>, 
-    linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
-    linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 00/19] HID: Add Legion Go and Go S Drivers
-In-Reply-To: <20260310072937.3295875-1-derekjohn.clark@gmail.com>
-Message-ID: <90o4q991-op94-45o9-n016-4rs4s2n3n016@xreary.bet>
-References: <20260310072937.3295875-1-derekjohn.clark@gmail.com>
+	s=k20201202; t=1773162327;
+	bh=8XCjPyMkbQAR6V06f2fG0uPF2MRjPbY71EQ3H3l08wc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=qZ5/ht5ms3Ah+oFoR/5B9Dny7+sVYRd64j9tx0UbyLTN5ydGYKcqcc8UYVYZmdo9h
+	 JculUWPgrSWBRgcKDmNLF4ARZwFYnylvvX9A0HBBAlTivNHNUgng7HGNn6NY08A199
+	 fPaNHAIfOE8WxNzV1SvFrHZeMyp5u9rC234fMx66Ak+fG2xlF02u2be/gaz/CKPGss
+	 T4YRI2hNojcq7tcDO5umYTA2VlMfcFrzrWnBxOth6JQ/nHHaI4EeMwA53uCNFERGHk
+	 Bx4LUhkAPLjF4+vNZT4IyHVTcylZU8ZeCZUFSusapGeLId7xjxCmhrQ5Fx9hicI94B
+	 kh+RHV00suSWA==
+Date: Tue, 10 Mar 2026 07:05:26 -1000
+Message-ID: <1e1412049d60bec19363c3121b19fd48@kernel.org>
+From: Tejun Heo <tj@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+ Sebastian Reichel <sre@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Lai Jiangshan <jiangshanlai@gmail.com>,
+ Tobias Schrammm <t.schramm@manjaro.org>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Lee Jones <lee@kernel.org>,
+ Dzmitry Sankouski <dsankouski@gmail.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Benson Leung <bleung@chromium.org>,
+ Tzung-Bi Shih <tzungbi@kernel.org>,
+ Matti Vaittinen <mazziesaccount@gmail.com>,
+ driver-core@lists.linux.dev,
+ linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ linux-pm@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org,
+ chrome-platform@lists.linux.dev
+Subject: Re: [PATCH v2 01/10] workqueue: devres: Add device-managed
+ allocate workqueue
+In-Reply-To: <9a9cb7f8-54cc-4c43-a5a0-f022394351eb@oss.qualcomm.com>
+References: <20260305-workqueue-devm-v2-0-66a38741c652@oss.qualcomm.com>
+ <20260305-workqueue-devm-v2-1-66a38741c652@oss.qualcomm.com>
+ <aapTSyrkqqZ8j_XL@slm.duckdns.org>
+ <9a9cb7f8-54cc-4c43-a5a0-f022394351eb@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 
-On Tue, 10 Mar 2026, Derek J. Clark wrote:
+Hello,
 
+Applied the first patch to a dedicated branch. Please pull from:
 
-> Change Log
-> v6:
->   - Include multiple bug fixes from Ethan Tidmore.
->   - Make all local attributes static.
->   - Invert the rgb_speed logic for the go driver. On the Go this
->     attribute sets a delay, so flip the logic to match Go S where the
->     larger number means faster so userspace can target this consistently.
->   - Include 3 new patches that fix formatting issues with v5 authored by
->     additional developers.
+  git://git.kernel.org/pub/scm/linux/kernel/git/tj/wq.git for-7.1-devm-alloc-wq
 
-I've just finished going through the patchdiff and all the reports, and it 
-seems that you've indeed addressed all of it.
+Thanks.
 
-This is now in hid.git#for-7.1/lenovo-v2.
-
-Thanks,
-
--- 
-Jiri Kosina
-SUSE Labs
-
+--
+tejun
