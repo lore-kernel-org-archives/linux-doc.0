@@ -1,98 +1,93 @@
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83A2F3A3802
-	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 21:08:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA2273A3802;
+	Tue, 10 Mar 2026 21:11:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773176930; cv=none; b=HV0L7rgepnSRpncafk8U+06svAIRPBD86UL3Er5Jo9V0VX+z+xESyRjFs23l0TbwKUkRorwm4vgRRFr1sXHpXcDkyXG3LGuLq0MgrTgb0qK0YboQZFl+2X6kXNP7uYkLerS2KSbr//uD17K0z/VZD9GE47Sx2BrJ1EBzKo9rGRU=
+	t=1773177070; cv=none; b=YDdWS7wfkRpxyvj40GAVUl2t4XA8OC8hoIwiRS6BfV0pibpcAPu79KX4htl+7fshiQxXqFfvFc18/JgJCFkBnf5l/4RSVQRYZXFE9xjmlkCPZiRSnAvT2lzs5DaqTa/JjBU1TihNYz8gXea6cpYB64PB+ulxP0dAHitMIBVW4Dg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773176930; c=relaxed/simple;
-	bh=SxvFwt6RNoWEPsMfWZcfBn5YT6mZDJktqM19xKBdhV8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
-	 Content-Type:References; b=tC8ezyuWPXywcGZGqXpeoAandp7KPNjlT1JcYZWu1IsF2UvkTdD96FThI9jyTTdj3LvB3nG0PqfbPi5ZYtyNl6aakDi3G/EO1UbcMCwEXJm6219KgTZMgK58MMm1dlXAClNiZwyJs57En5r6Z3+7TKktRxSM4xyaMF/D7Jb2ii0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=eZ8XyXaP; arc=none smtp.client-ip=210.118.77.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1773177070; c=relaxed/simple;
+	bh=yyzdGp+0sPRPTiABz81aZRloIPxSgjyHr2YQUr/A+N8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WU+jP/yzwI215TxeFGYdWePmDYqzCfC/22QBIL2AIQaBAAgksJP8v1x56Gnw98g+9wCmjFaR+kGNd/QoONG2Fw/0Wlas8dgbBqUezdtCg0sbYuM5DTgBKJJlECxJO/YS2JKvuFmlR4ARAqvNVe16s73KnF2FPzKHBW3TE/AuL4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dFYD1ByL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="eZ8XyXaP"
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20260310210841euoutp02defb77b7740597fdb7c6674a64809c3a~blwPhr7c11674816748euoutp021
-	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 21:08:41 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20260310210841euoutp02defb77b7740597fdb7c6674a64809c3a~blwPhr7c11674816748euoutp021
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1773176921;
-	bh=tGKcv9KXSZ8NeZkMwYhCoqHzYQKa6iNvw2bZS+J/rzE=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=eZ8XyXaPRQAjrmD4tNZ3xUXMKKEX3h1oOCD4TsFqZXdYBieeyb/LtVoxH2f21WRDs
-	 FseqmW6UqV5Wnori+EXSWkMHCW3pnM/7xRBu1chhgHxCLymTyDSRwFQpU7xFOprv5y
-	 rxzqJwl64rsea6rmb5pyIdwHoZqCHAqngy2W2YQE=
-Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-	20260310210840eucas1p2dc0fce312c0fe458cd71faffb303d0a6~blwPOKs7r3236232362eucas1p2y;
-	Tue, 10 Mar 2026 21:08:40 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
-	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20260310210839eusmtip17c631ae9b4a7af8f06cd5dfe1f3e6b7d~blwNydyN01109311093eusmtip1E;
-	Tue, 10 Mar 2026 21:08:39 +0000 (GMT)
-Message-ID: <a61f8814-b896-4ec0-bb83-a8cbd8aca4e8@samsung.com>
-Date: Tue, 10 Mar 2026 22:08:38 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dFYD1ByL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E792DC19423;
+	Tue, 10 Mar 2026 21:11:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773177069;
+	bh=yyzdGp+0sPRPTiABz81aZRloIPxSgjyHr2YQUr/A+N8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dFYD1ByLLsnPqMH8HvpxcPSYDZmiTMH9uIgAC5+zFHLZxBhpolkrX+vcWCFVr8dmj
+	 29js3lSD3EP6jNZyT+AW/TyMOyiweLB8zLOj+u1rKJO+Yk5G4k4INqFDRribqkQwYG
+	 PU5Sqe0GLid9VxVNNxx6J7CXuJfFQ3+3PM3bfGXpngtw1jEkAz3zyt3foM96dA+4PA
+	 gNPBVPESP3sZ2w5NQjwiuGdGIuRenZrAmo8N1lZ2ElCPuIwn9/4e2+Fy9uJ3qTwYGb
+	 FUBKESjL6+R7Ljy++ot4ShKUaVNg5AnAT+CWS1XDngm6viJftDOM2Y43c8qq4sW242
+	 w6uDBPIYTGkYQ==
+Date: Tue, 10 Mar 2026 14:11:06 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: Nathan Chancellor <nathan@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Daniel Gomez <da.gomez@samsung.com>,
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Naveen N Rao <naveen@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
+	Roberto Sassu <roberto.sassu@huawei.com>,
+	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+	Eric Snowberg <eric.snowberg@oracle.com>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>,
+	Xiu Jianfeng <xiujianfeng@huawei.com>,
+	Fabian =?iso-8859-1?Q?Gr=FCnbichler?= <f.gruenbichler@proxmox.com>,
+	Arnout Engelen <arnout@bzzt.net>,
+	Mattia Rizzolo <mattia@mapreri.org>, kpcyrd <kpcyrd@archlinux.org>,
+	Christian Heusel <christian@heusel.eu>,
+	=?iso-8859-1?Q?C=E2ju?= Mihai-Drosi <mcaju95@gmail.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
+	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org
+Subject: Re: [PATCH v4 02/17] powerpc/ima: Drop unnecessary check for
+ CONFIG_MODULE_SIG
+Message-ID: <20260310211106.GA120274@quark>
+References: <20260113-module-hashes-v4-0-0b932db9b56b@weissschuh.net>
+ <20260113-module-hashes-v4-2-0b932db9b56b@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Betterbird (Windows)
-Subject: Re: [PATCH 2/3] dma-mapping: Clarify valid conditions for CPU cache
- line overlap
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Leon Romanovsky <leon@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>, Petr Tesarik <ptesarik@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-	Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	=?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, iommu@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	virtualization@lists.linux.dev, linux-rdma@vger.kernel.org
-Content-Language: en-US
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20260310123405.GR1687929@ziepe.ca>
-Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20260310210840eucas1p2dc0fce312c0fe458cd71faffb303d0a6
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20260309090352eucas1p283a75c78cac495b5ad87df74c79aab07
-X-EPHeader: CA
-X-CMS-RootMailID: 20260309090352eucas1p283a75c78cac495b5ad87df74c79aab07
-References: <20260307-dma-debug-overlap-v1-2-c034c38872af@nvidia.com>
-	<20260308181920.GH1687929@ziepe.ca> <20260308184902.GR12611@unreal>
-	<20260308230916.GI1687929@ziepe.ca>
-	<CGME20260309090352eucas1p283a75c78cac495b5ad87df74c79aab07@eucas1p2.samsung.com>
-	<20260309090342.GS12611@unreal>
-	<c1d058f3-f864-4ed7-9f7a-683d6f4bf1ce@samsung.com>
-	<20260309150502.GX12611@unreal> <20260309151356.GN1687929@ziepe.ca>
-	<aaebc5b6-2805-46d3-a68e-549c26a3ef03@samsung.com>
-	<20260310123405.GR1687929@ziepe.ca>
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260113-module-hashes-v4-2-0b932db9b56b@weissschuh.net>
 
-On 10.03.2026 13:34, Jason Gunthorpe wrote:
-> On Tue, Mar 10, 2026 at 10:45:38AM +0100, Marek Szyprowski wrote:
->> Jason is right. Indeed the rdma/uverbs case needs some extension to
->> ensure that the coherent mapping is used, what is not possible now. This
->> however doesn't mean that the DMA_ATTR_CPU_CACHE_OVERLAP is not needed
->> for that use case too. I'm open to accept both. The only question I have
->> is which name should we use? We already have DMA_ATTR_CPU_CACHE_CLEAN,
->> while DMA_ATTR_CPU_CACHE_OVERLAP and
->> DMA_ATTR_DEBUGGING_IGNORE_CACHELINES were proposed here. The last seems
->> to be most descriptive.
-> If we do DMA_ATTR_REQUIRE_COHERENCE then I imagine it would internally
-> also set DMA_ATTR_DEBUGGING_IGNORE_CACHELINES, but I'd prefer that
-> detail not leak into the callers.
+On Tue, Jan 13, 2026 at 01:28:46PM +0100, Thomas Weiﬂschuh wrote:
+> When CONFIG_MODULE_SIG is disabled set_module_sig_enforced() is defined
+> as an empty stub, so the check is unnecessary.
+> The specific configuration option for set_module_sig_enforced() is
+> about to change and removing the check avoids some later churn.
+> 
+> Signed-off-by: Thomas Weiﬂschuh <linux@weissschuh.net>
+> ---
+>  arch/powerpc/kernel/ima_arch.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 
-Why DMA_ATTR_REQUIRE_COHERENCE should imply 
-DMA_ATTR_DEBUGGING_IGNORE_CACHELINES?
+Reviewed-by: Eric Biggers <ebiggers@kernel.org>
 
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
-
+- Eric
