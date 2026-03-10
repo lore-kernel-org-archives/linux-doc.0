@@ -1,105 +1,230 @@
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACC93366065
-	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 09:45:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 176A8430B91
+	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 09:59:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773135943; cv=none; b=pWYRtFYuKbxkQWJ6C3WqOl+txHcWCanyVmWnR3SwOAnQ134dsJ18ZOZhzW8KTFUo8v9C8YIF9y2mGe1QUAXfOnoh3BNDm58VyIPZliqcTtT3dvuq/XU3WGa5y9zMzSnBhLysXSNkIFex+T9RQ89DgblZH5XtvFa/Q1qPZLF1S00=
+	t=1773136779; cv=none; b=MkdWJgM89MUuctIP4vzV6GnNXrfBK+BVexYyuDOKllz+0FhgunwMbMT0/1I5SeL9Yp1cC0kWPP2AyJ3URLOWpM0K59U6SPX/BA5nj0khJK2AoiBptyP8D69qPrAcN2s2jlp78nCm+LYfQSvSEZO/6MR+4eTVou0LoPmXb8k94Do=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773135943; c=relaxed/simple;
-	bh=ZLvezuR8s0+OWVqfo92KUk4UlTJ6DqfgkS4fGtPZbTw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
-	 Content-Type:References; b=prFcjs1kDZxsM/IAwnjUA3JUu+Ti5cXLg/pPedD4C6KQWaLQRjPrTVkzfVbGssQhwxVhsACFjorNr/8KdU30OqOW652IHkCH2dnzksU45lU1BfUZTAtT4uiiZdYt+QTmUtt/iehK3RGk3Su619weB76foKVa8qopqXtrZ8hiT8w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=DUa33BIc; arc=none smtp.client-ip=210.118.77.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1773136779; c=relaxed/simple;
+	bh=TDPfe7m1zO4HOHLA+mRXSmC65oJJ46//jYUxV1a9kdc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QiiZBF9Q6A+WUu+G6tpJHAc7CqnH62Hk4AxHStKuwpSKPyVT6NXUBPo3ptIBMUreCQPp7RyVymyRS9SU9CBX7jjaeI77OHFbQPuCf7A/vEVKoSv8w3bwOhfPMJLfioBStNUsmcQmeeWAhEUe2J9+SOswvHyqFowyIG2NO1avjg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Xs8tsJIa; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=CkVfiZi2; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="DUa33BIc"
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20260310094539euoutp018ac8fda4eaba5218f4377f521b4e8185~bcb4uQblH2528425284euoutp01Z
-	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 09:45:39 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20260310094539euoutp018ac8fda4eaba5218f4377f521b4e8185~bcb4uQblH2528425284euoutp01Z
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1773135939;
-	bh=g4Z4ok96NWqzBgjOcLsFlXJfC/4zjtxkfiYjt2twx7A=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=DUa33BIcjnjYaDcrUwR4b3y4tN6gJrXkmaBcwcJ4p2c4tZGQM9R38aSaC2a0O/Bbo
-	 0xa64kwxr8dc0Yov8gz0+bhz5Z3p5QxpyUFH3txM4dysJYcWw+sParNspVxK2j8cYf
-	 dHSDbRa7PdBI1Opg2OUQSyeLHuC0MQYAqRPXhB3s=
-Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-	20260310094539eucas1p15d2320cc87bfb317f5be51b359fb08c6~bcb4brfjb0410104101eucas1p1p;
-	Tue, 10 Mar 2026 09:45:39 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
-	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20260310094538eusmtip17998daf8f2a16ee4d9b5c8cb775d1e36~bcb3virLM2940529405eusmtip1i;
-	Tue, 10 Mar 2026 09:45:38 +0000 (GMT)
-Message-ID: <aaebc5b6-2805-46d3-a68e-549c26a3ef03@samsung.com>
-Date: Tue, 10 Mar 2026 10:45:38 +0100
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Xs8tsJIa";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="CkVfiZi2"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62A5lZtb568942
+	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 09:59:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	lgUe0TFn6d0vjPmbLxKtIohMDX7uiKOUBiGY0vO4PaI=; b=Xs8tsJIaHuFREk0D
+	X0/b6Es/83vmE0IH6BgNgd5sda9mPkmieLyMsDF91whgiJgXQNXYiRb9QkHR88TD
+	xoFPVRMob0nwQEJZYcIlCSkPjptYkjXDDlNmqPdsbk5H+Hxasl+ROILF1FMEJZ1j
+	OxYjgdH8cK+LX09gX42fk04Fkk5YoGJOsmdYW/Jqngt1old/BEWmTec/7GpG9emm
+	YEC4IebUlfSG/DzZlTLx+gNgmlVm6iUjcSNnYpC2cDKWHCjZUK6Yy6FjEXRRf+fz
+	xF8VV3ASO7vKPZkyGumge0dPKpyzsutqg2gW/2O1rrH8wWoghWSNZdORS0lPZCv/
+	Uc3+aw==
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com [209.85.219.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ctdf8gvq4-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 09:59:36 +0000 (GMT)
+Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-89a174bd442so473503056d6.2
+        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 02:59:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1773136776; x=1773741576; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=lgUe0TFn6d0vjPmbLxKtIohMDX7uiKOUBiGY0vO4PaI=;
+        b=CkVfiZi2gPTHvbr3XH37zf6fiddNWx88BEzeh0Uq98+F4JkoA4W/XdV2lYU2imziks
+         Gh0ZGkXIlWE0f/Qmvn4n/I5JinUCvjZJXJ56km5Hsq6Df2M7I/J5Ys/CrSIj/gG7A9p7
+         8CqMkxWBKFUk3ku4PpiLVVLm+0C7920mT/gAw4zXqwJlIkemzYERLPZNZXb6KXDp5/mM
+         RubqBxFBuyZQxw67+OwkRtDHc02NMJF05uBk466y0ZXILVNGwrXCc3nPFAi35wdE2ejP
+         ra76Frxi8fuPCMW7oDR+UV/jeDlPfIy7H7LLJ1TpGc/VW8vr7mhuSadG8yuwQ+mKCZ5n
+         YcZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773136776; x=1773741576;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lgUe0TFn6d0vjPmbLxKtIohMDX7uiKOUBiGY0vO4PaI=;
+        b=cuD6pmCzi1c5UfqrdHyhA9TQ1YsYbnReufzuZQvw9pFvSf0kTVkj8+1q42bfBd4W7w
+         Ep4RGa3wB6DJY92kzLb/Vwvkbt8RFF9j45bar3WRX1wHwBKUnasjYzL9QzfgL4dc4Q6I
+         djJwfZKz9R3IZnQheuT0OOmu5p6InVHskLNNziTgRCU2eGNlhPBE9AaDqkUHzuhMwLER
+         GiyNM1YH0G3a7dFNfTH+WebfDoA3UvCzaGwCODZJ5uNHI8nMpr6W2KDSuR7OKjczBgkz
+         P0/6LTXilUNWbu4SiBuVkC1jw8+BbYlwJrZiicdVEt6I9l/wjYWTqIQjD8VKcGr1+f2B
+         UD9g==
+X-Forwarded-Encrypted: i=1; AJvYcCXb1lan/kAELEed6BD0m6quSmy400dGfzA0aGnUSjVt3SEM0ZnQ3qD428/2h4FyGtCwEwerP3M7T7s=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyUzVGFETIBxESNgRM+mkSGH74un1vsVoGrBoH7NIshTEwdij62
+	zcEyfSZ/KWnROViK2qiIFnHTbzJH0xQjIVDqJvlsKE1RhUZTZjLK3yG77hUZUuITIfePQN58PRs
+	pxzQ0XmYxpuQ3jHPKxjlYcOzx2pUwEyza94BlQB9Uf4g3TuHrYA50i/oumsoufMI=
+X-Gm-Gg: ATEYQzzcPd+pCg26yZVlGQ5lJ2MXpyFtPaD9paYhG2XpmAY7YLXD6d3TDXT2CEIYA8+
+	s64xoPQet9lbuijhhgghYgtuLx2ZbXkyPTZ+FTqyQhvK5JHMNzOBqGZUjaZpunqa2l6Ry2HVlVE
+	MSvqp8C1YChJVRMZXplDZQAjv+DVQ4oiYy05zMBf56Gw+umZpbYcIiO34ejeiECe9uttXNlO2r9
+	5sfo71fMnTTdlkopJ8RaNeaqAXCFaG2h/zO1Q/yn0PqWHOi8yaHx7vXbwo4YJkOEbOuePnmqWQq
+	rEfEk/ONGW9CoNHmeaHdJVlBVjOs+PLVJCp6Y/Am+g3kucD4vlrBGedR4GIu74fIt5bq9jauTWU
+	Cfhkvv+3qSpO0dxENnwFgzceaZEpYK8jt5T+Q+T8CPwEdtUv/
+X-Received: by 2002:ad4:5de1:0:b0:89a:258:c1d5 with SMTP id 6a1803df08f44-89a30ad59bemr219718096d6.50.1773136776363;
+        Tue, 10 Mar 2026 02:59:36 -0700 (PDT)
+X-Received: by 2002:ad4:5de1:0:b0:89a:258:c1d5 with SMTP id 6a1803df08f44-89a30ad59bemr219717766d6.50.1773136775932;
+        Tue, 10 Mar 2026 02:59:35 -0700 (PDT)
+Received: from [192.168.1.29] ([178.197.219.94])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-485419b8526sm68327405e9.0.2026.03.10.02.59.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 Mar 2026 02:59:35 -0700 (PDT)
+Message-ID: <9a9cb7f8-54cc-4c43-a5a0-f022394351eb@oss.qualcomm.com>
+Date: Tue, 10 Mar 2026 10:59:32 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Betterbird (Windows)
-Subject: Re: [PATCH 2/3] dma-mapping: Clarify valid conditions for CPU cache
- line overlap
-To: Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>
-Cc: Robin Murphy <robin.murphy@arm.com>, "Michael S. Tsirkin"
-	<mst@redhat.com>, Petr Tesarik <ptesarik@suse.com>, Jonathan Corbet
-	<corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Jason Wang
-	<jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	=?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, iommu@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	virtualization@lists.linux.dev, linux-rdma@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 01/10] workqueue: devres: Add device-managed allocate
+ workqueue
+To: Tejun Heo <tj@kernel.org>, Sebastian Reichel <sre@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Lai Jiangshan <jiangshanlai@gmail.com>,
+        Tobias Schrammm <t.schramm@manjaro.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Dan Carpenter <dan.carpenter@linaro.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>, Lee Jones <lee@kernel.org>,
+        Dzmitry Sankouski <dsankouski@gmail.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+        Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>,
+        Matti Vaittinen <mazziesaccount@gmail.com>,
+        driver-core@lists.linux.dev, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Sebastian Reichel <sebastian.reichel@collabora.com>,
+        linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, chrome-platform@lists.linux.dev
+References: <20260305-workqueue-devm-v2-0-66a38741c652@oss.qualcomm.com>
+ <20260305-workqueue-devm-v2-1-66a38741c652@oss.qualcomm.com>
+ <aapTSyrkqqZ8j_XL@slm.duckdns.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 Content-Language: en-US
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20260309151356.GN1687929@ziepe.ca>
+Autocrypt: addr=krzysztof.kozlowski@oss.qualcomm.com; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzTpLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tpQG9zcy5xdWFsY29tbS5jb20+wsGXBBMB
+ CgBBFiEEm9B+DgxR+NWWd7dUG5NDfTtBYpsFAmkknB4CGwMFCRaWdJoFCwkIBwICIgIGFQoJ
+ CAsCBBYCAwECHgcCF4AACgkQG5NDfTtBYpuCRw/+J19mfHuaPt205FXRSpogs/WWdheqNZ2s
+ i50LIK7OJmBQ8+17LTCOV8MYgFTDRdWdM5PF2OafmVd7CT/K4B3pPfacHATtOqQFHYeHrGPf
+ 2+4QxUyHIfx+Wp4GixnqpbXc76nTDv+rX8EbAB7e+9X35oKSJf/YhLFjGOD1Nl/s1WwHTJtQ
+ a2XSXZ2T9HXa+nKMQfaiQI4WoFXjSt+tsAFXAuq1SLarpct4h52z4Zk//ET6Xs0zCWXm9HEz
+ v4WR/Q7sycHeCGwm2p4thRak/B7yDPFOlZAQNdwBsnCkoFE1qLXI8ZgoWNd4TlcjG9UJSwru
+ s1WTQVprOBYdxPkvUOlaXYjDo2QsSaMilJioyJkrniJnc7sdzcfkwfdWSnC+2DbHd4wxrRtW
+ kajTc7OnJEiM78U3/GfvXgxCwYV297yClzkUIWqVpY2HYLBgkI89ntnN95ePyTnLSQ8WIZJk
+ ug0/WZfTmCxX0SMxfCYt36QwlWsImHpArS6xjTvUwUNTUYN6XxYZuYBmJQF9eLERK2z3KUeY
+ 2Ku5ZTm5axvlraM0VhUn8yv7G5Pciv7oGXJxrA6k4P9CAvHYeJSTXYnrLr/Kabn+6rc0my/l
+ RMq9GeEUL3LbIUadL78yAtpf7HpNavYkVureuFD8xK8HntEHySnf7s2L28+kDbnDi27WR5kn
+ u/POwU0EVUNcNAEQAM2StBhJERQvgPcbCzjokShn0cRA4q2SvCOvOXD+0KapXMRFE+/PZeDy
+ fv4dEKuCqeh0hihSHlaxTzg3TcqUu54w2xYskG8Fq5tg3gm4kh1Gvh1LijIXX99ABA8eHxOG
+ mLPRIBkXHqJYoHtCvPc6sYKNM9xbp6I4yF56xVLmHGJ61KaWKf5KKWYgA9kfHufbja7qR0c6
+ H79LIsiYqf92H1HNq1WlQpu/fh4/XAAaV1axHFt/dY/2kU05tLMj8GjeQDz1fHas7augL4ar
+ gt4e+jum3NwtyupodQBxncKAUbzwKcDrPqUFmfRbJ7ARw8491xQHZDsP82JRj4cOJX32sBg8
+ nO2N5OsFJOcd5IE9v6qfllkZDAh1Rb1h6DFYq9dcdPAHl4zOj9EHq99/CpyccOh7SrtWDNFF
+ knCmLpowhct95ZnlavBrDbOV0W47gO33WkXMFI4il4y1+Bv89979rVYn8aBohEgET41SpyQz
+ 7fMkcaZU+ok/+HYjC/qfDxT7tjKXqBQEscVODaFicsUkjheOD4BfWEcVUqa+XdUEciwG/SgN
+ yxBZepj41oVqFPSVE+Ni2tNrW/e16b8mgXNngHSnbsr6pAIXZH3qFW+4TKPMGZ2rZ6zITrMi
+ p+12jgw4mGjy5y06JZvA02rZT2k9aa7i9dUUFggaanI09jNGbRA/ABEBAAHCwXwEGAEKACYC
+ GwwWIQSb0H4ODFH41ZZ3t1Qbk0N9O0FimwUCaBdQXwUJFpZbKgAKCRAbk0N9O0Fim07TD/92
+ Vcmzn/jaEBcqyT48ODfDIQVvg2nIDW+qbHtJ8DOT0d/qVbBTU7oBuo0xuHo+MTBp0pSTWbTh
+ LsSN1AuyP8wFKChC0JPcwOZZRS0dl3lFgg+c+rdZUHjsa247r+7fvm2zGG1/u+33lBJgnAIH
+ 5lSCjhP4VXiGq5ngCxGRuBq+0jNCKyAOC/vq2cS/dgdXwmf2aL8G7QVREX7mSl0x+CjWyrpF
+ c1D/9NV/zIWBG1NR1fFb+oeOVhRGubYfiS62htUQjGLK7qbTmrd715kH9Noww1U5HH7WQzeP
+ t/SvC0RhQXNjXKBB+lwwM+XulFigmMF1KybRm7MNoLBrGDa3yGpAkHMkJ7NM4iSMdSxYAr60
+ RtThnhKc2kLIzd8GqyBh0nGPIL+1ZVMBDXw1Eu0/Du0rWt1zAKXQYVAfBLCTmkOnPU0fjR7q
+ VT41xdJ6KqQMNGQeV+0o9X91X6VBeK6Na3zt5y4eWkve65DRlk1aoeBmhAteioLZlXkqu0pZ
+ v+PKIVf+zFKuh0At/TN/618e/QVlZPbMeNSp3S3ieMP9Q6y4gw5CfgiDRJ2K9g99m6Rvlx1q
+ wom6QbU06ltbvJE2K9oKd9nPp1NrBfBdEhX8oOwdCLJXEq83vdtOEqE42RxfYta4P3by0BHp
+ cwzYbmi/Et7T2+47PN9NZAOyb771QoVr8A==
+In-Reply-To: <aapTSyrkqqZ8j_XL@slm.duckdns.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20260310094539eucas1p15d2320cc87bfb317f5be51b359fb08c6
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20260309090352eucas1p283a75c78cac495b5ad87df74c79aab07
-X-EPHeader: CA
-X-CMS-RootMailID: 20260309090352eucas1p283a75c78cac495b5ad87df74c79aab07
-References: <20260307-dma-debug-overlap-v1-0-c034c38872af@nvidia.com>
-	<20260307-dma-debug-overlap-v1-2-c034c38872af@nvidia.com>
-	<20260308181920.GH1687929@ziepe.ca> <20260308184902.GR12611@unreal>
-	<20260308230916.GI1687929@ziepe.ca>
-	<CGME20260309090352eucas1p283a75c78cac495b5ad87df74c79aab07@eucas1p2.samsung.com>
-	<20260309090342.GS12611@unreal>
-	<c1d058f3-f864-4ed7-9f7a-683d6f4bf1ce@samsung.com>
-	<20260309150502.GX12611@unreal> <20260309151356.GN1687929@ziepe.ca>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzEwMDA4NSBTYWx0ZWRfX1ji9ZVn/3P7y
+ gLJlum6iWw/GUDFGOp3k53BdKIUBgvjjBnld/YiLbCCO5QsDfHl3LEBdD/ech6ZykLpNl4/l2nz
+ dyA/vHc5rAbnLXaSqgMOPnlOuTcq2FLnREQ2mzYnktWY9BK9rPO5JKckH30p7+l/VAzyJ3q6wz+
+ gzhJcGKjgBaeY7wGSniu5fkggsbU/8cZqVxG+DEvuINDUABw8AisFHgvjKOm/hhgTHbct4k1s1t
+ TcmwuDSQb2NilwGeQNATTzZDtnNWjeUUFtboywhF0P4aTRAI3pjditrXNhJp3oAwLx3G1NV9AJr
+ CnGr7qioKWgaIY2UiiMwzdbLYHuYMhEx1WzxBKdBGbEtzB1TFpTa5GTNxGx0NcuqwsksvsFqALE
+ Jakjz37oSFhmr7wCWYTKaKqp24ZpprYtTlUe+smNoqWDgqTgD3pxvf0MNbF7tuboLHKuuKYw2eG
+ RnHkawIz575S03pouyw==
+X-Proofpoint-ORIG-GUID: qpS4k9XVKd8K2PcQ4eKlaZFCeSH_qdo9
+X-Proofpoint-GUID: qpS4k9XVKd8K2PcQ4eKlaZFCeSH_qdo9
+X-Authority-Analysis: v=2.4 cv=b+W/I9Gx c=1 sm=1 tr=0 ts=69afeb89 cx=c_pps
+ a=UgVkIMxJMSkC9lv97toC5g==:117 a=gOEeR9iKwsj33Yj5oN/cWg==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
+ a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8 a=f4WQo65-w8K6TlvLPnkA:9 a=QEXdDO2ut3YA:10
+ a=1HOtulTD9v-eNWfpl4qZ:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-10_01,2026-03-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 adultscore=0 suspectscore=0 phishscore=0 priorityscore=1501
+ clxscore=1015 impostorscore=0 malwarescore=0 lowpriorityscore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603100085
 
-On 09.03.2026 16:13, Jason Gunthorpe wrote:
-> On Mon, Mar 09, 2026 at 05:05:02PM +0200, Leon Romanovsky wrote:
->> Regarding failure on unsupported systems, I have tried more than once to
->> make the RDMA fail when the device is known to take the SWIOTLB path
->> in RDMA and cannot operate correctly, but each attempt was met with a
->> cold reception:
->> https://lore.kernel.org/all/d18c454636bf3cfdba9b66b7cc794d713eadc4a5.1719909395.git.leon@kernel.org/
-> I think alot of that is the APIs used there. It is hard to determine
-> if SWIOTLB is possible or coherent is possible, I've also hit these
-> things in VFIO and gave up.
->
-> However, DMA_ATTR_REQUIRE_COHERENCE can be done properly and not leak
-> alot of dangerous APIs to drivers (beyond itself).
->
-> It is also more important now with CC systems, I think.
+On 06/03/2026 05:08, Tejun Heo wrote:
+> On Thu, Mar 05, 2026 at 10:45:40PM +0100, Krzysztof Kozlowski wrote:
+>> Add a Resource-managed version of alloc_workqueue() to fix common
+>> problem of drivers mixing devm() calls with destroy_workqueue.  Such
+>> naive and discouraged driver approach leads to difficult to debug bugs
+>> when the driver:
+>>
+>> 1. Allocates workqueue in standard way and destroys it in driver
+>>    remove() callback,
+>> 2. Sets work struct with devm_work_autocancel(),
+>> 3. Registers interrupt handler with devm_request_threaded_irq().
+>>
+>> Which leads to following unbind/removal path:
+>>
+>> 1. destroy_workqueue() via driver remove(),
+>>    Any interrupt coming now would still execute the interrupt handler,
+>>    which queues work on destroyed workqueue.
+>> 2. devm_irq_release(),
+>> 3. devm_work_drop() -> cancel_work_sync() on destroyed workqueue.
+>>
+>> devm_alloc_workqueue() has two benefits:
+>> 1. Solves above problem of mix-and-match devres and non-devres code in
+>>    driver,
+>> 2. Simplify any sane drivers which were correctly using
+>>    alloc_workqueue() + devm_add_action_or_reset().
+>>
+>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> 
+> Acked-by: Tejun Heo <tj@kernel.org>
+> 
+> Please let me know how you wanna route the patch.
 
-Jason is right. Indeed the rdma/uverbs case needs some extension to 
-ensure that the coherent mapping is used, what is not possible now. This 
-however doesn't mean that the DMA_ATTR_CPU_CACHE_OVERLAP is not needed 
-for that use case too. I'm open to accept both. The only question I have 
-is which name should we use? We already have DMA_ATTR_CPU_CACHE_CLEAN, 
-while DMA_ATTR_CPU_CACHE_OVERLAP and 
-DMA_ATTR_DEBUGGING_IGNORE_CACHELINES were proposed here. The last seems 
-to be most descriptive.
+Like I described in cover letter, so I propose this going via one tree,
+e.g. power supply. The first patch might be needed for other trees as
+well, e.g. if more drivers are discovered, so the best if it is on
+dedicated branch in case it has to be shared just in case.
 
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+Does this look reasonable @Tejun, @Sebastian?
 
+Best regards,
+Krzysztof
