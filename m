@@ -1,132 +1,132 @@
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 516071D5CFB
-	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 23:34:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD11D3C555C;
+	Tue, 10 Mar 2026 23:40:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773185660; cv=none; b=dxOuaZLJyqi0cjIHY4gdvidCUY+RRT/2oWc/hYE0+p1HST2MXgrzfHYWucU97WGUsbOC9eGVJoUxD6pw5Sy1e2KMOu09TU+nTHSM9MGvr2AD28o0IgTWKomr5d6tpFvf/AT3FlAwfrkuBD30VGQ4YiKtEUK1NwCvpC7zIqaiFiE=
+	t=1773186032; cv=none; b=Xw/ZzVcDMqFBa94ZuKwUNWU+KRnWyqDNlfXrBXDTyuoR3hlto36zkxCCtsBEgC+Vkhh+YijoV6fQnH9hoqkc/ug1WocktzZI3fZXkDq1upk8mJqj0skliRjoLf8JzfHQm0h5oAIQyqCbijSt0nicDadte81jmxXUUrlq0AHKmIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773185660; c=relaxed/simple;
-	bh=zCDQLm/ti7Fh+tEKDvr17wEEpnNO9M6S1JIlwzo9Acs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T97+lkNHguXQfs0GoMmFzr9um9XB3VYawdYj7NFJeqbBboHsXctuTWu69ifaVIZloJRv8uISUtstSrZw3RSj2HG4dBaLVmfNFVbrM6WpUP9WiVAhMu5Ffy4MxNAFCt0NccylC6lF/Nx7ja7Nf35Quf2aeuyCT9qf/KWKy2PJdRM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=n6uuBTok; arc=none smtp.client-ip=209.85.222.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	s=arc-20240116; t=1773186032; c=relaxed/simple;
+	bh=P77ERZ9Acp+X4uBnKo+HiFNIC4pqXp+g79+E7zr0+RI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=VWb+CxzT0A38l1kepTQhVrEOpVVjAXEd9742KmNM7LgWhE3B2Z+TPkikXHIKoT1t9e5BFCY3wSRgEvvfpsoeRJPewUkiJqLy2HEgj4oH04hUY0mYZAd97AOoDiGpODU4eaJI2p1kZ5Ef0nBP71BIPCYqmfnG9McN0JYLWKwSbkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=kAvOQolF; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="n6uuBTok"
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-8cd8dbf4f2eso258041685a.2
-        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 16:34:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1773185658; x=1773790458; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZsiIyQd4tPWumA9ZQMQURKCway9cLZHNLfL2p5j0zPY=;
-        b=n6uuBToksVmxqHTOnwcTLm8SqOdVqzC9hwvnG5NmSIkRODM387iQ8/SB+lOT8Ptfs7
-         AntGAIHr2j+KJKd7Ht01wP3JHYioR+yBvDmqCsxS0ZNUT/MfxjV/9iKVqU6jWGvn3FRd
-         S7jFewWF6fcI2P1pRFuDDfkRKgVTzvVxjdp0HaNP0zGhB+xerwfmKufsEJ37kdXXGPaa
-         L84tACDnV+c6YuNSiEucEikNCfCd1GAteMIYcxM7lzkcrrj1/3QbYYdvDNNIEfwaYc81
-         8qiLskG8qTIoCan1P8afsUeS7SOEGHdb8kkMe3+/G8joQgBS/Im9O8htDcO36Lu65AaN
-         NtxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773185658; x=1773790458;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZsiIyQd4tPWumA9ZQMQURKCway9cLZHNLfL2p5j0zPY=;
-        b=cyjBxXJ8L706ucYggDI9GXjDmGVSXpKK1/kVklqwk5pALSTSWD/mOhgUBeepEhodfL
-         MbZN0joi6emDcbGJYzOzfKg50wDjrPLGeJ8bKaLe8/jfZdYjrPNX8XNczI+7rhpgog58
-         RvL/xGjK8Gj5H030l5/JL/hIQm93ps26+y5VIGlITW+/Ze1KBy445IDbXSYsrjUC9FyA
-         UNfVI6uOfddJFkbU3FHFGLtvVnpDXu8WSQ0w2Rvwk0MSw87b0Gzvp8lr2c9RHW2nRy0B
-         HiTq9yPLGfpcOolV0S5jDBknsYaxNk+JiZeOG0LpTy3e1XGMUp/+hrWSYRj32hYKpVS8
-         k2Dw==
-X-Forwarded-Encrypted: i=1; AJvYcCWC4y84iWsqvTejbBgcpcXtPq5P9rGahmVbiy5wNS2Yzc7T3166m7BG6au3pHi9k7lvU7b2Q/x7yXg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyq/VAyJJ7kuR+2+73FLLkmOXBRFtypUeM/JVIAVqZBr9xNZ9Tl
-	3LEHm+S1MHtXJ6oieoziRoF6h8dapfgkWcPpjp7gahGSqOYJP1yRt5IK/YX93w1R6LY=
-X-Gm-Gg: ATEYQzyhLLyvFPSz2ir/szY0D30Plaeu/Rd2DnxZ60q2cky9pznEULg6yPPdp+d9X3b
-	WjmxgF4mQjV8nkQtQH73fGaXJk7+tjMcetWwMulgazR5aTm35RZfEHTdWRgMc4xOafcDyMT79vg
-	H9MkQS2tlzymMszFGsvQDgJKqxd1CU2XEoGqr/zJ36y6Umx2RbPxwJj8yQQY+Oa+NkwGviMI1s9
-	+N/dUzOADQAaoRVJMXTb6kzhDcpEOsXlnlT8OI67rbOjLqDmxLWFeT/G+7ojK6SHvGlVpMcF/og
-	YoqvXXC8Jh1qtljiRXZlENVQAg22M8HLcu5a3zShwBGYzkxnjYYEGzHdmdWv+01p6hu0gBgwLCb
-	qyUdGRrJSm+CYvVPt8GlfEv22rlfEC/Ep0xtGaT7tpGg8N7xmJ+diW7NCJfb+l+FIG2x/gXpoP/
-	bGkZ563qFEjWtrXBE+Lb/NurojoJWpmyTzDa/cK1Zl8VrDTumCMNZKRIxIMlk/X2V9SUVAgyK8j
-	9SP+rtb
-X-Received: by 2002:a05:620a:3941:b0:8cd:982d:4101 with SMTP id af79cd13be357-8cda1a28be2mr93012785a.27.1773185658222;
-        Tue, 10 Mar 2026 16:34:18 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.112.119])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cda1fd6325sm24946085a.11.2026.03.10.16.34.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2026 16:34:17 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1w06ae-000000064gS-3fKz;
-	Tue, 10 Mar 2026 20:34:16 -0300
-Date: Tue, 10 Mar 2026 20:34:16 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Leon Romanovsky <leon@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Petr Tesarik <ptesarik@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
-	iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, virtualization@lists.linux.dev,
-	linux-rdma@vger.kernel.org
-Subject: Re: [PATCH 2/3] dma-mapping: Clarify valid conditions for CPU cache
- line overlap
-Message-ID: <20260310233416.GT1687929@ziepe.ca>
-References: <20260308184902.GR12611@unreal>
- <20260308230916.GI1687929@ziepe.ca>
- <CGME20260309090352eucas1p283a75c78cac495b5ad87df74c79aab07@eucas1p2.samsung.com>
- <20260309090342.GS12611@unreal>
- <c1d058f3-f864-4ed7-9f7a-683d6f4bf1ce@samsung.com>
- <20260309150502.GX12611@unreal>
- <20260309151356.GN1687929@ziepe.ca>
- <aaebc5b6-2805-46d3-a68e-549c26a3ef03@samsung.com>
- <20260310123405.GR1687929@ziepe.ca>
- <a61f8814-b896-4ec0-bb83-a8cbd8aca4e8@samsung.com>
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="kAvOQolF"
+Received: from wse-pc.fritz.box (i5C75F5CE.versanet.de [92.117.245.206])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPA id EDE392FC005B;
+	Wed, 11 Mar 2026 00:40:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1773186028;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PM5DxR/1iH2FEMrZZ3Ue8B/27CIeEiqpPQHkpojyRkc=;
+	b=kAvOQolFzi+MXLpPMf8eIJQSGgLojK1xqEuyFzdtqPmvRUpXjjFJhBxDWxFqyIMG58Q8SL
+	raXyCnyh5c4YjcwuYxmmUF/AvcYJl/fa1GsjUalm8EaPykyb7VzvWkACGUJTVdUaCgfnNi
+	Vgn0QbakOKgHyejMwvVJe/tb/ynDt60=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+From: Werner Sembach <wse@tuxedocomputers.com>
+To: W_Armin@gmx.de,
+	hansg@kernel.org,
+	ilpo.jarvinen@linux.intel.com,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: platform-driver-x86@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Werner Sembach <wse@tuxedocomputers.com>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v5 5/5] Documentation: laptops: Update documentation for uniwill laptops
+Date: Wed, 11 Mar 2026 00:34:20 +0100
+Message-ID: <20260310234022.2085232-6-wse@tuxedocomputers.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260310234022.2085232-1-wse@tuxedocomputers.com>
+References: <20260310234022.2085232-1-wse@tuxedocomputers.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a61f8814-b896-4ec0-bb83-a8cbd8aca4e8@samsung.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Mar 10, 2026 at 10:08:38PM +0100, Marek Szyprowski wrote:
-> On 10.03.2026 13:34, Jason Gunthorpe wrote:
-> > On Tue, Mar 10, 2026 at 10:45:38AM +0100, Marek Szyprowski wrote:
-> >> Jason is right. Indeed the rdma/uverbs case needs some extension to
-> >> ensure that the coherent mapping is used, what is not possible now. This
-> >> however doesn't mean that the DMA_ATTR_CPU_CACHE_OVERLAP is not needed
-> >> for that use case too. I'm open to accept both. The only question I have
-> >> is which name should we use? We already have DMA_ATTR_CPU_CACHE_CLEAN,
-> >> while DMA_ATTR_CPU_CACHE_OVERLAP and
-> >> DMA_ATTR_DEBUGGING_IGNORE_CACHELINES were proposed here. The last seems
-> >> to be most descriptive.
-> > If we do DMA_ATTR_REQUIRE_COHERENCE then I imagine it would internally
-> > also set DMA_ATTR_DEBUGGING_IGNORE_CACHELINES, but I'd prefer that
-> > detail not leak into the callers.
-> 
-> Why DMA_ATTR_REQUIRE_COHERENCE should imply 
-> DMA_ATTR_DEBUGGING_IGNORE_CACHELINES?
+Adds short description for two new sysfs entries, ctgp_offset and
+usb_c_power_priority, to the documentation of uniwill laptops.
 
-AFAICT the purpose of the DMA API debugging cacheline tracking is to
-ensure that drivers are mapping things properly such that the cache
-flushing in incoherent systems can properly cache flush them without
-creating bugs (ie a dirty line overwriteing DMA'd data or something).
+Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+Reviewed-by: Armin Wolf <W_Armin@gmx.de>
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+---
+ .../ABI/testing/sysfs-driver-uniwill-laptop   | 25 +++++++++++++++++++
+ .../admin-guide/laptops/uniwill-laptop.rst    | 12 +++++++++
+ 2 files changed, 37 insertions(+)
 
-If the mapping is REQUIRE_COHERENCE then it is prevented from running
-on systems where these cache artifacts can cause corruption, so we
-don't need to track them and we don't need the strict restrictions on
-what can be mapped.
+diff --git a/Documentation/ABI/testing/sysfs-driver-uniwill-laptop b/Documentation/ABI/testing/sysfs-driver-uniwill-laptop
+index 2df70792968f3..cba4138604601 100644
+--- a/Documentation/ABI/testing/sysfs-driver-uniwill-laptop
++++ b/Documentation/ABI/testing/sysfs-driver-uniwill-laptop
+@@ -51,3 +51,28 @@ Description:
+ 
+ 		Reading this file returns the current status of the breathing animation
+ 		functionality.
++
++What:		/sys/bus/platform/devices/INOU0000:XX/ctgp_offset
++Date:		January 2026
++KernelVersion:	7.0
++Contact:	Werner Sembach <wse@tuxedocomputers.com>
++Description:
++		Allows userspace applications to set the configurable TGP offset on top of the base
++		TGP. Base TGP and max TGP and therefore the max cTGP offset are device specific.
++		Note that setting the maximal cTGP leaves no window open for Dynamic Boost,
++		effectively disabling that feature for the GPU to always be prioritized.
++
++		Reading this file returns the current configurable TGP offset.
++
++What:		/sys/bus/platform/devices/INOU0000:XX/usb_c_power_priority
++Date:		February 2026
++KernelVersion:	7.1
++Contact:	Werner Sembach <wse@tuxedocomputers.com>
++Description:
++		Allows userspace applications to choose the USB-C power distribution profile between
++		one that offers a bigger share of the power to the battery and one that offers more
++		of it to the CPU. Writing "charging"/"performance" into this file selects the
++		respective profile.
++
++		Reading this file returns the profile names with the currently active one in
++		brackets.
+diff --git a/Documentation/admin-guide/laptops/uniwill-laptop.rst b/Documentation/admin-guide/laptops/uniwill-laptop.rst
+index aff5f57a6bd47..be4aeb9c023dd 100644
+--- a/Documentation/admin-guide/laptops/uniwill-laptop.rst
++++ b/Documentation/admin-guide/laptops/uniwill-laptop.rst
+@@ -50,6 +50,10 @@ between 1 and 100 percent are supported.
+ Additionally the driver signals the presence of battery charging issues through the standard
+ ``health`` power supply sysfs attribute.
+ 
++It also lets you set whether a USB-C power source should prioritise charging the battery or
++delivering immediate power to the cpu. See Documentation/ABI/testing/sysfs-driver-uniwill-laptop for
++details.
++
+ Lightbar
+ --------
+ 
+@@ -58,3 +62,11 @@ LED class device. The default name of this LED class device is ``uniwill:multico
+ 
+ See Documentation/ABI/testing/sysfs-driver-uniwill-laptop for details on how to control the various
+ animation modes of the lightbar.
++
++Configurable TGP
++--------
++
++The ``uniwill-laptop`` driver allows to set the configurable TGP for devices with NVIDIA GPUs that
++allow it.
++
++See Documentation/ABI/testing/sysfs-driver-uniwill-laptop for details.
+-- 
+2.43.0
 
-Which trips up and gives false positives for cases like RDMA, DRM, etc
-that are allowing userspace to multi-map userspace memory.
-
-Jason
