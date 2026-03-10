@@ -1,214 +1,136 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3024438FE7
-	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 09:22:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773134530; cv=pass; b=GV/JnhdOVljIO9zc8XW05O9iB6CVRXXs65T+dWFj0UPwEgOqslwVI3FS/o9lOmzyYRULT/4nyOc0SYRDiHFNPBWvRe1FjarRPosJRu0KAbHd4L0c+Bbt6FasNa0QzBKQHtLwQS+g2MaLUwRT/DXmTgxk7kGrg96E1X6+c+/MU6g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773134530; c=relaxed/simple;
-	bh=tl5/g99NELzOxMGo409f19JuxHQ2pLmrUlfv8ogw/uM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=McV+Dr9fRG7NThTRN+A2wc1kpfoQnBWCCWvK3t3d9TrNhDFryzXIOs9Ls/eYdN0TlwyOyjbXgHV+WpV71kFs76MB4NkYlHTkZfbchTxg0WekPNy/QYtGNotKIjZHS1QYiMdCFMfN1vMXCjQIPYmTpTj1bNgCYEUWZ7NSxunRb/w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bwPL/Evq; arc=pass smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2E3D33BBAA
+	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 09:26:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773134776; cv=none; b=BaoRnHy4AcfJW3p5sePXAy38Zji+EqqSZPkMa51uVCQX9vqFsAGtlIIN9NbAa61eUCeSJFtakHPRQnvlxTo1oBmGWwq6yaC/WePJsXV/KrUloYI7CKJ7hLmCUKuGqG7tnXxybIouJQ6tjbsSh87nLnuCACXvpwLZ5Ugl83kLGMI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773134776; c=relaxed/simple;
+	bh=+JiCqqCkfhiKX6/spAppUcZcveAjdN0jHQheQ+7ABPE=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jmVX12twSXVxMiwXCwB20pVhNnDOfxWbmRGdmYcVNzqTSuj5d21bqOinXDL8xjBDrD9h6BdKEQpJzTnyro5uRyeE4Di0Jdglu272zMgX2fr0jIDSjvcXAzADVHY8BxLln6uwt0y/7gkgO71GILq+cQDsBrdj5xWp9lD+if4lyd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WMnYVyEk; arc=none smtp.client-ip=209.85.218.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bwPL/Evq"
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5a12f6871b2so7209165e87.1
-        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 02:22:08 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773134527; cv=none;
-        d=google.com; s=arc-20240605;
-        b=b8/gRDVr6rpr1WHmj8a8VXNhyVauV0hLsbEUZ4MShC2RaV/g18Gd4VbSsCuyq1cuIQ
-         rAKIE/lVQqKlZ+Z8gBAaznG4Qls2iwWIq+FJY+yYIPc6Bu7eOcxxA6U9uHAi4ehVBb+C
-         um46bXcz7UgaW3BTJTPrtR8ektiEhm0lpiceVGZg+vDf2UdPNNnkg5O4cYrYqn0r5VQw
-         YVAASWY+XqMRKm3olhNflpTH8g3jnqpZrRog+g81GRT1Che2ZNBSSVkHoZRnw4kI61eo
-         IFVa2qmcUVyCZiGoCz8z6mgDt0RMFYYsoS52lE6rlCZGSOjdUh+QvaTV6RTBO/U0xVDx
-         1Chw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=8fpTI3vdEJL+Z4u+Q4DZneNzvVwr7TWL4qTU3qawv8Q=;
-        fh=VW1QDFLZw3fFR6c/gIzR/yw4rf9X+lUbCb1HFMfyZnc=;
-        b=MPL7vXdiC0WYon662JVAqBZnQswEPwinCdC7SG5Mq+QEB+swAcCM27wAeTWURWnE3R
-         /bn9AC/iWd303YNGzy3f13pQKYAVcLwA1Gx9TKWOL0PGIGY/4tFZYgxyDrOslLX4LlkF
-         6Ysbwl80PWGl2Vi703uEQKb4HkJuBqzYmxr6tfpX/cNdjyjm3rb/M+MJG8wCl4GEoVLK
-         3btsA1wBpdPbeyB+MhaDdaB8R4clKNmb9Co1mZKtLztVwYpjDuj9r+u5Omvx56Stk28K
-         M7sN8VaeuSchFq+1f0BIdiXt+2OcLL0gjr9yqsAxRiHASBKpmkiKRz5VwOUOpQXTP1Ty
-         nx0A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WMnYVyEk"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-b886fc047d5so2052578966b.3
+        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 02:26:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773134527; x=1773739327; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8fpTI3vdEJL+Z4u+Q4DZneNzvVwr7TWL4qTU3qawv8Q=;
-        b=bwPL/Evq+eoeHEke2+3CCTMUTkJrW502WokNIAE+vXjl0wyTEGRuTvhUkoyF4bMr39
-         ZL4UjOhSKK3VSVI88rSCaNCaVzFzwLSb79OBIOSbrkTJ5vHTL7Do8ojXXNzQ8kUKrxU0
-         IfFzOvabzSrLHkGVxHwbWa6/ZBfwGnMAWvcITUhTlD0tH7K9cWHXmMSWZTPSHhpEb3hy
-         JwqldQaPzrSuBsg8Zvmv5+AAO4NvynMnL4Rb7wKNqik/LGD6SYfMEqhOg8wMhS8TW3Iw
-         gGPjwKIKYqgLrPaWneYjC1rYwKrU7V/oGzznSNqj1t65BRnv0ePLBU+y8F6V7KNgyR6W
-         Qi5A==
+        d=gmail.com; s=20230601; t=1773134774; x=1773739574; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=UCpjD/WHCFz9S12dNYwHUW2VFUf+GTEfEGzPxPYB5Yk=;
+        b=WMnYVyEkawrQe/oFLRBcziogRnjlma7Fex0OxuEfeS4HVZNEzE5KqGTdyk7SIQsSP3
+         T6IFIwQlhVcVBpA4k2J+V4PvfENGb9YdnRqmsxNzDvBTNrgyLqWsh3kvul4PxMA/mD1Z
+         XMcxTxmxGMyiTc7kEQMxJVX8VXa5G3wY0/60rT+Nu0w1Ky/vT6OYWxYaphEVeH30RrNw
+         zwgs1ivOp4QfDmq5PUEVN+R2SVF23RnJW8agED7I09N4ZUy67OZIX0JruoftByWoTyEn
+         z7L0PLmbwInPBJjl69t5AZmlnFqQsOhjDeZpTkHYs7Kp+9kryEknoM6Upd48eSmYbvE0
+         1VBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773134527; x=1773739327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=8fpTI3vdEJL+Z4u+Q4DZneNzvVwr7TWL4qTU3qawv8Q=;
-        b=WzFTZ38GOnzgGIJSZLHCgO92hgMnj0wIPLfXvukTdEKlltHN6dn21vxPsh9Tgms+zJ
-         tCNwoNTfC3yMQe0HDqcCL21h+dbN4V9XpnB4cnxWMOJXXpLwP0Lm46JgK8/WUtwBEmIj
-         CZ5g1FYfr2jkSguuKeNgh9MWlR68dDEeUMW7/auhNXb+U0Q4FjZn3rNVz0cni+7ACHeC
-         9uu1Kwkybmc/YdGWSJYG6PmU39V1gFFGz7Qll+hG76pwg3UT/X44r1sFvHfr9l7AHN64
-         XTvJYJtU765VnGJVQ2h/9gjSqPp5S+1wtUsSmPPPlg9Ya/PQrRlGWviOKXgqoG7N/ILo
-         WrgA==
-X-Forwarded-Encrypted: i=1; AJvYcCWO3ssKC08w51Q4nZjQQ3IBWwwG4Y+YDgPvSPR+qgKcIwVXtyxcpW/XolK1EIUAncnsYrGTxWUWC9c=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy2rxH1NGIO9KZ+wYqwfr+4Q7VJJuORbnIyweVCTu1wVthnR198
-	U2e5TmfMBuI3HApfQnUOxI5ORCKZkoyM1kEOhc2jfmZOZx4NTFqgObLMt8eKdqPHB3XEUFYEMV7
-	gfvFcnltcuIST8FqEcGHsQVZ/sqlEeiQ=
-X-Gm-Gg: ATEYQzxyL3DRAO8d/XsRjKxjm4iYkJnvoFuBs/e3entLwC+x+jx63O5FcKjfrRmLbPa
-	4iMYHwuC+X4ydsNID0RIAlD6mcIz9UKH70S4oCgrdZSui9OAeZzhgQ5zv/eVXSY9763go0m0ILD
-	UGQZmuhnKyTIiUOIHrK2PpR4Drt4IVT5+TOulZI5vktTYX9AUgh6wF5MtRB5sN5w0jp2ZfvROeP
-	ZTDbt3Dm1stVQqsj2kps/MoN4qZjKcWufuuJkYzRhePkX86oXoc15Unos+FtgP+oMw/dR/+nzcp
-	qhSAfKc=
-X-Received: by 2002:a05:6512:39c2:b0:5a1:3d47:1308 with SMTP id
- 2adb3069b0e04-5a13d47160amr4958370e87.31.1773134526632; Tue, 10 Mar 2026
- 02:22:06 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1773134774; x=1773739574;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UCpjD/WHCFz9S12dNYwHUW2VFUf+GTEfEGzPxPYB5Yk=;
+        b=szu4OHIcl5Sbuwk3QUYzTbPbtBxh35qf32Inlp2X2r+s8btL6rpuw5G/rkwZRZfxg3
+         /Fq2cQfzymwm3qWRvxXZAZ3tGbZUqporBIYJBphtBVXgomjL6A3H6R6BC4b9TZAkO595
+         tTD92vHfrlQkfZGtSUx3iYv4cZxTpiyRm/Otcv1XUqW1F9Ck26cf+E/eeu4SZY0IXdXu
+         hE1t+pQXCkLiA2bPYlvXRVwWWLmgZhDsWbOFiR5CrkqTU332mPwqDc7fUIC6VDS6RAdy
+         P+fM+1JmQAYywemOvmr/Kz7B8EV4LME3AQlUTxUe20K4eLB58GoY5O6NJrx2IYDX+aAg
+         4fiw==
+X-Forwarded-Encrypted: i=1; AJvYcCV+etDq/LFt3Z9Qm5Wq1G051W0aIGyLbc9HP38SOBSHKmJR46rSm1/CQKzWk7DaTG7ZkneT6N7Y1qM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxyoaFw6ll9n4J7Q4jbhI+Jw4KmtHAdvwrW5zBZD82Hw7t6rz9h
+	UfOpdP37Fp1EAoSdEKB6pWUtpWe6XJ1JlJ4tuHtIE0sxGCLR1wG/ga0d
+X-Gm-Gg: ATEYQzx8ddfMSgoKxqUb/cpqYGeOospHYvGZ8KQY0ss1MCEslfwhP0X40M/9X2hGcKN
+	ANapdJWG+UuEWnxuCBCE4cqZJEUUwZ1Vz62iKRGBQhP+v5FYYThte5v4Q0F0LuBiSFvTsMUmXPp
+	nwORFHRqhwwLhaWJJ4M8bYluiGXFZ2it9Ty0xKaCo4VaKMxryvFeW0dFi5gZd8kdHJrgR33aZzy
+	icd0usjjD3e6M43jqxerK9FqgVA4j93dWSu+rh/JeSgeQcufBiFUBC1E1MDOGaoW4pPTgf6vCq0
+	jo6kJXOZnn69/EY+GRCmtqBRJcycxeWWM5XXPLm52PTTMT0Np7XAE2+My0d0548zFtpt0tihg/2
+	VCr82F0HgN/UpBDCVGaEeSIUgprvfCcJNzKbDgnXnEhC8qRjkSWAG01Sl4t2mI3Cel76othX+sB
+	7nAJM1fxKKUdg3/UpimcwLsfzAZnp2pZhp2OZ4k8kh2hJ8/BGXFH3zJ+yz4TUtivJju712E+KaJ
+	+Nt8siazlBn9fudo45W5mBDFcpXsF+xF/fMs9FOISxVlODij+Q=
+X-Received: by 2002:a17:907:e10c:b0:b96:dd06:8d9 with SMTP id a640c23a62f3a-b96dd061152mr324301866b.60.1773134773760;
+        Tue, 10 Mar 2026 02:26:13 -0700 (PDT)
+Received: from RDEALENC-L01.ad.analog.com (24.206.116.131.netskope-rdns.com. [24.206.116.131])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b942ef8b7c0sm453212466b.20.2026.03.10.02.26.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Mar 2026 02:26:13 -0700 (PDT)
+From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
+Date: Tue, 10 Mar 2026 09:26:11 +0000
+To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>, 
+	David Laight <david.laight.linux@gmail.com>, 
+	Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>
+Cc: rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org, 
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
+	Andy Shevchenko <andy@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH v8 02/10] lib: kstrtox: add kstrntoull() helper
+Message-ID: <zhjkurpwbuvirh3k4a4c3lfeu5semu4rjszvej4hnx7scjyk2q@v4r7oqexwsjl>
+References: <20260303-adf41513-iio-driver-v8-0-8dd2417cc465@analog.com>
+ <20260303-adf41513-iio-driver-v8-2-8dd2417cc465@analog.com>
+ <20260304101655.620df7ee@pumpkin>
+ <6et7t3o6fjiinpkvpsmoxjhp6edn23dgclbulaxg5paccdotgp@amtf33da5dhf>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260209063355.491189-1-vishnuocv@gmail.com> <20260209063355.491189-2-vishnuocv@gmail.com>
- <fdd1d48e-61b7-2543-8a30-c7ad416f5dd3@linux.intel.com> <CABxCQKtf=RYrpgnbM0ODo3GA0oW3jgR=_erc9RCD6gEasasA+A@mail.gmail.com>
- <0df2daf8-31ee-4fe3-fc38-de138b302549@linux.intel.com>
-In-Reply-To: <0df2daf8-31ee-4fe3-fc38-de138b302549@linux.intel.com>
-From: Vishnu Sankar <vishnuocv@gmail.com>
-Date: Tue, 10 Mar 2026 18:21:30 +0900
-X-Gm-Features: AaiRm511VEyn4PbFLInkP2GfrKMqwBNJnODO-jlyMYwiozSyz1gLdW_tLl1yvUM
-Message-ID: <CABxCQKt_1Hv2hPDpzQQ3TxFJWbRNHs-vRDi9hNhBq4oaoGkt3w@mail.gmail.com>
-Subject: Re: [PATCH v7 1/3] input: trackpoint - Enable doubletap by default on
- capable devices
-To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: Mark Pearson <mpearson-lenovo@squebb.ca>, dmitry.torokhov@gmail.com, hmh@hmh.eng.br, 
-	Hans de Goede <hansg@kernel.org>, corbet@lwn.net, derekjohn.clark@gmail.com, 
-	linux-input@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
-	ibm-acpi-devel@lists.sourceforge.net, linux-doc@vger.kernel.org, 
-	platform-driver-x86@vger.kernel.org, vsankar@lenovo.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6et7t3o6fjiinpkvpsmoxjhp6edn23dgclbulaxg5paccdotgp@amtf33da5dhf>
 
-Hi Ilpo,
+On 26/03/04 11:41AM, Rodrigo Alencar wrote:
+> On 26/03/04 10:16AM, David Laight wrote:
+> > On Tue, 03 Mar 2026 13:27:07 +0000
+> > Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
+> > 
+> > > From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> > > 
+> > > Add kstrntoull() function, which converts a string to an ULL with a max
+> > > character limit. The function is an alternative integer parsing function
+> > > that does not require a null-terminated string. It becomes a better option
+> > > over simple_strtoull() or kstrtoull() when parsing integers from a buffer
+> > > with custom delimiters without having to create temporary copies.
+> > > The function is consumed inside the implementation _kstrtoull(),
+> > > promoting reuse.
+> > 
+> > If you've got custom delimiters use a function that returns a pointer
+> > to the character that terminated the conversion.
+> > They save you having to find the delimiter as well as taking a copy.
+> 
+> understood, how about this prototype then:
+> 
+> const char __must_check *kstrntoull(const char *s, unsigned int base,
+> 				    unsigned long long *res, size_t max_chars); 
+> 
+> to be used like:
+> 
+> 	end = kstrntoull(s, base, &res, INT_MAX);
+> 	if (IS_ERR(end)) {
+> 		/* return or handle error */
+> 		return PTR_ERR(end);
+> 	}
 
-Thank you.
+Hi David,
 
-On Tue, Mar 10, 2026 at 6:15=E2=80=AFPM Ilpo J=C3=A4rvinen
-<ilpo.jarvinen@linux.intel.com> wrote:
->
-> On Tue, 10 Mar 2026, Vishnu Sankar wrote:
->
-> > Hi Ilpo,
-> >
-> > Thank you so much for the review.
-> >
-> > On Mon, Mar 9, 2026 at 5:01=E2=80=AFPM Ilpo J=C3=A4rvinen
-> > <ilpo.jarvinen@linux.intel.com> wrote:
-> > >
-> > > On Mon, 9 Feb 2026, Vishnu Sankar wrote:
-> > >
-> > > > Enable doubletap functionality by default on TrackPoint devices tha=
-t
-> > > > support it. The feature is detected using firmware ID pattern match=
-ing
-> > > > (PNP: LEN03xxx) with a deny list of incompatible devices.
-> > > >
-> > > > This provides immediate doubletap functionality without requiring
-> > > > userspace configuration. The hardware is enabled during device
-> > > > detection, while event filtering continues to be handled by the
-> > > > thinkpad_acpi driver as before.
-> > > >
-> > > > Signed-off-by: Vishnu Sankar <vishnuocv@gmail.com>
-> > > > Suggested-by: Mark Pearson <mpearson-lenovo@squebb.ca>
-> > > > Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> > > > ---
-> > > > Changes in v7:
-> > > > - Removed unwanted comments
-> > > > - Removed psmouse_info ()
-> > > >
-> > > > Changes in v6:
-> > > > - No Changes
-> > > >
-> > > > Changes in v5:
-> > > > - Renamed function to trackpoint_is_dt_capable()
-> > > > - Simplified string comparison without sscanf()
-> > > > - Removed wrapper function as suggested
-> > > > - Fixed missing period in comment
-> > > >
-> > > > Changes in v4:
-> > > > - Simplified approach: removed all sysfs attributes and user interf=
-ace
-> > > > - Enable doubletap by default during device detection
-> > > > - Removed global variables and complex attribute infrastructure
-> > > > - Uses minimal firmware ID detection with deny list
-> > > > - Follows KISS principle as suggested by reviewers
-> > > >
-> > > > Changes in v3:
-> > > > - No changes
-> > > >
-> > > > Changes in v2:
-> > > > - Improve commit messages
-> > > > - Sysfs attributes moved to trackpoint.c
-> > > > - Removed unnecessary comments
-> > > > - Removed unnecessary debug messages
-> > > > - Using strstarts() instead of strcmp()
-> > > > - is_trackpoint_dt_capable() modified
-> > > > - Removed _BIT suffix and used BIT() define
-> > > > - Reverse the trackpoint_doubletap_status() logic to return error f=
-irst
-> > > > - Removed export functions as a result of the design change
-> > > > - Changed trackpoint_dev->psmouse to parent_psmouse
-> > > > - The path of trackpoint.h is not changed
-> > > > ---
-> > > >  drivers/input/mouse/trackpoint.c | 45 ++++++++++++++++++++++++++++=
-++++
-> > > >  drivers/input/mouse/trackpoint.h |  5 ++++
-> > > >  2 files changed, 50 insertions(+)
-> > > >
->
-> > > > diff --git a/drivers/input/mouse/trackpoint.c b/drivers/input/mouse=
-/trackpoint.c
-> > > > index 5f6643b69a2c..e12d76350252 100644
-> > > > --- a/drivers/input/mouse/trackpoint.c
-> > > > +++ b/drivers/input/mouse/trackpoint.c
->
-> > > > +     /* Must start with "PNP: LEN03" */
-> > > > +     if (!strstarts(pnp_id, "PNP: LEN03"))
-> > >
-> > > Missing include.
-> >
-> > Sorry, I am a bit confused here:
-> > strstarts() is already available through the existing
-> > #include <linux/string.h> in thinkpad_acpi.c.
-> >
-> > Do you think I should do anything else here?
->
-> Yes.
->
-> The file you're modifying in this patch is trackpoint.c which doesn't
-> have that include so please add it also there. :-)
-Aaah, Sorry!!. Got it.
-I=E2=80=99ll add the missing #include <linux/string.h>
-Thank you for pointing it out.
->
-> --
->  i.
+Do you have any other feedback? the function prototype can also be changed as
+follows:
 
+int __must_check *kstrntoull(const char *s, const char **endp, unsigned int base,
+			     unsigned long long *res, size_t max_chars);
 
+so that a pointer to the terminated character is passes as a parameter.
+which one would be the preference?
 
---=20
+-- 
+Kind regards,
 
-Regards,
-
-      Vishnu Sankar
+Rodrigo Alencar
