@@ -1,138 +1,276 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D75F42EED1
-	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 08:58:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773133094; cv=none; b=ZgpxOOxPE7niFU6ZePP8jMMJHiBj21Qybndy+IEboUP05GCcwc4YgsumztDK9yhOytSAr5yIgU/aBL776E77UNTwYZEelBtaJsKTUL8nFuvdZqBnMRH2tADw8ViukztAIwqxUVNBsRDATNKGubFLNPlohWbWRymvSu31JNIFn2U=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773133094; c=relaxed/simple;
-	bh=PQp8DMIf16n9Q4WyqamERG099p/UWm8vclqnIXpsCxk=;
-	h=From:To:Cc:Subject:Message-ID:In-Reply-To:References:MIME-Version:
-	 Content-Type:Date; b=MRF3BGHaQ2BuMzvnSGXw6+ptt2f+rShWlyR/vAGWZ9dGRWB5MRSUcAFYdK2cI6AydT/l5wKFkSowDS9BRt1t61voBS0EF4AqkUh+Qo4BOMDegKNh93S58oY6KCmSLHMnd0LZcTtKpPQsusHiz97CUGrGpJrtbY0YB5tZeja+nhA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SdZLP+fm; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=k0GFqOHH; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B84E43E483
+	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 09:13:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773133985; cv=pass; b=sah7pFhBwAFaVWGam7T5du6dtkOne4XtUfkLK09Y+J8XTfaiA34ovWelTsWxajZKglhwvKlXhBV8NZAuKahF6p3pX1QUeQJKLMvpMRPucprSj+/oFQL5jWSz4t8ldLvJE9I7NyjFY0t0wWDY/NF2U57Yo6KK4vEKFa8rJAUZWJs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773133985; c=relaxed/simple;
+	bh=DMhScoMzcATfd7YrXVTcpzy9toGu1J9btlk3raa7pg4=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=h63mYZJpWD6veNkleCR8pZRYc38FYPAxwIXsEhQaXqW7XrKd5/BrRDGMZvc4fL9iuEcn+cO4OPk0FcFZmcijdVyN1UEcBwpys+1S8udOL4zn73701qtIvy338p9YyFQtIOxepVZ7M5BYvm4+Jk80vfmZHV//HzVTFkOI2Nsx5vQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ENN79feU; arc=pass smtp.client-ip=209.85.167.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SdZLP+fm";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="k0GFqOHH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1773133092;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=W5ixMEPwXpO/+b+N1FZSIy8hHYQ/BR1nMYxWpusN4IQ=;
-	b=SdZLP+fmI2XhOVd1rQJslvqAIf/lih57cvRePOQYzynQLJZHhD1MfhPDB44/7h/e96Ngxe
-	TZv4CTqj6NlH4UE6ZyMgCx7Ac4iEoSwVttnrOV4d5qZaZmugHP+g8n4+uJJaB4bmunuUcg
-	eW8z4DugOnHLGouSe1RccDIYlZRcV2s=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-622-GTqeGZV4M9Wuw-kULFf5gQ-1; Tue, 10 Mar 2026 04:58:11 -0400
-X-MC-Unique: GTqeGZV4M9Wuw-kULFf5gQ-1
-X-Mimecast-MFC-AGG-ID: GTqeGZV4M9Wuw-kULFf5gQ_1773133090
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-4852d27f473so16777865e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 01:58:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ENN79feU"
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5a126b79512so5205940e87.3
+        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 02:13:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773133981; cv=none;
+        d=google.com; s=arc-20240605;
+        b=SDnhtFXIEO/jbQi0Fz9nLyP0UDzBpQ0YFGyaw14VIKSOiTeI63Sj0utUeBaPMMFW9w
+         UxtVaqNmNVxZ1SjZu4kxMzbGXUtwgzHoENNyg/9F/T0e0arzmaxOeWPn+szHf0YcjMGG
+         JCqSsbWAhtHvPeDeoHY0y2S8X4v/c44PkE0g96kVimGYdP6YTuOu+kW0cIqi4QedTu9m
+         0DSYAbL5HBH0EJaBc46LrRmp9Srjh7hzLHNWMocD0inUGNPdtJBn06+VCNHKm5G5agRM
+         yHtiPSHCLVp4wcF3QaeCg3nPWwf2zwEICdVzLWbTvvC1Fy+bxyqV6dqNYxpVWRYU7thC
+         4rgQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:dkim-signature;
+        bh=8F2bhMtMSjj2oDQi+clrIi22Hq+QZEwsyB8SqkUi+EM=;
+        fh=17wxsxQ5cPut0CoG41VufzgKzrWdiyTskXrUUnqtWBA=;
+        b=VwwelNyzwIu+HG46zt3e0l65VXoOYiJJolHVPOycHTYzGXP12J3dcrCsKUaQhMgRTA
+         79e8PEBAt4Qb/HeQK1xM34wJZ9WYBeYxu2ipVUPnsIBQpfyAeyZvZDGnoRs6zd/ap8Dw
+         KDjL09O7sHeLl7DDlyLJRlC3ln9jxD8R5tVpDSrgAJFzHiYbiGZGTJ6X5b+MO0q2V0Hq
+         UXpmmjS9K3RBKSCNzGo5Y7CcVN+Iis0Rc7YkmOzq36RqdsZjQPOECgbAhiwLOqHkdXrJ
+         eum0aBjN6tKaQb/uVn9cPgE3I6cgpFCkVKSNbRF8ttoYtM0XF9E1kugpLZJPlk0NVouP
+         kF3g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1773133090; x=1773737890; darn=vger.kernel.org;
-        h=date:content-transfer-encoding:mime-version:organization:references
-         :in-reply-to:message-id:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=W5ixMEPwXpO/+b+N1FZSIy8hHYQ/BR1nMYxWpusN4IQ=;
-        b=k0GFqOHH/UWrRd1z09J2jblhDYQDC4igfIEdXfrgVZdYpt5G3ipiQkrqONgU+GAF2b
-         77G4+gwzWQKyZv4J1QxVN4ZUfpH6eXsbXUux2dxyQmq84hyrBhMZTR/zbmpt0zjTb0IC
-         nsbtR3Wbf/ce5l3oXAQSXrSEds0sdKm2UO3j+RDxRFeSQ+c6Lc6sJZROrTGT5nmNMTNx
-         RMMKDmyv3QnjvnhDM1ZS4/4Aq+tw7BgqiQEh4bAM4KNFFO1u7FdIPKvpEGi+3DHakr/u
-         BQtbie8gxNmo2qS7eIr1wr7rck7uOvWXjNW7QGnadLJp37fBGQ/axz2lCHDNKFjDvqv6
-         wsrw==
+        d=google.com; s=20230601; t=1773133981; x=1773738781; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8F2bhMtMSjj2oDQi+clrIi22Hq+QZEwsyB8SqkUi+EM=;
+        b=ENN79feUFr/qrg8Pp7VwKbCYYP2ysXj4v3nI9ttqud+iUvAgc1Wk8CU7AaNuvrqbio
+         4jCP9HRPatrJ6j+TyC3r+DfqYaJ4ckEI8J8CVf/HHlko8H6qFUXcygm72wH53++Bj5FY
+         B3Mzs9ixurGFFEh9efLzvAUnyLWtfrMz8NvvYiXcMd3D6M2xR+haA9cUGUJuNeyv1W0Z
+         VY3OnQEWbncNCRZ1gjK4pk6Nqn1a9KVkwKJhuzKEuwMPYFRcd32om0uu1SYK2K3lPZjK
+         lJ4GN152jGanbxMuGiL56Me/AkFD9FdCo3Ad9Xg0Yp93EhiaQnlyul1tdvEV/b2wcT2B
+         HshQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773133090; x=1773737890;
-        h=date:content-transfer-encoding:mime-version:organization:references
-         :in-reply-to:message-id:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=W5ixMEPwXpO/+b+N1FZSIy8hHYQ/BR1nMYxWpusN4IQ=;
-        b=FulBZO69JbPnOOsLx1PKoUY6J5WI+LrujSMqX/PbnPqeCdOuS4NXyeeojp4Q4tn2QX
-         KuedRGP6HLFv9Hhl4jAV25+QIyrV4XwL4iCFZyx9Nkx5lx8DmBCzSM3ZDOiqL64INP+R
-         IjDicMZrX6aAF+vcXxH2WTBW6vqk6WnrDS0EXALY/s9z0+jAf2EzG767Jpu4hLB4YXDa
-         Pmm5m8ZGE2cSfouDA5kepOwzCyCahONz2Qw7w1ShvesFdksFNfggbHtbvLXpBV0xAwAe
-         vn6Pfj52XD3FqOpGNsyzDjtBgP7oTM1XFQhSNSR1gSO1LACdGOGtOrLF+5k3ySn7Ici8
-         WFmg==
-X-Forwarded-Encrypted: i=1; AJvYcCUJGnx4uO3xFnwFdjsxM7eriLR557wUq1mS5g6I+oCuEsgE/eyOS7ozRyMu9q/v/ynQO/dX0rzQdpc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxZgMifKYlk5khtZLf6+u3uyQ/VP2jMSjoEnBAfl6/eOzRIZTwd
-	QMpqmpBd2g/1SLcwy0Oz8ZBzYYLOjLNN19nKWQKlGbnwNZJi9HmWHP8/mEWenHuf1sUm0jiI/C1
-	h6z8K6+udshh1PAUZ9wbUem0XKLGCts8dT5K35nCwkpeiTVWJkvtQGUSfBe8+LQ==
-X-Gm-Gg: ATEYQzw7Hwu7+VtlFinNLNvQFfJ1tK6oluN6dVnWqCPJvDA3y9DNUnssH0D3cikfKSQ
-	v5KGjc4o5Nh7OeepmHBuBcDhuUTrpsPAm1tUTjdhlgLFaTc7KjuEKrHHXD/wVRBF9784M4JUV7f
-	54vUoODzDiUQpEXHNeEFwX8h46RWDayJwAnKX6O5AzTBjG7CbePi4l5bLcYEaHoK6DWJ2CKe7o3
-	a+oShzYekrox1wJlvCi8AjUVA60qo04SmX7OYX03C8kKh9vJZ2dvb5+fhXrAmKw8YQbyYsvJ+Yl
-	adf6PFq2zzk2KtRyowuvZciJXXLNZhV5P07odwaq/Td6HyDW4U2ZzOhA2EdAIPs69iuHRRlxnpP
-	JmkG1ogRevwj5oCKqef+zyNZ50PYB0gTXMrf3BZlJbV2t1F35kg==
-X-Received: by 2002:a05:600c:4712:b0:485:41c4:e2e5 with SMTP id 5b1f17b1804b1-48541c4e453mr36599955e9.27.1773133089739;
-        Tue, 10 Mar 2026 01:58:09 -0700 (PDT)
-X-Received: by 2002:a05:600c:4712:b0:485:41c4:e2e5 with SMTP id 5b1f17b1804b1-48541c4e453mr36599305e9.27.1773133089122;
-        Tue, 10 Mar 2026 01:58:09 -0700 (PDT)
-Received: from maya.myfinge.rs (ifcgrfdd.trafficplex.cloud. [176.103.220.4])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48541b7f3cdsm67159225e9.14.2026.03.10.01.58.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2026 01:58:08 -0700 (PDT)
-From: Stefano Brivio <sbrivio@redhat.com>
-To: Simon Baatz via B4 Relay <devnull+gmbnomis.gmail.com@kernel.org>
-Cc: gmbnomis@gmail.com, Eric Dumazet <edumazet@google.com>, Neal Cardwell
- <ncardwell@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, "David S.
- Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, David Ahern
- <dsahern@kernel.org>, Jon Maloy <jmaloy@redhat.com>, Jason Xing
- <kerneljasonxing@gmail.com>, mfreemon@cloudflare.com, Shuah Khan
- <shuah@kernel.org>, Matthieu Baerts <matttbe@kernel.org>, Mat Martineau
- <martineau@kernel.org>, Geliang Tang <geliang@kernel.org>,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- mptcp@lists.linux.dev
-Subject: Re: [PATCH net-next v3 1/6] tcp: implement RFC 7323 window
- retraction receiver requirements
-Message-ID: <20260310095806.121d198f@elisabeth>
-In-Reply-To: <20260309-tcp_rfc7323_retract_wnd_rfc-v3-1-4c7f96b1ec69@gmail.com>
-References: <20260309-tcp_rfc7323_retract_wnd_rfc-v3-0-4c7f96b1ec69@gmail.com>
-	<20260309-tcp_rfc7323_retract_wnd_rfc-v3-1-4c7f96b1ec69@gmail.com>
-Organization: Red Hat
-X-Mailer: Claws Mail 4.2.0 (GTK 3.24.49; x86_64-pc-linux-gnu)
+        d=1e100.net; s=20230601; t=1773133981; x=1773738781;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8F2bhMtMSjj2oDQi+clrIi22Hq+QZEwsyB8SqkUi+EM=;
+        b=UhBmugKhE28GsHbjYEPRWhN/ld1j0BMk7qUxlINGDImcXFuA2fDVuNTttaOLsVV0cL
+         P/DdFOelzoupknb1jyoCOCxz5L55NVP6PUgtwCJjOiLEZiKs9bvRnk/vbQsDLLN9iAuf
+         X6f+aAPjYoWsmTpOh+lGTDdsZ2/FoXl3QavVGP+5QQpRMTKRRGRlS+OOHV3LXkq9SFLA
+         o+lvVrA7XZS0tJschdIjqT0couqkg4GaA4mjrdKRCHglKgIcOJnBlvEBaljkskmilIiu
+         H9pNVU/HCIKhbfENTMXQziCci8MHxp1GqLdfotZBtCiwnm5oYVqJHCOwS0ETSKwatc6N
+         88qw==
+X-Forwarded-Encrypted: i=1; AJvYcCUBcjCZU8O3kHukijciWWmV72yRjKoctXJseT0Vv5kXTWMi8fdp3tqqV3lkydNVe3QGKioGpgtQdlw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwfqcpxR+OCSD0KEjCnNb9v+pLtTddFEaZk2XACP9KfrZgFeTkD
+	lf8pHds4K9bgIM7hrG3+JweTcjpkU/aq9hSJmT7eQYqbQo4kJrvXubSBLzPG+Qdo2vCdTLUvEem
+	zhBkyX5RfoxUPBaQKgsrQNYccY3WvUIncH0s9kGqK
+X-Gm-Gg: ATEYQzzNz7GIx7j2m9VwmvXaR76DUcL6PWqh0upNLviGeBjPluqJmmdYJEEGNqZS3sG
+	PzxVMc57pSnSBseKlpDvt6jwOMChlvZlWajADmjSO2DAwCvCvGd4Q1ZHEeORY/SJjhEi3SmNF2W
+	KEMGK5At6Et32oR5bZ99nMU2th41NYjcknpUmHx798WeAwHfMJeDWqZSG80da/gnBNRJTrpFwfF
+	W6hDwJmHMXPLUbm++1C6OBZrYjeeOCREpEGcwXxWiMusrN5L8HlqJYAdZ5Qg5S+N94BlotiQs+n
+	OsdFFVX/pUbn1sd0aneHbID2ukqO2KOeznpLiBOf2Da8qNJEAgs4KTp1F+d6q3NcVfnkMA==
+X-Received: by 2002:a05:6512:15a0:b0:5a1:3d7f:8f99 with SMTP id
+ 2adb3069b0e04-5a13d7f92a6mr4647476e87.33.1773133980196; Tue, 10 Mar 2026
+ 02:13:00 -0700 (PDT)
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 10 Mar 2026 02:12:56 -0700
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 10 Mar 2026 02:12:55 -0700
+From: Ackerley Tng <ackerleytng@google.com>
+In-Reply-To: <aa9uiQ_KBcX7X0My@google.com>
+References: <20260309-gmem-st-blocks-v3-0-815f03d9653e@google.com>
+ <20260309-gmem-st-blocks-v3-2-815f03d9653e@google.com> <aa9uiQ_KBcX7X0My@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Date: Tue, 10 Mar 2026 09:58:07 +0100 (CET)
+Date: Tue, 10 Mar 2026 02:12:55 -0700
+X-Gm-Features: AaiRm51A8Xbcuhtm9ZZHMK7hG6LdHLXwjTxvFIPiUIWCbO2N0i2NdJbEHgq4azA
+Message-ID: <CAEvNRgH1RAV0rcaUx717JcHryB6=teXYoGtEzZwGwmy3MWwOcw@mail.gmail.com>
+Subject: Re: [PATCH RFC v3 2/4] KVM: guest_memfd: Set release always on
+ guest_memfd mappings
+To: Sean Christopherson <seanjc@google.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	rientjes@google.com, rick.p.edgecombe@intel.com, yan.y.zhao@intel.com, 
+	fvdl@google.com, jthoughton@google.com, vannapurve@google.com, 
+	shivankg@amd.com, michael.roth@amd.com, pratyush@kernel.org, 
+	pasha.tatashin@soleen.com, kalyazin@amazon.com, tabba@google.com, 
+	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Lisa Wang <wyihan@google.com>, "Kalyazin, Nikita" <kalyazin@amazon.co.uk>
+Content-Type: text/plain; charset="UTF-8"
 
-Simon,
+Sean Christopherson <seanjc@google.com> writes:
 
-On Mon, 09 Mar 2026 09:02:26 +0100
-Simon Baatz via B4 Relay <devnull+gmbnomis.gmail.com@kernel.org> wrote:
-
-> [...]
+> On Mon, Mar 09, 2026, Ackerley Tng wrote:
+>> Set release always on guest_memfd mappings to enable the use of
+>> .invalidate_folio, which performs inode accounting for guest_memfd.
+>>
+>> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+>> ---
+>>  virt/kvm/guest_memfd.c | 1 +
+>>  1 file changed, 1 insertion(+)
+>>
+>> diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
+>> index 77219551056a7..8246b9fbcf832 100644
+>> --- a/virt/kvm/guest_memfd.c
+>> +++ b/virt/kvm/guest_memfd.c
+>> @@ -607,6 +607,7 @@ static int __kvm_gmem_create(struct kvm *kvm, loff_t size, u64 flags)
+>>  	mapping_set_inaccessible(inode->i_mapping);
+>>  	/* Unmovable mappings are supposed to be marked unevictable as well. */
+>>  	WARN_ON_ONCE(!mapping_unevictable(inode->i_mapping));
+>> +	mapping_set_release_always(inode->i_mapping);
 >
-> diff --git a/include/linux/tcp.h b/include/linux/tcp.h
-> index f72eef31fa23cc584f2f0cefacdc35cae43aa52d..73aa2e0ccd1d7a6314a00c27950b019b62a3851c 100644
-> --- a/include/linux/tcp.h
-> +++ b/include/linux/tcp.h
-> @@ -316,6 +316,9 @@ struct tcp_sock {
->  					*/
->  	u32	app_limited;	/* limited until "delivered" reaches this val */
->  	u32	rcv_wnd;	/* Current receiver window		*/
-> +	u32	rcv_mwnd_seq;	/* Maximum window sequence number (RFC 7323,
-> +				 * section 2.4, receiver requirements)
-> +				 */
+> *sigh*
+>
+> So... an internal AI review bot flagged setting AS_RELEASE_ALWAYS as being
+> potentially problematic, and I started poking around, mostly because I was
+> curious.  I'm pretty sure the exact scenario painted by the bot isn't possible,
+> but I do think a similar issue exists in at least truncate_error_folio().  Or at
+> least, *should* exist, but doesn't because of a different bug.
+>
+> On memory error, kvm_gmem_error_folio() will get invoked via this code.  Note
+> the "err != 0" check.  kvm_gmem_error_folio() returns MF_DELAYED, which has an
+> arbitrary value of '2', and so KVM is always signalling "failure".
+>
+> 		int err = mapping->a_ops->error_remove_folio(mapping, folio);
+>
+> 		if (err != 0)
+> 			pr_info("%#lx: Failed to punch page: %d\n", pfn, err);
+> 		else if (!filemap_release_folio(folio, GFP_NOIO))
+> 			pr_info("%#lx: failed to release buffers\n", pfn);
+>
+> I _think_ that's bad?  On x86, if I'm following the breadcrubs correctly, we'll
+> end up in this code in kill_me_maybe()
+>
+> 	pr_err("Memory error not recovered");
+> 	kill_me_now(cb);
+>
+> and send what I assume is a relatively useless SIGBUS and likely kill the VM.
+>
+> 	struct task_struct *p = container_of(ch, struct task_struct, mce_kill_me);
+>
+> 	p->mce_count = 0;
+> 	force_sig(SIGBUS);
+>
 
-I didn't follow the rest of the discussion but, at this point, what
-does this mean for applications (CRIU, passt) dumping/restoring socket
-data? Do they have to adapt? I couldn't find this bit of information
-anywhere in v3.
+Glad you agree that's bad :). We reported this earlier and Lisa has been
+working on a fix. RFC v1 is here [1].
 
--- 
-Stefano
+RFC v2 (Lisa is about to post it) will address David's comments by
+aligning shmem to also return MF_DELAYED like guest_memfd, then handling
+MF_DELAYED returned from .error_remove_folio() accordingly so that it's
+not interpreted as a memory failure handling failure.
 
+[1] https://lore.kernel.org/all/cover.1760551864.git.wyihan@google.com/#r
+
+> But even if that's somehow the "right" behavior, we're doing it purely by
+> accident.
+>
+> As for this patch, if we fix that bug by returning 0, then filemap_release_folio()
+> is definitely reachable by at least one flow, so I think guest_memfd also needs
+> to implement release_folio()?
+>
+
+Is posix_fadvise() the one flow you're talking about?
+
+It indeed calls filemap_release_folio() through mapping_try_invalidate()
+-> mapping_evict_folio() -> filemap_release_folio().
+
+From Documentation/filesystems/locking.rst:
+
+  ->release_folio() is called when the MM wants to make a change to the
+  folio that would invalidate the filesystem's private data.  For example,
+  it may be about to be removed from the address_space or split.  The folio
+  is locked and not under writeback.  It may be dirty.  The gfp parameter
+  is not usually used for allocation, but rather to indicate what the
+  filesystem may do to attempt to free the private data.  The filesystem may
+  return false to indicate that the folio's private data cannot be freed.
+  If it returns true, it should have already removed the private data from
+  the folio.  If a filesystem does not provide a ->release_folio method,
+  the pagecache will assume that private data is buffer_heads and call
+  try_to_free_buffers().
+
+I could implement .release_folio().
+
+Returning false seems like the easier solution, and is kind of in line
+with the documentation above. A guest_memfd folio does not have private
+data, so without private data, the private data cannot be freed.
+
+(Took me a while to notice that having private data is not the same
+as having something in folio->private, so this doesn't change even after
+the direct map removal series lands.)
+
+Returning false is going to break shrink_folio_list(), but that probably
+won't affect guest_memfd for now.
+
+Returning false also breaks page_cache_pipe_buf_try_steal(). Does anyone
+more familiar with splicing know if that could affect guest_memfd?
+
+Returning true could also work, to indicate that the folio's private
+data has been "removed". I'd also have to do inode_sub_bytes() in
+.release_folio() then, since in mapping_evict_folio(), remove_mapping()
+doesn't call .invalidate_folio().
+
+Then we will have to separately ensure that in truncate_error_folio(),
+guest_memfd doesn't double-deduct the folio's size from the inode. This
+should be semantically correct though, since IIUC .invalidate_folio() is
+when a folio is removed (clean or dirty), but .release_folio() is only
+for clean folios. If .error_remove_folio() returns MF_DELAYED, the
+truncation didn't happen and so there should be no call to
+.release_folio().
+
+>
+>
+> Full AI bot text:
+> --
+> Setting the AS_RELEASE_ALWAYS flag causes folio_needs_release() to return
+> true. This correctly triggers .invalidate_folio during truncation, but does
+> it also unintentionally expose guest_memfd folios to eviction via
+> posix_fadvise(POSIX_FADV_DONTNEED)?
+>
+> If userspace calls posix_fadvise() on a guest_memfd file, the core mm
+> calls mapping_evict_folio(). Because folio_needs_release() is true, it
+> calls filemap_release_folio().
+>
+> Since guest_memfd does not implement a .release_folio address space
+> operation, filemap_release_folio() falls back to calling
+> try_to_free_buffers(). Could this fallback cause a warning?
+>
+> fs/buffer.c:try_to_free_buffers() {
+> 	...
+> 	/* Misconfigured folio check */
+> 	if (WARN_ON_ONCE(!folio_buffers(folio)))
+> 		return true;
+> 	...
+> }
+>
+> Because the guest_memfd folio has no private data, folio_buffers()
+> is NULL, which will trigger this WARN_ON_ONCE.
+>
+> Furthermore, try_to_free_buffers() returns true, allowing the folio to be
+> removed from the page cache. Because this eviction path bypasses
+> truncate_cleanup_folio(), it never calls .invalidate_folio.
+>
+> Does this mean inode_sub_bytes() is skipped, leaking the inode block
+> accounting?
+>
+> Userspace could potentially trigger the warning and infinitely inflate the
+> inode's block count with:
+>     struct kvm_create_guest_memfd args = { .size = 4096 };
+>     int fd = ioctl(kvm_vm_fd, KVM_CREATE_GUEST_MEMFD, &args);
+>     fallocate(fd, 0, 0, 4096);
+>     posix_fadvise(fd, 0, 4096, POSIX_FADV_DONTNEED);
+> Should guest_memfd implement a .release_folio callback that simply
+> returns false to prevent these folios from being evicted?
+> --
