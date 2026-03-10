@@ -1,35 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE46C3BBA0D;
-	Tue, 10 Mar 2026 16:07:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 750F226B74A;
+	Tue, 10 Mar 2026 16:07:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773158855; cv=none; b=DXo+s6wnGxOnMwlUEGifxG35f/UCUN/NwjzgiLo5y2Caw/T7IGQ/XkX2ZLQ6Gs10VEhDspakIY2pxZd9kVCYmvV5f1kRRpDxowrUZJBcRQpeZHfmSlneCx88bPwYshjiRX78TZkEHjoGx5psgJ/UKEbLtkmGTb/9xeQciHaES6E=
+	t=1773158858; cv=none; b=tc9pPnVO1LffupWnoXgytFKQMadq8DtF2Z2stjIhUD7AEZ/5/4o/RJSkyxcFmpaFrDCVAHSiLHLCyh3gLeEPDdMHgV6wvWAMvIvgIdG3jGs467blsgPw5Uax+3xNDH6T/TaQAA+q0/gbfiO3OPIGcl/9QTAlq/oSqAQmEkA7uqQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773158855; c=relaxed/simple;
-	bh=ZCmJ88Jg/R0ZaGWt4Lbnf1PZ95HMiD+1w0SbJAg/htU=;
+	s=arc-20240116; t=1773158858; c=relaxed/simple;
+	bh=0NCrUYiDXTVQ3wJ3wTIEbkD/aAsEjfCXUe8n9jnE9ik=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=B5hrHJUd/HfUjQQ3Ot4Gt/Xd4ZxIud/RvLcSCc7uHYsq9EQ81ikLSelCqNHfiY71Bpkw7vzigfZG03Xf8eBtuzQg8vLkix1UR2yDHe8cCB0I03fjNZu3INBWYk9P+8uJyjRD3gvP7k/Mtn8XHTHWp5c4wWzmcSPNtVt4XBsjziA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bw+d62D+; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=Dufm9+divyxZr0PgbTNBTncSECuzALnksnPSAHQhIxJUD2YbxyReteVOhmo4fgY4OQ2ASbDmYqyueJ04cOKEELUivO9u5UFMmc+uOazOjS/LlOBVjxJRwalBS3EmZwhiPSwom0te7atLzk/EmB3hnRm52czGHk1nwvG05q0Z6js=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PO4CUllf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bw+d62D+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D5D2C19425;
-	Tue, 10 Mar 2026 16:07:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PO4CUllf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3AA2C19423;
+	Tue, 10 Mar 2026 16:07:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773158855;
-	bh=ZCmJ88Jg/R0ZaGWt4Lbnf1PZ95HMiD+1w0SbJAg/htU=;
+	s=k20201202; t=1773158858;
+	bh=0NCrUYiDXTVQ3wJ3wTIEbkD/aAsEjfCXUe8n9jnE9ik=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=bw+d62D+2HAfYfotFT6pc35QvkZrS8flNObZOziMsggFtGfJbJnB2pfiMwiMAz+8+
-	 r3E20RdKJcwhBUFxLQFlbpf6uQfJefqiC3wnPVF+ozMqc3Xz24yiglkfk8A2/A0j00
-	 pCz0LzxoHaCnDb5Fyh2yluwsVOevkBhv6AlF9tvJsU7cjuFvZjHZgZp50sjYkpjaPy
-	 tEFyO2VsaHwdTMe2jGTpmu77LazbVtVyPEeGdIXvq5a9gtIvd4hYVRU754kiem9v3m
-	 KNdahupPURYGu709tA5kxe0hZnNVsR8LUPobsKZz/KWdw4G61VXWtl7JYQwchyvH5a
-	 R/TeGn5EssIYQ==
+	b=PO4CUllfUHE/ztReyFTdk5126NLtBfGijLff5Nb49Diy8OECQp1+Xu3ySkcUrxIOO
+	 i1ODzVi4KDWo3/hcZaz5ZQHKPOiR2TRNRGVziqRBPYe79Vi1ZjFTNy4J+3wkS1VjwL
+	 GT4cw1WbRodE7VXhyFd96Gyhaxx5rsOkDK43WFIMzUd82FLelWn5CChNTSaS9VYNCn
+	 j4zG4MrjKk3SdTeJRDP0V83V9J0Bt2Y4+ydd+7JAIphVYbYN8/PkIe8ReStqnT0JWO
+	 UPU5B3lg/vrWOekaLNAvPqxUF49vDzFxpEMEt9s4rDNUe86gGQbO85eJwSLEkCE4IT
+	 QCJkiBaS7S7OQ==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Tue, 10 Mar 2026 17:07:01 +0100
-Subject: [PATCH 09/14] drm/drv: Call drm_mode_config_create_state() by
- default
+Date: Tue, 10 Mar 2026 17:07:02 +0100
+Subject: [PATCH 10/14] drm/atomic: Drop private obj state allocation
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -38,7 +37,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260310-drm-mode-config-init-v1-9-de7397c8e1cf@kernel.org>
+Message-Id: <20260310-drm-mode-config-init-v1-10-de7397c8e1cf@kernel.org>
 References: <20260310-drm-mode-config-init-v1-0-de7397c8e1cf@kernel.org>
 In-Reply-To: <20260310-drm-mode-config-init-v1-0-de7397c8e1cf@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -55,48 +54,57 @@ To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
  linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1218; i=mripard@kernel.org;
- h=from:subject:message-id; bh=ZCmJ88Jg/R0ZaGWt4Lbnf1PZ95HMiD+1w0SbJAg/htU=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJkbHJf36mdZLL85p/vFqdry3oYvaR9CN05a3Dq/zeNy7
- JZnLDlsHVNZGIQ5GWTFFFmeyISdXt6+uMrBfuUPmDmsTCBDGLg4BWAiW3YyNhyWOHdoznL3PbG5
- 4QxHrNN9uiSPpa18E/J56ueunDpmocWWAUwCM5ijrvEb3+C7+s67k7HhL48upybDoeDUXn33wsY
- Vq6Xf8+9W4U2NudoTzcQh7Xj7tY2J8aatp3v4+75U8vB6vgIA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1376; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=0NCrUYiDXTVQ3wJ3wTIEbkD/aAsEjfCXUe8n9jnE9ik=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJkbHFcUifcdOHxAzsv338UFy732PV/SdjsvwJdxs35jw
+ PuNbCKsHVNZGIQ5GWTFFFmeyISdXt6+uMrBfuUPmDmsTCBDGLg4BWAiuq6MtRIFQZlBhu6nOWaJ
+ V+9SlDn/dMlb1oYbdzjCnuhE2ZrNl2VUiHf6vvDuiatJK/wXRy48z1jFvDrjdLXDlxkbukp/Rcy
+ Puey1ef8m+SXf32ywbVPxK3hrmfTsVqerh1HdxU1p3sWP3SQB
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
-Almost all drivers, and our documented skeleton, call
-drm_mode_config_reset() prior to calling drm_dev_register() to
-initialize its DRM object states.
+Now that drm_dev_register() calls drm_mode_config_create_state() for
+every modeset driver, the private obj states will be initialized at
+driver registration automatically if they haven't already.
 
-Now that we have drm_mode_config_create_state() to create that initial
-state if it doesn't exist, we can call it directly in
-drm_dev_register(). That way, we know that the initial atomic state will
-always be allocated without any boilerplate.
+Thus, the explicit initial allocation we have in
+drm_atomic_private_obj_init() is now redundant, and we can remove it.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/drm_drv.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/drm_atomic.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-index 2915118436ce8a6640cfb0c59936031990727ed1..820106d56ab399a39cac56d98662b5ddbcae8ded 100644
---- a/drivers/gpu/drm/drm_drv.c
-+++ b/drivers/gpu/drm/drm_drv.c
-@@ -1097,10 +1097,14 @@ int drm_dev_register(struct drm_device *dev, unsigned long flags)
+diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+index d1885f895cce78725419b6291f4dbe5563e3b240..e8dc019364d27123c3a682a10323fba9ff76f9df 100644
+--- a/drivers/gpu/drm/drm_atomic.c
++++ b/drivers/gpu/drm/drm_atomic.c
+@@ -991,25 +991,18 @@ static void drm_atomic_plane_print_state(struct drm_printer *p,
+  */
+ int drm_atomic_private_obj_init(struct drm_device *dev,
+ 				struct drm_private_obj *obj,
+ 				const struct drm_private_state_funcs *funcs)
+ {
+-	struct drm_private_state *state;
+ 	memset(obj, 0, sizeof(*obj));
  
- 	if (drm_core_check_feature(dev, DRIVER_MODESET)) {
- 		ret = drm_modeset_register_all(dev);
- 		if (ret)
- 			goto err_unload;
-+
-+		ret = drm_mode_config_create_state(dev);
-+		if (ret)
-+			goto err_unload;
- 	}
- 	drm_panic_register(dev);
- 	drm_client_sysrq_register(dev);
+ 	drm_modeset_lock_init(&obj->lock);
  
- 	DRM_INFO("Initialized %s %d.%d.%d for %s on minor %d\n",
+ 	obj->dev = dev;
+ 	obj->funcs = funcs;
+ 	list_add_tail(&obj->head, &dev->mode_config.privobj_list);
+ 
+-	state = obj->funcs->atomic_create_state(obj);
+-	if (IS_ERR(state))
+-		return PTR_ERR(state);
+-
+-	obj->state = state;
+-
+ 	return 0;
+ }
+ EXPORT_SYMBOL(drm_atomic_private_obj_init);
+ 
+ /**
 
 -- 
 2.53.0
