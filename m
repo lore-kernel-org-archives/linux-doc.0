@@ -1,196 +1,182 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 732543E95B7
-	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 07:41:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.171
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773128475; cv=pass; b=GSjGcN0HVSWlogxaVbziR6//HcBbL88tuui4wBRx2polA2pNLg6OjA+eDwh3LyqgzfC0QhFS7ZMwKzax9zFzbPwdEOW2ilV4FH6S6Naci88TrTVpEe2SrmGpGiyevbxtk+UzPw9TCjHKUc/b1mAFYazOe+1JALitbfmrklfyJvM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773128475; c=relaxed/simple;
-	bh=7cTgaURun945ZBxkV8bmKWLaXe5u+DBTf6pF7YLrF4g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NL7lCthdJW0J9Yj0mqYIvV6svnds3Leb8gdCKHafYqlY1bqRI0rvpiYoFNnbVWKLmULoEuSe0zg/27HCdKY/HJIS+FsnbQmSrU1QStk8AvZh5SEccCN4coi4Hv1XUgcgfSiBAJdVWfU+0PJxoC/biuzNwmu+O7Sqz1A5m3tTNrs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aXVrHKTx; arc=pass smtp.client-ip=209.85.160.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01504365A0A
+	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 07:55:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773129362; cv=none; b=Kg2LRdcKDyPsiGt+kT3Q1NXWu8MzN/OVd41YpJK3mL3k5zIYAB9QcqHR5audR78RfWPFUxfflt6ulKoAVyDTK2driGQvV13OArWazshHNOGUoUNTA1z4qFpIX6vTkiTZYLz45E2Cw3WkcFBZ2glAxAEXTjPFRsWMyCSN/HALd44=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773129362; c=relaxed/simple;
+	bh=FMS4BVUajKAUxKcjzcddBgaLVt+yOxMuuGFj9UUkSaM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=teXJR1rrD2rkyWTFcOs/gaE+GPAO4wEWZG4FyY4/gEYVRZQ7hNQynC3BO9VfUHy07rG5GGyJvq5qoPrBB4hMs+Q5OKbUbuHKccnobb/lkpZL8z0Z/RvnngwBW36ZS8LEzOgeZTR5tP+dVd8NQWc61KW5S9+PQYbA8ZSMsf0ABX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=grFET2Q/; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aXVrHKTx"
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-50917e02532so25458871cf.3
-        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 00:41:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773128469; cv=none;
-        d=google.com; s=arc-20240605;
-        b=TmJntJY5yRVIdlaMwVf5QOnvsqbCA10VR2q4XrJiKZOEEwtIw+n46iaGq/2YopMHpZ
-         8koJKWcMTzhnfM7gkce19AgUAkthwuEYhg6CKflK+8DxoAalhjtm9fB92F6k8bzss0el
-         oCCeaXkX5xtVqcXz+A0+PY/gN5dypXmRdrXa8bDlFdugfrUShD1xTadbc9QY4yYvdWc+
-         rbQMEwgHrb7rnyupgHuFRI0QVhX60fMkkblNAtCBDTYpKM0rRz1wa1s4TAWHzki6k2Gm
-         wPGkKEcv96xAZQjqOs3uavjU+oy9WmFo73zhXOCd5dZPen3cx+mxsv26DeqxGBODd+oS
-         8bYA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=rcMzOrru+dNP0H3b9Nuh0ONkl84RLF9HUfefvP22L6g=;
-        fh=yAVEsv2WdCSslveU4Om4/tWUrYP2Aw/MiKcff57kods=;
-        b=JemfyGLz8HGxu6K0lP3Efp6+xrU/98Qy7HiNsP94TTTGL75PPOh6QDvUWBB4XH0v2O
-         UyVBvnCvKCajJz0iZSmqpusz2iTuHDeLpGwxLf+OEdUDjBswN7WSEMOff22TUarNUyih
-         6yZ1Y4FclkqMEciivj80eXMzD1JYkCOyElECatGhbndpbhiKwEUwRF8zQCT2nuk4Xmo5
-         BJ0xnGvAL2bQc0uTNEdXJUeKMz9iTvtdzO7dl+tigs5mHPeNwy2fJT24J2xSLhmVuDTL
-         RLxkGSO/vuitI36B184DLdKw23zcfGCgoaNtrLi4Vn62KmyURRgG7WAisNQYa+H9GDyh
-         EYLQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1773128469; x=1773733269; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rcMzOrru+dNP0H3b9Nuh0ONkl84RLF9HUfefvP22L6g=;
-        b=aXVrHKTxHQAxiU/zPZOLkC1z6p8cJocbwkVWQbLD6aegwfelc7y3aC+RRkXHga1Sie
-         XCo3HdWFhKcXWrm1LIqa7cF35EwGqzbRq6neMd5gF8fCGZg9WEgfuYEbiviOPDj6oZ18
-         aIgsniUYS25+4tBcFH4BilSRm72bCzdY0Y7JClg3yh3YudwyR/dsVWyssX/yVopGxAGV
-         xNkahW+xAZ1ImQkuJn3O1GCcLA5V0WY4ced7lwzOF83Gza94gSykTR2rsbgT/NGlVk1K
-         OWHRnNlj74CwW06+xvfUd/gfN+GHVQEaosZy49zX9VnwIZq9L0MRBp8yiUYqAX+vzXYb
-         KFnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773128469; x=1773733269;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=rcMzOrru+dNP0H3b9Nuh0ONkl84RLF9HUfefvP22L6g=;
-        b=QEIi2WPraV927GzoFMlmLb2NFsoUkwp/KS4QwNoxoJ6F1+uIseyT4rHje4ewP1SBCL
-         7jSOkVO/j1Dgfk1YdRERO1nZdFSbQfUC+Xsdk3dB4loCLTCXv5DA3EYyzpyX+hPEQxn7
-         hSJOCIfT6NU+xhiyF2SroOZS8XD25iulb38KldAMc9RLz83l8CGvEt4ZWhGrXTqZkfgD
-         yZDGsc8LMjevJmNgslETPPprm84ioteZ8YKTG7HEI/sea+efeMmQsw0mPKOlcmQ6JQVG
-         q9NsERSx0pf6tPrdrNlpYtYq8qpKaS4YWuaO/DaXAcs6B4ddVKyUBRBjTAIGA2IA6Mih
-         jgzg==
-X-Forwarded-Encrypted: i=1; AJvYcCXmVCiCBp4s4j9FmVDZppT5+jo1WqhF70tsVB70uymQ2qBDhA7XlETAtANfh6iutUU/UJhR/5+8aRs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxL0aNqzVk1CjL6M8XY9XgiK2nQ9dEwZL+Az53HfiT9FeFwQM8p
-	1ZGl3DF8BiLBAGb3WGGBDOqrt9m+d+3uWk+eph/p/gA/qDUjXOrBXxaDJmbtrdd7TVAZY9+m8JM
-	/8qfUd+c40GcrWsYQKVXhDawj9lW2G4zASAtAmXVB
-X-Gm-Gg: ATEYQzxUx9h7M1e+ibaDW8cRLgsc3ldcmtUi9bxQa+ERytxZ/bsW3P/WY4rjVjhxjmm
-	8B4Sz/Lr/7IWJs3wLidYcw9MzHySNczuvtsIV/9wx0MzRsPJdbVQLRHrHjnYS/Os1CXo/8i5MCG
-	AXkjCzwQn9XbDx06DlmaA5m1hYqoWMTGhEOD4mR8ziQOv9HZFx5G3x230O7f7yTyUh03E3WlXIq
-	NUxq7LEWrKFqm25Rq3wE9tvdluKFw3/lLJErg7B1NdFTpdzR2rPvrEkx2GaqDia2vLFfWtiPmtf
-	Cl95APU=
-X-Received: by 2002:a05:622a:144c:b0:509:1d55:6368 with SMTP id
- d75a77b69052e-5091d556a83mr65534491cf.39.1773128468646; Tue, 10 Mar 2026
- 00:41:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="grFET2Q/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=/a0tRwE4WB1N7m
+	bM38o7pQ2y610kAMXzD8AqisAnlgU=; b=grFET2Q/L5BDbD2xTndWCxfWXxtyl2
+	MrNW6Nu3qAN1EmBl/MYyb9CKwe54CLj7IvlqLMC5IMLgb11+UnMtwsIpNOpeZHWa
+	GVPU+ybqbKsVtIcDblhf8AAmfEvK69zbgwZTCdiSqJFfuZQ3G9lnG2U3m4tzAMVJ
+	QnwiFLc/jqMR9GpmUHV3igEQ4pjuUCRsM0Hm2OZQ1Li9cwvsXq2py2+kvdhFHYP2
+	jC6TKSVnNybFyfIppa6NtLkCKTYZrYUqHsFkz7SYD5URwCS66vb5yN0vG/p3qKDq
+	87t1xNh8zF1QjL/xdXPPlibUyKgxw31YNVsxPQuxV575FpunGlhflHgw==
+Received: (qmail 3112474 invoked from network); 10 Mar 2026 08:55:47 +0100
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 10 Mar 2026 08:55:47 +0100
+X-UD-Smtp-Session: l3s3148p1@UTnb2KZMmJAujntP
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Antonio Borneo <antonio.borneo@foss.st.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	driver-core@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Lee Jones <lee@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org,
+	linux-spi@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev,
+	Mark Brown <broonie@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Waiman Long <longman@redhat.com>,
+	Wilken Gottwalt <wilken.gottwalt@posteo.net>,
+	Will Deacon <will@kernel.org>
+Subject: [PATCH v4 00/15] hwspinlock: move device alloc into core and refactor includes
+Date: Tue, 10 Mar 2026 08:55:15 +0100
+Message-ID: <20260310075539.11701-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260309-tcp_rfc7323_retract_wnd_rfc-v3-0-4c7f96b1ec69@gmail.com>
- <20260309-tcp_rfc7323_retract_wnd_rfc-v3-1-4c7f96b1ec69@gmail.com>
- <CANn89i+38t+PpB5duS_-FX_=PwyCQaN2HYohocJBAvZ7Cd8-KQ@mail.gmail.com> <aa8S5pEbxXIG5oZQ@gandalf.schnuecks.de>
-In-Reply-To: <aa8S5pEbxXIG5oZQ@gandalf.schnuecks.de>
-From: Eric Dumazet <edumazet@google.com>
-Date: Tue, 10 Mar 2026 08:40:57 +0100
-X-Gm-Features: AaiRm51UmLT8Xio3yOAS3_qG-3b3ZlXXtISzZ5JqQOuDaTGLlV85GE2K7N5HJFc
-Message-ID: <CANn89iJeVSfU3_Ub023j5mo5g=bTxTw_A+5-dPw59DaXFrLmDA@mail.gmail.com>
-Subject: Re: [PATCH net-next v3 1/6] tcp: implement RFC 7323 window retraction
- receiver requirements
-To: Simon Baatz <gmbnomis@gmail.com>
-Cc: Neal Cardwell <ncardwell@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
-	"David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, David Ahern <dsahern@kernel.org>, 
-	Jon Maloy <jmaloy@redhat.com>, Jason Xing <kerneljasonxing@gmail.com>, mfreemon@cloudflare.com, 
-	Shuah Khan <shuah@kernel.org>, Stefano Brivio <sbrivio@redhat.com>, 
-	Matthieu Baerts <matttbe@kernel.org>, Mat Martineau <martineau@kernel.org>, 
-	Geliang Tang <geliang@kernel.org>, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	mptcp@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, Mar 9, 2026 at 7:35=E2=80=AFPM Simon Baatz <gmbnomis@gmail.com> wro=
-te:
->
-> Hi Eric,
->
-> thank you for the quick review.
->
-> On Mon, Mar 09, 2026 at 10:22:39AM +0100, Eric Dumazet wrote:
-> > On Mon, Mar 9, 2026 at 9:03???AM Simon Baatz via B4 Relay
-> > <devnull+gmbnomis.gmail.com@kernel.org> wrote:
-> > >
-> > > From: Simon Baatz <gmbnomis@gmail.com>
-> > >
-> > > By default, the Linux TCP implementation does not shrink the
-> > > advertised window (RFC 7323 calls this "window retraction") with the
-> > > following exceptions:
-> > >
-> > > - When an incoming segment cannot be added due to the receive buffer
-> > >   running out of memory. Since commit 8c670bdfa58e ("tcp: correct
-> > >   handling of extreme memory squeeze") a zero window will be
-> > >   advertised in this case. It turns out that reaching the required
-> > >   memory pressure is easy when window scaling is in use. In the
-> > >   simplest case, sending a sufficient number of segments smaller than
-> > >   the scale factor to a receiver that does not read data is enough.
-> > >
-> > > - Commit b650d953cd39 ("tcp: enforce receive buffer memory limits by
-> > >   allowing the tcp window to shrink") addressed the "eating memory"
-> > >   problem by introducing a sysctl knob that allows shrinking the
-> > >   window before running out of memory.
-> > >
-> > > However, RFC 7323 does not only state that shrinking the window is
-> > > necessary in some cases, it also formulates requirements for TCP
-> > > implementations when doing so (Section 2.4).
-> > >
-> > > This commit addresses the receiver-side requirements: After retractin=
-g
-> > > the window, the peer may have a snd_nxt that lies within a previously
-> > > advertised window but is now beyond the retracted window. This means
-> > > that all incoming segments (including pure ACKs) will be rejected
-> > > until the application happens to read enough data to let the peer's
-> > > snd_nxt be in window again (which may be never).
-> > >
-> > > To comply with RFC 7323, the receiver MUST honor any segment that
-> > > would have been in window for any ACK sent by the receiver and, when
-> > > window scaling is in effect, SHOULD track the maximum window sequence
-> > > number it has advertised. This patch tracks that maximum window
-> > > sequence number rcv_mwnd_seq throughout the connection and uses it in
-> > > tcp_sequence() when deciding whether a segment is acceptable.
-> > >
-> > > rcv_mwnd_seq is updated together with rcv_wup and rcv_wnd in
-> > > tcp_select_window(). If we count tcp_sequence() as fast path, it is
-> > > read in the fast path. Therefore, rcv_mwnd_seq is put into rcv_wnd's
-> > > cacheline group.
-> > >
-> > > The logic for handling received data in tcp_data_queue() is already
-> > > sufficient and does not need to be updated.
-> > >
-> > > Signed-off-by: Simon Baatz <gmbnomis@gmail.com>
-> >
-> > ...
-> >
-> > > diff --git a/net/ipv4/tcp_output.c b/net/ipv4/tcp_output.c
-> > > index f0ebcc7e287173be6198fd100130e7ba1a1dbf03..c86910d147f2394bf414d=
-7691d8f90ed41c1b0e3 100644
-> > > --- a/net/ipv4/tcp_output.c
-> > > +++ b/net/ipv4/tcp_output.c
-> > > @@ -293,6 +293,7 @@ static u16 tcp_select_window(struct sock *sk)
-> > >                 tp->pred_flags =3D 0;
-> > >                 tp->rcv_wnd =3D 0;
-> > >                 tp->rcv_wup =3D tp->rcv_nxt;
-> > > +               tcp_update_max_rcv_wnd_seq(tp);
-> >
-> > Presumably we do not need  tcp_update_max_rcv_wnd_seq() here ?
->
-> When we don't update here and are forced to accept a beyond-window
-> packet because the receive queue is empty, we can reach a state where
->
->  rcv_mwnd_seq < rcv_wup + rcv_wnd =3D=3D rcv_nxt
->
-> I noticed this case when instrumenting the kernel and got violations
-> of the invariant rcv_wup + rcv_wnd <=3D rcv_mwnd_seq.
->
-> So, while not strictly needed (tcp_max_receive_window() would still
-> be 0 as rcv_nxt > rcv_mwnd_seq), I opted to include the call here to
-> keep rcv_mwnd_seq the actual maximum sequence number at all times.
+Changes since v3:
 
-Fair enough, thanks !
+* removed useless __iomem annotations (Thanks, sparse + buildbots)
+  So, the newly introduced callback only operates on void* and doesn't
+  use __iomem annotations now. Note that most of the drivers will still
+  trigger a sparse warning because they use an __iomem pointer in
+  .con_priv. But they also did so before this series, so it keeps
+  current behaviour. Fixing these sparse warnings should be done
+  independently IMO.
+* rebased to 7.0-rc3
+* added tags (Thanks!)
 
-Reviewed-by: Eric Dumazet <edumazet@google.com>
+My ultimate goal is to allow hwspinlock provider drivers outside of the
+subsystem directory. It turned out that a simple split of the headers
+files into a public provider and a public consumer header file is not
+enough because core internal structures need to stay hidden. Even more,
+their opaqueness could and should even be increased. That would also
+allow the core to handle the de-/allocation of the hwspinlock device
+itself.
+
+This series does all that. Patches 1-2 remove the meanwhile unused
+platform_data to ease further refactoring. Patches 3-9 abstract access
+to internal structures away using helpers. Patch 10 then moves
+hwspinlock device handling to the core, simplifying drivers. The
+remaining patches refactor the headers until the internal one is gone
+and the public ones are divided into provider and consumer parts. More
+details are given in the patch descriptions.
+
+One note about using a callback to initialize hwspinlock priv: I also
+experimented with a dedicated 'set_priv' helper function. It felt a bit
+clumsy to me. Drivers would need to save the 'bank' pointer again and
+iterate over it. Because most drivers will only have a simple callback
+anyhow, it looked leaner to me.
+
+This series has been tested on a Renesas SparrowHawk board (R-Car V4H)
+with a yet-to-be-upstreamed hwspinlock driver for the MFIS IP core. A
+branch can be found here (without the MFIS driver currently):
+
+git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/hwspinlock/refactor-alloc-buildtest
+
+Happy hacking,
+
+   Wolfram
+
+
+Wolfram Sang (15):
+  hwspinlock: u8500: delete driver
+  hwspinlock: remove now unused pdata from header file
+  hwspinlock: add helpers to retrieve core data
+  hwspinlock: add callback to fill private data of a hwspinlock
+  hwspinlock: omap: use new callback to initialize hwspinlock priv
+  hwspinlock: qcom: use new callback to initialize hwspinlock priv
+  hwspinlock: sprd: use new callback to initialize hwspinlock priv
+  hwspinlock: stm32: use new callback to initialize hwspinlock priv
+  hwspinlock: sun6i: use new callback to initialize hwspinlock priv
+  hwspinlock: handle hwspinlock device allocation in the core
+  hwspinlock: move entries from internal to public header
+  hwspinlock: remove internal header
+  hwspinlock: sort include and update copyright
+  hwspinlock: refactor provider.h from public header
+  hwspinlock/treewide: refactor consumer.h from public header
+
+ Documentation/locking/hwspinlock.rst          |   2 +-
+ MAINTAINERS                                   |   3 +-
+ drivers/base/regmap/regmap.c                  |   2 +-
+ drivers/hwspinlock/Kconfig                    |  10 --
+ drivers/hwspinlock/Makefile                   |   1 -
+ drivers/hwspinlock/hwspinlock_core.c          | 129 +++++++++++----
+ drivers/hwspinlock/hwspinlock_internal.h      |  72 --------
+ drivers/hwspinlock/omap_hwspinlock.c          |  27 ++-
+ drivers/hwspinlock/qcom_hwspinlock.c          |  69 ++++----
+ drivers/hwspinlock/sprd_hwspinlock.c          |  39 ++---
+ drivers/hwspinlock/stm32_hwspinlock.c         |  26 +--
+ drivers/hwspinlock/sun6i_hwspinlock.c         |  36 ++--
+ drivers/hwspinlock/u8500_hsem.c               | 155 ------------------
+ drivers/iio/adc/sc27xx_adc.c                  |   2 +-
+ drivers/irqchip/irq-stm32mp-exti.c            |   2 +-
+ drivers/mfd/syscon.c                          |   2 +-
+ drivers/nvmem/sc27xx-efuse.c                  |   2 +-
+ drivers/nvmem/sprd-efuse.c                    |   2 +-
+ drivers/pinctrl/stm32/pinctrl-stm32.c         |   2 +-
+ drivers/soc/qcom/smem.c                       |   2 +-
+ drivers/spi/spi-sprd-adi.c                    |   2 +-
+ .../{hwspinlock.h => hwspinlock/consumer.h}   |  57 +------
+ include/linux/hwspinlock/provider.h           |  60 +++++++
+ 23 files changed, 260 insertions(+), 444 deletions(-)
+ delete mode 100644 drivers/hwspinlock/hwspinlock_internal.h
+ delete mode 100644 drivers/hwspinlock/u8500_hsem.c
+ rename include/linux/{hwspinlock.h => hwspinlock/consumer.h} (87%)
+ create mode 100644 include/linux/hwspinlock/provider.h
+
+-- 
+2.47.3
+
