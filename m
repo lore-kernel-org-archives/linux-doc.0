@@ -1,187 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADB1343E9C6;
-	Tue, 10 Mar 2026 09:30:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACC93366065
+	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 09:45:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773135017; cv=none; b=WC4ZsN+5Klyldpqd3z5i6ciLvwnXLtnMVvhzA8Aj6Vupza2TK7Plq7/xZPvwIcOnXHlwNmQAJGN74Idz4vVzPdfDynTzroiDjUffjByXx4o/qTtG4CFPQ1xWgb7M10Nk20oj1XyKLMuWSFdfF4sWUL5j8J/SLlrpRQOjLA8HQcc=
+	t=1773135943; cv=none; b=pWYRtFYuKbxkQWJ6C3WqOl+txHcWCanyVmWnR3SwOAnQ134dsJ18ZOZhzW8KTFUo8v9C8YIF9y2mGe1QUAXfOnoh3BNDm58VyIPZliqcTtT3dvuq/XU3WGa5y9zMzSnBhLysXSNkIFex+T9RQ89DgblZH5XtvFa/Q1qPZLF1S00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773135017; c=relaxed/simple;
-	bh=nQ8AFJwvR5OUsBOuBKedxLD969aJf4vk2lwmCGOgvu8=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=r7U2P9n4omIQEY9WJ/6qZSov5af2A+FpoTE5tmeEEdRbNYVNWOwrrpJHDCFw6u2LHfYv0KtNIFIUCMzYlABsp7hqXwFZlms26p1ri3q+8+R5yUbCH1p6ebTB8XBp8HLgDSbn3pjSqxm+DybVrIWLNcb7ZVVhdTd42w15ZZHjjMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hIUHh3w0; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1773135943; c=relaxed/simple;
+	bh=ZLvezuR8s0+OWVqfo92KUk4UlTJ6DqfgkS4fGtPZbTw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
+	 Content-Type:References; b=prFcjs1kDZxsM/IAwnjUA3JUu+Ti5cXLg/pPedD4C6KQWaLQRjPrTVkzfVbGssQhwxVhsACFjorNr/8KdU30OqOW652IHkCH2dnzksU45lU1BfUZTAtT4uiiZdYt+QTmUtt/iehK3RGk3Su619weB76foKVa8qopqXtrZ8hiT8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=DUa33BIc; arc=none smtp.client-ip=210.118.77.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hIUHh3w0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773135016; x=1804671016;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version:content-id;
-  bh=nQ8AFJwvR5OUsBOuBKedxLD969aJf4vk2lwmCGOgvu8=;
-  b=hIUHh3w0XdqsdAE/8JyozcXB05bwdL6ufHYPMqt7aCzbet/TgsURu4yi
-   uX3bCpX5qzzjhtKV9qAV9hpeJPA2OO2VIcTTBWcnr1QYAq86gFbQ0BACX
-   TUSqqsDJHe/PW6A3BpyuNPM7B6LSAPtpX8szP+E0wUNjhbR5cWPrgLvDJ
-   CO6fiLtXhQk8dvqMYNtaQieFygmvwkKWwRLxZWpelHlZth3GbJ9XmyLjS
-   rXqa7uQ5AQLuCJ02tgrP3jc99FVXMQgqvbYiVV7D6rnImLBuNEhnTyOLf
-   dDPYPvSpOvhZ0l1y4brnKUj79+8UBEsGzbEnlbpuL99ZSwJ+GVttQrWFL
-   g==;
-X-CSE-ConnectionGUID: Ec6v+4N3S4OXniBRrHyOSQ==
-X-CSE-MsgGUID: EFfTuh13TumWuxlDGnk1eg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11724"; a="84886259"
-X-IronPort-AV: E=Sophos;i="6.23,112,1770624000"; 
-   d="scan'208";a="84886259"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 02:30:15 -0700
-X-CSE-ConnectionGUID: AuJOtJojRrqCX5lt7KpKuQ==
-X-CSE-MsgGUID: aGNFE+3STzOG7pjxFFOqAA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,112,1770624000"; 
-   d="scan'208";a="224513921"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.55])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 02:30:10 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Tue, 10 Mar 2026 11:30:07 +0200 (EET)
-To: Vishnu Sankar <vishnuocv@gmail.com>
-cc: Mark Pearson <mpearson-lenovo@squebb.ca>, dmitry.torokhov@gmail.com, 
-    hmh@hmh.eng.br, Hans de Goede <hansg@kernel.org>, corbet@lwn.net, 
-    derekjohn.clark@gmail.com, linux-input@vger.kernel.org, 
-    LKML <linux-kernel@vger.kernel.org>, ibm-acpi-devel@lists.sourceforge.net, 
-    linux-doc@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
-    vsankar@lenovo.com
-Subject: Re: [PATCH v7 1/3] input: trackpoint - Enable doubletap by default
- on capable devices
-In-Reply-To: <CABxCQKt_1Hv2hPDpzQQ3TxFJWbRNHs-vRDi9hNhBq4oaoGkt3w@mail.gmail.com>
-Message-ID: <8216aaaf-bdaa-2a48-a7de-b0b81d49eda5@linux.intel.com>
-References: <20260209063355.491189-1-vishnuocv@gmail.com> <20260209063355.491189-2-vishnuocv@gmail.com> <fdd1d48e-61b7-2543-8a30-c7ad416f5dd3@linux.intel.com> <CABxCQKtf=RYrpgnbM0ODo3GA0oW3jgR=_erc9RCD6gEasasA+A@mail.gmail.com> <0df2daf8-31ee-4fe3-fc38-de138b302549@linux.intel.com>
- <CABxCQKt_1Hv2hPDpzQQ3TxFJWbRNHs-vRDi9hNhBq4oaoGkt3w@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="DUa33BIc"
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20260310094539euoutp018ac8fda4eaba5218f4377f521b4e8185~bcb4uQblH2528425284euoutp01Z
+	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 09:45:39 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20260310094539euoutp018ac8fda4eaba5218f4377f521b4e8185~bcb4uQblH2528425284euoutp01Z
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1773135939;
+	bh=g4Z4ok96NWqzBgjOcLsFlXJfC/4zjtxkfiYjt2twx7A=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=DUa33BIcjnjYaDcrUwR4b3y4tN6gJrXkmaBcwcJ4p2c4tZGQM9R38aSaC2a0O/Bbo
+	 0xa64kwxr8dc0Yov8gz0+bhz5Z3p5QxpyUFH3txM4dysJYcWw+sParNspVxK2j8cYf
+	 dHSDbRa7PdBI1Opg2OUQSyeLHuC0MQYAqRPXhB3s=
+Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+	20260310094539eucas1p15d2320cc87bfb317f5be51b359fb08c6~bcb4brfjb0410104101eucas1p1p;
+	Tue, 10 Mar 2026 09:45:39 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20260310094538eusmtip17998daf8f2a16ee4d9b5c8cb775d1e36~bcb3virLM2940529405eusmtip1i;
+	Tue, 10 Mar 2026 09:45:38 +0000 (GMT)
+Message-ID: <aaebc5b6-2805-46d3-a68e-549c26a3ef03@samsung.com>
+Date: Tue, 10 Mar 2026 10:45:38 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; BOUNDARY="8323328-2011260643-1773134910=:975"
-Content-ID: <4e383c9d-d7d3-1fed-7dce-ab28f9f3cfd7@linux.intel.com>
+User-Agent: Betterbird (Windows)
+Subject: Re: [PATCH 2/3] dma-mapping: Clarify valid conditions for CPU cache
+ line overlap
+To: Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>
+Cc: Robin Murphy <robin.murphy@arm.com>, "Michael S. Tsirkin"
+	<mst@redhat.com>, Petr Tesarik <ptesarik@suse.com>, Jonathan Corbet
+	<corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Jason Wang
+	<jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	=?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, iommu@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	virtualization@lists.linux.dev, linux-rdma@vger.kernel.org
+Content-Language: en-US
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <20260309151356.GN1687929@ziepe.ca>
+Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20260310094539eucas1p15d2320cc87bfb317f5be51b359fb08c6
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20260309090352eucas1p283a75c78cac495b5ad87df74c79aab07
+X-EPHeader: CA
+X-CMS-RootMailID: 20260309090352eucas1p283a75c78cac495b5ad87df74c79aab07
+References: <20260307-dma-debug-overlap-v1-0-c034c38872af@nvidia.com>
+	<20260307-dma-debug-overlap-v1-2-c034c38872af@nvidia.com>
+	<20260308181920.GH1687929@ziepe.ca> <20260308184902.GR12611@unreal>
+	<20260308230916.GI1687929@ziepe.ca>
+	<CGME20260309090352eucas1p283a75c78cac495b5ad87df74c79aab07@eucas1p2.samsung.com>
+	<20260309090342.GS12611@unreal>
+	<c1d058f3-f864-4ed7-9f7a-683d6f4bf1ce@samsung.com>
+	<20260309150502.GX12611@unreal> <20260309151356.GN1687929@ziepe.ca>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On 09.03.2026 16:13, Jason Gunthorpe wrote:
+> On Mon, Mar 09, 2026 at 05:05:02PM +0200, Leon Romanovsky wrote:
+>> Regarding failure on unsupported systems, I have tried more than once to
+>> make the RDMA fail when the device is known to take the SWIOTLB path
+>> in RDMA and cannot operate correctly, but each attempt was met with a
+>> cold reception:
+>> https://lore.kernel.org/all/d18c454636bf3cfdba9b66b7cc794d713eadc4a5.1719909395.git.leon@kernel.org/
+> I think alot of that is the APIs used there. It is hard to determine
+> if SWIOTLB is possible or coherent is possible, I've also hit these
+> things in VFIO and gave up.
+>
+> However, DMA_ATTR_REQUIRE_COHERENCE can be done properly and not leak
+> alot of dangerous APIs to drivers (beyond itself).
+>
+> It is also more important now with CC systems, I think.
 
---8323328-2011260643-1773134910=:975
-Content-Type: text/plain; CHARSET=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Content-ID: <a387f5ec-759a-f740-7eee-091e1525fb64@linux.intel.com>
+Jason is right. Indeed the rdma/uverbs case needs some extension to 
+ensure that the coherent mapping is used, what is not possible now. This 
+however doesn't mean that the DMA_ATTR_CPU_CACHE_OVERLAP is not needed 
+for that use case too. I'm open to accept both. The only question I have 
+is which name should we use? We already have DMA_ATTR_CPU_CACHE_CLEAN, 
+while DMA_ATTR_CPU_CACHE_OVERLAP and 
+DMA_ATTR_DEBUGGING_IGNORE_CACHELINES were proposed here. The last seems 
+to be most descriptive.
 
-On Tue, 10 Mar 2026, Vishnu Sankar wrote:
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
-> Hi Ilpo,
->=20
-> Thank you.
->=20
-> On Tue, Mar 10, 2026 at 6:15=E2=80=AFPM Ilpo J=C3=A4rvinen
-> <ilpo.jarvinen@linux.intel.com> wrote:
-> >
-> > On Tue, 10 Mar 2026, Vishnu Sankar wrote:
-> >
-> > > Hi Ilpo,
-> > >
-> > > Thank you so much for the review.
-> > >
-> > > On Mon, Mar 9, 2026 at 5:01=E2=80=AFPM Ilpo J=C3=A4rvinen
-> > > <ilpo.jarvinen@linux.intel.com> wrote:
-> > > >
-> > > > On Mon, 9 Feb 2026, Vishnu Sankar wrote:
-> > > >
-> > > > > Enable doubletap functionality by default on TrackPoint devices t=
-hat
-> > > > > support it. The feature is detected using firmware ID pattern mat=
-ching
-> > > > > (PNP: LEN03xxx) with a deny list of incompatible devices.
-> > > > >
-> > > > > This provides immediate doubletap functionality without requiring
-> > > > > userspace configuration. The hardware is enabled during device
-> > > > > detection, while event filtering continues to be handled by the
-> > > > > thinkpad_acpi driver as before.
-> > > > >
-> > > > > Signed-off-by: Vishnu Sankar <vishnuocv@gmail.com>
-> > > > > Suggested-by: Mark Pearson <mpearson-lenovo@squebb.ca>
-> > > > > Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> > > > > ---
-> > > > > Changes in v7:
-> > > > > - Removed unwanted comments
-> > > > > - Removed psmouse_info ()
-> > > > >
-> > > > > Changes in v6:
-> > > > > - No Changes
-> > > > >
-> > > > > Changes in v5:
-> > > > > - Renamed function to trackpoint_is_dt_capable()
-> > > > > - Simplified string comparison without sscanf()
-> > > > > - Removed wrapper function as suggested
-> > > > > - Fixed missing period in comment
-> > > > >
-> > > > > Changes in v4:
-> > > > > - Simplified approach: removed all sysfs attributes and user inte=
-rface
-> > > > > - Enable doubletap by default during device detection
-> > > > > - Removed global variables and complex attribute infrastructure
-> > > > > - Uses minimal firmware ID detection with deny list
-> > > > > - Follows KISS principle as suggested by reviewers
-> > > > >
-> > > > > Changes in v3:
-> > > > > - No changes
-> > > > >
-> > > > > Changes in v2:
-> > > > > - Improve commit messages
-> > > > > - Sysfs attributes moved to trackpoint.c
-> > > > > - Removed unnecessary comments
-> > > > > - Removed unnecessary debug messages
-> > > > > - Using strstarts() instead of strcmp()
-> > > > > - is_trackpoint_dt_capable() modified
-> > > > > - Removed _BIT suffix and used BIT() define
-> > > > > - Reverse the trackpoint_doubletap_status() logic to return error=
- first
-> > > > > - Removed export functions as a result of the design change
-> > > > > - Changed trackpoint_dev->psmouse to parent_psmouse
-> > > > > - The path of trackpoint.h is not changed
-> > > > > ---
-> > > > >  drivers/input/mouse/trackpoint.c | 45 ++++++++++++++++++++++++++=
-++++++
-> > > > >  drivers/input/mouse/trackpoint.h |  5 ++++
-> > > > >  2 files changed, 50 insertions(+)
-> > > > >
-> >
-> > > > > diff --git a/drivers/input/mouse/trackpoint.c b/drivers/input/mou=
-se/trackpoint.c
-> > > > > index 5f6643b69a2c..e12d76350252 100644
-> > > > > --- a/drivers/input/mouse/trackpoint.c
-> > > > > +++ b/drivers/input/mouse/trackpoint.c
-> >
-> > > > > +     /* Must start with "PNP: LEN03" */
-> > > > > +     if (!strstarts(pnp_id, "PNP: LEN03"))
-> > > >
-> > > > Missing include.
-> > >
-> > > Sorry, I am a bit confused here:
-> > > strstarts() is already available through the existing
-> > > #include <linux/string.h> in thinkpad_acpi.c.
-> > >
-> > > Do you think I should do anything else here?
-> >
-> > Yes.
-> >
-> > The file you're modifying in this patch is trackpoint.c which doesn't
-> > have that include so please add it also there. :-)
-> Aaah, Sorry!!. Got it.
-> I=E2=80=99ll add the missing #include <linux/string.h>
-> Thank you for pointing it out.
-
-Thanks. Please also double check you added inux/array_size.h into the=20
-correct file in case you were confused what file this patch modifies.
-
---=20
- i.
---8323328-2011260643-1773134910=:975--
