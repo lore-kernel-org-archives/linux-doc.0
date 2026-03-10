@@ -1,292 +1,187 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 599FF389454;
-	Tue, 10 Mar 2026 11:26:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35F493859CF
+	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 11:30:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773141981; cv=none; b=LRX9hJ7qkC/Ud8IQw4Evzyy96rmEbfcqjhq75JO9q0AlYYDQCoElm7WUW6Vri9EO3geDoe0N0ZCPeGYegZWC0Uh6sw4p9E8SyB6lQa6ElkB8F+B1iIgZ4c3a3NqaUybP6sOldMueX8ZBHPVPj/3T660VlNV6EeL320px0g01QyU=
+	t=1773142258; cv=none; b=Ktn9a28ZJ8rIDd0Da8XPHff7iu6UcRteNxDQOu0iiQFAbfZwWk2nCovNzbWEnK6/8FPrT9DneWyL7zeDTnWj0QPjyRcSk3N2RmTVySjLt3OiCIIEKbmgWUwN3guvbNanZopdhIzIQlqJ5hYw0EU8xIYhbHtfVidG6Pqnc/xw5M4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773141981; c=relaxed/simple;
-	bh=cuADWZqQKNvKseVwYL9JPBSsPsGhSnsfCdEinofgcFg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oEFagp64Afh6MjQ4Q3ahSTf0OwJ5wNj76h2ZS8maqlK9e1xaCmbAfJYeVvTcRFJw1kht6z4R50pxrZueLZEv8eohrxI1o6FppUE7/BuTBKOp3NuSNqKFpykNA2RPOPMpgNXhUdq9aGFv8y5v/wHPR2ilz4MqubGhKSLwBrgopwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 82D44152B;
-	Tue, 10 Mar 2026 04:26:12 -0700 (PDT)
-Received: from [10.1.196.46] (e134344.arm.com [10.1.196.46])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EB4E53F73B;
-	Tue, 10 Mar 2026 04:26:14 -0700 (PDT)
-Message-ID: <6519a56f-b6cf-43dc-b34a-42123f6356f6@arm.com>
-Date: Tue, 10 Mar 2026 11:26:13 +0000
+	s=arc-20240116; t=1773142258; c=relaxed/simple;
+	bh=t/29dTDs0K0l0JbyYm/bLv39xk1/Up9KxJ8JC9zOgOw=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B91MsgNF0L7H+5YgOA2ji9FX5pLcxrffbfvyx+GcJjAg+UV03ya4SYHOj/tvHyaV3/9o/2uIoq87RULeyR0W+Yw53N46OGYUG/nntqWzqxgRW5dT40HWa5ii5oGkNmrKXtgvnTir9gfTv3+9a6UMpufXA81vGrfP+9lPXQCz+QM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cI2U5MEj; arc=none smtp.client-ip=209.85.222.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cI2U5MEj"
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-8cd8576a512so206916285a.0
+        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 04:30:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773142256; x=1773747056; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hqIK390eO2wsJV7u11wn01ICkQTgnpyZlp3AO0Ym8Jk=;
+        b=cI2U5MEjrI0h/zRa7oQiUuAp9i8ODQXioduIxz2YQSxCwYfcCOun728Kk9WWqsR+O6
+         9XcnvAqibSzsnDxS4xlb4ulAjD01+zJJNNyXbFfiB/IhpfOCC+CIk7Lr5sHCROp+x3FD
+         8LJjF54Viss37WSPBx4B0ezaW2SVJGpV9AKMEKxVhChftyUArB0BPXSA1v/pKm90r1ry
+         7sffgufnRoooiaUWxJJ5L1CGS7iap7EvzwXAAMN5Eby8vo1E8Lc9j71+RGAG5Sm7F5Po
+         nRsLd1yRvxfO0Go+RjV5Wcwk6zz3tOhh2vQmB5kIHiGCOttjrQQZkTrtzt2KkCZv4tBh
+         HccQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773142256; x=1773747056;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hqIK390eO2wsJV7u11wn01ICkQTgnpyZlp3AO0Ym8Jk=;
+        b=JdcFOFffbco/wQjF1VHO+TJs7cgijjYlvu7y5AJrYxOi3qXRNxgFeMw63avLIifr8R
+         ADBPQkjljVQ1oE9z2UdXmfvTvWlj2gCACAylzEwuT/bjQYjxm/o87imGwIg8azfko22f
+         6nw1guJyICg8bCr9oSJiyAVDtLGxaTupAfMgqCGjRt0STKCRojpjqG3+eIPMzdyN3DgO
+         epeF1xaWKkF4fXMB+RwJb0sfh6gqvgeJArCgGWbgo+J2HtmnJruVLzRPSmnyZBRsHzMi
+         BPFKS0CgvtvtigCIsOqk1CHicFF2+vEMYiiP/SDpYSSmo1pM/MCm5L56TcgN6sBet/65
+         4OhQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU1M/kuxHnTvU3MYAaLW8EOt3R0QPNZGKcfNSpZz2WnioM/DTE8eZW4pJ4D/GpBcYFgIrsghppj1wA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwXXuexP6Slf+dH0fFRuWJbImbZc3uzzt0eZShBxSsTurfwNZ9V
+	lQeXwmVBVvNM9HmR+I5zAaSyQvsWF1Jw+FQ3CcIj1rbswrxdGTVcZdbNu00Rjxds
+X-Gm-Gg: ATEYQzzkPeTcOLlKxzeL+ndtGGT3X11tLfqIWnfYmNiea4/AEQdOMtwDwPT8kKlUk+i
+	tsE5SVZBLFguIL52J82GpErJqC7TySOYc3Vxt2beC6wO0Qi9ec0nATyXY+4448KXIrSSxcwLREr
+	v5eGcPIAhveadCyVnyZw/5L175pEBNBni0bYqXxoHyct07v8kNjraT1j0pFUGqwEJywXtFjASp1
+	Sokx4PPothHQt4oc8EbbePH5B10EO72Fb9sccSnh7OZ5BmuuXCUiT49I/nRKZ0qCqOJThSB8HJt
+	xmWgZVKPqrjFM1WRq+bUW5X9IhbAVQxV5wNZO7CV/JF7EH26JARMbK9uFW8OxbvilOjn7ZZnVwY
+	XS7hztTI//8gC4Wu5GwI4RrgnkNGNukoLLF2zKTBPEd/r4QLrSWOQfwqMuHLGRbxsgegPZ87OYR
+	bCeBwQ3gt93Ub/J1MLMcGVvPpzdpxZk33+U0su7LadJpOBjRcczJh8u/vSWeEGLdG1lA7zjtD1n
+	Cz+ERYDj5qJGnh37u5zQ5Qljw6wWgW06Y2XtiGWAkIQoRIa4EE=
+X-Received: by 2002:a05:6214:2421:b0:899:aa05:385c with SMTP id 6a1803df08f44-89a57bead24mr39721226d6.4.1773142255873;
+        Tue, 10 Mar 2026 04:30:55 -0700 (PDT)
+Received: from RDEALENC-L01.ad.analog.com (24.206.116.103.netskope-rdns.com. [24.206.116.103])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89a57a31cfcsm18833236d6.13.2026.03.10.04.30.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Mar 2026 04:30:55 -0700 (PDT)
+From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
+Date: Tue, 10 Mar 2026 11:30:48 +0000
+To: David Laight <david.laight.linux@gmail.com>, 
+	Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+Cc: 
+	Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>, rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org, 
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
+	Andy Shevchenko <andy@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH v8 02/10] lib: kstrtox: add kstrntoull() helper
+Message-ID: <lo35u6hrakhlj6bi3wanuyvosdpvm3p773hbuz6pjgljwdjle3@hsvlhffnn2ig>
+References: <20260303-adf41513-iio-driver-v8-0-8dd2417cc465@analog.com>
+ <20260303-adf41513-iio-driver-v8-2-8dd2417cc465@analog.com>
+ <20260304101655.620df7ee@pumpkin>
+ <6et7t3o6fjiinpkvpsmoxjhp6edn23dgclbulaxg5paccdotgp@amtf33da5dhf>
+ <zhjkurpwbuvirh3k4a4c3lfeu5semu4rjszvej4hnx7scjyk2q@v4r7oqexwsjl>
+ <20260310105027.08b93187@pumpkin>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Thunderbird Daily
-Subject: Re: [PATCH v5 38/41] arm_mpam: Add workaround for T241-MPAM-4
-To: Fenghua Yu <fenghuay@nvidia.com>
-Cc: amitsinght@marvell.com, baisheng.gao@unisoc.com,
- baolin.wang@linux.alibaba.com, carl@os.amperecomputing.com,
- dave.martin@arm.com, david@kernel.org, dfustini@baylibre.com,
- gshan@redhat.com, james.morse@arm.com, jonathan.cameron@huawei.com,
- kobak@nvidia.com, lcherian@marvell.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- peternewman@google.com, punit.agrawal@oss.qualcomm.com,
- quic_jiles@quicinc.com, reinette.chatre@intel.com, rohit.mathew@arm.com,
- scott@os.amperecomputing.com, sdonthineni@nvidia.com,
- tan.shaopeng@fujitsu.com, xhao@linux.alibaba.com, catalin.marinas@arm.com,
- will@kernel.org, corbet@lwn.net, maz@kernel.org, oupton@kernel.org,
- joey.gouly@arm.com, suzuki.poulose@arm.com, kvmarm@lists.linux.dev,
- zengheng4@huawei.com, linux-doc@vger.kernel.org,
- Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
-References: <20260224175720.2663924-1-ben.horgan@arm.com>
- <20260224175720.2663924-39-ben.horgan@arm.com>
- <7e496cb6-ab31-4a89-9630-0fa2e6b3607b@nvidia.com>
- <3e26371d-21b5-435e-9f31-7187466c57a2@arm.com>
- <2aa90f15-f2f0-45d7-9161-2ab08b4d00d4@nvidia.com>
-Content-Language: en-US
-From: Ben Horgan <ben.horgan@arm.com>
-In-Reply-To: <2aa90f15-f2f0-45d7-9161-2ab08b4d00d4@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260310105027.08b93187@pumpkin>
 
-Hi Fenghua,
-
-On 3/9/26 17:39, Fenghua Yu wrote:
-> Hi, Ben,
+On 26/03/10 10:50AM, David Laight wrote:
+> On Tue, 10 Mar 2026 09:26:11 +0000
+> Rodrigo Alencar <455.rodrigo.alencar@gmail.com> wrote:
 > 
-> On 3/2/26 09:11, Ben Horgan wrote:
->> Hi Fenghua,
->>
->> On 3/1/26 17:28, Fenghua Yu wrote:
->>> Hi, Ben,
->>>
->>> On 2/24/26 09:57, Ben Horgan wrote:
->>>> From: Shanker Donthineni <sdonthineni@nvidia.com>
->>>>
->>>> In the T241 implementation of memory-bandwidth partitioning, in the
->>>> absence
->>>> of contention for bandwidth, the minimum bandwidth setting can
->>>> affect the
->>>> amount of achieved bandwidth. Specifically, the achieved bandwidth
->>>> in the
->>>> absence of contention can settle to any value between the values of
->>>> MPAMCFG_MBW_MIN and MPAMCFG_MBW_MAX.  Also, if MPAMCFG_MBW_MIN is set
->>>> zero (below 0.78125%), once a core enters a throttled state, it will
->>>> never
->>>> leave that state.
->>>>
->>>> The first issue is not a concern if the MPAM software allows to program
->>>> MPAMCFG_MBW_MIN through the sysfs interface. This patch ensures program
->>>> MBW_MIN=1 (0.78125%) whenever MPAMCFG_MBW_MIN=0 is programmed.
->>>>
->>>> In the scenario where the resctrl doesn't support the MBW_MIN
->>>> interface via
->>>> sysfs, to achieve bandwidth closer to MBW_MAX in the absence of
->>>> contention,
->>>> software should configure a relatively narrow gap between MBW_MIN and
->>>> MBW_MAX. The recommendation is to use a 5% gap to mitigate the problem.
->>>>
->>>> Clear the feature MBW_MIN feature from the class to ensure we don't
->>>> accidentally change behaviour when resctrl adds support for a MBW_MIN
->>>> interface.
->>>>
->>>> Tested-by: Gavin Shan <gshan@redhat.com>
->>>> Tested-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
->>>> Reviewed-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
->>>> Signed-off-by: Shanker Donthineni <sdonthineni@nvidia.com>
->>>> Signed-off-by: James Morse <james.morse@arm.com>
->>>> Signed-off-by: Ben Horgan <ben.horgan@arm.com>
->>>
->>> Reviewed-by: Fenghua Yu <fenghuay@nvidia.com>
->>>
->>> This patch itself is good.
->>>
->>> Please check the following comments.
->>>
->>>> ---
->>>> [ morse: Added as second quirk, adapted to use the new intermediate
->>>> values
->>>> in mpam_extend_config() ]
->>>>
->>>> Changes since rfc:
->>>> MPAM_IIDR_NVIDIA_T421 -> MPAM_IIDR_NVIDIA_T241
->>>> Handling when reset_mbw_min is set
->>>>
->>>> Changes since v3:
->>>> Move the 5% gap policy back here
->>>> Clear mbw_min feature in class
->>>> ---
->>>>    Documentation/arch/arm64/silicon-errata.rst |  2 +
->>>>    drivers/resctrl/mpam_devices.c              | 50 ++++++++++++++++
->>>> +++--
->>>>    drivers/resctrl/mpam_internal.h             |  1 +
->>>>    3 files changed, 50 insertions(+), 3 deletions(-)
->>>>
->>>> diff --git a/Documentation/arch/arm64/silicon-errata.rst b/
->>>> Documentation/arch/arm64/silicon-errata.rst
->>>> index a65620f98e3a..a4b246655e37 100644
->>>> --- a/Documentation/arch/arm64/silicon-errata.rst
->>>> +++ b/Documentation/arch/arm64/silicon-errata.rst
->>>> @@ -249,6 +249,8 @@ stable kernels.
->>>>    +----------------+-----------------+-----------------
->>>> +-----------------------------+
->>>>    | NVIDIA         | T241 MPAM       | T241-MPAM-1     | N/
->>>> A                         |
->>>>    +----------------+-----------------+-----------------
->>>> +-----------------------------+
->>>> +| NVIDIA         | T241 MPAM       | T241-MPAM-4     | N/
->>>> A                         |
->>>> ++----------------+-----------------+-----------------
->>>> +-----------------------------+
->>>>    +----------------+-----------------+-----------------
->>>> +-----------------------------+
->>>>    | Freescale/NXP  | LS2080A/LS1043A | A-008585        |
->>>> FSL_ERRATUM_A008585         |
->>>>    +----------------+-----------------+-----------------
->>>> +-----------------------------+
->>>> diff --git a/drivers/resctrl/mpam_devices.c b/drivers/resctrl/
->>>> mpam_devices.c
->>>> index 08cb080592d9..8f44e9dee207 100644
->>>> --- a/drivers/resctrl/mpam_devices.c
->>>> +++ b/drivers/resctrl/mpam_devices.c
->>>> @@ -679,6 +679,12 @@ static const struct mpam_quirk mpam_quirks[] = {
->>>>        .iidr_mask  = MPAM_IIDR_MATCH_ONE,
->>>>        .workaround = T241_SCRUB_SHADOW_REGS,
->>>>        },
->>>> +    {
->>>> +    /* NVIDIA t241 erratum T241-MPAM-4 */
->>>> +    .iidr       = MPAM_IIDR_NVIDIA_T241,
->>>> +    .iidr_mask  = MPAM_IIDR_MATCH_ONE,
->>>> +    .workaround = T241_FORCE_MBW_MIN_TO_ONE,
->>>> +    },
->>>>        { NULL } /* Sentinel */
->>>>    };
->>>>    @@ -1464,6 +1470,31 @@ static void
->>>> mpam_quirk_post_config_change(struct mpam_msc_ris *ris, u16 partid,
->>>>            mpam_apply_t241_erratum(ris, partid);
->>>>    }
->>>>    +static u16 mpam_wa_t241_force_mbw_min_to_one(struct mpam_props
->>>> *props)
->>>> +{
->>>> +    u16 max_hw_value, min_hw_granule, res0_bits;
->>>> +
->>>> +    res0_bits = 16 - props->bwa_wd;
->>>> +    max_hw_value = ((1 << props->bwa_wd) - 1) << res0_bits;
->>>> +    min_hw_granule = ~max_hw_value;
->>>> +
->>>> +    return min_hw_granule + 1;
->>>> +}
->>>> +
->>>> +static u16 mpam_wa_t241_calc_min_from_max(struct mpam_config *cfg)
->>>> +{
->>>> +    u16 val = 0;
->>>> +
->>>> +    if (mpam_has_feature(mpam_feat_mbw_max, cfg)) {
->>>
->>> But the problem is mpam_feat_mbw_max feature is NOT set in cfg.
->>>
->>>> +        u16 delta = ((5 * MPAMCFG_MBW_MAX_MAX) / 100) - 1;
->>>> +
->>>> +        if (cfg->mbw_max > delta)
->>>> +            val = cfg->mbw_max - delta;
->>>> +    }
->>>> +
->>>> +    return val;
->>>
->>> So 0 is always returned.
->>>
->>> The workaround will set mbw_min as 1% which is too small and will cause
->>> performance degradation, e.g. about 20% degradation on some benchmarks.
->>>
->>> This patch itself doesn't have any issue.
->>>
->>> The issue is the mbw_max feature bit in cfg is not set.
->>
->> This is intended behaviour as the reset is done independently
->> from the value set in the config. The value is there so that
->> resctrl can display the expected values.
->>
->>> This is a legacy issue, not introduced by this patch set.
->>>> Here is a fix patch for the issue:
->>> https://lore.kernel.org/lkml/20260301171829.1357886-1-
->>> fenghuay@nvidia.com/T/#u
->>
->> I've commented on that patch. I think it's best to fix it in the context
->> of the erratum.
->>
->> Does the below solve your performance problems?
->>
->> diff --git a/drivers/resctrl/mpam_devices.c b/drivers/resctrl/
->> mpam_devices.c
->> index 236f78ab9163..60d3d3e2193f 100644
->> --- a/drivers/resctrl/mpam_devices.c
->> +++ b/drivers/resctrl/mpam_devices.c
->> @@ -1515,16 +1515,20 @@ static u16
->> mpam_wa_t241_force_mbw_min_to_one(struct mpam_props *props)
->>          return min_hw_granule + 1;
->>   }
->>   -static u16 mpam_wa_t241_calc_min_from_max(struct mpam_config *cfg)
->> +static u16 mpam_wa_t241_calc_min_from_max(struct mpam_props *props,
->> +                                         struct mpam_config *cfg)
->>   {
->>          u16 val = 0;
->> +       u16 max;
->> +       u16 delta = ((5 * MPAMCFG_MBW_MAX_MAX) / 100) - 1;
->>   -       if (mpam_has_feature(mpam_feat_mbw_max, cfg)) {
->> -               u16 delta = ((5 * MPAMCFG_MBW_MAX_MAX) / 100) - 1;
->> +       if (mpam_has_feature(mpam_feat_mbw_max, cfg))
->> +               max = cfg->mbw_max;
->> +       else
->> +               max = GENMASK(15, 16 - cprops->bwa_wd);
->>   -               if (cfg->mbw_max > delta)
->> -                       val = cfg->mbw_max - delta;
->> -       }
+> > On 26/03/04 11:41AM, Rodrigo Alencar wrote:
+> > > On 26/03/04 10:16AM, David Laight wrote:  
+> > > > On Tue, 03 Mar 2026 13:27:07 +0000
+> > > > Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
+> > > >   
+> > > > > From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> > > > > 
+> > > > > Add kstrntoull() function, which converts a string to an ULL with a max
+> > > > > character limit. The function is an alternative integer parsing function
+> > > > > that does not require a null-terminated string. It becomes a better option
+> > > > > over simple_strtoull() or kstrtoull() when parsing integers from a buffer
+> > > > > with custom delimiters without having to create temporary copies.
+> > > > > The function is consumed inside the implementation _kstrtoull(),
+> > > > > promoting reuse.  
+> > > > 
+> > > > If you've got custom delimiters use a function that returns a pointer
+> > > > to the character that terminated the conversion.
+> > > > They save you having to find the delimiter as well as taking a copy.  
+> > > 
+> > > understood, how about this prototype then:
+> > > 
+> > > const char __must_check *kstrntoull(const char *s, unsigned int base,
+> > > 				    unsigned long long *res, size_t max_chars); 
+> > > 
+> > > to be used like:
+> > > 
+> > > 	end = kstrntoull(s, base, &res, INT_MAX);
+> > > 	if (IS_ERR(end)) {
+> > > 		/* return or handle error */
+> > > 		return PTR_ERR(end);
+> > > 	}  
+> > 
+> > Hi David,
+> > 
+> > Do you have any other feedback? the function prototype can also be changed as
+> > follows:
+> > 
+> > int __must_check *kstrntoull(const char *s, const char **endp, unsigned int base,
+> > 			     unsigned long long *res, size_t max_chars);
+> > 
+> > so that a pointer to the terminated character is passes as a parameter.
+> > which one would be the preference?
+> > 
 > 
-> Could you please add some comments on this piece of code? It's worth to
-> comment on why there are different values on cfg and props.
+> I really don't see why you need to add 'yet another' function for parsing
+> integers.
+> Having to pre-scan the string for a separator seems just wrong.
 
-Sure, how about this?
+there is no pre-scanning, the function stops at a non-digit character or
+at the request amount of chars. That behavior is already implemented by
+the internal parsing functions. The function is just exposing this.
 
-	} else {
-		/* Resetting so use the ris specific default. */
-		max = GENMASK(15, 16 - props->bwa_wd);
-	}
+> The userspace strtoul() family do everything quite nicely apart from
+> overflow/limit checking.
+> There are a few options for overflow:
+> - Ignore it, this used to be what posix/sus allowed for command lines.
 
+That is the whole point why simple_strtoull() is not recommended, being
+flagged by checkpatch.
 
->> +       if (max > delta)
->> +               val = max - delta;
->>            return val;
->>   }
->> @@ -1577,9 +1581,8 @@ static void mpam_reprogram_ris_partid(struct
->> mpam_msc_ris *ris, u16 partid,
->>                  if (mpam_has_quirk(T241_FORCE_MBW_MIN_TO_ONE, msc)) {
->>                          u16 min =
->> mpam_wa_t241_force_mbw_min_to_one(rprops);
->>   -                       val = mpam_wa_t241_calc_min_from_max(cfg);
->> -                       if (val < min)
->> -                               val = min;
->> +                       val = mpam_wa_t241_calc_min_from_max(rprops,
->> cfg);
->> +                       val = max(val, min);
->>                  }
->>                    mpam_write_partsel_reg(msc, MBW_MIN, val);
->>
-> 
-> Otherwise, this change looks good to me.
+One thing to note is that kstrtoull() does check for overflows, but
+it forces you to comply with a termination character. In the case you
+have the integer in a string with separators, you would have to create
+temporary copies of the string... and that is, in fact, not effective,
+because it requires pre-scanning and copying, hence the existance of
+simple_strtoull().
 
-Did you get a chance to confirm if it behaves as expected on your harware?
+But indeed, I could use simple_strtoull(), ignore this and be done
+with it.
 
-> 
-> Thanks.
-> 
-> -Fenghua
+> - Saturate.
+> - Return a pointer to the digit that makes the value too big as the
+>   termination character - since the code will typically expect one
+>   of ",.:-" this will be a syntax error.
 
-Thanks,
+There would not be a  way to do that if granular control of the
+parsing is not provided.
+ 
+> It might be worth adding a parameter for the maximum value.
+> Then you only need one real function for 32bit and 64bit values.
 
-Ben
+Not seeing a reason for that, as range limits can be checked after
+the parsing. Here we just make sure that the parsed value fits in
+64-bits.
 
+> But you also really want the use the function return value for the
+> converted number (for all sorts of reasons).
+
+-- 
+Kind regards,
+
+Rodrigo Alencar
