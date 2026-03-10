@@ -1,316 +1,146 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D9B73E9F74
-	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 07:56:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C538C3E5EF6;
+	Tue, 10 Mar 2026 08:12:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.104
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773129402; cv=none; b=U+1oCqA2UT70ezSSSoxopqzZk0mSm6EdFyD3S8PmD7hOIFVC4Pj0kqDk7OgFhSgIR2zghrz2sg9UsBn6jqcNSaCQSmv9N3tC9Kcnzd2aqROGxqOj6whF/APMf39XphIm/Iwlpm0TlfYWNf36D35uIl9EtF4d3FV1/Wl/0yzwRrM=
+	t=1773130349; cv=none; b=a9Kq2BMhUcUTe7PC8/WOzja/jIjM1ERULNguKbxiCnlnLYE6VhuQKB0Yk0szjwyTcYFPrJTdvoSdPR3Mc4j9Nid8nE1aoD/XWxEzlH2xmsBMtYvB1WkH9RFBhBYR87GjmjhFid+CzTq66rz4xFmgUE60xA3MH+Vs2TYG8PenrZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773129402; c=relaxed/simple;
-	bh=YQYoMl9cJ2YRn65PkaBbiPVREIoceypt3NqeBMjR1eA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kNTTZZa76bOeeY+UPtlGQIVK/cTWGMNZAkPx30Li4IoFTvmGbuRJ0qtzFLz+WwettRcFd+s7NEuIZakh7scDbaXa6loKW29zcoZ3jSnxexzq7MVY/2/7BrFGnFaBbLEhBck9FKAMZ3NkYoVo2nYDrO6iV4UFHs/pD1Q15Aubj8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=dZrru0GX; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	s=arc-20240116; t=1773130349; c=relaxed/simple;
+	bh=aSy8Em961NCZRux0VbAasFzfHnw9T/vspkvrLwI065U=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=pKbjgT4AxK+0xsqBBt9ImGqmcQZYOkS1q/b8JPioFc7uJQUh49SZ+39hOUGOflroMJ1Zb88pigYMV7DlKZZE/30rfZDpWWZYlZztw7KNGLBB4V/mYMTgEGCWLdHiwpzZBC4GMpx+fVZDibGyMP2jBRkyYFImSJtGLKMpScvOz0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=CzOhD+qz; arc=none smtp.client-ip=192.134.164.104
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="dZrru0GX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=from:to:cc:subject:date:message-id
-	:in-reply-to:references:mime-version:content-transfer-encoding;
-	 s=k1; bh=VR3bz5kc4VcI1PQY8TwV4x5GtzDKGF8AtE87sZOuzTU=; b=dZrru0
-	GXM++14D1PbCtyngDrMW8bonktJHKvt9XeOUkdDaxOXlM9NRre3Vd3APZ5cxZFIC
-	f14v8TBO29iO5BU0eZet6ismxA9rjm2dFjLdqiKB74WpuV1gyDyThm3AeO6Cago5
-	YTH3bqYH6cMhgSq4vjiDCFP0HWuZ0q4dxt4OQyjRwx9QzOX6J4qQokLjTqD8Qpin
-	0t2/ojU2/9cJulIAxn/KrNdCKDJ6bLGq8S2cju1wMCIoe6eEYnYbz1q/sETFrOzE
-	seq3fEvjDeCrOyipkspFtTZgGc5YzEAUOkx2f0THGSsEwFjbW8iABQGkIOIP5U1z
-	8Jc6iJm42q5pRLbQ==
-Received: (qmail 3112920 invoked from network); 10 Mar 2026 08:56:03 +0100
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 10 Mar 2026 08:56:03 +0100
-X-UD-Smtp-Session: l3s3148p1@CnfT2aZM/tIujntP
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Mark Brown <broonie@kernel.org>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Lee Jones <lee@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Will Deacon <will@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Waiman Long <longman@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Antonio Borneo <antonio.borneo@foss.st.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	linux-remoteproc@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="CzOhD+qz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=c6tfNjJqR+2ddnOI9tqldwvC2Q1KTWFoIHpWKWzAQ1g=;
+  b=CzOhD+qzqVRituE0LFvD3y6G8u/HnMYbvHb/cgc31kdVEU5sOGVrB2Kc
+   apPpTgLZ/yKpdTWZy1XFNzXoturn/g6GCPpL1R25yHB235zF4bsUnVDc3
+   o1rdNOMSzgLYNyL2954oQAoA8IKsLiyobyzSRaq/29MuoLvOR0seoDLs8
+   E=;
+X-CSE-ConnectionGUID: ix/7jfKyR/y3wxVvum7dPQ==
+X-CSE-MsgGUID: pugvvK/IRBGOB9Tbget9rQ==
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.23,111,1770591600"; 
+   d="scan'208";a="140883526"
+Received: from i80.paris.inria.fr (HELO i80.paris.inria.fr.) ([128.93.102.196])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2026 09:11:17 +0100
+From: Julia Lawall <Julia.Lawall@inria.fr>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	workflows@vger.kernel.org,
+	cocci@inria.fr,
+	Nicolas Palix <nicolas.palix@imag.fr>,
+	Hu Haowen <2023002089@link.tyut.edu.cn>,
+	Alex Shi <alexs@kernel.org>,
+	Yanteng Si <si.yanteng@linux.dev>,
+	Dongliang Mu <dzm91@hust.edu.cn>,
 	linux-doc@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	linux-iio@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-gpio@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-spi@vger.kernel.org
-Subject: [PATCH v4 15/15] hwspinlock/treewide: refactor consumer.h from public header
-Date: Tue, 10 Mar 2026 08:55:30 +0100
-Message-ID: <20260310075539.11701-16-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260310075539.11701-1-wsa+renesas@sang-engineering.com>
-References: <20260310075539.11701-1-wsa+renesas@sang-engineering.com>
+	linux-kernel@vger.kernel.org,
+	Federico Vaga <federico.vaga@vaga.pv.it>,
+	Carlos Bilbao <carlos.bilbao@kernel.org>,
+	Avadhut Naik <avadhut.naik@amd.com>,
+	LIU Haoyang <tttturtleruss@gmail.com>
+Subject: [PATCH] coccinelle: update Coccinelle URL
+Date: Tue, 10 Mar 2026 09:11:12 +0100
+Message-Id: <20260310081112.354802-1-Julia.Lawall@inria.fr>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=y
 Content-Transfer-Encoding: 8bit
 
-Factor out the entries only needed for consumers from the generic public
-header. This allows for a clean separation between providers and
-consumers. Also remove contact field in favor of MAINTAINERS entries.
-Fix the users, too.
+The LIP6 URL no longer functions.
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Acked-by: Mark Brown <broonie@kernel.org>
-Acked-by: Jonathan Cameron <jonathan.cameron@huawei.com> # for IIO
-Acked-by: Lee Jones <lee@kernel.org> # for MFD
+Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
+
 ---
- Documentation/locking/hwspinlock.rst              |  2 +-
- MAINTAINERS                                       |  1 -
- drivers/base/regmap/regmap.c                      |  2 +-
- drivers/hwspinlock/hwspinlock_core.c              |  2 +-
- drivers/iio/adc/sc27xx_adc.c                      |  2 +-
- drivers/irqchip/irq-stm32mp-exti.c                |  2 +-
- drivers/mfd/syscon.c                              |  2 +-
- drivers/nvmem/sc27xx-efuse.c                      |  2 +-
- drivers/nvmem/sprd-efuse.c                        |  2 +-
- drivers/pinctrl/stm32/pinctrl-stm32.c             |  2 +-
- drivers/soc/qcom/smem.c                           |  2 +-
- drivers/spi/spi-sprd-adi.c                        |  2 +-
- .../linux/{hwspinlock.h => hwspinlock/consumer.h} | 15 ++++++---------
- 13 files changed, 17 insertions(+), 21 deletions(-)
- rename include/linux/{hwspinlock.h => hwspinlock/consumer.h} (98%)
 
-diff --git a/Documentation/locking/hwspinlock.rst b/Documentation/locking/hwspinlock.rst
-index a737c702a7d1..001bcab86690 100644
---- a/Documentation/locking/hwspinlock.rst
-+++ b/Documentation/locking/hwspinlock.rst
-@@ -306,7 +306,7 @@ Typical usage
+I used the UTF-8 encoding for the email.
+Let me know if this was not the right choice.
+
+ Documentation/dev-tools/coccinelle.rst                |    2 +-
+ Documentation/translations/it_IT/process/4.Coding.rst |    3 ++-
+ Documentation/translations/sp_SP/process/4.Coding.rst |    3 ++-
+ Documentation/translations/zh_CN/process/4.Coding.rst |    2 +-
+ Documentation/translations/zh_TW/process/4.Coding.rst |    2 +-
+ 5 files changed, 7 insertions(+), 5 deletions(-)
+
+diff --git a/Documentation/translations/zh_CN/process/4.Coding.rst b/Documentation/translations/zh_CN/process/4.Coding.rst
+index 4cc35d410dbc..a00ad5d6b81e 100644
+--- a/Documentation/translations/zh_CN/process/4.Coding.rst
++++ b/Documentation/translations/zh_CN/process/4.Coding.rst
+@@ -216,7 +216,7 @@ Documentation/fault-injection/fault-injection.rst。
+ 可以在 https://sparse.wiki.kernel.org/index.php/Main_page 找到）,
+ 然后可以通过在make命令中添加“C=1”在代码上运行它。
  
- ::
+-“Coccinelle”工具 :ref:`http://coccinelle.lip6.fr/ <devtools_coccinelle>`
++“Coccinelle”工具 :ref:`https://coccinelle.gitlabpages.inria.fr/website/ <devtools_coccinelle>`
+ 能够发现各种潜在的编码问题；它还可以为这些问题提出修复方案。在
+ scripts/coccinelle目录下已经打包了相当多的内核“语义补丁”；运行
+ “make coccicheck”将运行这些语义补丁并报告发现的任何问题。有关详细信息，请参阅
+diff --git a/Documentation/translations/zh_TW/process/4.Coding.rst b/Documentation/translations/zh_TW/process/4.Coding.rst
+index e90a6b51fb98..233e8718ed41 100644
+--- a/Documentation/translations/zh_TW/process/4.Coding.rst
++++ b/Documentation/translations/zh_TW/process/4.Coding.rst
+@@ -219,7 +219,7 @@ Documentation/fault-injection/fault-injection.rst。
+ 可以在 https://sparse.wiki.kernel.org/index.php/Main_page 找到）,
+ 然後可以通過在make命令中添加“C=1”在代碼上運行它。
  
--	#include <linux/hwspinlock.h>
-+	#include <linux/hwspinlock/consumer.h>
- 	#include <linux/err.h>
+-“Coccinelle”工具 :ref:`http://coccinelle.lip6.fr/ <devtools_coccinelle>`
++“Coccinelle”工具 :ref:`https://coccinelle.gitlabpages.inria.fr/website/ <devtools_coccinelle>`
+ 能夠發現各種潛在的編碼問題；它還可以爲這些問題提出修復方案。在
+ scripts/coccinelle目錄下已經打包了相當多的內核“語義補丁”；運行
+ “make coccicheck”將運行這些語義補丁並報告發現的任何問題。有關詳細信息，請參閱
+diff --git a/Documentation/translations/it_IT/process/4.Coding.rst b/Documentation/translations/it_IT/process/4.Coding.rst
+index 3126342c4b4a..a2ec35e016b7 100644
+--- a/Documentation/translations/it_IT/process/4.Coding.rst
++++ b/Documentation/translations/it_IT/process/4.Coding.rst
+@@ -329,7 +329,8 @@ Sparse deve essere installato separatamente (se il vostra distribuzione non
+ lo prevede, potete trovarlo su https://sparse.wiki.kernel.org/index.php/Main_Page);
+ può essere attivato sul codice aggiungendo "C=1" al comando make.
  
- 	int hwspinlock_example(void)
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d5d78f08bfca..11421b205874 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11213,7 +11213,6 @@ F:	Documentation/devicetree/bindings/hwlock/
- F:	Documentation/locking/hwspinlock.rst
- F:	drivers/hwspinlock/
- F:	include/linux/hwspinlock/
--F:	include/linux/hwspinlock.h
+-Lo strumento "Coccinelle" (http://coccinelle.lip6.fr/) è in grado di trovare
++Lo strumento "Coccinelle" (https://coccinelle.gitlabpages.inria.fr/website/)
++è in grado di trovare
+ una vasta varietà di potenziali problemi di codifica; e può inoltre proporre
+ soluzioni per risolverli.  Un buon numero di "patch semantiche" per il kernel
+ sono state preparate nella cartella scripts/coccinelle; utilizzando
+diff --git a/Documentation/dev-tools/coccinelle.rst b/Documentation/dev-tools/coccinelle.rst
+index c714780d458a..05614c469b47 100644
+--- a/Documentation/dev-tools/coccinelle.rst
++++ b/Documentation/dev-tools/coccinelle.rst
+@@ -34,7 +34,7 @@ of many distributions, e.g. :
  
- HARDWARE TRACING FACILITIES
- M:	Alexander Shishkin <alexander.shishkin@linux.intel.com>
-diff --git a/drivers/base/regmap/regmap.c b/drivers/base/regmap/regmap.c
-index 607c1246d994..d25494495469 100644
---- a/drivers/base/regmap/regmap.c
-+++ b/drivers/base/regmap/regmap.c
-@@ -16,7 +16,7 @@
- #include <linux/sched.h>
- #include <linux/delay.h>
- #include <linux/log2.h>
--#include <linux/hwspinlock.h>
-+#include <linux/hwspinlock/consumer.h>
- #include <linux/unaligned.h>
+ Some distribution packages are obsolete and it is recommended
+ to use the latest version released from the Coccinelle homepage at
+-http://coccinelle.lip6.fr/
++https://coccinelle.gitlabpages.inria.fr/website
  
- #define CREATE_TRACE_POINTS
-diff --git a/drivers/hwspinlock/hwspinlock_core.c b/drivers/hwspinlock/hwspinlock_core.c
-index 6c8a03deb00c..e78ec4b5cfa3 100644
---- a/drivers/hwspinlock/hwspinlock_core.c
-+++ b/drivers/hwspinlock/hwspinlock_core.c
-@@ -12,7 +12,7 @@
- #include <linux/delay.h>
- #include <linux/device.h>
- #include <linux/err.h>
--#include <linux/hwspinlock.h>
-+#include <linux/hwspinlock/consumer.h>
- #include <linux/hwspinlock/provider.h>
- #include <linux/jiffies.h>
- #include <linux/kernel.h>
-diff --git a/drivers/iio/adc/sc27xx_adc.c b/drivers/iio/adc/sc27xx_adc.c
-index 6209499c5c37..8a881d63b7dd 100644
---- a/drivers/iio/adc/sc27xx_adc.c
-+++ b/drivers/iio/adc/sc27xx_adc.c
-@@ -1,7 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0
- // Copyright (C) 2018 Spreadtrum Communications Inc.
+ Or from Github at:
  
--#include <linux/hwspinlock.h>
-+#include <linux/hwspinlock/consumer.h>
- #include <linux/iio/iio.h>
- #include <linux/module.h>
- #include <linux/mutex.h>
-diff --git a/drivers/irqchip/irq-stm32mp-exti.c b/drivers/irqchip/irq-stm32mp-exti.c
-index a24f4f1a4f8f..25d5aa67728a 100644
---- a/drivers/irqchip/irq-stm32mp-exti.c
-+++ b/drivers/irqchip/irq-stm32mp-exti.c
-@@ -6,7 +6,7 @@
-  */
+diff --git a/Documentation/translations/sp_SP/process/4.Coding.rst b/Documentation/translations/sp_SP/process/4.Coding.rst
+index 7cc347c34354..6c3750ccdea2 100644
+--- a/Documentation/translations/sp_SP/process/4.Coding.rst
++++ b/Documentation/translations/sp_SP/process/4.Coding.rst
+@@ -336,7 +336,8 @@ https://sparse.wiki.kernel.org/index.php/Main_Page si su distribución no lo
+ empaqueta); luego, puede ejecutarse en el código agregando "C=1" a su
+ comando make.
  
- #include <linux/bitops.h>
--#include <linux/hwspinlock.h>
-+#include <linux/hwspinlock/consumer.h>
- #include <linux/interrupt.h>
- #include <linux/io.h>
- #include <linux/irq.h>
-diff --git a/drivers/mfd/syscon.c b/drivers/mfd/syscon.c
-index 21a7fcdd2737..8ec74f8513d7 100644
---- a/drivers/mfd/syscon.c
-+++ b/drivers/mfd/syscon.c
-@@ -11,7 +11,7 @@
- #include <linux/cleanup.h>
- #include <linux/clk.h>
- #include <linux/err.h>
--#include <linux/hwspinlock.h>
-+#include <linux/hwspinlock/consumer.h>
- #include <linux/list.h>
- #include <linux/mutex.h>
- #include <linux/of.h>
-diff --git a/drivers/nvmem/sc27xx-efuse.c b/drivers/nvmem/sc27xx-efuse.c
-index 4e2ffefac96c..309090cd4ff0 100644
---- a/drivers/nvmem/sc27xx-efuse.c
-+++ b/drivers/nvmem/sc27xx-efuse.c
-@@ -1,7 +1,7 @@
- // SPDX-License-Identifier: GPL-2.0
- // Copyright (C) 2018 Spreadtrum Communications Inc.
- 
--#include <linux/hwspinlock.h>
-+#include <linux/hwspinlock/consumer.h>
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/platform_device.h>
-diff --git a/drivers/nvmem/sprd-efuse.c b/drivers/nvmem/sprd-efuse.c
-index 1a7e4e5d8b86..92e3092719ba 100644
---- a/drivers/nvmem/sprd-efuse.c
-+++ b/drivers/nvmem/sprd-efuse.c
-@@ -3,7 +3,7 @@
- 
- #include <linux/clk.h>
- #include <linux/delay.h>
--#include <linux/hwspinlock.h>
-+#include <linux/hwspinlock/consumer.h>
- #include <linux/io.h>
- #include <linux/module.h>
- #include <linux/nvmem-provider.h>
-diff --git a/drivers/pinctrl/stm32/pinctrl-stm32.c b/drivers/pinctrl/stm32/pinctrl-stm32.c
-index 6a99708a5a23..17b2072d609e 100644
---- a/drivers/pinctrl/stm32/pinctrl-stm32.c
-+++ b/drivers/pinctrl/stm32/pinctrl-stm32.c
-@@ -10,7 +10,7 @@
- #include <linux/clk.h>
- #include <linux/export.h>
- #include <linux/gpio/driver.h>
--#include <linux/hwspinlock.h>
-+#include <linux/hwspinlock/consumer.h>
- #include <linux/io.h>
- #include <linux/irq.h>
- #include <linux/mfd/syscon.h>
-diff --git a/drivers/soc/qcom/smem.c b/drivers/soc/qcom/smem.c
-index d5c94b47f431..6d574d65b4a3 100644
---- a/drivers/soc/qcom/smem.c
-+++ b/drivers/soc/qcom/smem.c
-@@ -4,7 +4,7 @@
-  * Copyright (c) 2012-2013, The Linux Foundation. All rights reserved.
-  */
- 
--#include <linux/hwspinlock.h>
-+#include <linux/hwspinlock/consumer.h>
- #include <linux/io.h>
- #include <linux/module.h>
- #include <linux/of.h>
-diff --git a/drivers/spi/spi-sprd-adi.c b/drivers/spi/spi-sprd-adi.c
-index e7d83c16b46c..04313e4a63dd 100644
---- a/drivers/spi/spi-sprd-adi.c
-+++ b/drivers/spi/spi-sprd-adi.c
-@@ -5,7 +5,7 @@
-  */
- 
- #include <linux/delay.h>
--#include <linux/hwspinlock.h>
-+#include <linux/hwspinlock/consumer.h>
- #include <linux/init.h>
- #include <linux/io.h>
- #include <linux/kernel.h>
-diff --git a/include/linux/hwspinlock.h b/include/linux/hwspinlock/consumer.h
-similarity index 98%
-rename from include/linux/hwspinlock.h
-rename to include/linux/hwspinlock/consumer.h
-index 4fe1c8831cd1..f476222ec924 100644
---- a/include/linux/hwspinlock.h
-+++ b/include/linux/hwspinlock/consumer.h
-@@ -1,17 +1,16 @@
- /* SPDX-License-Identifier: GPL-2.0 */
- /*
-- * Hardware spinlock public header
-+ * Hardware spinlock public header for consumers
-  *
-  * Copyright (C) 2010 Texas Instruments Incorporated - http://www.ti.com
-- *
-- * Contact: Ohad Ben-Cohen <ohad@wizery.com>
-+ * Copyright (C) 2026 Sang Engineering
-+ * Copyright (C) 2026 Renesas Solutions Corp.
-  */
- 
--#ifndef __LINUX_HWSPINLOCK_H
--#define __LINUX_HWSPINLOCK_H
-+#ifndef __LINUX_HWSPINLOCK_CONSUMER_H
-+#define __LINUX_HWSPINLOCK_CONSUMER_H
- 
- #include <linux/err.h>
--#include <linux/sched.h>
- 
- /* hwspinlock mode argument */
- #define HWLOCK_IRQSTATE		0x01 /* Disable interrupts, save state */
-@@ -22,8 +21,6 @@
- struct device;
- struct device_node;
- struct hwspinlock;
--struct hwspinlock_device;
--struct hwspinlock_ops;
- 
- #ifdef CONFIG_HWSPINLOCK
- 
-@@ -403,4 +400,4 @@ static inline void hwspin_unlock(struct hwspinlock *hwlock)
- 	__hwspin_unlock(hwlock, 0, NULL);
- }
- 
--#endif /* __LINUX_HWSPINLOCK_H */
-+#endif /* __LINUX_HWSPINLOCK_CONSUMER_H */
--- 
-2.47.3
+-La herramienta "Coccinelle" (http://coccinelle.lip6.fr/) puede encontrar
++La herramienta "Coccinelle" (https://coccinelle.gitlabpages.inria.fr/website/)
++puede encontrar
+ una amplia variedad de posibles problemas de codificación; también puede
+ proponer correcciones para esos problemas. Bastantes "parches semánticos"
+ para el kernel se han empaquetado en el directorio scripts/coccinelle;
 
