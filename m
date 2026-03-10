@@ -1,132 +1,144 @@
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD11D3C555C;
-	Tue, 10 Mar 2026 23:40:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EEAF35AC23
+	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 23:57:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773186032; cv=none; b=Xw/ZzVcDMqFBa94ZuKwUNWU+KRnWyqDNlfXrBXDTyuoR3hlto36zkxCCtsBEgC+Vkhh+YijoV6fQnH9hoqkc/ug1WocktzZI3fZXkDq1upk8mJqj0skliRjoLf8JzfHQm0h5oAIQyqCbijSt0nicDadte81jmxXUUrlq0AHKmIg=
+	t=1773187059; cv=none; b=FEgiU7Twwe6RJtns8kB5MNrFeYDz2VWnQZ4ZhMlpz+27tVl+DQCTd0b0GH+bQoTQ0i26qhjre2r+lBcYfdJVL1Cz/Akt0HVsYXqlsOwimikt6+FGiX3CwmfwR2D5llr9hfjEy/G7bXFoFubDrMXg8gcKt5AaAJyXFWRKR9zRcD0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773186032; c=relaxed/simple;
-	bh=P77ERZ9Acp+X4uBnKo+HiFNIC4pqXp+g79+E7zr0+RI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VWb+CxzT0A38l1kepTQhVrEOpVVjAXEd9742KmNM7LgWhE3B2Z+TPkikXHIKoT1t9e5BFCY3wSRgEvvfpsoeRJPewUkiJqLy2HEgj4oH04hUY0mYZAd97AOoDiGpODU4eaJI2p1kZ5Ef0nBP71BIPCYqmfnG9McN0JYLWKwSbkA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=kAvOQolF; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+	s=arc-20240116; t=1773187059; c=relaxed/simple;
+	bh=cJP0g25EjCZz5LlBgTEgoSsBxXU9wIOyRk9oOM+QSrc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=b/Y1S9zgsZ331V6DJMOw7Dedqrl5Exd2yyCzLUfAaoA3EoPqVD+B+BPVceeVQXwpHdSr3WZvh+kda/ae8FQ8IFkoZNC8AM2ae6cNWKhFYEXmgbw/il7o/j3qNRuElGMpZz32P12rT4v1RiHtD3XvN7+Ukp4+hmRAiad/KMkYEsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AIFqrWbB; arc=none smtp.client-ip=74.125.82.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="kAvOQolF"
-Received: from wse-pc.fritz.box (i5C75F5CE.versanet.de [92.117.245.206])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPA id EDE392FC005B;
-	Wed, 11 Mar 2026 00:40:27 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1773186028;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PM5DxR/1iH2FEMrZZ3Ue8B/27CIeEiqpPQHkpojyRkc=;
-	b=kAvOQolFzi+MXLpPMf8eIJQSGgLojK1xqEuyFzdtqPmvRUpXjjFJhBxDWxFqyIMG58Q8SL
-	raXyCnyh5c4YjcwuYxmmUF/AvcYJl/fa1GsjUalm8EaPykyb7VzvWkACGUJTVdUaCgfnNi
-	Vgn0QbakOKgHyejMwvVJe/tb/ynDt60=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-From: Werner Sembach <wse@tuxedocomputers.com>
-To: W_Armin@gmx.de,
-	hansg@kernel.org,
-	ilpo.jarvinen@linux.intel.com,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: platform-driver-x86@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Werner Sembach <wse@tuxedocomputers.com>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v5 5/5] Documentation: laptops: Update documentation for uniwill laptops
-Date: Wed, 11 Mar 2026 00:34:20 +0100
-Message-ID: <20260310234022.2085232-6-wse@tuxedocomputers.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260310234022.2085232-1-wse@tuxedocomputers.com>
-References: <20260310234022.2085232-1-wse@tuxedocomputers.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AIFqrWbB"
+Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-2be27fa54feso11753981eec.0
+        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 16:57:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773187057; x=1773791857; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cJP0g25EjCZz5LlBgTEgoSsBxXU9wIOyRk9oOM+QSrc=;
+        b=AIFqrWbB3b8Q2yvMj3UY2nxw8dWHRt1+hLZDX3RPfurL0kLnPSu85CgFt+mBTmbbbV
+         Gp3Kr2bCs133zdutc1syhVa5ODeaxptTEGcgoS7crflssZy4gjxQiMSYjRisYzopnW+m
+         rMH4iIOwAj0Ss1/+2ze+VL0oLnDlKOeEltaVFO75tSooGvbDDwMEZAHLvFCauGWghROK
+         UKG4v65JvDjT0dwgHyBpO6PQnMpMeol/6i2ekuslS/NZIyn9DHAWujdPfIaMyMLp242b
+         Bp8midURrAAyzm2WYlMXQxn2UWTs6jGjDDXsdysUnh/Qs93ZDhj7BDuVhSvhv12gEtKB
+         ZzdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773187057; x=1773791857;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cJP0g25EjCZz5LlBgTEgoSsBxXU9wIOyRk9oOM+QSrc=;
+        b=bp/iRahhgPTM8q0Ofj5rTb1aEhEafzGYrDA3VKCakgciPn0qxTTi6wFblvL6kbY1ny
+         q+Y/mC2jiUonR/G8odrKABYgehZg/B7GK79ALmfNcQoFEyfPvYgUX+m/HCheIlgoS57V
+         GgZrBAiDsKI0KGJreXrLcFJub8YnQFjmbHeS9qKrUoafoxfAQvSB1o3M91bHbqRY74JI
+         YCbifEl7360Fu7XoLou2mEPVz/n8QO6nbJ4lZq+/XtCk7goonQm2oycGqURIpm1pJyLg
+         uR2jqiBhCXlv+FYw1oA5tmD23lrDG7TzH5iC6YvF7SGULw+PvRqfq7im6eLgX2s958jQ
+         kJNQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUYLEwOvE/pAOoinMg8f9fSczwQb5BUROkmpozonusuosHE2W/aruXtCU1xnJ70ouIuhc9TDblZ928=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx84lJ5QuAjGicjJfDY6nxFe/Xk6dt2XnUABUwvxc5mtngqmJw0
+	zp2j32apZmQUgLbnDYwKZ5lSTlOJTD5t1oKDHldSkfjLFbJw8thvG64o
+X-Gm-Gg: ATEYQzxCrM1fTvzjis4Kv1pE+hJrWeTAXy8riSUcCMQtflzBgy5lQL8XL1YSC2kHR14
+	ELXSexNOKE0hFUpbKNx94OSPcwXI701wyeyFq14fCepZ3GIPMpia33njVTexnXdei9h2R9yjvfz
+	9oOKnL5F+xW+6RhxMzH2JiYm6aJM/cQW/caMHA12EW+1BDyfzj+1f1S9Qq/6IZAAEBPcIVNGuuR
+	1e8nRBInk5HG9aX3DwVsCqK65Ig1MM14Nyl8e8+2GESCLv5caHUPmEPptuE1+nzILniuTN9Z7qt
+	gmUZz9nNhAAy+O2YVD35Dhm+D3JcA5KUUMBlKMRzEAtR6+iX6f7kDRxUFbH+K5tmqOzmslYs7KN
+	Nihd4hqTAB4u1UtSwy5SamZ6l5zl/E0lNfYsqCoxW89qT6s3Q4RU/XQFGPIrnZoQ2GCE+bpyK41
+	c9oqMb8huTVXkcmKKJpD6QMGmdogie8M/VUGuF3AZI
+X-Received: by 2002:a05:7300:dc8e:b0:2ae:51fa:b7ec with SMTP id 5a478bee46e88-2be8a2eac77mr236090eec.25.1773187057388;
+        Tue, 10 Mar 2026 16:57:37 -0700 (PDT)
+Received: from [192.168.86.23] ([136.25.189.61])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2be8aa4ff75sm468057eec.20.2026.03.10.16.57.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 Mar 2026 16:57:35 -0700 (PDT)
+Message-ID: <b6558f4d-e424-464a-a9a7-ad14a174c542@gmail.com>
+Date: Tue, 10 Mar 2026 16:57:34 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/3] docs: sp_SP: Add Spanish translation for Rust
+ coding guidelines
+To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc: Edwin Toribio <edwin.toribio.j@gmail.com>, carlos.bilbao@kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ rust-for-linux@vger.kernel.org
+References: <20260304200715.76360-1-edwin.toribio.j@gmail.com>
+ <20260304200715.76360-4-edwin.toribio.j@gmail.com>
+ <389808bb-f71d-4c35-bfd0-b4db14268d58@gmail.com>
+ <CANiq72=Qe3x5xVQsFOd4YuD35mOan=mUt4PEFRQvStGnmLUcQw@mail.gmail.com>
+ <25240ce9-0886-461f-a969-d049c84ae80d@gmail.com>
+ <CANiq72=ZBYS-P7smq3u=CKN5y8_LTo5jThAegCVHhmo6TXTdpQ@mail.gmail.com>
+Content-Language: en-US
+From: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+In-Reply-To: <CANiq72=ZBYS-P7smq3u=CKN5y8_LTo5jThAegCVHhmo6TXTdpQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Adds short description for two new sysfs entries, ctgp_offset and
-usb_c_power_priority, to the documentation of uniwill laptops.
+Hello,
 
-Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
-Reviewed-by: Armin Wolf <W_Armin@gmx.de>
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
----
- .../ABI/testing/sysfs-driver-uniwill-laptop   | 25 +++++++++++++++++++
- .../admin-guide/laptops/uniwill-laptop.rst    | 12 +++++++++
- 2 files changed, 37 insertions(+)
+On 3/10/26 13:14, Miguel Ojeda wrote:
+> On Tue, Mar 10, 2026 at 4:33 AM Carlos Bilbao
+> <carlos.bilbao.osdev@gmail.com> wrote:
+>> TBH, a reasonable case can be made either way, and there are no written
+>> rules on this question AFAIK.
+>>
+>> In terms of precedent, the Chinese (simplified) translation keeps code
+>> blocks unchanged, which I suppose avoids giving the impression that
+>> non-English comments are acceptable in kernel code.
+>>
+>> That said, the goal of translation docs is accessibility, and since these
+>> are illustrative snippets, Spanish comments help readers follow the example
+>> without having to switch back to English. Personally, that argument
+>> convinces me more.
+> Yeah, I guess it depends for whom the docs are meant, e.g. whether the
+> reader is one that will afterwards go and read code or the English
+> side of the docs, or whether it is meant as docs that external readers
+> may want to read to inform themselves about what the kernel.
+>
+> I don't know if there is a policy for translations about this, but if
+> it doesn't exist, then it may be a good opportunity to align.
 
-diff --git a/Documentation/ABI/testing/sysfs-driver-uniwill-laptop b/Documentation/ABI/testing/sysfs-driver-uniwill-laptop
-index 2df70792968f3..cba4138604601 100644
---- a/Documentation/ABI/testing/sysfs-driver-uniwill-laptop
-+++ b/Documentation/ABI/testing/sysfs-driver-uniwill-laptop
-@@ -51,3 +51,28 @@ Description:
- 
- 		Reading this file returns the current status of the breathing animation
- 		functionality.
-+
-+What:		/sys/bus/platform/devices/INOU0000:XX/ctgp_offset
-+Date:		January 2026
-+KernelVersion:	7.0
-+Contact:	Werner Sembach <wse@tuxedocomputers.com>
-+Description:
-+		Allows userspace applications to set the configurable TGP offset on top of the base
-+		TGP. Base TGP and max TGP and therefore the max cTGP offset are device specific.
-+		Note that setting the maximal cTGP leaves no window open for Dynamic Boost,
-+		effectively disabling that feature for the GPU to always be prioritized.
-+
-+		Reading this file returns the current configurable TGP offset.
-+
-+What:		/sys/bus/platform/devices/INOU0000:XX/usb_c_power_priority
-+Date:		February 2026
-+KernelVersion:	7.1
-+Contact:	Werner Sembach <wse@tuxedocomputers.com>
-+Description:
-+		Allows userspace applications to choose the USB-C power distribution profile between
-+		one that offers a bigger share of the power to the battery and one that offers more
-+		of it to the CPU. Writing "charging"/"performance" into this file selects the
-+		respective profile.
-+
-+		Reading this file returns the profile names with the currently active one in
-+		brackets.
-diff --git a/Documentation/admin-guide/laptops/uniwill-laptop.rst b/Documentation/admin-guide/laptops/uniwill-laptop.rst
-index aff5f57a6bd47..be4aeb9c023dd 100644
---- a/Documentation/admin-guide/laptops/uniwill-laptop.rst
-+++ b/Documentation/admin-guide/laptops/uniwill-laptop.rst
-@@ -50,6 +50,10 @@ between 1 and 100 percent are supported.
- Additionally the driver signals the presence of battery charging issues through the standard
- ``health`` power supply sysfs attribute.
- 
-+It also lets you set whether a USB-C power source should prioritise charging the battery or
-+delivering immediate power to the cpu. See Documentation/ABI/testing/sysfs-driver-uniwill-laptop for
-+details.
-+
- Lightbar
- --------
- 
-@@ -58,3 +62,11 @@ LED class device. The default name of this LED class device is ``uniwill:multico
- 
- See Documentation/ABI/testing/sysfs-driver-uniwill-laptop for details on how to control the various
- animation modes of the lightbar.
-+
-+Configurable TGP
-+--------
-+
-+The ``uniwill-laptop`` driver allows to set the configurable TGP for devices with NVIDIA GPUs that
-+allow it.
-+
-+See Documentation/ABI/testing/sysfs-driver-uniwill-laptop for details.
--- 
-2.43.0
+
+I'll leave it up to you, Edwin, just make sure to leave keywords in
+English.
+
+
+>
+> (Relatedly, machine translation on technical topics is quite good
+> nowadays, so if the intention is that a reader may read the English
+> docs or the code afterwards, perhaps it could be nice to have a
+> suggested way for them to read those docs via machine translation,
+> especially if there are accessible/free/OSS/... solutions).
+
+
+Yes, I suppose one day I’ll work up the courage to use automatic
+translations for what’s left. But I’d still need to review everything
+carefully to catch mistranslations (the classic Spanish example is “driver”
+to “conductor”), though in practice the issues are often subtler. It also
+means resisting the temptation to skim large paragraphs and trust the
+tools; something that’s probably more tempting with docs than with code.
+
+
+>
+> I hope that helps!
+>
+> Cheers,
+> Miguel
+
+
+Thanks,
+
+Carlos
 
