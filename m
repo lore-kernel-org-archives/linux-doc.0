@@ -1,87 +1,86 @@
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D914E3E9F70
-	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 20:22:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 053963E9F8A
+	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 20:22:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773174143; cv=none; b=H/tEiOlKVuZXIrnjrnCDHw1JUE6ghGTNdX5KE1K9Ju79NAcNTW7eDMvLQaj3UT3ZDo5lbcGwJbCCZyKZt3qjGGOly6D8ypOmHkVEnnB5g3EnjpvyRDdb7fnxiQk+hEC33dc3uVHk4YWgk0qa2oWYnO5BxDaa7/0iqxNGZ355Aqk=
+	t=1773174158; cv=none; b=F8TrGhIh0FgUbQLhTrk5Mi2KSO/eqY0BbXd24YYRwtTBEMO7vb5I3ROx596519pe69fWgXXCuCzB6OX6oSDJnYt1Q2SDFqOxYFxpZ7ifLpCyP1sSBN0OvqNjjRdKlqzFuYLEY9xFnWUSwKj1ghdLlrgKZ0jkyYi3nPJmNC8DnfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773174143; c=relaxed/simple;
-	bh=kxkhHL6Inn5vy91sWNPBwxtVUU5b0erQRsexgGrH3n8=;
+	s=arc-20240116; t=1773174158; c=relaxed/simple;
+	bh=3o2KnqJdxX2C8f5RJ2x+Q0A3VRBg28qpckkJPQU9N2E=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=BdTG5Mb8VSOVOaWGTYfWdZC+rm4D0B1kqjT27O2Ch2HGiyFWiLzY8WfNrVJtGzgJlUJ7lJcPP6PVUdxT1ygbRhPnIvWij7DplDfv+kccDMhNhiSz0IZxjYpJf61zE08WW/V5/KArACznpkte4BJImDcEvYidlg9h+wdXfpXkXFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=aPw1h3cc; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=gaOgjfA/; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:To:Cc; b=LYtuSpUxV4VEM4sJn4a966IN9UxBvOuGlNRtursmCC1OuHozNuScH6EFDzibImdeJ9owUALnnSz3cCf75eWdf/bkLkRSxMh2UisCwQ+qnncA/4XKvHDBFek6vcw0F0EiOIxWZznaPLRGYlXTJX89oUnKm+Gj1uWraDmTUoP27w0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=YlQ5esdA; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=hXYjselQ; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="aPw1h3cc";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="gaOgjfA/"
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62AHcrxk2179348
-	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 20:22:21 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="YlQ5esdA";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="hXYjselQ"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62AJIfQP3296544
+	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 20:22:36 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	/uUYtzbBAMu+u7bupalNhBTW7BYEt5Sa2Qb3bAaRTLs=; b=aPw1h3ccTPQ6vDva
-	8RL6Id8V2H9C8hHgbuFfmEhGDmnb66zSn4duAggHPmCRidkKkeyWI2C71J46RzVh
-	xEmYcvijqUFc063opGpKoJds5en9I434aZD37fdwqygNZi38H+sNnj3tiJHvNmaK
-	Q/7YZyhp3lwCWmwcUg4mJaVZaWy2BWI6YokznMU+P2LlC6zp2oryV/X9AGryskIB
-	D+T2+reeGB3+BB9a4illrxG7VfFFABat1d0C5HOBn7StO11xfUh3IXQinWhjw0he
-	4xgTqLGpeGIzh0BoJ8aYSWIPxxkIMDz0RovcfKd90Af+N+l4plGNy856xnj/hPv+
-	CzKZIA==
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com [209.85.210.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ctqvsrkep-1
+	BBTkKJ0zn2bqmXnFD9nCGkwAtPEKE3WdpaklXMQPzbc=; b=YlQ5esdAm3povK5t
+	RwQEFi0AuCHHUZHLxolgWMrI2BTdg+umVX70+L8KhFsJi8lJAK5GN7gBXSz7DsmT
+	tyO+QeO0EJUwH1sGy8qmT7XypT4oQTbX70UJRcwtbueGwgB7EjaRbjB/fh/quPR3
+	oytUcM/biUg/P/0iOc8VOqXQ4xTF29KEvSfkjvqFClkI7zFmVLx9sVZyKiao/EHb
+	pOO+uHxv2WTfPh3aQX/KtRc4wmvuZzPE6xE2WJQ882mcWmas5BiEpfrINkNzWoh0
+	LXjBaNgwHXq6/hEhhHWsUOFWnq9HA20NBWEAm0swJQG153Lx6YtOT9D7XF08fp1K
+	AjlOIQ==
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ctg1mtpsg-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 20:22:20 +0000 (GMT)
-Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-829c331b4c6so985025b3a.0
-        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 13:22:20 -0700 (PDT)
+	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 20:22:35 +0000 (GMT)
+Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-c738b1f630eso21076620a12.2
+        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 13:22:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1773174140; x=1773778940; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1773174155; x=1773778955; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=/uUYtzbBAMu+u7bupalNhBTW7BYEt5Sa2Qb3bAaRTLs=;
-        b=gaOgjfA/9QQ+dDtnmkWveCJ7EUfyJXyDs0BMbY38kZDWuG6pPdoDm9PTJHU6LToOU0
-         /0FIjuYEop+T+3o8D3/JlnRkVbj3BSXbiW70mX7QS8jIc2Bmfj06HmdTW7M4xoKY6J9B
-         JP8QsujOh7u0UT/hcDXGyfxgD6+hI1xb6kPYj1+pJLgO1/PBUlX4LZTs4TUmBqZ6c+0I
-         ykIvCD68auExw0T4SnfZjx18rEKVfCFe6IbpwLyaMAb2quygDSlXUTOykVRzI+Tm2Trz
-         ho9GkO9KgIlJeiEJfduawzeP81zBtHeXgwySWfh6vts//qq3SL+GvkLuAwyUledgJwri
-         fyBQ==
+        bh=BBTkKJ0zn2bqmXnFD9nCGkwAtPEKE3WdpaklXMQPzbc=;
+        b=hXYjselQRJIKyEvgDa/tGFeNYvRpM7LUQvJYCMdtGOd8iFC7rqDRtxjqWo6K+1Mevo
+         nOMfMblfGrNw7mtstJlS0HNyLvxODp8tZMi0wnzamEfdL0erPjBYzNJAqecGaGXR+s4o
+         hUUJrY/DO0havnPYiSLAsHQiAIUTLsm8e+A+DlgzIbL2wlXXzKbF24CIp5J4hVAD8Y0P
+         Kd8EoFbdvPjiU39EDVQYHLdoCIQj+lWaFRhlk2Wkma2SDdd5xscn2jUVwlwpqBVmyXq7
+         0fAA6iPD+REYjYy5ce3XSvpQC7nuplD1R0VIlW0uezJ6ICKHAnjf2IR3NKTnH/0om62L
+         SxVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773174140; x=1773778940;
+        d=1e100.net; s=20230601; t=1773174155; x=1773778955;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=/uUYtzbBAMu+u7bupalNhBTW7BYEt5Sa2Qb3bAaRTLs=;
-        b=TQwTuG2nqjc3zTGRHXQflXoOBEpEP7CDBH9DPuVrvDZTfST160Oe9RyYyjsEpSHMM8
-         WxPZwIlYW3U1VZtZUN9Tbl+YOw1pc3RUeVNyDpC8NGpNRb60JYyKs343Cwvhl9aKkm7z
-         dcu1vRVJ+R+p/r0c9um787xhXkoUGvo9gQa1IkwW6LxgSzH2QDUWkZTeH02G0h050LQx
-         Dm+Yzivnrx7zUlztlZNoilPY1+f537LV2CWn4YmRC7f8B/G4tBHbH7GHfi9YVKpFPub7
-         QFPPTDVaNjjAUj5PaOYeWCRqttibNdk88Uavq/NM6p0htFJ715ZEfBHpAOXhToj8k7e7
-         p6pA==
-X-Forwarded-Encrypted: i=1; AJvYcCVtiKerbty3BU3AtxC6TWYUqXHsCoWEPeTbZ2QW18RFpCUr6vjmRc5d3rF+ilWEBLOBc0sL/iaste4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwLJvrvitC2eUXTWX4K469KAFde7vryjxm4Ol3o/xlvFpW/rOhG
-	J+sP+/kJILr/T0ZZqxGp0i0gi1l+cRt0ieXuL0331LUhhiYJ+ZaW3JVUJZhfm1Bubrwwwzzycyr
-	yzBGMMUJM+1iOYHScLb9fKs5rJ9dcNPxnu91L5qPlc4XiwjGZnt9RRt+OwZO7VJw=
-X-Gm-Gg: ATEYQzy+ihPj8eQiQ0hDK2nIiatuku2R9OXATMogUgxXX9f/UjgKrzSEIKRKiBI+t54
-	NyWpPUzEuT0VGPEvaK0nJACXEEfNPXmJXjOLCnQzY+tQrd2tJVPnXU7tV1Dqt8h3J03Xq7NOKGr
-	d4zV9ssiK8OxOjXP58pccII9HUzknHDRLuaMeUBvK0sojaSzVZaMJHJwpOwLSbktGGuuMuhzIa3
-	urBtjn8pB0rMTwQqQznZHsV5Asb12YdvR9GGzs544kMVGDASx7Ma3wZzOsiFtvHmnRHL6e4wh3S
-	lkO5pwHw2mzd5VTUdJoV1tKCNapt8r5tKhBGUf5ZICp4SQ9nW05i7AUSlVARzFNXAenLd+NtFDO
-	26DG8nWYqqLoTzkvaZZ9ub0MuYZdgKYizeFsoO0zDjNIXAGNW
-X-Received: by 2002:a05:6a00:1d90:b0:829:8041:83f with SMTP id d2e1a72fcca58-829f707301dmr155577b3a.7.1773174139080;
-        Tue, 10 Mar 2026 13:22:19 -0700 (PDT)
-X-Received: by 2002:a05:6a00:1d90:b0:829:8041:83f with SMTP id d2e1a72fcca58-829f707301dmr155530b3a.7.1773174138369;
-        Tue, 10 Mar 2026 13:22:18 -0700 (PDT)
+        bh=BBTkKJ0zn2bqmXnFD9nCGkwAtPEKE3WdpaklXMQPzbc=;
+        b=KyNwTWtf8da73wBsxuCx/oveCbIvGfkpow/HueIHJ74RGRG1lp5AWC1rib9+VTmAeq
+         pvH1alY6WlI8dWEfC7hmypEDQrLr0HrM8cTxv8EtWOdtGrJMfKAr4Ebkf5F+xyVDUwC6
+         iVclR0V4YM/uTp94zLdFZP+Fk0AfXFCT5MjUG4X2JfQjTxYt9LfjoTn6ScXjNNgjjUZl
+         seFFDpPOn7idfQqhK+6CLEZ0cjVC5k+dyQQpGdYU4SOHFBAi2/w1P9idcMCMW1Mf9QjQ
+         Qbhn5a3VajJt38uwBg2o6bjMj1W0ERDksxbZKU5+0Dwb9AnrnIQJ4eaVp326A/xW2Wo7
+         6nSQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX2dGUQ/GFReBqh0xbpOy1LqLH+I/AVKfnFwsxdmT9lSUmzrPaUKV6q+K91otPnDsH6XQtZilFs6SM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyOKLRItzmznJzQrISgY2z3VXjC81IuxcYZUbnvKKsNkTHhHkFf
+	L7bf5CkiX/JjWcFpaUeUDRPiOr2KBtZvOEYc+LBm0QwIixyA9y96vy5N6r9vU+TKlyPrOqwiqVl
+	B9bNKiEKfXVhLYrDYL2fA9rGeZMvXnvCwaEzbCZgdGNVl+6ikMEcOLFfQkmzmmSg=
+X-Gm-Gg: ATEYQzz/vo+h3rRklW3U3/69buufE6hqSpiO72S5GcsYh5x6ZIUumnj9o59a8N87617
+	TsdiuJ0Xs6yduRLLHdwkY3e3mD2vIso8DHVFWZiJ8tnp97i6c33ov0a+SaC+VVRxDb/R9ypmqmt
+	QDuNP4GHV4TAN/6iGL6tYsdh4oBUlLX3PBsF0+Z1bmVrChzl5u4aljiZ7lo3reiGmaTEx46L4GT
+	8IRGxKI3fuAO8pgb53yHS9KnxGFUqg/a7xXLP6Ruug165lcBccYVb7c/HTs6kHL1zslrk+XsXFY
+	my8pKUQCTPV4SZRO+lWMb9mHvIiwNuciX7qyhz+9ziqV5gLfHoAoeHFiuoXv10TeJP0u+7Ks3Aj
+	TNTN+Zf9aoxas7pRAlJsysobHjzC9AH0icZbFCMH33oysVy2t
+X-Received: by 2002:a05:6a00:e05:b0:81f:994f:cb with SMTP id d2e1a72fcca58-829f6f4197bmr162948b3a.24.1773174154579;
+        Tue, 10 Mar 2026 13:22:34 -0700 (PDT)
+X-Received: by 2002:a05:6a00:e05:b0:81f:994f:cb with SMTP id d2e1a72fcca58-829f6f4197bmr162874b3a.24.1773174153885;
+        Tue, 10 Mar 2026 13:22:33 -0700 (PDT)
 Received: from hu-mojha-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-829f6dc2d0asm115262b3a.13.2026.03.10.13.22.03
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-829f6dc2d0asm115262b3a.13.2026.03.10.13.22.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2026 13:22:17 -0700 (PDT)
+        Tue, 10 Mar 2026 13:22:33 -0700 (PDT)
 From: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-Date: Wed, 11 Mar 2026 01:46:08 +0530
-Subject: [PATCH v2 24/25] dt-bindings: reserved-memory: Add Google Kinfo
- Pixel reserved memory
+Date: Wed, 11 Mar 2026 01:46:09 +0530
+Subject: [PATCH v2 25/25] meminspect: Add debug kinfo compatible driver
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -90,7 +89,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260311-minidump-v2-v2-24-f91cedc6f99e@oss.qualcomm.com>
+Message-Id: <20260311-minidump-v2-v2-25-f91cedc6f99e@oss.qualcomm.com>
 References: <20260311-minidump-v2-v2-0-f91cedc6f99e@oss.qualcomm.com>
 In-Reply-To: <20260311-minidump-v2-v2-0-f91cedc6f99e@oss.qualcomm.com>
 To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
@@ -132,119 +131,401 @@ Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-mm@kvack.org, linux-arm-msm@vger.kernel.org,
         linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org
 X-Mailer: b4 0.14-dev-f7c49
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1773173756; l=2474;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1773173756; l=10702;
  i=mukesh.ojha@oss.qualcomm.com; s=20250708; h=from:subject:message-id;
- bh=kxkhHL6Inn5vy91sWNPBwxtVUU5b0erQRsexgGrH3n8=;
- b=6MT7VZEYiJ26WHI1HB+RUTYRS5S4mWBasU/tY0AGrn+K0ZHF6GT766OHo8RuR4PhqhgpOtU11
- ixnzFMgK0faBvouTgqwCNSVVa7/2YaR2C2ym1CGyS7TIOWKzb2K+whi
+ bh=Fu2ZccKszsPFIW3mDDx78KzoZ/M2bBq595MQ+50ea4g=;
+ b=Dq9aTau7pWS5++jEPermlk3PyA3u5vLiCYy56l/N6byo6Ehs5O+0mqEVX/Lzflw4sAFjgvESE
+ o6sqrCyzWrlDex4eKcMQ1XncjJn+anEBgfVLSWSIY1dLgBGNLhUvjv3
 X-Developer-Key: i=mukesh.ojha@oss.qualcomm.com; a=ed25519;
  pk=eX8dr/7d4HJz/HEXZIpe3c+Ukopa/wZmxH+5YV3gdNc=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzEwMDE3OCBTYWx0ZWRfX3bnMoiMP4aaN
- JkRM5tYqUuLSefRzN/jGIoR7ppI86reyWnMGjVI7/D5OqFNp3cWEGGLNno3nyFpehGiWcPNf0qA
- SN8RZV4n7y+av46VXJ3UbSGFdnPBy6iN0+0OJr/pDvKh4w9NOnEiFoSF3qUEW4loWMiPOgjlq4Y
- oJ0uInkkKoifhdY/D4gKmp0dr8Jzv1r9t6zw++DfsmGC6VYUFSeU5ERhSy/eLZzmsBxVZ1QNcYe
- zxUCNQa6nYSi7EQyhJogPII3lvyOCvuC/9E4MnHQ4lDwVDFRAAjSX4hDvMXu7nRVnRNXXE4Hcii
- 7KtO7NtlfTm/Kn7wDucBl3jvahhRdyhaGGlzzzRhri2UVUdUs8+cCBJArHvfOCpMpYYobZbZxrq
- V1f6JKC3p/FUa1vpCPFiQvTtQ+4X5f/rUxiSacD/TzVUBpJxL0kazc1qv7z2FMGLf8KnyoqGFVr
- 9KF5OVGU5Zz2YPXUCTw==
-X-Proofpoint-ORIG-GUID: Gawc9CmvZEX10d_0R7BZeiByB6Rn8zWV
-X-Authority-Analysis: v=2.4 cv=Lo2fC3dc c=1 sm=1 tr=0 ts=69b07d7c cx=c_pps
- a=WW5sKcV1LcKqjgzy2JUPuA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+X-Authority-Analysis: v=2.4 cv=YOeSCBGx c=1 sm=1 tr=0 ts=69b07d8b cx=c_pps
+ a=rz3CxIlbcmazkYymdCej/Q==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
  a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
- a=gEfo2CItAAAA:8 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8
- a=37rDS-QxAAAA:8 a=2rb2LGFNx5Mo7s1WZPsA:9 a=QEXdDO2ut3YA:10
- a=OpyuDcXvxspvyRM73sMx:22 a=sptkURWiP4Gy88Gu7hUp:22 a=cvBusfyB2V15izCimMoJ:22
- a=k1Nq6YrhK2t884LQW06G:22
-X-Proofpoint-GUID: Gawc9CmvZEX10d_0R7BZeiByB6Rn8zWV
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
+ a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8 a=Tty9oNO6AAAA:8
+ a=1XWaLZrsAAAA:8 a=pdfXsOUTzs8LjTHvc20A:9 a=QEXdDO2ut3YA:10
+ a=bFCP_H2QrGi7Okbo017w:22 a=cvBusfyB2V15izCimMoJ:22 a=Bts-Es6F1CBXvF7u4C_G:22
+X-Proofpoint-ORIG-GUID: h3EHQ18wdt5g1HSUs_3Z8f7sxrhxIm9J
+X-Proofpoint-GUID: h3EHQ18wdt5g1HSUs_3Z8f7sxrhxIm9J
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzEwMDE3OCBTYWx0ZWRfX/iBIzGxn+iYp
+ CTphV+yZutogyuvOesdQlAZGFND0DSCKINvvOOaLr3EiQW5nDYwBvChcEZXfvh3o3yFNsqVt9uN
+ R1wATrQwK00/XDgocQIETD08vGpkdZ0ETDJhhSNekFAxrhrIn48UFKz4Uc+7tbwCLuLYbtzZ+T2
+ 6Z9xyr//TATKhDoJ06wtKZ8dtbm9VcVPf7oWZpSJ7yzgfKLHPY2wddIMazGR3tlRRLMkk3oEJfP
+ sdCvMf5Fq1ZzSWG4ybKsOBmHzAdb6KfSXfoVewStndissNBvEtRsjvb6gvCNuxvIBqSB85ujew5
+ 6PgYK8IUvAsgHsmoVixv4PYzQvgeDkmAxHYz9P5zpIrfEmQnvw1SuTpU/PcvAEsgbCqmla0swLT
+ kRQpESljhZXx9GI1K5K2Fmqbi+ewtf2vlGaHktywqvJLiVHI+Q6qkTfcgm6RH+cVHJX0ZrpiPvi
+ 61yzP0JoIUc/aC1KIug==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
  definitions=2026-03-10_04,2026-03-09_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 clxscore=1015 impostorscore=0 bulkscore=0 malwarescore=0
- phishscore=0 lowpriorityscore=0 adultscore=0 spamscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2602130000 definitions=main-2603100178
+ impostorscore=0 clxscore=1015 spamscore=0 bulkscore=0 suspectscore=0
+ priorityscore=1501 malwarescore=0 phishscore=0 adultscore=0
+ lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2602130000
+ definitions=main-2603100178
 
-Add documentation for Google Kinfo Pixel reserved memory area.
+From: Eugen Hristev <eugen.hristev@linaro.org>
 
-Co-developed-by: Eugen Hristev <eugen.hristev@linaro.org>
+With this driver, the registered regions are copied to a shared memory
+zone at register time. The shared memory zone is supplied via OF. This
+driver will select only regions that are of interest, and keep only
+addresses. The format of the list is Kinfo compatible, with devices like
+Google Pixel phone. The firmware is only interested in some symbols'
+addresses.
+
 Signed-off-by: Eugen Hristev <eugen.hristev@linaro.org>
 Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
 ---
- .../bindings/reserved-memory/google,kinfo.yaml     | 46 ++++++++++++++++++++++
- MAINTAINERS                                        |  6 +++
- 2 files changed, 52 insertions(+)
+ MAINTAINERS                |   1 +
+ drivers/of/platform.c      |   1 +
+ kernel/meminspect/Kconfig  |  11 ++
+ kernel/meminspect/Makefile |   1 +
+ kernel/meminspect/kinfo.c  | 284 +++++++++++++++++++++++++++++++++++++++++++++
+ 5 files changed, 298 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/reserved-memory/google,kinfo.yaml b/Documentation/devicetree/bindings/reserved-memory/google,kinfo.yaml
-new file mode 100644
-index 000000000000..2f964151f0c0
---- /dev/null
-+++ b/Documentation/devicetree/bindings/reserved-memory/google,kinfo.yaml
-@@ -0,0 +1,46 @@
-+# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/reserved-memory/google,kinfo.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Google Pixel Kinfo reserved memory
-+
-+maintainers:
-+  - Eugen Hristev <eugen.hristev@linaro.org>
-+  - Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-+
-+description: |
-+  This binding represents reserved-memory used to store data for firmware/bootloader
-+  on the Pixel platform. The stored data is debugging information of the running
-+  kernel.
-+
-+allOf:
-+  - $ref: reserved-memory.yaml
-+
-+properties:
-+  compatible:
-+    const: google,debug-kinfo
-+
-+  reg:
-+    description: page-aligned region of memory containing debugging data of running kernel
-+
-+required:
-+  - compatible
-+  - reg
-+  - no-map
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    reserved-memory {
-+        #address-cells = <1>;
-+        #size-cells = <1>;
-+
-+        debug-kinfo@fa00000 {
-+            compatible = "google,debug-kinfo";
-+            reg = <0xfa00000 0x1000>;
-+            no-map;
-+        };
-+    };
 diff --git a/MAINTAINERS b/MAINTAINERS
-index ebf478dbd15c..2504b7df0e7d 100644
+index 2504b7df0e7d..48b5457fae98 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -16592,6 +16592,12 @@ F:	Documentation/dev-tools/meminspect.rst
- F:	include/linux/meminspect.h
- F:	kernel/meminspect/*
+@@ -16597,6 +16597,7 @@ M:	Eugen Hristev <eugen.hristev@linaro.org>
+ M:	Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/reserved-memory/google,kinfo.yaml
++F:	kernel/meminspect/kinfo.c
  
-+MEMINSPECT KINFO DRIVER
-+M:	Eugen Hristev <eugen.hristev@linaro.org>
-+M:	Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-+S:	Maintained
-+F:	Documentation/devicetree/bindings/reserved-memory/google,kinfo.yaml
-+
  MEMBLOCK AND MEMORY MANAGEMENT INITIALIZATION
  M:	Mike Rapoport <rppt@kernel.org>
- L:	linux-mm@kvack.org
+diff --git a/drivers/of/platform.c b/drivers/of/platform.c
+index 2a7111e8354d..09047e021de4 100644
+--- a/drivers/of/platform.c
++++ b/drivers/of/platform.c
+@@ -495,6 +495,7 @@ static const struct of_device_id reserved_mem_matches[] = {
+ 	{ .compatible = "ramoops" },
+ 	{ .compatible = "nvmem-rmem" },
+ 	{ .compatible = "google,open-dice" },
++	{ .compatible = "google,debug-kinfo" },
+ 	{}
+ };
+ 
+diff --git a/kernel/meminspect/Kconfig b/kernel/meminspect/Kconfig
+index fa2b5a84b251..396510908e47 100644
+--- a/kernel/meminspect/Kconfig
++++ b/kernel/meminspect/Kconfig
+@@ -17,3 +17,14 @@ config MEMINSPECT
+ 
+ 	  Note that modules using this feature must be rebuilt if option
+ 	  changes.
++
++config MEMINSPECT_KINFO
++	tristate "Shared memory KInfo compatible driver"
++	depends on MEMINSPECT
++	help
++	  Say y here to enable the Shared memory KInfo compatible driver
++	  With this driver, the registered regions are copied to a shared
++	  memory zone at register time.
++	  The shared memory zone is supplied via OF.
++	  This driver will select only regions that are of interest,
++	  and keep only addresses. The format of the list is Kinfo compatible.
+diff --git a/kernel/meminspect/Makefile b/kernel/meminspect/Makefile
+index 09fd55e6d9cf..283604d892e5 100644
+--- a/kernel/meminspect/Makefile
++++ b/kernel/meminspect/Makefile
+@@ -1,3 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0
+ 
+ obj-$(CONFIG_MEMINSPECT) += meminspect.o
++obj-$(CONFIG_MEMINSPECT_KINFO) += kinfo.o
+diff --git a/kernel/meminspect/kinfo.c b/kernel/meminspect/kinfo.c
+new file mode 100644
+index 000000000000..79918908968d
+--- /dev/null
++++ b/kernel/meminspect/kinfo.c
+@@ -0,0 +1,284 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ *
++ * Copyright 2002 Rusty Russell <rusty@rustcorp.com.au> IBM Corporation
++ * Copyright 2021 Google LLC
++ * Copyright 2025 Linaro Ltd. Eugen Hristev <eugen.hristev@linaro.org>
++ */
++#include <linux/container_of.h>
++#include <linux/kallsyms.h>
++#include <linux/meminspect.h>
++#include <linux/module.h>
++#include <linux/of.h>
++#include <linux/of_reserved_mem.h>
++#include <linux/platform_device.h>
++#include <linux/utsname.h>
++
++#define BUILD_INFO_LEN		256
++#define DEBUG_KINFO_MAGIC	0xcceeddff
++
++/*
++ * Header structure must be byte-packed, since the table is provided to
++ * bootloader.
++ */
++struct kernel_info {
++	/* For kallsyms */
++	u8 enabled_all;
++	u8 enabled_base_relative;
++	u8 enabled_absolute_percpu;
++	u8 enabled_cfi_clang;
++	u32 num_syms;
++	u16 name_len;
++	u16 bit_per_long;
++	u16 module_name_len;
++	u16 symbol_len;
++	u64 _relative_pa;
++	u64 _text_pa;
++	u64 _stext_pa;
++	u64 _etext_pa;
++	u64 _sinittext_pa;
++	u64 _einittext_pa;
++	u64 _end_pa;
++	u64 _offsets_pa;
++	u64 _names_pa;
++	u64 _token_table_pa;
++	u64 _token_index_pa;
++	u64 _markers_pa;
++	u64 _seqs_of_names_pa;
++
++	/* For frame pointer */
++	u32 thread_size;
++
++	/* For virt_to_phys */
++	u64 swapper_pg_dir_pa;
++
++	/* For linux banner */
++	u8 last_uts_release[__NEW_UTS_LEN];
++
++	/* Info of running build */
++	u8 build_info[BUILD_INFO_LEN];
++
++	/* For module kallsyms */
++	u32 enabled_modules_tree_lookup;
++	u32 mod_mem_offset;
++	u32 mod_kallsyms_offset;
++} __packed;
++
++struct kernel_all_info {
++	u32 magic_number;
++	u32 combined_checksum;
++	struct kernel_info info;
++} __packed;
++
++struct debug_kinfo {
++	struct device *dev;
++	void *all_info_addr;
++	size_t all_info_size;
++	struct notifier_block nb;
++};
++
++static void update_kernel_all_info(struct kernel_all_info *all_info)
++{
++	struct kernel_info *info;
++	u32 *checksum_info;
++	int index;
++
++	all_info->magic_number = DEBUG_KINFO_MAGIC;
++	all_info->combined_checksum = 0;
++
++	info = &all_info->info;
++	checksum_info = (u32 *)info;
++	for (index = 0; index < sizeof(*info) / sizeof(u32); index++)
++		all_info->combined_checksum ^= checksum_info[index];
++}
++
++static u8 global_build_info[BUILD_INFO_LEN];
++
++static int build_info_set(const char *str, const struct kernel_param *kp)
++{
++	size_t build_info_size = sizeof(global_build_info);
++
++	if (strlen(str) > build_info_size)
++		return -ENOMEM;
++	memcpy(global_build_info, str, min(build_info_size - 1, strlen(str)));
++	return 0;
++}
++
++static const struct kernel_param_ops build_info_op = {
++	.set = build_info_set,
++};
++
++module_param_cb(build_info, &build_info_op, NULL, 0200);
++MODULE_PARM_DESC(build_info, "Write build info to field 'build_info' of debug kinfo.");
++
++static void __maybe_unused register_kinfo_region(void *priv,
++						 const struct inspect_entry *e)
++{
++	struct debug_kinfo *kinfo = priv;
++	struct kernel_all_info *all_info = kinfo->all_info_addr;
++	struct kernel_info *info = &all_info->info;
++	struct uts_namespace *uts;
++	u64 paddr;
++
++	if (e->pa)
++		paddr = e->pa;
++	else
++		paddr = __pa(e->va);
++
++	switch (e->id) {
++	case MEMINSPECT_ID__sinittext:
++		info->_sinittext_pa = paddr;
++		break;
++	case MEMINSPECT_ID__einittext:
++		info->_einittext_pa = paddr;
++		break;
++	case MEMINSPECT_ID__end:
++		info->_end_pa = paddr;
++		break;
++	case MEMINSPECT_ID__text:
++		info->_text_pa = paddr;
++		break;
++	case MEMINSPECT_ID__stext:
++		info->_stext_pa = paddr;
++		break;
++	case MEMINSPECT_ID__etext:
++		info->_etext_pa = paddr;
++		break;
++	case MEMINSPECT_ID_kallsyms_num_syms:
++		info->num_syms = *(__u32 *)e->va;
++		break;
++	case MEMINSPECT_ID_kallsyms_relative_base:
++		info->_relative_pa = (u64)__pa(*(u64 *)e->va);
++		break;
++	case MEMINSPECT_ID_kallsyms_offsets:
++		info->_offsets_pa = paddr;
++		break;
++	case MEMINSPECT_ID_kallsyms_names:
++		info->_names_pa = paddr;
++		break;
++	case MEMINSPECT_ID_kallsyms_token_table:
++		info->_token_table_pa = paddr;
++		break;
++	case MEMINSPECT_ID_kallsyms_token_index:
++		info->_token_index_pa = paddr;
++		break;
++	case MEMINSPECT_ID_kallsyms_markers:
++		info->_markers_pa = paddr;
++		break;
++	case MEMINSPECT_ID_kallsyms_seqs_of_names:
++		info->_seqs_of_names_pa = paddr;
++		break;
++	case MEMINSPECT_ID_swapper_pg_dir:
++		info->swapper_pg_dir_pa = paddr;
++		break;
++	case MEMINSPECT_ID_init_uts_ns:
++		if (!e->va)
++			return;
++		uts = e->va;
++		strscpy(info->last_uts_release, uts->name.release, __NEW_UTS_LEN);
++		break;
++	default:
++		break;
++	};
++
++	update_kernel_all_info(all_info);
++}
++
++static int kinfo_notifier_cb(struct notifier_block *nb,
++			     unsigned long code, void *entry)
++{
++	struct debug_kinfo *kinfo = container_of(nb, struct debug_kinfo, nb);
++
++	if (code == MEMINSPECT_NOTIFIER_ADD)
++		register_kinfo_region(kinfo, entry);
++
++	return NOTIFY_DONE;
++}
++
++static int debug_kinfo_probe(struct platform_device *pdev)
++{
++	struct kernel_all_info *all_info;
++	struct device *dev = &pdev->dev;
++	struct reserved_mem *rmem;
++	struct debug_kinfo *kinfo;
++	struct kernel_info *info;
++
++	rmem = of_reserved_mem_lookup(dev->of_node);
++	if (!rmem)
++		return dev_err_probe(dev, -ENODEV, "no such reserved mem of node name %s\n",
++			      dev->of_node->name);
++
++	/* Need to wait for reserved memory to be mapped */
++	if (!rmem->priv)
++		return -EPROBE_DEFER;
++
++	if (!rmem->base || !rmem->size)
++		dev_err_probe(dev, -EINVAL, "unexpected reserved memory\n");
++
++	if (rmem->size < sizeof(struct kernel_all_info))
++		dev_err_probe(dev, -EINVAL, "reserved memory size too small\n");
++
++	kinfo = devm_kzalloc(dev, sizeof(*kinfo), GFP_KERNEL);
++	if (!kinfo)
++		return -ENOMEM;
++
++	platform_set_drvdata(pdev, kinfo);
++
++	kinfo->dev = dev;
++	kinfo->all_info_addr = rmem->priv;
++	kinfo->all_info_size = rmem->size;
++
++	all_info = kinfo->all_info_addr;
++
++	memset(all_info, 0, sizeof(struct kernel_all_info));
++	info = &all_info->info;
++	info->enabled_all = IS_ENABLED(CONFIG_KALLSYMS_ALL);
++	info->enabled_absolute_percpu = IS_ENABLED(CONFIG_KALLSYMS_ABSOLUTE_PERCPU);
++	info->enabled_base_relative = IS_ENABLED(CONFIG_KALLSYMS_BASE_RELATIVE);
++	info->enabled_cfi_clang = IS_ENABLED(CONFIG_CFI_CLANG);
++	info->name_len = KSYM_NAME_LEN;
++	info->bit_per_long = BITS_PER_LONG;
++	info->module_name_len = MODULE_NAME_LEN;
++	info->symbol_len = KSYM_SYMBOL_LEN;
++	info->thread_size = THREAD_SIZE;
++	info->enabled_modules_tree_lookup = IS_ENABLED(CONFIG_MODULES_TREE_LOOKUP);
++	info->mod_mem_offset = offsetof(struct module, mem);
++	info->mod_kallsyms_offset = offsetof(struct module, kallsyms);
++
++	memcpy(info->build_info, global_build_info, strlen(global_build_info));
++
++	kinfo->nb.notifier_call = kinfo_notifier_cb;
++
++	meminspect_notifier_register(&kinfo->nb);
++	meminspect_lock_traverse(kinfo, register_kinfo_region);
++
++	return 0;
++}
++
++static void debug_kinfo_remove(struct platform_device *pdev)
++{
++	struct debug_kinfo *kinfo = platform_get_drvdata(pdev);
++
++	meminspect_notifier_unregister(&kinfo->nb);
++}
++
++static const struct of_device_id debug_kinfo_of_match[] = {
++	{ .compatible	= "google,debug-kinfo" },
++	{},
++};
++MODULE_DEVICE_TABLE(of, debug_kinfo_of_match);
++
++static struct platform_driver debug_kinfo_driver = {
++	.probe = debug_kinfo_probe,
++	.remove = debug_kinfo_remove,
++	.driver = {
++		.name = "debug-kinfo",
++		.of_match_table = of_match_ptr(debug_kinfo_of_match),
++	},
++};
++module_platform_driver(debug_kinfo_driver);
++
++MODULE_AUTHOR("Eugen Hristev <eugen.hristev@linaro.org>");
++MODULE_AUTHOR("Jone Chou <jonechou@google.com>");
++MODULE_DESCRIPTION("meminspect Kinfo Driver");
++MODULE_LICENSE("GPL");
 
 -- 
 2.50.1
