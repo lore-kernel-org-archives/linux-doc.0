@@ -1,91 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07244296BCD
-	for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2026 07:00:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32DBA38757A
+	for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2026 07:10:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773212456; cv=none; b=TkwT2K3EyctDCTDIe0u5OqY/xSn1mkpvvCAr1iULt/5hNcA6FFQ6VIMYRksof8W9F7doRnXqGe6br4BnteG/R8Horey6MaN+KiNGghVM8+fkjgjk//bYcH/dJ+PwmbeNqKO3pKYJTduvWIJ6fPoYk7oxTjiZInRJNroGXj+L2Ig=
+	t=1773213023; cv=none; b=rmL12Ezi/oUZ4oDN+b6OSgvAahvJd/yE2ragqS1Pt7MUsH/4PscPnB1Bb13av9/LNeWE4ceY2+4Y9kMRAiPeNDZiy/zk1KNXSIQoIPsUo3hJTqeR5i0tl3WknFXUdBmui9IkfP/FOJew0NKuvJEncGp0uuWKvjTYT6VWKsHhe0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773212456; c=relaxed/simple;
-	bh=6gQbCCMYFPmMLk7fEIxXv0o3iSBRsgCHviJK1sudt+o=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=C7DkUiZtIa6LJheZ0fsvI5DWUqH3/Y1qhQAqEgI/BxpP0qqgkw6Q+zpS+rgeVL+rERLPbHcWPHN9MpD+AyywP4TehA9H+Gr2tBG0E7evWoxQexyutdqaWyhq7zMW0rspf90IOf5kuabwnQ+G8v3p0scOhLftFkT85w61ZGiI6Qs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ep0KL+ow; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1773213023; c=relaxed/simple;
+	bh=tth2sDeYYs4wv3bFHLXcOGrGwqFIeU4s7rHmM4Da0Lg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HxbBl/YoVctvpaHkxwc3wSCYqyQAflZcrQTulRRaXrke1jlPeaYqXY2YJF3fJzkGY108NpMhd5pdoitUOr55rcthWvvytWz97Aq5x2HB+41lnC1NxsINXLV8z+4fGpUzo+826FI5Kicb4KrJqMvZMhknxpR4q4qfFFRnduhf0yQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=pqtK713F; arc=none smtp.client-ip=95.215.58.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ep0KL+ow"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773212454; x=1804748454;
-  h=date:from:to:cc:subject:message-id;
-  bh=6gQbCCMYFPmMLk7fEIxXv0o3iSBRsgCHviJK1sudt+o=;
-  b=Ep0KL+owjwrvNmUXHuGboFB/xkcK0eMXMRy0jyZ7NhJCIZsCq4y1xEd9
-   1TQ7HBe/eM5gFdKbgNSOCYEj69G/t1Wl8i3wtWbqzZb+IsbrRijk/kuqg
-   AHlsi9KqOI+fY5pMrjQqH9LDG2dqFuvH7W0QWCeA5vYfyR/ZBBDMgmVrU
-   Z+lm1UqUDjip8cTjovf0FRclsGz8D3zXBOVKvgY5vzsLOrcFaTuPrZ1uM
-   NhJqd0tcvflxFE6miwIZf0O66byCinZCL/ayyny4o8h8x/bBzwHkO0vnZ
-   yYf41KkP1bzifyUz8hYSOgcfPUxvQCQUZgcQx1WD3ImnmoY5jo3nYYgIF
-   g==;
-X-CSE-ConnectionGUID: ccet5rf+Sn+zpsVyuwhSYw==
-X-CSE-MsgGUID: eRwrd/W8SySaahvZjrirMQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11725"; a="91842559"
-X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="91842559"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 00:00:53 -0700
-X-CSE-ConnectionGUID: YTVdggykTiWm68USJGsYmg==
-X-CSE-MsgGUID: Vf1jGj/CRvuKmnyrHcqoag==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,113,1770624000"; 
-   d="scan'208";a="225327673"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa005.jf.intel.com with ESMTP; 11 Mar 2026 00:00:52 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w0DYn-000000003HB-0uw5;
-	Wed, 11 Mar 2026 07:00:49 +0000
-Date: Wed, 11 Mar 2026 08:00:27 +0100
-From: kernel test robot <lkp@intel.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [robh:dt-convert 7/621] htmldocs: Warning: MAINTAINERS
- references a file that doesn't exist:
- Documentation/devicetree/bindings/arc/axs10*
-Message-ID: <202603110758.jcvILYR8-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="pqtK713F"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1773213010;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=LLwzKZ2PI4LHLWSyi3YiUSoKijuVeO/Lb89MwFsYc4c=;
+	b=pqtK713FeBwvM0YhcPJIv/xNqGZZC/p/o3B3iM0enbhqyfxCMQhylBrbe5PBYPXaaYvJL8
+	RS7BCS9k/nhGLu+0z/V8jD2NyHoZv3VU3IfzmShrLqTKP7/remb3jOLWyTMPG8T4WigtlY
+	vTUHPpuPmFL7b++GEmtZH++f3JBgsGc=
+From: Zenghui Yu <zenghui.yu@linux.dev>
+To: linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	"Zenghui Yu (Huawei)" <zenghui.yu@linux.dev>
+Subject: [PATCH] docs: proc: remove description of prof_cpu_mask
+Date: Wed, 11 Mar 2026 15:09:40 +0800
+Message-ID: <20260311070940.94838-1-zenghui.yu@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt-convert
-head:   c8198e311a98fefcf9efff078bf3930ff94b60d2
-commit: d8d8ca06bbb6c749c20b30d2beed9784dc696a10 [7/621] dt-bindings: arc: Convert snps,arc-sdp to DT schema
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260311/202603110758.jcvILYR8-lkp@intel.com/reproduce)
+From: "Zenghui Yu (Huawei)" <zenghui.yu@linux.dev>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603110758.jcvILYR8-lkp@intel.com/
+Commit 2e5449f4f21a ("profiling: Remove create_prof_cpu_mask().") said that
+no one would create /proc/irq/prof_cpu_mask since commit 1f44a225777e
+("s390: convert interrupt handling to use generic hardirq", 2013). Remove
+the outdated description.
 
-All warnings (new ones prefixed by >>):
+While at it, fix another minor typo (s/DMS/DMA/).
 
-   Warning: Documentation/translations/zh_CN/how-to.rst references a file that doesn't exist: Documentation/xxx/xxx.rst
-   Warning: Documentation/translations/zh_CN/networking/xfrm_proc.rst references a file that doesn't exist: Documentation/networking/xfrm_proc.rst
-   Warning: Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst references a file that doesn't exist: Documentation/Configure.help
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/ABI/testing/sysfs-platform-ayaneo
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/megachips-stdpxxxx-ge-b850v3-fw.txt
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/arc/axs10*
-   Warning: arch/powerpc/sysdev/mpic.c references a file that doesn't exist: Documentation/devicetree/bindings/powerpc/fsl/mpic.txt
-   Warning: rust/kernel/sync/atomic/ordering.rs references a file that doesn't exist: srctree/tools/memory-model/Documentation/explanation.txt
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/virtual/lguest/lguest.c
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,\b(\S*)(Documentation/[A-Za-z0-9
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/devicetree/dt-object-internal.txt
+Signed-off-by: Zenghui Yu (Huawei) <zenghui.yu@linux.dev>
+---
+ Documentation/filesystems/proc.rst | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+index b0c0d1b45b99..9a943b9f20ee 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -727,7 +727,7 @@ files are there, and which are missing.
+               in the kernel image
+  cpuinfo      Info about the CPU
+  devices      Available devices (block and character)
+- dma          Used DMS channels
++ dma          Used DMA channels
+  filesystems  Supported filesystems
+  driver       Various drivers grouped here, currently rtc	(2.4)
+  execdomains  Execdomains, related to security			(2.4)
+@@ -861,14 +861,13 @@ i386 and x86_64 platforms support the new IRQ vector displays.
+ Of some interest is the introduction of the /proc/irq directory to 2.4.
+ It could be used to set IRQ to CPU affinity. This means that you can "hook" an
+ IRQ to only one CPU, or to exclude a CPU of handling IRQs. The contents of the
+-irq subdir is one subdir for each IRQ, and two files; default_smp_affinity and
+-prof_cpu_mask.
++irq subdir is one subdir for each IRQ, and default_smp_affinity.
+ 
+ For example::
+ 
+   > ls /proc/irq/
+-  0  10  12  14  16  18  2  4  6  8  prof_cpu_mask
+-  1  11  13  15  17  19  3  5  7  9  default_smp_affinity
++  0  10  12  14  16  18  2  4  6  8  default_smp_affinity
++  1  11  13  15  17  19  3  5  7  9
+   > ls /proc/irq/0/
+   smp_affinity
+ 
+@@ -899,9 +898,6 @@ The node file on an SMP system shows the node to which the device using the IRQ
+ reports itself as being attached. This hardware locality information does not
+ include information about any possible driver locality preference.
+ 
+-prof_cpu_mask specifies which CPUs are to be profiled by the system wide
+-profiler. Default value is ffffffff (all CPUs if there are only 32 of them).
+-
+ The way IRQs are routed is handled by the IO-APIC, and it's Round Robin
+ between all the CPUs which are allowed to handle it. As usual the kernel has
+ more info than you and does a better job than you, so the defaults are the
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.53.0
+
