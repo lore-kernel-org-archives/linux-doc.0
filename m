@@ -1,104 +1,81 @@
-Received: from out-173.mta1.migadu.com (out-173.mta1.migadu.com [95.215.58.173])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32DBA38757A
-	for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2026 07:10:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ABE138D016;
+	Wed, 11 Mar 2026 07:10:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773213023; cv=none; b=rmL12Ezi/oUZ4oDN+b6OSgvAahvJd/yE2ragqS1Pt7MUsH/4PscPnB1Bb13av9/LNeWE4ceY2+4Y9kMRAiPeNDZiy/zk1KNXSIQoIPsUo3hJTqeR5i0tl3WknFXUdBmui9IkfP/FOJew0NKuvJEncGp0uuWKvjTYT6VWKsHhe0Y=
+	t=1773213054; cv=none; b=BYJ0eM2I5+6aK131/dg+uHD8vK/H5LTTRUf15lnNFt2TnSMqZdmL4vTuBECce/xx1k8XaAX2RGsD5H9DDNJCT8rVM+oSV9ZwRmVoVXJXheN8saIVflXU2xWus8AjCRbeDPfr41Q8iTitfYx84WQUU/d+c9C8d7mjorxBAWN0+DI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773213023; c=relaxed/simple;
-	bh=tth2sDeYYs4wv3bFHLXcOGrGwqFIeU4s7rHmM4Da0Lg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HxbBl/YoVctvpaHkxwc3wSCYqyQAflZcrQTulRRaXrke1jlPeaYqXY2YJF3fJzkGY108NpMhd5pdoitUOr55rcthWvvytWz97Aq5x2HB+41lnC1NxsINXLV8z+4fGpUzo+826FI5Kicb4KrJqMvZMhknxpR4q4qfFFRnduhf0yQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=pqtK713F; arc=none smtp.client-ip=95.215.58.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="pqtK713F"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1773213010;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=LLwzKZ2PI4LHLWSyi3YiUSoKijuVeO/Lb89MwFsYc4c=;
-	b=pqtK713FeBwvM0YhcPJIv/xNqGZZC/p/o3B3iM0enbhqyfxCMQhylBrbe5PBYPXaaYvJL8
-	RS7BCS9k/nhGLu+0z/V8jD2NyHoZv3VU3IfzmShrLqTKP7/remb3jOLWyTMPG8T4WigtlY
-	vTUHPpuPmFL7b++GEmtZH++f3JBgsGc=
-From: Zenghui Yu <zenghui.yu@linux.dev>
-To: linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	"Zenghui Yu (Huawei)" <zenghui.yu@linux.dev>
-Subject: [PATCH] docs: proc: remove description of prof_cpu_mask
-Date: Wed, 11 Mar 2026 15:09:40 +0800
-Message-ID: <20260311070940.94838-1-zenghui.yu@linux.dev>
+	s=arc-20240116; t=1773213054; c=relaxed/simple;
+	bh=nG5QpDl0WwXxxEUbvogAjWfL4X9xBVWgNKIGnVanW5k=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=pqWVdk65oZGxfL9ZZMbTpM6XAOqVNTe5z23vzLWmM5iBNydIn1cho1sVStt/Vv9v3ZJ3eLR9cPoQ9zLpMUZdn5aD3uIwlH6eTfeQlSld1rMFn5hh97we7iTZJvSiIkTri6GgIT7Ez5M6vDs7aNtY3LOou9crCSSlf63tQA8aEjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4469EC4CEF7;
+	Wed, 11 Mar 2026 07:10:53 +0000 (UTC)
+Received: by venus (Postfix, from userid 1000)
+	id 7A22B180696; Wed, 11 Mar 2026 08:10:45 +0100 (CET)
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
+ Tobias Schrammm <t.schramm@manjaro.org>, Sebastian Reichel <sre@kernel.org>, 
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+ Dan Carpenter <dan.carpenter@linaro.org>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, Lee Jones <lee@kernel.org>, 
+ Dzmitry Sankouski <dsankouski@gmail.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+ Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: Matti Vaittinen <mazziesaccount@gmail.com>, driver-core@lists.linux.dev, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, chrome-platform@lists.linux.dev, 
+ stable@vger.kernel.org
+In-Reply-To: <20260305-workqueue-devm-v2-0-66a38741c652@oss.qualcomm.com>
+References: <20260305-workqueue-devm-v2-0-66a38741c652@oss.qualcomm.com>
+Subject: Re: (subset) [PATCH v2 00/10] workqueue / drivers: Add
+ device-managed allocate workqueue
+Message-Id: <177321304548.505649.413926339032568347.b4-ty@collabora.com>
+Date: Wed, 11 Mar 2026 08:10:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.14.3
 
-From: "Zenghui Yu (Huawei)" <zenghui.yu@linux.dev>
 
-Commit 2e5449f4f21a ("profiling: Remove create_prof_cpu_mask().") said that
-no one would create /proc/irq/prof_cpu_mask since commit 1f44a225777e
-("s390: convert interrupt handling to use generic hardirq", 2013). Remove
-the outdated description.
+On Thu, 05 Mar 2026 22:45:39 +0100, Krzysztof Kozlowski wrote:
+> Merging / Dependency
+> ====================
+> All further patches depend on the first one, thus this probably should
+> go via one tree, e.g. power supply.  The first patch might be needed for
+> other trees as well, e.g. if more drivers are discovered, so the best if
+> it is on dedicated branch in case it has to be shared.
+> 
+> [...]
 
-While at it, fix another minor typo (s/DMS/DMA/).
+Applied, thanks!
 
-Signed-off-by: Zenghui Yu (Huawei) <zenghui.yu@linux.dev>
----
- Documentation/filesystems/proc.rst | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+[02/10] power: supply: cw2015: Free allocated workqueue
+        commit: db254b0b232358ab1aeadebe8d147c99a3569559
+[03/10] power: supply: max77705: Drop duplicated IRQ error message
+        commit: 2064c64ceb1996ee02a6bbb1de05fd6e8028e3e4
+[04/10] power: supply: max77705: Free allocated workqueue and fix removal order
+        commit: 1e668baadefb16e81269dbfebf3ffc2672e3a3bb
+[05/10] power: supply: mt6370: Simplify with devm_alloc_ordered_workqueue()
+        commit: f23afa01040a41882a048e4957a7acac1426da6f
+[06/10] power: supply: ipaq_micro: Simplify with devm
+        commit: 2cfc7cac68e19c4acb236b8db6065bbaff5deee8
 
-diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-index b0c0d1b45b99..9a943b9f20ee 100644
---- a/Documentation/filesystems/proc.rst
-+++ b/Documentation/filesystems/proc.rst
-@@ -727,7 +727,7 @@ files are there, and which are missing.
-               in the kernel image
-  cpuinfo      Info about the CPU
-  devices      Available devices (block and character)
-- dma          Used DMS channels
-+ dma          Used DMA channels
-  filesystems  Supported filesystems
-  driver       Various drivers grouped here, currently rtc	(2.4)
-  execdomains  Execdomains, related to security			(2.4)
-@@ -861,14 +861,13 @@ i386 and x86_64 platforms support the new IRQ vector displays.
- Of some interest is the introduction of the /proc/irq directory to 2.4.
- It could be used to set IRQ to CPU affinity. This means that you can "hook" an
- IRQ to only one CPU, or to exclude a CPU of handling IRQs. The contents of the
--irq subdir is one subdir for each IRQ, and two files; default_smp_affinity and
--prof_cpu_mask.
-+irq subdir is one subdir for each IRQ, and default_smp_affinity.
- 
- For example::
- 
-   > ls /proc/irq/
--  0  10  12  14  16  18  2  4  6  8  prof_cpu_mask
--  1  11  13  15  17  19  3  5  7  9  default_smp_affinity
-+  0  10  12  14  16  18  2  4  6  8  default_smp_affinity
-+  1  11  13  15  17  19  3  5  7  9
-   > ls /proc/irq/0/
-   smp_affinity
- 
-@@ -899,9 +898,6 @@ The node file on an SMP system shows the node to which the device using the IRQ
- reports itself as being attached. This hardware locality information does not
- include information about any possible driver locality preference.
- 
--prof_cpu_mask specifies which CPUs are to be profiled by the system wide
--profiler. Default value is ffffffff (all CPUs if there are only 32 of them).
--
- The way IRQs are routed is handled by the IO-APIC, and it's Round Robin
- between all the CPUs which are allowed to handle it. As usual the kernel has
- more info than you and does a better job than you, so the defaults are the
+Best regards,
 -- 
-2.53.0
+Sebastian Reichel <sebastian.reichel@collabora.com>
 
