@@ -1,297 +1,258 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010004.outbound.protection.outlook.com [52.101.193.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE97422259F
-	for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2026 17:45:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773251160; cv=none; b=NSaj/AGfyU2zw+wjNdsFdF6vT8cK/tur3wrqJzalXjU/b6bBfuH+GqK9mv2q31+rCZ/yX3dKQipYQ40zyWi2bbeJ2f1Jio1I6yneLhBoVunOIM4qGFS2m/2rfVLRl3GfmMvk1hmdJAy+ff0sV+3dB3adt7Y0oOrF8UTc0xWlWB8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773251160; c=relaxed/simple;
-	bh=rPJK7Se9PvcdUmXRMKMZxkKjCXYOc+dnvl4vUpV52io=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=j5vB577c23bIl5EAo77uQQhC3RRLeN7DYkuNhMtvnPYLZ9Kdco6mfVjHOYYlCnwkyipQhiJaTS+H9oKvBEZm1gIjtWxQyKkNO5a6PcipOhTEmj2prs9w10/n2JaMifD/lPKthXerfY8U1RRHrsFtI2DJbdNRJ/NO0mXnfWA1R7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Hl8eAEUW; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05C41221FCD;
+	Wed, 11 Mar 2026 18:24:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.4
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773253463; cv=fail; b=XkoLz7c8kD2LOw/SQ/iZtWjDzul2ilxZ5mLbSXt3NUr5HirzdjOSMXdLI9Ew6pTfUhUWo/jpjUi0oeK71GBCoOqF7pcqWyF0DCkfKl7eQkfcY3073bBJvnufWHIgdp/0LiGXObkif6nnyTmz2l3WIaG5zuy5YmdeF3ObUmxBrtg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773253463; c=relaxed/simple;
+	bh=BfKoAzhwVSHvoS8jpgxBCC1qPqct/pUP04abr2Mjyl0=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=KURyfnHv+LSwJ88dwIdytvOo5QvArR5WUVFr2TjhSRcdO1w4Lq227//ZkQcUy1leAzxPL5tcKbUrHnNFlihJYjJ1K+9JQfAo+OzTmzh7M5GiXvgIx3Pns17NmaNPKvPCHzd14+sIJnlA6R9+TDXqOgNVowSlv0BYfRXVTXQluC4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=F0utkjdm; arc=fail smtp.client-ip=52.101.193.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Hl8eAEUW"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4853c1ca73aso841065e9.2
-        for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2026 10:45:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1773251157; x=1773855957; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/VIaQVzDDm7FRkzFhPyJ+ipxFALXzUWH3qkbbvO8u0Q=;
-        b=Hl8eAEUWNDPXAjido9vw0qbb0QiPMqO2XD5I1XcEL1sOs8v30AAnCXWXAvv5fOHZzY
-         lWrP/nHW+PSEVsVBc16w1aQt7CImuagQTjmqnxskFBmcLGtfqpjj+xhEcX8JDzj1ri2e
-         yay1eeDtQxMExuAu5drcCG7aGyqzmrgSY+Z+tMUI/3fBGLs6+udqYHJncdlTO/mC57tN
-         1pVJVeZvjkF/2NML+wyBIkDk+dg2jMpzfU70mbG6cRcwbHIkXTI7wLuE0397dN5F9w1S
-         fNLrPDbQp+b0ULsqj2SQBSFjeK591j//bJG1l2EUO8U+MyazYEIWdpO2OkTxVu35pyaC
-         aTUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773251157; x=1773855957;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/VIaQVzDDm7FRkzFhPyJ+ipxFALXzUWH3qkbbvO8u0Q=;
-        b=LbR9Yb7/kXfko54AuqhHbvvQd5Oa6GhYcBXD7yQvCl9mY4akDh8dFWhcFixK8updbb
-         LCHaY4EJGESI2q/eji+7CBtcVl5x7OVR6svVtbIJg5Hxh+Wt/4jk5GPk4yZHxLsotEjA
-         42gzTR15fImrrd4E3V3szKTiGnkXhvG0MIhD7LdJ1Dat71u88F5WVX2WZMjdooyj0KLY
-         OQC1btdTuahGtXHk/JqLf54Vn/Rr/YIr3EMimlVzO5tvvb5CF2obi9LbgBg64czFMXIs
-         TzspoukUXI+eOD8nkp1zmtt1oIJKRePxm0lEecd+AqncXzPe1O3bEvSH5VVykYjQOA/B
-         /boA==
-X-Forwarded-Encrypted: i=1; AJvYcCUO5zkS1FjySJIl8S238exZRDoNhlE4uIGPb3FNRwCglZY5y+4zAaEZKsBQ8jvXp+2xGN63UXW8baE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywl6QNA9QkmOCPH6x5KdRvfWTZw/OREZVYoyN/XmCA+/MLF4Buo
-	NqYNxhd3KUFIs2o+amcH5U+9WcHidVBSt99nycQO4YKqQoGzl8ZL9q1Wny/w8Gk/bEw=
-X-Gm-Gg: ATEYQzwZVU4lFsQ22e6/OpIzO9rbgCD/ltz14jIcX/JryzRMPSkpw5/dfHFOg1lZZQO
-	oZMLi+1nk2frfYI148H2pObfKz0zF+6dw2EKmy/e231oCQZCpLTCs6Icvr0cTdh9nrEtR8fVFNZ
-	7AceUhHq175hL2JEkZ0xhfV8AH6/DNZiM+3MIN1hbRKpaNhDrnYWNprIUA3E9CHl3d3d8+IfE1b
-	2UAvlWVa8MygNLUK+Ic8p2WO0/UTLNRcnsvsOx9ezlTfAWVTGvui/vHqT1Za4J/cC0Ueq4o5E7H
-	ydT3BGJSnEF/KGcbgXOzoK136un7BdOADDyZkEV+bQd2EhDyhquk9DTghYdKftAc6iWOrT121y0
-	wNZOyyc7tVf/IG7Hkl2m0f4igeuIz214cE0ZASlXWNrg2tXrTgpP9HTeIYGrs5nTVHQZfCKcez8
-	MYaX9/lIC8ojxHy+Nd4h04mhbDJJPE
-X-Received: by 2002:a05:600c:46d3:b0:485:3c66:e230 with SMTP id 5b1f17b1804b1-4854b12ced9mr59198095e9.29.1773251157103;
-        Wed, 11 Mar 2026 10:45:57 -0700 (PDT)
-Received: from [192.168.1.3] ([185.48.77.170])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4854b0bff95sm45389575e9.3.2026.03.11.10.45.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Mar 2026 10:45:56 -0700 (PDT)
-Message-ID: <a75924dd-0fa7-4574-837c-1778366195a6@linaro.org>
-Date: Wed, 11 Mar 2026 17:45:55 +0000
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="F0utkjdm"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=DgaashI+/xabzvx52UE00PJyy1p4HZI4NbkpXmWexYDgwrbgd4yAQEDSd2aG6urOWtSx2mG2RWqytAOZGZpF/Ht4O6oiQOOoyV98QiLlFbH45PidRoBLqTSTbZpVCRV+fgHnRDj4izNS/LcV4HnFEmYWmwSL76bi3acPY6ucksaTTsh3ZrhQOMCtA5urddFnsJGeXLrOjUL8J6m5rTdS5rxrx093vO1HNGHS9Y+44qRV6jzlQyVHD//GZgAk/4h0kkRdFVWZGiGjTfO3ztxHa7UZX2lfw7N/eBTUFPrE4ob2MUNIYcHNHyoO96JMKzxU5XVI6zSB1mFoEVGetg693g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/inejUG5MxiP35QU9HZtk0B76actu3dsRgUikxOJ3G4=;
+ b=qo6IZuAY2FQD9/TVaEomw6FM7KP9by+biTv2jFBqcP28tgpQI6bVTmJ9EZgyKRqdhuaqCVXxfUVX3PpKRpONACpL/WFMswPmECli/qbOjebrAfogFF2G4HwWyUyvpZvWVDCFRJubKK0d3rZb2x12dYwhDm209ZbcUUEcq6ByXmvFdF91XhyXO+7aIq1xBvoSNhvPTuV71HdyqrpSEf6wyLbr5Bzulz8QH1/u4PVeEttF6WcYfn1n9MI9ZwegkKKwwaAsIaDUINB1e0s68SCR9Tnb361AFf56TX6hOLSAzxderDNzDvwWvZXtO6RbLdsoNJaBrhVTNoMIDtxo1UDCUA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/inejUG5MxiP35QU9HZtk0B76actu3dsRgUikxOJ3G4=;
+ b=F0utkjdmRN+bAnQM28pyonlL8hnPdyJe25GRS3wzluOUNxI/3Wkc2p69DaKl2mH1CWapw5MCN3s490nydYkB298BbhzxEDZIEfYl+67XzDQRFj2HD4zh+wUn8pSTo0F8oLiMQZRy9TaK2C1GjKn9AjU5vLFsNahS/O5OTw7j7eYfBpI8X3AwMgdiGPVI8W6VfpONdofL6XW/tg8a/G1YS2NQSNVHa5kweK0/yQTy9jfODPn62lgmI6ayVVYOsGx/4QJU7GK10ZUfvP+bnEPEZZb/aegpJzQes60HX/wvE96COnu36sWHsf+GaNnfvDZsq+E23HPxkAMBAxHESW6UUQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CY1PR12MB9558.namprd12.prod.outlook.com (2603:10b6:930:fe::13)
+ by PH7PR12MB5712.namprd12.prod.outlook.com (2603:10b6:510:1e3::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.12; Wed, 11 Mar
+ 2026 18:24:17 +0000
+Received: from CY1PR12MB9558.namprd12.prod.outlook.com
+ ([fe80::920f:8246:c48b:7ce9]) by CY1PR12MB9558.namprd12.prod.outlook.com
+ ([fe80::920f:8246:c48b:7ce9%4]) with mapi id 15.20.9700.010; Wed, 11 Mar 2026
+ 18:24:17 +0000
+Message-ID: <5de5103e-e2e4-4b72-9c3c-22847728fbb8@nvidia.com>
+Date: Wed, 11 Mar 2026 20:24:08 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next V3 00/10] devlink: add per-port resource support
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Jiri Pirko <jiri@resnulli.us>, Tariq Toukan <tariqt@nvidia.com>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Donald Hunter <donald.hunter@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed <saeedm@nvidia.com>,
+ Leon Romanovsky <leon@kernel.org>, Mark Bloch <mbloch@nvidia.com>,
+ Shuah Khan <shuah@kernel.org>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-rdma@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ Gal Pressman <gal@nvidia.com>, Dragos Tatulea <dtatulea@nvidia.com>,
+ Shay Drory <shayd@nvidia.com>, Jiri Pirko <jiri@nvidia.com>,
+ Moshe Shemesh <moshe@nvidia.com>
+References: <20260226221916.1800227-1-tariqt@nvidia.com>
+ <20260302192640.49af074f@kernel.org>
+ <pmxkihhtsskkwsvdia4z2ss4wxpfc4a4kqxkjv5wk3mwdmpzii@6go7pizk2nst>
+ <jssifysprwuafkinc3dguspngxmplrngqxvotp76vhvu4e5lp6@e7mdrjqc5rme>
+ <20260304101522.09da1f58@kernel.org>
+ <np44uzfn6jea56uht4yq4te5clapgj7pk6ygyvkl22wxumwnvt@nrpvzjqzxenq>
+ <20260305063729.7e40775d@kernel.org>
+ <ni23r4jiwgc6zjjsubtl4ujjgxzwpxrylumofdwxgozfnieynm@zirlbneaz6p2>
+ <20260306120301.0ebe1ab2@kernel.org>
+ <74dcd7c5-8a2b-49a7-a23c-174d17a61955@nvidia.com>
+ <20260309133341.7e08b35d@kernel.org>
+Content-Language: en-US
+From: Or Har-Toov <ohartoov@nvidia.com>
+In-Reply-To: <20260309133341.7e08b35d@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR4P281CA0247.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f5::10) To CY1PR12MB9558.namprd12.prod.outlook.com
+ (2603:10b6:930:fe::13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 04/19] perf: arm_pmuv3: Introduce method to partition
- the PMU
-To: Colton Lewis <coltonlewis@google.com>, kvm@vger.kernel.org
-Cc: Alexandru Elisei <alexandru.elisei@arm.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Russell King <linux@armlinux.org.uk>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>,
- Mingwei Zhang <mizhang@google.com>, Joey Gouly <joey.gouly@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu
- <yuzenghui@huawei.com>, Mark Rutland <mark.rutland@arm.com>,
- Shuah Khan <shuah@kernel.org>,
- Ganapatrao Kulkarni <gankulkarni@os.amperecomputing.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
- linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org
-References: <20260209221414.2169465-1-coltonlewis@google.com>
- <20260209221414.2169465-5-coltonlewis@google.com>
-Content-Language: en-US
-From: James Clark <james.clark@linaro.org>
-In-Reply-To: <20260209221414.2169465-5-coltonlewis@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY1PR12MB9558:EE_|PH7PR12MB5712:EE_
+X-MS-Office365-Filtering-Correlation-Id: 45934d9b-7182-4780-c8db-08de7f9b67c6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|366016|1800799024|18002099003|56012099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	0e0mnrJ/pbPXmRN29G0aCtpSrnyqKS76cWVTCIYFVBjyNmcFGAMW/1YdNvRePXGsyi89penaYLaVyy2RQWq4NzCn14hiOQ/COWJBcohPkg6o3N34F0SsK8oLfJ1ronsgv8/+b8gE02xzaHSFv2QAXEwd/tpx/NkdB9LVOXpV2Ukbog+Sb0mwr2WpE4dV3gpaQwlxqnXLR0erlXfAujNyqHk9fAJU5eaIwSImgxAd/sM6P+1DHzcb11aHUMaKplMXrfNqce+pXDH91CIa65LtZO0cujeI2/xRvvoqPwFKDgGjwcQ2zn5r8sgTwS0sd22G+G6fRABwDwT7P6s+XvFJRdA5hSiimnyw2+ZsKXIOrs0tPwCZe7/aCzJH1BUgCZyxlGm6utRqQOyWHvg6Dubb+9TDsidO1KMzYU8N7hp6Ma3/w/dzNt+UeE8gnr1EYxRLVksPHEbkNRDoj1/b2IyWssT4PFQZNyWlckADgV14FO4XvZCneckJmXS5tqlbcXqUcHxH/1BOQKwi8LbUEKK7evu+Z4A8arCRUHOc3NwzM99ew0szXyep5qtv3ONbbBA/h8eQFjKqneFssHg06YFvMCborzMSl0bfaPoAhNujtklAWGfg3KdS/yyf/luVkS7TVRgmyKkISses9hlVy3PblQlImkb4ygPMGZF8kDH/VRHQBi3qAA8Tx2UOsT2NA+fpoi9v/9I+IL7A/OquEGVErdGvQ7zJp5UHnNIPlEggBhA=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY1PR12MB9558.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?WGxRV3ZRQjR6U3NsSGREdUVTNXVWZFlnRWI4bWV1cmwraUE3M2U0Y0JxZmFy?=
+ =?utf-8?B?bkJhb20rR1NMN2tjWGc1Q0RPYW9ib3ZJUjdSWGpyYjR1dEdLRnpQOEpkNHNE?=
+ =?utf-8?B?YmsydEU4OXF2N0Z4enNFV1NKbkp1STVVRVpJdHJLVFJsTVV4aVZMcXNXemx3?=
+ =?utf-8?B?OVFWT1RrY2I3b0hITVR2SVUxWDNDQmVJc1hQQUo3bW1FbGk0d2JxSkcxRmhi?=
+ =?utf-8?B?R1lXaE0zcW54M28vR1RSQ1JtdnZyT21LWEc3dGFEY25MZ1hTRjhkL0MyMXRT?=
+ =?utf-8?B?TjVsQXhKQ09uUUd5UmVWQ1Vsa1U2aXhlcHVGRTVtbFZjQkRGMStkMTFiZ2s4?=
+ =?utf-8?B?YkorQzl0Qkk1cVArRUttMnFZZkRGY1U5d0FmbVpCMVpncUVDQ0tKRFQxQ2pT?=
+ =?utf-8?B?RS9kNHRXRzN1Sk5RS2JibGdyTEJESmlEcDV5T2NKNk9KVUhONkVaVDZ2cHFX?=
+ =?utf-8?B?M1RrcDdPQW9nSzFDT0I3MnFlbzhJcE81RVV2SUpOaSttRUF1NmxSYlhDN1h6?=
+ =?utf-8?B?cTZGaENibmlQeUtGUnhaQVFQVER2em5kSUVRN0wxNUFLbXl4VjdNT0YxTnhY?=
+ =?utf-8?B?WlB5RzUzSEVEdkU1eUJFM1BsZnFQYXFRaTVZaVpnNm56Nmx3aERrNVdEMEtZ?=
+ =?utf-8?B?T2hlQ2x0ZkRDeFVibW9mUGdnaWpUcWdjcXUxUCtCS3ZpNHFER0Fpc3hmeVRW?=
+ =?utf-8?B?aHQ3Tk10bjg3Y2FPZm95U3R2bHh1NSt1bTdTUWN6eWRpeDl6NFJISGdkREY0?=
+ =?utf-8?B?V0xncTJLeVd1NGs3R0ZwS0pVT2QvTVlVdnBhZEdVem83c3M2T1FWMTBmSTRI?=
+ =?utf-8?B?RitYb0tYNTNjTUx5OVhWUGtqRUR0TFlSRUtyaGduOHhZUGZDaXJZK2krdEVy?=
+ =?utf-8?B?TjlKcUZCdXd6WFJsUStkU0Rrc2VDTkZBZkhVMXI4VkU5RTIvcldIM0pBckgw?=
+ =?utf-8?B?dytxdTdXVmFvMXpyKzk0ZzNQWkVDTmw1M1VOVUpBUVVla28rTExuV3hpTVN4?=
+ =?utf-8?B?eUFVN3E4eWJoV1lCQUlUa0RVK1VDNWp1MFhQT2EvdlVmNjlrSTVlVWw3YzBL?=
+ =?utf-8?B?ZWNoOHN1UUVLK0JsTk1oL1RmcEVPbWZ5TTQrN3hVdHNDZXAxa0FscDZjYytW?=
+ =?utf-8?B?eUdiZm1XU29QTlQ0S0RuemxpUUQ5Vk1XMXBDbjZmUXowUjR5aWFUSWluNk9I?=
+ =?utf-8?B?Sm5saTBxdmNrNGZzcGRpc3FBclBMYUdhS2oyd2J0S3Q2QjgrdXFIcFpYeTlT?=
+ =?utf-8?B?VGZZUWx2VXhhcTJpSVNWRGt4Q3c3a0lIOUJLNS9vdXhOcm9ScDZnRk1EWGJV?=
+ =?utf-8?B?V0V3bUgxemJNZ0JYTVZMMjFLNWMwTzQwWnQzREdxYnYrNEQ0MkpmZ0h2SW1I?=
+ =?utf-8?B?eGFLbmxwTHlVNFBYM2VqRm9xZEJvOW1PdnJIS3Y5NVY5QzVTWXZpUEQyck12?=
+ =?utf-8?B?WlROcWcwZkcvaEpPZFlDWlYzSE14N2QrQnVldm1IRTdTM3k0TkJpTFZWb1Q4?=
+ =?utf-8?B?VWRxcHFpNW1ETnJCOSt5Q1g2QVozZjFwQ3M0N094MG5TUVNKRHliZVRQQ0NU?=
+ =?utf-8?B?eXRxYlRlVysrOTZINnBRSjd5Y0pyQit1aXBFcmVxbHJ4THg1NGRLRXEwSUtv?=
+ =?utf-8?B?dDZPSWkyNWZKTzQ4aGZ4US9SQnNvYU9ha1RNTDB2eG5uTjhEejQyZFVEcG43?=
+ =?utf-8?B?QUVhcXJkdVRpcFRTdEdSUFQzdVhkN1NoMCtMSkJHSVBjLy9hTy9uMGlIaGhX?=
+ =?utf-8?B?SjdBa2VEU3B0anhqd1p5am96c2RUV0EvL204T0lOcWdKMjYxTC9IeXo5MWg5?=
+ =?utf-8?B?dmtFd0lOQUtKcTRmUU5BL0EwRnFQS201THdUSGwzWHRnZjUxNWpnQXdMT0tN?=
+ =?utf-8?B?RXNpem93cHp6VC9yd1ZwNkx6L3ZYTXoyWktJVnFJUWlIS05Na1Z5Q3Z5UXRu?=
+ =?utf-8?B?cDRSZDBPSUtYRlk0V2swMzRNU095eGQ4QnJZSERKcVplYW1uSGFkdHFzMzQx?=
+ =?utf-8?B?VnczbUM1dzZWWmg1RHZYN2xjUjNYMEF6REpmVEU3Z3FaQjY1UE1DVmN2bzhp?=
+ =?utf-8?B?UTlxajdnZ2NEekxPOThUbEI1R3VtWWUrUndqWkhML0tQSXltaERLMnBJQkYw?=
+ =?utf-8?B?MmZZY1IvcFhvZmkrWGhYcXVHREFIV3VXai9KMU9WMmtxUVpRYW9Qc1lFb3Z2?=
+ =?utf-8?B?QVJSR1BqNURyYnFZV1Y2K0tyRU02SVBtTmNhNllXUDc5UC9Pc3paNUdKWS9L?=
+ =?utf-8?B?YW1PVG5hMW1aUys2Zkx1VkpQd1NzQi9JMTVnUnc1QWFnRTVvWkkyS2w3ZFlQ?=
+ =?utf-8?B?YkxTRUtXQ1pOZitETDdZVFFxWTEreU9DSUF3QXdObnBNRU0wNGtBUT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 45934d9b-7182-4780-c8db-08de7f9b67c6
+X-MS-Exchange-CrossTenant-AuthSource: CY1PR12MB9558.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Mar 2026 18:24:17.4446
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Gy6eyNmxKFb1h/yB9XaezXu7eaEwn2hRfR/XVPlK6wERYgJUtJ5Cba/kNNstqcq5S4QCu7FM6U/AuKzG7PgBVw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5712
 
 
 
-On 09/02/2026 10:13 pm, Colton Lewis wrote:
-> For PMUv3, the register field MDCR_EL2.HPMN partitiones the PMU
-> counters into two ranges where counters 0..HPMN-1 are accessible by
-> EL1 and, if allowed, EL0 while counters HPMN..N are only accessible by
-> EL2.
+On 09/03/2026 22:33, Jakub Kicinski wrote:
 > 
-> Create module parameter reserved_host_counters to reserve a number of
-> counters for the host. This number is set at boot because the perf
-> subsystem assumes the number of counters will not change after the PMU
-> is probed.
 > 
-> Introduce the function armv8pmu_partition() to modify the PMU driver's
-> cntr_mask of available counters to exclude the counters being reserved
-> for the guest and record reserved_guest_counters as the maximum
-> allowable value for HPMN.
+> On Sun, 8 Mar 2026 18:03:11 +0200 Or Har-Toov wrote:
+>> Do you mean that we will register resources per port, but not show with
+>> new devlink port resource show.
+>> Instead, the current devlink resource show dev command will also display
+>> the ports of that device?
+>>
+>> For example:
+>>
+>> $ devlink resource show pci/0000:03:00.0
+>>     pci/0000:03:00.0:
+>>       name local_max_SFs size 40 unit entry
+>>     pci/0000:03:00.0/196608:
+>>        name max_SFs size 20 unit entry
+>>     pci/0000:03:00.0/196609:
+>>        name max_SFs size 20 unit entry
+>>
+>> Or should we keep the current behavior where devlink resource show dev
+>> displays only device-level resources, and only the full dump shows both
+>> devices and their ports?
+>>
+>> For example:
+>>
+>> $ devlink resource show
+>>     pci/0000:03:00.0:
+>>       name local_max_SFs size 40 unit entry
+>>     pci/0000:03:00.0/196608:
+>>        name max_SFs size 20 unit entry
+>>     pci/0000:03:00.0/196609:
+>>        name max_SFs size 20 unit entry
+>>     pci/0000:03:00.1:
+>>       name local_max_SFs size 40 unit entry
+>>     pci/0000:03:00.1/196608:
+>>        name max_SFs size 20 unit entry
+>>     pci/0000:03:00.1/196609:
+>>        name max_SFs size 20 unit entry
+>>
+>> Want to confirm which behavior you meant.
 > 
-> Due to the difficulty this feature would create for the driver running
-> in nVHE mode, partitioning is only allowed in VHE mode. In order to
-> support a partitioning on nVHE we'd need to explicitly disable guest
-> counters on every exit and reset HPMN to place all counters in the
-> first range.
+> No strong preference on the CLI. For the kernel I think specifying
+> the device should not exclude the port resources. Whether port
+> resources are shown or not should be entirely up to the mask attribute.
 > 
-> Signed-off-by: Colton Lewis <coltonlewis@google.com>
-> ---
->   arch/arm/include/asm/arm_pmuv3.h   |  4 ++
->   arch/arm64/include/asm/arm_pmuv3.h |  5 ++
->   arch/arm64/kvm/Makefile            |  2 +-
->   arch/arm64/kvm/pmu-direct.c        | 22 +++++++++
->   drivers/perf/arm_pmuv3.c           | 78 +++++++++++++++++++++++++++++-
->   include/kvm/arm_pmu.h              |  8 +++
->   include/linux/perf/arm_pmu.h       |  1 +
->   7 files changed, 117 insertions(+), 3 deletions(-)
->   create mode 100644 arch/arm64/kvm/pmu-direct.c
+> Thinking about this some more after my last reply to Jiri I think we
+> should add that mask attribute to let user decide whether they want
+> only the device resources, port resources or both. This will retain
+> the exact functionality of the series.
 > 
-> diff --git a/arch/arm/include/asm/arm_pmuv3.h b/arch/arm/include/asm/arm_pmuv3.h
-> index 2ec0e5e83fc98..154503f054886 100644
-> --- a/arch/arm/include/asm/arm_pmuv3.h
-> +++ b/arch/arm/include/asm/arm_pmuv3.h
-> @@ -221,6 +221,10 @@ static inline bool kvm_pmu_counter_deferred(struct perf_event_attr *attr)
->   	return false;
->   }
->   
-> +static inline bool has_host_pmu_partition_support(void)
-> +{
-> +	return false;
-> +}
->   static inline bool kvm_set_pmuserenr(u64 val)
->   {
->   	return false;
-> diff --git a/arch/arm64/include/asm/arm_pmuv3.h b/arch/arm64/include/asm/arm_pmuv3.h
-> index cf2b2212e00a2..27c4d6d47da31 100644
-> --- a/arch/arm64/include/asm/arm_pmuv3.h
-> +++ b/arch/arm64/include/asm/arm_pmuv3.h
-> @@ -171,6 +171,11 @@ static inline bool pmuv3_implemented(int pmuver)
->   		 pmuver == ID_AA64DFR0_EL1_PMUVer_NI);
->   }
->   
-> +static inline bool is_pmuv3p1(int pmuver)
-> +{
-> +	return pmuver >= ID_AA64DFR0_EL1_PMUVer_V3P1;
-> +}
-> +
->   static inline bool is_pmuv3p4(int pmuver)
->   {
->   	return pmuver >= ID_AA64DFR0_EL1_PMUVer_V3P4;
-> diff --git a/arch/arm64/kvm/Makefile b/arch/arm64/kvm/Makefile
-> index 3ebc0570345cc..baf0f296c0e53 100644
-> --- a/arch/arm64/kvm/Makefile
-> +++ b/arch/arm64/kvm/Makefile
-> @@ -26,7 +26,7 @@ kvm-y += arm.o mmu.o mmio.o psci.o hypercalls.o pvtime.o \
->   	 vgic/vgic-its.o vgic/vgic-debug.o vgic/vgic-v3-nested.o \
->   	 vgic/vgic-v5.o
->   
-> -kvm-$(CONFIG_HW_PERF_EVENTS)  += pmu-emul.o pmu.o
-> +kvm-$(CONFIG_HW_PERF_EVENTS)  += pmu-emul.o pmu-direct.o pmu.o
->   kvm-$(CONFIG_ARM64_PTR_AUTH)  += pauth.o
->   kvm-$(CONFIG_PTDUMP_STAGE2_DEBUGFS) += ptdump.o
->   
-> diff --git a/arch/arm64/kvm/pmu-direct.c b/arch/arm64/kvm/pmu-direct.c
-> new file mode 100644
-> index 0000000000000..74e40e4915416
-> --- /dev/null
-> +++ b/arch/arm64/kvm/pmu-direct.c
-> @@ -0,0 +1,22 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (C) 2025 Google LLC
-> + * Author: Colton Lewis <coltonlewis@google.com>
-> + */
-> +
-> +#include <linux/kvm_host.h>
-> +
-> +#include <asm/arm_pmuv3.h>
-> +
-> +/**
-> + * has_host_pmu_partition_support() - Determine if partitioning is possible
-> + *
-> + * Partitioning is only supported in VHE mode with PMUv3
-> + *
-> + * Return: True if partitioning is possible, false otherwise
-> + */
-> +bool has_host_pmu_partition_support(void)
-> +{
-> +	return has_vhe() &&
-> +		system_supports_pmuv3();
-> +}
-> diff --git a/drivers/perf/arm_pmuv3.c b/drivers/perf/arm_pmuv3.c
-> index 8d3b832cd633a..798c93678e97c 100644
-> --- a/drivers/perf/arm_pmuv3.c
-> +++ b/drivers/perf/arm_pmuv3.c
-> @@ -42,6 +42,13 @@
->   #define ARMV8_THUNDER_PERFCTR_L1I_CACHE_PREF_ACCESS		0xEC
->   #define ARMV8_THUNDER_PERFCTR_L1I_CACHE_PREF_MISS		0xED
->   
-> +static int reserved_host_counters __read_mostly = -1;
-> +int armv8pmu_max_guest_counters = -1;
-> +
-> +module_param(reserved_host_counters, int, 0);
-> +MODULE_PARM_DESC(reserved_host_counters,
-> +		 "PMU Partition: -1 = No partition; +N = Reserve N counters for the host");
-> +
->   /*
->    * ARMv8 Architectural defined events, not all of these may
->    * be supported on any given implementation. Unsupported events will
-> @@ -532,6 +539,11 @@ static void armv8pmu_pmcr_write(u64 val)
->   	write_pmcr(val);
->   }
->   
-> +static u64 armv8pmu_pmcr_n_read(void)
-> +{
-> +	return FIELD_GET(ARMV8_PMU_PMCR_N, armv8pmu_pmcr_read());
-> +}
-> +
->   static int armv8pmu_has_overflowed(u64 pmovsr)
->   {
->   	return !!(pmovsr & ARMV8_PMU_OVERFLOWED_MASK);
-> @@ -1309,6 +1321,61 @@ struct armv8pmu_probe_info {
->   	bool present;
->   };
->   
-> +/**
-> + * armv8pmu_reservation_is_valid() - Determine if reservation is allowed
-> + * @host_counters: Number of host counters to reserve
-> + *
-> + * Determine if the number of host counters in the argument is an
-> + * allowed reservation, 0 to NR_COUNTERS inclusive.
-> + *
-> + * Return: True if reservation allowed, false otherwise
-> + */
-> +static bool armv8pmu_reservation_is_valid(int host_counters)
-> +{
-> +	return host_counters >= 0 &&
-> +		host_counters <= armv8pmu_pmcr_n_read();
-> +}
-> +
-> +/**
-> + * armv8pmu_partition() - Partition the PMU
-> + * @pmu: Pointer to pmu being partitioned
-> + * @host_counters: Number of host counters to reserve
-> + *
-> + * Partition the given PMU by taking a number of host counters to
-> + * reserve and, if it is a valid reservation, recording the
-> + * corresponding HPMN value in the max_guest_counters field of the PMU and
-> + * clearing the guest-reserved counters from the counter mask.
-> + *
-> + * Return: 0 on success, -ERROR otherwise
-> + */
-> +static int armv8pmu_partition(struct arm_pmu *pmu, int host_counters)
-> +{
-> +	u8 nr_counters;
-> +	u8 hpmn;
-> +
-> +	if (!armv8pmu_reservation_is_valid(host_counters)) {
-> +		pr_err("PMU partition reservation of %d host counters is not valid", host_counters);
-> +		return -EINVAL;
-> +	}
-> +
-> +	nr_counters = armv8pmu_pmcr_n_read();
-> +	hpmn = nr_counters - host_counters;
-> +
-> +	pmu->max_guest_counters = hpmn;
-> +	armv8pmu_max_guest_counters = hpmn;
-> +
-> +	bitmap_clear(pmu->cntr_mask, 0, hpmn);
-> +	bitmap_set(pmu->cntr_mask, hpmn, host_counters);
-> +	clear_bit(ARMV8_PMU_CYCLE_IDX, pmu->cntr_mask);
-> +
-> +	if (pmuv3_has_icntr())
-> +		clear_bit(ARMV8_PMU_INSTR_IDX, pmu->cntr_mask);
+> On the CLI "devlink resource show" should show all resources in the
+> system IMO. How we define the CLI arguments to scope things down I don't
+> have a strong opinion on.
 
-We take the fixed instruction counter away from the host here but then 
-guest never gets it because AA64DFR1 is RAZ. Probably doesn't need to be 
-a blocker to expose the instruction counter, but worth noting that using 
-this feature results in losing a counter completely.
+So for the dump of all resources it is clear. But I want to make sure I 
+understood the scope/mask part:
 
-There's a comment above kvm_pmu_guest_counter_mask() that suggests the 
-instruction counter is available for guests, which is why I was looking 
-here. I think "Compute the bitmask that selects the guest-reserved 
-counters ... These are the counters in 0..HPMN and the cycle and 
-instruction counters." shouldn't include "instruction counters".
+For the dump-it command:
+devlink resource show
+pci/0000:03:00.0:
+<resource>
+pci/0000:03:00.0/196608:
+<port-resource>
+pci/0000:03:00.0/196609:
+<port-resource>
+pci/0000:03:00.1:
+<resource>
+pci/0000:03:00.1/262144:
+<port-resource>
 
+devlink resource show scope port
+pci/0000:03:00.0/196608:
+<port-resource>
+pci/0000:03:00.0/196609:
+<port-resource>
+pci/0000:03:00.1/262144:
+<port-resource>
+
+devlink resource show scope dev
+pci/0000:03:00.0:
+<resource>
+pci/0000:03:00.1:
+<resource>
+
+For the do-it command:
+devlink resource show pci/0000:03:00.0
+pci/0000:03:00.0:
+<resource>
+pci/0000:03:00.0/196608:
+<port-resource>
+pci/0000:03:00.0/196609:
+<port-resource>
+
+devlink resource show pci/0000:03:00.0 scope port
+pci/0000:03:00.0/196608:
+<port-resource>
+pci/0000:03:00.0/196609:
+<port-resource>
+
+devlink resource show pci/0000:03:00.0  scope dev
+pci/0000:03:00.0:
+<resource>
+
+The way to get the dev or port scope will be by bitmask in the netlink 
+message of the dump/doit command.
+Thank you
