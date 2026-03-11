@@ -1,33 +1,33 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21851372EC6;
-	Wed, 11 Mar 2026 06:44:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2904122B8BD;
+	Wed, 11 Mar 2026 06:46:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773211473; cv=none; b=Ytlbwj/L8O/4o87V9GHO3bhVDxFFcbbr1ywMy7jYjsLPz6XlI41ucjF91wNPLiikUuhEuEDFkXu5Ue9aM3KRPNbM+7bQVpOxOVcIsqQzX4fj/sa9SlKaCgDIf+i8O6aTENhoG6c17ylegwMUXyx6c5AO86VL/cVJPfTMkd1a7lU=
+	t=1773211579; cv=none; b=dZwZ9ASoDhbIo1tPHuBdY0L9TP85o3jBXf1tcHIohmG7mZu0ElFRNaWaCg2AexNY9YZnUUQ8kfXjYymXpNBFwkvvz4VQDLMzD8uFGeHJJ3qMfQd9VJB+msf56RSBIK1S4KD0PSLLoNM2weG4K0Zgrh9uqBE5Sz3oLEcjytM+IsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773211473; c=relaxed/simple;
-	bh=eAZAXU6Km1D23JwApA7xWMDcedyoC3ptPwEfq9gHGDQ=;
+	s=arc-20240116; t=1773211579; c=relaxed/simple;
+	bh=/EZ3Sn6zfFwax1zPxiOkrX2wnRo7j9MQ+CZ+v5fzk2o=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AXTpKzzrNf+3NaLNAyCMR8Bnj2y93Sa6FhG2sHaPHx6OaS15YkxPEneXaOXmGhr1bQXCUxVHri5iuqMZw0UUbK9nwc7Rwn4R1MGXOcLj7C1p/Usr/RePQrmeD4LPTJg6g66byMt9ADmG/qZYUc7cY179btFydeGCzMP3uAAJ17E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=rsIygH0o; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=dRUQH3KrEuLUbUHCn0SaENp9UhlaqTnfw7MMz6Sx1HLgUJoddlEw/gueSsDsZ5NfDM+yGXv/eXjI5TR2RGwI6lXJSBPdhbnw/gybJq9FtgIc4LdBGmgR/kzp6ZOqRSQyySzRMA9qNAwqcrKwXZKCVW3ecY9M32XCzT9sWUGQUpk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=frGSgs+p; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rsIygH0o"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="frGSgs+p"
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 70DEB4B3;
-	Wed, 11 Mar 2026 07:43:20 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id ADF4A981;
+	Wed, 11 Mar 2026 07:45:07 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1773211401;
-	bh=eAZAXU6Km1D23JwApA7xWMDcedyoC3ptPwEfq9gHGDQ=;
+	s=mail; t=1773211508;
+	bh=/EZ3Sn6zfFwax1zPxiOkrX2wnRo7j9MQ+CZ+v5fzk2o=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=rsIygH0oWjm/yn1HLtqfPrXEeTxvXY6CdDYgSsI8/xF05rmozqgz0W1N1H9XvnYem
-	 qcy1d4J4dMezdOPzQRMmaX645006pTZ0qZV3jKDoqioyYTU9gA6ZYDw7jIMDDxqQ5J
-	 B3u7Ce8fGiRNEc8OF6S+r/MBw0EwxwOia6JeOuQQ=
-Message-ID: <b0d9aee3-46c1-486d-9516-43ee23658f40@ideasonboard.com>
-Date: Wed, 11 Mar 2026 08:44:24 +0200
+	b=frGSgs+pt0k/uXm3GKt+N0gLMTXGAzO1tO7pmVrMleDvELi2TAP0mCzWstYC3MA7P
+	 ux2z3yid6//VHz4phJPzT/oH+k1ogvDj0KxJM7zgxaxHnPHecy8oxueVEOnHPx01oX
+	 3JuylwUssxKVoyywUGmBSugWWhLkkgjGDwrDRW5c=
+Message-ID: <60c150c0-eefc-48b7-aeb5-f41833a1c2f3@ideasonboard.com>
+Date: Wed, 11 Mar 2026 08:46:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,7 +35,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/14] drm/atomic: Document atomic state lifetime
+Subject: Re: [PATCH 04/14] drm/atomic-state-helper: Fix
+ __drm_atomic_helper_plane_reset() doc typo
 To: Maxime Ripard <mripard@kernel.org>
 Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org,
@@ -49,7 +50,7 @@ Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
 References: <20260310-drm-mode-config-init-v1-0-de7397c8e1cf@kernel.org>
- <20260310-drm-mode-config-init-v1-1-de7397c8e1cf@kernel.org>
+ <20260310-drm-mode-config-init-v1-4-de7397c8e1cf@kernel.org>
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Content-Language: en-US
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -95,137 +96,42 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20260310-drm-mode-config-init-v1-1-de7397c8e1cf@kernel.org>
+In-Reply-To: <20260310-drm-mode-config-init-v1-4-de7397c8e1cf@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 Hi,
 
 On 10/03/2026 18:06, Maxime Ripard wrote:
-> How drm_atomic_state structures and the various entity structures are
-> allocated and freed isn't really trivial, so let's document it.
+> A typo has slipped through in the __drm_atomic_helper_plane_reset()
+> documentation, probably due to copy and paste. It will not assign
+> drm_crtc state pointer, but rather the drm_plane's.
 > 
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > ---
->  Documentation/gpu/drm-kms.rst |  6 +++++
->  drivers/gpu/drm/drm_atomic.c  | 52 +++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 58 insertions(+)
+>  drivers/gpu/drm/drm_atomic_state_helper.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
-> index 2292e65f044c3bdebafbb8f83dfe7ac12e831273..017c7b196ed7ead4cf5fa8572e1f977d9e00dda8 100644
-> --- a/Documentation/gpu/drm-kms.rst
-> +++ b/Documentation/gpu/drm-kms.rst
-> @@ -280,10 +280,16 @@ structure, ordering of committing state changes to hardware is sequenced using
->  :c:type:`struct drm_crtc_commit <drm_crtc_commit>`.
->  
->  Read on in this chapter, and also in :ref:`drm_atomic_helper` for more detailed
->  coverage of specific topics.
->  
-> +Atomic State Lifetime
-> +---------------------
-> +
-> +.. kernel-doc:: drivers/gpu/drm/drm_atomic.c
-> +   :doc: state lifetime
-> +
->  Handling Driver Private State
->  -----------------------------
->  
->  .. kernel-doc:: drivers/gpu/drm/drm_atomic.c
->     :doc: handling driver private state
-> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-> index 4283ab4d06c581727cc98b1dc870bf69691ea654..92c6afc8f22c8307a59dc266aacdb8e03351409d 100644
-> --- a/drivers/gpu/drm/drm_atomic.c
-> +++ b/drivers/gpu/drm/drm_atomic.c
-> @@ -45,10 +45,62 @@
->  #include <drm/drm_colorop.h>
->  
->  #include "drm_crtc_internal.h"
->  #include "drm_internal.h"
->  
-> +/**
-> + * DOC: state lifetime
-> + *
-> + * &struct drm_atomic_state represents an update to video pipeline
-> + * state. Despite its confusing name, it's actually a transient object
-> + * that holds a state update as a collection of pointer to individual
-> + * objects states. &struct drm_atomic_state has a much shorter lifetime
+> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
+> index 323abc9926e084ad595768c06d5c5ee28c22c014..a1abf4247c348eca21da348c3893dd843b9ed391 100644
+> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+> @@ -302,11 +302,11 @@ EXPORT_SYMBOL(__drm_atomic_helper_plane_state_reset);
+>   * __drm_atomic_helper_plane_reset - reset state on plane
+>   * @plane: drm plane
+>   * @plane_state: plane state to assign
+>   *
+>   * Initializes the newly allocated @plane_state and assigns it to
+> - * the &drm_crtc->state pointer of @plane, usually required when
+> + * the &drm_plane->state pointer of @plane, usually required when
+>   * initializing the drivers or when called from the &drm_plane_funcs.reset
+>   * hook.
+>   *
+>   * This is useful for drivers that subclass the plane state.
+>   */
+> 
 
-Hmm, I think "a collection of pointers to individual object states". Hmm
-or "objects' states"? I like the former.
-
-> + * than the objects states, since it's only allocated while preparing,
-
-"objects' states" or "object states".
-
-> + * checking or doing the update, while object states are allocated while
-> + * the state will be, or is active in the hardware.
-> + *
-> + * Their respective lifetimes are:
-> + *
-> + * - at reset time, the object reset implementation will allocate a new,
-> + *   default, state and will store it in the object state pointer.
-
-"object's". This is the "active state", is it?
-
-> + *
-> + * - whenever a new update is needed:
-> + *
-> + *   + we allocate a new &struct drm_atomic_state using drm_atomic_state_alloc().
-> + *
-> + *   + we copy the state of each affected entity into our &struct
-> + *     drm_atomic_state using drm_atomic_get_plane_state(),
-> + *     drm_atomic_get_crtc_state(), drm_atomic_get_connector_state(), or
-> + *     drm_atomic_get_private_obj_state(). That state can then be
-> + *     modified.
-
-Maybe clarify what is the state returned by these. It's the "active
-state", isn't it, drm_crtc.state or similar?
-
-> + *
-> + *     At that point, &struct drm_atomic_state stores three state
-> + *     pointers for that particular entity: the old, new, and existing
-> + *     (called "state") states. The old state is the state currently
-> + *     active in the hardware, which is either the one initialized by
-> + *     reset() or a newer one if a commit has been made. The new state
-> + *     is the state we just allocated and we might eventually commit to
-> + *     the hardware. The existing state points to the state we'll
-> + *     eventually have to free when the drm_atomic_state will be
-> + *     destroyed, but points to the new state for now.
-
-From this, I don't understand the difference between the old state and
-the existing state. And if the existing state is the one we'll free,
-isn't that the old state, not new state? Oh, is the existing state a
-state we have to free when the drm_atomic_state would is freed? And at
-this point the new state is the one, as it's not committed?
-
-> + *
-> + *   + After the state is populated, it is checked. If the check is
-> + *     successful, the update is committed. Part of the commit is a call
-> + *     to drm_atomic_helper_swap_state() which will turn the new states
-> + *     into the active states. Doing so involves updating the objects
-
-"object's"
-
-> + *     state pointer (&drm_crtc.state or similar) to point to the new
-> + *     state, and the existing states will now point to the old states,
-> + *     that used to be active but isn't anymore.
-
-"aren't"
-
-I think I understand this, but... It kind of brings in a new state
-concept, "active state".
-
-> + *
-> + *   + When the commit is done, and when all references to our &struct
-> + *     drm_atomic_state are put, drm_atomic_state_clear() runs and will
-> + *     free all the old states.
-> + *
-> + *   + Now, we don't have any active &struct drm_atomic_state anymore,
-> + *     and only the entity active states remain allocated.
-> + */
-> +
-Even if this is a bit hard to read, I think it really clarifies the
-state lifetime.
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
  Tomi
 
