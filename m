@@ -1,179 +1,147 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8AA13C1409
-	for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2026 08:34:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.171
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773218091; cv=pass; b=tQ7HXwmaBrCCuPvaLp3l6QmHEVe3ErTlIdr8SKgdFwN4eibHg4afrMO/z9lsjeFns+Fc7kf9SXkydWkTkzkL8bY584rIwjl2jRMOdOH73E045Gi7D50KAV2dkp8MAF6pbbxzTxa6Wp9JrFsX0xjqZ1r2/cN/HeHo6FmsxVNHmEA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773218091; c=relaxed/simple;
-	bh=SsapxUY06a7cs9bBuRB3R8cKxgdqx7oMrI3eEaj8qe8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TDPhjM3gHpwKeoOJeaADR2pROo2VvE1D69b771mGLOt7qdIKU/FrEDGH6I6vexA/4FoVZ4JdLdXMAWMBxr8awm+4cx9wOTc3udQ82Seo/whnr3FH9zZREONJVGmhfpYaOoTt4ey5ghx0JWIRYKGz1qKzWWFI8Iyz2Yw0o2GTVCg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=hlk4Q8yu; arc=pass smtp.client-ip=209.85.160.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF4543B7775;
+	Wed, 11 Mar 2026 08:50:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773219018; cv=none; b=A5ZRB4C9p5ir5+pLHK4JjV6oaJsiNxZGtPWdvOBzPx0XIoYVHqJLk3QtEbJs0UgXCHXaqu2hroz6GAykHA8Iy408cbuW8LGz1qO931dUbjCAriLyFGPRF+tC6rD8DOvkbUv93UipnaFgDd3rCoPMTRD76PwXbhSM+gDyzcxY62g=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773219018; c=relaxed/simple;
+	bh=ZjFxYEjK8aozfmve4JoaBaV+xJQhTcTGAjUyYSMn6lQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dkknLweiGRXZL0r0X9Aw7ULotf1kxciKseOAE0aUhy2ZsH2mOf/qpaLACyISXnyrR+vOFLV8EUkR967oU25kjN/LlyWJFVsrZr6VZEyM6BMqBNCIwm7ycQan5LFr3EIjA+LMpkE0staIdLHbCMi+wIxenVqy+A/N9xxucfZn7ME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=o4tcifl1; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=LMTIauJ8; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hlk4Q8yu"
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-509101189edso31582621cf.3
-        for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2026 01:34:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773218084; cv=none;
-        d=google.com; s=arc-20240605;
-        b=R64Ub9r1s1+6jBx7q4fap0PnXNJMyuQYXoj0XaA0OjE8qIjvwDXWnbrj5QmD3qjEL9
-         4G+0BCEeggKeewJiGqB9AivG2dlzH79S0ZfMge8hqt0HYGT1/5UMlTcpNe+Dh5iJFg45
-         yoDLc+RvAzNgdR1Qlz3SR/BNslMjLpvw38gTn3J14VMo0PJeo/DGpPRC03iGo/J35KQz
-         vfeplSYXNOpp704fTyHZynOqshHNU1qecW845YKzduu+Q2HXvYSgvmDvi7ynU8B7+xUG
-         B9hhjU4lbakS7Oq1O5lyIP21guSFJh6q22JqN6FH4mm/cmu4HpcHhiwmvBtbJWU2PLod
-         OkmQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=infw2GOKBa/xQ0FaqhlrOevyT/EEGe52s1hqFD6TVIs=;
-        fh=Uj808cJrc70ihDguIsKyz8Lx2iJnoIwKFPJAfLE938I=;
-        b=KVXr83siwmenHptBrtSuZv2sfsKFBHgEhnSz3e0rGmvIgWmeifCOsliDnh/S/LrrXB
-         5cLd1jU+JGGuRfPOhT2tMD7Bl7Qi5JEe1m+Mpl9PkccPyb5sUzwln+Lo3GHBGArnnGCn
-         3d5rab3tI4Z7pP73kmz+juPxVSgwlPOKllChhfdd89+ThGolQrvBbzDJkdh8o75uy07A
-         Jy16+WWeaBzIZh5Vt2jLFb/kh4RunfWHI8PPvXOKsMoNhH31DhNkIlH5WS78LZIKCby+
-         kpixnmiXzSnXCoW8dm7BG+KazdMyPjZEXMs6t7eDywlf5EqlnLHkDE2rkLLsPpwtnHsj
-         /Z1w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1773218084; x=1773822884; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=infw2GOKBa/xQ0FaqhlrOevyT/EEGe52s1hqFD6TVIs=;
-        b=hlk4Q8yuViuaZ1defw2+7C1/3pvIVJguTIjEDJ+mqoYMaxn6LVrLcHXfndrlvY7qzu
-         rhrSJ8jHMNez9R37G8qhA868kTE64M7NLAFtnUWyJxkpUg+7VuKzbrlm8TbozbcriFdm
-         aTOoQJMBsDG6mZsab2j5c3+Up/oNto26+SNMFS+nh7j97f0rFlqEMLHwhrUzhPw2ouOx
-         k/H08RstCdFj5vaN3KiYkGmrMydgtowhs1KeWl/YrfsHewWHCtbc89umaMT92PSVKvSg
-         qcZBsClFH8t0EfRf4DIFzLXGU9mGpp+bIHiX7Yui7/SFApAe3RCMSdi2mkx28cO4GbMQ
-         FLNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773218084; x=1773822884;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=infw2GOKBa/xQ0FaqhlrOevyT/EEGe52s1hqFD6TVIs=;
-        b=UcwZlP6muyw3WiMkQB10l0Q5aimUFwmhXOaJyhwsclpVt6aPSswD53aN72wpDf5bdP
-         faatYLHVDzFqGkl2gSQ1ztkfiW8R4csDCVGNNgF/tSAcvr6dD3ew5cO4cncf+qHkDKX+
-         jMB+6M8dn/zeCx2AzfmOP4Iggxl4TNVSF6pVJ/kudTfv9d6SW98iUMCUaBZ27MrxaLi+
-         Z2t7HqAOc13mpLiM5tA7sY8HWa65EgsHkP170fNTwUaAAMei9DCnNQAQaUFPyr8FLbsq
-         t71iNdl2GeDENFa4TmkBS/WV5QsxfAuVjVtgYXHY2F6K0hu0bP5s6Y6rZ4yS1RUk8X/p
-         C9fw==
-X-Forwarded-Encrypted: i=1; AJvYcCVi8c1Mz2YnYEB/Iib5r+FQGE9dJNl2E6F23Rh276hh6kz9cXTDxX2Txlk7u/r2A11Z8AHTnKgXBTs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyCZzvKI34hw6xmMASeEKi1aiLlm2IxtUFWg6yvPmSRX82oCnaQ
-	Ar2NAYgF27QElJAa4qgBYssaYFmgaDdEQj6sQ6RIQLBtWjr0PEr2yW8b7H6dkv0aBV1dLHOjDrJ
-	vY0ZwEebtPvvDcmkbthSi/8Th1+CtqPuaJg6q9fgB
-X-Gm-Gg: ATEYQzx63N1f03hWOkCRPkDCFFOnxGP/DbMwYJbSVTyicKq5eC1XTqNR/nTLHzwYbLX
-	zQU+sXeqsJuLGDplJoSh/3nhGHBKvH9aGfJBSk+gnYiA2CoCZ5icRiDnm1tMOp3h4t2u2ANLI8K
-	z/48k4AGYAlwtIz99iepBJcDdJSosKimUNb/Ok76kIU3EFcMlVXCaF7lcK2Zy+muMO9DxCcADHi
-	xiqlj4xXlN3d2oUXLEiSZj6OP6DT+jcZ1oh+7DjjKLhNSfVBFjzbgNUnc0QAxkzPzVaKAbwUgt3
-	A/KKKZDg
-X-Received: by 2002:ac8:5f89:0:b0:509:20de:4ada with SMTP id
- d75a77b69052e-5093a18950amr18737181cf.48.1773218083994; Wed, 11 Mar 2026
- 01:34:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="o4tcifl1";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="LMTIauJ8"
+Date: Wed, 11 Mar 2026 09:50:08 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1773219010;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Dh2u910Dr9v3m0hVo537X6ofb5vKqJBESKL7gfq66iU=;
+	b=o4tcifl1o8jywgLPdg/s+WX7sDPzz+eCAnhiMj3T66TG/Q1htV1GOGeOOud7SVVEX+GX92
+	OVl1a0sAtFbXIhn6q8VAYV3nbRQ8ydhQIs0OB6MXRRv1VFkebNYQxNtC6ZpsNfMUc2HPJe
+	my1FYPw0ldYH8kKSZm/D/y2nEimFEJIe4djKU6CH2C6et4c58of1WcZakycG05pAwk+5+R
+	vRjsqZMlne+14maN+9VGVI5qg7hbBIk6aqyB10RpJcYkoRJbGh9dKeD1rxtrSKP3zP2jcK
+	nzJWn+wPTcYCVcLlRx9uC67R6D4rj8jJI+lZcpjDoC0/26vEYJrmilrpcNilQg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1773219010;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Dh2u910Dr9v3m0hVo537X6ofb5vKqJBESKL7gfq66iU=;
+	b=LMTIauJ88fFcgqN/jXiJPCLOHnYrJyLVhh0TJD/NNsp9hdkMfEbyqHXmdDHdxxwf8KEeF3
+	WVtUAKnV6l5hwHDQ==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>, Luis Chamberlain <mcgrof@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Daniel Gomez <da.gomez@samsung.com>,
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Naveen N Rao <naveen@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
+	Roberto Sassu <roberto.sassu@huawei.com>,
+	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+	Eric Snowberg <eric.snowberg@oracle.com>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>,
+	Xiu Jianfeng <xiujianfeng@huawei.com>,
+	Fabian =?utf-8?Q?Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>,
+	Arnout Engelen <arnout@bzzt.net>,
+	Mattia Rizzolo <mattia@mapreri.org>, kpcyrd <kpcyrd@archlinux.org>,
+	Christian Heusel <christian@heusel.eu>,
+	=?utf-8?B?Q8OianU=?= Mihai-Drosi <mcaju95@gmail.com>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
+	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org
+Subject: Re: [PATCH v4 15/17] module: Introduce hash-based integrity checking
+Message-ID: <20260311085008.TSnh3YR1@linutronix.de>
+References: <20260113-module-hashes-v4-0-0b932db9b56b@weissschuh.net>
+ <20260113-module-hashes-v4-15-0b932db9b56b@weissschuh.net>
+ <20260311011218.GA212983@quark>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260311075600.948413-1-atwellwea@gmail.com>
-In-Reply-To: <20260311075600.948413-1-atwellwea@gmail.com>
-From: Eric Dumazet <edumazet@google.com>
-Date: Wed, 11 Mar 2026 09:34:32 +0100
-X-Gm-Features: AaiRm52wCKdcSWz9oNAzUWL_GQOag0jSamOEmON1h9c132p0nbosojJsMVy1eJA
-Message-ID: <CANn89i+dojcg=TDh6E1++g_TM7qdcpnyu47n2Q9DRW_w73TjzA@mail.gmail.com>
-Subject: Re: [PATCH net 0/7] tcp: preserve advertised rwnd accounting across
- receive-memory decisions
-To: Wesley Atwell <atwellwea@gmail.com>, Simon Baatz <gmbnomis@gmail.com>
-Cc: davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com, 
-	ncardwell@google.com, dsahern@kernel.org, matttbe@kernel.org, 
-	martineau@kernel.org, netdev@vger.kernel.org, mptcp@lists.linux.dev, 
-	kuniyu@google.com, horms@kernel.org, geliang@kernel.org, corbet@lwn.net, 
-	skhan@linuxfoundation.org, rostedt@goodmis.org, mhiramat@kernel.org, 
-	mathieu.desnoyers@efficios.com, 0x7f454c46@gmail.com, 
-	linux-doc@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-api@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260311011218.GA212983@quark>
 
-On Wed, Mar 11, 2026 at 8:56=E2=80=AFAM Wesley Atwell <atwellwea@gmail.com>=
- wrote:
->
-> This series keeps sender-visible TCP receive-window accounting tied to th=
-e
-> scaling basis that was in force when the window was advertised.
->
-> Problem
-> -------
->
-> `tp->rcv_wnd` is an advertised promise to the sender, but later
-> receive-memory admission and clamping could reconstruct that promise
-> through the mutable live `scaling_ratio`. After ratio drift, the stack
-> could retain or advertise a receive window that no longer matched the
-> local hard rmem budget.
->
-> Fix
-> ---
->
-> - store the advertise-time scaling basis alongside `tp->rcv_wnd`
-> - refresh that pair at the TCP and MPTCP receive-window write sites
-> - consume the snapshot in receive-memory admission, clamping, and the
->   scaled-window quantization path
-> - preserve the snapshot across `TCP_REPAIR_WINDOW` restore when userspace
->   provides it, and fall back safely when legacy userspace cannot
-> - expose the accounting in tracepoints and cover the ABI/runtime contract
->   in selftests
->
+On 2026-03-10 18:12:18 [-0700], Eric Biggers wrote:
+> > diff --git a/scripts/modules-merkle-tree.c b/scripts/modules-merkle-tree.c
+> [...]
+> 
+> > +struct file_entry {
+> > +	char *name;
+> > +	unsigned int pos;
+> > +	unsigned char hash[EVP_MAX_MD_SIZE];
+> 
+> Considering that the hash algorithm is fixed, EVP_MAX_MD_SIZE can be
+> replaced with a tighter local definition:
+> 
+>     #define MAX_HASH_SIZE 32
+> 
+> > +static struct file_entry *fh_list;
+> > +static size_t num_files;
+> > +
+> > +struct leaf_hash {
+> > +	unsigned char hash[EVP_MAX_MD_SIZE];
+> > +};
+> > +
+> > +struct mtree {
+> > +	struct leaf_hash **l;
+> > +	unsigned int *entries;
+> > +	unsigned int levels;
+> > +};
+> 
+> 'struct leaf_hash' is confusing because it's actually used for the
+> hashes of internal nodes, not leaf nodes.
 
-Your series will heavily conflict with Simon's one
+You could still consider the internal nodes as leafs.
 
-https://patchwork.kernel.org/project/netdevbpf/list/?series=3D1063486&state=
-=3D%2A&archive=3Dboth
+> Maybe rename it to 'struct hash' and use it for both the hashes and leaf
+> nodes and internal nodes.
+> 
+> Also, clearer naming would improve readability, e.g.:
+> 
+>     struct merkle_tree {
+>             struct hash **level_hashes;
+>             unsigned int level_size;
+>             unsigned int num_levels;
+>     };
 
-I suggest you rebase/retest/resend after we merge it.
+but this could improve it, indeed.
 
-> Series layout
-> -------------
->
-> 1. track the receive-window snapshot state and helpers
-> 2. refresh the snapshot when TCP advertises or initializes windows
-> 3. use the snapshot in receive-memory admission and clamping
-> 4. extend `TCP_REPAIR_WINDOW` for exact restore plus legacy compatibility
-> 5. refresh the TCP shadow window snapshot in MPTCP
-> 6. expose rmem/backlog state in `rcvbuf_grow` tracepoints
-> 7. cover legacy and extended repair-window layouts in selftests
->
-> Testing
-> -------
->
-> - `git diff --check origin/main..HEAD`
-> - `scripts/checkpatch.pl --strict --show-types` on patches 1-7
-> - `make -j8 headers`
-> - `make -j8 net/ipv4/tcp_input.o net/ipv4/tcp_output.o net/ipv4/tcp_minis=
-ocks.o net/ipv4/tcp.o`
-> - `make -j8 C=3D1 CF=3D'-D__CHECK_ENDIAN__' W=3D1 net/ipv4/tcp_input.o ne=
-t/ipv4/tcp_output.o net/ipv4/tcp_minisocks.o net/ipv4/tcp.o`
-> - `make SPHINXDIRS=3D'networking/net_cachelines' htmldocs`
-> - `make -j8 vmlinux bzImage modules`
-> - `make -C tools/testing/selftests/net/tcp_ao -j8`
-> - `make -C tools/testing/selftests/net/mptcp -j8`
-> - `packetdrill --dry_run` for `tcp_rcv_toobig.pkt` and
->   `tcp_rcv_toobig_default.pkt`
-> - `virtme-run` guest pass for both packetdrill tests
-> - feature-enabled guest pass for `restore_ipv4`, `self-connect_ipv4`, and
->   `mptcp_sockopt.sh`
->
-> Thanks,
-> Wesley
->
-> ---
-> base-commit: 908c344d5cfa0ee6efb3226d22ea661e078ebfa0
-> --
-> 2.43.0
->
+> > +	hash_evp = EVP_get_digestbyname("sha256");
+> 
+> EVP_sha256()
+
+I would suggest to use EVP_MD_fetch() instead.
+
+> > +	hash_size = EVP_MD_get_size(hash_evp);
+> 
+> The old name 'EVP_MD_size()' would have wider compatibility.
+
+EVP_MD_fetch() and EVP_MD_get_size() are openssl 3.0.0+ and nothing
+below 3.0.0 is considered supported (while 3.0.0 is EOL 07 Sep 2026).
+
+Sebastian
