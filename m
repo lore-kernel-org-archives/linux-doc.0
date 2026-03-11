@@ -1,33 +1,33 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2904122B8BD;
-	Wed, 11 Mar 2026 06:46:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9DA82DF153;
+	Wed, 11 Mar 2026 06:54:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773211579; cv=none; b=dZwZ9ASoDhbIo1tPHuBdY0L9TP85o3jBXf1tcHIohmG7mZu0ElFRNaWaCg2AexNY9YZnUUQ8kfXjYymXpNBFwkvvz4VQDLMzD8uFGeHJJ3qMfQd9VJB+msf56RSBIK1S4KD0PSLLoNM2weG4K0Zgrh9uqBE5Sz3oLEcjytM+IsQ=
+	t=1773212100; cv=none; b=Mdhbp6vmwas4abaXHhqy0sS6dvJyN7H5FBXgmRhpkgIPSvFC5i2M6+aJcV43t+aGD0ZVhhnjs8SWM7cEmyDCm3XTPOOTKsCIKBXXIi4Y74cX+DVe3AvIxZvjBzVinAOtdSDC6uRGigElgXXjljsXP5SHHIY7IqpX4wkGTEYITpE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773211579; c=relaxed/simple;
-	bh=/EZ3Sn6zfFwax1zPxiOkrX2wnRo7j9MQ+CZ+v5fzk2o=;
+	s=arc-20240116; t=1773212100; c=relaxed/simple;
+	bh=n53/9z/4e93zOobgGRppQGld2nWRyyWWSljFrTeZn38=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dRUQH3KrEuLUbUHCn0SaENp9UhlaqTnfw7MMz6Sx1HLgUJoddlEw/gueSsDsZ5NfDM+yGXv/eXjI5TR2RGwI6lXJSBPdhbnw/gybJq9FtgIc4LdBGmgR/kzp6ZOqRSQyySzRMA9qNAwqcrKwXZKCVW3ecY9M32XCzT9sWUGQUpk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=frGSgs+p; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=fYE/OTW0jHljDboumsg9zwe1vy7O/yHAGpKAqxholmWHtMSB+lWc56MtZEoJXfmRB7cbY5aMq5hmQS8Igoea5kFnOe2CoVhyB9cz1C02HNP9kyBmZe0MzySet3nLr/AsEZSH2dqsc+zyOaO1gxBe/i9cjz216FgAcX3yHtwnmEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=j/nFRveT; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="frGSgs+p"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="j/nFRveT"
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id ADF4A981;
-	Wed, 11 Mar 2026 07:45:07 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 514BC4B3;
+	Wed, 11 Mar 2026 07:53:48 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1773211508;
-	bh=/EZ3Sn6zfFwax1zPxiOkrX2wnRo7j9MQ+CZ+v5fzk2o=;
+	s=mail; t=1773212029;
+	bh=n53/9z/4e93zOobgGRppQGld2nWRyyWWSljFrTeZn38=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=frGSgs+pt0k/uXm3GKt+N0gLMTXGAzO1tO7pmVrMleDvELi2TAP0mCzWstYC3MA7P
-	 ux2z3yid6//VHz4phJPzT/oH+k1ogvDj0KxJM7zgxaxHnPHecy8oxueVEOnHPx01oX
-	 3JuylwUssxKVoyywUGmBSugWWhLkkgjGDwrDRW5c=
-Message-ID: <60c150c0-eefc-48b7-aeb5-f41833a1c2f3@ideasonboard.com>
-Date: Wed, 11 Mar 2026 08:46:12 +0200
+	b=j/nFRveTs0IyNxVmHg3s3NY8qr9TLGOEGG6D40N96BxXXzAv462s7WXA7lPiKtFXH
+	 s1XgKCdinKuptzHC5qdt3aZ87Cml4NtO5iLIuXgxtuDREFYLrdt6LJw02SweG+xBtd
+	 er8Y1nvE0AkwVV9VqO+bMps0Yr61dC47r1IC8Cg0=
+Message-ID: <c297c386-d5d0-42f1-94d8-55245bb4d2ea@ideasonboard.com>
+Date: Wed, 11 Mar 2026 08:54:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,8 +35,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/14] drm/atomic-state-helper: Fix
- __drm_atomic_helper_plane_reset() doc typo
+Subject: Re: [PATCH 11/14] drm/drv: Drop drm_mode_config_reset() from our
+ skeleton
 To: Maxime Ripard <mripard@kernel.org>
 Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org,
@@ -50,7 +50,7 @@ Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
 References: <20260310-drm-mode-config-init-v1-0-de7397c8e1cf@kernel.org>
- <20260310-drm-mode-config-init-v1-4-de7397c8e1cf@kernel.org>
+ <20260310-drm-mode-config-init-v1-11-de7397c8e1cf@kernel.org>
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Content-Language: en-US
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -96,42 +96,43 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20260310-drm-mode-config-init-v1-4-de7397c8e1cf@kernel.org>
+In-Reply-To: <20260310-drm-mode-config-init-v1-11-de7397c8e1cf@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 Hi,
 
-On 10/03/2026 18:06, Maxime Ripard wrote:
-> A typo has slipped through in the __drm_atomic_helper_plane_reset()
-> documentation, probably due to copy and paste. It will not assign
-> drm_crtc state pointer, but rather the drm_plane's.
+On 10/03/2026 18:07, Maxime Ripard wrote:
+> Now that we have drm_mode_config_create_state() to create the initial
+> state called as part of drm_dev_register(), we can stop recommending
+> calling drm_mode_config_reset() to perform that initialization in our
+> skeleton.
 > 
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > ---
->  drivers/gpu/drm/drm_atomic_state_helper.c | 2 +-
+>  drivers/gpu/drm/drm_drv.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
-> index 323abc9926e084ad595768c06d5c5ee28c22c014..a1abf4247c348eca21da348c3893dd843b9ed391 100644
-> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-> @@ -302,11 +302,11 @@ EXPORT_SYMBOL(__drm_atomic_helper_plane_state_reset);
->   * __drm_atomic_helper_plane_reset - reset state on plane
->   * @plane: drm plane
->   * @plane_state: plane state to assign
+> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> index 820106d56ab399a39cac56d98662b5ddbcae8ded..dc85d36670cf96dcd16e7eda8fe8563c6e7fc28d 100644
+> --- a/drivers/gpu/drm/drm_drv.c
+> +++ b/drivers/gpu/drm/drm_drv.c
+> @@ -339,11 +339,11 @@ void drm_minor_release(struct drm_minor *minor)
 >   *
->   * Initializes the newly allocated @plane_state and assigns it to
-> - * the &drm_crtc->state pointer of @plane, usually required when
-> + * the &drm_plane->state pointer of @plane, usually required when
->   * initializing the drivers or when called from the &drm_plane_funcs.reset
->   * hook.
+>   *		// Further setup, display pipeline etc
 >   *
->   * This is useful for drivers that subclass the plane state.
->   */
+>   *		platform_set_drvdata(pdev, drm);
+>   *
+> - *		drm_mode_config_reset(drm);
+> + *		drm_mode_config_create_state(drm);
+>   *
+>   *		ret = drm_dev_register(drm);
+>   *		if (ret)
+>   *			return ret;
+>   *
 > 
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Shouldn't the call just be dropped, as drm_dev_register() does it?
 
  Tomi
 
