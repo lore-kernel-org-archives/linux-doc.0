@@ -1,109 +1,58 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 060F123EAB2;
-	Wed, 11 Mar 2026 01:18:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ACD528466C;
+	Wed, 11 Mar 2026 02:01:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773191912; cv=none; b=aQyI+uQ1IdWoIvXgh6k13glNR2Ard7EsPppG7cwZzgb3Vs7f++VaPdjPqQy4NtUgwQ/ip5Lfps9JNkgyj2T8P4QR54VU3WYCWpKXs0o1iiesiOfk7ysdTo3l9++6z75erhJsBNidzcbrjuZM7JGNzarQwKJFiQ+bC1+eyQHAeCA=
+	t=1773194497; cv=none; b=RbY7Tse/g5nKb2A0HQjR2QBOb5Mj9AA7i/l2T8HN47glFQKR5MlbQ6MbtzWhhh2uEsyNzCjbLwnGI4G/2aqPDqZdQTwGKdgGOi8z4MJmmT2N5lhPcPVnansSo+WEOoogftS/NICN49AX8yroK07izkTjtOeLOwmRHUdhox9hmrQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773191912; c=relaxed/simple;
-	bh=3MN5J7gHtT0iB6q2hgPDZbQjxnI7iGXFyfIUNXZZ6RE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YyZKuo+wkwTW6d73zxGVR/PpmvWswd9InpeZA95HQ0juxOYReiUBP6S2XFdAqMHc6F5s8bVnX1DMFyVjmjMmrlc72Xme/2seTRUp3kiRmGB1xGW+G1uUIF2llCWbYVJYDbaBjR5n9EVHMBnO8w7fSIXARY5Xj0UCu/KskDRiiIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rNElMcZ/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773194497; c=relaxed/simple;
+	bh=jjSf6t0rz0WN9K4TZKbj7NWiKQ4Tck4SVuqN+DqDt3o=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rN/tLkysEt+96aKxE/edIPD3fu3sGqTxBENIEfzbNm/UMO0QeoyNdq/auMxkity6AZCNqF8y3d2BnRb2qAAeqvmAjwl7UjQq+Q6OxbmeE8c+O4xe3FDgsnNdx9RWMgG3nVSe5P6qTWxAnURRxUNWJrqp2MrwRfQcoYbOa8YaHDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D18de6zN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rNElMcZ/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F8A1C2BC87;
-	Wed, 11 Mar 2026 01:18:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D18de6zN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F065EC19423;
+	Wed, 11 Mar 2026 02:01:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773191911;
-	bh=3MN5J7gHtT0iB6q2hgPDZbQjxnI7iGXFyfIUNXZZ6RE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rNElMcZ/oiqPMT/syzmk66cskejh79Cstrn6kGqi34MlnfQgHH3oXRf/b6pp8t3cr
-	 eQZBKlG0YUGoy6qvmNbm9VSkZGe89hTvf9S3KYoOuY87OOonsgjldShGI0h9JswIlT
-	 kIOBDzzz/9diVIPAtmu4HqB2KW3ucNm2B01I2HzMecC5r//hLXyMPoEUZgtUpWOt2j
-	 KXJZwBeOS1svS+9hOO3uappOtHNYbprQqULxT4smEtsN26/95gWugNwpPQ2af8mWew
-	 HQDisRYaMYMTxu22UqX8vhhY8Jz4kxSYTeCzDitiCkuKPat1c3I4xcTuhQyrmL0xyi
-	 Kp8gn9th2s7Mg==
-Date: Tue, 10 Mar 2026 18:18:28 -0700
-From: Eric Biggers <ebiggers@kernel.org>
-To: Petr Pavlu <petr.pavlu@suse.com>
-Cc: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>, Luis Chamberlain <mcgrof@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Daniel Gomez <da.gomez@samsung.com>,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Naveen N Rao <naveen@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
-	Roberto Sassu <roberto.sassu@huawei.com>,
-	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-	Eric Snowberg <eric.snowberg@oracle.com>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Aaron Tomlin <atomlin@atomlin.com>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>,
-	Xiu Jianfeng <xiujianfeng@huawei.com>,
-	Fabian =?iso-8859-1?Q?Gr=FCnbichler?= <f.gruenbichler@proxmox.com>,
-	Arnout Engelen <arnout@bzzt.net>,
-	Mattia Rizzolo <mattia@mapreri.org>, kpcyrd <kpcyrd@archlinux.org>,
-	Christian Heusel <christian@heusel.eu>,
-	=?iso-8859-1?Q?C=E2ju?= Mihai-Drosi <mcaju95@gmail.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
-	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org
-Subject: Re: [PATCH v4 15/17] module: Introduce hash-based integrity checking
-Message-ID: <20260311011828.GB212983@quark>
-References: <20260113-module-hashes-v4-0-0b932db9b56b@weissschuh.net>
- <20260113-module-hashes-v4-15-0b932db9b56b@weissschuh.net>
- <fab2af64-e396-45f9-8876-feff4002e04b@suse.com>
+	s=k20201202; t=1773194496;
+	bh=jjSf6t0rz0WN9K4TZKbj7NWiKQ4Tck4SVuqN+DqDt3o=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=D18de6zNMT5FsImD9VgfA8IgzsrO4FGcav/px+r4OAr5LHzKOqoyUOkYzn7lrSxvy
+	 pZTPULvni91FgWm0TUP7D1iAtomIfTZJ0uHRGL3ABlwj5hWLNXlX6qokviCAS5WwsQ
+	 lRHE2vyGXOei+tguyXBBu5VoSOVsz2pwPR3bQGSquVp/JE2pQFSv15PHYqyA4xjfr5
+	 tCeEhqKgSw8F4ncJfx5HATLPrMCJQRRALMkZXMlHjgCkwmavD17vFpI5+yrRSJKbvO
+	 EznkeaBVTVQCTxPmMxhdekiM1g/xz6WgM8wuzjTwnH7T/qazfxI/XESL3PmiIMt1me
+	 Mi8ZeS0YTSOuw==
+Date: Tue, 10 Mar 2026 19:01:35 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: ShravyaPanchagiri <shravy112@gmail.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, sgoutham@marvell.com, lcherian@marvell.com,
+ gakula@marvell.com, hkelam@marvell.com, sbhatta@marvell.com,
+ davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+ horms@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org
+Subject: Re: [PATCH] docs:octeontx2: fix typo in documentation Fix spelling
+ mistake "Crate" to "Create"
+Message-ID: <20260310190135.422b6074@kernel.org>
+In-Reply-To: <20260308191142.172363-1-shravy112@gmail.com>
+References: <20260308191142.172363-1-shravy112@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fab2af64-e396-45f9-8876-feff4002e04b@suse.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Feb 03, 2026 at 01:19:20PM +0100, Petr Pavlu wrote:
-> > +static unsigned int get_pow2(unsigned int val)
-> > +{
-> > +	return 31 - __builtin_clz(val);
-> > +}
-> > +
-> > +static unsigned int roundup_pow2(unsigned int val)
-> > +{
-> > +	return 1 << (get_pow2(val - 1) + 1);
-> > +}
-> > +
-> > +static unsigned int log2_roundup(unsigned int val)
-> > +{
-> > +	return get_pow2(roundup_pow2(val));
-> > +}
-> 
-> In the edge case when the kernel is built with only one module, the code
-> calls log2_roundup(1) -> roundup_pow2(1) -> get_pow2(0) ->
-> __builtin_clz(0). The return value of __builtin_clz() is undefined if
-> the input is zero.
+On Sun,  8 Mar 2026 14:11:42 -0500 ShravyaPanchagiri wrote:
+> Subject: [PATCH] docs:octeontx2: fix typo in documentation Fix spelling mistake "Crate" to "Create"
 
-A suggestion:
-
-        static unsigned int log2_roundup(unsigned int val)
-        {
-                if (val <= 1)
-                        return 0;
-                return 32 - __builtin_clz(val - 1);
-        }
-
-- Eric
+space after docs:
+I think you wanted the repetition of the sentence to be in the commit
+msg body? Please fix and repost
+-- 
+pw-bot: cr
