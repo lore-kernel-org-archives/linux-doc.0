@@ -1,138 +1,261 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99C1837187F
-	for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2026 15:54:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43BC54A33;
+	Wed, 11 Mar 2026 15:55:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773244495; cv=none; b=MQWujejolZL5lSTUlxwEt16Yk5T+ntL3+UQmb/LypDirxFMdZZznxN8pKndshUgOdRWTy2SQkBzPrs6jct/+7VE9JNxstExJZrZ91g9GcY5UnD3e5IH/5V1IXBlH2LH4Xq6JkWcaBXA7qgmjDtijhOPMi7JcBRgiYBcn0ImwZR4=
+	t=1773244544; cv=none; b=TeH4j1QCWf1U+BKqyOd1YdV7l2hJuxzR78S1tjXRxiQW1PbH45Yrkw7uZr710VvkazLBAk1nBgi/zX4ZEx9m97VYcsVt531uFUAlLUJcK6p6JyLHaG1sB3xNm33TdTa80rSDRHL0rIcZi/rVLpy+LtG9epqY8fuimFN6bziBCyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773244495; c=relaxed/simple;
-	bh=YKjY+UGKijHBRvBSoRk9UbtgtmXFWKdb1iUQAGGik4A=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=B0k0NabCJUho4elGlTlU4RE60R1ZffkxCeYkvnLqmNbykorqwoUPCF9jynq3eq+tX7I1Z8L7LYwy0WnNyZX++C/59g3t4VpOTRZo11wn3UvJF7lSWgKGRtGT06IjPm/NdU2aV9HxATcPHNztu46tkfOlZXHDyqz7Q8IPIDjNEhk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hz5jicxm; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hz5jicxm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62AB1C19421
-	for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2026 15:54:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773244495;
-	bh=YKjY+UGKijHBRvBSoRk9UbtgtmXFWKdb1iUQAGGik4A=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
-	b=hz5jicxm2xpGdd0YQ0b8wqXiNJpGrLa2d6JIp2QqfSIJBKy6gWQIgpOsVu0irHusQ
-	 v9qDa+4QTvcSSC3G2yGXLvgoeyIyPWQbiG+LmL1II50jdHwq18Jl8ULhvVhptTO4jE
-	 V7AaUUMcWwLSYJeMQ3YwsT/IulcG2OtQJJPioKV/J3nHqDbetYvhpP8wmj4yL10VYY
-	 XdlNYXtj/9kPVXz3z63ylsgGXqsgo/HI64C2f0TGEUOu7ShC8AeqnSLYExt97QFmWE
-	 s03AioUUjJ9QqWRy8odDWK1XuHJG+jDu04bmQfFDlyfcVMmSHa+TKCo4J40fpQBaTm
-	 qH/Tz42vG79vg==
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-38a5584e31fso9650801fa.0
-        for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2026 08:54:55 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVDuzzxjB1v0xREzWtpQqSTFuEFSc5/IKLGyiuJ98SVF1rvanULN4LRlBUCDv3q0hNXki+8w0aGfYo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz+qiceTtWiw/lGBcd9+UWzwR6QBR5RdJagSkydbDExJviinueh
-	hjWArPtFO2gUr8FgtB9RU2qVfTCKexc/4YxEoPW5SvNl+xhqVQqxC+XcrlRipPXbIax0bumCrXI
-	rc74smAVqbrTLFdrp5g3UF3bgpar/1wh+imaCyRv7ow==
-X-Received: by 2002:a05:651c:12c2:b0:38a:4e8d:747 with SMTP id
- 38308e7fff4ca-38a72794174mr379221fa.1.1773244494063; Wed, 11 Mar 2026
- 08:54:54 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 11 Mar 2026 08:54:52 -0700
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 11 Mar 2026 08:54:52 -0700
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <abGOrRSJNB6zC8Vz@tom-desktop>
+	s=arc-20240116; t=1773244544; c=relaxed/simple;
+	bh=xiyXOz1tGJAvUr/Hi2/iZqwiJRKTReXrAreWjAT4aW0=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DJ5H6/nJzs2nXkXr4OPNeLLRg2YXLxVvyIWlurIxPCDQUnQDz6canwc4ycHkkdg2YcI68Dx1lG2RIBsUZzw+YO9kLYKZgKskEQSfFmkUM26KYIhfbWFjkNrvFIIrRKmfxRFFOoqPn29apkt3x1VrS0HtOJFS6c73cAYsz7aLCa4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.150])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fWFhL1RlkzHnGgW;
+	Wed, 11 Mar 2026 23:55:30 +0800 (CST)
+Received: from dubpeml500008.china.huawei.com (unknown [7.214.146.94])
+	by mail.maildlp.com (Postfix) with ESMTPS id 2575B4056E;
+	Wed, 11 Mar 2026 23:55:38 +0800 (CST)
+Received: from P_UKIT01-A7bmah.china.huawei.com (10.48.149.67) by
+ dubpeml500008.china.huawei.com (7.214.146.94) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Wed, 11 Mar 2026 15:55:36 +0000
+From: <shiju.jose@huawei.com>
+To: <rafael@kernel.org>, <bp@alien8.de>, <akpm@linux-foundation.org>,
+	<rppt@kernel.org>, <dferguson@amperecomputing.com>,
+	<linux-edac@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
+	<linux-mm@kvack.org>, <linux-doc@vger.kernel.org>, <tony.luck@intel.com>,
+	<lenb@kernel.org>, <leo.duran@amd.com>, <Yazen.Ghannam@amd.com>,
+	<mchehab@kernel.org>
+CC: <jonathan.cameron@huawei.com>, <linuxarm@huawei.com>,
+	<rientjes@google.com>, <jiaqiyan@google.com>, <Jon.Grimm@amd.com>,
+	<dave.hansen@linux.intel.com>, <naoya.horiguchi@nec.com>,
+	<james.morse@arm.com>, <jthoughton@google.com>, <somasundaram.a@hpe.com>,
+	<erdemaktas@google.com>, <pgonda@google.com>, <duenwen@google.com>,
+	<gthelen@google.com>, <wschwartz@amperecomputing.com>,
+	<wbs@os.amperecomputing.com>, <nifan.cxl@gmail.com>, <tanxiaofei@huawei.com>,
+	<prime.zeng@hisilicon.com>, <roberto.sassu@huawei.com>,
+	<kangkang.shen@futurewei.com>, <wanghuiqiang@huawei.com>,
+	<shiju.jose@huawei.com>
+Subject: [PATCH v17 0/2] ACPI: Add support for ACPI RAS2 feature table
+Date: Wed, 11 Mar 2026 15:55:15 +0000
+Message-ID: <20260311155518.1000-1-shiju.jose@huawei.com>
+X-Mailer: git-send-email 2.43.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260306-reset-core-refactor-v3-0-599349522876@oss.qualcomm.com>
- <20260306-reset-core-refactor-v3-13-599349522876@oss.qualcomm.com> <abGOrRSJNB6zC8Vz@tom-desktop>
-Date: Wed, 11 Mar 2026 08:54:52 -0700
-X-Gmail-Original-Message-ID: <CAMRc=Mfi7qJ2VvaUy-OQmV6hz_GjFstsHkt2iYyrTUPDgyKGCA@mail.gmail.com>
-X-Gm-Features: AaiRm50xWjsR4dN1Sxt7vEz40dfWV6nMsm_tDlHXEvZksYBji66qcti2hwuMNzA
-Message-ID: <CAMRc=Mfi7qJ2VvaUy-OQmV6hz_GjFstsHkt2iYyrTUPDgyKGCA@mail.gmail.com>
-Subject: Re: [PATCH v3 13/14] reset: convert reset core to using firmware nodes
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org, 
-	brgl@kernel.org, linux-doc@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: lhrpeml100010.china.huawei.com (7.191.174.197) To
+ dubpeml500008.china.huawei.com (7.214.146.94)
 
-On Wed, 11 Mar 2026 16:47:57 +0100, Tommaso Merciai
-<tommaso.merciai.xr@bp.renesas.com> said:
-> Hi Bartosz,
-> Thanks for your patch.
->
-> On Fri, Mar 06, 2026 at 06:22:57PM +0100, Bartosz Golaszewski wrote:
->> With everything else now in place, we can convert the remaining parts of
->> the reset subsystem to becoming fwnode-agnostic - meaning it will work
->> with all kinds of firmware nodes, not only devicetree.
->>
->> To that end: extend struct reset_controller_dev with fields taking
->> information relevant for using firmware nodes (which mirrors what we
->> already do for OF-nodes) and limit using of_ APIs only to where it's
->> absolutely necessary (mostly around the of_xlate callback).
->>
->> For backward compatibility of existing drivers we still support OF-nodes
->> but firmware nodes become the preferred method.
->>
->> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
->
-> Just to share I'm seeing the following on RZ/G3E (next-20260310):
->
-> [   16.806538] ------------[ cut here ]------------
-> [   16.806546] WARNING: drivers/reset/core.c:1195 at __fwnode_reset_control_get+0x474/0x568, CPU#3: kworker/u16:0/11
-> [   16.806566] Modules linked in: reset_rzv2h_usb2phy(+) rcar_canfd(+) rtc_isl1208 can_dev ecdh_generic ecc rfkill renesas_rpc_if fuse drm backlight ipv6
-> [   16.806603] CPU: 3 UID: 0 PID: 11 Comm: kworker/u16:0 Not tainted 7.0.0-rc3-next-20260310-00016-g866b1999e3fc #17 PREEMPT
-> [   16.806610] Hardware name: Renesas SMARC EVK version 2 based on r9a09g047e57 (DT)
-> [   16.806615] Workqueue: events_unbound deferred_probe_work_func
-> [   16.806627] pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> [   16.806632] pc : __fwnode_reset_control_get+0x474/0x568
-> [   16.806638] lr : __fwnode_reset_control_get+0x164/0x568
-> [   16.806644] sp : ffff800083263930
-> [   16.806646] x29: ffff800083263a30 x28: ffff0000ff8370a8 x27: ffff800081d8d590
-> [   16.806655] x26: ffff800081e3a6c8 x25: ffff800082fec430 x24: ffff800082fec450
-> [   16.806663] x23: 0000000000000000 x22: 0000000000000003 x21: ffff0000ff835940
-> [   16.806671] x20: 0000000000000000 x19: ffff0000c0294e98 x18: 00000000ffffffff
-> [   16.806679] x17: 6e6f637478652f79 x16: 68702d6273752e30 x15: 303230303835312f
-> [   16.806687] x14: ffff8000831a6200 x13: 00363038343d4d55 x12: 0000000000000000
-> [   16.806695] x11: 7478653d4d455453 x10: ffff8000827b0ab7 x9 : 0000000000000028
-> [   16.806703] x8 : 0101010101010101 x7 : 00000000736c6c65 x6 : 000000000080a3f0
-> [   16.806711] x5 : ffff800083263864 x4 : ffffffffff604034 x3 : 0000000000000000
-> [   16.806719] x2 : ffff0000c0128fc0 x1 : 0000000000000000 x0 : 0000000000000001
-> [   16.806727] Call trace:
-> [   16.806731]  __fwnode_reset_control_get+0x474/0x568 (P)
-> [   16.806738]  fwnode_reset_control_array_get+0x84/0x134
-> [   16.806745]  devm_reset_control_array_get+0x54/0xb4
-> [   16.806751]  rcar_gen3_phy_usb2_probe+0x108/0x5b8
-> [   16.806762]  platform_probe+0x5c/0x98
-> [   16.806770]  really_probe+0xbc/0x29c
-> [   16.806776]  __driver_probe_device+0x78/0x12c
-> [   16.806782]  driver_probe_device+0x3c/0x15c
-> [   16.806789]  __device_attach_driver+0xb8/0x134
-> [   16.806795]  bus_for_each_drv+0x88/0xe8
-> [   16.806802]  __device_attach+0xa0/0x190
-> [   16.806808]  device_initial_probe+0x50/0x54
-> [   16.806814]  bus_probe_device+0x38/0xa4
-> [   16.806820]  deferred_probe_work_func+0x88/0xc0
-> [   16.806826]  process_one_work+0x154/0x294
-> [   16.806835]  worker_thread+0x180/0x300
-> [   16.806840]  kthread+0x118/0x124
-> [   16.806847]  ret_from_fork+0x10/0x20
-> [   16.806856] ---[ end trace 0000000000000000 ]---
-> [   16.806867] phy_rcar_gen3_usb2 15800200.usb-phy: probe with driver phy_rcar_gen3_usb2 failed with error -22
->
-> Hope this help.
->
-> Thanks & Regards,
-> Tommaso
->
+From: Shiju Jose <shiju.jose@huawei.com>
 
-Does [1] fix it?
+Add support for ACPI RAS2 feature table (RAS2) defined in the
+ACPI 6.5 specification, section 5.2.21 and RAS2 HW based memory
+scrubbing feature.
 
-Bart
+ACPI RAS2 patches were part of the EDAC series [1].
 
-[1] https://lore.kernel.org/all/20260310151515.34681-1-bartosz.golaszewski@oss.qualcomm.com/
+The code is based on linux.git v7.0-rc3 [2].
+
+1. https://lore.kernel.org/linux-cxl/20250212143654.1893-1-shiju.jose@huawei.com/
+2. https://github.com/torvalds/linux.git
+
+Changes
+=======
+v16 -> v17:
+1. Merged all changes suggested by Borislav.
+https://lore.kernel.org/all/20260126171552.GJaXehSJp33nFnpvVd@fat_crate.local/
+2. Changes for Borislav's feedback "Add remove_aux_device() which unwinds everything
+   add_aux_device() does for all those devices".
+
+v15 -> v16:
+Attempt to modify throughout the code and logs for the below comments from Borislav.
+Thanks for the comments.
+https://lore.kernel.org/all/20251125073627.GLaSVce7hBqGH1a3ni@fat_crate.local/
+https://lore.kernel.org/all/20251231131512.GBaVUh4NSWqvr2xhbM@fat_crate.local/
+https://lore.kernel.org/all/20260119111701.GBaW4Sres045xnfkpz@fat_crate.local/
+
+v14 -> v15:
+1. Incorporated new changes suggested by Borislav on v13.
+   https://lore.kernel.org/all/20251231131512.GBaVUh4NSWqvr2xhbM@fat_crate.local/
+   
+2. Rebase to v6.19-rc5.
+
+v13 -> v14:
+1. Modifications for changes wanted by Borislav.
+   https://lore.kernel.org/all/20251125073627.GLaSVce7hBqGH1a3ni@fat_crate.local/
+
+2. Changes for the comments from Randy Dunlap 
+   https://lore.kernel.org/all/4807417b-a8f7-47a3-b38a-94ea7bdbf775@infradead.org/
+   https://lore.kernel.org/all/af7b6cdc-c0a7-4896-ba6b-6bb933898d37@infradead.org/
+   https://lore.kernel.org/all/26083ba9-1979-4d14-8465-3f54f2f96d23@infradead.org/
+   
+v12 -> v13:
+1. Fixed some bugs reported and changes wanted by Borislav.
+   https://lore.kernel.org/all/20250910192707.GAaMHRCxWx37XitN3t@fat_crate.local/ 
+
+2. Tried modifying the patch header as commented by Borislav.
+
+3. Fixed a bug reported by Yazen.
+   https://lore.kernel.org/all/20250909162434.GB11602@yaz-khff2.amd.com/
+
+4. Changed setting 'Requested Address Range' for GET_PATROL_PARAMETERS
+   command to meet the requirements from Daniel for Ampere Computing
+   platform. 
+   https://lore.kernel.org/all/7a211c5c-174c-438b-9a98-fd47b057ea4a@os.amperecomputing.com/
+
+5. In RAS2 driver, removed support for scrub control attributes 'addr' and
+   'size' for the time being with the expectation that a firmware will do
+   the full node demand scrubbing and may enable these attributes in the
+   future.
+   
+6. Add 'enable_demand' attribute to the EDAC scrub interface to start/stop
+   the demand scrub, which is used for the RAS2 demand scrub control.
+
+v11 -> v12:
+1. Modified logic for finding the lowest contiguous phy memory addr range for
+NUMA domain using node_start_pfn() and node_spanned_pages() according to the
+feedback from Mike Rapoport in v11.
+https://lore.kernel.org/all/aKsIlFTkBsAF5sqD@kernel.org/
+
+2. Rebase to 6.17-rc4.
+
+v10 -> v11:
+1. Simplified code by removing workarounds previously added to support
+   non-compliant case of single PCC channel shared across all proximity
+   domains (which is no longer required). 
+   https://lore.kernel.org/all/f5b28977-0b80-4c39-929b-cf02ab1efb97@os.amperecomputing.com/
+
+2. Fix for the comments from Borislav (Thanks).
+   https://lore.kernel.org/all/20250811152805.GQaJoMBecC4DSDtTAu@fat_crate.local/
+
+3. Rebase to 6.17-rc1.
+
+v9 -> v10:
+1. Use pcc_chan->shmem instead of 
+   acpi_os_ioremap(pcc_chan->shmem_base_addr,...) as it was
+   acpi_os_ioremap internally by the PCC driver to pcc_chan->shmem.
+   
+2. Changes required for the Ampere Computing system where uses a single
+   PCC channel for RAS2 memory features across all NUMA domains. Based on the
+   requirements from by Daniel on V9
+   https://lore.kernel.org/all/547ed8fb-d6b7-4b6b-a38b-bf13223971b1@os.amperecomputing.com/
+   and discussion with Jonathan.
+2.1 Add node_to_range lookup facility to numa_memblks. This is to retrieve the lowest
+    physical continuous memory range of the memory associated with a NUMA domain.
+2.2. Set requested addr range to the memory region's base addr and size
+   while send RAS2 cmd GET_PATROL_PARAMETER 
+   in functions ras2_update_patrol_scrub_params_cache() &
+   ras2_get_patrol_scrub_running().
+2.3. Split struct ras2_mem_ctx into struct ras2_mem_ctx_hdr and struct ras2_pxm_domain
+   to support cases, uses a single PCC channel for RAS2 scrubbers across all NUMA
+   domains and PCC channel per RAS2 scrub instance. Provided ACPI spec define single
+   memory scrub per NUMA domain.
+2.4. EDAC feature sysfs folder for RAS2 changed from "acpi_ras_memX" to  "acpi_ras_mem_idX"
+   because memory scrub instances across all NUMA domains would present under
+   "acpi_ras_mem_id0" when a system uses a single PCC channel for RAS2 scrubbers across
+   all NUMA domains etc.
+2.5. Removed Acked-by: Rafael from patch [2], because of the several above changes from v9.
+
+v8 -> v9:
+1. Added following changes for feedback from Yazen.
+ 1.1 In ras2_check_pcc_chan(..) function
+    - u32 variables moved to the same line.
+    - Updated error log for readw_relaxed_poll_timeout()
+    - Added error log for if (status & PCC_STATUS_ERROR), error condition.
+    - Removed an impossible condition check.
+  1.2. Added guard for ras2_pc_list_lock in ras2_get_pcc_subspace().
+        
+2. Rebased to linux.git v6.16-rc2 [2].
+
+v7 -> v8:
+1. Rebased to linux.git v6.16-rc1 [2].
+
+v6 -> v7:
+1. Fix for the issue reported by Daniel,
+   In ras2_check_pcc_chan(), add read, clear and check RAS2 set_cap_status outside
+   if (status & PCC_STATUS_ERROR) check. 
+   https://lore.kernel.org/all/51bcb52c-4132-4daf-8903-29b121c485a1@os.amperecomputing.com/
+
+v5 -> v6:
+1. Fix for the issue reported by Daniel, in start scrubbing with correct addr and size
+   after firmware return INVALID DATA error for scrub request with invalid addr or size.
+   https://lore.kernel.org/all/8cdf7885-31b3-4308-8a7c-f4e427486429@os.amperecomputing.com/
+   
+v4 -> v5:
+1. Fix for the build warnings reported by kernel test robot.
+   https://patchwork.kernel.org/project/linux-edac/patch/20250423163511.1412-3-shiju.jose@huawei.com/
+2. Removed patch "ACPI: ACPI 6.5: RAS2: Rename RAS2 table structure and field names"
+   from the series as the patch was merged to linux-pm.git : branch linux-next
+3. Rebased to ras.git: edac-for-next branch merged with linux-pm.git : linux-next branch.
+      
+v3 -> v4:
+1.  Changes for feedbacks from Yazen on v3.
+    https://lore.kernel.org/all/20250415210504.GA854098@yaz-khff2.amd.com/
+
+v2 -> v3:
+1. Rename RAS2 table structure and field names in 
+   include/acpi/actbl2.h limited to only necessary
+   for RAS2 scrub feature.
+2. Changes for feedbacks from Jonathan on v2.
+3. Daniel reported a known behaviour: when readback 'size' attribute after
+   setting in, returns 0 before starting scrubbing via 'addr' attribute.
+   Changes added to fix this.
+4. Daniel reported that firmware cannot update status of demand scrubbing
+   via the 'Actual Address Range (OUTPUT)', thus add workaround in the
+   kernel to update sysfs 'addr' attribute with the status of demand
+   scrubbing.
+5. Optimized logic in ras2_check_pcc_chan() function
+   (patch - ACPI:RAS2: Add ACPI RAS2 driver).
+6. Add PCC channel lock to struct ras2_pcc_subspace and change
+   lock in ras2_mem_ctx as a pointer to pcc channel lock to make sure
+   writing to PCC subspace shared memory is protected from race conditions.
+   
+v1 -> v2:
+1.  Changes for feedbacks from Borislav.
+    - Shorten ACPI RAS2 structures and variables names.
+    - Shorten some of the other variables in the RAS2 drivers.
+    - Fixed few CamelCases.
+
+2.  Changes for feedbacks from Yazen.
+    - Added newline after number of '}' and return statements.
+    - Changed return type for "ras2_add_aux_device() to 'int'.
+    - Deleted a duplication of acpi_get_table("RAS2",...) in the ras2_acpi_parse_table().
+    - Add "FW_WARN" to few error logs in the ras2_acpi_parse_table().
+    - Rename ras2_acpi_init() to acpi_ras2_init() and modified to call acpi_ras2_init()
+      function from the acpi_init().
+    - Moved scrub related variables from the struct ras2_mem_ctx from  patch
+      "ACPI:RAS2: Add ACPI RAS2 driver" to "ras: mem: Add memory ACPI RAS2 driver".
+
+Shiju Jose (2):
+  ACPI:RAS2: Add driver for the ACPI RAS2 feature table
+  ras: mem: Add ACPI RAS2 memory driver
+
+ Documentation/ABI/testing/sysfs-edac-scrub |  13 +-
+ Documentation/edac/scrub.rst               |  60 +++
+ drivers/acpi/Kconfig                       |  11 +
+ drivers/acpi/Makefile                      |   1 +
+ drivers/acpi/bus.c                         |   3 +
+ drivers/acpi/ras2.c                        | 433 +++++++++++++++++++++
+ drivers/edac/scrub.c                       |  12 +
+ drivers/ras/Kconfig                        |  13 +
+ drivers/ras/Makefile                       |   1 +
+ drivers/ras/acpi_ras2.c                    | 403 +++++++++++++++++++
+ include/acpi/ras2.h                        |  74 ++++
+ include/linux/edac.h                       |   4 +
+ 12 files changed, 1023 insertions(+), 5 deletions(-)
+ create mode 100644 drivers/acpi/ras2.c
+ create mode 100644 drivers/ras/acpi_ras2.c
+ create mode 100644 include/acpi/ras2.h
+
+-- 
+2.43.0
+
