@@ -1,133 +1,81 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40482188CC9;
-	Wed, 11 Mar 2026 00:58:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92AAD293C4E;
+	Wed, 11 Mar 2026 01:00:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773190691; cv=none; b=DKp57TMens0e6sZ9aSnrmFNF+frkZ+XWJ4fxIZU1BpQfrYTfYthBHHZOgQgnEWLt2qN+hOD01pIgQ/Jp5zm6p2Id4owhjFrmqcOChq6RTeE7Web3iubKcUf+zIm6wac0xd5oX9mCDVjChYbpI7vncx96SPg46aEhHi935gibO5I=
+	t=1773190818; cv=none; b=HHfLVjSfL82yPmh/bpVPa5Q9CzAIyCn2Ne71WN/P6E60uYWw5ESFDqszPC9/HYu6RXJLL86Thk3mZmY+Xgu8igEj+89dbaTVz8xjfi5+jQxB0hGeUN/cVY4s4IGOSxXoIC3TaIYBo1uoXIlyR05qkSXzI2x4TMXIi3sI+VHuzHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773190691; c=relaxed/simple;
-	bh=XqFk9qkcPPiYEyDJvWt0iPKkONDKvNRAhfxukuGWXX0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pnOb4fmFcJNReSDEQbR/HvrIlV7On+uxTiZiTpG8JdmeSjZlTeYoz/sKOLHEADDrDjsGV6uQPPSo54DCZhCJ7xdbB4Bcjkfta8cTZSX6TVCqT5k3pewKCcIdHNT+YSi3+IQ8hFInLSo4YhxU80dArfDw2sV4NQPsWvUI76U2xTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WKZpg2jF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773190818; c=relaxed/simple;
+	bh=JTYShTSRVxixRl7VlzLv6iFkoQaIKHyr0N2YONJrI8I=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=V4A96AU3l5DDzRcOLaVBVocjDzGTFVlSrPkUCk/cvhDC5l5xgmEf3thZPApeT7OJuShQGcFbzXx7yWqEWXpSoPkq+DpdqQB8ycPDSsG5SzoEb/HVFQc2RirzxnkBvwoIBkhtQSmuZsyjjbuZFmMrnEBfNs5U2KyTuCsswYHAIsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H8qV5vjE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WKZpg2jF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FC2DC19423;
-	Wed, 11 Mar 2026 00:58:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H8qV5vjE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39292C19423;
+	Wed, 11 Mar 2026 01:00:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773190690;
-	bh=XqFk9qkcPPiYEyDJvWt0iPKkONDKvNRAhfxukuGWXX0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WKZpg2jFjwxQuj9u7WlXD13xzBXFYDl3NJbqubx4iUfl5nDR4Tqc2XU6LYCCZng8F
-	 oJc3Z7R+KFyk0JrtGfgdUZnAsEFgexXoC7tcByQjLuX/6RwOmWKFfM76/TBHdgiV16
-	 7QnhOWo/nkPnOv4zwXfU0MT4TrBhrdjBF5Y1tBQE51cmgRudoCZtQNzP1bK1M6zDJX
-	 JNIkHqRaQ1zhbJv15S+MsnAAVNWFx2f1AxEi+5/2Ftbp2EQoZR0O1ZN4eeWpYkHlD5
-	 HZiq+c7rD1UeCeN8pvz3onTlcyXdKR0Y97+9hFDK0DSrJmV3MGPxBxGf/q8UfzYa1o
-	 3Uq5n620QUk+A==
-Date: Tue, 10 Mar 2026 20:58:08 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Petr Mladek <pmladek@suse.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Richard Weinberger <richard@nod.at>,
-	Juergen Gross <jgross@suse.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	James Bottomley <James.Bottomley@hansenpartnership.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Greg KH <gregkh@linuxfoundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>, Kees Cook <kees@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Thorsten Leemhuis <linux@leemhuis.info>,
-	Vlastimil Babka <vbabka@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-modules@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/3] kallsyms: embed source file:line info in kernel
- stack traces
-Message-ID: <abC-IKBSrV2tAwuq@laps>
-References: <20260303182103.3523438-1-sashal@kernel.org>
- <20260303182103.3523438-2-sashal@kernel.org>
- <aasClESfxETxliLB@pathway.suse.cz>
- <aasLhbZmvcQ8sA9P@laps>
- <abA2wOsJtK-g2NxY@pathway.suse.cz>
+	s=k20201202; t=1773190818;
+	bh=JTYShTSRVxixRl7VlzLv6iFkoQaIKHyr0N2YONJrI8I=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=H8qV5vjE/502ucX5EQxZN0HiLHYcCxbfI0E0aaEFmcffXrxhIuEDmtDnyq1Z6U3/s
+	 8ZFbYtZhzIH1NU9o0rW8t36SntHH30hcqav5BMA/ouIlC0/tPrs5kBGjNh3bVuGbHX
+	 cCyH8y7R37PY/UwmKKG8fgnzviyumfmNyNnrT7M/Lz1CnNsLKX/gjzJOgrOYuGGHKa
+	 hIgs330xC06z89GTHzUmu3nYjcVS5uASWU1DWKEz1P4QHgB+6KsifESC5LOQeerTRk
+	 ajqpeVqqndjU8TYeSSCtUiBmEcepfHomWKm2eRBqSAFJgxTdfwRaT2OKYclqudugqV
+	 xOGX8gjyOzcgg==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 02D623808200;
+	Wed, 11 Mar 2026 01:00:16 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <abA2wOsJtK-g2NxY@pathway.suse.cz>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2 net-next 0/2] smc-sysctl formatting and missing entries
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <177319081454.2986475.15812669905451358310.git-patchwork-notify@kernel.org>
+Date: Wed, 11 Mar 2026 01:00:14 +0000
+References: <20260309124541.22723-1-sawara04.o@gmail.com>
+In-Reply-To: <20260309124541.22723-1-sawara04.o@gmail.com>
+To: Kyoji Ogasawara <sawara04.o@gmail.com>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
+ skhan@linuxfoundation.org, netdev@vger.kernel.org, linux-doc@vger.kernel.org
 
-On Tue, Mar 10, 2026 at 04:20:32PM +0100, Petr Mladek wrote:
->On Fri 2026-03-06 12:14:45, Sasha Levin wrote:
->> On Fri, Mar 06, 2026 at 05:36:36PM +0100, Petr Mladek wrote:
->> > On Tue 2026-03-03 13:21:01, Sasha Levin wrote:
->> > > Add CONFIG_KALLSYMS_LINEINFO, which embeds a compact address-to-line
->> > > lookup table in the kernel image so stack traces directly print source
->> > > file and line number information:
->> > >
->> > > --- a/include/linux/kallsyms.h
->> > > +++ b/include/linux/kallsyms.h
->> > > @@ -16,10 +16,19 @@
->> > >  #include <asm/sections.h>
->> > >
->> > >  #define KSYM_NAME_LEN 512
->> > > +
->> > > +#ifdef CONFIG_KALLSYMS_LINEINFO
->> > > +/* Extra space for " (path/to/file.c:12345)" suffix */
->> > > +#define KSYM_LINEINFO_LEN 128
->> > > +#else
->> > > +#define KSYM_LINEINFO_LEN 0
->> > > +#endif
->> > > +
->> > >  #define KSYM_SYMBOL_LEN (sizeof("%s+%#lx/%#lx [%s %s]") + \
->> >
->> > I guess that this is used also in ftrace where there formatting
->> > is delayed. We might want:
->> >
->> >  #define KSYM_SYMBOL_LEN (sizeof("%s+%#lx/%#lx [%s %s] (%s:%u)") + \
->>
->> KSYM_LINEINFO_LEN already covers the full expansion of the path and line
->> number, not just the literal format characters. ftrace stores raw addresses and
->> formats via %pS at print time into a KSYM_SYMBOL_LEN-sized buffer, so there
->> shouldn't be an issue here.
->
->I was curious why the sizeof("%s+%#lx/%#lx [%s %s]") was there.
->It did not make much sense to count some "random" part of the
->format string.
->
->I expected that it was related to the ftrace delayed formatting.
->But they are written to the tracing buffer, see trace_vbprintk().
->
->But I believe that it does not need to be counted. It seems to be some
->cargo-cult programming. The size has been counted first by the commit
->d069cf94ca296b7fb ("kallsyms for new modules") back in v2.6.12-rc2,
->see
->https://git.kernel.org/pub/scm/linux/kernel/git/history/history.git/commit/?id=d069cf94ca296b7fb4c7e362e8f27e2c8aca70f1
->And it seems that it was not needed there.
->
->That said, we could not simply remove it witout revisiting the rest of
->the computation. Especilly, we need to make sure that it counts all
->extra characters, like spaces, brackets, and the trailing '\0'.
->
->Ideally, we should replace the unsafe sprintf() with snprintf() in
->all users. (>> TODO ;-)
+Hello:
 
-Yeah, good catch. The sizeof() counts the format specifiers too  which never
-end up in the output since their expansions are already covered by the other
-terms.
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-I'd rather not poke that bear as part of this series, we can try it in a follow
-up and see if anything explodes?
+On Mon,  9 Mar 2026 21:45:38 +0900 you wrote:
+> From: Kyoji Ogasawara <sawara04.o@gmail.com>
+> 
+> Hi,
+> 
+> this series updates SMC sysctl documentation in two small steps.
+> 
+> - patch 1 fixes indentation in the smcr_buf_type section
+> - patch 2 documents missing sysctl parameters limit_smc_hs and hs_ctrl,
+>   including values/defaults and hs_ctrl usage notes
+> 
+> [...]
 
+Here is the summary with links:
+  - [v2,net-next,1/2] net/smc: fix indentation in smcr_buf_type section
+    https://git.kernel.org/netdev/net-next/c/4a51ac9056c1
+  - [v2,net-next,2/2] net/smc: Add documentation for limit_smc_hs and hs_ctrl
+    https://git.kernel.org/netdev/net-next/c/aa5ec9d03b9c
+
+You are awesome, thank you!
 -- 
-Thanks,
-Sasha
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
