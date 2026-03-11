@@ -1,178 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E23334B663;
-	Wed, 11 Mar 2026 08:06:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F088E2D12F3;
+	Wed, 11 Mar 2026 08:17:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773216411; cv=none; b=kcLDcuAxm9RiCRliP+e2ZPWBCw86C25KS4fp16gvdyoeUbvN2PV5SXbUKxpDnQe/GG072v4V9XYJO32vBFTxHXIoFqiU7pRwWHEwlOxqIOtuulRWTdx12Q//pnEmBc+f0LzUK1dFtVkiYSMZ5vnTMe6lCpuBqbYVItwJyfLgY7A=
+	t=1773217049; cv=none; b=GpTY703em004Q4Im8CwSl6VP6glAEr/OjSjIT9YaQ9eYWqFw5MmyJxrRrOJ9PKo2d8oUDC0hanoNOs0dBzqJoAB4Ga47r3QTNtXlB66b+uZsCkY3EXwfm4CyIaNCqJ8brPnE0reNcNLwKrKuESyvv2VJlfPRVemVGgKhhXtJmKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773216411; c=relaxed/simple;
-	bh=dVEH6w6A2ru6wvApMC4aSElWkR/TFzmlhS1C9lEPXbI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=luBsKiBpLWtwWfJUKPeMeMGqvQCx/xxHfgzS2ynHFmn2WIoi8Euvezc+Bzj6wxXJuxld3an3AaaTb6rWbx1/a4cMcksNq2CTo71K56OR5F6gWD4NmxaWfEpdk1QgsKxhSToCjXrVlo6tw7tXcpUZdI2B030Oxy+SVVD/B9f11N8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f0YS7QPV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773217049; c=relaxed/simple;
+	bh=abO+J9k1Y07FMSJTHJmX44W7VylsXRCbtmpu18yShNc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=FRWS+Be/t+LVj16Zd2Y0jnFA1eXvQ+WFD8dLIpBeRsi991JYhRC5Tm+aLUa+YOhZDLEB37z4Fj+zWLmgWyK6yZKqtW+fUx2iicKk/o5sYRXqpnECGTiRHZJOF1JigO2HAZJ4CZ5EKSclciaqhv22lOJz6F8fLUfrqzyPj3YNuc0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mssola.com; spf=fail smtp.mailfrom=mssola.com; dkim=pass (2048-bit key) header.d=mssola.com header.i=@mssola.com header.b=yrcn6O9p; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mssola.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=mssola.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f0YS7QPV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E249C4CEF7;
-	Wed, 11 Mar 2026 08:06:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773216411;
-	bh=dVEH6w6A2ru6wvApMC4aSElWkR/TFzmlhS1C9lEPXbI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=f0YS7QPVkOH607lM76aLFMmSumjt0Of0A0d4z+MQ7kBskP6mZZaJpSKjbxJHsjj/1
-	 wFTO3exIeXQWhdfCt2e3Q+tcHR69ooaxaXv0OXWmAtSQC/YruMn7Dni+AYjAlOyPc6
-	 Lbryy0ceS1snZPxx2UsF5Nxrdkp4ntuFoqzsv88M0+SbfD5ljo1b4Q3qIUiLG0R1Pz
-	 HlXou7vXIQn+nL2S8ONlpTkyHTnXAq43mu025S9Z9bMFU+b7OSXHYulPOY/u98iCb9
-	 uZNYABgBGn0KGD0cvDhN+cML/aMAe/bKbASvnqdljde098YLluGDc0qElXIv1zbF1+
-	 TVTN2BKE1jOHw==
-Date: Wed, 11 Mar 2026 01:06:45 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Daniel Gomez <da.gomez@kernel.org>
-Cc: Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Nicolas Schier <nsc@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, Alex Shi <alexs@kernel.org>,
-	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>,
-	llvm@lists.linux.dev, linux-kbuild@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Daniel Gomez <da.gomez@samsung.com>
-Subject: Re: [PATCH] Documentation/kbuild: fix empty string
- KBUILD_BUILD_TIMESTAMP
-Message-ID: <20260311080645.GC1996626@ax162>
-References: <20260310-fix-llvm-docs-v1-1-234878874762@samsung.com>
+	dkim=pass (2048-bit key) header.d=mssola.com header.i=@mssola.com header.b="yrcn6O9p"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4fW3Wc4NXZz9tm7;
+	Wed, 11 Mar 2026 09:17:16 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mssola.com; s=MBO0001;
+	t=1773217036;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HVbE7XCLIawi/u9FQSgHONTfHdNScTIl0ofsK2VWYUE=;
+	b=yrcn6O9pdFCOWtGFWrBB+buvKZi54udD+r2gZM39Gb8RLr3b2ka5DE8dNbgun7lE7f35Jk
+	J/bCSrb2jQlq6BzOm5W/5HHrU8rlKmK3vzE6eVRpiZt/SxmQkQqSe3Q5LqxCWrONedkjD8
+	8iG0pkIfGxLbH90+I7PGTcaKDqEFioQr/3M18HjhZu4D/VRROXo/WDc5U5dLka8FtqI3Rw
+	GXVF8TTS61jv4YVRjbrAJJWBGeSvZj/h+IRuLM6/diI6cWPETE5lmVCWhQJEOpuhFljk8r
+	ZLZx21Pox+Xo3UBSq3w3wu8ryghhya28xZ9ptpwqUBl/20xhNV91/zZ7XpxdOQ==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=none;
+	spf=softfail (outgoing_mbo_mout: 2001:67c:2050:b231:465::202 is neither permitted nor denied by domain of mssola@mssola.com) smtp.mailfrom=mssola@mssola.com
+From: =?utf-8?Q?Miquel_Sabat=C3=A9_Sol=C3=A0?= <mssola@mssola.com>
+To: pjw@kernel.org
+Cc: palmer@dabbelt.com,  alex@ghiti.fr,  corbet@lwn.net,
+  linux-riscv@lists.infradead.org,  linux-doc@vger.kernel.org,
+  linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] riscv: enable HAVE_CMPXCHG_{DOUBLE,LOCAL}
+In-Reply-To: <20260220074449.8526-1-mssola@mssola.com> ("Miquel
+ =?utf-8?Q?Sabat=C3=A9_Sol=C3=A0=22's?=
+	message of "Fri, 20 Feb 2026 08:44:49 +0100")
+References: <20260220074449.8526-1-mssola@mssola.com>
+Date: Wed, 11 Mar 2026 09:17:10 +0100
+Message-ID: <87sea63hmh.fsf@>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha512; protocol="application/pgp-signature"
+X-Rspamd-Queue-Id: 4fW3Wc4NXZz9tm7
+
+--=-=-=
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260310-fix-llvm-docs-v1-1-234878874762@samsung.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 10, 2026 at 12:48:43PM +0100, Daniel Gomez wrote:
-> From: Daniel Gomez <da.gomez@samsung.com>
-> 
-> The ccache example in llvm.rst uses KBUILD_BUILD_TIMESTAMP='' but the
-> text says "should be set to a deterministic value". An empty string is
-> not deterministic because init/Makefile uses $(or) which treats empty
-> as false and falls through to $(shell LC_ALL=C date), embedding the
-> current time:
-> 
-> 	cat /tmp/test-or.mk
-> 	build-timestamp-auto = fallback
-> 	build-timestamp = $(or $(KBUILD_BUILD_TIMESTAMP),$(build-timestamp-auto))
-> 	all:
-> 	        @echo "[$(build-timestamp)]"
-> 
-> 	make --file=/tmp/test-or.mk
-> 	[fallback]
-> 
-> 	KBUILD_BUILD_TIMESTAMP='' make --file=/tmp/test-or.mk
-> 	[fallback]
-> 
-> 	KBUILD_BUILD_TIMESTAMP="Sun Aug 25 20:57:08 UTC 1991" \
-> 		make --file=/tmp/test-or.mk
-> 	[Sun Aug 25 20:57:08 UTC 1991]
-> 
-> The same applies to a real kernel build:
-> 
-> 	make O=../build LLVM=1 CC="ccache clang" tinyconfig
-> 	make O=../build LLVM=1 CC="ccache clang" \
-> 		KBUILD_BUILD_TIMESTAMP='' --jobs=$(nproc)
-> 	cat ../build/include/generated/utsversion.h
-> 	#define UTS_VERSION "#2 Wed Mar  4 12:13:43 CET 2026"
-> 
-> Replace the empty string with an actual date, matching the pattern
-> in kbuild.rst and reproducible-builds.rst. Use the first public Linux
-> announcement as example date.
-> 
-> 	make O=../build LLVM=1 CC="ccache clang" tinyconfig
-> 	make O=../build LLVM=1 CC="ccache clang" \
-> 		KBUILD_BUILD_TIMESTAMP="Sun Aug 25 20:57:08 UTC 1991" \
-> 		--jobs=$(nproc)
-> 	cat ../build/include/generated/utsversion.h
-> 	#define UTS_VERSION "#4 Sun Aug 25 20:57:08 UTC 1991"
-> 
-> Signed-off-by: Daniel Gomez <da.gomez@samsung.com>
+Miquel Sabat=C3=A9 Sol=C3=A0 @ 2026-02-20 08:44 +01:
+
+> Support for atomic Compare-And-Swap instructions has been in the RISC-V
+> port of the Linux kernel for a long time. That being said, we apparently
+> never bothered to set HAVE_CMPXCHG_DOUBLE and HAVE_CMPXCHG_LOCAL in the
+> Kconfig, despite having all the framework to support them.
+>
+> Signed-off-by: Miquel Sabat=C3=A9 Sol=C3=A0 <mssola@mssola.com>
 > ---
-> Do not use an empty KBUILD_BUILD_TIMESTAMP Makefile variable.
-> ---
->  Documentation/kbuild/llvm.rst                    | 2 +-
->  Documentation/translations/zh_CN/kbuild/llvm.rst | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/kbuild/llvm.rst b/Documentation/kbuild/llvm.rst
-> index bc8a283bc44b..ef46533d785f 100644
-> --- a/Documentation/kbuild/llvm.rst
-> +++ b/Documentation/kbuild/llvm.rst
-> @@ -128,7 +128,7 @@ Ccache
->  KBUILD_BUILD_TIMESTAMP_ should be set to a deterministic value between builds
->  in order to avoid 100% cache misses, see Reproducible_builds_ for more info)::
+> I have built this patch with multiple configurations and ran it with KVM
+> (the VisionFive2 board that I have lacks the needed extensions). All seems
+> to work, but I do wonder if we did not enable these for a reason or this
+> just slipped through. So far in the code I believe everything is in place,
+> and I haven't seen any commit in the git log stating otherwise.
+>
+>  Documentation/features/locking/cmpxchg-local/arch-support.txt | 2 +-
+>  arch/riscv/Kconfig                                            | 2 ++
+>  2 files changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/features/locking/cmpxchg-local/arch-support.tx=
+t b/Documentation/features/locking/cmpxchg-local/arch-support.txt
+> index 2c3a4b91f16d..28d5fa8c3b4f 100644
+> --- a/Documentation/features/locking/cmpxchg-local/arch-support.txt
+> +++ b/Documentation/features/locking/cmpxchg-local/arch-support.txt
+> @@ -20,7 +20,7 @@
+>      |    openrisc: | TODO |
+>      |      parisc: | TODO |
+>      |     powerpc: | TODO |
+> -    |       riscv: | TODO |
+> +    |       riscv: |  ok  |
+>      |        s390: |  ok  |
+>      |          sh: | TODO |
+>      |       sparc: | TODO |
+> diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+> index 7e76b6316425..7c6726a8d738 100644
+> --- a/arch/riscv/Kconfig
+> +++ b/arch/riscv/Kconfig
+> @@ -151,6 +151,8 @@ config RISCV
+>  	select HAVE_ARCH_USERFAULTFD_WP if 64BIT && MMU && USERFAULTFD && RISCV=
+_ISA_SVRSW60T59B
+>  	select HAVE_ARCH_VMAP_STACK if MMU && 64BIT
+>  	select HAVE_ASM_MODVERSIONS
+> +	select HAVE_CMPXCHG_DOUBLE if RISCV_ISA_ZACAS && RISCV_ISA_ZABHA
+> +	select HAVE_CMPXCHG_LOCAL if RISCV_ISA_ZACAS && RISCV_ISA_ZABHA
+>  	select HAVE_CONTEXT_TRACKING_USER
+>  	select HAVE_DEBUG_KMEMLEAK
+>  	select HAVE_DMA_CONTIGUOUS if MMU
 
-To be entirely honest, I don't think this is quite valid anymore, at
-least not with fairly modern ccache versions.
+Gentle ping :)
 
-  $ ccache --version | head -1
-  ccache version 4.12.3
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
 
-  $ ccache -C
+-----BEGIN PGP SIGNATURE-----
 
-  $ make -skj"$(nproc)" ARCH=arm64 CC="ccache clang" HOSTCC="ccache clang" LLVM=1 mrproper defconfig all
-
-  $ ccache -z
-  Statistics zeroed
-
-  $ make -skj"$(nproc)" ARCH=arm64 CC="ccache clang" HOSTCC="ccache clang" LLVM=1 clean all
-
-  $ ccache -s
-  Cacheable calls:   10497 / 10554 (99.46%)
-    Hits:            10496 / 10497 (99.99%)
-      Direct:        10488 / 10496 (99.92%)
-      Preprocessed:      8 / 10496 ( 0.08%)
-    Misses:              1 / 10497 ( 0.01%)
-  Uncacheable calls:    57 / 10554 ( 0.54%)
-  Local storage:
-    Cache size (GB):   1.2 / 100.0 ( 1.21%)
-    Hits:            10496 / 10497 (99.99%)
-    Misses:              1 / 10497 ( 0.01%)
-
-I think we should just remove mention of KBUILD_BUILD_TIMESTAMP all together.
-
-Ccache
-------
-
-``ccache`` can be used with ``clang`` to improve subsequent builds::
-
-	make LLVM=1 CC="ccache clang"
-
-> -	KBUILD_BUILD_TIMESTAMP='' make LLVM=1 CC="ccache clang"
-> +	KBUILD_BUILD_TIMESTAMP="Sun Aug 25 20:57:08 UTC 1991" make LLVM=1 CC="ccache clang"
->  
->  .. _KBUILD_BUILD_TIMESTAMP: kbuild.html#kbuild-build-timestamp
->  .. _Reproducible_builds: reproducible-builds.html#timestamps
-> diff --git a/Documentation/translations/zh_CN/kbuild/llvm.rst b/Documentation/translations/zh_CN/kbuild/llvm.rst
-> index f87e0181d8e7..c68fd395f64c 100644
-> --- a/Documentation/translations/zh_CN/kbuild/llvm.rst
-> +++ b/Documentation/translations/zh_CN/kbuild/llvm.rst
-> @@ -116,7 +116,7 @@ Ccache
->  KBUILD_BUILD_TIMESTAMP_ 应设置为同一确定值，以避免 100% 的缓存未命中，
->  详见 Reproducible_builds_ 获取更多信息）::
->  
-> -	KBUILD_BUILD_TIMESTAMP='' make LLVM=1 CC="ccache clang"
-> +	KBUILD_BUILD_TIMESTAMP="Sun Aug 25 20:57:08 UTC 1991" make LLVM=1 CC="ccache clang"
->  
->  .. _KBUILD_BUILD_TIMESTAMP: kbuild.html#kbuild-build-timestamp
->  .. _Reproducible_builds: reproducible-builds.html#timestamps
-> 
-> ---
-> base-commit: 11439c4635edd669ae435eec308f4ab8a0804808
-> change-id: 20260310-fix-llvm-docs-1f91c1ec7608
-> 
-> Best regards,
-> --  
-> Daniel Gomez <da.gomez@samsung.com>
-> 
+iQJiBAEBCgBMFiEEG6U8esk9yirP39qXlr6Mb9idZWUFAmmxJQYbFIAAAAAABAAO
+bWFudTIsMi41KzEuMTIsMiwyEhxtc3NvbGFAbXNzb2xhLmNvbQAKCRCWvoxv2J1l
+ZV+qD/42BfFHtrdjJOAGKsZ6+cKha1oRmZ5yMeHtoUCpaZKNRMTiErjvTmWP1JYW
+xgRS/ygXR7uCk/6AMU/TDodVYoSAYf0aiUgUY31MVwdiAuKS47QFNcudT/amOPBj
+ShwZmq1jlwC/ed8RwrrPw37q/u5IqGIcBKzrJiOo/WLxqWmhQWHBuEHXS31wMlHC
+JcYsQ3fVaEjvgx1kJAxsVWZWyNC0xB4uhu/RqC8TzdI2EG2tVceDidlWMDdJytUo
+rNS+Mxs8r94vXfVE4aijycvCu00KLuP3g7PjqTK6oB+2OYJNEJhJjvCC5jKPP6bu
+o3KR+Tqg649SV4jPSbK1dgT2ky3YSeSPK2hd6511z0wnQ9fq90Fj1nJYNkgg1Wz3
+w4+BVCOodwN9zmMPHrjyhkhm1B2/JB8gnDgD62VVVUhtVqHQXklbYgn2yeZpFgZg
+gMp6qfFW9dpaSxGnV9OwYy/ufm4E6ixa9wsWuNH7VbV1ipP0iNhZZXMoDRlLot2D
+ZsLQh9V7RDKUks5Qdf+FRzMVHaHIDk3lZlfbIwCn75LfZvsrIaRfQf8wCZGqnPBA
+Len36N5XxlyqTq3/qtObyZMgLErVW6Z0qkB8IQtYAgTs2isLNul/2PrMY8Q1nuIF
+cwKS/l8y0E8Pbh/4TE09kkDWKhjin4PlhPFUoVY672ptWzPQvA==
+=vK1m
+-----END PGP SIGNATURE-----
+--=-=-=--
