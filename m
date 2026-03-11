@@ -1,170 +1,179 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from embla.dev.snart.me (embla.dev.snart.me [54.252.183.203])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D521372B27
-	for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2026 22:08:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A590390CB2;
+	Wed, 11 Mar 2026 22:24:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.252.183.203
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773266894; cv=none; b=EsrkFZJgq8lJjO7Jg5qtTYLoDw7oohAzQLt1t4dKT5Ia1zXx6OptmdbzNYP7En5RuCBGzBbNwq7UA1H5WLrxKCRBntx9H5HWC/bnSCW7cMBo8AjmUf4aQPy3ZeF59vZFzpT3hBE6TG1mcQlujH8Fa5AKPMCQxodB/kcQU8HPRSU=
+	t=1773267880; cv=none; b=Lu0SOgQhUTFUNytMOe1bqFdX8Vuul1+YJsC8NzDsZviy3D7XQs9FxDOCTqYpXOvsUzKRDrQPoD6in7DzzFswdhPSPBNodHB2mNa1ZCEqzG4dFFOCV5LUKPF+pCpbPPtp7MKR93NtjibAu5vBS/hi+nzMfpHkej3RgXbfNbrxdS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773266894; c=relaxed/simple;
-	bh=eckzTySEcXipLe+VU78GzpoVPoQ+1K7RQ8jMl1qup7I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lLxwwCDefsThkNqYUsxdliBcF+Zc/J5fVCMcQOtVqS41GoBxSJ1XFl8P6kGPMI1mi2+1afsTYTNgfmhuVy+c372lSbm5FrAOchZkvQgrkGwiX8gbBxbNUIV8NR/3Z14NkW5d7YzGc+M9nLO7JfVRHCQbxZhgcNhzteCRcOZHcos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m2ajF0F7; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773267880; c=relaxed/simple;
+	bh=tqRXBf6DpqkEc0mIBTnLExF0Gh4b3XlTIWNDNYeyae4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=PIp1Z4T2ujT2il05Sz6PdWEZWCmZLdk3nTXJmgy/s9WlSA1DBxP/+VY6oWjGG+aX0/ZqXo9fbq0Vizkl+z7m9xwHmZbt9IdvfWusnA8ZQPS8gKwVR84Xk+fYdDyfS4DFNUI9EjgI6YceXGwQ+RBDZfL4ULfBBMWdXRRlA18WgP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me; spf=pass smtp.mailfrom=dev.snart.me; dkim=pass (1024-bit key) header.d=dev.snart.me header.i=@dev.snart.me header.b=VDudn5/q; arc=none smtp.client-ip=54.252.183.203
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dev.snart.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dev.snart.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m2ajF0F7"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4852e09e23dso2657315e9.0
-        for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2026 15:08:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773266890; x=1773871690; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jXJIXQ3qsiPhJua6yI0vMRP9sGOp7VDYpCWyFHFNhZU=;
-        b=m2ajF0F7tZ3pWTkmxKLpUvcukAjc418XjqfW3veoVlHoJf/+u6zefr92CIEXoZE65+
-         N+c0izwroUGApIkU1EJaMw+0dC+KnGd0e9QVQcmEOi1/82fpm6vN5A4VzvS0q+Rs7RMt
-         d3P3z2CndMqf9v48cUnC/PXQ9CmRIDb0bmX9brh+H2L6OVefBA5W1uN6VuOIhOxpqVak
-         nrwi1GYtK3NHOmOT9JAgW9ABrz7561JZokhXkdx3G6kWc4UBbmdQk1TRPhP9Mycb8IMr
-         KfKC+BMcjJfSZv4OVsZymuuD88+Ty0WkuwE+27mP+qt7FUX4vhy3oNVUeQ6yvQ1sRPc8
-         86mA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773266890; x=1773871690;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jXJIXQ3qsiPhJua6yI0vMRP9sGOp7VDYpCWyFHFNhZU=;
-        b=n44aqL+JxRTylQu2ZmjUNJaO56kCHYi1fvy1f5XEO8u9p9e3wjwp8druU7nNojNGxb
-         lr9YUJsD52PtbgfcLeF3EiWEx3Tqpp5zBQP9h0BwgTWk+AQOalvOx79KodvvQiWLDxqe
-         Yf8QDgjqM6ce8XHqh6SlHBiMfFeLKpX7iIdWucSqUTuKbiUq1GF9DDBQA7zfWtudjkXD
-         GouMxhjR/PlFyC+2PU0PGK6klaSg548zbuC70JPj+wVUVSo6Mx1A8yy18p/l1S5oZgbw
-         xnw5geYbuWWlydoHPF9eG6HhL0vqiZl/Xz1T7qo/m9uPicWF4KzR3XG9DHlqrU6LFcaZ
-         QUuw==
-X-Forwarded-Encrypted: i=1; AJvYcCWUiUfbdsGc9p2nlgyD3MH9WC9ndqiPTT8WkOy5Z1BYC8UVi7+yq2nsq2jhCH+O5mO5cH/0X2Q/Du4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwEkV7kgfGPlmbxocFX4gG0jLpObr1aarSUlMhF3K0uwsW8+lqm
-	W7djzgFDHVFHUReEOBGcciMOz28z40koC4FNEeJFDRyX9eXx3XwRzZFH
-X-Gm-Gg: ATEYQzyRirzHgyrBDA839z/wRnnSKuhv/XrzdgGyZQsdfVwYPujuWGbd0mZGiNeQ5Y6
-	4byhaIQjog77bcrQaZFh6LxoQy9ph4ek3EdQHD4lalsEAgGlt1ZN1Oxt4UFv5fZ33+6+WnfYfb4
-	Q78GefXrvnNrfRbOuCQQhc5yB27sHx/yM0MnwET1TOWaqrFJyH6i8XeWewOUzXJEBDKzfJOCJI/
-	gTFmVfs4yzhy3FxhZ/cyNxc64/wxdraDUy0XEfMCwDHc7/JyJAoaBDLptk5sCsqz4YCWAIFgtZz
-	ilgaGDOccwqx+bMkn7ais14KQDVcC3rxrQ6IIeKog/CvCJdjDu4/DQpenw/3NL8YC3s+IQaw9Z/
-	U9tKFzR5PVezjroKwgjgaEqvIQ1KbLTVx7tQGA/dERp3XOGBwL85f+ARSxEni/gSViQQ88iFTCm
-	+SWz9IozFVs+DvHXRgfQTS8FmeF8cEt0UU6lZcFrJwO4bqrKIv8PUdx/82m6LE0QuFQ96C4HXu
-X-Received: by 2002:a05:600c:3b16:b0:485:3e6c:aabc with SMTP id 5b1f17b1804b1-4854b107dddmr62988565e9.19.1773266889508;
-        Wed, 11 Mar 2026 15:08:09 -0700 (PDT)
-Received: from gandalf.schnuecks.de (p5b2e2ef5.dip0.t-ipconnect.de. [91.46.46.245])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48541aa73dasm512043875e9.2.2026.03.11.15.08.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Mar 2026 15:08:09 -0700 (PDT)
-Received: by gandalf.schnuecks.de (Postfix, from userid 500)
-	id 989BA302FC8A; Wed, 11 Mar 2026 23:08:08 +0100 (CET)
-Date: Wed, 11 Mar 2026 23:08:08 +0100
-From: Simon Baatz <gmbnomis@gmail.com>
-To: Matthieu Baerts <matttbe@kernel.org>
-Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	mptcp@lists.linux.dev, Eric Dumazet <edumazet@google.com>,
-	Neal Cardwell <ncardwell@google.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	David Ahern <dsahern@kernel.org>, Jon Maloy <jmaloy@redhat.com>,
-	Jason Xing <kerneljasonxing@gmail.com>, mfreemon@cloudflare.com,
-	Shuah Khan <shuah@kernel.org>, Stefano Brivio <sbrivio@redhat.com>,
-	Mat Martineau <martineau@kernel.org>,
-	Geliang Tang <geliang@kernel.org>
-Subject: Re: [PATCH net-next v3 2/6] mptcp: keep rcv_mwnd_seq in sync with
- subflow rcv_wnd
-Message-ID: <abHnyJInqmGNIWiq@gandalf.schnuecks.de>
-References: <20260309-tcp_rfc7323_retract_wnd_rfc-v3-0-4c7f96b1ec69@gmail.com>
- <20260309-tcp_rfc7323_retract_wnd_rfc-v3-2-4c7f96b1ec69@gmail.com>
- <334053df-9824-4bfe-b37c-8711d0a5a9bd@kernel.org>
+	dkim=pass (1024-bit key) header.d=dev.snart.me header.i=@dev.snart.me header.b="VDudn5/q"
+Received: from embla.dev.snart.me (localhost [IPv6:::1])
+	by embla.dev.snart.me (Postfix) with ESMTP id 63D4E1CBC0;
+	Wed, 11 Mar 2026 22:24:29 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 embla.dev.snart.me 63D4E1CBC0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=dev.snart.me; s=00;
+	t=1773267871; bh=tqRXBf6DpqkEc0mIBTnLExF0Gh4b3XlTIWNDNYeyae4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=VDudn5/qEcwYlXFsHl5HtdGIpOFaytDqSS4VnuBejOw3GEisz7A1e4GIzdl8xlgEy
+	 PA8G8BFw+rrEAYRwhIr0z6giH8+8kUVRzhIH2Hzb9lcInDEeSAYV+e+Agw8rVT2uqv
+	 26UqVzUIlmpA1ZIB0gQSN0ERpx6jAg8kO4GH/208=
+Received: from maya.d.snart.me ([182.226.25.243])
+	by embla.dev.snart.me with ESMTPSA
+	id gFKJBJ3rsWltqgQA8KYfjw
+	(envelope-from <dxdt@dev.snart.me>); Wed, 11 Mar 2026 22:24:29 +0000
+From: David Timber <dxdt@dev.snart.me>
+To: corbet@lwn.net,
+	linkinjeon@kernel.org,
+	sj1557.seo@samsung.com,
+	almaz.alexandrovich@paragon-software.com
+Cc: skhan@linuxfoundation.org,
+	yuezhang.mo@sony.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	ntfs3@lists.linux.dev,
+	David Timber <dxdt@dev.snart.me>
+Subject: [PATCH v3 1/2] fs: reserve a new ioctl magic for exfat and ntfs
+Date: Thu, 12 Mar 2026 07:24:20 +0900
+Message-ID: <20260311222421.2008639-1-dxdt@dev.snart.me>
+X-Mailer: git-send-email 2.53.0.1.ga224b40d3f.dirty
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <334053df-9824-4bfe-b37c-8711d0a5a9bd@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Matt,
+ntfs and ntfs3 had no ioctl magic assigned to them. A decision to share
+the new ioctl magic(0xEF) between ntfs and exfat has been made
 
-On Wed, Mar 11, 2026 at 07:27:34PM +0100, Matthieu Baerts wrote:
-> Hi Simon,
-> 
-> On 09/03/2026 09:02, Simon Baatz via B4 Relay wrote:
-> > From: Simon Baatz <gmbnomis@gmail.com>
-> > 
-> > MPTCP shares a receive window across subflows and applies it at the
-> > subflow level by adjusting each subflow's rcv_wnd when needed.  With
-> > the new TCP tracking of the maximum advertised window sequence,
-> > rcv_mwnd_seq must stay consistent with these subflow-level rcv_wnd
-> > adjustments.
-> 
-> Thank you for these modifications!
-> 
-> > Signed-off-by: Simon Baatz <gmbnomis@gmail.com>
-> > ---
-> >  net/mptcp/options.c | 6 ++++--
-> >  1 file changed, 4 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/net/mptcp/options.c b/net/mptcp/options.c
-> > index 43df4293f58bfbd8a8df6bf24b9f15e0f9e238f6..8a1c5698983cff3082d68290626dd8f1e044527f 100644
-> > --- a/net/mptcp/options.c
-> > +++ b/net/mptcp/options.c
-> 
-> (...)
-> 
-> > @@ -1338,8 +1339,9 @@ static void mptcp_set_rwin(struct tcp_sock *tp, struct tcphdr *th)
-> >  		 */
-> >  		rcv_wnd_new = rcv_wnd_old;
-> >  		win = rcv_wnd_old - ack_seq;
-> > -		tp->rcv_wnd = min_t(u64, win, U32_MAX);
-> > -		new_win = tp->rcv_wnd;
-> > +		new_win = min_t(u64, win, U32_MAX);
-> > +		tp->rcv_wnd = new_win;
-> 
-> Out of curiosity, why did you change the two lines above?
-> (even if it makes sense, the diff is a bit confusing, and the commit
-> message doesn't mention this :) )
+  1. due to the similarities in API design
+  2. because they're maintained by the same group devs
+  3. to delay the eventual exhaustion of ioctl number namespace
 
-I wanted to keep tcp_update_max_rcv_wnd_seq() calls close to the
-respective update sites (same pattern everywhere).  In the original
-form
+Also, the uapi header file is named ntfs.h, not ntfs3.h to cater the
+on-going work of reviving ntfs classic and potentially consolidating
+it with ntfs3.
 
-tp->rcv_wnd = min_t(u64, win, U32_MAX);
-tcp_update_max_rcv_wnd_seq(tp);
-new_win = tp->rcv_wnd;
+Link: https://lore.kernel.org/linux-fsdevel/72446d20-f3ae-4acc-86cc-bd8fa3d86f41@dev.snart.me/
+Signed-off-by: David Timber <dxdt@dev.snart.me>
+---
+ .../userspace-api/ioctl/ioctl-number.rst         |  1 +
+ MAINTAINERS                                      |  2 ++
+ fs/ntfs3/file.c                                  |  6 ------
+ fs/ntfs3/ntfs_fs.h                               |  1 +
+ include/uapi/linux/exfat.h                       |  3 ++-
+ include/uapi/linux/ntfs.h                        | 16 ++++++++++++++++
+ 6 files changed, 22 insertions(+), 7 deletions(-)
+ create mode 100644 include/uapi/linux/ntfs.h
 
-the ordering suggests that tcp_update_max_rcv_wnd_seq() might modify
-tp->rcv_wnd.
-
-So, I changed it for legibility.  Now, I realize it made the
-diff harder to read.  I might have optimized the wrong metric here ;-)
-
-> 
-> > +		tcp_update_max_rcv_wnd_seq(tp);
-> 
-> 
-> This patch adding this new helper each time rcv_wnd is modified looks
-> good to me:
-> 
-> Reviewed-by: Matthieu Baerts (NGI0) <matttbe@kernel.org>
-> 
-> 
-> Note: just in case a new version is needed, checkpatch reported an error
-> in patch 4/6 because of a trailing whitespace (+ No space is necessary
-> after a cast in patch 1/6), see:
-> 
->   https://github.com/multipath-tcp/mptcp_net-next/actions/runs/22844479818
-
-Thanks. I will change that if there is a v4.
-
-
+diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
+index 331223761fff..1c81f1f030ca 100644
+--- a/Documentation/userspace-api/ioctl/ioctl-number.rst
++++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
+@@ -410,6 +410,7 @@ Code  Seq#    Include File                                             Comments
+                                                                        <mailto:nchatrad@amd.com>
+ 0xF9  00-0F  uapi/misc/amd-apml.h                                      AMD side band system management interface driver
+                                                                        <mailto:naveenkrishna.chatradhi@amd.com>
++0xEF  00-0F  uapi/linux/exfat.h and uapi/linux/ntfs3.h
+ 0xFD  all    linux/dm-ioctl.h
+ 0xFE  all    linux/isst_if.h
+ ====  =====  ========================================================= ================================================================
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 55af015174a5..59a722414e09 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -9597,6 +9597,7 @@ L:	linux-fsdevel@vger.kernel.org
+ S:	Maintained
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/linkinjeon/exfat.git
+ F:	fs/exfat/
++F:	include/uapi/linux/exfat.h
+ 
+ EXPRESSWIRE PROTOCOL LIBRARY
+ M:	Duje Mihanović <duje.mihanovic@skole.hr>
+@@ -18876,6 +18877,7 @@ W:	http://www.paragon-software.com/
+ T:	git https://github.com/Paragon-Software-Group/linux-ntfs3.git
+ F:	Documentation/filesystems/ntfs3.rst
+ F:	fs/ntfs3/
++F:	include/uapi/linux/ntfs.h
+ 
+ NTSYNC SYNCHRONIZATION PRIMITIVE DRIVER
+ M:	Elizabeth Figura <zfigura@codeweavers.com>
+diff --git a/fs/ntfs3/file.c b/fs/ntfs3/file.c
+index 7eecf1e01f74..2dd15af0255c 100644
+--- a/fs/ntfs3/file.c
++++ b/fs/ntfs3/file.c
+@@ -21,12 +21,6 @@
+ #include "ntfs.h"
+ #include "ntfs_fs.h"
+ 
+-/*
+- * cifx, btrfs, exfat, ext4, f2fs use this constant.
+- * Hope this value will become common to all fs.
+- */
+-#define NTFS3_IOC_SHUTDOWN _IOR('X', 125, __u32)
+-
+ /*
+  * Helper for ntfs_should_use_dio.
+  */
+diff --git a/fs/ntfs3/ntfs_fs.h b/fs/ntfs3/ntfs_fs.h
+index daf5a1f47275..633d8472fa1f 100644
+--- a/fs/ntfs3/ntfs_fs.h
++++ b/fs/ntfs3/ntfs_fs.h
+@@ -26,6 +26,7 @@
+ #include <linux/time64.h>
+ #include <linux/types.h>
+ #include <linux/uidgid.h>
++#include <uapi/linux/ntfs.h>
+ #include <asm/div64.h>
+ #include <asm/page.h>
+ 
+diff --git a/include/uapi/linux/exfat.h b/include/uapi/linux/exfat.h
+index 46d95b16fc4b..050dcea0aa12 100644
+--- a/include/uapi/linux/exfat.h
++++ b/include/uapi/linux/exfat.h
+@@ -12,7 +12,8 @@
+  * exfat-specific ioctl commands
+  */
+ 
+-#define EXFAT_IOC_SHUTDOWN _IOR('X', 125, __u32)
++#define EXFAT_IOCTL_MAGIC	0xEF			/* shared with ntfs3 */
++#define EXFAT_IOC_SHUTDOWN	_IOR('X', 125, __u32)
+ 
+ /*
+  * Flags used by EXFAT_IOC_SHUTDOWN
+diff --git a/include/uapi/linux/ntfs.h b/include/uapi/linux/ntfs.h
+new file mode 100644
+index 000000000000..f00428af6901
+--- /dev/null
++++ b/include/uapi/linux/ntfs.h
+@@ -0,0 +1,16 @@
++/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
++
++#ifndef _UAPI_LINUX_NTFS_H
++#define _UAPI_LINUX_NTFS_H
++#include <linux/types.h>
++#include <linux/ioctl.h>
++
++#define NTFS_IOCTL_MAGIC	0xEF			/* shared with exfat */
++
++/*
++ * cifx, btrfs, exfat, ext4, f2fs use this constant.
++ * Hope this value will become common to all fs.
++ */
++#define NTFS3_IOC_SHUTDOWN	_IOR('X', 125, __u32)
++
++#endif /* _UAPI_LINUX_NTFS_H */
 -- 
-Simon Baatz <gmbnomis@gmail.com>
+2.53.0.1.ga224b40d3f.dirty
+
