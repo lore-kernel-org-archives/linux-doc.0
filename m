@@ -1,144 +1,120 @@
-Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.hostedemail.com (smtprelay0010.hostedemail.com [216.40.44.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EEAF35AC23
-	for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 23:57:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C0E628F5;
+	Wed, 11 Mar 2026 00:02:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773187059; cv=none; b=FEgiU7Twwe6RJtns8kB5MNrFeYDz2VWnQZ4ZhMlpz+27tVl+DQCTd0b0GH+bQoTQ0i26qhjre2r+lBcYfdJVL1Cz/Akt0HVsYXqlsOwimikt6+FGiX3CwmfwR2D5llr9hfjEy/G7bXFoFubDrMXg8gcKt5AaAJyXFWRKR9zRcD0=
+	t=1773187341; cv=none; b=VMb0drDCQYkjprcAwMqr63QT9mgJ5cRWE+QZEIXn8JpSfDvax7sNctFDjuKiIA70EUn1na7b10jFb2niXieMoQy1n24IBcP/1dZtIPxV1+58d1brDu0MSlLlgZCGDMGJj1yWGK3GHEnFZWGPBvgDV6OsZ1bHFkBWq1044gihUXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773187059; c=relaxed/simple;
-	bh=cJP0g25EjCZz5LlBgTEgoSsBxXU9wIOyRk9oOM+QSrc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=b/Y1S9zgsZ331V6DJMOw7Dedqrl5Exd2yyCzLUfAaoA3EoPqVD+B+BPVceeVQXwpHdSr3WZvh+kda/ae8FQ8IFkoZNC8AM2ae6cNWKhFYEXmgbw/il7o/j3qNRuElGMpZz32P12rT4v1RiHtD3XvN7+Ukp4+hmRAiad/KMkYEsU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AIFqrWbB; arc=none smtp.client-ip=74.125.82.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AIFqrWbB"
-Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-2be27fa54feso11753981eec.0
-        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 16:57:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773187057; x=1773791857; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=cJP0g25EjCZz5LlBgTEgoSsBxXU9wIOyRk9oOM+QSrc=;
-        b=AIFqrWbB3b8Q2yvMj3UY2nxw8dWHRt1+hLZDX3RPfurL0kLnPSu85CgFt+mBTmbbbV
-         Gp3Kr2bCs133zdutc1syhVa5ODeaxptTEGcgoS7crflssZy4gjxQiMSYjRisYzopnW+m
-         rMH4iIOwAj0Ss1/+2ze+VL0oLnDlKOeEltaVFO75tSooGvbDDwMEZAHLvFCauGWghROK
-         UKG4v65JvDjT0dwgHyBpO6PQnMpMeol/6i2ekuslS/NZIyn9DHAWujdPfIaMyMLp242b
-         Bp8midURrAAyzm2WYlMXQxn2UWTs6jGjDDXsdysUnh/Qs93ZDhj7BDuVhSvhv12gEtKB
-         ZzdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773187057; x=1773791857;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cJP0g25EjCZz5LlBgTEgoSsBxXU9wIOyRk9oOM+QSrc=;
-        b=bp/iRahhgPTM8q0Ofj5rTb1aEhEafzGYrDA3VKCakgciPn0qxTTi6wFblvL6kbY1ny
-         q+Y/mC2jiUonR/G8odrKABYgehZg/B7GK79ALmfNcQoFEyfPvYgUX+m/HCheIlgoS57V
-         GgZrBAiDsKI0KGJreXrLcFJub8YnQFjmbHeS9qKrUoafoxfAQvSB1o3M91bHbqRY74JI
-         YCbifEl7360Fu7XoLou2mEPVz/n8QO6nbJ4lZq+/XtCk7goonQm2oycGqURIpm1pJyLg
-         uR2jqiBhCXlv+FYw1oA5tmD23lrDG7TzH5iC6YvF7SGULw+PvRqfq7im6eLgX2s958jQ
-         kJNQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUYLEwOvE/pAOoinMg8f9fSczwQb5BUROkmpozonusuosHE2W/aruXtCU1xnJ70ouIuhc9TDblZ928=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx84lJ5QuAjGicjJfDY6nxFe/Xk6dt2XnUABUwvxc5mtngqmJw0
-	zp2j32apZmQUgLbnDYwKZ5lSTlOJTD5t1oKDHldSkfjLFbJw8thvG64o
-X-Gm-Gg: ATEYQzxCrM1fTvzjis4Kv1pE+hJrWeTAXy8riSUcCMQtflzBgy5lQL8XL1YSC2kHR14
-	ELXSexNOKE0hFUpbKNx94OSPcwXI701wyeyFq14fCepZ3GIPMpia33njVTexnXdei9h2R9yjvfz
-	9oOKnL5F+xW+6RhxMzH2JiYm6aJM/cQW/caMHA12EW+1BDyfzj+1f1S9Qq/6IZAAEBPcIVNGuuR
-	1e8nRBInk5HG9aX3DwVsCqK65Ig1MM14Nyl8e8+2GESCLv5caHUPmEPptuE1+nzILniuTN9Z7qt
-	gmUZz9nNhAAy+O2YVD35Dhm+D3JcA5KUUMBlKMRzEAtR6+iX6f7kDRxUFbH+K5tmqOzmslYs7KN
-	Nihd4hqTAB4u1UtSwy5SamZ6l5zl/E0lNfYsqCoxW89qT6s3Q4RU/XQFGPIrnZoQ2GCE+bpyK41
-	c9oqMb8huTVXkcmKKJpD6QMGmdogie8M/VUGuF3AZI
-X-Received: by 2002:a05:7300:dc8e:b0:2ae:51fa:b7ec with SMTP id 5a478bee46e88-2be8a2eac77mr236090eec.25.1773187057388;
-        Tue, 10 Mar 2026 16:57:37 -0700 (PDT)
-Received: from [192.168.86.23] ([136.25.189.61])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2be8aa4ff75sm468057eec.20.2026.03.10.16.57.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Mar 2026 16:57:35 -0700 (PDT)
-Message-ID: <b6558f4d-e424-464a-a9a7-ad14a174c542@gmail.com>
-Date: Tue, 10 Mar 2026 16:57:34 -0700
+	s=arc-20240116; t=1773187341; c=relaxed/simple;
+	bh=smzvbB4nmsoWyjvlw6IqwQZpGTU4rmIBF86uCfM5iSI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mZ7SZw8AML/61LYZF+cYH3QVClpOnHegGEKkHaYUPO71sjzYDiM5Q+n4lFaME/6BEsW2e1BZyMolXCAJSu5lYFDt+iIzDok/b+Wt2L0EsMSmi2OBcG9piL8W4T14/fiz+ZcJEAo8snm/H1rLrULkiXmcSICjsos5XMZOMusthos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf20.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay02.hostedemail.com (Postfix) with ESMTP id 7BCB113A961;
+	Wed, 11 Mar 2026 00:02:10 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf20.hostedemail.com (Postfix) with ESMTPA id 85BFC20027;
+	Wed, 11 Mar 2026 00:02:06 +0000 (UTC)
+Date: Tue, 10 Mar 2026 20:02:17 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Christian Brauner <brauner@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+ linux-kernel@vger.kernel.org, linux-modules@vger.kernel.org,
+ linux-nfs@vger.kernel.org, bpf@vger.kernel.org, kunit-dev@googlegroups.com,
+ linux-doc@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ netfs@lists.linux.dev, io-uring@vger.kernel.org, audit@vger.kernel.org,
+ rcu@vger.kernel.org, kvm@vger.kernel.org, virtualization@lists.linux.dev,
+ netdev@vger.kernel.org, linux-mm@kvack.org,
+ linux-security-module@vger.kernel.org, Christian Loehle
+ <christian.loehle@arm.com>, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] tree-wide: rename do_exit() to task_exit()
+Message-ID: <20260310200217.451cf37e@gandalf.local.home>
+In-Reply-To: <20260310-work-kernel-exit-v2-2-30711759d87b@kernel.org>
+References: <20260310-work-kernel-exit-v2-0-30711759d87b@kernel.org>
+	<20260310-work-kernel-exit-v2-2-30711759d87b@kernel.org>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] docs: sp_SP: Add Spanish translation for Rust
- coding guidelines
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Edwin Toribio <edwin.toribio.j@gmail.com>, carlos.bilbao@kernel.org,
- Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- rust-for-linux@vger.kernel.org
-References: <20260304200715.76360-1-edwin.toribio.j@gmail.com>
- <20260304200715.76360-4-edwin.toribio.j@gmail.com>
- <389808bb-f71d-4c35-bfd0-b4db14268d58@gmail.com>
- <CANiq72=Qe3x5xVQsFOd4YuD35mOan=mUt4PEFRQvStGnmLUcQw@mail.gmail.com>
- <25240ce9-0886-461f-a969-d049c84ae80d@gmail.com>
- <CANiq72=ZBYS-P7smq3u=CKN5y8_LTo5jThAegCVHhmo6TXTdpQ@mail.gmail.com>
-Content-Language: en-US
-From: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
-In-Reply-To: <CANiq72=ZBYS-P7smq3u=CKN5y8_LTo5jThAegCVHhmo6TXTdpQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: 5bg3rrg18jbru7uwkfxn1hbh397psca6
+X-Rspamd-Server: rspamout01
+X-Rspamd-Queue-Id: 85BFC20027
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX18LHCHZ+vV3JFPf+Z89JvS/nvAKMsv+FAI=
+X-HE-Tag: 1773187326-98008
+X-HE-Meta: U2FsdGVkX1/3tMWPLwyG4JCc4wkqvh9SiSPSlhJp6Tv4W/fwSwUFhWXG3UBrBxSzLq3p72eu37Xu4WWh77aTVVkk97xFw9hCg2Tn+gfwvdW114asIqtfy8xHhNrVuERS2G/65ce3/BsvZjC5d8Vnvs35vga+tnTJklfjQ+UttgL5bwbjp5oOgQNdAzx3oibQ4Mzt0N8V0YHeM+nhQRgwSGhlB1291Y2eHefZmXFBYTpQLIIP1XDBd9pac8iHtBZirKQZfE9I0NK+xzIHdGI0aui4vMm56FkppnHJDf/mUfgi8cC8UEAJB61JKAsSDfwj7R599Re8N4CNbTJgYcDwKo1gfVDZt4y9
 
-Hello,
+On Tue, 10 Mar 2026 15:56:10 +0100
+Christian Brauner <brauner@kernel.org> wrote:
 
-On 3/10/26 13:14, Miguel Ojeda wrote:
-> On Tue, Mar 10, 2026 at 4:33 AM Carlos Bilbao
-> <carlos.bilbao.osdev@gmail.com> wrote:
->> TBH, a reasonable case can be made either way, and there are no written
->> rules on this question AFAIK.
->>
->> In terms of precedent, the Chinese (simplified) translation keeps code
->> blocks unchanged, which I suppose avoids giving the impression that
->> non-English comments are acceptable in kernel code.
->>
->> That said, the goal of translation docs is accessibility, and since these
->> are illustrative snippets, Spanish comments help readers follow the example
->> without having to switch back to English. Personally, that argument
->> convinces me more.
-> Yeah, I guess it depends for whom the docs are meant, e.g. whether the
-> reader is one that will afterwards go and read code or the English
-> side of the docs, or whether it is meant as docs that external readers
-> may want to read to inform themselves about what the kernel.
->
-> I don't know if there is a policy for translations about this, but if
-> it doesn't exist, then it may be a good opportunity to align.
+> diff --git a/tools/testing/selftests/bpf/progs/tracing_failure.c b/tools/testing/selftests/bpf/progs/tracing_failure.c
+> index 65e485c4468c..5144f4cc5787 100644
+> --- a/tools/testing/selftests/bpf/progs/tracing_failure.c
+> +++ b/tools/testing/selftests/bpf/progs/tracing_failure.c
+> @@ -25,7 +25,7 @@ int BPF_PROG(tracing_deny)
+>  	return 0;
+>  }
+>  
+> -SEC("?fexit/do_exit")
+> +SEC("?fexit/task_exit")
+>  int BPF_PROG(fexit_noreturns)
+>  {
+>  	return 0;
+> diff --git a/tools/testing/selftests/ftrace/test.d/dynevent/fprobe_syntax_errors.tc b/tools/testing/selftests/ftrace/test.d/dynevent/fprobe_syntax_errors.tc
+> index fee479295e2f..7e00d8ecd110 100644
+> --- a/tools/testing/selftests/ftrace/test.d/dynevent/fprobe_syntax_errors.tc
+> +++ b/tools/testing/selftests/ftrace/test.d/dynevent/fprobe_syntax_errors.tc
+> @@ -82,7 +82,7 @@ check_error 'f vfs_read arg1=^'			# NO_ARG_BODY
+>  # multiprobe errors
+>  if grep -q "Create/append/" README && grep -q "imm-value" README; then
+>  echo "f:fprobes/testevent $FUNCTION_FORK" > dynamic_events
+> -check_error '^f:fprobes/testevent do_exit%return'	# DIFF_PROBE_TYPE
+> +check_error '^f:fprobes/testevent task_exit%return'	# DIFF_PROBE_TYPE
+>  
+>  # Explicitly use printf "%s" to not interpret \1
+>  printf "%s" "f:fprobes/testevent $FUNCTION_FORK abcd=\\1" > dynamic_events
+> diff --git a/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_multiprobe.tc b/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_multiprobe.tc
+> index f0d5b7777ed7..a95e3824690a 100644
+> --- a/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_multiprobe.tc
+> +++ b/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_multiprobe.tc
+> @@ -5,7 +5,7 @@
+>  
+>  # Choose 2 symbols for target
+>  SYM1=$FUNCTION_FORK
+> -SYM2=do_exit
+> +SYM2=task_exit
+>  EVENT_NAME=kprobes/testevent
+>  
+>  DEF1="p:$EVENT_NAME $SYM1"
+> diff --git a/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_syntax_errors.tc b/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_syntax_errors.tc
+> index 8f1c58f0c239..b55ea3c05cfa 100644
+> --- a/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_syntax_errors.tc
+> +++ b/tools/testing/selftests/ftrace/test.d/kprobe/kprobe_syntax_errors.tc
+> @@ -87,7 +87,7 @@ esac
+>  # multiprobe errors
+>  if grep -q "Create/append/" README && grep -q "imm-value" README; then
+>  echo "p:kprobes/testevent $FUNCTION_FORK" > kprobe_events
+> -check_error '^r:kprobes/testevent do_exit'	# DIFF_PROBE_TYPE
+> +check_error '^r:kprobes/testevent task_exit'	# DIFF_PROBE_TYPE
+>  
+>  # Explicitly use printf "%s" to not interpret \1
+>  printf "%s" "p:kprobes/testevent $FUNCTION_FORK abcd=\\1" > kprobe_events
 
+These tests need to pass on old kernels too. So we can't just do a
+"s/do_exit/task_exit/" conversion. It needs to test for task_exit first,
+and if not found, fallback to do_exit.
 
-I'll leave it up to you, Edwin, just make sure to leave keywords in
-English.
+See how we handled the _do_fork() > kernel_clone() rename:
 
+  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/ftrace/test.d/functions#n182
 
->
-> (Relatedly, machine translation on technical topics is quite good
-> nowadays, so if the intention is that a reader may read the English
-> docs or the code afterwards, perhaps it could be nice to have a
-> suggested way for them to read those docs via machine translation,
-> especially if there are accessible/free/OSS/... solutions).
-
-
-Yes, I suppose one day I’ll work up the courage to use automatic
-translations for what’s left. But I’d still need to review everything
-carefully to catch mistranslations (the classic Spanish example is “driver”
-to “conductor”), though in practice the issues are often subtler. It also
-means resisting the temptation to skim large paragraphs and trust the
-tools; something that’s probably more tempting with docs than with code.
-
-
->
-> I hope that helps!
->
-> Cheers,
-> Miguel
-
-
-Thanks,
-
-Carlos
-
+-- Steve
