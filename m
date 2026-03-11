@@ -1,117 +1,91 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9943231F9AB;
-	Wed, 11 Mar 2026 21:14:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7598B40DFCB
+	for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2026 21:45:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773263677; cv=none; b=ruTruuBqqZwORMt6erWJEAqBJ/GQbbmkTE/W9A3JxvbQ1D8F/l+BsplEKzP4IbsMYA51PKQV+PkM5tdj3lJKQKjARJa5X7Jk22TmoXod028VCrwhw5kk5BYrzmyyaadg0KL4abx2BhkZqcwhlvdhDmxgu/39FC/1EHCr7D7E/cQ=
+	t=1773265560; cv=none; b=WvjAS2Hgo6cG9mZdN9XFV6+m5RFzZGz4DRGcVOKWWo0+iHiPaWkw3zkXpeLOhwW9Z4fxYHZupjVGwTyYR9A4sgu0SQKdzyq6B3b6WTMG1Fu1b34qyYFm5tQUllCNHLJelCkDv17/YYSs+R8JrR//7bluy0JX46MoR8xqE0YuDsY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773263677; c=relaxed/simple;
-	bh=4AK1rqDz6/A4qjK/w9x6JibTYdqI2D5USa9Uljlor+U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G8Ba+jORxSVzx09M0OAT2/hugqsjaGtZXcbsQvktFn1MG4d1e6XYyP/pMxeq6LPHyU6x0IzprbFX6WZaf7ACKc0jvpzCy+iy0+XnPnCiANChwwp+I2nt06ai4GIQB0jjdGNu/fdhavmooleb3IiBKVw37puQ31G63V8su6bv7ls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nB1ceOIT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773265560; c=relaxed/simple;
+	bh=0KKwWWFePvShq0PX9kmKJM6GqhdfKaeQrJp8EdRwg4Y=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=TziahRTNUv+QzdgVIvphrSNL7nXX0teMoAlCHBTe7WWeudQLqUxaB03eAuyQ0FyR0GR8HiKQOyT7U1NcssLwtV1oeBzVdFypqHPNcYuOefA9Jy+9xhnxAfGF3hfdLaa+7+H0bEc4HLipsoG4Js3z7jovJsrKxbT3EOM/ih0fHn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ME9Lfr/w; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nB1ceOIT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB722C4CEF7;
-	Wed, 11 Mar 2026 21:14:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773263677;
-	bh=4AK1rqDz6/A4qjK/w9x6JibTYdqI2D5USa9Uljlor+U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nB1ceOIToPCiG2Ga6fYFvAKYgRMq4rBLUcUJz61ILzyuOdXns1FvKE63ZPdgZQHZl
-	 Sb4nNTfsbw0QQI5n6wXKZka0cIrk//AuTKoo0ISRoDGLOBcwr8YHsLLIUfXs3ewVur
-	 Y//Sw9zR3uoc7l0O5LZdS/vroMKyuP4eog+uvpPQG9u86rx9FDtkb5kBULGBJiQpKA
-	 ykMX0LdNVLH7xwVNGKzNvHSeT8rR69Tat3JUo29pWbE2YUJJsafK9N2xB5JCRpAIUo
-	 okDFx5h1iJaRVeUidyBXYGIr+WO3tVsGNN7BB1kj1hqBJl5sHNlsdHbQV7Px/yDwRA
-	 t4r5txKCfn75g==
-Date: Wed, 11 Mar 2026 21:14:34 +0000
-From: Eric Biggers <ebiggers@kernel.org>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: Nathan Chancellor <nathan@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Daniel Gomez <da.gomez@samsung.com>,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Naveen N Rao <naveen@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
-	Roberto Sassu <roberto.sassu@huawei.com>,
-	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
-	Eric Snowberg <eric.snowberg@oracle.com>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Aaron Tomlin <atomlin@atomlin.com>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>,
-	Xiu Jianfeng <xiujianfeng@huawei.com>,
-	Fabian =?iso-8859-1?Q?Gr=FCnbichler?= <f.gruenbichler@proxmox.com>,
-	Arnout Engelen <arnout@bzzt.net>,
-	Mattia Rizzolo <mattia@mapreri.org>, kpcyrd <kpcyrd@archlinux.org>,
-	Christian Heusel <christian@heusel.eu>,
-	=?iso-8859-1?Q?C=E2ju?= Mihai-Drosi <mcaju95@gmail.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
-	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org
-Subject: Re: [PATCH v4 15/17] module: Introduce hash-based integrity checking
-Message-ID: <20260311211434.GA4173404@google.com>
-References: <20260113-module-hashes-v4-0-0b932db9b56b@weissschuh.net>
- <20260113-module-hashes-v4-15-0b932db9b56b@weissschuh.net>
- <20260311011218.GA212983@quark>
- <5726fc65-7d24-4353-b341-81b785f2575c@t-8ch.de>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ME9Lfr/w"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773265558; x=1804801558;
+  h=date:from:to:cc:subject:message-id;
+  bh=0KKwWWFePvShq0PX9kmKJM6GqhdfKaeQrJp8EdRwg4Y=;
+  b=ME9Lfr/wehdPuW4O6WoEFn3EMd34hyRkEVCg02CywVpgoaucBBhWmDER
+   fitTWi96VXDun/oOhSzOZr/2+ZuJSjHGQX9yOVHi9y59M5YNupBauN/UA
+   nZTY5Zoeb5sZgVv44j838mAicu7/C3FQVqkYSNiDaaZgBrxENUJMheY+f
+   42NH3PKy3O3TkPsm+nLB34DeWWUgFoyFhq7NbgwBxgUyito8/oCbDe6vf
+   azhxC6JyJHTC/nja09JgS86AIlkG8tT+HUGtl87pqToeTrkV3rHxxstPj
+   bQt81NfaDMO7gCpPOHjGLVcvoRvXjPWoVnFZjBRZza2hOBooTgQgMNVZq
+   A==;
+X-CSE-ConnectionGUID: KgogsTIzTqWBDjvpnbl3HQ==
+X-CSE-MsgGUID: 9lPHmpbPSrKvELpJiv88aw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="73366164"
+X-IronPort-AV: E=Sophos;i="6.23,115,1770624000"; 
+   d="scan'208";a="73366164"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 14:45:58 -0700
+X-CSE-ConnectionGUID: iricqyc2QSm2Z+MT0ANldg==
+X-CSE-MsgGUID: 55mqi9M5SkOKHcUnKQX8RQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,115,1770624000"; 
+   d="scan'208";a="217218354"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa010.fm.intel.com with ESMTP; 11 Mar 2026 14:45:58 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w0RNL-000000003Or-3nj3;
+	Wed, 11 Mar 2026 21:45:55 +0000
+Date: Wed, 11 Mar 2026 22:45:11 +0100
+From: kernel test robot <lkp@intel.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [robh:dt-convert 40/621] htmldocs: Warning:
+ arch/arm/xen/enlighten.c references a file that doesn't exist:
+ Documentation/devicetree/bindings/arm/xen.txt
+Message-ID: <202603112218.stMvgxw9-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5726fc65-7d24-4353-b341-81b785f2575c@t-8ch.de>
 
-On Wed, Mar 11, 2026 at 02:19:02PM +0100, Thomas Weißschuh wrote:
-> > > diff --git a/include/linux/module_signature.h b/include/linux/module_signature.h
-> > > index a45ce3b24403..3b510651830d 100644
-> > > --- a/include/linux/module_signature.h
-> > > +++ b/include/linux/module_signature.h
-> > > @@ -18,6 +18,7 @@ enum pkey_id_type {
-> > >  	PKEY_ID_PGP,		/* OpenPGP generated key ID */
-> > >  	PKEY_ID_X509,		/* X.509 arbitrary subjectKeyIdentifier */
-> > >  	PKEY_ID_PKCS7,		/* Signature in PKCS#7 message */
-> > > +	PKEY_ID_MERKLE,		/* Merkle proof for modules */
-> > 
-> > I recommend making the hash algorithm explicit:
-> > 
-> >         PKEY_ID_MERKLE_SHA256,	/* SHA-256 merkle proof for modules */
-> > 
-> > While I wouldn't encourage the addition of another hash algorithm
-> > (specifying one good algorithm for now is absolutely the right choice),
-> > if someone ever does need to add another one, we'd want them to be
-> > guided to simply introduce a new value of this enum rather than hack it
-> > in some other way.
-> 
-> The idea here was that this will only ever be used for module built as
-> part of the kernel build. So the actual implementation could change freely
-> without affecting anything.
-> 
-> But I don't have hard feelings about it.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt-convert
+head:   c8198e311a98fefcf9efff078bf3930ff94b60d2
+commit: 196674ef5f8e4dc30614fa50d68be8c457747b40 [40/621] dt-bindings: arm: Convert xen,xen to DT schema
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260311/202603112218.stMvgxw9-lkp@intel.com/reproduce)
 
-Ah, okay.  That's even better then: if someone adds another algorithm it
-would simply be a kconfig option.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603112218.stMvgxw9-lkp@intel.com/
 
-It seems 'struct module_signature' itself is intended to be a stable
-ABI, though.  So I think there's an opportunity for confusion here.  It
-might be worth leaving a note somewhere that the format of the
-PKEY_ID_MERKLE portion of the struct does not need to be kept stable and
-can freely change in each kernel build.
+All warnings (new ones prefixed by >>):
 
-- Eric
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/arm/ste-*
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/ABI/testing/sysfs-platform-ayaneo
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/megachips-stdpxxxx-ge-b850v3-fw.txt
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/arm/firmware/sdei.txt
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/arc/axs10*
+>> Warning: arch/arm/xen/enlighten.c references a file that doesn't exist: Documentation/devicetree/bindings/arm/xen.txt
+   Warning: arch/powerpc/sysdev/mpic.c references a file that doesn't exist: Documentation/devicetree/bindings/powerpc/fsl/mpic.txt
+   Warning: rust/kernel/sync/atomic/ordering.rs references a file that doesn't exist: srctree/tools/memory-model/Documentation/explanation.txt
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/virtual/lguest/lguest.c
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,\b(\S*)(Documentation/[A-Za-z0-9
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/devicetree/dt-object-internal.txt
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
