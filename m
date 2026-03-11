@@ -1,516 +1,142 @@
-Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
+Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8168732A3E1
-	for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2026 05:27:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.176
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773206829; cv=none; b=kweqfgnZMLbj5k2uHV3G9VTotQyg4gd+VaDjlCgvt7XbU1o45qwZzEhHKnjRV76cxtpX33cIQud+hsFgZjsO8iXa4dyANAic8BY2MgLfSGAOw9lCdiw1DEJZewo93sJcBkI1eEqN8/wZxySihT4ndBbgJLqFYFh1Z2c5XfnrSKA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773206829; c=relaxed/simple;
-	bh=MVnGjBzMF0TA3dOemueqBJCvzQjgrFbKIZy5x+gfLBk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZNbAKKIkFHo1Ff/LUQLtK1P/yLiPhBl/1EYQ7b8fVSrQ7VxLPgVOKVwiUyORX+1zhUZzuK5N4Ojzt1wHRLHsrAD0HUHduSGpY8IthV6Og6mTXoxT3izfEXz99ODq/NyVX4uMdlGAZMlV32//EnpMU31VKCR1Re93MNlPfjAeI0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AxsaBcka; arc=none smtp.client-ip=74.125.82.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86750359A9E
+	for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2026 06:12:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.174
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773209530; cv=pass; b=ABBl95J63hCWSZzcamsFtvY8t8E1XJdwaQuzciFJerDtqhindxxuyC2pXpsc9NpIpmDJMrAu5OxUIjyT9gh72kK/XOoP1uM3ufKfp9XaKOoCdMp+K8NGJGqAmPCnPVLTmRSW3KOutvOf320HfwAkyTuEQFidzdyHvGA33iGBrc0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773209530; c=relaxed/simple;
+	bh=yIRuISDEoujZqBbzxtC/xzKKJ1iPngAjpiJCNBGIUVs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ShirEAZADChPRA5QVDlwKJPqjR/eIhu1sbMOsQGMhr4nmUaDO8uB5WfCfgNXRLgHiZDT6uun5+bXm9sO5thBuv8J1f1dfSttlM5pEQFb9A0PuYdzWdFVo/TXrcVICpmZmYL57qy72ldZ3nQj9wdbriWBLPGyxnUdvSF6yOu34U0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lHensFEh; arc=pass smtp.client-ip=74.125.82.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AxsaBcka"
-Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-2be19f05d7dso972487eec.1
-        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 22:27:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lHensFEh"
+Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-2be0f64a05bso590692eec.3
+        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 23:12:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773209529; cv=none;
+        d=google.com; s=arc-20240605;
+        b=JO1ZJIeoHXTIdeNFfjAF729Aink8PLk/yfI6/qtZbj20qQGqi7agJhjdw2jWsS+PU3
+         OMA7bEe/j/0/1Yd3ndGQtadzto9mbCfgnnNMZ2lMWfY1T2WU28SNwwYzicj3iwKNn5qA
+         XJIbnyo8NJDOIrj7VIcmyzto/zECGaLBV2v8Ncn7TZmIcG7m++UFAgMN6FvddeNi13dr
+         EUinEzcxPfkGmo2KknqkmGueavgLrqNI9H5IrWrMd6S0JinTF23atJXZxNQD1NLit5d4
+         B94PYFm9r1em2IhTErSJR+MUooQyrnSqGdH5A0+JzQPh82TR80RGKzAsDwdyXCvr1Npc
+         gXxA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=yIRuISDEoujZqBbzxtC/xzKKJ1iPngAjpiJCNBGIUVs=;
+        fh=fsKw3+QgLdcpLzKnOEFMKyr2wtKDIC/gII7oUExoMrk=;
+        b=XXnkueVlc0CaF0JD9dQ3FxtxotTZyFuKevhDhIu3exSua7ZNFI/iP4ARIGtBrqP8zl
+         Y8xZZEeYOWyyw9pM8VzbiCYpqVCpV43CG9EgSJ/O1x6WEZrtz2TsYM9T7qk1fnEDK38R
+         2Ns/v24kS7kYo/jIkB8F8uHBJjgoQOyOY2DH7nVKan4JwIUeONNR6WEMF4K6tobtOnSh
+         07hDCeZNfx8LcSmlcloLxn7gN6kNArMv+cYCBInz/S28XQ0vZNPD/U30BF0RL+dg+Zxs
+         yRQF7EximgdwM9La//uJN1mNa16hOeLKyLcjk346GOGV0vZ6Sd8yAD1SNvPV4nAxNjaH
+         a/5g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773206827; x=1773811627; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=nDj66m7ySANpkWKJsIiXq2ioKjYAQ6NoS9GjGRtQ+q4=;
-        b=AxsaBckaTiWCrCxMFjSwvIhRi2w05M3RbRuIkynZz3HrlnR3p20HC+SY+TJjCiFapb
-         kvslLpxVXGFQc72oic1uEu4vGbKedDG/FCEKoedibWq85Rvtm9t6TSG/Qhiqwdpbx+hx
-         L0Mk8v1I/bY3o2ngQtJ6HWc7Jmkp0K+igjzRANnqlen0Futw/CtkR1U2GquUUEagek9c
-         vuBF2lkILJJISAF9IYWEAIw6mJbYu/WEiHU7dfXCFp70nvExVabYRrt+/54S6g2mNSRz
-         6yZRO8N5zZXdO6qEc2Ww/0FmCZhKFbfP2HKcCEdiDbPtAnBofifpUBFXTKIRw7Jr3aCn
-         Hr3g==
+        d=gmail.com; s=20230601; t=1773209529; x=1773814329; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yIRuISDEoujZqBbzxtC/xzKKJ1iPngAjpiJCNBGIUVs=;
+        b=lHensFEhNe6rNbDt5a8VCqKemEsGUS9JZIY7SmWwiDcYTmMRAT9dnEamhdeTLjVxIA
+         DckDQI0cIG9NUFL+qFxvSpg5hVdaZmkhxlK5LKGuk2o1VjigHhMV3Ulndfz5sLrCyxDG
+         vt9ZP1GXWdgsNwp3ji94SsrAc3ZSZooHM1xtm3ZJbClz89J2jIuOPE6g9Cxqlpf0vgg+
+         U+hI2SfWRHp1YGTWXqGfSt+D3gjTrTlA4zbYjeUT5nmFEPFDreOPF9B08OJBChOLCAPm
+         rBvl2pPcBOGVrMg4ngF/aCNA8htL9Vtj0h/iZAoqOvDrLKq2fZMfnMdgvAaX88h6HZaq
+         +uSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773206827; x=1773811627;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nDj66m7ySANpkWKJsIiXq2ioKjYAQ6NoS9GjGRtQ+q4=;
-        b=qzXBtZAbPp+zBNvsDOf6hiDKg2IME9vq7zj1IbVgyrNs9SVHd4Gzd0kklGTJ0Wfn3t
-         ShWKNyZSZ4glZB5tciWh1E58CGWZlV5STJRh58Tfv8Y1gynUx/Zvmt1noMNXmAMHxDmt
-         FArhat3J6pk6bqkDqz3U4htGw8x+b00Fwa76IBpFO3OD1DABZkDjs6Ur75BbzPVh2OpP
-         7bxNCNlAVffpP6c310BPTA1pio8qwdEHJtoML6mBnZth2W5+8W0nVReQIwnqeseLOSXZ
-         cXknexxy+YlQuyNGSCh2YYGwbs+xk4xQtCMR1NyxvZiA/C5tMsmP4ezize1LaQlil3Tk
-         zsjw==
-X-Forwarded-Encrypted: i=1; AJvYcCUwAkSkpR+9I2AX6iryXvRuoWZ0Po8EvPZb5EkJCzydm5WNXYj8ThJ8bUjXVWlPvEG1iTDGNbNESh0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz/p+67fEAkGhUIMcxqqErrRngtgSzpYNM3qJYIh0zugRB6mF+Q
-	l5fx7UfsTKgh4ZBxK5YyyTECl+zeKxNrUMLO2M/JdviXmf6xVQWYorTA
-X-Gm-Gg: ATEYQzwNExE4bbwfsrCxitzqquc2bmEOSpnuTPMPIsMft1zj496UkAJ16KdPy1ZuDq8
-	9TiJHEsfsjZ5gnC3XrcKkxyRGgN/Ps34iQSpAEksLQa7vc/+ChaFJcmtF33yVUN4LfaKYutXwQD
-	27ppn6zdGvgozGniCR6HgT6pupGU9AsULSeN3ejvC4zuBbrdnyhPpIrNEs+7RZhtsPnDR5EB4GT
-	ftGVeht7PGvVgzNg1hYpNgwhpQHYsGegQsRpmMQokUeL2YZzpgqIqhHvgLBG+Wbo1egjlcCSPBZ
-	nf5qkwoc1vKQqPD2L3vuiogQHStPV5PoqxzcALrt/pfdHqKIAYnY/omFPoskTcI8h4zt+/S//xc
-	o772/hkjnQlvwhQrFB5a8XZuWPh5e44mLtxAHzIhxqUdvAQFOZXJ47ybNrAFqAPFQuBQpBMg1pz
-	z1tHjzKH6ms6PPC81EpAAkuwN/TW/lYRkgGDaiSu3WMPepX+4IYqNNCo1d651UbMEL
-X-Received: by 2002:a05:7301:3f16:b0:2be:2cfe:68b7 with SMTP id 5a478bee46e88-2be8a23c5f2mr497116eec.11.1773206826486;
-        Tue, 10 Mar 2026 22:27:06 -0700 (PDT)
-Received: from google.com ([2a00:79e0:2ebe:8:6e17:9d84:ffa0:986b])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2be8a85ff37sm1158607eec.14.2026.03.10.22.27.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Mar 2026 22:27:06 -0700 (PDT)
-Date: Tue, 10 Mar 2026 22:27:03 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Jingyuan Liang <jingyliang@chromium.org>
-Cc: Jiri Kosina <jikos@kernel.org>, 
-	Benjamin Tissoires <bentiss@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Mark Brown <broonie@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, hbarnor@chromium.org, Angela Czubak <acz@semihalf.com>
-Subject: Re: [PATCH 07/12] HID: spi_hid: add ACPI support for SPI over HID
-Message-ID: <abD6RJZa5D7LN3x0@google.com>
-References: <20260303-send-upstream-v1-0-1515ba218f3d@chromium.org>
- <20260303-send-upstream-v1-7-1515ba218f3d@chromium.org>
+        d=1e100.net; s=20230601; t=1773209529; x=1773814329;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=yIRuISDEoujZqBbzxtC/xzKKJ1iPngAjpiJCNBGIUVs=;
+        b=SFFOkcrP8SDPXNI4mWw7G9O9+BXVz250UtGOW94b56mQvMw/KBEd/2pOcPJwkiFcPk
+         SLjIhQIJyOBTG9MPV8Yy2WN5hBqjk3j93Sc7+vgtOOdsBNyZRU05cr/3idEjEqjt+7qw
+         HyJO/AFNXbI3NME/PGPaw9cMjLQpYmuyCN6SqVD5Dcjct+O4dcNaiHZU4iZSGooD7MPe
+         GUPMBIDdWcDVN3ciO8xkF5re/VnyX8XTM2K0HaEk28T54bz3aFytDBzbF+spoCm/5W0Q
+         wKOib83J1cBQVIH3yshrpgUq9KQm49eqqB0mtPXeTLIPOufD/+iMeM8+MdHAecOBny0Y
+         pGcQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVP4ym7kN3k88We2RKbqjx4osz+Y41G3sQLZ99xszLYEqqxVXKbzZ/z92OcUYT1NwC9pCURU9RgUEg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+I6j9FphqVqnA0moGJLK/D2nkf4lq7EzewU+zsMpDDsrE1d9i
+	YNQz6I+v2iTD5Y9HIpLoJbQQQvqZO7Jqp4VVgEiKk7Zk630BpnsrVDM23LLfEwsGuYxsRGf8jGu
+	2j5kqKvM36BbQd17UTTYNMNh8o5kc/Ow=
+X-Gm-Gg: ATEYQzytg4xMZNmZ47u41f3OGZ+/SjX5LChS0lm8dSUvC2Z0Uk23EsKRlIw9lzWE05k
+	PaGwZ4NUXCUS5L2OOu3Nw0QL5Ud/rxw7p6SpWxMtRveBLrhJGWq7IDMj2G4dehD3WL19/nAshSU
+	Nn8iIRgnqEwS/1wm6V93GawWWi6viCy3BICniFgVMAzk/gHJd8WHYT7KqMfwmGzBM++apLhzh5B
+	/BtSsW3jrk64B9tI02GvxtRcbVXRVBxDcRvXwNAzQg+4qjDtCMUErE53puxbojXMsOX79N1xTfp
+	HPXFqT+8ZSwYfQoKlV3WJe/Bm2CYVq5zODEGI5qzASXHXPeHIicygltq5SJAUxlH69CevEfPYUJ
+	J8cUHLUABvoFz9C5uOaP1sOA=
+X-Received: by 2002:a05:7300:e607:b0:2b7:ff3a:af82 with SMTP id
+ 5a478bee46e88-2be8a1e3690mr321671eec.1.1773209528551; Tue, 10 Mar 2026
+ 23:12:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260303-send-upstream-v1-7-1515ba218f3d@chromium.org>
+References: <20260304200715.76360-1-edwin.toribio.j@gmail.com>
+ <20260304200715.76360-4-edwin.toribio.j@gmail.com> <389808bb-f71d-4c35-bfd0-b4db14268d58@gmail.com>
+ <CANiq72=Qe3x5xVQsFOd4YuD35mOan=mUt4PEFRQvStGnmLUcQw@mail.gmail.com>
+ <25240ce9-0886-461f-a969-d049c84ae80d@gmail.com> <CANiq72=ZBYS-P7smq3u=CKN5y8_LTo5jThAegCVHhmo6TXTdpQ@mail.gmail.com>
+ <b6558f4d-e424-464a-a9a7-ad14a174c542@gmail.com>
+In-Reply-To: <b6558f4d-e424-464a-a9a7-ad14a174c542@gmail.com>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Wed, 11 Mar 2026 07:11:55 +0100
+X-Gm-Features: AaiRm51tvmVu2LjyICksrWjXhLEo31iTgkLHbduLiBjHYdZRdlDZUJ6pwrQ-fxI
+Message-ID: <CANiq72mvzMnkwhGV+_srz=kLazpHVg5+-HaOtczaTzgFdaYQiQ@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] docs: sp_SP: Add Spanish translation for Rust
+ coding guidelines
+To: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
+Cc: Edwin Toribio <edwin.toribio.j@gmail.com>, carlos.bilbao@kernel.org, 
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, rust-for-linux@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 03, 2026 at 06:12:59AM +0000, Jingyuan Liang wrote:
-> From: Angela Czubak <acz@semihalf.com>
-> 
-> Detect SPI HID devices described in ACPI.
-> 
-> Signed-off-by: Angela Czubak <acz@semihalf.com>
-> Signed-off-by: Jingyuan Liang <jingyliang@chromium.org>
-> ---
->  drivers/hid/spi-hid/Kconfig        |  15 +++
->  drivers/hid/spi-hid/Makefile       |   1 +
->  drivers/hid/spi-hid/spi-hid-acpi.c | 253 +++++++++++++++++++++++++++++++++++++
->  drivers/hid/spi-hid/spi-hid-core.c |  27 +---
->  drivers/hid/spi-hid/spi-hid.h      |  44 +++++++
->  5 files changed, 316 insertions(+), 24 deletions(-)
-> 
-> diff --git a/drivers/hid/spi-hid/Kconfig b/drivers/hid/spi-hid/Kconfig
-> index 836fdefe8345..114b1e00da39 100644
-> --- a/drivers/hid/spi-hid/Kconfig
-> +++ b/drivers/hid/spi-hid/Kconfig
-> @@ -10,6 +10,21 @@ menuconfig SPI_HID
->  
->  if SPI_HID
->  
-> +config SPI_HID_ACPI
-> +	tristate "HID over SPI transport layer ACPI driver"
-> +	depends on ACPI
-> +	select SPI_HID_CORE
-> +	help
-> +	  Say Y here if you use a keyboard, a touchpad, a touchscreen, or any
-> +	  other HID based devices which are connected to your computer via SPI.
-> +	  This driver supports ACPI-based systems.
-> +
-> +	  If unsure, say N.
-> +
-> +	  This support is also available as a module.  If so, the module
-> +	  will be called spi-hid-acpi. It will also build/depend on the
-> +	  module spi-hid.
-> +
->  config SPI_HID_CORE
->  	tristate
->  endif
-> diff --git a/drivers/hid/spi-hid/Makefile b/drivers/hid/spi-hid/Makefile
-> index 92e24cddbfc2..753c7b7a7844 100644
-> --- a/drivers/hid/spi-hid/Makefile
-> +++ b/drivers/hid/spi-hid/Makefile
-> @@ -7,3 +7,4 @@
->  
->  obj-$(CONFIG_SPI_HID_CORE)	+= spi-hid.o
->  spi-hid-objs 			= spi-hid-core.o
-> +obj-$(CONFIG_SPI_HID_ACPI)	+= spi-hid-acpi.o
-> diff --git a/drivers/hid/spi-hid/spi-hid-acpi.c b/drivers/hid/spi-hid/spi-hid-acpi.c
-> new file mode 100644
-> index 000000000000..612e74fe72f9
-> --- /dev/null
-> +++ b/drivers/hid/spi-hid/spi-hid-acpi.c
-> @@ -0,0 +1,253 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * HID over SPI protocol, ACPI related code
-> + *
-> + * Copyright (c) 2021 Microsoft Corporation
-> + * Copyright (c) 2026 Google LLC
-> + *
-> + * This code was forked out of the HID over SPI core code, which is partially
-> + * based on "HID over I2C protocol implementation:
-> + *
-> + * Copyright (c) 2012 Benjamin Tissoires <benjamin.tissoires@gmail.com>
-> + * Copyright (c) 2012 Ecole Nationale de l'Aviation Civile, France
-> + * Copyright (c) 2012 Red Hat, Inc
-> + *
-> + * which in turn is partially based on "USB HID support for Linux":
-> + *
-> + * Copyright (c) 1999 Andreas Gal
-> + * Copyright (c) 2000-2005 Vojtech Pavlik <vojtech@suse.cz>
-> + * Copyright (c) 2005 Michael Haboustak <mike-@cinci.rr.com> for Concept2, Inc
-> + * Copyright (c) 2007-2008 Oliver Neukum
-> + * Copyright (c) 2006-2010 Jiri Kosina
-> + */
-> +
-> +#include <linux/acpi.h>
-> +#include <linux/delay.h>
-> +#include <linux/device.h>
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/reset.h>
-> +#include <linux/uuid.h>
-> +
-> +#include "spi-hid.h"
-> +
-> +/* Config structure is filled with data from ACPI */
-> +struct spi_hid_acpi_config {
-> +	struct spihid_ops ops;
-> +
-> +	struct spi_hid_conf property_conf;
-> +	u32 post_power_on_delay_ms;
-> +	u32 minimal_reset_delay_ms;
-> +	struct acpi_device *adev;
-> +};
-> +
-> +/* HID SPI Device: 6e2ac436-0fcf41af-a265-b32a220dcfab */
-> +static guid_t spi_hid_guid =
-> +	GUID_INIT(0x6E2AC436, 0x0FCF, 0x41AF,
-> +		  0xA2, 0x65, 0xB3, 0x2A, 0x22, 0x0D, 0xCF, 0xAB);
-> +
-> +static int spi_hid_acpi_populate_config(struct spi_hid_acpi_config *conf,
-> +					struct acpi_device *adev)
-> +{
-> +	acpi_handle handle = acpi_device_handle(adev);
-> +	union acpi_object *obj;
-> +
-> +	conf->adev = adev;
-> +
-> +	/* Revision 3 for HID over SPI V1, see specification. */
-> +	obj = acpi_evaluate_dsm_typed(handle, &spi_hid_guid, 3, 1, NULL,
-> +				      ACPI_TYPE_INTEGER);
-> +	if (!obj) {
-> +		acpi_handle_err(handle,
-> +				"Error _DSM call to get HID input report header address failed");
-> +		return -ENODEV;
-> +	}
-> +	conf->property_conf.input_report_header_address = obj->integer.value;
-> +	ACPI_FREE(obj);
-> +
-> +	obj = acpi_evaluate_dsm_typed(handle, &spi_hid_guid, 3, 2, NULL,
-> +				      ACPI_TYPE_INTEGER);
-> +	if (!obj) {
-> +		acpi_handle_err(handle,
-> +				"Error _DSM call to get HID input report body address failed");
-> +		return -ENODEV;
-> +	}
-> +	conf->property_conf.input_report_body_address = obj->integer.value;
-> +	ACPI_FREE(obj);
-> +
-> +	obj = acpi_evaluate_dsm_typed(handle, &spi_hid_guid, 3, 3, NULL,
-> +				      ACPI_TYPE_INTEGER);
-> +	if (!obj) {
-> +		acpi_handle_err(handle,
-> +				"Error _DSM call to get HID output report header address failed");
-> +		return -ENODEV;
-> +	}
-> +	conf->property_conf.output_report_address = obj->integer.value;
-> +	ACPI_FREE(obj);
-> +
-> +	obj = acpi_evaluate_dsm_typed(handle, &spi_hid_guid, 3, 4, NULL,
-> +				      ACPI_TYPE_BUFFER);
-> +	if (!obj) {
-> +		acpi_handle_err(handle,
-> +				"Error _DSM call to get HID read opcode failed");
-> +		return -ENODEV;
-> +	}
-> +	if (obj->buffer.length == 1) {
-> +		conf->property_conf.read_opcode = obj->buffer.pointer[0];
-> +	} else {
-> +		acpi_handle_err(handle,
-> +				"Error _DSM call to get HID read opcode, too long buffer");
-> +		ACPI_FREE(obj);
-> +		return -ENODEV;
-> +	}
-> +	ACPI_FREE(obj);
-> +
-> +	obj = acpi_evaluate_dsm_typed(handle, &spi_hid_guid, 3, 5, NULL,
-> +				      ACPI_TYPE_BUFFER);
-> +	if (!obj) {
-> +		acpi_handle_err(handle,
-> +				"Error _DSM call to get HID write opcode failed");
-> +		return -ENODEV;
-> +	}
-> +	if (obj->buffer.length == 1) {
-> +		conf->property_conf.write_opcode = obj->buffer.pointer[0];
-> +	} else {
-> +		acpi_handle_err(handle,
-> +				"Error _DSM call to get HID write opcode, too long buffer");
-> +		ACPI_FREE(obj);
-> +		return -ENODEV;
-> +	}
-> +	ACPI_FREE(obj);
-> +
-> +	/* Value not provided in ACPI,*/
-> +	conf->post_power_on_delay_ms = 5;
-> +	conf->minimal_reset_delay_ms = 150;
-> +
-> +	if (!acpi_has_method(handle, "_RST")) {
-> +		acpi_handle_err(handle, "No reset method for acpi handle");
-> +		return -ENODEV;
+On Wed, Mar 11, 2026 at 12:57=E2=80=AFAM Carlos Bilbao
+<carlos.bilbao.osdev@gmail.com> wrote:
+>
+> Yes, I suppose one day I=E2=80=99ll work up the courage to use automatic
+> translations for what=E2=80=99s left. But I=E2=80=99d still need to revie=
+w everything
+> carefully to catch mistranslations (the classic Spanish example is =E2=80=
+=9Cdriver=E2=80=9D
+> to =E2=80=9Cconductor=E2=80=9D), though in practice the issues are often =
+subtler. It also
+> means resisting the temptation to skim large paragraphs and trust the
+> tools; something that=E2=80=99s probably more tempting with docs than wit=
+h code.
 
-I would return -EINVAL as we have the device with right _DSM but without
-mandated by the spec _RST.
+Ah, I didn't mean to commit change, i.e. not for maintainers. Rather,
+I meant a set of suggestions for readers about how to best read the
+English side of the docs.
 
-> +	}
-> +
-> +	/* FIXME: not reading hid-over-spi-flags, multi-SPI not supported */
-> +
-> +	return 0;
-> +}
-> +
-> +static int spi_hid_acpi_power_none(struct spihid_ops *ops)
-> +{
-> +	return 0;
-> +}
-> +
-> +static int spi_hid_acpi_power_down(struct spihid_ops *ops)
-> +{
-> +	struct spi_hid_acpi_config *conf = container_of(ops,
-> +							struct spi_hid_acpi_config,
-> +							ops);
-> +
-> +	return acpi_device_set_power(conf->adev, ACPI_STATE_D3);
-> +}
-> +
-> +static int spi_hid_acpi_power_up(struct spihid_ops *ops)
-> +{
-> +	struct spi_hid_acpi_config *conf = container_of(ops,
-> +							struct spi_hid_acpi_config,
-> +							ops);
-> +	int error;
-> +
-> +	error = acpi_device_set_power(conf->adev, ACPI_STATE_D0);
-> +	if (error) {
-> +		dev_err(&conf->adev->dev, "Error could not power up ACPI device: %d.", error);
-> +		return error;
-> +	}
-> +
-> +	if (conf->post_power_on_delay_ms)
-> +		msleep(conf->post_power_on_delay_ms);
-> +
-> +	return 0;
-> +}
-> +
-> +static int spi_hid_acpi_assert_reset(struct spihid_ops *ops)
-> +{
-> +	return 0;
-> +}
-> +
-> +static int spi_hid_acpi_deassert_reset(struct spihid_ops *ops)
-> +{
-> +	struct spi_hid_acpi_config *conf = container_of(ops,
-> +							struct spi_hid_acpi_config,
-> +							ops);
-> +
-> +	return device_reset(&conf->adev->dev);
-> +}
-> +
-> +static void spi_hid_acpi_sleep_minimal_reset_delay(struct spihid_ops *ops)
-> +{
-> +	struct spi_hid_acpi_config *conf = container_of(ops,
-> +							struct spi_hid_acpi_config,
-> +							ops);
-> +	usleep_range(1000 * conf->minimal_reset_delay_ms,
-> +		     1000 * (conf->minimal_reset_delay_ms + 1));
+That is, when they are done with the parts that are actually
+translated and humanly reviewed, they might need to keep going and
+read some English parts (or the code itself), and thus perhaps they
+may appreciate suggestions on how that may be best accomplished could
+help.
 
-I'd probably use "fsleep(conf->minimal_reset_delay_ms * 1000)".
+And for those nowadays using AI for translation, perhaps what could be
+added is a set of guidelines to guide the AI while translating (e.g.
+to have a greater chance of not failing on the subtle points you
+mention), both for all translations (like whether to translate
+examples) and for particular languages separately (like the "driver"
+example, though I imagine that is handled by context nowadays quite
+well).
 
-> +}
-> +
-> +static int spi_hid_acpi_probe(struct spi_device *spi)
-> +{
-> +	struct device *dev = &spi->dev;
-> +	struct acpi_device *adev;
-> +	struct spi_hid_acpi_config *config;
-> +	int error;
-> +
-> +	adev = ACPI_COMPANION(dev);
-> +	if (!adev) {
-> +		dev_err(dev, "Error could not get ACPI device.");
-> +		return -ENODEV;
-> +	}
-> +
-> +	config = devm_kzalloc(dev, sizeof(struct spi_hid_acpi_config),
-> +			      GFP_KERNEL);
-> +	if (!config)
-> +		return -ENOMEM;
-> +
-> +	if (acpi_device_power_manageable(adev)) {
-> +		config->ops.power_up = spi_hid_acpi_power_up;
-> +		config->ops.power_down = spi_hid_acpi_power_down;
-> +	} else {
-> +		config->ops.power_up = spi_hid_acpi_power_none;
-> +		config->ops.power_down = spi_hid_acpi_power_none;
-> +	}
-> +	config->ops.assert_reset = spi_hid_acpi_assert_reset;
-> +	config->ops.deassert_reset = spi_hid_acpi_deassert_reset;
-> +	config->ops.sleep_minimal_reset_delay =
-> +		spi_hid_acpi_sleep_minimal_reset_delay;
-> +
-> +	error = spi_hid_acpi_populate_config(config, adev);
-> +	if (error) {
-> +		dev_err(dev, "%s: unable to populate config data.", __func__);
-> +		return error;
-> +	}
+Anyway, like the policy across all translations for whether translate
+the code snippets, these are also just random ideas that came to mind;
+and perhaps they have been suggested before. :)
 
-I would add a blank line.
+I hope it helps, and thanks!
 
-> +	return spi_hid_core_probe(spi, &config->ops, &config->property_conf);
-> +}
-> +
-> +static const struct acpi_device_id spi_hid_acpi_match[] = {
-> +	{ "ACPI0C51", 0 },
-> +	{ "PNP0C51", 0 },
-> +	{ },
-
-No comma on sentinels.
-
-> +};
-> +MODULE_DEVICE_TABLE(acpi, spi_hid_acpi_match);
-> +
-> +static struct spi_driver spi_hid_acpi_driver = {
-> +	.driver = {
-> +		.name	= "spi_hid_acpi",
-> +		.owner	= THIS_MODULE,
-> +		.acpi_match_table = ACPI_PTR(spi_hid_acpi_match),
-
-This is dependent on ACPI, so no need to sue ACPI_PTR().
-
-> +		.probe_type = PROBE_PREFER_ASYNCHRONOUS,
-> +		.dev_groups = spi_hid_groups,
-> +	},
-> +	.probe		= spi_hid_acpi_probe,
-> +	.remove		= spi_hid_core_remove,
-> +};
-> +
-> +module_spi_driver(spi_hid_acpi_driver);
-> +
-> +MODULE_DESCRIPTION("HID over SPI ACPI transport driver");
-> +MODULE_AUTHOR("Angela Czubak <aczubak@google.com>");
-> +MODULE_LICENSE("GPL");
-> diff --git a/drivers/hid/spi-hid/spi-hid-core.c b/drivers/hid/spi-hid/spi-hid-core.c
-> index e3273846267e..02beb209a92d 100644
-> --- a/drivers/hid/spi-hid/spi-hid-core.c
-> +++ b/drivers/hid/spi-hid/spi-hid-core.c
-> @@ -43,6 +43,9 @@
->  #include <linux/wait.h>
->  #include <linux/workqueue.h>
->  
-> +#include "spi-hid.h"
-> +#include "spi-hid-core.h"
-> +
->  /* Protocol constants */
->  #define SPI_HID_READ_APPROVAL_CONSTANT		0xff
->  #define SPI_HID_INPUT_HEADER_SYNC_BYTE		0x5a
-> @@ -105,30 +108,6 @@ struct spi_hid_output_report {
->  	u8 *content;
->  };
->  
-> -/* struct spi_hid_conf - Conf provided to the core */
-> -struct spi_hid_conf {
-> -	u32 input_report_header_address;
-> -	u32 input_report_body_address;
-> -	u32 output_report_address;
-> -	u8 read_opcode;
-> -	u8 write_opcode;
-> -};
-> -
-> -/**
-> - * struct spihid_ops - Ops provided to the core
-> - * @power_up: do sequencing to power up the device
-> - * @power_down: do sequencing to power down the device
-> - * @assert_reset: do sequencing to assert the reset line
-> - * @deassert_reset: do sequencing to deassert the reset line
-> - */
-> -struct spihid_ops {
-> -	int (*power_up)(struct spihid_ops *ops);
-> -	int (*power_down)(struct spihid_ops *ops);
-> -	int (*assert_reset)(struct spihid_ops *ops);
-> -	int (*deassert_reset)(struct spihid_ops *ops);
-> -	void (*sleep_minimal_reset_delay)(struct spihid_ops *ops);
-> -};
-> -
->  static struct hid_ll_driver spi_hid_ll_driver;
->  
->  static void spi_hid_populate_read_approvals(const struct spi_hid_conf *conf,
-> diff --git a/drivers/hid/spi-hid/spi-hid.h b/drivers/hid/spi-hid/spi-hid.h
-> new file mode 100644
-> index 000000000000..1fdd45262647
-> --- /dev/null
-> +++ b/drivers/hid/spi-hid/spi-hid.h
-> @@ -0,0 +1,44 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright (c) 2021 Microsoft Corporation
-> + * Copyright (c) 2026 Google LLC
-> + */
-> +
-> +#ifndef SPI_HID_H
-> +#define SPI_HID_H
-> +
-> +#include <linux/spi/spi.h>
-> +#include <linux/sysfs.h>
-> +
-> +/* struct spi_hid_conf - Conf provided to the core */
-> +struct spi_hid_conf {
-> +	u32 input_report_header_address;
-> +	u32 input_report_body_address;
-> +	u32 output_report_address;
-> +	u8 read_opcode;
-> +	u8 write_opcode;
-> +};
-> +
-> +/**
-> + * struct spihid_ops - Ops provided to the core
-> + * @power_up: do sequencing to power up the device
-> + * @power_down: do sequencing to power down the device
-> + * @assert_reset: do sequencing to assert the reset line
-> + * @deassert_reset: do sequencing to deassert the reset line
-> + */
-> +struct spihid_ops {
-> +	int (*power_up)(struct spihid_ops *ops);
-> +	int (*power_down)(struct spihid_ops *ops);
-> +	int (*assert_reset)(struct spihid_ops *ops);
-> +	int (*deassert_reset)(struct spihid_ops *ops);
-> +	void (*sleep_minimal_reset_delay)(struct spihid_ops *ops);
-> +};
-> +
-> +int spi_hid_core_probe(struct spi_device *spi, struct spihid_ops *ops,
-> +		       struct spi_hid_conf *conf);
-> +
-> +void spi_hid_core_remove(struct spi_device *spi);
-> +
-> +extern const struct attribute_group *spi_hid_groups[];
-> +
-> +#endif /* SPI_HID_H */
-
-I am not sure if this belongs to this patch or if it should be better in
-the patch introducing the main driver from the beginning.
-
-For the ACPI part:
-
-Reviewed-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-
-Thanks.
-
--- 
-Dmitry
+Cheers,
+Miguel
