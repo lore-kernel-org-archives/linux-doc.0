@@ -1,183 +1,74 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 134D334D93C;
-	Wed, 11 Mar 2026 19:57:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9984A175A8F
+	for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2026 20:09:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773259074; cv=none; b=MREy0gm9xVUtuGs8gpJYqPmXI0MzYNXdeReRwlNTsoeoji8vUOa19L76JnqbjugGzk58zf6HDheCnpqwEzKU7j+Ds1OOJ+/lb530gpAAaE2DwnkcghKR3koTVQV7Rw4yXj3BibU45DVyVAnvEpP6KIRZMG/m10LWp6jImmEyVcI=
+	t=1773259751; cv=none; b=aUIgVNUW1vlzWOyTtuc6rdnFSvo6NsnTTZNvwOHDTkH71axgwj4pcIIpF1KrjAomcGdXMm7wb1+eLELY+rW2XOZ1BT/pJl4I67aDqAZY1c+6b4dHh6/8Awsz2V+vuD5EwKsE0EnydfLHEtBOA58jhHdb7KDcgoJe0Z9Q/Tv9XDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773259074; c=relaxed/simple;
-	bh=C/RJm1XcMZfzEl62uGg7VhyG8du/kJPlhR3d5Crfw/s=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rDa5vRu6PJjNMdkzPXj30khz+iKroGVYSjPNgwIb7TaVyRZJlktoNbY14wRgZg45FyUy8S7dD2ra2xE2Bpelg2hYrFCIRpOYkQ+fI7T8V1tMhuIywxAla8cxu7ON2fyc2alN892ASl7AgFsrwEYhFy4v+B8F+yvnl6jzDVv84r8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qVl5skXq; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773259751; c=relaxed/simple;
+	bh=DXMyQFYVMHR4gmLxYapEorfWW2CBwmkTt6ZsDv+rC5c=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ZGiRD8MzN/t+OQJpcoe4FxbiVodnMp28QL9IPPDyLb4jeOYqxho7OWfB2L0luh8LuoePaPkxUI2jg8R1cSD/kMdHrg7Em45fEQzMZhZyxxQQkEuNjVgQqwKW4+9yYkhV8SKLszt47Q/zim5Lg0YQdoWM0Jxu/FVgiWR4QCCnEio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=sDvQCBLr; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qVl5skXq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D283C4CEF7;
-	Wed, 11 Mar 2026 19:57:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773259073;
-	bh=C/RJm1XcMZfzEl62uGg7VhyG8du/kJPlhR3d5Crfw/s=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=qVl5skXq5uziY9IXOd/6iaSzAKPTxijnhvsX6/7CJSl2Voy+dMe8q5YwuKTi2FUpp
-	 DBUmmCwEwGY00adIjnV3mBtC1bEie4gPqpo3/my9SKLHhkYmumgFAZhUnJ8aQrOOOT
-	 1CxAPzOZ1p3+Ov3VPFmyeuOeA7i9ZemUWVUdGyWSJAKE5eR4/wp2Q8TAgeBTqlr0ga
-	 fW6A6HBaDSJ9QkL1KASacUTjLZJlwhgYwAzbIWgzFCHfIepXu6TL5ar9Dnys+sQPQL
-	 OHW/U8fUMkSGbT1TxlxnU7PcbwLoyAtq8iKpvhHrFsCUlFrC9vshciVqysd+GZbaFo
-	 zLm293U7uBTYg==
-From: Simon Horman <horms@kernel.org>
-To: antony.antony@secunet.com
-Cc: Simon Horman <horms@kernel.org>,
-	evitayan@google.com,
-	linux-kernel@vger.kernel.org,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	herbert@gondor.apana.org.au,
-	paul@paul-moore.com,
-	devel@linux-ipsec.org,
-	davem@davemloft.net,
-	nakam@linux-ipv6.org,
-	netdev@vger.kernel.org,
-	edumazet@google.com,
-	stephen.smalley.work@gmail.com,
-	steffen.klassert@secunet.com,
-	selinux@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	chiachangwang@google.com,
-	omosnace@redhat.com,
-	corbet@lwn.net,
-	dsahern@kernel.org,
-	skhan@linuxfoundation.org
-Subject: Re: [ipsec-next,v6,12/14] xfrm: add XFRM_MSG_MIGRATE_STATE for single SA migration
-Date: Wed, 11 Mar 2026 19:57:31 +0000
-Message-ID: <20260311195731.1147919-1-horms@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <migrate-state-v6-12-9df9764ddb9e@secunet.com>
-References: <migrate-state-v6-12-9df9764ddb9e@secunet.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="sDvQCBLr"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BD0EC40C63
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1773259749; bh=LhWDr1diLJa3inCbjRKMzkGrs5MlHrcPE68LzyJUGao=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=sDvQCBLrnvzQoGccDXbu3//xLuSQkj/svBWcXfq1Cj+UwEtdaO3GDeZhS7rtIFw4D
+	 iHauGsYAw13L66vCdZSJmkANSJY/nsUW9xodm0wNlUDfV6VfBQyvHQ61M5zOQEXjy+
+	 GrBJWQPqBlxjHBLM2nJYnkSxikjrsbbkd7WhM1blZzJiZNPI4/MQa8+q8OaKtVmPHM
+	 vIIcAxLT/dpY+axpuieDamePkYt2VAzHIj1kxaelFlAxPrK/TW1iEoZarL+M5YY2kH
+	 BWixlllzrZXfIMAmyhuo5WKdRayLYz2TF0qgIG9SQJiGQm9E9nLHmCIC5jJe+7Ac/6
+	 QpoAq5aKrLpEw==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id BD0EC40C63;
+	Wed, 11 Mar 2026 20:09:09 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Daniel Pereira <danielmaraboo@gmail.com>
+Cc: linux-doc@vger.kernel.org
+Subject: Re: [PATCH docs-next v2] docs: pt_BR: add netdev and maintainer
+ handbook translations
+In-Reply-To: <CAMAsx6ehZkRV5e7a4KC47LSsnNq24Z=1nhJ+vBLdFbGrVXdE2g@mail.gmail.com>
+References: <20260309030411.88945-1-danielmaraboo@gmail.com>
+ <874impxab2.fsf@trenco.lwn.net>
+ <CAMAsx6ehZkRV5e7a4KC47LSsnNq24Z=1nhJ+vBLdFbGrVXdE2g@mail.gmail.com>
+Date: Wed, 11 Mar 2026 14:09:08 -0600
+Message-ID: <877briqgbf.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-This is an AI-generated review of your patch. The human sending this
-email has considered the AI review valid, or at least plausible.
+Daniel Pereira <danielmaraboo@gmail.com> writes:
 
-For local reproduction steps see https://netdev-ai.bots.linux.dev/ai-local.html
----
-xfrm: add XFRM_MSG_MIGRATE_STATE for single SA migration
-
-This patch adds a new netlink method to migrate a single xfrm_state.
-Unlike the existing migration mechanism (SA + policy), this supports
-migrating only the SA and allows changing the reqid.
-
-> diff --git a/include/net/xfrm.h b/include/net/xfrm.h
-> index 4b29ab92c2a7..ae2a1cf2311a 100644
-> --- a/include/net/xfrm.h
-> +++ b/include/net/xfrm.h
-> @@ -683,11 +683,17 @@ struct xfrm_migrate {
->  	xfrm_address_t		new_daddr;
->  	xfrm_address_t		new_saddr;
->  	struct xfrm_encap_tmpl *encap;
-> -	struct xfrm_user_offload *xuo;
-> +	struct xfrm_user_offload xuo;
-
-[ ... ]
-
-> diff --git a/net/xfrm/xfrm_policy.c b/net/xfrm/xfrm_policy.c
-> index 2f23ca5b62a9..de8b038fc08c 100644
-> --- a/net/xfrm/xfrm_policy.c
-> +++ b/net/xfrm/xfrm_policy.c
-> @@ -4642,6 +4642,19 @@ static int xfrm_migrate_check(const struct xfrm_migrate *m, int num_migrate,
->  	return 0;
->  }
+> I'm preparing v3. I've ensured a final newline in
+> Documentation/translations/pt_BR/process/maintainer-handbooks.rst to
+> address your previous comment.
 >
-> +/* Fill migrate fields that are invariant in XFRM_MSG_MIGRATE: inherited
-> + * from the existing SA unchanged.
-> + */
-> +static void xfrm_migrate_copy_old(struct xfrm_migrate *mp,
-> +				  const struct xfrm_state *x)
-> +{
-> +	mp->smark                  = x->props.smark;
-> +	mp->new_reqid              = x->props.reqid;
-> +	mp->nat_keepalive_interval = x->nat_keepalive_interval;
-> +	mp->mapping_maxage         = x->mapping_maxage;
-> +	mp->new_mark               = x->mark;
-> +}
-> +
->  int xfrm_migrate(const struct xfrm_selector *sel, u8 dir, u8 type,
->  		 struct xfrm_migrate *m, int num_migrate,
->  		 struct xfrm_kmaddress *k, struct net *net,
-> @@ -4680,7 +4693,10 @@ int xfrm_migrate(const struct xfrm_selector *sel, u8 dir, u8 type,
->  			x_cur[nx_cur] = x;
->  			nx_cur++;
->  			mp->encap = encap;
-> -			mp->xuo = xuo;
-> +			if (xuo)
-> +				mp->xuo = *xuo;
-                                     ^^^^
->  			xfrm_migrate_copy_old(mp, x);
+> However, during local testing of v3, I received a warning about a "new
+> blank line at EOF" on one of the files. Could you please confirm if I
+> should ensure the correct single final newline is present in both
+> maintainer-handbooks.rst and the new file, maintainer-netdev.rst? I've
+> also tried to address the "strange line breaks" in the latter.
 >
+> I have a version of v3 ready to send if the newline fix is only
+> required for maintainer-handbooks.rst.
 
-What happens to mp->xuo when xuo is NULL?
+Go ahead and send v3.  The others are worth fixing when you get a
+chance, but that can be a separate patch.
 
-The xfrm_migrate structure changed its xuo field from a pointer
-(struct xfrm_user_offload *xuo) to an embedded value
-(struct xfrm_user_offload xuo).
+Thanks,
 
-In xfrm_migrate(), when the xuo parameter is NULL (PF_KEY path via
-pfkey_migrate, or XFRM_MSG_MIGRATE without XFRMA_OFFLOAD_DEV), the
-'if (xuo) mp->xuo = *xuo' branch is skipped, leaving mp->xuo with
-uninitialized stack data.
-
-Both callers declare 'struct xfrm_migrate m[XFRM_MAX_DEPTH]' on the
-stack without zeroing:
-
-net/key/af_key.c:pfkey_migrate() {
-    struct xfrm_migrate m[XFRM_MAX_DEPTH];
-    ...
-    err = xfrm_migrate(&sel, dir, XFRM_POLICY_TYPE_MAIN, m, i,
-                       k.local && k.remote ? &k : NULL, net,
-                       NULL, 0, NULL);
-}
-
-net/xfrm/xfrm_user.c:xfrm_do_migrate() {
-    struct xfrm_migrate m[XFRM_MAX_DEPTH];
-    ...
-    err = xfrm_migrate(&sel, dir, type, m, n, k, net, encap, xuo, extack);
-}
-
-The uninitialized mp->xuo.ifindex is later read in
-xfrm_state_migrate_create() and xfrm_state_migrate_install():
-
-net/xfrm/xfrm_state.c:xfrm_state_migrate_create() {
-    ...
-    /* configure the hardware if offload is requested */
-    if (m->xuo.ifindex && xfrm_dev_state_add(net, xc, &m->xuo, extack))
-        goto error;
-}
-
-net/xfrm/xfrm_state.c:xfrm_state_migrate_install() {
-    ...
-    if (xfrm_state_add(xc) < 0) {
-        NL_SET_ERR_MSG(extack, "Failed to add migrated state");
-        if (m->xuo.ifindex)
-            xfrm_dev_state_delete(xc);
-        ...
-    }
-}
-
-If the stack garbage contains a non-zero ifindex value,
-xfrm_dev_state_add() will be called with random ifindex and flags,
-potentially causing spurious hardware offload attempts or migration
-failures.
-
-Previously, 'mp->xuo = xuo' unconditionally set the pointer to NULL in
-these paths, which was then properly checked as 'if (m->xuo)'.
-
-Should mp->xuo be zero-initialized when xuo is NULL, either by adding
-'else memset(&mp->xuo, 0, sizeof(mp->xuo))' after the if-block, or by
-zero-initializing the m[] arrays in the callers?
+jon
