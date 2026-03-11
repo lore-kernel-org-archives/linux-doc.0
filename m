@@ -1,240 +1,241 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1BCB2F4A16;
-	Wed, 11 Mar 2026 19:35:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0C7630E835
+	for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2026 19:41:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773257753; cv=none; b=ePV42mczARb2SrMrqcnHssO1yvTXTIQfTfEC4f722Zc8mgfOsnwaV81M4pgyoloGDuvHikW3G1qxxRxAolmn/JN2bm2h6zmWv2Ey/1CA1pa8HWpWXa5w8+zFpIZ899ZOzIQYatlxDtAEf9Gl38y91N629F5dWsx0Q02deQLlkPY=
+	t=1773258081; cv=none; b=BJhyK4SYXquYYQYQuhPBh+O+0kG7uz+PVmeQkiMhUuONjzOBCFvaIUTjxSD+y3p4BvSx7Q4eRLJV/DiqC4VDcpARvoeDNNm4nOUFod8gnxYgWprX0H91Hn0kCJhwfa9a8KFdIrCnMq4xpKWHSKRzvtHkKP8eeEO4e7dL6t9TSik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773257753; c=relaxed/simple;
-	bh=oQ4XqioXTJsxp86gq2N3carzW/Li7JQ3g4ZRgWYnMgM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OizyG2EPYoObc+5XxuBlszbMiDOXbDkhG3n9Z0HVBKlHb31ZKrDCWmc1kp5x8kJ4QOHc5wypWZtPrHUu//3NBI85x0PYiIUTSSCWaAxasXgRVbQfkbypsGD34b2YzQmlrIKNdhRxw1pmq2qr3mzZIFPitUCmJshSzO19wdMtlgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=N2O2TRsD; arc=none smtp.client-ip=212.227.17.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+	s=arc-20240116; t=1773258081; c=relaxed/simple;
+	bh=JmzZ5cArUGLdVYVbW1glxu2tEsH90YQOrUa0/YOI0Es=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tgVxR11MjYLEPS9N5U/yPJRHnUTxiGPx03FtREMqoi+kdoOCRQtegDruGrMxsbyDzbqOXWII4quZcQO4tqD/8QJGxR/Qy8eurwDQER5UoYET0lEOHMe52YuwtcEbt9IDhGl6ST9ndOQwC8QQxE9kA47AG/imBHrk85yh+exutwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=arista.com; spf=pass smtp.mailfrom=arista.com; dkim=pass (2048-bit key) header.d=arista.com header.i=@arista.com header.b=AJ6x8yC+; arc=none smtp.client-ip=74.125.82.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=arista.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arista.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="N2O2TRsD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1773257735; x=1773862535; i=w_armin@gmx.de;
-	bh=xGgksq/KPzOeaaX1sEtey4v7pVilxW60+k5HQ317EFU=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=N2O2TRsD9h2YWilL8afVqb+vcZepy5VQGE/RDLnxs5ctxWu0ESdjCtxMKgXRSics
-	 n95j5QHOvNTHbvYAxWuPl6q+19s37hvS56p1HMmzpRLatxzcFjDG6l9Kyg1tVsOHu
-	 jVpeBy+yiyw/800Zw41gKkZnnKOtbY2JD1EDS83HxWpzSsqP2JXUizCz4bqwFd3gm
-	 fn/11JwWdpYKGzj5NUHdPxwnk9P4h+y9Np/Dpvi4WnAJFF5nFhkraCeQhF2/kIQBS
-	 66kwzBlR6JEFUI1BOQepXRjW2UbVYhQrO90/S5w2OfMzigtlwDvpGIazMOXAOfv3Q
-	 vFqaeY+V7xJcz60KXQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from client.hidden.invalid by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1N3KTy-1vaOHN1OEc-014851; Wed, 11
- Mar 2026 20:35:35 +0100
-Message-ID: <6b944d0d-e0ef-4a48-99a5-7f9955d2066e@gmx.de>
-Date: Wed, 11 Mar 2026 20:35:30 +0100
+	dkim=pass (2048-bit key) header.d=arista.com header.i=@arista.com header.b="AJ6x8yC+"
+Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-12776bebe9fso449634c88.1
+        for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2026 12:41:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=arista.com; s=google; t=1773258078; x=1773862878; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0wyN7pn3XZY19VGN08Uvl0u7SIQ9oF05liu+AZCu18U=;
+        b=AJ6x8yC+7o/lAmibpOtT7MjE6Pa4z2SZF1agRnMzOY5dakiPhQcsbgS31TR4Z6NzA2
+         d2XmC3itSbq3PvcwYeuly8IsZievObej3lShM4yPAWZBPMAcIaqWjYTfEjwGiffGTD/i
+         uv/1qtGRYvJ8vAYAU8e7AHd6bJfdNpzZDpw9456FFMWu1tBT4P57h2m8A/RYPPYeeUdb
+         70vvMnLZdXdGI7rWL4TUN7LVgri/mLDvB1X1nkiZ+UbUhaEn10aqQprjWJZGfKlQ2yWa
+         nooWQA7RF0cbCmdpbqGlHDMn2rNbSddxPqrfEo1QqKDY56wOEIfOxnWX4rzIZXvnxEY2
+         SBkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773258078; x=1773862878;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0wyN7pn3XZY19VGN08Uvl0u7SIQ9oF05liu+AZCu18U=;
+        b=wHAKCPmXBQl7GwjQB72eVcLJxlHpVMNUdmsuffOdZgllQc3++kACxUhhvQjENnNE/C
+         EmP1dybK52YCGnxAqbYq1RQSsJrh46NgY2shiZGkoCNBtruuumnMCZXIkgpWaq+cUJ1C
+         1EnSFmxc05sjxBB6HSdoYa5J5dmgZk41jWBLHFEsOaEdTBwHtgOi6NtOzz2Fuo5wYp9S
+         11jP7VVaIXrqchXr40dLW7MUpB6ExuzyA6f9fCUziaSSYgZSiP0sdmx1bysJQ9LKF5N3
+         i2MxYXjAmFY7iXqDmFUoJAmXWjMLNRjT5kUznRG6f/WnAJ6hH24+781HLgsBWMfksFsb
+         B40A==
+X-Forwarded-Encrypted: i=1; AJvYcCUQgt9qWfXzREJK1iCb6dtOxlHPv17BcAzO0sRqgRpGCBbqsJCLaBun7juDi0zakR3+LzegQuCd9Hc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzqwlNei/Jb2vxhmqVBEcGOCtl2gdqN8MdnN6ZZy/lzuwx0FlYl
+	eJGxw7PFaZpRqRqHQReMe0y8aZKtTsa/AnNOG5ugNgTD4N5KYYFhgvSig/H5mYC/6Q==
+X-Gm-Gg: ATEYQzxaOdZExWuUOUQTwlR2I8RlOJkstXlDTOo2TkjDsgremnOoonsBYmxhIvNo1cV
+	KFZqc1mPvE0gSG5yQW71rGA7MMGA5DRKhI8eUrjRz6ty+CYy0RF70/KUGWgtzpP/PRYiYOmbpfS
+	BuRzL+XVraAZYEYdgTdDAC9cbMWs40B8Fjjh6+WPY/7cRjVG2Gl2DHIJKt5PkXldZJYWxEizZzv
+	TRg3ZwImNEL2gZw+P3QTlxDPY9P/+jUQPYHl7mhnilv1t1driLlteJy8n+MWJ0gWD7Ob1v2KFG3
+	ZvmEqDMKWhtkJZWwthCO7cYFki+SnXlLwsBY4/I9CKdKUdjFs8cE/D7VBzXEm+kfNLrgBcFsuqV
+	8fPUaLq6x3ZxV9Hthgn4Aj4iTKnuM2og+pdSIwWq4EifktxydmYar71JJoqInDOqELNpuQ7Wk8R
+	0RXNdnlgY1kX9ZVEwwGP9oMyny7C3WWzxrp7p+MKtRXCF4S0CkhWDFeY8qGkYtwNUX
+X-Received: by 2002:a05:7022:6987:b0:127:3816:50c6 with SMTP id a92af1059eb24-128e77882d3mr1910091c88.8.1773258077754;
+        Wed, 11 Mar 2026 12:41:17 -0700 (PDT)
+Received: from localhost.localdomain ([2600:1700:4a3d:5010:7185:74c9:dc1e:956])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-128e7bf1e1asm4074436c88.3.2026.03.11.12.41.15
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 11 Mar 2026 12:41:17 -0700 (PDT)
+From: Prasanna S Panchamukhi <panchamukhi@arista.com>
+To: netfilter-devel@vger.kernel.org
+Cc: panchamukhi@arista.com,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Pablo Neira Ayuso <pablo@netfilter.org>,
+	Florian Westphal <fw@strlen.de>,
+	Phil Sutter <phil@nwl.cc>,
+	netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	coreteam@netfilter.org
+Subject: [PATCH net-next] netfilter: conntrack: expose gc_scan_interval_max via sysctl
+Date: Wed, 11 Mar 2026 12:40:58 -0700
+Message-ID: <20260311194058.13860-1-panchamukhi@arista.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 5/5] Documentation: laptops: Update documentation for
- uniwill laptops
-To: Werner Sembach <wse@tuxedocomputers.com>, hansg@kernel.org,
- ilpo.jarvinen@linux.intel.com, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20260310234022.2085232-1-wse@tuxedocomputers.com>
- <20260310234022.2085232-6-wse@tuxedocomputers.com>
-Content-Language: en-US
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <20260310234022.2085232-6-wse@tuxedocomputers.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:KADLV2TQN/VioggSaceKQKwXOugXBma7kZR4dx9IuRxOL534HLc
- PIl5tbRCGfzkDwxx8tjOXhfgK64RiWjBgErE9tD7qkMMnlbuG13AFzC+VDzZ1W+ugkBW5uX
- W7VaEItURlcxajUSekMEGpyfewGLWB0zBEIAgw3DHtsuRAo3MB+4fvbVycOlgM+QhdV1zqL
- 9p80CY5gF1V6KpO0uOqBw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:yDyWb7u+47o=;VXK7kqIKKk3qFjeFwCaGPHXPcmY
- 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
- M65I5Q2+EtI
+Content-Transfer-Encoding: 8bit
 
-Am 11.03.26 um 00:34 schrieb Werner Sembach:
+The conntrack garbage collection worker uses an adaptive algorithm that
+adjusts the scan interval based on the average timeout of tracked
+entries.  The upper bound of this interval is hardcoded as
+GC_SCAN_INTERVAL_MAX (60 seconds).
 
-> Adds short description for two new sysfs entries, ctgp_offset and
-> usb_c_power_priority, to the documentation of uniwill laptops.
->
-> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
-> Reviewed-by: Armin Wolf <W_Armin@gmx.de>
-> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-> ---
->   .../ABI/testing/sysfs-driver-uniwill-laptop   | 25 +++++++++++++++++++
->   .../admin-guide/laptops/uniwill-laptop.rst    | 12 +++++++++
->   2 files changed, 37 insertions(+)
->
-> diff --git a/Documentation/ABI/testing/sysfs-driver-uniwill-laptop b/Doc=
-umentation/ABI/testing/sysfs-driver-uniwill-laptop
-> index 2df70792968f3..cba4138604601 100644
-> --- a/Documentation/ABI/testing/sysfs-driver-uniwill-laptop
-> +++ b/Documentation/ABI/testing/sysfs-driver-uniwill-laptop
-> @@ -51,3 +51,28 @@ Description:
->  =20
->   		Reading this file returns the current status of the breathing animat=
-ion
->   		functionality.
-> +
-> +What:		/sys/bus/platform/devices/INOU0000:XX/ctgp_offset
-> +Date:		January 2026
-> +KernelVersion:	7.0
-> +Contact:	Werner Sembach <wse@tuxedocomputers.com>
-> +Description:
-> +		Allows userspace applications to set the configurable TGP offset on t=
-op of the base
-> +		TGP. Base TGP and max TGP and therefore the max cTGP offset are devic=
-e specific.
-> +		Note that setting the maximal cTGP leaves no window open for Dynamic =
-Boost,
-> +		effectively disabling that feature for the GPU to always be prioritiz=
-ed.
-> +
-> +		Reading this file returns the current configurable TGP offset.
-> +
-> +What:		/sys/bus/platform/devices/INOU0000:XX/usb_c_power_priority
-> +Date:		February 2026
-> +KernelVersion:	7.1
-> +Contact:	Werner Sembach <wse@tuxedocomputers.com>
-> +Description:
-> +		Allows userspace applications to choose the USB-C power distribution =
-profile between
-> +		one that offers a bigger share of the power to the battery and one th=
-at offers more
-> +		of it to the CPU. Writing "charging"/"performance" into this file sel=
-ects the
-> +		respective profile.
-> +
-> +		Reading this file returns the profile names with the currently active=
- one in
-> +		brackets.
-> diff --git a/Documentation/admin-guide/laptops/uniwill-laptop.rst b/Docu=
-mentation/admin-guide/laptops/uniwill-laptop.rst
-> index aff5f57a6bd47..be4aeb9c023dd 100644
-> --- a/Documentation/admin-guide/laptops/uniwill-laptop.rst
-> +++ b/Documentation/admin-guide/laptops/uniwill-laptop.rst
-> @@ -50,6 +50,10 @@ between 1 and 100 percent are supported.
->   Additionally the driver signals the presence of battery charging issue=
-s through the standard
->   ``health`` power supply sysfs attribute.
->  =20
-> +It also lets you set whether a USB-C power source should prioritise cha=
-rging the battery or
-> +delivering immediate power to the cpu. See Documentation/ABI/testing/sy=
-sfs-driver-uniwill-laptop for
-> +details.
-> +
->   Lightbar
->   --------
->  =20
-> @@ -58,3 +62,11 @@ LED class device. The default name of this LED class =
-device is ``uniwill:multico
->  =20
->   See Documentation/ABI/testing/sysfs-driver-uniwill-laptop for details =
-on how to control the various
->   animation modes of the lightbar.
-> +
-> +Configurable TGP
-> +--------
-> +
+Expose the upper bound as a new sysctl,
+net.netfilter.nf_conntrack_gc_scan_interval_max, so it can be tuned at
+runtime without rebuilding the kernel.  The default remains 60 seconds
+to preserve existing behavior.  The sysctl is global and read-only in
+non-init network namespaces, consistent with nf_conntrack_max and
+nf_conntrack_buckets.
 
-Hi,
+In environments where long-lived offloaded flows dominate the table,
+the adaptive average drifts toward the maximum, delaying cleanup
+of short-lived expired entries such as those in TCP CLOSE state
+(10s timeout). Adding sysctl to set the maximum GC scan helps to
+tune according to the evironment.
 
-i think you forgot to extend the underline a bit. Please do so for the nex=
-t revision.
+Signed-off-by: Prasanna S Panchamukhi <panchamukhi@arista.com>
+cc: "David S. Miller" <davem@davemloft.net>
+cc: Eric Dumazet <edumazet@google.com>
+cc: Jakub Kicinski <kuba@kernel.org>
+cc: Paolo Abeni <pabeni@redhat.com>
+cc: Simon Horman <horms@kernel.org>
+cc: Jonathan Corbet <corbet@lwn.net>
+cc: Shuah Khan <skhan@linuxfoundation.org>
+cc: Pablo Neira Ayuso <pablo@netfilter.org>
+cc: Florian Westphal <fw@strlen.de>
+cc: Phil Sutter <phil@nwl.cc>
+cc: netdev@vger.kernel.org
+cc: linux-doc@vger.kernel.org
+cc: linux-kernel@vger.kernel.org
+to: netfilter-devel@vger.kernel.org
+cc: coreteam@netfilter.org
+---
+ Documentation/networking/nf_conntrack-sysctl.rst | 11 +++++++++++
+ include/net/netfilter/nf_conntrack.h             |  1 +
+ net/netfilter/nf_conntrack_core.c                |  9 ++++++---
+ net/netfilter/nf_conntrack_standalone.c          | 10 ++++++++++
+ 4 files changed, 28 insertions(+), 3 deletions(-)
 
-Thanks,
-Armin Wolf
+diff --git a/Documentation/networking/nf_conntrack-sysctl.rst b/Documentation/networking/nf_conntrack-sysctl.rst
+index 35f889259fcd..c848eef9bc4f 100644
+--- a/Documentation/networking/nf_conntrack-sysctl.rst
++++ b/Documentation/networking/nf_conntrack-sysctl.rst
+@@ -64,6 +64,17 @@ nf_conntrack_frag6_timeout - INTEGER (seconds)
+ 
+ 	Time to keep an IPv6 fragment in memory.
+ 
++nf_conntrack_gc_scan_interval_max - INTEGER (seconds)
++	default 60
++
++	Maximum interval between garbage collection scans of the connection
++	tracking table. The GC worker uses an adaptive algorithm that adjusts
++	the scan interval based on average entry timeouts; this parameter caps
++	the upper bound. Lower values cause expired entries (e.g. connections
++	in CLOSE state) to be cleaned up faster, at the cost of slightly more
++	CPU usage. Minimum value is 1.
++	This sysctl is only writeable in the initial net namespace.
++
+ nf_conntrack_generic_timeout - INTEGER (seconds)
+ 	default 600
+ 
+diff --git a/include/net/netfilter/nf_conntrack.h b/include/net/netfilter/nf_conntrack.h
+index bc42dd0e10e6..0449577f322e 100644
+--- a/include/net/netfilter/nf_conntrack.h
++++ b/include/net/netfilter/nf_conntrack.h
+@@ -331,6 +331,7 @@ extern struct hlist_nulls_head *nf_conntrack_hash;
+ extern unsigned int nf_conntrack_htable_size;
+ extern seqcount_spinlock_t nf_conntrack_generation;
+ extern unsigned int nf_conntrack_max;
++extern unsigned int nf_conntrack_gc_scan_interval_max;
+ 
+ /* must be called with rcu read lock held */
+ static inline void
+diff --git a/net/netfilter/nf_conntrack_core.c b/net/netfilter/nf_conntrack_core.c
+index 27ce5fda8993..54949246f329 100644
+--- a/net/netfilter/nf_conntrack_core.c
++++ b/net/netfilter/nf_conntrack_core.c
+@@ -91,7 +91,7 @@ static DEFINE_MUTEX(nf_conntrack_mutex);
+  * allowing non-idle machines to wakeup more often when needed.
+  */
+ #define GC_SCAN_INITIAL_COUNT	100
+-#define GC_SCAN_INTERVAL_INIT	GC_SCAN_INTERVAL_MAX
++#define GC_SCAN_INTERVAL_INIT	nf_conntrack_gc_scan_interval_max
+ 
+ #define GC_SCAN_MAX_DURATION	msecs_to_jiffies(10)
+ #define GC_SCAN_EXPIRED_MAX	(64000u / HZ)
+@@ -204,6 +204,9 @@ EXPORT_SYMBOL_GPL(nf_conntrack_htable_size);
+ 
+ unsigned int nf_conntrack_max __read_mostly;
+ EXPORT_SYMBOL_GPL(nf_conntrack_max);
++
++unsigned int nf_conntrack_gc_scan_interval_max __read_mostly = GC_SCAN_INTERVAL_MAX;
++
+ seqcount_spinlock_t nf_conntrack_generation __read_mostly;
+ static siphash_aligned_key_t nf_conntrack_hash_rnd;
+ 
+@@ -1568,7 +1571,7 @@ static void gc_worker(struct work_struct *work)
+ 				delta_time = nfct_time_stamp - gc_work->start_time;
+ 
+ 				/* re-sched immediately if total cycle time is exceeded */
+-				next_run = delta_time < (s32)GC_SCAN_INTERVAL_MAX;
++				next_run = delta_time < (s32)nf_conntrack_gc_scan_interval_max;
+ 				goto early_exit;
+ 			}
+ 
+@@ -1630,7 +1633,7 @@ static void gc_worker(struct work_struct *work)
+ 
+ 	gc_work->next_bucket = 0;
+ 
+-	next_run = clamp(next_run, GC_SCAN_INTERVAL_MIN, GC_SCAN_INTERVAL_MAX);
++	next_run = clamp(next_run, GC_SCAN_INTERVAL_MIN, nf_conntrack_gc_scan_interval_max);
+ 
+ 	delta_time = max_t(s32, nfct_time_stamp - gc_work->start_time, 1);
+ 	if (next_run > (unsigned long)delta_time)
+diff --git a/net/netfilter/nf_conntrack_standalone.c b/net/netfilter/nf_conntrack_standalone.c
+index 207b240b14e5..f8cab779763f 100644
+--- a/net/netfilter/nf_conntrack_standalone.c
++++ b/net/netfilter/nf_conntrack_standalone.c
+@@ -637,6 +637,7 @@ enum nf_ct_sysctl_index {
+ 	NF_SYSCTL_CT_PROTO_TIMEOUT_GRE,
+ 	NF_SYSCTL_CT_PROTO_TIMEOUT_GRE_STREAM,
+ #endif
++	NF_SYSCTL_CT_GC_SCAN_INTERVAL_MAX,
+ 
+ 	NF_SYSCTL_CT_LAST_SYSCTL,
+ };
+@@ -920,6 +921,14 @@ static struct ctl_table nf_ct_sysctl_table[] = {
+ 		.proc_handler   = proc_dointvec_jiffies,
+ 	},
+ #endif
++	[NF_SYSCTL_CT_GC_SCAN_INTERVAL_MAX] = {
++		.procname	= "nf_conntrack_gc_scan_interval_max",
++		.data		= &nf_conntrack_gc_scan_interval_max,
++		.maxlen		= sizeof(unsigned int),
++		.mode		= 0644,
++		.proc_handler	= proc_dointvec_jiffies,
++		.extra1		= SYSCTL_ONE,
++	},
+ };
+ 
+ static struct ctl_table nf_ct_netfilter_table[] = {
+@@ -1043,6 +1052,7 @@ static int nf_conntrack_standalone_init_sysctl(struct net *net)
+ 		table[NF_SYSCTL_CT_MAX].mode = 0444;
+ 		table[NF_SYSCTL_CT_EXPECT_MAX].mode = 0444;
+ 		table[NF_SYSCTL_CT_BUCKETS].mode = 0444;
++		table[NF_SYSCTL_CT_GC_SCAN_INTERVAL_MAX].mode = 0444;
+ 	}
+ 
+ 	cnet->sysctl_header = register_net_sysctl_sz(net, "net/netfilter",
+-- 
+2.50.1 (Apple Git-155)
 
-> +The ``uniwill-laptop`` driver allows to set the configurable TGP for de=
-vices with NVIDIA GPUs that
-> +allow it.
-> +
-> +See Documentation/ABI/testing/sysfs-driver-uniwill-laptop for details.
