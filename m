@@ -1,108 +1,73 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay.hostedemail.com (smtprelay0010.hostedemail.com [216.40.44.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C90453E022C;
-	Wed, 11 Mar 2026 15:20:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4255F359A87;
+	Wed, 11 Mar 2026 15:33:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773242444; cv=none; b=ob1XNyq2zhQoFMnDSeDp2mlmS8VlmdLEyNBYHN9pmzMrI++/xXVfsba5OygPcybCm/FwB7LTNx1xMGXEb0n3ji6d90RwZ9HAjgGcCxtQsAyXM+DNIbpuBqmxqo66+I4xWqCXr2vSfLUS3S75AIp7TI9jQumk7A5Y2PQvYtAGMjs=
+	t=1773243211; cv=none; b=N7vNoTRVwHmTghTdnZOqoxk1qiEMt/l6sEOTqcwV5l2uqRMjVkE+ENVNhr9RM4jTkvfhiUBFs+1rruyqVZPbZnWqCHsO/MfJSg2BfjXfrDdCuPdxMJr9GvonnHyFpL6Z5tO2VOkTnHCL5arpoJPQFag0vGR/8R6wL6PMYElXI88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773242444; c=relaxed/simple;
-	bh=FnYIJorzH/gwO4Kzae+KJBouHZLAYJSRiiIs50hB7z0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GJUfWKzWUqQAqX1unpEmRIuwBybU0qRrDTyTmCi8bJwerm2esgo4FaXazujUkzVaUiU4EJ4oMc/S8NYpasuj2ltM7VnvC4WdypD3HEhrV6kZla2mO/uACf00Xi89S817azP4W6uyvy9mUviPrVfbTB/FhPL0x2CCYkTwvn+0cCk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YMs8WdrF; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YMs8WdrF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8B8AC19421;
-	Wed, 11 Mar 2026 15:20:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773242442;
-	bh=FnYIJorzH/gwO4Kzae+KJBouHZLAYJSRiiIs50hB7z0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=YMs8WdrF+A/7MdZqNdWgDa3oz/dIhTzKq0zJsd1zdy22KzCFd7jKHplaAXPMux1FA
-	 h0et+gKLE8I/agwNAP1z+81/pPx2AVOdBRa+/nbbCCAY6/bm4vgISsUsfRlJFsSBOy
-	 5XtsgiTiKYWUboUsl3p04kiOLOxI913zhI8TbeaRcbZ8tMUKuQSiT4wF6QTqIRnrKW
-	 T2FNgUfibXOevyMyeS5ONYTE+SYr26HA7HeminRVLty/lChaE/rRoqXqPgndoxwT6Z
-	 2hwwgQpwXsiRNLvbVLT4kQdeIrruNOySrgLlAe42LDW8Gh5Kpsoelf4w+chQcR04sc
-	 eg26MJm+GzKCw==
-From: Sasha Levin <sashal@kernel.org>
-To: Andy Whitcroft <apw@canonical.com>,
-	Joe Perches <joe@perches.com>
-Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-	Bart Van Assche <bvanassche@acm.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH] checkpatch: add support for Assisted-by tag
-Date: Wed, 11 Mar 2026 11:20:39 -0400
-Message-ID: <20260311152039.254244-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <2c7e0149-c178-41b8-ac5e-270bfea8b1f8@acm.org>
-References: <2c7e0149-c178-41b8-ac5e-270bfea8b1f8@acm.org>
+	s=arc-20240116; t=1773243211; c=relaxed/simple;
+	bh=eArf8XV28ZdsX5wVVA5kj1kz4tJ/mnHzflWkBbl6uRc=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=Ik8GFHdsaV6bXPlselb+8PJK8HSQJrU9uIobc8xtaZKwU+SdqEjUc4ZtKefV6+eMDMaDszrFbbFqosRMsDl/ZRzJBEITssyqT6RWt0k1FdTPYkAd8qHzGBt6CcFCSEjHfloCQZ0axaUc6YWhSh3oSXf5AMyUR+orAMLEHEithTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
+Received: from omf08.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay07.hostedemail.com (Postfix) with ESMTP id 77654160278;
+	Wed, 11 Mar 2026 15:33:28 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf08.hostedemail.com (Postfix) with ESMTPA id CA3CC20025;
+	Wed, 11 Mar 2026 15:33:26 +0000 (UTC)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Date: Wed, 11 Mar 2026 08:33:26 -0700
+From: Joe Perches <joe@perches.com>
+To: Sasha Levin <sashal@kernel.org>
+Cc: Andy Whitcroft <apw@canonical.com>, Dwaipayan Ray
+ <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, Bart Van
+ Assche <bvanassche@acm.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] checkpatch: add support for Assisted-by tag
+In-Reply-To: <20260311152039.254244-1-sashal@kernel.org>
+References: <2c7e0149-c178-41b8-ac5e-270bfea8b1f8@acm.org>
+ <20260311152039.254244-1-sashal@kernel.org>
+Message-ID: <65ad15f96429d87225867e982cd1aab2@perches.com>
+X-Sender: joe@perches.com
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: j6ybqnydccxwzbu1jraidygxp45ida3q
+X-Rspamd-Server: rspamout02
+X-Rspamd-Queue-Id: CA3CC20025
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX199J1/Lyv/05lRw1Cwyic7B+6lq4pQYUN0=
+X-HE-Tag: 1773243206-208298
+X-HE-Meta: U2FsdGVkX19/HbGXseilaYuq0rutGZzeUlhAWvqSGGCIsyaHvUq18FPeTkaqpHQNxXNQZeLWmuPpFHbnilxOLhciND/pjXZK+PtKLwwAZFJ+giUwWDS7vA1a77eP64DdaZoQX1MLiAdezpztYw0rhioLJkL2zwGUVdstswsJYyoK2xzWTbfnz191RkmQ3hsvoz9Vwd4xRk8GVQ1cuhrQuvhJ4HVVvZ47q81QDo6L1slaUEH8aSS3p3wGfiXJ5W6KjNFoEm2gGTgxtUGJ7IkIXw==
 
-The Assisted-by tag was introduced in Documentation/process/coding-assistants.rst
-for attributing AI tool contributions to kernel patches. However, checkpatch.pl
-did not recognize this tag, causing two issues:
+On 2026-03-11 08:20, Sasha Levin wrote:
+> The Assisted-by tag was introduced in 
+> Documentation/process/coding-assistants.rst
+> for attributing AI tool contributions to kernel patches. However, 
+> checkpatch.pl
+> did not recognize this tag, causing two issues:
+[]
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+[]
+> @@ -3105,6 +3106,13 @@ sub process {
+>  				}
+>  			}
+> 
+> +			# Assisted-by uses AGENT_NAME:MODEL_VERSION format, not email
+> +			if ($sign_off =~ /^Assisted-by:/i) {
+> +				if ($email !~ /^\S+:\S+/) {
+> +					WARN("BAD_SIGN_OFF",
+> +					     "Assisted-by: expects 'AGENT_NAME:MODEL_VERSION [TOOL1] 
+> [TOOL2]' format\n" . $herecurr);
+> +				}
 
-  WARNING: Non-standard signature: Assisted-by:
-  ERROR: Unrecognized email address: 'AGENT_NAME:MODEL_VERSION'
-
-Fix this by:
-1. Adding Assisted-by to the recognized $signature_tags list
-2. Skipping email validation for Assisted-by lines since they use the
-   AGENT_NAME:MODEL_VERSION format instead of an email address
-3. Warning when the Assisted-by value doesn't match the expected format
-
-Reported-by: Bart Van Assche <bvanassche@acm.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- scripts/checkpatch.pl | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index e56374662ff79..70ea466390771 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -641,6 +641,7 @@ our $signature_tags = qr{(?xi:
- 	Reviewed-by:|
- 	Reported-by:|
- 	Suggested-by:|
-+	Assisted-by:|
- 	To:|
- 	Cc:
- )};
-@@ -3105,6 +3106,13 @@ sub process {
- 				}
- 			}
- 
-+			# Assisted-by uses AGENT_NAME:MODEL_VERSION format, not email
-+			if ($sign_off =~ /^Assisted-by:/i) {
-+				if ($email !~ /^\S+:\S+/) {
-+					WARN("BAD_SIGN_OFF",
-+					     "Assisted-by: expects 'AGENT_NAME:MODEL_VERSION [TOOL1] [TOOL2]' format\n" . $herecurr);
-+				}
-+			} else {
- 			my ($email_name, $name_comment, $email_address, $comment) = parse_email($email);
- 			my $suggested_email = format_email(($email_name, $name_comment, $email_address, $comment));
- 			if ($suggested_email eq "") {
-@@ -3189,6 +3197,7 @@ sub process {
- 					}
- 				}
- 			}
-+			}
- 
- # Check for duplicate signatures
- 			my $sig_nospace = $line;
--- 
-2.51.0
-
+I believe you could use next instead of this odd indentation avoidance.
