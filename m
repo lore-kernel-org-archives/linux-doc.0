@@ -1,243 +1,212 @@
-Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011004.outbound.protection.outlook.com [52.101.70.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com [209.85.215.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 552951A681C;
-	Wed, 11 Mar 2026 12:20:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.4
-ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773231635; cv=fail; b=pTza1yMhwDGm72T7q52ZrzBJi9txT4QCvJblzvj9j2dVg8N9Z9O9LnramUv83bDVzs8zVkLqc6muhq1au88IUsxZLMVEOFO9GNHdFFKemRUHeme+x2tJBLdxTzIcPlGRyKvBV5fDHrg9vypuGYoaBcNJUcdbm/Nk/uV0RPMCSb4=
-ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773231635; c=relaxed/simple;
-	bh=SaTiqhqcCx5yXVWIqtxF3CIWou3l/1JuozF2TuMaFcw=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Um2FbMg/78+PXgwVCHOGiIB39PYIsyPN+Gy7i24VCDcHwfHOAut4yp9FlFy1DdfbTqVud4UIOLx0R+St+h5HjXHc4pJhgtEi0X/4z/VRkvnqe60cxP7CexYxFZKCLPAf8IT4iyRbNv+WIQJ/zCuLgiYSWEpOUx+L+/YBzSja1Ys=
-ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=EgEDUjQS; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=EgEDUjQS; arc=fail smtp.client-ip=52.101.70.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 079FB40DFD5
+	for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2026 12:30:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.194
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773232248; cv=none; b=mY0FQxUrVswuh7tPz3KuwKyc2RdiCjPf+MUT6RahbG0LQXtBEQ+rnHFb+HrCk2UcoUfZ8w+IZPItvoOko8BGoDHxYHLIwxr+88HsihP8P4Y+AfZze1aNCIHVMbW/TRrg0ps9zAIN8J7C8IFZz1bAdD5UnayljL2k1bhsxrqU4lk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773232248; c=relaxed/simple;
+	bh=o5tJ5wblB8GzFTEw15EQokGtFJG2nSUPShyaByRw8wo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=W4Fm1597Xh10FoRIOb08W+OWOYkt+t2Wmaw5GCw+RIRdoptCOqT4y+fIhRDXxhwkSZe5bf690HNVw2wnAe4OmXRv+4P86VFBokxm3wBqmc0kVM7Ee8CeH/+QxZiaSyhrsB6yHOPcDKGUQvm0mSboChya0ynsW9vYCiEf07AoaqQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LRXkn5nc; arc=none smtp.client-ip=209.85.215.194
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="EgEDUjQS";
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="EgEDUjQS"
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=eUAPkROw6PpJsEiBhKs1capUQMY/O10bazYyF3Rk8O/6iY94BEJfJdOeO6C4qGkWfX+HXADrOTX3B8HUutUVsbnZ0XW3yLb07p/MhgghfTQIc8MQ2uybduR1Qabva8Ea45RLxHPcPmu/u3vEoaWrK82XOKuaqjvaeqagC1/mOqbocRMERTXztRYiAh4ikQH5vOIpqvm1z+m3Ra9RDpbGIFZqvVnIv0/bge9RqNLeH7o6a9KyVhrRPSe+9+3M2Tq63nQ+kgXKmXgrATGf6EBxKe6Aaicu8j2sT9saOim6WAk08h64r9kaVhv1MR+xuGfZeJC29AA1RqA7fRglttBgLg==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YGhUIKQzUbGlx9S+2I9cGni1LgdFJ5GoQyn4IRTOL9g=;
- b=NQKPl6L5yZX5RvsMeLDqWcmKY0ZnLz7SOB+YKuT+rPYiWdP0PuOCOdWvO0Uf5HStFNB4o8e8ZCAVhTmVHxnsZNrwg3jNBI9dthTgcjgNQ0J4JirelyKJARoM/puxWBnCqfaf1E4o5B3v46QbB//0H0BMWk9cM05fATViXf/M92uQRmuuOBVKa0ef4+GRnubviQDqj9hKp7ap1l8hDdtYvtSTVq4N6bOCHjItiVhiDahv78QqGB4YkksGkAJUTK+w6F5dNx75iINXcdHKBWxb7VTAx21iF9EA/9sPLYh979I55gyLepKRrbSGVRmkiHKwspcvyt/720MYwhDTb/yyXA==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=huawei.com smtp.mailfrom=arm.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
- (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YGhUIKQzUbGlx9S+2I9cGni1LgdFJ5GoQyn4IRTOL9g=;
- b=EgEDUjQSU1qYZHIXfsFY6p38OYFI6TQXlhiKbhhbmkpZb3utaffBMBLpiW0iz+vPWhDjYqx9vE2fuU0en/PifWa4bkJgvOvBpGf9RzqoRUStcwMXuOhWwk5PuAA78EfeHJ+SgdOJ3W4gt9uXD7ftEwnKtV/vs7CnFhlrd9OXE28=
-Received: from DB9PR05CA0009.eurprd05.prod.outlook.com (2603:10a6:10:1da::14)
- by VI0PR08MB10972.eurprd08.prod.outlook.com (2603:10a6:800:251::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.12; Wed, 11 Mar
- 2026 12:20:27 +0000
-Received: from DB3PEPF0000885A.eurprd02.prod.outlook.com
- (2603:10a6:10:1da:cafe::77) by DB9PR05CA0009.outlook.office365.com
- (2603:10a6:10:1da::14) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9678.26 via Frontend Transport; Wed,
- 11 Mar 2026 12:20:06 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- DB3PEPF0000885A.mail.protection.outlook.com (10.167.242.5) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9678.18
- via Frontend Transport; Wed, 11 Mar 2026 12:20:26 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=smps45CHRM3cdHraZpfkTiyq8yEHTRMu8YlgP/DpNn+DFnpDHXWpO6Z/SO/Cv84c9DaaAKvbWUDOz1RAX8LDsiu36T+AQluwwHsNOasP3wQROHs0PdI5aVKuoaI6ReofbYsdx9552lehNyCWkFIIFr+tTXwbczy1kEtUSpZpBPrrNLGQz/10EOSONxunJz2fO24asJ3OlO70PrVWtz8fDwtyhq6msABQzrPNUeGwaVxMkHgKfMxG8NSUOw2w3kXt9kJ5YEbB05LOijgCJjH00VTZn4wz47z7ABK+8KfCNVWmc9OHyI8fMRK/t8jhe8fG+Ar8a6zhrMxCaNeuIpnYng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YGhUIKQzUbGlx9S+2I9cGni1LgdFJ5GoQyn4IRTOL9g=;
- b=n8hoYdyr95hbXkSwRj6fcnrvMeJOd+2uO08NLr0NTPW1F1Y6ilxznaLOEIvVl1LaqQASGZKCwwrpEbmACvt1SuFV5aBDRyDvneLwIRHdggefWa3VboqtUmuYyiuFAQBR6n250VVNvc6wih48uzPpipx8jhHXVkSlb/rZT7QTl5mcrX8j5bVPjPTYCJqxtHOXTo8wzQ4zNwNeywp69+XnSX6QNblrtFxTxIt2u6/hvWtjg1KtweAjkn8t3yTXR2EO3FyISXISCDItgYble2KRh+Ecv5YJG8ZI6Ht6G8vwdKvosTL3JOG3WFwqJZ0C8eFcvurELb6lxnFsYmoZ+UCq7g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YGhUIKQzUbGlx9S+2I9cGni1LgdFJ5GoQyn4IRTOL9g=;
- b=EgEDUjQSU1qYZHIXfsFY6p38OYFI6TQXlhiKbhhbmkpZb3utaffBMBLpiW0iz+vPWhDjYqx9vE2fuU0en/PifWa4bkJgvOvBpGf9RzqoRUStcwMXuOhWwk5PuAA78EfeHJ+SgdOJ3W4gt9uXD7ftEwnKtV/vs7CnFhlrd9OXE28=
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-Received: from VI0PR08MB11823.eurprd08.prod.outlook.com (2603:10a6:800:324::5)
- by AS4PR08MB7808.eurprd08.prod.outlook.com (2603:10a6:20b:51b::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.11; Wed, 11 Mar
- 2026 12:19:24 +0000
-Received: from VI0PR08MB11823.eurprd08.prod.outlook.com
- ([fe80::694c:3790:be1a:8ddd]) by VI0PR08MB11823.eurprd08.prod.outlook.com
- ([fe80::694c:3790:be1a:8ddd%5]) with mapi id 15.20.9700.010; Wed, 11 Mar 2026
- 12:19:24 +0000
-Message-ID: <8ced1e63-d8d7-42f0-bc45-88e7cc17ef59@arm.com>
-Date: Wed, 11 Mar 2026 12:19:22 +0000
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 02/11] ACPI: APEI: GHES: add ghes_cper.o stub
-Content-Language: en-GB
-To: Jonathan Cameron <jonathan.cameron@huawei.com>
-Cc: devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
- Dmitry.Lamerov@arm.com, catalin.marinas@arm.com, bp@alien8.de,
- robh@kernel.org, rafael@kernel.org, will@kernel.org, conor@kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- krzk+dt@kernel.org, Michael.Zhao2@arm.com, tony.luck@intel.com
-References: <20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-0-347fa2d7351b@arm.com>
- <20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-2-347fa2d7351b@arm.com>
- <20260224152534.000040b6@huawei.com>
-From: Ahmed Tiba <ahmed.tiba@arm.com>
-In-Reply-To: <20260224152534.000040b6@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PA7P264CA0460.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:102:398::24) To VI0PR08MB11823.eurprd08.prod.outlook.com
- (2603:10a6:800:324::5)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LRXkn5nc"
+Received: by mail-pg1-f194.google.com with SMTP id 41be03b00d2f7-c2af7d09533so9086270a12.1
+        for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2026 05:30:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773232246; x=1773837046; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uiqgeYSYZM+IukzBHaoeiiQVQPbxSPd8mL0ZsnGyz7g=;
+        b=LRXkn5nczut9KYjPgY4prpVY3bSLXmCMmeze5bvNH6MFSUo4cihHWuR5jni5ZUrGkx
+         meSygC2MdqkWfZ6EyASlKlZb5ZxUHuF8J44arl6EDe6sXNaIN4J9J/CaWGK1X23pZOIM
+         BaBzuc1ci++hoMAi2PHmK44Id2eayFAgcQy4Z6XhM/2uX0aeDa9kFvHS0rmHGYb4eTvW
+         E4B6PQOmiw8paWCmRkK7izt6akbDMK9U4rUSstB1rVjWB87s9aT+CJjkpEW3R/ydZ+37
+         pCntwvNcTaq5k49c0l3RjIEluGLAUwOq8bYUOzpWwjBzfeySDejD0JlNdFgB7GWUBL+9
+         6YWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773232246; x=1773837046;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=uiqgeYSYZM+IukzBHaoeiiQVQPbxSPd8mL0ZsnGyz7g=;
+        b=Lz+BJnsDTp6wnRJB55zEDsFoTHOnn3gVCnFIl37j6sUV2mVsT0L/kiSLRnt12O/lo6
+         9VAQCixixsPRTmlGiIh/4xTZuEKPRJFRO1FAx+cVYnCbpk+fyYpsYOwrw0vijKEV1W7o
+         rYK74cdihZK6fHTxSwA81LxS3lQ9rf6+2TnNfBpIHpUzgdzA9zJ5qPBJR2Oj+jW2BKTe
+         bS/XbpXb7JckksbU6uRGdP248j85c2hSVuIk4BTowBdJ52ZvVkgJh3G+/nphF3iyUiUp
+         2IaeB/+ALKypG3OP+xxOmEvj+xsgoZGT3G5Fm6HUvMQNR7jkaJbho+qcJjrqIFXtQFR4
+         /btA==
+X-Forwarded-Encrypted: i=1; AJvYcCXbS1qGfHFFoVPVRrMl4ZIVg2VmN1p/WDv7jwFXsCxdz+nx3D86CcqLAaE+C8gbK7Cc2ZeOXfgCwKI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxmO3kKoAwXPd66LEL0WpqzDsvVs8xWlcejfuujbZK3oamDMCWW
+	iSSyHLBrI4g9Q9ZQxEET1QVSfJQ4AX4DTA6MaBtAD8Vm9nv9O70vSDOpcCyJVN+XNAvQ+Yre
+X-Gm-Gg: ATEYQzx5l1VERPliwI7nJIN7ZXsnS92SmSDoNYd9aMr3xcMJg5HEQpHxmdZWimojkCD
+	CJf4WnjyrpLg46NcKuXMFoMjbDqHAf+2cGe9HHvfnvUJMbIdVsTGsM9IiUhMOuplyyeTUODQza0
+	i7vCfqoOEXF3UZx0xGUwxVwaMWb1vbhuBigfgBPREiaUih5PTydDn7HpEENV4WZVPKhQJr1001z
+	XDcKvv3OnpnQtcwnK7DRzFI/Z7RaY15jZsbj982uO/jXGcoq2WRgGWfXDhqfHqaATPWrDV3zaAp
+	q9XvVKFL3wxFrLPO8NjddmQkNmVCINCh2kGm7fkijpG4yicu2fbjSo2+qS2W96g9h1pHuxo1Xm7
+	TmsC9moyj4KYV44LGZVhOb1iN5VdBDik5NcvGAoo65QKkNg8u48nJu0Bc3rhNM3xHJ37Fs5+QK7
+	oF0hDJinaXcBY4kE4VxYIDDY3RNRQJhb4S564VpEOGbOFp0Do5vQ==
+X-Received: by 2002:a17:903:388e:b0:2ae:7f24:2378 with SMTP id d9443c01a7336-2aeae8903a3mr27508055ad.38.1773232246131;
+        Wed, 11 Mar 2026 05:30:46 -0700 (PDT)
+Received: from aruoarch ([2406:da14:b1:2a01:2bb8:19c2:be2c:4043])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2aeae22217dsm23074095ad.4.2026.03.11.05.30.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Mar 2026 05:30:45 -0700 (PDT)
+From: Song Hongyi <szpcq123@gmail.com>
+To: alexs@kernel.org,
+	si.yanteng@linux.dev,
+	corbet@lwn.net
+Cc: dzm91@hust.edu.cn,
+	skhan@linuxfoundation.org,
+	w1ndys@qq.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Song Hongyi <szpcq123@gmail.com>
+Subject: [PATCH v2] docs/zh_CN: sync process/2.Process.rst with English version
+Date: Wed, 11 Mar 2026 20:31:03 +0800
+Message-ID: <20260311123107.329769-1-szpcq123@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <9cc4a719-d6ca-4f15-b862-60fb862ba7b2@hust.edu.cn>
+References: <9cc4a719-d6ca-4f15-b862-60fb862ba7b2@hust.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-TrafficTypeDiagnostic:
-	VI0PR08MB11823:EE_|AS4PR08MB7808:EE_|DB3PEPF0000885A:EE_|VI0PR08MB10972:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9bff998f-408d-4049-c870-08de7f689400
-x-checkrecipientrouted: true
-NoDisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted:
- BCL:0;ARA:13230040|1800799024|376014|7416014|366016|18002099003|56012099003|22082099003;
-X-Microsoft-Antispam-Message-Info-Original:
- KIJk8fMNqsD9PUjpwm1F4Sr+Rxoi7r5WJw26FsFE1EW+cSNEdf0avqE5Iqe66Dy9aYejlIjrL3sZZXmtw3zruoreUHFagWTHFNLFiOYoK361VyI3a127Wvo+5E0MnCIwQ9ammGV6R9iitqp0dTnE7woGta4gxVJ7y5mEO92x5TU5HiHApbFHWWVZNOWULMnMwUgvEDoQHltzZ79OgCtLgzjGfoUsYwvZHAKdY07Y6+HvPSrCmf6u5/0vxT8sOm/GRs7VbcmNOrynfgA8tnTAciZUD5GlhxRC9MUxcfbN6pCdfIjAoUSgyMyuVBbG/Fr+L3EeLCFsTFjDCyxhE6FniU5jrn9+3LQVaIDpTXDp+9jHh9sEQCKPUusEP5huC1EXV5C5NH+CZ2R+j7drAm3XuCGLSi/gjgLdUkRp2nS9nUIEG1pKy9cQHV15ugoStZKC/XTwbOMeDKexiPNEip6WUlrKM7g6QWF1N4F7PMB+zz90G11T2eXg4jpgoFC78yvIIEijv2NFihsavj7b854jWS/2w1m7foj0XzARnkdp/+D+5CaeBFkkM7XIizrG42gnivMPSezeZtCwdTlxEyUqCu7vI3l9/zvszZ0G5v+LH/Oufk/zSlOuyJ/4ijjFt7vsljP9VR3AbXxD1DzGEuGY6zl7PmxTvVbu5vcrTbnMd+OL5hjY871ewPv7pzPK5L84BNOp45DrHqn6pMNkSBRa1DO6nFl8IWp3GKjWB4qFO28=
-X-Forefront-Antispam-Report-Untrusted:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI0PR08MB11823.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
-X-Exchange-RoutingPolicyChecked:
- JmdeCJq8IXtRR7MjZG3T0u3AYIHc+aiTtCUJlnN0QiIACSiv/imuc8oGWq+sY5g/r3RrmJqgntnQ+nzawNvaQPkUnWbWcBhzWYVbFlatv18bfwgNXKbe6yA8MYHPQK6LgZSL9ImxqVOxOXB27xa2lYPlCYSjodHf7OgQzdX6ryi2h1+YdjcNaLH60d/y9p3Nko5r0qWjFUpXdrq7qO1Gs1K0C6dIIhYR7f2scpDP3UoPcgARr+dJKP+0ApvG2BcKn0Mex0kPDeAxc4dcKd9iNDzW5bip8+mH5SIZQV2wAgBRxTDriwEHsh8CzV4m2IEIAKTxjFJt/zyLvDOJ3GunwQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR08MB7808
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped:
- DB3PEPF0000885A.eurprd02.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs:
-	35482b8f-3f61-408c-2bf9-08de7f686e57
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|7416014|376014|36860700016|14060799003|35042699022|1800799024|22082099003|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	xBQWqWbaseTfocvLiS33NdvIHjFRCDev0zTyToEQh1z/HkyvRFRdJEzJSHuiLwvh9BN7e4bsap4ks2Nld/RPnUVApRM6dktFp9CNxraiLfD1jELNIgb53ByXoWerL5TsuY085++/0JgOYNoqb8iIED/RibLOb/XKE0q3/MFCxNx/VpO2INbmNnDFwfUoPXC/vXQfzX747kDp7B+e8M2UQD6wg5i7CGEaSrYFYupw7uLJW/tqG44IGOdKD6gqCQ8yRDEoaGa/K3N4ypvtKRcHpjMGRpw00EFeGrjTy5q6m4vYxed89opajvwrGdxbhacs2XkfN1ZCWN4836BDXT12Bn/21t2P0y43s5BxfEA4H/sCMluQjyoeU4QxRxYtiEdmdEUaLyuupxvuw+0qlKE2YAu+CmPChcvmZJp4E87f7Z16WzGPKGrqJmJ/FHZreTJfjX4HzJZ7uoTKO5AhwWzyvAP/bkbRCYK1Cy1T83KFjqpMc0bKcGxJuOU1ektpWaANgbdpuoz2xjXjUTOhhq9SmuF75PHZhSAifZklq3jjQdSWoRgU3s5B1gT64cEqvGqf+duRAg7AbM25EF2H/E38ApdRSuT7y1TG91siaXYncLMhwmQDsNsEAZ8woJhf5bb63rxk4diP3IGCX0qjImpPi65434mP7hH3DErOeoWInkW6HL+67FXrEepuibCHfngG+YP5SXZKh2olbJEsvKBuAWU5Pw1w40WNUib/6BiAwzVpcYvccY983GpKcmkGo/+r5kALaj7MOQARfrBHI2Txdw==
-X-Forefront-Antispam-Report:
-	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(7416014)(376014)(36860700016)(14060799003)(35042699022)(1800799024)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	xFSxN39MDyfDfRjpx8pWkqXZm+XOqNOV+etuFkCbaNU5q3f/BybsZs9VRvIUS4PUYR10fO+F4LhZhc+m3KP50WvLyWG0y8y3znkKupyLX8q/y7fkAXBD7YGo8TcX9myCiojKv+ATlH+4DZN9x9eY8iY36Ez4PbzvwRKVSn2bodUhdO/wH+5W/cqvkooDucIYU+HUaWnyHiJmY33Pl8kcu5iOKIxZxQA8BfTDYSDQHK7ZN1OmWP2QH4JsViVt7/lpHzFPh5GiVK3xOgLnW36hEPLxSH09LsXHTj/svLUaPVQ+lgRsfASV3DqM0vA8dWmoe+hgy6+83NtbbWr4F3xb4Dpc2qV1W0gkeBrkCaw4H+FGZDLY/TYSQLlBNQ1fsSxo5ix98G01mF7j9f1peMgTcjavqhTz5gDhncDZqF/ZO/8UOOJxHxs5GZFPLEOCjhRv
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Mar 2026 12:20:26.8595
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9bff998f-408d-4049-c870-08de7f689400
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DB3PEPF0000885A.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR08MB10972
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 24/02/2026 15:25, Jonathan Cameron wrote:
-> On Fri, 20 Feb 2026 13:42:20 +0000
-> Ahmed Tiba <ahmed.tiba@arm.com> wrote:
-> 
->> Introduce a dedicated ghes_cper translation unit so that follow-on commits
->> can move helpers out of ghes.c without touching the build logic twice.
->> This keeps the object in the tree while remaining functionally identical.
-> 
-> I'd probably do this with the first move patch not as a separate patch.
-> That would resolve the question of headers etc below.
+The Chinese translation of the development process documentation was
+outdated. Sync it with the current English version to ensure consistency.
 
-I kept the stub as a separate patch intentionally. It isolates the build
-system change and the new translation unit so all subsequent patches are
-pure mechanical moves, which makes review and bisection straightforward.
-If I fold the stub into the first move, the first functional patch
-ends up mixing build plumbing and code movement, which is exactly what 
-I’m trying to avoid.
+Key changes include:
+- Update versioning examples from 5.x to the 9.x placeholder.
+- Add footnote [1] to explain the non-semantic versioning scheme.
+- Replace the obsolete LTS kernel table with a link to kernel.org.
+- Add a cross-reference for the "interleaved replies" section.
 
->>
->> Signed-off-by: Ahmed Tiba <ahmed.tiba@arm.com>
->> ---
->>   drivers/acpi/apei/Makefile    |  2 +-
->>   drivers/acpi/apei/ghes_cper.c | 26 ++++++++++++++++++++++++++
->>   2 files changed, 27 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/acpi/apei/Makefile b/drivers/acpi/apei/Makefile
->> index 1a0b85923cd4..b3774af70883 100644
->> --- a/drivers/acpi/apei/Makefile
->> +++ b/drivers/acpi/apei/Makefile
->> @@ -1,6 +1,6 @@
->>   # SPDX-License-Identifier: GPL-2.0
->>   obj-$(CONFIG_ACPI_APEI)		+= apei.o
->> -obj-$(CONFIG_ACPI_APEI_GHES)	+= ghes.o
->> +obj-$(CONFIG_ACPI_APEI_GHES)	+= ghes.o ghes_cper.o
->>   # clang versions prior to 18 may blow out the stack with KASAN
->>   ifeq ($(CONFIG_COMPILE_TEST)_$(CONFIG_CC_IS_CLANG)_$(call clang-min-version, 180000),y_y_)
->>   KASAN_SANITIZE_ghes.o := n
->> diff --git a/drivers/acpi/apei/ghes_cper.c b/drivers/acpi/apei/ghes_cper.c
->> new file mode 100644
->> index 000000000000..63047322a3d9
->> --- /dev/null
->> +++ b/drivers/acpi/apei/ghes_cper.c
->> @@ -0,0 +1,26 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +/*
->> + *
-> 
-> As below.
-> 
->> + * APEI GHES CPER helper translation unit - staging file for helper moves
->> + *
->> + * Copyright (C) 2026 ARM Ltd.
-> 
-> As before. If there isn't significant new content copyright doesn't make sense yet.
+Update the translation through commit 5ce70894f6ca
+("Doc: correct spelling and wording mistakes")
 
-I can defer the copyright line until there’s more new content.
+Signed-off-by: Song Hongyi <szpcq123@gmail.com>
+---
 
->> + * Author: Ahmed Tiba <ahmed.tiba@arm.com>
->> + * Based on ACPI APEI GHES driver.
->> + *
-> 
-> No obvious benefit in this blank line so I'd drop it.
 
-I'll drop it.
+Hi Dongliang,
 
->> + */
->> +
->> +#include <linux/err.h>
->> +#include <linux/io.h>
->> +#include <linux/kernel.h>
->> +#include <linux/mm.h>
->> +#include <linux/ratelimit.h>
->> +#include <linux/slab.h>
-> Build includes up as they become relevant. That way we can see whether
-> they are needed or not.  Right now none of them are..
+Thanks for the review! I have updated the commit message with the English
+commit hash.
 
-I’m front‑loading the includes that the subsequent mechanical moves
-will need so those patches remain strict cut‑and‑paste with no extra 
-edit noise. That keeps the movement obvious and reviewable.
+Song Hongyi
 
->> +
->> +#include <acpi/apei.h>
->> +
->> +#include <asm/fixmap.h>
->> +#include <asm/tlbflush.h>
->> +
->> +#include "apei-internal.h"
->> +
->> +/* Helper bodies will be moved here in follow-up commits. */
->>
-> 
+ .../translations/zh_CN/process/2.Process.rst  | 56 +++++++++----------
+ 1 file changed, 25 insertions(+), 31 deletions(-)
+
+diff --git a/Documentation/translations/zh_CN/process/2.Process.rst b/Documentation/translations/zh_CN/process/2.Process.rst
+index 31b0e2c994f6..ca00672c313e 100644
+--- a/Documentation/translations/zh_CN/process/2.Process.rst
++++ b/Documentation/translations/zh_CN/process/2.Process.rst
+@@ -23,21 +23,18 @@
+ 总览
+ ----
+ 
+-内核开发人员使用一个松散的基于时间的发布过程，每两到三个月发布一次新的主要
+-内核版本。最近的发布历史记录如下：
+-
+-	======  =================
+-	5.0	2019年3月3日
+-	5.1	2019年5月5日
+-	5.2	2019年7月7日
+-	5.3	2019年9月15日
+-	5.4	2019年11月24日
+-	5.5	2020年1月6日
+-	======  =================
+-
+-每个5.x版本都是一个主要的内核版本，具有新特性、内部API更改等等。一个典型的5.x
+-版本包含大约13000个变更集，变更了几十万行代码。因此，5.x是Linux内核开发的前
+-沿；内核使用滚动开发模型，不断集成重大变化。
++内核开发使用一个松散的、基于时间的滚动发布（rolling release）开发模型。
++一个新的主内核发行版本（作为示例，我们将其称为 9.x） [1]_ 大约每两到三个月
++发布一次，它带来了新特性、内部 API 的更改等。一个典型的版本包含大约 13,000
++个变更集（changesets），涉及几十万行代码的修改。最近的发行版本及其日期可以
++在这里找到
++`维基百科 <https://en.wikipedia.org/wiki/Linux_kernel_version_history>`_
++
++
++.. [1] 严格来说，Linux 内核并不采用语义化版本号方案，而是将 9.x 这一组数字
++       作为一个整体来标识主发行版本号。对于每一个版本，x 都会递增，但只有
++       当 x 被认为足够大时，9 才会递增（例如：Linux 5.0 是紧随 Linux 4.20
++       之后发布的）。
+ 
+ 对于每个版本的补丁合并，遵循一个相对简单的规则。在每个开发周期的开头，“合并
+ 窗口”被打开。这时，被认为足够稳定（并且被开发社区接受）的代码被合并到主线内
+@@ -48,8 +45,8 @@
+ 提前收集、测试和分级的。稍后将详细描述该过程的工作方式。）
+ 
+ 合并窗口持续大约两周。在这段时间结束时，Linus Torvalds将声明窗口已关闭，并
+-释放第一个“rc”内核。例如，对于目标为5.6的内核，在合并窗口结束时发生的释放
+-将被称为5.6-rc1。-rc1 版本是一个信号，表示合并新特性的时间已经过去，稳定下一
++释放第一个“rc”内核。例如，对于目标为9.x的内核，在合并窗口结束时发生的释放
++将被称为9.x-rc1。-rc1 版本是一个信号，表示合并新特性的时间已经过去，稳定下一
+ 个内核的时间已经到来。
+ 
+ 在接下来的6到10周内，只有修复问题的补丁才应该提交给主线。有时会允许更大的
+@@ -84,11 +81,14 @@
+ 开发人员的目标是在稳定发布之前修复所有已知的回归。在现实世界中，这种完美是
+ 很难实现的；在这种规模的项目中，变数太多了。需要说明的是，延迟最终版本只会
+ 使问题变得更糟；等待下一个合并窗口的更改将变多，导致下次出现更多的回归错误。
+-因此，大多数5.x内核都有一些已知的回归错误，不过，希望没有一个是严重的。
++因此，大多数内核发布时都会带有一部分已知的回归问题，不过希望它们都不是严重
++的问题。
+ 
+ 一旦一个稳定的版本发布，它的持续维护工作就被移交给“稳定团队”，目前由
+-Greg Kroah-Hartman领导。稳定团队将使用5.x.y编号方案不定期地发布稳定版本的
+-更新。要合入更新版本，补丁必须（1）修复一个重要的缺陷，且（2）已经合并到
++Greg Kroah-Hartman领导。稳定团队将使用9.x.y编号方案不定期地发布稳定版本的
++更新。
++
++要合入更新版本，补丁必须（1）修复一个重要的缺陷，且（2）已经合并到
+ 下一个开发版本主线中。内核通常会在其初始版本后的一个以上的开发周期内收到
+ 稳定版更新。例如，5.2内核的历史如下（2019年）：
+ 
+@@ -105,17 +105,10 @@ Greg Kroah-Hartman领导。稳定团队将使用5.x.y编号方案不定期地发
+ 
+ 5.2.21是5.2版本的最终稳定更新。
+ 
+-有些内核被指定为“长期”内核；它们将得到更长时间的支持。在本文中，当前的长期
+-内核及其维护者是：
++有些内核被指定为“长期”内核；它们将得到更长时间的支持。请参考以下链接
++获取当前长期支持内核版本及其维护者的列表：
+ 
+-	======  ================================	================
+-	3.16	Ben Hutchings				（长期稳定内核）
+-	4.4	Greg Kroah-Hartman & Sasha Levin	（长期稳定内核）
+-	4.9	Greg Kroah-Hartman & Sasha Levin
+-	4.14	Greg Kroah-Hartman & Sasha Levin
+-	4.19	Greg Kroah-Hartman & Sasha Levin
+-	5.4	Greg Kroah-Hartman & Sasha Levin
+-	======  ================================	================
++  https://www.kernel.org/category/releases.html
+ 
+ 长期支持内核的选择纯粹是维护人员是否有需求和时间来维护该版本的问题。
+ 目前还没有为即将发布的任何特定版本提供长期支持的已知计划。
+@@ -320,7 +313,8 @@ Quilt 是一个补丁管理系统，而不是源代码管理系统。它不会
+   没有完成家庭作业的人感到不耐烦。
+ 
+ - 避免顶部回复（把你的答案放在你要回复的引文上面的做法）。这会让你的回答更难
+-  理解，印象也很差。
++  理解，印象也很差，详细请查看
++  :ref:`Documentation/process/submitting-patches.rst <interleaved_replies>`
+ 
+ - 在正确的邮件列表发问。linux-kernel 可能是通用的讨论场所，但它不是寻找所有
+   子系统开发人员的最佳场所。
+-- 
+2.53.0
 
