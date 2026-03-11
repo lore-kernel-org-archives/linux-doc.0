@@ -1,91 +1,120 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7598B40DFCB
-	for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2026 21:45:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D01C1B4138;
+	Wed, 11 Mar 2026 21:51:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773265560; cv=none; b=WvjAS2Hgo6cG9mZdN9XFV6+m5RFzZGz4DRGcVOKWWo0+iHiPaWkw3zkXpeLOhwW9Z4fxYHZupjVGwTyYR9A4sgu0SQKdzyq6B3b6WTMG1Fu1b34qyYFm5tQUllCNHLJelCkDv17/YYSs+R8JrR//7bluy0JX46MoR8xqE0YuDsY=
+	t=1773265903; cv=none; b=NCnTAVFQWTodrbljYCGXULPFo1pcbV/ezP1ahiNPsznt9pAKR7JS4+YGJFr22l0VOwLnjw98hodoWw+MYtvGkzL9C1jfcq564QcNjP7pswAxJfsj1VWdLyZbjfxao3KNFGuQ2iYGJX5SDabUHCLpiRxvEwfRwqaMaFe/gvrDr8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773265560; c=relaxed/simple;
-	bh=0KKwWWFePvShq0PX9kmKJM6GqhdfKaeQrJp8EdRwg4Y=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=TziahRTNUv+QzdgVIvphrSNL7nXX0teMoAlCHBTe7WWeudQLqUxaB03eAuyQ0FyR0GR8HiKQOyT7U1NcssLwtV1oeBzVdFypqHPNcYuOefA9Jy+9xhnxAfGF3hfdLaa+7+H0bEc4HLipsoG4Js3z7jovJsrKxbT3EOM/ih0fHn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ME9Lfr/w; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1773265903; c=relaxed/simple;
+	bh=Ky9x4Qc7sXMth54WdQkScEx8aBLAUtoTYC5EOd6QHxo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kirH1Dxr8ZcCkLz9BShAPPapML9f+calzP99PhVohWbeDFMznko5a6j37001W7iDhPfOx6GyskJHpwNkpZGBB1Xqxb+zD9eZEkFLRRH8c6pzE5+n5zdwIRHEu0Z4SazKmWmxnDpnfPfaerR59ELZh41JngmsffpC+MofqYlb1TA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dx7jFacZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ME9Lfr/w"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773265558; x=1804801558;
-  h=date:from:to:cc:subject:message-id;
-  bh=0KKwWWFePvShq0PX9kmKJM6GqhdfKaeQrJp8EdRwg4Y=;
-  b=ME9Lfr/wehdPuW4O6WoEFn3EMd34hyRkEVCg02CywVpgoaucBBhWmDER
-   fitTWi96VXDun/oOhSzOZr/2+ZuJSjHGQX9yOVHi9y59M5YNupBauN/UA
-   nZTY5Zoeb5sZgVv44j838mAicu7/C3FQVqkYSNiDaaZgBrxENUJMheY+f
-   42NH3PKy3O3TkPsm+nLB34DeWWUgFoyFhq7NbgwBxgUyito8/oCbDe6vf
-   azhxC6JyJHTC/nja09JgS86AIlkG8tT+HUGtl87pqToeTrkV3rHxxstPj
-   bQt81NfaDMO7gCpPOHjGLVcvoRvXjPWoVnFZjBRZza2hOBooTgQgMNVZq
-   A==;
-X-CSE-ConnectionGUID: KgogsTIzTqWBDjvpnbl3HQ==
-X-CSE-MsgGUID: 9lPHmpbPSrKvELpJiv88aw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="73366164"
-X-IronPort-AV: E=Sophos;i="6.23,115,1770624000"; 
-   d="scan'208";a="73366164"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2026 14:45:58 -0700
-X-CSE-ConnectionGUID: iricqyc2QSm2Z+MT0ANldg==
-X-CSE-MsgGUID: 55mqi9M5SkOKHcUnKQX8RQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,115,1770624000"; 
-   d="scan'208";a="217218354"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa010.fm.intel.com with ESMTP; 11 Mar 2026 14:45:58 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w0RNL-000000003Or-3nj3;
-	Wed, 11 Mar 2026 21:45:55 +0000
-Date: Wed, 11 Mar 2026 22:45:11 +0100
-From: kernel test robot <lkp@intel.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [robh:dt-convert 40/621] htmldocs: Warning:
- arch/arm/xen/enlighten.c references a file that doesn't exist:
- Documentation/devicetree/bindings/arm/xen.txt
-Message-ID: <202603112218.stMvgxw9-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dx7jFacZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27E2CC4CEF7;
+	Wed, 11 Mar 2026 21:51:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773265903;
+	bh=Ky9x4Qc7sXMth54WdQkScEx8aBLAUtoTYC5EOd6QHxo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Dx7jFacZSSM5wqhX2HqVl7lUpW0BEE9MOC0zg7RjB5ksIwDxAWiFZ8g3y/bFQrOJU
+	 KgyyZReYbkucYayZ/KcL7xAyjIJahjFxos8+5wjc172EkvLwKREPg6fUMCTTHH9e5e
+	 0SRr79WK766w8sZqtz4gS07VU1undwunt1g8fnAM8l9uaJP+41+dKTEgKAzgAC6bf/
+	 ZZLf4g5j9YtyfB0DJtKhpkgq99a3yhBGia1Y7+OvqI0ggZIZSbgKqyCcmC73P8o5ei
+	 3riUM+OF6hL5IX1V96Jb/coHSW0x2b0lzPO3IE2wBzbwAzqmJfj2pYMsEB2v8Ifrtc
+	 tyBfX4sVpALLQ==
+Date: Wed, 11 Mar 2026 14:51:26 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Or Har-Toov <ohartoov@nvidia.com>
+Cc: Jiri Pirko <jiri@resnulli.us>, Tariq Toukan <tariqt@nvidia.com>, Eric
+ Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Donald
+ Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Saeed
+ Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Mark Bloch
+ <mbloch@nvidia.com>, Shuah Khan <shuah@kernel.org>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-rdma@vger.kernel.org, linux-kselftest@vger.kernel.org, Gal Pressman
+ <gal@nvidia.com>, Dragos Tatulea <dtatulea@nvidia.com>, Shay Drory
+ <shayd@nvidia.com>, Jiri Pirko <jiri@nvidia.com>, Moshe Shemesh
+ <moshe@nvidia.com>
+Subject: Re: [PATCH net-next V3 00/10] devlink: add per-port resource
+ support
+Message-ID: <20260311145126.7dcca532@kernel.org>
+In-Reply-To: <5de5103e-e2e4-4b72-9c3c-22847728fbb8@nvidia.com>
+References: <20260226221916.1800227-1-tariqt@nvidia.com>
+	<20260302192640.49af074f@kernel.org>
+	<pmxkihhtsskkwsvdia4z2ss4wxpfc4a4kqxkjv5wk3mwdmpzii@6go7pizk2nst>
+	<jssifysprwuafkinc3dguspngxmplrngqxvotp76vhvu4e5lp6@e7mdrjqc5rme>
+	<20260304101522.09da1f58@kernel.org>
+	<np44uzfn6jea56uht4yq4te5clapgj7pk6ygyvkl22wxumwnvt@nrpvzjqzxenq>
+	<20260305063729.7e40775d@kernel.org>
+	<ni23r4jiwgc6zjjsubtl4ujjgxzwpxrylumofdwxgozfnieynm@zirlbneaz6p2>
+	<20260306120301.0ebe1ab2@kernel.org>
+	<74dcd7c5-8a2b-49a7-a23c-174d17a61955@nvidia.com>
+	<20260309133341.7e08b35d@kernel.org>
+	<5de5103e-e2e4-4b72-9c3c-22847728fbb8@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt-convert
-head:   c8198e311a98fefcf9efff078bf3930ff94b60d2
-commit: 196674ef5f8e4dc30614fa50d68be8c457747b40 [40/621] dt-bindings: arm: Convert xen,xen to DT schema
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260311/202603112218.stMvgxw9-lkp@intel.com/reproduce)
+On Wed, 11 Mar 2026 20:24:08 +0200 Or Har-Toov wrote:
+> For the dump-it command:
+> devlink resource show
+> pci/0000:03:00.0:
+> <resource>
+> pci/0000:03:00.0/196608:
+> <port-resource>
+> pci/0000:03:00.0/196609:
+> <port-resource>
+> pci/0000:03:00.1:
+> <resource>
+> pci/0000:03:00.1/262144:
+> <port-resource>
+> 
+> devlink resource show scope port
+> pci/0000:03:00.0/196608:
+> <port-resource>
+> pci/0000:03:00.0/196609:
+> <port-resource>
+> pci/0000:03:00.1/262144:
+> <port-resource>
+> 
+> devlink resource show scope dev
+> pci/0000:03:00.0:
+> <resource>
+> pci/0000:03:00.1:
+> <resource>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603112218.stMvgxw9-lkp@intel.com/
+LGTM
 
-All warnings (new ones prefixed by >>):
+> For the do-it command:
+> devlink resource show pci/0000:03:00.0
+> pci/0000:03:00.0:
+> <resource>
+> pci/0000:03:00.0/196608:
+> <port-resource>
+> pci/0000:03:00.0/196609:
+> <port-resource>
+> 
+> devlink resource show pci/0000:03:00.0 scope port
+> pci/0000:03:00.0/196608:
+> <port-resource>
+> pci/0000:03:00.0/196609:
+> <port-resource>
+> 
+> devlink resource show pci/0000:03:00.0  scope dev
+> pci/0000:03:00.0:
+> <resource>
 
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/arm/ste-*
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/ABI/testing/sysfs-platform-ayaneo
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/megachips-stdpxxxx-ge-b850v3-fw.txt
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/arm/firmware/sdei.txt
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/arc/axs10*
->> Warning: arch/arm/xen/enlighten.c references a file that doesn't exist: Documentation/devicetree/bindings/arm/xen.txt
-   Warning: arch/powerpc/sysdev/mpic.c references a file that doesn't exist: Documentation/devicetree/bindings/powerpc/fsl/mpic.txt
-   Warning: rust/kernel/sync/atomic/ordering.rs references a file that doesn't exist: srctree/tools/memory-model/Documentation/explanation.txt
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/virtual/lguest/lguest.c
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,\b(\S*)(Documentation/[A-Za-z0-9
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/devicetree/dt-object-internal.txt
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Do we have to touch doit? Maybe we should let doit be what it is now
+and consider it legacy going forward? doit which is in fact a filtered
+dump is a bit of a mistake in the first place, from Netlink's
+perspective.
