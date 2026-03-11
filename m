@@ -1,204 +1,111 @@
-Received: from canpmsgout07.his.huawei.com (canpmsgout07.his.huawei.com [113.46.200.222])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A38E2868B5;
-	Wed, 11 Mar 2026 03:00:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.222
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A48BA278161
+	for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2026 03:05:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773198010; cv=none; b=r2B2jtdlS8LPfpbojXZP9TCgg97CKHFEWD4sVdtoVBICOSCBF0fQEIHhN4c3CrVUNgamKxl3pc4YnkFRb06e1q1DFrVWrhxvmOBFOpFsXF5jRRdEk9Pk555JEqNI/TWJ0j1duYei0b1hdzG0Ci4dJ114H6qFdi+SX0phiSh4PyE=
+	t=1773198353; cv=none; b=HuVjV8DEhY6PDPKTeoysTECtmtGWm7+4/40ggo6QM9uDPV0ou9AZnY2sQ7O/QHsKX3iZ64UruDkUQMynoutrPQUWGLXi+SSyHZXz/TXnQVV8uGkAOOtRJhaN3aZcQr5aZYXCTZyxX4MnmgMlNfWmyNguMXUV7oyPg2I3+OYJpho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773198010; c=relaxed/simple;
-	bh=ZVNRdZOlzeflVbYT5vXQDtqpMaNUZi2VFbF2LUVNHBY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=uooMZMzvm+9QtcxRJHnoRy+yySxcTYX1uUmvguXmrTJHhwsr2/TS42k4wK4PoQvKPNOnYEzwG2d7JW4NyqEcNJywz/Pd1UgmjUwHf1OM8z1lXAUikJNP8e9t2YD1QhletZxajT1hqFEWozyZHJQhbRWUQklVN9xBo145vUE+79M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=UIuMwL2Z; arc=none smtp.client-ip=113.46.200.222
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1773198353; c=relaxed/simple;
+	bh=g0jP/cCy0U+7vBEtzVQh9T91m2nfewDiwa5GpQYX8hQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iaZpldtW+2faoiCFjFb4LRo60wM7PSYX2vYZAz42bmQEC/QFS3QlzY96YQ2fJJNqDERSepGZAC0/jNHaoH9+qN3O5w6wSx3BCuKdwV4vR6fdJIiJkbAB7hVuWydrZaZ2V1vo0gjWUlgUh+HydSs7ad2vLs4Mh1EQij5s+i36yzQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BZciOML3; arc=none smtp.client-ip=209.85.167.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="UIuMwL2Z"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=DUKycpPzpFIpG0env8jwSvfK5sQZJJ1YY0eqvDa9Ls4=;
-	b=UIuMwL2ZnQBHKt0OSz5st4Og2VYIGREkqW4SE+XsyKkbHXGhNjJEsAWrxVSqy6OOZJ3NLbK9Z
-	kP8s3Xd0pnLT2F4QMacoWnfn19/NxFuvNNLMkzdoJPW46wBbTVsZOQsEtjgpquwRCBs94A0/o7e
-	g1HUZD+aWdwNP2wFTTnfWEY=
-Received: from mail.maildlp.com (unknown [172.19.163.214])
-	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4fVwMy3T5lzLlSf;
-	Wed, 11 Mar 2026 10:55:10 +0800 (CST)
-Received: from kwepemk500009.china.huawei.com (unknown [7.202.194.94])
-	by mail.maildlp.com (Postfix) with ESMTPS id 7FEF34056C;
-	Wed, 11 Mar 2026 11:00:05 +0800 (CST)
-Received: from [10.67.121.161] (10.67.121.161) by
- kwepemk500009.china.huawei.com (7.202.194.94) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Wed, 11 Mar 2026 11:00:03 +0800
-Message-ID: <9ef9b529-839b-4cf0-a294-5b68fe8aa768@huawei.com>
-Date: Wed, 11 Mar 2026 11:00:02 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BZciOML3"
+Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-466ebbf7ff7so1182603b6e.1
+        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 20:05:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773198351; x=1773803151; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=95ZRrtc4eXz3V4yj62Q+GPsi5hI9uvUkZWMdSqVx+RM=;
+        b=BZciOML3J05tgEuHCeUpKJ979BzwmjZ5M3RcxhcHptbOGQE+cLL/4PD6q0lMuniqEx
+         3pqZ6XQ0nxZ2J6NQsP7b4K96Q8iymyJEBnmp274PdCN/BhqiwMjxX3q0qwEM1cJVQQtJ
+         JNZK1nym6Woy4HgqsWB/P6gXyYLud54h73bg4I1Py3sDp64CcTfvJy7p3ne8Ftl0eQdK
+         ZctrsiYXbI7qFWnxu9FaksD32zHNbVqlMcenfITbmxG3mS3/gjaBwMEq/LaT4e+LNeSy
+         f31x4YjrYxAJwj3GfkCH9q/myztAE2XBxFDrgLiUvrdgGXy9+bgvQMl0yRlPhne9CnAL
+         s14w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773198351; x=1773803151;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=95ZRrtc4eXz3V4yj62Q+GPsi5hI9uvUkZWMdSqVx+RM=;
+        b=fHSeg8QC7i3MtzeG83UkGvLZxESxBszsZiUWDckfAr+aiMMrEY8UAcMB0DDhRWbKL9
+         onj1Aluh+AANiSOlMsqtH9Qih7iOyOgBdbOoM1RfMVtqW7TGV/80aVE+AsIPuBnbQTGR
+         uxdZiDZBhk1iHxUGjSoM+R9zjRtiKc9UPoaCo+kfVvmKOIR5YrD1K0hc0X8fl0oG1JqX
+         xVsnv7mZhd69ILIHWrxIXqgpHluLwGPL3LfvmErUrmkxIGGD1rZ1dMT0VNVeaj6n1cN9
+         ZQ/Hu6ZVedRYH5RL7snrWhQ/jmoTQnCpS/R6HgRbVKXqwtLPK/L5bmscJza/Vq3M2y54
+         JgtA==
+X-Forwarded-Encrypted: i=1; AJvYcCUq4DcG15QKncO/VNoTraAuIuJpTRQdDyGcMz0YY8x7qYL3Z+qiymmi/b2g195U8ZiJGen8BjcS5ig=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxK3DUPfWpkN14+9c71JOqy4k4+o1Gv4oxZZn8ggC0B5ywBi9hw
+	4OlZsSE0I9lYZ4PRSHKVU/0wearYiVQPwooTK3CQQPAsZdhONsnTIESd
+X-Gm-Gg: ATEYQzwlVmnZ6UXZkGp9odnk6gi5VWeLog8TCZSmlOjTNryF7ab/ciDId+q0Jcq4eW1
+	gW637aBlp4Yx2/egqOgLU1gxc05XDCJ4Kiji2Uy8QB3iKIRmhNZkrN9DH6Rgdk0qobOvpzTnZTc
+	MkLzDVqmGDgtqyIP5vBIvgZXDyF1v+4ICNBAuvqXS/da2neoG/yxnmqxOwS53vwsuH8jQjQveru
+	CGyDkwU1IYP2vtC9u29aglD+J/LgSFdZhTGeLPmV8aahuCSngSALQn7p+gc/7jiR3y0AZVShFqC
+	rAV+jX6rz6I8V/hvOdjZWJgRbiA6f/mVKExhGQMUNSj6JMzkWFgUvYOFh1DdSUgXCy0eQz/oDdM
+	/EnYFRbZVo7N+XG/IWU+Dea8L7NACqJK+rJAsfwdG3PkFX7q+/8BAq8KNzlpJfD98bn6FgQSlYG
+	qd1zswiXKm/OIF4oBI9PHSd16/A+uxxUGUpqe1FaiyoSYC25ju2qfksVb7iqD2TlcTx3Bc4VyUd
+	oolDjZkg6pdjy/4T2nDEvA=
+X-Received: by 2002:a05:6808:30a5:b0:467:2a6e:adad with SMTP id 5614622812f47-46733425bc7mr575564b6e.11.1773198350583;
+        Tue, 10 Mar 2026 20:05:50 -0700 (PDT)
+Received: from ShravyaPC.. (r74-192-25-180.bcstcmta01.clsttx.tl.dh.suddenlink.net. [74.192.25.180])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-467342ef6fesm468393b6e.14.2026.03.10.20.05.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Mar 2026 20:05:50 -0700 (PDT)
+From: ShravyaPanchagiri <shravy112@gmail.com>
+To: netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: sgoutham@marvell.com,
+	lcherian@marvell.com,
+	gakula@marvell.com,
+	hkelam@marvell.com,
+	sbhatta@marvell.com,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	ShravyaPanchagiri <shravy112@gmail.com>
+Subject: [PATCH v2] docs: octeontx2: fix typo in documentation
+Date: Tue, 10 Mar 2026 22:04:50 -0500
+Message-ID: <20260311030450.8461-1-shravy112@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/2] PCI/TPH: Fix get cpu steer-tag fail on ARM64
- platform
-To: Bjorn Helgaas <helgaas@kernel.org>, Jeremy Linton <jeremy.linton@arm.com>
-CC: Bjorn Helgaas <bhelgaas@google.com>, Catalin Marinas
-	<catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, "Rafael J .
- Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
-	<skhan@linuxfoundation.org>, Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui
-	<kernel@xen0n.name>, Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt
-	<palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti
-	<alex@ghiti.fr>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar
-	<mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
-	<dave.hansen@linux.intel.com>, <x86@kernel.org>, "H . Peter Anvin"
-	<hpa@zytor.com>, Juergen Gross <jgross@suse.com>, Boris Ostrovsky
-	<boris.ostrovsky@oracle.com>, Len Brown <lenb@kernel.org>, Sunil V L
-	<sunilvl@ventanamicro.com>, Mark Rutland <mark.rutland@arm.com>, Jonathan
- Cameron <jonathan.cameron@huawei.com>, Kees Cook <kees@kernel.org>, Yanteng
- Si <si.yanteng@linux.dev>, Sean Christopherson <seanjc@google.com>, Kai Huang
-	<kai.huang@intel.com>, Tom Lendacky <thomas.lendacky@amd.com>, Thomas Huth
-	<thuth@redhat.com>, Thorsten Blum <thorsten.blum@linux.dev>, Kevin Loughlin
-	<kevinloughlin@google.com>, Zheyun Shen <szy0127@sjtu.edu.cn>, Peter Zijlstra
-	<peterz@infradead.org>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, Xin
- Li <xin@zytor.com>, "Ahmed S . Darwish" <darwi@linutronix.de>, Sohil Mehta
-	<sohil.mehta@intel.com>, Ilkka Koskinen <ilkka@os.amperecomputing.com>, Robin
- Murphy <robin.murphy@arm.com>, James Clark <james.clark@linaro.org>, Besar
- Wicaksono <bwicaksono@nvidia.com>, Ma Ke <make24@iscas.ac.cn>, Ajit Khaparde
-	<ajit.khaparde@broadcom.com>, Wei Huang <wei.huang2@amd.com>, Andy Gospodarek
-	<andrew.gospodarek@broadcom.com>, Somnath Kotur <somnath.kotur@broadcom.com>,
-	<wangzhou1@hisilicon.com>, <wanghuiqiang@huawei.com>,
-	<liuyonglong@huawei.com>, <linux-pci@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <loongarch@lists.linux.dev>,
-	<linux-riscv@lists.infradead.org>, <xen-devel@lists.xenproject.org>,
-	<linux-acpi@vger.kernel.org>, <linux-perf-users@vger.kernel.org>,
-	<stable@vger.kernel.org>, Wathsala Vithanage <wathsala.vithanage@arm.com>
-References: <20260310220920.GA826995@bhelgaas>
-Content-Language: en-US
-From: fengchengwen <fengchengwen@huawei.com>
-In-Reply-To: <20260310220920.GA826995@bhelgaas>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
- kwepemk500009.china.huawei.com (7.202.194.94)
+Content-Transfer-Encoding: 8bit
 
-On 3/11/2026 6:09 AM, Bjorn Helgaas wrote:
-> On Tue, Mar 10, 2026 at 10:58:49AM -0500, Jeremy Linton wrote:
->> On 3/9/26 10:20 PM, Chengwen Feng wrote:
->>> pcie_tph_get_cpu_st() is broken on ARM64:
->>> 1. pcie_tph_get_cpu_st() passes cpu_uid to the PCI ACPI DSM method.
->>>     cpu_uid should be the ACPI Processor UID [1].
->>> 2. In BNXT, pcie_tph_get_cpu_st() is passed a cpu_uid obtained via
->>>     cpumask_first(irq->cpu_mask) - the logical CPU ID of a CPU core,
->>>     generated and managed by kernel (e.g., [0,255] for a system  with 256
->>>     logical CPU cores).
->>> 3. On ARM64 platforms, ACPI assigns Processor UID to cores listed in the
->>>     MADT table, and this UID may not match the kernel's logical CPU ID.
->>>     When this occurs, the mismatch results in the wrong CPU steer-tag.
->>> 4. On AMD x86 the logical CPU ID is identical to the ACPI Processor UID
->>>     so the mismatch is not seen.
-> 
->>>   int pcie_tph_get_cpu_st(struct pci_dev *pdev, enum tph_mem_type mem_type,
->>> -			unsigned int cpu_uid, u16 *tag)
->>> +			unsigned int cpu, u16 *tag)
->>>   {
->>>   #ifdef CONFIG_ACPI
->>> +	u32 cpu_uid = acpi_get_cpu_acpi_id(cpu);
-> 
-> From AI review (gemini/gemini-3.1-pro-preview):
-> 
->   Does this code need to validate that `cpu` is within bounds before
->   using it?  Before this change, the `cpu_uid` parameter was passed
->   opaquely to the ACPI firmware via `tph_invoke_dsm()`, which would
->   gracefully handle invalid values.
-> 
->   Now, `cpu` is treated as a logical CPU index and passed to
->   `acpi_get_cpu_acpi_id(cpu)`. On architectures like arm64 and riscv,
->   `acpi_get_cpu_acpi_id()` uses `cpu` directly as an array index
->   (`&cpu_madt_gicc[cpu]` and `&cpu_madt_rintc[cpu]`). On x86, it uses
->   `per_cpu(x86_cpu_to_acpiid, cpu)`.
-> 
->   If a caller passes an out-of-bounds `cpu` index (for example, if an
->   IRQ affinity mask is empty and `cpumask_first()` returns
->   `nr_cpu_ids`, or if userspace passes an arbitrary ID via
->   `mlx5_st_alloc_index()`), this will result in an out-of-bounds
->   memory read.
-> 
->   Consider adding a bounds check:
-> 
->     if (cpu >= nr_cpu_ids)
->       return -EINVAL;
-> 
-> I agree that this is an issue, and I think implementations of
-> acpi_get_cpu_acpi_id() should validate their inputs.
-> 
-> I don't know if there's a value that can never be a valid ACPI CPU UID
-> and could be used as an error value from acpi_get_cpu_acpi_id().  I do
-> see a few mentions of a ~0 value meaning "all processors" (ACPI r6.6,
-> sec 5.2.12.13).  
+Fix spelling mistake "Crate" to "Create" in the documentation.
 
-I only have the ACPI Specification Version 6.5, so I will use v6.5 as an example.
+Signed-off-by: ShravyaPanchagiri <shravy112@gmail.com>
+---
+ .../networking/device_drivers/ethernet/marvell/octeontx2.rst    | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The ACPI specification does not define invalid value ranges for the ACPI UID.
-For the arm64 platform (Section 5.2.12.14):
-  ACPI Processor UID: The OS associates this GICC Structure with a processor device
-                      object in the namespace when the _UID child object of the
-                      processor device evaluates to a numeric value that matches
-                      the numeric value in this field.
-
-I am concerned that we cannot implement it like this:
-	int acpi_get_cpu_uid(unsigned int cpu) {
-		if (cpu >= nr_cpu_ids)
-			return -EINVAL;
-		...
-	}
-or:
-	u32 acpi_get_cpu_uid(unsigned int cpu) {
-		if (cpu >= nr_cpu_ids)
-			return U32_MAX;
-		...
-	}
-
-How about implementing it as follows:
-	s64 acpi_get_cpu_uid(unsigned int cpu) {
-		if (cpu >= nr_cpu_ids)
-			return -EINVAL;
-		...
-	}
-or
-	int acpi_get_cpu_uid(unsigned int cpu, u32 *uid) {
-		if (cpu >= nr_cpu_ids)
-			return -EINVAL;
-		*uid = xxx;
-		return 0;
-	}
-
-
-
-Another issue: This commit also provides an implementation for the x86 platform.
-However, further code analysis revealed a potential problem in the implementation:
-
-The acpi_get_cpu_acpi_id() retrieves uid from x86_cpu_to_acpiid in SMP, and
-x86_cpu_to_acpiid is set through the call chain: acpi_parse_lapic() ->
-topology_register_apic() -> topo_register_apic() -> topo_set_cpuids() ->
-x86_cpu_to_acpiid. It appears to retrieve the "ACPI Processor UID" from
-ACPI Section 5.2.12.2, but the problem is that this field is only one byte in length,
-which may cause issues in huge-core systems.
-
-Therefore, I suggest re-implementing the acpi_get_cpu_uid function for the x86
-platform. Either I provide a default implementation (shown below), or x86 guys
-contribute to the implementation:
-
-	s64 acpi_get_cpu_uid(unsigned int cpu) {
-		if (cpu >= nr_cpu_ids)
-			return -EINVAL;
-		return cpu;
-	}
-
-Thanks
-
-> 
+diff --git a/Documentation/networking/device_drivers/ethernet/marvell/octeontx2.rst b/Documentation/networking/device_drivers/ethernet/marvell/octeontx2.rst
+index a52850602cd8..c31c6c197cdb 100644
+--- a/Documentation/networking/device_drivers/ethernet/marvell/octeontx2.rst
++++ b/Documentation/networking/device_drivers/ethernet/marvell/octeontx2.rst
+@@ -323,7 +323,7 @@ Setup HTB offload
+ 
+         # ethtool -K <interface> hw-tc-offload on
+ 
+-2. Crate htb root::
++2. Create htb root::
+ 
+         # tc qdisc add dev <interface> clsact
+         # tc qdisc replace dev <interface> root handle 1: htb offload
+-- 
+2.43.0
 
