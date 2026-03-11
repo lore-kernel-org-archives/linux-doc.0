@@ -1,92 +1,227 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A01FA3DDDDF
-	for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2026 09:25:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58A3723BCED
+	for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2026 10:00:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773221113; cv=none; b=Kh2Lha2nxPt0BDitDlSblrtX4/GHJvb3lYwcXZPwhr0Ru2iYQf2WYxe/A0ijnHZHLlFiqHATPh5ibDxBOKVhqRlqyMrixSbl/ctQm9OHgoxhoc390FpKfg54LACsUpI0r0nxCK/VsqnuBhIU8Y0UejVfKup9B5qPBtRJ6OEFId0=
+	t=1773223252; cv=none; b=rYHqK2sw5UWMgXcihFGfLPYHbotuV++P6k6VHdKShwBy4xnKvkclEjeLHlfT0XQNhj56oYbGEtaJBBkA2oQgrbgNDRvsIE+Tk7qGhLVySWe1pJz5wfCcGkYad3T/6A8CrPbUPCSg4L6iL0Xn7inMXv0bv6TeXseYzgduQtrsvCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773221113; c=relaxed/simple;
-	bh=01GKf65j/jScrwoKQ+C2Gxr6oYYNcBqF+y3kaUEjbLo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=L2Xyc/I9hTRF5wm7cBifkxgbBbgoxqjDoN8E0NxtcE+OCgSWxeIThV7eHOhYluLjaXuIrv2AdfB9CEydEWhEaybMTG8OQLgcj9+mofMQcIFTPvSFJci5rvrZviPRefbz+T1+F4O2TjISAnY5VIu6Ddnq4IyJUJSO9LaPXl0tzfU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IK9qaKAc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773223252; c=relaxed/simple;
+	bh=th6/Spfb/htH3UowzS/TbF+AxDPJCsaUEzoaTbrPt1g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=shkKe3/sZi5MaXrFqcnzOIgwEsx4TM3A0cdzkm00pH+VFq+Wls4nHreWe1sItbDZ6kiBGcrqBP/c4iIor33CIFxWbc9Xt1XPxwK8ClWy/7/Nqu6AYhwl1sC0OsBjvH4fvaDvIj7JAxdEOiaMgkUA9DGCqdBiNn7l6SFtB2J7yl4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Ojrug3DF; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IK9qaKAc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DD72C2BCB8
-	for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2026 09:25:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773221113;
-	bh=01GKf65j/jScrwoKQ+C2Gxr6oYYNcBqF+y3kaUEjbLo=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=IK9qaKAc40x9w1tTnDGK/5LfwtlPgFMQbzLlkR8KIJgzQd5uLNQvBbpMt2vh78Hdf
-	 uGFIdbEEKhpLM7kwrYSqd/d6UMtbhBEQn6P8nswxyoNEodBRhoszprfEvS+TvD881+
-	 KFaoGOWRRavp+r/ljv2ths/HESZBtfyYFBrTiWerLSWzV1GJ6IEITEuhK9bbwbRQrm
-	 JSrEUBKRCmA4D7VowIA5CT+EyZhNq2ZFR6u9nqkXA7vxtLKcSniNmqjqfUsh5kdNp3
-	 Yb95HaLUCp2J00ygi8cr6kBVXzHmTqlWtuqzhw9aLMoq9bG1iIIGd1/ZYY7er6CZid
-	 6upOZohwnPaqA==
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-7986d231b3cso11579597b3.1
-        for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2026 02:25:13 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWrSmaLLXZBlJPcIK4LvqXgA4B5g6o2cO+PUhLp7K6ZmiRBsRpw5WyY9au553xNtiz80rYXGbd7cVU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy/pOsS5SdDDM/7YLmmzPes9ri7PdC7Ohm8utoWeSHJpWwgkXTc
-	TK7CM3vvY/4B3NakiH9qZu6n2St3lB3f8uqoE5rMWGwfVjxnjn8wQf7dzZ4gVLGaBrnAhijNMLI
-	0BXbkSec1kVyAugNo6N43JlGyFwHcE4w=
-X-Received: by 2002:a05:690c:6d84:b0:794:f400:2bfb with SMTP id
- 00721157ae682-79917f593b5mr14822137b3.26.1773221111798; Wed, 11 Mar 2026
- 02:25:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Ojrug3DF"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-439b9cf8cb5so9589735f8f.0
+        for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2026 03:00:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1773223250; x=1773828050; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ow79JTabgZIRsJS6+UL0N2v2U8DPJz+PJynXqjT3UBM=;
+        b=Ojrug3DFrlQpiG7ZGcIeWrsmvJFxYRvI2nn6ZQcYK6Xzb1I943fiAERZ/tNHxQxVT9
+         bOw/BxOXwg9O9uzdXw3ubJlW861JRNnCD0fwAYq/v3JHSH2MGaJ1XtB8xRrp2nycDQbB
+         XDkJLmYhnpGRsChycg4IEwW6VrtaUaE7GpnDqB4fF+8rpHHEyxjX6irn26lsiinYG6WS
+         UZPygpfCXwovyWcbdVrHGX8kkHyKhTN5w2NNxkJ61wM3NHQil9JK7Ry977OAPpr5I70/
+         wfGjV8PBuudrRhdo8wTq8g378WesMEVAO+4Mli0AiNaJzFI0vIlLe4dnzJpVzKQCv+uI
+         HykQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773223250; x=1773828050;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ow79JTabgZIRsJS6+UL0N2v2U8DPJz+PJynXqjT3UBM=;
+        b=A7TqORYPDvGS0MCXuKSyqUchXeMAhE0ZhRUWmpnwef+mtqMAGkcY2QsTNjEZE2nb2i
+         1opn1Tp63Iyc0EkZsgqVcvFyXY+mvVo1dVmpDCEcoLrIedoUzO64WVejXElNdjAKLEir
+         Ve3kRBlXyCvkSXLEHaWxg5Kj3EUt2nO9iLptVlyRa+rDzav4JkmApEX5WgEXoxnxrS1D
+         ZhYLUPxxaFblEhUX9e/UVaKg5TLCqkbqJpQDWixt88N0UF1Z2Enn+LmR/pC0WYiU5SRv
+         oT8L9Vi1PlE788+MEUzxMLnW/IhR9JPgjovUrFZsCOTiED98AhWNMbxaBD2lw1pdLQ5V
+         es+g==
+X-Forwarded-Encrypted: i=1; AJvYcCV7D7Mt9qNciHKpKa3dUmmpjp2kwRmxNt4yu+ZGqVKr8zf4oU2XauHph9Dac7YXQVTwvh4Qiy6hMjo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YylzAEeMzT82cgWyRXXje90wOXt8g0+bm1b2D+g5z1mCi9SdKyP
+	VVY/e9C8iYqKcKXcHboaBCX4ekMdVFoNH9nTNxARcgFGGCzsgWoDstV/hzvmM1Df8qI=
+X-Gm-Gg: ATEYQzyKxHIaxRg+s+EUOw83hvl/vGlURZffNrTHFu/YVHyT4BauoBdLTMke5w/Nf7M
+	/oNt65krvVz/uj4EXDl+EZBelYDpnHJtinuXaOCVB3qYow5o/EuzeI/cFSN5pqF4EzNxJjs2fvy
+	ARJAoTwO7EDjndqRBZOFHCg3FAzdQalSQelu3Tjb0qxPX/E5qajKdP8TggKrBBLU+awGqRxgLjS
+	7HvfsIlBARVBSnGIh8ySXexO2apFuRzpzSpCcEWkbUvLLhJR3RrQWUimNrW53XAcn3/dp69XNza
+	DyGUotgVq8arm28iCoIEatRpoLon3hlNjSdpqZgaLJCsymhD34aFxA4/GxU+5yCjNTwpo3Ck3zb
+	xOPqzS024T+XPbBdc4Qd8Lt4HdoShVEMjiwOuVe74XXe5ZMbR0KwaZqN8ZPTUB/gPcQPv/k1m5E
+	yfUoC6/Wu3UR/w6h3/QRVQcJ+ZjPs290Wxgnc=
+X-Received: by 2002:a05:6000:2f85:b0:439:c38e:66cc with SMTP id ffacd0b85a97d-439f821e5aemr3551932f8f.46.1773223249530;
+        Wed, 11 Mar 2026 03:00:49 -0700 (PDT)
+Received: from linaro.org ([2a02:2454:ff23:4441:1c2c:7aff:fe45:362e])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439f81acc22sm5146729f8f.16.2026.03.11.03.00.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Mar 2026 03:00:48 -0700 (PDT)
+Date: Wed, 11 Mar 2026 11:00:37 +0100
+From: Stephan Gerhold <stephan.gerhold@linaro.org>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Thara Gopinath <thara.gopinath@gmail.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Udit Tiwari <quic_utiwari@quicinc.com>,
+	Daniel Perez-Zoghbi <dperezzo@quicinc.com>,
+	Md Sadre Alam <mdalam@qti.qualcomm.com>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Peter Ujfalusi <peter.ujfalusi@gmail.com>,
+	Michal Simek <michal.simek@amd.com>, Frank Li <Frank.Li@kernel.org>,
+	dmaengine@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	brgl@kernel.org,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: Re: [PATCH v12 05/12] dmaengine: qcom: bam_dma: add support for BAM
+ locking
+Message-ID: <abE9RQfGN6Ycns1B@linaro.org>
+References: <20260310-qcom-qce-cmd-descr-v12-0-398f37f26ef0@oss.qualcomm.com>
+ <20260310-qcom-qce-cmd-descr-v12-5-398f37f26ef0@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260310075539.11701-1-wsa+renesas@sang-engineering.com> <20260310075539.11701-16-wsa+renesas@sang-engineering.com>
-In-Reply-To: <20260310075539.11701-16-wsa+renesas@sang-engineering.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Wed, 11 Mar 2026 10:24:59 +0100
-X-Gmail-Original-Message-ID: <CAD++jLkoWCcBvB4G-2EDYU4kezPhVF6943TY6PmK5ooGwruLzA@mail.gmail.com>
-X-Gm-Features: AaiRm52-5ccgCpLSKuxxaehFi73jWhXjY0Lv_AX860GJVRZU0Kw14nXERH-rf2Y
-Message-ID: <CAD++jLkoWCcBvB4G-2EDYU4kezPhVF6943TY6PmK5ooGwruLzA@mail.gmail.com>
-Subject: Re: [PATCH v4 15/15] hwspinlock/treewide: refactor consumer.h from
- public header
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Mark Brown <broonie@kernel.org>, Jonathan Cameron <jonathan.cameron@huawei.com>, 
-	Lee Jones <lee@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>, Boqun Feng <boqun@kernel.org>, 
-	Waiman Long <longman@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Jonathan Cameron <jic23@kernel.org>, 
-	David Lechner <dlechner@baylibre.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Andy Shevchenko <andy@kernel.org>, Orson Zhai <orsonzhai@gmail.com>, 
-	Chunyan Zhang <zhang.lyra@gmail.com>, Thomas Gleixner <tglx@kernel.org>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Srinivas Kandagatla <srini@kernel.org>, 
-	Antonio Borneo <antonio.borneo@foss.st.com>, Konrad Dybcio <konradybcio@kernel.org>, 
-	linux-remoteproc@vger.kernel.org, linux-doc@vger.kernel.org, 
-	driver-core@lists.linux.dev, linux-iio@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-spi@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260310-qcom-qce-cmd-descr-v12-5-398f37f26ef0@oss.qualcomm.com>
 
-On Tue, Mar 10, 2026 at 8:56=E2=80=AFAM Wolfram Sang
-<wsa+renesas@sang-engineering.com> wrote:
+On Tue, Mar 10, 2026 at 04:44:19PM +0100, Bartosz Golaszewski wrote:
+> Add support for BAM pipe locking. To that end: when starting DMA on an RX
+> channel - prepend the existing queue of issued descriptors with an
+> additional "dummy" command descriptor with the LOCK bit set. Once the
+> transaction is done (no more issued descriptors), issue one more dummy
+> descriptor with the UNLOCK bit.
+> 
+> We *must* wait until the transaction is signalled as done because we
+> must not perform any writes into config registers while the engine is
+> busy.
+> 
+> [...]
+> diff --git a/drivers/dma/qcom/bam_dma.c b/drivers/dma/qcom/bam_dma.c
+> index 83491e7c2f17d8c9d12a1a055baea7e3a0a75a53..627c85a2df4dcdbac247d831a4aef047c2189456 100644
+> --- a/drivers/dma/qcom/bam_dma.c
+> +++ b/drivers/dma/qcom/bam_dma.c
+> [...]
+> +static int bam_do_setup_pipe_lock(struct bam_chan *bchan, bool lock)
+> +{
+> +	struct bam_device *bdev = bchan->bdev;
+> +	const struct bam_device_data *bdata = bdev->dev_data;
+> +	struct bam_async_desc *lock_desc;
+> +	struct bam_cmd_element *ce;
+> +	struct scatterlist *sgl;
+> +	unsigned long flag;
+> +
+> +	lockdep_assert_held(&bchan->vc.lock);
+> +
+> +	if (!bdata->pipe_lock_supported || !bchan->scratchpad_addr ||
+> +	    bchan->slave.direction != DMA_MEM_TO_DEV)
+> +		return 0;
+> +
+> +	if (lock) {
+> +		sgl = &bchan->lock_sg;
+> +		ce = &bchan->lock_ce;
+> +		flag = DESC_FLAG_LOCK;
+> +	} else {
+> +		sgl = &bchan->unlock_sg;
+> +		ce = &bchan->unlock_ce;
+> +		flag = DESC_FLAG_UNLOCK;
+> +	}
+> +
+> +	lock_desc = bam_make_lock_desc(bchan, sgl, ce, flag);
+> +	if (!lock_desc)
+> +		return -ENOMEM;
+> +
+> +	if (lock)
+> +		list_add(&lock_desc->vd.node, &bchan->vc.desc_issued);
+> +	else
+> +		list_add_tail(&lock_desc->vd.node, &bchan->vc.desc_issued);
+> +
+> +	bchan->locked = lock;
+> +
+> +	return 0;
+> +}
+> +
+> +static int bam_setup_pipe_lock(struct bam_chan *bchan)
+> +{
+> +	return bam_do_setup_pipe_lock(bchan, true);
+> +}
+> +
+> +static int bam_setup_pipe_unlock(struct bam_chan *bchan)
+> +{
+> +	return bam_do_setup_pipe_lock(bchan, false);
+> +}
+> +
+>  /**
+>   * bam_start_dma - start next transaction
+>   * @bchan: bam dma channel
+> @@ -1121,6 +1266,7 @@ static void bam_dma_work(struct work_struct *work)
+>  	struct bam_device *bdev = from_work(bdev, work, work);
+>  	struct bam_chan *bchan;
+>  	unsigned int i;
+> +	int ret;
+>  
+>  	/* go through the channels and kick off transactions */
+>  	for (i = 0; i < bdev->num_channels; i++) {
+> @@ -1128,6 +1274,13 @@ static void bam_dma_work(struct work_struct *work)
+>  
+>  		guard(spinlock_irqsave)(&bchan->vc.lock);
+>  
+> +		if (list_empty(&bchan->vc.desc_issued) && bchan->locked) {
+> +			ret = bam_setup_pipe_unlock(bchan);
+> +			if (ret)
+> +				dev_err(bchan->vc.chan.slave,
+> +					"Failed to set up the pipe unlock descriptor\n");
+> +		}
+> +
+>  		if (!list_empty(&bchan->vc.desc_issued) && !IS_BUSY(bchan))
+>  			bam_start_dma(bchan);
+>  	}
 
-> Factor out the entries only needed for consumers from the generic public
-> header. This allows for a clean separation between providers and
-> consumers. Also remove contact field in favor of MAINTAINERS entries.
-> Fix the users, too.
->
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> Acked-by: Mark Brown <broonie@kernel.org>
-> Acked-by: Jonathan Cameron <jonathan.cameron@huawei.com> # for IIO
-> Acked-by: Lee Jones <lee@kernel.org> # for MFD
+I'm not entirely sure if this actually guarantees waiting with the
+unlock until the transaction is "done", for two reasons:
 
-Acked-by: Linus Walleij <linusw@kernel.org>
+ 1. &bchan->vc.desc_issued looks like a "TODO" list for descriptors we
+    haven't fully managed to squeeze into the BAM FIFO yet. It doesn't
+    tell you which descriptors have been consumed and finished
+    processing inside the FIFO.
 
-Yours,
-Linus Walleij
+    Consider e.g. the following case: The client has issued a number of
+    descriptors, they all fit into the FIFO. The first descriptor has a
+    callback assigned, so we ask the BAM to send us an interrupt when it
+    has been consumed. We get the interrupt for the first descriptor and
+    process_channel_irqs() marks it as completed, the rest of the
+    descriptors are still pending. &bchan->vc.desc_issued is empty, so
+    you queue the unlock command before the rest of the descriptors have
+    finished.
+
+ 2. From reading the BAM chapter in the APQ8016E TRM I get the
+    impression that by default an interrupt for a descriptor just tells
+    you that the descriptor was consumed by the BAM (and forwarded to
+    the peripheral). If you want to guarantee that the transaction is
+    actually done on the peripheral side before allowing writes into
+    config registers, you would need to set the NWD (Notify When Done)
+    bit (aka DMA_PREP_FENCE) on the last descriptor before the unlock
+    command.
+
+    NWD seems to stall descriptor processing until the peripheral
+    signals completion, so this might allow you to immediately queue the
+    unlock command like in v11. The downside is that you would need to
+    make assumptions about the set of commands submitted by the client
+    again... The downstream driver seems to set NWD on the data
+    descriptor immediately before the UNLOCK command [1].
+
+    The chapter in the APQ8016E TRM kind of contradicts itself
+    sometimes, but there is this sentence for example: "On the data
+    descriptor preceding command descriptor, NWD bit must be asserted in
+    order to assure that all the data has been transferred and the
+    peripheral is ready to be re-configured."
+
+Thanks,
+Stephan
+
+[1]: https://git.codelinaro.org/clo/la/platform/vendor/qcom/opensource/securemsm-kernel/-/blob/fa55a96773d3fbfcd96beb2965efcaaae5697816/crypto-qti/qce50.c#L5361-5362
