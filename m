@@ -1,156 +1,117 @@
-Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8523631F9A8
-	for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2026 20:50:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9943231F9AB;
+	Wed, 11 Mar 2026 21:14:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773262231; cv=none; b=VZSv7k4DlvUQ7M+W+cwiuZ4Sprv0jwUuiDwTbK/YoVrcDuNnB5VkZvPANw59KOiYhSVa9T0G5rQbVsb1RLumCBROsASjeqtBohZIZ1gdJSvjluwVPpjvL80sDjt24/ffcwS/ZTjObfS1rKMSKGmMixNFz4kOSG6/w7otmTdD4FY=
+	t=1773263677; cv=none; b=ruTruuBqqZwORMt6erWJEAqBJ/GQbbmkTE/W9A3JxvbQ1D8F/l+BsplEKzP4IbsMYA51PKQV+PkM5tdj3lJKQKjARJa5X7Jk22TmoXod028VCrwhw5kk5BYrzmyyaadg0KL4abx2BhkZqcwhlvdhDmxgu/39FC/1EHCr7D7E/cQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773262231; c=relaxed/simple;
-	bh=WJcW1lA0tu2eb7j4StbFQ+rLT76qulDtOkzOw26lp6k=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=WsU2qf1ZuEIvr0ZO7ZH8qp0CjPg2bOiRcAp1xNmbWtGzOkbnEnq+vv4vJ8x9CPuqCenJWmMFOQQ8vd9ZBFZ3/0sxYgNukVrsMR/eVDPo6frmNG+qdLUnKpS4jVXx2kGJ4WIuPOkAAgQj5JfTzRZR017gzUT4XoiCyL5r46YBO40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com; spf=pass smtp.mailfrom=brighamcampbell.com; dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b=MlX8IrP8; arc=none smtp.client-ip=74.125.82.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=brighamcampbell.com
+	s=arc-20240116; t=1773263677; c=relaxed/simple;
+	bh=4AK1rqDz6/A4qjK/w9x6JibTYdqI2D5USa9Uljlor+U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G8Ba+jORxSVzx09M0OAT2/hugqsjaGtZXcbsQvktFn1MG4d1e6XYyP/pMxeq6LPHyU6x0IzprbFX6WZaf7ACKc0jvpzCy+iy0+XnPnCiANChwwp+I2nt06ai4GIQB0jjdGNu/fdhavmooleb3IiBKVw37puQ31G63V8su6bv7ls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nB1ceOIT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="MlX8IrP8"
-Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-2ba9c484e5eso399471eec.1
-        for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2026 13:50:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brighamcampbell.com; s=google; t=1773262228; x=1773867028; darn=vger.kernel.org;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I3A4B+f1c95c4egMkkRgtXn4omwf2yF6o5FnhdI1eZ4=;
-        b=MlX8IrP8YU/vSbj898PpPVB6pNgYHBrbf5kdmQg1RC1IBmFFpPU1+e2Ktgwsxt5yH8
-         nh/zYI8XRXokoSsJa0wyOljyuJYOQL4/3VJvoGONIb2hUPTHQgBNXx0eXTmItbneCySR
-         kdd6FzYZmkpB3k2I+jT7Fpb0qU5uLM9GlEDq5lbtJiPrR+GJsYUTK4w+GEOdJ1l3oDHb
-         hiYjM61Z26I1HI+BoATPQBlWGfm/TX2DjKGApyUpm4tamCFZu/XO4YDkTjI8oGS9Ksa3
-         uNYfsHK3TDCBLInWoioSQ/N+BVAM7bVzIpmbilSAln5GMCxEqEuaukv7cp3gmxPfT8+Z
-         sdQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773262228; x=1773867028;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=I3A4B+f1c95c4egMkkRgtXn4omwf2yF6o5FnhdI1eZ4=;
-        b=aot26F0Qm2DAJARdXlpVScjR0MOuPIyfN4tRberxp0umxL4nyt6l1YFfuJm1uElWe6
-         xiIyviZAdvnyZTYpTQhlcN1eYqn2Tw5cJL3zugzwXMOFGoApOy91VwYf8vbe7/AfK3h8
-         sAXrw2796TZYmifA8aKcaoDJpGoJCq+1OBiDuoUpYRmCH0DghUUMo0Pl1wHISZSkvroV
-         xR4tu10JB8ggi146jzdvZif+U5Yrl1Z3SFiADNyj89/avt1bMvDBDxHq59UVKuY52SMU
-         /0HEn3cFD3dHgbxY9ij+re3Nc7P1tXfrDkZKv6WW/MqLCTxjoHrTHQGvQukKqh3PZpCy
-         RoRQ==
-X-Gm-Message-State: AOJu0Yz8oUzVGBxmf2naeAKOG6NvoOU08I0kzFGr3JRwoss8yY/5u3VB
-	JXQdShvi+Izu9hSBg10kTCfpsOglA99aCuLMq3YRa/X/gIiTlNwAsmVM30Tn/sMOEL4=
-X-Gm-Gg: ATEYQzzumzee+Fg7yiBqTnYh0c5wYARcwuKExsmS8pdyUJZ+q6fi/IIYsfpq0TVY6Jc
-	y7u1nsWDzBc6Y92X7V0njlVjLPsYK8ap1Q4ZR5jbY+XSGqTWdLMN7uX3M245SJWOhVuSjAqa8bY
-	UlvdMG4kiN1WHogx2Ue3AzjBBzUL11hLiG/tVZnd7SZ6K74Z94Uc3ax/VFHktbED+X607SMT/Rg
-	nSiytB1z/VOK30GgnLASMijkq32VuH3hRax72UujZr02fGeyvhmXISBjOGbBU0lGC0R/hL94/kD
-	mwC8jLyfx4hB+gqBmXCr2yHqEMI9Si5lY2pLnbsO54eAUaIYIeCe541ctZgjtvmBYx4U0PcjXRy
-	A2Fnh9wbtu8medgT8qShhqcoIi248WagFvZZSvqKc6IB3bdAbUrJiduQ1ZzRbVAVYzsZ+2LF6Sw
-	AKj44K+XrTc1YEakzmDDX21mPAeC/8wqe1bEWmjxyXOLsR9BAZySDQqibIAoRusOE=
-X-Received: by 2002:a05:7300:a146:b0:2be:7a4a:b3b5 with SMTP id 5a478bee46e88-2be8a275b7emr1704636eec.1.1773262228436;
-        Wed, 11 Mar 2026 13:50:28 -0700 (PDT)
-Received: from [192.168.1.100] ([2605:fb40:0:c09:323a:5679:3782:80b8])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2be8a8550d5sm3905742eec.12.2026.03.11.13.50.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Mar 2026 13:50:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nB1ceOIT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB722C4CEF7;
+	Wed, 11 Mar 2026 21:14:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773263677;
+	bh=4AK1rqDz6/A4qjK/w9x6JibTYdqI2D5USa9Uljlor+U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nB1ceOIToPCiG2Ga6fYFvAKYgRMq4rBLUcUJz61ILzyuOdXns1FvKE63ZPdgZQHZl
+	 Sb4nNTfsbw0QQI5n6wXKZka0cIrk//AuTKoo0ISRoDGLOBcwr8YHsLLIUfXs3ewVur
+	 Y//Sw9zR3uoc7l0O5LZdS/vroMKyuP4eog+uvpPQG9u86rx9FDtkb5kBULGBJiQpKA
+	 ykMX0LdNVLH7xwVNGKzNvHSeT8rR69Tat3JUo29pWbE2YUJJsafK9N2xB5JCRpAIUo
+	 okDFx5h1iJaRVeUidyBXYGIr+WO3tVsGNN7BB1kj1hqBJl5sHNlsdHbQV7Px/yDwRA
+	 t4r5txKCfn75g==
+Date: Wed, 11 Mar 2026 21:14:34 +0000
+From: Eric Biggers <ebiggers@kernel.org>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: Nathan Chancellor <nathan@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Daniel Gomez <da.gomez@samsung.com>,
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Naveen N Rao <naveen@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
+	Roberto Sassu <roberto.sassu@huawei.com>,
+	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+	Eric Snowberg <eric.snowberg@oracle.com>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>,
+	Xiu Jianfeng <xiujianfeng@huawei.com>,
+	Fabian =?iso-8859-1?Q?Gr=FCnbichler?= <f.gruenbichler@proxmox.com>,
+	Arnout Engelen <arnout@bzzt.net>,
+	Mattia Rizzolo <mattia@mapreri.org>, kpcyrd <kpcyrd@archlinux.org>,
+	Christian Heusel <christian@heusel.eu>,
+	=?iso-8859-1?Q?C=E2ju?= Mihai-Drosi <mcaju95@gmail.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
+	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org
+Subject: Re: [PATCH v4 15/17] module: Introduce hash-based integrity checking
+Message-ID: <20260311211434.GA4173404@google.com>
+References: <20260113-module-hashes-v4-0-0b932db9b56b@weissschuh.net>
+ <20260113-module-hashes-v4-15-0b932db9b56b@weissschuh.net>
+ <20260311011218.GA212983@quark>
+ <5726fc65-7d24-4353-b341-81b785f2575c@t-8ch.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH] docs: driver-api: usb: Document USBDEVFS_BULK return
- value and short reads
-From: Brigham Campbell <me@brighamcampbell.com>
-To: Malaya Kumar Rout <malayarout91@gmail.com>
-Cc: linux-doc@vger.kernel.org, mrout@redhat.com, skhan@linuxfoundation.org, 
- me@brighamcampbell.com, Jonathan Corbet <corbet@lwn.net>, 
- Marneni PoornaChandu <poornachandumarneni@gmail.com>, 
- Kevin Paul Reddy Janagari <kevinpaul468@gmail.com>, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20260305180753.114732-1-malayarout91@gmail.com>
-References: <20260305180753.114732-1-malayarout91@gmail.com>
-Date: Wed, 11 Mar 2026 14:50:21 -0600
-Message-Id: <177326222145.334036.18303057781471564571.b4-review@brighamcampbell.com>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2887;
- i=me@brighamcampbell.com; h=from:subject:message-id;
- bh=WJcW1lA0tu2eb7j4StbFQ+rLT76qulDtOkzOw26lp6k=;
- b=owGbwMvMwCUWLsWS0KCyxZPxtFoSQ+bGq5OfvOGdH++Xe8m2/4XkoVKXdxv3Jzyf3BW7Z+P1b
- UkvnhYYdZSyMIhxMciKKbKo3JqlfnGy9aODEfwTYOawMoEMYeDiFICJyL9mZLjrkviNmUUiRP8f
- c8hruSIDr4AGn55uGwmTyO7AOls2UUaG9b0/BMPd5yokLy17bX2HKY5J2nR9ur/j6w2LN7Yu2rK
- ODwA=
-X-Developer-Key: i=me@brighamcampbell.com; a=openpgp;
- fpr=24DA9A27D1933BE2C1580F90571A04608024B449
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <5726fc65-7d24-4353-b341-81b785f2575c@t-8ch.de>
 
-On Thu, 05 Mar 2026 23:37:50 +0530, Malaya Kumar Rout <malayarout91@gmail.com> wrote:
-> Remove a longstanding FIXME comment in the USBDEVFS_BULK documentation
-> by properly documenting the return value behavior. The ioctl returns the
-> actual number of bytes transferred on success, which naturally handles
-> short reads (where fewer bytes are read than requested) by returning a
-> value less than the requested length.
+On Wed, Mar 11, 2026 at 02:19:02PM +0100, Thomas Weißschuh wrote:
+> > > diff --git a/include/linux/module_signature.h b/include/linux/module_signature.h
+> > > index a45ce3b24403..3b510651830d 100644
+> > > --- a/include/linux/module_signature.h
+> > > +++ b/include/linux/module_signature.h
+> > > @@ -18,6 +18,7 @@ enum pkey_id_type {
+> > >  	PKEY_ID_PGP,		/* OpenPGP generated key ID */
+> > >  	PKEY_ID_X509,		/* X.509 arbitrary subjectKeyIdentifier */
+> > >  	PKEY_ID_PKCS7,		/* Signature in PKCS#7 message */
+> > > +	PKEY_ID_MERKLE,		/* Merkle proof for modules */
+> > 
+> > I recommend making the hash algorithm explicit:
+> > 
+> >         PKEY_ID_MERKLE_SHA256,	/* SHA-256 merkle proof for modules */
+> > 
+> > While I wouldn't encourage the addition of another hash algorithm
+> > (specifying one good algorithm for now is absolutely the right choice),
+> > if someone ever does need to add another one, we'd want them to be
+> > guided to simply introduce a new value of this enum rather than hack it
+> > in some other way.
 > 
-> This information was verified by examining the implementation in
-> drivers/usb/core/devio.c:do_proc_bulk(), which returns the actual
-> transfer length on success.
-
-Good effort, Malaya! As far as I can tell, you've done a good job
-formatting this patch and sending it out to the right people. You've
-done a lot right with this patch. However, these changes aren't quite
-suitable for inclusion upstream.
-
-> ---
->  Documentation/driver-api/usb/usb.rst | 6 ++++++
->  1 file changed, 6 insertions(+)
+> The idea here was that this will only ever be used for module built as
+> part of the kernel build. So the actual implementation could change freely
+> without affecting anything.
 > 
-> diff --git a/Documentation/driver-api/usb/usb.rst b/Documentation/driver-api/usb/usb.rst
-> index 7f2f41e80c1c..a01d72af479b 100644
-> --- a/Documentation/driver-api/usb/usb.rst
-> +++ b/Documentation/driver-api/usb/usb.rst
-> @@ -539,6 +539,12 @@ USBDEVFS_BULK
->      kernels support requests up to about 128KBytes. *FIXME say how read
->      length is returned, and how short reads are handled.*.
+> But I don't have hard feelings about it.
 
-You prepared this patch with intent to address this FIXME, but you
-didn't remove the FIXME.
+Ah, okay.  That's even better then: if someone adds another algorithm it
+would simply be a kconfig option.
 
->  
-> +    kernels support requests up to about 128KBytes. On success, the
+It seems 'struct module_signature' itself is intended to be a stable
+ABI, though.  So I think there's an opportunity for confusion here.  It
+might be worth leaving a note somewhere that the format of the
+PKEY_ID_MERKLE portion of the struct does not need to be kept stable and
+can freely change in each kernel build.
 
-This line directly duplicates information already in the previous
-paragraph.
-
-> +    ioctl returns the number of bytes actually transferred. Short reads
-> +    are supported; if fewer bytes are received than requested, only the
-> +    actual number of bytes received are copied to the buffer and that
-> +    count is returned. On error, a negative error code is returned.
-
-The FIXME says that documentation should "say how read length is
-returned". Is it returned by overwriting the `len` member of the struct
-that is passed in? Or is it returned via the integer return value of the
-ioctl call itself? Your patch doesn't communicate _how_ read length is
-returned.
-
-> +
->  USBDEVFS_CLEAR_HALT
->      Clears endpoint halt (stall) and resets the endpoint toggle. This is
->      only meaningful for bulk or interrupt endpoints. The ioctl parameter
-
-These small documentation fixes are a great way to get started with
-kernel development, but they're also difficult to get right. This is
-just a suggestion, but you may find more success checking out
-`docs-next` and looking for documentation compilation warnings that need
-to be addressed. Fix whatever issue is causing the warning and it will
-go away. Those types of changes are easier for maintainers to verify for
-correctness.
-
-- Brigham
-
--- 
-Brigham Campbell <me@brighamcampbell.com>
+- Eric
