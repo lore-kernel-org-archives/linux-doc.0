@@ -1,33 +1,33 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F9323A2569;
-	Wed, 11 Mar 2026 07:40:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BE113B19B7;
+	Wed, 11 Mar 2026 07:41:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773214812; cv=none; b=MpCsFjrF15KpY7rrlKGQLWqlPOplHt0EUi3PsgpLpHdgzhsdBKIpXwXPZ7yI+P9c42UaaPHn45ND/Scl1BLPDWOJZeLdq4baH3bXuSXeTa7DaBAeyRP2hOtIRIlqJ6XT1h9a3tFRlJFPTzK4Mr3ng9+/HaVKGnfd/hwlkPLIPes=
+	t=1773214894; cv=none; b=hbidHUQr/D1DesgvMhVYG0VS0CJ5aDV07lSr+Lbw2M+rA1c1TbwUfAMNjQDiS21DJJiE0uGHyVxaZ9rbDAu1MCl5IlHZTXV+b2CcLZouJzmFD0SKl2ZqpoFCZCN1AZ7pqFMxR7PEAZ8W3+2hVEHmwNyY9cQNWWIGYryEsA8TSx4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773214812; c=relaxed/simple;
-	bh=em2Cp1KMNYE1jU4e1XnqCSnTn3xcGrSNPBvCMavHLvg=;
+	s=arc-20240116; t=1773214894; c=relaxed/simple;
+	bh=SOSeDGl3jvOkxt4kGfNSj77zy6mCGU62zroRgPGZvYQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LtGNCoHVa2PVfwGHpwFwib+R5BL+WnMqAslWw9eMWbm9gKa/uUvebqVD1hNJA+PXDG8tyqa/oS5HzNvTuuVuszMBSdcqUyFWx/uizvusTab0gdbQ4QTkk9vQE+ML/3MkZc++S7XDP6tPDwzee0WakOt34U4jVnn2ARI/vFW/TV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=YoT1yeEv; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=MS0XRO2ZexmMfsPDJy7seViFjQdwPq9ldiMlWN7r3g85nRT0WwXt6hEo1AFxMtAkFFzWfiuoFiB5wK4xJH2DgLqiSXulEsul7eqUp3LYIVjQPBkgPW847MeKVs8m4xHVOM9YfwQqFIx/iRXLCpJR2dVl+jMNwAPvY8mNthivqCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JK34yG19; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YoT1yeEv"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JK34yG19"
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 852135A5;
-	Wed, 11 Mar 2026 08:38:56 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 935DC4B3;
+	Wed, 11 Mar 2026 08:40:21 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1773214737;
-	bh=em2Cp1KMNYE1jU4e1XnqCSnTn3xcGrSNPBvCMavHLvg=;
+	s=mail; t=1773214822;
+	bh=SOSeDGl3jvOkxt4kGfNSj77zy6mCGU62zroRgPGZvYQ=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=YoT1yeEvDuJrtWYbe6kDIN4vRyoCn0K3lGJEGn+fXkrDVEs/dq9LxNw/cNuOwJ8qp
-	 qJWEf1K64aTvVBN+B5vF5iNjSqFwlAcEzMHc0Qm1dqt13YgACYm/O0v9Grb9AcSEE/
-	 gjJ5o4fkUYKIbG4ST2CoXrdWWLofCT9lXPaMWL5k=
-Message-ID: <b6392683-5b98-4b7b-a4cb-013e88073bac@ideasonboard.com>
-Date: Wed, 11 Mar 2026 09:40:00 +0200
+	b=JK34yG19xRAPmMVeRL5GedHw9uIsf3UVzyFTdl+3Jfjk7CLTXVIIhBEvCJqQImVRr
+	 zITzOF7osEL99CJqsh9612zs3OiR8M4DEpLvKnbjgAt5Ieu0e2pQBz9zh4LwMJ33bJ
+	 VHz2+F884gefRkrgrT3kquCLctDTZ+NJZ1FvxDcM=
+Message-ID: <cb263e7b-e982-4b3c-9bd7-b9039fc6f0da@ideasonboard.com>
+Date: Wed, 11 Mar 2026 09:41:25 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,8 +35,7 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 12/14] drm/tidss: Drop call to drm_mode_config_reset at
- probe time
+Subject: Re: [PATCH 13/14] drm/tidss: Convert to atomic_create_state
 To: Maxime Ripard <mripard@kernel.org>
 Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org,
@@ -50,7 +49,7 @@ Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>
 References: <20260310-drm-mode-config-init-v1-0-de7397c8e1cf@kernel.org>
- <20260310-drm-mode-config-init-v1-12-de7397c8e1cf@kernel.org>
+ <20260310-drm-mode-config-init-v1-13-de7397c8e1cf@kernel.org>
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Content-Language: en-US
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -96,45 +95,96 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20260310-drm-mode-config-init-v1-12-de7397c8e1cf@kernel.org>
+In-Reply-To: <20260310-drm-mode-config-init-v1-13-de7397c8e1cf@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 Hi,
 
 On 10/03/2026 18:07, Maxime Ripard wrote:
-> Now that we have drm_mode_config_create_state() to create the initial
-> state called as part of drm_dev_register(), we don't need to call
-> drm_mode_config_reset() during the driver probe.
+> Our driver uses reset to create the various object states, but only
+> calls the helper that allocate a new state. They are thus strictly
+> equivalent to the new atomic_create_state helpers, so let's switch to
+> these.
 > 
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > ---
->  drivers/gpu/drm/tidss/tidss_kms.c | 2 --
->  1 file changed, 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/tidss/tidss_kms.c b/drivers/gpu/drm/tidss/tidss_kms.c
-> index 8bb93194e5ac686050c47f986b8cb6063eae22d3..b4779c09a1bfa5be7010bcd7d4f1379362996d2e 100644
-> --- a/drivers/gpu/drm/tidss/tidss_kms.c
-> +++ b/drivers/gpu/drm/tidss/tidss_kms.c
-> @@ -285,11 +285,9 @@ int tidss_modeset_init(struct tidss_device *tidss)
->  
->  	ret = drm_vblank_init(ddev, tidss->num_crtcs);
->  	if (ret)
->  		return ret;
->  
-> -	drm_mode_config_reset(ddev);
-> -
->  	dev_dbg(tidss->dev, "%s done\n", __func__);
->  
->  	return 0;
->  }
-> 
+>  drivers/gpu/drm/tidss/tidss_crtc.c  | 17 +++++++----------
+>  drivers/gpu/drm/tidss/tidss_plane.c |  2 +-
+>  2 files changed, 8 insertions(+), 11 deletions(-)
 
-There's actually a bug in the upstream tidss driver: it has another
-drm_mode_config_reset() call in tidss_drv.c. I have an unsent patch to
-drop one of those (the one removed in this patch). Without that patch of
-mine, both drm_mode_config_reset() calls should be dropped to actually
-test the functionality with tidss.
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
  Tomi
+
+> diff --git a/drivers/gpu/drm/tidss/tidss_crtc.c b/drivers/gpu/drm/tidss/tidss_crtc.c
+> index a31c21c5f855ac8a94089dd3908e2510193b7d67..66e3d161c60bc14b2982cff4cdd43030d4086798 100644
+> --- a/drivers/gpu/drm/tidss/tidss_crtc.c
+> +++ b/drivers/gpu/drm/tidss/tidss_crtc.c
+> @@ -355,24 +355,21 @@ static void tidss_crtc_destroy_state(struct drm_crtc *crtc,
+>  
+>  	__drm_atomic_helper_crtc_destroy_state(&tstate->base);
+>  	kfree(tstate);
+>  }
+>  
+> -static void tidss_crtc_reset(struct drm_crtc *crtc)
+> +static struct drm_crtc_state *tidss_crtc_create_state(struct drm_crtc *crtc)
+>  {
+>  	struct tidss_crtc_state *tstate;
+>  
+> -	if (crtc->state)
+> -		tidss_crtc_destroy_state(crtc, crtc->state);
+> -
+>  	tstate = kzalloc_obj(*tstate);
+> -	if (!tstate) {
+> -		crtc->state = NULL;
+> -		return;
+> -	}
+> +	if (!tstate)
+> +		return ERR_PTR(-ENOMEM);
+>  
+> -	__drm_atomic_helper_crtc_reset(crtc, &tstate->base);
+> +	__drm_atomic_helper_crtc_create_state(crtc, &tstate->base);
+> +
+> +	return &tstate->base;
+>  }
+>  
+>  static struct drm_crtc_state *tidss_crtc_duplicate_state(struct drm_crtc *crtc)
+>  {
+>  	struct tidss_crtc_state *state, *current_state;
+> @@ -403,14 +400,14 @@ static void tidss_crtc_destroy(struct drm_crtc *crtc)
+>  	drm_crtc_cleanup(crtc);
+>  	kfree(tcrtc);
+>  }
+>  
+>  static const struct drm_crtc_funcs tidss_crtc_funcs = {
+> -	.reset = tidss_crtc_reset,
+>  	.destroy = tidss_crtc_destroy,
+>  	.set_config = drm_atomic_helper_set_config,
+>  	.page_flip = drm_atomic_helper_page_flip,
+> +	.atomic_create_state = tidss_crtc_create_state,
+>  	.atomic_duplicate_state = tidss_crtc_duplicate_state,
+>  	.atomic_destroy_state = tidss_crtc_destroy_state,
+>  	.enable_vblank = tidss_crtc_enable_vblank,
+>  	.disable_vblank = tidss_crtc_disable_vblank,
+>  };
+> diff --git a/drivers/gpu/drm/tidss/tidss_plane.c b/drivers/gpu/drm/tidss/tidss_plane.c
+> index aaa02c851c595aa3781ec2e6741af1999092aa40..518498d4576528a0ec59fd03cf27a87b1b3f1e6e 100644
+> --- a/drivers/gpu/drm/tidss/tidss_plane.c
+> +++ b/drivers/gpu/drm/tidss/tidss_plane.c
+> @@ -176,12 +176,12 @@ static const struct drm_plane_helper_funcs tidss_primary_plane_helper_funcs = {
+>  };
+>  
+>  static const struct drm_plane_funcs tidss_plane_funcs = {
+>  	.update_plane = drm_atomic_helper_update_plane,
+>  	.disable_plane = drm_atomic_helper_disable_plane,
+> -	.reset = drm_atomic_helper_plane_reset,
+>  	.destroy = drm_plane_destroy,
+> +	.atomic_create_state = drm_atomic_helper_plane_create_state,
+>  	.atomic_duplicate_state = drm_atomic_helper_plane_duplicate_state,
+>  	.atomic_destroy_state = drm_atomic_helper_plane_destroy_state,
+>  };
+>  
+>  struct tidss_plane *tidss_plane_create(struct tidss_device *tidss,
+> 
 
