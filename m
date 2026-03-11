@@ -1,188 +1,246 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from frasgout13.his.huawei.com (frasgout13.his.huawei.com [14.137.139.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 795FA2E11B0;
-	Wed, 11 Mar 2026 17:02:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A382FBDFD;
+	Wed, 11 Mar 2026 17:20:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773248548; cv=none; b=Ctv3WU8ohCu3xMQHwVyWD49UFYrhMwj+u35BtR0EXJscnwFI0GPmt8+kZ7cEnNYbiCQ4JugtDtGZ5IkNVv6wMaxm/xuytBlRTc6i3tjSny9pwnn04DqmdzT8hyyXoOW1La4r0ZbCoj/s2628rU4aIFXL4cAh2UOZtJTThSePqXA=
+	t=1773249624; cv=none; b=Xj/19RmoVJrgCqam94eycYvhFok7jT3UUh1d38Dh49ZrGBczrNIGYqQ5rA5IjWD5eB3T7qzk5vDNWvHMBGC6G/hIUTkL6iQPyKg0AyBeZ4ayrdtRn5wpTte2rT+u21z3mX1M5vOOIMTpwKGnPUi0H9RclsKeSw0wetWUM2692gw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773248548; c=relaxed/simple;
-	bh=qbQHUZHFrMSl9GZ0M449xWT2lv88BuJUsOUnExNCyK4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=P1rjuNmhbq0wrpebwfbcwvWIeUK1QalB6g1pbT7IikWrsjs+LbUp6jLMro62313cWkPCckSaQqrXqfDSUoGlwUd0M2ueEpjcBkxwkpzCNkiq4I4GCOKfPXMq8+5ewg63XpaILUNgByVSrmwasZTnY8NcHnDaesOK5ffeED/SUUs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=auYcSsap; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="auYcSsap"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD869C4CEF7;
-	Wed, 11 Mar 2026 17:02:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773248548;
-	bh=qbQHUZHFrMSl9GZ0M449xWT2lv88BuJUsOUnExNCyK4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=auYcSsapz8p65gnvMN/VpGSca+m0V47rs2fNjRxHOGbcOF7khTzKCshNZHWFukUEa
-	 bnXC+yfrXbKqbLhu68q0yQfhAyMWSCXNXNIBAKRaLjxFgWqWGJAvlEHVE71SrnEki3
-	 dKD9hbUZKlFZq0UVuNyj0aL4WApKHEHlTf0M8Ea7qH5r5ypeguDSCVP7fDO8XFkDzz
-	 KqLzUOMWPsO+YrDPq38kiCFHjNbZq9K/tQnyESpkcZj3YnLHqDfmRejiAWwWhB2AUQ
-	 D64NsEu8EfPzJunss4O8z5+fy5ezEJbruvUviqIng0ygosw3JnId/51TdCe9FKqRYj
-	 4x+0E9RndXZcA==
-Date: Wed, 11 Mar 2026 12:02:26 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: fengchengwen <fengchengwen@huawei.com>
-Cc: Jeremy Linton <jeremy.linton@arm.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	WANG Xuerui <kernel@xen0n.name>, Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H . Peter Anvin" <hpa@zytor.com>, Juergen Gross <jgross@suse.com>,
-	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-	Len Brown <lenb@kernel.org>, Sunil V L <sunilvl@ventanamicro.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Kees Cook <kees@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
-	Sean Christopherson <seanjc@google.com>,
-	Kai Huang <kai.huang@intel.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	Thomas Huth <thuth@redhat.com>,
-	Thorsten Blum <thorsten.blum@linux.dev>,
-	Kevin Loughlin <kevinloughlin@google.com>,
-	Zheyun Shen <szy0127@sjtu.edu.cn>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-	Xin Li <xin@zytor.com>, "Ahmed S . Darwish" <darwi@linutronix.de>,
-	Sohil Mehta <sohil.mehta@intel.com>,
-	Ilkka Koskinen <ilkka@os.amperecomputing.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	James Clark <james.clark@linaro.org>,
-	Besar Wicaksono <bwicaksono@nvidia.com>, Ma Ke <make24@iscas.ac.cn>,
-	Ajit Khaparde <ajit.khaparde@broadcom.com>,
-	Wei Huang <wei.huang2@amd.com>,
-	Andy Gospodarek <andrew.gospodarek@broadcom.com>,
-	Somnath Kotur <somnath.kotur@broadcom.com>, wangzhou1@hisilicon.com,
-	wanghuiqiang@huawei.com, liuyonglong@huawei.com,
-	linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	loongarch@lists.linux.dev, linux-riscv@lists.infradead.org,
-	xen-devel@lists.xenproject.org, linux-acpi@vger.kernel.org,
-	linux-perf-users@vger.kernel.org, stable@vger.kernel.org,
-	Wathsala Vithanage <wathsala.vithanage@arm.com>
-Subject: Re: [PATCH v5 2/2] PCI/TPH: Fix get cpu steer-tag fail on ARM64
- platform
-Message-ID: <20260311170226.GA930029@bhelgaas>
+	s=arc-20240116; t=1773249624; c=relaxed/simple;
+	bh=maHFBWQSmOJpclqZTwpZRE1Savvccu2Zhn8tf05eg3g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SSkD/qY3xnxNwXddBYGOCZuQeg6Ko3xGvNHpUzxJOEDLWPlUTbXWgyk+KOyaF7XG1TB8JGRlm/ECjXRywa5WQVJaE6NSD2Bljn+d22lh92v1J5I+qBetogv0DvmNpORvWMbpYybmMzVU62PMprJgwoloYjV4kaBtoGgsld1iMLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.18.224.196])
+	by frasgout13.his.huawei.com (SkyGuard) with ESMTPS id 4fWHV94gPhzpVH5;
+	Thu, 12 Mar 2026 01:16:49 +0800 (CST)
+Received: from mail02.huawei.com (unknown [7.182.16.27])
+	by mail.maildlp.com (Postfix) with ESMTP id 5235440567;
+	Thu, 12 Mar 2026 01:20:19 +0800 (CST)
+Received: from huaweicloud.com (unknown [10.204.63.22])
+	by APP2 (Coremail) with SMTP id GxC2BwDXp4RIpLFpppJGAA--.17394S2;
+	Wed, 11 Mar 2026 18:20:18 +0100 (CET)
+From: Roberto Sassu <roberto.sassu@huaweicloud.com>
+To: corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	zohar@linux.ibm.com,
+	dmitry.kasatkin@gmail.com,
+	eric.snowberg@oracle.com,
+	paul@paul-moore.com,
+	jmorris@namei.org,
+	serge@hallyn.com
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-integrity@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	gregorylumen@linux.microsoft.com,
+	chenste@linux.microsoft.com,
+	nramas@linux.microsoft.com,
+	Roberto Sassu <roberto.sassu@huawei.com>
+Subject: [PATCH v3 1/3] ima: Remove ima_h_table structure
+Date: Wed, 11 Mar 2026 18:19:54 +0100
+Message-ID: <20260311171956.2317781-1-roberto.sassu@huaweicloud.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9ef9b529-839b-4cf0-a294-5b68fe8aa768@huawei.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:GxC2BwDXp4RIpLFpppJGAA--.17394S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3WrW5CrWUJry3KFW3ZFWxtFb_yoWxZrWkpa
+	nFga4IkF48XFyI9ryDAayqk3yrG3yUKr17Wws8Gw1Yk3ZxXr12gF15CFy2kFyrGrZYyF1I
+	qrs0qr4YkanYyrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvFb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIEc7CjxV
+	AFwI0_Gr0_Gr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40E
+	x7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x
+	0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAa
+	w2AFwI0_Jw0_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxV
+	Aqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r4a
+	6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6x
+	kF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AK
+	xVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvj
+	xUFku4UUUUU
+X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAgAJBGmw1qwJZQAAsA
 
-On Wed, Mar 11, 2026 at 11:00:02AM +0800, fengchengwen wrote:
-> On 3/11/2026 6:09 AM, Bjorn Helgaas wrote:
-> > On Tue, Mar 10, 2026 at 10:58:49AM -0500, Jeremy Linton wrote:
-> >> On 3/9/26 10:20 PM, Chengwen Feng wrote:
-> >>> pcie_tph_get_cpu_st() is broken on ARM64:
-> >>> 1. pcie_tph_get_cpu_st() passes cpu_uid to the PCI ACPI DSM method.
-> >>>     cpu_uid should be the ACPI Processor UID [1].
-> >>> 2. In BNXT, pcie_tph_get_cpu_st() is passed a cpu_uid obtained via
-> >>>     cpumask_first(irq->cpu_mask) - the logical CPU ID of a CPU core,
-> >>>     generated and managed by kernel (e.g., [0,255] for a system  with 256
-> >>>     logical CPU cores).
-> >>> 3. On ARM64 platforms, ACPI assigns Processor UID to cores listed in the
-> >>>     MADT table, and this UID may not match the kernel's logical CPU ID.
-> >>>     When this occurs, the mismatch results in the wrong CPU steer-tag.
-> >>> 4. On AMD x86 the logical CPU ID is identical to the ACPI Processor UID
-> >>>     so the mismatch is not seen.
-> > 
-> >>>   int pcie_tph_get_cpu_st(struct pci_dev *pdev, enum tph_mem_type mem_type,
-> >>> -			unsigned int cpu_uid, u16 *tag)
-> >>> +			unsigned int cpu, u16 *tag)
-> >>>   {
-> >>>   #ifdef CONFIG_ACPI
-> >>> +	u32 cpu_uid = acpi_get_cpu_acpi_id(cpu);
-> > 
-> > From AI review (gemini/gemini-3.1-pro-preview):
-> > 
-> >   Does this code need to validate that `cpu` is within bounds before
-> >   using it?  Before this change, the `cpu_uid` parameter was passed
-> >   opaquely to the ACPI firmware via `tph_invoke_dsm()`, which would
-> >   gracefully handle invalid values.
-> > 
-> >   Now, `cpu` is treated as a logical CPU index and passed to
-> >   `acpi_get_cpu_acpi_id(cpu)`. On architectures like arm64 and riscv,
-> >   `acpi_get_cpu_acpi_id()` uses `cpu` directly as an array index
-> >   (`&cpu_madt_gicc[cpu]` and `&cpu_madt_rintc[cpu]`). On x86, it uses
-> >   `per_cpu(x86_cpu_to_acpiid, cpu)`.
-> > 
-> >   If a caller passes an out-of-bounds `cpu` index (for example, if an
-> >   IRQ affinity mask is empty and `cpumask_first()` returns
-> >   `nr_cpu_ids`, or if userspace passes an arbitrary ID via
-> >   `mlx5_st_alloc_index()`), this will result in an out-of-bounds
-> >   memory read.
-> > 
-> >   Consider adding a bounds check:
-> > 
-> >     if (cpu >= nr_cpu_ids)
-> >       return -EINVAL;
-> > 
-> > I agree that this is an issue, and I think implementations of
-> > acpi_get_cpu_acpi_id() should validate their inputs.
-> > 
-> > I don't know if there's a value that can never be a valid ACPI CPU UID
-> > and could be used as an error value from acpi_get_cpu_acpi_id().  I do
-> > see a few mentions of a ~0 value meaning "all processors" (ACPI r6.6,
-> > sec 5.2.12.13).  
-> 
-> I only have the ACPI Specification Version 6.5, so I will use v6.5
-> as an example.
+From: Roberto Sassu <roberto.sassu@huawei.com>
 
-https://uefi.org/sites/default/files/resources/ACPI_Spec_6.6.pdf
+With the upcoming change of dynamically allocating and replacing the hash
+table, we would need to keep the counters for number of measurements
+entries and violations.
 
-> 	int acpi_get_cpu_uid(unsigned int cpu, u32 *uid) {
-> 		if (cpu >= nr_cpu_ids)
-> 			return -EINVAL;
-> 		*uid = xxx;
-> 		return 0;
-> 	}
+Since anyway, those counters don't belong there, remove the ima_h_table
+structure instead and move the counters and the hash table as a separate
+variables.
 
-This looks good to me.
+Link: https://github.com/linux-integrity/linux/issues/1
+Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
+---
+Changelog:
+v2:
+ - Not present in this version
 
-> Another issue: This commit also provides an implementation for the
-> x86 platform.  However, further code analysis revealed a potential
-> problem in the implementation:
-> 
-> The acpi_get_cpu_acpi_id() retrieves uid from x86_cpu_to_acpiid in
-> SMP, and x86_cpu_to_acpiid is set through the call chain:
-> acpi_parse_lapic() -> topology_register_apic() ->
-> topo_register_apic() -> topo_set_cpuids() -> x86_cpu_to_acpiid. It
-> appears to retrieve the "ACPI Processor UID" from ACPI Section
-> 5.2.12.2, but the problem is that this field is only one byte in
-> length, which may cause issues in huge-core systems.
-> 
-> Therefore, I suggest re-implementing the acpi_get_cpu_uid function
-> for the x86 platform. Either I provide a default implementation
-> (shown below), or x86 guys contribute to the implementation:
-> 
-> 	s64 acpi_get_cpu_uid(unsigned int cpu) {
-> 		if (cpu >= nr_cpu_ids)
-> 			return -EINVAL;
-> 		return cpu;
-> 	}
+v1:
+ - Not present in this version
+---
+ security/integrity/ima/ima.h       |  9 +++------
+ security/integrity/ima/ima_api.c   |  2 +-
+ security/integrity/ima/ima_fs.c    | 19 +++++++++----------
+ security/integrity/ima/ima_kexec.c |  2 +-
+ security/integrity/ima/ima_queue.c | 17 ++++++++++-------
+ 5 files changed, 24 insertions(+), 25 deletions(-)
 
-I don't think this is your problem to solve, so don't worry about it.
-If you implement acpi_get_cpu_uid() to return the same values as
-cpu_acpi_id(), it's up to the x86 folks to deal with any one-byte ID
-issues.
+diff --git a/security/integrity/ima/ima.h b/security/integrity/ima/ima.h
+index c38a9eb945b6..1f2c81ec0fba 100644
+--- a/security/integrity/ima/ima.h
++++ b/security/integrity/ima/ima.h
+@@ -298,12 +298,9 @@ int ima_lsm_policy_change(struct notifier_block *nb, unsigned long event,
+  */
+ extern spinlock_t ima_queue_lock;
+ 
+-struct ima_h_table {
+-	atomic_long_t len;	/* number of stored measurements in the list */
+-	atomic_long_t violations;
+-	struct hlist_head queue[IMA_MEASURE_HTABLE_SIZE];
+-};
+-extern struct ima_h_table ima_htable;
++extern atomic_long_t ima_num_entries;
++extern atomic_long_t ima_num_violations;
++extern struct hlist_head ima_htable[IMA_MEASURE_HTABLE_SIZE];
+ 
+ static inline unsigned int ima_hash_key(u8 *digest)
+ {
+diff --git a/security/integrity/ima/ima_api.c b/security/integrity/ima/ima_api.c
+index 0916f24f005f..122d127e108d 100644
+--- a/security/integrity/ima/ima_api.c
++++ b/security/integrity/ima/ima_api.c
+@@ -146,7 +146,7 @@ void ima_add_violation(struct file *file, const unsigned char *filename,
+ 	int result;
+ 
+ 	/* can overflow, only indicator */
+-	atomic_long_inc(&ima_htable.violations);
++	atomic_long_inc(&ima_num_violations);
+ 
+ 	result = ima_alloc_init_template(&event_data, &entry, NULL);
+ 	if (result < 0) {
+diff --git a/security/integrity/ima/ima_fs.c b/security/integrity/ima/ima_fs.c
+index ca4931a95098..aaa460d70ff7 100644
+--- a/security/integrity/ima/ima_fs.c
++++ b/security/integrity/ima/ima_fs.c
+@@ -38,8 +38,8 @@ __setup("ima_canonical_fmt", default_canonical_fmt_setup);
+ 
+ static int valid_policy = 1;
+ 
+-static ssize_t ima_show_htable_value(char __user *buf, size_t count,
+-				     loff_t *ppos, atomic_long_t *val)
++static ssize_t ima_show_counter(char __user *buf, size_t count, loff_t *ppos,
++				atomic_long_t *val)
+ {
+ 	char tmpbuf[32];	/* greater than largest 'long' string value */
+ 	ssize_t len;
+@@ -48,15 +48,14 @@ static ssize_t ima_show_htable_value(char __user *buf, size_t count,
+ 	return simple_read_from_buffer(buf, count, ppos, tmpbuf, len);
+ }
+ 
+-static ssize_t ima_show_htable_violations(struct file *filp,
+-					  char __user *buf,
+-					  size_t count, loff_t *ppos)
++static ssize_t ima_show_num_violations(struct file *filp, char __user *buf,
++				       size_t count, loff_t *ppos)
+ {
+-	return ima_show_htable_value(buf, count, ppos, &ima_htable.violations);
++	return ima_show_counter(buf, count, ppos, &ima_num_violations);
+ }
+ 
+-static const struct file_operations ima_htable_violations_ops = {
+-	.read = ima_show_htable_violations,
++static const struct file_operations ima_num_violations_ops = {
++	.read = ima_show_num_violations,
+ 	.llseek = generic_file_llseek,
+ };
+ 
+@@ -64,7 +63,7 @@ static ssize_t ima_show_measurements_count(struct file *filp,
+ 					   char __user *buf,
+ 					   size_t count, loff_t *ppos)
+ {
+-	return ima_show_htable_value(buf, count, ppos, &ima_htable.len);
++	return ima_show_counter(buf, count, ppos, &ima_num_entries);
+ 
+ }
+ 
+@@ -545,7 +544,7 @@ int __init ima_fs_init(void)
+ 	}
+ 
+ 	dentry = securityfs_create_file("violations", S_IRUSR | S_IRGRP,
+-				   ima_dir, NULL, &ima_htable_violations_ops);
++				   ima_dir, NULL, &ima_num_violations_ops);
+ 	if (IS_ERR(dentry)) {
+ 		ret = PTR_ERR(dentry);
+ 		goto out;
+diff --git a/security/integrity/ima/ima_kexec.c b/security/integrity/ima/ima_kexec.c
+index 36a34c54de58..5801649fbbef 100644
+--- a/security/integrity/ima/ima_kexec.c
++++ b/security/integrity/ima/ima_kexec.c
+@@ -43,7 +43,7 @@ void ima_measure_kexec_event(const char *event_name)
+ 	int n;
+ 
+ 	buf_size = ima_get_binary_runtime_size();
+-	len = atomic_long_read(&ima_htable.len);
++	len = atomic_long_read(&ima_num_entries);
+ 
+ 	n = scnprintf(ima_kexec_event, IMA_KEXEC_EVENT_LEN,
+ 		      "kexec_segment_size=%lu;ima_binary_runtime_size=%lu;"
+diff --git a/security/integrity/ima/ima_queue.c b/security/integrity/ima/ima_queue.c
+index 319522450854..4837fc6d9ada 100644
+--- a/security/integrity/ima/ima_queue.c
++++ b/security/integrity/ima/ima_queue.c
+@@ -32,11 +32,14 @@ static unsigned long binary_runtime_size;
+ static unsigned long binary_runtime_size = ULONG_MAX;
+ #endif
+ 
++/* num of stored meas. in the list */
++atomic_long_t ima_num_entries = ATOMIC_LONG_INIT(0);
++/* num of violations in the list */
++atomic_long_t ima_num_violations = ATOMIC_LONG_INIT(0);
++
+ /* key: inode (before secure-hashing a file) */
+-struct ima_h_table ima_htable = {
+-	.len = ATOMIC_LONG_INIT(0),
+-	.violations = ATOMIC_LONG_INIT(0),
+-	.queue[0 ... IMA_MEASURE_HTABLE_SIZE - 1] = HLIST_HEAD_INIT
++struct hlist_head ima_htable[IMA_MEASURE_HTABLE_SIZE] = {
++	[0 ... IMA_MEASURE_HTABLE_SIZE - 1] = HLIST_HEAD_INIT
+ };
+ 
+ /* mutex protects atomicity of extending measurement list
+@@ -61,7 +64,7 @@ static struct ima_queue_entry *ima_lookup_digest_entry(u8 *digest_value,
+ 
+ 	key = ima_hash_key(digest_value);
+ 	rcu_read_lock();
+-	hlist_for_each_entry_rcu(qe, &ima_htable.queue[key], hnext) {
++	hlist_for_each_entry_rcu(qe, &ima_htable[key], hnext) {
+ 		rc = memcmp(qe->entry->digests[ima_hash_algo_idx].digest,
+ 			    digest_value, hash_digest_size[ima_hash_algo]);
+ 		if ((rc == 0) && (qe->entry->pcr == pcr)) {
+@@ -113,10 +116,10 @@ static int ima_add_digest_entry(struct ima_template_entry *entry,
+ 	INIT_LIST_HEAD(&qe->later);
+ 	list_add_tail_rcu(&qe->later, &ima_measurements);
+ 
+-	atomic_long_inc(&ima_htable.len);
++	atomic_long_inc(&ima_num_entries);
+ 	if (update_htable) {
+ 		key = ima_hash_key(entry->digests[ima_hash_algo_idx].digest);
+-		hlist_add_head_rcu(&qe->hnext, &ima_htable.queue[key]);
++		hlist_add_head_rcu(&qe->hnext, &ima_htable[key]);
+ 	}
+ 
+ 	if (binary_runtime_size != ULONG_MAX) {
+-- 
+2.43.0
 
-Bjorn
