@@ -1,82 +1,60 @@
-Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0C7630E835
-	for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2026 19:41:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 134D334D93C;
+	Wed, 11 Mar 2026 19:57:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773258081; cv=none; b=BJhyK4SYXquYYQYQuhPBh+O+0kG7uz+PVmeQkiMhUuONjzOBCFvaIUTjxSD+y3p4BvSx7Q4eRLJV/DiqC4VDcpARvoeDNNm4nOUFod8gnxYgWprX0H91Hn0kCJhwfa9a8KFdIrCnMq4xpKWHSKRzvtHkKP8eeEO4e7dL6t9TSik=
+	t=1773259074; cv=none; b=MREy0gm9xVUtuGs8gpJYqPmXI0MzYNXdeReRwlNTsoeoji8vUOa19L76JnqbjugGzk58zf6HDheCnpqwEzKU7j+Ds1OOJ+/lb530gpAAaE2DwnkcghKR3koTVQV7Rw4yXj3BibU45DVyVAnvEpP6KIRZMG/m10LWp6jImmEyVcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773258081; c=relaxed/simple;
-	bh=JmzZ5cArUGLdVYVbW1glxu2tEsH90YQOrUa0/YOI0Es=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tgVxR11MjYLEPS9N5U/yPJRHnUTxiGPx03FtREMqoi+kdoOCRQtegDruGrMxsbyDzbqOXWII4quZcQO4tqD/8QJGxR/Qy8eurwDQER5UoYET0lEOHMe52YuwtcEbt9IDhGl6ST9ndOQwC8QQxE9kA47AG/imBHrk85yh+exutwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=arista.com; spf=pass smtp.mailfrom=arista.com; dkim=pass (2048-bit key) header.d=arista.com header.i=@arista.com header.b=AJ6x8yC+; arc=none smtp.client-ip=74.125.82.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=arista.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arista.com
+	s=arc-20240116; t=1773259074; c=relaxed/simple;
+	bh=C/RJm1XcMZfzEl62uGg7VhyG8du/kJPlhR3d5Crfw/s=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=rDa5vRu6PJjNMdkzPXj30khz+iKroGVYSjPNgwIb7TaVyRZJlktoNbY14wRgZg45FyUy8S7dD2ra2xE2Bpelg2hYrFCIRpOYkQ+fI7T8V1tMhuIywxAla8cxu7ON2fyc2alN892ASl7AgFsrwEYhFy4v+B8F+yvnl6jzDVv84r8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qVl5skXq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arista.com header.i=@arista.com header.b="AJ6x8yC+"
-Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-12776bebe9fso449634c88.1
-        for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2026 12:41:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=arista.com; s=google; t=1773258078; x=1773862878; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0wyN7pn3XZY19VGN08Uvl0u7SIQ9oF05liu+AZCu18U=;
-        b=AJ6x8yC+7o/lAmibpOtT7MjE6Pa4z2SZF1agRnMzOY5dakiPhQcsbgS31TR4Z6NzA2
-         d2XmC3itSbq3PvcwYeuly8IsZievObej3lShM4yPAWZBPMAcIaqWjYTfEjwGiffGTD/i
-         uv/1qtGRYvJ8vAYAU8e7AHd6bJfdNpzZDpw9456FFMWu1tBT4P57h2m8A/RYPPYeeUdb
-         70vvMnLZdXdGI7rWL4TUN7LVgri/mLDvB1X1nkiZ+UbUhaEn10aqQprjWJZGfKlQ2yWa
-         nooWQA7RF0cbCmdpbqGlHDMn2rNbSddxPqrfEo1QqKDY56wOEIfOxnWX4rzIZXvnxEY2
-         SBkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773258078; x=1773862878;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0wyN7pn3XZY19VGN08Uvl0u7SIQ9oF05liu+AZCu18U=;
-        b=wHAKCPmXBQl7GwjQB72eVcLJxlHpVMNUdmsuffOdZgllQc3++kACxUhhvQjENnNE/C
-         EmP1dybK52YCGnxAqbYq1RQSsJrh46NgY2shiZGkoCNBtruuumnMCZXIkgpWaq+cUJ1C
-         1EnSFmxc05sjxBB6HSdoYa5J5dmgZk41jWBLHFEsOaEdTBwHtgOi6NtOzz2Fuo5wYp9S
-         11jP7VVaIXrqchXr40dLW7MUpB6ExuzyA6f9fCUziaSSYgZSiP0sdmx1bysJQ9LKF5N3
-         i2MxYXjAmFY7iXqDmFUoJAmXWjMLNRjT5kUznRG6f/WnAJ6hH24+781HLgsBWMfksFsb
-         B40A==
-X-Forwarded-Encrypted: i=1; AJvYcCUQgt9qWfXzREJK1iCb6dtOxlHPv17BcAzO0sRqgRpGCBbqsJCLaBun7juDi0zakR3+LzegQuCd9Hc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzqwlNei/Jb2vxhmqVBEcGOCtl2gdqN8MdnN6ZZy/lzuwx0FlYl
-	eJGxw7PFaZpRqRqHQReMe0y8aZKtTsa/AnNOG5ugNgTD4N5KYYFhgvSig/H5mYC/6Q==
-X-Gm-Gg: ATEYQzxaOdZExWuUOUQTwlR2I8RlOJkstXlDTOo2TkjDsgremnOoonsBYmxhIvNo1cV
-	KFZqc1mPvE0gSG5yQW71rGA7MMGA5DRKhI8eUrjRz6ty+CYy0RF70/KUGWgtzpP/PRYiYOmbpfS
-	BuRzL+XVraAZYEYdgTdDAC9cbMWs40B8Fjjh6+WPY/7cRjVG2Gl2DHIJKt5PkXldZJYWxEizZzv
-	TRg3ZwImNEL2gZw+P3QTlxDPY9P/+jUQPYHl7mhnilv1t1driLlteJy8n+MWJ0gWD7Ob1v2KFG3
-	ZvmEqDMKWhtkJZWwthCO7cYFki+SnXlLwsBY4/I9CKdKUdjFs8cE/D7VBzXEm+kfNLrgBcFsuqV
-	8fPUaLq6x3ZxV9Hthgn4Aj4iTKnuM2og+pdSIwWq4EifktxydmYar71JJoqInDOqELNpuQ7Wk8R
-	0RXNdnlgY1kX9ZVEwwGP9oMyny7C3WWzxrp7p+MKtRXCF4S0CkhWDFeY8qGkYtwNUX
-X-Received: by 2002:a05:7022:6987:b0:127:3816:50c6 with SMTP id a92af1059eb24-128e77882d3mr1910091c88.8.1773258077754;
-        Wed, 11 Mar 2026 12:41:17 -0700 (PDT)
-Received: from localhost.localdomain ([2600:1700:4a3d:5010:7185:74c9:dc1e:956])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-128e7bf1e1asm4074436c88.3.2026.03.11.12.41.15
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 11 Mar 2026 12:41:17 -0700 (PDT)
-From: Prasanna S Panchamukhi <panchamukhi@arista.com>
-To: netfilter-devel@vger.kernel.org
-Cc: panchamukhi@arista.com,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Pablo Neira Ayuso <pablo@netfilter.org>,
-	Florian Westphal <fw@strlen.de>,
-	Phil Sutter <phil@nwl.cc>,
-	netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qVl5skXq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D283C4CEF7;
+	Wed, 11 Mar 2026 19:57:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773259073;
+	bh=C/RJm1XcMZfzEl62uGg7VhyG8du/kJPlhR3d5Crfw/s=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=qVl5skXq5uziY9IXOd/6iaSzAKPTxijnhvsX6/7CJSl2Voy+dMe8q5YwuKTi2FUpp
+	 DBUmmCwEwGY00adIjnV3mBtC1bEie4gPqpo3/my9SKLHhkYmumgFAZhUnJ8aQrOOOT
+	 1CxAPzOZ1p3+Ov3VPFmyeuOeA7i9ZemUWVUdGyWSJAKE5eR4/wp2Q8TAgeBTqlr0ga
+	 fW6A6HBaDSJ9QkL1KASacUTjLZJlwhgYwAzbIWgzFCHfIepXu6TL5ar9Dnys+sQPQL
+	 OHW/U8fUMkSGbT1TxlxnU7PcbwLoyAtq8iKpvhHrFsCUlFrC9vshciVqysd+GZbaFo
+	 zLm293U7uBTYg==
+From: Simon Horman <horms@kernel.org>
+To: antony.antony@secunet.com
+Cc: Simon Horman <horms@kernel.org>,
+	evitayan@google.com,
 	linux-kernel@vger.kernel.org,
-	coreteam@netfilter.org
-Subject: [PATCH net-next] netfilter: conntrack: expose gc_scan_interval_max via sysctl
-Date: Wed, 11 Mar 2026 12:40:58 -0700
-Message-ID: <20260311194058.13860-1-panchamukhi@arista.com>
-X-Mailer: git-send-email 2.50.1
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	herbert@gondor.apana.org.au,
+	paul@paul-moore.com,
+	devel@linux-ipsec.org,
+	davem@davemloft.net,
+	nakam@linux-ipv6.org,
+	netdev@vger.kernel.org,
+	edumazet@google.com,
+	stephen.smalley.work@gmail.com,
+	steffen.klassert@secunet.com,
+	selinux@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	chiachangwang@google.com,
+	omosnace@redhat.com,
+	corbet@lwn.net,
+	dsahern@kernel.org,
+	skhan@linuxfoundation.org
+Subject: Re: [ipsec-next,v6,12/14] xfrm: add XFRM_MSG_MIGRATE_STATE for single SA migration
+Date: Wed, 11 Mar 2026 19:57:31 +0000
+Message-ID: <20260311195731.1147919-1-horms@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <migrate-state-v6-12-9df9764ddb9e@secunet.com>
+References: <migrate-state-v6-12-9df9764ddb9e@secunet.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -85,157 +63,121 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The conntrack garbage collection worker uses an adaptive algorithm that
-adjusts the scan interval based on the average timeout of tracked
-entries.  The upper bound of this interval is hardcoded as
-GC_SCAN_INTERVAL_MAX (60 seconds).
+This is an AI-generated review of your patch. The human sending this
+email has considered the AI review valid, or at least plausible.
 
-Expose the upper bound as a new sysctl,
-net.netfilter.nf_conntrack_gc_scan_interval_max, so it can be tuned at
-runtime without rebuilding the kernel.  The default remains 60 seconds
-to preserve existing behavior.  The sysctl is global and read-only in
-non-init network namespaces, consistent with nf_conntrack_max and
-nf_conntrack_buckets.
-
-In environments where long-lived offloaded flows dominate the table,
-the adaptive average drifts toward the maximum, delaying cleanup
-of short-lived expired entries such as those in TCP CLOSE state
-(10s timeout). Adding sysctl to set the maximum GC scan helps to
-tune according to the evironment.
-
-Signed-off-by: Prasanna S Panchamukhi <panchamukhi@arista.com>
-cc: "David S. Miller" <davem@davemloft.net>
-cc: Eric Dumazet <edumazet@google.com>
-cc: Jakub Kicinski <kuba@kernel.org>
-cc: Paolo Abeni <pabeni@redhat.com>
-cc: Simon Horman <horms@kernel.org>
-cc: Jonathan Corbet <corbet@lwn.net>
-cc: Shuah Khan <skhan@linuxfoundation.org>
-cc: Pablo Neira Ayuso <pablo@netfilter.org>
-cc: Florian Westphal <fw@strlen.de>
-cc: Phil Sutter <phil@nwl.cc>
-cc: netdev@vger.kernel.org
-cc: linux-doc@vger.kernel.org
-cc: linux-kernel@vger.kernel.org
-to: netfilter-devel@vger.kernel.org
-cc: coreteam@netfilter.org
+For local reproduction steps see https://netdev-ai.bots.linux.dev/ai-local.html
 ---
- Documentation/networking/nf_conntrack-sysctl.rst | 11 +++++++++++
- include/net/netfilter/nf_conntrack.h             |  1 +
- net/netfilter/nf_conntrack_core.c                |  9 ++++++---
- net/netfilter/nf_conntrack_standalone.c          | 10 ++++++++++
- 4 files changed, 28 insertions(+), 3 deletions(-)
+xfrm: add XFRM_MSG_MIGRATE_STATE for single SA migration
 
-diff --git a/Documentation/networking/nf_conntrack-sysctl.rst b/Documentation/networking/nf_conntrack-sysctl.rst
-index 35f889259fcd..c848eef9bc4f 100644
---- a/Documentation/networking/nf_conntrack-sysctl.rst
-+++ b/Documentation/networking/nf_conntrack-sysctl.rst
-@@ -64,6 +64,17 @@ nf_conntrack_frag6_timeout - INTEGER (seconds)
- 
- 	Time to keep an IPv6 fragment in memory.
- 
-+nf_conntrack_gc_scan_interval_max - INTEGER (seconds)
-+	default 60
-+
-+	Maximum interval between garbage collection scans of the connection
-+	tracking table. The GC worker uses an adaptive algorithm that adjusts
-+	the scan interval based on average entry timeouts; this parameter caps
-+	the upper bound. Lower values cause expired entries (e.g. connections
-+	in CLOSE state) to be cleaned up faster, at the cost of slightly more
-+	CPU usage. Minimum value is 1.
-+	This sysctl is only writeable in the initial net namespace.
-+
- nf_conntrack_generic_timeout - INTEGER (seconds)
- 	default 600
- 
-diff --git a/include/net/netfilter/nf_conntrack.h b/include/net/netfilter/nf_conntrack.h
-index bc42dd0e10e6..0449577f322e 100644
---- a/include/net/netfilter/nf_conntrack.h
-+++ b/include/net/netfilter/nf_conntrack.h
-@@ -331,6 +331,7 @@ extern struct hlist_nulls_head *nf_conntrack_hash;
- extern unsigned int nf_conntrack_htable_size;
- extern seqcount_spinlock_t nf_conntrack_generation;
- extern unsigned int nf_conntrack_max;
-+extern unsigned int nf_conntrack_gc_scan_interval_max;
- 
- /* must be called with rcu read lock held */
- static inline void
-diff --git a/net/netfilter/nf_conntrack_core.c b/net/netfilter/nf_conntrack_core.c
-index 27ce5fda8993..54949246f329 100644
---- a/net/netfilter/nf_conntrack_core.c
-+++ b/net/netfilter/nf_conntrack_core.c
-@@ -91,7 +91,7 @@ static DEFINE_MUTEX(nf_conntrack_mutex);
-  * allowing non-idle machines to wakeup more often when needed.
-  */
- #define GC_SCAN_INITIAL_COUNT	100
--#define GC_SCAN_INTERVAL_INIT	GC_SCAN_INTERVAL_MAX
-+#define GC_SCAN_INTERVAL_INIT	nf_conntrack_gc_scan_interval_max
- 
- #define GC_SCAN_MAX_DURATION	msecs_to_jiffies(10)
- #define GC_SCAN_EXPIRED_MAX	(64000u / HZ)
-@@ -204,6 +204,9 @@ EXPORT_SYMBOL_GPL(nf_conntrack_htable_size);
- 
- unsigned int nf_conntrack_max __read_mostly;
- EXPORT_SYMBOL_GPL(nf_conntrack_max);
-+
-+unsigned int nf_conntrack_gc_scan_interval_max __read_mostly = GC_SCAN_INTERVAL_MAX;
-+
- seqcount_spinlock_t nf_conntrack_generation __read_mostly;
- static siphash_aligned_key_t nf_conntrack_hash_rnd;
- 
-@@ -1568,7 +1571,7 @@ static void gc_worker(struct work_struct *work)
- 				delta_time = nfct_time_stamp - gc_work->start_time;
- 
- 				/* re-sched immediately if total cycle time is exceeded */
--				next_run = delta_time < (s32)GC_SCAN_INTERVAL_MAX;
-+				next_run = delta_time < (s32)nf_conntrack_gc_scan_interval_max;
- 				goto early_exit;
- 			}
- 
-@@ -1630,7 +1633,7 @@ static void gc_worker(struct work_struct *work)
- 
- 	gc_work->next_bucket = 0;
- 
--	next_run = clamp(next_run, GC_SCAN_INTERVAL_MIN, GC_SCAN_INTERVAL_MAX);
-+	next_run = clamp(next_run, GC_SCAN_INTERVAL_MIN, nf_conntrack_gc_scan_interval_max);
- 
- 	delta_time = max_t(s32, nfct_time_stamp - gc_work->start_time, 1);
- 	if (next_run > (unsigned long)delta_time)
-diff --git a/net/netfilter/nf_conntrack_standalone.c b/net/netfilter/nf_conntrack_standalone.c
-index 207b240b14e5..f8cab779763f 100644
---- a/net/netfilter/nf_conntrack_standalone.c
-+++ b/net/netfilter/nf_conntrack_standalone.c
-@@ -637,6 +637,7 @@ enum nf_ct_sysctl_index {
- 	NF_SYSCTL_CT_PROTO_TIMEOUT_GRE,
- 	NF_SYSCTL_CT_PROTO_TIMEOUT_GRE_STREAM,
- #endif
-+	NF_SYSCTL_CT_GC_SCAN_INTERVAL_MAX,
- 
- 	NF_SYSCTL_CT_LAST_SYSCTL,
- };
-@@ -920,6 +921,14 @@ static struct ctl_table nf_ct_sysctl_table[] = {
- 		.proc_handler   = proc_dointvec_jiffies,
- 	},
- #endif
-+	[NF_SYSCTL_CT_GC_SCAN_INTERVAL_MAX] = {
-+		.procname	= "nf_conntrack_gc_scan_interval_max",
-+		.data		= &nf_conntrack_gc_scan_interval_max,
-+		.maxlen		= sizeof(unsigned int),
-+		.mode		= 0644,
-+		.proc_handler	= proc_dointvec_jiffies,
-+		.extra1		= SYSCTL_ONE,
-+	},
- };
- 
- static struct ctl_table nf_ct_netfilter_table[] = {
-@@ -1043,6 +1052,7 @@ static int nf_conntrack_standalone_init_sysctl(struct net *net)
- 		table[NF_SYSCTL_CT_MAX].mode = 0444;
- 		table[NF_SYSCTL_CT_EXPECT_MAX].mode = 0444;
- 		table[NF_SYSCTL_CT_BUCKETS].mode = 0444;
-+		table[NF_SYSCTL_CT_GC_SCAN_INTERVAL_MAX].mode = 0444;
- 	}
- 
- 	cnet->sysctl_header = register_net_sysctl_sz(net, "net/netfilter",
--- 
-2.50.1 (Apple Git-155)
+This patch adds a new netlink method to migrate a single xfrm_state.
+Unlike the existing migration mechanism (SA + policy), this supports
+migrating only the SA and allows changing the reqid.
 
+> diff --git a/include/net/xfrm.h b/include/net/xfrm.h
+> index 4b29ab92c2a7..ae2a1cf2311a 100644
+> --- a/include/net/xfrm.h
+> +++ b/include/net/xfrm.h
+> @@ -683,11 +683,17 @@ struct xfrm_migrate {
+>  	xfrm_address_t		new_daddr;
+>  	xfrm_address_t		new_saddr;
+>  	struct xfrm_encap_tmpl *encap;
+> -	struct xfrm_user_offload *xuo;
+> +	struct xfrm_user_offload xuo;
+
+[ ... ]
+
+> diff --git a/net/xfrm/xfrm_policy.c b/net/xfrm/xfrm_policy.c
+> index 2f23ca5b62a9..de8b038fc08c 100644
+> --- a/net/xfrm/xfrm_policy.c
+> +++ b/net/xfrm/xfrm_policy.c
+> @@ -4642,6 +4642,19 @@ static int xfrm_migrate_check(const struct xfrm_migrate *m, int num_migrate,
+>  	return 0;
+>  }
+>
+> +/* Fill migrate fields that are invariant in XFRM_MSG_MIGRATE: inherited
+> + * from the existing SA unchanged.
+> + */
+> +static void xfrm_migrate_copy_old(struct xfrm_migrate *mp,
+> +				  const struct xfrm_state *x)
+> +{
+> +	mp->smark                  = x->props.smark;
+> +	mp->new_reqid              = x->props.reqid;
+> +	mp->nat_keepalive_interval = x->nat_keepalive_interval;
+> +	mp->mapping_maxage         = x->mapping_maxage;
+> +	mp->new_mark               = x->mark;
+> +}
+> +
+>  int xfrm_migrate(const struct xfrm_selector *sel, u8 dir, u8 type,
+>  		 struct xfrm_migrate *m, int num_migrate,
+>  		 struct xfrm_kmaddress *k, struct net *net,
+> @@ -4680,7 +4693,10 @@ int xfrm_migrate(const struct xfrm_selector *sel, u8 dir, u8 type,
+>  			x_cur[nx_cur] = x;
+>  			nx_cur++;
+>  			mp->encap = encap;
+> -			mp->xuo = xuo;
+> +			if (xuo)
+> +				mp->xuo = *xuo;
+                                     ^^^^
+>  			xfrm_migrate_copy_old(mp, x);
+>
+
+What happens to mp->xuo when xuo is NULL?
+
+The xfrm_migrate structure changed its xuo field from a pointer
+(struct xfrm_user_offload *xuo) to an embedded value
+(struct xfrm_user_offload xuo).
+
+In xfrm_migrate(), when the xuo parameter is NULL (PF_KEY path via
+pfkey_migrate, or XFRM_MSG_MIGRATE without XFRMA_OFFLOAD_DEV), the
+'if (xuo) mp->xuo = *xuo' branch is skipped, leaving mp->xuo with
+uninitialized stack data.
+
+Both callers declare 'struct xfrm_migrate m[XFRM_MAX_DEPTH]' on the
+stack without zeroing:
+
+net/key/af_key.c:pfkey_migrate() {
+    struct xfrm_migrate m[XFRM_MAX_DEPTH];
+    ...
+    err = xfrm_migrate(&sel, dir, XFRM_POLICY_TYPE_MAIN, m, i,
+                       k.local && k.remote ? &k : NULL, net,
+                       NULL, 0, NULL);
+}
+
+net/xfrm/xfrm_user.c:xfrm_do_migrate() {
+    struct xfrm_migrate m[XFRM_MAX_DEPTH];
+    ...
+    err = xfrm_migrate(&sel, dir, type, m, n, k, net, encap, xuo, extack);
+}
+
+The uninitialized mp->xuo.ifindex is later read in
+xfrm_state_migrate_create() and xfrm_state_migrate_install():
+
+net/xfrm/xfrm_state.c:xfrm_state_migrate_create() {
+    ...
+    /* configure the hardware if offload is requested */
+    if (m->xuo.ifindex && xfrm_dev_state_add(net, xc, &m->xuo, extack))
+        goto error;
+}
+
+net/xfrm/xfrm_state.c:xfrm_state_migrate_install() {
+    ...
+    if (xfrm_state_add(xc) < 0) {
+        NL_SET_ERR_MSG(extack, "Failed to add migrated state");
+        if (m->xuo.ifindex)
+            xfrm_dev_state_delete(xc);
+        ...
+    }
+}
+
+If the stack garbage contains a non-zero ifindex value,
+xfrm_dev_state_add() will be called with random ifindex and flags,
+potentially causing spurious hardware offload attempts or migration
+failures.
+
+Previously, 'mp->xuo = xuo' unconditionally set the pointer to NULL in
+these paths, which was then properly checked as 'if (m->xuo)'.
+
+Should mp->xuo be zero-initialized when xuo is NULL, either by adding
+'else memset(&mp->xuo, 0, sizeof(mp->xuo))' after the if-block, or by
+zero-initializing the m[] arrays in the callers?
