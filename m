@@ -1,344 +1,269 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011028.outbound.protection.outlook.com [52.101.65.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B491306D26;
-	Wed, 11 Mar 2026 13:26:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773235584; cv=none; b=M+jXENKG8JYEK6ldZ+QjnaLSMZoidr5nrdTKLlcyScnfq64MRfMUyJHO8Xol2fTkUWAbvnH2f/EddEw0REBKDnbY1rNm6JdfdkmG+6gQ45uFVE98P7zJ/6TU1sX7ismMdR6JLlUy7FDlWtvuX0ZnLyHX+DCgmmTD8KpGd7NDqVo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773235584; c=relaxed/simple;
-	bh=W6oCAQ/s8C2Uj48lCZ2DxWtVPPiRrun1JCvwriBxabE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D5O03yd+pGklZhTpZ8JfhoyZhM0ip1oHJg+5PIXjCYONAw767IG99weJ3GWGE0QKxDSM9QxXvFoxM6YJ03e2f+4oR1ke9UU8uupA9/dgurvfVAr81gaGkupsM7sOisn+DwP/pO/JVqOjJ0t+pZSaefULbwi3dP/vRfVEbdp5Fnw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DUynWAV1; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC2F22E4257;
+	Wed, 11 Mar 2026 13:42:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.28
+ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773236565; cv=fail; b=KVwflBChFx6jP5LSM9TLBpPeUB0tVFmEApPOfUzSVGgU1MzOgK5+8tC2DMuYuHOpwzXeyueulKvgfXhlv7LHccD7nrTYG8y8bktpZmzcwsoy59mccdydZksIoqKF7DQsHMRqSjwl09uJsixM3Aa0J39GrH5QKP3KBb2tL/XeC68=
+ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773236565; c=relaxed/simple;
+	bh=GChVai2WoBVzCEYHA2Ztw7/9SMk9lMqv9L82N97eMiI=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=nmq2NST8QrzMug9CiLveq/ndTWpzLTepsxpTKti2VrDIv5qQ9iwIynTscprhpi5TruimO+CdaNHeiLKxoPmkCFiVrUB2S979/2+NKmJ1JPFPX93uHCvedzwFoyBsW7VZlJ/1q6kmAV2eH0xb7vhTYLl8mArctyMFOFzZZiRkytI=
+ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=Tz9yk4hB; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=Tz9yk4hB; arc=fail smtp.client-ip=52.101.65.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DUynWAV1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76656C19425;
-	Wed, 11 Mar 2026 13:26:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773235583;
-	bh=W6oCAQ/s8C2Uj48lCZ2DxWtVPPiRrun1JCvwriBxabE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DUynWAV1b8Gc0x1sir2egYqoYc/O0i1lGxqk2g7OKX9FVTWDHZz9PK91J+UkSiTF7
-	 2UNaZq0YNOYMWNnFI7/E5obzAvM2nG4YybgJf/ADQRT9naD5Fg5A7un+5yMXZfvcMm
-	 IBs2kZjr+6JXEperRFNucEK+RWjwAUJ8FLA/029zKBd/Cy73loeTiqjpJr4SALTEA9
-	 Y7Eu7jyuT7aoq/GT8/lEa4c+54dzXbSRl4t0sR9S7Un8O27CuDYek6ntMsgSumDWVW
-	 B74As9Iz/BiFW2hupvE8zrvK//L3NO5Rdg1gnKH6qnknXMy52vkLNPOYb/i1i/eaXW
-	 zzp0hOEFaKrdw==
-Date: Wed, 11 Mar 2026 18:56:07 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Thara Gopinath <thara.gopinath@gmail.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	"David S. Miller" <davem@davemloft.net>, Udit Tiwari <quic_utiwari@quicinc.com>, 
-	Daniel Perez-Zoghbi <dperezzo@quicinc.com>, Md Sadre Alam <mdalam@qti.qualcomm.com>, 
-	Dmitry Baryshkov <lumag@kernel.org>, Peter Ujfalusi <peter.ujfalusi@gmail.com>, 
-	Michal Simek <michal.simek@amd.com>, Frank Li <Frank.Li@kernel.org>, dmaengine@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org, brgl@kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: Re: [PATCH v12 05/12] dmaengine: qcom: bam_dma: add support for BAM
- locking
-Message-ID: <s3qjgxji5ykznryf5n53zgvxm2qc5czsamguasdurfsrxbq43o@jpjkw5o7k5fo>
-References: <20260310-qcom-qce-cmd-descr-v12-0-398f37f26ef0@oss.qualcomm.com>
- <20260310-qcom-qce-cmd-descr-v12-5-398f37f26ef0@oss.qualcomm.com>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="Tz9yk4hB";
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="Tz9yk4hB"
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=JaJj/vJJ/4DUIQ4tFLTiJ/iSByk7loj9eOOvgK7wMMy9aiAAqjjGoEgVBP9qlRxKLpH6L+h8aC0JxMliS2foCOexUltDKzd1q54PjMAYHERbfRUDFMzS6equjTtiw31GjQy1Gf7f+Ja4dB42H2JNDQ0IjskH8qYx14oV8djBhbgwgZ7O3k2tz8uZCF1gfPXVEwikUNUsFFpeonkdEyP8xtjl1hSqzgbcClHPa0b4EI+Fngu4I2a12ofCSr1pHvHiFbtdmpU4eKZGIn1ON51EtEbJR8vW1u7nu7ML+jFxMJQreBgy60Ku400qj1RoJ9DjxJVFTUeRltwntAU5nV49zg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0+HoSVKjxFIqFjlRtaAPGrWAFkJPI9iwGYPeIW6az5w=;
+ b=n4xJYYYhFwFnTYmCMmDhBkbUA+KRLZFkrzKnDn/oEPYLRK7q0wx4VcWVflt9zClh/8eBM8fSVf8M8sDsGMxnBhkNglWapZvv25USlu6sSn13LHW5aWnQAvAXfiUgR3KoxXA+I0IMXvDy0ADSgPHTyAx8lAB/Na/FR+4gMlsXILDqjHdz8KTMjFqmMjH43qZjxjZndqPj10n9S/Zz4I0kOLb08yoi7Q75+IJCmk2oJbz3d7b1YlS4XwiVTbpcWNp/0aPbxAcaYNRHEnhEl9sC45ZodO8Pn9fIWUecUyxb6nyGU7ET1mo1oou7DNpUUhrUJrjOc5aNQAP/QugIutheSA==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=oss.qualcomm.com smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0+HoSVKjxFIqFjlRtaAPGrWAFkJPI9iwGYPeIW6az5w=;
+ b=Tz9yk4hBrJ5xRoiCHPoGW8CRB/SaT9DcNn16bluHyLkJCs7RYRsU2H/2k0cmmNTTH/xaPM5DWIUek12hDZwNQb7gydQDHA3NLgZVKiqDhXCa0oC9HWlhNSmJXH5N0R7SRZnIOh115X7hY0T7XrnJTKL4UCoxEMa0qSIkazuaSMw=
+Received: from AM9P193CA0030.EURP193.PROD.OUTLOOK.COM (2603:10a6:20b:21e::35)
+ by DU0PR08MB9106.eurprd08.prod.outlook.com (2603:10a6:10:470::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9678.25; Wed, 11 Mar
+ 2026 13:42:38 +0000
+Received: from AMS0EPF000001A5.eurprd05.prod.outlook.com
+ (2603:10a6:20b:21e:cafe::bf) by AM9P193CA0030.outlook.office365.com
+ (2603:10a6:20b:21e::35) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9678.25 via Frontend Transport; Wed,
+ 11 Mar 2026 13:42:33 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ AMS0EPF000001A5.mail.protection.outlook.com (10.167.16.232) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9678.18
+ via Frontend Transport; Wed, 11 Mar 2026 13:42:37 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=xnYz+AnpiZNnGwfoaKGpwqkr3fYEF48GcQlXz8cU/Y934CQvZjN1FXQN3XL07V6qh41lKdXBdGmtB/LCPA5d8vKFYFW9ZAmHpr3Sieu0AS/yt7FPXvZ0nYekY32XnX+7YaLfzOUH5rxt9JzckOX5dudJ8ZPNIT65MVfSA8Y9bg2m5qCE5uwi6IZhPdRbJPFOaIXcbPhzGScUXQHBt4d+p8vzENsNiSqAMckI0PXg8+h/WHcLcX+k71S3viLCDidi50aOKNqOhwvJP2mSaFH2nn1PIT495+c4juDN9kN6RxuZoR/yKvlDPhXbOBCEQANxXnstls5yYY3d5hPmF18ZRw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0+HoSVKjxFIqFjlRtaAPGrWAFkJPI9iwGYPeIW6az5w=;
+ b=RWBWzZYOHJ11lVCTpzAZH1LMSO/zh/Qn89QrKfK5icIc4WKXTKU0g1iwdWyf4jXcqf3gz12MrCR1i5RgQYfrBBAZcbuD79noLxw0nCWL/Qju5wlY4ELOnzvG2R1xpw43F2xYQqeAH6ah9vJuTEAhqVU63JlwPD5VwPQyiTydb6ZyaAuIZmue3g2/yxG3pf9ttKn6Gk/6BxSsqlP5290VBiFQCKW5VOuRaRywzeX8LJJRWvlOvpz48QlND4B6i0efLuC3egC/uaeiY4kZW1OZbyqhov2f+AYftNdG5QI0Y2ORxhmnOMhZZuXWq0HBtrI+TgdMZBcIFZi4a3n5dJ6YSQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0+HoSVKjxFIqFjlRtaAPGrWAFkJPI9iwGYPeIW6az5w=;
+ b=Tz9yk4hBrJ5xRoiCHPoGW8CRB/SaT9DcNn16bluHyLkJCs7RYRsU2H/2k0cmmNTTH/xaPM5DWIUek12hDZwNQb7gydQDHA3NLgZVKiqDhXCa0oC9HWlhNSmJXH5N0R7SRZnIOh115X7hY0T7XrnJTKL4UCoxEMa0qSIkazuaSMw=
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from VI0PR08MB11823.eurprd08.prod.outlook.com (2603:10a6:800:324::5)
+ by PAWPR08MB11300.eurprd08.prod.outlook.com (2603:10a6:102:511::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.11; Wed, 11 Mar
+ 2026 13:41:35 +0000
+Received: from VI0PR08MB11823.eurprd08.prod.outlook.com
+ ([fe80::694c:3790:be1a:8ddd]) by VI0PR08MB11823.eurprd08.prod.outlook.com
+ ([fe80::694c:3790:be1a:8ddd%5]) with mapi id 15.20.9700.010; Wed, 11 Mar 2026
+ 13:41:35 +0000
+Message-ID: <16a5363d-6b34-4853-aa3a-e4b3023fb81a@arm.com>
+Date: Wed, 11 Mar 2026 13:41:07 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 10/11] dt-bindings: firmware: add arm,ras-ffh
+Content-Language: en-GB
+To: Himanshu Chauhan <himanshu.chauhan@oss.qualcomm.com>
+Cc: devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
+ Dmitry.Lamerov@arm.com, catalin.marinas@arm.com, bp@alien8.de,
+ robh@kernel.org, rafael@kernel.org, will@kernel.org, conor@kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ krzk+dt@kernel.org, Michael.Zhao2@arm.com, tony.luck@intel.com
+References: <20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-0-347fa2d7351b@arm.com>
+ <20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-10-347fa2d7351b@arm.com>
+ <CA+Ht8=ZSUGF9KQqy=yZ56kEDwsv3TvS6rLcMD85iwDxwOr3rpQ@mail.gmail.com>
+From: Ahmed Tiba <ahmed.tiba@arm.com>
+In-Reply-To: <CA+Ht8=ZSUGF9KQqy=yZ56kEDwsv3TvS6rLcMD85iwDxwOr3rpQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: LO6P265CA0019.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2ff::10) To VI0PR08MB11823.eurprd08.prod.outlook.com
+ (2603:10a6:800:324::5)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260310-qcom-qce-cmd-descr-v12-5-398f37f26ef0@oss.qualcomm.com>
+X-MS-TrafficTypeDiagnostic:
+	VI0PR08MB11823:EE_|PAWPR08MB11300:EE_|AMS0EPF000001A5:EE_|DU0PR08MB9106:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2ce50051-4fce-43b1-d3f6-08de7f740ee2
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted:
+ BCL:0;ARA:13230040|1800799024|376014|7416014|366016|56012099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info-Original:
+ CtJHfLFgt1YVylULgfuYDSvUtr1anHgEeKCrdSlEDNXTJkemFVeyl7lnpmxU9D7aniBEwbsYBDEgF1JtOD5B0f0ZG34A7QFVQycsGb2Fv5pslNI6PwImAX+xeNag5crmCB//n0dZGFJ2dOLDQvADVsLqpG3Ri32cfpRZUkowhfylbZ9vC6LbjOlgISeRUW+od3vK/vKS6O1esxYTo5+7CzMwHvfwAg091vMhz1bbzD0sKJWb9JiWNr4pV4S08/rxqjqC9aoRedMQ0lN9c9Op1Lmf57zEfUykStS4J1HmTOeraOCVZ5A29srI6p/BnVMjaufFdWhR2VQb/k1FrNP+XP0RTpAYH5YKOdSU9Rzbhl/55jts6uCtYw7mx8RRpldBFOepvKp+PYMe3a7QtstNaqRbCQeLdVxgDMIzbj0pod9Lmk7O76vwwfV+IFWfj1g+1bp+MHS60fMcgHQ2xxaAWGsTYJzKtmmyAaDpvUIf4WxaDus+ul+z2jTQrRhCKzcaY8aiHjsG3J7S6tLoHP58WdfWCcw6LBgY/Fa//o8QDHj3UziaMbkXzJFr1eAd7ELy74bXPRN50OqK8utOjm7MwXNinYCpftMjXKolSPBcH8LpxNrZWiPOdW8WLLOM5UQyr4ODDjVe2g5KvhDD2XgLp26Oh86dZ7ADUe9zrfQWD1XP43cZp4UhdrFSYJedCBO2
+X-Forefront-Antispam-Report-Untrusted:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI0PR08MB11823.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-Exchange-RoutingPolicyChecked:
+ VFqdrvGAYh2bpEgKh9DG6ev89ucHlY6IYHWGJrBdzb9pEhS9bXo5NcWFHlV11Vtwt+qJhjm/wEgbvwe2AS3Rj9zgOylxBSpBslWfS38Q7sqrugi5AlkOY2huGRqmuiT7bdOlT3y8R5CAmBZguU6cCNdISAOILFrEAIhTUtuYUEnGplt77ouJdFwddczOYz303zLHesY+3U/WawgeW8DCCiiahLYub7ZV7yXFSr50T8jnraLWlMST4MRl2FTjWbujZi0CtfaFD1nQQID34DutaVyC04fAm2zwAbDWCjTG9hzuNyPXvwEQtbZ6Flvng7QQLNKox7qbQ+0F4/+I4Tbbqw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR08MB11300
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped:
+ AMS0EPF000001A5.eurprd05.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs:
+	62a8a403-a5ee-45e7-549b-08de7f73e986
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|14060799003|1800799024|36860700016|35042699022|7416014|376014|82310400026|13003099007|56012099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	wm2XXCs1JlB8C4OwEaH2a6NRei58+rXVt1EMcw4BWV1ELe0+NsGHHVQKSBOAzmUjoqHQ7RW3ifykM1PHt9BvAARmb1Lwz6qUkkh9Uc4EYfrMrRC6CGGNluKooYAun2b8dQLqrP0P5LWtdhZgvfLcF3zY3vdmiUfYwOm/cSWGeUX04NyKRm1WEPy3QGec5GIhQacpqOSoO6Pql6LlbIGoOuDcjXqoQWo3HMVBxzGmttHPLFZuxBI7Mk41cb8UtRGilPnVpHdif5HxFkGIfmPT80q1KQh1Q7FppyYsBNxQa2IO+FDPYrmhacUAt/2KUX1Cp9dTyiZgH/JVP/XFy3umlqaG0zdK2FiEoJZi/RvkxpZ0Aeey8nMjgLUbvk2s84ffsqcykvlte9+yrDxEn2t3A4MZr2bIH5rEWwENeaWbgMMKDkT3K2xyomGWzFa93hz0ExzCProKKuPomFreGXwdJhpcpaJkE3Vgjc4s6VAZ0XzsalU8qjXsbhMg1mJmLxQG9gnBh/knE4+NgHs7TzTnsavmfwcRBW2S8HhUFaWTRzZalsXb/F6Wic5zoh0OvEx2laRXecpzWSxeChJhwF8m8O/wDpLASmZ/q0jcHbN9rq/0OopKUkXZ5QCV3TmIr5HnVm7TEOvwgMDkD+s36jh60DurrWI6R7uMsyWXML4ysDFS6k3H4VTTb9Ck7GU6jYLXUix8L0gx9vY9bGRuwVl9iiPccd4cATS2jt7eztKDvBE=
+X-Forefront-Antispam-Report:
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(14060799003)(1800799024)(36860700016)(35042699022)(7416014)(376014)(82310400026)(13003099007)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	U5AxYTYfnBxRz9od0hyAdN3gW8SH/V9pCALyJLxJK+3FS9IYatVz8b3C9hQNT3gPWXa8EpVx8OusEVSyk+q0Mc4jOSy9Dajb7ydoQaoXZJhp4jENBNUKxs238VLyHO/sGERqEqhvYOcOlPVO/wVb9ap6lQXn4f+8J1kLPXu5KlgRoPN2aqPLEHnYA3Gcr5jvCTZj6rpdfcxTK0otxEc+yt7zEcvZyeC+P0pxY7/qfx7VLk7N/MBxZdbye3zKzWVr3kvJPKIC8clfX4UcDztZLgfsvUFFMJYicylsB8/1MtBZgyuzYK0Pln78qofg7ZbtlvO2KdQXFYs3fpMsTWe3FPxU7u/emZps7Lt4DfuPz/r2W3+o0vRHyCNA6Hpc+SdgrnI6AOWSency6iCA2Wcy2WZ2uOoPPB+6Trj9WSgCQW7b0+NU8Dpi7FhMyqeZVFSV
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Mar 2026 13:42:37.4900
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2ce50051-4fce-43b1-d3f6-08de7f740ee2
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	AMS0EPF000001A5.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB9106
 
-On Tue, Mar 10, 2026 at 04:44:19PM +0100, Bartosz Golaszewski wrote:
-> Add support for BAM pipe locking. To that end: when starting DMA on an RX
-> channel - prepend the existing queue of issued descriptors with an
-> additional "dummy" command descriptor with the LOCK bit set. Once the
-> transaction is done (no more issued descriptors), issue one more dummy
-> descriptor with the UNLOCK bit.
+On 26/02/2026 07:03, Himanshu Chauhan wrote:
+> On Fri, Feb 20, 2026 at 7:15 PM Ahmed Tiba <ahmed.tiba@arm.com> wrote:
+>>
+>> Describe the DeviceTree node that exposes the Arm firmware-first handler
+>> CPER provider and hook the file into MAINTAINERS so the binding has an
+>> owner.
+>>
+>> Signed-off-by: Ahmed Tiba <ahmed.tiba@arm.com>
+>> ---
+>>   .../devicetree/bindings/firmware/arm,ras-ffh.yaml  | 71 ++++++++++++++++++++++
+>>   MAINTAINERS                                        |  5 ++
+>>   2 files changed, 76 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/firmware/arm,ras-ffh.yaml b/Documentation/devicetree/bindings/firmware/arm,ras-ffh.yaml
+>> new file mode 100644
+>> index 000000000000..eccbaaf45885
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/firmware/arm,ras-ffh.yaml
+>> @@ -0,0 +1,71 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/firmware/arm,ras-ffh.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Arm Firmware-First Handler (FFH) CPER provider
 > 
-> We *must* wait until the transaction is signalled as done because we
-> must not perform any writes into config registers while the engine is
-> busy.
-> 
-> The dummy writes must be issued into a scratchpad register of the client
-> so provide a mechanism to communicate the right address via descriptor
-> metadata.
-> 
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-> ---
->  drivers/dma/qcom/bam_dma.c       | 175 ++++++++++++++++++++++++++++++++++++++-
->  include/linux/dma/qcom_bam_dma.h |   4 +
->  2 files changed, 176 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/dma/qcom/bam_dma.c b/drivers/dma/qcom/bam_dma.c
-> index 83491e7c2f17d8c9d12a1a055baea7e3a0a75a53..627c85a2df4dcdbac247d831a4aef047c2189456 100644
-> --- a/drivers/dma/qcom/bam_dma.c
-> +++ b/drivers/dma/qcom/bam_dma.c
-> @@ -28,11 +28,13 @@
->  #include <linux/clk.h>
->  #include <linux/device.h>
->  #include <linux/dma-mapping.h>
-> +#include <linux/dma/qcom_bam_dma.h>
->  #include <linux/dmaengine.h>
->  #include <linux/init.h>
->  #include <linux/interrupt.h>
->  #include <linux/io.h>
->  #include <linux/kernel.h>
-> +#include <linux/lockdep.h>
->  #include <linux/module.h>
->  #include <linux/of_address.h>
->  #include <linux/of_dma.h>
-> @@ -60,6 +62,8 @@ struct bam_desc_hw {
->  #define DESC_FLAG_EOB BIT(13)
->  #define DESC_FLAG_NWD BIT(12)
->  #define DESC_FLAG_CMD BIT(11)
-> +#define DESC_FLAG_LOCK BIT(10)
-> +#define DESC_FLAG_UNLOCK BIT(9)
->  
->  struct bam_async_desc {
->  	struct virt_dma_desc vd;
-> @@ -391,6 +395,14 @@ struct bam_chan {
->  	struct list_head desc_list;
->  
->  	struct list_head node;
-> +
-> +	/* BAM locking infrastructure */
-> +	bool locked;
+> Please don't called it FFH. FFH stands for Fixed Feature Hardware and
+> ACPI uses it at multiple places. It is causing confusion.
 
-Nit: Move this boolean at the end to avoid hole in-between.
+Agreed. I can drop "ffh" and rename it to "arm,ras-cper".
 
-> +	phys_addr_t scratchpad_addr;
-> +	struct scatterlist lock_sg;
-> +	struct scatterlist unlock_sg;
-> +	struct bam_cmd_element lock_ce;
-> +	struct bam_cmd_element unlock_ce;
->  };
->  
->  static inline struct bam_chan *to_bam_chan(struct dma_chan *common)
-> @@ -652,6 +664,27 @@ static int bam_slave_config(struct dma_chan *chan,
->  	return 0;
->  }
->  
-> +static int bam_metadata_attach(struct dma_async_tx_descriptor *desc, void *data, size_t len)
-> +{
-> +	struct bam_chan *bchan = to_bam_chan(desc->chan);
-> +	const struct bam_device_data *bdata = bchan->bdev->dev_data;
-> +	struct bam_desc_metadata *metadata = data;
-> +
-> +	if (!data)
-> +		return -EINVAL;
-> +
-> +	if (!bdata->pipe_lock_supported)
-> +		return -EOPNOTSUPP;
+>> +
+>> +maintainers:
+>> +  - Ahmed Tiba <ahmed.tiba@arm.com>
+>> +
+>> +description: |
+>> +  Arm Reliability, Availability and Serviceability (RAS) firmware can expose
+>> +  a firmware-first handler (FFH) that provides UEFI CPER Generic Error Status
+>> +  blocks directly via DeviceTree. The firmware owns the CPER buffer
+>> +  and notifies the OS through an interrupt.
+>> +
+>> +properties:
+>> +  compatible:
+>> +    const: arm,ras-ffh
+>> +
+>> +  reg:
+>> +    minItems: 1
+>> +    items:
+>> +      - description:
+>> +          CPER Generic Error Status block exposed by firmware
+>> +      - description:
+>> +          Optional 32- or 64-bit doorbell register used on platforms
+>> +          where firmware needs an explicit "ack" handshake before overwriting
+>> +          the CPER buffer. Firmware watches bit 0 and expects the OS to set it
+>> +          once the current status block has been consumed.
+>> +
+>> +  interrupts:
+>> +    maxItems: 1
+>> +    description:
+>> +      Interrupt used to signal that a new status record is ready.
+>> +
+>> +  memory-region:
+>> +    $ref: /schemas/types.yaml#/definitions/phandle
+>> +    description:
+>> +      Optional phandle to the reserved-memory entry that backs the status
+>> +      buffer so firmware and the OS use the same carved-out region.
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +  - interrupts
+>> +
+>> +additionalProperties: false
+>> +
+>> +examples:
+>> +  - |
+>> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+>> +
+>> +    reserved-memory {
+>> +      #address-cells = <2>;
+>> +      #size-cells = <2>;
+>> +      ras_cper_buffer: cper@fe800000 {
+>> +        reg = <0x0 0xfe800000 0x0 0x1000>;
+>> +        no-map;
+>> +      };
+>> +    };
+>> +
+>> +    error-handler@fe800000 {
+>> +      compatible = "arm,ras-ffh";
+>> +      reg = <0xfe800000 0x1000>,
+>> +            <0xfe810000 0x4>;
+>> +      memory-region = <&ras_cper_buffer>;
+>> +      interrupts = <GIC_SPI 32 IRQ_TYPE_LEVEL_HIGH>;
+>> +    };
+>> +...
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index b8d8a5c41597..47db7877b485 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -22027,6 +22027,11 @@ M:     Alexandre Bounine <alex.bou9@gmail.com>
+>>   S:     Maintained
+>>   F:     drivers/rapidio/
+>>
+>> +RAS ERROR STATUS
+>> +M:     Ahmed Tiba <ahmed.tiba@arm.com>
+>> +S:     Maintained
+>> +F:     Documentation/devicetree/bindings/firmware/arm,ras-ffh.yaml
+>> +
+>>   RAS INFRASTRUCTURE
+>>   M:     Tony Luck <tony.luck@intel.com>
+>>   M:     Borislav Petkov <bp@alien8.de>
+>>
+>> --
+>> 2.43.0
+>>
+>>
 
-I don't think you should error out if pipe lock is not supported. You can safely
-return 0 so that the client can continue to do DMA. Otherwise, if the client
-tries to do DMA on a non-pipe lock supported platform (a valid case), DMA will
-fail.
-
-There is also no incentive for the clients to know whether pipe lock is
-supported or not as they can proceed anyway.
-
-> +
-> +	bchan->scratchpad_addr = metadata->scratchpad_addr;
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct dma_descriptor_metadata_ops bam_metadata_ops = {
-> +	.attach = bam_metadata_attach,
-> +};
-> +
->  /**
->   * bam_prep_slave_sg - Prep slave sg transaction
->   *
-> @@ -668,6 +701,7 @@ static struct dma_async_tx_descriptor *bam_prep_slave_sg(struct dma_chan *chan,
->  	void *context)
->  {
->  	struct bam_chan *bchan = to_bam_chan(chan);
-> +	struct dma_async_tx_descriptor *tx_desc;
->  	struct bam_device *bdev = bchan->bdev;
->  	struct bam_async_desc *async_desc;
->  	struct scatterlist *sg;
-> @@ -723,7 +757,12 @@ static struct dma_async_tx_descriptor *bam_prep_slave_sg(struct dma_chan *chan,
->  		} while (remainder > 0);
->  	}
->  
-> -	return vchan_tx_prep(&bchan->vc, &async_desc->vd, flags);
-> +	tx_desc = vchan_tx_prep(&bchan->vc, &async_desc->vd, flags);
-> +	if (!tx_desc)
-> +		return NULL;
-> +
-> +	tx_desc->metadata_ops = &bam_metadata_ops;
-> +	return tx_desc;
->  }
->  
->  /**
-> @@ -1012,6 +1051,112 @@ static void bam_apply_new_config(struct bam_chan *bchan,
->  	bchan->reconfigure = 0;
->  }
->  
-> +static struct bam_async_desc *
-> +bam_make_lock_desc(struct bam_chan *bchan, struct scatterlist *sg,
-> +		   struct bam_cmd_element *ce, unsigned long flag)
-> +{
-> +	struct dma_chan *chan = &bchan->vc.chan;
-> +	struct bam_async_desc *async_desc;
-> +	struct bam_desc_hw *desc;
-> +	struct virt_dma_desc *vd;
-> +	struct virt_dma_chan *vc;
-> +	unsigned int mapped;
-> +	dma_cookie_t cookie;
-> +	int ret;
-> +
-> +	sg_init_table(sg, 1);
-> +
-> +	async_desc = kzalloc_flex(*async_desc, desc, 1, GFP_NOWAIT);
-> +	if (!async_desc) {
-> +		dev_err(bchan->bdev->dev, "failed to allocate the BAM lock descriptor\n");
-> +		return NULL;
-> +	}
-> +
-> +	async_desc->num_desc = 1;
-> +	async_desc->curr_desc = async_desc->desc;
-> +	async_desc->dir = DMA_MEM_TO_DEV;
-> +
-> +	desc = async_desc->desc;
-> +
-> +	bam_prep_ce_le32(ce, bchan->scratchpad_addr, BAM_WRITE_COMMAND, 0);
-> +	sg_set_buf(sg, ce, sizeof(*ce));
-> +
-> +	mapped = dma_map_sg_attrs(chan->slave, sg, 1, DMA_TO_DEVICE, DMA_PREP_CMD);
-> +	if (!mapped) {
-> +		kfree(async_desc);
-> +		return NULL;
-> +	}
-> +
-> +	desc->flags |= cpu_to_le16(DESC_FLAG_CMD | flag);
-> +	desc->addr = sg_dma_address(sg);
-> +	desc->size = sizeof(struct bam_cmd_element);
-> +
-> +	vc = &bchan->vc;
-> +	vd = &async_desc->vd;
-> +
-> +	dma_async_tx_descriptor_init(&vd->tx, &vc->chan);
-> +	vd->tx.flags = DMA_PREP_CMD;
-> +	vd->tx.desc_free = vchan_tx_desc_free;
-> +	vd->tx_result.result = DMA_TRANS_NOERROR;
-> +	vd->tx_result.residue = 0;
-> +
-> +	cookie = dma_cookie_assign(&vd->tx);
-> +	ret = dma_submit_error(cookie);
-> +	if (ret)
-> +		return NULL;
-
-Why can't you pass the actual error pointer to the caller. Right now, caller
-just treats all failures as -ENOMEM.
-
-> +
-> +	return async_desc;
-> +}
-> +
-> +static int bam_do_setup_pipe_lock(struct bam_chan *bchan, bool lock)
-> +{
-> +	struct bam_device *bdev = bchan->bdev;
-> +	const struct bam_device_data *bdata = bdev->dev_data;
-> +	struct bam_async_desc *lock_desc;
-> +	struct bam_cmd_element *ce;
-> +	struct scatterlist *sgl;
-> +	unsigned long flag;
-> +
-> +	lockdep_assert_held(&bchan->vc.lock);
-> +
-> +	if (!bdata->pipe_lock_supported || !bchan->scratchpad_addr ||
-> +	    bchan->slave.direction != DMA_MEM_TO_DEV)
-> +		return 0;
-> +
-> +	if (lock) {
-> +		sgl = &bchan->lock_sg;
-> +		ce = &bchan->lock_ce;
-> +		flag = DESC_FLAG_LOCK;
-> +	} else {
-> +		sgl = &bchan->unlock_sg;
-> +		ce = &bchan->unlock_ce;
-> +		flag = DESC_FLAG_UNLOCK;
-> +	}
-> +
-> +	lock_desc = bam_make_lock_desc(bchan, sgl, ce, flag);
-> +	if (!lock_desc)
-> +		return -ENOMEM;
-> +
-> +	if (lock)
-> +		list_add(&lock_desc->vd.node, &bchan->vc.desc_issued);
-> +	else
-> +		list_add_tail(&lock_desc->vd.node, &bchan->vc.desc_issued);
-> +
-> +	bchan->locked = lock;
-> +
-> +	return 0;
-> +}
-> +
-> +static int bam_setup_pipe_lock(struct bam_chan *bchan)
-> +{
-> +	return bam_do_setup_pipe_lock(bchan, true);
-> +}
-> +
-> +static int bam_setup_pipe_unlock(struct bam_chan *bchan)
-> +{
-> +	return bam_do_setup_pipe_lock(bchan, false);
-> +}
-> +
->  /**
->   * bam_start_dma - start next transaction
->   * @bchan: bam dma channel
-> @@ -1121,6 +1266,7 @@ static void bam_dma_work(struct work_struct *work)
->  	struct bam_device *bdev = from_work(bdev, work, work);
->  	struct bam_chan *bchan;
->  	unsigned int i;
-> +	int ret;
->  
->  	/* go through the channels and kick off transactions */
->  	for (i = 0; i < bdev->num_channels; i++) {
-> @@ -1128,6 +1274,13 @@ static void bam_dma_work(struct work_struct *work)
->  
->  		guard(spinlock_irqsave)(&bchan->vc.lock);
->  
-> +		if (list_empty(&bchan->vc.desc_issued) && bchan->locked) {
-
-I fully agree with Stephan that we cannot rely on this to ensure completion of
-previous commands. But I can't help with the NWD behavior :/
-
-> +			ret = bam_setup_pipe_unlock(bchan);
-
-if (bam_setup_pipe_unlock())?
-
-> +			if (ret)
-> +				dev_err(bchan->vc.chan.slave,
-> +					"Failed to set up the pipe unlock descriptor\n");
-> +		}
-> +
->  		if (!list_empty(&bchan->vc.desc_issued) && !IS_BUSY(bchan))
->  			bam_start_dma(bchan);
->  	}
-> @@ -1142,9 +1295,17 @@ static void bam_dma_work(struct work_struct *work)
->  static void bam_issue_pending(struct dma_chan *chan)
->  {
->  	struct bam_chan *bchan = to_bam_chan(chan);
-> +	int ret;
->  
->  	guard(spinlock_irqsave)(&bchan->vc.lock);
->  
-> +	if (!bchan->locked) {
-> +		ret = bam_setup_pipe_lock(bchan);
-
-if (bam_setup_pipe_lock())?
-
-- Mani
-
--- 
-மணிவண்ணன் சதாசிவம்
