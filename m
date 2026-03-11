@@ -1,80 +1,118 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B6F528CF4A;
-	Wed, 11 Mar 2026 04:58:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8267EEC0
+	for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2026 05:10:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773205085; cv=none; b=qHbLvruA26dDDlNOwJBdv6EBtzi3PaUyzVMfaTL0caHwjJJvgNGhaosszUWqMBWKpDREZJfKjLQslG7kpyt8gOS/ZwyZBl/evK4qy0tyWxnC3kCRnnIy0+E14SDSxpuTzelXQ43KqbOgwVhRshr0GPjF+pWr0BX2cxR7MU1rUZg=
+	t=1773205860; cv=none; b=IQE9aGbYtu2salQaGd5QA5lNtc48vlgPSrcP6WECbjr3e8ZrjiHWEX+bqp56AIqd1seGlp+lSmq2okDOgvVAg8Y8XFSsmKG2x5H/Al4NKy+F8GtSLTzhL8A9C5AJ3hgI+lkwk6c0aIzHdCakI3nbfBrTXpf8B6E+VT1NWXtiy5Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773205085; c=relaxed/simple;
-	bh=PPh4p9TMc+yxFwkeztcG783ewgHhUQ6b37NDTTtBG3w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hdMUJjYPI6g+lXmNgrsGA94tPsvSUVql7ro9F8sNoQtql3TwPb1U2L2bzqo0ko9eOoccl+zPvKrv9e8Wqqwaxevqs7X6fh/rkxxE/jgqh0sH5N6khAf0feu0nAXcPgFz4W4vFvZ01EpBBU8EzkPiRYgfesonrXt4tTXe2sjAL+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=hjIHq9OY; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1773205860; c=relaxed/simple;
+	bh=OM4qA659h1ZDbIWPqTMqRO8/S3PkK0dlLyNE7bPqJZ8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PrMlZzIAFikC0bXUOtmzd7D4TwfQiRrBaxyLE6x7nFjMYYtPL9NwEUCjc8/U3vzdQGgx69op3ZkAheFTZA/TTYGMt1tm8ihMAY3679jBjO3TjWY2Kqnh413DE1YBZL7Vax5ioUD5B8iYeMzPhIxQUAzMS0IcycxZS/AXPAqLYik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GKUKrTYE; arc=none smtp.client-ip=74.125.82.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="hjIHq9OY"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=x4A282qbKiRaDxLxOFzUvZJlDLVzn+npN+jW3VDUXrE=; b=hjIHq9OYwLwYJpDalYhfPrzXgC
-	fyNofX/OBHVH67n+dAMxVVn9PSIktXrzt5b/om/maLaVIeM91UDTTAlKnlmns16dGM7ZAKe8GE3TL
-	uuKGUdja0Acc5n1UqeBzA2AANOZKsavxSPT48jll7+0DmNvkH8y5dqv8ejOUbAmbZTB9IxDs9mxIS
-	bouzsfyj0jym4IjMr8wMFzD6+UQMlDTOsf0IWXN/ZJftizUSkHSPgHEyUCakHGsVounLWaB9+9usX
-	VtTfJ8SgYcYHN3iTJspdMI7xt2+RfUPGnLDEv6rkXLoWGZo7jlp3VwSD5bxwrZcr5XotG8y/P1/24
-	KZLRLynQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w0Bdm-0000000Ak0P-2oiL;
-	Wed, 11 Mar 2026 04:57:50 +0000
-Message-ID: <363b80db-9bf3-44d5-a756-e64d29bd36ec@infradead.org>
-Date: Tue, 10 Mar 2026 21:57:50 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GKUKrTYE"
+Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-2bd9a485bd6so11050060eec.1
+        for <linux-doc@vger.kernel.org>; Tue, 10 Mar 2026 22:10:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773205857; x=1773810657; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=E3laUE6i6y3qJpg501FXVY7DCFbmQnP9JAUpAN9WyI0=;
+        b=GKUKrTYEqjQdIPgmyYvWEYRBWj3tU/hpD3Nk0rEAO3N+gW3OagHoKuVdrN4JkqepOk
+         DBhQdAV02T0TXRjG35ZwjYV/4ptxybnGDZbWFG9THQb2Q8SuRl7Z3tEsJ3AykRKi4hxJ
+         q57vQZ+CQf8912pEkeoXrdb8MHSi74LXT28sshqaVshthB2wEdK3+4KIsUmHfp08PVWJ
+         cavsoA5UySyUvJNiqPcFkaNgfwaBU/u4gq+oT1+cl5Ro/RQsicVoKXgu/dlj2KeuQJ/F
+         oebkBMAza259swq00IPQ7gSld4YoWHguiF9YFyeZNHMbVBfCDBTIDHwJhA9FH13ew7Rh
+         P2LA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773205857; x=1773810657;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=E3laUE6i6y3qJpg501FXVY7DCFbmQnP9JAUpAN9WyI0=;
+        b=dn0c/+N1eUUHZSYTC9SnRH5e0IECCxvL29kufPdOAhvAnbM2E5N5TQM8NDbcq2V/ym
+         KmmynrMjgF66TZbTBxbDqQVbev6lyPShzbhDPMug0FqE+EX+knEvu+aqKjmA2wLbbfBa
+         DSRuB6dUr+mQgc5T3YUUse96+iO8gieDqBtOVAk8AXqpSbOYm+0c6gWbjL4pFCCx6JdH
+         UUIxNWqvZqGR2A1QESusaPUsEzORs1sLaQhnmQP76ksGRSBOvJtBRxbL8Xt1Rb+8hXv2
+         TKdnhiu/RhnB4VbRz/+lVgj0xZUCeJc5usMWj+hiMQbEABxDAI1Hqdt+MToMN097AtfG
+         yFGw==
+X-Forwarded-Encrypted: i=1; AJvYcCW2WipT8mcrZYHfH11Bo6QHQqJ2rr44/1CYLDNUI6flmL9mxGN/NgHdk9vCF0IjYTLI/TOWl55euj4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyMGj0cQUeE0aaIyoJcbX9rVlCx/MvocfrpMYIsY9MzcX/5OwaK
+	cJAdZmbYqhSNCzv06QcInt+iY6tlislviiIkp50PbygXV0IrI+X8njnE
+X-Gm-Gg: ATEYQzwWaIh6gX2tGk0g5iVqmi8PJ05Hzb/yswjX2dvuDNELrgZQyM7aT1HDY5zVkvQ
+	3svSEbpfgZHfxWIobkQ94fyXEuzGna1cWlpoHGGJ1+Iz0A/rkJfo6WYSnmFqmK7Yk8AaU8Hbpk/
+	Gs2vWcSw6P+TfJFOXczBKUFx8kF/HRWFQ03P39TihbID3R1Nz1y/igsx1dhxMCKk64Ym+XHvTgJ
+	t6uUGHVQT8yXOhWegJNnX0DcCWpnODK+ScDdwjjKcgLAE2naEUIAUBHCMyzeX46bJy+sUyLlrkp
+	buHNDpq06Lve6Ra1Zk2sb4HIfKzgcTa6t9en9shtCwCOe1NxtABa8IXYyLaDfYTFJMAqXGKvCQt
+	cHnFE4ePtxIhysQsRoXC+njDMJTi9o69AjstJR3bHWFawDwsZ5FDWBxTloiouKN05FmTIgSarhj
+	BvC2y9UmDi7ZLiB2Q3DpyoSM63u3ow+ujII/gEnXJZ3vtO/hDh3yjeMwYoATF2skR7
+X-Received: by 2002:a05:7301:2b05:b0:2ba:7b71:4f4 with SMTP id 5a478bee46e88-2be8a586373mr512287eec.32.1773205856884;
+        Tue, 10 Mar 2026 22:10:56 -0700 (PDT)
+Received: from google.com ([2a00:79e0:2ebe:8:6e17:9d84:ffa0:986b])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2be8a8550d5sm1192398eec.12.2026.03.10.22.10.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Mar 2026 22:10:56 -0700 (PDT)
+Date: Tue, 10 Mar 2026 22:10:53 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Jingyuan Liang <jingyliang@chromium.org>
+Cc: Jiri Kosina <jikos@kernel.org>, 
+	Benjamin Tissoires <bentiss@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Mark Brown <broonie@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, hbarnor@chromium.org, Jarrett Schultz <jaschultz@microsoft.com>, 
+	Dmitry Antipov <dmanti@microsoft.com>
+Subject: Re: [PATCH 01/12] Documentation: Correction in HID output_report
+ callback description.
+Message-ID: <abD5HV7TeNHtq8hi@google.com>
+References: <20260303-send-upstream-v1-0-1515ba218f3d@chromium.org>
+ <20260303-send-upstream-v1-1-1515ba218f3d@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 5/5] Documentation: laptops: Update documentation for
- uniwill laptops
-To: Werner Sembach <wse@tuxedocomputers.com>, W_Armin@gmx.de,
- hansg@kernel.org, ilpo.jarvinen@linux.intel.com,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20260310234022.2085232-1-wse@tuxedocomputers.com>
- <20260310234022.2085232-6-wse@tuxedocomputers.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260310234022.2085232-6-wse@tuxedocomputers.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260303-send-upstream-v1-1-1515ba218f3d@chromium.org>
 
-Hi Werner,
-
-On 3/10/26 4:34 PM, Werner Sembach wrote:
-> Adds short description for two new sysfs entries, ctgp_offset and
-> usb_c_power_priority, to the documentation of uniwill laptops.
+On Tue, Mar 03, 2026 at 06:12:53AM +0000, Jingyuan Liang wrote:
+> From: Jarrett Schultz <jaschultz@microsoft.com>
 > 
-> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
-> Reviewed-by: Armin Wolf <W_Armin@gmx.de>
-> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+> Originally output_report callback was described as must-be asynchronous,
+> but that is not the case in some implementations, namely i2c-hid.
+> Correct the documentation to say that it may be asynchronous.
+> 
+> Signed-off-by: Dmitry Antipov <dmanti@microsoft.com>
+> Signed-off-by: Jingyuan Liang <jingyliang@chromium.org>
 > ---
->  .../ABI/testing/sysfs-driver-uniwill-laptop   | 25 +++++++++++++++++++
->  .../admin-guide/laptops/uniwill-laptop.rst    | 12 +++++++++
->  2 files changed, 37 insertions(+)
+>  Documentation/hid/hid-transport.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
+> diff --git a/Documentation/hid/hid-transport.rst b/Documentation/hid/hid-transport.rst
+> index 6f1692da296c..2008cf432af1 100644
+> --- a/Documentation/hid/hid-transport.rst
+> +++ b/Documentation/hid/hid-transport.rst
+> @@ -327,8 +327,8 @@ The available HID callbacks are:
+>  
+>     Send raw output report via intr channel. Used by some HID device drivers
+>     which require high throughput for outgoing requests on the intr channel. This
+> -   must not cause SET_REPORT calls! This must be implemented as asynchronous
+> -   output report on the intr channel!
+> +   must not cause SET_REPORT calls! This call might be asynchronous, so the
+> +   caller should not expect an immediate response!
 
+Reviewed-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-Can you give me a lore.kernel.org URL or a message-ID in which
-I replied with a "Reviewed-by:" tag for this patch, please?
-I don't recall doing so, but I could have.
+Thanks.
 
-thanks.
 -- 
-~Randy
-
+Dmitry
