@@ -1,81 +1,328 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92AAD293C4E;
-	Wed, 11 Mar 2026 01:00:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D60BF36E46C;
+	Wed, 11 Mar 2026 01:12:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773190818; cv=none; b=HHfLVjSfL82yPmh/bpVPa5Q9CzAIyCn2Ne71WN/P6E60uYWw5ESFDqszPC9/HYu6RXJLL86Thk3mZmY+Xgu8igEj+89dbaTVz8xjfi5+jQxB0hGeUN/cVY4s4IGOSxXoIC3TaIYBo1uoXIlyR05qkSXzI2x4TMXIi3sI+VHuzHM=
+	t=1773191542; cv=none; b=rO9o6hB5eB1QIbFBgzbGQ8mEgsTgPIDM1mALB3BAhbbmrY9AtJ4R5imINAkZjm+sdZqM5/nwwLcEQmLsc914b5PHvXAeVn+2YJ5Vi9ULm6Cr7G4uQNZYQ5gwF9Y5Jq/bLgstzTHE63ccaqxXhdozVAwZ08vz6VbL8GqBiqaKzMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773190818; c=relaxed/simple;
-	bh=JTYShTSRVxixRl7VlzLv6iFkoQaIKHyr0N2YONJrI8I=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=V4A96AU3l5DDzRcOLaVBVocjDzGTFVlSrPkUCk/cvhDC5l5xgmEf3thZPApeT7OJuShQGcFbzXx7yWqEWXpSoPkq+DpdqQB8ycPDSsG5SzoEb/HVFQc2RirzxnkBvwoIBkhtQSmuZsyjjbuZFmMrnEBfNs5U2KyTuCsswYHAIsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H8qV5vjE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773191542; c=relaxed/simple;
+	bh=U/SQlh9eoA7aNwhrztie/y/wf13I3qMxDdkdMOCTE1c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OxsqUj6u5U1bVBDqJnIWBZAaaBLpzgSktfAsCqgXk97+O4HQzForOM25lZvmKOKCsBNYdnL7KRZrfLJKrHTF9BOsS/sYFLhP+RMnNFfWrREPxivaoyCcpQoxZxvoGnt/i7h2to5VYl63plU9WUak7MoYr0w7+8ozvMba0/iXMHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sdt6QFSr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H8qV5vjE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39292C19423;
-	Wed, 11 Mar 2026 01:00:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sdt6QFSr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E371FC19423;
+	Wed, 11 Mar 2026 01:12:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773190818;
-	bh=JTYShTSRVxixRl7VlzLv6iFkoQaIKHyr0N2YONJrI8I=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=H8qV5vjE/502ucX5EQxZN0HiLHYcCxbfI0E0aaEFmcffXrxhIuEDmtDnyq1Z6U3/s
-	 8ZFbYtZhzIH1NU9o0rW8t36SntHH30hcqav5BMA/ouIlC0/tPrs5kBGjNh3bVuGbHX
-	 cCyH8y7R37PY/UwmKKG8fgnzviyumfmNyNnrT7M/Lz1CnNsLKX/gjzJOgrOYuGGHKa
-	 hIgs330xC06z89GTHzUmu3nYjcVS5uASWU1DWKEz1P4QHgB+6KsifESC5LOQeerTRk
-	 ajqpeVqqndjU8TYeSSCtUiBmEcepfHomWKm2eRBqSAFJgxTdfwRaT2OKYclqudugqV
-	 xOGX8gjyOzcgg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 02D623808200;
-	Wed, 11 Mar 2026 01:00:16 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1773191541;
+	bh=U/SQlh9eoA7aNwhrztie/y/wf13I3qMxDdkdMOCTE1c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=sdt6QFSrTCNLiZBwKHlduCFIqUyGtdRPe5EFgpkF9YeyDcF3v3jNsJscSUkGuqXvL
+	 d5P/Ui/E5sCPsCJm+cGK+Ear/ZMW1+OstQw2o5RYIdgPe9Y6Gf77hLvxJuoV+J6CLL
+	 +XBDMxYZXyY8ct5nR/O6mvNq8tC9q2VPa47380Ks78EqPMbMK0QpGUtLSMzBlM0Wz+
+	 yojTIufSanR7vEU7B1goXkTIBlA4ySiZoJhbcTZnHDSUG2Cu+bHafIUTuUch3hTD9C
+	 u9kXjtUnuL66e/t++jOmq2Et+/hBvUdZoeJYVK895TToskvqqvrQZgYYAjvXbNfbqo
+	 BUUPS7Xy7eppg==
+Date: Tue, 10 Mar 2026 18:12:18 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: Nathan Chancellor <nathan@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Daniel Gomez <da.gomez@samsung.com>,
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Naveen N Rao <naveen@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>,
+	Roberto Sassu <roberto.sassu@huawei.com>,
+	Dmitry Kasatkin <dmitry.kasatkin@gmail.com>,
+	Eric Snowberg <eric.snowberg@oracle.com>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Nicolas Bouchinet <nicolas.bouchinet@oss.cyber.gouv.fr>,
+	Xiu Jianfeng <xiujianfeng@huawei.com>,
+	Fabian =?iso-8859-1?Q?Gr=FCnbichler?= <f.gruenbichler@proxmox.com>,
+	Arnout Engelen <arnout@bzzt.net>,
+	Mattia Rizzolo <mattia@mapreri.org>, kpcyrd <kpcyrd@archlinux.org>,
+	Christian Heusel <christian@heusel.eu>,
+	=?iso-8859-1?Q?C=E2ju?= Mihai-Drosi <mcaju95@gmail.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
+	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org
+Subject: Re: [PATCH v4 15/17] module: Introduce hash-based integrity checking
+Message-ID: <20260311011218.GA212983@quark>
+References: <20260113-module-hashes-v4-0-0b932db9b56b@weissschuh.net>
+ <20260113-module-hashes-v4-15-0b932db9b56b@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2 net-next 0/2] smc-sysctl formatting and missing entries
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <177319081454.2986475.15812669905451358310.git-patchwork-notify@kernel.org>
-Date: Wed, 11 Mar 2026 01:00:14 +0000
-References: <20260309124541.22723-1-sawara04.o@gmail.com>
-In-Reply-To: <20260309124541.22723-1-sawara04.o@gmail.com>
-To: Kyoji Ogasawara <sawara04.o@gmail.com>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
- skhan@linuxfoundation.org, netdev@vger.kernel.org, linux-doc@vger.kernel.org
+In-Reply-To: <20260113-module-hashes-v4-15-0b932db9b56b@weissschuh.net>
 
-Hello:
+On Tue, Jan 13, 2026 at 01:28:59PM +0100, Thomas Weißschuh wrote:
+> The current signature-based module integrity checking has some drawbacks
+> in combination with reproducible builds. Either the module signing key
+> is generated at build time, which makes the build unreproducible, or a
+> static signing key is used, which precludes rebuilds by third parties
+> and makes the whole build and packaging process much more complicated.
 
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+I think this actually undersells the feature.  It's also much simpler
+than the signature-based module authentication.  The latter relies on
+PKCS#7, X.509, ASN.1, OID registry, crypto_sig API, etc in addition to
+the implementations of the actual signature algorithm (RSA / ECDSA /
+ML-DSA) and at least one hash algorithm.
 
-On Mon,  9 Mar 2026 21:45:38 +0900 you wrote:
-> From: Kyoji Ogasawara <sawara04.o@gmail.com>
-> 
-> Hi,
-> 
-> this series updates SMC sysctl documentation in two small steps.
-> 
-> - patch 1 fixes indentation in the smcr_buf_type section
-> - patch 2 documents missing sysctl parameters limit_smc_hs and hs_ctrl,
->   including values/defaults and hs_ctrl usage notes
-> 
-> [...]
+I've even seen a case where the vmlinux size decreases by almost 200KB
+just by disabling module signing.  That's not even counting the
+signatures themselves, which ML-DSA has increased to 2-5 KB each.
 
-Here is the summary with links:
-  - [v2,net-next,1/2] net/smc: fix indentation in smcr_buf_type section
-    https://git.kernel.org/netdev/net-next/c/4a51ac9056c1
-  - [v2,net-next,2/2] net/smc: Add documentation for limit_smc_hs and hs_ctrl
-    https://git.kernel.org/netdev/net-next/c/aa5ec9d03b9c
+The hashes are much simpler, even accounting for the Merkle tree proofs
+that make them scalable.  They're less likely to have vulnerabilities
+like the PKCS#7 bugs the kernel has had historically.  They also
+eliminate the dependency on a lot of userspace libcrypto functionality
+that has been causing portability problems, such as the CMS functions.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+So I think this is how module authentication should have been done
+originally, and I'm glad to see this is finally being fixed.
 
+> +struct module_hashes_proof {
+> +	__be32 pos;
+> +	u8 hash_sigs[][MODULE_HASHES_HASH_SIZE];
+> +} __packed;
 
+Is the choice of big endian for consistency with struct
+module_signature?  Little endian is the usual choice in new code.
+
+> diff --git a/include/linux/module_signature.h b/include/linux/module_signature.h
+> index a45ce3b24403..3b510651830d 100644
+> --- a/include/linux/module_signature.h
+> +++ b/include/linux/module_signature.h
+> @@ -18,6 +18,7 @@ enum pkey_id_type {
+>  	PKEY_ID_PGP,		/* OpenPGP generated key ID */
+>  	PKEY_ID_X509,		/* X.509 arbitrary subjectKeyIdentifier */
+>  	PKEY_ID_PKCS7,		/* Signature in PKCS#7 message */
+> +	PKEY_ID_MERKLE,		/* Merkle proof for modules */
+
+I recommend making the hash algorithm explicit:
+
+        PKEY_ID_MERKLE_SHA256,	/* SHA-256 merkle proof for modules */
+
+While I wouldn't encourage the addition of another hash algorithm
+(specifying one good algorithm for now is absolutely the right choice),
+if someone ever does need to add another one, we'd want them to be
+guided to simply introduce a new value of this enum rather than hack it
+in some other way.
+
+> +static void hash_entry(const void *left, const void *right, void *out)
+
+Byte arrays should use u8 instead of void
+
+> diff --git a/scripts/modules-merkle-tree.c b/scripts/modules-merkle-tree.c
+[...]
+
+> +struct file_entry {
+> +	char *name;
+> +	unsigned int pos;
+> +	unsigned char hash[EVP_MAX_MD_SIZE];
+
+Considering that the hash algorithm is fixed, EVP_MAX_MD_SIZE can be
+replaced with a tighter local definition:
+
+    #define MAX_HASH_SIZE 32
+
+> +static struct file_entry *fh_list;
+> +static size_t num_files;
+> +
+> +struct leaf_hash {
+> +	unsigned char hash[EVP_MAX_MD_SIZE];
+> +};
+> +
+> +struct mtree {
+> +	struct leaf_hash **l;
+> +	unsigned int *entries;
+> +	unsigned int levels;
+> +};
+
+'struct leaf_hash' is confusing because it's actually used for the
+hashes of internal nodes, not leaf nodes.
+
+Maybe rename it to 'struct hash' and use it for both the hashes and leaf
+nodes and internal nodes.
+
+Also, clearer naming would improve readability, e.g.:
+
+    struct merkle_tree {
+            struct hash **level_hashes;
+            unsigned int level_size;
+            unsigned int num_levels;
+    };
+
+> +static void hash_data(void *p, unsigned int pos, size_t size, void *ret_hash)
+
+static void hash_data(const uint8_t *data, unsigned int pos,
+                      size_t size, struct hash *ret_hash)
+
+> +	unsigned char magic = 0x01;
+
+uint8_t
+
+Also, when defining these magic numbers, maybe explicitly document that
+they are domain separation prefixes:
+
+        uint8_t magic = 0x01; /* domain separation prefix */
+
+> +	unsigned int pos_be;
+
+uint32_t
+
+> +static void hash_entry(void *left, void *right, void *ret_hash)
+
+Could use stronger typing:
+
+static void hash_entry(const struct hash *left, const struct hash *right,
+                       struct hash *ret_hash)
+
+> +static struct mtree *build_merkle(struct file_entry *fh, size_t num)
+
+Could use clearer names, and constify the file_entry array:
+
+static struct merkle_tree *build_merkle(const struct file_entry *files,
+                                        size_t num_files)
+
+> +	/* First level of pairs */
+> +	for (unsigned int i = 0; i < num; i += 2) {
+> +		if (i == num - 1) {
+> +			/* Odd number of files, no pair. Hash with itself */
+> +			hash_entry(fh[i].hash, fh[i].hash, mt->l[0][i / 2].hash);
+> +		} else {
+> +			hash_entry(fh[i].hash, fh[i + 1].hash, mt->l[0][i / 2].hash);
+> +		}
+> +	}
+> +	for (unsigned int i = 1; i < mt->levels; i++) {
+> +		int odd = 0;
+> +
+> +		if (le & 1) {
+> +			le++;
+> +			odd++;
+> +		}
+> +
+> +		mt->entries[i] = le / 2;
+> +		mt->l[i] = xcalloc(sizeof(**mt->l), le);
+> +
+> +		for (unsigned int n = 0; n < le; n += 2) {
+> +			if (n == le - 2 && odd) {
+> +				/* Odd number of pairs, no pair. Hash with itself */
+> +				hash_entry(mt->l[i - 1][n].hash, mt->l[i - 1][n].hash,
+> +					   mt->l[i][n / 2].hash);
+> +			} else {
+> +				hash_entry(mt->l[i - 1][n].hash, mt->l[i - 1][n + 1].hash,
+> +					   mt->l[i][n / 2].hash);
+> +			}
+> +		}
+> +		le =  mt->entries[i];
+> +	}
+
+There should be an assertion at the end that we ended up with exactly 1
+hash in the root level.
+
+It might also be possible to refactor this code such that the leaf nodes
+and internal nodes are handled in the same loop, rather than handling
+the leaf nodes as a special case.
+
+> +static void write_merkle_root(struct mtree *mt, const char *fp)
+
+fp => filename since it's a string, not e.g. a 'FILE *'.
+
+> +{
+> +	char buf[1024];
+> +	unsigned int levels;
+> +	unsigned char *h;
+> +	FILE *f;
+> +
+> +	if (mt) {
+> +		levels = mt->levels;
+> +		h = mt->l[mt->levels - 1][0].hash;
+> +	} else {
+> +		levels = 0;
+> +		h = xcalloc(1, hash_size);
+> +	}
+> +
+> +	f = fopen(fp, "w");
+> +	if (!f)
+> +		err(1, "Failed to create %s", buf);
+
+Above should log the name of the file.  'buf' should be removed.
+
+> +static char *xstrdup_replace_suffix(const char *str, const char *new_suffix)
+> +{
+> +	const char *current_suffix;
+> +	size_t base_len;
+> +
+> +	current_suffix = strchr(str, '.');
+> +	if (!current_suffix)
+> +		errx(1, "No existing suffix in '%s'", str);
+
+This doesn't handle base names that contain a period.  strrchr() would
+work if the old suffix always contains exactly one period.  Otherwise
+another solution would be needed to identify the old suffix.
+
+> +static __attribute__((noreturn))
+> +void format(void)
+
+usage()
+
+> +{
+> +	fprintf(stderr,
+> +		"Usage: scripts/modules-merkle-tree <root definition>\n");
+> +	exit(2);
+
+This should show both parameters, <root hash> <new suffix>
+
+But they probably should be flipped to put the output second.
+
+Though, is <new suffix> needed at all?  It looks like it doesn't
+actually affect the output.
+
+> +	hash_evp = EVP_get_digestbyname("sha256");
+
+EVP_sha256()
+
+> +	hash_size = EVP_MD_get_size(hash_evp);
+
+The old name 'EVP_MD_size()' would have wider compatibility.
+
+> +	ERR(hash_size <= 0, "EVP_get_digestbyname");
+
+Log message should say EVP_MD_size
+
+> +	for (unsigned int i = 0; i < num_files; i++) {
+
+size_t, for consistency with the type of num_files
+
+> +		fd = open(signame, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+> +		if (fd < 0)
+> +			err(1, "Can't create %s", signame);
+> +
+> +		build_proof(mt, i, fd);
+> +		append_module_signature_magic(fd, lseek(fd, 0, SEEK_CUR));
+
+Maybe build_and_append_proof()?
+
+- Eric
