@@ -1,120 +1,107 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D01C1B4138;
-	Wed, 11 Mar 2026 21:51:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9CC91E7660;
+	Wed, 11 Mar 2026 21:58:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773265903; cv=none; b=NCnTAVFQWTodrbljYCGXULPFo1pcbV/ezP1ahiNPsznt9pAKR7JS4+YGJFr22l0VOwLnjw98hodoWw+MYtvGkzL9C1jfcq564QcNjP7pswAxJfsj1VWdLyZbjfxao3KNFGuQ2iYGJX5SDabUHCLpiRxvEwfRwqaMaFe/gvrDr8o=
+	t=1773266302; cv=none; b=efiZSuVG/qGCK1BPh8z/jxUW/fthAjOdmlYc1s2KweizQfvAlLLsMMI6LqOKMTV6EzkSIoN3GWuQ6wB9GH4pIuOjcpCa1jtx6PtoxJodwBC3yzMRAvVwjM8K3p6mCkryV46byvwnvTL7KnJx5yNtXXyx4IdoI0SPVAnAQjdlJJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773265903; c=relaxed/simple;
-	bh=Ky9x4Qc7sXMth54WdQkScEx8aBLAUtoTYC5EOd6QHxo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kirH1Dxr8ZcCkLz9BShAPPapML9f+calzP99PhVohWbeDFMznko5a6j37001W7iDhPfOx6GyskJHpwNkpZGBB1Xqxb+zD9eZEkFLRRH8c6pzE5+n5zdwIRHEu0Z4SazKmWmxnDpnfPfaerR59ELZh41JngmsffpC+MofqYlb1TA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dx7jFacZ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773266302; c=relaxed/simple;
+	bh=2tk4mhPH7AaiH0ZsDLluAGPAGZhAiF9Qq+r3SPMJZN8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=JL0cYBUS/YX0e3vm3HxP8Mv4yvdikwsT6ibqCdzUUASHvAN5MxQWdFvFapBsgUc8RzG/Gjhg+g55VJtYPYKQssFHmQhfXM4Ut7PSw0EgeObztcd7pSPqFvgVZkX0NGOg1FQA85p6xq6guZYZylsgI4uH7Uqrz3Oqu0CgD0th8Xw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CrzxQ5Ts; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dx7jFacZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27E2CC4CEF7;
-	Wed, 11 Mar 2026 21:51:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CrzxQ5Ts"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C7A9C4CEF7;
+	Wed, 11 Mar 2026 21:58:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773265903;
-	bh=Ky9x4Qc7sXMth54WdQkScEx8aBLAUtoTYC5EOd6QHxo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Dx7jFacZSSM5wqhX2HqVl7lUpW0BEE9MOC0zg7RjB5ksIwDxAWiFZ8g3y/bFQrOJU
-	 KgyyZReYbkucYayZ/KcL7xAyjIJahjFxos8+5wjc172EkvLwKREPg6fUMCTTHH9e5e
-	 0SRr79WK766w8sZqtz4gS07VU1undwunt1g8fnAM8l9uaJP+41+dKTEgKAzgAC6bf/
-	 ZZLf4g5j9YtyfB0DJtKhpkgq99a3yhBGia1Y7+OvqI0ggZIZSbgKqyCcmC73P8o5ei
-	 3riUM+OF6hL5IX1V96Jb/coHSW0x2b0lzPO3IE2wBzbwAzqmJfj2pYMsEB2v8Ifrtc
-	 tyBfX4sVpALLQ==
-Date: Wed, 11 Mar 2026 14:51:26 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Or Har-Toov <ohartoov@nvidia.com>
-Cc: Jiri Pirko <jiri@resnulli.us>, Tariq Toukan <tariqt@nvidia.com>, Eric
- Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Andrew Lunn
- <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Donald
- Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, Saeed
- Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Mark Bloch
- <mbloch@nvidia.com>, Shuah Khan <shuah@kernel.org>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-rdma@vger.kernel.org, linux-kselftest@vger.kernel.org, Gal Pressman
- <gal@nvidia.com>, Dragos Tatulea <dtatulea@nvidia.com>, Shay Drory
- <shayd@nvidia.com>, Jiri Pirko <jiri@nvidia.com>, Moshe Shemesh
- <moshe@nvidia.com>
-Subject: Re: [PATCH net-next V3 00/10] devlink: add per-port resource
- support
-Message-ID: <20260311145126.7dcca532@kernel.org>
-In-Reply-To: <5de5103e-e2e4-4b72-9c3c-22847728fbb8@nvidia.com>
-References: <20260226221916.1800227-1-tariqt@nvidia.com>
-	<20260302192640.49af074f@kernel.org>
-	<pmxkihhtsskkwsvdia4z2ss4wxpfc4a4kqxkjv5wk3mwdmpzii@6go7pizk2nst>
-	<jssifysprwuafkinc3dguspngxmplrngqxvotp76vhvu4e5lp6@e7mdrjqc5rme>
-	<20260304101522.09da1f58@kernel.org>
-	<np44uzfn6jea56uht4yq4te5clapgj7pk6ygyvkl22wxumwnvt@nrpvzjqzxenq>
-	<20260305063729.7e40775d@kernel.org>
-	<ni23r4jiwgc6zjjsubtl4ujjgxzwpxrylumofdwxgozfnieynm@zirlbneaz6p2>
-	<20260306120301.0ebe1ab2@kernel.org>
-	<74dcd7c5-8a2b-49a7-a23c-174d17a61955@nvidia.com>
-	<20260309133341.7e08b35d@kernel.org>
-	<5de5103e-e2e4-4b72-9c3c-22847728fbb8@nvidia.com>
+	s=k20201202; t=1773266302;
+	bh=2tk4mhPH7AaiH0ZsDLluAGPAGZhAiF9Qq+r3SPMJZN8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=CrzxQ5TsRJ/nO1br3qFMFEicAF659NKHBXf8GzgNNrzvvl0B4WRsxuajctkNcdVX4
+	 ibYyCED5kcPhmIjy290fc+OWABZ5rUGg4gqLLUQSFM0ex7i9EUyieqbkbzYbQBIK/l
+	 +wFOcWI9YH9gtzzD/yCokjdKujeIS9UcNiUL8siq8JlwD70EIf8espMJgFw741KYg7
+	 GEWeOUbuuzr7kHhwIDdab7iQZsI0TzzHnUoD52pNoc3E2pWitVSW0RVPfDsnHJfKz0
+	 g4ksy2o2mGClYTNSlHyvnU4jFc8Iyj3Op+/RAhDjSxBW6Ag+YDYgDf/Z5hMoZNtm8k
+	 MZRsfiaonP7Gw==
+From: Sasha Levin <sashal@kernel.org>
+To: Andy Whitcroft <apw@canonical.com>,
+	Joe Perches <joe@perches.com>
+Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Bart Van Assche <bvanassche@acm.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH v2] checkpatch: add support for Assisted-by tag
+Date: Wed, 11 Mar 2026 17:58:17 -0400
+Message-ID: <20260311215818.518930-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <65ad15f96429d87225867e982cd1aab2@perches.com>
+References: <65ad15f96429d87225867e982cd1aab2@perches.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Wed, 11 Mar 2026 20:24:08 +0200 Or Har-Toov wrote:
-> For the dump-it command:
-> devlink resource show
-> pci/0000:03:00.0:
-> <resource>
-> pci/0000:03:00.0/196608:
-> <port-resource>
-> pci/0000:03:00.0/196609:
-> <port-resource>
-> pci/0000:03:00.1:
-> <resource>
-> pci/0000:03:00.1/262144:
-> <port-resource>
-> 
-> devlink resource show scope port
-> pci/0000:03:00.0/196608:
-> <port-resource>
-> pci/0000:03:00.0/196609:
-> <port-resource>
-> pci/0000:03:00.1/262144:
-> <port-resource>
-> 
-> devlink resource show scope dev
-> pci/0000:03:00.0:
-> <resource>
-> pci/0000:03:00.1:
-> <resource>
+The Assisted-by tag was introduced in
+Documentation/process/coding-assistants.rst for attributing AI tool
+contributions to kernel patches. However, checkpatch.pl did not
+recognize this tag, causing two issues:
 
-LGTM
+  WARNING: Non-standard signature: Assisted-by:
+  ERROR: Unrecognized email address: 'AGENT_NAME:MODEL_VERSION'
 
-> For the do-it command:
-> devlink resource show pci/0000:03:00.0
-> pci/0000:03:00.0:
-> <resource>
-> pci/0000:03:00.0/196608:
-> <port-resource>
-> pci/0000:03:00.0/196609:
-> <port-resource>
-> 
-> devlink resource show pci/0000:03:00.0 scope port
-> pci/0000:03:00.0/196608:
-> <port-resource>
-> pci/0000:03:00.0/196609:
-> <port-resource>
-> 
-> devlink resource show pci/0000:03:00.0  scope dev
-> pci/0000:03:00.0:
-> <resource>
+Fix this by:
+1. Adding Assisted-by to the recognized $signature_tags list
+2. Skipping email validation for Assisted-by lines since they use the
+   AGENT_NAME:MODEL_VERSION format instead of an email address
+3. Warning when the Assisted-by value doesn't match the expected format
 
-Do we have to touch doit? Maybe we should let doit be what it is now
-and consider it legacy going forward? doit which is in fact a filtered
-dump is a bit of a mistake in the first place, from Netlink's
-perspective.
+Reported-by: Bart Van Assche <bvanassche@acm.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+Changes from v1:
+ - Use next instead of wrapping the email validation block in an else
+   clause, as suggested by Joe Perches.
+
+ scripts/checkpatch.pl | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index e56374662ff79..27a43a4d9c438 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -641,6 +641,7 @@ our $signature_tags = qr{(?xi:
+ 	Reviewed-by:|
+ 	Reported-by:|
+ 	Suggested-by:|
++	Assisted-by:|
+ 	To:|
+ 	Cc:
+ )};
+@@ -3105,6 +3106,15 @@ sub process {
+ 				}
+ 			}
+ 
++			# Assisted-by uses AGENT_NAME:MODEL_VERSION format, not email
++			if ($sign_off =~ /^Assisted-by:/i) {
++				if ($email !~ /^\S+:\S+/) {
++					WARN("BAD_SIGN_OFF",
++					     "Assisted-by expects 'AGENT_NAME:MODEL_VERSION [TOOL1] [TOOL2]' format\n" . $herecurr);
++				}
++				next;
++			}
++
+ 			my ($email_name, $name_comment, $email_address, $comment) = parse_email($email);
+ 			my $suggested_email = format_email(($email_name, $name_comment, $email_address, $comment));
+ 			if ($suggested_email eq "") {
+-- 
+2.51.0
+
