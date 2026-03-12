@@ -1,123 +1,89 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B39BA34A771
-	for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 13:55:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C483537ED
+	for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 14:08:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773323746; cv=none; b=DuAOTcqR0o8IzcEdIJDUR+ZEuN8nou5+A51nrNVTB2YdXlzIz9JAdAcJtDynykVmdLSYsO4sO3si4VAiMcWr7wF+dRdxOWO00i6wnSKOeU56ECaPSLa6Why07wy+MlEryLNvVq4CT0eXodbTpclhgwTiGt6Dkq1JxTLLHoWpEHA=
+	t=1773324490; cv=none; b=bJ4Pei9hsaVbneckj5BnyqZTzV+SN1VdI/krzkj8GWWwx61An8+3Xo/vml3POemA7WlX7vLl8MbSgeK7kZ2CAZ63hWYZIHvESruDUa4GgEOVGuBvn8hqO1ukhLPWuyX+VTD1IMF0xTqbzO0XgqhKTyE+v/2O606qy5x4JWSEOGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773323746; c=relaxed/simple;
-	bh=dmWr5E91FshndRY5RZ2Md55bF+x5yW+C43tABssFijc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bZd750UZf0KMAfIlu1+lh0IaYjUJP284OoIW9usob8b/CqC+lbSOV3CGoejc5fsdOWXNXfrwByggg6NR9vjDEwAo8rEF1iUb1lNW73ai7mX8uiXhhuVgawhaN2oCnzzEfFkk8q2atmg21lKe5GYxuyCoT0HBS9dPG5ykI/DmB2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ATXMOSoi; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=eu+GeV/l; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1773324490; c=relaxed/simple;
+	bh=RIGa/FL/b75Tjkroq35KLoXoDMNPe/WTQ+qaLEjQZ/4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=aCM645c57RUEIUIG7acCi8iaQ1iJpab5tDxdfZQwXWfrq2sO1WNE5/YOP2meBXvJwNlLSQRgh06liO0ET3GRuUmkhYUeLZ15yewKmu9V8DCz43aQMyozC0Zm7GBhIcGmlfZ7mzdQWbA2jRiBjZcd3lUExComLUnYa0J8CEBJrZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=noruTpu3; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ATXMOSoi";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="eu+GeV/l"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1773323744;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bEtHF9LXuLxS0ovXAZV4W8RauatzMwv6n2P0Ur61wyU=;
-	b=ATXMOSoiqys87XuBt5CFamWZ34ucS14uhG3xRN+NPAYpiCUYVm+DUNilJ9K1qr6DMcAooG
-	fF4ZadYzKsbDPxzJhC22R4PJzylyz+AcTwS2LGnmjAMgsp99u/v5SyZb4EEmFA5TzMJG4W
-	UoBmC23LMGPlvp8BrGZ37G49NjdzavA=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-139-pK_xOSc6MbWPWKzbXbYhMA-1; Thu, 12 Mar 2026 09:55:41 -0400
-X-MC-Unique: pK_xOSc6MbWPWKzbXbYhMA-1
-X-Mimecast-MFC-AGG-ID: pK_xOSc6MbWPWKzbXbYhMA_1773323740
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-485355493aeso7141445e9.1
-        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 06:55:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1773323740; x=1773928540; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=bEtHF9LXuLxS0ovXAZV4W8RauatzMwv6n2P0Ur61wyU=;
-        b=eu+GeV/lfsBInASFc0ZmfvTQh2R/Z3IzEtj9u58+vLZbi6JRssNUjd+9tRZIuBGicr
-         z4oMpIQYl0Pt5i+dFXb3NuGHHALgapZA/S5fYIBHkM0sTaViBxnrnh2BF0MO+RxDDywB
-         gF4VEswfTjGXy6U2YJmy1hOaD/CQ9j9kEpm1X+lvkLClRM2d9W/Imzm5pjoW70/xAp6Y
-         NJjfpOqStvHFHsUGonUHWUe4uG+DgwAU0c0t4AKUMxykjZ0U3dRHY9mkNSkJ8zyH2D91
-         DNZXrkpUrnWKS5erkV4KhlzG74nUQLFhOjRcnLQvnqlB9DrQwRKwlGHAwtfPhkHH9GKC
-         gw+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773323740; x=1773928540;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bEtHF9LXuLxS0ovXAZV4W8RauatzMwv6n2P0Ur61wyU=;
-        b=ZJk+q7iIaMj5v/AXV1MIh7xne5dZKkORfveVw1jCyCNwP172abvV15ktIIPi9rJWfK
-         4UQHfdf4IMkSeL3O9bCVQ3/LqcCvipa8OfFGfy92whF666+opRDtDaJRbZihBVX56V6s
-         SrVtYIkBQx1ufWjXlxmmPJi/C19o9d3wYGcnEKjIOrDMcWSib9RaguUHQFHhqz0VSMSM
-         vRNYZIeBRNLbScPkz+NXr374M3ejLt7t97NvJuQBzy9HJmG83d3zqcDVlmpOovmNmIvt
-         PlJGNhUorfK4hWSLsNzeWIo+fggzc2vN6aubfrIMR89Gsk376lokQ2gxpsnOp/vPtfGH
-         WA4Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWjzpstACVYiCU532xvUTi3s+aZ6q4eX2pZA1jMyBUC0UTKIovwU/zDy2ORsLfI+hqNUVEUKykyMSE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzSE7JVrEX9+6Zl64eSKm3l6uz50m90GzulrBD5+8usbRc8bsoj
-	vLzgZHuQdZ6Om6niis1rd84UOIc4k9h23uzPlu5jHDF5jt1A+GQD26/BQwQP4TGPIhk4nxqvdzs
-	ePiYeK/3bLkpMRgg3muaTsj2RBECvzS7xMKtrFNczegEIbGPsPoIR38Q+koGnBA==
-X-Gm-Gg: ATEYQzytngMxkKm7NIpH+KRVHLzJTjDIqokzYx4VOpMqXKG5iCwGbLw0raFlHdvnSwn
-	YFELm+9pjqVWexd8ic+qyYvnazNf3MT4zO1Mmv60PzQosE4XU/PYuHRLxF9b3bTYwDXDsV0FUsb
-	xgTsTv63X5C36YQuekxsLOvNmUwU4rpgnlmRJ/O7z1pdyzeFmjMkvVs6+7xzqNrtEQzPSbC4qdQ
-	8ljO3YkQzAIEVdPVAdUhitXBGIpkEZn7jUiNhyhXwb3cRiXhpZvoAZwBVvjrrPpmfnJmwIVQDda
-	Qs5+PENVRzKj9g509wXXB7zXpCjbuuxhw0Zftl4jDcKeydoqLKMyLMeK4Qq/Sxlrw7Np+xNmszQ
-	x3RuNBfXozYstZ6selxibwuOKsRcSd8pQk7c1SV2Vj4VbD0U0P9g=
-X-Received: by 2002:a05:600c:630d:b0:485:40fd:8390 with SMTP id 5b1f17b1804b1-4854b10cdb3mr105385095e9.26.1773323740362;
-        Thu, 12 Mar 2026 06:55:40 -0700 (PDT)
-X-Received: by 2002:a05:600c:630d:b0:485:40fd:8390 with SMTP id 5b1f17b1804b1-4854b10cdb3mr105384515e9.26.1773323739893;
-        Thu, 12 Mar 2026 06:55:39 -0700 (PDT)
-Received: from jlelli-thinkpadt14gen4.remote.csb ([151.29.82.96])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48541b7f3cdsm259618805e9.14.2026.03.12.06.55.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Mar 2026 06:55:39 -0700 (PDT)
-Date: Thu, 12 Mar 2026 14:55:37 +0100
-From: Juri Lelli <juri.lelli@redhat.com>
-To: Gabriele Monaco <gmonaco@redhat.com>
-Cc: linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
-	Nam Cao <namcao@linutronix.de>, Juri Lelli <jlelli@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	Peter Zijlstra <peterz@infradead.org>,
-	Tomas Glozar <tglozar@redhat.com>,
-	Clark Williams <williams@redhat.com>,
-	John Kacur <jkacur@redhat.com>
-Subject: Re: [PATCH v7 15/15] rv: Add dl_server specific monitors
-Message-ID: <abLF2UPW9qb0m1sZ@jlelli-thinkpadt14gen4.remote.csb>
-References: <20260310105627.332044-1-gmonaco@redhat.com>
- <20260310105627.332044-16-gmonaco@redhat.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="noruTpu3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773324487; x=1804860487;
+  h=date:from:to:cc:subject:message-id;
+  bh=RIGa/FL/b75Tjkroq35KLoXoDMNPe/WTQ+qaLEjQZ/4=;
+  b=noruTpu3CTeL9tyszNQ3Dro6Z3rJHlZA7hXzlwrigU0G3cnjqYBrUDB3
+   n3hsqJHVQdEvLepKkSRpb8JU6ryCPeGKlHDno3Vj16ktt5l1IGWJepPUC
+   HHpP7RbCctVgIvW6L2TuP8nORvM3pPQpGu719jxtqa6Zeh+TZ5rO3RLB+
+   V6b3l5sO6YSlhXbQojuYgURCqKOR0052u+hgweDkE6HawgTjnDIcWjCic
+   sKbWSMbtPC7pehCrLdRRWntQJOuW9acHc5jmUlmaHXmai/Eh3mLntOAOw
+   lYcOmrJttF5wX805+WrNUoF02Sot72wccnFtMkJRwuRycX3j4CdhkyUk+
+   g==;
+X-CSE-ConnectionGUID: 5WC2Ley7RzKVUWtoeAkyNQ==
+X-CSE-MsgGUID: 2C/6yMs0Sie/KGUVkPruBw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11727"; a="74307382"
+X-IronPort-AV: E=Sophos;i="6.23,116,1770624000"; 
+   d="scan'208";a="74307382"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2026 07:08:07 -0700
+X-CSE-ConnectionGUID: r/DuYnbiToO6aWfVXMqQtg==
+X-CSE-MsgGUID: AP46iZxNSSCd9HqmDTPuUQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,116,1770624000"; 
+   d="scan'208";a="225529092"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 12 Mar 2026 07:08:04 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w0ghm-000000003Vx-18AA;
+	Thu, 12 Mar 2026 14:08:02 +0000
+Date: Thu, 12 Mar 2026 15:07:31 +0100
+From: kernel test robot <lkp@intel.com>
+To: Nitin Gote <nitin.r.gote@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, intel-xe@lists.freedesktop.org,
+ Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>, linux-doc@vger.kernel.org
+Subject: [drm-xe:drm-xe-next 1/3] htmldocs:
+ Documentation/gpu/driver-uapi:29: ./include/uapi/drm/xe_drm.h:1060: WARNING:
+ Block quote ends without a blank line; unexpected unindent. [docutils]
+Message-ID: <202603121515.gEMrFlTL-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260310105627.332044-16-gmonaco@redhat.com>
 
-Hello,
+tree:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+head:   2b484419700a0f563c695312374eb8cd5264b82c
+commit: 2270bd7124f4d25497d58c293cd40ea014ddaf01 [1/3] drm/xe: add VM_BIND DECOMPRESS uapi flag
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260312/202603121515.gEMrFlTL-lkp@intel.com/reproduce)
 
-On 10/03/26 11:56, Gabriele Monaco wrote:
-> Add monitors to validate the behaviour of the deadline server.
-> 
-> The currently implemented monitors are:
-> * boost
->     fair tasks run either independently or boosted
-> * laxity
->     deferrable servers wait for zero-laxity and run
-> 
-> Cc: Peter Zijlstra <peterz@infradead.org>
-> Reviewed-by: Nam Cao <namcao@linutronix.de>
-> Signed-off-by: Gabriele Monaco <gmonaco@redhat.com>
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603121515.gEMrFlTL-lkp@intel.com/
 
-Reviewed-by: Juri Lelli <juri.lelli@redhat.com>
+All warnings (new ones prefixed by >>):
 
-Best,
-Juri
+   WARNING: ./fs/namei.c:2853 function parameter 'state' not described in '__start_dirop'
+   WARNING: ./fs/namei.c:2853 expecting prototype for start_dirop(). Prototype was for __start_dirop() instead
+   WARNING: ./drivers/gpu/drm/amd/display/dc/dc.h:2796 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+   * Software state variables used to program register fields across the display pipeline
+   WARNING: ./drivers/gpu/drm/amd/include/amd_shared.h:113 Enum value 'AMD_IP_BLOCK_TYPE_RAS' not described in enum 'amd_ip_block_type'
+>> Documentation/gpu/driver-uapi:29: ./include/uapi/drm/xe_drm.h:1060: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/gpu/driver-uapi:29: ./include/uapi/drm/xe_drm.h:2380: ERROR: A level 2 section cannot be used here.
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
