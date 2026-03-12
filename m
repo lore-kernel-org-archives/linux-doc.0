@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F5223AD537;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F9F33AD53A;
 	Thu, 12 Mar 2026 07:12:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773299554; cv=none; b=QIHIEipoBel4MgfNzdAW1F5x5foDhxUCsf6PepUFOzPCX5GsSifkXS3ruB6zS73/I72e3RXZCBzYJn7sUS3p/mBzJhDxqFtzzxzDmh43ep9NPf1t1MyLtID6fWBYrEodsj5CKyJQXNB2+1o5sNvxysY7u3ZxvxYUAxAdItjBLYw=
+	t=1773299554; cv=none; b=h6XisaRhwAYxw77AKH7NnPBvqHa9M1QXt/fHG0RikxySDWujaUjFrWu0TMMli9P0NnIIRsGrFYSmVXMLIgxOiUipYkA2nwWXNRg15osLEnYASfFiMSCYSEF4Uu3qWCDdtGY1jvTqB5BboMTYTuZnH7yjHEEY+AkeRCN+jnD14W4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1773299554; c=relaxed/simple;
-	bh=yNO5pOlAN1IiiLVxsvoOjfd9gNlGPseIkyDe7oIdI0A=;
+	bh=2ZlwXMaSRC68Pnv5x980Sgp39v0FitI5caNfm6ZBkZ4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cjgsLGTw0vLBkZWQwhcWyLZ4Va1I58z9/n49RGMp9uCk5LfI9cChekgakIJWenMPwpMdjVrOIyAG2q2HhVIBNVXZF1ItvMRUN1ZWCJs2P9Wi+baQkTrnaUJiMu0G4lfUBen4hRVVVj3XyVoSefIja6evi+U495JiAh8dgmn+S0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HXJyiqKD; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=OyZTaYS/b2NO35HoUglz6eFTtpbw8xlX1r3HWM782EfUu7GprX81+z4JTm2FIADxvVhHK2QxZlJNuPefkooAx3Rm9XPKkq1kuAmE01RSqrd2rezBUkf/gfXutgGd9NeFukEpMcPHNk/sUTDnEgKbh8E9625lo0JgJDEoe64FdZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZkPKmdYW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HXJyiqKD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D5FEC2BCB0;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZkPKmdYW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C573C4AF0B;
 	Thu, 12 Mar 2026 07:12:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1773299553;
-	bh=yNO5pOlAN1IiiLVxsvoOjfd9gNlGPseIkyDe7oIdI0A=;
+	bh=2ZlwXMaSRC68Pnv5x980Sgp39v0FitI5caNfm6ZBkZ4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=HXJyiqKDaum8yUV9mqVXIQaANVZtGdLh0iO3IrpL1YcCPx5ayffY1Mt59VEfhIbls
-	 LlKfGTwcy0UbwhHfR+CKEc9uXxYHHNgkP8yeP32PfZhrijzFNWsxWeWswHqxcJcZYF
-	 wgBF2hc+V+SjCb84Zj/SP9YD84MZqJmJ/PyG2vG2tmJbu/5zFQgvpu5ah2sn/rMW/U
-	 c1rz3GP6bmM9uwk7m1v67+7y2wpNBrovPqlu4PmT7/csX4viR++PGzu9WEB8mro2RP
-	 QnS1rXkSaYlYiQCKr4Jn6A5omY/UqKW6mULdQLeIcU2oYEI3DkUmw9FR0DDb7ePthc
-	 jIvLsVC73Fijg==
+	b=ZkPKmdYW1a08Lkss0/YNU8mZr0LxJLyAd9oHRJeJoa96fzAquTofCi0c7nmRGuWai
+	 NUiCLmxUq07dlnj1tfB4CnjK3QhChFrO9HbckfW7B/4lLT8L056ecIx58vjwV2aiHx
+	 4fmy5FFRRvHCTV0i3bHhulM3KcbGBXF8OK4/ZtyJAKNVtIsjpYsWyqVDJqZQfjHAoC
+	 G6iuuwnNYA8DrSlRgCrwmm455AaLhh8gkEJZuvqj7j/HQHUSjYouhEuzPxfho1TFIg
+	 RtQRpm3GYXGKga3OLykYzeGe6pf+0zmWdfzPe9IR0Cw+v/8leoSj01WEj+G/5NDRcE
+	 M48y7VYf2VPPA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1w0aDf-000000077g4-1J3u;
+	id 1w0aDf-000000077h9-2gOm;
 	Thu, 12 Mar 2026 08:12:31 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
@@ -36,11 +36,10 @@ To: Jonathan Corbet <corbet@lwn.net>,
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-hardening@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH v2 01/20] docs: python: add helpers to run unit tests
-Date: Thu, 12 Mar 2026 08:12:09 +0100
-Message-ID: <d4c7b04f72ef1efb2c5f2a7a17a5de5ba0378767.1773297828.git.mchehab+huawei@kernel.org>
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH v2 13/20] docs: c_lex: properly implement a sub() method for CMatch
+Date: Thu, 12 Mar 2026 08:12:21 +0100
+Message-ID: <4c88a55b21910b1bae6838d74c8ab6b32e5c8213.1773297828.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <cover.1773297828.git.mchehab+huawei@kernel.org>
 References: <cover.1773297828.git.mchehab+huawei@kernel.org>
@@ -54,423 +53,343 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-While python internal libraries have support for unit tests, its
-output is not nice. Add a helper module to improve its output.
-
-I wrote this module last year while testing some scripts I used
-internally. The initial skeleton was generated with the help of
-LLM tools, but it was higly modified to ensure that it will work
-as I would expect.
+Change the sub() method to do what it is expected, parsing
+backref arguments like \0, \1, \2, ...
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Message-ID: <37999041f616ddef41e84cf2686c0264d1a51dc9.1773074166.git.mchehab+huawei@kernel.org>
 ---
- Documentation/tools/python.rst      |   2 +
- Documentation/tools/unittest.rst    |  24 ++
- tools/lib/python/unittest_helper.py | 353 ++++++++++++++++++++++++++++
- 3 files changed, 379 insertions(+)
- create mode 100644 Documentation/tools/unittest.rst
- create mode 100755 tools/lib/python/unittest_helper.py
+ tools/lib/python/kdoc/c_lex.py | 240 +++++++++++++++++++++++++++------
+ 1 file changed, 202 insertions(+), 38 deletions(-)
 
-diff --git a/Documentation/tools/python.rst b/Documentation/tools/python.rst
-index 1444c1816735..3b7299161f20 100644
---- a/Documentation/tools/python.rst
-+++ b/Documentation/tools/python.rst
-@@ -11,3 +11,5 @@ Python libraries
-    feat
-    kdoc
-    kabi
+diff --git a/tools/lib/python/kdoc/c_lex.py b/tools/lib/python/kdoc/c_lex.py
+index e986a4ad73e3..98031cb7907c 100644
+--- a/tools/lib/python/kdoc/c_lex.py
++++ b/tools/lib/python/kdoc/c_lex.py
+@@ -10,6 +10,8 @@ Those help caching regular expressions and do matching for kernel-doc.
+ 
+ import re
+ 
++from copy import copy
 +
-+   unittest
-diff --git a/Documentation/tools/unittest.rst b/Documentation/tools/unittest.rst
-new file mode 100644
-index 000000000000..14a2b2a65236
---- /dev/null
-+++ b/Documentation/tools/unittest.rst
-@@ -0,0 +1,24 @@
-+.. SPDX-License-Identifier: GPL-2.0
+ from .kdoc_re import KernRe
+ 
+ class CToken():
+@@ -36,6 +38,8 @@ class CToken():
+     NAME = 14       #: A name. Can be an ID or a type.
+     SPACE = 15      #: Any space characters, including new lines
+ 
++    BACKREF = 16  #: Not a valid C sequence, but used at sub regex patterns.
 +
-+===============
-+Python unittest
-+===============
+     MISMATCH = 255  #: an error indicator: should never happen in practice.
+ 
+     # Dict to convert from an enum interger into a string.
+@@ -107,6 +111,8 @@ TOKEN_LIST = [
+ 
+     (CToken.SPACE,   r"[\s]+"),
+ 
++    (CToken.BACKREF, r"\\\d+"),
 +
-+Checking consistency of python modules can be complex. Sometimes, it is
-+useful to define a set of unit tests to help checking them.
-+
-+While the actual test implementation is usecase dependent, Python already
-+provides a standard way to add unit tests by using ``import unittest``.
-+
-+Using such class, requires setting up a test suite. Also, the default format
-+is a little bit ackward. To improve it and provide a more uniform way to
-+report errors, some unittest classes and functions are defined.
-+
-+
-+Unittest helper module
-+======================
-+
-+.. automodule:: lib.python.unittest_helper
-+   :members:
-+   :show-inheritance:
-+   :undoc-members:
-diff --git a/tools/lib/python/unittest_helper.py b/tools/lib/python/unittest_helper.py
-new file mode 100755
-index 000000000000..55d444cd73d4
---- /dev/null
-+++ b/tools/lib/python/unittest_helper.py
-@@ -0,0 +1,353 @@
-+#!/usr/bin/env python3
-+# SPDX-License-Identifier: GPL-2.0
-+# Copyright(c) 2025-2026: Mauro Carvalho Chehab <mchehab@kernel.org>.
-+#
-+# pylint: disable=C0103,R0912,R0914,E1101
-+
-+"""
-+Provides helper functions and classes execute python unit tests.
-+
-+Those help functions provide a nice colored output summary of each
-+executed test and, when a test fails, it shows the different in diff
-+format when running in verbose mode, like::
-+
-+    $ tools/unittests/nested_match.py -v
-+    ...
-+    Traceback (most recent call last):
-+    File "/new_devel/docs/tools/unittests/nested_match.py", line 69, in test_count_limit
-+        self.assertEqual(replaced, "bar(a); bar(b); foo(c)")
-+        ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+    AssertionError: 'bar(a) foo(b); foo(c)' != 'bar(a); bar(b); foo(c)'
-+    - bar(a) foo(b); foo(c)
-+    ?       ^^^^
-+    + bar(a); bar(b); foo(c)
-+    ?       ^^^^^
-+    ...
-+
-+It also allows filtering what tests will be executed via ``-k`` parameter.
-+
-+Typical usage is to do::
-+
-+    from unittest_helper import run_unittest
-+    ...
-+
-+    if __name__ == "__main__":
-+        run_unittest(__file__)
-+
-+If passing arguments is needed, on a more complex scenario, it can be
-+used like on this example::
-+
-+    from unittest_helper import TestUnits, run_unittest
-+    ...
-+    env = {'sudo': ""}
-+    ...
-+    if __name__ == "__main__":
-+        runner = TestUnits()
-+        base_parser = runner.parse_args()
-+        base_parser.add_argument('--sudo', action='store_true',
-+                                help='Enable tests requiring sudo privileges')
-+
-+        args = base_parser.parse_args()
-+
-+        # Update module-level flag
-+        if args.sudo:
-+            env['sudo'] = "1"
-+
-+        # Run tests with customized arguments
-+        runner.run(__file__, parser=base_parser, args=args, env=env)
-+"""
-+
-+import argparse
-+import atexit
-+import os
-+import re
-+import unittest
-+import sys
-+
-+from unittest.mock import patch
-+
-+
-+class Summary(unittest.TestResult):
+     (CToken.MISMATCH,r"."),
+ ]
+ 
+@@ -245,6 +251,167 @@ class CTokenizer():
+         return out
+ 
+ 
++class CTokenArgs:
 +    """
-+    Overrides ``unittest.TestResult`` class to provide a nice colored
-+    summary. When in verbose mode, displays actual/expected difference in
-+    unified diff format.
++    Ancillary class to help using backrefs from sub matches.
++
++    If the highest backref contain a "+" at the last element,
++    the logic will be greedy, picking all other delims.
++
++    This is needed to parse struct_group macros with end with ``MEMBERS...``.
 +    """
-+    def __init__(self, *args, **kwargs):
-+        super().__init__(*args, **kwargs)
++    def __init__(self, sub_str):
++        self.sub_groups = set()
++        self.max_group = -1
++        self.greedy = None
 +
-+        #: Dictionary to store organized test results.
-+        self.test_results = {}
++        for m in KernRe(r'\\(\d+)([+]?)').finditer(sub_str):
++            group = int(m.group(1))
++            if m.group(2) == "+":
++                if self.greedy and self.greedy != group:
++                    raise ValueError("There are multiple greedy patterns!")
++                self.greedy = group
 +
-+        #: max length of the test names.
-+        self.max_name_length = 0
++            self.sub_groups.add(group)
++            self.max_group = max(self.max_group, group)
 +
-+    def startTest(self, test):
-+        super().startTest(test)
-+        test_id = test.id()
-+        parts = test_id.split(".")
++        if self.greedy:
++            if self.greedy != self.max_group:
++                raise ValueError("Greedy pattern is not the last one!")
 +
-+        # Extract module, class, and method names
-+        if len(parts) >= 3:
-+            module_name = parts[-3]
-+        else:
-+            module_name = ""
-+        if len(parts) >= 2:
-+            class_name = parts[-2]
-+        else:
-+            class_name = ""
++            sub_str = KernRe(r'(\\\d+)[+]').sub(r"\1", sub_str)
 +
-+        method_name = parts[-1]
++        self.sub_str = sub_str
++        self.sub_tokeninzer = CTokenizer(sub_str)
 +
-+        # Build the hierarchical structure
-+        if module_name not in self.test_results:
-+            self.test_results[module_name] = {}
-+
-+        if class_name not in self.test_results[module_name]:
-+            self.test_results[module_name][class_name] = []
-+
-+        # Track maximum test name length for alignment
-+        display_name = f"{method_name}:"
-+
-+        self.max_name_length = max(len(display_name), self.max_name_length)
-+
-+    def _record_test(self, test, status):
-+        test_id = test.id()
-+        parts = test_id.split(".")
-+        if len(parts) >= 3:
-+            module_name = parts[-3]
-+        else:
-+            module_name = ""
-+        if len(parts) >= 2:
-+            class_name = parts[-2]
-+        else:
-+            class_name = ""
-+        method_name = parts[-1]
-+        self.test_results[module_name][class_name].append((method_name, status))
-+
-+    def addSuccess(self, test):
-+        super().addSuccess(test)
-+        self._record_test(test, "OK")
-+
-+    def addFailure(self, test, err):
-+        super().addFailure(test, err)
-+        self._record_test(test, "FAIL")
-+
-+    def addError(self, test, err):
-+        super().addError(test, err)
-+        self._record_test(test, "ERROR")
-+
-+    def addSkip(self, test, reason):
-+        super().addSkip(test, reason)
-+        self._record_test(test, f"SKIP ({reason})")
-+
-+    def printResults(self):
++    def groups(self, new_tokenizer):
 +        """
-+        Print results using colors if tty.
++        Create replacement arguments for backrefs like:
++
++        ``\0``, ``\1``, ``\2``, ...``\n``
++
++        It also accepts a ``+`` character to the highest backref. When used,
++        it means in practice to ignore delimins after it, being greedy.
++
++        The logic is smart enough to only go up to the maximum required
++        argument, even if there are more.
++
++        If there is a backref for an argument above the limit, it will
++        raise an exception. Please notice that, on C, square brackets
++        don't have any separator on it. Trying to use ``\1``..``\n`` for
++        brackets also raise an exception.
 +        """
-+        # Check for ANSI color support
-+        use_color = sys.stdout.isatty()
-+        COLORS = {
-+            "OK":            "\033[32m",   # Green
-+            "FAIL":          "\033[31m",   # Red
-+            "SKIP":          "\033[1;33m", # Yellow
-+            "PARTIAL":       "\033[33m",   # Orange
-+            "EXPECTED_FAIL": "\033[36m",   # Cyan
-+            "reset":         "\033[0m",    # Reset to default terminal color
-+        }
-+        if not use_color:
-+            for c in COLORS:
-+                COLORS[c] = ""
 +
-+        # Calculate maximum test name length
-+        if not self.test_results:
-+            return
-+        try:
-+            lengths = []
-+            for module in self.test_results.values():
-+                for tests in module.values():
-+                    for test_name, _ in tests:
-+                        lengths.append(len(test_name) + 1)  # +1 for colon
-+            max_length = max(lengths) + 2  # Additional padding
-+        except ValueError:
-+            sys.exit("Test list is empty")
++        level = (0, 0, 0)
 +
-+        # Print results
-+        for module_name, classes in self.test_results.items():
-+            print(f"{module_name}:")
-+            for class_name, tests in classes.items():
-+                print(f"    {class_name}:")
-+                for test_name, status in tests:
-+                    # Get base status without reason for SKIP
-+                    if status.startswith("SKIP"):
-+                        status_code = status.split()[0]
-+                    else:
-+                        status_code = status
-+                    color = COLORS.get(status_code, "")
-+                    print(
-+                        f"        {test_name + ':':<{max_length}}{color}{status}{COLORS['reset']}"
-+                    )
-+            print()
++        if self.max_group < 0:
++            return level, []
 +
-+        # Print summary
-+        print(f"\nRan {self.testsRun} tests", end="")
-+        if hasattr(self, "timeTaken"):
-+            print(f" in {self.timeTaken:.3f}s", end="")
-+        print()
++        tokens = new_tokenizer.tokens
 +
-+        if not self.wasSuccessful():
-+            print(f"\n{COLORS['FAIL']}FAILED (", end="")
-+            failures = getattr(self, "failures", [])
-+            errors = getattr(self, "errors", [])
-+            if failures:
-+                print(f"failures={len(failures)}", end="")
-+            if errors:
-+                if failures:
-+                    print(", ", end="")
-+                print(f"errors={len(errors)}", end="")
-+            print(f"){COLORS['reset']}")
++        #
++        # Fill \0 with the full token contents
++        #
++        groups_list = [ [] ]
 +
++        if 0 in self.sub_groups:
++            inner_level = 0
 +
-+def flatten_suite(suite):
-+    """Flatten test suite hierarchy."""
-+    tests = []
-+    for item in suite:
-+        if isinstance(item, unittest.TestSuite):
-+            tests.extend(flatten_suite(item))
-+        else:
-+            tests.append(item)
-+    return tests
++            for i in range(0, len(tokens)):
++                tok = tokens[i]
 +
++                if tok.kind == CToken.BEGIN:
++                    inner_level += 1
++                    continue
 +
-+class TestUnits:
-+    """
-+    Helper class to set verbosity level.
++                if tok.kind == CToken.END:
++                    inner_level -= 1
++                    if inner_level < 0:
++                        break
 +
-+    This class discover test files, import its unittest classes and
-+    executes the test on it.
-+    """
-+    def parse_args(self):
-+        """Returns a parser for command line arguments."""
-+        parser = argparse.ArgumentParser(description="Test runner with regex filtering")
-+        parser.add_argument("-v", "--verbose", action="count", default=1)
-+        parser.add_argument("-f", "--failfast", action="store_true")
-+        parser.add_argument("-k", "--keyword",
-+                            help="Regex pattern to filter test methods")
-+        return parser
++                if inner_level:
++                    groups_list[0].append(tok)
 +
-+    def run(self, caller_file=None, pattern=None,
-+            suite=None, parser=None, args=None, env=None):
-+        """
-+        Execute all tests from the unity test file.
++        if not self.max_group:
++            return level, groups_list
 +
-+        It contains several optional parameters:
++        delim = None
 +
-+        ``caller_file``:
-+            -  name of the file that contains test.
++        #
++        # Ignore everything before BEGIN. The value of begin gives the
++        # delimiter to be used for the matches
++        #
++        for i in range(0, len(tokens)):
++            tok = tokens[i]
++            if tok.kind == CToken.BEGIN:
++                if tok.value == "{":
++                    delim = ";"
++                elif tok.value == "(":
++                    delim = ","
++                else:
++                    raise ValueError(fr"Can't handle \1..\n on {sub_str}")
 +
-+               typical usage is to place __file__ at the caller test, e.g.::
++                level = tok.level
++                break
 +
-+                    if __name__ == "__main__":
-+                        TestUnits().run(__file__)
++        pos = 1
++        groups_list.append([])
 +
-+        ``pattern``:
-+            - optional pattern to match multiple file names. Defaults
-+              to basename of ``caller_file``.
++        inner_level = 0
++        for i in range(i + 1, len(tokens)):
++            tok = tokens[i]
 +
-+        ``suite``:
-+            - an unittest suite initialized by the caller using
-+              ``unittest.TestLoader().discover()``.
++            if tok.kind == CToken.BEGIN:
++                inner_level += 1
++            if tok.kind == CToken.END:
++                inner_level -= 1
++                if inner_level < 0:
++                    break
 +
-+        ``parser``:
-+            - an argparse parser. If not defined, this helper will create
-+              one.
++            if tok.kind == CToken.PUNC and delim == tok.value:
++                pos += 1
++                if self.greedy and pos > self.max_group:
++                    pos -= 1
++                else:
++                    groups_list.append([])
 +
-+        ``args``:
-+            - an ``argparse.Namespace`` data filled by the caller.
++                    if pos > self.max_group:
++                        break
 +
-+        ``env``:
-+            - environment variables that will be passed to the test suite
++                    continue
 +
-+        At least ``caller_file`` or ``suite`` must be used, otherwise a
-+        ``TypeError`` will be raised.
-+        """
-+        if not args:
-+            if not parser:
-+                parser = self.parse_args()
-+            args = parser.parse_args()
++            groups_list[pos].append(tok)
 +
-+        if not caller_file and not suite:
-+            raise TypeError("Either caller_file or suite is needed at TestUnits")
++        if pos < self.max_group:
++            raise ValueError(fr"{self.sub_str} groups are up to {pos} instead of {self.max_group}")
 +
-+        verbose = args.verbose
++        return level, groups_list
 +
-+        if not env:
-+            env = os.environ.copy()
++    def tokens(self, new_tokenizer):
++        level, groups = self.groups(new_tokenizer)
 +
-+        env["VERBOSE"] = f"{verbose}"
++        new = CTokenizer()
 +
-+        patcher = patch.dict(os.environ, env)
-+        patcher.start()
-+        # ensure it gets stopped after
-+        atexit.register(patcher.stop)
++        for tok in self.sub_tokeninzer.tokens:
++            if tok.kind == CToken.BACKREF:
++                group = int(tok.value[1:])
 +
++                for group_tok in groups[group]:
++                    new_tok = copy(group_tok)
 +
-+        if verbose >= 2:
-+            unittest.TextTestRunner(verbosity=verbose).run = lambda suite: suite
++                    new_level = [0, 0, 0]
 +
-+        # Load ONLY tests from the calling file
-+        if not suite:
-+            if not pattern:
-+                pattern = caller_file
++                    for i in range(0, len(level)):
++                        new_level[i] = new_tok.level[i] + level[i]
 +
-+            loader = unittest.TestLoader()
-+            suite = loader.discover(start_dir=os.path.dirname(caller_file),
-+                                    pattern=os.path.basename(caller_file))
++                    new_tok.level = tuple(new_level)
 +
-+        # Flatten the suite for environment injection
-+        tests_to_inject = flatten_suite(suite)
++                    new.tokens += [ new_tok ]
++            else:
++                new.tokens += [ tok ]
 +
-+        # Filter tests by method name if -k specified
-+        if args.keyword:
-+            try:
-+                pattern = re.compile(args.keyword)
-+                filtered_suite = unittest.TestSuite()
-+                for test in tests_to_inject:  # Use the pre-flattened list
-+                    method_name = test.id().split(".")[-1]
-+                    if pattern.search(method_name):
-+                        filtered_suite.addTest(test)
-+                suite = filtered_suite
-+            except re.error as e:
-+                sys.stderr.write(f"Invalid regex pattern: {e}\n")
-+                sys.exit(1)
-+        else:
-+            # Maintain original suite structure if no keyword filtering
-+            suite = unittest.TestSuite(tests_to_inject)
++        return new.tokens
 +
-+        if verbose >= 2:
-+            resultclass = None
-+        else:
-+            resultclass = Summary
+ class CMatch:
+     """
+     Finding nested delimiters is hard with regular expressions. It is
+@@ -270,31 +437,9 @@ class CMatch:
+     will ignore the search string.
+     """
+ 
+-    # TODO: make CMatch handle multiple match groups
+-    #
+-    # Right now, regular expressions to match it are defined only up to
+-    #       the start delimiter, e.g.:
+-    #
+-    #       \bSTRUCT_GROUP\(
+-    #
+-    # is similar to: STRUCT_GROUP\((.*)\)
+-    # except that the content inside the match group is delimiter-aligned.
+-    #
+-    # The content inside parentheses is converted into a single replace
+-    # group (e.g. r`\0').
+-    #
+-    # It would be nice to change such definition to support multiple
+-    # match groups, allowing a regex equivalent to:
+-    #
+-    #   FOO\((.*), (.*), (.*)\)
+-    #
+-    # it is probably easier to define it not as a regular expression, but
+-    # with some lexical definition like:
+-    #
+-    #   FOO(arg1, arg2, arg3)
+ 
+     def __init__(self, regex):
+-        self.regex = KernRe(regex)
++        self.regex = KernRe("^" + regex + r"\b")
+ 
+     def _search(self, tokenizer):
+         """
+@@ -317,7 +462,6 @@ class CMatch:
+         """
+ 
+         start = None
+-        offset = -1
+         started = False
+ 
+         import sys
+@@ -339,9 +483,8 @@ class CMatch:
+ 
+             if tok.kind == CToken.END and tok.level == stack[-1][1]:
+                 start, level = stack.pop()
+-                offset = i
+ 
+-                yield CTokenizer(tokenizer.tokens[start:offset + 1])
++                yield start, i
+                 start = None
+ 
+         #
+@@ -349,9 +492,9 @@ class CMatch:
+         # This is meant to solve cases where the caller logic might be
+         # picking an incomplete block.
+         #
+-        if start and offset < 0:
++        if start and stack:
+             print("WARNING: can't find an end", file=sys.stderr)
+-            yield CTokenizer(tokenizer.tokens[start:])
++            yield start, len(tokenizer.tokens)
+ 
+     def search(self, source):
+         """
+@@ -368,13 +511,15 @@ class CMatch:
+             tokenizer = CTokenizer(source)
+             is_token = False
+ 
+-        for new_tokenizer in self._search(tokenizer):
++        for start, end in self._search(tokenizer):
++            new_tokenizer = CTokenizer(tokenizer.tokens[start:end + 1])
 +
-+        runner = unittest.TextTestRunner(verbosity=args.verbose,
-+                                            resultclass=resultclass,
-+                                            failfast=args.failfast)
-+        result = runner.run(suite)
-+        if resultclass:
-+            result.printResults()
+             if is_token:
+                 yield new_tokenizer
+             else:
+                 yield str(new_tokenizer)
+ 
+-    def sub(self, sub, line, count=0):
++    def sub(self, sub_str, source, count=0):
+         """
+         This is similar to re.sub:
+ 
+@@ -398,20 +543,39 @@ class CMatch:
+             is_token = False
+             tokenizer = CTokenizer(source)
+ 
++        # Detect if sub_str contains sub arguments
 +
-+        sys.exit(not result.wasSuccessful())
++        args_match = CTokenArgs(sub_str)
 +
+         new_tokenizer = CTokenizer()
+-        cur_pos = 0
++        pos = 0
++        n = 0
 +
-+def run_unittest(fname):
-+    """
-+    Basic usage of TestUnits class.
++        #
++        # NOTE: the code below doesn't consider overlays at sub.
++        # We may need to add some extra unit tests to check if those
++        # would cause problems. When replacing by "", this should not
++        # be a problem, but other transformations could be problematic
++        #
+         for start, end in self._search(tokenizer):
+-            new_tokenizer.tokens += tokenizer.tokens[cur_pos:start]
+-#            new_tokenizer.tokens += [sub_str]
++            new_tokenizer.tokens += tokenizer.tokens[pos:start]
+ 
+-            cur_pos = end + 1
++            new = CTokenizer(tokenizer.tokens[start:end + 1])
+ 
+-        if cur_pos:
+-            new_tokenizer.tokens += tokenizer.tokens[cur_pos:]
++            new_tokenizer.tokens += args_match.tokens(new)
+ 
+-        print(new_tokenizer.tokens)
++            pos = end + 1
+ 
+-        return str(new_tokenizer)
++            n += 1
++            if count and n >= count:
++                break
 +
-+    Use it when there's no need to pass any extra argument to the tests
-+    with. The recommended way is to place this at the end of each
-+    unittest module::
++        new_tokenizer.tokens += tokenizer.tokens[pos:]
 +
-+        if __name__ == "__main__":
-+            run_unittest(__file__)
-+    """
-+    TestUnits().run(fname)
++        if not is_token:
++            return str(new_tokenizer)
++
++        return new_tokenizer
+ 
+     def __repr__(self):
+         """
 -- 
 2.53.0
 
