@@ -1,296 +1,113 @@
-Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11021077.outbound.protection.outlook.com [52.101.125.77])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D369F3FBEDA;
-	Thu, 12 Mar 2026 16:50:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.77
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773334240; cv=fail; b=ixGmO373uQ1l/neDm9EyI4kscqcZE0o+OZoy0IbemeAi8mQVVfKkNZen9j4mlaD6D3KKyrU+5bMx3YmajtTr7lJ6BPV9cchET+QmtFWTPO66HllMKGNNQ1oOqHZXM3IANRLxjEppP+1DayCPAJuVngGZfgI+8W5M1a7x4dHjF/I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773334240; c=relaxed/simple;
-	bh=lRW1ouca4Wyzn+yAJHqiPt4DGODvY3XZUPe+mgsZpo0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Hq0EISW3ndAvTLlNyxXqGPLDD63SgXIxF2Q3evpPHbEpyndMJC9adXaWygMizNSGgjwJ8JBbqYM29wCkkbRw/zkkN5NQsKP4uALXCBsGf8rT0626/KNd/Ed1BR0bSu4x8EUjhXeLC4AfRvhp8Y0WPtKB8C3x77rr9YD2yU432wA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valinux.co.jp; spf=pass smtp.mailfrom=valinux.co.jp; dkim=pass (1024-bit key) header.d=valinux.co.jp header.i=@valinux.co.jp header.b=cT8A+RSs; arc=fail smtp.client-ip=52.101.125.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valinux.co.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=valinux.co.jp
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C199A3FCB0C;
+	Thu, 12 Mar 2026 16:50:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773334242; cv=none; b=BW9HjGml4zmPstx44XU1zalKwHNSox7vryNonVfzW7FzOF7a7HKchXkduvzj1b3YN19TYsO9bX0Haq7cM6HFySfSaH4MCSYi6tZ8X8Yw2YMGq07MTtJK2qp9DaCAYai46WMUmU/YbPTM7PjLA7D5TuXgeyvKjZmmwajur3KCx5c=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773334242; c=relaxed/simple;
+	bh=I7ohnXz5SQWGkR4iqkJFGqlNZU7QTgaFdwYwVFc0xzE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QrBxEy4YJXrlv4mJnK4/9dvxANnE/wa6QJAi9q4s3b/MQwjJzVSnbwgzCKjxtfvqgtL5Pa0NpBSxwepdxtpkDVC6jrzMnZzrVHpsW50n2PtW3DE9+s+aG28+syTOVE0HDuyTTIPMZdIExgfmEyh2nAJmIepSmSYcF3SFIKJl4kY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X/Ncuhpr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=valinux.co.jp header.i=@valinux.co.jp header.b="cT8A+RSs"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dwJqzVWW81D/y/yMpgOtn+sO4H6f8zI+7EPW/+SlarijyB51UAIw7/vgZAB4gxtw9QuAg/R9HLPF8uIzuZ+0joji5G26/jJLKbnIt7OVzcSaevgTpElpJWrO6O4qsqg+rf8rJwHe5KOsnUF1LCUzMOU3cv5FuKHQF2nkmPfzR3yQN9OvZi8HCdnddoWZfS0xGw3QCjP93n/qDpitntPicB/qG3kGeq9RwfmFBxaMG+P/gj7XY/j4k/AjMu6Mlo8p1oRG8WxuqeC33tq71y1frna1X//dhzJJy1B3GXgSdFWneL5lnnTPM27lSti23/JwW2FNY2eES/DaqIMutmK23w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HG5pSuEOF+ctYFpt9+jU8iX/WBKsiZ9txO/eDns/QqE=;
- b=rZQrAKwzEXCI+6MxnkmJhLjPlxhuT4qqkDI31nARIgwnemGFqSLBb/CKDZZsWgZeLrFTCLqvhL0lq7cy81BED6sGoGB+v/X8tBsgxbxAtSa9RK4jdhc0jJHVZnMTXqkHGHRRsWeyJqYOcnT3B//J4uMpfBemfrPDg7xCDGQynNdzlaew2LwpHOoe7LZl5uvvKF82nZpe8KmPCy5JwS76ZAxrN6HkAub5HDcrCLxn02Q/f4V6uBs8uSJ7GlojCOBR3OStnV78YXxPkZrvA36cL/EO2o6W1RoXNREr9cgPrIrJBC4m4VORh7RoVZyE0QvcWOHD+qxHfjlQDEpDu8kgMg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=valinux.co.jp; dmarc=pass action=none
- header.from=valinux.co.jp; dkim=pass header.d=valinux.co.jp; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valinux.co.jp;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HG5pSuEOF+ctYFpt9+jU8iX/WBKsiZ9txO/eDns/QqE=;
- b=cT8A+RSsIbZ7DWM/7Ix2je9LaH5Ogq26MLKVdDMoj6nlqk7tqXR/tQ+hx9ACOgKR88mTMx3gWK2i/g+k2l0v3NtfvJeaZuDd/tmBQ+u9n+4Ll0Q+gSbVaMkXIrVXjt6KpX7TwrTGOG8nYxtuvc+q0ksbF37uB6C9+ROk/8EcUkg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=valinux.co.jp;
-Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:38f::10)
- by TYCP286MB2018.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:15e::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.15; Thu, 12 Mar
- 2026 16:50:17 +0000
-Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
- ([fe80::2305:327c:28ec:9b32]) by TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
- ([fe80::2305:327c:28ec:9b32%5]) with mapi id 15.20.9700.013; Thu, 12 Mar 2026
- 16:50:17 +0000
-From: Koichiro Den <den@valinux.co.jp>
-To: Manivannan Sadhasivam <mani@kernel.org>,
-	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X/Ncuhpr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70359C2BC87;
+	Thu, 12 Mar 2026 16:50:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773334242;
+	bh=I7ohnXz5SQWGkR4iqkJFGqlNZU7QTgaFdwYwVFc0xzE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=X/Ncuhprz30y2xAin6UFvnTvzocNQuIqes6ui7gpDr2Q7sh24Z5OkTNZJtridjidu
+	 qHJA5XMMmx34FwJfNQTd9eWNuC/TsCnuMW0QQw2WMFgajgUTOtCfMLOlkV7P3EYHhH
+	 Nx4YTBgI13YFouzZbuB9ZuPbGPAZ2nHx5tpawOo/y4xbwSwX4qBFaw+N1s+ukFqidC
+	 0py6Mr7JAg2AnYENLQ57jutZWMr2iGKWHhZqFgi67nenSrz73gVlv8Eod4sKTgKCrr
+	 cy/u7fNxZj8vYe+9tPI3ClTIVdvGPi/HMv2yRFXiddhyGIhxb0pVk4KDsI95EkyaWL
+	 rkkqouFhYoZ0w==
+Date: Thu, 12 Mar 2026 18:50:38 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Petr Tesarik <ptesarik@suse.com>, Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Vinod Koul <vkoul@kernel.org>,
-	Frank Li <Frank.Li@kernel.org>,
-	Jon Mason <jdmason@kudzu.us>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Allen Hubbe <allenbh@gmail.com>,
-	Jingoo Han <jingoohan1@gmail.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Baruch Siach <baruch@tkos.co.il>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Niklas Cassel <cassel@kernel.org>
-Cc: linux-pci@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	dmaengine@vger.kernel.org,
-	ntb@lists.linux.dev
-Subject: [PATCH 07/15] PCI: endpoint: Add EPC DMA channel delegation hooks
-Date: Fri, 13 Mar 2026 01:49:57 +0900
-Message-ID: <20260312165005.1148676-8-den@valinux.co.jp>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260312165005.1148676-1-den@valinux.co.jp>
-References: <20260312165005.1148676-1-den@valinux.co.jp>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TYCPR01CA0106.jpnprd01.prod.outlook.com
- (2603:1096:405:4::22) To TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:38f::10)
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>, iommu@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	virtualization@lists.linux.dev, linux-rdma@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v2 8/8] mm/hmm: Indicate that HMM requires DMA coherency
+Message-ID: <20260312165038.GB12611@unreal>
+References: <20260311-dma-debug-overlap-v2-0-e00bc2ca346d@nvidia.com>
+ <20260311-dma-debug-overlap-v2-8-e00bc2ca346d@nvidia.com>
+ <20260312122645.GG1469476@ziepe.ca>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY7P286MB7722:EE_|TYCP286MB2018:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8eafcd0d-3eeb-4239-bf04-08de80577087
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|1800799024|10070799003|366016|7416014|921020|56012099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	5ULyGO5YCVG8vGaxSSc/TvSty1K6dtz5Dgi/Osaj5kCj9WANMkTbT3qcMw9lQ2RKrI4Z8ENTu7tezX4yfN3OFr3tebXH+k08DpfdHrjd/7qP1RPZzMv/Z33M4zWJ2b071YbjkL8Sx7rcfx9ekCG8gKfBViqkyp5O9VX3VI9nWAud23elEkuSKGOZxu35cNRspoM9DoBWB71DBHQFplrF5T2JqR4U+wMe2nL3YPWWr/3EWwelGzhV2zjXP2CD/x8U5wIL68pPtI2GDix2t+pGoAPk4sEHC5+MWBEvSlI7JwXx0lH+oI1ozRKELXffuM+HcfNCKU4K6z+ETQqqlxPLcJNjhXgaLoZA06DurUu5wWWoxFCLdyprhPYnbCdOO6nbYKcrEX8CVrfGOZDjfUNjbrKWgFIPTdrwpYRAjhjykkmzX0uvrrZmCH4lJFYRqYx8qcU9QPLML5WQkU69NLkcQ3lVAAnQCYtz1dJWM58wYQbDLZdmYTTU0UZoKSYpMar5fgkdqMMuMkRaCvx9lBtLB1ztguMXIoAZW2l/9mVtbCnOxNxkk6N7QO8g1XVRjRhWTX0YjhA8dV5t0D+MB7vr7bL7Abh6PfeZi1Puw49f1XrnV97iDSdCeFGg5+qpKs3ws+AomxoTb4bSQs5StfWKwQ7HUxjQ9UkSeEmz04Dsf/jPLA8WVEcfysvPCac+zbW7ZXsAxgJ0FyksywtMjMaTg+iYZ85R3iKR1OhoXyWHWthg9bVjfnJ0olMdgpxKf9wo76rYZMDnoQOW6Gd9pSrWoQ==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(10070799003)(366016)(7416014)(921020)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?hQIYqW9F0gnKucBBD/0gXoTT0xnFFffJHA9Tgxcs3IrCLLeI3vqtDWDIovVt?=
- =?us-ascii?Q?cRggbQM02B2hzeSeRN4FZIqC+/+0KnbRa1yCieXlNzrEAZjvD9mmXPxczyWS?=
- =?us-ascii?Q?HVoU0SgM7s7Ow3uE1hTagvtHT+MllYtnJd0moz6jP2Kyf8WytrUOkNbc5qUS?=
- =?us-ascii?Q?8t+FaiWASL6+blqIUkiGFgK415n0pjJMcN41A1M9h8X2LTcjkJjlPbnbwSyo?=
- =?us-ascii?Q?jC8crtXkjW3DLi0Pp3iieSHWnhwYbLcyHzIzICvdy5GKEUCPc8fx0lxCXO+G?=
- =?us-ascii?Q?b8lNMricA5AsHV/0Xe83bKRp7/UjikGzTvSO1DiA1T2y4f3ausH5gzsqjHLR?=
- =?us-ascii?Q?dVioDahodERxXkdvqupZQrtQs2Xve6pxtpAboOIH47pHdC5CEmirnJT1zwdg?=
- =?us-ascii?Q?oEmhi5FHKeysQuI5x0X786HgvjiPJQrdwWqqc9uGz1SsdCNX0WCAo2+Tc3ND?=
- =?us-ascii?Q?u/G4s4xq6E2UUfps7uBHTKvlIdXNBmZEveQVGqi75BKRmnZLuTiTpiiS8e7v?=
- =?us-ascii?Q?qvOuTnOI2l3qfDyT8lTjWEADicQMCSnM+xJ64TRlN/dJtaAZGR6hz4pstuTj?=
- =?us-ascii?Q?QKvztwXXTPmnJw3/lR5V+bQKl9j09V1Z07BWXIL8jiAIv04JkOBFQ7QXdKId?=
- =?us-ascii?Q?Tpkcgi5MKx8br4eC1cN7hThsh9H1xFcGlSKGGaTBDlwQeU54KVHMIvA11gn/?=
- =?us-ascii?Q?gW91VMda3FDqXBx/uohMmzjH2MvnTWOLk5LN6qcH1c3gj8x29RBvwt7f80cK?=
- =?us-ascii?Q?mguSUooJ5aa86qQcACG0CbS9KYIiEdvwUObbtVfWNRF6Cll4ORlq5Y+7e4Xo?=
- =?us-ascii?Q?3I6jqNFmeeKw4DAN01Z+gaUafwM22Yh0l5SKinFlzAxwKJsDS4EBE1h8C9RM?=
- =?us-ascii?Q?VKSVw/+W3zjhdZNPRpcra2Xy/7iZAWcnhCgPdPivuXMEUmeYBOLfG1F+2UJO?=
- =?us-ascii?Q?XPutWqhZ/JzrtxiCPvSr6LMZIdn/GwVAUo7/Xi+1Y5N5YuIyH/o3kAV1oA8/?=
- =?us-ascii?Q?kziGKl2Vc8Xa335QGDffk/U5d8kvs/1uNLPaZIEMNrXiLCSF0d9/xFeW0vf9?=
- =?us-ascii?Q?u9CooFS94Gr15pEa9V4o6wFTaq+TY3KvLdItvZfElnsLtNIxDuzQ1ke9e3y5?=
- =?us-ascii?Q?VkDj+G2cS52q9sQWP/sa641RBoiZggziIcfA5Ev1ZIQ13W/fnL1jW9Fnwo8T?=
- =?us-ascii?Q?QkBfiAUbQVNVJeLkvzGWmZYv3bxldFN+U+zYv0ZazAvlwWlgrGHWuOPi0JQ7?=
- =?us-ascii?Q?6UFelx4kFMtBLC8DB/DT5DkrDxafJFFm0VByI9Q+d8uCG/l3HxN05HG1DCCy?=
- =?us-ascii?Q?aXj3sNS5+XD1giN3hpK8tPMdtY0Qkjq76gWA8aH5aidFAkUobZiFkyEqLKxI?=
- =?us-ascii?Q?o/z3y3W7YiFnH7ecMBy1wDgtlRF+m6vd84chQTEdTqQwzaKdZiWsYfS1KEoV?=
- =?us-ascii?Q?HCNA6v1xcZI0KwuSf+6ePW0tXjddmsN7JhRh5K6FeuadyFriN7IW4CmcZ0UL?=
- =?us-ascii?Q?eT8gXz6MMQ9pZKzsLnF+DpV/7gPSNEMeMB4gUAGg/+jJogvoPx5NC9CqZRls?=
- =?us-ascii?Q?B4KQFLWBu4sF4qCbq0e1Qin5Qv1M2DRgw6oz0j/Bwrqj7MSs2D3oBLozlyO6?=
- =?us-ascii?Q?adTBYgEJSVG1kGIhNH0n7DRBgtHIrx4352yMTvEMU+BPvD3ku5ohoEYzzX/o?=
- =?us-ascii?Q?dkKAIDPkkZqLfbPFkMNqfA3clrnyinSHGdkz5gEmmuWqR42Icy8UKSvPMaA8?=
- =?us-ascii?Q?x/92P5kWpAwS6D6yz698RDzPFFHh52hSNwIo1SIXPdAOd7s0NhaZ?=
-X-OriginatorOrg: valinux.co.jp
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8eafcd0d-3eeb-4239-bf04-08de80577087
-X-MS-Exchange-CrossTenant-AuthSource: TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Mar 2026 16:50:17.2179
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 7a57bee8-f73d-4c5f-a4f7-d72c91c8c111
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mywHg07SsMbDILwolc7gXC3LqCrQZC2ubx1kjflkfvtNB5+FuTGAOEjdFNTlt1ofXIU4NghpSG4rg0gk7PdcqA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCP286MB2018
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260312122645.GG1469476@ziepe.ca>
 
-Add EPC ops and core wrappers to delegate and undelegate controller-owned
-DMA channels.
+On Thu, Mar 12, 2026 at 09:26:45AM -0300, Jason Gunthorpe wrote:
+> On Wed, Mar 11, 2026 at 09:08:51PM +0200, Leon Romanovsky wrote:
+> > From: Leon Romanovsky <leonro@nvidia.com>
+> > 
+> > HMM mirroring can work on coherent systems without SWIOTLB path only.
+> > Until introduction of DMA_ATTR_REQUIRE_COHERENT, there was no reliable
+> > way to indicate that and various approximation was done:
+> 
+> HMM is fundamentally about allowing a sophisticated device to
+> independently DMA to a process's memory concurrently with the CPU
+> accessing the same memory. It is similar to SVA but does not rely on
+> IOMMU support. Since the entire use model is concurrent access to the
+> same memory it becomes fatally broken as a uAPI if SWIOTLB is
+> replacing the memory, or the CPU caches are incoherent with DMA.
+> 
+> Till now there was no reliable way to indicate that and various
+> approximation was done:
+> 
+> > int hmm_dma_map_alloc(struct device *dev, struct hmm_dma_map *map,
+> >                       size_t nr_entries, size_t dma_entry_size)
+> > {
+> > <...>
+> >         /*
+> >          * The HMM API violates our normal DMA buffer ownership rules and can't
+> >          * transfer buffer ownership.  The dma_addressing_limited() check is a
+> >          * best approximation to ensure no swiotlb buffering happens.
+> >          */
+> >         dma_need_sync = !dev->dma_skip_sync;
+> >         if (dma_need_sync || dma_addressing_limited(dev))
+> >                 return -EOPNOTSUPP;
+> 
+> Can it get dropped now then?
 
-The exported DMA helper needs more than a passive "delegated" bitmap:
-it must be able to reserve channels away from local users, let the
-backend perform controller-specific setup (e.g. prevent the EP from
-racing to ack the completion interrupt for delegated channels), and
-later hand the channels back as a matched lifetime operation.
+Better not, it allows us to reject caller much earlier than DMA mapping
+flow. It is much saner to fail during UMEM ODP creation than start to
+fail for ODP pagefaults.
 
-Signed-off-by: Koichiro Den <den@valinux.co.jp>
----
- drivers/pci/endpoint/pci-epc-core.c | 84 +++++++++++++++++++++++++++++
- include/linux/pci-epc.h             | 19 +++++++
- 2 files changed, 103 insertions(+)
-
-diff --git a/drivers/pci/endpoint/pci-epc-core.c b/drivers/pci/endpoint/pci-epc-core.c
-index dc6d6ab4ea1e..892f7ccbd236 100644
---- a/drivers/pci/endpoint/pci-epc-core.c
-+++ b/drivers/pci/endpoint/pci-epc-core.c
-@@ -197,6 +197,90 @@ int pci_epc_get_aux_resources(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
- }
- EXPORT_SYMBOL_GPL(pci_epc_get_aux_resources);
- 
-+/**
-+ * pci_epc_delegate_dma_channels() - reserve EPC-owned DMA channels
-+ * @epc: EPC device
-+ * @func_no: function number
-+ * @vfunc_no: virtual function number
-+ * @dir: DMA channel direction
-+ * @req_chans: number of channels requested
-+ * @chan_ids: output array of delegated channel IDs
-+ * @max_chans: capacity of @chan_ids in entries
-+ *
-+ * Return:
-+ *   * > 0: number of channels delegated
-+ *   * -EOPNOTSUPP: backend does not support DMA delegation
-+ *   * other -errno on failure
-+ */
-+int pci_epc_delegate_dma_channels(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
-+				  enum pci_epc_aux_dma_dir dir,
-+				  u32 req_chans, int *chan_ids, u32 max_chans)
-+{
-+	int ret;
-+
-+	if (!epc || !epc->ops)
-+		return -EINVAL;
-+
-+	if (!pci_epc_function_is_valid(epc, func_no, vfunc_no))
-+		return -EINVAL;
-+
-+	if (!req_chans || !chan_ids || !max_chans)
-+		return -EINVAL;
-+
-+	if (!epc->ops->delegate_dma_channels)
-+		return -EOPNOTSUPP;
-+
-+	mutex_lock(&epc->lock);
-+	ret = epc->ops->delegate_dma_channels(epc, func_no, vfunc_no, dir,
-+					      req_chans, chan_ids, max_chans);
-+	mutex_unlock(&epc->lock);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(pci_epc_delegate_dma_channels);
-+
-+/**
-+ * pci_epc_undelegate_dma_channels() - release previously delegated channels
-+ * @epc: EPC device
-+ * @func_no: function number
-+ * @vfunc_no: virtual function number
-+ * @dir: DMA channel direction
-+ * @chan_ids: array of delegated channel IDs
-+ * @num_chans: number of entries in @chan_ids
-+ *
-+ * Return: 0 on success, negative errno otherwise.
-+ */
-+int pci_epc_undelegate_dma_channels(struct pci_epc *epc, u8 func_no,
-+				    u8 vfunc_no,
-+				    enum pci_epc_aux_dma_dir dir,
-+				    const int *chan_ids, u32 num_chans)
-+{
-+	int ret;
-+
-+	if (!epc || !epc->ops)
-+		return -EINVAL;
-+
-+	if (!pci_epc_function_is_valid(epc, func_no, vfunc_no))
-+		return -EINVAL;
-+
-+	if (!num_chans)
-+		return 0;
-+
-+	if (!chan_ids)
-+		return -EINVAL;
-+
-+	if (!epc->ops->undelegate_dma_channels)
-+		return -EOPNOTSUPP;
-+
-+	mutex_lock(&epc->lock);
-+	ret = epc->ops->undelegate_dma_channels(epc, func_no, vfunc_no, dir,
-+						chan_ids, num_chans);
-+	mutex_unlock(&epc->lock);
-+
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(pci_epc_undelegate_dma_channels);
-+
- /**
-  * pci_epc_stop() - stop the PCI link
-  * @epc: the link of the EPC device that has to be stopped
-diff --git a/include/linux/pci-epc.h b/include/linux/pci-epc.h
-index 7dd2e4d5d952..db8623b84c56 100644
---- a/include/linux/pci-epc.h
-+++ b/include/linux/pci-epc.h
-@@ -142,6 +142,8 @@ struct pci_epc_aux_resource {
-  * @stop: ops to stop the PCI link
-  * @get_features: ops to get the features supported by the EPC
-  * @get_aux_resources: ops to retrieve controller-owned auxiliary resources
-+ * @delegate_dma_channels: reserve controller-owned DMA channels for peer use
-+ * @undelegate_dma_channels: release previously delegated DMA channels
-  * @owner: the module owner containing the ops
-  */
- struct pci_epc_ops {
-@@ -176,6 +178,16 @@ struct pci_epc_ops {
- 	int	(*get_aux_resources)(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
- 				     struct pci_epc_aux_resource *resources,
- 				     int num_resources);
-+	int	(*delegate_dma_channels)(struct pci_epc *epc, u8 func_no,
-+					 u8 vfunc_no,
-+					 enum pci_epc_aux_dma_dir dir,
-+					 u32 req_chans, int *chan_ids,
-+					 u32 max_chans);
-+	int	(*undelegate_dma_channels)(struct pci_epc *epc, u8 func_no,
-+					   u8 vfunc_no,
-+					   enum pci_epc_aux_dma_dir dir,
-+					   const int *chan_ids,
-+					   u32 num_chans);
- 	struct module *owner;
- };
- 
-@@ -403,6 +415,13 @@ const struct pci_epc_features *pci_epc_get_features(struct pci_epc *epc,
- int pci_epc_get_aux_resources(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
- 			      struct pci_epc_aux_resource *resources,
- 			      int num_resources);
-+int pci_epc_delegate_dma_channels(struct pci_epc *epc, u8 func_no,
-+				  u8 vfunc_no, enum pci_epc_aux_dma_dir dir,
-+				  u32 req_chans, int *chan_ids, u32 max_chans);
-+int pci_epc_undelegate_dma_channels(struct pci_epc *epc, u8 func_no,
-+				    u8 vfunc_no,
-+				    enum pci_epc_aux_dma_dir dir,
-+				    const int *chan_ids, u32 num_chans);
- enum pci_barno
- pci_epc_get_first_free_bar(const struct pci_epc_features *epc_features);
- enum pci_barno pci_epc_get_next_free_bar(const struct pci_epc_features
--- 
-2.51.0
-
+> 
+> > So let's mark mapped buffers with DMA_ATTR_REQUIRE_COHERENT attribute
+> > to prevent DMA debugging warnings for cache overlapped entries.
+> 
+> Well, that isn't the main motivation, this prevents silent data
+> corruption if someone tries to use hmm in a system with swiotlb or
+> incoherent DMA,
+> 
+> Looks OK otherwise
+> 
+> Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+> 
+> Jason
+> 
