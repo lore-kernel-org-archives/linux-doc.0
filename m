@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21DD53C7E1D;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBA063C8730;
 	Thu, 12 Mar 2026 14:55:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773327302; cv=none; b=IdyPqWbzNNKO7TJ+f5q/g37ZDUKmL/doQQr/SbiE0trPcN1viJUEXbfQgy3oTH73oO3m19qQHrk5p3VmsQbFaUiO0h50FiIuguyMG1OeCk3E6ZRAQqv60VaSDbiOZwYGzGlZtvwDvb26SEotP1pxhMqwiQDNV4cFo67PZcU2Awg=
+	t=1773327302; cv=none; b=cq9O2oMgoI07adozXheMAqTTxvf/f9niENbLJ1tjGfMwvl1ET7Msh9Sc59Z44lWNIF9U+5eznJp8RGCj3iT6tVPlFaxT98COQoZtc1Nii+ZVaAIyNf16tp1oeM8r/LM1HlP+qKHzHwSY5HlSEqYGDJ4kI9PrfDX2rpzwicxEx4E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1773327302; c=relaxed/simple;
-	bh=IJSnRIO93NxR2KWmARf1NOwTNiZnK4e1wz54iqqYRaY=;
+	bh=5jZgXDuXy6s4D25aK3Qlqh5spqAcl7bX24uiv3sv3AQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NDxrzQAc2mgA3LHtG/rWSYpyrj72JtizI/YEeGR3JhM1uQgBrXfn/T1IeBnHRlXSrmsefzENL/+KIeaL4vCcb+8af3iyAj4ldsYtjUcfNQgmtaD7TQs/noopo3pHxcNG+6HyP4EmwmBIuuZs3UkafwjgNr8c5hcgKBnwRhsOtF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZQ6/04TI; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=atvVAmy7MVtl4cviP+Kzs4VNit0Mtadk2lSjtGzQE2szQJ27n8ywXRbAxU1qJFVlJiy76koU29GHAfLqF/9X2Li2aG5bJXyR42OKN6rVZ5kC9Yg0JZfTQuwY7p8jBCkDlVzAu+branBQJgM+l7az7oBDUchrg1xTgiM4scATNWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uW8Mrep5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZQ6/04TI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00EB8C4AF09;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uW8Mrep5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99EACC2BCAF;
 	Thu, 12 Mar 2026 14:55:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1773327302;
-	bh=IJSnRIO93NxR2KWmARf1NOwTNiZnK4e1wz54iqqYRaY=;
+	bh=5jZgXDuXy6s4D25aK3Qlqh5spqAcl7bX24uiv3sv3AQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ZQ6/04TIt//juwtwiLcMiyEexNQ+nq9ATNEWbgz53whRglhoqMGUs/RaH//iZRTyY
-	 J+wdhlk4xbhgQ5Siu++Nj07XJdi9smoBEpVir1jQBzeRSOv+yCoEjZVGSzwPu9VbEI
-	 +QKdFpVbxzMkkW4gfv4d+7KyJFuiI0fFdTsmWS7YTI6hKO3A1lEmDw9/YDj8VJg2uD
-	 bdAtx0ogItpomJS/FN/c4x9N5lbCplrxMSND8UYrXLWPmK/SGrvFssLTQnBYEEmQTl
-	 YPvehOk+jdhIBomJh54VRf6F/trJ+B31eSMx4P2PtP7LjHYLctbUjdEl9M6GtXh9XF
-	 hkmF31ec0q1zw==
+	b=uW8Mrep5jOSuKY4Ye5LLQass9soXmaf/T4ofLd/Zf3V4025FADVDO6HOSOH409xZi
+	 M4b0QDYXOe/p/o/vNGg54dKhjsvlN253qn4Q2ISdgfVnlsld7fOZY9bX7CykCki+YO
+	 GHbtcBJ7Urqg0eChmX1XdyvALAqKAjIgtoycsHhgMsD5EHrQZGLhH00uA4cJcNpWSj
+	 7CQ/2KsW3It5UHpuGQSJws51CzEdrse/e8zX0/JFy63Qsp6IsmybewozM50vIXhlBr
+	 AxtHdQRXybKAzK/kpPEISw+Rrj5fAYKeZkyvkjcCA+hCahlPJzzaXgupfsObnGQbAZ
+	 ZHK1MjFOMlKKA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1w0hRE-00000008yGa-16kN;
+	id 1w0hRE-00000008yKL-3ZsI;
 	Thu, 12 Mar 2026 15:55:00 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
@@ -36,9 +36,9 @@ To: Jonathan Corbet <corbet@lwn.net>,
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-hardening@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 25/28] docs: c_lex: better handle BEGIN/END at search
-Date: Thu, 12 Mar 2026 15:54:45 +0100
-Message-ID: <37627b24590ac26f638ce2c460a5cd400bef14cb.1773326442.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 28/28] unittests: test_cmatch: remove weird stuff from expected results
+Date: Thu, 12 Mar 2026 15:54:48 +0100
+Message-ID: <8e64a6492d379be01951f897682ae4dc4e03efcb.1773326442.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1773326442.git.mchehab+huawei@kernel.org>
 References: <cover.1773326442.git.mchehab+huawei@kernel.org>
@@ -52,82 +52,98 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Currently, the logic is emitting warnings after finishing
-to parse a prototype like:
-
-    static inline unsigned \
-        read_seqretry(const seqlock_t *sl, unsigned start)
-        __releases_shared(sl) __no_context_analysis
-
-The problem is that the last CMatch there doesn't have BEGIN/END,
-but this is already expected.
-
-Make the logic more restrict by:
-    - ensure that BEGIN/END there refers to function-like calls,
-      e.g. foo(...);
-    - only emit a warning after BEGIN is detected.
-
-Instead of hardcoding "(" delim, let the caller specify if a different
-one would be required.
-
-While here, remove an uneeded elsif.
+Now that c_lex produces a cleaner output, change the expected
+results for them to not have duplicated ";" or whitespaces just
+before it.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tools/lib/python/kdoc/c_lex.py | 23 +++++++++++++----------
- 1 file changed, 13 insertions(+), 10 deletions(-)
+ tools/unittests/test_cmatch.py | 18 +++++++-----------
+ 1 file changed, 7 insertions(+), 11 deletions(-)
 
-diff --git a/tools/lib/python/kdoc/c_lex.py b/tools/lib/python/kdoc/c_lex.py
-index 8beac59166fc..e641bace5d69 100644
---- a/tools/lib/python/kdoc/c_lex.py
-+++ b/tools/lib/python/kdoc/c_lex.py
-@@ -463,8 +463,9 @@ class CMatch:
-     """
- 
- 
--    def __init__(self, regex):
-+    def __init__(self, regex, delim="("):
-         self.regex = KernRe("^" + regex + r"\b")
-+        self.start_delim = delim
- 
-     def _search(self, tokenizer):
+diff --git a/tools/unittests/test_cmatch.py b/tools/unittests/test_cmatch.py
+index 3fbc5d3bc244..7b996f83784d 100755
+--- a/tools/unittests/test_cmatch.py
++++ b/tools/unittests/test_cmatch.py
+@@ -416,7 +416,6 @@ class TestSubWithLocalXforms(TestCaseDiff):
+             struct tx_pkt_info {
+                     struct tx_sop_header sop;
+                     struct tx_segment_header seg;
+-                    ;
+                     struct tx_eop_header eop;
+                     u16 pkt_len;
+                     u16 seq_num;
+@@ -490,7 +489,6 @@ class TestSubWithLocalXforms(TestCaseDiff):
+                 __le64 LastWriteTime;
+                 __le64 ChangeTime;
+                 __le32 FileAttributes;
+-                ;
+                 __le64 AllocationSize;
+                 __le64 EndOfFile;
+                 __le16 FileType;
+@@ -504,7 +502,6 @@ class TestSubWithLocalXforms(TestCaseDiff):
+             __le64 LastWriteTime;
+             __le64 ChangeTime;
+             __le32 Attributes;
+-            ;
+             __u32 Pad1;
+             __le64 AllocationSize;
+             __le64 EndOfFile;
+@@ -543,7 +540,6 @@ class TestSubWithLocalXforms(TestCaseDiff):
+                 __le16 num_entries;
+                 __le16 supported_feats;
+                 __u8 reserved[4];
+-                ;
+                 struct cxl_feat_entry ents[];
+             };
          """
-@@ -506,15 +507,15 @@ class CMatch:
-                 if tok.kind == CToken.SPACE:
-                     continue
+@@ -605,23 +601,23 @@ class TestSubWithLocalXforms(TestCaseDiff):
+             struct cxl_component_regs {
+                 void __iomem *hdm_decoder;
+                 void __iomem *ras;
+-            } component;;
++            } component;
  
--                if tok.kind == CToken.BEGIN:
-+                if tok.kind == CToken.BEGIN and tok.value == self.start_delim:
-                     started = True
-                     continue
--                else:
--                    # Name only token without BEGIN/END
--                    if i > start:
--                        i -= 1
--                    yield start, i
--                    start = None
-+
-+                # Name only token without BEGIN/END
-+                if i > start:
-+                    i -= 1
-+                yield start, i
-+                start = None
+             struct cxl_device_regs {
+                 void __iomem *status, *mbox, *memdev;
+-            } device_regs;;
++            } device_regs;
  
-             if tok.kind == CToken.END and tok.level == stack[-1][1]:
-                 start, level = stack.pop()
-@@ -528,8 +529,10 @@ class CMatch:
-         # picking an incomplete block.
-         #
-         if start and stack:
--            s = str(tokenizer)
--            log.warning(f"can't find a final end at {s}")
-+            if started:
-+                s = str(tokenizer)
-+                log.warning(f"can't find a final end at {s}")
-+
-             yield start, len(tokenizer.tokens)
+             struct cxl_pmu_regs {
+                 void __iomem *pmu;
+-            } pmu_regs;;
++            } pmu_regs;
  
-     def search(self, source):
+             struct cxl_rch_regs {
+                 void __iomem *dport_aer;
+-            } rch_regs;;
++            } rch_regs;
+ 
+             struct cxl_rcd_regs {
+                 void __iomem *rcd_pcie_cap;
+-            } rcd_regs;;
++            } rcd_regs;
+         };
+         """
+ 
+@@ -667,7 +663,7 @@ class TestSubWithLocalXforms(TestCaseDiff):
+                     struct net_device *netdev;
+                     unsigned int queue_idx;
+                     unsigned int    flags;
+-                } slow;;
++                } slow;
+                 struct page_pool_params_fast {
+                     unsigned int order;
+                     unsigned int    pool_size;
+@@ -677,7 +673,7 @@ class TestSubWithLocalXforms(TestCaseDiff):
+                     enum dma_data_direction dma_dir;
+                     unsigned int    max_len;
+                     unsigned int    offset;
+-                } fast;;
++                } fast;
+             };
+         """
+ 
 -- 
 2.52.0
 
