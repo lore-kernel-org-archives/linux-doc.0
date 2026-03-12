@@ -1,44 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7D193C7E0F;
-	Thu, 12 Mar 2026 14:55:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EFE937C901;
+	Thu, 12 Mar 2026 14:55:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773327302; cv=none; b=OAP4otGjwWgdyTzVpjT5lN2XTMuZMCItyLLsZoi2a3r8coj9sKCx7aoVzmQb1qPN/PZLU3vdz8plGz62AmhaFdhYAPzrgqL8Z1ZVW/Hoj/FqtWl+417wEB9p12bmD4w10Bk1rIt4XFh0bsBhb2WQCUM01V629r/3DSch2Gq1BJw=
+	t=1773327302; cv=none; b=aqfzgYOuutKAUfORU74H+NRfmr/nzB6ZnbB8EMZEAqH6XXZJom1e36XXx45lisreRIpsaPFJiiFjqQi5/gzdZZMSAaNzOBnrSPZESpltigk8j5cX6W+7/JeHRdDWAk1O6LspRRTpQCG1yC57wSimbeunx6tQs89gmc5+PYp+nm4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1773327302; c=relaxed/simple;
-	bh=Ivzj5p0x4Q8l2OC2OB+jBO38HqdWt02WQNEVEu6ZxqY=;
+	bh=TmYHPBWmiJoumgXDNjybq4wZqraDZtMhzikKfDnelmU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rZGhL2ZJ8Mz/496C9uaYLEOnF2m/ylh1MmNCYTeeJr1vSN3n7OwSqUUY6KRzcRFg2JtHcFo2eJwb6ZHkxLAftTNoiA+UaEEc3sJ5+2X1+JzJ6UQQ3vavWZDaT5Yz3HKZnrpt0z0+3YKXkVamu5zBT5evZSFyMDg1hAtu1+xy9jI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fn6yDNRd; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=RmpMdbCup4uNpa+alYTXVP006/BTI/8X1IDTHeOyg89s1rs23A7lGp1AR+fsNpPwS9t/C0tgp3uhcfft6JmIzW8kiZoD7P3jk7EUezfF6rGkPwOh7PuQcbAFe52octw9OyxsUnFvhopofaQ+RQBPUDNuR8Fo8eTYJE8FkCihZng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X74Jg69c; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fn6yDNRd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C36F6C2BC86;
-	Thu, 12 Mar 2026 14:55:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X74Jg69c"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32F02C4CEF7;
+	Thu, 12 Mar 2026 14:55:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773327301;
-	bh=Ivzj5p0x4Q8l2OC2OB+jBO38HqdWt02WQNEVEu6ZxqY=;
+	s=k20201202; t=1773327302;
+	bh=TmYHPBWmiJoumgXDNjybq4wZqraDZtMhzikKfDnelmU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fn6yDNRdaEmsepdqPlD19wZLeauGChAFOYIS+lec2GcBign+9CzJTISdYyfa92X6P
-	 yBCyjzE77fZLQi9JocRz/wdPYwfOy9ynLvn/Qcxy2kYP+UrIlrQUA+8YlyMtxKRNjB
-	 21Kkq96KDrEYBH3kg+8wZK7HmvjnrcCtxJzTht8n8Zxydr4r2Xvho9k0QFealpJSvO
-	 b5lOWUDse+k5bRIVDzqsC7KWRGr5BOPQMdg1lahXarcrK0HTqlzkPZwpi0OXEKRMWm
-	 /L+dJ4pwti6Js8bTGh8ss/qHpeJLl1SXLzIgIn5l4yNsvdVAnCPXhqEcgz5yclDDHy
-	 9HZJzMFF+uJYg==
+	b=X74Jg69cPp+8b5T6fFQfVzPaBkEJ4Rz4JFWG7PCTZy3n8zAMVjABXFgjqoKwW/s5u
+	 GpsQJYrx8upyaga/N/kUlEaA6mw/AT58pjeGOKjUTYmskMKQY78EJFf+3hT4s6uCju
+	 DorAgEYS1+QtDLXHTFxV7h3ZfV608iUOxiVvrKmmX3TZCccTZeFPcJgMzvbh7R1rUu
+	 gaDc1XoGy1tMkfNeXyIsBtWoL0U5QHCKqpOXwQZ1ENDOTLi2YoJRc38ieXDOz4x9zE
+	 /erdgMAU9UzAM59sscM8DrRdhc/SuBZg1TOYRh2kN8/4uVyVV1dA7GWbbvpe9I8YrZ
+	 ORNtOf+OIXhTw==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1w0hRE-00000008yFM-0IeP;
+	id 1w0hRE-00000008yHn-1vRn;
 	Thu, 12 Mar 2026 15:55:00 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-hardening@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 24/28] docs: unittests: add and adjust tests to check for errors
-Date: Thu, 12 Mar 2026 15:54:44 +0100
-Message-ID: <c7614bdb4edb48d1d4f50e6fddfbb247281c0ad9.1773326442.git.mchehab+huawei@kernel.org>
+	linux-kernel@vger.kernel.org,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Vincent Mailhol <mailhol@kernel.org>
+Subject: [PATCH v2 26/28] docs: kernel-doc.rst: document private: scope propagation
+Date: Thu, 12 Mar 2026 15:54:46 +0100
+Message-ID: <6bdaba027c1d605df9f71ee504d8e042a71b18c9.1773326442.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <cover.1773326442.git.mchehab+huawei@kernel.org>
 References: <cover.1773326442.git.mchehab+huawei@kernel.org>
@@ -52,91 +55,42 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Test the errors that are rised and the ones that are logged.
+This was an undefined behavior, but at least one place used private:
+inside a nested struct meant to not be propagated outside it.
+
+Kernel-doc now defines how this is propagated. So, document that.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tools/lib/python/kdoc/c_lex.py    |  2 +-
- tools/unittests/test_cmatch.py    | 15 ++++++++++++++-
- tools/unittests/test_tokenizer.py | 11 ++++++-----
- 3 files changed, 21 insertions(+), 7 deletions(-)
+ Documentation/doc-guide/kernel-doc.rst | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/tools/lib/python/kdoc/c_lex.py b/tools/lib/python/kdoc/c_lex.py
-index 596510bb4e95..8beac59166fc 100644
---- a/tools/lib/python/kdoc/c_lex.py
-+++ b/tools/lib/python/kdoc/c_lex.py
-@@ -194,7 +194,7 @@ class CTokenizer():
-             value = match.group()
+diff --git a/Documentation/doc-guide/kernel-doc.rst b/Documentation/doc-guide/kernel-doc.rst
+index 8d2c09fb36e4..1c148fe8e1f9 100644
+--- a/Documentation/doc-guide/kernel-doc.rst
++++ b/Documentation/doc-guide/kernel-doc.rst
+@@ -213,6 +213,10 @@ The ``private:`` and ``public:`` tags must begin immediately following a
+ ``/*`` comment marker. They may optionally include comments between the
+ ``:`` and the ending ``*/`` marker.
  
-             if kind == CToken.MISMATCH:
--                log.error(f"Unexpected token '{value}' on {pos}:\n\t{source}")
-+                log.error(f"Unexpected token '{value}' on pos {pos}:\n\t'{source}'")
-             elif kind == CToken.BEGIN:
-                 if value == '(':
-                     paren_level += 1
-diff --git a/tools/unittests/test_cmatch.py b/tools/unittests/test_cmatch.py
-index f6ccd2a942f1..3fbc5d3bc244 100755
---- a/tools/unittests/test_cmatch.py
-+++ b/tools/unittests/test_cmatch.py
-@@ -288,6 +288,19 @@ class TestSubSimple(TestCaseDiff):
- 
-         self.assertLogicallyEqual(result, "int foo;")
- 
-+    def test_rise_early_greedy(self):
-+        line = f"{self.MACRO}(a, b, c, d);"
-+        sub = r"\1, \2+, \3"
++When ``private:`` is used on nested structs, it propagates only to inner
++structs/unions.
 +
-+        with self.assertRaises(ValueError):
-+            result = self.matcher.sub(sub, line)
 +
-+    def test_rise_multiple_greedy(self):
-+        line = f"{self.MACRO}(a, b, c, d);"
-+        sub = r"\1, \2+, \3+"
-+
-+        with self.assertRaises(ValueError):
-+            result = self.matcher.sub(sub, line)
+ Example::
  
- #
- # Test replacements with slashrefs
-@@ -539,7 +552,7 @@ class TestSubWithLocalXforms(TestCaseDiff):
-         self.assertLogicallyEqual(result, expected)
- 
-     def test_raw_struct_group_tagged(self):
--        """
-+        r"""
-         Test cxl_regs with struct_group_tagged patterns from drivers/cxl/cxl.h.
- 
-         NOTE:
-diff --git a/tools/unittests/test_tokenizer.py b/tools/unittests/test_tokenizer.py
-index 3081f27a7786..6a0bd49df72e 100755
---- a/tools/unittests/test_tokenizer.py
-+++ b/tools/unittests/test_tokenizer.py
-@@ -44,11 +44,12 @@ def make_tokenizer_test(name, data):
-         """In-lined lambda-like function to run the test"""
- 
-         #
--        # Check if exceptions are properly handled
-+        # Check if logger is working
-         #
--        if "raises" in data:
--            with self.assertRaises(data["raises"]):
--                CTokenizer(data["source"])
-+        if "log_level" in data:
-+            with self.assertLogs('kdoc.c_lex', level='ERROR') as cm:
-+                tokenizer = CTokenizer(data["source"])
-+
-             return
- 
-         #
-@@ -123,7 +124,7 @@ TESTS_TOKENIZER = {
- 
-     "mismatch_error": {
-         "source": "int a$ = 5;",          # $ is illegal
--        "raises": RuntimeError,
-+        "log_level": "ERROR",
-     },
- }
- 
+   /**
+@@ -256,8 +260,10 @@ It is possible to document nested structs and unions, like::
+         union {
+           struct {
+             int memb1;
++            /* private: hides memb2 from documentation */
+             int memb2;
+           };
++          /* Everything here is public again, as private scope finished */
+           struct {
+             void *memb3;
+             int memb4;
 -- 
 2.52.0
 
