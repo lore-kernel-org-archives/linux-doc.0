@@ -1,325 +1,157 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 536CE3C345B
-	for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 10:04:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19CA32E719C
+	for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 10:39:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773309872; cv=none; b=OJM7oatFoSe2YR44RYeP0r9pLOdY98qDsy0mEHh/dh0k+vqLPzk9ALYD9XaVRwt3rXdC8xkEX4f9wZ+4duCPhPc274kWJLwkeBrv8yq8UjCT1swCaj86imOnN/AC0PlJaK3xoyqOWjvrZUXfVgheSYxckQm2xThkqIHou5q+IRw=
+	t=1773311980; cv=none; b=uiNJeFFZkI4YKzYCwS2uk4PqYtAKVMLXyFrlnfxRjqofDnOx3B26K2vcyob8NpyklV405quQ7MrOVLpivlyrWdEyeKMcpKC9+Mf6UYTEojimG329AcKUa+xBIP8x1w4LAbRW3cSYKG6jxxymTjneaR/DSRJxI09U1OK9Sfzxihc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773309872; c=relaxed/simple;
-	bh=nAUS3G3ePSgJTCurwLZklAEdq9FSoOxVlxZL3wKzHh4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dyAd+vRXf8Scs4yExsFV1fcYulBOIuml+YHHYIjmF/4tNZGVqO5fMEECcbupL5k+9+POdUCwxy2wxsrfVrDC6HkOQyM1CbLGTxiOmsj+Tvgnlt8XqfxRIwQXBi9hE2CV7p2NZqtrNv+I/hyz7Bt9s46STsDgJdR/jNCsd89TvqY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=eorr51LJ; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+	s=arc-20240116; t=1773311980; c=relaxed/simple;
+	bh=ZQDNGSUawC08jjcvn/R3TGfNGjmLvryin4H5VAlkPy0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u5++ypd3MttZUVapuBdxV1+QaXjuGIyP4druheHgCtHfqQvLvNzZuUBCH3YpK9sVHOBAUg4Zx49PdR8NZ8l3AXx0U5yfoLopyitwrRvmYjEXzFxs6CAM1IyepGW3Nl4nYrFMDE5fR/kjkmaJwRAu0toQPazZc+rVlxLXGyiFf6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TM1Kmj81; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=kHdygqtj; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="eorr51LJ"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-439b7c2788dso555273f8f.1
-        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 03:04:27 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TM1Kmj81";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="kHdygqtj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1773311978;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=O8I9IWEr5vJlFRSOr22xQTP0bqXnTuN0yOqYjNPkcXw=;
+	b=TM1Kmj81eJPPNz8g/bdhNfrLycpN51FttV/EPjfDKZ8g+6U2KPBOXBM2D0SE7SGeqwuHiw
+	5mc2W8Z/Y5834Am/68TX9jpNVvo0EdWjWCGJSZbJN6wM7LQ9IzP5220U6mBFwpiFhuTKs/
+	nzpE773V4g/cH8uDTZ7VB8mIWPMxisQ=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-113-S6MS9EWoOVq6WIdWgpvnCg-1; Thu, 12 Mar 2026 06:39:37 -0400
+X-MC-Unique: S6MS9EWoOVq6WIdWgpvnCg-1
+X-Mimecast-MFC-AGG-ID: S6MS9EWoOVq6WIdWgpvnCg_1773311976
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-439c5cce2deso692607f8f.0
+        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 03:39:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1773309865; x=1773914665; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sq+BNITtc6p+HH6jh9NI7lkPW1WCKPvQbV7cZpOCkHI=;
-        b=eorr51LJ/amQqIc7WsBmHe2J8VmGH6YlOTZGiOhQsNXzd7ovP4ePbTOIEpMRq5CTj4
-         AUxT19oCSAZ985fKaZo3oqX/WzDE8vMiLnU6zG3fVJCci2A0W/IWSdo8NGVaTloUa/O7
-         JTWfChmQJKcCpEUJVdgahr6WENEcA7DZwX48ThC4Ssq+Rf0ecs6K0KrwUhiYeyc6k4nF
-         9RMYt+Ft+bSfO/Xetsh8nPpJLYeLNx8DGiQBqeTOBJu3TOxU2uSDBpDHLrLBz2BFsWZW
-         tYruF1xmXRMEyMNu028i+jNWC/+8+OpTS8bEuUrk5ixGaJrWDr5fSX7ikUZ2f7JxxmTN
-         OoGw==
+        d=redhat.com; s=google; t=1773311976; x=1773916776; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=O8I9IWEr5vJlFRSOr22xQTP0bqXnTuN0yOqYjNPkcXw=;
+        b=kHdygqtjol1UMxScHcfNqMNmU0/nqQVkE+SJi65+vVFlEIQAyv6y8KmBwVmIwHydTw
+         +WbcifnJnxL2c7T20D3I8ibHH0INIR5iG7DzUIlpsyT0wNx33sYuK784c39UIPSX+CH2
+         vC39FeW2PMt3R50CF8IlN61L9nekz1blE7A61o1eb19Nwg9ojsR82HsQXC+CcBso+43C
+         JV+3DOpdO3Qa2bYev18nj2TKzorH5f6bR/Hz+zv6NnpKt9Yb2rkM87MVZ/wV3Pyurj1r
+         kVD06zlcLZ8xnDB+MR8zhC4mm22QlBU6RwR3I3c5NoKUqzXhpWDxVSDBz8w+WVyYa5Gw
+         VEXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773309865; x=1773914665;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=sq+BNITtc6p+HH6jh9NI7lkPW1WCKPvQbV7cZpOCkHI=;
-        b=LADgXsu97eg/JMzBR+lrqNHiZsVjow0sqB7Ig2xV5rAS4I3lKgFWxTWHIqVO6s2yh7
-         53IvWqIL5p5xGiDNXjwUSgxv7RvjV48U2YHCy5dQfhkKK/Skd4H+qEjUnrUon2qzsUcS
-         vGW1u8VOje6FLpQP54SWhBExm5G2+qGqrbm7GSRSowahBZtIDNY2K7tZcUAbKYBm6AQ2
-         K12XYAE1Rt9emtpJN1n6rVKOcnLe85pSCbEgX9oHQztM6dL4Cm0vAta11GxD1yz77L/t
-         4YyZtspzIR1vpJ/bjq6KOZhgBe2eGHxzmtUD4EMX3A1aC4UPk6E5sE28coiDzl+lT6/X
-         yKcg==
-X-Forwarded-Encrypted: i=1; AJvYcCWILowNCPs8S5ea6nyIekTwtDMMyFZedOZqetcX3TgojUJPHUxOdpfUkQiJeRI95W91r/VkmtpyGI0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQSV3BhbwaJFVLYv88YTuwymkQXm3kQJlfH0uRGAshvWN2bq03
-	5LbBukJKd95zsr6ZUJMS1NkOTDcuhGymWZUPyuoKZ8k95ewfHtdqP/hi9QJlsOLChO8=
-X-Gm-Gg: ATEYQzxmNQ9uUDhP9E4WuIk16wn6aVtHNtgFQyb+b2GpeWDbTavqyJ1VE6H7D4GQBwn
-	wvH+spZf1Fxype4y+mvDo4RGkWJg5nEFeklDCGUW0AWc0Uj4D3L5q5p1EXwwJl4Bgf53WZSQUtY
-	gTkKJ/zV0eRndqP0Q9ijqupRc44jOn+VOYdorBk48iUianmGYAZYoY6VIrkbX0mesHGKABQpZYZ
-	Scg/pMOYcc6h/Cszrivx/98e6eBZvZQWtCn+Bn8FFyKn2vPZ9Oar7flfowpQ0qE8xyMHu7o7MPn
-	xlNOPb4MbZLuj7ADiY5DQFBIRH3+vIbgmKRECVGo1b3pBEimMVAceR0ClaUW5I0eaJDLBAR7Zle
-	nNZfBsLdhpAHeIwgsuKKTcIqcvqND0gKsgmI2zaj7OXsXmSEdfGvzlH+Lyj7S4JQbaktJeApeO2
-	g/00sLzd637eivuudsnNV38yC/
-X-Received: by 2002:a05:6000:1acb:b0:439:ad2d:99f7 with SMTP id ffacd0b85a97d-439f821a221mr10260693f8f.28.1773309864988;
-        Thu, 12 Mar 2026 03:04:24 -0700 (PDT)
-Received: from localhost ([85.163.81.98])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439fe2187aasm6340802f8f.30.2026.03.12.03.04.24
+        d=1e100.net; s=20230601; t=1773311976; x=1773916776;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=O8I9IWEr5vJlFRSOr22xQTP0bqXnTuN0yOqYjNPkcXw=;
+        b=iQv3nJ3hB0Hf98huoREzjD6t7jhoewUn6tlQByZrAPy81Y/jokCZhPBddTYwEsbNjy
+         Ko7ar/pkYpAV1h26ww/1FvKJ04Hcdl3fTGjHLy9DdW2e2syLG1gfS59074lfYkoGSSm/
+         sKQYA4kRf0x6hCCFVRGSV4ZkHmShcS1z/oiJhtFSj5ZdKePgBCX4rhZBgMiq5/hqXj4a
+         9kVIdHGzsmKhpjfe2aARH6ZLYlzAKHqxzawiqypkQyV06HTKJyQONxB8mPyBrKncsnFh
+         cS0SfzQGiO2l2SojVyZ+74nW4RoYfUdYHpyzimuwsXbPf7msUgtuPD5MVhi6D6W2o8iq
+         3koQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVu1TfhO0gYK7XEl28ySoL+4S+Va6sjJ7JhUA0Jglz8ZQ62RQT1UzG6RX5WWxbrvLgQeh0Ek/aYy9A=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzq27alpthne9IYZa5lriwgA5ckGaH01fkQomTMsHnDFMk9j1cl
+	MHc4OUCqbPFQ84Hko3qPNmI6Yn0HCB4Y97ZEciuX6v5bAzTYJWH6Ctq54pHscc7aYvJ+ozfWgo0
+	92TQ3crGRQsxFoLQR6+GO45rRJhAu0qYIgDvnBLAZgGM8ELfiIjSfxwzt0wq4LQ==
+X-Gm-Gg: ATEYQzz0Q1HH7t6n8ACJIpbVgm10IPIAaI26SDnRuLq9DEqClZMP7MfmafxJyt28o2g
+	bj6ty7boy1BsL4i8Wjs3SYjzkMe9g9vEruaYSFQwDq+8EOhQFUV4JWuULhuC92JBmHOOTvIFCJk
+	WpIyBLoZMyEWmQo1zO2FTcEk9CcJ82w0ukCKrVl594AFBC5sKFDpGyXD7MEN0wNJuQf25Mo3BtY
+	oDL4GfCff4LYHfOtyhABHPD0RilVIkEgzEqy8zw0GdXl7B0OU65FqXuqrQ6lBYbayFk22k0rKDj
+	+Hek2HfjPZ2fWeF1cDkfquuizXA9M3VUzHNKK47BAzQS86pIlRym+ALjKOvUnQMiB/HkaVlsUHH
+	DB/Bnoyq3PP/a05ErNgGgmZV2I0zWtJnCvZe7dTNNbUaBgSfxYys=
+X-Received: by 2002:a05:6000:420d:b0:439:abcd:b314 with SMTP id ffacd0b85a97d-439f81c5a51mr12034994f8f.18.1773311975773;
+        Thu, 12 Mar 2026 03:39:35 -0700 (PDT)
+X-Received: by 2002:a05:6000:420d:b0:439:abcd:b314 with SMTP id ffacd0b85a97d-439f81c5a51mr12034946f8f.18.1773311975308;
+        Thu, 12 Mar 2026 03:39:35 -0700 (PDT)
+Received: from jlelli-thinkpadt14gen4.remote.csb ([151.29.82.96])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439fe19acbbsm7497086f8f.2.2026.03.12.03.39.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Mar 2026 03:04:24 -0700 (PDT)
-From: Jiri Pirko <jiri@resnulli.us>
-To: netdev@vger.kernel.org
-Cc: davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	donald.hunter@gmail.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	saeedm@nvidia.com,
-	leon@kernel.org,
-	tariqt@nvidia.com,
-	mbloch@nvidia.com,
-	przemyslaw.kitszel@intel.com,
-	mschmidt@redhat.com,
-	andrew+netdev@lunn.ch,
-	rostedt@goodmis.org,
-	mhiramat@kernel.org,
-	mathieu.desnoyers@efficios.com,
-	chuck.lever@oracle.com,
-	matttbe@kernel.org,
-	cjubran@nvidia.com,
-	daniel.zahka@gmail.com,
-	linux-doc@vger.kernel.org,
-	linux-rdma@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org
-Subject: [PATCH net-next v4 13/13] net/mlx5: Add a shared devlink instance for PFs on same chip
-Date: Thu, 12 Mar 2026 11:04:07 +0100
-Message-ID: <20260312100407.551173-14-jiri@resnulli.us>
-X-Mailer: git-send-email 2.51.1
-In-Reply-To: <20260312100407.551173-1-jiri@resnulli.us>
-References: <20260312100407.551173-1-jiri@resnulli.us>
+        Thu, 12 Mar 2026 03:39:34 -0700 (PDT)
+Date: Thu, 12 Mar 2026 11:39:17 +0100
+From: Juri Lelli <juri.lelli@redhat.com>
+To: Gabriele Monaco <gmonaco@redhat.com>
+Cc: linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
+	Nam Cao <namcao@linutronix.de>, Juri Lelli <jlelli@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Tomas Glozar <tglozar@redhat.com>,
+	Clark Williams <williams@redhat.com>,
+	John Kacur <jkacur@redhat.com>
+Subject: Re: [PATCH v7 05/15] Documentation/rv: Add documentation about
+ hybrid automata
+Message-ID: <abKX1XO4vqY74uA7@jlelli-thinkpadt14gen4.remote.csb>
+References: <20260310105627.332044-1-gmonaco@redhat.com>
+ <20260310105627.332044-6-gmonaco@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260310105627.332044-6-gmonaco@redhat.com>
 
-From: Jiri Pirko <jiri@nvidia.com>
+Hello,
 
-Use the previously introduced shared devlink infrastructure to create
-a shared devlink instance for mlx5 PFs that reside on the same physical
-chip. The shared instance is identified by the chip's serial number
-extracted from PCI VPD (V3 keyword, with fallback to serial number
-for older devices).
+On 10/03/26 11:56, Gabriele Monaco wrote:
 
-Each PF that probes calls mlx5_shd_init() which extracts the chip serial
-number and uses devlink_shd_get() to get or create the shared instance.
-When a PF is removed, mlx5_shd_uninit() calls devlink_shd_put()
-to release the reference. The shared instance is automatically destroyed
-when the last PF is removed.
+...
 
-Make the PF devlink instances nested in this shared devlink instance,
-allowing userspace to identify which PFs belong to the same physical
-chip.
+> diff --git a/Documentation/trace/rv/hybrid_automata.rst b/Documentation/trace/rv/hybrid_automata.rst
+> new file mode 100644
+> index 000000000000..60f6bccfba38
+> --- /dev/null
+> +++ b/Documentation/trace/rv/hybrid_automata.rst
+> @@ -0,0 +1,341 @@
+> +Hybrid Automata
+> +===============
+> +
+> +Hybrid automata are an extension of deterministic automata, there are several
+> +definitions of hybrid automata in the literature. The adaptation implemented
+> +here is formally denoted by G and defined as a 7-tuple:
+> +
+> +        *G* = { *X*, *E*, *V*, *f*, x\ :subscript:`0`, X\ :subscript:`m`, *i* }
+> +
+> +- *X* is the set of states;
+> +- *E* is the finite set of events;
+> +- *V* is the finite set of environment variables;
+> +- x\ :subscript:`0` is the initial state;
+> +- X\ :subscript:`m` (subset of *X*) is the set of marked (or final) states.
+> +- *f* : *X* x *E* x *C(V)* -> *X* is the transition function.
+> +  It defines the state transition in the occurrence of an event from *E* in the
+> +  state *X*. Unlike deterministic automata, the transition function also
+> +  includes guards from the set of all possible constraints (defined as *C(V)*).
+> +  Guards can be true or false with the valuation of *V* when the event occurs,
+> +  and the transition is possible only when constraints are true. Similarly to
+> +  deterministic automata, the occurrence of the event in *E* in a state in *X*
+> +  has a deterministic next state from *X*, if the guard is true.
+> +- *i* : *X* -> *C'(V)* is the invariant assignment function, this is a
+> +  constraint assigned to each state in *X*, every state in *X* must be left
+> +  before the invariant turns to false. We can omit the representation of
+> +  invariants whose value is true regardless of the valuation of *V*.
 
-Example:
+Very minor nit, feel free to ignore, but ...
 
-pci/0000:08:00.0: index 0
-  nested_devlink:
-    auxiliary/mlx5_core.eth.0
-devlink_index/1: index 1
-  nested_devlink:
-    pci/0000:08:00.0
-    pci/0000:08:00.1
-auxiliary/mlx5_core.eth.0: index 2
-pci/0000:08:00.1: index 3
-  nested_devlink:
-    auxiliary/mlx5_core.eth.1
-auxiliary/mlx5_core.eth.1: index 4
+The formal 7-tuple definition includes 'i' (invariant function), but
+unlike other elements, 'i' isn't stored in the automaton struct - it's
+implemented as generated code in ha_verify_constraint(), IIUC. Worth a
+brief note clarifying this design choice so readers don't expect to find
+an invariants[] member in the struct? Here or below in the example C
+code section.
 
-Signed-off-by: Jiri Pirko <jiri@nvidia.com>
----
-v2->v3:
-- removed "const" from "sn"
-- passing driver pointer to devlink_shd_get()
----
- .../net/ethernet/mellanox/mlx5/core/Makefile  |  5 +-
- .../net/ethernet/mellanox/mlx5/core/main.c    | 17 ++++++
- .../ethernet/mellanox/mlx5/core/sh_devlink.c  | 61 +++++++++++++++++++
- .../ethernet/mellanox/mlx5/core/sh_devlink.h  | 12 ++++
- include/linux/mlx5/driver.h                   |  1 +
- 5 files changed, 94 insertions(+), 2 deletions(-)
- create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/sh_devlink.c
- create mode 100644 drivers/net/ethernet/mellanox/mlx5/core/sh_devlink.h
+In any case,
 
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/Makefile b/drivers/net/ethernet/mellanox/mlx5/core/Makefile
-index 8ffa286a18f5..d39fe9c4a87c 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/Makefile
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/Makefile
-@@ -16,8 +16,9 @@ mlx5_core-y :=	main.o cmd.o debugfs.o fw.o eq.o uar.o pagealloc.o \
- 		transobj.o vport.o sriov.o fs_cmd.o fs_core.o pci_irq.o \
- 		fs_counters.o fs_ft_pool.o rl.o lag/debugfs.o lag/lag.o dev.o events.o wq.o lib/gid.o \
- 		lib/devcom.o lib/pci_vsc.o lib/dm.o lib/fs_ttc.o diag/fs_tracepoint.o \
--		diag/fw_tracer.o diag/crdump.o devlink.o diag/rsc_dump.o diag/reporter_vnic.o \
--		fw_reset.o qos.o lib/tout.o lib/aso.o wc.o fs_pool.o lib/nv_param.o
-+		diag/fw_tracer.o diag/crdump.o devlink.o sh_devlink.o diag/rsc_dump.o \
-+		diag/reporter_vnic.o fw_reset.o qos.o lib/tout.o lib/aso.o wc.o fs_pool.o \
-+		lib/nv_param.o
- 
- #
- # Netdev basic
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/main.c b/drivers/net/ethernet/mellanox/mlx5/core/main.c
-index fdc3ba20912e..1c35c3fc3bb3 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/main.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/main.c
-@@ -74,6 +74,7 @@
- #include "mlx5_irq.h"
- #include "hwmon.h"
- #include "lag/lag.h"
-+#include "sh_devlink.h"
- 
- MODULE_AUTHOR("Eli Cohen <eli@mellanox.com>");
- MODULE_DESCRIPTION("Mellanox 5th generation network adapters (ConnectX series) core driver");
-@@ -1520,10 +1521,16 @@ int mlx5_init_one(struct mlx5_core_dev *dev)
- 	int err;
- 
- 	devl_lock(devlink);
-+	if (dev->shd) {
-+		err = devl_nested_devlink_set(dev->shd, devlink);
-+		if (err)
-+			goto unlock;
-+	}
- 	devl_register(devlink);
- 	err = mlx5_init_one_devl_locked(dev);
- 	if (err)
- 		devl_unregister(devlink);
-+unlock:
- 	devl_unlock(devlink);
- 	return err;
- }
-@@ -2005,6 +2012,13 @@ static int probe_one(struct pci_dev *pdev, const struct pci_device_id *id)
- 		goto pci_init_err;
- 	}
- 
-+	err = mlx5_shd_init(dev);
-+	if (err) {
-+		mlx5_core_err(dev, "mlx5_shd_init failed with error code %d\n",
-+			      err);
-+		goto shd_init_err;
-+	}
-+
- 	err = mlx5_init_one(dev);
- 	if (err) {
- 		mlx5_core_err(dev, "mlx5_init_one failed with error code %d\n",
-@@ -2018,6 +2032,8 @@ static int probe_one(struct pci_dev *pdev, const struct pci_device_id *id)
- 	return 0;
- 
- err_init_one:
-+	mlx5_shd_uninit(dev);
-+shd_init_err:
- 	mlx5_pci_close(dev);
- pci_init_err:
- 	mlx5_mdev_uninit(dev);
-@@ -2039,6 +2055,7 @@ static void remove_one(struct pci_dev *pdev)
- 	mlx5_drain_health_wq(dev);
- 	mlx5_sriov_disable(pdev, false);
- 	mlx5_uninit_one(dev);
-+	mlx5_shd_uninit(dev);
- 	mlx5_pci_close(dev);
- 	mlx5_mdev_uninit(dev);
- 	mlx5_adev_idx_free(dev->priv.adev_idx);
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/sh_devlink.c b/drivers/net/ethernet/mellanox/mlx5/core/sh_devlink.c
-new file mode 100644
-index 000000000000..bc33f95302df
---- /dev/null
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/sh_devlink.c
-@@ -0,0 +1,61 @@
-+// SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB
-+/* Copyright (c) 2025, NVIDIA CORPORATION & AFFILIATES. All rights reserved. */
-+
-+#include <linux/mlx5/driver.h>
-+#include <net/devlink.h>
-+
-+#include "sh_devlink.h"
-+
-+static const struct devlink_ops mlx5_shd_ops = {
-+};
-+
-+int mlx5_shd_init(struct mlx5_core_dev *dev)
-+{
-+	u8 *vpd_data __free(kfree) = NULL;
-+	struct pci_dev *pdev = dev->pdev;
-+	unsigned int vpd_size, kw_len;
-+	struct devlink *devlink;
-+	char *sn, *end;
-+	int start;
-+	int err;
-+
-+	if (!mlx5_core_is_pf(dev))
-+		return 0;
-+
-+	vpd_data = pci_vpd_alloc(pdev, &vpd_size);
-+	if (IS_ERR(vpd_data)) {
-+		err = PTR_ERR(vpd_data);
-+		return err == -ENODEV ? 0 : err;
-+	}
-+	start = pci_vpd_find_ro_info_keyword(vpd_data, vpd_size, "V3", &kw_len);
-+	if (start < 0) {
-+		/* Fall-back to SN for older devices. */
-+		start = pci_vpd_find_ro_info_keyword(vpd_data, vpd_size,
-+						     PCI_VPD_RO_KEYWORD_SERIALNO, &kw_len);
-+		if (start < 0)
-+			return -ENOENT;
-+	}
-+	sn = kstrndup(vpd_data + start, kw_len, GFP_KERNEL);
-+	if (!sn)
-+		return -ENOMEM;
-+	/* Firmware may return spaces at the end of the string, strip it. */
-+	end = strchrnul(sn, ' ');
-+	*end = '\0';
-+
-+	/* Get or create shared devlink instance */
-+	devlink = devlink_shd_get(sn, &mlx5_shd_ops, 0, pdev->dev.driver);
-+	kfree(sn);
-+	if (!devlink)
-+		return -ENOMEM;
-+
-+	dev->shd = devlink;
-+	return 0;
-+}
-+
-+void mlx5_shd_uninit(struct mlx5_core_dev *dev)
-+{
-+	if (!dev->shd)
-+		return;
-+
-+	devlink_shd_put(dev->shd);
-+}
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/sh_devlink.h b/drivers/net/ethernet/mellanox/mlx5/core/sh_devlink.h
-new file mode 100644
-index 000000000000..8ab8d6940227
---- /dev/null
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/sh_devlink.h
-@@ -0,0 +1,12 @@
-+/* SPDX-License-Identifier: GPL-2.0 OR Linux-OpenIB */
-+/* Copyright (c) 2025, NVIDIA CORPORATION & AFFILIATES. All rights reserved. */
-+
-+#ifndef __MLX5_SH_DEVLINK_H__
-+#define __MLX5_SH_DEVLINK_H__
-+
-+#include <linux/mlx5/driver.h>
-+
-+int mlx5_shd_init(struct mlx5_core_dev *dev);
-+void mlx5_shd_uninit(struct mlx5_core_dev *dev);
-+
-+#endif /* __MLX5_SH_DEVLINK_H__ */
-diff --git a/include/linux/mlx5/driver.h b/include/linux/mlx5/driver.h
-index 04dcd09f7517..1268fcf35ec7 100644
---- a/include/linux/mlx5/driver.h
-+++ b/include/linux/mlx5/driver.h
-@@ -798,6 +798,7 @@ struct mlx5_core_dev {
- 	enum mlx5_wc_state wc_state;
- 	/* sync write combining state */
- 	struct mutex wc_state_lock;
-+	struct devlink *shd;
- };
- 
- struct mlx5_db {
--- 
-2.51.1
+Reviewed-by: Juri Lelli <juri.lelli@redhat.com>
+
+Thanks,
+Juri
 
