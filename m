@@ -1,140 +1,251 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D9E521D00A
-	for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 22:31:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773354681; cv=pass; b=WOBSAnhQDTHQoh8aho5Ze0jdEKZ4r3Uz30qLhKTaEl4VHqHBDsF2bI3+5cu/L0T+d78Yq6WJAE2GnB3qp4N6uSvZ2aQISKCKYQ5v4OilI4JDnWu1aoHHZOJdnh/k/q8cr5IjZwjDFO/r50+oN6wPHsZSMG0luoEUMZHNC/AgD8E=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773354681; c=relaxed/simple;
-	bh=jIysDDa+z2vnCpZjDOfTgI4RhgB7fGnohz/dtG6w9Qs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FxoZJ+b1LTXbyp3uaQhV+Se8Ityflmc7hHy4mtjRjTWu/YZq2du4vqpxnIjaz7sOYuKklWs7yHNBZT4M2bTQksMJwUEFdI5jZ9E0pkpiiXdy3L8mAFBwZxYcIvVnmSDpyGM/yNI/GPGYeGsWGYWxI29a9nSVavokngNcaqkCoec=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=arista.com; spf=pass smtp.mailfrom=arista.com; dkim=pass (2048-bit key) header.d=arista.com header.i=@arista.com header.b=DdDsoHbQ; arc=pass smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFA99322B6D
+	for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 22:32:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.180
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773354732; cv=none; b=Z/ZDVTZRmRT71aaMEHASewAZ9ZNlo3w0jbnCYomy6q0lceH9EdonbLUjtc2RjUIriBO+IGIX6BvhwaN9UNe8YzQzPgHGScNeeRVTXluP3xXcLzfssjnEPpX9IrXquRWh49+5//ihQ0oekNjnZ790Sixa0SP0kfozBt8YeEihMNo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773354732; c=relaxed/simple;
+	bh=5LO45ZuoQ4fpB1CeZE8Jooq7YtevscjJKU7vw0VwJBE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qYv3Ls32AjA2fonAXOHrXsrO7v1W2rSMXQtL3t8pxEF24/czYpIsTbbPwLOnTmMgpziVbpx73c9aXwqokKXVeWIvweha0mtHd1kpqfcJhMadSR3+t4PevuspeCeLMLqQZ/xLICHVavJ9uurUN/QjHuDX2/8HFu2WxgJPxwW9In8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=arista.com; spf=pass smtp.mailfrom=arista.com; dkim=pass (2048-bit key) header.d=arista.com header.i=@arista.com header.b=QFXVBt6y; arc=none smtp.client-ip=74.125.82.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=arista.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arista.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arista.com header.i=@arista.com header.b="DdDsoHbQ"
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5a0faa0d15cso1596564e87.0
-        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 15:31:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773354678; cv=none;
-        d=google.com; s=arc-20240605;
-        b=aOO67l809z5UwaK/Zx8n09Srjyj45rD8xUhnEy2g9f2FTIF3PgWxv7WfFA/rq5boDD
-         M4/T3ylGxGOjwUBmOZN3cP6ILzIseSanAkQ21BMIPFfyrKfK1tttRAVjOoGfy4E4J0ng
-         CX2fvUWfD+v640epxB3Z7Xy4ehAYI0PD7jwx+ASUYEfv9vLUJgmxag7RRj+pRDyPbvFd
-         x6yO2Hl8v3HkvxNbEQqpM5jUg26B44nC9zq6xWfuZlVcygW/dyFBMr/ed2ydqZnLy2Jb
-         MhDddBpZ068cxVUv5NpgQZdJbG/fcPcWcPntoPjr46OhD8sYYOd6YIpenzC32+W+0buS
-         aWlQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=MpQacvF+mAyXs6pqu3/eg9OImF2i4oKZdu4qdPo1RFg=;
-        fh=u2HsVbZeqNM/se3Nv6/UQyfgzSORY1CxSo18K9DthFM=;
-        b=dURaJpAyXbsOmHZ+crDw8yw5aXAHnCsfS3Y9DNSrUT+7ln7PjiGCWbyh0v2bPjjBaO
-         aZyWOpOrJikrSAk4B0O8wWpScdJ+A8r9uDR7o/0JB0T1HPZyEc8zOkqtzpW/2MCdNeUP
-         Ox/++/7MX+XNNWKf1SAmy6to7lLFyAOKXtPCuDmTEK+ylaGaueQwiGCODtTv3P2iDFUk
-         9kpl+qgmEatFOToDJUfHEpkNmdujhuQE0BV1TpGaBHQs5hT61Sex8tjkvEfN3oC2pP0U
-         +SI5q5O6GM14MTF1+/vkQ7i3bSd4icdutkW4ViMPNAedpMrjjnyTrsi0mTwujHFzRRo3
-         gbHA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=arista.com header.i=@arista.com header.b="QFXVBt6y"
+Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-2be19f05d7dso1149274eec.1
+        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 15:32:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=arista.com; s=google; t=1773354678; x=1773959478; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MpQacvF+mAyXs6pqu3/eg9OImF2i4oKZdu4qdPo1RFg=;
-        b=DdDsoHbQQpbbpq/aniI/yWh5R3J55sdzc7y2esgxiVMBisQV0mmbw7J4xD/vbx6mnA
-         vZ8MpbdMgXHHlRXWTxBxL7+mrlGy7fqAIHEgqzgT3obuSy3vgGwsV0KKK6MeP3QFBQqX
-         0ZPWU0FcDSs+SmnsWSVO1OISQfSdr4cJpvqEpszw+AtoZzw4bgqphM23E01clD8k7vFU
-         QKRcIakSsMXB10ZpuLVugLShLtv/MSWXphLe7Kr2qvBL67NWdaYqLkPXM7ipPB96f8QW
-         Lg2NHqumobwW9ZnPfCupHFpLNIb6ABk2sFwbLhNEImG8FSNaL6R6vv0XnAn+HiIFK9Hd
-         netw==
+        d=arista.com; s=google; t=1773354730; x=1773959530; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=CFTQ/9EY2qpWAsJtKWK/DmanWo4AnpzW4k7Uv6lI5+c=;
+        b=QFXVBt6yfYWkYjSJMMYJQ/jN62hMJEHpqeKXWr0XBRvxnoHtuB7iBH5s3dBCqsxQ/b
+         thn8iEGGlezMPixW8BFjnFWgeRsWThYwe9mz6VEcxeFuyCtxSu5SXAkk7901WY0MLU8s
+         t5NVf47jiOjOQVCKlSjs/OvnrKe0Duqy7OJl8I7q/86lrAjRjQDQ2i0vF0OXOGqu7VoI
+         6LkdHAhG0LdXVzENS/VRCx+YXAh1JV38X8YmrFqcr3lqxfPLRxtrMdbSW7Hz3eD1qfQd
+         hfkpaTkVvf96J4vwzt5WPs1th4paXymCuv5l974IKp7FdsmKzTooHxr1VUnlw7NM5MOH
+         Lz7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773354678; x=1773959478;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=MpQacvF+mAyXs6pqu3/eg9OImF2i4oKZdu4qdPo1RFg=;
-        b=DeycCkWVYq8JUx4LVtYvnaDq80cxtb2GhstjqTdwzMv7sDcKmEB3YA4fgFwcrKjnzm
-         5ThuF/kIJcekpLRMrFXert52GnM3a36hN/rKGXs/hTH9hVfFt7loeOoWKuXoy56ppBZG
-         sAVsQgLRxdD1b1ZsI0DFoLD8ttDnJSw+pKbFirNBrsbD6KpNoLOiN30s5n97jX6J+8Uz
-         LvDPrV6gkMMcirvS6wv7mlWecJQhEdDUSfQiQcGaXqUIbDnZLH1+1RAWsD1aKF+E9Cs2
-         qsHdyXJsX2ybatUAOHmgx91qUzuGYMZRki6j5QCvcaPXCOjGyd/LJIuvmaflSGZrGjEz
-         TnOQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVVbK4dsi0x62MOnIfN7FzBJHowQJcZEJFEFk37Y+ghpqZ+3To8kJ2mA3K4VXMrpt2UvHIUolqKwOs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzoiPkgPs7gmyuD6by3X21bVkvK0K/y2Q21X+3s1JBqqo5huoUW
-	XLilziBUCS8DypVtUvdUWnrSHYHYt4LXq5HSAVqMSqT5t0rS58okXcRBn7vZ4uYNq7aTjRRu8NI
-	bc3oFsSR1oS+0+m5N5U/uxqI18CzP82zn8e5XDp70
-X-Gm-Gg: ATEYQzzMMnSQnFs0UEs3wN+tEWEdQGkqfHDFes1AZ3R0XDgIxpCm1JoA0kekXW8+4aC
-	SzklUx9vVnaaCpuF4wix1uZJ9iS/Aeb7/yMi50BJGNkCRzzKHI0NEzqSRbETeqVuBXbbMALfUCj
-	7sVVmbQ1t9TRM3X3TxqCMTQrlZS11lXpiY9Fz+Mqfr6R8X8Yxg06pLeXTVGkzo8H7sgECUN0BmD
-	/HyTuXkrJaVzG4tv0Rub2JwppHOXu44aL6YnsFnQV17cMuyzbqKryVM0ApbRYSiDeY/M+1rBXQE
-	H6JqGQ==
-X-Received: by 2002:a05:6512:3b99:b0:5a1:36ac:2ca9 with SMTP id
- 2adb3069b0e04-5a162b2fd47mr388247e87.49.1773354678175; Thu, 12 Mar 2026
- 15:31:18 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1773354730; x=1773959530;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CFTQ/9EY2qpWAsJtKWK/DmanWo4AnpzW4k7Uv6lI5+c=;
+        b=IXZL2CE0Ty5/L5fvIJKoJ7ohDyk2T2lwuVBJ24mJ0kS9LJ8b48zDgDyH5ruW+uKmJ8
+         6e2MtllTxJ5pxsJwZhFzDwv7DSwePBaMG/95nM4fXl/OllhkqFW4kz4iIvPYjAzNtOsr
+         vInUDtmbHVxgJ8VcdPon4YjAfqDwjQerV5oapGsd5ft6FlCtVXs2wWjzZ73w7oymWcrE
+         AqAALEMrsjYGLcDvaJW7QKrg4OHhGVOWpKNp8bNoj5cfnQXdLb8UPFDa+URftY8y4Xxj
+         GwV4v+lB8WAA6VxXD0R7KMhKB41cZ9u81OMM+sRyOkZ5PwkFXr+PJENrf3jFDXbM+WRx
+         6Yww==
+X-Forwarded-Encrypted: i=1; AJvYcCVcMUrW8Lif2pZkyjDhHRtKMyU5aEqqsPZl7U7TsAzR9oMd3yQ3eG0fO+wRAh5Sd0vS6OhnmsI4V5o=@vger.kernel.org
+X-Gm-Message-State: AOJu0YznNdekU97oteFuEDVmfTgcuvvcRQiKlJnpHOx5eBAwgzVtxeuw
+	csA4tl6Et3HbniTAgpNrlgpVefhghFUzFfgo4JR+xd3P3t4XukIEtKQSIIYGjGvQbw==
+X-Gm-Gg: ATEYQzzbiEKEOEg36F4KaliZQp5h/eE2PUvOOIg7ZWqGlRHKj7z9S7QaRbgUMX+K0se
+	p5uEeBrxEYCTDPZZPVYcF0H7e+f38D6NokZ67cYrS8TpdQZiGxhMb/x4hiYYO/5zc1PdoH7L5oD
+	kR8+XzyJx2zAO/89Nn5WBffRl2b/Hke6Lo+B633Lvq9Qmzajw0mDMiwgpFIXwViSnrs8U1ClN6e
+	1Mxsga539B9DBX12ZR9L32FEJzmnUe1H9kEFLlQ3xpwcoUeRSdoaqOLCrAGJxwc77Ivnnu1Ohi2
+	W819wFJZ3dqgtiysl+ZmXHeZ+bzPfym95v2RwUUBflfr9o5XQFajyR1op238Gfvb20gbnYpsIq7
+	AawqS8eNZpNvyzTAW1P1Erh67+QEDVek0iigVJRv+/AnvczNdfLhQRtf76RDLG3wk8VZdVZ87Aa
+	rjS8ku2dAixOS/bDARQJm5unz1aAvSzqF092uZVwpy0eJs5LeweA5P
+X-Received: by 2002:a05:7300:e2cb:b0:2ae:55ac:3ff6 with SMTP id 5a478bee46e88-2bea53d83eemr681650eec.1.1773354729647;
+        Thu, 12 Mar 2026 15:32:09 -0700 (PDT)
+Received: from localhost.localdomain ([74.123.28.19])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2beab3a110csm71286eec.6.2026.03.12.15.32.08
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Thu, 12 Mar 2026 15:32:09 -0700 (PDT)
+From: Prasanna S Panchamukhi <panchamukhi@arista.com>
+To: netfilter-devel@vger.kernel.org
+Cc: panchamukhi@arista.com,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Pablo Neira Ayuso <pablo@netfilter.org>,
+	Florian Westphal <fw@strlen.de>,
+	Phil Sutter <phil@nwl.cc>,
+	netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	coreteam@netfilter.org
+Subject: [PATCH net-next v2] netfilter: conntrack: expose gc_scan_interval_max via sysctl
+Date: Thu, 12 Mar 2026 15:31:57 -0700
+Message-ID: <20260312223157.25083-1-panchamukhi@arista.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260311194058.13860-1-panchamukhi@arista.com> <abKzWIhVz_SeiSOa@strlen.de>
-In-Reply-To: <abKzWIhVz_SeiSOa@strlen.de>
-From: Prasanna Panchamukhi <panchamukhi@arista.com>
-Date: Thu, 12 Mar 2026 15:31:06 -0700
-X-Gm-Features: AaiRm51ZlKY4h04uIgBgBAaeWon8_os3iwnwKSpFi3tkPhPpb-qpMihKuCf8Q-8
-Message-ID: <CACqWiXD2_O32K4NhmNBZrAUG7U9-N93LTFjJHG6Tq=4vuafNuA@mail.gmail.com>
-Subject: Re: [PATCH net-next] netfilter: conntrack: expose gc_scan_interval_max
- via sysctl
-To: Florian Westphal <fw@strlen.de>
-Cc: netfilter-devel@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Pablo Neira Ayuso <pablo@netfilter.org>, 
-	Phil Sutter <phil@nwl.cc>, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, coreteam@netfilter.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Mar 12, 2026 at 5:36=E2=80=AFAM Florian Westphal <fw@strlen.de> wro=
-te:
->
-> Prasanna S Panchamukhi <panchamukhi@arista.com> wrote:
-> > The conntrack garbage collection worker uses an adaptive algorithm that
-> > adjusts the scan interval based on the average timeout of tracked
-> > entries.  The upper bound of this interval is hardcoded as
-> > GC_SCAN_INTERVAL_MAX (60 seconds).
-> >
-> > Expose the upper bound as a new sysctl,
-> > net.netfilter.nf_conntrack_gc_scan_interval_max, so it can be tuned at
-> > runtime without rebuilding the kernel.  The default remains 60 seconds
-> > to preserve existing behavior.  The sysctl is global and read-only in
-> > non-init network namespaces, consistent with nf_conntrack_max and
-> > nf_conntrack_buckets.
->
-> This was proposed before, see:
->
-> https://lore.kernel.org/netfilter-devel/aO-id5W6Tr7frdHN@strlen.de/
-> https://lore.kernel.org/netfilter-devel/aRsuU57juCvsMBKE@strlen.de/
->
-> I did not hear back wrt. the horizon cache.
->
-> I'm not 100% opposed to this, but I do wonder if we really can't do
-> better than the current avg strategy.
+The conntrack garbage collection worker uses an adaptive algorithm that
+adjusts the scan interval based on the average timeout of tracked
+entries.  The upper bound of this interval is hardcoded as
+GC_SCAN_INTERVAL_MAX (60 seconds).
 
-Hi Florian,
+Expose the upper bound as a new sysctl,
+net.netfilter.nf_conntrack_gc_scan_interval_max, so it can be tuned at
+runtime without rebuilding the kernel.  The default remains 60 seconds
+to preserve existing behavior.  The sysctl is global and read-only in
+non-init network namespaces, consistent with nf_conntrack_max and
+nf_conntrack_buckets.
 
-Our primary goal is to cap the maximum time taken by the GC to clean
-up expired entries. We rely on user-space notifications to clean up
-these entries from the hardware, so ensuring a predictable upper bound
-is important for our use case.
+In environments where long-lived offloaded flows dominate the table,
+the adaptive average drifts toward the maximum, delaying cleanup
+of short-lived expired entries such as those in TCP CLOSE state
+(10s timeout). Adding sysctl to set the maximum GC scan helps to
+tune according to the evironment.
 
-Regarding the adaptive strategy, we are using this sysctl to address
-environments where the current average-based calculation delays the
-cleanup of short-lived entries.
+Signed-off-by: Prasanna S Panchamukhi <panchamukhi@arista.com>
+cc: "David S. Miller" <davem@davemloft.net>
+cc: Eric Dumazet <edumazet@google.com>
+cc: Jakub Kicinski <kuba@kernel.org>
+cc: Paolo Abeni <pabeni@redhat.com>
+cc: Simon Horman <horms@kernel.org>
+cc: Jonathan Corbet <corbet@lwn.net>
+cc: Shuah Khan <skhan@linuxfoundation.org>
+cc: Pablo Neira Ayuso <pablo@netfilter.org>
+cc: Florian Westphal <fw@strlen.de>
+cc: Phil Sutter <phil@nwl.cc>
+cc: netdev@vger.kernel.org
+cc: linux-doc@vger.kernel.org
+cc: linux-kernel@vger.kernel.org
+to: netfilter-devel@vger.kernel.org
+cc: coreteam@netfilter.org
+---
+ Documentation/networking/nf_conntrack-sysctl.rst | 13 +++++++++++++
+ include/net/netfilter/nf_conntrack.h             |  1 +
+ net/netfilter/nf_conntrack_core.c                | 10 +++++++---
+ net/netfilter/nf_conntrack_standalone.c          | 10 ++++++++++
+ 4 files changed, 31 insertions(+), 3 deletions(-)
 
-Thanks,
-Prasanna
+diff --git a/Documentation/networking/nf_conntrack-sysctl.rst b/Documentation/networking/nf_conntrack-sysctl.rst
+index 35f889259fcd..0e79f6ad1062 100644
+--- a/Documentation/networking/nf_conntrack-sysctl.rst
++++ b/Documentation/networking/nf_conntrack-sysctl.rst
+@@ -64,6 +64,19 @@ nf_conntrack_frag6_timeout - INTEGER (seconds)
+ 
+ 	Time to keep an IPv6 fragment in memory.
+ 
++nf_conntrack_gc_scan_interval_max - INTEGER (seconds)
++	default 60
++
++	Maximum interval between garbage collection scans of the connection
++	tracking table. The GC worker uses an adaptive algorithm that adjusts
++	the scan interval based on average entry timeouts; this parameter caps
++	the upper bound. Lower values cause expired entries (e.g. connections
++	in CLOSE state) to be cleaned up faster, at the cost of slightly more
++	CPU usage. Consider tuning this on systems with high connection churn
++	(e.g. NAT gateways, load balancers) where expired entries accumulate
++	and cause the conntrack table to fill up. Minimum value is 1.
++	This sysctl is only writeable in the initial net namespace.
++
+ nf_conntrack_generic_timeout - INTEGER (seconds)
+ 	default 600
+ 
+diff --git a/include/net/netfilter/nf_conntrack.h b/include/net/netfilter/nf_conntrack.h
+index bc42dd0e10e6..0449577f322e 100644
+--- a/include/net/netfilter/nf_conntrack.h
++++ b/include/net/netfilter/nf_conntrack.h
+@@ -331,6 +331,7 @@ extern struct hlist_nulls_head *nf_conntrack_hash;
+ extern unsigned int nf_conntrack_htable_size;
+ extern seqcount_spinlock_t nf_conntrack_generation;
+ extern unsigned int nf_conntrack_max;
++extern unsigned int nf_conntrack_gc_scan_interval_max;
+ 
+ /* must be called with rcu read lock held */
+ static inline void
+diff --git a/net/netfilter/nf_conntrack_core.c b/net/netfilter/nf_conntrack_core.c
+index 27ce5fda8993..8647e6824cec 100644
+--- a/net/netfilter/nf_conntrack_core.c
++++ b/net/netfilter/nf_conntrack_core.c
+@@ -91,7 +91,7 @@ static DEFINE_MUTEX(nf_conntrack_mutex);
+  * allowing non-idle machines to wakeup more often when needed.
+  */
+ #define GC_SCAN_INITIAL_COUNT	100
+-#define GC_SCAN_INTERVAL_INIT	GC_SCAN_INTERVAL_MAX
++#define GC_SCAN_INTERVAL_INIT	READ_ONCE(nf_conntrack_gc_scan_interval_max)
+ 
+ #define GC_SCAN_MAX_DURATION	msecs_to_jiffies(10)
+ #define GC_SCAN_EXPIRED_MAX	(64000u / HZ)
+@@ -204,6 +204,9 @@ EXPORT_SYMBOL_GPL(nf_conntrack_htable_size);
+ 
+ unsigned int nf_conntrack_max __read_mostly;
+ EXPORT_SYMBOL_GPL(nf_conntrack_max);
++
++unsigned int nf_conntrack_gc_scan_interval_max __read_mostly = GC_SCAN_INTERVAL_MAX;
++
+ seqcount_spinlock_t nf_conntrack_generation __read_mostly;
+ static siphash_aligned_key_t nf_conntrack_hash_rnd;
+ 
+@@ -1515,6 +1518,7 @@ static void gc_worker(struct work_struct *work)
+ 	unsigned int i, hashsz, nf_conntrack_max95 = 0;
+ 	u32 end_time, start_time = nfct_time_stamp;
+ 	struct conntrack_gc_work *gc_work;
++	unsigned long gc_scan_max = READ_ONCE(nf_conntrack_gc_scan_interval_max);
+ 	unsigned int expired_count = 0;
+ 	unsigned long next_run;
+ 	s32 delta_time;
+@@ -1568,7 +1572,7 @@ static void gc_worker(struct work_struct *work)
+ 				delta_time = nfct_time_stamp - gc_work->start_time;
+ 
+ 				/* re-sched immediately if total cycle time is exceeded */
+-				next_run = delta_time < (s32)GC_SCAN_INTERVAL_MAX;
++				next_run = delta_time < (s32)gc_scan_max;
+ 				goto early_exit;
+ 			}
+ 
+@@ -1630,7 +1634,7 @@ static void gc_worker(struct work_struct *work)
+ 
+ 	gc_work->next_bucket = 0;
+ 
+-	next_run = clamp(next_run, GC_SCAN_INTERVAL_MIN, GC_SCAN_INTERVAL_MAX);
++	next_run = clamp(next_run, GC_SCAN_INTERVAL_MIN, gc_scan_max);
+ 
+ 	delta_time = max_t(s32, nfct_time_stamp - gc_work->start_time, 1);
+ 	if (next_run > (unsigned long)delta_time)
+diff --git a/net/netfilter/nf_conntrack_standalone.c b/net/netfilter/nf_conntrack_standalone.c
+index 207b240b14e5..f8cab779763f 100644
+--- a/net/netfilter/nf_conntrack_standalone.c
++++ b/net/netfilter/nf_conntrack_standalone.c
+@@ -637,6 +637,7 @@ enum nf_ct_sysctl_index {
+ 	NF_SYSCTL_CT_PROTO_TIMEOUT_GRE,
+ 	NF_SYSCTL_CT_PROTO_TIMEOUT_GRE_STREAM,
+ #endif
++	NF_SYSCTL_CT_GC_SCAN_INTERVAL_MAX,
+ 
+ 	NF_SYSCTL_CT_LAST_SYSCTL,
+ };
+@@ -920,6 +921,14 @@ static struct ctl_table nf_ct_sysctl_table[] = {
+ 		.proc_handler   = proc_dointvec_jiffies,
+ 	},
+ #endif
++	[NF_SYSCTL_CT_GC_SCAN_INTERVAL_MAX] = {
++		.procname	= "nf_conntrack_gc_scan_interval_max",
++		.data		= &nf_conntrack_gc_scan_interval_max,
++		.maxlen		= sizeof(unsigned int),
++		.mode		= 0644,
++		.proc_handler	= proc_dointvec_jiffies,
++		.extra1		= SYSCTL_ONE,
++	},
+ };
+ 
+ static struct ctl_table nf_ct_netfilter_table[] = {
+@@ -1043,6 +1052,7 @@ static int nf_conntrack_standalone_init_sysctl(struct net *net)
+ 		table[NF_SYSCTL_CT_MAX].mode = 0444;
+ 		table[NF_SYSCTL_CT_EXPECT_MAX].mode = 0444;
+ 		table[NF_SYSCTL_CT_BUCKETS].mode = 0444;
++		table[NF_SYSCTL_CT_GC_SCAN_INTERVAL_MAX].mode = 0444;
+ 	}
+ 
+ 	cnet->sysctl_header = register_net_sysctl_sz(net, "net/netfilter",
+-- 
+2.50.1 (Apple Git-155)
+
