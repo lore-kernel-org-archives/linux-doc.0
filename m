@@ -1,267 +1,734 @@
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout11.his.huawei.com (canpmsgout11.his.huawei.com [113.46.200.226])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BBA9317151
-	for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 05:45:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773294304; cv=pass; b=Euep717oWU+TI4oMcHBRFwRKmbFk+YTecCoPl3Gg6/Z8OaGqSqWuPmsSPo2TAgNG2rmijjiRzMP+j//yMScp1l0a5k45pJJHlr1qE6GCaMK9yLsZ4UdVsSfVlDaaCaZrVgpND4ITVoj+vmLqiRfQBn8BeSSlsTuVjgcyxuSTkXg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773294304; c=relaxed/simple;
-	bh=GmJK/N0KBkRxDo+pqiY/6G+ZRXyparhw1yW+Cxl6e28=;
-	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XLtL29nZIgovOt3kYi67Upge0F5TqGVUkDHk5q707bkk2v4gg2rSfIdxX+PlV5KczoSeqHHoLlBT1Vy8h2t7lu2OjUq1hmQ/wdauEZoFlAyfmT3ILqLawa3fqYibrdeWUun1KyQn8dtVUddmEX8FmTNd1EihUv8aw4KQcOKaEWc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VdZJT0Tx; arc=pass smtp.client-ip=209.85.222.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FF9E2FDC3C;
+	Thu, 12 Mar 2026 06:17:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.226
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773296275; cv=none; b=DjR74rJAwy3q6Q44R+OM2fFWYkaqjnpFLRfWPv8doO8g3l2HKHwZf3NUYmMGOLOlfytIuEnzBSCqHWf+YLdAc5O0NOYMILCMfIRAcwIVp7xgQhTCE5DCT2Syqn4fV3BrzH88JipZsD8o1thaotXUK/CmdLG6aduL1ri2Af8AGiY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773296275; c=relaxed/simple;
+	bh=DxtPYyAlHMhy1HOkmbYcoKd02XqaKkAhns8WLBSLba0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=GLQlVOju4V8CKJbaGS/9I9IxpMG2v9ZzA+SZkOJIpVsQmV/3rXw7AlIF8VvIZ4htpm6nAAD5paAJneFJXOQcTKFg150q+wqxmgwakbQUXuLhhSCguTIIR3FctEBLOroFDsRXEFgkYcl7X2bSFY9qsRwM94EE3NoPl1HOm9hZ1BA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=RcJB6OM9; arc=none smtp.client-ip=113.46.200.226
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VdZJT0Tx"
-Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-94de68feaf4so387753241.0
-        for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2026 22:45:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773294301; cv=none;
-        d=google.com; s=arc-20240605;
-        b=KlGbOZCJ/XfNqI0kN1ZV1kLp1TcEkknkKZOLJ0xG5tI3RdldcD2LTxR+SoFA+HGTIa
-         NW+s2GFPzf+IkO9zUtt6TKLNa4+ZP7LaDSYUC3m+AwBtGSHlFc0mpN/iXCw0YVPzLEIR
-         0Go6zcage533Di5s6hNYLOnJz3eL9G94KTyzvvhmY54aDISBByq2SoKhVNwJDko0YIIm
-         oUSBgBh6llUGGLp2Xor3CLZaHRS/03wsxemKtVVSC+xb+ZFDCq4nGbTx9CZpXSM4brVZ
-         aWjermD4EopfwG+ATNY9O3HtxW2P1pkx1XnJUJ/K5yYNsLp3y/SEW0mj0CSVpjyMaB6g
-         wVzQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:dkim-signature;
-        bh=WHL+cdGBVdeYzUrRkXUnxuFTgvkDYPGLTyvabwlDW1U=;
-        fh=k57Eza6uVY6lrlcnv1r1KMZqhsD+Aa5tRn39QfrAzVk=;
-        b=XEQyHnaPFROpcpztcgZMF6kO0LszwoypXVV/XGdSNFkBDADAhNz2oWEW5huyUl30dB
-         L+WJG2jzk6zXpJExG2bS84FJaaRFTHTqRl0D3MG0fYmGPL6GrD0/82mKiKv8WBVetxFk
-         GlaBqoXSZjGb+jnW7ZDghXJ4CK61fRa8wDpLXDAxBejmk5VhWB0/OwmLN/mU9p4LLw60
-         JwJZyvgAbcoNSCznmR+40RmUnSFU9+PCGOOTWJzLB+RmjWqwzL1v929VFscTB0r5X8xe
-         DEl8gYmka6a2J0hBQ2/8fX80JomaaGg35ca1m5XEgngMlswLtFJqkugOyjoqybaPd+QX
-         AAHQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1773294301; x=1773899101; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WHL+cdGBVdeYzUrRkXUnxuFTgvkDYPGLTyvabwlDW1U=;
-        b=VdZJT0TxrE2a9giQrcsUQtWWCibe1Z2In7NV0CRlZMWbacWoFRZzPJiR7FY93c03j9
-         2yAo6IHTgN6vy8NV77CVpW+HhOc8Y55Q1whsRU7GuexdhiOif0pMktOgLab0yQH24Xmb
-         eY626NrC06XAbL+FuZen1nZxylloOh0Xe89KQ40vjxWjixm6s10qgZ4tccTY1C/SL9YU
-         idN+6ZtprApYPnh/eGiR+dkQwu97WSop2d6awTVostO+SsiP5p9csP3pOO148vafEevW
-         oby0MD9CpiBWwPQcNfulnvgZ3CI41epjzwTw2bXTqHx8ZBGK0yocieKobEXt292GR1Sr
-         CfPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773294301; x=1773899101;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WHL+cdGBVdeYzUrRkXUnxuFTgvkDYPGLTyvabwlDW1U=;
-        b=nXeG4qSE73nbj1t5ku3CV6rvWJX8B3RYd1BBIj65C6yNLm+0x+R0L3KgLYD3ZM49Ha
-         8+cD2Jwuc+nDzYsutZCvJ+gCgJ5U0Nr/SkB5ZN1cquQ+Tw5EYvju/f6YOUT7DXLCJD5W
-         QgeS4rREJVhD0uwPX8EaH4H20elf/BYmawG07vyp5zpBnhWcTeV1A+Skrl6ld2EXqxaV
-         BsOMTwVzEvnRa/kNZIFOoBGWv1Oe0hYF0di2X2r/D2u0D2r7LYyv0Nfowr2MeEoMO21q
-         mYflU0itv0bBvRMYhNXyWovErOBdqUN2kh0yXCkf9DsekjHnqL6UFR+2uZ0JuIeMZXbD
-         oHrA==
-X-Forwarded-Encrypted: i=1; AJvYcCUf2FHmGwiIpNURRMckABkbPUQELeFg+AXGcsrF6r5mM2C8CwY45fTj46FuPa9h6F93urp211myiE4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywuv8VtQdg6MZ+Y+HZTt3w9stlvYNKpbWYq3EXkmDWKS8bGI7nb
-	krlsxeznnqU9+gA3EKW2Gl1fC8xdVIB3yGMi/+ByWiD6H9cmdOR2bc61JrqqEK+8WuTgMPzuhIN
-	QYrEZMP6TBL2BoyWweYlE0dqj+3ezIbLBv50UN0Cp
-X-Gm-Gg: ATEYQzyyBZimT8nP9ut5xJOHRdRfnQgc5DNu3BiBVh/McuJ1zJoF7oZtJOD1MAuJjOC
-	murvf3Fq6HejkUoCRfEqTTeUWK3GMXPhUdM2eklgmon/+2IB1YtBW3hNPTGJqRVSB3pQcAws3FE
-	7TlpRCTaPJTkBBxy+Aj3axm3/DImLq1AnRpVWzecj8dAKeK0GF9NE24khI+dKeRPBPvIVwpEHnx
-	+t4SRUSE8mJeEX2hI/nSOprvmTB9Z+6HrxVMQe0Ce+nKOunePTi5dl96bYFzhAF4zLIkwR6prKI
-	WQezbnbu8FXatriJERsCLUOdmRoWELtoq7OsuQ==
-X-Received: by 2002:a05:6102:418e:b0:5ff:ba2d:17c1 with SMTP id
- ada2fe7eead31-601deb8f595mr2321310137.9.1773294300559; Wed, 11 Mar 2026
- 22:45:00 -0700 (PDT)
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 11 Mar 2026 22:44:59 -0700
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 11 Mar 2026 22:44:59 -0700
-From: Ackerley Tng <ackerleytng@google.com>
-In-Reply-To: <CAEvNRgFMNywpDRr+WeNsVj=MnsbhZp9H3j0QRDo_eOP+kGCNJw@mail.gmail.com>
-References: <cover.1770071243.git.ackerleytng@google.com> <86ad28b767524e1e654b9c960e39ca8bfb24c114.1770071243.git.ackerleytng@google.com>
- <CAEvNRgFMNywpDRr+WeNsVj=MnsbhZp9H3j0QRDo_eOP+kGCNJw@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="RcJB6OM9"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=cEiv6veRosd669WJh6XjPYOO3Bb4hu/Li75uJNpUgbk=;
+	b=RcJB6OM9MycIGPa1UuGQFN4NLlG5MbC+fnnWSmeMqv+6yClie20x6whoLu5W6tLLfcQEOxKuD
+	plYq18YLE+0vhijTrIdY7a06gu5d2zySfmTQe0+ZAMLlXfgjdeDuJzRo9b957FGW3V5AwMOGHBU
+	raaN7/xNhMISKwPD9KbdWu8=
+Received: from mail.maildlp.com (unknown [172.19.163.127])
+	by canpmsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4fWcjV0MNVzKm6q;
+	Thu, 12 Mar 2026 14:12:46 +0800 (CST)
+Received: from kwepemr100010.china.huawei.com (unknown [7.202.195.125])
+	by mail.maildlp.com (Postfix) with ESMTPS id 7FD0B40363;
+	Thu, 12 Mar 2026 14:17:42 +0800 (CST)
+Received: from [10.67.120.103] (10.67.120.103) by
+ kwepemr100010.china.huawei.com (7.202.195.125) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.36; Thu, 12 Mar 2026 14:17:41 +0800
+Message-ID: <31973faa-746d-41b5-9b9b-6e459564308d@huawei.com>
+Date: Thu, 12 Mar 2026 14:17:41 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Wed, 11 Mar 2026 22:44:59 -0700
-X-Gm-Features: AaiRm50qY80lG_kPAevYiMiI4iaIYG-rOHvoXqEdwljZn3zJnS7kUqoIvI7enLE
-Message-ID: <CAEvNRgG-L+GBcm+u_thGvXAxV-Nqzu5VtgXy0PfND6SG0FiyVg@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 09/37] KVM: guest_memfd: Add support for KVM_SET_MEMORY_ATTRIBUTES2
-To: kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, x86@kernel.org
-Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
-	bp@alien8.de, brauner@kernel.org, chao.p.peng@intel.com, 
-	chao.p.peng@linux.intel.com, chenhuacai@kernel.org, corbet@lwn.net, 
-	dave.hansen@linux.intel.com, david@kernel.org, hpa@zytor.com, 
-	ira.weiny@intel.com, jgg@nvidia.com, jmattson@google.com, jroedel@suse.de, 
-	jthoughton@google.com, maobibo@loongson.cn, mathieu.desnoyers@efficios.com, 
-	maz@kernel.org, mhiramat@kernel.org, michael.roth@amd.com, mingo@redhat.com, 
-	mlevitsk@redhat.com, oupton@kernel.org, pankaj.gupta@amd.com, 
-	pbonzini@redhat.com, prsampat@amd.com, qperret@google.com, 
-	ricarkol@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
-	rostedt@goodmis.org, seanjc@google.com, shivankg@amd.com, shuah@kernel.org, 
-	steven.price@arm.com, tabba@google.com, tglx@linutronix.de, 
-	vannapurve@google.com, vbabka@suse.cz, willy@infradead.org, wyihan@google.com, 
-	yan.y.zhao@intel.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird Beta
+Subject: Re: [PATCH v3 4/5] KVM: arm64: Enable HDBSS support and handle HDBSSF
+ events
+To: Leonardo Bras <leo.bras@arm.com>
+CC: <maz@kernel.org>, <oupton@kernel.org>, <catalin.marinas@arm.com>,
+	<corbet@lwn.net>, <pbonzini@redhat.com>, <will@kernel.org>,
+	<yuzenghui@huawei.com>, <wangzhou1@hisilicon.com>, <liuyonglong@huawei.com>,
+	<Jonathan.Cameron@huawei.com>, <yezhenyu2@huawei.com>, <linuxarm@huawei.com>,
+	<joey.gouly@arm.com>, <kvmarm@lists.linux.dev>, <kvm@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <skhan@linuxfoundation.org>,
+	<suzuki.poulose@arm.com>
+References: <20260225040421.2683931-1-zhengtian10@huawei.com>
+ <20260225040421.2683931-5-zhengtian10@huawei.com>
+ <aahSaJTVeMBoRbUE@devkitleo>
+ <ee584a49-ce69-443b-97c0-37f24f78bdbb@huawei.com>
+ <aarsQwKrNB7HQgbj@devkitleo>
+From: Tian Zheng <zhengtian10@huawei.com>
+In-Reply-To: <aarsQwKrNB7HQgbj@devkitleo>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
+ kwepemr100010.china.huawei.com (7.202.195.125)
 
-Ackerley Tng <ackerleytng@google.com> writes:
 
-Here's iteration 2 of the attributes, after getting a much clearer idea
-of the use cases across platforms at the last guest_memfd biweekly.
-
-Please comment in this context! I'm planning for this text to make it to
-Documentation/virt/kvm/api.rst.
-
-> Ackerley Tng <ackerleytng@google.com> writes:
+On 3/6/2026 11:01 PM, Leonardo Bras wrote:
+> On Fri, Mar 06, 2026 at 05:27:58PM +0800, Tian Zheng wrote:
+>> Hi Leo,
+>>
+>> On 3/4/2026 11:40 PM, Leonardo Bras wrote:
+>>> Hi Tian,
+>>>
+>>> Few extra notes/questions below
+>>>
+>>> On Wed, Feb 25, 2026 at 12:04:20PM +0800, Tian Zheng wrote:
+>>>> From: eillon<yezhenyu2@huawei.com>
+>>>>
+>>>> HDBSS is enabled via an ioctl from userspace (e.g. QEMU) at the start of
+>>>> migration. This feature is only supported in VHE mode.
+>>>>
+>>>> Initially, S2 PTEs doesn't contain the DBM attribute. During migration,
+>>>> write faults are handled by user_mem_abort, which relaxes permissions
+>>>> and adds the DBM bit when HDBSS is active. Once DBM is set, subsequent
+>>>> writes no longer trap, as the hardware automatically transitions the page
+>>>> from writable-clean to writable-dirty.
+>>>>
+>>>> KVM does not scan S2 page tables to consume DBM. Instead, when HDBSS is
+>>>> enabled, the hardware observes the clean->dirty transition and records
+>>>> the corresponding page into the HDBSS buffer.
+>>>>
+>>>> During sync_dirty_log, KVM kicks all vCPUs to force VM-Exit, ensuring
+>>>> that check_vcpu_requests flushes the HDBSS buffer and propagates the
+>>>> accumulated dirty information into the userspace-visible dirty bitmap.
+>>>>
+>>>> Add fault handling for HDBSS including buffer full, external abort, and
+>>>> general protection fault (GPF).
+>>>>
+>>>> Signed-off-by: eillon<yezhenyu2@huawei.com>
+>>>> Signed-off-by: Tian Zheng<zhengtian10@huawei.com>
+>>>> ---
+>>>>    arch/arm64/include/asm/esr.h      |   5 ++
+>>>>    arch/arm64/include/asm/kvm_host.h |  17 +++++
+>>>>    arch/arm64/include/asm/kvm_mmu.h  |   1 +
+>>>>    arch/arm64/include/asm/sysreg.h   |  11 ++++
+>>>>    arch/arm64/kvm/arm.c              | 102 ++++++++++++++++++++++++++++++
+>>>>    arch/arm64/kvm/hyp/vhe/switch.c   |  19 ++++++
+>>>>    arch/arm64/kvm/mmu.c              |  70 ++++++++++++++++++++
+>>>>    arch/arm64/kvm/reset.c            |   3 +
+>>>>    8 files changed, 228 insertions(+)
+>>>>
+>>>> diff --git a/arch/arm64/include/asm/esr.h b/arch/arm64/include/asm/esr.h
+>>>> index 81c17320a588..2e6b679b5908 100644
+>>>> --- a/arch/arm64/include/asm/esr.h
+>>>> +++ b/arch/arm64/include/asm/esr.h
+>>>> @@ -437,6 +437,11 @@
+>>>>    #ifndef __ASSEMBLER__
+>>>>    #include <asm/types.h>
+>>>>
+>>>> +static inline bool esr_iss2_is_hdbssf(unsigned long esr)
+>>>> +{
+>>>> +	return ESR_ELx_ISS2(esr) & ESR_ELx_HDBSSF;
+>>>> +}
+>>>> +
+>>>>    static inline unsigned long esr_brk_comment(unsigned long esr)
+>>>>    {
+>>>>    	return esr & ESR_ELx_BRK64_ISS_COMMENT_MASK;
+>>>> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
+>>>> index 5d5a3bbdb95e..57ee6b53e061 100644
+>>>> --- a/arch/arm64/include/asm/kvm_host.h
+>>>> +++ b/arch/arm64/include/asm/kvm_host.h
+>>>> @@ -55,12 +55,17 @@
+>>>>    #define KVM_REQ_GUEST_HYP_IRQ_PENDING	KVM_ARCH_REQ(9)
+>>>>    #define KVM_REQ_MAP_L1_VNCR_EL2		KVM_ARCH_REQ(10)
+>>>>    #define KVM_REQ_VGIC_PROCESS_UPDATE	KVM_ARCH_REQ(11)
+>>>> +#define KVM_REQ_FLUSH_HDBSS			KVM_ARCH_REQ(12)
+>>>>
+>>>>    #define KVM_DIRTY_LOG_MANUAL_CAPS   (KVM_DIRTY_LOG_MANUAL_PROTECT_ENABLE | \
+>>>>    				     KVM_DIRTY_LOG_INITIALLY_SET)
+>>>>
+>>>>    #define KVM_HAVE_MMU_RWLOCK
+>>>>
+>>>> +/* HDBSS entry field definitions */
+>>>> +#define HDBSS_ENTRY_VALID BIT(0)
+>>>> +#define HDBSS_ENTRY_IPA GENMASK_ULL(55, 12)
+>>>> +
+>>>>    /*
+>>>>     * Mode of operation configurable with kvm-arm.mode early param.
+>>>>     * See Documentation/admin-guide/kernel-parameters.txt for more information.
+>>>> @@ -84,6 +89,7 @@ int __init kvm_arm_init_sve(void);
+>>>>    u32 __attribute_const__ kvm_target_cpu(void);
+>>>>    void kvm_reset_vcpu(struct kvm_vcpu *vcpu);
+>>>>    void kvm_arm_vcpu_destroy(struct kvm_vcpu *vcpu);
+>>>> +void kvm_arm_vcpu_free_hdbss(struct kvm_vcpu *vcpu);
+>>>>
+>>>>    struct kvm_hyp_memcache {
+>>>>    	phys_addr_t head;
+>>>> @@ -405,6 +411,8 @@ struct kvm_arch {
+>>>>    	 * the associated pKVM instance in the hypervisor.
+>>>>    	 */
+>>>>    	struct kvm_protected_vm pkvm;
+>>>> +
+>>>> +	bool enable_hdbss;
+>>>>    };
+>>>>
+>>>>    struct kvm_vcpu_fault_info {
+>>>> @@ -816,6 +824,12 @@ struct vcpu_reset_state {
+>>>>    	bool		reset;
+>>>>    };
+>>>>
+>>>> +struct vcpu_hdbss_state {
+>>>> +	phys_addr_t base_phys;
+>>>> +	u32 size;
+>>>> +	u32 next_index;
+>>>> +};
+>>>> +
+>>> IIUC this is used once both on enable/disable and massively on
+>>> vcpu_put/get.
+>>>
+>>> What if we actually save just HDBSSBR_EL2 and HDBSSPROD_EL2 instead?
+>>> That way we avoid having masking operations in put/get as well as any
+>>> possible error we may have formatting those.
+>>>
+>>> The cost is doing those operations once for enable and once for disable,
+>>> which should be fine.
+> Hi Tian,
 >
 >>
->> [...snip...]
+>> Thanks for the suggestion. I actually started with storing the raw system
+>> register
 >>
->> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
->> index 23ec0b0c3e22..26e80745c8b4 100644
->> --- a/Documentation/virt/kvm/api.rst
->> +++ b/Documentation/virt/kvm/api.rst
->> @@ -117,7 +117,7 @@ description:
->>        x86 includes both i386 and x86_64.
+>> values, as you proposed.
 >>
->>    Type:
->> -      system, vm, or vcpu.
->> +      system, vm, vcpu or guest_memfd.
 >>
->>    Parameters:
->>        what parameters are accepted by the ioctl.
->> @@ -6523,11 +6523,22 @@ the capability to be present.
->>  ---------------------------------
+>> However, after discussing it with Oliver Upton in v1, we felt that keeping
+>> the base address,
 >>
->>  :Capability: KVM_CAP_MEMORY_ATTRIBUTES2
->> -:Architectures: x86
->> -:Type: vm ioctl
->> +:Architectures: all
->> +:Type: vm, guest_memfd ioctl
->>  :Parameters: struct kvm_memory_attributes2 (in/out)
->>  :Returns: 0 on success, <0 on error
+>> size, and index as separate fields makes the state easier to understand.
 >>
->> +Errors:
->> +
->> +  ========== ===============================================================
->> +  EINVAL     The specified `offset` or `size` were invalid (e.g. not
->> +             page aligned, causes an overflow, or size is zero).
->> +  EFAULT     The parameter address was invalid.
->> +  EAGAIN     Some page within requested range had unexpected refcounts. The
->> +             offset of the page will be returned in `error_offset`.
->> +  ENOMEM     Ran out of memory trying to track private/shared state
-      EOPNOTSUPP The specified content policy is not supported while
-                 setting the requested attribute
->> +  ========== ===============================================================
->> +
->>  KVM_SET_MEMORY_ATTRIBUTES2 is an extension to
->>  KVM_SET_MEMORY_ATTRIBUTES that supports returning (writing) values to
->>  userspace.  The original (pre-extension) fields are shared with
->> @@ -6538,15 +6549,42 @@ Attribute values are shared with KVM_SET_MEMORY_ATTRIBUTES.
->>  ::
 >>
->>    struct kvm_memory_attributes2 {
->> -	__u64 address;
->> +	/* in */
->> +	union {
->> +		__u64 address;
->> +		__u64 offset;
->> +	};
->>  	__u64 size;
->>  	__u64 attributes;
->>  	__u64 flags;
->> -	__u64 reserved[12];
->> +	/* out */
->> +	__u64 error_offset;
->> +	__u64 reserved[11];
->>    };
+>> Discussion
+>> link:https://lore.kernel.org/linux-arm-kernel/Z8_usklidqnerurc@linux.dev/
+>> <https://lore.kernel.org/linux-arm-kernel/Z8_usklidqnerurc@linux.dev/>
 >>
->>    #define KVM_MEMORY_ATTRIBUTE_PRIVATE           (1ULL << 3)
 >>
->> +Set attributes for a range of offsets within a guest_memfd to
->> +KVM_MEMORY_ATTRIBUTE_PRIVATE to limit the specified guest_memfd backed
->> +memory range for guest_use. Even if KVM_CAP_GUEST_MEMFD_MMAP is
->> +supported, after a successful call to set
->> +KVM_MEMORY_ATTRIBUTE_PRIVATE, the requested range will not be mappable
->> +into host userspace and will only be mappable by the guest.
->> +
->> +To allow the range to be mappable into host userspace again, call
->> +KVM_SET_MEMORY_ATTRIBUTES2 on the guest_memfd again with
->> +KVM_MEMORY_ATTRIBUTE_PRIVATE unset.
->> +
->> +If this ioctl returns -EAGAIN, the offset of the page with unexpected
->> +refcounts will be returned in `error_offset`. This can occur if there
->> +are transient refcounts on the pages, taken by other parts of the
->> +kernel.
->> +
->> +Userspace is expected to figure out how to remove all known refcounts
->> +on the shared pages, such as refcounts taken by get_user_pages(), and
->> +try the ioctl again. A possible source of these long term refcounts is
->> +if the guest_memfd memory was pinned in IOMMU page tables.
->> +
-
-Memory *content* policies can be requested while setting memory
-attributes. This defines:
-
-  - What the host reads after a private to shared conversion
-  - What the guest reads after a shared to private conversion (if
-    applicable)
-
-The policy definitions below provide more details:
-
-``KVM_SET_MEMORY_ATTRIBUTES2_CONTENT_POLICY_ZERO`` (default)
-
-  On a private to shared conversion, the host will read zeros from the
-  converted memory on the next fault after successful return of the
-  KVM_SET_MEMORY_ATTRIBUTES2 ioctl.
-
-  This is not supported (-EOPNOTSUPP) for a shared to private
-  conversion. While some CoCo implementations do zero memory contents
-  such that the guest reads zeros after conversion, the guest is not
-  expected to trust host-provided zeroing, hence as a UAPI policy, KVM
-  does not make any such guarantees.
-
-  For testing purposes, the KVM_X86_SW_PROTECTED_VM testing vehicle
-  will support this policy and ensure zeroing for conversions in both
-  directions.
-
-``KVM_SET_MEMORY_ATTRIBUTES2_CONTENT_POLICY_PRESERVE``
-
-  On private/shared conversions in both directions, memory contents
-  will be preserved and readable. As a concrete example, if the host
-  writes ``0xbeef`` to memory and converts the memory to shared, the
-  guest will also read ``0xbeef``, after any necessary hardware or
-  software provided decryption. After a reverse shared to private
-  conversion, the host will also read ``0xbeef``.
-
-  pKVM (ARM) is the first user of this policy. Since pKVM does not
-  protect memory with encryption, a content policy to preserve memory
-  will not will not involve any decryption. The guest will be able to
-  read what the host wrote with full content preservation.
-
-  For testing purposes, the KVM_X86_SW_PROTECTED_VM testing vehicle
-  will support this policy and the contents of converted memory will
-  be preserved.
-
-``KVM_SET_MEMORY_ATTRIBUTES2_CONTENT_POLICY_NONE``
-
-  This is an explicit request that KVM provide no guarantees on memory
-  contents after conversion. Neither host nor guest should expect any
-  guarantees about the memory contents after conversion.
-
-  For testing purposes, the KVM_X86_SW_PROTECTED_VM testing vehicle will
-  support this policy and every byte of converted memory will read
-  ``0xab``.
-
->>  See also: :ref: `KVM_SET_MEMORY_ATTRIBUTES`.
+>> That's why I ended up changing the storage approach in the end.
 >>
+>>
+> Humm, FWIW I disagree with the above argument.
+> I would argue that vcpu_put should save the registers, and not
+> actually know what they are about or how are they formatted at this point.
 >
-> [...snip...]
+> The responsibility of understanding it's fields and usage value should be
+> in the code that actually uses it.
 >
+> IIUC on kvm_vcpu_put_vhe and kvm_vcpu_load_vhe there are calls to other
+> functions than only save the register as it is.
+
+
+ok, thx! I'll update the struct to store only the raw register values.
+
+
+>>>>    struct vncr_tlb;
+>>>>
+>>>>    struct kvm_vcpu_arch {
+>>>> @@ -920,6 +934,9 @@ struct kvm_vcpu_arch {
+>>>>
+>>>>    	/* Per-vcpu TLB for VNCR_EL2 -- NULL when !NV */
+>>>>    	struct vncr_tlb	*vncr_tlb;
+>>>> +
+>>>> +	/* HDBSS registers info */
+>>>> +	struct vcpu_hdbss_state hdbss;
+>>>>    };
+>>>>
+>>>>    /*
+>>>> diff --git a/arch/arm64/include/asm/kvm_mmu.h b/arch/arm64/include/asm/kvm_mmu.h
+>>>> index d968aca0461a..3fea8cfe8869 100644
+>>>> --- a/arch/arm64/include/asm/kvm_mmu.h
+>>>> +++ b/arch/arm64/include/asm/kvm_mmu.h
+>>>> @@ -183,6 +183,7 @@ int kvm_phys_addr_ioremap(struct kvm *kvm, phys_addr_t guest_ipa,
+>>>>
+>>>>    int kvm_handle_guest_sea(struct kvm_vcpu *vcpu);
+>>>>    int kvm_handle_guest_abort(struct kvm_vcpu *vcpu);
+>>>> +void kvm_flush_hdbss_buffer(struct kvm_vcpu *vcpu);
+>>>>
+>>>>    phys_addr_t kvm_mmu_get_httbr(void);
+>>>>    phys_addr_t kvm_get_idmap_vector(void);
+>>>> diff --git a/arch/arm64/include/asm/sysreg.h b/arch/arm64/include/asm/sysreg.h
+>>>> index f4436ecc630c..d11f4d0dd4e7 100644
+>>>> --- a/arch/arm64/include/asm/sysreg.h
+>>>> +++ b/arch/arm64/include/asm/sysreg.h
+>>>> @@ -1039,6 +1039,17 @@
+>>>>
+>>>>    #define GCS_CAP(x)	((((unsigned long)x) & GCS_CAP_ADDR_MASK) | \
+>>>>    					       GCS_CAP_VALID_TOKEN)
+>>>> +
+>>>> +/*
+>>>> + * Definitions for the HDBSS feature
+>>>> + */
+>>>> +#define HDBSS_MAX_SIZE		HDBSSBR_EL2_SZ_2MB
+>>>> +
+>>>> +#define HDBSSBR_EL2(baddr, sz)	(((baddr) & GENMASK(55, 12 + sz)) | \
+>>>> +				 FIELD_PREP(HDBSSBR_EL2_SZ_MASK, sz))
+>>>> +
+>>>> +#define HDBSSPROD_IDX(prod)	FIELD_GET(HDBSSPROD_EL2_INDEX_MASK, prod)
+>>>> +
+>>>>    /*
+>>>>     * Definitions for GICv5 instructions
+>>>>     */
+>>>> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
+>>>> index 29f0326f7e00..d64da05e25c4 100644
+>>>> --- a/arch/arm64/kvm/arm.c
+>>>> +++ b/arch/arm64/kvm/arm.c
+>>>> @@ -125,6 +125,87 @@ int kvm_arch_vcpu_should_kick(struct kvm_vcpu *vcpu)
+>>>>    	return kvm_vcpu_exiting_guest_mode(vcpu) == IN_GUEST_MODE;
+>>>>    }
+>>>>
+>>>> +void kvm_arm_vcpu_free_hdbss(struct kvm_vcpu *vcpu)
+>>>> +{
+>>>> +	struct page *hdbss_pg;
+>>>> +
+>>>> +	hdbss_pg = phys_to_page(vcpu->arch.hdbss.base_phys);
+>>>> +	if (hdbss_pg)
+>>>> +		__free_pages(hdbss_pg, vcpu->arch.hdbss.size);
+>>>> +
+>>>> +	vcpu->arch.hdbss.size = 0;
+>>>> +}
+>>>> +
+>>>> +static int kvm_cap_arm_enable_hdbss(struct kvm *kvm,
+>>>> +				    struct kvm_enable_cap *cap)
+>>>> +{
+>>>> +	unsigned long i;
+>>>> +	struct kvm_vcpu *vcpu;
+>>>> +	struct page *hdbss_pg = NULL;
+>>>> +	__u64 size = cap->args[0];
+>>>> +	bool enable = cap->args[1] ? true : false;
+>>>> +
+>>>> +	if (!system_supports_hdbss())
+>>>> +		return -EINVAL;
+>>>> +
+>>>> +	if (size > HDBSS_MAX_SIZE)
+>>>> +		return -EINVAL;
+>>>> +
+>>>> +	if (!enable && !kvm->arch.enable_hdbss) /* Already Off */
+>>>> +		return 0;
+>>>> +
+>>>> +	if (enable && kvm->arch.enable_hdbss) /* Already On, can't set size */
+>>>> +		return -EINVAL;
+>>>> +
+>>>> +	if (!enable) { /* Turn it off */
+>>>> +		kvm->arch.mmu.vtcr &= ~(VTCR_EL2_HD | VTCR_EL2_HDBSS | VTCR_EL2_HA);
+>>>> +
+>>>> +		kvm_for_each_vcpu(i, vcpu, kvm) {
+>>>> +			/* Kick vcpus to flush hdbss buffer. */
+>>>> +			kvm_vcpu_kick(vcpu);
+>>>> +
+>>>> +			kvm_arm_vcpu_free_hdbss(vcpu);
+>>>> +		}
+>>>> +
+>>>> +		kvm->arch.enable_hdbss = false;
+>>>> +
+>>>> +		return 0;
+>>>> +	}
+>>>> +
+>>>> +	/* Turn it on */
+>>>> +	kvm_for_each_vcpu(i, vcpu, kvm) {
+>>>> +		hdbss_pg = alloc_pages(GFP_KERNEL_ACCOUNT, size);
+>>>> +		if (!hdbss_pg)
+>>>> +			goto error_alloc;
+>>>> +
+>>>> +		vcpu->arch.hdbss = (struct vcpu_hdbss_state) {
+>>>> +			.base_phys = page_to_phys(hdbss_pg),
+>>>> +			.size = size,
+>>>> +			.next_index = 0,
+>>>> +		};
+>>>> +	}
+>>>> +
+>>>> +	kvm->arch.enable_hdbss = true;
+>>>> +	kvm->arch.mmu.vtcr |= VTCR_EL2_HD | VTCR_EL2_HDBSS | VTCR_EL2_HA;
+>>>> +
+>>>> +	/*
+>>>> +	 * We should kick vcpus out of guest mode here to load new
+>>>> +	 * vtcr value to vtcr_el2 register when re-enter guest mode.
+>>>> +	 */
+>>>> +	kvm_for_each_vcpu(i, vcpu, kvm)
+>>>> +		kvm_vcpu_kick(vcpu);
+>>>> +
+>>>> +	return 0;
+>>>> +
+>>>> +error_alloc:
+>>>> +	kvm_for_each_vcpu(i, vcpu, kvm) {
+>>>> +		if (vcpu->arch.hdbss.base_phys)
+>>>> +			kvm_arm_vcpu_free_hdbss(vcpu);
+>>>> +	}
+>>>> +
+>>>> +	return -ENOMEM;
+>>>> +}
+>>>> +
+>>>>    int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
+>>>>    			    struct kvm_enable_cap *cap)
+>>>>    {
+>>>> @@ -182,6 +263,11 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
+>>>>    		r = 0;
+>>>>    		set_bit(KVM_ARCH_FLAG_EXIT_SEA, &kvm->arch.flags);
+>>>>    		break;
+>>>> +	case KVM_CAP_ARM_HW_DIRTY_STATE_TRACK:
+>>>> +		mutex_lock(&kvm->lock);
+>>>> +		r = kvm_cap_arm_enable_hdbss(kvm, cap);
+>>>> +		mutex_unlock(&kvm->lock);
+>>>> +		break;
+>>>>    	default:
+>>>>    		break;
+>>>>    	}
+>>>> @@ -471,6 +557,9 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
+>>>>    			r = kvm_supports_cacheable_pfnmap();
+>>>>    		break;
+>>>>
+>>>> +	case KVM_CAP_ARM_HW_DIRTY_STATE_TRACK:
+>>>> +		r = system_supports_hdbss();
+>>>> +		break;
+>>>>    	default:
+>>>>    		r = 0;
+>>>>    	}
+>>>> @@ -1120,6 +1209,9 @@ static int check_vcpu_requests(struct kvm_vcpu *vcpu)
+>>>>    		if (kvm_dirty_ring_check_request(vcpu))
+>>>>    			return 0;
+>>>>
+>>>> +		if (kvm_check_request(KVM_REQ_FLUSH_HDBSS, vcpu))
+>>>> +			kvm_flush_hdbss_buffer(vcpu);
+>>> I am curious on why we need a flush-hdbss request,
+>>> Don't we have the flush function happening every time we run vcpu_put?
+>>>
+>>> Oh, I see, you want to check if there is anything needed inside the inner
+>>> loop of vcpu_run, without having to vcpu_put. I think it makes sense.
+>>>
+>>> But instead of having this on guest entry, does not it make more sense to
+>>> have it in guest exit? This way we flush every time (if needed) we exit the
+>>> guest, and instead of having a vcpu request, we just require a vcpu kick
+>>> and it should flush if needed.
+>>>
+>>> Maybe have vcpu_put just save the registers, and add a the flush before
+>>> handle_exit.
+>>>
+>>> What do you think?
+>>
+>> Thank you for the feedback.
+>>
+>>
+>> Indeed, in the initial version (v1), I placed the flush operation inside
+>> handle_exit and
+>>
+>> used a vcpu_kick in kvm_arch_sync_dirty_log to trigger the flush of the
+>> HDBSS buffer.
+>>
+>>
+>> However, during the review, Marc pointed out that calling this function on
+>> every exit
+>>
+>> event is too frequent if it's not always needed.
+>>
+>>
+>> Discussion link:
+>> _https://lore.kernel.org/linux-arm-kernel/86senjony9.wl-maz@kernel.org/_
+>>
+>>
+>> I agreed with his assessment. Therefore, in the current version, I've
+>> separated the flush
+>>
+>> operation into more specific and less frequent points:
+>>
+>>
+>> 1. In vcpu_put
+>>
+>> 2. During dirty log synchronization, by kicking the vCPU to trigger a
+>> request that flushes
+>>
+>> on its next exit.
+>>
+>>
+>> 3. When handling a specific HDBSSF event.
+>>
+>>
+>> This ensures the flush happens only when necessary, avoiding the overhead of
+>> doing it
+>>
+>> on every guest exit.
+>>
+> Fair enough, calling it every time you go in the inner loop may be too
+> much, even with a check to make sure it needs to run.
+>
+> Having it as a request means you may do that sometimes without
+> leaving the inner loop. That could be useful if you want to use it with the
+> IRQ handler to deal with full buffer, or any error, as well as dealing with
+> a regular request in the 2nd case.
+>
+> While I agree it's needed to run before leaving guest context (i.e leaving
+> the inner loop), I am not really sure vcpu_put is the best place to put the
+> flushing. I may be wrong, but for me it looks more like of a place to save
+> registers and context, as well as dropping refcounts or something like
+> that. I would not expect a flush happening in vcpu_put, if I was reading
+> the code.
+>
+> Would it be too bad if we had it into a call before vcpu_put, at
+> kvm_arch_vcpu_ioctl_run()?
+>
+
+Thanks for the clarification. After looking again at the code paths, I 
+agree that
+
+kvm_vcpu_put_vhe() and kvm_arch_vcpu_put() are really meant to be pure 
+save/restore
+
+paths, so embedding HDBSS flushing there isn't ideal.
+
+
+My remaining concern is that kvm_arch_vcpu_ioctl_run() doesn't cover the 
+case where
+
+the vCPU is scheduled out. In that case we still leave guest context, 
+but we don't return
+
+through the run loop, so a flush placed only in ioctl_run() wouldn't run.
+
+
+Any suggestions on where this should hook in? Would introducing a small 
+arch‑specific
+
+"guest exit" helper, invoked fromm kvm_arch_vcpu_put(), be acceptable?
+
+
+Thanks!
+
+Tian
+
+
+>
+>>>> +
+>>>>    		check_nested_vcpu_requests(vcpu);
+>>>>    	}
+>>>>
+>>>> @@ -1898,7 +1990,17 @@ long kvm_arch_vcpu_unlocked_ioctl(struct file *filp, unsigned int ioctl,
+>>>>
+>>>>    void kvm_arch_sync_dirty_log(struct kvm *kvm, struct kvm_memory_slot *memslot)
+>>>>    {
+>>>> +	/*
+>>>> +	 * Flush all CPUs' dirty log buffers to the dirty_bitmap.  Called
+>>>> +	 * before reporting dirty_bitmap to userspace. Send a request with
+>>>> +	 * KVM_REQUEST_WAIT to flush buffer synchronously.
+>>>> +	 */
+>>>> +	struct kvm_vcpu *vcpu;
+>>>> +
+>>>> +	if (!kvm->arch.enable_hdbss)
+>>>> +		return;
+>>>>
+>>>> +	kvm_make_all_cpus_request(kvm, KVM_REQ_FLUSH_HDBSS);
+>>>>    }
+>>>>
+>>>>    static int kvm_vm_ioctl_set_device_addr(struct kvm *kvm,
+>>>> diff --git a/arch/arm64/kvm/hyp/vhe/switch.c b/arch/arm64/kvm/hyp/vhe/switch.c
+>>>> index 9db3f11a4754..600cbc4f8ae9 100644
+>>>> --- a/arch/arm64/kvm/hyp/vhe/switch.c
+>>>> +++ b/arch/arm64/kvm/hyp/vhe/switch.c
+>>>> @@ -213,6 +213,23 @@ static void __vcpu_put_deactivate_traps(struct kvm_vcpu *vcpu)
+>>>>    	local_irq_restore(flags);
+>>>>    }
+>>>>
+>>>> +static void __load_hdbss(struct kvm_vcpu *vcpu)
+>>>> +{
+>>>> +	struct kvm *kvm = vcpu->kvm;
+>>>> +	u64 br_el2, prod_el2;
+>>>> +
+>>>> +	if (!kvm->arch.enable_hdbss)
+>>>> +		return;
+>>>> +
+>>>> +	br_el2 = HDBSSBR_EL2(vcpu->arch.hdbss.base_phys, vcpu->arch.hdbss.size);
+>>>> +	prod_el2 = vcpu->arch.hdbss.next_index;
+>>>> +
+>>>> +	write_sysreg_s(br_el2, SYS_HDBSSBR_EL2);
+>>>> +	write_sysreg_s(prod_el2, SYS_HDBSSPROD_EL2);
+>>>> +
+>>>> +	isb();
+>>>> +}
+>>>> +
+>>>>    void kvm_vcpu_load_vhe(struct kvm_vcpu *vcpu)
+>>>>    {
+>>>>    	host_data_ptr(host_ctxt)->__hyp_running_vcpu = vcpu;
+>>>> @@ -220,10 +237,12 @@ void kvm_vcpu_load_vhe(struct kvm_vcpu *vcpu)
+>>>>    	__vcpu_load_switch_sysregs(vcpu);
+>>>>    	__vcpu_load_activate_traps(vcpu);
+>>>>    	__load_stage2(vcpu->arch.hw_mmu, vcpu->arch.hw_mmu->arch);
+>>>> +	__load_hdbss(vcpu);
+>>>>    }
+>>>>
+>>>>    void kvm_vcpu_put_vhe(struct kvm_vcpu *vcpu)
+>>>>    {
+>>>> +	kvm_flush_hdbss_buffer(vcpu);
+>>>>    	__vcpu_put_deactivate_traps(vcpu);
+>>>>    	__vcpu_put_switch_sysregs(vcpu);
+>>>>
+>>>> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
+>>>> index 070a01e53fcb..42b0710a16ce 100644
+>>>> --- a/arch/arm64/kvm/mmu.c
+>>>> +++ b/arch/arm64/kvm/mmu.c
+>>>> @@ -1896,6 +1896,9 @@ static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
+>>>>    	if (writable)
+>>>>    		prot |= KVM_PGTABLE_PROT_W;
+>>>>
+>>>> +	if (writable && kvm->arch.enable_hdbss && logging_active)
+>>>> +		prot |= KVM_PGTABLE_PROT_DBM;
+>>>> +
+>>>>    	if (exec_fault)
+>>>>    		prot |= KVM_PGTABLE_PROT_X;
+>>>>
+>>>> @@ -2033,6 +2036,70 @@ int kvm_handle_guest_sea(struct kvm_vcpu *vcpu)
+>>>>    	return 0;
+>>>>    }
+>>>>
+>>>> +void kvm_flush_hdbss_buffer(struct kvm_vcpu *vcpu)
+>>>> +{
+>>>> +	int idx, curr_idx;
+>>>> +	u64 br_el2;
+>>>> +	u64 *hdbss_buf;
+>>>> +	struct kvm *kvm = vcpu->kvm;
+>>>> +
+>>>> +	if (!kvm->arch.enable_hdbss)
+>>>> +		return;
+>>>> +
+>>>> +	curr_idx = HDBSSPROD_IDX(read_sysreg_s(SYS_HDBSSPROD_EL2));
+>>>> +	br_el2 = HDBSSBR_EL2(vcpu->arch.hdbss.base_phys, vcpu->arch.hdbss.size);
+>>>> +
+>>>> +	/* Do nothing if HDBSS buffer is empty or br_el2 is NULL */
+>>>> +	if (curr_idx == 0 || br_el2 == 0)
+>>>> +		return;
+>>>> +
+>>>> +	hdbss_buf = page_address(phys_to_page(vcpu->arch.hdbss.base_phys));
+>>>> +	if (!hdbss_buf)
+>>>> +		return;
+>>>> +
+>>>> +	guard(write_lock_irqsave)(&vcpu->kvm->mmu_lock);
+>>>> +	for (idx = 0; idx < curr_idx; idx++) {
+>>>> +		u64 gpa;
+>>>> +
+>>>> +		gpa = hdbss_buf[idx];
+>>>> +		if (!(gpa & HDBSS_ENTRY_VALID))
+>>>> +			continue;
+>>>> +
+>>>> +		gpa &= HDBSS_ENTRY_IPA;
+>>>> +		kvm_vcpu_mark_page_dirty(vcpu, gpa >> PAGE_SHIFT);
+>>>> +	}
+>>> This will mark a page dirty for both dirty_bitmap or dirty_ring, depending
+>>> on what is in use.
+>>>
+>>> Out of plain curiosity, have you planned / tested for the dirty-ring as
+>>> well, or just for dirty-bitmap?
+>>
+>> Currently, I have only tested this with dirty-bitmap mode.
+>>
+>>
+>> I will test and ensure the HDBSS feature works correctly with dirty-ring in
+>> the next version.
+>>
+>>
+> Thanks!
+>
+>>>> +
+>>>> +	/* reset HDBSS index */
+>>>> +	write_sysreg_s(0, SYS_HDBSSPROD_EL2);
+>>>> +	vcpu->arch.hdbss.next_index = 0;
+>>>> +	isb();
+>>>> +}
+>>>> +
+>>>> +static int kvm_handle_hdbss_fault(struct kvm_vcpu *vcpu)
+>>>> +{
+>>>> +	u64 prod;
+>>>> +	u64 fsc;
+>>>> +
+>>>> +	prod = read_sysreg_s(SYS_HDBSSPROD_EL2);
+>>>> +	fsc = FIELD_GET(HDBSSPROD_EL2_FSC_MASK, prod);
+>>>> +
+>>>> +	switch (fsc) {
+>>>> +	case HDBSSPROD_EL2_FSC_OK:
+>>>> +		/* Buffer full, which is reported as permission fault. */
+>>>> +		kvm_flush_hdbss_buffer(vcpu);
+>>>> +		return 1;
+>>> Humm, flushing in a fault handler means hanging there, in IRQ context, for
+>>> a while.
+>>>
+>>> Since we already deal with this on guest_exit (vcpu_put IIUC), why not just
+>>> return in a way the vcpu has to exit the inner loop and let it flush there
+>>> instead?
+>>>
+>>> Thanks!
+>>> Leo
+>>
+>> Thanks for the feedback.
+>>
+>>
+>> If we flush on every guest exit (by moving the flush before handle_exit,
+>> then we can
+>>
+>> indeed drop the flush from the fault handler and from vcpu_put.
+>>
+>>
+>> However, given Marc's earlier concern about not imposing this overhead on
+>> all vCPUs,
+>>
+>> I'd rather avoid flushing on every exit.
+>>
+>>
+>> My current plan is to set a request bit in kvm_handle_hdbss_fault (via
+>> kvm_make_request),
+>>
+>> and move the actual flush to the normal exit path, where it can execute in a
+>> safe context.
+>>
+>> This also allows us to remove the flush from the fault handler entirely.
+>>
+>>
+>> Does that approach sound reasonable to you?
+>>
+>>
+> Yes, I think it looks much better, as the fault will cause guest to exit,
+> and it can run the flush on it's way back in.
+>
+> Thanks!
+> Leo
+>
+>>>> +	case HDBSSPROD_EL2_FSC_ExternalAbort:
+>>>> +	case HDBSSPROD_EL2_FSC_GPF:
+>>>> +		return -EFAULT;
+>>>> +	default:
+>>>> +		/* Unknown fault. */
+>>>> +		WARN_ONCE(1,
+>>>> +				"Unexpected HDBSS fault type, FSC: 0x%llx (prod=0x%llx, vcpu=%d)\n",
+>>>> +				fsc, prod, vcpu->vcpu_id);
+>>>> +		return -EFAULT;
+>>>> +	}
+>>>> +}
+>>>> +
+>>>>    /**
+>>>>     * kvm_handle_guest_abort - handles all 2nd stage aborts
+>>>>     * @vcpu:	the VCPU pointer
+>>>> @@ -2071,6 +2138,9 @@ int kvm_handle_guest_abort(struct kvm_vcpu *vcpu)
+>>>>
+>>>>    	is_iabt = kvm_vcpu_trap_is_iabt(vcpu);
+>>>>
+>>>> +	if (esr_iss2_is_hdbssf(esr))
+>>>> +		return kvm_handle_hdbss_fault(vcpu);
+>>>> +
+>>>>    	if (esr_fsc_is_translation_fault(esr)) {
+>>>>    		/* Beyond sanitised PARange (which is the IPA limit) */
+>>>>    		if (fault_ipa >= BIT_ULL(get_kvm_ipa_limit())) {
+>>>> diff --git a/arch/arm64/kvm/reset.c b/arch/arm64/kvm/reset.c
+>>>> index 959532422d3a..c03a4b310b53 100644
+>>>> --- a/arch/arm64/kvm/reset.c
+>>>> +++ b/arch/arm64/kvm/reset.c
+>>>> @@ -161,6 +161,9 @@ void kvm_arm_vcpu_destroy(struct kvm_vcpu *vcpu)
+>>>>    	free_page((unsigned long)vcpu->arch.ctxt.vncr_array);
+>>>>    	kfree(vcpu->arch.vncr_tlb);
+>>>>    	kfree(vcpu->arch.ccsidr);
+>>>> +
+>>>> +	if (vcpu->kvm->arch.enable_hdbss)
+>>>> +		kvm_arm_vcpu_free_hdbss(vcpu);
+>>>>    }
+>>>>
+>>>>    static void kvm_vcpu_reset_sve(struct kvm_vcpu *vcpu)
+>>>> --
+>>>> 2.33.0
+>> Thanks!
+>>
+>> Tian
+>>
