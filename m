@@ -1,92 +1,161 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D17D29A2
-	for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 07:33:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F13D379EF2
+	for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 08:34:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773300787; cv=none; b=VDZfSETaPzzwmb4pSJAAB4IyhT64xP49qFVG8n/L/nIGcbHIO8fKlhwcc9RL1auelEdTK17cvy432ZeQ8MW/4xeE0RMQk9KRnGahV4EoB10jHQKrGRrK69g2ZnBa0FblkNW9iqJJGR/VyqE/I5jgHr//8UpmZtEo4FMuexXwk6Y=
+	t=1773304501; cv=none; b=DgW2uzRTizJsG491LmTwUIqAqsWADm4xMQJpSoW23QlnBLpEOqYbh/pQiaRvf4G9dpndsO/oj4Q3VmSqdOeI6svLNSJDc76ZQ4Wy8+Bqa5bIclXYvox6rFQgXRsk0vExEag6//Ke48E97ACrSc2auXZm36h36nC7/4wjCl5DScU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773300787; c=relaxed/simple;
-	bh=uIQE2Ng0WkLUmEvt/HShshELdlqr0fFGOCe2M1ZqkaY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=t/14pFhTUh16CGuzPuAh9EhYrRpF11QgJ9/KHxmdOYzKMvIrrdQSv/O327gcxZIhRTvqc6gtT7ebENvN1Y5XygU9OjPIh3MZw+rz2CXhGNg4Uhv8zN+aQEuQJ4XRJjmd5tzTBms46O4CJRPU05TjdxlPi+HCuMy+TH/jzjAWHYI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l6I7nWgs; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1773304501; c=relaxed/simple;
+	bh=HEFbmcFEHfAGcaqdN8AWPZHaVSbwHCyRRxbL06fN1Aw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qpZTBS+2zuc/+INBLI4F+FFXQ+FHHcBB0g+wsKH8SxYkCjTuiqtZcydiDQnIw939kVLdW75J7zbTM0UCkZ8tBCr9yn0aEWB8dNwsApejHRmzicBzUWMLJ2oEyQFECS/tWJm+nKjL6g7LjnGg6nTUOT8i6K/1yzmRrI8YsmDRAVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=UdvZpJSv; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l6I7nWgs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773300784; x=1804836784;
-  h=date:from:to:cc:subject:message-id;
-  bh=uIQE2Ng0WkLUmEvt/HShshELdlqr0fFGOCe2M1ZqkaY=;
-  b=l6I7nWgsLI2T78BeNNWAxxFCag6tMR0j6hxzvnEsRFekxiYRmkMPSL/Z
-   uNQ0CJVoC/TlUW43eO4I8SKqcX2lvzU+8ujBHzcy5MhmAwfgcSjqPLItG
-   9/OsGWO9avdT4y2GD4EjFqc8XXi7qEFvI8AhKr6zkGgx8nKS+1pgkhONH
-   7Dnb7LK0ws6ad7+pkQ4x3PCn/K1VwWxINSRwOCqn42JOA1mSHl7EGyASK
-   PN76jtO41i7QZWrH3IF4+d50VbD6q6a5aOJG7l3RvXAwv6QoLr6DzT3Nf
-   OXx5iEvPQ1CbnQBzOpN8tmMXzd7oEJPMSRGF/2oCPPcbHpd6P4wJs+TJm
-   g==;
-X-CSE-ConnectionGUID: 3qw/1npxRmWPzGv1OubG6Q==
-X-CSE-MsgGUID: tuFp+xtqQz2rr/IigO/tKg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11726"; a="78274160"
-X-IronPort-AV: E=Sophos;i="6.23,115,1770624000"; 
-   d="scan'208";a="78274160"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2026 00:33:04 -0700
-X-CSE-ConnectionGUID: xOnmFeZ2THC3be7AdbXYUQ==
-X-CSE-MsgGUID: oOThZ6mURMeCAxKxVLd9Ig==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,115,1770624000"; 
-   d="scan'208";a="220678177"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 12 Mar 2026 00:33:02 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w0aXT-000000003TZ-44q6;
-	Thu, 12 Mar 2026 07:32:59 +0000
-Date: Thu, 12 Mar 2026 08:32:51 +0100
-From: kernel test robot <lkp@intel.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [robh:dt-convert 54/621] htmldocs: Warning:
- Documentation/devicetree/bindings/remoteproc/ti,keystone-rproc.txt references
- a file that doesn't exist:
- Documentation/devicetree/bindings/clock/keystone-gate.txt
-Message-ID: <202603120825.rOCzVqfG-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="UdvZpJSv"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-439c6fc2910so571306f8f.0
+        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 01:34:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1773304495; x=1773909295; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=G6aLENJtgw3KKH+EBlODshn2Ly+qSlwDf7sw9+i4eVY=;
+        b=UdvZpJSv/Gz1k9WN42TpPqqvHZL+RQwr245QXejc0Vs0ixuWIfzEZr/IfR7DUW8lXw
+         NsrV9oqjOasQaoz9bze1mZPvfPZSs20EFoDDUUDsew8j5K0zQm7LS1rreFG1N6G3+tLO
+         RMZQnsvuoTkIrU19l6j8v16cYS1o/2qr0kKtw3q99/bTpMzYMCfSJQS0tCIxb66YOhC8
+         T3WtwAvFjEZbr6QNs+p574v+OkM1ZQUC19HjymuyUeCOxzt2bgudC0MPygvJXWL8XQkv
+         JOSP63AIksJiYbW8TMh4yetGVre3NXn02g+lxDfD32r7KywrCPeXECI87/hWUOISc04g
+         I3jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773304495; x=1773909295;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=G6aLENJtgw3KKH+EBlODshn2Ly+qSlwDf7sw9+i4eVY=;
+        b=W76ypYO4R+4PooRRsJtUxwFB24g8/QNLhVZhTh4B92xW4cu77Ti00j/MzC0pvmzk2n
+         kWjcMx/AlfEhSDldulK4vzjFBasxNkcgW2fBuwm4j1KgXZy9DNDu5xMQGXBZL+jEqoaG
+         5UyWaEGmnsB3BPTQBswL0Vdr/EXLqDR4s+iqrf2F0jWqGM6AvniXMFAo6q0AclFH0w92
+         c2mPCSsY3eL7vT9ypq0lXiUWZjxK60rztRAECctG4X6+cGxvXX+fLntRe4y9PL+UrN3l
+         Xtj+5YNEg0GpyUoUGZyg6zwgL09/wUUnFuzFblf1v99Fhykx+W8il73nbBv1symQ+lHy
+         Ljgw==
+X-Forwarded-Encrypted: i=1; AJvYcCUxRgalXFWt8JLgYTipKz3zLkd0uH8RuBdaBr9/cpoguqnjmhoF+frK+9fc23/2b/70H4uSymjWqvY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwEnKQiN6OuhCWFjqN3/SeAMCWPpMf5tyQSxSSNtFOtvb1kNvUq
+	eB5axmY1lXOkfgd6V+jsukee7jzecjzrQnuJ3rrKjidU97Mmi+79RI6JBWTUuJmpQQA=
+X-Gm-Gg: ATEYQzy4nNe9ssyJQvlCjlbtuABRn5TESLqlFqGQeD3D0P4UTSf7JCqrfjfhwW7GfhF
+	5PDpXS4YBgyxz3BrY5uCkE+ifNp+J2S7rqGug0BP1QJA0JJfY8zgMAR08EBUc/aumWXLBmPWNhz
+	nDpiFG3wPfSWMCCFqoQw4p8F3maDMHUYcRcIYdtJlQvpmgb+L9KOXjje/bCNoq9piBRSgUnDqBg
+	toQHyXLFZSEqoGC0xpUInwTG/MxUm6VHCKQkCXzCK0sAhlWZINCGNYq2qaC4GQ13Qx53ptvKnsK
+	noWAjDdvY/YoJr0tEkE9wQ2I/unfEYoioeQxnWY6MmaFU3S+FnxiozvCbGgix6vy2uWsJWf4Dd2
+	8j+1uf16G9PLXTBMnQwTPySew2kzlOstC0h7iLgLkDwmtbbOHfM4CZFiZRDuC58ltYwHDoZLHD0
+	DtkLSRF2AvXMskajNAoVP8wmCGmlvuSiXxFojxp/5+3A==
+X-Received: by 2002:a5d:584a:0:b0:439:ad2d:99f1 with SMTP id ffacd0b85a97d-439f843cd0dmr10192185f8f.54.1773304494998;
+        Thu, 12 Mar 2026 01:34:54 -0700 (PDT)
+Received: from FV6GYCPJ69 ([85.163.81.98])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439fe1affe9sm6406633f8f.15.2026.03.12.01.34.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Mar 2026 01:34:54 -0700 (PDT)
+Date: Thu, 12 Mar 2026 09:34:52 +0100
+From: Jiri Pirko <jiri@resnulli.us>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Or Har-Toov <ohartoov@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, 
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, 
+	Mark Bloch <mbloch@nvidia.com>, Shuah Khan <shuah@kernel.org>, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, Gal Pressman <gal@nvidia.com>, 
+	Dragos Tatulea <dtatulea@nvidia.com>, Shay Drory <shayd@nvidia.com>, Jiri Pirko <jiri@nvidia.com>, 
+	Moshe Shemesh <moshe@nvidia.com>
+Subject: Re: [PATCH net-next V3 00/10] devlink: add per-port resource support
+Message-ID: <go5wr5qa7wxe7i4kkcbmecomshpkesr26alq4qmlbpjr72hxgt@mpwq6eufylpn>
+References: <jssifysprwuafkinc3dguspngxmplrngqxvotp76vhvu4e5lp6@e7mdrjqc5rme>
+ <20260304101522.09da1f58@kernel.org>
+ <np44uzfn6jea56uht4yq4te5clapgj7pk6ygyvkl22wxumwnvt@nrpvzjqzxenq>
+ <20260305063729.7e40775d@kernel.org>
+ <ni23r4jiwgc6zjjsubtl4ujjgxzwpxrylumofdwxgozfnieynm@zirlbneaz6p2>
+ <20260306120301.0ebe1ab2@kernel.org>
+ <74dcd7c5-8a2b-49a7-a23c-174d17a61955@nvidia.com>
+ <20260309133341.7e08b35d@kernel.org>
+ <5de5103e-e2e4-4b72-9c3c-22847728fbb8@nvidia.com>
+ <20260311145126.7dcca532@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260311145126.7dcca532@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt-convert
-head:   c8198e311a98fefcf9efff078bf3930ff94b60d2
-commit: 06707c22f1a1242d27f854a02ef7edd365d176aa [54/621] dt-bindings: clock: Convert ti,keystone,psc-clock to DT schema
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260312/202603120825.rOCzVqfG-lkp@intel.com/reproduce)
+Wed, Mar 11, 2026 at 10:51:26PM +0100, kuba@kernel.org wrote:
+>On Wed, 11 Mar 2026 20:24:08 +0200 Or Har-Toov wrote:
+>> For the dump-it command:
+>> devlink resource show
+>> pci/0000:03:00.0:
+>> <resource>
+>> pci/0000:03:00.0/196608:
+>> <port-resource>
+>> pci/0000:03:00.0/196609:
+>> <port-resource>
+>> pci/0000:03:00.1:
+>> <resource>
+>> pci/0000:03:00.1/262144:
+>> <port-resource>
+>> 
+>> devlink resource show scope port
+>> pci/0000:03:00.0/196608:
+>> <port-resource>
+>> pci/0000:03:00.0/196609:
+>> <port-resource>
+>> pci/0000:03:00.1/262144:
+>> <port-resource>
+>> 
+>> devlink resource show scope dev
+>> pci/0000:03:00.0:
+>> <resource>
+>> pci/0000:03:00.1:
+>> <resource>
+>
+>LGTM
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603120825.rOCzVqfG-lkp@intel.com/
+I don't see the benefit of exposing the scope to the user to be honest.
+I mean, dump would show all, dump with "dev" handle would be used as a
+selector to dump only things related to "dev". What is the use case of
+this "scope" granularity?
 
-All warnings (new ones prefixed by >>):
 
-   Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/regulator/cpcap-regulator.txt
-   Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/rtc/cpcap-rtc.txt
-   Warning: Documentation/devicetree/bindings/regulator/motorola,cpcap-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/devicetree/bindings/remoteproc/ti,keystone-rproc.txt references a file that doesn't exist: Documentation/devicetree/bindings/reset/ti-syscon-reset.txt
->> Warning: Documentation/devicetree/bindings/remoteproc/ti,keystone-rproc.txt references a file that doesn't exist: Documentation/devicetree/bindings/clock/keystone-gate.txt
-   Warning: Documentation/devicetree/bindings/rtc/motorola,cpcap-rtc.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml
-   Warning: Documentation/doc-guide/parse-headers.rst references a file that doesn't exist: Documentation/userspace-api/media/Makefile
-   Warning: Documentation/leds/leds-lp5812.rst references a file that doesn't exist: Documentation/ABI/testing/sysfs-class-led-multicolor.rst
-   Warning: Documentation/translations/it_IT/doc-guide/parse-headers.rst references a file that doesn't exist: Documentation/userspace-api/media/Makefile
-   Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
+>
+>> For the do-it command:
+>> devlink resource show pci/0000:03:00.0
+>> pci/0000:03:00.0:
+>> <resource>
+>> pci/0000:03:00.0/196608:
+>> <port-resource>
+>> pci/0000:03:00.0/196609:
+>> <port-resource>
+>> 
+>> devlink resource show pci/0000:03:00.0 scope port
+>> pci/0000:03:00.0/196608:
+>> <port-resource>
+>> pci/0000:03:00.0/196609:
+>> <port-resource>
+>> 
+>> devlink resource show pci/0000:03:00.0  scope dev
+>> pci/0000:03:00.0:
+>> <resource>
+>
+>Do we have to touch doit? Maybe we should let doit be what it is now
+>and consider it legacy going forward? doit which is in fact a filtered
+>dump is a bit of a mistake in the first place, from Netlink's
+>perspective.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I don't think we should. If user wants doit, he is going to specify the
+object (dev/port). If user is interested only in things related to
+single device, he should do dump with selector (dev).
+
+Let's make this simple.
