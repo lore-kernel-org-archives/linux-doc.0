@@ -1,85 +1,81 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC2561632E7
-	for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 12:15:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A239B1FECBA
+	for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 12:15:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773317739; cv=none; b=ClnvA9xiy8HjRDiiGpAfcTDu+6z92NSMow9pNxq7/bNZoi6dO98KoGlxhkdAb8hO8ldFBjKTmItkoKYgKDlwv7BEM828Mt5tnSVe82l61O9jXPgz/3BjilEUxvQEYXYCy+NC3aDX44+u+4EHWTz7/6U96TYqk/Z0dAuXVPHz/0w=
+	t=1773317750; cv=none; b=DlckEBIwshurQn5xZyZi7S8GVJQZxHXdbz6B8lxk+NLHlOjSgsWJ28wUBXV0STEEBXDBUn049CI8JC/kZvyd6DRwgSXdhQCdzZ9a6b0lm2VAMlVH/0ufxjEv63RwK1NAz0Fxnwz5fA3lwAoBBRrPbD1FqvocOTuqLDwzcTcBlRg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773317739; c=relaxed/simple;
-	bh=VGUC6wUOypIV4CsAk/cYVlAk1OOCaoat8J+NcnwZaqk=;
+	s=arc-20240116; t=1773317750; c=relaxed/simple;
+	bh=BbA6w1sO0M8Zi5awc/vRTfCk1+66v1vzIB5zIcGRQfQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=U8G0xAJRUsi8W1Vl/69+rc9R+0AekUgJUh/wQfiFziEAmitaoV16uGsppO38HnGxM8ESpX58HZr0Q7h1WJClbAqrNP9058Eab9W5hiE8B9Owvkl8vN0+dW63tT2GfvwpNf+VK9WyTzN7iq+mLN2osTK5rQsOfI2JhEArAuQ9+wc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ODJTs8II; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=bXJ47++w; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 In-Reply-To:Content-Type; b=GUVZepzq14Lf1hqjJXo+npqQ6T0Sv1qgDfo96a6to4x4VWShtwJFyVFiqXFeFPGZLi03wWA9Kf/p16Od+366g6IqK/9yBPd9IyKA0JBM/Kofwj6Xw+x5T8czKsHixo3QjBljRbD2JT6+HirMmGCc25RR5sZqbSzw6FCTqn9xHHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=yzJzh7NC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Q8WeyAOw; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=yzJzh7NC; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Q8WeyAOw; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ODJTs8II";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="bXJ47++w"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1773317734;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="yzJzh7NC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Q8WeyAOw";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="yzJzh7NC";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Q8WeyAOw"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 5368E3FDA2;
+	Thu, 12 Mar 2026 12:15:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1773317744; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=loNIpigFiuTuj5urzh0sT/xjUHse+AOsRM2zfPikL40=;
-	b=ODJTs8IIKinuIZPSkxiPDWNy60g4f79MmwqgDIPkjiTG3axr5DFR/q4/fiu7qKyckHDbvQ
-	0pZvxhIGlqHctNZaSXeZfiwe6UYZjfuS3w5LNebmOhxtXqK9b8TeBeJ6Fq27yAsfwAc1R9
-	XZv4QDHLgdLp2B4Qh3joGpP3sbAdpnk=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-526-5DhS6Q5JN12dPaovOHodxw-1; Thu, 12 Mar 2026 08:15:33 -0400
-X-MC-Unique: 5DhS6Q5JN12dPaovOHodxw-1
-X-Mimecast-MFC-AGG-ID: 5DhS6Q5JN12dPaovOHodxw_1773317732
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-48532df52c5so8402595e9.1
-        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 05:15:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1773317732; x=1773922532; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=loNIpigFiuTuj5urzh0sT/xjUHse+AOsRM2zfPikL40=;
-        b=bXJ47++w5qRWlgCajG20ztHev//ND09tPL04sIVb44XJLHHvnIQFm7lDHhCK/Wemx+
-         ppq2tDhkJSlKhrfDuBiyJSJ02meVB2jw7tc5C298cRtKTQbu7+lYHK2EmGlLV3a6oMEQ
-         TkgoJ691iT5/8PdUhD0ApHfCrd39GTJHOAn3f4uPHtfj5/tuOXkq+0hhDt5R+ccF2LEX
-         dmuWuYQmzmzf1XSxdzvuBAJDKQxY9EyWMsNeNRwYA3qJWQzaYfH8FAbVn1IWdMHjgQfU
-         zHJH4LCBRjf2emRlNlB60XfQGmwqUzSGbyOV7K/n3BwIyiUhtTB0fPoNmUJ6IT8m+eyl
-         IPCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773317732; x=1773922532;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=loNIpigFiuTuj5urzh0sT/xjUHse+AOsRM2zfPikL40=;
-        b=oioURNIVGvN9vtiDtth/p9dW1fYyF7iFMCEsHNqKlNZuO+Xu0kw+ysuu/vflx/M8vu
-         HCmTcko7cG3k+cPke+JuYzDQwZ8ZQ2Pdu4bTNvEjgW1HMsvIfeUP9t7/Bo+yM0JCPFJD
-         pcNXDzFUy10wjECYALHkAvbvpKonAkwoWvoQgBNSwWfyirCmh6ZO8MyvsKiYaCZW9iVf
-         hQ4zjwKiouyIhuom99qHu+FYMkf3E6fWDR1Sajt7Jqv0xg5aRVFVqKkQCFysFAFRSctG
-         0rJmipakv3uv8Adp5Uuov6DS2oPip3dxZJPugjIgswxuEWOMeMdU8RxMA4BjcZ+i27AH
-         5+Xw==
-X-Forwarded-Encrypted: i=1; AJvYcCX8MBn0aj2f381pw7zxKX/k4kxwHQcJeaMaxbNyhiAUUA3Rbz1WibhZ4YzaFHqW8K9bx1Q2rZAFUHI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw47m9CjrYfwHT7MGJmDUbfXCyR1t1yNczRX0fdwcT6HaA+gydC
-	Uf2fATqfsnEqZUpAW17MVeximRv/DlSpouIJboDYtp06VTjvg0qrmnj5DgUL5XB0FoAMQBgix53
-	TfbpdDKXZMGNMRhlVPyW0bsrBKpscfv6d5nFQMsUBKjjVhadbD3uCXlAcRZXRsQ==
-X-Gm-Gg: ATEYQzyB/9OBcU/EMTy6796S3K+x7e37ZBEpRlJiAPC3QBY3zGAm4liEEL3RORu/e2/
-	8f2il3luUH7D+Oqzq8kXNKdZWv+YPF89K4NdzRzKi5lqpDBSaNHaTf0g+PWJlFqjhNJ5+X4O3eZ
-	8WrN4D1eBMAKVcs6KeV991X9RwFiZzpnVfNDX+Ograj1vXNPstqN0F2zcrByhGgG33qBM2bkwz7
-	avnK9tFyQTrdbe/fbwy8JqCw3fwBicvZHM67YzkEilg0rfW7EfEUhs0ksIHVFlmeh+fFBEWB5nV
-	2aC25jp8oyUPJGE+9H14a4xQ7lpKVyaM5/K+aNgU/tqtp30WdQ8tUXQhQQWT6As1N+aR6d3UvOu
-	KZDwSaW0cGgfqeEQvG3Mm+X9ORS6QeK12/pDnHKSqd0QuzZWlzcJ5Ij4=
-X-Received: by 2002:a05:6000:2dc5:b0:439:be78:e1e9 with SMTP id ffacd0b85a97d-439f81c0248mr11988496f8f.14.1773317732155;
-        Thu, 12 Mar 2026 05:15:32 -0700 (PDT)
-X-Received: by 2002:a05:6000:2dc5:b0:439:be78:e1e9 with SMTP id ffacd0b85a97d-439f81c0248mr11988421f8f.14.1773317731647;
-        Thu, 12 Mar 2026 05:15:31 -0700 (PDT)
-Received: from [192.168.88.32] ([216.128.11.95])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439fe1a737csm7076461f8f.10.2026.03.12.05.15.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Mar 2026 05:15:31 -0700 (PDT)
-Message-ID: <606d9633-d48e-49ff-81c8-cbed7e92f698@redhat.com>
-Date: Thu, 12 Mar 2026 13:15:29 +0100
+	bh=Iyvo3MyG5/nMqbH5LhEzLuKSDNYzWDBrh0u3whLrNLA=;
+	b=yzJzh7NC4i5SJvPNXFzKkSl7390EhDxaokQVdiTFkKZQZztGzHLGWoywfNgBL+T/F4I6KJ
+	jC4RdCzkEAn962ftMc/JVH0dlbnUYVn9BjhLyal/6PqxadJTScYA/rtiy8VpT1kXfbjsjD
+	DP8kQWUpckzWk09y1IQxKVU2UWPxATo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1773317744;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Iyvo3MyG5/nMqbH5LhEzLuKSDNYzWDBrh0u3whLrNLA=;
+	b=Q8WeyAOwVI5ca5hPLyVr07B6H3mK/Lk3F//qLSQaPceZxWRb48X/pgHFsouWy3SX/14Y9M
+	u/fC3gp5aWnbROAQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=yzJzh7NC;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Q8WeyAOw
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1773317744; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Iyvo3MyG5/nMqbH5LhEzLuKSDNYzWDBrh0u3whLrNLA=;
+	b=yzJzh7NC4i5SJvPNXFzKkSl7390EhDxaokQVdiTFkKZQZztGzHLGWoywfNgBL+T/F4I6KJ
+	jC4RdCzkEAn962ftMc/JVH0dlbnUYVn9BjhLyal/6PqxadJTScYA/rtiy8VpT1kXfbjsjD
+	DP8kQWUpckzWk09y1IQxKVU2UWPxATo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1773317744;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Iyvo3MyG5/nMqbH5LhEzLuKSDNYzWDBrh0u3whLrNLA=;
+	b=Q8WeyAOwVI5ca5hPLyVr07B6H3mK/Lk3F//qLSQaPceZxWRb48X/pgHFsouWy3SX/14Y9M
+	u/fC3gp5aWnbROAQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5E5993FF70;
+	Thu, 12 Mar 2026 12:15:42 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ngDOE26usmmLZgAAD6G6ig
+	(envelope-from <fmancera@suse.de>); Thu, 12 Mar 2026 12:15:42 +0000
+Message-ID: <09e1535f-59fe-41eb-91ed-2aeb97957bfc@suse.de>
+Date: Thu, 12 Mar 2026 13:15:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -87,62 +83,169 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 net-next 11/11] net/nebula-matrix: add common dev
- start/stop operation
-To: "illusion.wang" <illusion.wang@nebula-matrix.com>,
- dimon.zhao@nebula-matrix.com, alvin.wang@nebula-matrix.com,
- sam.chen@nebula-matrix.com, netdev@vger.kernel.org
-Cc: andrew+netdev@lunn.ch, corbet@lwn.net, kuba@kernel.org,
- linux-doc@vger.kernel.org, lorenzo@kernel.org, horms@kernel.org,
- vadim.fedorenko@linux.dev, lukas.bulwahn@redhat.com, edumazet@google.com,
- open list <linux-kernel@vger.kernel.org>
-References: <20260310120959.22015-1-illusion.wang@nebula-matrix.com>
- <20260310120959.22015-12-illusion.wang@nebula-matrix.com>
+Subject: Re: [PATCH net-next] netfilter: conntrack: expose
+ gc_scan_interval_max via sysctl
+To: Prasanna S Panchamukhi <panchamukhi@arista.com>,
+ netfilter-devel@vger.kernel.org
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Pablo Neira Ayuso <pablo@netfilter.org>, Florian Westphal <fw@strlen.de>,
+ Phil Sutter <phil@nwl.cc>, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ coreteam@netfilter.org
+References: <20260311194058.13860-1-panchamukhi@arista.com>
 Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <20260310120959.22015-12-illusion.wang@nebula-matrix.com>
-Content-Type: text/plain; charset=UTF-8
+From: Fernando Fernandez Mancera <fmancera@suse.de>
+In-Reply-To: <20260311194058.13860-1-panchamukhi@arista.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	MIME_TRACE(0.00)[0:+];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:mid,arista.com:email]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -4.51
+X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 5368E3FDA2
 
-On 3/10/26 1:09 PM, illusion.wang wrote:
-> +static int nbl_dev_configure_msix_map(struct nbl_dev_mgt *dev_mgt)
-> +{
-> +	struct nbl_dispatch_ops *disp_ops = dev_mgt->disp_ops_tbl->ops;
-> +	struct nbl_dev_common *dev_common = dev_mgt->common_dev;
-> +	struct nbl_msix_info *msix_info = &dev_common->msix_info;
-> +	bool mask_en = msix_info->serv_info[NBL_MSIX_NET_TYPE].hw_self_mask_en;
-> +	u16 msix_net_num = msix_info->serv_info[NBL_MSIX_NET_TYPE].num;
-> +	u16 msix_not_net_num = 0;
-> +	int err, i;
+On 3/11/26 8:40 PM, Prasanna S Panchamukhi wrote:
+> The conntrack garbage collection worker uses an adaptive algorithm that
+> adjusts the scan interval based on the average timeout of tracked
+> entries.  The upper bound of this interval is hardcoded as
+> GC_SCAN_INTERVAL_MAX (60 seconds).
+> 
+> Expose the upper bound as a new sysctl,
+> net.netfilter.nf_conntrack_gc_scan_interval_max, so it can be tuned at
+> runtime without rebuilding the kernel.  The default remains 60 seconds
+> to preserve existing behavior.  The sysctl is global and read-only in
+> non-init network namespaces, consistent with nf_conntrack_max and
+> nf_conntrack_buckets.
+> 
+> In environments where long-lived offloaded flows dominate the table,
+> the adaptive average drifts toward the maximum, delaying cleanup
+> of short-lived expired entries such as those in TCP CLOSE state
+> (10s timeout). Adding sysctl to set the maximum GC scan helps to
+> tune according to the evironment.
+> 
+> Signed-off-by: Prasanna S Panchamukhi <panchamukhi@arista.com>
+[...]
+> ---
+>   Documentation/networking/nf_conntrack-sysctl.rst | 11 +++++++++++
+>   include/net/netfilter/nf_conntrack.h             |  1 +
+>   net/netfilter/nf_conntrack_core.c                |  9 ++++++---
+>   net/netfilter/nf_conntrack_standalone.c          | 10 ++++++++++
+>   4 files changed, 28 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/networking/nf_conntrack-sysctl.rst b/Documentation/networking/nf_conntrack-sysctl.rst
+> index 35f889259fcd..c848eef9bc4f 100644
+> --- a/Documentation/networking/nf_conntrack-sysctl.rst
+> +++ b/Documentation/networking/nf_conntrack-sysctl.rst
+> @@ -64,6 +64,17 @@ nf_conntrack_frag6_timeout - INTEGER (seconds)
+>   
+>   	Time to keep an IPv6 fragment in memory.
+>   
+> +nf_conntrack_gc_scan_interval_max - INTEGER (seconds)
+> +	default 60
 > +
-> +	for (i = NBL_MSIX_NET_TYPE; i < NBL_MSIX_TYPE_MAX; i++)
-> +		msix_info->serv_info[i].base_vector_id =
-> +			msix_info->serv_info[i - 1].base_vector_id +
-> +			msix_info->serv_info[i - 1].num;
+> +	Maximum interval between garbage collection scans of the connection
+> +	tracking table. The GC worker uses an adaptive algorithm that adjusts
+> +	the scan interval based on average entry timeouts; this parameter caps
+> +	the upper bound. Lower values cause expired entries (e.g. connections
+> +	in CLOSE state) to be cleaned up faster, at the cost of slightly more
+> +	CPU usage. Minimum value is 1.
+> +	This sysctl is only writeable in the initial net namespace.
 > +
-> +	for (i = NBL_MSIX_MAILBOX_TYPE; i < NBL_MSIX_TYPE_MAX; i++) {
-> +		if (i == NBL_MSIX_NET_TYPE)
-> +			continue;
+
+I think it would be a good idea to add under which situations it is good 
+to tweak this setting.
+
+>   nf_conntrack_generic_timeout - INTEGER (seconds)
+>   	default 600
+>   
+> diff --git a/include/net/netfilter/nf_conntrack.h b/include/net/netfilter/nf_conntrack.h
+> index bc42dd0e10e6..0449577f322e 100644
+> --- a/include/net/netfilter/nf_conntrack.h
+> +++ b/include/net/netfilter/nf_conntrack.h
+> @@ -331,6 +331,7 @@ extern struct hlist_nulls_head *nf_conntrack_hash;
+>   extern unsigned int nf_conntrack_htable_size;
+>   extern seqcount_spinlock_t nf_conntrack_generation;
+>   extern unsigned int nf_conntrack_max;
+> +extern unsigned int nf_conntrack_gc_scan_interval_max;
+>
+
+Could it be just int? so there is no need to cast it to s32 later?
+
+>   /* must be called with rcu read lock held */
+>   static inline void
+> diff --git a/net/netfilter/nf_conntrack_core.c b/net/netfilter/nf_conntrack_core.c
+> index 27ce5fda8993..54949246f329 100644
+> --- a/net/netfilter/nf_conntrack_core.c
+> +++ b/net/netfilter/nf_conntrack_core.c
+> @@ -91,7 +91,7 @@ static DEFINE_MUTEX(nf_conntrack_mutex);
+>    * allowing non-idle machines to wakeup more often when needed.
+>    */
+>   #define GC_SCAN_INITIAL_COUNT	100
+> -#define GC_SCAN_INTERVAL_INIT	GC_SCAN_INTERVAL_MAX
+> +#define GC_SCAN_INTERVAL_INIT	nf_conntrack_gc_scan_interval_max
+>   
+>   #define GC_SCAN_MAX_DURATION	msecs_to_jiffies(10)
+>   #define GC_SCAN_EXPIRED_MAX	(64000u / HZ)
+> @@ -204,6 +204,9 @@ EXPORT_SYMBOL_GPL(nf_conntrack_htable_size);
+>   
+>   unsigned int nf_conntrack_max __read_mostly;
+>   EXPORT_SYMBOL_GPL(nf_conntrack_max);
 > +
-> +		msix_not_net_num += msix_info->serv_info[i].num;
-> +	}
+> +unsigned int nf_conntrack_gc_scan_interval_max __read_mostly = GC_SCAN_INTERVAL_MAX;
+> +
+>   seqcount_spinlock_t nf_conntrack_generation __read_mostly;
+>   static siphash_aligned_key_t nf_conntrack_hash_rnd;
+>   
+> @@ -1568,7 +1571,7 @@ static void gc_worker(struct work_struct *work)
+>   				delta_time = nfct_time_stamp - gc_work->start_time;
+>   
+>   				/* re-sched immediately if total cycle time is exceeded */
+> -				next_run = delta_time < (s32)GC_SCAN_INTERVAL_MAX;
+> +				next_run = delta_time < (s32)nf_conntrack_gc_scan_interval_max;
+>   				goto early_exit;
+>   			}
+>   
 
-AI review says:
+READ_ONCE() is required IMHO as it can be modified from sysctl concurrently.
 
-Is the condition `if (i == NBL_MSIX_NET_TYPE) continue;` correct here?
-Looking at the enum in nbl_dev.h:
+> @@ -1630,7 +1633,7 @@ static void gc_worker(struct work_struct *work)
+>   
+>   	gc_work->next_bucket = 0;
+>   
+> -	next_run = clamp(next_run, GC_SCAN_INTERVAL_MIN, GC_SCAN_INTERVAL_MAX);
+> +	next_run = clamp(next_run, GC_SCAN_INTERVAL_MIN, nf_conntrack_gc_scan_interval_max);
+>   
 
-enum nbl_msix_type {
-	NBL_MSIX_VIRTIO_TYPE = 0,
-	NBL_MSIX_NET_TYPE = 1,
-	NBL_MSIX_MAILBOX_TYPE = 2,
-	NBL_MSIX_TYPE_MAX = 3,
-};
+Likewise here, READ_ONCE() recommended..
 
-The loop starts at NBL_MSIX_MAILBOX_TYPE (value 2) and continues to
-NBL_MSIX_TYPE_MAX (value 3). Since the variable i never equals 1
-(NBL_MSIX_NET_TYPE), this branch can never execute.
-
-Should this dead code be removed, or should the loop start at a
-different value if the intent was to skip NBL_MSIX_NET_TYPE?
-
+Thanks,
+Fernando.
