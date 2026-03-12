@@ -1,63 +1,63 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EF503BFE31
-	for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 10:04:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4A9E3C13E1
+	for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 10:04:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773309863; cv=none; b=jZZmSkjozo2GH4NbZycsFralGHjzW38mK8S38efSnGp3K7v9Bz07mMiT6QFFhUmR4/CT7uEJLD0PH1XxlRf0YvomO/8dTl9gTp6g+EvCTX90mQZIlVMQjpHSJcYldfmwsR3yuGyra9WRF97FiqtskeJy0P2FZDD3yugDPhwnSSI=
+	t=1773309866; cv=none; b=txKcWJhfe4THz1ibWB/Q+cc8zqzi6hVKZKilNlJJ61YHLbgngywHYG3C7OLXiSMXABlVIokovee3Lvyfj+b0PZnvR0u3EPaxAfSw9PVGtM/cHFWqX+uPi6I3qsD9TawdH5nvrruIYguRQsn9XlyFIh/HOof5lVbHyZXo/qA8r44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773309863; c=relaxed/simple;
-	bh=1WRGLRV1Mf3gtLoQpSz/WpelFSk3nN1ML07ryNxiF/8=;
+	s=arc-20240116; t=1773309866; c=relaxed/simple;
+	bh=sBqoFY/Rv5DTMYj++KN0Sw7vm98e4uLLhQx69umkhKc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=B3wWOqXrFgZ6TRhUcWdQoJ3dq26MgAiL/5ldgz4gt8BnrG7wiZc0rpsRmAzPKEQdscXNhEZ2cnWFkcRyXZ+tzobAvKEK6EfVjNpY6LIKsy3V6CGKNNDqJJQZscSQmMp/4zeZ+OquFUaI4F87a9rxjMN+Vu501KxyHzKD/L5kvmk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=Fg9svybA; arc=none smtp.client-ip=209.85.221.42
+	 MIME-Version; b=ax0xBr7mFIgc2WZyZyMwjOGh5Voqmjy4y9S6iirq5sCvO/BRj3Lof5eCeCBAMs3uGOkoYSACcn+p/BB/floYmdJH3cbtJJnJYz87uSPaANZQBMosqBJh1LbB5vsVVR1T6GQkuaU/B5QVF3qZO52j5CfapfAheyGktJ+JJfsxCag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=nPFpBszh; arc=none smtp.client-ip=209.85.221.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="Fg9svybA"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-439ce3605ecso665095f8f.0
-        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 03:04:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="nPFpBszh"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-439b8a3f2bcso665403f8f.3
+        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 03:04:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1773309860; x=1773914660; darn=vger.kernel.org;
+        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1773309861; x=1773914661; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MPMyjPKUIKGGoXPsQ6f7ReT1eeW8YNhjgt1YhvCXpE0=;
-        b=Fg9svybAcoL/8W3TMV8UD1aita997P0m/lDmRNhHElXkBbE1/WCbgS7iQoLWF2/H5L
-         9ALqht8tNXwyv6UehXx0G3Y0kM33W2jUX+egpH/Q/Jjr8nB0srr9XmehLdJF03P8hWso
-         IEDck8AQ/u81W/ZsY2i1oRmrTPuOasmrsUHto7QCdwPPz50+4O9QxQ3jLBTan2qHidna
-         oX7pa5OGcOzUu2Sla73tAJFcGnMseXEgnEKjf8yS2OIXQQuHqnRU8YmDuv6mG7f8v3/T
-         zwSgH2wICBZpf5koM7412QWwXJFyqGNYKrSPgyNQHY+hMfEONAQjyrCALRF8OEj0/8dB
-         Chiw==
+        bh=thO3CTOoToOBK7xy8RWX7tgy+PjuAbGp4xc08ttDkvM=;
+        b=nPFpBszhbGckY2T39kNhjRZLqn2FeoSdvwQca2KxEHPTVNTKUM2BBJJAVFxPTlPGti
+         19TybGTrmLNtkDi6FkRZJg1g6T87yaCC2TClJLpGecTOH+EAHQDzV/GmdfkbR4AW7HR7
+         vhH1AuzTKGOIIJSnjV8aecTWwl9VWDE1UfLJw6PHOZT2il61nvM472D1a8Lmae6DAUtp
+         ASmeuxKJnWyM8o4m9TqCAYO70IRD40mBk+pDyoX2iSvHuSoJoL6LI+CZC+AWK47of6S0
+         ak8GpnxpvSb923AqGK76YJzu9NUVZfErmIua1aJ7ZvWzz9QDGPProQaX5kuW5myRKR0u
+         d7BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773309860; x=1773914660;
+        d=1e100.net; s=20230601; t=1773309861; x=1773914661;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=MPMyjPKUIKGGoXPsQ6f7ReT1eeW8YNhjgt1YhvCXpE0=;
-        b=Fg3g/Nn+dXX6Zhp4geFuj2uM1eTB7QYQ/Lj4JkFoWHgyBUd+J1wlBZooCWnbClujES
-         hRRVQf5F+lOFwqT15+XmxS8PJi1M1n+KSTWI7QgL2i2Hsbyo01g6x3MQliLOS1tLX0Bw
-         mpDv/TlYeuIl1AUknU9Er1R9fE0yzynZPpeNBtnwGv9gN3dJQTlm67IqfgM4BEiV4/BV
-         szizOsg5EJhcOOjTNquyRdvK0cP7luuvDfWanBcAGU+bTZuezul4p5eVRNJNWZZmnu8/
-         WK5lHyoJS1SxK7/4haKby3smk1wqTRs2g7xdDINeXG82rq2USQ5BA1G1h98PSjBXpy6r
-         4wfA==
-X-Forwarded-Encrypted: i=1; AJvYcCVoH9NouDqnLUpFs2/P+1b4oshPh8WT+XQwJ8TPNFkEQAQJ0OKigO3MqyJm0wWR7UfH0pzlrjroBrA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyh6Yun++3HTohTSbf1wsRqGNk71398WTVa7Zp2AuV53bxLbQ+x
-	eUCF8eZgT2W1sFV4ubpYHzofBBl1Pq0ITLDfZY0bQ1y2VmD1R0D+r5x/4ALBj+jtVdw=
-X-Gm-Gg: ATEYQzx+p9WaWCi08ZY+77wxjsj/Ird3t8HdBPHQDUX11RYMAb2+IWzOKaUdrC1Nudd
-	7gHG7rIwWE5LID9Yp60xX1CTYkkwCx8AuTFtmRjyFUzE+JISstToZ36ljBCGKKJ2B9AGuRosOwv
-	vT4u7bkeX8asPYHh5pwW0aICP2XzAQcfNtRsJ1ejSJIcR0rqjTsz9negZDVvMAKL58l6OupP+Jr
-	iIo9KSYVaoP17q8rf2cK3ndiLin+vPnxXZ3/kwqe5kZjgjwNKq6ly6dfZ9fT0nbedSVUlBVZZGb
-	4xo4tRVyw575Mw+W2i03Hf5OxUKpPhUocTiJx3twZRO1mCSgYZlVeMOz9TtxkvkYScfz6cNKTf2
-	ylUQ13QBskBN+o0pruKnUYq2r+BcWVfovfJQ/59jFuqOvPBVTUuvNu7Zm9os7s/fMko7nbFAO+x
-	nL5QqA4hLR0Lw/4A==
-X-Received: by 2002:a05:6000:2681:b0:439:cb9f:d635 with SMTP id ffacd0b85a97d-439f8223054mr10822988f8f.46.1773309859695;
-        Thu, 12 Mar 2026 03:04:19 -0700 (PDT)
+        bh=thO3CTOoToOBK7xy8RWX7tgy+PjuAbGp4xc08ttDkvM=;
+        b=fpvnVeqONFGsluH47dOqB59cDT4fRRYoDwQho2JosnfnBj1xX4P2X1wqMDYR0a3Qcd
+         gsGno0bzIVwaXBxIuaZMNbhcbQybHK3nJN9WjiLAzAUGSln3dnCc4phtemYCmoPAvS2t
+         VlTwOyw5JqpNQE6osmo+KhB9a1Vnw0NvxUepfI/fuioMOfjKgvEQ6B0KRLFNGk9MfNa+
+         TDAsCpPfLdlhrFqMe5yEijiB+WhY8hyU4er7wk07wF64gcv9amq+jbjqb6CLD6H83sR9
+         OIOSgvg0A2KbSxQrTaKZufQVHfk9Y2QseaxLiI4QX1yqlqeeezGle0Z4iCzQ0XGKT18g
+         YSDQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWtdjPNht5DImPVStRSZfRfLTz1znh3P9EJazpGdd6qCShUbwTsVIYjOzG2CI7AeAgzccXVNvHqyJg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy+ewEJoWwP56kb5P+y3E67t9WHwuY6F4TG64oYzrCFzahIEzWz
+	8u743rs7TFG+2B/NReyXD1XL3gGVHfWH7aUC5e+A0McblR8KD5r/vJ6Yxz7dGEuK6Bc=
+X-Gm-Gg: ATEYQzzdg+CFA1iFKgmTqLOM38vt7Hdt6+2/sS3GsEShmBo3mnKqeHvj1jqhnyCUR6V
+	BPxOxKD++9sD/X6+stmzzxmDsvYYQF83wMrHi3LESRn4RwSN6i7+QJwnsGap4AmyDHBAuzE8Yt1
+	5M5rtEa0FW3HCJ0+kGcMR81+lKJHTXFh4j1IEUfBnlmOGcm7RcCO/s9uuul24Ud8elDdF8q5z3I
+	JOPy+YRm7FkfU/Ff+MJYig9O40d+Dz5wYDb3dpLLKUZgDWX0wiXPn/g73IR4u/MUdqg22vKU1UR
+	A+o5oVpn7Eq9GusL1WTI5f4UYo7cU3dY+t5Oue5MG3UTHemsbTybFRfSz4Hj4KEXxxYew2Kdi7H
+	SJ21YLz3xCc73ya2d6Bqqx9iW/5Ifks8slTg58cf1E3gF+ksbZA7lzUc1GqHL7d5sZnYbX1FO+i
+	Ykj04jjPV4BckWwg==
+X-Received: by 2002:a05:6000:3113:b0:436:1b1:6cbd with SMTP id ffacd0b85a97d-439f81bd9dfmr10491594f8f.6.1773309860923;
+        Thu, 12 Mar 2026 03:04:20 -0700 (PDT)
 Received: from localhost ([85.163.81.98])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439fe1a737csm6305802f8f.10.2026.03.12.03.04.19
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439fe19abbasm6336477f8f.6.2026.03.12.03.04.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Mar 2026 03:04:19 -0700 (PDT)
+        Thu, 12 Mar 2026 03:04:20 -0700 (PDT)
 From: Jiri Pirko <jiri@resnulli.us>
 To: netdev@vger.kernel.org
 Cc: davem@davemloft.net,
@@ -85,9 +85,9 @@ Cc: davem@davemloft.net,
 	linux-doc@vger.kernel.org,
 	linux-rdma@vger.kernel.org,
 	linux-trace-kernel@vger.kernel.org
-Subject: [PATCH net-next v4 09/13] devlink: add devl_warn() helper and use it in port warnings
-Date: Thu, 12 Mar 2026 11:04:03 +0100
-Message-ID: <20260312100407.551173-10-jiri@resnulli.us>
+Subject: [PATCH net-next v4 10/13] devlink: allow devlink instance allocation without a backing device
+Date: Thu, 12 Mar 2026 11:04:04 +0100
+Message-ID: <20260312100407.551173-11-jiri@resnulli.us>
 X-Mailer: git-send-email 2.51.1
 In-Reply-To: <20260312100407.551173-1-jiri@resnulli.us>
 References: <20260312100407.551173-1-jiri@resnulli.us>
@@ -101,79 +101,172 @@ Content-Transfer-Encoding: 8bit
 
 From: Jiri Pirko <jiri@nvidia.com>
 
-Introduce devl_warn() macro that uses dev_warn() when a backing
-device is available and falls back to pr_warn() otherwise. Convert
-all dev_warn() calls in port.c to use it, preparing for devlink
-instances without a backing device.
+Allow devlink_alloc_ns() to be called with dev=NULL to support
+device-less devlink instances. When dev is NULL, the instance is
+identified over netlink using "devlink_index" as bus_name and
+the decimal index value as dev_name.
 
 Signed-off-by: Jiri Pirko <jiri@nvidia.com>
 ---
 v2->v3:
-- new patch
+- rebased on top of __devlink_alloc() introduction
+- removed dev check before dev_warn (devl_warn is used now)
+- rebased on top of devlink->bus_name and devlink->dev_name removal
+- rebased on top of devlink->dev_driver addition
+v1->v2:
+- moved DEVLINK_INDEX_BUS_NAME definition to patch #5
+- added comment to dev arg that it can be NULL
+- fixed the index sprintf for dev-less
 ---
- net/devlink/devl_internal.h |  9 +++++++++
- net/devlink/port.c          | 14 +++++++-------
- 2 files changed, 16 insertions(+), 7 deletions(-)
+ net/devlink/core.c          | 23 ++++++++++++++++++-----
+ net/devlink/dev.c           |  8 ++++----
+ net/devlink/devl_internal.h |  5 +++--
+ 3 files changed, 25 insertions(+), 11 deletions(-)
 
+diff --git a/net/devlink/core.c b/net/devlink/core.c
+index 34eb06d88544..eeb6a71f5f56 100644
+--- a/net/devlink/core.c
++++ b/net/devlink/core.c
+@@ -250,13 +250,13 @@ EXPORT_SYMBOL_GPL(devlink_to_dev);
+ 
+ const char *devlink_bus_name(const struct devlink *devlink)
+ {
+-	return devlink->dev->bus->name;
++	return devlink->dev ? devlink->dev->bus->name : DEVLINK_INDEX_BUS_NAME;
+ }
+ EXPORT_SYMBOL_GPL(devlink_bus_name);
+ 
+ const char *devlink_dev_name(const struct devlink *devlink)
+ {
+-	return dev_name(devlink->dev);
++	return devlink->dev ? dev_name(devlink->dev) : devlink->dev_name_index;
+ }
+ EXPORT_SYMBOL_GPL(devlink_dev_name);
+ 
+@@ -329,7 +329,10 @@ static void devlink_release(struct work_struct *work)
+ 
+ 	mutex_destroy(&devlink->lock);
+ 	lockdep_unregister_key(&devlink->lock_key);
+-	put_device(devlink->dev);
++	if (devlink->dev)
++		put_device(devlink->dev);
++	else
++		kfree(devlink->dev_name_index);
+ 	kvfree(devlink);
+ }
+ 
+@@ -432,7 +435,7 @@ struct devlink *__devlink_alloc(const struct devlink_ops *ops, size_t priv_size,
+ 	static u32 last_id;
+ 	int ret;
+ 
+-	WARN_ON(!ops || !dev || !dev_driver);
++	WARN_ON(!ops || !dev_driver);
+ 	if (!devlink_reload_actions_valid(ops))
+ 		return NULL;
+ 
+@@ -445,7 +448,14 @@ struct devlink *__devlink_alloc(const struct devlink_ops *ops, size_t priv_size,
+ 	if (ret < 0)
+ 		goto err_xa_alloc;
+ 
+-	devlink->dev = get_device(dev);
++	if (dev) {
++		devlink->dev = get_device(dev);
++	} else {
++		devlink->dev_name_index = kasprintf(GFP_KERNEL, "%u", devlink->index);
++		if (!devlink->dev_name_index)
++			goto err_kasprintf;
++	}
++
+ 	devlink->ops = ops;
+ 	devlink->dev_driver = dev_driver;
+ 	xa_init_flags(&devlink->ports, XA_FLAGS_ALLOC);
+@@ -471,6 +481,8 @@ struct devlink *__devlink_alloc(const struct devlink_ops *ops, size_t priv_size,
+ 
+ 	return devlink;
+ 
++err_kasprintf:
++	xa_erase(&devlinks, devlink->index);
+ err_xa_alloc:
+ 	kvfree(devlink);
+ 	return NULL;
+@@ -492,6 +504,7 @@ struct devlink *devlink_alloc_ns(const struct devlink_ops *ops,
+ 				 size_t priv_size, struct net *net,
+ 				 struct device *dev)
+ {
++	WARN_ON(!dev);
+ 	return __devlink_alloc(ops, priv_size, net, dev, dev->driver);
+ }
+ EXPORT_SYMBOL_GPL(devlink_alloc_ns);
+diff --git a/net/devlink/dev.c b/net/devlink/dev.c
+index e3a36de4f4ae..57b2b8f03543 100644
+--- a/net/devlink/dev.c
++++ b/net/devlink/dev.c
+@@ -453,7 +453,8 @@ int devlink_reload(struct devlink *devlink, struct net *dest_net,
+ 	 * (e.g., PCI reset) and to close possible races between these
+ 	 * operations and probe/remove.
+ 	 */
+-	device_lock_assert(devlink->dev);
++	if (devlink->dev)
++		device_lock_assert(devlink->dev);
+ 
+ 	memcpy(remote_reload_stats, devlink->stats.remote_reload_stats,
+ 	       sizeof(remote_reload_stats));
+@@ -854,7 +855,7 @@ int devlink_info_version_running_put_ext(struct devlink_info_req *req,
+ }
+ EXPORT_SYMBOL_GPL(devlink_info_version_running_put_ext);
+ 
+-static int devlink_nl_driver_info_get(struct device_driver *drv,
++static int devlink_nl_driver_info_get(const struct device_driver *drv,
+ 				      struct devlink_info_req *req)
+ {
+ 	if (!drv)
+@@ -872,7 +873,6 @@ devlink_nl_info_fill(struct sk_buff *msg, struct devlink *devlink,
+ 		     enum devlink_command cmd, u32 portid,
+ 		     u32 seq, int flags, struct netlink_ext_ack *extack)
+ {
+-	struct device *dev = devlink_to_dev(devlink);
+ 	struct devlink_info_req req = {};
+ 	void *hdr;
+ 	int err;
+@@ -892,7 +892,7 @@ devlink_nl_info_fill(struct sk_buff *msg, struct devlink *devlink,
+ 			goto err_cancel_msg;
+ 	}
+ 
+-	err = devlink_nl_driver_info_get(dev->driver, &req);
++	err = devlink_nl_driver_info_get(devlink->dev_driver, &req);
+ 	if (err)
+ 		goto err_cancel_msg;
+ 
 diff --git a/net/devlink/devl_internal.h b/net/devlink/devl_internal.h
-index 3cc7e696e0fd..cb2ffef1ac2d 100644
+index cb2ffef1ac2d..7dfb7cdd2d23 100644
 --- a/net/devlink/devl_internal.h
 +++ b/net/devlink/devl_internal.h
-@@ -71,6 +71,15 @@ struct devlink *__devlink_alloc(const struct devlink_ops *ops, size_t priv_size,
- 				struct net *net, struct device *dev,
- 				const struct device_driver *dev_driver);
+@@ -49,6 +49,7 @@ struct devlink {
+ 	struct xarray snapshot_ids;
+ 	struct devlink_dev_stats stats;
+ 	struct device *dev;
++	const char *dev_name_index;
+ 	const struct device_driver *dev_driver;
+ 	possible_net_t _net;
+ 	/* Serializes access to devlink instance specific objects such as
+@@ -119,7 +120,7 @@ static inline bool devl_is_registered(struct devlink *devlink)
  
-+#define devl_warn(devlink, format, args...)				\
-+	do {								\
-+		if ((devlink)->dev)					\
-+			dev_warn((devlink)->dev, format, ##args);	\
-+		else							\
-+			pr_warn("devlink (%s): " format,		\
-+				devlink_dev_name(devlink), ##args);	\
-+	} while (0)
-+
- /* devlink instances are open to the access from the user space after
-  * devlink_register() call. Such logical barrier allows us to have certain
-  * expectations related to locking.
-diff --git a/net/devlink/port.c b/net/devlink/port.c
-index fa3e1597711b..7fcd1d3ed44c 100644
---- a/net/devlink/port.c
-+++ b/net/devlink/port.c
-@@ -976,7 +976,7 @@ static void devlink_port_type_warn(struct work_struct *work)
- 	struct devlink_port *port = container_of(to_delayed_work(work),
- 						 struct devlink_port,
- 						 type_warn_dw);
--	dev_warn(port->devlink->dev, "Type was not set for devlink port.");
-+	devl_warn(port->devlink, "Type was not set for devlink port.");
+ static inline void devl_dev_lock(struct devlink *devlink, bool dev_lock)
+ {
+-	if (dev_lock)
++	if (dev_lock && devlink->dev)
+ 		device_lock(devlink->dev);
+ 	devl_lock(devlink);
+ }
+@@ -127,7 +128,7 @@ static inline void devl_dev_lock(struct devlink *devlink, bool dev_lock)
+ static inline void devl_dev_unlock(struct devlink *devlink, bool dev_lock)
+ {
+ 	devl_unlock(devlink);
+-	if (dev_lock)
++	if (dev_lock && devlink->dev)
+ 		device_unlock(devlink->dev);
  }
  
- static bool devlink_port_type_should_warn(struct devlink_port *devlink_port)
-@@ -1242,9 +1242,9 @@ static void __devlink_port_type_set(struct devlink_port *devlink_port,
-  */
- void devlink_port_type_eth_set(struct devlink_port *devlink_port)
- {
--	dev_warn(devlink_port->devlink->dev,
--		 "devlink port type for port %d set to Ethernet without a software interface reference, device type not supported by the kernel?\n",
--		 devlink_port->index);
-+	devl_warn(devlink_port->devlink,
-+		  "devlink port type for port %d set to Ethernet without a software interface reference, device type not supported by the kernel?\n",
-+		  devlink_port->index);
- 	__devlink_port_type_set(devlink_port, DEVLINK_PORT_TYPE_ETH, NULL);
- }
- EXPORT_SYMBOL_GPL(devlink_port_type_eth_set);
-@@ -1273,9 +1273,9 @@ EXPORT_SYMBOL_GPL(devlink_port_type_ib_set);
- void devlink_port_type_clear(struct devlink_port *devlink_port)
- {
- 	if (devlink_port->type == DEVLINK_PORT_TYPE_ETH)
--		dev_warn(devlink_port->devlink->dev,
--			 "devlink port type for port %d cleared without a software interface reference, device type not supported by the kernel?\n",
--			 devlink_port->index);
-+		devl_warn(devlink_port->devlink,
-+			  "devlink port type for port %d cleared without a software interface reference, device type not supported by the kernel?\n",
-+			  devlink_port->index);
- 	__devlink_port_type_set(devlink_port, DEVLINK_PORT_TYPE_NOTSET, NULL);
- }
- EXPORT_SYMBOL_GPL(devlink_port_type_clear);
 -- 
 2.51.1
 
