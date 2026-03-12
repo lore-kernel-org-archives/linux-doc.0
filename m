@@ -1,732 +1,586 @@
-Received: from mail-dl1-f46.google.com (mail-dl1-f46.google.com [74.125.82.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011003.outbound.protection.outlook.com [52.101.65.3])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 403672BE057
-	for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 12:24:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.46
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773318299; cv=none; b=rmnNWyj6sDdgvOlrghDGd6xigV1zolN8qUsVqeuN7EZqUN2KV/U7ul1ZjKcz8S9Je82lNRq9Gpn2CwjKwbIOLsxuOpumc3WsyMf3qaTEv+HRhQoVPTky18o7ttsZMZSYgLgUjjotntO4ZAy6uMIX35KW4Sor30htINmn4GdCkDA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773318299; c=relaxed/simple;
-	bh=acQa+EAeFjHZVIGy4hK0GsPQelipEKIn1oorkzifIYU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=EJIRWC32mRrmU4ppqKcOJuXia72oqnLTerkYaKWjWTvroq2S2culAJo5rFPEMNI9CTGPsbQjIM1WXGlZ0BcUeMLtn/psXoDmeQlASfbCXY9hIHwIwdxBNE0+7sQb1fsmj4hnn9V2Yt6xnK6tfIaNS5r7sNydOz9L8nfSXIgT4zE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fQWTO1EE; arc=none smtp.client-ip=74.125.82.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 636AE5474F;
+	Thu, 12 Mar 2026 12:25:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.3
+ARC-Seal:i=3; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773318307; cv=fail; b=UdcVeg/CWvBm2kkvazFx7KGywARvIrilihQelsBsMx93twGsPI2cVMT29c5Lg3fRADCT6O/iDP8KVhYEAyI0mE87+08ULqqC6d99f2FWT6MCirNSnZgwf0omEwvwIr9qs9z1mFxsaK4g7Ss3k1ZlNx5TnLAy/I3rbJnLP8k3IVY=
+ARC-Message-Signature:i=3; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773318307; c=relaxed/simple;
+	bh=tUjWEebliLvI6MwAAtGr9F5o/+S6ZybAFkSrCpT7fWM=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=D2M6qJCSSFPFB5xgFrOargE0IwkaIQUe46lFTTw9zVzVf5ehP6UyPqLN4kR/6xjbHdgA2ovtbmZ8QYb09B+QqOD/k9caT0aXIT0DIVvfQTi9+4zQZZ+Ypm7HFc1pnscPd7XQkaoz6KdZRyXz4wcj6pNrTHhMWXbXvSZHENxCvOM=
+ARC-Authentication-Results:i=3; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=DHRS0PN6; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=DHRS0PN6; arc=fail smtp.client-ip=52.101.65.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fQWTO1EE"
-Received: by mail-dl1-f46.google.com with SMTP id a92af1059eb24-1273349c56bso1407729c88.0
-        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 05:24:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773318296; x=1773923096; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QkoxvWFcUApZm/+5UswVWFwLGD3OMN/psk39lLuVgbM=;
-        b=fQWTO1EEYEVuIgbuNzwUoAju3BcijiKgV7vnSJlxgeqt1Qc0KhjVPDqE67XDX0xZe8
-         +1Pfb8scii8Ioh5qsQv7F/8Yc/htLOSOCc/9Hhacw1cZEhScp8zSel/zthLzlt8y0SiU
-         BzJkk6pgbQjExELMpIBPn0vybrd0GQqZIbCq9gAG0Mq6pXxkOLNBa8SI66QAxM+JAED8
-         8hwPzAR6AezCtoGg//QnJbK6h92OflPdXooNPHqfh0Z60GmrwWry0gv86r4OC77ljwIy
-         9fS/+j6sPEGWfr3dwN2YFHdNktIYWQjkSDB9BMWJlM8yFamHufr+etw2UqyCnBfxbBdB
-         qa6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773318296; x=1773923096;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QkoxvWFcUApZm/+5UswVWFwLGD3OMN/psk39lLuVgbM=;
-        b=Xz6AfhJALFnQ7YnwfRyIRP+s0xu/ENu/hT9PRpyL/4ari+tiRiRyZAbUYX8E84/2Xd
-         /1105Vfwoc5b78ZDJaQkqOlMDZfwXRknZnDkFk8v1VZqSx2yvdZ+KoDEez/NUFcKU/a5
-         a/80jlu51LjgD0mr3yX5rZofziKTx/xcDezLdgyOcBrni2uIdbbrKCQt5cE2GtFAbrLB
-         UvxYK7XerorF/rYk9+ksr5q5qM7DhovhgJulFwFZPlr71L0Wp2xKjXMydvjFhCag5OwA
-         ZThsB+tgK0S6DT1pTTG89GqQQtaEg5AHh6Nk1T/JlE2IQojcApsdo+oOvOIY9CltHrbz
-         NIGA==
-X-Gm-Message-State: AOJu0Yxlb0qheBHYHCjBAOC1ZXkluPLkbQdWCR4pGnM7C2UV19lM2t6O
-	ZYX0tEhaYdcFsn5sCkSZ/S8eutBRVLPqUKZcWn5CTqSYUqx/CceTdrnkLFR88Q==
-X-Gm-Gg: ATEYQzxjOJ5noKZxRH+T489BA7OxR11JD8MCM8BDC2HdAqeO/4F3tCHptlvbnjuftzF
-	xvgsvsWl6xnieS5a2qdBUTB2ZBEGPabiWpxlRwBm1ZbQJzN37YDSLf85UNHrtOgVib+ocQAk2nx
-	YWngsGoUw7kemvLeQGrwPv5lgyqsGNUfExVogmKJlgSAsSX1/Ek0X4ROvxSruOfTCoxp1XIMw6u
-	ncNhOV8fiiZc74xlaJN6seoxpW7pd0prBKqbCcAknfmtgmAZl1VIRW6L+x+p/wM0Uy9pz7tRBpO
-	nxM+l0UJ6i1nY+7HHpY2SDvS+fsL5V56GSc8uKxFF0gESzOpbg3djuw588YX8lDT2sPdwXDsk0c
-	KmIWKgFONr9ipQyQN5usnCKU9iwWWb3lbRM/BZPM1lj8zRnSLjW3gFCEbxudkwfnt6b/3ISD53/
-	qrI8XDHaq2HmcQ3v4rcf64ib79lIZai1Dx8vSd3POuwkylmJz7Rk71Pf1QwukIEb9lNbM/Zo+d3
-	5g4DDmNZCx/icAE2p+bRtQnRK6ieg==
-X-Received: by 2002:a05:7022:10b:b0:128:bae0:e043 with SMTP id a92af1059eb24-128e7827f26mr2809306c88.31.1773318295484;
-        Thu, 12 Mar 2026 05:24:55 -0700 (PDT)
-Received: from localhost.localdomain (smtp.hostdime.com.br. [187.45.177.18])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-128e7ccd60fsm7977620c88.12.2026.03.12.05.24.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Mar 2026 05:24:54 -0700 (PDT)
-From: Daniel Pereira <danielmaraboo@gmail.com>
-To: corbet@lwn.net
-Cc: linux-doc@vger.kernel.org
-Subject: [PATCH docs-next v3] docs: pt_BR: add netdev and maintainer handbook translations
-Date: Thu, 12 Mar 2026 09:24:24 -0300
-Message-ID: <20260312122425.19577-1-danielmaraboo@gmail.com>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="DHRS0PN6";
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="DHRS0PN6"
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=L7VhD+dWILsaPhNS47CJeNRSrVFCa/UusjkkuFoEXGkWyfjH21vIE+3Rfw5ZPOsKKIrmoxGV+J+/aZRbS140oBq+Rj9lkwa/eXP5tLvq0FV7T0f2hUT/XEYxb8PHd6DFpmxitGj+W/6drYKd5znsWmjTn+iLnh1FL3f1gxifWl4ne0AJMUi0M8g+++60WrWu5M5KJo8RmUxhugECVHj9u6Ilu0E0kAxFruqDuC0IPl/2QBBAU/pZSmPcm2dO3PTzuZ4pBPI3hSkrQenlYJ0H+Bcp8B6SQPpg2U558XYF0O4rVYPZW9Q4pv/QFebNkZ2fKYc9Qf2dObVfb7nKe8hc5Q==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6aMI/mTg9wW2n5ALbgftnvbEcBsoJN4eJu6ca1REITk=;
+ b=dclnjtE31Ce7vpx/ZD3CwgenElJjV7xKUJyi42b3JWVJVSY3p7wM1Bytrxo72I0d+u+FLUosgYGeEpwdkppQmbTe0GFvsNq4v1Kx2Ccslf3n+OpGJ5FO8N2HBxp7XcskgzxoR92hR/7vXD55hm6BIpHFSIlnS7wvd60HAWzpKV7xPyT3rR16VQxCM34e2CGeAei/HkEV/TeQP9+V+a0CO6+PoHn6tXPME+kx61fOgk8qxuyBMjMNMKDQPncTLlC5j9nF7mRIxRjvbmnnZHE83S7xKSsjvU2xMcAJnGvgZcg3DpTi8/yENKzg+MibX/v51eqFh4y/sv2Ti3IV7t0yzQ==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=huawei.com smtp.mailfrom=arm.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
+ (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6aMI/mTg9wW2n5ALbgftnvbEcBsoJN4eJu6ca1REITk=;
+ b=DHRS0PN6/e+ky3pV+BOol9tZN44SOON0gWFk/CAGc/32IhkXoooivmKRzf6HMnkZWQyFlhje+HdZyQh4gUojdf9UY4F001PRdLsCLZuusdZpkYmNbSAaSSVUF6IgQk0EtUS9bvp0XMrRKEJt0Zg5oJxeBlCNFspk3Gu9qp3jyGk=
+Received: from AS4P195CA0027.EURP195.PROD.OUTLOOK.COM (2603:10a6:20b:5d6::16)
+ by AS8PR08MB10221.eurprd08.prod.outlook.com (2603:10a6:20b:63e::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.12; Thu, 12 Mar
+ 2026 12:24:57 +0000
+Received: from AMS0EPF000001A9.eurprd05.prod.outlook.com
+ (2603:10a6:20b:5d6:cafe::90) by AS4P195CA0027.outlook.office365.com
+ (2603:10a6:20b:5d6::16) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9678.28 via Frontend Transport; Thu,
+ 12 Mar 2026 12:24:58 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ AMS0EPF000001A9.mail.protection.outlook.com (10.167.16.149) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.9678.18
+ via Frontend Transport; Thu, 12 Mar 2026 12:24:57 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PhAcuy+17cqLh4Y01RuSgNOLhwqPriUntYgxxKQaPshc9IGDn/Qcm4W4HKssVVcnGmduqqKJpbnrN8UcavSjLEgXnW3McgTP1nULgaSkPMADVcDGcTjMkA+I8GhihwsXoqF2K8JYpI3Od/GMeASeuNC0YedYJc/wHkMheYbHIy+w95igYmmvfBAZDPlMmUmp0qv5PChXzEkuKiRa8HkSYcmlSDbV/f/QGaPTmgLOrnngRtlrekqbNUx2nqvkQQClStBXVY2ETgPrR04qG3fSWjUVotm7rjDIkpzk5ig7dJJ852YpVGSTndx2MvT4TGpTsrAGeKpccqjlkTCXT5fI7g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6aMI/mTg9wW2n5ALbgftnvbEcBsoJN4eJu6ca1REITk=;
+ b=t/AOjxH1vme12cPvI9lhNwvHeC30NRZ47wM2n3G1UXITb0XIKV1KwIXQGgpjwzoZ4P2wVgM3tH3QhLER0y7dQet32dzj0mp9bUUUeOw6yLJ0/+PKJG06sUV/vQXNgANAwGEvTZVMObFWnKd5NA63WJSu7wnyuUzWte9PTE+4UkGACLgV/k0uKC6vhcu7G9eRpnM69vDml3RBQGtHVM8ZwpTsKTNc6Bk5ymZuJQyrQWX4H+kcesVlIRXLO7lfFk6gb3W+X3/U6S9aNQf27QhPgENcSK6fE68JX529r0IjK9GWGasW92pDpctWbMhxPnmXOAcimtVljkaBAkL7XNNPzQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6aMI/mTg9wW2n5ALbgftnvbEcBsoJN4eJu6ca1REITk=;
+ b=DHRS0PN6/e+ky3pV+BOol9tZN44SOON0gWFk/CAGc/32IhkXoooivmKRzf6HMnkZWQyFlhje+HdZyQh4gUojdf9UY4F001PRdLsCLZuusdZpkYmNbSAaSSVUF6IgQk0EtUS9bvp0XMrRKEJt0Zg5oJxeBlCNFspk3Gu9qp3jyGk=
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+Received: from VI0PR08MB11823.eurprd08.prod.outlook.com (2603:10a6:800:324::5)
+ by DU0PR08MB9300.eurprd08.prod.outlook.com (2603:10a6:10:41f::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.12; Thu, 12 Mar
+ 2026 12:23:49 +0000
+Received: from VI0PR08MB11823.eurprd08.prod.outlook.com
+ ([fe80::694c:3790:be1a:8ddd]) by VI0PR08MB11823.eurprd08.prod.outlook.com
+ ([fe80::694c:3790:be1a:8ddd%5]) with mapi id 15.20.9700.010; Thu, 12 Mar 2026
+ 12:23:49 +0000
+Message-ID: <4a193f85-e0ed-4367-b69b-587b2cbc977f@arm.com>
+Date: Thu, 12 Mar 2026 12:23:41 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 11/11] RAS: add DeviceTree firmware-first CPER provider
+Content-Language: en-GB
+To: Jonathan Cameron <jonathan.cameron@huawei.com>
+Cc: devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
+ Dmitry.Lamerov@arm.com, catalin.marinas@arm.com, bp@alien8.de,
+ robh@kernel.org, rafael@kernel.org, will@kernel.org, conor@kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ krzk+dt@kernel.org, Michael.Zhao2@arm.com, tony.luck@intel.com
+References: <20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-0-347fa2d7351b@arm.com>
+ <20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-11-347fa2d7351b@arm.com>
+ <20260224155520.00004e92@huawei.com>
+From: Ahmed Tiba <ahmed.tiba@arm.com>
+In-Reply-To: <20260224155520.00004e92@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO4P265CA0130.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2c6::19) To VI0PR08MB11823.eurprd08.prod.outlook.com
+ (2603:10a6:800:324::5)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-TrafficTypeDiagnostic:
+	VI0PR08MB11823:EE_|DU0PR08MB9300:EE_|AMS0EPF000001A9:EE_|AS8PR08MB10221:EE_
+X-MS-Office365-Filtering-Correlation-Id: f3359a33-25b2-4eb5-735a-08de80325f90
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted:
+ BCL:0;ARA:13230040|1800799024|376014|366016|7416014|22082099003|18002099003|56012099003;
+X-Microsoft-Antispam-Message-Info-Original:
+ uwNy+hhFBWac9ZFXIkK//QiZVVMgE5Rff76Gs3PaLc6z3I3ms2zxnc17SyBKidK7Bl81mT8UJy3WIiLXewasVLEclsEeR6d5AKKWWRQ/VLKtqySDjcTMYzsr/huDWIXEhWXDRrNUw6UMHT7vUqJHVJ69EFFVMBgfREu8dZbUMPxMKjR6GyvB5ASkvIs8g5Jid/uBsdIPJmuaxy9fe4wtOtaJnQT4Y6KnGwwiDncjKvd9VdlgRxqg6whsk08sfKaJR+7VLepk7Xf+MQEFCD4ZFSS1ya3UVxDt4jums6fPoZY/chGcvpCp/te9AnJKEYNvBylyBFZ69dpnbd7lw5yJdxwTuxj4lMvfphYJCk55Ru5jTC5UZyALisi0WsQi73szfD1iPTkcvypc/MbH08hAcQ9qPakoNlFPoKv8azJ4JBfKRQpSD8GeDkm6RwXUYwranVatyUOHiafkvZ/KqpCcArRT4SG5E6tLKipS3pybk4yJjIfvhneqY/Xfssj1+sME8XO9W8IDO3Sk/Vv9Cff7co9NyxOl0jwgFhodfLu8OoPqX2Bz5RaBVPFyNTldPTczRFnSb1a4IsCEb5xKmPG7MkXjIpcyhrL7zNPZIsrelzuOO0Ci1Xx57bBJmt0ZHgCh9VjSlWymSE/P75Do7Ehf3gZk+L5rDhgnWV/WsUfUUe0+5kuQcFoQJUtI2Nq5jYqbA6ZWnF4zvxDQnr5d8JCXhiG6jKOHZzbw4ze+nSExnCw=
+X-Forefront-Antispam-Report-Untrusted:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI0PR08MB11823.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(7416014)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+X-Exchange-RoutingPolicyChecked:
+ TX/iK20PomtSzE7PVIMiugbqVn4QCsXLvRWFMYB2Vx81ZBm32/Jd1Px9HHpH2YHTmfP2sDujTYdTZOIZyN2H+L6PYo17RgG1sBqW+SFE3b0ChbKlHmOANS5vtQHkd/TNUeFoFRILGrH7qbd6USMgZ2H6xTPBjw3kSEzah2rHO3sHrlJmE4TRedN5ACWEHDMCT/jqP0+qGwqVHYavpTntKe1igfhauAzquR1bECRWx6ZiT/pK02qeSaorMdnV24Fbh/DKeMloHSZf0G8B69ENIr0gCn7xQxXZS5c0dM2UxtHNtyVmPW2a5+PT+dG1xyPCWDeZ157vYRj5awdLsbNtAA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB9300
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped:
+ AMS0EPF000001A9.eurprd05.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs:
+	d084e39b-ef54-4b47-3d81-08de803236e6
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|82310400026|1800799024|30052699003|36860700016|35042699022|14060799003|18002099003|22082099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	iEdQ5l/E70orGl/i7m6AyoNukf7RgirDhG2H7/vghhW/xzw9wO9kzKGnMLmqLOaap8/8e7nt8Rkf2s9bAiEgjQdH2dUywmjhFBAUpctUw2jY9Rmnr/P79CoBrxSPDJIJxO37S13ZB+QewVnIVkyn8Fm2f+3EqkLIuBKJST+ZP/fEFV1C2FaffsuW/bRls+MtAgfswf7J41DBMAwPflUkH6/ISYz6eS9GspcULbPR+7RVeNtQjpB1WUnuQFN87jY+YfmW2T3MCx9Nq12FbC8q/yp8WvY7NXLRA+RKEGrfUSmyE3xFSynfCOWESpa2Fc1/syrELrRsMvuZhJCgLU8yD5PnCWEY/ldl+m8zwZgym1KhpX8asH1LKYWgcMeji7O4vF/yy3ZWZQwy0fbefm5vXDhjvbEvqqh/OvRo4pJdAnmpc8lobQLus24Z0SCLS8Jp2te+XIasRY8niD0cZvat+dOr7Vbagg3FTtKdNk8n+B95eiBHRwr4aLYY79Lqftxa4A5aDgVpGYkctX4c1lpgomjffdCZl+cgTPlP+K0int2+Uk25gyfhfxOt+vd4oJMl6pVym94CzmpPd++kqabagIV+JbUhP5VLohT3By9oczF2BukNe9qp+P2SgYVIGETpwbO295I7aJUKscVIvftBipGESfIlVUTCSkHDJRaFZjfGZTG6ID/0Lm4+iWu/S6p+e3775f97uPBhyqIVPT4C6y6NxQms6xixfhN94x3QdlRuo65LhAZBU/2ALZWloZOt9Yof8zUiLuQ9dX19rttyxg==
+X-Forefront-Antispam-Report:
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(376014)(82310400026)(1800799024)(30052699003)(36860700016)(35042699022)(14060799003)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	G5EYKejkYnbFh0XvMohkgbKvXaE8eJz3icfbtXAftkKu/sxaeVGp7UyMJUhjWVHl02pBYb6Y9W1bQDwFZlLnvxJIXI+CV/noyQF0x52u12V+KeoPGK2otV3NOrKL2SyVGHi4gvMvaXEdnq6h/3Hke5YaYoSohkKmHyxHo2ZVbAvkPC+Ty67eJzTqDYN21oOwPJTOqzoZ3ncAXop1KiB52gJP59gXJhackfp0vegyEhwDR6JSBbK0d0S1I2zl6+JdI1Lji/AtCXdJ15UoGPMH5duHWd8OhXIrckz7yuG5oIWbAi5uQ0tW+RRyvJW6GAqHAsatN9fseNj0uQgCyYZS4Zs5v+e9QciXyRia7+DW2hR7VkMOAm05vKyq0KRPw+8e6H91CktFp0qzKtV6/9LIqMSFBXqwVwVb+pK/k08LqjOYTorfFXxfszi92Nqzp22y
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Mar 2026 12:24:57.2160
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f3359a33-25b2-4eb5-735a-08de80325f90
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	AMS0EPF000001A9.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB10221
 
-Add the Brazilian Portuguese translation for the netdev subsystem
-process and update the maintainer handbook to include it.
+On 24/02/2026 15:55, Jonathan Cameron wrote:
+> On Fri, 20 Feb 2026 13:42:29 +0000
+> Ahmed Tiba <ahmed.tiba@arm.com> wrote:
+> 
+>> Add a DeviceTree firmware-first CPER provider that reuses the shared
+>> GHES helpers, wire it into the RAS Kconfig/Makefile and document it in
+>> the admin guide. Update MAINTAINERS now that the driver exists.
+>>
+>> Signed-off-by: Ahmed Tiba <ahmed.tiba@arm.com>
+> Hi Ahmed,
+> 
+> Various comments inline.
+> 
+> Jonathan
+> 
+>> ---
+>>   Documentation/admin-guide/RAS/main.rst |  18 +++
+>>   MAINTAINERS                            |   1 +
+>>   drivers/acpi/apei/apei-internal.h      |  10 +-
+>>   drivers/acpi/apei/ghes_cper.c          |   2 +
+>>   drivers/ras/Kconfig                    |  12 ++
+>>   drivers/ras/Makefile                   |   1 +
+>>   drivers/ras/esource-dt.c               | 264 +++++++++++++++++++++++++++++++++
+>>   include/acpi/ghes_cper.h               |   9 ++
+>>   8 files changed, 308 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/Documentation/admin-guide/RAS/main.rst b/Documentation/admin-guide/RAS/main.rst
+>> index 5a45db32c49b..4ffabaaeabb1 100644
+>> --- a/Documentation/admin-guide/RAS/main.rst
+>> +++ b/Documentation/admin-guide/RAS/main.rst
+>> @@ -205,6 +205,24 @@ Architecture (MCA)\ [#f3]_.
+>>   .. [#f3] For more details about the Machine Check Architecture (MCA),
+>>     please read Documentation/arch/x86/x86_64/machinecheck.rst at the Kernel tree.
+>>   
+>> +Firmware-first CPER via DeviceTree
+>> +----------------------------------
+>> +
+>> +Some systems expose Common Platform Error Record (CPER) data
+>> +via DeviceTree instead of ACPI HEST tables.
+> 
+> I'd argue this isn't really DT specific, it's just not ACPI table.
+> You could for instance use PRP0001 and wire this up on ACPI with only
+> one trivial change to generic property.h accessor for the boolean.
+> 
+> Or use another firmware information source entirely.
 
-Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
----
-v3:
-- Added maintainer-netdev.rst translation.
-- Updated maintainer-handbooks.rst to include the netdev link.
-- Fixed Sphinx indentation (3 spaces) in maintainer-handbooks.rst.
-- Ensured final newline in all files as requested by Jonathan Corbet.
+I'm intentionally keeping the scope DT-only for this series,
+so I'll keep the wording DT-focused.
 
-v2:
-- Fixed "Title level inconsistent" error in maintainer-netdev.rst.
-- Cleaned up formatting to pass checkpatch.pl.
+>> +Enable ``CONFIG_RAS_ESOURCE_DT`` to build the ``drivers/ras/esource-dt.c``
+>> +driver and describe the CPER error source buffer with the
+>> +``Documentation/devicetree/bindings/firmware/arm,ras-ffh.yaml`` binding.
+>> +The driver reuses the GHES CPER helper object in
+>> +``drivers/acpi/apei/ghes_cper.c`` so the logging, notifier chains, and
+>> +memory failure handling match the ACPI GHES behaviour even when
+>> +ACPI is disabled.
+>> +
+>> +Once a platform describes a firmware-first provider, both ACPI GHES and the
+>> +DeviceTree driver reuse the same code paths. This keeps the behaviour
+>> +consistent regardless of whether the error source is described via ACPI
+>> +tables or DeviceTree.
+> 
+>> diff --git a/drivers/ras/Kconfig b/drivers/ras/Kconfig
+>> index fc4f4bb94a4c..ea6d96713020 100644
+>> --- a/drivers/ras/Kconfig
+>> +++ b/drivers/ras/Kconfig
+>> @@ -34,6 +34,18 @@ if RAS
+>>   source "arch/x86/ras/Kconfig"
+>>   source "drivers/ras/amd/atl/Kconfig"
+>>   
+>> +config RAS_ESOURCE_DT
+>> +	bool "DeviceTree firmware-first CPER error source block provider"
+> It isn't really DT specific other than one call that I've suggested you
+> replace with a generic firmware accessor.
+> 
 
-v1:
-- Initial submission
----
- Documentation/translations/pt_BR/index.rst    |   1 +
- .../pt_BR/process/maintainer-handbooks.rst    |  11 +-
- .../pt_BR/process/maintainer-netdev.rst       | 596 ++++++++++++++++++
- 3 files changed, 607 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/pt_BR/process/maintainer-netdev.rst
+I'll keep it DT-specific for this series.
 
-diff --git a/Documentation/translations/pt_BR/index.rst b/Documentation/translations/pt_BR/index.rst
-index de5c005f9..8822e21cf 100644
---- a/Documentation/translations/pt_BR/index.rst
-+++ b/Documentation/translations/pt_BR/index.rst
-@@ -69,3 +69,4 @@ kernel e sobre como ver seu trabalho integrado.
-    Como começar <process/howto>
-    Requisitos mínimos <process/changes>
-    Manuais dos mantenedores <process/maintainer-handbooks>
-+   Processo do subsistema de rede (netdev) <process/maintainer-netdev>
-diff --git a/Documentation/translations/pt_BR/process/maintainer-handbooks.rst b/Documentation/translations/pt_BR/process/maintainer-handbooks.rst
-index eb650bc60..20bb32490 100644
---- a/Documentation/translations/pt_BR/process/maintainer-handbooks.rst
-+++ b/Documentation/translations/pt_BR/process/maintainer-handbooks.rst
-@@ -5,4 +5,13 @@ Notas sobre o processo de desenvolvimento de subsistemas e mantenedores
- 
- O propósito deste documento é fornecer informações específicas de
- subsistemas que são suplementares ao manual geral do processo de
--desenvolvimento :ref:`Documentation/process <development_process_main>`.
-+desenvolvimento.
-+
-+Conteúdos:
-+
-+.. toctree::
-+   :numbered:
-+   :maxdepth: 2
-+
-+   maintainer-netdev
-+
-diff --git a/Documentation/translations/pt_BR/process/maintainer-netdev.rst b/Documentation/translations/pt_BR/process/maintainer-netdev.rst
-new file mode 100644
-index 000000000..5de282804
---- /dev/null
-+++ b/Documentation/translations/pt_BR/process/maintainer-netdev.rst
-@@ -0,0 +1,596 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=====================================
-+Subsistema de Rede do Linux (netdev)
-+=====================================
-+
-+tl;dr
-+-----
-+
-+- **Direcione seu patch para uma árvore** – use ``[PATCH net]``para correções
-+  ou ``[PATCH net-next]`` para novas funcionalidades.
-+- **Tag Fixes** – para correções, a tag ``Fixes:`` é obrigatória,
-+  independentemente da árvore de destino.
-+- **Tamanho da série** – não envie séries grandes (> 15 patches);divida-as em
-+  partes menores.
-+- **Intervalo de envio** – não reenvie seus patches dentro de um período de 24
-+  horas.
-+- **Reverse xmas tree** – organize as declarações de variáveis locais da mais
-+  longa para a mais curta.
-+
-+netdev
-+------
-+A **netdev** é a lista de discussão para todos os assuntos do Linux relacionados
-+a rede. Isso inclui qualquer item encontrado em ``net/`` (ex: código principal
-+como IPv6) e  em ``drivers/net`` (ex: drivers específicos de hardware) na árvore
-+de diretórios do Linux.
-+
-+Note que alguns subsistemas (ex: drivers de rede sem fio/wireless), que possuem
-+um  alto volume de tráfego, possuem suas próprias listas de discussão e árvores
-+específicas.
-+
-+Como muitas outras listas de discussão do Linux, a lista netdev é hospedada no
-+`kernel.org <https://www.kernel.org/>`_, com arquivos disponíveis em
-+https://lore.kernel.org/netdev/.
-+
-+À exceção dos subsistemas mencionados anteriormente, todo o desenvolvimento de
-+rede  do Linux (ex: RFCs, revisões, comentários, etc.) ocorre na **netdev**.
-+
-+Ciclo de Desenvolvimento
-+------------------------
-+
-+Aqui está um pouco de informação contextual sobre a cadência de desenvolvimento
-+do Linux. Cada nova versão (release) inicia-se com uma "janela de mesclagem"
-+(*merge window*) de duas semanas, onde os mantenedores principais enviam suas
-+novas implementações para o Linus para incorporação na árvore principal
-+(*mainline tree*).
-+
-+Após as duas semanas, a janela de mesclagem é fechada e a versão é
-+nomeada/etiquetada  como ``-rc1``. Nenhuma funcionalidade nova é incorporada à
-+árvore principal após  isso -- espera-se apenas correções (*fixes*) para o
-+conteúdo da rc1.
-+
-+Após cerca de uma semana coletando correções para a rc1, a rc2 é lançada. Isso
-+se  repete semanalmente até a rc7 (tipicamente; às vezes rc6 se o ritmo estiver
-+calmo, ou rc8 se houver muita instabilidade); uma semana após a última vX.Y-rcN
-+ser  concluída, a versão oficial vX.Y é lançada.
-+
-+Para descobrir em que ponto do ciclo estamos agora - carregue a página da
-+mainline (Linus) aqui:
-+
-+  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-+
-+e observe o topo da seção de "tags". Se for rc1, estamos no início do ciclo
-+de desenvolvimento. Se a rc7 foi marcada há uma semana, então um lançamento
-+é provavelmente iminente. Se a tag mais recente for uma tag de lançamento
-+final (sem o sufixo ``-rcN``) - muito provavelmente estamos em uma janela de
-+mesclagem (*merge window*) e o ``net-next`` está fechado.
-+
-+Árvores git e fluxo de patches
-+------------------------------
-+
-+Existem duas árvores de rede (repositórios git) em jogo. Ambas são coordenadas
-+por David Miller, o mantenedor principal de rede. Há a árvore ``net``e a árvore
-+``net-next``. Como você provavelmente pode adivinhar pelos nomes, a árvore
-+``net`` é para correções de código existente já na árvore mainline de Linus, e a
-+``net-next`` é para onde o novo código vai para o lançamento futuro.
-+Você pode encontrar as árvores aqui:
-+
-+- https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net.git
-+- https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git
-+
-+Relacionando isso ao desenvolvimento do kernel: no início da janela de mesclagem
-+(*merge window*) de 2 semanas, a árvore ``net-next`` será fechada, sem novas
-+mudanças ou funcionalidades. O conteúdo novo acumulado nas últimas 10 semanas
-+será passado para a mainline/Linus via um *pull request* para a vX.Y ao mesmo
-+tempo, a árvore ``net`` começará a acumular correções para este conteúdo enviado
-+relacionado à vX.Y.
-+
-+Um anúncio indicando quando a ``net-next`` foi fechada é geralmente enviado para
-+a netdev, mas sabendo o que foi dito acima, você pode prever isso com
-+antecedência.
-+
-+.. warning::
-+
-+  Não envie novo conteúdo para a ``net-next`` para a netdev durante o período
-+  em que a árvore ``net-next`` estiver fechada.
-+
-+Patches RFC enviados apenas para revisão são obviamente bem-vindos a qualquer
-+momento (use ``--subject-prefix='RFC net-next'`` com ``git format-patch``).
-+
-+Pouco depois das duas semanas terem passado (e a vX.Y-rc1 ser lançada), a árvore
-+para a ``net-next`` reabre para coletar conteúdo para o próximo lançamento
-+(vX.Y+1).
-+
-+Se você não estiver inscrito na netdev e/ou simplesmente não tiver certeza se a
-+``net-next`` já reabriu, basta verificar o link do repositório git da
-+``net-next`` acima para quaisquer novos *commits* relacionados à rede. Você
-+também pode verificar o seguinte site para o status atual:
-+
-+  https://netdev.bots.linux.dev/net-next.html
-+
-+A árvore ``net`` continua a coletar correções para o conteúdo da vX.Y e é
-+enviada de volta para Linus em intervalos regulares (~semanais). Isso significa
-+que o foco da ``net`` é a estabilização e correções de bugs.
-+
-+Finalmente, a vX.Y é lançada e todo o ciclo recomeça.
-+
-+Revisão de patches da netdev
-+----------------------------
-+
-+Status do patch
-+~~~~~~~~~~~~~~~
-+
-+O status de um patch pode ser verificado olhando a fila principal do patchwork
-+para a netdev:
-+
-+  https://patchwork.kernel.org/project/netdevbpf/list/
-+
-+O campo "State" informará exatamente onde as coisas estão com o seu patch:
-+
-+=================  ============================================================
-+Estado do patch    Descrição
-+=================  ============================================================
-+New, Under review  revisão pendente, o patch está na fila do mantenedor
-+                   para revisão; os dois estados são usados alternadamente
-+                   (dependendo do co-mantenedor exato que estiver lidando
-+                   com o patchwork no momento)
-+Accepted           o patch foi aplicado à árvore de rede apropriada,
-+                   isso é geralmente definido de forma automática pelo pw-bot
-+Needs ACK          aguardando um "ack" de um especialista da área
-+                   ou testes
-+Changes requested  o patch não passou na revisão, espera-se uma nova
-+                   revisão com mudanças apropriadas no código e na mensagem
-+                   de commit
-+Rejected           o patch foi rejeitado e não se espera uma nova
-+                   revisão
-+Not applicable     espera-se que o patch seja aplicado fora do
-+                   subsistema de rede
-+Awaiting upstream  o patch deve ser revisado e tratado pelo sub-mantenedor
-+                   apropriado, que o enviará para as árvores de rede;
-+                   patches definidos como ``Awaiting upstream`` no patchwork
-+                   da netdev geralmente permanecerão neste estado,
-+                   independentemente de o sub-mantenedor ter solicitado
-+                   mudanças, aceito ou rejeitado o patch
-+Deferred           o patch precisa ser reenviado mais tarde, geralmente
-+                   devido a alguma dependência ou porque foi enviado para
-+                   uma árvore fechada
-+Superseded         uma nova versão do patch foi enviada, geralmente
-+                   definido pelo pw-bot
-+RFC                não deve ser aplicado, geralmente não está na
-+                   fila de revisão do mantenedor; o pw-bot pode definir
-+                   patches para este estado automaticamente com base nas
-+                   tags do assunto
-+=================  ============================================================
-+
-+Os patches são indexados pelo cabeçalho ``Message-ID`` dos e-mails que os
-+transportaram; portanto, se você tiver problemas para encontrar seu patch,
-+anexe o valor do ``Message-ID`` à URL acima.
-+
-+Atualizando o status do patch
-+-----------------------------
-+
-+Colaboradores e revisores não têm permissões para atualizar o estado do patch
-+diretamente no patchwork. O Patchwork não expõe muitas informações sobre o
-+histórico do estado dos patches; portanto, ter várias pessoas atualizando o
-+estado leva a confusões.
-+
-+Em vez de delegar permissões do patchwork, a netdev usa um robô de e-mail
-+simples (bot) que procura por comandos/linhas especiais dentro dos e-mails
-+enviados para a lista de discussão. Por exemplo, para marcar uma série como
-+Mudanças Solicitadas (*Changes Requested*), é necessário enviar a seguinte
-+linha em qualquer lugar na thread do e-mail::
-+
-+  pw-bot: changes-requested
-+
-+Como resultado, o bot definirá toda a série como Mudanças Solicitadas. Isso
-+pode ser útil quando o autor descobre um bug em sua própria série e deseja
-+evitar que ela seja aplicada.
-+
-+O uso do bot é totalmente opcional; em caso de dúvida, ignore completamente a
-+existência dele. Os mantenedores classificarão e atualizarão o estado dos
-+patches por conta própria. Nenhum e-mail deve ser enviado à lista com o
-+propósito principal de se comunicar com o bot; os comandos do bot devem ser
-+vistos como metadados.
-+
-+O uso do bot é restrito aos autores dos patches (o cabeçalho ``From:`` no envio
-+do patch e no comando deve coincidir!), mantenedores do código modificado de
-+acordo com o arquivo MAINTAINERS (novamente, o ``From:`` deve coincidir
-+com a entrada no MAINTAINERS) e alguns revisores seniores.
-+
-+O bot registra sua atividade aqui:
-+
-+  https://netdev.bots.linux.dev/pw-bot.html
-+
-+Prazos de revisão
-+~~~~~~~~~~~~~~~~~
-+
-+De modo geral, os patches são triados rapidamente (em menos de 48h). Mas
-+seja paciente; se o seu patch estiver ativo no patchwork (ou seja, listado
-+na lista de patches do projeto), as chances de ele ter sido esquecido são
-+próximas de zero.
-+
-+O alto volume de desenvolvimento na netdev faz com que os revisores encerrem
-+discussões de forma relativamente rápida. É muito improvável que novos
-+comentários e respostas cheguem após uma semana de silêncio. Se um
-+patch não estiver mais ativo no patchwork e a thread ficar inativa por mais de
-+uma semana - esclareça os próximos passos e/ou envie a próxima versão.
-+
-+Especificamente para envios de RFC, se ninguém responder em uma semana  ou os
-+revisores perderam o envio ou não têm opiniões fortes a respeito. Se o código
-+estiver pronto, reenvie como um PATCH.
-+
-+E-mails dizendo apenas "ping" ou "bump" são considerados rudes. Se você não
-+conseguir identificar o status do patch pelo patchwork ou onde a discussão
-+parou - descreva sua melhor suposição e pergunte se ela está correta. Por
-+exemplo::
-+
-+  Não entendo quais são os próximos passos. A Pessoa X parece estar  descontente
-+  com A; devo fazer B e enviar novamente os patches?
-+
-+.. _Solicitações de mudanças:
-+
-+Mudanças solicitadas
-+~~~~~~~~~~~~~~~~~~~~
-+
-+Patches marcados como ``Changes Requested`` precisam ser revisados. A nova
-+versão deve vir com um registro de alterações (changelog),
-+preferencialmente incluindo links para as postagens anteriores, por exemplo::
-+
-+  [PATCH net-next v3] net: faz as vacas dizerem "muuu"
-+
-+  Mesmo os usuários que não bebem leite apreciam ouvir as vacas dizendo
-+  "muuu".
-+
-+  A quantidade de mugidos dependerá da taxa de pacotes, portanto, deve
-+  corresponder muito bem ao ciclo diurno.
-+
-+  Signed-off-by: Joe Defarmer <joe@barn.org>
-+  ---
-+  v3:
-+    - adicionada uma nota sobre a flutuação do mugido conforme a hora
-+      do dia na
-+      mensagem de commit
-+  v2: https://lore.kernel.org/netdev/123themessageid@barn.org/
-+    - corrigido argumento ausente na kernel doc para netif_is_bovine()
-+    - corrigido vazamento de memória (memory leak) em
-+    netdev_register_cow()
-+  v1: https://lore.kernel.org/netdev/456getstheclicks@barn.org/
-+
-+A mensagem de commit deve ser revisada para responder a quaisquer perguntas que
-+os revisores tenham feito em discussões anteriores. Ocasionalmente, a
-+atualização da mensagem de commit será a única mudança na nova versão.
-+
-+Reenvios parciais
-+~~~~~~~~~~~~~~~~~
-+
-+Por favor, sempre reenvie a série completa de patches e certifique-se de
-+numerar seus patches de forma que fique claro que este é o conjunto mais
-+recente e completo de patches que pode ser aplicado. Não tente reenviar apenas
-+os patches que foram alterados.
-+
-+Lidando com patches aplicados incorretamente
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Ocasionalmente, uma série de patches é aplicada antes de receber feedback
-+crítico, ou a versão errada de uma série é aplicada.
-+
-+Não é possível fazer o patch desaparecer uma vez que ele foi enviado (pushed);
-+o histórico de commits nas árvores netdev é imutável. Por favor, envie versões
-+incrementais sobre o que foi mesclado para corrigir os patches da maneira que
-+eles ficariam se a sua série de patches mais recente fosse mesclada.
-+
-+Em casos onde uma reversão completa (revert) é necessária, a reversão deve ser
-+enviada como um patch para a lista com uma mensagem de commit explicando os
-+problemas técnicos com o commit revertido. Reversões devem ser usadas como
-+último recurso, quando a mudança original está completamente errada; correções
-+incrementais são preferidas.
-+
-+Árvore estável
-+~~~~~~~~~~~~~~
-+
-+Embora antigamente as submissões para a netdev não devessem carregar tags
-+explícitas ``CC: stable@vger.kernel.org``, esse não é mais o caso hoje em dia.
-+Por favor, siga as regras padrão de estabilidade em
-+``Documentation/process/stable-kernel-rules.rst``, e certifique-se de incluir as
-+tags Fixes apropriadas!
-+
-+Correções de segurança
-+~~~~~~~~~~~~~~~~~~~~~~
-+
-+Não envie e-mails diretamente para os mantenedores da netdev se você acha que
-+descobriu um bug que possa ter possíveis implicações de segurança. O atual
-+mantenedor da netdev tem solicitado consistentemente que as pessoas usem as
-+listas de discussão e não entrem em contato diretamente. Se você não estiver
-+de acordo com isso, considere enviar um e-mail para security@kernel.org ou
-+ler sobre http://oss-security.openwall.org/wiki/mailing-lists/distros como
-+possíveis mecanismos alternativos.
-+
-+Envio conjunto de mudanças em componentes de espaço do usuário
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+O código de espaço do usuário (*user space*) que exercita funcionalidades do
-+kernel deve ser enviado juntamente com os patches do kernel. Isso dá aos
-+revisores a chance de ver como qualquer nova interface é usada e quão
-+bem ela funciona.
-+
-+Quando as ferramentas de espaço do usuário residem no próprio repositório do
-+kernel, todas as alterações devem geralmente vir em uma única série. Se a série
-+se tornar muito grande ou se o projeto de espaço do usuário não for revisado na
-+netdev, inclua um link para um repositório público onde os patches de espaço do
-+usuário possam ser vistos.
-+
-+No caso de ferramentas de espaço do usuário residirem em um repositório
-+separado, mas serem revisadas na netdev (por exemplo, patches para ferramentas
-+``iproute2``), os patches do kernel e do espaço do usuário devem formar séries
-+(threads) separadas quando postados na lista de discussão, por exemplo::
-+
-+  [PATCH net-next 0/3] net: carta de apresentação de alguma funcionalidade
-+   └─ [PATCH net-next 1/3] net: preparação para alguma funcionalidade
-+   └─ [PATCH net-next 2/3] net: implementação de alguma funcionalidade
-+   └─ [PATCH net-next 3/3] selftest: net: alguma funcionalidade
-+
-+  [PATCH iproute2-next] ip: adiciona suporte para alguma funcionalidade
-+
-+A postagem em uma única thread é desencorajada porque confunde o patchwork
-+(a partir da versão 2.2.2 do patchwork).
-+
-+Envio conjunto de selftests
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Os selftests devem fazer parte da mesma série que as mudanças de código.
-+Especificamente para correções, tanto a mudança de código quanto o teste
-+relacionado devem ir para a mesma árvore (os testes podem não ter uma tag
-+Fixes, o que é esperado). Misturar mudanças de código e mudanças de teste em
-+um único commit é desencorajado.
-+
-+Preparando as mudanças
-+----------------------
-+
-+Atenção aos detalhes é importante. Releia seu próprio trabalho como se você
-+fosse o revisor. Você pode começar usando o ``checkpatch.pl``, talvez até com
-+a flag ``--strict``. Mas não seja robótico e irracional ao fazer isso. Se sua
-+mudança for uma correção de bug, certifique-se de que seu log de commit indique
-+o sintoma visível para o usuário final, a razão subjacente de por que isso
-+acontece e, se necessário, explique por que a correção proposta é a melhor
-+maneira de resolver as coisas. Não corrompa espaços em branco e, como é comum,
-+não use recuos incorretos em argumentos de função que abrangem várias linhas.
-+Se for o seu primeiro patch, envie-o para si mesmo por e-mail para que você
-+possa testar a aplicação em uma árvore sem patches para confirmar que a
-+infraestrutura não o danificou.
-+
-+Finalmente, volte e leia ``Documentation/process/submitting-patches.rst``
-+para ter certeza de que não está repetindo algum erro comum documentado lá.
-+
-+Indicando a árvore de destino
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Para ajudar os mantenedores e os bots de CI, você deve marcar explicitamente
-+qual árvore seu patch tem como alvo. Supondo que você use git, utilize a flag
-+de prefixo::
-+
-+  git format-patch --subject-prefix='PATCH net-next' inicio..fim
-+
-+Use ``net`` em vez de ``net-next`` (sempre em letras minúsculas) no comando
-+acima para conteúdos de correção de bugs da árvore ``net``.
-+
-+Dividindo o trabalho em patches
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Coloque-se no lugar do revisor. Cada patch é lido separadamente e, portanto,
-+deve constituir um passo compreensível em direção ao seu objetivo declarado.
-+
-+Evite enviar séries com mais de 15 patches. Séries maiores levam mais tempo
-+para serem revisadas, pois os revisores adiarão a análise até encontrarem um
-+grande bloco de tempo disponível. Uma série pequena pode ser revisada em pouco
-+tempo, então os mantenedores simplesmente a revisam de imediato. Como resultado,
-+uma sequência de séries menores é mesclada mais rapidamente e com melhor
-+cobertura de revisão. Reenviar séries grandes também aumenta o tráfego na lista
-+de discussão.
-+
-+Limitar patches pendentes na lista de discussão
-+-----------------------------------------------
-+
-+Evite ter mais de 15 patches, em todas as séries, pendentes de revisão na lista
-+de discussão para uma única árvore. Em outras palavras, um máximo de 15 patches
-+sob revisão na ``net`` e um máximo de 15 patches sob revisão na ``net-next``.
-+
-+Este limite tem o objetivo de focar o esforço do desenvolvedor nos testes dos
-+patches antes da revisão upstream, auxiliando a qualidade das submissões
-+upstream e aliviando a carga sobre os revisores.
-+
-+Ordenação de variáveis locais ("árvore invertida", "RCS")
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+A netdev tem uma convenção para ordenar variáveis locais em funções. Ordene as
-+linhas de declaração de variáveis da mais longa para a mais curta, por exemplo::
-+
-+  struct scatterlist *sg;
-+  struct sk_buff *skb;
-+  int err, i;
-+
-+Se houver dependências entre as variáveis que impeçam a ordenação, mova a
-+inicialização para fora da linha de declaração.
-+
-+Precedência de formatação
-+~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Ao trabalhar em código existente que utiliza formatação não padrão, faça com
-+que seu código siga as diretrizes mais recentes, para que, eventualmente,
-+todo o código no domínio da netdev esteja no formato preferido.
-+
-+Uso de construções gerenciadas por dispositivo e cleanup.h
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Historicamente, a netdev permanece cética em relação às promessas de todas as
-+APIs de "auto-limpeza" (auto-cleanup), incluindo até mesmo os auxiliares
-+``devm_``. Eles não são o estilo preferido de implementação, apenas um estilo
-+aceitável.
-+
-+O uso de ``guard()`` é desencorajado em qualquer função com mais de 20 linhas;
-+``scoped_guard()`` é considerado mais legível. O uso de lock/unlock normal
-+ainda é (levemente) preferido.
-+
-+Construções de limpeza de baixo nível (como ``__free()``) podem ser usadas ao
-+construir APIs e auxiliares, especialmente iteradores com escopo. No entanto, o
-+uso direto de ``__free()`` dentro do núcleo de rede (networking core) e drivers
-+é desencorajado. Orientações semelhantes se aplicam à declaração de variáveis
-+no meio da função.
-+
-+Patches de limpeza (Clean-up patches)
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+A netdev desencoraja patches que realizam limpezas simples que não estejam no
-+contexto de outro trabalho. Por exemplo:
-+
-+* Tratar avisos do ``checkpatch.pl`` e outros avisos triviais de estilo de
-+  codificação
-+* Tratar problemas de Ordenação de variáveis locais
-+* Conversões para APIs gerenciadas por dispositivo (auxiliares ``devm_``)
-+
-+Isso ocorre porque se considera que a agitação (*churn*) que tais mudanças
-+produzem tem um custo maior do que o valor de tais limpezas.
-+
-+Por outro lado, correções de ortografia e gramática não são desencorajadas.
-+
-+Reenviando após a revisão
-+~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Aguarde pelo menos 24 horas entre as postagens. Isso garantirá que revisores de
-+todas as localizações geográficas tenham a chance de se manifestar. Não espere
-+muito tempo (semanas) entre as postagens, pois isso tornará mais difícil para
-+os revisores lembrarem de todo o contexto.
-+
-+Certifique-se de tratar todo o feedback em sua nova postagem. Não envie uma
-+nova versão do código se a discussão sobre a versão anterior ainda estiver em
-+andamento, a menos que seja instruído diretamente por um revisor.
-+
-+A nova versão dos patches deve ser postada como uma thread separada, não como
-+uma resposta à postagem anterior. O registro de alterações (changelog) deve
-+incluir um link para a postagem anterior (veja :ref:`Solicitações
-+de mudanças`).
-+
-+Testes
-+------
-+
-+Nível de teste esperado
-+~~~~~~~~~~~~~~~~~~~~~~~
-+
-+No mínimo, suas alterações devem passar por uma compilação ``allyesconfig`` e
-+uma ``allmodconfig`` com ``W=1`` definido, sem novos avisos ou falhas.
-+
-+O ideal é que você tenha feito testes em tempo de execução específicos para sua
-+alteração, e que a série de patches contenha um conjunto de selftests do kernel
-+para ``tools/testing/selftests/net`` ou usando o framework KUnit.
-+
-+Espera-se que você teste suas alterações no topo da árvore de rede relevante
-+(``net`` ou ``net-next``) e não, por exemplo, em uma árvore estável ou na
-+``linux-next``.
-+
-+Verificações do patchwork
-+~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+As verificações (*checks*) no patchwork são, em sua maioria, wrappers simples
-+em torno de scripts existentes do kernel; as fontes estão disponíveis em:
-+
-+https://github.com/linux-netdev/nipa/tree/master/tests
-+
-+**Não** envie seus patches apenas para executá-los nas verificações. Você deve
-+garantir que seus patches estejam prontos, testando-os localmente antes de
-+postar na lista de discussão. A instância do bot de build do patchwork fica
-+sobrecarregada com muita facilidade e a netdev@vger realmente não precisa de
-+mais tráfego se pudermos evitar.
-+
-+netdevsim
-+~~~~~~~~~
-+
-+O ``netdevsim`` é um driver de teste que pode ser usado para exercitar APIs de
-+configuração de driver sem a necessidade de hardware compatível. Mock-ups e
-+testes baseados no ``netdevsim`` são fortemente encorajados ao adicionar novas
-+APIs, mas o ``netdevsim`` em si **não** é considerado um caso de uso/usuário.
-+Você também deve implementar as novas APIs em um driver real.
-+
-+Não damos garantias de que o ``netdevsim`` mudará no futuro de uma forma que
-+quebraria o que normalmente seria considerado uAPI.  O ``netdevsim`` é reservado
-+apenas para uso por testes upstream, portanto, quaisquer novos recursos do
-+``netdevsim`` devem ser acompanhados de selftests em ``tools/testing/selftests/``.
-+
-+Status de suporte para drivers
-+------------------------------
-+
-+.. note:
-+
-+Os requisitos a seguir aplicam-se apenas a drivers de NIC Ethernet.
-+
-+A netdev define requisitos adicionais para drivers que desejam adquirir o status
-+``Supported`` (Suportado) no arquivo MAINTAINERS. Drivers ``Supported`` devem
-+executar todos os testes de driver upstream e relatar os resultados duas vezes
-+por dia. Drivers que não cumprirem este requisito devem usar o status
-+``Maintained`` (Mantido). Atualmente, não há diferença na forma como os drivers
-+``Supported`` e ``Maintained`` são tratados no upstream.
-+
-+As regras exatas que um driver deve seguir para adquirir o status ``Supported``:
-+
-+1. Deve executar todos os testes sob os alvos ``drivers/net`` e
-+   ``drivers/net/hw`` dos selftests do Linux. A execução e o relato
-+   de testes privados / internos também são bem-vindos, mas os testes
-+   upstream são obrigatórios.
-+
-+2. A frequência mínima de execução é uma vez a cada 12 horas. Deve
-+   testar o branch designado a partir do feed de branches selecionado.
-+   Observe que os branches são construídos automaticamente e estão
-+   expostos à postagem intencional de patches maliciosos; portanto,
-+   os sistemas de teste devem ser isolados.
-+
-+3. Drivers que suportam múltiplas gerações de dispositivos devem
-+   testar pelo menos um dispositivo de cada geração. Um manifesto do
-+   ambiente de teste (*testbed manifest* - formato exato a definir)
-+   deve descrever os modelos de dispositivos testados.
-+
-+4. Os testes devem ser executados de forma confiável; se múltiplos
-+   branches forem ignorados ou se os testes falharem devido a problemas
-+   no ambiente de execução, o status ``Supported`` será retirado.
-+
-+5. Falhas nos testes devido a bugs no driver ou no próprio teste,
-+   ou falta de suporte para a funcionalidade que o teste visa, *não*
-+   são motivo para a perda do status ``Supported``.
-+
-+O CI da netdev manterá uma página oficial de dispositivos suportados, listando
-+seus resultados de testes recentes.
-+
-+O mantenedor do driver pode providenciar para que outra pessoa execute o teste;
-+não há exigência de que a pessoa listada como mantenedora (ou seu empregador)
-+seja responsável pela execução dos testes. Colaborações entre
-+fornecedores, hospedagem de CI no GitHub (GH CI), outros repositórios sob o
-+linux-netdev, etc., são muito bem-vindas.
-+
-+Veja https://github.com/linux-netdev/nipa/wiki para mais informações sobre o CI
-+da netdev. Sinta-se à vontade para entrar em contato com os mantenedores ou com
-+a lista para quaisquer dúvidas.
-+
-+Orientações para revisores
-+--------------------------
-+
-+Revisar patches de outras pessoas na lista é altamente incentivado,
-+independentemente do nível de experiência. Para orientações gerais e dicas
-+úteis, consulte `revisão de tópicos avançados de desenvolvimento`.
-+
-+É seguro assumir que os mantenedores da netdev conhecem a comunidade e o nível
-+de experiência dos revisores. Os revisores não devem se preocupar com o fato de
-+seus comentários impedirem ou desviarem o fluxo de patches. Revisores menos
-+experientes são fortemente incentivados a fazer uma revisão mais aprofundada das
-+submissões e não focar exclusivamente em questões triviais ou subjetivas, como
-+formatação de código, tags, etc.
-+
-+Depoimentos / feedback
-+----------------------
-+
-+Algumas empresas utilizam o feedback de colegas em revisões de desempenho de
-+funcionários. Sinta-se à vontade para solicitar feedback dos mantenedores da
-+netdev, especialmente se você dedica uma quantidade significativa de tempo
-+revisando código e se esforça além do esperado para melhorar a infraestrutura
-+compartilhada.
-+
-+O feedback deve ser solicitado por você, o colaborador, e será sempre
-+compartilhado com você (mesmo que você solicite que ele seja enviado ao seu
-+gerente).
-\ No newline at end of file
--- 
-2.47.3
+>> +	depends on OF
+> 
+> Generally we don't gate on OF unless there are OF specific calls. Here there
+> aren't so you are just reducing build coverage. || COMPILE_TEST
+> maybe.
+> 
+Agreed. I'll drop OF and add COMPILE_TEST.
+
+
+>> +	depends on ARM64
+> 
+> Likewise, nothing in here is arm64 specific that I can spot.
+> 
+
+Agreed. I'll drop ARM64.
+
+>> +	select GHES_CPER_HELPERS
+>> +	help
+>> +	  Enable support for firmware-first Common Platform Error Record (CPER)
+>> +	  error source block providers that are described via DeviceTree
+>> +	  instead of ACPI HEST tables. The driver reuses the existing GHES
+>> +	  CPER helpers so the error processing matches the ACPI code paths,
+>> +	  but it can be built even when ACPI is disabled.
+>> +
+> 
+>> diff --git a/drivers/ras/esource-dt.c b/drivers/ras/esource-dt.c
+>> new file mode 100644
+>> index 000000000000..b575a2258536
+>> --- /dev/null
+>> +++ b/drivers/ras/esource-dt.c
+>> @@ -0,0 +1,264 @@
+>> +// SPDX-License-Identifier: GPL-2.0-only
+>> +/*
+>> + * DeviceTree provider for firmware-first CPER error source block.
+>> + *
+>> + * This driver shares the GHES CPER helpers so we keep the reporting and
+>> + * notifier behaviour identical to ACPI GHES
+>> + *
+>> + * Copyright (C) 2025 ARM Ltd.
+>> + * Author: Ahmed Tiba <ahmed.tiba@arm.com>
+>> + */
+>> +
+>> +#include <linux/atomic.h>
+>> +#include <linux/bitops.h>
+>> +#include <linux/device.h>
+>> +#include <linux/interrupt.h>
+>> +#include <linux/io.h>
+>> +#include <linux/io-64-nonatomic-lo-hi.h>
+> Used?
+
+No, I'll drop it.
+
+>> +#include <linux/module.h>
+> mod_devicetable.h for of_device_id definition.
+> 
+
+Ack. I'll add <linux/mod_devicetable.h> and keep module.h.
+
+>> +#include <linux/of_address.h>
+>> +#include <linux/of_irq.h>
+> Generally very little reason to include these.  Not sure why you need
+> them here.
+> 
+
+Agreed, I'll drop both.
+
+>> +#include <linux/panic.h>
+>> +#include <linux/platform_device.h>
+>> +#include <linux/slab.h>
+>> +#include <linux/spinlock.h>
+>> +
+>> +#include <acpi/ghes.h>
+>> +#include <acpi/ghes_cper.h>
+>> +
+>> +static atomic_t ghes_ffh_source_ids = ATOMIC_INIT(0);
+> I'd normally expect an IDA or similar. If nothing else it clearly
+> indicates we only want a unique ID.
+
+I'll keep the atomic for now; it's just a monotonic unique ID with no
+lifetime tracking. If you strongly prefer IDA I can switch.
+
+>> +
+>> +struct ghes_ffh_ack {
+>> +	void __iomem *addr;
+>> +	u64 preserve;
+>> +	u64 set;
+>> +	u8 width;
+>> +	bool present;
+>> +};
+>> +
+>> +struct ghes_ffh {
+>> +	struct device *dev;
+>> +	void __iomem *status;
+>> +	size_t status_len;
+>> +
+>> +	struct ghes_ffh_ack ack;
+>> +
+>> +	struct acpi_hest_generic *generic;
+>> +	struct acpi_hest_generic_status *estatus;
+>> +
+>> +	bool sync;
+>> +	int irq;
+>> +
+>> +	/* Serializes access to the firmware-owned buffer. */
+> If we are serializing it, in what sense is it owned by the firmware?
+> 
+
+I'll clarify the comment:
+firmware owns the buffer contents and the OS only serializes access.
+
+>> +	spinlock_t lock;
+>> +};
+> 
+> 
+>> +
+>> +static void ghes_ffh_process(struct ghes_ffh *ctx)
+>> +{
+>> +	unsigned long flags;
+>> +	int sev;
+>> +
+>> +	spin_lock_irqsave(&ctx->lock, flags);
+> 
+> guard() + include cleanup.h. Then can do returns in error paths.
+
+Agreed. I'll switch to guard() and include <linux/cleanup.h>.
+
+>> +
+>> +	if (ghes_ffh_copy_status(ctx))
+>> +		goto out;
+> Like here to give simpler lfow.
+> 
+> 
+>> +
+>> +	sev = ghes_severity(ctx->estatus->error_severity);
+>> +	if (sev >= GHES_SEV_PANIC)
+>> +		ghes_ffh_fatal(ctx);
+>> +
+>> +	if (!ghes_estatus_cached(ctx->estatus)) {
+>> +		if (ghes_print_estatus(NULL, ctx->generic, ctx->estatus))
+> 
+> Combine the two if statements with &&
+>
+
+Will do.
+
+>> +			ghes_estatus_cache_add(ctx->generic, ctx->estatus);
+>> +	}
+>> +
+>> +	ghes_cper_handle_status(ctx->dev, ctx->generic, ctx->estatus, ctx->sync);
+>> +
+>> +	ghes_ffh_ack(ctx);
+>> +
+>> +out:
+>> +	spin_unlock_irqrestore(&ctx->lock, flags);
+>> +}
+>> +
+>> +static irqreturn_t ghes_ffh_irq(int irq, void *data)
+>> +{
+>> +	struct ghes_ffh *ctx = data;
+>> +
+>> +	ghes_ffh_process(ctx);
+>> +
+>> +	return IRQ_HANDLED;
+>> +}
+>> +
+>> +static int ghes_ffh_init_ack(struct platform_device *pdev,
+>> +			     struct ghes_ffh *ctx)
+>> +{
+>> +	struct resource *res;
+>> +	size_t size;
+>> +
+>> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
+>> +	if (!res)
+>> +		return 0;
+>> +
+>> +	ctx->ack.addr = devm_ioremap_resource(&pdev->dev, res);
+> Why not devm_platform_get_and_ioremap_resource()?
+
+Will switch to devm_platform_get_and_ioremap_resource().
+
+>> +	if (IS_ERR(ctx->ack.addr))
+>> +		return PTR_ERR(ctx->ack.addr);
+>> +
+>> +	size = resource_size(res);
+>> +	switch (size) {
+>> +	case 4:
+>> +		ctx->ack.width = 32;
+>> +		ctx->ack.preserve = ~0U;
+>> +		break;
+>> +	case 8:
+>> +		ctx->ack.width = 64;
+>> +		ctx->ack.preserve = ~0ULL;
+>> +		break;
+>> +	default:
+>> +		dev_err(&pdev->dev, "Unsupported ack resource size %zu\n", size);
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	ctx->ack.set = BIT_ULL(0);
+>> +	ctx->ack.present = true;
+>> +	return 0;
+>> +}
+>> +
+>> +static int ghes_ffh_probe(struct platform_device *pdev)
+> 
+> Consider using a
+> 	struct device *dev = &pdev->dev;
+> given there is only one device around and it will shorten a bunch of
+> lines a little.
+
+I'll use a local dev pointer.
+
+>> +{
+>> +	struct ghes_ffh *ctx;
+>> +	struct resource *res;
+>> +	int rc;
+>> +
+>> +	ctx = devm_kzalloc(&pdev->dev, sizeof(*ctx), GFP_KERNEL);
+>> +	if (!ctx)
+>> +		return -ENOMEM;
+>> +
+>> +	spin_lock_init(&ctx->lock);
+>> +	ctx->dev = &pdev->dev;
+>> +	ctx->sync = of_property_read_bool(pdev->dev.of_node, "arm,sea-notify");
+> Hmm. I'd allow for other firmware types with
+> 	device_property_read_bool() instead.
+
+Given DT-only scope, I'll keep of_property_read_bool() here.
+
+>> +
+>> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+>> +	if (!res) {
+>> +		dev_err(&pdev->dev, "status region missing\n");
+> In probe you can always use dev_err_probe. It pretty prints the return value etc and
+> saves lines of code.
+> 		return dev_err_probe(&pdev->dev, -EINVAL, "status region missing\n");
+
+Agreed. I'll use dev_err_probe() here and for zero length.
+
+> Don't worry about slightly long line.
+> 
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	ctx->status_len = resource_size(res);
+>> +	if (!ctx->status_len) {
+>> +		dev_err(&pdev->dev, "Status region has zero length\n");
+> As above, use dev_err_probe()
+> 
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	ctx->status = devm_ioremap_resource(&pdev->dev, res);
+> I'd be tempted to use devm_platform_get_and_ioremap_resource() and just
+> not worry about mapping and unmapping that will unnecessarily occur in the
+> case of error.
+
+Will do (as above).
+
+>> +	if (IS_ERR(ctx->status))
+>> +		return PTR_ERR(ctx->status);
+>> +
+>> +	rc = ghes_ffh_init_ack(pdev, ctx);
+>> +	if (rc)
+>> +		return rc;
+>> +
+>> +	rc = ghes_ffh_init_pool();
+>> +	if (rc)
+>> +		return rc;
+>> +
+>> +	ctx->estatus = devm_kzalloc(&pdev->dev, ctx->status_len, GFP_KERNEL);
+>> +	if (!ctx->estatus)
+>> +		return -ENOMEM;
+>> +
+>> +	ctx->generic = devm_kzalloc(&pdev->dev, sizeof(*ctx->generic), GFP_KERNEL);
+>> +	if (!ctx->generic)
+>> +		return -ENOMEM;
+>> +
+>> +	ctx->generic->header.type = ACPI_HEST_TYPE_GENERIC_ERROR;
+>> +	ctx->generic->header.source_id =
+>> +		atomic_inc_return(&ghes_ffh_source_ids);
+>> +	ctx->generic->notify.type = ctx->sync ?
+>> +		ACPI_HEST_NOTIFY_SEA : ACPI_HEST_NOTIFY_EXTERNAL;
+>> +	ctx->generic->error_block_length = ctx->status_len;
+>> +
+>> +	ctx->irq = platform_get_irq_optional(pdev, 0);
+>> +	if (ctx->irq <= 0) {
+>> +		if (ctx->irq == -EPROBE_DEFER)
+>> +			return ctx->irq;
+>> +		dev_err(&pdev->dev, "interrupt is required (%d)\n", ctx->irq);
+> If it's required, why call get_irq_optional?
+> That only serves to suppress the error message inside the call.  Use
+> the non optional version and drop this.
+
+I'll use platform_get_irq().
+
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	rc = devm_request_threaded_irq(&pdev->dev, ctx->irq,
+>> +				       NULL, ghes_ffh_irq,
+>> +				       IRQF_ONESHOT,
+>> +				       dev_name(&pdev->dev), ctx);
+>> +	if (rc)
+>> +		return rc;
+>> +
+>> +	platform_set_drvdata(pdev, ctx);
+> 
+> I can't immediately spot where this is used.  If it isn't don't set it as that
+> will mislead people into thinking it's needed.
+
+Agreed. I'll drop it.
+
+>> +	dev_info(&pdev->dev, "Firmware-first CPER status provider (interrupt)\n");
+> 
+> Krysztof already commented on this one.
+> 
+>> +	return 0;
+>> +}
+>> +
+>> +static void ghes_ffh_remove(struct platform_device *pdev)
+>> +{
+> 
+> If nothing to do, platform drivers don't need a remove so get rid of it.
+
+Agreed. I'll remove it.
+
+>> +}
+>> +
+>> +static const struct of_device_id ghes_ffh_of_match[] = {
+>> +	{ .compatible = "arm,ras-ffh" },
+>> +	{ /* sentinel */ }
+>> +};
+>> +MODULE_DEVICE_TABLE(of, ghes_ffh_of_match);
+>> +
+>> +static struct platform_driver ghes_ffh_driver = {
+>> +	.driver = {
+>> +		.name = "esource-dt",
+>> +		.of_match_table = ghes_ffh_of_match,
+>> +	},
+>> +	.probe = ghes_ffh_probe,
+>> +	.remove = ghes_ffh_remove,
+>> +};
+>> +
+> Common convention is keep this tightly coupled with the
+> struct platform_driver but not having a blank line here.
+
+I'll drop the blank line.
+
+>> +module_platform_driver(ghes_ffh_driver);
+>> +
+>> +MODULE_AUTHOR("Ahmed Tiba <ahmed.tiba@arm.com>");
+>> +MODULE_DESCRIPTION("Firmware-first CPER provider for DeviceTree platforms");
+>> +MODULE_LICENSE("GPL");
+> 
+> 
 
