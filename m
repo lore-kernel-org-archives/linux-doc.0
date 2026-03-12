@@ -1,47 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F4323AD534;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A08F3AD52F;
 	Thu, 12 Mar 2026 07:12:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773299554; cv=none; b=iWbw7l54qJHN8BjYNGTyE8/JLcRMtT3YX8mFei1jukdU4+czKsJRcz0yDi17BrkOxfIlluFXhHO6bQF5SSVBuPimE4SWYSbHBU1NNVgrbUlqpjlPT/1vhP+g5SWqN/vrNoHowqsL53T2jao+fRhcsHN9FVESCpW43VX9zXlNCu0=
+	t=1773299554; cv=none; b=EqUJFuuJb97rgEScTKOpu+lLEbg0Z4MfjgaQ5wliqVldKduc8Bsdb9gaBCqgCo1PDQUerWT/SwdKSp617OjXvWOPb6Z97Sl/YyXHhhFt92m0bz6TWPsurXlTmZupaFZcix9ylLZtOtsMmaNaiNZfR4mOIE1KCeQE+mG4D7DvvrM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1773299554; c=relaxed/simple;
-	bh=024KPIqyz3ZfGXNW94ZUdDluTtjF6rZFufcUUDYWkXA=;
+	bh=Iw4hGcMR++9b5HjvzcPazTJn71Wj6E8lsfP0l3hk0pA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=n1zaWcenaigevC0+4KPey8AMAAPmgTOrip8ct/dHYS/IpU/YbhkoRN2M2I79AXs7XBwEJr7BrAy+h6MezCww1AXcrL1f4x/NLpHlTjbi072X1iCTi2BWcyaUuwsogNP9onCP1GV595+mf5B+pOI9FzflfaVUxhBpIVQSy7J73U4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gikbu3ag; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=msL2yFjp2QReGX7WZ7JC8cQyD7Me1gmyouX9tRop9L1qc7kOfsNRlKZYDNDB7CJw4+jWRNqT6vzBQvUBXslZ+OIj21PZHXrdDG5RQp7uFYIXvm4nuSp1jLnM6KQRpyfnc9X2GU6lrJjqzRlvTNyMvz8IkkjHYxttfdEFyniI0Dk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l3xI6Pkd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gikbu3ag"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C475C2BCB7;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l3xI6Pkd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EF07C116C6;
 	Thu, 12 Mar 2026 07:12:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1773299553;
-	bh=024KPIqyz3ZfGXNW94ZUdDluTtjF6rZFufcUUDYWkXA=;
+	bh=Iw4hGcMR++9b5HjvzcPazTJn71Wj6E8lsfP0l3hk0pA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=gikbu3agS1eM41ibUr0nT+7guTAR0vSqIVlcypBOOEPYNWUJtOJqPGUyE1vlK2Zi6
-	 f0qVTUZ6aF7W58ny6a+SMEEg7iuQHMoeXR52UvVACgTT906BaLQIUj6C4EY8vmxmo0
-	 7EHY1KYuSWQy5oyyT29wDJTZJ8UHNI33CYu4AEGMSYAVYbmyoDiKySnvKGuBF6oBUy
-	 p53Ll67g1gagxYh0cxb1z4N0sRlTYyrtFul4fvTSK41DTQ38SILPV8yMVY8+MnKyyB
-	 xXzzphjcLeQJ3ZGuFskhqEK+JfpDq8iGTiyBB+9RRmBWILxu8FZX6103Ep4Np8Avee
-	 PwPgH0A2lRRwg==
+	b=l3xI6PkdHWVBFa/8D4ngGu/oG+Ag2LfI/jfiEHXV7WT200eFfHwzGr/PoraQedkOf
+	 +aUaDlEX2C6rpI70apDEZSLo6G6dKmzKOdMrx124Oz2i3Sq8S/eOvQ+9jkO+Fbqygb
+	 pCfgAX5bBoVBIcg5qbnt9QbyjprkojJ0+MXIRbA5LjHavGy/d6xfwIUZ16B40JFbOD
+	 kPNKQiqv5hXRPAS+lTtdZ0PvTQInE8ehRDKzVjlcEjoyxt1GSDEZeDI3vOjduxHpA9
+	 oxrKiHKc55WBI2NzSD20RO29MCe4FuGJq8ZonNXES7ddijc+g6/2yYuamuarqUFmJK
+	 lSdjRkQbeff3Q==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1w0aDf-000000077hE-2nq0;
+	id 1w0aDf-000000077gS-1zZC;
 	Thu, 12 Mar 2026 08:12:31 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
-	Kees Cook <kees@kernel.org>,
 	Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-hardening@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH v2 14/20] unittests: test_cmatch: add tests for sub()
-Date: Thu, 12 Mar 2026 08:12:22 +0100
-Message-ID: <4642a8e6d14e0ce7f134ae5bed88e5e94d425114.1773297828.git.mchehab+huawei@kernel.org>
+	Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH v2 07/20] docs: kdoc: move C Tokenizer to c_lex module
+Date: Thu, 12 Mar 2026 08:12:15 +0100
+Message-ID: <6f325ef5c6be846c21b0c4df0f48bd0deeb236b0.1773297828.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <cover.1773297828.git.mchehab+huawei@kernel.org>
 References: <cover.1773297828.git.mchehab+huawei@kernel.org>
@@ -55,759 +55,519 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Now that we have code for sub(), test it.
+Place the C tokenizer on a different module.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tools/unittests/test_cmatch.py | 721 ++++++++++++++++++++++++++++++++-
- 1 file changed, 719 insertions(+), 2 deletions(-)
+ tools/lib/python/kdoc/c_lex.py       | 239 +++++++++++++++++++++++++++
+ tools/lib/python/kdoc/kdoc_parser.py |   3 +-
+ tools/lib/python/kdoc/kdoc_re.py     | 233 --------------------------
+ 3 files changed, 241 insertions(+), 234 deletions(-)
+ create mode 100644 tools/lib/python/kdoc/c_lex.py
 
-diff --git a/tools/unittests/test_cmatch.py b/tools/unittests/test_cmatch.py
-index 53b25aa4dc4a..f6ccd2a942f1 100755
---- a/tools/unittests/test_cmatch.py
-+++ b/tools/unittests/test_cmatch.py
-@@ -21,7 +21,7 @@ SRC_DIR = os.path.dirname(os.path.realpath(__file__))
- sys.path.insert(0, os.path.join(SRC_DIR, "../lib/python"))
+diff --git a/tools/lib/python/kdoc/c_lex.py b/tools/lib/python/kdoc/c_lex.py
+new file mode 100644
+index 000000000000..a104c29b63fb
+--- /dev/null
++++ b/tools/lib/python/kdoc/c_lex.py
+@@ -0,0 +1,239 @@
++#!/usr/bin/env python3
++# SPDX-License-Identifier: GPL-2.0
++# Copyright(c) 2025: Mauro Carvalho Chehab <mchehab@kernel.org>.
++
++"""
++Regular expression ancillary classes.
++
++Those help caching regular expressions and do matching for kernel-doc.
++"""
++
++import re
++
++from .kdoc_re import KernRe
++
++class CToken():
++    """
++    Data class to define a C token.
++    """
++
++    # Tokens that can be used by the parser. Works like an C enum.
++
++    COMMENT = 0     #: A standard C or C99 comment, including delimiter.
++    STRING = 1      #: A string, including quotation marks.
++    CHAR = 2        #: A character, including apostophes.
++    NUMBER = 3      #: A number.
++    PUNC = 4        #: A puntuation mark: ``;`` / ``,`` / ``.``.
++    BEGIN = 5       #: A begin character: ``{`` / ``[`` / ``(``.
++    END = 6         #: A end character: ``}`` / ``]`` / ``)``.
++    CPP = 7         #: A preprocessor macro.
++    HASH = 8        #: The hash character - useful to handle other macros.
++    OP = 9          #: A C operator (add, subtract, ...).
++    STRUCT = 10     #: A ``struct`` keyword.
++    UNION = 11      #: An ``union`` keyword.
++    ENUM = 12       #: A ``struct`` keyword.
++    TYPEDEF = 13    #: A ``typedef`` keyword.
++    NAME = 14       #: A name. Can be an ID or a type.
++    SPACE = 15      #: Any space characters, including new lines
++
++    MISMATCH = 255  #: an error indicator: should never happen in practice.
++
++    # Dict to convert from an enum interger into a string.
++    _name_by_val = {v: k for k, v in dict(vars()).items() if isinstance(v, int)}
++
++    # Dict to convert from string to an enum-like integer value.
++    _name_to_val = {k: v for v, k in _name_by_val.items()}
++
++    @staticmethod
++    def to_name(val):
++        """Convert from an integer value from CToken enum into a string"""
++
++        return CToken._name_by_val.get(val, f"UNKNOWN({val})")
++
++    @staticmethod
++    def from_name(name):
++        """Convert a string into a CToken enum value"""
++        if name in CToken._name_to_val:
++            return CToken._name_to_val[name]
++
++        return CToken.MISMATCH
++
++    def __init__(self, kind, value, pos,
++                 brace_level, paren_level, bracket_level):
++        self.kind = kind
++        self.value = value
++        self.pos = pos
++        self.brace_level = brace_level
++        self.paren_level = paren_level
++        self.bracket_level = bracket_level
++
++    def __repr__(self):
++        name = self.to_name(self.kind)
++        if isinstance(self.value, str):
++            value = '"' + self.value + '"'
++        else:
++            value = self.value
++
++        return f"CToken({name}, {value}, {self.pos}, " \
++               f"{self.brace_level}, {self.paren_level}, {self.bracket_level})"
++
++#: Tokens to parse C code.
++TOKEN_LIST = [
++    (CToken.COMMENT, r"//[^\n]*|/\*[\s\S]*?\*/"),
++
++    (CToken.STRING,  r'"(?:\\.|[^"\\])*"'),
++    (CToken.CHAR,    r"'(?:\\.|[^'\\])'"),
++
++    (CToken.NUMBER,  r"0[xX][0-9a-fA-F]+[uUlL]*|0[0-7]+[uUlL]*|"
++                     r"[0-9]+(\.[0-9]*)?([eE][+-]?[0-9]+)?[fFlL]*"),
++
++    (CToken.PUNC,    r"[;,\.]"),
++
++    (CToken.BEGIN,   r"[\[\(\{]"),
++
++    (CToken.END,     r"[\]\)\}]"),
++
++    (CToken.CPP,     r"#\s*(define|include|ifdef|ifndef|if|else|elif|endif|undef|pragma)\b"),
++
++    (CToken.HASH,    r"#"),
++
++    (CToken.OP,      r"\+\+|\-\-|\->|==|\!=|<=|>=|&&|\|\||<<|>>|\+=|\-=|\*=|/=|%="
++                     r"|&=|\|=|\^=|=|\+|\-|\*|/|%|<|>|&|\||\^|~|!|\?|\:"),
++
++    (CToken.STRUCT,  r"\bstruct\b"),
++    (CToken.UNION,   r"\bunion\b"),
++    (CToken.ENUM,    r"\benum\b"),
++    (CToken.TYPEDEF, r"\bkinddef\b"),
++
++    (CToken.NAME,      r"[A-Za-z_][A-Za-z0-9_]*"),
++
++    (CToken.SPACE,   r"[\s]+"),
++
++    (CToken.MISMATCH,r"."),
++]
++
++#: Handle C continuation lines.
++RE_CONT = KernRe(r"\\\n")
++
++RE_COMMENT_START = KernRe(r'/\*\s*')
++
++#: tokenizer regex. Will be filled at the first CTokenizer usage.
++re_scanner = None
++
++class CTokenizer():
++    """
++    Scan C statements and definitions and produce tokens.
++
++    When converted to string, it drops comments and handle public/private
++    values, respecting depth.
++    """
++
++    # This class is inspired and follows the basic concepts of:
++    #   https://docs.python.org/3/library/re.html#writing-a-tokenizer
++
++    def _tokenize(self, source):
++        """
++        Interactor that parses ``source``, splitting it into tokens, as defined
++        at ``self.TOKEN_LIST``.
++
++        The interactor returns a CToken class object.
++        """
++
++        # Handle continuation lines. Note that kdoc_parser already has a
++        # logic to do that. Still, let's keep it for completeness, as we might
++        # end re-using this tokenizer outsize kernel-doc some day - or we may
++        # eventually remove from there as a future cleanup.
++        source = RE_CONT.sub("", source)
++
++        brace_level = 0
++        paren_level = 0
++        bracket_level = 0
++
++        for match in re_scanner.finditer(source):
++            kind = CToken.from_name(match.lastgroup)
++            pos = match.start()
++            value = match.group()
++
++            if kind == CToken.MISMATCH:
++                raise RuntimeError(f"Unexpected token '{value}' on {pos}:\n\t{source}")
++            elif kind == CToken.BEGIN:
++                if value == '(':
++                    paren_level += 1
++                elif value == '[':
++                    bracket_level += 1
++                else:  # value == '{'
++                    brace_level += 1
++
++            elif kind == CToken.END:
++                if value == ')' and paren_level > 0:
++                    paren_level -= 1
++                elif value == ']' and bracket_level > 0:
++                    bracket_level -= 1
++                elif brace_level > 0:    # value == '}'
++                    brace_level -= 1
++
++            yield CToken(kind, value, pos,
++                         brace_level, paren_level, bracket_level)
++
++    def __init__(self, source):
++        """
++        Create a regular expression to handle TOKEN_LIST.
++
++        While I generally don't like using regex group naming via:
++            (?P<name>...)
++
++        in this particular case, it makes sense, as we can pick the name
++        when matching a code via re_scanner().
++        """
++        global re_scanner
++
++        if not re_scanner:
++            re_tokens = []
++
++            for kind, pattern in TOKEN_LIST:
++                name = CToken.to_name(kind)
++                re_tokens.append(f"(?P<{name}>{pattern})")
++
++            re_scanner = KernRe("|".join(re_tokens), re.MULTILINE | re.DOTALL)
++
++        self.tokens = []
++        for tok in self._tokenize(source):
++            self.tokens.append(tok)
++
++    def __str__(self):
++        out=""
++        show_stack = [True]
++
++        for tok in self.tokens:
++            if tok.kind == CToken.BEGIN:
++                show_stack.append(show_stack[-1])
++
++            elif tok.kind == CToken.END:
++                prev = show_stack[-1]
++                if len(show_stack) > 1:
++                    show_stack.pop()
++
++                if not prev and show_stack[-1]:
++                    #
++                    # Try to preserve indent
++                    #
++                    out += "\t" * (len(show_stack) - 1)
++
++                    out += str(tok.value)
++                    continue
++
++            elif tok.kind == CToken.COMMENT:
++                comment = RE_COMMENT_START.sub("", tok.value)
++
++                if comment.startswith("private:"):
++                    show_stack[-1] = False
++                    show = False
++                elif comment.startswith("public:"):
++                    show_stack[-1] = True
++
++                continue
++
++            if show_stack[-1]:
++                    out += str(tok.value)
++
++        return out
+diff --git a/tools/lib/python/kdoc/kdoc_parser.py b/tools/lib/python/kdoc/kdoc_parser.py
+index 6b181ead3175..e804e61b09c0 100644
+--- a/tools/lib/python/kdoc/kdoc_parser.py
++++ b/tools/lib/python/kdoc/kdoc_parser.py
+@@ -13,7 +13,8 @@ import sys
+ import re
+ from pprint import pformat
  
- from kdoc.c_lex import CMatch
--from kdoc.xforms_lists import CTransforms
-+from kdoc.kdoc_re import KernRe
- from unittest_helper import run_unittest
+-from kdoc.kdoc_re import NestedMatch, KernRe, CTokenizer
++from kdoc.kdoc_re import NestedMatch, KernRe
++from kdoc.c_lex import CTokenizer
+ from kdoc.kdoc_item import KdocItem
  
  #
-@@ -75,7 +75,7 @@ class TestSearch(TestCaseDiff):
+diff --git a/tools/lib/python/kdoc/kdoc_re.py b/tools/lib/python/kdoc/kdoc_re.py
+index 7bed4e9a8810..ba601a4f5035 100644
+--- a/tools/lib/python/kdoc/kdoc_re.py
++++ b/tools/lib/python/kdoc/kdoc_re.py
+@@ -141,239 +141,6 @@ class KernRe:
  
-     def test_search_no_false_positive(self):
-         line = "call__acquires(foo);  // should stay intact"
--        result = ", ".join(CMatch(r"\b__acquires").search(line))
-+        result = ", ".join(CMatch(r"__acquires").search(line))
-         self.assertEqual(result, "")
+         return self.last_match.groups()
  
-     def test_search_no_macro_remains(self):
-@@ -88,6 +88,723 @@ class TestSearch(TestCaseDiff):
-         result = ", ".join(CMatch(line).search(line))
-         self.assertEqual(result, "")
+-class TokType():
+-
+-    @staticmethod
+-    def __str__(val):
+-        """Return the name of an enum value"""
+-        return TokType._name_by_val.get(val, f"UNKNOWN({val})")
+-
+-class CToken():
+-    """
+-    Data class to define a C token.
+-    """
+-
+-    # Tokens that can be used by the parser. Works like an C enum.
+-
+-    COMMENT = 0     #: A standard C or C99 comment, including delimiter.
+-    STRING = 1      #: A string, including quotation marks.
+-    CHAR = 2        #: A character, including apostophes.
+-    NUMBER = 3      #: A number.
+-    PUNC = 4        #: A puntuation mark: ``;`` / ``,`` / ``.``.
+-    BEGIN = 5       #: A begin character: ``{`` / ``[`` / ``(``.
+-    END = 6         #: A end character: ``}`` / ``]`` / ``)``.
+-    CPP = 7         #: A preprocessor macro.
+-    HASH = 8        #: The hash character - useful to handle other macros.
+-    OP = 9          #: A C operator (add, subtract, ...).
+-    STRUCT = 10     #: A ``struct`` keyword.
+-    UNION = 11      #: An ``union`` keyword.
+-    ENUM = 12       #: A ``struct`` keyword.
+-    TYPEDEF = 13    #: A ``typedef`` keyword.
+-    NAME = 14       #: A name. Can be an ID or a type.
+-    SPACE = 15      #: Any space characters, including new lines
+-
+-    MISMATCH = 255  #: an error indicator: should never happen in practice.
+-
+-    # Dict to convert from an enum interger into a string.
+-    _name_by_val = {v: k for k, v in dict(vars()).items() if isinstance(v, int)}
+-
+-    # Dict to convert from string to an enum-like integer value.
+-    _name_to_val = {k: v for v, k in _name_by_val.items()}
+-
+-    @staticmethod
+-    def to_name(val):
+-        """Convert from an integer value from CToken enum into a string"""
+-
+-        return CToken._name_by_val.get(val, f"UNKNOWN({val})")
+-
+-    @staticmethod
+-    def from_name(name):
+-        """Convert a string into a CToken enum value"""
+-        if name in CToken._name_to_val:
+-            return CToken._name_to_val[name]
+-
+-        return CToken.MISMATCH
+-
+-    def __init__(self, kind, value, pos,
+-                 brace_level, paren_level, bracket_level):
+-        self.kind = kind
+-        self.value = value
+-        self.pos = pos
+-        self.brace_level = brace_level
+-        self.paren_level = paren_level
+-        self.bracket_level = bracket_level
+-
+-    def __repr__(self):
+-        name = self.to_name(self.kind)
+-        if isinstance(self.value, str):
+-            value = '"' + self.value + '"'
+-        else:
+-            value = self.value
+-
+-        return f"CToken({name}, {value}, {self.pos}, " \
+-               f"{self.brace_level}, {self.paren_level}, {self.bracket_level})"
+-
+-#: Tokens to parse C code.
+-TOKEN_LIST = [
+-    (CToken.COMMENT, r"//[^\n]*|/\*[\s\S]*?\*/"),
+-
+-    (CToken.STRING,  r'"(?:\\.|[^"\\])*"'),
+-    (CToken.CHAR,    r"'(?:\\.|[^'\\])'"),
+-
+-    (CToken.NUMBER,  r"0[xX][0-9a-fA-F]+[uUlL]*|0[0-7]+[uUlL]*|"
+-                     r"[0-9]+(\.[0-9]*)?([eE][+-]?[0-9]+)?[fFlL]*"),
+-
+-    (CToken.PUNC,    r"[;,\.]"),
+-
+-    (CToken.BEGIN,   r"[\[\(\{]"),
+-
+-    (CToken.END,     r"[\]\)\}]"),
+-
+-    (CToken.CPP,     r"#\s*(define|include|ifdef|ifndef|if|else|elif|endif|undef|pragma)\b"),
+-
+-    (CToken.HASH,    r"#"),
+-
+-    (CToken.OP,      r"\+\+|\-\-|\->|==|\!=|<=|>=|&&|\|\||<<|>>|\+=|\-=|\*=|/=|%="
+-                     r"|&=|\|=|\^=|=|\+|\-|\*|/|%|<|>|&|\||\^|~|!|\?|\:"),
+-
+-    (CToken.STRUCT,  r"\bstruct\b"),
+-    (CToken.UNION,   r"\bunion\b"),
+-    (CToken.ENUM,    r"\benum\b"),
+-    (CToken.TYPEDEF, r"\bkinddef\b"),
+-
+-    (CToken.NAME,      r"[A-Za-z_][A-Za-z0-9_]*"),
+-
+-    (CToken.SPACE,   r"[\s]+"),
+-
+-    (CToken.MISMATCH,r"."),
+-]
+-
+-#: Handle C continuation lines.
+-RE_CONT = KernRe(r"\\\n")
+-
+-RE_COMMENT_START = KernRe(r'/\*\s*')
+-
+-#: tokenizer regex. Will be filled at the first CTokenizer usage.
+-re_scanner = None
+-
+-class CTokenizer():
+-    """
+-    Scan C statements and definitions and produce tokens.
+-
+-    When converted to string, it drops comments and handle public/private
+-    values, respecting depth.
+-    """
+-
+-    # This class is inspired and follows the basic concepts of:
+-    #   https://docs.python.org/3/library/re.html#writing-a-tokenizer
+-
+-    def _tokenize(self, source):
+-        """
+-        Interactor that parses ``source``, splitting it into tokens, as defined
+-        at ``self.TOKEN_LIST``.
+-
+-        The interactor returns a CToken class object.
+-        """
+-
+-        # Handle continuation lines. Note that kdoc_parser already has a
+-        # logic to do that. Still, let's keep it for completeness, as we might
+-        # end re-using this tokenizer outsize kernel-doc some day - or we may
+-        # eventually remove from there as a future cleanup.
+-        source = RE_CONT.sub("", source)
+-
+-        brace_level = 0
+-        paren_level = 0
+-        bracket_level = 0
+-
+-        for match in re_scanner.finditer(source):
+-            kind = CToken.from_name(match.lastgroup)
+-            pos = match.start()
+-            value = match.group()
+-
+-            if kind == CToken.MISMATCH:
+-                raise RuntimeError(f"Unexpected token '{value}' on {pos}:\n\t{source}")
+-            elif kind == CToken.BEGIN:
+-                if value == '(':
+-                    paren_level += 1
+-                elif value == '[':
+-                    bracket_level += 1
+-                else:  # value == '{'
+-                    brace_level += 1
+-
+-            elif kind == CToken.END:
+-                if value == ')' and paren_level > 0:
+-                    paren_level -= 1
+-                elif value == ']' and bracket_level > 0:
+-                    bracket_level -= 1
+-                elif brace_level > 0:    # value == '}'
+-                    brace_level -= 1
+-
+-            yield CToken(kind, value, pos,
+-                         brace_level, paren_level, bracket_level)
+-
+-    def __init__(self, source):
+-        """
+-        Create a regular expression to handle TOKEN_LIST.
+-
+-        While I generally don't like using regex group naming via:
+-            (?P<name>...)
+-
+-        in this particular case, it makes sense, as we can pick the name
+-        when matching a code via re_scanner().
+-        """
+-        global re_scanner
+-
+-        if not re_scanner:
+-            re_tokens = []
+-
+-            for kind, pattern in TOKEN_LIST:
+-                name = CToken.to_name(kind)
+-                re_tokens.append(f"(?P<{name}>{pattern})")
+-
+-            re_scanner = KernRe("|".join(re_tokens), re.MULTILINE | re.DOTALL)
+-
+-        self.tokens = []
+-        for tok in self._tokenize(source):
+-            self.tokens.append(tok)
+-
+-    def __str__(self):
+-        out=""
+-        show_stack = [True]
+-
+-        for tok in self.tokens:
+-            if tok.kind == CToken.BEGIN:
+-                show_stack.append(show_stack[-1])
+-
+-            elif tok.kind == CToken.END:
+-                prev = show_stack[-1]
+-                if len(show_stack) > 1:
+-                    show_stack.pop()
+-
+-                if not prev and show_stack[-1]:
+-                    #
+-                    # Try to preserve indent
+-                    #
+-                    out += "\t" * (len(show_stack) - 1)
+-
+-                    out += str(tok.value)
+-                    continue
+-
+-            elif tok.kind == CToken.COMMENT:
+-                comment = RE_COMMENT_START.sub("", tok.value)
+-
+-                if comment.startswith("private:"):
+-                    show_stack[-1] = False
+-                    show = False
+-                elif comment.startswith("public:"):
+-                    show_stack[-1] = True
+-
+-                continue
+-
+-            if show_stack[-1]:
+-                    out += str(tok.value)
+-
+-        return out
+-
  
-+#
-+# Override unittest.TestCase to better compare diffs ignoring whitespaces
-+#
-+class TestCaseDiff(unittest.TestCase):
-+    """
-+    Disable maximum limit on diffs and add a method to better
-+    handle diffs with whitespace differences.
-+    """
-+
-+    @classmethod
-+    def setUpClass(cls):
-+        """Ensure that there won't be limit for diffs"""
-+        cls.maxDiff = None
-+
-+    def assertLogicallyEqual(self, a, b):
-+        """
-+        Compare two results ignoring multiple whitespace differences.
-+
-+        This is useful to check more complex matches picked from examples.
-+        On a plus side, we also don't need to use dedent.
-+        Please notice that line breaks still need to match. We might
-+        remove it at the regex, but this way, checking the diff is easier.
-+        """
-+        a = re.sub(r"[\t ]+", " ", a.strip())
-+        b = re.sub(r"[\t ]+", " ", b.strip())
-+
-+        a = re.sub(r"\s+\n", "\n", a)
-+        b = re.sub(r"\s+\n", "\n", b)
-+
-+        a = re.sub(" ;", ";", a)
-+        b = re.sub(" ;", ";", b)
-+
-+        self.assertEqual(a, b)
-+
-+#
-+# Tests doing with different macros
-+#
-+
-+class TestSubMultipleMacros(TestCaseDiff):
-+    """
-+    Tests doing with different macros.
-+
-+    Here, we won't use assertLogicallyEqual. Instead, we'll check if each
-+    of the expected patterns are present at the answer.
-+    """
-+
-+    def test_acquires_simple(self):
-+        """Simple replacement test with __acquires"""
-+        line = "__acquires(ctx) foo();"
-+        result = CMatch(r"__acquires").sub("REPLACED", line)
-+
-+        self.assertEqual("REPLACED foo();", result)
-+
-+    def test_acquires_multiple(self):
-+        """Multiple __acquires"""
-+        line = "__acquires(ctx) __acquires(other) bar();"
-+        result = CMatch(r"__acquires").sub("REPLACED", line)
-+
-+        self.assertEqual("REPLACED REPLACED bar();", result)
-+
-+    def test_acquires_nested_paren(self):
-+        """__acquires with nested pattern"""
-+        line = "__acquires((ctx1, ctx2)) baz();"
-+        result = CMatch(r"__acquires").sub("REPLACED", line)
-+
-+        self.assertEqual("REPLACED baz();", result)
-+
-+    def test_must_hold(self):
-+        """__must_hold with a pointer"""
-+        line = "__must_hold(&lock) do_something();"
-+        result = CMatch(r"__must_hold").sub("REPLACED", line)
-+
-+        self.assertNotIn("__must_hold(", result)
-+        self.assertIn("do_something();", result)
-+
-+    def test_must_hold_shared(self):
-+        """__must_hold with an upercase defined value"""
-+        line = "__must_hold_shared(RCU) other();"
-+        result = CMatch(r"__must_hold_shared").sub("REPLACED", line)
-+
-+        self.assertNotIn("__must_hold_shared(", result)
-+        self.assertIn("other();", result)
-+
-+    def test_no_false_positive(self):
-+        """
-+        Ensure that unrelated text containing similar patterns is preserved
-+        """
-+        line = "call__acquires(foo);  // should stay intact"
-+        result = CMatch(r"\b__acquires").sub("REPLACED", line)
-+
-+        self.assertLogicallyEqual(result, "call__acquires(foo);")
-+
-+    def test_mixed_macros(self):
-+        """Add a mix of macros"""
-+        line = "__acquires(ctx) __releases(ctx) __must_hold(&lock) foo();"
-+
-+        result = CMatch(r"__acquires").sub("REPLACED", line)
-+        result = CMatch(r"__releases").sub("REPLACED", result)
-+        result = CMatch(r"__must_hold").sub("REPLACED", result)
-+
-+        self.assertNotIn("__acquires(", result)
-+        self.assertNotIn("__releases(", result)
-+        self.assertNotIn("__must_hold(", result)
-+
-+        self.assertIn("foo();", result)
-+
-+    def test_no_macro_remains(self):
-+        """Ensures that unmatched macros are untouched"""
-+        line = "do_something_else();"
-+        result = CMatch(r"__acquires").sub("REPLACED", line)
-+
-+        self.assertEqual(result, line)
-+
-+    def test_no_function(self):
-+        """Ensures that no functions will remain untouched"""
-+        line = "something"
-+        result = CMatch(line).sub("REPLACED", line)
-+
-+        self.assertEqual(result, line)
-+
-+#
-+# Check if the diff is logically equivalent. To simplify, the tests here
-+# use a single macro name for all replacements.
-+#
-+
-+class TestSubSimple(TestCaseDiff):
-+    """
-+    Test argument replacements.
-+
-+    Here, the function name can be anything. So, we picked __attribute__(),
-+    to mimic a macro found at the Kernel, but none of the replacements her
-+    has any relationship with the Kernel usage.
-+    """
-+
-+    MACRO = "__attribute__"
-+
-+    @classmethod
-+    def setUpClass(cls):
-+        """Define a CMatch to be used for all tests"""
-+        cls.matcher = CMatch(cls.MACRO)
-+
-+    def test_sub_with_capture(self):
-+        """Test all arguments replacement with a single arg"""
-+        line = f"{self.MACRO}(&ctx)\nfoo();"
-+
-+        result = self.matcher.sub(r"ACQUIRED(\0)", line)
-+
-+        self.assertLogicallyEqual("ACQUIRED(&ctx)\nfoo();", result)
-+
-+    def test_sub_zero_placeholder(self):
-+        """Test all arguments replacement with a multiple args"""
-+        line = f"{self.MACRO}(arg1, arg2)\nbar();"
-+
-+        result = self.matcher.sub(r"REPLACED(\0)", line)
-+
-+        self.assertLogicallyEqual("REPLACED(arg1, arg2)\nbar();", result)
-+
-+    def test_sub_single_placeholder(self):
-+        """Single replacement rule for \1"""
-+        line = f"{self.MACRO}(ctx, boo)\nfoo();"
-+        result = self.matcher.sub(r"ACQUIRED(\1)", line)
-+
-+        self.assertLogicallyEqual("ACQUIRED(ctx)\nfoo();", result)
-+
-+    def test_sub_multiple_placeholders(self):
-+        """Replacement rule for both \1 and \2"""
-+        line = f"{self.MACRO}(arg1, arg2)\nbar();"
-+        result = self.matcher.sub(r"REPLACE(\1, \2)", line)
-+
-+        self.assertLogicallyEqual("REPLACE(arg1, arg2)\nbar();", result)
-+
-+    def test_sub_mixed_placeholders(self):
-+        """Replacement rule for \0, \1 and additional text"""
-+        line = f"{self.MACRO}(foo, bar)\nbaz();"
-+        result = self.matcher.sub(r"ALL(\0) FIRST(\1)", line)
-+
-+        self.assertLogicallyEqual("ALL(foo, bar) FIRST(foo)\nbaz();", result)
-+
-+    def test_sub_no_placeholder(self):
-+        """Replacement without placeholders"""
-+        line = f"{self.MACRO}(arg)\nfoo();"
-+        result = self.matcher.sub(r"NO_BACKREFS()", line)
-+
-+        self.assertLogicallyEqual("NO_BACKREFS()\nfoo();", result)
-+
-+    def test_sub_count_parameter(self):
-+        """Verify that the algorithm stops after the requested count"""
-+        line = f"{self.MACRO}(a1) x();\n{self.MACRO}(a2) y();"
-+        result = self.matcher.sub(r"ONLY_FIRST(\1) ", line, count=1)
-+
-+        self.assertLogicallyEqual(f"ONLY_FIRST(a1) x();\n{self.MACRO}(a2) y();",
-+                                  result)
-+
-+    def test_strip_multiple_acquires(self):
-+        """Check if spaces between removed delimiters will be dropped"""
-+        line = f"int {self.MACRO}(1)  {self.MACRO}(2 )   {self.MACRO}(3) foo;"
-+        result = self.matcher.sub("", line)
-+
-+        self.assertLogicallyEqual(result, "int foo;")
-+
-+
-+#
-+# Test replacements with slashrefs
-+#
-+
-+
-+class TestSubWithLocalXforms(TestCaseDiff):
-+    """
-+    Test diferent usecase patterns found at the Kernel.
-+
-+    Here, replacements using both CMatch and KernRe can be tested,
-+    as it will import the actual replacement rules used by kernel-doc.
-+    """
-+
-+    struct_xforms = [
-+        (CMatch("__attribute__"), ' '),
-+        (CMatch('__aligned'), ' '),
-+        (CMatch('__counted_by'), ' '),
-+        (CMatch('__counted_by_(le|be)'), ' '),
-+        (CMatch('__guarded_by'), ' '),
-+        (CMatch('__pt_guarded_by'), ' '),
-+
-+        (CMatch('__cacheline_group_(begin|end)'), ''),
-+
-+        (CMatch('struct_group'), r'\2'),
-+        (CMatch('struct_group_attr'), r'\3'),
-+        (CMatch('struct_group_tagged'), r'struct \1 { \3+ } \2;'),
-+        (CMatch('__struct_group'), r'\4'),
-+
-+        (CMatch('__ETHTOOL_DECLARE_LINK_MODE_MASK'), r'DECLARE_BITMAP(\1, __ETHTOOL_LINK_MODE_MASK_NBITS)'),
-+        (CMatch('DECLARE_PHY_INTERFACE_MASK',), r'DECLARE_BITMAP(\1, PHY_INTERFACE_MODE_MAX)'),
-+        (CMatch('DECLARE_BITMAP'), r'unsigned long \1[BITS_TO_LONGS(\2)]'),
-+
-+        (CMatch('DECLARE_HASHTABLE'), r'unsigned long \1[1 << ((\2) - 1)]'),
-+        (CMatch('DECLARE_KFIFO'), r'\2 *\1'),
-+        (CMatch('DECLARE_KFIFO_PTR'), r'\2 *\1'),
-+        (CMatch('(?:__)?DECLARE_FLEX_ARRAY'), r'\1 \2[]'),
-+        (CMatch('DEFINE_DMA_UNMAP_ADDR'), r'dma_addr_t \1'),
-+        (CMatch('DEFINE_DMA_UNMAP_LEN'), r'__u32 \1'),
-+        (CMatch('VIRTIO_DECLARE_FEATURES'), r'union { u64 \1; u64 \1_array[VIRTIO_FEATURES_U64S]; }'),
-+    ]
-+
-+    function_xforms = [
-+        (CMatch('__printf'), ""),
-+        (CMatch('__(?:re)?alloc_size'), ""),
-+        (CMatch("__diagnose_as"), ""),
-+        (CMatch("DECL_BUCKET_PARAMS"), r"\1, \2"),
-+
-+        (CMatch("__cond_acquires"), ""),
-+        (CMatch("__cond_releases"), ""),
-+        (CMatch("__acquires"), ""),
-+        (CMatch("__releases"), ""),
-+        (CMatch("__must_hold"), ""),
-+        (CMatch("__must_not_hold"), ""),
-+        (CMatch("__must_hold_shared"), ""),
-+        (CMatch("__cond_acquires_shared"), ""),
-+        (CMatch("__acquires_shared"), ""),
-+        (CMatch("__releases_shared"), ""),
-+        (CMatch("__attribute__"), ""),
-+    ]
-+
-+    var_xforms = [
-+        (CMatch('__guarded_by'), ""),
-+        (CMatch('__pt_guarded_by'), ""),
-+        (CMatch("LIST_HEAD"), r"struct list_head \1"),
-+    ]
-+
-+    #: Transforms main dictionary used at apply_transforms().
-+    xforms = {
-+        "struct": struct_xforms,
-+        "func": function_xforms,
-+        "var": var_xforms,
-+    }
-+
-+    @classmethod
-+    def apply_transforms(cls, xform_type, text):
-+        """
-+        Mimic the behavior of kdoc_parser.apply_transforms() method.
-+
-+        For each element of STRUCT_XFORMS, apply apply_transforms.
-+
-+        There are two parameters:
-+
-+        - ``xform_type``
-+            Can be ``func``, ``struct`` or ``var``;
-+        - ``text``
-+            The text where the sub patterns from CTransforms will be applied.
-+        """
-+        for search, subst in cls.xforms.get(xform_type):
-+            text = search.sub(subst, text)
-+
-+        return text.strip()
-+
-+        cls.matcher = CMatch(r"struct_group[\w\_]*")
-+
-+    def test_struct_group(self):
-+        """
-+        Test struct_group using a pattern from
-+        drivers/net/ethernet/asix/ax88796c_main.h.
-+        """
-+        line = """
-+            struct tx_pkt_info {
-+                    struct_group(tx_overhead,
-+                            struct tx_sop_header sop;
-+                            struct tx_segment_header seg;
-+                    );
-+                    struct tx_eop_header eop;
-+                    u16 pkt_len;
-+                    u16 seq_num;
-+            };
-+        """
-+        expected = """
-+            struct tx_pkt_info {
-+                    struct tx_sop_header sop;
-+                    struct tx_segment_header seg;
-+                    ;
-+                    struct tx_eop_header eop;
-+                    u16 pkt_len;
-+                    u16 seq_num;
-+            };
-+        """
-+
-+        result = self.apply_transforms("struct", line)
-+        self.assertLogicallyEqual(result, expected)
-+
-+    def test_struct_group_attr(self):
-+        """
-+        Test two struct_group_attr using patterns from fs/smb/client/cifspdu.h.
-+        """
-+        line = """
-+            typedef struct smb_com_open_rsp {
-+                struct smb_hdr hdr;     /* wct = 34 BB */
-+                __u8 AndXCommand;
-+                __u8 AndXReserved;
-+                __le16 AndXOffset;
-+                __u8 OplockLevel;
-+                __u16 Fid;
-+                __le32 CreateAction;
-+                struct_group_attr(common_attributes,,
-+                    __le64 CreationTime;
-+                    __le64 LastAccessTime;
-+                    __le64 LastWriteTime;
-+                    __le64 ChangeTime;
-+                    __le32 FileAttributes;
-+                );
-+                __le64 AllocationSize;
-+                __le64 EndOfFile;
-+                __le16 FileType;
-+                __le16 DeviceState;
-+                __u8 DirectoryFlag;
-+                __u16 ByteCount;        /* bct = 0 */
-+            } OPEN_RSP;
-+            typedef struct {
-+                struct_group_attr(common_attributes,,
-+                    __le64 CreationTime;
-+                    __le64 LastAccessTime;
-+                    __le64 LastWriteTime;
-+                    __le64 ChangeTime;
-+                    __le32 Attributes;
-+                );
-+                __u32 Pad1;
-+                __le64 AllocationSize;
-+                __le64 EndOfFile;
-+                __le32 NumberOfLinks;
-+                __u8 DeletePending;
-+                __u8 Directory;
-+                __u16 Pad2;
-+                __le32 EASize;
-+                __le32 FileNameLength;
-+                union {
-+                    char __pad;
-+                    DECLARE_FLEX_ARRAY(char, FileName);
-+                };
-+            } FILE_ALL_INFO;       /* level 0x107 QPathInfo */
-+        """
-+        expected = """
-+            typedef struct smb_com_open_rsp {
-+                struct smb_hdr hdr;
-+                __u8 AndXCommand;
-+                __u8 AndXReserved;
-+                __le16 AndXOffset;
-+                __u8 OplockLevel;
-+                __u16 Fid;
-+                __le32 CreateAction;
-+                __le64 CreationTime;
-+                __le64 LastAccessTime;
-+                __le64 LastWriteTime;
-+                __le64 ChangeTime;
-+                __le32 FileAttributes;
-+                ;
-+                __le64 AllocationSize;
-+                __le64 EndOfFile;
-+                __le16 FileType;
-+                __le16 DeviceState;
-+                __u8 DirectoryFlag;
-+                __u16 ByteCount;
-+            } OPEN_RSP;
-+        typedef struct {
-+            __le64 CreationTime;
-+            __le64 LastAccessTime;
-+            __le64 LastWriteTime;
-+            __le64 ChangeTime;
-+            __le32 Attributes;
-+            ;
-+            __u32 Pad1;
-+            __le64 AllocationSize;
-+            __le64 EndOfFile;
-+            __le32 NumberOfLinks;
-+            __u8 DeletePending;
-+            __u8 Directory;
-+            __u16 Pad2;
-+            __le32 EASize;
-+            __le32 FileNameLength;
-+            union {
-+                char __pad;
-+                char FileName[];
-+            };
-+        } FILE_ALL_INFO;
-+        """
-+
-+        result = self.apply_transforms("struct", line)
-+        self.assertLogicallyEqual(result, expected)
-+
-+    def test_raw_struct_group(self):
-+        """
-+        Test a __struct_group pattern from include/uapi/cxl/features.h.
-+        """
-+        line = """
-+            struct cxl_mbox_get_sup_feats_out {
-+                __struct_group(cxl_mbox_get_sup_feats_out_hdr, hdr, /* empty */,
-+                    __le16 num_entries;
-+                    __le16 supported_feats;
-+                    __u8 reserved[4];
-+                );
-+                struct cxl_feat_entry ents[] __counted_by_le(num_entries);
-+            } __attribute__ ((__packed__));
-+        """
-+        expected = """
-+            struct cxl_mbox_get_sup_feats_out {
-+                __le16 num_entries;
-+                __le16 supported_feats;
-+                __u8 reserved[4];
-+                ;
-+                struct cxl_feat_entry ents[];
-+            };
-+        """
-+
-+        result = self.apply_transforms("struct", line)
-+        self.assertLogicallyEqual(result, expected)
-+
-+    def test_raw_struct_group_tagged(self):
-+        """
-+        Test cxl_regs with struct_group_tagged patterns from drivers/cxl/cxl.h.
-+
-+        NOTE:
-+
-+            This one has actually a violation from what kernel-doc would
-+            expect: Kernel-doc regex expects only 3 members, but this is
-+            actually defined as::
-+
-+                #define struct_group_tagged(TAG, NAME, MEMBERS...)
-+
-+            The replace expression there is::
-+
-+                struct \1 { \3 } \2;
-+
-+            but it should be really something like::
-+
-+                struct \1 { \3 \4 \5 \6 \7 \8 ... } \2;
-+
-+            a later fix would be needed to address it.
-+
-+        """
-+        line = """
-+            struct cxl_regs {
-+                struct_group_tagged(cxl_component_regs, component,
-+                    void __iomem *hdm_decoder;
-+                    void __iomem *ras;
-+                );
-+
-+
-+                /* This is actually a violation: too much commas */
-+                struct_group_tagged(cxl_device_regs, device_regs,
-+                    void __iomem *status, *mbox, *memdev;
-+                );
-+
-+                struct_group_tagged(cxl_pmu_regs, pmu_regs,
-+                    void __iomem *pmu;
-+                );
-+
-+                struct_group_tagged(cxl_rch_regs, rch_regs,
-+                    void __iomem *dport_aer;
-+                );
-+
-+                struct_group_tagged(cxl_rcd_regs, rcd_regs,
-+                    void __iomem *rcd_pcie_cap;
-+                );
-+            };
-+        """
-+        expected = """
-+        struct cxl_regs {
-+            struct cxl_component_regs {
-+                void __iomem *hdm_decoder;
-+                void __iomem *ras;
-+            } component;;
-+
-+            struct cxl_device_regs {
-+                void __iomem *status, *mbox, *memdev;
-+            } device_regs;;
-+
-+            struct cxl_pmu_regs {
-+                void __iomem *pmu;
-+            } pmu_regs;;
-+
-+            struct cxl_rch_regs {
-+                void __iomem *dport_aer;
-+            } rch_regs;;
-+
-+            struct cxl_rcd_regs {
-+                void __iomem *rcd_pcie_cap;
-+            } rcd_regs;;
-+        };
-+        """
-+
-+        result = self.apply_transforms("struct", line)
-+        self.assertLogicallyEqual(result, expected)
-+
-+    def test_struct_group_tagged_with_private(self):
-+        """
-+        Replace struct_group_tagged with private, using the same regex
-+        for the replacement as what happens in xforms_lists.py.
-+
-+        As the private removal happens outside NestedGroup class, we manually
-+        dropped the remaining part of the struct, to simulate what happens
-+        at kdoc_parser.
-+
-+        Taken from include/net/page_pool/types.h
-+        """
-+        line = """
-+            struct page_pool_params {
-+                struct_group_tagged(page_pool_params_slow, slow,
-+                                    struct net_device *netdev;
-+                                    unsigned int queue_idx;
-+                                    unsigned int    flags;
-+                                    /* private: only under "slow" struct */
-+                                    unsigned int ignored;
-+                );
-+                /* Struct below shall not be ignored */
-+                struct_group_tagged(page_pool_params_fast, fast,
-+                                    unsigned int    order;
-+                                    unsigned int    pool_size;
-+                                    int             nid;
-+                                    struct device   *dev;
-+                                    struct napi_struct *napi;
-+                                    enum dma_data_direction dma_dir;
-+                                    unsigned int    max_len;
-+                                    unsigned int    offset;
-+                );
-+            };
-+        """
-+        expected = """
-+            struct page_pool_params {
-+                struct page_pool_params_slow {
-+                    struct net_device *netdev;
-+                    unsigned int queue_idx;
-+                    unsigned int    flags;
-+                } slow;;
-+                struct page_pool_params_fast {
-+                    unsigned int order;
-+                    unsigned int    pool_size;
-+                    int             nid;
-+                    struct device   *dev;
-+                    struct napi_struct *napi;
-+                    enum dma_data_direction dma_dir;
-+                    unsigned int    max_len;
-+                    unsigned int    offset;
-+                } fast;;
-+            };
-+        """
-+
-+        result = self.apply_transforms("struct", line)
-+        self.assertLogicallyEqual(result, expected)
-+
-+    def test_struct_kcov(self):
-+        """
-+        """
-+        line = """
-+            struct kcov {
-+                refcount_t              refcount;
-+                spinlock_t              lock;
-+                enum kcov_mode          mode __guarded_by(&lock);
-+                unsigned int            size __guarded_by(&lock);
-+                void                    *area __guarded_by(&lock);
-+                struct task_struct      *t __guarded_by(&lock);
-+                bool                    remote;
-+                unsigned int            remote_size;
-+                int                     sequence;
-+            };
-+        """
-+        expected = """
-+        """
-+
-+        result = self.apply_transforms("struct", line)
-+        self.assertLogicallyEqual(result, expected)
-+
-+
-+    def test_struct_kcov(self):
-+        """
-+        Test a struct from kernel/kcov.c.
-+        """
-+        line = """
-+            struct kcov {
-+                refcount_t              refcount;
-+                spinlock_t              lock;
-+                enum kcov_mode          mode __guarded_by(&lock);
-+                unsigned int            size __guarded_by(&lock);
-+                void                    *area __guarded_by(&lock);
-+                struct task_struct      *t __guarded_by(&lock);
-+                bool                    remote;
-+                unsigned int            remote_size;
-+                int                     sequence;
-+            };
-+        """
-+        expected = """
-+            struct kcov {
-+                refcount_t              refcount;
-+                spinlock_t              lock;
-+                enum kcov_mode          mode;
-+                unsigned int            size;
-+                void                    *area;
-+                struct task_struct      *t;
-+                bool                    remote;
-+                unsigned int            remote_size;
-+                int                     sequence;
-+            };
-+        """
-+
-+        result = self.apply_transforms("struct", line)
-+        self.assertLogicallyEqual(result, expected)
-+
-+    def test_vars_stackdepot(self):
-+        """
-+        Test guarded_by on vars from lib/stackdepot.c.
-+        """
-+        line = """
-+            size_t pool_offset __guarded_by(&pool_lock) = DEPOT_POOL_SIZE;
-+            __guarded_by(&pool_lock) LIST_HEAD(free_stacks);
-+            void **stack_pools __pt_guarded_by(&pool_lock);
-+        """
-+        expected = """
-+            size_t pool_offset = DEPOT_POOL_SIZE;
-+            struct list_head free_stacks;
-+            void **stack_pools;
-+        """
-+
-+        result = self.apply_transforms("var", line)
-+        self.assertLogicallyEqual(result, expected)
-+
-+    def test_functions_with_acquires_and_releases(self):
-+        """
-+        Test guarded_by on vars from lib/stackdepot.c.
-+        """
-+        line = """
-+            bool prepare_report_consumer(unsigned long *flags,
-+                                         const struct access_info *ai,
-+                                         struct other_info *other_info) \
-+                                        __cond_acquires(true, &report_lock);
-+
-+            int tcp_sigpool_start(unsigned int id, struct tcp_sigpool *c) \
-+                                  __cond_acquires(0, RCU_BH);
-+
-+            bool undo_report_consumer(unsigned long *flags,
-+                                      const struct access_info *ai,
-+                                      struct other_info *other_info) \
-+                                     __cond_releases(true, &report_lock);
-+
-+            void debugfs_enter_cancellation(struct file *file,
-+                                            struct debugfs_cancellation *c) \
-+                                           __acquires(cancellation);
-+
-+            void debugfs_leave_cancellation(struct file *file,
-+                                            struct debugfs_cancellation *c) \
-+                                           __releases(cancellation);
-+
-+            acpi_cpu_flags acpi_os_acquire_lock(acpi_spinlock lockp) \
-+                                               __acquires(lockp);
-+
-+            void acpi_os_release_lock(acpi_spinlock lockp,
-+                                      acpi_cpu_flags not_used) \
-+                                     __releases(lockp)
-+        """
-+        expected = """
-+            bool prepare_report_consumer(unsigned long *flags,
-+                                         const struct access_info *ai,
-+                                         struct other_info *other_info);
-+
-+            int tcp_sigpool_start(unsigned int id, struct tcp_sigpool *c);
-+
-+            bool undo_report_consumer(unsigned long *flags,
-+                                      const struct access_info *ai,
-+                                      struct other_info *other_info);
-+
-+            void debugfs_enter_cancellation(struct file *file,
-+                                            struct debugfs_cancellation *c);
-+
-+            void debugfs_leave_cancellation(struct file *file,
-+                                            struct debugfs_cancellation *c);
-+
-+            acpi_cpu_flags acpi_os_acquire_lock(acpi_spinlock lockp);
-+
-+            void acpi_os_release_lock(acpi_spinlock lockp,
-+                                      acpi_cpu_flags not_used)
-+        """
-+
-+        result = self.apply_transforms("func", line)
-+        self.assertLogicallyEqual(result, expected)
-+
- #
- # Run all tests
- #
+ #: Nested delimited pairs (brackets and parenthesis)
+ DELIMITER_PAIRS = {
 -- 
 2.53.0
 
