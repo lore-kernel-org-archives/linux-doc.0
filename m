@@ -1,193 +1,345 @@
-Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 529E134A797
-	for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 21:58:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E22DC386C04
+	for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 21:59:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.169
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773352721; cv=pass; b=sYG0/SuDPAhnOfUbMRZXFzt6be0cMQm+iaaixAoVy0NSmyp54nSTOHw1sIn8/kauedCzoMmV6uj7TUqVjLfGIR/FFPa6sVDQIDuw9nAusXJ8Y38s60DKQ+8ul5EBj4YFJ2oohx1lgtF3sD/t5rkK0K10yoicHZGU1qOHmiQoQ6I=
+	t=1773352789; cv=pass; b=s0T2InKDYFji4x1DREweTosT5XYdob0OxVl389tUn42drdBnXc6iHehVnybIWfR3UBVF2nhVUpXmdz/1Up0t1eFDhI3w+f/zo+rbHovmibV7NuRMpmktMBi/zdObG3zUApeXEYBt22VW6qfJRlPGKyA/d3Z6A/b9dnS7q0TEbtg=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773352721; c=relaxed/simple;
-	bh=/UXbidtDU54/5v7kkzH9PAfgESqYtiigH9Z7woqu25w=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=uMgjrDyE/snce2V/4Zq1REuROxqib/HubLYsE1BZiACvNMfF3z86k2ncFX+h8Q6B6QZ54LMrFjTGU02t79Blg3rFemat9K6SbCclVq9McyfR0VLANNvLezMvGUTVXrRylw9YcjoZrBz3yquRbbgZ40Jrr4uwRrQgQygCwqlUMP8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kLjFKNkc; arc=pass smtp.client-ip=209.85.160.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773352789; c=relaxed/simple;
+	bh=eApaaw+QCMTnSsMJ8+tm4DDnuq11/fr0BZGkfu7iBV0=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ag29jvpdNImfNgXsEneByrRpcEQA90XwkKnAOM+dPTnNpnsKHkJ0acTB6iSWlRKWH4BxTKDcke+2nieI1LnK9VdyCzgAZTXygoNedzObczxdb3Hfoy+gbKA3g4Xe9qmOF7DJ9K8Tf/yLFn1Hge6BEbyVZJcUXu/qCQP5UJwzamU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VnY3Tb8C; arc=pass smtp.client-ip=209.85.221.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kLjFKNkc"
-Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-415b23dd6e5so584594fac.3
-        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 14:58:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773352719; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VnY3Tb8C"
+Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-5674d8be45eso616540e0c.1
+        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 14:59:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773352787; cv=none;
         d=google.com; s=arc-20240605;
-        b=EBgycbZtwsRYdbofppxKo3E5yS9f7Dh601U+z2hs2uhoIdu7Ageout+jB46FYRrirf
-         klDol8AAb3YX+SDp7vHlaZcc7qinkmDrAVmZoNNULi9cTVWBr2f/0hnwO6ObL4zLddgd
-         H/N+h3wlfk8hn9FiGysZgnM4z6bYOjepNGIlYr/2htVjXLpSr4Ah0mqqzu/UN18N0sa9
-         YcGZzYAA+z2qgZDylCf8X6fx4B6dw48uks4lt7TPvK7C0mJUJ5/Hl4Gb7N6foPekAHup
-         YHkpU1QgbXnc/+jy9mOvjGkxvZCF5R4BjprHOQaJ24Za5RtFKlGNWeaKYEv/KG6NgIZ8
-         V2fA==
+        b=k15odSwIr0TMXVJW6du2nQovLYYOMXHHVHsW0bcIEA7FjBCh9J3TiIYzxYou6QilSz
+         5Z7MUvdrgHVPnriY2J6QQCZlwtFkJ75MLb5AhWFLAhk85I/rKHqUqcLIC+u5PrUucCjH
+         d3P8dunaqC9I8et87+3mPmmmyBqcV3zNNHv77uhj8naPuu/Vduwm/RLhqPGPgxr4vmta
+         KKiaR9P1BZ/FKZSpK86ilNTZAbV51Pc50Yd6uNHxHTKQqRlXdmwE4xtonF8cdr3YqVar
+         /XwzacXHiAPu9mQ+UngROvoZ2qoikxth/7Q5zYD9nQgD63vdkcRE6byYzO4ltys8w9Hd
+         ZxvA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=FqP84TGmgvyTgfJsFq+pkxpoA3lD0KYlwSD57EbzY8Y=;
-        fh=iGqUu97id0w39o+bldzEb2UBqfqFcocfn7aegnWhaPE=;
-        b=G9L9VA/waVM4Cy2eNdsdqAoGMt72lqpHdTOWNhJjAmG7cDLiVuj+iH3HJwvyR0HyhH
-         gxy11jrF274NJvwwNVk+8VnbMp65dCd2nPx1/LBvVu4TRWQXRbLEnjcuyK2qB30zUsJN
-         oB4E0qIsXLHWDBakB7j3VUHVpjQx00S7eexB7CMQ8Ayz6W+KI9k8HsCjeSEi4nlKROPh
-         Y8+PhMFbSXdnlFM9yu8S5J4SZGB5AnKqoyk8j+DzSGMK4kVNz887QHtvi3AbGO8L6Kpr
-         xPiuBVJ/Dh6ZBPHXvLrD7k4q1dEE1GE11/akp0r/gw5krzqSJNyoYPF+8g7fjF7hAH4V
-         lZDA==;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:dkim-signature;
+        bh=5BRi8Q65G/TYxzzc8DUJBOspDF6bBOCx0tLSyw1Him8=;
+        fh=twdNyuZFWFGZJoGjL71lM+mdM2HjHB/X8YOOZUYklHk=;
+        b=LzOy9QMUcbMWWJqkWPKm5AWh1veet+CfVAescAG8692pXSxqLoATOeeGAt3lIBs3H6
+         0aAxn+lGNBWTx+erqHNefZxquNDwNNcRRtQCYV9zsSwOnDftRAQ345wglDd0EZzky789
+         GhPSArF86o0VabfdU5NHCzJEMQldzViO0bKaMMucibN7AYSrDzYDL9TMRzc/36H4yYJm
+         vpWp9QsgA67ixqUuGBDI6BQb3jvIZ90NvzwINjrzOjBHXiC4mIWgcKhdTqx/fBmm0H2s
+         9iDhLCam4jj9ouzLTjXH62iZcTb7pW9U2L578yeBMgtQdNL6cNDwqITORjB7WrLlWWfD
+         7dmQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773352719; x=1773957519; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=FqP84TGmgvyTgfJsFq+pkxpoA3lD0KYlwSD57EbzY8Y=;
-        b=kLjFKNkcyHGrvKdNmhragVkqK2yhm1eU42X6gW9Nz3314svj5NHvsFVk1cy/XuohWV
-         xmQa35/lj6RpdhqU58ZMBpYtFGfXLiAJwD1y2mPzW2I3MVamXbpqhlHaoNUoHwnQGXx/
-         vCIPATibO5MVW6GFZAHAFJQzF19Fj3Zb9M8fou1exuDTHHw6mVZyqEiLrKewtca2AWdp
-         eQ5XUU7eJGdoKsnfeBh9OjJS2pGu1aDWsTRkFtW1srGEWx8AhSZRSbPo6I0274UAkzdo
-         gTz/OZfXv/XZRMQTENtOr792Om7yPZuFi8xmOP67RgmiUi8PctAM5f+9YTQxaOIMEuqK
-         OJbg==
+        d=google.com; s=20230601; t=1773352787; x=1773957587; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5BRi8Q65G/TYxzzc8DUJBOspDF6bBOCx0tLSyw1Him8=;
+        b=VnY3Tb8C1k7MPfmNMOinISFxSc/HSNaroC8BgoRQg+0jNSCDJEs+uFaLn1o+hNP+ra
+         qyiOYvhUMb/3PdKLspBHReEMr4lOkxMBoTBWKJlPQfB7q/VyKFUB/Bw1OK2GrmrqydpG
+         5EfydhrHqqkVwDsVNzrKT0yF/yvs8TkEc3bDqr7Ufp5FUOM8LY1CjdKDcGwWNRk5PKfH
+         e9GNYYMyWkQwJiWmcvtNM+0BIN4h6dU3WlxYGxjfecD7yzbVskwME3Bp/M6amEXVRXpP
+         BCWK8ac2CfJvFlQ23K6jvJifTj5gTbdQkQjpSKis0K2elNNBk4hpt/j6Hh19lCbDvrix
+         X83g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773352719; x=1773957519;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FqP84TGmgvyTgfJsFq+pkxpoA3lD0KYlwSD57EbzY8Y=;
-        b=kHHC9niDllFilrNpWv+jE9embgncX4+z5qHKibiveiyssMrbA0KSQCRffoafx9sjPa
-         2GphCxjVS1YbY70wKO7GmgAUyfUwKyZAQbNB747D0PzxTNwquh+XSIIa4qWNtLDo3tAB
-         x/2SKVh+ApIm09Dncb5uemP9uMU0GijNu/otswObM5o+z8HWGFconf8RvaNDJCYrsbOU
-         f73sv39icUlXGDVgEBR0pP/nMwUTlZl2qYBUCES4rsD3QkQviOIr7jalNofSd/KuekQW
-         NbfOqjNGCpQRRGn2yf3naDbDKqU1IWm0Bt8DiFY0M/4R8rw+JFHA7itHH+M4cLxujxV7
-         qPoQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUmsWM/Nqja6X7236qvXNWZw7glRDEyOIIksa3DQDp8mSx21rAWyN3eGSxXWGR79ul0nqtMsmo9vkU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwRHT8y4g/EnfV0zdHv8abJOHyPD/HtOflEpFsnnKpxzmzBydw8
-	SBmf2TlnMDXUSjwTIB3LOumoEghYvQAMlEQbVZrsX81EWwzcYE25HbJMWY7SeAbRazHjG/zoyxE
-	2bcK0uczYbnLXrUGfinhi7RQU/akGvR0=
-X-Gm-Gg: ATEYQzzw5aHb6uT/6VQCdr/Fg+kycvk9WeVXnyIpw5aQEa1Dmn5OXGkTl1vy0ueAN9/
-	efIRZNoU+PL4xft9BH/raXDCprQKYa6AI7pGKYsdy+Fywq/M6W03nncG+wL7O3AsRiiy/gersxR
-	pIocxvTHekkql6/27qfi/64Hi7fIPtGsycg6Q3McSlWdIwgi2T125E2L+KG8wXfllufGluS19Lm
-	zz64C6x2ygho062DqgX7tBOna5xntrM34C+Rfc38l2HcP9qHn2x98JFoNTHso0vD8HV6Olw0MCn
-	/6lavQJLXQByWhHnC87YX1CQ7TiFgFSkdepAHxL8s7TYv4Ls8Evk6Vu4UfqEDUpmSCaUjg==
-X-Received: by 2002:a05:6871:582b:b0:417:5cf7:48f6 with SMTP id
- 586e51a60fabf-417b9059c22mr617649fac.3.1773352719154; Thu, 12 Mar 2026
- 14:58:39 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1773352787; x=1773957587;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5BRi8Q65G/TYxzzc8DUJBOspDF6bBOCx0tLSyw1Him8=;
+        b=iYqfmisT5FRT+dQ4mBt86LtNcYwjH41xBM9QGAyTI79EuvLsBvFwTQoSzcMSiDrF0a
+         kgWfgZrs5dlT645d0uFz2+IZEJER7AdFy3uFwI4lGzOmK17f3hOsOvRbn+JBKwh01IlA
+         LzxrcWeIMB2z7Q97oeVvQ3oNFdYArfiSEMJuE8i/M1prYjgeS8dUV1IL/SbJNx/n3EFv
+         r44Vikuy9NUZrl8eYDQ0cKzflGt+8nqJCX+U/vKf0gJouB9b0/zUHBqWskjpHxOQMV/f
+         /C1dE9CaqXKR/bzgzgn39xh5ZSA3aJslbb8b9xMQAgYQXXxNfRVUEvHgZRSxouo9BTlm
+         nZNA==
+X-Forwarded-Encrypted: i=1; AJvYcCXxvwBozm6xYr7uW2ByKiv3VMTfk10Kffz6gswFiDSWH/uGb2yElnw3gAqfZztB1G2z/2OCzEWM3AU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwShmV518cL2X/h7Csm4KLuHi33DWj7119YrBo1HIhLMiUYiO6Y
+	4v38+S4RzXFm+i2e7fvuXpbszmfklmhGq1UXDkNUjn1NEd2AtIuLQTlufWroHQPgNaGOjLMXrqP
+	3NshWpMUnccymkOijzpIPLNVgoHS4liDvYNb6HQ1c
+X-Gm-Gg: ATEYQzx7LA+ps7+UkVfaTwPKru7zLBeJj6kwjks9nCQ2eeecVxW3jKwG6QY/eK1Rc2B
+	kIBfIK3TBezcQsvLZMgQ3sjrAllCrS4KlaWc9BrutUfOlnMQqrVetwYoMZaNG9i0kXCn4lpqr00
+	lJ03O89fX0KjHAYr14znQC5ox1dEQ4W4Wsjssd3jukWatwblmrjGYj/KmxoYo+JrTb7IFBMPPRK
+	6pa3DCTVCfgZsdLgGK/vexKG7X4rSI5bCO0UlDkm3VeLBuUclsEAEPUT/GLMdSSflc0x4P21A0E
+	59YW/bag45BuXmYB+qkV07q2XRq2+xvDIzpLPbUV
+X-Received: by 2002:a05:6122:16a0:b0:55b:1938:9183 with SMTP id
+ 71dfb90a1353d-56b627e8184mr386492e0c.4.1773352786246; Thu, 12 Mar 2026
+ 14:59:46 -0700 (PDT)
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 12 Mar 2026 14:59:45 -0700
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 12 Mar 2026 14:59:45 -0700
+From: Ackerley Tng <ackerleytng@google.com>
+In-Reply-To: <abLfWHf89TxWqeGZ@google.com>
+References: <cover.1770071243.git.ackerleytng@google.com> <86ad28b767524e1e654b9c960e39ca8bfb24c114.1770071243.git.ackerleytng@google.com>
+ <CAEvNRgFMNywpDRr+WeNsVj=MnsbhZp9H3j0QRDo_eOP+kGCNJw@mail.gmail.com>
+ <CAEvNRgG-L+GBcm+u_thGvXAxV-Nqzu5VtgXy0PfND6SG0FiyVg@mail.gmail.com>
+ <CA+EHjTy2urW2Tj5czQDKUHdri7FCLfw2mafTgmmtFs+-7ueoiw@mail.gmail.com> <abLfWHf89TxWqeGZ@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: John S <xaum.io@gmail.com>
-Date: Thu, 12 Mar 2026 22:58:26 +0100
-X-Gm-Features: AaiRm53jG2HdeSoWg3E3eUPDX7LBFweqaGa9oOaMogvds1ztn67HqyTh2Ab3FCg
-Message-ID: <CAAZVx999y-DvB7Dp2ekoHk6s8aqqScd2gKSY4ySGAK6NNXeH5g@mail.gmail.com>
-Subject: [PATCH] virtio: document the map API in the driver writing guide
-To: mst@redhat.com, jasowang@redhat.com
-Cc: xuanzhuo@linux.alibaba.com, eperezma@redhat.com, corbet@lwn.net, 
-	skhan@linuxfoundation.org, virtualization@lists.linux.dev, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Thu, 12 Mar 2026 14:59:45 -0700
+X-Gm-Features: AaiRm51WdPA9PYhHM87YIJzRBZGaRjiFMDr05z8vln4-gPCqggi2FDd5_-4bZTU
+Message-ID: <CAEvNRgFUc+9xCoN9Yo5NThHrvbccWAhPwp9nNM2fvx7QqrcJsg@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 09/37] KVM: guest_memfd: Add support for KVM_SET_MEMORY_ATTRIBUTES2
+To: Sean Christopherson <seanjc@google.com>, Fuad Tabba <tabba@google.com>
+Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, x86@kernel.org, aik@amd.com, 
+	andrew.jones@linux.dev, binbin.wu@linux.intel.com, bp@alien8.de, 
+	brauner@kernel.org, chao.p.peng@intel.com, chao.p.peng@linux.intel.com, 
+	chenhuacai@kernel.org, corbet@lwn.net, dave.hansen@linux.intel.com, 
+	david@kernel.org, hpa@zytor.com, ira.weiny@intel.com, jgg@nvidia.com, 
+	jmattson@google.com, jroedel@suse.de, jthoughton@google.com, 
+	maobibo@loongson.cn, mathieu.desnoyers@efficios.com, maz@kernel.org, 
+	mhiramat@kernel.org, michael.roth@amd.com, mingo@redhat.com, 
+	mlevitsk@redhat.com, oupton@kernel.org, pankaj.gupta@amd.com, 
+	pbonzini@redhat.com, prsampat@amd.com, qperret@google.com, 
+	ricarkol@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
+	rostedt@goodmis.org, shivankg@amd.com, shuah@kernel.org, steven.price@arm.com, 
+	tglx@linutronix.de, vannapurve@google.com, vbabka@suse.cz, 
+	willy@infradead.org, wyihan@google.com, yan.y.zhao@intel.com
 Content-Type: text/plain; charset="UTF-8"
 
-Add a new "Buffer mapping" section to the virtio driver writing guide
-documenting the virtio map API (struct virtio_map_ops). This API was
-introduced in commit bee8c7c24b73 ("virtio: introduce map ops in virtio
-core") to allow transports and devices that do not perform DMA (such
-as VDUSE) to provide their own buffer mapping logic instead of abusing
-the DMA API.
+Sean Christopherson <seanjc@google.com> writes:
 
-The new section explains when and why custom map ops are used, documents
-the virtio_map_ops structure and the union virtio_map token, and
-references the driver-facing mapping helpers with their kernel-doc.
+> On Thu, Mar 12, 2026, Fuad Tabba wrote:
+>> Hi Ackerley,
+>>
+>> Before getting into the UAPI semantics, thank you for all the heavy
+>> lifting you've done here. Figuring out how to make it all work across
+>> the different platforms is not easy :)
+>>
+>> <snip>
+>>
+>> > The policy definitions below provide more details:
+>
+> Please drop "CONTENT_POLICY" from the KVM documentation.  From KVM's perspective,
+> these are not "policy", they are purely properties of the underlying memory.
+> Userspace will likely use the attributes to implement policy of some kind, but
+> KVM straight up doesn't care.
 
-Signed-off-by: Kit Dallege <xaum.io@gmail.com>
----
- .../virtio/writing_virtio_drivers.rst         | 72 +++++++++++++++++++
- 1 file changed, 72 insertions(+)
+Policy might have been the wrong word. I think this is a property of the
+conversion process/request, not a property of the memory like how
+shared/private is a property of the memory?
 
-diff --git a/Documentation/driver-api/virtio/writing_virtio_drivers.rst
-b/Documentation/driver-api/virtio/writing_virtio_drivers.rst
-index e5de6f5d061a..a3fcbf91ffe0 100644
---- a/Documentation/driver-api/virtio/writing_virtio_drivers.rst
-+++ b/Documentation/driver-api/virtio/writing_virtio_drivers.rst
-@@ -187,6 +187,78 @@ certain scenarios. The way to disable callbacks
-reliably is to reset the
- device or the virtqueue (virtio_reset_device()).
+I'll have to find another word to describe this enum of
 
+* KVM_SET_MEMORY_ATTRIBUTES2_ZERO
+* KVM_SET_MEMORY_ATTRIBUTES2_PRESERVE
 
-+Buffer mapping
-+==============
-+
-+Virtio devices need to map buffers so they can be accessed by the device.
-+Historically, virtio relied exclusively on the kernel DMA API for this,
-+which works well for hardware devices that perform real DMA. However, some
-+virtio backends (such as VDUSE, a user-space vDPA device) do not perform
-+DMA at all and previously had to abuse the DMA API with custom
-+``dma_ops`` to make things work.
-+
-+The virtio map API, introduced via ``struct virtio_map_ops``, solves
-+this by allowing transports and devices to provide their own mapping
-+logic. When a device supplies custom map ops, those are used instead of
-+the DMA API. When no custom ops are provided, the standard DMA API path
-+is used as before, so existing drivers require no changes.
-+
-+Map operations
-+--------------
-+
-+A transport or device that needs custom mapping implements
-+``struct virtio_map_ops`` and assigns it to the ``map`` field of
-+``struct virtio_device``. The ``vmap`` field carries opaque mapping
-+metadata (a ``union virtio_map``) that is passed through to every map
-+operation:
-+
-+.. kernel-doc:: include/linux/virtio_config.h
-+    :identifiers: struct virtio_map_ops
-+
-+The ``union virtio_map`` holds the mapping token -- for DMA-capable
-+devices this is a ``struct device *`` pointer, while for devices like
-+VDUSE it can be a pointer to their own mapping context (e.g. an IOVA
-+domain):
-+
-+.. kernel-doc:: include/linux/virtio.h
-+    :identifiers: union virtio_map
-+
-+Driver-facing helpers
-+---------------------
-+
-+Most virtio drivers do not need to call the map API directly -- the
-+virtqueue helpers (``virtqueue_add_inbuf()``, ``virtqueue_add_outbuf()``,
-+etc.) handle mapping internally. However, drivers that perform their own
-+pre-mapping or need coherent allocations can use the following helpers:
-+
-+.. kernel-doc:: drivers/virtio/virtio_ring.c
-+    :identifiers: virtqueue_map_single_attrs
-+
-+.. kernel-doc:: drivers/virtio/virtio_ring.c
-+    :identifiers: virtqueue_unmap_single_attrs
-+
-+.. kernel-doc:: drivers/virtio/virtio_ring.c
-+    :identifiers: virtqueue_map_page_attrs
-+
-+.. kernel-doc:: drivers/virtio/virtio_ring.c
-+    :identifiers: virtqueue_unmap_page_attrs
-+
-+.. kernel-doc:: drivers/virtio/virtio_ring.c
-+    :identifiers: virtqueue_map_alloc_coherent
-+
-+.. kernel-doc:: drivers/virtio/virtio_ring.c
-+    :identifiers: virtqueue_map_free_coherent
-+
-+.. kernel-doc:: drivers/virtio/virtio_ring.c
-+    :identifiers: virtqueue_map_mapping_error
-+
-+.. kernel-doc:: drivers/virtio/virtio_ring.c
-+    :identifiers: virtqueue_map_need_sync
-+
-+After mapping a buffer, always check the returned address with
-+``virtqueue_map_mapping_error()`` before using it.
-+
-+
- References
- ==========
+>
+>> > ``KVM_SET_MEMORY_ATTRIBUTES2_CONTENT_POLICY_ZERO`` (default)
+>
+> The default behavior absolutely cannot be something that's not supported on
+> every conversion type.
+>
+>> >
+>> >   On a private to shared conversion, the host will read zeros from the
+>> >   converted memory on the next fault after successful return of the
+>> >   KVM_SET_MEMORY_ATTRIBUTES2 ioctl.
+>> >
+>> >   This is not supported (-EOPNOTSUPP) for a shared to private
+>> >   conversion. While some CoCo implementations do zero memory contents
+>> >   such that the guest reads zeros after conversion, the guest is not
+>> >   expected to trust host-provided zeroing, hence as a UAPI policy, KVM
+>> >   does not make any such guarantees.
+>>
+>> The rationale for not supporting this in the UAPI isn't quite right
+>> and I think that the prohibition should be removed. It's true that the
+>> guest is not expected to trust host-provided zeroing. However, if the
+>> VMM invokes this ioctl with the ZERO policy, the zeroing is performed
+>> by the hypervisor, not by the (untrusted) host.
+>
+> What entity zeros the data doesn't matter as far as KVM's ABI is concerned.  That's
+> a motivating favor to providing ZERO, e.g. it allow userspace to elide additional
+> zeroing when it _knows_ the memory holds zeros, but that's orthogonal to KVM's
+> contract with userspace.
+>
+>> Although pKVM handles fresh, zeroed memory provisioning via donation
+>> rather than attribute conversion, stating that the UAPI cannot make
+>> guarantees due to trust boundaries is incorrect. The hypervisor is
+>
+> We should avoid using "hypervisor", because (a) it means different things to
+> different people and (b) even when there's consensus on what "hypervisor" means,
+> whether or not the hypervisor is trusted varies per implementation.
+>
+>> need to be careful witho precisely the entity the guest trusts to enforce
+>> this.
+>>
+>> The UAPI should define the semantics for a shared-to-private ZERO
+>> conversion, even if current architectures return -EOPNOTSUPP because
+>> they handle fresh memory provisioning via other mechanisms (like
+>> pKVM's donation path).
+>>
+>> How about something like the following:
+>>
+>> On a shared to private conversion, the hypervisor will zero the memory
+>
+> Again, say _nothing_ about "the hypervisor".  _How_ or when anything happens is
+> completely irrelevant, the only thing that matters here is _what_ happens.
+>
+>> contents before mapping it into the guest's private address space,
+>> preventing the untrusted host from injecting arbitrary data into the
+>> guest. If an architecture handles zeroed-provisioning via mechanisms
+>> other than attribute conversion, it may return -EOPNOTSUPP.
+>
+> No.  I am 100% against bleeding vendor specific information into KVM's ABI for
+> this.  What the vendor code does is irrelevant, the _only_ thing that matters
+> here is KVM's contract with userspace.
+>
+> That doesn't mean pKVM guests can't rely on memory being zeroed, but that is a
+> contract between pKVM and its guests, not between KVM and host userspace.
+>
 
---
-2.53.0
+If pKVM's (kernel, or elsewhere) documentation says something like
+
+  Shared to private (in addition to private to shared already specified
+  in the userspace/KVM contract) conversions through guest_memfd
+  specifying ZERO will have memory contents zeroed.
+
+Would that then cover both perspectives? I see Fuad's point that pKVM
+would like to provide guarantees in the shared to private direction too,
+and I see Sean's point that the shared to private direction isn't a
+userspace/KVM thing.
+
+The awkward part is that we guarantee both directions for PRESERVE but
+not for ZERO.
+
+>> >   For testing purposes, the KVM_X86_SW_PROTECTED_VM testing vehicle
+>> >   will support this policy and ensure zeroing for conversions in both
+>> >   directions.
+>> >
+>> > ``KVM_SET_MEMORY_ATTRIBUTES2_CONTENT_POLICY_PRESERVE``
+>> >
+>> >   On private/shared conversions in both directions, memory contents
+>> >   will be preserved and readable. As a concrete example, if the host
+>> >   writes ``0xbeef`` to memory and converts the memory to shared, the
+>> >   guest will also read ``0xbeef``, after any necessary hardware or
+>> >   software provided decryption. After a reverse shared to private
+>> >   conversion, the host will also read ``0xbeef``.
+>>
+>> I think that this example is backwards. If the host writes to memory,
+>> that memory is already shared, isn't it? Converting it to shared is
+>> redundant. More importantly, if memory undergoes a shared-to-private
+>> conversion, the host must lose access entirely.
+>
+> Ya, it's messed up.
+>
+
+Omg, it is backwards!! Might have been copypasta...
+
+>> Maybe a clearer example would reflect actual payload injection and
+>> bounce buffer sharing:
+>> - Shared-to-Private (Payload Injection): The host writes a payload
+>> (e.g., 0xbeef) to shared memory and converts it to private. The guest
+>> reads 0xbeef in its private address space. The host loses access.
+>> - Private-to-Shared (Bounce Buffer): The guest writes 0xbeef to
+>> private memory and converts it to shared. The host reads 0xbeef.
+>>
+>> >   pKVM (ARM) is the first user of this policy. Since pKVM does not
+>> >   protect memory with encryption, a content policy to preserve memory
+>> >   will not will not involve any decryption. The guest will be able to
+>> >   read what the host wrote with full content preservation.
+>>
+>> This is correct, but to be precise, I think it should explicitly
+>> mention Stage-2 page tables as the protection mechanism, maybe:
+>
+> pKVM shouldn't be mentioned in here at all.
+>
+> ---
+> By default, KVM makes no guarantees about the in-memory values after memory is
+> convert to/from shared/private.  Optionally, userspace may instruct KVM to
+> ensure the contents of memory are zeroed or preserved, e.g. to enable in-place
+> sharing of data, or as an optimization to avoid having to re-zero memory when
+> the trusted entity guarantees the memory will be zeroed after conversion.
+>
+
+How about:
+
+or as an optimization to avoid having to re-zero memory when userspace
+could have relied on the trusted entity to guarantee the memory will be
+zeroed as part of the entire conversion process.
+
+> The behaviors supported by a given KVM instance can be queried via <cap>.  If
+
+I started with some implementation and was questioning the value of a
+CAP. It seems like there won't be anything dynamic about this?
+
+The userspace code can check what platform it is running on, and then
+decide ZERO or PRESERVE based on the platform:
+
+If the VM is running on TDX, it would want to specify ZERO all the
+time. If the VM were running on pKVM it would want to specify PRESERVE
+if it wants to enable in-place sharing, and ZERO if it wants to zero the
+memory.
+
+If someday TDX supports PRESERVE, then there's room for discovery of
+which algorithm to choose when running the guest. Perhaps that's when
+the CAP should be introduced?
+
+> the requested behavior is an unsupported, KVM will return -EOPNOTSUPP and
+> reject the conversion request.  Note!  The "ZERO" request is only support for
+> private to shared conversion!
+>
+
+Do you mean ZERO is only guaranteed for private to shared? If we say
+"ZERO is only guaranteed for private to shared", then pKVM could
+additionally guarantee zeroing for shared to private. If we say it is
+only supported for private to shared, then should I return -EOPNOTSUPP
+and therefore not allow platforms to provide other guarantees?
+
+I think we should stick to guarantees for this
+
+* not specified (default) = no guarantees whatsoever
+* ZERO = guaranteed zero for shared to private, no guarantees for
+         private to shared. Platforms can add on more guarantees.
+* PRESERVE = guaranteed preseved in both directions
+
+-EOPNOTSUPP should probably be understood as "There is no way to
+guarantee this" like how TDX would return -EOPNOTSUPP for PRESERVE
+(now).
+
+> ``KVM_SET_MEMORY_ATTRIBUTES2_ZERO``
+>
+>   On conversion, KVM guarantees all entities that have "allowed" access to the
+>   memory will read zeros.  E.g. on private to shared conversion, both trusted
+>   and untrusted code will read zeros.
+>
+>   Zeroing is currently only supported for private-to-shared conversions, as KVM
+>   in general is untrusted and thus cannot guarantee the guest (or any trusted
+>   entity) will read zeros after conversion.  Note, some CoCo implementations do
+>   zero memory contents such that the guest reads zeros after conversion, and
+>   the guest may choose to rely on that behavior.  But that's a contract between
+>   the trusted CoCo entity and the guest, not between KVM and the guest.
+>
+> ``KVM_SET_MEMORY_ATTRIBUTES2_PRESERVE``
+>
+>   On conversion, KVM guarantees memory contents will be preserved with respect
+>   to the last written unencrypted value.  As a concrete example, if the host
+>   writes ``0xbeef`` to shared memory and converts the memory to private, the
+>   guest will also read ``0xbeef``, even if the in-memory data is encrypted as
+>   part of the conversion.  And vice versa, if the guest writes ``0xbeef`` to
+>   private memory and then converts the memory to shared, the host (and guest)
+>   will read ``0xbeef`` (if the memory is accessible).
+
+Thank you for this summary :)
+
+I see you dropped any documentation to do with testing. I meant to
+document it (at least something about the unspecified case) so it can be
+relied on in selftests, with the understanding (already specified
+elsewhere in Documentation/virt/kvm/api.rst) that nothing about
+KVM_X86_SW_PROTECTED_VM is to be relied on in production, and can be
+changed anytime. What do you think?
