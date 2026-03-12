@@ -1,395 +1,335 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012047.outbound.protection.outlook.com [40.107.209.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 989D1346FB3;
-	Thu, 12 Mar 2026 20:37:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773347832; cv=none; b=lUvFgQg4TH3QEEStfs69WNSQ7Dm/pK3dENJchW6t1+zUBmAW28NqvQDHVtcmtGr1EvqNyuuAUiXOR7PWQUrhiL9s0K42i7Cq06CPQs/U5eEp/ZW4tvtB7Y503tgRJ1/wIkxPAgp93QvO/ALl6b8mjW+ASCqF/juClB6o6QCdGQI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773347832; c=relaxed/simple;
-	bh=LsutievMoOrqeZOADP/MLwr8hHh7mzdZPbDe4AQ82v4=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=n903BCoUnJJ3L19L8Uf0xW06MZWXZf+C2enYhtZQtxngnSZASU5OWNXfwzqpMOupDM/w4VdpTXR3yRVxmsC7yr/q1dvNZeGXr/wBji/PqhwyHv18c8kFdpLtSKjNTlm3EG3mn1NCN09AUWQRaF4+3y56VVCRNhZpJ4AQptUhMls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k3e/St7w; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF88137B013;
+	Thu, 12 Mar 2026 20:37:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773347843; cv=fail; b=bu4ITNkg/Zi2xwzZmkWx3LTwgd6fkvWTS3gA9Kkqqq9W1vrQ+gIRBmbtjGAEwLWSLeM+Is67bwyzET+TRW9d+mFOVgRz6jKV0KqJ4AnYQtImQv5pI5ar8Oofo30EJhXAXbMZJ44FzNwKWzJyi0i3pptmhXbOO45qRRDWyvoRaYA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773347843; c=relaxed/simple;
+	bh=If7UazzBK7IVnKme3kOJip1N0Se4NVbUKB6h5pMIz5M=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=pkFNMGeTatdS6WNrXF6mmb/P4Bk4+wcC00r/y7ARLOqP3XQUHLdCbHRwGAnZpyIhRyGt2S6kFJBh+t2MfFkeem89sLtVS2Vaxk6vgKlYWptI2+Tvl1zHKpX0Ha5Y7Lbd6j9nv3zBJ52qPnq/ENb8t7M7HXzkLiLrILpQxcv8rac=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=bjsyPhRQ; arc=fail smtp.client-ip=40.107.209.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k3e/St7w"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DADDBC4CEF7;
-	Thu, 12 Mar 2026 20:36:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773347832;
-	bh=LsutievMoOrqeZOADP/MLwr8hHh7mzdZPbDe4AQ82v4=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=k3e/St7w+/LE7C6gR6OHeQh1yo5UhhCXmnQzILm4UU+zOTmvOu9OtnvecyAUEY8Mt
-	 hRch27enzckwDuf4QsRxhf82XhQrHoamoYpcuXdPWTVwsoU1rCMOO5/7Oo0/DmaSWt
-	 nY6DTUZHTS6dequcRL5sTJghE91bEL1S2nwuoMl+EY0CFnDhfyO0xoRJGZxLyHayPc
-	 ysIBZ1l10+6ffauxl2m7w1yCRwkqo4irHNutifmFzgcysAPmoEGw+Qhmb7UiJPpNWL
-	 DG90Nq7SHXKyqOnPKCRDjT34rPyrzKha0ItAc4EwIbxE0Im/sZtuHGnKcts1TH2waO
-	 g3kPn3VBA5Idw==
-Message-ID: <ee39e605-0d9f-433b-9dfa-f70fd92edfac@kernel.org>
-Date: Thu, 12 Mar 2026 21:36:55 +0100
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="bjsyPhRQ"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZXFgGctUGVL8QKDc/M6+Y7qGw/kA2qQ3xCWUp44sG4jaruTjTl7hHOl1xrSVNcQ2dyaxGFENlFH+0D/RvzbupcUDnXfrQUWCu+Zn6WtITo/bI+KQB69fMCH/0hkFxuwseHXtpWLh3I8JAyoJs+x0EfCc5aBimHNpRv4zgLw71sjcrH1AxKkiOyjp3+L85Dp1XKNsGI2EMfjKm97dr8lyxn0fyLaQoHWklp3puNF1/AypyWVYTCugnM1nYrCYG09Vy0RYc4PECEfiSu0XRF6fr1DBBtHWtZumdQflIfxJKuOBY82R5oum32r0TYA15eFMq3VawTWA0JJyJrDx9zL68w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=7nPDS2OhLXnGjcR9jz90FaDxiOozOyfszw1n0XJtFcI=;
+ b=XJh08Itah7m7k1HLh6Dgd+qQ+da9m3lN5t9mLbkuG9paQHZM6/PHbrOxnvmO/GkOEa4piR21HrrDB96OWbEqW65gKVWe921SruUh53f13lspXZXv9uD72IDM1kghBmQNgdQLXtkCrlURVR0tWRWy4Uwz7fqGjsAFTER+DhbrtXysgZblMKohdTmFM8T0lPYQbJ2SMfyaHo4t5nTm9NGkQwZH8vAlJQTTkxXGfA7xAu+ZLBnwlCxh+38SulGDKdb7nrToMhVA2mzHrx8Xd1KkpoV3//3QBJdU9I8SK74Uk9UDvJKC9hO6up3F2PtPD/s+la5+9ywpaM6zBoEzA/4NNw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7nPDS2OhLXnGjcR9jz90FaDxiOozOyfszw1n0XJtFcI=;
+ b=bjsyPhRQS2ujEMtN9Ms60hhZgNbir+QsE+E2UQhAY9wCVAU2pjAe+iL+AO06AKBfYArkJsSJhgl0WeHO12F26S+152Vb9Qzx/3n6zWjS3/253BrfEamLLQDnvjs01a0DYiH2nDY1u6PJq8Q1hOGpRdXzhMX6NJUCLw7h+xJsbgM=
+Received: from SJ0PR05CA0171.namprd05.prod.outlook.com (2603:10b6:a03:339::26)
+ by SN7PR12MB8772.namprd12.prod.outlook.com (2603:10b6:806:341::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.7; Thu, 12 Mar
+ 2026 20:37:16 +0000
+Received: from SJ5PEPF000001D3.namprd05.prod.outlook.com
+ (2603:10b6:a03:339:cafe::64) by SJ0PR05CA0171.outlook.office365.com
+ (2603:10b6:a03:339::26) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9678.25 via Frontend Transport; Thu,
+ 12 Mar 2026 20:37:15 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ SJ5PEPF000001D3.mail.protection.outlook.com (10.167.242.55) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9678.18 via Frontend Transport; Thu, 12 Mar 2026 20:37:15 +0000
+Received: from bmoger-ubuntu.amd.com (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Thu, 12 Mar
+ 2026 15:37:13 -0500
+From: Babu Moger <babu.moger@amd.com>
+To: <corbet@lwn.net>, <tony.luck@intel.com>, <reinette.chatre@intel.com>,
+	<Dave.Martin@arm.com>, <james.morse@arm.com>, <tglx@kernel.org>,
+	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>
+CC: <skhan@linuxfoundation.org>, <babu.moger@amd.com>, <x86@kernel.org>,
+	<hpa@zytor.com>, <peterz@infradead.org>, <juri.lelli@redhat.com>,
+	<vincent.guittot@linaro.org>, <dietmar.eggemann@arm.com>,
+	<rostedt@goodmis.org>, <bsegall@google.com>, <mgorman@suse.de>,
+	<vschneid@redhat.com>, <kas@kernel.org>, <rick.p.edgecombe@intel.com>,
+	<akpm@linux-foundation.org>, <pmladek@suse.com>, <rdunlap@infradead.org>,
+	<dapeng1.mi@linux.intel.com>, <kees@kernel.org>, <elver@google.com>,
+	<paulmck@kernel.org>, <lirongqing@baidu.com>, <safinaskar@gmail.com>,
+	<fvdl@google.com>, <seanjc@google.com>, <pawan.kumar.gupta@linux.intel.com>,
+	<xin@zytor.com>, <tiala@microsoft.com>, <Neeraj.Upadhyay@amd.com>,
+	<chang.seok.bae@intel.com>, <thomas.lendacky@amd.com>,
+	<elena.reshetova@intel.com>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-coco@lists.linux.dev>,
+	<kvm@vger.kernel.org>, <eranian@google.com>, <peternewman@google.com>
+Subject: [PATCH v2 00/16] fs,x86/resctrl: Add kernel-mode (e.g., PLZA) support to the resctrl subsystem
+Date: Thu, 12 Mar 2026 15:36:45 -0500
+Message-ID: <cover.1773347820.git.babu.moger@amd.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH mm-unstable v15 03/13] mm/khugepaged: generalize
- __collapse_huge_page_* for mTHP support
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-To: Nico Pache <npache@redhat.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-trace-kernel@vger.kernel.org
-Cc: aarcange@redhat.com, akpm@linux-foundation.org,
- anshuman.khandual@arm.com, apopple@nvidia.com, baohua@kernel.org,
- baolin.wang@linux.alibaba.com, byungchul@sk.com, catalin.marinas@arm.com,
- cl@gentwo.org, corbet@lwn.net, dave.hansen@linux.intel.com,
- dev.jain@arm.com, gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com,
- jack@suse.cz, jackmanb@google.com, jannh@google.com, jglisse@google.com,
- joshua.hahnjy@gmail.com, kas@kernel.org, lance.yang@linux.dev,
- Liam.Howlett@oracle.com, lorenzo.stoakes@oracle.com,
- mathieu.desnoyers@efficios.com, matthew.brost@intel.com,
- mhiramat@kernel.org, mhocko@suse.com, peterx@redhat.com, pfalcato@suse.de,
- rakie.kim@sk.com, raquini@redhat.com, rdunlap@infradead.org,
- richard.weiyang@gmail.com, rientjes@google.com, rostedt@goodmis.org,
- rppt@kernel.org, ryan.roberts@arm.com, shivankg@amd.com,
- sunnanyong@huawei.com, surenb@google.com, thomas.hellstrom@linux.intel.com,
- tiwai@suse.de, usamaarif642@gmail.com, vbabka@suse.cz,
- vishal.moola@gmail.com, wangkefeng.wang@huawei.com, will@kernel.org,
- willy@infradead.org, yang@os.amperecomputing.com,
- ying.huang@linux.alibaba.com, ziy@nvidia.com, zokeefe@google.com
-References: <20260226031741.230674-1-npache@redhat.com>
- <20260226032347.232939-1-npache@redhat.com>
- <8a4568de-e0f9-471b-bc94-1062d4af3938@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <8a4568de-e0f9-471b-bc94-1062d4af3938@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ5PEPF000001D3:EE_|SN7PR12MB8772:EE_
+X-MS-Office365-Filtering-Correlation-Id: d8a4aac8-8477-4fea-dcf4-08de807725d9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|7416014|376014|1800799024|36860700016|13003099007|18002099003|18092099006|18082099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	bI4RY4Wm9178dENVPe1Qj8um43l16k8bDqyIaJ2Ynb7QGRxthJatJhjS4+1AMIaIQzLozJCGJxsJD3qtXWr5RHRqmJyeuMBkaqhhLok5/NtHVNDjXRB0oWIfTsG3EM8TirAolL4CpOrRhxRb2MIefU6d3ae3+73gcMb7f6Iwxc9OG3ZGrIa9KdnZTaRdkVJcTXe/sP6Nv5LeVW+VV/P/XJ+c/c9de/dgZbQjN9DxXoDEKu05GkgX8OeN0r5uOVqg4VLJ2HS3ZErjAKX/ykDmQQ85RYXTHJsDLHcyu5gd7c7WeJe7puhVHIysFWJOE2XgF7hq8em4szz0mEcC9/07m0LpolJz0s1ERG49/E382xhofC024jcn84sd6E1bapatHSyLxzr+IKjtQtt4qFK1LWegyaCQiQn/OepwXqipUG+hoCMO2wgihYRnX5lJjHA3l0gPwwjd0dDbeT2AMjSaWB1VLe1a4eLu7Fot9r6gOnGkvcYCzB1XyLZQ0fT65mi61L3l9IF983RPFyZp6gFq5x8wqlTGtb7f1LGddEiSoE08kU+Ddb7yImoW1yEWOEiUHqXSV0JUDCq15a86nRVceTxqsUeVHzk+x2EnazSGTE2vH2nbqwRRX3MsvLk/qKXxr13imSc3TxbP+8BA01xogIoXpStPVeNjXh3QTBVXj3mfG79BCLeRqxy/BG+gnYEG2GszM0qFw1dYSrLgIqAEE0iCS53uO2DrNAfdlk5Gj7A=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(7416014)(376014)(1800799024)(36860700016)(13003099007)(18002099003)(18092099006)(18082099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	hiiAEPcJ/wfv5A6fQUYSpfgPITKkPMuiRo10aVgjaiHJyYTuwUR70Fx2OX3pq0sbqpag5e6oXxTq5NmdXIt1otCoEK6HqYsab3jcRw3Ppm0Xu4eywt0L2T1c1kIwKZH/cEvnvmZ4c9cmmVkBuANDXYZHg84CmaZ3xAijFmFuo5O63MMKCQY9GyqUVnKn0D5ZmTNLBH+Uqd0CcMraN/+/ZYfGBFzwFfcozPVglX1/DbyVtbQ89IcuEvMjTGvH4atLuaCBjtowDTNz+tfo93MgWWK9d8yVCO7q7FoDK3E4NFap3FmXVzryX3qH6rpUfuglK8IhbFSutoN1+LlVyVWHeSltcavVF7vqyUtsgKCqsWOkoRgWnFLFKgZTIVwYtwVHUzSJHn0Esd/zgeTSAN5NOXFttuY7slTI8QdOb4DjwEHsqA+fw2aU1l0GwL4ptZQQ
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Mar 2026 20:37:15.6336
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d8a4aac8-8477-4fea-dcf4-08de807725d9
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ5PEPF000001D3.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB8772
 
-On 3/12/26 21:32, David Hildenbrand (Arm) wrote:
-> On 2/26/26 04:23, Nico Pache wrote:
->> generalize the order of the __collapse_huge_page_* functions
->> to support future mTHP collapse.
->>
->> mTHP collapse will not honor the khugepaged_max_ptes_shared or
->> khugepaged_max_ptes_swap parameters, and will fail if it encounters a
->> shared or swapped entry.
->>
->> No functional changes in this patch.
->>
->> Reviewed-by: Wei Yang <richard.weiyang@gmail.com>
->> Reviewed-by: Lance Yang <lance.yang@linux.dev>
->> Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
->> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
->> Co-developed-by: Dev Jain <dev.jain@arm.com>
->> Signed-off-by: Dev Jain <dev.jain@arm.com>
->> Signed-off-by: Nico Pache <npache@redhat.com>
->> ---
->>  mm/khugepaged.c | 73 +++++++++++++++++++++++++++++++------------------
->>  1 file changed, 47 insertions(+), 26 deletions(-)
->>
->> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
->> index a9b645402b7f..ecdbbf6a01a6 100644
->> --- a/mm/khugepaged.c
->> +++ b/mm/khugepaged.c
->> @@ -535,7 +535,7 @@ static void release_pte_pages(pte_t *pte, pte_t *_pte,
->>  
->>  static enum scan_result __collapse_huge_page_isolate(struct vm_area_struct *vma,
->>  		unsigned long start_addr, pte_t *pte, struct collapse_control *cc,
->> -		struct list_head *compound_pagelist)
->> +		unsigned int order, struct list_head *compound_pagelist)
->>  {
->>  	struct page *page = NULL;
->>  	struct folio *folio = NULL;
->> @@ -543,15 +543,17 @@ static enum scan_result __collapse_huge_page_isolate(struct vm_area_struct *vma,
->>  	pte_t *_pte;
->>  	int none_or_zero = 0, shared = 0, referenced = 0;
->>  	enum scan_result result = SCAN_FAIL;
->> +	const unsigned long nr_pages = 1UL << order;
->> +	int max_ptes_none = khugepaged_max_ptes_none >> (HPAGE_PMD_ORDER - order);
-> 
-> It might be a bit more readable to move "const unsigned long
-> nr_pages = 1UL << order;" all the way to the top.
-> 
-> Then, have here
-> 
-> 	int max_ptes_none = 0;
-> 
-> and do at the beginning of the function:
-> 
-> 	/* For MADV_COLLAPSE, we always collapse ... */
-> 	if (!cc->is_khugepaged)
-> 		max_ptes_none = HPAGE_PMD_NR;
-> 	/*  ... except if userfaultf relies on MISSING faults. */
-> 	if (!userfaultfd_armed(vma))
-> 		max_ptes_none = khugepaged_max_ptes_none >> (HPAGE_PMD_ORDER - order);
-> 
-> (but see below regarding helper function)
-> 
-> then the code below becomes ...
-> 
->>  
->> -	for (_pte = pte; _pte < pte + HPAGE_PMD_NR;
->> +	for (_pte = pte; _pte < pte + nr_pages;
->>  	     _pte++, addr += PAGE_SIZE) {
->>  		pte_t pteval = ptep_get(_pte);
->>  		if (pte_none_or_zero(pteval)) {
->>  			++none_or_zero;
->>  			if (!userfaultfd_armed(vma) &&
->>  			    (!cc->is_khugepaged ||
->> -			     none_or_zero <= khugepaged_max_ptes_none)) {
->> +			     none_or_zero <= max_ptes_none)) {
-> 
-> ...
-> 
-> 	if (none_or_zero <= max_ptes_none) {
-> 
-> 
-> I see that you do something like that (but slightly different) in the next
-> patch. You could easily extend the above by it.
-> 
-> Or go one step further and move all of that conditional into collapse_max_ptes_none(), whereby
-> you simply also pass the cc and the vma.
-> 
-> Then this all gets cleaned up and you'd end up above with
-> 
-> max_ptes_none = collapse_max_ptes_none(cc, vma, order);
-> if (max_ptes_none < 0)
-> 	return result;
-> 
-> I'd do all that in this patch here, getting rid of #4.
-> 
-> 
->>  				continue;
->>  			} else {
->>  				result = SCAN_EXCEED_NONE_PTE;
->> @@ -585,8 +587,14 @@ static enum scan_result __collapse_huge_page_isolate(struct vm_area_struct *vma,
->>  		/* See collapse_scan_pmd(). */
->>  		if (folio_maybe_mapped_shared(folio)) {
->>  			++shared;
->> -			if (cc->is_khugepaged &&
->> -			    shared > khugepaged_max_ptes_shared) {
->> +			/*
->> +			 * TODO: Support shared pages without leading to further
->> +			 * mTHP collapses. Currently bringing in new pages via
->> +			 * shared may cause a future higher order collapse on a
->> +			 * rescan of the same range.
->> +			 */
->> +			if (!is_pmd_order(order) || (cc->is_khugepaged &&
->> +			    shared > khugepaged_max_ptes_shared)) {
-> 
-> That's not how we indent within a nested ().
-> 
-> To make this easier to read, what about similarly having at the beginning
-> of the function:
-> 
-> int max_ptes_shared = 0;
-> 
-> /* For MADV_COLLAPSE, we always collapse. */
-> if (cc->is_khugepaged)
-> 	max_ptes_none = HPAGE_PMD_NR;
-> /* TODO ... */
-> if (is_pmd_order(order))
-> 	max_ptes_none = khugepaged_max_ptes_shared;
-> 
-> to turn this code into a
-> 
-> 	if (shared > khugepaged_max_ptes_shared)
-> 
-> Also, here, might make sense to have a collapse_max_ptes_swap(cc, order)
-> to do that and clean it up.
-> 
-> 
->>  				result = SCAN_EXCEED_SHARED_PTE;
->>  				count_vm_event(THP_SCAN_EXCEED_SHARED_PTE);
->>  				goto out;
->> @@ -679,18 +687,18 @@ static enum scan_result __collapse_huge_page_isolate(struct vm_area_struct *vma,
->>  }
->>  
->>  static void __collapse_huge_page_copy_succeeded(pte_t *pte,
->> -						struct vm_area_struct *vma,
->> -						unsigned long address,
->> -						spinlock_t *ptl,
->> -						struct list_head *compound_pagelist)
->> +		struct vm_area_struct *vma, unsigned long address,
->> +		spinlock_t *ptl, unsigned int order,
->> +		struct list_head *compound_pagelist)
->>  {
->> -	unsigned long end = address + HPAGE_PMD_SIZE;
->> +	unsigned long end = address + (PAGE_SIZE << order);
->>  	struct folio *src, *tmp;
->>  	pte_t pteval;
->>  	pte_t *_pte;
->>  	unsigned int nr_ptes;
->> +	const unsigned long nr_pages = 1UL << order;
-> 
-> Move it further to the top.
-> 
->>  
->> -	for (_pte = pte; _pte < pte + HPAGE_PMD_NR; _pte += nr_ptes,
->> +	for (_pte = pte; _pte < pte + nr_pages; _pte += nr_ptes,
->>  	     address += nr_ptes * PAGE_SIZE) {
->>  		nr_ptes = 1;
->>  		pteval = ptep_get(_pte);
->> @@ -743,13 +751,11 @@ static void __collapse_huge_page_copy_succeeded(pte_t *pte,
->>  }
->>  
->>  static void __collapse_huge_page_copy_failed(pte_t *pte,
->> -					     pmd_t *pmd,
->> -					     pmd_t orig_pmd,
->> -					     struct vm_area_struct *vma,
->> -					     struct list_head *compound_pagelist)
->> +		pmd_t *pmd, pmd_t orig_pmd, struct vm_area_struct *vma,
->> +		unsigned int order, struct list_head *compound_pagelist)
->>  {
->>  	spinlock_t *pmd_ptl;
->> -
->> +	const unsigned long nr_pages = 1UL << order;
->>  	/*
->>  	 * Re-establish the PMD to point to the original page table
->>  	 * entry. Restoring PMD needs to be done prior to releasing
->> @@ -763,7 +769,7 @@ static void __collapse_huge_page_copy_failed(pte_t *pte,
->>  	 * Release both raw and compound pages isolated
->>  	 * in __collapse_huge_page_isolate.
->>  	 */
->> -	release_pte_pages(pte, pte + HPAGE_PMD_NR, compound_pagelist);
->> +	release_pte_pages(pte, pte + nr_pages, compound_pagelist);
->>  }
->>  
->>  /*
->> @@ -783,16 +789,16 @@ static void __collapse_huge_page_copy_failed(pte_t *pte,
->>   */
->>  static enum scan_result __collapse_huge_page_copy(pte_t *pte, struct folio *folio,
->>  		pmd_t *pmd, pmd_t orig_pmd, struct vm_area_struct *vma,
->> -		unsigned long address, spinlock_t *ptl,
->> +		unsigned long address, spinlock_t *ptl, unsigned int order,
->>  		struct list_head *compound_pagelist)
->>  {
->>  	unsigned int i;
->>  	enum scan_result result = SCAN_SUCCEED;
->> -
->> +	const unsigned long nr_pages = 1UL << order;
-> 
-> Same here, all the way to the top.
-> 
->>  	/*
->>  	 * Copying pages' contents is subject to memory poison at any iteration.
->>  	 */
->> -	for (i = 0; i < HPAGE_PMD_NR; i++) {
->> +	for (i = 0; i < nr_pages; i++) {
->>  		pte_t pteval = ptep_get(pte + i);
->>  		struct page *page = folio_page(folio, i);
->>  		unsigned long src_addr = address + i * PAGE_SIZE;
->> @@ -811,10 +817,10 @@ static enum scan_result __collapse_huge_page_copy(pte_t *pte, struct folio *foli
->>  
->>  	if (likely(result == SCAN_SUCCEED))
->>  		__collapse_huge_page_copy_succeeded(pte, vma, address, ptl,
->> -						    compound_pagelist);
->> +						    order, compound_pagelist);
->>  	else
->>  		__collapse_huge_page_copy_failed(pte, pmd, orig_pmd, vma,
->> -						 compound_pagelist);
->> +						 order, compound_pagelist);
->>  
->>  	return result;
->>  }
->> @@ -985,12 +991,12 @@ static enum scan_result check_pmd_still_valid(struct mm_struct *mm,
->>   * Returns result: if not SCAN_SUCCEED, mmap_lock has been released.
->>   */
->>  static enum scan_result __collapse_huge_page_swapin(struct mm_struct *mm,
->> -		struct vm_area_struct *vma, unsigned long start_addr, pmd_t *pmd,
->> -		int referenced)
->> +		struct vm_area_struct *vma, unsigned long start_addr,
->> +		pmd_t *pmd, int referenced, unsigned int order)
->>  {
->>  	int swapped_in = 0;
->>  	vm_fault_t ret = 0;
->> -	unsigned long addr, end = start_addr + (HPAGE_PMD_NR * PAGE_SIZE);
->> +	unsigned long addr, end = start_addr + (PAGE_SIZE << order);
->>  	enum scan_result result;
->>  	pte_t *pte = NULL;
->>  	spinlock_t *ptl;
->> @@ -1022,6 +1028,19 @@ static enum scan_result __collapse_huge_page_swapin(struct mm_struct *mm,
->>  		    pte_present(vmf.orig_pte))
->>  			continue;
->>  
->> +		/*
->> +		 * TODO: Support swapin without leading to further mTHP
->> +		 * collapses. Currently bringing in new pages via swapin may
->> +		 * cause a future higher order collapse on a rescan of the same
->> +		 * range.
->> +		 */
->> +		if (!is_pmd_order(order)) {
->> +			pte_unmap(pte);
->> +			mmap_read_unlock(mm);
->> +			result = SCAN_EXCEED_SWAP_PTE;
->> +			goto out;
->> +		}
->> +
-> 
-> Interesting, we just swapin everything we find :)
-> 
-> But do we really need this check here? I mean, we just found it to be present.
-> 
-> In the rare event that there was a race, do we really care? It was just
-> present, now it's swapped. Bad luck. Just swap it in.
-> 
 
-Okay, now I am confused. Why are you not taking care of
-collapse_scan_pmd() in the same context?
+This series adds support for Privilege-Level Zero Association (PLZA) to the
+resctrl subsystem. PLZA is an AMD feature that allows specifying a CLOSID
+and/or RMID for execution in kernel mode (privilege level zero), so that
+kernel work is not subject to the same resource constrains as the current
+user-space task. This avoids kernel operations being aggressively throttled
+when a task's memory bandwidth is heavily limited.
 
-Because if you make sure that we properly check against a max_ptes_swap
-similar as in the style above, we'd rule out swapin right from the start?
+The feature documentation is not yet publicly available, but it is expected
+to be released in the next few weeks. In the meantime, a brief description
+of the features is provided below. 
 
-Also, I would expect that all other parameters in there are similarly
-handled?
+Privilege Level Zero Association (PLZA) 
+
+Privilege Level Zero Association (PLZA) allows the hardware to
+automatically associate execution in Privilege Level Zero (CPL=0) with a
+specific COS (Class of Service) and/or RMID (Resource Monitoring
+Identifier). The QoS feature set already has a mechanism to associate
+execution on each logical processor with an RMID or COS. PLZA allows the
+system to override this per-thread association for a thread that is
+executing with CPL=0. 
+------------------------------------------------------------------------
+
+The series introduces the feature in a way that supports the interface in
+a generic manner to accomodate MPAM or other vendor specific implimentation.
+
+Below is the detailed requirements provided by Reinette:
+https://lore.kernel.org/lkml/2ab556af-095b-422b-9396-f845c6fd0342@intel.com/
+
+Summary:
+1. Kernel-mode/PLZA controls and status should be exposed under the resctrl
+   info directory:/sys/fs/resctrl/info/, not as a separate or arch-specific path.
+
+2. Add two info files
+
+ a. kernel_mode
+    Purpose: Control how resource allocation and monitoring apply in kernel mode
+    (e.g. inherit from task vs global assign).
+
+    Read: List supported modes and show current one (e.g. with [brackets]).
+    Write: Set current mode by name (e.g. inherit_ctrl_and_mon, global_assign_ctrl_assign_mon).
+
+b. kernel_mode_assignment
+
+   Purpose: When a “global assign” kernel mode is active, specify which resctrl group
+   (CLOSID/RMID) is used for kernel work.
+
+   Read: Show the assigned group in a path-like form (e.g. //, ctrl1//, ctrl1/mon1/).
+   Write: Assign or clear the group used for kernel mode (and optionally clear with an empty write).
+
+The patches are based on top of commit (v7.0.0-rc3)
+839e91ce3f41b (tip/master) Merge branch into tip/master: 'x86/tdx'
+------------------------------------------------------------------------
+
+Examples: kernel_mode and kernel_mode_assignment
+
+All paths below are under /sys/fs/resctrl/ (e.g. info/kernel_mode means
+/sys/fs/resctrl/info/kernel_mode). Resctrl must be mounted and the platform
+must support the relevant modes (e.g. AMD with PLZA).
+
+1) kernel_mode — show and set the current kernel mode
+
+   Read supported modes and which one is active (current in brackets):
+
+     $ cat info/kernel_mode
+     [inherit_ctrl_and_mon]
+     global_assign_ctrl_inherit_mon
+     global_assign_ctrl_assign_mon
+
+   Set the active mode (e.g. use one CLOSID+RMID for all kernel work):
+
+     $ echo "global_assign_ctrl_assign_mon" > info/kernel_mode
+     $ cat info/kernel_mode
+     inherit_ctrl_and_mon
+     global_assign_ctrl_inherit_mon
+     [global_assign_ctrl_assign_mon]
+
+   Mode meanings:
+   - inherit_ctrl_and_mon: kernel uses same CLOSID/RMID as the current task (default).
+   - global_assign_ctrl_inherit_mon: one CLOSID for all kernel work; RMID inherited from user.
+   - global_assign_ctrl_assign_mon: one resource group (CLOSID+RMID) for all kernel work.
+
+2) kernel_mode_assignment — show and set which group is used for kernel work
+
+   Only relevant when kernel_mode is not "inherit_ctrl_and_mon". Read the
+   currently assigned group (path format is "CTRL_MON/MON/"):
+
+     $ cat info/kernel_mode_assignment
+     //
+
+   "//" means the default CTRL_MON group is assigned. Assign a specific
+   group instead (e.g. a CTRL_MON group "ctrl1", or a MON group "mon1" under it):
+
+     $ echo "ctrl1//" > info/kernel_mode_assignment
+     $ cat info/kernel_mode_assignment
+     ctrl1//
+
+     $ echo "ctrl1/mon1/" > info/kernel_mode_assignment
+     $ cat info/kernel_mode_assignment
+     ctrl1/mon1/
+
+   Clear the assignment (no dedicated group for kernel work):
+
+     $ echo >> info/kernel_mode_assignment
+     $ cat info/kernel_mode_assignment
+     Kmode is not configured
+
+   Errors (e.g. invalid group name or unsupported mode) are reported in
+   info/last_cmd_status.
+
+---
+
+v2: 
+     This is similar to RFC with new proposal. Names of the some interfaces
+     are not final. Lets fix that later as we move forward.
+
+     Separated the two features: Global Bandwidth Enforcement (GLBE) and
+     Privilege Level Zero Association (PLZA).
+ 
+     This series only adds support for PLZA.
+
+     Used the name of the feature as kmode instead of PLZA. That can be changed as well.
+
+     Tony suggested using global variables to store the kernel mode
+     CLOSID and RMID. However, the kernel mode CLOSID and RMID are
+     coming from rdtgroup structure with the new interface. Accessing
+     them requires holding the associated lock, which would make the
+     context switch path unnecessarily expensive. So, dropped the idea.
+     https://lore.kernel.org/lkml/aXuxVSbk1GR2ttzF@agluck-desk3/
+     Let me know if there are other ways to optimize this.
+
+Patch 1: Data structures and arch hook: Add resctrl_kmode,
+	resctrl_kmode_cfg, kernel-mode bits, and resctrl_arch_get_kmode_cfg()
+	for generic resctrl kernel mode (e.g. PLZA).
+
+Patch 2: Implement resctrl_arch_get_kmode_cfg() on x86, add global resctrl_kcfg
+	and resctrl_kmode_init() to set default kmode.
+
+Patch 3: Add info/kernel_mode and resctrl_kernel_mode_show() to list supported
+	kernel modes and show the current one in brackets.
+
+Patch 4: Add x86 PLZA support and boot option rdt=plza.
+
+Patch 5: Add supported modes from CPUID.
+
+Patch 6: Add rdt_kmode_enable_key and arch enable/disable helpers so PLZA only
+	touches fast paths when enabled.
+
+Patch 7: Add MSR_IA32_PQR_PLZA_ASSOC, bit defines, and union qos_pqr_plza_assoc
+	for programming PLZA.
+
+Patch 8: Add Per-CPU and per-task state.
+
+Patch 9: Add resctrl_arch_configure_kmode() and resctrl_arch_set_kmode()
+	to program PLZA per domain and set/clear it on a CPU.
+
+Patch 10: In the sched-in path, program MSR_IA32_PQR_PLZA_ASSOC from task or
+	per-CPU kmode; only write when kmode changes; guard with rdt_kmode_enable_key.
+
+Patch 11: Add write handler so the current kernel mode can be set by name.
+
+Patch 12: Add info/kernel_mode_assignment and show which rdtgroup is assigned
+	for kernel mode in CTRL_MON/MON/ form.
+
+Patch 13: Add write handler to assign/clear the group used for kernel mode;
+	enforce single assignment and clear on rmdir.
+
+Patch 14: Update per-CPU PLZA state when its cpu_mask changes (add/remove CPUs)
+	via cpus_write_kmode() and helpers.
+
+Patch 15: Refactor so task list respects t->kmode when the group has kmode (PLZA),
+	so tasks are shown correctly.
+
+Patch 16: Add arch helper to set task kmode.
+--------------------------------------------------------------------------------
+
+v1 : https://lore.kernel.org/lkml/cover.1769029977.git.babu.moger@amd.com/
+
+
+Babu Moger (16):
+  fs/resctrl: Add kernel mode (kmode) data structures and arch hook
+  fs, x86/resctrl: Add architecture routines for kernel mode
+    initialization
+  fs/resctrl: Add info/kernel_mode file to show kernel mode options
+  x86/resctrl: Support Privilege-Level Zero Association (PLZA)
+  x86/resctrl: Initialize supported kernel modes when CPUID reports PLZA
+  resctrl: Introduce kmode static key enable/disable helpers
+  x86/resctrl: Add data structures and definitions for PLZA
+    configuration
+  x86/resctrl: Add per-CPU and per-task kernel mode state
+  x86,fs/resctrl: Add the functionality to configure PLZA
+  x86/resctrl: Add PLZA state tracking and context switch handling
+  fs/resctrl: Add write handler for info/kernel_mode
+  fs/resctrl: Add info/kernel_mode_assignment to show kernel-mode
+    rdtgroup
+  fs/resctrl: Add write interface for kernel_mode_assignment
+  fs/resctrl: Update kmode configuration when cpu_mask changes
+  x86/resctrl: Refactor show_rdt_tasks() to support PLZA tasks
+  fs/resctrl: Add per-task kmode enable support via rdtgroup
+
+ .../admin-guide/kernel-parameters.txt         |   2 +-
+ Documentation/filesystems/resctrl.rst         |  69 ++
+ arch/x86/include/asm/cpufeatures.h            |   1 +
+ arch/x86/include/asm/msr-index.h              |   7 +
+ arch/x86/include/asm/resctrl.h                |  92 ++-
+ arch/x86/kernel/cpu/resctrl/core.c            |  12 +
+ arch/x86/kernel/cpu/resctrl/ctrlmondata.c     |  77 +++
+ arch/x86/kernel/cpu/resctrl/internal.h        |  26 +
+ arch/x86/kernel/cpu/resctrl/rdtgroup.c        |   2 +
+ arch/x86/kernel/cpu/scattered.c               |   1 +
+ fs/resctrl/internal.h                         |   2 +
+ fs/resctrl/rdtgroup.c                         | 635 +++++++++++++++++-
+ include/linux/resctrl.h                       |  40 ++
+ include/linux/resctrl_types.h                 |  30 +
+ include/linux/sched.h                         |   2 +
+ 15 files changed, 989 insertions(+), 9 deletions(-)
 
 -- 
-Cheers,
+2.43.0
 
-David
