@@ -1,91 +1,37 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from Chamillionaire.breakpoint.cc (Chamillionaire.breakpoint.cc [91.216.245.30])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8F032DB787
-	for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 12:34:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B7481DEFE8;
+	Thu, 12 Mar 2026 12:36:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.216.245.30
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773318880; cv=none; b=T6oq3nMfsMugV7gfF4yRlGczXNYzHRVR85gGPs5jGBbsXbsKaSbsOAVisn6sHvalkwh9ywix7denGvTnZn2lGTpPQ4uRt6vdIgMFDrZxL7+tXOMBBrrDk9KviCcX5ilnTeFtlR3CzEgNc1xkrEkgOU3wPB6C8wNuFWG/D0QtrA8=
+	t=1773319007; cv=none; b=LGSJn8rEeWaOYWm9fvgQxwDZUcCFZMbM3J7GxrvGOvSCZ59wLWWbwWxRfUvAjvhzc/KGjXa13lXNw3JPkeJA5aZQEUAOe6ktzLwM6SgK7y99J+sWGNtZu0cg5/JH3iYCsNA9gCuGLAO5O9X1xaAaM8qj+0Ux1aWSCWZMNAZlIcE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773318880; c=relaxed/simple;
-	bh=APBW+HdbDJGC0qi66ebGpgzi6a/5pJAPmLFyIpoPoUs=;
+	s=arc-20240116; t=1773319007; c=relaxed/simple;
+	bh=aLrncpKox8OUUgw9Pi1Wd+JmkU+sBo7DO9cXcHpsdMQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h4dZQFz3XRnrwxZwbTuF6HbMOeIwqyvyARh1DaYk7J4g23j7KqL90iziVea51af7XKb2xeJoLCD9OEJs3PVycwG2Hn8hYkUTrzzDzEnCZcV/SstIZ33AHhPkWBztFSz0nlEs5TQqTA+STMbKGUNj0+YCq4Vu0gILSbeptwRxvKY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=ownQHuOT; arc=none smtp.client-ip=209.85.222.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="ownQHuOT"
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-8cd8347d9fdso123627085a.1
-        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 05:34:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1773318878; x=1773923678; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ULg7grqreMOX2MMOX7z3yI5zs+73GrCTo1UP0N+hYkE=;
-        b=ownQHuOTOoTG7P5CNB7JnKZ3YS6g/Kj+BPvHDxppydLUGu0P9FeCYCozpvrx+M0CvO
-         6zQiTL2JTFDUIfRCZ9f6CCGls7LKo13jawgowaQLhPAh/yZrtsyaWL2k7d7XXUH460n2
-         0Uxloj5c2y7Pb//ALmD0enI1ADfzsbNbpXJBzR+TpxF0z3V0pCXM/1wTaCy7HoJUxCTn
-         uxAXPrvwy7I/0WQExRWhrFpLrCOjdwDbT2BnZitDU9ZthhtuIq+DOd+95U2kp/6iYjuD
-         ut/cf4QpMNxMFY6pqgBQBfZXAuwC5O/8KD+P0aKFGwlu5yOwXjQ0xIYL9iJyV+JfI+g2
-         hYag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773318878; x=1773923678;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ULg7grqreMOX2MMOX7z3yI5zs+73GrCTo1UP0N+hYkE=;
-        b=HGHwJCdn3Ax3wb+QMoM4JIfSf4SgASzooah9ZUWkMT3Ys47Gti9bjiS/SfqXWKLaeR
-         sbO1Uv6Up4mibu2+GiVJxBiAK+e1nQcvA9Vw/Sjm36T9b5VtJWhW4mwZnUJH3chP/e5P
-         0zoZA3dMqpwYJzahx6kgUi1bkVoxB6m0CS0xhruUXYKhMv918OqNPH4OjuLlGE8Y5ttN
-         3cjlaip2zYEPfzcZCNeGLhzO9D6jZ18CcEoa/zZCrrGn6hbmBI6dfcGdFsKAm8JQq0AZ
-         kYBbtMxeZKLUkFYhXOuDEzkOeCDZrz0NQZd12yoDK/vx52FP+1k3T1PHT1Hg/la01bEO
-         E5Fg==
-X-Forwarded-Encrypted: i=1; AJvYcCWyPUb4Esq3tkgHMIvWWGzDzX9p3cK6oInuPvWGBICK45LlNcia2cOYSFsCv82k/oFZpgaNaHyWtZo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxCbxz+Byxcn3na06s5Kwgin9QzlQT+G4I7sIOeKTNtYURTtws8
-	R0UL++ls1kZyWEbCXTbHAmIAvrODpMIbk45zK8m9Xmt//DPeEBkEamwBU5n5rh0oDnU=
-X-Gm-Gg: ATEYQzwZewWUux9IIvXpKVb+hEONy4zV2OoNHLzfQxpKdxMOqfcJs53qqx4LottXxzV
-	rm+FcQTUdTpsmoza6hY0BrW1+c/qqKcglpaC0d9KvJoYGISPsQdBBegMmfeE+oe83r9mPq5SNTQ
-	aNwT8tcyL/BogxB/sRGDj+C0xs6ddVrAB1ipr2wPluwVBZ9BtSUzFTobNb0g3T7s6RLdUgKTWoO
-	ZHVo/Vv1fc6KE/72Oc/ulNDeAcJ5ApsVPlhTZJQIO4606/a503jb4yyy0qF26hRtQ6vol9apAPV
-	PCeMpMRFi/5VexpR4B/zFUUOtHaQRraZJkbdKssd0bke5Og6sRUENSNfVpI0zzovPUSte0V2vsI
-	juvZLX8PKwWKsaRAHTL2N+rTYlu2/MGpBBFh6CMfMVSeoLU60qwVF9nXeYZsOKCVeAWDK7CkWrr
-	6igWrvN5CxIzS/kclJtUXEca9iRcX05Y44yAEys0NA9WzQniQG8c3FlvbVazfW1ZG/Ib27VOJto
-	fQ2cF1V
-X-Received: by 2002:a05:620a:46a8:b0:8cd:8938:eff9 with SMTP id af79cd13be357-8cda1936a90mr737651285a.1.1773318877767;
-        Thu, 12 Mar 2026 05:34:37 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-162-112-119.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.112.119])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8cda21346a0sm323887785a.34.2026.03.12.05.34.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Mar 2026 05:34:36 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1w0fFL-00000006ezF-1zix;
-	Thu, 12 Mar 2026 09:34:35 -0300
-Date: Thu, 12 Mar 2026 09:34:35 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Petr Tesarik <ptesarik@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=Gai2mL+B05oz2SUqjddiAlsfb9lnEA/Y+gHepRAq/40XonmQXRIHLcTsNbesa8YqruUON8gLNPUZhfV1Xj1YrnPP+jBcBuKu+vVqFRfXEM6zOfEokNBZjQQGGLXWiX2/3Op2DXxsxp/feGxn8+KYLhoKWO3gmUxS/DC2+aLxZS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strlen.de; spf=pass smtp.mailfrom=strlen.de; arc=none smtp.client-ip=91.216.245.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strlen.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=strlen.de
+Received: by Chamillionaire.breakpoint.cc (Postfix, from userid 1003)
+	id D14026047A; Thu, 12 Mar 2026 13:36:38 +0100 (CET)
+Date: Thu, 12 Mar 2026 13:36:40 +0100
+From: Florian Westphal <fw@strlen.de>
+To: Prasanna S Panchamukhi <panchamukhi@arista.com>
+Cc: netfilter-devel@vger.kernel.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>, iommu@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	virtualization@lists.linux.dev, linux-rdma@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH v2 7/8] RDMA/umem: Tell DMA mapping that UMEM requires
- coherency
-Message-ID: <20260312123435.GH1469476@ziepe.ca>
-References: <20260311-dma-debug-overlap-v2-0-e00bc2ca346d@nvidia.com>
- <20260311-dma-debug-overlap-v2-7-e00bc2ca346d@nvidia.com>
+	Pablo Neira Ayuso <pablo@netfilter.org>, Phil Sutter <phil@nwl.cc>,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, coreteam@netfilter.org
+Subject: Re: [PATCH net-next] netfilter: conntrack: expose
+ gc_scan_interval_max via sysctl
+Message-ID: <abKzWIhVz_SeiSOa@strlen.de>
+References: <20260311194058.13860-1-panchamukhi@arista.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -94,29 +40,27 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260311-dma-debug-overlap-v2-7-e00bc2ca346d@nvidia.com>
+In-Reply-To: <20260311194058.13860-1-panchamukhi@arista.com>
 
-On Wed, Mar 11, 2026 at 09:08:50PM +0200, Leon Romanovsky wrote:
-> From: Leon Romanovsky <leonro@nvidia.com>
+Prasanna S Panchamukhi <panchamukhi@arista.com> wrote:
+> The conntrack garbage collection worker uses an adaptive algorithm that
+> adjusts the scan interval based on the average timeout of tracked
+> entries.  The upper bound of this interval is hardcoded as
+> GC_SCAN_INTERVAL_MAX (60 seconds).
 > 
-> The RDMA subsystem exposes DMA regions through the verbs interface, which
-> assumes a coherent system. Use the DMA_ATTR_REQUIRE_COHERENCE attribute to
-> ensure coherency and avoid taking the SWIOTLB path.
+> Expose the upper bound as a new sysctl,
+> net.netfilter.nf_conntrack_gc_scan_interval_max, so it can be tuned at
+> runtime without rebuilding the kernel.  The default remains 60 seconds
+> to preserve existing behavior.  The sysctl is global and read-only in
+> non-init network namespaces, consistent with nf_conntrack_max and
+> nf_conntrack_buckets.
 
-Lets elaborate a bit more so people understand why verbs is like
-this:
+This was proposed before, see:
 
-The RDMA verbs programming model is like HMM and assumes concurrent DMA and
-CPU access to userspace memory in a process. The HW device and
-programming model has so-called "one-sided" operations which are
-initiated over the network by a remote CPU without notification or
-involvement of the local CPU. These include things like ATOMIC
-compare/swap, READ, and WRITE. Using these operations a remote CPU can
-traverse data structures, form locks, and so on without awareness of
-the host CPU. Having SWIOTLB substitute the memory or the DMA be cache
-incoherent completely breaks these use cases.
+https://lore.kernel.org/netfilter-devel/aO-id5W6Tr7frdHN@strlen.de/
+https://lore.kernel.org/netfilter-devel/aRsuU57juCvsMBKE@strlen.de/
 
-RDMA in-kernel is OK with incoherence because none of the kernel use
-cases make use of one-sided operations that would cause problems.
+I did not hear back wrt. the horizon cache.
 
-Jason
+I'm not 100% opposed to this, but I do wonder if we really can't do
+better than the current avg strategy.
