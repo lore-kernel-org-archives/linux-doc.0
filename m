@@ -1,64 +1,162 @@
-Received: from Chamillionaire.breakpoint.cc (Chamillionaire.breakpoint.cc [91.216.245.30])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE0C85474F;
-	Thu, 12 Mar 2026 23:10:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.216.245.30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFEA240DFDC;
+	Thu, 12 Mar 2026 23:15:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773357025; cv=none; b=LjHqu+y/iS75uKlJHkgmCXdR1SBXx14aEbQh4XwYJ0ibwsez2DUKuoO20PDZ9W9T3X66HfpLLOzGbYhvVSSALBEs6RfFZRK50Ixczd62wNQSSI97Z0+rHR2LT81LOU31oW5sfzzakJNHZgbx7haERZ6UdrGlJMBhpguHhQ70VIs=
+	t=1773357350; cv=none; b=d9hQ9OXqYSX9MXRU+oU9Z+bAf2AcLJxxk1EGoHi9y3ISLcf75/l+PCiBBSte4G74aoGFkzszzxbHAYEsU2RXsOxuJOqjPTorocG0F8leyWFEJJOKg4bqK3i7AkIB+WSd/cYlpZVQognkNA3NchEkg9Z7TlcQyazHtBUpEefm2fo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773357025; c=relaxed/simple;
-	bh=V9MsJas5VqrwU+ZQcIln6/NPhLNGcGpWJ1IqyvVpnQc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E0/ZNtY4oUoTGdoJyV1OjbOZ6A+x3KZEvAYpVUM37JDcldFRmfN9+iD77Todfus23RLJqDl0gSR/Hhg0ZNU8LeHibW+e8n56UZ9xR1t0Rfer05kNCkfwCEXBaS5O9uBaN0GIhWlPqpRXl8G5AVoFdPwDxkqFpSa1C5myL7nCvUw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strlen.de; spf=pass smtp.mailfrom=strlen.de; arc=none smtp.client-ip=91.216.245.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strlen.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=strlen.de
-Received: by Chamillionaire.breakpoint.cc (Postfix, from userid 1003)
-	id 0743D60470; Fri, 13 Mar 2026 00:10:21 +0100 (CET)
-Date: Fri, 13 Mar 2026 00:10:23 +0100
-From: Florian Westphal <fw@strlen.de>
-To: Prasanna Panchamukhi <panchamukhi@arista.com>
-Cc: netfilter-devel@vger.kernel.org,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Pablo Neira Ayuso <pablo@netfilter.org>, Phil Sutter <phil@nwl.cc>,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, coreteam@netfilter.org
-Subject: Re: [PATCH net-next] netfilter: conntrack: expose
- gc_scan_interval_max via sysctl
-Message-ID: <abNH3xxxAU7U4zz5@strlen.de>
-References: <20260311194058.13860-1-panchamukhi@arista.com>
- <abKzWIhVz_SeiSOa@strlen.de>
- <CACqWiXD2_O32K4NhmNBZrAUG7U9-N93LTFjJHG6Tq=4vuafNuA@mail.gmail.com>
+	s=arc-20240116; t=1773357350; c=relaxed/simple;
+	bh=p2SRKGVFSyP2Xu+amBX53g78Qjd+fd3UcCdqNkYLdeI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Fw2dR7PYvFHvjEGSKwZjItyUgjWN+bOXeTumoQ2t/SIS+jBpIL/hZZy8rWEz8JKp8N1jglg5JiQ9o0XXOKW3i9cwvkgu9dTdliGTUORlH7Ttem592mCb10lE/t9LeED7fwKWyHN5MMCA3l8h2jkXswD4r+RyFHvvMOH9EWKMZcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=W/09uimW; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="W/09uimW"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=LjcR94bmvH2oOH8ZUWLFU9TNRvfPfrpZ+1MwNkcZH5I=; b=W/09uimWlmT/Ysq3jgNMt1gI7H
+	GOweGLT/9vNXsJOPg9hm2zWvmdX3q1Mku+Gp0H9Iy01Esb6LQV5ATBVsFtN7xIiUoagCrBlANpDjy
+	LFKllY8nRMXqP5YIQU35yhpjR6xLflNsnx64mvIpAEWYWRWDPhCqNZYr0PnzOZoWDQK+FM4dlVpqj
+	nTXMWJe8aCw5gHcb65NFh+tuJVdjDY9IaRhmpRA+PnQPWNf8cS/Xo1D5AhzPt2W5l4FH91HqP8G0U
+	kPRc+Y45RDEk4AoFzuVcdgRIIbo7k6atO+7RsPG8yCEeiefwSsO6mHknQo7wHDNJwM391bMo/EMJe
+	bffBLL6A==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1w0pFY-0000000FkNf-3iHP;
+	Thu, 12 Mar 2026 23:15:28 +0000
+Message-ID: <4fd15134-ae1e-4233-8d5a-9d1e0b9f94dc@infradead.org>
+Date: Thu, 12 Mar 2026 16:15:26 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACqWiXD2_O32K4NhmNBZrAUG7U9-N93LTFjJHG6Tq=4vuafNuA@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 15/15] mm: add mmap_action_map_kernel_pages[_full]()
+To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Clemens Ladisch <clemens@ladisch.de>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "K . Y . Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Bodo Stroesser <bostroesser@gmail.com>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ David Hildenbrand <david@kernel.org>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-hyperv@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org,
+ linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org,
+ target-devel@vger.kernel.org, linux-afs@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ Ryan Roberts <ryan.roberts@arm.com>
+References: <cover.1773346620.git.ljs@kernel.org>
+ <21d8899bb1f4db61203072fb3a56a6c98a61e23d.1773346620.git.ljs@kernel.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <21d8899bb1f4db61203072fb3a56a6c98a61e23d.1773346620.git.ljs@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Prasanna Panchamukhi <panchamukhi@arista.com> wrote:
-> Our primary goal is to cap the maximum time taken by the GC to clean
-> up expired entries. We rely on user-space notifications to clean up
-> these entries from the hardware, so ensuring a predictable upper bound
-> is important for our use case.
 
-Sure, but why can't we try to give a better default behavior?
+On 3/12/26 1:27 PM, Lorenzo Stoakes (Oracle) wrote:
 
-while true; conntrack -L >/dev/null;done
+> Finally, we update the VMA tests accordingly to reflect the changes.
 
-basically does what you want already (but in a dumb way).
+IMO we could omit the word "we" 5 times above.
+(but no change is required)
 
-> Regarding the adaptive strategy, we are using this sysctl to address
-> environments where the current average-based calculation delays the
-> cleanup of short-lived entries.
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 88f42faeb377..88ad5649c02d 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
 
-Yes, and I did propose to adapt the existing strategy to provide more
-timely notifications.
+> +/**
+> + * range_is_subset - Is the specified inner range a subset of the outer range?
+> + * @outer_start: The start of the outer range.
+> + * @outer_end: The exclusive end of the outer range.
+> + * @inner_start: The start of the inner range.
+> + * @inner_end: The exclusive end of the inner range.
+> + *
+> + * Returns %true if [inner_start, inner_end) is a subset of [outer_start,
+
+    * Returns:
+(for kernel-doc)
+
+> + * outer_end), otherwise %false.
+> + */
+> +static inline bool range_is_subset(unsigned long outer_start,
+> +				   unsigned long outer_end,
+> +				   unsigned long inner_start,
+> +				   unsigned long inner_end)
+> +{
+> +	return outer_start <= inner_start && inner_end <= outer_end;
+> +}
+> +
+> +/**
+> + * range_in_vma - is the specified [@start, @end) range a subset of the VMA?
+> + * @vma: The VMA against which we want to check [@start, @end).
+> + * @start: The start of the range we wish to check.
+> + * @end: The exclusive end of the range we wish to check.
+> + *
+> + * Returns %true if [@start, @end) is a subset of [@vma->vm_start,
+
+    * Returns:
+
+> + * @vma->vm_end), %false otherwise.
+> + */
+>  static inline bool range_in_vma(const struct vm_area_struct *vma,
+>  				unsigned long start, unsigned long end)
+>  {
+> -	return (vma && vma->vm_start <= start && end <= vma->vm_end);
+> +	if (!vma)
+> +		return false;
+> +
+> +	return range_is_subset(vma->vm_start, vma->vm_end, start, end);
+> +}
+> +
+> +/**
+> + * range_in_vma_desc - is the specified [@start, @end) range a subset of the VMA
+> + * described by @desc, a VMA descriptor?
+> + * @desc: The VMA descriptor against which we want to check [@start, @end).
+> + * @start: The start of the range we wish to check.
+> + * @end: The exclusive end of the range we wish to check.
+> + *
+> + * Returns %true if [@start, @end) is a subset of [@desc->start, @desc->end),
+
+    * Returns:
+
+> + * %false otherwise.
+> + */
+> +static inline bool range_in_vma_desc(const struct vm_area_desc *desc,
+> +				     unsigned long start, unsigned long end)
+> +{
+> +	if (!desc)
+> +		return false;
+> +
+> +	return range_is_subset(desc->start, desc->end, start, end);
+>  }
+
+-- 
+~Randy
+
