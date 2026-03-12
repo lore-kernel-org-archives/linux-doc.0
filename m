@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFBAF37DEAA;
-	Thu, 12 Mar 2026 21:05:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55E4038AC61;
+	Thu, 12 Mar 2026 21:09:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773349530; cv=none; b=IAmYEeNyNRRuLF7NOjUBpaCHch7qdnr/S+GFdAWxbJVs+e6+4kzrdUwQiyzG65TuTYOeyYmF22SBSo9GHu3Ge3rUcThHEqX2Z15YEwvuRuW8m37fukEjFeATqibeszkLiEgUJwjwqFCLPUF/z9R+HFvKwC4I3IwaPnL1qHietwM=
+	t=1773349762; cv=none; b=p+McfpQbouIda+12GLff5IpSCJCcYjt3kqG2WLjI8/8dQIKFF66kIxE379fhvqZwMhI272eOu0YRq9dM11LMxlp970VSLadqp+baL21nL5OttCfQ7I1OAsOva8Bo7oZXCZNOmCtCxqSlf4GPYGPWDX4EjWk5IhB7PetreWSyKGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773349530; c=relaxed/simple;
-	bh=Lr2PVaoU3Rhip4I5fgb1nHSD4lljU5Vo5VE5xfaSSAE=;
+	s=arc-20240116; t=1773349762; c=relaxed/simple;
+	bh=KgadnpunSgn4gbBZJyKyKq3y6aZd94JO3aK4Pmn9t+s=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DnLR6CGGLmFFOjoD4PErw2K1NpnOOc9y9rA/sm0HuZfwhxy8fVNRxaspFZcrEmj8cRBpr9m18EZF3o/xf+NIa6We+2C3qum1H81S2Kje2QVP1UDeC3lpfnPNUrZpktAJVEcgMo8jClrV20E0UMNTZY0wOjm5Zfcr6qZZ2VcXD1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a6MRDL1Q; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=Azityrk1ec6JJbLJEvXhjS06fkNyL5o1VRog/GiY6e4+iQPICwj8sY+j5GrgVfGrp2avf2tkOvBivmDPNiioqmcUGDAY3vsDQMYyctQofx//UlwHsmvP3ARDv1xvC+D3cldcSQw1fX0gzHEWt5Ow/1dZE0ahidM38GOC78eO9I0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nOqke5uH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a6MRDL1Q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 137CFC4CEF7;
-	Thu, 12 Mar 2026 21:05:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nOqke5uH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5C8AC4CEF7;
+	Thu, 12 Mar 2026 21:09:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773349530;
-	bh=Lr2PVaoU3Rhip4I5fgb1nHSD4lljU5Vo5VE5xfaSSAE=;
+	s=k20201202; t=1773349761;
+	bh=KgadnpunSgn4gbBZJyKyKq3y6aZd94JO3aK4Pmn9t+s=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=a6MRDL1QYaDw+9rwFyawWhTVvXaEzPmH/CfSI7db9THlIMEEbIQ9+h4kOBr88D1pr
-	 31OTgkNXtjVQSnhHyJfIc7gzEvfF069aQCM1H5Q/0wjybtrP0jtMbJ3QNRm8+x5A2x
-	 /9xrfpcH0kdY0xfmISQZerEDC1QVN1djrj7asVYRtq5d6+D8G6bInslFSzKa2qEZm2
-	 ag9Qljfz5mmm6qrbYlzPjXr1h/04KAIdQNwO7lkMB79A+H+Np6trnnT7HMeKrNRi9I
-	 FOqJVBG2hd+TJbK5ko1dukkT71rk6FLMcXd6jMl5Gy7RYaIQQqer8DXTP9NcaJUGEV
-	 QEiLxKN8aLSbw==
-Message-ID: <6063ca14-81c6-48e1-9439-ac7de7782b58@kernel.org>
-Date: Thu, 12 Mar 2026 22:05:12 +0100
+	b=nOqke5uHz3c8Omr8Fn2jbW5MHHG5OuPLMw1lLfed1JGaFfykgXJjuqzL1Hi+4WtoG
+	 +jBvLMTkMO1mVi4JSWlb6t2S4RsyCiq1zpMPMbbpxzeU7XAO4F2eUlYJM72UZcmZL+
+	 u1z923V6dbF2O4hgLytDjQISNB8FtPCew/kW7K9UCjrqkX0VZhX+xsAKN/GSUvUxFu
+	 jF9+3tI1AUG764wYWaMQ1Bi0bgL4Akk+KL/qH7U6sGl9TR34BpOrqoFymyLNhC5576
+	 WhHptdIK9xAkNPvKggauQNvE7aW/o+HhQrqkCUm3XWvORXkEylaRApJRREPATEeb94
+	 WRcgh8sTsEksA==
+Message-ID: <7f850a9a-0ac8-473d-a4ec-914462e4014d@kernel.org>
+Date: Thu, 12 Mar 2026 22:09:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,8 +35,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH mm-unstable v15 08/13] mm/khugepaged: improve tracepoints
- for mTHP orders
+Subject: Re: [PATCH mm-unstable v15 09/13] mm/khugepaged: introduce
+ collapse_allowable_orders helper function
 To: Nico Pache <npache@redhat.com>, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-mm@kvack.org,
  linux-trace-kernel@vger.kernel.org
@@ -59,7 +59,7 @@ Cc: aarcange@redhat.com, akpm@linux-foundation.org,
  willy@infradead.org, yang@os.amperecomputing.com,
  ying.huang@linux.alibaba.com, ziy@nvidia.com, zokeefe@google.com
 References: <20260226031741.230674-1-npache@redhat.com>
- <20260226032522.233735-1-npache@redhat.com>
+ <20260226032542.233891-1-npache@redhat.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -106,20 +106,71 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260226032522.233735-1-npache@redhat.com>
+In-Reply-To: <20260226032542.233891-1-npache@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 2/26/26 04:25, Nico Pache wrote:
-> Add the order to the mm_collapse_huge_page<_swapin,_isolate> tracepoints to
-> give better insight into what order is being operated at for.
+> Add collapse_allowable_orders() to generalize THP order eligibility. The
+> function determines which THP orders are permitted based on collapse
+> context (khugepaged vs madv_collapse).
 > 
-> Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> This consolidates collapse configuration logic and provides a clean
+> interface for future mTHP collapse support where the orders may be
+> different.
+> 
 > Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
 > Signed-off-by: Nico Pache <npache@redhat.com>
 > ---
+>  mm/khugepaged.c | 16 +++++++++++++---
+>  1 file changed, 13 insertions(+), 3 deletions(-)
+> 
+> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> index 2e66d660ee8e..2fdfb6d42cf9 100644
+> --- a/mm/khugepaged.c
+> +++ b/mm/khugepaged.c
+> @@ -486,12 +486,22 @@ static unsigned int collapse_max_ptes_none(unsigned int order)
+>  	return -EINVAL;
+>  }
+>  
+> +/* Check what orders are allowed based on the vma and collapse type */
+> +static unsigned long collapse_allowable_orders(struct vm_area_struct *vma,
+> +			vm_flags_t vm_flags, bool is_khugepaged)
 
-Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+Nit: one tab to much
+
+> +{
+> +	enum tva_type tva_flags = is_khugepaged ? TVA_KHUGEPAGED : TVA_FORCED_COLLAPSE;
+> +	unsigned long orders = BIT(HPAGE_PMD_ORDER);
+> +
+> +	return thp_vma_allowable_orders(vma, vm_flags, tva_flags, orders);
+> +}
+> +
+>  void khugepaged_enter_vma(struct vm_area_struct *vma,
+>  			  vm_flags_t vm_flags)
+>  {
+>  	if (!mm_flags_test(MMF_VM_HUGEPAGE, vma->vm_mm) &&
+>  	    hugepage_pmd_enabled()) {
+> -		if (thp_vma_allowable_order(vma, vm_flags, TVA_KHUGEPAGED, PMD_ORDER))
+> +		if (collapse_allowable_orders(vma, vm_flags, /*is_khugepaged=*/true))
+>  			__khugepaged_enter(vma->vm_mm);
+>  	}
+>  }
+> @@ -2637,7 +2647,7 @@ static unsigned int collapse_scan_mm_slot(unsigned int pages, enum scan_result *
+>  			progress++;
+>  			break;
+>  		}
+> -		if (!thp_vma_allowable_order(vma, vma->vm_flags, TVA_KHUGEPAGED, PMD_ORDER)) {
+> +		if (!collapse_allowable_orders(vma, vma->vm_flags, /*is_khugepaged=*/true)) {
+
+I'm not sure if converting from a perfectly readable enum to a boolean
+is an improvement?
+
+I would just keep the TVA_KHUGEPAGED / TVA_FORCED_COLLAPSE here/
+
+If you want to catch callers passing in something else, you could likely
+use a BUILD_BUG_ON in there.
+
 
 -- 
 Cheers,
