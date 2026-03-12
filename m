@@ -1,90 +1,145 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C519328243;
-	Thu, 12 Mar 2026 14:36:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B7DD377EA7;
+	Thu, 12 Mar 2026 14:50:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773326203; cv=none; b=KbrEYSWK28+//rOJF9NXx/8qlEt3e3v/009ZZceUTrBSOFme2ku6FelFPYDjbsAAhv+QD2kkdZmYFkaDRB6uxw8qVcyfOodsuMcVxDpn/aYbICF86iZNqZz2RdKAhIGaf1fzdr2UKV7XYV1NJn1ikNBYO8CMPfxNZxvMkeof6BU=
+	t=1773327013; cv=none; b=HevSy9MipU3Fc6A7QlUabJUHjF3b/yNSpkU0gzFRSHJGoYrlaL/oCJA6OA7xj96E1r9Hx2SA84VxkRTWLoi3yhN07zPLFdvqkjGTDObdydAduU/UN620STLiE6rIVT5K9s0MOGr148wD4tNSITf3iHH3yNcDZz8ozv5zm7BMIjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773326203; c=relaxed/simple;
-	bh=uIol7kReUwc484w6eaVeHC9JSYYQ/xkuA7eqjzZdjWY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pDPawfswkXfikqxhzcYO2LxWi1DpWmMp1ztChR6+SWmP5/9KXpp/nhs/cPA/nzB000PaWAEwrLT6kEvf7oXVVL9cRIBafGU8klmwKS2m9fjl4/Nb76/W9JO8UtLGji3MV1Q6o8lS5WEIVV9HCXuD58vA6smkNVsgTxD3xhXvI0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fOnWULja; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fOnWULja"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFAC3C4CEF7;
-	Thu, 12 Mar 2026 14:36:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773326202;
-	bh=uIol7kReUwc484w6eaVeHC9JSYYQ/xkuA7eqjzZdjWY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=fOnWULjaWfSeAL+ujb69MF5efDFV+BdDdjL+KJ6LPn1/sq6yWSyEvG19ajrOKCXTB
-	 B9C22iW21TAf4Kfv+kkOoWZUbUncIdI6cHV4KkNu1MbG/FKsk0kXSLq4E20/l5bsy8
-	 ltDEl8Zzvs1GWdKYysz6bIX0RXPX4cyvhFPd6xDeB8sCYpyYIt28Ml0ODdbKkxaM6I
-	 fmm3xAfvl4FBFjGgoDqXGq4Hp+FOCn0Kq4CeL5iE3cOl3VR5towpDhpuV6pKZpfS6k
-	 AX+qozqXUO1sXP2+3opJNOITzdgH1ApO40Xl07WPh9VEzDpIFVqRdWJvKssD5p1e6a
-	 baA2jFgDxmXmg==
-Date: Thu, 12 Mar 2026 07:36:41 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Jiri Pirko <jiri@resnulli.us>
-Cc: Or Har-Toov <ohartoov@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Andrew
- Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
- Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Mark
- Bloch <mbloch@nvidia.com>, Shuah Khan <shuah@kernel.org>,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-kselftest@vger.kernel.org, Gal Pressman <gal@nvidia.com>, Dragos
- Tatulea <dtatulea@nvidia.com>, Shay Drory <shayd@nvidia.com>, Jiri Pirko
- <jiri@nvidia.com>, Moshe Shemesh <moshe@nvidia.com>
-Subject: Re: [PATCH net-next V3 00/10] devlink: add per-port resource
- support
-Message-ID: <20260312073641.027d86e7@kernel.org>
-In-Reply-To: <fw6blzybx7hmvxvqoiy7civmzbf4yuhn2xzdna4apypkuwvck7@xh7iwjt27vi6>
-References: <np44uzfn6jea56uht4yq4te5clapgj7pk6ygyvkl22wxumwnvt@nrpvzjqzxenq>
-	<20260305063729.7e40775d@kernel.org>
-	<ni23r4jiwgc6zjjsubtl4ujjgxzwpxrylumofdwxgozfnieynm@zirlbneaz6p2>
-	<20260306120301.0ebe1ab2@kernel.org>
-	<74dcd7c5-8a2b-49a7-a23c-174d17a61955@nvidia.com>
-	<20260309133341.7e08b35d@kernel.org>
-	<5de5103e-e2e4-4b72-9c3c-22847728fbb8@nvidia.com>
-	<20260311145126.7dcca532@kernel.org>
-	<go5wr5qa7wxe7i4kkcbmecomshpkesr26alq4qmlbpjr72hxgt@mpwq6eufylpn>
-	<20260312071916.6b759c3f@kernel.org>
-	<fw6blzybx7hmvxvqoiy7civmzbf4yuhn2xzdna4apypkuwvck7@xh7iwjt27vi6>
+	s=arc-20240116; t=1773327013; c=relaxed/simple;
+	bh=DXwksIpc+i73bRHZBuMPzmvH7pee43Otxc/hgRwvwdI=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LlrQ9U5lyGqcls1j/0mSeFltd/bK9W5/nu7TSZffWQvkQtJzz9k08bTv9yhQxhtleRWDcOThrK3C32512Kh+o0z1q2S2tR5Pvon5fPYMYOwTBtqfAb0p2HmGi8/OH+3s7G2EiOw/BQqb9ofF/3h7rE6Mf9I6W2TUhwdBAtfhmbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.83])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fWr9X4TXYzJ46fS;
+	Thu, 12 Mar 2026 22:49:20 +0800 (CST)
+Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
+	by mail.maildlp.com (Postfix) with ESMTPS id 9CA7540572;
+	Thu, 12 Mar 2026 22:50:08 +0800 (CST)
+Received: from localhost (10.203.177.15) by dubpeml500005.china.huawei.com
+ (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 12 Mar
+ 2026 14:50:07 +0000
+Date: Thu, 12 Mar 2026 14:50:06 +0000
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
+To: Ahmed Tiba <ahmed.tiba@arm.com>
+CC: <devicetree@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
+	<Dmitry.Lamerov@arm.com>, <catalin.marinas@arm.com>, <bp@alien8.de>,
+	<robh@kernel.org>, <rafael@kernel.org>, <will@kernel.org>,
+	<conor@kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-doc@vger.kernel.org>, <krzk+dt@kernel.org>, <Michael.Zhao2@arm.com>,
+	<tony.luck@intel.com>
+Subject: Re: [PATCH v2 11/11] RAS: add DeviceTree firmware-first CPER
+ provider
+Message-ID: <20260312145006.00000770@huawei.com>
+In-Reply-To: <4a193f85-e0ed-4367-b69b-587b2cbc977f@arm.com>
+References: <20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-0-347fa2d7351b@arm.com>
+	<20260220-topics-ahmtib01-ras_ffh_arm_internal_review-v2-11-347fa2d7351b@arm.com>
+	<20260224155520.00004e92@huawei.com>
+	<4a193f85-e0ed-4367-b69b-587b2cbc977f@arm.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500010.china.huawei.com (7.191.174.240) To
+ dubpeml500005.china.huawei.com (7.214.145.207)
 
-On Thu, 12 Mar 2026 15:29:53 +0100 Jiri Pirko wrote:
-> >> I don't see the benefit of exposing the scope to the user to be honest.
-> >> I mean, dump would show all, dump with "dev" handle would be used as a
-> >> selector to dump only things related to "dev". What is the use case of
-> >> this "scope" granularity?  
-> >
-> >If we follow the logic that dump should show the user relevant
-> >resources, no matter which sub-object they are attached to -
-> >having a dev specified should only filter the objects to match
-> >the dev, including resources which are on ports of that dev.
-> >
-> >IDK if there's a strong use case for allowing the user to set
-> >scope on CLI but also - I don't see why not?  
+
+> >> +Firmware-first CPER via DeviceTree
+> >> +----------------------------------
+> >> +
+> >> +Some systems expose Common Platform Error Record (CPER) data
+> >> +via DeviceTree instead of ACPI HEST tables.  
+> > 
+> > I'd argue this isn't really DT specific, it's just not ACPI table.
+> > You could for instance use PRP0001 and wire this up on ACPI with only
+> > one trivial change to generic property.h accessor for the boolean.
+> > 
+> > Or use another firmware information source entirely.  
 > 
-> At least some small sense of consistency with other dumps? Health
-> reporter and region does not have scope and output mixture of dev-based
-> and port-based objects. Why to confuse user?
+> I'm intentionally keeping the scope DT-only for this series,
+> so I'll keep the wording DT-focused.
 
-That's a judgment call - either we confuse users but two commands
-behaving differently, or we confuse users with devlink $thing not
-dumping all instances of the $thing.
+Why?  Generally when the support works fine with generic firmware
+accessors that's preferred because there are no real disadvantages.
 
-Especially that drivers often retroactively move $things from device
-scope to port scope :(
+> >> +#include <acpi/ghes.h>
+> >> +#include <acpi/ghes_cper.h>
+> >> +
+> >> +static atomic_t ghes_ffh_source_ids = ATOMIC_INIT(0);  
+> > I'd normally expect an IDA or similar. If nothing else it clearly
+> > indicates we only want a unique ID.  
+> 
+> I'll keep the atomic for now; it's just a monotonic unique ID with no
+> lifetime tracking. If you strongly prefer IDA I can switch.
+
+If it doesn't 'need' to be monotonic due to some design issue then
+yes I'd prefer an IDA.
+
+
+> >> +	spinlock_t lock;
+> >> +};  
+> > 
+> >   
+> >> +
+> >> +static void ghes_ffh_process(struct ghes_ffh *ctx)
+> >> +{
+> >> +	unsigned long flags;
+> >> +	int sev;
+> >> +
+> >> +	spin_lock_irqsave(&ctx->lock, flags);  
+> > 
+> > guard() + include cleanup.h. Then can do returns in error paths.  
+> 
+> Agreed. I'll switch to guard() and include <linux/cleanup.h>.
+A general process thing.  If you agree with a suggestion, just
+do it and crop that section of the email thread out.
+Reply that you agree tends not to benefit anyone!
+
+
+> 
+> >> +			ghes_estatus_cache_add(ctx->generic, ctx->estatus);
+> >> +	}
+> >> +
+> >> +	ghes_cper_handle_status(ctx->dev, ctx->generic, ctx->estatus, ctx->sync);
+> >> +
+> >> +	ghes_ffh_ack(ctx);
+> >> +
+> >> +out:
+> >> +	spin_unlock_irqrestore(&ctx->lock, flags);
+> >> +}
+...
+
+> >> +{
+> >> +	struct ghes_ffh *ctx;
+> >> +	struct resource *res;
+> >> +	int rc;
+> >> +
+> >> +	ctx = devm_kzalloc(&pdev->dev, sizeof(*ctx), GFP_KERNEL);
+> >> +	if (!ctx)
+> >> +		return -ENOMEM;
+> >> +
+> >> +	spin_lock_init(&ctx->lock);
+> >> +	ctx->dev = &pdev->dev;
+> >> +	ctx->sync = of_property_read_bool(pdev->dev.of_node, "arm,sea-notify");  
+> > Hmm. I'd allow for other firmware types with
+> > 	device_property_read_bool() instead.  
+> 
+> Given DT-only scope, I'll keep of_property_read_bool() here.
+> 
+> >> +
+> >> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> >> +	if (!res) {
+> >> +		dev_err(&pdev->dev, "status region missing\n");  
+
+Jonathan
+
