@@ -1,251 +1,287 @@
-Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
+Received: from mail-oa1-f73.google.com (mail-oa1-f73.google.com [209.85.160.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFA99322B6D
-	for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 22:32:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D4DA34F48D
+	for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 22:37:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773354732; cv=none; b=Z/ZDVTZRmRT71aaMEHASewAZ9ZNlo3w0jbnCYomy6q0lceH9EdonbLUjtc2RjUIriBO+IGIX6BvhwaN9UNe8YzQzPgHGScNeeRVTXluP3xXcLzfssjnEPpX9IrXquRWh49+5//ihQ0oekNjnZ790Sixa0SP0kfozBt8YeEihMNo=
+	t=1773355064; cv=none; b=sa75N1f+Ve6rjVcbHed13Qdq/q/FdBbeqHIGDOo0yDQGg0a9aasT8ZNzBR7+Yjhi+l0XE2i3PS/sKvPpUvZACk3yVNo68/JGq7MUspxuegz8l9jA2IDWuKUFfjMR6dy5vE0MLacYmtF4rb2ANRz+VQMjLaPY9uE8YoI9U+7akVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773354732; c=relaxed/simple;
-	bh=5LO45ZuoQ4fpB1CeZE8Jooq7YtevscjJKU7vw0VwJBE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qYv3Ls32AjA2fonAXOHrXsrO7v1W2rSMXQtL3t8pxEF24/czYpIsTbbPwLOnTmMgpziVbpx73c9aXwqokKXVeWIvweha0mtHd1kpqfcJhMadSR3+t4PevuspeCeLMLqQZ/xLICHVavJ9uurUN/QjHuDX2/8HFu2WxgJPxwW9In8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=arista.com; spf=pass smtp.mailfrom=arista.com; dkim=pass (2048-bit key) header.d=arista.com header.i=@arista.com header.b=QFXVBt6y; arc=none smtp.client-ip=74.125.82.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=arista.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arista.com
+	s=arc-20240116; t=1773355064; c=relaxed/simple;
+	bh=riRdHtbC6MOlF1LQ1+Xi70vycwoUYV3bcD9E2Zuu6NY=;
+	h=Date:In-Reply-To:Mime-Version:Message-ID:Subject:From:To:Cc:
+	 Content-Type; b=P5ktbM1dzaALcucAHrENRtxXOTpY1i62UZy8ImchMlcrig4gkAUz0DcD/j63702ECEys1oZd8fcvd2UJ7UkmvllliLLj/9HturapHU4OHtLnAByuxW3bNawvrsSEsVxNREkU/+h61N/DtskrnKKtS+XYAUKJVA9/acj4lojch3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=RH2cAsk2; arc=none smtp.client-ip=209.85.160.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arista.com header.i=@arista.com header.b="QFXVBt6y"
-Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-2be19f05d7dso1149274eec.1
-        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 15:32:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RH2cAsk2"
+Received: by mail-oa1-f73.google.com with SMTP id 586e51a60fabf-40f192cf4b6so6335960fac.1
+        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 15:37:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=arista.com; s=google; t=1773354730; x=1773959530; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=CFTQ/9EY2qpWAsJtKWK/DmanWo4AnpzW4k7Uv6lI5+c=;
-        b=QFXVBt6yfYWkYjSJMMYJQ/jN62hMJEHpqeKXWr0XBRvxnoHtuB7iBH5s3dBCqsxQ/b
-         thn8iEGGlezMPixW8BFjnFWgeRsWThYwe9mz6VEcxeFuyCtxSu5SXAkk7901WY0MLU8s
-         t5NVf47jiOjOQVCKlSjs/OvnrKe0Duqy7OJl8I7q/86lrAjRjQDQ2i0vF0OXOGqu7VoI
-         6LkdHAhG0LdXVzENS/VRCx+YXAh1JV38X8YmrFqcr3lqxfPLRxtrMdbSW7Hz3eD1qfQd
-         hfkpaTkVvf96J4vwzt5WPs1th4paXymCuv5l974IKp7FdsmKzTooHxr1VUnlw7NM5MOH
-         Lz7Q==
+        d=google.com; s=20230601; t=1773355061; x=1773959861; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=BOQPFUygErdEhR+VhLQ8d5SqWsIL2z8SybdB1Lqp5qg=;
+        b=RH2cAsk2jYAgTt+a/aeaeNNT1KKZTEbP0e25KtkfYRphEHCle1uqF5sWn48LsXH61n
+         27FSYPhontTGRHR9uTfEWKJ76qAcZ+/gcoxtPPx9qPf3PPEY5qFd7tBEHJZTWTkcuDp6
+         GCK0BOu3rW24a3+XqRN2hBtOFG2EcQDR3+P+mLkV/qLelsx4Fxa/uwD+S6fLdzgf8j3g
+         OIl0W2vJejkyQrJPZKnE6uToPLc21JZ9vp8HKALlRwq+jyHkwYjDqowg2dQGNgFQ5qup
+         7w2H3qtdLRYhzqoOIMfX4xiGBB38fgcscDzjaC34lENs4P817ZUNwrzd+wxZhHpO17wF
+         05Mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773354730; x=1773959530;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CFTQ/9EY2qpWAsJtKWK/DmanWo4AnpzW4k7Uv6lI5+c=;
-        b=IXZL2CE0Ty5/L5fvIJKoJ7ohDyk2T2lwuVBJ24mJ0kS9LJ8b48zDgDyH5ruW+uKmJ8
-         6e2MtllTxJ5pxsJwZhFzDwv7DSwePBaMG/95nM4fXl/OllhkqFW4kz4iIvPYjAzNtOsr
-         vInUDtmbHVxgJ8VcdPon4YjAfqDwjQerV5oapGsd5ft6FlCtVXs2wWjzZ73w7oymWcrE
-         AqAALEMrsjYGLcDvaJW7QKrg4OHhGVOWpKNp8bNoj5cfnQXdLb8UPFDa+URftY8y4Xxj
-         GwV4v+lB8WAA6VxXD0R7KMhKB41cZ9u81OMM+sRyOkZ5PwkFXr+PJENrf3jFDXbM+WRx
-         6Yww==
-X-Forwarded-Encrypted: i=1; AJvYcCVcMUrW8Lif2pZkyjDhHRtKMyU5aEqqsPZl7U7TsAzR9oMd3yQ3eG0fO+wRAh5Sd0vS6OhnmsI4V5o=@vger.kernel.org
-X-Gm-Message-State: AOJu0YznNdekU97oteFuEDVmfTgcuvvcRQiKlJnpHOx5eBAwgzVtxeuw
-	csA4tl6Et3HbniTAgpNrlgpVefhghFUzFfgo4JR+xd3P3t4XukIEtKQSIIYGjGvQbw==
-X-Gm-Gg: ATEYQzzbiEKEOEg36F4KaliZQp5h/eE2PUvOOIg7ZWqGlRHKj7z9S7QaRbgUMX+K0se
-	p5uEeBrxEYCTDPZZPVYcF0H7e+f38D6NokZ67cYrS8TpdQZiGxhMb/x4hiYYO/5zc1PdoH7L5oD
-	kR8+XzyJx2zAO/89Nn5WBffRl2b/Hke6Lo+B633Lvq9Qmzajw0mDMiwgpFIXwViSnrs8U1ClN6e
-	1Mxsga539B9DBX12ZR9L32FEJzmnUe1H9kEFLlQ3xpwcoUeRSdoaqOLCrAGJxwc77Ivnnu1Ohi2
-	W819wFJZ3dqgtiysl+ZmXHeZ+bzPfym95v2RwUUBflfr9o5XQFajyR1op238Gfvb20gbnYpsIq7
-	AawqS8eNZpNvyzTAW1P1Erh67+QEDVek0iigVJRv+/AnvczNdfLhQRtf76RDLG3wk8VZdVZ87Aa
-	rjS8ku2dAixOS/bDARQJm5unz1aAvSzqF092uZVwpy0eJs5LeweA5P
-X-Received: by 2002:a05:7300:e2cb:b0:2ae:55ac:3ff6 with SMTP id 5a478bee46e88-2bea53d83eemr681650eec.1.1773354729647;
-        Thu, 12 Mar 2026 15:32:09 -0700 (PDT)
-Received: from localhost.localdomain ([74.123.28.19])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2beab3a110csm71286eec.6.2026.03.12.15.32.08
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Thu, 12 Mar 2026 15:32:09 -0700 (PDT)
-From: Prasanna S Panchamukhi <panchamukhi@arista.com>
-To: netfilter-devel@vger.kernel.org
-Cc: panchamukhi@arista.com,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Pablo Neira Ayuso <pablo@netfilter.org>,
-	Florian Westphal <fw@strlen.de>,
-	Phil Sutter <phil@nwl.cc>,
-	netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	coreteam@netfilter.org
-Subject: [PATCH net-next v2] netfilter: conntrack: expose gc_scan_interval_max via sysctl
-Date: Thu, 12 Mar 2026 15:31:57 -0700
-Message-ID: <20260312223157.25083-1-panchamukhi@arista.com>
-X-Mailer: git-send-email 2.50.1
+        d=1e100.net; s=20251104; t=1773355061; x=1773959861;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BOQPFUygErdEhR+VhLQ8d5SqWsIL2z8SybdB1Lqp5qg=;
+        b=cymMadYjFALaQ+u6/z/lr9lIerKoCnP7q2kYcQNMfS/JbEYptt/sxCT7HRoq3sBbYK
+         5yVpMao79AjDa/UBesApgN0F8kzRhoE1L7GEyVQuBHyrjw0+G6s41juqKWQXz8Qg9NQd
+         9iyfo7Bh8Ret1QwxDN8s0t9ST1XsXJAzHTg6nAO73IaWBcd1SGF1CPxDX46rPRSpTQaf
+         gWkoGus5zjWQjowLk/cB7KWQBFPquwqTgkXbOCv4ZPtgENWQWVE9opLJcRw1kbPvYeCu
+         UXRc6outKWjYLnfVNCjqVzwMyPR3NTWTfJyiS47vFDEJ7Hd7KcKCqi4vkPN9GqRkqhHq
+         U2cA==
+X-Forwarded-Encrypted: i=1; AJvYcCWsZldSXcBE/vyjvot1nP4kjFK2rlX9i+oLd/r63B/EA1FTWQ6+Rb3YzS66Q7Ul0r9U9DevAdkNsPQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxvv12hSjgUdXtDBeH92o2aR+uAsqpGutLjfcyvCwW29aIiKo5N
+	WsO7AsuhRyjBGHGeAfCLtrEuYEUf1h4NUU06QjeuUcpTn8YterYWMGLQXX2nsDraH2SVDz2GIKr
+	6Pmb7+3fUHofrxp+q0W8C+atY9g==
+X-Received: from iobif40.prod.google.com ([2002:a05:6602:1e28:b0:960:f5a:2cea])
+ (user=coltonlewis job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6820:228b:b0:662:f8bd:fc9 with SMTP id 006d021491bc7-67bdaa2ddeamr684027eaf.41.1773355061163;
+ Thu, 12 Mar 2026 15:37:41 -0700 (PDT)
+Date: Thu, 12 Mar 2026 22:37:40 +0000
+In-Reply-To: <a75924dd-0fa7-4574-837c-1778366195a6@linaro.org> (message from
+ James Clark on Wed, 11 Mar 2026 17:45:55 +0000)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Message-ID: <gsntfr64oerv.fsf@coltonlewis-kvm.c.googlers.com>
+Subject: Re: [PATCH v6 04/19] perf: arm_pmuv3: Introduce method to partition
+ the PMU
+From: Colton Lewis <coltonlewis@google.com>
+To: James Clark <james.clark@linaro.org>
+Cc: kvm@vger.kernel.org, alexandru.elisei@arm.com, pbonzini@redhat.com, 
+	corbet@lwn.net, linux@armlinux.org.uk, catalin.marinas@arm.com, 
+	will@kernel.org, maz@kernel.org, oliver.upton@linux.dev, mizhang@google.com, 
+	joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, 
+	mark.rutland@arm.com, shuah@kernel.org, gankulkarni@os.amperecomputing.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
+	linux-perf-users@vger.kernel.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 
-The conntrack garbage collection worker uses an adaptive algorithm that
-adjusts the scan interval based on the average timeout of tracked
-entries.  The upper bound of this interval is hardcoded as
-GC_SCAN_INTERVAL_MAX (60 seconds).
+James Clark <james.clark@linaro.org> writes:
 
-Expose the upper bound as a new sysctl,
-net.netfilter.nf_conntrack_gc_scan_interval_max, so it can be tuned at
-runtime without rebuilding the kernel.  The default remains 60 seconds
-to preserve existing behavior.  The sysctl is global and read-only in
-non-init network namespaces, consistent with nf_conntrack_max and
-nf_conntrack_buckets.
+> On 09/02/2026 10:13 pm, Colton Lewis wrote:
+>> For PMUv3, the register field MDCR_EL2.HPMN partitiones the PMU
+>> counters into two ranges where counters 0..HPMN-1 are accessible by
+>> EL1 and, if allowed, EL0 while counters HPMN..N are only accessible by
+>> EL2.
 
-In environments where long-lived offloaded flows dominate the table,
-the adaptive average drifts toward the maximum, delaying cleanup
-of short-lived expired entries such as those in TCP CLOSE state
-(10s timeout). Adding sysctl to set the maximum GC scan helps to
-tune according to the evironment.
+>> Create module parameter reserved_host_counters to reserve a number of
+>> counters for the host. This number is set at boot because the perf
+>> subsystem assumes the number of counters will not change after the PMU
+>> is probed.
 
-Signed-off-by: Prasanna S Panchamukhi <panchamukhi@arista.com>
-cc: "David S. Miller" <davem@davemloft.net>
-cc: Eric Dumazet <edumazet@google.com>
-cc: Jakub Kicinski <kuba@kernel.org>
-cc: Paolo Abeni <pabeni@redhat.com>
-cc: Simon Horman <horms@kernel.org>
-cc: Jonathan Corbet <corbet@lwn.net>
-cc: Shuah Khan <skhan@linuxfoundation.org>
-cc: Pablo Neira Ayuso <pablo@netfilter.org>
-cc: Florian Westphal <fw@strlen.de>
-cc: Phil Sutter <phil@nwl.cc>
-cc: netdev@vger.kernel.org
-cc: linux-doc@vger.kernel.org
-cc: linux-kernel@vger.kernel.org
-to: netfilter-devel@vger.kernel.org
-cc: coreteam@netfilter.org
----
- Documentation/networking/nf_conntrack-sysctl.rst | 13 +++++++++++++
- include/net/netfilter/nf_conntrack.h             |  1 +
- net/netfilter/nf_conntrack_core.c                | 10 +++++++---
- net/netfilter/nf_conntrack_standalone.c          | 10 ++++++++++
- 4 files changed, 31 insertions(+), 3 deletions(-)
+>> Introduce the function armv8pmu_partition() to modify the PMU driver's
+>> cntr_mask of available counters to exclude the counters being reserved
+>> for the guest and record reserved_guest_counters as the maximum
+>> allowable value for HPMN.
 
-diff --git a/Documentation/networking/nf_conntrack-sysctl.rst b/Documentation/networking/nf_conntrack-sysctl.rst
-index 35f889259fcd..0e79f6ad1062 100644
---- a/Documentation/networking/nf_conntrack-sysctl.rst
-+++ b/Documentation/networking/nf_conntrack-sysctl.rst
-@@ -64,6 +64,19 @@ nf_conntrack_frag6_timeout - INTEGER (seconds)
- 
- 	Time to keep an IPv6 fragment in memory.
- 
-+nf_conntrack_gc_scan_interval_max - INTEGER (seconds)
-+	default 60
-+
-+	Maximum interval between garbage collection scans of the connection
-+	tracking table. The GC worker uses an adaptive algorithm that adjusts
-+	the scan interval based on average entry timeouts; this parameter caps
-+	the upper bound. Lower values cause expired entries (e.g. connections
-+	in CLOSE state) to be cleaned up faster, at the cost of slightly more
-+	CPU usage. Consider tuning this on systems with high connection churn
-+	(e.g. NAT gateways, load balancers) where expired entries accumulate
-+	and cause the conntrack table to fill up. Minimum value is 1.
-+	This sysctl is only writeable in the initial net namespace.
-+
- nf_conntrack_generic_timeout - INTEGER (seconds)
- 	default 600
- 
-diff --git a/include/net/netfilter/nf_conntrack.h b/include/net/netfilter/nf_conntrack.h
-index bc42dd0e10e6..0449577f322e 100644
---- a/include/net/netfilter/nf_conntrack.h
-+++ b/include/net/netfilter/nf_conntrack.h
-@@ -331,6 +331,7 @@ extern struct hlist_nulls_head *nf_conntrack_hash;
- extern unsigned int nf_conntrack_htable_size;
- extern seqcount_spinlock_t nf_conntrack_generation;
- extern unsigned int nf_conntrack_max;
-+extern unsigned int nf_conntrack_gc_scan_interval_max;
- 
- /* must be called with rcu read lock held */
- static inline void
-diff --git a/net/netfilter/nf_conntrack_core.c b/net/netfilter/nf_conntrack_core.c
-index 27ce5fda8993..8647e6824cec 100644
---- a/net/netfilter/nf_conntrack_core.c
-+++ b/net/netfilter/nf_conntrack_core.c
-@@ -91,7 +91,7 @@ static DEFINE_MUTEX(nf_conntrack_mutex);
-  * allowing non-idle machines to wakeup more often when needed.
-  */
- #define GC_SCAN_INITIAL_COUNT	100
--#define GC_SCAN_INTERVAL_INIT	GC_SCAN_INTERVAL_MAX
-+#define GC_SCAN_INTERVAL_INIT	READ_ONCE(nf_conntrack_gc_scan_interval_max)
- 
- #define GC_SCAN_MAX_DURATION	msecs_to_jiffies(10)
- #define GC_SCAN_EXPIRED_MAX	(64000u / HZ)
-@@ -204,6 +204,9 @@ EXPORT_SYMBOL_GPL(nf_conntrack_htable_size);
- 
- unsigned int nf_conntrack_max __read_mostly;
- EXPORT_SYMBOL_GPL(nf_conntrack_max);
-+
-+unsigned int nf_conntrack_gc_scan_interval_max __read_mostly = GC_SCAN_INTERVAL_MAX;
-+
- seqcount_spinlock_t nf_conntrack_generation __read_mostly;
- static siphash_aligned_key_t nf_conntrack_hash_rnd;
- 
-@@ -1515,6 +1518,7 @@ static void gc_worker(struct work_struct *work)
- 	unsigned int i, hashsz, nf_conntrack_max95 = 0;
- 	u32 end_time, start_time = nfct_time_stamp;
- 	struct conntrack_gc_work *gc_work;
-+	unsigned long gc_scan_max = READ_ONCE(nf_conntrack_gc_scan_interval_max);
- 	unsigned int expired_count = 0;
- 	unsigned long next_run;
- 	s32 delta_time;
-@@ -1568,7 +1572,7 @@ static void gc_worker(struct work_struct *work)
- 				delta_time = nfct_time_stamp - gc_work->start_time;
- 
- 				/* re-sched immediately if total cycle time is exceeded */
--				next_run = delta_time < (s32)GC_SCAN_INTERVAL_MAX;
-+				next_run = delta_time < (s32)gc_scan_max;
- 				goto early_exit;
- 			}
- 
-@@ -1630,7 +1634,7 @@ static void gc_worker(struct work_struct *work)
- 
- 	gc_work->next_bucket = 0;
- 
--	next_run = clamp(next_run, GC_SCAN_INTERVAL_MIN, GC_SCAN_INTERVAL_MAX);
-+	next_run = clamp(next_run, GC_SCAN_INTERVAL_MIN, gc_scan_max);
- 
- 	delta_time = max_t(s32, nfct_time_stamp - gc_work->start_time, 1);
- 	if (next_run > (unsigned long)delta_time)
-diff --git a/net/netfilter/nf_conntrack_standalone.c b/net/netfilter/nf_conntrack_standalone.c
-index 207b240b14e5..f8cab779763f 100644
---- a/net/netfilter/nf_conntrack_standalone.c
-+++ b/net/netfilter/nf_conntrack_standalone.c
-@@ -637,6 +637,7 @@ enum nf_ct_sysctl_index {
- 	NF_SYSCTL_CT_PROTO_TIMEOUT_GRE,
- 	NF_SYSCTL_CT_PROTO_TIMEOUT_GRE_STREAM,
- #endif
-+	NF_SYSCTL_CT_GC_SCAN_INTERVAL_MAX,
- 
- 	NF_SYSCTL_CT_LAST_SYSCTL,
- };
-@@ -920,6 +921,14 @@ static struct ctl_table nf_ct_sysctl_table[] = {
- 		.proc_handler   = proc_dointvec_jiffies,
- 	},
- #endif
-+	[NF_SYSCTL_CT_GC_SCAN_INTERVAL_MAX] = {
-+		.procname	= "nf_conntrack_gc_scan_interval_max",
-+		.data		= &nf_conntrack_gc_scan_interval_max,
-+		.maxlen		= sizeof(unsigned int),
-+		.mode		= 0644,
-+		.proc_handler	= proc_dointvec_jiffies,
-+		.extra1		= SYSCTL_ONE,
-+	},
- };
- 
- static struct ctl_table nf_ct_netfilter_table[] = {
-@@ -1043,6 +1052,7 @@ static int nf_conntrack_standalone_init_sysctl(struct net *net)
- 		table[NF_SYSCTL_CT_MAX].mode = 0444;
- 		table[NF_SYSCTL_CT_EXPECT_MAX].mode = 0444;
- 		table[NF_SYSCTL_CT_BUCKETS].mode = 0444;
-+		table[NF_SYSCTL_CT_GC_SCAN_INTERVAL_MAX].mode = 0444;
- 	}
- 
- 	cnet->sysctl_header = register_net_sysctl_sz(net, "net/netfilter",
--- 
-2.50.1 (Apple Git-155)
+>> Due to the difficulty this feature would create for the driver running
+>> in nVHE mode, partitioning is only allowed in VHE mode. In order to
+>> support a partitioning on nVHE we'd need to explicitly disable guest
+>> counters on every exit and reset HPMN to place all counters in the
+>> first range.
 
+>> Signed-off-by: Colton Lewis <coltonlewis@google.com>
+>> ---
+>>    arch/arm/include/asm/arm_pmuv3.h   |  4 ++
+>>    arch/arm64/include/asm/arm_pmuv3.h |  5 ++
+>>    arch/arm64/kvm/Makefile            |  2 +-
+>>    arch/arm64/kvm/pmu-direct.c        | 22 +++++++++
+>>    drivers/perf/arm_pmuv3.c           | 78 +++++++++++++++++++++++++++++-
+>>    include/kvm/arm_pmu.h              |  8 +++
+>>    include/linux/perf/arm_pmu.h       |  1 +
+>>    7 files changed, 117 insertions(+), 3 deletions(-)
+>>    create mode 100644 arch/arm64/kvm/pmu-direct.c
+
+>> diff --git a/arch/arm/include/asm/arm_pmuv3.h  
+>> b/arch/arm/include/asm/arm_pmuv3.h
+>> index 2ec0e5e83fc98..154503f054886 100644
+>> --- a/arch/arm/include/asm/arm_pmuv3.h
+>> +++ b/arch/arm/include/asm/arm_pmuv3.h
+>> @@ -221,6 +221,10 @@ static inline bool kvm_pmu_counter_deferred(struct  
+>> perf_event_attr *attr)
+>>    	return false;
+>>    }
+
+>> +static inline bool has_host_pmu_partition_support(void)
+>> +{
+>> +	return false;
+>> +}
+>>    static inline bool kvm_set_pmuserenr(u64 val)
+>>    {
+>>    	return false;
+>> diff --git a/arch/arm64/include/asm/arm_pmuv3.h  
+>> b/arch/arm64/include/asm/arm_pmuv3.h
+>> index cf2b2212e00a2..27c4d6d47da31 100644
+>> --- a/arch/arm64/include/asm/arm_pmuv3.h
+>> +++ b/arch/arm64/include/asm/arm_pmuv3.h
+>> @@ -171,6 +171,11 @@ static inline bool pmuv3_implemented(int pmuver)
+>>    		 pmuver == ID_AA64DFR0_EL1_PMUVer_NI);
+>>    }
+
+>> +static inline bool is_pmuv3p1(int pmuver)
+>> +{
+>> +	return pmuver >= ID_AA64DFR0_EL1_PMUVer_V3P1;
+>> +}
+>> +
+>>    static inline bool is_pmuv3p4(int pmuver)
+>>    {
+>>    	return pmuver >= ID_AA64DFR0_EL1_PMUVer_V3P4;
+>> diff --git a/arch/arm64/kvm/Makefile b/arch/arm64/kvm/Makefile
+>> index 3ebc0570345cc..baf0f296c0e53 100644
+>> --- a/arch/arm64/kvm/Makefile
+>> +++ b/arch/arm64/kvm/Makefile
+>> @@ -26,7 +26,7 @@ kvm-y += arm.o mmu.o mmio.o psci.o hypercalls.o  
+>> pvtime.o \
+>>    	 vgic/vgic-its.o vgic/vgic-debug.o vgic/vgic-v3-nested.o \
+>>    	 vgic/vgic-v5.o
+
+>> -kvm-$(CONFIG_HW_PERF_EVENTS)  += pmu-emul.o pmu.o
+>> +kvm-$(CONFIG_HW_PERF_EVENTS)  += pmu-emul.o pmu-direct.o pmu.o
+>>    kvm-$(CONFIG_ARM64_PTR_AUTH)  += pauth.o
+>>    kvm-$(CONFIG_PTDUMP_STAGE2_DEBUGFS) += ptdump.o
+
+>> diff --git a/arch/arm64/kvm/pmu-direct.c b/arch/arm64/kvm/pmu-direct.c
+>> new file mode 100644
+>> index 0000000000000..74e40e4915416
+>> --- /dev/null
+>> +++ b/arch/arm64/kvm/pmu-direct.c
+>> @@ -0,0 +1,22 @@
+>> +// SPDX-License-Identifier: GPL-2.0-only
+>> +/*
+>> + * Copyright (C) 2025 Google LLC
+>> + * Author: Colton Lewis <coltonlewis@google.com>
+>> + */
+>> +
+>> +#include <linux/kvm_host.h>
+>> +
+>> +#include <asm/arm_pmuv3.h>
+>> +
+>> +/**
+>> + * has_host_pmu_partition_support() - Determine if partitioning is  
+>> possible
+>> + *
+>> + * Partitioning is only supported in VHE mode with PMUv3
+>> + *
+>> + * Return: True if partitioning is possible, false otherwise
+>> + */
+>> +bool has_host_pmu_partition_support(void)
+>> +{
+>> +	return has_vhe() &&
+>> +		system_supports_pmuv3();
+>> +}
+>> diff --git a/drivers/perf/arm_pmuv3.c b/drivers/perf/arm_pmuv3.c
+>> index 8d3b832cd633a..798c93678e97c 100644
+>> --- a/drivers/perf/arm_pmuv3.c
+>> +++ b/drivers/perf/arm_pmuv3.c
+>> @@ -42,6 +42,13 @@
+>>    #define ARMV8_THUNDER_PERFCTR_L1I_CACHE_PREF_ACCESS		0xEC
+>>    #define ARMV8_THUNDER_PERFCTR_L1I_CACHE_PREF_MISS		0xED
+
+>> +static int reserved_host_counters __read_mostly = -1;
+>> +int armv8pmu_max_guest_counters = -1;
+>> +
+>> +module_param(reserved_host_counters, int, 0);
+>> +MODULE_PARM_DESC(reserved_host_counters,
+>> +		 "PMU Partition: -1 = No partition; +N = Reserve N counters for the  
+>> host");
+>> +
+>>    /*
+>>     * ARMv8 Architectural defined events, not all of these may
+>>     * be supported on any given implementation. Unsupported events will
+>> @@ -532,6 +539,11 @@ static void armv8pmu_pmcr_write(u64 val)
+>>    	write_pmcr(val);
+>>    }
+
+>> +static u64 armv8pmu_pmcr_n_read(void)
+>> +{
+>> +	return FIELD_GET(ARMV8_PMU_PMCR_N, armv8pmu_pmcr_read());
+>> +}
+>> +
+>>    static int armv8pmu_has_overflowed(u64 pmovsr)
+>>    {
+>>    	return !!(pmovsr & ARMV8_PMU_OVERFLOWED_MASK);
+>> @@ -1309,6 +1321,61 @@ struct armv8pmu_probe_info {
+>>    	bool present;
+>>    };
+
+>> +/**
+>> + * armv8pmu_reservation_is_valid() - Determine if reservation is allowed
+>> + * @host_counters: Number of host counters to reserve
+>> + *
+>> + * Determine if the number of host counters in the argument is an
+>> + * allowed reservation, 0 to NR_COUNTERS inclusive.
+>> + *
+>> + * Return: True if reservation allowed, false otherwise
+>> + */
+>> +static bool armv8pmu_reservation_is_valid(int host_counters)
+>> +{
+>> +	return host_counters >= 0 &&
+>> +		host_counters <= armv8pmu_pmcr_n_read();
+>> +}
+>> +
+>> +/**
+>> + * armv8pmu_partition() - Partition the PMU
+>> + * @pmu: Pointer to pmu being partitioned
+>> + * @host_counters: Number of host counters to reserve
+>> + *
+>> + * Partition the given PMU by taking a number of host counters to
+>> + * reserve and, if it is a valid reservation, recording the
+>> + * corresponding HPMN value in the max_guest_counters field of the PMU  
+>> and
+>> + * clearing the guest-reserved counters from the counter mask.
+>> + *
+>> + * Return: 0 on success, -ERROR otherwise
+>> + */
+>> +static int armv8pmu_partition(struct arm_pmu *pmu, int host_counters)
+>> +{
+>> +	u8 nr_counters;
+>> +	u8 hpmn;
+>> +
+>> +	if (!armv8pmu_reservation_is_valid(host_counters)) {
+>> +		pr_err("PMU partition reservation of %d host counters is not valid",  
+>> host_counters);
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	nr_counters = armv8pmu_pmcr_n_read();
+>> +	hpmn = nr_counters - host_counters;
+>> +
+>> +	pmu->max_guest_counters = hpmn;
+>> +	armv8pmu_max_guest_counters = hpmn;
+>> +
+>> +	bitmap_clear(pmu->cntr_mask, 0, hpmn);
+>> +	bitmap_set(pmu->cntr_mask, hpmn, host_counters);
+>> +	clear_bit(ARMV8_PMU_CYCLE_IDX, pmu->cntr_mask);
+>> +
+>> +	if (pmuv3_has_icntr())
+>> +		clear_bit(ARMV8_PMU_INSTR_IDX, pmu->cntr_mask);
+
+> We take the fixed instruction counter away from the host here but then
+> guest never gets it because AA64DFR1 is RAZ. Probably doesn't need to be
+> a blocker to expose the instruction counter, but worth noting that using
+> this feature results in losing a counter completely.
+
+> There's a comment above kvm_pmu_guest_counter_mask() that suggests the
+> instruction counter is available for guests, which is why I was looking
+> here. I think "Compute the bitmask that selects the guest-reserved
+> counters ... These are the counters in 0..HPMN and the cycle and
+> instruction counters." shouldn't include "instruction counters".
+
+Good point. Early iterations intended to expose the instruction counter
+to guests but that was dropped. I will drop it here too.
