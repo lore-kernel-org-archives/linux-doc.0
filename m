@@ -1,37 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEAFB39C013;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEC2E39E17E;
 	Thu, 12 Mar 2026 23:22:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773357754; cv=none; b=HKEEDulgbnxD68AL2V7r+7Jiq09O3McBUPTaVNoEfOJxw3t6bXmYDh/ZpfV7N0DQkW3Lu9KMT4o2GfqVXpw842y9lfFvPmXkxGaPLe5TrdwYJ1NnGqsX8zxLTt6ZGdHVCnVvjGob4QQHIQ20W+HXXJq1QvnNBlkJXsVo2upWtrI=
+	t=1773357754; cv=none; b=kqz6xw+sJr8l07ugy090m979SctkUVe6SB+OiW+IVmu+lhXgrCWYCSPiOH7Z0U6I61+zPL54STtvuxk+6noXe45/897q3QpnjalUB94q6LGNV67URERoCLuUAVL4Q0wAuvXoR2gyBSGLN561SoVe57xmGmScx4jGE2zRifzVqJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1773357754; c=relaxed/simple;
-	bh=eWuXaoMzdNBHWhbv2FBD2M6er0YUT2LHSrUYqdGHcfQ=;
+	bh=YH2mKdaJhvLHzAH3E0arTkx7m03q3Vnf8+sv4vYqr9g=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=omBWFgiILDSWGLrAfYNPV6/9/42GBtjHGSXE2gl3ZS7vVZMd3YF0jqddln4NLysjmtgur0BXgAlo645tHMHuiI6IPm4ho3znnDuxhS1RPv6QpUeOGJL9+zmUlLy4gjOx1W7EtDLBp+UVYnVW3bsD1yFw9yPIxHUrwgq15M293vE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oIyjnkWO; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=i0GvTQwQwX6tH+dpBaIswkOFltsLLTAaHpXoMKKINM3pPHX17D2KgJU5t4xGTyHJdB5CvdW4bWkoj6JkLSsPtb9Eh7lQXEc89xKWGq7HPT4UZCrRcmsYqSNtyA/ECu8mgjWjx8kSwUF/VrDuM0HqXadKc2HzTZXi+thn2cYsCKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qzlPPFfE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oIyjnkWO"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id AFBBEC19425;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qzlPPFfE"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C9A74C2BC9E;
 	Thu, 12 Mar 2026 23:22:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1773357753;
-	bh=eWuXaoMzdNBHWhbv2FBD2M6er0YUT2LHSrUYqdGHcfQ=;
+	bh=YH2mKdaJhvLHzAH3E0arTkx7m03q3Vnf8+sv4vYqr9g=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=oIyjnkWO2pJtzQIrdUe/necxKUbRa31Q2D5jwuGUsmxaUndAShtSmB/NfD9Kom62Q
-	 8T4pPEif7fpPC2UltLchbw8jHmtwh1r9UcjXWordGmSljSyOuE+XWInKIxC4EHQmmn
-	 1eZ0SDXpply/9YzNFmdSTJIrYvFmYQ8n3rM0kTScK3FPgtGxrKygVVvFt323hHW0qZ
-	 jRhiwK+05voRwARbtNwLHPkHMcta/K+1ahosbuap0A0K1uu79pxEh5O99GOolMaZgo
-	 VrDNP+3khJOk6SWadeqtH8RMH7U+Sy/PyjsPMiD/CGbm4fo0Z8eUwKZao/TwF4jJjo
-	 jPRy/7QIJ0/xA==
+	b=qzlPPFfEgNG+3H3kTSZgnm8IbWNlB9zhDVfiCz6btvPwkbF91Pn+iMEYlBBj7awHt
+	 WKjEdLarKPhL5GO0myHK3k+agMiAsvUWWOl/kSUDqQXW4jXLzvZVF+52Td9CDceQIr
+	 dM42U4Jsd5UkDMpUd/QFrRepXcL0+CcGGgNXX5AftLskIglIKcj50HGle7xnnna67e
+	 t4GY2/tslV3qodR3HaL5CjahXUXrXfz7tAgwv2sv5uq/0sYu/tC22WTqjySPXY0ZHx
+	 48dOrm7F7jY7TUxWRP86VsuqXaxG4om7euJ1vi+3x9Jj4sOLZZxc0rXl7vFBkk2nNk
+	 Sj3shFqLOOgog==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1ACC106ACFB;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE3E3106ACFE;
 	Thu, 12 Mar 2026 23:22:33 +0000 (UTC)
 From: Mayank Rungta via B4 Relay <devnull+mrungta.google.com@kernel.org>
-Date: Thu, 12 Mar 2026 16:22:03 -0700
-Subject: [PATCH v2 2/5] watchdog: Update saved interrupts during check
+Date: Thu, 12 Mar 2026 16:22:05 -0700
+Subject: [PATCH v2 4/5] watchdog/hardlockup: improve buddy system detection
+ timeliness
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -40,7 +41,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260312-hardlockup-watchdog-fixes-v2-2-45bd8a0cc7ed@google.com>
+Message-Id: <20260312-hardlockup-watchdog-fixes-v2-4-45bd8a0cc7ed@google.com>
 References: <20260312-hardlockup-watchdog-fixes-v2-0-45bd8a0cc7ed@google.com>
 In-Reply-To: <20260312-hardlockup-watchdog-fixes-v2-0-45bd8a0cc7ed@google.com>
 To: Petr Mladek <pmladek@suse.com>, Jinchao Wang <wangjinchao600@gmail.com>, 
@@ -54,11 +55,11 @@ To: Petr Mladek <pmladek@suse.com>, Jinchao Wang <wangjinchao600@gmail.com>,
 Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
  Mayank Rungta <mrungta@google.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1773357752; l=2486;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1773357752; l=5127;
  i=mrungta@google.com; s=20260212; h=from:subject:message-id;
- bh=M8TFUUsd+x02qNZV27ER4ewjfXgDz4uo0zb2OpCd5AY=;
- b=c1BEltI1CYPBMfFHi5jcw831jLPMgod4QJfhUT9xrFyjz3NldwgfjwNdNDMWxW2HPjQ0sE4J1
- AmprlHBsxMWCOna15znVCFqclrRZKFGioExw5mgmR06dtLbmlgCbqf9
+ bh=5wYvVIHfFCgN5ygcPFtvVUMvQnV/JrQ6DexOgbq9zes=;
+ b=Ve4A5fVpXCjy0qR9OOgYTqE82VOOLfn2r8KcluiT8/2Cov4UiiiRegO9i3eZdiUXoCJdtOIim
+ fATQ3YWZMPRA2wEEp6DeaTkjR6ADfJm0Dnb1vm+4fnAzjtL4iTc8r4x
 X-Developer-Key: i=mrungta@google.com; a=ed25519;
  pk=2Bjwbv/ibL10QnyvK9G7DoKpffXy7z6+M4NawEYgYDI=
 X-Endpoint-Received: by B4 Relay for mrungta@google.com/20260212 with
@@ -68,79 +69,144 @@ Reply-To: mrungta@google.com
 
 From: Mayank Rungta <mrungta@google.com>
 
-Currently, arch_touch_nmi_watchdog() causes an early return that
-skips updating hrtimer_interrupts_saved. This leads to stale
-comparisons and delayed lockup detection.
+Currently, the buddy system only performs checks every 3rd sample. With
+a 4-second interval. If a check window is missed, the next check occurs
+12 seconds later, potentially delaying hard lockup detection for up to
+24 seconds.
 
-I found this issue because in our system the serial console is fairly
-chatty. For example, the 8250 console driver frequently calls
-touch_nmi_watchdog() via console_write(). If a CPU locks up after a
-timer interrupt but before next watchdog check, we see the following
-sequence:
+Modify the buddy system to perform checks at every interval (4s).
+Introduce a missed-interrupt threshold to maintain the existing grace
+period while reducing the detection window to 8-12 seconds.
 
-  * watchdog_hardlockup_check() saves counter (e.g., 1000)
-  * Timer runs and updates the counter (1001)
-  * touch_nmi_watchdog() is called
-  * CPU locks up
-  * 10s pass: check() notices touch, returns early, skips update
-  * 10s pass: check() saves counter (1001)
-  * 10s pass: check() finally detects lockup
+Best and worst case detection scenarios:
 
-This delays detection to 30 seconds. With this fix, we detect the
-lockup in 20 seconds.
+Before (12s check window):
+- Best case: Lockup occurs after first check but just before heartbeat
+  interval. Detected in ~8s (8s till next check).
+- Worst case: Lockup occurs just after a check.
+  Detected in ~24s (missed check + 12s till next check + 12s logic).
+
+After (4s check window with threshold of 3):
+- Best case: Lockup occurs just before a check.
+  Detected in ~8s (0s till 1st check + 4s till 2nd + 4s till 3rd).
+- Worst case: Lockup occurs just after a check.
+  Detected in ~12s (4s till 1st check + 4s till 2nd + 4s till 3rd).
 
 Reviewed-by: Douglas Anderson <dianders@chromium.org>
 Signed-off-by: Mayank Rungta <mrungta@google.com>
 ---
- kernel/watchdog.c | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
+ include/linux/nmi.h     |  1 +
+ kernel/watchdog.c       | 19 ++++++++++++++++---
+ kernel/watchdog_buddy.c |  9 +--------
+ 3 files changed, 18 insertions(+), 11 deletions(-)
 
+diff --git a/include/linux/nmi.h b/include/linux/nmi.h
+index 207156f2143c..bc1162895f35 100644
+--- a/include/linux/nmi.h
++++ b/include/linux/nmi.h
+@@ -21,6 +21,7 @@ void lockup_detector_soft_poweroff(void);
+ extern int watchdog_user_enabled;
+ extern int watchdog_thresh;
+ extern unsigned long watchdog_enabled;
++extern int watchdog_hardlockup_miss_thresh;
+ 
+ extern struct cpumask watchdog_cpumask;
+ extern unsigned long *watchdog_cpumask_bits;
 diff --git a/kernel/watchdog.c b/kernel/watchdog.c
-index 4c5b47495745..431c540bd035 100644
+index 431c540bd035..87dd5e0f6968 100644
 --- a/kernel/watchdog.c
 +++ b/kernel/watchdog.c
-@@ -159,21 +159,28 @@ void watchdog_hardlockup_touch_cpu(unsigned int cpu)
+@@ -60,6 +60,13 @@ unsigned long *watchdog_cpumask_bits = cpumask_bits(&watchdog_cpumask);
+ int __read_mostly sysctl_hardlockup_all_cpu_backtrace;
+ # endif /* CONFIG_SMP */
+ 
++/*
++ * Number of consecutive missed interrupts before declaring a lockup.
++ * Default to 1 (immediate) for NMI/Perf. Buddy will overwrite this to 3.
++ */
++int __read_mostly watchdog_hardlockup_miss_thresh = 1;
++EXPORT_SYMBOL_GPL(watchdog_hardlockup_miss_thresh);
++
+ /*
+  * Should we panic when a soft-lockup or hard-lockup occurs:
+  */
+@@ -137,6 +144,7 @@ __setup("nmi_watchdog=", hardlockup_panic_setup);
+ 
+ static DEFINE_PER_CPU(atomic_t, hrtimer_interrupts);
+ static DEFINE_PER_CPU(int, hrtimer_interrupts_saved);
++static DEFINE_PER_CPU(int, hrtimer_interrupts_missed);
+ static DEFINE_PER_CPU(bool, watchdog_hardlockup_warned);
+ static DEFINE_PER_CPU(bool, watchdog_hardlockup_touched);
+ static unsigned long hard_lockup_nmi_warn;
+@@ -159,7 +167,7 @@ void watchdog_hardlockup_touch_cpu(unsigned int cpu)
  	per_cpu(watchdog_hardlockup_touched, cpu) = true;
  }
  
--static bool is_hardlockup(unsigned int cpu)
-+static void watchdog_hardlockup_update(unsigned int cpu)
+-static void watchdog_hardlockup_update(unsigned int cpu)
++static void watchdog_hardlockup_update_reset(unsigned int cpu)
  {
  	int hrint = atomic_read(&per_cpu(hrtimer_interrupts, cpu));
  
--	if (per_cpu(hrtimer_interrupts_saved, cpu) == hrint)
--		return true;
--
- 	/*
- 	 * NOTE: we don't need any fancy atomic_t or READ_ONCE/WRITE_ONCE
- 	 * for hrtimer_interrupts_saved. hrtimer_interrupts_saved is
+@@ -169,6 +177,7 @@ static void watchdog_hardlockup_update(unsigned int cpu)
  	 * written/read by a single CPU.
  	 */
  	per_cpu(hrtimer_interrupts_saved, cpu) = hrint;
-+}
-+
-+static bool is_hardlockup(unsigned int cpu)
-+{
-+	int hrint = atomic_read(&per_cpu(hrtimer_interrupts, cpu));
-+
-+	if (per_cpu(hrtimer_interrupts_saved, cpu) != hrint) {
-+		watchdog_hardlockup_update(cpu);
-+		return false;
-+	}
- 
--	return false;
-+	return true;
++	per_cpu(hrtimer_interrupts_missed, cpu) = 0;
  }
  
- static void watchdog_hardlockup_kick(void)
-@@ -191,6 +198,7 @@ void watchdog_hardlockup_check(unsigned int cpu, struct pt_regs *regs)
+ static bool is_hardlockup(unsigned int cpu)
+@@ -176,10 +185,14 @@ static bool is_hardlockup(unsigned int cpu)
+ 	int hrint = atomic_read(&per_cpu(hrtimer_interrupts, cpu));
+ 
+ 	if (per_cpu(hrtimer_interrupts_saved, cpu) != hrint) {
+-		watchdog_hardlockup_update(cpu);
++		watchdog_hardlockup_update_reset(cpu);
+ 		return false;
+ 	}
+ 
++	per_cpu(hrtimer_interrupts_missed, cpu)++;
++	if (per_cpu(hrtimer_interrupts_missed, cpu) % watchdog_hardlockup_miss_thresh)
++		return false;
++
+ 	return true;
+ }
+ 
+@@ -198,7 +211,7 @@ void watchdog_hardlockup_check(unsigned int cpu, struct pt_regs *regs)
  	unsigned long flags;
  
  	if (per_cpu(watchdog_hardlockup_touched, cpu)) {
-+		watchdog_hardlockup_update(cpu);
+-		watchdog_hardlockup_update(cpu);
++		watchdog_hardlockup_update_reset(cpu);
  		per_cpu(watchdog_hardlockup_touched, cpu) = false;
  		return;
  	}
+diff --git a/kernel/watchdog_buddy.c b/kernel/watchdog_buddy.c
+index ee754d767c21..3a1e57080c1c 100644
+--- a/kernel/watchdog_buddy.c
++++ b/kernel/watchdog_buddy.c
+@@ -21,6 +21,7 @@ static unsigned int watchdog_next_cpu(unsigned int cpu)
+ 
+ int __init watchdog_hardlockup_probe(void)
+ {
++	watchdog_hardlockup_miss_thresh = 3;
+ 	return 0;
+ }
+ 
+@@ -86,14 +87,6 @@ void watchdog_buddy_check_hardlockup(int hrtimer_interrupts)
+ {
+ 	unsigned int next_cpu;
+ 
+-	/*
+-	 * Test for hardlockups every 3 samples. The sample period is
+-	 *  watchdog_thresh * 2 / 5, so 3 samples gets us back to slightly over
+-	 *  watchdog_thresh (over by 20%).
+-	 */
+-	if (hrtimer_interrupts % 3 != 0)
+-		return;
+-
+ 	/* check for a hardlockup on the next CPU */
+ 	next_cpu = watchdog_next_cpu(smp_processor_id());
+ 	if (next_cpu >= nr_cpu_ids)
 
 -- 
 2.53.0.851.ga537e3e6e9-goog
