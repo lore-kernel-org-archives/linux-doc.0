@@ -1,259 +1,302 @@
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11020091.outbound.protection.outlook.com [52.101.229.91])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C701C38238F;
-	Thu, 12 Mar 2026 16:50:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.91
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773334256; cv=fail; b=OmpfUnBNRrdRcyR/3ZW+37STOvC+qqNowFf4wylEY/JxJAjDc03x18JKxi+trBMm+rbBL7oiTp5LrJ61jXjWhkQNchkrznmcGTU0UfqNZJqPfsvRsLvV6VapaS5kACzA2vOQsvcsyjGgssClQ4PhDNbQlx2GmgF3R8ztz3mTSnk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773334256; c=relaxed/simple;
-	bh=p3uFj3NRys9Lx+coW9jo8Q5Oq93h2WEweng13oM3LjI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=A75w8kY/PdqghLwEwWxmwEEkLAtL5KLfJjc0Z6el0NdZAvL69JyxkK9V3Lzjm+evHnlVkh1Sj5P/wFtuvqXTYo3hwexSOpxiIYt7zQ+sHsXswK7gDZvXvzOXN0KBaVBiqkNe+Yq+u5k4g72hjcvLKZLofTl/6bBRKB2og9fgzdo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valinux.co.jp; spf=pass smtp.mailfrom=valinux.co.jp; dkim=pass (1024-bit key) header.d=valinux.co.jp header.i=@valinux.co.jp header.b=pEwqcalw; arc=fail smtp.client-ip=52.101.229.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valinux.co.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=valinux.co.jp
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEC4263B9;
+	Thu, 12 Mar 2026 16:53:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773334422; cv=none; b=lBFMIR0KjsT4Q4TpUonW/znrqjKejHSPinanoTJ0Qw1dcI+R10dlp+OCvEHehLQER4zkmJmLfJaeHbnes40weXyJYW65kRqims0hkwUPn70/u5aRzuLHUfFLdYESa2LBkr1RbJTeJtDHVtQWiECjBzZTKB8+QERgYlB6yBAla1w=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773334422; c=relaxed/simple;
+	bh=YShgK9c8/e+b6fZvFL+b+LJ22AnrIKewxNZqlraCq+E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZAI/9xhYjYjZt0Mbb1+XqrVqEOkivYzvcqKyjcofS6V8w9NCvQDv/CMSB58XaEcReC9w8elniXrjDoPaR24IG100RT5N3qANQrg7h1samCZKzei13J7QfBsdWcQGEGAXNAbW6vqdtSrYzhMS84H+4+kDgXHP7SQKSDj2HMdMy08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=OE+Y9oVO; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=valinux.co.jp header.i=@valinux.co.jp header.b="pEwqcalw"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=IRJAmTGVxzfpKF0DdIeto6m2YozgH0A5ru4AA8lszL19Bgmkna9mhMdghLEeYh43gch3GDxvnz2lca/SVY7tvENandWkHbs36qz/UrcmODqJVk/asZNsYy7/CRW4xynKO3y2N1/BMVmTP9ir0lP7Qym9TVZMKit0NZJbUy8zZKr8dtKVp/MlJvlZMzfMDOKgErSM6wgksspvA0Hsw2T5V0QJYJ6Rz/iU21uwBuXFikol4xPjDFANiMfDTt6u4lyV5Cy9xAfgimGS9eJ4cyyYcEWHvRaJy445NUjYSFmTFQomVGGjR6PzaJe4zRN42aqbMDOWS6Z7XvIy6TzICsGZpA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=T4tg09Q56VUnW52W7jytsJgiJudl6J/ZcAfXa9juMq0=;
- b=WTEM+Zg/Aw1W6L9cCOtGv8/p5JQasi54N9VhDTZNL5R2rfDpT+C2wV2MHO8nGcwXXqAUQcLlzsOOxHwCffjclIwYPpmYhNTYsooEybJLKlXa/H+Ru8LW22mVEYNF4cNaNNnMGIjbfJJFyB0a6iNQfe7j7aKVt2pXOlkNNr6w7drmilEs+Z6Ou4q2kG4ELSddGYn4iiJ8NU81yQO3CZ2rNZfzKFCttjv+u7hICnLKCpC4QVD2hR1mg77Ngzt8filHrmoTe9DcqG9aX+3/46IXI0G9RrRi8GLdD10c7l2REwpSoMFsP78kvU+w7GjHBaDjDwSReS2hQYNgrdTEaH9X5A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=valinux.co.jp; dmarc=pass action=none
- header.from=valinux.co.jp; dkim=pass header.d=valinux.co.jp; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valinux.co.jp;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=T4tg09Q56VUnW52W7jytsJgiJudl6J/ZcAfXa9juMq0=;
- b=pEwqcalw1cAFdxwDVJcaM61Cpf5+k0QZM5ykLID+Xw4oa48oxZMTvboI1cwzTEwbHnoLjwjpsSpmVxnsFzDRtpdsXKxEajFxRWsAMDoS4vuepB0UEwJlyL6IaLLa3ncNTZmlxlCRC4vUDFfpuPPN0r/eUI3kXrtgihEFnyhWap0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=valinux.co.jp;
-Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:38f::10)
- by TYCP286MB2018.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:15e::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.15; Thu, 12 Mar
- 2026 16:50:23 +0000
-Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
- ([fe80::2305:327c:28ec:9b32]) by TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
- ([fe80::2305:327c:28ec:9b32%5]) with mapi id 15.20.9700.013; Thu, 12 Mar 2026
- 16:50:23 +0000
-From: Koichiro Den <den@valinux.co.jp>
-To: Manivannan Sadhasivam <mani@kernel.org>,
-	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Vinod Koul <vkoul@kernel.org>,
-	Frank Li <Frank.Li@kernel.org>,
-	Jon Mason <jdmason@kudzu.us>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Allen Hubbe <allenbh@gmail.com>,
-	Jingoo Han <jingoohan1@gmail.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Baruch Siach <baruch@tkos.co.il>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Niklas Cassel <cassel@kernel.org>
-Cc: linux-pci@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	dmaengine@vger.kernel.org,
-	ntb@lists.linux.dev
-Subject: [PATCH 15/15] Documentation: PCI: endpoint: Add vNTB DMA export HOWTO
-Date: Fri, 13 Mar 2026 01:50:05 +0900
-Message-ID: <20260312165005.1148676-16-den@valinux.co.jp>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260312165005.1148676-1-den@valinux.co.jp>
-References: <20260312165005.1148676-1-den@valinux.co.jp>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TYCP301CA0065.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:405:7d::10) To TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:38f::10)
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="OE+Y9oVO"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 069BB40E01DB;
+	Thu, 12 Mar 2026 16:53:38 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id AV_WnXB5iLUo; Thu, 12 Mar 2026 16:53:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1773334412; bh=YyX4Tbq9mr5R4hV0qGeNgewO4xnQAC7Jn+r37oKO/ps=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OE+Y9oVOL4PWggyygnfauj3csO8PCbIxStU2PKXmeh01wsBh8Tzv+HKpCNokL/5u/
+	 +drCFAJzP+q1YAbnAyj1ax/GGoMXjanVMDpHPCrAsB5DH/Q0Eac29Z3jLuL+zJFAqX
+	 OHHbgazJw6TfYgGDVUK+pAy4NOhBT76vIjW6dnkeKczm+v87rndKAtHRUOWm1wyByc
+	 6FUy/jTQyNYeBdGBh/iheUm8h07GeU3el3uyNR71VfVUn6Qu3BwM+6Zl7+Zxq3Tbam
+	 dXnWT+p3mEhJ1nT4BzjF3F1lROkF8//Mmp/WVisy5A5bn+nb2TlulsGsomqW7EkGDi
+	 AEG6sW0NXes9T/L7OkmeL2v8WqH71H9wLiH7R4hHxUcqLC9bKdRHWShSttsVuTU06r
+	 gU/uORC7hVolBz5xI/iaT7eB4FfbqAvcU0M7kze9avdOVDHQHDtf8GRwE2ijPECnmk
+	 QDoJOy5r6Cih0O+jzSZKhyBU0L13D/hSdZ4qoetp+k+4WDa/UQT9yKBUMRoLhTHJoF
+	 YU3K2cwrXZ7Y6TX4PKMcXJ0QOSaIsTd5fgBqN3PdRiOpfIy1KX4/mwJt3Bg56tbIj3
+	 jo7XaflWPQUHg7quGk34BTY5Rp0XXO0VGbtGc7emA6qvLnG8h4ARC1sMjKQgwmU6Vs
+	 XKswNN1XoPanttYA55lkBsj4=
+Received: from zn.tnic (p5de8e020.dip0.t-ipconnect.de [93.232.224.32])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id A4EA840E01D6;
+	Thu, 12 Mar 2026 16:52:55 +0000 (UTC)
+Date: Thu, 12 Mar 2026 17:52:47 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: shiju.jose@huawei.com
+Cc: rafael@kernel.org, akpm@linux-foundation.org, rppt@kernel.org,
+	dferguson@amperecomputing.com, linux-edac@vger.kernel.org,
+	linux-acpi@vger.kernel.org, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, tony.luck@intel.com, lenb@kernel.org,
+	leo.duran@amd.com, Yazen.Ghannam@amd.com, mchehab@kernel.org,
+	jonathan.cameron@huawei.com, linuxarm@huawei.com,
+	rientjes@google.com, jiaqiyan@google.com, Jon.Grimm@amd.com,
+	dave.hansen@linux.intel.com, naoya.horiguchi@nec.com,
+	james.morse@arm.com, jthoughton@google.com, somasundaram.a@hpe.com,
+	erdemaktas@google.com, pgonda@google.com, duenwen@google.com,
+	gthelen@google.com, wschwartz@amperecomputing.com,
+	wbs@os.amperecomputing.com, nifan.cxl@gmail.com,
+	tanxiaofei@huawei.com, prime.zeng@hisilicon.com,
+	roberto.sassu@huawei.com, kangkang.shen@futurewei.com,
+	wanghuiqiang@huawei.com
+Subject: Re: [PATCH v17 1/2] ACPI:RAS2: Add driver for the ACPI RAS2 feature
+ table
+Message-ID: <20260312165247.GSabLvX5DjzhDtmyuh@fat_crate.local>
+References: <20260311155518.1000-1-shiju.jose@huawei.com>
+ <20260311155518.1000-2-shiju.jose@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY7P286MB7722:EE_|TYCP286MB2018:EE_
-X-MS-Office365-Filtering-Correlation-Id: 70c09369-2c57-41b7-93f1-08de80577411
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|1800799024|10070799003|366016|7416014|921020|56012099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	vtA1siMsshEPBWVmWa4b7C5lG++E05TnyVxQ+lZKk9e2VnqDCtEJHhhPBnUgL4hQdndohqtJwuAdpGT21DVMGkzIU7MAteJBj8xaZY2x1Sbf6EdO2nOXbi0eypn8CyzSsbd8YutGErUystBi2E6mNPnShPgtB7pD5fr3t79H/iFkcGHtqdjdcbZynqXDfzWHdcEcvlyAnSWNBnWytHfCpMaJZS4nt9fO50WpEfK53ljaMW1EL1/ZD240eACyhoRep7PiDBPVNbIdjpEAeNvhoP79LqhZkgVboIkKL5huJ8Z3a01ngupVzDeKwWML11F+qbL8ohk/dmx/5lWgrdcRddPenAUc3AjdtP0mdl5nkHCuC/MiFpGB1ZmKZWIVDe7aQ6cqtwcRNGFdg9kKI5OXv3BVQTR10vlJIXw+yXgRnk+eWB40YlL4ayscDyGX+1S7IuT+NlJNY1JhSMGLIx4twP6x3PJq++EeBl1t4S7yYEdDr8LIu+foshFDiktrRvQBUahtU9ShJ/jXD3Oa6OukcqVPcsuEBlB9QxilFmNHmto5M9eon6wTVV5PJfyokYHwhxmIEPkDfZO2Gk0FLyUEa9Tl9MicwXm1PcWFdO36ebOr4JUMhlo0FoJ9GiskVthEYQIDvnhjtOdDX61+oKQN+rTbRNY2iwE44+/BNESnjhX3FPqzw9pXBqUyJEtugGkXLDLBbEJP5cNNh17OGMn8bHsrLfR/JARuL9BfAM2dtVX3BG83ZgDNANsXv+o2PAbzpdCqw/SfbdsXuk4R9V5BPw==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(10070799003)(366016)(7416014)(921020)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?oQIQ10vDKgUpWUI5E5lWJ0VTNm9Zwa65KhDFmNsYEkxf6jT35sls6hctOrWO?=
- =?us-ascii?Q?i5SZlH1zT/k3llJzxqdRxccXsgb5jm2+cUbkg8l2JKuF+j8o2HQu1pJhgmHd?=
- =?us-ascii?Q?OxDUwx5+LUH/4oY5F/zgSnoo6LD7soI2IklCM9k3DxENnUW9Kl+L5hUmTkuM?=
- =?us-ascii?Q?sKUo8LTlv/zsraGhvSIca86MJCuCNmLhhL9IehGDy+OS5VeDPYJR4Y6pCVNx?=
- =?us-ascii?Q?5OC2SgKNrIyuJz7QOZ3VU/XyNrV3C3TclQw8b7MFIgdnxoCctw1dgGFccDZw?=
- =?us-ascii?Q?kR0jbKS8oxMNJxMNRdz2+MKTtXflyZREyMHUqTlD4vmG11yJe9d/KqXgr4F2?=
- =?us-ascii?Q?rihYJhlrmqEEwef1mHrmGD5a+uvH+8fksmGQAi1J3RxjxzXAloLY/WiPP5St?=
- =?us-ascii?Q?R9105Istp/F2OYEvxJy6i+3kiAvIVBS8hc+WET7n19lvrF5HwWd4KNoXJlT1?=
- =?us-ascii?Q?ifyH5VFhxtdYD8AI66QS1p9WXhKGcZbYmUS/JFy3syb2/UvqnMH62tqJT5cl?=
- =?us-ascii?Q?CJHGaklBn7XUBRw2WheE0xSUI4iOrPXBpcNUXpUq/zkmVVLQ7od1XMZZ0D4i?=
- =?us-ascii?Q?7/HZRu71cPpMerCyvkwR2tBLYpjCs8fIxy2TcKs51XJq3MvU+cCZlCCi/0Yb?=
- =?us-ascii?Q?LJCfQBVtuB6AJPdi6MKWjW1qUdIofb7sHFyLuITTKdsNg/45Nkl29jyJrUrb?=
- =?us-ascii?Q?6JMaBG84SRBOm9lYxBF8HjvQ003FjYtNdDk+U0u8zLVk/xmDp3CSnQH693sa?=
- =?us-ascii?Q?wgJ5S1XWBpViui+vkPBzEZcCAEhQzlDM/H6E49Hrf3DtQY1eUUieX3atBYmS?=
- =?us-ascii?Q?reCck38oWv65TSE6AipGyPfJFGrW4dmfat1EyEnCqr64R/KorEFnR9acDAz2?=
- =?us-ascii?Q?CUpFN7cqpzufIjuWpXWF4tcXLuUUD/Oen4PHqv5tVvdzO8rC4PNR0xlYjGxc?=
- =?us-ascii?Q?vb4cqsKWoDPpXCmRWOdVplRT5NJOALTXWfGB4nwI/L6ZyULNVKij4d4xce+t?=
- =?us-ascii?Q?ISfbk5e2YGhuOCSuKsF9GkXFy840/LfDCoh7HaKRoB+DAvhamLKxyl06765N?=
- =?us-ascii?Q?+2bdtuzrss6B6iBA0IRcXipy1oLAUP9q+fpScqea/bGDTc5/53Zo4cli0PQ/?=
- =?us-ascii?Q?mXkfl1kB/Mvc46RAvG72GkofOzjhexAGktZKj9XShDraghVVoiL6iMLtGeWn?=
- =?us-ascii?Q?BCuQdO7Iq6N4GA9Nd04mdDXbnQDnjzYUndBVUQXYSCjHbfXHU4ZsuS67V9AN?=
- =?us-ascii?Q?wS9VGiq0wo3bRjWCVvMr9dnXOQtD1SUCQKHuQSymBhK37G1SVXcB8s9ZtD16?=
- =?us-ascii?Q?rPDkEhy8/j4zevYcShI0zq76M1ORh8Auew8IDBwLb1dRKr7T8ADS4Lq11MHv?=
- =?us-ascii?Q?0wHeNW8GA+7fy87fw35+vlr8S5qq+2j7eujeps7xixZilHLzShaR41Y2PQ5S?=
- =?us-ascii?Q?Y6xgNEpCBDzB8IUIirEJa0LQNu3Wgi1A0imi7IPeljbEcC4yIi97Xktpq9xa?=
- =?us-ascii?Q?R08hWVu56uzW3L3mOK3xcSu7KPpvCWv3OQcyMXCZDsEH3JMLeIdAS4taWuSY?=
- =?us-ascii?Q?w2WcGjACVIXdDQEkKGX53JgFc0tGA1KTxPYp2VnPG5pY7OEFtc1AZkPN0odq?=
- =?us-ascii?Q?j8Xt2RZovg6sh9wdK8lbb3lLxsu2U51plCpmSYBmNys/uTpf7/7kHCiaf7D1?=
- =?us-ascii?Q?PoicC2iBpGiMozsjSDoFMC2eMrJiuFtbUY2HpTkUYXw4RA+7YiaH2C/x0BjQ?=
- =?us-ascii?Q?vIVFNh3uIaSHgpZ6Eain2zxeTq5H/8gcDrfki0miqR/DQvYF0fJI?=
-X-OriginatorOrg: valinux.co.jp
-X-MS-Exchange-CrossTenant-Network-Message-Id: 70c09369-2c57-41b7-93f1-08de80577411
-X-MS-Exchange-CrossTenant-AuthSource: TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Mar 2026 16:50:23.1438
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 7a57bee8-f73d-4c5f-a4f7-d72c91c8c111
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3c1nHg+aKziI9sEdcXaDc9MqOnQwBN61BXRAjetLMcj4OetFuuVH+gSwppqPOmcELNEKeEHRrUjT1yXEFwok0g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCP286MB2018
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260311155518.1000-2-shiju.jose@huawei.com>
 
-Document the new pci-epf-vntb DMA export model.
+On Wed, Mar 11, 2026 at 03:55:16PM +0000, shiju.jose@huawei.com wrote:
+> From: Shiju Jose <shiju.jose@huawei.com>
+> 
+> ACPI 6.5 Specification, section 5.2.21, defined RAS2 feature table (RAS2).
+> Driver adds support for RAS2 feature table, which provides interfaces for
+> platform RAS features, e.g., for HW-based memory scrubbing, and logical to
+> PA translation service. RAS2 uses PCC channel subspace for communicating
+> with the ACPI compliant HW platform.
+> 
+> Co-developed-by: A Somasundaram <somasundaram.a@hpe.com>
+> Signed-off-by: A Somasundaram <somasundaram.a@hpe.com>
+> Co-developed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Tested-by: Daniel Ferguson <danielf@os.amperecomputing.com>
+> Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
+> ---
+>  drivers/acpi/Kconfig  |  11 ++
+>  drivers/acpi/Makefile |   1 +
+>  drivers/acpi/bus.c    |   3 +
+>  drivers/acpi/ras2.c   | 433 ++++++++++++++++++++++++++++++++++++++++++
+>  include/acpi/ras2.h   |  57 ++++++
+>  5 files changed, 505 insertions(+)
+>  create mode 100644 drivers/acpi/ras2.c
+>  create mode 100644 include/acpi/ras2.h
 
-Describe the configfs placement knobs for the DMA slice, the versioned
-control layout, the two-stage BAR programming model used for shared
-BARs, and the host-side discovery path through ntb_hw_epf and
-dw-edma-aux.
+First of all, what about this:
 
-Also show how to exercise the feature with the ntb_ep_dma test client.
+https://lore.kernel.org/r/df5fe0ed-3483-4ac5-8096-447e4e560816@os.amperecomputing.com
 
-Signed-off-by: Koichiro Den <den@valinux.co.jp>
----
- Documentation/PCI/endpoint/index.rst          |  1 +
- .../PCI/endpoint/pci-vntb-dma-howto.rst       | 83 +++++++++++++++++++
- 2 files changed, 84 insertions(+)
- create mode 100644 Documentation/PCI/endpoint/pci-vntb-dma-howto.rst
+?
 
-diff --git a/Documentation/PCI/endpoint/index.rst b/Documentation/PCI/endpoint/index.rst
-index dd1f62e731c9..c3f93f1da34b 100644
---- a/Documentation/PCI/endpoint/index.rst
-+++ b/Documentation/PCI/endpoint/index.rst
-@@ -15,6 +15,7 @@ PCI Endpoint Framework
-    pci-ntb-howto
-    pci-vntb-function
-    pci-vntb-howto
-+   pci-vntb-dma-howto
-    pci-nvme-function
- 
-    function/binding/pci-test
-diff --git a/Documentation/PCI/endpoint/pci-vntb-dma-howto.rst b/Documentation/PCI/endpoint/pci-vntb-dma-howto.rst
-new file mode 100644
-index 000000000000..c3acc4e6ab37
---- /dev/null
-+++ b/Documentation/PCI/endpoint/pci-vntb-dma-howto.rst
-@@ -0,0 +1,83 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=============================
-+pci-epf-vntb DMA export HOWTO
-+=============================
-+
-+``pci-epf-vntb`` can expose a virtual NTB device to the host while also
-+exporting an endpoint-integrated DMA instance. The logical DMA export slice may
-+occupy its own BAR or share a physical BAR with one or more memory windows.
-+
-+Configuration knobs
-+===================
-+
-+The endpoint function instance exposes the following placement controls via
-+configfs:
-+
-+- ``mwN_bar``
-+- ``mwN_offset``
-+- ``dma_bar``
-+- ``dma_offset``
-+- ``dma_num_chans``
-+
-+The offsets are BAR-relative. Regions packed into the same physical BAR must be
-+non-overlapping and must cover the complete programmed BAR aperture.
-+
-+``dma_num_chans`` controls how many DMA read channels are delegated to the
-+peer. If fewer channels are available at runtime, the endpoint falls back to
-+the maximum available number and reports the effective delegation count in the
-+kernel log.
-+
-+DMA ABI v1 is currently defined for READ channels only. The exported channels
-+must form a dense prefix of the endpoint READ-channel space, and the
-+``chans[]`` entries in the ABI header are ordered by remote hardware READ
-+channel index starting at 0. ``dw-edma-aux`` relies on that ordering when it
-+reconstructs the remote engine on the host side.
-+
-+Control-layout compatibility
-+============================
-+
-+Offset ``0x0c`` in the control block is used as a control-layout version. The
-+legacy layout is version 0. Version 1 extends the block with per-MW
-+``offset/size`` tuples and the DMA locator.
-+
-+``pci-epf-vntb`` emits the legacy layout whenever the current configuration can
-+still be represented by it. This allows a new endpoint kernel to interoperate
-+with an older ``ntb_hw_epf`` host as long as the deployment uses the historical
-+one-MW-per-BAR layout and does not enable DMA export.
-+
-+Deferred BAR activation
-+=======================
-+
-+BAR subrange mapping cannot be programmed at bind time because the host has not
-+assigned BAR addresses yet. Shared ``MW/DMA`` BARs therefore use a two-stage
-+programming model:
-+
-+1. bind time: configure the BAR aperture with a temporary plain mapping
-+2. first host command (``CONFIGURE_MW`` or ``LINK_UP``): re-issue
-+   ``pci_epc_set_bar()`` with the final subrange layout
-+
-+This matches the requirements for EPC subrange mapping feature.
-+
-+DMA export and ``ntb_ep_dma``
-+=============================
-+
-+When DMA export is enabled, ``pci-epf-vntb`` publishes a logical DMA locator in
-+the control block. ``ntb_hw_epf`` parses that locator during probe, reserves an
-+IRQ slice for the DMA provider, and registers the auxiliary child only after
-+``LINK_UP`` succeeds. As a vendor-specific frontend example, ``dw-edma-aux``
-+binds to that child and exposes a DMA engine provider for the remote endpoint
-+DMA instance.
-+
-+The ``ntb_ep_dma`` test client exercises that path. Both peers load the
-+module. Each side allocates a local test buffer and publishes the DMA address
-+and size through scratchpads. The responder only waits and verifies, while the
-+initiator triggers one transfer with::
-+
-+    # cat /sys/kernel/debug/ntb_ep_dma/0000:01:00.0/ready
-+    # echo 1 > /sys/kernel/debug/ntb_ep_dma/0000:01:00.0/run
-+    # cat /sys/kernel/debug/ntb_ep_dma/0000:01:00.0/result
-+
-+The initiator side uses the remote exported DMA instance to transfer into the
-+peer-published buffer. The responder verifies the contents locally and reports
-+PASS/FAIL back through scratchpads and a doorbell.
+> +static int check_pcc_chan(struct ras2_sspcc *sspcc)
+> +{
+> +	struct acpi_ras2_shmem __iomem *gen_comm_base = sspcc->comm_addr;
+> +	u32 cap_status;
+> +	u16 status;
+> +	int rc;
+> +
+> +	/*
+> +	 * As per ACPI spec, the PCC space will be initialized by the
+> +	 * platform and should have set the command completion bit when
+> +	 * PCC can be used by OSPM.
+> +	 *
+> +	 * Poll PCC status register every PCC_MIN_POLL_USECS for maximum of
+> +	 * PCC_NUM_RETRIES * PCC channel latency until PCC command complete
+> +	 * bit is set.
+> +	 */
+> +	rc = readw_relaxed_poll_timeout(&gen_comm_base->status, status,
+> +					status & PCC_STATUS_CMD_COMPLETE,
+> +					PCC_MIN_POLL_USECS, sspcc->deadline_us);
+> +	if (rc) {
+> +		pr_warn("PCC ID: 0x%x: PCC check channel timeout for last command: 0x%x rc=%d\n",
+> +			sspcc->pcc_id, sspcc->last_cmd, rc);
+> +
+> +		return rc;
+> +	}
+> +
+> +	if (status & PCC_STATUS_ERROR) {
+> +		pr_warn("PCC ID: 0x%x: Error in executing last command: 0x%x\n",
+> +			sspcc->pcc_id, sspcc->last_cmd);
+> +		status &= ~PCC_STATUS_ERROR;
+> +		writew_relaxed(status, &gen_comm_base->status);
+> +		return -EIO;
+> +	}
+> +
+> +	cap_status = readw_relaxed(&gen_comm_base->set_caps_status);
+
+The AI caught this:
+
+"This is reading only 16 bits of a 32-bit field."
+
+You're doing readw which returns u16 but you're writing it into a u32. Why?
+
+> +	switch (cap_status) {
+> +	case ACPI_RAS2_NOT_VALID:
+> +	case ACPI_RAS2_NOT_SUPPORTED:
+> +		rc = -EPERM;
+> +		break;
+> +	case ACPI_RAS2_BUSY:
+> +		rc = -EBUSY;
+> +		break;
+> +	case ACPI_RAS2_FAILED:
+> +	case ACPI_RAS2_ABORTED:
+> +	case ACPI_RAS2_INVALID_DATA:
+> +		rc = -EINVAL;
+> +		break;
+> +	default:
+> +		rc = 0;
+> +	}
+> +
+> +	writew_relaxed(0x0, &gen_comm_base->set_caps_status);
+> +
+> +	return rc;
+> +}
+
+...
+
+> +static int register_pcc_channel(struct ras2_mem_ctx *ras2_ctx, int pcc_id)
+> +{
+> +	struct pcc_mbox_chan *pcc_chan;
+> +	struct mbox_client *mbox_cl;
+> +	struct ras2_sspcc *sspcc;
+> +
+> +	if (pcc_id < 0)
+> +		return -EINVAL;
+> +
+> +	sspcc = kzalloc(sizeof(*sspcc), GFP_KERNEL);
+> +	if (!sspcc)
+> +		return -ENOMEM;
+> +
+> +	mbox_cl			= &sspcc->mbox_client;
+> +	mbox_cl->knows_txdone	= true;
+> +
+> +	pcc_chan = pcc_mbox_request_channel(mbox_cl, pcc_id);
+> +	if (IS_ERR(pcc_chan)) {
+> +		kfree(sspcc);
+> +		return PTR_ERR(pcc_chan);
+> +	}
+> +
+> +	sspcc->pcc_id		= pcc_id;
+> +	sspcc->pcc_chan		= pcc_chan;
+> +	sspcc->comm_addr	= pcc_chan->shmem;
+> +	sspcc->deadline_us	= PCC_NUM_RETRIES * pcc_chan->latency;
+> +	sspcc->pcc_mrtt		= pcc_chan->min_turnaround_time;
+> +	sspcc->pcc_mpar		= pcc_chan->max_access_rate;
+> +	sspcc->mbox_client.knows_txdone	= true;
+
+"2. **Double initialization of mbox_client.knows_txdone**: 
+- Line 251: `mbox_cl->knows_txdone = true;`
+- Line 265: `sspcc->mbox_client.knows_txdone = true;`
+
+`mbox_cl` is `&sspcc->mbox_client`, so this sets the same field twice. This is redundant but not a bug."
+
+Hohumm, sounds about right. That's a good catch. No one saw it until now. Good
+job Claude :-P
+
+> +	sspcc->pcc_chnl_acq	= true;
+
+"4. **Unused field `pcc_chnl_acq`**:
+- Line 266: `sspcc->pcc_chnl_acq = true;` is set
+- Looking for uses... nowhere else in the code uses this field!"
+
+I couldn't find any either.
+
+> +
+> +	ras2_ctx->sspcc		= sspcc;
+> +	ras2_ctx->comm_addr	= sspcc->comm_addr;
+> +	ras2_ctx->dev		= pcc_chan->mchan->mbox->dev;
+> +
+> +	mutex_init(&sspcc->pcc_lock);
+> +	ras2_ctx->pcc_lock	= &sspcc->pcc_lock;
+> +
+> +	return 0;
+> +}
+> +
+> +static DEFINE_IDA(ras2_ida);
+> +static void ras2_release(struct device *device)
+> +{
+> +	struct auxiliary_device *auxdev = to_auxiliary_dev(device);
+> +	struct ras2_mem_ctx *ras2_ctx = container_of(auxdev, struct ras2_mem_ctx, adev);
+> +	struct ras2_sspcc *sspcc;
+> +
+> +	ida_free(&ras2_ida, auxdev->id);
+> +	sspcc = ras2_ctx->sspcc;
+> +	pcc_mbox_free_channel(sspcc->pcc_chan);
+> +	kfree(sspcc);
+> +	kfree(ras2_ctx);
+> +}
+> +
+> +static struct ras2_mem_ctx *add_aux_device(char *name, int channel, u32 pxm_inst)
+
+Another good catch:
+
+"5. **The `name` parameter is unused in add_aux_device()**:
+Looking at the function signature:
+```c
+static struct ras2_mem_ctx *add_aux_device(char *name, int channel, u32 pxm_inst)
+```
+The `name` parameter is passed in but never used in the function body. The function uses the constant `RAS2_MEM_DEV_ID_NAME` instead on line 325.
+
+This is dead code - parameter is never used."
+
+> +{
+> +	struct ras2_mem_ctx *ras2_ctx;
+> +	struct ras2_sspcc *sspcc;
+> +	u32 comp_nid;
+> +	int id, rc;
+> +
+> +	comp_nid = pxm_to_node(pxm_inst);
+> +	if (comp_nid == NUMA_NO_NODE) {
+> +		pr_debug("Invalid NUMA node, channel=%d pxm_inst=%d\n", channel, pxm_inst);
+> +		return ERR_PTR(-EINVAL);
+> +	}
+> +
+> +	ras2_ctx = kzalloc(sizeof(*ras2_ctx), GFP_KERNEL);
+> +	if (!ras2_ctx)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	ras2_ctx->sys_comp_nid = comp_nid;
+> +
+> +	rc = register_pcc_channel(ras2_ctx, channel);
+> +	if (rc < 0) {
+> +		pr_debug("Failed to register PCC channel=%d pxm_inst=%d rc=%d\n", channel,
+> +			 pxm_inst, rc);
+> +		goto ctx_free;
+> +	}
+> +
+> +	id = ida_alloc(&ras2_ida, GFP_KERNEL);
+> +	if (id < 0) {
+> +		rc = id;
+> +		goto pcc_free;
+> +	}
+> +
+> +	ras2_ctx->adev.id		= id;
+> +	ras2_ctx->adev.name		= RAS2_MEM_DEV_ID_NAME;
+					  ^^^^^^^^^^^^^^^^^^^^^
+
 -- 
-2.51.0
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
