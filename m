@@ -1,118 +1,68 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D2C534DCD9;
-	Thu, 12 Mar 2026 14:19:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0212736CE19;
+	Thu, 12 Mar 2026 14:29:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773325158; cv=none; b=QPaZTCRBNQMfUIm7WyY4GJ7/QEcIuNYlYqrIJBbi/G+VoXnLNAMUmTBndAtkKcMwggR6PvqTLeV6aoU4lbLK4B4XvY4A5xLz5jJ5i517NX4DDdTSzrcgrZvQ1DOSQTC38Tm1P0DwShHkX4EEmDn4uKdZ8Gr89aVOAFJ9b8xlRHo=
+	t=1773325784; cv=none; b=hev49VB663Rb35EeD2fLhBp44suIDzTO2VWbdeJTqiH0Uj5iKBWywRPyISqLjxXQsKowr7v5Rz7jkuuKQzo2pEYy9/Lu/qY71ZC5gwnkEfU7RtF8sS3vY2xks9QF5icqsdEo9U+oAqgP7BLzWDMNSL+kgk92pGuXUbnuPvATKrQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773325158; c=relaxed/simple;
-	bh=6h3zKnDlTMVm2UbvFLw0atWxFuDz3SlZDxNgMu4GaDc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hUjlF1Owml+P1tmpNcsH1hLD5J1U7uzmYdXME9tUa+pE7T32AKx5RdQCMSNSSRBncgg6aJWZOlh/v12W/11QxD16PsnYC0tswz5eJ8olHvHId9+oezXoPmTQruNKb0jOn5avmuxVNyxpg9xt7EBX3JyaqB5ckiYxgtZNgYjMDSU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l4l/C086; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773325784; c=relaxed/simple;
+	bh=oMIqgCJzs9AJ/+NzIpcq+znWVE/l8J8nvxcf6Rgmw7c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WEkDibS/+xflXRMAKKUN5cDRW+jQA361peieZrTCoX+OtgCEsK2I+fW4BdVylFRKyXX4KBoDkHVVR3vgTwS8itFJdIfj5yVHAH7GgFpRbQu7Gqf4/CyNP1kneBbEXfARODmccOIFDSvRLIJ4Ip/I84EjdDfm6TS/gLSW6agDDLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=LnziUvDd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l4l/C086"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25C39C19424;
-	Thu, 12 Mar 2026 14:19:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773325158;
-	bh=6h3zKnDlTMVm2UbvFLw0atWxFuDz3SlZDxNgMu4GaDc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=l4l/C086zILQkEVCakaW+fO8LQtTWR6rL2OkKJeOKSUCjiRuwJpf0oDBbBm6UJ76S
-	 lPzUs42gvssurLdoodaO3huvyoEhYk2Njb0gczJaqURIk8EUlUftEbRkE1tymHiukP
-	 O0eDMwx0JlX5OuBNDeAFw3mTRpFH56a13+DyKw+z99K6gCK9CajXPk+j/6e+tuD7iq
-	 o9aGWoTXTgrIsTmKDGCSdbx0DWBvXFHcWZmtqkkg/K0HPjig56VgWkKa6WBdsTQcbU
-	 S/3urzs9APxQUarYR9ccERWgjr+6CcxWd9EXFM7JrReJTOJCqZT+vi1QXuJpTjVC5u
-	 eEXcQjL1qmagw==
-Date: Thu, 12 Mar 2026 07:19:16 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Jiri Pirko <jiri@resnulli.us>
-Cc: Or Har-Toov <ohartoov@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Andrew
- Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
- Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Mark
- Bloch <mbloch@nvidia.com>, Shuah Khan <shuah@kernel.org>,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-kselftest@vger.kernel.org, Gal Pressman <gal@nvidia.com>, Dragos
- Tatulea <dtatulea@nvidia.com>, Shay Drory <shayd@nvidia.com>, Jiri Pirko
- <jiri@nvidia.com>, Moshe Shemesh <moshe@nvidia.com>
-Subject: Re: [PATCH net-next V3 00/10] devlink: add per-port resource
- support
-Message-ID: <20260312071916.6b759c3f@kernel.org>
-In-Reply-To: <go5wr5qa7wxe7i4kkcbmecomshpkesr26alq4qmlbpjr72hxgt@mpwq6eufylpn>
-References: <jssifysprwuafkinc3dguspngxmplrngqxvotp76vhvu4e5lp6@e7mdrjqc5rme>
-	<20260304101522.09da1f58@kernel.org>
-	<np44uzfn6jea56uht4yq4te5clapgj7pk6ygyvkl22wxumwnvt@nrpvzjqzxenq>
-	<20260305063729.7e40775d@kernel.org>
-	<ni23r4jiwgc6zjjsubtl4ujjgxzwpxrylumofdwxgozfnieynm@zirlbneaz6p2>
-	<20260306120301.0ebe1ab2@kernel.org>
-	<74dcd7c5-8a2b-49a7-a23c-174d17a61955@nvidia.com>
-	<20260309133341.7e08b35d@kernel.org>
-	<5de5103e-e2e4-4b72-9c3c-22847728fbb8@nvidia.com>
-	<20260311145126.7dcca532@kernel.org>
-	<go5wr5qa7wxe7i4kkcbmecomshpkesr26alq4qmlbpjr72hxgt@mpwq6eufylpn>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="LnziUvDd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D798AC19424;
+	Thu, 12 Mar 2026 14:29:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1773325783;
+	bh=oMIqgCJzs9AJ/+NzIpcq+znWVE/l8J8nvxcf6Rgmw7c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LnziUvDd8qvmry+Oq36ybmzWHXQXtfHUOo5IuiUP1U+MneRrcJgSK9XJ1yjkGF5wc
+	 LN/3VK3BqKvPrrWMbPMZsRwEjxLhFIwBdV60oBOwQ/ov+DIN8GS2SlnxXLhg5cL5Z7
+	 hPKSY4WhN7XOhOZEgeJNj3mQ8U5qHYSZsMUWxLEY=
+Date: Thu, 12 Mar 2026 15:29:39 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Adam Saponara <as@php.net>
+Cc: Jiri Slaby <jirislaby@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-serial@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] vt: Add boot param for setting default vt console
+Message-ID: <2026031235-catcher-amazingly-cfed@gregkh>
+References: <20260301214804.283484-1-as@php.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260301214804.283484-1-as@php.net>
 
-On Thu, 12 Mar 2026 09:34:52 +0100 Jiri Pirko wrote:
-> >> devlink resource show scope dev
-> >> pci/0000:03:00.0:
-> >> <resource>
-> >> pci/0000:03:00.1:
-> >> <resource>  
-> >
-> >LGTM  
+On Sun, Mar 01, 2026 at 04:48:04PM -0500, Adam Saponara wrote:
+> Presently the default console is hard-coded to vt1.
 > 
-> I don't see the benefit of exposing the scope to the user to be honest.
-> I mean, dump would show all, dump with "dev" handle would be used as a
-> selector to dump only things related to "dev". What is the use case of
-> this "scope" granularity?
-
-If we follow the logic that dump should show the user relevant
-resources, no matter which sub-object they are attached to -
-having a dev specified should only filter the objects to match
-the dev, including resources which are on ports of that dev.
-
-IDK if there's a strong use case for allowing the user to set
-scope on CLI but also - I don't see why not?
-
-> >> For the do-it command:
-> >> devlink resource show pci/0000:03:00.0
-> >> pci/0000:03:00.0:
-> >> <resource>
-> >> pci/0000:03:00.0/196608:
-> >> <port-resource>
-> >> pci/0000:03:00.0/196609:
-> >> <port-resource>
-> >> 
-> >> devlink resource show pci/0000:03:00.0 scope port
-> >> pci/0000:03:00.0/196608:
-> >> <port-resource>
-> >> pci/0000:03:00.0/196609:
-> >> <port-resource>
-> >> 
-> >> devlink resource show pci/0000:03:00.0  scope dev
-> >> pci/0000:03:00.0:
-> >> <resource>  
-> >
-> >Do we have to touch doit? Maybe we should let doit be what it is now
-> >and consider it legacy going forward? doit which is in fact a filtered
-> >dump is a bit of a mistake in the first place, from Netlink's
-> >perspective.  
+> The param allows for setting a different default. The param defaults to 0
+> (vt1), preserving the current behavior. It is clamped by the constants
+> `(MIN|MAX)_NR_CONSOLES`. If set `>= MIN`, `con_init` will initialize that
+> vt as well (a couple extra kilobytes heap for the `vc_data` and
+> `vc_screenbuf` structs).
 > 
-> I don't think we should. If user wants doit, he is going to specify the
-> object (dev/port). If user is interested only in things related to
-> single device, he should do dump with selector (dev).
+> Without this feature, users achieve the same effect with an init
+> script[0][1][2][3]. This works but requires an extra `chvt(1)` which can
+> race with user interaction and flicker the screen at login.
 
-Could you confirm that you're agreeing that we should leave doit as is?
-I'm not 100% sure after reading this twice :)
+What user interaction races?  I'm loath to change this as I've not seen
+any bug reports for this.  What changed to cause this issue?
+
+And this is for the "odd" systems that want a graphical login, BUT still
+want to default to the console?  That's a very odd configuration, and I
+think that we should just stick with the fix that we have for those that
+want to do this as adding more boot parameters that we need to support
+for forever feels like a bad idea.
+
+sorry,
+
+greg k-h
