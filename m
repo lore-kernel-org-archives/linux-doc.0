@@ -1,263 +1,193 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 507093F0ABC
-	for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 21:45:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 529E134A797
+	for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 21:58:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.45
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773351903; cv=pass; b=gx/bzsBQeqwE6Y5lQ1RubCxZ/ITUNVvzwN7f5lojs5LkF0k/P5Rq5YBQXSFVFBLR+PWgSPyteQNLlUQWz8VRee2csIsTQ2VeQiU5DCl8Cr4dmFg2E4P33uv2wmtwNcAkCb3dAuO2FpafJk09Ay4+coMtUUvoDE2ug7CYlnzFGqw=
+	t=1773352721; cv=pass; b=sYG0/SuDPAhnOfUbMRZXFzt6be0cMQm+iaaixAoVy0NSmyp54nSTOHw1sIn8/kauedCzoMmV6uj7TUqVjLfGIR/FFPa6sVDQIDuw9nAusXJ8Y38s60DKQ+8ul5EBj4YFJ2oohx1lgtF3sD/t5rkK0K10yoicHZGU1qOHmiQoQ6I=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773351903; c=relaxed/simple;
-	bh=VudM6nzCZVkA9277WVscwWUtl1xQAIgu3m2h8apEcxk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BNqBsw/ugUEQNKWlsi4RTVaDbU4Z9MGuyVnLXkV5IQFKAywCXWp7vtpqx29tOsW9OdIUaeVdT96MKVW9R8UuPlgvJnHrZE0PV/k0Lbq0I7R/bsNbl7mHvfGKYSjUPuL/fVLFWpWS3inw7zSY30AQZMMsLBlOAGzLqBYxoMDBy9c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=arista.com; spf=pass smtp.mailfrom=arista.com; dkim=pass (2048-bit key) header.d=arista.com header.i=@arista.com header.b=P1U8+WnR; arc=pass smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=arista.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arista.com
+	s=arc-20240116; t=1773352721; c=relaxed/simple;
+	bh=/UXbidtDU54/5v7kkzH9PAfgESqYtiigH9Z7woqu25w=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=uMgjrDyE/snce2V/4Zq1REuROxqib/HubLYsE1BZiACvNMfF3z86k2ncFX+h8Q6B6QZ54LMrFjTGU02t79Blg3rFemat9K6SbCclVq9McyfR0VLANNvLezMvGUTVXrRylw9YcjoZrBz3yquRbbgZ40Jrr4uwRrQgQygCwqlUMP8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kLjFKNkc; arc=pass smtp.client-ip=209.85.160.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arista.com header.i=@arista.com header.b="P1U8+WnR"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5a0faa0d15cso1564987e87.0
-        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 14:45:00 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773351898; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kLjFKNkc"
+Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-415b23dd6e5so584594fac.3
+        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 14:58:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773352719; cv=none;
         d=google.com; s=arc-20240605;
-        b=P5PelTxgJs/56K0jltuYh9M4yGSD8VgnsiVcWCIqpD/KF75lGcbnohWNEzFYhKsIXU
-         53X/x7tJV0rPn3ynr+Ue13nlpmzD5qJSin6e4vOS18APdI21D+41ok5Qvu0GB3B/0gp7
-         holDLe0qCACU3IaVN6CwqhWREZPFYmYa3aTBt/ph61pasBsYPpmmOZWvz3KJj8RI9gU3
-         m3Mx+brO50asT3RPkSZk4G1RwSHcTrpot3h72tCfv3WEGrAYu8vCZ1+hBX2Y4M1l7aYn
-         jLZ82/DaxJEkEtBmjOIOXReDWECROOsqzuLhjeR04sKHDNZFWHi9RLr8DCM1sOB+cJ9R
-         IJPQ==
+        b=EBgycbZtwsRYdbofppxKo3E5yS9f7Dh601U+z2hs2uhoIdu7Ageout+jB46FYRrirf
+         klDol8AAb3YX+SDp7vHlaZcc7qinkmDrAVmZoNNULi9cTVWBr2f/0hnwO6ObL4zLddgd
+         H/N+h3wlfk8hn9FiGysZgnM4z6bYOjepNGIlYr/2htVjXLpSr4Ah0mqqzu/UN18N0sa9
+         YcGZzYAA+z2qgZDylCf8X6fx4B6dw48uks4lt7TPvK7C0mJUJ5/Hl4Gb7N6foPekAHup
+         YHkpU1QgbXnc/+jy9mOvjGkxvZCF5R4BjprHOQaJ24Za5RtFKlGNWeaKYEv/KG6NgIZ8
+         V2fA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=HfH7lKknQyQNOSVHyMK46+bKOSN4FbobYHp2cMfhjyE=;
-        fh=gGhY3utEDvIgdKiD79h52qlwB5EuAJVBOBtGUcheHGw=;
-        b=bD0YwfJ2Y9E5Q5CamtbEmN1CWI3Z0mbN3L11ZMI3b/ua1Csf+WXDT9d+DY2+TzqOFy
-         eQbp/QBR6N4fXvhivLJ06y6clf0oWax/x9/q41D6HZbKW+s1sb8N4K2McsITUd+PSwyB
-         jw8LAxllkS75QG4GIyjfX1uK6hprGmu/tCjboVd2DrUIt2t7hlYkBM4i81F+PuYEc/Oa
-         VPksGpuQYMSVIEY2Th5TmAgjH1OfsGbv5QPPbjNXOaKDWNZNoM5jQACkMYo95Yg9M8gB
-         p9IjxuWqZ3T2Xef67B8jBOCASA4lz1HTAM9zOsB7UHd3NKZ6i9VARXojgaocrLzyVVYW
-         wVcA==;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=FqP84TGmgvyTgfJsFq+pkxpoA3lD0KYlwSD57EbzY8Y=;
+        fh=iGqUu97id0w39o+bldzEb2UBqfqFcocfn7aegnWhaPE=;
+        b=G9L9VA/waVM4Cy2eNdsdqAoGMt72lqpHdTOWNhJjAmG7cDLiVuj+iH3HJwvyR0HyhH
+         gxy11jrF274NJvwwNVk+8VnbMp65dCd2nPx1/LBvVu4TRWQXRbLEnjcuyK2qB30zUsJN
+         oB4E0qIsXLHWDBakB7j3VUHVpjQx00S7eexB7CMQ8Ayz6W+KI9k8HsCjeSEi4nlKROPh
+         Y8+PhMFbSXdnlFM9yu8S5J4SZGB5AnKqoyk8j+DzSGMK4kVNz887QHtvi3AbGO8L6Kpr
+         xPiuBVJ/Dh6ZBPHXvLrD7k4q1dEE1GE11/akp0r/gw5krzqSJNyoYPF+8g7fjF7hAH4V
+         lZDA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=arista.com; s=google; t=1773351898; x=1773956698; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HfH7lKknQyQNOSVHyMK46+bKOSN4FbobYHp2cMfhjyE=;
-        b=P1U8+WnR1Lxln/UwJwc8ebgTjoABiPgnTSelTRWOxp1XWROJwkYsd/Rt1spe3UkyvU
-         aXXwCzrLM8uNc3VNLHKn8RC0MhQBW8+9aQnQplWSsYG9S5cs4H+6pmoYj0FFB2zlkm82
-         I6klhGgtdfGe+BD1ssrolYw0vvNsJVF183w+mExZ+N6oJ9WYbpvpkAkj8QgoaYTdke7W
-         VnVPd++/gk5rhpvgHTjo3oFsozsN2SjQ9kGTSJSYk+hERnR3hdGMXDVyOBq8DjFeew81
-         56Qfhf4fW2bz7KKGB1i/OUKLxpcczJRq1bNYM3AONlHtQvtSnTCVjj6LnKyexXbkfmpC
-         JvVQ==
+        d=gmail.com; s=20230601; t=1773352719; x=1773957519; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=FqP84TGmgvyTgfJsFq+pkxpoA3lD0KYlwSD57EbzY8Y=;
+        b=kLjFKNkcyHGrvKdNmhragVkqK2yhm1eU42X6gW9Nz3314svj5NHvsFVk1cy/XuohWV
+         xmQa35/lj6RpdhqU58ZMBpYtFGfXLiAJwD1y2mPzW2I3MVamXbpqhlHaoNUoHwnQGXx/
+         vCIPATibO5MVW6GFZAHAFJQzF19Fj3Zb9M8fou1exuDTHHw6mVZyqEiLrKewtca2AWdp
+         eQ5XUU7eJGdoKsnfeBh9OjJS2pGu1aDWsTRkFtW1srGEWx8AhSZRSbPo6I0274UAkzdo
+         gTz/OZfXv/XZRMQTENtOr792Om7yPZuFi8xmOP67RgmiUi8PctAM5f+9YTQxaOIMEuqK
+         OJbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773351898; x=1773956698;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=HfH7lKknQyQNOSVHyMK46+bKOSN4FbobYHp2cMfhjyE=;
-        b=Ii18Ey9oYYT7QIvbYJK64iyKNYFG9/w/6HgkC0njX6d6Ygnh7rbT7bwP5s8mft/mLc
-         VV/aAuLf7lKoIVLrQ1Nm6R3M5NiMK0Cfep8vZ5TjCdGOONcRqvrjLuOgFlzIIhhZPyNA
-         dZQEAlzxQqv7zjMvVB4BQqmAQZstgBGm/xNo4yc1Oy5R1I4zBF4d095IYTAARR9Pbdny
-         ogtuyOEKAn1dnl9h7IONrEsl0PYNV0i/1vb0WVav0CI83oIeVYrpfB2dCm81Wa7g//53
-         ygzuY4n7iapZljRdKiBTu2OE8u8FpQwM1rt4oLjVqzLeI64TM65Emn6Wfft7bpoomUFf
-         Ni1g==
-X-Forwarded-Encrypted: i=1; AJvYcCXD6lpxMmkBaqEamaPcp2S5NOfhWguo/vFq+69d6sT5b/ZE02ZdIPt6T/oSzXzWbB6a0XJ59DxiCGY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzfbNXejLBzqnq1ZeLX2GnqkdlvqwCoeGGGnDH1TMb/Uz9fkgqy
-	xQQ3qImiH9c56Vtd+vklUESD8LMN69PS2U/JZ34gD1mk30Ij7ln9JilMJQgRCoUA/2Fch4wS+W3
-	uHnCFcZihMu4gEQNWLIDDtWCQuE8yzbAP5OIrgU60
-X-Gm-Gg: ATEYQzyB273qD1WoFXgzc0HLzs2p5dPIASOfl2mimj0Hxp6ax+6+bNOcIllNYymhpGr
-	bhtcKJ6aOWEMd3Nnefe61NqhfjZppWfwy2mINBLXP84djMvJAeJgrfL+g623qQA1VGHfNwBpR+u
-	ElSv5lE17W9Ri2YYNZXbSIkDbTF6Y9AA+hbkt4bcuquE8QqFyca0ptOegrm7eXSbV735Vh2UXsZ
-	N/097aFN5/rxiCSAMswnGiwnk34/aVe2SlC6m1lXJHUh2BBUKrJ8tfzrsi+t7OcU/scxQeLMcgY
-	MT12JQ==
-X-Received: by 2002:a05:6512:254d:b0:5a1:45a2:2177 with SMTP id
- 2adb3069b0e04-5a162b2af9emr230055e87.44.1773351898274; Thu, 12 Mar 2026
- 14:44:58 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1773352719; x=1773957519;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FqP84TGmgvyTgfJsFq+pkxpoA3lD0KYlwSD57EbzY8Y=;
+        b=kHHC9niDllFilrNpWv+jE9embgncX4+z5qHKibiveiyssMrbA0KSQCRffoafx9sjPa
+         2GphCxjVS1YbY70wKO7GmgAUyfUwKyZAQbNB747D0PzxTNwquh+XSIIa4qWNtLDo3tAB
+         x/2SKVh+ApIm09Dncb5uemP9uMU0GijNu/otswObM5o+z8HWGFconf8RvaNDJCYrsbOU
+         f73sv39icUlXGDVgEBR0pP/nMwUTlZl2qYBUCES4rsD3QkQviOIr7jalNofSd/KuekQW
+         NbfOqjNGCpQRRGn2yf3naDbDKqU1IWm0Bt8DiFY0M/4R8rw+JFHA7itHH+M4cLxujxV7
+         qPoQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUmsWM/Nqja6X7236qvXNWZw7glRDEyOIIksa3DQDp8mSx21rAWyN3eGSxXWGR79ul0nqtMsmo9vkU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwRHT8y4g/EnfV0zdHv8abJOHyPD/HtOflEpFsnnKpxzmzBydw8
+	SBmf2TlnMDXUSjwTIB3LOumoEghYvQAMlEQbVZrsX81EWwzcYE25HbJMWY7SeAbRazHjG/zoyxE
+	2bcK0uczYbnLXrUGfinhi7RQU/akGvR0=
+X-Gm-Gg: ATEYQzzw5aHb6uT/6VQCdr/Fg+kycvk9WeVXnyIpw5aQEa1Dmn5OXGkTl1vy0ueAN9/
+	efIRZNoU+PL4xft9BH/raXDCprQKYa6AI7pGKYsdy+Fywq/M6W03nncG+wL7O3AsRiiy/gersxR
+	pIocxvTHekkql6/27qfi/64Hi7fIPtGsycg6Q3McSlWdIwgi2T125E2L+KG8wXfllufGluS19Lm
+	zz64C6x2ygho062DqgX7tBOna5xntrM34C+Rfc38l2HcP9qHn2x98JFoNTHso0vD8HV6Olw0MCn
+	/6lavQJLXQByWhHnC87YX1CQ7TiFgFSkdepAHxL8s7TYv4Ls8Evk6Vu4UfqEDUpmSCaUjg==
+X-Received: by 2002:a05:6871:582b:b0:417:5cf7:48f6 with SMTP id
+ 586e51a60fabf-417b9059c22mr617649fac.3.1773352719154; Thu, 12 Mar 2026
+ 14:58:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260311194058.13860-1-panchamukhi@arista.com> <09e1535f-59fe-41eb-91ed-2aeb97957bfc@suse.de>
-In-Reply-To: <09e1535f-59fe-41eb-91ed-2aeb97957bfc@suse.de>
-From: Prasanna Panchamukhi <panchamukhi@arista.com>
-Date: Thu, 12 Mar 2026 14:44:46 -0700
-X-Gm-Features: AaiRm51hQ3Exo0jf6qTinlBXpNuOgadUGx__Nada8LeERG7UHXRQpfwz9Fpg_no
-Message-ID: <CACqWiXCufBst=oga885BjD2Dr3FSaEK-WcJCSC8kjL48BBABvQ@mail.gmail.com>
-Subject: Re: [PATCH net-next] netfilter: conntrack: expose gc_scan_interval_max
- via sysctl
-To: Fernando Fernandez Mancera <fmancera@suse.de>
-Cc: netfilter-devel@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Pablo Neira Ayuso <pablo@netfilter.org>, 
-	Florian Westphal <fw@strlen.de>, Phil Sutter <phil@nwl.cc>, netdev@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	coreteam@netfilter.org
+From: John S <xaum.io@gmail.com>
+Date: Thu, 12 Mar 2026 22:58:26 +0100
+X-Gm-Features: AaiRm53jG2HdeSoWg3E3eUPDX7LBFweqaGa9oOaMogvds1ztn67HqyTh2Ab3FCg
+Message-ID: <CAAZVx999y-DvB7Dp2ekoHk6s8aqqScd2gKSY4ySGAK6NNXeH5g@mail.gmail.com>
+Subject: [PATCH] virtio: document the map API in the driver writing guide
+To: mst@redhat.com, jasowang@redhat.com
+Cc: xuanzhuo@linux.alibaba.com, eperezma@redhat.com, corbet@lwn.net, 
+	skhan@linuxfoundation.org, virtualization@lists.linux.dev, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Fernando,
+Add a new "Buffer mapping" section to the virtio driver writing guide
+documenting the virtio map API (struct virtio_map_ops). This API was
+introduced in commit bee8c7c24b73 ("virtio: introduce map ops in virtio
+core") to allow transports and devices that do not perform DMA (such
+as VDUSE) to provide their own buffer mapping logic instead of abusing
+the DMA API.
 
-Thank you for the quick review.
+The new section explains when and why custom map ops are used, documents
+the virtio_map_ops structure and the union virtio_map token, and
+references the driver-facing mapping helpers with their kernel-doc.
 
-On Thu, Mar 12, 2026 at 5:15=E2=80=AFAM Fernando Fernandez Mancera
-<fmancera@suse.de> wrote:
->
-> On 3/11/26 8:40 PM, Prasanna S Panchamukhi wrote:
-> > The conntrack garbage collection worker uses an adaptive algorithm that
-> > adjusts the scan interval based on the average timeout of tracked
-> > entries.  The upper bound of this interval is hardcoded as
-> > GC_SCAN_INTERVAL_MAX (60 seconds).
-> >
-> > Expose the upper bound as a new sysctl,
-> > net.netfilter.nf_conntrack_gc_scan_interval_max, so it can be tuned at
-> > runtime without rebuilding the kernel.  The default remains 60 seconds
-> > to preserve existing behavior.  The sysctl is global and read-only in
-> > non-init network namespaces, consistent with nf_conntrack_max and
-> > nf_conntrack_buckets.
-> >
-> > In environments where long-lived offloaded flows dominate the table,
-> > the adaptive average drifts toward the maximum, delaying cleanup
-> > of short-lived expired entries such as those in TCP CLOSE state
-> > (10s timeout). Adding sysctl to set the maximum GC scan helps to
-> > tune according to the evironment.
-> >
-> > Signed-off-by: Prasanna S Panchamukhi <panchamukhi@arista.com>
-> [...]
-> > ---
-> >   Documentation/networking/nf_conntrack-sysctl.rst | 11 +++++++++++
-> >   include/net/netfilter/nf_conntrack.h             |  1 +
-> >   net/netfilter/nf_conntrack_core.c                |  9 ++++++---
-> >   net/netfilter/nf_conntrack_standalone.c          | 10 ++++++++++
-> >   4 files changed, 28 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/Documentation/networking/nf_conntrack-sysctl.rst b/Documen=
-tation/networking/nf_conntrack-sysctl.rst
-> > index 35f889259fcd..c848eef9bc4f 100644
-> > --- a/Documentation/networking/nf_conntrack-sysctl.rst
-> > +++ b/Documentation/networking/nf_conntrack-sysctl.rst
-> > @@ -64,6 +64,17 @@ nf_conntrack_frag6_timeout - INTEGER (seconds)
-> >
-> >       Time to keep an IPv6 fragment in memory.
-> >
-> > +nf_conntrack_gc_scan_interval_max - INTEGER (seconds)
-> > +     default 60
-> > +
-> > +     Maximum interval between garbage collection scans of the connecti=
-on
-> > +     tracking table. The GC worker uses an adaptive algorithm that adj=
-usts
-> > +     the scan interval based on average entry timeouts; this parameter=
- caps
-> > +     the upper bound. Lower values cause expired entries (e.g. connect=
-ions
-> > +     in CLOSE state) to be cleaned up faster, at the cost of slightly =
-more
-> > +     CPU usage. Minimum value is 1.
-> > +     This sysctl is only writeable in the initial net namespace.
-> > +
->
-> I think it would be a good idea to add under which situations it is good
-> to tweak this setting.
+Signed-off-by: Kit Dallege <xaum.io@gmail.com>
+---
+ .../virtio/writing_virtio_drivers.rst         | 72 +++++++++++++++++++
+ 1 file changed, 72 insertions(+)
+
+diff --git a/Documentation/driver-api/virtio/writing_virtio_drivers.rst
+b/Documentation/driver-api/virtio/writing_virtio_drivers.rst
+index e5de6f5d061a..a3fcbf91ffe0 100644
+--- a/Documentation/driver-api/virtio/writing_virtio_drivers.rst
++++ b/Documentation/driver-api/virtio/writing_virtio_drivers.rst
+@@ -187,6 +187,78 @@ certain scenarios. The way to disable callbacks
+reliably is to reset the
+ device or the virtqueue (virtio_reset_device()).
 
 
-Done.
++Buffer mapping
++==============
++
++Virtio devices need to map buffers so they can be accessed by the device.
++Historically, virtio relied exclusively on the kernel DMA API for this,
++which works well for hardware devices that perform real DMA. However, some
++virtio backends (such as VDUSE, a user-space vDPA device) do not perform
++DMA at all and previously had to abuse the DMA API with custom
++``dma_ops`` to make things work.
++
++The virtio map API, introduced via ``struct virtio_map_ops``, solves
++this by allowing transports and devices to provide their own mapping
++logic. When a device supplies custom map ops, those are used instead of
++the DMA API. When no custom ops are provided, the standard DMA API path
++is used as before, so existing drivers require no changes.
++
++Map operations
++--------------
++
++A transport or device that needs custom mapping implements
++``struct virtio_map_ops`` and assigns it to the ``map`` field of
++``struct virtio_device``. The ``vmap`` field carries opaque mapping
++metadata (a ``union virtio_map``) that is passed through to every map
++operation:
++
++.. kernel-doc:: include/linux/virtio_config.h
++    :identifiers: struct virtio_map_ops
++
++The ``union virtio_map`` holds the mapping token -- for DMA-capable
++devices this is a ``struct device *`` pointer, while for devices like
++VDUSE it can be a pointer to their own mapping context (e.g. an IOVA
++domain):
++
++.. kernel-doc:: include/linux/virtio.h
++    :identifiers: union virtio_map
++
++Driver-facing helpers
++---------------------
++
++Most virtio drivers do not need to call the map API directly -- the
++virtqueue helpers (``virtqueue_add_inbuf()``, ``virtqueue_add_outbuf()``,
++etc.) handle mapping internally. However, drivers that perform their own
++pre-mapping or need coherent allocations can use the following helpers:
++
++.. kernel-doc:: drivers/virtio/virtio_ring.c
++    :identifiers: virtqueue_map_single_attrs
++
++.. kernel-doc:: drivers/virtio/virtio_ring.c
++    :identifiers: virtqueue_unmap_single_attrs
++
++.. kernel-doc:: drivers/virtio/virtio_ring.c
++    :identifiers: virtqueue_map_page_attrs
++
++.. kernel-doc:: drivers/virtio/virtio_ring.c
++    :identifiers: virtqueue_unmap_page_attrs
++
++.. kernel-doc:: drivers/virtio/virtio_ring.c
++    :identifiers: virtqueue_map_alloc_coherent
++
++.. kernel-doc:: drivers/virtio/virtio_ring.c
++    :identifiers: virtqueue_map_free_coherent
++
++.. kernel-doc:: drivers/virtio/virtio_ring.c
++    :identifiers: virtqueue_map_mapping_error
++
++.. kernel-doc:: drivers/virtio/virtio_ring.c
++    :identifiers: virtqueue_map_need_sync
++
++After mapping a buffer, always check the returned address with
++``virtqueue_map_mapping_error()`` before using it.
++
++
+ References
+ ==========
 
->
->
-> >   nf_conntrack_generic_timeout - INTEGER (seconds)
-> >       default 600
-> >
-> > diff --git a/include/net/netfilter/nf_conntrack.h b/include/net/netfilt=
-er/nf_conntrack.h
-> > index bc42dd0e10e6..0449577f322e 100644
-> > --- a/include/net/netfilter/nf_conntrack.h
-> > +++ b/include/net/netfilter/nf_conntrack.h
-> > @@ -331,6 +331,7 @@ extern struct hlist_nulls_head *nf_conntrack_hash;
-> >   extern unsigned int nf_conntrack_htable_size;
-> >   extern seqcount_spinlock_t nf_conntrack_generation;
-> >   extern unsigned int nf_conntrack_max;
-> > +extern unsigned int nf_conntrack_gc_scan_interval_max;
-> >
->
-> Could it be just int? so there is no need to cast it to s32 later?
-
-
-
-Regarding the data type, I encountered the following compilation error
-when trying to address the signedness:
-
-"../../net/netfilter/nf_conntrack_core.c: In function 'gc_worker':
-../../include/linux/compiler_types.h:548:45: error: call to
-'__compiletime_assert_1027' declared with attribute error:
-clamp(next_run, (1ul * 250), gc_scan_max) signedness error"
-
-
->
-> >   /* must be called with rcu read lock held */
-> >   static inline void
-> > diff --git a/net/netfilter/nf_conntrack_core.c b/net/netfilter/nf_connt=
-rack_core.c
-> > index 27ce5fda8993..54949246f329 100644
-> > --- a/net/netfilter/nf_conntrack_core.c
-> > +++ b/net/netfilter/nf_conntrack_core.c
-> > @@ -91,7 +91,7 @@ static DEFINE_MUTEX(nf_conntrack_mutex);
-> >    * allowing non-idle machines to wakeup more often when needed.
-> >    */
-> >   #define GC_SCAN_INITIAL_COUNT       100
-> > -#define GC_SCAN_INTERVAL_INIT        GC_SCAN_INTERVAL_MAX
-> > +#define GC_SCAN_INTERVAL_INIT        nf_conntrack_gc_scan_interval_max
-> >
-> >   #define GC_SCAN_MAX_DURATION        msecs_to_jiffies(10)
-> >   #define GC_SCAN_EXPIRED_MAX (64000u / HZ)
-> > @@ -204,6 +204,9 @@ EXPORT_SYMBOL_GPL(nf_conntrack_htable_size);
-> >
-> >   unsigned int nf_conntrack_max __read_mostly;
-> >   EXPORT_SYMBOL_GPL(nf_conntrack_max);
-> > +
-> > +unsigned int nf_conntrack_gc_scan_interval_max __read_mostly =3D GC_SC=
-AN_INTERVAL_MAX;
-> > +
-> >   seqcount_spinlock_t nf_conntrack_generation __read_mostly;
-> >   static siphash_aligned_key_t nf_conntrack_hash_rnd;
-> >
-> > @@ -1568,7 +1571,7 @@ static void gc_worker(struct work_struct *work)
-> >                               delta_time =3D nfct_time_stamp - gc_work-=
->start_time;
-> >
-> >                               /* re-sched immediately if total cycle ti=
-me is exceeded */
-> > -                             next_run =3D delta_time < (s32)GC_SCAN_IN=
-TERVAL_MAX;
-> > +                             next_run =3D delta_time < (s32)nf_conntra=
-ck_gc_scan_interval_max;
-> >                               goto early_exit;
-> >                       }
-> >
->
-> READ_ONCE() is required IMHO as it can be modified from sysctl concurrent=
-ly.
-Done.
->
-> > @@ -1630,7 +1633,7 @@ static void gc_worker(struct work_struct *work)
-> >
-> >       gc_work->next_bucket =3D 0;
-> >
-> > -     next_run =3D clamp(next_run, GC_SCAN_INTERVAL_MIN, GC_SCAN_INTERV=
-AL_MAX);
-> > +     next_run =3D clamp(next_run, GC_SCAN_INTERVAL_MIN, nf_conntrack_g=
-c_scan_interval_max);
-> >
->
-> Likewise here, READ_ONCE() recommended..
-
-Done. I have also added a local variable gc_scan_max to avoid multiple
-load instructions since it is referenced twice in the code.
-
->
-> Thanks,
-> Fernando.
+--
+2.53.0
