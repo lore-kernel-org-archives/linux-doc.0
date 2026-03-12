@@ -1,115 +1,164 @@
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8C823F8808
-	for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 16:27:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB380302165;
+	Thu, 12 Mar 2026 16:42:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773332857; cv=none; b=DEeWQumNajX9f6nY2c1zHafNRrtYYFFYZaTy7zPfFhx46QrMmmiCQhz2Qkj+KXRvGLzMiyMoH8U8MS7ce/gCNFWpL4bIggvK/8U91QDuveVvfk5M1Zz1MOdTZKey53da5RG1TIVLnKtnWNPonctf2HtXh2IKiCE6ykgiczwjXDQ=
+	t=1773333721; cv=none; b=bwSgRaE5qitckVxpwwryaNAqPHy38bcdyoVACUxQcqe1M5dVGpAiZCXDQdyVoPUdGZ4tXTMDsPUm8x7QanqekqUuTmU2Lhv5o1wPnqRWIa3ApeL7YWUHYSp/6Vvl8NVni/SNtmZGnCjaB6XTC3/krCERY4wDcB3Bd7ufITcT044=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773332857; c=relaxed/simple;
-	bh=WeQpqP/v10mjvRkvyYzZra3V13Co+TToHr/5ahM3+PY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Je77BFvWr9r6Hu3M8tkaakoiJL9/vC0EUtVSO+xPOmZ+dcOwHSo0R1PfmTlsx8p/XKPIL6sHs0e+5us4DuUOPPj1NjYxn6trDA+dqKlnWVxxJXN9JoSiDpxKd1ggxxZKO/3XjVDiUm1pW4cog7SVLqR1+LqFEquURBJ+SstfhC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gKarVSqJ; arc=none smtp.client-ip=209.85.210.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773333721; c=relaxed/simple;
+	bh=VFVApfv21FiWkANMhfUKrWN7JISt2PdOs46M5JzpQvo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UV//bg3CaBFDY9vEe+bLXhzHo4Q7WW6Gg3apKudqWjwufUWsnl+JZBXv6nZ5zaBHM4yeLEe7MQQrzWi4qBesQ73BLH9hW2/ODgyZOSKfb3BE/V/HreJ3DKZ8kmGzY2DroqoxGTLMrvumtR+S1SKQ6ThmW/yocX/ttIMzbrud2Qw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XoOXAdZS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gKarVSqJ"
-Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-7d77b179b52so758995a34.2
-        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 09:27:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773332850; x=1773937650; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kiqYOLmfZfFjTgPDhXLBnWofyj+zIF22cbc29XYNUiY=;
-        b=gKarVSqJkvfTCfYntfz4uST/2a7YroBLxxK7YxJoiWVRr2eU3YU7BoEoLl91u4Yrsm
-         WfiIB5/gA/s82IVoaLhb36glMSeqHldklUEAx8IyAWGZ6noUzZGMNlnGmkC+Odf7l48Y
-         mgEzxg+DVFsyX9KOoRc28yqoicF8l08sYvqs03th8LSD4PIslGDASyQOwevhjkTW7pR0
-         RwcXVSvSXIjcuMBdmkdaTg/zFMWPNhSWcKGFE2QjHArQ+NpS8BU52mXEG4qDw3eXHSAf
-         blKc7cejTIpaQ4KrHK7p4gDe3PeRuSNEzDSFjB/179FAEswrNNfJ4M81Vmi5yLpKu2js
-         P5fA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773332850; x=1773937650;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kiqYOLmfZfFjTgPDhXLBnWofyj+zIF22cbc29XYNUiY=;
-        b=Ta0lIPHLMu+tKRiOvF8BDZ3ez7dxgsJ/r6PaqbOpHPJsAcDFeX/0ZCm1V/caRFYEEY
-         B2Y5ikm5x+Tm+7aWGZYOiJacHaD1FKPTBw9AebuNe6i5kp7ZOKm1ci/sOEpp3cMTz9tE
-         dh/YYCybQ7hJHikWwHmVWTnZKRtGQrBwIxnY+oNtgkfhjf39mMQfKBgnuWZwNAa0IUi5
-         qG2Fbb/s2tJ9iLBwbkvum4oPo3wlqBewrp0tEZhs+/GHzk4v7p8ro5VKfQkGbi+7kxeD
-         bSgKrDkLToE2qvb3O1MNBNE9NoTrkI0wml5h35PdBVSQlkia69vr3CBgW4/PMfVcW2KG
-         vBGw==
-X-Forwarded-Encrypted: i=1; AJvYcCWBA07VfiA7rnsX6VDMctN7iiJDLjQZjgRFuBv7c5yL9GoYbXfgvm0Fda+UTPNG1cTIjUht7lzDAZ8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxeedPS9UxMmRq0biFD+pniChz3RcQAIbUvhfYfs4+kFftDFV10
-	DXbPUw6wlDupr/D4DOZzhYRyMoVfA/L9AU5TNp50DyE6UHoDiriT4hYk
-X-Gm-Gg: ATEYQzz79B/gtUlbrDoixHDkGlXBrZoeHLiykSYxhvTi4SGQEp9OvG2Y0Z6s+nOjzGA
-	FbvM2/Ljdlj3vXFyeBw1/3HKZj1x7okYnVtWUeXTspLH81oynYRSaIEa/nQUn2NgR3M+yVSCNkK
-	uxLgZlIG+iFrO+QjN9H+ZgvdsdLWhdS4SApLJvRe/zvvGna0EytZTXSGX4AVR1ieCJrxIwf41tU
-	A8Z/20fMlLcFrmY1boHBKGS26Kw1+MrbVfXvXNa2/2o8ssTU1IR1lU44kzy2HRN7dPl+DKs9azr
-	qEz3PehyI6vm2d0SO07WUWkoHv0RGPRR3utlt16jCq4wh32vi1BjsuG5m2LpETZukd1a/oq+qhZ
-	FI7XkSVMrAIdEWp4Fs+voP+YaElB6O0uBuhyLBemFaVUTbbwCNEzZyWTwITqZOOzAA+5G/hA68g
-	+ToyLxZOjXT6nZSsRWR3QGeOruJOfIz6rnxg0JJCHFOsaPcE+cB5AoaKlSkz8c8/WeE6srrX6/M
-	UO8wjD4zfBg
-X-Received: by 2002:a05:6830:34a5:b0:7d7:44f2:cf6 with SMTP id 46e09a7af769-7d76a6cd2famr4669737a34.22.1773332849541;
-        Thu, 12 Mar 2026 09:27:29 -0700 (PDT)
-Received: from ShravyaPC.. (r74-192-25-180.bcstcmta01.clsttx.tl.dh.suddenlink.net. [74.192.25.180])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7d77c961e79sm1107766a34.7.2026.03.12.09.27.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Mar 2026 09:27:29 -0700 (PDT)
-From: ShravyaPanchagiri <shravy112@gmail.com>
-To: netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: sgoutham@marvell.com,
-	lcherian@marvell.com,
-	gakula@marvell.com,
-	hkelam@marvell.com,
-	sbhatta@marvell.com,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	ShravyaPanchagiri <shravy112@gmail.com>
-Subject: [PATCH v3] docs: octeontx2:Fix typo in documentation
-Date: Thu, 12 Mar 2026 11:27:15 -0500
-Message-ID: <20260312162715.35408-1-shravy112@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XoOXAdZS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41B58C4CEF7;
+	Thu, 12 Mar 2026 16:41:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773333721;
+	bh=VFVApfv21FiWkANMhfUKrWN7JISt2PdOs46M5JzpQvo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XoOXAdZSmhlP84Iviilz7IKwq6poxwZf0EUcJiPS1688CKBqqOwvo236tL7BNj7iO
+	 +3uZVBbyAFhG6hhiI6EK0OY/zPC+vgoh1ZkcoonEvdgKabUNwXByLErRc/iWo1v0+P
+	 eNA6b/PHhZl3Oz6m0Kh/gl0v9dJFE4IjHdTWWNaQGEWJjTEobohz0FhoBYgFIpZ+SX
+	 Ko/3xopA3zeHgYPsHc6pc5mkebM2XCrH51XD/sof+uLteF67EPyMGrZzQUbXlHwmhY
+	 OGuovWM8MXjiV/BaGMebOeKS8qkEQyAvMcAkwPjLVFtBdUjaXraJiCfF86uGGiNYD7
+	 KaNwg96OcXwLg==
+Date: Thu, 12 Mar 2026 16:41:54 +0000
+From: Simon Horman <horms@kernel.org>
+To: Antony Antony <antony@phenome.org>
+Cc: antony.antony@secunet.com, evitayan@google.com,
+	linux-kernel@vger.kernel.org, kuba@kernel.org, pabeni@redhat.com,
+	herbert@gondor.apana.org.au, paul@paul-moore.com,
+	devel@linux-ipsec.org, davem@davemloft.net, nakam@linux-ipv6.org,
+	netdev@vger.kernel.org, edumazet@google.com,
+	stephen.smalley.work@gmail.com, steffen.klassert@secunet.com,
+	selinux@vger.kernel.org, linux-doc@vger.kernel.org,
+	chiachangwang@google.com, omosnace@redhat.com, corbet@lwn.net,
+	dsahern@kernel.org, skhan@linuxfoundation.org
+Subject: Re: [devel-ipsec] Re: [ipsec-next,v6,12/14] xfrm: add
+ XFRM_MSG_MIGRATE_STATE for single SA migration
+Message-ID: <20260312164154.GW461701@kernel.org>
+References: <migrate-state-v6-12-9df9764ddb9e@secunet.com>
+ <20260311195731.1147919-1-horms@kernel.org>
+ <abHT2HLx-BvKnu-c@Antony2201.local>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <abHT2HLx-BvKnu-c@Antony2201.local>
 
-Correct a spelling mistake.
----
-v3:
-- Moved spelling fix details from the subject line to the changelog.
-- Simplified the commit message.
-v2:
-- Fixed the subject prefix formatting (added space after "docs:").
-- Moved the long description into the commit body.
- .../networking/device_drivers/ethernet/marvell/octeontx2.rst    | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, Mar 11, 2026 at 09:43:04PM +0100, Antony Antony wrote:
+> Hi Simon,
+> 
+> On Wed, Mar 11, 2026 at 07:57:31PM +0000, Simon Horman via Devel wrote:
+> > This is an AI-generated review of your patch. The human sending this
+> > email has considered the AI review valid, or at least plausible.
+> > 
+> > For local reproduction steps see https://netdev-ai.bots.linux.dev/ai-local.html
+> > ---
+> > xfrm: add XFRM_MSG_MIGRATE_STATE for single SA migration
+> > 
+> > This patch adds a new netlink method to migrate a single xfrm_state.
+> > Unlike the existing migration mechanism (SA + policy), this supports
+> > migrating only the SA and allows changing the reqid.
+> > 
+> > > diff --git a/include/net/xfrm.h b/include/net/xfrm.h
+> > > index 4b29ab92c2a7..ae2a1cf2311a 100644
+> > > --- a/include/net/xfrm.h
+> > > +++ b/include/net/xfrm.h
+> > > @@ -683,11 +683,17 @@ struct xfrm_migrate {
+> > >  	xfrm_address_t		new_daddr;
+> > >  	xfrm_address_t		new_saddr;
+> > >  	struct xfrm_encap_tmpl *encap;
+> > > -	struct xfrm_user_offload *xuo;
+> > > +	struct xfrm_user_offload xuo;
+> > 
+> > [ ... ]
+> > 
+> > > diff --git a/net/xfrm/xfrm_policy.c b/net/xfrm/xfrm_policy.c
+> > > index 2f23ca5b62a9..de8b038fc08c 100644
+> > > --- a/net/xfrm/xfrm_policy.c
+> > > +++ b/net/xfrm/xfrm_policy.c
+> > > @@ -4642,6 +4642,19 @@ static int xfrm_migrate_check(const struct xfrm_migrate *m, int num_migrate,
+> > >  	return 0;
+> > >  }
+> > >
+> > > +/* Fill migrate fields that are invariant in XFRM_MSG_MIGRATE: inherited
+> > > + * from the existing SA unchanged.
+> > > + */
+> > > +static void xfrm_migrate_copy_old(struct xfrm_migrate *mp,
+> > > +				  const struct xfrm_state *x)
+> > > +{
+> > > +	mp->smark                  = x->props.smark;
+> > > +	mp->new_reqid              = x->props.reqid;
+> > > +	mp->nat_keepalive_interval = x->nat_keepalive_interval;
+> > > +	mp->mapping_maxage         = x->mapping_maxage;
+> > > +	mp->new_mark               = x->mark;
+> > > +}
+> > > +
+> > >  int xfrm_migrate(const struct xfrm_selector *sel, u8 dir, u8 type,
+> > >  		 struct xfrm_migrate *m, int num_migrate,
+> > >  		 struct xfrm_kmaddress *k, struct net *net,
+> > > @@ -4680,7 +4693,10 @@ int xfrm_migrate(const struct xfrm_selector *sel, u8 dir, u8 type,
+> > >  			x_cur[nx_cur] = x;
+> > >  			nx_cur++;
+> > >  			mp->encap = encap;
+> > > -			mp->xuo = xuo;
+> > > +			if (xuo)
+> > > +				mp->xuo = *xuo;
+> >                                      ^^^^
+> > >  			xfrm_migrate_copy_old(mp, x);
+> > >
+> > 
+> > What happens to mp->xuo when xuo is NULL?
+> 
+> thanks. I also red this on NIPA AI reviews. I will fix it in the next 
+> version.
 
-diff --git a/Documentation/networking/device_drivers/ethernet/marvell/octeontx2.rst b/Documentation/networking/device_drivers/ethernet/marvell/octeontx2.rst
-index a52850602cd8..c31c6c197cdb 100644
---- a/Documentation/networking/device_drivers/ethernet/marvell/octeontx2.rst
-+++ b/Documentation/networking/device_drivers/ethernet/marvell/octeontx2.rst
-@@ -323,7 +323,7 @@ Setup HTB offload
- 
-         # ethtool -K <interface> hw-tc-offload on
- 
--2. Crate htb root::
-+2. Create htb root::
- 
-         # tc qdisc add dev <interface> clsact
-         # tc qdisc replace dev <interface> root handle 1: htb offload
--- 
-2.43.0
+Thanks, good to know.
 
+> 
+> > 
+> > The xfrm_migrate structure changed its xuo field from a pointer
+> > (struct xfrm_user_offload *xuo) to an embedded value
+> > (struct xfrm_user_offload xuo).
+> > 
+> > In xfrm_migrate(), when the xuo parameter is NULL (PF_KEY path via
+> > pfkey_migrate, or XFRM_MSG_MIGRATE without XFRMA_OFFLOAD_DEV), the
+> > 'if (xuo) mp->xuo = *xuo' branch is skipped, leaving mp->xuo with
+> > uninitialized stack data.
+> > 
+> > Both callers declare 'struct xfrm_migrate m[XFRM_MAX_DEPTH]' on the
+> > stack without zeroing:
+> > 
+> > net/key/af_key.c:pfkey_migrate() {
+> >     struct xfrm_migrate m[XFRM_MAX_DEPTH];
+> >     ...
+> >     err = xfrm_migrate(&sel, dir, XFRM_POLICY_TYPE_MAIN, m, i,
+> >                        k.local && k.remote ? &k : NULL, net,
+> >                        NULL, 0, NULL);
+> > }
+> > 
+> > net/xfrm/xfrm_user.c:xfrm_do_migrate() {
+> >     struct xfrm_migrate m[XFRM_MAX_DEPTH];
+> 
+> -  struct xfrm_migrate m[XFRM_MAX_DEPTH];
+> +  struct xfrm_migrate m[XFRM_MAX_DEPTH] = {};
+> 
+> this should fix it.
+
+Yes, I agree that should fix the problem.
+
+> 
+> >     ...
+> >     err = xfrm_migrate(&sel, dir, type, m, n, k, net, encap, xuo, extack);
+> > }
+
+...
