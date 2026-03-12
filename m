@@ -1,38 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEA7B399368;
-	Thu, 12 Mar 2026 23:22:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AA9A3B8927;
+	Thu, 12 Mar 2026 23:22:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773357754; cv=none; b=d2EiKgooqLQrDr37pFIdTx6xfAfDYPonC5ewszKOXwa3kR1XHeYHiqpxsqie9mRxfy1nrP1Xqh1U77yFT6/4XFNX2Rco8yOYusx/Uk9ExSJrELb/u3EMNYyBK21qswz5OEo7dXkhQ/Jys14tU/DE8pT90icIUUlLdVcwCnC+WjA=
+	t=1773357754; cv=none; b=J6saS17XJFUYQ9XI9BVzv4YiiCNKinQO013cBwB7Gzgs0itWDMwi86QUIvE6gyAJ+boUXuw9hRygovkHZBWxDfFqRV0tZbBCZ520fIG+uXZYTfkH1dJCSbh2stl11U+cjJzf/4xoYVcPLosnG+s6PRpDXFqZ2KcMkBlj9BV0IZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1773357754; c=relaxed/simple;
-	bh=ZvdhkjPc20Ylp1M7TIY3QZ3BSppLWF2s98ZTCW2gE34=;
+	bh=weK6V1BYIxAVEyIKnRkGftZezgurppXwxIQ5/lZBM6U=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=hVdxjaBkk/vR5nC3NiUIxNsqkpX7ViLsWG1e4Xfr+69iuEycdjEOL2HVzYnyxyylu80d6DkjjtOXUIcOMKxiyjoXesOnGV7a5ieYc6aSwI8gWi0KcFqRc5ItXldZfyTkkC3zp+1TdMcDW90ZVu9gwNp54r/qeC9qS2PfG2HjZMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sHUNbtCZ; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=OnoOSM4U08rJUzoAT2Od0q/MeYTE4l1LvrHbuEiQRhMtCGQeEe6M+oa+JjWqh8ALYzDGLJFWqao0to2n4tCAcTpcEyRkQR82hHD6Y0PcNvwIRpXa/1uIa9lajhnN1tipwaOYbhIzV09kYG2G945ApnfV6Nu7hcmOOsSlShPr2Ys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lFq/PF0z; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sHUNbtCZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id AB441C2BC86;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lFq/PF0z"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id D91B9C2BCAF;
 	Thu, 12 Mar 2026 23:22:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1773357753;
-	bh=ZvdhkjPc20Ylp1M7TIY3QZ3BSppLWF2s98ZTCW2gE34=;
+	bh=weK6V1BYIxAVEyIKnRkGftZezgurppXwxIQ5/lZBM6U=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=sHUNbtCZ9/+RUnbBi8m1Kd4o05tOrLQvFeFZW/7FjQ8FAdd8ueHeoZYBX6puIC7sS
-	 ufkH+3EcKi3cFua8PSDqXvv68nDVBuCZBtQhsCJNlBQNtJQNCGrSKf7FCVwvLDcU4Y
-	 qwDBgqEhTWYEAv506l7f7abt5edExtzAIQQSdoXFAUErA0/Nnzrw82Hz6Yl6NkjChS
-	 SgK5wrEtDdP18ucTJZrAZTJO0KeSAtJlZGAsNPlvvd6k9/nvFR+DWDQ/x1X5TgCq8g
-	 Ud8kg0HM5dUgcvCFXHDl30BE5nXygl+e97ZCkc5rWiAeCAMTm9Y/SbA2BCAanadqx3
-	 fe8+qBmkP9PWg==
+	b=lFq/PF0zHyVUZNrhmNobMGv1au7sw0L4N4HuKf1RbO41yv4ptU3KXu3VEG2aaYzM1
+	 0Wv0oIXZyVK4cSuYlcKhHpchQJarGohsv9fkkjb5eMwHId4FMmy2rkSg9ID4ugsE6n
+	 d181v1/7SY3Rw1DkdrLR4tzO9b2Zg8IO1pPx46l5EBdO+qcJk5A18vavU5hbn6H0oZ
+	 4N9oj0zHwcnQo20t6opADsob7iOlt7wAjNrZ5lyrruVVSCUuIVapvxSZ5+Ag0QiUwW
+	 G40N2ukoqzIDzWCdbSb87z8Xy6WkJnh8mwPzP6ZKRe8AKC899d0lLeuNslr8ejCfWH
+	 jEjKwKn05nj4A==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93FA6106ACF9;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFE75106ACFC;
 	Thu, 12 Mar 2026 23:22:33 +0000 (UTC)
 From: Mayank Rungta via B4 Relay <devnull+mrungta.google.com@kernel.org>
-Date: Thu, 12 Mar 2026 16:22:02 -0700
-Subject: [PATCH v2 1/5] watchdog: Return early in
- watchdog_hardlockup_check()
+Date: Thu, 12 Mar 2026 16:22:06 -0700
+Subject: [PATCH v2 5/5] doc: watchdog: Document buddy detector
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,7 +40,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260312-hardlockup-watchdog-fixes-v2-1-45bd8a0cc7ed@google.com>
+Message-Id: <20260312-hardlockup-watchdog-fixes-v2-5-45bd8a0cc7ed@google.com>
 References: <20260312-hardlockup-watchdog-fixes-v2-0-45bd8a0cc7ed@google.com>
 In-Reply-To: <20260312-hardlockup-watchdog-fixes-v2-0-45bd8a0cc7ed@google.com>
 To: Petr Mladek <pmladek@suse.com>, Jinchao Wang <wangjinchao600@gmail.com>, 
@@ -55,11 +54,11 @@ To: Petr Mladek <pmladek@suse.com>, Jinchao Wang <wangjinchao600@gmail.com>,
 Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
  Mayank Rungta <mrungta@google.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1773357752; l=5437;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1773357752; l=9259;
  i=mrungta@google.com; s=20260212; h=from:subject:message-id;
- bh=/gmGbSYfq0uL3jFNpI3ejNjGlNROGDfe6h8BWDUCdcs=;
- b=HQzF2MlIsRSuZGZCoBBHHUHE0LnOCFLTKwDzHh7aXPJMLq192jyuitITA7uKVL+uLOB7DMUHR
- xkMy50bkDXSB0PzgpgywZ8SeScifNZ4R3sKJqyvZctb9P4s0AQEspxX
+ bh=bwkL0Xl6QKw4NxlixI2yZ7jUdew4kR4CuvDfQemly9g=;
+ b=c/GuPPZRvi3GB9QDz/HD7sY6yOSvVKiuSmTZ28Yk0sqRHK8ArHEaxCrlpGdx2drDzt0lxn1Rz
+ hmcdXnQa1IKDsXNVIp2VGQQkqsiUmOGh1sX7fhi1ntCKP3pLxdwfciX
 X-Developer-Key: i=mrungta@google.com; a=ed25519;
  pk=2Bjwbv/ibL10QnyvK9G7DoKpffXy7z6+M4NawEYgYDI=
 X-Endpoint-Received: by B4 Relay for mrungta@google.com/20260212 with
@@ -69,164 +68,206 @@ Reply-To: mrungta@google.com
 
 From: Mayank Rungta <mrungta@google.com>
 
-Invert the `is_hardlockup(cpu)` check in `watchdog_hardlockup_check()`
-to return early when a hardlockup is not detected. This flattens the
-main logic block, reducing the indentation level and making the code
-easier to read and maintain.
+The current documentation generalizes the hardlockup detector as primarily
+NMI-perf-based and lacks details on the SMP "Buddy" detector.
 
-This refactoring serves as a preparation patch for future hardlockup
-changes.
+Update the documentation to add a detailed description of the Buddy
+detector, and also restructure the "Implementation" section to explicitly
+separate "Softlockup Detector", "Hardlockup Detector (NMI/Perf)", and
+"Hardlockup Detector (Buddy)".
 
+Clarify that the softlockup hrtimer acts as the heartbeat generator for
+both hardlockup mechanisms and centralize the configuration details in a
+"Frequency and Heartbeats" section.
+
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 Signed-off-by: Mayank Rungta <mrungta@google.com>
 ---
- kernel/watchdog.c | 117 +++++++++++++++++++++++++++---------------------------
- 1 file changed, 59 insertions(+), 58 deletions(-)
+ Documentation/admin-guide/lockup-watchdogs.rst | 149 +++++++++++++++++--------
+ 1 file changed, 101 insertions(+), 48 deletions(-)
 
-diff --git a/kernel/watchdog.c b/kernel/watchdog.c
-index 7d675781bc91..4c5b47495745 100644
---- a/kernel/watchdog.c
-+++ b/kernel/watchdog.c
-@@ -187,6 +187,8 @@ static void watchdog_hardlockup_kick(void)
- void watchdog_hardlockup_check(unsigned int cpu, struct pt_regs *regs)
- {
- 	int hardlockup_all_cpu_backtrace;
-+	unsigned int this_cpu;
-+	unsigned long flags;
+diff --git a/Documentation/admin-guide/lockup-watchdogs.rst b/Documentation/admin-guide/lockup-watchdogs.rst
+index 1b374053771f..7ae7ce3abd2c 100644
+--- a/Documentation/admin-guide/lockup-watchdogs.rst
++++ b/Documentation/admin-guide/lockup-watchdogs.rst
+@@ -30,22 +30,23 @@ timeout is set through the confusingly named "kernel.panic" sysctl),
+ to cause the system to reboot automatically after a specified amount
+ of time.
  
- 	if (per_cpu(watchdog_hardlockup_touched, cpu)) {
- 		per_cpu(watchdog_hardlockup_touched, cpu) = false;
-@@ -201,74 +203,73 @@ void watchdog_hardlockup_check(unsigned int cpu, struct pt_regs *regs)
- 	 * fired multiple times before we overflow'd. If it hasn't
- 	 * then this is a good indication the cpu is stuck
- 	 */
--	if (is_hardlockup(cpu)) {
--		unsigned int this_cpu = smp_processor_id();
--		unsigned long flags;
-+	if (!is_hardlockup(cpu)) {
-+		per_cpu(watchdog_hardlockup_warned, cpu) = false;
-+		return;
-+	}
++Configuration
++=============
++
++A kernel knob is provided that allows administrators to configure
++this period. The "watchdog_thresh" parameter (default 10 seconds)
++controls the threshold. The right value for a particular environment
++is a trade-off between fast response to lockups and detection overhead.
++
+ Implementation
+ ==============
  
- #ifdef CONFIG_SYSFS
--		++hardlockup_count;
-+	++hardlockup_count;
- #endif
--		/*
--		 * A poorly behaving BPF scheduler can trigger hard lockup by
--		 * e.g. putting numerous affinitized tasks in a single queue and
--		 * directing all CPUs at it. The following call can return true
--		 * only once when sched_ext is enabled and will immediately
--		 * abort the BPF scheduler and print out a warning message.
--		 */
--		if (scx_hardlockup(cpu))
--			return;
-+	/*
-+	 * A poorly behaving BPF scheduler can trigger hard lockup by
-+	 * e.g. putting numerous affinitized tasks in a single queue and
-+	 * directing all CPUs at it. The following call can return true
-+	 * only once when sched_ext is enabled and will immediately
-+	 * abort the BPF scheduler and print out a warning message.
-+	 */
-+	if (scx_hardlockup(cpu))
-+		return;
+-The soft and hard lockup detectors are built on top of the hrtimer and
+-perf subsystems, respectively. A direct consequence of this is that,
+-in principle, they should work in any architecture where these
+-subsystems are present.
++The soft lockup detector is built on top of the hrtimer subsystem.
++The hard lockup detector is built on top of the perf subsystem
++(on architectures that support it) or uses an SMP "buddy" system.
  
--		/* Only print hardlockups once. */
--		if (per_cpu(watchdog_hardlockup_warned, cpu))
--			return;
-+	/* Only print hardlockups once. */
-+	if (per_cpu(watchdog_hardlockup_warned, cpu))
-+		return;
+-A periodic hrtimer runs to generate interrupts and kick the watchdog
+-job. An NMI perf event is generated every "watchdog_thresh"
+-(compile-time initialized to 10 and configurable through sysctl of the
+-same name) seconds to check for hardlockups. If any CPU in the system
+-does not receive any hrtimer interrupt during that time the
+-'hardlockup detector' (the handler for the NMI perf event) will
+-generate a kernel warning or call panic, depending on the
+-configuration.
++Softlockup Detector
++-------------------
  
--		/*
--		 * Prevent multiple hard-lockup reports if one cpu is already
--		 * engaged in dumping all cpu back traces.
--		 */
--		if (hardlockup_all_cpu_backtrace) {
--			if (test_and_set_bit_lock(0, &hard_lockup_nmi_warn))
--				return;
--		}
-+	/*
-+	 * Prevent multiple hard-lockup reports if one cpu is already
-+	 * engaged in dumping all cpu back traces.
-+	 */
-+	if (hardlockup_all_cpu_backtrace) {
-+		if (test_and_set_bit_lock(0, &hard_lockup_nmi_warn))
-+			return;
-+	}
+ The watchdog job runs in a stop scheduling thread that updates a
+ timestamp every time it is scheduled. If that timestamp is not updated
+@@ -55,53 +56,105 @@ will dump useful debug information to the system log, after which it
+ will call panic if it was instructed to do so or resume execution of
+ other kernel code.
  
--		/*
--		 * NOTE: we call printk_cpu_sync_get_irqsave() after printing
--		 * the lockup message. While it would be nice to serialize
--		 * that printout, we really want to make sure that if some
--		 * other CPU somehow locked up while holding the lock associated
--		 * with printk_cpu_sync_get_irqsave() that we can still at least
--		 * get the message about the lockup out.
--		 */
--		pr_emerg("CPU%u: Watchdog detected hard LOCKUP on cpu %u\n", this_cpu, cpu);
--		printk_cpu_sync_get_irqsave(flags);
-+	/*
-+	 * NOTE: we call printk_cpu_sync_get_irqsave() after printing
-+	 * the lockup message. While it would be nice to serialize
-+	 * that printout, we really want to make sure that if some
-+	 * other CPU somehow locked up while holding the lock associated
-+	 * with printk_cpu_sync_get_irqsave() that we can still at least
-+	 * get the message about the lockup out.
-+	 */
-+	this_cpu = smp_processor_id();
-+	pr_emerg("CPU%u: Watchdog detected hard LOCKUP on cpu %u\n", this_cpu, cpu);
-+	printk_cpu_sync_get_irqsave(flags);
+-The period of the hrtimer is 2*watchdog_thresh/5, which means it has
+-two or three chances to generate an interrupt before the hardlockup
+-detector kicks in.
++Frequency and Heartbeats
++------------------------
++
++The hrtimer used by the softlockup detector serves a dual purpose:
++it detects softlockups, and it also generates the interrupts
++(heartbeats) that the hardlockup detectors use to verify CPU liveness.
++
++The period of this hrtimer is 2*watchdog_thresh/5. This means the
++hrtimer has two or three chances to generate an interrupt before the
++NMI hardlockup detector kicks in.
++
++Hardlockup Detector (NMI/Perf)
++------------------------------
++
++On architectures that support NMI (Non-Maskable Interrupt) perf events,
++a periodic NMI is generated every "watchdog_thresh" seconds.
++
++If any CPU in the system does not receive any hrtimer interrupt
++(heartbeat) during the "watchdog_thresh" window, the 'hardlockup
++detector' (the handler for the NMI perf event) will generate a kernel
++warning or call panic.
++
++**Detection Overhead (NMI):**
++
++The time to detect a lockup can vary depending on when the lockup
++occurs relative to the NMI check window. Examples below assume a watchdog_thresh of 10.
++
++* **Best Case:** The lockup occurs just before the first heartbeat is
++  due. The detector will notice the missing hrtimer interrupt almost
++  immediately during the next check.
++
++  ::
++
++    Time 100.0: cpu 1 heartbeat
++    Time 100.1: hardlockup_check, cpu1 stores its state
++    Time 103.9: Hard Lockup on cpu1
++    Time 104.0: cpu 1 heartbeat never comes
++    Time 110.1: hardlockup_check, cpu1 checks the state again, should be the same, declares lockup
++
++    Time to detection: ~6 seconds
++
++* **Worst Case:** The lockup occurs shortly after a valid interrupt
++  (heartbeat) which itself happened just after the NMI check. The next
++  NMI check sees that the interrupt count has changed (due to that one
++  heartbeat), assumes the CPU is healthy, and resets the baseline. The
++  lockup is only detected at the subsequent check.
++
++  ::
++
++    Time 100.0: hardlockup_check, cpu1 stores its state
++    Time 100.1: cpu 1 heartbeat
++    Time 100.2: Hard Lockup on cpu1
++    Time 110.0: hardlockup_check, cpu1 stores its state (misses lockup as state changed)
++    Time 120.0: hardlockup_check, cpu1 checks the state again, should be the same, declares lockup
  
--		print_modules();
--		print_irqtrace_events(current);
--		if (cpu == this_cpu) {
--			if (regs)
--				show_regs(regs);
--			else
--				dump_stack();
--			printk_cpu_sync_put_irqrestore(flags);
--		} else {
--			printk_cpu_sync_put_irqrestore(flags);
--			trigger_single_cpu_backtrace(cpu);
--		}
-+	print_modules();
-+	print_irqtrace_events(current);
-+	if (cpu == this_cpu) {
-+		if (regs)
-+			show_regs(regs);
-+		else
-+			dump_stack();
-+		printk_cpu_sync_put_irqrestore(flags);
-+	} else {
-+		printk_cpu_sync_put_irqrestore(flags);
-+		trigger_single_cpu_backtrace(cpu);
-+	}
+-As explained above, a kernel knob is provided that allows
+-administrators to configure the period of the hrtimer and the perf
+-event. The right value for a particular environment is a trade-off
+-between fast response to lockups and detection overhead.
++    Time to detection: ~20 seconds
  
--		if (hardlockup_all_cpu_backtrace) {
--			trigger_allbutcpu_cpu_backtrace(cpu);
--			if (!hardlockup_panic)
--				clear_bit_unlock(0, &hard_lockup_nmi_warn);
--		}
-+	if (hardlockup_all_cpu_backtrace) {
-+		trigger_allbutcpu_cpu_backtrace(cpu);
-+		if (!hardlockup_panic)
-+			clear_bit_unlock(0, &hard_lockup_nmi_warn);
-+	}
+-Detection Overhead
+-------------------
++Hardlockup Detector (Buddy)
++---------------------------
  
--		sys_info(hardlockup_si_mask & ~SYS_INFO_ALL_BT);
--		if (hardlockup_panic)
--			nmi_panic(regs, "Hard LOCKUP");
-+	sys_info(hardlockup_si_mask & ~SYS_INFO_ALL_BT);
-+	if (hardlockup_panic)
-+		nmi_panic(regs, "Hard LOCKUP");
+-The hardlockup detector checks for lockups using a periodic NMI perf
+-event. This means the time to detect a lockup can vary depending on
+-when the lockup occurs relative to the NMI check window.
++On architectures or configurations where NMI perf events are not
++available (or disabled), the kernel may use the "buddy" hardlockup
++detector. This mechanism requires SMP (Symmetric Multi-Processing).
  
--		per_cpu(watchdog_hardlockup_warned, cpu) = true;
--	} else {
--		per_cpu(watchdog_hardlockup_warned, cpu) = false;
--	}
-+	per_cpu(watchdog_hardlockup_warned, cpu) = true;
- }
+-**Best Case:**
+-In the best case scenario, the lockup occurs just before the first
+-heartbeat is due. The detector will notice the missing hrtimer
+-interrupt almost immediately during the next check.
++In this mode, each CPU is assigned a "buddy" CPU to monitor. The
++monitoring CPU runs its own hrtimer (the same one used for softlockup
++detection) and checks if the buddy CPU's hrtimer interrupt count has
++increased.
  
- #else /* CONFIG_HARDLOCKUP_DETECTOR_COUNTS_HRTIMER */
+-::
++To ensure timeliness and avoid false positives, the buddy system performs
++checks at every hrtimer interval (2*watchdog_thresh/5, which is 4 seconds
++by default). It uses a missed-interrupt threshold of 3. If the buddy's
++interrupt count has not changed for 3 consecutive checks, it is assumed
++that the buddy CPU is hardlocked (interrupts disabled). The monitoring
++CPU will then trigger the hardlockup response (warning or panic).
+ 
+-  Time 100.0: cpu 1 heartbeat
+-  Time 100.1: hardlockup_check, cpu1 stores its state
+-  Time 103.9: Hard Lockup on cpu1
+-  Time 104.0: cpu 1 heartbeat never comes
+-  Time 110.1: hardlockup_check, cpu1 checks the state again, should be the same, declares lockup
++**Detection Overhead (Buddy):**
+ 
+-  Time to detection: ~6 seconds
++With a default check interval of 4 seconds (watchdog_thresh = 10):
+ 
+-**Worst Case:**
+-In the worst case scenario, the lockup occurs shortly after a valid
+-interrupt (heartbeat) which itself happened just after the NMI check.
+-The next NMI check sees that the interrupt count has changed (due to
+-that one heartbeat), assumes the CPU is healthy, and resets the
+-baseline. The lockup is only detected at the subsequent check.
++* **Best case:** Lockup occurs just before a check.
++    Detected in ~8s (0s till 1st check + 4s till 2nd + 4s till 3rd).
++* **Worst case:** Lockup occurs just after a check.
++    Detected in ~12s (4s till 1st check + 4s till 2nd + 4s till 3rd).
+ 
+-::
++**Limitations of the Buddy Detector:**
+ 
+-  Time 100.0: hardlockup_check, cpu1 stores its state
+-  Time 100.1: cpu 1 heartbeat
+-  Time 100.2: Hard Lockup on cpu1
+-  Time 110.0: hardlockup_check, cpu1 stores its state (misses lockup as state changed)
+-  Time 120.0: hardlockup_check, cpu1 checks the state again, should be the same, declares lockup
++1.  **All-CPU Lockup:** If all CPUs lock up simultaneously, the buddy
++    detector cannot detect the condition because the monitoring CPUs
++    are also frozen.
++2.  **Stack Traces:** Unlike the NMI detector, the buddy detector
++    cannot directly interrupt the locked CPU to grab a stack trace.
++    It relies on architecture-specific mechanisms (like NMI backtrace
++    support) to try and retrieve the status of the locked CPU. If
++    such support is missing, the log may only show that a lockup
++    occurred without providing the locked CPU's stack.
+ 
+-  Time to detection: ~20 seconds
++Watchdog Core Exclusion
++=======================
+ 
+ By default, the watchdog runs on all online cores.  However, on a
+ kernel configured with NO_HZ_FULL, by default the watchdog runs only
 
 -- 
 2.53.0.851.ga537e3e6e9-goog
