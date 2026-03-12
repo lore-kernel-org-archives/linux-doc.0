@@ -1,157 +1,147 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F09B26ED25;
-	Thu, 12 Mar 2026 21:00:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E75B937700C
+	for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 21:02:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773349242; cv=none; b=jFlKYqPXecBOsTEYaXKbrJU4FQO/EGKTewF6S1iVw7BcSgTaujzy32pI2VBriGFSP/AdGNxrmSG+biUyRdaRKrIzfBOooPom+hnsoLgujKgvMivncBMUOsfGvuFDesiFh2dO3YqcD1iBfRwlinj5Os4KnK/6TCjHjqIOKUK2ip8=
+	t=1773349374; cv=none; b=lzQvooJXmAosuorQ5f6Xf2yZS/3sC35agl62ZOb5w5bMzipd8VSZDIQTglGQi1N+HtlWdZvo+IU5s4FxbeBeXoa5aJ5k/PZEtuL1yzeAAaI554Cbkoq7afwHMcu43fqiTL7Q4weB6ne6bYXhenEF19LMg09hdb9DJLkBFhztCfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773349242; c=relaxed/simple;
-	bh=t9qyAMUJYtt/iJt7vCWYgq7XtCHiecN6JSg3RByJFk4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SApHMdLdR6vU5yKQBNxrRR/md/1LK67bvCrLfqK0NxbTgZ8RNI+ODHMxlbcWkWu2Vt1jC3thmym6Ib1sorZSf1374b+lW3xZ/i+FwtYJIhtuk4wbe4Q2wqYfZMD3Q8xAoOEl1dcGu54FFefS7mS5B2hf4kzhBijf0G/jghsRuBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bw/JPR9u; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773349374; c=relaxed/simple;
+	bh=kOWDX98oHGYzMomiYhuSPXUXPxvsNhRqML+V1MRveAc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=o4i4Tqx/aWgiS7UY67uDfY6GKYXJmeJqQDfuYMfXWSITabYaaIn8hkkOR7GlIl5oO9q886hpGnQ5Ioh+iEwpEIkbbHALPjUUtQ3Rp4D8N4mYg0TVi0vuf84c/LpurmoifoRyZDXUbLGZOHVgsP44mULz/Ctj28e1gzTYTOXE+lg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=E4v/i9sh; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bw/JPR9u"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D5BEC4CEF7;
-	Thu, 12 Mar 2026 21:00:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773349241;
-	bh=t9qyAMUJYtt/iJt7vCWYgq7XtCHiecN6JSg3RByJFk4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=bw/JPR9uqN4l5Dxlb2N4tR3WTfviG/7xqecf/Jyr6pGYfeyUdqczyUH71g7LwG6Ib
-	 N4qV5KNb3VSbfVKOvCmvTaOAD0oGwPgmlJSDzrMeDJMuxCVoe9ALODHzXeNzDVs2IB
-	 04m3EHp7gP16jBblhaVF2TafrDDLGu+shiq+7YWx0s+uDbEsyuwb36zIBqOWihC+AH
-	 M5bNkg81zo2yrAJoP68uAaUfpSPye9ZUoaGcEKujr4hrEdSwkV4tBWuiBcVu/9VGUc
-	 tfvLISkyYzaPHxrFKc8nT3WEtxqO+2DqxvxkQwYImDkT8Z/7drl2BVajvs0swnk3Cf
-	 EgSTQoM/Sbp/g==
-Message-ID: <94290ad5-f63d-4fa7-a898-dcfe6cd9998b@kernel.org>
-Date: Thu, 12 Mar 2026 22:00:23 +0100
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="E4v/i9sh"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-b940a00415cso185320666b.1
+        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 14:02:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1773349369; x=1773954169; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8CZGih78gOo1vdXmTA78mOlvTQXwFMTivSF45rX9X7Q=;
+        b=E4v/i9shHg66NGR0QifD1K2IAPlilXWfYkNTUDwmsYwrYCWky0unnCzw2EmP0h/0lG
+         Iw15g3m8h7StQykcEh4N3HWfNPVnkMs1Zqk2bBzqR9mkxE2ti+PvsY2DyquQTWCkEVeo
+         Hrz4ss+NV+SOhvjpNZ96vwXfpn4B/HWHVEyeM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773349369; x=1773954169;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=8CZGih78gOo1vdXmTA78mOlvTQXwFMTivSF45rX9X7Q=;
+        b=wP5n2MY02591/DZ0+0TzThsqbgYHv2ZwVL+Vg+6dPLdPIVGyw5OYc2vKULeGweF+OU
+         PXKRlhJy4FTIG/n58AR9HfvbOZXlB9qUIbjkDOqbuFF2CdUhvw5H8ZN8ygHio/4uBf4s
+         h0/RjkvdGs/qO1OKkmnU1CVt1ZYNDFhtO4Z1NvQ34jJNK3n/dwPExkkn3yqPddRtC5xB
+         C9sBC9DQGbns2P7mfFllzAP0CVG0IE8WaQ4g6LqmYCHX+2U0nc+n+RQtNEsbj0oPbtvt
+         mcbHpPXdUX4kh0JZIkgfBuWNPVLfR/M0P0mtVh82Qm69AzDh1fCr541DVZLabPbhW+/F
+         2DYw==
+X-Forwarded-Encrypted: i=1; AJvYcCVHxrpDDCXxidNzjKPxtDGTPJU9X8IFatyQ6m/3n510qu864T9usgUZfQ21weOZlYYjfLIuqeykPrA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzdhr6ivx3I6ww1qnWb+Xk4HXNptBxcZGONI5qrcHcqs4LFtKvU
+	WkF3+KBahjQZ0Sdn0qYNFmTTaugb/7pyZJfi3IbUXnuwWmaaPyaFBsPVC9mXXGwFLdDDT02HUeX
+	RBPQ=
+X-Gm-Gg: ATEYQzzpTHVwjtxJVGchAY33fy8Rr+tCW7SHgvj8L2FVKPN8+6wVi//DSXb9pCrHkQf
+	5doU+DMfsqldsvgVpWZW2YsGTyDNJpJwtwJlTHegUOT7oUNYU1ntj/a7yxqj+o7UbTlUoKQbxel
+	jU2sHbvjMidZm+3RAhE7A8k5QWtbe8XLK4/zkw7ZGCUrOzdYtBtZUQ11duv20vfeKXrRmtHcyzl
+	OJi/9FNYKPhVaSWOD/RpNmcl/Zh2abFByDzqhB2Mf06cc2oLZ87VShm+OMswFDwTtDpx1RWas4q
+	RC8yNRk3ysUw0wfDU+YnluVlEMj+sH9FDP1f1W9byNQazubzcavwMElNZAHJ1UexW7I4gS8ttbO
+	S9knFyNKpmEqcCR1xWXj/omzFS7G3JqdgLX6OmYQIJNbxBHtl/ocYEeYDHiCtSQtPzs7dVTaxjo
+	dEZGuYRO+Y83qgpBDGanaZrj8xbhaqhiAgoaJ7ulnmo9OHx8FhYozoov1SIJGdFg==
+X-Received: by 2002:a17:906:f92:b0:b96:ed21:f46f with SMTP id a640c23a62f3a-b9765052cddmr38942066b.14.1773349369242;
+        Thu, 12 Mar 2026 14:02:49 -0700 (PDT)
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com. [209.85.218.46])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b972e184793sm162666266b.46.2026.03.12.14.02.46
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Mar 2026 14:02:47 -0700 (PDT)
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-b940a00415cso185310166b.1
+        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 14:02:46 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCX39NuT9G/gbqD/n5EsXnQq7yWE3bM2u7WXsIQ20aY7uLxHOPKg7PUGoa5Kd2GewoQ4lsAp2oR65Xo=@vger.kernel.org
+X-Received: by 2002:a17:906:4792:b0:b94:1224:c627 with SMTP id
+ a640c23a62f3a-b976508754fmr49681366b.27.1773349365996; Thu, 12 Mar 2026
+ 14:02:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH mm-unstable v15 06/13] mm/khugepaged: skip collapsing mTHP
- to smaller orders
-To: Nico Pache <npache@redhat.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-trace-kernel@vger.kernel.org
-Cc: aarcange@redhat.com, akpm@linux-foundation.org,
- anshuman.khandual@arm.com, apopple@nvidia.com, baohua@kernel.org,
- baolin.wang@linux.alibaba.com, byungchul@sk.com, catalin.marinas@arm.com,
- cl@gentwo.org, corbet@lwn.net, dave.hansen@linux.intel.com,
- dev.jain@arm.com, gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com,
- jack@suse.cz, jackmanb@google.com, jannh@google.com, jglisse@google.com,
- joshua.hahnjy@gmail.com, kas@kernel.org, lance.yang@linux.dev,
- Liam.Howlett@oracle.com, lorenzo.stoakes@oracle.com,
- mathieu.desnoyers@efficios.com, matthew.brost@intel.com,
- mhiramat@kernel.org, mhocko@suse.com, peterx@redhat.com, pfalcato@suse.de,
- rakie.kim@sk.com, raquini@redhat.com, rdunlap@infradead.org,
- richard.weiyang@gmail.com, rientjes@google.com, rostedt@goodmis.org,
- rppt@kernel.org, ryan.roberts@arm.com, shivankg@amd.com,
- sunnanyong@huawei.com, surenb@google.com, thomas.hellstrom@linux.intel.com,
- tiwai@suse.de, usamaarif642@gmail.com, vbabka@suse.cz,
- vishal.moola@gmail.com, wangkefeng.wang@huawei.com, will@kernel.org,
- willy@infradead.org, yang@os.amperecomputing.com,
- ying.huang@linux.alibaba.com, ziy@nvidia.com, zokeefe@google.com
-References: <20260226031741.230674-1-npache@redhat.com>
- <20260226032445.233437-1-npache@redhat.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260226032445.233437-1-npache@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260212-hardlockup-watchdog-fixes-v1-0-745f1dce04c3@google.com>
+ <20260212-hardlockup-watchdog-fixes-v1-3-745f1dce04c3@google.com>
+ <aamJUImqf4WfTu3d@pathway.suse.cz> <CAD=FV=U1sthV5amOahSe1Yc1tkg39JcUUcUDCCHrKtx8i0f-4g@mail.gmail.com>
+ <abF3BijtTWibBsoG@pathway.suse.cz>
+In-Reply-To: <abF3BijtTWibBsoG@pathway.suse.cz>
+From: Doug Anderson <dianders@chromium.org>
+Date: Thu, 12 Mar 2026 14:02:33 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XoUtpwFd5XR+4dKqbPH_vCNz0ydefaR8vQMQu4_w6HNA@mail.gmail.com>
+X-Gm-Features: AaiRm51x7fB76NcGzg2Hg2siNh9RmrPqHPWNjlJZN5f-4ghyNUpd-izue7TXihc
+Message-ID: <CAD=FV=XoUtpwFd5XR+4dKqbPH_vCNz0ydefaR8vQMQu4_w6HNA@mail.gmail.com>
+Subject: Re: [PATCH 3/4] watchdog/hardlockup: improve buddy system detection timeliness
+To: Petr Mladek <pmladek@suse.com>
+Cc: mrungta@google.com, Jonathan Corbet <corbet@lwn.net>, 
+	Jinchao Wang <wangjinchao600@gmail.com>, Yunhui Cui <cuiyunhui@bytedance.com>, 
+	Stephane Eranian <eranian@google.com>, Ian Rogers <irogers@google.com>, 
+	Li Huafei <lihuafei1@huawei.com>, Feng Tang <feng.tang@linux.alibaba.com>, 
+	Max Kellermann <max.kellermann@ionos.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2/26/26 04:24, Nico Pache wrote:
-> khugepaged may try to collapse a mTHP to a smaller mTHP, resulting in
-> some pages being unmapped. Skip these cases until we have a way to check
-> if its ok to collapse to a smaller mTHP size (like in the case of a
-> partially mapped folio).
-> 
-> This patch is inspired by Dev Jain's work on khugepaged mTHP support [1].
-> 
-> [1] https://lore.kernel.org/lkml/20241216165105.56185-11-dev.jain@arm.com/
-> 
-> Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
-> Co-developed-by: Dev Jain <dev.jain@arm.com>
-> Signed-off-by: Dev Jain <dev.jain@arm.com>
-> Signed-off-by: Nico Pache <npache@redhat.com>
-> ---
->  mm/khugepaged.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> index fb3ba8fe5a6c..c739f26dd61e 100644
-> --- a/mm/khugepaged.c
-> +++ b/mm/khugepaged.c
-> @@ -638,6 +638,14 @@ static enum scan_result __collapse_huge_page_isolate(struct vm_area_struct *vma,
->  				goto out;
->  			}
->  		}
-> +		/*
-> +		 * TODO: In some cases of partially-mapped folios, we'd actually
-> +		 * want to collapse.
-> +		 */
-> +		if (!is_pmd_order(order) && folio_order(folio) >= order) {
-> +			result = SCAN_PTE_MAPPED_HUGEPAGE;
-> +			goto out;
-> +		}
->  
->  		if (folio_test_large(folio)) {
->  			struct folio *f;
+Hi,
 
-Why aren't we doing the same in hpage_collapse_scan_pmd() ?
+On Wed, Mar 11, 2026 at 7:07=E2=80=AFAM Petr Mladek <pmladek@suse.com> wrot=
+e:
+>
+> On Thu 2026-03-05 08:45:35, Doug Anderson wrote:
+> > Hi,
+> >
+> > On Thu, Mar 5, 2026 at 5:47=E2=80=AFAM Petr Mladek <pmladek@suse.com> w=
+rote:
+> > >
+> > > > --- a/kernel/watchdog.c
+> > > > +++ b/kernel/watchdog.c
+> > > > @@ -163,8 +171,13 @@ static bool is_hardlockup(unsigned int cpu)
+> > > >  {
+> > > >       int hrint =3D atomic_read(&per_cpu(hrtimer_interrupts, cpu));
+> > > >
+> > > > -     if (per_cpu(hrtimer_interrupts_saved, cpu) =3D=3D hrint)
+> > > > -             return true;
+> > > > +     if (per_cpu(hrtimer_interrupts_saved, cpu) =3D=3D hrint) {
+> > > > +             per_cpu(hrtimer_interrupts_missed, cpu)++;
+> > > > +             if (per_cpu(hrtimer_interrupts_missed, cpu) >=3D watc=
+hdog_hardlockup_miss_thresh)
+> > >
+> > > This would return true for every check when missed >=3D 3.
+> > > As a result, the hardlockup would be reported every 4s.
+> > >
+> > > I would keep the 12s cadence and change this to:
+> > >
+> > >                 if (per_cpu(hrtimer_interrupts_missed, cpu) % watchdo=
+g_hardlockup_miss_thresh =3D=3D 0)
+> >
+> > I could be confused, but I don't think this is needed because we clear
+> > "hrtimer_interrupts_missed" to 0 any time we save the timer count.
+> > While I believe the "%" will functionally work, it seems harder to
+> > understand, at least to me.
+>
+> My understanding is that we save the number of interrupts
+> and reset missed counter only when:
+>
+>    + the number of interrupts is different (timer on the watched CPU fire=
+d)
+>    + the watchdog was touched (hiding delay)
+>
+> =3D> it is just incremented when the timer was not called
+>    (hardlockup scenario).
+>
+> In particular, it is _not_ reset when we report the hardlockup.
+>
+> Or do I miss anything.
 
--- 
-Cheers,
+Ah, I wasn't thinking about the "non-panic" case. You are correct, we
+need the "%" syntax in order to handle that case.
 
-David
+-Doug
