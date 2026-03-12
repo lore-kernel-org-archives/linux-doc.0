@@ -1,62 +1,64 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0E7539D6E9
-	for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 17:53:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 324543FE647
+	for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 17:54:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773338037; cv=none; b=LDV67kff+ndGAzG/Or5/9YXpQRkH8mT2PPAXvCu25eRVxx1UJWFmGehrCnMP+J83Ioa9HSEEA7tJ6xJgu7xMELzmwO705HjTw2Ps97afmIFPDJlHZz7yR+W5+BIv0KWJVPFk0ManuGUCqZHSVQGXGVNp7JIPik5JXuqsZG2jri0=
+	t=1773338046; cv=none; b=J7ITIhAbFGPQrOV+l4+2w9YNJK2+zLqGuv6xOC8ndIRFHHBT7J5FYYi1wlk7kl4LxNayy5mW6e1oWIl84QO0nnUa41c57xeWHnfbgAHJJ7z2CbO7ACRwo8uF0dwVVT4tXoZVEPqMnMnk7zW2H+xB8YNC4W/gPDpzX0eu4oWF6WA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773338037; c=relaxed/simple;
-	bh=tEF3yhkGk7GJZbXxScXpV6WB7vdFV4j4XiHTGehOpVU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ksUUrnhNZZZ/54TK7RbB1iWlLlBvAD7/upEd7pT0xxQ8p1ejxaxOJdZwcM2bSZ9NvDx+jtQHjG3PEv5VcoTjwN1H0yr9mhkeFx7J4P6iAHDbgPT+hXnG2u02agbLbF9CNa8iy1basgZCFfcCOF01i0wcva5m6UgZ/h0II01oMRg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b2HQ2Cea; arc=none smtp.client-ip=209.85.214.180
+	s=arc-20240116; t=1773338046; c=relaxed/simple;
+	bh=0mqHB9yCWgRA+Ai3Bj2tlZRNssxUZO57dPTv+g71rYU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=PNXWMRMdoScG/6nmvxdR1NmDMnYjoCQBEpJGDFl6kerVCWRh6JbE4LxZZdp8Uk6HALptHtagf2rjwV2Oo28COES5IHrmlzcXla0iv/f7TT21fD4i/7MH9YGoUN2dgGsote2M5np0OKJf3+O9Ztgq3ShDby8pxAmcOPdFXNqhBj0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QtAdK+Ae; arc=none smtp.client-ip=209.85.214.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b2HQ2Cea"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2ae4e538abdso15126365ad.3
-        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 10:53:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QtAdK+Ae"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2ae4988e039so16490055ad.1
+        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 10:54:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773338036; x=1773942836; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QVWLPpAzQtONe2+RDE4AE36BbHIiMrCDRmv92u2lcVM=;
-        b=b2HQ2Cea1O7SZhuLrNqbXYdKrGjzMzw3VJaV2TZCYg9VBaD6pcLuZMRJVnP3z+WcyK
-         FpCq3HYOMdvR5Q7+Y9q2mMzCOG/1e0ojE597ZP/uV6Zl9j4UVJ9CgSoKwSEWgQpzlcPb
-         3VZpem2ym/Wpu9j/aju5DeWb2R52xEzciGRuZl9IlkGTh0sLxTujXt5jvTKqxS78TTtL
-         qjyC9SCJ84IIWivaaFzO5t0SJCy2aprMDNv7zbUt3VNefxxbaKykM+6+y6FHjwkPGOV8
-         5bks8RRwSr7mn9azBn4MwCNjWrcBTUtj4ZclxFdDvgtUCWk3ZPnxS3Eg2B2ySuE4oNYh
-         lAvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773338036; x=1773942836;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1773338044; x=1773942844; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QVWLPpAzQtONe2+RDE4AE36BbHIiMrCDRmv92u2lcVM=;
-        b=agu02vDmocFUX+3JQAV+vA4zDugpGQa5aPor6SHeIFoR2Aupvwv38G3cUMYJnwvShn
-         SuN/6r/QVUy0hOgPY2nq+lGcgkbqGwJvvVdse14nUqu8v1EzyEmLrqPiY9ijbsl9U0lO
-         t9U5rIrJN05yXHCEd2fJGBeuD6k4gAjZ/mnjBKOoyZAv4FDW6aujJ66T+iGb21g99ne+
-         POc40on5f4T4ew8nYj2jeOuJNHBwdw3DED44zZ3AjpmRsmC70FDkWBTYbpOaitBhNzC3
-         gt++utuNr7z8bSf2Umv1v35pEUc0I8X9U9iIAQXRVxzoAo9EZw++cAEAz+uNBEDtELuv
-         a1OQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWoaDaOKb/pjnTfOJ0B1oG9aavKttCvKAvXHmcY21zPJhZ4teCupMl7ElfVA05rIbTT63GCN1N4n0c=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwT8uEDnSyNdy3ZnVsDrh1Qtq55rloFa44vUsmsSMxBpdk842bZ
-	FgvW0S8foSEx7XhDuTCrTF0YaZIxW8AihvYh1SP/lxA2fcYkrlOoq1in
-X-Gm-Gg: ATEYQzyzj+bGgCv57w9b0FAFK+oX0hvd4OtS5oAlVj5RJUlt/c/Atm094HHDfbaA5nh
-	/V8WcUCArBQazQxzjwItQVphHGdaalPQzA+HXHugUbFGwHT8UWd181FJJ9gyEu2UrjGV89cPxa9
-	l69sf9Oq1msNZUEzxdgD9dEEeVhTccTkAxcLm8L3w44wzbsKicFJJiIiCSQiZXLOBXA+1n3EQy6
-	HRf0xBJpAllOKtpsTp/4kywbgAgV7d7NVwSD7aAoVD1y7BPgjehJEVYjtrNTvYyqPXusIiKBh0N
-	VCrmeIHRxn27eojbOma5+pRj34PzadiAKPjmI+DIKqAet/2QU4v+GBstiZdF6AT6MUHxhWZfq+n
-	ZSdcGESur1JBDtp29p29RDnlNOhTI6spAJfyqhIBdWGLlXr7NOLmoDg3esQ9KbJw3/ZNDCaYz8+
-	t+CgM2xhamWkTle/R+q27wKIv/ThOBhRIy2+dKbQot6qWtqW79da/Och14Z3bFXr1JN5A3UcLmz
-	XQQn6wT8OBP18MZk7yum2xKGQFeGlnd8Wjd
-X-Received: by 2002:a17:902:d542:b0:2ae:55eb:f82d with SMTP id d9443c01a7336-2aeca92183fmr3959315ad.1.1773338036145;
-        Thu, 12 Mar 2026 10:53:56 -0700 (PDT)
+        bh=1AHYXlCzw3aqCugUumSoYXfA+lp584l7NZmh/mNebwA=;
+        b=QtAdK+AerAI634FbrngbY5Q9mmbUrgeoBov06sQTMuQvnN7iqd5y/swZKG6le+eVvU
+         /72rcraGffnlsPgKASkTH0czuQQhIj6jlIP8U5WlOrh4wGf07xxGxurrdtCkwU1YMO7h
+         2rvq9BbAUhEhSybd1rVi9XeSLXXBXNHgbs+eEhqU8ihWpG2qhmpQhFIpDIucvl9Ld6de
+         /50fzw8ezaoxeWk2BkOcd6GVRMHM5L/0XHuC6oBb0v2J4CQyjvbsm+a5EuwKjOoHLR6m
+         5bsFPhAjL+GEQO9Taxc/HhQYvilnQ4274GUnD8aYYbYHinwZ0dtM6GkJpEHPeP5OnMbN
+         /7BQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773338044; x=1773942844;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=1AHYXlCzw3aqCugUumSoYXfA+lp584l7NZmh/mNebwA=;
+        b=A9zrBD7FU6HojIAWauxjNYPI8YxtULZbH6P1x+wsgPYUBkQ6PwzEW7yvhwlOYr0tmy
+         oGxXh/E2JzPbmI+CnGmHiSwm2NXAOpbxmDMbOZMpAtT1B9TnR/hQLb7s7GCDoQCgE+O3
+         jrTTCPB7+Yb/XiYHw86djxjc04x3ZiHbt/RrgkUq21ojODmiLJPYe1ngfV5KrnHGLF/D
+         FQN4bfQzW8DIa1yk8eMzfQHI+DRHINkZZVp+91FMCbMF5YvdPavX2cOZik31FRPhy71/
+         0kd7JYyRlq8AkvYDyhaJmpfNrcqz7XDn3FHWtaO+tSYXoaUlI25OznR3X9nRZ2VRPfLq
+         Exhw==
+X-Forwarded-Encrypted: i=1; AJvYcCU+uXhHHMTyXpRlgNZgrT2Ee6PLIXG537/lriIA5u1GPs9Wgr1EqqnwGi3RxXN8ACvZe5N8l/QcHZE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxZt15daT+obUTR4LgX7V340t869a3ImPQVKyCNT77SD7wO9cXl
+	6x45fBMyzlBJ5mhtonSJXT3u4wOl/8JzXDeJSVK0uTXSILZgFc0Povqt
+X-Gm-Gg: ATEYQzxszmAsNp4HNxtjxNZVGyOQc7p5Fyh+PV/S6gDGeGulOvtawbJBOE+jiKHjrAu
+	e8lf7Q3f62dj+UEhy7DkU6CGcciNCuHhPGG7fnNU+vBlWdYt+rOjD1MGuyMApDft/nZTAwI+Njz
+	qtiWDarvoSOQpBPcIX8O5I+4yzdD17vbAtYSaJW8JiDJT+V3ydYoCXNNrzXn0cqT7xyqkzdpcFV
+	07wfyLHm9dMx98+wbP171lg3YussZcnem829xmugL6J2ovsxCVNaSVagmEVlSZFkXiTooGA0UBK
+	yZ79ED6DCKCyg44mJhPUo+4JHSqxduebxy0lyv1r73xzfcqs90fkDNJZMe5y0cd2VTPg4kdz6lJ
+	dnb7Q9d7punRNgRpD2aQSBGm6kaz4hPPLWyn2Ka3hUg9bAy1lE8fOr9Pk6+FZsexVRPKuKRyuXE
+	YT8zd8+MDrYqUU0JsOQBprUU35KMmOBAKPhJig038lvmZQJTh3oy6CJ+bXjYxQvxgbwLWI4800O
+	X/xYT+Gw7T6S+KxsdP39/qjpAoBTc5N03dS
+X-Received: by 2002:a17:903:2f8c:b0:2ae:42c1:6f49 with SMTP id d9443c01a7336-2aeba4eac08mr40989635ad.15.1773338044416;
+        Thu, 12 Mar 2026 10:54:04 -0700 (PDT)
 Received: from visitorckw-work01.c.googlers.com.com (7.162.199.104.bc.googleusercontent.com. [104.199.162.7])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2aeae378ca7sm60453345ad.91.2026.03.12.10.53.53
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2aeae378ca7sm60453345ad.91.2026.03.12.10.54.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Mar 2026 10:53:55 -0700 (PDT)
+        Thu, 12 Mar 2026 10:54:03 -0700 (PDT)
 From: Kuan-Wei Chiu <visitorckw@gmail.com>
 To: djakov@kernel.org,
 	corbet@lwn.net,
@@ -69,10 +71,12 @@ Cc: marscheng@google.com,
 	linux-pm@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Kuan-Wei Chiu <visitorckw@gmail.com>
-Subject: [PATCH 0/2] docs: interconnect: Improve API documentation coverage
-Date: Thu, 12 Mar 2026 17:53:39 +0000
-Message-ID: <20260312175341.2944154-1-visitorckw@gmail.com>
+Subject: [PATCH 1/2] docs: interconnect: Add provider APIs to documentation
+Date: Thu, 12 Mar 2026 17:53:40 +0000
+Message-ID: <20260312175341.2944154-2-visitorckw@gmail.com>
 X-Mailer: git-send-email 2.53.0.851.ga537e3e6e9-goog
+In-Reply-To: <20260312175341.2944154-1-visitorckw@gmail.com>
+References: <20260312175341.2944154-1-visitorckw@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,24 +85,35 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Improve the generic interconnect subsystem documentation by including
-the existing kernel-doc comments from the source files.
+The "Interconnect providers" section currently only includes data
+structures from include/linux/interconnect-provider.h.
 
-Currently, the documentation only includes the provider data structures
-from the header file and incorrectly states that consumer APIs are
-undocumented.
+Include drivers/interconnect/core.c to extract provider-specific
+API documentation. The :functions: directive is used to prevent
+mixing with consumer APIs.
 
-Since drivers/interconnect/core.c contains a mix of both provider and
-consumer APIs, this series uses the kernel-doc :functions: directive to
-properly separate and document them in their respective sections.
+Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+---
+ Documentation/driver-api/interconnect.rst | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Kuan-Wei Chiu (2):
-  docs: interconnect: Add provider APIs to documentation
-  docs: interconnect: Document consumer APIs and drop outdated text
-
- Documentation/driver-api/interconnect.rst | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
-
+diff --git a/Documentation/driver-api/interconnect.rst b/Documentation/driver-api/interconnect.rst
+index a92d0f277a1f..cf7a83f8c953 100644
+--- a/Documentation/driver-api/interconnect.rst
++++ b/Documentation/driver-api/interconnect.rst
+@@ -84,6 +84,12 @@ be registered with the interconnect provider core.
+ 
+ .. kernel-doc:: include/linux/interconnect-provider.h
+ 
++.. kernel-doc:: drivers/interconnect/core.c
++   :functions: icc_provider_init icc_provider_register icc_provider_deregister
++               icc_node_create icc_node_create_dyn icc_node_destroy
++               icc_node_add icc_node_del icc_nodes_remove icc_node_set_name
++               icc_link_create icc_link_nodes
++
+ Interconnect consumers
+ ----------------------
+ 
 -- 
 2.53.0.851.ga537e3e6e9-goog
 
