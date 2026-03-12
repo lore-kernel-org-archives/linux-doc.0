@@ -1,231 +1,288 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B2E133F58B
-	for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 02:51:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 052CA3290C4;
+	Thu, 12 Mar 2026 03:06:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773283907; cv=none; b=VFC1K3YWMUgb+NA9PFTsBh+PaRSupdkjKHojJq3KNVfi/CgYBWV65edLh3lCXLeKmqPUxG7FJbZxTQKMofLXWdCV9Futr/Z6MsycvGoRiFb5A7j89XmQXxPs9XP0ZMUr5VWE1Fz3FNuYVRqvcp20NbzoR/hA4sF9BRNrScpGTZM=
+	t=1773284818; cv=none; b=RGIE4QPQPsiT7f8xhy7u8tl9gJv5PwrANDb2XaIMgb25v9NZdySZjTA/vqC1bTQeB1FkJ5RtAOz6U/uUxKfaKSaADlgN9mTrXxd8R9SG+nAKACDN4rRZ2JoaSQ9fyhOKkU4OvPyHhiAJQvlZSbKr5VVsL7CFz5vv5NCSlQcqKvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773283907; c=relaxed/simple;
-	bh=A59oM9Q5svsIpMBqG0+x6uy6o8XOuAN2whtRBtc8OcQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nsbnZ3dPaZZPOeOpgO2Ug4Wh0Mkm7//7D98S5iI93e9XDDfFlMgJ5f5zMcB0hwLK+0dWeXb6sk2Te3oIMDw3GKfvE9bZnzzeDz0Pa7qhzAaSb4tZSHgUVARv27eP1EPeSaZlWIVdcRL/LuTz8S7vK3vrGT5o1KXqildZWZwoQSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AImIgeCc; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773284818; c=relaxed/simple;
+	bh=hXSLb0sz9FleQVK2i/05bazjKtyRjpsQ9DUiStbKFIY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=AioxP32FrzXxVXenvYHCGW2nQbLzPMy+ZsO4XooIosupJ7PhQFO+Jx3J/ypy0MM6dtFWA9/huZKXZF69KgyaAfzbxRBYeOTgOOXK+7VtbOIWsyRNwqG0U+UlaOSE/XI9omcVnWPztOlXnc7iRqU6TAIpgOlscJCOUR/8tBswNZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eC+RHtFL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AImIgeCc"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4852f73d0a3so4448255e9.3
-        for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2026 19:51:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773283904; x=1773888704; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=m4dT/iAwBrfERuCP8iX2naiSjaj3fk/39yeqZSkIJKM=;
-        b=AImIgeCcKc08ioiGPZ8jpmMj+dyazLnm+O9ScIEtYj5SYhDEqXEUQEZSRk/9ZMqZsE
-         l1bMcMxU9hliQY6KAr48wYupmLKxQD4ODn4xcoDKiTeCJltnEYTay0fWFWkGLs8MYt+0
-         rHfEuxcTjjjsuiJFItaYkIdybvsd8flpbSAYab2iFJds9sEAqa7XqXl0DZN+FNCy+FHu
-         aoMUlxNH9UzH91RRdnZlM8LUW89XThGoHsUxGUoLddLLwixAK53pq6empfojU+fIDDqo
-         tHpYrdMqlBf1biGpn2u9On7UoYNByf2WJCnefUDPB6Q6fGPe6yf3dDct0Ybw2+6eC2j8
-         dKyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1773283904; x=1773888704;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=m4dT/iAwBrfERuCP8iX2naiSjaj3fk/39yeqZSkIJKM=;
-        b=vM+tXW1Mqi6dVKJT7wtitiOGnK4M5g5PaMsdmd+VCRMrnR1qI2YJTjDzhai7TG1mil
-         G58FcHcTpahIEtlh+NYO1KdSU+ANvER1QJWXj4SUwyMKxhNf+oHnHXifw8rGxKSNH1Pt
-         lXG6dsb08p4SpIsORah9hBfb/4W2YCUd9IxcU+O4MyRv0aPBPQ1KT8utzNfCbCWW/ugS
-         otBgb5nPl+5t1Lxk9lMQcL+PU2NIISljcTYzER91dDE9GiyoXU0xrTbXBkgLAuOk7pXj
-         kuJA1lLGgzRSXqScXSV1VVGeF2bCwTKZ5YhNgX/kwOptnr7l/jvL/yfPfxS+FgegyDo1
-         yq9w==
-X-Forwarded-Encrypted: i=1; AJvYcCWcll8qvuMc7SQHLJDbHYcOJwGbirghSeEjHvqwPfs///l7SRyIJD21j7cRmSJkiT47CUs/jAgLIbs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywnz+5Mx0TspPPJs/YBAii+MExclEzVcEt4SrAuaShfQ3fCK+AJ
-	z9MztacGvFddFdIcOd6MHT2vhkmL4LAHTMFcSBUU968C9P2Bkm6DMDmPhSMHs+zR
-X-Gm-Gg: ATEYQzzW5bvAWoEYuQ6v1KZ6AOWIv8AHTJ4SVGT0eutT9qw7Yyk4lsXFtoKtw/33Qsi
-	MGOozPigTP47eRa3IHz9qlRRl/Nia3bIdKPYiO7nVEdP0RWOe5t/tFRh5V5/PKlOb/t73RnrWSH
-	/UBFhc4SR6Oc3uwF6Z5EdLnOYzIL05BZ4khs3TmAC3H6kCoOE43Ru5VsSdwpPgBlQ7R9QVRcNpf
-	c49boAQHvMxxtWBdYm9XdOB/wCcXrTFFbJ9nlBJ1pOu2y3iacwMVkzR+ce+MC2h12i5krHCPaJ/
-	Ucatu3Q9Bc0LJ16xzzYFK43AwcZU6VemOGIHmSMmufyJNhSU8a2zFGnW23AHnGEjKDdFbTldmm9
-	HVrm9dc15M1K+hpXF5SsCeZDgjwW8Y3WHeTIOBDG9hslQzX4tsEr8cEr3q9lRjddv+PtY6Rf7/l
-	zvtJWfWiqxyCzKnYrJU+oHig==
-X-Received: by 2002:a05:600c:37c6:b0:485:3fc6:c0f3 with SMTP id 5b1f17b1804b1-4854ad723c2mr79625495e9.0.1773283903640;
-        Wed, 11 Mar 2026 19:51:43 -0700 (PDT)
-Received: from localhost ([185.92.221.13])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4854b0c3878sm32997245e9.16.2026.03.11.19.51.43
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Wed, 11 Mar 2026 19:51:43 -0700 (PDT)
-Date: Thu, 12 Mar 2026 02:51:42 +0000
-From: Wei Yang <richard.weiyang@gmail.com>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	Zi Yan <ziy@nvidia.com>, Lance Yang <lance.yang@linux.dev>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eC+RHtFL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5D3EC4CEF7;
+	Thu, 12 Mar 2026 03:06:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773284817;
+	bh=hXSLb0sz9FleQVK2i/05bazjKtyRjpsQ9DUiStbKFIY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=eC+RHtFLyVKqtJvzlrP8mcl8lZ0r675pIFO7icSsZu/WLpsjKXMULACzlzK0o47xd
+	 XYP7JZu7tV+wuaw95R/K8MXZxmBzFNDQQ7WEDXGbbxDlt0wj94OdO99j+xRLFNvQA9
+	 PXPAKEoBO3/ZCK+h8s5v/IqcgCEDOYGSe2ZCzhZ5/yiu+q976WI1zFLb577dPFwWW6
+	 8ZgMTQdwYorUBctebxj8VJNJSHECRUmxXMzSeAKLaT6z/FpW8wlc+RFHV3fk0xzU5L
+	 WwPbGiohNcBeFYv0/5H4We9ZDrbIFsiGPPZu8rVj04yGnZdMNDr2B+w5FFmrKbl1LM
+	 VMb2ekhhRZOAQ==
+From: Sasha Levin <sashal@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Richard Weinberger <richard@nod.at>,
+	Juergen Gross <jgross@suse.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	James Bottomley <James.Bottomley@HansenPartnership.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Greg KH <gregkh@linuxfoundation.org>,
+	Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Kees Cook <kees@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thorsten Leemhuis <linux@leemhuis.info>,
 	Vlastimil Babka <vbabka@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Nico Pache <npache@redhat.com>, Dev Jain <dev.jain@arm.com>,
-	Barry Song <baohua@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Usama Arif <usamaarif642@gmail.com>,
-	Andi Kleen <ak@linux.intel.com>
-Subject: Re: [PATCH v2] docs: filesystems: clarify KernelPageSize vs.
- MMUPageSize in smaps
-Message-ID: <20260312025142.wued4ueww4bgcoeg@master>
-Reply-To: Wei Yang <richard.weiyang@gmail.com>
-References: <20260306081916.38872-1-david@kernel.org>
+	Helge Deller <deller@gmx.de>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Vivian Wang <wangruikang@iscas.ac.cn>,
+	linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-modules@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH v3 0/4] kallsyms: embed source file:line info in kernel stack traces
+Date: Wed, 11 Mar 2026 23:06:44 -0400
+Message-ID: <20260312030649.674699-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260306081916.38872-1-david@kernel.org>
-User-Agent: NeoMutt/20170113 (1.7.2)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Mar 06, 2026 at 09:19:16AM +0100, David Hildenbrand (Arm) wrote:
->There was recently some confusion around THPs and the interaction with
->KernelPageSize / MMUPageSize. Historically, these entries always
->correspond to the smallest size we could encounter, not any current
->usage of transparent huge pages or larger sizes used by the MMU.
->
->Ever since we added THP support many, many years ago, these entries
->would keep reporting the smallest (fallback) granularity in a VMA.
->
->For this reason, they default to PAGE_SIZE for all VMAs except for
->VMAs where we have the guarantee that the system and the MMU will
->always use larger page sizes. hugetlb, for example, exposes a custom
->vm_ops->pagesize callback to handle that. Similarly, dax/device
->exposes a custom vm_ops->pagesize callback and provides similar
->guarantees.
->
->Let's clarify the historical meaning of KernelPageSize / MMUPageSize,
->and point at "AnonHugePages", "ShmemPmdMapped" and "FilePmdMapped"
->regarding PMD entries.
->
->While at it, document "FilePmdMapped", clarify what the "AnonHugePages"
->and "ShmemPmdMapped" entries really mean, and make it clear that there
->are no other entries for other THP/folio sizes or mappings.
->
->Also drop the duplicate "KernelPageSize" and "MMUPageSize" entries in
->the example.
->
->Link: https://lore.kernel.org/all/20260225232708.87833-1-ak@linux.intel.com/
->Reviewed-by: Zi Yan <ziy@nvidia.com>
->Reviewed-by: Lance Yang <lance.yang@linux.dev>
->Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
->Cc: Andrew Morton <akpm@linux-foundation.org>
->Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
->Cc: Zi Yan <ziy@nvidia.com>
->Cc: Baolin Wang <baolin.wang@linux.alibaba.com>
->Cc: Liam R. Howlett <Liam.Howlett@oracle.com>
->Cc: Nico Pache <npache@redhat.com>
->Cc: Ryan Roberts <ryan.roberts@arm.com
->Cc: Dev Jain <dev.jain@arm.com>
->Cc: Barry Song <baohua@kernel.org>
->Cc: Lance Yang <lance.yang@linux.dev>
->Cc: Jonathan Corbet <corbet@lwn.net>
->Cc: Shuah Khan <skhan@linuxfoundation.org>
->Cc: Usama Arif <usamaarif642@gmail.com>
->Cc: Andi Kleen <ak@linux.intel.com>
->Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
->---
->
->v1 -> v2:
->* Some rewording and clarifications
->* Drop duplicate entries in the example
->
->---
-> Documentation/filesystems/proc.rst | 40 +++++++++++++++++++++---------
-> 1 file changed, 28 insertions(+), 12 deletions(-)
->
->diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
->index b0c0d1b45b99..e2d22a424dcd 100644
->--- a/Documentation/filesystems/proc.rst
->+++ b/Documentation/filesystems/proc.rst
->@@ -464,26 +464,37 @@ Memory Area, or VMA) there is a series of lines such as the following::
->     KSM:                   0 kB
->     LazyFree:              0 kB
->     AnonHugePages:         0 kB
->+    FilePmdMapped:         0 kB
->     ShmemPmdMapped:        0 kB
->     Shared_Hugetlb:        0 kB
->     Private_Hugetlb:       0 kB
->     Swap:                  0 kB
->     SwapPss:               0 kB
->-    KernelPageSize:        4 kB
->-    MMUPageSize:           4 kB
->     Locked:                0 kB
->     THPeligible:           0
->     VmFlags: rd ex mr mw me dw
-> 
-> The first of these lines shows the same information as is displayed for
-> the mapping in /proc/PID/maps.  Following lines show the size of the
->-mapping (size); the size of each page allocated when backing a VMA
->-(KernelPageSize), which is usually the same as the size in the page table
->-entries; the page size used by the MMU when backing a VMA (in most cases,
->-the same as KernelPageSize); the amount of the mapping that is currently
->-resident in RAM (RSS); the process's proportional share of this mapping
->-(PSS); and the number of clean and dirty shared and private pages in the
->-mapping.
->+mapping (size); the smallest possible page size allocated when backing a
->+VMA (KernelPageSize), which is the granularity in which VMA modifications
->+can be performed; the smallest possible page size that could be used by the
->+MMU (MMUPageSize) when backing a VMA; the amount of the mapping that is
->+currently resident in RAM (RSS); the process's proportional share of this
->+mapping (PSS); and the number of clean and dirty shared and private pages
->+in the mapping.
->+
->+"KernelPageSize" always corresponds to "MMUPageSize", except when a larger
->+kernel page size is emulated on a system with a smaller page size used by the
->+MMU, which is the case for some PPC64 setups with hugetlb.  Furthermore,
->+"KernelPageSize" and "MMUPageSize" always correspond to the smallest
->+possible granularity (fallback) that can be encountered in a VMA throughout
->+its lifetime.  These values are not affected by Transparent Huge Pages
->+being in effect, or any usage of larger MMU page sizes (either through
->+architectural huge-page mappings or other explicit/implicit coalescing of
->+virtual ranges performed by the MMU).  "AnonHugePages", "ShmemPmdMapped" and
->+"FilePmdMapped" provide insight into the usage of PMD-level architectural
->+huge-page mappings.
-> 
-> The "proportional set size" (PSS) of a process is the count of pages it has
-> in memory, where each page is divided by the number of processes sharing it.
->@@ -528,10 +539,15 @@ pressure if the memory is clean. Please note that the printed value might
-> be lower than the real value due to optimizations used in the current
-> implementation. If this is not desirable please file a bug report.
-> 
->-"AnonHugePages" shows the amount of memory backed by transparent hugepage.
+This series adds CONFIG_KALLSYMS_LINEINFO, which embeds source file:line
+information directly in the kernel image so that stack traces annotate
+every frame with the originating source location - no external tools, no
+debug symbols at runtime, and safe to use in NMI/panic context.
 
-This confused me sometimes. And finally I found it just shows PMD-mapped THP.
+Motivation
+==========
 
-The name is misleading. But it seems not easy to rename it, since there are
-user space application use this, like selftests.
+The recent "slowly decommission bugzilla?" thread surfaced a recurring
+problem: when users encounter kernel crashes they see stack traces like
+`func+0x1ec/0x240` but have no way to identify which subsystem or
+maintainer to contact. Richard Weinberger proposed building a database
+mapping symbols to source files using nm/DWARF. Linus pointed to
+scripts/decode_stacktrace.sh as the existing solution. But as the
+discussion progressed, it became clear that decode_stacktrace.sh has
+significant practical barriers that prevent it from being useful in the
+common case.
 
->+"AnonHugePages", "ShmemPmdMapped" and "FilePmdMapped" show the amount of
->+memory backed by Transparent Huge Pages that are currently mapped by
->+architectural huge-page mappings at the PMD level. "AnonHugePages"
->+corresponds to memory that does not belong to a file, "ShmemPmdMapped" to
->+shared memory (shmem/tmpfs) and "FilePmdMapped" to file-backed memory
->+(excluding shmem/tmpfs).
-> 
->-"ShmemPmdMapped" shows the amount of shared (shmem/tmpfs) memory backed by
->-huge pages.
->+There are no dedicated entries for Transparent Huge Pages (or similar concepts)
->+that are not mapped by architectural huge-page mappings at the PMD level.
-> 
-> "Shared_Hugetlb" and "Private_Hugetlb" show the amounts of memory backed by
-> hugetlbfs page which is *not* counted in "RSS" or "PSS" field for historical
->-- 
->2.43.0
->
+Problems with scripts/decode_stacktrace.sh
+==========================================
+
+- Requires debug symbols: the script needs vmlinux with DWARF debug
+  info. Many distros don't retain debug symbols for older or security
+  kernels, and even when available, asking users to obtain matching
+  debuginfo packages is a significant hurdle.
+
+- Requires toolchain: users need addr2line and nm installed.
+
+- Version-matching requirement: debug symbols must exactly match the
+  running kernel binary.
+
+What this series does
+=====================
+
+Patch 1: CONFIG_KALLSYMS_LINEINFO
+
+At build time, a host tool (scripts/gen_lineinfo) reads DWARF
+.debug_line from vmlinux, extracts address-to-file:line mappings, and
+embeds them as sorted lookup tables in .rodata. At runtime,
+kallsyms_lookup_lineinfo() binary-searches the table and
+__sprint_symbol() appends "(file:line)" to each stack frame. NMI/panic-
+safe (no locks, no allocations), KASLR-compatible.
+
+Patch 2: CONFIG_KALLSYMS_LINEINFO_MODULES
+
+Extends lineinfo to loadable modules. Each .ko gets a .mod_lineinfo
+section embedded at build time. The module loader picks it up at load
+time. Same zero-allocation, NMI-safe lookup.
+
+Patch 3: delta compression
+
+Block-indexed delta-encoding with LEB128 varints, implementing the
+approach suggested by Juergen Gross in the RFC review. Reduces overhead
+from ~44 MiB to ~11 MiB (~3.7 bytes/entry), addressing the primary size
+concern from the RFC.
+
+Patch 4: KUnit tests
+
+30 KUnit tests covering the lineinfo lookup paths, delta-decode logic,
+boundary conditions, and integration with the backtrace formatting APIs.
+
+Example output
+==============
+
+  [   11.206749]  dump_stack_lvl+0x5d/0x80 (lib/dump_stack.c:94)
+  [   11.207403]  vpanic+0x36e/0x620 (kernel/panic.c:650)
+  [   11.209324]  panic+0xc9/0xd0 (kernel/panic.c:787)
+  [   11.213312]  sysrq_handle_crash+0x1a/0x20 (drivers/tty/sysrq.c:154)
+  [   11.214005]  __handle_sysrq.cold+0x66/0x256 (drivers/tty/sysrq.c:611)
+  [   11.214712]  write_sysrq_trigger+0x65/0x80 (drivers/tty/sysrq.c:1221)
+  [   11.215424]  proc_reg_write+0x1bd/0x3c0 (fs/proc/inode.c:330)
+  [   11.216061]  vfs_write+0x1c6/0xff0 (fs/read_write.c:686)
+  [   11.218848]  ksys_write+0xfa/0x200 (fs/read_write.c:740)
+  [   11.222394]  do_syscall_64+0xf3/0x690 (arch/x86/entry/syscall_64.c:63)
+
+Size impact
+===========
+
+Measured with a Debian kernel config:
+
+- bzImage: +3.6 MiB (14 MiB -> 18 MiB, +26%)
+- Runtime memory: +5.9 MiB (text+data+bss)
+- Code overhead: +5.0 KiB (.text, lookup functions only)
+- Data overhead: +5.9 MiB (.data, lineinfo tables)
+
+Lineinfo data breakdown:
+
+- lineinfo_data (delta-compressed): 5,728 KiB (97%)
+- lineinfo_block_addrs: 99 KiB
+- lineinfo_block_offsets: 99 KiB
+- lineinfo_filenames: 111 KiB
+- lineinfo_file_offsets: 17 KiB
+
+The ~5.9 MiB is after 2.7x delta compression; uncompressed would be
+~16 MiB. This is a fraction of the cost of shipping full DWARF debug
+info (hundreds of MiB), which distros must store and serve for every
+kernel version.
+
+For distros, maintaining debug symbol repositories is expensive: storage,
+mirrors, and CDN bandwidth for hundreds of MiB per kernel build add up
+quickly. A ~5.9 MiB increase in the kernel image itself is a modest cost
+that eliminates the need for users to find, download, and version-match
+debuginfo packages just to make a crash report useful.
+
+For developers, the file:line annotations appear immediately in crash
+traces - no post-processing with decode_stacktrace.sh needed.
+
+Changes since v2
+=================
+
+- Replace #ifdef CONFIG_KALLSYMS_LINEINFO with IS_ENABLED() throughout,
+  so the compiler checks the code for syntax errors regardless of
+  configuration. (Suggested by Helge Deller)
+
+- Replace zigzag + ULEB128 encoding of signed deltas with native SLEB128,
+  removing the unnecessary zigzag transform layer.
+  (Suggested by Vivian Wang)
+
+- Deduplicate the binary search and delta-decode logic: extract shared
+  struct lineinfo_table and lineinfo_search() into mod_lineinfo.h
+  instead of maintaining near-identical copies in kernel/kallsyms.c and
+  kernel/module/kallsyms.c. (Suggested by Vivian Wang)
+
+- Use .uleb128 / .sleb128 assembler directives in gen_lineinfo output
+  instead of encoding varints in C and emitting .byte hex literals.
+  (Suggested by Vivian Wang)
+
+- Redesign module mod_lineinfo_header to use explicit (offset, size)
+  pairs for each sub-array, similar to flattened devicetree layout.
+  This makes bounds validation straightforward: offset + size <=
+  section_size. (Suggested by Vivian Wang)
+
+- Remove dead sym_start parameter from kallsyms_lookup_lineinfo() and
+  module_lookup_lineinfo().
+
+Changes since v1
+=================
+
+- Fix path stripping regression on architectures where DWARF comp_dir is
+  a subdirectory (e.g. arch/parisc/kernel) rather than the source tree
+  root: paths now correctly show "kernel/traps.c:212" instead of bare
+  "traps.c:212". Added kernel_dirs[] fallback scan and bare-filename
+  recovery via comp_dir. (Reported by Helge Deller)
+
+- Fix RST heading: overline/underline must be at least as long as the
+  heading text in kallsyms-lineinfo.rst. (Reported by Randy Dunlap)
+
+- Fix MAINTAINERS alphabetical ordering: move KALLSYMS LINEINFO entry
+  before KASAN. (Reported by Randy Dunlap)
+
+- Fix arch-portability of .debug_line relocation handling: replace
+  hardcoded R_X86_64_32 with r_type_abs32() supporting x86, arm, arm64,
+  riscv, s390, mips, ppc, loongarch, and parisc.
+
+- Fix vmlinux compressed-path data_end for the last block: use
+  lineinfo_data_size instead of UINT_MAX.
+
+- Add file_offsets[] and filenames_size bounds checks in vmlinux lookup
+  path (the module path already had them).
+
+- Add alignment padding for file_offsets[] in module .mod_lineinfo
+  binary format (data[] is variable-length u8, followed by u32[]).
+
+- Remove sym_start cross-validation check that incorrectly rejected
+  valid lineinfo entries for assembly-adjacent functions.
+
+- Add KUnit test suite (new patch 4/4): 30 tests covering vmlinux
+  lookup, module lookup, delta decode, boundary conditions, and
+  backtrace formatting integration.
+
+Changes since RFC
+==================
+
+- Added module support (patch 2)
+- Added delta compression (patch 3), reducing size from ~44 MiB to
+  ~11 MiB, addressing the primary concern from RFC review
+- Added documentation (Documentation/admin-guide/kallsyms-lineinfo.rst)
+- Added MAINTAINERS entry
+
+Sasha Levin (4):
+  kallsyms: embed source file:line info in kernel stack traces
+  kallsyms: extend lineinfo to loadable modules
+  kallsyms: delta-compress lineinfo tables for ~2.7x size reduction
+  kallsyms: add KUnit tests for lineinfo feature
+
+ Documentation/admin-guide/index.rst           |   1 +
+ .../admin-guide/kallsyms-lineinfo.rst         |  97 ++
+ MAINTAINERS                                   |   9 +
+ include/linux/kallsyms.h                      |  30 +-
+ include/linux/mod_lineinfo.h                  | 243 +++++
+ include/linux/module.h                        |  16 +
+ init/Kconfig                                  |  35 +
+ kernel/kallsyms.c                             |  59 ++
+ kernel/kallsyms_internal.h                    |  13 +
+ kernel/module/kallsyms.c                      |  75 ++
+ kernel/module/main.c                          |   4 +
+ lib/Kconfig.debug                             |  10 +
+ lib/tests/Makefile                            |   3 +
+ lib/tests/lineinfo_kunit.c                    | 813 +++++++++++++++++
+ scripts/.gitignore                            |   1 +
+ scripts/Makefile                              |   4 +
+ scripts/Makefile.modfinal                     |   6 +
+ scripts/empty_lineinfo.S                      |  38 +
+ scripts/gen-mod-lineinfo.sh                   |  48 +
+ scripts/gen_lineinfo.c                        | 850 ++++++++++++++++++
+ scripts/kallsyms.c                            |  17 +
+ scripts/link-vmlinux.sh                       |  43 +-
+ 22 files changed, 2411 insertions(+), 4 deletions(-)
+ create mode 100644 Documentation/admin-guide/kallsyms-lineinfo.rst
+ create mode 100644 include/linux/mod_lineinfo.h
+ create mode 100644 lib/tests/lineinfo_kunit.c
+ create mode 100644 scripts/empty_lineinfo.S
+ create mode 100755 scripts/gen-mod-lineinfo.sh
+ create mode 100644 scripts/gen_lineinfo.c
 
 -- 
-Wei Yang
-Help you, Help me
+2.51.0
+
