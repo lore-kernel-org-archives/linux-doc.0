@@ -1,345 +1,89 @@
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E22DC386C04
-	for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 21:59:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.169
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773352789; cv=pass; b=s0T2InKDYFji4x1DREweTosT5XYdob0OxVl389tUn42drdBnXc6iHehVnybIWfR3UBVF2nhVUpXmdz/1Up0t1eFDhI3w+f/zo+rbHovmibV7NuRMpmktMBi/zdObG3zUApeXEYBt22VW6qfJRlPGKyA/d3Z6A/b9dnS7q0TEbtg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773352789; c=relaxed/simple;
-	bh=eApaaw+QCMTnSsMJ8+tm4DDnuq11/fr0BZGkfu7iBV0=;
-	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ag29jvpdNImfNgXsEneByrRpcEQA90XwkKnAOM+dPTnNpnsKHkJ0acTB6iSWlRKWH4BxTKDcke+2nieI1LnK9VdyCzgAZTXygoNedzObczxdb3Hfoy+gbKA3g4Xe9qmOF7DJ9K8Tf/yLFn1Hge6BEbyVZJcUXu/qCQP5UJwzamU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VnY3Tb8C; arc=pass smtp.client-ip=209.85.221.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 142473B8932
+	for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 22:03:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773352991; cv=none; b=EJKu86MRegyP7iZQ+gujpcgZ6ipMpzr60Z6k43/Nl/Y/eMR58NiGlSt7/M9pvWtnXKL7l7WaRI+qBv3OTRSVyts3KLy9PQNBQC29NkP9ty5DnqzBEdff58tIr06Bkpp9rD4eP6GkvQG2GfC5x7zRFbXCrSb8IDUizJEXqAjwLdE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773352991; c=relaxed/simple;
+	bh=I2wg8BfFJZqpzfcCpEDPC5BwaUcvvUNvsnPrqDnNVYA=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ZUlAyjckhLZn7FHmJDkQDMWh9yFXYilyObGXiCiTu1Tv61ti/B6sPlJ/EJyJ3cSTMtTo2PzHdCs9UeFKh43usLeDqfl5FMmeiqRjd1TCdHGaZYwaL2WwAi2sgoJgVCrTBnTsLx0MRww8SNubjk5AK3lgq/wxfZAnf8lleUZ3gqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DxyqzuzR; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VnY3Tb8C"
-Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-5674d8be45eso616540e0c.1
-        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 14:59:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773352787; cv=none;
-        d=google.com; s=arc-20240605;
-        b=k15odSwIr0TMXVJW6du2nQovLYYOMXHHVHsW0bcIEA7FjBCh9J3TiIYzxYou6QilSz
-         5Z7MUvdrgHVPnriY2J6QQCZlwtFkJ75MLb5AhWFLAhk85I/rKHqUqcLIC+u5PrUucCjH
-         d3P8dunaqC9I8et87+3mPmmmyBqcV3zNNHv77uhj8naPuu/Vduwm/RLhqPGPgxr4vmta
-         KKiaR9P1BZ/FKZSpK86ilNTZAbV51Pc50Yd6uNHxHTKQqRlXdmwE4xtonF8cdr3YqVar
-         /XwzacXHiAPu9mQ+UngROvoZ2qoikxth/7Q5zYD9nQgD63vdkcRE6byYzO4ltys8w9Hd
-         ZxvA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:dkim-signature;
-        bh=5BRi8Q65G/TYxzzc8DUJBOspDF6bBOCx0tLSyw1Him8=;
-        fh=twdNyuZFWFGZJoGjL71lM+mdM2HjHB/X8YOOZUYklHk=;
-        b=LzOy9QMUcbMWWJqkWPKm5AWh1veet+CfVAescAG8692pXSxqLoATOeeGAt3lIBs3H6
-         0aAxn+lGNBWTx+erqHNefZxquNDwNNcRRtQCYV9zsSwOnDftRAQ345wglDd0EZzky789
-         GhPSArF86o0VabfdU5NHCzJEMQldzViO0bKaMMucibN7AYSrDzYDL9TMRzc/36H4yYJm
-         vpWp9QsgA67ixqUuGBDI6BQb3jvIZ90NvzwINjrzOjBHXiC4mIWgcKhdTqx/fBmm0H2s
-         9iDhLCam4jj9ouzLTjXH62iZcTb7pW9U2L578yeBMgtQdNL6cNDwqITORjB7WrLlWWfD
-         7dmQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1773352787; x=1773957587; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5BRi8Q65G/TYxzzc8DUJBOspDF6bBOCx0tLSyw1Him8=;
-        b=VnY3Tb8C1k7MPfmNMOinISFxSc/HSNaroC8BgoRQg+0jNSCDJEs+uFaLn1o+hNP+ra
-         qyiOYvhUMb/3PdKLspBHReEMr4lOkxMBoTBWKJlPQfB7q/VyKFUB/Bw1OK2GrmrqydpG
-         5EfydhrHqqkVwDsVNzrKT0yF/yvs8TkEc3bDqr7Ufp5FUOM8LY1CjdKDcGwWNRk5PKfH
-         e9GNYYMyWkQwJiWmcvtNM+0BIN4h6dU3WlxYGxjfecD7yzbVskwME3Bp/M6amEXVRXpP
-         BCWK8ac2CfJvFlQ23K6jvJifTj5gTbdQkQjpSKis0K2elNNBk4hpt/j6Hh19lCbDvrix
-         X83g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773352787; x=1773957587;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5BRi8Q65G/TYxzzc8DUJBOspDF6bBOCx0tLSyw1Him8=;
-        b=iYqfmisT5FRT+dQ4mBt86LtNcYwjH41xBM9QGAyTI79EuvLsBvFwTQoSzcMSiDrF0a
-         kgWfgZrs5dlT645d0uFz2+IZEJER7AdFy3uFwI4lGzOmK17f3hOsOvRbn+JBKwh01IlA
-         LzxrcWeIMB2z7Q97oeVvQ3oNFdYArfiSEMJuE8i/M1prYjgeS8dUV1IL/SbJNx/n3EFv
-         r44Vikuy9NUZrl8eYDQ0cKzflGt+8nqJCX+U/vKf0gJouB9b0/zUHBqWskjpHxOQMV/f
-         /C1dE9CaqXKR/bzgzgn39xh5ZSA3aJslbb8b9xMQAgYQXXxNfRVUEvHgZRSxouo9BTlm
-         nZNA==
-X-Forwarded-Encrypted: i=1; AJvYcCXxvwBozm6xYr7uW2ByKiv3VMTfk10Kffz6gswFiDSWH/uGb2yElnw3gAqfZztB1G2z/2OCzEWM3AU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwShmV518cL2X/h7Csm4KLuHi33DWj7119YrBo1HIhLMiUYiO6Y
-	4v38+S4RzXFm+i2e7fvuXpbszmfklmhGq1UXDkNUjn1NEd2AtIuLQTlufWroHQPgNaGOjLMXrqP
-	3NshWpMUnccymkOijzpIPLNVgoHS4liDvYNb6HQ1c
-X-Gm-Gg: ATEYQzx7LA+ps7+UkVfaTwPKru7zLBeJj6kwjks9nCQ2eeecVxW3jKwG6QY/eK1Rc2B
-	kIBfIK3TBezcQsvLZMgQ3sjrAllCrS4KlaWc9BrutUfOlnMQqrVetwYoMZaNG9i0kXCn4lpqr00
-	lJ03O89fX0KjHAYr14znQC5ox1dEQ4W4Wsjssd3jukWatwblmrjGYj/KmxoYo+JrTb7IFBMPPRK
-	6pa3DCTVCfgZsdLgGK/vexKG7X4rSI5bCO0UlDkm3VeLBuUclsEAEPUT/GLMdSSflc0x4P21A0E
-	59YW/bag45BuXmYB+qkV07q2XRq2+xvDIzpLPbUV
-X-Received: by 2002:a05:6122:16a0:b0:55b:1938:9183 with SMTP id
- 71dfb90a1353d-56b627e8184mr386492e0c.4.1773352786246; Thu, 12 Mar 2026
- 14:59:46 -0700 (PDT)
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 12 Mar 2026 14:59:45 -0700
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 12 Mar 2026 14:59:45 -0700
-From: Ackerley Tng <ackerleytng@google.com>
-In-Reply-To: <abLfWHf89TxWqeGZ@google.com>
-References: <cover.1770071243.git.ackerleytng@google.com> <86ad28b767524e1e654b9c960e39ca8bfb24c114.1770071243.git.ackerleytng@google.com>
- <CAEvNRgFMNywpDRr+WeNsVj=MnsbhZp9H3j0QRDo_eOP+kGCNJw@mail.gmail.com>
- <CAEvNRgG-L+GBcm+u_thGvXAxV-Nqzu5VtgXy0PfND6SG0FiyVg@mail.gmail.com>
- <CA+EHjTy2urW2Tj5czQDKUHdri7FCLfw2mafTgmmtFs+-7ueoiw@mail.gmail.com> <abLfWHf89TxWqeGZ@google.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DxyqzuzR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773352990; x=1804888990;
+  h=date:from:to:cc:subject:message-id;
+  bh=I2wg8BfFJZqpzfcCpEDPC5BwaUcvvUNvsnPrqDnNVYA=;
+  b=DxyqzuzRjIIC3dm3OV0xYGEAz8bNmypa8ofKhsSUFCERcYc0JJYJSoDq
+   HVrKXiCVVN3y54oRiMQG/6CzORIGqUicXlc8rDzqjovi4TJyLl4AkLjic
+   Al/16Gm07ySszXfXVpGQSTF0y5rUrEcKFp5WAohzLBwF821UAkfCgD0V/
+   /+MNsZLu4mdE2iDZpc5pwQ36j7s2mobFt97/Dzo4dzxNn2HCD62UR0Rl8
+   tYCV7EkiK6ugD+RkQHabg7U6N5ZAGLuOH7vv5T8iEdwsyFPQCiUGSeZGB
+   CIG9aYXw4IOMwV62DhsPovaiWxIwWCuV/WM8gvc4XP2IrgiReycEjvqVh
+   g==;
+X-CSE-ConnectionGUID: u+ZDOB0GQ72plRxwevHd8A==
+X-CSE-MsgGUID: Utzb1xhkT2mCZ3xEE0JCzw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11727"; a="74376008"
+X-IronPort-AV: E=Sophos;i="6.23,117,1770624000"; 
+   d="scan'208";a="74376008"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2026 15:03:10 -0700
+X-CSE-ConnectionGUID: biVfYuEoTFa5U+NZv9pQDw==
+X-CSE-MsgGUID: 4sB0q1j7SSGZ/A7YVOSCVg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,117,1770624000"; 
+   d="scan'208";a="258874153"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa001.jf.intel.com with ESMTP; 12 Mar 2026 15:03:08 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w0o7V-000000003a9-3iS8;
+	Thu, 12 Mar 2026 22:03:05 +0000
+Date: Thu, 12 Mar 2026 23:02:34 +0100
+From: kernel test robot <lkp@intel.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [robh:dt-convert 66/621] htmldocs: Warning:
+ Documentation/devicetree/bindings/clock/st/st,clkgen-c32.yaml references a
+ file that doesn't exist:
+ Documentation/devicetree/bindings/clock/st/st,clkgen-mux.txt
+Message-ID: <202603122203.Xa4eKcYp-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Date: Thu, 12 Mar 2026 14:59:45 -0700
-X-Gm-Features: AaiRm51WdPA9PYhHM87YIJzRBZGaRjiFMDr05z8vln4-gPCqggi2FDd5_-4bZTU
-Message-ID: <CAEvNRgFUc+9xCoN9Yo5NThHrvbccWAhPwp9nNM2fvx7QqrcJsg@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 09/37] KVM: guest_memfd: Add support for KVM_SET_MEMORY_ATTRIBUTES2
-To: Sean Christopherson <seanjc@google.com>, Fuad Tabba <tabba@google.com>
-Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, x86@kernel.org, aik@amd.com, 
-	andrew.jones@linux.dev, binbin.wu@linux.intel.com, bp@alien8.de, 
-	brauner@kernel.org, chao.p.peng@intel.com, chao.p.peng@linux.intel.com, 
-	chenhuacai@kernel.org, corbet@lwn.net, dave.hansen@linux.intel.com, 
-	david@kernel.org, hpa@zytor.com, ira.weiny@intel.com, jgg@nvidia.com, 
-	jmattson@google.com, jroedel@suse.de, jthoughton@google.com, 
-	maobibo@loongson.cn, mathieu.desnoyers@efficios.com, maz@kernel.org, 
-	mhiramat@kernel.org, michael.roth@amd.com, mingo@redhat.com, 
-	mlevitsk@redhat.com, oupton@kernel.org, pankaj.gupta@amd.com, 
-	pbonzini@redhat.com, prsampat@amd.com, qperret@google.com, 
-	ricarkol@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
-	rostedt@goodmis.org, shivankg@amd.com, shuah@kernel.org, steven.price@arm.com, 
-	tglx@linutronix.de, vannapurve@google.com, vbabka@suse.cz, 
-	willy@infradead.org, wyihan@google.com, yan.y.zhao@intel.com
-Content-Type: text/plain; charset="UTF-8"
 
-Sean Christopherson <seanjc@google.com> writes:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt-convert
+head:   c8198e311a98fefcf9efff078bf3930ff94b60d2
+commit: 1a5d972c1297330ee568ee4082d7e1051351cdf2 [66/621] dt-bindings: clock: Convert st/st,clkgen-c32 to DT schema
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260312/202603122203.Xa4eKcYp-lkp@intel.com/reproduce)
 
-> On Thu, Mar 12, 2026, Fuad Tabba wrote:
->> Hi Ackerley,
->>
->> Before getting into the UAPI semantics, thank you for all the heavy
->> lifting you've done here. Figuring out how to make it all work across
->> the different platforms is not easy :)
->>
->> <snip>
->>
->> > The policy definitions below provide more details:
->
-> Please drop "CONTENT_POLICY" from the KVM documentation.  From KVM's perspective,
-> these are not "policy", they are purely properties of the underlying memory.
-> Userspace will likely use the attributes to implement policy of some kind, but
-> KVM straight up doesn't care.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603122203.Xa4eKcYp-lkp@intel.com/
 
-Policy might have been the wrong word. I think this is a property of the
-conversion process/request, not a property of the memory like how
-shared/private is a property of the memory?
+All warnings (new ones prefixed by >>):
 
-I'll have to find another word to describe this enum of
+>> Warning: Documentation/devicetree/bindings/clock/st/st,clkgen-c32.yaml references a file that doesn't exist: Documentation/devicetree/bindings/clock/st/st,clkgen-mux.txt
+>> Warning: Documentation/devicetree/bindings/clock/st/st,clkgen-c32.yaml references a file that doesn't exist: Documentation/devicetree/bindings/clock/st/st,clkgen-pll.txt
+>> Warning: Documentation/devicetree/bindings/clock/st/st,clkgen-pll.yaml references a file that doesn't exist: Documentation/devicetree/bindings/clock/st/st,clkgen.txt
+   Warning: Documentation/devicetree/bindings/clock/st/st,flexgen.txt references a file that doesn't exist: Documentation/devicetree/bindings/clock/st/st,clkgen.txt
+   Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/regulator/cpcap-regulator.txt
+   Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/rtc/cpcap-rtc.txt
+   Warning: Documentation/devicetree/bindings/regulator/motorola,cpcap-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
 
-* KVM_SET_MEMORY_ATTRIBUTES2_ZERO
-* KVM_SET_MEMORY_ATTRIBUTES2_PRESERVE
-
->
->> > ``KVM_SET_MEMORY_ATTRIBUTES2_CONTENT_POLICY_ZERO`` (default)
->
-> The default behavior absolutely cannot be something that's not supported on
-> every conversion type.
->
->> >
->> >   On a private to shared conversion, the host will read zeros from the
->> >   converted memory on the next fault after successful return of the
->> >   KVM_SET_MEMORY_ATTRIBUTES2 ioctl.
->> >
->> >   This is not supported (-EOPNOTSUPP) for a shared to private
->> >   conversion. While some CoCo implementations do zero memory contents
->> >   such that the guest reads zeros after conversion, the guest is not
->> >   expected to trust host-provided zeroing, hence as a UAPI policy, KVM
->> >   does not make any such guarantees.
->>
->> The rationale for not supporting this in the UAPI isn't quite right
->> and I think that the prohibition should be removed. It's true that the
->> guest is not expected to trust host-provided zeroing. However, if the
->> VMM invokes this ioctl with the ZERO policy, the zeroing is performed
->> by the hypervisor, not by the (untrusted) host.
->
-> What entity zeros the data doesn't matter as far as KVM's ABI is concerned.  That's
-> a motivating favor to providing ZERO, e.g. it allow userspace to elide additional
-> zeroing when it _knows_ the memory holds zeros, but that's orthogonal to KVM's
-> contract with userspace.
->
->> Although pKVM handles fresh, zeroed memory provisioning via donation
->> rather than attribute conversion, stating that the UAPI cannot make
->> guarantees due to trust boundaries is incorrect. The hypervisor is
->
-> We should avoid using "hypervisor", because (a) it means different things to
-> different people and (b) even when there's consensus on what "hypervisor" means,
-> whether or not the hypervisor is trusted varies per implementation.
->
->> need to be careful witho precisely the entity the guest trusts to enforce
->> this.
->>
->> The UAPI should define the semantics for a shared-to-private ZERO
->> conversion, even if current architectures return -EOPNOTSUPP because
->> they handle fresh memory provisioning via other mechanisms (like
->> pKVM's donation path).
->>
->> How about something like the following:
->>
->> On a shared to private conversion, the hypervisor will zero the memory
->
-> Again, say _nothing_ about "the hypervisor".  _How_ or when anything happens is
-> completely irrelevant, the only thing that matters here is _what_ happens.
->
->> contents before mapping it into the guest's private address space,
->> preventing the untrusted host from injecting arbitrary data into the
->> guest. If an architecture handles zeroed-provisioning via mechanisms
->> other than attribute conversion, it may return -EOPNOTSUPP.
->
-> No.  I am 100% against bleeding vendor specific information into KVM's ABI for
-> this.  What the vendor code does is irrelevant, the _only_ thing that matters
-> here is KVM's contract with userspace.
->
-> That doesn't mean pKVM guests can't rely on memory being zeroed, but that is a
-> contract between pKVM and its guests, not between KVM and host userspace.
->
-
-If pKVM's (kernel, or elsewhere) documentation says something like
-
-  Shared to private (in addition to private to shared already specified
-  in the userspace/KVM contract) conversions through guest_memfd
-  specifying ZERO will have memory contents zeroed.
-
-Would that then cover both perspectives? I see Fuad's point that pKVM
-would like to provide guarantees in the shared to private direction too,
-and I see Sean's point that the shared to private direction isn't a
-userspace/KVM thing.
-
-The awkward part is that we guarantee both directions for PRESERVE but
-not for ZERO.
-
->> >   For testing purposes, the KVM_X86_SW_PROTECTED_VM testing vehicle
->> >   will support this policy and ensure zeroing for conversions in both
->> >   directions.
->> >
->> > ``KVM_SET_MEMORY_ATTRIBUTES2_CONTENT_POLICY_PRESERVE``
->> >
->> >   On private/shared conversions in both directions, memory contents
->> >   will be preserved and readable. As a concrete example, if the host
->> >   writes ``0xbeef`` to memory and converts the memory to shared, the
->> >   guest will also read ``0xbeef``, after any necessary hardware or
->> >   software provided decryption. After a reverse shared to private
->> >   conversion, the host will also read ``0xbeef``.
->>
->> I think that this example is backwards. If the host writes to memory,
->> that memory is already shared, isn't it? Converting it to shared is
->> redundant. More importantly, if memory undergoes a shared-to-private
->> conversion, the host must lose access entirely.
->
-> Ya, it's messed up.
->
-
-Omg, it is backwards!! Might have been copypasta...
-
->> Maybe a clearer example would reflect actual payload injection and
->> bounce buffer sharing:
->> - Shared-to-Private (Payload Injection): The host writes a payload
->> (e.g., 0xbeef) to shared memory and converts it to private. The guest
->> reads 0xbeef in its private address space. The host loses access.
->> - Private-to-Shared (Bounce Buffer): The guest writes 0xbeef to
->> private memory and converts it to shared. The host reads 0xbeef.
->>
->> >   pKVM (ARM) is the first user of this policy. Since pKVM does not
->> >   protect memory with encryption, a content policy to preserve memory
->> >   will not will not involve any decryption. The guest will be able to
->> >   read what the host wrote with full content preservation.
->>
->> This is correct, but to be precise, I think it should explicitly
->> mention Stage-2 page tables as the protection mechanism, maybe:
->
-> pKVM shouldn't be mentioned in here at all.
->
-> ---
-> By default, KVM makes no guarantees about the in-memory values after memory is
-> convert to/from shared/private.  Optionally, userspace may instruct KVM to
-> ensure the contents of memory are zeroed or preserved, e.g. to enable in-place
-> sharing of data, or as an optimization to avoid having to re-zero memory when
-> the trusted entity guarantees the memory will be zeroed after conversion.
->
-
-How about:
-
-or as an optimization to avoid having to re-zero memory when userspace
-could have relied on the trusted entity to guarantee the memory will be
-zeroed as part of the entire conversion process.
-
-> The behaviors supported by a given KVM instance can be queried via <cap>.  If
-
-I started with some implementation and was questioning the value of a
-CAP. It seems like there won't be anything dynamic about this?
-
-The userspace code can check what platform it is running on, and then
-decide ZERO or PRESERVE based on the platform:
-
-If the VM is running on TDX, it would want to specify ZERO all the
-time. If the VM were running on pKVM it would want to specify PRESERVE
-if it wants to enable in-place sharing, and ZERO if it wants to zero the
-memory.
-
-If someday TDX supports PRESERVE, then there's room for discovery of
-which algorithm to choose when running the guest. Perhaps that's when
-the CAP should be introduced?
-
-> the requested behavior is an unsupported, KVM will return -EOPNOTSUPP and
-> reject the conversion request.  Note!  The "ZERO" request is only support for
-> private to shared conversion!
->
-
-Do you mean ZERO is only guaranteed for private to shared? If we say
-"ZERO is only guaranteed for private to shared", then pKVM could
-additionally guarantee zeroing for shared to private. If we say it is
-only supported for private to shared, then should I return -EOPNOTSUPP
-and therefore not allow platforms to provide other guarantees?
-
-I think we should stick to guarantees for this
-
-* not specified (default) = no guarantees whatsoever
-* ZERO = guaranteed zero for shared to private, no guarantees for
-         private to shared. Platforms can add on more guarantees.
-* PRESERVE = guaranteed preseved in both directions
-
--EOPNOTSUPP should probably be understood as "There is no way to
-guarantee this" like how TDX would return -EOPNOTSUPP for PRESERVE
-(now).
-
-> ``KVM_SET_MEMORY_ATTRIBUTES2_ZERO``
->
->   On conversion, KVM guarantees all entities that have "allowed" access to the
->   memory will read zeros.  E.g. on private to shared conversion, both trusted
->   and untrusted code will read zeros.
->
->   Zeroing is currently only supported for private-to-shared conversions, as KVM
->   in general is untrusted and thus cannot guarantee the guest (or any trusted
->   entity) will read zeros after conversion.  Note, some CoCo implementations do
->   zero memory contents such that the guest reads zeros after conversion, and
->   the guest may choose to rely on that behavior.  But that's a contract between
->   the trusted CoCo entity and the guest, not between KVM and the guest.
->
-> ``KVM_SET_MEMORY_ATTRIBUTES2_PRESERVE``
->
->   On conversion, KVM guarantees memory contents will be preserved with respect
->   to the last written unencrypted value.  As a concrete example, if the host
->   writes ``0xbeef`` to shared memory and converts the memory to private, the
->   guest will also read ``0xbeef``, even if the in-memory data is encrypted as
->   part of the conversion.  And vice versa, if the guest writes ``0xbeef`` to
->   private memory and then converts the memory to shared, the host (and guest)
->   will read ``0xbeef`` (if the memory is accessible).
-
-Thank you for this summary :)
-
-I see you dropped any documentation to do with testing. I meant to
-document it (at least something about the unspecified case) so it can be
-relied on in selftests, with the understanding (already specified
-elsewhere in Documentation/virt/kvm/api.rst) that nothing about
-KVM_X86_SW_PROTECTED_VM is to be relied on in production, and can be
-changed anytime. What do you think?
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
