@@ -1,287 +1,267 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A98E9258EC2;
-	Thu, 12 Mar 2026 04:47:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773290845; cv=none; b=uFtaH0gaA2a2xasa16XkCaIg6d9ZHojCubSoGLy/Y84sTW4DHR+sw9Iw3wx+XcF4P0QzenCi19q6LIWX8wO1x047xWjC9SB/qYlZpArEufVwptzG/Od0WyXMyPMlVdx5Zm45v+byveiDJfSCdPWy1vLr/IUimhAqqVAlHSM4rS8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773290845; c=relaxed/simple;
-	bh=Gp54JLvaaOIECrVsI9+uHuFT4IiNN9InE0F4T3empxQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NlZ1MvD82XOGl6+aJ0bHEgxUqygOpR0ZJO9jNM1DTjeCQujMEwtZT7FpXADXKO7d0waPzYueMby1WnhxWSnur+WgvzwKqaxu1h2LEBDcVRjv33qwcjmeQ0J3/zmakK1MWnfR5pzv0wY5/Qw1DXfLtsbdrb2jzd34tIgtQFjhPrg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=VnyGzRoG; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BBA9317151
+	for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 05:45:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773294304; cv=pass; b=Euep717oWU+TI4oMcHBRFwRKmbFk+YTecCoPl3Gg6/Z8OaGqSqWuPmsSPo2TAgNG2rmijjiRzMP+j//yMScp1l0a5k45pJJHlr1qE6GCaMK9yLsZ4UdVsSfVlDaaCaZrVgpND4ITVoj+vmLqiRfQBn8BeSSlsTuVjgcyxuSTkXg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773294304; c=relaxed/simple;
+	bh=GmJK/N0KBkRxDo+pqiY/6G+ZRXyparhw1yW+Cxl6e28=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XLtL29nZIgovOt3kYi67Upge0F5TqGVUkDHk5q707bkk2v4gg2rSfIdxX+PlV5KczoSeqHHoLlBT1Vy8h2t7lu2OjUq1hmQ/wdauEZoFlAyfmT3ILqLawa3fqYibrdeWUun1KyQn8dtVUddmEX8FmTNd1EihUv8aw4KQcOKaEWc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VdZJT0Tx; arc=pass smtp.client-ip=209.85.222.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="VnyGzRoG"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=A2SvhJ+b53Uvh0SW06/h2KPYmtALDs9kOKOYcwwDLA0=; b=VnyGzRoGzkd8sAAvVV3Y/W6ZN0
-	tKjKqCKmOocvgGs2WMlfWDZKSsXB8ZVZckIdwVxx+isq7qvFLGieQAcdQINeeSI0U5lmzoeckjN1P
-	fpOlTWJ9/v6707emE9rHLMZBDNwcmeIh42L5g3RJRUZ5PluWGXtKUDSp+15rNVwAY6n28KPynzvip
-	8M+n2m480sEjG8LOTrXHMf9kL4AvUVoAinWEFH2hdIxCwt12t7vNVuvMadKGy49cneNMRZ86dUuvn
-	kKk0L70BiK14w69z6fOhbwVFm7woPVZnv9og0y56U9VuASYMSZf/o5lXdue2UIhgTKAlsYSpxvMcM
-	lBafm1tw==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w0Xwo-0000000DI74-3YB5;
-	Thu, 12 Mar 2026 04:47:00 +0000
-Message-ID: <e398475e-4db2-40ed-baeb-89c2bbf6a0d5@infradead.org>
-Date: Wed, 11 Mar 2026 21:46:57 -0700
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VdZJT0Tx"
+Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-94de68feaf4so387753241.0
+        for <linux-doc@vger.kernel.org>; Wed, 11 Mar 2026 22:45:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773294301; cv=none;
+        d=google.com; s=arc-20240605;
+        b=KlGbOZCJ/XfNqI0kN1ZV1kLp1TcEkknkKZOLJ0xG5tI3RdldcD2LTxR+SoFA+HGTIa
+         NW+s2GFPzf+IkO9zUtt6TKLNa4+ZP7LaDSYUC3m+AwBtGSHlFc0mpN/iXCw0YVPzLEIR
+         0Go6zcage533Di5s6hNYLOnJz3eL9G94KTyzvvhmY54aDISBByq2SoKhVNwJDko0YIIm
+         oUSBgBh6llUGGLp2Xor3CLZaHRS/03wsxemKtVVSC+xb+ZFDCq4nGbTx9CZpXSM4brVZ
+         aWjermD4EopfwG+ATNY9O3HtxW2P1pkx1XnJUJ/K5yYNsLp3y/SEW0mj0CSVpjyMaB6g
+         wVzQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:dkim-signature;
+        bh=WHL+cdGBVdeYzUrRkXUnxuFTgvkDYPGLTyvabwlDW1U=;
+        fh=k57Eza6uVY6lrlcnv1r1KMZqhsD+Aa5tRn39QfrAzVk=;
+        b=XEQyHnaPFROpcpztcgZMF6kO0LszwoypXVV/XGdSNFkBDADAhNz2oWEW5huyUl30dB
+         L+WJG2jzk6zXpJExG2bS84FJaaRFTHTqRl0D3MG0fYmGPL6GrD0/82mKiKv8WBVetxFk
+         GlaBqoXSZjGb+jnW7ZDghXJ4CK61fRa8wDpLXDAxBejmk5VhWB0/OwmLN/mU9p4LLw60
+         JwJZyvgAbcoNSCznmR+40RmUnSFU9+PCGOOTWJzLB+RmjWqwzL1v929VFscTB0r5X8xe
+         DEl8gYmka6a2J0hBQ2/8fX80JomaaGg35ca1m5XEgngMlswLtFJqkugOyjoqybaPd+QX
+         AAHQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1773294301; x=1773899101; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WHL+cdGBVdeYzUrRkXUnxuFTgvkDYPGLTyvabwlDW1U=;
+        b=VdZJT0TxrE2a9giQrcsUQtWWCibe1Z2In7NV0CRlZMWbacWoFRZzPJiR7FY93c03j9
+         2yAo6IHTgN6vy8NV77CVpW+HhOc8Y55Q1whsRU7GuexdhiOif0pMktOgLab0yQH24Xmb
+         eY626NrC06XAbL+FuZen1nZxylloOh0Xe89KQ40vjxWjixm6s10qgZ4tccTY1C/SL9YU
+         idN+6ZtprApYPnh/eGiR+dkQwu97WSop2d6awTVostO+SsiP5p9csP3pOO148vafEevW
+         oby0MD9CpiBWwPQcNfulnvgZ3CI41epjzwTw2bXTqHx8ZBGK0yocieKobEXt292GR1Sr
+         CfPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1773294301; x=1773899101;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WHL+cdGBVdeYzUrRkXUnxuFTgvkDYPGLTyvabwlDW1U=;
+        b=nXeG4qSE73nbj1t5ku3CV6rvWJX8B3RYd1BBIj65C6yNLm+0x+R0L3KgLYD3ZM49Ha
+         8+cD2Jwuc+nDzYsutZCvJ+gCgJ5U0Nr/SkB5ZN1cquQ+Tw5EYvju/f6YOUT7DXLCJD5W
+         QgeS4rREJVhD0uwPX8EaH4H20elf/BYmawG07vyp5zpBnhWcTeV1A+Skrl6ld2EXqxaV
+         BsOMTwVzEvnRa/kNZIFOoBGWv1Oe0hYF0di2X2r/D2u0D2r7LYyv0Nfowr2MeEoMO21q
+         mYflU0itv0bBvRMYhNXyWovErOBdqUN2kh0yXCkf9DsekjHnqL6UFR+2uZ0JuIeMZXbD
+         oHrA==
+X-Forwarded-Encrypted: i=1; AJvYcCUf2FHmGwiIpNURRMckABkbPUQELeFg+AXGcsrF6r5mM2C8CwY45fTj46FuPa9h6F93urp211myiE4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywuv8VtQdg6MZ+Y+HZTt3w9stlvYNKpbWYq3EXkmDWKS8bGI7nb
+	krlsxeznnqU9+gA3EKW2Gl1fC8xdVIB3yGMi/+ByWiD6H9cmdOR2bc61JrqqEK+8WuTgMPzuhIN
+	QYrEZMP6TBL2BoyWweYlE0dqj+3ezIbLBv50UN0Cp
+X-Gm-Gg: ATEYQzyyBZimT8nP9ut5xJOHRdRfnQgc5DNu3BiBVh/McuJ1zJoF7oZtJOD1MAuJjOC
+	murvf3Fq6HejkUoCRfEqTTeUWK3GMXPhUdM2eklgmon/+2IB1YtBW3hNPTGJqRVSB3pQcAws3FE
+	7TlpRCTaPJTkBBxy+Aj3axm3/DImLq1AnRpVWzecj8dAKeK0GF9NE24khI+dKeRPBPvIVwpEHnx
+	+t4SRUSE8mJeEX2hI/nSOprvmTB9Z+6HrxVMQe0Ce+nKOunePTi5dl96bYFzhAF4zLIkwR6prKI
+	WQezbnbu8FXatriJERsCLUOdmRoWELtoq7OsuQ==
+X-Received: by 2002:a05:6102:418e:b0:5ff:ba2d:17c1 with SMTP id
+ ada2fe7eead31-601deb8f595mr2321310137.9.1773294300559; Wed, 11 Mar 2026
+ 22:45:00 -0700 (PDT)
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 11 Mar 2026 22:44:59 -0700
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 11 Mar 2026 22:44:59 -0700
+From: Ackerley Tng <ackerleytng@google.com>
+In-Reply-To: <CAEvNRgFMNywpDRr+WeNsVj=MnsbhZp9H3j0QRDo_eOP+kGCNJw@mail.gmail.com>
+References: <cover.1770071243.git.ackerleytng@google.com> <86ad28b767524e1e654b9c960e39ca8bfb24c114.1770071243.git.ackerleytng@google.com>
+ <CAEvNRgFMNywpDRr+WeNsVj=MnsbhZp9H3j0QRDo_eOP+kGCNJw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 01/25] kernel: Introduce meminspect
-To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Eugen Hristev <eugen.hristev@linaro.org>, Arnd Bergmann <arnd@arndb.de>,
- Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
- Christoph Lameter <cl@gentwo.org>, Andrew Morton
- <akpm@linux-foundation.org>, Thomas Gleixner <tglx@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>,
- Anna-Maria Behnsen <anna-maria@linutronix.de>,
- Frederic Weisbecker <frederic@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,
- Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
- Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Kees Cook <kees@kernel.org>, Brendan Jackman <jackmanb@google.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
- Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
- Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>,
- Baoquan He <bhe@redhat.com>, Barry Song <baohua@kernel.org>,
- Youngjun Park <youngjun.park@lge.com>, Petr Mladek <pmladek@suse.com>,
- John Ogness <john.ogness@linutronix.de>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Saravana Kannan <saravanak@kernel.org>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-mm@kvack.org, linux-arm-msm@vger.kernel.org,
- linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org
-References: <20260311-minidump-v2-v2-0-f91cedc6f99e@oss.qualcomm.com>
- <20260311-minidump-v2-v2-1-f91cedc6f99e@oss.qualcomm.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260311-minidump-v2-v2-1-f91cedc6f99e@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Date: Wed, 11 Mar 2026 22:44:59 -0700
+X-Gm-Features: AaiRm50qY80lG_kPAevYiMiI4iaIYG-rOHvoXqEdwljZn3zJnS7kUqoIvI7enLE
+Message-ID: <CAEvNRgG-L+GBcm+u_thGvXAxV-Nqzu5VtgXy0PfND6SG0FiyVg@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 09/37] KVM: guest_memfd: Add support for KVM_SET_MEMORY_ATTRIBUTES2
+To: kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, x86@kernel.org
+Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
+	bp@alien8.de, brauner@kernel.org, chao.p.peng@intel.com, 
+	chao.p.peng@linux.intel.com, chenhuacai@kernel.org, corbet@lwn.net, 
+	dave.hansen@linux.intel.com, david@kernel.org, hpa@zytor.com, 
+	ira.weiny@intel.com, jgg@nvidia.com, jmattson@google.com, jroedel@suse.de, 
+	jthoughton@google.com, maobibo@loongson.cn, mathieu.desnoyers@efficios.com, 
+	maz@kernel.org, mhiramat@kernel.org, michael.roth@amd.com, mingo@redhat.com, 
+	mlevitsk@redhat.com, oupton@kernel.org, pankaj.gupta@amd.com, 
+	pbonzini@redhat.com, prsampat@amd.com, qperret@google.com, 
+	ricarkol@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
+	rostedt@goodmis.org, seanjc@google.com, shivankg@amd.com, shuah@kernel.org, 
+	steven.price@arm.com, tabba@google.com, tglx@linutronix.de, 
+	vannapurve@google.com, vbabka@suse.cz, willy@infradead.org, wyihan@google.com, 
+	yan.y.zhao@intel.com
+Content-Type: text/plain; charset="UTF-8"
 
+Ackerley Tng <ackerleytng@google.com> writes:
 
+Here's iteration 2 of the attributes, after getting a much clearer idea
+of the use cases across platforms at the last guest_memfd biweekly.
 
-On 3/10/26 1:15 PM, Mukesh Ojha wrote:
-> diff --git a/Documentation/dev-tools/meminspect.rst b/Documentation/dev-tools/meminspect.rst
-> new file mode 100644
-> index 000000000000..d0c7222bdcd7
-> --- /dev/null
-> +++ b/Documentation/dev-tools/meminspect.rst
-> @@ -0,0 +1,144 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +==========
-> +meminspect
-> +==========
-> +
-> +This document provides information about the meminspect feature.
-> +
-> +Overview
-> +========
-> +
-> +meminspect is a mechanism that allows the kernel to register a chunk of
-> +memory into a table, to be used at a later time for a specific
-> +inspection purpose like debugging, memory dumping or statistics.
-> +
-> +meminspect allows drivers to traverse the inspection table on demand,
-> +or to register a notifier to be called whenever a new entry is being added
+Please comment in this context! I'm planning for this text to make it to
+Documentation/virt/kvm/api.rst.
 
-  preferably...                                                is added
+> Ackerley Tng <ackerleytng@google.com> writes:
+>
+>>
+>> [...snip...]
+>>
+>> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+>> index 23ec0b0c3e22..26e80745c8b4 100644
+>> --- a/Documentation/virt/kvm/api.rst
+>> +++ b/Documentation/virt/kvm/api.rst
+>> @@ -117,7 +117,7 @@ description:
+>>        x86 includes both i386 and x86_64.
+>>
+>>    Type:
+>> -      system, vm, or vcpu.
+>> +      system, vm, vcpu or guest_memfd.
+>>
+>>    Parameters:
+>>        what parameters are accepted by the ioctl.
+>> @@ -6523,11 +6523,22 @@ the capability to be present.
+>>  ---------------------------------
+>>
+>>  :Capability: KVM_CAP_MEMORY_ATTRIBUTES2
+>> -:Architectures: x86
+>> -:Type: vm ioctl
+>> +:Architectures: all
+>> +:Type: vm, guest_memfd ioctl
+>>  :Parameters: struct kvm_memory_attributes2 (in/out)
+>>  :Returns: 0 on success, <0 on error
+>>
+>> +Errors:
+>> +
+>> +  ========== ===============================================================
+>> +  EINVAL     The specified `offset` or `size` were invalid (e.g. not
+>> +             page aligned, causes an overflow, or size is zero).
+>> +  EFAULT     The parameter address was invalid.
+>> +  EAGAIN     Some page within requested range had unexpected refcounts. The
+>> +             offset of the page will be returned in `error_offset`.
+>> +  ENOMEM     Ran out of memory trying to track private/shared state
+      EOPNOTSUPP The specified content policy is not supported while
+                 setting the requested attribute
+>> +  ========== ===============================================================
+>> +
+>>  KVM_SET_MEMORY_ATTRIBUTES2 is an extension to
+>>  KVM_SET_MEMORY_ATTRIBUTES that supports returning (writing) values to
+>>  userspace.  The original (pre-extension) fields are shared with
+>> @@ -6538,15 +6549,42 @@ Attribute values are shared with KVM_SET_MEMORY_ATTRIBUTES.
+>>  ::
+>>
+>>    struct kvm_memory_attributes2 {
+>> -	__u64 address;
+>> +	/* in */
+>> +	union {
+>> +		__u64 address;
+>> +		__u64 offset;
+>> +	};
+>>  	__u64 size;
+>>  	__u64 attributes;
+>>  	__u64 flags;
+>> -	__u64 reserved[12];
+>> +	/* out */
+>> +	__u64 error_offset;
+>> +	__u64 reserved[11];
+>>    };
+>>
+>>    #define KVM_MEMORY_ATTRIBUTE_PRIVATE           (1ULL << 3)
+>>
+>> +Set attributes for a range of offsets within a guest_memfd to
+>> +KVM_MEMORY_ATTRIBUTE_PRIVATE to limit the specified guest_memfd backed
+>> +memory range for guest_use. Even if KVM_CAP_GUEST_MEMFD_MMAP is
+>> +supported, after a successful call to set
+>> +KVM_MEMORY_ATTRIBUTE_PRIVATE, the requested range will not be mappable
+>> +into host userspace and will only be mappable by the guest.
+>> +
+>> +To allow the range to be mappable into host userspace again, call
+>> +KVM_SET_MEMORY_ATTRIBUTES2 on the guest_memfd again with
+>> +KVM_MEMORY_ATTRIBUTE_PRIVATE unset.
+>> +
+>> +If this ioctl returns -EAGAIN, the offset of the page with unexpected
+>> +refcounts will be returned in `error_offset`. This can occur if there
+>> +are transient refcounts on the pages, taken by other parts of the
+>> +kernel.
+>> +
+>> +Userspace is expected to figure out how to remove all known refcounts
+>> +on the shared pages, such as refcounts taken by get_user_pages(), and
+>> +try the ioctl again. A possible source of these long term refcounts is
+>> +if the guest_memfd memory was pinned in IOMMU page tables.
+>> +
 
-> +or removed.
-> +
-> +The reasoning for meminspect is also to minimize the required information
-> +in case of a kernel problem. For example a traditional debug method involves
-> +dumping the whole kernel memory and then inspecting it. Meminspect allows the
-> +users to select which memory is of interest, in order to help this specific
-> +use case in production, where memory and connectivity are limited.
-> +
-> +Although the kernel has multiple internal mechanisms, meminspect fits
-> +a particular model which is not covered by the others.
-> +
-> +meminspect Internals
-> +====================
-> +
-> +API
-> +---
-> +
-> +Static memory can be registered at compile time, by instructing the compiler
-> +to create a separate section with annotation info.
-> +For each such annotated memory (variables usually), a dedicated struct
-> +is being created with the required information.
+Memory *content* policies can be requested while setting memory
+attributes. This defines:
 
-   is created
+  - What the host reads after a private to shared conversion
+  - What the guest reads after a shared to private conversion (if
+    applicable)
 
-> +To achieve this goal, some basic APIs are available:
-> +
-> +* MEMINSPECT_ENTRY(idx, sym, sz)
-> +  is the basic macro that takes an ID, the symbol, and a size.
-> +
-> +To make it easier, some wrappers are also defined
-> +
-> +* MEMINSPECT_SIMPLE_ENTRY(sym)
-> +  will use the dedicated MEMINSPECT_ID_##sym with a size equal to sizeof(sym)
+The policy definitions below provide more details:
 
-     uses the dedicated
+``KVM_SET_MEMORY_ATTRIBUTES2_CONTENT_POLICY_ZERO`` (default)
 
-> +
-> +* MEMINSPECT_NAMED_ENTRY(name, sym)
-> +  will be a simple entry that has an id that cannot be derived from the sym,
+  On a private to shared conversion, the host will read zeros from the
+  converted memory on the next fault after successful return of the
+  KVM_SET_MEMORY_ATTRIBUTES2 ioctl.
 
-     is a simple entry that
+  This is not supported (-EOPNOTSUPP) for a shared to private
+  conversion. While some CoCo implementations do zero memory contents
+  such that the guest reads zeros after conversion, the guest is not
+  expected to trust host-provided zeroing, hence as a UAPI policy, KVM
+  does not make any such guarantees.
 
-> +  so a name has to be provided
-> +
-> +* MEMINSPECT_AREA_ENTRY(sym, sz)
-> +  this will register sym, but with the size given as sz, useful for e.g.
+  For testing purposes, the KVM_X86_SW_PROTECTED_VM testing vehicle
+  will support this policy and ensure zeroing for conversions in both
+  directions.
 
-     registers sym, but with
+``KVM_SET_MEMORY_ATTRIBUTES2_CONTENT_POLICY_PRESERVE``
 
-> +  arrays which do not have a fixed size at compile time.
-> +
-> +For dynamically allocated memory, or for other cases, the following APIs
-> +are being defined::
+  On private/shared conversions in both directions, memory contents
+  will be preserved and readable. As a concrete example, if the host
+  writes ``0xbeef`` to memory and converts the memory to shared, the
+  guest will also read ``0xbeef``, after any necessary hardware or
+  software provided decryption. After a reverse shared to private
+  conversion, the host will also read ``0xbeef``.
 
-   are defined::
+  pKVM (ARM) is the first user of this policy. Since pKVM does not
+  protect memory with encryption, a content policy to preserve memory
+  will not will not involve any decryption. The guest will be able to
+  read what the host wrote with full content preservation.
 
-> +
-> +  meminspect_register_id_pa(enum meminspect_uid id, phys_addr_t zone,
-> +                            size_t size, unsigned int type);
-> +
-> +which takes the ID and the physical address.
-> +
-> +Similarly there are variations:
-> +
-> + * meminspect_register_pa() omits the ID
-> + * meminspect_register_id_va() requires the ID but takes a virtual address
-> + * meminspect_register_va() omits the ID and requires a virtual address
-> +
-> +If the ID is not given, the next avialable dynamic ID is allocated.
+  For testing purposes, the KVM_X86_SW_PROTECTED_VM testing vehicle
+  will support this policy and the contents of converted memory will
+  be preserved.
 
-                                    available
+``KVM_SET_MEMORY_ATTRIBUTES2_CONTENT_POLICY_NONE``
 
-> +
-> +To unregister a dynamic entry, some APIs are being defined:
+  This is an explicit request that KVM provide no guarantees on memory
+  contents after conversion. Neither host nor guest should expect any
+  guarantees about the memory contents after conversion.
 
-                                            are defined:
+  For testing purposes, the KVM_X86_SW_PROTECTED_VM testing vehicle will
+  support this policy and every byte of converted memory will read
+  ``0xab``.
 
-> + * meminspect_unregister_pa(phys_addr_t zone, size_t size);
-> + * meminspect_unregister_id(enum meminspect_uid id);
-> + * meminspect_unregister_va(va, size);
-> +
-> +All of the above have a lock variant that ensures the lock on the table
-> +is taken.
-> +
-> +
-> +meminspect drivers
-> +------------------
-> +
-> +Drivers are free to traverse the table by using a dedicated function::
-> +
-> + meminspect_traverse(void *priv, MEMINSPECT_ITERATOR_CB cb)
-> +
-> +The callback will be called for each entry in the table.
-
-maybe           is called
-
-> +
-> +Drivers can also register a notifier with meminspect_notifier_register()
-> +and unregister with meminspect_notifier_unregister() to be called when a new
-> +entry is being added or removed.
-
-         is added or removed.
-
-> +
-> +Data structures
-> +---------------
-> +
-> +The regions are being stored in a simple fixed size array. It avoids
-
-               are stored
-
-> +memory allocation overhead. This is not performance critical nor does
-> +allocating a few hundred entries create a memory consumption problem.
-> +
-> +The static variables registered into meminspect are being annotated into
-
-                                                   are annotated into
-
-> +a dedicated .inspect_table memory section. This is then walked by meminspect> +at a later time and each variable is then copied to the whole inspect table.
-> +
-> +meminspect Initialization
-> +-------------------------
-> +
-> +At any time, meminspect will be ready to accept region registration
-
-                meminspect is ready
-
-> +from any part of the kernel. The table does not require any initialization.
-> +In case CONFIG_CRASH_DUMP is enabled, meminspect will create an ELF header
-
-                                         meminspect creates an ELF header
-
-> +corresponding to a core dump image, in which each region is added as a
-> +program header. In this scenario, the first region is this ELF header, and
-> +the second region is the vmcoreinfo ELF note.
-> +By using this mechanism, all the meminspect table, if dumped, can be
-> +concatenated to obtain a core image that is loadable with the `crash` tool.
-> +
-> +meminspect example
-> +==================
-> +
-> +A simple scenario for meminspect is the following:
-> +The kernel registers the linux_banner variable into meminspect with
-> +a simple annotation like::
-> +
-> +  MEMINSPECT_SIMPLE_ENTRY(linux_banner);
-> +
-> +The meminspect late initcall will parse the compilation time created table
-
-maybe...                                       compile-time
-
-> +and copy the entry information into the inspection table.
-> +At a later point, any interested driver can call the traverse function to
-> +find out all entries in the table.
-> +A specific driver will then note into a specific table the address of the
-> +banner and the size of it.
-> +The specific table is then written to a shared memory area that can be
-> +read by upper level firmware.
-> +When the kernel freezes (hypothetically), the kernel will no longer feed
-> +the watchdog. The watchdog will trigger a higher exception level interrupt
-> +which will be handled by the upper level firmware. This firmware will then
-> +read the shared memory table and find an entry with the start and size of
-> +the banner. It will then copy it for debugging purpose. The upper level
-> +firmware will then be able to provide useful debugging information,
-> +like in this example, the banner.
-> +
-> +As seen here, meminspect facilitates the interaction between the kernel
-> +and a specific firmware.
-
-
--- 
-~Randy
-
+>>  See also: :ref: `KVM_SET_MEMORY_ATTRIBUTES`.
+>>
+>
+> [...snip...]
+>
