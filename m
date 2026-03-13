@@ -1,138 +1,152 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D2F02857F0
-	for <linux-doc@vger.kernel.org>; Fri, 13 Mar 2026 09:36:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94C5B26A1CF;
+	Fri, 13 Mar 2026 09:43:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773394592; cv=none; b=nSKKfDX9/4WsM/4HlM5HvZCoJQFGOQMytTfV/+z3mbay7unGQ6XXFS1d3/tWS8oOJnVabcYaqC8rm4bq7yNnitru0XNbdlaCMwzA253Lq0pl6Mibr5e4Okxi6ujy3HXKZhzXiK7/hrlVNfVAc0H0D6F4PPG9fPQsNq3Mmh3Hi3Q=
+	t=1773395019; cv=none; b=ao22lzhJ3ummk1vvf7zuhaNH3eFhxNypKo8nEUJlu/hok+/6uH1JMvKFO7KBIM1JKPM2OBkci0lkmXqCJ642TiljTwSHGByst3ikZgxlv1lW8DZNZjGGu9KSrx6yShDOAoNbTazPaNOYF/zHsWDJCbEJOCjxPhcjAsZUgDnrs14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773394592; c=relaxed/simple;
-	bh=MDPISncaQk/j+sg4lRSOUn1FD/PZXrRXpiRVuog5XwA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aHfMUfogTK992D3OOTQlErRF2Sf4+eQvqQ+3hAM13XW8G4iyU5dBhizRAYxcFNx+qJRA1B0TThIQlnVdYZpcUQyRq3WngEaFAi9hRg9sZGIPdCoh6RiXdzFqSYLOzpFksfb78SCLw36fmsPyrIGRRuYEsJJu1bt4Wutq4zdFVXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=auYYBnmM; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=P7pfSVYq; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="auYYBnmM";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="P7pfSVYq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1773394590;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ik0jcpyuM4uQ3ciTkmit5WfEePrPHs1SgwiGTBY8tgs=;
-	b=auYYBnmMDHbEQFWXP9Ljxge7cLKDyQdHEyJcRt1glYUCKpy/37xtu+EgjuKIfYM0vVbmga
-	1hj5iGSS2Cg90y1HUGlRa5A/TRr1d/tbNEfc1Lbqw4mS5QAL9PnD/Jbl/BZw2La8Zt+Fc9
-	1xFgzhkiYip98hDxiD1+bu8vyECBBBc=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-280-ozN2ZE9sP-a5gyhlc9ivIA-1; Fri, 13 Mar 2026 05:36:29 -0400
-X-MC-Unique: ozN2ZE9sP-a5gyhlc9ivIA-1
-X-Mimecast-MFC-AGG-ID: ozN2ZE9sP-a5gyhlc9ivIA_1773394588
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-439cbc5fd75so1258299f8f.0
-        for <linux-doc@vger.kernel.org>; Fri, 13 Mar 2026 02:36:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1773394588; x=1773999388; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ik0jcpyuM4uQ3ciTkmit5WfEePrPHs1SgwiGTBY8tgs=;
-        b=P7pfSVYqQrbvZZvHJjRrMUZ9b38FHrelUwCbMCFoCn1Gw9IddxgpjFY1gayevqj8rc
-         4sYK6TtUHUJREqHSuw8zV/O9QPpBmdCKTgq2BAfI2RblHkZ5KQgFWP85kvgTKkV4wgUq
-         1x6HH1MbX1g1sQjfyyJi6PxUwi8CroeTPo01/zMY8YxvDUrsCo4ayzuifrUIlfSuItzy
-         4zWmnAYM1zpmA5LeuwGFGGvZCIfz8bbObQiuyCZ850T5brzxRXG5hFKywgjfIdocSBZF
-         IuFDhg76jby9opPtotHWRl5bPFdbUxTlQnoeeVOwD6uQI7NMfSvojnc0kkM0P6uUj9Bf
-         XTWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773394588; x=1773999388;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ik0jcpyuM4uQ3ciTkmit5WfEePrPHs1SgwiGTBY8tgs=;
-        b=m+jfJDa7cb3C/Qblhj8R6BuiAukaMg8aTHTStn6ZI5z+mXMTr1PjqlFCzOdBicGCfo
-         9Z6JRyY5Fa3atq4uBUsS3L7qI6RQKEsEc5HBh6R2rkHzP1MfXnZ5+LXkULr4ZxkPzI7x
-         kfmXuzIYmTjy5fZeils2ICd3fI5HhppY2KXunMD5EKr5WxOZAFLNUht/vK9paNRTxVSD
-         TTDDiWzznQEkwvddbahc7pTbsBGIS7Rnu324U6PY3n3QBkLw9wJAPecu5r9MBqV+HVR9
-         NUIarE/dNdTIMee7ZuofVS8pwmRJyKh0R0KFjx5Vt7D5Km6KlAYFZTHLXUG1ph7IQRHH
-         PTMg==
-X-Forwarded-Encrypted: i=1; AJvYcCXbjC03zqH2+5hoHb3pU7hnzljUOts8Wbs5E7e9OPUynHmP+WjkSXViBRPlYKSCvIWqsYXh5Um0O/k=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzW6hCWvAAv+pX3SJecRCApGOfLHsLoimxpWUi3QfSjIJ4ZiNW9
-	9u+61sgrFmXuDogMVA7hRSx/x9ufeTvO/gE4TYnarJzFfveIPAQgZURyqjQ7UQunYs3pYbSgpeL
-	kM8wT/Ni8a8hmqueRdDaq0FWlDZHr24/YI/2pR67sOb5VRX9fFgySkNpWqjgEYg==
-X-Gm-Gg: ATEYQzzUh/2dLFIagBgFHeIa9OP/26jROy7ofHF8qWlFnkYXITSEo8HOa+nSADZwfAD
-	nq/4/RcRp/BAFRHw5qaCgFyg8InmJFW5WdYDLd4ZxlVlq1PGkFiet7TAC27kjLjGg8g3caq4vUh
-	XDrPk4rTQ6IzJ2yYzKOeLzHDHWjcs4fRpwPW4VOv2QA6WdY8O+39vTbSNX7I0AmZPYDrv5DYxnm
-	93xu/OxIOLL/qZxPZIylQNUATcxEaiuDpkQutDzwb4QFU0nTNvpOA6zlFnjn1Ppe7C3t7cUC+I9
-	yPlFXdxKhhtbuHmhz+oy8VojokCYOVmxDzPOw0R7CnZ2ScWoUTj6QgF4cDjH2cbnHmp4EemCUGL
-	tfg5K4A0+IXQlnXl6eZlBM7L781aikISHuG2Zhr9WJSneYqvX4EbBrPE=
-X-Received: by 2002:a05:6000:2c06:b0:439:b715:6f49 with SMTP id ffacd0b85a97d-43a04dceabbmr5256612f8f.59.1773394587626;
-        Fri, 13 Mar 2026 02:36:27 -0700 (PDT)
-X-Received: by 2002:a05:6000:2c06:b0:439:b715:6f49 with SMTP id ffacd0b85a97d-43a04dceabbmr5256562f8f.59.1773394587136;
-        Fri, 13 Mar 2026 02:36:27 -0700 (PDT)
-Received: from [192.168.88.32] ([216.128.11.95])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439fe19acbbsm16991060f8f.2.2026.03.13.02.36.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Mar 2026 02:36:26 -0700 (PDT)
-Message-ID: <da079dc9-4698-4e87-b7b4-ba60ecebf4b5@redhat.com>
-Date: Fri, 13 Mar 2026 10:36:25 +0100
+	s=arc-20240116; t=1773395019; c=relaxed/simple;
+	bh=nl0ZgB8jD/JEsAyqYDkUHGobWyb28KPB1atld8FgVLU=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=S+6pc+w9KntFDtR4OsuZwGNQqUTvW9/+KRKuSWEEpyRNycgXOPJkkGC0loR7ivijsY+kjxsUEUeocRmVMmiKM2ZUFNYqFCzKhbTwdwLeEx8IJCDivYjDpyS1B4CDLxqGzgCDQ7MPGr1q+FoaP+1wWGwsrL+iu2drO0Eqcc2ABdw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 80F48165C;
+	Fri, 13 Mar 2026 02:43:24 -0700 (PDT)
+Received: from [10.1.196.46] (e134344.arm.com [10.1.196.46])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 31A7B3F73B;
+	Fri, 13 Mar 2026 02:43:26 -0700 (PDT)
+Message-ID: <ff0df614-1b3f-4df5-90a7-39918ae31dec@arm.com>
+Date: Fri, 13 Mar 2026 09:43:24 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: =?UTF-8?B?UmU6IOWbnuWkje+8mltQQVRDSCB2NyBuZXQtbmV4dCAwMy8xMV0gbmV0?=
- =?UTF-8?Q?/nebula-matrix=3A_add_chip_related_definitions?=
-To: Illusion Wang <Illusion.Wang@nebula-matrix.com>,
- Dimon <dimon.zhao@nebula-matrix.com>, Alvin <alvin.wang@nebula-matrix.com>,
- Sam <sam.chen@nebula-matrix.com>, netdev <netdev@vger.kernel.org>
-Cc: andrew+netdev <andrew+netdev@lunn.ch>, corbet <corbet@lwn.net>,
- kuba <kuba@kernel.org>, linux-doc <linux-doc@vger.kernel.org>,
- lorenzo <lorenzo@kernel.org>, horms <horms@kernel.org>,
- "vadim.fedorenko" <vadim.fedorenko@linux.dev>,
- "lukas.bulwahn" <lukas.bulwahn@redhat.com>, edumazet <edumazet@google.com>,
- open list <linux-kernel@vger.kernel.org>
-References: <20260310120959.22015-1-illusion.wang@nebula-matrix.com>
- <20260310120959.22015-4-illusion.wang@nebula-matrix.com>
- <f669062e-16f4-471a-9884-6441c478dd09@redhat.com>
- <388ff939-2eae-4cee-aac5-ca88dd37ef49.Illusion.Wang@nebula-matrix.com>
+User-Agent: Thunderbird Daily
+Subject: Re: [PATCH v5 12/41] KVM: arm64: Use kernel-space partid
+ configuration for hypercalls
+From: Ben Horgan <ben.horgan@arm.com>
+To: Marc Zyngier <maz@kernel.org>
+Cc: amitsinght@marvell.com, baisheng.gao@unisoc.com,
+ baolin.wang@linux.alibaba.com, carl@os.amperecomputing.com,
+ dave.martin@arm.com, david@kernel.org, dfustini@baylibre.com,
+ fenghuay@nvidia.com, gshan@redhat.com, james.morse@arm.com,
+ jonathan.cameron@huawei.com, kobak@nvidia.com, lcherian@marvell.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ peternewman@google.com, punit.agrawal@oss.qualcomm.com,
+ quic_jiles@quicinc.com, reinette.chatre@intel.com, rohit.mathew@arm.com,
+ scott@os.amperecomputing.com, sdonthineni@nvidia.com,
+ tan.shaopeng@fujitsu.com, xhao@linux.alibaba.com, catalin.marinas@arm.com,
+ will@kernel.org, corbet@lwn.net, oupton@kernel.org, joey.gouly@arm.com,
+ suzuki.poulose@arm.com, kvmarm@lists.linux.dev, zengheng4@huawei.com,
+ linux-doc@vger.kernel.org, Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+References: <20260224175720.2663924-1-ben.horgan@arm.com>
+ <20260224175720.2663924-13-ben.horgan@arm.com> <86jyvu85dj.wl-maz@kernel.org>
+ <fd0cf579-77c4-4a76-bc8e-b19bb7988155@arm.com>
 Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <388ff939-2eae-4cee-aac5-ca88dd37ef49.Illusion.Wang@nebula-matrix.com>
+In-Reply-To: <fd0cf579-77c4-4a76-bc8e-b19bb7988155@arm.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 3/13/26 9:05 AM, Illusion Wang wrote:
-> I am so sorry, Last time I missed a 'not'
-> 
-> These data are used to configure P4-related registers. The driver’s functionality
-> 
-> depends heavily on these register settings. They will be declared as const.
-> 
-> But they can be not marked __initdata. Because it will be called by pci_driver.probe.
-> 
-> They also should not be moved into firmware files, as the software functionality
-> 
-> is tightly coupled with these configurations. If they were moved to firmware,
-> 
-> users could easily end up with mismatched versions of the firmware and the kernel
-> 
-> driver module, leading to functional inconsistencies or system malfunctions.
 
-Please add the above explanation somewhere in the commit message or in a
-code comment.
 
-I appreciated you switched to plaintext for ML messages; please
-additionally try to properly quote the relevant part of the message you
-are replaying to: it will help following the conversation.
+On 3/3/26 16:33, Ben Horgan wrote:
+> Hi Marc,
+> 
+> On 3/2/26 18:15, Marc Zyngier wrote:
+>> On Tue, 24 Feb 2026 17:56:51 +0000,
+>> Ben Horgan <ben.horgan@arm.com> wrote:
+>>>
+>>> On nVHE systems whether or not MPAM is enabled, EL2 continues to use
+>>> partid-0 for hypercalls, even when the host may have configured its kernel
+>>> threads to use a different partid. 0 may have been assigned to another
+>>> task. Copy the EL1 MPAM register to EL2. This ensures hypercalls use the
+>>> same partid as the kernel thread does on the host.
+>>>
+>>> Tested-by: Gavin Shan <gshan@redhat.com>
+>>> Tested-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+>>> Tested-by: Peter Newman <peternewman@google.com>
+>>> Tested-by: Zeng Heng <zengheng4@huawei.com>
+>>> Reviewed-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+>>> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+>>> Signed-off-by: Ben Horgan <ben.horgan@arm.com>
+>>> ---
+>>> Changes since v2:
+>>> Use mask
+>>> Use read_sysreg_el1 to cope with hvhe
+>>>
+>>> Changes since v3:
+>>> Set MPAM2_EL2.MPAMEN to 1 as we rely on that before and after
+>>> ---
+>>>  arch/arm64/kvm/hyp/nvhe/hyp-main.c | 9 +++++++++
+>>>  1 file changed, 9 insertions(+)
+>>>
+>>> diff --git a/arch/arm64/kvm/hyp/nvhe/hyp-main.c b/arch/arm64/kvm/hyp/nvhe/hyp-main.c
+>>> index e7790097db93..80e71eeddc03 100644
+>>> --- a/arch/arm64/kvm/hyp/nvhe/hyp-main.c
+>>> +++ b/arch/arm64/kvm/hyp/nvhe/hyp-main.c
+>>> @@ -638,6 +638,15 @@ static void handle_host_hcall(struct kvm_cpu_context *host_ctxt)
+>>>  	unsigned long hcall_min = 0;
+>>>  	hcall_t hfn;
+>>>  
+>>> +	if (system_supports_mpam()) {
+>>> +		u64 mask = MPAM1_EL1_PARTID_D | MPAM1_EL1_PARTID_I |
+>>> +			MPAM1_EL1_PMG_D | MPAM1_EL1_PMG_I;
+>>> +		u64 val = MPAM2_EL2_MPAMEN | (read_sysreg_el1(SYS_MPAM1) & mask);
+>>> +
+>>> +		write_sysreg_s(val, SYS_MPAM2_EL2);
+>>> +		isb();
+>>> +	}
+>>> +
+>>>  	/*
+>>>  	 * If pKVM has been initialised then reject any calls to the
+>>>  	 * early "privileged" hypercalls. Note that we cannot reject
+>>
+>> It is extremely debatable whether this is desirable:
+>>
+>> - pKVM really shouldn't be influenced by what the host does, which
+>>   means reserving PARTIDs and indirecting what the host sees. This can
+>>   be deferred until pKVM is actually useful upstream.
+>>
+>> - repeatedly hammering that register plus an ISB on the hot path of a
+>>   hypercall is a sure way to make things worse than they should be,
+>>   and that should be fixed now.
+> 
+> Would a read modify write be preferable?
+> 
+>>
+>> Do you really expect the EL1 settings to change on a regular basis? If
+> 
+> The MPAM EL1 partid/pmg configuration is kept in sync with the MPAM EL0
+> partid/pmg configuration (see mpam_thread_switch() in patch 4) which
+> means that the EL1 configuration will change whenever the user changes
+> the EL0 configuration.
+> 
+>> so, I'd rather you use a specific host hypercall, or even a trap to
+>> propagate the EL1 configuration. If not, just set it as part of the
+> 
+> I think this ends up trapping context switch which doesn't seem any more
+> desirable.
+> 
+>> KVM init and be done with it.
+> 
+> If we just forego this patch then the MPAM configuration for el2 as
+> initially configured, partid=0, pmg=0 would be used. This is also the
+> default for requestors that aren't MPAM aware or unconfigured, like
+> trusted firmware, its, gpu. VHE mode (required from 8.1?) should be
+> available in any platform that has MPAM (introduced in 8.4, back
+> portable to 8.3) and so using nvhe with MPAM seems unlikely and the
+> amount of data should be small enough. That leaves pKVM for which,
+> perhaps, doing nothing is also the correct answer.
+> 
+> What do you think? Drop, read modify write, or something else?
+
+As discussed offline, I'll drop this patch.
 
 Thanks,
 
-Paolo
-
+Ben
