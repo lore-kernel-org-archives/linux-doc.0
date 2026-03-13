@@ -1,111 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 839583D5655;
-	Fri, 13 Mar 2026 23:37:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F50E2BF3F3;
+	Fri, 13 Mar 2026 23:46:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773445056; cv=none; b=bIuvdTLYeT9DCyvgtqlbY5SwAi7UH+PLF7HXMCLnNzz6DNzX3/QSQf7J9FoEh1grncBbc0A1e1n71z3V3ecyhKT4n7NPxIU1+emvvdFjYH0kt/c69PHRsF36YybpptArjHd6L8BqYcuAmDbAKqvN0wXlMvEN1mAWGvrCDOoQqko=
+	t=1773445607; cv=none; b=EplJ1sXa8xhSHyUs+pHVS7KgBhRhIf9SS0AGb46/BPOki5YEn9Dh2uOmObJK1tQvSoSHP9ZvlSzSJe2pnYUCTvTlmaZrS5Sf/zAtgiY4sXE3FnjlMw+a4c9Eq6XhL8xAMdN+puvk8ICZgjVPAgQNhToHCJSb74uepxBVzasgubk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773445056; c=relaxed/simple;
-	bh=P/b+26eLHzJBtQ41eepGb28Olwsac0ZQYyfKcCRSB6s=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Zcgf/hSiziC7yqIkPojzne+dKOafcIeqTnzk5/xL3ROVlYSfmLiZonENaOsIN22dCfDX/c2EOW2J+/mqcjuNJ8YEF7c0ZtCCDTlRClrnI2ZV6rSw6ilCiM25PffnT20hR71E/yZtVjOjTjzolMAOkaHEbzJv7HIeTLmIWfJ10og=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g5q+MJsc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773445607; c=relaxed/simple;
+	bh=4u62yTewF4Ria02l+r2EiWYExHlsZaHkcvllXs7rLWs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Iq52/fM4sxg9Dj9sRpzLe08sXijci6AgMWC3KnVNG1W0DlJSPNFCD4SSiQvK3PG2FGL7lyM5tUG2paUPLQ+IUg189+Sfli0h5V8ipwBITWKiWseuck73uXnSBh+XtpOK/fku2vbFdxex8en3DLSrd80zNrIrioBiDWnBFnk7P1o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=Ase/MnIe; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g5q+MJsc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9982CC19421;
-	Fri, 13 Mar 2026 23:37:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773445056;
-	bh=P/b+26eLHzJBtQ41eepGb28Olwsac0ZQYyfKcCRSB6s=;
-	h=From:Date:Subject:To:Cc:From;
-	b=g5q+MJscx8OlcpENFUbJonXsEG0iTUR0/J7qt4l7lA9rFt2hwLyn5fRNHgIGfd1YL
-	 G/83WSaTqGXfK9Y0sWmQVDuHbV2J2CRSe0CDCcmN5yYhFZ1neJ341sLek5SOh/bt1o
-	 XH7l+SZLvoO0Ooa3p2XAVDevDhyrmx37P+cWxH86bBOgDkLOyWNskaxbn84Up/QWyB
-	 nSr8oi3GzqqpgzZOkzk8Kc5hIsW6Vg5csi2GKoALEOCTkDrNls/C+MuU20rs4Q+XTY
-	 2EqZgtCGQSG+IxKLcD7+KwHYFB2K8pTUYezoYkJPMFtqwmxqjB/A8rASK2GZ1Bljqr
-	 FY6OXbLPtZsCQ==
-From: Nathan Chancellor <nathan@kernel.org>
-Date: Fri, 13 Mar 2026 16:37:29 -0700
-Subject: [PATCH] Documentation: kbuild: Update the debug information notes
- in reproducible-builds.rst
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="Ase/MnIe"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=wGYcxW8yVTFkNY9kQvbfYKPjoAkfGv57TJ3BTio0e/8=; b=Ase/MnIeIH3wrLd0jlh0iWwbJX
+	ZEwcR63YdNB8FZQ5lqIzbygu0luhRxphxLg4l0I9qoQOh6Xjkx9dLs/uJGuvPacnOU9L6ayCyDDAJ
+	bF4Xve45wwCMbZZNpTo3dFAPPlpcuZ1UDC8Satna4+rocBvqzf57DrvIMA6QcJHKQvAZ61NnozdNr
+	l73HEEW1BpDRXy9L4ugCZjr6nXWL6B9fa5/fImx/5Z4QffujH2TRXTx+KHzS5X/52taWUEBFahfjo
+	nBlYjwpkXdf3T3wg2FHU5xG+RqfBcj6vYsHPRL0CxJkntgYKoOnEHTG3h1YVOy8bL8RecDGBMkJqJ
+	nwScA6xQ==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1w1CDK-00000001KXh-00QJ;
+	Fri, 13 Mar 2026 23:46:42 +0000
+Message-ID: <91914036-071a-4503-8fe3-9c69cd1f8a41@infradead.org>
+Date: Fri, 13 Mar 2026 16:46:40 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] crypto: replace broken libkcapi link in Crypto API
+ documentation
+To: paul.louvel@bootlin.com, Herbert Xu <herbert@gondor.apana.org.au>,
+ "David S. Miller" <davem@davemloft.net>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260313-crypto-api-libkcapi-broken-link-v1-1-a218033d7f05@bootlin.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260313-crypto-api-libkcapi-broken-link-v1-1-a218033d7f05@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260313-kbuild-docs-repro-builds-fdebug-prefix-map-updates-v1-1-3aeeef7fa710@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWNywqDMBBFf0Vm3YFoVGh/pXSRzIw2fWjImFIQ/
- 72pLs/lcs4KKimIwqVaIcknaJinAvWpArq7aRQMXBga0/TG1hafPocXI8+kmCSmGfdBcWDxecS
- YZAhffLuIObJbRJFastRyf+46A0V8XPbo9XawZv8QWv4l2LYffX1VepYAAAA=
-X-Change-ID: 20260313-kbuild-docs-repro-builds-fdebug-prefix-map-updates-c4c3c4d69550
-To: Nicolas Schier <nsc@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, linux-kbuild@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Alexander Coffin <alex@cyberialabs.net>, 
- Nathan Chancellor <nathan@kernel.org>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2430; i=nathan@kernel.org;
- h=from:subject:message-id; bh=P/b+26eLHzJBtQ41eepGb28Olwsac0ZQYyfKcCRSB6s=;
- b=owGbwMvMwCUmm602sfCA1DTG02pJDJlb5u87suz9nzWza76yV25Qmcq9yM1Wtc8ryPr8N/E4l
- o0M2cvFOkpZGMS4GGTFFFmqH6seNzScc5bxxqlJMHNYmUCGMHBxCsBEbggzMqwOfXP7zMzH2yx+
- TFhjuPmehaq/aGNVoMCjOd1LnCXmh59hZLikPSm4b9HDpSscuhe5h8+sOb/jZ+4bWdHJ77cvc1g
- f58ELAA==
-X-Developer-Key: i=nathan@kernel.org; a=openpgp;
- fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 
-The debug information part of the "Absolute filenames" section in the
-reproducible builds document only mentions providing
-'-fdebug-prefix-map' to KCFLAGS but it needs to be provided to KAFLAGS
-as well since debug information has been generated for assembly files
-for a long time.
 
-Additionally, mention that the build directory may also appear as an
-absolute path in the debug information (via DW_AT_comp_dir), so it needs
-to be overridden via '-fdebug-prefix-map' as well.
 
-Reported-by: Alexander Coffin <alex@cyberialabs.net>
-Closes: https://lore.kernel.org/b8dfe7035d19fd611b9be55ee3145fdb@purelymail.com/
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
----
- Documentation/kbuild/reproducible-builds.rst | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+On 3/13/26 3:00 PM, Paul Louvel via B4 Relay wrote:
+> From: Paul Louvel <paul.louvel@bootlin.com>
+> 
+> The "User Space Interface" section of the Crypto API documentation
+> contains a link to the libkcapi project that no longer works.
+> 
+> Update the link to point to the correct upstream location so that
+> users can access the library documentation.
+> 
+> Signed-off-by: Paul Louvel <paul.louvel@bootlin.com>
+> ---
+> The "User Space Interface" of the Crypto API documentation has a broken
+> link to libkcapi. Replacing it with a working one.
+> ---
+>  Documentation/crypto/userspace-if.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/crypto/userspace-if.rst b/Documentation/crypto/userspace-if.rst
+> index 021759198fe7..79e41845f611 100644
+> --- a/Documentation/crypto/userspace-if.rst
+> +++ b/Documentation/crypto/userspace-if.rst
+> @@ -23,7 +23,7 @@ user space, however. This includes the difference between synchronous
+>  and asynchronous invocations. The user space API call is fully
+>  synchronous.
+>  
+> -[1] https://www.chronox.de/libkcapi/index.html
+> +[1] https://www.chronox.de/libkcapi/
+>  
+>  User Space API General Remarks
+>  ------------------------------
+> @@ -406,4 +406,4 @@ Please see [1] for libkcapi which provides an easy-to-use wrapper around
+>  the aforementioned Netlink kernel interface. [1] also contains a test
+>  application that invokes all libkcapi API calls.
+>  
+> -[1] https://www.chronox.de/libkcapi/index.html
+> +[1] https://www.chronox.de/libkcapi/
+> 
+> ---
+> base-commit: b84a0ebe421ca56995ff78b66307667b62b3a900
+> change-id: 20260313-crypto-api-libkcapi-broken-link-65069e8ce688
+> 
+> Best regards,
 
-diff --git a/Documentation/kbuild/reproducible-builds.rst b/Documentation/kbuild/reproducible-builds.rst
-index 96d208e578cd..bc1eb82211df 100644
---- a/Documentation/kbuild/reproducible-builds.rst
-+++ b/Documentation/kbuild/reproducible-builds.rst
-@@ -50,8 +50,10 @@ Absolute filenames
- ------------------
- 
- When the kernel is built out-of-tree, debug information may include
--absolute filenames for the source files.  This must be overridden by
--including the ``-fdebug-prefix-map`` option in the `KCFLAGS`_ variable.
-+absolute filenames for the source files and build directory.  These must
-+be overridden by including a ``-fdebug-prefix-map`` option for each in
-+the `KCFLAGS`_ and `KAFLAGS`_ variables to cover both ``.c`` and ``.S``
-+files.
- 
- Depending on the compiler used, the ``__FILE__`` macro may also expand
- to an absolute filename in an out-of-tree build.  Kbuild automatically
-@@ -135,6 +137,7 @@ See ``scripts/setlocalversion`` for details.
- .. _KBUILD_BUILD_TIMESTAMP: kbuild.html#kbuild-build-timestamp
- .. _KBUILD_BUILD_USER and KBUILD_BUILD_HOST: kbuild.html#kbuild-build-user-kbuild-build-host
- .. _KCFLAGS: kbuild.html#kcflags
-+.. _KAFLAGS: kbuild.html#kaflags
- .. _prefix-map options: https://reproducible-builds.org/docs/build-path/
- .. _Reproducible Builds project: https://reproducible-builds.org/
- .. _SOURCE_DATE_EPOCH: https://reproducible-builds.org/docs/source-date-epoch/
+Hi,
+Either link works for me (with the same content).
+Could it be browser-dependent?
 
----
-base-commit: 1f318b96cc84d7c2ab792fcc0bfd42a7ca890681
-change-id: 20260313-kbuild-docs-repro-builds-fdebug-prefix-map-updates-c4c3c4d69550
 
-Best regards,
---  
-Nathan Chancellor <nathan@kernel.org>
+-- 
+~Randy
 
