@@ -1,152 +1,124 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94C5B26A1CF;
-	Fri, 13 Mar 2026 09:43:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8DE0264614
+	for <linux-doc@vger.kernel.org>; Fri, 13 Mar 2026 10:27:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773395019; cv=none; b=ao22lzhJ3ummk1vvf7zuhaNH3eFhxNypKo8nEUJlu/hok+/6uH1JMvKFO7KBIM1JKPM2OBkci0lkmXqCJ642TiljTwSHGByst3ikZgxlv1lW8DZNZjGGu9KSrx6yShDOAoNbTazPaNOYF/zHsWDJCbEJOCjxPhcjAsZUgDnrs14=
+	t=1773397641; cv=none; b=O3Mv/iwXxi85M30Nyn3mS3C78iSsQteKrIS/yyL5h+wWr8fXE5He8fI/ubNZ9KmNYex4OvQ0x+OPDMPNhKtBUsH2ZFcsmd6CLu3v3H7jv4VgLub2iVZ98Ain7NgGPHVZkRtnhvoiGJI73BoQi1CsKAc7/G3I7fPIyelHPWWqbrA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773395019; c=relaxed/simple;
-	bh=nl0ZgB8jD/JEsAyqYDkUHGobWyb28KPB1atld8FgVLU=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=S+6pc+w9KntFDtR4OsuZwGNQqUTvW9/+KRKuSWEEpyRNycgXOPJkkGC0loR7ivijsY+kjxsUEUeocRmVMmiKM2ZUFNYqFCzKhbTwdwLeEx8IJCDivYjDpyS1B4CDLxqGzgCDQ7MPGr1q+FoaP+1wWGwsrL+iu2drO0Eqcc2ABdw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 80F48165C;
-	Fri, 13 Mar 2026 02:43:24 -0700 (PDT)
-Received: from [10.1.196.46] (e134344.arm.com [10.1.196.46])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 31A7B3F73B;
-	Fri, 13 Mar 2026 02:43:26 -0700 (PDT)
-Message-ID: <ff0df614-1b3f-4df5-90a7-39918ae31dec@arm.com>
-Date: Fri, 13 Mar 2026 09:43:24 +0000
+	s=arc-20240116; t=1773397641; c=relaxed/simple;
+	bh=lUxN4aiH1kcGdncQK2DiMhZOJwIpj3ZaxQHpth4H+5g=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=KegCfek71GP/lINEoARwx05/AYHEnsiBbjAW32oBnCqmKTYwU2nbEwimk0kKGcuoJfn5k/tPMysyjMMUJva+Ed8joD1S4SacKcWmAZY+CeAFSPtIBXb+Ck3TiMlUs/74E14cWVVweqtaXv0ckVgttTPmkE+0L0gUci4At+Jqef0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=PL2EYF3l; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=KY3Y433Y; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="PL2EYF3l";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="KY3Y433Y"
+From: John Ogness <john.ogness@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1773397637;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=69Js723qJt+gJpA1N3GRZEEjVdPBtPoxsgHR9UOxxTI=;
+	b=PL2EYF3lHKCqJl2i2YQM0+UvzOaL+i4GZa1B3XpcxEMZn3VX7uUgCtb5WOztuDxhf4kJcD
+	CeTJ3+aSYlQZnXYDtCQGK9e2eeuj0TcNR9wZHVkR9C2/sG965cqGJ+Ppy3st1TdGAgnBV3
+	Qeq+6byrVfw0I0s15vVqG4+wRiW6uEH+SVJVqOuOZNz0G/2xhwGrC1dGZOVPKaIl40YytW
+	gkga3x1O1TwDHXFIHYoZ1bHHXVKDfZ4bsFUmw3m5hBMMtJ9u35arQAks1cTJXh+GvRrYqh
+	iIoJn8HfmHqunzX23eA3jwxXvXwqEHX52H3ctkapOpMbCAaWltTursB0WC0nyw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1773397637;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=69Js723qJt+gJpA1N3GRZEEjVdPBtPoxsgHR9UOxxTI=;
+	b=KY3Y433YJzOvzvT3xToyEe4JHlmAOTIRnpLz6wNNn6w57thhvcXqXrD4fxlg0Ft4QlLuRz
+	wTue82swE8gbFADw==
+To: hujinfei <3288824963@qq.com>, linux-doc@vger.kernel.org
+Cc: pmladek@suse.com, senozhatsky@chromium.org, qujingling@huawei.com,
+ zhangjiaji1@huawei.com, xushuangxing@huawei.com, rostedt@goodmis.org,
+ hujinfei3@huawei.com
+Subject: Re: [PATCH] Documentation: printk: warn about lockups from
+ excessive use
+In-Reply-To: <tencent_D970CEB1BE717D3D5E259943CB4510A99308@qq.com>
+References: <tencent_D970CEB1BE717D3D5E259943CB4510A99308@qq.com>
+Date: Fri, 13 Mar 2026 11:33:16 +0106
+Message-ID: <874imkqb23.fsf@jogness.linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Thunderbird Daily
-Subject: Re: [PATCH v5 12/41] KVM: arm64: Use kernel-space partid
- configuration for hypercalls
-From: Ben Horgan <ben.horgan@arm.com>
-To: Marc Zyngier <maz@kernel.org>
-Cc: amitsinght@marvell.com, baisheng.gao@unisoc.com,
- baolin.wang@linux.alibaba.com, carl@os.amperecomputing.com,
- dave.martin@arm.com, david@kernel.org, dfustini@baylibre.com,
- fenghuay@nvidia.com, gshan@redhat.com, james.morse@arm.com,
- jonathan.cameron@huawei.com, kobak@nvidia.com, lcherian@marvell.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- peternewman@google.com, punit.agrawal@oss.qualcomm.com,
- quic_jiles@quicinc.com, reinette.chatre@intel.com, rohit.mathew@arm.com,
- scott@os.amperecomputing.com, sdonthineni@nvidia.com,
- tan.shaopeng@fujitsu.com, xhao@linux.alibaba.com, catalin.marinas@arm.com,
- will@kernel.org, corbet@lwn.net, oupton@kernel.org, joey.gouly@arm.com,
- suzuki.poulose@arm.com, kvmarm@lists.linux.dev, zengheng4@huawei.com,
- linux-doc@vger.kernel.org, Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
-References: <20260224175720.2663924-1-ben.horgan@arm.com>
- <20260224175720.2663924-13-ben.horgan@arm.com> <86jyvu85dj.wl-maz@kernel.org>
- <fd0cf579-77c4-4a76-bc8e-b19bb7988155@arm.com>
-Content-Language: en-US
-In-Reply-To: <fd0cf579-77c4-4a76-bc8e-b19bb7988155@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
+On 2026-03-04, hujinfei <3288824963@qq.com> wrote:
+> From: hujinfei <hujinfei3@huawei.com>
+>
+> Add a section 'Avoiding lockups from excessive printk() use' to
+> printk-basics.rst, explaining the risk of calling printk() in hot paths
+> with slow consoles and suggesting alternatives like ratelimited printing,
+> tracepoints, nbcon, and log level filtering.
+>
+> Signed-off-by: hujinfei <hujinfei3@huawei.com>
+> ---
+>  Documentation/core-api/printk-basics.rst | 22 ++++++++++++++++++++++
+>  1 file changed, 22 insertions(+)
+>
+> diff --git a/Documentation/core-api/printk-basics.rst b/Documentation/core-api/printk-basics.rst
+> index 2dde24ca7..a9da8c336 100644
+> --- a/Documentation/core-api/printk-basics.rst
+> +++ b/Documentation/core-api/printk-basics.rst
+> @@ -103,6 +103,28 @@ For debugging purposes there are also two conditionally-compiled macros:
+>  pr_debug() and pr_devel(), which are compiled-out unless ``DEBUG`` (or
+>  also ``CONFIG_DYNAMIC_DEBUG`` in the case of pr_debug()) is defined.
+>  
+> +Avoiding lockups from excessive printk() use
+> +============================================
+> +
+> +Do not use ``printk()`` in hot paths such as interrupt handlers, timer callbacks,
+> +or high-frequency network receive routines. When a slow console (e.g., ``console=ttyS0``)
+> +is active, ``printk()`` may synchronously acquire ``console_sem`` and block while
+> +flushing messages, potentially disabling interrupts long enough to trigger hard or
+> +soft lockup detectors.
 
+I hesitate supporting the addition of this documetation because it is
+only relevant for legacy consoles and !PREEMPT_RT. Perhaps we could make
+that point clearer. Once all console drivers have been updated to nbcon,
+we can then remove this documentation.
 
-On 3/3/26 16:33, Ben Horgan wrote:
-> Hi Marc,
-> 
-> On 3/2/26 18:15, Marc Zyngier wrote:
->> On Tue, 24 Feb 2026 17:56:51 +0000,
->> Ben Horgan <ben.horgan@arm.com> wrote:
->>>
->>> On nVHE systems whether or not MPAM is enabled, EL2 continues to use
->>> partid-0 for hypercalls, even when the host may have configured its kernel
->>> threads to use a different partid. 0 may have been assigned to another
->>> task. Copy the EL1 MPAM register to EL2. This ensures hypercalls use the
->>> same partid as the kernel thread does on the host.
->>>
->>> Tested-by: Gavin Shan <gshan@redhat.com>
->>> Tested-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
->>> Tested-by: Peter Newman <peternewman@google.com>
->>> Tested-by: Zeng Heng <zengheng4@huawei.com>
->>> Reviewed-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
->>> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
->>> Signed-off-by: Ben Horgan <ben.horgan@arm.com>
->>> ---
->>> Changes since v2:
->>> Use mask
->>> Use read_sysreg_el1 to cope with hvhe
->>>
->>> Changes since v3:
->>> Set MPAM2_EL2.MPAMEN to 1 as we rely on that before and after
->>> ---
->>>  arch/arm64/kvm/hyp/nvhe/hyp-main.c | 9 +++++++++
->>>  1 file changed, 9 insertions(+)
->>>
->>> diff --git a/arch/arm64/kvm/hyp/nvhe/hyp-main.c b/arch/arm64/kvm/hyp/nvhe/hyp-main.c
->>> index e7790097db93..80e71eeddc03 100644
->>> --- a/arch/arm64/kvm/hyp/nvhe/hyp-main.c
->>> +++ b/arch/arm64/kvm/hyp/nvhe/hyp-main.c
->>> @@ -638,6 +638,15 @@ static void handle_host_hcall(struct kvm_cpu_context *host_ctxt)
->>>  	unsigned long hcall_min = 0;
->>>  	hcall_t hfn;
->>>  
->>> +	if (system_supports_mpam()) {
->>> +		u64 mask = MPAM1_EL1_PARTID_D | MPAM1_EL1_PARTID_I |
->>> +			MPAM1_EL1_PMG_D | MPAM1_EL1_PMG_I;
->>> +		u64 val = MPAM2_EL2_MPAMEN | (read_sysreg_el1(SYS_MPAM1) & mask);
->>> +
->>> +		write_sysreg_s(val, SYS_MPAM2_EL2);
->>> +		isb();
->>> +	}
->>> +
->>>  	/*
->>>  	 * If pKVM has been initialised then reject any calls to the
->>>  	 * early "privileged" hypercalls. Note that we cannot reject
->>
->> It is extremely debatable whether this is desirable:
->>
->> - pKVM really shouldn't be influenced by what the host does, which
->>   means reserving PARTIDs and indirecting what the host sees. This can
->>   be deferred until pKVM is actually useful upstream.
->>
->> - repeatedly hammering that register plus an ISB on the hot path of a
->>   hypercall is a sure way to make things worse than they should be,
->>   and that should be fixed now.
-> 
-> Would a read modify write be preferable?
-> 
->>
->> Do you really expect the EL1 settings to change on a regular basis? If
-> 
-> The MPAM EL1 partid/pmg configuration is kept in sync with the MPAM EL0
-> partid/pmg configuration (see mpam_thread_switch() in patch 4) which
-> means that the EL1 configuration will change whenever the user changes
-> the EL0 configuration.
-> 
->> so, I'd rather you use a specific host hypercall, or even a trap to
->> propagate the EL1 configuration. If not, just set it as part of the
-> 
-> I think this ends up trapping context switch which doesn't seem any more
-> desirable.
-> 
->> KVM init and be done with it.
-> 
-> If we just forego this patch then the MPAM configuration for el2 as
-> initially configured, partid=0, pmg=0 would be used. This is also the
-> default for requestors that aren't MPAM aware or unconfigured, like
-> trusted firmware, its, gpu. VHE mode (required from 8.1?) should be
-> available in any platform that has MPAM (introduced in 8.4, back
-> portable to 8.3) and so using nvhe with MPAM seems unlikely and the
-> amount of data should be small enough. That leaves pKVM for which,
-> perhaps, doing nothing is also the correct answer.
-> 
-> What do you think? Drop, read modify write, or something else?
+> +
+> +To avoid this:
+> +
+> +- Avoid ``printk()`` in hot paths and interrupt contexts.
+> +- Use rate-limited variants (e.g., pr_xxx_ratelimited()) or one-time macros (e.g., pr_*_once()).
+> +- Assign lower log levels (e.g., ``KERN_DEBUG``) to non-essential messages and filter
+> +  console output via ``console_loglevel``.
+> +- Use consoles that implement the non-blocking ``nbcon`` API (indicated by ``CON_NBCON``),
+> +  which offload message printing to a dedicated kernel thread outside emergency contexts.
 
-As discussed offline, I'll drop this patch.
+If the first paragraph made it clear that legacy consoles are the
+problem, the point about using nbcon would not be necessary.
 
-Thanks,
+> +  Note that asynchronous printing increases the risk of message loss during crashes;
+> +  increasing the kernel log buffer size may help retain more messages.
 
-Ben
+This last sentence is misleading. Calling printk() immediately logs the
+message to the lockless ringbuffer. Upon panic, the buffer is
+flushed. The nbcon consoles also transition to atomic printing. The only
+messages that might get lost due to mass printk() calling are older
+messages. But this problem is not specific to nbcon consoles.
+
+There is also printk_deferred(), which immediately logs to the
+ringbuffer and defers the console printing. It is a workaround for
+legacy consoles. For nbcon consoles there is no difference between
+printk() and printk_deferrred().
+
+And since this is supposed to be general tips for developers, perhaps we
+could mention that porting a legacy console driver to nbcon is also a
+solution (and, in fact, is the preferred solution).
+
+John Ogness
