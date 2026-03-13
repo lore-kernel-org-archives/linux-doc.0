@@ -1,124 +1,163 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8DE0264614
-	for <linux-doc@vger.kernel.org>; Fri, 13 Mar 2026 10:27:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB82734B1AC;
+	Fri, 13 Mar 2026 10:48:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773397641; cv=none; b=O3Mv/iwXxi85M30Nyn3mS3C78iSsQteKrIS/yyL5h+wWr8fXE5He8fI/ubNZ9KmNYex4OvQ0x+OPDMPNhKtBUsH2ZFcsmd6CLu3v3H7jv4VgLub2iVZ98Ain7NgGPHVZkRtnhvoiGJI73BoQi1CsKAc7/G3I7fPIyelHPWWqbrA=
+	t=1773398929; cv=none; b=nLJ5tCDFRtrT22WGtS7d03WL/ncxR7Bga4ro/GZtJHkWixXULLLLoRb1RO2/u2a5lJ9g6Y4Rk7nrQxOC2sQOpRP94W55AQEEolvIVVtz7oHB9PVM2UgefQ85WYgARY3KBa86bsVN8BIGPDSZh2XHED6MSwIrB14A+Y35wpcOV/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773397641; c=relaxed/simple;
-	bh=lUxN4aiH1kcGdncQK2DiMhZOJwIpj3ZaxQHpth4H+5g=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=KegCfek71GP/lINEoARwx05/AYHEnsiBbjAW32oBnCqmKTYwU2nbEwimk0kKGcuoJfn5k/tPMysyjMMUJva+Ed8joD1S4SacKcWmAZY+CeAFSPtIBXb+Ck3TiMlUs/74E14cWVVweqtaXv0ckVgttTPmkE+0L0gUci4At+Jqef0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=PL2EYF3l; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=KY3Y433Y; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1773398929; c=relaxed/simple;
+	bh=hcIKGzxi9FPC6ciwT2qD9crW1zuaPgbtuY9uGNw5N0A=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=aO2mCcxpfrPc/nFW0yIOcLTMRe9iMe9AuhuZ7Mix+BX22SDWLkLBhdwS7javrQPGyjWHOp7zewkN2kgAqTvT4in05szsDyzuPHV/SZP5+hh/CGOj4HD0o6J6YWnoqa4WWpQ+HbW4Ll9l+ci2hBYBsJM+H/fER0NU8nNOZVYl2p8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ARydesxE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="PL2EYF3l";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="KY3Y433Y"
-From: John Ogness <john.ogness@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1773397637;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=69Js723qJt+gJpA1N3GRZEEjVdPBtPoxsgHR9UOxxTI=;
-	b=PL2EYF3lHKCqJl2i2YQM0+UvzOaL+i4GZa1B3XpcxEMZn3VX7uUgCtb5WOztuDxhf4kJcD
-	CeTJ3+aSYlQZnXYDtCQGK9e2eeuj0TcNR9wZHVkR9C2/sG965cqGJ+Ppy3st1TdGAgnBV3
-	Qeq+6byrVfw0I0s15vVqG4+wRiW6uEH+SVJVqOuOZNz0G/2xhwGrC1dGZOVPKaIl40YytW
-	gkga3x1O1TwDHXFIHYoZ1bHHXVKDfZ4bsFUmw3m5hBMMtJ9u35arQAks1cTJXh+GvRrYqh
-	iIoJn8HfmHqunzX23eA3jwxXvXwqEHX52H3ctkapOpMbCAaWltTursB0WC0nyw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1773397637;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=69Js723qJt+gJpA1N3GRZEEjVdPBtPoxsgHR9UOxxTI=;
-	b=KY3Y433YJzOvzvT3xToyEe4JHlmAOTIRnpLz6wNNn6w57thhvcXqXrD4fxlg0Ft4QlLuRz
-	wTue82swE8gbFADw==
-To: hujinfei <3288824963@qq.com>, linux-doc@vger.kernel.org
-Cc: pmladek@suse.com, senozhatsky@chromium.org, qujingling@huawei.com,
- zhangjiaji1@huawei.com, xushuangxing@huawei.com, rostedt@goodmis.org,
- hujinfei3@huawei.com
-Subject: Re: [PATCH] Documentation: printk: warn about lockups from
- excessive use
-In-Reply-To: <tencent_D970CEB1BE717D3D5E259943CB4510A99308@qq.com>
-References: <tencent_D970CEB1BE717D3D5E259943CB4510A99308@qq.com>
-Date: Fri, 13 Mar 2026 11:33:16 +0106
-Message-ID: <874imkqb23.fsf@jogness.linutronix.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ARydesxE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E063C19421;
+	Fri, 13 Mar 2026 10:48:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773398929;
+	bh=hcIKGzxi9FPC6ciwT2qD9crW1zuaPgbtuY9uGNw5N0A=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ARydesxEfRdZSJh5YH1nLEXtBYDGtQUZ9qBJjuESJTSIXFTaEjFyeLBydy0K721ir
+	 2HkppxDSs75wl/niZhL66IRKxOSD+/IycCgdzOyMtehhtBi3NbG8LGtoxpM4Q0015+
+	 ioUdObR2FM250f2wYqd/2GVsCxUJtEpgg+E9mQN6c9f1miCrai8ehWTTpndwtWrbkz
+	 9tH9sqt92Yr1KlG9KwbchKFdud0b9rjS1WQGb9SsRyx9zLrugJEO78t47P99vI52D2
+	 EGDJg1SGs/nFASKjoDzWCS61dHVNMc1WcEdn+rADrzbEobfWchwcG7ooj1f0dPUF7A
+	 7/BFpBjZUhjYA==
+Received: from localhost ([::1])
+	by mail.kernel.org with esmtp (Exim 4.99.1)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1w104V-0000000DgCV-0VdX;
+	Fri, 13 Mar 2026 11:48:47 +0100
+Date: Fri, 13 Mar 2026 11:48:45 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Alexander Lobakin
+ <aleksander.lobakin@intel.com>, Kees Cook <kees@kernel.org>, Mauro Carvalho
+ Chehab <mchehab@kernel.org>, intel-wired-lan@lists.osuosl.org,
+ linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org, "Gustavo A. R. Silva"
+ <gustavoars@kernel.org>, Aleksandr Loktionov
+ <aleksandr.loktionov@intel.com>, Randy Dunlap <rdunlap@infradead.org>,
+ Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [Intel-wired-lan] [PATCH 00/38] docs: several improvements to
+ kernel-doc
+Message-ID: <20260313114845.53eb8611@localhost>
+In-Reply-To: <352c3f9f8ffd2d031c86a476e532a8ea6ffcf1ed@intel.com>
+References: <cover.1771408406.git.mchehab+huawei@kernel.org>
+	<33d214091909b9a060637f56f81fb8f525cf433b@intel.com>
+	<878qcj8pvw.fsf@trenco.lwn.net>
+	<352c3f9f8ffd2d031c86a476e532a8ea6ffcf1ed@intel.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On 2026-03-04, hujinfei <3288824963@qq.com> wrote:
-> From: hujinfei <hujinfei3@huawei.com>
->
-> Add a section 'Avoiding lockups from excessive printk() use' to
-> printk-basics.rst, explaining the risk of calling printk() in hot paths
-> with slow consoles and suggesting alternatives like ratelimited printing,
-> tracepoints, nbcon, and log level filtering.
->
-> Signed-off-by: hujinfei <hujinfei3@huawei.com>
-> ---
->  Documentation/core-api/printk-basics.rst | 22 ++++++++++++++++++++++
->  1 file changed, 22 insertions(+)
->
-> diff --git a/Documentation/core-api/printk-basics.rst b/Documentation/core-api/printk-basics.rst
-> index 2dde24ca7..a9da8c336 100644
-> --- a/Documentation/core-api/printk-basics.rst
-> +++ b/Documentation/core-api/printk-basics.rst
-> @@ -103,6 +103,28 @@ For debugging purposes there are also two conditionally-compiled macros:
->  pr_debug() and pr_devel(), which are compiled-out unless ``DEBUG`` (or
->  also ``CONFIG_DYNAMIC_DEBUG`` in the case of pr_debug()) is defined.
->  
-> +Avoiding lockups from excessive printk() use
-> +============================================
-> +
-> +Do not use ``printk()`` in hot paths such as interrupt handlers, timer callbacks,
-> +or high-frequency network receive routines. When a slow console (e.g., ``console=ttyS0``)
-> +is active, ``printk()`` may synchronously acquire ``console_sem`` and block while
-> +flushing messages, potentially disabling interrupts long enough to trigger hard or
-> +soft lockup detectors.
+On Wed, 04 Mar 2026 12:07:45 +0200
+Jani Nikula <jani.nikula@linux.intel.com> wrote:
 
-I hesitate supporting the addition of this documetation because it is
-only relevant for legacy consoles and !PREEMPT_RT. Perhaps we could make
-that point clearer. Once all console drivers have been updated to nbcon,
-we can then remove this documentation.
+> On Mon, 23 Feb 2026, Jonathan Corbet <corbet@lwn.net> wrote:
+> > Jani Nikula <jani.nikula@linux.intel.com> writes:
+> >  
+> >> There's always the question, if you're putting a lot of effort into
+> >> making kernel-doc closer to an actual C parser, why not put all that
+> >> effort into using and adapting to, you know, an actual C parser?  
+> >
+> > Not speaking to the current effort but ... in the past, when I have
+> > contemplated this (using, say, tree-sitter), the real problem is that
+> > those parsers simply strip out the comments.  Kerneldoc without comments
+> > ... doesn't work very well.  If there were a parser without those
+> > problems, and which could be made to do the right thing with all of our
+> > weird macro usage, it would certainly be worth considering.  
+> 
+> I think e.g. libclang and its Python bindings can be made to work. The
+> main problems with that are passing proper compiler options (because
+> it'll need to include stuff to know about types etc. because it is a
+> proper parser), preprocessing everything is going to take time, you need
+> to invest a bunch into it to know how slow exactly compared to the
+> current thing and whether it's prohitive, and it introduces an extra
+> dependency.
+> 
+> So yeah, there are definitely tradeoffs there. But it's not like this
+> constant patching of kernel-doc is exactly burden free either. 
 
-> +
-> +To avoid this:
-> +
-> +- Avoid ``printk()`` in hot paths and interrupt contexts.
-> +- Use rate-limited variants (e.g., pr_xxx_ratelimited()) or one-time macros (e.g., pr_*_once()).
-> +- Assign lower log levels (e.g., ``KERN_DEBUG``) to non-essential messages and filter
-> +  console output via ``console_loglevel``.
-> +- Use consoles that implement the non-blocking ``nbcon`` API (indicated by ``CON_NBCON``),
-> +  which offload message printing to a dedicated kernel thread outside emergency contexts.
+On my tests with a simple C tokenizer:
 
-If the first paragraph made it clear that legacy consoles are the
-problem, the point about using nbcon would not be necessary.
+	https://lore.kernel.org/linux-doc/cover.1773326442.git.mchehab+huawei@kernel.org/
 
-> +  Note that asynchronous printing increases the risk of message loss during crashes;
-> +  increasing the kernel log buffer size may help retain more messages.
+The tokenizer is working fine and didn't make it much slow: it
+increases the time to pass the entire Kernel tree from 37s to 47s
+for man pages generation, but should not change much the time for
+htmldocs, as right now only ~4 seconds is needed to read files
+pointed by Documentation kernel-doc tags and parse them.
 
-This last sentence is misleading. Calling printk() immediately logs the
-message to the lockless ringbuffer. Upon panic, the buffer is
-flushed. The nbcon consoles also transition to atomic printing. The only
-messages that might get lost due to mass printk() calling are older
-messages. But this problem is not specific to nbcon consoles.
+The code can still be cleaned up, as there are still some things
+hardcoded on the various dump_* functions that could be better
+implemented (*).
 
-There is also printk_deferred(), which immediately logs to the
-ringbuffer and defers the console printing. It is a workaround for
-legacy consoles. For nbcon consoles there is no difference between
-printk() and printk_deferrred().
+The advantage of the approach I'm using is that it allows to
+gradually migrate to rely at the tokenized code, as it can be done
+incrementally.
 
-And since this is supposed to be general tips for developers, perhaps we
-could mention that porting a legacy console driver to nbcon is also a
-solution (and, in fact, is the preferred solution).
+(*) for instance, __attribute__ and a couple of other macros are parsed
+    twice at dump_struct() logic, on different places.
 
-John Ogness
+> I don't
+> know, is it just me, but I'd like to think as a profession we'd be past
+> writing ad hoc C parsers by now.
+
+Probably not, but I don't think we need a C parser, as kernel-doc
+just needs to understand data types (enum, struct, typedef, union,
+vars) and function/macro prototypes.
+
+For such purpose, a tokenizer sounds enough.
+
+Now, there is the code that it is now inside:
+	https://github.com/mchehab/linux/blob/tokenizer-v5/tools/lib/python/kdoc/xforms_lists.py
+
+which contains a list of C/gcc/clang keywords that will
+be ignored, like:
+
+	__attribute__
+	static
+	extern
+	inline
+
+Together with a sanitized version of the kernel macros it needs
+to handle or ignore:
+
+	DECLARE_BITMAP
+	DECLARE_HASHTABLE
+ 	__acquires
+	__init
+	__exit
+	struct_group
+	...
+
+
+Once we finish cleaning up kdoc_parser.py to rely only
+on it for prototype transformations, this will be the only file
+that will require changes when more macros start affecting 
+kernel-doc.
+
+As this is complex, and may require manual adjustments, it
+is probably better to not try to auto-generate xforms list
+in runtime. A better approach is, IMO, to have a C pre-processor
+code to help periodically update it, like using a target like:
+
+	make kdoc-xforms
+
+that would use either cpp or clang to generate a patch to
+update xforms_list content after adding new macros that
+affect docs generation.
+
+-- 
+Thanks,
+Mauro
