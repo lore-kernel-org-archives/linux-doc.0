@@ -1,228 +1,365 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-yx1-f49.google.com (mail-yx1-f49.google.com [74.125.224.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5B8B214813
-	for <linux-doc@vger.kernel.org>; Fri, 13 Mar 2026 01:00:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F8542FDC28
+	for <linux-doc@vger.kernel.org>; Fri, 13 Mar 2026 01:14:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.49
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773363659; cv=pass; b=iVHA4lZb+X7NTPF1OgnWD2wPg+l+QlpOQjeWBsSJULOWe4FOCA9ncdLcvo6bcswUljKYZyjwFxKSbafZQnIy/B6Vyzwn8hygI+jTPr5Ki3JGybwgBZIxlFGaRJrdOD/Nbk7miYbp6euS/E8mkxKxUP29JMheBut9rydOOpouHnM=
+	t=1773364469; cv=pass; b=DR9qBzwDsCsk5rn5r9shlBkO3xkgv09l11qYnfG5Gy5a7UicUn2sI9qhsVgrKX/2lZEGHBauQyJxG6JxeNlk2kbegeEUIivTK7kkMRsdO4qABkWmxtoZO8pUbkhGXe3pJK1CrEorBEQhQY21uZIJhEQ9jXcz9x85ssFgXBuox6U=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773363659; c=relaxed/simple;
-	bh=W1qR4UYr3qUat3cCP1L0WH3vUtEZKMc6jRrqTX60ATI=;
+	s=arc-20240116; t=1773364469; c=relaxed/simple;
+	bh=psKktp/nup6nZMgzTPATdryw8+DhKQuOchQeXOfmWq4=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=M2qfm3rQPt0fAEm3JT8Xw01pemwLA8BXvhMxU0qj39nsoeFNDc7aLbGYz43K7uQJO8K4G63IVboXE9tMBPtWj7ydntQP7GowaqpiDFXnS9el9AcTByK6oVxgjqePZdBThumV2rCmydXMbLdgmlLoDAxgM41BPuy3klPLy5CBpgQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=NDk+ccoV; arc=pass smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	 To:Cc:Content-Type; b=GUiRnZlfmcu7ppV9R1uvs1g9+z5R8SrJUeTGKUqPa21wAKFJ+LEKkwN4o4C56Pd+oXmkXwZujFvKxNjQGXXpXAH7a8e9WxSzyNXMNqt/jhsJhhOWVi4Pu1OdmCfxRlwuFjfbs41pCx85klrtc++/c3x1ktI0UvH6sYKt2txecgw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=QNMdAt9O; arc=pass smtp.client-ip=74.125.224.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="NDk+ccoV"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-6634d819492so3149811a12.3
-        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 18:00:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773363656; cv=none;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="QNMdAt9O"
+Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-64c31ca77b4so1785003d50.2
+        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 18:14:26 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773364466; cv=none;
         d=google.com; s=arc-20240605;
-        b=M19rrBjh36p6BlUzJE1WJUlPkb0NK9boJvX63Yga26mIhCdPVPRy4QbMmN8LLfDwo1
-         uezkfV9vgJyxXSeHgFTyOOB2SLL9PKwLVLyMQoCXyHMhkV8Cdsr7U3ShSB/fCReZDBBQ
-         MotDb/DnACFcoqAAXj+Kltqs0MhemDcdy3pOLnpyZwNMHHQ11atyjTwjz6RIzsZOztUu
-         /ryZp9ON9VKarb4pWA/hVN0ui65sJm1HiJOkf/5ht9IlI+5j9gFlWmSRYOJTNwUpU3re
-         FVbq9QCKHp3m/C+vkryg+GBarskh+rMDAQ79ka/H18Zwk/SJ85uwzKX14WtNhAtR00+n
-         pJAA==
+        b=OQqqRzoVP5J36g1vd48PYIW20d5GA48iK/tLQ11tuj1sefN0992tHtHPkomndEeZnO
+         8yqxgeevx6YD0eu2WOUxT9abU5GfZ6BB4LoLDPGb/D6WkOXU7XjB12rrVKRI+M9ONDZ0
+         dR4+XP6QG1MxM9hVZLAjIs5rOwIymJtuAYZkFgEWPMtejkLol0PunnPrGuSs/YgQAyn2
+         RENwq1gBCg3BDZO2S/s0NeWUKwQ0PiXoOE9lUo3EyPkS+a7mAYtpMqrmBmLjL4HKsLZm
+         kiCf77KwFWRM9N/p2xBXTCj8s37/vaYDzZT3rjEJq2HmcvkovE+8um92qaEJwBj5szL3
+         FRNg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=rmWX6afwcKK+qAwiN0L3nTeMMcjlmmTvmcIb6kXEjoU=;
-        fh=eqF/7fDv4IEC2mvIfBfQFVlWGIL0xcZK535FITjS20g=;
-        b=kHnC3qMr7oqVq21ZUcc2oGUXFrjfyN0IhGJto1tSxt1P3icLEejmY0TiMyPMJX+KdE
-         vL3Y10BGKliBLbOxRcgbgc47E9vqTh5nmldEu7za6JrTYEJxGrApkSpsQF8jzHX/pnaN
-         uw6rZdc30cFtubVYSndoEmmWGARV25+yFpQNFujmbAaFfsRpDrZCFNOj1/GCZ12Z8RlU
-         3+8V+X+uYIHVxkuHMM8GSHowoXB8K/VIwjHFUgBJJ8/iG5W5iuG0Ygmw/QypdBRvh4xn
-         loz+0zFPRyBrQZd6fLWvBbWsdKFVE83sLZI+7vFJZn1E/nF1ECIqm5+mOVZQCXJzD8gI
-         E3sQ==;
+        bh=XsVwh2464IoFcXnN+yaN2QavLIXog4pSrjEAjn/PCrA=;
+        fh=E1niqG9dFGD2Z4RxlZUjZBN3REjKKDTdfUq0OR0u2FQ=;
+        b=BGlgLGSfOczgre6UddfHAOdEqH4UmnA/jbnJVXBSQI7Y8NpOTZYB1kIQ116pIVun20
+         ZiAFywmHd2hqO//3AgNcPkqvo6WfdsfNodPS/4uo4No9jo9NIvSgfYwhK6HUMHHQ8sOw
+         sQpK2H4kTk41FmA0l0599YIWENo13y+KQdhbr57KDF+u3IQ/cfpvsX9QU1OFpnSo1dc+
+         YpdUZ7eHPd0fflQlAkBWn587EAO/5LmTGbSUJTuNDrde6WXiskOOCjr5Ryv2dD2reGco
+         i3PYee32iIqArlPszCfN8d9+iqaO9AcvqEtjYs6MG1M/4R0P9+i8yOyiT6pEPC82T0km
+         JWvg==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1773363656; x=1773968456; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1773364466; x=1773969266; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rmWX6afwcKK+qAwiN0L3nTeMMcjlmmTvmcIb6kXEjoU=;
-        b=NDk+ccoV41473Lg8Nsqz3EuHkbq1phT3CplrYrZ148GXQjwORO/WNsOB1EKecTWcJE
-         rtQZZ2CAYNXWIkds2Bn4XRoSXlHB/1mjVRYQ6BAsKBFEp+f/lmoKOI7glkpdZKcyPv0W
-         2F0PH+rL4gcv3DcHtjwHRFdmwRsgbTPvwqrWnbgP/Fx5z1w9jZkorvmlfiZU5o6XKO/u
-         8lDTI0xVxbOZYAYRdZd1QM4+V4ajyO21d35zZ6JB4F9xjgmBKLdz5Tq8zYv3uHAcAReA
-         X8zj2ENY7jpS+7uFuf+1ipyZDWW/5k+33hp12bm00za2LGw27enD0W0A0b3N8UK+1xPM
-         wa+w==
+        bh=XsVwh2464IoFcXnN+yaN2QavLIXog4pSrjEAjn/PCrA=;
+        b=QNMdAt9Ov1YHfhL+lLr19x1w72S5dTMgRwKkyoaA/JlGg5OOeJKuh6tX/82tkcetHs
+         65Qk4HvMBWhISc/eX8p2x8FTB9nC4218HQsRNK0aVyl6D2CHXn44UDN9Pnh9iPYk0uHJ
+         HpDnW+Rk0E/JsHQjcdolwdxyt7gOkCR+SgoPI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773363656; x=1773968456;
+        d=1e100.net; s=20251104; t=1773364466; x=1773969266;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=rmWX6afwcKK+qAwiN0L3nTeMMcjlmmTvmcIb6kXEjoU=;
-        b=khqdt3lg1fWXFPSKUBbYgVOD4lddp/OB/yZlzGDOnHs0c/8UuAr76GZi3CQudgF4jn
-         3OJ+gWqQXmyn2fT7uEe/DclUJvqosqoyKNz9jm0Ty+bTHSGZV/S7lF1D6JQNNEIohark
-         3pppbWAxjv90D4Jy3J27RoSP2pnuMiAu5gX6KtmAc3l5Oid+Bl6wYihOEwsNDtwoQ2J6
-         ybMydAoFtf7G5vg3IGZgorUdcvYF4HUXlyr2KRsaVP25fubyAaTweIHAGelvdwrrSctj
-         lZCqr4YetNI+xysX24ZHkyPcROwOk6zumknaUPt42M9YGAKxylwmWJQWMO+6uc3NqyGQ
-         w6lw==
-X-Forwarded-Encrypted: i=1; AJvYcCXBB1ALWaqJ98LozcWtMrrcVcyAlkqpcvI1Ig7E3Hd7gUoMcVzoyjEwR69cax0dX/7U5YZneDyY81Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx+YrlIu2rWEdOtHyjdVdS3cCx3/ViTbv50hRLCWdxWRrLlrfsR
-	CQ8T9dUeTV3xW/VEKxFsHOHO1USTpmAhOXWMopiiDdXu5NwlIeas7nyySfYYeRBU65qr0VBDzME
-	1maFrgFuuR7nrKQ6dDCIKDD3ocyFLqJhuAtfToGv8DQ==
-X-Gm-Gg: ATEYQzz5CZP74MC10a2Ra1vZfPogpTpdzA0JWivpeDqnupBsIengkIYi1leCNdT4Wy3
-	2ySP0aOcFezHguoB6D2IzyGl2JEDMEkJA6i0u0Nn9RbYJmCACpBnjxCH0lf1276DMzGjhGyaNQw
-	diXHrqIxqZR026N116X1FCpRz1F0hTifXF1AsXhKWGZV4tLMTjTFj/TlvgcK1Hdo068FrvvsXj4
-	qqdoqSzRJ5I8moOR3taC18qN6WhRz+m1TNjzPNqsj6fkoRxi5fqb7oZVSeCPAN23wpCPFb/xV5r
-	2W/CgNGfdRqK0EIbEmUD6nX779AFy3UNUjwV10b4hxd79QZx
-X-Received: by 2002:a05:6402:1d49:b0:663:4560:aa8d with SMTP id
- 4fb4d7f45d1cf-663bac0b2a9mr787697a12.26.1773363656161; Thu, 12 Mar 2026
- 18:00:56 -0700 (PDT)
+        bh=XsVwh2464IoFcXnN+yaN2QavLIXog4pSrjEAjn/PCrA=;
+        b=KJZj5igMmzLvzsjwYek+AjsBOoRFCfHfhBVG7xY+BS3LvWwF5bHvq0gi/bhhElFz9g
+         bsygRu6sTYAfVYGNHLvok+z38xtB4xYiv1VU16VjXNg7rHKnBAluL7TqjbMIt6HKN76C
+         sJZ7paulTHJvh20QNwvceJEKJVIDFjPOSpRh5aBEEOnlLhPIYon+Mfr6SzLm5oag7MFq
+         7bC7F5VnRMrL2wksGRM1JVTjiFAorkgez84TP8dGjOuqlAsEf/Rf0Emyxuyl4dDadiSK
+         juGhaPeYZz2AiQeL8trk+llYyg8aLVDQ3isYJGbY0xDVUjPh+z2sYsBvEDqRJbh/qHF8
+         /mTg==
+X-Forwarded-Encrypted: i=1; AJvYcCX3UJoRRuQEditcqDyHdAvt3AtMgEETp8OttI0yB3WDfvM31tl9SAab77YHfMzb4n8roOm02cL5Sok=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDfjIZfh9/B89i6gDyInMWxL2J7LuykU9iyK0es8F/nfZac6jD
+	pQuOMX3keuTF9DWAJKT0nF4Nk58aUbjhlsO7RVjI3ileuLHyM6XrFu+8tcKRi5nrbnHvxfDsVLt
+	oK8vbE/w+BREdwjmbDpWiI1VIPyXO+TtDh0eeproi
+X-Gm-Gg: ATEYQzx81rOpHGb0KFPUr9BnxQM49AxlxaGWY8qWD1sZ/W/TQYaAVKifrz1cNobuGwo
+	5jKTval0jtbyA83aw3Ip5eCY5y25Q/UbqzFrKJ05L1cPauQFffFhyZ4f/40/EuyToQXE3hKzOqK
+	oeontNBDDSxUiC7hs7886B/b7GFf+Yukw/rW312parFIlby2N/+QnvnawPdNrHQyB6WzJ1Ewj/7
+	ZNWW/6JqqwBlm9zgnGAMALGabR+0gTzgyESdBDRlRH0YK9OohEOCrYjhNfvvAQIDwzr8YTtgPIa
+	9yqgdByYy1UooZbYMT+n3mBmWkInZ8sHw9xmihgM
+X-Received: by 2002:a05:690e:4397:b0:64c:a4ab:e4e8 with SMTP id
+ 956f58d0204a3-64e62f82e22mr1347986d50.20.1773364466142; Thu, 12 Mar 2026
+ 18:14:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251218155752.3045808-1-pasha.tatashin@soleen.com>
- <20251218155752.3045808-5-pasha.tatashin@soleen.com> <CALzav=cJmgG04+Ba82Rnr3iKpU0gKD5WD3oF-_43rdD7T+REEQ@mail.gmail.com>
-In-Reply-To: <CALzav=cJmgG04+Ba82Rnr3iKpU0gKD5WD3oF-_43rdD7T+REEQ@mail.gmail.com>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Thu, 12 Mar 2026 21:00:19 -0400
-X-Gm-Features: AaiRm51GTpcl9Y1xewqBoObbD5fxW5xRQjRFOFdPyL_QXAS4XNVVlbgb9vcN1yw
-Message-ID: <CA+CK2bDwNjiCbLXzBuh7Q89NFi59NHsQjwwBy8iRdyJ-5cMyrw@mail.gmail.com>
-Subject: Re: [PATCH v9 4/5] liveupdate: luo_flb: Introduce File-Lifecycle-Bound
- global state
-To: David Matlack <dmatlack@google.com>
-Cc: pratyush@kernel.org, rppt@kernel.org, skhawaja@google.com, 
-	rientjes@google.com, corbet@lwn.net, akpm@linux-foundation.org, 
-	kees@kernel.org, davidgow@google.com, pmladek@suse.com, 
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	nicolas.frattaroli@collabora.com, linux-doc@vger.kernel.org, tamird@gmail.com, 
-	raemoar63@gmail.com, graf@amazon.com, Bjorn Helgaas <bhelgaas@google.com>, 
-	Alex Williamson <alex@shazbot.org>, Jason Gunthorpe <jgg@nvidia.com>
+References: <20260303-send-upstream-v1-0-1515ba218f3d@chromium.org>
+ <20260303-send-upstream-v1-9-1515ba218f3d@chromium.org> <CAL_JsqKN45FswZjo+27OzoHMeM7ec3hS7piF7SKNykmXNSmA0g@mail.gmail.com>
+ <CAEe3GZHSqepvjjopLwrWX3_n4+RnCeVVQnAO=Swixgu2z3OpUw@mail.gmail.com> <CAEe3GZE_79Lqtzv4ZRi6zWuV_DgkCREBDcZJjpR+X9OaGZCA2g@mail.gmail.com>
+In-Reply-To: <CAEe3GZE_79Lqtzv4ZRi6zWuV_DgkCREBDcZJjpR+X9OaGZCA2g@mail.gmail.com>
+From: Jingyuan Liang <jingyliang@chromium.org>
+Date: Thu, 12 Mar 2026 18:14:14 -0700
+X-Gm-Features: AaiRm53z2pwybc4kbLAIMgl_PixN23FG-WeD36EXTB7vuwi5JCVo-2fq7v7lJcI
+Message-ID: <CAEe3GZEOYCFRfz8W3p2_JpYrRTfqSzp7mdGtS+wMHP7oYgSHDA@mail.gmail.com>
+Subject: Re: [PATCH 09/12] dt-bindings: input: Document hid-over-spi DT schema
+To: Rob Herring <robh@kernel.org>
+Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Mark Brown <broonie@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, linux-input@vger.kernel.org, 
+	linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
+	linux-spi@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, Henry Barnor <hbarnor@chromium.org>, 
+	Dmitry Antipov <dmanti@microsoft.com>, Jarrett Schultz <jaschultz@microsoft.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 12, 2026 at 7:59=E2=80=AFPM David Matlack <dmatlack@google.com>=
- wrote:
+On Wed, Mar 11, 2026 at 5:58=E2=80=AFPM Jingyuan Liang <jingyliang@chromium=
+.org> wrote:
 >
-> On Thu, Dec 18, 2025 at 7:58=E2=80=AFAM Pasha Tatashin
-> <pasha.tatashin@soleen.com> wrote:
+> (Resending to the list. Apologies, I accidentally dropped the CCs on
+> my initial reply!)
 >
-> > +static inline int liveupdate_register_flb(struct liveupdate_file_handl=
-er *fh,
-> > +                                         struct liveupdate_flb *flb)
-> > +{
-> > +       return -EOPNOTSUPP;
-> > +}
+> On Tue, Mar 3, 2026 at 5:53=E2=80=AFAM Rob Herring <robh@kernel.org> wrot=
+e:
+> >
+> > On Tue, Mar 3, 2026 at 12:14=E2=80=AFAM Jingyuan Liang <jingyliang@chro=
+mium.org> wrote:
+> > >
+> > > Documentation describes the required and optional properties for
+> > > implementing Device Tree for a Microsoft G6 Touch Digitizer that
+> > > supports HID over SPI Protocol 1.0 specification.
+> > >
+> > > The properties are common to HID over SPI.
+> > >
+> > > Signed-off-by: Dmitry Antipov <dmanti@microsoft.com>
+> > > Signed-off-by: Jarrett Schultz <jaschultz@microsoft.com>
+> > > Signed-off-by: Jingyuan Liang <jingyliang@chromium.org>
+> > > ---
+> > >  .../devicetree/bindings/input/hid-over-spi.yaml    | 153 +++++++++++=
+++++++++++
+> > >  1 file changed, 153 insertions(+)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/input/hid-over-spi.yam=
+l b/Documentation/devicetree/bindings/input/hid-over-spi.yaml
+> > > new file mode 100644
+> > > index 000000000000..b623629ed9d3
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/input/hid-over-spi.yaml
+> > > @@ -0,0 +1,153 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/input/hid-over-spi.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: HID over SPI Devices
+> > > +
+> > > +maintainers:
+> > > +  - Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> > > +  - Jiri Kosina <jkosina@suse.cz>
+> > > +
+> > > +description: |+
+> > > +  HID over SPI provides support for various Human Interface Devices =
+over the
+> > > +  SPI bus. These devices can be for example touchpads, keyboards, to=
+uch screens
+> > > +  or sensors.
+> > > +
+> > > +  The specification has been written by Microsoft and is currently a=
+vailable here:
+> > > +  https://www.microsoft.com/en-us/download/details.aspx?id=3D103325
+> > > +
+> > > +  If this binding is used, the kernel module spi-hid will handle the=
+ communication
+> > > +  with the device and the generic hid core layer will handle the pro=
+tocol.
+> > > +
+> > > +allOf:
+> > > +  - $ref: /schemas/input/touchscreen/touchscreen.yaml#
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    oneOf:
+> > > +      - items:
+> > > +          - enum:
+> > > +              - microsoft,g6-touch-digitizer
+> > > +          - const: hid-over-spi
+> > > +      - description: Just "hid-over-spi" alone is allowed, but not r=
+ecommended.
+> > > +        const: hid-over-spi
+> > > +
+> > > +  reg:
+> > > +    maxItems: 1
+> > > +
+> > > +  interrupts:
+> > > +    maxItems: 1
+> > > +
+> > > +  reset-gpios:
+> > > +    maxItems: 1
+> > > +    description:
+> > > +      GPIO specifier for the digitizer's reset pin (active low). The=
+ line must
+> > > +      be flagged with GPIO_ACTIVE_LOW.
+> > > +
+> > > +  vdd-supply:
+> > > +    description:
+> > > +      Regulator for the VDD supply voltage.
+> >
+> > Is this part of the spec? This won't scale for multiple devices with
+> > different power rails.
 >
-> I think LUO could use a cleanup to return 0 in all the register
-> functions when Live Update is not enabled via CONFIG or parameter.
+> This is not part of the spec but is needed for power management. Is it ok=
+ay I
+> mark it as optional? Thank you.
 >
-> I think all of the users of these functions are going to want to
-> ignore -EOPNOTSUPP. memfd already does.
+> >
+> > > +
+> > > +  input-report-header-address:
+> > > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > > +    minimum: 0
+> > > +    maximum: 0xffffff
+> > > +    description:
+> > > +      A value to be included in the Read Approval packet, listing an=
+ address of
+> > > +      the input report header to be put on the SPI bus. This address=
+ has 24
+> > > +      bits.
+> > > +
+> > > +  input-report-body-address:
+> > > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > > +    minimum: 0
+> > > +    maximum: 0xffffff
+> > > +    description:
+> > > +     A value to be included in the Read Approval packet, listing an =
+address of
+> > > +      the input report body to be put on the SPI bus. This address h=
+as 24 bits.
+> > > +
+> > > +  output-report-address:
+> > > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > > +    minimum: 0
+> > > +    maximum: 0xffffff
+> > > +    description:
+> > > +      A value to be included in the Output Report sent by the host, =
+listing an
+> > > +      address where the output report on the SPI bus is to be writte=
+n to. This
+> > > +      address has 24 bits.
+> > > +
+> > > +  post-power-on-delay-ms:
+> > > +    description:
+> > > +      Optional time in ms required by the device after enabling its =
+regulators
+> > > +      or powering it on, before it is ready for communication.
+> >
+> > Drop. This should be implied by the compatible.
+>
+> Thank you, I will fix this in v2.
+>
+> >
+> > > +
+> > > +  minimal-reset-delay-ms:
+> > > +    description:
+> > > +      Optional minimum amount of time in ms that device needs to be =
+in reset
+> > > +      state for the reset to take effect.
+> >
+> > Drop. This should be implied by the compatible.
+>
+> I will fix this in v2.
+>
+> >
+> > > +
+> > > +  read-opcode:
+> > > +  $ref: /schemas/types.yaml#/definitions/uint8
+> > > +    description:
+> > > +      Value to be used in Read Approval packets. 1 byte.
+> > > +
+> > > +  write-opcode:
+> > > +  $ref: /schemas/types.yaml#/definitions/uint8
+> > > +    description:
+> > > +      Value to be used in Write Approval packets. 1 byte.
+> >
+> > Why are these and the address properties above not defined by the
+> > spec? Do they vary for a specific device? If not, then they should be
+> > implied by the compatible.
+>
+> These properties are not defined by the spec:
+>
+> "The Input Report Address (header or body) and READ opcode are retrieved
+> from ACPI."
+>
+> Same for the output report address and write opcode. I will drop these in=
+ v2.
 
-I would think EOPNOTSUPP is a standard return error when a feature is
-not enabled. What if a component would need to do something different
-by knowing that FLB is disabled and therefore perhaps it would also
-skip some of LU related changes? I think it is a very minor think to
-ignore EOPNOTSUPP when checking of other error types.
+Hi Rob,
 
-> > +static int luo_flb_retrieve_one(struct liveupdate_flb *flb)
-> > +{
-> > +       struct luo_flb_private *private =3D luo_flb_get_private(flb);
-> > +       struct luo_flb_header *fh =3D &luo_flb_global.incoming;
-> > +       struct liveupdate_flb_op_args args =3D {0};
-> > +       bool found =3D false;
-> > +       int err;
-> > +
-> > +       guard(mutex)(&private->incoming.lock);
-> > +
-> > +       if (private->incoming.finished)
-> > +               return -ENODATA;
-> > +
-> > +       if (private->incoming.retrieved)
-> > +               return 0;
-> > +
-> > +       if (!fh->active)
-> > +               return -ENODATA;
-> > +
-> > +       for (int i =3D 0; i < fh->header_ser->count; i++) {
-> > +               if (!strcmp(fh->ser[i].name, flb->compatible)) {
-> > +                       private->incoming.data =3D fh->ser[i].data;
-> > +                       private->incoming.count =3D fh->ser[i].count;
-> > +                       found =3D true;
-> > +                       break;
-> > +               }
-> > +       }
-> > +
-> > +       if (!found)
-> > +               return -ENOENT;
+Please disregard my previous reply about dropping the read/write opcodes an=
+d
+input/output addresses. The spec does not define these fields. Instead, it =
+says
+these values are retrieved from ACPI _DSM methods. If we remove them from
+the binding, the driver is not very generic. Would it be okay to keep them?
+
 >
-> FLB users have no way to distinguish between "there was no data
-> preserved" and "there was data preserved, but it was not a supported
-> version".
-
-Strictly speaking, FLB doesn't have a concept of "versions", it only
-operates on compatible or incompatible data strings. If we find FLB
-data but the compatible string doesn't match, we have no way of
-knowing if that data was even intended for this specific handler.
-
-> This is especially going to be important for PCI [1] since there's a
-> big difference between "there were no devices preserved" and "there
-> were devices preserved but the incoming kernel isn't compatible". The
-
-If the incoming kernel does not find preserved device state, shouldn't
-it just be treated as if no device state was preserved at all? In that
-scenario, the subsystem would fall back to standard initialization and
-simply reset the device state.
-
-> former means there's nothing for the PCI subsystem to do wrt Live
-> Update. The latter means we should probably panic the system.
+> >
+> > > +
+> > > +  hid-over-spi-flags:
+> > > +  $ref: /schemas/types.yaml#/definitions/uint16
+> > > +    description:
+> > > +      16 bits.
+> > > +      Bits 0-12 - Reserved (must be 0)
+> > > +      Bit 13 - SPI Write Mode. Possible values -
+> > > +        * 0b0- Writes are carried out in Single-SPI mode
+> > > +        * 0b1- Writes are carried out in the Multi-SPI mode specifie=
+d by bits
+> > > +               14-15
+> > > +      Bits 14-15 - Multi-SPI Mode. Possible values -
+> > > +        * 0b00- Single SPI
+> > > +        * 0b01- Dual SPI
+> > > +        * 0b10- Quad SPI
+> >
+> > We already have SPI properties to define the bus width for read and wri=
+te.
 >
-> [1] https://lore.kernel.org/kvm/20260129212510.967611-3-dmatlack@google.c=
-om/
+> Will fix this in v2.
 >
-> > +/**
-> > + * liveupdate_unregister_flb - Remove an FLB dependency from a file ha=
-ndler.
-> > + * @fh:   The file handler that is currently depending on the FLB.
-> > + * @flb:  The File-Lifecycle-Bound object to remove.
-> > + *
-> > + * Removes the association between the specified file handler and the =
-FLB
-> > + * previously established by liveupdate_register_flb().
-> > + *
-> > + * This function manages the global lifecycle of the FLB. It decrement=
-s the
-> > + * FLB's usage count. If this was the last file handler referencing th=
-is FLB,
-> > + * the FLB is removed from the global registry and the reference to it=
-s
-> > + * owner module (acquired during registration) is released.
-> > + *
-> > + * Context: This function ensures the session is quiesced (no active F=
-Ds
-> > + *          being created) during the update. It is typically called f=
-rom a
-> > + *          subsystem's module exit function.
-> > + * Return: 0 on success.
-> > + *         -EOPNOTSUPP if live update is disabled.
-> > + *         -EBUSY if the live update session is active and cannot be q=
-uiesced.
-> > + *         -ENOENT if the FLB was not found in the file handler's list=
-.
-> > + */
-> > +int liveupdate_unregister_flb(struct liveupdate_file_handler *fh,
-> > +                             struct liveupdate_flb *flb)
+> >
+> > > +
+> > > +required:
+> > > +  - compatible
+> > > +  - interrupts
+> > > +  - reset-gpios
+> > > +  - vdd-supply
+> > > +  - input-report-header-address
+> > > +  - input-report-body-address
+> > > +  - output-report-address
+> > > +  - read-opcode
+> > > +  - write-opcode
+> > > +  - hid-over-spi-flags
+> > > +
+> > > +additionalProperties: false
+> > > +
+> > > +examples:
+> > > +  - |
+> > > +    #include <dt-bindings/interrupt-controller/irq.h>
+> > > +    #include <dt-bindings/gpio/gpio.h>
+> > > +
+> > > +    spi {
+> > > +      #address-cells =3D <1>;
+> > > +      #size-cells =3D <0>;
+> > > +
+> > > +      hid@0 {
+> > > +        compatible =3D "hid-over-spi";
+> > > +        reg =3D <0x0>;
+> > > +        interrupts-extended =3D <&gpio 42 IRQ_TYPE_EDGE_FALLING>;
+> > > +        reset-gpios =3D <&gpio 27 GPIO_ACTIVE_LOW>;
+> > > +        vdd-supply =3D <&pm8350c_l3>;
+> > > +        pinctrl-names =3D "default";
+> > > +        pinctrl-0 =3D <&ts_d6_reset_assert &ts_d6_int_bias>;
+> > > +        input-report-header-address =3D <0x1000>;
+> > > +        input-report-body-address =3D <0x1004>;
+> > > +        output-report-address =3D <0x2000>;
+> > > +        read-opcode =3D <0x0b>;
+> > > +        write-opcode =3D <0x02>;
+> > > +        hid-over-spi-flags =3D <0x0000>;
+> > > +        post-power-on-delay-ms =3D <5>;
+> > > +        minimal-reset-delay-ms =3D <5>;
+> > > +      };
+> > > +    };
+> > > \ No newline at end of file
+> >
+> > Fix this.
 >
-> Alex Williamson and Jason Gunthrope both suggested this should return voi=
-d.
+> Will fix this in v2.
 >
->   https://lore.kernel.org/kvm/20260303210733.GG972761@nvidia.com/
->
-> I suspect liveupdate_unregister_file_handler() should as well. I don't
-> think there's anything callers can do if unregister fails.
-
-Thank you for the heads-up; I replied in that thread. We can clean-up
-some of the return erros, but I am not sure what to do about -EBUSY.
-
-Pasha
+> >
+> > Rob
