@@ -1,176 +1,150 @@
-Received: from fout-b1-smtp.messagingengine.com (fout-b1-smtp.messagingengine.com [202.12.124.144])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A7CC223336;
-	Fri, 13 Mar 2026 13:16:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2570735AC37
+	for <linux-doc@vger.kernel.org>; Fri, 13 Mar 2026 13:23:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773407778; cv=none; b=ri+V6Eo0fuO3oRzi980FBQyyNilSqQBjJX1fffcm3C3IsgKKIl5/odsTavloXld4Lge2+s4AwXVvHz65DbaZ4LcSvoVTiq7NXrEP0QhcVoyu8M976P8Mvq9VKkXPMDznuGZbPgQP3pi0EYRzix1AJAL3MGzFPJGodlJfaR6ox1k=
+	t=1773408186; cv=none; b=VZefm91ZDhznAMAvWrUGjFRl8tMTxI9RdTcHHZESP7M3HZ6xOCp7DVwz0V/ElsoUO5goez/s36M929WoaSkf+wZ3PVmcFYmVoV47+zYCcwRAMaQCVtatVtiR0McUKLx6W8FJzc2NdAWNvJeafdHNiD608V3uUhn+3hQLdruoNM4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773407778; c=relaxed/simple;
-	bh=3BgQXh9doMaVreka5OJDzVHJcwJHGqpgYXRU/iQP0Mw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XTsls8N47fGBojw2z1udxIxReSc3fyeWYYmXpupXOP8VIMZ2iGjj+i8KnXCzZwEMCbNb3DlofF7R2k+wM9ltbb3MAVSfpp+35EQK6olH7gjF45QEOsBNNw8YrnJuxcWe4O37tvLvmaqO8YagYrEpCAMyWuMNVsmUxgi/AwCKrbU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net; spf=pass smtp.mailfrom=queasysnail.net; dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b=GvtyrQ3P; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=zz19DQwL; arc=none smtp.client-ip=202.12.124.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=queasysnail.net
+	s=arc-20240116; t=1773408186; c=relaxed/simple;
+	bh=cyuCHdINxAxB3Q6Ll+XuNXFb67j/pcTpl5AcamKnQbE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=LiWNwXKB0cECLIh2Sej/mEYQPxGxI+p8jmRbjs7IdLZU7lyS20YO/C6EETpgNMGblXb57gQFJFiz+DTRzzOS9Qr26YnkvGfxFDJm+ixVGzIT7/AfaOTQZV+XyQwfTuo2rwBe10Gbp/Lw8BUfncaEyz/9D3o5W8/HXZYKUhVRtf8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G4q1L3cj; arc=none smtp.client-ip=209.85.167.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=queasysnail.net header.i=@queasysnail.net header.b="GvtyrQ3P";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="zz19DQwL"
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfout.stl.internal (Postfix) with ESMTP id 0B30A1D001E8;
-	Fri, 13 Mar 2026 09:16:14 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-01.internal (MEProxy); Fri, 13 Mar 2026 09:16:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=queasysnail.net;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm2; t=1773407773; x=
-	1773494173; bh=ZEJ90FcF0L41COAXJBmumbj/27G8Ou6IO8TuBIK501s=; b=G
-	vtyrQ3PPkysdLImTPecUL+Zroa9CLHMf0CRWpFkNYwNtJCCupBOsOogfqz6VM5zj
-	KhIMG5ker3P2Lp9I9L6gRyB7W0vqbFUbYmat6/7d3mf6J0eruaVuBZ2PcivOXIBM
-	sRX8BdaP7Vs1kNafppIECgzb8Ie43WyzrYpDgdAyNmt/mebOk8WtFrigdtbjw3q4
-	QLyLA2nVlu7tSrRznim2j2MvN3OMeCADk8qkJMAJzdwqo04t7I5maK2flZ2nlA5B
-	ieDpoHW71zeDtYk2MFfUMSkvlg4lcFT5UApaQU75foBIBmwcKyk6vxZKbyjcmT/y
-	6yRZBZir6zdQcZKHWjOrA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1773407773; x=1773494173; bh=ZEJ90FcF0L41COAXJBmumbj/27G8Ou6IO8T
-	uBIK501s=; b=zz19DQwL9jl/+H7VkE7FLJiXLDEq8B2nP2FyBJW/iS5g+7ZWPHT
-	/m/1EkgR99gdz16qOxpsXNAvOpX6WuqHcHdYVk98HWIs3lbZ+kvgM2qySC4k/ImF
-	M/QGRE+wd3HqPUBaL+W0FJMs6l3c00onGxq8Cd/+uYvhO2YtvPKzKJUlkNlfdxmh
-	szCKFLWe9D+yoKwMwQ+CIQ0QvQUV8hBACzn/L+MlkyKi726j1aP25PtaKgbVsI+C
-	eLALmnzEzGpEZZ4dLetc6XdWWtuaFYn65KUhAo0zn5W3R0b/ZYxD/UraC3/WIXLc
-	DaQu3P61h3jOzcU9XL7LX1IHY/Tu5YHeL2Q==
-X-ME-Sender: <xms:HQ60aczyuk4OeeYslMFv8LlfwNygn1jxOI24gwy-QUDHqglHy21btg>
-    <xme:HQ60aezmUheNRh515RFDPQ3W2aZYEAPCpMMbT168CZld8d78Im5X3NYNOYMrNz4OJ
-    YAlUi5ym6RtrLc_ignlLqvIPPlrOu9VJm7QwtHSV3BlfFfdT66UqGY>
-X-ME-Received: <xmr:HQ60aVJ2UGmAJ2-EOZcuJuLDSnPPbFQR8g6olBMMbenP0bjpbjXKTFCrjiKz>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgddvkeeljeehucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggujgesthdtredttddtjeenucfhrhhomhepufgrsghrihhn
-    rgcuffhusghrohgtrgcuoehsugesqhhuvggrshihshhnrghilhdrnhgvtheqnecuggftrf
-    grthhtvghrnhepudekieeijedvfedugfeiiedujeeiheeihfekieffhefgheeludeifefg
-    ueejkeejnecuffhomhgrihhnpehivghtfhdrohhrghenucevlhhushhtvghrufhiiigvpe
-    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsugesqhhuvggrshihshhnrghilhdrnhgv
-    thdpnhgspghrtghpthhtohepudeipdhmohguvgepshhmthhpohhuthdprhgtphhtthhope
-    ifihhlfhhrvggurdhophgvnhhsohhurhgtvgesghhmrghilhdrtghomhdprhgtphhtthho
-    pehjohhhnhdrfhgrshhtrggsvghnugesghhmrghilhdrtghomhdprhgtphhtthhopehkuh
-    gsrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepuggrvhgvmhesuggrvhgvmhhlohhf
-    thdrnhgvthdprhgtphhtthhopegvughumhgriigvthesghhoohhglhgvrdgtohhmpdhrtg
-    hpthhtohepphgrsggvnhhisehrvgguhhgrthdrtghomhdprhgtphhtthhopehhohhrmhhs
-    sehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhrsggvtheslhifnhdrnhgvthdprh
-    gtphhtthhopehskhhhrghnsehlihhnuhigfhhouhhnuggrthhiohhnrdhorhhg
-X-ME-Proxy: <xmx:HQ60aahYjiJbB-P95wRDvm-ITEAhgBNyuGq5iE159TC_avBZMEF_fg>
-    <xmx:HQ60aWPtIdW6jpknPKZmVLHt6RrpT2vKd3lY8OzT5-CKFEHph1a9vA>
-    <xmx:HQ60aV6DNShB4w_0C8sH8byIM1Qw5lnmWYF01g_YEZ4sMYk31ntaWA>
-    <xmx:HQ60adloJLCOiUQdhMNuvxvDyK4ymN8sIdG5SL1NVHOIKpItUu43zg>
-    <xmx:HQ60aSdCBGrH9piWGEk4gzjjYEvY_kmD-sAMNqyyHcY_Kax62Wx0Gm2z>
-Feedback-ID: i934648bf:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 13 Mar 2026 09:16:12 -0400 (EDT)
-Date: Fri, 13 Mar 2026 14:16:10 +0100
-From: Sabrina Dubroca <sd@queasysnail.net>
-To: Wilfred Mallawa <wilfred.opensource@gmail.com>
-Cc: John Fastabend <john.fastabend@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Alistair Francis <alistair.francis@wdc.com>,
-	Damien Le'Moal <dlemoal@kernel.org>,
-	Wilfred Mallawa <wilfred.mallawa@wdc.com>
-Subject: Re: [RFC net-next 1/3] net/tls_sw: support randomized zero padding
-Message-ID: <abQOGm6BqAE5eEln@krikkit>
-References: <20260309054837.2299732-2-wilfred.opensource@gmail.com>
- <20260309054837.2299732-3-wilfred.opensource@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G4q1L3cj"
+Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-4670464029eso1288798b6e.2
+        for <linux-doc@vger.kernel.org>; Fri, 13 Mar 2026 06:23:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773408184; x=1774012984; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vld9IFfyvePqt5M1J9/OwioGOqjnLV2rFk+KzTunpXM=;
+        b=G4q1L3cjfh+7wIBsaUQdBYz9NOyeDWfd3PfYkzIXD3QVKPDP2eMjOVdYFczU1Qtktf
+         QKAG/kaUfV8CfExK5oj2OeRoZfFfNre4MhV07gvPe8gdLkcn/ZrqaERpembqMxg2qomu
+         rVZyXcSfc5n3mXQZozUplim2sHqChyHQjx/ONn7Ii185HagDIybYpP41XQG1O3gvYJR2
+         5BL1/SbsaHK/as92iJZYT0RqWvFhwM67cbPUzQ6QVFik3r4pVaAqc/rBkytuSuEmctfc
+         NJoYv05yq+L22Tnc4ufDtKq99Fb699oX+QbpmSCWtOVWXVBKUwiaEJGrgddcevUCWNt1
+         6ZiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773408184; x=1774012984;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=vld9IFfyvePqt5M1J9/OwioGOqjnLV2rFk+KzTunpXM=;
+        b=fOMlTQkIMXR8Rn+JbfD1SKSkwB8AxOsXQf40YPEWoJD6FqTDal2DekCHWoOBvcuyjf
+         RS5TLvf0OZwguP2jAyTBIaZa9uRggR5f6leSj0NAeTn75sjNZrrw90TeXZ8XqwsFFICa
+         w/ZtYLVi0jXYFYdnRdrZqHKrmlkFimuHwukSLcAyKoQ2p4OLWMeICbqUc3AaG9czaZ+s
+         CPvXEy1nV7edIehe21iAb2B1Igr0Q1h3XCm6GVx5Nqw4ONn45s3a76ecqNTCQwo0NbCY
+         XC+qEj5bMLHBuAVBMriG3JzIPv7bGlSpxXzIFpZg0CZY8tDc5IlujzdFrVdHP3LMKyBP
+         hvVA==
+X-Forwarded-Encrypted: i=1; AJvYcCU+ntMVmTEay9iXLSNXl5Nk6fOR0e+a9ialNObRn/R+0+Hz0r7OeYZLdvRTBke6QVH38FiTiN2ndZs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx27PSTkvCvzA5h1fmhZbTL0FHSBrltZ07DLyT2MDrrkU0ulC95
+	zpCh+N2OLQ5HFmYdX7jpZ51FIrGNjWZ08ewQySlmRv5RVoxyG4GBTbNQ
+X-Gm-Gg: ATEYQzzsoLdezrQzziODJLG/3AM4PeEGxLL6h7zrLGoDjUf+qxhgyN0rjaMfNW8aQQ+
+	voH5DQQAsdxkN/pzPgbfoSw6IlPJIKPQqIXHUee+uAakAgl4afQBFbkmiM1q2KpYomZjlfK4P9P
+	Il9da0HWsYIPACApDHGHQz2Ifx4LeFtZm3mun9+P4UXj0tuNc9pyRaH6TkHWUSxQO/KLz9oseIu
+	XKLWIOljdry0qOlngO8yVEtHXv+f1yB3DD9iiHmyYTK1wped2+jognzu7DxP2SyC0WDMcFaptMq
+	UNuB4bBNgAlU+oCEPLkyDStQ30Pr9KrF+SEuzzhQHzWpPR4p9xqeX1Ygw3qsqR3KeAtXpnvSaQM
+	RutL8wrycpbQaD2eA/4YmV5lHY18Ji5NGIhAKHjWDC8FM8bxr0wdSbdIcKa52+MoEstEUvj3pXE
+	hxH7+5F4T8EJ2mHdPSNUBcVVabKFj9bukbpVehKe8jrkZSDcglFA76K0CzinA=
+X-Received: by 2002:a05:6808:1203:b0:466:fb74:1ec9 with SMTP id 5614622812f47-467570ef685mr1573218b6e.4.1773408183890;
+        Fri, 13 Mar 2026 06:23:03 -0700 (PDT)
+Received: from frodo (c-98-38-17-99.hsd1.co.comcast.net. [98.38.17.99])
+        by smtp.googlemail.com with ESMTPSA id 5614622812f47-4673434a35csm4795987b6e.20.2026.03.13.06.23.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Mar 2026 06:23:03 -0700 (PDT)
+From: Jim Cromie <jim.cromie@gmail.com>
+To: airlied@gmail.com,
+	simona@ffwll.ch,
+	jbaron@akamai.com,
+	gregkh@linuxfoundation.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Jim Cromie <jim.cromie@gmail.com>,
+	mripard@kernel.org,
+	tzimmermann@suse.de,
+	maarten.lankhorst@linux.intel.com,
+	jani.nikula@intel.com,
+	ville.syrjala@linux.intel.com,
+	christian.koenig@amd.com,
+	matthew.auld@intel.com,
+	arunpravin.paneerselvam@amd.com,
+	louis.chauvet@bootlin.com,
+	pmladek@suse.com,
+	ukaszb@chromium.org,
+	dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org,
+	amd-gfx@lists.freedesktop.org
+Subject: [PATCH v11 04/65] docs/dyndbg: update examples \012 to \n
+Date: Fri, 13 Mar 2026 07:19:29 -0600
+Message-ID: <20260313132103.2529746-5-jim.cromie@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260313132103.2529746-1-jim.cromie@gmail.com>
+References: <20260313132103.2529746-1-jim.cromie@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260309054837.2299732-3-wilfred.opensource@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-2026-03-09, 15:48:36 +1000, Wilfred Mallawa wrote:
-> From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
-> 
-> Currently, for TLS 1.3, ktls does not support record zero padding [1].
-> Record zero padding is used to allow the sender to hide the size of the
-> traffic patterns from an observer. TLS is susceptible to a variety of traffic
-> analysis attacks based on observing the length and timing of encrypted
-> packets [2]. Upcoming Western Digital NVMe-TCP hardware controllers
-> implement TLS 1.3. Which from a security perspective, can benefit from having
-> record zero padding enabled to mitigate against traffic analysis attacks [2].
-> 
-> Thus, for TX, add support to appending a randomized number of zero padding
-> bytes to end-of-record (EOR) records that are not full. The number of zero
+commit 47ea6f99d06e ("dyndbg: use ESCAPE_SPACE for cat control")
+changed the control-file to display format strings with "\n" rather
+than "\012".  Update the docs to match the new reality.
 
-I don't think this is the right behavior. I expect that a user that
-enables zero-padding would want _every_ record they send to be padded,
-and their payload is going to be split into however many records that
-requires. This could mean that data that would just fit in a record
-will get split into one full + one very small record.
+Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+Tested-by: Louis Chauvet <louis.chauvet@bootlin.com>
+Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+---
+ .../admin-guide/dynamic-debug-howto.rst       | 20 +++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-As it is, if I repeatedly call send with MSG_MORE to let ktls chunk
-this for me, zero-padding has no effect. That doesn't seem right.
-
-Does that make sense?
-
-> padding bytes to append is determined by the remaining record room and the
-> user specified upper bound (minimum of the two). That is
-> rand([0, min(record_room, upper_bound)]).
-> 
-> For TLS 1.3, zero padding is added after the content type byte, as such,
-> if the record in context meets the above conditions for zero padding,
-> attach a zero padding buffer to the content type byte before a record is
-> encrypted. The padding buffer is freed when the record is freed.
-> 
-> By default, record zero padding is disabled, and userspace may enable it
-> by using the setsockopt TLS_TX_RANDOM_PAD option.
-> 
-> [1] https://datatracker.ietf.org/doc/html/rfc8446#section-5.4l
-
-nit: there's a stray 'l' at the end of that link (and other references
-to that section in your commit messages within the series)
-
-
-> @@ -1033,6 +1055,8 @@ static int tls_sw_sendmsg_locked(struct sock *sk, struct msghdr *msg,
->  	unsigned char record_type = TLS_RECORD_TYPE_DATA;
->  	bool is_kvec = iov_iter_is_kvec(&msg->msg_iter);
->  	bool eor = !(msg->msg_flags & MSG_MORE);
-> +	bool tls_13 = (prot->version == TLS_1_3_VERSION);
-> +	bool rec_zero_pad = eor && tls_13 && tls_ctx->tx_record_zero_pad;
-
-Thus here, rec_zero_pad would simply be tls_ctx->tx_record_zero_pad
-(the tls_13 check should be redundant I think?).
-
-
-> @@ -1085,8 +1110,19 @@ static int tls_sw_sendmsg_locked(struct sock *sk, struct msghdr *msg,
->  			full_record = true;
->  		}
->  
-> +		if (rec_zero_pad && !full_record)
-> +			zero_pad_len = record_room - try_to_copy;
-
-And I would turn this logic the other way around:
-
- - decide zero_pad_len (get_random if that's the API approach we want,
-   discussion in the cover letter) for every new record
- - adjust record_room based on that
- - then see if the record will be full
-
-
-(I'll postpone looking at the actual implementation for now)
-
+diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
+index 095a63892257..4b14d9fd0300 100644
+--- a/Documentation/admin-guide/dynamic-debug-howto.rst
++++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+@@ -38,12 +38,12 @@ You can view the currently configured behaviour in the *prdbg* catalog::
+ 
+   :#> head -n7 /proc/dynamic_debug/control
+   # filename:lineno [module]function flags format
+-  init/main.c:1179 [main]initcall_blacklist =_ "blacklisting initcall %s\012
+-  init/main.c:1218 [main]initcall_blacklisted =_ "initcall %s blacklisted\012"
+-  init/main.c:1424 [main]run_init_process =_ "  with arguments:\012"
+-  init/main.c:1426 [main]run_init_process =_ "    %s\012"
+-  init/main.c:1427 [main]run_init_process =_ "  with environment:\012"
+-  init/main.c:1429 [main]run_init_process =_ "    %s\012"
++  init/main.c:1179 [main]initcall_blacklist =_ "blacklisting initcall %s\n"
++  init/main.c:1218 [main]initcall_blacklisted =_ "initcall %s blacklisted\n"
++  init/main.c:1424 [main]run_init_process =_ "  with arguments:\n"
++  init/main.c:1426 [main]run_init_process =_ "    %s\n"
++  init/main.c:1427 [main]run_init_process =_ "  with environment:\n"
++  init/main.c:1429 [main]run_init_process =_ "    %s\n"
+ 
+ The 3rd space-delimited column shows the current flags, preceded by
+ a ``=`` for easy use with grep/cut. ``=p`` shows enabled callsites.
+@@ -59,10 +59,10 @@ query/commands to the control file.  Example::
+ 
+   :#> ddcmd '-p; module main func run* +p'
+   :#> grep =p /proc/dynamic_debug/control
+-  init/main.c:1424 [main]run_init_process =p "  with arguments:\012"
+-  init/main.c:1426 [main]run_init_process =p "    %s\012"
+-  init/main.c:1427 [main]run_init_process =p "  with environment:\012"
+-  init/main.c:1429 [main]run_init_process =p "    %s\012"
++  init/main.c:1424 [main]run_init_process =p "  with arguments:\n"
++  init/main.c:1426 [main]run_init_process =p "    %s\n"
++  init/main.c:1427 [main]run_init_process =p "  with environment:\n"
++  init/main.c:1429 [main]run_init_process =p "    %s\n"
+ 
+ Error messages go to console/syslog::
+ 
 -- 
-Sabrina
+2.53.0
+
