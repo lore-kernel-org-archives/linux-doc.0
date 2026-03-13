@@ -1,66 +1,274 @@
-Received: from out28-148.mail.aliyun.com (out28-148.mail.aliyun.com [115.124.28.148])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80B593161A3;
-	Fri, 13 Mar 2026 08:05:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A138E3537F5;
+	Fri, 13 Mar 2026 08:31:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773389140; cv=none; b=PyF+IrbfjtkQCVhuISK7Uzw0O1v9xDy8BD0Ft6Nkdbu1hKruWvK97aJqvdnGq5qwh3Ce3UHdegzPCGWdSNkaJ/kP6ZuToRVD3B+wrNleO/eiZDHF6GFJCO6+IMGMTK6nki8COX9X34w0/PncW++fu2Y36jO/XVY0YKlNqnvV0OE=
+	t=1773390706; cv=none; b=mQp9nN/efsXas3bIIQT0SZrX0naghYWjgPNN2o3/I/5risg4p6tuoHabFlNCk2eFbM84puXaIVYG7nBn1URy6qdQnZOrZ2OE1pPfqsDPGj07ENmdHi1v4KnPTxhi/3joV9YFFKaacPZj8/2Ny5Jj7Y1yBYuKS7BdX4p+UwZt2XI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773389140; c=relaxed/simple;
-	bh=7g0rVe5YRt2IuCl1m+8xOFew56k+2wH7gBl+CcqkD6c=;
-	h=Date:From:To:Cc:Message-ID:Subject:MIME-Version:References:
-	 In-Reply-To:Content-Type; b=Hh6snCPihoItWRLY5cQ1FKg9+Vq+o+XoVBML/Z75VWTDS++Tgp9g2nXJPg2kQRDy28xZLSuDqcZStRihsMn3NIHE4tfzd94uiXX+9SR8qyyUETki8LBG9OsEHNtHalMyYIpkYVUwNfvWLOLZxFZbeBVKp2S8CdBouwSBJrtK5Bg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com; spf=pass smtp.mailfrom=nebula-matrix.com; arc=none smtp.client-ip=115.124.28.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nebula-matrix.com
-X-Alimail-AntiSpam:AC=CONTINUE;BC=0.8550009|0.1203736;CH=green;DM=|AD|false|;DS=CONTINUE|ham_system_inform|0.190698-0.00531997-0.803982;FP=16993061547175602569|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033068016216;MF=illusion.wang@nebula-matrix.com;NM=1;PH=DW;RN=15;RT=15;SR=0;TI=W4_0.2.3_21251295_1773389119276_o7001c1700;
-Received: from WS-web (Illusion.Wang@nebula-matrix.com[W4_0.2.3_21251295_1773389119276_o7001c1700] cluster:ay29) at Fri, 13 Mar 2026 16:05:23 +0800
-Date: Fri, 13 Mar 2026 16:05:23 +0800
-From: "Illusion Wang" <Illusion.Wang@nebula-matrix.com>
-To: "Paolo Abeni" <pabeni@redhat.com>,
-  "Dimon" <dimon.zhao@nebula-matrix.com>,
-  "Alvin" <alvin.wang@nebula-matrix.com>,
-  "Sam" <sam.chen@nebula-matrix.com>,
-  "netdev" <netdev@vger.kernel.org>
-Cc: "andrew+netdev" <andrew+netdev@lunn.ch>,
-  "corbet" <corbet@lwn.net>,
-  "kuba" <kuba@kernel.org>,
-  "linux-doc" <linux-doc@vger.kernel.org>,
-  "lorenzo" <lorenzo@kernel.org>,
-  "horms" <horms@kernel.org>,
-  "vadim.fedorenko" <vadim.fedorenko@linux.dev>,
-  "lukas.bulwahn" <lukas.bulwahn@redhat.com>,
-  "edumazet" <edumazet@google.com>,
-  "open list" <linux-kernel@vger.kernel.org>
-Reply-To: "Illusion Wang" <Illusion.Wang@nebula-matrix.com>
-Message-ID: <388ff939-2eae-4cee-aac5-ca88dd37ef49.Illusion.Wang@nebula-matrix.com>
-Subject: =?UTF-8?B?5Zue5aSN77yaW1BBVENIIHY3IG5ldC1uZXh0IDAzLzExXSBuZXQvbmVidWxhLW1hdHJpeDog?=
-  =?UTF-8?B?YWRkIGNoaXAgcmVsYXRlZCBkZWZpbml0aW9ucw==?=
-X-Mailer: [Alimail-Mailagent][W4_0.2.3][null][Chrome]
+	s=arc-20240116; t=1773390706; c=relaxed/simple;
+	bh=l8vCHfXxC9+FUSWip87fRUZOuxjxYsbmel/zZHXKGJw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=O7CzD73uT5L+I2MkMPVwLDeMq517C7daIWT5j0UplLRAH6fJiJ5WyrpXgAxBn+/zD1Aqz0RRaiItIyOnBIqryaCKN7l6giG4X1hkLwHA/2wz4IzYxV4tyKJEfQkSH+as6ZVZlumTVdc2ypVQEb7Xy7ZzDU6H2d+esg9Qzdx5G38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=QRx5sloz; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="QRx5sloz"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id B14194E4264E;
+	Fri, 13 Mar 2026 08:31:40 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 846ED60027;
+	Fri, 13 Mar 2026 08:31:40 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 3C4D510368614;
+	Fri, 13 Mar 2026 09:31:31 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1773390699; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=TOL9sk8Oy/zeNAYdwBbDEf9LXsiGHo+gM5VK3E0pTvw=;
+	b=QRx5slozIwrZq0MvGs4/8X00TuUSN4ZRHe6izAwPSqq6ephYcs5AcmYlsyO02B4FuccPeh
+	Du/sJvI/wk6frS2iL184gxQIV6zi3fYrAJsgkzxiP2wfcku9IpiPraqSwMdZfVRVIV8Rof
+	eLyRof+Ase+yW2wL/+VFtz7fLe4n+qfX1glR/327BlfqSjRodznKUdrLO1b6AodFENvoRv
+	tEJpmkkreoAxDGMnKn9f9M0+1d8ODI/zJWYfGBF5JR0dowUJnrK3oXdiAESPZ8lXoLF6gj
+	dgRuGP5+LHTH/sBi04PGy0cw5Cb/+spud7g2B3AFU9Gi21x9PkUMQdCkP1LIxg==
+Message-ID: <3a6ced9e-5bf4-4573-a4bf-e587ff9119d4@bootlin.com>
+Date: Fri, 13 Mar 2026 09:31:30 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-x-aliyun-im-through: {"version":"v1.0"}
-References: <20260310120959.22015-1-illusion.wang@nebula-matrix.com> <20260310120959.22015-4-illusion.wang@nebula-matrix.com>,<f669062e-16f4-471a-9884-6441c478dd09@redhat.com>
-x-aliyun-mail-creator: W4_0.2.3_null_EuMTW96aWxsYS81LjAgKFdpbmRvd3MgTlQgMTAuMDsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEzMy4wLjY5NDMuMTQyIFNhZmFyaS81MzcuMzYgZGluZ3RhbGstd2luLzEuMC4wIG53KDAuMTQuNykgRGluZ1RhbGsoOC4yLjE1LVJlbGVhc2UuMjYwMjI1MDAxKSBNb2pvLzEuMC4wIE5hdGl2ZSBBcHBUeXBlKHJlbGVhc2UpIENoYW5uZWwvMjAxMjAwIEFyY2hpdGVjdHVyZS94ODZfNjQgd2ViRHQvUEM=uL
-In-Reply-To: <f669062e-16f4-471a-9884-6441c478dd09@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v01 2/7] hinic3: Add ethtool statistic ops
+To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>,
+ netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, Ioana Ciornei <ioana.ciornei@nxp.com>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ luosifu <luosifu@huawei.com>, Xin Guo <guoxin09@huawei.com>,
+ Zhou Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>,
+ Shi Jing <shijing34@huawei.com>, Zheng Jiezhen <zhengjiezhen@h-partners.com>
+References: <cover.1773387649.git.zhuyikai1@h-partners.com>
+ <f53ce31d1be3e3f214f25282d7f90d43b76e1e3f.1773387649.git.zhuyikai1@h-partners.com>
+From: Maxime Chevallier <maxime.chevallier@bootlin.com>
+Content-Language: en-US
+In-Reply-To: <f53ce31d1be3e3f214f25282d7f90d43b76e1e3f.1773387649.git.zhuyikai1@h-partners.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-SSBhbSBzbyBzb3JyeSwgTGFzdCB0aW1lIEkgbWlzc2VkIGEgJ25vdCcKClRoZXNlIGRhdGEgYXJl
-IHVzZWQgdG8gY29uZmlndXJlIFA0LXJlbGF0ZWQgcmVnaXN0ZXJzLiBUaGUgZHJpdmVy4oCZcyBm
-dW5jdGlvbmFsaXR5CgpkZXBlbmRzIGhlYXZpbHkgb24gdGhlc2UgcmVnaXN0ZXIgc2V0dGluZ3Mu
-IFRoZXkgd2lsbCBiZSBkZWNsYXJlZCBhcyBjb25zdC4KCkJ1dCB0aGV5IGNhbiBiZSBub3QgbWFy
-a2VkIF9faW5pdGRhdGEuIEJlY2F1c2UgaXQgd2lsbCBiZSBjYWxsZWQgYnkgcGNpX2RyaXZlci5w
-cm9iZS4KClRoZXkgYWxzbyBzaG91bGQgbm90IGJlIG1vdmVkIGludG8gZmlybXdhcmUgZmlsZXMs
-IGFzIHRoZSBzb2Z0d2FyZSBmdW5jdGlvbmFsaXR5CgppcyB0aWdodGx5IGNvdXBsZWQgd2l0aCB0
-aGVzZSBjb25maWd1cmF0aW9ucy4gSWYgdGhleSB3ZXJlIG1vdmVkIHRvIGZpcm13YXJlLAoKdXNl
-cnMgY291bGQgZWFzaWx5IGVuZCB1cCB3aXRoIG1pc21hdGNoZWQgdmVyc2lvbnMgb2YgdGhlIGZp
-cm13YXJlIGFuZCB0aGUga2VybmVsCgpkcml2ZXIgbW9kdWxlLCBsZWFkaW5nIHRvIGZ1bmN0aW9u
-YWwgaW5jb25zaXN0ZW5jaWVzIG9yIHN5c3RlbSBtYWxmdW5jdGlvbnMuCgoKT2xkIExpbms6aHR0
-cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbmV0ZGV2LzViNjIwNWRkLWJjYTgtNDJlMS1iMjgxLTUyYmUx
-MWYzMWY2OS5JbGx1c2lvbi5XYW5nQG5lYnVsYS1tYXRyaXguY29tLwo=
+Hi,
+
+On 13/03/2026 08:54, Fan Gong wrote:
+>   Add PF/VF statistics functions in TX and RX processing.
+>   Implement following ethtool callback function:
+> .get_sset_count
+> .get_ethtool_stats
+> .get_strings
+> .get_eth_phy_stats
+> .get_eth_mac_stats
+> .get_eth_ctrl_stats
+> .get_rmon_stats
+> .get_pause_stats
+> 
+>   These callbacks allow users to utilize ethtool for detailed
+> TX and RX netdev stats monitoring.
+> 
+> Co-developed-by: Zhu Yikai <zhuyikai1@h-partners.com>
+> Signed-off-by: Zhu Yikai <zhuyikai1@h-partners.com>
+> Signed-off-by: Fan Gong <gongfan1@huawei.com>
+
+[...]
+
+> +static void hinic3_get_eth_phy_stats(struct net_device *netdev,
+> +				     struct ethtool_eth_phy_stats *phy_stats)
+> +{
+> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
+> +	struct mag_cmd_port_stats *ps;
+> +	int err;
+> +
+> +	ps = kmalloc_obj(*ps);
+> +	if (!ps)
+> +		return;
+> +
+> +	err = hinic3_get_phy_port_stats(nic_dev->hwdev, ps);
+> +	if (err) {
+> +		kfree(ps);
+> +		netdev_err(netdev, "Failed to get eth phy stats from fw\n");
+> +		return;
+> +	}
+> +
+> +	phy_stats->SymbolErrorDuringCarrier = ps->mac_rx_sym_err_pkt_num;
+
+ps isn't kfree'd ?
+
+> +}
+> +
+> +static void hinic3_get_eth_mac_stats(struct net_device *netdev,
+> +				     struct ethtool_eth_mac_stats *mac_stats)
+> +{
+> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
+> +	struct mag_cmd_port_stats *ps;
+> +	int err;
+> +
+> +	ps = kmalloc_obj(*ps);
+> +	if (!ps)
+> +		return;
+> +
+> +	err = hinic3_get_phy_port_stats(nic_dev->hwdev, ps);
+> +	if (err) {
+> +		kfree(ps);
+> +		netdev_err(netdev, "Failed to get eth mac stats from fw\n");
+> +		return;
+> +	}
+> +
+> +	mac_stats->FramesTransmittedOK = ps->mac_tx_uni_pkt_num +
+> +					 ps->mac_tx_multi_pkt_num +
+> +					 ps->mac_tx_broad_pkt_num;
+> +	mac_stats->FramesReceivedOK = ps->mac_rx_uni_pkt_num +
+> +				      ps->mac_rx_multi_pkt_num +
+> +				      ps->mac_rx_broad_pkt_num;
+> +	mac_stats->FrameCheckSequenceErrors = ps->mac_rx_fcs_err_pkt_num;
+> +	mac_stats->OctetsTransmittedOK = ps->mac_tx_total_oct_num;
+> +	mac_stats->OctetsReceivedOK = ps->mac_rx_total_oct_num;
+> +	mac_stats->MulticastFramesXmittedOK = ps->mac_tx_multi_pkt_num;
+> +	mac_stats->BroadcastFramesXmittedOK = ps->mac_tx_broad_pkt_num;
+> +	mac_stats->MulticastFramesReceivedOK = ps->mac_rx_multi_pkt_num;
+> +	mac_stats->BroadcastFramesReceivedOK = ps->mac_rx_broad_pkt_num;
+> +	mac_stats->InRangeLengthErrors = ps->mac_rx_fcs_err_pkt_num;
+> +	mac_stats->OutOfRangeLengthField = ps->mac_rx_undersize_pkt_num +
+> +					   ps->mac_rx_undermin_pkt_num +
+> +					   ps->mac_rx_oversize_pkt_num +
+> +					   ps->mac_rx_jabber_pkt_num;
+> +	mac_stats->FrameTooLongErrors = ps->mac_rx_oversize_pkt_num +
+> +					ps->mac_rx_jabber_pkt_num;
+
+same here ?
+
+> +}
+> +
+> +static void hinic3_get_eth_ctrl_stats(struct net_device *netdev,
+> +				      struct ethtool_eth_ctrl_stats *ctrl_stats)
+> +{
+> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
+> +	struct mag_cmd_port_stats *ps;
+> +	int err;
+> +
+> +	ps = kmalloc_obj(*ps);
+> +	if (!ps)
+> +		return;
+> +
+> +	err = hinic3_get_phy_port_stats(nic_dev->hwdev, ps);
+> +	if (err) {
+> +		kfree(ps);
+> +		netdev_err(netdev, "Failed to get eth ctrl stats from fw\n");
+> +		return;
+> +	}
+> +
+> +	ctrl_stats->MACControlFramesTransmitted = ps->mac_tx_control_pkt_num;
+> +	ctrl_stats->MACControlFramesReceived = ps->mac_rx_control_pkt_num;
+
+same here ?
+
+> +}
+> +
+> +static const struct ethtool_rmon_hist_range hinic3_rmon_ranges[] = {
+> +	{     0,    64 },
+> +	{    65,   127 },
+> +	{   128,   255 },
+> +	{   256,   511 },
+> +	{   512,  1023 },
+> +	{  1024,  1518 },
+> +	{  1519,  2047 },
+> +	{  2048,  4095 },
+> +	{  4096,  8191 },
+> +	{  8192,  9216 },
+> +	{  9217, 12287 },
+> +	{}
+> +};
+> +
+> +static void hinic3_get_rmon_stats(struct net_device *netdev,
+> +				  struct ethtool_rmon_stats *rmon_stats,
+> +				  const struct ethtool_rmon_hist_range **ranges)
+> +{
+> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
+> +	struct mag_cmd_port_stats *ps;
+> +	int err;
+> +
+> +	ps = kmalloc_obj(*ps);
+> +	if (!ps)
+> +		return;
+> +
+> +	err = hinic3_get_phy_port_stats(nic_dev->hwdev, ps);
+> +	if (err) {
+> +		kfree(ps);
+> +		netdev_err(netdev, "Failed to get eth rmon stats from fw\n");
+> +		return;
+> +	}
+> +
+> +	rmon_stats->undersize_pkts	= ps->mac_rx_undersize_pkt_num;
+> +	rmon_stats->oversize_pkts	= ps->mac_rx_oversize_pkt_num;
+> +	rmon_stats->fragments		= ps->mac_rx_fragment_pkt_num;
+> +	rmon_stats->jabbers		= ps->mac_rx_jabber_pkt_num;
+> +
+> +	rmon_stats->hist[0]		= ps->mac_rx_64_oct_pkt_num;
+> +	rmon_stats->hist[1]		= ps->mac_rx_65_127_oct_pkt_num;
+> +	rmon_stats->hist[2]		= ps->mac_rx_128_255_oct_pkt_num;
+> +	rmon_stats->hist[3]		= ps->mac_rx_256_511_oct_pkt_num;
+> +	rmon_stats->hist[4]		= ps->mac_rx_512_1023_oct_pkt_num;
+> +	rmon_stats->hist[5]		= ps->mac_rx_1024_1518_oct_pkt_num;
+> +	rmon_stats->hist[6]		= ps->mac_rx_1519_2047_oct_pkt_num;
+> +	rmon_stats->hist[7]		= ps->mac_rx_2048_4095_oct_pkt_num;
+> +	rmon_stats->hist[8]		= ps->mac_rx_4096_8191_oct_pkt_num;
+> +	rmon_stats->hist[9]		= ps->mac_rx_8192_9216_oct_pkt_num;
+> +	rmon_stats->hist[10]		= ps->mac_rx_9217_12287_oct_pkt_num;
+> +
+> +	rmon_stats->hist_tx[0]		= ps->mac_tx_64_oct_pkt_num;
+> +	rmon_stats->hist_tx[1]		= ps->mac_tx_65_127_oct_pkt_num;
+> +	rmon_stats->hist_tx[2]		= ps->mac_tx_128_255_oct_pkt_num;
+> +	rmon_stats->hist_tx[3]		= ps->mac_tx_256_511_oct_pkt_num;
+> +	rmon_stats->hist_tx[4]		= ps->mac_tx_512_1023_oct_pkt_num;
+> +	rmon_stats->hist_tx[5]		= ps->mac_tx_1024_1518_oct_pkt_num;
+> +	rmon_stats->hist_tx[6]		= ps->mac_tx_1519_2047_oct_pkt_num;
+> +	rmon_stats->hist_tx[7]		= ps->mac_tx_2048_4095_oct_pkt_num;
+> +	rmon_stats->hist_tx[8]		= ps->mac_tx_4096_8191_oct_pkt_num;
+> +	rmon_stats->hist_tx[9]		= ps->mac_tx_8192_9216_oct_pkt_num;
+> +	rmon_stats->hist_tx[10]		= ps->mac_tx_9217_12287_oct_pkt_num;
+> +
+> +	*ranges = hinic3_rmon_ranges;
+
+same here ?
+
+> +}
+> +
+> +static void hinic3_get_pause_stats(struct net_device *netdev,
+> +				   struct ethtool_pause_stats *pause_stats)
+> +{
+> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
+> +	struct mag_cmd_port_stats *ps;
+> +	int err;
+> +
+> +	ps = kmalloc_obj(*ps);
+> +	if (!ps)
+> +		return;
+> +
+> +	err = hinic3_get_phy_port_stats(nic_dev->hwdev, ps);
+> +	if (err) {
+> +		kfree(ps);
+> +		netdev_err(netdev, "Failed to get eth pause stats from fw\n");
+> +		return;
+> +	}
+> +
+> +	pause_stats->tx_pause_frames = ps->mac_tx_pause_num;
+> +	pause_stats->rx_pause_frames = ps->mac_rx_pause_num;
+
+same here ?
+
+or am I missing some cleanup.h magic somewhere ?
+
+Maxime
+
