@@ -1,132 +1,76 @@
-Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 214DF23EAB4
-	for <linux-doc@vger.kernel.org>; Fri, 13 Mar 2026 00:36:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E42302D8DC2;
+	Fri, 13 Mar 2026 01:00:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773362197; cv=none; b=OKe2tVet6BH4wnthTzWZIuWPeIjrJgWV6Qep99uOTkqqCAugG42XmFO9oNRgXx7OIja/YS55XBzHn4/WPPPApAT11UlmMQ5GtgJ1Zxb2rp23Dof/q7AiOyh63xqzUcNiIHN8pUgdYzZAWFYMbxbU64KpROQwyNdPHsQAgJHn71M=
+	t=1773363614; cv=none; b=oNmL6NTGYPL90RWP7naDCqoT0pXXNN8c/QeFtWRrKEl/AbirMfdWF6cVvrJyxjhrOgWzK3mvF2Rp3kcc5mENjbRdTNwFzS5/gUqlzaLBC4cYbsvotl+vrgHaMR513RyKYR5DTDfNnUKGmyJ5TmEOP5Oz3tHzO2diNi2XNzOYTeg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773362197; c=relaxed/simple;
-	bh=9oIvEgCdqEl+AGZYDSEAFBDA6RTB3elZif62x1BQroI=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=Noit4/C6EKC+RVoAqWrttf5mkOi1AMezLgHow6gNFpaXb1r5QmdR94WYKC0SjWmcj5El2iBkFgRJdM8kk/wC1QDkSA9TWVZq0usfJ/8i8n7HLYFD1tYsCIp6B9OTAFEQva7LqbwLhya0WS1jPBP4eoLefAwIMyy3Iyz1xlb41ng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Tbr6d3rA; arc=none smtp.client-ip=209.85.214.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1773363614; c=relaxed/simple;
+	bh=WypQPQjNbTac4E343vo0IQ6gJSSuwLEY05p5Yyk1bxw=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=SIupzSy08Ylz0gwszgV1n8l9RgxbpdjPru5rPDJ9hksrySnlJce7513LnT7ruLgSFjNGTY2rfKnNTrqWNuv0RKAtLbiYi3/jGcXYt7OGTKUMfZD7YE+zoOq6CwbXZlqE5/lRmITciyH+r+5bsz/3RPegPGNf00GpcV1WNOCJ6p4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=grigSS9W; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Tbr6d3rA"
-Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-2adc527eaf5so11848005ad.0
-        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 17:36:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1773362195; x=1773966995; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=msDdWC7KsVzGR7+a7KYP2KJHZfc1KrX2g6o6c66TQ0I=;
-        b=Tbr6d3rA2menzviTRGUxxZ/si/4YqVxHLGAIIYU6rftjAVvS4DqBQFBP+SNle6fuGw
-         BH61TbGgpLa0hrFoPxm7W2WyN0FxrzKw5wj6dfMQ6molTQcALy10kT/SA2kdGdB487OM
-         8m7OKaFZjLA3qfFIr9iGtEhB1zTiFJOGY7lM8+lbg31xmTBOytAlDlV1uiFKnIz70yoO
-         ymOdFRtG1OnQYqpdEXjqrUdzwgSeY4IuS9YuG4qXBbv6KclUNvdx6yBQ3N65rfDmFUBL
-         xSd4h7fnjC7mYOcv61a9sHykaFyLshubWOaXp6RJ/WzVOFLy2EBwWmrMUFPW/ye2Groq
-         wY4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773362195; x=1773966995;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=msDdWC7KsVzGR7+a7KYP2KJHZfc1KrX2g6o6c66TQ0I=;
-        b=kIhmDym9tyL0+i4eAT+mXv7eaCMzyGg2my+a/3I6PkmrwXkqYhoIjsU7U8oi2XoM2n
-         k1isF+kJWzbNJ3A4lBgytVnrmu2ZW6M9rAGM29z0lB9rVDqsOXdD0zo1oeHtSi8b3kfz
-         UuPM4TLbmHVdLHaZtRFaT5BJ0TgXcClz8CLxTZxSdMRGq4lZB/a2+ri28rGbU7mgPaJC
-         +NpbFC4QgsrGZ2dvSnSJIg3Uzbi5R/eQYJD+RqUi7/tmUit3pmJaK7uD+ydbj2fCTBXS
-         kxMJLpMXobRPk1z5oVo3Rn0uhaZ+B5htSrpJpJOL/dTFngMP0QgKpyFeevUDvhzcMJBX
-         wCOg==
-X-Forwarded-Encrypted: i=1; AJvYcCUU8FLivzXPC1xtMcgrKOPArDqjNSpDvPDOwxl3crwTkoQAeRt02VuwtsYDYbtRSkc+wmj3YbDOuWU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw3wYTWASkOzREU6X2nMlOl7KCTnRMbxh2R72Lr8ETcOwXl8OdA
-	P386g8LGgnnTprGbBtC4rsBlUKvn6eNEBEFKjNiw59k9Ulf8Y6J9MuWDEsbV5kjltGjzZn3X56h
-	+HKgqEQ==
-X-Received: from pjdd8.prod.google.com ([2002:a17:90a:2c8:b0:359:8f01:6c5a])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:28c4:b0:359:fcba:6517
- with SMTP id 98e67ed59e1d1-35a21fd7ab5mr1194105a91.19.1773362195351; Thu, 12
- Mar 2026 17:36:35 -0700 (PDT)
-Date: Thu, 12 Mar 2026 17:36:34 -0700
-In-Reply-To: <CAEvNRgFUc+9xCoN9Yo5NThHrvbccWAhPwp9nNM2fvx7QqrcJsg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="grigSS9W"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57FFFC4CEF7;
+	Fri, 13 Mar 2026 01:00:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773363613;
+	bh=WypQPQjNbTac4E343vo0IQ6gJSSuwLEY05p5Yyk1bxw=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=grigSS9Wg3DmgBA0HCuglYA6zInHV+FbI9F9Ksil4vdak35LhLNv0v1vTHz3BWe2H
+	 JJbyalmK47f2N1Yxers28dEThtlZdZwSY9S2w4QkTsmFjl05kuuqHCQi14zSYqA0Jv
+	 3P3OzMhr3k0il/zHLSylWhmAgAQsK+CApCUqm6+ts0XdHyYh69Wx50PQHTpZluAepZ
+	 Vh6NLiB8TaGoz2gX+aZv9VzOhX9Djf4gNkWUq/dnGxmjZuKOdieWsBAGq4gzfrVntU
+	 kdKxLN+/mP4KZZXF773HU0Fo9/B56rCbhWwyzKe/f2p6Eb5DhzxlKjVXzbLkIIvMJX
+	 IQM4qMAYttFFQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id BA1A33808200;
+	Fri, 13 Mar 2026 01:00:09 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <cover.1770071243.git.ackerleytng@google.com> <86ad28b767524e1e654b9c960e39ca8bfb24c114.1770071243.git.ackerleytng@google.com>
- <CAEvNRgFMNywpDRr+WeNsVj=MnsbhZp9H3j0QRDo_eOP+kGCNJw@mail.gmail.com>
- <CAEvNRgG-L+GBcm+u_thGvXAxV-Nqzu5VtgXy0PfND6SG0FiyVg@mail.gmail.com>
- <CA+EHjTy2urW2Tj5czQDKUHdri7FCLfw2mafTgmmtFs+-7ueoiw@mail.gmail.com>
- <abLfWHf89TxWqeGZ@google.com> <CAEvNRgFUc+9xCoN9Yo5NThHrvbccWAhPwp9nNM2fvx7QqrcJsg@mail.gmail.com>
-Message-ID: <abNcEkNseDEBIhop@google.com>
-Subject: Re: [RFC PATCH v2 09/37] KVM: guest_memfd: Add support for KVM_SET_MEMORY_ATTRIBUTES2
-From: Sean Christopherson <seanjc@google.com>
-To: Ackerley Tng <ackerleytng@google.com>
-Cc: Fuad Tabba <tabba@google.com>, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, x86@kernel.org, aik@amd.com, 
-	andrew.jones@linux.dev, binbin.wu@linux.intel.com, bp@alien8.de, 
-	brauner@kernel.org, chao.p.peng@intel.com, chao.p.peng@linux.intel.com, 
-	chenhuacai@kernel.org, corbet@lwn.net, dave.hansen@linux.intel.com, 
-	david@kernel.org, hpa@zytor.com, ira.weiny@intel.com, jgg@nvidia.com, 
-	jmattson@google.com, jroedel@suse.de, jthoughton@google.com, 
-	maobibo@loongson.cn, mathieu.desnoyers@efficios.com, maz@kernel.org, 
-	mhiramat@kernel.org, michael.roth@amd.com, mingo@redhat.com, 
-	mlevitsk@redhat.com, oupton@kernel.org, pankaj.gupta@amd.com, 
-	pbonzini@redhat.com, prsampat@amd.com, qperret@google.com, 
-	ricarkol@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
-	rostedt@goodmis.org, shivankg@amd.com, shuah@kernel.org, steven.price@arm.com, 
-	tglx@linutronix.de, vannapurve@google.com, vbabka@suse.cz, 
-	willy@infradead.org, wyihan@google.com, yan.y.zhao@intel.com
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2] docs: octeontx2: fix typo in documentation
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <177336360830.619871.1748214746515221954.git-patchwork-notify@kernel.org>
+Date: Fri, 13 Mar 2026 01:00:08 +0000
+References: <20260311030450.8461-1-shravy112@gmail.com>
+In-Reply-To: <20260311030450.8461-1-shravy112@gmail.com>
+To: ShravyaPanchagiri <shravy112@gmail.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, sgoutham@marvell.com, lcherian@marvell.com,
+ gakula@marvell.com, hkelam@marvell.com, sbhatta@marvell.com,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+ horms@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org
 
-On Thu, Mar 12, 2026, Ackerley Tng wrote:
-> Sean Christopherson <seanjc@google.com> writes:
+Hello:
+
+This patch was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Tue, 10 Mar 2026 22:04:50 -0500 you wrote:
+> Fix spelling mistake "Crate" to "Create" in the documentation.
 > 
-> > On Thu, Mar 12, 2026, Fuad Tabba wrote:
-> >> Hi Ackerley,
-> >>
-> >> Before getting into the UAPI semantics, thank you for all the heavy
-> >> lifting you've done here. Figuring out how to make it all work across
-> >> the different platforms is not easy :)
-> >>
-> >> <snip>
-> >>
-> >> > The policy definitions below provide more details:
-> >
-> > Please drop "CONTENT_POLICY" from the KVM documentation.  From KVM's perspective,
-> > these are not "policy", they are purely properties of the underlying memory.
-> > Userspace will likely use the attributes to implement policy of some kind, but
-> > KVM straight up doesn't care.
-> 
-> Policy might have been the wrong word. I think this is a property of the
-> conversion process/request, not a property of the memory like how
-> shared/private is a property of the memory?
-> 
-> I'll have to find another word to describe this enum of
+> Signed-off-by: ShravyaPanchagiri <shravy112@gmail.com>
+> ---
+>  .../networking/device_drivers/ethernet/marvell/octeontx2.rst    | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Or just don't?  I'm 100% serious, because unless we carve out a field _just_ for
-these two flags, they're eventually going to get mixed with other stuff.  At that
-point, having a precisely named enum container just gets in the way.
+Here is the summary with links:
+  - [v2] docs: octeontx2: fix typo in documentation
+    https://git.kernel.org/netdev/net-next/c/00699d944836
 
-> I see you dropped any documentation to do with testing.
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-Yes.
 
-> I meant to document it (at least something about the unspecified case) so it
-> can be relied on in selftests, with the understanding (already specified
-> elsewhere in Documentation/virt/kvm/api.rst) that nothing about
-> KVM_X86_SW_PROTECTED_VM is to be relied on in production, and can be changed
-> anytime. What do you think?
-
-KVM_X86_SW_PROTECTED_VM should self-report like all other VM types, and shouldn't
-support anything that isn't documented as possible.  I.e. we shouldn't allow
-ZERO on shared=>private "for testing".
-
-What I do think we should do is scribble memory on conversions without ZERO or
-PRIVATE, probably guarded by a Kconfig or maybe a module param, to do a best
-effort enforcement of the ABI, i.e. to try and prevent userspace from depending
-on uarch/vendor specific behavior.
