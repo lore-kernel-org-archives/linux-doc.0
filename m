@@ -1,139 +1,150 @@
-Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout03.his.huawei.com (canpmsgout03.his.huawei.com [113.46.200.218])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E49BB33F5AC
-	for <linux-doc@vger.kernel.org>; Fri, 13 Mar 2026 02:12:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48AE8227B94;
+	Fri, 13 Mar 2026 02:21:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773367958; cv=none; b=r0tguMCd4clU9D5W6Mz3sEUES30KK+5Q6w6wvIGiqHlW+blkfhefxNOjRLAqJvC1kmdK7mpz3BoiQUyviLqy0enTFRKGkcPTCFH9vbmlVIpjY375QqVfkyD4BM+xw4o4nnq5whftNi/88YEOV3n6RGC1l+TzfpbN4MsYCS9+QtE=
+	t=1773368516; cv=none; b=KXLAxii3OpOBP3TOj4PRVL+N5QHy4pJr8u+OCCMIShF8NLV/BqVXPcpIb6NwzoN7d4r6GKgxpfR+GEpCN+CWC3S1KuywTwZrWaqNvwn22HtrhE3VjjcGYs3I2O8ojuWnTMlRF3b2mhKrh/WK+BGxRh2Bc6D4bx0shDIKLmTZsUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773367958; c=relaxed/simple;
-	bh=R5kX8BPQ+CDYGdPeei3dhycI3hXIHMHg3V91onGJBWM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aCmRQPtu+yFBvCcLs8yVzpeMfg6nuitOX/fddd951c/j1k6m++OQ8vzKvqbqGfUgB/VUojRt69f0oVdWwG0QoOJsThx9YKcbTDc/DlDgydJImU3/Esu+TRwoLTT6/J+yVFFQPsWSUPQ1k10IAHA3t9tU5kSjlQDDcvrNEkQuCiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lphFk6b9; arc=none smtp.client-ip=74.125.82.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773368516; c=relaxed/simple;
+	bh=C8FH3g7QQHs/jbvPrgWRUijURB3c8zk5RpSybl32ieg=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=i3yeqaj4kCaqogpevAHIF6hm6YnsBCqvD1p0dZcrUev9LTWVIIC06D0uh//hkr4ApuQhAh0Hq1Alj9NGSQ3hdS/PcTjPuzOWBTJUoseWG1CwMaciGLD0YEL4iS3bAdgz8jw2ZUe/I2z2rMj4/hydg3ZzAbuCkLhkUvG2XjCBTjg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=k2FbFqJD; arc=none smtp.client-ip=113.46.200.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lphFk6b9"
-Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-2be19f05d7dso1508190eec.1
-        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 19:12:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773367955; x=1773972755; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=R5kX8BPQ+CDYGdPeei3dhycI3hXIHMHg3V91onGJBWM=;
-        b=lphFk6b9w3PGozphh1jUSX241D+DtnaOFioPuC/YJVs4/+V/MaeXGWiTYnTk6r+gxH
-         Tnm/TsMSzy+07sXJP4UUxtvPeF/GewQYcZnPCr7i+mk6oGY5SPEZzASfaxl4B2pVh6tW
-         Byc6LhWMZJ6AOUxjaHilovHrS5L2+vOFEjgekjNkZA02tkFc58cKWjRKRSduuBCzL1DH
-         bgnu2afVKRBbU6nGLiv58Ctz6o58eyKUtyyB2DYbGrJlCucOaOG1ehZsx9AcyR6u/S/r
-         b8GWQz5PSy73f5LVQQCuYHG/9rD6/67vFfj/emQdGc7NxCNOtSM+cq11vptZ9S5JmwOb
-         zx/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773367955; x=1773972755;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=R5kX8BPQ+CDYGdPeei3dhycI3hXIHMHg3V91onGJBWM=;
-        b=kiB2S9cq0flREbwxbSimDgTo1db6FVCA5of+rGtfib540z4fqcHtsfHIN7kZEQEIcF
-         B7NQsgnmCueWRNQsLGuD920TTF6eI+etPBQ5g6UGUJtFAatuHL6as6aggLeIE5ClKX0y
-         f/IhzpsDLJylOCWHEliBj0YzpgWJWYCsfU1eSq+gJkRSKPcUSfnJBQDHpH/RBFFOxoZP
-         bcv6yA9Hz78g2ilDpeCEY9h0bNVxGhV9bQSP2yb0m5/skMx5OpHve7JBThzPAVMoJUEP
-         dXqhP+uxCU1ot7MTI3wtj+nsYwSmxfyQjJvhI46X/LDcmb5yQkicnbswJmCIQ/jp6WvN
-         ZXHg==
-X-Forwarded-Encrypted: i=1; AJvYcCWIhFevAJ9ypo0JOedVJggV3aoeLjxrG36dfMaELTTmxVNmMkn07DRQNXr3bEaeCo9kgRbHdCbHMpU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxapG/vfe7dqIB6uUQZIKE/XCzUUB6BAynzI1f5lorVpLMlGLDV
-	XvPaZZDu6AMH0MY93Rl1f7/iNj+nxYK2n79AEiXMNZW2cAWnJ8r9FrkHL6Xiwg==
-X-Gm-Gg: ATEYQzxTDlassxaT0Yauf0p9h0VsCH+CvtArBT/1GNX7C6e8srqu/wAyRlbgLw2P45n
-	xuA4NvZdr82Hwn6xS/045IeJjEc7ti3gUvOIJ8RJuD1bj0x5vMs75xaKfR+a+aAHPhqUV2yH6ds
-	cytDB7dj0kGjvQ/P2slL/1L37BVXjP3kG6FCzDJ0PuAwpyeBf4x2yB5ouIji63pCx49SktSv03F
-	I+jB7GOxBQAffwphYB86MTBtwnVmY/aP2zLZwN3skOk8mFfIGh79x4x3g+y2tSnpK+lY8Mzd/8W
-	ezVcyyyDXmPLyhF6Ks8TvtmMulNgFjSrtoMw29HoLMPE22TtOzXUVkPvDMQmkez/gSrJIRkBXR0
-	9OZ4rAA+muzYNMdTTHgaNadX5aNCg6xBK4yi2/2qQCnwn1s+vM9wQEqhDrMOp8gJGUyKCgIn8ET
-	/H34nS5aOtmIOL/JF6GW6ZsifVVylOmL7awSMbTlXY
-X-Received: by 2002:a05:693c:2b17:b0:2b8:5159:eca5 with SMTP id 5a478bee46e88-2bea5477f47mr956251eec.14.1773367955004;
-        Thu, 12 Mar 2026 19:12:35 -0700 (PDT)
-Received: from [192.168.86.23] ([136.25.189.61])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2beab527170sm653550eec.21.2026.03.12.19.12.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Mar 2026 19:12:34 -0700 (PDT)
-Message-ID: <037345d9-56d2-4499-ae30-1a29482900b0@gmail.com>
-Date: Thu, 12 Mar 2026 19:12:31 -0700
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="k2FbFqJD"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=2rcpAa1TtZWLDIvssxD1LEn5AvFd7LlqWNSfVu4tX3w=;
+	b=k2FbFqJDheDFD8ZQ1TIKD7MLAMU7NtAmyzZS79wyrByImlG/9Oz+7Ht/PCD+SNciSCiVeFaBq
+	3VV/zPoCsVqgcC+m0j9DJ69/4Lo6oVqnv6AFub2EAZnQ3hPUkQ+J/R+M/YieceCx1b3KO4HESDm
+	4ZRimNSFXHPkX5qqZZQWUsU=
+Received: from mail.maildlp.com (unknown [172.19.162.140])
+	by canpmsgout03.his.huawei.com (SkyGuard) with ESMTPS id 4fX7QX0pcgzpTJ7;
+	Fri, 13 Mar 2026 10:16:36 +0800 (CST)
+Received: from kwepemk500009.china.huawei.com (unknown [7.202.194.94])
+	by mail.maildlp.com (Postfix) with ESMTPS id 9A98E2022B;
+	Fri, 13 Mar 2026 10:21:50 +0800 (CST)
+Received: from localhost.localdomain (10.50.163.32) by
+ kwepemk500009.china.huawei.com (7.202.194.94) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Fri, 13 Mar 2026 10:21:49 +0800
+From: Chengwen Feng <fengchengwen@huawei.com>
+To: Bjorn Helgaas <bhelgaas@google.com>, Catalin Marinas
+	<catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, "Rafael J .
+ Wysocki" <rafael@kernel.org>
+CC: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+	Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, Paul
+ Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
+	<aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, Thomas Gleixner
+	<tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
+	<bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, <x86@kernel.org>,
+	"H . Peter Anvin" <hpa@zytor.com>, Juergen Gross <jgross@suse.com>, Sohil
+ Mehta <sohil.mehta@intel.com>, Ilkka Koskinen <ilkka@os.amperecomputing.com>,
+	Robin Murphy <robin.murphy@arm.com>, James Clark <james.clark@linaro.org>,
+	Besar Wicaksono <bwicaksono@nvidia.com>, Ma Ke <make24@iscas.ac.cn>, Wei
+ Huang <wei.huang2@amd.com>, Andy Gospodarek <andrew.gospodarek@broadcom.com>,
+	Somnath Kotur <somnath.kotur@broadcom.com>, <kees@kernel.org>,
+	<punit.agrawal@oss.qualcomm.com>, <guohanjun@huawei.com>,
+	<suzuki.poulose@arm.com>, <ryan.roberts@arm.com>, <chenl311@chinatelecom.cn>,
+	<masahiroy@kernel.org>, <wangyuquan1236@phytium.com.cn>,
+	<anshuman.khandual@arm.com>, <heinrich.schuchardt@canonical.com>,
+	<Eric.VanTassell@amd.com>, <jonathan.cameron@huawei.com>,
+	<wangzhou1@hisilicon.com>, <wanghuiqiang@huawei.com>,
+	<liuyonglong@huawei.com>, <fengchengwen@huawei.com>,
+	<linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<loongarch@lists.linux.dev>, <linux-riscv@lists.infradead.org>,
+	<xen-devel@lists.xenproject.org>, <linux-acpi@vger.kernel.org>,
+	<linux-perf-users@vger.kernel.org>, <stable@vger.kernel.org>
+Subject: [PATCH v7 0/3] Fix get cpu steer-tag fail on ARM64 platform
+Date: Fri, 13 Mar 2026 10:21:41 +0800
+Message-ID: <20260313022144.40942-1-fengchengwen@huawei.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] docs: sp_SP: Add Spanish translation for Rust
- coding guidelines
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Edwin Toribio <edwin.toribio.j@gmail.com>, carlos.bilbao@kernel.org,
- Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- rust-for-linux@vger.kernel.org
-References: <20260304200715.76360-1-edwin.toribio.j@gmail.com>
- <20260304200715.76360-4-edwin.toribio.j@gmail.com>
- <389808bb-f71d-4c35-bfd0-b4db14268d58@gmail.com>
- <CANiq72=Qe3x5xVQsFOd4YuD35mOan=mUt4PEFRQvStGnmLUcQw@mail.gmail.com>
- <25240ce9-0886-461f-a969-d049c84ae80d@gmail.com>
- <CANiq72=ZBYS-P7smq3u=CKN5y8_LTo5jThAegCVHhmo6TXTdpQ@mail.gmail.com>
- <b6558f4d-e424-464a-a9a7-ad14a174c542@gmail.com>
- <CANiq72mvzMnkwhGV+_srz=kLazpHVg5+-HaOtczaTzgFdaYQiQ@mail.gmail.com>
-Content-Language: en-US
-From: Carlos Bilbao <carlos.bilbao.osdev@gmail.com>
-In-Reply-To: <CANiq72mvzMnkwhGV+_srz=kLazpHVg5+-HaOtczaTzgFdaYQiQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
+ kwepemk500009.china.huawei.com (7.202.194.94)
 
-Hello,
+This patchset fixes the failure of CPU steer tag retrieval on ARM64
+platforms. The series is structured as follows:
 
-On 3/10/26 23:11, Miguel Ojeda wrote:
-> On Wed, Mar 11, 2026 at 12:57 AM Carlos Bilbao
-> <carlos.bilbao.osdev@gmail.com> wrote:
->> Yes, I suppose one day I’ll work up the courage to use automatic
->> translations for what’s left. But I’d still need to review everything
->> carefully to catch mistranslations (the classic Spanish example is “driver”
->> to “conductor”), though in practice the issues are often subtler. It also
->> means resisting the temptation to skim large paragraphs and trust the
->> tools; something that’s probably more tempting with docs than with code.
-> Ah, I didn't mean to commit change, i.e. not for maintainers. Rather,
-> I meant a set of suggestions for readers about how to best read the
-> English side of the docs.
->
-> That is, when they are done with the parts that are actually
-> translated and humanly reviewed, they might need to keep going and
-> read some English parts (or the code itself), and thus perhaps they
-> may appreciate suggestions on how that may be best accomplished could
-> help.
->
-> And for those nowadays using AI for translation, perhaps what could be
-> added is a set of guidelines to guide the AI while translating (e.g.
-> to have a greater chance of not failing on the subtle points you
-> mention), both for all translations (like whether to translate
-> examples) and for particular languages separately (like the "driver"
-> example, though I imagine that is handled by context nowadays quite
-> well).
+1. First commit: Refactor the ACPI Processor UID retrieval interface
+   (no functional changes when input valid) to align naming conventions
+   across arm64/riscv/loongarch architectures;
+2. Second commit: Implement acpi_get_cpu_uid() for the x86 platform to
+   complete the unified ACPI Processor UID interface across all
+   ACPI-enabled architectures;
+3. Third commit: Implement the core fix for the CPU steer tag retrieval
+   logic on ARM64 (the root cause of the retrieval failure).
 
+The refactor and x86 implementation lay the groundwork for the unified
+ACPI interface required by the ARM64 steer tag fix, ensuring consistent
+CPU UID retrieval across architectures before addressing the functional
+bug.
 
-Ah, I understand now. Yes, maybe a prepared prompt with some
-well-thought-out guidance would help; that’s a good point.
+---
+Changes in v7:
+- Refine first commit which address Jonathan's reviews
+- Fix x86 implement bug (not consider INVALID-ID) which address Peter's
+  review
+- Fix CI error of x86 implement by moving function to acpi/boot.c
 
+Changes in v6:
+- Rename existing get_acpi_id_for_cpu() to acpi_get_cpu_uid()
+- Split x86's modify as one commit
 
->
-> Anyway, like the policy across all translations for whether translate
-> the code snippets, these are also just random ideas that came to mind;
-> and perhaps they have been suggested before. :)
->
-> I hope it helps, and thanks!
->
-> Cheers,
-> Miguel
+Changes in v5:
+- Refine commit-log of commit 2/2
+- Replace cpu_acpi_id() by acpi_get_cpu_acpi_id() on x86
 
+Changes in v4:
+- Split the rename into a separate commit.
 
-Regards,
+Changes in v3:
+- Rename existing get_acpi_id_for_cpu() to acpi_get_cpu_acpi_id() other
+  than add one new API.
 
-Carlos
+Changes in v2:
+- Add ECN _DSM reference doc name and its URL.
+- Separate implement acpi_get_cpu_acpi_id() in each arch which supports
+  ACPI.
+- Refine commit-log
+
+Chengwen Feng (3):
+  ACPI: Refactor get_acpi_id_for_cpu() to acpi_get_cpu_uid() on non-x86
+  x86: Implement acpi_get_cpu_uid()
+  PCI/TPH: Fix get cpu steer-tag fail on ARM64 platform
+
+ Documentation/PCI/tph.rst          |  4 +--
+ arch/arm64/include/asm/acpi.h      | 16 +---------
+ arch/arm64/kernel/acpi.c           | 16 ++++++++++
+ arch/arm64/kernel/acpi_numa.c      | 14 +++++++++
+ arch/loongarch/include/asm/acpi.h  |  5 ---
+ arch/loongarch/kernel/acpi.c       |  9 ++++++
+ arch/riscv/include/asm/acpi.h      |  4 ---
+ arch/riscv/kernel/acpi.c           | 16 ++++++++++
+ arch/riscv/kernel/acpi_numa.c      |  9 ++++--
+ arch/x86/include/asm/cpu.h         |  1 -
+ arch/x86/include/asm/smp.h         |  1 -
+ arch/x86/kernel/acpi/boot.c        | 20 ++++++++++++
+ arch/x86/xen/enlighten_hvm.c       |  5 +--
+ drivers/acpi/pptt.c                | 50 ++++++++++++++++++++++--------
+ drivers/acpi/riscv/rhct.c          |  7 ++++-
+ drivers/pci/tph.c                  | 16 +++++++---
+ drivers/perf/arm_cspmu/arm_cspmu.c |  6 ++--
+ include/linux/acpi.h               | 11 +++++++
+ include/linux/pci-tph.h            |  4 +--
+ 19 files changed, 158 insertions(+), 56 deletions(-)
+
+-- 
+2.17.1
 
