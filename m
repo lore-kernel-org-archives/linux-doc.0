@@ -1,296 +1,106 @@
-Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011068.outbound.protection.outlook.com [52.101.62.68])
+Received: from canpmsgout03.his.huawei.com (canpmsgout03.his.huawei.com [113.46.200.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A80D318027;
-	Fri, 13 Mar 2026 06:58:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.68
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773385126; cv=fail; b=PeUPnozKf9jIP8l1/WtVmvG2YbhF7Sueyus70AKuZngYvFOPaNXlg1wQlKKxvsW/y+kslObPb0fVzSpJAqGW7lizBEInWuOsWG8rz42Ktke5VqbI0Yd90Xgg79ztMmTSip5rlJCO6R9V6u9ZmbUTSDeTzOICqDhK0HFTN2neHfs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773385126; c=relaxed/simple;
-	bh=Hh2KvHvbN/9Aa8EmP+X6UqZGy6aOtMSNlyDq1d9InXU=;
-	h=Content-Type:Date:Message-Id:From:To:Cc:Subject:References:
-	 In-Reply-To:MIME-Version; b=Jrm1x2cTAhrtuliGb7BgR7M58X8MGmM3e6gaZ/LKnhvAbXA++3prT3Dq4lTVkRCNE3oD5nYey/X5LHJzquCW2raojOgyWUnFpX4YxPzj9t+fWoGJAWC4Sash38cbMKDr6zubMicWw/vQeGxADCYYSrfQI1Wvj5ohQwfprWRguBI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=fRvBfubD; arc=fail smtp.client-ip=52.101.62.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA42D36D510;
+	Fri, 13 Mar 2026 07:54:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.218
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773388475; cv=none; b=oDMDuDQY9Juheb1fmQaVwK2XASnRmv8FgmjykR/en4qRQmH/vb18MBESeXBUwpKs8zfEufrnZ2oWVX+8X2Sgv0w6en78gMyePSD2JubicvxCarfxfb7Bw9F4FqM/ZbeXYXk2f7JlEv7hjwEla46nftOPnd+3YhIU6qXLW5+Ylf4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773388475; c=relaxed/simple;
+	bh=uHOqNzvcP9QD1tepmN9ksz0SlAxPfdXVJel5SsIX00Q=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=d7C61YAYXKKrZ2LGW3hwnxDpzQ5tvNgxln2/H/XMVChuNmbntQsHUjrnmmrKL2t/8rlfcEV/1IsDsD9UagXhC+uLQ4H/JpJMGz8eMZGiq/5O8qfm9yeWzvQKENX7MOhrIHJnYkHl8zrph0dNNguKykVbWULIp+yzzSlhN6n6Mpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=DEd2F7T6; arc=none smtp.client-ip=113.46.200.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="fRvBfubD"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VlfE916cUw9mtK0ftqodWq5hrGcFAaauntGntV4OUMEa1rRn3qQ0ywySlb89utJSiqnuVGHTv+Cupc1xkq9aG94g/jEazgejNJa8P/OszNn7L7R9+sNx7D0YVKUAc+8qzU140hEFwUs4IYmRWCZLgVZYVwQgu3epWDMDS6d+MypKNSkoW9Zv+nTMtEN1knrOw1DEOmm4QIsRkMpvb4mRa3WI7SLp5HN6RqOJVMUYSFMWhDkWmoBD86+9CNbLmnbPIEWx5VpnlKeyu6AFdIvY8CH6GXM3YL2Wm8d+CEhuWooiJHOFT5RIGwzwDO+rU0Ze2b6XgOeVqecolAN5ftxTZw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IyAlfp3YyGOy7eo5odhMLDh4nSebm7+tPWnpBhxfiK0=;
- b=tFRXe1g7qF2ed6ksKbANWDAA9y4xIRreStjgeNhaqpXlusxNIXigdUnjFxkp7cIL8TYtl9uKcekifKkzIHuvidowJLUFnMHJ3m/JRxyfi/kKgXstxSclaQyo422Vo91ufolwt+aHKRrv8qrSE61z9SrS76gDtR9MQOXF1xvj0thB61wUIfe0OLSCKE3VMs6zyhyMWjtid0UmD/i7R5SJ0PoNdoAElPQvv5GDOj48ie839RBTar7H8MRnQkSwsbs6+VrgPzENLYT6M4zt/2jWNhinXTbtW3I7MpLL+7Rtu3YLRWbkj6sIBqDfD7l/8gwnVwNlZTY+qHWzBhSmfgXdFw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IyAlfp3YyGOy7eo5odhMLDh4nSebm7+tPWnpBhxfiK0=;
- b=fRvBfubDYAuVM68oAf92EDw99H/3+yuJ5YTsAyPfGU+yPjjNtphGBmJagEKBfLLQyu2ZEnHPpyKNTqeom6l43se7Z7bK8n7iSuF3jnlqgQIR4mSrGz0uoqMazhKsjo6XXXUOZLcadZXwM5I5JpBNoavV4w1+jt+N20h5Vn29NZIPAh3oMhrPf7pmShdDncHXE4f3lBoNmRp0gaLC+TG0iwisUH5T4oDfQywGO4/ojevLlDR/+iwiw1I7Wci8k1AmW1Qq5MbXcBr7nLF06W/CCNY+uXIwHzq5Zg9GkA5dlDGiGy5meROSZeFbsF2KtlwhJljPYaDdz/EDRmvebUX0RA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BL0PR12MB2353.namprd12.prod.outlook.com (2603:10b6:207:4c::31)
- by MW6PR12MB8914.namprd12.prod.outlook.com (2603:10b6:303:244::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.3; Fri, 13 Mar
- 2026 06:58:39 +0000
-Received: from BL0PR12MB2353.namprd12.prod.outlook.com
- ([fe80::99b:dcff:8d6d:78e0]) by BL0PR12MB2353.namprd12.prod.outlook.com
- ([fe80::99b:dcff:8d6d:78e0%4]) with mapi id 15.20.9723.000; Fri, 13 Mar 2026
- 06:58:39 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 13 Mar 2026 15:58:35 +0900
-Message-Id: <DH1GK30TUB4V.2GR6ANXIZDFFQ@nvidia.com>
-From: "Eliot Courtney" <ecourtney@nvidia.com>
-To: "Joel Fernandes" <joelagnelf@nvidia.com>, <linux-kernel@vger.kernel.org>
-Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
- "Gary Guo" <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "Danilo Krummrich" <dakr@kernel.org>,
- "Dave Airlie" <airlied@redhat.com>, "Daniel Almeida"
- <daniel.almeida@collabora.com>, "Koen Koning"
- <koen.koning@linux.intel.com>, <dri-devel@lists.freedesktop.org>,
- <nouveau@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>, "Nikola
- Djukic" <ndjukic@nvidia.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Jonathan Corbet"
- <corbet@lwn.net>, "Alex Deucher" <alexander.deucher@amd.com>,
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, "Jani Nikula"
- <jani.nikula@linux.intel.com>, "Joonas Lahtinen"
- <joonas.lahtinen@linux.intel.com>, "Rodrigo Vivi" <rodrigo.vivi@intel.com>,
- "Tvrtko Ursulin" <tursulin@ursulin.net>, "Huang Rui" <ray.huang@amd.com>,
- "Matthew Auld" <matthew.auld@intel.com>, "Matthew Brost"
- <matthew.brost@intel.com>, "Lucas De Marchi" <lucas.demarchi@intel.com>,
- =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- "Helge Deller" <deller@gmx.de>, "Alex Gaynor" <alex.gaynor@gmail.com>,
- "Boqun Feng" <boqun.feng@gmail.com>, "John Hubbard" <jhubbard@nvidia.com>,
- "Alistair Popple" <apopple@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>,
- "Edwin Peer" <epeer@nvidia.com>, "Alexandre Courbot" <acourbot@nvidia.com>,
- "Andrea Righi" <arighi@nvidia.com>, "Andy Ritger" <aritger@nvidia.com>,
- "Zhi Wang" <zhiw@nvidia.com>, "Balbir Singh" <balbirs@nvidia.com>, "Philipp
- Stanner" <phasta@kernel.org>, "Elle Rhumsaa" <elle@weathered-steel.dev>,
- <alexeyi@nvidia.com>, "Eliot Courtney" <ecourtney@nvidia.com>,
- <joel@joelfernandes.org>, <linux-doc@vger.kernel.org>,
- <amd-gfx@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
- <intel-xe@lists.freedesktop.org>, <linux-fbdev@vger.kernel.org>,
- "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-Subject: Re: [PATCH v9 04/23] gpu: nova-core: gsp: Extract usable FB region
- from GSP
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260311004008.2208806-1-joelagnelf@nvidia.com>
- <20260311004008.2208806-5-joelagnelf@nvidia.com>
-In-Reply-To: <20260311004008.2208806-5-joelagnelf@nvidia.com>
-X-ClientProxiedBy: TYCP286CA0330.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:3b7::19) To BL0PR12MB2353.namprd12.prod.outlook.com
- (2603:10b6:207:4c::31)
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="DEd2F7T6"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=C3opMo0gBrkg9mjWXYEFQnBJeBIJ8E7IPTWkSnJI6Bg=;
+	b=DEd2F7T6hvNSKdH1/LZxwm0Jd39C8wKblLlJaBYKZHteNDXJsnDmNBMmFlvzlavc/pXtz6bw7
+	lG8ume6z4PG6oLCWOoXZASBEYaSXxn+rSJyJVBwUXXXq5M5m26qp2Li9dhC7j8/gsGzr0Zbb4hH
+	0aW6hOPUljL6wRqStsB0DGE=
+Received: from mail.maildlp.com (unknown [172.19.162.144])
+	by canpmsgout03.his.huawei.com (SkyGuard) with ESMTPS id 4fXGpD3P3gzpT03;
+	Fri, 13 Mar 2026 15:49:08 +0800 (CST)
+Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
+	by mail.maildlp.com (Postfix) with ESMTPS id 5F9F640567;
+	Fri, 13 Mar 2026 15:54:23 +0800 (CST)
+Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.189.124) by
+ kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.36; Fri, 13 Mar 2026 15:54:22 +0800
+From: Fan Gong <gongfan1@huawei.com>
+To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>,
+	<netdev@vger.kernel.org>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Andrew Lunn
+	<andrew+netdev@lunn.ch>, Ioana Ciornei <ioana.ciornei@nxp.com>
+CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, luosifu
+	<luosifu@huawei.com>, Xin Guo <guoxin09@huawei.com>, Zhou Shuai
+	<zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, Shi Jing
+	<shijing34@huawei.com>, Zheng Jiezhen <zhengjiezhen@h-partners.com>, Maxime
+ Chevallier <maxime.chevallier@bootlin.com>
+Subject: [PATCH net-next v01 0/7] net: hinic3: PF initialization
+Date: Fri, 13 Mar 2026 15:54:07 +0800
+Message-ID: <cover.1773387649.git.zhuyikai1@h-partners.com>
+X-Mailer: git-send-email 2.51.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL0PR12MB2353:EE_|MW6PR12MB8914:EE_
-X-MS-Office365-Filtering-Correlation-Id: b60e8643-0059-4548-e6bd-08de80cdf421
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|10070799003|376014|7416014|1800799024|22082099003|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	xOCU095OoSAHXv3IxESNCXfSqDoMiXKMz3DOXmIy8vhX2r6tvATqpsQJeSjHWDyigaktxB8UafaBVnpxUr6WkDpsSrZqPM2EDNwDzaxt5u8AtCrMRvDAKSPKg9zBN5dXRvf7bZRFL9vSew9vV0vI/4GTrsGn7zLA73s0es9hylIawqkQ0lEL+FSENGB71m5S2famExAafdcTL0FRsdI2Y+VRwpsaDJkJWoyiO3l5t3E3yYOOrmUZNIeybOKhr9O4SrWY1RGZ2jGM7kpspotskthW/kPbMBI1VioMaPWmnZySmtecLj5BJaoKGrR2YvY7i8JenBIU7+XN9aoSqOqExEiYAx7+c321nTaGAhPZ+hr0HqYF16byRjbqni+mDfZJUY7Yg4mlzbWaYnqQ288MXlz1A9Qg/Cf1CrKYB8UbZ0ezHSFDtqITRWMEMc6qT57hlLlHOqxWyikMzm1YFjwe7tsbBJBOgHKQiUwtvbVbvbcc5ZI66bmi9eX5zMMu5mHtOeJ4/h9iWhMvtJScthpm0qQZRxmxFDdtyZcujQX7/qbcELbRqOBHThlLVHdyacC6PrKujUQhj5h6kfhQwa54Ds4FJrqgXW9w7KQkbBe1F7rCzQfMd+UgFWSATZJjWzlk621Pvy9I+A2B39HLTwpyDCjFEp6MDjD6EYh8hTokWXfni10K7SGuM4Xnsx1vt3ECXf8xZt5g5FR7LAsqhSsrOpe0Fc8OjfJ1sgeAuss1hiU=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB2353.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(10070799003)(376014)(7416014)(1800799024)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?TDJ0VU9wQnM2ZzNhajl5UXRvTnA5bjZqVGMyd24wd2FxaDM0Uy9Eay91cUl3?=
- =?utf-8?B?T3ViSFk0ek42NUZVTXFpV2lqNFFBM1hXM05FUzRnV2JJZlF1am1rL3A5blhC?=
- =?utf-8?B?SFdRc1ZvMlJ3bUh1c2JWUXNQM1BacHBMYUMrSkh4eE5zRmpIL1RhckhhREFs?=
- =?utf-8?B?Z3pUYmduVFZKbG5Hcm9JTDBhY1JmVUJ1QW9lVUZ6QjFKbit4a1Mrbm5TZkUw?=
- =?utf-8?B?Y0VLZTJVV0ZDUFlPQ1FOQ3h2Q0dwOGhjWGpMcndMQnYxQ0lzd2F2QXVRVDRk?=
- =?utf-8?B?bXRqOFdTQ04rbzVDUGtWVm5tb0ZPY2ZPVmJ5VXgya2tYWEJDTDdLTGhBTDlk?=
- =?utf-8?B?clhMeHl1bDRyem85cHVLREFuVWd6dVRVRytLN2l3bm9yT1N0RTNTRzJ3M25U?=
- =?utf-8?B?ZGpwTUpqRktkK0J0MnJld1VpTTNRSk5oTUlPNHZVbStsN3owRFpxa05aQjVE?=
- =?utf-8?B?bzRRM1dQZjhTWTcva1JmcTBxK3FkaDJFRGxoTXN3VHhiblZyaVpweUpEZnll?=
- =?utf-8?B?ZHRwL3NXOFF2WDBFcnZwSThqS1dTb0I5eWNWWGxCckNpbWlsRWgwWXJvVitC?=
- =?utf-8?B?Y2RRQUwybU82TVo1MnhEdnJ2WXVKbXlkRVlZR2RNQ1BTdENkZ1U1SHQ4SGxJ?=
- =?utf-8?B?cmV0NmF4cW53azV2NGVjazhXb3pqM2VmZkZRWGtYQ3BxalZLQllYcnhzTVUv?=
- =?utf-8?B?YkE1MzB2Zml5YXZTUDQwdm1iRmZuNUk1ZnVxQm5GWlh3V1Uxd1BmWFZVQmFI?=
- =?utf-8?B?TEp3eTNtaEpEdkxsb1pUMldDYS9YdzdDSkN6WkEzVmNaUCtkbGdxeEVMcjFH?=
- =?utf-8?B?c0hFNFJ2Y25IZWYxa291c1FTYUdhemgvM0JNck1TMmFmaUlweWVIUjBNYnhG?=
- =?utf-8?B?MDdtdmg1dzlvM1VtMzRxVVVKWGJtQ2p0ODBFYjJCRUlCZGYzK2U1bGk2aSt1?=
- =?utf-8?B?bm81enJ6dEQ2aEQwOVNBZkkrdTltNHhEa2tNN2J4UGdVWjJKdDVMNzRWWU1Q?=
- =?utf-8?B?RlMvYWZselRDSUVtb2lxUnY2YUkwalI0OW9iaGtjZGp5S01sZHlRVEpiZWZv?=
- =?utf-8?B?b0ZBbjVQZlFtTmduWERDNXR4WFU4d1NTMnVpNUorZmZtTDdyYkZ6SCtMNll5?=
- =?utf-8?B?cHF0TVZySTBlMFBUTzk2ZC9FZTl6eXcyN0w4RWQ0SFNwV05DQmlYdXM3ZFNq?=
- =?utf-8?B?YitrS3Q1NWZUbnBwREVPS1lzd25wbkk3SXBCSzhzb2llOEtCVzd0bXBYUE1N?=
- =?utf-8?B?SWdJNEVVOWVvMEl6T3Y2SGxCYS9YNGhOV3VMY0V6TktkbXQ3QjB4Yjg4b3dz?=
- =?utf-8?B?L2pPMStkYjN2QThMRjdtR1ZiVHpJNVpDOWJDNnkwL2ZVUmkzN0V3SWpadGIv?=
- =?utf-8?B?OWlVSHRlOU9TWlRhVkd3YUpGaEZrdzJWS0YwVnBqUXJiZWxkY1I5ZUFqcDNS?=
- =?utf-8?B?ckN4WWVHSGY2cU00QTZCMmFNQzFLQTNsK0IwN3B4MU5FQVFRYi9kWmNFQjJh?=
- =?utf-8?B?NHRLQzAvZklVeUVMUm5UNmVjVmU3TW5qWjFTVE1LL3hTblFBTmQ0aXBreDVU?=
- =?utf-8?B?N2p0RjdQOGNjREF3SjJWTDg1VHNWK0hzM2U4T2NjS1p2QWNYWlUrS0lYQlFU?=
- =?utf-8?B?Tk11ZWlCRXdpREFQZzhsbWNpR2VXRXJDTzdhT0ptNDhrOEs4cmNCZnE0VnRQ?=
- =?utf-8?B?bEtERnhGSXFudDVZSmxoUE5MOEJibWlmOWV2QmpJbDlMbWNKclNsWC9NS2xR?=
- =?utf-8?B?OFpTYW5jL1FQUFVYa0JTcnVDaW44WGpzNXg5d04vNjEwWmc1K291RTBBbXlF?=
- =?utf-8?B?ZEt2U0VCemJDeDZGSjYxcTFGbXN3OWh4TWh0MERPNTRvUnVkY2hLK3c5ai9H?=
- =?utf-8?B?QWxFUUdjQWlSWjkrSGdzZXBSdFVab2pJNFhKbHE3YXJ2UFBQSUhha1pIK0JH?=
- =?utf-8?B?ckt4czFLbUFFdW9ueTNWdzVIR2RmTi9PQjd1VGFkblZOTk5FMGs0a2FmOEov?=
- =?utf-8?B?dVdUT1NYM214N2xKcHpwNDhsYkVGS2pzclRyeCt5VnhCRnlxeTFqZG81NnFo?=
- =?utf-8?B?RnpobEplOU94U0VncitnTlcwclgxcjlvVjQ2enhGd2tPOXhrcDY2dEkwS2lz?=
- =?utf-8?B?VzJKenhOYVA3Y1V3RzZGQ1Y4Y0F6akU2ZGdZcHgraThhc1JUSnFoUmZtNjR6?=
- =?utf-8?B?a2xrc3VaUXNIT1FyT1EvNzVGY3IxS1ZhY3kzZkVXUGNmZFMvTXd4eVJ4Rk94?=
- =?utf-8?B?KzFPWDdNcmFwOERRWEgwam9nekJoOXNGVS9HT3hicFluZmcxTGxoOHVQMndQ?=
- =?utf-8?B?SWtPaWNkd2xlV0g4S1pPNU1sdGd1VFZFV3RlYlFzSjFaV3VyWm5aWlM3eGJn?=
- =?utf-8?Q?DXxfM2kx17ndnqmwcy8skhFvTyu8m2asMOs9RTdmshw9c?=
-X-MS-Exchange-AntiSpam-MessageData-1: Z52nq5Abo2TEHg==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b60e8643-0059-4548-e6bd-08de80cdf421
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB2353.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Mar 2026 06:58:38.9472
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8lHSwE8V+ewTHWp1l8YMdT9O4p0C4ZD5283GTvlclvvZUCsXuIY227MGN98+Zipu8EoHTka8REFgXwF+BAxQeg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR12MB8914
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
+ kwepemf100013.china.huawei.com (7.202.181.12)
 
-On Wed Mar 11, 2026 at 9:39 AM JST, Joel Fernandes wrote:
-> Add first_usable_fb_region() to GspStaticConfigInfo to extract the first
-> usable FB region from GSP's fbRegionInfoParams. Usable regions are those
-> that are not reserved or protected.
->
-> The extracted region is stored in GetGspStaticInfoReply and exposed via
-> usable_fb_region() API for use by the memory subsystem.
->
-> Cc: Nikola Djukic <ndjukic@nvidia.com>
-> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
-> ---
->  drivers/gpu/nova-core/gsp/commands.rs    | 11 ++++++--
->  drivers/gpu/nova-core/gsp/fw/commands.rs | 32 ++++++++++++++++++++++++
->  2 files changed, 41 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/nova-core/gsp/commands.rs b/drivers/gpu/nova-cor=
-e/gsp/commands.rs
-> index 8f270eca33be..8d5780d9cace 100644
-> --- a/drivers/gpu/nova-core/gsp/commands.rs
-> +++ b/drivers/gpu/nova-core/gsp/commands.rs
-> @@ -4,6 +4,7 @@
->      array,
->      convert::Infallible,
->      ffi::FromBytesUntilNulError,
-> +    ops::Range,
->      str::Utf8Error, //
->  };
-> =20
-> @@ -186,22 +187,28 @@ fn init(&self) -> impl Init<Self::Command, Self::In=
-itError> {
->      }
->  }
-> =20
-> -/// The reply from the GSP to the [`GetGspInfo`] command.
-> +/// The reply from the GSP to the [`GetGspStaticInfo`] command.
->  pub(crate) struct GetGspStaticInfoReply {
->      gpu_name: [u8; 64],
-> +    /// Usable FB (VRAM) region for driver memory allocation.
-> +    #[expect(dead_code)]
-> +    pub(crate) usable_fb_region: Range<u64>,
->  }
-> =20
->  impl MessageFromGsp for GetGspStaticInfoReply {
->      const FUNCTION: MsgFunction =3D MsgFunction::GetGspStaticInfo;
->      type Message =3D GspStaticConfigInfo;
-> -    type InitError =3D Infallible;
-> +    type InitError =3D Error;
-> =20
->      fn read(
->          msg: &Self::Message,
->          _sbuffer: &mut SBufferIter<array::IntoIter<&[u8], 2>>,
->      ) -> Result<Self, Self::InitError> {
-> +        let (base, size) =3D msg.first_usable_fb_region().ok_or(ENODEV)?=
-;
-> +
->          Ok(GetGspStaticInfoReply {
->              gpu_name: msg.gpu_name_str(),
-> +            usable_fb_region: base..base.saturating_add(size),
+This is [3/3] part of hinic3 Ethernet driver second submission.
+With this patch hinic3 becomes a complete Ethernet driver with
+pf and vf.
 
-We already return a Result here, so why not use checked_add?:
-`base..base.checked_add(size).ok_or(EOVERFLOW)?`
+Add 20 ethtool ops for information of queue, rss, coalesce and eth data.
+Add MTU size validation
+Config netdev watchdog timeout.
+Remove unneed coalesce parameters.
 
->          })
->      }
->  }
-> diff --git a/drivers/gpu/nova-core/gsp/fw/commands.rs b/drivers/gpu/nova-=
-core/gsp/fw/commands.rs
-> index 67f44421fcc3..cef86cab8a12 100644
-> --- a/drivers/gpu/nova-core/gsp/fw/commands.rs
-> +++ b/drivers/gpu/nova-core/gsp/fw/commands.rs
-> @@ -5,6 +5,7 @@
->  use kernel::{device, pci};
-> =20
->  use crate::gsp::GSP_PAGE_SIZE;
-> +use crate::num::IntoSafeCast;
-> =20
->  use super::bindings;
-> =20
-> @@ -115,6 +116,37 @@ impl GspStaticConfigInfo {
->      pub(crate) fn gpu_name_str(&self) -> [u8; 64] {
->          self.0.gpuNameString
->      }
-> +
-> +    /// Extract the first usable FB region from GSP firmware data.
-> +    ///
-> +    /// Returns the first region suitable for driver memory allocation a=
-s a `(base, size)` tuple.
-> +    /// Usable regions are those that:
-> +    /// - Are not reserved for firmware internal use.
-> +    /// - Are not protected (hardware-enforced access restrictions).
-> +    /// - Support compression (can use GPU memory compression for bandwi=
-dth).
-> +    /// - Support ISO (isochronous memory for display requiring guarante=
-ed bandwidth).
+Changes:
 
-Are the above conditions all required (AND) or any required (OR)?
-Might be worth clarifying in the doc.
+PATCH 03 V01:
+* Add rmon/pause/phy/mac/ctrl stats (Ioana Ciornei)
 
-> +    pub(crate) fn first_usable_fb_region(&self) -> Option<(u64, u64)> {
-> +        let fb_info =3D &self.0.fbRegionInfoParams;
-> +        for i in 0..fb_info.numFBRegions.into_safe_cast() {
-> +            if let Some(reg) =3D fb_info.fbRegion.get(i) {
-> +                // Skip malformed regions where limit < base.
+Fan Gong (7):
+  hinic3: Add ethtool queue ops
+  hinic3: Add ethtool statistic ops
+  hinic3: Add ethtool coalesce ops
+  hinic3: Add ethtool rss ops
+  hinic3: Add MTU size validation
+  hinic3: Configure netdev->watchdog_timeo to set nic tx timeout
+  hinic3: Remove unneed coalesce parameters
 
-Is it normal that it returns a bunch of broken regions?
+ .../ethernet/huawei/hinic3/hinic3_ethtool.c   | 927 +++++++++++++++++-
+ .../ethernet/huawei/hinic3/hinic3_hw_intf.h   |  13 +-
+ .../net/ethernet/huawei/hinic3/hinic3_irq.c   |   9 +-
+ .../net/ethernet/huawei/hinic3/hinic3_main.c  |   7 +
+ .../huawei/hinic3/hinic3_mgmt_interface.h     |  39 +
+ .../huawei/hinic3/hinic3_netdev_ops.c         |  61 ++
+ .../ethernet/huawei/hinic3/hinic3_nic_cfg.c   |  77 ++
+ .../ethernet/huawei/hinic3/hinic3_nic_cfg.h   | 109 ++
+ .../ethernet/huawei/hinic3/hinic3_nic_dev.h   |  20 +
+ .../ethernet/huawei/hinic3/hinic3_nic_io.h    |   4 +
+ .../net/ethernet/huawei/hinic3/hinic3_rss.c   | 487 ++++++++-
+ .../net/ethernet/huawei/hinic3/hinic3_rss.h   |  19 +
+ .../net/ethernet/huawei/hinic3/hinic3_rx.c    |  57 +-
+ .../net/ethernet/huawei/hinic3/hinic3_rx.h    |  17 +-
+ .../net/ethernet/huawei/hinic3/hinic3_tx.c    |  79 +-
+ .../net/ethernet/huawei/hinic3/hinic3_tx.h    |   2 +
+ 16 files changed, 1905 insertions(+), 22 deletions(-)
 
-> +                if reg.limit < reg.base {
-> +                    continue;
-> +                }
-> +
-> +                // Filter: not reserved, not protected, supports compres=
-sion and ISO.
-> +                if reg.reserved =3D=3D 0
-> +                    && reg.bProtected =3D=3D 0
-> +                    && reg.supportCompressed !=3D 0
-> +                    && reg.supportISO !=3D 0
-> +                {
-> +                    let size =3D reg.limit - reg.base + 1;
-> +                    return Some((reg.base, size));
 
-This is identifying a range, so how about returning Option<Range<u64>>
-instead? It gets immediately converted into a range anyway.
-
-> +                }
-> +            }
-> +        }
-> +        None
-> +    }
->  }
-> =20
->  // SAFETY: Padding is explicit and will not contain uninitialized data.
+base-commit: 8e7adcf81564a3fe886a6270eea7558f063e5538
+-- 
+2.43.0
 
