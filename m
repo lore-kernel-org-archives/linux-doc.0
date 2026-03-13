@@ -1,165 +1,292 @@
-Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010020.outbound.protection.outlook.com [52.101.56.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EEA21DF75B;
-	Fri, 13 Mar 2026 06:07:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.20
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773382038; cv=fail; b=VT4e0I2XOk2trRMrUqIEw7fFjagiVpm2+jczXKORLIV80tRpsF0/UOaGz58lvSlNzig4N8DtT9qF4yki9e6vPcr+QNLBmY8EaoV/B6rlSLj1W9imZQVxyrNDlIAOtG1gmTN7qongpOYMIrMMblGnqJ2r1K9NBjuMljJDvXyC0eM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773382038; c=relaxed/simple;
-	bh=UapO0FouQ1f5sdgCWUBn/ZoGp0GwV6jgqqmr3kYhKtE=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HuQ2ZnuYqz2IgKDmxZ9elMeoJY8oUxwWEm+YwXoOQK8dnCf5g0ghcyf3lCfDItyRD15FqfNCuFp6Swl5fnka83Ipf27cxcRLA9zxyJaTcuJvic2nceu3z9GIOZ41SXUVd51dMz7uFZ+I5awj7bEL67lDORnmGbAlGt8YQUsZP/M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=u0x8bo8k; arc=fail smtp.client-ip=52.101.56.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F44E338939
+	for <linux-doc@vger.kernel.org>; Fri, 13 Mar 2026 06:12:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773382369; cv=none; b=J8AYL4r2KCwTVD1dkEkgRrXTHPSEHZ0b+9hRWyrGUZx45HmlHZ+dreiuOqX5ZB76LtQn5ugAC5rmfuFtUM/TO55U4g4mF+/EJ3jLedHGrLiNrmMVbeA0uvvY5mLMSWiB36HYThgRaTqG7647gE5iSjFsE82ll6CgqIhS+XhLCxk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773382369; c=relaxed/simple;
+	bh=6jLTwJJ6La/XT5hYqS1Mn28fhE67q33wjf2y4GPKqTo=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=WPlXt7x/KiNbVGjns61heXweo/xzQMP8jWxex/8BxhGm/pf3cAJu61OyHhb+JHUMBIkQ4DI9cum9vYqHo9TT7YPK4Y+o8r5PGtUeNkb6VbmpMxnzRkA8ZIBg/KyEokFKIqebYhpttLRLlgqm0lM7fjDNWxpyOYsy2yviRMoQpk0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--ackerleytng.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=CJHVc28y; arc=none smtp.client-ip=209.85.216.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--ackerleytng.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="u0x8bo8k"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wPrNYc2/X7Gl0Dwx1dqP8hnEqROCTrHb7ZlZ4fAnQxVyW0tjnHeNjDAt5chRvRPa2Jrd9AXYIxjUnchvWj7X5LC4tIBcfXyfGJ3Qpzi2nuGv85foCGESPDakK6YradEYelGMnG2tMU0hJENZ+dpuUEgwcEi+30/or4ylkPRzdU568oyqgphBBo1+8yo4Fw4UBXMRr0cBMSJh6p+IMAg25i5p3eZN+o643GEhlQm1ywz/0JNplW6i5YKIiOhjIidlAMQlfYrPRx7uweiDfxRLkhgPBX0wbEnflDNci75GpjYDu7E1kJrs42ZEoeqRngDfnuTVVn/dUP23mg5VrxJe0A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sXD2JRDr5V9JWlg2JzephIkXYDzuEQjtdPwGj7BTQho=;
- b=sa0lNbBoVzQsO69GVJHqjE3nw6etJPP0X3Zos6aDoVnlnC4/yt1CxPfUksu8/fDxXR7AIedVjb7j1WZ1tUILUkd+Gi/8ctTu97SypBAL3Nm5isxSLs8WAA6t3CT9BANJKr40n+ba7T8yb9xxZEHNIuc8EY8lC9LxmtOmJ8VY7tA2+vfej1TnvP4Dt8RMm49dpPwma9qA/gvLIpXxScpfYKwbx6jVn09rLG55rggfVJLv1QuThmizfbOUj+AMOjJ9L0FXGyniR8BThHmbEQmgUg8yIkTdwWW1ybyLgHnkzOH9TySZN1JViBrIp8YWDiGGUQPWuT3dMU3TYlkWp8WJsA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.194) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sXD2JRDr5V9JWlg2JzephIkXYDzuEQjtdPwGj7BTQho=;
- b=u0x8bo8k39cZLUzlk8kAV6Qx73btlszDcIt+OXMiFBgIbPYP5slARQxOznHhYwqEJxv3/e64SdXdEJw1S6jpLNgfYjjZH0VFC5xeef2ydvlbgSFaImxg1PJhtVgEUHkU1g2okqJK21ATkF5MzqCxAV3aa7XqSBcImogdABdAPM0=
-Received: from PH7PR13CA0009.namprd13.prod.outlook.com (2603:10b6:510:174::12)
- by PH3PPFAE1A1621A.namprd10.prod.outlook.com (2603:10b6:518:1::7bd) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.16; Fri, 13 Mar
- 2026 06:07:14 +0000
-Received: from SA2PEPF000015CB.namprd03.prod.outlook.com
- (2603:10b6:510:174:cafe::14) by PH7PR13CA0009.outlook.office365.com
- (2603:10b6:510:174::12) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9700.16 via Frontend Transport; Fri,
- 13 Mar 2026 06:07:10 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
-Received: from lewvzet200.ext.ti.com (198.47.23.194) by
- SA2PEPF000015CB.mail.protection.outlook.com (10.167.241.201) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9700.17 via Frontend Transport; Fri, 13 Mar 2026 06:07:14 +0000
-Received: from DLEE214.ent.ti.com (157.170.170.117) by lewvzet200.ext.ti.com
- (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 13 Mar
- 2026 01:07:12 -0500
-Received: from DLEE212.ent.ti.com (157.170.170.114) by DLEE214.ent.ti.com
- (157.170.170.117) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 13 Mar
- 2026 01:07:12 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE212.ent.ti.com
- (157.170.170.114) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Fri, 13 Mar 2026 01:07:12 -0500
-Received: from uda0132425.dhcp.ti.com (uda0132425.dhcp.ti.com [172.24.233.103])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 62D677Vg028074;
-	Fri, 13 Mar 2026 01:07:07 -0500
-From: Vignesh Raghavendra <vigneshr@ti.com>
-To: Nishanth Menon <nm@ti.com>, Tero Kristo <kristo@kernel.org>, Rob Herring
-	<robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
-	<conor+dt@kernel.org>, Guenter Roeck <linux@roeck-us.net>, "Srinivas
- Kandagatla" <srini@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-	Michael Walle <mwalle@kernel.org>
-CC: Vignesh Raghavendra <vigneshr@ti.com>,
-	<linux-arm-kernel@lists.infradead.org>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-hwmon@vger.kernel.org>,
-	<linux-watchdog@vger.kernel.org>, <linux-doc@vger.kernel.org>
-Subject: Re: (subset) [PATCH v2 0/7] Remove the Kontron SMARC-sAM67 board
-Date: Fri, 13 Mar 2026 11:37:02 +0530
-Message-ID: <177338196940.240421.4339975635292028486.b4-ty@ti.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20260302122540.1377444-1-mwalle@kernel.org>
-References: <20260302122540.1377444-1-mwalle@kernel.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="CJHVc28y"
+Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-35842aa350fso11805760a91.0
+        for <linux-doc@vger.kernel.org>; Thu, 12 Mar 2026 23:12:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1773382366; x=1773987166; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=9kJoH2qMBOGI1KHefVTQiaQSpz0G/4rWY3svDZEsAos=;
+        b=CJHVc28y4v95vpP75Q7Bgj0uVMh+A4lMVJQ/C8n7TJWJCNuhzAJ+73wxqJM+rgfwVV
+         GcbP1slvw6XJs+UtBXoL/rwhFE+k1ZJYIJ57Gf0wEHdXk6hdxZvExqrbZ7jwttTevbLN
+         jW1QuoUtHAz3Rk4d+yFsICeTat/XEwA2s+RiZ13qJB8GmnwJNIFvbMMXO3TyPhMcQKiA
+         q6Pq89u51SAf5SnigtJmwC/vYDRn/RwNBxNKU7PNP/zyQEVfcI4UDDQI/CrMZUier/7b
+         RX/aiAQNhVqrFLyNOipIvTNJVmuKrHxVFd3hsl68dJQvWKDhz2P6hlloDlpEFDdwE9cn
+         XVmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773382366; x=1773987166;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9kJoH2qMBOGI1KHefVTQiaQSpz0G/4rWY3svDZEsAos=;
+        b=YUpJap04mqHR/qiJl4WfGtf0JG+CeuqGkBNn99IKEQrJ541y6GDWFTiS7IGqG/pHMY
+         x1qhi9ClnolUtKKS+pzJ6SrwQBGNEh47wwymwdqUaljlRSFH5K2HDGga7Gut7+7cbEGp
+         nkTHA14C9zVVHbGf7XdwKcWSZ4CBvTmmdOuL5OHgIKDWWvJUTcQWbRr46lX/ncbwEXlU
+         HS9Lwnedg3X330sDz01WP4zg/UaRx6xvRyBE2RpAL1rPHqENMnj1q7plIbtIEvHcNKwJ
+         HXae/QitlolJA4HHcw5jOW3aSyGIPmXB+2Mt+Wuwy+U9GhWPWGz+oMftDAk3odpaf/0c
+         Idag==
+X-Forwarded-Encrypted: i=1; AJvYcCWT7rBbGEpI4I7T9tbYbKIPbH44lI/1tZXfSh5B8gxZerHzggbqBvXYmiVl1ikVurgOtN1wWf94PmQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwcDQMHs0gZE2N26DxVfwQrxUlUIxHm5iOpBhbRvNje/KJzUxu+
+	IxQXlVi7kOTKhsPAxP7ZUUYcjun1kPVI6DFDoSxBEWHGl0NDvoUPPGd9q82RfDZFNv3PaxJUM7+
+	jAz0U040GPYay++4Bi1mIgtHFJw==
+X-Received: from pjbsx11.prod.google.com ([2002:a17:90b:2ccb:b0:359:97db:ab44])
+ (user=ackerleytng job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:90b:2e45:b0:349:9d63:8511 with SMTP id 98e67ed59e1d1-35a22069e33mr1825521a91.25.1773382366345;
+ Thu, 12 Mar 2026 23:12:46 -0700 (PDT)
+Date: Fri, 13 Mar 2026 06:12:39 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIANiqs2kC/x2MywrCMBAAf6Xs2cWQUEWvgh/Qq/SQx9oumm1JJ
+ BRK/72pxxmYWSFTYspwb1ZIVDjzJBXMqQE/WhkIOVQGrfRFad3iECkiy/y1ntBPUigdDbqgggv mdm2NhVrPid68/M8v6J4P6Kt0NhO6ZMWPx/RT4llo+cG27eBUK4aJAAAA
+X-Change-Id: 20260225-gmem-inplace-conversion-bd0dbd39753a
+X-Developer-Key: i=ackerleytng@google.com; a=ed25519; pk=sAZDYXdm6Iz8FHitpHeFlCMXwabodTm7p8/3/8xUxuU=
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1773382364; l=10749;
+ i=ackerleytng@google.com; s=20260225; h=from:subject:message-id;
+ bh=6jLTwJJ6La/XT5hYqS1Mn28fhE67q33wjf2y4GPKqTo=; b=TVC5sVfChj6/Qi4neLLDvvRGE6Wv9Rt992E8IUuFi9rGngGrAXraI2dmVoDFP5O3H1h0d/EsW
+ wWRxu0+w/hOBaK6JILUwNt7nNWAQBb5O4jKE76hTO8bRdXaMsT7oVzx
+X-Mailer: b4 0.14.3
+Message-ID: <20260313-gmem-inplace-conversion-v3-0-5fc12a70ec89@google.com>
+Subject: [PATCH RFC v3 00/43] guest_memfd: In-place conversion support
+From: Ackerley Tng <ackerleytng@google.com>
+To: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
+	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
+	ira.weiny@intel.com, jmattson@google.com, jroedel@suse.de, 
+	jthoughton@google.com, michael.roth@amd.com, oupton@kernel.org, 
+	pankaj.gupta@amd.com, qperret@google.com, rick.p.edgecombe@intel.com, 
+	rientjes@google.com, shivankg@amd.com, steven.price@arm.com, tabba@google.com, 
+	willy@infradead.org, wyihan@google.com, yan.y.zhao@intel.com, 
+	forkloop@google.com, pratyush@kernel.org, suzuki.poulose@arm.com, 
+	aneesh.kumar@kernel.org, Paolo Bonzini <pbonzini@redhat.com>, 
+	Sean Christopherson <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Vlastimil Babka <vbabka@kernel.org>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, Ackerley Tng <ackerleytng@google.com>
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF000015CB:EE_|PH3PPFAE1A1621A:EE_
-X-MS-Office365-Filtering-Correlation-Id: 86400f32-ed97-40df-8340-08de80c6c5e1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|82310400026|36860700016|376014|7416014|22082099003|56012099003|18002099003|921020;
-X-Microsoft-Antispam-Message-Info:
-	NkDswy5GgstntDhDwZ83UoTN9A2HFgLSaQW+ZeJzo2jl4qHvitlPSE5vdBeLSDRILxjaEVqQ32HHsibjOLzf1fLFkNGnyFeivJpLhIKfWp+S0EquSywXeEu55teBMczNt1355rwjaccYEo+D9ZNY9l3zsUKrB2muR+Fejtu0T+zP+4Mjv8hxoqKr3oW7KXmtp9gsRvPxQnOygKVPzyMfmzHQ6snJPb4zPdPfHvcsYY60T/9NER2gRkDEcmdT1irIz+uIxPC+VzDQWrO9WXao/BqONyIeA7GFcGF7ibyCyl4rK9rM40kd2jzSguPN6yWkypMhqNBhqdYQYdloIs6E2SCCNePewElt1TTsggdcBFIc2IfOQjpDjry+UlLgBk1D1JgMzol+mTLCJ5QKy45KwKAXOAXo9MXKyk08dhzObSgKQULcoWWl2z/9Z0iRWmwhFnd6IhPIxN/BmJD98GRWCV1iaMNXyMJi2TjR5OScoy8R/MvusF+yMqMCPyfuwr3n/mFUxczNlID42U5rFFawCgxmyDdnmJ4OTdx/aJKkh1JRH24RYSGgQJrdRZwbFKIvZ9gA2YAW5dMz0BIFOBGAd5XRT31wVrfat2Mjd+EQZ5CCEK8tbBvT29DtpWookw9yENzIFcEEpI7pX/StnxbSEx+Yxg37BWJfoMs2hKOp7F/SAjHPx2Ey+mjDgXwUuAhYHKUXmSFmDiSaZJaJj8bBlf2UO0cpLfoje3cWqpyOwsQa+ZsmWQFxSv8780TDBQ080qCb3w7jhqjRgBofpHxP4w==
-X-Forefront-Antispam-Report:
-	CIP:198.47.23.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet200.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(36860700016)(376014)(7416014)(22082099003)(56012099003)(18002099003)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	7PG2IBt0KX+BWJ2wAn8RiSzxzOdXJjxsvebVFXpzQv7ngVnEzFkxMlM1jM6anDFarSD6/cSfecFwnKb5ha1AzIso8xBoIm8c8r8VcMyOpUCNzquJ+zM8e6e7ZRaQ2wYHbZOp+J/yK8CKb+sSm7oSCLAblSSlTLrw24/LkBixtmmnZLsYcHAtBNSMGo3LqNfyXuansrnyL9QxPtQfRmKUfmx6S4Ugb53mZorj9zzHeBrBgasX4tEH/XIr24UcvYsvJ/fl09bevzfIhEvMK8AJWY2fSy4PnACvJLfAOHvqeeClG53XKCV0FDfBUkGy+BvsXGPu7ZqF4aaXV5z7j9XLKNnEb21hsAciC5VKEjBtG4/TQ3j6uS1UcojjuQ4zQIQCurVxeGazpNxe5KV++YVfEAWiLOMsC+3gw+mvqktjoqjoCW1JgxOEqLmAh/Bv8vZA
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Mar 2026 06:07:14.4643
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 86400f32-ed97-40df-8340-08de80c6c5e1
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.194];Helo=[lewvzet200.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SA2PEPF000015CB.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH3PPFAE1A1621A
 
-Hi Michael Walle,
+Hi,
 
-On Mon, 02 Mar 2026 13:24:45 +0100, Michael Walle wrote:
-> I was informed two weeks ago that this product is discontinued
-> (without being ever released to the market). Unfortunately, this
-> collided with the merge window and I had to wait two more weeks.
-> 
-> Pull the plug and let's not waste any more maintainers time.
-> 
-> On the bright side, the board upstreaming brought some driver fixes,
-> too. I'm really sorry for any wasted time.
-> 
-> [...]
+(Here's the motivation for this series, which I realized was missing from
+the earlier revisions of this series)
 
-I have applied the following to branch ti-k3-dts-next on [1].
-Thank you!
+Up till now, guest_memfd supports the entire inode worth of memory being
+used as all-shared, or all-private. CoCo VMs may request guest memory to be
+converted between private and shared states, and the only way to support
+that currently would be to have the userspace VMM provide two sources of
+backing memory from completely different areas of physical memory.
 
-[1/7] arm64: dts: ti: remove the Kontron SMARC-sAM67
-      commit: 852d2c0cc231806b9a3e9cd9e965c08342a27d66
-[3/7] dt-bindings: mfd: sl28cpld: Drop sa67mcu compatible
-      commit: 8b0260457b0bced7e782f000c1d4c10668bf7cb2
-[4/7] dt-bindings: arm: ti: Drop Kontron SMARC-sAM67 module
-      commit: 41a7b57152ffbf3ab8ab1110f831b1f53c2f9b88
+pKVM has a use case for in-place sharing: the guest and host may be
+cooperating on given data, and pKVM doesn't protect data through
+encryption, so copying that given data between different areas of physical
+memory as part of conversions would be unnecessary work.
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent up the chain during
-the next merge window (or sooner if it is a relevant bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+This series also serves as a foundation for guest_memfd huge page
+support. Now, guest_memfd only supports PAGE_SIZE pages, so if two sources
+of backing memory are used, the userspace VMM could maintain a steady total
+memory utilized by punching out the pages that are not used. When huge
+pages are available in guest_memfd, even if the backing memory source
+supports hole punching within a huge page, punching out pages to maintain
+the total memory utilized by a VM would be introducing lots of
+fragmentation.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+In-place conversion avoids fragmentation by allowing the same physical
+memory to be used for both shared and private memory, with guest_memfd
+tracks the shared/private status of all the pages at a per-page
+granularity.
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+The central principle, which guest_memfd continues to uphold, is that any
+guest-private page will not be mappable to host userspace. All pages will
+be mmap()-able in host userspace, but accesses to guest-private pages (as
+tracked by guest_memfd) will result in a SIGBUS.
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+This series introduces a guest_memfd ioctl (not kvm, vm or vcpu, but
+guest_memfd ioctl) that allows userspace to set memory
+attributes (shared/private) directly through the guest_memfd. This is the
+appropriate interface because shared/private-ness is a property of memory
+and hence the request should be sent directly to the memory provider -
+guest_memfd.
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/ti/linux.git
+I'm intending RFC (v3) as a basis for discussion of flags/content
+modes (name TBD) to allow userspace to request guarantees on how the memory
+contents will look like after setting memory attributes. The last 6 patches
+implement content mode support. These patches will be reordered, and some
+of them could be absorbed into earlier patches, in later revisions.
+
+Here are the discussion points I can think of (please add on):
+
+1. (Might hopefully resolve soon?) Should ZERO be supported on shared to
+   private conversions? Discussion is at [6].
+
+2. Do we need a CAP for userspace to query the flags/modes supported?
+
+   It seems like there won't be anything dynamic about the flags/modes
+   supported.
+
+   The userspace code can check what platform it is running on, and then
+   decide ZERO or PRESERVE based on the platform:
+
+   If the VM is running on TDX, it would want to specify ZERO all the
+   time. If the VM were running on pKVM it would want to specify PRESERVE
+   if it wants to enable in-place sharing, and ZERO if it wants to zero the
+   memory.
+
+   If someday TDX supports PRESERVE, then there's room for discovery of
+   which algorithm to choose when running the guest. Perhaps that's when
+   the CAP should be introduced?
+
+3. What do people think of the structure of how various content modes are
+   checked for support or applied? I used overridable weak functions for
+   architectures that haven't defined support, and defined overrides for
+   x86 to show how I think it would work. For CoCo platforms, I only
+   implemented TDX for illustration purposes and might need help with the
+   other platforms. Should I have used kvm_x86_ops? I tried and found
+   myself defining lots of boilerplate.
+
+4. enum for ZERO and PRESERVE?
+
+   Pros:
+
+   * No way to define both ZERO and PRESERVE (make impossible states
+     unrepresentable)
+       * e.g. enum kvm_device_type in __u32 type in struct
+         kvm_create_device
+       * But maybe someday some modes can be used together?
+   * Content modes is a defined axis/aspect of setting memory attributes,
+     having a separate field avoids having different axes of configuration
+     in one field. e.g. MAP_HUGETLB for mmap() is on a different axis from
+     MAP_PRIVATE for example
+       * I just used flags for this RFC since it's the most common
+         approach.
+
+TODOs:
+
++ Let architectures override content mode handlers on a per-inode basis
+  since per-folio overrides means even no-ops, like ZERO on TDX, would
+  require iterating all the folios.
+
+Also, in RFC v3, TEST_EXPECT_SIGBUS() is updated to assert that the default
+signal handler is installed, so that developers get a clear, explicit
+failure if/when something goes wrong.
+
+This series is based on kvm/next, and here's the tree for your convenience:
+
+https://github.com/googleprodkernel/linux-cc/commits/guest_memfd-inplace-conversion-v3
+
+Older series:
+
++ RFCv2 is at [5]
++ RFCv1 is at [4]
++ Previous versions of this feature, part of other series, are available at
+  [1][2][3].
+
+[1] https://lore.kernel.org/all/bd163de3118b626d1005aa88e71ef2fb72f0be0f.1726009989.git.ackerleytng@google.com/
+[2] https://lore.kernel.org/all/20250117163001.2326672-6-tabba@google.com/
+[3] https://lore.kernel.org/all/b784326e9ccae6a08388f1bf39db70a2204bdc51.1747264138.git.ackerleytng@google.com/
+[4] https://lore.kernel.org/all/cover.1760731772.git.ackerleytng@google.com/T/
+[5] https://lore.kernel.org/all/cover.1770071243.git.ackerleytng@google.com/T/
+[6] https://lore.kernel.org/all/CAEvNRgFUc+9xCoN9Yo5NThHrvbccWAhPwp9nNM2fvx7QqrcJsg@mail.gmail.com/
+
+Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+---
+Ackerley Tng (25):
+      KVM: guest_memfd: Update kvm_gmem_populate() to use gmem attributes
+      KVM: Introduce KVM_SET_MEMORY_ATTRIBUTES2
+      KVM: guest_memfd: Add support for KVM_SET_MEMORY_ATTRIBUTES2
+      KVM: guest_memfd: Handle lru_add fbatch refcounts during conversion safety check
+      KVM: selftests: Update framework to use KVM_SET_MEMORY_ATTRIBUTES2
+      KVM: selftests: Test using guest_memfd for guest private memory
+      KVM: selftests: Test basic single-page conversion flow
+      KVM: selftests: Test conversion flow when INIT_SHARED
+      KVM: selftests: Test indexing in guest_memfd
+      KVM: selftests: Test conversion before allocation
+      KVM: selftests: Convert with allocated folios in different layouts
+      KVM: selftests: Test precision of conversion
+      KVM: selftests: Test that truncation does not change shared/private status
+      KVM: selftests: Test conversion with elevated page refcount
+      KVM: selftests: Reset shared memory after hole-punching
+      KVM: selftests: Provide function to look up guest_memfd details from gpa
+      KVM: selftests: Make TEST_EXPECT_SIGBUS thread-safe
+      KVM: selftests: Update private_mem_conversions_test to mmap() guest_memfd
+      KVM: selftests: Add script to exercise private_mem_conversions_test
+      KVM: guest_memfd: Introduce default handlers for content modes
+      KVM: guest_memfd: Apply content modes while setting memory attributes
+      KVM: x86: Add support for applying content modes
+      KVM: x86: Support content mode ZERO for TDX
+      KVM: selftests: Allow flags to be specified in set_memory_attributes functions
+      KVM: selftests: Update tests to use flag-enabled library functions
+
+Sean Christopherson (18):
+      KVM: guest_memfd: Introduce per-gmem attributes, use to guard user mappings
+      KVM: Rename KVM_GENERIC_MEMORY_ATTRIBUTES to KVM_VM_MEMORY_ATTRIBUTES
+      KVM: Enumerate support for PRIVATE memory iff kvm_arch_has_private_mem is defined
+      KVM: Stub in ability to disable per-VM memory attribute tracking
+      KVM: guest_memfd: Wire up kvm_get_memory_attributes() to per-gmem attributes
+      KVM: guest_memfd: Enable INIT_SHARED on guest_memfd for x86 Coco VMs
+      KVM: Move KVM_VM_MEMORY_ATTRIBUTES config definition to x86
+      KVM: Let userspace disable per-VM mem attributes, enable per-gmem attributes
+      KVM: selftests: Create gmem fd before "regular" fd when adding memslot
+      KVM: selftests: Rename guest_memfd{,_offset} to gmem_{fd,offset}
+      KVM: selftests: Add support for mmap() on guest_memfd in core library
+      KVM: selftests: Add selftests global for guest memory attributes capability
+      KVM: selftests: Add helpers for calling ioctls on guest_memfd
+      KVM: selftests: Test that shared/private status is consistent across processes
+      KVM: selftests: Provide common function to set memory attributes
+      KVM: selftests: Check fd/flags provided to mmap() when setting up memslot
+      KVM: selftests: Update pre-fault test to work with per-guest_memfd attributes
+      KVM: selftests: Update private memory exits test work with per-gmem attributes
+
+ Documentation/virt/kvm/api.rst                     | 112 ++++-
+ arch/x86/include/asm/kvm_host.h                    |   2 +-
+ arch/x86/kvm/Kconfig                               |  15 +-
+ arch/x86/kvm/mmu/mmu.c                             |   4 +-
+ arch/x86/kvm/x86.c                                 |  86 +++-
+ include/linux/kvm_host.h                           |  62 ++-
+ include/trace/events/kvm.h                         |   4 +-
+ include/uapi/linux/kvm.h                           |  21 +
+ tools/testing/selftests/kvm/.gitignore             |   1 +
+ tools/testing/selftests/kvm/Makefile.kvm           |   1 +
+ .../selftests/kvm/guest_memfd_conversions_test.c   | 496 +++++++++++++++++++++
+ tools/testing/selftests/kvm/guest_memfd_test.c     |  57 ++-
+ tools/testing/selftests/kvm/include/kvm_util.h     | 136 +++++-
+ tools/testing/selftests/kvm/include/test_util.h    |  32 +-
+ tools/testing/selftests/kvm/lib/kvm_util.c         | 130 +++---
+ tools/testing/selftests/kvm/lib/test_util.c        |   7 -
+ .../testing/selftests/kvm/pre_fault_memory_test.c  |   2 +-
+ .../kvm/x86/private_mem_conversions_test.c         |  54 ++-
+ .../kvm/x86/private_mem_conversions_test.py        | 152 +++++++
+ .../selftests/kvm/x86/private_mem_kvm_exits_test.c |  36 +-
+ virt/kvm/Kconfig                                   |   3 +-
+ virt/kvm/guest_memfd.c                             | 488 +++++++++++++++++++-
+ virt/kvm/kvm_main.c                                | 104 ++++-
+ 23 files changed, 1831 insertions(+), 174 deletions(-)
+---
+base-commit: d2ea4ff1ce50787a98a3900b3fb1636f3620b7cf
+change-id: 20260225-gmem-inplace-conversion-bd0dbd39753a
+
+Best regards,
 --
-Vignesh
+Ackerley Tng <ackerleytng@google.com>
 
