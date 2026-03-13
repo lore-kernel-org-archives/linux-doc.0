@@ -1,274 +1,168 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A138E3537F5;
-	Fri, 13 Mar 2026 08:31:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773390706; cv=none; b=mQp9nN/efsXas3bIIQT0SZrX0naghYWjgPNN2o3/I/5risg4p6tuoHabFlNCk2eFbM84puXaIVYG7nBn1URy6qdQnZOrZ2OE1pPfqsDPGj07ENmdHi1v4KnPTxhi/3joV9YFFKaacPZj8/2Ny5Jj7Y1yBYuKS7BdX4p+UwZt2XI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773390706; c=relaxed/simple;
-	bh=l8vCHfXxC9+FUSWip87fRUZOuxjxYsbmel/zZHXKGJw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=O7CzD73uT5L+I2MkMPVwLDeMq517C7daIWT5j0UplLRAH6fJiJ5WyrpXgAxBn+/zD1Aqz0RRaiItIyOnBIqryaCKN7l6giG4X1hkLwHA/2wz4IzYxV4tyKJEfQkSH+as6ZVZlumTVdc2ypVQEb7Xy7ZzDU6H2d+esg9Qzdx5G38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=QRx5sloz; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4202375F90
+	for <linux-doc@vger.kernel.org>; Fri, 13 Mar 2026 08:32:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.175
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773390733; cv=pass; b=FnIyFpLjZB1KbcGkW75EQxY3OXe4DqfR7xbs/dEfqVCkwp8kcW6OQ8o8Rd20P57NJguk37/hMJfIDXS8FYatLZNUvxQUJtKD/l0s9wMa9V/1jy52HFCKV+LWJrZrgZbLR/5tvVvj9m5FzOsS2JJreJstGrP/cRmfVB79XW2uHHo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773390733; c=relaxed/simple;
+	bh=73CFgCEKHFJELY9UP5/RhebVFajDLrcQrE0lsXPbdIc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=p2YbTeYjV9XBo3Nh81hhasHFf3BdU2Om53Phg1Dh6w/pXZ2Eq/XhRBFldkoYClgvIgbyzyKe50DI6prhbNSzYggQGYL4HSgT/Q0WaBtsgM7yzLwA4NrsnxcZ9as05YOAX9xsPaw9x8vZTufoeC8a44YTu5c0ltASeK45V1oqcMU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=nQJMmXtD; arc=pass smtp.client-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="QRx5sloz"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id B14194E4264E;
-	Fri, 13 Mar 2026 08:31:40 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 846ED60027;
-	Fri, 13 Mar 2026 08:31:40 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 3C4D510368614;
-	Fri, 13 Mar 2026 09:31:31 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1773390699; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=TOL9sk8Oy/zeNAYdwBbDEf9LXsiGHo+gM5VK3E0pTvw=;
-	b=QRx5slozIwrZq0MvGs4/8X00TuUSN4ZRHe6izAwPSqq6ephYcs5AcmYlsyO02B4FuccPeh
-	Du/sJvI/wk6frS2iL184gxQIV6zi3fYrAJsgkzxiP2wfcku9IpiPraqSwMdZfVRVIV8Rof
-	eLyRof+Ase+yW2wL/+VFtz7fLe4n+qfX1glR/327BlfqSjRodznKUdrLO1b6AodFENvoRv
-	tEJpmkkreoAxDGMnKn9f9M0+1d8ODI/zJWYfGBF5JR0dowUJnrK3oXdiAESPZ8lXoLF6gj
-	dgRuGP5+LHTH/sBi04PGy0cw5Cb/+spud7g2B3AFU9Gi21x9PkUMQdCkP1LIxg==
-Message-ID: <3a6ced9e-5bf4-4573-a4bf-e587ff9119d4@bootlin.com>
-Date: Fri, 13 Mar 2026 09:31:30 +0100
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="nQJMmXtD"
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-509069a7a7fso391411cf.0
+        for <linux-doc@vger.kernel.org>; Fri, 13 Mar 2026 01:32:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773390731; cv=none;
+        d=google.com; s=arc-20240605;
+        b=bn/zgzxELsD7w8erDYEhLu1AkA1h40etEOaKb1QAINBfTpec2RWJNjdUIRQNmWaVCZ
+         /8V2Df+wYbw2NiUIVDN2oXhmDBsmRqDm/0JaHRijJMLJrjOQR3/s0VUc5zFCaDqWS2jj
+         g+wDTuD6CfSEn8/CaPJHHDTAnw+GW+KclrpcYUzsRMsAmCSnctMKUDRiDQFEORCUaLcE
+         VCa7luLK5DRD391C5IqlOSF59RTzU4NaHBFnvtv3IlwmIIiDSJQyenWnSiNJeF9egYwb
+         LscN1n93SGAUh1lqdeh1N84wamGv0v3XkRo04sEkESWsKlV7JrZoEYK4Ea70ggCfRbE/
+         BwmA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=+ZginHenLFfV4BXN5/Mah3uAKtVZ/csIYirzOzG2w24=;
+        fh=lIkoOhIE2X8j+tZLo0Ge8gLf3ieekc68eLxdvWSmIr4=;
+        b=TWw4wMSqZN8c10XFM020MQYl4x9HmzBkCpDDci4fvd5CY0/OWEWBZi0w3QgHZhCOL4
+         VeFsUJLE+UCbRMTOxZr3A8RBpqggk3zKWajVTXzN3OaxwL/3RVLcocPVQhiGvNiXQCLZ
+         kMFB2saYWlm0xDSPcgU9WsAdgYi9MlaSewF6L5FCrT6OSCfMqrZquW76O/KW3546iBwI
+         auWGWUL+mG4pRsSaZVMOJHQb/oIVtR+LrU5TSR0Eebwvs/huMySd/CMQ1Sc3PU15jVTk
+         gIzMJFLPRI4v7FH6h8dQTz//gkA+yPx74a/oEWCjoxHMfkt9QXdJ0SDhEacw4Licx4qM
+         fPWw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1773390731; x=1773995531; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=+ZginHenLFfV4BXN5/Mah3uAKtVZ/csIYirzOzG2w24=;
+        b=nQJMmXtDeSbfqyR+LkB3F6MP0abezHJlWnsMbWoEcXY08iHzHCjQhwLMn8VR4iT2Be
+         G1UgMm5hGMR3gYMYgmgkeR25dFtszddTUZNA8KbWejU6Qg0bU6y5QU4ORGPkXuJSWgdL
+         qF0bNUYpsGBcQsDCD9VCFAx8lIRtDxgdSh9W9HQrqGJFElIOD/TzbthIFloS0wM57u0Z
+         quzVdUomwO1CWThAvGKXHVUhtRBgezKzUsbQRN2pRl9u8QU58pk9XVuVvuJUsevLO37B
+         /2oUkr+FqlOR2zNGSgeYYq3id7E/zCJFtLM+z9d6ojL5T/PvKBMvtY9I0pHKEDDVyg/a
+         +l9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773390731; x=1773995531;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+ZginHenLFfV4BXN5/Mah3uAKtVZ/csIYirzOzG2w24=;
+        b=jFNqof5q1vtSFcm6Eg6GyTwWGwitWkya/1L3moNWXJbtohBs8aBWsML2vtLqW5dViG
+         B/nBt0O8bq3yqsC1rzvFZTEsvK23512dQt7eeCFJ01kTjXl8u9q0w2s9pTuqfzV0ur2F
+         A0tMYlasIqRCzz3NQ8zIdP5ZrY6DQGBGiruIKC00yqmwe0/4maRSIis5m/p6sRBDAllP
+         HvxQEm3AZUOJbne/4Mu7lqDn6IyD3yAk122BAfx38VP3Wi+DeRbNLL2gib9wLTyz1yxn
+         h0V17zCvPtzajlJBJuYyYC0zgd3+m//Gqyul82QbGuhMZx+rV4MWqFlVcUXTVc5hnyw3
+         f4Sg==
+X-Forwarded-Encrypted: i=1; AJvYcCUd4dxBLRXcPxjE/azG26n9tQDNsTkTO+uVZ3s6Ksh/PjHTk3E1IAdkO7aavvuk+6jBxsrAgTihy80=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz8DhpD9/KPotE4ZLpekPvPPOqNlUT8BKLSbziq/oNJcYDa3XeI
+	WFysRMChaSgEfsnCOkTruO1XIe4cHRLZ2jze+nAYkZJkLbNNFyplOl6VGgfaQ5GE4LA95o174Gd
+	BtRlGdgzaCYQ3K4I7w8mHbAhmbOCGm025RUDm3TpG
+X-Gm-Gg: ATEYQzzpp1q+o8E+r8+8HvxQ58EUbTlMTkO4OWXRNZW2Ic97Ru0jf9hD2upzv4d7QJH
+	3ajIcwxeRbcBIBp8vMxhcOazsabu8Z2B0VQksZfDppfQP3ZVf4X+IxkJrLDAcR9gKWhTIDOtNfA
+	mny0TTxsZgRbLPMf8arEidzI21BOtGpXD5axvfr5pY41AavUb2f2H5mVybORWjQDPN+SoztAUAK
+	qms9c0vzMvnThDwH4Y4NbFixzEya9vIA/Oe2TeKgZsRVZDjwLR2UVvwbwsLB2rS/KdOANxN3uqZ
+	wWp5O54W
+X-Received: by 2002:a05:622a:58c:b0:506:9852:75ec with SMTP id
+ d75a77b69052e-50959e1d20cmr8206111cf.9.1773390730313; Fri, 13 Mar 2026
+ 01:32:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v01 2/7] hinic3: Add ethtool statistic ops
-To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>,
- netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Andrew Lunn <andrew+netdev@lunn.ch>, Ioana Ciornei <ioana.ciornei@nxp.com>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- luosifu <luosifu@huawei.com>, Xin Guo <guoxin09@huawei.com>,
- Zhou Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>,
- Shi Jing <shijing34@huawei.com>, Zheng Jiezhen <zhengjiezhen@h-partners.com>
-References: <cover.1773387649.git.zhuyikai1@h-partners.com>
- <f53ce31d1be3e3f214f25282d7f90d43b76e1e3f.1773387649.git.zhuyikai1@h-partners.com>
-From: Maxime Chevallier <maxime.chevallier@bootlin.com>
-Content-Language: en-US
-In-Reply-To: <f53ce31d1be3e3f214f25282d7f90d43b76e1e3f.1773387649.git.zhuyikai1@h-partners.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+References: <cover.1770071243.git.ackerleytng@google.com> <86ad28b767524e1e654b9c960e39ca8bfb24c114.1770071243.git.ackerleytng@google.com>
+ <CAEvNRgFMNywpDRr+WeNsVj=MnsbhZp9H3j0QRDo_eOP+kGCNJw@mail.gmail.com>
+ <CAEvNRgG-L+GBcm+u_thGvXAxV-Nqzu5VtgXy0PfND6SG0FiyVg@mail.gmail.com>
+ <CA+EHjTy2urW2Tj5czQDKUHdri7FCLfw2mafTgmmtFs+-7ueoiw@mail.gmail.com>
+ <abLfWHf89TxWqeGZ@google.com> <CAEvNRgFUc+9xCoN9Yo5NThHrvbccWAhPwp9nNM2fvx7QqrcJsg@mail.gmail.com>
+In-Reply-To: <CAEvNRgFUc+9xCoN9Yo5NThHrvbccWAhPwp9nNM2fvx7QqrcJsg@mail.gmail.com>
+From: Fuad Tabba <tabba@google.com>
+Date: Fri, 13 Mar 2026 08:31:33 +0000
+X-Gm-Features: AaiRm52mXTtSsie7DL9lVs7x2V-5c-a3ZmVbxJyJb1VBocy3h5inh1iSGtq73Is
+Message-ID: <CA+EHjTzJmJZF=XE2NWsTZ9yCVix8oLp6M_Jb5m2EuC-W5p+U4A@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 09/37] KVM: guest_memfd: Add support for KVM_SET_MEMORY_ATTRIBUTES2
+To: Ackerley Tng <ackerleytng@google.com>
+Cc: Sean Christopherson <seanjc@google.com>, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, x86@kernel.org, aik@amd.com, 
+	andrew.jones@linux.dev, binbin.wu@linux.intel.com, bp@alien8.de, 
+	brauner@kernel.org, chao.p.peng@intel.com, chao.p.peng@linux.intel.com, 
+	chenhuacai@kernel.org, corbet@lwn.net, dave.hansen@linux.intel.com, 
+	david@kernel.org, hpa@zytor.com, ira.weiny@intel.com, jgg@nvidia.com, 
+	jmattson@google.com, jroedel@suse.de, jthoughton@google.com, 
+	maobibo@loongson.cn, mathieu.desnoyers@efficios.com, maz@kernel.org, 
+	mhiramat@kernel.org, michael.roth@amd.com, mingo@redhat.com, 
+	mlevitsk@redhat.com, oupton@kernel.org, pankaj.gupta@amd.com, 
+	pbonzini@redhat.com, prsampat@amd.com, qperret@google.com, 
+	ricarkol@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
+	rostedt@goodmis.org, shivankg@amd.com, shuah@kernel.org, steven.price@arm.com, 
+	tglx@linutronix.de, vannapurve@google.com, vbabka@suse.cz, 
+	willy@infradead.org, wyihan@google.com, yan.y.zhao@intel.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+Hi Ackerley,
 
-On 13/03/2026 08:54, Fan Gong wrote:
->   Add PF/VF statistics functions in TX and RX processing.
->   Implement following ethtool callback function:
-> .get_sset_count
-> .get_ethtool_stats
-> .get_strings
-> .get_eth_phy_stats
-> .get_eth_mac_stats
-> .get_eth_ctrl_stats
-> .get_rmon_stats
-> .get_pause_stats
-> 
->   These callbacks allow users to utilize ethtool for detailed
-> TX and RX netdev stats monitoring.
-> 
-> Co-developed-by: Zhu Yikai <zhuyikai1@h-partners.com>
-> Signed-off-by: Zhu Yikai <zhuyikai1@h-partners.com>
-> Signed-off-by: Fan Gong <gongfan1@huawei.com>
+<snip>
 
-[...]
+> > By default, KVM makes no guarantees about the in-memory values after memory is
+> > convert to/from shared/private.  Optionally, userspace may instruct KVM to
+> > ensure the contents of memory are zeroed or preserved, e.g. to enable in-place
+> > sharing of data, or as an optimization to avoid having to re-zero memory when
+> > the trusted entity guarantees the memory will be zeroed after conversion.
+> >
+>
+> How about:
+>
+> or as an optimization to avoid having to re-zero memory when userspace
+> could have relied on the trusted entity to guarantee the memory will be
+> zeroed as part of the entire conversion process.
+>
+> > The behaviors supported by a given KVM instance can be queried via <cap>.  If
+>
+> I started with some implementation and was questioning the value of a
+> CAP. It seems like there won't be anything dynamic about this?
 
-> +static void hinic3_get_eth_phy_stats(struct net_device *netdev,
-> +				     struct ethtool_eth_phy_stats *phy_stats)
-> +{
-> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-> +	struct mag_cmd_port_stats *ps;
-> +	int err;
-> +
-> +	ps = kmalloc_obj(*ps);
-> +	if (!ps)
-> +		return;
-> +
-> +	err = hinic3_get_phy_port_stats(nic_dev->hwdev, ps);
-> +	if (err) {
-> +		kfree(ps);
-> +		netdev_err(netdev, "Failed to get eth phy stats from fw\n");
-> +		return;
-> +	}
-> +
-> +	phy_stats->SymbolErrorDuringCarrier = ps->mac_rx_sym_err_pkt_num;
+We can drop the CAP for now. Probing via the ioctl and handling
+-EOPNOTSUPP is entirely sufficient for the VMM to discover whether
+ZERO or PRESERVE are supported for a given architecture and conversion
+direction.
 
-ps isn't kfree'd ?
+> The userspace code can check what platform it is running on, and then
+> decide ZERO or PRESERVE based on the platform:
+>
+> If the VM is running on TDX, it would want to specify ZERO all the
+> time. If the VM were running on pKVM it would want to specify PRESERVE
+> if it wants to enable in-place sharing, and ZERO if it wants to zero the
+> memory.
+>
+> If someday TDX supports PRESERVE, then there's room for discovery of
+> which algorithm to choose when running the guest. Perhaps that's when
+> the CAP should be introduced?
+>
+> > the requested behavior is an unsupported, KVM will return -EOPNOTSUPP and
+> > reject the conversion request.  Note!  The "ZERO" request is only support for
+> > private to shared conversion!
 
-> +}
-> +
-> +static void hinic3_get_eth_mac_stats(struct net_device *netdev,
-> +				     struct ethtool_eth_mac_stats *mac_stats)
-> +{
-> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-> +	struct mag_cmd_port_stats *ps;
-> +	int err;
-> +
-> +	ps = kmalloc_obj(*ps);
-> +	if (!ps)
-> +		return;
-> +
-> +	err = hinic3_get_phy_port_stats(nic_dev->hwdev, ps);
-> +	if (err) {
-> +		kfree(ps);
-> +		netdev_err(netdev, "Failed to get eth mac stats from fw\n");
-> +		return;
-> +	}
-> +
-> +	mac_stats->FramesTransmittedOK = ps->mac_tx_uni_pkt_num +
-> +					 ps->mac_tx_multi_pkt_num +
-> +					 ps->mac_tx_broad_pkt_num;
-> +	mac_stats->FramesReceivedOK = ps->mac_rx_uni_pkt_num +
-> +				      ps->mac_rx_multi_pkt_num +
-> +				      ps->mac_rx_broad_pkt_num;
-> +	mac_stats->FrameCheckSequenceErrors = ps->mac_rx_fcs_err_pkt_num;
-> +	mac_stats->OctetsTransmittedOK = ps->mac_tx_total_oct_num;
-> +	mac_stats->OctetsReceivedOK = ps->mac_rx_total_oct_num;
-> +	mac_stats->MulticastFramesXmittedOK = ps->mac_tx_multi_pkt_num;
-> +	mac_stats->BroadcastFramesXmittedOK = ps->mac_tx_broad_pkt_num;
-> +	mac_stats->MulticastFramesReceivedOK = ps->mac_rx_multi_pkt_num;
-> +	mac_stats->BroadcastFramesReceivedOK = ps->mac_rx_broad_pkt_num;
-> +	mac_stats->InRangeLengthErrors = ps->mac_rx_fcs_err_pkt_num;
-> +	mac_stats->OutOfRangeLengthField = ps->mac_rx_undersize_pkt_num +
-> +					   ps->mac_rx_undermin_pkt_num +
-> +					   ps->mac_rx_oversize_pkt_num +
-> +					   ps->mac_rx_jabber_pkt_num;
-> +	mac_stats->FrameTooLongErrors = ps->mac_rx_oversize_pkt_num +
-> +					ps->mac_rx_jabber_pkt_num;
+I think that this makes sensefor the UAPI. Returning -EOPNOTSUPP for
+shared-to-private ZERO conversions.
 
-same here ?
+For pKVM's specific use cases where the VMM requires a zeroed page to
+be injected into the guest's private space via attribute conversion,
+the VMM can simply `memset()` the shared memory to zero in userspace,
+and then invoke the ioctl with the
+`KVM_SET_MEMORY_ATTRIBUTES2_PRESERVE` flag. This completely offloads
+the UAPI from making guarantees on behalf of the trusted entity, while
+still satisfying pKVM's functional requirements.
 
-> +}
-> +
-> +static void hinic3_get_eth_ctrl_stats(struct net_device *netdev,
-> +				      struct ethtool_eth_ctrl_stats *ctrl_stats)
-> +{
-> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-> +	struct mag_cmd_port_stats *ps;
-> +	int err;
-> +
-> +	ps = kmalloc_obj(*ps);
-> +	if (!ps)
-> +		return;
-> +
-> +	err = hinic3_get_phy_port_stats(nic_dev->hwdev, ps);
-> +	if (err) {
-> +		kfree(ps);
-> +		netdev_err(netdev, "Failed to get eth ctrl stats from fw\n");
-> +		return;
-> +	}
-> +
-> +	ctrl_stats->MACControlFramesTransmitted = ps->mac_tx_control_pkt_num;
-> +	ctrl_stats->MACControlFramesReceived = ps->mac_rx_control_pkt_num;
-
-same here ?
-
-> +}
-> +
-> +static const struct ethtool_rmon_hist_range hinic3_rmon_ranges[] = {
-> +	{     0,    64 },
-> +	{    65,   127 },
-> +	{   128,   255 },
-> +	{   256,   511 },
-> +	{   512,  1023 },
-> +	{  1024,  1518 },
-> +	{  1519,  2047 },
-> +	{  2048,  4095 },
-> +	{  4096,  8191 },
-> +	{  8192,  9216 },
-> +	{  9217, 12287 },
-> +	{}
-> +};
-> +
-> +static void hinic3_get_rmon_stats(struct net_device *netdev,
-> +				  struct ethtool_rmon_stats *rmon_stats,
-> +				  const struct ethtool_rmon_hist_range **ranges)
-> +{
-> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-> +	struct mag_cmd_port_stats *ps;
-> +	int err;
-> +
-> +	ps = kmalloc_obj(*ps);
-> +	if (!ps)
-> +		return;
-> +
-> +	err = hinic3_get_phy_port_stats(nic_dev->hwdev, ps);
-> +	if (err) {
-> +		kfree(ps);
-> +		netdev_err(netdev, "Failed to get eth rmon stats from fw\n");
-> +		return;
-> +	}
-> +
-> +	rmon_stats->undersize_pkts	= ps->mac_rx_undersize_pkt_num;
-> +	rmon_stats->oversize_pkts	= ps->mac_rx_oversize_pkt_num;
-> +	rmon_stats->fragments		= ps->mac_rx_fragment_pkt_num;
-> +	rmon_stats->jabbers		= ps->mac_rx_jabber_pkt_num;
-> +
-> +	rmon_stats->hist[0]		= ps->mac_rx_64_oct_pkt_num;
-> +	rmon_stats->hist[1]		= ps->mac_rx_65_127_oct_pkt_num;
-> +	rmon_stats->hist[2]		= ps->mac_rx_128_255_oct_pkt_num;
-> +	rmon_stats->hist[3]		= ps->mac_rx_256_511_oct_pkt_num;
-> +	rmon_stats->hist[4]		= ps->mac_rx_512_1023_oct_pkt_num;
-> +	rmon_stats->hist[5]		= ps->mac_rx_1024_1518_oct_pkt_num;
-> +	rmon_stats->hist[6]		= ps->mac_rx_1519_2047_oct_pkt_num;
-> +	rmon_stats->hist[7]		= ps->mac_rx_2048_4095_oct_pkt_num;
-> +	rmon_stats->hist[8]		= ps->mac_rx_4096_8191_oct_pkt_num;
-> +	rmon_stats->hist[9]		= ps->mac_rx_8192_9216_oct_pkt_num;
-> +	rmon_stats->hist[10]		= ps->mac_rx_9217_12287_oct_pkt_num;
-> +
-> +	rmon_stats->hist_tx[0]		= ps->mac_tx_64_oct_pkt_num;
-> +	rmon_stats->hist_tx[1]		= ps->mac_tx_65_127_oct_pkt_num;
-> +	rmon_stats->hist_tx[2]		= ps->mac_tx_128_255_oct_pkt_num;
-> +	rmon_stats->hist_tx[3]		= ps->mac_tx_256_511_oct_pkt_num;
-> +	rmon_stats->hist_tx[4]		= ps->mac_tx_512_1023_oct_pkt_num;
-> +	rmon_stats->hist_tx[5]		= ps->mac_tx_1024_1518_oct_pkt_num;
-> +	rmon_stats->hist_tx[6]		= ps->mac_tx_1519_2047_oct_pkt_num;
-> +	rmon_stats->hist_tx[7]		= ps->mac_tx_2048_4095_oct_pkt_num;
-> +	rmon_stats->hist_tx[8]		= ps->mac_tx_4096_8191_oct_pkt_num;
-> +	rmon_stats->hist_tx[9]		= ps->mac_tx_8192_9216_oct_pkt_num;
-> +	rmon_stats->hist_tx[10]		= ps->mac_tx_9217_12287_oct_pkt_num;
-> +
-> +	*ranges = hinic3_rmon_ranges;
-
-same here ?
-
-> +}
-> +
-> +static void hinic3_get_pause_stats(struct net_device *netdev,
-> +				   struct ethtool_pause_stats *pause_stats)
-> +{
-> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-> +	struct mag_cmd_port_stats *ps;
-> +	int err;
-> +
-> +	ps = kmalloc_obj(*ps);
-> +	if (!ps)
-> +		return;
-> +
-> +	err = hinic3_get_phy_port_stats(nic_dev->hwdev, ps);
-> +	if (err) {
-> +		kfree(ps);
-> +		netdev_err(netdev, "Failed to get eth pause stats from fw\n");
-> +		return;
-> +	}
-> +
-> +	pause_stats->tx_pause_frames = ps->mac_tx_pause_num;
-> +	pause_stats->rx_pause_frames = ps->mac_rx_pause_num;
-
-same here ?
-
-or am I missing some cleanup.h magic somewhere ?
-
-Maxime
-
+Cheers,
+/fuad
