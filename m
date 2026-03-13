@@ -1,306 +1,97 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D461A373C01;
-	Fri, 13 Mar 2026 17:41:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C1A733509B
+	for <linux-doc@vger.kernel.org>; Fri, 13 Mar 2026 19:02:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773423709; cv=none; b=G4HKEIiYO5bNLNw9u9K74v7cnwV70GwKxMinDuQ3wqegHengvddNfuXlY4rj30XId78wZ+EBPioM3+lv8PY6ci3rzJxIAnZraF+2exg4y/SUtmC8fy907j7KFfy5WmLNDq97OlNZgahFIudBTntIc6RTAfsSU758r8kEGAdJIBM=
+	t=1773428524; cv=none; b=i08RjlyA7+DC1LoLclLNDYPSX4akK9aC8+A1hff/kWo6YurTiZpbzPSe9S7ysFqcNdLcIeW8ss52Axhs4QRnTivgPd0uzIYoIndhwrOKywKaJqWgZsUZ2/ZS3nazdrOVAKfML7RxRFwrUFD9k7Oj7rmnJ3zIzngHAsJVDUxnnr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773423709; c=relaxed/simple;
-	bh=J2RCEozD1RsQWMTeKjO7cChD5K4GMgbJnT2Je3Xjurw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CiRYWv1mKVHD4lxRUz46iJ4i6AVvrfB+QugkPk4yv2bpnFVeFrS9wQxxzTiZiGEwB6TpxIwpRTHsSJdLCFz0Zv/oRGC6f5pCeupkSvT+hjCoxz6DDi2TJJoCp7Fwf4JKzeKChG985SCiIZD4xPf6YlSCzzG1dQyOYFqCobHyavk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=a+3grTX5; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="a+3grTX5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1773423698;
-	bh=J2RCEozD1RsQWMTeKjO7cChD5K4GMgbJnT2Je3Xjurw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=a+3grTX5l8QQ2hygjOHO2LDcCiUM+pPQATAK4wa0Fk3NDyPTdR41z21PK8/wV7jj+
-	 cNZwrSzG/sTSNIoy0zt+XWoj9RL4Ig4xUKtgA8JlYxL2UwOGu2vgiyf/z3aEkKkMOI
-	 aTHRMbQk3dzd9vhPCMe6GVh/bKlbqlvjMHBfmlwo=
-Date: Fri, 13 Mar 2026 18:41:38 +0100
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Aureo Serrano de Souza <aureo.serrano@arctic.de>
-Cc: Guenter Roeck <linux@roeck-us.net>, linux-hwmon@vger.kernel.org, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] hwmon: add driver for ARCTIC Fan Controller
-Message-ID: <a3c4d461-c2b7-451d-b140-6d759da6f30c@t-8ch.de>
-References: <c6d6c506-1407-4676-b730-f9fff595bb75@roeck-us.net>
- <20260313111955.36811-1-aureo.serrano@arctic.de>
+	s=arc-20240116; t=1773428524; c=relaxed/simple;
+	bh=eE1UA0pUxgGkw+6Gkhk+S2zsfYG6rBTRjix5aEi4x3o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hF3Pr+rnCLS9/6GMsJ32fTFZBUTFOkIPcoe0OPOKS9fnibZkSQf1KMKnZHPvOuhVHWmnaeL1DmiBf2CXg7naoxiGSXhbmZ79KenYd5mcYAyob3LmwYODaYDp6tTAz+bE1Wo/BE6iRAyZBJ+6KyvItduqyuL76DRm3C3gwoMrRug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=myromyro.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=myromyro.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-439c5b40f60so2136098f8f.0
+        for <linux-doc@vger.kernel.org>; Fri, 13 Mar 2026 12:02:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773428518; x=1774033318;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=N5PoPxLHzzOgQ4aQhfpRnXF2/cZz8Pig0x53dO4TF14=;
+        b=fzhhUdVNX1QKvVeGy4hsy0PdHoHNClToaLlHlth7yA8lZU01snOeYChl+1a6vF+JuI
+         Nh+LA37nX5tzKQQz6RKcTrhYWJ9E6QcJ9yiRGipw9edhnQYlJAskYbb0R5PkLTER7Dxv
+         odLY04XSjemszHpg8cH1pAOe/YajEUdfEwrIa/MVAnaH4L4MGQSnMslv1rdRN5Zakl5u
+         TShqLmJIpn4Woq3P4T49emvsSq+xg+WCh1Sh4BoZXnbMfgrk1R5NsrDQr3yAgsUmo2Sd
+         2fgaU4rvGd7mCSIDIfIS3a0DrqS8lqdP0Cl2V2nIi7uP6j6bHfJUwHcVl2lK/e0Jo7GJ
+         HkTg==
+X-Forwarded-Encrypted: i=1; AJvYcCWcab/qg5FnWt1dsy3NBLyRNLs5eLG6Jak4+M7tkgCTJ6RmjewX7fCos0rd+NHJjDoO7NWtpAkiQ/o=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzSvFKmzUQg/25+d9G91yVZaLzKkMdKRsJeECi1qJ/JKaSooY3y
+	ASJd16MLtkbZRkWdxG3nhV9ElP+/QKbmd5dD6GZ71V5Y6zP1scuaDVzC
+X-Gm-Gg: ATEYQzysYRmerbYck+79vAWfvCryz87S+JLsvFtm80n4qjef4nCSlgPwymsEyFMtVOO
+	A25ZmITL1nKf0oYN5vLDx7tC3vqlJ6Wp85SklFlTglEYH80QJjLcTl95MHls0LpHn+bqnvOlrF0
+	Ls8xYS8wkEArVl1o5LJyDQbOrIWfasjQyPEqAY1+IA4APREpra9FWSX/+bi3KDtEgGSoSWlMQ7P
+	q2lgs4u+WkXzQvC6XDL8sYdb9N9V57BSvoVBtbfBp8xNYkhtvWKykvOrDqWxmmKElcVdBeK4p5N
+	7q7idWGpZD1R47rdHKAQoC0EbI7Tc2Tk74fWkWg/E10W72U8ck0S1fMDkzbB3TNG4sFNa69v18f
+	caSTsPNMX3HXUSmeMeQQxG6PcrIUDRkMXZB8JPasD7L76ba2YW0mqTcMPgFO1yIzKqkARFMYeim
+	Fca58HRkAhyUSIV/4mvNqnM5xEXCLO7QFhJvCnP/GIRoXXHiiLYSOQ19N3uhBHAwEQm+01dpoZj
+	7Ve+P9N9k2jR4vNX+oG
+X-Received: by 2002:a05:6000:1886:b0:439:cb1f:44f9 with SMTP id ffacd0b85a97d-43a04dc3422mr8326692f8f.47.1773428517972;
+        Fri, 13 Mar 2026 12:01:57 -0700 (PDT)
+Received: from x250.speedport.ip (p200300c65f1d6aa7fd1524d9ec6263af.dip0.t-ipconnect.de. [2003:c6:5f1d:6aa7:fd15:24d9:ec62:63af])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439fe1b287dsm18811273f8f.17.2026.03.13.12.01.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Mar 2026 12:01:57 -0700 (PDT)
+From: Myroslav Demchenko <myro@myromyro.com>
+To: perex@perex.cz,
+	tiwai@suse.com
+Cc: corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	linux-sound@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	mirademche@gmail.com,
+	Myroslav Demchenko <myro@myromyro.com>
+Subject: [PATCH] docs: sound: clarify PulseAudio and PipeWire configuration description
+Date: Fri, 13 Mar 2026 13:01:40 +0100
+Message-ID: <20260313120140.45022-1-myro@myromyro.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260313111955.36811-1-aureo.serrano@arctic.de>
+Content-Transfer-Encoding: 8bit
 
-When sending new revisions, please don't send them as response to the
-previous one. It results in much too large threads.
+Modern sound servers such as PulseAudio and PipeWire support dynamic
+configuration, so this feature is rarely needed today. However, it
+was useful in the past when audio setups relied on static configuration.
 
-On 2026-03-13 19:19:55+0800, Aureo Serrano de Souza wrote:
-> Add hwmon driver for the ARCTIC Fan Controller (USB HID VID 0x3904,
-> PID 0xF001) with 10 fan channels. Exposes fan RPM and PWM via sysfs.
-> Device pushes IN reports at ~1 Hz; PWM is set via interrupt OUT reports.
-> 
-> Fan speed control is manual-only: the device does not change PWM
-> autonomously. After applying an OUT report, the device sends back a
-> 2-byte ACK (Report ID 0x02); the driver waits up to 1 s for this ACK
-> using a completion.
-> 
-> The report buffer is kmalloc'd per write for two reasons:
-> 
-> 1. Stack placement (suggested by reviewers with __aligned()) was tested
->    but hard-rejected by usb_hcd_map_urb_for_dma(), which calls
->    object_is_on_stack() and returns -EAGAIN regardless of alignment
->    attributes. Confirmed on AMD X670E with AMD-Vi (IOMMU) enabled.
+Signed-off-by: Myroslav Demchenko <myro@myromyro.com>
+---
+ Documentation/sound/alsa-configuration.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Thanks for the clarifications!
+diff --git a/Documentation/sound/alsa-configuration.rst b/Documentation/sound/alsa-configuration.rst
+index 55b845d38236..a3d8da5a3f6c 100644
+--- a/Documentation/sound/alsa-configuration.rst
++++ b/Documentation/sound/alsa-configuration.rst
+@@ -142,9 +142,9 @@ in primary usage, and people would like to assign it as the first
+ appearing card. They can do it by specifying "index=1,0" module
+ parameter, which will swap the assignment slots.
+ 
+-Today, with the sound backend like PulseAudio and PipeWire which
+-supports dynamic configuration, it's of little use, but that was a
+-help for static configuration in the past.
++Today, sound servers such as PulseAudio and PipeWire support dynamic
++configuration, so this feature is rarely needed. However, it was
++useful in the past when audio setups relied on static configuration.
+ 
+ Module snd-adlib
+ ----------------
+-- 
+2.53.0
 
-> 2. Struct-embedded placement (suggested as an alternative) would create
->    a shared resource between concurrent arctic_fan_write() calls, causing
->    a race if two users write different PWM channels simultaneously.
-> 
-> kmalloc per write avoids both problems: the buffer is heap-allocated
-> (passes DMA checks) and private to each write call (no sharing).
-> 
-> Signed-off-by: Aureo Serrano de Souza <aureo.serrano@arctic.de>
-> ---
-> Hi,
-> 
-> Thanks for the detailed review. Here is v2 addressing your feedback.
-> If I missed anything, please let me know.
-
-(...)
-
->  Documentation/hwmon/arctic_fan_controller.rst |  40 +++
->  Documentation/hwmon/index.rst                 |   1 +
->  MAINTAINERS                                   |   7 +
->  drivers/hwmon/Kconfig                         |  12 +
->  drivers/hwmon/Makefile                        |   1 +
->  drivers/hwmon/arctic_fan_controller.c         | 278 ++++++++++++++++++
->  6 files changed, 339 insertions(+)
->  create mode 100644 Documentation/hwmon/arctic_fan_controller.rst
->  create mode 100644 drivers/hwmon/arctic_fan_controller.c
-
-(...)
-
-> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-> index 486152a8e..b6ab72752 100644
-> --- a/drivers/hwmon/Kconfig
-> +++ b/drivers/hwmon/Kconfig
-> @@ -388,6 +388,18 @@ config SENSORS_APPLESMC
->  	  Say Y here if you have an applicable laptop and want to experience
->  	  the awesome power of applesmc.
->  
-> +config SENSORS_ARCTIC_FAN_CONTROLLER
-> +	tristate "ARCTIC Fan Controller"
-> +	depends on HID
-
-Given the the driver will only ever probe for usb devices,
-this could also 'depends on USB_HID'.
-
-> +	help
-> +	  If you say yes here you get support for the ARCTIC Fan Controller,
-> +	  a USB HID device (VID 0x3904, PID 0xF001) with 10 fan channels.
-> +	  The driver exposes fan speed (RPM) and PWM control via the hwmon
-> +	  sysfs interface.
-> +
-> +	  This driver can also be built as a module. If so, the module
-> +	  will be called arctic_fan_controller.
-> +
->  config SENSORS_ARM_SCMI
->  	tristate "ARM SCMI Sensors"
->  	depends on ARM_SCMI_PROTOCOL
-
-(...)
-
-> diff --git a/drivers/hwmon/arctic_fan_controller.c b/drivers/hwmon/arctic_fan_controller.c
-> new file mode 100644
-> index 000000000..24db8a7ee
-> --- /dev/null
-> +++ b/drivers/hwmon/arctic_fan_controller.c
-> @@ -0,0 +1,278 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + * Linux hwmon driver for ARCTIC Fan Controller
-> + *
-> + * USB Custom HID device (VID 0x3904, PID 0xF001) with 10 fan channels.
-
-I would also drop the VID and PID from here. It has no additional value.
-
-> + * Exposes fan RPM (input) and PWM (0-255) via hwmon. Device pushes IN reports
-> + * at ~1 Hz; no GET_REPORT. OUT reports set PWM duty (bytes 1-10, 0-100%).
-> + * PWM is manual-only: the device does not change duty autonomously, only
-> + * when it receives an OUT report from the host.
-> + */
-> +
-> +#include <linux/cleanup.h>
-> +#include <linux/completion.h>
-> +#include <linux/err.h>
-> +#include <linux/hid.h>
-> +#include <linux/hwmon.h>
-> +#include <linux/hwmon-sysfs.h>
-> +#include <linux/jiffies.h>
-> +#include <linux/kernel.h>
-
-Try to avoid kernel.h. It includes everything and the kitchensink.
-
-> +#include <linux/module.h>
-> +#include <linux/mutex.h>
-> +#include <linux/slab.h>
-> +#include <linux/spinlock.h>
-> +#include <linux/unaligned.h>
-> +
-> +#define ARCTIC_VID		0x3904
-> +#define ARCTIC_PID		0xF001
-> +#define ARCTIC_NUM_FANS		10
-> +#define ARCTIC_REPORT_ID	0x01
-> +#define ARCTIC_REPORT_LEN	32
-
-As there is also ARCTIC_*ACK*_REPORT_ID, maybe call this one
-ARCTIC_*OUTPUT*_REPORT_ID, etc.
-
-> +#define ARCTIC_RPM_OFFSET	11	/* bytes 11-30: 10 x uint16 LE */
-> +/* ACK report: device sends Report ID 0x02, 2 bytes (ID + status) after applying OUT report */
-> +#define ARCTIC_ACK_REPORT_ID	0x02
-> +#define ARCTIC_ACK_REPORT_LEN	2
-> +/* Time to wait for ACK report after send */
-> +#define ARCTIC_ACK_TIMEOUT_MS	1000
-
-One second is a very long time. How long does the device take in
-practice?
-
-> +struct arctic_fan_data {
-> +	struct hid_device *hdev;
-> +	struct mutex lock;		/* protects fan_rpm, pwm_duty */
-> +	spinlock_t in_report_lock;	/* protects ack_status and in_report_received */
-> +	struct completion in_report_received; /* ACK (ID 0x02) received in raw_event */
-> +	int ack_status;			/* 0 = OK, negative errno on device error */
-> +	u32 fan_rpm[ARCTIC_NUM_FANS];
-> +	u8 pwm_duty[ARCTIC_NUM_FANS];	/* 0-255 matching sysfs range; converted to 0-100 on send */
-> +};
-> +
-> +/*
-> + * Parse RPM values from the periodic status report (10 x uint16 LE at rpm_off).
-> + * pwm_duty is not updated from the report: the device is manual-only, so the
-> + * host cache is the authoritative source for PWM.
-> + */
-> +static void arctic_fan_parse_report(struct arctic_fan_data *priv, u8 *buf,
-> +				    int len, int rpm_off)
-> +{
-> +	int i;
-> +
-> +	if (len < rpm_off + 20)
-> +		return;
-> +	{
-
-Avoid scopes like this. Here it is not needed at all and in those cases
-where you need a new scope for guard() use scoped_guard().
-
-> +		guard(mutex)(&priv->lock);
-> +		for (i = 0; i < ARCTIC_NUM_FANS; i++)
-
-Nowadays you could declare 'int i' inside the for(). Your choice.
-
-> +			priv->fan_rpm[i] = get_unaligned_le16(&buf[rpm_off + i * 2]);
-> +	}
-> +}
-
-(...)
-
-> +static int arctic_fan_write(struct device *dev, enum hwmon_sensor_types type,
-> +			    u32 attr, int channel, long val)
-> +{
-> +	struct arctic_fan_data *priv = dev_get_drvdata(dev);
-> +	u8 *buf;
-> +	long t;
-> +	int i, ret;
-> +
-> +	/*
-> +	 * Must use a heap-allocated buffer: usb_hcd_map_urb_for_dma() rejects
-> +	 * stack buffers with -EAGAIN, preventing USB transfers on DMA-capable
-> +	 * host controllers.
-> +	 */
-> +	buf = kmalloc(ARCTIC_REPORT_LEN, GFP_KERNEL);
-> +	if (!buf)
-> +		return -ENOMEM;
-> +
-> +	{
-> +		guard(mutex)(&priv->lock);
-> +		priv->pwm_duty[channel] = (u8)val;
-> +		buf[0] = ARCTIC_REPORT_ID;
-> +		for (i = 0; i < ARCTIC_NUM_FANS; i++)
-> +			buf[1 + i] = DIV_ROUND_CLOSEST((unsigned int)priv->pwm_duty[i] * 100, 255);
-> +	}
-> +	memset(buf + 11, 0, ARCTIC_REPORT_LEN - 11);
-
-The magic '11' should be '1 + ARCTIC_NUM_FANS'.
-Or even easier, use kzalloc() above.
-
-> +
-> +	spin_lock_bh(&priv->in_report_lock);
-> +	priv->ack_status = -ETIMEDOUT;
-> +	reinit_completion(&priv->in_report_received);
-> +	spin_unlock_bh(&priv->in_report_lock);
-> +
-> +	ret = hid_hw_output_report(priv->hdev, buf, ARCTIC_REPORT_LEN);
-> +	kfree(buf);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	t = wait_for_completion_interruptible_timeout(&priv->in_report_received,
-
-Without the implicit locking from the hwmon core, this would be racy
-against concurrent invocations of arctic_fan_write().
-Could you add a comment for that?
-
-> +						      msecs_to_jiffies(ARCTIC_ACK_TIMEOUT_MS));
-> +	if (t == 0)
-> +		return -ETIMEDOUT;
-> +	if (t < 0)
-> +		return t; /* interrupted by signal */
-
-First test for errors (t < 0), then non-error cases 't == 0'.
-
-> +	return priv->ack_status; /* 0=OK, -EIO=device error */
-> +}
-
-(...)
-
-> +static int arctic_fan_probe(struct hid_device *hdev,
-> +			    const struct hid_device_id *id)
-> +{
-> +	struct arctic_fan_data *priv;
-> +	struct device *hwmon_dev;
-> +	int ret;
-> +
-> +	if (!hid_is_usb(hdev))
-> +		return -ENODEV;
-> +
-> +	ret = hid_parse(hdev);
-> +	if (ret)
-> +		return ret;
-> +
-> +	priv = devm_kzalloc(&hdev->dev, sizeof(*priv), GFP_KERNEL);
-> +	if (!priv)
-> +		return -ENOMEM;
-> +
-> +	priv->hdev = hdev;
-> +	mutex_init(&priv->lock);
-
-Use devm_mutex_init().
-
-> +	spin_lock_init(&priv->in_report_lock);
-> +	init_completion(&priv->in_report_received);
-> +	hid_set_drvdata(hdev, priv);
-
-(...)
