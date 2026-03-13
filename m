@@ -1,109 +1,66 @@
-Received: from canpmsgout05.his.huawei.com (canpmsgout05.his.huawei.com [113.46.200.220])
+Received: from out28-148.mail.aliyun.com (out28-148.mail.aliyun.com [115.124.28.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC5913750C3;
-	Fri, 13 Mar 2026 07:54:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.220
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80B593161A3;
+	Fri, 13 Mar 2026 08:05:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773388489; cv=none; b=qqP9NS6ISqg0dU9PRyW6HB4u7996I2IgMkKx+FxDHf6CQFgaGxJ2q8m07Mn5EeclcOrWxVP7K1+pi0bTSRdSJBdzUSgroEGFqSVJQ8sl9XIl60VElVOKenMAPq/eJshBuptc6bEAlXxKWpWduXqClunpYKhaURkGvICFinc49C4=
+	t=1773389140; cv=none; b=PyF+IrbfjtkQCVhuISK7Uzw0O1v9xDy8BD0Ft6Nkdbu1hKruWvK97aJqvdnGq5qwh3Ce3UHdegzPCGWdSNkaJ/kP6ZuToRVD3B+wrNleO/eiZDHF6GFJCO6+IMGMTK6nki8COX9X34w0/PncW++fu2Y36jO/XVY0YKlNqnvV0OE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773388489; c=relaxed/simple;
-	bh=i1jiumcQZiP2Ci3x82wonFSxRawgl5+SlJAX3cvDoEA=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=J3U91lFSS412+ZnrTmucWGOSGWpJc2CpzPR9BAp/CUoRz3wbK4kujB10jsYXP4lZ0ZYNTQrZMQpDSapdKaKMyhjdDLd3BYeNyMTA+buvdIYwft6UWvxMh2SmUNNCwiaLztu9vcVr8lD6hiwY1Sy7CJ9jL/kctS4YIM1eY4Er5xA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=awrXCNJ5; arc=none smtp.client-ip=113.46.200.220
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="awrXCNJ5"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=Gr18oaSJUcPzY0rmm5017uOluUBl6sdFCPby3KmY0zA=;
-	b=awrXCNJ5WQIyVxnkGk+3o/vdOTFo34RObw+979dc6WU6Pg/gcEnvCHFO/StmLBAFJd2mGv17s
-	GVQNoNZBOvAlv9oHMG+iXSpYZ3eN/oNR3LAvBnu/wPLEWp91kDAQ+3ntWUtRn/8m3ZFwdduI6zJ
-	kQOcUKlfeEK8Mkv+qxuWqKg=
-Received: from mail.maildlp.com (unknown [172.19.162.140])
-	by canpmsgout05.his.huawei.com (SkyGuard) with ESMTPS id 4fXGp84BdFz12LHj;
-	Fri, 13 Mar 2026 15:49:04 +0800 (CST)
-Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
-	by mail.maildlp.com (Postfix) with ESMTPS id E3752202D3;
-	Fri, 13 Mar 2026 15:54:38 +0800 (CST)
-Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.189.124) by
- kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.36; Fri, 13 Mar 2026 15:54:37 +0800
-From: Fan Gong <gongfan1@huawei.com>
-To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>,
-	<netdev@vger.kernel.org>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Andrew Lunn
-	<andrew+netdev@lunn.ch>, Ioana Ciornei <ioana.ciornei@nxp.com>
-CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, luosifu
-	<luosifu@huawei.com>, Xin Guo <guoxin09@huawei.com>, Zhou Shuai
-	<zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, Shi Jing
-	<shijing34@huawei.com>, Zheng Jiezhen <zhengjiezhen@h-partners.com>, Maxime
- Chevallier <maxime.chevallier@bootlin.com>
-Subject: [PATCH net-next v01 7/7] hinic3: Remove unneed coalesce parameters
-Date: Fri, 13 Mar 2026 15:54:14 +0800
-Message-ID: <fc9ce048034c4f5f7e676f3dd18b411754208c68.1773387649.git.zhuyikai1@h-partners.com>
-X-Mailer: git-send-email 2.51.0.windows.1
-In-Reply-To: <cover.1773387649.git.zhuyikai1@h-partners.com>
-References: <cover.1773387649.git.zhuyikai1@h-partners.com>
+	s=arc-20240116; t=1773389140; c=relaxed/simple;
+	bh=7g0rVe5YRt2IuCl1m+8xOFew56k+2wH7gBl+CcqkD6c=;
+	h=Date:From:To:Cc:Message-ID:Subject:MIME-Version:References:
+	 In-Reply-To:Content-Type; b=Hh6snCPihoItWRLY5cQ1FKg9+Vq+o+XoVBML/Z75VWTDS++Tgp9g2nXJPg2kQRDy28xZLSuDqcZStRihsMn3NIHE4tfzd94uiXX+9SR8qyyUETki8LBG9OsEHNtHalMyYIpkYVUwNfvWLOLZxFZbeBVKp2S8CdBouwSBJrtK5Bg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com; spf=pass smtp.mailfrom=nebula-matrix.com; arc=none smtp.client-ip=115.124.28.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nebula-matrix.com
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.8550009|0.1203736;CH=green;DM=|AD|false|;DS=CONTINUE|ham_system_inform|0.190698-0.00531997-0.803982;FP=16993061547175602569|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033068016216;MF=illusion.wang@nebula-matrix.com;NM=1;PH=DW;RN=15;RT=15;SR=0;TI=W4_0.2.3_21251295_1773389119276_o7001c1700;
+Received: from WS-web (Illusion.Wang@nebula-matrix.com[W4_0.2.3_21251295_1773389119276_o7001c1700] cluster:ay29) at Fri, 13 Mar 2026 16:05:23 +0800
+Date: Fri, 13 Mar 2026 16:05:23 +0800
+From: "Illusion Wang" <Illusion.Wang@nebula-matrix.com>
+To: "Paolo Abeni" <pabeni@redhat.com>,
+  "Dimon" <dimon.zhao@nebula-matrix.com>,
+  "Alvin" <alvin.wang@nebula-matrix.com>,
+  "Sam" <sam.chen@nebula-matrix.com>,
+  "netdev" <netdev@vger.kernel.org>
+Cc: "andrew+netdev" <andrew+netdev@lunn.ch>,
+  "corbet" <corbet@lwn.net>,
+  "kuba" <kuba@kernel.org>,
+  "linux-doc" <linux-doc@vger.kernel.org>,
+  "lorenzo" <lorenzo@kernel.org>,
+  "horms" <horms@kernel.org>,
+  "vadim.fedorenko" <vadim.fedorenko@linux.dev>,
+  "lukas.bulwahn" <lukas.bulwahn@redhat.com>,
+  "edumazet" <edumazet@google.com>,
+  "open list" <linux-kernel@vger.kernel.org>
+Reply-To: "Illusion Wang" <Illusion.Wang@nebula-matrix.com>
+Message-ID: <388ff939-2eae-4cee-aac5-ca88dd37ef49.Illusion.Wang@nebula-matrix.com>
+Subject: =?UTF-8?B?5Zue5aSN77yaW1BBVENIIHY3IG5ldC1uZXh0IDAzLzExXSBuZXQvbmVidWxhLW1hdHJpeDog?=
+  =?UTF-8?B?YWRkIGNoaXAgcmVsYXRlZCBkZWZpbml0aW9ucw==?=
+X-Mailer: [Alimail-Mailagent][W4_0.2.3][null][Chrome]
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
- kwepemf100013.china.huawei.com (7.202.181.12)
+x-aliyun-im-through: {"version":"v1.0"}
+References: <20260310120959.22015-1-illusion.wang@nebula-matrix.com> <20260310120959.22015-4-illusion.wang@nebula-matrix.com>,<f669062e-16f4-471a-9884-6441c478dd09@redhat.com>
+x-aliyun-mail-creator: W4_0.2.3_null_EuMTW96aWxsYS81LjAgKFdpbmRvd3MgTlQgMTAuMDsgV2luNjQ7IHg2NCkgQXBwbGVXZWJLaXQvNTM3LjM2IChLSFRNTCwgbGlrZSBHZWNrbykgQ2hyb21lLzEzMy4wLjY5NDMuMTQyIFNhZmFyaS81MzcuMzYgZGluZ3RhbGstd2luLzEuMC4wIG53KDAuMTQuNykgRGluZ1RhbGsoOC4yLjE1LVJlbGVhc2UuMjYwMjI1MDAxKSBNb2pvLzEuMC4wIE5hdGl2ZSBBcHBUeXBlKHJlbGVhc2UpIENoYW5uZWwvMjAxMjAwIEFyY2hpdGVjdHVyZS94ODZfNjQgd2ViRHQvUEM=uL
+In-Reply-To: <f669062e-16f4-471a-9884-6441c478dd09@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-  Remove unneed coalesce parameters in irq handling.
-
-Co-developed-by: Zhu Yikai <zhuyikai1@h-partners.com>
-Signed-off-by: Zhu Yikai <zhuyikai1@h-partners.com>
-Signed-off-by: Fan Gong <gongfan1@huawei.com>
----
- drivers/net/ethernet/huawei/hinic3/hinic3_irq.c | 6 +-----
- drivers/net/ethernet/huawei/hinic3/hinic3_rx.h  | 3 ---
- 2 files changed, 1 insertion(+), 8 deletions(-)
-
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_irq.c b/drivers/net/ethernet/huawei/hinic3/hinic3_irq.c
-index fb3865fc986a..a58a2a4d4572 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_irq.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_irq.c
-@@ -149,13 +149,9 @@ static int hinic3_set_interrupt_moder(struct net_device *netdev, u16 q_id,
- 		nic_dev->intr_coalesce[q_id].resend_timer_cfg;
- 
- 	err = hinic3_set_interrupt_cfg(nic_dev->hwdev, info);
--	if (err) {
-+	if (err)
- 		netdev_err(netdev,
- 			   "Failed to modify moderation for Queue: %u\n", q_id);
--	} else {
--		nic_dev->rxqs[q_id].last_coalesc_timer_cfg = coalesc_timer_cfg;
--		nic_dev->rxqs[q_id].last_pending_limit = pending_limit;
--	}
- 
- 	return err;
- }
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_rx.h b/drivers/net/ethernet/huawei/hinic3/hinic3_rx.h
-index cd2dcaab6cf7..a64a51d766c5 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_rx.h
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_rx.h
-@@ -112,9 +112,6 @@ struct hinic3_rxq {
- 	dma_addr_t             cqe_start_paddr;
- 
- 	struct dim             dim;
--
--	u8                     last_coalesc_timer_cfg;
--	u8                     last_pending_limit;
- } ____cacheline_aligned;
- 
- struct hinic3_dyna_rxq_res {
--- 
-2.43.0
-
+SSBhbSBzbyBzb3JyeSwgTGFzdCB0aW1lIEkgbWlzc2VkIGEgJ25vdCcKClRoZXNlIGRhdGEgYXJl
+IHVzZWQgdG8gY29uZmlndXJlIFA0LXJlbGF0ZWQgcmVnaXN0ZXJzLiBUaGUgZHJpdmVy4oCZcyBm
+dW5jdGlvbmFsaXR5CgpkZXBlbmRzIGhlYXZpbHkgb24gdGhlc2UgcmVnaXN0ZXIgc2V0dGluZ3Mu
+IFRoZXkgd2lsbCBiZSBkZWNsYXJlZCBhcyBjb25zdC4KCkJ1dCB0aGV5IGNhbiBiZSBub3QgbWFy
+a2VkIF9faW5pdGRhdGEuIEJlY2F1c2UgaXQgd2lsbCBiZSBjYWxsZWQgYnkgcGNpX2RyaXZlci5w
+cm9iZS4KClRoZXkgYWxzbyBzaG91bGQgbm90IGJlIG1vdmVkIGludG8gZmlybXdhcmUgZmlsZXMs
+IGFzIHRoZSBzb2Z0d2FyZSBmdW5jdGlvbmFsaXR5CgppcyB0aWdodGx5IGNvdXBsZWQgd2l0aCB0
+aGVzZSBjb25maWd1cmF0aW9ucy4gSWYgdGhleSB3ZXJlIG1vdmVkIHRvIGZpcm13YXJlLAoKdXNl
+cnMgY291bGQgZWFzaWx5IGVuZCB1cCB3aXRoIG1pc21hdGNoZWQgdmVyc2lvbnMgb2YgdGhlIGZp
+cm13YXJlIGFuZCB0aGUga2VybmVsCgpkcml2ZXIgbW9kdWxlLCBsZWFkaW5nIHRvIGZ1bmN0aW9u
+YWwgaW5jb25zaXN0ZW5jaWVzIG9yIHN5c3RlbSBtYWxmdW5jdGlvbnMuCgoKT2xkIExpbms6aHR0
+cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbmV0ZGV2LzViNjIwNWRkLWJjYTgtNDJlMS1iMjgxLTUyYmUx
+MWYzMWY2OS5JbGx1c2lvbi5XYW5nQG5lYnVsYS1tYXRyaXguY29tLwo=
