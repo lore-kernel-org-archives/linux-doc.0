@@ -1,151 +1,185 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 978F03BA221;
-	Fri, 13 Mar 2026 15:39:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEA43324B16
+	for <linux-doc@vger.kernel.org>; Fri, 13 Mar 2026 15:45:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773416368; cv=none; b=pC2yHCXPsjmBNTnnfJSwqVvVhOvDRJUlQgpEXzgx3ziEmPiCecI+ktCzC/UBr+ogCB17dXodS4XhMDqYY3qTbqQ2QDKEFNqsIbALJFmJ5jhw7ypHgnPjMYBdA7AbkKeV5kSrZ6Mo8FNQqjxwyUA4Ec/cI+98aeUHnp8nk/9UUIU=
+	t=1773416731; cv=none; b=f+LoYckH0r/hUYVxHAN5EUyEPoc2kslJYGKZYbr8BHBC+0sj0PLowY30JERKC9Wa7gxyEpFi+IZwxeAui/YMxqAILsNcl4iBXkxCPuVh3/XgZ4SOGBjaRpl+JLgCjO+SW9TIzeBDNhuFGGpJVL6DqLCnfPWMiz4l/QtwVsIOYcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773416368; c=relaxed/simple;
-	bh=zPBLkwo3Kdwdr+lDCdfgMjvkdspNsuEcGQKpcizSRbs=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ivs+FT+KCnEp7EMAO4jZENFeT8DEVNFXSOtcaqRiFsi7Q4hKS+OHLHOcfEsqea540UkzQohQpJCNbcZaM+nda4RL/EolAkEU4A0N5w7RwaXtckH+s5W9oNvfGSdW7iL+21EnbhIRshCErTiIFqTMy5jBdYWt2PWvc4GCYAAVtlg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=bxGjZFhV; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1773416731; c=relaxed/simple;
+	bh=ih3Rem8ez1m/UeZdhhbrirn/qXqZUnYA/rNla9ScMnk=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=ItU/gBI/g9TM9DCQze+iPMWawl1knflUdMtkDP8jhsSjdyjkciiO5Kp1EtwjcWm40fbj8rtBh3H1wPpupftHH9niHx4jtr6nI60kF2Z8gsL7fh4XQsQuh453KeqyIL0pRF/nHIz/8kOrpaWiOMAa1LM77oN48dSky9wo968ZQx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=J+MyWJKm; arc=none smtp.client-ip=209.85.216.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="bxGjZFhV"
-Received: from localhost (unknown [40.65.108.177])
-	by linux.microsoft.com (Postfix) with ESMTPSA id D661420B710C;
-	Fri, 13 Mar 2026 08:39:18 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D661420B710C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1773416360;
-	bh=VVQdnkFvzB/gHBAeEfjDOu3ipWHlOC3d2TtGMa0Nogc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=bxGjZFhVAxog3QqvD0UQFk4sXHeeQ5NE2qTFN5kayLXjvmuIDnMGr+7++bUo9CucU
-	 ozt1v8CCrq0QALAxMV7zkbSKkHJCrii46ijMqsaPNHRiGsN8elmzY4FJG5Ye5XbnF8
-	 qQbz/XGG8TzAcfJfbSL0GA/sFnxPqdXJNavH1QSw=
-Date: Fri, 13 Mar 2026 08:39:18 -0700
-From: Jacob Pan <jacob.pan@linux.microsoft.com>
-To: David Matlack <dmatlack@google.com>
-Cc: Alex Williamson <alex@shazbot.org>, Adithya Jayachandran
- <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.com>, Alex Mastro
- <amastro@fb.com>, Alistair Popple <apopple@nvidia.com>, Andrew Morton
- <akpm@linux-foundation.org>, Ankit Agrawal <ankita@nvidia.com>, Bjorn
- Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>, David Rientjes
- <rientjes@google.com>, Jason Gunthorpe <jgg@nvidia.com>, Jason Gunthorpe
- <jgg@ziepe.ca>, Jonathan Corbet <corbet@lwn.net>, Josh Hilke
- <jrhilke@google.com>, Kevin Tian <kevin.tian@intel.com>,
- kexec@lists.infradead.org, kvm@vger.kernel.org, Leon Romanovsky
- <leon@kernel.org>, Leon Romanovsky <leonro@nvidia.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
- linux-pci@vger.kernel.org, Lukas Wunner <lukas@wunner.de>, =?utf-8?Q?Mich?=
- =?utf-8?Q?a=C5=82?= Winiarski <michal.winiarski@intel.com>, Mike Rapoport
- <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, Pasha Tatashin
- <pasha.tatashin@soleen.com>, Pranjal Shrivastava <praan@google.com>,
- Pratyush Yadav <pratyush@kernel.org>, Raghavendra Rao Ananta
- <rananta@google.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, Saeed Mahameed
- <saeedm@nvidia.com>, Samiullah Khawaja <skhawaja@google.com>, Shuah Khan
- <skhan@linuxfoundation.org>, Thomas =?utf-8?Q?Hellstr=C3=B6m?=
- <thomas.hellstrom@linux.intel.com>, Tomita Moeko <tomitamoeko@gmail.com>,
- Vipin Sharma <vipinsh@google.com>, Vivek Kasireddy
- <vivek.kasireddy@intel.com>, William Tu <witu@nvidia.com>, Yi Liu
- <yi.l.liu@intel.com>, Zhu Yanjun <yanjun.zhu@linux.dev>
-Subject: Re: [PATCH v2 10/22] vfio/pci: Skip reset of preserved device after
- Live Update
-Message-ID: <20260313083918.00005731@linux.microsoft.com>
-In-Reply-To: <abNOwcOTXqxCxNzt@google.com>
-References: <20260129212510.967611-1-dmatlack@google.com>
-	<20260129212510.967611-11-dmatlack@google.com>
-	<20260226170030.5a938c74@shazbot.org>
-	<aaDqhjdLyf1qSTSh@google.com>
-	<20260227084658.3767d801@shazbot.org>
-	<CALzav=fHy23RAzhgkdaL+JA5T2tL9FT6aPgRfXUh7i9zvYCGPA@mail.gmail.com>
-	<20260227105720.522ca97f@shazbot.org>
-	<CALzav=fjRPa_ZbXu7iFXyemcf_8Kq_dZTWT6c-A0bc6czF_Rdw@mail.gmail.com>
-	<abNOwcOTXqxCxNzt@google.com>
-Organization: LSG
-X-Mailer: Claws Mail 3.21.0 (GTK+ 2.24.33; x86_64-w64-mingw32)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="J+MyWJKm"
+Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-35a0613f9bcso12460254a91.3
+        for <linux-doc@vger.kernel.org>; Fri, 13 Mar 2026 08:45:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1773416729; x=1774021529; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Qe2Sep21p9IzCULSaXAl1wdem+djxjYgrVntlTLH2o8=;
+        b=J+MyWJKmq3TeYCE8dGWnkFvkTtg21IoJtTEY/WGCvGWRJfdlvFX4a+UVvq1xSOaXIR
+         Ogl13w+WD9fZJ4kJoSstt6y1dFwu74p7Hq1IlSMGFJBWPtVT0FoJWRBSeuuAWNYVgexN
+         Tk3BFyKK+c/N/I/cqyB9KFHLXiJzOfHXSEfaRe2q8BhDiUrBQNPUm6iHT5D60DTkl4ol
+         CtsfWmQkT+L3WoENEiGNUENT7dZmgiUls7HJXks2NILq/DMuhrydOLzZ0M/3ks8UuSgD
+         EBK99HKoFfFRTnXg0TtH8BBcuBNg757hPC6JqBrGBihIvRtybg68xRtfO+LNv7D9d81A
+         wtAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773416729; x=1774021529;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Qe2Sep21p9IzCULSaXAl1wdem+djxjYgrVntlTLH2o8=;
+        b=lk2dee117s1PtHhEdTd0gw3yvYPZUPhiutlMADB3h+xxaNQz3L7kIa7FkpokLznG/S
+         6P6Dy/5DqDcgU0Skn2z4ICuputAXUay1G3+qo+/NpVhiHlJKcg8W9biUUpAWyWfBa+EV
+         Ve5ATHeybcfNtjJVedRpaMG4au6eEMuiBy3L6DHl1zbCBJ4WnZGF7DP73392e1e++see
+         bCpe9cIAXnCCvAGqE+M7uN+vTi784t0cAwb7nMjiAoKi57ZMCadGN8HL8vzTPtr0Nn6b
+         b1uEgc+GOUgbDHBkcnpY/sKJk7uciWGBSLILTOhVdnaaHkVUNJ5xIp/prwoePZOnHOtx
+         SDxA==
+X-Forwarded-Encrypted: i=1; AJvYcCUDx/CXfd43QQ08ITEoxUF3FWZoNzcY8FtT1g/f4WmbOwT/ieW2d5jcZ1CPM8csTPkfPQdddRHNcKE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz93DdEOttHMNLtdTSRGZvvSsEhCt9oT1Np4AKm4GzrrL3mUAb1
+	UUe2zfZFgiUY39akG19ji7Om7U6pRYw5/xVb7/8U7rJpqZtWO/79/XF76iblPNfINjuHLNWIkFy
+	vxNfDDg==
+X-Received: from pgmr19.prod.google.com ([2002:a63:2053:0:b0:c73:cc95:c0e4])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:3d8a:b0:359:1821:b4e3
+ with SMTP id 98e67ed59e1d1-35a21ec0e6amr3676826a91.15.1773416728908; Fri, 13
+ Mar 2026 08:45:28 -0700 (PDT)
+Date: Fri, 13 Mar 2026 08:45:27 -0700
+In-Reply-To: <20260313-gmem-inplace-conversion-v3-0-5fc12a70ec89@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+References: <20260313-gmem-inplace-conversion-v3-0-5fc12a70ec89@google.com>
+Message-ID: <abQxF2Gbd7sSsCcq@google.com>
+Subject: Re: [PATCH RFC v3 00/43] guest_memfd: In-place conversion support
+From: Sean Christopherson <seanjc@google.com>
+To: Ackerley Tng <ackerleytng@google.com>
+Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
+	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
+	ira.weiny@intel.com, jmattson@google.com, jroedel@suse.de, 
+	jthoughton@google.com, michael.roth@amd.com, oupton@kernel.org, 
+	pankaj.gupta@amd.com, qperret@google.com, rick.p.edgecombe@intel.com, 
+	rientjes@google.com, shivankg@amd.com, steven.price@arm.com, tabba@google.com, 
+	willy@infradead.org, wyihan@google.com, yan.y.zhao@intel.com, 
+	forkloop@google.com, pratyush@kernel.org, suzuki.poulose@arm.com, 
+	aneesh.kumar@kernel.org, Paolo Bonzini <pbonzini@redhat.com>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Vlastimil Babka <vbabka@kernel.org>, kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 
-Hi David,
+On Fri, Mar 13, 2026, Ackerley Tng wrote:
+> Hi,
+> 
+> (Here's the motivation for this series, which I realized was missing from
+> the earlier revisions of this series)
 
-On Thu, 12 Mar 2026 23:39:45 +0000
-David Matlack <dmatlack@google.com> wrote:
+...
 
-> On 2026-03-09 10:32 AM, David Matlack wrote:
-> > On Fri, Feb 27, 2026 at 9:57=E2=80=AFAM Alex Williamson <alex@shazbot.o=
-rg>
-> > wrote: =20
->=20
-> > > Sorry if I don't have the whole model in my head yet, but is
-> > > exposing the restriction to the vfio user of the device
-> > > sufficient to manage the liveupdate orchestration?  For example,
-> > > a VFIO_DEVICE_INFO_CAP pushes the knowledge to QEMU... what does
-> > > QEMU do with that knowledge?  Who imposes the policy decision to
-> > > decide what support is sufficient? =20
-> >=20
-> > Hm.. good questions. I don't think we want userspace inspecting bits
-> > exposed by the kernel and trying to infer exactly what's being
-> > preserved and whether it's "good enough" to use. And such a UAPI
-> > would become tech debt once we finish development, I suspect.
-> >=20
-> > A better approach would be to hide this support from userspace until
-> > we decide it is ready for production use-cases.
-> >=20
-> > To enable development and testing, we can add an opt-in mechanism =20
->=20
-> Here is what I am trending towards sending in v3 as the opt-in
-> mechanism:
->=20
-> diff --git a/drivers/vfio/pci/Kconfig b/drivers/vfio/pci/Kconfig
-> index 1e82b44bda1a..770231554221 100644
-> --- a/drivers/vfio/pci/Kconfig
-> +++ b/drivers/vfio/pci/Kconfig
-> @@ -58,6 +58,27 @@ config VFIO_PCI_ZDEV_KVM
->  config VFIO_PCI_DMABUF
->         def_bool y if VFIO_PCI_CORE && PCI_P2PDMA && DMA_SHARED_BUFFER
->=20
-> +config VFIO_PCI_LIVEUPDATE
-> +       bool "VFIO PCI support for Live Update (EXPERIMENTAL)"
-> +       depends on LIVEUPDATE && VFIO_PCI
-> +       help
-> +         Support for preserving devices bound to vfio-pci across a
-> Live
-> +         Update. The eventual goal is that preserved devices can run
-> +         uninterrupted during a Live Update, including DMA to
-> preserved
-> +         memory buffers and P2P. However there are many steps still
-> needed to
-> +         achieve this, including:
-> +
-> +          - Preservation of iommufd files
-> +          - Preservation of IOMMU driver state
-In the interim, what do you think about moving forward with noiommu
-mode without preserving IOMMU driver state? I=E2=80=99ve tested your
-vfio_pci_liveupdate_kexec_test with the noiommu cdev, and it works as
-expected.
+> I'm intending RFC (v3) as a basis for discussion of flags/content
+> modes (name TBD) to allow userspace to request guarantees on how the memory
+> contents will look like after setting memory attributes. The last 6 patches
+> implement content mode support. These patches will be reordered, and some
+> of them could be absorbed into earlier patches, in later revisions.
+> 
+> Here are the discussion points I can think of (please add on):
+> 
+> 1. (Might hopefully resolve soon?) Should ZERO be supported on shared to
+>    private conversions? Discussion is at [6].
 
-> +          - Preservation of PCI state (BAR resources, device state,
-> ...)
-> +          - Preservation of vfio-pci driver state
-> +
-> +         This option should only be enabled by developers working on
-> +         implementing this support. Once enough support has landed
-> in the
-> +         kernel, this option will no longer be marked EXPERIMENTAL.
-> +
-> +         If you don't know what to do here, say N.
-> +
->  source "drivers/vfio/pci/mlx5/Kconfig"
->=20
->  source "drivers/vfio/pci/hisilicon/Kconfig"
+No.  There is no use case.  The entire point of CoCo is that the VMM is untrusted.
+Having the guest rely on the VMM to zero memory makes no sense whatsoever.  There
+may be a contract between the trusted whatever and the guest, but that's between
+those two entities, the VMM is not involved, period.
 
+PRESERVE is different because the intent is to allow the guest to operate on
+*untrusted* data.  Operating on untrusted zeros is nonsensical.
+
+ZERO for private=>shared is different between the VMM trusts the host kernel.
+
+> 2. Do we need a CAP for userspace to query the flags/modes supported?
+
+Yes.
+
+>    It seems like there won't be anything dynamic about the flags/modes
+>    supported.
+> 
+>    The userspace code can check what platform it is running on, and then
+>    decide ZERO or PRESERVE based on the platform:
+> 
+>    If the VM is running on TDX,
+
+No.  No, no, no, no.  I have said this over, and over, and over.  The contract
+is between userspace and KVM, not between userspace and the underlying CoCo
+implementation.  Anything that requires making assumptions based on the VM type
+is a non-starter for me.
+
+>    it would want to specify ZERO all the
+>    time. If the VM were running on pKVM it would want to specify PRESERVE
+>    if it wants to enable in-place sharing, and ZERO if it wants to zero the
+>    memory.
+> 
+>    If someday TDX supports PRESERVE, then there's room for discovery of
+>    which algorithm to choose when running the guest. Perhaps that's when
+>    the CAP should be introduced?
+> 
+> 3. What do people think of the structure of how various content modes are
+>    checked for support or applied? I used overridable weak functions for
+>    architectures that haven't defined support, and defined overrides for
+>    x86 to show how I think it would work. For CoCo platforms, I only
+>    implemented TDX for illustration purposes and might need help with the
+>    other platforms. Should I have used kvm_x86_ops? I tried and found
+>    myself defining lots of boilerplate.
+> 
+> 4. enum for ZERO and PRESERVE?
+> 
+>    Pros:
+> 
+>    * No way to define both ZERO and PRESERVE (make impossible states
+>      unrepresentable)
+>        * e.g. enum kvm_device_type in __u32 type in struct
+>          kvm_create_device
+>        * But maybe someday some modes can be used together?
+
+Huh?  Oh, you don't mean "enum", you mean "values vs. flags".  Because in C you
+can obviously have an enum of flags.
+
+I don't have a strong preference, though I think I'd vote for flags.
+
+Practically speaking, I doubt we'll ever have more than DEFAULT, ZERO, and PRESERVE,
+i.e. more than '0', '1, and '2'.  Perhaps I lack imagination, but I can't think
+of any operation that we would want to become ABI.  ZERO is special purely because
+various CoCo implementations already zero memory on conversion.  Everything else
+fits into PRESERVE, because if the kernel perform the operation, then userspace
+can do the same, and likely more performantly and obviously without needing a
+contract with KVM.
+
+The only other option I can think of is if a CoCo implementation wanted to use an
+specific value other than '0' to fill a page on conversion.  Given that starting
+from '0' is by far the most common state in computing, I just don't see that
+happening.  E.g. that's be like adding k1salloc() in addition to kmalloc() and
+kzalloc().
+
+So, we're likely only going to have DEFAULT, ZERO, and PRESERVE, at which point
+whether we use flags or values is a wash in terms of how many bits we need: 2.
+
+If we use flags, then we can have a single CAP to enumerate all FLAGS that are
+supported KVM_SET_MEMORY_ATTRIBUTES2.  If we use values, we'd need a separate CAP
+for flags and a separate cap for conversion operations.
+
+Using values would allow providing a dedicated field in kvm_memory_attributes2,
+which _might_ make some code more readable.  But for me, that doesn't outweigh the
+disadvantage of needing another CAP.
