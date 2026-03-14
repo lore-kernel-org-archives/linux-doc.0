@@ -1,114 +1,202 @@
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68DD83431E6
-	for <linux-doc@vger.kernel.org>; Sat, 14 Mar 2026 18:39:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.178
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773513548; cv=pass; b=frcz19UrHNlkJPpgU0JcslhWcTVIiyaCn4I/CCZ39q48FAqcGboyBJ/ZCaN3s2zXcTJ6ZIbAWU2NVws1iixcy//UVM2TEqL1LQvsgju3LujBZWYvW1oO1lI8yIMkkz4yTvnPLyXo6FFk7+HIvSv65kkEl46v4xWIdilRv0lBj9A=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773513548; c=relaxed/simple;
-	bh=AZrOqUX77UA3vcyaoFXxYGiBi+f46D4ZwPXW+m53vIg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BospHsrclYV9F5Khi9UXcubPK+a0W8X2rgYRHTSrAsHj8QZRZPXfQNVtJjzCN0cEMTe9hspg4dQ70kIhBDDyvD3lBjnZx5QYzXagWuWxZhVaKCkEbiHKk01lsQ8NYrkHaXnj/btQMQJDtHPJ+GoPeciNu/u4nnneXj6taGqL+TM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dSRuFiB2; arc=pass smtp.client-ip=209.85.167.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75233383C88
+	for <linux-doc@vger.kernel.org>; Sat, 14 Mar 2026 20:14:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773519282; cv=none; b=RdXLiB8sIAcylfwM2TYhYAPnhBGfWFSrGacfCZokHfoaHZoryNQFl4GNg+54AXHY6CN6lLvpDaaTQf8lRkOyYc+Hb59HQsTrs3XF/XdJ0sCKx1sMMGOwfUd2/LcWjRlR6bfLHJwUysl6QkX5Qv1iIaF7OA1tVdeovDH4ylZPfRI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773519282; c=relaxed/simple;
+	bh=BynOgwAYPtb/KpshiEi9Ah5xEZa4UMFbs/5oRQMyRbo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NzWVJbPf3xbHATF63f3zWxBnfZqMBTVSTysLhwvv25ZJCm+z5eDPbwa12Ua6KyrvunwHSlo8fTa1lxMixEsABi7FbN5w6y1BiC0/FfbgpbWXXFXQvn4uSgSmcYVwohgP1QboFB3j4ikRDThBrNsmEmoWf3D2eigvK2KZknsSzUs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Hro6Tiyy; arc=none smtp.client-ip=209.85.160.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dSRuFiB2"
-Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-466f935a82fso2187866b6e.0
-        for <linux-doc@vger.kernel.org>; Sat, 14 Mar 2026 11:39:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773513546; cv=none;
-        d=google.com; s=arc-20240605;
-        b=K3Sew9UyFsrMat3MzD0BexO0/6/76ayUGCKDPeXzpbJz+Tl14+RP09QH26bM2U9mT2
-         onTgspUDicCoqO76yNzZFx/4UZzd8KQqKMi9bnOCaJW9A9CJJxhJkajRpKH6tmK77IpL
-         K7d++7aZwtwqSU4bS2jem9fqsWoRnm7NZIeXJK8kDmypNPF7d1itHdt3rjRU+XWBQtS8
-         YUb4RmHVrqQj8nArZzuJQHLH4jtvXdk0286vXd1RrSTHqD1jk/5wAbxQ7Az2NSMGZhZk
-         wZEW4UVOkc9agANW9OXWG2CS0ktCNZU9xaLyOZ4/+rSwsNZVFAhPpg4NvO9qzQdDMQD9
-         kQkA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=AZrOqUX77UA3vcyaoFXxYGiBi+f46D4ZwPXW+m53vIg=;
-        fh=L13Krgq5+OtNyExEsdP3FcA/UXwNGvylS+2OrWTblIs=;
-        b=G+BvsIxwU1e3H+HOQ2+/rFlgcRQGx/qA5jC6E2C1Qf2xKybMStwkg9vAsPVKIIIunF
-         nLgsAUsArVrAGKmst9eeDrxfnc6Z7hs/o3hPyKs3ubWMkRk2fhGPJoOZdd1VM+YcTQnn
-         3W/MHpCxmhjLB/9xDcUcqAOoWexnzP6Cwr9Fmq2ds6bicQhgzJap9FXcqw0R9exzjyWU
-         d0zF8QBTwkMy82MKuc4mvzKEJswMX/gYiejuw/3+qqWGMZ4BlcQ8SWIcWRI3zvV0/sw8
-         pvxHQC18RuqtOCyawNAdA1TEBvlyVB3PMLKzKhx9v8/YratHK+hyULfmsliNxu5r18sn
-         OaVA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hro6Tiyy"
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-41729dc7d7aso1272349fac.3
+        for <linux-doc@vger.kernel.org>; Sat, 14 Mar 2026 13:14:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773513546; x=1774118346; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AZrOqUX77UA3vcyaoFXxYGiBi+f46D4ZwPXW+m53vIg=;
-        b=dSRuFiB2xB5Ere9984fBhlFkJjX0Iz0i399rHrPpKIl63yJ17ZpXzbbk2aj8c8i9HB
-         UVbI/LmsMD/+sK7JAGMxOSu1C+hDqaEaUxmYd1ckynhQe5eWvW9fh+MmD43ZaqdFMUg3
-         lKQs5ighmiw2ndqqxZ00s5Hj1EisWtf71/9cALIRn/Xb74JHaIFThS66+TmAP9z+NNSm
-         /LDQKy+wEfili32adEasttro3ZCmH5fMw8hP8NyKFiS6PDvov/7dKxPAnd7kn7zniY4m
-         r7YBFJWlwdqyZyp2GEvSIAGSidYmWPgdpJHPgmEBJNHnpUtDP4Mz1bySYsBphDB2X+3l
-         RqDA==
+        d=gmail.com; s=20230601; t=1773519280; x=1774124080; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2ZQP7SyWGDwwAMOAnxSbi4O+tM8xtS6WH81TGDPwQ5w=;
+        b=Hro6TiyyKbllqTwuYBm8ZLytugkPa7QgbTUsOycf61G5oWgwGxQ8mFa88taodDMlLV
+         e2e5r6pIvC+SyxZ/w2RzZZnPfrjMOcdUGdFbAdMoHEULawFq5m8QanTVSw+6Oawc8M5B
+         bJ9ZYk41i9HkS6xB0RIfyZDG55Z1Olr8qBjbxGVoO6vpHG/oA8zz1kZHopN/YrDuaQsd
+         pNx8erJaKVb0RK+jca5AxZ1JFMntIX/bZDOA84Lofxk8/EGhD86e/X+JJ40XCq3wyQsG
+         wS/XjtW4vvUbXL7IcaXpfeGh0KefJ4KtRApp/c/TFEEPmwyrHmf5UtgCB06ZSp6OZsGj
+         3mEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773513546; x=1774118346;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=AZrOqUX77UA3vcyaoFXxYGiBi+f46D4ZwPXW+m53vIg=;
-        b=RNiQaI1y2LKaqt38IOftXCfJ8IVAFu//hpnskZtsRJ+W9AQqNzC4W8yMJfA3vX05Ns
-         wE63+4m79eE9fS+UuiMj76F2R2dTnt11KHy33eenWY+Vs4juLCpqF9odQmYHqNhlFbD5
-         yNXc6f1eBJ65dUxBVKsroa2bzO00gZGcAaIRO3WaWnYwiL5MQdU5lDgEFSSZ5VXmc6xI
-         hSVZ6so8TyE/syk+5rCGluQo6R8AhnN8ixWxOGCJtGWJXbUAUV5HpMc8XTpDb4+YYEP/
-         WQWUOMs1OIZ/h5WxWceTZFnIqoAda9s8QFhTrcizGoRE6kIZaVAh9IO4qtl9dZeeKq7e
-         kbPA==
-X-Forwarded-Encrypted: i=1; AJvYcCVvjU24dFbsjHIADcK/QF8NndUneRdrEDp72qHYzqFaPIBWgL+yc+yYNgkKAWoc8gFrTTT9l2Vk7XQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxB//9RR1ODj5xXG/+q+P10k8Tgjpk4dCl0vEvkPHFsVdcffKIs
-	10QkH0cqm7JCN31dfqghdEHVanK4s2xQM4MfCwOooq9Wh0GtaO4c+53EId71b5kTlGTcdMLysRk
-	1QI9yKzbGloYUm/vgt5QJazM4mpGai6s=
-X-Gm-Gg: ATEYQzwwAAo3DrGpgupjGzwOqdfxE0NaURxEDPip0ll1B3OuzRqbEeYnZYJLi4MDfRV
-	eedDFr+iJv3FhNe/LtCLev/Lgm2eaycVIVQqA4Lj/imXjuhbEzGZxQwj8FP7+NwTp67Hr7M0r3H
-	FwYnKYIr3k3nYQavFLaL4LQalzxhm67Vm8oOjfvyzo6+ZRnLLIcv3kCIa7xWIbs9hhsOFAULMdG
-	0DBIqBcjceBg3n7mtdelbhdY4mEeUGEySgXPKlwqB2h9d3huJUTgUfyg+YzM8JOPmcqpcaLQKAP
-	YwbfjFSHZ0AAyi3dxPW4O6pMWzpYiJefRqiW+ftIkRisaSgHx/rV8JgVE6cSKraVeasL7w==
-X-Received: by 2002:a05:6808:1b2b:b0:467:318:a74b with SMTP id
- 5614622812f47-4675716c5f1mr4054747b6e.28.1773513546160; Sat, 14 Mar 2026
- 11:39:06 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1773519280; x=1774124080;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2ZQP7SyWGDwwAMOAnxSbi4O+tM8xtS6WH81TGDPwQ5w=;
+        b=szsDGeHcosEMU+qzf/h+JjQL46nyN7wFk7SWoNqd3s7p7PVJzqT68BtSHjQJMw8PNZ
+         szHTscUwKgUbMOrduqXbz7681D4Q8MYDHyq21RDltNAUB5SeWz2mLrXgrz4RAg9XYPPn
+         YNc35Ui+jnFxWV2Db4AN24QXqrYs8vfzMhnEn7B/3cf/wb5oFS9mlwob7DzGfn66hLMx
+         IOidHUXIwkHvR7RL/Coqf85XFFeb9GckpYqzOItwQdZdpMPDmbIVcryF+IVOupng6c0q
+         nUD/hvg5J1tLwFd5fIbtfS3CMJAp/5yKEwpifZozoFCAmGdb8gbrdcYHxSY8quSmfMl1
+         4J5w==
+X-Forwarded-Encrypted: i=1; AJvYcCW+st9MukVgSkku8vNURJU1wbZQR9yVAUcbX2+8qAbmneHPSFk3845L+Rpd0zxLnLl2HQ+0UwWVCq4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy71A4PNYzEpEQh1JitU6iRA7gOnMiMSC1lkg6wFAGnp1DHAypj
+	3qfQyGFAv60N0p8Omnwi9zh4dNmCx8bcm1HCOOEQNKeEDTuPvleKbiwlJiHkUxZzqTo=
+X-Gm-Gg: ATEYQzyThafVftjCR8n/7VtLmi8uUfHcMw/c3v4JrGImnx3Qtfqj/AbMKEpOUsmw+X5
+	I+8U997Vw0ugEe1MzDErG37HRsIsUVJHARTTPEOTnVqfd5alMo+qxWwgr5D19DJqe/BhFvkmbBP
+	y/KnXQywF3hHv6cC3r1ZTGSqawWwm6pCHr/SsFcxp5knELtXn58tflahNf3Gpo9cnXg7wGOp9Wh
+	vqjfhsTZhJfN55w9ynWLFEFI24sqtzGoJp9k/fQUzlycS4l79AKKd0qdBaE7WIH97DguuNihJ1M
+	043qyeRISI3UG6bfTuJB+wSEBF4b7ce5Re+cguvjHulK5BtJsjDecfH0DWJlgVm5b2kuqaXJLyv
+	3OX2byuEbqo+FI8NfWTFH/DI4EWM//OTrHde9C+JfvtCoRCoaNisNz7wd1OyNaZwGabwh6+mgXr
+	/QGle3NrSk27r9m43ll0IoaWS08EyO8J6zf80o1RLHG3WuSgvjg46U2BkNZ9iblyZ0LuTjATiZc
+	295HnGP+IGWedQZP3jkocphOS5fyPeNa5JRl1ld
+X-Received: by 2002:a05:6871:ca:b0:417:6237:cf82 with SMTP id 586e51a60fabf-417b923e031mr4502917fac.23.1773519280265;
+        Sat, 14 Mar 2026 13:14:40 -0700 (PDT)
+Received: from Atwell-Laptop.. (108-212-132-20.lightspeed.irvnca.sbcglobal.net. [108.212.132.20])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4177e5e8185sm11914165fac.12.2026.03.14.13.14.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 14 Mar 2026 13:14:39 -0700 (PDT)
+From: atwellwea@gmail.com
+To: netdev@vger.kernel.org,
+	davem@davemloft.net,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	edumazet@google.com,
+	ncardwell@google.com
+Cc: linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	mptcp@lists.linux.dev,
+	dsahern@kernel.org,
+	horms@kernel.org,
+	kuniyu@google.com,
+	andrew+netdev@lunn.ch,
+	willemdebruijn.kernel@gmail.com,
+	jasowang@redhat.com,
+	skhan@linuxfoundation.org,
+	corbet@lwn.net,
+	matttbe@kernel.org,
+	martineau@kernel.org,
+	geliang@kernel.org,
+	rostedt@goodmis.org,
+	mhiramat@kernel.org,
+	mathieu.desnoyers@efficios.com,
+	0x7f454c46@gmail.com
+Subject: [PATCH net-next v2 00/14] tcp: preserve receive-window accounting across ratio drift
+Date: Sat, 14 Mar 2026 14:13:34 -0600
+Message-ID: <20260314201348.1786972-1-atwellwea@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260314152538.100593-1-xaum.io@gmail.com> <87ms0ajtvy.fsf@trenco.lwn.net>
- <CAAZVx98Sz1MknCcMpQXxeGpUjXBDyz+0KyRuUiCXsM+3qzqpeA@mail.gmail.com> <20260314111757.2a17c3acce8c3a1eb68ed209@linux-foundation.org>
-In-Reply-To: <20260314111757.2a17c3acce8c3a1eb68ed209@linux-foundation.org>
-From: Kit Dallege <xaum.io@gmail.com>
-Date: Sat, 14 Mar 2026 19:38:54 +0100
-X-Gm-Features: AaiRm537Q06X8UVE9YoUBvoT0K074F941B6dRgRuPTK0qHXNEw40OFUaMlZ389U
-Message-ID: <CAAZVx9_6ecePCB1MMRa0q8V4afa=zRSmcaiozaFPDrrK-+bv5w@mail.gmail.com>
-Subject: Re: [PATCH] Docs/mm: document Shared Memory Filesystem
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, david@kernel.org, linux-mm@kvack.org, 
-	linux-doc@vger.kernel.org, Mel Gorman <mgorman@techsingularity.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Andrew,
+From: Wesley Atwell <atwellwea@gmail.com>
 
-Thanks for the positive feedback. I'll add the Assisted-by tag in v2.
+This series keeps sender-visible TCP receive-window accounting tied to the
+scaling basis that was in force when the window was advertised, even if
+later receive-side truesize inflation lowers scaling_ratio or the live
+receive window retracts below the largest right edge already exposed to the
+sender.
 
-To clarify =E2=80=94 I used Gorman's book as a reference for understanding =
-the
-subsystem structure, not as a source to copy from. The documentation was
-written by reading the current source code and verified against it. I
-didn't contact Mel beforehand but the book outline was only used to
-identify which topics each stub file should cover.
+After the receive-window retraction changes, the receive path needs to keep
+track of two related pieces of sender-visible state:
 
-Happy to have the relevant MM developers review each patch. Should I
-resend the series with the Assisted-by tags, or wait for further
-feedback first?
+  1. the live advertised receive window
+  2. the maximum advertised right edge and the basis it was exposed with
 
-Thanks,
-Kit
+This repost snapshots both, uses them to repair receive-buffer backing when
+ratio drift would otherwise strand sender-visible space, extends
+TCP_REPAIR_WINDOW so repair/restore can round-trip the new state, and adds
+truesize-drift coverage through TUN packetdrill tests and netdevsim-based
+selftests.
+
+v2:
+- repost to net-next and use the [PATCH net-next v2] prefix
+- rebase the receive-window accounting changes on top of the retraction
+  model
+- split the series more finely
+- snapshot both the live rwnd basis and the max advertised-window basis
+- extend TCP_REPAIR_WINDOW to preserve legacy, v1, and current layouts
+- add TUN RX truesize injection and packetdrill coverage for ratio drift
+- split the generic netdevsim PSP extension cleanup into its own final
+  patch after the peer RX truesize support
+- add the requested ABI/runtime comments at the non-obvious review points
+
+Testing:
+
+- full runtime selftest coverage for netdevsim, tcp_ao, mptcp, and
+  packetdrill; all runtime suites completed successfully
+- tcp_ao completed 24/24 top-level tests, covering 803 passing checks,
+  6 expected failures, 36 skips, and 0 unexpected failures
+- mptcp completed 588 passing checks in aggregate, with 28 skips and
+  0 unexpected failures
+- packetdrill completed 219/219 runtime cases with 0 failures,
+  including the new tests
+- netdevsim completed 18/18 top-level runtime tests with 0 failures,
+  including the peer RX truesize and related netdevsim coverage used by
+  this series
+
+Wesley Atwell (14):
+  tcp: factor receive-memory accounting helpers
+  tcp: snapshot advertise-time scaling for rcv_wnd
+  tcp: refresh rcv_wnd snapshots at TCP write sites
+  tcp: snapshot the maximum advertised receive window
+  tcp: grow rcvbuf to back scaled-window quantization slack
+  tcp: regrow rcvbuf when scaling_ratio drops after advertisement
+  tcp: honor the maximum advertised window after live retraction
+  tcp: extend TCP_REPAIR_WINDOW for live and max-window snapshots
+  mptcp: refresh TCP receive-window snapshots on subflows
+  tcp: expose rmem and backlog in tcp and mptcp rcvbuf_grow tracepoints
+  selftests: tcp_ao: cover legacy, v1, and retracted repair windows
+  tun/selftests: add RX truesize injection for TCP window tests
+  netdevsim: add peer RX truesize support for selftests
+  netdevsim: release pinned PSP ext on drop paths
+
+ .../networking/net_cachelines/tcp_sock.rst    |   2 +
+ drivers/net/netdevsim/netdev.c                | 156 ++++++-
+ drivers/net/netdevsim/netdevsim.h             |   4 +
+ drivers/net/tun.c                             |  65 +++
+ include/linux/tcp.h                           |   2 +
+ include/net/tcp.h                             | 118 ++++-
+ include/trace/events/mptcp.h                  |  11 +-
+ include/trace/events/tcp.h                    |  12 +-
+ include/uapi/linux/if_tun.h                   |   4 +
+ include/uapi/linux/tcp.h                      |   8 +
+ net/ipv4/tcp.c                                |  75 ++-
+ net/ipv4/tcp_fastopen.c                       |   2 +-
+ net/ipv4/tcp_input.c                          | 160 ++++++-
+ net/ipv4/tcp_minisocks.c                      |   4 +-
+ net/ipv4/tcp_output.c                         |  25 +-
+ net/mptcp/options.c                           |  14 +-
+ net/mptcp/protocol.h                          |  14 +-
+ .../selftests/drivers/net/netdevsim/Makefile  |   1 +
+ .../drivers/net/netdevsim/peer-rx-truesize.sh | 426 ++++++++++++++++++
+ .../tcp_rcv_neg_window_truesize.pkt           | 143 ++++++
+ .../net/packetdrill/tcp_rcv_toobig.pkt        |  35 ++
+ .../packetdrill/tcp_rcv_toobig_default.pkt    |  97 ++++
+ .../tcp_rcv_toobig_default_truesize.pkt       | 118 +++++
+ .../tcp_rcv_wnd_shrink_allowed_truesize.pkt   |  49 ++
+ .../testing/selftests/net/tcp_ao/lib/aolib.h  |  83 +++-
+ .../testing/selftests/net/tcp_ao/lib/repair.c |  18 +-
+ .../selftests/net/tcp_ao/self-connect.c       | 201 ++++++++-
+ tools/testing/selftests/net/tun.c             | 140 +++++-
+ 28 files changed, 1911 insertions(+), 76 deletions(-)
+ create mode 100755 tools/testing/selftests/drivers/net/netdevsim/peer-rx-truesize.sh
+ create mode 100644 tools/testing/selftests/net/packetdrill/tcp_rcv_neg_window_truesize.pkt
+ create mode 100644 tools/testing/selftests/net/packetdrill/tcp_rcv_toobig.pkt
+ create mode 100644 tools/testing/selftests/net/packetdrill/tcp_rcv_toobig_default.pkt
+ create mode 100644 tools/testing/selftests/net/packetdrill/tcp_rcv_toobig_default_truesize.pkt
+ create mode 100644 tools/testing/selftests/net/packetdrill/tcp_rcv_wnd_shrink_allowed_truesize.pkt
+
+
+base-commit: f807b5b9b89eb9220d034115c272c312251cbcac
+-- 
+2.43.0
+
