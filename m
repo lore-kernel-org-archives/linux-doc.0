@@ -1,98 +1,35 @@
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4D6138E129
-	for <linux-doc@vger.kernel.org>; Sat, 14 Mar 2026 20:15:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6D124315F;
+	Sat, 14 Mar 2026 20:20:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773519308; cv=none; b=tGq5s/SxmPaT58KHArAKYY/zO/gWLBlqzF/wP1nlqRK89BVy9te+DtYDnvZanZSznOQoAE2P0MrloMKXZ/REJuXVoAF303iYPaQSPgSjujfzlAMHRGX6rJJd0EWLprbWjmSQBQMVZe83/P6ghiDJmrpDF4NHAYN/C3Q90ogrdeE=
+	t=1773519632; cv=none; b=B3/Kc40OtElfqzwRQhV3Wi4Osjbu0VkPHiYldxVOltkBKBUAzRarQSnI/hi4iCRCMqy0vPp7qzHSrrUQVe41LB+Qo2qlK23a4cK/6YD7I9EvVUmluicswocrNXbEgl/bXyeElbbMr2DaE4GR1C0OAqR44Xi5/oOU1ALSanVIkCE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773519308; c=relaxed/simple;
-	bh=6JX3Yctd8bDnEGsPO4CjvDQJ7QxYVDLwhFVJibho2l4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mERhOVz8TbCxS1ENH/o653CFYOdZuW8F3G0/8Wg7VrFGScXCNzS77+n3DsHEUZ4UNg7RLz/+P2bh4bI1wf1fHdXOerbWXy9MR8OSl1b26zMUgMo8i3llZAWdPd6ehuLG3z0AFGyNb5ewFp4ILOyIqzLBuvvgvQ2J2fMUzo2jeaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RBb15A9L; arc=none smtp.client-ip=209.85.160.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773519632; c=relaxed/simple;
+	bh=dZ7TUltrsGQnkjHyx6uPFJSysa3z0NsdMkhYSIVZlgU=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=cp1xTW1bp0KgkNAIV9ioOaWTybJYj4o9MQNgunThb6ZqKgWdgd116UNpc6eoy4NFD9Zkt0DV3PhJWvkjvngYAM0DSCqHCENCDisC+zORa4PKMy0E6UtNT+5SwTVXWV7w/EcJJ3nGMSYXjb5xc+oq91CXbbu3gIeMKejC6qXnGcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HdJqR8X2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RBb15A9L"
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-417571c6083so1955137fac.2
-        for <linux-doc@vger.kernel.org>; Sat, 14 Mar 2026 13:15:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773519303; x=1774124103; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5cgfXJCeRN9gp7HY5pu2xM6oON8ruZZKeF5hMpMsDXs=;
-        b=RBb15A9LhAjqy1l+E94eY3B61c3MRemIiBubOrFkwitCkW0pKPkQMWqW/xL02oSOUP
-         +QnJYvITZ2olPk3tcPo4LUVmsLRAjD9N1RFIsVcxMuS8nOnCo4ywqDcsAJh24YxBz94M
-         2KSk5XiytD7vbtcSjUpcAsU3aAKo53hs+U1m1H8gHDJKdh96nKZ76sxZfZtEZTzrwb1a
-         lNKgKd2nc5ckqgTcibEouzyHyEYvIGOcTZZhOYia6H8tDaQih3P9uzuFKz3BA9NwxbzC
-         Zxi1+V/IGFqtwQEyVLRNq7EtDmBOWM9go4RA9uKFbgX5uSTl5NnB4rwcxAnnVFsXO17/
-         N1Pg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773519303; x=1774124103;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=5cgfXJCeRN9gp7HY5pu2xM6oON8ruZZKeF5hMpMsDXs=;
-        b=DnNaYLPVT8or0+9MUu/cbE5Ul1dW0P7B3wKj2jZnabezZ68enQ9bLY4nA/xBGD0PT3
-         s2hH1xmKkrH3YNHNucwcdDA2fw4Qsj6qp8DLOycpm4x7Y5pOZZuG96UYjLaFE+cpM9UZ
-         F4BHBpRiZ6+GYm9tvL0/NQjeQ/o8eIRs0OfKzHFko9Y0TrJRnvzJ0ZLx3yP3zBaYfafR
-         cCUNUY5jOhiHjDYKBmsYnUTp0WksEXwvEgq6hqL04YP6dH0UImaQuYYku19Dx2TRU5u+
-         YmyneU0jDdDdtt1erDnvS5odsphwmbcGbM48Gb8w1o+NBHu+0i5GfaJI5+FK8xBNVAEb
-         fPWw==
-X-Forwarded-Encrypted: i=1; AJvYcCWYdz4xaJqy6nQu+O7s9IjOqWughSm9byQgTSDfIHi9En16H/E+kyhpktRLu5fo31MREgLSMT044EQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz4rswfJ5mX3g5nqpIMOpae0HfO7v8u8/VGYIPnD618n6SZf0Iy
-	GVQU0jZl0/DFaoFkSwW9yGaKkLQSXqXv07bOmYDmLML0dc3Mkwoa17k4
-X-Gm-Gg: ATEYQzy+WiqO1ZzYCtw4xzHvUYvO9PkWnarA0UXVxF5SJaB/JjVKHB8YXzk6tY3xw+d
-	XfqRqkolKw69kOMuxw/Z2dMI2R3Nnk3r6rwOIPKLy7EgYK9IXR1ofUFcuKU7BFiTN+XioQwdNXc
-	q36r1uUK7vYNN+VbOEJif2dPbMIqfJ+3ZXEOqfH4kd7HLc1y7XQ89TjE3usVjEIEqH3hyU+IWPO
-	s+RiXB5ngdcxvfDthYupOhGFKz4o9pzc2ysFobsZenz5iRJeN+SZOKTQo8RKpzwcX0X8UaMJvW+
-	fahoA+Lqm1npkcTUvooGbftdkD5QgBZANHMkg/vovEN/61F9amObz8O3Dsg38Hh5O9X35x/k/BY
-	Gtg8Rj14m4DkMkVU9J58yRxLSWi72BkUoCskZIRyUDCPEw6kCPdCFmfvUHLKfuVcMWV2e0MH7yk
-	40dk6QWk3pbaq7CJaxVCjzUk6QAqtfHeq29F8KmSqJ0epw647GvGAjgKGH6F3TVKuBX6yTv+bT5
-	TVHAiRJK9ftic7x+N64Bw+gqFua6Woa8PEqYlC+
-X-Received: by 2002:a05:6870:7d16:b0:417:4bd3:f5f5 with SMTP id 586e51a60fabf-417b93e2407mr4714434fac.37.1773519302604;
-        Sat, 14 Mar 2026 13:15:02 -0700 (PDT)
-Received: from Atwell-Laptop.. (108-212-132-20.lightspeed.irvnca.sbcglobal.net. [108.212.132.20])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4177e5e8185sm11914165fac.12.2026.03.14.13.15.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Mar 2026 13:15:02 -0700 (PDT)
-From: atwellwea@gmail.com
-To: netdev@vger.kernel.org,
-	davem@davemloft.net,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	edumazet@google.com,
-	ncardwell@google.com
-Cc: linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org,
-	mptcp@lists.linux.dev,
-	dsahern@kernel.org,
-	horms@kernel.org,
-	kuniyu@google.com,
-	andrew+netdev@lunn.ch,
-	willemdebruijn.kernel@gmail.com,
-	jasowang@redhat.com,
-	skhan@linuxfoundation.org,
-	corbet@lwn.net,
-	matttbe@kernel.org,
-	martineau@kernel.org,
-	geliang@kernel.org,
-	rostedt@goodmis.org,
-	mhiramat@kernel.org,
-	mathieu.desnoyers@efficios.com,
-	0x7f454c46@gmail.com
-Subject: [PATCH net-next v2 13/14] netdevsim: add peer RX truesize support for selftests
-Date: Sat, 14 Mar 2026 14:13:47 -0600
-Message-ID: <20260314201348.1786972-14-atwellwea@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260314201348.1786972-1-atwellwea@gmail.com>
-References: <20260314201348.1786972-1-atwellwea@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HdJqR8X2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31DFAC116C6;
+	Sat, 14 Mar 2026 20:20:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773519632;
+	bh=dZ7TUltrsGQnkjHyx6uPFJSysa3z0NsdMkhYSIVZlgU=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=HdJqR8X2SLbtNr28I19jzsOqhPhUyN9DvIpBPNgNE3OBDtV4RhJcouPowb6Uqxnez
+	 Ve4ks8+dMYm9BIMr0WnHTltEHBmV4oRclBNoHf0b6l9V2JLFKs83Lawdb4W52210al
+	 v+THkPxay8iLVet0kxhUlyQUfrgMSFZv1dpi2WhMSR3mZgMta2ctlQKUdLPVGWZrAt
+	 lq9boFOdArGdKw9As8kO+ae8Zzxe5Vsan6Zohzz+FflwaCu7HB4K1UCwwHti0dW0EH
+	 pFKVUP7gqsoCKvG4nz8GPd5QnZU4TMew7otPt7usiqrVN4H1FWZeIHsoyMTS6ELHDx
+	 dsxBvK47zealw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 7CF643808200;
+	Sat, 14 Mar 2026 20:20:27 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -100,722 +37,76 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v4 00/13] devlink: introduce shared devlink
+ instance
+ for PFs on same chip
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <177351962627.1773477.8399936488095147761.git-patchwork-notify@kernel.org>
+Date: Sat, 14 Mar 2026 20:20:26 +0000
+References: <20260312100407.551173-1-jiri@resnulli.us>
+In-Reply-To: <20260312100407.551173-1-jiri@resnulli.us>
+To: Jiri Pirko <jiri@resnulli.us>
+Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+ donald.hunter@gmail.com, corbet@lwn.net, skhan@linuxfoundation.org,
+ saeedm@nvidia.com, leon@kernel.org, tariqt@nvidia.com, mbloch@nvidia.com,
+ przemyslaw.kitszel@intel.com, mschmidt@redhat.com, andrew+netdev@lunn.ch,
+ rostedt@goodmis.org, mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
+ chuck.lever@oracle.com, matttbe@kernel.org, cjubran@nvidia.com,
+ daniel.zahka@gmail.com, linux-doc@vger.kernel.org,
+ linux-rdma@vger.kernel.org, linux-trace-kernel@vger.kernel.org
 
-From: Wesley Atwell <atwellwea@gmail.com>
+Hello:
 
-Add a debugfs-controlled peer RX truesize knob to netdevsim, inflate the
-forwarded skb only on the peer RX side, and cover the resulting socket
-memory-accounting behavior with a dedicated selftest.
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-This keeps the synthetic cost out of the sender-side skb geometry while
-giving the selftests a second runtime vehicle for the receive-memory
-accounting exercised by the TCP rwnd work.
+On Thu, 12 Mar 2026 11:03:54 +0100 you wrote:
+> From: Jiri Pirko <jiri@nvidia.com>
+> 
+> Multiple PFs on a network adapter often reside on the same physical
+> chip, running a single firmware. Some resources and configurations
+> are inherently shared among these PFs - PTP clocks, VF group rates,
+> firmware parameters, and others. Today there is no good object in
+> the devlink model to attach these chip-wide configuration knobs to.
+> Drivers resort to workarounds like pinning shared state to PF0 or
+> maintaining ad-hoc internal structures (e.g., ice_adapter) that are
+> invisible to userspace.
+> 
+> [...]
 
-Signed-off-by: Wesley Atwell <atwellwea@gmail.com>
----
- drivers/net/netdevsim/netdev.c                | 145 +++++-
- drivers/net/netdevsim/netdevsim.h             |   4 +
- .../selftests/drivers/net/netdevsim/Makefile  |   1 +
- .../drivers/net/netdevsim/peer-rx-truesize.sh | 426 ++++++++++++++++++
- 4 files changed, 575 insertions(+), 1 deletion(-)
- create mode 100755 tools/testing/selftests/drivers/net/netdevsim/peer-rx-truesize.sh
+Here is the summary with links:
+  - [net-next,v4,01/13] devlink: expose devlink instance index over netlink
+    https://git.kernel.org/netdev/net-next/c/68deca0f0f4b
+  - [net-next,v4,02/13] devlink: add helpers to get bus_name/dev_name
+    https://git.kernel.org/netdev/net-next/c/0f5531879afb
+  - [net-next,v4,03/13] devlink: avoid extra iterations when found devlink is not registered
+    https://git.kernel.org/netdev/net-next/c/e2e3666fd360
+  - [net-next,v4,04/13] devlink: allow to use devlink index as a command handle
+    https://git.kernel.org/netdev/net-next/c/d85a8af57da8
+  - [net-next,v4,05/13] devlink: support index-based lookup via bus_name/dev_name handle
+    https://git.kernel.org/netdev/net-next/c/725d5fdb7b9c
+  - [net-next,v4,06/13] devlink: support index-based notification filtering
+    https://git.kernel.org/netdev/net-next/c/089aeb4f2218
+  - [net-next,v4,07/13] devlink: introduce __devlink_alloc() with dev driver pointer
+    https://git.kernel.org/netdev/net-next/c/eb32a6310a7b
+  - [net-next,v4,08/13] devlink: add devlink_dev_driver_name() helper and use it in trace events
+    https://git.kernel.org/netdev/net-next/c/20b0f383aae7
+  - [net-next,v4,09/13] devlink: add devl_warn() helper and use it in port warnings
+    https://git.kernel.org/netdev/net-next/c/104733e1303e
+  - [net-next,v4,10/13] devlink: allow devlink instance allocation without a backing device
+    https://git.kernel.org/netdev/net-next/c/a4c6d53e5fd6
+  - [net-next,v4,11/13] devlink: introduce shared devlink instance for PFs on same chip
+    https://git.kernel.org/netdev/net-next/c/1850e76b3804
+  - [net-next,v4,12/13] documentation: networking: add shared devlink documentation
+    https://git.kernel.org/netdev/net-next/c/63fff8c0f702
+  - [net-next,v4,13/13] net/mlx5: Add a shared devlink instance for PFs on same chip
+    https://git.kernel.org/netdev/net-next/c/2a8c8a03f306
 
-diff --git a/drivers/net/netdevsim/netdev.c b/drivers/net/netdevsim/netdev.c
-index 5ec028a00c62..22238df79b6a 100644
---- a/drivers/net/netdevsim/netdev.c
-+++ b/drivers/net/netdevsim/netdev.c
-@@ -17,8 +17,10 @@
- #include <linux/etherdevice.h>
- #include <linux/ethtool_netlink.h>
- #include <linux/kernel.h>
-+#include <linux/kstrtox.h>
- #include <linux/module.h>
- #include <linux/netdevice.h>
-+#include <linux/refcount.h>
- #include <linux/slab.h>
- #include <net/netdev_queues.h>
- #include <net/netdev_rx_queue.h>
-@@ -37,6 +39,91 @@ MODULE_IMPORT_NS("NETDEV_INTERNAL");
- 
- #define NSIM_RING_SIZE		256
- 
-+struct nsim_rx_truesize {
-+	refcount_t refs;
-+	u32 value;
-+};
-+
-+static struct nsim_rx_truesize *
-+nsim_rx_truesize_get(struct nsim_rx_truesize *rx_truesize)
-+{
-+	if (!rx_truesize)
-+		return NULL;
-+
-+	if (!refcount_inc_not_zero(&rx_truesize->refs))
-+		return NULL;
-+
-+	return rx_truesize;
-+}
-+
-+static void nsim_rx_truesize_put(struct nsim_rx_truesize *rx_truesize)
-+{
-+	if (!rx_truesize)
-+		return;
-+
-+	if (refcount_dec_and_test(&rx_truesize->refs))
-+		kfree(rx_truesize);
-+}
-+
-+static ssize_t nsim_rx_truesize_read(struct file *file, char __user *user_buf,
-+				     size_t count, loff_t *ppos)
-+{
-+	struct nsim_rx_truesize *rx_truesize = file->private_data;
-+	char buf[24];
-+	int len;
-+
-+	len = scnprintf(buf, sizeof(buf), "%u\n",
-+			READ_ONCE(rx_truesize->value));
-+
-+	return simple_read_from_buffer(user_buf, count, ppos, buf, len);
-+}
-+
-+static ssize_t nsim_rx_truesize_write(struct file *file,
-+				      const char __user *user_buf,
-+				      size_t count, loff_t *ppos)
-+{
-+	struct nsim_rx_truesize *rx_truesize = file->private_data;
-+	u32 value;
-+	int err;
-+
-+	err = kstrtou32_from_user(user_buf, count, 0, &value);
-+	if (err)
-+		return err;
-+
-+	WRITE_ONCE(rx_truesize->value, value);
-+
-+	return count;
-+}
-+
-+static int nsim_rx_truesize_open(struct inode *inode, struct file *file)
-+{
-+	struct nsim_rx_truesize *rx_truesize;
-+
-+	rx_truesize = nsim_rx_truesize_get(inode->i_private);
-+	if (!rx_truesize)
-+		return -ENODEV;
-+
-+	file->private_data = rx_truesize;
-+
-+	return nonseekable_open(inode, file);
-+}
-+
-+static int nsim_rx_truesize_release(struct inode *inode, struct file *file)
-+{
-+	nsim_rx_truesize_put(file->private_data);
-+
-+	return 0;
-+}
-+
-+static const struct file_operations nsim_rx_truesize_fops = {
-+	.owner		= THIS_MODULE,
-+	.open		= nsim_rx_truesize_open,
-+	.read		= nsim_rx_truesize_read,
-+	.write		= nsim_rx_truesize_write,
-+	.release	= nsim_rx_truesize_release,
-+	.llseek		= noop_llseek,
-+};
-+
- static void nsim_start_peer_tx_queue(struct net_device *dev, struct nsim_rq *rq)
- {
- 	struct netdevsim *ns = netdev_priv(dev);
-@@ -117,6 +204,28 @@ static int nsim_forward_skb(struct net_device *tx_dev,
- 	return nsim_napi_rx(tx_dev, rx_dev, rq, skb);
- }
- 
-+/* Tests can inflate peer RX skb->truesize to exercise receiver-side TCP
-+ * accounting under scaling-ratio drift without perturbing sender-side skb
-+ * ownership.
-+ */
-+static void nsim_rx_update_truesize(struct sk_buff *skb, u32 extra)
-+{
-+	unsigned int truesize;
-+
-+	if (!extra)
-+		return;
-+
-+	if (check_add_overflow(skb->truesize, extra, &truesize))
-+		truesize = UINT_MAX;
-+
-+	skb->truesize = truesize;
-+}
-+
-+static u32 nsim_rx_extra_truesize(const struct netdevsim *ns)
-+{
-+	return READ_ONCE(ns->rx_truesize->value);
-+}
-+
- static netdev_tx_t nsim_start_xmit(struct sk_buff *skb, struct net_device *dev)
- {
- 	struct netdevsim *ns = netdev_priv(dev);
-@@ -125,7 +234,9 @@ static netdev_tx_t nsim_start_xmit(struct sk_buff *skb, struct net_device *dev)
- 	unsigned int len = skb->len;
- 	struct netdevsim *peer_ns;
- 	struct netdev_config *cfg;
-+	struct sk_buff *nskb;
- 	struct nsim_rq *rq;
-+	u32 extra;
- 	int rxq;
- 	int dr;
- 
-@@ -160,7 +271,24 @@ static netdev_tx_t nsim_start_xmit(struct sk_buff *skb, struct net_device *dev)
- 	      cfg->hds_thresh > len)))
- 		skb_linearize(skb);
- 
-+	extra = nsim_rx_extra_truesize(peer_ns);
- 	skb_tx_timestamp(skb);
-+	if (extra) {
-+		/* Clone before inflating truesize so only the peer RX path sees
-+		 * the synthetic cost; sender-side skb accounting stays put.
-+		 */
-+		nskb = skb_clone(skb, GFP_ATOMIC);
-+		if (!nskb) {
-+			if (psp_ext)
-+				__skb_ext_put(psp_ext);
-+			goto out_drop_free;
-+		}
-+
-+		consume_skb(skb);
-+		skb = nskb;
-+		nsim_rx_update_truesize(skb, extra);
-+	}
-+
- 	if (unlikely(nsim_forward_skb(dev, peer_dev,
- 				      skb, rq, psp_ext) == NET_RX_DROP))
- 		goto out_drop_cnt;
-@@ -1121,6 +1249,7 @@ struct netdevsim *nsim_create(struct nsim_dev *nsim_dev,
- 			      u8 perm_addr[ETH_ALEN])
- {
- 	struct net_device *dev;
-+	struct nsim_rx_truesize *rx_truesize;
- 	struct netdevsim *ns;
- 	int err;
- 
-@@ -1140,6 +1269,13 @@ struct netdevsim *nsim_create(struct nsim_dev *nsim_dev,
- 	ns->nsim_bus_dev = nsim_dev->nsim_bus_dev;
- 	SET_NETDEV_DEV(dev, &ns->nsim_bus_dev->dev);
- 	SET_NETDEV_DEVLINK_PORT(dev, &nsim_dev_port->devlink_port);
-+	rx_truesize = kzalloc_obj(*rx_truesize);
-+	if (!rx_truesize) {
-+		err = -ENOMEM;
-+		goto err_free_netdev;
-+	}
-+	refcount_set(&rx_truesize->refs, 1);
-+	ns->rx_truesize = rx_truesize;
- 	nsim_ethtool_init(ns);
- 	if (nsim_dev_port_is_pf(nsim_dev_port))
- 		err = nsim_init_netdevsim(ns);
-@@ -1153,21 +1289,27 @@ struct netdevsim *nsim_create(struct nsim_dev *nsim_dev,
- 	ns->qr_dfs = debugfs_create_file("queue_reset", 0200,
- 					 nsim_dev_port->ddir, ns,
- 					 &nsim_qreset_fops);
-+	ns->rx_truesize_dfs = debugfs_create_file("rx_extra_truesize", 0600,
-+						  nsim_dev_port->ddir,
-+						  ns->rx_truesize,
-+						  &nsim_rx_truesize_fops);
- 	return ns;
- 
- err_free_netdev:
-+	nsim_rx_truesize_put(ns->rx_truesize);
- 	free_netdev(dev);
- 	return ERR_PTR(err);
- }
- 
- void nsim_destroy(struct netdevsim *ns)
- {
-+	struct nsim_rx_truesize *rx_truesize = ns->rx_truesize;
- 	struct net_device *dev = ns->netdev;
- 	struct netdevsim *peer;
- 
-+	debugfs_remove(ns->rx_truesize_dfs);
- 	debugfs_remove(ns->qr_dfs);
- 	debugfs_remove(ns->pp_dfs);
--
- 	if (ns->nb.notifier_call)
- 		unregister_netdevice_notifier_dev_net(ns->netdev, &ns->nb,
- 						      &ns->nn);
-@@ -1198,6 +1340,7 @@ void nsim_destroy(struct netdevsim *ns)
- 	}
- 
- 	free_netdev(dev);
-+	nsim_rx_truesize_put(rx_truesize);
- }
- 
- bool netdev_is_nsim(struct net_device *dev)
-diff --git a/drivers/net/netdevsim/netdevsim.h b/drivers/net/netdevsim/netdevsim.h
-index f767fc8a7505..972ad274060e 100644
---- a/drivers/net/netdevsim/netdevsim.h
-+++ b/drivers/net/netdevsim/netdevsim.h
-@@ -75,6 +75,8 @@ struct nsim_macsec {
- 	u8 nsim_secy_count;
- };
- 
-+struct nsim_rx_truesize;
-+
- struct nsim_ethtool_pauseparam {
- 	bool rx;
- 	bool tx;
-@@ -144,6 +146,8 @@ struct netdevsim {
- 	} udp_ports;
- 
- 	struct page *page;
-+	struct nsim_rx_truesize *rx_truesize;
-+	struct dentry *rx_truesize_dfs;
- 	struct dentry *pp_dfs;
- 	struct dentry *qr_dfs;
- 
-diff --git a/tools/testing/selftests/drivers/net/netdevsim/Makefile b/tools/testing/selftests/drivers/net/netdevsim/Makefile
-index 1a228c5430f5..9e9e48d5913b 100644
---- a/tools/testing/selftests/drivers/net/netdevsim/Makefile
-+++ b/tools/testing/selftests/drivers/net/netdevsim/Makefile
-@@ -14,6 +14,7 @@ TEST_PROGS := \
- 	macsec-offload.sh \
- 	nexthop.sh \
- 	peer.sh \
-+	peer-rx-truesize.sh \
- 	psample.sh \
- 	tc-mq-visibility.sh \
- 	udp_tunnel_nic.sh \
-diff --git a/tools/testing/selftests/drivers/net/netdevsim/peer-rx-truesize.sh b/tools/testing/selftests/drivers/net/netdevsim/peer-rx-truesize.sh
-new file mode 100755
-index 000000000000..6d1101d20847
---- /dev/null
-+++ b/tools/testing/selftests/drivers/net/netdevsim/peer-rx-truesize.sh
-@@ -0,0 +1,426 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-2.0-only
-+
-+set -euo pipefail
-+
-+lib_dir=$(dirname "$0")/../../../net
-+source "$lib_dir"/lib.sh
-+
-+NSIM_SRV_ID=$((1024 + RANDOM % 1024))
-+NSIM_CLI_ID=$((2048 + RANDOM % 1024))
-+NSIM_SYS_LINK=/sys/bus/netdevsim/link_device
-+SERVER_ADDR=192.0.2.1
-+CLIENT_ADDR=192.0.2.2
-+RMEM_PORT=12345
-+WARM_PORT=12346
-+RMEM_QUEUED_LEN=65000
-+RMEM_INFLATED_LEN=65000
-+RMEM_SMALL_EXTRA=4096
-+RMEM_LARGE_EXTRA=65536
-+WARM_WARMUP_ROUNDS=16
-+WARM_WARMUP_LEN=65000
-+WARM_QUEUED_LEN=62000
-+WARM_INFLATED_LEN=65000
-+WARM_EXTRA=65536
-+
-+srv_dev=
-+cli_dev=
-+srv_pid=
-+cli_pid=
-+srv_fd=
-+cli_fd=
-+stage_dir=
-+CASE_BASE_METRIC=
-+CASE_FINAL_METRIC=
-+
-+cleanup()
-+{
-+	local rc=$?
-+
-+	if [ -n "${srv_pid:-}" ]; then
-+		kill "${srv_pid}" 2>/dev/null || true
-+		wait "${srv_pid}" 2>/dev/null || true
-+	fi
-+
-+	if [ -n "${cli_pid:-}" ]; then
-+		kill "${cli_pid}" 2>/dev/null || true
-+		wait "${cli_pid}" 2>/dev/null || true
-+	fi
-+
-+	if [ -n "${srv_fd:-}" ]; then
-+		eval "exec ${srv_fd}<&-"
-+	fi
-+
-+	if [ -n "${cli_fd:-}" ]; then
-+		eval "exec ${cli_fd}<&-"
-+	fi
-+
-+	if [ -d "${stage_dir:-}" ]; then
-+		rm -rf "${stage_dir}"
-+	fi
-+
-+	cleanup_netdevsim "${NSIM_SRV_ID}" 2>/dev/null || true
-+	cleanup_netdevsim "${NSIM_CLI_ID}" 2>/dev/null || true
-+	cleanup_ns "${SRV:-}" "${CLI:-}" 2>/dev/null || true
-+
-+	exit "${rc}"
-+}
-+
-+trap cleanup EXIT
-+
-+ensure_debugfs()
-+{
-+	if mount | grep -q 'on /sys/kernel/debug type debugfs'; then
-+		return 0
-+	fi
-+
-+	if ! mount -t debugfs none /sys/kernel/debug >/dev/null 2>&1; then
-+		echo "SKIP: failed to mount debugfs"
-+		exit "${ksft_skip}"
-+	fi
-+}
-+
-+ensure_netdevsim()
-+{
-+	if [ -w /sys/bus/netdevsim/new_device ]; then
-+		return 0
-+	fi
-+
-+	if ! modprobe netdevsim >/dev/null 2>&1; then
-+		echo "SKIP: no netdevsim support"
-+		exit "${ksft_skip}"
-+	fi
-+}
-+
-+create_nsim()
-+{
-+	local id="$1"
-+	local ns="$2"
-+	local addr="$3"
-+	local dev
-+
-+	echo "${id}" | ip netns exec "${ns}" tee /sys/bus/netdevsim/new_device >/dev/null
-+	udevadm settle
-+
-+	dev=$(ip netns exec "${ns}" ls /sys/bus/netdevsim/devices/netdevsim"${id}"/net)
-+	ip -netns "${ns}" link set dev "${dev}" name "nsim${id}"
-+	ip -netns "${ns}" addr add "${addr}/24" dev "nsim${id}"
-+	ip -netns "${ns}" link set dev "nsim${id}" up
-+
-+	echo "nsim${id}"
-+}
-+
-+link_nsim_peers()
-+{
-+	local srv_ifindex
-+	local cli_ifindex
-+
-+	eval "exec {srv_fd}</var/run/netns/${SRV}"
-+	eval "exec {cli_fd}</var/run/netns/${CLI}"
-+
-+	srv_ifindex=$(ip netns exec "${SRV}" cat /sys/class/net/"${srv_dev}"/ifindex)
-+	cli_ifindex=$(ip netns exec "${CLI}" cat /sys/class/net/"${cli_dev}"/ifindex)
-+
-+	echo "${srv_fd}:${srv_ifindex} ${cli_fd}:${cli_ifindex}" > "${NSIM_SYS_LINK}"
-+}
-+
-+wait_for_file()
-+{
-+	local path="$1"
-+	local i
-+
-+	for i in $(seq 100); do
-+		if [ -e "${path}" ]; then
-+			return 0
-+		fi
-+		sleep 0.1
-+	done
-+
-+	return 1
-+}
-+
-+server_python='
-+import array
-+import fcntl
-+import os
-+import socket
-+import struct
-+import sys
-+import time
-+
-+SO_MEMINFO = 55
-+SK_MEMINFO_RMEM_ALLOC = 0
-+TCP_MAXSEG = getattr(socket, "TCP_MAXSEG", 2)
-+FIONREAD = 0x541B
-+POLL_INTERVAL = 0.01
-+POLL_TIMEOUT = 20.0
-+
-+(mode, host, port, warmup_rounds, warmup_len, queued_len, inflated_len,
-+ ready_file, result_file) = sys.argv[1:]
-+port = int(port)
-+warmup_rounds = int(warmup_rounds)
-+warmup_len = int(warmup_len)
-+queued_len = int(queued_len)
-+inflated_len = int(inflated_len)
-+
-+def queued_bytes(sock):
-+    buf = array.array("I", [0])
-+    fcntl.ioctl(sock.fileno(), FIONREAD, buf, True)
-+    return buf[0]
-+
-+def wait_for_queued(sock, target):
-+    deadline = time.time() + POLL_TIMEOUT
-+    while time.time() < deadline:
-+        if queued_bytes(sock) >= target:
-+            return
-+        time.sleep(POLL_INTERVAL)
-+    raise SystemExit(f"timed out waiting for {target} queued bytes")
-+
-+def meminfo(sock):
-+    raw = sock.getsockopt(socket.SOL_SOCKET, SO_MEMINFO, 9 * 4)
-+    return struct.unpack("=9I", raw)
-+
-+def wait_for_growth(sock, idx, base):
-+    deadline = time.time() + POLL_TIMEOUT
-+    while time.time() < deadline:
-+        cur = meminfo(sock)[idx]
-+        if cur > base:
-+            return cur
-+        time.sleep(POLL_INTERVAL)
-+    raise SystemExit(f"timed out waiting for SO_MEMINFO[{idx}] growth from {base}")
-+
-+def write_metric(path, value):
-+    with open(path, "w", encoding="ascii") as fp:
-+        fp.write(f"{value}\n")
-+
-+def recv_all(sock, total):
-+    remaining = total
-+    while remaining:
-+        chunk = sock.recv(min(65536, remaining))
-+        if not chunk:
-+            raise SystemExit("unexpected EOF while draining receive data")
-+        remaining -= len(chunk)
-+
-+listener = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-+listener.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-+listener.setsockopt(socket.IPPROTO_TCP, TCP_MAXSEG, 1000)
-+listener.bind((host, port))
-+listener.listen(1)
-+conn, _ = listener.accept()
-+
-+for _ in range(warmup_rounds):
-+    recv_all(conn, warmup_len)
-+
-+if mode == "rmem_alloc":
-+    wait_for_queued(conn, queued_len)
-+    base_metric = meminfo(conn)[SK_MEMINFO_RMEM_ALLOC]
-+    write_metric(ready_file, base_metric)
-+
-+    recv_all(conn, queued_len)
-+    wait_for_queued(conn, inflated_len)
-+    grown_metric = meminfo(conn)[SK_MEMINFO_RMEM_ALLOC]
-+    write_metric(result_file, grown_metric)
-+elif mode == "rmem_alloc_warm":
-+    wait_for_queued(conn, queued_len)
-+    base_metric = meminfo(conn)[SK_MEMINFO_RMEM_ALLOC]
-+    write_metric(ready_file, base_metric)
-+
-+    wait_for_queued(conn, queued_len + 1)
-+    grown_metric = wait_for_growth(conn, SK_MEMINFO_RMEM_ALLOC, base_metric)
-+    write_metric(result_file, grown_metric)
-+elif mode == "rmem_alloc_growth":
-+    # The growth cases compare against a live socket metric, so wait for
-+    # observed growth instead of trusting one instantaneous post-queue sample.
-+    wait_for_queued(conn, queued_len)
-+    base_metric = meminfo(conn)[SK_MEMINFO_RMEM_ALLOC]
-+    write_metric(ready_file, base_metric)
-+
-+    recv_all(conn, queued_len)
-+    wait_for_queued(conn, inflated_len)
-+    grown_metric = wait_for_growth(conn, SK_MEMINFO_RMEM_ALLOC, base_metric)
-+    write_metric(result_file, grown_metric)
-+else:
-+    raise SystemExit(f"unknown mode: {mode}")
-+'
-+
-+client_python='
-+import os
-+import socket
-+import sys
-+import time
-+
-+POLL_INTERVAL = 0.01
-+POLL_TIMEOUT = 20.0
-+
-+host, port, warmup_rounds, warmup_len, queued_len, inflated_len, gate_file = sys.argv[1:]
-+port = int(port)
-+warmup_rounds = int(warmup_rounds)
-+warmup_len = int(warmup_len)
-+queued_len = int(queued_len)
-+inflated_len = int(inflated_len)
-+
-+def send_all(sock, total):
-+    payload = b"a" * min(total, 65536)
-+    left = total
-+    while left:
-+        chunk = payload[: min(len(payload), left)]
-+        sent = sock.send(chunk)
-+        if sent <= 0:
-+            raise SystemExit("short send")
-+        left -= sent
-+
-+def wait_for_file(path):
-+    deadline = time.time() + POLL_TIMEOUT
-+    while time.time() < deadline:
-+        if os.path.exists(path):
-+            return
-+        time.sleep(POLL_INTERVAL)
-+    raise SystemExit(f"timed out waiting for {path}")
-+
-+cli = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-+cli.setsockopt(socket.IPPROTO_TCP, socket.TCP_MAXSEG, 1000)
-+cli.connect((host, port))
-+for _ in range(warmup_rounds):
-+    send_all(cli, warmup_len)
-+send_all(cli, queued_len)
-+wait_for_file(gate_file)
-+send_all(cli, inflated_len)
-+cli.close()
-+'
-+
-+read_metric()
-+{
-+	local path="$1"
-+	local value
-+
-+	if ! read -r value < "${path}"; then
-+		echo "FAIL: unable to read metric from ${path}"
-+		exit "${ksft_fail}"
-+	fi
-+
-+	printf '%s\n' "${value}"
-+}
-+
-+run_case()
-+{
-+	local case_id="$1"
-+	local mode="$2"
-+	local port="$3"
-+	local warmups="$4"
-+	local warmup_len="$5"
-+	local queued_len="$6"
-+	local inflated_len="$7"
-+	local extra="$8"
-+	local label="$9"
-+	local ready_file="${stage_dir}/${case_id}.ready"
-+	local result_file="${stage_dir}/${case_id}.result"
-+	local gate_file="${stage_dir}/${case_id}.gate"
-+
-+	rm -f "${ready_file}" "${result_file}" "${gate_file}"
-+	echo 0 > "${dfs_file}"
-+
-+	ip netns exec "${SRV}" python3 - "${mode}" "${SERVER_ADDR}" "${port}" \
-+		"${warmups}" "${warmup_len}" "${queued_len}" "${inflated_len}" \
-+		"${ready_file}" "${result_file}" <<PY &
-+${server_python}
-+PY
-+	srv_pid=$!
-+
-+	wait_local_port_listen "${SRV}" "${port}" tcp
-+
-+	ip netns exec "${CLI}" python3 - "${SERVER_ADDR}" "${port}" \
-+		"${warmups}" "${warmup_len}" "${queued_len}" "${inflated_len}" \
-+		"${gate_file}" <<PY &
-+${client_python}
-+PY
-+	cli_pid=$!
-+
-+	if ! wait_for_file "${ready_file}"; then
-+		echo "FAIL: ${label}: ready marker did not appear"
-+		exit "${ksft_fail}"
-+	fi
-+
-+	echo "${extra}" > "${dfs_file}"
-+	touch "${gate_file}"
-+
-+	wait "${cli_pid}"
-+	cli_pid=
-+	wait "${srv_pid}"
-+	srv_pid=
-+
-+	CASE_BASE_METRIC=$(read_metric "${ready_file}")
-+	CASE_FINAL_METRIC=$(read_metric "${result_file}")
-+
-+	echo "PASS: ${label}"
-+}
-+
-+# This test only proves that injected truesize reaches socket memory
-+# accounting. Packetdrill covers the sender-visible rwnd accept/drop logic.
-+
-+assert_no_growth()
-+{
-+	local label="$1"
-+
-+	if [ "${CASE_FINAL_METRIC}" -gt "${CASE_BASE_METRIC}" ]; then
-+		echo "FAIL: ${label}: metric grew unexpectedly:" \
-+		     "base=${CASE_BASE_METRIC}" \
-+		     "after=${CASE_FINAL_METRIC}"
-+		exit "${ksft_fail}"
-+	fi
-+}
-+
-+assert_growth()
-+{
-+	local label="$1"
-+
-+	if [ "${CASE_FINAL_METRIC}" -le "${CASE_BASE_METRIC}" ]; then
-+		echo "FAIL: ${label}: metric did not grow:" \
-+		     "base=${CASE_BASE_METRIC}" \
-+		     "after=${CASE_FINAL_METRIC}"
-+		exit "${ksft_fail}"
-+	fi
-+}
-+
-+ensure_debugfs
-+ensure_netdevsim
-+set +u
-+setup_ns SRV CLI
-+set -u
-+
-+srv_dev=$(create_nsim "${NSIM_SRV_ID}" "${SRV}" "${SERVER_ADDR}")
-+cli_dev=$(create_nsim "${NSIM_CLI_ID}" "${CLI}" "${CLIENT_ADDR}")
-+link_nsim_peers
-+
-+ip netns exec "${SRV}" sysctl -wq net.ipv4.tcp_moderate_rcvbuf=0
-+
-+stage_dir=$(mktemp -d)
-+dfs_file="/sys/kernel/debug/netdevsim/netdevsim${NSIM_SRV_ID}/ports/0/rx_extra_truesize"
-+
-+run_case "rmem_noop" "rmem_alloc" "${RMEM_PORT}" 0 0 \
-+	"${RMEM_QUEUED_LEN}" "${RMEM_INFLATED_LEN}" 0 \
-+	"peer rx truesize zero no-op"
-+assert_no_growth "peer rx truesize zero no-op"
-+
-+run_case "rmem_small" "rmem_alloc_growth" "${RMEM_PORT}" 0 0 \
-+	"${RMEM_QUEUED_LEN}" "${RMEM_INFLATED_LEN}" "${RMEM_SMALL_EXTRA}" \
-+	"peer rx truesize small rmem_alloc"
-+assert_growth "peer rx truesize small rmem_alloc"
-+small_delta=$((CASE_FINAL_METRIC - CASE_BASE_METRIC))
-+
-+run_case "rmem_large" "rmem_alloc_growth" "${RMEM_PORT}" 0 0 \
-+	"${RMEM_QUEUED_LEN}" "${RMEM_INFLATED_LEN}" "${RMEM_LARGE_EXTRA}" \
-+	"peer rx truesize large rmem_alloc"
-+assert_growth "peer rx truesize large rmem_alloc"
-+large_delta=$((CASE_FINAL_METRIC - CASE_BASE_METRIC))
-+
-+if [ "${large_delta}" -le "${small_delta}" ]; then
-+	echo "FAIL: peer rx truesize stepped rmem_alloc:" \
-+	     "small_delta=${small_delta}" \
-+	     "large_delta=${large_delta}"
-+	exit "${ksft_fail}"
-+fi
-+
-+run_case "rmem_warm" "rmem_alloc_warm" "${WARM_PORT}" "${WARM_WARMUP_ROUNDS}" "${WARM_WARMUP_LEN}" \
-+	"${WARM_QUEUED_LEN}" "${WARM_INFLATED_LEN}" "${WARM_EXTRA}" \
-+	"peer rx truesize warm rmem_alloc"
-+assert_growth "peer rx truesize warm rmem_alloc"
+You are awesome, thank you!
 -- 
-2.43.0
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
