@@ -1,124 +1,116 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 941293537C5
-	for <linux-doc@vger.kernel.org>; Sat, 14 Mar 2026 10:44:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01CBD1BBBE5;
+	Sat, 14 Mar 2026 10:51:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773485093; cv=none; b=f0sipsj7e8Xhyrbn5V6kELdYCL5J4WaaVSAIMdreimtPB66Ruy123yrQd12fDJ0SZe4Tdaha/SLDLCFd02/Jh/sNPjYin719ai0+Hgjl9YGkRFGqPBeCgQYHyVdxGqqEmuCDOuamZwvV/6x318JhVDHL8dGmAdKX5+fu97mmlFQ=
+	t=1773485476; cv=none; b=bWFMBLlZnI14pxho+QQAp3wHo6y/fN9Wd4qSVzKEcRAxhz3D1spStn1cEZWAQCNeX7QePZJ3SKEJvhlA+p64L+0PMmRkEXyKfqLICFEXWt3kpTQOUUb3My52Q593V1/LZgtdF3kSBmgkDM4n+TwxPOCc1BB+/+D7gEghiyuYye4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773485093; c=relaxed/simple;
-	bh=JRTrpJicVZv9hm9N78kmTjwXo8LD4y4qDOoJuGvR+Gs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XjbN7fCvtCtQHurY/GkfK+8lvuTyRk/4puCAN03GC6eucJO7GE0TkvBesCSYlTbP8/U+sS9Iec4QYFcDYXDNrzhTX5CUzxADfG0Ei2XC46aoKc0m3+ieJwoc/09aEHGZpezv1XvIp8qotwErnI/QP2BQ7eH0kUDapSM8G+j46iY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=zTyuSPUi; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1773485476; c=relaxed/simple;
+	bh=4Sq3DEK8G8zCXWtDdEnlAx8YFVSgsv/JQaaNI9zSiWw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Gcb60ps7NGTMTx5Z21GpI7iSZiktnfpgQ1vv5g2mxZFlP+Biwai9uRaEXYFqLDXVIfvIj6maF/RxXJsSCY7OPoR/D7TxpmVtuUg7QkZru354ZJTh2AFSzLFx8KN4IioCHwj8T3J5ScfiSgMRjeSGb7wzHHEsgp1Ee/X6q/DjJZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YQNGlDe3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="zTyuSPUi"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id DEC44C42721;
-	Sat, 14 Mar 2026 10:45:06 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 21DC56003C;
-	Sat, 14 Mar 2026 10:44:44 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 87C2C10369E03;
-	Sat, 14 Mar 2026 11:44:36 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1773485083; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=dTC/sqBnMIFHHDI7XhSbSaOIZ7PKMXbJl4q3w7ZEZGk=;
-	b=zTyuSPUioyoc4Qg94QN8MG4zUoQeCxhRes+PPku5Vd9ogHnHsM/jycywwSkkXe/q7aM62W
-	UjmdJgm+wVWABp7kNw9WSCqSPg84U6axxpZ7ySdPsKEhrImSHhWnXjpATZR8rRbcKPJnJI
-	COrmUpRtFc5MBWpBYW26NqpqlC6EheRVfh6B7qNSO5WGDUYC+zNhjoD6W1fg3OOjqQwAPd
-	obll7UwONi2qa6289K655FH9YkATW7dBkV/Ljie1g/CBB/BEin0yFlgb4O+yKhLjyQfO8U
-	X6f07ajCtt0T1Fye079B0iSMmWt5JXLqaFeOIUwgx8k24DB7Gr2GQivLzv28mw==
-Message-ID: <25a017e8-37f3-45ea-8849-8bad894111da@bootlin.com>
-Date: Sat, 14 Mar 2026 11:44:36 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YQNGlDe3"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 80852C116C6;
+	Sat, 14 Mar 2026 10:51:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773485475;
+	bh=4Sq3DEK8G8zCXWtDdEnlAx8YFVSgsv/JQaaNI9zSiWw=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=YQNGlDe3JMT4XCMGyOAnhOC1pgyp4ad9Te60T5oa8z0buUE3d52LKZQU8fisF4hC8
+	 FFNRn5CDkYjB+VjJKmWhRM/dW9A0stme+YZ+5fJ9xgwFRpQceNBqRxbMYOUJ/I9xJ7
+	 bm830cgBdx5G02X4MahRnkRVr74a/WNhUstIfkeO8OZ//7QByid6IBkS7LwupjPJkR
+	 gnNOqq+lro6q49qIukIJWYdm5LdOWmMnw4zMhfn6IX3B0MrA24RXKE960rFqBBQ4r2
+	 mLK5rHisvS5Ql1dTjHt4sCxcv05G6s8K+PUHuaIi8BhR3nouf26LAIpFmBcKJYp0WC
+	 wSvrfRrGWTF/A==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 779D010706CC;
+	Sat, 14 Mar 2026 10:51:15 +0000 (UTC)
+From: =?utf-8?q?Nuno_S=C3=A1_via_B4_Relay?= <devnull+nuno.sa.analog.com@kernel.org>
+Subject: [PATCH v7 0/3] hwmon: Add support for the LTC4283 Hot Swap
+ Controller
+Date: Sat, 14 Mar 2026 10:52:18 +0000
+Message-Id: <20260314-ltc4283-support-v7-0-1cda48e93802@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] crypto: replace broken libkcapi link in Crypto API
- documentation
-To: Randy Dunlap <rdunlap@infradead.org>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- "David S. Miller" <davem@davemloft.net>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260313-crypto-api-libkcapi-broken-link-v1-1-a218033d7f05@bootlin.com>
- <91914036-071a-4503-8fe3-9c69cd1f8a41@infradead.org>
-Content-Language: en-US
-From: Paul Louvel <paul.louvel@bootlin.com>
-In-Reply-To: <91914036-071a-4503-8fe3-9c69cd1f8a41@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAOM9tWkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyzHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDY0MT3ZySZBMjC2Pd4tKCgvyiEl0zw0QDy1RjM1MzU0sloK6CotS0zAq
+ widGxtbUAsEfWcmEAAAA=
+X-Change-ID: 20260314-ltc4283-support-61a09e365659
+To: linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, Linus Walleij <linusw@kernel.org>, 
+ Bartosz Golaszewski <brgl@kernel.org>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ Bartosz Golaszewski <brgl@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1773485540; l=1803;
+ i=nuno.sa@analog.com; s=20231116; h=from:subject:message-id;
+ bh=4Sq3DEK8G8zCXWtDdEnlAx8YFVSgsv/JQaaNI9zSiWw=;
+ b=V/ukvSe4Rq3Wz5tKTRrUOYrNTvQfWH7HW68j6w5IhtJqkTDYRYBmpWMuTwdseG2bbCZ1xan0l
+ cjZiUn5QlmIB7LuYlnfx8/wq7A1JhDt/lLVoen1O20MUSg0Zdd5mG9N
+X-Developer-Key: i=nuno.sa@analog.com; a=ed25519;
+ pk=3NQwYA013OUYZsmDFBf8rmyyr5iQlxV/9H4/Df83o1E=
+X-Endpoint-Received: by B4 Relay for nuno.sa@analog.com/20231116 with
+ auth_id=100
+X-Original-From: =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>
+Reply-To: nuno.sa@analog.com
 
-Hi,
+This is v7 for the LTC4283 how swap controller. Main change is that I'm
+now using the auxiliary bus for adding the GPIO device (done depending
+on FW properties).
 
-I have just checked this morning on the same browser, and indeed, it works.
-It was broken for the past few days.
-Please ignore this patch then.
+Similar to the LTC4282 device, we're clearing some fault logs in the
+reset_history attributes.
 
-Regards,
-Paul.
+---
+Changes in v7:
+ - Patch 2:
+    * Initialize raw energy to 0;
+    * Clamp power val;
+    * Handle BIT(8) edge case in ltc4283_write_in_byte();
+    * Clamp ISENSE according to vsense_max;
+    * Fix ltc4283_write_curr_history() by converting vsense_max to
+      micro;
+    * Fix default rsense value (expected to be in nano ohm);
+    * Terminate table in sysfs attrs.
+Link to v6: 
+  - https://lore.kernel.org/linux-hwmon/20260303-ltc4283-support-v6-0-efe11502fad2@analog.com/
 
-On 3/14/26 12:46 AM, Randy Dunlap wrote:
->
-> On 3/13/26 3:00 PM, Paul Louvel via B4 Relay wrote:
->> From: Paul Louvel <paul.louvel@bootlin.com>
->>
->> The "User Space Interface" section of the Crypto API documentation
->> contains a link to the libkcapi project that no longer works.
->>
->> Update the link to point to the correct upstream location so that
->> users can access the library documentation.
->>
->> Signed-off-by: Paul Louvel <paul.louvel@bootlin.com>
->> ---
->> The "User Space Interface" of the Crypto API documentation has a broken
->> link to libkcapi. Replacing it with a working one.
->> ---
->>   Documentation/crypto/userspace-if.rst | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/Documentation/crypto/userspace-if.rst b/Documentation/crypto/userspace-if.rst
->> index 021759198fe7..79e41845f611 100644
->> --- a/Documentation/crypto/userspace-if.rst
->> +++ b/Documentation/crypto/userspace-if.rst
->> @@ -23,7 +23,7 @@ user space, however. This includes the difference between synchronous
->>   and asynchronous invocations. The user space API call is fully
->>   synchronous.
->>   
->> -[1] https://www.chronox.de/libkcapi/index.html
->> +[1] https://www.chronox.de/libkcapi/
->>   
->>   User Space API General Remarks
->>   ------------------------------
->> @@ -406,4 +406,4 @@ Please see [1] for libkcapi which provides an easy-to-use wrapper around
->>   the aforementioned Netlink kernel interface. [1] also contains a test
->>   application that invokes all libkcapi API calls.
->>   
->> -[1] https://www.chronox.de/libkcapi/index.html
->> +[1] https://www.chronox.de/libkcapi/
->>
->> ---
->> base-commit: b84a0ebe421ca56995ff78b66307667b62b3a900
->> change-id: 20260313-crypto-api-libkcapi-broken-link-65069e8ce688
->>
->> Best regards,
-> Hi,
-> Either link works for me (with the same content).
-> Could it be browser-dependent?
->
->
--- 
-Paul Louvel, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+---
+Nuno Sá (3):
+      dt-bindings: hwmon: Document the LTC4283 Swap Controller
+      hwmon: ltc4283: Add support for the LTC4283 Swap Controller
+      gpio: gpio-ltc4283: Add support for the LTC4283 Swap Controller
+
+ .../devicetree/bindings/hwmon/adi,ltc4283.yaml     |  272 +++
+ Documentation/hwmon/index.rst                      |    1 +
+ Documentation/hwmon/ltc4283.rst                    |  266 +++
+ MAINTAINERS                                        |    9 +
+ drivers/gpio/Kconfig                               |   15 +
+ drivers/gpio/Makefile                              |    1 +
+ drivers/gpio/gpio-ltc4283.c                        |  218 +++
+ drivers/hwmon/Kconfig                              |   12 +
+ drivers/hwmon/Makefile                             |    1 +
+ drivers/hwmon/ltc4283.c                            | 1787 ++++++++++++++++++++
+ 10 files changed, 2582 insertions(+)
+---
+base-commit: 33f9280f8a3a1b8e1df9ab1ff4f9d2654f434f3c
+change-id: 20260314-ltc4283-support-61a09e365659
+--
+
+Thanks!
+- Nuno Sá
+
 
