@@ -1,174 +1,95 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AE3736165B
-	for <linux-doc@vger.kernel.org>; Sat, 14 Mar 2026 13:34:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0429D1C8634;
+	Sat, 14 Mar 2026 14:18:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773495301; cv=none; b=U8dQMM7G5CalCxbBZ+IiLkVCvLrrvB+LQtnBa8tt9ADg025ZOhoY/inxJW4NrLk8H2UrBKlhh+s1lpcUQWYz76dwNypJznRJpxvAGCxB4LF9QngqcqK4AwPT6/Iv2/BNWvcuz7ZAICpX6fyJMIFgQtQkJyxc3OqLaCHWz+fJuaY=
+	t=1773497910; cv=none; b=Q2MgGbxK/MtAAPU2V/Dvw71OZaciPDbK4QMxwGjPttS78Dhkgey7F3AXHetmqa54FiNGigMLQHKvbX4Ug+6bvw97+CkdsZ4HT7FTneTqmf12tY64SHQZ+lmU9aI5rH3K6d3h+RPBVw955sgnqcoBt5/YnoxDfv/AVqeOxKoZMds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773495301; c=relaxed/simple;
-	bh=/Qid3hkUBpASpuLf29wSkgrdvJStJoAAH5tTwsjosZo=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mfoy0GPTYcEG1q8Rlgf+BwIZWOU0bZlK7JKieq+QPPICPLhmCSeVwXeaqmCp5aaKuLHfRDjldQP/BgF+9XRn8mQLrbX3lVyFd79MTp1ozA+BphB1qf5ZmGOATxzMOzgxcNVIFarD/BEJPVPcNycgYz/Upu4+1UMaQwCEW+k9ULk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=W+KsUw8e; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LXdeMflM; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=W+KsUw8e; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=LXdeMflM; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1773497910; c=relaxed/simple;
+	bh=dFxsqf4Aca6k1P1SZv26A6CvFoof0deScWpgJp6w8aE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=o84FCgDS3LOcJPpc0cMpVIs0vvRUWCtDNUDhbV5vH46vc3q2Ix0jm/K0V6Lo9U31BiLsBTV9IKWUGOoERjJcGsG+lU96i9k5m4V0BSkI3aPE3coHH+SbQOknZMp5AOs3vgZQ6xXQI/34/1FDf+e7sLsbiq2yWpfGpKtIuV4R5MY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y6e+e9Z5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="W+KsUw8e";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LXdeMflM";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="W+KsUw8e";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="LXdeMflM"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 8AF974D2C4;
-	Sat, 14 Mar 2026 13:34:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1773495297; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=21VmdXSryTgZznezmBom2DP/mK5xxTx1lnIUaZTTHlM=;
-	b=W+KsUw8estAzwHfs7c1yunKEkL0AhP65tvzHcohon+J5Bpdh1vCC05Xk6uOk8fg15E3DJL
-	qivxSgoBnZr71SbnMYu22FHkUPjuZOlRcMFkVbCKTqp25sOSR2J1+6xAJbrkLQxreoRxZl
-	ZIKuCdEjFrpHd7jbTyWSP/0COQA9hhI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1773495297;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=21VmdXSryTgZznezmBom2DP/mK5xxTx1lnIUaZTTHlM=;
-	b=LXdeMflMnq4JtEguRhPtm1JGXtCNnCE/6P6ow35SCL54s0SWEPakygULh7wnB+fAVZNad4
-	KBwT/rIrpD2N/RBw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=W+KsUw8e;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=LXdeMflM
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1773495297; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=21VmdXSryTgZznezmBom2DP/mK5xxTx1lnIUaZTTHlM=;
-	b=W+KsUw8estAzwHfs7c1yunKEkL0AhP65tvzHcohon+J5Bpdh1vCC05Xk6uOk8fg15E3DJL
-	qivxSgoBnZr71SbnMYu22FHkUPjuZOlRcMFkVbCKTqp25sOSR2J1+6xAJbrkLQxreoRxZl
-	ZIKuCdEjFrpHd7jbTyWSP/0COQA9hhI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1773495297;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=21VmdXSryTgZznezmBom2DP/mK5xxTx1lnIUaZTTHlM=;
-	b=LXdeMflMnq4JtEguRhPtm1JGXtCNnCE/6P6ow35SCL54s0SWEPakygULh7wnB+fAVZNad4
-	KBwT/rIrpD2N/RBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4265C42724;
-	Sat, 14 Mar 2026 13:34:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 7K6hDgFktWmaDwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sat, 14 Mar 2026 13:34:57 +0000
-Date: Sat, 14 Mar 2026 14:34:56 +0100
-Message-ID: <87tsuia60v.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Myroslav Demchenko <myro@myromyro.com>
-Cc: perex@perex.cz,
-	tiwai@suse.com,
-	corbet@lwn.net,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y6e+e9Z5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1296C116C6;
+	Sat, 14 Mar 2026 14:18:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773497909;
+	bh=dFxsqf4Aca6k1P1SZv26A6CvFoof0deScWpgJp6w8aE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Y6e+e9Z55B5bFJ9VYj3j+DJug1ullxkjdgXYtpmfH9TltIqgnIDfbD8XWkAfUjy1U
+	 7IXyctDnrZXSUiF3ZYrFO4cax0f3Hds9jtzjp8hxxqk+B1/+ghvm6ZmhSXUpGO0/D3
+	 aGvBNcCz/NKpDW6Fi351fxSH8TB5aocOWXuLIaGmFgfFx0E91f6gsn1sl+6HwD3vim
+	 aKeTVoN5EG11jCX1yUpy4qc0LIwpw+JizAJyFwK45s33CpD7BZhVE960lQ4nglvYRd
+	 BZV3pPCYcfGy8dQSMW/uJGgn7qHWqJ1dpMwgSOGF+4uvmYHdaUCQpVxrjxdqkkdiNL
+	 paxGmCchJKd6Q==
+From: Sasha Levin <sashal@kernel.org>
+To: oberpar@linux.ibm.com
+Cc: corbet@lwn.net,
 	skhan@linuxfoundation.org,
-	linux-sound@vger.kernel.org,
-	linux-doc@vger.kernel.org,
+	nathan@kernel.org,
+	linux-kbuild@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	mirademche@gmail.com
-Subject: Re: [PATCH] docs: sound: clarify PulseAudio and PipeWire configuration description
-In-Reply-To: <20260313120140.45022-1-myro@myromyro.com>
-References: <20260313120140.45022-1-myro@myromyro.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	linux-doc@vger.kernel.org,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 0/4] gcov: Add MC/DC condition coverage support
+Date: Sat, 14 Mar 2026 10:17:45 -0400
+Message-ID: <20260314141749.3382679-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:32098, ipnet:2800::/6, country:US];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[perex.cz,suse.com,lwn.net,linuxfoundation.org,vger.kernel.org,gmail.com];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -3.51
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 8AF974D2C4
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Fri, 13 Mar 2026 13:01:40 +0100,
-Myroslav Demchenko wrote:
-> 
-> Modern sound servers such as PulseAudio and PipeWire support dynamic
-> configuration, so this feature is rarely needed today. However, it
-> was useful in the past when audio setups relied on static configuration.
+This series adds support for GCC's MC/DC (Modified Condition/Decision
+Coverage) instrumentation to the kernel's gcov subsystem.
 
-Hmm, I don't see much difference in the information you changed.
-Is it just a rephrase of the same context?  The new text also doesn't
-improve so significantly, honestly speaking.
+MC/DC verifies that each condition in a boolean decision independently
+affects the decision's outcome. It is required by safety standards such
+as DO-178C (avionics) and ISO 26262 (automotive). GCC 14 added MC/DC
+instrumentation via -fcondition-coverage.
 
-Also the patch description is just a copy of the documentation, which
-also doesn't help for understanding about your change.  It should
-clarify what changed for which reason.
+Patch 1 fixes a pre-existing bug in gcov_info_add() where IOR-based
+counters (bitsets) were incorrectly merged with += instead of |=.
+Patches 2-3 add the CONFIG_GCOV_CONDITION_COVERAGE Kconfig option and
+wire up the compiler flag. Patch 4 documents the feature.
 
+With CONFIG_GCOV_CONDITION_COVERAGE=y, gcov --conditions shows per-line
+condition coverage:
 
-thanks,
+  4577658:  257:	if (node->num_loaded > 0)
+  condition outcomes covered 2/2
+  4577658:  355:	if (info && (strcmp(gcov_info_filename(info), name) == 0))
+  condition outcomes covered 2/4
+  condition  0 not covered (true)
+  condition  1 not covered (true)
+     2896:  420:	if (!copy)
+  condition outcomes covered 1/2
+  condition  0 not covered (true)
 
-Takashi
+Tested with GCC 15.2, verified boot + gcov data extraction + gcov
+--conditions output. Also verified clean build with LLVM=1 (condition
+coverage correctly disabled for Clang).
 
+Sasha Levin (4):
+  gcov: fix gcov_info_add() merge semantics for IOR counters
+  kconfig: add CC_HAS_CONDITION_COVERAGE for MC/DC support detection
+  gcov: add MC/DC condition coverage support
+  Documentation: gcov: document MC/DC condition coverage support
 
-> 
-> Signed-off-by: Myroslav Demchenko <myro@myromyro.com>
-> ---
->  Documentation/sound/alsa-configuration.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/sound/alsa-configuration.rst b/Documentation/sound/alsa-configuration.rst
-> index 55b845d38236..a3d8da5a3f6c 100644
-> --- a/Documentation/sound/alsa-configuration.rst
-> +++ b/Documentation/sound/alsa-configuration.rst
-> @@ -142,9 +142,9 @@ in primary usage, and people would like to assign it as the first
->  appearing card. They can do it by specifying "index=1,0" module
->  parameter, which will swap the assignment slots.
->  
-> -Today, with the sound backend like PulseAudio and PipeWire which
-> -supports dynamic configuration, it's of little use, but that was a
-> -help for static configuration in the past.
-> +Today, sound servers such as PulseAudio and PipeWire support dynamic
-> +configuration, so this feature is rarely needed. However, it was
-> +useful in the past when audio setups relied on static configuration.
->  
->  Module snd-adlib
->  ----------------
-> -- 
-> 2.53.0
-> 
+ Documentation/dev-tools/gcov.rst | 25 +++++++++++++++++++++++++
+ Makefile                         |  3 +++
+ arch/x86/um/vdso/Makefile        |  4 ++--
+ init/Kconfig                     |  3 +++
+ kernel/gcov/Kconfig              | 15 +++++++++++++++
+ kernel/gcov/gcc_4_7.c            | 25 ++++++++++++++++++++++---
+ 6 files changed, 70 insertions(+), 5 deletions(-)
+
+-- 
+2.51.0
+
