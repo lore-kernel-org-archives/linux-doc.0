@@ -1,96 +1,120 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C31A557C9F
-	for <linux-doc@vger.kernel.org>; Sat, 14 Mar 2026 22:10:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98D6233DEE1
+	for <linux-doc@vger.kernel.org>; Sat, 14 Mar 2026 22:44:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773526229; cv=none; b=iaGlGP1bQ9L3Mm4VhPPWuheDw8qCZrbfsmAKuRGwBNBo3TDydmum8Oj6K3wuTb8eoeUeey8ITbvJmbTmfxP0zvwtvEMEGRSBs1UhgW03THUaCuHMP2TpBHj66Yaphs8yA7+6JRo7H/CbAwaiOMVfegRY5Y9QUPn362ZBF78vqAQ=
+	t=1773528284; cv=none; b=JynK+iqGW9VIgIh8CaPNGVMfQpdwkxWRBDqLAP/6d/1ER3DoCF1XdtLroib8NQ/RQW4ju7+jtUUtFC4TI0dDZzGMV/j8tKY2JFvHR3X4T2674MiZJRUsEMBxoo3yP8Y+ep2nkD4PWN8LoPE2rUeEHXCMmO9lgVAk9ObA3t4EzTM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773526229; c=relaxed/simple;
-	bh=ljv+EXuBEEWbXLe8dZO93iErHCN0AyqUa381jkHq0co=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=Rj6+yDFnJLFMB2WoWIw4x6vGkyPxJ8CSejtRKL4ZlmjqT1kNqBcmZI3jaNJxnKeEPKytxTXPXfqYb5R5DIWs9yp1nkUdzy3WX/HXUM0ERNeIyETa6uLgf2uzDA079qgAt/0OdLCyLeThSmmoFssKoqdFmcUmJHV9pC6STABFqy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=heL2DPK7; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1773528284; c=relaxed/simple;
+	bh=+BzfWIbWutBn9FVLenIu2cDO6fBukYew6iGg+YJ9bLU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=b0Se4qNJsku1BqBzC7omxBxo09Hnw0pA2qj/RoVIQmzV7nqQ+bo/tjVmJEyyhmmrhy6IXBpcLMsbUd2/y1aCVHjSLRx5FpKkfkwNXi6n7NbvoQV63TYp1a5KEFg92nZhwS7kAnhAN1rBUXr4xpAXzJW6PBN/MJB65bxsZHODdHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HUHvKzBF; arc=none smtp.client-ip=209.85.219.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="heL2DPK7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773526227; x=1805062227;
-  h=date:from:to:cc:subject:message-id;
-  bh=ljv+EXuBEEWbXLe8dZO93iErHCN0AyqUa381jkHq0co=;
-  b=heL2DPK7dYBGCqNfFGSOt8jvIPVFFr8hiq8qAFwPHj3Cog8pVwU0aWv7
-   xm2sc39y+8EEvh6qd2HJoRb0reaORpHJp4QVjFNRg9w8NRMFoZUVSGJgH
-   l65nQXNsdDNCu1GJT3riieTc3a118GNERRiqEMcdytyPm39Rg7o7K38nz
-   Tf8txa7l0pKJc6jQ/m+Uv7KygY2ZRyemNOUxO87sfha3JfDXJBFg3kA6e
-   81IuelK2RlnqwTI0pV5fZoGr/5a4M1bhtcel+4hWlnL+PYbWkhR/2EM0/
-   BLNW0vvhauoRfL4zGdwuI5/1JmqKeA7x7Zpd7KJr7QQXHCvEzAcYi4KYI
-   Q==;
-X-CSE-ConnectionGUID: 2HAhPv2VTOqfNjan2SYg7g==
-X-CSE-MsgGUID: 4NSYfBrESoequ+GTY104gg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11729"; a="100052595"
-X-IronPort-AV: E=Sophos;i="6.23,119,1770624000"; 
-   d="scan'208";a="100052595"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2026 15:10:26 -0700
-X-CSE-ConnectionGUID: v6gfr2UySZ2B3R0o9DZvYw==
-X-CSE-MsgGUID: 5zi7kG0jTrq++BVioKIm+w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,119,1770624000"; 
-   d="scan'208";a="219184840"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by fmviesa008.fm.intel.com with ESMTP; 14 Mar 2026 15:10:25 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w1XBe-000000003rN-3cGF;
-	Sat, 14 Mar 2026 22:10:22 +0000
-Date: Sat, 14 Mar 2026 23:09:23 +0100
-From: kernel test robot <lkp@intel.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [robh:dt-convert 108/621] htmldocs: Warning:
- Documentation/devicetree/bindings/display/ti/ti,dra7-dss.yaml references a
- file that doesn't exist:
- Documentation/devicetree/bindings/display/ti/ti,omap-dss.txt
-Message-ID: <202603142248.njXO20Ql-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HUHvKzBF"
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-89a09ef1e3aso44892536d6.0
+        for <linux-doc@vger.kernel.org>; Sat, 14 Mar 2026 15:44:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773528282; x=1774133082; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nuJUhym4M/ZFIJ+HRVLrIiZVMxaVq6Aogwi4UFclA/I=;
+        b=HUHvKzBF5hhX4JfsIma2dg7iVHahQVXvhnXj8AsIHtXNbMgTUuSYsPwy8VLT9xnEzF
+         EeX7jt9RC7YfoK+BU25zJMWlMfztSjsh3LnnNpj0z0DyMWJqPXNAXYzgXzCr8TyUV0E8
+         QwN8SbxvwIoa1lZiVk+/ugNlZzDW5T1SeilDNtenbONU4IVtyDb5jrAkYPnnyjoXawjR
+         Eox8mi29T0lZpOE9gmj0Fedk5acbLbj8L20uDD9X1MIqxRUUFgjHdJj4pPZRH+cX/WKG
+         FVAixQnIPaGULYn/1rQ5NgpgG4pP3cblsCvSepBTlhftfQ/CD85LZ15xbYP44UzQuVmT
+         HPzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773528282; x=1774133082;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=nuJUhym4M/ZFIJ+HRVLrIiZVMxaVq6Aogwi4UFclA/I=;
+        b=lfFevIWUjH6haUclMXff0qQ5SQRnwhNyUV2iOLJuKWPgEiJzHEuIvCKriuWyLV9s8c
+         8+QPyfCTpPV/EHmvubCq/Nk4dUMuribXTG0+x7Tsv99L4YfdpGIH+SvfszjGxKKJZzj7
+         141VXO6TrrVmXPKxqssKd00lUY3y3/OAh49d8m7bWIAa9Mc5P9SgmjzWc8bqkeiO+/ac
+         tpF8OT9cA5G1tDkYRHoWzIN1KPN/hZuJVuQiMb8+eyWb9T4lu1omigNrtHgSGAXNdtdZ
+         iC8vhXW37bsD6jEUrhJaFgLSwJfA6xKS66XzVtAc9wT6IXMSfnjHENqhzxQCLPY9BLjo
+         OT0w==
+X-Forwarded-Encrypted: i=1; AJvYcCUOq772+g/gCL+nMBRgHQaLeWbk6uT5HEbHU4Vcq9K3P2CK4bZUgSdj15gerC7MYmZZbLjsXYrEoyc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyI1jCtRuH/wnrlI+ll3LLzJ4ggCJ8EMpLuUnt7FaigM3ooKl+Z
+	B++XHkOIOilKdaDJ6WkGzKeYEV980fVC5bsNhEN+t30l/TI1npXCIgUH
+X-Gm-Gg: ATEYQzxZQtMG3SSPvcJMfKDnF6Gqdr8KD26AevEzo1ZOSLIKpaNoyHqnyl+wc3hKliX
+	+Z3Xi2ZdoIUeC0LYSsl4VAvl8CizrPKRxFh4PBg/9iswGAtW9bPGCNrFckW+XtMsym1P0HRK/rd
+	a5CD6xyF/70foSgcpxnPu7m1EGaAy2vi6Ya8sUc+mklDTVHDz5J26I3T/dZhpYoxp9lMJXregNP
+	gmcxR0fYm9t0ltkDNcUR2K19WbQhmW7LHV5rskoQYsTE73UxIpJFFnRUdVrGIJkXpWYxDQPGHj8
+	gpro/f3p5NwdGgS3AvoCFwTyu1mlj/Xnm+iyiHFgcBihCCbrJFXZbVDEGfVxxKiXL5v2LAmR7Nn
+	RBroiQa0XhiHhi5CEZv8n1YcibCaUVRj7l++Qj1eyENyyC+M9xnAgav5Cpbp4UpmwCfsMGZmZxo
+	/kr57TWjfv8ehXZoroSmNLELNi2BhinPz0S7+cp7Wt7yfVIqe0DvB1Vq8yC0C8G0qs
+X-Received: by 2002:a05:6214:529d:b0:89a:173d:9c54 with SMTP id 6a1803df08f44-89a81cb9be9mr117730886d6.8.1773528282565;
+        Sat, 14 Mar 2026 15:44:42 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89c43bb47c3sm11296526d6.14.2026.03.14.15.44.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 14 Mar 2026 15:44:41 -0700 (PDT)
+Date: Sat, 14 Mar 2026 22:44:35 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: Sasha Levin <sashal@kernel.org>, linux-api@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, workflows@vger.kernel.org,
+ tools@kernel.org, x86@kernel.org, Thomas Gleixner <tglx@kernel.org>, "Paul
+ E. McKenney" <paulmck@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, Dmitry
+ Vyukov <dvyukov@google.com>, Randy Dunlap <rdunlap@infradead.org>, Cyril
+ Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>, Jake Edge
+ <jake@lwn.net>, Askar Safin <safinaskar@zohomail.com>, Gabriele Paoloni
+ <gpaoloni@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Christian Brauner <brauner@kernel.org>, Alexander Viro
+ <viro@zeniv.linux.org.uk>, Andrew Morton <akpm@linux-foundation.org>,
+ Masahiro Yamada <masahiroy@kernel.org>, Shuah Khan
+ <skhan@linuxfoundation.org>, Ingo Molnar <mingo@redhat.com>, Arnd Bergmann
+ <arnd@arndb.de>
+Subject: Re: [PATCH 0/9] Kernel API Specification Framework
+Message-ID: <20260314224435.35465615@pumpkin>
+In-Reply-To: <20260314111822.63a2ba4a@kernel.org>
+References: <20260313150928.2637368-1-sashal@kernel.org>
+	<20260314111822.63a2ba4a@kernel.org>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt-convert
-head:   c8198e311a98fefcf9efff078bf3930ff94b60d2
-commit: 7aeacb62dd3e8032032a52bdf75fb9fbcf198ef4 [108/621] dt-bindings: display: Convert ti/ti,omap-dss to DT schema
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260314/202603142248.njXO20Ql-lkp@intel.com/reproduce)
+On Sat, 14 Mar 2026 11:18:22 -0700
+Jakub Kicinski <kuba@kernel.org> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603142248.njXO20Ql-lkp@intel.com/
+> On Fri, 13 Mar 2026 11:09:10 -0400 Sasha Levin wrote:
+> > This enables static analysis tools to verify userspace API usage at compile
+> > time, test generation based on formal specifications, consistent error handling
+> > validation, automated documentation generation, and formal verification of
+> > kernel interfaces.  
+> 
+> Could you give some examples? We have machine readable descriptions for
+> Netlink interfaces, we approached syzbot folks and they did not really
+> seem to care for those.
 
-All warnings (new ones prefixed by >>):
+The whole thing reminds me of doxygen comment blocks.
+They tend to make it hard to read the source files, hard to search
+the source files (due to all the extra matches) and are pretty much
+always out of date.
 
-   Warning: Documentation/devicetree/bindings/clock/st/st,clkgen-c32.yaml references a file that doesn't exist: Documentation/devicetree/bindings/clock/st/st,clkgen-pll.txt
-   Warning: Documentation/devicetree/bindings/clock/st/st,clkgen-c32.yaml references a file that doesn't exist: Documentation/devicetree/bindings/clock/st/st,quadfs.txt
-   Warning: Documentation/devicetree/bindings/clock/st/st,clkgen-c32.yaml references a file that doesn't exist: Documentation/devicetree/bindings/clock/st/st,flexgen.txt
-   Warning: Documentation/devicetree/bindings/clock/st/st,clkgen-pll.yaml references a file that doesn't exist: Documentation/devicetree/bindings/clock/st/st,clkgen.txt
-   Warning: Documentation/devicetree/bindings/clock/ti/ti,dra7-apll-clock.yaml references a file that doesn't exist: Documentation/devicetree/bindings/clock/ti/dpll.txt
->> Warning: Documentation/devicetree/bindings/display/ti/ti,dra7-dss.yaml references a file that doesn't exist: Documentation/devicetree/bindings/display/ti/ti,omap-dss.txt
->> Warning: Documentation/devicetree/bindings/display/ti/ti,omap2-dss.yaml references a file that doesn't exist: Documentation/devicetree/bindings/display/ti/ti,omap-dss.txt
->> Warning: Documentation/devicetree/bindings/display/ti/ti,omap3-dss.yaml references a file that doesn't exist: Documentation/devicetree/bindings/display/ti/ti,omap-dss.txt
->> Warning: Documentation/devicetree/bindings/display/ti/ti,omap4-dss.yaml references a file that doesn't exist: Documentation/devicetree/bindings/display/ti/ti,omap-dss.txt
->> Warning: Documentation/devicetree/bindings/display/ti/ti,omap5-dss.yaml references a file that doesn't exist: Documentation/devicetree/bindings/display/ti/ti,omap-dss.txt
-   Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/regulator/cpcap-regulator.txt
-   Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/rtc/cpcap-rtc.txt
-   Warning: Documentation/devicetree/bindings/regulator/motorola,cpcap-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/devicetree/bindings/remoteproc/ti,keystone-rproc.txt references a file that doesn't exist: Documentation/devicetree/bindings/reset/ti-syscon-reset.txt
+The kerndoc comment blocks for trivial helper functions are hard enough
+to keep up to date.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+The only way even parameter descriptions are going to stay correct is if the
+compiler is using the definition and only the comment part is extra.
+For error returns you'll need the documentation to be at the return site.
+
+	David
