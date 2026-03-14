@@ -1,73 +1,69 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 564822F851
-	for <linux-doc@vger.kernel.org>; Sat, 14 Mar 2026 18:17:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 823A72F851;
+	Sat, 14 Mar 2026 18:18:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773512279; cv=none; b=HxlLcKCdLhH6as782TrDPNKLRdhd1tpUBy3unQsqsJS72SdnpBi3IW80stHtL0vM1+xrjT3bH0+WQbWS2t58YhssRJ3q2lwka3b2TEOiSCKjNNBdwRhHIxvhTu29tUMgDTXxFebXm6A/Ks7ecdTfEn4mxMT6TfkM7Fh1aPQclJw=
+	t=1773512304; cv=none; b=GwULPmlR3pl6Y4vCIHYxY0eMr8hzMmlwb+wXn2DMyAWcd5uDPWb8VighXw1QARQYZNFoTGPWbCB5E6Rkw902ZWKHDfBomDCplJ8wqVEwXQykr+ME8cYqkjLHvTY2UsKdPTlNwBhsROVH5CHl0LQjhoC8pXZ+JxxPkVHX2Xn5Ac8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773512279; c=relaxed/simple;
-	bh=5lyc4nYBYKJUb0KYCmeiT0EMMXqOAiiUHayvp7zQMJ4=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=F2Ma2wJ59M7rlM96eFu9IdBP0ZJ4cSDZSljMN/YB24UaiYjdgww3eGJmNcVeU2Yu2xf3dci9iGWCsp9ogVtoUYuVyDpUcDZL3ZtWSc1DMWUseMO5ELrvxwGLqHgWskqSEeYizAOcWkUtU0L9uQ4RAosm3C4hx08PK3y6UtUzp5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=REWDu3KA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773512304; c=relaxed/simple;
+	bh=68Bjyoi3gtdErelVO/sN0br35R51BTPCrE2rCbJxO44=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=H1L36lQA72nGGy59SXGouwXW1OguRaAIcZaplBGYWLrYzhw53qGv6b7AnS7vKmR6loksuSnw1XVxDGq/2nHjbMTlFINOubTZAGNobFEZnaMFFidr1pCKWvjkUAuH+Quj/cjRybjzFhxM/PmOZT4Jo5NIAJa29QZEIQIUs2SmpI4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ljmQoDo6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="REWDu3KA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A263BC116C6;
-	Sat, 14 Mar 2026 18:17:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1773512278;
-	bh=5lyc4nYBYKJUb0KYCmeiT0EMMXqOAiiUHayvp7zQMJ4=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ljmQoDo6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00466C116C6;
+	Sat, 14 Mar 2026 18:18:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773512304;
+	bh=68Bjyoi3gtdErelVO/sN0br35R51BTPCrE2rCbJxO44=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=REWDu3KAP6d0lLPALgItFItoZzlGs4vQ3BHFEgSJ8jdkBe704scT4OcGb3Q/A/mOM
-	 vD8uJha6tAaW6bdGd3XDR2mDp8WY1NCrgtgSgcFliDiIZ5nx9MNNVeL2X6T3tR7F5t
-	 WkCSOi0RIxuYUxUJvGfeQ2KjrOXFpbdPUwsHLR/o=
-Date: Sat, 14 Mar 2026 11:17:57 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Kit Dallege <xaum.io@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, david@kernel.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, Mel Gorman <mgorman@techsingularity.net>
-Subject: Re: [PATCH] Docs/mm: document Shared Memory Filesystem
-Message-Id: <20260314111757.2a17c3acce8c3a1eb68ed209@linux-foundation.org>
-In-Reply-To: <CAAZVx98Sz1MknCcMpQXxeGpUjXBDyz+0KyRuUiCXsM+3qzqpeA@mail.gmail.com>
-References: <20260314152538.100593-1-xaum.io@gmail.com>
-	<87ms0ajtvy.fsf@trenco.lwn.net>
-	<CAAZVx98Sz1MknCcMpQXxeGpUjXBDyz+0KyRuUiCXsM+3qzqpeA@mail.gmail.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	b=ljmQoDo6+8N5qariNMP+lxBxK9JyF7T0M+fUn2PH5u1KxLF9wwqV4xeYeOD9teSUI
+	 0vRosx7dOI9CiCAb440Az7+OWWQgJXPXB9o73UyHwNLk7jTd7Kvb44zSI5Yg+eqMih
+	 Z4tqWM39rhUqviuVVfoBB7EyeE0f3aG67KuYz81hK+3HV3pD1sKJ9fHwr2ySEXA8Dt
+	 YZd9LQ+Y+G938tznqGltVQiP8SgiEHeMISaghcdU4Wy2FDoHlP0RKyN7bgzEngnDGT
+	 XqYkaEvqCd3epEpoGm0D8oEqQJV/9aal++4UMS4E34uFBDZgv/yPrLkytWT8aFAwbH
+	 iemdxGuEO1zJQ==
+Date: Sat, 14 Mar 2026 11:18:22 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Sasha Levin <sashal@kernel.org>
+Cc: linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ workflows@vger.kernel.org, tools@kernel.org, x86@kernel.org, Thomas
+ Gleixner <tglx@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Jonathan Corbet
+ <corbet@lwn.net>, Dmitry Vyukov <dvyukov@google.com>, Randy Dunlap
+ <rdunlap@infradead.org>, Cyril Hrubis <chrubis@suse.cz>, Kees Cook
+ <kees@kernel.org>, Jake Edge <jake@lwn.net>, David Laight
+ <david.laight.linux@gmail.com>, Askar Safin <safinaskar@zohomail.com>,
+ Gabriele Paoloni <gpaoloni@redhat.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Christian Brauner <brauner@kernel.org>, Alexander
+ Viro <viro@zeniv.linux.org.uk>, Andrew Morton <akpm@linux-foundation.org>,
+ Masahiro Yamada <masahiroy@kernel.org>, Shuah Khan
+ <skhan@linuxfoundation.org>, Ingo Molnar <mingo@redhat.com>, Arnd Bergmann
+ <arnd@arndb.de>
+Subject: Re: [PATCH 0/9] Kernel API Specification Framework
+Message-ID: <20260314111822.63a2ba4a@kernel.org>
+In-Reply-To: <20260313150928.2637368-1-sashal@kernel.org>
+References: <20260313150928.2637368-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
+MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Sat, 14 Mar 2026 17:02:47 +0100 Kit Dallege <xaum.io@gmail.com> wrote:
+On Fri, 13 Mar 2026 11:09:10 -0400 Sasha Levin wrote:
+> This enables static analysis tools to verify userspace API usage at compile
+> time, test generation based on formal specifications, consistent error handling
+> validation, automated documentation generation, and formal verification of
+> kernel interfaces.
 
-> Hi Jon,
-> 
-> The material was written with AI assistance (Claude) and then verified
-> against the source code in mm/shmem.c. I read through the implementation,
-> the existing comments, and Mel Gorman's book outline to identify what
-> should be covered, then used AI to help draft the prose, which I reviewed
-> and edited.
-
-OK, so you're saying that you created the content and used an LLM to
-assist in finishing it off?
-
-> I'm happy to rework anything that's inaccurate or doesn't meet the bar.
-> Should I add an Assisted-by tag to the commit?
-
-Yes, Assisted-by: is appropriate and useful here.
-
-From a quick scan, this material appears to be helpful and I think it
-would be good for us to get this into the tree in some fashion.  Which
-will involve asking the relevant MM developers to review each change.
-
-> Mel Gorman's book outline
-
-Well, Mel may have an opinion on this - hopefully you discussed this
-with him beforehand.
-
+Could you give some examples? We have machine readable descriptions for
+Netlink interfaces, we approached syzbot folks and they did not really
+seem to care for those.
