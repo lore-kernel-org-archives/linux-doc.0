@@ -1,62 +1,62 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FDB51DED63
-	for <linux-doc@vger.kernel.org>; Sat, 14 Mar 2026 15:25:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC772D9EE7
+	for <linux-doc@vger.kernel.org>; Sat, 14 Mar 2026 15:25:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773501938; cv=none; b=S1lBafQhyRNtgny6vO6B4m5pg6L7ww+ua2yQQqVAdFWfajoybXihFsZqdo88mv/BpxBXkKFgE+nx4zEdamae7SVYgJ03cpEA42dPVpXfMMv7CTJqb1VmQ0lSEtGxKdMnXHRt7OnQ9GT3xk3Hs8fJSX9qkXSvjfioTy0yGJd1v4k=
+	t=1773501940; cv=none; b=kMWMiRa4V4msHgYY9E9Jw6QxB8Uhjj/K+NFZjQuoeyp4Y/8fxePAHKO6ZUdw+3fA+RGxWYp0sO8dWrqBukhEua5WnAIeIdHgaiy182p17jNk0RuSyOnJSIJrkGwTGlwKfneOmGuge/zcMH5IAAzULuiTvKDKsJiXT30N1yIs9Io=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773501938; c=relaxed/simple;
-	bh=ZEMLdp79ECkeqdxdn15F1IyjkUVQdowEbuLo5IwJjeU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=QlI7GYFJP+8qKWQBBF5a/3hL09w8l7TEjDcF185/TdBAHVxPbBOeVKjL8h61J/GA0znSaFRIcma7cZEZBnmEVPKuhaZMAsVCUTPGekvC14r0u87VM8RhdEuNmZXUb0ugspf0yt8PFL6ptzcFgkZhWP45JE/aLgPdO0y8kyZKGTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M8cjWk5H; arc=none smtp.client-ip=209.85.128.42
+	s=arc-20240116; t=1773501940; c=relaxed/simple;
+	bh=aC3RfSIgnhP3J7btbGnHt6mxktJhiRn3AhnDk1/2MPo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=WG6GZN61RGEByWu1Ufq3Ss02deFzl8tDJaVwYTwGGnVaJbqP4l0rMXQQtaGoJqRfIBggfpOohO5YfvdMOrFZRmEYRfodia67yUhTthmJBjYK4Z+kirG8Dojzckko//Bq3rAvyxQPFdj9iiYdIEOV34g2Y2BACcZzQ62YhFXLXlo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bNFer9Ix; arc=none smtp.client-ip=209.85.221.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M8cjWk5H"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-483487335c2so30061125e9.2
-        for <linux-doc@vger.kernel.org>; Sat, 14 Mar 2026 08:25:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bNFer9Ix"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-43a03cb1df9so2999571f8f.1
+        for <linux-doc@vger.kernel.org>; Sat, 14 Mar 2026 08:25:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773501935; x=1774106735; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1773501937; x=1774106737; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=d2eBAZtzNWnpWbtJR/5rxUrUpXwLDR+PqKZhvhnDrwI=;
-        b=M8cjWk5HTx66CI6RgOF73WZt2llcTxZcrcHD6EJbD0n2LZulhYx5pFHGFG7xNgaLnw
-         rVgwrDO6g7YAmrpKhsYFUTwTunIg67bUqrh/J2ihcUV4Hb3Albl3JVlrvEYrNfeEo0D4
-         UjyAB/XQ+tHGMCSx1HNYmct9ETRWk2PoEe/6+/928uADwu1Yd6reLjeWNPpO0wjs6w+o
-         /5wGBUUjZK/LRAfo0wky8yAUAl91K0V/YEoKdAhmB+a65IZ1esTl432tEbM6xnFKh2ug
-         /GqjHqb7pS17cqxwW0r6/pCGs0oho/ZhlvnJuVKxPLsN0P+Qzn+p/5eKnMe70GZPIKQ5
-         POew==
+        bh=dIz1kkSGyHzWi6Er8nXwrnDFrMDopmJhQ9G+kvCuRCE=;
+        b=bNFer9IxMvyeVFOdRD3xRHS6fHQWCwCuXw0I+IFIZCSiih6SE4iHJd46t7nvE9L5oh
+         AU7+aL6oRyqGBd22ir3vGPvLcc4+5DpuuPsFhr7UA0aXLT7SIGbgyX84BQQ5Sl/84gy5
+         dQVm4D6owi1Qu7eLYpYZzaq2JMAs0xFxyOrOI8seycTmOWpyNOBoh4xCaZ8yRDSHKpFt
+         VrpFBRMaKeB7JqUpp/uqQuBZIe3glYdG+0Vx3h9FZ+HOpTX4hIxuMRVVrH+q0C4riEuT
+         2T3kdvYfftTL6Yd6G5QWVUX9g/acRCbCESJdhNl51KgSWmievZwepieDCYMvgq+nYddR
+         hqBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773501935; x=1774106735;
+        d=1e100.net; s=20251104; t=1773501937; x=1774106737;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=d2eBAZtzNWnpWbtJR/5rxUrUpXwLDR+PqKZhvhnDrwI=;
-        b=aOu0doQ1RXAFmWKwfLKcmcNx0GW73oP7ec0eMZ3TlGrwYlMDLXLmfvdEn29eff5yFa
-         AZ/wnPwRanup+NKqEEhwtEMvPrhOQIKLzzlIXFjGbwOlmRdP0tKx/NUmu017RmE1Y6vn
-         BjpvGcL5qKqLjscxXU1C16OBwnkmRn2bQYh7GqNuYOQcjKOqBi9OHfhLSuR0bhpDz3R5
-         y9jhtpe/LF7q+ZFDEGVWNYjg3od556SfZE9rHOZBFGEUafjlLWd0qKGV11FJ2mlO4IHF
-         YQBeYlpSnqDq2y6L9h7N1Pu8HUsj5zLGpKTEZpb3diPwoj6HozQPY9NolwIPb84Jgv20
-         NUAg==
-X-Forwarded-Encrypted: i=1; AJvYcCXlaFIwyio2O7z49AfOGkp2uqeb5CyyQQfr8+0OXq8zSwaO/elm/vDaV+ToVNytfBNf7P+PSTHhAmM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwoQMik1ob6IziBncFPZw1jTljKJxSFdi21h+uI+gcj3iVUxS6h
-	T8fZAsgsL1GVhfENzFkt0DpFUCiFMsRt1QFJGtA5ziQbcYsATctBlrYG
-X-Gm-Gg: ATEYQzyM+m6eWaNa3CsYadIZr9yI99YB1EPnBJL2feczBxBnRzeXTtQrUPeEfh5/k+w
-	ooIABuhe8r4C3dNSXdKETBvcEm2gdCrKFCcQiBEG5f0DwasJni4P/N4IXDbkN6bHyLZc4hqJJlh
-	HFeVS0Cd/LnZlFPXEvSpmnODLzL6X2xEWqQj2pcuJdDJrRgaPMf+JdWT1nvAYscBtPuQkDDrGNF
-	2io2W9U/5icavA2MsKscjRqi+Ak+LwV9cSGt48Up4JpbAVTc44ijDMxX79oKXkROqY6O/UTGhMa
-	notMmA3XyhXJSlcDkY3A1iXE1b0dN1izDEkOYGlA4vLxS7ByyhKqmV/0V7pxtSEVit5Sitm3zsn
-	eCNmBqkuM3FpZEImYaqD5cF8q9QamJ5/qtd0kiUBT40MQT1qtTw+5dlGlTyvWD+EG9MoC6fEOKH
-	CCTjLy5XwSM4GdszjSa2EoJTw1b5hJO2whQqve/aPhMeGkB0mwV5C3SrHZQxGdzYfp/890KGKi6
-	8hUlztDs6KypEFeWuKYSAPVoIXH7w==
-X-Received: by 2002:a05:600c:3552:b0:485:3a59:99ca with SMTP id 5b1f17b1804b1-485566fab0bmr113391445e9.16.1773501934612;
-        Sat, 14 Mar 2026 08:25:34 -0700 (PDT)
+        bh=dIz1kkSGyHzWi6Er8nXwrnDFrMDopmJhQ9G+kvCuRCE=;
+        b=VcDPpvXav0mOcsNPhignUDRYCq2JfIQXg4zQJiAC9ZaEFKlhbt2VGZ6bp8QvS22K/s
+         DxKpdRJaeLLY6m/gxpglwxyY5rYRqj+2O7UAGKw12q7zeuDF32gnetP9mskyVU16WkMh
+         /xV+HuiKQUXnOBE8U2WwyZ0Hvv1kDxmJeg64JvpksO40l4fdqlDjO6ZwYsSJBdTSQ7j1
+         1GTqq1cHwuKXnbwoqbsBt/Mu19EVMv1KPFOkeEFoSK9BUnI+LfY04VO2j1baJDFj7/Vb
+         ij0OfymksAeQQjyhnxXKA13OuWsnZIVqr6fBJ3antQsPQAPYQ/PESwTPDt2pWvu4bwC3
+         GxVQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXZNdicijRe49f/G/mLsyHDWx2t91F3mkcp6aQNnsN3VYQQejlIkfcSbWXxUIvr5g3BQ2l5J/OqP7A=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz3eM2V5Dc7xfgxKCYZmQEZ4jfhQoBo4TgD0314W81YdCvFLtUZ
+	29qCMTQjf5wTuZJUTKnLZI4ZRKZb4oCbiSUxl3TF143H2rfRdDaAs+Ff
+X-Gm-Gg: ATEYQzxkb2UDcG8cbwnVw/cwqUPeOsVuzZe+oYbtruOjH8U9KN/wB3GpN1Wcb/WbC0G
+	5OiJKZ67nb/anrM6z03qGh/sjVrvv1T9FRTB4exSXqZQZge3rNEap+JZ4Ak0f6XfWCqioSLQFRW
+	vx9kxZERo7qyo0ujf8AcZEz41rTblyFnND6h1ysA3tyNWzgGez6FCFeH92fbLBKm3B/xFHBjyxv
+	nHAIm864lbX6RG7mBV3Xy2fRpp9FkexRHAD6VVNTa1JiqAz18MePE+0J2psZFeTll7gldfNbiKr
+	EosZI3VJiHhRyEpXBNOx6YaVBh62525pMD9J+aamWGp9vOlDjX5U788+gXH7koYts5xg2wPxzIy
+	v93MIS2a1oFqKmoJJrqgEOQTF5pjZaNewyqJAdgtmPbTJesoYLWNfEMoUjMujYI3Hju/W1QnhvC
+	lyDO6w6pko3tr7PS2rbGJBeSopYxs9rS1ZImg69RGI7uuog0uzqmmb399ZKluhHiLI3aMGpDVB3
+	bHqU7SS5QEebQrccs3f+P73IiF+dQ==
+X-Received: by 2002:a05:600c:468e:b0:485:3f58:d9d with SMTP id 5b1f17b1804b1-48556714b67mr114810065e9.32.1773501936605;
+        Sat, 14 Mar 2026 08:25:36 -0700 (PDT)
 Received: from DESKTOP-TILNSD1.localdomain ([139.47.104.103])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439fe2273d9sm30479525f8f.34.2026.03.14.08.25.33
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439fe1a72cdsm27061433f8f.9.2026.03.14.08.25.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Mar 2026 08:25:34 -0700 (PDT)
+        Sat, 14 Mar 2026 08:25:36 -0700 (PDT)
 From: Kit Dallege <xaum.io@gmail.com>
 To: akpm@linux-foundation.org,
 	david@kernel.org,
@@ -64,9 +64,9 @@ To: akpm@linux-foundation.org,
 Cc: linux-mm@kvack.org,
 	linux-doc@vger.kernel.org,
 	Kit Dallege <xaum.io@gmail.com>
-Subject: [PATCH] Docs/mm: document Virtually Contiguous Memory Allocation
-Date: Sat, 14 Mar 2026 16:25:32 +0100
-Message-ID: <20260314152532.100411-1-xaum.io@gmail.com>
+Subject: [PATCH] Docs/mm: document Page Reclaim
+Date: Sat, 14 Mar 2026 16:25:34 +0100
+Message-ID: <20260314152534.100473-1-xaum.io@gmail.com>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -77,152 +77,188 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Fill in the vmalloc.rst stub created in commit 481cc97349d6
+Fill in the page_reclaim.rst stub created in commit 481cc97349d6
 ("mm,doc: Add new documentation structure") as part of
 the structured memory management documentation following
 Mel Gorman's book outline.
 
 Signed-off-by: Kit Dallege <xaum.io@gmail.com>
 ---
- Documentation/mm/vmalloc.rst | 128 +++++++++++++++++++++++++++++++++++
- 1 file changed, 128 insertions(+)
+ Documentation/mm/page_reclaim.rst | 164 ++++++++++++++++++++++++++++++
+ 1 file changed, 164 insertions(+)
 
-diff --git a/Documentation/mm/vmalloc.rst b/Documentation/mm/vmalloc.rst
-index 363fe20d6b9f..2c478b341e73 100644
---- a/Documentation/mm/vmalloc.rst
-+++ b/Documentation/mm/vmalloc.rst
-@@ -3,3 +3,131 @@
- ======================================
- Virtually Contiguous Memory Allocation
- ======================================
+diff --git a/Documentation/mm/page_reclaim.rst b/Documentation/mm/page_reclaim.rst
+index 50a30b7f8ac3..bfa53bee98c2 100644
+--- a/Documentation/mm/page_reclaim.rst
++++ b/Documentation/mm/page_reclaim.rst
+@@ -3,3 +3,167 @@
+ ============
+ Page Reclaim
+ ============
 +
-+``vmalloc()`` allocates memory that is contiguous in kernel virtual address
-+space but may be backed by physically discontiguous pages.  This is useful
-+for large allocations where finding a contiguous physical range would be
-+difficult or impossible.  The implementation is in ``mm/vmalloc.c``.
++Page reclaim frees memory by evicting pages that can be reloaded from disk
++or regenerated.  File-backed pages are dropped (clean) or written back
++(dirty); anonymous pages are swapped out.  The bulk of the implementation
++is in ``mm/vmscan.c``.
 +
 +.. contents:: :local:
 +
-+How It Works
-+============
-+
-+A vmalloc allocation has three steps: reserve a range of kernel virtual
-+addresses, allocate physical pages (individually, via the page allocator),
-+and create page table mappings that connect the two.
-+
-+Virtual Address Management
-+--------------------------
-+
-+The kernel reserves a large region of virtual address space for vmalloc
-+(on x86-64 this is hundreds of terabytes).  Within this region, allocated
-+and free ranges are tracked by ``struct vmap_area`` nodes organized in two
-+red-black trees — one sorted by address for the busy areas, and one
-+augmented with subtree maximum gap size for the free areas.  The augmented
-+tree allows free-space searches in O(log n) time.
-+
-+Each allocated area also has a ``struct vm_struct`` that records the
-+virtual address, size, array of backing ``struct page`` pointers, and flags
-+indicating how the area was created (``VM_ALLOC`` for vmalloc,
-+``VM_IOREMAP`` for I/O mappings, ``VM_MAP`` for vmap, etc.).
-+
-+Guard Pages
-+-----------
-+
-+By default, each vmalloc area is surrounded by a guard page — an unmapped
-+page that causes an immediate fault if code overruns the allocation.  This
-+costs one page of virtual address space (not physical memory) per
-+allocation.  The ``VM_NO_GUARD`` flag disables this for internal users that
-+manage their own safety margins.
-+
-+Huge Page Support
-+-----------------
-+
-+On architectures that support it, vmalloc can use PMD- or PUD-level
-+mappings instead of individual PTEs, reducing TLB pressure for large
-+allocations.  ``vmalloc_huge()`` requests this explicitly.  The decision
-+is per-architecture: each architecture provides callbacks
-+(``arch_vmap_pmd_supported()``, ``arch_vmap_pud_supported()``) to indicate
-+which levels are available.
-+
-+Even when huge pages are requested, the allocator falls back to base pages
-+transparently if the physical pages cannot be allocated at the required
-+alignment.
-+
-+Lazy TLB Flushing
-+-----------------
-+
-+Unmapping a vmalloc area requires a global TLB flush (IPI to all CPUs) to
-+ensure no stale translations remain.  To amortize this cost, vmalloc defers
-+the flush: page table entries are cleared immediately but the TLB
-+invalidation is batched across multiple frees.  The flush is forced when
-+the free area needs to be reused or when ``vm_unmap_aliases()`` is called
-+explicitly.
-+
-+Per-CPU Allocations
-+-------------------
-+
-+The per-CPU allocator uses vmalloc internally to obtain virtually
-+contiguous backing for per-CPU variables across all CPUs.  It allocates
-+multiple vmalloc areas with specific size and alignment requirements in a
-+single call, ensuring that each CPU's copy is at a consistent offset from
-+the per-CPU base.
-+
-+vmap and Temporary Mappings
-+===========================
-+
-+Besides vmalloc (which allocates both virtual space and physical pages),
-+the subsystem provides two related mechanisms:
-+
-+- **vmap/vunmap**: maps an existing array of ``struct page`` pointers into
-+  contiguous kernel virtual space.  This is used when pages have already
-+  been allocated (e.g., by a device driver) and just need a contiguous
-+  kernel mapping.
-+
-+- **vm_map_ram/vm_unmap_ram**: lightweight temporary mappings for
-+  short-lived use, with lower overhead than full vmap.
-+
-+Freeing
-+=======
-+
-+``vfree()`` can be called from any context, including interrupt handlers.
-+When called from interrupt context the actual work (page table teardown,
-+TLB flush, page freeing) is deferred to a workqueue.  This is safe because
-+the virtual address range is immediately removed from the busy tree, so no
-+new mappings can be created in the freed region.
-+
-+Page Table Management
-+=====================
-+
-+vmalloc maintains its own kernel page tables to map virtual addresses to
-+the backing physical pages.  On allocation, page table entries are created
-+at the appropriate level (PTE, PMD, or PUD depending on huge page support).
-+On free, the entries are cleared.
-+
-+The page table setup must handle architectures where the kernel page tables
-+are not shared across all CPUs.  On such systems, a vmalloc fault mechanism
-+lazily propagates new mappings: when a CPU accesses a vmalloc address for
-+the first time and takes a fault, the fault handler copies the page table
-+entry from the reference page table (init_mm) into the CPU's page table.
-+
-+NUMA Awareness
-+==============
-+
-+By default, vmalloc allocates physical pages from any NUMA node.  The
-+``vmalloc_node()`` and ``vzalloc_node()`` variants prefer a specific node,
-+which is useful for data structures that are predominantly accessed from
-+one node.  The pages are still mapped into the global kernel virtual
-+address space, so they remain accessible from all CPUs regardless of
-+which node they were allocated from.
-+
-+KASAN Integration
++When Reclaim Runs
 +=================
 +
-+When KASAN (Kernel Address Sanitizer) is enabled with
-+``CONFIG_KASAN_VMALLOC``, vmalloc allocates shadow memory to track the
-+validity of each vmalloc region.  The shadow memory is itself vmalloc'd
-+and mapped lazily.  This allows KASAN to detect out-of-bounds accesses
-+and use-after-free bugs in vmalloc'd memory, which is particularly useful
-+for catching bugs in kernel modules (whose code and data are vmalloc'd).
++Reclaim is triggered in two ways:
++
++- **kswapd**: a per-node kernel thread that runs in the background when
++  free pages in any zone drop below the low watermark.  It reclaims until
++  free pages reach the high watermark, then sleeps.
++
++- **Direct reclaim**: when an allocation cannot be satisfied even after
++  kswapd has been woken, the allocating task reclaims pages synchronously
++  in its own context.  This adds latency to the allocation but is necessary
++  when background reclaim cannot keep up.
++
++Reclaim Priority
++================
++
++The reclaim path operates at decreasing priority levels (from
++``DEF_PRIORITY`` down to 0).  At each level, a larger fraction of the LRU
++lists is scanned.  At the default priority, only 1/4096th of pages are
++considered; at priority 0, the entire list is scanned.
++
++If a full scan at priority 0 still does not free enough memory, the OOM
++killer is invoked (see Documentation/mm/oom.rst).  This escalation
++prevents the system from spinning indefinitely in reclaim.
++
++Scan Control
++============
++
++Each reclaim invocation is parameterized by a ``struct scan_control`` that
++captures the allocation context: which GFP flags were used, how many pages
++are needed, which node or memory cgroup to reclaim from, and whether
++writeback or swap are allowed.  This struct threads through the entire
++reclaim stack, ensuring consistent policy at every level.
++
++LRU Lists
++=========
++
++Each ``lruvec`` (one per node, or per node and memory cgroup combination)
++maintains lists of pages ordered by access recency.
++
++Classic LRU
++-----------
++
++The classic scheme uses four LRU lists per lruvec: active and inactive for
++both anonymous and file-backed pages.  This approximates a second-chance
++(clock) algorithm:
++
++- Pages start on the inactive list when first allocated.
++- If accessed again while on the inactive list, they are promoted to the
++  active list.
++- Reclaim scans the inactive list and evicts pages that have not been
++  recently accessed.
++- To prevent the active list from growing without bound, pages are
++  periodically demoted from active to inactive.
++
++The split between anonymous and file-backed lists allows the reclaim path
++to balance eviction pressure between the two types based on their relative
++cost.  Swapping anonymous pages is generally more expensive than dropping
++clean file pages, so the scanner adjusts the ratio using IO cost
++accounting and the ``vm.swappiness`` tunable.
++
++Multi-Gen LRU
++-------------
++
++The multi-gen LRU is an alternative reclaim algorithm that groups pages
++into generations by access time rather than a simple active/inactive
++split.  It is documented separately in Documentation/mm/multigen_lru.rst.
++
++LRU Batching
++------------
++
++To avoid taking the lruvec lock on every page access, LRU operations are
++batched per-CPU (``mm/swap.c``).  Functions like ``folio_add_lru()`` and
++``folio_mark_accessed()`` queue pages into per-CPU folio batches that are
++drained to the actual LRU lists periodically or when the batch is full.
++This batching is critical for scalability on systems with many CPUs.
++
++Reclaiming Pages
++================
++
++The core reclaim loop (``shrink_node()``) divides its work between page
++cache / anonymous pages and slab caches.  For each lruvec, it scans the
++inactive LRU lists, evaluating each page:
++
++- **Clean file pages** can be dropped immediately — they can be re-read
++  from disk.
++- **Dirty file pages** are queued for writeback.  Reclaim typically skips
++  them and returns later, but under severe pressure it may wait for
++  writeback to complete.
++- **Anonymous pages** are swapped out if swap space is available and
++  ``vm.swappiness`` allows it.
++- **Mapped pages** require TLB invalidation (unmapping) before they can
++  be freed.  The rmap (reverse mapping) system is used to find and
++  remove all page table entries pointing to the page.
++- **Unevictable pages** (locked with ``mlock()``) are skipped entirely.
++  See Documentation/mm/unevictable-lru.rst.
++
++Memory Cgroup Reclaim
++---------------------
++
++When memory cgroup limits are exceeded, reclaim targets only the pages
++belonging to that cgroup.  Each memory cgroup has its own lruvec per node,
++so the scanner can isolate its pages without disturbing the rest of the
++system.  ``try_to_free_mem_cgroup_pages()`` is the entry point for
++cgroup-scoped reclaim.
++
++NUMA Demotion
++-------------
++
++On systems with tiered memory (e.g., fast DRAM and slower persistent
++memory), reclaim can demote pages to a slower tier instead of evicting
++them.  This keeps the data in memory but frees the faster tier for
++actively accessed pages.
++
++Shrinkers
++=========
++
++Besides page cache and anonymous pages, kernel caches (dentries, inodes,
++and driver-specific caches) are reclaimed through the shrinker interface
++(``mm/shrinker.c``).  A shrinker registers two callbacks:
++
++- ``count_objects()``: report how many objects are reclaimable.
++- ``scan_objects()``: free up to a requested number of objects.
++
++The reclaim path calls all registered shrinkers proportionally to the
++amount of reclaimable memory they report.  Shrinkers are NUMA-aware: on
++NUMA systems, each shrinker is called with the node being reclaimed so it
++can prioritize freeing objects local to that node.
++
++Per-memcg shrinker tracking uses bitmap arrays (``shrinker_info``) so that
++the reclaim path only invokes shrinkers that actually have objects in the
++target cgroup, avoiding unnecessary work when there are many cgroups.
++
++Working Set Detection
++=====================
++
++When a page is evicted, a compact shadow entry is stored in its place in
++the page cache or swap cache.  The shadow records the eviction timestamp
++(in terms of the lruvec's nonresident age counter) and the cgroup and
++node that owned the page.
++
++If the page is faulted back in (a "refault"), the shadow entry allows the
++kernel to compute the *refault distance* — how many other pages were
++activated or evicted between this page's eviction and its refault.  If the
++refault distance is shorter than the size of the inactive list, the page
++was part of the active working set and is immediately activated rather
++than placed on the inactive list.  This reduces thrashing by protecting
++frequently accessed pages that would otherwise be repeatedly evicted and
++refaulted.
++
++Shadow entries consume a small amount of memory.  To prevent them from
++accumulating indefinitely, a shrinker reclaims shadow entries from page
++cache radix tree nodes that contain only shadows and no actual pages.
++
++This logic is implemented in ``mm/workingset.c``.
 -- 
 2.53.0
 
