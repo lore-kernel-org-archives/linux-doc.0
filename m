@@ -1,147 +1,207 @@
-Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011063.outbound.protection.outlook.com [40.107.130.63])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAA1722332E;
-	Sat, 14 Mar 2026 17:01:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.63
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773507714; cv=fail; b=fElK5N6JzNit0ITWnoXpg75aC6R7ay3IpmJ3SdBdEi16hLEQzBYg2xCvndpKBGkz03Mc3JyNCx+v6qHQUiwqkbz5SflyRtS5YGTQNqcLmJL+vgO7oI4iocc6XrpcWWdxY2hfQtOcSbCNBUpOTIez8nLfm2HmAdXQttpyitjEBPo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773507714; c=relaxed/simple;
-	bh=8uefLRsFKONlZon8+8dxmPyRWfMqJ0N74WZNU1jPlv8=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=EqbvJ5dIIcyx8gFMgMTV7lKzm4nMHujUV9bFkjMh3tnUdGaa2Q59nii3xQCTIG4zVafL51ZFrUgF9515ed6tCHCxcEhzGHxXsMNaRtqUjl1qV85ivU/MJJN0LhtBdEYgwLbsiaz7+q3JWTmwKjMD2qEU03chRZfqEcaniald+Sc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=lhdrI/ck; arc=fail smtp.client-ip=40.107.130.63
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9795E32B99E
+	for <linux-doc@vger.kernel.org>; Sat, 14 Mar 2026 17:07:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773508030; cv=none; b=Jvg/wDAkgg/eqd70soTzpbsfuLyXfpZX9sHGvv7bLwzsQ4WEaPEFA8SNWSkH4LUDnQR/zbpmsrrIT3jr7FiJKl8/YJ+dohhvZHtcVG2Oh7yaszwvs+zAYIgAtRdu4RsKovnYSVehfDPlVJwH8NHZuIO+ZxQsK1JeTv+Wjd1hqhA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773508030; c=relaxed/simple;
+	bh=JmwWTR8tdLBqN2ZJaJyR7rVbXUX1qdfFYCxVt/hEa7g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FbMpaXNyLXHK/tszCcOHfTKzEqcmn2BFQLigNjN9FhZT5hHc3N8SwYE+wiCY6B+/FDSKwSK97XUB9Kf5UkdnHAK3HXuDs9UgSrdSHDUViHA7MN5OtJ4Qm1BfqRwCHG1k+foDNH9b3xMEXE/KdDxmNEGtXcv1jeiKh4p7RB4jPpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BWFty480; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="lhdrI/ck"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Dam1BacrLcWzXafcTBM+nWfAQwMOXcktStylRE5GIGlF3NuNCBXMhS/Ctap7O48uPfIinsRHirvqjQOyhRnZjCY9V0bLcVFL1sAmh4MAgpIMazdOuWpNE3azvoWfc3LsPl68R0nneUIsMsR7FUKr0smGHsCHedIJMJJlAq6vc3r9RjhchescHyqBtyr6q8ze104ixCDL9KThRnaSqNO5anlAGgjurJl+yaDSwuRU3OIkyiuIfgfNlinHk6q7f8UPxvGxrO3UuEdusRb0GnTv00XP+PSGDQzlPkeI1EnBsewUT1zN0jkbNtLq9o61OUgwmNdr0rjpTb24AH4OC0kGPg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hCYGdF4ICOU0i+x0SN2l4RKaQzjGXLF/BR+kZyfkJ00=;
- b=HAnwn/2PmVXJ95l5qDDmsx1Im6t+JjXSI12dFu9lG/j7ZuiwytI4f7G2CI+iLkd0vNCbp26ErEUUupcoFYpap20/gn3UIS5QsOg3G6+lv1uIdrHKgbxg6nLJgVN9f5g2EmoC1XyZADTnVqRGJONoYbYFtfngfnHC8QSv1jBsB6dTKf5qZVtBT2LxICHXT7DjY0qTgzWP0h9lmYzDyFTuq+LkHoo/Ghd8uLGEIECsTH+kD0bNcKFO2L3bEXzilJ+TMLFbpCBVtvmeMHKR5w+liacXUUwh0Yby05gjAdMm7on+QvpAo/OlehBBudV1ysLQrvSIBvjcd3JU8J6WdqGxaQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 164.130.1.59) smtp.rcpttodomain=kernel.org smtp.mailfrom=foss.st.com;
- dmarc=fail (p=none sp=none pct=100) action=none header.from=foss.st.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hCYGdF4ICOU0i+x0SN2l4RKaQzjGXLF/BR+kZyfkJ00=;
- b=lhdrI/ckx+FKHOt2aZ5CMmAnY6K84L1MrLnjiOWWIm5A8iIsFHGZjKEarvxqUoelxlGfRcomzErsFlH8LnkY5NTmkJd4D8UzMrJUSuxUmuMftGx/k0Z0ccoJ3H3ZBJhlQtBVx2Mvx5mIdSdyKECNfdG+ttJ1WUtpWMYGZJM+oWvD4acCYOaJ9yyrkU+xfedl6Ie1gXrfHFR9gH04ueu7WanOahrshuJ2GMOLbu92qw8L5dDcH17XhIlb3t88sxI+sLQY9T2zCj8FOHutIyxOWLf5hqZTsw3tz/40quI4BPSHxtIGoCHamhpOmwTwhbGmEVFlYtl5td9jIhq2Fly09Q==
-Received: from DUZPR01CA0055.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:469::19) by PR3PR10MB3962.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:102:4f::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.11; Sat, 14 Mar
- 2026 17:01:48 +0000
-Received: from DU6PEPF0000952A.eurprd02.prod.outlook.com
- (2603:10a6:10:469:cafe::15) by DUZPR01CA0055.outlook.office365.com
- (2603:10a6:10:469::19) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9700.19 via Frontend Transport; Sat,
- 14 Mar 2026 17:01:48 +0000
-X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 164.130.1.59)
- smtp.mailfrom=foss.st.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=none header.from=foss.st.com;
-Received-SPF: Fail (protection.outlook.com: domain of foss.st.com does not
- designate 164.130.1.59 as permitted sender) receiver=protection.outlook.com;
- client-ip=164.130.1.59; helo=smtpO365.st.com;
-Received: from smtpO365.st.com (164.130.1.59) by
- DU6PEPF0000952A.mail.protection.outlook.com (10.167.8.11) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9700.17 via Frontend Transport; Sat, 14 Mar 2026 17:01:48 +0000
-Received: from STKDAG1NODE2.st.com (10.75.128.133) by smtpo365.st.com
- (10.250.44.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.29; Sat, 14 Mar
- 2026 18:04:19 +0100
-Received: from localhost (10.252.24.255) by STKDAG1NODE2.st.com
- (10.75.128.133) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.29; Sat, 14 Mar
- 2026 18:01:47 +0100
-From: Antonio Borneo <antonio.borneo@foss.st.com>
-To: Bjorn Andersson <andersson@kernel.org>, Baolin Wang
-	<baolin.wang@linux.alibaba.com>, Peter Zijlstra <peterz@infradead.org>, "Ingo
- Molnar" <mingo@redhat.com>, Will Deacon <will@kernel.org>, Boqun Feng
-	<boqun@kernel.org>, Waiman Long <longman@redhat.com>, Jonathan Corbet
-	<corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-CC: Antonio Borneo <antonio.borneo@foss.st.com>,
-	<linux-remoteproc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>
-Subject: [PATCH] Documentation: locking: Document hwspinlock bust() callback
-Date: Sat, 14 Mar 2026 18:01:42 +0100
-Message-ID: <20260314170142.18290-1-antonio.borneo@foss.st.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BWFty480"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-439b2965d4bso2264137f8f.2
+        for <linux-doc@vger.kernel.org>; Sat, 14 Mar 2026 10:07:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773508027; x=1774112827; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=n5sXk7QR4yMzNPBEKkRLre6dWWa+kcD2gx8NHV2qKsY=;
+        b=BWFty480jywnAD/7ZFee5N8T62z2IE/FjH743p1sW3j17wAr5gxT5uOk0v5dUt8eAF
+         0aMnMQfCtlSFyPr5Wc+933PTvHAujBjbejXVa56t7DE6aIdKUeHOCnfmoWEpmUkKvu1b
+         gzePfN+a4Wz3urK9FgP6GEm1Ou8oZYWfPDpcxZhr3jdFc0ScCLv0B6Tn+iAm6PZO+vP3
+         kMHCTQZTZsWrdjrXfoHySO5b4H2ataeyA7TVJNNgh1mCLq8mgPxqa541+tnsSc2Du6+c
+         6Rdd0LvkvOjGXb6kVP92TTUgYYD9yXJgujIHdlf0gn7+JmZ2tLY106r/y3H8AOvgq4FD
+         +enw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773508027; x=1774112827;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=n5sXk7QR4yMzNPBEKkRLre6dWWa+kcD2gx8NHV2qKsY=;
+        b=Hdapoij4RVPrAMZqOcLmwMy0Xjg4/y/8wDc/wA81/cbAqZHnmnLg80VAbwP0Oco48s
+         J+Odo8j/Pkf0JLT15gJoHV5Oke0Kl4+/sKpMGcjdZTFmfX9WVRbJXyiIdXXCy5JKrTDe
+         WcbUrok4hfDuAqoG59phTjvkratnZAeb3ijVMnMA9aegwZD0/PYsqBGIb1GQ5dEW4Wf0
+         z9Qnl/oQBcLP/aNhpDhkgePM2bgpLhOEMVeKpZzPeLjpaAcumxf+XzzoGAr6K2LcV7FF
+         VC8GMg8JnKvCw2xjqTUchAMA1VorZKKcLXKEzXm2d/bLNWmGXuixlvsbR6REquhp+EiP
+         yFnw==
+X-Forwarded-Encrypted: i=1; AJvYcCXH2g7oScgrBCVGzk6n/9aFQnaWzI7orStsIvuiD7El90HnapC8P3JsqIvDGbd//88bmPjK7zulZTo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YytH2aSm7S8Ze4baI6C3Zw7bm3fcdMlG0GS7dM1RaFNKI0dxmwn
+	yG3EC18gu14kvvN/sbZp9/HqcXOT3tyUqgvTs4da+sGgBq3Y330Goj72TKdf72Ut
+X-Gm-Gg: ATEYQzwOC7sgmOeBsObCbu47OZbtedvMkpLYgpAW2olQaeDUqptLSIgd+bVwj4aujLv
+	ZRx3/uUW9dxYwifiJfdpkTiV/q4fkpnzQy3epRs5jfJ6607VLzyoYhpxIe/yYYgzj3nQ8zWrdVf
+	1WPrTb8e40HnxA6Nsnp/FEqsbaG7e90bO9ThmEh3oIXDKlKMbcLsOkRU+CaNLfXaCl4yEXJNh1p
+	JklkH4EuFK9ktDaS+x6yGMxcNEcYxjOFYG/hU7H/CWJ1rNm0tCkTfu/Aup59amf1LuXuvywBOGU
+	zJPqPAUZNHWc+GW7JpqOff5NpIFcgsv8MDAoi3IRipuyHpilwSkHPuZmG8BlJCKDAoFFmsKmcwN
+	8QsVSJCmb4bQSTsDA8Z6a/ISX0LvAp0HASK6RFedxUhEb+g4Lapef6Fa1cPtnjqfwVSI/qSqXfi
+	2S4QinKA+XqBt5zAtf6R9K/GSZr1BnurvrsCOqc1sNNlpjBWDutMVIJhWGPlPR1KEiXWDMZ5KE3
+	xAdF8WDM0+XXiXKihNj3W4=
+X-Received: by 2002:a05:6000:2dc2:b0:439:d74f:2109 with SMTP id ffacd0b85a97d-43a04dc36c8mr12532240f8f.49.1773508026649;
+        Sat, 14 Mar 2026 10:07:06 -0700 (PDT)
+Received: from gandalf.schnuecks.de (p200300c14f1996009e6b00fffe39b8a7.dip0.t-ipconnect.de. [2003:c1:4f19:9600:9e6b:ff:fe39:b8a7])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439fe2186e3sm31604155f8f.26.2026.03.14.10.07.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 14 Mar 2026 10:07:06 -0700 (PDT)
+Received: by gandalf.schnuecks.de (Postfix, from userid 500)
+	id A232730395F4; Sat, 14 Mar 2026 18:07:05 +0100 (CET)
+Date: Sat, 14 Mar 2026 18:07:05 +0100
+From: Simon Baatz <gmbnomis@gmail.com>
+To: Eric Dumazet <edumazet@google.com>
+Cc: Neal Cardwell <ncardwell@google.com>,
+	Kuniyuki Iwashima <kuniyu@google.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	David Ahern <dsahern@kernel.org>, Jon Maloy <jmaloy@redhat.com>,
+	Jason Xing <kerneljasonxing@gmail.com>, mfreemon@cloudflare.com,
+	Shuah Khan <shuah@kernel.org>, Stefano Brivio <sbrivio@redhat.com>,
+	Matthieu Baerts <matttbe@kernel.org>,
+	Mat Martineau <martineau@kernel.org>,
+	Geliang Tang <geliang@kernel.org>, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, mptcp@lists.linux.dev
+Subject: Re: [PATCH net-next v3 6/6] selftests/net: packetdrill: add
+ tcp_rcv_neg_window.pkt
+Message-ID: <abWVuS1XJaKrndJw@gandalf.schnuecks.de>
+References: <20260309-tcp_rfc7323_retract_wnd_rfc-v3-0-4c7f96b1ec69@gmail.com>
+ <20260309-tcp_rfc7323_retract_wnd_rfc-v3-6-4c7f96b1ec69@gmail.com>
+ <CANn89i+PypF1cK4mnp8L_eCG_z+3Aj6uxJoohm_=DwGfR1=4FA@mail.gmail.com>
+ <abCkmiCSPkmxzECa@gandalf.schnuecks.de>
+ <CANn89iKYxs644ardFFSKo8d0EXL_2A5eUQjWZ3yp9-Q4tVLKzQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SAFCAS1NODE2.st.com (10.75.90.13) To STKDAG1NODE2.st.com
- (10.75.128.133)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU6PEPF0000952A:EE_|PR3PR10MB3962:EE_
-X-MS-Office365-Filtering-Correlation-Id: 57dae2a5-a667-46de-a862-08de81eb6167
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|36860700016|82310400026|376014|7416014|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	90nwei/dTYMf8aGQwQbhlALq2IPB7BBzlJ0rkMHO1wRJFexTTvsZ5kydQ7Z/mn+0xWgkATvaOAdiMwHvyKNj+Gc4BSHl4d5MAAlGq57cleh6KTPOSsKYwkqSyfetLQAa+FtVMlr+nyJa/YuNEj06/o0hERWlK+Zhf0E8akZC5S/k+rysXbnAcfTEEzTRgcxa/IO+f15EnV8ocGmcPjDSTzeNW7XBncbk474iWtTIuwvMqxXqoDXsIgre3Bk+6vdhlmqiAbeidV1p5qX8pHynZcZJGoK8jPZPaMDXMJ0rhd0R+O5PFo6eVgUsBojcCYKa8Z4iKvUOQMGGm1zNiVXUccGwdRoJ//vRryW2v5vbFW9Grn9hYTQHBJqIHcRVVdl3Bo5PL6PYwRhbHJAFE4HqY5tgrHp27W241El9GJewrWA5EA8IgRkuzxEAZmOOzVDiQVaZnsb7d8EVojA+oyPRmCje9ePIehN7/Hj4V40P7YmIEdfltw2Tht7poT1wHeBnW+ool53xjxty/OgLjihU+F7/er5a02ztUv2vY8jkju/eymNMf6USLAa8B8Rap2qeNRl77nA9Alkk+v8HGagG0aiy37c68Q8ubw4Bbt3MqR4MpsrxaAMKWpER0Lmgc+PtujWDHCIPjMCSD/1BKvQrapp+Ra+nHDiLhLq8fyNEU4jOB5Fmoz5EdGeTHfiUQmn8U08lGsilp17v3Q7F6SAWb3G1a3S75ti8Mx43JEIjnRRzW0RlZASCQo80BEVF4BU0apgp3Nc5gGLJdMJFl2lu1w==
-X-Forefront-Antispam-Report:
-	CIP:164.130.1.59;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(36860700016)(82310400026)(376014)(7416014)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	UNhkQ0uIkNf+T9DCCs9KklGfxLvUPIihJvlzX0lZAmVI6ubKvqeP8Gk+fXxZSPZujgX2JoK/8TP0g4I4Yjk6mDoyAsKaoOVuFdndo6q9MgjRpk5xUMBqAdbBOgCqLsz+yOhcYp/dev8XzDE2cfGCWUo9KT4RqsPeZQZzIea98xrwg84nepiuAj9ENWHWkBAAg39+++qxCmUSAV8S4fiSaMH0lJQhsINoI5lO15giLlXBIzxnzA0KOPyxmusx8/t8v3Q5OTuvp24WQ1sjtuHKmbPaejLgNraAmyxTxlMmjqPGQwgA8S91ISC3CyJIbqjDa2rPU0Y6rTlOPs30mta1YDN1JfQLQGCVwHj7l4BybFGM3Ylnyg/lllGM+scf8TaaiwcscEusBOuUKUdbLfobmx0+ujKqr0pT5m9lIS2pDoOZoI4w2/9EiCrg3Gm2+fgF
-X-OriginatorOrg: foss.st.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Mar 2026 17:01:48.3539
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 57dae2a5-a667-46de-a862-08de81eb6167
-X-MS-Exchange-CrossTenant-Id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.59];Helo=[smtpO365.st.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DU6PEPF0000952A.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR10MB3962
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANn89iKYxs644ardFFSKo8d0EXL_2A5eUQjWZ3yp9-Q4tVLKzQ@mail.gmail.com>
 
-Add the missing callback and the corresponding description in the
-relevant chapter.
+Hi Eric,
 
-Signed-off-by: Antonio Borneo <antonio.borneo@foss.st.com>
----
- Documentation/locking/hwspinlock.rst | 5 +++++
- 1 file changed, 5 insertions(+)
+On Sat, Mar 14, 2026 at 04:58:28AM +0100, Eric Dumazet wrote:
+> On Wed, Mar 11, 2026 at 12:09???AM Simon Baatz <gmbnomis@gmail.com> wrote:
+> >
+> > Hi Eric,
+> >
+> > On Tue, Mar 10, 2026 at 09:54:58AM +0100, Eric Dumazet wrote:
+> > > On Mon, Mar 9, 2026 at 9:03???AM Simon Baatz via B4 Relay
+> > > <devnull+gmbnomis.gmail.com@kernel.org> wrote:
+> > > >
+> > > > From: Simon Baatz <gmbnomis@gmail.com>
+> > > >
+> > > > The test ensures we correctly apply the maximum advertised window limit
+> > > > when rcv_nxt advances past rcv_mwnd_seq, so that the "usable window"
+> > > > is properly clamped to zero rather than becoming negative.
+> > > >
+> > > > Signed-off-by: Simon Baatz <gmbnomis@gmail.com>
+> > > > ---
+> > > >  .../net/packetdrill/tcp_rcv_neg_window.pkt         | 26 ++++++++++++++++++++++
+> > > >  1 file changed, 26 insertions(+)
+> > > >
+> > > > diff --git a/tools/testing/selftests/net/packetdrill/tcp_rcv_neg_window.pkt b/tools/testing/selftests/net/packetdrill/tcp_rcv_neg_window.pkt
+> > > > new file mode 100644
+> > > > index 0000000000000000000000000000000000000000..15a9b4938f16d175ac54f3fd192ed2b59b0a4399
+> > > > --- /dev/null
+> > > > +++ b/tools/testing/selftests/net/packetdrill/tcp_rcv_neg_window.pkt
+> > > > @@ -0,0 +1,26 @@
+> > > > +// SPDX-License-Identifier: GPL-2.0
+> > > > +
+> > > > +--mss=1000
+> > > > +
+> > > > +`./defaults.sh`
+> > > > +
+> > > > +// Establish a connection.
+> > > > +   +0 socket(..., SOCK_STREAM, IPPROTO_TCP) = 3
+> > > > +   +0 setsockopt(3, SOL_SOCKET, SO_REUSEADDR, [1], 4) = 0
+> > > > +   +0 setsockopt(3, SOL_SOCKET, SO_RCVBUF, [20000], 4) = 0
+> > > > +   +0 bind(3, ..., ...) = 0
+> > > > +   +0 listen(3, 1) = 0
+> > > > +
+> > > > +   +0 < S 0:0(0) win 32792 <mss 1000,nop,wscale 7>
+> > > > +   +0 > S. 0:0(0) ack 1 win 18980 <mss 1460,nop,wscale 0>
+> > > > +  +.1 < . 1:1(0) ack 1 win 257
+> > > > +
+> > > > +   +0 accept(3, ..., ...) = 4
+> > > > +
+> > > > +// A too big packet is accepted if the receive queue is empty
+> > > > +   +0 < P. 1:20001(20000) ack 1 win 257
+> > >
+> > > We do not see the answer, it seems this test is not complete ?
+> >
+> > Actually we do not want to see an answer.  The packet won't trigger
+> > an immediate ACK (it is larger than the advertised window, but does
+> > not cause immediate memory pressure).
+> >
+> > When we then send a RST before the delayed ACK would be generated:
+> >
+> > > > +// Send a RST immediately so that there is no rcv_wup/rcv_mwnd_seq update yet
+> > > > +   +0 < R. 20001:20001(0) ack 1 win 257
+> >
+> > We are in a state where rcv_wup, rcv_wnd, and rcv_mwnd_seq have not
+> > been updated yet, but we must still accept the RST
+> > (rcv_nxt == 20001 > rcv_mwnd_seq, tcp_max_receive_window() == 0)
+> >
+> > > > +
+> > > > +  +.1 %{ assert tcpi_state == TCP_CLOSE, tcpi_state }%
+> >
+> > And we verify that we accepted the RST here.
+> >
+> > Given how subtle this sequence is, and considering the limited value
+> > of this test, I am also fine with dropping it if it is too fragile or
+> > confusing.
+> 
+> Sorry I missed your answer.
+> 
+> Ok then please use :
+> 
+> // A too big packet is accepted if the receive queue is empty
+>    +0 < P. 1:20001(20000) ack 1 win 257
+>    +0 %{ assert tcpi_bytes_received == 20000, tcpi_bytes_received;
+> assert tcpi_bytes_acked == 0, tcpi_bytes_acked }%
 
-diff --git a/Documentation/locking/hwspinlock.rst b/Documentation/locking/hwspinlock.rst
-index a737c702a7d1d..fbca4e7bf4ceb 100644
---- a/Documentation/locking/hwspinlock.rst
-+++ b/Documentation/locking/hwspinlock.rst
-@@ -425,6 +425,7 @@ There are three possible callbacks defined in 'struct hwspinlock_ops'::
- 	struct hwspinlock_ops {
- 		int (*trylock)(struct hwspinlock *lock);
- 		void (*unlock)(struct hwspinlock *lock);
-+		int (*bust)(struct hwspinlock *lock, unsigned int id);
- 		void (*relax)(struct hwspinlock *lock);
- 	};
- 
-@@ -436,6 +437,10 @@ return 0 on failure and 1 on success. This callback may **not** sleep.
- The ->unlock() callback releases the lock. It always succeed, and it, too,
- may **not** sleep.
- 
-+The ->bust() callback is optional. It is called by hwspinlock core to bust a
-+specific lock when the remote processor 'id' is not responding, e.g. due to a
-+firmware crash.
-+
- The ->relax() callback is optional. It is called by hwspinlock core while
- spinning on a lock, and can be used by the underlying implementation to force
- a delay between two successive invocations of ->trylock(). It may **not** sleep.
+Unfortunately, tcpi_bytes_acked is the TX direction, it will always
+be 0 here.
 
-base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+Instead, we can still test that the oversized packet is accepted and
+indirectly verify that no immediate ACK is sent by eliciting and
+checking a RST:
+
+// A too big packet is accepted if the receive queue is empty, but does not trigger
+// an immediate ACK.
+   +0 < P. 1:20001(20000) ack 1 win 257
+   +0 %{ assert tcpi_bytes_received == 20000, tcpi_bytes_received; }%
+
+// Send a RST immediately so that there is no rcv_wup/rcv_mwnd_seq update yet
+   +0 < R. 20001:20001(0) ack 1 win 257
+
+// Verify that the RST was accepted. Indirectly this also verifies that no immediate
+// ACK was sent for the data packet above.
+   +0 < . 20001:20001(0) ack 1 win 257
+    * > R 1:1(0)
+
+As the series is merged now (thank you!), I will send this
+separately, as suggested.
+
+- Simon
+
 -- 
-2.34.1
-
+Simon Baatz <gmbnomis@gmail.com>
