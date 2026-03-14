@@ -1,202 +1,169 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DE9E31A555
-	for <linux-doc@vger.kernel.org>; Sat, 14 Mar 2026 03:58:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.182
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773460723; cv=pass; b=KdYGwijDBwjchQw1oN8eVq3cdkCaNP9cx//0lS8p8uFfPeqt5amx4z6zkXZ9Z7vZ46nQZTcysgWlCLOoyw6MlOGjNwPmcIf88JOoVyr85LhnGSpKIpPgXNs+jX3AN6+9+2F9nBmoqo3VtMuP+dcOb13F9GChUWJDwjvCk71eczM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773460723; c=relaxed/simple;
-	bh=GcSrDIphKrI2//HgDsteTWBHlxHzmnPMjkm0w3xQYSg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CeT56epdPdyvSgrbDhpydxLQ8Bi6t+HeRi8SU9ci0BYtLdqGhYsGlJgM4nmBdPOZD6VjVybTEWCwwab89UqM+ARblbvtmoUpfYN8PjDBFreCEZ6wZ9JyG8FYk5754wj4H//MrY9XH8GQEPeYrKvHSoePGHHN9DoBJU7Y+/H8a8Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=JTgqP31w; arc=pass smtp.client-ip=209.85.160.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 278DF14EC73
+	for <linux-doc@vger.kernel.org>; Sat, 14 Mar 2026 09:21:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773480114; cv=none; b=s2/RXq2qSjVln4lk530bQcnz2mMocM4apB60WwzBDWFONiEpGG7uHXMKIfwTlAo/pYWdOMfuRdnz8NIQ4eSvzgcNTpCMC3CRVKPwA/LeFeo3Z2ThmD2cHQvQrDGPneWZu/i89VybwWyMj4vnvP5/GJdRmdh6DABc/gY5X5mDuyE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773480114; c=relaxed/simple;
+	bh=mShEPgqQ4gwpWXszIVcZwkGp+DapTpAMp+A7Ak/Pw/E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mUJVOtwhZqVuJWzNwaZp5cXBQzjuDPVxKHk+2V59Cex4CLKu5yN8k0lu8/+YQYJ/k8FM+eSZElXL33lYKhozcrrOk77ztXG1OFhm4erh42s1s4khb6dXHdltgLck4I7kYpqgVyj2RctGfD0XRjMlTBE97y3Ida2mtQ0fSRzRSLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gx5J4UIA; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JTgqP31w"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-506a747448dso24934451cf.0
-        for <linux-doc@vger.kernel.org>; Fri, 13 Mar 2026 20:58:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773460720; cv=none;
-        d=google.com; s=arc-20240605;
-        b=GV2OiWTsOBVXTL+iK2VaFxVNzCph0bqw37Tf/eB04fmczh3o136E/zaB6zh7MMGTYe
-         y+yqioTucIfApfGNb0H2oq7bCKOt4m2VRCDs1MU4EbYAIg05UA6dCuzI4raNQiPhR+/9
-         fdvjDAuP5rjRCWxF1jWmkuEMW6o1/8IuBLvQJz0iry5xGKsEhve1y4kcWvodbtkDMsGj
-         OpAuOewTD60VKQbEvNW6pS3ji+lVAM+03z6gygo1jvgtMUTusNlipAq5nIC6oxznilj+
-         dxqHvNKXbpzVBQMJxTC8xdgrAzqR8XGLB5YH2WxfF7ZT261YpKs6OSLqableAU43G/Ti
-         XVtg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=OUQRi5vl7ger1FCyv6fx+Ok5M5QQpxd6KNaAJfpodDo=;
-        fh=07gpm/AsrmQRRn5ZFv9MAjZXW/sgeSVKIxnh0feXCOw=;
-        b=Iu2FL7bvU26g1A+kegNN60nHYbV1UFa0Wz0yIfHIewp5BERarBlUyNDqa6WxV0/oSd
-         fdwmGoVZOGOU/YC2tRcrznECXpjnKaLSYY87t50tzwEVrYU03i9uvu5Mpbya1x7p43MO
-         ESYOTqxQleW+u2iUtmu6QAr/jClgyRDJg4Ju4uCHG8occ3YGemTdLW4ZMr+9JVyTElB9
-         kYkkPmpV/vU8Dp/9i5nXgAWkOmEuqDVgzS5m27WisdEUHIkStRwiREplRUgKBjMsRXcP
-         goODSi7f5XXDT3rrh56ydi3xvmhzKOKCpeprHVyhj24ofUkIQhCS0fvrYUPuNJ+EzeFs
-         B4Zg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gx5J4UIA"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2ae3a2f6007so22376065ad.2
+        for <linux-doc@vger.kernel.org>; Sat, 14 Mar 2026 02:21:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1773460720; x=1774065520; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OUQRi5vl7ger1FCyv6fx+Ok5M5QQpxd6KNaAJfpodDo=;
-        b=JTgqP31wUjvJW6J0fs1XR8UDn/WHbk6yG/ugdEzIIaBtN6qVCOZt5ZlJkVL4ze4py7
-         vdoUVii8IYXkGuHIJRJP3zprLeUjJom3ZiwoCW2qE9xAh1LW2zI4rLVFNYqFNONbCtm8
-         Lbd1gzNK6JkyNFRW5BGgC5FaiCtCyGVmIGG5tayTBrZaFNcIj8sZsPza7i0ZUMTK1Oa5
-         Wkn5cZWexZf2YXMryIyu+zoVJ99k/2oE4CGLyaHENCYN+3N1YOq+enZ830YT1Q5529dr
-         UMCw/NccyvFo9IDZvLPNfrqa8UYIyd9T8DUfVWpPoYNSEH6GkaZdB0IvHOQjyKCxAWR+
-         rxHA==
+        d=gmail.com; s=20230601; t=1773480112; x=1774084912; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=r8UyqgPfbZdaAqDYqS1YD/8TcYT8kvUB1s3GvokTCwQ=;
+        b=Gx5J4UIA7tP4s2DoNjVeu5s/n5Z+9HIxA9yZWiUoJPtrCUKLaQWXvExr/u2QmY0g9y
+         GM+cq0XPb5vZ6zXGFnTeGVvKMCLkJO36YXagR3lDJo/oMWC3oLl/45QviRs/dmDZZCC/
+         yNzXTZVq9+FwmgHbXd5lM/0b9xdH8XOUsNdWEnTJCfAaaOV4T14vmJZqlN5j5K777fQc
+         mcu4XZ6m+VR/BwjJ3XgVnkVk8/8yOvAcRBFl6l3C1jVbfPOXbZVVZ52qis0614edneNc
+         dxnzh7AmlpW1rVpgjgyyuJEukTeiBY8hF7I/q9L/oJ2JY47PSSqHLKFIkblh0/7fneab
+         8MUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773460720; x=1774065520;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=OUQRi5vl7ger1FCyv6fx+Ok5M5QQpxd6KNaAJfpodDo=;
-        b=qDyNOw1SdYnAoqbQSVe8VAaYqKMsvIq2XpXmpUX7yYoH97TWjiIf29Y2DRe2qVwQMJ
-         hSm6t0I+lLx9r4I9Lz4xbj9TdhMYBgWO2VvUjxQr+tB8o/zFUQHoLMzIIr7AjGj56nMw
-         xzMqpaHgFWizfRDNj28eMHhSPGmv2vAotGRBs/BZHc4PqrYE9gs7zqXRgrffaEXmbuuN
-         CO+vcWzOZqkMhhVtEWNPChV48T58TbD57iAbHvNpLkrVG2FQgCIs6p38MgmRMeK0Pz57
-         3sad1yALpyDonl9AcdKV3/nGMSWg3TCj2W/Nu9V7ekr67qi/VBMxiU8jqCndUgdDJ3KW
-         r0zg==
-X-Forwarded-Encrypted: i=1; AJvYcCUJS9iAc8MIsVE7G5egNfYEiz4Yg+rnSYlA3xdyH44QWueUtMpmi+E0lihst5fNaDZG3R5KSAQxEas=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwCNFUcOxqWduEpgwqMl+nhOarJZMAI3J6SeQlibOZEqtgYsdPE
-	ZC+ASrum5H9XR1bZD+QTCAwFMm4Lx6m6CcBIsh5bSJvSSlOS2KrrsSE86iIQ+ywF9DtG/M/U9Lt
-	6GgjxiZFy6lDl4gZl54dFDcO6wIhdlK8ZJvrIyOVj
-X-Gm-Gg: ATEYQzwHkfsBGZNIZ60L5KldBtUPcJ3oUODLkCrS0+YaFz2KBSsZ4K1zd/6sKFHx4LH
-	RfDcQSXtFlOK3zDrQeToEv19EI8DiJbp22Ii1TSBN1Xct+1qN7wlS1UY2t47ISmwiTlD/9Sh8vN
-	18X/tg/xHAKxcL5aIMc01Q8t8nz72ovPwoYzOXENcxAL1SOK28KbfVl5BXCMPsiipUyDn0Vl7QZ
-	grRZbeIOHvgLY43f+ORCrB/4a51UZ+dcMuxDXdUfv3bfTT5O2xjf+Q5cW0jb3C0+CAFFrD7nXCa
-	JaD62w==
-X-Received: by 2002:a05:622a:190c:b0:509:1a72:e332 with SMTP id
- d75a77b69052e-50957cb6dffmr75230961cf.16.1773460719740; Fri, 13 Mar 2026
- 20:58:39 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1773480112; x=1774084912;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=r8UyqgPfbZdaAqDYqS1YD/8TcYT8kvUB1s3GvokTCwQ=;
+        b=rb6aHIq68e3Pgag7peuV6ih67vm4ZVfU0cTbW0vQIAlcn5pfJ4vq4IxC4irhVvbrnb
+         kUtFPmp4OGYoUCUSkldZqM06KFHhR8/Raee+pBfVpB2cpEEiuN+MyqLkFLg18llxiUO5
+         D+IPL/EjkYtdg30m4YR0j4hEOE7hYB6wYxy/1hQuhCNenUWrfTBGgEhlANQDbx0M5Z3C
+         E/asOGlHoNqL2oYbtInSL0h3MoZLRHAZv/+6jWKJkns5jeCdjHavGl5PV2CdsnE/R18i
+         0QkS6QfdHYNTdsbwdGFe00Au57yiQ19FB5ACjnGY5RjDDBDpT8uJEc1cAafX/rr13khB
+         BTtA==
+X-Forwarded-Encrypted: i=1; AJvYcCVSNlbNoqLSqMJWbn2w2XHk1i96TfsFH1j5Tg9xortytX3mmAL3cmMtuMCQZ5AAQsIsVnl5ufTRT2w=@vger.kernel.org
+X-Gm-Message-State: AOJu0YznMI5H3x/E4zPln8bG2h6w6RWDJzuwrdRLgJBYoKikulDFqXp1
+	vC4PXCsAjqjsP8/QERrPqqX0LVxLLP1zEiwBKp5DlIM78P5QZWCbD4xwzT7NqA==
+X-Gm-Gg: ATEYQzxX9mmVt3yStyvN2qmhkoY1uh2l8VxlzxjYDDatyvqZiOss8BJcQLonyWySkxW
+	39nX3rZvmZENIdodWRUzIpeVUX18vtOfyp/USPi3tk3tNORJkf7gORQFKD+7XIONoMnzTafkt58
+	CrIzk9H9Pa8AQTummH0xByyl/OsjGWNMJuv1KxHp3dyPBV759YLynm+5fzK6620uzhrVyxbZW3l
+	QokFpTonYhw8zc1212NZHevmGjKrQHVoCLl36oKpUoB7HGWgE5f5C2rCsKtxRBOyVrGGu33t5Vc
+	09M4Y51WEN2NWYIAeDzudkBGo/VaPZtzrzY+gA2AFieV+5/hmaf7LcDn3ad0HCGhl8eVORhLnS2
+	Go2cSy1DjNyueCFjM7G5nVpQNv923KAr4E/2xRx+SRhydC2O9ilqr5lJm1iNJ/jgtZzOgzLjXoR
+	EI5G3muJoZZlNURSJKwEfVKnTXsUeLGcQvn0xMiQt/UGlsSZaRlO/Z6ogo41e68w==
+X-Received: by 2002:a17:902:db05:b0:2ae:5eee:7a5 with SMTP id d9443c01a7336-2aeca9a9d72mr69364795ad.12.1773480112336;
+        Sat, 14 Mar 2026 02:21:52 -0700 (PDT)
+Received: from celestia.taila51cc2.ts.net ([2402:1980:89d:b6e6:2613:d00e:127b:1c64])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2aece62c4f9sm47907385ad.38.2026.03.14.02.21.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 14 Mar 2026 02:21:52 -0700 (PDT)
+From: Liew Rui Yan <aethernet65535@gmail.com>
+To: sj@kernel.org
+Cc: damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	Liew Rui Yan <aethernet65535@gmail.com>
+Subject: [PATCH] Docs/mm/damon: document exclusivity of special-purpose modules
+Date: Sat, 14 Mar 2026 17:20:22 +0800
+Message-ID: <20260314092145.7496-1-aethernet65535@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260309-tcp_rfc7323_retract_wnd_rfc-v3-0-4c7f96b1ec69@gmail.com>
- <20260309-tcp_rfc7323_retract_wnd_rfc-v3-6-4c7f96b1ec69@gmail.com>
- <CANn89i+PypF1cK4mnp8L_eCG_z+3Aj6uxJoohm_=DwGfR1=4FA@mail.gmail.com> <abCkmiCSPkmxzECa@gandalf.schnuecks.de>
-In-Reply-To: <abCkmiCSPkmxzECa@gandalf.schnuecks.de>
-From: Eric Dumazet <edumazet@google.com>
-Date: Sat, 14 Mar 2026 04:58:28 +0100
-X-Gm-Features: AaiRm523CLjVQFOb0ZjB_qB2iBvlpRhw-o_SCZwCK7X6f1nBivXOPbA_-nmtd5w
-Message-ID: <CANn89iKYxs644ardFFSKo8d0EXL_2A5eUQjWZ3yp9-Q4tVLKzQ@mail.gmail.com>
-Subject: Re: [PATCH net-next v3 6/6] selftests/net: packetdrill: add tcp_rcv_neg_window.pkt
-To: Simon Baatz <gmbnomis@gmail.com>
-Cc: Neal Cardwell <ncardwell@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
-	"David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, David Ahern <dsahern@kernel.org>, 
-	Jon Maloy <jmaloy@redhat.com>, Jason Xing <kerneljasonxing@gmail.com>, mfreemon@cloudflare.com, 
-	Shuah Khan <shuah@kernel.org>, Stefano Brivio <sbrivio@redhat.com>, 
-	Matthieu Baerts <matttbe@kernel.org>, Mat Martineau <martineau@kernel.org>, 
-	Geliang Tang <geliang@kernel.org>, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	mptcp@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Mar 11, 2026 at 12:09=E2=80=AFAM Simon Baatz <gmbnomis@gmail.com> w=
-rote:
->
-> Hi Eric,
->
-> On Tue, Mar 10, 2026 at 09:54:58AM +0100, Eric Dumazet wrote:
-> > On Mon, Mar 9, 2026 at 9:03???AM Simon Baatz via B4 Relay
-> > <devnull+gmbnomis.gmail.com@kernel.org> wrote:
-> > >
-> > > From: Simon Baatz <gmbnomis@gmail.com>
-> > >
-> > > The test ensures we correctly apply the maximum advertised window lim=
-it
-> > > when rcv_nxt advances past rcv_mwnd_seq, so that the "usable window"
-> > > is properly clamped to zero rather than becoming negative.
-> > >
-> > > Signed-off-by: Simon Baatz <gmbnomis@gmail.com>
-> > > ---
-> > >  .../net/packetdrill/tcp_rcv_neg_window.pkt         | 26 ++++++++++++=
-++++++++++
-> > >  1 file changed, 26 insertions(+)
-> > >
-> > > diff --git a/tools/testing/selftests/net/packetdrill/tcp_rcv_neg_wind=
-ow.pkt b/tools/testing/selftests/net/packetdrill/tcp_rcv_neg_window.pkt
-> > > new file mode 100644
-> > > index 0000000000000000000000000000000000000000..15a9b4938f16d175ac54f=
-3fd192ed2b59b0a4399
-> > > --- /dev/null
-> > > +++ b/tools/testing/selftests/net/packetdrill/tcp_rcv_neg_window.pkt
-> > > @@ -0,0 +1,26 @@
-> > > +// SPDX-License-Identifier: GPL-2.0
-> > > +
-> > > +--mss=3D1000
-> > > +
-> > > +`./defaults.sh`
-> > > +
-> > > +// Establish a connection.
-> > > +   +0 socket(..., SOCK_STREAM, IPPROTO_TCP) =3D 3
-> > > +   +0 setsockopt(3, SOL_SOCKET, SO_REUSEADDR, [1], 4) =3D 0
-> > > +   +0 setsockopt(3, SOL_SOCKET, SO_RCVBUF, [20000], 4) =3D 0
-> > > +   +0 bind(3, ..., ...) =3D 0
-> > > +   +0 listen(3, 1) =3D 0
-> > > +
-> > > +   +0 < S 0:0(0) win 32792 <mss 1000,nop,wscale 7>
-> > > +   +0 > S. 0:0(0) ack 1 win 18980 <mss 1460,nop,wscale 0>
-> > > +  +.1 < . 1:1(0) ack 1 win 257
-> > > +
-> > > +   +0 accept(3, ..., ...) =3D 4
-> > > +
-> > > +// A too big packet is accepted if the receive queue is empty
-> > > +   +0 < P. 1:20001(20000) ack 1 win 257
-> >
-> > We do not see the answer, it seems this test is not complete ?
->
-> Actually we do not want to see an answer.  The packet won't trigger
-> an immediate ACK (it is larger than the advertised window, but does
-> not cause immediate memory pressure).
->
-> When we then send a RST before the delayed ACK would be generated:
->
-> > > +// Send a RST immediately so that there is no rcv_wup/rcv_mwnd_seq u=
-pdate yet
-> > > +   +0 < R. 20001:20001(0) ack 1 win 257
->
-> We are in a state where rcv_wup, rcv_wnd, and rcv_mwnd_seq have not
-> been updated yet, but we must still accept the RST
-> (rcv_nxt =3D=3D 20001 > rcv_mwnd_seq, tcp_max_receive_window() =3D=3D 0)
->
-> > > +
-> > > +  +.1 %{ assert tcpi_state =3D=3D TCP_CLOSE, tcpi_state }%
->
-> And we verify that we accepted the RST here.
->
-> Given how subtle this sequence is, and considering the limited value
-> of this test, I am also fine with dropping it if it is too fragile or
-> confusing.
+Add a section in design.rst to explain that DAMON special-purpose kernel
+modules (LRU_SORT, RECLAIM, STAT) run in an exclusive manner and return
+-EBUSY if another is already running.
 
-Sorry I missed your answer.
+Update lru_sort.rst, reclaim.rst and stat.rst by adding cross-references
+to this exclusivity rule at the end of their respective Example
+sections.
 
-Ok then please use :
+While at it, fix a Sphinx syntax error in the "contents" directive in
+design.rst (missing space after :depth:) that prevents the table of
+contents from being rendered on docs.kernel.org.
 
-// A too big packet is accepted if the receive queue is empty
-   +0 < P. 1:20001(20000) ack 1 win 257
-   +0 %{ assert tcpi_bytes_received =3D=3D 20000, tcpi_bytes_received;
-assert tcpi_bytes_acked =3D=3D 0, tcpi_bytes_acked }%
+Signed-off-by: Liew Rui Yan <aethernet65535@gmail.com>
+Link: https://lore.kernel.org/damon/20260314002119.79742-1-sj@kernel.org/T/#t
+---
+ Documentation/admin-guide/mm/damon/lru_sort.rst | 5 +++++
+ Documentation/admin-guide/mm/damon/reclaim.rst  | 5 +++++
+ Documentation/admin-guide/mm/damon/stat.rst     | 5 +++++
+ Documentation/mm/damon/design.rst               | 6 +++++-
+ 4 files changed, 20 insertions(+), 1 deletion(-)
 
-// Send a RST immediately so that there is no rcv_wup/rcv_mwnd_seq update y=
-et
-   +0 < R. 20001:20001(0) ack 1 win 257
+diff --git a/Documentation/admin-guide/mm/damon/lru_sort.rst b/Documentation/admin-guide/mm/damon/lru_sort.rst
+index 06a46812a728..0198dfe87f4d 100644
+--- a/Documentation/admin-guide/mm/damon/lru_sort.rst
++++ b/Documentation/admin-guide/mm/damon/lru_sort.rst
+@@ -353,3 +353,8 @@ the LRU-list based page granularity reclamation. ::
+     # echo 400 > wmarks_mid
+     # echo 200 > wmarks_low
+     # echo Y > enabled
++
++Note that this module (damon_lru_sort) cannot run simultaneously with other
++DAMON-based special-purpose modules.  Refer to :ref:`DAMON design special
++purpose modules exclusivity <damon_design_special_purpose_modules_exclusivity>`
++for more details.
+diff --git a/Documentation/admin-guide/mm/damon/reclaim.rst b/Documentation/admin-guide/mm/damon/reclaim.rst
+index c5b4d8a1b001..a37ce6fdff05 100644
+--- a/Documentation/admin-guide/mm/damon/reclaim.rst
++++ b/Documentation/admin-guide/mm/damon/reclaim.rst
+@@ -331,6 +331,11 @@ granularity reclamation. ::
+     # echo 200 > wmarks_low
+     # echo Y > enabled
+ 
++Note that this module (damon_reclaim) cannot run simultaneously with other
++DAMON-based special-purpose modules.  Refer to :ref:`DAMON design special
++purpose modules exclusivity <damon_design_special_purpose_modules_exclusivity>`
++for more details.
++
+ .. [1] https://research.google/pubs/pub48551/
+ .. [2] https://lwn.net/Articles/787611/
+ .. [3] Documentation/mm/free_page_reporting.rst
+diff --git a/Documentation/admin-guide/mm/damon/stat.rst b/Documentation/admin-guide/mm/damon/stat.rst
+index 468c122c4259..46c5dd96aa2e 100644
+--- a/Documentation/admin-guide/mm/damon/stat.rst
++++ b/Documentation/admin-guide/mm/damon/stat.rst
+@@ -45,6 +45,11 @@ You can enable DAMON_STAT by setting the value of this parameter as ``Y``.
+ Setting it as ``N`` disables DAMON_STAT.  The default value is set by
+ ``CONFIG_DAMON_STAT_ENABLED_DEFAULT`` build config option.
+ 
++Note that this module (damon_stat) cannot run simultaneously with other
++DAMON-based special-purpose modules.  Refer to :ref:`DAMON design special
++purpose modules exclusivity <damon_design_special_purpose_modules_exclusivity>`
++for more details.
++
+ .. _damon_stat_aggr_interval_us:
+ 
+ aggr_interval_us
+diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
+index 0a3b77ec458f..3694c541e65a 100644
+--- a/Documentation/mm/damon/design.rst
++++ b/Documentation/mm/damon/design.rst
+@@ -5,7 +5,7 @@ Design
+ ======
+ 
+ .. contents:: :local:
+-   :depth:2
++   :depth: 2
+ 
+ .. _damon_design_execution_model_and_data_structures:
+ 
+@@ -960,6 +960,10 @@ more detail, please read the usage documents for those
+ (:doc:`/admin-guide/mm/damon/stat`, :doc:`/admin-guide/mm/damon/reclaim` and
+ :doc:`/admin-guide/mm/damon/lru_sort`).
+ 
++.. _damon_design_special_purpose_modules_exclusivity:
++
++Note that these modules currently run in an exclusive manner.  If one of those
++is already running, others will return ``-EBUSY`` upon start requests.
+ 
+ Sample DAMON Modules
+ --------------------
+-- 
+2.53.0
 
-  +.1 %{ assert tcpi_state =3D=3D TCP_CLOSE, tcpi_state }%
-
-
-
-Then add my
-Reviewed-by: Eric Dumazet <edumazet@google.com>
