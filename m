@@ -1,113 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9136417B50F;
-	Sun, 15 Mar 2026 06:46:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04EDB1A6801
+	for <linux-doc@vger.kernel.org>; Sun, 15 Mar 2026 09:52:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773557186; cv=none; b=Eo7dsggxidqCW0S+rgPYE5uMqNqHlW7RqpVPR7yekSqNkuee6Q2M/WojHwOX+4/bjhsGONEk9YuGC841wsvSpnM9lBSDQr7gdX1y5W9WmSp6bg8lAMfcuBQNHVyBHTGz4ia1rpb8glI4H0RCqgIzG33DUS/J7EaCUQD8H84ilaM=
+	t=1773568343; cv=none; b=oWVEi6vOibcmXqB01tvPgHQRnP5F7qPUpWC+XVMkdt0rHHe1PYBa7K17euLejEszhbnqvrmJPJMLmL+LmehYXn2ZS9b+4YQa9UsfYGOHr7rxTDoeiLsXwcCw56frKyyWuG+tSjDVNYR3jLwPCiWYAOAvVrLAbwjjy98gaepUins=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773557186; c=relaxed/simple;
-	bh=IpUTDcZ1Uu4Z1bfflk4CngBLm8hUBNUIhtC4bYm5ODw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YqkSKKnY17k9HaBeX9eWjSJn1jXckSjh6Zum4IKjCCyfCJ+q7JK9+9aSaTmVE97QwXDcH26LUsY81Oh29LUdKOldq7znSJfEVArP3BFBZdlM4HfWgeTGxEgEjJg8fs1qOkO5KzJ/dNqjZpZxIxy3YcdRMo8LlKE3zsV1MdZIBcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z4sTG/4E; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773568343; c=relaxed/simple;
+	bh=SvjxCtk2sNkffztjuWxqJK8HTp2fxoNcz3jrSjLyvlk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KlgP4Ixv6osuVxMmD7Or0YPfze86xXPw4tbUF6QcSEOYuN/BCNEAOcufaLDCUM7AFzdXc62Wt6B06/jXufRpeAS/SS7hqJZreXpZJ1p5+IAqadqwRhDPHJo+qGcY50hhw5YuJ6q+SBOZH5dCgoHZEZRjJ6V5i/yJaggkCQDmPCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RGsweh8u; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z4sTG/4E"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7B7DC4CEF7;
-	Sun, 15 Mar 2026 06:46:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773557186;
-	bh=IpUTDcZ1Uu4Z1bfflk4CngBLm8hUBNUIhtC4bYm5ODw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Z4sTG/4E6mbg52QlUCguplRl3s+AbHo/83S7cwIrGRmYk7p6ogy+RDg5b5gNufUzM
-	 XWlobTcH2/a8HyZR0gU2s0+avyy0Fza9PGIpBMLulzkWL6QjsUWBNKDiqTMw6nTODm
-	 NXPXNVnC8Vr5cvZN598o/xc8pjrkX7Ya0b9boOwsgWg8rRcnQB4dTATj5TMKV81o3y
-	 KqpoQB6xnb2BuzgFny89j5tSBGOXe3SBzu4jGmOrQqK/ZH+Aa/8d0zdoIKVq1PWIsP
-	 EsFrwGyjyj2BkZ9IP7N0DqY4AZ8A7l3Ye6N1a6aiAUFLCLFUwBQw9Y3AbCaTirhNSN
-	 wD0KzKDOK75nQ==
-Date: Sun, 15 Mar 2026 02:46:24 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: David Laight <david.laight.linux@gmail.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, linux-api@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, workflows@vger.kernel.org,
-	tools@kernel.org, x86@kernel.org, Thomas Gleixner <tglx@kernel.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Cyril Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>,
-	Jake Edge <jake@lwn.net>, Askar Safin <safinaskar@zohomail.com>,
-	Gabriele Paoloni <gpaoloni@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH 0/9] Kernel API Specification Framework
-Message-ID: <abZVwFwKSsxvwCw3@laps>
-References: <20260313150928.2637368-1-sashal@kernel.org>
- <20260314111822.63a2ba4a@kernel.org>
- <20260314224435.35465615@pumpkin>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RGsweh8u"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-824c9da9928so2370359b3a.3
+        for <linux-doc@vger.kernel.org>; Sun, 15 Mar 2026 02:52:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773568341; x=1774173141; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=CuiN5qUYsHdCDRty33DpZCZLy0K2whSknQ9r4O2yTOI=;
+        b=RGsweh8uqCXvi7cf+T5WXSk1aie9LPlW584SY/iqxrhciI5zDL5LZKnxezm7NbrZ9S
+         DNEIoAFZmP0zF3M6pf0rTq3sarw+I3Xzybx9ezd6IGtdMWvTGb0ZCqgReCPrZSoXhMWk
+         wzJEpKNU4CBfKq0qc/cN7Ui1zxsPV7SFWhSJG4RCWK6Ft/NwSsPdX74bQll9ScRYztH7
+         Ni6kHMCZaUv0Ua1dSxhlUuhD8yutCpHs4Goz/HI7fFDIdeiaeylV6hQ24aFlJjvygETx
+         co1qHVNYYcrfvxlJ16RayiG/shQ9gawuTU7WRE5efTm09K6LGljJl7U3hgheI2yXnVCG
+         c94w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773568341; x=1774173141;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CuiN5qUYsHdCDRty33DpZCZLy0K2whSknQ9r4O2yTOI=;
+        b=cqTd2uCRzTwrP1m8w6BoPJrpN28i0/4R0R2iWJlJEfVM1XEAOYAIyueTq+PKuL+s1b
+         fND4EkA4od1E2UhhDeoV4I0QTv3ZJfIm2yfLVJGDZpl5Vxeb3IJIJhCJcgM4CT5S6bXg
+         UAMTt586NZHy6NYu0dfQxLcxFkV84R5oOlR6CVYhAs38Whyq+m5cQjxeDW/9+AMMYMCf
+         b0tQcElMUWko3/lTytGv5K6s4GZxK1vEMjk0zx8t7MBkA7LY6egC/R9gxfkQhO519F+R
+         ozrNUeq2jOGUx+/eJAXNnAIMT3P41IYmcqKrlCKPexJ9iPiBERDK32SaxHx4SQotDlsa
+         iu6g==
+X-Gm-Message-State: AOJu0YzRr3dLrnrOU8UxSKP1cPlTeLbOc1o7uLgo0YIDYMFs8umCQpz2
+	RplekbPKFD+3mSPfbKLtikuXotq7GjSxpgR9yTCXjA1BlylHr7wHUh062MuulGIK
+X-Gm-Gg: ATEYQzwcPxHx5aCbAtnqDOc00Mp46rdqheHy+TG32doE/+SKaaRtFefZRPIViHI+R8o
+	jjueswiKP48tctCMPsaqV4jfAXVfl3sVEzoSs4C6oPu5BvyoLGBZfRA6OWiyWzPsZFXIhcprvbL
+	pQbiOaqWjOJ+D/qwOLV1nqcJbU1U9GdOzzbMxPjCFSLxchkxBa6P4JPrRtmEXxsaJQa+s+CL3vw
+	uCAbrhdD/3SMZ9WsXRE2R3r8pfclsqt1Lq3NynbTK9c/kedXkzo2zyjCQb6+R/BavxXm5cKp4SR
+	paEPvqxciMiKb1rdMVCl1yDIGbKF5KpYXjAMUxOOS2N51fH6GlZB62WN2ZrTesI7GTQBZzQYv8M
+	C0vo1MTYpNNZ/nR4SR5gA5IKZVKZhoX5KYC2H9GmulJxO6vcl3+a2iQnhncH25TqpwE8KSagHxh
+	dfSlh2DTwB44F3dAgWp7VKRG5SjF7DLaqWFe8=
+X-Received: by 2002:a05:6a00:2d2a:b0:829:8a84:b9fc with SMTP id d2e1a72fcca58-82a19703b62mr7787865b3a.8.1773568341185;
+        Sun, 15 Mar 2026 02:52:21 -0700 (PDT)
+Received: from localhost ([220.247.131.21])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82a07341986sm10409589b3a.32.2026.03.15.02.52.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Mar 2026 02:52:20 -0700 (PDT)
+From: Ariful Islam Shoikot <islamarifulshoikat@gmail.com>
+To: linux-doc@vger.kernel.org
+Cc: Ariful Islam Shoikot <islamarifulshoikat@gmail.com>
+Subject: [PATCH] can_ucan_protocol.rst: grammar fix
+Date: Sun, 15 Mar 2026 15:52:15 +0600
+Message-ID: <20260315095215.47100-1-islamarifulshoikat@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20260314224435.35465615@pumpkin>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Mar 14, 2026 at 10:44:35PM +0000, David Laight wrote:
->On Sat, 14 Mar 2026 11:18:22 -0700
->Jakub Kicinski <kuba@kernel.org> wrote:
->
->> On Fri, 13 Mar 2026 11:09:10 -0400 Sasha Levin wrote:
->> > This enables static analysis tools to verify userspace API usage at compile
->> > time, test generation based on formal specifications, consistent error handling
->> > validation, automated documentation generation, and formal verification of
->> > kernel interfaces.
->>
->> Could you give some examples? We have machine readable descriptions for
->> Netlink interfaces, we approached syzbot folks and they did not really
->> seem to care for those.
->
->The whole thing reminds me of doxygen comment blocks.
->They tend to make it hard to read the source files, hard to search
->the source files (due to all the extra matches) and are pretty much
->always out of date.
->
->The kerndoc comment blocks for trivial helper functions are hard enough
->to keep up to date.
->
->The only way even parameter descriptions are going to stay correct is if the
->compiler is using the definition and only the comment part is extra.
->For error returns you'll need the documentation to be at the return site.
+Signed-off-by: Ariful Islam Shoikot <islamarifulshoikat@gmail.com>
+---
+ Documentation/networking/can_ucan_protocol.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-When CONFIG_KAPI_RUNTIME_CHECKS is enabled, the specs are enforced at
-the syscall boundary. The SYSCALL_DEFINEx macro grows a wrapper that
-calls kapi_validate_syscall_params() before the real implementation and
-kapi_validate_syscall_return() after it. Parameter constraints (ranges,
-valid flag masks, alignment) are checked on every syscall entry, and
-return values are validated against the documented success/error ranges
-on every exit.
-
-If a spec goes stale, it has runtime consequences. A new flag bit added
-without updating the spec's valid_mask means callers using that flag get
-EINVAL, which any test exercising that path catches immediately. An
-implementation returning an undocumented error code triggers a warning
-from the return validation.
-
-The selftest in the series (tools/testing/selftests/kapi/test_kapi.c)
-exercises this with real syscalls, both valid and invalid inputs,
-verifying the validation layer catches violations.
-
+diff --git a/Documentation/networking/can_ucan_protocol.rst b/Documentation/networking/can_ucan_protocol.rst
+index 935d872ae87c..f366daf37535 100644
+--- a/Documentation/networking/can_ucan_protocol.rst
++++ b/Documentation/networking/can_ucan_protocol.rst
+@@ -244,7 +244,7 @@ Flow Control
+ 
+ When receiving CAN messages there is no flow control on the USB
+ buffer. The driver has to handle inbound message quickly enough to
+-avoid drops. I case the device buffer overflow the condition is
++avoid drops. In case the device buffer overflow the condition is
+ reported by sending corresponding error frames (see
+ :ref:`can_ucan_error_handling`)
+ 
 -- 
-Thanks,
-Sasha
+2.43.0
+
