@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB7F71A073F
-	for <linux-doc@vger.kernel.org>; Sun, 15 Mar 2026 19:50:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF798370D51
+	for <linux-doc@vger.kernel.org>; Sun, 15 Mar 2026 19:55:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773604208; cv=none; b=f4fizZ+M6QkPTLIYCTzfKLwhsQikXqAg9ZRAg9YSH8viO4tepI6fWJ7beQsJgs/obuZYmhw5DGKHVqsSuNd5MKMT/Fjck5Okt51iKvEU4R8ZWxwU0QJrHppwqtq3CxQzc5b1kYAt3nzO5Yf8HPwy4obe0yd0CGRnNe2qm6pkoX0=
+	t=1773604515; cv=none; b=PAKrnqECZt3P0ZrN5HFCMKXdYjIgVttcx2mVVbR2cRJtavsQraXzdsHESHwGoVOPiVQLxyLuXjiR8o2zuU8SqSLzLvXuu+1cfX23lf1Fc6S6c/sXsdnlR8OfIjz3wqz9Z7/0vYCamkkDHabOWuSELCE1sy7wTDOnvffgFoY5HNA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773604208; c=relaxed/simple;
-	bh=6eoS3LFtJRFk6+XLO2xJAlzaUGhOphBXesP3fmCa+10=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ixIYSToPRbs4SI/FnSnas+KN0Ogi57YcxW9k6MwhI+bMQK2wJQkcbYi7IB7jDA1zaNUrFx/Bhh5w4GpvxYopBRzcpdcj4hJ3NUEW0EOKG1yLKSEbZ5Nzunrgbnf87UMczJjySuo0l1UlLI5yJPnU1aYncsrsXznZuYFcUndIA8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LhJL59x4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773604515; c=relaxed/simple;
+	bh=R5ThDXaXwhDS7us7pszLF0qdYL83ZR2z6K9kBlc0xLo=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=fB0wifauiIw7qHzJsLhsngjxq/W7Vxt9zj+aTvL1PPPI9gZrZa6j5vSfozHOT+px+YOdQ8d6g+Sp6zgYjFaP4MBmvjb7GUK/wLk9kjwilxC6RJKbJJimLBeU0qj6wNFXG4LnGZ935ze9PtUP/Q4omU2N4EtSOffi0W8kQhuAFY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ezw5Oler; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LhJL59x4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEEBCC4CEF7;
-	Sun, 15 Mar 2026 19:50:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ezw5Oler"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1BC4C4CEF7;
+	Sun, 15 Mar 2026 19:55:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773604208;
-	bh=6eoS3LFtJRFk6+XLO2xJAlzaUGhOphBXesP3fmCa+10=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=LhJL59x4BiVtPgiSoehPCAbnyuJX/VHVBa2Lb4UR4KpKMyCGyAViGn6uZ3TcL29zZ
-	 PVoN7rdeSkCAnsAxQAuzNUO0AfHeouM/piaplzeU+iACbVtymIxWZogCXHg/RHUhE+
-	 ibYUfEr1ujq1QVY4wny4mN5MKnv+mZrx7Tn1ATYWJrlLxVlkWcDbOfdSP1TXHBonlx
-	 njVP8q9t1HWFxwt5El0oirWIU2K6CWzWHa0Yiq9+OWkKltSmsH2aUMEA65ASEjqjMA
-	 uk7qFS3HxCuewjKTjGIFTfd0nYXxdy+LdFaAhb/kNiXNvUUkmvVdmxxKKXpszFDFEo
-	 gOvhXD8/tPYpA==
-Message-ID: <09920346-0caf-466f-9c12-5f086d99411b@kernel.org>
-Date: Sun, 15 Mar 2026 20:50:04 +0100
+	s=k20201202; t=1773604515;
+	bh=R5ThDXaXwhDS7us7pszLF0qdYL83ZR2z6K9kBlc0xLo=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=Ezw5OlerE1XXx4LiBfznbun+8ECgquEmXFy3oPq5MRyV/rS1cgP4GvWp567QHecWh
+	 xTUc5d1gqM1fj/blqAN+NSTFp7/uYsCEKy879a5oik9R0e6IGu7akMx7iDCekvs++0
+	 54rzsfOtsYFZSHtvvhjrdCoXclRsGoXlVDSnrWorBqO74BFXdD3Zlh8K/NazCUpxvu
+	 qNck6hpPLjRojREfJdpwdACax2MDMyXOtKyVyGj4Eak947vV9XPkOGn1Thh6yRSxhZ
+	 GB+AUkaGEebAWz/TJqS7nCy0segLMN+M+GX9U49whEMubxCtSaELFExj4R3w837roj
+	 jHIqkZemS44Sg==
+Message-ID: <f6c2ec4f-95d6-43e2-8b82-698b9ad4d8bc@kernel.org>
+Date: Sun, 15 Mar 2026 20:55:12 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -36,6 +36,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] Docs/mm: document Shared Memory Filesystem
+From: "David Hildenbrand (arm)" <david@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>, Kit Dallege <xaum.io@gmail.com>
 Cc: Jonathan Corbet <corbet@lwn.net>, linux-mm@kvack.org,
  linux-doc@vger.kernel.org, Mel Gorman <mgorman@techsingularity.net>
@@ -43,7 +44,7 @@ References: <20260314152538.100593-1-xaum.io@gmail.com>
  <87ms0ajtvy.fsf@trenco.lwn.net>
  <CAAZVx98Sz1MknCcMpQXxeGpUjXBDyz+0KyRuUiCXsM+3qzqpeA@mail.gmail.com>
  <20260314111757.2a17c3acce8c3a1eb68ed209@linux-foundation.org>
-From: "David Hildenbrand (arm)" <david@kernel.org>
+ <09920346-0caf-466f-9c12-5f086d99411b@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
  xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
@@ -88,48 +89,50 @@ Autocrypt: addr=david@kernel.org; keydata=
  cFAM8nBWrEmNU2vvIGJzjJ/NVYYIY0TgOc5bS9wh6jKHL2+chrfDW5neLJjY2x3snF8q7U9G
  EIbBfNHDlOV8SyhEjtX0DyKxQKioTYPOHcW9gdV5fhSz5tEv+ipqt4kIgWqBgzK8ePtDTqRM
  qZq457g1/SXSoSQi4jN+gsneqvlTJdzaEu1bJP0iv6ViVf15+qHuY5iojCz8fa0=
-In-Reply-To: <20260314111757.2a17c3acce8c3a1eb68ed209@linux-foundation.org>
+In-Reply-To: <09920346-0caf-466f-9c12-5f086d99411b@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 3/14/26 19:17, Andrew Morton wrote:
-> On Sat, 14 Mar 2026 17:02:47 +0100 Kit Dallege <xaum.io@gmail.com> wrote:
-> 
->> Hi Jon,
+On 3/15/26 20:50, David Hildenbrand (arm) wrote:
+> On 3/14/26 19:17, Andrew Morton wrote:
+>> On Sat, 14 Mar 2026 17:02:47 +0100 Kit Dallege <xaum.io@gmail.com> wrote:
 >>
->> The material was written with AI assistance (Claude) and then verified
->> against the source code in mm/shmem.c. I read through the implementation,
->> the existing comments, and Mel Gorman's book outline to identify what
->> should be covered, then used AI to help draft the prose, which I reviewed
->> and edited.
+>>> Hi Jon,
+>>>
+>>> The material was written with AI assistance (Claude) and then verified
+>>> against the source code in mm/shmem.c. I read through the implementation,
+>>> the existing comments, and Mel Gorman's book outline to identify what
+>>> should be covered, then used AI to help draft the prose, which I reviewed
+>>> and edited.
+>>
+>> OK, so you're saying that you created the content and used an LLM to
+>> assist in finishing it off?
+>>
+>>> I'm happy to rework anything that's inaccurate or doesn't meet the bar.
+>>> Should I add an Assisted-by tag to the commit?
+>>
+>> Yes, Assisted-by: is appropriate and useful here.
+>>
+>>   From a quick scan, this material appears to be helpful and I think it
+>> would be good for us to get this into the tree in some fashion.  Which
+>> will involve asking the relevant MM developers to review each change.
 > 
-> OK, so you're saying that you created the content and used an LLM to
-> assist in finishing it off?
+> So, someone with an LLM but no proven experience with the code produced
+> some doc, and maintainers/developers should dedicate their precious time
+> to do the hard work of checking everything?
 > 
->> I'm happy to rework anything that's inaccurate or doesn't meet the bar.
->> Should I add an Assisted-by tag to the commit?
+> I'm all for documenting stuff, especially if newcomers start exploring
+> that space by contributing small, carefully crafted documentation updates.
 > 
-> Yes, Assisted-by: is appropriate and useful here.
+> It's then a good learning experience for someone that wants to work on
+> the code to really have to understand the code in detail, and what is
+> actually worth documenting (and what's an implementation detail).
 > 
->  From a quick scan, this material appears to be helpful and I think it
-> would be good for us to get this into the tree in some fashion.  Which
-> will involve asking the relevant MM developers to review each change.
+> I see 7 doc updates for 7 different MM subsystems in my inbox, including
 
-So, someone with an LLM but no proven experience with the code produced 
-some doc, and maintainers/developers should dedicate their precious time 
-to do the hard work of checking everything?
+... "the buddy, and for example, no mentioning of the pcp, but for some 
+reason page isolation instead."
 
-I'm all for documenting stuff, especially if newcomers start exploring 
-that space by contributing small, carefully crafted documentation updates.
-
-It's then a good learning experience for someone that wants to work on 
-the code to really have to understand the code in detail, and what is 
-actually worth documenting (and what's an implementation detail).
-
-I see 7 doc updates for 7 different MM subsystems in my inbox, including
-
-So naturally, I get skeptical when it comes to "I read through the 
-implementation, the existing comments".
 
 -- 
 Cheers,
