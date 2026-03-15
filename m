@@ -1,93 +1,91 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04EDB1A6801
-	for <linux-doc@vger.kernel.org>; Sun, 15 Mar 2026 09:52:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2371D353EDF
+	for <linux-doc@vger.kernel.org>; Sun, 15 Mar 2026 12:41:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773568343; cv=none; b=oWVEi6vOibcmXqB01tvPgHQRnP5F7qPUpWC+XVMkdt0rHHe1PYBa7K17euLejEszhbnqvrmJPJMLmL+LmehYXn2ZS9b+4YQa9UsfYGOHr7rxTDoeiLsXwcCw56frKyyWuG+tSjDVNYR3jLwPCiWYAOAvVrLAbwjjy98gaepUins=
+	t=1773578499; cv=none; b=PSxH4kR44Cs1JdeA3BlfVKe6lYO6mE0vkJRqWWbOx9TxxSMcId6T5/GAUVUu38z/6a2Y2JyKBNyi0PrIDIP/ehgjpnE8+yc8P9PYnw/CXAJo6vLoNovh7wa3bWyAaHAFHy6w4191s37xg71XsNV0A/c1+Tsm5J0RSX4DIylz7IA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773568343; c=relaxed/simple;
-	bh=SvjxCtk2sNkffztjuWxqJK8HTp2fxoNcz3jrSjLyvlk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KlgP4Ixv6osuVxMmD7Or0YPfze86xXPw4tbUF6QcSEOYuN/BCNEAOcufaLDCUM7AFzdXc62Wt6B06/jXufRpeAS/SS7hqJZreXpZJ1p5+IAqadqwRhDPHJo+qGcY50hhw5YuJ6q+SBOZH5dCgoHZEZRjJ6V5i/yJaggkCQDmPCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RGsweh8u; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773578499; c=relaxed/simple;
+	bh=dNKJVkV5cBxzsLlUJ/1x6HQiH85iFFHHdzUsaneLqDk=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=lUCHbTnnRC6rbF9dYQR7yOJ/8hg/BaJuLFuq1EOo0YMjrOC41Fm97mrgsaBILZsLv68/kiola36zz0wAJARKOm18GPu1UKd/V2DZHoXT6fSKNOQ/bMyq2lvOjsNey5+UHOBKvoLLVOZy06zfqf9K05t8eYx7Ko7GOZEsr8JK1C8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EFxSJtJI; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RGsweh8u"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-824c9da9928so2370359b3a.3
-        for <linux-doc@vger.kernel.org>; Sun, 15 Mar 2026 02:52:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773568341; x=1774173141; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=CuiN5qUYsHdCDRty33DpZCZLy0K2whSknQ9r4O2yTOI=;
-        b=RGsweh8uqCXvi7cf+T5WXSk1aie9LPlW584SY/iqxrhciI5zDL5LZKnxezm7NbrZ9S
-         DNEIoAFZmP0zF3M6pf0rTq3sarw+I3Xzybx9ezd6IGtdMWvTGb0ZCqgReCPrZSoXhMWk
-         wzJEpKNU4CBfKq0qc/cN7Ui1zxsPV7SFWhSJG4RCWK6Ft/NwSsPdX74bQll9ScRYztH7
-         Ni6kHMCZaUv0Ua1dSxhlUuhD8yutCpHs4Goz/HI7fFDIdeiaeylV6hQ24aFlJjvygETx
-         co1qHVNYYcrfvxlJ16RayiG/shQ9gawuTU7WRE5efTm09K6LGljJl7U3hgheI2yXnVCG
-         c94w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773568341; x=1774173141;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CuiN5qUYsHdCDRty33DpZCZLy0K2whSknQ9r4O2yTOI=;
-        b=cqTd2uCRzTwrP1m8w6BoPJrpN28i0/4R0R2iWJlJEfVM1XEAOYAIyueTq+PKuL+s1b
-         fND4EkA4od1E2UhhDeoV4I0QTv3ZJfIm2yfLVJGDZpl5Vxeb3IJIJhCJcgM4CT5S6bXg
-         UAMTt586NZHy6NYu0dfQxLcxFkV84R5oOlR6CVYhAs38Whyq+m5cQjxeDW/9+AMMYMCf
-         b0tQcElMUWko3/lTytGv5K6s4GZxK1vEMjk0zx8t7MBkA7LY6egC/R9gxfkQhO519F+R
-         ozrNUeq2jOGUx+/eJAXNnAIMT3P41IYmcqKrlCKPexJ9iPiBERDK32SaxHx4SQotDlsa
-         iu6g==
-X-Gm-Message-State: AOJu0YzRr3dLrnrOU8UxSKP1cPlTeLbOc1o7uLgo0YIDYMFs8umCQpz2
-	RplekbPKFD+3mSPfbKLtikuXotq7GjSxpgR9yTCXjA1BlylHr7wHUh062MuulGIK
-X-Gm-Gg: ATEYQzwcPxHx5aCbAtnqDOc00Mp46rdqheHy+TG32doE/+SKaaRtFefZRPIViHI+R8o
-	jjueswiKP48tctCMPsaqV4jfAXVfl3sVEzoSs4C6oPu5BvyoLGBZfRA6OWiyWzPsZFXIhcprvbL
-	pQbiOaqWjOJ+D/qwOLV1nqcJbU1U9GdOzzbMxPjCFSLxchkxBa6P4JPrRtmEXxsaJQa+s+CL3vw
-	uCAbrhdD/3SMZ9WsXRE2R3r8pfclsqt1Lq3NynbTK9c/kedXkzo2zyjCQb6+R/BavxXm5cKp4SR
-	paEPvqxciMiKb1rdMVCl1yDIGbKF5KpYXjAMUxOOS2N51fH6GlZB62WN2ZrTesI7GTQBZzQYv8M
-	C0vo1MTYpNNZ/nR4SR5gA5IKZVKZhoX5KYC2H9GmulJxO6vcl3+a2iQnhncH25TqpwE8KSagHxh
-	dfSlh2DTwB44F3dAgWp7VKRG5SjF7DLaqWFe8=
-X-Received: by 2002:a05:6a00:2d2a:b0:829:8a84:b9fc with SMTP id d2e1a72fcca58-82a19703b62mr7787865b3a.8.1773568341185;
-        Sun, 15 Mar 2026 02:52:21 -0700 (PDT)
-Received: from localhost ([220.247.131.21])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82a07341986sm10409589b3a.32.2026.03.15.02.52.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Mar 2026 02:52:20 -0700 (PDT)
-From: Ariful Islam Shoikot <islamarifulshoikat@gmail.com>
-To: linux-doc@vger.kernel.org
-Cc: Ariful Islam Shoikot <islamarifulshoikat@gmail.com>
-Subject: [PATCH] can_ucan_protocol.rst: grammar fix
-Date: Sun, 15 Mar 2026 15:52:15 +0600
-Message-ID: <20260315095215.47100-1-islamarifulshoikat@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EFxSJtJI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773578497; x=1805114497;
+  h=date:from:to:cc:subject:message-id;
+  bh=dNKJVkV5cBxzsLlUJ/1x6HQiH85iFFHHdzUsaneLqDk=;
+  b=EFxSJtJIZPim9sI6gFb+em/rQ/lCyGDpY8Wzvjav+QoZG0dZaxleAwI4
+   An1i7/YtIgxIvWtkce2fTmQS9iP0g1EIEvNoIiD/1k4AmPaRDG79gWDaC
+   gkk3AqEGeM/AfoI9vstIpDBv5cHiTGYm0BRL0+MExVSrsYlkIWfL2loAW
+   fLxkH1OnCqRvnGPqXAHYBMDRW66ml7BZSFaiUh+RkhOeEjmqCvhshs0sM
+   JM/iDSJ9NBJMvUShsHh/W2jWG8SnQgiZeKEcKBeaOXXFCGoIoyvZ7bihK
+   hUr8yLueWd0K7M8mj5xK4ZW3Nt4cldbYleN8WVwAbTGZ4znoE6eCOXHTB
+   A==;
+X-CSE-ConnectionGUID: UzVbIUUJRHW3eCzD9SLeYg==
+X-CSE-MsgGUID: FYv3JSJdSpuXTJFOmrX5Ag==
+X-IronPort-AV: E=McAfee;i="6800,10657,11729"; a="78507884"
+X-IronPort-AV: E=Sophos;i="6.23,122,1770624000"; 
+   d="scan'208";a="78507884"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2026 05:41:36 -0700
+X-CSE-ConnectionGUID: qDrwA+ymSGeFz/c0sQyQ0g==
+X-CSE-MsgGUID: UrQvGRmJTPuIUwZLH56bTg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,122,1770624000"; 
+   d="scan'208";a="221728798"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa008.jf.intel.com with ESMTP; 15 Mar 2026 05:41:34 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w1kmi-00000000433-2bfy;
+	Sun, 15 Mar 2026 12:41:32 +0000
+Date: Sun, 15 Mar 2026 13:41:00 +0100
+From: kernel test robot <lkp@intel.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [robh:dt-convert 139/621] htmldocs: Warning:
+ Documentation/hwmon/vexpress.rst references a file that doesn't exist:
+ Documentation/devicetree/bindings/hwmon/vexpress.txt
+Message-ID: <202603151333.TLinHG1w-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Ariful Islam Shoikot <islamarifulshoikat@gmail.com>
----
- Documentation/networking/can_ucan_protocol.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt-convert
+head:   c8198e311a98fefcf9efff078bf3930ff94b60d2
+commit: 5bf93d9b44bb8d20e14a07847bc278c231085500 [139/621] dt-bindings: hwmon: Convert vexpress to DT schema
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260315/202603151333.TLinHG1w-lkp@intel.com/reproduce)
 
-diff --git a/Documentation/networking/can_ucan_protocol.rst b/Documentation/networking/can_ucan_protocol.rst
-index 935d872ae87c..f366daf37535 100644
---- a/Documentation/networking/can_ucan_protocol.rst
-+++ b/Documentation/networking/can_ucan_protocol.rst
-@@ -244,7 +244,7 @@ Flow Control
- 
- When receiving CAN messages there is no flow control on the USB
- buffer. The driver has to handle inbound message quickly enough to
--avoid drops. I case the device buffer overflow the condition is
-+avoid drops. In case the device buffer overflow the condition is
- reported by sending corresponding error frames (see
- :ref:`can_ucan_error_handling`)
- 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603151333.TLinHG1w-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/devicetree/bindings/remoteproc/ti,keystone-rproc.txt references a file that doesn't exist: Documentation/devicetree/bindings/reset/ti-syscon-reset.txt
+   Warning: Documentation/devicetree/bindings/remoteproc/ti,keystone-rproc.txt references a file that doesn't exist: Documentation/devicetree/bindings/clock/keystone-gate.txt
+   Warning: Documentation/devicetree/bindings/rtc/motorola,cpcap-rtc.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml
+   Warning: Documentation/doc-guide/parse-headers.rst references a file that doesn't exist: Documentation/userspace-api/media/Makefile
+>> Warning: Documentation/hwmon/vexpress.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/vexpress.txt
+   Warning: Documentation/leds/leds-lp5812.rst references a file that doesn't exist: Documentation/ABI/testing/sysfs-class-led-multicolor.rst
+   Warning: Documentation/translations/it_IT/doc-guide/parse-headers.rst references a file that doesn't exist: Documentation/userspace-api/media/Makefile
+   Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
+   Warning: Documentation/translations/ja_JP/process/submit-checklist.rst references a file that doesn't exist: Documentation/translations/ja_JP/SubmitChecklist
+   Warning: Documentation/translations/zh_CN/doc-guide/parse-headers.rst references a file that doesn't exist: Documentation/userspace-api/media/Makefile
+
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
