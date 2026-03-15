@@ -1,39 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F1B3125A9
-	for <linux-doc@vger.kernel.org>; Sun, 15 Mar 2026 20:20:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C540C220F38
+	for <linux-doc@vger.kernel.org>; Sun, 15 Mar 2026 20:25:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773606014; cv=none; b=dQEqey14jOIYiAqFl5D5Pk/uxlR5Dv2yF5q89D4FsXbBqIFDETaAAZ7qx2PNJ0Fyp7Wuh7Oou/9/NwFNHhPFwOUu+Nl2oKWbPR1Hh0eht+lG6HmO9LcEAkBFVfREu3fxh6sbaGGeE2VGVS8HS1xFX8hRtIbTO57nvjtit7NLmRg=
+	t=1773606358; cv=none; b=I71/wgSD5OFEyUf0eHPgoPVX/SB4T9KG5sAwKVoBnpuBU5NVy1xhtLwYwVsOwMv7cEWu4vQBOUqZBiJclNvhLYKssq4HFsH1d3CwhZvvyuP7zXbYfDSIFxzquRldjGPV0M07YHSSQsS9TIwqoHuZPcQ2vU2/Hf5bnW5yQGZOEcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773606014; c=relaxed/simple;
-	bh=ADS+D532xAxun/YgHvZWAlDeIQk/4CVDyRfYy5VQM1M=;
+	s=arc-20240116; t=1773606358; c=relaxed/simple;
+	bh=sgRC+UgRjYWfAtg2Gh8ZUTPf4K9hJS3ZcITRUG2mzJM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mxgnsBHZtTEAjzc/huw1vymUxyshBF4UtoJSLaIoKNHW07iiUhJx8ywO4X49YFL59P2zO6XHPNX0Uuiegy20W1zCdnTB/Ea3hBI9fLogIKnHfon6gU+KwIqXl00bEHaWau3dQwwqrUCx8IF+jxigmt02QNhez2gAlvSOjPL+gT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cLgeMeqd; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=FSruBnH3lQoCNeC9YVfuGj1T5Gu/WLdN/JvtfTVr0sHzjPS1D1OmjjoLS/qdEq6mbrE8yjMwNLYijTJFbsDKtV6YMWDCrd2JRvsp02SoHjQxsQUgul+GevCaF4FZrq5wn151elET40Gev1RoIeEswNzLqhGwbRa4M3bitp7GhlA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jqGHc/zU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cLgeMeqd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB184C4CEF7;
-	Sun, 15 Mar 2026 20:20:13 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jqGHc/zU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D96B3C4CEF7;
+	Sun, 15 Mar 2026 20:25:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773606014;
-	bh=ADS+D532xAxun/YgHvZWAlDeIQk/4CVDyRfYy5VQM1M=;
+	s=k20201202; t=1773606358;
+	bh=sgRC+UgRjYWfAtg2Gh8ZUTPf4K9hJS3ZcITRUG2mzJM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cLgeMeqd0WyKkAZ6Q4pm5lvHiMmhL2Iy0sjF8d9kMcb0LroCLd8IhOEJC7A0WxtUN
-	 UaB1K0Gp+1io06h/NX0H98DFY4I6bgTm27aopzxey71DUb5KBjHd5GI4wuRiD1SZkl
-	 Pnr1crgkO+lJtZk27ZPSHAsg6CHT+tCqBjy4e2NnS6InpfEFGYPO4DfKcVukSUz401
-	 2hwYQtCP1EzoI/zZ/xcuciMiwu8plo/Rfb9/qBV0Vz5QUCs0BA8SiRnGlgMIWu+2Rl
-	 9cPyyPZe2Wu7SHoov0CVfU/jxNZcPKNFJYDQVQ5gM3K78DQC4MKRrEu6PKdn7eDtME
-	 Ftu7U0V38dGbw==
-Date: Sun, 15 Mar 2026 20:20:11 +0000
+	b=jqGHc/zUlNQ3N25R09KuPAjq1k6oyFacL7HUkShhQvBPzYHY3EHOqjnuc9x2eiB+B
+	 cUrh0Ls+REzQzGwVPtJFk9sHdUAqx63bBj1v+WOzgm8iYRDNc/PDpA7oJsmOu6HQw9
+	 3MqfBZGdmu2qb7CRZ6ZNrzAar95L1iWGIqlXQMKE7xQ2uIEX0uCwIhHki7nyj5ukH9
+	 Dj9E50CxLS4V0gCdr0ok/bqpCEElcY6cgusnFiqK877xja1kA5nHvYhp1aa9t4p524
+	 V8C+1pHUC7Gcv2b75+P36hqNYE48My1i4z79GLXMdvn9bcYYloc3RjY0aKRqdi2FSb
+	 wvTXCsFOB7Vkw==
+Date: Sun, 15 Mar 2026 20:25:55 +0000
 From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
 To: Kit Dallege <xaum.io@gmail.com>
 Cc: akpm@linux-foundation.org, david@kernel.org, corbet@lwn.net, 
 	linux-mm@kvack.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Docs/mm: document Swap
-Message-ID: <9c842f9f-b039-45ad-a80d-3e48c8fd3ba5@lucifer.local>
-References: <20260314152536.100531-1-xaum.io@gmail.com>
+Subject: Re: [PATCH] Docs/mm: document Page Reclaim
+Message-ID: <8b43807b-b542-4861-8757-3e008d0e39d2@lucifer.local>
+References: <20260314152534.100473-1-xaum.io@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -43,211 +43,237 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260314152536.100531-1-xaum.io@gmail.com>
+In-Reply-To: <20260314152534.100473-1-xaum.io@gmail.com>
 
-NAK.
+NAK because clearly AI slop, again.
 
-Again, you've not even bothered checking MAINTAINERS to see who
-maintains/reviews swap to cc them, your commit message is cookie-cutter,
-and you've demonstrated zero understanding of what you're writing about.
+(side note - 'page' reclaim is a misnomer now, we should just call this doc
+reclaim - we reclaim folios not pages :)
 
-A quick glance suggests the 'documentation' is pointless handwaving
-too. This is not worth maintainer time.
+Anway, again, you've not bothered finding out who maintains reclaim, I just
+looked and it took me 10 seconds:
 
-Also you've not even bothered to see how patches are sent and so have sent
-all these documentation patches separately which SCREAMS 'I just got Claude
-to do everything, and maybe I had a cursary glance at it'.
+MEMORY MANAGEMENT - RECLAIM
+M:	Andrew Morton <akpm@linux-foundation.org>
+M:	Johannes Weiner <hannes@cmpxchg.org>
+R:	David Hildenbrand <david@kernel.org> <- by chance you have David :)
+R:	Michal Hocko <mhocko@kernel.org>
+R:	Qi Zheng <zhengqi.arch@bytedance.com>
+R:	Shakeel Butt <shakeel.butt@linux.dev>
+R:	Lorenzo Stoakes <ljs@kernel.org>
+L:	linux-mm@kvack.org
+S:	Maintained
+F:	mm/vmscan.c
+F:	mm/workingset.c
 
-We do NOT want this thanks.
+You've not even done that, let alone thought to cc- anybody on that list, 5
+minutes glancing over the mailing list would tell you this is is common
+courtesy.
 
-On Sat, Mar 14, 2026 at 04:25:36PM +0100, Kit Dallege wrote:
-> Fill in the swap.rst stub created in commit 481cc97349d6
+The documentation is useless hand-waving that maintainers would have to
+essentially rewrite for you on 'review'.
+
+This is not a good use of maintainer time, and we don't want stuff we could
+generate ourselves.
+
+On Sat, Mar 14, 2026 at 04:25:34PM +0100, Kit Dallege wrote:
+> Fill in the page_reclaim.rst stub created in commit 481cc97349d6
 > ("mm,doc: Add new documentation structure") as part of
 > the structured memory management documentation following
 > Mel Gorman's book outline.
+
+You've also, again, used a copy/paste meaningless, worthless commit message - 5
+minutes glacing through the linux-mm list would tell you what we expect.
+
+I mean I say 'you', this was Claude surely?
+
 >
 > Signed-off-by: Kit Dallege <xaum.io@gmail.com>
 > ---
->  Documentation/mm/swap.rst | 154 ++++++++++++++++++++++++++++++++++++++
->  1 file changed, 154 insertions(+)
+>  Documentation/mm/page_reclaim.rst | 164 ++++++++++++++++++++++++++++++
+>  1 file changed, 164 insertions(+)
 >
-> diff --git a/Documentation/mm/swap.rst b/Documentation/mm/swap.rst
-> index 78819bd4d745..89a93cc081d4 100644
-> --- a/Documentation/mm/swap.rst
-> +++ b/Documentation/mm/swap.rst
-> @@ -3,3 +3,157 @@
->  ====
->  Swap
->  ====
+> diff --git a/Documentation/mm/page_reclaim.rst b/Documentation/mm/page_reclaim.rst
+> index 50a30b7f8ac3..bfa53bee98c2 100644
+> --- a/Documentation/mm/page_reclaim.rst
+> +++ b/Documentation/mm/page_reclaim.rst
+> @@ -3,3 +3,167 @@
+>  ============
+>  Page Reclaim
+>  ============
 > +
-> +Swap allows the kernel to evict anonymous pages (those not backed by a
-> +file) to a swap device so that physical memory can be reused.  When the
+> +Page reclaim frees memory by evicting pages that can be reloaded from disk
+> +or regenerated.  File-backed pages are dropped (clean) or written back
 
-This is useless tautology.
+Or regenerated?... This isn't doctor who?
 
-> +pages are needed again, they are read back in.  The swap subsystem spans
+> +(dirty); anonymous pages are swapped out.  The bulk of the implementation
+> +is in ``mm/vmscan.c``.
 
-This is useless handwaving.
+Yeah let's not bother discuss what clean or dirty means, or why that matters, or
+anything useful...
 
-> +several files: ``mm/swapfile.c`` manages swap devices, ``mm/swap_state.c``
-> +implements the swap cache, ``mm/page_io.c`` handles disk I/O, and
-> +``mm/zswap.c`` provides an optional compressed cache layer.
-
-Yeah who cares about page faults around swap, or softleaves (zero mentions)
-or data structures or etc. etc.
-
-I mean I won't go on.
+etc.
 
 > +
 > +.. contents:: :local:
 > +
-> +Swap Entries
-> +============
-> +
-> +A swap entry is a compact identifier that encodes which swap device to use
-> +and the offset within that device.  When a page is swapped out, its page
-> +table entry is replaced with a swap entry so that the kernel knows where to
-
-'Page table entry'... At which level?
-
-> +find the data on a subsequent fault.  Swap entries are also used internally
-> +as keys into the swap cache.
-> +
-> +Swap Devices
-> +============
-> +
-> +A swap device is a disk partition or file registered with the ``swapon()``
-> +system call.  Each device is described by a ``swap_info_struct`` that holds
-> +the device's extent map, cluster state, and per-CPU allocation hints.
-> +
-> +The kernel maps virtual swap offsets to disk locations through a tree of
-> +``swap_extent`` structures.  For raw partitions the mapping is trivial
-> +(one extent covering the whole device); for swap files the mapping follows
-> +the file's block layout on disk.
-> +
-> +Cluster Allocation
-> +------------------
-> +
-> +Swap space is allocated in clusters (groups of contiguous slots, typically
-> +32 pages).  Each cluster tracks which slots are free and whether it has
-> +pending discards.  Per-CPU hints point to the most recently used cluster
-> +so that allocations from the same CPU tend to land in the same cluster,
-> +improving spatial locality for both SSDs and spinning disks.
-> +
-> +When a cluster is full, the allocator scans for a new one.  Under heavy
-> +swap pressure, it may also reclaim slots from full clusters if the pages
-> +they reference have since been freed or swapped back in.
-> +
-> +TRIM / Discard
-> +--------------
-> +
-> +For SSD-backed swap, the kernel can issue discard (TRIM) commands when
-> +swap slots are freed.  This is batched per-cluster: once all slots in a
-> +cluster are free, a single discard is issued for the entire range.  This
-> +avoids the overhead of per-page discards while still informing the device
-> +that the blocks are unused.
-> +
-> +Swap counts
-> +-----------
-> +
-> +Each swap slot has a reference count tracking how many page table entries
-> +point to it (due to ``fork()`` and copy-on-write).  For slots referenced
-> +by very many processes, a continuation mechanism extends the counter
-> +beyond its inline capacity.
-> +
-> +Swap Cache
-> +==========
-> +
-> +The swap cache keeps recently swapped-in (or about to be swapped-out)
-> +pages in memory, indexed by their swap entry.  This serves several
-> +purposes:
-> +
-> +- **Deduplication**: when multiple processes share a swapped page (via
-> +  ``fork()``), only one copy is read from disk; subsequent faults find
-> +  the page in the swap cache.
-> +- **Write coalescing**: if a page is modified and swapped out again before
-> +  the previous write completes, the swap cache absorbs the update without
-> +  issuing a new write.
-> +- **Readahead**: when one page is swapped in, adjacent swap entries are
-> +  speculatively read to exploit spatial and temporal locality.
-> +
-> +The swap cache is implemented as a per-cluster array of pointers
-> +(the "swap table"), providing O(1) lookup by swap entry.
-> +See also Documentation/mm/swap-table.rst.
-> +
-> +Readahead
-> +---------
-> +
-> +Swap readahead pre-fetches pages from swap before they are faulted in.
-> +Two strategies are used:
-> +
-> +- **Cluster readahead**: reads a window of swap entries around the faulting
-> +  entry, betting on spatial locality in the swap device.
-> +- **VMA readahead**: uses the virtual address layout to predict which swap
-> +  entries will be needed next, which is more effective when the access
-> +  pattern follows the process's address space layout rather than the swap
-> +  device layout.
-> +
-> +``vm.page-cluster`` controls the readahead window size (as a power of two).
-> +
-> +Compressed Swap (zswap)
-> +=======================
-> +
-> +zswap (``mm/zswap.c``) is an optional write-behind compressed cache that
-> +sits between the reclaim path and the swap device.  When reclaim evicts a
-> +page, zswap attempts to compress it and store the compressed data in a
-> +RAM-based pool (using the zsmalloc allocator).
-> +
-> +If the page is faulted back in before the pool fills, no disk I/O occurs —
-> +the page is decompressed directly from memory.  This is significantly
-> +faster than reading from even an SSD.
-> +
-> +Pool Management
-> +---------------
-> +
-> +Each zswap pool pairs a compression algorithm (lzo, lz4, zstd, etc.) with
-> +a zsmalloc memory pool.  Per-CPU compression contexts avoid lock
-> +contention during compression and decompression.
-> +
-> +When the pool reaches its size limit (controlled by
-> +``/sys/module/zswap/parameters/max_pool_percent``), the oldest entries are
-> +evicted: zswap writes them out to the backing swap device, falling back to
-> +the normal swap I/O path.  An LRU list tracks entries for this purpose.
-> +
-> +Writeback
-> +---------
-> +
-> +zswap writeback decompresses the page, allocates a swap slot, and writes
-> +the uncompressed page to the swap device.  This is the slow path —
-> +ideally most pages are either faulted back in from the compressed cache
-> +or freed without ever reaching disk.
-> +
-> +Zero-Filled Pages
+> +When Reclaim Runs
 > +=================
 > +
-> +``mm/page_io.c`` maintains a bitmap (``swap_zeromap``) tracking swap slots
-> +that contained zero-filled pages.  When such a page is swapped in, the
-> +kernel returns a zeroed page without performing any I/O.  When a zero
-> +page is swapped out, the bitmap bit is set instead of issuing a write.
-> +This optimization is significant for workloads that allocate large amounts
-> +of memory that is never written to.
+> +Reclaim is triggered in two ways:
 > +
-> +Swap I/O
-> +========
+> +- **kswapd**: a per-node kernel thread that runs in the background when
+> +  free pages in any zone drop below the low watermark.  It reclaims until
+> +  free pages reach the high watermark, then sleeps.
 > +
-> +``mm/page_io.c`` handles the mechanics of reading and writing pages to
-> +swap.  The I/O path checks three layers in order before falling through to
-> +disk:
+> +- **Direct reclaim**: when an allocation cannot be satisfied even after
+> +  kswapd has been woken, the allocating task reclaims pages synchronously
+> +  in its own context.  This adds latency to the allocation but is necessary
+> +  when background reclaim cannot keep up.
 > +
-> +1. The zero page bitmap — if the slot is known to be zero-filled, return
-> +   a zeroed page (read) or set the bit (write) with no I/O.
-> +2. zswap — if enabled, attempt to store/load the page in the compressed
-> +   cache.
-> +3. Block I/O — submit a bio to the swap device, using the swap extent
-> +   tree to map the slot to a disk sector.
+> +Reclaim Priority
+> +================
 > +
-> +For swap files (as opposed to raw partitions), the I/O follows the
-> +filesystem's block mapping rather than issuing direct device I/O.
+> +The reclaim path operates at decreasing priority levels (from
+> +``DEF_PRIORITY`` down to 0).  At each level, a larger fraction of the LRU
+> +lists is scanned.  At the default priority, only 1/4096th of pages are
+> +considered; at priority 0, the entire list is scanned.
+> +
+> +If a full scan at priority 0 still does not free enough memory, the OOM
+> +killer is invoked (see Documentation/mm/oom.rst).  This escalation
+> +prevents the system from spinning indefinitely in reclaim.
+> +
+> +Scan Control
+> +============
+> +
+> +Each reclaim invocation is parameterized by a ``struct scan_control`` that
+> +captures the allocation context: which GFP flags were used, how many pages
+> +are needed, which node or memory cgroup to reclaim from, and whether
+> +writeback or swap are allowed.  This struct threads through the entire
+> +reclaim stack, ensuring consistent policy at every level.
+> +
+> +LRU Lists
+> +=========
+> +
+> +Each ``lruvec`` (one per node, or per node and memory cgroup combination)
+> +maintains lists of pages ordered by access recency.
+> +
+> +Classic LRU
+> +-----------
+> +
+> +The classic scheme uses four LRU lists per lruvec: active and inactive for
+> +both anonymous and file-backed pages.  This approximates a second-chance
+> +(clock) algorithm:
+> +
+> +- Pages start on the inactive list when first allocated.
+> +- If accessed again while on the inactive list, they are promoted to the
+> +  active list.
+> +- Reclaim scans the inactive list and evicts pages that have not been
+> +  recently accessed.
+> +- To prevent the active list from growing without bound, pages are
+> +  periodically demoted from active to inactive.
+> +
+> +The split between anonymous and file-backed lists allows the reclaim path
+> +to balance eviction pressure between the two types based on their relative
+> +cost.  Swapping anonymous pages is generally more expensive than dropping
+> +clean file pages, so the scanner adjusts the ratio using IO cost
+> +accounting and the ``vm.swappiness`` tunable.
+> +
+> +Multi-Gen LRU
+> +-------------
+> +
+> +The multi-gen LRU is an alternative reclaim algorithm that groups pages
+> +into generations by access time rather than a simple active/inactive
+> +split.  It is documented separately in Documentation/mm/multigen_lru.rst.
+> +
+> +LRU Batching
+> +------------
+> +
+> +To avoid taking the lruvec lock on every page access, LRU operations are
+> +batched per-CPU (``mm/swap.c``).  Functions like ``folio_add_lru()`` and
+> +``folio_mark_accessed()`` queue pages into per-CPU folio batches that are
+> +drained to the actual LRU lists periodically or when the batch is full.
+> +This batching is critical for scalability on systems with many CPUs.
+> +
+> +Reclaiming Pages
+> +================
+> +
+> +The core reclaim loop (``shrink_node()``) divides its work between page
+> +cache / anonymous pages and slab caches.  For each lruvec, it scans the
+> +inactive LRU lists, evaluating each page:
+> +
+> +- **Clean file pages** can be dropped immediately — they can be re-read
+> +  from disk.
+> +- **Dirty file pages** are queued for writeback.  Reclaim typically skips
+> +  them and returns later, but under severe pressure it may wait for
+> +  writeback to complete.
+> +- **Anonymous pages** are swapped out if swap space is available and
+> +  ``vm.swappiness`` allows it.
+> +- **Mapped pages** require TLB invalidation (unmapping) before they can
+> +  be freed.  The rmap (reverse mapping) system is used to find and
+> +  remove all page table entries pointing to the page.
+> +- **Unevictable pages** (locked with ``mlock()``) are skipped entirely.
+> +  See Documentation/mm/unevictable-lru.rst.
+> +
+> +Memory Cgroup Reclaim
+> +---------------------
+> +
+> +When memory cgroup limits are exceeded, reclaim targets only the pages
+> +belonging to that cgroup.  Each memory cgroup has its own lruvec per node,
+> +so the scanner can isolate its pages without disturbing the rest of the
+> +system.  ``try_to_free_mem_cgroup_pages()`` is the entry point for
+> +cgroup-scoped reclaim.
+> +
+> +NUMA Demotion
+> +-------------
+> +
+> +On systems with tiered memory (e.g., fast DRAM and slower persistent
+> +memory), reclaim can demote pages to a slower tier instead of evicting
+> +them.  This keeps the data in memory but frees the faster tier for
+> +actively accessed pages.
+> +
+> +Shrinkers
+> +=========
+> +
+> +Besides page cache and anonymous pages, kernel caches (dentries, inodes,
+> +and driver-specific caches) are reclaimed through the shrinker interface
+> +(``mm/shrinker.c``).  A shrinker registers two callbacks:
+> +
+> +- ``count_objects()``: report how many objects are reclaimable.
+> +- ``scan_objects()``: free up to a requested number of objects.
+> +
+> +The reclaim path calls all registered shrinkers proportionally to the
+> +amount of reclaimable memory they report.  Shrinkers are NUMA-aware: on
+> +NUMA systems, each shrinker is called with the node being reclaimed so it
+> +can prioritize freeing objects local to that node.
+> +
+> +Per-memcg shrinker tracking uses bitmap arrays (``shrinker_info``) so that
+> +the reclaim path only invokes shrinkers that actually have objects in the
+> +target cgroup, avoiding unnecessary work when there are many cgroups.
+> +
+> +Working Set Detection
+> +=====================
+> +
+> +When a page is evicted, a compact shadow entry is stored in its place in
+> +the page cache or swap cache.  The shadow records the eviction timestamp
+> +(in terms of the lruvec's nonresident age counter) and the cgroup and
+> +node that owned the page.
+> +
+> +If the page is faulted back in (a "refault"), the shadow entry allows the
+> +kernel to compute the *refault distance* — how many other pages were
+> +activated or evicted between this page's eviction and its refault.  If the
+> +refault distance is shorter than the size of the inactive list, the page
+> +was part of the active working set and is immediately activated rather
+> +than placed on the inactive list.  This reduces thrashing by protecting
+> +frequently accessed pages that would otherwise be repeatedly evicted and
+> +refaulted.
+> +
+> +Shadow entries consume a small amount of memory.  To prevent them from
+> +accumulating indefinitely, a shrinker reclaims shadow entries from page
+> +cache radix tree nodes that contain only shadows and no actual pages.
+> +
+> +This logic is implemented in ``mm/workingset.c``.
 > --
 > 2.53.0
 >
