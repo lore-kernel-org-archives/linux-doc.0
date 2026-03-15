@@ -1,86 +1,100 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DF23175A72;
-	Sun, 15 Mar 2026 16:49:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE943371CFA
+	for <linux-doc@vger.kernel.org>; Sun, 15 Mar 2026 17:05:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773593356; cv=none; b=jmHLGZ7iCKEKDeY1i6Og2j36EkcM4ECRoddkGaPZhgnC8EJSRHOn2/5u9ZfFodLQRyRYAPqYz9eE0AK5MFzV2JWUdXGMGhL0fkDTytpgLMCretiZLJWRpHbeAZVfxRNsZiRI0Nc6t9p0Ue1qt5Npw48qXaQZzmx/9C7swhVgWj4=
+	t=1773594335; cv=none; b=q2qvKPDyloLMkeK8nIsrBlQA1GA+K5DsEnZcvmdLMPxwHpLN+IkLH3Xuj4MyuEcqKowAn6HnDUZUSpaf5PnPKveyp7l71AbcfVgFpJfYXoIBXHkDvkC8PnXWvQAOWzTd8voAAoS1sdqRK/t3oKcbPEHAL8cBCCa2lP45CkEVOF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773593356; c=relaxed/simple;
-	bh=cE6R0ylIp0M4VYZZZF7HOAU4FCuCwRcNYhjscn7WuY8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=T1kAJWWbOmyq5+i6UM8qiRxnq6esvfLfTjHhCcwORu8wqjy3wzsPTK2MGALEZMRvhrtvBtINRTkuAYiuXo+dZoVoEYUQfO1h5CUeqm/OG4fFKwIXxk4Ds5HchfmuhZNmqrSQIlJh2o0YHNCNUXXjuzW0+NFd7I62ufJh7huHteE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=oZr7r+Yv; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1773594335; c=relaxed/simple;
+	bh=TiarhjbeWTimZ/S+boFoNb+teEf8FeWSjw+H5yN0n24=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nf9nb/jpLs83gu7dDugExcC85+OIkrSmoPdvMA/oEWLM4CwjcgK0lYQCMTOc6yyNIxhjRvp/LOotqtHcWdHKKhfSvEQC7L7I6IMfJJwqXlzrBsVYJCldxtqLDRfRIuHm1rM/kNzAVaU/BqKgCmbW+u5YkORV+VgebPX4zpejGZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EifYzGrM; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="oZr7r+Yv"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=JgRvWov2LKq7Qpw1YUtlS9eugRrilOqhJ7DnD789E2k=; b=oZr7r+YvHJr/0KBVPkllUd7wNn
-	GvwuqY6hgtFo3p285iF+UEPskITv0Wujx5BuJEPj5syZmei88FNOkOkHg2u2nErFdYRSkR22TxoJy
-	co7KVVY/31JU3YHmY09Ij0xTdUBoc1eJZfgj284dwKlKjvtvNe6BqJGmR87/HX0g8jczJ1gZQPyJ/
-	d40mXI0fbqMQwtHA1PQUeOJioLn490GYvt+FIsQBETSZc4lgDMrLReBks1djkjytTf3fJW2BUkrzz
-	IjUb/tSbJkLcKF6SxYlOAs/4Ot0K6fOc96nDiaFA+vibpGbSeMZAYx7TIGOfWVc5BxS9euU3DPl2X
-	YZ0SCNnQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w1oeH-00000002jwb-0wAy;
-	Sun, 15 Mar 2026 16:49:05 +0000
-Message-ID: <46e39edd-2f37-41d3-afd2-598b7d3d323e@infradead.org>
-Date: Sun, 15 Mar 2026 09:49:02 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EifYzGrM"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-439b7a87fb5so2855252f8f.3
+        for <linux-doc@vger.kernel.org>; Sun, 15 Mar 2026 10:05:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773594332; x=1774199132; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1zvd4USYfE/u9fpOeRAD9258jRcvcIGOYCsL+WB6t5U=;
+        b=EifYzGrMVxBUzcDfzvbPbzxiVptdW/4Higuwn1WSwmXpBHkkX8SyXyxuhXcgop7q5l
+         RQo6iWQ3D8MA3o0BpRZmzZc6svtLZGeSO5fsyGJPAuzk2yFljZMbsfa5gS3Y5Ky2LEK8
+         /GdXEX/yM2lO66oMfcrfDMjZfIpzwmFX1PXqvC8Ili4jsjRTM4rhdoQKuWhWA+BxYeE3
+         Ipl1VVpXm2KptNkchfzwbpdfC9Ky9gw/8aeSGKmAQIrXyYoMOox4vWVehTgLi2EIdQJM
+         tha/ciC25yXdeKBbYebTFfrH96ronh9UVoSsGcOV3OvCDeAvibxYI30/+QrHIs1ek2WH
+         FD+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773594332; x=1774199132;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1zvd4USYfE/u9fpOeRAD9258jRcvcIGOYCsL+WB6t5U=;
+        b=LHVudbmBOFT4zOxdhJIijfLW/65gHkWU5Aaic8gBKNJyU9SmLqG7zjaBPAx1KbOQx0
+         n6wyQNQ6Ky2sBS6TvJbdHKjMF7hx81tCTv9PdKx8RV4O4K2pf1ymyuZ5ci+JwA5un4xN
+         GLc7ySfbr/7Hxg6q0rN2i6f0tZbc94JQ7V7WpsAdedN7wNW/xRB1SiToeEX1gzSVm91O
+         uqTDL13IwS1sM2MSKtVsLTlEP4x1jxUFgtfobGzmtAjlGeq7I1IxqE+ty1/LhVcFg2U5
+         /8X/NdoZLLEWIcd9P5G/bWheH5NOYOPxKf7WsmHkfmH6rD3H0SbivrzFI9DM2isviU7o
+         R8Gg==
+X-Forwarded-Encrypted: i=1; AJvYcCXrRILvcW8S8P/4OGrkUfgAelgaw0wNb3VYYN5lD0ej0dkh7PY/XLbkQbP16U0GLmtEfnfx0db5v8I=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0NiT6cU4e61DRoU6pE18+y82D0EJAqXcfb9IOd4nGW/+2ubHQ
+	juQZmDrNUd++GXrtCh5rDwlsCLa+nXCq/fZdy9/ddYhZ5auI1To4YFFW
+X-Gm-Gg: ATEYQzwiD5CdPg2ZEvp+2OtEG5xAACKpZA3U7qjpT8nAfI3mtpIpVhL+nM1VqgHXdiN
+	uVvW2UV+jbs+7YbY5htnQ0bQf/KZb8jkMB+RsR6hvbAzcQ+ffPSh0XID8D0EV/mIlkS+KSWO9nU
+	0FV1Yt5QzXan/fABHhTVoa+Yhp3laFWVvumG/LOTvkCRpps2uMOcc23oWESV2WQbfzfYHI958kM
+	8WGdQJRt5H4IC7fdTwjiX1qzFOR70ZaiyMPhRoa71D1Pldh0AYTgTUjcSuEVprGYoflktinDlm/
+	C0Gu8M2LvPDGPKTRcvAV3bL6WA3RxyqHfa5QjKbJHqnAtRDoYncHtVDoj60jGaB15fYlAS4oCYA
+	1uNfJas+3JrFKdtmMEJwyxMQaqvEmgt3W+agGX7Epe0UofUh9CDb3CwfITCAPlBS0tmCEDUDhiO
+	PcwMP2v5lr6kd82uI4bI6E2gBOHaPQWbzGstaZ0OlgXESx3MbNVZVUG6npLtJNlv5AfnzMYMvt3
+	kk7ouVMWwGsu2jHld1+oQ8K1wkN6w==
+X-Received: by 2002:a5d:64c3:0:b0:439:ba75:7db0 with SMTP id ffacd0b85a97d-43a04d71539mr17190692f8f.1.1773594331837;
+        Sun, 15 Mar 2026 10:05:31 -0700 (PDT)
+Received: from DESKTOP-TILNSD1.localdomain ([139.47.104.103])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-439fe1a76e5sm34331721f8f.12.2026.03.15.10.05.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Mar 2026 10:05:31 -0700 (PDT)
+From: Kit Dallege <xaum.io@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH v2 0/3] docs: assorted documentation fixes
+Date: Sun, 15 Mar 2026 18:05:18 +0100
+Message-ID: <20260315170521.63794-1-xaum.io@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] docs: kernel-doc: fix stale intel_audio.c path in
- examples
-To: Kit Dallege <xaum.io@gmail.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Claude <noreply@anthropic.com>
-References: <20260315154124.49834-1-xaum.io@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260315154124.49834-1-xaum.io@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Three independent doc fixes: a stale file path in the kernel-doc guide,
+misleading wording in sched-stats, and minor grammar issues in the
+development process guide.
 
+Changes in v2:
+- Fix Assisted-by tag format per Documentation/process/coding-assistants.rst
+  (Randy Dunlap)
 
-On 3/15/26 8:41 AM, Kit Dallege wrote:
-> intel_audio.c was moved from drivers/gpu/drm/i915/ to
-> drivers/gpu/drm/i915/display/. Update the example paths in the
-> kernel-doc guide and its Chinese and Italian translations.
-> 
-> Assisted-by: Claude <noreply@anthropic.com>
+Kit Dallege (3):
+  docs: kernel-doc: fix stale intel_audio.c path in examples
+  docs: sched-stats: fix misleading 'per-process' wording
+  docs: process: fix grammatical errors in 2.Process.rst
 
-All 3 patches in this series use an incorrect Assisted-by: format.
-Documentation/process/coding-assistants.rst says:
-
-  Assisted-by: AGENT_NAME:MODEL_VERSION [TOOL1] [TOOL2]
-
-Where:
-
-* ``AGENT_NAME`` is the name of the AI tool or framework
-* ``MODEL_VERSION`` is the specific model version used
-* ``[TOOL1] [TOOL2]`` are optional specialized analysis tools used
-  (e.g., coccinelle, sparse, smatch, clang-tidy)
-
-
-> Signed-off-by: Kit Dallege <xaum.io@gmail.com>
-> ---
->  Documentation/doc-guide/kernel-doc.rst                    | 4 ++--
->  Documentation/translations/it_IT/doc-guide/kernel-doc.rst | 4 ++--
->  Documentation/translations/zh_CN/doc-guide/kernel-doc.rst | 4 ++--
->  3 files changed, 6 insertions(+), 6 deletions(-)
-
+ Documentation/doc-guide/kernel-doc.rst                 |  4 ++--
+ Documentation/process/2.Process.rst                    | 10 +++++-----
+ Documentation/scheduler/sched-stats.rst                |  4 ++--
+ .../translations/it_IT/doc-guide/kernel-doc.rst        |  4 ++--
+ .../translations/zh_CN/doc-guide/kernel-doc.rst        |  4 ++--
+ 5 files changed, 13 insertions(+), 13 deletions(-)
 
 -- 
-~Randy
+2.53.0
 
