@@ -1,39 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C540C220F38
-	for <linux-doc@vger.kernel.org>; Sun, 15 Mar 2026 20:25:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A6A9231830
+	for <linux-doc@vger.kernel.org>; Sun, 15 Mar 2026 20:31:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773606358; cv=none; b=I71/wgSD5OFEyUf0eHPgoPVX/SB4T9KG5sAwKVoBnpuBU5NVy1xhtLwYwVsOwMv7cEWu4vQBOUqZBiJclNvhLYKssq4HFsH1d3CwhZvvyuP7zXbYfDSIFxzquRldjGPV0M07YHSSQsS9TIwqoHuZPcQ2vU2/Hf5bnW5yQGZOEcY=
+	t=1773606699; cv=none; b=nVQCpzSCbq0xSToBKNAO0Wep69ta4XWryA3iljQ5M/amUwdiDJAA25Bzt/UG/s3+EfCfBg8AILGDnMuxxuP3vKeR4qyD6HbS7pfeYnvEzZ3NtGsu0yLC0MU/Q+n/FyM9E8EVacJ7UBhCqb3Au/VQcK4bp45J4pIA37A80mBwrPM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773606358; c=relaxed/simple;
-	bh=sgRC+UgRjYWfAtg2Gh8ZUTPf4K9hJS3ZcITRUG2mzJM=;
+	s=arc-20240116; t=1773606699; c=relaxed/simple;
+	bh=Vbd5cPi6DGWcwTyjcTv64Xb+7YxCsKk+bXPAu3e423s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FSruBnH3lQoCNeC9YVfuGj1T5Gu/WLdN/JvtfTVr0sHzjPS1D1OmjjoLS/qdEq6mbrE8yjMwNLYijTJFbsDKtV6YMWDCrd2JRvsp02SoHjQxsQUgul+GevCaF4FZrq5wn151elET40Gev1RoIeEswNzLqhGwbRa4M3bitp7GhlA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jqGHc/zU; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=cNvzbB7tbm1It4gpRLePf0osmD0ANr/z6I3ew+4QdyO6oEayBYFJapB3v0CXdExDxbiYI0lIeTIL74b7hMA7d2zkWNPuzErhI4AYuakUGDauBz+aWHxWqnvftF3YURoopu0XI+LIDVKtmj+xyjC5ykrZLq6GIBmGUZ6rqJNzlVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WwRzPuLl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jqGHc/zU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D96B3C4CEF7;
-	Sun, 15 Mar 2026 20:25:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WwRzPuLl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 937F0C4CEF7;
+	Sun, 15 Mar 2026 20:31:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773606358;
-	bh=sgRC+UgRjYWfAtg2Gh8ZUTPf4K9hJS3ZcITRUG2mzJM=;
+	s=k20201202; t=1773606699;
+	bh=Vbd5cPi6DGWcwTyjcTv64Xb+7YxCsKk+bXPAu3e423s=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jqGHc/zUlNQ3N25R09KuPAjq1k6oyFacL7HUkShhQvBPzYHY3EHOqjnuc9x2eiB+B
-	 cUrh0Ls+REzQzGwVPtJFk9sHdUAqx63bBj1v+WOzgm8iYRDNc/PDpA7oJsmOu6HQw9
-	 3MqfBZGdmu2qb7CRZ6ZNrzAar95L1iWGIqlXQMKE7xQ2uIEX0uCwIhHki7nyj5ukH9
-	 Dj9E50CxLS4V0gCdr0ok/bqpCEElcY6cgusnFiqK877xja1kA5nHvYhp1aa9t4p524
-	 V8C+1pHUC7Gcv2b75+P36hqNYE48My1i4z79GLXMdvn9bcYYloc3RjY0aKRqdi2FSb
-	 wvTXCsFOB7Vkw==
-Date: Sun, 15 Mar 2026 20:25:55 +0000
+	b=WwRzPuLlxeTz/W+gVhRV4mbUEhu6ulzYBLI6tIheDGHkjifenibuWYbhHtC1KdyCD
+	 hJQYukTyf0Qd1ntLiKdk1PtMLfJkbYehGAXFz5aYCvqXtUdpisOZ44OAVKcoCmrDV0
+	 nvVsNFvjjdE0OXwT1EQmbwseJkDbnm4yDDXYctQ3YiCLBI69k1VX3a+BXJXA1U3Mg6
+	 7Bnj8MWA+c429prsbd8nMyzSSDXSxXM3QpKzavYS2KhVWJLRFA4J5Gl0xfESPQWl0W
+	 UBv/1w8LW9UxEQWYrdxPqGNcVt2Zq1qOKKVkHAvJMKH/JjGFsC9Xh5jai1Gxn7/2Xi
+	 5ihf2oAPShWGg==
+Date: Sun, 15 Mar 2026 20:31:35 +0000
 From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
 To: Kit Dallege <xaum.io@gmail.com>
 Cc: akpm@linux-foundation.org, david@kernel.org, corbet@lwn.net, 
 	linux-mm@kvack.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Docs/mm: document Page Reclaim
-Message-ID: <8b43807b-b542-4861-8757-3e008d0e39d2@lucifer.local>
-References: <20260314152534.100473-1-xaum.io@gmail.com>
+Subject: Re: [PATCH] Docs/mm: document Virtually Contiguous Memory Allocation
+Message-ID: <9f4d7c12-a01f-4046-91fa-dd70c0d7a564@lucifer.local>
+References: <20260314152532.100411-1-xaum.io@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -43,237 +43,190 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260314152534.100473-1-xaum.io@gmail.com>
+In-Reply-To: <20260314152532.100411-1-xaum.io@gmail.com>
 
-NAK because clearly AI slop, again.
+NAK because AI slop again obviously.
 
-(side note - 'page' reclaim is a misnomer now, we should just call this doc
-reclaim - we reclaim folios not pages :)
+BTW we don't capitalise the first letter of subject lines. Even 5 minutes
+glance at the mailing list would tell you that, and it's _yet more_
+evidence for this being low-effort AI slop.
 
-Anway, again, you've not bothered finding out who maintains reclaim, I just
-looked and it took me 10 seconds:
+Even the patch subject line screams LLM-generated - and why are you
+capitalising it as if vmalloc is abbreviated VCMA?...
 
-MEMORY MANAGEMENT - RECLAIM
-M:	Andrew Morton <akpm@linux-foundation.org>
-M:	Johannes Weiner <hannes@cmpxchg.org>
-R:	David Hildenbrand <david@kernel.org> <- by chance you have David :)
-R:	Michal Hocko <mhocko@kernel.org>
-R:	Qi Zheng <zhengqi.arch@bytedance.com>
-R:	Shakeel Butt <shakeel.butt@linux.dev>
-R:	Lorenzo Stoakes <ljs@kernel.org>
-L:	linux-mm@kvack.org
-S:	Maintained
-F:	mm/vmscan.c
-F:	mm/workingset.c
+Again you've not looked up who to cc- for this, you've got Claude to
+generate a useless commit message so you demonstrate no understanding, the
+documentation is pointless handwaving, etc.
 
-You've not even done that, let alone thought to cc- anybody on that list, 5
-minutes glancing over the mailing list would tell you this is is common
-courtesy.
-
-The documentation is useless hand-waving that maintainers would have to
-essentially rewrite for you on 'review'.
-
-This is not a good use of maintainer time, and we don't want stuff we could
-generate ourselves.
-
-On Sat, Mar 14, 2026 at 04:25:34PM +0100, Kit Dallege wrote:
-> Fill in the page_reclaim.rst stub created in commit 481cc97349d6
+On Sat, Mar 14, 2026 at 04:25:32PM +0100, Kit Dallege wrote:
+> Fill in the vmalloc.rst stub created in commit 481cc97349d6
 > ("mm,doc: Add new documentation structure") as part of
 > the structured memory management documentation following
 > Mel Gorman's book outline.
-
-You've also, again, used a copy/paste meaningless, worthless commit message - 5
-minutes glacing through the linux-mm list would tell you what we expect.
-
-I mean I say 'you', this was Claude surely?
-
 >
 > Signed-off-by: Kit Dallege <xaum.io@gmail.com>
 > ---
->  Documentation/mm/page_reclaim.rst | 164 ++++++++++++++++++++++++++++++
->  1 file changed, 164 insertions(+)
+>  Documentation/mm/vmalloc.rst | 128 +++++++++++++++++++++++++++++++++++
+>  1 file changed, 128 insertions(+)
 >
-> diff --git a/Documentation/mm/page_reclaim.rst b/Documentation/mm/page_reclaim.rst
-> index 50a30b7f8ac3..bfa53bee98c2 100644
-> --- a/Documentation/mm/page_reclaim.rst
-> +++ b/Documentation/mm/page_reclaim.rst
-> @@ -3,3 +3,167 @@
->  ============
->  Page Reclaim
->  ============
+> diff --git a/Documentation/mm/vmalloc.rst b/Documentation/mm/vmalloc.rst
+> index 363fe20d6b9f..2c478b341e73 100644
+> --- a/Documentation/mm/vmalloc.rst
+> +++ b/Documentation/mm/vmalloc.rst
+> @@ -3,3 +3,131 @@
+>  ======================================
+>  Virtually Contiguous Memory Allocation
+>  ======================================
 > +
-> +Page reclaim frees memory by evicting pages that can be reloaded from disk
-> +or regenerated.  File-backed pages are dropped (clean) or written back
+> +``vmalloc()`` allocates memory that is contiguous in kernel virtual address
+> +space but may be backed by physically discontiguous pages.  This is useful
 
-Or regenerated?... This isn't doctor who?
+May be backed?...
 
-> +(dirty); anonymous pages are swapped out.  The bulk of the implementation
-> +is in ``mm/vmscan.c``.
+> +for large allocations where finding a contiguous physical range would be
+> +difficult or impossible.  The implementation is in ``mm/vmalloc.c``.
 
-Yeah let's not bother discuss what clean or dirty means, or why that matters, or
-anything useful...
+Is this the only time we use it?
 
-etc.
+Kernel stacks are vmalloc()'d but a grep shows 0 results.
+
+Also kvmalloc() shows zero results.
+
+This is just useless AI slop handwaving that would need a total rewrite by
+maintainers, so what use is this 'contribution'?
 
 > +
 > +.. contents:: :local:
 > +
-> +When Reclaim Runs
-> +=================
-> +
-> +Reclaim is triggered in two ways:
-> +
-> +- **kswapd**: a per-node kernel thread that runs in the background when
-> +  free pages in any zone drop below the low watermark.  It reclaims until
-> +  free pages reach the high watermark, then sleeps.
-> +
-> +- **Direct reclaim**: when an allocation cannot be satisfied even after
-> +  kswapd has been woken, the allocating task reclaims pages synchronously
-> +  in its own context.  This adds latency to the allocation but is necessary
-> +  when background reclaim cannot keep up.
-> +
-> +Reclaim Priority
-> +================
-> +
-> +The reclaim path operates at decreasing priority levels (from
-> +``DEF_PRIORITY`` down to 0).  At each level, a larger fraction of the LRU
-> +lists is scanned.  At the default priority, only 1/4096th of pages are
-> +considered; at priority 0, the entire list is scanned.
-> +
-> +If a full scan at priority 0 still does not free enough memory, the OOM
-> +killer is invoked (see Documentation/mm/oom.rst).  This escalation
-> +prevents the system from spinning indefinitely in reclaim.
-> +
-> +Scan Control
+> +How It Works
 > +============
 > +
-> +Each reclaim invocation is parameterized by a ``struct scan_control`` that
-> +captures the allocation context: which GFP flags were used, how many pages
-> +are needed, which node or memory cgroup to reclaim from, and whether
-> +writeback or swap are allowed.  This struct threads through the entire
-> +reclaim stack, ensuring consistent policy at every level.
+> +A vmalloc allocation has three steps: reserve a range of kernel virtual
+> +addresses, allocate physical pages (individually, via the page allocator),
+> +and create page table mappings that connect the two.
 > +
-> +LRU Lists
-> +=========
+> +Virtual Address Management
+> +--------------------------
 > +
-> +Each ``lruvec`` (one per node, or per node and memory cgroup combination)
-> +maintains lists of pages ordered by access recency.
+> +The kernel reserves a large region of virtual address space for vmalloc
+> +(on x86-64 this is hundreds of terabytes).  Within this region, allocated
+
+I love that you (read Claude) are vague about 'hundreds of terabytes', you
+can literally see how much for 4 level and 5 level page tables...
+
+Etc. etc.
+
+> +and free ranges are tracked by ``struct vmap_area`` nodes organized in two
+> +red-black trees — one sorted by address for the busy areas, and one
+> +augmented with subtree maximum gap size for the free areas.  The augmented
+> +tree allows free-space searches in O(log n) time.
 > +
-> +Classic LRU
+> +Each allocated area also has a ``struct vm_struct`` that records the
+> +virtual address, size, array of backing ``struct page`` pointers, and flags
+> +indicating how the area was created (``VM_ALLOC`` for vmalloc,
+> +``VM_IOREMAP`` for I/O mappings, ``VM_MAP`` for vmap, etc.).
+> +
+> +Guard Pages
 > +-----------
 > +
-> +The classic scheme uses four LRU lists per lruvec: active and inactive for
-> +both anonymous and file-backed pages.  This approximates a second-chance
-> +(clock) algorithm:
+> +By default, each vmalloc area is surrounded by a guard page — an unmapped
+> +page that causes an immediate fault if code overruns the allocation.  This
+> +costs one page of virtual address space (not physical memory) per
+> +allocation.  The ``VM_NO_GUARD`` flag disables this for internal users that
+> +manage their own safety margins.
 > +
-> +- Pages start on the inactive list when first allocated.
-> +- If accessed again while on the inactive list, they are promoted to the
-> +  active list.
-> +- Reclaim scans the inactive list and evicts pages that have not been
-> +  recently accessed.
-> +- To prevent the active list from growing without bound, pages are
-> +  periodically demoted from active to inactive.
+> +Huge Page Support
+> +-----------------
 > +
-> +The split between anonymous and file-backed lists allows the reclaim path
-> +to balance eviction pressure between the two types based on their relative
-> +cost.  Swapping anonymous pages is generally more expensive than dropping
-> +clean file pages, so the scanner adjusts the ratio using IO cost
-> +accounting and the ``vm.swappiness`` tunable.
+> +On architectures that support it, vmalloc can use PMD- or PUD-level
+
+Yeah no need to mention what PMD or PUD are...
+
+> +mappings instead of individual PTEs, reducing TLB pressure for large
+> +allocations.  ``vmalloc_huge()`` requests this explicitly.  The decision
+> +is per-architecture: each architecture provides callbacks
+> +(``arch_vmap_pmd_supported()``, ``arch_vmap_pud_supported()``) to indicate
+> +which levels are available.
 > +
-> +Multi-Gen LRU
-> +-------------
+> +Even when huge pages are requested, the allocator falls back to base pages
+> +transparently if the physical pages cannot be allocated at the required
+> +alignment.
 > +
-> +The multi-gen LRU is an alternative reclaim algorithm that groups pages
-> +into generations by access time rather than a simple active/inactive
-> +split.  It is documented separately in Documentation/mm/multigen_lru.rst.
+> +Lazy TLB Flushing
+> +-----------------
 > +
-> +LRU Batching
-> +------------
+> +Unmapping a vmalloc area requires a global TLB flush (IPI to all CPUs) to
+> +ensure no stale translations remain.  To amortize this cost, vmalloc defers
+> +the flush: page table entries are cleared immediately but the TLB
+> +invalidation is batched across multiple frees.  The flush is forced when
+> +the free area needs to be reused or when ``vm_unmap_aliases()`` is called
+> +explicitly.
 > +
-> +To avoid taking the lruvec lock on every page access, LRU operations are
-> +batched per-CPU (``mm/swap.c``).  Functions like ``folio_add_lru()`` and
-> +``folio_mark_accessed()`` queue pages into per-CPU folio batches that are
-> +drained to the actual LRU lists periodically or when the batch is full.
-> +This batching is critical for scalability on systems with many CPUs.
+> +Per-CPU Allocations
+> +-------------------
 > +
-> +Reclaiming Pages
-> +================
+> +The per-CPU allocator uses vmalloc internally to obtain virtually
+> +contiguous backing for per-CPU variables across all CPUs.  It allocates
+> +multiple vmalloc areas with specific size and alignment requirements in a
+> +single call, ensuring that each CPU's copy is at a consistent offset from
+> +the per-CPU base.
 > +
-> +The core reclaim loop (``shrink_node()``) divides its work between page
-> +cache / anonymous pages and slab caches.  For each lruvec, it scans the
-> +inactive LRU lists, evaluating each page:
+> +vmap and Temporary Mappings
+> +===========================
 > +
-> +- **Clean file pages** can be dropped immediately — they can be re-read
-> +  from disk.
-> +- **Dirty file pages** are queued for writeback.  Reclaim typically skips
-> +  them and returns later, but under severe pressure it may wait for
-> +  writeback to complete.
-> +- **Anonymous pages** are swapped out if swap space is available and
-> +  ``vm.swappiness`` allows it.
-> +- **Mapped pages** require TLB invalidation (unmapping) before they can
-> +  be freed.  The rmap (reverse mapping) system is used to find and
-> +  remove all page table entries pointing to the page.
-> +- **Unevictable pages** (locked with ``mlock()``) are skipped entirely.
-> +  See Documentation/mm/unevictable-lru.rst.
+> +Besides vmalloc (which allocates both virtual space and physical pages),
+> +the subsystem provides two related mechanisms:
 > +
-> +Memory Cgroup Reclaim
-> +---------------------
+> +- **vmap/vunmap**: maps an existing array of ``struct page`` pointers into
+> +  contiguous kernel virtual space.  This is used when pages have already
+> +  been allocated (e.g., by a device driver) and just need a contiguous
+> +  kernel mapping.
 > +
-> +When memory cgroup limits are exceeded, reclaim targets only the pages
-> +belonging to that cgroup.  Each memory cgroup has its own lruvec per node,
-> +so the scanner can isolate its pages without disturbing the rest of the
-> +system.  ``try_to_free_mem_cgroup_pages()`` is the entry point for
-> +cgroup-scoped reclaim.
+> +- **vm_map_ram/vm_unmap_ram**: lightweight temporary mappings for
+> +  short-lived use, with lower overhead than full vmap.
 > +
-> +NUMA Demotion
-> +-------------
+> +Freeing
+> +=======
 > +
-> +On systems with tiered memory (e.g., fast DRAM and slower persistent
-> +memory), reclaim can demote pages to a slower tier instead of evicting
-> +them.  This keeps the data in memory but frees the faster tier for
-> +actively accessed pages.
+> +``vfree()`` can be called from any context, including interrupt handlers.
+> +When called from interrupt context the actual work (page table teardown,
+> +TLB flush, page freeing) is deferred to a workqueue.  This is safe because
+> +the virtual address range is immediately removed from the busy tree, so no
+> +new mappings can be created in the freed region.
 > +
-> +Shrinkers
-> +=========
-> +
-> +Besides page cache and anonymous pages, kernel caches (dentries, inodes,
-> +and driver-specific caches) are reclaimed through the shrinker interface
-> +(``mm/shrinker.c``).  A shrinker registers two callbacks:
-> +
-> +- ``count_objects()``: report how many objects are reclaimable.
-> +- ``scan_objects()``: free up to a requested number of objects.
-> +
-> +The reclaim path calls all registered shrinkers proportionally to the
-> +amount of reclaimable memory they report.  Shrinkers are NUMA-aware: on
-> +NUMA systems, each shrinker is called with the node being reclaimed so it
-> +can prioritize freeing objects local to that node.
-> +
-> +Per-memcg shrinker tracking uses bitmap arrays (``shrinker_info``) so that
-> +the reclaim path only invokes shrinkers that actually have objects in the
-> +target cgroup, avoiding unnecessary work when there are many cgroups.
-> +
-> +Working Set Detection
+> +Page Table Management
 > +=====================
 > +
-> +When a page is evicted, a compact shadow entry is stored in its place in
-> +the page cache or swap cache.  The shadow records the eviction timestamp
-> +(in terms of the lruvec's nonresident age counter) and the cgroup and
-> +node that owned the page.
+> +vmalloc maintains its own kernel page tables to map virtual addresses to
+> +the backing physical pages.  On allocation, page table entries are created
+> +at the appropriate level (PTE, PMD, or PUD depending on huge page support).
+> +On free, the entries are cleared.
 > +
-> +If the page is faulted back in (a "refault"), the shadow entry allows the
-> +kernel to compute the *refault distance* — how many other pages were
-> +activated or evicted between this page's eviction and its refault.  If the
-> +refault distance is shorter than the size of the inactive list, the page
-> +was part of the active working set and is immediately activated rather
-> +than placed on the inactive list.  This reduces thrashing by protecting
-> +frequently accessed pages that would otherwise be repeatedly evicted and
-> +refaulted.
+> +The page table setup must handle architectures where the kernel page tables
+> +are not shared across all CPUs.  On such systems, a vmalloc fault mechanism
+> +lazily propagates new mappings: when a CPU accesses a vmalloc address for
+> +the first time and takes a fault, the fault handler copies the page table
+> +entry from the reference page table (init_mm) into the CPU's page table.
 > +
-> +Shadow entries consume a small amount of memory.  To prevent them from
-> +accumulating indefinitely, a shrinker reclaims shadow entries from page
-> +cache radix tree nodes that contain only shadows and no actual pages.
+> +NUMA Awareness
+> +==============
 > +
-> +This logic is implemented in ``mm/workingset.c``.
+> +By default, vmalloc allocates physical pages from any NUMA node.  The
+> +``vmalloc_node()`` and ``vzalloc_node()`` variants prefer a specific node,
+> +which is useful for data structures that are predominantly accessed from
+> +one node.  The pages are still mapped into the global kernel virtual
+> +address space, so they remain accessible from all CPUs regardless of
+> +which node they were allocated from.
+> +
+> +KASAN Integration
+> +=================
+> +
+> +When KASAN (Kernel Address Sanitizer) is enabled with
+> +``CONFIG_KASAN_VMALLOC``, vmalloc allocates shadow memory to track the
+> +validity of each vmalloc region.  The shadow memory is itself vmalloc'd
+> +and mapped lazily.  This allows KASAN to detect out-of-bounds accesses
+> +and use-after-free bugs in vmalloc'd memory, which is particularly useful
+> +for catching bugs in kernel modules (whose code and data are vmalloc'd).
 > --
 > 2.53.0
 >
