@@ -1,103 +1,212 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C840A15530C
-	for <linux-doc@vger.kernel.org>; Sun, 15 Mar 2026 20:03:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FB2025DB12
+	for <linux-doc@vger.kernel.org>; Sun, 15 Mar 2026 20:14:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773604989; cv=none; b=T7iTAgqfjsOH8qWnwn8xJO9Hw/DMB8c0JaxzndapV/X12wmwD8boUQR2oBH2KAa7z1F1nFYp5YIJC+T1q3CqF+UY/soAUjIfVLHwBgte4dZ3it6dZ5o1cKTBJaiKPhyDWeP4+Sg9mSGYBjZ57oj7p6nPmSMPzWzEJHmZDwEW2Hw=
+	t=1773605691; cv=none; b=WpBrpOJgwNmy93hnAGmJlSDI7WNqmhmKIRGiCJNosb0NlSPqBIwam8TSCDHcl3Mxz130VseYPj/4UWFFIsZByZNDtmC/T43y5Hh2xZ0ikkVXYg8MfWI7VbB4dZtagpKZUbd/mntBYoOZ0E09kJk2/E4QEu00b+OpY4CyZ99zH/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773604989; c=relaxed/simple;
-	bh=5EoTqlA1WXTqcUjjWB3Eb61kCIejimTFL0AFLyVl9d8=;
+	s=arc-20240116; t=1773605691; c=relaxed/simple;
+	bh=En2f87SpGqjeJA4L0F4oQmvXFvfIr6vn4EdyN9IaDsE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fFBvyccxA54gFO1BOP7X62WZIMddKsbhbrXfUnpV7et70JCrEtdJ97PnrzJTf+wLCyK9YH8ciMxwx0JXnuYGwtKUmoerrZEcQ1tyx0j8GBU+rjM5D8fx2IptRv9stfvMIQUqkuwEMBEkFI/FhRrH6N1yUSYrs9a/uWPmq94mBLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OxYeWLLQ; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=DxYtpqJ/n264+YH1eInE3DH+0sIBkzraMrwi2jYBNg2XHV+Y43nQY8STi2H8heV8hN92NfgX1Y0rgF4mNeh8C1C0MXk76mGehg4soTPHD0YGQM5hfTgwzZ8MJwri1ThFpca6Vm6npe51dJXOD/051xZjUeQKRwrLVsbOVRuoo1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L3013EKT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OxYeWLLQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99CE1C4CEF7;
-	Sun, 15 Mar 2026 20:03:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L3013EKT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6421CC4CEF7;
+	Sun, 15 Mar 2026 20:14:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773604989;
-	bh=5EoTqlA1WXTqcUjjWB3Eb61kCIejimTFL0AFLyVl9d8=;
+	s=k20201202; t=1773605691;
+	bh=En2f87SpGqjeJA4L0F4oQmvXFvfIr6vn4EdyN9IaDsE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OxYeWLLQl0LUpjvS1/O749K4IZdEisHErvtF7b4urHF+jMe1Esbsmc1nInxY/rrKj
-	 7gyAnpCTONSsufuBgRY/jNjvSK4nJwtwnd6l7V6fnUcmMCePOazh7FHe8nHfECBDc3
-	 990cyBMepSTDZT95/MPV77xeFsCe5WZtxLc2jEN8JNGdLauWb4YwQHqt6FUhDkK9zp
-	 Qsha7FeTxwwwzdQjtSKnoUtNDZZNRT+bRNBZDzOuTKZt7WKKTRrETfIBGKpEJyKeFC
-	 HyDCLqw4Gqi75OwpIRrICIMbYwhAz1lugRwB3BAITacoeOFmbilAWh8mLqAugsoFdv
-	 7g2Q4MrBWHGyA==
-Date: Sun, 15 Mar 2026 22:03:02 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: "David Hildenbrand (arm)" <david@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Kit Dallege <xaum.io@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
-	linux-mm@kvack.org, linux-doc@vger.kernel.org,
-	Mel Gorman <mgorman@techsingularity.net>
+	b=L3013EKTOM7JcoeF7FMTckvn3M85WdJsQnjVGSf129kiqON3uXwiHqCBMfefBllRW
+	 Tm28Gx7J+Y3HVV1QVxqcTkU63UfxPOIFW+3IfuF+80vffHYzmloHVxKVFKlq2AH5pm
+	 6o7PTERr8eig384l5701Pc4YEDHrm10zmC5sG9o9t6/xlC2rwIlzuI9tBvX3ieLrw/
+	 ipVRU9yxyxW0GhPxYwnbhLYs7JVXS1tWtmrFuYwmba6EH1ARQjX8Abob9SjpyTyef0
+	 tsqXLWs1FEpuVq+Tt9GeQn1xLf/uqT6Cr6FMTzDWlPl5tt0KPnwhtyKEUFEdO+Of8+
+	 xB9bC5k3GjEww==
+Date: Sun, 15 Mar 2026 20:14:47 +0000
+From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+To: Kit Dallege <xaum.io@gmail.com>
+Cc: akpm@linux-foundation.org, david@kernel.org, corbet@lwn.net, 
+	linux-mm@kvack.org, linux-doc@vger.kernel.org
 Subject: Re: [PATCH] Docs/mm: document Shared Memory Filesystem
-Message-ID: <abcQdr4UD4znorRN@kernel.org>
+Message-ID: <5a1581a3-c6da-4604-9c17-e9fdfaace94c@lucifer.local>
 References: <20260314152538.100593-1-xaum.io@gmail.com>
- <87ms0ajtvy.fsf@trenco.lwn.net>
- <CAAZVx98Sz1MknCcMpQXxeGpUjXBDyz+0KyRuUiCXsM+3qzqpeA@mail.gmail.com>
- <20260314111757.2a17c3acce8c3a1eb68ed209@linux-foundation.org>
- <09920346-0caf-466f-9c12-5f086d99411b@kernel.org>
- <abcPusHClDoCeE4Y@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <abcPusHClDoCeE4Y@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260314152538.100593-1-xaum.io@gmail.com>
 
-On Sun, Mar 15, 2026 at 10:00:00PM +0200, Mike Rapoport wrote:
-> On Sun, Mar 15, 2026 at 08:50:04PM +0100, David Hildenbrand (arm) wrote:
-> > On 3/14/26 19:17, Andrew Morton wrote:
-> > > On Sat, 14 Mar 2026 17:02:47 +0100 Kit Dallege <xaum.io@gmail.com> wrote:
-> > > 
-> > > > Hi Jon,
-> > > > 
-> > > > The material was written with AI assistance (Claude) and then verified
-> > > > against the source code in mm/shmem.c. I read through the implementation,
-> > > > the existing comments, and Mel Gorman's book outline to identify what
-> > > > should be covered, then used AI to help draft the prose, which I reviewed
-> > > > and edited.
-> > > 
-> > > OK, so you're saying that you created the content and used an LLM to
-> > > assist in finishing it off?
-> > > 
-> > > > I'm happy to rework anything that's inaccurate or doesn't meet the bar.
-> > > > Should I add an Assisted-by tag to the commit?
-> > > 
-> > > Yes, Assisted-by: is appropriate and useful here.
-> > > 
-> > >  From a quick scan, this material appears to be helpful and I think it
-> > > would be good for us to get this into the tree in some fashion.  Which
-> > > will involve asking the relevant MM developers to review each change.
-> > 
-> > So, someone with an LLM but no proven experience with the code produced some
-> > doc, and maintainers/developers should dedicate their precious time to do
-> > the hard work of checking everything?
-> 
-> > I'm all for documenting stuff, especially if newcomers start exploring that
-> > space by contributing small, carefully crafted documentation updates.
-> > 
-> > It's then a good learning experience for someone that wants to work on the
-> > code to really have to understand the code in detail, and what is actually
-> > worth documenting (and what's an implementation detail).
-> > 
-> > I see 7 doc updates for 7 different MM subsystems in my inbox, including
-> 
-> Heh, it's wider:
-> https://lore.kernel.org/all/?q=Kit+Dallege
-> 
-> > So naturally, I get skeptical when it comes to "I read through the
-> > implementation, the existing comments".
+NAK.
 
-And another LLM says there are mistakes:
-https://sashiko.dev/#/patchset/20260314152538.100593-1-xaum.io%40gmail.com
+The degree of laziness here is really telling, so yet again I'm sorry I don't
+believe you've put much effort into this.
 
--- 
-Sincerely yours,
-Mike.
+You've not bothered cc'ing the right people, you didn't bother with anythign
+other than a cookie-cutter commit message, there's a bunch of issues with the
+docs even at a cursary glance.
+
+On Sat, Mar 14, 2026 at 04:25:38PM +0100, Kit Dallege wrote:
+> Fill in the shmfs.rst stub created in commit 481cc97349d6
+> ("mm,doc: Add new documentation structure") as part of
+> the structured memory management documentation following
+> Mel Gorman's book outline.
+
+>
+> Signed-off-by: Kit Dallege <xaum.io@gmail.com>
+
+NAK.
+
+> ---
+>  Documentation/mm/shmfs.rst | 114 +++++++++++++++++++++++++++++++++++++
+>  1 file changed, 114 insertions(+)
+>
+> diff --git a/Documentation/mm/shmfs.rst b/Documentation/mm/shmfs.rst
+> index 8b01ebb4c30e..1dadf9b481ce 100644
+> --- a/Documentation/mm/shmfs.rst
+> +++ b/Documentation/mm/shmfs.rst
+> @@ -3,3 +3,117 @@
+>  ========================
+>  Shared Memory Filesystem
+>  ========================
+> +
+> +The shared memory filesystem (tmpfs, also known as shmem) provides an
+> +in-memory filesystem used for ``/tmp`` mounts, POSIX shared memory
+> +(``shm_open()``), System V shared memory, and anonymous shared mappings
+> +created with ``mmap(MAP_SHARED | MAP_ANONYMOUS)``.  The implementation is
+> +in ``mm/shmem.c``.
+
+This is already wrong.
+
+> +
+> +.. contents:: :local:
+> +
+> +How It Works
+> +============
+> +
+> +tmpfs stores file contents in the page cache using swap as its backing
+> +store rather than a disk filesystem.  Pages are allocated on demand when
+> +written to or faulted in.  When the system is under memory pressure, tmpfs
+> +pages can be swapped out just like anonymous pages.
+
+What is a 'backing store' what is a 'disk filesystem', 'written to or faulted
+in' is wrong, etc.
+
+I won't go on.
+
+This would become 'development by review' and you'd take up HOURS of our time
+while we do the actual work.
+
+This isn't how contributions are supposed to work.
+
+> +
+> +This design means tmpfs files consume no disk space — their size is bounded
+> +only by available memory and swap.  It also means tmpfs data does not
+> +survive a reboot, making it suitable for scratch data that benefits from
+> +memory-speed access without needing durability.
+> +
+> +Each tmpfs inode tracks two key counters: allocated pages (resident in
+> +memory) and swapped pages (evicted to swap).  These are maintained by
+> +the ``shmem_charge()`` and ``shmem_uncharge()`` accounting functions,
+> +which keep the inode's block usage consistent with the filesystem's mount
+> +limits.
+> +
+> +Page Cache Integration
+> +======================
+> +
+> +tmpfs uses the kernel's page cache (xarray) to index its pages by file
+> +offset.  When a page is read or faulted in, the page cache is checked
+> +first.  If the page has been swapped out, a swap entry is found in its
+> +place, and the page is swapped back in transparently.
+> +
+> +When a page is added to the cache for a tmpfs file, it replaces any
+> +existing swap entry at that offset.  When a page is evicted by reclaim,
+> +a swap entry takes its place.  Shadow entries (see
+> +Documentation/mm/page_reclaim.rst) may also be stored to support working
+> +set detection.
+> +
+> +Swap Integration
+> +================
+> +
+> +Under memory pressure, the reclaim path can evict tmpfs pages to swap just
+> +like anonymous pages.  This is transparent to the filesystem — the page
+> +cache slot simply transitions from holding a folio to holding a swap entry.
+> +
+> +When a process accesses a swapped-out tmpfs page, the page fault handler
+> +reads the swap entry from the page cache, allocates a new page, reads the
+> +data from swap, and inserts the page back into the cache.  This swap-in
+> +path is specific to shmem and handles locking between concurrent faults
+> +on the same page.
+> +
+> +Huge Page Support
+> +=================
+> +
+> +tmpfs can allocate transparent huge pages for its files.  The ``huge=``
+> +mount option controls the policy:
+> +
+> +- ``never``: only base pages (default).
+> +- ``always``: attempt huge page allocation for every new page.
+> +- ``within_size``: use huge pages only within the file's current size.
+> +- ``advise``: use huge pages only for mappings with ``MADV_HUGEPAGE``.
+> +
+> +When a huge page is allocated but only partially used (e.g., a file is
+> +smaller than a huge page), memory is wasted.  To mitigate this, tmpfs
+> +registers a shrinker that identifies huge pages where the file has been
+> +truncated or punched below the huge page boundary, and splits them back
+> +into base pages so the unused portion can be reclaimed.
+> +
+> +Accounting and Limits
+> +=====================
+> +
+> +Mount Options
+> +-------------
+> +
+> +tmpfs mounts accept ``size=`` and ``nr_inodes=`` options that cap the
+> +total blocks and inodes in the filesystem.  Every page allocation is
+> +checked against the block limit; if the limit would be exceeded, the
+> +allocation fails with ``ENOSPC``.
+> +
+> +These limits are enforced in-kernel and apply to all users of the
+> +filesystem.  They can be changed at remount time.
+> +
+> +Quota Support
+> +-------------
+> +
+> +With ``CONFIG_TMPFS_QUOTA``, tmpfs supports user and group quotas.  Each
+> +allocated block is charged to the owning user/group, and allocations fail
+> +if the quota is exceeded.  Quota state is stored in memory and does not
+> +persist across mounts.
+> +
+> +Memory Cgroups
+> +--------------
+> +
+> +tmpfs pages are charged to the memory cgroup of the process that
+> +instantiates them.  This means tmpfs memory counts toward cgroup limits
+> +and can trigger cgroup-level reclaim.  Swapping a tmpfs page out and back
+> +in preserves its cgroup association.
+> +
+> +fallocate
+> +=========
+> +
+> +tmpfs supports ``fallocate()`` to preallocate space for a file.
+> +Preallocated pages are allocated and inserted into the page cache
+> +immediately, guaranteeing that subsequent writes will not fail with
+> +``ENOSPC``.
+> +
+> +``FALLOC_FL_PUNCH_HOLE`` is also supported: it removes pages from a range
+> +of the file and returns them to the filesystem's free pool.  This is used
+> +by applications that want to release portions of a tmpfs file without
+> +truncating it.
+> --
+> 2.53.0
+>
+>
+>
