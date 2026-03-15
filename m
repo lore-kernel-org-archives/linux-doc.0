@@ -1,73 +1,51 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC73E40DFAD
-	for <linux-doc@vger.kernel.org>; Sun, 15 Mar 2026 15:42:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63BF82C028B;
+	Sun, 15 Mar 2026 16:29:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773589324; cv=none; b=om3/CfVwss2M9IS+/YHEdMe616yVMV0q7zkhvXXXC+HJh2K89mKUz8pZiD/+GWCO4za9PpkkW1A5evjlfbEwAvyrYhbcqaLtIwT0xFso8OsClqVMdsOfRwMQreDOxk04rrD/yra0ZOsLfo5Qrfap/NQx8lZcfqdwS7HZsf5rhL0=
+	t=1773592195; cv=none; b=XdoVrnClvC6bnhBXzww4jjS3TZVYKLzRKfIOGkbZ4zRnagJ0xrEEuXPg/AVPbsuVGGSq5uqCUddLzKWBalnGo5hUkwdkGnu3F2ESDxSjYVvM5FAWEW/ynmM/DM3EIK+xtvelT2zHXaDftkZ231jXqm5GIb8iSRgYibtUkYLs9nc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773589324; c=relaxed/simple;
-	bh=mL0cWsvJPN0WPsxa4TVp11Y8J/h+tNQQaFBUywYRP6Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AMOLMZn1/Qxz+EQufeQZLWLIoc9LQCcNW1192R2tB1lZX4QKWYfuSgsHkTiId+ni+FX7e5tmZz4S/eEFWKdMfkReXgtb8gNv83XSE3x85C5XQbPVAbfdjaL38DfFUlaRNYYrldueHjlX0YfMkjRHqj8HbbM1UuXjBvlM1t1gfX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aeLnjviv; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773592195; c=relaxed/simple;
+	bh=He08VfqZZvy0NJ509H07nj7EMEVUJY5kq1pTp0TKxWA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZWdcDWE+f0I1zaqPJJMJQkgQq77EwuHgo/RoMVnIcmpPzBbyDkFqV6WUM7n5RVrMLCy0nmfPo1/WNDTwT8cDWyaao1UgYX8e9g93qC/cqfBhvqGXsYOFwjXohwQoqnpMUsMdEKzWNt+bpC+K/45q2lkrXQV8LY6egNtMzHBGnA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aKnWgzUV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aeLnjviv"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-48334ee0aeaso32808275e9.1
-        for <linux-doc@vger.kernel.org>; Sun, 15 Mar 2026 08:42:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773589321; x=1774194121; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=spmvKhvGdNHHwWOJecm1pD4yXwF2QcJ3DZJBOQGxfrM=;
-        b=aeLnjvivVctwybM4Ha9CJK1s0HnA2OCSv91Qj0UvJWmImE/NGP/y76lxWHcznXTDx8
-         IJj7Figuylc+KDIZhtyV2wJ+musE+JD/FGqL8rABBnLdk8r7JDeh3VdTUMfrrf5bnxx6
-         N685/YB7a4WdaekkKniEVgFpP8SeqoVqTaU8kZ2zapRpLmHRraZ/S7Vc0dZGV4nkBWnH
-         bidZqisl9Q9hWet8CIqB8VlH7KInMZsZeLxVqwiWDQ3sPn5Z4hcSrw3J+LLpOMO7ouET
-         0NhPV4XaCpRa4usbMtTqXuhrcuOj2tZqD26/PWo5hOA4PQ935u96WskGm/NzYnm4o/sF
-         4VNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773589321; x=1774194121;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=spmvKhvGdNHHwWOJecm1pD4yXwF2QcJ3DZJBOQGxfrM=;
-        b=XWXJQTzPjatULTbhF8TB4zY+jQetF7Dn44D/iSFfv44bikLPld1X/15LuPGo6OKjeF
-         GSXrpNJ2sj4x9vZv0O2I0ckA5xsHeu91E5uNQx0RFNManOYuEj8c+X6algYrqVhmdxJP
-         mGuyAvSSt9fh0wzeQ+pXkiMQiHLhu4QCd2YUcGWvijd1mmCvPjd/SJ7oYObf19Sb5SeO
-         HzE8Yh+8nrrnUQRZGvMDIvRmfKhLqrZSrgDbrGZiKnMhkc74+J8/T5cVpjw0kSDtbEZ8
-         EA4eOYTtAAwgcqKFw1VvgI6OYHDktAR13qLVr6qZ1+QpzN5C/iW+rsBffu8edXZ/adga
-         ettA==
-X-Forwarded-Encrypted: i=1; AJvYcCWsB71yPfO6ytaMd94M6Zk7QjXkVuTqDoUy03u4p35AtzdPKcJVIHeBbEF64qK7h9pT1pX8pCH2GJM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyy9gL/UOUs3O3hTS7BRLNQ2QNLr2UEHZeCnpLtEnLpYoM5WSuJ
-	JMAGJoXps97W9bN6NPCpQdlNni0GUzR8d5Ls750Bh3RYN5J1mkQ2zjAP9n0O6GYxXgw=
-X-Gm-Gg: ATEYQzzlQhEAvhe1CPeVgGXxdX5pjmNZYpxtby3ffBxIWWgJc5TeqBRjE6mJ3/P9+aB
-	GbuCsg3YAg8cBA2S/WO8bIdye5MWAOIoey/TqXkNReGaWhUmyEfYYf1uI5BYMzMIhWSCAZS+Vj4
-	01cjNrgRguBNXlnTUHdBs2F2ZGLyENk1ZbrTFe+2DKFBS0+BIRYK5u3s8A1kc7XwxfmRM02rCx1
-	bn3EQXRj5+um9DmCLmBGwA843F3bN4erBAjZ5qfj32Fqw94/4MPzhJ5ifQLoy+BcXlsqF9p5xub
-	7SoaGVZ4iqLFskCoTNVvJoDDWkoHtJ491X0s19UpBVXacP6XKaGmjKZ11Q5hh4pZgm8Kul9UO1u
-	IwUJ0Q+UlDv7fteo0gRIevVDucDXEXMqtbfpf+PJalgJNXtunfV/lNwJTUj96H1gj2/F01xKtGU
-	28LFTZbp/UhORd1M58n1h6VoqYraMVqQpTbOwmYBFIla6xXg6dVNBy3KN4JLk/W6F1td0VypI69
-	lP5dsuCL0Ed9CHtzGic7/jGj/yz+g==
-X-Received: by 2002:a05:600c:8b29:b0:47a:7fd0:9eea with SMTP id 5b1f17b1804b1-485566e314cmr165669945e9.3.1773589321132;
-        Sun, 15 Mar 2026 08:42:01 -0700 (PDT)
-Received: from DESKTOP-TILNSD1.localdomain ([139.47.104.103])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48557c7c514sm71047225e9.32.2026.03.15.08.41.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Mar 2026 08:41:59 -0700 (PDT)
-From: Kit Dallege <xaum.io@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aKnWgzUV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5E74C4CEF7;
+	Sun, 15 Mar 2026 16:29:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773592195;
+	bh=He08VfqZZvy0NJ509H07nj7EMEVUJY5kq1pTp0TKxWA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=aKnWgzUV17mDG+vFpiOFZ65eycBdJF5NNE+shq3yAFhbHt8ZEjn7kjA0Px4mpBDtg
+	 0qjfRv6u93OiWE3Zoi/TF6/q4VrccEp/6sWNKFqx4+mXvSp9K4h6OuOWgXm2iEmhCr
+	 G2s17qR0f40sP0541owodaqkDPxKVVXKjziWwTM1KKaPQ2Y+gYb9jlfT5/Z1y4ot7m
+	 ZsgBv6SKSQhAkTjgvgdH+atfi59phLmudaP+1nFuXGI8W9g6nfv6pUVMkeGUpBsR4w
+	 AlqGwhiFrQEFrZio1LKNvkaWeLtTKIzr3NLJbsDkK1YLg/12/6IkWWIutuN6eNKgF6
+	 EKRAmXmDhgmZg==
+From: SeongJae Park <sj@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Liew Rui Yan <aethernet65535@gmail.com>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	SeongJae Park <sj@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	damon@lists.linux.dev,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Kit Dallege <xaum.io@gmail.com>,
-	Claude <noreply@anthropic.com>
-Subject: [PATCH 3/3] docs: process: fix grammatical errors in 2.Process.rst
-Date: Sun, 15 Mar 2026 16:41:49 +0100
-Message-ID: <20260315154149.49940-1-xaum.io@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	linux-mm@kvack.org
+Subject: [PATCH v2] Docs/mm/damon: document exclusivity of special-purpose modules
+Date: Sun, 15 Mar 2026 09:29:44 -0700
+Message-ID: <20260315162945.80994-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -76,66 +54,97 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix five minor grammatical issues:
-- Add comma after introductory phrase "At that point"
-- Add comma before conditional "if at all possible"
-- Change "close to ready" to "close to being ready"
-- Add article "a" before "more extensive review"
-- Add article "the" before "volume can reach"
+From: Liew Rui Yan <aethernet65535@gmail.com>
 
-Link: https://bugzilla.kernel.org/show_bug.cgi?id=214931
-Assisted-by: Claude <noreply@anthropic.com>
-Signed-off-by: Kit Dallege <xaum.io@gmail.com>
+Add a section in design.rst to explain that DAMON special-purpose kernel
+modules (LRU_SORT, RECLAIM, STAT) run in an exclusive manner and return
+-EBUSY if another is already running.
+
+Update lru_sort.rst, reclaim.rst and stat.rst by adding cross-references
+to this exclusivity rule at the end of their respective Example
+sections.
+
+This change is motivated from another discussion [1].
+
+[1] https://lore.kernel.org/damon/20260314002119.79742-1-sj@kernel.org/T/#t
+
+
+Signed-off-by: Liew Rui Yan <aethernet65535@gmail.com>
+Reviewed-by: SeongJae Park <sj@kernel.org>
+Signed-off-by: SeongJae Park <sj@kernel.org>
 ---
- Documentation/process/2.Process.rst | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Change from v1
+(https://lore.kernel.org/20260314092145.7496-1-aethernet65535@gmail.com)
+- Drop contents directive fix
+- Reword description
 
-diff --git a/Documentation/process/2.Process.rst b/Documentation/process/2.Process.rst
-index 57fa8cac58a6..81dddf0c6ace 100644
---- a/Documentation/process/2.Process.rst
-+++ b/Documentation/process/2.Process.rst
-@@ -63,7 +63,7 @@ As fixes make their way into the mainline, the patch rate will slow over
- time.  Linus releases new -rc kernels about once a week; a normal series
- will get up to somewhere between -rc6 and -rc9 before the kernel is
- considered to be sufficiently stable and the final release is made.
--At that point the whole process starts over again.
-+At that point, the whole process starts over again.
+ Documentation/admin-guide/mm/damon/lru_sort.rst | 5 +++++
+ Documentation/admin-guide/mm/damon/reclaim.rst  | 5 +++++
+ Documentation/admin-guide/mm/damon/stat.rst     | 5 +++++
+ Documentation/mm/damon/design.rst               | 4 ++++
+ 4 files changed, 19 insertions(+)
+
+diff --git a/Documentation/admin-guide/mm/damon/lru_sort.rst b/Documentation/admin-guide/mm/damon/lru_sort.rst
+index 73980bacc3a02..56690646cf398 100644
+--- a/Documentation/admin-guide/mm/damon/lru_sort.rst
++++ b/Documentation/admin-guide/mm/damon/lru_sort.rst
+@@ -351,3 +351,8 @@ the LRU-list based page granularity reclamation. ::
+     # echo 400 > wmarks_mid
+     # echo 200 > wmarks_low
+     # echo Y > enabled
++
++Note that this module (damon_lru_sort) cannot run simultaneously with other
++DAMON-based special-purpose modules.  Refer to :ref:`DAMON design special
++purpose modules exclusivity <damon_design_special_purpose_modules_exclusivity>`
++for more details.
+diff --git a/Documentation/admin-guide/mm/damon/reclaim.rst b/Documentation/admin-guide/mm/damon/reclaim.rst
+index 552a7786b0829..6f580f637134a 100644
+--- a/Documentation/admin-guide/mm/damon/reclaim.rst
++++ b/Documentation/admin-guide/mm/damon/reclaim.rst
+@@ -318,6 +318,11 @@ granularity reclamation. ::
+     # echo 200 > wmarks_low
+     # echo Y > enabled
  
- As an example, here is how the 5.4 development cycle went (all dates in
- 2019):
-@@ -156,7 +156,7 @@ The stages that a patch goes through are, generally:
-  - Design.  This is where the real requirements for the patch - and the way
-    those requirements will be met - are laid out.  Design work is often
-    done without involving the community, but it is better to do this work
--   in the open if at all possible; it can save a lot of time redesigning
-+   in the open, if at all possible; it can save a lot of time redesigning
-    things later.
++Note that this module (damon_reclaim) cannot run simultaneously with other
++DAMON-based special-purpose modules.  Refer to :ref:`DAMON design special
++purpose modules exclusivity <damon_design_special_purpose_modules_exclusivity>`
++for more details.
++
+ .. [1] https://research.google/pubs/pub48551/
+ .. [2] https://lwn.net/Articles/787611/
+ .. [3] Documentation/mm/free_page_reporting.rst
+diff --git a/Documentation/admin-guide/mm/damon/stat.rst b/Documentation/admin-guide/mm/damon/stat.rst
+index e5a5a2c4f803a..c4b14daeb2dd6 100644
+--- a/Documentation/admin-guide/mm/damon/stat.rst
++++ b/Documentation/admin-guide/mm/damon/stat.rst
+@@ -45,6 +45,11 @@ You can enable DAMON_STAT by setting the value of this parameter as ``Y``.
+ Setting it as ``N`` disables DAMON_STAT.  The default value is set by
+ ``CONFIG_DAMON_STAT_ENABLED_DEFAULT`` build config option.
  
-  - Early review.  Patches are posted to the relevant mailing list, and
-@@ -164,12 +164,12 @@ The stages that a patch goes through are, generally:
-    process should turn up any major problems with a patch if all goes
-    well.
++Note that this module (damon_stat) cannot run simultaneously with other
++DAMON-based special-purpose modules.  Refer to :ref:`DAMON design special
++purpose modules exclusivity <damon_design_special_purpose_modules_exclusivity>`
++for more details.
++
+ .. _damon_stat_aggr_interval_us:
  
-- - Wider review.  When the patch is getting close to ready for mainline
-+ - Wider review.  When the patch is getting close to being ready for mainline
-    inclusion, it should be accepted by a relevant subsystem maintainer -
-    though this acceptance is not a guarantee that the patch will make it
-    all the way to the mainline.  The patch will show up in the maintainer's
-    subsystem tree and into the -next trees (described below).  When the
--   process works, this step leads to more extensive review of the patch and
-+   process works, this step leads to a more extensive review of the patch and
-    the discovery of any problems resulting from the integration of this
-    patch with work being done by others.
+ aggr_interval_us
+diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
+index 29fff20b3c2a9..dc37402c0fee9 100644
+--- a/Documentation/mm/damon/design.rst
++++ b/Documentation/mm/damon/design.rst
+@@ -853,6 +853,10 @@ more detail, please read the usage documents for those
+ (:doc:`/admin-guide/mm/damon/stat`, :doc:`/admin-guide/mm/damon/reclaim` and
+ :doc:`/admin-guide/mm/damon/lru_sort`).
  
-@@ -398,7 +398,7 @@ There are lists hosted elsewhere; please check the MAINTAINERS file for
- the list relevant for any particular subsystem.
++.. _damon_design_special_purpose_modules_exclusivity:
++
++Note that these modules currently run in an exclusive manner.  If one of those
++is already running, others will return ``-EBUSY`` upon start requests.
  
- The core mailing list for kernel development is, of course, linux-kernel.
--This list is an intimidating place to be; volume can reach 500 messages per
-+This list is an intimidating place to be; the volume can reach 500 messages per
- day, the amount of noise is high, the conversation can be severely
- technical, and participants are not always concerned with showing a high
- degree of politeness.  But there is no other place where the kernel
+ Sample DAMON Modules
+ --------------------
+
+base-commit: 1e6fb24fdfceeb8dfa1a97a0270e4aeffa0a6d6d
 -- 
-2.53.0
-
+2.47.3
