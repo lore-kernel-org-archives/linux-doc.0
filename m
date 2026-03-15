@@ -1,176 +1,169 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94174365A0D
-	for <linux-doc@vger.kernel.org>; Sun, 15 Mar 2026 20:48:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4005A1DF254;
+	Sun, 15 Mar 2026 21:00:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773607706; cv=none; b=ifG7/VznTN7+DcYAqHkVbTlesVnRLziQUSuj1IecX0RHGJWsC69RhB4W17QwL7DlfSEoueOoGQ+6+Rvp4SgSOezeb4TMJJ2Y3qXEIhbkvh1ido796j8gCya6yEJscJXCbWSrSDG5BlDXibEtGfSzHREWSBYLyt/9wK9RwfNS6ns=
+	t=1773608423; cv=none; b=KsY2eB5QqvzmHYW8NmR/U55IOWMqCqDp8WgK6mRpAX5HKA+Lwl0Lq2NKFLvC084nc0quZbvW68d6K/4oMPkPflEN3wVkT6ZqBQ348Iws/beg1XiZS1MkSIy46uNUQErThDB160boHEg7/o4whR2qkrZtds95uM2ZBH65Gm12AIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773607706; c=relaxed/simple;
-	bh=AKmldbxaY791aD9Xfil/Ru0vWSAymPxRXmxXjFu7b4o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eP9rSyS6WFDSnMc/63RD30RWNSRK1bVMBuPUfZY/9U23CiObSfnR95DGkRqwWfNFwrdHzCPRg/ukT4w5hVZ3j0UoiIpWIYe4NQQc4t4OA8jnUJsz8Z/oK6cCzuC4BKKV/OyHLujaz4MToVEenYDEjE84g8/J2jNg0qnl5z+hO9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lHIdGpox; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773608423; c=relaxed/simple;
+	bh=XnIOlQqQj664a9OSr2rVhvLZUQiwYMWAxdX1C8eCcLc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=l3qKL9pxgiiK2+vb9L8uKHuG1RoVaphc/J0JaanmmofBCOVrMa2cL+RilapIaUkPPm49rlQ7Kn4uF1lMFoz/WBy1wUWCpmwFIm5nnd75a3rHqe8woBF+RejYlip5b9SpgfnlO6HQPKXUzpU4+qX+QU69RlXKauc4J1tPijVYWTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pylHVRuK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lHIdGpox"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93439C4CEF7;
-	Sun, 15 Mar 2026 20:48:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pylHVRuK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99E0DC4CEF7;
+	Sun, 15 Mar 2026 21:00:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773607706;
-	bh=AKmldbxaY791aD9Xfil/Ru0vWSAymPxRXmxXjFu7b4o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lHIdGpox9WtCzyIYJU69aXY52aRr6S/+Jtpm4Uj3GMYvPIe/DbAbkhO2KTdk9isdk
-	 AKigtKpt+XI0v1CkX1wEF1tZQ4VMhtnuZYM4O1DtCogSwx5ndxAQ/h+ZjeStqx7CyA
-	 g+SYgZFMm79yVu4f0CKWufIdrZrSeIRqAM8r0st4Bt8SH2Xtym/Ta2V0Ap0RWM3mtc
-	 qM/lUbt+vKwjfC0MPnzrCVBDSnQ4VjG1omxkeSBWD3bJQ2CW9svPUNXKjddNRwGS5r
-	 M9kFLqt2NSyezpiP9CVe+UnnktWuJML5TAQysTAeIAZPyygY13u1jXZ8KgLqKIgV8I
-	 5jH+57S6cRiSg==
-Date: Sun, 15 Mar 2026 20:48:22 +0000
-From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-To: Kit Dallege <xaum.io@gmail.com>
-Cc: akpm@linux-foundation.org, david@kernel.org, corbet@lwn.net, 
-	linux-mm@kvack.org, linux-doc@vger.kernel.org, Michal Hocko <mhocko@suse.com>
-Subject: Re: [PATCH] Docs/mm: document the OOM killer
-Message-ID: <fbee0ca1-4de6-4182-865b-a33d9ed32ee4@lucifer.local>
-References: <20260314152518.100194-1-xaum.io@gmail.com>
+	s=k20201202; t=1773608423;
+	bh=XnIOlQqQj664a9OSr2rVhvLZUQiwYMWAxdX1C8eCcLc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=pylHVRuKIp2RySkn/vjGtU/jKV1EUrVmO8HhjUb40IJr6XYVS6+PqAWYKKzNda/8O
+	 y184DIjBgJEjfd5/R9qy+uV826AOyPG/T2NO+e3YcEU4PuVF7A5L0v1S8m/7bEKOFb
+	 42qorg8HwSp+7e/4tT1DVBuZCUEAdVHeodEZZFd+CwGxxRbGGsLOqQztzRe1qz09GZ
+	 /ChjDeMNDtuJowFl1rtPt3dGO9wUJ8gvg3tJOFoj8VPEjGhyE3rxNT77b4O/b9smkF
+	 1rgPFaP0/9+0jTeOg+fasWgnxj7lDeB/7UoMmF8bjcXwAUINz7mmgy382fgs1VOxUa
+	 s+7qj+322iGbg==
+From: SeongJae Park <sj@kernel.org>
+To: 
+Cc: SeongJae Park <sj@kernel.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@google.com>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Shuah Khan <shuah@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	damon@lists.linux.dev,
+	kunit-dev@googlegroups.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [RFC PATCH 00/10] mm/damon: let DAMON be paused and resumed
+Date: Sun, 15 Mar 2026 13:59:59 -0700
+Message-ID: <20260315210012.94846-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260314152518.100194-1-xaum.io@gmail.com>
 
-NAK for being AI slop again, obviously.
+DAMON utilizes a few mechanisms that enhance itself over time. Adaptive
+regions adjustment, goal-based DAMOS quota auto-tuning and monitoring
+intervals auto-tuning like self-training mechanisms are such examples.
+It also adds access frequency stability information (age) to the
+monitoring results, which makes it enhanced over time.
 
-Again, +cc the OOM maintainer you failed to bother to look up.
+Sometimes users have to stop DAMON.  In this case, DAMON internal state
+that enhanced over the time of the last execution simply goes away.
+Restarted DAMON have to train itself and enhance its output from the
+scratch.  This makes DAMON less useful in such cases.  Introducing three
+such use cases below.
 
-Reasons, as the rest:
-- Worthless documentation
-- Everything about patch screams 'zero effort, Claude did it all'
-- Bad etiquette
+Investigation of DAMON.  It is best to do the investigation online,
+especially when it is a production environment.  DAMON therefore
+provides features for such online investigations, including DAMOS stats,
+monitoring result snapshot exposure, and multiple tracepoints.  When
+those are insufficient, and there are additional clues that could be
+interfered by DAMON, users have to temporarily stop DAMON to collect the
+additional clues.  It is not very useful since many of DAMON internal
+clues are gone when DAMON is stopped.  The loss of the monitoring
+results that improved over time is also problematic, especially in
+production environments.
 
-As with all the rest it'd need to be totally rewritten and it's not worth the
-maintainer time.
+Monitoring of workloads that have different user-known phases.  For
+example, in Android, applications are known to have very different
+access patterns and behaviors when they are running on the foreground
+and the background.  It can therefore be useful to separate monitoring
+of apps based on whether they are running on the foreground and on the
+background.  Having two DAMON threads per application that paused and
+resumed for the apps foreground/background switches can be useful for
+the purpose.  But such pause/resume of the execution is not supported.
 
-On Sat, Mar 14, 2026 at 04:25:18PM +0100, Kit Dallege wrote:
-> Fill in the oom.rst stub that was created in commit 481cc97349d6
-> ("mm,doc: Add new documentation structure") as part of the structured
-> memory management documentation following Mel Gorman's book outline.
+Tests of DAMON.  A few DAMON selftests are using drgn to dump the
+internal DAMON status.  The tests show if the dumped status is the same
+as what the test code expected.  Because DAMON keeps running and
+modifying its internal status, there are chances of data races that can
+cause false test results.  Stopping DAMON can avoid the race.  But,
+since the internal state of DAMON is dropped, the test coverage will be
+limited.
 
-I mean the more I see it the more annoying it is.
+Let DAMON execution be paused and resumed without loss of the internal
+state, to overhaul the limitations.  For this, introduce a new DAMON
+context parameter, namely 'pause'.  API callers can update it while the
+context is running, using the online parameters update functions
+(damon_commit_ctx() and damon_call()).  Once it is set, kdamond_fn()
+main loop will do only limited works excluding the monitoring and DAMOS
+works, while sleeping sampling intervals per the work.  The limited
+works include handling of the online parameters update.  Hence users can
+unset the 'pause' parameter again.  Once it is unset, kdamond_fn() main
+loop will do all the work again (resumed).  Under the paused state, it
+also does stop condition checks and handling of it, so that paused DAMON
+can also be stopped if needed.  Expose the feature to the user space via
+DAMON sysfs interface.  Also, update existing drgn-based tests to test
+and use the feature.
 
->
-> Cover the scoring heuristic, allocation constraints, OOM reaper,
-> process_mrelease syscall, and sysctl knobs.
+Tests
+=====
 
-This sentence contains almost as much content as the patch.
+I confirmed the feature functionality using real time tracing ('perf
+trace' or 'trace-cmd stream') of damon:damon_aggregated DAMON
+tracepoint.  By pausing and resuming the DAMON execution, I was able to
+see the trace stops and continued as expected.  Note that the pause
+feature support is added to DAMON user-space tool (damo) after v3.1.9.
+Users can use '--pause_ctx' command line option of damo for that, and I
+actually used it for my test.  The extended drgn-based selftests are
+also testing a part of the functionality.
 
->
-> Signed-off-by: Kit Dallege <xaum.io@gmail.com>
-> ---
->  Documentation/mm/oom.rst | 67 ++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 67 insertions(+)
->
-> diff --git a/Documentation/mm/oom.rst b/Documentation/mm/oom.rst
-> index 18e9e40c1ec1..2259f871a4a7 100644
-> --- a/Documentation/mm/oom.rst
-> +++ b/Documentation/mm/oom.rst
-> @@ -3,3 +3,70 @@
->  ======================
->  Out Of Memory Handling
->  ======================
-> +
-> +When the kernel cannot satisfy a memory allocation after exhausting reclaim,
-> +compaction, and memory reserves, it invokes the OOM killer to terminate a
+Patches Sequence
+================
 
-I mean this is just actively wrong to start with.
+Patch 1 introduces the new core API for the pause feature.  Patch 2
+extend DAMON sysfs interface for the new parameter.  Patches 3-5 update
+design, usage and ABI documents for the new sysfs file, respectively.
+The following five patches are for tests.  Patch 6 implements a new
+kunit test for the pause parameter online commitment.  Patches 7 and 8
+extend DAMON selftest helpers to support the new feature.  Patch 9
+extends selftest to test the commitment of the feature.  Finally, patch
+10 updates existing selftest to be safe from the race condition using
+the pause/resume feature.
 
-> +process and free memory.  The implementation is in ``mm/oom_kill.c``.
+SeongJae Park (10):
+  mm/damon/core: introduce damon_ctx->paused
+  mm/damon/sysfs: add pause file under context dir
+  Docs/mm/damon/design: update for context pause/resume feature
+  Docs/admin-guide/mm/damon/usage: update for pause file
+  Docs/ABI/damon: update for pause sysfs file
+  mm/damon/tests/core-kunit: test pause commitment
+  selftests/damon/_damon_sysfs: support pause file staging
+  selftests/damon/drgn_dump_damon_status: dump pause
+  selftests/damon/sysfs.py: check pause on assert_ctx_committed()
+  selftets/damon/sysfs.py: pause DAMON before dumping status
 
-Terminate a 'process', even what that is tricky in kernel vs userland...
+ .../ABI/testing/sysfs-kernel-mm-damon         |  7 +++++
+ Documentation/admin-guide/mm/damon/usage.rst  | 12 +++++---
+ Documentation/mm/damon/design.rst             |  7 +++++
+ include/linux/damon.h                         |  2 ++
+ mm/damon/core.c                               |  8 +++++
+ mm/damon/sysfs.c                              | 30 +++++++++++++++++++
+ mm/damon/tests/core-kunit.h                   |  4 +++
+ tools/testing/selftests/damon/_damon_sysfs.py | 10 ++++++-
+ .../selftests/damon/drgn_dump_damon_status.py |  1 +
+ tools/testing/selftests/damon/sysfs.py        | 28 +++++++++++++++++
+ 10 files changed, 104 insertions(+), 5 deletions(-)
 
-> +
-> +Victim Selection
-> +================
-> +
-> +The OOM killer scores every eligible process and kills the one with the
-> +highest score.  The score is the sum of the process's resident pages, swap
-> +entries, and page table pages.  This sum is then adjusted by the per-process
-> +``oom_score_adj`` tunable (range -1000 to 1000, default 0), which biases
-> +the score by ``oom_score_adj * totalpages / 1000``.  Setting
-> +``oom_score_adj`` to -1000 disables OOM killing for that process entirely.
-> +
-> +The ``totalpages`` baseline depends on the allocation constraint:
-> +
-> +- **Unconstrained**: all RAM plus swap.
-> +- **Cpuset**: memory on nodes in the current cpuset.
-> +- **Memory policy**: memory on nodes in the current mempolicy.
-> +- **Memory cgroup**: the cgroup's memory limit.
-> +
-> +Only processes that can use memory within the constraint are considered.
-> +Kernel threads and init are never eligible.
-> +
-> +OOM Reaper
-> +==========
-> +
-> +Sending SIGKILL does not immediately free memory — the victim must be
-> +scheduled, unwind its stack, and tear down its address space.  To speed
-> +this up, the OOM reaper kernel thread (available on MMU systems) proactively
-> +unmaps the victim's anonymous and private pages without waiting for the
 
-Anonymous AND private eh?
-
-> +victim to exit.
-
-Actually there IS some waiting for a specific futex case :)) though maybe
-removed now.
-
-> +
-> +The reaper gives the victim a short window to exit naturally before
-> +intervening.  It walks the victim's VMAs in reverse and calls
-
-Why in reverse? Moon walk?
-
-I mean etc. etc. this is really not helpful.
-
-> +``unmap_page_range()`` to release physical pages.  Once reaping completes
-> +(or is no longer possible), the mm is marked ``MMF_OOM_SKIP`` so the OOM
-> +killer skips it in future invocations.
-> +
-> +Before reaping, the mm is marked ``MMF_UNSTABLE`` to signal page fault
-> +handlers that private mappings may have been zeroed and are no longer
-> +reliable.
-> +
-> +process_mrelease
-> +================
-> +
-> +The ``process_mrelease(pidfd, flags)`` system call lets userspace OOM
-> +managers (such as systemd-oomd or Android's lmkd) trigger the same reaping
-> +mechanism on a dying process without waiting for the kernel OOM killer.
-> +It operates on a process that is already exiting and performs the same
-> +address space teardown that the OOM reaper would.
-> +
-> +Sysctl Knobs
-> +============
-> +
-> +``vm.panic_on_oom``
-> +  0 (default): kill a process.  1: panic on unconstrained OOM only.
-> +  2: always panic.
-> +
-> +``vm.oom_kill_allocating_task``
-> +  When non-zero, kill the task that triggered the OOM rather than scanning
-> +  for the largest process.
-> +
-> +``vm.oom_dump_tasks``
-> +  When non-zero (default), dump a table of all eligible tasks and their
-> +  memory usage to the kernel log before killing.
-> --
-> 2.53.0
->
->
->
+base-commit: 027cb70b08db6e3df632c49a8c7590ea830f7a96
+-- 
+2.47.3
