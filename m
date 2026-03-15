@@ -1,101 +1,75 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 402407260D;
-	Sun, 15 Mar 2026 00:26:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93AEF40DFA7;
+	Sun, 15 Mar 2026 01:18:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773534372; cv=none; b=QWWqPoy6Xxqb3KlqEYVgK2TwCWQ4Bs8oMmnE0qnznANM6cD3QyqT2YqcoQE7zmlW0zDV8Mqvc+JaaV+0tGqXSc770cB7944c29wryXWyvD9L++VyxMCwPXUZOMjxocc7pizi0x9jGCYhEdlGzx9iGV/GEBCnuZjIFRBNFmpcK8A=
+	t=1773537487; cv=none; b=CrjeVg3fc2iJLYx9f4gU8pCsvz+zoH7mdZgtlhJAjQsSg9nJgIfRb+gUA5s0JpDrQzmfn3sNUPRB+hq7KL1oi3yLfZFoSDn5oGMAu2lb8AFJsHMYxCfVN/IdCTyAyulsTK5MTAXCHFN3lina+mb8guaHfNkxsS5dMPxSPIVzIiQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773534372; c=relaxed/simple;
-	bh=1sCvwrjbj+DjAx2QZdG6F13Pd2u4zTGhs2VeFPdIUyw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KzQideqaSXwGgZp560IWmJthMbm+hrdx7i+lOMSCL185JjnQbbnJbRqif5ogB1DGOqCb5ETCxDmIo8wf0dCBfarrilnwucqihRH7MXlOSjXLhNKOMo0XEU1irv5rUCbu/r96UvB87R+ZsP85Q7kEU0qnZUxmUBimRbNArILMiW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aOm9hRGv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773537487; c=relaxed/simple;
+	bh=YNQnPMfrXLEjO1gWNZbgBw3RHFV96tMCV2Aa+tznba0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mKxmCgw2853uaUYP3shs5oQ+oAgbHVf1Fv5M/rDzew9hK9Qq4m4MveFtYLUt1z/s4vUC16vCmpXb0VPTX4nUYaJ/U4k0K4Tm3DwIUtmn/0g5OCiv+uMDD726AaxqrTFvlUJwztJWpu/L/8wrAePai4VOdYoBQ6HY3nGqqAd3ghg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fuKl9SZ+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aOm9hRGv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD42DC116C6;
-	Sun, 15 Mar 2026 00:26:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fuKl9SZ+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0AA4C116C6;
+	Sun, 15 Mar 2026 01:18:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773534371;
-	bh=1sCvwrjbj+DjAx2QZdG6F13Pd2u4zTGhs2VeFPdIUyw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=aOm9hRGvVEJ/WNi1KJenyI8c+au+LcuSvcap9xpnOUs46n6Hzn3yMxewe9y/3RmuU
-	 6vnJU7/9uTJS4ivQW1jxW6ZsGFsfMh9RBupLtXlRb6UcaHdlG9Xuu4VX8yRunm7G+a
-	 WtzcPVgys/b1pAmUj/VhQTMiKsY4omLF0QvPvXTWw90t5wFlf7aiaZ3u1tff+/g60k
-	 jT7C8VD26WID+hxbBGorJpPzPR8O12Ksp+DZP/vvImFAyCRxO9pND+THdVavTiCpXk
-	 3Bi2t6dtzTGbDaO+Lil7VVpob1/29tSDen70kCxvZRYDqAYe0zh8pPyTeh5N6v7SvH
-	 183AbuCSj2NPA==
-From: SeongJae Park <sj@kernel.org>
-To: Liew Rui Yan <aethernet65535@gmail.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	damon@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Docs/mm/damon: document exclusivity of special-purpose modules
-Date: Sat, 14 Mar 2026 17:26:06 -0700
-Message-ID: <20260315002608.77292-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <CAPLv50rMiS+PBFh6BQ1f1XZAJu=1hMOaSx6ySQgeHxAY=i1mQA@mail.gmail.com>
-References: 
+	s=k20201202; t=1773537487;
+	bh=YNQnPMfrXLEjO1gWNZbgBw3RHFV96tMCV2Aa+tznba0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=fuKl9SZ+Ulc7B/DFdGYYyeLo5paKdwGEpW+ed9iWNLFm2nbdGOSlQdpsqfGG3Nduh
+	 yRfWtKdWaP6RfMb8K86w26xHj/6HqxOlbg9YqiCw1BgIu5W1fgdb6hr/4mYJsQ7kMn
+	 BJqz1cKYH0Zq74hmOjF+wxQxLPdkBwYzDgakdkg5Ob3IhmuB6P1GrjAAdHG78ZD+kc
+	 tQSjbRQiOkIBsqnhJNJbhuytGzffjfged/REw/iD1qPCRvmHN0U6IIBbGUwbLdJt39
+	 QpeKGaxgIq6LEawDh3n+C0jRzLBiDfrxJOpBfzLkh5q9VxQ/5ED05BCCSTR4shRRg4
+	 ib8fKxP4GLnzw==
+Date: Sat, 14 Mar 2026 18:18:04 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: atwellwea@gmail.com
+Cc: netdev@vger.kernel.org, davem@davemloft.net, pabeni@redhat.com,
+ edumazet@google.com, ncardwell@google.com, linux-kernel@vger.kernel.org,
+ linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ mptcp@lists.linux.dev, dsahern@kernel.org, horms@kernel.org,
+ kuniyu@google.com, andrew+netdev@lunn.ch, willemdebruijn.kernel@gmail.com,
+ jasowang@redhat.com, skhan@linuxfoundation.org, corbet@lwn.net,
+ matttbe@kernel.org, martineau@kernel.org, geliang@kernel.org,
+ rostedt@goodmis.org, mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
+ 0x7f454c46@gmail.com
+Subject: Re: [PATCH net-next v2 13/14] netdevsim: add peer RX truesize
+ support for selftests
+Message-ID: <20260314181804.6f62712c@kernel.org>
+In-Reply-To: <20260314201348.1786972-14-atwellwea@gmail.com>
+References: <20260314201348.1786972-1-atwellwea@gmail.com>
+	<20260314201348.1786972-14-atwellwea@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sun, 15 Mar 2026 04:37:34 +0800 Liew Rui Yan <aethernet65535@gmail.com> wrote:
+On Sat, 14 Mar 2026 14:13:47 -0600 atwellwea@gmail.com wrote:
+> diff --git a/tools/testing/selftests/drivers/net/netdevsim/Makefile b/tools/testing/selftests/drivers/net/netdevsim/Makefile
+> index 1a228c5430f5..9e9e48d5913b 100644
+> --- a/tools/testing/selftests/drivers/net/netdevsim/Makefile
+> +++ b/tools/testing/selftests/drivers/net/netdevsim/Makefile
+> @@ -14,6 +14,7 @@ TEST_PROGS := \
+>  	macsec-offload.sh \
+>  	nexthop.sh \
+>  	peer.sh \
+> +	peer-rx-truesize.sh \
+>  	psample.sh \
+>  	tc-mq-visibility.sh \
+>  	udp_tunnel_nic.sh \
 
-> On Sun, Mar 15, 2026 at 12:25 AM SeongJae Park <sj@kernel.org> wrote:
-> >
-> > Hello Liew,
-> >
-> Hello SeongJae,
-> 
-> >
-> > And thank you for fixing this!  But, the broken "contents" directive is added
-> > by a commit on damon/next tree [1] that not yet planned to be upstreamed.  That
-> > is, seems this patch is based on damon/next tree.  As a result, this patch
-> > cannot be cleanly applied on mm-new.  We prefer making patches based on mm-new
-> > unless there is a reason.
-> >
-> Okay, I will make sure to follow this in my future submissions.
-> 
-> > >
-> > > Signed-off-by: Liew Rui Yan <aethernet65535@gmail.com>
-> > > Link: https://lore.kernel.org/damon/20260314002119.79742-1-sj@kernel.org/T/#t
-> >
-> > I think it would be nice to give a context about the link.
-> >
-> That makes perfect sense.
-> 
-> >
-> > Reviewed-by: SeongJae Park <sj@kernel.org>
-> >
-> Thank you again, this marks my first contribution to Linux, and I truly
-> appreciate your guidance!
+I think our order checker thinks that is not alphabetical.
+You can find the scripts here:
+https://github.com/linux-netdev/nipa/tree/main/tests/patch/check_selftest
 
-It's my honor to help your first contribution! :)
-
-> 
-> >
-> > Assuming you agree to my above suggestions, I added this patch to the top area
-> > of damon/next after dropping the "contents" directive fix and adding a simple
-> > sentence describing the context of the link.  The change made to this patch for
-> > that is as below.  If you don't mind, I will post it as v2 of this patch by
-> > tomorrow morning in Pacific Time.  Please let me know if you have any comments
-> > about the plan.
-> >
-> The plan sounds great to me. Thank you for taking care of the v2
-> submission!
-
-Great, I may post it tomorrow morning.
-
-
-Thanks,
-SJ
-
-[...]
+It'd be good if you can try the "running locally" section from README
