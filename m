@@ -1,192 +1,264 @@
-Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013056.outbound.protection.outlook.com [40.93.196.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17D1B330D24;
-	Mon, 16 Mar 2026 22:08:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 356B9139D
+	for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 22:14:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.53
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773698916; cv=fail; b=nCwj5S9tfIwU3WbyDqRZxrxC9rdh8TveMsa62iufqlTrQ/r+nud9BC+aIFWOrBuhPhwzmpLYmPVReapu8ztOIdffKtj711Chs5tjJCotb0GSyzr7wKumkgBKNpk1lAyWKDILmLlhN2B86BSvsiCLMS2bgl5T0tllpUM+JODw2Tk=
+	t=1773699289; cv=pass; b=PhIhXRF/osyt5JEeck3/iS7hPWsDrj6oc6kbcMWIl6Z0tNPyHmOSfbLGfa5ySF69PVxP1p0fdYV2qdkSBvsRmnhyGbEs97KqPFacm58x71q1k9ChAcXZvuCNigH0JMj3JqMITdya/VYRnPSUTgFmpRtoXfNjfVPH/xPcQG3He6Y=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773698916; c=relaxed/simple;
-	bh=UGgLYhHmvlh303QertRuQnHFQxm6ve2vVT4nhymjAmI=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=jJq7lYs/6Mi4/VZhkkk3cVVTPvTNc4OBpC+30kc8cADjfaOKlKYSt+hsn2baQuVlBk75uM1G+4P8al3NNr6q14RVSySSZhiGyFA0TpFN16+yFpCeD1JmM2O4NsiaTcWyVuUppQGBIe3ydMhW7qU8JLmVQpApultzfa3Fld/zJMs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=WpnA+KhK; arc=fail smtp.client-ip=40.93.196.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1773699289; c=relaxed/simple;
+	bh=rtrnZeqQl+lqOePojv3lREDvLjSPymz2Gx9AF8DWaII=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MCO+qJGwvcuJD3TRow8j+8CifE1ev4gu6uzydwDmCxGKfVzsC6Ubox8t+bxrXvwZSZRTa7lp9XOf4r4/cxjFW/bSFAWZUTTptC+StCodfMIpiepOGWCwZ9F3rlb4IX7YWVByNDXoNkIiy6eSgpx30SB7GwdDgFbPFwqaJf7yxmM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=U6vM/0qK; arc=pass smtp.client-ip=209.85.167.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="WpnA+KhK"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=k6K0m8OHqY5RwvH+5NMptphUoGCLo3TRs9ya/07frj6X4k+GtgbgIyeVhITyIILsoMXHKEGpmdvUMIgVbKITPIjmpHUJlWd6CCi5SDltogmErQaC8Ps0WlP2/C6EWSgDyiz897HAz4HU4hxsSxfALtAVb5cWqkn4Hm2Xo6FvmAYgGo/Hu4L6uqDWfxigBJ9MIdYaLtD94iZzfhNiKbp0g/9oT4rv/+Z19Q0NKW0/SOisSrmESBmCeQ9zPlZAbQ+/TB4cY5u1H1yBmIWSMA3+aCnMyhQjxyjvEGA+mvE01J9HQ4LAIm5PC+OddgwpC3xCRQNcaC5Kdw8z7vAXXGeKdg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3Z54O8Lwmp/64CjThxgXsVk1e5fVWJnC/1n5/FLNvqQ=;
- b=edJzpCoHD3POi+9wImWbbRGOmGIBwYIwqB0e1DMA7NuhU92o2zFfrL4bOuazeZ4S2B0meDfI6SZHZ/pby9qG+3On+IuvJiSND0AGvEsNBRWQ+3d0P+I0LMsslk6yF7mV91SwFHldJxfLiUUotmx1OSTg+SxWanDG3GGqL+WzlEuHnOUnfP/J5aam7/MeEC8KnlSItpxi5ZCouwsSnR8/xF3kW0c7c1Juj+mwWqxs5JQwyHUa8dEOJ6xakf/ECcwJyRRaq/A8NC76/z9eY1Lah1l2yxUY1+Kt5JkkqLIykRANBzB+1mGGKWfRpt2dMYf39bzcrvqh+7jTKmo/G+KFQg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3Z54O8Lwmp/64CjThxgXsVk1e5fVWJnC/1n5/FLNvqQ=;
- b=WpnA+KhKZOyU6dMow5ifsW+9oDIiuKUkFliu/kJcE2rbb8qGGinyLAfSrq/hgDLI3NBhMFHFBrlGbb2A7PWJTTtx7iAXhn8NKlRR34uWeEGGZbG48Ml3Z4BLmD9zLiKn1rwkWzeGLEPKtXJT9sDFWDf+1rT4ErOmyJIwp2gFPTyqEoXriYk9KsLmt6wSk03u/9cBb0EHo3S77zViw1LdQbik/ZrxXotNWQfMwP+wJv4pu1mJWa1TgjCpl1sk7OQQ27avIkjEj2EtAj09CxBW8wImkfDtuNMt6hq9Fxyt+jpdq9mLdpMkW81JSQkVBmMUzMWRe9T6HEOG/K+C4DoqRQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM3PR12MB9416.namprd12.prod.outlook.com (2603:10b6:0:4b::8) by
- IA1PR12MB6283.namprd12.prod.outlook.com (2603:10b6:208:3e5::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9723.17; Mon, 16 Mar 2026 22:08:28 +0000
-Received: from DM3PR12MB9416.namprd12.prod.outlook.com
- ([fe80::8cdd:504c:7d2a:59c8]) by DM3PR12MB9416.namprd12.prod.outlook.com
- ([fe80::8cdd:504c:7d2a:59c8%7]) with mapi id 15.20.9723.016; Mon, 16 Mar 2026
- 22:08:28 +0000
-Message-ID: <6687235b-1de5-4ed1-beb2-ed7781f5296f@nvidia.com>
-Date: Mon, 16 Mar 2026 15:08:25 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12.1 1/1] rust: gpu: Add GPU buddy allocator bindings
-To: Joel Fernandes <joelagnelf@nvidia.com>
-Cc: Alexandre Courbot <acourbot@nvidia.com>, linux-kernel@vger.kernel.org,
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
- Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
- Dave Airlie <airlied@redhat.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Koen Koning <koen.koning@linux.intel.com>, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- Nikola Djukic <ndjukic@nvidia.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
- Jonathan Corbet <corbet@lwn.net>, Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Helge Deller <deller@gmx.de>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Alistair Popple <apopple@nvidia.com>,
- Andrea Righi <arighi@nvidia.com>, Zhi Wang <zhiw@nvidia.com>,
- Philipp Stanner <phasta@kernel.org>, Elle Rhumsaa
- <elle@weathered-steel.dev>, alexeyi@nvidia.com,
- Eliot Courtney <ecourtney@nvidia.com>, linux-doc@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-References: <20260308180407.3988286-1-joelagnelf@nvidia.com>
- <20260309135338.3919996-1-joelagnelf@nvidia.com>
- <20260309135338.3919996-2-joelagnelf@nvidia.com>
- <DH48DNAQCE0Z.2EX23VD27CQVX@nvidia.com>
- <efc10902-2ee9-4cb3-a4cc-442998eef01a@nvidia.com>
- <1773694747.5c82fbe5a9875889@nvidia.com>
-Content-Language: en-US
-From: John Hubbard <jhubbard@nvidia.com>
-In-Reply-To: <1773694747.5c82fbe5a9875889@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR05CA0044.namprd05.prod.outlook.com
- (2603:10b6:a03:33f::19) To DM3PR12MB9416.namprd12.prod.outlook.com
- (2603:10b6:0:4b::8)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="U6vM/0qK"
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5a1307438ddso5059494e87.1
+        for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 15:14:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773699286; cv=none;
+        d=google.com; s=arc-20240605;
+        b=WMphkEJ3jB6DIC4U1LAD4KJ/3k3RK1bxeCb2h/+iKs1gYYvs7uFg6kMBsi1VV6kJGx
+         7UvGMCUCgV4c4AKTGc04PeaD+F/GF2p/M6XjIOQg5ELBcX4MOsCMgilbUURD7CF85Iif
+         unYUDR1dDzMzTkAL6Fp/2/5OLncE1ZtcqvKsJExWIfZy8J4robF2wqucld4cK7kjC/Xa
+         PuUaVHXhQaihdB/HufCk9z5e/J68OgoLxiwnFKSfyVC467tiCRI18K5YDLHg6rv63LHG
+         Mj30dsNshmsOnE4x3uTnnBMkfc0Q94wvvNwq4WIoeErLndRg5k6SzcyPmDRCC9WEqouG
+         bXmw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=/1TI05GxVOzwi8Lp4rr2cTv/CbMBWmj36+RO6nniHqE=;
+        fh=FbkpnYrE0EtnpOwmVfA9dH+UsYMYpYl4MxCXYAqAc/w=;
+        b=Qu7apRke4+NfyE3v+S0rjMnI6vZgT/Ms4TIUjLM3NhQzcLUE6D6ftaHqO4jHXVDzIl
+         FTxXCNqVWKyGRWuZ3TwsBB+YQsA4aHSvhaVaI+0n4UFQjY9qD/1AD1Whn3zW7aNV18fm
+         KI2tPJ6NJm9vGStpbGI6OGpuHUddRmUZ0hVwMP1szFepezDVXrV+srhQ82zDn1Z24mQI
+         vLSe4WyyYVfX+uSzy3DTCS/5AY6KTiheQN4ZlQTjvvJ7eOggD3T5yZh33iW6UO7Q0Nbk
+         nM2wIEaRtzF1KHYN0xIGpZ1zdCxbb7/9mhjjbXuPEhmuwiBJLttIBHq1NGA+jGqfnu4J
+         Kx9w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1773699286; x=1774304086; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/1TI05GxVOzwi8Lp4rr2cTv/CbMBWmj36+RO6nniHqE=;
+        b=U6vM/0qKwdLMazJD71gF5yaKjwQIkuMWh1QQpolDCNZC7ayRaMmduy27R2WeTuoqyk
+         vrVHtw0ai+f1WOpikl1Kc3yeDwhdyz/F8cNg8qNWzOWteW0s5oB2qwvoEZI0PFrCdRhw
+         sqfW9gEKVkRnaMmZjoN1mI6W4wlIjc32Otc1tx6EptGS8JuZyYbaWh7b3FANnFdChE5D
+         5bCtmBYqijH8KN6/3OeH1AOk+8oChJVn0/wIjc8nfA7FoWhn93d2BXWQnHn297eCbB5Q
+         wtYypF4HOxvj0hxQNbzEz+2S5Z7gvi1OoTbgjoJ0yDCWJXDPC0jvs568BPMh9gTbTl1M
+         cxtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773699286; x=1774304086;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=/1TI05GxVOzwi8Lp4rr2cTv/CbMBWmj36+RO6nniHqE=;
+        b=TmOuBFm6EAQLzniE206TgTTCk2CsAo2sVqhIMOb/2J0dwa6eugcK65fsCwsOJS1pkH
+         zJ1tEvG/TC924YN6f5GL/nO6lFcD8kYjh4ucPRYRpQcpWEiuPYi3yb9d9srg1uXPiuQP
+         JBZSVYw8cDMXaq9idFAa/z/E2+SxR13RutmWs2Sk1/QCxpmMv2GiPjZ85DpnlKjjBZbS
+         YHTMP/ukPm+jfc8B8TotSHF48VLIN/uJ702Uz/2p/aOBh5MBZRcfaOC+ciBhFzaMBa+r
+         gnO6UOZl1rNm3fBGH3npdrmp0JUa5iXEHCB0QqXatDqVEHteVUIJWIDhW+cbqUAzivRC
+         vQUg==
+X-Forwarded-Encrypted: i=1; AJvYcCWSWRC5b0VO1B1jMt+s/pCU35kRt51sdccCav537456s77pT773hreoJ3/r01mZBkaeHJbtdIH/LUw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxeQVUWM03lk/KezkS8T68l+dUAcYTBa//USRZInDzSF+oTZtF1
+	GVQtyiDg2dcEM3yYP9kouU5fU2221vN6A/aD7hGgbWMXjfyKzJrIpsrW8z2CpjEM4hGSWfeMbDF
+	42fjkOD/MYWDlwcUG/cMI3ifzH+TpuHfIVf8eho5Y
+X-Gm-Gg: ATEYQzyq0Vyuw+M77NlrZBrxWxUuoqlNvhHo9eLSmTlVzj23mVu5X8hVyJMqYHrg6aV
+	nkojEZglBA1J4tn71ozm7ZQKrsJCTvrON2uiHBpZntcVmYzOB7t1J9cAfZTP1yAvtppwrt2/Wh+
+	0IV2sq203k7C23GuVV3888ey9hFcAFQUgQCcxwzAYSKlJS+cSysRSvXQbhMayqe01z/bKkpqrDi
+	PeXnuRtYBV8e9jNyAIvFaK/y7oikXSMdT7yxbcCixl1TVsSUyQua8rbL/6rEBZWY1jwJA2PWGWO
+	75kTL1mnwb7wHuz48lc=
+X-Received: by 2002:a05:6512:208e:b0:5a1:34d2:b6da with SMTP id
+ 2adb3069b0e04-5a162b0a440mr3032307e87.31.1773699285744; Mon, 16 Mar 2026
+ 15:14:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM3PR12MB9416:EE_|IA1PR12MB6283:EE_
-X-MS-Office365-Filtering-Correlation-Id: ef67857b-a9e4-4d3c-eb32-08de83a88d48
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|366016|1800799024|22082099003|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	EGbYrlsnI3ssnzreCjMs1tV/UXoC7Fdj9Y7YJoCOMIOnVeoASl1fWc2mxJT8m6FWAljkZwPeLhRKGYq/jxfq2Rb2SzO7PwQ03WnRY3sTLFrJ0+n9sSZrVXipDWvYOZ09HuM9UeQAuipolrKS7ZkwVTtNyO3WkWwgKGpwc3OBG7X0eL//Lo3GsxBsC65xcIn7w8AHEfuyxK5uOetIP2NleMwcFN+smlTA40CvhP8UhQZLVGxfMLIL+C1StfXM34H05G9Ulm2U4Z/M3vn4zKlIS022QhBMVahbs8aKQQzJC1Mi5xM1fui9kbQJswM+6bdHY5u1clpxrZCog7HBkooLYrw4wCbcGdsqoFYH3c95bPhztO2K9DN18R0dZbaBO8j0K2egOU2OosSY/hsaSswz8m3yOWm4NlqONtRik4wSQpJg4+i54udCsibwV8cj7aSmA1nRmfYHoY7zcbslwP1oodvSKhshgpComi29kEPMyA9zKqZqe27qjF18KHkCp21sYAbYHUhHqBeR4rnRnlMqoEtWCzQn8UcmacGdsh07Rxn3XZYTHnYHLUfEJowq+AlqJsJbOx6s8ZY82weLxbMQOIzOq6v46uf3TmMDuCdlxQ03m0LEJBKgr+Ji2AnZGjrlD7n1JY8P4NqsyHeq/dNp3EQzAUcDP991/toyzBGlySxpdrjgl+kG2XITpDtzEKqiyFWqydXwnhzTCWpioDVZ3+ChTEbIElm46C3BVYJjxiE=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM3PR12MB9416.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?b1RGMHFnaVA2ZHhyRDZuZ2RjcjlCSGN2cXl1RzFSTVZ6YW04SFhZL3ZsMThK?=
- =?utf-8?B?YUxORURPZXZkUDd2VXcxd3RCL0ZlRDhRaFBxY0Zrb3Q3MzRxUWNVYUVjVUcw?=
- =?utf-8?B?b3dZZFFiTFkveFpkVmtoMGgyaWs5bEovQXNrUkp6V3l3WTNjaEZHSy9nNHFR?=
- =?utf-8?B?aU9OLytTT2hUQ2FyTUhlbzhieUVMcDVhTTdzaHl5VXpoM25kZllBcUsvQ3li?=
- =?utf-8?B?S0M1aEs2UmhSVzdvc3IrSGFDQ3RYa0ZjV3VTMjlWeHZNeEdiNXltY1p5ZllP?=
- =?utf-8?B?V2JCWGtvRERWSkxTRzMrWnpxOEpYcE8rZ0s4ZVArZTk0c1BkMU0wYk1oQnVy?=
- =?utf-8?B?M1Y3YUI2M0hyVVgzdnZvMXNpWC9jd3p5YjRrNFdKUXNVSUNFc0ZNcVBXdXhl?=
- =?utf-8?B?MFFzamhnaXpVTVZYU2UzVWszNmZxZmVTN0g5UDA5MGhUSUplbE9qNGVrb2Vy?=
- =?utf-8?B?N1JTRlJFR3JMcVcxdUhQeG1YcUhOcnZ2RUovc3VTdlVTRkJpS3ZsWjd2ejIr?=
- =?utf-8?B?aXh5a0k3NmtaNGhDTkFpZ1crNTczazZIQkFOUGdvMVRtQUgwVnJjVW5PV3Vu?=
- =?utf-8?B?eXlIMFAxdy9KVnEvaDZEVXBobWp6TlJhZlB2TnRYaEUzODZYUGdoOVYvblM2?=
- =?utf-8?B?aXRRVHhNUTQ1M2VseC9rdWFTUUFiNll0Rzg0RkJjZFdpL3BLNnJtQUNUQTV5?=
- =?utf-8?B?dHh2a0xQZ2tEdXlrT2FhaEY5RWJEWEVid040NmFvcmlTeXZKT1NsOEpyUCt6?=
- =?utf-8?B?SUdobXJUc0VFUGd2YWxBb01sZ25NK0JOV3NobDB4bDgyeFEvRFg2Wk9Lbnhs?=
- =?utf-8?B?alI2eVloTC9IeUpXQUxrSWt4YlFleTB0MnJZbUR5U3llMWpCNnEwQVcwR0tS?=
- =?utf-8?B?N1ZpZk52a0I0UEVScW1uZ2JuRUdVeHdnMVpQZXhtaW83T21vRmx1NHpuSnFq?=
- =?utf-8?B?eGlsYmJFNTExaEU0UEN3alBOLytjVUdsQ3lWdDVNVXE1NFk5SnhaRHkyc2lQ?=
- =?utf-8?B?MDljWHN0UnpuZldKQmx1NU1mSENEbUdISFNzeWVoRitVM2tiMFpzaTBSTCt0?=
- =?utf-8?B?dGhHYWQxdnl0bmxreWkwL2NFUnlEUDFGUml4Y1MyRHJERjVXY2FCekp3VjY0?=
- =?utf-8?B?VTkzYy90d0x6d3FhWWY2WkIwbDR5bHhuKzhZNnBlUnJ2SGtVUVZyeFdyTmE4?=
- =?utf-8?B?VWhOMDVCeFpXUzhKUnFWUnJVM1FXMld2YTY3QXZUZmx0TTJmRGV6ZjQ4Wmxi?=
- =?utf-8?B?VTR2SUQwbFBMSk51T0FNWjhoNjJLMnJzWE56cXc5d0EzNlhPdks5M0ExditY?=
- =?utf-8?B?R3lJZVgwZDdQaHZKT1g1SVV5c1RlWURXamxaM21CTnduOGNSYy9XN2I0VGth?=
- =?utf-8?B?dy9lV2kwdGtQQ2FyOWdQMnhKVXh4MVhNQ25SNzJzYWU5RHhvb2U4NUFyNE5H?=
- =?utf-8?B?T1FteGczVEl5OUZySURZeXczdGtqLzZHV3VraHFwcWRBVTRnbnRuL0NKdlcx?=
- =?utf-8?B?a1hNTFFrcUhvRXBaaVJXOFJ0ZmtMVXZ5SlRuOGkzbkpSaml4YVlEU0RQS3VE?=
- =?utf-8?B?ZTNPVkUyT0xrb3ZkQkFLUkpEWW1CeHpFOU5SUk5mZjBaRGFkWW1YbVJuUjZx?=
- =?utf-8?B?VFh5T0xUY0VwemF3MkZGSHFsbStEWGtvN29VNGNCbjk2bllSTWZ4MXMzMUJj?=
- =?utf-8?B?aGJaREp0VlFhejFEUGhZdGt4VTErVDh6Y0s5TUttWkoySXluMFlNY2lZdUNw?=
- =?utf-8?B?NndNUGZsQTVWWnBDcVlOWW9FbTBNeHF6allBU1JvaHN3OEVod083d09yaEFI?=
- =?utf-8?B?ancxdTRjOU1XOW40dHlXQmUySHhoRFQwMGt1UFpSOGZLWnJhSFAzMUFuK0Uw?=
- =?utf-8?B?cXl1K0NwL0o2czZhRzdVbXRUWHY1K2FsWDRWWTllZVJkUGV1WDE1bGRDcGZj?=
- =?utf-8?B?NTZpTi9laGllZlJmeVNNK1d5ZzNjSmZsRlAyRUNndUd5QmVZNGppODdadVNO?=
- =?utf-8?B?K0RTSnNDVFZUbThjT0dLSzJXK05NQWVTMU5BamdwcEdTM2hFdWhTQ2tGeGkx?=
- =?utf-8?B?djl5VllCVHJDZXpaWmlLVVZPRmVLS2l4M09SdkpaSXFXdTBlR1A3alF6SWhr?=
- =?utf-8?B?SFFKY0t4TmhGWVhmV2tqK2tOM2NnbVMwS2FiVmw0Z2RrVHhBM0FGaFpUU2R1?=
- =?utf-8?B?QjFEZlM0OUUraTVtMmhhSWw3aE5MdnBhV3lRK2VZbXhKOWlpNTh4SW9LckVh?=
- =?utf-8?B?SWxLdDljcGJsSUo1M1cyb3VPc1p2RUlCVjhqWHNJY0dKMmdHSXViVVREUEYx?=
- =?utf-8?B?dkFFeHBGeWRsYkZGb0xNL21UQ3lxZFlpTExkdEFQM2hkTWhOVUNKdz09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ef67857b-a9e4-4d3c-eb32-08de83a88d48
-X-MS-Exchange-CrossTenant-AuthSource: DM3PR12MB9416.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Mar 2026 22:08:28.3123
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: s93q752CbldGfLnr/oXG0+IuVyEfLoEASN+dLdiSwXGFECcNW24GtI5cKm9jcVNj17Qv0CjK8w6Pfmnx8r3tsw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6283
+References: <20260129212510.967611-11-dmatlack@google.com> <20260226170030.5a938c74@shazbot.org>
+ <aaDqhjdLyf1qSTSh@google.com> <20260227084658.3767d801@shazbot.org>
+ <CALzav=fHy23RAzhgkdaL+JA5T2tL9FT6aPgRfXUh7i9zvYCGPA@mail.gmail.com>
+ <20260227105720.522ca97f@shazbot.org> <CALzav=fjRPa_ZbXu7iFXyemcf_8Kq_dZTWT6c-A0bc6czF_Rdw@mail.gmail.com>
+ <abNOwcOTXqxCxNzt@google.com> <20260316160759.GA1767448.vipinsh@google.com>
+ <CALzav=cskxLZtZ5-uRa0+aV+1Kb3fwQQJ5dS=Yes4GAHrS6GpQ@mail.gmail.com> <20260316214055.GB1846904.vipinsh@google.com>
+In-Reply-To: <20260316214055.GB1846904.vipinsh@google.com>
+From: David Matlack <dmatlack@google.com>
+Date: Mon, 16 Mar 2026 15:14:18 -0700
+X-Gm-Features: AaiRm50S3PNCrqX_TvZ1JiMZN8vQiYVbYC7Ez3YpAEpqzQo0lUEJ7c1xPn8zOqk
+Message-ID: <CALzav=df8K0R0gJyQ=ifoznp_CMRRtyrWchbNvcw2-wpkdaBaQ@mail.gmail.com>
+Subject: Re: [PATCH v2 10/22] vfio/pci: Skip reset of preserved device after
+ Live Update
+To: Vipin Sharma <vipinsh@google.com>
+Cc: Alex Williamson <alex@shazbot.org>, Adithya Jayachandran <ajayachandra@nvidia.com>, 
+	Alexander Graf <graf@amazon.com>, Alex Mastro <amastro@fb.com>, Alistair Popple <apopple@nvidia.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Ankit Agrawal <ankita@nvidia.com>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>, 
+	David Rientjes <rientjes@google.com>, Jacob Pan <jacob.pan@linux.microsoft.com>, 
+	Jason Gunthorpe <jgg@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>, Jonathan Corbet <corbet@lwn.net>, 
+	Josh Hilke <jrhilke@google.com>, Kevin Tian <kevin.tian@intel.com>, kexec@lists.infradead.org, 
+	kvm@vger.kernel.org, Leon Romanovsky <leon@kernel.org>, Leon Romanovsky <leonro@nvidia.com>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-pci@vger.kernel.org, Lukas Wunner <lukas@wunner.de>, 
+	=?UTF-8?Q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>, 
+	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>, Pranjal Shrivastava <praan@google.com>, 
+	Pratyush Yadav <pratyush@kernel.org>, Raghavendra Rao Ananta <rananta@google.com>, 
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, Saeed Mahameed <saeedm@nvidia.com>, 
+	Samiullah Khawaja <skhawaja@google.com>, Shuah Khan <skhan@linuxfoundation.org>, 
+	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+	Tomita Moeko <tomitamoeko@gmail.com>, Vivek Kasireddy <vivek.kasireddy@intel.com>, 
+	William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>, Zhu Yanjun <yanjun.zhu@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 3/16/26 2:00 PM, Joel Fernandes wrote:
-> On Mon, 16 Mar 2026, John Hubbard wrote:
-> 
->> Alex, have you seen my Alignment patch [1], for that? It's sitting
->> around with only Miguel having responded, but seems like exactly
->> what you're talking about here.
->>
->> [1] https://lore.kernel.org/20260312031507.216709-3-jhubbard@nvidia.com
-> 
-> `Alignment` is already in core Rust for Linux
-> (`rust/kernel/ptr.rs`) and I'm already using it in my nova-core v9
-> patches.
-> 
+On Mon, Mar 16, 2026 at 2:49=E2=80=AFPM Vipin Sharma <vipinsh@google.com> w=
+rote:
+>
+> On Mon, Mar 16, 2026 at 10:18:22AM -0700, David Matlack wrote:
+> > On Mon, Mar 16, 2026 at 9:22=E2=80=AFAM Vipin Sharma <vipinsh@google.co=
+m> wrote:
+> > >
+> > > On Thu, Mar 12, 2026 at 11:39:45PM +0000, David Matlack wrote:
+> > > > On 2026-03-09 10:32 AM, David Matlack wrote:
+> > > > > On Fri, Feb 27, 2026 at 9:57=E2=80=AFAM Alex Williamson <alex@sha=
+zbot.org> wrote:
+> > > >
+> > > > > > Sorry if I don't have the whole model in my head yet, but is ex=
+posing
+> > > > > > the restriction to the vfio user of the device sufficient to ma=
+nage the
+> > > > > > liveupdate orchestration?  For example, a VFIO_DEVICE_INFO_CAP =
+pushes
+> > > > > > the knowledge to QEMU... what does QEMU do with that knowledge?=
+  Who
+> > > > > > imposes the policy decision to decide what support is sufficien=
+t?
+> > > > >
+> > > > > Hm.. good questions. I don't think we want userspace inspecting b=
+its
+> > > > > exposed by the kernel and trying to infer exactly what's being
+> > > > > preserved and whether it's "good enough" to use. And such a UAPI =
+would
+> > > > > become tech debt once we finish development, I suspect.
+> > > > >
+> > > > > A better approach would be to hide this support from userspace un=
+til
+> > > > > we decide it is ready for production use-cases.
+> > > > >
+> > > > > To enable development and testing, we can add an opt-in mechanism
+> > > >
+> > > > Here is what I am trending towards sending in v3 as the opt-in mech=
+anism:
+> > > >
+> > > > diff --git a/drivers/vfio/pci/Kconfig b/drivers/vfio/pci/Kconfig
+> > > > index 1e82b44bda1a..770231554221 100644
+> > > > --- a/drivers/vfio/pci/Kconfig
+> > > > +++ b/drivers/vfio/pci/Kconfig
+> > > > @@ -58,6 +58,27 @@ config VFIO_PCI_ZDEV_KVM
+> > > >  config VFIO_PCI_DMABUF
+> > > >         def_bool y if VFIO_PCI_CORE && PCI_P2PDMA && DMA_SHARED_BUF=
+FER
+> > > >
+> > > > +config VFIO_PCI_LIVEUPDATE
+> > > > +       bool "VFIO PCI support for Live Update (EXPERIMENTAL)"
+> > > > +       depends on LIVEUPDATE && VFIO_PCI
+> > > > +       help
+> > > > +         Support for preserving devices bound to vfio-pci across a=
+ Live
+> > > > +         Update. The eventual goal is that preserved devices can r=
+un
+> > > > +         uninterrupted during a Live Update, including DMA to pres=
+erved
+> > > > +         memory buffers and P2P. However there are many steps stil=
+l needed to
+> > > > +         achieve this, including:
+> > > > +
+> > > > +          - Preservation of iommufd files
+> > > > +          - Preservation of IOMMU driver state
+> > > > +          - Preservation of PCI state (BAR resources, device state=
+, ...)
+> > > > +          - Preservation of vfio-pci driver state
+> > > > +
+> > > > +         This option should only be enabled by developers working =
+on
+> > > > +         implementing this support. Once enough support has landed=
+ in the
+> > > > +         kernel, this option will no longer be marked EXPERIMENTAL=
+.
+> > > > +
+> > > > +         If you don't know what to do here, say N.
+> > > > +
+> > >
+> > > To use VFIO liveupdate, user has to do at least two things:
+> > > 1. Enable CONFIG_LIVEUPDATE
+> > > 2. Pass VFIO FD to a live update session.
+> > >
+> > > This means someone using it has to know what live update is and
+> > > intentionally pass the VFIO FDs. Isn't act of doing this itself an
+> > > opt-in mechanism?
+> >
+> > If it is, then I can leave this out. Alex?
+> >
+> > My thinking was: Distros are free to enable LIVEUPDATE and use it. The
+> > support it enables today is all fully functional (albeit new).
+> > vfio-cdev, OTOH, is not. A separate Kconfig can help express that
+> > difference.
+> >
+> > Consider that LIVEUPDATE could be enabled by default in a future
+> > release, but vfio-cdev support might not be ready yet at that point.
+>
+> But that also requires point 2 above i.e. userspace explicitly passing
+> VFIO FD to liveupdate. Unless there is a capability mechanism like KVM
+> then userspace cannot know what is exactly supported.
 
-Right, but the patch I linked doesn't introduce Alignment. It adds a
-new from_u64() constructor to the existing Alignment type. Today the
-only constructors take usize, so there's no way to go from a u64
-DeviceSize constant to an Alignment without a manual cast.
+Yes that is why I propose not exposing the support to userspace at all
+until it is ready, by compiling it out of kernel via new Kconfig. This
+way it does not get accidentally enabled in distros or downstream
+kernels before it is ready.
 
-Alex wanted to use Alignment for chunk_size but said "doing so would
-mean we cannot use an Alignment" if the field conforms to the
-C API's u64.
+> Also, users who
+> are using these APIs will already be advanced users and have to know
+> many details about what liveupdate supports or not.
 
-So again, I think that patch is worth looking at.
+VMMs will be the ones preserving VFIO cdev files. I think you are
+suggesting they should know what versions of Linux support what kind
+of preservation? Like QEMU would know that Linux 7.1-7.4 supports
+partial VFIO preservation and 7.5+ supports fully? That does not sound
+like a good situation to be in.
 
-thanks,
--- 
-John Hubbard
+I think it's much better to hide the support behind Kconfig until its
+ready. That way the PRESERVE_FD ioctl just fails on kernels that do
+not fully support (because VFIO_PCI_LIVEUPDATE is not enabled), and
+succeeds on kernels that do fully support.
 
+If someone wants to enable and use VFIO_PCI_LIVEUPDATE while it is
+still marked experimental, they're on their own.
+
+> > > I am not sure providing VFIO_PCI_LIVEUPDATE alleviate Alex's concern
+> > > about how userspace will know that sufficient VFIO support exists.
+> >
+> > I was thinking we can flip VFIO_PCI_LIVEUPDATE to be enabled by
+> > default (if LIVEUPDATE and VFIO_PCI are enabled), and drop
+> > "(EXPERIMENTAL)" from the option title. That would be how distros and
+> > downstream users of the kernel know that sufficient support exists to
+> > enable VFIO_PCI_LIVEUPDATE.
+> >
+> > > May be write in liveupdate documentation (PATCH 11 of this series) th=
+at
+> > > support is experimental?
+> >
+> > The documentation in patch 11 includes largely the same text that I
+> > put under VFIO_PCI_LIVEU"PDATE. But I can explicitly mention
+> > "experimental" as well if that's what you're asking.
+>
+> Yeah, even though documentation do get stale but I think there is no
+> better way in this scenario.
+
+Ok will do.
