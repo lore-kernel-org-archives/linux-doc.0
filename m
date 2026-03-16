@@ -1,85 +1,85 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 957C428C2BF
-	for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 11:24:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF0E8365A0D
+	for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 11:31:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773660262; cv=none; b=G5HxcTi8zOcgcFTVzaIsw6YWqTpvHHHFjXyWGlIJRhwzaOCDdzJnC1DkyU86ELLd1LI7AL4noxVnXfxAlrfCcbLt5yKg3z8DJ45OImVKYvDjvj+5btJDaSkvnDn4hmeCLBIlRGP1bZeFBKq51ug4g8+68mBvLmBotqnKJ3QskXo=
+	t=1773660685; cv=none; b=PhegS5Ry4v9+/UfAZyM8Ud/rCTuMmGU2D8oRMV3AsF8TbXEF30vVK52xQSzvgpxpWhbD7VPRo78fLw25+CKpnl4JE5GOGhQ6R1y3404nUdrs/d5I4wVaXHZAmnPBIDKcE1/KuyxHSlPAhpGR2prR6jAX4E8pw+MjRgoSW2Xbypc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773660262; c=relaxed/simple;
-	bh=vExqsQuY0TOh0C4OqHS5ONqjXZPb4O5dkQOinRtjo/I=;
+	s=arc-20240116; t=1773660685; c=relaxed/simple;
+	bh=RnzcoqiCgiO1PMBkGL95IiCkLD+8z6QAFA5shSuEMyY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EhIx0XvziZh2qdqndBqC9B8pLgM0uLFZaKbMR/3nIio7hKwTe7YW3JpAKtJT4nfm5/QSUFCWDll1qZRvaqA+6AzGMaTX0TebdNBceR82yeqZ7hLa+t26TQssTpHS86RHpbKPAAvEilKIJIJBIcbxEfG0iBDgRo4RxKfLNIiwiZk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=B6Fqyz5I; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=NV6fEPkw; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:Content-Type; b=iKCDgIcGMFA+3zDKxKr5SnLAsA3Ou/YvVh+OTa5g/+e6ao89s+fF8OFXs/FhbCtkeebIeBEaEkWP1htJD1x2v/DhzJgiy9cWoFglTp56NXhg+b82VOy78hNdpi69CMsshCJugR9ptzHwwAjHNu+qMxczLOFPaumWn2gAU4fyktw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=d/yymGbn; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=UDppKzRu; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="B6Fqyz5I";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="NV6fEPkw"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="d/yymGbn";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="UDppKzRu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1773660258;
+	s=mimecast20190719; t=1773660682;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=H9hWHpx6fXvQ6tiAS+Vx6gKKziz7E3xCqMnpnyHx+ks=;
-	b=B6Fqyz5IVSt3GT1ulMlu9mvzM+CA70XjObXe+5Gd8yBnDbRV3zsSgLTfcMrhOcE/J71QOG
-	Zx2eMifGvjFmI/YyF4iMbpGml7mir8HQ2GfFjhBHsP4haMNshDJt7b35DI7za79IwcDZdm
-	EbzAGhVf3jD+0u46sDwYtQzxdKLcTbs=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=WoMK2QRfTtUly3K0u8u4VXZMMCNoL+hLg9jh7niAtnw=;
+	b=d/yymGbnR6Zo4Cp56EDz80mzlMy73/hUUT/ZOtUs3LWua/Nq+o1rsGONOBkzMkgAdn+rY6
+	GVD5Ei4bDiHg0biABtDnPnmVWTC0PDUTLQ9q0teeZLXYoprPVZMrl6D77bBIo6Du8+uIsQ
+	57JpZ/JmDN59mc/Zwze0R8yPmGkLerc=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-630-kZsu8YXmOnGYDDeX65Jg4g-1; Mon, 16 Mar 2026 07:24:17 -0400
-X-MC-Unique: kZsu8YXmOnGYDDeX65Jg4g-1
-X-Mimecast-MFC-AGG-ID: kZsu8YXmOnGYDDeX65Jg4g_1773660256
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4853b0af42aso67871425e9.0
-        for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 04:24:17 -0700 (PDT)
+ us-mta-388-IAoDsKEnMNemKl0ynq_D5g-1; Mon, 16 Mar 2026 07:31:21 -0400
+X-MC-Unique: IAoDsKEnMNemKl0ynq_D5g-1
+X-Mimecast-MFC-AGG-ID: IAoDsKEnMNemKl0ynq_D5g_1773660680
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-439ca4b3d0bso3807708f8f.3
+        for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 04:31:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1773660256; x=1774265056; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1773660680; x=1774265480; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=H9hWHpx6fXvQ6tiAS+Vx6gKKziz7E3xCqMnpnyHx+ks=;
-        b=NV6fEPkwo3NU6CHi+YqL3sv30eFK9RhGWJQR0Knl42QG5QcFR8RBiOI+JigYlrQ+ft
-         LGQ8FC4dvwlQ3gOowpzISZ1VOIpl7/aLKeHBalDrxcaglCK55flHNEs0qPgzy661nEHQ
-         z35/UnsD686/RIgK7SWhdl/mXAmJVaWLEV5LEDIot/ba+1/LUZUKjIGl6L+UjpRKWnup
-         h+QRARlNlUHN0TOsmfY/Qsndq9UJT3hYuCevWZVnPTlpJWvgBzmptRdqo4KZJcNFxA7n
-         fGXpt2MMVTI0W7xknSJXubk/Xxi824XhoEAacu613aezcKyhyoTGMiO0QpYEP7Pdl/0K
-         ud+Q==
+        bh=WoMK2QRfTtUly3K0u8u4VXZMMCNoL+hLg9jh7niAtnw=;
+        b=UDppKzRuU7Pe/GCKKqNYcueBD/LliCnEK3jXMx4fh0840B2SsiFqRidgEEIePWreL9
+         5Mf0ZttplO9N+IdusUXUFUS7Sv2fP17FngrSaqIcxDn3T+0tGaORf9IkRCm/M7yZl9TT
+         wZR61g1b1LFXUEICy3rRgeQH69lsBzd8t0XA55QmuJVRFIxJ4a2nrT6rk0JuqrY52YuX
+         l4YZaIqIEwY/xVvDXZy93egx2P1b3S7E/yxMEq+aGm9KImJOZFA8qX0NrdewW9Qar2jK
+         K5lLAcJyXy32WtU+ohOVQL5Uv/3c0ZpxJMxL4reuLFykINnhp78lAJ4iNkORGmACj73r
+         7DvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773660256; x=1774265056;
+        d=1e100.net; s=20251104; t=1773660680; x=1774265480;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=H9hWHpx6fXvQ6tiAS+Vx6gKKziz7E3xCqMnpnyHx+ks=;
-        b=DBI3Onn19R7Fkm0UsHnYTfj6rxjvfVRztgOzh21S+/1vGiKoYcSR4sGshfAaTYo3pQ
-         ThbztfouKP33u2mo/xuDvcHBMPTBIQFYtwyvelAj+45CWDuOwoiMjhUYd6xB8zy/ncYu
-         Oi9osy9XuC9A5r4XK7fsBoe3rPFbLB0prXdx8tgJ/P6t/g/FwPm/aOzwCqp1xLLfKLRq
-         JP2dDiqKy1ldh4xOe2KyFJpx0hKx/HRBzel9csvAfPUouOsTuDnwZUoD/jPvSgEFeOI4
-         Zkx2tczj0lrgw+PVVRxXt1e5N1yj9wvBjnXg2waG5xvbHxctrKCug5MdCIwqaiyG+NUO
-         ar0Q==
-X-Forwarded-Encrypted: i=1; AJvYcCV/f+CPc3va/jrbC3d2WsW9f/P1Q7iWaywb2YU/BmnYWLdOAgKXzBUD7n9yFYcagitByxZ+xPXJGPk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzESwmPWCf4pmfz6/PUBaFtDBmV1fve8pei/BZy5f+d4VZW1pIO
-	bCxpov9IPu4eACvA/jqT1uSRd8XSyBPjkKmV6GK5CngrkIIQLdypN1TlJNLlC3RE5y8gfuGZUw1
-	zh/hX9Jf49Fw8UkDOqsfLA+0/Rw+sBNyxIg14hK+KwA7dMz22k7TjwVLzbGzlzg==
-X-Gm-Gg: ATEYQzz5hY4hn7z0sCIFPyZv9eOTPUwgckHTd0M+ISqfo1fPi5OnKmxCKThkjNYjRBM
-	IUtPbTVuzxULfOxHyvgFFafjA+aKAzSpsMQUBNcBt69ayTlpbNYhbuZQHAD7VQUPsVIMbaOlN06
-	/p2ME6hxGNtbJh5oPVkCqQDA88wY8hwvuHvUclAy+Sz5/fWHZeqbDoLml/tvoSgLyXs1XXx4dZr
-	ZgaRVdyI0ogEldK/Tu/OsdQCRYjOGWc/3fyv0rlfKNtjbsKC7RNb2YWPR+Dvj2PNn/vd8BktYcM
-	sOXjKyR3oBjDTBEruMffR1f2lq3VhxCsn+dXfoF59T8K/41JxyzZU44kZBm9jafgggkNk4DV6mG
-	limLGLwmcDyOPOljBc6FniRqrCnc0YxA9TubdKlST5BWRLAE2MD7JPrQ=
-X-Received: by 2002:a05:600c:468e:b0:485:3f58:d9d with SMTP id 5b1f17b1804b1-48556714b67mr207129405e9.32.1773660256095;
-        Mon, 16 Mar 2026 04:24:16 -0700 (PDT)
-X-Received: by 2002:a05:600c:468e:b0:485:3f58:d9d with SMTP id 5b1f17b1804b1-48556714b67mr207128715e9.32.1773660255574;
-        Mon, 16 Mar 2026 04:24:15 -0700 (PDT)
+        bh=WoMK2QRfTtUly3K0u8u4VXZMMCNoL+hLg9jh7niAtnw=;
+        b=iQ1GEZH5X56O+bzAy9hlOIzWT9w2TLO+3lS1L9KnMEYPzICvDtfvY3NX6z/dYhNxD6
+         dU1BHWaAL+10Lbt77jqGyeWKMjd+Ly8MnLaBi/05F3M3xZ0QyucPE+LGJ1lSFYqzkiLv
+         HObQi+9P0+YjpIy2/4FD5d+ROJd6RjjMQ7uREu+3J6IRCbUn2yWM2idEbdOB1YT2pFhl
+         2B/M2XTMHVDW5HMJnG9c7GabMc9s/bK9FVDQdbL3Ja21ItxcxaLC2KRRlezkS3LAPRe9
+         5ezQGxgkLGqOhzmDGd8uX01VlT3QzgEhFx1N7YrE9P7GISvN2dBzbWSc0NYFFz0yxO8W
+         GoMA==
+X-Forwarded-Encrypted: i=1; AJvYcCViwSz7TrPYmY/KPp4t33JcNFjdyolsoQoIuz7R61j4FLtHq/TANdjTegJF09x3t6HVaRq2JqdSjoA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YypyjO0rIi5ZQSzfx+87H0XdQR3JGn8sCheSAOIzxyt2Yv9Wyqv
+	cdEzRYThNgyvhDcxeY7IMVs8naJWVdqId5zCPH0KlHSRzxdngkqSw5K/mX/d6I9eQw+Y2Sdmifz
+	gp5ehI7xP//WwmYycRgNH+SeLUZ0GoWC5vhhnkr8d9VbtR+orswugnMzf56az/g==
+X-Gm-Gg: ATEYQzwjly6YkPEBoHeo8VB//KGlNDBeQVuo0BmX9NksqoPgXRWZ+15UzMSTwUI2oq0
+	4ONrMIlB796two8JFEeexcyQfULNXhmmXpzTZglOVGGolfdKNRVMLD2t18t+GRISFtEBzBI8rU6
+	ZKemNSNG/SgAQNvohnMEpaq6N5rFEDdHWnlFEuZPlezb1zIUyUS/16ulDDM8Nl0N0YIGTkmmh/K
+	qzbut50Ox9lUO4lzOrSWzqC7IJZWG3l7UX6dP8TnmJG9HBN3UZMx6FJ0Hj9TLowXS2whLiLZfpP
+	QWFJzKirAzI1x947IsFjpzbi0YF8Znk/35OwOEaxMuHRwsccrOJ8OrCdySjeNrjW1CWciZDTYSK
+	qKvwsqstcnis1NllAi21gkrmvHeiQwl4zk9mmDNFdqs/cOXxx/UORE3w=
+X-Received: by 2002:a05:6000:1887:b0:439:fe98:20f9 with SMTP id ffacd0b85a97d-43a04daf124mr23932766f8f.27.1773660680223;
+        Mon, 16 Mar 2026 04:31:20 -0700 (PDT)
+X-Received: by 2002:a05:6000:1887:b0:439:fe98:20f9 with SMTP id ffacd0b85a97d-43a04daf124mr23932679f8f.27.1773660679649;
+        Mon, 16 Mar 2026 04:31:19 -0700 (PDT)
 Received: from [192.168.88.32] ([216.128.11.95])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48541aa73dasm1215197765e9.2.2026.03.16.04.24.13
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43a0b2e2c71sm28145619f8f.22.2026.03.16.04.31.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Mar 2026 04:24:15 -0700 (PDT)
-Message-ID: <2551cc98-5280-4a9f-8345-0a39e0e09dac@redhat.com>
-Date: Mon, 16 Mar 2026 12:24:13 +0100
+        Mon, 16 Mar 2026 04:31:19 -0700 (PDT)
+Message-ID: <95ecd36e-e32f-4ca2-ba35-6d251a64ad30@redhat.com>
+Date: Mon, 16 Mar 2026 12:31:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -108,53 +108,39 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 3/14/26 9:13 PM, atwellwea@gmail.com wrote:
-> From: Wesley Atwell <atwellwea@gmail.com>
-> 
-> Teach TCP to grow sk_rcvbuf when scale rounding would otherwise expose
-> more sender-visible window than the current hard receive-memory backing
-> can cover.
-> 
-> The new helper keeps backlog and memory-pressure limits in the same
-> units as the rest of the receive path, while __tcp_select_window()
-> backs any rounding slack before advertising it.
-> 
-> Signed-off-by: Wesley Atwell <atwellwea@gmail.com>
-> ---
->  include/net/tcp.h     | 12 ++++++++++++
->  net/ipv4/tcp_input.c  | 36 ++++++++++++++++++++++++++++++++++--
->  net/ipv4/tcp_output.c | 15 +++++++++++++--
->  3 files changed, 59 insertions(+), 4 deletions(-)
-> 
-> diff --git a/include/net/tcp.h b/include/net/tcp.h
-> index fc22ab6b80d5..5b479ad44f89 100644
-> --- a/include/net/tcp.h
-> +++ b/include/net/tcp.h
-> @@ -397,6 +397,7 @@ int tcp_ioctl(struct sock *sk, int cmd, int *karg);
->  enum skb_drop_reason tcp_rcv_state_process(struct sock *sk, struct sk_buff *skb);
->  void tcp_rcv_established(struct sock *sk, struct sk_buff *skb);
->  void tcp_rcvbuf_grow(struct sock *sk, u32 newval);
-> +bool tcp_try_grow_rcvbuf(struct sock *sk, int needed);
->  void tcp_rcv_space_adjust(struct sock *sk);
->  int tcp_twsk_unique(struct sock *sk, struct sock *sktw, void *twp);
->  void tcp_twsk_destructor(struct sock *sk);
-> @@ -1844,6 +1845,17 @@ static inline int tcp_rwnd_avail(const struct sock *sk)
->  	return tcp_rmem_avail(sk) - READ_ONCE(sk->sk_backlog.len);
->  }
+> diff --git a/net/ipv4/tcp_output.c b/net/ipv4/tcp_output.c
+> index 57a2a6daaad3..53781cf591d2 100644
+> --- a/net/ipv4/tcp_output.c
+> +++ b/net/ipv4/tcp_output.c
+> @@ -3375,13 +3375,24 @@ u32 __tcp_select_window(struct sock *sk)
+>  	 * scaled window will not line up with the MSS boundary anyway.
+>  	 */
+>  	if (tp->rx_opt.rcv_wscale) {
+> +		int rcv_wscale = 1 << tp->rx_opt.rcv_wscale;
+> +
+>  		window = free_space;
 >  
-> +/* Passive children clone the listener's sk_socket until accept() grafts
-> + * their own struct socket, 
+>  		/* Advertise enough space so that it won't get scaled away.
+> -		 * Import case: prevent zero window announcement if
+> +		 * Important case: prevent zero-window announcement if
+>  		 * 1<<rcv_wscale > mss.
+>  		 */
+> -		window = ALIGN(window, (1 << tp->rx_opt.rcv_wscale));
+> +		window = ALIGN(window, rcv_wscale);
+> +
+> +		/* Back any scale-quantization slack before we expose it.
+> +		 * Otherwise tcp_can_ingest() can reject data which is still
+> +		 * within the sender-visible window.
+> +		 */
+> +		if (window > free_space &&
+> +		    (!tcp_rcvbuf_grow_allowed(sk) ||
+> +		     !tcp_try_grow_rcvbuf(sk, tcp_space_from_win(sk, window))))
+> +			window = round_down(free_space, rcv_wscale);
 
-AFAICS, the above statement is false, see sk_set_socket() in sk_clone()
+It looks like this can cause the advertised window to shrink even if we
+are in the 'do not allow window to shrink' branch.
 
-> so only sockets that point back to themselves
-> + * should autotune receive-buffer backing.
-> + */
-> +static inline bool tcp_rcvbuf_grow_allowed(const struct sock *sk)
-> +{
-> +	struct socket *sock = READ_ONCE(sk->sk_socket);
-
-You can just check `sk->sk_socket`. Also you could re-use this helper in
-tcp_data_queue_ofo().
+Also why the other branch (shrinking allowed) is not touched?
 
 /P
 
