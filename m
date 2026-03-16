@@ -1,105 +1,230 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4202839EF15;
-	Mon, 16 Mar 2026 15:14:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25C5134F275;
+	Mon, 16 Mar 2026 15:31:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773674041; cv=none; b=mWF/9RzwgA79J+g/TN8jSWIUe4J9FMPTbH0xmDXlfs8zbzqTZl+xQ0xtUSON+UnP4Cv1gXPEOydOCA7mIMa1Q2aO+VubMLDJbWNiNZrOMvkDm7rwcogXvWbC1+hBP9mF0/APM5/dYIJT35hDRUxl4s/Df4Hmos6I90643HkJ/d8=
+	t=1773675095; cv=none; b=gJZkk0Nm2lKuUGkqSNqnrRXy2Oskt3M9BaE1q3AYObwDt73FpNIcje/GEV2EJdK5q4d/xLQglWQoKWNayudi0tDlLHVUQC54bJjyrluGLJhb5XpTVa84/YNYXimty3vGtNwSPkHq7T4K0Wff27njvze8ih1fHkdr5SqPFLfC+Q8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773674041; c=relaxed/simple;
-	bh=bB17RaP+sGJYjZOD4hRJTM0tiGwcoxMhkY2sJcw5ves=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=J5C0CIpfI7OitLrwqoi/VsQeNAureea4riQODbQbe8qgG72QZvQxPwAE3qrpK6M7lyXQxJHwLHBACW1BD5HyHosGu4pyD1wiuSBWecZdHo6rTmHLtLnjpmnlULYypA+xKlkKV0L+7u4SXV9E86T+0oipCwHWTLzsgmPMWLLcYWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ko3GXsts; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773675095; c=relaxed/simple;
+	bh=MVqO1eFsz7tJjRvRrGyugCvaQP/hH0/oExwBQll8Ol4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LygCW6oDdaIuGqJvqqZogqzpdVQ8qFjpWSJVB5CnnSJ2aRiGuyrQgQbdVnStIHpeueVbEloauUabEJz1SIGxLrCu3kz5VXQpoNLZuHrGpr9jrMp7Ee2819aZ4ihvX+1vEnngSSFW4lTOPTtSS7Hw8NxKIyJfWm50YKtTXI7m44Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ll7nKHYP; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ko3GXsts"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D488C19421;
-	Mon, 16 Mar 2026 15:14:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773674041;
-	bh=bB17RaP+sGJYjZOD4hRJTM0tiGwcoxMhkY2sJcw5ves=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Ko3GXstsM7IxbccEWEVNpJtIUBpqwxPArXm3YDYSnQC5oQ+CoOMRS6TLtPunJCGOL
-	 kMjaKrnvz3LzF/qU1/7j9hXCoOrjU8WMFo5D4dpZPeDKz29YkicMxJ+23W9QBb222Z
-	 opWK88iI0M1fc5YhIksujtt6TKMzk2viiuT2MgoBq6XUS72X4DTFnjrAOp5c66KhT5
-	 +rJvaUrp5WZPB/Rd6rSqc+xKQDorBFUyreXDJc/86GviYeLj5jQdNlr+ixJ0UYjJB9
-	 f8RXg3oH8xuCxFSagTkGm8j+to/KHa/zJfihhtUxLTELwpT8lGpoyGIUsr8pJ1PwN8
-	 Y2cJxkNGqJlIg==
-From: SeongJae Park <sj@kernel.org>
-To: Gutierrez Asier <gutierrez.asier@huawei-partners.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	artem.kuzin@huawei.com,
-	stepanov.anatoly@huawei.com,
-	wangkefeng.wang@huawei.com,
-	yanquanmin1@huawei.com,
-	zuoze1@huawei.com,
-	damon@lists.linux.dev,
-	akpm@linux-foundation.org,
-	ljs@kernel.org,
-	Liam.Howlett@oracle.com,
-	vbabka@kernel.org,
-	rppt@kernel.org,
-	surenb@google.com,
-	mhocko@suse.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 1/1] Docs/mm/damon: Document DAMON actions when TRANSPARENT_HUGEPAGE is off
-Date: Mon, 16 Mar 2026 08:13:52 -0700
-Message-ID: <20260316151353.100406-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <224a29a1-13cb-41aa-8736-aebe1023fb7d@huawei-partners.com>
-References: 
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ll7nKHYP"
+Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 6DC87C6C;
+	Mon, 16 Mar 2026 16:30:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1773675020;
+	bh=MVqO1eFsz7tJjRvRrGyugCvaQP/hH0/oExwBQll8Ol4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ll7nKHYP+oLxEurxLf5NUdQwDbEb45xiDRp/zinAgb1PmNYAIXQAD0pnqNMXYYHOH
+	 97L+T+0v8j5wPksts3PwzzKKvfJVvIhe34I9yciXOYrR2JdBmrSYxVmX4BhND/yxTP
+	 zfcitcb+YxebG+6eS+6fUEnGYEYbxXAoONAJc29c=
+Date: Mon, 16 Mar 2026 17:31:30 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Jyri Sarha <jyri.sarha@iki.fi>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: Re: [PATCH 01/14] drm/atomic: Document atomic state lifetime
+Message-ID: <20260316153130.GD31616@killaraus.ideasonboard.com>
+References: <20260310-drm-mode-config-init-v1-0-de7397c8e1cf@kernel.org>
+ <20260310-drm-mode-config-init-v1-1-de7397c8e1cf@kernel.org>
+ <b0d9aee3-46c1-486d-9516-43ee23658f40@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <b0d9aee3-46c1-486d-9516-43ee23658f40@ideasonboard.com>
 
-On Mon, 16 Mar 2026 17:56:55 +0300 Gutierrez Asier <gutierrez.asier@huawei-partners.com> wrote:
+On Wed, Mar 11, 2026 at 08:44:24AM +0200, Tomi Valkeinen wrote:
+> On 10/03/2026 18:06, Maxime Ripard wrote:
+> > How drm_atomic_state structures and the various entity structures are
+> > allocated and freed isn't really trivial, so let's document it.
+> > 
+> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > ---
+> >  Documentation/gpu/drm-kms.rst |  6 +++++
+> >  drivers/gpu/drm/drm_atomic.c  | 52 +++++++++++++++++++++++++++++++++++++++++++
+> >  2 files changed, 58 insertions(+)
+> > 
+> > diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
+> > index 2292e65f044c3bdebafbb8f83dfe7ac12e831273..017c7b196ed7ead4cf5fa8572e1f977d9e00dda8 100644
+> > --- a/Documentation/gpu/drm-kms.rst
+> > +++ b/Documentation/gpu/drm-kms.rst
+> > @@ -280,10 +280,16 @@ structure, ordering of committing state changes to hardware is sequenced using
+> >  :c:type:`struct drm_crtc_commit <drm_crtc_commit>`.
+> >  
+> >  Read on in this chapter, and also in :ref:`drm_atomic_helper` for more detailed
+> >  coverage of specific topics.
+> >  
+> > +Atomic State Lifetime
+> > +---------------------
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/drm_atomic.c
+> > +   :doc: state lifetime
+> > +
+> >  Handling Driver Private State
+> >  -----------------------------
+> >  
+> >  .. kernel-doc:: drivers/gpu/drm/drm_atomic.c
+> >     :doc: handling driver private state
+> > diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+> > index 4283ab4d06c581727cc98b1dc870bf69691ea654..92c6afc8f22c8307a59dc266aacdb8e03351409d 100644
+> > --- a/drivers/gpu/drm/drm_atomic.c
+> > +++ b/drivers/gpu/drm/drm_atomic.c
+> > @@ -45,10 +45,62 @@
+> >  #include <drm/drm_colorop.h>
+> >  
+> >  #include "drm_crtc_internal.h"
+> >  #include "drm_internal.h"
+> >  
+> > +/**
+> > + * DOC: state lifetime
+> > + *
+> > + * &struct drm_atomic_state represents an update to video pipeline
+> > + * state. Despite its confusing name, it's actually a transient object
 
-> Hi SJ,
+I wonder if we'll rename it one day :-)
+
+> > + * that holds a state update as a collection of pointer to individual
+> > + * objects states. &struct drm_atomic_state has a much shorter lifetime
 > 
-> On 3/16/2026 5:48 PM, SeongJae Park wrote:
-> > Hello Asier,
-> > 
-> > 
-> > Thank you for sending this patch. :)
-> > 
-> > On Mon, 16 Mar 2026 14:08:21 +0000 <gutierrez.asier@huawei-partners.com> wrote:
-> > 
-> >> From: Asier Gutierrez <gutierrez.asier@huawei-partners.com>
-> >>
-> >> MADV_HUGEPAGE and MADV_NOHUGEPAGE are guarded and they
-> >> are not available when compiling the kernel without TRANSPARENT_HUGEPAGE
-> >> option. The DAMON behaviour is to silently fail[1] in when DAMOS_HUGEPAGE or
-> > 
-> > checkpatch.pl shows a warning for the above line:
-> > 
-> >     WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit description?)
-> >     #12:
-> >     option. The DAMON behaviour is to silently fail[1] in when DAMOS_HUGEPAGE or
+> Hmm, I think "a collection of pointers to individual object states". Hmm
+> or "objects' states"? I like the former.
 > 
-> Yes, this is due to the link. I tried to keep this patch compact, without a
-> cover letter. I will submit a new version without the link.
+> > + * than the objects states, since it's only allocated while preparing,
+> 
+> "objects' states" or "object states".
+> 
+> > + * checking or doing the update, while object states are allocated while
 
-The above warning is not for the link.  After wrapping the line, however,
-checkpatch does warn the link line like below.
+Maybe s/doing/committing/ if you want to use KMS terms.
 
-    WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit description?)
-    #13:
-    [1]: https://lore.kernel.org/damon/66131775-180b-4b9f-b7ce-61a3e077b6e6@huawei-partners.com/T/#m278d3c9bbedcceaf2efa51e3dc7b40a40654e51c
+> > + * the state will be, or is active in the hardware.
 
-But, it should be ok to just ignore the warning for the link line.  So, please
-wrap the line, but keep the link.
+The second part sounds weird. I'd write
 
+"while object states are allocated when preparing the update and kept
+alive as long as they are active in the hardware."
 
-Thanks,
-SJ
+or something similar. Writing "device" instead of "hardware" could also
+be better.
 
-[...]
+> > + *
+> > + * Their respective lifetimes are:
+> > + *
+> > + * - at reset time, the object reset implementation will allocate a new,
+> > + *   default, state and will store it in the object state pointer.
+
+s/default,/default/
+
+> 
+> "object's". This is the "active state", is it?
+> 
+> > + *
+> > + * - whenever a new update is needed:
+> > + *
+> > + *   + we allocate a new &struct drm_atomic_state using drm_atomic_state_alloc().
+
+The first part doesn't use first person pronouns, you may want to be
+consistent across the whole text and use a descriptive style here too.
+
+> > + *
+> > + *   + we copy the state of each affected entity into our &struct
+> > + *     drm_atomic_state using drm_atomic_get_plane_state(),
+> > + *     drm_atomic_get_crtc_state(), drm_atomic_get_connector_state(), or
+> > + *     drm_atomic_get_private_obj_state(). That state can then be
+> > + *     modified.
+> 
+> Maybe clarify what is the state returned by these. It's the "active
+> state", isn't it, drm_crtc.state or similar?
+
+Yes, it's not very clear. The text should describe whether the
+drm_atomic_state just points to the active state of the entities, or
+duplicates them. "copy the state" is ambiguous.
+
+> > + *
+> > + *     At that point, &struct drm_atomic_state stores three state
+> > + *     pointers for that particular entity: the old, new, and existing
+
+s/that particular/any affected/
+
+> > + *     (called "state") states. The old state is the state currently
+> > + *     active in the hardware, which is either the one initialized by
+> > + *     reset() or a newer one if a commit has been made. The new state
+> > + *     is the state we just allocated and we might eventually commit to
+> > + *     the hardware. The existing state points to the state we'll
+> > + *     eventually have to free when the drm_atomic_state will be
+> > + *     destroyed, but points to the new state for now.
+
+s/but/and/
+
+> From this, I don't understand the difference between the old state and
+> the existing state. And if the existing state is the one we'll free,
+> isn't that the old state, not new state? Oh, is the existing state a
+> state we have to free when the drm_atomic_state would is freed? And at
+> this point the new state is the one, as it's not committed?
+> 
+> > + *
+> > + *   + After the state is populated, it is checked. If the check is
+> > + *     successful, the update is committed. Part of the commit is a call
+> > + *     to drm_atomic_helper_swap_state() which will turn the new states
+> > + *     into the active states. Doing so involves updating the objects
+> 
+> "object's"
+> 
+> > + *     state pointer (&drm_crtc.state or similar) to point to the new
+> > + *     state, and the existing states will now point to the old states,
+> > + *     that used to be active but isn't anymore.
+> 
+> "aren't"
+> 
+> I think I understand this, but... It kind of brings in a new state
+> concept, "active state".
+> 
+> > + *
+> > + *   + When the commit is done, and when all references to our &struct
+> > + *     drm_atomic_state are put, drm_atomic_state_clear() runs and will
+> > + *     free all the old states.
+
+Technically you're freeing the "existing" state per your nomenclature
+above, which points to the old state. The word "existing" seems to make
+things harder to describe, there may be an opportunity for better
+vocabulary.
+
+> > + *
+> > + *   + Now, we don't have any active &struct drm_atomic_state anymore,
+> > + *     and only the entity active states remain allocated.
+> > + */
+> > +
+> 
+> Even if this is a bit hard to read, I think it really clarifies the
+> state lifetime.
+
+It's certainly a useful addition to the documentation.
+
+-- 
+Regards,
+
+Laurent Pinchart
