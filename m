@@ -1,117 +1,407 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E269E377ECD;
-	Mon, 16 Mar 2026 21:14:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EBF736405F
+	for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 21:25:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773695663; cv=none; b=o/ICjAuiyoHgmubf82AJ15It2CgdDQsYb78FmdMBAG2qA23katJwNoUo0R4xg+BSluCTlr/otmB/w8qXSY+2fk040Drm1AAFq6CTETFSWclsTx6Li1wR4O4ZlH7sQSlCaiKs7gMPeOy5QYGVgKlQj/YC8l6Cyn+GM0IlvJsLj0s=
+	t=1773696308; cv=none; b=Xk4q0uuYYCvhxz3hkQvfWXbZj7Aq3BO8gBRitrgars+B6qEKHxfspvPWI7p/EiTgWxqTPkd3cMzsb9Z2KhlHl2GlPBZWGwKzQhszJtnk4K/vEa46El8HZGejEI5RYb8OnjXdlsyP5vzgbVM+le99U/j5U5X+xhTa5Z3dvZz7qzs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773695663; c=relaxed/simple;
-	bh=dElPd1/2yYuQnbmBxFem9K254mqoyGxI5ua35pg5dJU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LQ3uvhZZ95OPE6nu/yZA/Qtg7dJNs1fLVJZ8UWYIgAVQ87BnEmACJ3PqYFDuRuOrsQ2JVKZBBylUYHb63xmc5xG4MwfpbUICDe2P0zzjh9DYyOs/UnyBVefHWq/hRp5cSvOluD7Qh5NINHxd9MxbHgjDkp6/slGGM3SAupmfW4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WSQBK1iL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773696308; c=relaxed/simple;
+	bh=fG0MCixZqEbVw7LXQe+Mu0un33H/ZvDUTOAv2VYKePI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nofCKiICo4ua0K2mlgLX0ruGfWQgmLGKFo//ZnioSt0Tp+D2aKBdjsB2wrnpfKhbZ2/GQ/i3GX2qa8+WQa/6JnXgmFAggi3/fevIA1x3mQ56Bl7RhOqaSUlwV63QwK/1GC1gjOWGuYpedY2ND2cyBRHLfXpLXlEFhRMsOLcPJcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jkW/GerR; arc=none smtp.client-ip=74.125.82.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WSQBK1iL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF9A6C2BCB1;
-	Mon, 16 Mar 2026 21:14:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773695662;
-	bh=dElPd1/2yYuQnbmBxFem9K254mqoyGxI5ua35pg5dJU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=WSQBK1iLku67+ML1WmdG5gvZLWS7LBzAh+jY1gRa2yWEDslVldYCYBTPugdDPtK3i
-	 CJUPJvXQZ/W8O2eLGawpJj4z7/Gc/0AG/4/vE6vYrREysTXhDw+AehDa8KdJrBOSlC
-	 XhH22ZMH6c73yrZxTi5u16TG0R08vkR0Hg/N25ka99GCvGxJVINDVuFd31W7b8egcK
-	 vue6N3UbG8dGv7WpxgZ343wv1BtFDUqGFbAbGk7WlXYTrbd+eiSrkAi0pp+So15ggU
-	 sTJ2YQNiWnWZSMjPaxJ+T1mbsuo+/9JntOuw+gRsL+gTD6u/BCWW3CJwONZsgLHGWx
-	 bcXTswhvf3Pkw==
-From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Clemens Ladisch <clemens@ladisch.de>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"K . Y . Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	Long Li <longli@microsoft.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Bodo Stroesser <bostroesser@gmail.com>,
-	"Martin K . Petersen" <martin.petersen@oracle.com>,
-	David Howells <dhowells@redhat.com>,
-	Marc Dionne <marc.dionne@auristor.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	David Hildenbrand <david@kernel.org>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Jann Horn <jannh@google.com>,
-	Pedro Falcato <pfalcato@suse.de>,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-hyperv@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mtd@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	linux-scsi@vger.kernel.org,
-	target-devel@vger.kernel.org,
-	linux-afs@lists.infradead.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org,
-	Ryan Roberts <ryan.roberts@arm.com>
-Subject: [PATCH v2 16/16] mm: on remap assert that input range within the proposed VMA
-Date: Mon, 16 Mar 2026 21:12:12 +0000
-Message-ID: <4e152e7b8e1a93baf0777628eef9409d031cf8f6.1773695307.git.ljs@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jkW/GerR"
+Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-2c0bcd8f194so2747403eec.1
+        for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 14:25:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773696305; x=1774301105; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=W2jtl5jrUSd1W8jZPBizN0HWJDNSLbgbVnLjoCdUKyY=;
+        b=jkW/GerRze20HXzcNVzoqwY45q2fcgdJpiXeeWpLkdPJkJEhqyNSG3FciD0I5FQGiV
+         aynFN1+UCcovVD04krL+8CAmV00kUf5MVGAGJ0ndRg0Ke5bIXxr+Ss3aj960hPCQXO02
+         xxmKG2qIPztvl15rEjc9keFXO65/vfjdKctipMC3jyH3aMgP0piz4Q/sJ9Qa7pXBTKKW
+         nii3v81YkZ3gUF/Eor7gmcWg3hkedTQ4NcwSoS1v8t8Lwhpzk5OeWlEG/s5EBqpXro/N
+         GwQ5NvDYLlGigA7syJ+1pJAYk8K8BmmG/022zS+1m1XPvMIczrUToMVYoGAKREHcQaIj
+         GrNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773696305; x=1774301105;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=W2jtl5jrUSd1W8jZPBizN0HWJDNSLbgbVnLjoCdUKyY=;
+        b=bx1uQt+JY7HSyjp4yczueyPzsYRJ1hewRCoNk9ZmgGpCB8MrJ6X9/fXjGeaURenPmn
+         o4d1vm+SevhTCKusyfXmXyJwoQEfjtokPrH89xULyBM8LWkmRD5wZoFjUEVtW60qHrp5
+         HEe4CzMAogwsolGYcKj/WAPh1L3flyFXvE2tf/nRnf3/h/G1CMJlcTfQV1j2WP49JJyb
+         ldnGjKKr/KIdXY2wjlbwA4iwRRIGNzxpZN9zvv3gVxsyV/jp+gamyjTr23QgJZyDrJsU
+         ANBDT4PbrkLGBIwm8c9TwO4bt0/+y6myNkWpmQkMyUBtIP1PPkctDdUOyfrzB8mg5JCs
+         gX9g==
+X-Gm-Message-State: AOJu0YywYYvN/VY3LKeoM9sEvL89Cgp2jLS31hypzhQCbCOLgpmPRRjz
+	JwO11xxO80WgGxfGOrIqdDPEvNbrAZPXwQWhYYgEiW2s2A+/dQmSYU+P
+X-Gm-Gg: ATEYQzz0OlRNkzmW6ZU4ywxN1G851ZSddD1NO0bV0E2mWzvdgTY4hqsxSP10ZP4efbG
+	6uUuSW+aLnSJwpponCmytANQEhLRk0gPFfKM+MDDwEO2zF0e6iRaqWAHiB1VNYdFy7yWjG2b/GJ
+	GmCSytuYAIQ5QxljK7JNoO7stY4SwR0sRnabXqAV2g2exfr0+mIeVfHdtxlD+eBo5WDj6I0E+9r
+	vWfveyIP9MjY+RHnhKXPz62v2NzzCM2TI5hQAPAWdVie5P+q9iJkxzw4paR3WWyBfnVl3DRqzuv
+	y/caOLcW6rORUckrBkQsUM2myxeYrIbJyeiJjcM7kMStuhXax5xyg7yyaKWrg/HzL0wIz4B9UxA
+	m6bDbT69XXFw3GQBzstD3oe9PP3LG0Wa3+qtfEAcW/RWHmLv0hVNgstDR6mW3UgQ+fzuaxEWSL8
+	CeX8bn99qgjb4ddwPNSQ==
+X-Received: by 2002:a05:693c:40c8:b0:2c0:d207:5bae with SMTP id 5a478bee46e88-2c0d207751fmr870761eec.9.1773696305174;
+        Mon, 16 Mar 2026 14:25:05 -0700 (PDT)
+Received: from arch ([177.55.229.85])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2beab3a12e2sm17088759eec.2.2026.03.16.14.25.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Mar 2026 14:25:04 -0700 (PDT)
+From: Daniel Castro <arantescastro@gmail.com>
+To: danielmaraboo@gmail.com
+Cc: linux-doc@vger.kernel.org,
+	Daniel Castro <arantescastro@gmail.com>
+Subject: [PATCH] docs: pt_BR: translate process/1.Intro.rst
+Date: Mon, 16 Mar 2026 18:24:31 -0300
+Message-ID: <20260316212435.19303-1-arantescastro@gmail.com>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <cover.1773695307.git.ljs@kernel.org>
-References: <cover.1773695307.git.ljs@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Now we have range_in_vma_desc(), update remap_pfn_range_prepare() to check
-whether the input range in contained within the specified VMA, so we can
-fail at prepare time if an invalid range is specified.
+Add Brazilian Portuguese translation of the development process
+introduction (Documentation/process/1.Intro.rst), covering the
+executive summary, importance of mainline code, and licensing.
 
-This covers the I/O remap mmap actions also which ultimately call into this
-function, and other mmap action types either already span the full VMA or
-check this already.
-
-Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
+Assisted-by: Claude:claude-opus-4-6
+Signed-off-by: Daniel Castro <arantescastro@gmail.com>
 ---
- mm/memory.c | 3 +++
- 1 file changed, 3 insertions(+)
+ Documentation/translations/pt_BR/index.rst    |   1 +
+ .../translations/pt_BR/process/1.Intro.rst    | 300 ++++++++++++++++++
+ 2 files changed, 301 insertions(+)
+ create mode 100644 Documentation/translations/pt_BR/process/1.Intro.rst
 
-diff --git a/mm/memory.c b/mm/memory.c
-index 849d5d9eeb83..de0dd17759e2 100644
---- a/mm/memory.c
-+++ b/mm/memory.c
-@@ -3142,6 +3142,9 @@ int remap_pfn_range_prepare(struct vm_area_desc *desc)
- 	const bool is_cow = vma_desc_is_cow_mapping(desc);
- 	int err;
+diff --git a/Documentation/translations/pt_BR/index.rst b/Documentation/translations/pt_BR/index.rst
+index de5c005f91d6..4f7fcc3c66fb 100644
+--- a/Documentation/translations/pt_BR/index.rst
++++ b/Documentation/translations/pt_BR/index.rst
+@@ -66,6 +66,7 @@ kernel e sobre como ver seu trabalho integrado.
+ .. toctree::
+    :maxdepth: 1
  
-+	if (!range_in_vma_desc(desc, start, end))
-+		return -EFAULT;
++   Introdução <process/1.Intro>
+    Como começar <process/howto>
+    Requisitos mínimos <process/changes>
+    Manuais dos mantenedores <process/maintainer-handbooks>
+diff --git a/Documentation/translations/pt_BR/process/1.Intro.rst b/Documentation/translations/pt_BR/process/1.Intro.rst
+new file mode 100644
+index 000000000000..e39470e9ce52
+--- /dev/null
++++ b/Documentation/translations/pt_BR/process/1.Intro.rst
+@@ -0,0 +1,300 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
- 	err = get_remap_pgoff(is_cow, start, end, desc->start, desc->end, pfn,
- 			      &desc->pgoff);
- 	if (err)
++.. _development_process_intro:
++
++Introdução
++==========
++
++Sumário
++-------
++
++O restante desta seção cobre o processo de desenvolvimento do kernel e
++os tipos de frustração que os desenvolvedores e empresas podem encontrar
++pelo caminho. Existem diversas razões que justificam a recomendação para
++que seja feito o merge do código do kernel ao kernel principal
++("mainline"), como disponibilidade automática aos usuários, suporte da
++comunidade em diversas formas, e a oportunidade de influenciar a direção
++do desenvolvimento do kernel. Contribuições ao kernel Linux
++obrigatoriamente devem estar disponíveis sob uma licença compatível com
++a GPL.
++
++:ref:`development_process` apresenta o processo de desenvolvimento, o
++ciclo de lançamento, e a mecânica da janela de merge. As várias fases no
++desenvolvimento de patch, revisão, e ciclo de merge são explicadas.
++Algumas ferramentas e listas de e-mail são discutidas. Desenvolvedores
++que queiram começar a desenvolver o kernel são encorajados a buscar e
++corrigir bugs como exercício inicial.
++
++:ref:`development_early_stage` cobre os primeiros passos do processo de
++desenvolvimento, com ênfase no envolvimento da comunidade de
++desenvolvedores o mais cedo possível.
++
++:ref:`development_coding` é sobre o processo de codificação; muitas
++armadilhas já encontradas por outros desenvolvedores são discutidas.
++Alguns requisitos para patches são explicados, e é feita uma introdução
++para algumas ferramentas que podem ajudar a garantir que os patches de
++kernel estão corretos.
++
++:ref:`development_posting` fala sobre o processo de envio de patches
++para revisão. Para serem levados em consideração pela comunidade
++desenvolvedora, os patches devem estar devidamente formatados e
++descritos, assim como devem estar no lugar correto. Seguir os conselhos
++dessa seção pode ajudar na recepção positiva do seu trabalho.
++
++:ref:`development_followthrough` cobre o que acontece após o envio dos
++patches; o trabalho ainda está longe de estar concluído. Trabalhar com
++os revisores é parte crucial do processo de desenvolvimento; essa seção
++oferece dicas de como evitar problemas nesse estágio importante.
++Desenvolvedores são alertados a não presumir que o trabalho acabou após
++o merge do patch no "mainline".
++
++:ref:`development_advancedtopics` introduz dois tópicos mais
++"avançados": gerenciamento de patches com git e revisão de patches por
++outros.
++
++:ref:`development_conclusion` conclui o documento com indicações de
++fontes com mais informações sobre o desenvolvimento do kernel.
++
++Sobre este documento
++--------------------
++
++O kernel Linux, com mais de 8 milhões de linhas de código e bem mais de
++1000 contribuintes a cada lançamento ("release"), é um dos maiores e
++mais ativos projetos de software livre em existência. Desde seu modesto
++início em 1991, este kernel evoluiu para se tornar um dos melhores
++componentes de sistemas operacionais, rodando em pequenos players de
++música digital, PCs de mesa, os maiores supercomputadores em existência,
++e todos os outros tipos de sistema entre eles. É robusto, eficiente, e
++uma solução escalável para quase toda situação.
++
++O crescimento do Linux trouxe o aumento no número de desenvolvedores (e
++empresas) desejando participar no seu desenvolvimento. Fabricantes de
++hardware querem garantir que o Linux suporte bem os seus produtos,
++tornando-os atrativos para usuários Linux. Fabricantes de sistemas
++embarcados, que usam o Linux como componente em um produto integrado,
++querem que o Linux seja tão capaz e adequado quanto possível para a
++tarefa em questão. Distribuidores de software que baseiam seus
++produtos em Linux têm claro interesse nas capacidades, performance, e
++confiabilidade do kernel Linux. É também comum que usuários finais
++queiram alterar o Linux para atender melhor suas necessidades.
++
++Uma das características mais atrativas do Linux é sua facilidade de
++acesso a esses desenvolvedores; qualquer um com as habilidades
++necessárias pode melhorar o Linux e influenciar a direção do seu
++desenvolvimento. Produtos proprietários não conseguem oferecer esse tipo
++de abertura, que é característico do processo de software livre. O
++kernel é ainda mais acessível que a maioria dos outros projetos de
++software livre. Um ciclo típico de três meses de desenvolvimento do
++kernel pode envolver mais de 1000 desenvolvedores trabalhando para mais
++de 100 empresas (ou absolutamente nenhuma empresa).
++
++Trabalhar com a comunidade de desenvolvimento do kernel não é uma tarefa
++árdua. Contudo, muitos colaboradores potenciais passaram por
++dificuldades ao tentar trabalhar no kernel. A comunidade evoluiu suas
++próprias formas de funcionamento que permitem operar de forma fluida (e
++produzir um produto de alta qualidade) em um ambiente em que milhares
++de linhas de código são alteradas todos os dias. Não é surpresa que o
++processo de desenvolvimento do kernel Linux seja muito diferente dos
++modelos de desenvolvimento proprietários.
++
++O processo de desenvolvimento do kernel pode parecer estranho e
++intimidador para novos desenvolvedores, mas existem bons motivos e uma
++sólida experiência por trás disso. Um desenvolvedor que não entenda os
++caminhos próprios da comunidade kernel (ou pior, que tente
++menosprezá-los ou contorná-los) terá uma experiência frustrante
++pela frente. A comunidade de desenvolvimento ajuda aqueles que tentam
++aprender, mas gasta pouco tempo com aqueles que não escutam ou não
++ligam para o processo de desenvolvimento.
++
++Espera-se que aqueles que leiam este documento sejam capazes de evitar
++essa experiência frustrante. Há muito material aqui, mas o esforço
++envolvido na sua leitura valerá a pena. A comunidade de desenvolvimento
++sempre necessita de desenvolvedores que ajudem a melhorar o kernel; o
++texto a seguir deve ajudar você - ou aqueles trabalhando para você -
++a se juntar à nossa comunidade.
++
++Créditos
++--------
++
++Esse documento foi escrito por Jonathan Corbet, corbet@lwn.net.
++Aprimorado pelos comentários de Johannes Berg, James Berry, Alex
++Chiang, Roland Dreier, Randy Dunlap, Jake Edge, Jiri Kosina, Matt
++Mackall, Arthur Marsh, Amanda McPherson, Andrew Morton, Andrew Price,
++Tsugikazu Shibata, e Jochen Voß.
++
++Esse trabalho contou com o apoio da Linux Foundation; agradecimentos
++especiais
++para Amanda McPherson, que viu o valor desse esforço e fez tudo
++acontecer.
++
++A importância de levar o código até o "mainline"
++------------------------------------------------
++
++Algumas empresas e desenvolvedores ocasionalmente se perguntam por que
++devem se importar em aprender como trabalhar com a comunidade do kernel
++e ter seu código no "mainline" (o kernel mantido por Linus Torvalds e
++usado como base para os distribuidores Linux). No curto prazo,
++contribuir com o código pode parecer um gasto evitável; parece mais
++fácil apenas manter o seu código à parte e oferecer
++suporte direto aos usuários. A verdade é que manter código fora da
++árvore principal ("out-of-tree") é uma falsa economia.
++
++Para ilustrar os custos do código "out-of-tree", aqui estão alguns
++aspectos relevantes do processo de desenvolvimento do kernel; a maioria
++será discutida com mais detalhes adiante neste documento. Considere:
++
++- Código integrado via merge ao "mainline" fica disponível para todos
++  os usuários Linux. Estará automaticamente presente em todas as
++  distribuições que o habilitarem. Não há necessidade de discos de
++  armazenamento, downloads, ou as complicações de dar suporte a
++  múltiplas versões de variadas distribuições; tudo simplesmente
++  funciona, para o desenvolvedor e para o usuário. Incorporação ao
++  "mainline" resolve um grande número de problemas de distribuição e
++  suporte.
++
++- Enquanto desenvolvedores do kernel se esforçam para manter uma
++  interface estável para o espaço do usuário, a API interna está em
++  constante mudança. A ausência de uma interface interna estável é uma
++  escolha deliberada de design; permite que sejam feitas melhorias
++  fundamentais a qualquer tempo e resulta em código de qualidade
++  superior. Uma consequência dessa política é que código "out-of-tree"
++  precisa ser constantemente atualizado para que continue funcionando
++  com novos kernels. Manter código "out-of-tree" requer significativo
++  trabalho
++  apenas para mantê-lo funcionando.
++
++  Por sua vez, código que está no "mainline" não precisa dessa
++  manutenção, resultado de uma regra simples que exige que qualquer
++  desenvolvedor que altere uma API, também conserte qualquer código que
++  deixe de funcionar como resultado da alteração. Código que teve o
++  merge realizado no "mainline" tem custo significativamente menor de
++  manutenção.
++
++- Além disso, código que está no kernel será muitas vezes melhorado por
++  outros desenvolvedores. Resultados surpreendentes podem surgir ao
++  permitir que sua comunidade de usuários e clientes melhore seu
++  produto.
++
++- Código do kernel está sujeito a revisão, tanto antes como depois do
++  merge ao "mainline". Independentemente das habilidades do desenvolvedor
++  original, o processo de revisão invariavelmente encontra maneiras de
++  evoluí-lo. Bugs severos e problemas de segurança são constantemente
++  encontrados durante o processo de revisão. Isso é especialmente válido
++  para código desenvolvido em ambiente isolado; tais códigos se
++  beneficiam fortemente ao serem revistos por outros desenvolvedores.
++  Código "out-of-tree" é código de baixa qualidade.
++
++- Participação no processo de desenvolvimento é a forma pela qual você pode
++  influenciar a direção do desenvolvimento do kernel. Usuários que se
++  queixam externamente são ouvidos, porém desenvolvedores ativos têm
++  maior poder de articulação - e a habilidade de implementar mudanças
++  que façam o kernel funcionar melhor para suas necessidades.
++
++- Quando o código é mantido à parte, sempre existe a possibilidade de
++  que terceiros contribuam para uma implementação diferente de uma
++  funcionalidade parecida. Se isso acontecer, ter seu código integrado
++  via merge se tornará muito mais difícil - ao ponto de ser impossível.
++  Você enfrentará duas alternativas desagradáveis, (1) manter uma
++  funcionalidade "out-of-tree" indefinidamente ou (2) abandonar seu
++  código e migrar seus usuários para a versão na árvore principal
++  ("in-tree").
++
++- Contribuição de código é a ação fundamental que faz todo o processo
++  funcionar. Ao contribuir com seu código você pode adicionar nova
++  funcionalidade ao kernel e proporcionar capacidades e exemplos que
++  podem ser usados por outros desenvolvedores de kernel. Se você
++  desenvolveu código para o Linux (ou está pensando em desenvolver),
++  você claramente tem interesse na continuidade do sucesso dessa
++  plataforma; contribuição de código é uma das melhores maneiras de
++  garantir esse sucesso.
++
++Todos os argumentos acima se aplicam a qualquer código "out-of-tree",
++incluindo código distribuído de maneira proprietária, em formato
++exclusivamente binário. Existem fatores adicionais que devem ser levados
++em consideração antes de qualquer distribuição de código de kernel
++apenas em binário, incluindo:
++
++- As questões legais da distribuição de kernel proprietário são, no
++  melhor dos casos, confusas; muitos detentores de direitos autorais do
++  kernel acreditam que a maioria dos módulos binários são produtos
++  derivados do kernel e que, como resultado, sua distribuição é uma
++  violação da Licença Pública Geral GNU ("GNU General Public License"),
++  que será tratada com mais profundidade abaixo. Este autor não é um
++  advogado, e nada neste documento pode ser considerado aconselhamento
++  jurídico.
++  O verdadeiro status de módulos privados ("closed source") só pode ser
++  determinado judicialmente. Independentemente disso, a incerteza que
++  cerca esses módulos existe.
++
++- Os módulos binários aumentam consideravelmente a dificuldade de
++  depuração de problemas do kernel ("debugging"), a ponto de a maioria
++  dos desenvolvedores de kernel sequer tentar. Portanto, a distribuição
++  de módulos exclusivamente binários tornará mais difícil que os seus
++  usuários recebam suporte.
++
++- O suporte também é mais difícil para distribuidores de módulos
++  exclusivamente binários, que precisam fornecer uma versão do módulo
++  para cada distribuição e cada versão do kernel que desejam suportar.
++  Dezenas de versões de um único módulo podem ser necessárias para
++  fornecer uma cobertura razoavelmente abrangente, e seus usuários terão
++  que atualizar seu módulo separadamente sempre que atualizarem seu
++  kernel.
++
++- Tudo o que foi dito acima sobre revisão de código se aplica em dobro
++  ao código fechado. Como esse código não está disponível, ele não pode
++  ter sido revisado pela comunidade e, sem dúvida, terá sérios
++  problemas.
++
++Os fabricantes de sistemas embarcados, em particular, podem ser tentados
++a ignorar grande parte do que foi dito nesta seção, acreditando que
++estão lançando um produto autossuficiente que usa uma versão congelada
++do kernel e não requer mais desenvolvimento após o lançamento. Esse
++argumento ignora o valor de uma revisão de código abrangente e o valor
++de permitir que seus usuários adicionem recursos ao seu produto. Mas
++esses produtos também têm uma vida comercial limitada, após a qual uma
++nova versão deve ser lançada. Nesse ponto, os fornecedores cujo código
++está no "mainline" e bem mantido estarão em uma posição muito melhor
++para preparar o novo produto para o mercado rapidamente.
++
++Licenciamento
++-------------
++
++Código é submetido ao kernel do Linux sob diversas licenças, mas
++todo ele deve ser compatível com a versão 2 da Licença Pública Geral
++GNU (GPLv2), que é a licença que cobre a distribuição do kernel como um
++todo. Na prática, isso significa que todas as contribuições de código são
++cobertas pela GPLv2 (com, opcionalmente, uma linguagem que permita a
++distribuição sob versões posteriores da GPL) ou pela licença BSD de três
++cláusulas. Quaisquer contribuições que não sejam cobertas por uma
++licença compatível não serão aceitas no kernel.
++
++A cessão de direitos autorais não é exigida (nem solicitada) para o
++código contribuído para o kernel. Todo o código incorporado ao kernel
++principal mantém sua propriedade original; como resultado, o kernel
++agora tem milhares de proprietários.
++
++Uma implicação dessa estrutura de propriedade é que qualquer tentativa
++de alterar o licenciamento do kernel está fadada ao fracasso quase
++certo. Existem poucos cenários práticos em que o acordo de todos os
++detentores de direitos autorais poderia ser obtido (ou seu código
++removido do kernel). Portanto, em particular, não há perspectiva de
++migração para a versão 3 da GPL em um futuro próximo.
++
++É imprescindível que todo o código contribuído para o kernel seja
++legitimamente software livre. Por esse motivo, código de contribuidores
++sem identidade conhecida ou contribuidores anônimos não será aceito.
++Todos os contribuidores são obrigados a "assinar" seu código, declarando
++que ele pode ser distribuído com o kernel sob a GPL. Código que não
++tenha sido licenciado como software livre por seu proprietário, ou que
++apresente risco de criar problemas relacionados a direitos autorais
++para o kernel (como código derivado de esforços de engenharia reversa
++sem as devidas salvaguardas) não pode ser contribuído.
++
++Questões sobre direitos autorais são comuns em listas de discussão de
++desenvolvimento Linux. Normalmente, essas perguntas recebem muitas
++respostas, mas é importante lembrar que as pessoas que respondem a essas
++perguntas não são advogados e não podem fornecer aconselhamento
++jurídico. Se você tiver dúvidas jurídicas relacionadas ao código-fonte
++do Linux, não há substituto para conversar com um advogado especializado
++nessa área. Confiar em respostas obtidas em listas de discussão técnicas
++é arriscado.
 -- 
 2.53.0
 
