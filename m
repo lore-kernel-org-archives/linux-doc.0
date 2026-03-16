@@ -1,620 +1,399 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFD4D262FC0
-	for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 02:18:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.175
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773627532; cv=pass; b=dwVifa9PW2ajo3LSqmGG1vsW5FE0JBBD2ji9qUPU2+kmNleEwzWtf3bnwmKqAKgNB80W2RIxdJfGbL+VmNQQHhQV5O6U/nYl/Fcot/UzjmuF5LQ0Z1GZy7XNQKEphbZDIPvpgQ426jl6YUHtY/Zlne2ctKdw33dTi0eNHnxpWxI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773627532; c=relaxed/simple;
-	bh=/UbTJeagNQInbFWy0pIUN/HhAyZA5x422F9e6lwoLuI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=J4lk7A0+KVXLJLUZdcRGNBtsj/RouhwVs9yRTOYWW5GyOkcu4qHAejmTuzYgbKzQwDfl2ExkPhYLkEH5BEF4HGq9wHcmWUc4528FkYskWtzSIKhOFV/eBXShAz1kKFwOTu9EDHA2gkJbAuna9ZbB0E8tNBqHVzvcYPYU9mXtzao=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=uVtN5Zyq; arc=pass smtp.client-ip=209.85.160.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4E53263C9F;
+	Mon, 16 Mar 2026 02:24:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773627889; cv=none; b=khreQE6ZRbPfs4eZk7FdBB8asTYk1ZprCFX/Pvy4WBF7sg7TCimmX1JNxxwFTfDubbtSQKp4tsTk+3Y5H6R8WdANPnBt9e4rgphsOZLF/yODqOMij3HAbmlBDf+LQhsBMOgmTYyku3/GunZXX3Xvj7CwAioFs5UVVaL+K22fue0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773627889; c=relaxed/simple;
+	bh=nWchieyJQyv4iGmUtwJpOTMtAWI6VO07iwWkdnvOYvQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MgyXV8rIqYOfnFpi2+ModLCy88EMVI4AgiJPkW7FfWZQDsI5TGAwpVXoBweti/YZiAV7r0abcRtcAN/Wg7Zo+lfN8p5V4Uds4cKtqmembEVv3O7m5se79qVp36t2hjNx/uyMMZ3IYnf7jIpiCAoTLtsIrgY29QSOYIK+qFeu73M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cyHsh3Kb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uVtN5Zyq"
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-509069a7a7fso801751cf.0
-        for <linux-doc@vger.kernel.org>; Sun, 15 Mar 2026 19:18:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773627530; cv=none;
-        d=google.com; s=arc-20240605;
-        b=YUQ/HZLI02GfmkeYVAoycB/k07vOWYacNHJhz37NT0gW1EMlGFrgE2SvYZ/ITrxiul
-         3EpsKBYmNx2yi/vBUJ6gTCkIO3H8L+Y3G+bPtV11TOFb1ayqHFm9ELcOr5mdMrgfqJAl
-         exX9tAXa/eQA35NVa5m9YaxGLFZsMmlGaN7+sb8GR7NRTHw2h36C7JqEVmxnfYXG8eIr
-         BpY2kgb/TGB/C5Qvb75qoOCTHOnaWhMD8Go5TViaIF6+WULzCI598FpJQPaot4gmXCc3
-         jTGvjm78lxStaXF2SJuPPxeZl/1o01VzoUDiZPLxRzf7Arxq9KdD4jhKTj1VZ7rIFsrD
-         AhXw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=dnWGu44tSbdw9jKt/jasKkcuK6YSxM7E/Q2BjBYPLWs=;
-        fh=4h/A44Z2KxBLpEIjckpPiUWbZUEC/b05CcDpPuXvUBc=;
-        b=K3Ge1KbgDIVzLwb6/W8xkM+npCKJblRjYXyj5D9umXMPN7K3xcAPdNg4GZ+qYFSovg
-         ws+8rE0PgY5D30eb9JwUiyr4lykdf+lUhTIBS97U6ZqadK5tFE90ZIjDRLVOB8YP9YF4
-         2svbcTgSiKQBy7PT0tdwXR5VIDSoLW83CfZ12ZKjzBUGaWsGrK1KtbL2WsxD7M/mg+1R
-         V02upd6NKsJ1PT2bUTwAN873la61T3LZfYsWvrUX/zycMfclkizSBHBQO+eiIUTqBMxm
-         H3KX+XjNBprPeBe5NlKQSa2pO5VQE12SRVBKuxzUkVrAfxyMZsfTYWQqdFbIhSZgWbXR
-         okVA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1773627530; x=1774232330; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dnWGu44tSbdw9jKt/jasKkcuK6YSxM7E/Q2BjBYPLWs=;
-        b=uVtN5ZyqvAJlVnn+4NnVNg1IaIGcorsAsoTCrA+S3dgcJj7sXqibaJWouAsjEOHCLM
-         3i6XDoKdXhviOR8IK0QDsNFi00rvfkm1OM3A9leIQ5Z3tQA/ArY2RHdIL7extic6K9Qm
-         AqY2iz5oQMNlBuzk0COCrQMJCGKOdFcR/Xeb8EhntxO5jYfiXuV2xB1OSeN0NDw5iFuX
-         cmANuaVE98msZp0e6fBWxjikQMzqHbLElvGxwM6YL+lXvxOnKOrMuQ242VSsr/tcy7Bt
-         dkGh2mLq1RMe6HIL47+QvLnl8xQrA45Xu1rtf+Ij/4pXaaZTFBrpLQWPS/zCS3ZRaF2y
-         dSOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773627530; x=1774232330;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=dnWGu44tSbdw9jKt/jasKkcuK6YSxM7E/Q2BjBYPLWs=;
-        b=rLGVMO51lbzLYJ9xK97+j0zX3cpHd6CuxMkeyHQNr0IxpmmPYBzi5LTifOAUrwlEed
-         1ihk/8JFK/f5+4byed+AHaaZDjxvY7isYF2QAEWG/YBmcK49D/Q29ypF1FTCs3MKlsOV
-         3+UyhNEpe0d7EN2SOLAMDjyxyA0wQCpTEbQwJblmnxCon+AtfJth20oU29YDhW8jORDU
-         QDARQiR2hoO1fP4rj9Yng0mqdLsB+5iB0ak9MQ3LZVSeSKNbcFtbKki/AY6B1mYPoGWS
-         fOcuq7vCrIt5QMy5KI9D/yvxUi1DFhHKCFgL1VFvrqOlgxMi8ONFWErjEx5UnRtUSENv
-         JxwA==
-X-Forwarded-Encrypted: i=1; AJvYcCVElk90k2XrRlWuE9z07x/RD5UtxnBavNfsyCLan9c/5wLcgZSMClF2P8TRg9tp65u4yAKxHhNDmwU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxu3au83rTdwRMVBkZg3XgvOa8/1AE780lNzutcwNTRhECc4Num
-	Dmi1faRNc0tCueDoORo/zlYvjLnZgyi9AXWiJm4D/yj1pzYxezE9bg1Rzc7lXLyuu10D6+nmMsH
-	D+9sVCB+sl5ZDpwKzNDnUdWltu0x+cPldz9SoV7Ak
-X-Gm-Gg: ATEYQzzhTJ07gPtjTyQHf4EMZxsP71WlVqMKt+wvkemg0d39ljOnNRlCV7INH0HPrtp
-	7WaMiq40P48Ns9ZjqeWfPBvjtrmK+1lw/0Z6fLrekNnH//xNNv/biWjRCGSHB2EOl5lR6Z4p4T8
-	uGqOqERoPmyPoQzv4CUWj7dLBSFiouj3EhNHms/6hFMB2EHrcdWnzys0LCJL88+BLrLI0vYkoNX
-	3NtdmvhBIPgM4Lo2mLSMUqi9tfm2mEBmC6tctrm1MN/69JUF4+4QtAY7LMe0lNhow6XwgXwKqdy
-	SYt+MQ==
-X-Received: by 2002:a05:622a:34d:b0:506:9852:75ec with SMTP id
- d75a77b69052e-5096a9f1e28mr18574031cf.9.1773627529027; Sun, 15 Mar 2026
- 19:18:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cyHsh3Kb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B971CC4CEF7;
+	Mon, 16 Mar 2026 02:24:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773627889;
+	bh=nWchieyJQyv4iGmUtwJpOTMtAWI6VO07iwWkdnvOYvQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cyHsh3KbXGNDm8683ULRzsRz4/+1zlmZE4RynJYWJlCqKxlKbOCAnIk6tz1L4E8+w
+	 j+SNpBpF/eeo/uXaUpZEmdPl3eSIc/JcowgPiHFA38grTv+QcAiaMiC9hnhwgEISvm
+	 iAnUjBVh8iVgcdPgl8Qan/966hvUhVy45uXoQsFh7WZLWYnIudbgX5xxLYgvXW55G9
+	 aNG2pgSJyR4hJ2YNaYXWSNYg1hZtOgFr6RA6Qo4zMa1uQqFJ8cZUMGE6jX/AgcRsJu
+	 y1IS8qj4zA/kLfTyfmIH5jWGl4WDRT78RpcI6AgjxS/IZLs8SRAXQjDLpJVnMvkUuX
+	 daqgQLJ6oe4qw==
+Date: Sun, 15 Mar 2026 21:24:39 -0500
+From: Bjorn Andersson <andersson@kernel.org>
+To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Eugen Hristev <eugen.hristev@linaro.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, 
+	Christoph Lameter <cl@gentwo.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Anna-Maria Behnsen <anna-maria@linutronix.de>, Frederic Weisbecker <frederic@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Dietmar Eggemann <dietmar.eggemann@arm.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
+	Valentin Schneider <vschneid@redhat.com>, David Hildenbrand <david@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Kees Cook <kees@kernel.org>, 
+	Brendan Jackman <jackmanb@google.com>, Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
+	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>, 
+	Barry Song <baohua@kernel.org>, Youngjun Park <youngjun.park@lge.com>, 
+	Petr Mladek <pmladek@suse.com>, John Ogness <john.ogness@linutronix.de>, 
+	Sergey Senozhatsky <senozhatsky@chromium.org>, Mathieu Poirier <mathieu.poirier@linaro.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Saravana Kannan <saravanak@kernel.org>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, linux-mm@kvack.org, 
+	linux-arm-msm@vger.kernel.org, linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 00/25] Introduce meminspect
+Message-ID: <abdnp90cC5PI9wyz@baldur>
+References: <20260311-minidump-v2-v2-0-f91cedc6f99e@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <0e0fe47852e6009f662b1fa42f836447b8d1283a.1773346620.git.ljs@kernel.org>
- <20260313110238.2500603-1-usama.arif@linux.dev> <24cbbaf6-19f2-4403-8cb7-415007597345@lucifer.local>
-In-Reply-To: <24cbbaf6-19f2-4403-8cb7-415007597345@lucifer.local>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Sun, 15 Mar 2026 19:18:38 -0700
-X-Gm-Features: AaiRm510xG9rdMA-1YX4TcP6jNn-n0Y2wP6jWBejCDuFUbPHH2dWyPV1sklVvuE
-Message-ID: <CAJuCfpH1gzi50aWni7rh9=2gM8WwCzm=fY14DCFbjweAq82i6Q@mail.gmail.com>
-Subject: Re: [PATCH 04/15] mm: add vm_ops->mapped hook
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-Cc: Usama Arif <usama.arif@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
-	Clemens Ladisch <clemens@ladisch.de>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "K . Y . Srinivasan" <kys@microsoft.com>, 
-	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
-	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, 
-	Vignesh Raghavendra <vigneshr@ti.com>, Bodo Stroesser <bostroesser@gmail.com>, 
-	"Martin K . Petersen" <martin.petersen@oracle.com>, David Howells <dhowells@redhat.com>, 
-	Marc Dionne <marc.dionne@auristor.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, David Hildenbrand <david@kernel.org>, 
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, 
-	Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-hyperv@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org, 
-	linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org, 
-	target-devel@vger.kernel.org, linux-afs@lists.infradead.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	Ryan Roberts <ryan.roberts@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260311-minidump-v2-v2-0-f91cedc6f99e@oss.qualcomm.com>
 
-On Fri, Mar 13, 2026 at 4:58=E2=80=AFAM Lorenzo Stoakes (Oracle) <ljs@kerne=
-l.org> wrote:
->
-> On Fri, Mar 13, 2026 at 04:02:36AM -0700, Usama Arif wrote:
-> > On Thu, 12 Mar 2026 20:27:19 +0000 "Lorenzo Stoakes (Oracle)" <ljs@kern=
-el.org> wrote:
-> >
-> > > Previously, when a driver needed to do something like establish a ref=
-erence
-> > > count, it could do so in the mmap hook in the knowledge that the mapp=
-ing
-> > > would succeed.
-> > >
-> > > With the introduction of f_op->mmap_prepare this is no longer the cas=
-e, as
-> > > it is invoked prior to actually establishing the mapping.
-> > >
-> > > To take this into account, introduce a new vm_ops->mapped callback wh=
-ich is
-> > > invoked when the VMA is first mapped (though notably - not when it is
-> > > merged - which is correct and mirrors existing mmap/open/close behavi=
-our).
-> > >
-> > > We do better that vm_ops->open() here, as this callback can return an
-> > > error, at which point the VMA will be unmapped.
-> > >
-> > > Note that vm_ops->mapped() is invoked after any mmap action is
-> > > complete (such as I/O remapping).
-> > >
-> > > We intentionally do not expose the VMA at this point, exposing only t=
-he
-> > > fields that could be used, and an output parameter in case the operat=
-ion
-> > > needs to update the vma->vm_private_data field.
-> > >
-> > > In order to deal with stacked filesystems which invoke inner filesyst=
-em's
-> > > mmap() invocations, add __compat_vma_mapped() and invoke it on
-> > > vfs_mmap() (via compat_vma_mmap()) to ensure that the mapped callback=
- is
-> > > handled when an mmap() caller invokes a nested filesystem's mmap_prep=
-are()
-> > > callback.
-> > >
-> > > We can now also remove call_action_complete() and invoke
-> > > mmap_action_complete() directly, as we separate out the rmap lock log=
-ic to
-> > > be called in __mmap_region() instead via maybe_drop_file_rmap_lock().
-> > >
-> > > We also abstract unmapping of a VMA on mmap action completion into it=
-s own
-> > > helper function, unmap_vma_locked().
-> > >
-> > > Additionally, update VMA userland test headers to reflect the change.
-> > >
-> > > Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
-> > > ---
-> > >  include/linux/fs.h              |  9 +++-
-> > >  include/linux/mm.h              | 17 +++++++
-> > >  mm/internal.h                   | 10 ++++
-> > >  mm/util.c                       | 86 ++++++++++++++++++++++++-------=
---
-> > >  mm/vma.c                        | 41 +++++++++++-----
-> > >  tools/testing/vma/include/dup.h | 34 ++++++++++++-
-> > >  6 files changed, 158 insertions(+), 39 deletions(-)
-> > >
-> > > diff --git a/include/linux/fs.h b/include/linux/fs.h
-> > > index a2628a12bd2b..c390f5c667e3 100644
-> > > --- a/include/linux/fs.h
-> > > +++ b/include/linux/fs.h
-> > > @@ -2059,13 +2059,20 @@ static inline bool can_mmap_file(struct file =
-*file)
-> > >  }
-> > >
-> > >  int compat_vma_mmap(struct file *file, struct vm_area_struct *vma);
-> > > +int __vma_check_mmap_hook(struct vm_area_struct *vma);
-> > >
-> > >  static inline int vfs_mmap(struct file *file, struct vm_area_struct =
-*vma)
-> > >  {
-> > > +   int err;
-> > > +
-> > >     if (file->f_op->mmap_prepare)
-> > >             return compat_vma_mmap(file, vma);
-> > >
-> > > -   return file->f_op->mmap(file, vma);
-> > > +   err =3D file->f_op->mmap(file, vma);
-> > > +   if (err)
-> > > +           return err;
-> > > +
-> > > +   return __vma_check_mmap_hook(vma);
-> > >  }
-> > >
-> > >  static inline int vfs_mmap_prepare(struct file *file, struct vm_area=
-_desc *desc)
-> > > diff --git a/include/linux/mm.h b/include/linux/mm.h
-> > > index 12a0b4c63736..7333d5db1221 100644
-> > > --- a/include/linux/mm.h
-> > > +++ b/include/linux/mm.h
-> > > @@ -759,6 +759,23 @@ struct vm_operations_struct {
-> > >      * Context: User context.  May sleep.  Caller holds mmap_lock.
-> > >      */
-> > >     void (*close)(struct vm_area_struct *vma);
-> > > +   /**
-> > > +    * @mapped: Called when the VMA is first mapped in the MM. Not ca=
-lled if
-> > > +    * the new VMA is merged with an adjacent VMA.
-> > > +    *
-> > > +    * The @vm_private_data field is an output field allowing the use=
-r to
-> > > +    * modify vma->vm_private_data as necessary.
-> > > +    *
-> > > +    * ONLY valid if set from f_op->mmap_prepare. Will result in an e=
-rror if
-> > > +    * set from f_op->mmap.
-> > > +    *
-> > > +    * Returns %0 on success, or an error otherwise. On error, the VM=
-A will
-> > > +    * be unmapped.
-> > > +    *
-> > > +    * Context: User context.  May sleep.  Caller holds mmap_lock.
-> > > +    */
-> > > +   int (*mapped)(unsigned long start, unsigned long end, pgoff_t pgo=
-ff,
-> > > +                 const struct file *file, void **vm_private_data);
-> > >     /* Called any time before splitting to check if it's allowed */
-> > >     int (*may_split)(struct vm_area_struct *vma, unsigned long addr);
-> > >     int (*mremap)(struct vm_area_struct *vma);
-> > > diff --git a/mm/internal.h b/mm/internal.h
-> > > index 7bfa85b5e78b..f0f2cf1caa36 100644
-> > > --- a/mm/internal.h
-> > > +++ b/mm/internal.h
-> > > @@ -158,6 +158,8 @@ static inline void *folio_raw_mapping(const struc=
-t folio *folio)
-> > >   * mmap hook and safely handle error conditions. On error, VMA hooks=
- will be
-> > >   * mutated.
-> > >   *
-> > > + * IMPORTANT: f_op->mmap() is deprecated, prefer f_op->mmap_prepare(=
-).
-> > > + *
+On Wed, Mar 11, 2026 at 01:45:44AM +0530, Mukesh Ojha wrote:
+> First of all, I want to thank Eugene for his excellent work on this
+> series. What began as the Qualcomm Minidump driver from me has now
+> evolved into meminspect. He also presented meminspect a few months ago
+> at Linux Plumbers 2025.
+> 
+> Video of the recording is available here for anyone interested:
+> https://www.youtube.com/watch?v=aDZv4-kOLSc
+> 
+> Introduction:
+> 
+> meminspect is a mechanism which allows the kernel to mark specific
+> memory areas for memory dumping or specific inspection, statistics,
+> usage.  Once regions are marked, meminspect keeps an internal list with
+> the regions in a dedicated table.  Further, these regions can be
+> accessed using specific API by any interested driver.  Regions being
+> marked beforehand, when the system is up and running, there is no need
+> nor dependency on a panic handler, or a working kernel that can dump the
+> debug information.  meminspect can be primarily used for debugging. The
+> approach is feasible to work when pstore, kdump, or another mechanism do
+> not.  Pstore relies on persistent storage, a dedicated RAM area or
+> flash, which has the disadvantage of having the memory reserved all the
+> time, or another specific non volatile memory. Some devices cannot keep
+> the RAM contents on reboot so ramoops does not work. Some devices do not
+> allow kexec to run another kernel to debug the crashed one.  For such
+> devices, that have another mechanism to help debugging, like firmware,
+> kmemdump is a viable solution.
+> 
+> meminspect can create a core image, similar with /proc/vmcore, with only
+> the registered regions included. This can be loaded into crash tool/gdb
+> and analyzed. This happens if CRASH_DUMP=y.  To have this working,
+> specific information from the kernel is registered, and this is done at
+> meminspect init time, no need for the meminspect users to do anything.
+> 
+> This version of the meminspect patch series includes two drivers that
+> make use of it: one is the Qualcomm Minidump, and the other one is the
+> Debug Kinfo backend for Android devices, reworked from this source here:
+> https://android.googlesource.com/kernel/common/+/refs/heads/android-mainline/drivers/android/debug_kinfo.c
+> written originally by Jone Chou <jonechou@google.com>
+> 
+> *** History, motivation and available online resources ***
+> 
+> The patch series is based on both minidump and kmemdump previous implementations.
+> 
+> After the three RFC kmemdump versions, considering the ML discussions, it was decided to
+> move this into kernel/ directory and rework it into naming it meminspect, as Thomas Gleixner
+> suggested.
+> 
+> Initial version of kmemdump and discussion is available here:
+> https://lore.kernel.org/lkml/20250422113156.575971-1-eugen.hristev@linaro.org/
+> 
+> Kmemdump has been presented and discussed at Linaro Connect 2025,
+> including motivation, scope, usability and feasability.
+> Video of the recording is available here for anyone interested:
+> https://www.youtube.com/watch?v=r4gII7MX9zQ&list=PLKZSArYQptsODycGiE0XZdVovzAwYNwtK&index=14
+> 
+> Linaro blog on kmemdump can be found here:
+> https://www.linaro.org/blog/introduction-to-kmemdump/
+> 
+> Linaro blog on kmemdump step by stem using minidump backend is available here:
+> https://www.linaro.org/blog/kmemdump-step-by-step-on-qualcomm-automotive-platform/
+> 
+> The implementation is based on the initial Pstore/directly mapped zones
+> published as an RFC here:
+> https://lore.kernel.org/all/20250217101706.2104498-1-eugen.hristev@linaro.org/
+> 
+> The back-end implementation for qcom_minidump is based on the minidump
+> patch series and driver written by Mukesh Ojha, thanks:
+> https://lore.kernel.org/lkml/20240131110837.14218-1-quic_mojha@quicinc.com/
+> 
+> The RFC v2 version with .section creation and macro annotation kmemdump
+> is available here:
+> https://lore.kernel.org/all/20250724135512.518487-1-eugen.hristev@linaro.org/
+> 
+> The RFC v3 version with making everything static, which was pretty much rejected due to
+> all reasons discussed on the public ML:
+> https://lore.kernel.org/all/20250912150855.2901211-1-eugen.hristev@linaro.org/
+> 
+> *** How to use meminspect with minidump backend on Qualcomm platform guide ***
+> 
+> Prerequisites:
+> Crash tool compiled with target=ARM64 and minor changes required for
+> usual crash mode (minimal mode works without the patch) **A patch can be
+> applied from here https://p.calebs.dev/1687bc ** This patch will be
+> eventually sent in a reworked way to crash tool.
+> 
 
-What exactly would one do to "prefer f_op->mmap_prepare()"?
-Since you are adding this comment for mmap_file(), I think you need to
-describe more specifically what one should call instead.
+That patch was written 8 months ago, what's the timeline for landing
+this?
 
-> > >   * @file: File which backs the mapping.
-> > >   * @vma:  VMA which we are mapping.
-> > >   *
-> > > @@ -201,6 +203,14 @@ static inline void vma_close(struct vm_area_stru=
-ct *vma)
-> > >  /* unmap_vmas is in mm/memory.c */
-> > >  void unmap_vmas(struct mmu_gather *tlb, struct unmap_desc *unmap);
-> > >
-> > > +static inline void unmap_vma_locked(struct vm_area_struct *vma)
-> > > +{
-> > > +   const size_t len =3D vma_pages(vma) << PAGE_SHIFT;
-> > > +
-> > > +   mmap_assert_locked(vma->vm_mm);
+It's not feasible to have every users rebuild crash from source and
+maintain this copy in order to use the tool.
 
-You must hold the mmap write lock when unmapping. Would be better to
-assert mmap_assert_write_locked() or even vma_assert_write_locked(),
-which implies mmap_assert_write_locked().
+> Target kernel must be built with : CONFIG_DEBUG_INFO_REDUCED=n ; this
+> will have vmlinux include all the debugging information needed for crash
+> tool.
+> 
+> Also, the kernel requires these as well: CONFIG_MEMINSPECT,
+> CONFIG_CRASH_DUMP and the driver CONFIG_QCOM_MINIDUMP
+> 
+> Kernel arguments: Kernel firmware must be set to mode 'mini' by kernel
+> module parameter like this : qcom_scm.download_mode=mini
+> 
+> After the kernel boots, and minidump module is loaded, everything is
+> ready for a possible crash.
+> 
+> Once the crash happens, the firmware will kick in and you will see on
+> the console the message saying Sahara init, etc, that the firmware is
+> waiting in download mode. (this is subject to firmware supporting this
+> mode, I am using sa8775p-ride board)
+> 
+> Example of log on the console:
+> "
+> [...]
+> B -   1096414 - usb: init start
+> B -   1100287 - usb: qusb_dci_platform , 0x19
+> B -   1105686 - usb: usb3phy: PRIM success: lane_A , 0x60
+> B -   1107455 - usb: usb2phy: PRIM success , 0x4
+> B -   1112670 - usb: dci, chgr_type_det_err
+> B -   1117154 - usb: ID:0x260, value: 0x4
+> B -   1121942 - usb: ID:0x108, value: 0x1d90
+> B -   1124992 - usb: timer_start , 0x4c4b40
+> B -   1129140 - usb: vbus_det_pm_unavail
+> B -   1133136 - usb: ID:0x252, value: 0x4
+> B -   1148874 - usb: SUPER , 0x900e
+> B -   1275510 - usb: SUPER , 0x900e
+> B -   1388970 - usb: ID:0x20d, value: 0x0
+> B -   1411113 - usb: ENUM success
+> B -   1411113 - Sahara Init
+> B -   1414285 - Sahara Open
+> "
 
-> > > +   do_munmap(vma->vm_mm, vma->vm_start, len, NULL);
-> > > +}
-> > > +
-> > >  #ifdef CONFIG_MMU
-> > >
-> > >  static inline void get_anon_vma(struct anon_vma *anon_vma)
-> > > diff --git a/mm/util.c b/mm/util.c
-> > > index dba1191725b6..2b0ed54008d6 100644
-> > > --- a/mm/util.c
-> > > +++ b/mm/util.c
-> > > @@ -1163,6 +1163,55 @@ void flush_dcache_folio(struct folio *folio)
-> > >  EXPORT_SYMBOL(flush_dcache_folio);
-> > >  #endif
-> > >
-> > > +static int __compat_vma_mmap(struct file *file, struct vm_area_struc=
-t *vma)
-> > > +{
-> > > +   struct vm_area_desc desc =3D {
-> > > +           .mm =3D vma->vm_mm,
-> > > +           .file =3D file,
-> > > +           .start =3D vma->vm_start,
-> > > +           .end =3D vma->vm_end,
-> > > +
-> > > +           .pgoff =3D vma->vm_pgoff,
-> > > +           .vm_file =3D vma->vm_file,
-> > > +           .vma_flags =3D vma->flags,
-> > > +           .page_prot =3D vma->vm_page_prot,
-> > > +
-> > > +           .action.type =3D MMAP_NOTHING, /* Default */
-> > > +   };
-> > > +   int err;
-> > > +
-> > > +   err =3D vfs_mmap_prepare(file, &desc);
-> > > +   if (err)
-> > > +           return err;
-> > > +
-> > > +   err =3D mmap_action_prepare(&desc, &desc.action);
-> > > +   if (err)
-> > > +           return err;
-> > > +
-> > > +   set_vma_from_desc(vma, &desc);
-> > > +   return mmap_action_complete(vma, &desc.action);
-> > > +}
-> > > +
-> > > +static int __compat_vma_mapped(struct file *file, struct vm_area_str=
-uct *vma)
-> > > +{
-> > > +   const struct vm_operations_struct *vm_ops =3D vma->vm_ops;
-> > > +   void *vm_private_data =3D vma->vm_private_data;
-> > > +   int err;
-> > > +
-> > > +   if (!vm_ops->mapped)
-> > > +           return 0;
-> > > +
-> >
-> > Hello!
-> >
-> > Can vm_ops be NULL here?  __compat_vma_mapped() is called from
-> > compat_vma_mmap(), which is reached when a filesystem provides
-> > mmap_prepare.  If the mmap_prepare hook does not set desc->vm_ops,
-> > vma->vm_ops will be NULL and this dereferences a NULL pointer.
->
-> I _think_ for this to ever be invoked, you would need to be dealing with =
-a
-> file-backed VMA so vm_ops->fault would HAVE to be defined.
->
-> But you're right anyway as a matter of principle we should check it! Will=
- fix.
->
-> >
-> > For e.g. drivers/char/mem.c, mmap_zero_prepare() would trigger
-> > a NULL pointer dereference here.
-> >
-> > Would need to do
-> >       if (!vm_ops || !vm_ops->mapped)
-> >               return 0;
-> >
-> > here
->
-> Yes.
->
-> >
-> >
-> > > +   err =3D vm_ops->mapped(vma->vm_start, vma->vm_end, vma->vm_pgoff,=
- file,
-> > > +                        &vm_private_data);
-> > > +   if (err)
-> > > +           unmap_vma_locked(vma);
-> >
-> > when mapped() returns an error, unmap_vma_locked(vma) is called
-> > but execution continues into the vm_private_data update below.  After
-> > unmap_vma_locked() the VMA may be freed (do_munmap can remove the VMA
-> > entirely), so accessing vma->vm_private_data after that is a
-> > use-after-free.
->
-> Very good point :) will fix thanks!
->
-> Probably:
->
->         if (err)
->                 unmap_vma_locked(vma);
->         else if (vm_private_data !=3D vma->vm_private_data)
->                 vma->vm_private_data =3D vm_private_data;
->
->         return err;
->
-> Would be fine.
->
-> >
-> > Probably need to do:
-> >       if (err) {
-> >               unmap_vma_locked(vma);
-> >               return err;
-> >       }
-> >
-> > > +   /* Update private data if changed. */
-> > > +   if (vm_private_data !=3D vma->vm_private_data)
-> > > +           vma->vm_private_data =3D vm_private_data;
-> > > +
-> > > +   return err;
-> > > +}
-> > > +
-> > >  /**
-> > >   * compat_vma_mmap() - Apply the file's .mmap_prepare() hook to an
-> > >   * existing VMA and execute any requested actions.
-> > > @@ -1191,34 +1240,26 @@ EXPORT_SYMBOL(flush_dcache_folio);
-> > >   */
-> > >  int compat_vma_mmap(struct file *file, struct vm_area_struct *vma)
-> > >  {
-> > > -   struct vm_area_desc desc =3D {
-> > > -           .mm =3D vma->vm_mm,
-> > > -           .file =3D file,
-> > > -           .start =3D vma->vm_start,
-> > > -           .end =3D vma->vm_end,
-> > > -
-> > > -           .pgoff =3D vma->vm_pgoff,
-> > > -           .vm_file =3D vma->vm_file,
-> > > -           .vma_flags =3D vma->flags,
-> > > -           .page_prot =3D vma->vm_page_prot,
-> > > -
-> > > -           .action.type =3D MMAP_NOTHING, /* Default */
-> > > -   };
-> > >     int err;
-> > >
-> > > -   err =3D vfs_mmap_prepare(file, &desc);
-> > > -   if (err)
-> > > -           return err;
-> > > -
-> > > -   err =3D mmap_action_prepare(&desc, &desc.action);
-> > > +   err =3D __compat_vma_mmap(file, vma);
-> > >     if (err)
-> > >             return err;
-> > >
-> > > -   set_vma_from_desc(vma, &desc);
-> > > -   return mmap_action_complete(vma, &desc.action);
-> > > +   return __compat_vma_mapped(file, vma);
-> > >  }
-> > >  EXPORT_SYMBOL(compat_vma_mmap);
-> > >
-> > > +int __vma_check_mmap_hook(struct vm_area_struct *vma)
-> > > +{
-> > > +   /* vm_ops->mapped is not valid if mmap() is specified. */
-> > > +   if (WARN_ON_ONCE(vma->vm_ops->mapped))
-> > > +           return -EINVAL;
-> >
-> > I think vma->vm_ops can be NULL here. Should be:
-> >
-> >       if (vma->vm_ops && WARN_ON_ONCE(vma->vm_ops->mapped))
-> >               return -EINVAL;
->
-> I think again you'd probably only invoke this on file-backed so be ok, bu=
-t again
-> as a matter of principle we should check it so will fix, thanks!
->
-> >
-> > > +
-> > > +   return 0;
-> > > +}
-> > > +EXPORT_SYMBOL(__vma_check_mmap_hook);
+This doesn't add any specific value, it's just "Device entered ramdump
+mode".
 
-nit: Any reason __vma_check_mmap_hook() is not inlined next to its
-user vfs_mmap()?
+> 
+> Once the board is in download mode, you can use the qdl tool (I
+> personally use edl , have not tried qdl yet)
 
-> > > +
-> > >  static void set_ps_flags(struct page_snapshot *ps, const struct foli=
-o *folio,
-> > >                      const struct page *page)
-> > >  {
-> > > @@ -1316,10 +1357,7 @@ static int mmap_action_finish(struct vm_area_s=
-truct *vma,
-> > >      * invoked if we do NOT merge, so we only clean up the VMA we cre=
-ated.
-> > >      */
-> > >     if (err) {
-> > > -           const size_t len =3D vma_pages(vma) << PAGE_SHIFT;
-> > > -
-> > > -           do_munmap(current->mm, vma->vm_start, len, NULL);
-> > > -
-> > > +           unmap_vma_locked(vma);
-> > >             if (action->error_hook) {
-> > >                     /* We may want to filter the error. */
-> > >                     err =3D action->error_hook(err);
-> > > diff --git a/mm/vma.c b/mm/vma.c
-> > > index 054cf1d262fb..ef9f5a5365d1 100644
-> > > --- a/mm/vma.c
-> > > +++ b/mm/vma.c
-> > > @@ -2705,21 +2705,35 @@ static bool can_set_ksm_flags_early(struct mm=
-ap_state *map)
-> > >     return false;
-> > >  }
-> > >
-> > > -static int call_action_complete(struct mmap_state *map,
-> > > -                           struct mmap_action *action,
-> > > -                           struct vm_area_struct *vma)
-> > > +static int call_mapped_hook(struct vm_area_struct *vma)
-> > >  {
-> > > -   int ret;
-> > > +   const struct vm_operations_struct *vm_ops =3D vma->vm_ops;
-> > > +   void *vm_private_data =3D vma->vm_private_data;
-> > > +   int err;
-> > >
-> > > -   ret =3D mmap_action_complete(vma, action);
-> > > +   if (!vm_ops || !vm_ops->mapped)
-> > > +           return 0;
-> > > +   err =3D vm_ops->mapped(vma->vm_start, vma->vm_end, vma->vm_pgoff,
-> > > +                        vma->vm_file, &vm_private_data);
-> > > +   if (err) {
-> > > +           unmap_vma_locked(vma);
-> > > +           return err;
-> > > +   }
-> > > +   /* Update private data if changed. */
-> > > +   if (vm_private_data !=3D vma->vm_private_data)
-> > > +           vma->vm_private_data =3D vm_private_data;
-> > > +   return 0;
-> > > +}
-> > >
-> > > -   /* If we held the file rmap we need to release it. */
-> > > -   if (map->hold_file_rmap_lock) {
-> > > -           struct file *file =3D vma->vm_file;
-> > > +static void maybe_drop_file_rmap_lock(struct mmap_state *map,
-> > > +                                 struct vm_area_struct *vma)
-> > > +{
-> > > +   struct file *file;
-> > >
-> > > -           i_mmap_unlock_write(file->f_mapping);
-> > > -   }
-> > > -   return ret;
-> > > +   if (!map->hold_file_rmap_lock)
-> > > +           return;
-> > > +   file =3D vma->vm_file;
-> > > +   i_mmap_unlock_write(file->f_mapping);
-> > >  }
-> > >
-> > >  static unsigned long __mmap_region(struct file *file, unsigned long =
-addr,
-> > > @@ -2773,8 +2787,11 @@ static unsigned long __mmap_region(struct file=
- *file, unsigned long addr,
-> > >     __mmap_complete(&map, vma);
-> > >
-> > >     if (have_mmap_prepare && allocated_new) {
-> > > -           error =3D call_action_complete(&map, &desc.action, vma);
-> > > +           error =3D mmap_action_complete(vma, &desc.action);
-> > > +           if (!error)
-> > > +                   error =3D call_mapped_hook(vma);
-> > >
-> > > +           maybe_drop_file_rmap_lock(&map, vma);
-> > >             if (error)
-> > >                     return error;
-> > >     }
-> > > diff --git a/tools/testing/vma/include/dup.h b/tools/testing/vma/incl=
-ude/dup.h
-> > > index 908beb263307..47d8db809f31 100644
-> > > --- a/tools/testing/vma/include/dup.h
-> > > +++ b/tools/testing/vma/include/dup.h
-> > > @@ -606,12 +606,34 @@ struct vm_area_struct {
-> > >  } __randomize_layout;
-> > >
-> > >  struct vm_operations_struct {
-> > > -   void (*open)(struct vm_area_struct * area);
-> > > +   /**
-> > > +    * @open: Called when a VMA is remapped or split. Not called upon=
- first
-> > > +    * mapping a VMA.
-> > > +    * Context: User context.  May sleep.  Caller holds mmap_lock.
-> > > +    */
+Is this your or Eugen's comment? Why haven't you tested qdl yet?
 
-This comment should have been introduced in the previous patch.
+>, to get all the regions as
+> separate files.  The tool from the host computer will list the regions
+> in the order they were downloaded.
+> 
+> Once you have all the files simply use `cat` to put them all together,
+> in the order of the indexes.  For my kernel config and setup, here is my
+> cat command : (you can use a script or something, I haven't done that so
+> far):
 
-> > > +   void (*open)(struct vm_area_struct *vma);
-> > >     /**
-> > >      * @close: Called when the VMA is being removed from the MM.
-> > >      * Context: User context.  May sleep.  Caller holds mmap_lock.
-> > >      */
-> > > -   void (*close)(struct vm_area_struct * area);
-> > > +   void (*close)(struct vm_area_struct *vma);
-> > > +   /**
-> > > +    * @mapped: Called when the VMA is first mapped in the MM. Not ca=
-lled if
-> > > +    * the new VMA is merged with an adjacent VMA.
-> > > +    *
-> > > +    * The @vm_private_data field is an output field allowing the use=
-r to
-> > > +    * modify vma->vm_private_data as necessary.
-> > > +    *
-> > > +    * ONLY valid if set from f_op->mmap_prepare. Will result in an e=
-rror if
-> > > +    * set from f_op->mmap.
-> > > +    *
-> > > +    * Returns %0 on success, or an error otherwise. On error, the VM=
-A will
-> > > +    * be unmapped.
-> > > +    *
-> > > +    * Context: User context.  May sleep.  Caller holds mmap_lock.
-> > > +    */
-> > > +   int (*mapped)(unsigned long start, unsigned long end, pgoff_t pgo=
-ff,
-> > > +                 const struct file *file, void **vm_private_data);
-> > >     /* Called any time before splitting to check if it's allowed */
-> > >     int (*may_split)(struct vm_area_struct *area, unsigned long addr)=
-;
-> > >     int (*mremap)(struct vm_area_struct *area);
-> > > @@ -1345,3 +1367,11 @@ static inline void vma_set_file(struct vm_area=
-_struct *vma, struct file *file)
-> > >     swap(vma->vm_file, file);
-> > >     fput(file);
-> > >  }
-> > > +
-> > > +static inline void unmap_vma_locked(struct vm_area_struct *vma)
-> > > +{
-> > > +   const size_t len =3D vma_pages(vma) << PAGE_SHIFT;
-> > > +
-> > > +   mmap_assert_locked(vma->vm_mm);
-> > > +   do_munmap(vma->vm_mm, vma->vm_start, len, NULL);
-> > > +}
-> > > --
-> > > 2.53.0
-> > >
-> > >
->
-> Cheers, Lorenzo
+So these need to be sorted in numerical order, by that number at the end
+of the file name?
+
+Do you manually punch these in? How do we make this user friendly?
+
+Regards,
+Bjorn
+
+> 
+> `cat md_KELF1.BIN md_Kvmcorein2.BIN md_Kconfig3.BIN \
+> md_Ktotalram4.BIN md_Kcpu_poss5.BIN md_Kcpu_pres6.BIN \
+> md_Kcpu_onli7.BIN md_Kcpu_acti8.BIN md_Kmem_sect9.BIN \
+> md_Kjiffies10.BIN md_Klinux_ba11.BIN md_Knr_threa12.BIN \
+> md_Knr_irqs13.BIN md_Ktainted_14.BIN md_Ktaint_fl15.BIN \
+> md_Knode_sta16.BIN md_K__per_cp17.BIN md_Knr_swapf18.BIN \
+> md_Kinit_uts19.BIN md_Kprintk_r20.BIN md_Kprintk_r21.BIN \
+> md_Kprb22.BIN md_Kprb_desc23.BIN md_Kprb_info24.BIN \
+> md_Kprb_data25.BIN  md_Khigh_mem26.BIN md_Kinit_mm27.BIN \
+> md_Kunknown29.BIN md_Kunknown30.BIN md_Kunknown31.BIN \
+> md_Kunknown32.BIN md_Kunknown33.BIN md_Kunknown34.BIN \
+> md_Kunknown35.BIN md_Kunknown37.BIN \
+> md_Kunknown38.BIN md_Kunknown39.BIN md_Kunknown40.BIN \
+> md_Kunknown41.BIN md_Kunknown42.BIN md_Kunknown43.BIN \
+> md_Kunknown44.BIN md_Kunknown45.BIN  md_Kunknown46.BIN \
+> md_Kunknown47.BIN md_Kunknown48.BIN md_Kunknown49.BIN \
+> md_Kunknown50.BIN md_Kunknown51.BIN md_Kunknown52.BIN \
+> md_Kunknown53.BIN md_Kunknown54.BIN   > ./minidump_image`
+> 
+> Once you have the resulted file, use `crash` tool to load it, like this:
+> `./crash --no_modules --no_panic --no_kmem_cache --zero_excluded vmlinux minidump_image`
+> 
+> There is also a --minimal mode for ./crash that would work without any patch applied
+> to crash tool, but you can't inspect symbols, etc.
+> 
+> Once you load crash you will see something like this :
+>       KERNEL: minidump/20260310-235110/vmlinux  [TAINTED]
+>     DUMPFILE: ./minidump/20260310-235110/minidump_image
+>         CPUS: 8 [OFFLINE: 7]
+>         DATE: Thu Jan  1 05:30:00 +0530 1970
+>       UPTIME: 00:00:27
+>        TASKS: 0
+>     NODENAME: qemuarm64
+>      RELEASE: 7.0.0-rc3-next-20260309-00028-g528b3c656121
+>      VERSION: #5 SMP PREEMPT Tue Mar 10 18:18:41 UTC 2026
+>      MACHINE: aarch64  (unknown Mhz)
+>       MEMORY: 0
+>        PANIC: "Kernel panic - not syncing: sysrq triggered crash"
+> 
+> crash> log
+> [    0.000000] Booting Linux on physical CPU 0x0000000000 [0x514f0014]
+> [    0.000000] Linux version 7.0.0-rc3-next-20260309-00028-g528b3c656121 (@21e3bca4168f) (aarch64-linux-gnu-gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0, GNU ld (GNU Binutils for Ubuntu) 2.42) #5 SMP PREEMPT Tue Mar 10 18:18:41 UTC 2026
+> 
+> *** Debug Kinfo backend driver ***
+> I need help with the testing of this driver, Anyone who actually wants
+> to test this, feel free to reply to the patch. we have also written a
+> simple DT binding for the driver.
+> 
+> Thanks in advance for the review, and apologies if I missed addressing any comment.
+> 
+> -Mukesh 
+> 
+> Changes in v2: https://lore.kernel.org/lkml/20251119154427.1033475-1-eugen.hristev@linaro.org/
+>  - Fixed doc warnings
+>  - Fixed kernel-test robot warnings.
+>  - Took Mike suggestion to remove mark inspect flag for dynamic memory.
+>  - Added R-b for printk patch.
+>  - Modified some commit messages for clarity.
+>  - corrected binding change for debug-kinfo as per Rob suggestion.
+> 
+> Changelog for meminspect v1:
+> - rename to meminspect
+> - start on top of v2 actually, with the section and all.
+> - remove the backend thing, change the API to access the table
+> - move everything to kernel/
+> - add dependency to CRASH_DUMP instead of a separate knob
+> - move the minidump driver to soc/qcom
+> - integrate the meminspect better into memblock by using a new memblock flag
+> - minor fixes : use dev_err_probe everywhere, rearrange variable declarations,
+> remove some useless code, etc.
+> 
+> Changelog for RFC v3:
+> - V2 available here : https://lore.kernel.org/all/20250724135512.518487-1-eugen.hristev@linaro.org/
+> - Removed the .section as requested by David Hildenbrand.
+> - Moved all kmemdump registration(when possible) to vmcoreinfo.
+> - Because of this, some of the variables that I was registering had to be non-static
+> so I had to modify this as per David Hildenbrand suggestion.
+> - Fixed minor things in the Kinfo driver: one field was broken, fixed some
+> compiler warnings, fixed the copyright and remove some useless includes.
+> - Moved the whole kmemdump from drivers/debug into mm/ and Kconfigs into mm/Kconfig.debug
+> and it's now available in kernel hacking, as per Randy Dunlap review
+> - Reworked some of the Documentation as per review from Jon Corbet
+> 
+> Changelog for RFC v2:
+> - V1 available here: https://lore.kernel.org/lkml/20250422113156.575971-1-eugen.hristev@linaro.org/
+> - Reworked the whole minidump implementation based on suggestions from Thomas Gleixner.
+> This means new API, macros, new way to store the regions inside kmemdump
+> (ditched the IDR, moved to static allocation, have a static default backend, etc)
+> - Reworked qcom_minidump driver based on review from Bjorn Andersson
+> - Reworked printk log buffer registration based on review from Petr Mladek
+> 
+> I appologize if I missed any review comments.
+> Patches are sent on top on next-20260309 tag
+> 
+> ---
+> Eugen Hristev (21):
+>       kernel: Introduce meminspect
+>       init/version: Annotate static information into meminspect
+>       mm/percpu: Annotate static information into meminspect
+>       cpu: Annotate static information into meminspect
+>       genirq/irqdesc: Annotate static information into meminspect
+>       timers: Annotate static information into meminspect
+>       kernel/fork: Annotate static information into meminspect
+>       mm/page_alloc: Annotate static information into meminspect
+>       mm/show_mem: Annotate static information into meminspect
+>       mm/swapfile: Annotate static information into meminspect
+>       kernel/vmcore_info: Register dynamic information into meminspect
+>       kernel/configs: Register dynamic information into meminspect
+>       mm/init-mm: Annotate static information into meminspect
+>       panic: Annotate static information into meminspect
+>       kallsyms: Annotate static information into meminspect
+>       mm/mm_init: Annotate static information into meminspect
+>       sched/core: Annotate runqueues into meminspect
+>       remoteproc: qcom: Move minidump data structures into its own header
+>       soc: qcom: Add minidump backend driver
+>       soc: qcom: smem: Add minidump platform device
+>       meminspect: Add debug kinfo compatible driver
+> 
+> Mukesh Ojha (4):
+>       mm/numa: Register node data information into meminspect
+>       mm/sparse: Register information into meminspect
+>       printk: Register information into meminspect
+>       dt-bindings: reserved-memory: Add Google Kinfo Pixel reserved memory
+> 
+>  Documentation/dev-tools/index.rst                  |   1 +
+>  Documentation/dev-tools/meminspect.rst             | 144 +++++++
+>  .../bindings/reserved-memory/google,kinfo.yaml     |  46 ++
+>  MAINTAINERS                                        |  14 +
+>  drivers/of/platform.c                              |   1 +
+>  drivers/remoteproc/qcom_common.c                   |  56 +--
+>  drivers/soc/qcom/Kconfig                           |  13 +
+>  drivers/soc/qcom/Makefile                          |   1 +
+>  drivers/soc/qcom/minidump.c                        | 272 ++++++++++++
+>  drivers/soc/qcom/smem.c                            |  10 +
+>  include/asm-generic/vmlinux.lds.h                  |  13 +
+>  include/linux/meminspect.h                         | 263 ++++++++++++
+>  include/linux/soc/qcom/minidump.h                  |  72 ++++
+>  init/Kconfig                                       |   1 +
+>  init/version-timestamp.c                           |   3 +
+>  init/version.c                                     |   3 +
+>  kernel/Makefile                                    |   1 +
+>  kernel/configs.c                                   |   6 +
+>  kernel/cpu.c                                       |   5 +
+>  kernel/fork.c                                      |   3 +
+>  kernel/irq/irqdesc.c                               |   2 +
+>  kernel/kallsyms.c                                  |   9 +
+>  kernel/meminspect/Kconfig                          |  30 ++
+>  kernel/meminspect/Makefile                         |   4 +
+>  kernel/meminspect/kinfo.c                          | 284 +++++++++++++
+>  kernel/meminspect/meminspect.c                     | 471 +++++++++++++++++++++
+>  kernel/panic.c                                     |   4 +
+>  kernel/printk/printk.c                             |  11 +
+>  kernel/sched/core.c                                |   2 +
+>  kernel/time/timer.c                                |   2 +
+>  kernel/vmcore_info.c                               |   4 +
+>  mm/init-mm.c                                       |  11 +
+>  mm/mm_init.c                                       |   2 +
+>  mm/numa.c                                          |   2 +
+>  mm/page_alloc.c                                    |   2 +
+>  mm/percpu.c                                        |   2 +
+>  mm/show_mem.c                                      |   2 +
+>  mm/sparse.c                                        |   6 +
+>  mm/swapfile.c                                      |   2 +
+>  39 files changed, 1725 insertions(+), 55 deletions(-)
+> ---
+> base-commit: 343f51842f4ed7143872f3aa116a214a5619a4b9
+> change-id: 20260311-minidump-v2-eed8da647ce5
+> 
+> Best regards,
+> -- 
+> -Mukesh Ojha
+> 
