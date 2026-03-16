@@ -1,33 +1,66 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CC9D39449F;
-	Mon, 16 Mar 2026 12:06:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1615F282F02
+	for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 12:43:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773662765; cv=none; b=gWEd3hoOFmfKvFlqKcH+NMQ/knR/NykblOUKjSjsL4aXL06er3YBkdza0VV5lvmlUNjLF/JcnDIREPJKUVPrvZfpVZLvwQC0ko0wPw8ZwN8T15uD6NIpnCxjcKh4FPV99JitgQKNUwcleFJndzVmNjVXIKxHMEgG2uXOSwZegPs=
+	t=1773665024; cv=none; b=UuQt4PetjTq1ka3/kWYF1gKId09GCfqeGA7E65Jiur6aafiVeL+CQ/Syl3Brn7b1QEDbCFR9z6YI0hLKDr/DBITQIGWGJQ2ymHBiQnNh1SoHokXaYhPkMhW8ut+fgE/gMM6qzL9vJQz3d7wR/ASxm5XA6Z1pTZvkQpv/BYvRoQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773662765; c=relaxed/simple;
-	bh=ZRtAZTNtj21DA+dLUkzrLS06oD7H1G2/XVPogljiumQ=;
+	s=arc-20240116; t=1773665024; c=relaxed/simple;
+	bh=nUQBkP3X0/pToFV2Q83fkQmrRWytaL3cs4Kbidm9cKk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IUunjyQvPFIzi2LWMl8CoTErP3CNu7VnQWNvTl9qyN5l9zC5khBKXQDrWosBQ547aWGD9fYjEJSP1G+Emxx8byMMygiEOEWtaC707yo7IkS14eQ98dhsmJnyaW0mpvAhSBJbHlzDnBDiKkNQqKTL35WHXLYrPKzkMl0I4Cow5s0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uazIWo21; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=fGJruhi/c0Li4WOOsRBLQso6v/d+CMFUZPK6PwU5A3zlE0WOGqpvVlOqRk4f3+7XCviqYIjd9yFxPoAHkMUdPMwBtYNMRal1OkNpfaejAN5iBumBg0CxA1tpdfAXljiS5EZYfY++Nn/8rYduVtoJXIK5PUN2GCdK96CgXiQKpgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I5/rZ/oj; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uazIWo21"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B739C2BCB3;
-	Mon, 16 Mar 2026 12:06:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773662764;
-	bh=ZRtAZTNtj21DA+dLUkzrLS06oD7H1G2/XVPogljiumQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=uazIWo21z9Q0Nfxh7k8vQaBdJR/cz4jSxAND0XUGo3yg9ZQk+kntEV+X9wuWm11o/
-	 tbbVwc6e1RsyBfJk9G3opjWSkU2LqwydeVvfP+P39spZkU80/E7KsbPX9xZtRPW3b5
-	 cyqUE0LhhcI/d/6xPTp+VPmuvrwas9Y02cKWEuSqNjfpFgZp2J9ON4Qti2IDRdOj7E
-	 C1jzgwW8U+YqqViqu7ap8gJlJ65eQ5A9hWrFTnPD8IaV+MhN5CQmMrjKLshcJ0F06a
-	 AqMbROiyaKrqGfJeP39jlUxsTbo3LXTyG+oW0bukJwb3Z0p+VQWnvc5hjRhHDvwJ/S
-	 l4CuuH2ZBolqw==
-Message-ID: <085ebc8c-636b-45d6-8431-878cbe90314b@kernel.org>
-Date: Mon, 16 Mar 2026 13:06:00 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I5/rZ/oj"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-829928e512aso2338136b3a.2
+        for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 05:43:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773665022; x=1774269822; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=CkHw6F0TVfTVq6+d27cGnGWlgQYL5yMrvBwXiQRpbsA=;
+        b=I5/rZ/ojBB5P0t2efjOKKVPsSJge8yITJ9Wwu+vgR8RJGf5AZu+z+Ljzcgl1G4jKQg
+         d1m6ViiM1t74TWUQtYhtSVPyzuUfLnaNltQCFh3rdgr5cKQoUfpEmo+XkPWEMkm618v0
+         f1SnGDRuMjPXSkUVcKLErVqNcSXGKLzM0bfRpam3S2WT16AzcJ6YQp7sExKAdmYLxTLX
+         5tLUIAXl0XzXcbKymgL1rmT6nViz88tHYk7Tq3PAdTy9m7KUIu7xz06w+QBRTDKWT+OR
+         /891AMqlQM2uIGKEZyvh/inlq+VjzZjjEB0HsgK+1PKz1EsN4fPoyKRngxKOOOHxZCno
+         KhbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773665022; x=1774269822;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CkHw6F0TVfTVq6+d27cGnGWlgQYL5yMrvBwXiQRpbsA=;
+        b=ABx9KNAWs8BDN9zy9C7nID8b7gUtNhcKmZMXtQpW5EqN8RSRfaBIHltswViRuvTuTG
+         Cc2BymIAY+nkN4dE19aitVKOUgJzpbsBO29nR650CJSNJUr5tovII55UOIzel/0Cfyq1
+         RjfUk3qkkBhYmHUld5kW2iiE69elPZyi3lNcKejb8028tgDaIZ9COYU9JRfpYanJ43RL
+         S1BB37SaWd0898YmFPDk3npxROgNqZL9HdJeOw8kDmhwQTodd44gtqXwHQOM6QfYe9KJ
+         WE5c35hbEV60oow0wX03ulMXVGn1JpKVEt1EmdFWTFBkP3WO6i6LPf86zuZDqsMDiIki
+         Kg5Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVt/AQvwqgUxTow3b97a9Sfbz9Maz4bSAKLz9/x3y0mFI4nZZudCyWd5m7oySSH4Lp6idtNc1uoBdg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxxTmncWXgiR5uLICC7Ea6KuVshkRDuBlw9UZvzrTmgmu5AdMW8
+	qByCwY+iwbDqZxR5SAiC6fC9XfhlieHhPaHus3tzFwtytDPH8qx2RWYv
+X-Gm-Gg: ATEYQzx1xDSWtOUvhUG+yqBarEMsgcLkQwu+k9imeYLmbs5exoWtRNTIbBZNaKPZ4WL
+	zc0wZhGEB5Tema45p7Foxn4SfNrWM0b/0DQDDxJG7KzMMTb9k3UyaC3GooUTv1lrstaPTttbctd
+	9bL3wSMlAmf5Y9RSG46vurafvYoNjoCCRR+st0RmNz/+Wx5AJqLgCxzSp89hA2L1WifsrhiIg+p
+	EcWXCVA2qiBVn6XH2XtByS9iytfHu7wZI5i/2+p0ILJ3s8ZLrgp1YUKGmIiB0CcqHYzKXbznu+l
+	oH9f8GPUJves+uj5SOeH6IqzzC/JiFq7PdHzpOsrWNAnYSEaVlUOPT7bHyS0ZgJXXKHJvFJObZh
+	Sjd9cDx4isEdO59UI+ubfvoHzlKg1JX84T1144wbfYdnWlYlwFtUcJ8OiMTOg0LIYwfmjEQYF/w
+	vvGOuNqvHI5kY98Zn5gW3KL16rnWMmLCg/kbxreoXXjGzqBrUFFaXRDxr9Hv2RxIMU
+X-Received: by 2002:a05:6a00:2e9b:b0:82a:1590:e1b9 with SMTP id d2e1a72fcca58-82a1988e749mr10611803b3a.35.1773665022398;
+        Mon, 16 Mar 2026 05:43:42 -0700 (PDT)
+Received: from ?IPV6:240e:38b:d99:bc01:3e56:a0ba:b06b:4af4? ([240e:38b:d99:bc01:3e56:a0ba:b06b:4af4])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82a0738528fsm13785454b3a.56.2026.03.16.05.43.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Mar 2026 05:43:41 -0700 (PDT)
+Message-ID: <022986cf-28cc-48a1-90f4-bbf84b94bafb@gmail.com>
+Date: Mon, 16 Mar 2026 20:43:17 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,81 +68,54 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] virtio: document the map API in the driver writing guide
-To: John S <xaum.io@gmail.com>, mst@redhat.com, jasowang@redhat.com
-Cc: xuanzhuo@linux.alibaba.com, eperezma@redhat.com, corbet@lwn.net,
- skhan@linuxfoundation.org, virtualization@lists.linux.dev,
+Subject: Re: [PATCH v2] docs/zh_CN: sync process/2.Process.rst with English
+ version
+To: Song Hongyi <szpcq123@gmail.com>, alexs@kernel.org, si.yanteng@linux.dev,
+ corbet@lwn.net
+Cc: dzm91@hust.edu.cn, skhan@linuxfoundation.org, w1ndys@qq.com,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <CAAZVx999y-DvB7Dp2ekoHk6s8aqqScd2gKSY4ySGAK6NNXeH5g@mail.gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+References: <9cc4a719-d6ca-4f15-b862-60fb862ba7b2@hust.edu.cn>
+ <20260311123107.329769-1-szpcq123@gmail.com>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <CAAZVx999y-DvB7Dp2ekoHk6s8aqqScd2gKSY4ySGAK6NNXeH5g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Alex Shi <seakeel@gmail.com>
+In-Reply-To: <20260311123107.329769-1-szpcq123@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 12/03/2026 22:58, John S wrote:
-> Add a new "Buffer mapping" section to the virtio driver writing guide
-> documenting the virtio map API (struct virtio_map_ops). This API was
-> introduced in commit bee8c7c24b73 ("virtio: introduce map ops in virtio
-> core") to allow transports and devices that do not perform DMA (such
-> as VDUSE) to provide their own buffer mapping logic instead of abusing
-> the DMA API.
+Applied, Thanks!
+
+On 2026/3/11 20:31, Song Hongyi wrote:
+> The Chinese translation of the development process documentation was
+> outdated. Sync it with the current English version to ensure consistency.
 > 
-> The new section explains when and why custom map ops are used, documents
-> the virtio_map_ops structure and the union virtio_map token, and
-> references the driver-facing mapping helpers with their kernel-doc.
+> Key changes include:
+> - Update versioning examples from 5.x to the 9.x placeholder.
+> - Add footnote [1] to explain the non-semantic versioning scheme.
+> - Replace the obsolete LTS kernel table with a link to kernel.org.
+> - Add a cross-reference for the "interleaved replies" section.
 > 
-> Signed-off-by: Kit Dallege <xaum.io@gmail.com>
+> Update the translation through commit 5ce70894f6ca
+> ("Doc: correct spelling and wording mistakes")
+> 
+> Signed-off-by: Song Hongyi<szpcq123@gmail.com>
 > ---
->  .../virtio/writing_virtio_drivers.rst         | 72 +++++++++++++++++++
->  1 file changed, 72 insertions(+)
+> 
+> 
+> Hi Dongliang,
+> 
+> Thanks for the review! I have updated the commit message with the English
+> commit hash.
+> 
+> Song Hongyi
+> 
+>   .../translations/zh_CN/process/2.Process.rst  | 56 +++++++++----------
+>   1 file changed, 25 insertions(+), 31 deletions(-)
+> 
+> diff --git a/Documentation/translations/zh_CN/process/2.Process.rst b/Documentation/translations/zh_CN/process/2.Process.rst
+> index 31b0e2c994f6..ca00672c313e 100644
+> --- a/Documentation/translations/zh_CN/process/2.Process.rst
+> +++ b/Documentation/translations/zh_CN/process/2.Process.rst
+> @@ -23,21 +23,18 @@
+>   总览
+>   ----
 
-NAK, because:
-1. Mismatched DCO or anonymous contribution
-2. Likely unverified LLM microslop
-
-Best regards,
-Krzysztof
