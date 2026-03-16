@@ -1,205 +1,209 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F7BC369224
-	for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 21:49:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C736435A398
+	for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 21:51:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773697782; cv=none; b=tQDsjYbUMvj93lbiftxt8Crm5++/zqOcb1toT9RwB61uH6WzV+PnvH/qAln0/wX7xctq/r47EtQY1JOprwijoR+q5OrtztrAVPOQznm86Oj/Jd9V/6+8/Qopm1OKIHcpuwdUUJF/SiJ0wQbCNwsHCcjw2pv1OM9cwmy4mCdp9pc=
+	t=1773697900; cv=none; b=KtzEVk1NgjpWZwygH9bChxX1fF1j2t7mxK2WI/UyD7zLzuevVPug5BUbMcBYeDvVD4K3KZ4LgtUuwCWE/sLf+iOJSoR216FDAMXtxo2OkDimTFK1/ctpS+6cgzvrVoO5NRc64Ie3Ok4VTGC+aNyDnGMjaW6NlJ+M0RhHMjznrMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773697782; c=relaxed/simple;
-	bh=wQ/TGkC56TEVU9edxRoDW8klAaLsoZRqlEjOzTkcHtQ=;
+	s=arc-20240116; t=1773697900; c=relaxed/simple;
+	bh=22FQQziovkybfpoEgGEar4XKtg0Elmc86WdBJzgy3AA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ht304k2C5/2od0dGUr+UuSXUCU5ooCB+LDgSJddB7nj/UsAk4MoGy1dFXKEhYVJcfRAhynqP086bTw05dFdMmA5CWGFHe/9yUZHcfZibEbI8ZzZ/sOboeV8c9baKnCyOeX+YMs+GbaQ42vSrn2vNyAbjE48lCJLNoZlAr/V20vQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Sz9aLFQ5; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=nIzPvlxc8dJPg6a1YInEDQSFsJko/2QQaMWwF4iLrlta5BM9G/fjTIU7olmNJwn1Gcgvl01aAE0VinENwTC+la4bavTlt7JQo4AhSUB6brpMfw0S8DWYvEM2rfgfTQs+oMabcbCnpXnx/RZOea/hRiEr4JnDUzZiRsYx89XCYYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RD0AnySI; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Sz9aLFQ5"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2aeab6ff148so13465ad.1
-        for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 14:49:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RD0AnySI"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-485409ab264so819805e9.1
+        for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 14:51:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1773697780; x=1774302580; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=/8z1/dIhYqxHzj3/umwHNkEcO1PtVcvAJP18LcAQq1Y=;
-        b=Sz9aLFQ5ZpzjCMQbhP0GaJlUqctaX3L9daYdMHHAWK69ofV+JdrQQNZqqHNfyhJHWT
-         enhHiksoJUu1HFOS7H5sV/6mmQvX287gMHDXX5CQnSr3xv5I/ftgY3RMZpoqGhum6QYn
-         z4R+1BiLxyabC86ANdO18xTJk7zbt2Z3SrDV8yGup3msBjRNI2SYLUdBjwZUnwAGSVn6
-         LMhCIwfYfZWZXxrJCyIpIuAKBOekqIsZhuhPIywVxn1rrlOMsD6YZI8HwEDuT/lydBNT
-         3Zpgfy+IOr6GTSSADS1sYM5OjTSeSAkISsKbU/j27ic2WwLzAmamilpN7CSDCTcFAxux
-         9+Vg==
+        d=gmail.com; s=20230601; t=1773697897; x=1774302697; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Sj1cmcN77XR2dLCOZTKXheeb7KLeaY6rrHsbkVnSpso=;
+        b=RD0AnySIyW2JLlyg7kNXl182x2dz/yCOKiV8rMCNirdvIxNN//NbP5veoW6pRZAjMc
+         VMNNx0e+j9nYXfS29C/+e9D96vDDDn/yiOIH1EQfXQ0kYdIHkEA54StylbnMud08dKf3
+         hfWsoCeGFIiVmAJsn4K/BA3NIBfmYWNZEuvdYRk+AmefdaoU9dlTMatvzUxBHxTAEWG6
+         tx9oxN/7gvvwIaQ6sRwrWvGSp+OxO6IzG5fV0sgGZuV2Fvw4OzYovZhTvKRvFEOkjfKT
+         f184BTCR1W7vw32vW7CGApplGLqpd/1aU9rIiG17+SvxQ4//R7iJZRXBRpwA530ZOiSa
+         HIAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773697780; x=1774302580;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/8z1/dIhYqxHzj3/umwHNkEcO1PtVcvAJP18LcAQq1Y=;
-        b=oHEVZKVO0AxvkyH2QViCukQHrMhaYlvkVFzyRmpgPtfPx3/ZUs1dVsKq9oYvXultEi
-         nZEciLsSCwPdKg/xam1muwVFkiC+P0OlvC7NvqfttBgW7hJcjpN9+kQzbOxtN5esuHkL
-         bveUgUpqR5l/G+mgUsgdIo7pC2sYr3UZ+g+9Js6rY+OqDvacl0IFvAs+UQBuzh2aSjva
-         Mzm6CF+m+PkPfAUByBzut6LnI/D9ef1sEJVxlP3WCCYZi9FAM/bzl58GJc0boq2Y9tHk
-         tm87F+24AvU7Tz5dS8nqRR8qn3+jGCPvQ/B7CO6GyP+okM0omoCtQfWARII9xJSnma+K
-         l9fA==
-X-Forwarded-Encrypted: i=1; AJvYcCUcPdpZU7X/peU9m9ZGYgbijjRTRZZjfJd1FZRG3u/XcXohxC4xLupGqk/MFbUmZXMJkRsJMd3AOlM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyRueB+S5CfbsE/Wkh+Th0vqYuec5543TeArMj4KLIG+Jbn6Udl
-	ve/2rPhskIe99RYsTHIFnI1o+eww32Nb/YBJ8soMpTs7puACkmqdEFmctP3Sosf9TA==
-X-Gm-Gg: ATEYQzzjO4mW+2vbv06wpydybi8dO6o3OR8zRwwcD0RCzs7jw2Mzm7pxB0bQ2+xVqRO
-	w3vHm+7ylR8fbMb30MxUrn3eELVTTQm1DqH+4Tc+ZGvWnlkBWpdvK/yv3HMIeNLn+zrQl686c7p
-	j7bsrPBF2pw0EJ+/HgD5tymAb87K2j0q/NpnBd3sV2rq6uHb7G6mn1DIiwT+upaZOJH8y/fquJD
-	m+L1oH65MjUXGp0KeRqoDh9AOdy2GgYelPBhiTwX0UVDLA5upbCrwC2CkamntMYZjrLc03uST69
-	s2tTHUiXmyi51E93OnVP/nvOCXisktSoanl4YuRyXJToWQamfYUYGTfUE8yYME5JKEhRJLkYsCS
-	j4waas5PVED5I9b+gWEKoavDQDYiyAc8Ju1VVn30C94dYXIWAEA0HyURsnQ9wvnVCPjKwaH6/YD
-	buNefCSTx1HTdWa3tEMDizrOphJ3TYKaEd2oCU75xWsF916JjMv+RUXyrTPgBx
-X-Received: by 2002:a17:903:98b:b0:2a8:ffed:4663 with SMTP id d9443c01a7336-2b06402f49emr1238925ad.12.1773697779367;
-        Mon, 16 Mar 2026 14:49:39 -0700 (PDT)
-Received: from google.com (176.13.105.34.bc.googleusercontent.com. [34.105.13.176])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82a07365b22sm14359627b3a.45.2026.03.16.14.49.38
+        d=1e100.net; s=20251104; t=1773697897; x=1774302697;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Sj1cmcN77XR2dLCOZTKXheeb7KLeaY6rrHsbkVnSpso=;
+        b=L7ri4Mq1WjgofHLWOqR8bdv/GJbrvwcdzS9lskzuZYeSkxlCp0bq4tGnsGISRZqU2l
+         mCxMhwps2NozOdOPzRDRM8q1MlE4S+guxF34SK6jvl2jQaRQ6RTiPbG4kT24FScrA6gv
+         wdaJjy7/1S8zjRQxvOvseNzMoseRWrlDLQm6DW4OCQu4I704+GszuXNfBoyf3P5Awe0C
+         JGR71Fb0cCcaTMoefKGyaxaBOSR4OPE5wkBCUIr+OEXbNNQK1WokW7PfrRCTTwqo129Z
+         GT4KMy81ogN9EjbpgFw4mfRRKG3JYh5v5VDof7FhVQM09FsKwq0x9cbFUCaelmC9n/Fj
+         kx2A==
+X-Forwarded-Encrypted: i=1; AJvYcCU7GvfJvixOTDzPwek+H4cPfZhZdCGSIKSPJS8QMRTWXAQ+uJyQN/HPDJy0NYS7l4J0qqB5wzaS/TM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx1k4Uh4he7pIGDGytaBvzE/Zs0BM2L2o2glizk+DUhHprJUI8O
+	Zj8juZzhU2RldQj7sw814YN6629pmfBTd6Z1mi+HEnncoOQXcAnpnRt8
+X-Gm-Gg: ATEYQzxDGW8OwhOZ+OdzkgNhN3LGZLFI9D8fWCYPSHCumfFRgn94FGSd3mwtUCnp0W6
+	OgniIKUMdofDwtVYPwxSfmfPAy2OXVyLI+b6GhQwA4m3UOlGWBgha3zt8FxjPnItCjJoxo20ANa
+	DnKX5n6zh4gIJBRlzNX1VkqEI8ONF969kfAqDdpl0ePdXOz8RzNP4CHHYHocGUgcZKCxYeOtBtv
+	2EF2PXnrD7laJE4jGtuy8OPClvyr12H928e5ae/UbKVywRjPk4aBxLuLgKZDk9dStczCK9Il44P
+	IyPnSYdhbIdZPdxkq6uLtuFk1mqZzyJXRiWVYCAsPCIlkbsW7WBFNxXlb+gqP+WPOv1N4iqUsej
+	KB6qQ+90fnbaNUpOCtszXdDB1uJeqPKFVMSmL2zFcazecSup2Cq48WfUpAIsT1zxxKwnSL99biF
+	K2w/YYIaXeGVDR9MpYtfnX2m943f7eVqtCMnciACF/GhecpM4vSRo26wmthIq4FKkqrJYCnVihU
+	c6WGT51CUJiuDHCfwLmU3w=
+X-Received: by 2002:a05:600c:3e1a:b0:485:3428:774c with SMTP id 5b1f17b1804b1-4856eab522emr17811775e9.4.1773697896899;
+        Mon, 16 Mar 2026 14:51:36 -0700 (PDT)
+Received: from gandalf.schnuecks.de (p200300c14f1996009e6b00fffe39b8a7.dip0.t-ipconnect.de. [2003:c1:4f19:9600:9e6b:ff:fe39:b8a7])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4856eae3037sm20082795e9.11.2026.03.16.14.51.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Mar 2026 14:49:38 -0700 (PDT)
-Date: Mon, 16 Mar 2026 14:49:34 -0700
-From: Vipin Sharma <vipinsh@google.com>
-To: David Matlack <dmatlack@google.com>
-Cc: Alex Williamson <alex@shazbot.org>, 
-	Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.com>, Alex Mastro <amastro@fb.com>, 
-	Alistair Popple <apopple@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Ankit Agrawal <ankita@nvidia.com>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Chris Li <chrisl@kernel.org>, David Rientjes <rientjes@google.com>, 
-	Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, 
-	Kevin Tian <kevin.tian@intel.com>, kexec@lists.infradead.org, kvm@vger.kernel.org, 
-	Leon Romanovsky <leon@kernel.org>, Leon Romanovsky <leonro@nvidia.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-pci@vger.kernel.org, Lukas Wunner <lukas@wunner.de>, 
-	=?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>, Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, 
-	Pasha Tatashin <pasha.tatashin@soleen.com>, Pranjal Shrivastava <praan@google.com>, 
-	Pratyush Yadav <pratyush@kernel.org>, Raghavendra Rao Ananta <rananta@google.com>, 
-	Rodrigo Vivi <rodrigo.vivi@intel.com>, Saeed Mahameed <saeedm@nvidia.com>, 
-	Samiullah Khawaja <skhawaja@google.com>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, Tomita Moeko <tomitamoeko@gmail.com>, 
-	Vivek Kasireddy <vivek.kasireddy@intel.com>, William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>, 
-	Zhu Yanjun <yanjun.zhu@linux.dev>
-Subject: Re: [PATCH v2 10/22] vfio/pci: Skip reset of preserved device after
- Live Update
-Message-ID: <20260316214055.GB1846904.vipinsh@google.com>
-References: <20260129212510.967611-11-dmatlack@google.com>
- <20260226170030.5a938c74@shazbot.org>
- <aaDqhjdLyf1qSTSh@google.com>
- <20260227084658.3767d801@shazbot.org>
- <CALzav=fHy23RAzhgkdaL+JA5T2tL9FT6aPgRfXUh7i9zvYCGPA@mail.gmail.com>
- <20260227105720.522ca97f@shazbot.org>
- <CALzav=fjRPa_ZbXu7iFXyemcf_8Kq_dZTWT6c-A0bc6czF_Rdw@mail.gmail.com>
- <abNOwcOTXqxCxNzt@google.com>
- <20260316160759.GA1767448.vipinsh@google.com>
- <CALzav=cskxLZtZ5-uRa0+aV+1Kb3fwQQJ5dS=Yes4GAHrS6GpQ@mail.gmail.com>
+        Mon, 16 Mar 2026 14:51:36 -0700 (PDT)
+Received: by gandalf.schnuecks.de (Postfix, from userid 500)
+	id 903633040F3A; Mon, 16 Mar 2026 22:51:35 +0100 (CET)
+Date: Mon, 16 Mar 2026 22:51:35 +0100
+From: Simon Baatz <gmbnomis@gmail.com>
+To: Eric Dumazet <edumazet@google.com>
+Cc: Neal Cardwell <ncardwell@google.com>,
+	Kuniyuki Iwashima <kuniyu@google.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	David Ahern <dsahern@kernel.org>, Jon Maloy <jmaloy@redhat.com>,
+	Jason Xing <kerneljasonxing@gmail.com>, mfreemon@cloudflare.com,
+	Shuah Khan <shuah@kernel.org>, Stefano Brivio <sbrivio@redhat.com>,
+	Matthieu Baerts <matttbe@kernel.org>,
+	Mat Martineau <martineau@kernel.org>,
+	Geliang Tang <geliang@kernel.org>, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, mptcp@lists.linux.dev
+Subject: Re: [PATCH net-next v3 6/6] selftests/net: packetdrill: add
+ tcp_rcv_neg_window.pkt
+Message-ID: <abh7Z5GEhEzty18d@gandalf.schnuecks.de>
+References: <20260309-tcp_rfc7323_retract_wnd_rfc-v3-0-4c7f96b1ec69@gmail.com>
+ <20260309-tcp_rfc7323_retract_wnd_rfc-v3-6-4c7f96b1ec69@gmail.com>
+ <CANn89i+PypF1cK4mnp8L_eCG_z+3Aj6uxJoohm_=DwGfR1=4FA@mail.gmail.com>
+ <abCkmiCSPkmxzECa@gandalf.schnuecks.de>
+ <CANn89iKYxs644ardFFSKo8d0EXL_2A5eUQjWZ3yp9-Q4tVLKzQ@mail.gmail.com>
+ <abWVuS1XJaKrndJw@gandalf.schnuecks.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CALzav=cskxLZtZ5-uRa0+aV+1Kb3fwQQJ5dS=Yes4GAHrS6GpQ@mail.gmail.com>
+In-Reply-To: <abWVuS1XJaKrndJw@gandalf.schnuecks.de>
 
-On Mon, Mar 16, 2026 at 10:18:22AM -0700, David Matlack wrote:
-> On Mon, Mar 16, 2026 at 9:22 AM Vipin Sharma <vipinsh@google.com> wrote:
-> >
-> > On Thu, Mar 12, 2026 at 11:39:45PM +0000, David Matlack wrote:
-> > > On 2026-03-09 10:32 AM, David Matlack wrote:
-> > > > On Fri, Feb 27, 2026 at 9:57 AM Alex Williamson <alex@shazbot.org> wrote:
+On Sat, Mar 14, 2026 at 06:07:05PM +0100, Simon Baatz wrote:
+> Hi Eric,
+> 
+> On Sat, Mar 14, 2026 at 04:58:28AM +0100, Eric Dumazet wrote:
+> > On Wed, Mar 11, 2026 at 12:09???AM Simon Baatz <gmbnomis@gmail.com> wrote:
 > > >
-> > > > > Sorry if I don't have the whole model in my head yet, but is exposing
-> > > > > the restriction to the vfio user of the device sufficient to manage the
-> > > > > liveupdate orchestration?  For example, a VFIO_DEVICE_INFO_CAP pushes
-> > > > > the knowledge to QEMU... what does QEMU do with that knowledge?  Who
-> > > > > imposes the policy decision to decide what support is sufficient?
+> > > Hi Eric,
+> > >
+> > > On Tue, Mar 10, 2026 at 09:54:58AM +0100, Eric Dumazet wrote:
+> > > > On Mon, Mar 9, 2026 at 9:03???AM Simon Baatz via B4 Relay
+> > > > <devnull+gmbnomis.gmail.com@kernel.org> wrote:
+> > > > >
+> > > > > From: Simon Baatz <gmbnomis@gmail.com>
+> > > > >
+> > > > > The test ensures we correctly apply the maximum advertised window limit
+> > > > > when rcv_nxt advances past rcv_mwnd_seq, so that the "usable window"
+> > > > > is properly clamped to zero rather than becoming negative.
+> > > > >
+> > > > > Signed-off-by: Simon Baatz <gmbnomis@gmail.com>
+> > > > > ---
+> > > > >  .../net/packetdrill/tcp_rcv_neg_window.pkt         | 26 ++++++++++++++++++++++
+> > > > >  1 file changed, 26 insertions(+)
+> > > > >
+> > > > > diff --git a/tools/testing/selftests/net/packetdrill/tcp_rcv_neg_window.pkt b/tools/testing/selftests/net/packetdrill/tcp_rcv_neg_window.pkt
+> > > > > new file mode 100644
+> > > > > index 0000000000000000000000000000000000000000..15a9b4938f16d175ac54f3fd192ed2b59b0a4399
+> > > > > --- /dev/null
+> > > > > +++ b/tools/testing/selftests/net/packetdrill/tcp_rcv_neg_window.pkt
+> > > > > @@ -0,0 +1,26 @@
+> > > > > +// SPDX-License-Identifier: GPL-2.0
+> > > > > +
+> > > > > +--mss=1000
+> > > > > +
+> > > > > +`./defaults.sh`
+> > > > > +
+> > > > > +// Establish a connection.
+> > > > > +   +0 socket(..., SOCK_STREAM, IPPROTO_TCP) = 3
+> > > > > +   +0 setsockopt(3, SOL_SOCKET, SO_REUSEADDR, [1], 4) = 0
+> > > > > +   +0 setsockopt(3, SOL_SOCKET, SO_RCVBUF, [20000], 4) = 0
+> > > > > +   +0 bind(3, ..., ...) = 0
+> > > > > +   +0 listen(3, 1) = 0
+> > > > > +
+> > > > > +   +0 < S 0:0(0) win 32792 <mss 1000,nop,wscale 7>
+> > > > > +   +0 > S. 0:0(0) ack 1 win 18980 <mss 1460,nop,wscale 0>
+> > > > > +  +.1 < . 1:1(0) ack 1 win 257
+> > > > > +
+> > > > > +   +0 accept(3, ..., ...) = 4
+> > > > > +
+> > > > > +// A too big packet is accepted if the receive queue is empty
+> > > > > +   +0 < P. 1:20001(20000) ack 1 win 257
 > > > >
-> > > > Hm.. good questions. I don't think we want userspace inspecting bits
-> > > > exposed by the kernel and trying to infer exactly what's being
-> > > > preserved and whether it's "good enough" to use. And such a UAPI would
-> > > > become tech debt once we finish development, I suspect.
-> > > >
-> > > > A better approach would be to hide this support from userspace until
-> > > > we decide it is ready for production use-cases.
-> > > >
-> > > > To enable development and testing, we can add an opt-in mechanism
+> > > > We do not see the answer, it seems this test is not complete ?
 > > >
-> > > Here is what I am trending towards sending in v3 as the opt-in mechanism:
+> > > Actually we do not want to see an answer.  The packet won't trigger
+> > > an immediate ACK (it is larger than the advertised window, but does
+> > > not cause immediate memory pressure).
 > > >
-> > > diff --git a/drivers/vfio/pci/Kconfig b/drivers/vfio/pci/Kconfig
-> > > index 1e82b44bda1a..770231554221 100644
-> > > --- a/drivers/vfio/pci/Kconfig
-> > > +++ b/drivers/vfio/pci/Kconfig
-> > > @@ -58,6 +58,27 @@ config VFIO_PCI_ZDEV_KVM
-> > >  config VFIO_PCI_DMABUF
-> > >         def_bool y if VFIO_PCI_CORE && PCI_P2PDMA && DMA_SHARED_BUFFER
+> > > When we then send a RST before the delayed ACK would be generated:
 > > >
-> > > +config VFIO_PCI_LIVEUPDATE
-> > > +       bool "VFIO PCI support for Live Update (EXPERIMENTAL)"
-> > > +       depends on LIVEUPDATE && VFIO_PCI
-> > > +       help
-> > > +         Support for preserving devices bound to vfio-pci across a Live
-> > > +         Update. The eventual goal is that preserved devices can run
-> > > +         uninterrupted during a Live Update, including DMA to preserved
-> > > +         memory buffers and P2P. However there are many steps still needed to
-> > > +         achieve this, including:
-> > > +
-> > > +          - Preservation of iommufd files
-> > > +          - Preservation of IOMMU driver state
-> > > +          - Preservation of PCI state (BAR resources, device state, ...)
-> > > +          - Preservation of vfio-pci driver state
-> > > +
-> > > +         This option should only be enabled by developers working on
-> > > +         implementing this support. Once enough support has landed in the
-> > > +         kernel, this option will no longer be marked EXPERIMENTAL.
-> > > +
-> > > +         If you don't know what to do here, say N.
-> > > +
-> >
-> > To use VFIO liveupdate, user has to do at least two things:
-> > 1. Enable CONFIG_LIVEUPDATE
-> > 2. Pass VFIO FD to a live update session.
-> >
-> > This means someone using it has to know what live update is and
-> > intentionally pass the VFIO FDs. Isn't act of doing this itself an
-> > opt-in mechanism?
+> > > > > +// Send a RST immediately so that there is no rcv_wup/rcv_mwnd_seq update yet
+> > > > > +   +0 < R. 20001:20001(0) ack 1 win 257
+> > >
+> > > We are in a state where rcv_wup, rcv_wnd, and rcv_mwnd_seq have not
+> > > been updated yet, but we must still accept the RST
+> > > (rcv_nxt == 20001 > rcv_mwnd_seq, tcp_max_receive_window() == 0)
+> > >
+> > > > > +
+> > > > > +  +.1 %{ assert tcpi_state == TCP_CLOSE, tcpi_state }%
+> > >
+> > > And we verify that we accepted the RST here.
+> > >
+> > > Given how subtle this sequence is, and considering the limited value
+> > > of this test, I am also fine with dropping it if it is too fragile or
+> > > confusing.
+> > 
+> > Sorry I missed your answer.
+> > 
+> > Ok then please use :
+> > 
+> > // A too big packet is accepted if the receive queue is empty
+> >    +0 < P. 1:20001(20000) ack 1 win 257
+> >    +0 %{ assert tcpi_bytes_received == 20000, tcpi_bytes_received;
+> > assert tcpi_bytes_acked == 0, tcpi_bytes_acked }%
 > 
-> If it is, then I can leave this out. Alex?
+> Unfortunately, tcpi_bytes_acked is the TX direction, it will always
+> be 0 here.
 > 
-> My thinking was: Distros are free to enable LIVEUPDATE and use it. The
-> support it enables today is all fully functional (albeit new).
-> vfio-cdev, OTOH, is not. A separate Kconfig can help express that
-> difference.
+> Instead, we can still test that the oversized packet is accepted and
+> indirectly verify that no immediate ACK is sent by eliciting and
+> checking a RST:
 > 
-> Consider that LIVEUPDATE could be enabled by default in a future
-> release, but vfio-cdev support might not be ready yet at that point.
+> // A too big packet is accepted if the receive queue is empty, but does not trigger
+> // an immediate ACK.
+>    +0 < P. 1:20001(20000) ack 1 win 257
+>    +0 %{ assert tcpi_bytes_received == 20000, tcpi_bytes_received; }%
+> 
+> // Send a RST immediately so that there is no rcv_wup/rcv_mwnd_seq update yet
+>    +0 < R. 20001:20001(0) ack 1 win 257
+> 
+> // Verify that the RST was accepted. Indirectly this also verifies that no immediate
+> // ACK was sent for the data packet above.
+>    +0 < . 20001:20001(0) ack 1 win 257
+>     * > R 1:1(0)
+> 
+> As the series is merged now (thank you!), I will send this
+> separately, as suggested.
 
-But that also requires point 2 above i.e. userspace explicitly passing
-VFIO FD to liveupdate. Unless there is a capability mechanism like KVM
-then userspace cannot know what is exactly supported. Also, users who
-are using these APIs will already be advanced users and have to know
-many details about what liveupdate supports or not.
+Patch is at: https://lore.kernel.org/netdev/20260316-improve_tcp_neg_usable_wnd_test-v1-1-f16d5e365107@gmail.com/
 
-> 
-> > I am not sure providing VFIO_PCI_LIVEUPDATE alleviate Alex's concern
-> > about how userspace will know that sufficient VFIO support exists.
-> 
-> I was thinking we can flip VFIO_PCI_LIVEUPDATE to be enabled by
-> default (if LIVEUPDATE and VFIO_PCI are enabled), and drop
-> "(EXPERIMENTAL)" from the option title. That would be how distros and
-> downstream users of the kernel know that sufficient support exists to
-> enable VFIO_PCI_LIVEUPDATE.
-> 
-> > May be write in liveupdate documentation (PATCH 11 of this series) that
-> > support is experimental?
-> 
-> The documentation in patch 11 includes largely the same text that I
-> put under VFIO_PCI_LIVEU"PDATE. But I can explicitly mention
-> "experimental" as well if that's what you're asking.
-
-Yeah, even though documentation do get stale but I think there is no
-better way in this scenario.
-
+-- 
+Simon Baatz <gmbnomis@gmail.com>
