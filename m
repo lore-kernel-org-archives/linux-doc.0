@@ -1,106 +1,76 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C817C226CFE;
-	Mon, 16 Mar 2026 14:56:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C2BC1386DA
+	for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 15:06:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773673021; cv=none; b=BeixRicFAoXI+O1kU6OTM7sHbrKuUNtvodVB9TpcZLkkMoNBADSCgQlY8oX7rlH3LyyUSG6ju9dOR3ELUmTG67VE5cznYzgPR8I+lbSrcreQkRqYsGK8YudZtDYrDvcz1dr5RK9ImRrZZcV2tBzbuJOzpdNcm85LO4zrhVvTOPo=
+	t=1773673570; cv=none; b=e23U6tF+8XMUhkIth5O9LJYXiqPM0+mtJx75GizkNtOxOjAeeT585YX+fCEuzIgTcgcHaqrx8De8AdSnre7OBx3III9ToAEu0tNpx7cMQ+zmeyezLYkc9hzEtufQYqDhlHaVuMSDQNceJacvoctaskeMQPsWIVGH69iQpVAJ1Z0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773673021; c=relaxed/simple;
-	bh=0tQ4AO1pYWqmHKVxwkLqbgpODFiZqoRX5Ryr/5AoaCo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=KtndDcWzGDEf7V1jtOLqdBPqQplIUlaUelnmYD3t6FIOww3XW/OzIpNxbplYXcOlA9r0g9Hy74vNnTqiRH9deF4s4dBkB4vSPRExxzANpzhhsUQo9BaztIHs5Az/rLejqxtSASeeC6dDRGxTeHUo6Iriwcz6HlrZgxIiRP6HmYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei-partners.com; spf=pass smtp.mailfrom=huawei-partners.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei-partners.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei-partners.com
-Received: from mail.maildlp.com (unknown [172.18.224.83])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fZJ7P42sszJ4692;
-	Mon, 16 Mar 2026 22:56:01 +0800 (CST)
-Received: from mscpeml500003.china.huawei.com (unknown [7.188.49.51])
-	by mail.maildlp.com (Postfix) with ESMTPS id 2643040569;
-	Mon, 16 Mar 2026 22:56:56 +0800 (CST)
-Received: from [10.123.123.154] (10.123.123.154) by
- mscpeml500003.china.huawei.com (7.188.49.51) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Mon, 16 Mar 2026 17:56:55 +0300
-Message-ID: <224a29a1-13cb-41aa-8736-aebe1023fb7d@huawei-partners.com>
-Date: Mon, 16 Mar 2026 17:56:55 +0300
+	s=arc-20240116; t=1773673570; c=relaxed/simple;
+	bh=Ltk04OADJTCs9chVxsm0NzuzOhJQXzUEZn95j9D3/pw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=l2mBn9PDhyM19bXo49eaVzx/rkffUTQvcZoyhJLsk9wknZi/fWmrllrKStJw8TazcA9af2RWX2ZKAR8BH4vg4qgx/sXFSvnJS3hF2F9fR9epJEOCyB9SsQDTqvuoJ/v9menhOJ/7BcENjsHsYWJtrWIs4IdNTlQiqhXfM3NRk/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=E8l7JUDI; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="E8l7JUDI"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 35DF6411F8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1773673568; bh=HcoFzXqKGZ4VRsUqh4N3hkFYaxdhCFRCFiU1h19xJPQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=E8l7JUDI1f6yvu+pkh2/I8K3sWJ/9xBp565u1RQ73Z/RxP9mvn/L+GBVi0oomUVtG
+	 G46+dbflomkdYax2uWBLoxPJxtEjEy3IsALd7H8Znt6UCdiya2WpCIlcKcF/HrqIx7
+	 T63QjXI3HvjOg+UvMh1PVGMN82XSt6ZlBJPqZR24KmJ4A1+7SZa9CAa+EBSAt0y4yh
+	 72ydQLOcQMtmvWtA/ZD5gtYdXsek3ClGmvd+qK2m9ITU/rCRBSoaJhhiuWfdm9rbNZ
+	 akuRJLIivjMTWYpafuyQsvYqarif2AZ+QmCsk5AjtFVAFf1DvyMygGBfmdIfHDmj1Y
+	 YuJsAhKCkeKow==
+Received: from localhost (c-71-229-227-126.hsd1.co.comcast.net [71.229.227.126])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 35DF6411F8;
+	Mon, 16 Mar 2026 15:06:08 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, Michal Hocko <mhocko@suse.com>
+Cc: Kit Dallege <xaum.io@gmail.com>, akpm@linux-foundation.org,
+ david@kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Docs/mm: document the OOM killer
+In-Reply-To: <31744315-bf9e-4d9a-9c25-63eef0bd2f01@lucifer.local>
+References: <20260314152518.100194-1-xaum.io@gmail.com>
+ <fbee0ca1-4de6-4182-865b-a33d9ed32ee4@lucifer.local>
+ <abeyD1ZngYhkAx6g@tiehlicka>
+ <31744315-bf9e-4d9a-9c25-63eef0bd2f01@lucifer.local>
+Date: Mon, 16 Mar 2026 09:06:07 -0600
+Message-ID: <87bjgnizkw.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/1] Docs/mm/damon: Document DAMON actions when
- TRANSPARENT_HUGEPAGE is off
-To: SeongJae Park <sj@kernel.org>
-CC: <artem.kuzin@huawei.com>, <stepanov.anatoly@huawei.com>,
-	<wangkefeng.wang@huawei.com>, <yanquanmin1@huawei.com>, <zuoze1@huawei.com>,
-	<damon@lists.linux.dev>, <akpm@linux-foundation.org>, <ljs@kernel.org>,
-	<Liam.Howlett@oracle.com>, <vbabka@kernel.org>, <rppt@kernel.org>,
-	<surenb@google.com>, <mhocko@suse.com>, <corbet@lwn.net>,
-	<skhan@linuxfoundation.org>, <linux-doc@vger.kernel.org>,
-	<linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>
-References: <20260316144848.99972-1-sj@kernel.org>
-Content-Language: en-US
-From: Gutierrez Asier <gutierrez.asier@huawei-partners.com>
-In-Reply-To: <20260316144848.99972-1-sj@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: mscpeml500004.china.huawei.com (7.188.26.250) To
- mscpeml500003.china.huawei.com (7.188.49.51)
+Content-Type: text/plain
 
-Hi SJ,
+"Lorenzo Stoakes (Oracle)" <ljs@kernel.org> writes:
 
-On 3/16/2026 5:48 PM, SeongJae Park wrote:
-> Hello Asier,
-> 
-> 
-> Thank you for sending this patch. :)
-> 
-> On Mon, 16 Mar 2026 14:08:21 +0000 <gutierrez.asier@huawei-partners.com> wrote:
-> 
->> From: Asier Gutierrez <gutierrez.asier@huawei-partners.com>
->>
->> MADV_HUGEPAGE and MADV_NOHUGEPAGE are guarded and they
->> are not available when compiling the kernel without TRANSPARENT_HUGEPAGE
->> option. The DAMON behaviour is to silently fail[1] in when DAMOS_HUGEPAGE or
-> 
-> checkpatch.pl shows a warning for the above line:
-> 
->     WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit description?)
->     #12:
->     option. The DAMON behaviour is to silently fail[1] in when DAMOS_HUGEPAGE or
+> I wonder if some of us (I realise this sounds like self volunteering)
+> should just write up some bare bones and patch it in, then we can get the
+> iterating part of things moving?
 
-Yes, this is due to the link. I tried to keep this patch compact, without a
-cover letter. I will submit a new version without the link.
+That, of course, was the theory behind the addition of the skeleton
+documentation that's there now :)
 
->> DAMOS_NOHUGEPAGE are used, but TRANSPARENT_HUGEPAGE is disabled. Update the
->> DAMON documentation to reflect this behaviour.
->>
->> [1]: https://lore.kernel.org/damon/66131775-180b-4b9f-b7ce-61a3e077b6e6@huawei-partners.com/T/#m278d3c9bbedcceaf2efa51e3dc7b40a40654e51c
->>
->> Signed-off-by: Asier Gutierrez <gutierrez.asier@huawei-partners.com>
-> 
-> Reviewed-by: SeongJae Park <sj@kernel.org>
-> 
-> Andrew might add this to mm.git while fixing the checkpatch warning on his own.
-> Let's give time for Andrew today.
-> 
-> I also added this to damon/next tree after fixing the warning.  If Andrew
-> doesn't pick this with the fix today, I will post mine as v2 of this patch
-> tomorrow.  If you prefer to do the v2 posting on your own, just let me know :)
-> 
-> 
-> Thanks,
-> SJ
-> 
-> [...]
-> 
+I have also thought about trying to fill it in once a bit of spare time
+opens up.  Funny how that tends not to happen, but I still would like to
+do that at some point.
 
--- 
-Asier Gutierrez
-Huawei
+Michal's question, though, is something that needs a good answer: who is
+the audience for Documentation/mm/ ?  Some of the stuff in the patch
+under discussion, if it were to reach an acceptable point, is probably
+better placed in the admin guide.  OTOH, a manual firmly aimed at people
+trying to understand the MM code itself makes sense to me.
 
+Thanks,
+
+jon
