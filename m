@@ -1,407 +1,809 @@
-Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EBF736405F
-	for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 21:25:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.181
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773696308; cv=none; b=Xk4q0uuYYCvhxz3hkQvfWXbZj7Aq3BO8gBRitrgars+B6qEKHxfspvPWI7p/EiTgWxqTPkd3cMzsb9Z2KhlHl2GlPBZWGwKzQhszJtnk4K/vEa46El8HZGejEI5RYb8OnjXdlsyP5vzgbVM+le99U/j5U5X+xhTa5Z3dvZz7qzs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773696308; c=relaxed/simple;
-	bh=fG0MCixZqEbVw7LXQe+Mu0un33H/ZvDUTOAv2VYKePI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nofCKiICo4ua0K2mlgLX0ruGfWQgmLGKFo//ZnioSt0Tp+D2aKBdjsB2wrnpfKhbZ2/GQ/i3GX2qa8+WQa/6JnXgmFAggi3/fevIA1x3mQ56Bl7RhOqaSUlwV63QwK/1GC1gjOWGuYpedY2ND2cyBRHLfXpLXlEFhRMsOLcPJcI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jkW/GerR; arc=none smtp.client-ip=74.125.82.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11B92311C15
+	for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 21:27:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.176
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773696482; cv=pass; b=HAueKqtrkYARN+kGCi5tS1VTOcpAmKNRfRGeWEi1T6g4iSA18KQd28mQb6XjTPU2gMoL14doIFXPxZwLPn+D33mBDMGAo8y2xhdxLSkkLs8OppVoWDC3FujHuitqkDvlZxdNv7bdul/baQcOzNruSy2lDOr+FAp7LeGeypL9o+k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773696482; c=relaxed/simple;
+	bh=fKPAmpivKIzsWptYll3unzOER05pUoXm5URc7pxVGMA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PrTNZV04KKMTZ4aIlz6/f5JseOiF8PIAauZysPM8N99oa09LOshcIlVJpbEtVJy/wws5ugsJcBGBKhHWjlUl4zKxAkIcXd2hY1uO67IBkJ+JMTzjAKWyI0/Bsd3iH1PUtOb1VSV+vB3Few43k96etQu8mPudTev9wa6ozHftE9E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=D/7EDQP5; arc=pass smtp.client-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jkW/GerR"
-Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-2c0bcd8f194so2747403eec.1
-        for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 14:25:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="D/7EDQP5"
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-50906a98ffeso204591cf.0
+        for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 14:27:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773696479; cv=none;
+        d=google.com; s=arc-20240605;
+        b=PTWD6r7kIxTpu6QGAIesSL585SiFtelzkjoc+e7uX5Y5frPLr+VR2RlNYSd5wILiNI
+         pOAG3QTh/fF8Gf7PiUYFgiaEgeKHtgby7IZ+xpnySHRhH3XfOy+tcnTEIkncGMix2ATB
+         /VhdrucB6R3UMCDr4f0yf8CXH5l9cmIh+kwgPoi2LzLKjK97eOB4u3Qjj68QzWKK2VdQ
+         vVbvpknNQW3Lxvax+SJNkpzPryanZIfW0U+H2Ze25Kq4Lweyh/gE2LdeHsQPWvAkUH8F
+         1N4HSVjiClDWqrrrJglBPqLyOayoW2DeaCrdW7cQYyv6yhQmTdiHFa2d98w5u39INJDR
+         p2JA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=4Iir2LQfcUjTZ2eJjGsYz/FMhoUJsyFzxnYmcJfs/SY=;
+        fh=25OWVqdqGdBYFuonZXGberQocL5il85jwA0vgWIlGoI=;
+        b=KCKDZVm1Om27xP8PQRqm0JaANjC6uFnWTeWNnrdF2h+TFEJfhUytafAMzqdCeSpjZn
+         2nfoeqQVNG3mN1rdOFRCCLVneVGXvOS9heQ1gxCexhJDV591Jrk/BypHemnoW2P/TX8a
+         gGKRecaJr/pgf7Xw58lWLfHyNbfOnhSn17Kwv/9jGntXyDDgCRKS8t1XREE9n+Kzu7Ro
+         UqfOPyBV3SIZYUm1kcfG3yNHxmJ9x7HiDUfsaVOZV8u5y2AU6SnMGxIptRP88xPg0lg1
+         S69k7AHnwme+/3+cF9qzlKtwpTzJccWHuHwnaYaSvCiHn5yD1Nif8IQPhbwdtE3lHCVM
+         kXNQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773696305; x=1774301105; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=W2jtl5jrUSd1W8jZPBizN0HWJDNSLbgbVnLjoCdUKyY=;
-        b=jkW/GerRze20HXzcNVzoqwY45q2fcgdJpiXeeWpLkdPJkJEhqyNSG3FciD0I5FQGiV
-         aynFN1+UCcovVD04krL+8CAmV00kUf5MVGAGJ0ndRg0Ke5bIXxr+Ss3aj960hPCQXO02
-         xxmKG2qIPztvl15rEjc9keFXO65/vfjdKctipMC3jyH3aMgP0piz4Q/sJ9Qa7pXBTKKW
-         nii3v81YkZ3gUF/Eor7gmcWg3hkedTQ4NcwSoS1v8t8Lwhpzk5OeWlEG/s5EBqpXro/N
-         GwQ5NvDYLlGigA7syJ+1pJAYk8K8BmmG/022zS+1m1XPvMIczrUToMVYoGAKREHcQaIj
-         GrNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773696305; x=1774301105;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20251104; t=1773696479; x=1774301279; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=W2jtl5jrUSd1W8jZPBizN0HWJDNSLbgbVnLjoCdUKyY=;
-        b=bx1uQt+JY7HSyjp4yczueyPzsYRJ1hewRCoNk9ZmgGpCB8MrJ6X9/fXjGeaURenPmn
-         o4d1vm+SevhTCKusyfXmXyJwoQEfjtokPrH89xULyBM8LWkmRD5wZoFjUEVtW60qHrp5
-         HEe4CzMAogwsolGYcKj/WAPh1L3flyFXvE2tf/nRnf3/h/G1CMJlcTfQV1j2WP49JJyb
-         ldnGjKKr/KIdXY2wjlbwA4iwRRIGNzxpZN9zvv3gVxsyV/jp+gamyjTr23QgJZyDrJsU
-         ANBDT4PbrkLGBIwm8c9TwO4bt0/+y6myNkWpmQkMyUBtIP1PPkctDdUOyfrzB8mg5JCs
-         gX9g==
-X-Gm-Message-State: AOJu0YywYYvN/VY3LKeoM9sEvL89Cgp2jLS31hypzhQCbCOLgpmPRRjz
-	JwO11xxO80WgGxfGOrIqdDPEvNbrAZPXwQWhYYgEiW2s2A+/dQmSYU+P
-X-Gm-Gg: ATEYQzz0OlRNkzmW6ZU4ywxN1G851ZSddD1NO0bV0E2mWzvdgTY4hqsxSP10ZP4efbG
-	6uUuSW+aLnSJwpponCmytANQEhLRk0gPFfKM+MDDwEO2zF0e6iRaqWAHiB1VNYdFy7yWjG2b/GJ
-	GmCSytuYAIQ5QxljK7JNoO7stY4SwR0sRnabXqAV2g2exfr0+mIeVfHdtxlD+eBo5WDj6I0E+9r
-	vWfveyIP9MjY+RHnhKXPz62v2NzzCM2TI5hQAPAWdVie5P+q9iJkxzw4paR3WWyBfnVl3DRqzuv
-	y/caOLcW6rORUckrBkQsUM2myxeYrIbJyeiJjcM7kMStuhXax5xyg7yyaKWrg/HzL0wIz4B9UxA
-	m6bDbT69XXFw3GQBzstD3oe9PP3LG0Wa3+qtfEAcW/RWHmLv0hVNgstDR6mW3UgQ+fzuaxEWSL8
-	CeX8bn99qgjb4ddwPNSQ==
-X-Received: by 2002:a05:693c:40c8:b0:2c0:d207:5bae with SMTP id 5a478bee46e88-2c0d207751fmr870761eec.9.1773696305174;
-        Mon, 16 Mar 2026 14:25:05 -0700 (PDT)
-Received: from arch ([177.55.229.85])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2beab3a12e2sm17088759eec.2.2026.03.16.14.25.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Mar 2026 14:25:04 -0700 (PDT)
-From: Daniel Castro <arantescastro@gmail.com>
-To: danielmaraboo@gmail.com
-Cc: linux-doc@vger.kernel.org,
-	Daniel Castro <arantescastro@gmail.com>
-Subject: [PATCH] docs: pt_BR: translate process/1.Intro.rst
-Date: Mon, 16 Mar 2026 18:24:31 -0300
-Message-ID: <20260316212435.19303-1-arantescastro@gmail.com>
-X-Mailer: git-send-email 2.53.0
+        bh=4Iir2LQfcUjTZ2eJjGsYz/FMhoUJsyFzxnYmcJfs/SY=;
+        b=D/7EDQP5mlmNbYx1y1ox6IbR1fzcqnNtdTwWE1VBGvfqCxIxnjobcDPkHKY5fvRBcT
+         0ojRQwbmieWxpr0nGisp8ApkTAzniAgjyCA+l9koKEgaFkG/BsIgvRE4VImG9Fy2SYMd
+         pSX4cIH5KUY93fOinG3xDivfrg8iaBGA5K1vlFYeDOeOYxk2LxbuUgKZaZQq9et5OEKQ
+         RRzxMlTlSlAFAAjqnwVAtBbIJTrlc3dJtTpS7sCIWtYymQotmFYJL0w+pC5U2BggkE08
+         GoW20DgoTFNoYF8iz1Hbyorl4iS7rdR1L8oxG17nv2R8Cwuf9cA0xP8Ihn1saVq+ApAz
+         eq6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773696479; x=1774301279;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=4Iir2LQfcUjTZ2eJjGsYz/FMhoUJsyFzxnYmcJfs/SY=;
+        b=bXcXJ4yQgeiZh4LE0pQUVil0o51306fhtWsEHflqxOgH303oTyENxqnOsPA2RV3nV9
+         Zenk3+JMrUctbiMJD6C0T+AmtkXeQrj2gKy3AJpOJciZDgrypc7Enxa5lyq+lISoUtUo
+         4JY5qjWKciGysiQFzXeUB9B03zM8nvlGG/YG8Mcw7ccWTNPyV9P9fz2yfBQJ4jhLza+3
+         fRCsf4zmPAzMiobbJ2iqfWRSGWx+KsX308TUeh6i6vCUAsnm2v8iSmu9ZCtPtLVc70Ag
+         BODsbvIGBBLoEw4bqv/afWnP+l/uqi2Mvf/LWjdhdA7BWhITouKu9W/wfA9KE2AkZv6N
+         cWzw==
+X-Forwarded-Encrypted: i=1; AJvYcCWq4/A/6aOR6MfsRXuyu1zYxEKf4/odH+MOVCtp4ixXEjpsAjhR/cGkkGRpcfZTYF8qAWtAe1zHE2Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywd4L519Z2EQkvqohYokgKLgKXN/4liC7nV8VPqKLvmabPMmYld
+	FQopYIy2G42tNVUVt114Ll5ya15UMjy/JZv/eg+LUOjdVY8jOGsopayYLhrb4hBGsYhC1cf0+WP
+	A2f67lvU2H0/hxsbDm1pqBjaC3E4gZJrpucQEF1+N
+X-Gm-Gg: ATEYQzzHjw1MKeGUTJwebcC3GplEdsVQx/4xWAP61k2PQus5PvegwfdFXGkctyKPe5N
+	+EFP7T+DQDHw1UmyXmIVkJwmOpjXo5Z5av3yVAL0AxgbBvCau+SPQMcfXskeOG1I5NiPP+gs11+
+	Z3AeB7Jq0XD+sPRishA+C6UEA6Mq2BeFTj0Alvx4ilbc2go1IaIxXGLPExEPt0/5M3AjY83othp
+	70XDhMeIzJiGGCmJE98wnGLv+2tyDUyJCM11i+WjxzMy5rUH0LtpH8t6B+mURlZMmUYpXNxhMG0
+	qLq5gQ==
+X-Received: by 2002:a05:622a:10:b0:4ff:cb75:2a22 with SMTP id
+ d75a77b69052e-5099ac7560bmr1658161cf.3.1773696478201; Mon, 16 Mar 2026
+ 14:27:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <cover.1773346620.git.ljs@kernel.org> <56372fe273f775b26675a04652c1229e14680741.1773346620.git.ljs@kernel.org>
+ <CAJuCfpEsCrFEYNkkTfRLGojGOYAAx1=WOojOhpBb_=WZBr6bnQ@mail.gmail.com> <74274c04-58f4-46d8-8d14-295bd06541e1@lucifer.local>
+In-Reply-To: <74274c04-58f4-46d8-8d14-295bd06541e1@lucifer.local>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Mon, 16 Mar 2026 14:27:47 -0700
+X-Gm-Features: AaiRm50BCJkZ46wjp5F9aYJKHCjSEDRS1F0qSDafBcssTKayI36Z8OmQq53lMLQ
+Message-ID: <CAJuCfpGouG5F4-jsfGC4Pt+_oRojqmAHDMVHH3Y=j6cgdbzt+g@mail.gmail.com>
+Subject: Re: [PATCH 01/15] mm: various small mmap_prepare cleanups
+To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Clemens Ladisch <clemens@ladisch.de>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "K . Y . Srinivasan" <kys@microsoft.com>, 
+	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
+	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, 
+	Vignesh Raghavendra <vigneshr@ti.com>, Bodo Stroesser <bostroesser@gmail.com>, 
+	"Martin K . Petersen" <martin.petersen@oracle.com>, David Howells <dhowells@redhat.com>, 
+	Marc Dionne <marc.dionne@auristor.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, David Hildenbrand <david@kernel.org>, 
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, 
+	Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-hyperv@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org, 
+	linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org, 
+	target-devel@vger.kernel.org, linux-afs@lists.infradead.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	Ryan Roberts <ryan.roberts@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add Brazilian Portuguese translation of the development process
-introduction (Documentation/process/1.Intro.rst), covering the
-executive summary, importance of mainline code, and licensing.
+On Mon, Mar 16, 2026 at 7:44=E2=80=AFAM Lorenzo Stoakes (Oracle) <ljs@kerne=
+l.org> wrote:
+>
+> On Sun, Mar 15, 2026 at 03:56:54PM -0700, Suren Baghdasaryan wrote:
+> > On Thu, Mar 12, 2026 at 1:27=E2=80=AFPM Lorenzo Stoakes (Oracle) <ljs@k=
+ernel.org> wrote:
+> > >
+> > > Rather than passing arbitrary fields, pass an mmap_action field direc=
+tly to
+> > > mmap prepare and complete helpers to put all the action-specific logi=
+c in
+> > > the function actually doing the work.
+> > >
+> > > Additionally, allow mmap prepare functions to return an error so we c=
+an
+> > > error out as soon as possible if there is something logically incorre=
+ct in
+> > > the input.
+> > >
+> > > Update remap_pfn_range_prepare() to properly check the input range fo=
+r the
+> > > CoW case.
+> >
+> > By "properly check" do you mean the replacement of desc->start and
+> > desc->end with action->remap.start and action->remap.start +
+> > action->remap.size when calling get_remap_pgoff() from
+> > remap_pfn_range_prepare()?
+> >
+> > >
+> > > While we're here, make remap_pfn_range_prepare_vma() a little neater,=
+ and
+> > > pass mmap_action directly to call_action_complete().
+> > >
+> > > Then, update compat_vma_mmap() to perform its logic directly, as
+> > > __compat_vma_map() is not used by anything so we don't need to export=
+ it.
+> >
+> > Not directly related to this patch but while reviewing, I was also
+> > checking vma locking rules in this mmap_prepare() + mmap() sequence
+> > and I noticed that the new VMA flag modification functions like
+> > vma_set_flags_mask() do assert vma_assert_locked(vma). It would be
+>
+> Do NOT? :)
 
-Assisted-by: Claude:claude-opus-4-6
-Signed-off-by: Daniel Castro <arantescastro@gmail.com>
----
- Documentation/translations/pt_BR/index.rst    |   1 +
- .../translations/pt_BR/process/1.Intro.rst    | 300 ++++++++++++++++++
- 2 files changed, 301 insertions(+)
- create mode 100644 Documentation/translations/pt_BR/process/1.Intro.rst
+Right :)
 
-diff --git a/Documentation/translations/pt_BR/index.rst b/Documentation/translations/pt_BR/index.rst
-index de5c005f91d6..4f7fcc3c66fb 100644
---- a/Documentation/translations/pt_BR/index.rst
-+++ b/Documentation/translations/pt_BR/index.rst
-@@ -66,6 +66,7 @@ kernel e sobre como ver seu trabalho integrado.
- .. toctree::
-    :maxdepth: 1
- 
-+   Introdução <process/1.Intro>
-    Como começar <process/howto>
-    Requisitos mínimos <process/changes>
-    Manuais dos mantenedores <process/maintainer-handbooks>
-diff --git a/Documentation/translations/pt_BR/process/1.Intro.rst b/Documentation/translations/pt_BR/process/1.Intro.rst
-new file mode 100644
-index 000000000000..e39470e9ce52
---- /dev/null
-+++ b/Documentation/translations/pt_BR/process/1.Intro.rst
-@@ -0,0 +1,300 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. _development_process_intro:
-+
-+Introdução
-+==========
-+
-+Sumário
-+-------
-+
-+O restante desta seção cobre o processo de desenvolvimento do kernel e
-+os tipos de frustração que os desenvolvedores e empresas podem encontrar
-+pelo caminho. Existem diversas razões que justificam a recomendação para
-+que seja feito o merge do código do kernel ao kernel principal
-+("mainline"), como disponibilidade automática aos usuários, suporte da
-+comunidade em diversas formas, e a oportunidade de influenciar a direção
-+do desenvolvimento do kernel. Contribuições ao kernel Linux
-+obrigatoriamente devem estar disponíveis sob uma licença compatível com
-+a GPL.
-+
-+:ref:`development_process` apresenta o processo de desenvolvimento, o
-+ciclo de lançamento, e a mecânica da janela de merge. As várias fases no
-+desenvolvimento de patch, revisão, e ciclo de merge são explicadas.
-+Algumas ferramentas e listas de e-mail são discutidas. Desenvolvedores
-+que queiram começar a desenvolver o kernel são encorajados a buscar e
-+corrigir bugs como exercício inicial.
-+
-+:ref:`development_early_stage` cobre os primeiros passos do processo de
-+desenvolvimento, com ênfase no envolvimento da comunidade de
-+desenvolvedores o mais cedo possível.
-+
-+:ref:`development_coding` é sobre o processo de codificação; muitas
-+armadilhas já encontradas por outros desenvolvedores são discutidas.
-+Alguns requisitos para patches são explicados, e é feita uma introdução
-+para algumas ferramentas que podem ajudar a garantir que os patches de
-+kernel estão corretos.
-+
-+:ref:`development_posting` fala sobre o processo de envio de patches
-+para revisão. Para serem levados em consideração pela comunidade
-+desenvolvedora, os patches devem estar devidamente formatados e
-+descritos, assim como devem estar no lugar correto. Seguir os conselhos
-+dessa seção pode ajudar na recepção positiva do seu trabalho.
-+
-+:ref:`development_followthrough` cobre o que acontece após o envio dos
-+patches; o trabalho ainda está longe de estar concluído. Trabalhar com
-+os revisores é parte crucial do processo de desenvolvimento; essa seção
-+oferece dicas de como evitar problemas nesse estágio importante.
-+Desenvolvedores são alertados a não presumir que o trabalho acabou após
-+o merge do patch no "mainline".
-+
-+:ref:`development_advancedtopics` introduz dois tópicos mais
-+"avançados": gerenciamento de patches com git e revisão de patches por
-+outros.
-+
-+:ref:`development_conclusion` conclui o documento com indicações de
-+fontes com mais informações sobre o desenvolvimento do kernel.
-+
-+Sobre este documento
-+--------------------
-+
-+O kernel Linux, com mais de 8 milhões de linhas de código e bem mais de
-+1000 contribuintes a cada lançamento ("release"), é um dos maiores e
-+mais ativos projetos de software livre em existência. Desde seu modesto
-+início em 1991, este kernel evoluiu para se tornar um dos melhores
-+componentes de sistemas operacionais, rodando em pequenos players de
-+música digital, PCs de mesa, os maiores supercomputadores em existência,
-+e todos os outros tipos de sistema entre eles. É robusto, eficiente, e
-+uma solução escalável para quase toda situação.
-+
-+O crescimento do Linux trouxe o aumento no número de desenvolvedores (e
-+empresas) desejando participar no seu desenvolvimento. Fabricantes de
-+hardware querem garantir que o Linux suporte bem os seus produtos,
-+tornando-os atrativos para usuários Linux. Fabricantes de sistemas
-+embarcados, que usam o Linux como componente em um produto integrado,
-+querem que o Linux seja tão capaz e adequado quanto possível para a
-+tarefa em questão. Distribuidores de software que baseiam seus
-+produtos em Linux têm claro interesse nas capacidades, performance, e
-+confiabilidade do kernel Linux. É também comum que usuários finais
-+queiram alterar o Linux para atender melhor suas necessidades.
-+
-+Uma das características mais atrativas do Linux é sua facilidade de
-+acesso a esses desenvolvedores; qualquer um com as habilidades
-+necessárias pode melhorar o Linux e influenciar a direção do seu
-+desenvolvimento. Produtos proprietários não conseguem oferecer esse tipo
-+de abertura, que é característico do processo de software livre. O
-+kernel é ainda mais acessível que a maioria dos outros projetos de
-+software livre. Um ciclo típico de três meses de desenvolvimento do
-+kernel pode envolver mais de 1000 desenvolvedores trabalhando para mais
-+de 100 empresas (ou absolutamente nenhuma empresa).
-+
-+Trabalhar com a comunidade de desenvolvimento do kernel não é uma tarefa
-+árdua. Contudo, muitos colaboradores potenciais passaram por
-+dificuldades ao tentar trabalhar no kernel. A comunidade evoluiu suas
-+próprias formas de funcionamento que permitem operar de forma fluida (e
-+produzir um produto de alta qualidade) em um ambiente em que milhares
-+de linhas de código são alteradas todos os dias. Não é surpresa que o
-+processo de desenvolvimento do kernel Linux seja muito diferente dos
-+modelos de desenvolvimento proprietários.
-+
-+O processo de desenvolvimento do kernel pode parecer estranho e
-+intimidador para novos desenvolvedores, mas existem bons motivos e uma
-+sólida experiência por trás disso. Um desenvolvedor que não entenda os
-+caminhos próprios da comunidade kernel (ou pior, que tente
-+menosprezá-los ou contorná-los) terá uma experiência frustrante
-+pela frente. A comunidade de desenvolvimento ajuda aqueles que tentam
-+aprender, mas gasta pouco tempo com aqueles que não escutam ou não
-+ligam para o processo de desenvolvimento.
-+
-+Espera-se que aqueles que leiam este documento sejam capazes de evitar
-+essa experiência frustrante. Há muito material aqui, mas o esforço
-+envolvido na sua leitura valerá a pena. A comunidade de desenvolvimento
-+sempre necessita de desenvolvedores que ajudem a melhorar o kernel; o
-+texto a seguir deve ajudar você - ou aqueles trabalhando para você -
-+a se juntar à nossa comunidade.
-+
-+Créditos
-+--------
-+
-+Esse documento foi escrito por Jonathan Corbet, corbet@lwn.net.
-+Aprimorado pelos comentários de Johannes Berg, James Berry, Alex
-+Chiang, Roland Dreier, Randy Dunlap, Jake Edge, Jiri Kosina, Matt
-+Mackall, Arthur Marsh, Amanda McPherson, Andrew Morton, Andrew Price,
-+Tsugikazu Shibata, e Jochen Voß.
-+
-+Esse trabalho contou com o apoio da Linux Foundation; agradecimentos
-+especiais
-+para Amanda McPherson, que viu o valor desse esforço e fez tudo
-+acontecer.
-+
-+A importância de levar o código até o "mainline"
-+------------------------------------------------
-+
-+Algumas empresas e desenvolvedores ocasionalmente se perguntam por que
-+devem se importar em aprender como trabalhar com a comunidade do kernel
-+e ter seu código no "mainline" (o kernel mantido por Linus Torvalds e
-+usado como base para os distribuidores Linux). No curto prazo,
-+contribuir com o código pode parecer um gasto evitável; parece mais
-+fácil apenas manter o seu código à parte e oferecer
-+suporte direto aos usuários. A verdade é que manter código fora da
-+árvore principal ("out-of-tree") é uma falsa economia.
-+
-+Para ilustrar os custos do código "out-of-tree", aqui estão alguns
-+aspectos relevantes do processo de desenvolvimento do kernel; a maioria
-+será discutida com mais detalhes adiante neste documento. Considere:
-+
-+- Código integrado via merge ao "mainline" fica disponível para todos
-+  os usuários Linux. Estará automaticamente presente em todas as
-+  distribuições que o habilitarem. Não há necessidade de discos de
-+  armazenamento, downloads, ou as complicações de dar suporte a
-+  múltiplas versões de variadas distribuições; tudo simplesmente
-+  funciona, para o desenvolvedor e para o usuário. Incorporação ao
-+  "mainline" resolve um grande número de problemas de distribuição e
-+  suporte.
-+
-+- Enquanto desenvolvedores do kernel se esforçam para manter uma
-+  interface estável para o espaço do usuário, a API interna está em
-+  constante mudança. A ausência de uma interface interna estável é uma
-+  escolha deliberada de design; permite que sejam feitas melhorias
-+  fundamentais a qualquer tempo e resulta em código de qualidade
-+  superior. Uma consequência dessa política é que código "out-of-tree"
-+  precisa ser constantemente atualizado para que continue funcionando
-+  com novos kernels. Manter código "out-of-tree" requer significativo
-+  trabalho
-+  apenas para mantê-lo funcionando.
-+
-+  Por sua vez, código que está no "mainline" não precisa dessa
-+  manutenção, resultado de uma regra simples que exige que qualquer
-+  desenvolvedor que altere uma API, também conserte qualquer código que
-+  deixe de funcionar como resultado da alteração. Código que teve o
-+  merge realizado no "mainline" tem custo significativamente menor de
-+  manutenção.
-+
-+- Além disso, código que está no kernel será muitas vezes melhorado por
-+  outros desenvolvedores. Resultados surpreendentes podem surgir ao
-+  permitir que sua comunidade de usuários e clientes melhore seu
-+  produto.
-+
-+- Código do kernel está sujeito a revisão, tanto antes como depois do
-+  merge ao "mainline". Independentemente das habilidades do desenvolvedor
-+  original, o processo de revisão invariavelmente encontra maneiras de
-+  evoluí-lo. Bugs severos e problemas de segurança são constantemente
-+  encontrados durante o processo de revisão. Isso é especialmente válido
-+  para código desenvolvido em ambiente isolado; tais códigos se
-+  beneficiam fortemente ao serem revistos por outros desenvolvedores.
-+  Código "out-of-tree" é código de baixa qualidade.
-+
-+- Participação no processo de desenvolvimento é a forma pela qual você pode
-+  influenciar a direção do desenvolvimento do kernel. Usuários que se
-+  queixam externamente são ouvidos, porém desenvolvedores ativos têm
-+  maior poder de articulação - e a habilidade de implementar mudanças
-+  que façam o kernel funcionar melhor para suas necessidades.
-+
-+- Quando o código é mantido à parte, sempre existe a possibilidade de
-+  que terceiros contribuam para uma implementação diferente de uma
-+  funcionalidade parecida. Se isso acontecer, ter seu código integrado
-+  via merge se tornará muito mais difícil - ao ponto de ser impossível.
-+  Você enfrentará duas alternativas desagradáveis, (1) manter uma
-+  funcionalidade "out-of-tree" indefinidamente ou (2) abandonar seu
-+  código e migrar seus usuários para a versão na árvore principal
-+  ("in-tree").
-+
-+- Contribuição de código é a ação fundamental que faz todo o processo
-+  funcionar. Ao contribuir com seu código você pode adicionar nova
-+  funcionalidade ao kernel e proporcionar capacidades e exemplos que
-+  podem ser usados por outros desenvolvedores de kernel. Se você
-+  desenvolveu código para o Linux (ou está pensando em desenvolver),
-+  você claramente tem interesse na continuidade do sucesso dessa
-+  plataforma; contribuição de código é uma das melhores maneiras de
-+  garantir esse sucesso.
-+
-+Todos os argumentos acima se aplicam a qualquer código "out-of-tree",
-+incluindo código distribuído de maneira proprietária, em formato
-+exclusivamente binário. Existem fatores adicionais que devem ser levados
-+em consideração antes de qualquer distribuição de código de kernel
-+apenas em binário, incluindo:
-+
-+- As questões legais da distribuição de kernel proprietário são, no
-+  melhor dos casos, confusas; muitos detentores de direitos autorais do
-+  kernel acreditam que a maioria dos módulos binários são produtos
-+  derivados do kernel e que, como resultado, sua distribuição é uma
-+  violação da Licença Pública Geral GNU ("GNU General Public License"),
-+  que será tratada com mais profundidade abaixo. Este autor não é um
-+  advogado, e nada neste documento pode ser considerado aconselhamento
-+  jurídico.
-+  O verdadeiro status de módulos privados ("closed source") só pode ser
-+  determinado judicialmente. Independentemente disso, a incerteza que
-+  cerca esses módulos existe.
-+
-+- Os módulos binários aumentam consideravelmente a dificuldade de
-+  depuração de problemas do kernel ("debugging"), a ponto de a maioria
-+  dos desenvolvedores de kernel sequer tentar. Portanto, a distribuição
-+  de módulos exclusivamente binários tornará mais difícil que os seus
-+  usuários recebam suporte.
-+
-+- O suporte também é mais difícil para distribuidores de módulos
-+  exclusivamente binários, que precisam fornecer uma versão do módulo
-+  para cada distribuição e cada versão do kernel que desejam suportar.
-+  Dezenas de versões de um único módulo podem ser necessárias para
-+  fornecer uma cobertura razoavelmente abrangente, e seus usuários terão
-+  que atualizar seu módulo separadamente sempre que atualizarem seu
-+  kernel.
-+
-+- Tudo o que foi dito acima sobre revisão de código se aplica em dobro
-+  ao código fechado. Como esse código não está disponível, ele não pode
-+  ter sido revisado pela comunidade e, sem dúvida, terá sérios
-+  problemas.
-+
-+Os fabricantes de sistemas embarcados, em particular, podem ser tentados
-+a ignorar grande parte do que foi dito nesta seção, acreditando que
-+estão lançando um produto autossuficiente que usa uma versão congelada
-+do kernel e não requer mais desenvolvimento após o lançamento. Esse
-+argumento ignora o valor de uma revisão de código abrangente e o valor
-+de permitir que seus usuários adicionem recursos ao seu produto. Mas
-+esses produtos também têm uma vida comercial limitada, após a qual uma
-+nova versão deve ser lançada. Nesse ponto, os fornecedores cujo código
-+está no "mainline" e bem mantido estarão em uma posição muito melhor
-+para preparar o novo produto para o mercado rapidamente.
-+
-+Licenciamento
-+-------------
-+
-+Código é submetido ao kernel do Linux sob diversas licenças, mas
-+todo ele deve ser compatível com a versão 2 da Licença Pública Geral
-+GNU (GPLv2), que é a licença que cobre a distribuição do kernel como um
-+todo. Na prática, isso significa que todas as contribuições de código são
-+cobertas pela GPLv2 (com, opcionalmente, uma linguagem que permita a
-+distribuição sob versões posteriores da GPL) ou pela licença BSD de três
-+cláusulas. Quaisquer contribuições que não sejam cobertas por uma
-+licença compatível não serão aceitas no kernel.
-+
-+A cessão de direitos autorais não é exigida (nem solicitada) para o
-+código contribuído para o kernel. Todo o código incorporado ao kernel
-+principal mantém sua propriedade original; como resultado, o kernel
-+agora tem milhares de proprietários.
-+
-+Uma implicação dessa estrutura de propriedade é que qualquer tentativa
-+de alterar o licenciamento do kernel está fadada ao fracasso quase
-+certo. Existem poucos cenários práticos em que o acordo de todos os
-+detentores de direitos autorais poderia ser obtido (ou seu código
-+removido do kernel). Portanto, em particular, não há perspectiva de
-+migração para a versão 3 da GPL em um futuro próximo.
-+
-+É imprescindível que todo o código contribuído para o kernel seja
-+legitimamente software livre. Por esse motivo, código de contribuidores
-+sem identidade conhecida ou contribuidores anônimos não será aceito.
-+Todos os contribuidores são obrigados a "assinar" seu código, declarando
-+que ele pode ser distribuído com o kernel sob a GPL. Código que não
-+tenha sido licenciado como software livre por seu proprietário, ou que
-+apresente risco de criar problemas relacionados a direitos autorais
-+para o kernel (como código derivado de esforços de engenharia reversa
-+sem as devidas salvaguardas) não pode ser contribuído.
-+
-+Questões sobre direitos autorais são comuns em listas de discussão de
-+desenvolvimento Linux. Normalmente, essas perguntas recebem muitas
-+respostas, mas é importante lembrar que as pessoas que respondem a essas
-+perguntas não são advogados e não podem fornecer aconselhamento
-+jurídico. Se você tiver dúvidas jurídicas relacionadas ao código-fonte
-+do Linux, não há substituto para conversar com um advogado especializado
-+nessa área. Confiar em respostas obtidas em listas de discussão técnicas
-+é arriscado.
--- 
-2.53.0
+>
+> I don't think it'd work, because in some cases you're setting flags for a
+> VMA that is not yet inserted in the tree, etc.
 
+Ah, I see. So, there won't be something similar to vm_flags_init()
+that sets vm_flags before the VMA is added to the tree...
+I'm a bit paranoid about catching the cases when a VMA is changed
+without being locked. Maybe we can add such assert if
+vma_is_attached() later. But this is really out of scope of this
+patchset, so let's discuss it later. Sorry for the noise.
+
+>
+> I don't think it's hugely useful to split out these functions in some way
+> in the way the vm_flags_*() stuff is split so we assert sometimes, not
+> others.
+>
+> I'd rather keep this as clean an interface as possible.
+
+Ack.
+
+>
+> In any case the majority of cases where flags are being set are not on th=
+e
+> VMA, so really only core code, that would likely otherwise assert when it
+> needs to, would already be asserting.
+>
+> The cases where drivers will do it, all of them will be using
+> vma_desc_set_flags() etc.
+
+That was my biggest worry as drivers might do some VMA modifications
+without proper locking but you are right, with mmap_prepare() that
+stops being a problem.
+
+>
+> > useful to add these but as a separate change. I will add it to my todo
+> > list.
+>
+> So I don't think it'd be generally useful at this time.
+>
+> >
+> > >
+> > > Also update compat_vma_mmap() to use vfs_mmap_prepare() rather than c=
+alling
+> > > the mmap_prepare op directly.
+> > >
+> > > Finally, update the VMA userland tests to reflect the changes.
+> > >
+> > > Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
+> > > ---
+> > >  include/linux/fs.h                |   2 -
+> > >  include/linux/mm.h                |   8 +--
+> > >  mm/internal.h                     |  28 +++++---
+> > >  mm/memory.c                       |  45 +++++++-----
+> > >  mm/util.c                         | 112 +++++++++++++---------------=
+--
+> > >  mm/vma.c                          |  21 +++---
+> > >  tools/testing/vma/include/dup.h   |   9 ++-
+> > >  tools/testing/vma/include/stubs.h |   9 +--
+> > >  8 files changed, 123 insertions(+), 111 deletions(-)
+> > >
+> > > diff --git a/include/linux/fs.h b/include/linux/fs.h
+> > > index 8b3dd145b25e..a2628a12bd2b 100644
+> > > --- a/include/linux/fs.h
+> > > +++ b/include/linux/fs.h
+> > > @@ -2058,8 +2058,6 @@ static inline bool can_mmap_file(struct file *f=
+ile)
+> > >         return true;
+> > >  }
+> > >
+> > > -int __compat_vma_mmap(const struct file_operations *f_op,
+> > > -               struct file *file, struct vm_area_struct *vma);
+> > >  int compat_vma_mmap(struct file *file, struct vm_area_struct *vma);
+> > >
+> > >  static inline int vfs_mmap(struct file *file, struct vm_area_struct =
+*vma)
+> > > diff --git a/include/linux/mm.h b/include/linux/mm.h
+> > > index 4c4fd55fc823..cc5960a84382 100644
+> > > --- a/include/linux/mm.h
+> > > +++ b/include/linux/mm.h
+> > > @@ -4116,10 +4116,10 @@ static inline void mmap_action_ioremap_full(s=
+truct vm_area_desc *desc,
+> > >         mmap_action_ioremap(desc, desc->start, start_pfn, vma_desc_si=
+ze(desc));
+> > >  }
+> > >
+> > > -void mmap_action_prepare(struct mmap_action *action,
+> > > -                        struct vm_area_desc *desc);
+> > > -int mmap_action_complete(struct mmap_action *action,
+> > > -                        struct vm_area_struct *vma);
+> > > +int mmap_action_prepare(struct vm_area_desc *desc,
+> > > +                       struct mmap_action *action);
+> > > +int mmap_action_complete(struct vm_area_struct *vma,
+> > > +                        struct mmap_action *action);
+> > >
+> > >  /* Look up the first VMA which exactly match the interval vm_start .=
+.. vm_end */
+> > >  static inline struct vm_area_struct *find_exact_vma(struct mm_struct=
+ *mm,
+> > > diff --git a/mm/internal.h b/mm/internal.h
+> > > index 95b583e7e4f7..7bfa85b5e78b 100644
+> > > --- a/mm/internal.h
+> > > +++ b/mm/internal.h
+> > > @@ -1775,26 +1775,32 @@ int walk_page_range_debug(struct mm_struct *m=
+m, unsigned long start,
+> > >  void dup_mm_exe_file(struct mm_struct *mm, struct mm_struct *oldmm);
+> > >  int dup_mmap(struct mm_struct *mm, struct mm_struct *oldmm);
+> > >
+> > > -void remap_pfn_range_prepare(struct vm_area_desc *desc, unsigned lon=
+g pfn);
+> > > -int remap_pfn_range_complete(struct vm_area_struct *vma, unsigned lo=
+ng addr,
+> > > -               unsigned long pfn, unsigned long size, pgprot_t pgpro=
+t);
+> > > +int remap_pfn_range_prepare(struct vm_area_desc *desc,
+> > > +                           struct mmap_action *action);
+> > > +int remap_pfn_range_complete(struct vm_area_struct *vma,
+> > > +                            struct mmap_action *action);
+> > >
+> > > -static inline void io_remap_pfn_range_prepare(struct vm_area_desc *d=
+esc,
+> > > -               unsigned long orig_pfn, unsigned long size)
+> > > +static inline int io_remap_pfn_range_prepare(struct vm_area_desc *de=
+sc,
+> > > +                                            struct mmap_action *acti=
+on)
+> > >  {
+> > > +       const unsigned long orig_pfn =3D action->remap.start_pfn;
+> > > +       const unsigned long size =3D action->remap.size;
+> > >         const unsigned long pfn =3D io_remap_pfn_range_pfn(orig_pfn, =
+size);
+> > >
+> > > -       return remap_pfn_range_prepare(desc, pfn);
+> > > +       action->remap.start_pfn =3D pfn;
+> > > +       return remap_pfn_range_prepare(desc, action);
+> > >  }
+> > >
+> > >  static inline int io_remap_pfn_range_complete(struct vm_area_struct =
+*vma,
+> > > -               unsigned long addr, unsigned long orig_pfn, unsigned =
+long size,
+> > > -               pgprot_t orig_prot)
+> > > +                                             struct mmap_action *act=
+ion)
+> > >  {
+> > > -       const unsigned long pfn =3D io_remap_pfn_range_pfn(orig_pfn, =
+size);
+> > > -       const pgprot_t prot =3D pgprot_decrypted(orig_prot);
+> > > +       const unsigned long size =3D action->remap.size;
+> > > +       const unsigned long orig_pfn =3D action->remap.start_pfn;
+> > > +       const pgprot_t orig_prot =3D vma->vm_page_prot;
+> > >
+> > > -       return remap_pfn_range_complete(vma, addr, pfn, size, prot);
+> > > +       action->remap.pgprot =3D pgprot_decrypted(orig_prot);
+> > > +       action->remap.start_pfn  =3D io_remap_pfn_range_pfn(orig_pfn,=
+ size);
+> > > +       return remap_pfn_range_complete(vma, action);
+> > >  }
+> > >
+> > >  #ifdef CONFIG_MMU_NOTIFIER
+> > > diff --git a/mm/memory.c b/mm/memory.c
+> > > index 6aa0ea4af1fc..364fa8a45360 100644
+> > > --- a/mm/memory.c
+> > > +++ b/mm/memory.c
+> > > @@ -3099,26 +3099,34 @@ static int do_remap_pfn_range(struct vm_area_=
+struct *vma, unsigned long addr,
+> > >  }
+> > >  #endif
+> > >
+> > > -void remap_pfn_range_prepare(struct vm_area_desc *desc, unsigned lon=
+g pfn)
+> > > +int remap_pfn_range_prepare(struct vm_area_desc *desc,
+> > > +                           struct mmap_action *action)
+> > >  {
+> > > -       /*
+> > > -        * We set addr=3DVMA start, end=3DVMA end here, so this won't=
+ fail, but we
+> > > -        * check it again on complete and will fail there if specifie=
+d addr is
+> > > -        * invalid.
+> > > -        */
+> > > -       get_remap_pgoff(vma_desc_is_cow_mapping(desc), desc->start, d=
+esc->end,
+> > > -                       desc->start, desc->end, pfn, &desc->pgoff);
+> > > +       const unsigned long start =3D action->remap.start;
+> > > +       const unsigned long end =3D start + action->remap.size;
+> > > +       const unsigned long pfn =3D action->remap.start_pfn;
+> > > +       const bool is_cow =3D vma_desc_is_cow_mapping(desc);
+> >
+> > I was trying to figure out who sets action->remap.start and
+> > action->remap.size and if they somehow guaranteed to be always equal
+> > to desc->start and (desc->end - desc->start). My understanding is that
+> > action->remap.start and action->remap.size are set by
+> > f_op->mmap_prepare() but I'm not sure if they are always the same as
+> > desc->start and (desc->end - desc->start) and if so, how do we enforce
+> > that.
+>
+> They are set, and they might not always be the same, because the existing
+> implementation does not set them the same.
+>
+> Once I've completed the change, I can check to ensure that nobody is doin=
+g
+> anything crazy with this.
+>
+> I also plan to add specific discontiguous range handlers to handle the
+> cases where drivers wish to map that way.
+>
+> In fact, I already implemented it (and DMA coherent stuff) but stripped i=
+t
+> out the series for now for time (the original series was ~27 patches :) a=
+s
+> I want to test that more etc.
+>
+> Users have access to mmap_action_remap_full() to specify that they want t=
+o
+> remap the full range.
+
+Got it. IOW [action->remap.start,
+action->remap.start+action->remap.size] should be equal or contained
+within [desc->start, desc->end] range.
+
+>
+> >
+> > > +       int err;
+> > > +
+> > > +       err =3D get_remap_pgoff(is_cow, start, end, desc->start, desc=
+->end, pfn,
+> > > +                             &desc->pgoff);
+> > > +       if (err)
+> > > +               return err;
+> > > +
+> > >         vma_desc_set_flags_mask(desc, VMA_REMAP_FLAGS);
+> > > +       return 0;
+> > >  }
+> > >
+> > > -static int remap_pfn_range_prepare_vma(struct vm_area_struct *vma, u=
+nsigned long addr,
+> > > -               unsigned long pfn, unsigned long size)
+> > > +static int remap_pfn_range_prepare_vma(struct vm_area_struct *vma,
+> > > +                                      unsigned long addr, unsigned l=
+ong pfn,
+> > > +                                      unsigned long size)
+> > >  {
+> > > -       unsigned long end =3D addr + PAGE_ALIGN(size);
+> > > +       const unsigned long end =3D addr + PAGE_ALIGN(size);
+> > > +       const bool is_cow =3D is_cow_mapping(vma->vm_flags);
+> > >         int err;
+> > >
+> > > -       err =3D get_remap_pgoff(is_cow_mapping(vma->vm_flags), addr, =
+end,
+> > > -                             vma->vm_start, vma->vm_end, pfn, &vma->=
+vm_pgoff);
+> > > +       err =3D get_remap_pgoff(is_cow, addr, end, vma->vm_start, vma=
+->vm_end,
+> > > +                             pfn, &vma->vm_pgoff);
+> > >         if (err)
+> > >                 return err;
+> > >
+> > > @@ -3151,10 +3159,15 @@ int remap_pfn_range(struct vm_area_struct *vm=
+a, unsigned long addr,
+> > >  }
+> > >  EXPORT_SYMBOL(remap_pfn_range);
+> > >
+> > > -int remap_pfn_range_complete(struct vm_area_struct *vma, unsigned lo=
+ng addr,
+> > > -               unsigned long pfn, unsigned long size, pgprot_t prot)
+> > > +int remap_pfn_range_complete(struct vm_area_struct *vma,
+> > > +                            struct mmap_action *action)
+> > >  {
+> > > -       return do_remap_pfn_range(vma, addr, pfn, size, prot);
+> > > +       const unsigned long start =3D action->remap.start;
+> > > +       const unsigned long pfn =3D action->remap.start_pfn;
+> > > +       const unsigned long size =3D action->remap.size;
+> > > +       const pgprot_t prot =3D action->remap.pgprot;
+> > > +
+> > > +       return do_remap_pfn_range(vma, start, pfn, size, prot);
+> > >  }
+> > >
+> > >  /**
+> > > diff --git a/mm/util.c b/mm/util.c
+> > > index ce7ae80047cf..dba1191725b6 100644
+> > > --- a/mm/util.c
+> > > +++ b/mm/util.c
+> > > @@ -1163,43 +1163,6 @@ void flush_dcache_folio(struct folio *folio)
+> > >  EXPORT_SYMBOL(flush_dcache_folio);
+> > >  #endif
+> > >
+> > > -/**
+> > > - * __compat_vma_mmap() - See description for compat_vma_mmap()
+> > > - * for details. This is the same operation, only with a specific fil=
+e operations
+> > > - * struct which may or may not be the same as vma->vm_file->f_op.
+> > > - * @f_op: The file operations whose .mmap_prepare() hook is specifie=
+d.
+> > > - * @file: The file which backs or will back the mapping.
+> > > - * @vma: The VMA to apply the .mmap_prepare() hook to.
+> > > - * Returns: 0 on success or error.
+> > > - */
+> > > -int __compat_vma_mmap(const struct file_operations *f_op,
+> > > -               struct file *file, struct vm_area_struct *vma)
+> > > -{
+> > > -       struct vm_area_desc desc =3D {
+> > > -               .mm =3D vma->vm_mm,
+> > > -               .file =3D file,
+> > > -               .start =3D vma->vm_start,
+> > > -               .end =3D vma->vm_end,
+> > > -
+> > > -               .pgoff =3D vma->vm_pgoff,
+> > > -               .vm_file =3D vma->vm_file,
+> > > -               .vma_flags =3D vma->flags,
+> > > -               .page_prot =3D vma->vm_page_prot,
+> > > -
+> > > -               .action.type =3D MMAP_NOTHING, /* Default */
+> > > -       };
+> > > -       int err;
+> > > -
+> > > -       err =3D f_op->mmap_prepare(&desc);
+> > > -       if (err)
+> > > -               return err;
+> > > -
+> > > -       mmap_action_prepare(&desc.action, &desc);
+> > > -       set_vma_from_desc(vma, &desc);
+> > > -       return mmap_action_complete(&desc.action, vma);
+> > > -}
+> > > -EXPORT_SYMBOL(__compat_vma_mmap);
+> > > -
+> > >  /**
+> > >   * compat_vma_mmap() - Apply the file's .mmap_prepare() hook to an
+> > >   * existing VMA and execute any requested actions.
+> > > @@ -1228,7 +1191,31 @@ EXPORT_SYMBOL(__compat_vma_mmap);
+> > >   */
+> > >  int compat_vma_mmap(struct file *file, struct vm_area_struct *vma)
+> > >  {
+> > > -       return __compat_vma_mmap(file->f_op, file, vma);
+> > > +       struct vm_area_desc desc =3D {
+> > > +               .mm =3D vma->vm_mm,
+> > > +               .file =3D file,
+> > > +               .start =3D vma->vm_start,
+> > > +               .end =3D vma->vm_end,
+> > > +
+> > > +               .pgoff =3D vma->vm_pgoff,
+> > > +               .vm_file =3D vma->vm_file,
+> > > +               .vma_flags =3D vma->flags,
+> > > +               .page_prot =3D vma->vm_page_prot,
+> > > +
+> > > +               .action.type =3D MMAP_NOTHING, /* Default */
+> > > +       };
+> > > +       int err;
+> > > +
+> > > +       err =3D vfs_mmap_prepare(file, &desc);
+> > > +       if (err)
+> > > +               return err;
+> > > +
+> > > +       err =3D mmap_action_prepare(&desc, &desc.action);
+> > > +       if (err)
+> > > +               return err;
+> > > +
+> > > +       set_vma_from_desc(vma, &desc);
+> > > +       return mmap_action_complete(vma, &desc.action);
+> > >  }
+> > >  EXPORT_SYMBOL(compat_vma_mmap);
+> > >
+> > > @@ -1320,8 +1307,8 @@ void snapshot_page(struct page_snapshot *ps, co=
+nst struct page *page)
+> > >         }
+> > >  }
+> > >
+> > > -static int mmap_action_finish(struct mmap_action *action,
+> > > -               const struct vm_area_struct *vma, int err)
+> > > +static int mmap_action_finish(struct vm_area_struct *vma,
+> > > +                             struct mmap_action *action, int err)
+> > >  {
+> > >         /*
+> > >          * If an error occurs, unmap the VMA altogether and return an=
+ error. We
+> > > @@ -1355,35 +1342,36 @@ static int mmap_action_finish(struct mmap_act=
+ion *action,
+> > >   * action which need to be performed.
+> > >   * @desc: The VMA descriptor to prepare for @action.
+> > >   * @action: The action to perform.
+> > > + *
+> > > + * Returns: 0 on success, otherwise error.
+> > >   */
+> > > -void mmap_action_prepare(struct mmap_action *action,
+> > > -                        struct vm_area_desc *desc)
+> > > +int mmap_action_prepare(struct vm_area_desc *desc,
+> > > +                       struct mmap_action *action)
+> >
+> > Any reason you are swapping the arguments?
+>
+> For consistency with other functions to be added.
+>
+> > It also looks like we always call mmap_action_prepare() with action =3D=
+=3D
+> > desc->action, like this: mmap_action_prepare(&desc.action, &desc). Why
+> > don't we eliminate the action parameter altogether and use desc.action
+> > from inside the function?
+>
+> I think in previous iterations I thought about overriding one action with
+> another and wanted to keep that flexibility, but then have never done tha=
+t
+> in practice.
+>
+> So probably I can just drop that yes, will try it on respin.
+
+Thanks.
+
+>
+> >
+> > > +
+> >
+> > extra new line.
+>
+> Ack will fix
+
+Thanks.
+
+>
+> >
+> > >  {
+> > >         switch (action->type) {
+> > >         case MMAP_NOTHING:
+> > > -               break;
+> > > +               return 0;
+> > >         case MMAP_REMAP_PFN:
+> > > -               remap_pfn_range_prepare(desc, action->remap.start_pfn=
+);
+> > > -               break;
+> > > +               return remap_pfn_range_prepare(desc, action);
+> > >         case MMAP_IO_REMAP_PFN:
+> > > -               io_remap_pfn_range_prepare(desc, action->remap.start_=
+pfn,
+> > > -                                          action->remap.size);
+> > > -               break;
+> > > +               return io_remap_pfn_range_prepare(desc, action);
+> > >         }
+> > >  }
+> > >  EXPORT_SYMBOL(mmap_action_prepare);
+> > >
+> > >  /**
+> > >   * mmap_action_complete - Execute VMA descriptor action.
+> > > - * @action: The action to perform.
+> > >   * @vma: The VMA to perform the action upon.
+> > > + * @action: The action to perform.
+> > >   *
+>
+> > >   * Similar to mmap_action_prepare().
+> > >   *
+> > >   * Return: 0 on success, or error, at which point the VMA will be un=
+mapped.
+> > >   */
+> > > -int mmap_action_complete(struct mmap_action *action,
+> > > -                        struct vm_area_struct *vma)
+> > > +int mmap_action_complete(struct vm_area_struct *vma,
+> > > +                        struct mmap_action *action)
+> > > +
+> > >  {
+> > >         int err =3D 0;
+> > >
+> > > @@ -1391,23 +1379,19 @@ int mmap_action_complete(struct mmap_action *=
+action,
+> > >         case MMAP_NOTHING:
+> > >                 break;
+> > >         case MMAP_REMAP_PFN:
+> > > -               err =3D remap_pfn_range_complete(vma, action->remap.s=
+tart,
+> > > -                               action->remap.start_pfn, action->rema=
+p.size,
+> > > -                               action->remap.pgprot);
+> > > +               err =3D remap_pfn_range_complete(vma, action);
+> > >                 break;
+> > >         case MMAP_IO_REMAP_PFN:
+> > > -               err =3D io_remap_pfn_range_complete(vma, action->rema=
+p.start,
+> > > -                               action->remap.start_pfn, action->rema=
+p.size,
+> > > -                               action->remap.pgprot);
+> > > +               err =3D io_remap_pfn_range_complete(vma, action);
+> > >                 break;
+> > >         }
+> > >
+> > > -       return mmap_action_finish(action, vma, err);
+> > > +       return mmap_action_finish(vma, action, err);
+> > >  }
+> > >  EXPORT_SYMBOL(mmap_action_complete);
+> > >  #else
+> > > -void mmap_action_prepare(struct mmap_action *action,
+> > > -                       struct vm_area_desc *desc)
+> > > +int mmap_action_prepare(struct vm_area_desc *desc,
+> > > +                       struct mmap_action *action)
+> > >  {
+> > >         switch (action->type) {
+> > >         case MMAP_NOTHING:
+> > > @@ -1417,11 +1401,13 @@ void mmap_action_prepare(struct mmap_action *=
+action,
+> > >                 WARN_ON_ONCE(1); /* nommu cannot handle these. */
+> > >                 break;
+> > >         }
+> > > +
+> > > +       return 0;
+> > >  }
+> > >  EXPORT_SYMBOL(mmap_action_prepare);
+> > >
+> > > -int mmap_action_complete(struct mmap_action *action,
+> > > -                       struct vm_area_struct *vma)
+> > > +int mmap_action_complete(struct vm_area_struct *vma,
+> > > +                        struct mmap_action *action)
+> > >  {
+> > >         int err =3D 0;
+> > >
+> > > @@ -1436,7 +1422,7 @@ int mmap_action_complete(struct mmap_action *ac=
+tion,
+> > >                 break;
+> > >         }
+> > >
+> > > -       return mmap_action_finish(action, vma, err);
+> > > +       return mmap_action_finish(vma, action, err);
+> > >  }
+> > >  EXPORT_SYMBOL(mmap_action_complete);
+> > >  #endif
+> > > diff --git a/mm/vma.c b/mm/vma.c
+> > > index be64f781a3aa..054cf1d262fb 100644
+> > > --- a/mm/vma.c
+> > > +++ b/mm/vma.c
+> > > @@ -2613,15 +2613,19 @@ static void __mmap_complete(struct mmap_state=
+ *map, struct vm_area_struct *vma)
+> > >         vma_set_page_prot(vma);
+> > >  }
+> > >
+> > > -static void call_action_prepare(struct mmap_state *map,
+> > > -                               struct vm_area_desc *desc)
+> > > +static int call_action_prepare(struct mmap_state *map,
+> > > +                              struct vm_area_desc *desc)
+> > >  {
+> > >         struct mmap_action *action =3D &desc->action;
+> > > +       int err;
+> > >
+> > > -       mmap_action_prepare(action, desc);
+> > > +       err =3D mmap_action_prepare(desc, action);
+> > > +       if (err)
+> > > +               return err;
+> > >
+> > >         if (action->hide_from_rmap_until_complete)
+> > >                 map->hold_file_rmap_lock =3D true;
+> > > +       return 0;
+> > >  }
+> > >
+> > >  /*
+> > > @@ -2645,7 +2649,9 @@ static int call_mmap_prepare(struct mmap_state =
+*map,
+> > >         if (err)
+> > >                 return err;
+> > >
+> > > -       call_action_prepare(map, desc);
+> > > +       err =3D call_action_prepare(map, desc);
+> > > +       if (err)
+> > > +               return err;
+> > >
+> > >         /* Update fields permitted to be changed. */
+> > >         map->pgoff =3D desc->pgoff;
+> > > @@ -2700,13 +2706,12 @@ static bool can_set_ksm_flags_early(struct mm=
+ap_state *map)
+> > >  }
+> > >
+> > >  static int call_action_complete(struct mmap_state *map,
+> > > -                               struct vm_area_desc *desc,
+> > > +                               struct mmap_action *action,
+> > >                                 struct vm_area_struct *vma)
+> > >  {
+> > > -       struct mmap_action *action =3D &desc->action;
+> > >         int ret;
+> > >
+> > > -       ret =3D mmap_action_complete(action, vma);
+> > > +       ret =3D mmap_action_complete(vma, action);
+> > >
+> > >         /* If we held the file rmap we need to release it. */
+> > >         if (map->hold_file_rmap_lock) {
+> > > @@ -2768,7 +2773,7 @@ static unsigned long __mmap_region(struct file =
+*file, unsigned long addr,
+> > >         __mmap_complete(&map, vma);
+> > >
+> > >         if (have_mmap_prepare && allocated_new) {
+> > > -               error =3D call_action_complete(&map, &desc, vma);
+> > > +               error =3D call_action_complete(&map, &desc.action, vm=
+a);
+> > >
+> > >                 if (error)
+> > >                         return error;
+> > > diff --git a/tools/testing/vma/include/dup.h b/tools/testing/vma/incl=
+ude/dup.h
+> > > index 5eb313beb43d..908beb263307 100644
+> > > --- a/tools/testing/vma/include/dup.h
+> > > +++ b/tools/testing/vma/include/dup.h
+> > > @@ -1106,7 +1106,7 @@ static inline int __compat_vma_mmap(const struc=
+t file_operations *f_op,
+> > >
+> > >                 .pgoff =3D vma->vm_pgoff,
+> > >                 .vm_file =3D vma->vm_file,
+> > > -               .vm_flags =3D vma->vm_flags,
+> > > +               .vma_flags =3D vma->flags,
+> > >                 .page_prot =3D vma->vm_page_prot,
+> > >
+> > >                 .action.type =3D MMAP_NOTHING, /* Default */
+> > > @@ -1117,9 +1117,12 @@ static inline int __compat_vma_mmap(const stru=
+ct file_operations *f_op,
+> > >         if (err)
+> > >                 return err;
+> > >
+> > > -       mmap_action_prepare(&desc.action, &desc);
+> > > +       err =3D mmap_action_prepare(&desc, &desc.action);
+> > > +       if (err)
+> > > +               return err;
+> > > +
+> > >         set_vma_from_desc(vma, &desc);
+> > > -       return mmap_action_complete(&desc.action, vma);
+> > > +       return mmap_action_complete(vma, &desc.action);
+> > >  }
+> > >
+> > >  static inline int compat_vma_mmap(struct file *file,
+> > > diff --git a/tools/testing/vma/include/stubs.h b/tools/testing/vma/in=
+clude/stubs.h
+> > > index 947a3a0c2566..76c4b668bc62 100644
+> > > --- a/tools/testing/vma/include/stubs.h
+> > > +++ b/tools/testing/vma/include/stubs.h
+> > > @@ -81,13 +81,14 @@ static inline void free_anon_vma_name(struct vm_a=
+rea_struct *vma)
+> > >  {
+> > >  }
+> > >
+> > > -static inline void mmap_action_prepare(struct mmap_action *action,
+> > > -                                          struct vm_area_desc *desc)
+> > > +static inline int mmap_action_prepare(struct vm_area_desc *desc,
+> > > +                                     struct mmap_action *action)
+> > >  {
+> > > +       return 0;
+> > >  }
+> > >
+> > > -static inline int mmap_action_complete(struct mmap_action *action,
+> > > -                                          struct vm_area_struct *vma=
+)
+> > > +static inline int mmap_action_complete(struct vm_area_struct *vma,
+> > > +                                      struct mmap_action *action)
+> > >  {
+> > >         return 0;
+> > >  }
+> > > --
+> > > 2.53.0
+> > >
