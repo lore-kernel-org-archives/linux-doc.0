@@ -1,235 +1,191 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFC6C2798ED;
-	Mon, 16 Mar 2026 14:27:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3198F280330;
+	Mon, 16 Mar 2026 14:29:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773671267; cv=none; b=fljPw4H/rh2AAjGCrnpbqpsgWGdGJTSmHmaEEVzwl1MHGXCw7RQ4cvjFV14lYG6CNA2s119nKIxpQ2bfb+nxYf3+mFYyCzpkvfSYlpY6QjrQ0GUdfs9EMfdlihN0o4EnXkPQSctgvLtBsIe9HIaKLc0JDsg7iieFr++l4szowBI=
+	t=1773671356; cv=none; b=h+L1X9DpyE3S73JdT6m29d8IUBTLn6QDc28H3oejTAKKf41M9+K8agOkK8Edx2bBYfBJfQiDQK5B/uC9xOt97EB3Jpd1lFDkYkZ0HHkQaS5iF3ppRAa1KXnUkCBDfVylww13VTsW+locBYu/FGuYvnOMj0o07W9hFhinlzTVc7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773671267; c=relaxed/simple;
-	bh=LdErtDT/k4K0KFL4qBQNrdE/F7XVqEqjMkUysE+xWlo=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=SdIgh29zOCTSAX6IvCWVLUuad/Oh1Tcjcy+xVbdqxYsR87hXWqBHQdkMeKwI+VbePtOZUHCeGDYVLULSfUOTqObLjGU7xLAryjFMJP7oTOHyi3DIgmte05GqKihC6gldWEcM1uE14Bq3eSRPYT+RLB4h+BfncWSsPvhgkNe9QBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.224.150])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fZHTf5JjfzJ46F4;
-	Mon, 16 Mar 2026 22:26:46 +0800 (CST)
-Received: from dubpeml100006.china.huawei.com (unknown [7.214.145.132])
-	by mail.maildlp.com (Postfix) with ESMTPS id 4AA794056B;
-	Mon, 16 Mar 2026 22:27:41 +0800 (CST)
-Received: from dubpeml500008.china.huawei.com (7.214.146.94) by
- dubpeml100006.china.huawei.com (7.214.145.132) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.36; Mon, 16 Mar 2026 14:27:40 +0000
-Received: from dubpeml500008.china.huawei.com ([7.214.146.94]) by
- dubpeml500008.china.huawei.com ([7.214.146.94]) with mapi id 15.02.1544.011;
- Mon, 16 Mar 2026 14:27:40 +0000
-From: Shiju Jose <shiju.jose@huawei.com>
-To: Borislav Petkov <bp@alien8.de>
-CC: "rafael@kernel.org" <rafael@kernel.org>, "akpm@linux-foundation.org"
-	<akpm@linux-foundation.org>, "rppt@kernel.org" <rppt@kernel.org>,
-	"dferguson@amperecomputing.com" <dferguson@amperecomputing.com>,
-	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-	"linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "tony.luck@intel.com" <tony.luck@intel.com>,
-	"lenb@kernel.org" <lenb@kernel.org>, "leo.duran@amd.com" <leo.duran@amd.com>,
-	"Yazen.Ghannam@amd.com" <Yazen.Ghannam@amd.com>, "mchehab@kernel.org"
-	<mchehab@kernel.org>, Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Linuxarm <linuxarm@huawei.com>, "rientjes@google.com" <rientjes@google.com>,
-	"jiaqiyan@google.com" <jiaqiyan@google.com>, "Jon.Grimm@amd.com"
-	<Jon.Grimm@amd.com>, "dave.hansen@linux.intel.com"
-	<dave.hansen@linux.intel.com>, "naoya.horiguchi@nec.com"
-	<naoya.horiguchi@nec.com>, "james.morse@arm.com" <james.morse@arm.com>,
-	"jthoughton@google.com" <jthoughton@google.com>, "somasundaram.a@hpe.com"
-	<somasundaram.a@hpe.com>, "erdemaktas@google.com" <erdemaktas@google.com>,
-	"pgonda@google.com" <pgonda@google.com>, "duenwen@google.com"
-	<duenwen@google.com>, "gthelen@google.com" <gthelen@google.com>,
-	"wschwartz@amperecomputing.com" <wschwartz@amperecomputing.com>,
-	"wbs@os.amperecomputing.com" <wbs@os.amperecomputing.com>,
-	"nifan.cxl@gmail.com" <nifan.cxl@gmail.com>, tanxiaofei
-	<tanxiaofei@huawei.com>, "Zengtao (B)" <prime.zeng@hisilicon.com>, "Roberto
- Sassu" <roberto.sassu@huawei.com>, "kangkang.shen@futurewei.com"
-	<kangkang.shen@futurewei.com>, wanghuiqiang <wanghuiqiang@huawei.com>
-Subject: RE: [PATCH v17 1/2] ACPI:RAS2: Add driver for the ACPI RAS2 feature
- table
-Thread-Topic: [PATCH v17 1/2] ACPI:RAS2: Add driver for the ACPI RAS2 feature
- table
-Thread-Index: AQHcsW+Cga9edtcUAUivOs6Fc3UAQrWrHm+AgAGFBoA=
-Date: Mon, 16 Mar 2026 14:27:40 +0000
-Message-ID: <33a8a02f07184508bdff31e1053606a2@huawei.com>
-References: <20260311155518.1000-1-shiju.jose@huawei.com>
- <20260311155518.1000-2-shiju.jose@huawei.com>
- <20260312165247.GSabLvX5DjzhDtmyuh@fat_crate.local>
-In-Reply-To: <20260312165247.GSabLvX5DjzhDtmyuh@fat_crate.local>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1773671356; c=relaxed/simple;
+	bh=PFUSnO/9ILgelOXbwjEIMdn/Aab1PlCJ0qMrqAnbvw4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kRmLJJgqG+p0ZOnxyBW+ErBRLvRF4uzu5DHvEXpQ2mhIBcMNWsnyHshHybW4oNiohniuy8USKRjbUPIn+fCktcvYlWYomxXBMuJJrUP4Pq9h8T/IdFxoxNOIkH81IlvhOKlNDt8jViT5Zsf35tc37Mzj9dymmlsWngoG1isz/vE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZNArTqce; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZNArTqce"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 901EFC19421;
+	Mon, 16 Mar 2026 14:29:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773671355;
+	bh=PFUSnO/9ILgelOXbwjEIMdn/Aab1PlCJ0qMrqAnbvw4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZNArTqce345KwAkB2/OySCnh6EME1XoJwR/oAl0lWq7Ylt9gkTfk6stvl4mVK9/3F
+	 KwYOcm79Ed4P16v4AgfrWxgeQ5kXFytmq8JtvKgeAJBHJni4gvkqoXRwSRojWkzMXW
+	 KjdJCy/qJzif6rc5Ha23V7TyHyiPTJueX/dmlebfwa3TllC3B8dzFJIvh09GNdM5hA
+	 U109OB4NNCj4y6zxKWnPMdODpWkf+W9tJkoIot699UjVOMo5rbg+oOW+XblrH75bPT
+	 2K9hfeg+fCNBKA/MiRSMUpOgDleW7qa6JeZtPbHw5YSqiNeQgyfmSpebEkCOjXVHFZ
+	 N7HDaEOyJ+00A==
+Date: Mon, 16 Mar 2026 14:29:04 +0000
+From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: Usama Arif <usama.arif@linux.dev>, 
+	Andrew Morton <akpm@linux-foundation.org>, Clemens Ladisch <clemens@ladisch.de>, 
+	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"K . Y . Srinivasan" <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>, 
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Miquel Raynal <miquel.raynal@bootlin.com>, 
+	Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
+	Bodo Stroesser <bostroesser@gmail.com>, "Martin K . Petersen" <martin.petersen@oracle.com>, 
+	David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	David Hildenbrand <david@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
+	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
+	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org, 
+	linux-mtd@lists.infradead.org, linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org, 
+	target-devel@vger.kernel.org, linux-afs@lists.infradead.org, linux-fsdevel@vger.kernel.org, 
+	linux-mm@kvack.org, Ryan Roberts <ryan.roberts@arm.com>
+Subject: Re: [PATCH 05/15] fs: afs: correctly drop reference count on mapping
+ failure
+Message-ID: <2536c05e-e228-404f-9916-906c0447b114@lucifer.local>
+References: <4a5fa45119220b9d99ed72a36308aed01a30d2c1.1773346620.git.ljs@kernel.org>
+ <20260313110745.2573005-1-usama.arif@linux.dev>
+ <c62305d7-22c4-4cf7-969b-fbe214c93b64@lucifer.local>
+ <CAJuCfpFio6n-O-1NkPXrymV0o3UqvHYS8ZOyQtt=JXnZ5dTGhQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJuCfpFio6n-O-1NkPXrymV0o3UqvHYS8ZOyQtt=JXnZ5dTGhQ@mail.gmail.com>
 
-Pi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+RnJvbTogQm9yaXNsYXYgUGV0a292IDxicEBh
-bGllbjguZGU+DQo+U2VudDogMTIgTWFyY2ggMjAyNiAxNjo1Mw0KPlRvOiBTaGlqdSBKb3NlIDxz
-aGlqdS5qb3NlQGh1YXdlaS5jb20+DQo+Q2M6IHJhZmFlbEBrZXJuZWwub3JnOyBha3BtQGxpbnV4
-LWZvdW5kYXRpb24ub3JnOyBycHB0QGtlcm5lbC5vcmc7DQo+ZGZlcmd1c29uQGFtcGVyZWNvbXB1
-dGluZy5jb207IGxpbnV4LWVkYWNAdmdlci5rZXJuZWwub3JnOyBsaW51eC0NCj5hY3BpQHZnZXIu
-a2VybmVsLm9yZzsgbGludXgtbW1Aa3ZhY2sub3JnOyBsaW51eC1kb2NAdmdlci5rZXJuZWwub3Jn
-Ow0KPnRvbnkubHVja0BpbnRlbC5jb207IGxlbmJAa2VybmVsLm9yZzsgbGVvLmR1cmFuQGFtZC5j
-b207DQo+WWF6ZW4uR2hhbm5hbUBhbWQuY29tOyBtY2hlaGFiQGtlcm5lbC5vcmc7IEpvbmF0aGFu
-IENhbWVyb24NCj48am9uYXRoYW4uY2FtZXJvbkBodWF3ZWkuY29tPjsgTGludXhhcm0gPGxpbnV4
-YXJtQGh1YXdlaS5jb20+Ow0KPnJpZW50amVzQGdvb2dsZS5jb207IGppYXFpeWFuQGdvb2dsZS5j
-b207IEpvbi5HcmltbUBhbWQuY29tOw0KPmRhdmUuaGFuc2VuQGxpbnV4LmludGVsLmNvbTsgbmFv
-eWEuaG9yaWd1Y2hpQG5lYy5jb207DQo+amFtZXMubW9yc2VAYXJtLmNvbTsganRob3VnaHRvbkBn
-b29nbGUuY29tOyBzb21hc3VuZGFyYW0uYUBocGUuY29tOw0KPmVyZGVtYWt0YXNAZ29vZ2xlLmNv
-bTsgcGdvbmRhQGdvb2dsZS5jb207IGR1ZW53ZW5AZ29vZ2xlLmNvbTsNCj5ndGhlbGVuQGdvb2ds
-ZS5jb207IHdzY2h3YXJ0ekBhbXBlcmVjb21wdXRpbmcuY29tOw0KPndic0Bvcy5hbXBlcmVjb21w
-dXRpbmcuY29tOyBuaWZhbi5jeGxAZ21haWwuY29tOyB0YW54aWFvZmVpDQo+PHRhbnhpYW9mZWlA
-aHVhd2VpLmNvbT47IFplbmd0YW8gKEIpIDxwcmltZS56ZW5nQGhpc2lsaWNvbi5jb20+OyBSb2Jl
-cnRvDQo+U2Fzc3UgPHJvYmVydG8uc2Fzc3VAaHVhd2VpLmNvbT47IGthbmdrYW5nLnNoZW5AZnV0
-dXJld2VpLmNvbTsNCj53YW5naHVpcWlhbmcgPHdhbmdodWlxaWFuZ0BodWF3ZWkuY29tPg0KPlN1
-YmplY3Q6IFJlOiBbUEFUQ0ggdjE3IDEvMl0gQUNQSTpSQVMyOiBBZGQgZHJpdmVyIGZvciB0aGUg
-QUNQSSBSQVMyIGZlYXR1cmUNCj50YWJsZQ0KPg0KPk9uIFdlZCwgTWFyIDExLCAyMDI2IGF0IDAz
-OjU1OjE2UE0gKzAwMDAsIHNoaWp1Lmpvc2VAaHVhd2VpLmNvbSB3cm90ZToNCj4+IEZyb206IFNo
-aWp1IEpvc2UgPHNoaWp1Lmpvc2VAaHVhd2VpLmNvbT4NCj4+DQo+PiBBQ1BJIDYuNSBTcGVjaWZp
-Y2F0aW9uLCBzZWN0aW9uIDUuMi4yMSwgZGVmaW5lZCBSQVMyIGZlYXR1cmUgdGFibGUgKFJBUzIp
-Lg0KPj4gRHJpdmVyIGFkZHMgc3VwcG9ydCBmb3IgUkFTMiBmZWF0dXJlIHRhYmxlLCB3aGljaCBw
-cm92aWRlcyBpbnRlcmZhY2VzDQo+PiBmb3IgcGxhdGZvcm0gUkFTIGZlYXR1cmVzLCBlLmcuLCBm
-b3IgSFctYmFzZWQgbWVtb3J5IHNjcnViYmluZywgYW5kDQo+PiBsb2dpY2FsIHRvIFBBIHRyYW5z
-bGF0aW9uIHNlcnZpY2UuIFJBUzIgdXNlcyBQQ0MgY2hhbm5lbCBzdWJzcGFjZSBmb3INCj4+IGNv
-bW11bmljYXRpbmcgd2l0aCB0aGUgQUNQSSBjb21wbGlhbnQgSFcgcGxhdGZvcm0uDQo+Pg0KPj4g
-Q28tZGV2ZWxvcGVkLWJ5OiBBIFNvbWFzdW5kYXJhbSA8c29tYXN1bmRhcmFtLmFAaHBlLmNvbT4N
-Cj4+IFNpZ25lZC1vZmYtYnk6IEEgU29tYXN1bmRhcmFtIDxzb21hc3VuZGFyYW0uYUBocGUuY29t
-Pg0KPj4gQ28tZGV2ZWxvcGVkLWJ5OiBKb25hdGhhbiBDYW1lcm9uIDxKb25hdGhhbi5DYW1lcm9u
-QGh1YXdlaS5jb20+DQo+PiBTaWduZWQtb2ZmLWJ5OiBKb25hdGhhbiBDYW1lcm9uIDxKb25hdGhh
-bi5DYW1lcm9uQGh1YXdlaS5jb20+DQo+PiBUZXN0ZWQtYnk6IERhbmllbCBGZXJndXNvbiA8ZGFu
-aWVsZkBvcy5hbXBlcmVjb21wdXRpbmcuY29tPg0KPj4gU2lnbmVkLW9mZi1ieTogU2hpanUgSm9z
-ZSA8c2hpanUuam9zZUBodWF3ZWkuY29tPg0KPj4gLS0tDQo+PiAgZHJpdmVycy9hY3BpL0tjb25m
-aWcgIHwgIDExICsrDQo+PiAgZHJpdmVycy9hY3BpL01ha2VmaWxlIHwgICAxICsNCj4+ICBkcml2
-ZXJzL2FjcGkvYnVzLmMgICAgfCAgIDMgKw0KPj4gIGRyaXZlcnMvYWNwaS9yYXMyLmMgICB8IDQz
-Mw0KPisrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKw0KPj4gIGluY2x1
-ZGUvYWNwaS9yYXMyLmggICB8ICA1NyArKysrKysNCj4+ICA1IGZpbGVzIGNoYW5nZWQsIDUwNSBp
-bnNlcnRpb25zKCspDQo+PiAgY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvYWNwaS9yYXMyLmMg
-IGNyZWF0ZSBtb2RlIDEwMDY0NA0KPj4gaW5jbHVkZS9hY3BpL3JhczIuaA0KPg0KPkZpcnN0IG9m
-IGFsbCwgd2hhdCBhYm91dCB0aGlzOg0KPg0KPmh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL3IvZGY1
-ZmUwZWQtMzQ4My00YWM1LTgwOTYtDQo+NDQ3ZTRlNTYwODE2QG9zLmFtcGVyZWNvbXB1dGluZy5j
-b20NCkhpIEJvcmlzLA0KDQpUaGFua3MgZm9yIHRoZSBmZWVkYmFjay4NCg0KSW4gdjEzLCBzdXBw
-b3J0IGZvciBhZGRyZXNzIHJhbmdlIGhhcyByZW1vdmVkIGZvciB0aGUgY29kZSBzaW1wbGlmaWNh
-dGlvbiByZXF1ZXN0ZWQNCndpdGggdGhlIGV4cGVjdGF0aW9uIHRoYXQgYSBmaXJtd2FyZSB3aWxs
-IGRvIHRoZSBmdWxsIG5vZGUgZGVtYW5kIHNjcnViYmluZyBhbmQNCm1heSBlbmFibGUgdGhlc2Ug
-YXR0cmlidXRlcyBpbiB0aGUgZm9sbG93LXVwIHBhdGNoZXMuIA0KSSBkbyBub3QgbWluZCBhZGRp
-bmcgc3VwcG9ydCBmb3IgYWRkcmVzcyByYW5nZSBub3cgb3IgZWxzZSBsYXRlciBhZnRlciBmaXJz
-dCB2ZXJzaW9uIG9mDQpSQVMyIGNvZGUgd2lsbCBiZSBtZXJnZWQuDQoNCj4NCj4/DQo+DQo+PiAr
-c3RhdGljIGludCBjaGVja19wY2NfY2hhbihzdHJ1Y3QgcmFzMl9zc3BjYyAqc3NwY2MpIHsNCj4+
-ICsJc3RydWN0IGFjcGlfcmFzMl9zaG1lbSBfX2lvbWVtICpnZW5fY29tbV9iYXNlID0gc3NwY2Mt
-DQo+PmNvbW1fYWRkcjsNCj4+ICsJdTMyIGNhcF9zdGF0dXM7DQo+PiArCXUxNiBzdGF0dXM7DQo+
-PiArCWludCByYzsNCj4+ICsNCj4+ICsJLyoNCj4+ICsJICogQXMgcGVyIEFDUEkgc3BlYywgdGhl
-IFBDQyBzcGFjZSB3aWxsIGJlIGluaXRpYWxpemVkIGJ5IHRoZQ0KPj4gKwkgKiBwbGF0Zm9ybSBh
-bmQgc2hvdWxkIGhhdmUgc2V0IHRoZSBjb21tYW5kIGNvbXBsZXRpb24gYml0IHdoZW4NCj4+ICsJ
-ICogUENDIGNhbiBiZSB1c2VkIGJ5IE9TUE0uDQo+PiArCSAqDQo+PiArCSAqIFBvbGwgUENDIHN0
-YXR1cyByZWdpc3RlciBldmVyeSBQQ0NfTUlOX1BPTExfVVNFQ1MgZm9yIG1heGltdW0gb2YNCj4+
-ICsJICogUENDX05VTV9SRVRSSUVTICogUENDIGNoYW5uZWwgbGF0ZW5jeSB1bnRpbCBQQ0MgY29t
-bWFuZA0KPmNvbXBsZXRlDQo+PiArCSAqIGJpdCBpcyBzZXQuDQo+PiArCSAqLw0KPj4gKwlyYyA9
-IHJlYWR3X3JlbGF4ZWRfcG9sbF90aW1lb3V0KCZnZW5fY29tbV9iYXNlLT5zdGF0dXMsIHN0YXR1
-cywNCj4+ICsJCQkJCXN0YXR1cyAmDQo+UENDX1NUQVRVU19DTURfQ09NUExFVEUsDQo+PiArCQkJ
-CQlQQ0NfTUlOX1BPTExfVVNFQ1MsIHNzcGNjLQ0KPj5kZWFkbGluZV91cyk7DQo+PiArCWlmIChy
-Yykgew0KPj4gKwkJcHJfd2FybigiUENDIElEOiAweCV4OiBQQ0MgY2hlY2sgY2hhbm5lbCB0aW1l
-b3V0IGZvciBsYXN0DQo+Y29tbWFuZDogMHgleCByYz0lZFxuIiwNCj4+ICsJCQlzc3BjYy0+cGNj
-X2lkLCBzc3BjYy0+bGFzdF9jbWQsIHJjKTsNCj4+ICsNCj4+ICsJCXJldHVybiByYzsNCj4+ICsJ
-fQ0KPj4gKw0KPj4gKwlpZiAoc3RhdHVzICYgUENDX1NUQVRVU19FUlJPUikgew0KPj4gKwkJcHJf
-d2FybigiUENDIElEOiAweCV4OiBFcnJvciBpbiBleGVjdXRpbmcgbGFzdCBjb21tYW5kOg0KPjB4
-JXhcbiIsDQo+PiArCQkJc3NwY2MtPnBjY19pZCwgc3NwY2MtPmxhc3RfY21kKTsNCj4+ICsJCXN0
-YXR1cyAmPSB+UENDX1NUQVRVU19FUlJPUjsNCj4+ICsJCXdyaXRld19yZWxheGVkKHN0YXR1cywg
-Jmdlbl9jb21tX2Jhc2UtPnN0YXR1cyk7DQo+PiArCQlyZXR1cm4gLUVJTzsNCj4+ICsJfQ0KPj4g
-Kw0KPj4gKwljYXBfc3RhdHVzID0gcmVhZHdfcmVsYXhlZCgmZ2VuX2NvbW1fYmFzZS0+c2V0X2Nh
-cHNfc3RhdHVzKTsNCj4NCj5UaGUgQUkgY2F1Z2h0IHRoaXM6DQo+DQo+IlRoaXMgaXMgcmVhZGlu
-ZyBvbmx5IDE2IGJpdHMgb2YgYSAzMi1iaXQgZmllbGQuIg0KPg0KPllvdSdyZSBkb2luZyByZWFk
-dyB3aGljaCByZXR1cm5zIHUxNiBidXQgeW91J3JlIHdyaXRpbmcgaXQgaW50byBhIHUzMi4gV2h5
-Pw0KDQpzZXRfY2Fwc19zdGF0dXMgaXMgNCBieXRlcywgdGh1cyBuZWVkIHRvIHVzZSByZWFkbF9y
-ZWxheGVkKCkgaW5zdGVhZC4NCg0KPg0KPj4gKwlzd2l0Y2ggKGNhcF9zdGF0dXMpIHsNCj4+ICsJ
-Y2FzZSBBQ1BJX1JBUzJfTk9UX1ZBTElEOg0KPj4gKwljYXNlIEFDUElfUkFTMl9OT1RfU1VQUE9S
-VEVEOg0KPj4gKwkJcmMgPSAtRVBFUk07DQo+PiArCQlicmVhazsNCj4+ICsJY2FzZSBBQ1BJX1JB
-UzJfQlVTWToNCj4+ICsJCXJjID0gLUVCVVNZOw0KPj4gKwkJYnJlYWs7DQo+PiArCWNhc2UgQUNQ
-SV9SQVMyX0ZBSUxFRDoNCj4+ICsJY2FzZSBBQ1BJX1JBUzJfQUJPUlRFRDoNCj4+ICsJY2FzZSBB
-Q1BJX1JBUzJfSU5WQUxJRF9EQVRBOg0KPj4gKwkJcmMgPSAtRUlOVkFMOw0KPj4gKwkJYnJlYWs7
-DQo+PiArCWRlZmF1bHQ6DQo+PiArCQlyYyA9IDA7DQo+PiArCX0NCj4+ICsNCj4+ICsJd3JpdGV3
-X3JlbGF4ZWQoMHgwLCAmZ2VuX2NvbW1fYmFzZS0+c2V0X2NhcHNfc3RhdHVzKTsNCj4+ICsNCj4+
-ICsJcmV0dXJuIHJjOw0KPj4gK30NCj4NCj4uLi4NCj4NCj4+ICtzdGF0aWMgaW50IHJlZ2lzdGVy
-X3BjY19jaGFubmVsKHN0cnVjdCByYXMyX21lbV9jdHggKnJhczJfY3R4LCBpbnQNCj4+ICtwY2Nf
-aWQpIHsNCj4+ICsJc3RydWN0IHBjY19tYm94X2NoYW4gKnBjY19jaGFuOw0KPj4gKwlzdHJ1Y3Qg
-bWJveF9jbGllbnQgKm1ib3hfY2w7DQo+PiArCXN0cnVjdCByYXMyX3NzcGNjICpzc3BjYzsNCj4+
-ICsNCj4+ICsJaWYgKHBjY19pZCA8IDApDQo+PiArCQlyZXR1cm4gLUVJTlZBTDsNCj4+ICsNCj4+
-ICsJc3NwY2MgPSBremFsbG9jKHNpemVvZigqc3NwY2MpLCBHRlBfS0VSTkVMKTsNCj4+ICsJaWYg
-KCFzc3BjYykNCj4+ICsJCXJldHVybiAtRU5PTUVNOw0KPj4gKw0KPj4gKwltYm94X2NsCQkJPSAm
-c3NwY2MtPm1ib3hfY2xpZW50Ow0KPj4gKwltYm94X2NsLT5rbm93c190eGRvbmUJPSB0cnVlOw0K
-Pj4gKw0KPj4gKwlwY2NfY2hhbiA9IHBjY19tYm94X3JlcXVlc3RfY2hhbm5lbChtYm94X2NsLCBw
-Y2NfaWQpOw0KPj4gKwlpZiAoSVNfRVJSKHBjY19jaGFuKSkgew0KPj4gKwkJa2ZyZWUoc3NwY2Mp
-Ow0KPj4gKwkJcmV0dXJuIFBUUl9FUlIocGNjX2NoYW4pOw0KPj4gKwl9DQo+PiArDQo+PiArCXNz
-cGNjLT5wY2NfaWQJCT0gcGNjX2lkOw0KPj4gKwlzc3BjYy0+cGNjX2NoYW4JCT0gcGNjX2NoYW47
-DQo+PiArCXNzcGNjLT5jb21tX2FkZHIJPSBwY2NfY2hhbi0+c2htZW07DQo+PiArCXNzcGNjLT5k
-ZWFkbGluZV91cwk9IFBDQ19OVU1fUkVUUklFUyAqIHBjY19jaGFuLT5sYXRlbmN5Ow0KPj4gKwlz
-c3BjYy0+cGNjX21ydHQJCT0gcGNjX2NoYW4tPm1pbl90dXJuYXJvdW5kX3RpbWU7DQo+PiArCXNz
-cGNjLT5wY2NfbXBhcgkJPSBwY2NfY2hhbi0+bWF4X2FjY2Vzc19yYXRlOw0KPj4gKwlzc3BjYy0+
-bWJveF9jbGllbnQua25vd3NfdHhkb25lCT0gdHJ1ZTsNCj4NCj4iMi4gKipEb3VibGUgaW5pdGlh
-bGl6YXRpb24gb2YgbWJveF9jbGllbnQua25vd3NfdHhkb25lKio6DQo+LSBMaW5lIDI1MTogYG1i
-b3hfY2wtPmtub3dzX3R4ZG9uZSA9IHRydWU7YA0KPi0gTGluZSAyNjU6IGBzc3BjYy0+bWJveF9j
-bGllbnQua25vd3NfdHhkb25lID0gdHJ1ZTtgDQo+DQo+YG1ib3hfY2xgIGlzIGAmc3NwY2MtPm1i
-b3hfY2xpZW50YCwgc28gdGhpcyBzZXRzIHRoZSBzYW1lIGZpZWxkIHR3aWNlLiBUaGlzIGlzDQo+
-cmVkdW5kYW50IGJ1dCBub3QgYSBidWcuIg0KPg0KPkhvaHVtbSwgc291bmRzIGFib3V0IHJpZ2h0
-LiBUaGF0J3MgYSBnb29kIGNhdGNoLiBObyBvbmUgc2F3IGl0IHVudGlsIG5vdy4gR29vZA0KPmpv
-YiBDbGF1ZGUgOi1QDQpXaWxsIHJlbW92ZSB0aGUgZHVwbGljYXRpb24uDQoNCj4NCj4+ICsJc3Nw
-Y2MtPnBjY19jaG5sX2FjcQk9IHRydWU7DQo+DQo+IjQuICoqVW51c2VkIGZpZWxkIGBwY2NfY2hu
-bF9hY3FgKio6DQo+LSBMaW5lIDI2NjogYHNzcGNjLT5wY2NfY2hubF9hY3EgPSB0cnVlO2AgaXMg
-c2V0DQo+LSBMb29raW5nIGZvciB1c2VzLi4uIG5vd2hlcmUgZWxzZSBpbiB0aGUgY29kZSB1c2Vz
-IHRoaXMgZmllbGQhIg0KPg0KPkkgY291bGRuJ3QgZmluZCBhbnkgZWl0aGVyLg0KV2lsbCByZW1v
-dmUgcmVkdW5kYW50IHBjY19jaG5sX2FjcSBhcyBpdCB3YXMgYWRkZWQgZm9yIGFuIG9sZCB1c2Ug
-Y2FzZS4NCg0KPg0KPj4gKw0KPj4gKwlyYXMyX2N0eC0+c3NwY2MJCT0gc3NwY2M7DQo+PiArCXJh
-czJfY3R4LT5jb21tX2FkZHIJPSBzc3BjYy0+Y29tbV9hZGRyOw0KPj4gKwlyYXMyX2N0eC0+ZGV2
-CQk9IHBjY19jaGFuLT5tY2hhbi0+bWJveC0+ZGV2Ow0KPj4gKw0KPj4gKwltdXRleF9pbml0KCZz
-c3BjYy0+cGNjX2xvY2spOw0KPj4gKwlyYXMyX2N0eC0+cGNjX2xvY2sJPSAmc3NwY2MtPnBjY19s
-b2NrOw0KPj4gKw0KPj4gKwlyZXR1cm4gMDsNCj4+ICt9DQo+PiArDQo+PiArc3RhdGljIERFRklO
-RV9JREEocmFzMl9pZGEpOw0KPj4gK3N0YXRpYyB2b2lkIHJhczJfcmVsZWFzZShzdHJ1Y3QgZGV2
-aWNlICpkZXZpY2UpIHsNCj4+ICsJc3RydWN0IGF1eGlsaWFyeV9kZXZpY2UgKmF1eGRldiA9IHRv
-X2F1eGlsaWFyeV9kZXYoZGV2aWNlKTsNCj4+ICsJc3RydWN0IHJhczJfbWVtX2N0eCAqcmFzMl9j
-dHggPSBjb250YWluZXJfb2YoYXV4ZGV2LCBzdHJ1Y3QNCj5yYXMyX21lbV9jdHgsIGFkZXYpOw0K
-Pj4gKwlzdHJ1Y3QgcmFzMl9zc3BjYyAqc3NwY2M7DQo+PiArDQo+PiArCWlkYV9mcmVlKCZyYXMy
-X2lkYSwgYXV4ZGV2LT5pZCk7DQo+PiArCXNzcGNjID0gcmFzMl9jdHgtPnNzcGNjOw0KPj4gKwlw
-Y2NfbWJveF9mcmVlX2NoYW5uZWwoc3NwY2MtPnBjY19jaGFuKTsNCj4+ICsJa2ZyZWUoc3NwY2Mp
-Ow0KPj4gKwlrZnJlZShyYXMyX2N0eCk7DQo+PiArfQ0KPj4gKw0KPj4gK3N0YXRpYyBzdHJ1Y3Qg
-cmFzMl9tZW1fY3R4ICphZGRfYXV4X2RldmljZShjaGFyICpuYW1lLCBpbnQgY2hhbm5lbCwNCj4+
-ICt1MzIgcHhtX2luc3QpDQo+DQo+QW5vdGhlciBnb29kIGNhdGNoOg0KPg0KPiI1LiAqKlRoZSBg
-bmFtZWAgcGFyYW1ldGVyIGlzIHVudXNlZCBpbiBhZGRfYXV4X2RldmljZSgpKio6DQo+TG9va2lu
-ZyBhdCB0aGUgZnVuY3Rpb24gc2lnbmF0dXJlOg0KPmBgYGMNCj5zdGF0aWMgc3RydWN0IHJhczJf
-bWVtX2N0eCAqYWRkX2F1eF9kZXZpY2UoY2hhciAqbmFtZSwgaW50IGNoYW5uZWwsIHUzMg0KPnB4
-bV9pbnN0KSBgYGAgVGhlIGBuYW1lYCBwYXJhbWV0ZXIgaXMgcGFzc2VkIGluIGJ1dCBuZXZlciB1
-c2VkIGluIHRoZSBmdW5jdGlvbg0KPmJvZHkuIFRoZSBmdW5jdGlvbiB1c2VzIHRoZSBjb25zdGFu
-dCBgUkFTMl9NRU1fREVWX0lEX05BTUVgIGluc3RlYWQgb24NCj5saW5lIDMyNS4NCj4NCj5UaGlz
-IGlzIGRlYWQgY29kZSAtIHBhcmFtZXRlciBpcyBuZXZlciB1c2VkLiINClN1cmUuIFdpbGwgcmVt
-b3ZlLg0KDQo+DQo+PiArew0KPj4gKwlzdHJ1Y3QgcmFzMl9tZW1fY3R4ICpyYXMyX2N0eDsNCj4+
-ICsJc3RydWN0IHJhczJfc3NwY2MgKnNzcGNjOw0KPj4gKwl1MzIgY29tcF9uaWQ7DQo+PiArCWlu
-dCBpZCwgcmM7DQo+PiArDQo+PiArCWNvbXBfbmlkID0gcHhtX3RvX25vZGUocHhtX2luc3QpOw0K
-Pj4gKwlpZiAoY29tcF9uaWQgPT0gTlVNQV9OT19OT0RFKSB7DQo+PiArCQlwcl9kZWJ1ZygiSW52
-YWxpZCBOVU1BIG5vZGUsIGNoYW5uZWw9JWQgcHhtX2luc3Q9JWRcbiIsDQo+Y2hhbm5lbCwgcHht
-X2luc3QpOw0KPj4gKwkJcmV0dXJuIEVSUl9QVFIoLUVJTlZBTCk7DQo+PiArCX0NCj4+ICsNCj4+
-ICsJcmFzMl9jdHggPSBremFsbG9jKHNpemVvZigqcmFzMl9jdHgpLCBHRlBfS0VSTkVMKTsNCj4+
-ICsJaWYgKCFyYXMyX2N0eCkNCj4+ICsJCXJldHVybiBFUlJfUFRSKC1FTk9NRU0pOw0KPj4gKw0K
-Pj4gKwlyYXMyX2N0eC0+c3lzX2NvbXBfbmlkID0gY29tcF9uaWQ7DQo+PiArDQo+PiArCXJjID0g
-cmVnaXN0ZXJfcGNjX2NoYW5uZWwocmFzMl9jdHgsIGNoYW5uZWwpOw0KPj4gKwlpZiAocmMgPCAw
-KSB7DQo+PiArCQlwcl9kZWJ1ZygiRmFpbGVkIHRvIHJlZ2lzdGVyIFBDQyBjaGFubmVsPSVkIHB4
-bV9pbnN0PSVkDQo+cmM9JWRcbiIsIGNoYW5uZWwsDQo+PiArCQkJIHB4bV9pbnN0LCByYyk7DQo+
-PiArCQlnb3RvIGN0eF9mcmVlOw0KPj4gKwl9DQo+PiArDQo+PiArCWlkID0gaWRhX2FsbG9jKCZy
-YXMyX2lkYSwgR0ZQX0tFUk5FTCk7DQo+PiArCWlmIChpZCA8IDApIHsNCj4+ICsJCXJjID0gaWQ7
-DQo+PiArCQlnb3RvIHBjY19mcmVlOw0KPj4gKwl9DQo+PiArDQo+PiArCXJhczJfY3R4LT5hZGV2
-LmlkCQk9IGlkOw0KPj4gKwlyYXMyX2N0eC0+YWRldi5uYW1lCQk9IFJBUzJfTUVNX0RFVl9JRF9O
-QU1FOw0KPgkJCQkJICBeXl5eXl5eXl5eXl5eXl5eXl5eXl4NCj4NCj4tLQ0KPlJlZ2FyZHMvR3J1
-c3MsDQo+ICAgIEJvcmlzLg0KPg0KPmh0dHBzOi8vcGVvcGxlLmtlcm5lbC5vcmcvdGdseC9ub3Rl
-cy1hYm91dC1uZXRpcXVldHRlDQoNClRoYW5rcywNClNoaWp1DQoNCg==
+On Sun, Mar 15, 2026 at 07:32:54PM -0700, Suren Baghdasaryan wrote:
+> On Fri, Mar 13, 2026 at 5:00 AM Lorenzo Stoakes (Oracle) <ljs@kernel.org> wrote:
+> >
+> > On Fri, Mar 13, 2026 at 04:07:43AM -0700, Usama Arif wrote:
+> > > On Thu, 12 Mar 2026 20:27:20 +0000 "Lorenzo Stoakes (Oracle)" <ljs@kernel.org> wrote:
+> > >
+> > > > Commit 9d5403b1036c ("fs: convert most other generic_file_*mmap() users to
+> > > > .mmap_prepare()") updated AFS to use the mmap_prepare callback in favour of
+> > > > the deprecated mmap callback.
+> > > >
+> > > > However, it did not account for the fact that mmap_prepare can fail to map
+> > > > due to an out of memory error, and thus should not be incrementing a
+> > > > reference count on mmap_prepare.
+>
+> This is a bit confusing. I see the current implementation does
+> afs_add_open_mmap() and then if generic_file_mmap_prepare() fails it
+> does afs_drop_open_mmap(), therefore refcounting seems to be balanced.
+> Is there really a problem?
+
+Firstly, mmap_prepare is invoked before we try to merge, so the VMA could in
+theory get merged and then the refcounting will be wrong.
+
+Secondly, mmap_prepare occurs at such at time where it is _possible_ that
+allocation failures as described below could happen.
+
+I'll update the commit message to reflect the merge aspect actually.
+
+>
+> > > >
+> > > > With the newly added vm_ops->mapped callback available, we can simply defer
+> > > > this operation to that callback which is only invoked once the mapping is
+> > > > successfully in place (but not yet visible to userspace as the mmap and VMA
+> > > > write locks are held).
+> > > >
+> > > > Therefore add afs_mapped() to implement this callback for AFS.
+> > > >
+> > > > In practice the mapping allocations are 'too small to fail' so this is
+> > > > something that realistically should never happen in practice (or would do
+> > > > so in a case where the process is about to die anyway), but we should still
+> > > > handle this.
+>
+> nit: I would drop the above paragraph. If it's impossible why are you
+> handling it? If it's unlikely, then handling it is even more
+> important.
+
+Sure I can drop it, but it's an ongoing thing with these small allocations.
+
+I wish we could just move to a scenario where we can simpy assume allocations
+will always succeed :)
+
+Vlasta - thoughts?
+
+Cheers, Lorenzo
+
+>
+> > > >
+> > > > Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
+> > > > ---
+> > > >  fs/afs/file.c | 20 ++++++++++++++++----
+> > > >  1 file changed, 16 insertions(+), 4 deletions(-)
+> > > >
+> > > > diff --git a/fs/afs/file.c b/fs/afs/file.c
+> > > > index f609366fd2ac..69ef86f5e274 100644
+> > > > --- a/fs/afs/file.c
+> > > > +++ b/fs/afs/file.c
+> > > > @@ -28,6 +28,8 @@ static ssize_t afs_file_splice_read(struct file *in, loff_t *ppos,
+> > > >  static void afs_vm_open(struct vm_area_struct *area);
+> > > >  static void afs_vm_close(struct vm_area_struct *area);
+> > > >  static vm_fault_t afs_vm_map_pages(struct vm_fault *vmf, pgoff_t start_pgoff, pgoff_t end_pgoff);
+> > > > +static int afs_mapped(unsigned long start, unsigned long end, pgoff_t pgoff,
+> > > > +                 const struct file *file, void **vm_private_data);
+> > > >
+> > > >  const struct file_operations afs_file_operations = {
+> > > >     .open           = afs_open,
+> > > > @@ -61,6 +63,7 @@ const struct address_space_operations afs_file_aops = {
+> > > >  };
+> > > >
+> > > >  static const struct vm_operations_struct afs_vm_ops = {
+> > > > +   .mapped         = afs_mapped,
+> > > >     .open           = afs_vm_open,
+> > > >     .close          = afs_vm_close,
+> > > >     .fault          = filemap_fault,
+> > > > @@ -500,13 +503,22 @@ static int afs_file_mmap_prepare(struct vm_area_desc *desc)
+> > > >     afs_add_open_mmap(vnode);
+> > >
+> > > Is the above afs_add_open_mmap an additional one, which could cause a reference
+> > > leak? Does the above one need to be removed and only the one in afs_mapped()
+> > > needs to be kept?
+> >
+> > Ah yeah good spot, will fix thanks!
+> >
+> > >
+> > > >
+> > > >     ret = generic_file_mmap_prepare(desc);
+> > > > -   if (ret == 0)
+> > > > -           desc->vm_ops = &afs_vm_ops;
+> > > > -   else
+> > > > -           afs_drop_open_mmap(vnode);
+> > > > +   if (ret)
+> > > > +           return ret;
+> > > > +
+> > > > +   desc->vm_ops = &afs_vm_ops;
+> > > >     return ret;
+> > > >  }
+> > > >
+> > > > +static int afs_mapped(unsigned long start, unsigned long end, pgoff_t pgoff,
+> > > > +                 const struct file *file, void **vm_private_data)
+> > > > +{
+> > > > +   struct afs_vnode *vnode = AFS_FS_I(file_inode(file));
+> > > > +
+> > > > +   afs_add_open_mmap(vnode);
+> > > > +   return 0;
+> > > > +}
+> > > > +
+> > > >  static void afs_vm_open(struct vm_area_struct *vma)
+> > > >  {
+> > > >     afs_add_open_mmap(AFS_FS_I(file_inode(vma->vm_file)));
+> > > > --
+> > > > 2.53.0
+> > > >
+> > > >
+> >
+> > Cheers, Lorenzo
