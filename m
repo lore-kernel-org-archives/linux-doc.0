@@ -1,77 +1,98 @@
-Received: from lithops.sigma-star.at (mailout.nod.at [116.203.167.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CADDD35CB8C;
-	Mon, 16 Mar 2026 21:45:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=116.203.167.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F7BC369224
+	for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 21:49:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773697557; cv=none; b=u+PnAQuboyAeDh48TpCoTZ9TVi5oDYKbq6M9GmzlMSAYazgLPojdU9FBH86IuBNVV5BpTq51LK+UbhMPd4I9yfF75gj0kgfeQ3hGeJ6HMk+lz5cte6oGzJw9RbhNbdicCf2QGvzlj5GBuPDm2tHAG57rhu3n8ClywFh2WUTJtBU=
+	t=1773697782; cv=none; b=tQDsjYbUMvj93lbiftxt8Crm5++/zqOcb1toT9RwB61uH6WzV+PnvH/qAln0/wX7xctq/r47EtQY1JOprwijoR+q5OrtztrAVPOQznm86Oj/Jd9V/6+8/Qopm1OKIHcpuwdUUJF/SiJ0wQbCNwsHCcjw2pv1OM9cwmy4mCdp9pc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773697557; c=relaxed/simple;
-	bh=/UyC2rv+fuf1B8esy+O+vyfPhSfBzfj4uOXEAJ8jSnc=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=Savz+Lm6QpTQQUSWKV6DJsI6Cnni6rEBjhFryhb8hdBEEzq7ny1XvnuVC3ahUcWP8KAKpk75YNd7YwxISDut2qoJi6YnZU9/wmQ5CiYTtxn9XdvrkKorhLfKQXWb68u2qmoQcJ20Oon4PdgEhhmWZp6QO816WBj02PjeiiyzEzo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nod.at; spf=fail smtp.mailfrom=nod.at; arc=none smtp.client-ip=116.203.167.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nod.at
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nod.at
-Received: from localhost (localhost [127.0.0.1])
-	by lithops.sigma-star.at (Postfix) with ESMTP id DE7AC2C14A6;
-	Mon, 16 Mar 2026 22:45:45 +0100 (CET)
-Received: from lithops.sigma-star.at ([127.0.0.1])
-	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10032)
-	with ESMTP id gGqg7UAYOlZ6; Mon, 16 Mar 2026 22:45:44 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by lithops.sigma-star.at (Postfix) with ESMTP id 3AEF62C14A8;
-	Mon, 16 Mar 2026 22:45:44 +0100 (CET)
-Received: from lithops.sigma-star.at ([127.0.0.1])
-	by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id Q-DUhqY-5-xt; Mon, 16 Mar 2026 22:45:43 +0100 (CET)
-Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
-	by lithops.sigma-star.at (Postfix) with ESMTP id A7EA82C14A6;
-	Mon, 16 Mar 2026 22:45:43 +0100 (CET)
-Date: Mon, 16 Mar 2026 22:45:43 +0100 (CET)
-From: Richard Weinberger <richard@nod.at>
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Clemens Ladisch <clemens@ladisch.de>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"K . Y . Srinivasan" <kys@microsoft.com>, 
-	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
-	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
-	mcoquelin stm32 <mcoquelin.stm32@gmail.com>, 
-	alexandre torgue <alexandre.torgue@foss.st.com>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>, 
-	Vignesh Raghavendra <vigneshr@ti.com>, 
-	Bodo Stroesser <bostroesser@gmail.com>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, 
-	David Howells <dhowells@redhat.com>, 
-	Marc Dionne <marc.dionne@auristor.com>, 
-	Al Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	David Hildenbrand <david@kernel.org>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, 
-	Pedro Falcato <pfalcato@suse.de>, 
-	linux-kernel <linux-kernel@vger.kernel.org>, 
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>, 
-	linux-hyperv <linux-hyperv@vger.kernel.org>, 
-	linux-stm32 <linux-stm32@st-md-mailman.stormreply.com>, 
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, 
-	linux-mtd <linux-mtd@lists.infradead.org>, 
-	linux-staging@lists.linux.dev, 
-	linux-scsi <linux-scsi@vger.kernel.org>, 
-	target-devel <target-devel@vger.kernel.org>, 
-	linux-afs <linux-afs@lists.infradead.org>, 
-	linux-fsdevel <linux-fsdevel@vger.kernel.org>, 
-	linux-mm <linux-mm@kvack.org>, ryan roberts <ryan.roberts@arm.com>
-Message-ID: <305430349.46051.1773697543461.JavaMail.zimbra@nod.at>
-In-Reply-To: <e3071ae43af79277d3919bafb71f009694d0854d.1773695307.git.ljs@kernel.org>
-References: <cover.1773695307.git.ljs@kernel.org> <e3071ae43af79277d3919bafb71f009694d0854d.1773695307.git.ljs@kernel.org>
-Subject: Re: [PATCH v2 09/16] mtdchar: replace deprecated mmap hook with
- mmap_prepare, clean up
+	s=arc-20240116; t=1773697782; c=relaxed/simple;
+	bh=wQ/TGkC56TEVU9edxRoDW8klAaLsoZRqlEjOzTkcHtQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ht304k2C5/2od0dGUr+UuSXUCU5ooCB+LDgSJddB7nj/UsAk4MoGy1dFXKEhYVJcfRAhynqP086bTw05dFdMmA5CWGFHe/9yUZHcfZibEbI8ZzZ/sOboeV8c9baKnCyOeX+YMs+GbaQ42vSrn2vNyAbjE48lCJLNoZlAr/V20vQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Sz9aLFQ5; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Sz9aLFQ5"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2aeab6ff148so13465ad.1
+        for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 14:49:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1773697780; x=1774302580; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=/8z1/dIhYqxHzj3/umwHNkEcO1PtVcvAJP18LcAQq1Y=;
+        b=Sz9aLFQ5ZpzjCMQbhP0GaJlUqctaX3L9daYdMHHAWK69ofV+JdrQQNZqqHNfyhJHWT
+         enhHiksoJUu1HFOS7H5sV/6mmQvX287gMHDXX5CQnSr3xv5I/ftgY3RMZpoqGhum6QYn
+         z4R+1BiLxyabC86ANdO18xTJk7zbt2Z3SrDV8yGup3msBjRNI2SYLUdBjwZUnwAGSVn6
+         LMhCIwfYfZWZXxrJCyIpIuAKBOekqIsZhuhPIywVxn1rrlOMsD6YZI8HwEDuT/lydBNT
+         3Zpgfy+IOr6GTSSADS1sYM5OjTSeSAkISsKbU/j27ic2WwLzAmamilpN7CSDCTcFAxux
+         9+Vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773697780; x=1774302580;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/8z1/dIhYqxHzj3/umwHNkEcO1PtVcvAJP18LcAQq1Y=;
+        b=oHEVZKVO0AxvkyH2QViCukQHrMhaYlvkVFzyRmpgPtfPx3/ZUs1dVsKq9oYvXultEi
+         nZEciLsSCwPdKg/xam1muwVFkiC+P0OlvC7NvqfttBgW7hJcjpN9+kQzbOxtN5esuHkL
+         bveUgUpqR5l/G+mgUsgdIo7pC2sYr3UZ+g+9Js6rY+OqDvacl0IFvAs+UQBuzh2aSjva
+         Mzm6CF+m+PkPfAUByBzut6LnI/D9ef1sEJVxlP3WCCYZi9FAM/bzl58GJc0boq2Y9tHk
+         tm87F+24AvU7Tz5dS8nqRR8qn3+jGCPvQ/B7CO6GyP+okM0omoCtQfWARII9xJSnma+K
+         l9fA==
+X-Forwarded-Encrypted: i=1; AJvYcCUcPdpZU7X/peU9m9ZGYgbijjRTRZZjfJd1FZRG3u/XcXohxC4xLupGqk/MFbUmZXMJkRsJMd3AOlM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyRueB+S5CfbsE/Wkh+Th0vqYuec5543TeArMj4KLIG+Jbn6Udl
+	ve/2rPhskIe99RYsTHIFnI1o+eww32Nb/YBJ8soMpTs7puACkmqdEFmctP3Sosf9TA==
+X-Gm-Gg: ATEYQzzjO4mW+2vbv06wpydybi8dO6o3OR8zRwwcD0RCzs7jw2Mzm7pxB0bQ2+xVqRO
+	w3vHm+7ylR8fbMb30MxUrn3eELVTTQm1DqH+4Tc+ZGvWnlkBWpdvK/yv3HMIeNLn+zrQl686c7p
+	j7bsrPBF2pw0EJ+/HgD5tymAb87K2j0q/NpnBd3sV2rq6uHb7G6mn1DIiwT+upaZOJH8y/fquJD
+	m+L1oH65MjUXGp0KeRqoDh9AOdy2GgYelPBhiTwX0UVDLA5upbCrwC2CkamntMYZjrLc03uST69
+	s2tTHUiXmyi51E93OnVP/nvOCXisktSoanl4YuRyXJToWQamfYUYGTfUE8yYME5JKEhRJLkYsCS
+	j4waas5PVED5I9b+gWEKoavDQDYiyAc8Ju1VVn30C94dYXIWAEA0HyURsnQ9wvnVCPjKwaH6/YD
+	buNefCSTx1HTdWa3tEMDizrOphJ3TYKaEd2oCU75xWsF916JjMv+RUXyrTPgBx
+X-Received: by 2002:a17:903:98b:b0:2a8:ffed:4663 with SMTP id d9443c01a7336-2b06402f49emr1238925ad.12.1773697779367;
+        Mon, 16 Mar 2026 14:49:39 -0700 (PDT)
+Received: from google.com (176.13.105.34.bc.googleusercontent.com. [34.105.13.176])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82a07365b22sm14359627b3a.45.2026.03.16.14.49.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Mar 2026 14:49:38 -0700 (PDT)
+Date: Mon, 16 Mar 2026 14:49:34 -0700
+From: Vipin Sharma <vipinsh@google.com>
+To: David Matlack <dmatlack@google.com>
+Cc: Alex Williamson <alex@shazbot.org>, 
+	Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.com>, Alex Mastro <amastro@fb.com>, 
+	Alistair Popple <apopple@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Ankit Agrawal <ankita@nvidia.com>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Chris Li <chrisl@kernel.org>, David Rientjes <rientjes@google.com>, 
+	Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, 
+	Kevin Tian <kevin.tian@intel.com>, kexec@lists.infradead.org, kvm@vger.kernel.org, 
+	Leon Romanovsky <leon@kernel.org>, Leon Romanovsky <leonro@nvidia.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-pci@vger.kernel.org, Lukas Wunner <lukas@wunner.de>, 
+	=?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>, Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>, Pranjal Shrivastava <praan@google.com>, 
+	Pratyush Yadav <pratyush@kernel.org>, Raghavendra Rao Ananta <rananta@google.com>, 
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, Saeed Mahameed <saeedm@nvidia.com>, 
+	Samiullah Khawaja <skhawaja@google.com>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, Tomita Moeko <tomitamoeko@gmail.com>, 
+	Vivek Kasireddy <vivek.kasireddy@intel.com>, William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>, 
+	Zhu Yanjun <yanjun.zhu@linux.dev>
+Subject: Re: [PATCH v2 10/22] vfio/pci: Skip reset of preserved device after
+ Live Update
+Message-ID: <20260316214055.GB1846904.vipinsh@google.com>
+References: <20260129212510.967611-11-dmatlack@google.com>
+ <20260226170030.5a938c74@shazbot.org>
+ <aaDqhjdLyf1qSTSh@google.com>
+ <20260227084658.3767d801@shazbot.org>
+ <CALzav=fHy23RAzhgkdaL+JA5T2tL9FT6aPgRfXUh7i9zvYCGPA@mail.gmail.com>
+ <20260227105720.522ca97f@shazbot.org>
+ <CALzav=fjRPa_ZbXu7iFXyemcf_8Kq_dZTWT6c-A0bc6czF_Rdw@mail.gmail.com>
+ <abNOwcOTXqxCxNzt@google.com>
+ <20260316160759.GA1767448.vipinsh@google.com>
+ <CALzav=cskxLZtZ5-uRa0+aV+1Kb3fwQQJ5dS=Yes4GAHrS6GpQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -79,28 +100,106 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: Zimbra 8.8.12_GA_3807 (ZimbraWebClient - FF148 (Linux)/8.8.12_GA_3809)
-Thread-Topic: mtdchar: replace deprecated mmap hook with mmap_prepare, clean up
-Thread-Index: pNh82O8fJN+FJCj96uoZroIJd3hL7Q==
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALzav=cskxLZtZ5-uRa0+aV+1Kb3fwQQJ5dS=Yes4GAHrS6GpQ@mail.gmail.com>
 
------ Urspr=C3=BCngliche Mail -----
-> Von: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+On Mon, Mar 16, 2026 at 10:18:22AM -0700, David Matlack wrote:
+> On Mon, Mar 16, 2026 at 9:22 AM Vipin Sharma <vipinsh@google.com> wrote:
+> >
+> > On Thu, Mar 12, 2026 at 11:39:45PM +0000, David Matlack wrote:
+> > > On 2026-03-09 10:32 AM, David Matlack wrote:
+> > > > On Fri, Feb 27, 2026 at 9:57 AM Alex Williamson <alex@shazbot.org> wrote:
+> > >
+> > > > > Sorry if I don't have the whole model in my head yet, but is exposing
+> > > > > the restriction to the vfio user of the device sufficient to manage the
+> > > > > liveupdate orchestration?  For example, a VFIO_DEVICE_INFO_CAP pushes
+> > > > > the knowledge to QEMU... what does QEMU do with that knowledge?  Who
+> > > > > imposes the policy decision to decide what support is sufficient?
+> > > >
+> > > > Hm.. good questions. I don't think we want userspace inspecting bits
+> > > > exposed by the kernel and trying to infer exactly what's being
+> > > > preserved and whether it's "good enough" to use. And such a UAPI would
+> > > > become tech debt once we finish development, I suspect.
+> > > >
+> > > > A better approach would be to hide this support from userspace until
+> > > > we decide it is ready for production use-cases.
+> > > >
+> > > > To enable development and testing, we can add an opt-in mechanism
+> > >
+> > > Here is what I am trending towards sending in v3 as the opt-in mechanism:
+> > >
+> > > diff --git a/drivers/vfio/pci/Kconfig b/drivers/vfio/pci/Kconfig
+> > > index 1e82b44bda1a..770231554221 100644
+> > > --- a/drivers/vfio/pci/Kconfig
+> > > +++ b/drivers/vfio/pci/Kconfig
+> > > @@ -58,6 +58,27 @@ config VFIO_PCI_ZDEV_KVM
+> > >  config VFIO_PCI_DMABUF
+> > >         def_bool y if VFIO_PCI_CORE && PCI_P2PDMA && DMA_SHARED_BUFFER
+> > >
+> > > +config VFIO_PCI_LIVEUPDATE
+> > > +       bool "VFIO PCI support for Live Update (EXPERIMENTAL)"
+> > > +       depends on LIVEUPDATE && VFIO_PCI
+> > > +       help
+> > > +         Support for preserving devices bound to vfio-pci across a Live
+> > > +         Update. The eventual goal is that preserved devices can run
+> > > +         uninterrupted during a Live Update, including DMA to preserved
+> > > +         memory buffers and P2P. However there are many steps still needed to
+> > > +         achieve this, including:
+> > > +
+> > > +          - Preservation of iommufd files
+> > > +          - Preservation of IOMMU driver state
+> > > +          - Preservation of PCI state (BAR resources, device state, ...)
+> > > +          - Preservation of vfio-pci driver state
+> > > +
+> > > +         This option should only be enabled by developers working on
+> > > +         implementing this support. Once enough support has landed in the
+> > > +         kernel, this option will no longer be marked EXPERIMENTAL.
+> > > +
+> > > +         If you don't know what to do here, say N.
+> > > +
+> >
+> > To use VFIO liveupdate, user has to do at least two things:
+> > 1. Enable CONFIG_LIVEUPDATE
+> > 2. Pass VFIO FD to a live update session.
+> >
+> > This means someone using it has to know what live update is and
+> > intentionally pass the VFIO FDs. Isn't act of doing this itself an
+> > opt-in mechanism?
+> 
+> If it is, then I can leave this out. Alex?
+> 
+> My thinking was: Distros are free to enable LIVEUPDATE and use it. The
+> support it enables today is all fully functional (albeit new).
+> vfio-cdev, OTOH, is not. A separate Kconfig can help express that
+> difference.
+> 
+> Consider that LIVEUPDATE could be enabled by default in a future
+> release, but vfio-cdev support might not be ready yet at that point.
 
-[...]
+But that also requires point 2 above i.e. userspace explicitly passing
+VFIO FD to liveupdate. Unless there is a capability mechanism like KVM
+then userspace cannot know what is exactly supported. Also, users who
+are using these APIs will already be advanced users and have to know
+many details about what liveupdate supports or not.
 
-> Commit f5cf8f07423b ("mtd: Disable mtdchar mmap on MMU systems") commente=
-d
-> out the CONFIG_MMU part of this function back in 2012, so after ~14 years
-> it's probably reasonable to remove this altogether rather than updating
-> dead code.
->=20
-> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
-> ---
-> drivers/mtd/mtdchar.c | 21 +++------------------
-> 1 file changed, 3 insertions(+), 18 deletions(-)
+> 
+> > I am not sure providing VFIO_PCI_LIVEUPDATE alleviate Alex's concern
+> > about how userspace will know that sufficient VFIO support exists.
+> 
+> I was thinking we can flip VFIO_PCI_LIVEUPDATE to be enabled by
+> default (if LIVEUPDATE and VFIO_PCI are enabled), and drop
+> "(EXPERIMENTAL)" from the option title. That would be how distros and
+> downstream users of the kernel know that sufficient support exists to
+> enable VFIO_PCI_LIVEUPDATE.
+> 
+> > May be write in liveupdate documentation (PATCH 11 of this series) that
+> > support is experimental?
+> 
+> The documentation in patch 11 includes largely the same text that I
+> put under VFIO_PCI_LIVEU"PDATE. But I can explicitly mention
+> "experimental" as well if that's what you're asking.
 
-Acked-by: Richard Weinberger <richard@nod.at>
+Yeah, even though documentation do get stale but I think there is no
+better way in this scenario.
 
-Thanks,
-//richard
