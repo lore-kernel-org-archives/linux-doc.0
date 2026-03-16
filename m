@@ -1,87 +1,130 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FDD4392806;
-	Mon, 16 Mar 2026 14:09:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F3B326ED3E
+	for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 14:16:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773670187; cv=none; b=jphxk4lsWJwuc30gW7uY+Cbh6xtB57N6HaJGfQ2C3uhQgjA8zF1RShgMrNw/J5sglFenkabPHRYYfpB+oSgZwREKG7IpEh5TEd/oK3bOU694Rkrr31A4lW+4rxv952ZuO0C8yuWnUVT2mJKu1Rzzxc7+IcCHQMvsQaCvbZSpJy8=
+	t=1773670583; cv=none; b=YIbMyYsSr2XjQ5C82XOCC3iH2aZTBE7NBrRVzKgvRtfIjxnsi5822PZYRL0U122PWFrE/nBrOddSh/6GfnERIwp0QD+Db2p2J/Q67FTu5rh5Y+KQ9wEYlB9rDhK49JlElhTi/+FlF1N34a6g7MLjGoI9zbLO1/0raGucDXDByMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773670187; c=relaxed/simple;
-	bh=IZjs1SzxSGaIK25pDbcIvjHTN7EfwTxLqrolT0tr6Tk=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=JmYQ2b6h4g5QimpnjonmjuPDpIxDeUIuKnRsRWysrm+jRbA0cHMnAeWmqAXqMB9RXEThYjYP94FkApkfdLjxIyteXq3kSDORcbGwQXogqsRN11Hasi6hbJTteexvnccezATpd8ZyFn68wExpHGtAMBa5x0NPW4fKu7CoIYqsbxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei-partners.com; spf=pass smtp.mailfrom=huawei-partners.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei-partners.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei-partners.com
-Received: from mail.maildlp.com (unknown [172.18.224.107])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fZH4t4vNVzJ46DS;
-	Mon, 16 Mar 2026 22:08:46 +0800 (CST)
-Received: from mscpeml500003.china.huawei.com (unknown [7.188.49.51])
-	by mail.maildlp.com (Postfix) with ESMTPS id 3722540584;
-	Mon, 16 Mar 2026 22:09:41 +0800 (CST)
-Received: from mscphis01197.huawei.com (10.123.65.218) by
- mscpeml500003.china.huawei.com (7.188.49.51) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Mon, 16 Mar 2026 17:09:40 +0300
-From: <gutierrez.asier@huawei-partners.com>
-To: <gutierrez.asier@huawei-partners.com>, <artem.kuzin@huawei.com>,
-	<stepanov.anatoly@huawei.com>, <wangkefeng.wang@huawei.com>,
-	<yanquanmin1@huawei.com>, <zuoze1@huawei.com>, <damon@lists.linux.dev>,
-	<sj@kernel.org>, <akpm@linux-foundation.org>, <ljs@kernel.org>,
-	<Liam.Howlett@oracle.com>, <vbabka@kernel.org>, <rppt@kernel.org>,
-	<surenb@google.com>, <mhocko@suse.com>, <corbet@lwn.net>,
-	<skhan@linuxfoundation.org>, <linux-doc@vger.kernel.org>,
-	<linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v1 1/1] Docs/mm/damon: Document DAMON actions when TRANSPARENT_HUGEPAGE is off
-Date: Mon, 16 Mar 2026 14:08:21 +0000
-Message-ID: <20260316140822.2033181-1-gutierrez.asier@huawei-partners.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1773670583; c=relaxed/simple;
+	bh=cilkpyBHTl8FoLZ6zf1SV8BbTFy7E3q8+hYxDhT77jo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fliY9Wj2oMXpch4foOJ6913V8KvVhi5lhBGi7x/YvyIX/XLo1vo5/40iVOclqm8/COJ9I0QYGBCDnczUY1Gv8bxE7MKRM3x/uG5OncaUMz++jFgMWN585NgdU0P6bioztrMGe9poRBDDJ0QkyUEbro8HCdVxfncMM5sFDdMIETk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dv1o6m9N; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dv1o6m9N"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36C52C19425;
+	Mon, 16 Mar 2026 14:16:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773670583;
+	bh=cilkpyBHTl8FoLZ6zf1SV8BbTFy7E3q8+hYxDhT77jo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dv1o6m9NWt1UNoSa/4Fp/YfDfexuelCFbQZtpueejINBiYZG7R29aXbA0zF4RSc1L
+	 xXQkoo0g77KJvVh9veX7Q3cu6O4lRHQ4R4IAoscKIFHeS9puOoPduYIvwUzOfWbgxr
+	 Xx1EmYKhMMLhDHVYgYp5JLt0M2QnkpUCxdUMgDF31VInCM098XXtwr5A8tze8TB8YO
+	 nsekd3vpxKXxm/WAbcvsH+tN2NmQKGZxMgXFcahjK82guNXIp0ATw7Pr2kaHmLICvA
+	 kUAOYtn/ajGvXMxjZBEIodSkGfwU+7GHCUmVbL7kGVxKxi07IdWbOxydOR99sOHAlr
+	 4BP7eFDbFYjWA==
+Date: Mon, 16 Mar 2026 14:16:19 +0000
+From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+To: Michal Hocko <mhocko@suse.com>
+Cc: Kit Dallege <xaum.io@gmail.com>, akpm@linux-foundation.org, 
+	david@kernel.org, corbet@lwn.net, linux-mm@kvack.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Docs/mm: document the OOM killer
+Message-ID: <31744315-bf9e-4d9a-9c25-63eef0bd2f01@lucifer.local>
+References: <20260314152518.100194-1-xaum.io@gmail.com>
+ <fbee0ca1-4de6-4182-865b-a33d9ed32ee4@lucifer.local>
+ <abeyD1ZngYhkAx6g@tiehlicka>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: mscpeml500003.china.huawei.com (7.188.49.51) To
- mscpeml500003.china.huawei.com (7.188.49.51)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <abeyD1ZngYhkAx6g@tiehlicka>
 
-From: Asier Gutierrez <gutierrez.asier@huawei-partners.com>
+On Mon, Mar 16, 2026 at 08:32:31AM +0100, Michal Hocko wrote:
+> On Sun 15-03-26 20:48:22, Lorenzo Stoakes (Oracle) wrote:
+> > NAK for being AI slop again, obviously.
+> >
+> > Again, +cc the OOM maintainer you failed to bother to look up.
+>
+> Thanks!
 
-MADV_HUGEPAGE and MADV_NOHUGEPAGE are guarded and they
-are not available when compiling the kernel without TRANSPARENT_HUGEPAGE
-option. The DAMON behaviour is to silently fail[1] in when DAMOS_HUGEPAGE or
-DAMOS_NOHUGEPAGE are used, but TRANSPARENT_HUGEPAGE is disabled. Update the
-DAMON documentation to reflect this behaviour.
+No problem!
 
-[1]: https://lore.kernel.org/damon/66131775-180b-4b9f-b7ce-61a3e077b6e6@huawei-partners.com/T/#m278d3c9bbedcceaf2efa51e3dc7b40a40654e51c
+>
+> > Reasons, as the rest:
+> > - Worthless documentation
+> > - Everything about patch screams 'zero effort, Claude did it all'
+> > - Bad etiquette
+> >
+> > As with all the rest it'd need to be totally rewritten and it's not worth the
+> > maintainer time.
+> >
+> > On Sat, Mar 14, 2026 at 04:25:18PM +0100, Kit Dallege wrote:
+> > > Fill in the oom.rst stub that was created in commit 481cc97349d6
+> > > ("mm,doc: Add new documentation structure") as part of the structured
+> > > memory management documentation following Mel Gorman's book outline.
+> >
+> > I mean the more I see it the more annoying it is.
+> >
+> > >
+> > > Cover the scoring heuristic, allocation constraints, OOM reaper,
+> > > process_mrelease syscall, and sysctl knobs.
+> >
+> > This sentence contains almost as much content as the patch.
+>
+> The real question is who is the expected audience of this documentation?
+> Administrators, kernel developers?
+> Reading through this proposal this doesn't really seem to fit neither
+> well. For kernel developers who try to wrap their heads around the code
+> it is barely scratches the surface. For admins it doesn't really explain
+> more than an existing documentation for tunables.
+>
+> So if there is a serious interest to make this useful kernel developers
+> oriented documentation I am more than willing to help. The code is not
+> really easy to follow as it is scattered. There are many subtle
+> expectations spread out and it is quite easy to break a delicate balance
+> tuned for through years. So there is a big documentatin gap I never got
+> around to fill up.
 
-Signed-off-by: Asier Gutierrez <gutierrez.asier@huawei-partners.com>
----
- Documentation/mm/damon/design.rst | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+I mean, we definitely could do with better documentation :) Obviously I
+somewhat document it from a 'learning the code in depth' perspective in my
+book, but that's tied to v6.0, effectively paywalled (sorry!) and not the
+same as the kind of documentation we'd ideally like the kernel to expose,
+which would be less specific I thik but also up-to-date with newer kernels.
 
-diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
-index 29fff20b3c2a..478eab4a186a 100644
---- a/Documentation/mm/damon/design.rst
-+++ b/Documentation/mm/damon/design.rst
-@@ -460,9 +460,13 @@ that supports each action are as below.
-  - ``pageout``: Reclaim the region.
-    Supported by ``vaddr``, ``fvaddr`` and ``paddr`` operations set.
-  - ``hugepage``: Call ``madvise()`` for the region with ``MADV_HUGEPAGE``.
--   Supported by ``vaddr`` and ``fvaddr`` operations set.
-+   Supported by ``vaddr`` and ``fvaddr`` operations set. When
-+   TRANSPARENT_HUGEPAGE is disabled, the application of the action will just
-+   fail.
-  - ``nohugepage``: Call ``madvise()`` for the region with ``MADV_NOHUGEPAGE``.
--   Supported by ``vaddr`` and ``fvaddr`` operations set.
-+   Supported by ``vaddr`` and ``fvaddr`` operations set. When
-+   TRANSPARENT_HUGEPAGE is disabled, the application of the action will just
-+   fail.
-  - ``lru_prio``: Prioritize the region on its LRU lists.
-    Supported by ``paddr`` operations set.
-  - ``lru_deprio``: Deprioritize the region on its LRU lists.
--- 
-2.43.0
+The point WRT this patch however is that really, it needs to come from
+somebody who has some experience/understanding, and generating it via an
+LLM is just not useful - any kernel developer with understanding could do
+so.
 
+Otherwise we end up with:
+
+1. generated LLM documentation sent without understanding
+2. maintainers have to essentially rewrite the whole documentation ourselves
+
+And thus we essentially have the work dictated to us, but credited
+elsewhere (not that credit matters all that much in the end, but it's the
+principle of the thing).
+
+So while we want documentation, we don't want _any_ documentation :P
+
+Speaking about docs more broadly - as usual we're all so busy it's a bit of
+a catch-22, though once we have something in place, iterating it won't be
+so hard.
+
+I wonder if some of us (I realise this sounds like self volunteering)
+should just write up some bare bones and patch it in, then we can get the
+iterating part of things moving?
+
+>
+> --
+> Michal Hocko
+> SUSE Labs
+
+Cheers, Lorenzo
