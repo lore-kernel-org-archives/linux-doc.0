@@ -1,52 +1,78 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25C5134F275;
-	Mon, 16 Mar 2026 15:31:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EBF03A4F21
+	for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 15:47:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773675095; cv=none; b=gJZkk0Nm2lKuUGkqSNqnrRXy2Oskt3M9BaE1q3AYObwDt73FpNIcje/GEV2EJdK5q4d/xLQglWQoKWNayudi0tDlLHVUQC54bJjyrluGLJhb5XpTVa84/YNYXimty3vGtNwSPkHq7T4K0Wff27njvze8ih1fHkdr5SqPFLfC+Q8=
+	t=1773676068; cv=none; b=lAIR0qfXROJkijXjhFr4TTZ+CcrA9O/WDNlLXQ3BsjA0kEzbpGeuvcAJ2vP9mUzkx5q7U8u+oRVqPxIBKe+ALhsF/yCMhI7dn3xOvyKhkyynQqNL68sw98jaHWrMggMWNJSNfadjj6DnsHW7KYAFngnTOy3HmJOn2dLc9vI7OiU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773675095; c=relaxed/simple;
-	bh=MVqO1eFsz7tJjRvRrGyugCvaQP/hH0/oExwBQll8Ol4=;
+	s=arc-20240116; t=1773676068; c=relaxed/simple;
+	bh=mt7njM8AMm3366rY9bZXkt/iQj9L9Y+U9ts2fzBUnT8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LygCW6oDdaIuGqJvqqZogqzpdVQ8qFjpWSJVB5CnnSJ2aRiGuyrQgQbdVnStIHpeueVbEloauUabEJz1SIGxLrCu3kz5VXQpoNLZuHrGpr9jrMp7Ee2819aZ4ihvX+1vEnngSSFW4lTOPTtSS7Hw8NxKIyJfWm50YKtTXI7m44Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ll7nKHYP; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=ma+e+QlVD9tvr99qNns/mB5yDTIRQUXFi3wFpcxhy32fiwqdl8JuNqef9WLM86XZwouGdQIw7ion0YZZ5vcwIKvsZXrS/cZxLlL7+krdwo9KgCYJa7MtjHYMrNY4sPGjx7xjGfRjgBC4idWQ16z/wJBHxbyR0uVLCVqD2bdgMNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LIp015W9; arc=none smtp.client-ip=74.125.82.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ll7nKHYP"
-Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 6DC87C6C;
-	Mon, 16 Mar 2026 16:30:20 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1773675020;
-	bh=MVqO1eFsz7tJjRvRrGyugCvaQP/hH0/oExwBQll8Ol4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ll7nKHYP+oLxEurxLf5NUdQwDbEb45xiDRp/zinAgb1PmNYAIXQAD0pnqNMXYYHOH
-	 97L+T+0v8j5wPksts3PwzzKKvfJVvIhe34I9yciXOYrR2JdBmrSYxVmX4BhND/yxTP
-	 zfcitcb+YxebG+6eS+6fUEnGYEYbxXAoONAJc29c=
-Date: Mon, 16 Mar 2026 17:31:30 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Jyri Sarha <jyri.sarha@iki.fi>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: Re: [PATCH 01/14] drm/atomic: Document atomic state lifetime
-Message-ID: <20260316153130.GD31616@killaraus.ideasonboard.com>
-References: <20260310-drm-mode-config-init-v1-0-de7397c8e1cf@kernel.org>
- <20260310-drm-mode-config-init-v1-1-de7397c8e1cf@kernel.org>
- <b0d9aee3-46c1-486d-9516-43ee23658f40@ideasonboard.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LIp015W9"
+Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-2bd9a485bd6so3012062eec.1
+        for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 08:47:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773676064; x=1774280864; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=KIbl9qFxJrmkiuonu3RjguYUay2gXS+vKFLd6XX8oOc=;
+        b=LIp015W9YoJTicgjk8ovsupZRgmsJQjS/JWd+D3F2zRM8dRflWQ9O8pcbzHALWr6ay
+         9cQF+ZcnVTSrsFqHkIIHNFqWfZaEq+1lgy4XIbG6ieETcUgYajTiN4QvZh2gaT3qucd1
+         Zg4H3IUGbStHSpwJPOJLvOHPdeSScVPe6T+wSdv4BbLUcLgpGd9yzKuMFr7BhgbrKOSQ
+         NH/CGbu2DnWSeBqhTQnok+jjBh6NuXn7lnBMsNk5bp+JwKbGPddB69ZM5hIGyYZyF3fM
+         5nwh/APwOD+TjBxorMJ++ysRR9ltIxDKNlrjea7DuZtZcquUMscD4y+bJg7qqjc2QWxu
+         h0Yg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773676064; x=1774280864;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KIbl9qFxJrmkiuonu3RjguYUay2gXS+vKFLd6XX8oOc=;
+        b=of93THaZJWtilyVWNuXjYnIPO0zaoAP+Av3GTS4/+9zyOPRCWRZxgQndRjqNiNJ7P1
+         s3Pe0d8hZzzDk+09EdqBGgzjg7RlazdaHq8zC3tTmu9Hg4aNFHGfjBofP7kvS2u40O6T
+         4275t1mmn51PlJ0T6tg3cDf61H1QXkQYIrKLhLRNr5WuxbWn7KRk85+Jh6iSzBA5yLGM
+         s4OESFxDN2E3BbqszrRQ91VlQLhxS+OasvLM5aw7bCKToSOn6kQzXYxpfu8/COPJPtkn
+         A3kSMq222xtG6mhOSci3RwdED+/Pt28XniRz5qcv0DYNg0VT0+8wvwkRcQILuuJ43149
+         Tbwg==
+X-Forwarded-Encrypted: i=1; AJvYcCUpnFBAMiYh7t9jxB25xANZBpButm3mnTPn7/G46CZqBKyGygbIhCn1UkEj30tHIqc9JEbAOguF3Nk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwT6k1Lnma/aCUMaTfqaTZO3LYCmss/7RbkqMi8Aj6GJqzRddg6
+	I/x0OiAjM2tDkZHToKpoSSxKWixt15yF86ED7BKiPsOfckwsCuDBVNhK
+X-Gm-Gg: ATEYQzxF382gjCSWdywL5YXA8w++O605Idvp1Z/SjMBDY0MenpDVrjmwJCP/F6DrO9u
+	hXo89DhVz8LvjIf2KsULfQ2YQi4euDs1HQPSf6iyfHtfBxvjo8RSMgLWdED/19vUdS/i+yGHQQM
+	dheGFzs4uT0LzDnHEwquxCGyJe3wDbcA7yPlnhJBaKCy46KJkQHKYSKD5qeDwq30Sa7CMGcY1Ik
+	lJp8Gq59OIf5qMs1JBcbLrNLnE7kEBs6qSEksL7cxB81BEMTj8IgfsGN9T+pMr/z+ZSja/3TF2r
+	bBvVKzIP1qEJOHC3SgZ0IxT6/ysx//Wy8RE3nMSst3zA7mMKKzigSQG1MZZVbiXncd8iZR9zf1A
+	ayRmEuNwwZf4Zx50vBfaggA27OREZlwaO7p/35zQdhy5AvNz4qpVXdj7pHaXvwaEoY8GA4IvQ0z
+	JhFJd2jmRwmoL//GpL6Pm+oLxlpOI5svYIauzp
+X-Received: by 2002:a05:7300:c9e:b0:2ba:6b03:909b with SMTP id 5a478bee46e88-2bea558f037mr6495235eec.19.1773676064417;
+        Mon, 16 Mar 2026 08:47:44 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c0b1fc876csm9911380eec.29.2026.03.16.08.47.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Mar 2026 08:47:43 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Mon, 16 Mar 2026 08:47:35 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Dawei Liu <dawei.liu.jy@renesas.com>
+Cc: linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net,
+	skhan@linuxfoundation.org, geert+renesas@glider.be,
+	magnus.damm@gmail.com, grant.peltier.jg@renesas.com
+Subject: Re: [PATCH 1/2] hwmon/pmbus: (isl68137) Add support for Renesas
+ RAA228942 and RAA228943
+Message-ID: <35c39de7-773a-4f94-b495-97eb25555a71@roeck-us.net>
+References: <20260316053541.3903-1-dawei.liu.jy@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -55,176 +81,90 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <b0d9aee3-46c1-486d-9516-43ee23658f40@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260316053541.3903-1-dawei.liu.jy@renesas.com>
 
-On Wed, Mar 11, 2026 at 08:44:24AM +0200, Tomi Valkeinen wrote:
-> On 10/03/2026 18:06, Maxime Ripard wrote:
-> > How drm_atomic_state structures and the various entity structures are
-> > allocated and freed isn't really trivial, so let's document it.
-> > 
-> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > ---
-> >  Documentation/gpu/drm-kms.rst |  6 +++++
-> >  drivers/gpu/drm/drm_atomic.c  | 52 +++++++++++++++++++++++++++++++++++++++++++
-> >  2 files changed, 58 insertions(+)
-> > 
-> > diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
-> > index 2292e65f044c3bdebafbb8f83dfe7ac12e831273..017c7b196ed7ead4cf5fa8572e1f977d9e00dda8 100644
-> > --- a/Documentation/gpu/drm-kms.rst
-> > +++ b/Documentation/gpu/drm-kms.rst
-> > @@ -280,10 +280,16 @@ structure, ordering of committing state changes to hardware is sequenced using
-> >  :c:type:`struct drm_crtc_commit <drm_crtc_commit>`.
-> >  
-> >  Read on in this chapter, and also in :ref:`drm_atomic_helper` for more detailed
-> >  coverage of specific topics.
-> >  
-> > +Atomic State Lifetime
-> > +---------------------
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/drm_atomic.c
-> > +   :doc: state lifetime
-> > +
-> >  Handling Driver Private State
-> >  -----------------------------
-> >  
-> >  .. kernel-doc:: drivers/gpu/drm/drm_atomic.c
-> >     :doc: handling driver private state
-> > diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-> > index 4283ab4d06c581727cc98b1dc870bf69691ea654..92c6afc8f22c8307a59dc266aacdb8e03351409d 100644
-> > --- a/drivers/gpu/drm/drm_atomic.c
-> > +++ b/drivers/gpu/drm/drm_atomic.c
-> > @@ -45,10 +45,62 @@
-> >  #include <drm/drm_colorop.h>
-> >  
-> >  #include "drm_crtc_internal.h"
-> >  #include "drm_internal.h"
-> >  
-> > +/**
-> > + * DOC: state lifetime
-> > + *
-> > + * &struct drm_atomic_state represents an update to video pipeline
-> > + * state. Despite its confusing name, it's actually a transient object
-
-I wonder if we'll rename it one day :-)
-
-> > + * that holds a state update as a collection of pointer to individual
-> > + * objects states. &struct drm_atomic_state has a much shorter lifetime
+On Mon, Mar 16, 2026 at 01:35:40PM +0800, Dawei Liu wrote:
+> Both RAA228942 and RAA228943 are digital dual-output
+> 16-Phase(X+Y ≤ 16) PWM controllers
 > 
-> Hmm, I think "a collection of pointers to individual object states". Hmm
-> or "objects' states"? I like the former.
+> Signed-off-by: Dawei Liu <dawei.liu.jy@renesas.com>
+> ---
+>  Documentation/hwmon/isl68137.rst | 20 ++++++++++++++++++++
+>  drivers/hwmon/pmbus/isl68137.c   |  6 ++++++
+>  2 files changed, 26 insertions(+)
 > 
-> > + * than the objects states, since it's only allocated while preparing,
-> 
-> "objects' states" or "object states".
-> 
-> > + * checking or doing the update, while object states are allocated while
+> diff --git a/Documentation/hwmon/isl68137.rst b/Documentation/hwmon/isl68137.rst
+> index e77f582c2..0ce20d091 100644
+> --- a/Documentation/hwmon/isl68137.rst
+> +++ b/Documentation/hwmon/isl68137.rst
+> @@ -394,6 +394,26 @@ Supported chips:
+>  
+>        Provided by Renesas upon request and NDA
+>  
+> +  * Renesas RAA228942
+> +
+> +    Prefix: 'raa228942'
+> +
+> +    Addresses scanned: -
+> +
+> +    Datasheet:
+> +
+> +      Provided by Renesas upon request and NDA
+> +
+> +  * Renesas RAA228943
+> +
+> +    Prefix: 'raa228943'
+> +
+> +    Addresses scanned: -
+> +
+> +    Datasheet:
+> +
+> +      Provided by Renesas upon request and NDA
+> +
+>    * Renesas RAA229001
+>  
+>      Prefix: 'raa229001'
+> diff --git a/drivers/hwmon/pmbus/isl68137.c b/drivers/hwmon/pmbus/isl68137.c
+> index 78cff9712..da2484d42 100644
+> --- a/drivers/hwmon/pmbus/isl68137.c
+> +++ b/drivers/hwmon/pmbus/isl68137.c
+> @@ -63,6 +63,8 @@ enum chips {
+>  	raa228228,
+>  	raa228244,
+>  	raa228246,
+> +	raa228942,
+> +	raa228943,
 
-Maybe s/doing/committing/ if you want to use KMS terms.
+AI:
 
-> > + * the state will be, or is active in the hardware.
+  Is it necessary to add these entries to enum chips?
+  Looking at the rest of the driver, this enum does not appear to be used
+  anywhere. The device data mapping seems to rely on the variants enum
+  (e.g., raa_dmpvr2_2rail_nontc) instead.
 
-The second part sounds weird. I'd write
+It has a point. 
 
-"while object states are allocated when preparing the update and kept
-alive as long as they are active in the hardware."
+Guenter
 
-or something similar. Writing "device" instead of "hardware" could also
-be better.
-
-> > + *
-> > + * Their respective lifetimes are:
-> > + *
-> > + * - at reset time, the object reset implementation will allocate a new,
-> > + *   default, state and will store it in the object state pointer.
-
-s/default,/default/
-
-> 
-> "object's". This is the "active state", is it?
-> 
-> > + *
-> > + * - whenever a new update is needed:
-> > + *
-> > + *   + we allocate a new &struct drm_atomic_state using drm_atomic_state_alloc().
-
-The first part doesn't use first person pronouns, you may want to be
-consistent across the whole text and use a descriptive style here too.
-
-> > + *
-> > + *   + we copy the state of each affected entity into our &struct
-> > + *     drm_atomic_state using drm_atomic_get_plane_state(),
-> > + *     drm_atomic_get_crtc_state(), drm_atomic_get_connector_state(), or
-> > + *     drm_atomic_get_private_obj_state(). That state can then be
-> > + *     modified.
-> 
-> Maybe clarify what is the state returned by these. It's the "active
-> state", isn't it, drm_crtc.state or similar?
-
-Yes, it's not very clear. The text should describe whether the
-drm_atomic_state just points to the active state of the entities, or
-duplicates them. "copy the state" is ambiguous.
-
-> > + *
-> > + *     At that point, &struct drm_atomic_state stores three state
-> > + *     pointers for that particular entity: the old, new, and existing
-
-s/that particular/any affected/
-
-> > + *     (called "state") states. The old state is the state currently
-> > + *     active in the hardware, which is either the one initialized by
-> > + *     reset() or a newer one if a commit has been made. The new state
-> > + *     is the state we just allocated and we might eventually commit to
-> > + *     the hardware. The existing state points to the state we'll
-> > + *     eventually have to free when the drm_atomic_state will be
-> > + *     destroyed, but points to the new state for now.
-
-s/but/and/
-
-> From this, I don't understand the difference between the old state and
-> the existing state. And if the existing state is the one we'll free,
-> isn't that the old state, not new state? Oh, is the existing state a
-> state we have to free when the drm_atomic_state would is freed? And at
-> this point the new state is the one, as it's not committed?
-> 
-> > + *
-> > + *   + After the state is populated, it is checked. If the check is
-> > + *     successful, the update is committed. Part of the commit is a call
-> > + *     to drm_atomic_helper_swap_state() which will turn the new states
-> > + *     into the active states. Doing so involves updating the objects
-> 
-> "object's"
-> 
-> > + *     state pointer (&drm_crtc.state or similar) to point to the new
-> > + *     state, and the existing states will now point to the old states,
-> > + *     that used to be active but isn't anymore.
-> 
-> "aren't"
-> 
-> I think I understand this, but... It kind of brings in a new state
-> concept, "active state".
-> 
-> > + *
-> > + *   + When the commit is done, and when all references to our &struct
-> > + *     drm_atomic_state are put, drm_atomic_state_clear() runs and will
-> > + *     free all the old states.
-
-Technically you're freeing the "existing" state per your nomenclature
-above, which points to the old state. The word "existing" seems to make
-things harder to describe, there may be an opportunity for better
-vocabulary.
-
-> > + *
-> > + *   + Now, we don't have any active &struct drm_atomic_state anymore,
-> > + *     and only the entity active states remain allocated.
-> > + */
-> > +
-> 
-> Even if this is a bit hard to read, I think it really clarifies the
-> state lifetime.
-
-It's certainly a useful addition to the documentation.
-
--- 
-Regards,
-
-Laurent Pinchart
+>  	raa229001,
+>  	raa229004,
+>  	raa229141,
+> @@ -478,6 +480,8 @@ static const struct i2c_device_id raa_dmpvr_id[] = {
+>  	{"raa228228", raa_dmpvr2_2rail_nontc},
+>  	{"raa228244", raa_dmpvr2_2rail_nontc},
+>  	{"raa228246", raa_dmpvr2_2rail_nontc},
+> +	{"raa228942", raa_dmpvr2_2rail_nontc},
+> +	{"raa228943", raa_dmpvr2_2rail_nontc},
+>  	{"raa229001", raa_dmpvr2_2rail},
+>  	{"raa229004", raa_dmpvr2_2rail},
+>  	{"raa229141", raa_dmpvr2_2rail_pmbus},
+> @@ -529,6 +533,8 @@ static const struct of_device_id isl68137_of_match[] = {
+>  	{ .compatible = "renesas,raa228228", .data = (void *)raa_dmpvr2_2rail_nontc },
+>  	{ .compatible = "renesas,raa228244", .data = (void *)raa_dmpvr2_2rail_nontc },
+>  	{ .compatible = "renesas,raa228246", .data = (void *)raa_dmpvr2_2rail_nontc },
+> +	{ .compatible = "renesas,raa228942", .data = (void *)raa_dmpvr2_2rail_nontc },
+> +	{ .compatible = "renesas,raa228943", .data = (void *)raa_dmpvr2_2rail_nontc },
+>  	{ .compatible = "renesas,raa229001", .data = (void *)raa_dmpvr2_2rail },
+>  	{ .compatible = "renesas,raa229004", .data = (void *)raa_dmpvr2_2rail },
+>  	{ .compatible = "renesas,raa229621", .data = (void *)raa_dmpvr2_2rail },
