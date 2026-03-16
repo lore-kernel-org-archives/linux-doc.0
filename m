@@ -1,85 +1,33 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45150390CB8
-	for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 11:44:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CC9D39449F;
+	Mon, 16 Mar 2026 12:06:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773661468; cv=none; b=i9fMUOkb0s1T7P8EHLB8nD9AMMazWGenrUa3gavqgy42lZZQZYysFeM3Oep937Lj0e6WyXNsPWZjS4MKnYXKLgLhdLNYNn/QgQt0DmV1K8pDDyGkyd5tGiXruAoAdDGC+c5y5BLNeQfE92fu9ysBJKHLOVOZg97M2pvixd5XIb0=
+	t=1773662765; cv=none; b=gWEd3hoOFmfKvFlqKcH+NMQ/knR/NykblOUKjSjsL4aXL06er3YBkdza0VV5lvmlUNjLF/JcnDIREPJKUVPrvZfpVZLvwQC0ko0wPw8ZwN8T15uD6NIpnCxjcKh4FPV99JitgQKNUwcleFJndzVmNjVXIKxHMEgG2uXOSwZegPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773661468; c=relaxed/simple;
-	bh=XYZ/Z8E6vtXI8ekr+HAC+mYeXCVml7M5yCUGxNj3tfQ=;
+	s=arc-20240116; t=1773662765; c=relaxed/simple;
+	bh=ZRtAZTNtj21DA+dLUkzrLS06oD7H1G2/XVPogljiumQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GQKwDn+qMCBDWnhVBifciQCahUjXrpXHs0n2XvWoNrOryagKB1jNf2qBIStOE36epm2oGl2xYv9giJMLJa9pxCyB69rabz8n37vdnhbT24sors7Rdq7b/ulFc9SfeAOgBxzCLPPQHyk7fvcD3ukYUgGMDq3+TgLLpQfLWS7wNpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WLdiH2iA; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=sH39Iz7J; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 In-Reply-To:Content-Type; b=IUunjyQvPFIzi2LWMl8CoTErP3CNu7VnQWNvTl9qyN5l9zC5khBKXQDrWosBQ547aWGD9fYjEJSP1G+Emxx8byMMygiEOEWtaC707yo7IkS14eQ98dhsmJnyaW0mpvAhSBJbHlzDnBDiKkNQqKTL35WHXLYrPKzkMl0I4Cow5s0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uazIWo21; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WLdiH2iA";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="sH39Iz7J"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1773661466;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BjOWdH9YOd3q5jDpZy3h9DKwR4CFECAPPaRdY128lqI=;
-	b=WLdiH2iA1Fj30KikWqsTr882TlmQNJPxWsd0yhTZuWtCrsmTWGoe98gePWbWrQ62SYG6x0
-	VQGKKM1la8NrwjL/yG5UQzFfbbI/xKgbkJB1xQT0r5ntW+WkifUQzM/MX5IhIpbXwo2b5C
-	Ls4NSIj5HCfVsA39eD/a2Dpf0JKsyYQ=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-140-MftaoewKMXSrIy-NDFwjow-1; Mon, 16 Mar 2026 07:44:25 -0400
-X-MC-Unique: MftaoewKMXSrIy-NDFwjow-1
-X-Mimecast-MFC-AGG-ID: MftaoewKMXSrIy-NDFwjow_1773661464
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-b979df03fc8so138370166b.1
-        for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 04:44:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1773661464; x=1774266264; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BjOWdH9YOd3q5jDpZy3h9DKwR4CFECAPPaRdY128lqI=;
-        b=sH39Iz7JhqEO7BE2yyd3VoO8NN5Sf/SVeBsxg/KeAiRczBZfWz91QuEltU0LeIBgph
-         wXACfytY2IJTtBDn8D46ZjhbvqVecAcVtWCf9Tmcwk/k5PODKOMw72hprMQVMsI4LJrk
-         YgDZ3kc1ljHr72WiKVDDv1fHqJajN3+gzQJNsFuJKkSXrzrnNF3K3uOMrg94aC7kD8ST
-         aV69KkCmXxsB9+028EkCEzcYVkWHxFYad9gU9SzDLkE1SE3zTviemydUaozDx4gBRol/
-         Urb6qZmgEnwiOaJgKS1sldpEqiu9Jl2ESxN4ppP379pJSTgTNRq590ou3jlrndb9sHgA
-         xEmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773661464; x=1774266264;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BjOWdH9YOd3q5jDpZy3h9DKwR4CFECAPPaRdY128lqI=;
-        b=fATsgoNfbh733jDL/jKa1sWuh3jViO1J3Zz6g7vFcHesBbXbJDR2/RQueZJ6Sfod44
-         G/knyt1mmw36fGo1hER2+ahF/cRuTnXkBubQziJXYVLU9bL5+bt9EoDCSJPwDq4Lu6dU
-         jjC56OKJ6K6lYr773d/2spGXWK98Q20YTcNsOut3DP/hrgR1cpm2gfrrxl7jA5Uzplr5
-         7/3dFCAG+oRDns52av7lSOXmRkVFexeDZdABMHdXLUsMvXDcix3vkZWNOtl+hdqkTQpC
-         BV7Qk4Syr8fDkyFSBQhvqJhpD0ms7YiHR3RpEgnAGKGmpmUyMJEu4FHX6KzgHfita5ii
-         +B1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUP3TOo8gwndwGhaA4fM0gPMYYvWKfzEKXqu6X+DbOE3wRlr4domxglu65C7/JDm6dV3GZZsRigE+E=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyF7CmdVFkGOL610JhvV2FFsbQGfbf8Qx0by9e8hPH+3DcT4irr
-	fApm+36eO+IZoiNauk9CmxnDRGGhhP1w9oqWGA175JC43jfPxeA3KOfA4YbayyxIINtF+Vl6p3d
-	0FdFnGRj8PMbMFnHS4NQ45FMjoKFisT0Aeo79MAtgjygVdtIIeWCBm+I7C/jTXQ==
-X-Gm-Gg: ATEYQzxsNWeZbakDieWT/1lhWYz94+c5uXZ2J+KLUTvxUivnnLmp2fqt2d+zcsg3qqt
-	xdffUJdXQ2agp3Fy/gmqdn/mDciB/igt62X1egP9KeAFLWrKzAA21XDIAH7qAGFswzZvkCAsEaY
-	Ua9p75fCLbS9pkTp94oCQTSK69jJyU04SqkIMsuPDGDCNamY8HInr01d7ehYt6tqD5m++FMXTUB
-	Bqr81IBgHvqrwpVMnauYTw2J99oGAlqOXkcfrjTLnD8VDMrPW+ptkh9fp5bcMaeJojkTnpSeRzQ
-	c3kSlMZENU+2g1ua12bSoiCt+EfFM5Tlg8KvmvuVWemaw+YJ8SmxtX3VfFgYoZM/ilIFQmrzTlV
-	MdZ0XxlUpZDtAq1/T00RYTwDIBmRZvXV/0iYrc89mYK2rpHmW3W5xkyE=
-X-Received: by 2002:a17:907:3c90:b0:b97:acca:fcf4 with SMTP id a640c23a62f3a-b97accb064dmr285765666b.11.1773661463840;
-        Mon, 16 Mar 2026 04:44:23 -0700 (PDT)
-X-Received: by 2002:a17:907:3c90:b0:b97:acca:fcf4 with SMTP id a640c23a62f3a-b97accb064dmr285762266b.11.1773661463375;
-        Mon, 16 Mar 2026 04:44:23 -0700 (PDT)
-Received: from [192.168.88.32] ([216.128.11.95])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b976d096d58sm533417666b.62.2026.03.16.04.44.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Mar 2026 04:44:22 -0700 (PDT)
-Message-ID: <dddab568-a7dc-472c-8799-095ab96cef0c@redhat.com>
-Date: Mon, 16 Mar 2026 12:44:20 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uazIWo21"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B739C2BCB3;
+	Mon, 16 Mar 2026 12:06:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773662764;
+	bh=ZRtAZTNtj21DA+dLUkzrLS06oD7H1G2/XVPogljiumQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=uazIWo21z9Q0Nfxh7k8vQaBdJR/cz4jSxAND0XUGo3yg9ZQk+kntEV+X9wuWm11o/
+	 tbbVwc6e1RsyBfJk9G3opjWSkU2LqwydeVvfP+P39spZkU80/E7KsbPX9xZtRPW3b5
+	 cyqUE0LhhcI/d/6xPTp+VPmuvrwas9Y02cKWEuSqNjfpFgZp2J9ON4Qti2IDRdOj7E
+	 C1jzgwW8U+YqqViqu7ap8gJlJ65eQ5A9hWrFTnPD8IaV+MhN5CQmMrjKLshcJ0F06a
+	 AqMbROiyaKrqGfJeP39jlUxsTbo3LXTyG+oW0bukJwb3Z0p+VQWnvc5hjRhHDvwJ/S
+	 l4CuuH2ZBolqw==
+Message-ID: <085ebc8c-636b-45d6-8431-878cbe90314b@kernel.org>
+Date: Mon, 16 Mar 2026 13:06:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -87,57 +35,81 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 07/14] tcp: honor the maximum advertised
- window after live retraction
-To: atwellwea@gmail.com, netdev@vger.kernel.org, davem@davemloft.net,
- kuba@kernel.org, edumazet@google.com, ncardwell@google.com
-Cc: linux-kernel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, mptcp@lists.linux.dev,
- dsahern@kernel.org, horms@kernel.org, kuniyu@google.com,
- andrew+netdev@lunn.ch, willemdebruijn.kernel@gmail.com, jasowang@redhat.com,
- skhan@linuxfoundation.org, corbet@lwn.net, matttbe@kernel.org,
- martineau@kernel.org, geliang@kernel.org, rostedt@goodmis.org,
- mhiramat@kernel.org, mathieu.desnoyers@efficios.com, 0x7f454c46@gmail.com
-References: <20260314201348.1786972-1-atwellwea@gmail.com>
- <20260314201348.1786972-8-atwellwea@gmail.com>
+Subject: Re: [PATCH] virtio: document the map API in the driver writing guide
+To: John S <xaum.io@gmail.com>, mst@redhat.com, jasowang@redhat.com
+Cc: xuanzhuo@linux.alibaba.com, eperezma@redhat.com, corbet@lwn.net,
+ skhan@linuxfoundation.org, virtualization@lists.linux.dev,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <CAAZVx999y-DvB7Dp2ekoHk6s8aqqScd2gKSY4ySGAK6NNXeH5g@mail.gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <20260314201348.1786972-8-atwellwea@gmail.com>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <CAAZVx999y-DvB7Dp2ekoHk6s8aqqScd2gKSY4ySGAK6NNXeH5g@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 3/14/26 9:13 PM, atwellwea@gmail.com wrote:
-> +/* Sender-visible window rescue does not relax hard receive-memory admission.
-> + * If growth did not make room, fall back to the established prune/collapse
-> + * path.
-> + */
->  static int tcp_try_rmem_schedule(struct sock *sk, const struct sk_buff *skb,
->  				 unsigned int size)
->  {
-> -	if (!tcp_can_ingest(sk, skb) ||
-> -	    !sk_rmem_schedule(sk, skb, size)) {
-> +	bool can_ingest = tcp_can_ingest(sk, skb);
-> +	bool scheduled = can_ingest && sk_rmem_schedule(sk, skb, size);
-> +
-> +	if (!scheduled) {
-> +		int pruned = tcp_prune_queue(sk, skb);
->  
-> -		if (tcp_prune_queue(sk, skb) < 0)
-> +		if (pruned < 0)
->  			return -1;
->  
->  		while (!sk_rmem_schedule(sk, skb, size)) {
-> -			if (!tcp_prune_ofo_queue(sk, skb))
-> +			bool pruned_ofo = tcp_prune_ofo_queue(sk, skb);
-> +
-> +			if (!pruned_ofo)
->  				return -1;
->  		}
->  	}
+On 12/03/2026 22:58, John S wrote:
+> Add a new "Buffer mapping" section to the virtio driver writing guide
+> documenting the virtio map API (struct virtio_map_ops). This API was
+> introduced in commit bee8c7c24b73 ("virtio: introduce map ops in virtio
+> core") to allow transports and devices that do not perform DMA (such
+> as VDUSE) to provide their own buffer mapping logic instead of abusing
+> the DMA API.
+> 
+> The new section explains when and why custom map ops are used, documents
+> the virtio_map_ops structure and the union virtio_map token, and
+> references the driver-facing mapping helpers with their kernel-doc.
+> 
+> Signed-off-by: Kit Dallege <xaum.io@gmail.com>
+> ---
+>  .../virtio/writing_virtio_drivers.rst         | 72 +++++++++++++++++++
+>  1 file changed, 72 insertions(+)
 
-The above chunk is AFAICS pure noise. Please have a more careful local
-review of this series before any next revision.
+NAK, because:
+1. Mismatched DCO or anonymous contribution
+2. Likely unverified LLM microslop
 
-/P
-
+Best regards,
+Krzysztof
