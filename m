@@ -1,147 +1,92 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 716ED376BC6
-	for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 22:30:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773700236; cv=pass; b=czewJzH+dsTaI6DKK4oLKTb2JBOieD6oWQOiue3nEdwrgpSBeREeHoHEx79VtTgpt8uthhpYQD79VpPTjPHBvKSKlYSxYqoFtQVidqM/lbgPmEb8ZbtVyA8CfbmjQwI5WDvSbAiOtUDDHX1FVP1lT6rhFgOqB2fobl3dEVuLZG8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773700236; c=relaxed/simple;
-	bh=zOX//qQWt0hksu4DcPXbpgchK0aDuV0IDH++kKVCMlc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sIF7P39aSI3WxTQFslT2d05hbIWRZUIwEwENg0pSySfvwBlGPv+EdPGxbcZgQ799DxCexrEQsnKQ7ZHEfkmdyNbInJTUSKpXCLggNbegE73c0Nkl9c5hFd/KpiRSeHxtT+MxJY17dhxRBjO7UlDwGyk6xfGLdXToozDYs7Hltnk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=S8OUYxBX; arc=pass smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F12B1377022
+	for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 22:30:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773700253; cv=none; b=Ss9rDZJmIbh1tJbBXPdQegoD0o7hXR8VUby7xjd9cGtLR93bcjjYUy7eSniKTW7AW5VMt6KyF0Lh6II0eVKVv79zJV4HHEPu0gIOwYdYsN7u+8JtZro+lwj8RNOYQXkLFxrs5rrjQJE79mGGkLXJht4GIKerl2NdRn2Ar+gpE5U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773700253; c=relaxed/simple;
+	bh=6wL5x7nG5SIcOoHwORsyT0XNTde4tfiIA7O9/UDbdsY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=i+eQJM31BoeaJEzVvtrn1aIZ1E1azeuHuFSX1mauun7qFl5Uk1HrOAW7QinuBiF3VRuKgnoZ021dyiZjicrQdWugEbYYt/OHlI4r9IXrP7qZL2qFUN2LusErXqyF/FVw1R7aGtfAN5YdFpw7ifrwlanGCYkXJXe7iTU8ozsqCkc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UiNnkSjL; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="S8OUYxBX"
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5a12c310e8aso5298146e87.3
-        for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 15:30:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773700232; cv=none;
-        d=google.com; s=arc-20240605;
-        b=bvCgWwIdkIY79wchXbHxEK/xaZYEdqylfHMXzDCDnSA2hAxISQ3OXOhEQy/bfbxrU1
-         +fp3r2CGauqnxYOnUhct9ohcatqiOGAld5cA9GpNpQLwjoon3eeRxkPnlS3TsaV8rPqF
-         epST7tuDrOCqnWXCEMjQHovGi8hqJn59ZVBlqUgIriBtqmP0p1ahia2XwjpBmIwEJRo+
-         M6JzHFsCCUvJeromg3WCoeFMFH0jXxyqtmEWYQBWWvNbnPOhn9Qj71q+ZW1g5DtskuFq
-         n3W5FawlWinQqQc1qhRkEv2xXI2AO+sYtGTJGTmnDc20Ey8VE/Q26XMxdCd/E6EW8jqk
-         iCZg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=NHBApg3dIEw9R1t5Yh73owWQt2Uh584izEOKgKc7ZzQ=;
-        fh=UcHw2EwgmqHoZOEdhb/LG8LYqHelSEHUOTkhLV5essc=;
-        b=dHzdohhuA8opRrJ+vFyZdCVHzliJhJylGw/j6QFSX9Tnd0C/asvciyp1JpPQ9G7EcA
-         VKwR7Z5veC9zRxfrAgRnllKtDxqrmKJgnhNuQwqO4s3fc21ZJ94y7BP3SkQR5gGGZ29F
-         /2wEZk8N58iJ1kj7PJKgHCQOvVV/UnR7bnyVl911bi0+fL7Qs0w9luwJElLRVu8aVGBY
-         7tb7jvk+mBLlEtMX6G2R7TF8AM7lGr/4PkQ6CtNA5lNSFQVX01jm1HbOk6DkdfM2qMdx
-         /wdiB/TdHKWsZ1dEu+taGyXCPBqtdWJFLvbviKsl2lHCz4tQdG7/udEbcWzObbD7FT9i
-         6usg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1773700232; x=1774305032; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NHBApg3dIEw9R1t5Yh73owWQt2Uh584izEOKgKc7ZzQ=;
-        b=S8OUYxBXmFk+Y6amRZJ5f8g9oCUwoPge4lKp/bnqvsLpQu4TaBiY9YxmtvXAIPuwjQ
-         vDaB5OERJhvwosImf1/dH1iHawVRNvO4e4jpO5ljBAIEiC0pxx5N5mOW4Ux+VN1rbT4I
-         P/JY421qxcrNmXeReYWij9KJEL52vJALlXy80BOqjS/5RHl9Fu2GxuBnU2vGRUdIUBJo
-         yDs43NE+RgmvVvitTglEHogh2VDT+QHcFABoCjX35EZhVkuGPxkqksZRGGlG5KrPumYN
-         c8YtYpZhgEjhK3jFJnBCgoTLKfv4Gnj+bqiS+FubXg56kABqYwsNvpdy2QvDEKD/D96U
-         UETw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773700232; x=1774305032;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=NHBApg3dIEw9R1t5Yh73owWQt2Uh584izEOKgKc7ZzQ=;
-        b=Zty9CYW4PlAYX07R+yfP+kSNKZ4np9E/QpqofMKk57J6teV+m7x1mPQOk8ccHSJIDy
-         /uAfeByXxuSVdJUPWHjNNEfjRfhzLvRarH9N6CAH6CB9LindcUs5mwdV670LRctHg+0N
-         Mpz/EeDnHAi1dmLlfbXa1PfY513rCbSF0elliYQWcZmtMLJmXFE6m7IbcM1X6NxDdWWE
-         YLiJogmFLDL4DDbnKAZZXvC3YjQRqdy0Qf3Fx7qrOnVCkO+6G1qVI+4VleC3cCmYzE6q
-         VEpy9wD9wnr1nYPWj2UXHohBYgaui9VIe3Jo1/rilXJnpqbm/0JTbUlKHyfikX6MqGEt
-         gajA==
-X-Forwarded-Encrypted: i=1; AJvYcCWZwGXavUy+/OI8i5Q2jMFqKIzF8a8n6HJj4ntWk2mRhJFO0AyWcIyQUC5rHca/JjegJI7LrIsj/s8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyp7a12JSJ/HBcAkShCDi7FdQkHZAY76P3dFYQowLzW19URCcWp
-	ovbsAWR6kleifjlj7rLelaYSOUZfvR60MC6tE7/z1xHZu8sXIC8JyiYeYH0U4Z1JRYVK9Eje1sT
-	gJ7GWIq3mnhhuT7Tk25WkmZxXrvP/KIjm1rPvGJQ5
-X-Gm-Gg: ATEYQzzdwCsp9lFk1S6qF1HbsnCVg7/lHLOTt2S1zl0v2JLG7RY9zUJLAkghkPs0e5/
-	QnwmI8viDottO0eMXUxi/yjarQsUDnqYnhWHfejeOzOjsnAz5KpiOTI9kpXXrGW08BolFBNRKzv
-	4WJ99COlVnGqKcliha2sGyGr3FyeempuO+E8ayAOAM73FZpA7mtrnYmnXPT0Jh/oNNM0e5hlJE1
-	rk+M0paD0a5AF+1mOWRsQTPTAgsDyA63w7d30z7ct+VGhR6OnXdXkKROivFWKTlJr2ShIB+Y4YH
-	Ucs8Yy4nSN43aDgl6Fo=
-X-Received: by 2002:a05:6512:38a4:b0:5a1:2a64:202a with SMTP id
- 2adb3069b0e04-5a162706bf5mr4418611e87.18.1773700231818; Mon, 16 Mar 2026
- 15:30:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UiNnkSjL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773700251; x=1805236251;
+  h=date:from:to:cc:subject:message-id;
+  bh=6wL5x7nG5SIcOoHwORsyT0XNTde4tfiIA7O9/UDbdsY=;
+  b=UiNnkSjLyh78wYhCdfoQAorFyTj/r6In9EMhshWvnAdYKLDGANuRlVSi
+   BeAHbIPVHwnov9xFV18wKsagoo3Oh2FEp9MsaXAwo4sURd/KfcVYin8u9
+   1N9l74bUxI7QlcXaES1DbytwUjXVtHoQ6g2VIkqDa52qUfQZ87+4PdsVm
+   aO/LzZmQoigYBCh/v6JA5d/eUCpKFuDyV0TfRah3RMrgmsobKiueNdVBk
+   O5UITa7F0fz2Q4PhHfHFpyv41Np0ZmI3LzjxYsCRxyt4C5TwgRCe7hNjG
+   f/e2H+dhFQXMtBjS0E9ffE45Z8iYpKHZbtHrAe9ZnfPayG8xTVD06IK6V
+   A==;
+X-CSE-ConnectionGUID: opWghIkjQXqJigWHxodfGg==
+X-CSE-MsgGUID: fXbmG5a9SwOzlqVlX/QQAQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11731"; a="73745606"
+X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
+   d="scan'208";a="73745606"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2026 15:30:50 -0700
+X-CSE-ConnectionGUID: lgbHdx1hT2OiKH3oHSP6Qw==
+X-CSE-MsgGUID: eLgXEMf3QcCDJANOSQ4YPg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,124,1770624000"; 
+   d="scan'208";a="218259873"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa010.fm.intel.com with ESMTP; 16 Mar 2026 15:30:48 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w2GSU-000000004IP-3N1i;
+	Mon, 16 Mar 2026 22:30:46 +0000
+Date: Mon, 16 Mar 2026 23:30:29 +0100
+From: kernel test robot <lkp@intel.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [robh:dt-convert 163/621] htmldocs: Warning:
+ Documentation/devicetree/bindings/power/wakeup-source.txt references a file
+ that doesn't exist:
+ Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.txt
+Message-ID: <202603162306.BT4oHcvR-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260129212510.967611-1-dmatlack@google.com> <20260129212510.967611-12-dmatlack@google.com>
- <20260316215056.GC1846904.vipinsh@google.com>
-In-Reply-To: <20260316215056.GC1846904.vipinsh@google.com>
-From: David Matlack <dmatlack@google.com>
-Date: Mon, 16 Mar 2026 15:30:04 -0700
-X-Gm-Features: AaiRm51TsPFqmaxXeg5vtHycDWCNAMtrDhfsa1Ts3dgQ-gFDNbzitmE0jWYnMy4
-Message-ID: <CALzav=eKbTiJYz4mCWTmVghnwFLHZOY096Pf=1GYpO_UBixozA@mail.gmail.com>
-Subject: Re: [PATCH v2 11/22] docs: liveupdate: Document VFIO device file preservation
-To: Vipin Sharma <vipinsh@google.com>
-Cc: Alex Williamson <alex@shazbot.org>, Adithya Jayachandran <ajayachandra@nvidia.com>, 
-	Alexander Graf <graf@amazon.com>, Alex Mastro <amastro@fb.com>, Alistair Popple <apopple@nvidia.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Ankit Agrawal <ankita@nvidia.com>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>, 
-	David Rientjes <rientjes@google.com>, Jacob Pan <jacob.pan@linux.microsoft.com>, 
-	Jason Gunthorpe <jgg@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>, Jonathan Corbet <corbet@lwn.net>, 
-	Josh Hilke <jrhilke@google.com>, Kevin Tian <kevin.tian@intel.com>, kexec@lists.infradead.org, 
-	kvm@vger.kernel.org, Leon Romanovsky <leon@kernel.org>, Leon Romanovsky <leonro@nvidia.com>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-pci@vger.kernel.org, Lukas Wunner <lukas@wunner.de>, 
-	=?UTF-8?Q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>, 
-	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, 
-	Pasha Tatashin <pasha.tatashin@soleen.com>, Pranjal Shrivastava <praan@google.com>, 
-	Pratyush Yadav <pratyush@kernel.org>, Raghavendra Rao Ananta <rananta@google.com>, 
-	Rodrigo Vivi <rodrigo.vivi@intel.com>, Saeed Mahameed <saeedm@nvidia.com>, 
-	Samiullah Khawaja <skhawaja@google.com>, Shuah Khan <skhan@linuxfoundation.org>, 
-	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
-	Tomita Moeko <tomitamoeko@gmail.com>, Vivek Kasireddy <vivek.kasireddy@intel.com>, 
-	William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>, Zhu Yanjun <yanjun.zhu@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 16, 2026 at 2:55=E2=80=AFPM Vipin Sharma <vipinsh@google.com> w=
-rote:
->
-> On Thu, Jan 29, 2026 at 09:24:58PM +0000, David Matlack wrote:
-> > Add documentation for preserving VFIO device files across a Live Update=
-,
-> > as well as some generic file preservation documentation. This
-> > documentation will be extended in the future as new types of files are
-> > supported and new dependency/ordering requirements are added.
-> >
-> > Signed-off-by: David Matlack <dmatlack@google.com>
-> > ---
-> >  Documentation/userspace-api/liveupdate.rst | 144 +++++++++++++++++++++
-> >  1 file changed, 144 insertions(+)
-> >
-> > diff --git a/Documentation/userspace-api/liveupdate.rst b/Documentation=
-/userspace-api/liveupdate.rst
-> > index 41c0473e4f16..dbf1e4aeddd7 100644
-> > --- a/Documentation/userspace-api/liveupdate.rst
-> > +++ b/Documentation/userspace-api/liveupdate.rst
-> > @@ -14,6 +14,150 @@ ioctl uAPI
-> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >  .. kernel-doc:: include/uapi/linux/liveupdate.h
-> >
-> > +File Preservation
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
-> Should we use the existing way where documentation is written in code
-> files and referenced here? Maybe luo_file.c for this?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt-convert
+head:   c8198e311a98fefcf9efff078bf3930ff94b60d2
+commit: 6174150e3227cdfb64dc2e80b1e76f0bd5be9fd8 [163/621] dt-bindings: input: Convert nvidia,tegra20-kbc to DT schema
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260316/202603162306.BT4oHcvR-lkp@intel.com/reproduce)
 
-Good idea. I will look into that. It would be nice to also have this
-documentation in the code.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603162306.BT4oHcvR-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   Warning: Documentation/devicetree/bindings/display/ti/ti,omap4-dss.yaml references a file that doesn't exist: Documentation/devicetree/bindings/display/ti/ti,omap-dss.txt
+   Warning: Documentation/devicetree/bindings/display/ti/ti,omap5-dss.yaml references a file that doesn't exist: Documentation/devicetree/bindings/display/ti/ti,omap-dss.txt
+   Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/regulator/cpcap-regulator.txt
+   Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/cpcap-pwrbutton.txt
+   Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/rtc/cpcap-rtc.txt
+>> Warning: Documentation/devicetree/bindings/power/wakeup-source.txt references a file that doesn't exist: Documentation/devicetree/bindings/input/nvidia,tegra20-kbc.txt
+   Warning: Documentation/devicetree/bindings/regulator/motorola,cpcap-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/devicetree/bindings/remoteproc/ti,keystone-rproc.txt references a file that doesn't exist: Documentation/devicetree/bindings/reset/ti-syscon-reset.txt
+   Warning: Documentation/devicetree/bindings/remoteproc/ti,keystone-rproc.txt references a file that doesn't exist: Documentation/devicetree/bindings/clock/keystone-gate.txt
+   Warning: Documentation/devicetree/bindings/rtc/motorola,cpcap-rtc.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
