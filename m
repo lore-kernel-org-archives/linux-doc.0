@@ -1,99 +1,129 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 892E85CDF1
-	for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 06:47:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773643644; cv=none; b=ILrBaBus0SidhIqmuZA8kp3plc05kdEhNm+kkoGiagiPMErHFTsoxLoDyYH0RT13DLfNlBlEBj/rNcD5mYMvvhm8PHuBk0t+z07qEksU0L4YO6HrZuSC5cZjqNBhrEkrojUmMcgYty0xUTSD1xpEi3+nnzkct5diQl3ZK8ifn9M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773643644; c=relaxed/simple;
-	bh=ZDu+xUvhrChyttr6D5WuK5J+jLBduob1K3CBSUvWzKo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CAUmTknEjCk+XewINMQhz1ORrIzK0OJJvL5JoGFMqkhv89uIuecxA39dpYbAGWL0gZp+QzTD3vtdRlUg7CjDMNeLPoGM3o6cuXQfBYdkBaUDUIjO8AXq8ucTh5V71wig/LoMKrbcx9cNwSE2LmrosAH9Ey2hkxCXrHmX6/v9WsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BLFHWwM4; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CA5134D382
+	for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 07:06:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.171
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773644769; cv=pass; b=Nf+iZel+oFQelLtqDfaRQp8gy8IfUsdcscOG9bP/9svSd4PAam8MRA9bd5gC7o4mVrhHkraj+ZjrlXHmfYNvI3fr2r7KBoAL+GufhPCVHMsDdlTK0CXtLARKseqlxYnlzUULe9EcSidTpqfy2wgjmPs9Tdpet7RDgOep4d00zTE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773644769; c=relaxed/simple;
+	bh=DWa/MwbMbU4Cgy8HcLpzA6KnltFCFdwdVTLoxcjvQIo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MGxDwCfQnDggsFARzItD5A7X6ZUezKxEf/JE38rINShInrXpI/Y5Nz8AnbVmereSE4iofY94MmZGt1O6ooEFre3mG/NPiqNrrnhDDM7oCq5uGKLfBaY7Uw4HvUyJ3UjyNS7t2t92gZBhPxqt97YuIE3iUYYyjZhr3b1st5KvYqc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=rrvNm/sp; arc=pass smtp.client-ip=209.85.208.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BLFHWwM4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C97CC19421;
-	Mon, 16 Mar 2026 06:47:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773643644;
-	bh=ZDu+xUvhrChyttr6D5WuK5J+jLBduob1K3CBSUvWzKo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BLFHWwM4FysvgHmhk+4rELTKsRLvPP+wjzM/AXnEk4opaDmVP7zvG6aVaqvDS0Tl+
-	 qoBwoX/XCbc/WlCD0pLZlmfo4BaEXUVJ9OXay2jnv80DISXBU9d56ms86LfF4/OkJR
-	 lAwQEtTK7emx18u6CDQorQPwDUwFLrLhnd3g2Wc8i2008cM/a3YG4S5kyApwdFlxuD
-	 jO+n5zvq89xJa/SgiDCSte+tJKx0eOkCJxfr/u2TIYkRrG0a6rYri9Vz3EyCpHEtxR
-	 E3O/snFJxCWdflcpRk1CehXkP+qAhBhfxo1Da2SjGvUikwbsnmBf426ZaX2jP9PF6U
-	 3arAVeCeun/rw==
-Date: Mon, 16 Mar 2026 08:47:17 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-Cc: Kit Dallege <xaum.io@gmail.com>, akpm@linux-foundation.org,
-	david@kernel.org, corbet@lwn.net, linux-mm@kvack.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Docs/mm: document Boot Memory
-Message-ID: <abendSlwDIwB4teF@kernel.org>
-References: <20260314152527.100295-1-xaum.io@gmail.com>
- <0c981733-477b-496e-abe5-54eebaae04b1@lucifer.local>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rrvNm/sp"
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-38a3fd333eeso33992041fa.1
+        for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 00:06:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773644766; cv=none;
+        d=google.com; s=arc-20240605;
+        b=YnxP0/mD+NpYjiVt8QX+c6Qa3p7y092h5hIL3TK5J+NoUAUYh4mQBfUK5eIivmz+El
+         XRvWkGxYCuWgFqoewlTJaaj5hTy3JaEMEO1D0vuwuQIL/znqyUqpT4tbSPjPgSnz8yvh
+         Y6reKlH3tPLrOL1azCQI2dSp/cIIsxHED0M8e6tAwaw+a/7bZJ6N7joOoiO1Ptbwq1Cl
+         84l1+nyVMu3zi4UQNczOP99buHGkbl4ojxeqm4sbkC5LNmFWDsrtIh+Mi7Rv7Q+ncX5O
+         h9qzJxy+ZbkgYv/gvYq7FuGeBZUeePIp3Z++9Xzgmhlur78vMTMSMIlJiPoQC7gqmNCB
+         gGzw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=DWa/MwbMbU4Cgy8HcLpzA6KnltFCFdwdVTLoxcjvQIo=;
+        fh=ts4kkOvu/AA6KaV1nk38l/2GruMSZdrMpS0Ei7Zwbqk=;
+        b=F+a/W876bjJY8VOX9jyn8C0a92pEyPG3JBbdZ/igces24pyR2/85vpXdw29qKAPqcc
+         1OGIWpR4KeyVxDtk8v/FokJoxPn4B7lrK84es+S7j8EqEfn6mTYDnmFW7sgOeDSP+9G4
+         P7IytgcBaOrvHg9K2TKAF1lFHPnKbbUm8CqSk479HTy5/nSoMnXFQSnyn0T2NseYg0C1
+         VBqh4ELzH8IbQC1jZkhJxxwA06TgLux6walIs0x9e4UlqSuRx/trfwfVPObFJ/zy0syv
+         J4hdFrIKPtrabfx1TPdPqBwPQ0H5AokuLwTvzDhDcd7DHvBQNL+JKn18sZUIl1zmYxbB
+         CCTA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1773644766; x=1774249566; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=DWa/MwbMbU4Cgy8HcLpzA6KnltFCFdwdVTLoxcjvQIo=;
+        b=rrvNm/sp0ejqtQpts4YJvKIZJai0U7h6SimZ1+626FCi7l4L6Dzs/D5AfC15pRBoWr
+         kv/dIm7CfHnm9HMv/wH+hAenKg7VAAA/E7tVULHXPbxFq6YGS4qlbY3FPnHscS4jfzMo
+         D3dH3ecOve/eQGzSnAb4Ojy44wq5Nw/0FFYtscPxcItm710bCdD1kjJ/hOB3448XZy8f
+         K4xi4VdbUD1F+Vo4MhfBcbKbgnUdds5xx8LCHziC6xxbqHA6MvyjhOKbbiisyPVocwZ3
+         KxoLuACxgOlrc3AY0BNPbelvSOBLVO9w1iQzbOC3uVjI5svhEljwS33qC/sFSOyzUjaG
+         pJow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773644766; x=1774249566;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DWa/MwbMbU4Cgy8HcLpzA6KnltFCFdwdVTLoxcjvQIo=;
+        b=egin0Wlevj7hypphXXRkSSO1VQifrhsFuAtJi4YMpzFVyQoU5meuWUJVLEyZw+hAsM
+         fGR+0+dWMLkuXdBEZTRJvsiRbXGrYnnFWfHZAmNp0D/0GNv/i0PL7hc14tiDTZUw7WKa
+         qTQYLsZx8ZFnk8t4Yebt9EJn4ieviFVKrqUhkrdU0B691CqbWt7fQ3pnm+xLt8G4z6Fk
+         ZhdpOGkX7cGQ/BvZ7cKn7p0mMYfaieIDYZEHjuGJR+W1zivvDURxC5er2MPqTgiKx48h
+         QAVbXGOhgAoflB2BMLCL/xZTh4pH1mnlw4ATcw5nGoj/HTmGNpZWL+83BjPjQe7gi7M2
+         U8LQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW6+xZNDr+cHKA9huw65wGzumVhf6qQpNVIIbTmG/ltPNrkY4waBALCsBv8TNOWG0c/A969mBOzHRo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx9eilm65s4IkdNN9MSFlnb88h3b+qi9Km8+PgPlcmTRvqMZosy
+	0Q/UCvh5MyY3o7MNmbW4oBahI1g+dRDh6YjGAEwZRx8iTSLWqk4PMDnWNXTWsr7VpO+4wRDfVCv
+	T4XjxD0gu2cj0LapZLSI0xm+5ZcFfHzMsMnZXCCtF
+X-Gm-Gg: ATEYQzwcnp7E1x9dHIzQhbQR0t6Ei8Nd3TQKonsmMrGX3s45Q4F4YTwAqwjFplqY2M1
+	v6ZLtyUnL6hbfvBwFqrqysiiXguO5mOz8RqtE0pZobIDr1atenfiZJvlWgmOoYlBXqfcPkfwvE6
+	0qY12OCKTsKjQ4h9k5m62oo4ge/JYGCfRZtTGkY7APCPNYsj6AWlgI8O9UU2HeK2G/Wu/G5hLFh
+	08VRu53e64YcMBOaXhScQNuQubkLnVD0BWiFOMiuqL38YH5h8ZnOs3rOf7KtgTHeIyxgnKgILdL
+	UOg1Psq7PVGn/sqV7nyaont5yGLdkhjQttqzef2wia/z/r++arF2eODW4r8n/icLJ4d2wg==
+X-Received: by 2002:a05:651c:4356:10b0:38a:2db9:eb72 with SMTP id
+ 38308e7fff4ca-38a8864c94amr30667511fa.16.1773644766146; Mon, 16 Mar 2026
+ 00:06:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0c981733-477b-496e-abe5-54eebaae04b1@lucifer.local>
+References: <20260313150928.2637368-1-sashal@kernel.org> <20260314111822.63a2ba4a@kernel.org>
+In-Reply-To: <20260314111822.63a2ba4a@kernel.org>
+From: Dmitry Vyukov <dvyukov@google.com>
+Date: Mon, 16 Mar 2026 08:05:53 +0100
+X-Gm-Features: AaiRm53tuutFjpddzDm8MgJQk_X6I9zzb6Uz-8-_BFX3BICSXZm9HxgKcE0xoPQ
+Message-ID: <CACT4Y+arWePyxnV3hWk5RanWZpoc7=ALQ6DV_2MCuQkNoTtJUw@mail.gmail.com>
+Subject: Re: [PATCH 0/9] Kernel API Specification Framework
+To: Jakub Kicinski <kuba@kernel.org>, syzkaller <syzkaller@googlegroups.com>
+Cc: Sasha Levin <sashal@kernel.org>, linux-api@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, workflows@vger.kernel.org, tools@kernel.org, 
+	x86@kernel.org, Thomas Gleixner <tglx@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Randy Dunlap <rdunlap@infradead.org>, Cyril Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>, 
+	Jake Edge <jake@lwn.net>, David Laight <david.laight.linux@gmail.com>, 
+	Askar Safin <safinaskar@zohomail.com>, Gabriele Paoloni <gpaoloni@redhat.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Christian Brauner <brauner@kernel.org>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Andrew Morton <akpm@linux-foundation.org>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>
+Content-Type: text/plain; charset="UTF-8"
 
-On Sun, Mar 15, 2026 at 08:43:24PM +0000, Lorenzo Stoakes (Oracle) wrote:
-> NAK for being AI slop, again, obviously.
-> 
-> +cc Mike, the 'boot memory' maintainer, who again I'm sure will be
-> overjoyed by this.
- 
-I'm not going to review it thoroughly because
-"maintainers are entitled to reject your series without detailed review"
+On Sat, 14 Mar 2026 at 19:18, Jakub Kicinski <kuba@kernel.org> wrote:
+>
+> On Fri, 13 Mar 2026 11:09:10 -0400 Sasha Levin wrote:
+> > This enables static analysis tools to verify userspace API usage at compile
+> > time, test generation based on formal specifications, consistent error handling
+> > validation, automated documentation generation, and formal verification of
+> > kernel interfaces.
+>
+> Could you give some examples? We have machine readable descriptions for
+> Netlink interfaces, we approached syzbot folks and they did not really
+> seem to care for those.
 
-> Reasons, as the rest:
-> - Worthless documentation
-> - Everything about patch screams 'zero effort, Claude did it all'
-> - Bad etiquette
-> 
-> On Sat, Mar 14, 2026 at 04:25:27PM +0100, Kit Dallege wrote:
-> > Fill in the bootmem.rst stub created in commit 481cc97349d6
-> > ("mm,doc: Add new documentation structure") as part of
-> > the structured memory management documentation following
-> > Mel Gorman's book outline.
+I think our reasoning wrt syzkaller was that not all interfaces in all
+relevant kernels are described with netlink yml descriptions, so we
+need to continue using the extraction of interfaces from the source
+code. And if we have that code, then using yml as an additional data
+source only adds code/complexity. Additionally, we may extract some
+extra constraints/info from code that are not present in yml.
 
-We don't need to fill in missing parts just to fill files with contents, we
-need quality documentation.
-This doc does not improve over what we already have in
-Documentation/core-api/boot-time-mm.rst.
-
-...
-
-> > +The memblock allocator fills this role, managing physical memory from the
-> > +earliest stages of boot until the buddy allocator takes over.  The
-> > +implementation is in ``mm/memblock.c`` and ``mm/mm_init.c``.
-> 
-> This is at least reasonable.
-
-But still wrong. mm_init.c is not a part of memblock allocator.
- 
-> > +- ``kernelcore=`` sets the amount of memory that must be in non-movable
-> > +  zones.
-> > +- ``movablecore=`` sets the amount of memory to place in ``ZONE_MOVABLE``.
-> > +- ``movable_node`` allows entire NUMA nodes to be treated as movable.
-> > +- ``kernelcore=mirror`` restricts non-movable memory to mirrored regions.
-> > +
-> > +These parameters control the boundary between ``ZONE_MOVABLE`` and the
-> > +other zones, which in turn affects how much memory is available for
-> > +transparent huge pages, memory hot-remove, and CMA.
-
-Oh, my ...
-How CMA and THP are related to ZONE_MOVABLE here?!
-
--- 
-Sincerely yours,
-Mike.
+Realistically system call descriptions may have the same problem for
+us at this point, since we extract lots of info from the source code
+already:
+https://raw.githubusercontent.com/google/syzkaller/refs/heads/master/sys/linux/auto.txt
+(and LLMs obviously can allow us to extract more)
