@@ -1,171 +1,113 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB8243859E1
-	for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 09:11:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37B9C37BE6A;
+	Mon, 16 Mar 2026 09:39:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773652297; cv=none; b=sz+061CxLLDv2BqmAbTIuG1lltxx7rOsXX2tdSvn1wpwf5ZQYgkBmva7yaV5ZzYKfarg22N6ua5CUEpxVa5DV9PxX5Mq5pu/ZuJE/YQ7ZXu0groW/R21tqy/qItOKryw1+tuRXQOyffSwAno4VAQdwpfk7A0SnUQ0HB7WRXca/E=
+	t=1773653952; cv=none; b=Hdb3NKt3sA05QAf/p2J+Itigtf7+8SWt7P0tipfb/sgSciONbQCWCxaJF206NIQiwazC3hLqDMfZVQpc70CS7z2IAnpSA7UXRBGnO2fOBSysuDHTFiqViKI3WuWuVdDoqivsMSsIv3GlX5fYkz5CDtYMcYmyuB2Eu9F3HHf9+co=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773652297; c=relaxed/simple;
-	bh=+eC8eAmFeq/qr1/xTtK9cYJ8MQ18m1zZJmA0ouJVonE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=vCdJQqho3hkKUVFY+W+u6XGRTQ3dwh5/Xg1QAoKNGR8iWMEsCQQiuZFEzJT6BLB8BLUbBoOvYJE6eRFGWkSIuhPNOYwscChp8wcY+1m3dokf5sWDGZkGBdybtnfuzIWxs6MPVPwhmv4Ts90r7O8wtRmx6kFDdshmRx2h4ksTPtI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=CWfJIxdn; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=eNMH7iAN; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1773653952; c=relaxed/simple;
+	bh=OL6AhR5XAWCLAFO1ZFhQa7oUctDayRZhVu71HIg1Otc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=JSQtd6iFiZEeZ+un0FFngYtGqDzks6TKA1WgUHVUuiiqjwXwX2nE5MerBdP3ijIrx9ZavL8ySXJQbJpcM15mZBEMSDqBc2vYlGT1Qy9A7jUXBjvp0GEdyrgQzQmXT59Xe48Br2Ecue2XsdDQCqISgKllVNmj9wPZLTN0SZWnP80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=RGW/SC4M; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=QGIR75ZP; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="CWfJIxdn";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="eNMH7iAN"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62G64hOh1724707
-	for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 09:11:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	i72EfdgJ7doLImzDWatjm2GnnkPEZNv7sHePPRX+J+A=; b=CWfJIxdn7icUCxum
-	1Uo1mlsWgJOsUfxnavJTE9oKSTrDTMVTrSI5u8SPiPfdZrXVOdsvcJ59HAH8WSQg
-	y4gvt86Dt6P7LBcZsdu0ojBD+8Ik6jPpTjEF5JMWHiV7tx26E7zaUDSbVpvbmFvO
-	J7niurtpXHJ3VuTeOdz4v+jSY02CPsPKRhCYAtvBo+YEyE8vJaMQvbKVPkSNrxnL
-	W7l7ROrpAc2qeO3W3hpqqbkDej0UnDO7yXDygEQWCwsFtTCEYEqgLZnMjEqTnRQD
-	Owmxo0+Fu5KuaYCmPWFVVrJRFkh7JYSGjdf4GOop6mBqQK/Zul9lPsW2Q2yF9Drv
-	7vIdaQ==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cw0udmuuv-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 09:11:35 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-8cd98d96382so474164785a.0
-        for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 02:11:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1773652294; x=1774257094; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=i72EfdgJ7doLImzDWatjm2GnnkPEZNv7sHePPRX+J+A=;
-        b=eNMH7iAN+ZfcOg4NxZR4jDeAqW9aU16cHFKH2gx1IMjGtPWkjLzvcXrF20MPdmwTtc
-         ekOnIwdxIBKRg4sQmyJ6F5I7aCw5AJ8yTMtaCtSxQZThjVHTWD46ImmDtAAxqYaNCRVT
-         bv22BDAiK4G+/MA5P/TCT51lGhLF8gJj9jG1PrmHNuwppoTtsDaXI2VdbTv+1pldupRz
-         AV/W/nXvaQ7dvIxwldcce611iojbI9lyhY6DQ7p7i0GXKmmhQ6U3FjeaExbebaRdsiF+
-         xbE5EEtZJ2Z3zGnVusi0BT6qf7/pVBTDIw7OD0yrT0C4qRp3qdHeb0LWGi4RpEi3IHCd
-         cO8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773652294; x=1774257094;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=i72EfdgJ7doLImzDWatjm2GnnkPEZNv7sHePPRX+J+A=;
-        b=kfLGfXZsLLpfPpQQmztk0NL8AdWO3p97MMiA+ZbznsznaiTuZZUigK0xTw/FyxHrP2
-         bTKTuuzhzq+cNQpHaIcRh17wI9Bk6zLWjsA79i0/FuFCNy/HEeJwmJW3SQ/JCyAPznDZ
-         3O5Hrh3w4vtcwCx3fA1dTILAUbYa8swQkXLgGYcNrZIWC7exisLdJagVPNXCltjV4z0y
-         7Y1bYNj2sX01D4veh+A69zM5gjmLsuQxMOI9mjxZ2pQ88XdUjcUeOgwELqxkmvOEgphc
-         GgUV5PdTx84jLh/QcManEtMhowdbriKH+SP102PzuVF2eiIxnNeZm0LxeTwb5sEfrmfd
-         OtiQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU9q8hGpI9WnL09Updl5qadSNaRUzUlZhY2PIYWXG4lgMmVfsLDMcCyv7kQ1hp1MXcAJnDCeCg6pIQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwvX9/L01N2+/MNUTY1pz56fQksckKc8ueXhhcwdAWc4TSwgb36
-	cQihPN2c/ktfhOywYaT0V+HHEsQgv9T8BazPCbH/yDycEzx32z6D58flwmnFPhG0kt9/hyt2U+R
-	GB2G4GUMGPyzthxENB5IGaNfH3cZ3JvGE7E4IivhTEmzXoTa2BvLvowfWL4nQPvQ=
-X-Gm-Gg: ATEYQzyOQllCYoNP4rnGgKsHbRs+H4Xw2VaJQiILxckW8tTb1+rv9Vdee0Qqi3/L7dZ
-	zxV0Vjrv2BiUPO9DTzV6Vz6Jcu8XieY2n9fXDiGbMtZYLftu076GiNUL6FzPLZg//g9jWSoUFpn
-	qA11oaUYKLEMT1JfA/hzedHJNt6CX+7qJM+3G1efzdY1RcCYH6CePbKLfVcXUW9/gZ9ocIA0v0O
-	ahFJLP0nc5ziDVnxK2vI2192V6x8NxFbhgso/4cVnTvr8b180lFoYE+qTES/VOvVlkRDxVy6YGW
-	SdPEa61UODbNC9Me0K7SrrIEm27xBHUXe2rV2H346s2G/VnxYtuXzUqeRYY+EQX0+ZNPUKQvmio
-	/V0+Cl43zZv+t/bdMjk/fetlbsppH8oHHZr7ACHScVMwdroUUAdk=
-X-Received: by 2002:a05:620a:44ca:b0:8cd:79f2:dc50 with SMTP id af79cd13be357-8cdb57aa4a8mr1434709585a.0.1773652294354;
-        Mon, 16 Mar 2026 02:11:34 -0700 (PDT)
-X-Received: by 2002:a05:620a:44ca:b0:8cd:79f2:dc50 with SMTP id af79cd13be357-8cdb57aa4a8mr1434705685a.0.1773652293841;
-        Mon, 16 Mar 2026 02:11:33 -0700 (PDT)
-Received: from brgl-qcom.home ([2a01:cb1d:dc:7e00:ba9e:e504:fb0b:f1f3])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b468cf785sm2932198f8f.12.2026.03.16.02.11.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Mar 2026 02:11:33 -0700 (PDT)
-From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-To: Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Mika Westerberg <westeri@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Aaro Koskinen <aaro.koskinen@iki.fi>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Tony Lindgren <tony@atomide.com>, Russell King <linux@armlinux.org.uk>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-omap@vger.kernel.org, linux-doc@vger.kernel.org,
-        stable@vger.kernel.org,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Kevin Hilman <khilman@baylibre.com>
-Subject: Re: [PATCH v2 0/6] gpiolib: unify gpio-hog code
-Date: Mon, 16 Mar 2026 10:11:20 +0100
-Message-ID: <177365228183.54363.13735316568548509348.b4-ty@oss.qualcomm.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260309-gpio-hog-fwnode-v2-0-4e61f3dbf06a@oss.qualcomm.com>
-References: <20260309-gpio-hog-fwnode-v2-0-4e61f3dbf06a@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="RGW/SC4M";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="QGIR75ZP"
+From: John Ogness <john.ogness@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1773653948;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9yXXr7UYzVmKZqbUDqTRxeSr99PDOjbUs7jkHvsTHQc=;
+	b=RGW/SC4MMA/M4YgLuQp6J+nCgqUPKuzJkjfow4kMcP+Ja54NkGd+Iqxcg0INU5BTQJaqbd
+	zWuxfRRBwiYqp1zn+ygW2r9mucciJZQfAESPJPEVNCw0VFTSF2q5jqNKXze15EE/2LUqgs
+	7tBkXd3YwUwloSiTyIIjO2b3BZA4XAkvszc02Wytj120zLFKlqdZ3lc4ozLwb0uXovN+hS
+	zpPZPoCg+QW3Ip+nzLaHWLmdk+psjF1q/GdABgeoje1reSUDEUlS94ig22Rd/SWyObLkBQ
+	UVGOB0uvxkkbuO6RBzCm7k94ZLRQqqdVogqowh+uurx+9xqS/e59L4ZyOvGVDg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1773653948;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9yXXr7UYzVmKZqbUDqTRxeSr99PDOjbUs7jkHvsTHQc=;
+	b=QGIR75ZP1H0QscPuRjVvpUiSFT4GWZluKBzuY8RFXIJ9I/8MYYYcOktCRI31IQE1Zl+P0h
+	QgSBF55PD4+EkVCw==
+To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Eugen Hristev
+ <eugen.hristev@linaro.org>, Arnd Bergmann <arnd@arndb.de>, Dennis Zhou
+ <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, Christoph Lameter
+ <cl@gentwo.org>, Andrew Morton <akpm@linux-foundation.org>, Thomas
+ Gleixner <tglx@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ Anna-Maria Behnsen <anna-maria@linutronix.de>, Frederic Weisbecker
+ <frederic@kernel.org>, Ingo Molnar <mingo@redhat.com>, Juri Lelli
+ <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, Steven Rostedt
+ <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, Mel Gorman
+ <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, David
+ Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, "Liam R.
+ Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Kees Cook <kees@kernel.org>, Brendan
+ Jackman <jackmanb@google.com>, Johannes Weiner <hannes@cmpxchg.org>, Zi
+ Yan <ziy@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song
+ <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham
+ <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>, Barry Song
+ <baohua@kernel.org>, Youngjun Park <youngjun.park@lge.com>, Petr Mladek
+ <pmladek@suse.com>, Sergey Senozhatsky <senozhatsky@chromium.org>, Bjorn
+ Andersson <andersson@kernel.org>, Mathieu Poirier
+ <mathieu.poirier@linaro.org>, Konrad Dybcio <konradybcio@kernel.org>,
+ Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Saravana Kannan <saravanak@kernel.org>
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-mm@kvack.org, linux-arm-msm@vger.kernel.org,
+ linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 20/25] printk: Register information into meminspect
+In-Reply-To: <20260311-minidump-v2-v2-20-f91cedc6f99e@oss.qualcomm.com>
+References: <20260311-minidump-v2-v2-0-f91cedc6f99e@oss.qualcomm.com>
+ <20260311-minidump-v2-v2-20-f91cedc6f99e@oss.qualcomm.com>
+Date: Mon, 16 Mar 2026 10:45:06 +0106
+Message-ID: <87pl54f70l.fsf@jogness.linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=BJ2+bVQG c=1 sm=1 tr=0 ts=69b7c948 cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22 a=VwQbUJbxAAAA:8
- a=EUspDBNiAAAA:8 a=jtPpctr3BKvZZnv9HkwA:9 a=QEXdDO2ut3YA:10
- a=IoWCM6iH3mJn3m4BftBB:22
-X-Proofpoint-GUID: rnpcJ9ot1moTZKkWZCJKz2jtNVYHl9cV
-X-Proofpoint-ORIG-GUID: rnpcJ9ot1moTZKkWZCJKz2jtNVYHl9cV
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzE2MDA3MCBTYWx0ZWRfXwILqMgAofOoD
- WkODJW5K5Lkqxc7DH4yYMPi+e12vGza+9eEtQ7PMmYLEItt4tag9jOwc+Bm1ugpsXtVNPq8MLr5
- CpypzTewYYU3wUpI7cKYO3DqLN9f2x4aaQFMr4TdwiUa02bjfqSH2UVXh3ZgkbagmKVdTOsoWXe
- SeyHAKUVji89OhBxjrCFsMuc+A3U1TZxiqQz3KfvIVCVOWEDmlwDCd9WOFIaURNzsJlccstG6wd
- FC8l7ynMostTy5K6CMksbCwKYFdtB/PXySiFiBSVE3Btesjh+ZxlU3BCU5SLS6/bUxTCjb3sCSD
- 55dXcdjdiI73cxPLnrR+1vcTea4v/TVuRFgs6iPIBH0me69AOCe64+XksjM4KI2JH3sZ5dpiQqZ
- qRFaM+25i3GU3OFN3hVQ3gL7AZH5VZq/UYS5PMdcTg8MrEd5ijjEI6QXItZzykt+E6ApDF3frLG
- LTVTNWtvwUaKk+OqJPw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-16_03,2026-03-13_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 lowpriorityscore=0 adultscore=0 priorityscore=1501 phishscore=0
- bulkscore=0 impostorscore=0 spamscore=0 suspectscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603160070
+Content-Type: text/plain
 
+On 2026-03-11, Mukesh Ojha <mukesh.ojha@oss.qualcomm.com> wrote:
+> Annotate vital static, dynamic information into meminspect for debugging
+>
+> Static:
+>  - prb_descs
+>  - prb_infos
+>  - prb
+>  - prb_data
+>  - printk_rb_static
+>  - printk_rb_dynamic
 
-On Mon, 09 Mar 2026 13:42:36 +0100, Bartosz Golaszewski wrote:
-> GPIO hogs are handled separately in three places: for OF, ACPI and
-> machine lookup. In addition hogs cannot be set up using software nodes.
-> A lot of that code is actually redundant and - except for some special
-> handling of OF nodes - can be unified in one place.
-> 
-> This series moves hogging into GPIO core and bases it on fwnode API
-> (with a single helper from OF to translate devicetree properties into
-> lookup flags), converts the two remaining users of machine hogs to using
-> software node approach and removes machine hog support entirely. In
-> addition, there's a patch extending the configurability of gpio-sim now
-> that it uses software nodes for hogs.
-> 
-> [...]
+FYI: vmcore also exports the symbol "clear_seq". It is not required if
+you are interested in reading _everything_ in the buffer. But it may be
+interesting if you want to mirror vmcore tool features.
 
-Applied, thanks!
+> Dynamic:
+>  - new_descs
+>  - new_infos
+>  - new_log_buf
+>
+> meminspect uses a different API to annotate variables for inspection,
+> and information about these variables is stored in the inspection table.
+>
+> Reviewed-by: Petr Mladek <pmladek@suse.com>
+> Co-developed-by: Eugen Hristev <eugen.hristev@linaro.org>
+> Signed-off-by: Eugen Hristev <eugen.hristev@linaro.org>
+> Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
 
-[1/6] gpio: of: clear OF_POPULATED on hog nodes in remove path
-      https://git.kernel.org/brgl/c/bbee90e750262bfb406d66dc65c46d616d2b6673
-[2/6] gpio: move hogs into GPIO core
-      https://git.kernel.org/brgl/c/d1d564ec4992945db853303dc2978256bce8c0b4
-[3/6] gpio: sim: use fwnode-based GPIO hogs
-      https://git.kernel.org/brgl/c/5cfbd0eb784f19436b5d5a9a7e0dca862619739a
-[4/6] ARM: omap1: ams-delta: convert GPIO hogs to using firmware nodes
-      https://git.kernel.org/brgl/c/e627fc9fad93d59765dd16adac1b2a9bf68d7523
-[5/6] gpio: remove machine hogs
-      https://git.kernel.org/brgl/c/dea046e7f46f2357124a465e058c92cac3e351c5
-[6/6] gpio: sim: allow to define the active-low setting of a simulated hog
-      https://git.kernel.org/brgl/c/696e9ba9a3da3d919d08a1abf05c9288311858f1
-
-Best regards,
--- 
-Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Reviewed-by: John Ogness <john.ogness@linutronix.de>
