@@ -1,59 +1,74 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3436C2F290E;
-	Mon, 16 Mar 2026 14:51:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5615E302146
+	for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 14:53:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773672719; cv=none; b=DpRGbUpA31BMj6EiRgRykOwLju0Agfat0wmDFk+AK3Hvt0WMmJAS3ZnbE7pzFjamzc+U9ucuwSQp1W6Nh7vLCp9Obnp2aRzmu/F7c0iwTyBPwIr+V48T94uxEC2QSmvkzdPd/49OKg9iTgaiPFTXV5g+FKQLYcIxz0rSkUfD5gI=
+	t=1773672787; cv=none; b=UO+M1Vz6Ukec1Z6AwFAvkuAbHbU+DeKzKAMKGZokc4UCIeJjwLuYRRMX3cpGwErRD4yGwKPaj6ejife7+7y3jpKe6z+T7o4sZntE1xM29uHX+SHJ3VheB78BLhoDp57i+F7+6EX2M/tAwAQNkKx+Ort8gsybeU5omrJv8FfR6tQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773672719; c=relaxed/simple;
-	bh=KIRMkEs2ki4Q4dp6M/GOhb93ujwUaNLq8lzChwMmjn0=;
+	s=arc-20240116; t=1773672787; c=relaxed/simple;
+	bh=8GSEDSXaBFZQPp9nB5Uq9bC0LKepyUSrWIfxhKxFNcg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BEeEqURnIB2OsfWVPRcs0+sh4dYUmASciWgjx6No7c9SxDAx95eyhxnEMvAaUSl7IXTqWvCJHHplKSTLbeExTksHbgnavH0U6okBzWB6DXzOFcj0lzxWw7867aFQRLJviR867trKuD3uvunijSnwubIQLzmhuhl6V0OM+X4smXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tSLnPF1F; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=n9JxhaX7dCgk63bfR9ems7t2MIj6wFQhZHHjgc3rxwny31ATPoF87X+PJ4qpxaUs5owdtWhUzsU9pXzQHNVZzpMPiQVmhC2/jIHIB2lIVogyuOsmuf9SEoT+7+4/15YaHR5Tg6oOxa7CTqWQ7LhkrEX3R4hSCWxrk4KBS7V27tk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=IfgYz627; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tSLnPF1F"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EB72C19421;
-	Mon, 16 Mar 2026 14:51:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773672718;
-	bh=KIRMkEs2ki4Q4dp6M/GOhb93ujwUaNLq8lzChwMmjn0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tSLnPF1FQGukX0jNpyUPpw39RNpf5reYLO7x3EfolXRfSyklFjmya7iBIUL9cYR6P
-	 03ZQOFOVkIRw02GeRSmaaZYbqDhPig/hYez6AG/QQcB6PIpP1NgYdwb2UyqLlLW8iw
-	 xUqt4NFyQEpDdvNYzd7D140Zjk7FrDTOTJkLe0vutUmzUAeVv2IEcNlfeMcAvkPVaM
-	 JQNf8HpqT3Lstxvxat/f9kXEENmcKZ8Ntab7TkVbAmfxGz8pl03oD9b+QUUc8+zciP
-	 F7uXVlaQGF7zb+pS6vO6CMdBKRn645sD50BB1GRswzWJvFb4E88gqDAtEdIxjhTHlA
-	 ZD/322/wk5nBA==
-Date: Mon, 16 Mar 2026 14:51:47 +0000
-From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Clemens Ladisch <clemens@ladisch.de>, 
-	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"K . Y . Srinivasan" <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>, 
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Miquel Raynal <miquel.raynal@bootlin.com>, 
-	Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
-	Bodo Stroesser <bostroesser@gmail.com>, "Martin K . Petersen" <martin.petersen@oracle.com>, 
-	David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	David Hildenbrand <david@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, 
-	Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-hyperv@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org, linux-staging@lists.linux.dev, 
-	linux-scsi@vger.kernel.org, target-devel@vger.kernel.org, linux-afs@lists.infradead.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, Ryan Roberts <ryan.roberts@arm.com>
-Subject: Re: [PATCH 02/15] mm: add documentation for the mmap_prepare file
- operation callback
-Message-ID: <0eeb2bcb-3ee1-47cf-a5ee-45eb0038ec67@lucifer.local>
-References: <cover.1773346620.git.ljs@kernel.org>
- <c5bb61cf789df1ecb32facc29df9749987c7ddfc.1773346620.git.ljs@kernel.org>
- <f0e33b51-d465-462d-b0f6-98a1db66bb15@infradead.org>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="IfgYz627"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-439d8df7620so3406186f8f.0
+        for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 07:53:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1773672785; x=1774277585; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=lOX/jhdoMMqrcOy5q3SKEFg2QJEUGhIi2FMLl0bou3c=;
+        b=IfgYz627WjIIQxP36QU6/EI74MJ8ckoA3G9v9FwEabSE/owAuuydr5FUpuGznJu4aS
+         96VjftAxnyFQYWToW5PkmNSdPR+nqf3iLt/gqWaldRZaqZmB09ztVwif2WLVPeAcXbew
+         v9s+iDtJiPnNWzo/rgVYh1oQelIjHVzfZGYxxAv1VVxq98go/AxjIute14d6WI2+6chj
+         8HzWUsYvjzMYqBtfQ7Yt5KuUC0h4WDCzos1eXcRZwnEl4Id5Ez/tFYjn1UhNRMCqTA58
+         dO1DL4NkzeS4e7iUKnlJlaZt+Dkl+GmAi2/wa4e5j2r78mbEulvr/s1h7I5eagKcgic7
+         2xMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773672785; x=1774277585;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lOX/jhdoMMqrcOy5q3SKEFg2QJEUGhIi2FMLl0bou3c=;
+        b=b40XPWXvCmuTuE2rzmp0NcRtn+lpJir7updThKfPwRAkakj9QLg3W7NOXiXAyZ8YI3
+         bk27pyeVbBDj3SOQaJ1lsq1bGnBe7ndiuQ/emfy5mrF2Quik/MfVWIT+Fm/hOogSuiAu
+         8xn0Zq3Y4iv3JWEcPadSdWU7Fxn+1+hgfTmAOaTWfVvFUJTqs2vFIZBfZIRI00rrqn69
+         /AwF/jk+L8/++717h8+FnotdVaIiiMpIlXjl+0NqubGeidcs/uQAgYbuDNXgeyakR614
+         yKXnsbu9cVvVssYAHIFeTOdXvlK7+wSbCssOSscNbYcH7Ng3cv8tPJfcHN5ogGtsQDUu
+         O6aQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVuWWHnD2qzyyB9kM+dLgLMSKepXSkeDLOZsBH8eK7thPTz4Fd5jvkwE6efM4ZPFCbRivxxMUIysVw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxA7SA9pUP9DdPAUvHGYG+iV7xfh16VoUrShRdYJn59xcQrYVaD
+	/iS2ZuH4KtYOZBRo/lvQqmWI0CqnUJIU0Z2XMhlhuKt3VOKefjpI7CUbHLeC3lDsWJc=
+X-Gm-Gg: ATEYQzwFxlQZJ/J/La1Swe/oyRop8WmPcDypcmy0orIhJsWhYal/CDss5qDsxdBmq4C
+	SSmCOjaAajE0awt5x3y6Fo9jzaOMcowg17X8soUnRToqx5S47INEPXhs9DkO3kE9g+ArZ4euvBH
+	GfqbKqUCnS6m8JPEfosnWjMzk5ensVeztEa4NpWuVGkChhyB51YJZ2Xxw6P4TKoPHbkmYiVoZNS
+	sYtQpfbjo1GgwAZvxBMwqEXoVrMz/PjljujGOJACzfFAh4xrYj0Ms066PIMAE7NEGhmaXJ0WcnQ
+	8i9X6nAwu/7noJZxJcp68VVYVlS9NOZjlh8Sb/CggkIsmM8CeWob5n+oa3vRmWWRXkLyaXC8uTr
+	Xry/hrnb6l+MMqlfo9YcZbji2hY/AFrIAx2abV6+Bq3CpjIY97+zGUd6egdV15QE0dWrpun+af6
+	ZZsfdwdZKem4VbcznEpNpCNQv7LAZmE30WOtfz
+X-Received: by 2002:a05:6000:4025:b0:439:bcdb:95a8 with SMTP id ffacd0b85a97d-43a04d1dc13mr22986896f8f.0.1773672784615;
+        Mon, 16 Mar 2026 07:53:04 -0700 (PDT)
+Received: from localhost (109-81-21-195.rct.o2.cz. [109.81.21.195])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b457cfa07sm6632244f8f.6.2026.03.16.07.53.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Mar 2026 07:53:04 -0700 (PDT)
+Date: Mon, 16 Mar 2026 15:53:03 +0100
+From: Michal Hocko <mhocko@suse.com>
+To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+Cc: Kit Dallege <xaum.io@gmail.com>, akpm@linux-foundation.org,
+	david@kernel.org, corbet@lwn.net, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH] Docs/mm: document the OOM killer
+Message-ID: <abgZTxYM9UcQ9Na3@tiehlicka>
+References: <20260314152518.100194-1-xaum.io@gmail.com>
+ <fbee0ca1-4de6-4182-865b-a33d9ed32ee4@lucifer.local>
+ <abeyD1ZngYhkAx6g@tiehlicka>
+ <31744315-bf9e-4d9a-9c25-63eef0bd2f01@lucifer.local>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,212 +77,82 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f0e33b51-d465-462d-b0f6-98a1db66bb15@infradead.org>
+In-Reply-To: <31744315-bf9e-4d9a-9c25-63eef0bd2f01@lucifer.local>
 
-On Thu, Mar 12, 2026 at 05:12:04PM -0700, Randy Dunlap wrote:
-> (Andrew: patch attached)
->
->
-> On 3/12/26 1:27 PM, Lorenzo Stoakes (Oracle) wrote:
->
-> Documentation/filesystems/mmap_prepare.rst: WARNING: document isn't included in any toctree [toc.not_included]
->
-> Should be in some index.rst file. In filesystems I suppose.
-
-Ack thanks.
-
->
-> > ---
-> >  Documentation/filesystems/mmap_prepare.rst | 131 +++++++++++++++++++++
-> >  1 file changed, 131 insertions(+)
-> >  create mode 100644 Documentation/filesystems/mmap_prepare.rst
+On Mon 16-03-26 14:16:19, Lorenzo Stoakes (Oracle) wrote:
+> On Mon, Mar 16, 2026 at 08:32:31AM +0100, Michal Hocko wrote:
+> > On Sun 15-03-26 20:48:22, Lorenzo Stoakes (Oracle) wrote:
+> > > NAK for being AI slop again, obviously.
+> > >
+> > > Again, +cc the OOM maintainer you failed to bother to look up.
 > >
-> > diff --git a/Documentation/filesystems/mmap_prepare.rst b/Documentation/filesystems/mmap_prepare.rst
-> > new file mode 100644
-> > index 000000000000..76908200f3a1
-> > --- /dev/null
-> > +++ b/Documentation/filesystems/mmap_prepare.rst
-> > @@ -0,0 +1,131 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
-> > +===========================
-> > +mmap_prepare callback HOWTO
-> > +===========================
-> > +
-> > +Introduction
-> > +############
->
-> Kernel style is "=============" above instead of "############".
+> > Thanks!
+> 
+> No problem!
+> 
+> >
+> > > Reasons, as the rest:
+> > > - Worthless documentation
+> > > - Everything about patch screams 'zero effort, Claude did it all'
+> > > - Bad etiquette
+> > >
+> > > As with all the rest it'd need to be totally rewritten and it's not worth the
+> > > maintainer time.
+> > >
+> > > On Sat, Mar 14, 2026 at 04:25:18PM +0100, Kit Dallege wrote:
+> > > > Fill in the oom.rst stub that was created in commit 481cc97349d6
+> > > > ("mm,doc: Add new documentation structure") as part of the structured
+> > > > memory management documentation following Mel Gorman's book outline.
+> > >
+> > > I mean the more I see it the more annoying it is.
+> > >
+> > > >
+> > > > Cover the scoring heuristic, allocation constraints, OOM reaper,
+> > > > process_mrelease syscall, and sysctl knobs.
+> > >
+> > > This sentence contains almost as much content as the patch.
+> >
+> > The real question is who is the expected audience of this documentation?
+> > Administrators, kernel developers?
+> > Reading through this proposal this doesn't really seem to fit neither
+> > well. For kernel developers who try to wrap their heads around the code
+> > it is barely scratches the surface. For admins it doesn't really explain
+> > more than an existing documentation for tunables.
+> >
+> > So if there is a serious interest to make this useful kernel developers
+> > oriented documentation I am more than willing to help. The code is not
+> > really easy to follow as it is scattered. There are many subtle
+> > expectations spread out and it is quite easy to break a delicate balance
+> > tuned for through years. So there is a big documentatin gap I never got
+> > around to fill up.
+> 
+> I mean, we definitely could do with better documentation :) Obviously I
+> somewhat document it from a 'learning the code in depth' perspective in my
+> book, but that's tied to v6.0, effectively paywalled (sorry!) and not the
+> same as the kind of documentation we'd ideally like the kernel to expose,
+> which would be less specific I thik but also up-to-date with newer kernels.
+> 
+> The point WRT this patch however is that really, it needs to come from
+> somebody who has some experience/understanding, and generating it via an
+> LLM is just not useful - any kernel developer with understanding could do
+> so.
 
-Ack
+I think we are struggling with capacity here. I am willing to help shape
+an existing text but will be struggling to find time to cook up that
+text myself. I do mind involving LLMs are long as the content is
+properly reviewed and factually correct. 
 
->
-> > +
-> > +The `struct file->f_op->mmap()` callback has been deprecated as it is both a
-> > +stability and security risk, and doesn't always permit the merging of adjacent
-> > +mappings resulting in unnecessary memory fragmentation.
-> > +
-> > +It has been replaced with the `file->f_op->mmap_prepare()` callback which solves
-> > +these problems.
-> > +
-> > +## How To Use
-> > +
-> > +In your driver's `struct file_operations` struct, specify an `mmap_prepare`
-> > +callback rather than an `mmap` one, e.g. for ext4:
-> > +
-> > +
-> > +.. code-block:: C
-> > +
-> > +    const struct file_operations ext4_file_operations = {
-> > +        ...
-> > +        .mmap_prepare    = ext4_file_mmap_prepare,
-> > +    };
-> > +
-> > +This has a signature of `int (*mmap_prepare)(struct vm_area_desc *)`.
-> > +
-> > +Examining the `struct vm_area_desc` type:
-> > +
-> > +.. code-block:: C
-> > +
-> > +    struct vm_area_desc {
-> > +        /* Immutable state. */
-> > +        const struct mm_struct *const mm;
-> > +        struct file *const file; /* May vary from vm_file in stacked callers. */
-> > +        unsigned long start;
-> > +        unsigned long end;
-> > +
-> > +        /* Mutable fields. Populated with initial state. */
-> > +        pgoff_t pgoff;
-> > +        struct file *vm_file;
-> > +        vma_flags_t vma_flags;
-> > +        pgprot_t page_prot;
-> > +
-> > +        /* Write-only fields. */
-> > +        const struct vm_operations_struct *vm_ops;
-> > +        void *private_data;
-> > +
-> > +        /* Take further action? */
-> > +        struct mmap_action action;
-> > +    };
-> > +
-> > +This is straightforward - you have all the fields you need to set up the
-> > +mapping, and you can update the mutable and writable fields, for instance:
-> > +
-> > +.. code-block:: Cw
->
->    .. code-block:: C
->
-> Documentation/filesystems/mmap_prepare.rst:60: WARNING: Pygments lexer name 'Cw' is not known [misc.highlighting_failure]
->
-> Maybe a typo?
+Wrt OOM, most people/developers struggle to understand these areas from
+my experience
+- what is the purpose of the oom killer and its limitations
+- different contexts oom handles
+- when is the oom killer triggered
+- oom killer in progress handling and locking
+- forward progress guarantee (oom_reaper)
+- coordination with task exit path
+- memory reserves for oom victims
 
-Yeah is a typo thanks!
-
->
-> > +
-> > +    static int ext4_file_mmap_prepare(struct vm_area_desc *desc)
-> > +    {
-> > +        int ret;
-> > +        struct file *file = desc->file;
-> > +        struct inode *inode = file->f_mapping->host;
-> > +
-> > +        ...
-> > +
-> > +        file_accessed(file);
-> > +        if (IS_DAX(file_inode(file))) {
-> > +            desc->vm_ops = &ext4_dax_vm_ops;
-> > +            vma_desc_set_flags(desc, VMA_HUGEPAGE_BIT);
-> > +        } else {
-> > +            desc->vm_ops = &ext4_file_vm_ops;
-> > +        }
-> > +        return 0;
-> > +    }
-> > +
-> > +Importantly, you no longer have to dance around with reference counts or locks
-> > +when updating these fields - __you can simply go ahead and change them__.
-> > +
-> > +Everything is taken care of by the mapping code.
-> > +
-> > +VMA Flags
-> > +=========
->
-> and then use "---------------" here instead of "==============".
-
-Ack
-
->
-> (from Documentation/doc-guide/sphinx.rst)
->
-> > +
-> > +Along with `mmap_prepare`, VMA flags have undergone an overhaul. Where before
-> > +you would invoke one of `vm_flags_init()`, `vm_flags_reset()`, `vm_flags_set()`,
-> > +`vm_flags_clear()`, and `vm_flags_mod()` to modify flags (and to have the
-> > +locking done correctly for you, this is no longer necessary.
-> > +
-> > +Also, the legacy approach of specifying VMA flags via `VM_READ`, `VM_WRITE`,
-> > +etc. - i.e. using a `VM_xxx` macro has changed too.
-> > +
-> > +When implementing `mmap_prepare()`, reference flags by their bit number, defined
-> > +as a `VMA_xxx_BIT` macro, e.g. `VMA_READ_BIT`, `VMA_WRITE_BIT` etc., and use one
-> > +of (where `desc` is a pointer to `struct vma_area_desc`):
-> > +
-> > +* `vma_desc_test_flags(desc, ...)` - Specify a comma-separated list of flags you
-> > +  wish to test for (whether _any_ are set), e.g. - `vma_desc_test_flags(desc,
-> > +  VMA_WRITE_BIT, VMA_MAYWRITE_BIT)` - returns `true` if either are set,
-> > +  otherwise `false`.
-> > +* `vma_desc_set_flags(desc, ...)` - Update the VMA descriptor flags to set
-> > +  additional flags specified by a comma-separated list,
-> > +  e.g. - `vma_desc_set_flags(desc, VMA_PFNMAP_BIT, VMA_IO_BIT)`.
-> > +* `vma_desc_clear_flags(desc, ...)` - Update the VMA descriptor flags to clear
-> > +  flags specified by a comma-separated list, e.g. - `vma_desc_clear_flags(desc,
-> > +  VMA_WRITE_BIT, VMA_MAYWRITE_BIT)`.
-> > +
-> > +Actions
-> > +=======
-> > +
-> > +You can now very easily have actions be performed upon a mapping once set up by
-> > +utilising simple helper functions invoked upon the `struct vm_area_desc`
-> > +pointer. These are:
-> > +
-> > +* `mmap_action_remap()` - Remaps a range consisting only of PFNs for a specific
-> > +  range starting a virtual address and PFN number of a set size.
-> > +
-> > +* `mmap_action_remap_full()` - Same as `mmap_action_remap()`, only remaps the
-> > +  entire mapping from `start_pfn` onward.
-> > +
-> > +* `mmap_action_ioremap()` - Same as `mmap_action_remap()`, only performs an I/O
-> > +  remap.
-> > +
-> > +* `mmap_action_ioremap_full()` - Same as `mmap_action_ioremap()`, only remaps
-> > +  the entire mapping from `start_pfn` onward.
-> > +
-> > +**NOTE:** The 'action' field should never normally be manipulated directly,
-> > +rather you ought to use one of these helpers.
->
-> I also see this warning, but I don't know what it is referring to:
->
-> Documentation/filesystems/mmap_prepare.rst:132: ERROR: Anonymous hyperlink mismatch: 1 references but 0 targets.
-> See "backrefs" attribute for IDs. [docutils]
->
-> (OK, I found/fixed that also.)
->
-> There are also lots of single ` marks which mean italics. I thought those were
-> not what was intended, so I changed (most of) them to `` marks, which means
-> "code block / monospace". I can fix those if needed.
->
-> from the patch file:
-> @Lorenzo: ISTR that you prefer explicit quoting on structs and
-> functions. I didn't do that here since kernel automarkup does that,
-> but if you prefer, I can redo the patch with those changes.
-
-The issue was in another document it didn't seem to properly recognise the types
-AFAICT (but I might have been mistaken anyway!) But I'm fine without.
-
->
-> HTH.
-> --
-> ~Randy
-
-Thanks for this, will fold the patch into the respin also!
-
-Cheers, Lorenzo
+I bet there is some more but these are the most prominent ones.
+-- 
+Michal Hocko
+SUSE Labs
