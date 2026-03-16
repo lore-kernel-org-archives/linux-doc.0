@@ -1,76 +1,105 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C2BC1386DA
-	for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 15:06:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4202839EF15;
+	Mon, 16 Mar 2026 15:14:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773673570; cv=none; b=e23U6tF+8XMUhkIth5O9LJYXiqPM0+mtJx75GizkNtOxOjAeeT585YX+fCEuzIgTcgcHaqrx8De8AdSnre7OBx3III9ToAEu0tNpx7cMQ+zmeyezLYkc9hzEtufQYqDhlHaVuMSDQNceJacvoctaskeMQPsWIVGH69iQpVAJ1Z0=
+	t=1773674041; cv=none; b=mWF/9RzwgA79J+g/TN8jSWIUe4J9FMPTbH0xmDXlfs8zbzqTZl+xQ0xtUSON+UnP4Cv1gXPEOydOCA7mIMa1Q2aO+VubMLDJbWNiNZrOMvkDm7rwcogXvWbC1+hBP9mF0/APM5/dYIJT35hDRUxl4s/Df4Hmos6I90643HkJ/d8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773673570; c=relaxed/simple;
-	bh=Ltk04OADJTCs9chVxsm0NzuzOhJQXzUEZn95j9D3/pw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=l2mBn9PDhyM19bXo49eaVzx/rkffUTQvcZoyhJLsk9wknZi/fWmrllrKStJw8TazcA9af2RWX2ZKAR8BH4vg4qgx/sXFSvnJS3hF2F9fR9epJEOCyB9SsQDTqvuoJ/v9menhOJ/7BcENjsHsYWJtrWIs4IdNTlQiqhXfM3NRk/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=E8l7JUDI; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1773674041; c=relaxed/simple;
+	bh=bB17RaP+sGJYjZOD4hRJTM0tiGwcoxMhkY2sJcw5ves=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=J5C0CIpfI7OitLrwqoi/VsQeNAureea4riQODbQbe8qgG72QZvQxPwAE3qrpK6M7lyXQxJHwLHBACW1BD5HyHosGu4pyD1wiuSBWecZdHo6rTmHLtLnjpmnlULYypA+xKlkKV0L+7u4SXV9E86T+0oipCwHWTLzsgmPMWLLcYWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ko3GXsts; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="E8l7JUDI"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 35DF6411F8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1773673568; bh=HcoFzXqKGZ4VRsUqh4N3hkFYaxdhCFRCFiU1h19xJPQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=E8l7JUDI1f6yvu+pkh2/I8K3sWJ/9xBp565u1RQ73Z/RxP9mvn/L+GBVi0oomUVtG
-	 G46+dbflomkdYax2uWBLoxPJxtEjEy3IsALd7H8Znt6UCdiya2WpCIlcKcF/HrqIx7
-	 T63QjXI3HvjOg+UvMh1PVGMN82XSt6ZlBJPqZR24KmJ4A1+7SZa9CAa+EBSAt0y4yh
-	 72ydQLOcQMtmvWtA/ZD5gtYdXsek3ClGmvd+qK2m9ITU/rCRBSoaJhhiuWfdm9rbNZ
-	 akuRJLIivjMTWYpafuyQsvYqarif2AZ+QmCsk5AjtFVAFf1DvyMygGBfmdIfHDmj1Y
-	 YuJsAhKCkeKow==
-Received: from localhost (c-71-229-227-126.hsd1.co.comcast.net [71.229.227.126])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 35DF6411F8;
-	Mon, 16 Mar 2026 15:06:08 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, Michal Hocko <mhocko@suse.com>
-Cc: Kit Dallege <xaum.io@gmail.com>, akpm@linux-foundation.org,
- david@kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Docs/mm: document the OOM killer
-In-Reply-To: <31744315-bf9e-4d9a-9c25-63eef0bd2f01@lucifer.local>
-References: <20260314152518.100194-1-xaum.io@gmail.com>
- <fbee0ca1-4de6-4182-865b-a33d9ed32ee4@lucifer.local>
- <abeyD1ZngYhkAx6g@tiehlicka>
- <31744315-bf9e-4d9a-9c25-63eef0bd2f01@lucifer.local>
-Date: Mon, 16 Mar 2026 09:06:07 -0600
-Message-ID: <87bjgnizkw.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ko3GXsts"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D488C19421;
+	Mon, 16 Mar 2026 15:14:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773674041;
+	bh=bB17RaP+sGJYjZOD4hRJTM0tiGwcoxMhkY2sJcw5ves=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Ko3GXstsM7IxbccEWEVNpJtIUBpqwxPArXm3YDYSnQC5oQ+CoOMRS6TLtPunJCGOL
+	 kMjaKrnvz3LzF/qU1/7j9hXCoOrjU8WMFo5D4dpZPeDKz29YkicMxJ+23W9QBb222Z
+	 opWK88iI0M1fc5YhIksujtt6TKMzk2viiuT2MgoBq6XUS72X4DTFnjrAOp5c66KhT5
+	 +rJvaUrp5WZPB/Rd6rSqc+xKQDorBFUyreXDJc/86GviYeLj5jQdNlr+ixJ0UYjJB9
+	 f8RXg3oH8xuCxFSagTkGm8j+to/KHa/zJfihhtUxLTELwpT8lGpoyGIUsr8pJ1PwN8
+	 Y2cJxkNGqJlIg==
+From: SeongJae Park <sj@kernel.org>
+To: Gutierrez Asier <gutierrez.asier@huawei-partners.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	artem.kuzin@huawei.com,
+	stepanov.anatoly@huawei.com,
+	wangkefeng.wang@huawei.com,
+	yanquanmin1@huawei.com,
+	zuoze1@huawei.com,
+	damon@lists.linux.dev,
+	akpm@linux-foundation.org,
+	ljs@kernel.org,
+	Liam.Howlett@oracle.com,
+	vbabka@kernel.org,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/1] Docs/mm/damon: Document DAMON actions when TRANSPARENT_HUGEPAGE is off
+Date: Mon, 16 Mar 2026 08:13:52 -0700
+Message-ID: <20260316151353.100406-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <224a29a1-13cb-41aa-8736-aebe1023fb7d@huawei-partners.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-"Lorenzo Stoakes (Oracle)" <ljs@kernel.org> writes:
+On Mon, 16 Mar 2026 17:56:55 +0300 Gutierrez Asier <gutierrez.asier@huawei-partners.com> wrote:
 
-> I wonder if some of us (I realise this sounds like self volunteering)
-> should just write up some bare bones and patch it in, then we can get the
-> iterating part of things moving?
+> Hi SJ,
+> 
+> On 3/16/2026 5:48 PM, SeongJae Park wrote:
+> > Hello Asier,
+> > 
+> > 
+> > Thank you for sending this patch. :)
+> > 
+> > On Mon, 16 Mar 2026 14:08:21 +0000 <gutierrez.asier@huawei-partners.com> wrote:
+> > 
+> >> From: Asier Gutierrez <gutierrez.asier@huawei-partners.com>
+> >>
+> >> MADV_HUGEPAGE and MADV_NOHUGEPAGE are guarded and they
+> >> are not available when compiling the kernel without TRANSPARENT_HUGEPAGE
+> >> option. The DAMON behaviour is to silently fail[1] in when DAMOS_HUGEPAGE or
+> > 
+> > checkpatch.pl shows a warning for the above line:
+> > 
+> >     WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit description?)
+> >     #12:
+> >     option. The DAMON behaviour is to silently fail[1] in when DAMOS_HUGEPAGE or
+> 
+> Yes, this is due to the link. I tried to keep this patch compact, without a
+> cover letter. I will submit a new version without the link.
 
-That, of course, was the theory behind the addition of the skeleton
-documentation that's there now :)
+The above warning is not for the link.  After wrapping the line, however,
+checkpatch does warn the link line like below.
 
-I have also thought about trying to fill it in once a bit of spare time
-opens up.  Funny how that tends not to happen, but I still would like to
-do that at some point.
+    WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit description?)
+    #13:
+    [1]: https://lore.kernel.org/damon/66131775-180b-4b9f-b7ce-61a3e077b6e6@huawei-partners.com/T/#m278d3c9bbedcceaf2efa51e3dc7b40a40654e51c
 
-Michal's question, though, is something that needs a good answer: who is
-the audience for Documentation/mm/ ?  Some of the stuff in the patch
-under discussion, if it were to reach an acceptable point, is probably
-better placed in the admin guide.  OTOH, a manual firmly aimed at people
-trying to understand the MM code itself makes sense to me.
+But, it should be ok to just ignore the warning for the link line.  So, please
+wrap the line, but keep the link.
+
 
 Thanks,
+SJ
 
-jon
+[...]
