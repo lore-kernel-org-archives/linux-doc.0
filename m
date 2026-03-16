@@ -1,106 +1,195 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010065.outbound.protection.outlook.com [52.101.56.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5ADA3E5EF5;
-	Mon, 16 Mar 2026 18:45:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773686732; cv=none; b=pTrQm81oj2xcp+bL4q3XHRoc1Ce0w8SnijarAcfbvjEAM8rQEr4j7xYCgvmGEV74VkqPK+mGCGBhfmtwtfyAYNRw2eS23lKG/f3f2tEflFEhQ066QHErI2mR7Bn/+snp6j9m39aESPhxxnSeYlnK/egcXfQehUABpx2Muu+24a4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773686732; c=relaxed/simple;
-	bh=51ir38hBH/+EX4PSa61CEBGIWQ7Rfv65zGL0gHAdotg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LgSWdFGZugVuuGZElY2VF8h1b0uUt6oVqHjHDyZuuE8KovttgMOmK+jdI7lYlGEap0eRUPVUf/7oLBq8PVyvAbSGP/xTefE5jOVAIqh7BPvNPMxdfsN/HjYtGo+pnEUj+FU0saHQdZWEgbSWYwBXRD/vKTIYU0zTQ6i+8tIJ4KY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=lO6v6VNy; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BFDC3E6387;
+	Mon, 16 Mar 2026 18:51:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.65
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773687108; cv=fail; b=npXyUFvnlu8a7Af53a1/Ai126WmtB62xOmbqJ9+nCvPXBUhqSKgK5G249NI5mlCRttk6J/gIIj0Of4UMQr9wHUbfUJQSYtz3NoJSNlnNmKHAXjmroKlF+zPtPzAR4u4pdOU200NJT92oNUawTM8Kt33okTmdWwVxS6WNFxbLPg8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773687108; c=relaxed/simple;
+	bh=0FFFML5X5ZoBFd+Qb3WH6ego4FGSFYX6bceD0CGTFFI=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=JptONN1MGX7S7V5OcwACCRivj3+cxEX9G7JgQY+dhB1AzsmKyi4RXiHSzUP+LRUZ+/KIJ517biwAawEgAsgxXHCDV9DuIkSribE9fcUrCv5nNPZlDzZSQuoef7uFXWPLC4PuzSOd7Z8oCex1MMki5Y+AvMpepAloe93+hNNU7EY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=D5kY6H4a; arc=fail smtp.client-ip=52.101.56.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="lO6v6VNy"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=R/0Pmqo6gymewtsBJQ/y7Yj1oSkMScDskutIUZ+bJxU=; b=lO6v6VNygyX0u8SkoFE88YqNS2
-	DOcufX8BC2HzoQxDZvtRSRtxxuAeuRuV8oJQqZzRYuVyQsg76jokBcpc5i5UxehPO+qFZRbMCl4R5
-	ELo2t1dzKXtXna5XyYXUv1DnTAw1/8HdUMQgHzvhJlGWt88BsGX/pGggF1bAgFjHmYgETXj6UsRmb
-	xevH1jNpkgVSdduvn5I0E/x0zJbNKfo3DpJQWqJkC/GRmVMBiXU/RBGiKK0BJ7pADTCvXynaAJAZh
-	RINKCwp1Vp07Rquu8gs7whqnScuS52vnQi89O3c5L8sKRH22l19ouJAHFr+9vp+/QwtXYufw9Yyfg
-	q7oJzgvA==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w2CwL-00000004hUc-3lEa;
-	Mon, 16 Mar 2026 18:45:23 +0000
-Message-ID: <81ef23ff-5042-4934-a227-2c6289b4f62b@infradead.org>
-Date: Mon, 16 Mar 2026 11:45:18 -0700
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="D5kY6H4a"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=EmXOvNQ/XUhP5CpjNlYsP3MnSy3kGNb94avE2tXZAMthVbKCCMjyCRdbT2J3SpyCVYPI0eXf1H7N1Sknha47XaoU+2Zwkk0DI/PaVbv9AdMsN3oHUDnL6HU5OCMOHP5Dd23uUETxl+plzbWgYhwHIUKbvsDtEcdQDt3O8RPEEFMmAyowERmZxWRiXIkLsw4vpmW2SLrFT3/sZlpaQEfMwDBbwDuuhUy0QhjfMuKtcWLipVU56+0ApCcEYb7QU1n0t0om3+vUi1lFkwW3WJVbmvnHmVmGIVEv6nAzINLKJljapQD5zOoAqF8KN4oUkrPKH7GJGkPHr8n5uyeeVdgNWw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=a40p37aorfQFfqM2sAf4GszQN2rog8qPXY3HgGEmiSA=;
+ b=aODCH2yhmVolANpOAusTmrysBA4+7Fil8Me3wRCIOQhzd6Ocz72/jBc5r6AwyK5jeaZ5aogaMrZxVSHXm00SOP1weH3s8cH6bGy5ilO8c5HYAG9w1YnAI8jqs1ML7shKEXekoOZ5GLu+QApwmEbndmr+tkbG+/lLb5uIAQCKHGJzMqtrElk3UvsPh+hrgOJLF5Yfk8X6fYlH1rXP4g0FeuyGKucKT2dpp8cwCVFvCGJm4sBBZK+QGDlOY+AOm5X2jkZnYePodFmSyquWStvqW86BhvxPOZ/4fpEUB35kcej5y2MFjEwIRXNg/+gHOuD1UEtbPj8hDWf8l6p0ChC7lQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=a40p37aorfQFfqM2sAf4GszQN2rog8qPXY3HgGEmiSA=;
+ b=D5kY6H4aYBGMNfSRZyNrzxa3/OP74kerpdWaC8K1NiyLmKlKet21tIfGuoSPb2pf5kcanXdjmdFvejXqtB0iacsPPuezUdGGShVkTpIJap8ylVvB4wjXPrfNZ7bKl2BnwxHDg19HzBXZuyj2XN9ualMmD4UL3MthTYGaEq1ebpHB+eOnC035wIuFjNMgMeAbPG7f7EVFlTkarlJ3iV0mUpB5rK8uAYwHTzdAllK2lLbN2N98E1mgqiVmxRwkVMblTfriThU+qxKnBGBNHerfBQOnPgAFEPj+hNZBCn8riFpElgb5oHmV4IpI1t9HbKe5FwBmnRrYjpmZ4XV9xP414A==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM3PR12MB9416.namprd12.prod.outlook.com (2603:10b6:0:4b::8) by
+ SN7PR12MB6692.namprd12.prod.outlook.com (2603:10b6:806:270::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.14; Mon, 16 Mar
+ 2026 18:51:42 +0000
+Received: from DM3PR12MB9416.namprd12.prod.outlook.com
+ ([fe80::8cdd:504c:7d2a:59c8]) by DM3PR12MB9416.namprd12.prod.outlook.com
+ ([fe80::8cdd:504c:7d2a:59c8%7]) with mapi id 15.20.9723.016; Mon, 16 Mar 2026
+ 18:51:42 +0000
+Message-ID: <efc10902-2ee9-4cb3-a4cc-442998eef01a@nvidia.com>
+Date: Mon, 16 Mar 2026 11:51:38 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v12.1 1/1] rust: gpu: Add GPU buddy allocator bindings
+To: Alexandre Courbot <acourbot@nvidia.com>,
+ Joel Fernandes <joelagnelf@nvidia.com>
+Cc: linux-kernel@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
+ Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>, Dave Airlie <airlied@redhat.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Koen Koning <koen.koning@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ Nikola Djukic <ndjukic@nvidia.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Corbet <corbet@lwn.net>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Helge Deller <deller@gmx.de>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Alistair Popple <apopple@nvidia.com>,
+ Timur Tabi <ttabi@nvidia.com>, Edwin Peer <epeer@nvidia.com>,
+ Andrea Righi <arighi@nvidia.com>, Andy Ritger <aritger@nvidia.com>,
+ Zhi Wang <zhiw@nvidia.com>, Balbir Singh <balbirs@nvidia.com>,
+ Philipp Stanner <phasta@kernel.org>, Elle Rhumsaa
+ <elle@weathered-steel.dev>, alexeyi@nvidia.com,
+ Eliot Courtney <ecourtney@nvidia.com>, joel@joelfernandes.org,
+ linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org
+References: <20260308180407.3988286-1-joelagnelf@nvidia.com>
+ <20260309135338.3919996-1-joelagnelf@nvidia.com>
+ <20260309135338.3919996-2-joelagnelf@nvidia.com>
+ <DH48DNAQCE0Z.2EX23VD27CQVX@nvidia.com>
+Content-Language: en-US
+From: John Hubbard <jhubbard@nvidia.com>
+In-Reply-To: <DH48DNAQCE0Z.2EX23VD27CQVX@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR03CA0130.namprd03.prod.outlook.com
+ (2603:10b6:a03:33c::15) To DM3PR12MB9416.namprd12.prod.outlook.com
+ (2603:10b6:0:4b::8)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Docs: mmap_prepare: don't italicize structs
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- linux-mm@kvack.org, linux-doc@vger.kernel.org
-References: <20260315224506.1973566-1-rdunlap@infradead.org>
- <2ae64217-ae32-4a4e-9c23-6809582ca7bc@lucifer.local>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <2ae64217-ae32-4a4e-9c23-6809582ca7bc@lucifer.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM3PR12MB9416:EE_|SN7PR12MB6692:EE_
+X-MS-Office365-Filtering-Correlation-Id: 423d3e59-c917-488d-203f-08de838d101d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|7416014|1800799024|376014|22082099003|18002099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	LF0LwqIwrdtlzhbwFrVLo+DT/qaoQvb+S1w7yfX/XfBF5wE3wgxdF4lmmQUM7kGm6mfVOADXEdExvOZqLroTLKDpZR4AJRvmydeyKa1EnDrZOQVygKQ45W7yRLXacn9qTMqrqxDj0qpPzDZ5KXEeSJR6aNnFkRM7MDoSaO2EZebC31XAC+UDNLaViWpTef6MZo+Yfl41XDIKF5WgL0irPbDpSOHH6F3Isd6EG6vDheA85GTD8Xb0MfZDD7APb0iIUSEIwYIlmJLyFR71DLMWHfrmvI0PhJ8uNT9YyiLHLvK305hhiVoCh3LRbNXyD1cMIg2dZhcD/+bEpzoN+wAGsT6OAFc7/uH3XGyCCjKuHXyMnflBWE1plikG7QFaaLcEAQp3qXNEUX2NL0iuiXa2l8HrCwRiTv0sRr6XTGPWao4xNCort4K5Byft81RYTu1i053S44EpZVjeX/TTv4gMgzFgEQqh0qcFwWcKDE/0npFD8/AKiRGKX1fKZw9FAQNiiGnrYFVFJ+mFBdhkWApPSNVrXvflIM42aBVi3c337wz0tz7eDij7wSWyvRIN92IoxBxE3iaZvMIWE0pok1fBVUXPFLuWsrnk76oYR0wGH2qCaTxmwAY3McMArX8Ajd8EflIJGzVekcTIVojyQufdwdMIVyjTS0eSiGTCM9QIwTA87URYya4vh3zyS9CAXit50DuCRnEYIbsnr3LLU5MQVSTdowwcinv/t7eLn1fDqzU=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM3PR12MB9416.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(1800799024)(376014)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?dktmSGpIWlZRSnRDWVB2Rkh6dDVXSVdFa3lUSVJQU2U5eUxZcGxVbjdYWU5s?=
+ =?utf-8?B?cjZlQW5iUUMyUXhKcUdXRjZEOW43RGEyU0FWYXp1SWZiOTExaGhuenF4WUM5?=
+ =?utf-8?B?RGRWSVVEUEQ0eEk3R2FPQk1MNFU4Q3haamlydmRKa1ArdThmVWNnZ0Y0ODNB?=
+ =?utf-8?B?N0RFZWdVY25yQkFxOXlqRUZFbStuVDNCYmFBNjR0UmFIeDBLYStMUTdMR3o2?=
+ =?utf-8?B?SGJwUi9kdUYyNTV3L0JnL3ovUzc4aFVtb1JIamRmNlBkLzZlazZYcU80Rndi?=
+ =?utf-8?B?Z0wxUitLTXNPWmdFVlBlV04zQWZWUzBqeE9SY1MyZURDWWtPNDFDN1N3dTlQ?=
+ =?utf-8?B?NzRLTzBPN2o4U3dNVU9Za29kc1A4bnJBeHlmOW9wU05wSXZpTDY1a21jbTQ4?=
+ =?utf-8?B?SHZhd0IxT0h1aUpPSWJ6NVFvSkNtTkNBMmEyZXNvWGdVTmh2VVR4VE5nNGRo?=
+ =?utf-8?B?aHNOK1hzZy9BeUZmR3FJTFhKdE9yNnkrUHM4VG51alBIbXdiWG9oWTlzbzN2?=
+ =?utf-8?B?dUFEMDIvK3ZhdWhYWWdOUVI5cjNJQng0Rkl3Q2hjOThFQlhQYWVXcEtEZUdz?=
+ =?utf-8?B?Qy9QNFBhbzNFWWloOEhZVEhvck5zSkZQdktFb1pJaVVtbDcrYXFBdEVodGVE?=
+ =?utf-8?B?aC9RUXBJcE83V1RvSi9RdHJCSjVPMk1CSEFaQ2xSMnNvanlLS1pJRUxCVmtX?=
+ =?utf-8?B?cnJONkgyY1I1dzNDRloxcldkdFBsdGRXUDBuT2JCdUpVdEY4UFFoYXA5QjUz?=
+ =?utf-8?B?a2gwOWRZdVU0Mk1XNDJVZDVZdGpwUTZHZ3hKbTFOL0l6VTNQbDZDdW43VENa?=
+ =?utf-8?B?ZjFkM2RxTEZoaHF1bEQ5V3Boakg2MVBYL1hEeGdndzRCQ0pjN1dkV3BQT3JT?=
+ =?utf-8?B?c1B1V0ZDMnJVaVpPRGlNditVMmlvc21DMTBPM0Y2d0xSRnlYQUh2ZVpkNEpw?=
+ =?utf-8?B?KzNVNXdFM01jS1JOMjZyU2xTbU9wYXl6eWplQlpCOUtUcjZ6Wng1QTdmNkli?=
+ =?utf-8?B?c2lmdE15Z1llZHVWajhVZitCbk1ENDEzRXppVXNXdmxwNEtuRHp6emorL2Fm?=
+ =?utf-8?B?UDBaZGQ0Y1dkSWRpbWhaKzFDeDNFYitRNUNKMjdaUmh2WStnQzNFc0Qzc052?=
+ =?utf-8?B?YmQvc05uako5dVEzRVhFelhWVlllbUVkc3lyZ0JBU3FlS0xtWHJXNG9oSENn?=
+ =?utf-8?B?K25DeVovS2ZjbkZaZ2tkYXI0cjRSdEZubzh2L1N6NlNxNWhKVFdKNjMwNCs2?=
+ =?utf-8?B?Q25GRW9SMC95bFpmMlI3RTMrVFpYY2NZMkdIUXJlazhFekE0MG5TekJQQzdi?=
+ =?utf-8?B?SnE3SlFjMXJRZEIrMVBxZlhUMzRxR0w4YStIdThqYWpWR2FPRm11OGMrU1U2?=
+ =?utf-8?B?eitGS2pIUHdIWkNKMUhMbmNIUWFYM21ZdzZaaVlWK0ZVeXhRRWJRMjBXTW5M?=
+ =?utf-8?B?RkVOMlhONUFXYmc2eHNSTHlQT241Yi9DTklJUVl1SUJRcnRTZWtkQ3VGTWtm?=
+ =?utf-8?B?bWcrKzZuYUNxa1R1YzZRWURNcGQ1emwyOU4vT3R3N0V4Zy9UWjJFVGIrM1Zw?=
+ =?utf-8?B?cis1TU04UDdTQmxjSXRuSlIrZGJ2Tkx2emp0akREUnhSWmVZbjVOV3VSditF?=
+ =?utf-8?B?eCt0WmZRQXlSMVBkL0lpZlpOQ1IrbUxubVVaQUNjZEV2c0lreWZ3L1lDTE1q?=
+ =?utf-8?B?dmpLQXlZRU1qL0RBQjgrNEN1QzZiUVkrOHlhOHIyc1hoRXVkbVBvNlZpcVBO?=
+ =?utf-8?B?eWQ3ZHRETjQxWmp2RkVHSEJVeERRenpIZlhlWkVIbUZIMmRWYnhsaS8rRFlV?=
+ =?utf-8?B?cTNiMEJaczRrRGJoREhpY052aUFIYW5nOXpTSENvSGZEb1F2VmttN214dEdN?=
+ =?utf-8?B?Skk0R21EcVB1RkF1VVhxMXA5MnlnSktIOFdlOG1IQng2RXk3S2pmRmgyZnQ2?=
+ =?utf-8?B?THpYVmt0Zmt5bnY0em9iSitPQVZhZk10alNQZ25UcmxJNVVFSktoMTRxVW5u?=
+ =?utf-8?B?ckdKKzFLdFIySFJQTDM3T0dCVy9WNlV5ZFZHd3M3SDNiRUhtNStUZVdjTWho?=
+ =?utf-8?B?OWpNM055UGorM1pWeDhjalVvZ00zUmxmallYaFZkS3ZKS0drcWFyckJkdWpz?=
+ =?utf-8?B?a1k3Vm9zUVdZcUt2SzJZVFNlUHRyaHZ5ZTdjcXN3SS9KZVYyTXJrVUZoazlq?=
+ =?utf-8?B?eUpOK1dWK3ZnWFdFaEVZVTFyd3dmdi9tNlUxOUNBemtoaEI2SG1YOUNvMW1P?=
+ =?utf-8?B?LzlPakozS0c1VS9OS2UwcTgzZmFNbGd5d3V2bjJ2VU5YVk1UN3NML2FVVXp6?=
+ =?utf-8?B?S1RuR2ZmNnpWS1JSN29oVWxWakdwMW1PWTZwSk9Cdm43Tm9ObUtRQT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 423d3e59-c917-488d-203f-08de838d101d
+X-MS-Exchange-CrossTenant-AuthSource: DM3PR12MB9416.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Mar 2026 18:51:41.9357
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: tmyNGhJZnNyZyASZb0vaSFW7eolts6fNf9D0oXlnu4dQ69F9XaGGWwuNGQ081EPAYOVZwFmFTgEP+HPrHAr4CA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6692
 
-
-
-On 3/16/26 12:10 AM, Lorenzo Stoakes (Oracle) wrote:
-> On Sun, Mar 15, 2026 at 03:45:06PM -0700, Randy Dunlap wrote:
->> Using a single quote mark `struct xyz` causes the html output to be
->> produced as italic. Omit the quote marks so that kernel-doc's automarkup
->> can make the "struct xyz" bold monospace ("code" style") in the
->> generated html.
->>
->> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+On 3/16/26 6:12 AM, Alexandre Courbot wrote:
+> On Mon Mar 9, 2026 at 10:53 PM JST, Joel Fernandes wrote:
+...
+>> +//! // Create a 1GB buddy allocator with 4KB minimum chunk size.
+>> +//! let buddy = GpuBuddy::new(GpuBuddyParams {
+>> +//!     base_offset: 0,
+>> +//!     physical_memory_size: SZ_1G as u64,
+>> +//!     chunk_size: SZ_4K,
 > 
-> This is fine, though given this series is still in-flight we should just
-> fold this in no?
-
-Sure, any/either way works for me.
-Thanks.
-
-> Anyway, LGTM so:
+> `chunk_size` is an interesting case. The C API uses a `u64`, but I think
+> we can reasonably consider that we won't ever need chunks larger than
+> 4GB (or can we :O). I'm actually ok with using a `usize` for this one.
 > 
-> Reviewed-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
+> One of the first things the C code does is throwing an error if it is
+> not a power of 2, so maybe we can even request an `Alignment`?
 > 
->> ---
->> Cc: Andrew Morton <akpm@linux-foundation.org>
->> Cc: Lorenzo Stoakes <ljs@kernel.org>
->> Cc: linux-mm@kvack.org
->> Cc: linux-doc@vger.kernel.org
->>
->>  Documentation/filesystems/mmap_prepare.rst |    6 +++---
->>  1 file changed, 3 insertions(+), 3 deletions(-)
->>
->> --- linux-next.orig/Documentation/filesystems/mmap_prepare.rst
->> +++ linux-next/Documentation/filesystems/mmap_prepare.rst
->> @@ -129,11 +129,11 @@ pointer. These are:
->>  * mmap_action_simple_ioremap() - Sets up an I/O remap from a specified
->>    physical address and over a specified length.
->>
->> -* mmap_action_map_kernel_pages() - Maps a specified array of `struct page`
->> +* mmap_action_map_kernel_pages() - Maps a specified array of struct page
->>    pointers in the VMA from a specific offset.
->>
->> -* mmap_action_map_kernel_pages_full() - Maps a specified array of `struct
->> -  page` pointers over the entire VMA. The caller must ensure there are
->> +* mmap_action_map_kernel_pages_full() - Maps a specified array of struct
->> +  page pointers over the entire VMA. The caller must ensure there are
->>    sufficient entries in the page array to cover the entire range of the
->>    described VMA.
->>
-> 
-> Cheers, Lorenzo
+> I'm a bit torn as to whether we should use a `u64` to conform with the C
+> API, but doing so would mean we cannot use an `Alignment`...
 
+Alex, have you seen my Alignment patch [1], for that? It's sitting 
+around with only Miguel having responded, but seems like exactly
+what you're talking about here.
+
+[1] https://lore.kernel.org/20260312031507.216709-3-jhubbard@nvidia.com
+
+thanks,
 -- 
-~Randy
+John Hubbard
 
