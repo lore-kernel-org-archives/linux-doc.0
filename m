@@ -1,137 +1,103 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 610EB2ED84A;
-	Mon, 16 Mar 2026 14:47:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8074F2EA16A;
+	Mon, 16 Mar 2026 14:49:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773672455; cv=none; b=phXod38CD0CdQEJ5Wpg4wx7OEFpI8ETAzgbWmjA3sVTWoquBDzo2b5DedsbEdL1pzkbvF0/WtPoa0TdC2a3maxyGm+rQnN1OmtiH0zIZlBbkesDicNSuu48pnuihZyX2lpRTCTjUNxaBQnccBykERTyvpZhMkr91+id4IS3mXyQ=
+	t=1773672589; cv=none; b=SnUqX6CN80DzPu4JdFYLeFIn5fnTYpx8tIq5mh8NXjboP7PSUIBUhAi168xoQDto56hCjUgqXJ5NArRzzorJpHlzp5xdt/4RqGt0nREpRf9XG0irD9Ng0U5XSIcwXpbJGH/C30KW/4bmQQeOgZ2BCdIdjNnOjC90+j50Iv5e7Zo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773672455; c=relaxed/simple;
-	bh=SWyWovQpZcRYDA2RTZfFVXcBgJf/dKBAYGsO0cjwpR8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IzvvgI1+3PvFIE0Hz8hHcHYRavjaZgdW+vpDAfpbMVZ8da5ZyYGLU2U4aXBknXCWgy4CwDMdG5ewx3kISesp4yFZvC4H0cfBYbgHEY2BYuTVlFq7meg/j2X9sc5STZ5iDp/NWA2wc61SDwwKwZyDrsL3TTOYnIBJBmy/kXD6L1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fBoPKg5a; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773672589; c=relaxed/simple;
+	bh=FNxLuIsdj1rcfvCD3t5aqHNbmMs+iUHxFAnqDU2yMVo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=J6+5MRvxJECqILGIwr68g7IzroOMGJYsxxYJtrqyUOZSQsLR/T3xDHYjyXR/qVkJMVx7DngTQUOqcNHHGJAjC4NK+9N63jjM3t8wqfb26QDzLcX+DU9x/l2ZWxOKsjNCcubzegXLhAz8R7kXay/smOMrtcJHfn4eoYfaMmcZoLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=erPcNdRr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fBoPKg5a"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C73DEC2BC87;
-	Mon, 16 Mar 2026 14:47:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="erPcNdRr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4208C19425;
+	Mon, 16 Mar 2026 14:49:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773672455;
-	bh=SWyWovQpZcRYDA2RTZfFVXcBgJf/dKBAYGsO0cjwpR8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fBoPKg5akPio74rsRGXjA5HYsmf0U0scEYxrF9JlUrnKHGrjoBxvJmuqAcLCHgUoS
-	 IFCj8Q6ofjLHnZu+caNKOvyGbzv4zt5yp93PoYG0JqtHPeAHRWXKG7bs4UrW91MZHc
-	 AOTUOG75P0LPx53kTgiD9zdeSjGIjxfzeut773v0jtaoImyzhRkvHh9a/Uzr51SXfi
-	 gokr/3PW4cHZn0v/iCNUutyK7CIsTQk80ZURS3qpuz7koF3Fd9qNvUkuVpQG0yN/9k
-	 uONkj8w6MwBSTEMqIXQ4bc8ZhtmCxRAk5iXQW6PEviYet3WsvklRl6FBuzmcJmE6t0
-	 4z2vm0eSfUFwA==
-Date: Mon, 16 Mar 2026 14:47:24 +0000
-From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Clemens Ladisch <clemens@ladisch.de>, 
-	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"K . Y . Srinivasan" <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>, 
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Miquel Raynal <miquel.raynal@bootlin.com>, 
-	Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
-	Bodo Stroesser <bostroesser@gmail.com>, "Martin K . Petersen" <martin.petersen@oracle.com>, 
-	David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	David Hildenbrand <david@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org, 
-	linux-mtd@lists.infradead.org, linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org, 
-	target-devel@vger.kernel.org, linux-afs@lists.infradead.org, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, Ryan Roberts <ryan.roberts@arm.com>
-Subject: Re: [PATCH 01/15] mm: various small mmap_prepare cleanups
-Message-ID: <c7e16d31-ce30-456c-aba7-aaa6dd781b19@lucifer.local>
-References: <cover.1773346620.git.ljs@kernel.org>
- <56372fe273f775b26675a04652c1229e14680741.1773346620.git.ljs@kernel.org>
- <CAJuCfpEsCrFEYNkkTfRLGojGOYAAx1=WOojOhpBb_=WZBr6bnQ@mail.gmail.com>
- <CAJuCfpHcjFU1r7ixiJM4b_a5HTesxBmW6DiCreaWpJ8DLM5haQ@mail.gmail.com>
+	s=k20201202; t=1773672589;
+	bh=FNxLuIsdj1rcfvCD3t5aqHNbmMs+iUHxFAnqDU2yMVo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=erPcNdRrzSzoBmpTVlu95ZNbsecE8P2qaKZt/azsVJzsJxdGOqSRiA+tXJr3zz8s5
+	 TjN08ppq3ADBs1No4j0+PIc614vCK6BijXfQG0ZKphb+tC07jT+ViD4DWkunCDezDP
+	 3URvTNSbxypqqE2HeOA8iNGODdBIDKxg3rr53u4OwKoBbI9lP0rcMQu7tIJbXKhTha
+	 M1pdgES13ae3uWawJukxsAuv3PtSvVxSu0LUnPU8R85f8rN5lLkjaKUC6+nLWnLSnj
+	 3/PfNA0uhKHoZcXb9h6v1h9g01QRPnbj0JHYokHNEdnD7Dyndh4Rc9UenF8BBLfnj8
+	 yRS+PDsbp6GwA==
+From: SeongJae Park <sj@kernel.org>
+To: gutierrez.asier@huawei-partners.com
+Cc: SeongJae Park <sj@kernel.org>,
+	artem.kuzin@huawei.com,
+	stepanov.anatoly@huawei.com,
+	wangkefeng.wang@huawei.com,
+	yanquanmin1@huawei.com,
+	zuoze1@huawei.com,
+	damon@lists.linux.dev,
+	akpm@linux-foundation.org,
+	ljs@kernel.org,
+	Liam.Howlett@oracle.com,
+	vbabka@kernel.org,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/1] Docs/mm/damon: Document DAMON actions when TRANSPARENT_HUGEPAGE is off
+Date: Mon, 16 Mar 2026 07:48:47 -0700
+Message-ID: <20260316144848.99972-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260316140822.2033181-1-gutierrez.asier@huawei-partners.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJuCfpHcjFU1r7ixiJM4b_a5HTesxBmW6DiCreaWpJ8DLM5haQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Sun, Mar 15, 2026 at 04:06:48PM -0700, Suren Baghdasaryan wrote:
-> > > --- a/include/linux/mm.h
-> > > +++ b/include/linux/mm.h
-> > > @@ -4116,10 +4116,10 @@ static inline void mmap_action_ioremap_full(struct vm_area_desc *desc,
-> > >         mmap_action_ioremap(desc, desc->start, start_pfn, vma_desc_size(desc));
-> > >  }
-> > >
-> > > -void mmap_action_prepare(struct mmap_action *action,
-> > > -                        struct vm_area_desc *desc);
-> > > -int mmap_action_complete(struct mmap_action *action,
-> > > -                        struct vm_area_struct *vma);
-> > > +int mmap_action_prepare(struct vm_area_desc *desc,
-> > > +                       struct mmap_action *action);
-> > > +int mmap_action_complete(struct vm_area_struct *vma,
-> > > +                        struct mmap_action *action);
-> > >
-> > >  /* Look up the first VMA which exactly match the interval vm_start ... vm_end */
-> > >  static inline struct vm_area_struct *find_exact_vma(struct mm_struct *mm,
-> > > diff --git a/mm/internal.h b/mm/internal.h
-> > > index 95b583e7e4f7..7bfa85b5e78b 100644
-> > > --- a/mm/internal.h
-> > > +++ b/mm/internal.h
-> > > @@ -1775,26 +1775,32 @@ int walk_page_range_debug(struct mm_struct *mm, unsigned long start,
-> > >  void dup_mm_exe_file(struct mm_struct *mm, struct mm_struct *oldmm);
-> > >  int dup_mmap(struct mm_struct *mm, struct mm_struct *oldmm);
-> > >
-> > > -void remap_pfn_range_prepare(struct vm_area_desc *desc, unsigned long pfn);
-> > > -int remap_pfn_range_complete(struct vm_area_struct *vma, unsigned long addr,
-> > > -               unsigned long pfn, unsigned long size, pgprot_t pgprot);
-> > > +int remap_pfn_range_prepare(struct vm_area_desc *desc,
-> > > +                           struct mmap_action *action);
-> > > +int remap_pfn_range_complete(struct vm_area_struct *vma,
-> > > +                            struct mmap_action *action);
-> > >
-> > > -static inline void io_remap_pfn_range_prepare(struct vm_area_desc *desc,
-> > > -               unsigned long orig_pfn, unsigned long size)
-> > > +static inline int io_remap_pfn_range_prepare(struct vm_area_desc *desc,
-> > > +                                            struct mmap_action *action)
-> > >  {
-> > > +       const unsigned long orig_pfn = action->remap.start_pfn;
-> > > +       const unsigned long size = action->remap.size;
-> > >         const unsigned long pfn = io_remap_pfn_range_pfn(orig_pfn, size);
-> > >
-> > > -       return remap_pfn_range_prepare(desc, pfn);
-> > > +       action->remap.start_pfn = pfn;
-> > > +       return remap_pfn_range_prepare(desc, action);
-> > >  }
-> > >
-> > >  static inline int io_remap_pfn_range_complete(struct vm_area_struct *vma,
-> > > -               unsigned long addr, unsigned long orig_pfn, unsigned long size,
-> > > -               pgprot_t orig_prot)
-> > > +                                             struct mmap_action *action)
-> > >  {
-> > > -       const unsigned long pfn = io_remap_pfn_range_pfn(orig_pfn, size);
-> > > -       const pgprot_t prot = pgprot_decrypted(orig_prot);
-> > > +       const unsigned long size = action->remap.size;
-> > > +       const unsigned long orig_pfn = action->remap.start_pfn;
-> > > +       const pgprot_t orig_prot = vma->vm_page_prot;
-> > >
-> > > -       return remap_pfn_range_complete(vma, addr, pfn, size, prot);
-> > > +       action->remap.pgprot = pgprot_decrypted(orig_prot);
->
-> I'm guessing it doesn't really matter but after this change
-> action->remap.pgprot will store the decrypted value while before this
-> change it was kept the way mmap_prepare() originally set it. We pass
-> the action structure later to mmap_actpion_finish() but it does not use
-> action->remap.pgprot, so this probably doesn't matter.
+Hello Asier,
 
-Yeah it doesn't really matter either way.
 
-Cheers, Lorenzo
+Thank you for sending this patch. :)
+
+On Mon, 16 Mar 2026 14:08:21 +0000 <gutierrez.asier@huawei-partners.com> wrote:
+
+> From: Asier Gutierrez <gutierrez.asier@huawei-partners.com>
+> 
+> MADV_HUGEPAGE and MADV_NOHUGEPAGE are guarded and they
+> are not available when compiling the kernel without TRANSPARENT_HUGEPAGE
+> option. The DAMON behaviour is to silently fail[1] in when DAMOS_HUGEPAGE or
+
+checkpatch.pl shows a warning for the above line:
+
+    WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit description?)
+    #12:
+    option. The DAMON behaviour is to silently fail[1] in when DAMOS_HUGEPAGE or
+
+> DAMOS_NOHUGEPAGE are used, but TRANSPARENT_HUGEPAGE is disabled. Update the
+> DAMON documentation to reflect this behaviour.
+> 
+> [1]: https://lore.kernel.org/damon/66131775-180b-4b9f-b7ce-61a3e077b6e6@huawei-partners.com/T/#m278d3c9bbedcceaf2efa51e3dc7b40a40654e51c
+> 
+> Signed-off-by: Asier Gutierrez <gutierrez.asier@huawei-partners.com>
+
+Reviewed-by: SeongJae Park <sj@kernel.org>
+
+Andrew might add this to mm.git while fixing the checkpatch warning on his own.
+Let's give time for Andrew today.
+
+I also added this to damon/next tree after fixing the warning.  If Andrew
+doesn't pick this with the fix today, I will post mine as v2 of this patch
+tomorrow.  If you prefer to do the v2 posting on your own, just let me know :)
+
+
+Thanks,
+SJ
+
+[...]
