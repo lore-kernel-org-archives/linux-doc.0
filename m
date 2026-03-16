@@ -1,110 +1,99 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DA39347532
-	for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 06:39:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 892E85CDF1
+	for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 06:47:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773643141; cv=none; b=hhTlldoIK2ylqZbJb2fEY/CKAfPcjCT+xrmrcB5mzPQ9KDqpC73SeR5wqFxsRs3oF+xesZu20vzCZn2ynF3KRFj92MVy/HZjYzjwkTbebxP+7mxRVmyGi/4rCrIx6cmKPt4jdckN1e+bpDeHZ6W2BUZG6XMPHjfC2GksuS/B6IA=
+	t=1773643644; cv=none; b=ILrBaBus0SidhIqmuZA8kp3plc05kdEhNm+kkoGiagiPMErHFTsoxLoDyYH0RT13DLfNlBlEBj/rNcD5mYMvvhm8PHuBk0t+z07qEksU0L4YO6HrZuSC5cZjqNBhrEkrojUmMcgYty0xUTSD1xpEi3+nnzkct5diQl3ZK8ifn9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773643141; c=relaxed/simple;
-	bh=i52TkJLF+/gqgwMa4dA8pwBRoRKDZSDVOXYB570DO/0=;
+	s=arc-20240116; t=1773643644; c=relaxed/simple;
+	bh=ZDu+xUvhrChyttr6D5WuK5J+jLBduob1K3CBSUvWzKo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qKMM98gdZ//e+Ii6I6Sv2dSJjiKiGKwRWi2aCQQzwynBtyONopTiHWBDeAWICFVn94rAmarztT1BQANsc/vrIIzb2aEihr3K4WBVK9alLSfx/2SC93MZbbpfQY66BnViKNFo7y2P5zpABWcYyy+nJkjblY5MGQQBztF8JDlxgzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ddsid2jR; arc=none smtp.client-ip=209.85.216.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=CAUmTknEjCk+XewINMQhz1ORrIzK0OJJvL5JoGFMqkhv89uIuecxA39dpYbAGWL0gZp+QzTD3vtdRlUg7CjDMNeLPoGM3o6cuXQfBYdkBaUDUIjO8AXq8ucTh5V71wig/LoMKrbcx9cNwSE2LmrosAH9Ey2hkxCXrHmX6/v9WsI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BLFHWwM4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ddsid2jR"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-35ba2ae4df3so271674a91.2
-        for <linux-doc@vger.kernel.org>; Sun, 15 Mar 2026 23:39:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773643140; x=1774247940; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=i52TkJLF+/gqgwMa4dA8pwBRoRKDZSDVOXYB570DO/0=;
-        b=ddsid2jRunlm3QWsYIRJxhqSqCIG06b7JpuF/vd0ma4RwwxgCyDlSvIUmGE6TSh5st
-         BsFzCpRncBECnflV1/kPwYYIOUluITACdtZPmPACcOW/GUx/1mZjyr/LnC8p1kjQD/Gk
-         twhdQZ7YfHMQC05sp5uzj+wutlFOzYm5FLZmPLu4SxAnTkwrZPce1u+AIPom3tbMswY6
-         6jAxU76aykPEtfZ/ywB0GanGdGiq+NF9S9QQWKT9FFGs4B0NDMuOBaJ0LGBSz7qdJ5dW
-         m5X0m1SNS20tyXDsW7gDgoGub9AwQCOgRk+ZXGpCyGGsEQC+1lHvonElNHSJ3UrmShYZ
-         IvBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773643140; x=1774247940;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=i52TkJLF+/gqgwMa4dA8pwBRoRKDZSDVOXYB570DO/0=;
-        b=XTm430la4vBFGDQu7f8zRQAAw6BLee3sQIoB2ak/1kJESW7EoTY/7ehohTR0eQ0WNa
-         p193S4gbyZzCu0Ch38hkTbGC2eGg3gjlsdOX9ZGeplN1hm7dqHM0nWsm7sQOwEXROc1y
-         /fgLjjoLQv75j8LYiZ/MU8FJOJuPUleFOZSYQhSZc/IkbZqSZnbl9n9yg/MeUBpqiget
-         xHxPJRsiykYRs+HlmwoDK7JeJj6Ql4Lyq/+zERGKS0fBHyRmar7ye6T8bkCGOA8+3IPQ
-         WhK0knyfz0oxF204T0kj9Z9wjHT5Re0HG2kIEmEdCmcB4cqZNp1CTWyFigu16Nw3qUb5
-         FRKw==
-X-Forwarded-Encrypted: i=1; AJvYcCVLGGtdMcQEwAc2LVTvF7AXyA/+pW1aQ0f4NiWUeZ4uFQBCZKqN3Orf8SKjFDddi60HAbu94E5q3qw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx5OthYHd/gQzGWddId0b2LnPWXvoFMaxgh/AAi8XzqLEh4Jhxg
-	2FtLe7EdhpoMVV0eXD4jYn4ZHqyvp5qPb34NEqMr+OfdbBTaTTzgESI3XgdynEbr
-X-Gm-Gg: ATEYQzxUyTNESwdcA6CtTxjXf1iRA7PkuolkOKzXKbtPM5xBOpHp8IWldJiH7HJ7n3h
-	uv7mxzvgV7GNum2HCfJ8b/g8QQIwsh3lY8Uz3pp/XSJ/0UisprIe/hGfDMPbFVDV+FV429E8j9f
-	ToK9/r9eBPl52YuHlRwpJf4Aiqzg2r5H742IXHEA6bSiyjl8XG8uTXVez6VoHHfoj7PdoBDyEAD
-	IQMTCUpOhRx6vC5IslmvIf59ixV/3/0Ky3NtBCOSq9x8aHZtKD0ryxVoqk6TXoc51C1fOo1sdPr
-	IAVbqUVGN5YF8ricDfC65e61hjdT0aK/dqB5QXRjW7eBrU/O/qMVOaC7MNJR+JOFGnljY73z6On
-	J9hTL4yVtyn2Sr6iktgPC57tEMekzory7pqI9FsD1te+N05IyiPoctTwULjt449LSpU5cihIplP
-	olYfXmcG8qINs+8qar9CQ=
-X-Received: by 2002:a17:903:19d0:b0:2ae:c358:bb7c with SMTP id d9443c01a7336-2aecab1f8ccmr139465805ad.35.1773643139772;
-        Sun, 15 Mar 2026 23:38:59 -0700 (PDT)
-Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b05db37a8esm11809845ad.29.2026.03.15.23.38.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Mar 2026 23:38:58 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id BD70A420A800; Mon, 16 Mar 2026 13:38:54 +0700 (WIB)
-Date: Mon, 16 Mar 2026 13:38:54 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Lorenzo Stoakes <ljs@kernel.org>, linux-mm@kvack.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BLFHWwM4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C97CC19421;
+	Mon, 16 Mar 2026 06:47:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773643644;
+	bh=ZDu+xUvhrChyttr6D5WuK5J+jLBduob1K3CBSUvWzKo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BLFHWwM4FysvgHmhk+4rELTKsRLvPP+wjzM/AXnEk4opaDmVP7zvG6aVaqvDS0Tl+
+	 qoBwoX/XCbc/WlCD0pLZlmfo4BaEXUVJ9OXay2jnv80DISXBU9d56ms86LfF4/OkJR
+	 lAwQEtTK7emx18u6CDQorQPwDUwFLrLhnd3g2Wc8i2008cM/a3YG4S5kyApwdFlxuD
+	 jO+n5zvq89xJa/SgiDCSte+tJKx0eOkCJxfr/u2TIYkRrG0a6rYri9Vz3EyCpHEtxR
+	 E3O/snFJxCWdflcpRk1CehXkP+qAhBhfxo1Da2SjGvUikwbsnmBf426ZaX2jP9PF6U
+	 3arAVeCeun/rw==
+Date: Mon, 16 Mar 2026 08:47:17 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+Cc: Kit Dallege <xaum.io@gmail.com>, akpm@linux-foundation.org,
+	david@kernel.org, corbet@lwn.net, linux-mm@kvack.org,
 	linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Docs: mmap_prepare: don't italicize structs
-Message-ID: <abelfnu4kfapNEoG@archie.me>
-References: <20260315224506.1973566-1-rdunlap@infradead.org>
+Subject: Re: [PATCH] Docs/mm: document Boot Memory
+Message-ID: <abendSlwDIwB4teF@kernel.org>
+References: <20260314152527.100295-1-xaum.io@gmail.com>
+ <0c981733-477b-496e-abe5-54eebaae04b1@lucifer.local>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="kw+YVwJ/rSL03oH2"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260315224506.1973566-1-rdunlap@infradead.org>
+In-Reply-To: <0c981733-477b-496e-abe5-54eebaae04b1@lucifer.local>
 
+On Sun, Mar 15, 2026 at 08:43:24PM +0000, Lorenzo Stoakes (Oracle) wrote:
+> NAK for being AI slop, again, obviously.
+> 
+> +cc Mike, the 'boot memory' maintainer, who again I'm sure will be
+> overjoyed by this.
+ 
+I'm not going to review it thoroughly because
+"maintainers are entitled to reject your series without detailed review"
 
---kw+YVwJ/rSL03oH2
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> Reasons, as the rest:
+> - Worthless documentation
+> - Everything about patch screams 'zero effort, Claude did it all'
+> - Bad etiquette
+> 
+> On Sat, Mar 14, 2026 at 04:25:27PM +0100, Kit Dallege wrote:
+> > Fill in the bootmem.rst stub created in commit 481cc97349d6
+> > ("mm,doc: Add new documentation structure") as part of
+> > the structured memory management documentation following
+> > Mel Gorman's book outline.
 
-On Sun, Mar 15, 2026 at 03:45:06PM -0700, Randy Dunlap wrote:
-> Using a single quote mark `struct xyz` causes the html output to be
-> produced as italic. Omit the quote marks so that kernel-doc's automarkup
-> can make the "struct xyz" bold monospace ("code" style") in the
-> generated html.
+We don't need to fill in missing parts just to fill files with contents, we
+need quality documentation.
+This doc does not improve over what we already have in
+Documentation/core-api/boot-time-mm.rst.
 
-Acked-by: Bagas Sanjaya <bagasdotme@gmail.com>
+...
 
---=20
-An old man doll... just what I always wanted! - Clara
+> > +The memblock allocator fills this role, managing physical memory from the
+> > +earliest stages of boot until the buddy allocator takes over.  The
+> > +implementation is in ``mm/memblock.c`` and ``mm/mm_init.c``.
+> 
+> This is at least reasonable.
 
---kw+YVwJ/rSL03oH2
-Content-Type: application/pgp-signature; name=signature.asc
+But still wrong. mm_init.c is not a part of memblock allocator.
+ 
+> > +- ``kernelcore=`` sets the amount of memory that must be in non-movable
+> > +  zones.
+> > +- ``movablecore=`` sets the amount of memory to place in ``ZONE_MOVABLE``.
+> > +- ``movable_node`` allows entire NUMA nodes to be treated as movable.
+> > +- ``kernelcore=mirror`` restricts non-movable memory to mirrored regions.
+> > +
+> > +These parameters control the boundary between ``ZONE_MOVABLE`` and the
+> > +other zones, which in turn affects how much memory is available for
+> > +transparent huge pages, memory hot-remove, and CMA.
 
------BEGIN PGP SIGNATURE-----
+Oh, my ...
+How CMA and THP are related to ZONE_MOVABLE here?!
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCabeldwAKCRD2uYlJVVFO
-o17JAQDjHSzFfwNatbI8KWsASlWo4rDgcmRiR8d3LDhZWa5bOwEAlJTuBxoFWI+m
-4EYUBh3zA9OKXNp54eOkbQ4REzpK+gA=
-=JW2B
------END PGP SIGNATURE-----
-
---kw+YVwJ/rSL03oH2--
+-- 
+Sincerely yours,
+Mike.
