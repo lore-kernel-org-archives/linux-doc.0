@@ -1,379 +1,722 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A2CA392C49
-	for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 21:32:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.171
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773783153; cv=pass; b=nVQX6Lj6L3paHaNanJtjokUo4KXYKyfkObI+u5jTh+JYa2+3/URVAb9l78e/MbsWjMK09Gwh9b62CgR99LmxTAy/d9nczuWvTMbDxLv1HWtCljzlp9IbaH/H+koLWOnhoaS63udMG4Kcju5WB+AL/RnM9nckGD+mOHLkGorSXmE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773783153; c=relaxed/simple;
-	bh=amSdOF8iP43yuio3xfh7J21wSaqCQ2v/F+hUcALmjDo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FM+CJY9zH738uYtZK0r+BBTmLwLL3WqZ6ZQapJIUvyb/zGrJ7Ab6mjUUTVeScR5he2Q8/uTGA66fsSe1mQdlb9ToUYIuwTfPInjZpiHIz4o+ia5uOx0htuo6hKFoP7vLBN59Y1l3XQU0yVVjGstKLNNLMcKHkdr/sJIfaqFPcX8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=A9ZcXAed; arc=pass smtp.client-ip=209.85.160.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0A06330D24;
+	Tue, 17 Mar 2026 21:36:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773783397; cv=none; b=oTaiobnliqzFu6EScqf3M/6As2V21d2tee8foA5W/TxNyz6oXPKfOog+Z7fVgXmp3VEIsy+CxXNEQNT0bO3sEfMpeH2Ky1qfUYug/iZfWtAg2c/pukxqKbDBXHGu7+uIECpzSXHZEKqsAFLih+biP6W0OUyX4AhdE+j0TiG4MiQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773783397; c=relaxed/simple;
+	bh=GvzErCP+EwmpuPiPqZkXI64ntPzEiWSpFo75sPaAjuE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=p8mKGRtrKPchVbe0gUTQxAjs3lSx6VFJPa0O5p5qjQ3qOFaP3b9yL9EteaGvdJAP2+yvkloT/yFW7CPGXWX4sYaZJBO7pyyABq2SMTRiC7rXfDoEhkr+b1hjd0ibccZcdygw9E7m28esrZml4xg5wuBnR62D+0Pptl75DO1n0ZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kVj28gkB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="A9ZcXAed"
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-5091ed02c54so89041cf.1
-        for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 14:32:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773783149; cv=none;
-        d=google.com; s=arc-20240605;
-        b=HwET2i4nj+fbmX5WO3efIpt0r3yaXFRrcXn0Wt6QSvLxAfpalslHQ5jVKUmAov7sKW
-         R3a/KN4lx6OvjYEc02Ee/LHyrEWsejzBjDJXjP1OShFrsYl7OTB8Tgk1WQxtLOzyFu3n
-         qzhVd2jdUvG1orkxuAK1VAPKMFH71Omci4fz8xSgWNlD9RRgAH1DV90RaKVVFQIpWS3k
-         2K4Y5RZyH8QCLOAyTap3kY3a9OlNAVc0jrNAIj+oQt5szIH39povFSo2VF1/L32I7JWN
-         f2pOiys7fXXmXPp9iUvXMJejjAmL4wL6p2skeG6AW2Iggwp6gTo38xXh3muKM0IYz0iC
-         EXzg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=eaVVTt78dt2IOUr/WJrEfVNvHIkRI9uCxJf+IAlfUTo=;
-        fh=qey/2MYqsJS+0Z4h2fe78hYjdrG6xD+41ucnVWQyBGI=;
-        b=jaFSBePX7i4sq+Oi1WEuCWZOfgzvAyyC0D520GDWzh2z1ISKBSvsVLIDgIkVkQF9ZF
-         BmakkWVF6GxySlFHJLNM0/G5Z2xdJ8kDoCTh9VoMDrvZT1WWJiKSkCOiwbIkUQhzE7HX
-         Z3zxxsWhw4Oae407eskLxFlCrB4LPJzp205K/E6EIq1Z9ER6Ai/zH/CgiNyxxV8cqwEy
-         3AUdaJdaPmQdB3l88acCyjLWb/GGIKT1io/yHMk+41D5HUAEIQvDrKnwApjp6xMmlqOo
-         ngDyAmWwzi/pX1n2R0sV/KWhsm2zPx09vroa9x+5z/9EtLInDQvL+6C7K6FTvbp0xWot
-         Ez+Q==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1773783149; x=1774387949; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eaVVTt78dt2IOUr/WJrEfVNvHIkRI9uCxJf+IAlfUTo=;
-        b=A9ZcXAedtBA37VJ4Oq7nTy8F7ZmNiAG6IT3pgFvi+CJ83OstmjsjzzCgzIXAKUyVne
-         3HQAf4rWY+IGjQMXBG/PPRQ6FhqZP7iXBkhKVUGg5zbLTI4NYLGgQFpHBQ3hV6KUF6w8
-         Ij+/eXT4MZLE91S5l7w65sg6A3toIsczJuGiGpVAnmXpXoxEJotPW6/ugabO2rveSKKC
-         sTSo821St7+g6zI+Z3x9w0UlySp7EJ/eDzDT0d2RIa3PC3SuPtWdULr3g6j8CGgo3cBG
-         GvTe4aY19g2elueq1kGENMPkEY27T3Lo/gNeoHpPAngyDrt/fLnDHCiMwjZeHACq0+Sh
-         3glQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773783149; x=1774387949;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=eaVVTt78dt2IOUr/WJrEfVNvHIkRI9uCxJf+IAlfUTo=;
-        b=JTmdhK1cxsYpaplrzC04DdrmfDY1oXElbH7SbQgoZZSJdYkDxOoDoZygzlzh5ohegA
-         4iEig7YQZdZz87gsBDM4g6OeYyTvIoSAiwdVM2PEV7c9R/Q60jeoAlCx5n/jRyygkp8n
-         BpF7OMW58M6P2t6KsNTaEieNutbBg9a/DipaTDQ5nvCzoBU4pvxA5UbpVBBjbJRe3Zy/
-         3JVMWZefpuRWLZjoZUy5c8cSFUBs88LJHJAct8dnYVrVVUrP4LWr11ez6iFx8b1+he+Q
-         EUOSpv03wF1T5ljoGys2C3HhFJgjz3qtWlwfg9oUJD9944WI665nKMdtszuCbYwc6Ka2
-         ux2g==
-X-Forwarded-Encrypted: i=1; AJvYcCVb1qVpHBCzOlqtgE0A3fOSsQcncn9JIIhVgqhiHGrblljnaFQ2GYirR6mQ0htW5G/ZyiuBllb+Mps=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzL5xO72ZegyLCZR7Kh9hxh8rRQrrJ8gHZrEf2hKzI6h2Ex2kJT
-	c+yBb37A7s2D+gpy7qGZQRMHHJZA8pbZWPshR7ZyrOKXVNw3H1H50GzNP5SLzg4pQxpjAso8Y4w
-	CLtODjDj7wskas5TLFdvpulzNhD4gS6RKeZLfNMcK
-X-Gm-Gg: ATEYQzx9IgPmLZkYUnxAObRRdpOdGSuAARpVtyStaGxJ0u1rzf8W4IG7Kgu4jFzW6br
-	RP90frRC9AavxynKB27FF/fsaOqXZK/SkE9Ru1PeBvYU2xvEctKZRj+lUpw4HTQYZGzXQbzxI4V
-	c7wEyPkIofeGQOE+BjfSDfPjXNMFilij/1q3fCl/sH6Rovqr+YHNEPfOuV2Dgnp0KlNZNL2e4+5
-	e5ccurFxbvZhEY6uf2UtGruZZRk0oT/ytwR9nusUTogXdnDL1Im8MEDFs6sy6vvBcjk4bOysKe0
-	QMba41fF7QQmDn6oQ0YgNvW+bOQSx6rfZvBIXg==
-X-Received: by 2002:a05:622a:1a9b:b0:501:3b94:bcae with SMTP id
- d75a77b69052e-50b1480564fmr4695911cf.8.1773783147340; Tue, 17 Mar 2026
- 14:32:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kVj28gkB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72ABAC4CEF7;
+	Tue, 17 Mar 2026 21:36:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773783397;
+	bh=GvzErCP+EwmpuPiPqZkXI64ntPzEiWSpFo75sPaAjuE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kVj28gkBBAReR7dihl56rqdaqR9TrbPkrql1maarWdV+dPvIPXuId+yD4XLBS+GqG
+	 Fo9CCQWR7oOvc7fQwJI9E+TvwYZcP65dYPnUi+4+3wX6qW+rO7BKvT4mHd/1HYa9LZ
+	 zxRkMF+ci5xm8pld5aC5tT8jtkWGu8evXXAN3DNIZA7W0DYsjn08SSc1hdM5SgMW7b
+	 cbgM6xrcXWqbL+mYGXMSxSjwlxrKtAcsEzkZ+/o6rea8VIAC+B2UZP7yqAyyjmRcF9
+	 seyjNd4vTQYZP38gV1yV+/aDTfvsnlPOghjT4MkQSgqRo5FUKPuWljK8QBsuEo3k5e
+	 ARgFh+fKOHi0A==
+Date: Tue, 17 Mar 2026 21:36:35 +0000
+From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+To: Nico Pache <npache@redhat.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, aarcange@redhat.com, 
+	akpm@linux-foundation.org, anshuman.khandual@arm.com, apopple@nvidia.com, baohua@kernel.org, 
+	baolin.wang@linux.alibaba.com, byungchul@sk.com, catalin.marinas@arm.com, cl@gentwo.org, 
+	corbet@lwn.net, dave.hansen@linux.intel.com, david@kernel.org, dev.jain@arm.com, 
+	gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, jack@suse.cz, 
+	jackmanb@google.com, jannh@google.com, jglisse@google.com, joshua.hahnjy@gmail.com, 
+	kas@kernel.org, lance.yang@linux.dev, Liam.Howlett@oracle.com, 
+	lorenzo.stoakes@oracle.com, mathieu.desnoyers@efficios.com, matthew.brost@intel.com, 
+	mhiramat@kernel.org, mhocko@suse.com, peterx@redhat.com, pfalcato@suse.de, 
+	rakie.kim@sk.com, raquini@redhat.com, rdunlap@infradead.org, 
+	richard.weiyang@gmail.com, rientjes@google.com, rostedt@goodmis.org, rppt@kernel.org, 
+	ryan.roberts@arm.com, shivankg@amd.com, sunnanyong@huawei.com, surenb@google.com, 
+	thomas.hellstrom@linux.intel.com, tiwai@suse.de, usamaarif642@gmail.com, vbabka@suse.cz, 
+	vishal.moola@gmail.com, wangkefeng.wang@huawei.com, will@kernel.org, willy@infradead.org, 
+	yang@os.amperecomputing.com, ying.huang@linux.alibaba.com, ziy@nvidia.com, zokeefe@google.com
+Subject: Re: [PATCH mm-unstable v15 10/13] mm/khugepaged: Introduce mTHP
+ collapse support
+Message-ID: <26db2d1e-7e44-4dd1-9544-d6e4b5b7cee1@lucifer.local>
+References: <20260226031741.230674-1-npache@redhat.com>
+ <20260226032605.234046-1-npache@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1773695307.git.ljs@kernel.org> <48c6d25e374b57dba6df4fdddd4830d3fc1105be.1773695307.git.ljs@kernel.org>
- <CAJuCfpFXuHg4KPY27pqMC-xV5y9ZY2W72_R8_rxO0DvrJ=_yvw@mail.gmail.com>
-In-Reply-To: <CAJuCfpFXuHg4KPY27pqMC-xV5y9ZY2W72_R8_rxO0DvrJ=_yvw@mail.gmail.com>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Tue, 17 Mar 2026 14:32:16 -0700
-X-Gm-Features: AaiRm50LOaxRG8hnm9GByPrpi5KQ-jnLdYLBR44IEnVyj1qDMmlGA-pMovuTqLE
-Message-ID: <CAJuCfpE5qZmi43EeZiRcy78pD6YvJb5n_xnoUJfwEjomowu0=A@mail.gmail.com>
-Subject: Re: [PATCH v2 11/16] staging: vme_user: replace deprecated mmap hook
- with mmap_prepare
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Clemens Ladisch <clemens@ladisch.de>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "K . Y . Srinivasan" <kys@microsoft.com>, 
-	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
-	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, 
-	Vignesh Raghavendra <vigneshr@ti.com>, Bodo Stroesser <bostroesser@gmail.com>, 
-	"Martin K . Petersen" <martin.petersen@oracle.com>, David Howells <dhowells@redhat.com>, 
-	Marc Dionne <marc.dionne@auristor.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, David Hildenbrand <david@kernel.org>, 
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, 
-	Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-hyperv@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org, 
-	linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org, 
-	target-devel@vger.kernel.org, linux-afs@lists.infradead.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	Ryan Roberts <ryan.roberts@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260226032605.234046-1-npache@redhat.com>
 
-On Tue, Mar 17, 2026 at 2:26=E2=80=AFPM Suren Baghdasaryan <surenb@google.c=
-om> wrote:
+On Wed, Feb 25, 2026 at 08:26:05PM -0700, Nico Pache wrote:
+> Enable khugepaged to collapse to mTHP orders. This patch implements the
+> main scanning logic using a bitmap to track occupied pages and a stack
+> structure that allows us to find optimal collapse sizes.
 >
-> On Mon, Mar 16, 2026 at 2:14=E2=80=AFPM Lorenzo Stoakes (Oracle) <ljs@ker=
-nel.org> wrote:
-> >
-> > The f_op->mmap interface is deprecated, so update driver to use its
-> > successor, mmap_prepare.
-> >
-> > The driver previously used vm_iomap_memory(), so this change replaces i=
-t
-> > with its mmap_prepare equivalent, mmap_action_simple_ioremap().
-> >
-> > Functions that wrap mmap() are also converted to wrap mmap_prepare()
-> > instead.
-> >
-> > Also update the documentation accordingly.
-> >
-> > Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
-> > ---
-> >  Documentation/driver-api/vme.rst    |  2 +-
-> >  drivers/staging/vme_user/vme.c      | 20 +++++------
-> >  drivers/staging/vme_user/vme.h      |  2 +-
-> >  drivers/staging/vme_user/vme_user.c | 51 +++++++++++++++++------------
-> >  4 files changed, 42 insertions(+), 33 deletions(-)
-> >
-> > diff --git a/Documentation/driver-api/vme.rst b/Documentation/driver-ap=
-i/vme.rst
-> > index c0b475369de0..7111999abc14 100644
-> > --- a/Documentation/driver-api/vme.rst
-> > +++ b/Documentation/driver-api/vme.rst
-> > @@ -107,7 +107,7 @@ The function :c:func:`vme_master_read` can be used =
-to read from and
-> >
-> >  In addition to simple reads and writes, :c:func:`vme_master_rmw` is pr=
-ovided to
-> >  do a read-modify-write transaction. Parts of a VME window can also be =
-mapped
-> > -into user space memory using :c:func:`vme_master_mmap`.
-> > +into user space memory using :c:func:`vme_master_mmap_prepare`.
-> >
-> >
-> >  Slave windows
-> > diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/=
-vme.c
-> > index f10a00c05f12..7220aba7b919 100644
-> > --- a/drivers/staging/vme_user/vme.c
-> > +++ b/drivers/staging/vme_user/vme.c
-> > @@ -735,9 +735,9 @@ unsigned int vme_master_rmw(struct vme_resource *re=
-source, unsigned int mask,
-> >  EXPORT_SYMBOL(vme_master_rmw);
-> >
-> >  /**
-> > - * vme_master_mmap - Mmap region of VME master window.
-> > + * vme_master_mmap_prepare - Mmap region of VME master window.
-> >   * @resource: Pointer to VME master resource.
-> > - * @vma: Pointer to definition of user mapping.
-> > + * @desc: Pointer to descriptor of user mapping.
-> >   *
-> >   * Memory map a region of the VME master window into user space.
-> >   *
-> > @@ -745,12 +745,13 @@ EXPORT_SYMBOL(vme_master_rmw);
-> >   *         resource or -EFAULT if map exceeds window size. Other gener=
-ic mmap
-> >   *         errors may also be returned.
-> >   */
-> > -int vme_master_mmap(struct vme_resource *resource, struct vm_area_stru=
-ct *vma)
-> > +int vme_master_mmap_prepare(struct vme_resource *resource,
-> > +                           struct vm_area_desc *desc)
-> >  {
-> > +       const unsigned long vma_size =3D vma_desc_size(desc);
-> >         struct vme_bridge *bridge =3D find_bridge(resource);
-> >         struct vme_master_resource *image;
-> >         phys_addr_t phys_addr;
-> > -       unsigned long vma_size;
-> >
-> >         if (resource->type !=3D VME_MASTER) {
-> >                 dev_err(bridge->parent, "Not a master resource\n");
-> > @@ -758,19 +759,18 @@ int vme_master_mmap(struct vme_resource *resource=
-, struct vm_area_struct *vma)
-> >         }
-> >
-> >         image =3D list_entry(resource->entry, struct vme_master_resourc=
-e, list);
-> > -       phys_addr =3D image->bus_resource.start + (vma->vm_pgoff << PAG=
-E_SHIFT);
-> > -       vma_size =3D vma->vm_end - vma->vm_start;
-> > +       phys_addr =3D image->bus_resource.start + (desc->pgoff << PAGE_=
-SHIFT);
-> >
-> >         if (phys_addr + vma_size > image->bus_resource.end + 1) {
-> >                 dev_err(bridge->parent, "Map size cannot exceed the win=
-dow size\n");
-> >                 return -EFAULT;
-> >         }
-> >
-> > -       vma->vm_page_prot =3D pgprot_noncached(vma->vm_page_prot);
-> > -
-> > -       return vm_iomap_memory(vma, phys_addr, vma->vm_end - vma->vm_st=
-art);
-> > +       desc->page_prot =3D pgprot_noncached(desc->page_prot);
-> > +       mmap_action_simple_ioremap(desc, phys_addr, vma_size);
-> > +       return 0;
-> >  }
-> > -EXPORT_SYMBOL(vme_master_mmap);
-> > +EXPORT_SYMBOL(vme_master_mmap_prepare);
-> >
-> >  /**
-> >   * vme_master_free - Free VME master window
-> > diff --git a/drivers/staging/vme_user/vme.h b/drivers/staging/vme_user/=
-vme.h
-> > index 797e9940fdd1..b6413605ea49 100644
-> > --- a/drivers/staging/vme_user/vme.h
-> > +++ b/drivers/staging/vme_user/vme.h
-> > @@ -151,7 +151,7 @@ ssize_t vme_master_read(struct vme_resource *resour=
-ce, void *buf, size_t count,
-> >  ssize_t vme_master_write(struct vme_resource *resource, void *buf, siz=
-e_t count, loff_t offset);
-> >  unsigned int vme_master_rmw(struct vme_resource *resource, unsigned in=
-t mask, unsigned int compare,
-> >                             unsigned int swap, loff_t offset);
-> > -int vme_master_mmap(struct vme_resource *resource, struct vm_area_stru=
-ct *vma);
-> > +int vme_master_mmap_prepare(struct vme_resource *resource, struct vm_a=
-rea_desc *desc);
-> >  void vme_master_free(struct vme_resource *resource);
-> >
-> >  struct vme_resource *vme_dma_request(struct vme_dev *vdev, u32 route);
-> > diff --git a/drivers/staging/vme_user/vme_user.c b/drivers/staging/vme_=
-user/vme_user.c
-> > index d95dd7d9190a..11e25c2f6b0a 100644
-> > --- a/drivers/staging/vme_user/vme_user.c
-> > +++ b/drivers/staging/vme_user/vme_user.c
-> > @@ -446,24 +446,14 @@ static void vme_user_vm_close(struct vm_area_stru=
-ct *vma)
-> >         kfree(vma_priv);
-> >  }
-> >
-> > -static const struct vm_operations_struct vme_user_vm_ops =3D {
-> > -       .open =3D vme_user_vm_open,
-> > -       .close =3D vme_user_vm_close,
-> > -};
-> > -
-> > -static int vme_user_master_mmap(unsigned int minor, struct vm_area_str=
-uct *vma)
-> > +static int vme_user_vm_mapped(unsigned long start, unsigned long end, =
-pgoff_t pgoff,
-> > +                             const struct file *file, void **vm_privat=
-e_data)
-> >  {
-> > -       int err;
-> > +       const unsigned int minor =3D iminor(file_inode(file));
-> >         struct vme_user_vma_priv *vma_priv;
-> >
-> >         mutex_lock(&image[minor].mutex);
-> >
-> > -       err =3D vme_master_mmap(image[minor].resource, vma);
-> > -       if (err) {
-> > -               mutex_unlock(&image[minor].mutex);
-> > -               return err;
-> > -       }
-> > -
->
-> Ok, this changes the set of the operations performed under image[minor].m=
-utex.
-> Before we had:
->
-> mutex_lock(&image[minor].mutex);
-> vme_master_mmap();
-> <some final adjustments>
-> mutex_unlock(&image[minor].mutex);
->
-> Now we have:
->
-> mutex_lock(&image[minor].mutex);
-> vme_master_mmap_prepare()
-> mutex_unlock(&image[minor].mutex);
-> vm_iomap_memory();
-> mutex_lock(&image[minor].mutex);
-> vme_user_vm_mapped(); // <some final adjustments>
-> mutex_unlock(&image[minor].mutex);
->
-> I think as long as image[minor] does not change while we are not
-> holding the mutex we should be safe, and looking at the code it seems
-> to be the case. But I'm not familiar with this driver and might be
-> wrong. Worth double-checking.
+> Previous to this patch, PMD collapse had 3 main phases, a light weight
+> scanning phase (mmap_read_lock) that determines a potential PMD
+> collapse, a alloc phase (mmap unlocked), then finally heavier collapse
 
-A side note: if we had to hold the mutex across all those operations I
-think we would need to take the mutex in the vm_ops->mmap_prepare and
-add a vm_ops->map_failed hook or something along that line to drop the
-mutex in case mmap_action_complete() fails. Not sure if we will have
-such cases though...
+-> an alloc phase
+
+> phase (mmap_write_lock).
+>
+> To enabled mTHP collapse we make the following changes:
+>
+> During PMD scan phase, track occupied pages in a bitmap. When mTHP
+> orders are enabled, we remove the restriction of max_ptes_none during the
+> scan phase to avoid missing potential mTHP collapse candidates. Once we
+> have scanned the full PMD range and updated the bitmap to track occupied
+> pages, we use the bitmap to find the optimal mTHP size.
+
+Right bu reinstate it later right? :) Though now simpler as we have only two
+modes.
 
 >
-> >         vma_priv =3D kmalloc_obj(*vma_priv);
-> >         if (!vma_priv) {
-> >                 mutex_unlock(&image[minor].mutex);
-> > @@ -472,22 +462,41 @@ static int vme_user_master_mmap(unsigned int mino=
-r, struct vm_area_struct *vma)
-> >
-> >         vma_priv->minor =3D minor;
-> >         refcount_set(&vma_priv->refcnt, 1);
-> > -       vma->vm_ops =3D &vme_user_vm_ops;
-> > -       vma->vm_private_data =3D vma_priv;
-> > -
-> > +       *vm_private_data =3D vma_priv;
-> >         image[minor].mmap_count++;
-> >
-> >         mutex_unlock(&image[minor].mutex);
-> > -
-> >         return 0;
-> >  }
-> >
-> > -static int vme_user_mmap(struct file *file, struct vm_area_struct *vma=
-)
-> > +static const struct vm_operations_struct vme_user_vm_ops =3D {
-> > +       .mapped =3D vme_user_vm_mapped,
-> > +       .open =3D vme_user_vm_open,
-> > +       .close =3D vme_user_vm_close,
-> > +};
-> > +
-> > +static int vme_user_master_mmap_prepare(unsigned int minor,
-> > +                                       struct vm_area_desc *desc)
-> > +{
-> > +       int err;
-> > +
-> > +       mutex_lock(&image[minor].mutex);
-> > +
-> > +       err =3D vme_master_mmap_prepare(image[minor].resource, desc);
-> > +       if (!err)
-> > +               desc->vm_ops =3D &vme_user_vm_ops;
-> > +
-> > +       mutex_unlock(&image[minor].mutex);
-> > +       return err;
-> > +}
-> > +
-> > +static int vme_user_mmap_prepare(struct vm_area_desc *desc)
-> >  {
-> > -       unsigned int minor =3D iminor(file_inode(file));
-> > +       const struct file *file =3D desc->file;
-> > +       const unsigned int minor =3D iminor(file_inode(file));
-> >
-> >         if (type[minor] =3D=3D MASTER_MINOR)
-> > -               return vme_user_master_mmap(minor, vma);
-> > +               return vme_user_master_mmap_prepare(minor, desc);
-> >
-> >         return -ENODEV;
-> >  }
-> > @@ -498,7 +507,7 @@ static const struct file_operations vme_user_fops =
-=3D {
-> >         .llseek =3D vme_user_llseek,
-> >         .unlocked_ioctl =3D vme_user_unlocked_ioctl,
-> >         .compat_ioctl =3D compat_ptr_ioctl,
-> > -       .mmap =3D vme_user_mmap,
-> > +       .mmap_prepare =3D vme_user_mmap_prepare,
-> >  };
-> >
-> >  static int vme_user_match(struct vme_dev *vdev)
-> > --
-> > 2.53.0
-> >
+> Implement collapse_scan_bitmap() to perform binary recursion on the bitmap
+> and determine the best eligible order for the collapse. A stack structure
+> is used instead of traditional recursion to manage the search. The
+
+Maybe worth saying due to limited kernel stack size.
+
+> algorithm recursively splits the bitmap into smaller chunks to find the
+> highest order mTHPs that satisfy the collapse criteria. We start by
+> attempting the PMD order, then moved on the consecutively lower orders
+> (mTHP collapse). The stack maintains a pair of variables (offset, order),
+> indicating the number of PTEs from the start of the PMD, and the order of
+
+Probably worth saying the stack is kept in the collapse_control now?
+
+Having nitted all this, thanks for writing this up much appreciated :)
+
+> the potential collapse candidate.
+>
+> The algorithm for consuming the bitmap works as such:
+>     1) push (0, HPAGE_PMD_ORDER) onto the stack
+>     2) pop the stack
+>     3) check if the number of set bits in that (offset,order) pair
+>        statisfy the max_ptes_none threshold for that order
+>     4) if yes, attempt collapse
+>     5) if no (or collapse fails), push two new stack items representing
+>        the left and right halves of the current bitmap range, at the
+>        next lower order
+>     6) repeat at step (2) until stack is empty.
+>
+> Below is a diagram representing the algorithm and stack items:
+>
+>                            offset       mid_offset
+>                             |         |
+>                             |         |
+>                             v         v
+>           __________________^_________________ <-- I think better as -
+>          |          PTE Page.Table            |
+>          -------------------.------------------
+> 			    <-.-----><------->
+>                           ^ .order-1  order- <-- not sure
+                            . .            if I accidentally
+                            . .       deleted or missing :P
+                            . .
+			    . .. Doesn't line up with..|
+			    .this......................|
+                                       ^
+                                       |
+                                       |
+That's nice, but as a connoisseur of the ASCII diagram, a few nits :)
+
+I also wonder if the offset, mid-offset is correct to put there?
+
+Because you start off with:
+
+(0, HPAGE_PMD_ORDER)
+
+       offset
+          |
+          |
+          v
+          |------------------------------------|
+          |                 PTE                |
+          |------------------------------------|
+	  <------------------------------------>
+	                1 << order
+
+Right? Trying to get the PMD sized one, then:
+
+(offset=0, order=HPAGE_PMD_ORDER -1)
+(mid_offset=HPAGE_PMD_NR >> 1, order=HPAGE_PMD_ORDER -1)
+
+       offset           mid_offset
+          |                  |
+          |                  |
+          v                  v
+          |------------------------------------|
+          |                 PTE                |
+          |------------------------------------|
+	  <------------------><---------------->
+	       1 << order          1 << order
+
+And etc.
+
+So probably worth making that clear.
+
+>
+> We currently only support mTHP collapse for max_ptes_none values of 0
+> and HPAGE_PMD_NR - 1. resulting in the following behavior:
+>
+>     - max_ptes_none=0: Never introduce new empty pages during collapse
+>     - max_ptes_none=HPAGE_PMD_NR-1: Always try collapse to the highest
+>       available mTHP order
+
+Probably worth slightly expanding on what introducing 'new empty pages'
+entails in practice here.
+
+>
+> Any other max_ptes_none value will emit a warning and skip mTHP collapse
+> attempts. There should be no behavior change for PMD collapse.
+
+Maybe worth saying we are doing this for the time being as it avoids issues
+with the algorithm tending towards PMD collapse etc.?
+
+>
+> Once we determine what mTHP sizes fits best in that PMD range a collapse
+> is attempted. A minimum collapse order of 2 is used as this is the lowest
+> order supported by anon memory as defined by THP_ORDERS_ALL_ANON.
+>
+> mTHP collapses reject regions containing swapped out or shared pages.
+> This is because adding new entries can lead to new none pages, and these
+> may lead to constant promotion into a higher order (m)THP. A similar
+> issue can occur with "max_ptes_none > HPAGE_PMD_NR/2" due to a collapse
+> introducing at least 2x the number of pages, and on a future scan will
+
+I think it's confusing mentioning this here, probably better to move it
+uabove.
+
+> satisfy the promotion condition once again. This issue is prevented via
+> the collapse_max_ptes_none() function which imposes the max_ptes_none
+> restrictions above.
+>
+> Currently madv_collapse is not supported and will only attempt PMD
+> collapse.
+>
+> We can also remove the check for is_khugepaged inside the PMD scan as
+> the collapse_max_ptes_none() function handles this logic now.
+
+Overall a great commit message and THANK YOU so much for that excellent
+description of the algorithm, much appreciated!
+
+>
+> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+> Tested-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+> Signed-off-by: Nico Pache <npache@redhat.com>
+> ---
+>  mm/khugepaged.c | 189 +++++++++++++++++++++++++++++++++++++++++++++---
+>  1 file changed, 180 insertions(+), 9 deletions(-)
+>
+> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> index 2fdfb6d42cf9..1c3711ed4513 100644
+> --- a/mm/khugepaged.c
+> +++ b/mm/khugepaged.c
+> @@ -99,6 +99,32 @@ static DEFINE_READ_MOSTLY_HASHTABLE(mm_slots_hash, MM_SLOTS_HASH_BITS);
+>
+>  static struct kmem_cache *mm_slot_cache __ro_after_init;
+>
+> +#define KHUGEPAGED_MIN_MTHP_ORDER	2
+> +/*
+> + * The maximum number of mTHP ranges that can be stored on the stack.
+> + * This is calculated based on the number of PTE entries in a PTE page table
+> + * and the minimum mTHP order.
+> + *
+> + * ilog2(MAX_PTRS_PER_PTE) is log2 of the maximum number of PTE entries.
+
+I think this line is superfluous and can be removed :)
+
+> + * This gives you the PMD_ORDER, and is needed in place of HPAGE_PMD_ORDER due
+> + * to restrictions of some architectures (ie ppc64le).
+
+Hm this is vague, why exactly?
+
+> + *
+> + * At most there will be 1 << (PMD_ORDER - KHUGEPAGED_MIN_MTHP_ORDER) mTHP ranges
+
+Maybe worth moving this around and saying 'the absolute most number of mTHP
+ranges we can encounter is 1 << (PMD_ORDER - KHUGEPAGED_MIN_MTHP_ORDER),
+but due to some architectures restricting the number of pointers per PTE,
+we have to derive the actual maximum from MAX_PTRS_PER_PTE'
+
+And then add a paragraph on why arches do this (if it's just PPC, just
+replace arches with PPC) etc.
+
+> + */
+> +#define MTHP_STACK_SIZE	(1UL << (ilog2(MAX_PTRS_PER_PTE) - KHUGEPAGED_MIN_MTHP_ORDER))
+
+I think it'd be nice to have a separate define for ilog2(MAX_PTRS_PER_PTE),
+maybe MAX_ORDER_PER_PTE?
+
+> +
+> +/*
+> + * Defines a range of PTE entries in a PTE page table which are being
+> + * considered for (m)THP collapse.
+
+Probably we can drop the parens :)
+
+> + *
+> + * @offset: the offset of the first PTE entry in a PMD range.
+> + * @order: the order of the PTE entries being considered for collapse.
+> + */
+> +struct mthp_range {
+> +	u16 offset;
+> +	u8 order;
+> +};
+> +
+>  struct collapse_control {
+>  	bool is_khugepaged;
+>
+> @@ -107,6 +133,11 @@ struct collapse_control {
+>
+>  	/* nodemask for allocation fallback */
+>  	nodemask_t alloc_nmask;
+> +
+> +	/* bitmap used for mTHP collapse */
+
+This is still super vague. Also you have 2 bitmaps here :)
+
+Something like:
+
+	/* Each bit set represents a present PTE entry  */
+> +	DECLARE_BITMAP(mthp_bitmap, MAX_PTRS_PER_PTE);
+	/* A mask of the current range being considered for mTHP collapse */
+> +	DECLARE_BITMAP(mthp_bitmap_mask, MAX_PTRS_PER_PTE);
+> +	struct mthp_range mthp_bitmap_stack[MTHP_STACK_SIZE];
+
+This time no heart attack as I know this is not on the stack (despite a
+misunderstanding on a series where somebody did seem to want to try to do
+that recently to reintroduce a coronary event :P)
+
+>  };
+>
+>  /**
+> @@ -1361,17 +1392,138 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long s
+>  	return result;
+>  }
+>
+> +static void mthp_stack_push(struct collapse_control *cc, int *stack_size,
+> +				   u16 offset, u8 order)
+> +{
+> +	const int size = *stack_size;
+> +	struct mthp_range *stack = &cc->mthp_bitmap_stack[size];
+> +
+> +	VM_WARN_ON_ONCE(size >= MTHP_STACK_SIZE);
+> +	stack->order = order;
+> +	stack->offset = offset;
+> +	(*stack_size)++;
+> +}
+> +
+> +static struct mthp_range mthp_stack_pop(struct collapse_control *cc, int *stack_size)
+> +{
+> +	const int size = *stack_size;
+> +
+> +	VM_WARN_ON_ONCE(size <= 0);
+> +	(*stack_size)--;
+> +	return cc->mthp_bitmap_stack[size - 1];
+> +}
+
+
+I know I love helper structs, but I wonder if we chouldn't have a broader
+stack object like:
+
+struct mthp_stack_state {
+	struct mthp_range *arr; // assigned to cc->mthp_bitmap-stack
+	int size;
+};
+
+And just make these functions like:
+
+static void mthp_stack_push(struct mthp_stack_state *stack)
+{
+	struct mthp_range *range = &stack->arr[stack->size++];
+
+	VM_WARN_ON_ONCE(stack->size >= MTHP_STACK_SIZE);
+	range->order = order;
+	range->offset = offset;
+}
+
+static struct mthp_range mthp_stack_pop(struct mthp_stack_state *stack)
+{
+	struct mthp_range *range = &stack->arr[--stack->size];
+
+	VM_WARN_ON_ONCE(stack->size <= 0);
+	return *range;
+}
+
+I also fold some other cleanups into that, I think e.g. *stack-size--,
+followed by using size (which we copied first) - 1 indexed into the array
+is overwrought.
+
+> +
+> +static unsigned int mthp_nr_occupied_pte_entries(struct collapse_control *cc,
+
+This name is a bit overwrought. pte_count_present()? I think we maybe don't
+even need a mthp_ prefix given the params should give context?
+
+> +						 u16 offset, unsigned long nr_pte_entries)
+
+This line is super long, can we just put the 2nd line 2 tabs indented?
+
+> +{
+> +	bitmap_zero(cc->mthp_bitmap_mask, HPAGE_PMD_NR);
+
+Why are we zeroing HPAGE_PMD_NR bits, but mthp_bitmap_mask has
+MAX_PTRS_PER_PTE entries?
+
+I thought the comment above was saying how MAX_PTRS_PER_PTE can be <
+HPAGE_PMD_NR right? So couldn't this be problematic on ppc?
+
+We should be zeroing the same number of bits as is defined for the bitmap.
+
+> +	bitmap_set(cc->mthp_bitmap_mask, offset, nr_pte_entries);
+> +	return bitmap_weight_and(cc->mthp_bitmap, cc->mthp_bitmap_mask, HPAGE_PMD_NR);
+> +}
+
+We could pass in a stack_state pointer if we add pointers to
+cc->mthp_bitmap_mask and cc->mthp_bitmap to the struct:
+
+static unsigned int pte_count_present_top(struct stack_state *stack)
+{
+	struct mthp_range *range = stack->arr[stack->size - 1];
+
+	VM_WARN_ON_ONCE(!stack->size);
+
+	/* set up mask for offset, range */
+	bitmap_zero(stack->mask, MAX_PTRS_PER_PTE);
+	bitmap_set(stack->mask, arr->offset, 1U << arr->order);
+
+	/* Hamming weight of mask & bitmap = count of PTE entries in range. */
+	return bitmap_weight_and(stack->bitmap, stack->mask, MAX_PTRS_PER_PTE);
+}
+
+Which could also simplify the calling code a lot, which then could pop
+afterwards, leaving this to read the top of the stack.
+
+Then again, you use order, nr_pte_entries elsewhere so could be:
+
+static unsigned int pte_count_present(struct stack_state *stack,
+		struct mthp_range *range) { ... }
+
+Instead?
+
+> +
+> +/*
+> + * mthp_collapse() consumes the bitmap that is generated during
+> + * collapse_scan_pmd() to determine what regions and mTHP orders fit best.
+> + *
+> + * Each bit in cc->mthp_bitmap represents a single occupied (!none/zero) page.
+
+Probably worth dropping the (!none/zero) bit for clarity.
+
+> + * A stack structure cc->mthp_bitmap_stack is used to check different regions
+> + * of the bitmap for collapse eligibility. The stack maintains a pair of
+> + * variables (offset, order), indicating the number of PTEs from the start of
+> + * the PMD, and the order of the potential collapse candidate respectively. We
+> + * start at the PMD order and check if it is eligible for collapse; if not, we
+> + * add two entries to the stack at a lower order to represent the left and right
+> + * halves of the PTE page table we are examining.
+> + *
+> + *                         offset       mid_offset
+> + *                         |         |
+> + *                         |         |
+> + *                         v         v
+> + *      --------------------------------------
+> + *      |          cc->mthp_bitmap            |
+> + *      --------------------------------------
+> + *                         <-------><------->
+> + *                          order-1  order-1
+> + *
+> + * For each of these, we determine how many PTE entries are occupied in the
+> + * range of PTE entries we propose to collapse, then we compare this to a
+> + * threshold number of PTE entries which would need to be occupied for a
+> + * collapse to be permitted at that order (accounting for max_ptes_none).
+> +
+> + * If a collapse is permitted, we attempt to collapse the PTE range into a
+> + * mTHP.
+
+So this is pretty much the same as the commit message and obviously my
+comments are the same here as for there :)
+
+But again thanks for doing this!
+
+> + */
+> +static int mthp_collapse(struct mm_struct *mm, unsigned long address,
+> +		int referenced, int unmapped, struct collapse_control *cc,
+> +		bool *mmap_locked, unsigned long enabled_orders)
+> +{
+> +	unsigned int max_ptes_none, nr_occupied_ptes;
+> +	struct mthp_range range;
+> +	unsigned long collapse_address;
+> +	int collapsed = 0, stack_size = 0;
+> +	unsigned long nr_pte_entries;
+> +	u16 offset;
+> +	u8 order;
+
+I hate to now be the one saying it since somebody got me OCD about it
+before, and it doesn't really matter and is a nit, but like reverse xmas
+tree would be nice :P
+
+> +
+> +	mthp_stack_push(cc, &stack_size, 0, HPAGE_PMD_ORDER);
+> +
+> +	while (stack_size > 0) {
+
+I think we can be kernel-y and make this:
+
+while (stack_size)
+
+As going < 0 would be a bug anyway right?
+
+> +		range = mthp_stack_pop(cc, &stack_size);
+> +		order = range.order;
+> +		offset = range.offset;
+> +		nr_pte_entries = 1UL << order;
+
+See above idea for using stack state type and just reading off top of stack
+in calculation.
+
+> +
+> +		if (!test_bit(order, &enabled_orders))
+> +			goto next_order;
+> +
+> +		if (cc->is_khugepaged)
+> +			max_ptes_none = collapse_max_ptes_none(order);
+> +		else
+> +			max_ptes_none = COLLAPSE_MAX_PTES_LIMIT;
+
+Hm, should we even be executing this loop at all for MADV_COLLAPSE? Could
+we just separate that out as its own thing that just does a PMD-sized entry
+and simplify this?
+
+But then hmm you use order, nr_pte_entries elsewhere so maybe could just
+pop range and pass that in with stack_state ptr?
+
+> +
+> +		if (max_ptes_none == -EINVAL)
+
+Shouldn't we rather do something like IS_ERR_VALUE(max_ptes_none)?
+
+> +			return collapsed;
+
+> +
+> +		nr_occupied_ptes = mthp_nr_occupied_pte_entries(cc, offset, nr_pte_entries);
+> +
+> +		if (nr_occupied_ptes >= nr_pte_entries - max_ptes_none) {
+
+Be nicer to have nr_ptes_entries - max_ptes_none pre-calculated as a value,
+e.g. min_occupied_ptes?
+
+> +			int ret;
+> +
+> +			collapse_address = address + offset * PAGE_SIZE;
+> +			ret = collapse_huge_page(mm, collapse_address, referenced,
+> +						 unmapped, cc, mmap_locked,
+> +						 order);
+
+My kingdom for a helper struct here :)
+
+> +			if (ret == SCAN_SUCCEED) {
+> +				collapsed += nr_pte_entries;
+> +				continue;
+> +			}
+
+I guess we don't care about which flavour of scan failure happens here?
+
+> +		}
+> +
+> +next_order:
+> +		if (order > KHUGEPAGED_MIN_MTHP_ORDER) {
+> +			const u8 next_order = order - 1;
+> +			const u16 mid_offset = offset + (nr_pte_entries / 2);
+> +
+> +			mthp_stack_push(cc, &stack_size, mid_offset, next_order);
+> +			mthp_stack_push(cc, &stack_size, offset, next_order);
+
+All this could be a helper function, like:
+
+static void push_next_order_range(struct stack_state *stack, u8 order,
+		u16 offset)
+{
+	const u8 next_order = order - 1;
+
+	mthp_stack_push(stack, offset, next_order);
+	offset += (1 << next_order);
+	mthp_stack_push(stack, offset, next_order);
+}
+
+> +		}
+> +	}
+> +	return collapsed;
+> +}
+
+Overall MUCH more understandable thanks for that!
+
+> +
+>  static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
+>  		struct vm_area_struct *vma, unsigned long start_addr, bool *mmap_locked,
+>  		unsigned int *cur_progress, struct collapse_control *cc)
+>  {
+>  	pmd_t *pmd;
+>  	pte_t *pte, *_pte;
+> -	int none_or_zero = 0, shared = 0, referenced = 0;
+> +	int i;
+> +	int none_or_zero = 0, shared = 0, nr_collapsed = 0, referenced = 0;
+>  	enum scan_result result = SCAN_FAIL;
+>  	struct page *page = NULL;
+> +	unsigned int max_ptes_none;
+>  	struct folio *folio = NULL;
+>  	unsigned long addr;
+> +	unsigned long enabled_orders;
+
+Kinda hate how much state we're putting here throughout function scope, but
+can address that in follow up cleanups I guses.
+
+>  	spinlock_t *ptl;
+>  	int node = NUMA_NO_NODE, unmapped = 0;
+
+>
+> @@ -1384,8 +1536,21 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
+>  		goto out;
+>  	}
+>
+> +	bitmap_zero(cc->mthp_bitmap, HPAGE_PMD_NR);
+
+Again, shouldn't this be MAX_PTRS_PER_PTE?
+
+Be nicer to separate into a helper function esp if you have a stack_state
+object, to initialise it separately rather than having a random open-coded
+bitmap_zero() here.
+
+>  	memset(cc->node_load, 0, sizeof(cc->node_load));
+>  	nodes_clear(cc->alloc_nmask);
+> +
+> +	enabled_orders = collapse_allowable_orders(vma, vma->vm_flags, cc->is_khugepaged);
+
+Too long line :) please keep to max 80, with some small exceptions going
+over by like 1 or 2 chars.
+
+> +
+> +	/*
+> +	 * If PMD is the only enabled order, enforce max_ptes_none, otherwise
+> +	 * scan all pages to populate the bitmap for mTHP collapse.
+> +	 */
+> +	if (cc->is_khugepaged && enabled_orders == BIT(HPAGE_PMD_ORDER))
+
+Isn't BIT(HPAGE_PMD_ORDER) the same as HPAGE_PMD_NR?
+
+> +		max_ptes_none = collapse_max_ptes_none(HPAGE_PMD_ORDER);
+> +	else
+> +		max_ptes_none = COLLAPSE_MAX_PTES_LIMIT;
+> +
+
+Coudl we separate this function into a helper struct please, rather than
+piling on more open coded stuff?
+
+>  	pte = pte_offset_map_lock(mm, pmd, start_addr, &ptl);
+>  	if (!pte) {
+>  		if (cur_progress)
+> @@ -1394,17 +1559,18 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
+>  		goto out;
+>  	}
+>
+> -	for (addr = start_addr, _pte = pte; _pte < pte + HPAGE_PMD_NR;
+> -	     _pte++, addr += PAGE_SIZE) {
+> +	for (i = 0; i < HPAGE_PMD_NR; i++) {
+> +		_pte = pte + i;
+
+(Still hate this underscore b.s. but it's legacy stuff we should deal with
+separately)
+
+> +		addr = start_addr + i * PAGE_SIZE;
+> +		pte_t pteval = ptep_get(_pte);
+
+Err you're declaring a type under 2 just-assignments? That's not kernel
+style :)
+
+Should be:
+
+<type decls>
+newline
+<everything else>
+
+> +
+>  		if (cur_progress)
+>  			*cur_progress += 1;
+>
+> -		pte_t pteval = ptep_get(_pte);
+>  		if (pte_none_or_zero(pteval)) {
+>  			++none_or_zero;
+>  			if (!userfaultfd_armed(vma) &&
+> -			    (!cc->is_khugepaged ||
+
+Why are we dropping this?
+
+> -			     none_or_zero <= khugepaged_max_ptes_none)) {
+> +			    none_or_zero <= max_ptes_none) {
+>  				continue;
+>  			} else {
+>  				result = SCAN_EXCEED_NONE_PTE;
+> @@ -1478,6 +1644,8 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
+>  			}
+>  		}
+>
+> +		/* Set bit for occupied pages */
+> +		bitmap_set(cc->mthp_bitmap, i, 1);
+
+Again, let's use a helper for this kind of thing rather than open
+coding. The stack_state object will help.
+
+>  		/*
+>  		 * Record which node the original page is from and save this
+>  		 * information to cc->node_load[].
+> @@ -1534,9 +1702,12 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
+>  out_unmap:
+>  	pte_unmap_unlock(pte, ptl);
+>  	if (result == SCAN_SUCCEED) {
+> -		result = collapse_huge_page(mm, start_addr, referenced,
+> -					    unmapped, cc, mmap_locked,
+> -					    HPAGE_PMD_ORDER);
+> +		nr_collapsed = mthp_collapse(mm, start_addr, referenced, unmapped,
+> +					      cc, mmap_locked, enabled_orders);
+> +		if (nr_collapsed > 0)
+
+if (nr_collapsed) is more kernelly :)
+
+> +			result = SCAN_SUCCEED;
+> +		else
+> +			result = SCAN_FAIL;
+
+I mean maybe we can just use a ?: assignment here like:
+
+result = nr_collapsed ? SCAN_SUCCEED : SCAN_FAIL;
+
+?
+
+>  	}
+>  out:
+>  	trace_mm_khugepaged_scan_pmd(mm, folio, referenced,
+> --
+> 2.53.0
+>
+
+Overall we're much much closer now to having this series in, sorry for
+delays etc. in review but now I've (finally) got to review everything and
+David has had a look too on both series we are honing in on completion!
+
+Cheers, Lorenzo
