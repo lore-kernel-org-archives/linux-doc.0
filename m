@@ -1,287 +1,141 @@
-Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013054.outbound.protection.outlook.com [40.93.196.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C4153E9F93;
-	Tue, 17 Mar 2026 15:11:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773760295; cv=fail; b=hzbbVpUDKJoGaJXW3QATsA6EyWosUs/HutbL+DirK8Eu31MJKLoIFrs+g0jUcOXePlO0d5YSmvUvwE5SXyYH2ToyAki3EKz8rPzutBXeleysu77wzve41LKGPsl7OJomcNzYNA+e/uYpauzpk2+GVYnja05nXg371YDPihhxjis=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773760295; c=relaxed/simple;
-	bh=addAALColFKs+x4JEUXPmaeJ+ysvFkQDYIYmpzaAmfI=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=qBQQegjVqS93HC7n6c+G5GK9HOKhctZHPxMIkF1/TkWL+3z0dVapTsuG9+23dHG9Egp4TlFJ5qfydN0QMpSRhp3NQrNT8hBLWUThLbgCq/0Li98bsa9J4fyymhSEgw87iafR/ix9m0mcbX/PNQjL2PqCRDEjWtQIF4u13ImNTY0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=b5otJ3kc; arc=fail smtp.client-ip=40.93.196.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12E0E3E95A7
+	for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 15:12:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773760353; cv=none; b=YO0tA31xhK4enel06xGjJv5vwImp7yW8k3EOGVgb9hZ6LmfcYnxSKsBaPXYRzSvp35WXAQ77hFWwulCDp31AgUoBt/k6wsreNRA5BGHX72F2es2hXX+Z3Zv2OktG+ARSd8kMxkbwfOifymabQDl9CinSttHJzfg7WZSh5tyL2r8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773760353; c=relaxed/simple;
+	bh=ElmNSzj36ahoXwShZ7ULHU6+01vzlQ4NHHLLRiYgGxg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=eb8m4HotzV+8zq+4hrsjXX13m7C8mDwSTCLtnURJM776lmN+y43LI7BuXry4uablhfMEIZ5P4c+tTFrdjSlzCk8y3ZDv6NlACgWWe7PkPcKn96biMSDVwUmXKZ0yvHmdrDxx2yxAz58100ejlQpHooc24bABlkjGOkZfRk/A12k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gXl7RI9L; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="b5otJ3kc"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BTPHm0m5gVbQbDo69fS1DG8gp0MdG7Jh5gHlITSfEhFSpame7flSJpGwqpqcO3iXFzkeYTb6FOklWRrbNfKQ7qu93q3/Oh+dWQ8OhIIA84s4Omo1Rj9dPbrwYTAGp15WzNHM/Z6zLFMiRU5kNxlf7KWmOKg4WTwmPJrzbMqmw8Kze5QwrSZQFG7REn7VVykr64JVDmt+c7Teq3jO1QnP1z9QHjaLtSCmVpc3t0PhBXIoJvATW0rMM/RRp05MF3fRpegBfAReNb5B2F6xzTyaqO1V03OhGnXSYABNp+30UDefyXjsVQQXRFUBpWurEBvzxkN6jO0/akmvv3IWsBf+mw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ctgUOVWfyCEMvIQHVLbQ1XH6H3q489lSv1GkXPjqUZw=;
- b=FuBkOosvqQXBhYd10D6vCboEZ7K8vTMnqLGXEl4giI9Yp8X1QENJtmHfKXsACnFfzzVNgyINohmHl33zEym/OVd9SIh2naUMl2W4o7X1ATS0rcOpZJCqbOQvw6ZtMlGRr91o6kdwxLCE+mietnJXd0v7XhPTqMrtOEBHoi0dnhko3dObhrSIqnoUPRl97dpboHo2dPVPRnrnzPrs9FinQyK8ZGAcWTVJVmo7O3EZmUQYt7/8RKL0Ip8VHz25e67KdRorBASyv7XDpSu3MezY6yL8FPt6Hwo2QgSBpPfjkC1zQPxUx7q2LICzi/m2wIYDX5qihwPfqhxccWitOQolCQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ctgUOVWfyCEMvIQHVLbQ1XH6H3q489lSv1GkXPjqUZw=;
- b=b5otJ3kcECjymUi9RHFftwUiN7QAP2cLbzrTP3Zn9ZWoVdCvHbbaUYlfM2Qff8vsa+VEJ8IwjaH5N9/u542iHDepQhEzw/ppgi8EWIsQffpE+Mm/FSjJDy5ZXeXaf6rbeiwmqAvcst8MuRR6L1Q2Cd8HQw5Zl7AFAkeivY/mkEdRt4/r7BX43GXYgQ7/MK1kpq7IBRe+tRiZUauVRIjA24r5h5FQQ00w3FUkEpd4sOqQqYD60xRIk379j2uMWEsa1OAic4nD8NHouI2Xi07mtLE+3uZatqh0xU3nPnMJ6OyPlRdUCYCQ11RDriKIj0e3haijjaWB8CooO1QjUbEKqg==
-Received: from BN9PR03CA0892.namprd03.prod.outlook.com (2603:10b6:408:13c::27)
- by CH3PR12MB8307.namprd12.prod.outlook.com (2603:10b6:610:12f::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.16; Tue, 17 Mar
- 2026 15:11:25 +0000
-Received: from BN2PEPF000055DB.namprd21.prod.outlook.com
- (2603:10b6:408:13c:cafe::61) by BN9PR03CA0892.outlook.office365.com
- (2603:10b6:408:13c::27) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9700.25 via Frontend Transport; Tue,
- 17 Mar 2026 15:11:25 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- BN2PEPF000055DB.mail.protection.outlook.com (10.167.245.5) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9745.0 via Frontend Transport; Tue, 17 Mar 2026 15:11:24 +0000
-Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 17 Mar
- 2026 08:11:01 -0700
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by rnnvmail202.nvidia.com
- (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 17 Mar
- 2026 08:11:01 -0700
-Received: from sumitg-l4t.nvidia.com (10.127.8.14) by mail.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server id 15.2.2562.20 via Frontend
- Transport; Tue, 17 Mar 2026 08:10:55 -0700
-From: Sumit Gupta <sumitg@nvidia.com>
-To: <rafael@kernel.org>, <viresh.kumar@linaro.org>, <pierre.gondois@arm.com>,
-	<ionela.voinescu@arm.com>, <zhenglifeng1@huawei.com>,
-	<zhanjie9@hisilicon.com>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
-	<rdunlap@infradead.org>, <mario.limonciello@amd.com>,
-	<linux-pm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-CC: <linux-tegra@vger.kernel.org>, <treding@nvidia.com>,
-	<jonathanh@nvidia.com>, <vsethi@nvidia.com>, <ksitaraman@nvidia.com>,
-	<sanjayc@nvidia.com>, <nhartman@nvidia.com>, <mochs@nvidia.com>,
-	<bbasu@nvidia.com>, <sumitg@nvidia.com>
-Subject: [PATCH] cpufreq: CPPC: add autonomous mode boot parameter support
-Date: Tue, 17 Mar 2026 20:40:52 +0530
-Message-ID: <20260317151053.2361475-1-sumitg@nvidia.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gXl7RI9L"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-661b16ac011so9786306a12.2
+        for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 08:12:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773760349; x=1774365149; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=VoX0sLLhblCiEStIbiYJ15WT9ZZm3Qh1HEveUrVMolU=;
+        b=gXl7RI9LbF78N95CqGOM2TXN6jazS1z8B5nh8JpDCHm2hlXoKv0hMmCoJHglbd9qD9
+         Qcn+MxmZqt2MVkNJfcuYIz2DjLWAy7U7TmojrSrvZDgkIMRPDQz2mBymNt3eWmllgqAb
+         YiIWitQ7FCQbybkb1blmjGMPIDhyMnBDqOKB4uLoS3uKTMr7pwjqzfE7y3F75V8JBY+N
+         p+Lz0d9VGeUzeCDS0ffKkEmB3k98G4WX5VD80cju0s5TdiMbfXDoaU8skGm8+DhGuiLB
+         CtQKU3RsbQnrFalL9ZHm4TD0CEC0mwIFqpTit7TpO0tBOSeKWRHMznsZ+5LcUIY9LKEp
+         SWRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773760349; x=1774365149;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VoX0sLLhblCiEStIbiYJ15WT9ZZm3Qh1HEveUrVMolU=;
+        b=W9xFOKbN/Y0vebJfvZCmagg8II4n1vbgbp8TBuwb4ZDm3aqJTzv1neP1V5dAZc6tb3
+         EvasiQ8Y7GAv8mcDX6KHEEVD2ejJN6C7cp8oG/G1gjy8XOZnjEKYRIP82W7CKigSPqVV
+         VDHOCLYyDsHWC/WTssxL8tsDRy6bSObwEUKaKjcU8zkAomZkjsMTqmASqdAJElOKsBHf
+         QzAwXNa5sRAaBfuZqd2/V3+qMBdUK5yOHi0BpsNFuls0c7PToRFCwo7Yh3BnxOnJYiT5
+         NEUUPUmDOvXBEiSnoO9ohLAuXTqr1tbFbHqM06ZmLAn1WHuJA+GWNUFbZMnQ/oRvyRQ1
+         tu3Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXYY0i9+V5kmZsWPONApi/xSUBkDLSdzyI7Wczjf6PW4gNt6QpFIrRVAb+ONfuFwwhhR5a6Tq82dpM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw2U5eI2zQ2wTLiLWPf7Mg0nMZ9uMdEwKSbh1ZkLseY9Lbug/Hv
+	cnz6rnuiJI+DxLj7qSXSOKe2C7tTYLfh54UIh5cJnY/H/+AcuAx1zL9h
+X-Gm-Gg: ATEYQzz9fDQ/SDJSp5URX9X4gYIYJ20aIXM8XasnJh6U8Npb0xBj5xpuMlXgTJccUbL
+	s4ngEiAVdwcgCmmWj7IVUDhPCRz218BraBjF4QkfBWt+555qvTr71WamA6tj5eZTsDqaS/A91sF
+	OHdPpLOg8l1YL1VaD7OuMI15jAwQME+uTVmPxchsUGyMJATelPSxnsUrmgMVw3WwCCt69CRQ+vn
+	qI14o85lreLP8tYz21TPp+8hXvQglAJb+MCAoG82U+DDAgtvF+2ShmobiF11EqJyvibSvzvpHmL
+	5nwwKCfnMpEo4gaKU5cl2jLdXtW019mCCFly3uW6MqGa95uKxlT9tcNvGoCXRLWDx06QWS2VLAZ
+	+HiRibqkQVDpBT5AJ2RxEqWjrb3EKF2GARYzoC5F3laSXmBLzC+S24mqPqXd5MNXqrzMCvetbBe
+	ZZVAvMZuuq+7KHVDZBUjM7pK6oV0gjI0lIScwYKJaSkBwh
+X-Received: by 2002:a17:907:7fa2:b0:b97:ad82:973f with SMTP id a640c23a62f3a-b97ad829ee0mr546189866b.13.1773760349135;
+        Tue, 17 Mar 2026 08:12:29 -0700 (PDT)
+Received: from localhost.localdomain ([72.255.58.127])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b97f1460749sm3876966b.26.2026.03.17.08.12.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Mar 2026 08:12:28 -0700 (PDT)
+From: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
+To: corbet@lwn.net
+Cc: skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	mahad.ibrahim.dev@gmail.com
+Subject: [PATCH] docs: fix Sphinx C parser crash on __cond_acquires macro
+Date: Tue, 17 Mar 2026 11:11:56 -0400
+Message-Id: <20260317151156.1106-1-mahad.ibrahim.dev@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-NVConfidentiality: public
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN2PEPF000055DB:EE_|CH3PR12MB8307:EE_
-X-MS-Office365-Filtering-Correlation-Id: fc60729a-8e31-4f0f-d6aa-08de843774be
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|1800799024|36860700016|7416014|376014|921020|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	FC1Q+OA+vKKNnOyf8s7LlQPFxvN/xeqPtLK/2cOJWrGQNVWpBnMU1S9nYb6T/0LOzfG87K8mKSqVCeAEmif9uz4fKH+U9OrYk0C4A4ujnVsp/D75HUdnfT/dbf0Uxo4W00Fu7I9icDm6BuppVsrXViAg1kbx75aWJj63dvuYghAbI4T1O41ZBLfkH3ed5w+HGbyxpuiko0/VFbykPJcJViZXgm+aBFH15ZhDo9DJkjq6eJEmf11NmgDtwAboX+hChPhLWGDJ2fAhFhzA0HmZKAsXi9ltRvQRe5olqGJWEywPim6z1Fj53lEWrvTFZ3T9KQAqdWOkXoSJChQV0xxruCI+pt1sdDV3RVgQyCep5gs80ClflRtvLcnxnoaX3mzIZhVLpc+H7NOPCEC7nqedDiK9YIWm8f9YEdoT4NNvzDXAIOI+d5ydPdHxTpmkdP43Qpl5x8ACkzlRILcwkgCKI0AWN9byDslDHKDf4tzRXLoPi5zATW1Tl4o38ZhfnHIaIaWV2aYeAiWuwMSyDPenbJ+Vx5Ts+YlupPdGIkLnENb05RNomRRtLQY6qRtp+g2v3tsKvtDTAHJWS/KQi6DFiBj86oxQtBlZ30OEXylr/m1I7mGgS3IdqHF6XJxPpDlgP+1QMwC/L3miptucYug8eRBhpPafOTYZ9Pi3BHexG9QyWECyTcLnUPQBzj6cHuifNE1nLCVeokIPO8GmXBVWjbKMbcPT/Cg/259VbmuyiRHFCn2KGkizi6lsdfDrOwJVGe5ypzGUbob2Xizc3mYF3Y9y1NOuHZ7pNMU1dsq7+8iS3UuAsOskwbttSXZFd5rP
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(36860700016)(7416014)(376014)(921020)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	UJ5BgstGSXMruKsCoSCdlzWSuf2x2g2iXk6mzh6vPzOAV2Tnq3GgUGi6rB7OcXbDWAnnFli+JRiYjAMKCU+KZ36eJJPIF2luqQZIr6c385Oz0DZ2UfI4UfRR3E6bT1Ya1fjmEiMDt+FSo57F979bsgQl5jue6tnmlAr+TvgzCdc/nv5HWfYGWQm6Lmw6WTq7XVLigYJ3iPNFPTuyseOlVAsI9AfVf6zGtCleAx61H0FmzZQoRPg1TGF8/Esxy9kUpfC8ewVu83AgpazUhKi63O0bbHAgEpaRYnxvL/5lP1NoNy0qQSsS9t6aH/y2OY+CU3btr+uOfmLKW7Lz2MAocCMqENThjkp8ohegyMQ+4TQYgerJZyHRDKF4tEY9NjDrIO68GgbdRDdAb4RNP98SM9mY7htXZ2qoYLjo0hVnxUY7vFWSC7XKfBZ3CAcC2II+
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2026 15:11:24.8067
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: fc60729a-8e31-4f0f-d6aa-08de843774be
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN2PEPF000055DB.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8307
 
-Add kernel boot parameter 'cppc_cpufreq.auto_sel_mode' to enable CPPC
-autonomous performance selection on all CPUs at system startup without
-requiring runtime sysfs manipulation. When autonomous mode is enabled,
-the hardware automatically adjusts CPU performance based on workload
-demands using Energy Performance Preference (EPP) hints.
+When building the kernel-docs, the Sphinx C parser threw two errors:
 
-When auto_sel_mode=1:
-- Configure all CPUs for autonomous operation on first init
-- Set EPP to performance preference (0x0)
-- Use HW min/max when set; otherwise program from policy limits (caps)
-- Clamp desired_perf to bounds before enabling autonomous mode
-- Hardware controls frequency instead of the OS governor
+1. /home/code/linux/Documentation/core-api/kref:328:
+   ./include/linux/kref.h:72: WARNING: Invalid C declaration: Expected
+   end of definition. [error at 96]
+   int kref_put_mutex (
+                struct kref *kref,
+                void (*release) (struct kref *kref),
+                struct mutex *mutex)
+                __cond_acquires(true# mutex)
 
-The boot parameter is applied only during first policy initialization.
-On hotplug, skip applying it so that the user's runtime sysfs
-configuration is preserved.
+2. /home/code/linux/Documentation/core-api/kref:328:
+   ./include/linux/kref.h:94: WARNING: Invalid C declaration: Expected
+   end of definition. [error at 92]
+   int kref_put_lock (
+                struct kref *kref,
+                void (*release)(struct kref *kref),
+                spinlock_t *lock)
+                __cond_acquires(true# lock)
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org> (Documentation)
-Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
+The root cause of these errors is due to the parser's inability to
+understand sparse __cond_acquires() parameterized macro attached to the
+function. The parser expects a ';' or a '{' to verify a valid function
+signature ending.
+As of Sphinx 3.0, the parser is equipped to handle such cases via the
+c_paren_attributes list however that functionality was not adopted.
+
+Out of all sparse/compiler-based context analysis parameterized macros
+inside the kernel, only __cond_acquires appears in the context of a
+kernel-docs comment and function, which is why it is the only macro that
+threw an error.
+
+This bug may be attributed to the kernel's recent shift from sparse to
+compiler-based context analysis, increased strictness of Sphinx C
+parser, or some other change which transcended domains.
+
+Add c_paren_attributes to enable Sphinx parser to handle parameterized
+function macros like __cond_acquires.
+
+Signed-off-by: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
 ---
-Part 1 [1] of this series was applied for 7.1 and present in next.
-Sending this patch as reworked version of 'patch 11' from [2] based
-on next.
+ Documentation/conf.py | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-[1] https://lore.kernel.org/lkml/20260206142658.72583-1-sumitg@nvidia.com/
-[2] https://lore.kernel.org/lkml/20251223121307.711773-1-sumitg@nvidia.com/
----
- .../admin-guide/kernel-parameters.txt         | 13 +++
- drivers/cpufreq/cppc_cpufreq.c                | 84 +++++++++++++++++--
- 2 files changed, 92 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index fa6171b5fdd5..de4b4c89edfe 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1060,6 +1060,19 @@ Kernel parameters
- 			policy to use. This governor must be registered in the
- 			kernel before the cpufreq driver probes.
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index 679861503a25..f2efe7fd107e 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -227,6 +227,13 @@ c_id_attributes = [
+     "__bpf_kfunc",
+ ]
  
-+	cppc_cpufreq.auto_sel_mode=
-+			[CPU_FREQ] Enable ACPI CPPC autonomous performance
-+			selection. When enabled, hardware automatically adjusts
-+			CPU frequency on all CPUs based on workload demands.
-+			In Autonomous mode, Energy Performance Preference (EPP)
-+			hints guide hardware toward performance (0x0) or energy
-+			efficiency (0xff).
-+			Requires ACPI CPPC autonomous selection register support.
-+			Format: <bool>
-+			Default: 0 (disabled)
-+			0: use cpufreq governors
-+			1: enable if supported by hardware
++# Since Sphinx 3.0, parameterized macros must be escaped using
++# c_paren_attributes to prevent C domain parser crashes.
++c_paren_attributes = [
++    #include/linux/compiler-context-analysis.h
++    "__cond_acquires",
++]
 +
- 	cpu_init_udelay=N
- 			[X86,EARLY] Delay for N microsec between assert and de-assert
- 			of APIC INIT to start processors.  This delay occurs
-diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufreq.c
-index 5dfb109cf1f4..49c148b2a0a4 100644
---- a/drivers/cpufreq/cppc_cpufreq.c
-+++ b/drivers/cpufreq/cppc_cpufreq.c
-@@ -28,6 +28,9 @@
- 
- static struct cpufreq_driver cppc_cpufreq_driver;
- 
-+/* Autonomous Selection boot parameter */
-+static bool auto_sel_mode;
-+
- #ifdef CONFIG_ACPI_CPPC_CPUFREQ_FIE
- static enum {
- 	FIE_UNSET = -1,
-@@ -708,11 +711,74 @@ static int cppc_cpufreq_cpu_init(struct cpufreq_policy *policy)
- 	policy->cur = cppc_perf_to_khz(caps, caps->highest_perf);
- 	cpu_data->perf_ctrls.desired_perf =  caps->highest_perf;
- 
--	ret = cppc_set_perf(cpu, &cpu_data->perf_ctrls);
--	if (ret) {
--		pr_debug("Err setting perf value:%d on CPU:%d. ret:%d\n",
--			 caps->highest_perf, cpu, ret);
--		goto out;
-+	/*
-+	 * Enable autonomous mode on first init if boot param is set.
-+	 * Check last_governor to detect first init and skip if auto_sel
-+	 * is already enabled.
-+	 */
-+	if (auto_sel_mode && policy->last_governor[0] == '\0' &&
-+	    !cpu_data->perf_ctrls.auto_sel) {
-+		/* Enable CPPC - optional register, some platforms need it */
-+		ret = cppc_set_enable(cpu, true);
-+		if (ret && ret != -EOPNOTSUPP)
-+			pr_warn("Failed to enable CPPC for CPU%d (%d)\n", cpu, ret);
-+
-+		/*
-+		 * Prefer HW min/max_perf when set; otherwise program from
-+		 * policy limits derived earlier from caps.
-+		 * Clamp desired_perf to bounds and sync policy->cur.
-+		 */
-+		if (!cpu_data->perf_ctrls.min_perf || !cpu_data->perf_ctrls.max_perf)
-+			cppc_cpufreq_update_perf_limits(cpu_data, policy);
-+
-+		cpu_data->perf_ctrls.desired_perf =
-+			clamp_t(u32, cpu_data->perf_ctrls.desired_perf,
-+				cpu_data->perf_ctrls.min_perf,
-+				cpu_data->perf_ctrls.max_perf);
-+
-+		policy->cur = cppc_perf_to_khz(caps,
-+					       cpu_data->perf_ctrls.desired_perf);
-+
-+		/* EPP is optional - some platforms may not support it */
-+		ret = cppc_set_epp(cpu, CPPC_EPP_PERFORMANCE_PREF);
-+		if (ret && ret != -EOPNOTSUPP)
-+			pr_warn("Failed to set EPP for CPU%d (%d)\n", cpu, ret);
-+		else if (!ret)
-+			cpu_data->perf_ctrls.energy_perf = CPPC_EPP_PERFORMANCE_PREF;
-+
-+		ret = cppc_set_perf(cpu, &cpu_data->perf_ctrls);
-+		if (ret) {
-+			pr_debug("Err setting perf for autonomous mode CPU:%d ret:%d\n",
-+				 cpu, ret);
-+			goto out;
-+		}
-+
-+		ret = cppc_set_auto_sel(cpu, true);
-+		if (ret && ret != -EOPNOTSUPP) {
-+			pr_warn("Failed autonomous config for CPU%d (%d)\n",
-+				cpu, ret);
-+			goto out;
-+		}
-+		if (!ret)
-+			cpu_data->perf_ctrls.auto_sel = true;
-+	}
-+
-+	if (cpu_data->perf_ctrls.auto_sel) {
-+		/* Sync policy limits from HW when autonomous mode is active */
-+		policy->min = cppc_perf_to_khz(caps,
-+					       cpu_data->perf_ctrls.min_perf ?:
-+					       caps->lowest_nonlinear_perf);
-+		policy->max = cppc_perf_to_khz(caps,
-+					       cpu_data->perf_ctrls.max_perf ?:
-+					       caps->nominal_perf);
-+	} else {
-+		/* Normal mode: governors control frequency */
-+		ret = cppc_set_perf(cpu, &cpu_data->perf_ctrls);
-+		if (ret) {
-+			pr_debug("Err setting perf value:%d on CPU:%d. ret:%d\n",
-+				 caps->highest_perf, cpu, ret);
-+			goto out;
-+		}
- 	}
- 
- 	cppc_cpufreq_cpu_fie_init(policy);
-@@ -1038,10 +1104,18 @@ static int __init cppc_cpufreq_init(void)
- 
- static void __exit cppc_cpufreq_exit(void)
- {
-+	unsigned int cpu;
-+
-+	for_each_present_cpu(cpu)
-+		cppc_set_auto_sel(cpu, false);
-+
- 	cpufreq_unregister_driver(&cppc_cpufreq_driver);
- 	cppc_freq_invariance_exit();
- }
- 
-+module_param(auto_sel_mode, bool, 0444);
-+MODULE_PARM_DESC(auto_sel_mode, "Enable CPPC autonomous performance selection at boot");
-+
- module_exit(cppc_cpufreq_exit);
- MODULE_AUTHOR("Ashwin Chaugule");
- MODULE_DESCRIPTION("CPUFreq driver based on the ACPI CPPC v5.0+ spec");
+ # Ensure that autosectionlabel will produce unique names
+ autosectionlabel_prefix_document = True
+ autosectionlabel_maxdepth = 2
 -- 
-2.34.1
+2.39.5
 
