@@ -1,246 +1,158 @@
-Received: from fra-out-002.esa.eu-central-1.outbound.mail-perimeter.amazon.com (fra-out-002.esa.eu-central-1.outbound.mail-perimeter.amazon.com [3.65.3.180])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEF993E3C4E
-	for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 14:13:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=3.65.3.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C3BC31F999
+	for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 14:20:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773756834; cv=none; b=ixi+cN4TLRbB4lfwZqQsk7RM44C0hdxG/lsMpL5YWMw2b1CAvAnw43EL2JTHen0bVDQV91RhdXBA1Pp2MRiIbqYypdtefCxuTysgo8/2X7D8qsUWbWuUg0kg9MwZ4imzygksU2hs8la3oslDGI+OKuPRgFn97W7bQg5dehug0R4=
+	t=1773757213; cv=none; b=clmtQJx/eFUxpwU8I5k4UAobcae1j+pA3zcP6T1eOqCUzeAz34OOLUWn5LW/VDg78yipV15Q6Bq/sW1o0P7AoGB3oWlnolyXK8Hn8nDRj/iYCUrn8rTif7TAbeF+/tPgLib8CaDivaZC74mjyR/SVN+/yZdqpkCIR6/PT1P6qTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773756834; c=relaxed/simple;
-	bh=RkewADzNkvxBUOT/4I8rSFHV1tsgWKOM5Wj6NnQFCvk=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=AATOqbLtkQ5DEgTuxL4HllP51PncQ9fa3ARF7HMRS6kXF/wURqSx50JYZ+H/5fvsrX+Kkro1QdcKffdOvM+9A/vWqooSSBaeRC7PhTQa4tRCmd84kgd4ibOZcSeGWIjbIf2PXVq5rZv3oqM64UOgu3zvUoWJKfpU1X5HXKf0RuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.co.uk; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (2048-bit key) header.d=amazon.co.uk header.i=@amazon.co.uk header.b=RPqV851x; arc=none smtp.client-ip=3.65.3.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
+	s=arc-20240116; t=1773757213; c=relaxed/simple;
+	bh=h8RokuzQTmpUInbjp48eFI4p729TuWFXN5xxFkUYsyU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DFCxSdNwFn/xtGWB6GeTC5m4yDywle0SxDIgdOzj5VS/s/lXADUgfbQPWptXDO1lD2osmelaMCkBX5XID6NMgF/KEy3JJtxGvoB3/TsGtrvWbKzt9rZbglw3Mc/luBfj86JSWtlYz2EH3iUIc6U9mPUNg0TcsBUfPgV/jjZ5fsQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=U2J5+eJV; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=D+eMRKHL; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.co.uk header.i=@amazon.co.uk header.b="RPqV851x"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="U2J5+eJV";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="D+eMRKHL"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62HA39TO2071568
+	for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 14:20:11 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=UMe5FwLKUI79zakUaymujYWJ
+	qo56zT7hQ3zo7cK1/jw=; b=U2J5+eJVv03wRwdAgX8CYwqHMCjvlRVyXm+tONJ8
+	qSmWZg87oXdUgTqK8FGYeKra5INhtX+FUutx/P/t19mrxCaco5s/+stUD25Jg4yM
+	rySEVVjS+O0ZHnBYerZG90DcnQBckL16uX+iYXy8C7WEJ8nISrJOebH39cY39MUZ
+	GP2gJNMzY8HZVrt3ot+d38VDKG17LW4OGgRPAVZaYBy24ya2JDRU3eQUcW1FrYGw
+	k7rNvh6SvlZqUpHMPV8muJaFzUBAh7bWv0nMv0meY/Pkc+PYok06aTlLHvyYiNpy
+	cD/kFyIJIsptDeHoLW8ehePD38WyQYta5yBz8KBw+uvMcg==
+Received: from mail-vs1-f69.google.com (mail-vs1-f69.google.com [209.85.217.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cy4v6rv1m-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 14:20:11 +0000 (GMT)
+Received: by mail-vs1-f69.google.com with SMTP id ada2fe7eead31-5fb6622ca5dso7470386137.0
+        for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 07:20:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.co.uk; i=@amazon.co.uk; q=dns/txt;
-  s=amazoncorp2; t=1773756832; x=1805292832;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=pnj38ZEunZJJVUWYRSPy2Hkqiw4TfDVhbTQYfcLSb24=;
-  b=RPqV851xN6QedderQTxPJCYlCpExR5XITiYrXNpHZH14zu4iHyAJt9W0
-   XVbCdGiT6KCiZXk0n/Q7ddmZn4qoNYD+a1A5Ejgde2DkwaQciw3Wqtxsc
-   40CVyaRdr2FLEj14CHEo5PjI8NoDNT4Y8Y4//R4YEjDs24K0DdUDmMdws
-   LuvMmgnpIu5zXUtw+B1VDJ5IyaILeCw+mZZfwJkcdaCC9X7sMWCL60Vdy
-   KKEpyK1P9em6kmmAcYLPSsXsggkElJSobIzcu/xfygrgov8dhHem/8qZP
-   lotkAUU65GQwaI9AQkgfSnVQvlHjeIDLzrdQzuKcqs3BnOB+pIi8ATXHr
-   w==;
-X-CSE-ConnectionGUID: qH58fnS/Qky0HXNGBneorw==
-X-CSE-MsgGUID: 572JV9epRFmNm87PMfUS8w==
-X-IronPort-AV: E=Sophos;i="6.23,124,1770595200"; 
-   d="scan'208";a="11009726"
-Received: from ip-10-6-11-83.eu-central-1.compute.internal (HELO smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.11.83])
-  by internal-fra-out-002.esa.eu-central-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 14:13:48 +0000
-Received: from EX19MTAEUA002.ant.amazon.com [54.240.197.232:3383]
- by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.12.17:2525] with esmtp (Farcaster)
- id df145505-3810-48fd-bc30-3d3f678af68a; Tue, 17 Mar 2026 14:13:48 +0000 (UTC)
-X-Farcaster-Flow-ID: df145505-3810-48fd-bc30-3d3f678af68a
-Received: from EX19D005EUB003.ant.amazon.com (10.252.51.31) by
- EX19MTAEUA002.ant.amazon.com (10.252.50.124) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
- Tue, 17 Mar 2026 14:13:38 +0000
-Received: from EX19D005EUB003.ant.amazon.com (10.252.51.31) by
- EX19D005EUB003.ant.amazon.com (10.252.51.31) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
- Tue, 17 Mar 2026 14:13:38 +0000
-Received: from EX19D005EUB003.ant.amazon.com ([fe80::b825:becb:4b38:da0c]) by
- EX19D005EUB003.ant.amazon.com ([fe80::b825:becb:4b38:da0c%3]) with mapi id
- 15.02.2562.037; Tue, 17 Mar 2026 14:13:38 +0000
-From: "Kalyazin, Nikita" <kalyazin@amazon.co.uk>
-To: "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "kvmarm@lists.linux.dev"
-	<kvmarm@lists.linux.dev>, "linux-fsdevel@vger.kernel.org"
-	<linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"bpf@vger.kernel.org" <bpf@vger.kernel.org>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"kernel@xen0n.name" <kernel@xen0n.name>, "linux-riscv@lists.infradead.org"
-	<linux-riscv@lists.infradead.org>, "linux-s390@vger.kernel.org"
-	<linux-s390@vger.kernel.org>, "loongarch@lists.linux.dev"
-	<loongarch@lists.linux.dev>, "linux-pm@vger.kernel.org"
-	<linux-pm@vger.kernel.org>
-CC: "pbonzini@redhat.com" <pbonzini@redhat.com>, "corbet@lwn.net"
-	<corbet@lwn.net>, "maz@kernel.org" <maz@kernel.org>, "oupton@kernel.org"
-	<oupton@kernel.org>, "joey.gouly@arm.com" <joey.gouly@arm.com>,
-	"suzuki.poulose@arm.com" <suzuki.poulose@arm.com>, "yuzenghui@huawei.com"
-	<yuzenghui@huawei.com>, "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-	"will@kernel.org" <will@kernel.org>, "seanjc@google.com" <seanjc@google.com>,
-	"tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>,
-	"bp@alien8.de" <bp@alien8.de>, "dave.hansen@linux.intel.com"
-	<dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>,
-	"hpa@zytor.com" <hpa@zytor.com>, "luto@kernel.org" <luto@kernel.org>,
-	"peterz@infradead.org" <peterz@infradead.org>, "willy@infradead.org"
-	<willy@infradead.org>, "akpm@linux-foundation.org"
-	<akpm@linux-foundation.org>, "david@kernel.org" <david@kernel.org>,
-	"lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>,
-	"vbabka@kernel.org" <vbabka@kernel.org>, "rppt@kernel.org" <rppt@kernel.org>,
-	"surenb@google.com" <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>,
-	"ast@kernel.org" <ast@kernel.org>, "daniel@iogearbox.net"
-	<daniel@iogearbox.net>, "andrii@kernel.org" <andrii@kernel.org>,
-	"martin.lau@linux.dev" <martin.lau@linux.dev>, "eddyz87@gmail.com"
-	<eddyz87@gmail.com>, "song@kernel.org" <song@kernel.org>,
-	"yonghong.song@linux.dev" <yonghong.song@linux.dev>,
-	"john.fastabend@gmail.com" <john.fastabend@gmail.com>, "kpsingh@kernel.org"
-	<kpsingh@kernel.org>, "sdf@fomichev.me" <sdf@fomichev.me>,
-	"haoluo@google.com" <haoluo@google.com>, "jolsa@kernel.org"
-	<jolsa@kernel.org>, "jgg@ziepe.ca" <jgg@ziepe.ca>, "jhubbard@nvidia.com"
-	<jhubbard@nvidia.com>, "peterx@redhat.com" <peterx@redhat.com>,
-	"jannh@google.com" <jannh@google.com>, "pfalcato@suse.de" <pfalcato@suse.de>,
-	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>, "riel@surriel.com"
-	<riel@surriel.com>, "ryan.roberts@arm.com" <ryan.roberts@arm.com>,
-	"jgross@suse.com" <jgross@suse.com>, "yu-cheng.yu@intel.com"
-	<yu-cheng.yu@intel.com>, "kas@kernel.org" <kas@kernel.org>, "coxu@redhat.com"
-	<coxu@redhat.com>, "kevin.brodsky@arm.com" <kevin.brodsky@arm.com>,
-	"ackerleytng@google.com" <ackerleytng@google.com>, "yosry@kernel.org"
-	<yosry@kernel.org>, "ajones@ventanamicro.com" <ajones@ventanamicro.com>,
-	"maobibo@loongson.cn" <maobibo@loongson.cn>, "tabba@google.com"
-	<tabba@google.com>, "prsampat@amd.com" <prsampat@amd.com>,
-	"wu.fei9@sanechips.com.cn" <wu.fei9@sanechips.com.cn>, "mlevitsk@redhat.com"
-	<mlevitsk@redhat.com>, "jmattson@google.com" <jmattson@google.com>,
-	"jthoughton@google.com" <jthoughton@google.com>, "agordeev@linux.ibm.com"
-	<agordeev@linux.ibm.com>, "alex@ghiti.fr" <alex@ghiti.fr>,
-	"aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>, "borntraeger@linux.ibm.com"
-	<borntraeger@linux.ibm.com>, "chenhuacai@kernel.org" <chenhuacai@kernel.org>,
-	"dev.jain@arm.com" <dev.jain@arm.com>, "gor@linux.ibm.com"
-	<gor@linux.ibm.com>, "hca@linux.ibm.com" <hca@linux.ibm.com>,
-	"palmer@dabbelt.com" <palmer@dabbelt.com>, "pjw@kernel.org" <pjw@kernel.org>,
-	"shijie@os.amperecomputing.com" <shijie@os.amperecomputing.com>,
-	"svens@linux.ibm.com" <svens@linux.ibm.com>, "thuth@redhat.com"
-	<thuth@redhat.com>, "wyihan@google.com" <wyihan@google.com>,
-	"yang@os.amperecomputing.com" <yang@os.amperecomputing.com>,
-	"Jonathan.Cameron@huawei.com" <Jonathan.Cameron@huawei.com>,
-	"Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>, "urezki@gmail.com"
-	<urezki@gmail.com>, "zhengqi.arch@bytedance.com"
-	<zhengqi.arch@bytedance.com>, "gerald.schaefer@linux.ibm.com"
-	<gerald.schaefer@linux.ibm.com>, "jiayuan.chen@shopee.com"
-	<jiayuan.chen@shopee.com>, "lenb@kernel.org" <lenb@kernel.org>,
-	"osalvador@suse.de" <osalvador@suse.de>, "pavel@kernel.org"
-	<pavel@kernel.org>, "rafael@kernel.org" <rafael@kernel.org>,
-	"vannapurve@google.com" <vannapurve@google.com>, "jackmanb@google.com"
-	<jackmanb@google.com>, "aneesh.kumar@kernel.org" <aneesh.kumar@kernel.org>,
-	"patrick.roy@linux.dev" <patrick.roy@linux.dev>, "Thomson, Jack"
-	<jackabt@amazon.co.uk>, "Itazuri, Takahiro" <itazur@amazon.co.uk>,
-	"Manwaring, Derek" <derekmn@amazon.com>, "Kalyazin, Nikita"
-	<kalyazin@amazon.co.uk>
-Subject: [PATCH v11 16/16] KVM: selftests: Test guest execution from direct
- map removed gmem
-Thread-Topic: [PATCH v11 16/16] KVM: selftests: Test guest execution from
- direct map removed gmem
-Thread-Index: AQHcthg/KCzYvBJTJ0yQSSHK2da0LQ==
-Date: Tue, 17 Mar 2026 14:13:37 +0000
-Message-ID: <20260317141031.514-17-kalyazin@amazon.com>
-References: <20260317141031.514-1-kalyazin@amazon.com>
-In-Reply-To: <20260317141031.514-1-kalyazin@amazon.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        d=oss.qualcomm.com; s=google; t=1773757210; x=1774362010; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=UMe5FwLKUI79zakUaymujYWJqo56zT7hQ3zo7cK1/jw=;
+        b=D+eMRKHLRYTNElgDFTd6FAHYdVYohW1t8FcWDri7kE+K1/9VtHOECw1AFihWIzPlWT
+         1VqcRoEy4xzVB+erZzed3o4oKZmX8ntEIyexn/68GB8orrxxz0f+7GVMF5GZUh4Vm0tz
+         Cx6ZsQFrGPDAQPwOBZvyKY4FGD5r7QaMj3YikbnYBgk32uPGXEIuDZWkz2TLxjtE2wjt
+         e21gHZzcyKTR33dQFJndNR/W8PBz5oJKznYCz6USvLZ3sSnSGRzWDxLLaX1FLuURpSH2
+         uy5UZTNhDy5RdWSDE2Jj/wK7KeV8jRmjnjwdL9ITPMK/QM5bDbl6CmOr85anTILVj2Wi
+         JjBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773757210; x=1774362010;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UMe5FwLKUI79zakUaymujYWJqo56zT7hQ3zo7cK1/jw=;
+        b=iT9s5ikGs2HG7m91zJAdH8wQ5UtBYOEO4F/AhQgczcn92p/LAgOEGdPKCe/yXH9G/I
+         kPrRdR+nlVxOuqiL0sVzqYCg2Ivma4mB8GkETXqnRdCvyaqAAeBvYktLx2Xho2btHARq
+         WCYKC91wZDt6VtSqZ1autH31sI8ufcMjEdqU/zYOk8oirmp6UYYp9I1aurb75d7c9//U
+         bdA0hYNqMdzyGivzLlLla2Q/UdjgywGL65mp0DZisn9SUTs9QuF42BCCB1PfkEzmyR1G
+         wggn1v5WhS4OGleF88vpatg685/vnyBUKpd4R/vgQbqNQV3NbqnMTQm9X1AmzAo/rqlT
+         +Ykw==
+X-Forwarded-Encrypted: i=1; AJvYcCV3xhyzzaMG3WA5y+s8fNXgMhj61t2JRnbg/IBHqRKP89eQDzRquU9JDrX9gZ0SeuI3UcTlhiDb5q0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YytVtTbEp4dvlSz376HkPsYjHFiAHHqFGBEiNFln9wHp8+FBM11
+	wgTqxllFmhCyLFAo4duHe/zhwd6oWuDgJiYnge8yrJJcKDDzZvXTb6zgit/ZrI96YfAxr7hIxNq
+	nFGAWezHmE6xLGpU4ME/W+XWQPGs4tw1zG2nMfxOZI5JZi88oKEg+spbJDm4nAjA=
+X-Gm-Gg: ATEYQzy9xUajpFT25VHRONpJdL6BZRUc94TcUPjKl7TqJ0G0qomcsMg8sIJvOpB3Bu6
+	7QkjIhaZoyM/VhzycYVvcTdj1Lab/yTOn1CzWmNrzrUjzxjmfVjJqKbR7Xdarhq19VVfdonZ1Be
+	oE0Rpf8gWElfqOlA25dPbcS6cnmLkn8jqFhbIEZX4mA6XPGvD9wJ+XekgjTwYhu4yWhQk9OfgKX
+	uOmF37Ejb937HvV25pf5Y9wA13U99Oz/mcEUdxaFjNUJCqBdoqCkAOn0nYe1iQRi4+El02zh0cg
+	f3tAtrSSMJYeytRCbuBZxY5c+R+titgKzKXxOyYtQUy68ZywBkzJiS+61mqoURqYe2gb0p8koUr
+	ipVuY06yCFPuk8CTnjUzzC3Siw0A1t/hjWg==
+X-Received: by 2002:a05:6102:32c1:b0:5f5:514f:4e59 with SMTP id ada2fe7eead31-6020e5f6a8cmr5641702137.27.1773757210173;
+        Tue, 17 Mar 2026 07:20:10 -0700 (PDT)
+X-Received: by 2002:a05:6102:32c1:b0:5f5:514f:4e59 with SMTP id ada2fe7eead31-6020e5f6a8cmr5641681137.27.1773757209549;
+        Tue, 17 Mar 2026 07:20:09 -0700 (PDT)
+Received: from oss.qualcomm.com ([82.79.95.133])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48556422338sm122583015e9.7.2026.03.17.07.20.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Mar 2026 07:20:08 -0700 (PDT)
+Date: Tue, 17 Mar 2026 16:20:06 +0200
+From: Abel Vesa <abel.vesa@oss.qualcomm.com>
+To: Brian Masney <bmasney@redhat.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, Abel Vesa <abelvesa@kernel.org>,
+        Hans de Goede <hansg@kernel.org>,
+        Saravana Kannan <saravanak@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
+Subject: Re: [PATCH] clk: add new Kconfig to control default behavior of
+ disabling unused clocks
+Message-ID: <hdagvfcxoh4nukz5sqocbp7qbezv3rxct3aygb7fvhsej7zp27@iyeoi74q2w7n>
+References: <20260316-clk-ignore-unused-kconfig-v1-1-6e95a4fb0c94@redhat.com>
+ <20260317-almond-leech-of-correction-2a2ef6@houat>
+ <com5zf4bfgb3eoelbmy5pfykhdow6ne3nteua6l7bnzkr72dsb@pehxxygji5z2>
+ <20260317-notorious-classic-sunfish-d016d5@houat>
+ <2dsd7hq4bn25dibqk62a7o56tt2tecf645tq3upccneq4hby67@cmjjc5d6ximt>
+ <ablhdKJgEhU8KmtO@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ablhdKJgEhU8KmtO@redhat.com>
+X-Proofpoint-ORIG-GUID: hwDLpue7x-Y2WLFtO-AjLltoSrxG2hJy
+X-Authority-Analysis: v=2.4 cv=Aa683nXG c=1 sm=1 tr=0 ts=69b9631b cx=c_pps
+ a=5HAIKLe1ejAbszaTRHs9Ug==:117 a=iKs3dpp2RB4k51ZqCjcyjQ==:17
+ a=kj9zAlcOel0A:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
+ a=aJ-NGQLJV4KphsafQ0sA:9 a=CjuIK1q_8ugA:10 a=gYDTvv6II1OnSo0itH1n:22
+X-Proofpoint-GUID: hwDLpue7x-Y2WLFtO-AjLltoSrxG2hJy
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzE3MDEyNiBTYWx0ZWRfXyuFNwG0HQ+cZ
+ 64ppekLtSdq6rAPLlyFU2bd/47qR2va60y1C04fCGqMFxsStHyRhLP9F8D1BtwV1hBonBKQyOk5
+ Fe8Ml7VL7zgNgzft87cf9yGXmLmcSYBshocbK0E/fwGWre//RFVbi11OFxXWqXJBI0+s72Ps6gp
+ YF+mgLNx3xRfXn/NBHaX6onyO4trjMYTiYGsHfYGUCMBt/GlwQaCXEVTo0US76jVVz4n8QujHNP
+ BXUC9TuY76rFFUAUpp+0ZnQjL3E/+F74wVyI99FXTL5YpxC0iAznirWtr6I9xtjxy6g6xRuSVN5
+ yQEL4sRhDSnsRkpvuXGBub+2fVw46598spvPMRZ6DW4QPJQPDO5dDYbMhf2uIIoR7e3sxg9MIe2
+ cThuVZogzIhBctywVbVqIiy6u4Z18Ga+iNdz7rjh4Db06vDGj2xsS9RxZE+oMmBctfLoMDZnRpx
+ Yx4XPh3cNp2Y76KHnqQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-17_01,2026-03-17_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 bulkscore=0 priorityscore=1501 malwarescore=0 clxscore=1015
+ impostorscore=0 lowpriorityscore=0 spamscore=0 phishscore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603170126
 
-From: Patrick Roy <patrick.roy@linux.dev>=0A=
-=0A=
-Add a selftest that loads itself into guest_memfd (via=0A=
-GUEST_MEMFD_FLAG_MMAP) and triggers an MMIO exit when executed. This=0A=
-exercises x86 MMIO emulation code inside KVM for guest_memfd-backed=0A=
-memslots where the guest_memfd folios are direct map removed.=0A=
-Particularly, it validates that x86 MMIO emulation code (guest page=0A=
-table walks + instruction fetch) correctly accesses gmem through the VMA=0A=
-that's been reflected into the memslot's userspace_addr field (instead=0A=
-of trying to do direct map accesses).=0A=
-=0A=
-Signed-off-by: Patrick Roy <patrick.roy@linux.dev>=0A=
-Signed-off-by: Nikita Kalyazin <kalyazin@amazon.com>=0A=
----=0A=
- .../selftests/kvm/set_memory_region_test.c    | 52 +++++++++++++++++--=0A=
- 1 file changed, 48 insertions(+), 4 deletions(-)=0A=
-=0A=
-diff --git a/tools/testing/selftests/kvm/set_memory_region_test.c b/tools/t=
-esting/selftests/kvm/set_memory_region_test.c=0A=
-index 7fe427ff9b38..cb445d420e8c 100644=0A=
---- a/tools/testing/selftests/kvm/set_memory_region_test.c=0A=
-+++ b/tools/testing/selftests/kvm/set_memory_region_test.c=0A=
-@@ -602,6 +602,41 @@ static void test_mmio_during_vectoring(void)=0A=
- =0A=
- 	kvm_vm_free(vm);=0A=
- }=0A=
-+=0A=
-+static void guest_code_trigger_mmio(void)=0A=
-+{=0A=
-+	/*=0A=
-+	 * Read some GPA that is not backed by a memslot. KVM consider this=0A=
-+	 * as MMIO and tell userspace to emulate the read.=0A=
-+	 */=0A=
-+	READ_ONCE(*((uint64_t *)MEM_REGION_GPA));=0A=
-+=0A=
-+	GUEST_DONE();=0A=
-+}=0A=
-+=0A=
-+static void test_guest_memfd_mmio(void)=0A=
-+{=0A=
-+	struct kvm_vm *vm;=0A=
-+	struct kvm_vcpu *vcpu;=0A=
-+	struct vm_shape shape =3D {=0A=
-+		.mode =3D VM_MODE_DEFAULT,=0A=
-+		.src_type =3D VM_MEM_SRC_GUEST_MEMFD_NO_DIRECT_MAP,=0A=
-+	};=0A=
-+	pthread_t vcpu_thread;=0A=
-+=0A=
-+	pr_info("Testing MMIO emulation for instructions in gmem\n");=0A=
-+=0A=
-+	vm =3D __vm_create_shape_with_one_vcpu(shape, &vcpu, 0, guest_code_trigge=
-r_mmio);=0A=
-+=0A=
-+	virt_map(vm, MEM_REGION_GPA, MEM_REGION_GPA, 1);=0A=
-+=0A=
-+	pthread_create(&vcpu_thread, NULL, vcpu_worker, vcpu);=0A=
-+=0A=
-+	/* If the MMIO read was successfully emulated, the vcpu thread will exit =
-*/=0A=
-+	pthread_join(vcpu_thread, NULL);=0A=
-+=0A=
-+	kvm_vm_free(vm);=0A=
-+}=0A=
- #endif=0A=
- =0A=
- int main(int argc, char *argv[])=0A=
-@@ -625,10 +660,19 @@ int main(int argc, char *argv[])=0A=
- 	test_add_max_memory_regions();=0A=
- =0A=
- #ifdef __x86_64__=0A=
--	if (kvm_has_cap(KVM_CAP_GUEST_MEMFD) &&=0A=
--	    (kvm_check_cap(KVM_CAP_VM_TYPES) & BIT(KVM_X86_SW_PROTECTED_VM))) {=
-=0A=
--		test_add_private_memory_region();=0A=
--		test_add_overlapping_private_memory_regions();=0A=
-+	if (kvm_has_cap(KVM_CAP_GUEST_MEMFD)) {=0A=
-+		uint64_t valid_flags =3D kvm_check_cap(KVM_CAP_GUEST_MEMFD_FLAGS);=0A=
-+=0A=
-+		if (kvm_check_cap(KVM_CAP_VM_TYPES) & BIT(KVM_X86_SW_PROTECTED_VM)) {=0A=
-+			test_add_private_memory_region();=0A=
-+			test_add_overlapping_private_memory_regions();=0A=
-+		}=0A=
-+=0A=
-+		if ((valid_flags & GUEST_MEMFD_FLAG_MMAP) &&=0A=
-+		    (valid_flags & GUEST_MEMFD_FLAG_NO_DIRECT_MAP))=0A=
-+			test_guest_memfd_mmio();=0A=
-+		else=0A=
-+			pr_info("Skipping tests requiring GUEST_MEMFD_FLAG_MMAP | GUEST_MEMFD_F=
-LAG_NO_DIRECT_MAP");=0A=
- 	} else {=0A=
- 		pr_info("Skipping tests for KVM_MEM_GUEST_MEMFD memory regions\n");=0A=
- 	}=0A=
--- =0A=
-2.50.1=0A=
-=0A=
+On 26-03-17 10:13:08, Brian Masney wrote:
+> On Tue, Mar 17, 2026 at 03:21:17PM +0200, Abel Vesa wrote:
+> > The solution has been already discussed for a long time now and it is:
+> > drop the clk_ignore_unused late_initcall entirely and then make a
+> > generic sync_state callback that the clock providers can use (or they
+> > could implement one themselves). This way, until sync_state is reached
+> > for a specific clock provider driver, all unused clocks remain as is.
+> 
+> I'm willing to work on the sync state support once my clk scaling
+> series [1] lands upstream. I believe that Saravana posted a series
+> related to clk sync state, and I need to look at that.
+
+Yeah, I've spent time on it a couple of years as well, but got side
+tracked...
+
+I'd be nice if this actually lands soon.
+
+> 
+> FWIW, the only reason I posted this patch is because at the end of
+> Stephen's LPC talk I got the impression that this was also an acceptable
+> change. I'm fine with dropping this change.
+
+Here is the scenario that proves adding such config isn't the right
+solution: think of single kernel image working with different SoCs from
+different vendors. This is actually the case where distros need to have
+a way to provide one kernel image + thousands of DTBs and be able to
+boot one each one of the boards. Whatever this config is set to in the
+kernel image, it will not work with all platforms.
