@@ -1,42 +1,42 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3715C3AE6E5
-	for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 10:24:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0D9B3AE707;
+	Tue, 17 Mar 2026 10:24:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773743092; cv=none; b=uBYWmF9OESzeVwiMI7jAjK7Wu7JX/XVa82O2iUXsCgWWA7qeAbUVHWd5illli/Yt28tLuMU3MGSYm4W6ovOT85D3NZTU5CXCE7wdq4mt3wbSmr7v/yGx6n734CgyCKFPtOCkEvt9acLSucq7S7vfV+PwIgXhyj6aHpOeKwV12tE=
+	t=1773743094; cv=none; b=achOD3ertJeOjg6s1hIkvHD4iC4L2HQXP1cWbL6HnaL2f5WscaPXVLBsFLUngcu8FMC7yfrSHkN5AAabg+P5Fb3mnOnDWjCF2n1EQF60+9ba6hE3dThJf+WZ34V3snCvcopdWMZTU3rEmCqnq3TrlghNbjRhHad80cp9y16danQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773743092; c=relaxed/simple;
-	bh=TvmwqqzUjFXwsgjs9g4DkmvOJ12nKokPN5kUqwA0B18=;
+	s=arc-20240116; t=1773743094; c=relaxed/simple;
+	bh=T+tc8hlQUoawOQ4PZOcmI6S3JEvYe1k+xqcb9/crEKw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=eVSJL8dPrdwGLzgWJempu2cncnmnwkJF8LCLgsK9VwrvNeIkUDXWgT56zuF1PS8wrZpmCyqrCt0PZBRLo7dBwb7djpUOZU+mLOfncOcFJsm7bWlG7Zw8Ah+VfoVCqyyomEP+1w5uZ5aHC21oKa/tCTKN7N7X4+eL3Hcl6axvUik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=gDEDqNMl; arc=none smtp.client-ip=185.171.202.116
+	 In-Reply-To:To:Cc; b=SfvXiTpuLzcq9Bwx8Fn9EUeFRNJ1aYVYbUt/1FDzEGKEPfVQwZdvpJ6XiAFHL490c9Vyjg6jsO5NXVOYcKD5Z+cSGMqrbEwJroIfLoqvc8rihRI99k6JmB3o/EE1zmetfvy00IzRAYdTERK0zejVqYrDeAB0llE0gQKqHx+uLB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=2eDnJIsI; arc=none smtp.client-ip=185.246.84.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="gDEDqNMl"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="2eDnJIsI"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id DF24DC55055;
-	Tue, 17 Mar 2026 10:25:13 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id A4CC21A2E86;
+	Tue, 17 Mar 2026 10:24:51 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id E2C695FC9A;
-	Tue, 17 Mar 2026 10:24:49 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D95EB10450451;
-	Tue, 17 Mar 2026 11:24:47 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 7A5175FC9A;
+	Tue, 17 Mar 2026 10:24:51 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 73D8310450453;
+	Tue, 17 Mar 2026 11:24:49 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1773743089; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1773743090; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=7/ZShnKFDMohqlPS8rHFdEyfu+4BivJefw8T/oDlCwI=;
-	b=gDEDqNMlUsolCHS1quv+HEvulyLizeJOQyEuOQB5JbEmouhDvxBkTouFH8pN1/ik3HGOj/
-	UGM5jghjoUKsHx/5dlrH9lVOXYQLjTY4cMXL/zFHloJVojteL01tcyAvXamOUKPdcdir1+
-	z2CjLdxtzm2VGpO/aBWLZvFVXAcCsFFkNxQbhfkBpo0OWJAJNv50RwbivNu0H5C0bGtXT6
-	SurouOuy4AobchJr+AaZmp6heXJENtlqfipytf4XsPQ8KwXHxy1wemPM+UiqppjtjgGrFF
-	IOx/HukZKELS/bDRmhD3o0QdBFnMtjqNHDAqsX/mgsLZv9ykN1F3eO4aZWQxBA==
+	bh=3UTw9aN/2yCK3EvGO8QBuf8zar07N1b/IrNqKvh1CgE=;
+	b=2eDnJIsIIFtXSHEnNT0QdUMy/UeGSLx1odw1HIC8E3lP17E8zCWp40u53c4CdsSVYWkBKD
+	ihz4qbr9oJWEGVLa07H+jOqmpl/qnLiCRGqyuQuHUJfFJGp9jq5BQvcnOOLtkjWvliKRpC
+	cyClh4i1C9nyDPuzcQnuvy6ARasEWUUBzX9YpcZtGOM5TcjKHWU35TNxc7ccciQ+C5RWSd
+	vbkbMIwH1fL2ba2vlry/b5GzNODZ/FXIenkEl9o7zIQ9N5U6Vc7gm6HH3E+LoI1fOPZF/Z
+	b+d0ZXjVCC/QjjeafJGM7cx/25dyhYB6wNWP9nWFhTcT6xe36yLGREbou6l0sw==
 From: Miquel Raynal <miquel.raynal@bootlin.com>
-Date: Tue, 17 Mar 2026 11:24:24 +0100
-Subject: [PATCH v3 21/27] mtd: spi-nor: Add steps for testing locking with
- CMP
+Date: Tue, 17 Mar 2026 11:24:25 +0100
+Subject: [PATCH v3 22/27] mtd: spi-nor: winbond: Add W25H512NWxxAM CMP
+ locking support
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -45,7 +45,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260317-winbond-v6-18-rc1-spi-nor-swp-v3-21-2ca9ea4e7b9b@bootlin.com>
+Message-Id: <20260317-winbond-v6-18-rc1-spi-nor-swp-v3-22-2ca9ea4e7b9b@bootlin.com>
 References: <20260317-winbond-v6-18-rc1-spi-nor-swp-v3-0-2ca9ea4e7b9b@bootlin.com>
 In-Reply-To: <20260317-winbond-v6-18-rc1-spi-nor-swp-v3-0-2ca9ea4e7b9b@bootlin.com>
 To: Pratyush Yadav <pratyush@kernel.org>, Michael Walle <mwalle@kernel.org>, 
@@ -61,166 +61,61 @@ Cc: Tudor Ambarus <tudor.ambarus@linaro.org>,
 X-Mailer: b4 0.14.3
 X-Last-TLS-Session-Version: TLSv1.3
 
-Extend the test coverage by giving guidelines to verify the CMP bit acts
-according to our expectations.
+This chip has support for the locking complement (CMP) feature. Add
+the relevant bit to enable it.
 
 Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
 ---
-The instructions listed in this file target people adding support for
-new chips, however here are below extra steps that I also ran with the
-same W25H512NWxxAM chip. They are here to prove core correctness.
+Test run following the freshly written documentation:
 
-    $ flash_lock -u /dev/mtd0
-    $ flash_lock -l /dev/mtd0 0 1008
-    $ show_sectors
-    software locked sectors
-     region (in hex)   | status   | #blocks
-     ------------------+----------+--------
-     00000000-03efffff |   locked | 1008
-     03f00000-03ffffff | unlocked | 16
-    $ flash_lock -l /dev/mtd0 0 1009
-    $ show_sectors # should not change
-    software locked sectors
-     region (in hex)   | status   | #blocks
-     ------------------+----------+--------
-     00000000-03efffff |   locked | 1008
-     03f00000-03ffffff | unlocked | 16
-    $ flash_lock -l /dev/mtd0 0 1015
-    $ show_sectors # should not change
-    software locked sectors
-     region (in hex)   | status   | #blocks
-     ------------------+----------+--------
-     00000000-03efffff |   locked | 1008
-     03f00000-03ffffff | unlocked | 16
-    $ flash_lock -l /dev/mtd0 0 1016
-    $ show_sectors # should cover more
-    software locked sectors
-     region (in hex)   | status   | #blocks
-     ------------------+----------+--------
-     00000000-03f7ffff |   locked | 1016
-     03f80000-03ffffff | unlocked | 8
-    $ flash_lock -u /dev/mtd0 $((1015 * $bs)) 1
-    $ show_sectors # should not change
-    software locked sectors
-     region (in hex)   | status   | #blocks
-     ------------------+----------+--------
-     00000000-03f7ffff |   locked | 1016
-     03f80000-03ffffff | unlocked | 8
-    $ flash_lock -u /dev/mtd0 $((1009 * $bs)) 7
-    $ show_sectors # should not change
-    software locked sectors
-     region (in hex)   | status   | #blocks
-     ------------------+----------+--------
-     00000000-03f7ffff |   locked | 1016
-     03f80000-03ffffff | unlocked | 8
-    $ flash_lock -u /dev/mtd0 $((1008 * $bs)) 8
-    $ show_sectors # range should reduce down to initial value
-    software locked sectors
-     region (in hex)   | status   | #blocks
-     ------------------+----------+--------
-     00000000-03efffff |   locked | 1008
-     03f00000-03ffffff | unlocked | 16
-
-    [Similar situations, on the other side of the device]
-
-    $ flash_lock -u /dev/mtd0
-    $ flash_lock -l /dev/mtd0 $((16 * $bs)) 1008
-    $ show_sectors
-    software locked sectors
-     region (in hex)   | status   | #blocks
-     ------------------+----------+--------
-     00000000-000fffff | unlocked | 16
-     00100000-03ffffff |   locked | 1008
-    $ flash_lock -l /dev/mtd0 $((15 * $bs)) 1009
-    $ show_sectors # should not change
-    software locked sectors
-     region (in hex)   | status   | #blocks
-     ------------------+----------+--------
-     00000000-000fffff | unlocked | 16
-     00100000-03ffffff |   locked | 1008
-    $ flash_lock -l /dev/mtd0 $((9 * $bs)) 1015
-    $ show_sectors # should not change
-    software locked sectors
-     region (in hex)   | status   | #blocks
-     ------------------+----------+--------
-     00000000-000fffff | unlocked | 16
-     00100000-03ffffff |   locked | 1008
-    $ flash_lock -l /dev/mtd0 $((8 * $bs)) 1016
-    $ show_sectors # should cover more
-    software locked sectors
-     region (in hex)   | status   | #blocks
-     ------------------+----------+--------
-     00000000-0007ffff | unlocked | 8
-     00080000-03ffffff |   locked | 1016
-    $ flash_lock -u /dev/mtd0 $((8 * $bs)) 1
-    $ show_sectors # should not change
-    software locked sectors
-     region (in hex)   | status   | #blocks
-     ------------------+----------+--------
-     00000000-0007ffff | unlocked | 8
-     00080000-03ffffff |   locked | 1016
-    $ flash_lock -u /dev/mtd0 $((8 * $bs)) 7
-    $ show_sectors # should not change
-    software locked sectors
-     region (in hex)   | status   | #blocks
-     ------------------+----------+--------
-     00000000-0007ffff | unlocked | 8
-     00080000-03ffffff |   locked | 1016
-    $ flash_lock -u /dev/mtd0 $((8 * $bs)) 8
-    $ show_sectors # range should reduce down to initial value
-    software locked sectors
-     region (in hex)   | status   | #blocks
-     ------------------+----------+--------
-     00000000-000fffff | unlocked | 16
-     00100000-03ffffff |   locked | 1008
+$ flash_lock -u /dev/mtd0
+$ flash_lock -l /dev/mtd0 $bs $all_but_one # all but the first
+$ show_sectors
+locked sectors
+ region (in hex)   | status   | #blocks
+ ------------------+----------+--------
+ 00000000-0000ffff | unlocked | 1
+ 00010000-03ffffff |   locked | 1023
+$ flash_lock -u /dev/mtd0 $bs 1 # all but the two first
+$ show_sectors
+locked sectors
+ region (in hex)   | status   | #blocks
+ ------------------+----------+--------
+ 00000000-0001ffff | unlocked | 2
+ 00020000-03ffffff |   locked | 1022
+$ flash_lock -u /dev/mtd0
+$ flash_lock -l /dev/mtd0 0 $all_but_one # same from the other side
+$ show_sectors
+locked sectors
+ region (in hex)   | status   | #blocks
+ ------------------+----------+--------
+ 00000000-03feffff |   locked | 1023
+ 03ff0000-03ffffff | unlocked | 1
+$ flash_lock -u /dev/mtd0 $(($size - (2 * $bs))) 1 # all but two
+$ show_sectors
+locked sectors
+ region (in hex)   | status   | #blocks
+ ------------------+----------+--------
+ 00000000-03fdffff |   locked | 1022
+ 03fe0000-03ffffff | unlocked | 2
 ---
- Documentation/driver-api/mtd/spi-nor.rst | 36 ++++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
+ drivers/mtd/spi-nor/winbond.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/driver-api/mtd/spi-nor.rst b/Documentation/driver-api/mtd/spi-nor.rst
-index 4755eb75fe5e..ec46bba8297a 100644
---- a/Documentation/driver-api/mtd/spi-nor.rst
-+++ b/Documentation/driver-api/mtd/spi-nor.rst
-@@ -331,3 +331,39 @@ section, after the ``---`` marker.
-      ------------------+----------+--------
-      00000000-0000ffff |   locked | 1
-      00010000-03ffffff | unlocked | 1023
-+
-+   If the flash features a Complement (CMP) bit, we can protect with
-+   more granularity above half of the capacity. Let's lock all but one
-+   block, then unlock one more block::
-+
-+    root@1:~# all_but_one=$((($size / $bs) - 1))
-+    root@1:~# flash_lock -u /dev/mtd0
-+    root@1:~# flash_lock -l /dev/mtd0 $bs $all_but_one # all but the first
-+    root@1:~# show_sectors
-+    software locked sectors
-+     region (in hex)   | status   | #blocks
-+     ------------------+----------+--------
-+     00000000-0000ffff | unlocked | 1
-+     00010000-03ffffff |   locked | 1023
-+    root@1:~# flash_lock -u /dev/mtd0 $bs 1 # all but the two first
-+    root@1:~# show_sectors
-+    software locked sectors
-+     region (in hex)   | status   | #blocks
-+     ------------------+----------+--------
-+     00000000-0001ffff | unlocked | 2
-+     00020000-03ffffff |   locked | 1022
-+    root@1:~# flash_lock -u /dev/mtd0
-+    root@1:~# flash_lock -l /dev/mtd0 0 $all_but_one # same from the other side
-+    root@1:~# show_sectors
-+    software locked sectors
-+     region (in hex)   | status   | #blocks
-+     ------------------+----------+--------
-+     00000000-03feffff |   locked | 1023
-+     03ff0000-03ffffff | unlocked | 1
-+    root@1:~# flash_lock -u /dev/mtd0 $(($size - (2 * $bs))) 1 # all but two
-+    root@1:~# show_sectors
-+    software locked sectors
-+     region (in hex)   | status   | #blocks
-+     ------------------+----------+--------
-+     00000000-03fdffff |   locked | 1022
-+     03fe0000-03ffffff | unlocked | 2
+diff --git a/drivers/mtd/spi-nor/winbond.c b/drivers/mtd/spi-nor/winbond.c
+index fb855fe44733..7609dcc768f0 100644
+--- a/drivers/mtd/spi-nor/winbond.c
++++ b/drivers/mtd/spi-nor/winbond.c
+@@ -358,7 +358,8 @@ static const struct flash_info winbond_nor_parts[] = {
+ 	}, {
+ 		/* W25H512NWxxAM */
+ 		.id = SNOR_ID(0xef, 0xa0, 0x20),
+-		.flags = SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | SPI_NOR_TB_SR_BIT6 | SPI_NOR_4BIT_BP,
++		.flags = SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | SPI_NOR_TB_SR_BIT6 |
++			 SPI_NOR_4BIT_BP | SPI_NOR_HAS_CMP,
+ 	}, {
+ 		/* W25H01NWxxAM */
+ 		.id = SNOR_ID(0xef, 0xa0, 0x21),
 
 -- 
 2.51.1
