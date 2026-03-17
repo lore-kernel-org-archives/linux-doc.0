@@ -1,379 +1,251 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8356318121;
-	Tue, 17 Mar 2026 18:00:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E444834889A;
+	Tue, 17 Mar 2026 18:09:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773770457; cv=none; b=K1WNgdON5FPF0ZG8T8ywTLq35G3f2DrriF0YJHVXE/XmHZehhsLD/HaMK9f5GwcfKsPRVtjGIw/p9P69fcuGaYy+x0GzUqzzv5iIvwHmCihWhCwKxcgNdrAvALsRoOKbqfwq9gRwYAyeBKeJEG7tvHL97ZnPBRpmycxfjJaBG0k=
+	t=1773770988; cv=none; b=uQv7WOUUR6qtjrIyI6cK6jNH1XDqEpwHvFaCX58x3R/LnYOOvHqoHazHJyShg6NRi6Y9oMaTNBfW8DLbMC6Cg+bNViUIx8WrLM65j98OLAnGr8zpHuMOrQCIrlVz0UT7FIFpShguJeL/uj7zT2RKg2LT+I0gya+wpF6olmRYJQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773770457; c=relaxed/simple;
-	bh=1h0LwC6y35Zrab7lLwO8WqaaGJkYFjg0b4+fiD6TlVA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AzPQQWEUm4w2ATUzA6SGwGgqnR4s9haMtY0nNNN0Pmh2VSVomaar0I3Lfzh69JlvQVQXhhnCv6hH1X+SZiYTeAKbdHBEyjfvxSMy5tCpQ99P16emh35AlgJ4rKk2SCk53c3jcBky57duddfRl0MSnqCdUbF2iGcp+lYqhW0JqhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DdnDPLKR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773770988; c=relaxed/simple;
+	bh=Z4F1vxf+p6RzhUp9a2v2J9s9QgiYzWeKQosvmgKgkyI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=mzpn2ZflbC7lu4PgqbsccR2LzsIoSAnIcBvoSVLBUj0le0OBBBlBGZ3QkZMqqdha6KEVEMklgEob/wSUOKX7INlbiGjQPfFoAExbZaYQ6PQFOQLo31ViWQMtK5cF/oYDrYZ/Tu4WnLdgyGZQUy6tgEFZfaOaCvRFgxbZ2nQDJSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CU6CwclB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DdnDPLKR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03C2AC4CEF7;
-	Tue, 17 Mar 2026 18:00:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CU6CwclB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67373C2BC86;
+	Tue, 17 Mar 2026 18:09:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773770457;
-	bh=1h0LwC6y35Zrab7lLwO8WqaaGJkYFjg0b4+fiD6TlVA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=DdnDPLKR8gMnQBHtsLrahGUrA5eTfe89G8zbNtj/8/kN0TSomrYBo+r8Ytru9budv
-	 v8TRZYhSigrma93MBfBb3LSsGCq9PM57pQXeEdabsBn9A4nEY8h/R2dSH8D4VFTdoJ
-	 J+vI2XjUTHe8ZUAwHEpVeW/R2jvs8mdCltl1voIIV08wYF8qWYj+v5MuJVZeRcNtHN
-	 UUJdZEJ2gcnA4yTyDGXBMT6mgNVTCUX6l4uYlP2iV82p9f1ejiEMxXTNwv5mhdbaEP
-	 +U1Yv9LpJswIoXPvclwMjNajGcqKW46fBL5p/6no78sspJu8u6+b1GcmI7vck9ZRGa
-	 Xs2+X2pJw99NQ==
-Received: from localhost ([::1])
-	by mail.kernel.org with esmtp (Exim 4.99.1)
+	s=k20201202; t=1773770987;
+	bh=Z4F1vxf+p6RzhUp9a2v2J9s9QgiYzWeKQosvmgKgkyI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=CU6CwclB7+uohsBtSiPlreVWh7Ub2KM4idI2vjGD/CESwOHnEgDu9G5wF5d2lGXEg
+	 O6QLsTc6BlE3HrikrtKzFnkJlvgF9QPzEIf93TcHcLOkPlE61Ryxd58fQzDP4dQ6jr
+	 zfxL8GGZUpDefwgJeOeweV3WcGUmd74d3qYXUq2DwrAvSx5SanfFOEIEH37e6R4Kec
+	 xq0SS4rsDmeFG8SGxrRyI/hV64p1A1jMXx7ih2LTWKQPEovV/DlOafZJMm4OvoIacf
+	 S8qFEMLq9ANu42BBV/WDWBhyILXiAR51PrW8PiALnKCfDQ/oeA+SgXkYfOyrBvDiit
+	 Gp54CHXJ6Oceg==
+Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1w2Yis-0000000H3jE-3SHS;
-	Tue, 17 Mar 2026 19:00:54 +0100
-Date: Tue, 17 Mar 2026 19:00:53 +0100
+	id 1w2YrR-0000000H5Di-1DtJ;
+	Tue, 17 Mar 2026 19:09:45 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Kees Cook <kees@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org,
- linux-kernel@vger.kernel.org, "Gustavo A. R. Silva"
- <gustavoars@kernel.org>, Aleksandr Loktionov
- <aleksandr.loktionov@intel.com>, Randy Dunlap <rdunlap@infradead.org>,
- Shuah Khan <skhan@linuxfoundation.org>, Vincent Mailhol
- <mailhol@kernel.org>
-Subject: Re: [PATCH v2 00/28] kernel-doc: use a C lexical tokenizer for
- transforms
-Message-ID: <20260317190053.12cc2eee@localhost>
-In-Reply-To: <87tsue9y7h.fsf@trenco.lwn.net>
-References: <cover.1773326442.git.mchehab+huawei@kernel.org>
-	<87tsue9y7h.fsf@trenco.lwn.net>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+To: Jonathan Corbet <corbet@lwn.net>,
+	Kees Cook <kees@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	linux-doc@vger.kernel.org,
+	linux-hardening@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Vincent Mailhol <mailhol@kernel.org>
+Subject: [PATCH v3 00/22] kernel-doc: use a C lexical tokenizer for transforms
+Date: Tue, 17 Mar 2026 19:09:20 +0100
+Message-ID: <cover.1773770483.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-On Tue, 17 Mar 2026 11:12:50 -0600
-Jonathan Corbet <corbet@lwn.net> wrote:
+Hi Jon,
 
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
-> 
-> > Sorry for respamming this one too quick. It ends that v1 had some
-> > bugs causing it to fail on several cases. I opted to add extra
-> > patches in the end. This way, it better integrates with kdoc_re.
-> > As part of it, now c_lex will output file name when reporting
-> > errors. With that regards, only more serious errors will raise
-> > an exception. They are meant to indicate problems at kernel-doc
-> > itself. Parsing errors are now using the same warning approach
-> > as kdoc_parser.
-> >
-> > I also added a filter at Ctokenizer __str__() logic for the
-> > string convertion to drop some weirdness whitespaces and uneeded
-> > ";" characters at the output.
-> >
-> > Finally, v2 address the undefined behavior about private: comment
-> > propagation.
-> >
-> > This patch series change how kdoc parser handles macro replacements.  
-> 
-> So I have at least glanced at the whole series now; other than the few
-> things I pointed out, I don't find a whole lot to complain about.  I do
-> worry about adding another 2000 lines to kernel-doc, even if more than
-> half of them are tests.  But hopefully it leads to a better and more
-> maintainable system.
-> 
-> We're starting to get late enough in the cycle that I'm a bit leery of
-> applying this work for 7.1.  What was your thinking on timing?
+It follows v3 of the series. I basically addressed there the
+points you mentioned. Besides that, I did a fix at CMatch
+group(0) logic, and opted to create a special token for ";",
+as it simplifies the code a little bit and will likely help to
+simplify future changes.
 
-I'm sending now a v3. It basically address your points, which
-reduced the series to 22 patches.
+-
 
-I'm adding the diff between the two versions here, as it may help
-checking what changed. I'll also document the main changes at
-patch 00/22.
+This patch series change how kdoc parser handles macro replacements.
+
+Instead of heavily relying on regular expressions that can sometimes
+be very complex, it uses a C lexical tokenizer. This ensures that
+BEGIN/END blocks on functions and structs are properly handled,
+even when nested.
+
+Checking before/after the patch series, for both man pages and
+rst only had:
+    - whitespace differences;
+    - struct_group macros now are shown as inner anonimous structs
+      as it should be.
+
+Also, I didn't notice any relevant change on the documentation build
+time. With that regards, right now, every time a CMatch replacement
+rule takes in place, it does:
+
+    for each transform:
+    - tokenizes the source code;
+    - handle CMatch;
+    - convert tokens back to a string.
+
+A possible optimization would be to do, instead:
+
+    - tokenizes source code;
+    - for each transform handle CMatch;
+    - convert tokens back to a string.
+
+For now, I opted not do do it, because:
+
+    - too much changes on a single row;
+    - docs build time is taking ~3:30 minutes, which is
+      about the same time it ws taken before the changes;
+    - there is a very dirty hack inside function_xforms:
+         (KernRe(r"_noprof"), ""). This is meant to change
+      function prototypes instead of function arguments.
+
+So, if ok for you, I would prefer to merge this one first. We can later
+optimize kdoc_parser to avoid multiple token <-> string conversions.
+
+-
+
+One important aspect of this series is that it introduces unittests
+for kernel-doc. I used it a lot during the development of this series,
+to ensure that the changes I was doing were producing the expected
+results. Tests are on two separate files that can be executed directly.
+
+Alternatively, there is a run.py script that runs all of them (and
+any other python script named  tools/unittests/test_*.py"):
+
+  $ tools/unittests/run.py
+  test_cmatch:
+      TestSearch:
+          test_search_acquires_multiple:                               OK
+          test_search_acquires_nested_paren:                           OK
+          test_search_acquires_simple:                                 OK
+          test_search_must_hold:                                       OK
+          test_search_must_hold_shared:                                OK
+          test_search_no_false_positive:                               OK
+          test_search_no_function:                                     OK
+          test_search_no_macro_remains:                                OK
+      TestSubMultipleMacros:
+          test_acquires_multiple:                                      OK
+          test_acquires_nested_paren:                                  OK
+          test_acquires_simple:                                        OK
+          test_mixed_macros:                                           OK
+          test_must_hold:                                              OK
+          test_must_hold_shared:                                       OK
+          test_no_false_positive:                                      OK
+          test_no_function:                                            OK
+          test_no_macro_remains:                                       OK
+      TestSubSimple:
+          test_rise_early_greedy:                                      OK
+          test_rise_multiple_greedy:                                   OK
+          test_strip_multiple_acquires:                                OK
+          test_sub_count_parameter:                                    OK
+          test_sub_mixed_placeholders:                                 OK
+          test_sub_multiple_placeholders:                              OK
+          test_sub_no_placeholder:                                     OK
+          test_sub_single_placeholder:                                 OK
+          test_sub_with_capture:                                       OK
+          test_sub_zero_placeholder:                                   OK
+      TestSubWithLocalXforms:
+          test_functions_with_acquires_and_releases:                   OK
+          test_raw_struct_group:                                       OK
+          test_raw_struct_group_tagged:                                OK
+          test_struct_group:                                           OK
+          test_struct_group_attr:                                      OK
+          test_struct_group_tagged_with_private:                       OK
+          test_struct_kcov:                                            OK
+          test_vars_stackdepot:                                        OK
+  
+  test_tokenizer:
+      TestPublicPrivate:
+          test_balanced_inner_private:                                 OK
+          test_balanced_non_greddy_private:                            OK
+          test_balanced_private:                                       OK
+          test_no private:                                             OK
+          test_unbalanced_inner_private:                               OK
+          test_unbalanced_private:                                     OK
+          test_unbalanced_struct_group_tagged_with_private:            OK
+          test_unbalanced_two_struct_group_tagged_first_with_private:  OK
+          test_unbalanced_without_end_of_line:                         OK
+      TestTokenizer:
+          test_basic_tokens:                                           OK
+          test_depth_counters:                                         OK
+          test_mismatch_error:                                         OK
+  
+  
+  Ran 47 tests
+
+---
+
+v3:
+  - Avoided code addition/removal by applying the changes directly
+    at the new kdoc/c_lex.py file;
+  - ";" has now its own token (ENDSTMT). That simplifies the code
+    a little bit and will help further improvements;
+  - renamed TOKEN_LIST to RE_SCANNER_LIST;
+  - simplified regular expressions where possible;
+  - added some comments for some weird stuff like \s\S regex;
+  - CTokenizer __init__() method moved to the beginning of the class;
+  - fixed a logic parsing CToken.BEGIN when picking group(0);
+  - fixed two typos.
+
+v2:
+  - Added 8 more patches fixing several bugs and modifying unittests
+    accordingly:
+    - don't raise exceptions when not needed;
+    - don't report errors reporting lack of END if there's no BEGIN
+      at the last replacement string;
+    - document private scope propagation;
+    - some changes at unittests to reflect current status;
+    - addition of two unittests to check error raise logic at c_lex.
+
+
+Mauro Carvalho Chehab (22):
+  docs: python: add helpers to run unit tests
+  unittests: add a testbench to check public/private kdoc comments
+  docs: kdoc: don't add broken comments inside prototypes
+  docs: kdoc: properly handle empty enum arguments
+  docs: add a C tokenizer to be used by kernel-doc
+  docs: kdoc: use tokenizer to handle comments on structs
+  unittests: test_private: modify it to use CTokenizer directly
+  unittests: test_tokenizer: check if the tokenizer works
+  unittests: add a runner to execute all unittests
+  docs: kdoc: create a CMatch to match nested C blocks
+  tools: unittests: add tests for CMatch
+  docs: c_lex: properly implement a sub() method for CMatch
+  unittests: test_cmatch: add tests for sub()
+  docs: kdoc: replace NestedMatch with CMatch
+  docs: kdoc_re: get rid of NestedMatch class
+  docs: xforms_lists: handle struct_group directly
+  docs: xforms_lists: better evaluate struct_group macros
+  docs: c_lex: setup a logger to report tokenizer issues
+  docs: kernel-doc.rst: document private: scope propagation
+  docs: kdoc: ensure that comments are dropped before calling
+    split_struct_proto()
+  docs: kdoc_parser: avoid tokenizing structs everytime
+  docs: xforms_lists: use CMatch for all identifiers
+
+ Documentation/doc-guide/kernel-doc.rst |   6 +
+ Documentation/tools/python.rst         |   2 +
+ Documentation/tools/unittest.rst       |  24 +
+ tools/lib/python/kdoc/c_lex.py         | 655 ++++++++++++++++++++
+ tools/lib/python/kdoc/kdoc_parser.py   |  35 +-
+ tools/lib/python/kdoc/kdoc_re.py       | 201 ------
+ tools/lib/python/kdoc/xforms_lists.py  | 237 ++++---
+ tools/lib/python/unittest_helper.py    | 353 +++++++++++
+ tools/unittests/run.py                 |  17 +
+ tools/unittests/test_cmatch.py         | 821 +++++++++++++++++++++++++
+ tools/unittests/test_tokenizer.py      | 462 ++++++++++++++
+ 11 files changed, 2470 insertions(+), 343 deletions(-)
+ create mode 100644 Documentation/tools/unittest.rst
+ create mode 100644 tools/lib/python/kdoc/c_lex.py
+ create mode 100755 tools/lib/python/unittest_helper.py
+ create mode 100755 tools/unittests/run.py
+ create mode 100755 tools/unittests/test_cmatch.py
+ create mode 100755 tools/unittests/test_tokenizer.py
 
 -- 
-Thanks,
-Mauro
-
-diff --git a/tools/lib/python/kdoc/c_lex.py b/tools/lib/python/kdoc/c_lex.py
-index 95c4dd5afe77..b6d58bd470a9 100644
---- a/tools/lib/python/kdoc/c_lex.py
-+++ b/tools/lib/python/kdoc/c_lex.py
-@@ -50,7 +50,7 @@ class CToken():
-     STRING = 1      #: A string, including quotation marks.
-     CHAR = 2        #: A character, including apostophes.
-     NUMBER = 3      #: A number.
--    PUNC = 4        #: A puntuation mark: ``;`` / ``,`` / ``.``.
-+    PUNC = 4        #: A puntuation mark: / ``,`` / ``.``.
-     BEGIN = 5       #: A begin character: ``{`` / ``[`` / ``(``.
-     END = 6         #: A end character: ``}`` / ``]`` / ``)``.
-     CPP = 7         #: A preprocessor macro.
-@@ -62,8 +62,9 @@ class CToken():
-     TYPEDEF = 13    #: A ``typedef`` keyword.
-     NAME = 14       #: A name. Can be an ID or a type.
-     SPACE = 15      #: Any space characters, including new lines
-+    ENDSTMT = 16    #: End of an statement (``;``).
- 
--    BACKREF = 16  #: Not a valid C sequence, but used at sub regex patterns.
-+    BACKREF = 17    #: Not a valid C sequence, but used at sub regex patterns.
- 
-     MISMATCH = 255  #: an error indicator: should never happen in practice.
- 
-@@ -104,37 +105,42 @@ class CToken():
- 
-         return f"CToken(CToken.{name}, {value}, {self.pos}, {self.level})"
- 
--#: Tokens to parse C code.
--TOKEN_LIST = [
-+#: Regexes to parse C code, transforming it into tokens.
-+RE_SCANNER_LIST = [
-+    #
-+    # Note that \s\S is different than .*, as it also catches \n
-+    #
-     (CToken.COMMENT, r"//[^\n]*|/\*[\s\S]*?\*/"),
- 
-     (CToken.STRING,  r'"(?:\\.|[^"\\])*"'),
-     (CToken.CHAR,    r"'(?:\\.|[^'\\])'"),
- 
--    (CToken.NUMBER,  r"0[xX][0-9a-fA-F]+[uUlL]*|0[0-7]+[uUlL]*|"
--                     r"[0-9]+(\.[0-9]*)?([eE][+-]?[0-9]+)?[fFlL]*"),
-+    (CToken.NUMBER,  r"0[xX][\da-fA-F]+[uUlL]*|0[0-7]+[uUlL]*|"
-+                     r"\d+(?:\.\d*)?(?:[eE][+-]?\d+)?[fFlL]*"),
- 
--    (CToken.PUNC,    r"[;,\.]"),
-+    (CToken.ENDSTMT, r"(?:\s+;|;)"),
-+
-+    (CToken.PUNC,    r"[,\.]"),
- 
-     (CToken.BEGIN,   r"[\[\(\{]"),
- 
-     (CToken.END,     r"[\]\)\}]"),
- 
--    (CToken.CPP,     r"#\s*(define|include|ifdef|ifndef|if|else|elif|endif|undef|pragma)\b"),
-+    (CToken.CPP,     r"#\s*(?:define|include|ifdef|ifndef|if|else|elif|endif|undef|pragma)\b"),
- 
-     (CToken.HASH,    r"#"),
- 
-     (CToken.OP,      r"\+\+|\-\-|\->|==|\!=|<=|>=|&&|\|\||<<|>>|\+=|\-=|\*=|/=|%="
--                     r"|&=|\|=|\^=|=|\+|\-|\*|/|%|<|>|&|\||\^|~|!|\?|\:|\@"),
-+                     r"|&=|\|=|\^=|[=\+\-\*/%<>&\|\^~!\?\:]"),
- 
-     (CToken.STRUCT,  r"\bstruct\b"),
-     (CToken.UNION,   r"\bunion\b"),
-     (CToken.ENUM,    r"\benum\b"),
--    (CToken.TYPEDEF, r"\bkinddef\b"),
-+    (CToken.TYPEDEF, r"\btypedef\b"),
- 
--    (CToken.NAME,    r"[A-Za-z_][A-Za-z0-9_]*"),
-+    (CToken.NAME,    r"[A-Za-z_]\w*"),
- 
--    (CToken.SPACE,   r"[\s]+"),
-+    (CToken.SPACE,   r"\s+"),
- 
-     (CToken.BACKREF, r"\\\d+"),
- 
-@@ -142,7 +148,7 @@ TOKEN_LIST = [
- ]
- 
- def fill_re_scanner(token_list):
--    """Ancillary routine to convert TOKEN_LIST into a finditer regex"""
-+    """Ancillary routine to convert RE_SCANNER_LIST into a finditer regex"""
-     re_tokens = []
- 
-     for kind, pattern in token_list:
-@@ -157,7 +163,8 @@ RE_CONT = KernRe(r"\\\n")
- RE_COMMENT_START = KernRe(r'/\*\s*')
- 
- #: tokenizer regex. Will be filled at the first CTokenizer usage.
--RE_SCANNER = fill_re_scanner(TOKEN_LIST)
-+RE_SCANNER = fill_re_scanner(RE_SCANNER_LIST)
-+
- 
- class CTokenizer():
-     """
-@@ -170,10 +177,39 @@ class CTokenizer():
-     # This class is inspired and follows the basic concepts of:
-     #   https://docs.python.org/3/library/re.html#writing-a-tokenizer
- 
-+    def __init__(self, source=None, log=None):
-+        """
-+        Create a regular expression to handle RE_SCANNER_LIST.
-+
-+        While I generally don't like using regex group naming via:
-+            (?P<name>...)
-+
-+        in this particular case, it makes sense, as we can pick the name
-+        when matching a code via RE_SCANNER.
-+        """
-+
-+        self.tokens = []
-+
-+        if not source:
-+            return
-+
-+        if isinstance(source, list):
-+            self.tokens = source
-+            return
-+
-+        #
-+        # While we could just use _tokenize directly via interator,
-+        # As we'll need to use the tokenizer several times inside kernel-doc
-+        # to handle macro transforms, cache the results on a list, as
-+        # re-using it is cheaper than having to parse everytime.
-+        #
-+        for tok in self._tokenize(source):
-+            self.tokens.append(tok)
-+
-     def _tokenize(self, source):
-         """
--        Interactor that parses ``source``, splitting it into tokens, as defined
--        at ``self.TOKEN_LIST``.
-+        Iterator that parses ``source``, splitting it into tokens, as defined
-+        at ``self.RE_SCANNER_LIST``.
- 
-         The interactor returns a CToken class object.
-         """
-@@ -214,29 +250,6 @@ class CTokenizer():
-             yield CToken(kind, value, pos,
-                          brace_level, paren_level, bracket_level)
- 
--    def __init__(self, source=None, log=None):
--        """
--        Create a regular expression to handle TOKEN_LIST.
--
--        While I generally don't like using regex group naming via:
--            (?P<name>...)
--
--        in this particular case, it makes sense, as we can pick the name
--        when matching a code via RE_SCANNER.
--        """
--
--        self.tokens = []
--
--        if not source:
--            return
--
--        if isinstance(source, list):
--            self.tokens = source
--            return
--
--        for tok in self._tokenize(source):
--            self.tokens.append(tok)
--
-     def __str__(self):
-         out=""
-         show_stack = [True]
-@@ -278,18 +291,10 @@ class CTokenizer():
- 
-                 # Do some cleanups before ";"
- 
--                if (tok.kind == CToken.SPACE and
--                    next_tok.kind == CToken.PUNC and
--                    next_tok.value == ";"):
--
-+                if tok.kind == CToken.SPACE and next_tok.kind == CToken.ENDSTMT:
-                     continue
- 
--                if (tok.kind == CToken.PUNC and
--                    next_tok.kind == CToken.PUNC and
--                    tok.value == ";" and
--                    next_tok.kind == CToken.PUNC and
--                    next_tok.value == ";"):
--
-+                if tok.kind == CToken.ENDSTMT and next_tok.kind == tok.kind:
-                     continue
- 
-             out += str(tok.value)
-@@ -368,9 +373,13 @@ class CTokenArgs:
- 
-                 if tok.kind == CToken.BEGIN:
-                     inner_level += 1
--                    continue
- 
--                if tok.kind == CToken.END:
-+                    #
-+                    # Discard first begin
-+                    #
-+                    if not groups_list[0]:
-+                        continue
-+                elif tok.kind == CToken.END:
-                     inner_level -= 1
-                     if inner_level < 0:
-                         break
-@@ -414,7 +423,7 @@ class CTokenArgs:
-                 if inner_level < 0:
-                     break
- 
--            if tok.kind == CToken.PUNC and delim == tok.value:
-+            if tok.kind in [CToken.PUNC, CToken.ENDSTMT] and delim == tok.value:
-                 pos += 1
-                 if self.greedy and pos > self.max_group:
-                     pos -= 1
-@@ -458,6 +467,7 @@ class CTokenArgs:
- 
-         return new.tokens
- 
-+
- class CMatch:
-     """
-     Finding nested delimiters is hard with regular expressions. It is
-diff --git a/tools/lib/python/kdoc/kdoc_parser.py b/tools/lib/python/kdoc/kdoc_parser.py
-index 3b99740ebed3..f6c4ee3b18c9 100644
---- a/tools/lib/python/kdoc/kdoc_parser.py
-+++ b/tools/lib/python/kdoc/kdoc_parser.py
-@@ -13,9 +13,8 @@ import sys
- import re
- from pprint import pformat
- 
-+from kdoc.c_lex import CTokenizer, tokenizer_set_log
- from kdoc.kdoc_re import KernRe
--from kdoc.c_lex import tokenizer_set_log
--from kdoc.c_lex import CTokenizer
- from kdoc.kdoc_item import KdocItem
- 
- #
-diff --git a/tools/unittests/test_tokenizer.py b/tools/unittests/test_tokenizer.py
-index 6a0bd49df72e..5634b4a7283e 100755
---- a/tools/unittests/test_tokenizer.py
-+++ b/tools/unittests/test_tokenizer.py
-@@ -76,13 +76,13 @@ TESTS_TOKENIZER = {
-         "expected": [
-             CToken(CToken.NAME, "int"),
-             CToken(CToken.NAME, "a"),
--            CToken(CToken.PUNC, ";"),
-+            CToken(CToken.ENDSTMT, ";"),
-             CToken(CToken.COMMENT, "// comment"),
-             CToken(CToken.NAME, "float"),
-             CToken(CToken.NAME, "b"),
-             CToken(CToken.OP, "="),
-             CToken(CToken.NUMBER, "1.23"),
--            CToken(CToken.PUNC, ";"),
-+            CToken(CToken.ENDSTMT, ";"),
-         ],
-     },
- 
-@@ -103,7 +103,7 @@ TESTS_TOKENIZER = {
-             CToken(CToken.BEGIN, "[", brace_level=1, bracket_level=1),
-             CToken(CToken.NUMBER, "10", brace_level=1, bracket_level=1),
-             CToken(CToken.END, "]", brace_level=1),
--            CToken(CToken.PUNC, ";", brace_level=1),
-+            CToken(CToken.ENDSTMT, ";", brace_level=1),
-             CToken(CToken.NAME, "func", brace_level=1),
-             CToken(CToken.BEGIN, "(", brace_level=1, paren_level=1),
-             CToken(CToken.NAME, "a", brace_level=1, paren_level=1),
-@@ -117,7 +117,7 @@ TESTS_TOKENIZER = {
-             CToken(CToken.NAME, "c", brace_level=1, paren_level=2),
-             CToken(CToken.END, ")", brace_level=1, paren_level=1),
-             CToken(CToken.END, ")", brace_level=1),
--            CToken(CToken.PUNC, ";", brace_level=1),
-+            CToken(CToken.ENDSTMT, ";", brace_level=1),
-             CToken(CToken.END, "}"),
-         ],
-     },
-
+2.52.0
 
