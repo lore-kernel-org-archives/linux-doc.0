@@ -1,138 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55B583B0AEB;
-	Tue, 17 Mar 2026 11:53:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDBB43A4500
+	for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 12:06:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773748395; cv=none; b=ouFObD/H0ObrKNm7pwmq+sM9mJUPxF24O5WI1w08KsCNGoen8RbJb1KiKEi3gMhAN6Fbkmw3bULfiP0yndrNF7UXCrv2IMFORlh04liyDmfKaS/WvLcPYNooSX8FX10nhQcd1cxycd/1o2TGQ1N7zU178KS4PTRkCc358VN7j7I=
+	t=1773749183; cv=none; b=QdNYLEWquHb7VRDw2uRFMvNH1/K0tSa7lzS6kJGPM5S/ytcPLGRvOUMSDSet99IHxDWMJYcJCN/uRUS6MdOK/fe2fPzQ5gUV6AM+iDYK5d5pFDcWX8J5+gfa88QubiwyqPKc+RgEjAX5iWbrdlPGz6P3UJRiX9YPA8IjwUMpGPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773748395; c=relaxed/simple;
-	bh=brli9ew/1kEFydbwt1i+/HJoKvUGHUJK7SfebWE4nDQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eV0oPadxGgUUgVebTAhnv/bo75AA5i5QBcNz5wGAwpq5veEDBWM5wDx6+3fyQQjY0WCbKIbRHZpFY/w6BLG4OHZNYdvbqo+nIjK1D2aG/g754aUyd4p7YCbLjW3YnXfhjTbXX8l0KSgXNJrqgmS9wioVJ82kQ5ybP0c/JDkqr8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vPAgqGur; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773749183; c=relaxed/simple;
+	bh=vuBUXXx5vMozwnr+IisLYxoyOajWMh4DtThx+hbfOeI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=giihSZgI2WZgAWC5NYRaeMrAvu2oTE7GcH0eT4x3ZATgCELAIQivWfy3TlHJh58udm/nHapubyhNKqJ4S52nB/oZypkvDdNQCY6/40dXm36SaNlg7SOisfG3K5kV/bTxzdT6lJgZX50ZnbcUHOmwjsNHtO8cDMUx+4uTmQ0CAv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N+eem3Fo; arc=none smtp.client-ip=209.85.210.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vPAgqGur"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3C04C4CEF7;
-	Tue, 17 Mar 2026 11:53:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773748395;
-	bh=brli9ew/1kEFydbwt1i+/HJoKvUGHUJK7SfebWE4nDQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=vPAgqGurQFJ5ZJ6k07PeIT9oXa+5+lFr1Kjy0BV/JRg756dFQjAfgeblL3L6XAWX1
-	 O/cDIxkZj2XZGRd6NpJa53pbfChyJYLLC+ARK+UDYP7cRBtZli28UkI/GsJqSHKjbB
-	 8vm7VgiTUWrebxwI++b0VDsW5EFSO0N0Kt22O1KbhPEViVRyvhmqUBVvRFx3nDsHqq
-	 QkQoSczCQcUcmILjD9BhFrI+TaSJfhID5VTFN+CBT46pe7+42TIUCcpOOPfdE8oNBa
-	 4hnCtLEMkSpocbWeCG2fAkg5nyFcxyYuFi2/nxbpX5qYBTXCh7J5UErjzXp+4IbJ/A
-	 bPqSKkrd6mIpQ==
-Message-ID: <75a9514c-2e62-4535-b963-65a99cdfd3f6@kernel.org>
-Date: Tue, 17 Mar 2026 12:53:10 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N+eem3Fo"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-829abaaa92bso3666564b3a.1
+        for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 05:06:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773749182; x=1774353982; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=peL4C0FfafTZkyUoqeH5wx0M8Gc2BtKH0IqNYSYENdg=;
+        b=N+eem3Fo80p2eFmTNtUok3vu31IwZvIFWrJDbiB2qheiHknvb1Jr9iZRjDR6WM3oV9
+         3/vFgfTSBh1+k93RF6MC5Wo09lek1Hq7mg3nVXNkcPOfHfOMT+6JARkdT9lVW2I5AXuv
+         wStkafu8eevGSWjEpHB25mjO5d5b1pR/oMMaTUnZoxd3WMHZ7QBQ8pIsqQ3pT7k8rPVt
+         nx7CSTgOOtjQFyHAE2KKrGVoYM17YVU99+VEajiMc1lMRNh083qdBPpbzEjniW+OLdSa
+         /xjP6bbzp5jH71ARJB1hMWTEKsFSPtisxjv09B0C9ctW8jmAmMyAzSUDvFlde1ZMqLor
+         8cJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773749182; x=1774353982;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=peL4C0FfafTZkyUoqeH5wx0M8Gc2BtKH0IqNYSYENdg=;
+        b=Zjt1nNnptGDnWneMaO3gPike5ZSmEcuekkvyi7JnxzHVHaQPtkHHwQCxsW+FupiCmT
+         b6QsXzHd+yjSmVS2scB5BLnClNZ/gfYN3L8tLcmft9015uT/suS+g63jQ1lq61xMIVBP
+         BaPCMe7Ub8K7tF08RmY4QpqggkZ3qMa97+zrC5BsvYP/zfnWrCu/JrhUU04Myp7qyYjH
+         PyXqzOzFN20x90APz5HbAxgCRQHC/b6FycoQNjuGWk1k44Qcr8DLZMASDxj9x5vAAEBq
+         f3KzsIChXRw43v18JjzXKkzMKefqBr/uAtl04JBHIhZ9pz7Ak8XYKBfgC7VzlHN90LxF
+         2Rpg==
+X-Gm-Message-State: AOJu0Yx4GImv3a3ieEkHXAYug7v03kyyVhzrKCNAaYfZrlpdj68sPVOS
+	mUNGVSsjGsRbWAshsdqbdXFM+J2Ssn7A+X4etcP6zyI+RCghR9Jk5aYYoeoLLBaw
+X-Gm-Gg: ATEYQzwRwfMno3Xx8ad6SiAvt9g1O8KO5jRJjY7fYguDx74YZurKZlp7caVkVphcWJw
+	11NT2me9SkvA4OPfkTIKGs8MC2ukwflWm1lz4QXfOWhn1znBqNnGgJL9lIlJgEOp9ZQDsC+r+Oh
+	NpPmfAF71UiqVENcXxI+Pvj87O8Ofy5Nt1BU5i3ZJhHqaCl3s5uYqsMfKSBMnHON2bVUnc9ObfL
+	Ww5NT+Qe6CMoCW43rijK2I1y5YI2f1mK9Hup2DmT8LV++ljT7KpMPiaiDeE4F2IgUNzhXs+oG14
+	MsLM5MCmN4ub0xYVAvb2zc+xxz571uKOdfhw/MGCDvchNXSn6mHUOua7EqwqmyG6v+GgPMGi7N/
+	SNobR+0GcGMpOcxzciBcTPVkZin+jkyvsM04R6n37EP8W1s3RdE1eMgAkXsGBH26+s6yv8NOn+P
+	6fNQxgwqL6Zq7Xh8S9q31uMqQ5lckcuAcYKR4=
+X-Received: by 2002:a05:6a00:a803:b0:829:7f7f:cbcf with SMTP id d2e1a72fcca58-82a199237c7mr14888312b3a.56.1773749181843;
+        Tue, 17 Mar 2026 05:06:21 -0700 (PDT)
+Received: from localhost ([220.247.131.23])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82a07370353sm20102374b3a.51.2026.03.17.05.06.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Mar 2026 05:06:21 -0700 (PDT)
+From: Ariful Islam Shoikot <islamarifulshoikat@gmail.com>
+To: linux-doc@vger.kernel.org
+Cc: Ariful Islam Shoikot <islamarifulshoikat@gmail.com>
+Subject: [PATCH] Documentation/mm/hwpoison.rst: fix typos and grammar.
+Date: Tue, 17 Mar 2026 18:06:13 +0600
+Message-ID: <20260317120614.51046-1-islamarifulshoikat@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] clk: add new Kconfig to control default behavior of
- disabling unused clocks
-To: Maxime Ripard <mripard@kernel.org>, Brian Masney <bmasney@redhat.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Abel Vesa <abelvesa@kernel.org>,
- Saravana Kannan <saravanak@kernel.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
-References: <20260316-clk-ignore-unused-kconfig-v1-1-6e95a4fb0c94@redhat.com>
- <20260317-almond-leech-of-correction-2a2ef6@houat>
-From: Hans de Goede <hansg@kernel.org>
-Content-Language: en-US, nl
-In-Reply-To: <20260317-almond-leech-of-correction-2a2ef6@houat>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Maxime,
+Signed-off-by: Ariful Islam Shoikot <islamarifulshoikat@gmail.com>
+---
+ Documentation/mm/hwpoison.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 17-Mar-26 08:30, Maxime Ripard wrote:
-> Hi,
-> 
-> On Mon, Mar 16, 2026 at 06:33:45PM -0400, Brian Masney wrote:
->> At the 2023 Linux Plumbers Conference in Richmond VA, there was a
->> discussion about how large number of systems need to boot with
->> clk_ignore_unused. Per the discussions at the conference, the existing
->> behavior in the clk core is broken, and there is a desire to completely
->> remove this functionality.
-> 
-> Broken how?
-> 
-> clk_ignore_unused is to a point where it's seriously cargo-culted and
-> documented as a silver bullet, when in reality it's just a debug tool
-> for broken drivers, and the driver must be fixed.
-> 
-> But nobody is actually fixing it.
-> 
-> See
-> https://fedoraproject.org/wiki/Changes/Automatic_DTB_selection_for_aarch64_EFI_systems#How_To_Test
-> for example. The affected clock could be marked as CLK_IS_CRITICAL, and
-> fedora wouldn't have to package anything, change anything, etc. But no,
-> the problem is clk_ignore_unused.
-
-Both things can be true at the same time. Yes there are ways to work
-around issues causes by clk_ignore_unused and those ways should be
-used more often. And in example of the X1E laptops I do indeed want
-to try and figure out which clocks must not be turned off and
-try to see if it will be accepted to mark these as CLK_IS_CRITICAL.
-
-But at the same time the fundamental concept of turning off all unused
-clocks as soon as all *builtin* drivers are done probing is a broken
-concept when working with generic distro kernels where many drivers
-are modules. To me it looks like this was very much made with
-embedded systems with device specific kernels where all drivers for
-the used SoC are builtin.
-
-The problem basically is, that if we want something like disabling
-unused clocks at all (1), it should happen when all drivers including
-those build as module have had a chance to run. ATM the clocks
-simply get turned off too soon.
-
-Also see Stephen Boyd's LPC talk about this:
-
-"Make sync_state()/handoff work for the common clk framework"
-https://lpc.events/event/17/contributions/1432/
-
-When the clk framework maintainer themselves are arguing for
-replacing the way unused clks are disabled atm with something
-better then to me that is a clear sign that there is something
-wrong with the current mechanism.
-
-Arguably it would be better to tie this into the deferred_probe_timeout
-mechanism with some way for subsystems to register callbacks for
-when the deferred_probe_timeout triggers. This way there will at
-least be some attempt by the kernel to delay it until all probing
-is done.
-
-Even though we do really have a problem here I'm not convinced
-that this patch, which allows disabling the entire mechanism
-by default, is a good idea though. There will likely be issues
-with systems consuming more power then they should, especially
-when suspended when unused clocks are not disabled. So allowing
-to change the default behavior will just swap one set of problems
-for another.
-
-Regards,
-
-Hans
-
-
-
-1) One can also argue that the need to do this at all is broken in
-itself. If all clks have a consumer driver they will get turned off
-anyways; and if they lack a consumer driver then maybe they should
-have never turned on by the bootloader in the first place. I would
-expect any hw critical enough for the bootloader to also have an
-actual Linux driver.
-
-
-> 
-> Maxime
+diff --git a/Documentation/mm/hwpoison.rst b/Documentation/mm/hwpoison.rst
+index 483b72aa7c11..71b4b45c3505 100644
+--- a/Documentation/mm/hwpoison.rst
++++ b/Documentation/mm/hwpoison.rst
+@@ -38,7 +38,7 @@ To quote the overview comment::
+ 	for the mapping from a vma to a process. Since this case is expected
+ 	to be rare we hope we can get away with this.
+ 
+-The code consists of a the high level handler in mm/memory-failure.c,
++The code consists of the high level handler in mm/memory-failure.c,
+ a new page poison bit and various checks in the VM to handle poisoned
+ pages.
+ 
+-- 
+2.43.0
 
