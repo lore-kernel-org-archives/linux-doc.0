@@ -1,138 +1,183 @@
-Received: from out162-62-57-49.mail.qq.com (out162-62-57-49.mail.qq.com [162.62.57.49])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0403B37C0F9
-	for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 10:58:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74D83346E7E;
+	Tue, 17 Mar 2026 11:02:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773745107; cv=none; b=QXcVXZtQARnnHSu7BxvOaHxWSiN3PuGdihUC0Wtc4SHso6UM0c2OoPX5FwUt+VgPj50yvespKn4xkgLnsZZuCa2sv0E9tmd5gVGlhk8BhBHNProAMqP0dGVOD6sCQHplvHbV6R+ZlS1IPBaOpwwcMAyyZp71hNJnAVctQY5g0G4=
+	t=1773745340; cv=none; b=t0FG5gRaQOuDh8V7tkFqgLA26dJ/6IZzSYIOwoFi9dioXRdjy1jlLyKKLTyvgDh0Z4PpwYrk/H+WqDe5EWB8owH/vHEQ4mkoB5FXpAJHHv8wxOzQW6hJKTFWSZzw25gvVOLHCIKM9Hg46yvShfAoZWSQYtmtdRwsk1lNBkuQ23w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773745107; c=relaxed/simple;
-	bh=wxu9NXycGeqsWRgnugSKxkqAYx0rJ7Gws/1l22Be5RA=;
-	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=VNwBnD5IMU2aLrCoCXe9PxJhuBUDjz0oGXxRBHuKb1Iy7GtshLWoMtXiIoONoXXI/Tja2+NqKEwkIMCTkS8o8mRfvTviBvj6XN2hjNejrLaQw6YaytsqiMu/6tFeXwCxJpEkbvwFEJE+QRYkcafKACdiX8q17/K/qb8DfKj8Qqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=u1W1gMj2; arc=none smtp.client-ip=162.62.57.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1773745340; c=relaxed/simple;
+	bh=7pNtVaYk9Ht11PmZVgXbirYPaKxs9q7pW4hlidbNWtk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jw5HPmgN12z0KxyL6gLaVWARaMcVbHRY8cgmItTmygqdfv+xUQJOwcX7twVgZXBAPEzKuivgFqkKmyYFonnEdFZZgXqtaBEu8pqKgmTF20R1NH0MZlnSIiaaN+Nomm605n6twyI+GKeOTMEjtMqfA+nU37/ChB3JWpoy1iiSuGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cmzXuF4F; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="u1W1gMj2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1773745094; bh=RkF9UY20o04C9kFbg6GK29csodDBBDFZU3tduWk9JPk=;
-	h=From:To:Cc:Subject:Date;
-	b=u1W1gMj2E+5k0rXOFllEaC3vYAaenJolEscMp8PwjObc1iAy24rdmPTtgHGh/7qtO
-	 dr23pNb36Nf+ZtgjTbcxlk9NUgGWpHzWVEcBd96EYbmDiLuXecNy4Bc9X13PRUT6o9
-	 MeowjQ7Xl6gO0Viz+Dxd7B3OVjrsQJXSiHBJqUDQ=
-Received: from AA2410024078AAC.china.huawei.com ([124.70.231.39])
-	by newxmesmtplogicsvrszb51-0.qq.com (NewEsmtp) with SMTP
-	id E8AAC643; Tue, 17 Mar 2026 18:58:10 +0800
-X-QQ-mid: xmsmtpt1773745090tdjwjplu4
-Message-ID: <tencent_FB5B7DCFFB10BCDE325397D1202226779D09@qq.com>
-X-QQ-XMAILINFO: MRMtjO3A6C9X46cnDKL79vmPRk0yfNMGbkHMFWctGM2j22amP+3PjC9TbJA3Ze
-	 tvLZAF/nW5m28yux+3gxu+pgaKu3u3KOygrTBsFwTz3Qb+oOOcDJZVFXaQGQG0IcLZve6ZOYUOKx
-	 Ksv7+DqNvAhRC1AFnXHisDw3wrDo2X9fQDTZOMqX/RUJq6hSa8AB1E+8pJoxnmgMCOV0iaW6Iep0
-	 wtINi2aSjc/7/uL8Ol4P2WM8ZvpzvI9vJcRpvdljyzWXccoKOmjmQhbLVoBb51nqiw9xd3NfF9Ej
-	 4L9k8Q78R88M+dCmnGBhDLdXglTMr1kjdNRign4XPyXZv/SpgWadzvBjlYFwSpTLS33NSVn9w+8P
-	 TBOTf4O2UUwAiG2t7XbEzB/q7hjVjJXmm5SIOGgBQOy75hk8YSKGlvmd//M8bR9AF6RAAHKDKS5t
-	 7u4S6AJv4Y1+u6GU+2Thi9dkSyPfuR8BZjEBUPHaJOB/BtAd+HqiIjYm3TusxTEHm7IvCtiplUGA
-	 dtmA6FcqkN/ZZDFNzFxlXd1hkFILwMHON44NKDLjbObxCAyw913IWsXHOIsEePMfVB5gykvK/5JX
-	 LZyb3/oxTlresCpsvKLmaPl+5Bd6QicoI10d6pntJ6g3j6PXaH4bxDkkWu3FzcfU4qRrqY78mtyI
-	 TH+vyjA0Fylg55XyZocFuATsSvi0jdtUXezCrmRKv5Uv9UOdKwJOIbkOnQXsqcQpcF+PmLMdhozB
-	 nt9kEjYma9g71saSsSQnDIxO4+Mn+UwsZDhCdYPoCgPZ1/pa7TIsEI6Y/JV+1acIDOb/HX26DhMV
-	 FviWrMxCX7vMYMwHsTohUbpcC1OsfL5YMFNUkgotz3SyEgSA615xrL1VFQ2JkoAgnZxbJ6aH0GBz
-	 GWP/Bm+kug2O+jotAbNvTTl9pwqSdsvY2izltHGp6aJt9jptzV+tLS0KuccQaCPbeW90X0A2rcVz
-	 K6ZnpO63eFdbwnjbBWmYv1zrFukGx94FFCk0AbgqFFtuDphXKV5wstz2TH+6JJTfLPvbAeqff1TN
-	 FwbpE/mg==
-X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
-From: h3288824963 <3288824963@qq.com>
-To: linux-doc@vger.kernel.org
-Cc: pmladek@suse.com,
-	john.ogness@linutronix.de,
-	senozhatsky@chromium.org,
-	rostedt@goodmis.org,
-	qujingling@huawei.com,
-	zhangjiaji1@huawei.com,
-	xushuangxing@huawei.com,
-	hujinfei3@huawei.com,
-	h3288824963 <3288824963@qq.com>
-Subject: [PATCH v2] Documentation: printk: Add section about avoiding lockups
-Date: Tue, 17 Mar 2026 18:57:11 +0800
-X-OQ-MSGID: <20260317105712.879-1-3288824963@qq.com>
-X-Mailer: git-send-email 2.53.0.windows.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cmzXuF4F"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69F7CC4CEF7;
+	Tue, 17 Mar 2026 11:02:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773745340;
+	bh=7pNtVaYk9Ht11PmZVgXbirYPaKxs9q7pW4hlidbNWtk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cmzXuF4F/76aNqv1PxafOhcYYTx6Tlbg6QMApB2+RakacIV+syWu/7WnZ4Vo8q6o4
+	 8odC1qE9jew10xJxGX0KZBvhYGWX/u3erT6XVXi7IAiuOF75pnxEpFeslDc2/J2fxZ
+	 I51tEwDWj2rQNlo98Fu5hhxsBStu0p4uFnPgNwaV8cnKlU35qBLacGFckiS82T+Lrp
+	 zADhWE0SLK2SShkUGX4YQvOlJMJQTUGvxXhcPvv78vkuRhguRlvPKT8w1NJgOkzhyi
+	 7mUkBfhWeyTA1Sh0A2Mp7dfIBajHL5ZPVYhG/PoEcsnqoI3HnXz2y7PgSiKc4/XFwz
+	 8rTAdO7GfplMw==
+Date: Tue, 17 Mar 2026 11:02:17 +0000
+From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+To: Nico Pache <npache@redhat.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, aarcange@redhat.com, 
+	akpm@linux-foundation.org, anshuman.khandual@arm.com, apopple@nvidia.com, baohua@kernel.org, 
+	baolin.wang@linux.alibaba.com, byungchul@sk.com, catalin.marinas@arm.com, cl@gentwo.org, 
+	corbet@lwn.net, dave.hansen@linux.intel.com, david@kernel.org, dev.jain@arm.com, 
+	gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, jack@suse.cz, 
+	jackmanb@google.com, jannh@google.com, jglisse@google.com, joshua.hahnjy@gmail.com, 
+	kas@kernel.org, lance.yang@linux.dev, Liam.Howlett@oracle.com, 
+	lorenzo.stoakes@oracle.com, mathieu.desnoyers@efficios.com, matthew.brost@intel.com, 
+	mhiramat@kernel.org, mhocko@suse.com, peterx@redhat.com, pfalcato@suse.de, 
+	rakie.kim@sk.com, raquini@redhat.com, rdunlap@infradead.org, 
+	richard.weiyang@gmail.com, rientjes@google.com, rostedt@goodmis.org, rppt@kernel.org, 
+	ryan.roberts@arm.com, shivankg@amd.com, sunnanyong@huawei.com, surenb@google.com, 
+	thomas.hellstrom@linux.intel.com, tiwai@suse.de, usamaarif642@gmail.com, vbabka@suse.cz, 
+	vishal.moola@gmail.com, wangkefeng.wang@huawei.com, will@kernel.org, willy@infradead.org, 
+	yang@os.amperecomputing.com, ying.huang@linux.alibaba.com, ziy@nvidia.com, zokeefe@google.com, 
+	Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: Re: [PATCH mm-unstable v15 13/13] Documentation: mm: update the
+ admin guide for mTHP collapse
+Message-ID: <638caee3-af71-47c7-bdc8-a905d3143387@lucifer.local>
+References: <20260226031741.230674-1-npache@redhat.com>
+ <20260226032706.234519-1-npache@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260226032706.234519-1-npache@redhat.com>
 
-Add a section 'Avoiding lockups from excessive printk() use' to
-printk-basics.rst, explaining the risk of calling printk() in hot paths
-with legacy consoles and suggesting alternatives.
+On Wed, Feb 25, 2026 at 08:27:06PM -0700, Nico Pache wrote:
+> Now that we can collapse to mTHPs lets update the admin guide to
+> reflect these changes and provide proper guidance on how to utilize it.
+>
+> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> Signed-off-by: Nico Pache <npache@redhat.com>
 
-The section covers:
-- Rate-limited and one-time printing variants
-- Log level filtering
-- printk_deferred() for legacy consoles
-- Porting to nbcon API (preferred solution)
-- Using tracepoints for permanent debugging
+LGTM, but maybe we should mention somewhere about mTHP's max_ptes_none
+behaviour?
 
-This documentation is relevant only for legacy console drivers and
-!PREEMPT_RT kernels.
+Anyway with that addressed:
 
-Suggested-by: Petr Mladek <pmladek@suse.com>
-Suggested-by: John Ogness <john.ogness@linutronix.de>
-Signed-off-by: h3288824963 <3288824963@qq.com>
----
- Documentation/core-api/printk-basics.rst | 36 ++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
+Reviewed-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
 
-diff --git a/Documentation/core-api/printk-basics.rst b/Documentation/core-api/printk-basics.rst
-index 2dde24ca7..48eaff0ce 100644
---- a/Documentation/core-api/printk-basics.rst
-+++ b/Documentation/core-api/printk-basics.rst
-@@ -103,6 +103,42 @@ For debugging purposes there are also two conditionally-compiled macros:
- pr_debug() and pr_devel(), which are compiled-out unless ``DEBUG`` (or
- also ``CONFIG_DYNAMIC_DEBUG`` in the case of pr_debug()) is defined.
- 
-+Avoiding lockups from excessive printk() use
-+============================================
-+
-+.. note::
-+
-+   This section is relevant only for legacy console drivers (those not
-+   using the nbcon API) and !PREEMPT_RT kernels. Once all console drivers
-+   are updated to nbcon, this documentation can be removed.
-+
-+Using ``printk()`` in hot paths (such as interrupt handlers, timer
-+callbacks, or high-frequency network receive routines) with legacy
-+consoles (e.g., ``console=ttyS0``) may cause lockups. Legacy consoles
-+synchronously acquire ``console_sem`` and block while flushing messages,
-+potentially disabling interrupts long enough to trigger hard or soft
-+lockup detectors.
-+
-+To avoid this:
-+
-+- Use rate-limited variants (e.g., ``pr_*_ratelimited()``) or one-time
-+  macros (e.g., ``pr_*_once()``) to reduce message frequency.
-+- Assign lower log levels (e.g., ``KERN_DEBUG``) to non-essential messages
-+  and filter console output via ``console_loglevel``.
-+- Use ``printk_deferred()`` to log messages immediately to the ringbuffer
-+  and defer console printing. This is a workaround for legacy consoles.
-+- Port legacy console drivers to the non-blocking ``nbcon`` API (indicated
-+  by ``CON_NBCON``). This is the preferred solution, as nbcon consoles
-+  offload message printing to a dedicated kernel thread.
-+
-+For temporary debugging, ``trace_printk()`` can be used, but it must not
-+appear in mainline code. See ``Documentation/trace/debugging.rst`` for
-+more information.
-+
-+If more permanent output is needed in a hot path, trace events can be used.
-+See ``Documentation/trace/events.rst`` and
-+``samples/trace_events/trace-events-sample.[ch]``.
-+
- 
- Function reference
- ==================
--- 
-2.53.0.windows.1
-
+> ---
+>  Documentation/admin-guide/mm/transhuge.rst | 48 +++++++++++++---------
+>  1 file changed, 28 insertions(+), 20 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
+> index eebb1f6bbc6c..67836c683e8d 100644
+> --- a/Documentation/admin-guide/mm/transhuge.rst
+> +++ b/Documentation/admin-guide/mm/transhuge.rst
+> @@ -63,7 +63,8 @@ often.
+>  THP can be enabled system wide or restricted to certain tasks or even
+>  memory ranges inside task's address space. Unless THP is completely
+>  disabled, there is ``khugepaged`` daemon that scans memory and
+> -collapses sequences of basic pages into PMD-sized huge pages.
+> +collapses sequences of basic pages into huge pages of either PMD size
+> +or mTHP sizes, if the system is configured to do so.
+>
+>  The THP behaviour is controlled via :ref:`sysfs <thp_sysfs>`
+>  interface and using madvise(2) and prctl(2) system calls.
+> @@ -219,10 +220,10 @@ this behaviour by writing 0 to shrink_underused, and enable it by writing
+>  	echo 0 > /sys/kernel/mm/transparent_hugepage/shrink_underused
+>  	echo 1 > /sys/kernel/mm/transparent_hugepage/shrink_underused
+>
+> -khugepaged will be automatically started when PMD-sized THP is enabled
+> +khugepaged will be automatically started when any THP size is enabled
+>  (either of the per-size anon control or the top-level control are set
+>  to "always" or "madvise"), and it'll be automatically shutdown when
+> -PMD-sized THP is disabled (when both the per-size anon control and the
+> +all THP sizes are disabled (when both the per-size anon control and the
+>  top-level control are "never")
+>
+>  process THP controls
+> @@ -264,11 +265,6 @@ support the following arguments::
+>  Khugepaged controls
+>  -------------------
+>
+> -.. note::
+> -   khugepaged currently only searches for opportunities to collapse to
+> -   PMD-sized THP and no attempt is made to collapse to other THP
+> -   sizes.
+> -
+>  khugepaged runs usually at low frequency so while one may not want to
+>  invoke defrag algorithms synchronously during the page faults, it
+>  should be worth invoking defrag at least in khugepaged. However it's
+> @@ -296,11 +292,11 @@ allocation failure to throttle the next allocation attempt::
+>  The khugepaged progress can be seen in the number of pages collapsed (note
+>  that this counter may not be an exact count of the number of pages
+>  collapsed, since "collapsed" could mean multiple things: (1) A PTE mapping
+> -being replaced by a PMD mapping, or (2) All 4K physical pages replaced by
+> -one 2M hugepage. Each may happen independently, or together, depending on
+> -the type of memory and the failures that occur. As such, this value should
+> -be interpreted roughly as a sign of progress, and counters in /proc/vmstat
+> -consulted for more accurate accounting)::
+> +being replaced by a PMD mapping, or (2) physical pages replaced by one
+> +hugepage of various sizes (PMD-sized or mTHP). Each may happen independently,
+> +or together, depending on the type of memory and the failures that occur.
+> +As such, this value should be interpreted roughly as a sign of progress,
+> +and counters in /proc/vmstat consulted for more accurate accounting)::
+>
+>  	/sys/kernel/mm/transparent_hugepage/khugepaged/pages_collapsed
+>
+> @@ -308,16 +304,19 @@ for each pass::
+>
+>  	/sys/kernel/mm/transparent_hugepage/khugepaged/full_scans
+>
+> -``max_ptes_none`` specifies how many extra small pages (that are
+> -not already mapped) can be allocated when collapsing a group
+> -of small pages into one large page::
+> +``max_ptes_none`` specifies how many empty (none/zero) pages are allowed
+> +when collapsing a group of small pages into one large page::
+>
+>  	/sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_none
+>
+> -A higher value leads to use additional memory for programs.
+> -A lower value leads to gain less thp performance. Value of
+> -max_ptes_none can waste cpu time very little, you can
+> -ignore it.
+> +For PMD-sized THP collapse, this directly limits the number of empty pages
+> +allowed in the 2MB region. For mTHP collapse, only 0 or (HPAGE_PMD_NR - 1)
+> +are supported. Any other value will emit a warning and no mTHP collapse
+> +will be attempted.
+> +
+> +A higher value allows more empty pages, potentially leading to more memory
+> +usage but better THP performance. A lower value is more conservative and
+> +may result in fewer THP collapses.
+>
+>  ``max_ptes_swap`` specifies how many pages can be brought in from
+>  swap when collapsing a group of pages into a transparent huge page::
+> @@ -337,6 +336,15 @@ that THP is shared. Exceeding the number would block the collapse::
+>
+>  A higher value may increase memory footprint for some workloads.
+>
+> +.. note::
+> +   For mTHP collapse, khugepaged does not support collapsing regions that
+> +   contain shared or swapped out pages, as this could lead to continuous
+> +   promotion to higher orders. The collapse will fail if any shared or
+> +   swapped PTEs are encountered during the scan.
+> +
+> +   Currently, madvise_collapse only supports collapsing to PMD-sized THPs
+> +   and does not attempt mTHP collapses.
+> +
+>  Boot parameters
+>  ===============
+>
+> --
+> 2.53.0
+>
