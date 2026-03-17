@@ -1,102 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 702ED3E929E;
-	Tue, 17 Mar 2026 15:43:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E38E3E9F76
+	for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 15:43:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773762208; cv=none; b=NVWkPnEqpA4KVl0OBf8J/Y4bObtZwQhSmVcb5cVGdaR6pyGYbrbEtR3wvrzE+uyQRdGriiSIw7ruknntA/Y5vzQiw0o0EpyyKv1EDu8WgwgBPPx51FcQXYPAEd0EAF4rdm8ye9YBsYdiRRMq3mdffSZg58RCu9u5UKwGaXWsnT0=
+	t=1773762233; cv=none; b=HyNjH8J72v8SCPDJjUexQqcZDfKC3rVa0IFWSAahVf1V55Szb1bE930W7A+n2ULfpnmrMoYx3GR1qyAEJ5QZSSxAs3B3b3OCSD5kkQ5jT0/wXDle9WzBcjFWok7/sdlZJWAs976B44Kk3PJhdFTKOUv2rtJDEtyG0tnw6zryRzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773762208; c=relaxed/simple;
-	bh=NhUHjMSSSOfIk89dimc4kYWGcNV1qKrVXJaFZr2Wmk0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SzKAVy8Q3LQSaT56jCx4/d5+Px5aq301+tHLWfLPntWqEkx6FbsSg8v+/p+JU0Ub62Ma6B1KQMQQj6W6ppQXtApwu6/vBMeNDYibAa70HQapi63vpJQHQ212dISdDGvaEcSk9bK05H07ZDiyPdAz+MV6fSBGZE5zUBl9DVkI2gk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o//ZNOh6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773762233; c=relaxed/simple;
+	bh=zRZUHoNWzgyD/ScVuU2X/ckq5rk/LdVG84UvA9jfae8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hZDwq2aXw8WtTvd6MzzvdkRZXz3UikB1rzsH1GqhmixQykjUzZ9yGRj3Pxo81tkLYFCrv1fa2dFX7DcBauARgYxu8PNR2fscelXY+flWbmw8x2KUrvOrf2TAZUEL3UQjGYam4ObibfCfEo3qZ39QtM/I3F165hGr0MIc6ES/+n8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kZERi2MO; arc=none smtp.client-ip=74.125.82.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o//ZNOh6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B894C4CEF7;
-	Tue, 17 Mar 2026 15:43:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773762208;
-	bh=NhUHjMSSSOfIk89dimc4kYWGcNV1qKrVXJaFZr2Wmk0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=o//ZNOh6inlgBG0ERD6jJHpvp0Fw//FrM3endmwbio1xIodEczzurkKcZZaFmuKKe
-	 z02YQW0WfgqL4oWvMaixKbOlW/t1FGClO3Dixk4G/OOKR4NkUjA23i4aaQSFFJW5ad
-	 qiKE09FatQjaMNYQkWNYIlkqrJrm7P1DJhAN1s8cs8D3oqhOM+5qyfuqMnFevQgqB3
-	 46aKT1UOfacSwMgRp2nolkOEeHiSTJyMzgc6yTPWTA1GrLSIypcNOigvv/LRcKES3D
-	 +5kJ/up56FSf9i26p+hFwqej9TJGCFHRXfAfp1nFHI8Rph5+ORNMK4KygLSlyjxhr+
-	 dCthvD88/cLlw==
-Received: from localhost ([::1])
-	by mail.kernel.org with esmtp (Exim 4.99.1)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1w2WZq-0000000ELgg-05m7;
-	Tue, 17 Mar 2026 16:43:26 +0100
-Date: Tue, 17 Mar 2026 16:43:25 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
-Cc: corbet@lwn.net, skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: fix Sphinx C parser crash on __cond_acquires
- macro
-Message-ID: <20260317164250.6afae483@localhost>
-In-Reply-To: <20260317151156.1106-1-mahad.ibrahim.dev@gmail.com>
-References: <20260317151156.1106-1-mahad.ibrahim.dev@gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kZERi2MO"
+Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-128d2e3082eso244453c88.0
+        for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 08:43:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773762231; x=1774367031; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=shf1P/Bjh/21uNftSB90qcfRnB0k5KOrDRJd2IK4DgY=;
+        b=kZERi2MOhjA/VKpCEWi86TqumtqsOL3CFEvDgkBuRx1ry51LvMHSdG9Vqvp5ndooMC
+         o8S3j6WF9jQWVYQ3ZMr9Bjpp2E7lGog/JRaxrMrKUn8JNPWNeZsJhKrk7qhoOl9t3Ygj
+         F69ldlaSB+IYhkqsb86DeI2G0MVIMeLIo+kgu9zQjQ0FIAGItlrMX6KCkrWkc5sBI6JJ
+         HUrI9qQ+GklilXEjjCieUtnvkYB9t9rIoEn2QPZwIKnZnp2Ikhc2cVnOWWn/OYqAMbfM
+         igPUiFGQ//1/ADtICIrtAV5R3ovlAmCHal0WWmy00yqEPWL+0vftKgQiwYxLx0p+gUgF
+         DNug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773762231; x=1774367031;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=shf1P/Bjh/21uNftSB90qcfRnB0k5KOrDRJd2IK4DgY=;
+        b=PdH1l3gLmsHzbiV1IQqEwhkyiMowolZifDRoW+AbzbYMHEI0O+FM6pH+mKyBCprsY9
+         CI71cbKkpPYpwx874KBD2iyUt7o/MuKgDbTmiK3LEjFq+rud2LmHyzqgSuY5UQlBKpLf
+         5WQxAdsG9DnWLMD0/pO35t2JMlqP+W7QTqQdxuWEi7sPf8GlTc6fzudPqtOikIOJWih3
+         1kLmu3g7x4JT9kUayfYwp3+dA8oxIIaUi1UsBB6cvTo+bvntZQ3CAaMKDsq1JWFsGndB
+         ns7a8YMcd9LZe302rk1RKQx/Q6B4aWP0GlC9bdM3scrV6ASEEjlsp16iZiH+goUSEDp0
+         F6tQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUTKfBDcD7FVPJzsl+MtFpvXP/RK0R5n8YG/lKW+GBNj7myRZEmGisPYgJVx0iNON4/e/u9J9oFaYo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx42H5kimGLbsnA/PWBS6OMYWER7mqDXEtV9GIE8KkxbdStfT4H
+	Xwi9xQjjBVfl9VnaExCSNLw4ElXXp7BMp6uU3/xbiH4fdJE32LXemaYd
+X-Gm-Gg: ATEYQzwNPbD2f7LfCGVtC1I6uMFeg2x4eiGJOj82zriEshoyMRxhPGxzPNp2V6xU95h
+	HUCWk0WsWNChLXb6QlQ5evH/XDOHLxDF0bZzSZJnb+KBkByN7aM6D3biAeJuT8/6cytO2czN0L7
+	W32TlP/45ECJAX/rjlivSQI4MphHWEtv/BCEB0dDZjp7uMypV3Ab+arXHRCsHJ8RLpgmGVmLAcy
+	CqwPMzF75uTAemTZ7wyjZoaiLy+TTSHCQwNw3GHsvh2NvX2CpKfRAHcchsJHZLM2ORaa/NX4TK9
+	niL/lfRB0TDOcdFVCdOUUhi3NBf0wSue3ARlvgUbLCOkAPm+bhp3hnEY6iLkiKURO3VWqv+4cZg
+	mtNeXg4P2DFXr87JVQ3mIcrI5am+27OL30o+SZzQag+mN5OHqm7J5L/gI/mFrJspFHGFylX4WWU
+	bxZhyIccnh2aUW2WX7FzMviuUlsy7cdi5TrbEN
+X-Received: by 2002:a05:7022:924:b0:128:ce44:be8f with SMTP id a92af1059eb24-1299ba119b8mr6680c88.2.1773762231232;
+        Tue, 17 Mar 2026 08:43:51 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-128f639a160sm16648121c88.12.2026.03.17.08.43.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Mar 2026 08:43:50 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Tue, 17 Mar 2026 08:43:50 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Colin Huang <u8813345@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org, Colin.Huang2@amd.com, Carl.Lee@amd.com,
+	Peter.Shen@amd.com
+Subject: Re: [PATCH v2 2/2] hwmon: (pmbus) Add Delta Q54SN120A1 Q54SW120A7
+ chip
+Message-ID: <833aa0f9-6c4a-49d5-9ff8-297ceb508a65@roeck-us.net>
+References: <20260316-add-q54sn120a1-q54q54sw120a7-v2-0-60e6182cc4a7@gmail.com>
+ <20260316-add-q54sn120a1-q54q54sw120a7-v2-2-60e6182cc4a7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260316-add-q54sn120a1-q54q54sw120a7-v2-2-60e6182cc4a7@gmail.com>
 
-On Tue, 17 Mar 2026 11:11:56 -0400
-Mahad Ibrahim <mahad.ibrahim.dev@gmail.com> wrote:
+On Mon, Mar 16, 2026 at 04:39:34PM +0800, Colin Huang wrote:
+> Add the DELTA chips Q54SN120A1, Q54SW120A7 in q54sj108a2,
+> 1/4 Brick DC/DC Regulated Power Module with PMBus support
+> 
+> Signed-off-by: Colin Huang <u8813345@gmail.com>
 
-> When building the kernel-docs, the Sphinx C parser threw two errors:
-> 
-> 1. /home/code/linux/Documentation/core-api/kref:328:
->    ./include/linux/kref.h:72: WARNING: Invalid C declaration: Expected
->    end of definition. [error at 96]
->    int kref_put_mutex (
->                 struct kref *kref,
->                 void (*release) (struct kref *kref),
->                 struct mutex *mutex)
->                 __cond_acquires(true# mutex)
-> 
-> 2. /home/code/linux/Documentation/core-api/kref:328:
->    ./include/linux/kref.h:94: WARNING: Invalid C declaration: Expected
->    end of definition. [error at 92]
->    int kref_put_lock (
->                 struct kref *kref,
->                 void (*release)(struct kref *kref),
->                 spinlock_t *lock)
->                 __cond_acquires(true# lock)
-> 
-> The root cause of these errors is due to the parser's inability to
-> understand sparse __cond_acquires() parameterized macro attached to the
-> function. The parser expects a ';' or a '{' to verify a valid function
-> signature ending.
-> As of Sphinx 3.0, the parser is equipped to handle such cases via the
-> c_paren_attributes list however that functionality was not adopted.
-> 
-> Out of all sparse/compiler-based context analysis parameterized macros
-> inside the kernel, only __cond_acquires appears in the context of a
-> kernel-docs comment and function, which is why it is the only macro that
-> threw an error.
-> 
-> This bug may be attributed to the kernel's recent shift from sparse to
-> compiler-based context analysis, increased strictness of Sphinx C
-> parser, or some other change which transcended domains.
-> 
-> Add c_paren_attributes to enable Sphinx parser to handle parameterized
-> function macros like __cond_acquires.
+Applied.
 
-Sorry but this patch is going at the wrong direction, as this is
-a kernel-doc issue. There are already a patch series under review
-meant to handle this one, together with other related issues.
-
--- 
 Thanks,
-Mauro
+Guenter
