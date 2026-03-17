@@ -1,110 +1,189 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F061C30EF7C
-	for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 10:03:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 860E73A452D
+	for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 10:24:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773741802; cv=none; b=bjkvphKWsjfBOuDF7jXSyCAT4zUyE+fU72iiD0fifZ+0RDL1rX015ezk7B7nmDK5HD9h0eGdu7BfOx3PW0/KXwCwQzkU21/SaLu1x257msBv/S3NyjwNI5DIqfSVAYDQnTRVIQa87dNa8McKI86a6X00kzITBZn5kjtXeKPyrbY=
+	t=1773743057; cv=none; b=FCCjbdRzqc+VtzJjlynxfH25ZGURG+HCrkHu/CVPFYem7YLtr894U1HU1OnLUfrDzVxTckfAM8VW//Zd2G2JPcrlLS+xBDiSC2Jc2WiSW9od//BXjHWyTs5O968xVBOsbw6GM1/b6ath9uj8wxP93/qkfjCLjWLuIbWrAcB12Zg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773741802; c=relaxed/simple;
-	bh=8fV85trx/R47h5vifBybTf4+W6z3VyyEvYi8IAwoEbM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hEjYwn8jugrCKfAYGu/RAMl3xEbR7kl2TBjMynTLmIbVFuR7f8lF0C14MAab1PXWPFWhPMVDWjeYJUnmslT6rX0tlGh6JZPS12gt/G/1TvvrK13Plz2jQvTLiuNukWEfluNkWJwowYkdHUbqckyd5jCDAKSB5ZAoQEsvKEIPhAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rUbADpQk; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1773743057; c=relaxed/simple;
+	bh=WaihzfZb7D0GgPLI/fHUBiBz/Qojntd45vjXtKX+JR0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=AU8wSby2r6JAQxy1eAadFyhe+uksKP/k5UgSBG7DGG0uPEsefOIZr+qwb22kOwnfJCfpb5FlFpmoFO30ucEgYv0vlJfgQgcRSAXc3tTwu+RtuKkT1+SaOeM3nCj/WoFNDLnk/z5Xxm26WeMFa/hyXeMEPexvEnm71zBrCgLjIDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Aaqk0gG1; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rUbADpQk"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4852fdb36a8so64748845e9.2
-        for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 03:03:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1773741799; x=1774346599; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=MZ5u5gAltLh5uEgFrUNUWe9cgVa4WC5hN8ka5M2ffvk=;
-        b=rUbADpQkuiiBeXzifch61iUj/UQN8yFJYfMG7eI8mujtU8DoJFPex5YmujwzyVVfP4
-         31PNCh7y1ViR1VIxCVgCy7+rghs38AMrw55WfPVjwWh2ZTkmqAb/NAuT+TUiNtBb55kR
-         5w7QQXIIRDWlkrEjaqAvX82ps0ewx6Ffa7iE+rwPrl+UotT6f0LehGdjcZwg7Rk7XgZU
-         Lh2XGOu6Vw21D1xvzOqI+ILc1bgbyJ0dhKdkSmQ0f8tjXvYXd0dYAUUuJNaeOQgB3+XZ
-         JOcOCXvd6SRn+0tU+qZdYwZg7A/VGzBsIuxYraLz3ZZIeDCnpeJVLaiG5RLoQED8zcYy
-         aEmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773741799; x=1774346599;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MZ5u5gAltLh5uEgFrUNUWe9cgVa4WC5hN8ka5M2ffvk=;
-        b=hJxzPOeV7Lhp9uLOINBfc437cyTlB4uSjlzkDd6mFi0codQ5BAmWkqJJjRf33D5NKn
-         s6K9k4S4ayM4H33YCbtphZ012/NNXAvMVI0B6n1TCoG6Pkg1IbaYqbfIRrA5gK5XBuxY
-         BHEtD9brJ126s2inC7j8AEPV0LQEvVlSE4g6FD8abphU6CJltv7oSvmMvtQNhJLGwwjC
-         /pd3Sc8H60ppg3hF1uxhit6STKqfp8XxLh9kdGTKRlFhvqTKG87ORQCFSnxBgKpili0X
-         1iK5CT0ZcwV1u1ZDr2HCOaJkH9LHGxA9kAWRH/0IMkm2uoShcMG1pRiZ7hPGqi+kWb0K
-         HHZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVqW9kjUmYU9iU2gw1kP6e0pu0FtU8kI8rXlR11Uz7HadsZtfIA6v33Njlly2okovixE0Cr8HbPsbQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzZ1HtMX+byWfkPIu7Qw4IdiQksssCCo7d1Je61E6cDED6Z+e+i
-	v/Ur1U4VaZ15o8PltrcNwY0RG3ZcuTM1gucd+A2Xr/rMW2Fd1IBKGujwt9Y0h4hmmtw=
-X-Gm-Gg: ATEYQzzemlab5cYz89manZ2K11vbYrtlOtEYDVUhHmV/lbnCrXXBKeiDpGHBA+Da6Oe
-	VGEO52sZTRqBxGNeM7l1jhGUVqGpslqooBKTbiq5pPP8zLBnW0vPLWtNhsrf3rIjQptwXNwreCX
-	aO1TtpbIC3fUuffgpFC+Q+RYEyJQu4vsiHGS5HBG0pQGTTglMUA1lRo9deWXHtLLdT35WarWknk
-	DuGWkhXUq1fZNnAxSu+ASccarhgRhsanr1UEi3Dy7xmTttitLBl/4v3716/3MDidz4Pcj6psrEW
-	TT18NkoK1qMMbdHCWd+v0WBxv+SQ3YzVc9Iwudx1rpFeULWZraztalD67iug0hEyzgH7yT5sW4G
-	KZvYszMnPzYHK5BiTQjmMlKOBTk5LJXLfcXhfENBz3J6jJx7pCqv2cZOIrEGLRdOzBP1GNnsHyY
-	/P47YB7AmgjU2fwvH+pDSdhBoABkKf
-X-Received: by 2002:a05:600c:c4ac:b0:485:33ad:3c9f with SMTP id 5b1f17b1804b1-4855670c164mr271097835e9.25.1773741799028;
-        Tue, 17 Mar 2026 03:03:19 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4856eaa3b66sm63481085e9.11.2026.03.17.03.03.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Mar 2026 03:03:18 -0700 (PDT)
-Date: Tue, 17 Mar 2026 13:03:15 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Albert Esteve <aesteve@redhat.com>
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
-	dri-devel@lists.freedesktop.org, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Alessandro Carminati <acarmina@redhat.com>,
-	Guenter Roeck <linux@roeck-us.net>, Kees Cook <kees@kernel.org>,
-	Linux Kernel Functional Testing <lkft@linaro.org>,
-	=?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
-	Simona Vetter <simona.vetter@ffwll.ch>
-Subject: Re: [PATCH v6 0/5] kunit: Add support for suppressing warning
- backtraces
-Message-ID: <abkm46TIIBBbuuC_@stanley.mountain>
-References: <20260317-kunit_add_support-v6-0-dd22aeb3fe5d@redhat.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Aaqk0gG1"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 0B5821A2D73;
+	Tue, 17 Mar 2026 10:24:14 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id D42185FC9A;
+	Tue, 17 Mar 2026 10:24:13 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 85263104503A6;
+	Tue, 17 Mar 2026 11:24:08 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1773743052; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=sElk1a0rbyXJo2pC2tiqhDCKfLfW9ww2qocJ8ozGUyk=;
+	b=Aaqk0gG1QlXT/xNCx4Y55fzfBGepX7CPp5up8bZbeaSh+ZD11vCeer/h8+MOiz56iZRZc8
+	s35NETAlpIeX6f/7dJo5YKeFA2NZUQ3M7LkFHWCyEVAN4YJjk8qqadn5y+NuwvB3anCeYy
+	q3PHGFEAq3S4Xy92r0rhjLdmkdQ/g9POg4dcSFXucIRMp01TNNMSvfKmtcXHIxPMMg09Ue
+	3on305oxf5qEiN2uQ6a2BWZczyu10yn8hQr6/igEVJr8WzwkoAWKgc6lFOCBXk3/7YskY3
+	O3xnOr3cyRz15SBFEtool9Zu8QUTpmU2gwsmHTUTAuWP4P0G5d4GriRvQMxGxg==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+Subject: [PATCH v3 00/27] mtd: spi-nor: Enhance software protection
+Date: Tue, 17 Mar 2026 11:24:03 +0100
+Message-Id: <20260317-winbond-v6-18-rc1-spi-nor-swp-v3-0-2ca9ea4e7b9b@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260317-kunit_add_support-v6-0-dd22aeb3fe5d@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/43NsQ6CMBSF4Vcxnb2mt5RSnHwP4yClyE20JS0pG
+ sK7W0gcnHT8z/CdmUUbyEZ23M0s2ESRvMtR7HfM9Fd3s0Btbia4KBFRwkSu8a6FpAA1BIMQBwL
+ nA8RpAK3KtlCd7FRdsmwMwXb03PzzJXdPcfThtd0lXNd/5YTAQeqqMRWKui7w1Hg/3skdjH+w1
+ U7i4ymOXP/yRPaMVMJ2miss+Le3LMsbwPZprhwBAAA=
+X-Change-ID: 20251114-winbond-v6-18-rc1-spi-nor-swp-865d36f4f695
+To: Pratyush Yadav <pratyush@kernel.org>, Michael Walle <mwalle@kernel.org>, 
+ Takahiro Kuwano <takahiro.kuwano@infineon.com>, 
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: Tudor Ambarus <tudor.ambarus@linaro.org>, 
+ Sean Anderson <sean.anderson@linux.dev>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Steam Lin <STLin2@winbond.com>, linux-mtd@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Miquel Raynal <miquel.raynal@bootlin.com>, stable@kernel.org
+X-Mailer: b4 0.14.3
+X-Last-TLS-Session-Version: TLSv1.3
 
-I think this is great to suppress some warnings, and I already ACKed
-this patchset.  But we're still going to have some warnings where the
-warning is the whole point of the test.
+Hello,
 
-It would be great if marked these somehow:
-1) At minimum we should mark them so people seeing the warning know it's
-intentional.  "Intentional Stack Trace".  I've sent at least one patch
-to add that printk before the stack trace but it was ignored.  We could
-do this piecemeal.
+As recently raised on the mailing-list (link below), it seems that the
+"locking" support in SPI NOR could benefit from some enhancements. As I
+myself had to dig into it recently, here is a proposal.
 
-2) It would be nice if the print was standardized enough so CI systems
-could automatically filter it out.
+First issue that I see, the MEMLOCK ioctl is not behaving correctly
+in some cases, as addressed in:
 
-regards,
-dan carpenter
+    mtd: spi-nor: swp: Improve locking user experience
+
+Then there is no clear explanation of the shortcuts taken by the kernel
+in terms of uAPI, so there is an attempt to list them in:
+
+    mtd: spi-nor: swp: Explain the MEMLOCK ioctl implementation behaviour
+
+Plus, Tudor also asked if we could cover locking in the testing
+procedure, which is done in:
+
+    mtd: spi-nor: Add steps for testing locking support
+
+In order to simplify this procedure, and because it got very helpful
+during my testing/development, I want to propose additions to the
+debugfs output:
+
+    mtd: spi-nor: debugfs: Add locking support TODO: make the captures again
+
+Finally, I am providing an implementation for the complement (CMP)
+feature in order to allow finer control of the regions locked. This
+feature is for instance available on Winbond chips:
+
+    [core] mtd: spi-nor: swp: Add support for the complement feature
+    [doc]  mtd: spi-nor: Add steps for testing locking with CMP
+    [use]  mtd: spi-nor: winbond: Add CMP locking support
+
+Disclaimer: it was much less straightforward than I initially thought to
+get the CMP feature working correctly. I tested it with as much focus as
+I could, and I am improving the test coverage for the new cases, I am
+also providing extra test cases in the metadata of the commit (which do
+not make sense to test for chip additions, but may be sensible show when
+making core additions like this one), but honestly there are so many
+possibilities, I may still be missing corner cases. I hope this will
+anyway be helpful to others!
+
+All the other patches are misc improvements or style fixes which I faced
+and fixed during my development.
+
+Link: https://lore.kernel.org/linux-mtd/92e99a96-5582-48a5-a4f9-e9b33fcff171@linux.dev/
+
+Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+---
+Changes in v3:
+- No change at all, just rebased on top of v7.0-rc1.
+- Collected 2 R-by from M. Walle.
+- Link to v2: https://lore.kernel.org/r/20260108-winbond-v6-18-rc1-spi-nor-swp-v2-0-c462ef806130@bootlin.com
+
+Changes in v2:
+- Collect tags.
+- Add missing Fixes/Cc: stable tags.
+- Add a comment explaining why can_be_top && can_be_bottom is a specific
+  condition.
+- Fix commit logs following Michael Walle's reviews.
+- Amend the documentation following our discussion with Michael Walle as
+  well.
+- Cache the SR register for debugfs use.
+- Create a locked sector map file instead of dumping it as part of the
+  `params` file output.
+- Improved greatly the output of the map as suggested by Michael.
+- Add a patch fixing a duplicate dependency in Kconfig.
+- Add an important comment in the doc about the small 4kiB erase size
+  choice.
+- Add test runs for each and every chip for which the CMP feature is
+  added. This prove me that testing of each and every chip was needed,
+  as some of them seem to feature a broken BFPT table which does not
+  advertise a working 35h (Read CR) command.
+- Added a condition on which the CMP feature is enabled: RDCR must be
+  possible.
+- Link to v1: https://lore.kernel.org/r/20251114-winbond-v6-18-rc1-spi-nor-swp-v1-0-487bc7129931@bootlin.com
+
+---
+Miquel Raynal (27):
+      mtd: spi-nor: Drop duplicate Kconfig dependency
+      mtd: spi-nor: debugfs: Fix the flags list
+      mtd: spi-nor: swp: Improve locking user experience
+      mtd: spi-nor: Improve opcodes documentation
+      mtd: spi-nor: debugfs: Align variable access with the rest of the file
+      mtd: spi-nor: debugfs: Enhance output
+      mtd: spi-nor: swp: Explain the MEMLOCK ioctl implementation behaviour
+      mtd: spi-nor: swp: Clarify a comment
+      mtd: spi-nor: swp: Use a pointer for SR instead of a single byte
+      mtd: spi-nor: swp: Create a helper that writes SR, CR and checks
+      mtd: spi-nor: swp: Rename a mask
+      mtd: spi-nor: swp: Create a TB intermediate variable
+      mtd: spi-nor: swp: Create helpers for building the SR register
+      mtd: spi-nor: swp: Simplify checking the locked/unlocked range
+      mtd: spi-nor: swp: Cosmetic changes
+      mtd: spi-nor: Create a local SR cache
+      mtd: spi-nor: debugfs: Add locking support
+      mtd: spi-nor: debugfs: Add a locked sectors map
+      mtd: spi-nor: Add steps for testing locking support
+      mtd: spi-nor: swp: Add support for the complement feature
+      mtd: spi-nor: Add steps for testing locking with CMP
+      mtd: spi-nor: winbond: Add W25H512NWxxAM CMP locking support
+      mtd: spi-nor: winbond: Add W25H01NWxxAM CMP locking support
+      mtd: spi-nor: winbond: Add W25H02NWxxAM CMP locking support
+      mtd: spi-nor: winbond: Add W25H01NWxxIQ CMP locking support
+      mtd: spi-nor: winbond: Add W25Q01NWxxIM CMP locking support
+      mtd: spi-nor: winbond: Add W25Q02NWxxIM CMP locking support
+
+ Documentation/driver-api/mtd/spi-nor.rst | 164 ++++++++++++++
+ drivers/mtd/spi-nor/Kconfig              |   1 -
+ drivers/mtd/spi-nor/core.c               |  74 ++++++-
+ drivers/mtd/spi-nor/core.h               |  10 +
+ drivers/mtd/spi-nor/debugfs.c            |  63 +++++-
+ drivers/mtd/spi-nor/swp.c                | 359 ++++++++++++++++++++++++-------
+ drivers/mtd/spi-nor/winbond.c            |  41 +++-
+ include/linux/mtd/spi-nor.h              |   7 +-
+ 8 files changed, 631 insertions(+), 88 deletions(-)
+---
+base-commit: 7ec0b5645131696d2ae9423ae32a80441ce201d6
+change-id: 20251114-winbond-v6-18-rc1-spi-nor-swp-865d36f4f695
+
+Best regards,
+-- 
+Miquel Raynal <miquel.raynal@bootlin.com>
 
