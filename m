@@ -1,275 +1,379 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D309137CD5E;
-	Tue, 17 Mar 2026 17:49:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8356318121;
+	Tue, 17 Mar 2026 18:00:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773769773; cv=none; b=Po36rIXyFJHOyd78SWTrL0m9SmwtJzBryfZnchj3BqqJgIgUzTvcJYfN5AgX/aAu0tmUzTF806IxUZwqYxN//YbhPz734PKL8SL1dDjAWGq1s+i6iJppnJlE0BP4W9uOAqHLghyaUNBohOr3aIFmEZVZityla30Z+FSQZ+Rj2eI=
+	t=1773770457; cv=none; b=K1WNgdON5FPF0ZG8T8ywTLq35G3f2DrriF0YJHVXE/XmHZehhsLD/HaMK9f5GwcfKsPRVtjGIw/p9P69fcuGaYy+x0GzUqzzv5iIvwHmCihWhCwKxcgNdrAvALsRoOKbqfwq9gRwYAyeBKeJEG7tvHL97ZnPBRpmycxfjJaBG0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773769773; c=relaxed/simple;
-	bh=kVd7WqqIEuqnSnuvqyAQZDi/iz4O/JT2V16GHRpYCQY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=D5cjqsc5T517tut9q6Vm5V8UqiXGbJ0/AZPAUb5i8NX6MQ4pX8/ktOVacPvxLr6FB+u+O4Z2CH+UNh894g3QjPWPhS6k6Fv9ZiHS2xHVgvEAxgWHLwQ/8TQRYTkGRKnTZup2MnXum62niDvGW1vT1gWKVuGHmhCJIWC0DGHQOcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=JeYqVH2P; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1773770457; c=relaxed/simple;
+	bh=1h0LwC6y35Zrab7lLwO8WqaaGJkYFjg0b4+fiD6TlVA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=AzPQQWEUm4w2ATUzA6SGwGgqnR4s9haMtY0nNNN0Pmh2VSVomaar0I3Lfzh69JlvQVQXhhnCv6hH1X+SZiYTeAKbdHBEyjfvxSMy5tCpQ99P16emh35AlgJ4rKk2SCk53c3jcBky57duddfRl0MSnqCdUbF2iGcp+lYqhW0JqhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DdnDPLKR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="JeYqVH2P"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C5C9940C7C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1773769768; bh=7Otd/TzkbZeVgZIL1Yn9LdpW6FPuE2AtPeVB8L4xye4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=JeYqVH2PyAkJTP9Ld5bMzQC8/28cz/40eb75rNFqPh8LI1+nxbYf5B96gwfWTA8p2
-	 IyFIrgVdBBfJL7u573qdLnPnz1PzG/2iRipw7nSlSb3eVzcMpn/Xnou62T4wECCeLP
-	 gPulEfT6Q3yxbbJ3HtXSV1pSFSlD/bqDiWANfk8rpeJITniK26zxsmU1NDmN5hzUZV
-	 uVO6IR23N56d8FgBZYhzQuSzXOZ30D9x2K1RiJhCbnaL/QWN4EG6Oq1uxLxbetfXAU
-	 1Cqe42RqkcTmRilKspV7MVWRickhe9lSFqloPVwSy8sfEKyve6l6I96bDT5KrRKdFF
-	 jEk/T2NSeqUCQ==
-Received: from localhost (c-71-229-227-126.hsd1.co.comcast.net [71.229.227.126])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id C5C9940C7C;
-	Tue, 17 Mar 2026 17:49:28 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Sasha Levin <sashal@kernel.org>, linux-api@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org,
- workflows@vger.kernel.org, tools@kernel.org, x86@kernel.org, Thomas
- Gleixner <tglx@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Dmitry Vyukov
- <dvyukov@google.com>, Randy Dunlap <rdunlap@infradead.org>, Cyril Hrubis
- <chrubis@suse.cz>, Kees Cook <kees@kernel.org>, Jake Edge <jake@lwn.net>,
- David Laight <david.laight.linux@gmail.com>, Askar Safin
- <safinaskar@zohomail.com>, Gabriele Paoloni <gpaoloni@redhat.com>, Mauro
- Carvalho Chehab <mchehab@kernel.org>, Christian Brauner
- <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, Andrew
- Morton <akpm@linux-foundation.org>, Masahiro Yamada
- <masahiroy@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, Ingo
- Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>, Sasha Levin
- <sashal@kernel.org>
-Subject: Re: [PATCH 1/9] kernel/api: introduce kernel API specification
- framework
-In-Reply-To: <20260313150928.2637368-2-sashal@kernel.org>
-References: <20260313150928.2637368-1-sashal@kernel.org>
- <20260313150928.2637368-2-sashal@kernel.org>
-Date: Tue, 17 Mar 2026 11:49:27 -0600
-Message-ID: <87h5qe9wig.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DdnDPLKR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03C2AC4CEF7;
+	Tue, 17 Mar 2026 18:00:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773770457;
+	bh=1h0LwC6y35Zrab7lLwO8WqaaGJkYFjg0b4+fiD6TlVA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=DdnDPLKR8gMnQBHtsLrahGUrA5eTfe89G8zbNtj/8/kN0TSomrYBo+r8Ytru9budv
+	 v8TRZYhSigrma93MBfBb3LSsGCq9PM57pQXeEdabsBn9A4nEY8h/R2dSH8D4VFTdoJ
+	 J+vI2XjUTHe8ZUAwHEpVeW/R2jvs8mdCltl1voIIV08wYF8qWYj+v5MuJVZeRcNtHN
+	 UUJdZEJ2gcnA4yTyDGXBMT6mgNVTCUX6l4uYlP2iV82p9f1ejiEMxXTNwv5mhdbaEP
+	 +U1Yv9LpJswIoXPvclwMjNajGcqKW46fBL5p/6no78sspJu8u6+b1GcmI7vck9ZRGa
+	 Xs2+X2pJw99NQ==
+Received: from localhost ([::1])
+	by mail.kernel.org with esmtp (Exim 4.99.1)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1w2Yis-0000000H3jE-3SHS;
+	Tue, 17 Mar 2026 19:00:54 +0100
+Date: Tue, 17 Mar 2026 19:00:53 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Kees Cook <kees@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org,
+ linux-kernel@vger.kernel.org, "Gustavo A. R. Silva"
+ <gustavoars@kernel.org>, Aleksandr Loktionov
+ <aleksandr.loktionov@intel.com>, Randy Dunlap <rdunlap@infradead.org>,
+ Shuah Khan <skhan@linuxfoundation.org>, Vincent Mailhol
+ <mailhol@kernel.org>
+Subject: Re: [PATCH v2 00/28] kernel-doc: use a C lexical tokenizer for
+ transforms
+Message-ID: <20260317190053.12cc2eee@localhost>
+In-Reply-To: <87tsue9y7h.fsf@trenco.lwn.net>
+References: <cover.1773326442.git.mchehab+huawei@kernel.org>
+	<87tsue9y7h.fsf@trenco.lwn.net>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Sasha Levin <sashal@kernel.org> writes:
+On Tue, 17 Mar 2026 11:12:50 -0600
+Jonathan Corbet <corbet@lwn.net> wrote:
 
-> Add a framework for formally documenting kernel APIs with inline
-> specifications. This framework provides:
->
-> - Structured API documentation with parameter specifications, return
->   values, error conditions, and execution context requirements
-> - Runtime validation capabilities for debugging (CONFIG_KAPI_RUNTIME_CHECKS)
-> - Export of specifications via debugfs for tooling integration
-> - Support for both internal kernel APIs and system calls
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+> 
+> > Sorry for respamming this one too quick. It ends that v1 had some
+> > bugs causing it to fail on several cases. I opted to add extra
+> > patches in the end. This way, it better integrates with kdoc_re.
+> > As part of it, now c_lex will output file name when reporting
+> > errors. With that regards, only more serious errors will raise
+> > an exception. They are meant to indicate problems at kernel-doc
+> > itself. Parsing errors are now using the same warning approach
+> > as kdoc_parser.
+> >
+> > I also added a filter at Ctokenizer __str__() logic for the
+> > string convertion to drop some weirdness whitespaces and uneeded
+> > ";" characters at the output.
+> >
+> > Finally, v2 address the undefined behavior about private: comment
+> > propagation.
+> >
+> > This patch series change how kdoc parser handles macro replacements.  
+> 
+> So I have at least glanced at the whole series now; other than the few
+> things I pointed out, I don't find a whole lot to complain about.  I do
+> worry about adding another 2000 lines to kernel-doc, even if more than
+> half of them are tests.  But hopefully it leads to a better and more
+> maintainable system.
+> 
+> We're starting to get late enough in the cycle that I'm a bit leery of
+> applying this work for 7.1.  What was your thinking on timing?
 
-So I'll confess I have only scanned over the implementation, but I have
-some thoughts on the earlier stuff.
+I'm sending now a v3. It basically address your points, which
+reduced the series to 22 patches.
 
-[...]
+I'm adding the diff between the two versions here, as it may help
+checking what changed. I'll also document the main changes at
+patch 00/22.
 
-> diff --git a/Documentation/dev-tools/kernel-api-spec.rst b/Documentation/dev-tools/kernel-api-spec.rst
-> new file mode 100644
-> index 0000000000000..7c0c1694f1f4a
-> --- /dev/null
-> +++ b/Documentation/dev-tools/kernel-api-spec.rst
-> @@ -0,0 +1,482 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +======================================
-> +Kernel API Specification Framework
-> +======================================
-> +
-> +:Author: Sasha Levin <sashal@kernel.org>
-> +:Date: June 2025
+-- 
+Thanks,
+Mauro
 
-Has it not changed since then?
+diff --git a/tools/lib/python/kdoc/c_lex.py b/tools/lib/python/kdoc/c_lex.py
+index 95c4dd5afe77..b6d58bd470a9 100644
+--- a/tools/lib/python/kdoc/c_lex.py
++++ b/tools/lib/python/kdoc/c_lex.py
+@@ -50,7 +50,7 @@ class CToken():
+     STRING = 1      #: A string, including quotation marks.
+     CHAR = 2        #: A character, including apostophes.
+     NUMBER = 3      #: A number.
+-    PUNC = 4        #: A puntuation mark: ``;`` / ``,`` / ``.``.
++    PUNC = 4        #: A puntuation mark: / ``,`` / ``.``.
+     BEGIN = 5       #: A begin character: ``{`` / ``[`` / ``(``.
+     END = 6         #: A end character: ``}`` / ``]`` / ``)``.
+     CPP = 7         #: A preprocessor macro.
+@@ -62,8 +62,9 @@ class CToken():
+     TYPEDEF = 13    #: A ``typedef`` keyword.
+     NAME = 14       #: A name. Can be an ID or a type.
+     SPACE = 15      #: Any space characters, including new lines
++    ENDSTMT = 16    #: End of an statement (``;``).
+ 
+-    BACKREF = 16  #: Not a valid C sequence, but used at sub regex patterns.
++    BACKREF = 17    #: Not a valid C sequence, but used at sub regex patterns.
+ 
+     MISMATCH = 255  #: an error indicator: should never happen in practice.
+ 
+@@ -104,37 +105,42 @@ class CToken():
+ 
+         return f"CToken(CToken.{name}, {value}, {self.pos}, {self.level})"
+ 
+-#: Tokens to parse C code.
+-TOKEN_LIST = [
++#: Regexes to parse C code, transforming it into tokens.
++RE_SCANNER_LIST = [
++    #
++    # Note that \s\S is different than .*, as it also catches \n
++    #
+     (CToken.COMMENT, r"//[^\n]*|/\*[\s\S]*?\*/"),
+ 
+     (CToken.STRING,  r'"(?:\\.|[^"\\])*"'),
+     (CToken.CHAR,    r"'(?:\\.|[^'\\])'"),
+ 
+-    (CToken.NUMBER,  r"0[xX][0-9a-fA-F]+[uUlL]*|0[0-7]+[uUlL]*|"
+-                     r"[0-9]+(\.[0-9]*)?([eE][+-]?[0-9]+)?[fFlL]*"),
++    (CToken.NUMBER,  r"0[xX][\da-fA-F]+[uUlL]*|0[0-7]+[uUlL]*|"
++                     r"\d+(?:\.\d*)?(?:[eE][+-]?\d+)?[fFlL]*"),
+ 
+-    (CToken.PUNC,    r"[;,\.]"),
++    (CToken.ENDSTMT, r"(?:\s+;|;)"),
++
++    (CToken.PUNC,    r"[,\.]"),
+ 
+     (CToken.BEGIN,   r"[\[\(\{]"),
+ 
+     (CToken.END,     r"[\]\)\}]"),
+ 
+-    (CToken.CPP,     r"#\s*(define|include|ifdef|ifndef|if|else|elif|endif|undef|pragma)\b"),
++    (CToken.CPP,     r"#\s*(?:define|include|ifdef|ifndef|if|else|elif|endif|undef|pragma)\b"),
+ 
+     (CToken.HASH,    r"#"),
+ 
+     (CToken.OP,      r"\+\+|\-\-|\->|==|\!=|<=|>=|&&|\|\||<<|>>|\+=|\-=|\*=|/=|%="
+-                     r"|&=|\|=|\^=|=|\+|\-|\*|/|%|<|>|&|\||\^|~|!|\?|\:|\@"),
++                     r"|&=|\|=|\^=|[=\+\-\*/%<>&\|\^~!\?\:]"),
+ 
+     (CToken.STRUCT,  r"\bstruct\b"),
+     (CToken.UNION,   r"\bunion\b"),
+     (CToken.ENUM,    r"\benum\b"),
+-    (CToken.TYPEDEF, r"\bkinddef\b"),
++    (CToken.TYPEDEF, r"\btypedef\b"),
+ 
+-    (CToken.NAME,    r"[A-Za-z_][A-Za-z0-9_]*"),
++    (CToken.NAME,    r"[A-Za-z_]\w*"),
+ 
+-    (CToken.SPACE,   r"[\s]+"),
++    (CToken.SPACE,   r"\s+"),
+ 
+     (CToken.BACKREF, r"\\\d+"),
+ 
+@@ -142,7 +148,7 @@ TOKEN_LIST = [
+ ]
+ 
+ def fill_re_scanner(token_list):
+-    """Ancillary routine to convert TOKEN_LIST into a finditer regex"""
++    """Ancillary routine to convert RE_SCANNER_LIST into a finditer regex"""
+     re_tokens = []
+ 
+     for kind, pattern in token_list:
+@@ -157,7 +163,8 @@ RE_CONT = KernRe(r"\\\n")
+ RE_COMMENT_START = KernRe(r'/\*\s*')
+ 
+ #: tokenizer regex. Will be filled at the first CTokenizer usage.
+-RE_SCANNER = fill_re_scanner(TOKEN_LIST)
++RE_SCANNER = fill_re_scanner(RE_SCANNER_LIST)
++
+ 
+ class CTokenizer():
+     """
+@@ -170,10 +177,39 @@ class CTokenizer():
+     # This class is inspired and follows the basic concepts of:
+     #   https://docs.python.org/3/library/re.html#writing-a-tokenizer
+ 
++    def __init__(self, source=None, log=None):
++        """
++        Create a regular expression to handle RE_SCANNER_LIST.
++
++        While I generally don't like using regex group naming via:
++            (?P<name>...)
++
++        in this particular case, it makes sense, as we can pick the name
++        when matching a code via RE_SCANNER.
++        """
++
++        self.tokens = []
++
++        if not source:
++            return
++
++        if isinstance(source, list):
++            self.tokens = source
++            return
++
++        #
++        # While we could just use _tokenize directly via interator,
++        # As we'll need to use the tokenizer several times inside kernel-doc
++        # to handle macro transforms, cache the results on a list, as
++        # re-using it is cheaper than having to parse everytime.
++        #
++        for tok in self._tokenize(source):
++            self.tokens.append(tok)
++
+     def _tokenize(self, source):
+         """
+-        Interactor that parses ``source``, splitting it into tokens, as defined
+-        at ``self.TOKEN_LIST``.
++        Iterator that parses ``source``, splitting it into tokens, as defined
++        at ``self.RE_SCANNER_LIST``.
+ 
+         The interactor returns a CToken class object.
+         """
+@@ -214,29 +250,6 @@ class CTokenizer():
+             yield CToken(kind, value, pos,
+                          brace_level, paren_level, bracket_level)
+ 
+-    def __init__(self, source=None, log=None):
+-        """
+-        Create a regular expression to handle TOKEN_LIST.
+-
+-        While I generally don't like using regex group naming via:
+-            (?P<name>...)
+-
+-        in this particular case, it makes sense, as we can pick the name
+-        when matching a code via RE_SCANNER.
+-        """
+-
+-        self.tokens = []
+-
+-        if not source:
+-            return
+-
+-        if isinstance(source, list):
+-            self.tokens = source
+-            return
+-
+-        for tok in self._tokenize(source):
+-            self.tokens.append(tok)
+-
+     def __str__(self):
+         out=""
+         show_stack = [True]
+@@ -278,18 +291,10 @@ class CTokenizer():
+ 
+                 # Do some cleanups before ";"
+ 
+-                if (tok.kind == CToken.SPACE and
+-                    next_tok.kind == CToken.PUNC and
+-                    next_tok.value == ";"):
+-
++                if tok.kind == CToken.SPACE and next_tok.kind == CToken.ENDSTMT:
+                     continue
+ 
+-                if (tok.kind == CToken.PUNC and
+-                    next_tok.kind == CToken.PUNC and
+-                    tok.value == ";" and
+-                    next_tok.kind == CToken.PUNC and
+-                    next_tok.value == ";"):
+-
++                if tok.kind == CToken.ENDSTMT and next_tok.kind == tok.kind:
+                     continue
+ 
+             out += str(tok.value)
+@@ -368,9 +373,13 @@ class CTokenArgs:
+ 
+                 if tok.kind == CToken.BEGIN:
+                     inner_level += 1
+-                    continue
+ 
+-                if tok.kind == CToken.END:
++                    #
++                    # Discard first begin
++                    #
++                    if not groups_list[0]:
++                        continue
++                elif tok.kind == CToken.END:
+                     inner_level -= 1
+                     if inner_level < 0:
+                         break
+@@ -414,7 +423,7 @@ class CTokenArgs:
+                 if inner_level < 0:
+                     break
+ 
+-            if tok.kind == CToken.PUNC and delim == tok.value:
++            if tok.kind in [CToken.PUNC, CToken.ENDSTMT] and delim == tok.value:
+                 pos += 1
+                 if self.greedy and pos > self.max_group:
+                     pos -= 1
+@@ -458,6 +467,7 @@ class CTokenArgs:
+ 
+         return new.tokens
+ 
++
+ class CMatch:
+     """
+     Finding nested delimiters is hard with regular expressions. It is
+diff --git a/tools/lib/python/kdoc/kdoc_parser.py b/tools/lib/python/kdoc/kdoc_parser.py
+index 3b99740ebed3..f6c4ee3b18c9 100644
+--- a/tools/lib/python/kdoc/kdoc_parser.py
++++ b/tools/lib/python/kdoc/kdoc_parser.py
+@@ -13,9 +13,8 @@ import sys
+ import re
+ from pprint import pformat
+ 
++from kdoc.c_lex import CTokenizer, tokenizer_set_log
+ from kdoc.kdoc_re import KernRe
+-from kdoc.c_lex import tokenizer_set_log
+-from kdoc.c_lex import CTokenizer
+ from kdoc.kdoc_item import KdocItem
+ 
+ #
+diff --git a/tools/unittests/test_tokenizer.py b/tools/unittests/test_tokenizer.py
+index 6a0bd49df72e..5634b4a7283e 100755
+--- a/tools/unittests/test_tokenizer.py
++++ b/tools/unittests/test_tokenizer.py
+@@ -76,13 +76,13 @@ TESTS_TOKENIZER = {
+         "expected": [
+             CToken(CToken.NAME, "int"),
+             CToken(CToken.NAME, "a"),
+-            CToken(CToken.PUNC, ";"),
++            CToken(CToken.ENDSTMT, ";"),
+             CToken(CToken.COMMENT, "// comment"),
+             CToken(CToken.NAME, "float"),
+             CToken(CToken.NAME, "b"),
+             CToken(CToken.OP, "="),
+             CToken(CToken.NUMBER, "1.23"),
+-            CToken(CToken.PUNC, ";"),
++            CToken(CToken.ENDSTMT, ";"),
+         ],
+     },
+ 
+@@ -103,7 +103,7 @@ TESTS_TOKENIZER = {
+             CToken(CToken.BEGIN, "[", brace_level=1, bracket_level=1),
+             CToken(CToken.NUMBER, "10", brace_level=1, bracket_level=1),
+             CToken(CToken.END, "]", brace_level=1),
+-            CToken(CToken.PUNC, ";", brace_level=1),
++            CToken(CToken.ENDSTMT, ";", brace_level=1),
+             CToken(CToken.NAME, "func", brace_level=1),
+             CToken(CToken.BEGIN, "(", brace_level=1, paren_level=1),
+             CToken(CToken.NAME, "a", brace_level=1, paren_level=1),
+@@ -117,7 +117,7 @@ TESTS_TOKENIZER = {
+             CToken(CToken.NAME, "c", brace_level=1, paren_level=2),
+             CToken(CToken.END, ")", brace_level=1, paren_level=1),
+             CToken(CToken.END, ")", brace_level=1),
+-            CToken(CToken.PUNC, ";", brace_level=1),
++            CToken(CToken.ENDSTMT, ";", brace_level=1),
+             CToken(CToken.END, "}"),
+         ],
+     },
 
-> +.. contents:: Table of Contents
-> +   :depth: 3
-> +   :local:
-> +
-> +Introduction
-> +============
 
-[...]
-
-> +Usage Guide
-> +===========
-> +
-> +Basic API Specification
-> +-----------------------
-> +
-> +API specifications are written as KAPI-annotated kerneldoc comments directly in
-> +the source file, immediately preceding the function implementation. The ``kapi``
-> +tool extracts these annotations to produce structured specifications.
-> +
-> +.. code-block:: c
-> +
-> +    /**
-> +     * kmalloc - allocate kernel memory
-> +     * @size: Number of bytes to allocate
-> +     * @flags: Allocation flags (GFP_*)
-
-Given that the text thus far has talked about user-space API validation,
-it's a bit surprising to see an internal function used as an example.
-
-Also, maybe it should be kmalloc_obj()?  <runs away>
-
-> +     * context-flags: KAPI_CTX_PROCESS | KAPI_CTX_SOFTIRQ | KAPI_CTX_HARDIRQ
-> +     * param-count: 2
-
-param-count is two, but you only document one of them?
-
-> +     * param: size
-> +     *   type: KAPI_TYPE_UINT
-> +     *   flags: KAPI_PARAM_IN
-> +     *   constraint-type: KAPI_CONSTRAINT_RANGE
-> +     *   range: 0, KMALLOC_MAX_SIZE
-> +     *
-> +     * error: ENOMEM, Out of memory
-> +     *   desc: Insufficient memory available for the requested allocation.
-> +     */
-
-Honest question: can this be made a bit easier for people to create,
-with less shift-key wear?  My biggest worry with a system like this is
-that people won't take the time to create and maintain the entries, so
-anything that would ease the task would help.  Is there an impediment to
-something like:
-
-  contexts: process, softirq, hardirq
-
-  param: size
-    type: uint, input
-    constraint: range(0, KMALLOC_MAX_SIZE)
-
-See what I'm getting at?  ISTM that your DSL could be made a bit less
-verbose and shouty while being just as well defined, but perhaps I'm
-missing something?
-
-Even better, of course, would be to add a "description" field for each
-parameter, and allow that rather than the @param description that
-kerneldoc currently uses.  That would keep all the information together,
-at the minor cost of adding another significant complication to the
-kernel-doc script.  Mauro won't mind :)
-
-> +    void *kmalloc(size_t size, gfp_t flags)
-> +    {
-> +        /* Implementation */
-> +    }
-> +
-> +Alternatively, specifications can be defined using the ``DEFINE_KERNEL_API_SPEC``
-> +macro for compiled-in specs that are stored in the ``.kapi_specs`` ELF section:
-> +
-> +.. code-block:: c
-> +
-> +    #include <linux/kernel_api_spec.h>
-> +
-> +    DEFINE_KERNEL_API_SPEC(sys_open)
-> +    KAPI_DESCRIPTION("Open or create a file")
-> +    KAPI_CONTEXT(KAPI_CTX_PROCESS | KAPI_CTX_SLEEPABLE)
-> +    /* ... parameter, error, constraint definitions ... */
-> +    KAPI_END_SPEC
-
-So the reason for two completely separate mechanisms is not entirely
-clear to me.  The kerneldoc variant is essentially documentation, while
-the macro stuff is to be built into the executable?  What if you want
-both?
-
-It would be nice to only have one way if at all possible; I'm sure that
-crossed your mind at some point :)  If there have to be two, having both
-examples describe the same function would make the parallels more clear.
-
-> +System Call Specification
-> +-------------------------
-> +
-> +System calls are documented inline in the implementation file (e.g., ``fs/open.c``)
-> +using KAPI-annotated kerneldoc comments. When ``CONFIG_KAPI_RUNTIME_CHECKS`` is
-> +enabled, the ``SYSCALL_DEFINEx`` macros automatically look up the specification
-> +and validate parameters before and after the syscall executes.
-> +
-> +IOCTL Specification
-> +-------------------
-> +
-> +IOCTLs use the same annotation approach with additional structure field
-> +specifications
-
-This might be a really good place for an example
-
-[...]
-
-> +Usage Examples
-> +--------------
-> +
-> +Query specific API::
-> +
-> +    $ cat /sys/kernel/debug/kapi/apis/kmalloc/specification
-> +    API: kmalloc
-> +    Version: 3.0
-> +    Description: Allocate kernel memory
-> +
-> +    Parameters:
-> +      [0] size (size_t, in): Number of bytes to allocate
-> +          Range: 0 - 4194304
-> +      [1] flags (flags, in): Allocation flags (GFP_*)
-> +          Mask: 0x1ffffff
-
-Ah, you do document that second parameter somewhere :)
-
-> +    Returns: pointer - Pointer to allocated memory or NULL
-> +
-> +    Errors:
-> +      ENOMEM: Out of memory
-> +
-> +    Context: process, softirq, hardirq
-> +
-> +    Side Effects:
-> +      - Allocates memory from kernel heap
-
-That part wasn't in your example
-
-> +Export all specifications::
-> +
-> +    $ cat /sys/kernel/debug/kapi/export/all.json > kernel-apis.json
-> +
-> +Enable validation for specific API::
-> +
-> +    $ echo 1 > /sys/kernel/debug/kapi/apis/kmalloc/validate
-> +
-> +Performance Considerations
-> +==========================
-> +
-> +Memory Overhead
-> +---------------
-> +
-> +Each API specification consumes approximately 400-450KB of memory due to the
-> +fixed-size arrays in ``struct kernel_api_spec``. With the current 4 syscall
-> +specifications, total memory usage is approximately 1.7MB. Consider:
-
-Ouch.
-
-> +Documentation Generation
-> +------------------------
-> +
-> +The framework exports specifications via debugfs that can be used
-> +to generate documentation. Tools for automatic documentation generation
-> +from specifications are planned for future development.
-
-Documentation always comes last :)
-
-Interesting stuff.
-
-jon
