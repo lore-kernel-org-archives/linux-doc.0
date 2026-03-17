@@ -1,139 +1,232 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from fra-out-010.esa.eu-central-1.outbound.mail-perimeter.amazon.com (fra-out-010.esa.eu-central-1.outbound.mail-perimeter.amazon.com [63.178.143.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E49B73E3C44;
-	Tue, 17 Mar 2026 14:12:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34ED13E4C73
+	for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 14:12:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.178.143.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773756724; cv=none; b=Qovv4/4bOP8ZsWvmhdpF2wsorV1s6RvUe2eFHcThDs5pE7CV/IR2Af5Y81G8yidLlpcKRjfE1sTUfCG4jHrGZuRoT+BoDj0jvKVFskeOkwbKHr1nmUUNPsKPMcE+5Xf9D7zmLo8v4QJGPRCWoIwlIHo6jLUrbnBlD6zyo5QsjtY=
+	t=1773756729; cv=none; b=GqqeRr5heIWwIsgQj3HT7TvaxO8jutsmfXZczQZHXpjHL8aT2Jxq811jFp+x6adUsSAzPjv6voos9BWT5ysNFlvRGRMMOjBfGE2xoPjXaoeFF+QGNuy/YdX5yIwDKQW2EOHOEy+TS/JHSyb8h4T0LA3GS0KJhJoqImMdlzp5+ec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773756724; c=relaxed/simple;
-	bh=UcmRX+iIkZwytJqVNJodQzwRiiKSnbEQOAtWHuJEfn4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DkyWJkKpKn9UllB2KF9Em0p/sZNem+5V/f1Pe+HCOBHrvOi/5lr5dzg6Z6nxdFJNgAJJkmdwaYCueM2xr8vfddXGG7McH4alLPUHeJHgz3Qk2VJv4JA+BCcaoXMDArcC+Aq5KZrpw/bdDDl07nySXxlauLssNPHpQBhfCNZzksk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=N+dDSJ2H; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1773756729; c=relaxed/simple;
+	bh=kXmgp+J2Ij3GOZ64d1LupFDiIvAekmDUPP6flGLEqFo=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=VQYkgWTIa3YZuDJOaPkzWycbDueob6wyzVKSjlyc4/Hq5zsW+vFp2ahMkuxzVbYevnYfHYkMP/4J55+vDXW3xrWLZ0mhdCGxROUhDcgzOI6otRJ/wD4IERutUVBLAxsHEtQZFEEiQJ1fIR+duA3nyBqXJp4McEZkHCloNZhH/NE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.co.uk; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (2048-bit key) header.d=amazon.co.uk header.i=@amazon.co.uk header.b=sGlThwR7; arc=none smtp.client-ip=63.178.143.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="N+dDSJ2H"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=8I4GJ6VYY4sAkpPtIoMg3PlbM8gWrHzgVlQtnkD+cJ8=; b=N+dDSJ2HU0OM2CcLn4jv+usPjd
-	A9wdkncTUcJn9notW4QhMgME5kzWZfjThVZ2iXhKee3kFdfO9g3pq4hnExXaG/dDDz3gIj3W3JgL4
-	wXUtVec4QUwzHQP2wbKIu2ac3PcBp/nHnJnwaIruyb5KuldwzIx57kVDbrjp+jnghfHQ=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1w2V98-00C2BR-78; Tue, 17 Mar 2026 15:11:46 +0100
-Date: Tue, 17 Mar 2026 15:11:46 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>
-Cc: Shenwei Wang <shenwei.wang@nxp.com>, Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-gpio@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
-	devicetree@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-imx@nxp.com, Bartosz Golaszewski <brgl@bgdev.pl>
-Subject: Re: [PATCH v12 3/5] gpio: rpmsg: add generic rpmsg GPIO driver
-Message-ID: <104e9861-bfd4-4e0f-8967-a849edf7e6fb@lunn.ch>
-References: <20260313195801.2043306-1-shenwei.wang@nxp.com>
- <20260313195801.2043306-4-shenwei.wang@nxp.com>
- <2aa1d063-181f-4145-9f1f-7e3012c4d0af@foss.st.com>
+	dkim=pass (2048-bit key) header.d=amazon.co.uk header.i=@amazon.co.uk header.b="sGlThwR7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.co.uk; i=@amazon.co.uk; q=dns/txt;
+  s=amazoncorp2; t=1773756728; x=1805292728;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=2SCO26JpbOiwEtwoE9l8FfCOHJ0EvPaKqEJRKju7FG0=;
+  b=sGlThwR7iOSFn65jTT/800aoTKNUQvnmSChIomZaNwV0aW4oXM8Hz4Zv
+   yRDmkCsRQ9cjfYCNyGm5ZWHE2EdN+T0Mm93CQtKM+3bs4TkXDNp7MNb0G
+   BYY6isE//MUfm/+gIccWqafe4V5koFQAsnirmQ6orxGz96mL13WEAWbZf
+   cWSL3rWT39P7lF+9rq+p7yyc9SeLkfkuKfYYMIwzb9TlEnk2jUEtHn4GU
+   Wq28/I5puwfIUDx5cke8GlCGfI9oews5G0pXqCDvrfliMzVl8n0jb8u6U
+   tcjMeNq89qXRZElE8KFrjm3fxBIbgJL/VDazA4vQ2MnCAvNsjviPj5ayV
+   A==;
+X-CSE-ConnectionGUID: UQ94ThIZSwm/gZAo4fzQxw==
+X-CSE-MsgGUID: cWOgeKdrRySkdy9IaEniZg==
+X-IronPort-AV: E=Sophos;i="6.23,124,1770595200"; 
+   d="scan'208";a="10894997"
+Received: from ip-10-6-11-83.eu-central-1.compute.internal (HELO smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.11.83])
+  by internal-fra-out-010.esa.eu-central-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 14:12:06 +0000
+Received: from EX19MTAEUC002.ant.amazon.com [54.240.197.236:22517]
+ by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.27.205:2525] with esmtp (Farcaster)
+ id 6a72cc04-d138-4104-bc40-238fe4ac4249; Tue, 17 Mar 2026 14:12:06 +0000 (UTC)
+X-Farcaster-Flow-ID: 6a72cc04-d138-4104-bc40-238fe4ac4249
+Received: from EX19D005EUB003.ant.amazon.com (10.252.51.31) by
+ EX19MTAEUC002.ant.amazon.com (10.252.51.245) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
+ Tue, 17 Mar 2026 14:12:05 +0000
+Received: from EX19D005EUB003.ant.amazon.com (10.252.51.31) by
+ EX19D005EUB003.ant.amazon.com (10.252.51.31) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
+ Tue, 17 Mar 2026 14:12:05 +0000
+Received: from EX19D005EUB003.ant.amazon.com ([fe80::b825:becb:4b38:da0c]) by
+ EX19D005EUB003.ant.amazon.com ([fe80::b825:becb:4b38:da0c%3]) with mapi id
+ 15.02.2562.037; Tue, 17 Mar 2026 14:12:04 +0000
+From: "Kalyazin, Nikita" <kalyazin@amazon.co.uk>
+To: "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "kvmarm@lists.linux.dev"
+	<kvmarm@lists.linux.dev>, "linux-fsdevel@vger.kernel.org"
+	<linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"bpf@vger.kernel.org" <bpf@vger.kernel.org>,
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+	"kernel@xen0n.name" <kernel@xen0n.name>, "linux-riscv@lists.infradead.org"
+	<linux-riscv@lists.infradead.org>, "linux-s390@vger.kernel.org"
+	<linux-s390@vger.kernel.org>, "loongarch@lists.linux.dev"
+	<loongarch@lists.linux.dev>, "linux-pm@vger.kernel.org"
+	<linux-pm@vger.kernel.org>
+CC: "pbonzini@redhat.com" <pbonzini@redhat.com>, "corbet@lwn.net"
+	<corbet@lwn.net>, "maz@kernel.org" <maz@kernel.org>, "oupton@kernel.org"
+	<oupton@kernel.org>, "joey.gouly@arm.com" <joey.gouly@arm.com>,
+	"suzuki.poulose@arm.com" <suzuki.poulose@arm.com>, "yuzenghui@huawei.com"
+	<yuzenghui@huawei.com>, "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
+	"will@kernel.org" <will@kernel.org>, "seanjc@google.com" <seanjc@google.com>,
+	"tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>,
+	"bp@alien8.de" <bp@alien8.de>, "dave.hansen@linux.intel.com"
+	<dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>,
+	"hpa@zytor.com" <hpa@zytor.com>, "luto@kernel.org" <luto@kernel.org>,
+	"peterz@infradead.org" <peterz@infradead.org>, "willy@infradead.org"
+	<willy@infradead.org>, "akpm@linux-foundation.org"
+	<akpm@linux-foundation.org>, "david@kernel.org" <david@kernel.org>,
+	"lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>,
+	"vbabka@kernel.org" <vbabka@kernel.org>, "rppt@kernel.org" <rppt@kernel.org>,
+	"surenb@google.com" <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>,
+	"ast@kernel.org" <ast@kernel.org>, "daniel@iogearbox.net"
+	<daniel@iogearbox.net>, "andrii@kernel.org" <andrii@kernel.org>,
+	"martin.lau@linux.dev" <martin.lau@linux.dev>, "eddyz87@gmail.com"
+	<eddyz87@gmail.com>, "song@kernel.org" <song@kernel.org>,
+	"yonghong.song@linux.dev" <yonghong.song@linux.dev>,
+	"john.fastabend@gmail.com" <john.fastabend@gmail.com>, "kpsingh@kernel.org"
+	<kpsingh@kernel.org>, "sdf@fomichev.me" <sdf@fomichev.me>,
+	"haoluo@google.com" <haoluo@google.com>, "jolsa@kernel.org"
+	<jolsa@kernel.org>, "jgg@ziepe.ca" <jgg@ziepe.ca>, "jhubbard@nvidia.com"
+	<jhubbard@nvidia.com>, "peterx@redhat.com" <peterx@redhat.com>,
+	"jannh@google.com" <jannh@google.com>, "pfalcato@suse.de" <pfalcato@suse.de>,
+	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>, "riel@surriel.com"
+	<riel@surriel.com>, "ryan.roberts@arm.com" <ryan.roberts@arm.com>,
+	"jgross@suse.com" <jgross@suse.com>, "yu-cheng.yu@intel.com"
+	<yu-cheng.yu@intel.com>, "kas@kernel.org" <kas@kernel.org>, "coxu@redhat.com"
+	<coxu@redhat.com>, "kevin.brodsky@arm.com" <kevin.brodsky@arm.com>,
+	"ackerleytng@google.com" <ackerleytng@google.com>, "yosry@kernel.org"
+	<yosry@kernel.org>, "ajones@ventanamicro.com" <ajones@ventanamicro.com>,
+	"maobibo@loongson.cn" <maobibo@loongson.cn>, "tabba@google.com"
+	<tabba@google.com>, "prsampat@amd.com" <prsampat@amd.com>,
+	"wu.fei9@sanechips.com.cn" <wu.fei9@sanechips.com.cn>, "mlevitsk@redhat.com"
+	<mlevitsk@redhat.com>, "jmattson@google.com" <jmattson@google.com>,
+	"jthoughton@google.com" <jthoughton@google.com>, "agordeev@linux.ibm.com"
+	<agordeev@linux.ibm.com>, "alex@ghiti.fr" <alex@ghiti.fr>,
+	"aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>, "borntraeger@linux.ibm.com"
+	<borntraeger@linux.ibm.com>, "chenhuacai@kernel.org" <chenhuacai@kernel.org>,
+	"dev.jain@arm.com" <dev.jain@arm.com>, "gor@linux.ibm.com"
+	<gor@linux.ibm.com>, "hca@linux.ibm.com" <hca@linux.ibm.com>,
+	"palmer@dabbelt.com" <palmer@dabbelt.com>, "pjw@kernel.org" <pjw@kernel.org>,
+	"shijie@os.amperecomputing.com" <shijie@os.amperecomputing.com>,
+	"svens@linux.ibm.com" <svens@linux.ibm.com>, "thuth@redhat.com"
+	<thuth@redhat.com>, "wyihan@google.com" <wyihan@google.com>,
+	"yang@os.amperecomputing.com" <yang@os.amperecomputing.com>,
+	"Jonathan.Cameron@huawei.com" <Jonathan.Cameron@huawei.com>,
+	"Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>, "urezki@gmail.com"
+	<urezki@gmail.com>, "zhengqi.arch@bytedance.com"
+	<zhengqi.arch@bytedance.com>, "gerald.schaefer@linux.ibm.com"
+	<gerald.schaefer@linux.ibm.com>, "jiayuan.chen@shopee.com"
+	<jiayuan.chen@shopee.com>, "lenb@kernel.org" <lenb@kernel.org>,
+	"osalvador@suse.de" <osalvador@suse.de>, "pavel@kernel.org"
+	<pavel@kernel.org>, "rafael@kernel.org" <rafael@kernel.org>,
+	"vannapurve@google.com" <vannapurve@google.com>, "jackmanb@google.com"
+	<jackmanb@google.com>, "aneesh.kumar@kernel.org" <aneesh.kumar@kernel.org>,
+	"patrick.roy@linux.dev" <patrick.roy@linux.dev>, "Thomson, Jack"
+	<jackabt@amazon.co.uk>, "Itazuri, Takahiro" <itazur@amazon.co.uk>,
+	"Manwaring, Derek" <derekmn@amazon.com>, "Kalyazin, Nikita"
+	<kalyazin@amazon.co.uk>
+Subject: [PATCH v11 08/16] KVM: x86: define
+ kvm_arch_gmem_supports_no_direct_map()
+Thread-Topic: [PATCH v11 08/16] KVM: x86: define
+ kvm_arch_gmem_supports_no_direct_map()
+Thread-Index: AQHcthgINR9mE7SLRU6CsacYgHQHtw==
+Date: Tue, 17 Mar 2026 14:12:04 +0000
+Message-ID: <20260317141031.514-9-kalyazin@amazon.com>
+References: <20260317141031.514-1-kalyazin@amazon.com>
+In-Reply-To: <20260317141031.514-1-kalyazin@amazon.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2aa1d063-181f-4145-9f1f-7e3012c4d0af@foss.st.com>
 
-> > +struct rpmsg_gpio_info {
-> > +	struct rpmsg_device *rpdev;
-> > +	struct rpmsg_gpio_packet *reply_msg;
-> > +	struct completion cmd_complete;
-> > +	struct mutex lock;
-> > +	void **port_store;
-> > +};
-> 
-> Except if I missunderstood Mathieu and Bjorn's request:
-> "reuse all the design-work done in the gpio-virtio"
-> We should find similar structures here to those defined
-> in virtio_gpio.h.
-> struct rpmsg_gpio_config {
-> 	__le16 ngpio;
-> 	__u8 padding[2];
-> 	__le32 gpio_names_size;
-> };
-> 
-> /* Virtio GPIO Request / Response */
-> struct virtio_gpio_request {
-> 	__le16 type;
-> 	__le16 gpio;
-> 	__le32 value;
-> };
-
-The core of the issue is that Shenwei is stone walling any change
-which makes it hard to keep the legacy firmware. It is possible to use
-these structures, but it makes the extra code Shenwei needs to
-translate this protocol to the legacy protocol more difficult. It
-might need to keep state, etc. 
-
-Two points...
-
-The firmware implements more than GPIO. There is definitely I2C as
-well, the first version of the patch has bits of I2C code. Looking at:
-
-https://lwn.net/ml/all/20250922200413.309707-3-shenwei.wang@nxp.com/
-
-There is also RTC, and a few other things which don't directly map to
-Linux subsystems, but maybe do have Linux drivers?
-
-Give how much pushback there has been on the existing protocol for
-GPIO, it would be wise to assume that I2C, and RTC is going to get the
-same amount of pushback. If any of these three, GPIO, I2C, or RTC
-decide that only a new, clean protocol will be accepted, no legacy
-shims, the firmware has to change, breaking compatibility to legacy
-protocols, and the accepted shims become pointless Maintenance burden.
-
-Point two is that the customers who are pushing for these drivers to
-be added to Mainline probably know that nearly nothing gets into
-Mainline without some changes. There is some short term pain to
-swapping to Mainline because of these changes, in this case, firmware
-upgrades. But in the long run, it is worth the pain to be able to use
-Mainline. And those customers who don't want to upgrade the firmware
-can keep with the out of tree drives.
-
-So, what are our choices?
-
-1) We accept the code as it is now, with the shim?
-
-2) We keep pushing for the virtio protocol, with the shim?
-
-3) We keep pushing for the virtio protocol, no shim, firmware changes
-
-4) We pause GPIO where it is today, and restart all the arguments with
-   the I2C driver. We can come back to the GPIO driver in a few months
-   time once we have a better idea how I2C is going. And maybe we also
-   need to see the watchdog driver, and argue about its protocol.
-
-I also understand ST has a generic I2C driver nearly ready, if that
-gets merged first, that probably kills the NXP I2C protocol, and maybe
-the NXP GPIO and RTC protocols.
-
-My vote is for 3. If not 3, then 4.
-
-     Andrew
-
+From: Patrick Roy <patrick.roy@linux.dev>=0A=
+=0A=
+x86 supports GUEST_MEMFD_FLAG_NO_DIRECT_MAP whenever direct map=0A=
+modifications are possible (which is always the case).=0A=
+=0A=
+Signed-off-by: Patrick Roy <patrick.roy@linux.dev>=0A=
+Reviewed-by: Ackerley Tng <ackerleytng@google.com>=0A=
+Reviewed-by: David Hildenbrand (Arm) <david@kernel.org>=0A=
+Signed-off-by: Nikita Kalyazin <kalyazin@amazon.com>=0A=
+---=0A=
+ arch/x86/include/asm/kvm_host.h | 6 ++++++=0A=
+ arch/x86/kvm/x86.c              | 5 +++++=0A=
+ include/linux/kvm_host.h        | 9 +++++++++=0A=
+ 3 files changed, 20 insertions(+)=0A=
+=0A=
+diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_hos=
+t.h=0A=
+index 6e4e3ef9b8c7..171ce8b84137 100644=0A=
+--- a/arch/x86/include/asm/kvm_host.h=0A=
++++ b/arch/x86/include/asm/kvm_host.h=0A=
+@@ -28,6 +28,7 @@=0A=
+ #include <linux/sched/vhost_task.h>=0A=
+ #include <linux/call_once.h>=0A=
+ #include <linux/atomic.h>=0A=
++#include <linux/set_memory.h>=0A=
+ =0A=
+ #include <asm/apic.h>=0A=
+ #include <asm/pvclock-abi.h>=0A=
+@@ -2504,4 +2505,9 @@ static inline bool kvm_arch_has_irq_bypass(void)=0A=
+ 	return enable_device_posted_irqs;=0A=
+ }=0A=
+ =0A=
++#ifdef CONFIG_KVM_GUEST_MEMFD=0A=
++bool kvm_arch_gmem_supports_no_direct_map(struct kvm *kvm);=0A=
++#define kvm_arch_gmem_supports_no_direct_map kvm_arch_gmem_supports_no_dir=
+ect_map=0A=
++#endif /* CONFIG_KVM_GUEST_MEMFD */=0A=
++=0A=
+ #endif /* _ASM_X86_KVM_HOST_H */=0A=
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c=0A=
+index fd1c4a36b593..6a4dcf449a37 100644=0A=
+--- a/arch/x86/kvm/x86.c=0A=
++++ b/arch/x86/kvm/x86.c=0A=
+@@ -14079,6 +14079,11 @@ void kvm_arch_gmem_invalidate(kvm_pfn_t start, kvm=
+_pfn_t end)=0A=
+ 	kvm_x86_call(gmem_invalidate)(start, end);=0A=
+ }=0A=
+ #endif=0A=
++=0A=
++bool kvm_arch_gmem_supports_no_direct_map(struct kvm *kvm)=0A=
++{=0A=
++	return can_set_direct_map() && kvm->arch.vm_type !=3D KVM_X86_TDX_VM;=0A=
++}=0A=
+ #endif=0A=
+ =0A=
+ int kvm_spec_ctrl_test_value(u64 value)=0A=
+diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h=0A=
+index e8aa3d676c31..ce8c5fdf2752 100644=0A=
+--- a/include/linux/kvm_host.h=0A=
++++ b/include/linux/kvm_host.h=0A=
+@@ -742,6 +742,15 @@ static inline u64 kvm_gmem_get_supported_flags(struct =
+kvm *kvm)=0A=
+ }=0A=
+ #endif=0A=
+ =0A=
++#ifdef CONFIG_KVM_GUEST_MEMFD=0A=
++#ifndef kvm_arch_gmem_supports_no_direct_map=0A=
++static inline bool kvm_arch_gmem_supports_no_direct_map(struct kvm *kvm)=
+=0A=
++{=0A=
++	return false;=0A=
++}=0A=
++#endif=0A=
++#endif /* CONFIG_KVM_GUEST_MEMFD */=0A=
++=0A=
+ #ifndef kvm_arch_has_readonly_mem=0A=
+ static inline bool kvm_arch_has_readonly_mem(struct kvm *kvm)=0A=
+ {=0A=
+-- =0A=
+2.50.1=0A=
+=0A=
