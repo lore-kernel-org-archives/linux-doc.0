@@ -1,115 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f51.google.com (mail-dl1-f51.google.com [74.125.82.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06E233DCD9B;
-	Tue, 17 Mar 2026 15:15:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E1E53E9F76
+	for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 15:42:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773760505; cv=none; b=SVmntcjiVwxs5wHhvi6+fD2ND8uxh2kLLNTX+EZkYKUmef0xSe7hopSKThAy2nZEysVgEXbmpQVPqXI/qydydfgFyOF0IQTbnU8LHARWGjHYDbKh/QMQ05paawjCf9aNIrtmzMEU2sZm73BSoZgXf6lIVE7okjecXxcV9ZPdXjY=
+	t=1773762169; cv=none; b=r9DHNBv8oz9Tfg4vXWDzJSISDwY/LrT0m8SUMxSRPn3tK8sNjTzq7fwnifk6XNLxXd/VNVMbn8vFv7db9ePR7lCEiYI5d5vHFcDAq5Y7SUzVqQjCoYUTLWX9pKT0CmGcd6879NRKpcfwmYBTGMSFUseFLlhO1KEAAf8ucTGnupo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773760505; c=relaxed/simple;
-	bh=GnoZF4xXU3Ru3GlNC9iVumHKiNxYJyGj7qMhDqY4N5I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=C/qzGDgH+++oQBodXZkiml7BFM/6ALqLpTc0ntzAmdMcGNdJ4EDOt51APhwnfUH6CWuI/H+VOWkpl4+FKbjL5n2Ds4jr+9U+9UbgWXAg3k1PoYfctQCQRPXBzwCcEs/BiVNRsV8w6qd/DjQ8rilc0Lsusra4PJxH39xNUbbApbA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=clN6vGOr; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773762169; c=relaxed/simple;
+	bh=YP9ftBgU40ZMDVr7uKljymEYVi3zFdcjpWVQapD9Goo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qxkQRGjiSk/2aaKOQw/xUoKUZBUn33fB9sFYN4P183mmEmZju+gwcsUxrfIT9RZtEi3O53t78x52KNcCSEHM8NtWPdqw/G28sGGq333esKRMHWagCc+mDp+imTzz8kO4MpTf6oTLUDHDsq9t5ahniiZyQTRythHwTQMPQhS0Zmk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BxpYt0xw; arc=none smtp.client-ip=74.125.82.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="clN6vGOr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D239CC4CEF7;
-	Tue, 17 Mar 2026 15:15:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773760504;
-	bh=GnoZF4xXU3Ru3GlNC9iVumHKiNxYJyGj7qMhDqY4N5I=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=clN6vGOrofyGydrKNTqPJPBNPRTECyfCIRSdnCnCswoycIWxt4o0IKddpC8uvFaf0
-	 LLdL87DXDeAbzpNschaaFbQTn3H8l89eQhpvPP7Zkzky0Q3EfA7zX/wE+HdcxMVuLB
-	 ySMr5hJmZDsUMgdWZgc7Q+r94rYEdut7WGBjYt9z0tZDu/4GXV9VivzxD/koinLkyD
-	 OkrfjW2w15tp3YIgDLI0rgvWvBPVgfIzmyBaurSgLfmnH5S1e2tjDruIdA5SR8MIU1
-	 VBqFRFlXDYKokw6WsUXivO3/E9QnCpxef+y/wM36wAC7OXJY7ykQXt4Uog4jGB7Fh+
-	 ROBwl/7Yg32+A==
-Message-ID: <24801cf0-2c68-4b8c-b35f-b95e9688fcf5@kernel.org>
-Date: Tue, 17 Mar 2026 16:14:59 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BxpYt0xw"
+Received: by mail-dl1-f51.google.com with SMTP id a92af1059eb24-127380532eeso376843c88.1
+        for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 08:42:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773762167; x=1774366967; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DPxQhHLsn9trqYK9Nkt3NTHTqHhfajnqZ3m8HUBGCaQ=;
+        b=BxpYt0xwk4L9xgh/EwJJCqTvVNnHatgRrcbn9dIMhuudN0lGZ1QVGs1ykCl/RZgV6v
+         L5/yHuzlE9Hk5fmY1rNmhJRKUNwZzExSVG5FRdOFkOSVCsRnpKzsvkooMkJjSiN40Azx
+         NjcLgW4V/pBJlXjC1qnnYzJj14fK7his1MqEPgqVPo540I6h7S7Jzqyo2ovekSfSchb5
+         2W0Btc0rZ6yiwOFJMrMB8s5PNq8T6WzRlWB8QAiviOvIFDm9UbC0Z+6mPoN25nzuuB5y
+         GYwG90PnhSjtXAbp1yIYFCtXiiiNRNoYU3WiGqLxadb+ICQYA+krgqrW7FAmtHauL5uQ
+         LEPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773762167; x=1774366967;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=DPxQhHLsn9trqYK9Nkt3NTHTqHhfajnqZ3m8HUBGCaQ=;
+        b=Sb+i/muQ7oEjXKZHyIaJej+tvUW/4mjDBRis2v91/vBuzhlnc5udArtUumY1d5Y2ey
+         CNeFuCnNMAuGPAKOlBx6CGrtS6amKJAXG7NxZadlqtTnFrQ0AePKteOzI4odY7g4wzR/
+         Px0tM0tZ5JuVgFfCG8ghqyPAfZdVIHAjz9h3J6xxwU6T5cIpQnDvcpcln4vcEgtRCMyy
+         R03pfhdNpdawiyPFln0pLKim5IMZSH2916kt3H4Uo69FRbU+FE9bezFFwpn1ccIdPa8x
+         XInkKPN2WLXQC0uZOuyeEioB9W+8ZO42OPnrl1JtHYYy8xQ/5X3TxL+Wp+OeW0FHzQMk
+         2O+g==
+X-Forwarded-Encrypted: i=1; AJvYcCX6IoyaONAKauda3OBPx0f+5W5A4ouKFcUXAamd1ytWtcf9m3O4kF+mUy/ozPsRtOVVZnjuxZ8OoC8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxx9A+sblQch5zxs22cdJhGbI+iDCfQ4n2O0a8hV2NPxCppn/BT
+	yVjeiKTf6nHx26SlCndr9a8945QzSezxMVhBhfVDCigV5/BCcv14XSIw
+X-Gm-Gg: ATEYQzx0bQz1IMIjS9VntVeH2jfP/08T28jXu7KPRqvVRVtKfpAEkOcfc3kT5ADizuo
+	iHyfVl3UVxcy0dXGL3l9IXltdzfdLQY8rMS712Yv3vhlUY4aNXHGzqC+GVBBsXMEVtKE704MZZP
+	nbzsgDKsqcAVpA1lUaS0YDhPdsLXDiql4Mfj06ro+UgafP2ha28YEJuxy/zPHz4FS+lSg9/wfto
+	rzabo6S2T2BsBUAMD6ecXpUBgvmzcxrcpvkjAoZIK8yHZQR/UflUkGnhnn84zsx4HI6ROBZXxkK
+	o9z1mZUe/LzYnMMfSg/p/z/z2FmxdTUCLx5e/Fv8kin5Q9IOJz2YSli2DAsI22LnMnrYrHH8VqZ
+	Wvv+r80ZhJavrqI7atnC2qmhY9lJcXu8YkumLZ5jKRAorZFPHtGOqsISYQiNEgIeboKutt/1Bhg
+	gLgufJXq26o81AhEQFwMdLlVJlmDelhdXB6yGZ
+X-Received: by 2002:a05:7022:458d:b0:127:5cda:fb7d with SMTP id a92af1059eb24-1299ba11a49mr4977c88.6.1773762167235;
+        Tue, 17 Mar 2026 08:42:47 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-128f639d1e4sm15787042c88.13.2026.03.17.08.42.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Mar 2026 08:42:46 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Tue, 17 Mar 2026 08:42:45 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Colin Huang <u8813345@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org, Colin.Huang2@amd.com, Carl.Lee@amd.com,
+	Peter.Shen@amd.com, Conor Dooley <conor.dooley@microchip.com>
+Subject: Re: [PATCH v2 1/2] dt-bindings: trivial-devices: Add Delta
+ Q54SN120A1 and Q54SW120A7
+Message-ID: <4b448eb4-73cc-4d42-84ea-7a0d9a0153d5@roeck-us.net>
+References: <20260316-add-q54sn120a1-q54q54sw120a7-v2-0-60e6182cc4a7@gmail.com>
+ <20260316-add-q54sn120a1-q54q54sw120a7-v2-1-60e6182cc4a7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] clk: add new Kconfig to control default behavior of
- disabling unused clocks
-To: Brian Masney <bmasney@redhat.com>, Abel Vesa <abel.vesa@oss.qualcomm.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Abel Vesa <abelvesa@kernel.org>,
- Saravana Kannan <saravanak@kernel.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
-References: <20260316-clk-ignore-unused-kconfig-v1-1-6e95a4fb0c94@redhat.com>
- <20260317-almond-leech-of-correction-2a2ef6@houat>
- <com5zf4bfgb3eoelbmy5pfykhdow6ne3nteua6l7bnzkr72dsb@pehxxygji5z2>
- <20260317-notorious-classic-sunfish-d016d5@houat>
- <2dsd7hq4bn25dibqk62a7o56tt2tecf645tq3upccneq4hby67@cmjjc5d6ximt>
- <ablhdKJgEhU8KmtO@redhat.com>
- <hdagvfcxoh4nukz5sqocbp7qbezv3rxct3aygb7fvhsej7zp27@iyeoi74q2w7n>
- <ablslaSoUraCRPKl@redhat.com>
-From: Hans de Goede <hansg@kernel.org>
-Content-Language: en-US, nl
-In-Reply-To: <ablslaSoUraCRPKl@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260316-add-q54sn120a1-q54q54sw120a7-v2-1-60e6182cc4a7@gmail.com>
 
-Hi,
-
-On 17-Mar-26 16:00, Brian Masney wrote:
-> On Tue, Mar 17, 2026 at 04:20:06PM +0200, Abel Vesa wrote:
->> On 26-03-17 10:13:08, Brian Masney wrote:
->>> FWIW, the only reason I posted this patch is because at the end of
->>> Stephen's LPC talk I got the impression that this was also an acceptable
->>> change. I'm fine with dropping this change.
->>
->> Here is the scenario that proves adding such config isn't the right
->> solution: think of single kernel image working with different SoCs from
->> different vendors. This is actually the case where distros need to have
->> a way to provide one kernel image + thousands of DTBs and be able to
->> boot one each one of the boards. Whatever this config is set to in the
->> kernel image, it will not work with all platforms.
+On Mon, Mar 16, 2026 at 04:39:33PM +0800, Colin Huang wrote:
+> Add two additional Delta 1/4-brick DC/DC power modules,
+> Q54SN120A1 and Q54SW120A7, to the trivial-devices list.
 > 
-> Agreed.
-> 
-> However, with or without this new Kconfig, we have this problem today.
-> Right now the kernel isn't bootable on large numbers of systems, and
-> people have to manually add clk_ignore_unused.
-> 
-> I agree though that we don't want to penalize boards that are doing
-> things right, and have a full clock tree described with higher power
-> draw. 
-> 
-> As a test, on my Thinkpad x13s (sc8280xp) clk_disable_unused on Fedora
-> 43 turns off 96 clocks on this laptop! I can infer what some of the
-> clocks do based on their names, however I'm not in Qualcomm, and some
-> of these clocks I'm not entire sure which ones would need
-> CLK_IGNORE_UNUSED. I got it down to a set of 7 possible clocks that
-> may need that flag by excluding some classes of clocks, such as usb.
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> Signed-off-by: Colin Huang <u8813345@gmail.com>
+> ---
 
-My plan for the T14s is to:
+Applied.
 
-1) Make sure I've working debug output in some form at this point
-of the boot, since lately the screen seems to go black during boot
-until the msm driver loads. Something which I / we really need to
-get to the bottom too.
-
-2) Add printk-s of the clock name before disabling the clock,
-then sleep 10s then disable clock and move on to the next 1.
-
-So the last clock you see printed before things go sideways will
-then need a CLK_IGNORE_UNUSED.
-
-At least that is my naive plan for when I can make some time for
-this.
-
-Regards,
-
-Hans
-
-
-
+Thanks,
+Guenter
