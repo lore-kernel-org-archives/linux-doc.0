@@ -1,156 +1,185 @@
-Received: from BEUP281CU002.outbound.protection.outlook.com (mail-germanynorthazon11020107.outbound.protection.outlook.com [52.101.169.107])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F62F356A03;
-	Tue, 17 Mar 2026 04:21:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.169.107
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47E961B4257
+	for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 04:30:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.180
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773721303; cv=fail; b=prA1AoROx0QBOmNbElK515M+b0IuX4ThgcZdnGvzU6OeKPjtqw8sH9EjqjxTUEfsIYk1jZWrEWNNkBw7NmDsvLGwNvhSXle18e6EFaQOgzGF46GNgv+s/hCFQWeXMa9x2JPv+KBAWcy0HZC19KhAiDDBdZ5SHamX3T+NuaQmAvc=
+	t=1773721850; cv=pass; b=oIfQ9El34FJKm6mtG1/Y71LBT4FIWjss62T59NjDXhDanKgYFMozqfh4fILqcJISquh1w3DXLJcYQMY4bUwjw/+a6lHnkpGbm4QdopOr6FuGKp3Zncp7GA+PUdtDHEvTBZc1gpfdMsdXTzA98WXHUQFU+xGaO7XB2sV1PHRm198=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773721303; c=relaxed/simple;
-	bh=Fgs2ouUWkNbpkoL87eGl9gVn1bNk/HFlfmCiLGSAAXU=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=XdS9mXTtQpUwH4L6IHzRvseIu3medgMkYwuo76ySixW8hgl/jdL80InHsEaG9FEih9a9yUNJfLKseUwRzoxNPkzmwac+p/e7x+Nmw4w5ChzjgTz1kUIaX2ZYAHJFr4jx7yO8dUKOFaaiUB9NhJwIlRNULolCTOP6TI3Yw1+6gMY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=arctic.de; spf=pass smtp.mailfrom=arctic.de; dkim=pass (2048-bit key) header.d=Arctic.de header.i=@Arctic.de header.b=e26tLUok; arc=fail smtp.client-ip=52.101.169.107
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=arctic.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arctic.de
+	s=arc-20240116; t=1773721850; c=relaxed/simple;
+	bh=+qEdsUsTBQ5PdU99AN+GVBCS7vF9AHbvt2iuwIsGSck=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ai96EJPOmM4KMKahOZ0eKCVSG69BznNVaACGqozJr3JphXKepnkc9Q7SpjgkdHEm+Yz3SZwJwmAMqMxk5bwq9G6oh/vwNFCCcPzcQFv9U3h1yIWU0/zeLzG9wvhr3heAk1EAmmWZBtOeJUcbog/bthjcNhFMKbGkCr/HtCCvBuA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dcHz9jWS; arc=pass smtp.client-ip=209.85.160.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Arctic.de header.i=@Arctic.de header.b="e26tLUok"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cQz0JGXUoeWvV20zaZIbwqO/QyYuKoZmr0SO/yBxZMX4HjjfQl3JBsO4lMfOCcSIlE7qoA8JNiWXyd7mEiXg89MC1FdaCoMDE7YJ+LajjpsN8xtmK+tR4mgRLuja2Q6idww+buBrZoJ1c20z1dnLq6xNWdnOtsj3X/cX1P2F7aUTxrtel/6Rcd/LsuqhoPWc9IqMfL8gldfuBtlw7V4JivbPa2hpikuyXqqUoh1r2zdOaibvl6O9PdQQ0P6twLwwdu4OACh6xom0un8DWP1tcd5ueuZNyfeHr6GIZrs0Rua9urMOKM2dJRvIjmnG1nWsNlfiKMNqUeNlBPjn2eeYhQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=la95DVZZ+swxFONTSaixNQw8O0TF0RkD6xMTqWG88Yc=;
- b=yo2mDW9fDYhSiayBIsAI1vCY2a3UswEGOeeiMfqYYQMxId3trCIy9+GkzKgjKxpvgP0GH8mq3TjVNKsyVm8JIXHUeeoixFDaoOfkEInLf0YqjwawjA4fKNLn8oLvhyh3NWfMm6diIN+aAKxvPy1EqV5rtPmLqeDXun2LgOg/CXKIeFnZ1eZVNTalGsQUsgS41BcM3enuXWUfNXMMWMQrgyvYUPgTktRsqETKBTuPCtUYqe4I8uk+yhGMnbaE5vaEIsyxQudulf1VfWznWNCznM3R21PPMGhYGE41G4AxjHrofKtGzjSfYHYttJdiZ86wnFRWU3ojjqj5Qamg4yvt7g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arctic.de; dmarc=pass action=none header.from=arctic.de;
- dkim=pass header.d=arctic.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Arctic.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=la95DVZZ+swxFONTSaixNQw8O0TF0RkD6xMTqWG88Yc=;
- b=e26tLUokqI3S8ao/pYIJY+yiAditTsczTG05OVkV3CiDg/rQkOBr+SxRceHgXrdqVebu6ZfqfxtgI2vsK8oTYVFP62xRzCoSXjnvaOlhVsoTmXdocNgWpLkIfA3Pu+VI2L22fzc95qSASXqqQCpZ2oDmRj4eQDfdl2HZpmVVDQSTnl8I4qTFOfUdmWWPkThui78wi7lpaSMBJoff8nUeoCYdITyUUcIta52gSWl4OxQppcHqRt0jxPl4110NxS63Hl/e2GBfMw7lh8U6w41kQQGBPbEmfaROE3JcdULSke6OSutHt7LGmZocq049cstF+i2xLLeeNbmq0N4ThRxYCQ==
-Received: from FR6P281MB5900.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:1bf::9)
- by FR3P281MB1758.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:7d::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.27; Tue, 17 Mar
- 2026 04:21:37 +0000
-Received: from FR6P281MB5900.DEUP281.PROD.OUTLOOK.COM
- ([fe80::7eba:ac95:a60d:521c]) by FR6P281MB5900.DEUP281.PROD.OUTLOOK.COM
- ([fe80::7eba:ac95:a60d:521c%5]) with mapi id 15.20.9700.024; Tue, 17 Mar 2026
- 04:21:37 +0000
-From: Aureo Serrano <aureo.serrano@arctic.de>
-To: =?iso-8859-1?Q?Thomas_Wei=DFschuh?= <linux@weissschuh.net>
-CC: Guenter Roeck <linux@roeck-us.net>, "linux-hwmon@vger.kernel.org"
-	<linux-hwmon@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
-	<skhan@linuxfoundation.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2] hwmon: add driver for ARCTIC Fan Controller
-Thread-Topic: [PATCH v2] hwmon: add driver for ARCTIC Fan Controller
-Thread-Index: AQHcsturmfE4I1kpGEmwRyayOo/BcLWsu5IAgAVpgQw=
-Date: Tue, 17 Mar 2026 04:21:37 +0000
-Message-ID:
- <FR6P281MB59004A7AB7FC97402E5897A8EF41A@FR6P281MB5900.DEUP281.PROD.OUTLOOK.COM>
-References: <c6d6c506-1407-4676-b730-f9fff595bb75@roeck-us.net>
- <20260313111955.36811-1-aureo.serrano@arctic.de>
- <a3c4d461-c2b7-451d-b140-6d759da6f30c@t-8ch.de>
-In-Reply-To: <a3c4d461-c2b7-451d-b140-6d759da6f30c@t-8ch.de>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arctic.de;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: FR6P281MB5900:EE_|FR3P281MB1758:EE_
-x-ms-office365-filtering-correlation-id: ad7b4fa6-fe9d-4c23-423f-08de83dcae87
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|376014|1800799024|56012099003|22082099003|18002099003|38070700021|55112099003;
-x-microsoft-antispam-message-info:
- xRx90JQCQGmOLa3N9LtQdPP/dtVuikLccIB1VJwuO/DACDVWiMiXzHU89bbwsTE/KqKZen6MSGex0tOvGqPpYaQ2Meq7e0vrq7bYhiZIvNJYGl5HBto9KKOhfhulgWhGAfC5/6Az+eYgz21eIkiLnTv5gbqG9+f8ajaXNfQJ0tdWYFZ0srdUJxaRrNVbqbkiuMdbW6P72RJvggVTMcPzCr4kMJA9vnfgWYlLze7EvIZTHJwiEofQuiXLFxDbZjtaDHLMvS9p2/Tg45vY05A8SxOkTebHNIH+mlKQWrQHhi0z4Lijz+5gfJeNSM3P5zERG5VZSnjYP+Ew0G9a8v5XKAOaMBNqNGtXEInuEUAX5eXL2OGyBIS8/h7nh0xpwaxkUrl0aRmnuacZCALjvJzhb6kW1C0l7D6efKPYRq/PlVPI+0WMgxb+S7rAAi3rGIXsrjjN+gU6A5g5XvoANb5700bZdQyAaIHuR6+AzZVt9dHb5XPC8tcv6MJ+uy9k/IXDimBjjBwqE6fGe0dPNtiX/1UI8Il30BNSRAz2eVOCftDjagAKDhuqNX0cjtDcfKtgRPwJiEI93J5Z0tB1OYwtZMWRMcfcWhDB6YX+lPDAHrszCABnpudXL2yubEBA83E8gRKmjSUSezpULs50KhBa7OKV9ULg2GedPdWq9usvZaJ6u6aQaQAyxvL03ptlr9l5svmhk3OglWTRHxXq/menb9kDVlkPff8VZ4jSVM0yjYa/PCeLczHMtgpzZSwTtsHWa1sd2TaCdkf+FJ5L9wo8OAAeI99m//wxt+NXMO0Sc1E=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:FR6P281MB5900.DEUP281.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(56012099003)(22082099003)(18002099003)(38070700021)(55112099003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?zJtbeNjSEAGMXMEZp2iwmzaSnHD240NcMkljD2dp+tFwbeBeQOVD0IMYQo?=
- =?iso-8859-1?Q?jBqX/YXMPZRy77tUfMKpZXBM0LCr2Mz4rsSN9ho6Ku2uH2yLSDjmdkttlh?=
- =?iso-8859-1?Q?frlquT88gZ9IEueJld4aEP/9K/Tlm9re2vAxA0nGVymT1MeSSxYHtvss1B?=
- =?iso-8859-1?Q?XVuTvWYaK/knjQCSv3WEsQehU18NUmos/97uhnD/kAlx6ez2kWSEwOJc3Q?=
- =?iso-8859-1?Q?ZNsP4X74CN9McAeEVQH9fPXk6W5xdTrX/ZxaaosbOiDujbWItGqdXatpHY?=
- =?iso-8859-1?Q?DEW9ljgfEpBrQ1UCW6jsbKn2rNXyNdD6MdyOQy2gB0+MqEOYw9gS8u3dCI?=
- =?iso-8859-1?Q?GonAEUcokiP+QrpBwxcYcXCP6H5HhnrHphaEKjqR0nSQiAaFreoLUz/hn/?=
- =?iso-8859-1?Q?/EapfvKAbpjnv22HYZTJej3bJWvarF88ay4xcpmIfk53BwU4gi7B2w6gvs?=
- =?iso-8859-1?Q?mXQG83Sn5CfofVw44gYp7DZSt0EVpCE3XN9eORra82MDqkZpPQIoh27aKu?=
- =?iso-8859-1?Q?6fe6KbeI9nE5NbyjmhRQXcwjDOQi2k9lMwHZ+ZlKIHCSuDVyRLLVr4uQJD?=
- =?iso-8859-1?Q?n75j9pxazqN7A7VINxTfwgqlKfhsWhcRulagLeCk981HsX2zrEr9qRHuES?=
- =?iso-8859-1?Q?lSIl2x4Zh1oqy0URK+K68+IjkV65h4DoGHqH6U7K1ginZ2DUrw66kYU/hI?=
- =?iso-8859-1?Q?oAM7amiekdU0KVonmEZQ4Fip34Mj336v66QyYDKCXo/7ag9Lj72yQV1Czq?=
- =?iso-8859-1?Q?dL3GgCmSJDf5HWfPI1ULszgnRNqa5sKhlIH47/ix7YyGS58gzDfLp6vuz6?=
- =?iso-8859-1?Q?A6O+iDT3Za8I1hdVahpC2jdtXBWmcNjyzBJtcuvlwj0qo9d0A/jCrRifke?=
- =?iso-8859-1?Q?RvC4tbWOg5Xua7fDVzSZ/ehrQSwoGRix8xtbgRAeq1RKUibR/4FoiiJY2z?=
- =?iso-8859-1?Q?6wvPbmTfD9DOvE5j3Vad4ynuq35d+KinbP3CrYUMU7SAUZ1s/pT3r57C5s?=
- =?iso-8859-1?Q?jo2R+qTe2QyAQJilgcuPV0ByusHxUjkuuIzl6HcrZNFlR1KeHv97SqOnaD?=
- =?iso-8859-1?Q?E7VSthj02LAAETuRnbHBPqU5ceLS8K43Sb+nfwHHe6uyNCnkJHzHqdAemq?=
- =?iso-8859-1?Q?5iMS7n2kt06/QdsyPIuaalnGYJSIx163RtQoXt/d/7U+nMNKaozMVhgVyb?=
- =?iso-8859-1?Q?St+nDjLwk9yzmEBJnG20JiUVw+J9HCBoYNwV1vNwsneK1FXCmmLegCiDkn?=
- =?iso-8859-1?Q?UYQVYFzZptY/WlKeU1Gr/QjSussP9QP0jzVX4sroaCafDKjiUsxvlJr3cH?=
- =?iso-8859-1?Q?7GCvDnJBVsHk8mAfQha+2WXmsF+sVuaByrjl0vdkQ8n7JdMR96p01x/qSs?=
- =?iso-8859-1?Q?73Flw1ZcIbfJ4OIdNuUk7nObGPvSvchFRHonTZCNzFd/QMlHuQ1xb1y+f8?=
- =?iso-8859-1?Q?gRJsxK9F4WKOj00Pjcdx0qPWa7YYMsPklsrWjWgDZQvh3WrkXDDwlw4Jl1?=
- =?iso-8859-1?Q?vkmT1gDwhV7Yj0Mg416CHgmzhvvMischeo/ed/7vjHK1U5EYhohex0ZiRY?=
- =?iso-8859-1?Q?IwrOqssRkrvRVHV/lSBmKu5NzjDvxxAnprkUnZk6xClROVTAKXuqQlpqK8?=
- =?iso-8859-1?Q?2jMcyZi05kSw7zcbbF1JqfSS0tLUbfUfpAN3ntJ28/grfnctCtccmZmIdj?=
- =?iso-8859-1?Q?GGmaxlbTgQx87Cci6BGqzLl+RWNwkAmRUomjAWcC5JzFcrOIRz/TUB5dQ8?=
- =?iso-8859-1?Q?6Ef+rs6SV1t8gjzL9iICz9xOaLpIACnWSCDLlNc/l77ZL75ao1qqk0TNG/?=
- =?iso-8859-1?Q?rXH2B8hC6Q=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dcHz9jWS"
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-5091ed02c54so192561cf.1
+        for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 21:30:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773721848; cv=none;
+        d=google.com; s=arc-20240605;
+        b=QU3AViuyvALglowww28g5bmVJzsQ8/mecDX1VJg07lA3/3bL41bP4XZPaN0r56WQes
+         MBGAryIoS5A9vF+vXgGSKWCi3dDUxQbAfg72Cev3N1qIs6qTE4OZWGHuX/W4NUZhanzb
+         BLKdb7+gW/DHHyqFvIeV0c3B1kT95VpE94BQaG7YRwG7gVbBrZA9P/5UAHK3sGFR7KD9
+         pCJhWhsULjjWL19hKFlcLFxLvWY+noI4VLIuUkrI7qgBnEIOWwM/bD0XckrUvh+ILtXQ
+         Vyt2AcJT5ferGBxhYfy0qU5viszgmzs95fRsuCe6V/olk7MR9xSYSku9S8RGBfk7Cra/
+         fcGg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=pFQPhmx+ISxO6Fn3xc13MwW50zT+1NZPXlLC27SUdek=;
+        fh=bSb2h3DkKH8FNmuqYvk1T3Pu2ZzQkz6MAD2mv5aSGbY=;
+        b=BXnoOukUFp2OW3+H0LgZ/tFnSH6iOpdzzSszngy+UZjpiBWVecXqxDLPY9MTBcSucu
+         8T3KamZTQ/nGM+49EslgaR3pd771Q9N2M20Ic9KDTPYGcHVBIYJ/Bk6l8YrX6JymL0K5
+         UMaZSqFYwf+wYfAED1Q/TLsiXi1VGf/kLppVk628e2HLunFTfc/thnbePUZqoXAFAMyR
+         C2kKl9UG17XWeDHlgFuh3cMHQfztTN5HCcqOSWnvsM3Tm5Lh0y862hL6myJVRRlE4dEq
+         SbKFGK2K9EsNBx69wqpOdNGgEFg/h9CynB/b1iDjJcpJdEcJP7X6HMvq5Qp1O9srioKt
+         xhMA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1773721848; x=1774326648; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pFQPhmx+ISxO6Fn3xc13MwW50zT+1NZPXlLC27SUdek=;
+        b=dcHz9jWSigF+3BARnPnbKteLX4VaADjtLsdaMyhGyNJV6JIimRYsLO4x7EbK9BzBKm
+         mEBNOo5L0VUPl/dip+HXrZAa92QHbbWUxIR33fHYlLzQokFDwQJjBzeRf/caR0pjg2Mo
+         34+rdKlPO1pqvYIaUSk19WaF9PSBtDSVR0MEozQlDzToqkl/jokmLSbZZk4UFJtqHEmi
+         kXCC+DmS5SZkg30BADq3NkbtYVryfdZAaKXoYS6JLFIzqMyrVPWUXccsrILfv3Xl/Xkd
+         r80MwV7t7nyhZxw2K0hrEcQ6qFdzAhEIEtys7scmuZDaSQSy0hx5l9Sk892/mMBb7UNJ
+         O8MQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773721848; x=1774326648;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=pFQPhmx+ISxO6Fn3xc13MwW50zT+1NZPXlLC27SUdek=;
+        b=aCmqMAUJ0dxOnMpc8TmRIagrWcInsE6Pl/cgX0Dh2IvugnyyduQgxLyvVlCIH/mUfn
+         PkmQcg/r5yecTLZQ6FgkG9g9ASgOFOQbg158C/aoQ/WhcamF2hpM3OXw6sJ8X1fi02Pf
+         Ho0VaMsNUsjAQR0lytfBiRdu/HVMAUEuAKgr+8g65AMZ+SNiivZfpg8vPczlhjxQ4EXU
+         ykUud/JZRyRGyNqKcez261MzteXpTa6xWgpvnY6K9qA0My9SXoOLWsAEG3XRYN5H30YF
+         H4LIv8afqA3gekwXGplWaqrGIOZ6ogMxuxNOx8e1+hamoHXF1/T5+xNK3fVaH66HzJqS
+         Mstw==
+X-Forwarded-Encrypted: i=1; AJvYcCUIGWYAqXS1MO4DGmLIzE2KK7mcz2hFcAfI6C3dsuKELwq6TEfFr1Az+6tdxrKzgGP7nb/YHFJMlm4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx4DMfnGjXQQTshqEoLYuF4WuAXmkqNWPaHCY7S02Hknl5LlA3V
+	79bhhau48x+B7qDHYgg5MNLwj61lFcsfou9PlZ+xm3nVEVA4bEvzOF8xrtx7M2svXhZymw/EK6P
+	N4iQFKyruDSPY5Nr5M9ge7SpTxGk6rMb2YiHUIlro
+X-Gm-Gg: ATEYQzwNd7fnlaCIU/ObRD5pJjpbkVgZ4Q6cKuHTEkX06zip7/Ie8loVqpOcA89W7/p
+	adx29vdxK7okqTpIzK2RHGpObWVkqh22YjzR+A4+jhfnBVNcGSMDXIJL3sfJd6mV+evQw4Xh9a/
+	4ixni87wagNKD0Vn7vXWbAcl0CiLVeJayiIajc+vl/2tRLQ+/dJoy9/1BAQlBORMJ09ihh2+1p/
+	vArtUnd9qWJ/WRgrHqEbpbbdFIi9Q4EQj46TYcUGy87p9oi+yhdnGIsQe2gZaCYUghTogHwwEPb
+	YsPjFQ==
+X-Received: by 2002:a05:622a:1b92:b0:509:1eca:6d24 with SMTP id
+ d75a77b69052e-50998c190femr8741161cf.2.1773721847648; Mon, 16 Mar 2026
+ 21:30:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: Arctic.de
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: FR6P281MB5900.DEUP281.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: ad7b4fa6-fe9d-4c23-423f-08de83dcae87
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Mar 2026 04:21:37.6744
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 51cc2c5f-af21-4667-81ec-d88d36e264bb
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 2PwTmB27RU0p9TCfXva5sfzBLptfofwdAdzj/q5opRki312C23mIcbn+fC+q9/QzEFEU3Wr2RRFV6oJZSroouA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: FR3P281MB1758
+References: <cover.1773695307.git.ljs@kernel.org> <77fbdae93f250fa1551f3052fc9034739795ff20.1773695307.git.ljs@kernel.org>
+In-Reply-To: <77fbdae93f250fa1551f3052fc9034739795ff20.1773695307.git.ljs@kernel.org>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Mon, 16 Mar 2026 21:30:36 -0700
+X-Gm-Features: AaiRm50ZCLTl3QDNivnPnY48qRQMsgXcmE9SOEgt_D7vDyjlZ8af9f8bQZf6tcw
+Message-ID: <CAJuCfpFdKjix2fEdZ7iSrd_nk4-5e7EUNAoCEgUc5snKzq-3Cg@mail.gmail.com>
+Subject: Re: [PATCH v2 07/16] misc: open-dice: replace deprecated mmap hook
+ with mmap_prepare
+To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Clemens Ladisch <clemens@ladisch.de>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "K . Y . Srinivasan" <kys@microsoft.com>, 
+	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
+	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, 
+	Vignesh Raghavendra <vigneshr@ti.com>, Bodo Stroesser <bostroesser@gmail.com>, 
+	"Martin K . Petersen" <martin.petersen@oracle.com>, David Howells <dhowells@redhat.com>, 
+	Marc Dionne <marc.dionne@auristor.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, David Hildenbrand <david@kernel.org>, 
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, 
+	Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-hyperv@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org, 
+	linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org, 
+	target-devel@vger.kernel.org, linux-afs@lists.infradead.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	Ryan Roberts <ryan.roberts@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2026-03-13 18:41:38+0100, Thomas Wei=DFschuh wrote:=0A=
-> > +#define ARCTIC_ACK_TIMEOUT_MS	1000=0A=
->=0A=
-> One second is a very long time. How long does the device take in=0A=
-> practice?=0A=
-=0A=
-Measured over 500 iterations: min ~32 ms, average ~100 ms, max ~563 ms.=0A=
-The latency is a characteristic of the device firmware and cannot be=0A=
-changed at this stage. I can change ARCTIC_ACK_TIMEOUT_MS from 1000 to 700.=
-=0A=
-Does it work for you?=0A=
-=0A=
-> > +	memset(buf + 11, 0, ARCTIC_REPORT_LEN - 11);=0A=
->=0A=
-> The magic '11' should be '1 + ARCTIC_NUM_FANS'.=0A=
-> Or even easier, use kzalloc() above.=0A=
-=0A=
-Since the buffer is now struct-embedded and devm_kzalloc zeroes the struct=
-=0A=
-at allocation, bytes 11-31 are always zero and the memset is not needed at=
-=0A=
-all. This also addresses the suggestion from another reviewer to use a=0A=
-single once-allocated buffer rather than allocating per write. Hope that is=
-=0A=
-acceptable.=
+On Mon, Mar 16, 2026 at 2:13=E2=80=AFPM Lorenzo Stoakes (Oracle) <ljs@kerne=
+l.org> wrote:
+>
+> The f_op->mmap interface is deprecated, so update driver to use its
+> successor, mmap_prepare.
+>
+> The driver previously used vm_iomap_memory(), so this change replaces it
+> with its mmap_prepare equivalent, mmap_action_simple_ioremap().
+>
+> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
+
+Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+
+> ---
+>  drivers/misc/open-dice.c | 19 +++++++++++--------
+>  1 file changed, 11 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/misc/open-dice.c b/drivers/misc/open-dice.c
+> index 24c29e0f00ef..45060fb4ea27 100644
+> --- a/drivers/misc/open-dice.c
+> +++ b/drivers/misc/open-dice.c
+> @@ -86,29 +86,32 @@ static ssize_t open_dice_write(struct file *filp, con=
+st char __user *ptr,
+>  /*
+>   * Creates a mapping of the reserved memory region in user address space=
+.
+>   */
+> -static int open_dice_mmap(struct file *filp, struct vm_area_struct *vma)
+> +static int open_dice_mmap_prepare(struct vm_area_desc *desc)
+>  {
+> +       struct file *filp =3D desc->file;
+>         struct open_dice_drvdata *drvdata =3D to_open_dice_drvdata(filp);
+>
+> -       if (vma->vm_flags & VM_MAYSHARE) {
+> +       if (vma_desc_test(desc, VMA_MAYSHARE_BIT)) {
+>                 /* Do not allow userspace to modify the underlying data. =
+*/
+> -               if (vma->vm_flags & VM_WRITE)
+> +               if (vma_desc_test(desc, VMA_WRITE_BIT))
+>                         return -EPERM;
+>                 /* Ensure userspace cannot acquire VM_WRITE later. */
+> -               vm_flags_clear(vma, VM_MAYWRITE);
+> +               vma_desc_clear_flags(desc, VMA_MAYWRITE_BIT);
+>         }
+>
+>         /* Create write-combine mapping so all clients observe a wipe. */
+> -       vma->vm_page_prot =3D pgprot_writecombine(vma->vm_page_prot);
+> -       vm_flags_set(vma, VM_DONTCOPY | VM_DONTDUMP);
+> -       return vm_iomap_memory(vma, drvdata->rmem->base, drvdata->rmem->s=
+ize);
+> +       desc->page_prot =3D pgprot_writecombine(desc->page_prot);
+> +       vma_desc_set_flags(desc, VMA_DONTCOPY_BIT, VMA_DONTDUMP_BIT);
+> +       mmap_action_simple_ioremap(desc, drvdata->rmem->base,
+> +                                  drvdata->rmem->size);
+> +       return 0;
+>  }
+>
+>  static const struct file_operations open_dice_fops =3D {
+>         .owner =3D THIS_MODULE,
+>         .read =3D open_dice_read,
+>         .write =3D open_dice_write,
+> -       .mmap =3D open_dice_mmap,
+> +       .mmap_prepare =3D open_dice_mmap_prepare,
+>  };
+>
+>  static int __init open_dice_probe(struct platform_device *pdev)
+> --
+> 2.53.0
+>
