@@ -1,140 +1,163 @@
-Received: from www3579.sakura.ne.jp (www3579.sakura.ne.jp [49.212.243.89])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A33B933F368;
-	Tue, 17 Mar 2026 06:42:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=49.212.243.89
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D2663559F5;
+	Tue, 17 Mar 2026 06:52:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773729760; cv=none; b=lUuv/vKM/OU6wtgfyybwf2INHluC+E0m5ZqKfGdb7c9ri9ducnNV2Xf/r1FlxUWJKnFBP1kz920qA7x8aehWFYw2xi6jlL3MGqnHY7A7s+IDuZkwnGxJcHbqJpAWDQCfoUSQSTvC7kGM+2768P6PopWALV7scRitR18YVwMlGck=
+	t=1773730338; cv=none; b=P0yk9uw66qGTGDIRjDm8WmsUmuLLrRFaQYfen3ju3owipn82K10ZPoUAcw8eCuyGcgma6HVYGRz1IsquI07VddayfDy62ZHQ9AiQ9GPmTtEI8yEwFQ3KWTxL1zgvund1qQ01XthywqRA9G1zt/1EkKXUkIJOeWBzj9arfvil1WI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773729760; c=relaxed/simple;
-	bh=p2jT3cj/dqZTMqBPRODxsJKcCAfEvHGxzp1GHCe76zM=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=RBomdW5Lbd8DCn/qBW1+M+E7Ls0n28KKgIjrBMYBOZ09I0ONp6xmaY0T6IUmG41y4WLePOiNgv5tfS1C7Ki19tOCaNeqxbjUZq4du8jSAk9IVgsJf4INdhf8P0MmpMwA01u0Q0m4j9qasz4nbdEs6yEm2V9DAweQ+e73ayyZBMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp; dkim=fail (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b=T3VWcd1T reason="key not found in DNS"; arc=none smtp.client-ip=49.212.243.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b="T3VWcd1T"
-Received: from h205.csg.ci.i.u-tokyo.ac.jp (h205.csg.ci.i.u-tokyo.ac.jp [133.11.54.205])
-	(authenticated bits=0)
-	by www3579.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 62H6aoNk004343
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Tue, 17 Mar 2026 15:37:00 +0900 (JST)
-	(envelope-from odaki@rsg.ci.i.u-tokyo.ac.jp)
-DKIM-Signature: a=rsa-sha256; bh=tQPLRdcG2BXep0eW/gY1gtA4+gQ7V3cwSUUxElynWig=;
-        c=relaxed/relaxed; d=rsg.ci.i.u-tokyo.ac.jp;
-        h=From:Message-Id:To:Subject:Date;
-        s=rs20250326; t=1773729420; v=1;
-        b=T3VWcd1TYTjORfLvRhbKQXTFPIx/BVQzEBmsUG8cr7eJaO/QTqKPJimcC/hR7t5r
-         eADzWIjJ95qHfYNzy3ZahUpM77rolDmiRDbPunHJRA0x+69do3sjoB5XRVZpRxw6
-         Lr/k1gF2GQWwrcQOzvpr1OvTerXfGawV8A+4dxUoS2keyVT20/s5z/N2SLbdEmXV
-         bNW4/Ut2waJ7Isovenp+pTEBBxgrwQT58qm5MPxiorlUdzK8BsRqIE2BmBv3SxtZ
-         T/5XcaV+Ltev9xBZtUVuP9F4Wuifs9DjPb7VaDVEJXW+WNV83s441nhDCGUq37qj
-         Rjl9IPT2VvPGPenpVNoEAw==
-From: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
-Subject: [PATCH v4 0/4] KVM: arm64: PMU: Use multiple host PMUs
-Date: Tue, 17 Mar 2026 15:36:48 +0900
-Message-Id: <20260317-hybrid-v4-0-bd62bcd48644@rsg.ci.i.u-tokyo.ac.jp>
+	s=arc-20240116; t=1773730338; c=relaxed/simple;
+	bh=o8DzjGhgcrwTuqlqWy3/tR/vZ+ckbDsaf6NNFbEzXM0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=KfA+qA9TnMk7lHai0VcyglU/kZL9crBduAScZOy3bch3tfmPmw3DQL/7NMxaiMWa5bbOvhDYGfnUHaDN17bjXQnw6fo20cgLCpWD69MNTU7ptCrcedC6u0GDCvypkHdiNZKumuYdbPs22dVfAE/RXsDNqf0uOWXez52H4VJFXFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei-partners.com; spf=pass smtp.mailfrom=huawei-partners.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei-partners.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei-partners.com
+Received: from mail.maildlp.com (unknown [172.18.224.107])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fZjLH0lcbzHnGdn;
+	Tue, 17 Mar 2026 14:51:51 +0800 (CST)
+Received: from mscpeml500003.china.huawei.com (unknown [7.188.49.51])
+	by mail.maildlp.com (Postfix) with ESMTPS id 2765940584;
+	Tue, 17 Mar 2026 14:52:10 +0800 (CST)
+Received: from [10.123.123.154] (10.123.123.154) by
+ mscpeml500003.china.huawei.com (7.188.49.51) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Tue, 17 Mar 2026 09:52:09 +0300
+Message-ID: <247cd41f-e703-4480-9de3-a8708bb3d9ee@huawei-partners.com>
+Date: Tue, 17 Mar 2026 09:52:09 +0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v2 1/1] mm/damon: support MADV_COLLAPSE via
+ DAMOS_COLLAPSE scheme action
+To: SeongJae Park <sj@kernel.org>
+CC: <artem.kuzin@huawei.com>, <stepanov.anatoly@huawei.com>,
+	<wangkefeng.wang@huawei.com>, <yanquanmin1@huawei.com>, <zuoze1@huawei.com>,
+	<damon@lists.linux.dev>, <akpm@linux-foundation.org>, <ljs@kernel.org>,
+	<Liam.Howlett@oracle.com>, <vbabka@kernel.org>, <rppt@kernel.org>,
+	<surenb@google.com>, <mhocko@suse.com>, <corbet@lwn.net>,
+	<skhan@linuxfoundation.org>, <linux-doc@vger.kernel.org>,
+	<linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>
+References: <20260317003206.89342-1-sj@kernel.org>
+Content-Language: en-US
+From: Gutierrez Asier <gutierrez.asier@huawei-partners.com>
+In-Reply-To: <20260317003206.89342-1-sj@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAID2uGkC/3XPQW7DIBAF0KtYrAsaMCY0q9yj6oLAEE+r2Ak4V
- qzIdy/FSrrq8qM/b5gHy5gIM9s3D5ZwpkzjUIJ+a5jv3XBCTqFkpkB1oJTm/XJMFDjI0MWodxi
- CYqV8SRjpXqGPzy0nvN6KN22P7Ogycj+ezzTtm9kIaYUE9tvtKU9jWuofZlnLdV0r35/rZskl1
- 0G64CTgDrpDcMtAd1HAaszqb86Cec0pDhyMkQ5966L1h5RPwpMgcePT+L2MwnnxddmM9mmYcmr
- 3MtpiaIM2olJgLfxrrOv6Ay7e7ftRAQAA
-X-Change-ID: 20250224-hybrid-01d5ff47edd2
-To: Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>,
-        Joey Gouly <joey.gouly@arm.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Zenghui Yu <yuzenghui@huawei.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Kees Cook <kees@kernel.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-        devel@daynix.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
-X-Mailer: b4 0.15-dev-5ab4c
+X-ClientProxiedBy: mscpeml500003.china.huawei.com (7.188.49.51) To
+ mscpeml500003.china.huawei.com (7.188.49.51)
 
-On a heterogeneous arm64 system, KVM's PMU emulation is based on the
-features of a single host PMU instance. When a vCPU is migrated to a
-pCPU with an incompatible PMU, counters such as PMCCNTR_EL0 stop
-incrementing.
+Hi SJ,
 
-Although this behavior is permitted by the architecture, Windows does
-not handle it gracefully and may crash with a division-by-zero error.
+First of all, I just noticed that this was sent as v2 RFC, while
+it should be v1. Bear in mind that the next series will also be
+v2.
 
-The current workaround requires VMMs to pin vCPUs to a set of pCPUs
-that share a compatible PMU. This is difficult to implement correctly in
-QEMU/libvirt, where pinning occurs after vCPU initialization, and it
-also restricts the guest to a subset of available pCPUs.
+On 3/17/2026 3:32 AM, SeongJae Park wrote:
+> Hello Asier,
+> 
+> On Mon, 16 Mar 2026 18:38:05 +0000 <gutierrez.asier@huawei-partners.com> wrote:
+> 
+>> From: Asier Gutierrez <gutierrez.asier@huawei-partners.com>
+>>
+>> This patch set introces a new action: DAMOS_COLLAPSE.
+>>
+>> For DAMOS_HUGEPAGE and DAMOS_NOHUGEPAGE to work, khugepaged should be
+>> working, since it relies on hugepage_madvise to add a new slot. This
+>> slot should be picked up by khugepaged and eventually collapse (or
+>> not, if we are using DAMOS_NOHUGEPAGE) the pages. If THP is not
+>> enabled, khugepaged will not be working, and therefore no collapse
+>> will happen.
+>>
+>> DAMOS_COLLAPSE eventually calls madvise_collapse, which will collapse
+>> the address range synchronously.
+>>
+>> This new action may be required to support autotuning with hugepage as
+>> a goal.
+> 
+> Above all makes sense.  Thank you for posting this patch.
+> 
+> Do you have some test results that you can also share together?  It would be
+> nice if it can demonstrate the benefit of DAMOS_COLLAPSE over DAMOS_HUGEPAGE.
+I will run some tests and benchmarks.
+> 
+>>
+>> [1] https://lore.kernel.org/lkml/20260314165156.86647-1-sj@kernel.org/
+> 
+> Seems the above link is just added by a mistake?  If not, please clarify.
+Yes, it looks like I copied the wrong link.
+>>
+>> Signed-off-by: Asier Gutierrez <gutierrez.asier@huawei-partners.com>
+>> Reviewed-by: SeongJae Park <sj@kernel.org>
+>> ---
+>>  Documentation/mm/damon/design.rst | 4 ++++
+>>  include/linux/damon.h             | 1 +
+>>  mm/damon/sysfs-schemes.c          | 4 ++++
+>>  mm/damon/vaddr.c                  | 3 +++
+>>  4 files changed, 12 insertions(+)
+> [...]
+>> diff --git a/include/linux/damon.h b/include/linux/damon.h
+>> index 3a441fbca170..6720dc70c487 100644
+>> --- a/include/linux/damon.h
+>> +++ b/include/linux/damon.h
+>> @@ -140,6 +140,7 @@ enum damos_action {
+>>  	DAMOS_PAGEOUT,
+>>  	DAMOS_HUGEPAGE,
+>>  	DAMOS_NOHUGEPAGE,
+>> +	DAMOS_COLLAPSE,
+>>  	DAMOS_LRU_PRIO,
+>>  	DAMOS_LRU_DEPRIO,
+>>  	DAMOS_MIGRATE_HOT,
+> 
+> sashiko.dev adds [1] below comments.  Let me also add my comments in line.
+> 
+> : This isn't a bug, but should a kernel-doc entry for @DAMOS_COLLAPSE be added
+> : to the comment block above this enum?
+> 
+> Makes sense.  'make htmldocs' may complain otherwise.  Asier, could you please
+> add the kernel-doc comment for DAMOS_COLLAPSE in the next spin?
+OK, I will split this patch into 2: one with the code and the other one with
+the documentation.
+> : 
+> : Also, does inserting DAMOS_COLLAPSE here shift the integer values of the
+> : subsequent enum entries like DAMOS_STAT?
+> : 
+> : The DAMON sysfs selftest script (tools/testing/selftests/damon/sysfs.py) uses
+> : a hardcoded dictionary action_val to map string names to their integer enum
+> : values.
+> : 
+> : If the enum values shift, the test's assertion:
+> : 
+> : assert_true(dump['action'] == action_val[scheme.action])
+> : 
+> : might fail when checking the struct memory via drgn. Could the python test
+> : dictionary be updated to reflect the new values, or could the new action be
+> : added at the end of the enum list?
+> 
+> There is no test that uses DAMOS actions that defined after DAMOS_NOHUGEPAGE,
+> so no real test will break.  But this is a good point.  It would be better to
+> update the hard-coded value together.  Asier, could you also update the
+> 'action_val' dict of assert_scheme_committed() function in
+> tools/testing/selftets/damon/sysfs.py for the updated enum value in the next
+> version?
+OK, I will do it.
+> 
+> [1] https://sashiko.dev/#/patchset/20260316183805.2090297-1-gutierrez.asier@huawei-partners.com
+> 
+> 
+> Thanks,
+> SJ
+> 
+> [...]
+> 
+Thanks for the feedback.
 
-This patch introduces the KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY
-attribute. If set, PMUv3 will be emulated without programmable event
-counters. KVM will be able to run VCPUs on any physical CPUs with a
-compatible hardware PMU.
-
-This allows Windows guests to run reliably on heterogeneous systems
-without crashing, even without vCPU pinning, and enables VMMs to
-schedule vCPUs across all available pCPUs, making full use of the host
-hardware.
-
-A QEMU patch that demonstrates the usage of the new attribute is
-available at:
-https://lore.kernel.org/qemu-devel/20260225-kvm-v2-1-b8d743db0f73@rsg.ci.i.u-tokyo.ac.jp/
-("[PATCH RFC v2] target/arm/kvm: Choose PMU backend")
-
-Signed-off-by: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
----
-Changes in v4:
-- Extracted kvm_pmu_enabled_counter_mask() into a separate patch.
-- Added patch "KVM: arm64: PMU: Protect the list of PMUs with RCU".
-- Merged KVM_REQ_CREATE_PMU into KVM_REQ_RELOAD_PMU.
-- Added a check to avoid unnecessary KVM_REQ_RELOAD_PMU requests.
-- Dropped the change to avoid setting kvm_arm_set_default_pmu() when
-  KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY is not set.
-- Link to v3: https://lore.kernel.org/r/20260225-hybrid-v3-0-46e8fe220880@rsg.ci.i.u-tokyo.ac.jp
-
-Changes in v3:
-- Renamed the attribute to KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY.
-- Changed to request the creation of perf counters when loading vCPU.
-- Link to v2: https://lore.kernel.org/r/20250806-hybrid-v2-0-0661aec3af8c@rsg.ci.i.u-tokyo.ac.jp
-
-Changes in v2:
-- Added the KVM_ARM_VCPU_PMU_V3_COMPOSITION attribute to opt in the
-  feature.
-- Added code to handle overflow.
-- Link to v1: https://lore.kernel.org/r/20250319-hybrid-v1-1-4d1ada10e705@daynix.com
-
----
-Akihiko Odaki (4):
-      KVM: arm64: PMU: Add kvm_pmu_enabled_counter_mask()
-      KVM: arm64: PMU: Protect the list of PMUs with RCU
-      KVM: arm64: PMU: Introduce FIXED_COUNTERS_ONLY
-      KVM: arm64: selftests: Test PMU_V3_FIXED_COUNTERS_ONLY
-
- Documentation/virt/kvm/devices/vcpu.rst            |  29 ++++
- arch/arm64/include/asm/kvm_host.h                  |   2 +
- arch/arm64/include/uapi/asm/kvm.h                  |   1 +
- arch/arm64/kvm/arm.c                               |   1 +
- arch/arm64/kvm/pmu-emul.c                          | 190 ++++++++++++++-------
- include/kvm/arm_pmu.h                              |   2 +
- .../selftests/kvm/arm64/vpmu_counter_access.c      | 148 +++++++++++++---
- 7 files changed, 290 insertions(+), 83 deletions(-)
----
-base-commit: ef87500dc466ef424e4fc344b5063d345e18bf73
-change-id: 20250224-hybrid-01d5ff47edd2
-
-Best regards,
---  
-Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+-- 
+Asier Gutierrez
+Huawei
 
