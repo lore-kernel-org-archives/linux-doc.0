@@ -1,201 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out162-62-57-49.mail.qq.com (out162-62-57-49.mail.qq.com [162.62.57.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F12843A2549;
-	Tue, 17 Mar 2026 10:58:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0403B37C0F9
+	for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 10:58:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773745097; cv=none; b=Grr1INwfpOGafPSTQIq9cCsr1lNWsHQ92pvc0XAOt9G+kAAjqVXjW3p5voRfG76D/erDSxzRbaqKP6JCI7envUL6pbAOlaqQUF7+ueGQXPrJV1FhgGiJeCSe20VDI9rQ5rkmKXTKPOu4nfoBDcKIIlgxwIexw1pSckEzZWH/u3U=
+	t=1773745107; cv=none; b=QXcVXZtQARnnHSu7BxvOaHxWSiN3PuGdihUC0Wtc4SHso6UM0c2OoPX5FwUt+VgPj50yvespKn4xkgLnsZZuCa2sv0E9tmd5gVGlhk8BhBHNProAMqP0dGVOD6sCQHplvHbV6R+ZlS1IPBaOpwwcMAyyZp71hNJnAVctQY5g0G4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773745097; c=relaxed/simple;
-	bh=JRICjwmVdpqzYAIOq+YrlzgrUpxdi4BRyqT6V9luW6w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UJPE9vYEsEAFT+p/a9qPMpjJFSI++inKbqDJfwHAy9TWKTOafg2aF7pStBUuhMgS2AOgfOqHOm3DuLSZ7jp5WDAaCTZFxvz0P0b9WeoNcHDQhkVlmh506MM09UMykv3ZnYN47tfSbnP5csqaGEpf4wO9UrayoKPT+vnYaAMULZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lrdGJ9/i; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773745107; c=relaxed/simple;
+	bh=wxu9NXycGeqsWRgnugSKxkqAYx0rJ7Gws/1l22Be5RA=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=VNwBnD5IMU2aLrCoCXe9PxJhuBUDjz0oGXxRBHuKb1Iy7GtshLWoMtXiIoONoXXI/Tja2+NqKEwkIMCTkS8o8mRfvTviBvj6XN2hjNejrLaQw6YaytsqiMu/6tFeXwCxJpEkbvwFEJE+QRYkcafKACdiX8q17/K/qb8DfKj8Qqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=u1W1gMj2; arc=none smtp.client-ip=162.62.57.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lrdGJ9/i"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9883C4CEF7;
-	Tue, 17 Mar 2026 10:58:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773745096;
-	bh=JRICjwmVdpqzYAIOq+YrlzgrUpxdi4BRyqT6V9luW6w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lrdGJ9/iis3b83G40HFKGqhkIYJXHTqFAkYNA/h4LpOAxnlaqvG7OKR3o7mN6WPvv
-	 FfeUpmVK6vb/7YovtaTzl+r8Ww3zHpqalWMmkmHCjdAwZwSC9ERWWQnCGrpKB57/9G
-	 s4jDs7jjGXMX+pPfbPyvG3EwBiBMgL5Zy8NRs6Taf8fYruEi5EWEG0C9Uu1G59mtsI
-	 5nU9L1fPycnOu0sG25ZiSIuGI21yppb5N+cry3GbOqo+jyHeeaarIBhqjq39//yG9C
-	 sb2Jc0gwLyaMrEBHsykPyIZPpxcdYWdR3/D546Dyq64sRivKCRyu5UnguGpvo+vX7v
-	 fhEGskjIuW/Ww==
-Date: Tue, 17 Mar 2026 10:58:14 +0000
-From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-To: Nico Pache <npache@redhat.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, aarcange@redhat.com, 
-	akpm@linux-foundation.org, anshuman.khandual@arm.com, apopple@nvidia.com, baohua@kernel.org, 
-	baolin.wang@linux.alibaba.com, byungchul@sk.com, catalin.marinas@arm.com, cl@gentwo.org, 
-	corbet@lwn.net, dave.hansen@linux.intel.com, david@kernel.org, dev.jain@arm.com, 
-	gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, jack@suse.cz, 
-	jackmanb@google.com, jannh@google.com, jglisse@google.com, joshua.hahnjy@gmail.com, 
-	kas@kernel.org, lance.yang@linux.dev, Liam.Howlett@oracle.com, 
-	lorenzo.stoakes@oracle.com, mathieu.desnoyers@efficios.com, matthew.brost@intel.com, 
-	mhiramat@kernel.org, mhocko@suse.com, peterx@redhat.com, pfalcato@suse.de, 
-	rakie.kim@sk.com, raquini@redhat.com, rdunlap@infradead.org, 
-	richard.weiyang@gmail.com, rientjes@google.com, rostedt@goodmis.org, rppt@kernel.org, 
-	ryan.roberts@arm.com, shivankg@amd.com, sunnanyong@huawei.com, surenb@google.com, 
-	thomas.hellstrom@linux.intel.com, tiwai@suse.de, usamaarif642@gmail.com, vbabka@suse.cz, 
-	vishal.moola@gmail.com, wangkefeng.wang@huawei.com, will@kernel.org, willy@infradead.org, 
-	yang@os.amperecomputing.com, ying.huang@linux.alibaba.com, ziy@nvidia.com, zokeefe@google.com
-Subject: Re: [PATCH mm-unstable v15 12/13] mm/khugepaged: run khugepaged for
- all orders
-Message-ID: <a74178af-54f3-44ba-a007-4eaf49e40ab3@lucifer.local>
-References: <20260226031741.230674-1-npache@redhat.com>
- <20260226032650.234386-1-npache@redhat.com>
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="u1W1gMj2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1773745094; bh=RkF9UY20o04C9kFbg6GK29csodDBBDFZU3tduWk9JPk=;
+	h=From:To:Cc:Subject:Date;
+	b=u1W1gMj2E+5k0rXOFllEaC3vYAaenJolEscMp8PwjObc1iAy24rdmPTtgHGh/7qtO
+	 dr23pNb36Nf+ZtgjTbcxlk9NUgGWpHzWVEcBd96EYbmDiLuXecNy4Bc9X13PRUT6o9
+	 MeowjQ7Xl6gO0Viz+Dxd7B3OVjrsQJXSiHBJqUDQ=
+Received: from AA2410024078AAC.china.huawei.com ([124.70.231.39])
+	by newxmesmtplogicsvrszb51-0.qq.com (NewEsmtp) with SMTP
+	id E8AAC643; Tue, 17 Mar 2026 18:58:10 +0800
+X-QQ-mid: xmsmtpt1773745090tdjwjplu4
+Message-ID: <tencent_FB5B7DCFFB10BCDE325397D1202226779D09@qq.com>
+X-QQ-XMAILINFO: MRMtjO3A6C9X46cnDKL79vmPRk0yfNMGbkHMFWctGM2j22amP+3PjC9TbJA3Ze
+	 tvLZAF/nW5m28yux+3gxu+pgaKu3u3KOygrTBsFwTz3Qb+oOOcDJZVFXaQGQG0IcLZve6ZOYUOKx
+	 Ksv7+DqNvAhRC1AFnXHisDw3wrDo2X9fQDTZOMqX/RUJq6hSa8AB1E+8pJoxnmgMCOV0iaW6Iep0
+	 wtINi2aSjc/7/uL8Ol4P2WM8ZvpzvI9vJcRpvdljyzWXccoKOmjmQhbLVoBb51nqiw9xd3NfF9Ej
+	 4L9k8Q78R88M+dCmnGBhDLdXglTMr1kjdNRign4XPyXZv/SpgWadzvBjlYFwSpTLS33NSVn9w+8P
+	 TBOTf4O2UUwAiG2t7XbEzB/q7hjVjJXmm5SIOGgBQOy75hk8YSKGlvmd//M8bR9AF6RAAHKDKS5t
+	 7u4S6AJv4Y1+u6GU+2Thi9dkSyPfuR8BZjEBUPHaJOB/BtAd+HqiIjYm3TusxTEHm7IvCtiplUGA
+	 dtmA6FcqkN/ZZDFNzFxlXd1hkFILwMHON44NKDLjbObxCAyw913IWsXHOIsEePMfVB5gykvK/5JX
+	 LZyb3/oxTlresCpsvKLmaPl+5Bd6QicoI10d6pntJ6g3j6PXaH4bxDkkWu3FzcfU4qRrqY78mtyI
+	 TH+vyjA0Fylg55XyZocFuATsSvi0jdtUXezCrmRKv5Uv9UOdKwJOIbkOnQXsqcQpcF+PmLMdhozB
+	 nt9kEjYma9g71saSsSQnDIxO4+Mn+UwsZDhCdYPoCgPZ1/pa7TIsEI6Y/JV+1acIDOb/HX26DhMV
+	 FviWrMxCX7vMYMwHsTohUbpcC1OsfL5YMFNUkgotz3SyEgSA615xrL1VFQ2JkoAgnZxbJ6aH0GBz
+	 GWP/Bm+kug2O+jotAbNvTTl9pwqSdsvY2izltHGp6aJt9jptzV+tLS0KuccQaCPbeW90X0A2rcVz
+	 K6ZnpO63eFdbwnjbBWmYv1zrFukGx94FFCk0AbgqFFtuDphXKV5wstz2TH+6JJTfLPvbAeqff1TN
+	 FwbpE/mg==
+X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
+From: h3288824963 <3288824963@qq.com>
+To: linux-doc@vger.kernel.org
+Cc: pmladek@suse.com,
+	john.ogness@linutronix.de,
+	senozhatsky@chromium.org,
+	rostedt@goodmis.org,
+	qujingling@huawei.com,
+	zhangjiaji1@huawei.com,
+	xushuangxing@huawei.com,
+	hujinfei3@huawei.com,
+	h3288824963 <3288824963@qq.com>
+Subject: [PATCH v2] Documentation: printk: Add section about avoiding lockups
+Date: Tue, 17 Mar 2026 18:57:11 +0800
+X-OQ-MSGID: <20260317105712.879-1-3288824963@qq.com>
+X-Mailer: git-send-email 2.53.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260226032650.234386-1-npache@redhat.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Feb 25, 2026 at 08:26:50PM -0700, Nico Pache wrote:
-> From: Baolin Wang <baolin.wang@linux.alibaba.com>
->
-> If any order (m)THP is enabled we should allow running khugepaged to
-> attempt scanning and collapsing mTHPs. In order for khugepaged to operate
-> when only mTHP sizes are specified in sysfs, we must modify the predicate
-> function that determines whether it ought to run to do so.
->
-> This function is currently called hugepage_pmd_enabled(), this patch
-> renames it to hugepage_enabled() and updates the logic to check to
-> determine whether any valid orders may exist which would justify
-> khugepaged running.
->
-> We must also update collapse_allowable_orders() to check all orders if
-> the vma is anonymous and the collapse is khugepaged.
->
-> After this patch khugepaged mTHP collapse is fully enabled.
->
-> Signed-off-by: Baolin Wang <baolin.wang@linux.alibaba.com>
-> Signed-off-by: Nico Pache <npache@redhat.com>
+Add a section 'Avoiding lockups from excessive printk() use' to
+printk-basics.rst, explaining the risk of calling printk() in hot paths
+with legacy consoles and suggesting alternatives.
 
-This looks good to me, so:
+The section covers:
+- Rate-limited and one-time printing variants
+- Log level filtering
+- printk_deferred() for legacy consoles
+- Porting to nbcon API (preferred solution)
+- Using tracepoints for permanent debugging
 
-Reviewed-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
+This documentation is relevant only for legacy console drivers and
+!PREEMPT_RT kernels.
 
-> ---
->  mm/khugepaged.c | 30 ++++++++++++++++++------------
->  1 file changed, 18 insertions(+), 12 deletions(-)
->
-> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> index 388d3f2537e2..e8bfcc1d0c9a 100644
-> --- a/mm/khugepaged.c
-> +++ b/mm/khugepaged.c
-> @@ -434,23 +434,23 @@ static inline int collapse_test_exit_or_disable(struct mm_struct *mm)
->  		mm_flags_test(MMF_DISABLE_THP_COMPLETELY, mm);
->  }
->
-> -static bool hugepage_pmd_enabled(void)
-> +static bool hugepage_enabled(void)
->  {
->  	/*
->  	 * We cover the anon, shmem and the file-backed case here; file-backed
->  	 * hugepages, when configured in, are determined by the global control.
-> -	 * Anon pmd-sized hugepages are determined by the pmd-size control.
-> +	 * Anon hugepages are determined by its per-size mTHP control.
+Suggested-by: Petr Mladek <pmladek@suse.com>
+Suggested-by: John Ogness <john.ogness@linutronix.de>
+Signed-off-by: h3288824963 <3288824963@qq.com>
+---
+ Documentation/core-api/printk-basics.rst | 36 ++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
 
-Well also PMD right? I mean this terminology sucks because in a sense mTHP
-includes PMD... :)
+diff --git a/Documentation/core-api/printk-basics.rst b/Documentation/core-api/printk-basics.rst
+index 2dde24ca7..48eaff0ce 100644
+--- a/Documentation/core-api/printk-basics.rst
++++ b/Documentation/core-api/printk-basics.rst
+@@ -103,6 +103,42 @@ For debugging purposes there are also two conditionally-compiled macros:
+ pr_debug() and pr_devel(), which are compiled-out unless ``DEBUG`` (or
+ also ``CONFIG_DYNAMIC_DEBUG`` in the case of pr_debug()) is defined.
+ 
++Avoiding lockups from excessive printk() use
++============================================
++
++.. note::
++
++   This section is relevant only for legacy console drivers (those not
++   using the nbcon API) and !PREEMPT_RT kernels. Once all console drivers
++   are updated to nbcon, this documentation can be removed.
++
++Using ``printk()`` in hot paths (such as interrupt handlers, timer
++callbacks, or high-frequency network receive routines) with legacy
++consoles (e.g., ``console=ttyS0``) may cause lockups. Legacy consoles
++synchronously acquire ``console_sem`` and block while flushing messages,
++potentially disabling interrupts long enough to trigger hard or soft
++lockup detectors.
++
++To avoid this:
++
++- Use rate-limited variants (e.g., ``pr_*_ratelimited()``) or one-time
++  macros (e.g., ``pr_*_once()``) to reduce message frequency.
++- Assign lower log levels (e.g., ``KERN_DEBUG``) to non-essential messages
++  and filter console output via ``console_loglevel``.
++- Use ``printk_deferred()`` to log messages immediately to the ringbuffer
++  and defer console printing. This is a workaround for legacy consoles.
++- Port legacy console drivers to the non-blocking ``nbcon`` API (indicated
++  by ``CON_NBCON``). This is the preferred solution, as nbcon consoles
++  offload message printing to a dedicated kernel thread.
++
++For temporary debugging, ``trace_printk()`` can be used, but it must not
++appear in mainline code. See ``Documentation/trace/debugging.rst`` for
++more information.
++
++If more permanent output is needed in a hot path, trace events can be used.
++See ``Documentation/trace/events.rst`` and
++``samples/trace_events/trace-events-sample.[ch]``.
++
+ 
+ Function reference
+ ==================
+-- 
+2.53.0.windows.1
 
->  	 * Shmem pmd-sized hugepages are also determined by its pmd-size control,
->  	 * except when the global shmem_huge is set to SHMEM_HUGE_DENY.
->  	 */
->  	if (IS_ENABLED(CONFIG_READ_ONLY_THP_FOR_FS) &&
->  	    hugepage_global_enabled())
->  		return true;
-> -	if (test_bit(PMD_ORDER, &huge_anon_orders_always))
-> +	if (READ_ONCE(huge_anon_orders_always))
->  		return true;
-> -	if (test_bit(PMD_ORDER, &huge_anon_orders_madvise))
-> +	if (READ_ONCE(huge_anon_orders_madvise))
->  		return true;
-> -	if (test_bit(PMD_ORDER, &huge_anon_orders_inherit) &&
-> +	if (READ_ONCE(huge_anon_orders_inherit) &&
->  	    hugepage_global_enabled())
->  		return true;
->  	if (IS_ENABLED(CONFIG_SHMEM) && shmem_hpage_pmd_enabled())
-> @@ -521,8 +521,14 @@ static unsigned int collapse_max_ptes_none(unsigned int order)
->  static unsigned long collapse_allowable_orders(struct vm_area_struct *vma,
->  			vm_flags_t vm_flags, bool is_khugepaged)
->  {
-> +	unsigned long orders;
->  	enum tva_type tva_flags = is_khugepaged ? TVA_KHUGEPAGED : TVA_FORCED_COLLAPSE;
-> -	unsigned long orders = BIT(HPAGE_PMD_ORDER);
-> +
-> +	/* If khugepaged is scanning an anonymous vma, allow mTHP collapse */
-> +	if (is_khugepaged && vma_is_anonymous(vma))
-> +		orders = THP_ORDERS_ALL_ANON;
-> +	else
-> +		orders = BIT(HPAGE_PMD_ORDER);
->
->  	return thp_vma_allowable_orders(vma, vm_flags, tva_flags, orders);
->  }
-> @@ -531,7 +537,7 @@ void khugepaged_enter_vma(struct vm_area_struct *vma,
->  			  vm_flags_t vm_flags)
->  {
->  	if (!mm_flags_test(MMF_VM_HUGEPAGE, vma->vm_mm) &&
-> -	    hugepage_pmd_enabled()) {
-> +	    hugepage_enabled()) {
->  		if (collapse_allowable_orders(vma, vm_flags, /*is_khugepaged=*/true))
->  			__khugepaged_enter(vma->vm_mm);
->  	}
-> @@ -2929,7 +2935,7 @@ static unsigned int collapse_scan_mm_slot(unsigned int pages, enum scan_result *
->
->  static int khugepaged_has_work(void)
->  {
-> -	return !list_empty(&khugepaged_scan.mm_head) && hugepage_pmd_enabled();
-> +	return !list_empty(&khugepaged_scan.mm_head) && hugepage_enabled();
->  }
->
->  static int khugepaged_wait_event(void)
-> @@ -3002,7 +3008,7 @@ static void khugepaged_wait_work(void)
->  		return;
->  	}
->
-> -	if (hugepage_pmd_enabled())
-> +	if (hugepage_enabled())
->  		wait_event_freezable(khugepaged_wait, khugepaged_wait_event());
->  }
->
-> @@ -3033,7 +3039,7 @@ static void set_recommended_min_free_kbytes(void)
->  	int nr_zones = 0;
->  	unsigned long recommended_min;
->
-> -	if (!hugepage_pmd_enabled()) {
-> +	if (!hugepage_enabled()) {
->  		calculate_min_free_kbytes();
->  		goto update_wmarks;
->  	}
-> @@ -3083,7 +3089,7 @@ int start_stop_khugepaged(void)
->  	int err = 0;
->
->  	mutex_lock(&khugepaged_mutex);
-> -	if (hugepage_pmd_enabled()) {
-> +	if (hugepage_enabled()) {
->  		if (!khugepaged_thread)
->  			khugepaged_thread = kthread_run(khugepaged, NULL,
->  							"khugepaged");
-> @@ -3109,7 +3115,7 @@ int start_stop_khugepaged(void)
->  void khugepaged_min_free_kbytes_update(void)
->  {
->  	mutex_lock(&khugepaged_mutex);
-> -	if (hugepage_pmd_enabled() && khugepaged_thread)
-> +	if (hugepage_enabled() && khugepaged_thread)
->  		set_recommended_min_free_kbytes();
->  	mutex_unlock(&khugepaged_mutex);
->  }
-> --
-> 2.53.0
->
