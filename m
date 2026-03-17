@@ -1,163 +1,221 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D2663559F5;
-	Tue, 17 Mar 2026 06:52:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 438FA1A073F;
+	Tue, 17 Mar 2026 07:03:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773730338; cv=none; b=P0yk9uw66qGTGDIRjDm8WmsUmuLLrRFaQYfen3ju3owipn82K10ZPoUAcw8eCuyGcgma6HVYGRz1IsquI07VddayfDy62ZHQ9AiQ9GPmTtEI8yEwFQ3KWTxL1zgvund1qQ01XthywqRA9G1zt/1EkKXUkIJOeWBzj9arfvil1WI=
+	t=1773731019; cv=none; b=mgSoWotIJncPdkSe6sTd0/FqkyE2h4HcIW9Sg2QnwxWhoUI8LaoIb0+VYEh94rrWrNPVJK+sqYYzxhAeacAoPiV8EFCDsFyMLZf5jTgdViapc9EmlNLo0A88WK9xzlIGMIkHL8K0XdR0YBn4HuHbfX1kxMomtjrl81Ras2pk5qA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773730338; c=relaxed/simple;
-	bh=o8DzjGhgcrwTuqlqWy3/tR/vZ+ckbDsaf6NNFbEzXM0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=KfA+qA9TnMk7lHai0VcyglU/kZL9crBduAScZOy3bch3tfmPmw3DQL/7NMxaiMWa5bbOvhDYGfnUHaDN17bjXQnw6fo20cgLCpWD69MNTU7ptCrcedC6u0GDCvypkHdiNZKumuYdbPs22dVfAE/RXsDNqf0uOWXez52H4VJFXFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei-partners.com; spf=pass smtp.mailfrom=huawei-partners.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei-partners.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei-partners.com
-Received: from mail.maildlp.com (unknown [172.18.224.107])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fZjLH0lcbzHnGdn;
-	Tue, 17 Mar 2026 14:51:51 +0800 (CST)
-Received: from mscpeml500003.china.huawei.com (unknown [7.188.49.51])
-	by mail.maildlp.com (Postfix) with ESMTPS id 2765940584;
-	Tue, 17 Mar 2026 14:52:10 +0800 (CST)
-Received: from [10.123.123.154] (10.123.123.154) by
- mscpeml500003.china.huawei.com (7.188.49.51) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Tue, 17 Mar 2026 09:52:09 +0300
-Message-ID: <247cd41f-e703-4480-9de3-a8708bb3d9ee@huawei-partners.com>
-Date: Tue, 17 Mar 2026 09:52:09 +0300
+	s=arc-20240116; t=1773731019; c=relaxed/simple;
+	bh=RIwg2cC1FwGdnNjLTD7uT1V2fe8NxEwMbNkRum1LoXk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FhOMhy2s3LPwSr4cbF2txoaeAVycr539TnzzvBc4+gR72N28jcKsbX5wdyah+fsEfTABKq0Bvmm1K5cRQQDSqxFWjRPPpXXz+wPMnb1ZTp2dd4u66/0GdZZN4olmpPixJS27CPmSNak7VIrTWl3dY5YFikPI5q5BqLu6dGy+Xw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZGzgsUIX; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZGzgsUIX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B656C4CEF7;
+	Tue, 17 Mar 2026 07:03:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773731018;
+	bh=RIwg2cC1FwGdnNjLTD7uT1V2fe8NxEwMbNkRum1LoXk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ZGzgsUIXHyJWx0Xk8TkHwGSVefb24qtouxFFmKuE9T66ZreDNVVvaIIVdCBLt0g8i
+	 PQy13ESRaIZIZWxbixVArs9cnD+sC1QZgG+BhXg7/G5QCcAqx4P/myXut7JHleWpus
+	 MVL7f2n+J0eR8A9nHA8dbw+HPbVlBxa5SzSXc2cpcQBmNBJa0p14eSbq5icQje1FeF
+	 kxmjLU3S9VXu5ti2PY7IX0L/d1AdwNU8ztISJ7Hzkq41xcphE4+SM/subtpk45b0rz
+	 j64kuiwBr/ehrfWFEcdDbzQU7Qx/0fSAAgujBq3QXFSnijKteKQMod6nXWCpUkmhH5
+	 BzkhabS/xP7Rg==
+Date: Tue, 17 Mar 2026 08:03:32 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Linux Doc Mailing List
+ <linux-doc@vger.kernel.org>, linux-hardening@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Aleksandr Loktionov
+ <aleksandr.loktionov@intel.com>
+Subject: Re: [PATCH v2 05/28] docs: kdoc_re: add a C tokenizer
+Message-ID: <20260317080332.355d451c@foz.lan>
+In-Reply-To: <c53a3638-7a72-472c-81e8-86a6c235b598@infradead.org>
+References: <cover.1773326442.git.mchehab+huawei@kernel.org>
+	<8541ffa469647db1a7154f274fb2d55b4c127dcb.1773326442.git.mchehab+huawei@kernel.org>
+	<177370220974.1754131.9642805524574261129.b4-review@b4>
+	<c53a3638-7a72-472c-81e8-86a6c235b598@infradead.org>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 1/1] mm/damon: support MADV_COLLAPSE via
- DAMOS_COLLAPSE scheme action
-To: SeongJae Park <sj@kernel.org>
-CC: <artem.kuzin@huawei.com>, <stepanov.anatoly@huawei.com>,
-	<wangkefeng.wang@huawei.com>, <yanquanmin1@huawei.com>, <zuoze1@huawei.com>,
-	<damon@lists.linux.dev>, <akpm@linux-foundation.org>, <ljs@kernel.org>,
-	<Liam.Howlett@oracle.com>, <vbabka@kernel.org>, <rppt@kernel.org>,
-	<surenb@google.com>, <mhocko@suse.com>, <corbet@lwn.net>,
-	<skhan@linuxfoundation.org>, <linux-doc@vger.kernel.org>,
-	<linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>
-References: <20260317003206.89342-1-sj@kernel.org>
-Content-Language: en-US
-From: Gutierrez Asier <gutierrez.asier@huawei-partners.com>
-In-Reply-To: <20260317003206.89342-1-sj@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: mscpeml500003.china.huawei.com (7.188.49.51) To
- mscpeml500003.china.huawei.com (7.188.49.51)
 
-Hi SJ,
+On Mon, 16 Mar 2026 16:29:37 -0700
+Randy Dunlap <rdunlap@infradead.org> wrote:
 
-First of all, I just noticed that this was sent as v2 RFC, while
-it should be v1. Bear in mind that the next series will also be
-v2.
+> Uh, I find this review confusing.
+> Do your (Jon) comments refer to the code above them?
+> (more below)
 
-On 3/17/2026 3:32 AM, SeongJae Park wrote:
-> Hello Asier,
-> 
-> On Mon, 16 Mar 2026 18:38:05 +0000 <gutierrez.asier@huawei-partners.com> wrote:
-> 
->> From: Asier Gutierrez <gutierrez.asier@huawei-partners.com>
->>
->> This patch set introces a new action: DAMOS_COLLAPSE.
->>
->> For DAMOS_HUGEPAGE and DAMOS_NOHUGEPAGE to work, khugepaged should be
->> working, since it relies on hugepage_madvise to add a new slot. This
->> slot should be picked up by khugepaged and eventually collapse (or
->> not, if we are using DAMOS_NOHUGEPAGE) the pages. If THP is not
->> enabled, khugepaged will not be working, and therefore no collapse
->> will happen.
->>
->> DAMOS_COLLAPSE eventually calls madvise_collapse, which will collapse
->> the address range synchronously.
->>
->> This new action may be required to support autotuning with hugepage as
->> a goal.
-> 
-> Above all makes sense.  Thank you for posting this patch.
-> 
-> Do you have some test results that you can also share together?  It would be
-> nice if it can demonstrate the benefit of DAMOS_COLLAPSE over DAMOS_HUGEPAGE.
-I will run some tests and benchmarks.
-> 
->>
->> [1] https://lore.kernel.org/lkml/20260314165156.86647-1-sj@kernel.org/
-> 
-> Seems the above link is just added by a mistake?  If not, please clarify.
-Yes, it looks like I copied the wrong link.
->>
->> Signed-off-by: Asier Gutierrez <gutierrez.asier@huawei-partners.com>
->> Reviewed-by: SeongJae Park <sj@kernel.org>
->> ---
->>  Documentation/mm/damon/design.rst | 4 ++++
->>  include/linux/damon.h             | 1 +
->>  mm/damon/sysfs-schemes.c          | 4 ++++
->>  mm/damon/vaddr.c                  | 3 +++
->>  4 files changed, 12 insertions(+)
-> [...]
->> diff --git a/include/linux/damon.h b/include/linux/damon.h
->> index 3a441fbca170..6720dc70c487 100644
->> --- a/include/linux/damon.h
->> +++ b/include/linux/damon.h
->> @@ -140,6 +140,7 @@ enum damos_action {
->>  	DAMOS_PAGEOUT,
->>  	DAMOS_HUGEPAGE,
->>  	DAMOS_NOHUGEPAGE,
->> +	DAMOS_COLLAPSE,
->>  	DAMOS_LRU_PRIO,
->>  	DAMOS_LRU_DEPRIO,
->>  	DAMOS_MIGRATE_HOT,
-> 
-> sashiko.dev adds [1] below comments.  Let me also add my comments in line.
-> 
-> : This isn't a bug, but should a kernel-doc entry for @DAMOS_COLLAPSE be added
-> : to the comment block above this enum?
-> 
-> Makes sense.  'make htmldocs' may complain otherwise.  Asier, could you please
-> add the kernel-doc comment for DAMOS_COLLAPSE in the next spin?
-OK, I will split this patch into 2: one with the code and the other one with
-the documentation.
-> : 
-> : Also, does inserting DAMOS_COLLAPSE here shift the integer values of the
-> : subsequent enum entries like DAMOS_STAT?
-> : 
-> : The DAMON sysfs selftest script (tools/testing/selftests/damon/sysfs.py) uses
-> : a hardcoded dictionary action_val to map string names to their integer enum
-> : values.
-> : 
-> : If the enum values shift, the test's assertion:
-> : 
-> : assert_true(dump['action'] == action_val[scheme.action])
-> : 
-> : might fail when checking the struct memory via drgn. Could the python test
-> : dictionary be updated to reflect the new values, or could the new action be
-> : added at the end of the enum list?
-> 
-> There is no test that uses DAMOS actions that defined after DAMOS_NOHUGEPAGE,
-> so no real test will break.  But this is a good point.  It would be better to
-> update the hard-coded value together.  Asier, could you also update the
-> 'action_val' dict of assert_scheme_committed() function in
-> tools/testing/selftets/damon/sysfs.py for the updated enum value in the next
-> version?
-OK, I will do it.
-> 
-> [1] https://sashiko.dev/#/patchset/20260316183805.2090297-1-gutierrez.asier@huawei-partners.com
-> 
-> 
-> Thanks,
-> SJ
-> 
-> [...]
-> 
-Thanks for the feedback.
+I was about to comment the same thing: it sounds that b4 review did a
+big mess with your comments, as it is very hard to identify what part
+of the code you're referring to.
 
--- 
-Asier Gutierrez
-Huawei
+I'll reply to your comments on a separate e-mail - at least the ones I
+understand.
 
+> 
+> 
+> On 3/16/26 4:03 PM, Jonathan Corbet wrote:
+> > On Thu, 12 Mar 2026 15:54:25 +0100, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:  
+> >> Handling C code purely using regular expressions doesn't work well.
+> >>
+> >> Add a C tokenizer to help doing it the right way.
+> >>
+> >> The tokenizer was written using as basis the Python re documentation
+> >> tokenizer example from:
+> >> 	https://docs.python.org/3/library/re.html#writing-a-tokenizer
+> >>
+> >> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> >> Message-ID: <c63ad36c81fe043e9e33ca55630414893f127413.1773074166.git.mchehab+huawei@kernel.org>
+> >> Message-ID: <8541ffa469647db1a7154f274fb2d55b4c127dcb.1773326442.git.mchehab+huawei@kernel.org>  
+> > 
+> > This is a combined effort to review this patch and to try out "b4 review",
+> > we'll see how it goes :).
+> >   
+> >> diff --git a/tools/lib/python/kdoc/kdoc_re.py b/tools/lib/python/kdoc/kdoc_re.py
+> >> index 085b89a4547c0..7bed4e9a88108 100644
+> >> --- a/tools/lib/python/kdoc/kdoc_re.py
+> >> +++ b/tools/lib/python/kdoc/kdoc_re.py
+> >> @@ -141,6 +141,240 @@ class KernRe:
+> >> [ ... skip 4 lines ... ]
+> >> +
+> >> +    @staticmethod
+> >> +    def __str__(val):
+> >> +        """Return the name of an enum value"""
+> >> +        return TokType._name_by_val.get(val, f"UNKNOWN({val})")
+> >> +  
+> > 
+> > What is this class supposed to do?
+> >   
+> >> [ ... skip 27 lines ... ]
+> >> +    _name_by_val = {v: k for k, v in dict(vars()).items() if isinstance(v, int)}
+> >> +
+> >> +    # Dict to convert from string to an enum-like integer value.
+> >> +    _name_to_val = {k: v for v, k in _name_by_val.items()}
+> >> +
+> >> +    @staticmethod  
+> > 
+> > This stuff strikes me as a bit overdone; _name_to_val is really just the
+> > variable list for the class, right?
+> >   
+> >> [ ... skip 30 lines ... ]
+> >> +               f"{self.brace_level}, {self.paren_level}, {self.bracket_level})"
+> >> +
+> >> +#: Tokens to parse C code.
+> >> +TOKEN_LIST = [
+> >> +    (CToken.COMMENT, r"//[^\n]*|/\*[\s\S]*?\*/"),
+> >> +  
+> > 
+> > So these aren't "tokens", this is a list of regexes; how is it intended
+> > to be used?
+> >   
+> >> +    (CToken.STRING,  r'"(?:\\.|[^"\\])*"'),
+> >> +    (CToken.CHAR,    r"'(?:\\.|[^'\\])'"),
+> >> +
+> >> +    (CToken.NUMBER,  r"0[xX][0-9a-fA-F]+[uUlL]*|0[0-7]+[uUlL]*|"  
+> > 
+> > How does "[\s\S]*" differ from plain old "*" ?
+> >   
+> >> [ ... skip 15 lines ... ]
+> >> +    (CToken.STRUCT,  r"\bstruct\b"),
+> >> +    (CToken.UNION,   r"\bunion\b"),
+> >> +    (CToken.ENUM,    r"\benum\b"),
+> >> +    (CToken.TYPEDEF, r"\bkinddef\b"),
+> >> +
+> >> +    (CToken.NAME,      r"[A-Za-z_][A-Za-z0-9_]*"),  
+> > 
+> > "-" and "!" never need to be escaped.
+> >   
+> >> +
+> >> +    (CToken.SPACE,   r"[\s]+"),
+> >> +
+> >> +    (CToken.MISMATCH,r"."),
+> >> +]
+> >> +  
+> > 
+> > "kinddef" ?  
+> 
+> What does that refer to?
+> 
+> >   
+> >> +#: Handle C continuation lines.
+> >> +RE_CONT = KernRe(r"\\\n")
+> >> +
+> >> +RE_COMMENT_START = KernRe(r'/\*\s*')
+> >> +  
+> > 
+> > Don't need the [brackets] here  
+> 
+> what brackets?
+> 
+> >   
+> >> [ ... skip 6 lines ... ]
+> >> +
+> >> +    When converted to string, it drops comments and handle public/private
+> >> +    values, respecting depth.
+> >> +    """
+> >> +
+> >> +    # This class is inspired and follows the basic concepts of:  
+> > 
+> > That seems weird, why don't you just initialize it here?  
+> 
+> I can't tell what that comments refers to.
+> 
+> >> [ ... skip 14 lines ... ]
+> >> +        source = RE_CONT.sub("", source)
+> >> +
+> >> +        brace_level = 0
+> >> +        paren_level = 0
+> >> +        bracket_level = 0
+> >> +  
+> > 
+> > Do you mean "iterator" here?  
+> 
+> Ditto.
+> 
+> >> [ ... skip 33 lines ... ]
+> >> +        in this particular case, it makes sense, as we can pick the name
+> >> +        when matching a code via re_scanner().
+> >> +        """
+> >> +        global re_scanner
+> >> +
+> >> +        if not re_scanner:  
+> > 
+> > Putting __init__() first is fairly standard, methinks.
+> >   
+> >> [ ... skip 15 lines ... ]
+> >> +
+> >> +        for tok in self.tokens:
+> >> +            if tok.kind == CToken.BEGIN:
+> >> +                show_stack.append(show_stack[-1])
+> >> +
+> >> +            elif tok.kind == CToken.END:  
+> > 
+> > I still don't understand why you do this here - this is all constant, right?
+> >   
+> >> +                prev = show_stack[-1]
+> >> +                if len(show_stack) > 1:
+> >> +                    show_stack.pop()
+> >> +
+> >> +                if not prev and show_stack[-1]:  
+> > 
+> > So you create a nice iterator structure, then just put it all together into a
+> > list anyway?
+> >   
+> 
+
+
+
+Thanks,
+Mauro
