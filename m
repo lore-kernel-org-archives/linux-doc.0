@@ -1,257 +1,193 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11022131.outbound.protection.outlook.com [52.101.43.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 829AC2FFDEA;
-	Tue, 17 Mar 2026 17:05:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773767142; cv=none; b=KqGf9Mh/4py3QV2xDFm6Ua8FPhqLFWS5ipRV3HsR+u/VaLOQF4MLFphZWcs5EMDngEzgYHYK/O5m5v96qHMuY53Rie1pj5um8+qhdB+R1OMKDTTi2w/mMt542NS6W9hT7Vk6aC7KssZ9sSGygp8znAck8s75mURrWwCrZ9tkisQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773767142; c=relaxed/simple;
-	bh=ZP3HMEHUzi4atDgmrvVHmp93FHNmI+cfz5qg5zy80B0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YXIc2ySeVCS4+IAgtqe+IxVemMDwfvxdLMKU3s7TKFGDJxMR1XSv4pbo/bKK8Z/yDvWgHhtI6o8TvtpP9BbJ2MdGkGhXnT6xdfNSs3dXxmh2NFE6LusYlJRPvR9G6lGYjQHFaAsGVf83KsTp7RXggzDj2sU880IwKdTFgfYBJgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ebClFaVM; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F5F0357A4A;
+	Tue, 17 Mar 2026 17:06:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.131
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773767217; cv=fail; b=awmY8CcKbtwHiYrwQYtN2HZElJWjw1YAn/KHvIRehgP34I4qBEaOt9YkcejMG+LwjJPenIdI2tfPHI02BJb32E0V5oALSUqPFdR4EMevrhVxaaDO5wNGkfL76DmRWPwi11UDInVz13nKezDanp9ZnEOKr5zNDzf6nH5YuG97xHs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773767217; c=relaxed/simple;
+	bh=Va//YrANgkhFMy0fHKWUKug+GR8w0mO+0oyft2zoehU=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=VhRHNjnOOp5FvHrVrnBAQrJg+bp8twrWTyAvCSsTP5ZiqHVqOYyyZaTyUmGAftiDaPp0RaydPJjw+YC69ob9aK7Gtxs7iwsooecgJnMFlugEGNZpcUElP1C3SeWo7z3tNvAJXnaDy9Q2rIkMevGe1OI/W39ECSb1ED3T2brwmlk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com; spf=pass smtp.mailfrom=microsoft.com; dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b=VdBkTqDD; arc=fail smtp.client-ip=52.101.43.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ebClFaVM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B67F4C4CEF7;
-	Tue, 17 Mar 2026 17:05:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773767142;
-	bh=ZP3HMEHUzi4atDgmrvVHmp93FHNmI+cfz5qg5zy80B0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ebClFaVMzooBcPtbo04v+c2iW8qVnDLMoSLssgsGRbP+lvvi3eEsUIoA1bpWdaKE6
-	 bt0BnW6KMl3/+ln5YSMxUeCWZNMdmke+PqUMWZYAW+EO9+c+Fvobw/LGuXkwx54Zh6
-	 8BhkF37g1OKFH8zBznJW4zTNYkrJSJdOTf5v2kLbSoytTcqBkWExoj1hGordONksk5
-	 4jS1pJsBSU/0JnEsoCSWj3ljxANhZnfTJ4ysCVx8VbqI3L600siJV+LU+fKEXJGaDi
-	 tQIN4AV23McEOpvB3Jz5qBW3hNtBJfGQMdZ5WIUiTS9/dP4tpksQxzlWJ1fjpmpX/P
-	 4qUi7dTufrF0g==
-Date: Tue, 17 Mar 2026 17:05:40 +0000
-From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-To: Nico Pache <npache@redhat.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, aarcange@redhat.com, 
-	akpm@linux-foundation.org, anshuman.khandual@arm.com, apopple@nvidia.com, baohua@kernel.org, 
-	baolin.wang@linux.alibaba.com, byungchul@sk.com, catalin.marinas@arm.com, cl@gentwo.org, 
-	corbet@lwn.net, dave.hansen@linux.intel.com, david@kernel.org, dev.jain@arm.com, 
-	gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, jack@suse.cz, 
-	jackmanb@google.com, jannh@google.com, jglisse@google.com, joshua.hahnjy@gmail.com, 
-	kas@kernel.org, lance.yang@linux.dev, Liam.Howlett@oracle.com, 
-	lorenzo.stoakes@oracle.com, mathieu.desnoyers@efficios.com, matthew.brost@intel.com, 
-	mhiramat@kernel.org, mhocko@suse.com, peterx@redhat.com, pfalcato@suse.de, 
-	rakie.kim@sk.com, raquini@redhat.com, rdunlap@infradead.org, 
-	richard.weiyang@gmail.com, rientjes@google.com, rostedt@goodmis.org, rppt@kernel.org, 
-	ryan.roberts@arm.com, shivankg@amd.com, sunnanyong@huawei.com, surenb@google.com, 
-	thomas.hellstrom@linux.intel.com, tiwai@suse.de, usamaarif642@gmail.com, vbabka@suse.cz, 
-	vishal.moola@gmail.com, wangkefeng.wang@huawei.com, will@kernel.org, willy@infradead.org, 
-	yang@os.amperecomputing.com, ying.huang@linux.alibaba.com, ziy@nvidia.com, zokeefe@google.com
-Subject: Re: [PATCH mm-unstable v15 07/13] mm/khugepaged: add per-order mTHP
- collapse failure statistics
-Message-ID: <c832d503-8b8c-487a-b61a-df74a3057308@lucifer.local>
-References: <20260226031741.230674-1-npache@redhat.com>
- <20260226032504.233594-1-npache@redhat.com>
+	dkim=pass (1024-bit key) header.d=microsoft.com header.i=@microsoft.com header.b="VdBkTqDD"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=XGxN+6khuvS7d3zlDIdo68ybMfn8jmcz+G+l5aE5SpN/a2uF1KUXByDivcl3UwxfwAY796DcepZzU822hmTzZNUBNCsmWOKobLTlYUA1IardYakO8n9Sw7/r0cdRsbmW9vToMBjzWNQU/Snm9jq5F6CatdJkROINSS1brV7O52wleOAEMObBJaFQYENBNNLm+rtVDD+oisNnu6VNboD8/C5icZwA/TfmQfd6egyJi8JCT9lgQBzV7I48FsScLmOJy4Y2icAIF62yij84Upb9MRO4LIg6Vnhv7IsGfuH7tKIRMH8+4lVV8T7xTVp+mEiZd0q3T9ZH+RzSBIA4y9wxRQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Va//YrANgkhFMy0fHKWUKug+GR8w0mO+0oyft2zoehU=;
+ b=iL5NW9zkBXDHsJqDcRdx/zSKlxTCY6ryvui1zyZiu9OfQHXeZejZaC+l3KOq5lavetbqPvbfltZlIWL8dWoEUR52vdA4SI2IUiQMVWUvgJjx9Dni3ipcDoeeMJQ/vsBsdx8JWDrY20M47uV2gcPmePwT0qr15ivwSTLZApXuSc+fVmA5hVsujfItIfDeYohUP/sIpQheX7e1tOSlovxsXj8372jJyYPHl0RPGUW4Ui7y6We/8+xEsdkcdohHPILEbX4cx5f2XaxMAaLVqG6ptAMImiItZ6haVq7YuTY9bWXJuNPvPjsZc9bzcedbgSlrZOjoQnEpQfE+K5naKYfDZw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Va//YrANgkhFMy0fHKWUKug+GR8w0mO+0oyft2zoehU=;
+ b=VdBkTqDDsyqNez2heSPPFSl8IvoESA3jy438EfQ3XqbjvkQxZ53C+jvjMCjxyFnkLGjcPKRiV1uVQyackAcV+L8s/aTrbiD+QDdO/Lm6m0DFhikUyWsUrzKj9r+KcaTa1bK7nk1rZpD0tMYsCe0iOOf59bnF6TXRZdWhxUjgsB0=
+Received: from SA3PR21MB3867.namprd21.prod.outlook.com (2603:10b6:806:2fc::15)
+ by SA3PR21MB5699.namprd21.prod.outlook.com (2603:10b6:806:493::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.8; Tue, 17 Mar
+ 2026 17:06:53 +0000
+Received: from SA3PR21MB3867.namprd21.prod.outlook.com
+ ([fe80::70ff:4d3:2cb6:92a3]) by SA3PR21MB3867.namprd21.prod.outlook.com
+ ([fe80::70ff:4d3:2cb6:92a3%6]) with mapi id 15.20.9723.006; Tue, 17 Mar 2026
+ 17:06:53 +0000
+From: Haiyang Zhang <haiyangz@microsoft.com>
+To: Jakub Kicinski <kuba@kernel.org>, Haiyang Zhang
+	<haiyangz@linux.microsoft.com>
+CC: "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>, Andrew Lunn
+	<andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+	<edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+	<horms@kernel.org>, Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet
+	<corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, "Kory Maincent
+ (Dent Project)" <kory.maincent@bootlin.com>, Gal Pressman <gal@nvidia.com>,
+	Oleksij Rempel <o.rempel@pengutronix.de>, Vadim Fedorenko
+	<vadim.fedorenko@linux.dev>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, Paul Rosswurm <paulros@microsoft.com>
+Subject: RE: [EXTERNAL] Re: [PATCH net-next v5 1/3] net: ethtool: add ethtool
+ COALESCE_RX_CQE_FRAMES/NSECS
+Thread-Topic: [EXTERNAL] Re: [PATCH net-next v5 1/3] net: ethtool: add ethtool
+ COALESCE_RX_CQE_FRAMES/NSECS
+Thread-Index: AQHcsle3ede9x30umkKGpMq4Ws2CzbWyEOAAgADrHmA=
+Date: Tue, 17 Mar 2026 17:06:53 +0000
+Message-ID:
+ <SA3PR21MB386739456243DAAE93491110CA41A@SA3PR21MB3867.namprd21.prod.outlook.com>
+References: <20260312193725.994833-1-haiyangz@linux.microsoft.com>
+	<20260312193725.994833-2-haiyangz@linux.microsoft.com>
+ <20260316200434.3a0b99ec@kernel.org>
+In-Reply-To: <20260316200434.3a0b99ec@kernel.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=bfc6c982-1d46-479c-ac5f-9678c6241991;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2026-03-17T17:06:04Z;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Tag=10,
+ 3, 0, 1;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microsoft.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SA3PR21MB3867:EE_|SA3PR21MB5699:EE_
+x-ms-office365-filtering-correlation-id: c8e0e654-29b2-462c-829d-08de8447963a
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|7416014|366016|376014|1800799024|18002099003|56012099003|22082099003|38070700021;
+x-microsoft-antispam-message-info:
+ xgoX7zBA9bFaV7P+7W2/Q/YKsiH93afpUGWg+9AHA2sY3z6c23bEc608MV4SXA1yOeWRROzv5xdvo7yGA9sP0NfLrQlJqPO85Ofs51QKFaMOVFGv3VvqHjPZpB3dtH/dw0uTjOtkVyvOB+39jik8Vz8FwAlZXaqSYRdWYX/VLdLe2jM8YR793KE4QcwHCNUFJ4mTJ1Ycu1pTeZ4N9ze8RPrOh31O9NMcU2TWAT9l1kpQZde5+4+XFib7iNLpaM/EknGO7GO/2d/7hRA449UnKrEV+JWBSUEDgezywOrpap77J03APT+pvFgzJl8illga8ePoZCHXZPp146zqs7c1DyqYmPJz/NClWV+xwKCF+dVYP88ItvFvZVVx3pJRICtBP/bMehecoIJYorwKPcz8EHwFIEvcoq62nZOw4Cz7i1m3nAnRlt82iiin6FV+V/y8FFSJ+7NMioo67JiTsrZO7FkPa3409JUbhkNaFRasW26kTZAnjnve1fpuIUrR8Li6joCVxxEjxFi3IUEy69OY5rRT3S+FzL2U9xQVChTEHgUIcfLCbZxKFyT3vDlzdkXgwygX7cws6hqSz1s9iLe8HjZOLmZf+Aakwnsmoos0UeEPwWvgqgECfqmXx+K9KKYJrlmge/INTHq+rp6dv/zBt87ah5Eduow13RTc1ggUFR6Z+6m57lgER6BrH2vAqYVo0O0SSi5Bp8M8i4Rb0X1Tnx3C0eEYGo2NwGAUVPlJRT27eHrhJHq+85MkmPYhP0IHZHP6Z3gLyDZrLAdob63/dkdLj8cc+5nPpP1FpF4W+P8=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA3PR21MB3867.namprd21.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(376014)(1800799024)(18002099003)(56012099003)(22082099003)(38070700021);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?9TdlStsPH8N3vT7QdhdAQWYyHu59lI9qZymSvFWcyipYn33q/Uxw7BBYqv/v?=
+ =?us-ascii?Q?9pAY7FcQUSUhM/yJeId72XFx/hy5Gd4Od8TvQVsZfbv/u8dJ6++1i3bPX6O0?=
+ =?us-ascii?Q?xdoYzytvs0u2lx1ifQVzmjB/De2NA+LpW/gPQwzJtMbyQAfJ1K/BrrbSurK1?=
+ =?us-ascii?Q?aEMhrKYA/ARyKIs5Mpxd1NvgKBfWWAjYMm4b1XX4FZofNgGTmI5QmYVlC7i9?=
+ =?us-ascii?Q?AAEbZQ/f0Eep/JqoNoGVnPP2sqMkv8G/lVvF2Sf8thGOADWTtGdioTv2SpNH?=
+ =?us-ascii?Q?RQB7+sacuXuUlhqFxzCPJuH7Xth8b5UD2SEIiN8e6JdDugy/nzXGGTJagB56?=
+ =?us-ascii?Q?FPLD9+DEYT1PT2IcqLBKUmUo0jr3exzVawIgGqFAf97LyrQlYzr9UQ9HFSbC?=
+ =?us-ascii?Q?P36nbkZYd7WsO36d6W9+666LiMTERXOOfTjS7s2q3c+yughYHNasFxOJYbRv?=
+ =?us-ascii?Q?N1JbcjXZGfgsC853dImWT3ecEAK1UggVWwN0mdv+KDa80hVx6bdaFI3IKzuf?=
+ =?us-ascii?Q?SrJUIFN11w7JpgxQfaYX7+r1Xi3L1N4x9MzEn6BZVgYFEJyssBsJJmDCX9SW?=
+ =?us-ascii?Q?mb/5tZSsCccROyUxfvLI1f+O8c5T20OpreJdCS+h4baMrhJ2Z5zkYBEPWcsD?=
+ =?us-ascii?Q?cnsDr/V8Ud9yjBz0DX7IYPINf8R8Lmy6w6yu/qVOF0SkZksVt2xfIWu6qBB/?=
+ =?us-ascii?Q?zBaeISVtwEkAPfyIKEbWX+KcUGTRXn8mBL1hw32piOR17Gm65EItsuDu/POQ?=
+ =?us-ascii?Q?pkXvlNwgjaOYesxHWCrQKhIgMsGNJTcj3ao/kCX57LEwsTMjiO/EvPJLEoRg?=
+ =?us-ascii?Q?cVB4PEANAc8sEqjvjlGAnDu/WSaBjg5ucl3dsqYcnI2pj6RQvgQejqAXeQ5y?=
+ =?us-ascii?Q?eExpacU51xL3uOTQXJTagmnRwCWj8vcRwZpR5LTeW+qbX7nIQZnawoRoX3WU?=
+ =?us-ascii?Q?MObjqrs0H8kgue2QvUVfJIR8fluVhvnmHy3cx1BafywroNanNyBm/nXQlPvq?=
+ =?us-ascii?Q?cHoA5xvL5/J6AOZv71yNjv4O3OG7SUbpBjNjcF3f3zBljt85NmRZnfit+Mra?=
+ =?us-ascii?Q?aWLqeIeyYpqiWCENey/oil2DMkWEys5qmCFpqbB4NRceSmf7dDRdfO7rx3zw?=
+ =?us-ascii?Q?4HA95H1G7NqjUqz3OOuRnq/SzkfkUOHo5ywUj7E2AOc9XxMHG/s0Hujq9vVS?=
+ =?us-ascii?Q?8+IYnll/wneA6LVpahq5QyMEH7fkYaMn0IBT0pZuNAe6UU0VUJnfQYFR6NAU?=
+ =?us-ascii?Q?gu1q6vIpZmbOztHubRqvZlZ2oKAW0z6wXX5kOMMH7ipB4zdbwwWrGcgAtE0V?=
+ =?us-ascii?Q?WpnLyIcLbo3wNe9rbdrS6I3dHnYFxZ/AWxQXYFA3Kn1PxFzuLYKPowx+mGGW?=
+ =?us-ascii?Q?Bj+Bm2EPDErL/i8cUWSlZrUSMofbo8NjPErG9Z0zEYFdruK+KZTvj064K7PZ?=
+ =?us-ascii?Q?y8kYZLOzcJv02ThuQQj+PyIEjDlZImVl8gIb3SIljec2mtZpyICvAuT6F8eG?=
+ =?us-ascii?Q?Tt7QpCFvaBR5AaomfZ7kJZ+YjH58cGwZVyrn3y1jJdv7Q8dP4dPP3S/5Dskb?=
+ =?us-ascii?Q?FzhyiX90wWcoiUVEkXDHA5sbhkJdD+u4mfJFpzRTm6FfaP6EGbB1HX32YeGe?=
+ =?us-ascii?Q?GZxiEGuli07TxrKGyT4CR61Cgeu8w6X1HmfgyddPRc95+1QaDpsDfYsw8GzV?=
+ =?us-ascii?Q?zjg22V7UIcIWrWBG3b/Q/ZPwnnYZSTBlh6vrKrVhn0AGaDVPo+1nVpcRuUNw?=
+ =?us-ascii?Q?qnTWScn5AQ=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260226032504.233594-1-npache@redhat.com>
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SA3PR21MB3867.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c8e0e654-29b2-462c-829d-08de8447963a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Mar 2026 17:06:53.0975
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: JUAY2eWiQusV1Y9itb5vFwAAC2f6Ob5b5iTFxKaBIYuPI2Zyj00ymFxqcwVv5Jk5KCLcN1pI32kiUcEGSu91Vw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR21MB5699
 
-On Wed, Feb 25, 2026 at 08:25:04PM -0700, Nico Pache wrote:
-> Add three new mTHP statistics to track collapse failures for different
-> orders when encountering swap PTEs, excessive none PTEs, and shared PTEs:
->
-> - collapse_exceed_swap_pte: Increment when mTHP collapse fails due to swap
-> 	PTEs
->
-> - collapse_exceed_none_pte: Counts when mTHP collapse fails due to
->   	exceeding the none PTE threshold for the given order
->
-> - collapse_exceed_shared_pte: Counts when mTHP collapse fails due to shared
->   	PTEs
->
-> These statistics complement the existing THP_SCAN_EXCEED_* events by
-> providing per-order granularity for mTHP collapse attempts. The stats are
-> exposed via sysfs under
-> `/sys/kernel/mm/transparent_hugepage/hugepages-*/stats/` for each
-> supported hugepage size.
->
-> As we currently dont support collapsing mTHPs that contain a swap or
-> shared entry, those statistics keep track of how often we are
-> encountering failed mTHP collapses due to these restrictions.
->
-> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
-> Signed-off-by: Nico Pache <npache@redhat.com>
-> ---
->  Documentation/admin-guide/mm/transhuge.rst | 24 ++++++++++++++++++++++
->  include/linux/huge_mm.h                    |  3 +++
->  mm/huge_memory.c                           |  7 +++++++
->  mm/khugepaged.c                            | 16 ++++++++++++---
->  4 files changed, 47 insertions(+), 3 deletions(-)
->
-> diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
-> index c51932e6275d..eebb1f6bbc6c 100644
-> --- a/Documentation/admin-guide/mm/transhuge.rst
-> +++ b/Documentation/admin-guide/mm/transhuge.rst
-> @@ -714,6 +714,30 @@ nr_anon_partially_mapped
->         an anonymous THP as "partially mapped" and count it here, even though it
->         is not actually partially mapped anymore.
->
-> +collapse_exceed_none_pte
-> +       The number of collapse attempts that failed due to exceeding the
-> +       max_ptes_none threshold. For mTHP collapse, Currently only max_ptes_none
-> +       values of 0 and (HPAGE_PMD_NR - 1) are supported. Any other value will
-> +       emit a warning and no mTHP collapse will be attempted. khugepaged will
 
-It's weird to document this here but not elsewhere in the document? I mean I
-made this comment on the documentation patch also.
 
-Not sure if I missed you adding it to another bit of the docs? :)
+> -----Original Message-----
+> From: Jakub Kicinski <kuba@kernel.org>
+> Sent: Monday, March 16, 2026 11:05 PM
+> To: Haiyang Zhang <haiyangz@linux.microsoft.com>
+> Cc: linux-hyperv@vger.kernel.org; netdev@vger.kernel.org; Andrew Lunn
+> <andrew@lunn.ch>; David S. Miller <davem@davemloft.net>; Eric Dumazet
+> <edumazet@google.com>; Paolo Abeni <pabeni@redhat.com>; Simon Horman
+> <horms@kernel.org>; Donald Hunter <donald.hunter@gmail.com>; Jonathan
+> Corbet <corbet@lwn.net>; Shuah Khan <skhan@linuxfoundation.org>; Kory
+> Maincent (Dent Project) <kory.maincent@bootlin.com>; Gal Pressman
+> <gal@nvidia.com>; Oleksij Rempel <o.rempel@pengutronix.de>; Vadim
+> Fedorenko <vadim.fedorenko@linux.dev>; linux-kernel@vger.kernel.org;
+> linux-doc@vger.kernel.org; Haiyang Zhang <haiyangz@microsoft.com>; Paul
+> Rosswurm <paulros@microsoft.com>
+> Subject: [EXTERNAL] Re: [PATCH net-next v5 1/3] net: ethtool: add ethtool
+> COALESCE_RX_CQE_FRAMES/NSECS
+>=20
+> On Thu, 12 Mar 2026 12:37:04 -0700 Haiyang Zhang wrote:
+> > +Rx CQE coalescing allows multiple received packets to be coalesced int=
+o
+> a single
+> > +Completion Queue Entry (CQE). ``ETHTOOL_A_COALESCE_RX_CQE_FRAMES``
+> describes the
+> > +maximum number of frames that can be coalesced into a CQE.
+> > +``ETHTOOL_A_COALESCE_RX_CQE_NSECS`` describes max time in nanoseconds
+> after the
+> > +first packet arrival in a coalesced CQE to be sent.
+>=20
+> Looks good overall, can we broaden the language a bit?
+> Replace "a single Completion Queue Entry (CQE)" with "a single
+> Completion Queue Entry (CQE) or descriptor write back"?
+Sure.
 
-> +       try to collapse to the largest enabled (m)THP size; if it fails, it will
-> +       try the next lower enabled mTHP size. This counter records the number of
-> +       times a collapse attempt was skipped for exceeding the max_ptes_none
-> +       threshold, and khugepaged will move on to the next available mTHP size.
-> +
-> +collapse_exceed_swap_pte
-> +       The number of anonymous mTHP PTE ranges which were unable to collapse due
-> +       to containing at least one swap PTE. Currently khugepaged does not
-> +       support collapsing mTHP regions that contain a swap PTE. This counter can
-> +       be used to monitor the number of khugepaged mTHP collapses that failed
-> +       due to the presence of a swap PTE.
-> +
-> +collapse_exceed_shared_pte
-> +       The number of anonymous mTHP PTE ranges which were unable to collapse due
-> +       to containing at least one shared PTE. Currently khugepaged does not
-> +       support collapsing mTHP PTE ranges that contain a shared PTE. This
-> +       counter can be used to monitor the number of khugepaged mTHP collapses
-> +       that failed due to the presence of a shared PTE.
+> I'm assuming your devices don't coalesce CQE writes.
+> For non-RDMA devices the notion of CQE is a bit foreign but
+> descriptor write back coalescing serves similar purpose.
+> In either case host can't see the frame even if it's busy
+> polling.
+>=20
+> So:
+>=20
+> Rx CQE coalescing allows multiple received packets to be coalesced
+> into a single Completion Queue Entry (CQE) or descriptor writeback.
+> ``ETHTOOL_A_COALESCE_RX_CQE_FRAMES`` describes the maximum number of
+> frames that can be coalesced into a CQE or writeback.
+> ``ETHTOOL_A_COALESCE_RX_CQE_NSECS`` describes max time in nanoseconds
+> after the first packet arrival in a coalesced CQE to be sent.
+Will do.
 
-All of these talk about 'ranges' that could be of any size. Are these useful
-metrics? Counting a bunch of failures and not knowing if they are 256 KB
-failures or 16 KB failures or whatever is maybe not so useful information?
-
-Also, from the code, aren't you treating PMD events the same as mTHP ones from
-the point of view of these counters? Maybe worth documenting that?
-
-> +
->  As the system ages, allocating huge pages may be expensive as the
->  system uses memory compaction to copy data around memory to free a
->  huge page for use. There are some counters in ``/proc/vmstat`` to help
-> diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
-> index 9941fc6d7bd8..e8777bb2347d 100644
-> --- a/include/linux/huge_mm.h
-> +++ b/include/linux/huge_mm.h
-> @@ -144,6 +144,9 @@ enum mthp_stat_item {
->  	MTHP_STAT_SPLIT_DEFERRED,
->  	MTHP_STAT_NR_ANON,
->  	MTHP_STAT_NR_ANON_PARTIALLY_MAPPED,
-> +	MTHP_STAT_COLLAPSE_EXCEED_SWAP,
-> +	MTHP_STAT_COLLAPSE_EXCEED_NONE,
-> +	MTHP_STAT_COLLAPSE_EXCEED_SHARED,
->  	__MTHP_STAT_COUNT
->  };
->
-> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-> index 228f35e962b9..1049a207a257 100644
-> --- a/mm/huge_memory.c
-> +++ b/mm/huge_memory.c
-> @@ -642,6 +642,10 @@ DEFINE_MTHP_STAT_ATTR(split_failed, MTHP_STAT_SPLIT_FAILED);
->  DEFINE_MTHP_STAT_ATTR(split_deferred, MTHP_STAT_SPLIT_DEFERRED);
->  DEFINE_MTHP_STAT_ATTR(nr_anon, MTHP_STAT_NR_ANON);
->  DEFINE_MTHP_STAT_ATTR(nr_anon_partially_mapped, MTHP_STAT_NR_ANON_PARTIALLY_MAPPED);
-> +DEFINE_MTHP_STAT_ATTR(collapse_exceed_swap_pte, MTHP_STAT_COLLAPSE_EXCEED_SWAP);
-> +DEFINE_MTHP_STAT_ATTR(collapse_exceed_none_pte, MTHP_STAT_COLLAPSE_EXCEED_NONE);
-> +DEFINE_MTHP_STAT_ATTR(collapse_exceed_shared_pte, MTHP_STAT_COLLAPSE_EXCEED_SHARED);
-
-Is there a reason there's such a difference between the names and the actual
-enum names?
-
-> +
->
->  static struct attribute *anon_stats_attrs[] = {
->  	&anon_fault_alloc_attr.attr,
-> @@ -658,6 +662,9 @@ static struct attribute *anon_stats_attrs[] = {
->  	&split_deferred_attr.attr,
->  	&nr_anon_attr.attr,
->  	&nr_anon_partially_mapped_attr.attr,
-> +	&collapse_exceed_swap_pte_attr.attr,
-> +	&collapse_exceed_none_pte_attr.attr,
-> +	&collapse_exceed_shared_pte_attr.attr,
->  	NULL,
->  };
->
-> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> index c739f26dd61e..a6cf90e09e4a 100644
-> --- a/mm/khugepaged.c
-> +++ b/mm/khugepaged.c
-> @@ -595,7 +595,9 @@ static enum scan_result __collapse_huge_page_isolate(struct vm_area_struct *vma,
->  				continue;
->  			} else {
->  				result = SCAN_EXCEED_NONE_PTE;
-> -				count_vm_event(THP_SCAN_EXCEED_NONE_PTE);
-> +				if (is_pmd_order(order))
-> +					count_vm_event(THP_SCAN_EXCEED_NONE_PTE);
-> +				count_mthp_stat(order, MTHP_STAT_COLLAPSE_EXCEED_NONE);
-
-It's a bit gross to have separate stats for both thp and mthp but maybe
-unavoidable from a legacy stand point.
-
-Why are we dropping the _PTE suffix?
-
->  				goto out;
->  			}
->  		}
-> @@ -631,10 +633,17 @@ static enum scan_result __collapse_huge_page_isolate(struct vm_area_struct *vma,
->  			 * shared may cause a future higher order collapse on a
->  			 * rescan of the same range.
->  			 */
-> -			if (!is_pmd_order(order) || (cc->is_khugepaged &&
-> -			    shared > khugepaged_max_ptes_shared)) {
-
-OK losing track here :) as the series sadly doesn't currently apply so can't
-browser file as is.
-
-In the code I'm looking at, there's also a ++shared here that I guess another
-patch removed?
-
-Is this in the folio_maybe_mapped_shared() branch?
-
-> +			if (!is_pmd_order(order)) {
-> +				result = SCAN_EXCEED_SHARED_PTE;
-> +				count_mthp_stat(order, MTHP_STAT_COLLAPSE_EXCEED_SHARED);
-> +				goto out;
-> +			}
-> +
-> +			if (cc->is_khugepaged &&
-> +			    shared > khugepaged_max_ptes_shared) {
->  				result = SCAN_EXCEED_SHARED_PTE;
->  				count_vm_event(THP_SCAN_EXCEED_SHARED_PTE);
-> +				count_mthp_stat(order, MTHP_STAT_COLLAPSE_EXCEED_SHARED);
->  				goto out;
-
-Anyway I'm a bit lost on this logic until a respin but this looks like a LOT of
-code duplication. I see David alluded to a refactoring so maybe what he suggests
-will help (not had a chance to check what it is specifically :P)
-
->  			}
->  		}
-> @@ -1081,6 +1090,7 @@ static enum scan_result __collapse_huge_page_swapin(struct mm_struct *mm,
->  		 * range.
->  		 */
->  		if (!is_pmd_order(order)) {
-> +			count_mthp_stat(order, MTHP_STAT_COLLAPSE_EXCEED_SWAP);
-
-Hmm I thought we were incrementing mthp stats for pmd sized also?
-
->  			pte_unmap(pte);
->  			mmap_read_unlock(mm);
->  			result = SCAN_EXCEED_SWAP_PTE;
-> --
-> 2.53.0
->
-
-Cheers, Lorenzo
+Thanks,
+- Haiyang
