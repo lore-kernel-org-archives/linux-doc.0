@@ -1,264 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D29E63F54D7;
-	Tue, 17 Mar 2026 18:09:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68A2F37F8D3
+	for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 18:18:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773770991; cv=none; b=Ni06KgV2ZL+1hrnyA4Dvzvu4ZsZ6HNxqPIJYkAHfhGlafLX7oVD5cBm52p9jkx3zB/2qVdEHBJb90zB7iDmay4kskgkJ5dOMOdGfzevDoHkbLwFkYmiMJnuzvCPJIuHKMQzmA4EGzL11OTzh4vyvhHgqxnN/f8SCd0G3ZGcAtUw=
+	t=1773771511; cv=none; b=pGYyrQsD8envw/uEzNxGwsps/uB1zn4Y6e7CETch3z42j0FJA3eTM1Xu3AlvKYQw1diD32RKYZHdlxZG0NcewGCos5SqQzm1cLI00LowIxHeRRsm1a1BDo+o8So+OP3i3O7o2jD9H6YJ9legycDCV3gYo3cdCLc8Qik3UOY1CKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773770991; c=relaxed/simple;
-	bh=8/hsaWMUHVtBvDS57a4t+PPCZuuen94qixln1/WAwiU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pg/nOk6IvqaIl0T8qOtH33FwGCEa+VB8fsXTPvdgQJ4vXWMGIhMByZrM60YbiMWHc4qOQa86JLSXIT1MfHCmKr/idlWI+ZL5HsOVQgZvWSsNsDTLPrdgJube4xZMIlr3YpSyinAtEfuoI1pqS7bgISxFMYYf9COK3LIgjINXMV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YiqZhqS+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773771511; c=relaxed/simple;
+	bh=fg32yGe2mdohAI69CbTjZquxppAHQFK69oSiE+SgENw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=jja+KHZZGESmM55VJekyZnQlhUPM7LtKbQj9x5g9041Slbpp+joWPlAaji9A64RHFeTTTfbEeW53bUbDUer5qkLgH7syk6NeknXMgaSFSReWlnnOMLN2Q/5DzGr7t7s/ORWOlZdoWp74pSJx4LnAZtXXtf7PT6+a97EQoSaTPO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tt4yoTbb; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YiqZhqS+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71F5EC4CEF7;
-	Tue, 17 Mar 2026 18:09:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773770991;
-	bh=8/hsaWMUHVtBvDS57a4t+PPCZuuen94qixln1/WAwiU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=YiqZhqS++k8jFBJw4eQ7+W8f1oHaNdNC48IvQRbfCUr6m4FdJaQEj+rMrSludd/3T
-	 /ZGgZuOZ5qX9ph/J7kbsV5GV8SSBrLqdlifkqzsq2pRmG+q9QenH2GBHpS5xFIJa/N
-	 fmdTs4kWquBlxZB+6YQxDxQlMVApxoPdlyL2uNLT/3dQFInEvdQTtfNAnM82COgyFy
-	 vYEtWARoBgrXHfA1lHoZniRZbr7U4m8/hVRi4FI2e1lHVhz6jCll7fwT5U/NVN9GKJ
-	 49wBpA1ZXJMC5rYmc4jefCFMQKiA72Yt2iO0Sgx5XhxaDCEjol7Qo7ajBFHYtNAmCG
-	 1QJPQHzQ1EdNA==
-Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1w2YrV-0000000H5fg-2tzF;
-	Tue, 17 Mar 2026 19:09:49 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Kees Cook <kees@kernel.org>,
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-hardening@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH v3 22/22] docs: xforms_lists: use CMatch for all identifiers
-Date: Tue, 17 Mar 2026 19:09:42 +0100
-Message-ID: <86d4a07ff0e054207747fabf38d6bb261b52b5fa.1773770483.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <cover.1773770483.git.mchehab+huawei@kernel.org>
-References: <cover.1773770483.git.mchehab+huawei@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tt4yoTbb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773771508; x=1805307508;
+  h=date:from:to:cc:subject:message-id;
+  bh=fg32yGe2mdohAI69CbTjZquxppAHQFK69oSiE+SgENw=;
+  b=Tt4yoTbbnL1cSAxs+7oBrklwJWFks375Tm5/GRZQfZ8jQQkpwt0wXSbO
+   xVRG1ojdyTlBJ8YjzCmvMLBlx6s1tr5aKuqwa58yp0ijy1f2/zvLSSjjV
+   Jz6n30lYy0t6cjrxPhrGx0BW2GzQDGULCYxwXsMBhlu0eDnNyZXtW+pll
+   FjIHgApiG7GGF7lj5B4bXP/vSebbiDfyeIBj1hwCd8RZC3zLi2Nbo/PM5
+   gibQQ8xHbKiXpWHP8DVznnB8HE7JTIPQfg/PEtL1OAgK/ldYgDegmDTRK
+   9dX0dHCM0Lx/SOGNdSADfOoTByxEI5Zv65GLgWqDXLDTey1RAEQmtnsgo
+   A==;
+X-CSE-ConnectionGUID: KfNcpH+xSJqoU5I/WJtafw==
+X-CSE-MsgGUID: 1AAMQABMRiCcQb2K7OeDyA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="85893687"
+X-IronPort-AV: E=Sophos;i="6.23,126,1770624000"; 
+   d="scan'208";a="85893687"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 11:18:28 -0700
+X-CSE-ConnectionGUID: PWMhoSJET6WLe8swr9cTwg==
+X-CSE-MsgGUID: QqcAdWy/Q0mPaU7ddZ7ZvQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,126,1770624000"; 
+   d="scan'208";a="246977039"
+Received: from lkp-server01.sh.intel.com (HELO 63737dd503cb) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 17 Mar 2026 11:18:26 -0700
+Received: from kbuild by 63737dd503cb with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w2Yzn-000000001mh-3eMI;
+	Tue, 17 Mar 2026 18:18:23 +0000
+Date: Wed, 18 Mar 2026 02:18:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Dan Williams <dan.j.williams@intel.com>, Chao Gao <chao.gao@intel.com>,
+ linux-doc@vger.kernel.org
+Subject: [linux-next:master 2734/6828] Warning:
+ arch/x86/virt/vmx/tdx/tdx.c:141 This comment starts with '/**', but isn't a
+ kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202603180202.myb6Tv5N-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-CMatch is lexically correct and replaces only identifiers,
-which is exactly where macro transformations happen.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   8e5a478b6d6a5bb0a3d52147862b15e4d826af19
+commit: 165e77353831a85caa0444d16f29bd6b111dd2c5 [2734/6828] KVM: x86/tdx: Do VMXON and TDX-Module initialization during subsys init
+config: x86_64-randconfig-011-20260317 (https://download.01.org/0day-ci/archive/20260318/202603180202.myb6Tv5N-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260318/202603180202.myb6Tv5N-lkp@intel.com/reproduce)
 
-Use it to make the output safer and ensure that all arguments
-will be parsed the right way, even on complex cases.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603180202.myb6Tv5N-lkp@intel.com/
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- tools/lib/python/kdoc/xforms_lists.py | 159 +++++++++++++-------------
- 1 file changed, 79 insertions(+), 80 deletions(-)
+All warnings (new ones prefixed by >>):
 
-diff --git a/tools/lib/python/kdoc/xforms_lists.py b/tools/lib/python/kdoc/xforms_lists.py
-index 5a62d4a450cb..f6ea9efb11ae 100644
---- a/tools/lib/python/kdoc/xforms_lists.py
-+++ b/tools/lib/python/kdoc/xforms_lists.py
-@@ -7,7 +7,8 @@ import re
- from kdoc.kdoc_re import KernRe
- from kdoc.c_lex import CMatch, CTokenizer
- 
--struct_args_pattern = r'([^,)]+)'
-+struct_args_pattern = r"([^,)]+)"
-+
- 
- class CTransforms:
-     """
-@@ -24,48 +25,40 @@ class CTransforms:
- 
-     #: Transforms for structs and unions.
-     struct_xforms = [
--        # Strip attributes
--        (KernRe(r"__attribute__\s*\(\([a-z0-9,_\*\s\(\)]*\)\)", flags=re.I | re.S, cache=False), ' '),
--        (KernRe(r'\s*__aligned\s*\([^;]*\)', re.S), ' '),
--        (KernRe(r'\s*__counted_by\s*\([^;]*\)', re.S), ' '),
--        (KernRe(r'\s*__counted_by_(le|be)\s*\([^;]*\)', re.S), ' '),
--        (KernRe(r'\s*__guarded_by\s*\([^\)]*\)', re.S), ' '),
--        (KernRe(r'\s*__pt_guarded_by\s*\([^\)]*\)', re.S), ' '),
--        (KernRe(r'\s*__packed\s*', re.S), ' '),
--        (KernRe(r'\s*CRYPTO_MINALIGN_ATTR', re.S), ' '),
--        (KernRe(r'\s*__private', re.S), ' '),
--        (KernRe(r'\s*__rcu', re.S), ' '),
--        (KernRe(r'\s*____cacheline_aligned_in_smp', re.S), ' '),
--        (KernRe(r'\s*____cacheline_aligned', re.S), ' '),
--        (KernRe(r'\s*__cacheline_group_(begin|end)\([^\)]+\);'), ''),
--        (KernRe(r'__ETHTOOL_DECLARE_LINK_MODE_MASK\s*\(([^\)]+)\)', re.S),
--        r'DECLARE_BITMAP(\1, __ETHTOOL_LINK_MODE_MASK_NBITS)'),
--        (KernRe(r'DECLARE_PHY_INTERFACE_MASK\s*\(([^\)]+)\)', re.S),
--        r'DECLARE_BITMAP(\1, PHY_INTERFACE_MODE_MAX)'),
--        (KernRe(r'DECLARE_BITMAP\s*\(' + struct_args_pattern + r',\s*' + struct_args_pattern + r'\)',
--                re.S), r'unsigned long \1[BITS_TO_LONGS(\2)]'),
--        (KernRe(r'DECLARE_HASHTABLE\s*\(' + struct_args_pattern + r',\s*' + struct_args_pattern + r'\)',
--                re.S), r'unsigned long \1[1 << ((\2) - 1)]'),
--        (KernRe(r'DECLARE_KFIFO\s*\(' + struct_args_pattern + r',\s*' + struct_args_pattern +
--                r',\s*' + struct_args_pattern + r'\)', re.S), r'\2 *\1'),
--        (KernRe(r'DECLARE_KFIFO_PTR\s*\(' + struct_args_pattern + r',\s*' +
--                struct_args_pattern + r'\)', re.S), r'\2 *\1'),
--        (KernRe(r'(?:__)?DECLARE_FLEX_ARRAY\s*\(' + struct_args_pattern + r',\s*' +
--                struct_args_pattern + r'\)', re.S), r'\1 \2[]'),
--        (KernRe(r'DEFINE_DMA_UNMAP_ADDR\s*\(' + struct_args_pattern + r'\)', re.S), r'dma_addr_t \1'),
--        (KernRe(r'DEFINE_DMA_UNMAP_LEN\s*\(' + struct_args_pattern + r'\)', re.S), r'__u32 \1'),
--        (KernRe(r'VIRTIO_DECLARE_FEATURES\(([\w_]+)\)'), r'union { u64 \1; u64 \1_array[VIRTIO_FEATURES_U64S]; }'),
--
--        (CMatch(r"__cond_acquires"), ""),
--        (CMatch(r"__cond_releases"), ""),
--        (CMatch(r"__acquires"), ""),
--        (CMatch(r"__releases"), ""),
--        (CMatch(r"__must_hold"), ""),
--        (CMatch(r"__must_not_hold"), ""),
--        (CMatch(r"__must_hold_shared"), ""),
--        (CMatch(r"__cond_acquires_shared"), ""),
--        (CMatch(r"__acquires_shared"), ""),
--        (CMatch(r"__releases_shared"), ""),
-+        (CMatch("__attribute__"), ""),
-+        (CMatch("__aligned"), ""),
-+        (CMatch("__counted_by"), ""),
-+        (CMatch("__counted_by_(le|be)"), ""),
-+        (CMatch("__guarded_by"), ""),
-+        (CMatch("__pt_guarded_by"), ""),
-+        (CMatch("__packed"), ""),
-+        (CMatch("CRYPTO_MINALIGN_ATTR"), ""),
-+        (CMatch("__private"), ""),
-+        (CMatch("__rcu"), ""),
-+        (CMatch("____cacheline_aligned_in_smp"), ""),
-+        (CMatch("____cacheline_aligned"), ""),
-+        (CMatch("__cacheline_group_(?:begin|end)"), ""),
-+        (CMatch("__ETHTOOL_DECLARE_LINK_MODE_MASK"), r"DECLARE_BITMAP(\1, __ETHTOOL_LINK_MODE_MASK_NBITS)"),
-+        (CMatch("DECLARE_PHY_INTERFACE_MASK",),r"DECLARE_BITMAP(\1, PHY_INTERFACE_MODE_MAX)"),
-+        (CMatch("DECLARE_BITMAP"), r"unsigned long \1[BITS_TO_LONGS(\2)]"),
-+        (CMatch("DECLARE_HASHTABLE"), r"unsigned long \1[1 << ((\2) - 1)]"),
-+        (CMatch("DECLARE_KFIFO"), r"\2 *\1"),
-+        (CMatch("DECLARE_KFIFO_PTR"), r"\2 *\1"),
-+        (CMatch("(?:__)?DECLARE_FLEX_ARRAY"), r"\1 \2[]"),
-+        (CMatch("DEFINE_DMA_UNMAP_ADDR"), r"dma_addr_t \1"),
-+        (CMatch("DEFINE_DMA_UNMAP_LEN"), r"__u32 \1"),
-+        (CMatch("VIRTIO_DECLARE_FEATURES"), r"union { u64 \1; u64 \1_array[VIRTIO_FEATURES_U64S]; }"),
-+        (CMatch("__cond_acquires"), ""),
-+        (CMatch("__cond_releases"), ""),
-+        (CMatch("__acquires"), ""),
-+        (CMatch("__releases"), ""),
-+        (CMatch("__must_hold"), ""),
-+        (CMatch("__must_not_hold"), ""),
-+        (CMatch("__must_hold_shared"), ""),
-+        (CMatch("__cond_acquires_shared"), ""),
-+        (CMatch("__acquires_shared"), ""),
-+        (CMatch("__releases_shared"), ""),
-+        (CMatch("__attribute__"), ""),
- 
-         #
-         # Macro __struct_group() creates an union with an anonymous
-@@ -73,51 +66,57 @@ class CTransforms:
-         # need one of those at kernel-doc, as we won't be documenting the same
-         # members twice.
-         #
--        (CMatch('struct_group'), r'struct { \2+ };'),
--        (CMatch('struct_group_attr'), r'struct { \3+ };'),
--        (CMatch('struct_group_tagged'), r'struct { \3+ };'),
--        (CMatch('__struct_group'), r'struct { \4+ };'),
--
-+        (CMatch("struct_group"), r"struct { \2+ };"),
-+        (CMatch("struct_group_attr"), r"struct { \3+ };"),
-+        (CMatch("struct_group_tagged"), r"struct { \3+ };"),
-+        (CMatch("__struct_group"), r"struct { \4+ };"),
-     ]
- 
-     #: Transforms for function prototypes.
-     function_xforms = [
--        (KernRe(r"^static +"), ""),
--        (KernRe(r"^extern +"), ""),
--        (KernRe(r"^asmlinkage +"), ""),
--        (KernRe(r"^inline +"), ""),
--        (KernRe(r"^__inline__ +"), ""),
--        (KernRe(r"^__inline +"), ""),
--        (KernRe(r"^__always_inline +"), ""),
--        (KernRe(r"^noinline +"), ""),
--        (KernRe(r"^__FORTIFY_INLINE +"), ""),
--        (KernRe(r"__init +"), ""),
--        (KernRe(r"__init_or_module +"), ""),
--        (KernRe(r"__exit +"), ""),
--        (KernRe(r"__deprecated +"), ""),
--        (KernRe(r"__flatten +"), ""),
--        (KernRe(r"__meminit +"), ""),
--        (KernRe(r"__must_check +"), ""),
--        (KernRe(r"__weak +"), ""),
--        (KernRe(r"__sched +"), ""),
--        (KernRe(r"_noprof"), ""),
--        (KernRe(r"__always_unused *"), ""),
--        (KernRe(r"__printf\s*\(\s*\d*\s*,\s*\d*\s*\) +"), ""),
--        (KernRe(r"__(?:re)?alloc_size\s*\(\s*\d+\s*(?:,\s*\d+\s*)?\) +"), ""),
--        (KernRe(r"__diagnose_as\s*\(\s*\S+\s*(?:,\s*\d+\s*)*\) +"), ""),
--        (KernRe(r"DECL_BUCKET_PARAMS\s*\(\s*(\S+)\s*,\s*(\S+)\s*\)"), r"\1, \2"),
--        (KernRe(r"__no_context_analysis\s*"), ""),
--        (KernRe(r"__attribute_const__ +"), ""),
--        (KernRe(r"__attribute__\s*\(\((?:[\w\s]+(?:\([^)]*\))?\s*,?)+\)\)\s+"), ""),
-+        (CMatch("static"), ""),
-+        (CMatch("extern"), ""),
-+        (CMatch("asmlinkage"), ""),
-+        (CMatch("inline"), ""),
-+        (CMatch("__inline__"), ""),
-+        (CMatch("__inline"), ""),
-+        (CMatch("__always_inline"), ""),
-+        (CMatch("noinline"), ""),
-+        (CMatch("__FORTIFY_INLINE"), ""),
-+        (CMatch("__init"), ""),
-+        (CMatch("__init_or_module"), ""),
-+        (CMatch("__exit"), ""),
-+        (CMatch("__deprecated"), ""),
-+        (CMatch("__flatten"), ""),
-+        (CMatch("__meminit"), ""),
-+        (CMatch("__must_check"), ""),
-+        (CMatch("__weak"), ""),
-+        (CMatch("__sched"), ""),
-+        (CMatch("__always_unused"), ""),
-+        (CMatch("__printf"), ""),
-+        (CMatch("__(?:re)?alloc_size"), ""),
-+        (CMatch("__diagnose_as"), ""),
-+        (CMatch("DECL_BUCKET_PARAMS"), r"\1, \2"),
-+        (CMatch("__no_context_analysis"), ""),
-+        (CMatch("__attribute_const__"), ""),
-+        (CMatch("__attribute__"), ""),
-+
-+        #
-+        # HACK: this is similar to process_export() hack. It is meant to
-+        # drop _noproof from function name. See for instance:
-+        # ahash_request_alloc kernel-doc declaration at include/crypto/hash.h.
-+        #
-+        (KernRe("_noprof"), ""),
-     ]
- 
-     #: Transforms for variable prototypes.
-     var_xforms = [
--        (KernRe(r"__read_mostly"), ""),
--        (KernRe(r"__ro_after_init"), ""),
--        (KernRe(r'\s*__guarded_by\s*\([^\)]*\)', re.S), ""),
--        (KernRe(r'\s*__pt_guarded_by\s*\([^\)]*\)', re.S), ""),
--        (KernRe(r"LIST_HEAD\(([\w_]+)\)"), r"struct list_head \1"),
-+        (CMatch("__read_mostly"), ""),
-+        (CMatch("__ro_after_init"), ""),
-+        (CMatch("__guarded_by"), ""),
-+        (CMatch("__pt_guarded_by"), ""),
-+        (CMatch("LIST_HEAD"), r"struct list_head \1"),
-+
-         (KernRe(r"(?://.*)$"), ""),
-         (KernRe(r"(?:/\*.*\*/)"), ""),
-         (KernRe(r";$"), ""),
+>> Warning: arch/x86/virt/vmx/tdx/tdx.c:141 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Enable VMXON and then do one-time TDX module per-cpu initialization SEAMCALL
+
 -- 
-2.52.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
