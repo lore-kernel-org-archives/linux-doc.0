@@ -1,81 +1,112 @@
-Received: from mail-10696.protonmail.ch (mail-10696.protonmail.ch [79.135.106.96])
+Received: from www3579.sakura.ne.jp (www3579.sakura.ne.jp [49.212.243.89])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AAAC2DCBF3;
-	Tue, 17 Mar 2026 05:53:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.96
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA0842D8DCF;
+	Tue, 17 Mar 2026 06:38:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=49.212.243.89
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773726817; cv=none; b=WHCUHfSun010pcWWrt0V54NbWpYZknvChpCbbDDSOubj5uuSgQI5lItq16kH5PdRd0iTG+DhT4zPeI98r0SIo9QlwjgXq96Ccaryghi0BAuKO6R2ZZiUyeqTH4mdQpHpB76P0W4nxXg+Vc/EKl9pulhb/fdFvzmhW9+JY+0ULFs=
+	t=1773729492; cv=none; b=uFO/3aY9c/TW0jdTlnbM+Z0kscAXayGcS5TvC4N3+xvk3tXpxA1i3r9Gc+PFnjjO4LViNkoLrNk+fYRkSTGtj/vJkwinwJtYM6WOkSC62dHTgZW7rz+JuLxEGydtdJJU0SG2aIVPz5JeXNIVC+i028RYM1LnZ1r9OJzvc277ZGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773726817; c=relaxed/simple;
-	bh=gqCEl+B7RpuJ8PHTio9gaZ2DelUivW3gFZxkJUx2B40=;
-	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=sFfWDS4m/RHGwkT0wuTPIZ6JBHWhKwO3CYwGC8YJNSY2SBYVnUKXhFNRVEovquu15x7DYIieo7GKaoGos8gDYLqk8oDwhbuKjLBH/NeJRj9VD0n8BPxzAgDPI9k7rqrlB+DrSs8c8shm+odhHIjrTZchWaQL4mjdUbfjCeoyc0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=FnpSXFO9; arc=none smtp.client-ip=79.135.106.96
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+	s=arc-20240116; t=1773729492; c=relaxed/simple;
+	bh=6pigEJb6MjU5WOzv3cHoV2MRbx3gnmposFMAjl091HA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=jucIHvj5PIcth8ngUZTkEyE2N7ZFyvDB3+A49L+25zXy4E1ZfP58V6RFePnQiUmrxg3JuzReFPuZc65+5d6eaymsp4ofm0jUb4C3LQWuYvuweo0FTDljkU2KIkayDSPFsQxk2OZi/WedfeuNyd1zch/MYEnfcgNQFeYHin9vykk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp; dkim=fail (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b=Uv38ahS0 reason="key not found in DNS"; arc=none smtp.client-ip=49.212.243.89
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="FnpSXFO9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1773726802; x=1773986002;
-	bh=5rcCNNVkPLRd5bF9neQil/o9Cfwp8nKUyrZYbq78+Ko=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=FnpSXFO957DKI1emjDAvmwEC1gGZpEFe1MMn0diqju4kfSNwK8uRxyDJfV1M5BmEz
-	 p5hvQQ25vuKD5YRv3iR3Dg5ASuVWFSoEHqsKjtmKQTuZ2z50E4iksfRJ1ukS11OfnJ
-	 vHvJ1VgwyysHXYUp7Ht5/YhjmiD6HLgaSf0c4FSG/wqga4I9mMbUrXI7N5gVQMWVJc
-	 XGjTKZjR15baEu08krSdzuI7mB0Qzbr6o0dixSsswV3Ftp+w3Pe8N7Wr4P59g/ZgV4
-	 6nZYvatQQd4qD1dlHjK0vdRIzuRdMcc6TI76OuEArHFYd8tv6yT9ntIFV8AuWE0cIH
-	 Q7vei1gw3u/sQ==
-Date: Tue, 17 Mar 2026 05:53:18 +0000
-To: "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-From: pr4veensingh@proton.me
-Cc: "corbet@lwn.net" <corbet@lwn.net>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: [PATCH] docs: memory-hotplug: fix typo 'fo' -> 'for' in NODE_ADDED_FIRST_MEMORY description
-Message-ID: <by7jSPCep0WcWKD6nntH0wGbcN59hRhsEOc2lHBps2QizxRtedH25CdW8DO33YiqJU3Y7kGWesJnBts-jvgMzNqDvLWH3cTDYpJPuNed9hU=@proton.me>
-Feedback-ID: 109586754:user:proton
-X-Pm-Message-ID: cdb0fc95e104488cee97afa252c4f5eaa34ee7dd
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b="Uv38ahS0"
+Received: from h205.csg.ci.i.u-tokyo.ac.jp (h205.csg.ci.i.u-tokyo.ac.jp [133.11.54.205])
+	(authenticated bits=0)
+	by www3579.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 62H6aoNl004343
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Tue, 17 Mar 2026 15:37:00 +0900 (JST)
+	(envelope-from odaki@rsg.ci.i.u-tokyo.ac.jp)
+DKIM-Signature: a=rsa-sha256; bh=Vpu164nWx4WQH4ej/oGZKppmfZaoPsbjbattGAiYgSg=;
+        c=relaxed/relaxed; d=rsg.ci.i.u-tokyo.ac.jp;
+        h=From:Message-Id:To:Subject:Date;
+        s=rs20250326; t=1773729421; v=1;
+        b=Uv38ahS0027vqQrbNp5ZXxqFQJvRmc6zUg9PFzYvYXNYliRYhrmFcZqez911WSTt
+         YU8glRax61lZJrhDsMgPp8n07hqRkpqTbop74N4FLPE7dvMCz8MowA8r4mALFVsO
+         JGxcOisqxHRHL/++Ft1vC3ztegZmSIsu65KH0sBBAiCTzo5VQbEbdYh/vFljChNf
+         10/G+rd9RyrEaBDP27L5GmSCyjcVrdwp3L48ejT9N3fVaGgcDHt35bj3BEfO1ZCe
+         ySAt1VbtwJXS5bKI9CT3i/P0BcIpRCSkl8TBS1aZPj97/9wj6wCFUGF5Ip4r7ZwW
+         aoVywVNUh42j4C8eys+HQg==
+From: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+Date: Tue, 17 Mar 2026 15:36:49 +0900
+Subject: [PATCH v4 1/4] KVM: arm64: PMU: Add kvm_pmu_enabled_counter_mask()
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260317-hybrid-v4-1-bd62bcd48644@rsg.ci.i.u-tokyo.ac.jp>
+References: <20260317-hybrid-v4-0-bd62bcd48644@rsg.ci.i.u-tokyo.ac.jp>
+In-Reply-To: <20260317-hybrid-v4-0-bd62bcd48644@rsg.ci.i.u-tokyo.ac.jp>
+To: Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>,
+        Joey Gouly <joey.gouly@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Zenghui Yu <yuzenghui@huawei.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Kees Cook <kees@kernel.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+        devel@daynix.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+X-Mailer: b4 0.15-dev-5ab4c
 
+This function will be useful to enumerate enabled counters.
 
-
-
-From cf0fb033799f1766841d876728f52ee84c89c676 Mon Sep 17 00:00:00 2001
-From: Praveen Kumar Singh <pr4veensingh@proton.me>
-Date: Tue, 17 Mar 2026 11:10:32 +0530
-Subject: [PATCH] docs: memory-hotplug: fix typo 'fo' -> 'for' in
- NODE_ADDED_FIRST_MEMORY description
-
-The description of NODE_ADDED_FIRST_MEMORY notification contains
-a missing 'r' in the word 'for'. Fix the typo.
-
-Signed-off-by: Praveen Kumar Singh <pr4veensingh@proton.me>
+Signed-off-by: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
 ---
- Documentation/core-api/memory-hotplug.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/arm64/kvm/pmu-emul.c | 22 ++++++++++++++--------
+ 1 file changed, 14 insertions(+), 8 deletions(-)
 
-diff --git a/Documentation/core-api/memory-hotplug.rst b/Documentation/core=
--api/memory-hotplug.rst
-index 8fc97c237..46b0490f5 100644
---- a/Documentation/core-api/memory-hotplug.rst
-+++ b/Documentation/core-api/memory-hotplug.rst
-@@ -96,7 +96,7 @@ NODE_CANCEL_ADDING_FIRST_MEMORY
-  Generated if NODE_ADDING_FIRST_MEMORY fails.
+diff --git a/arch/arm64/kvm/pmu-emul.c b/arch/arm64/kvm/pmu-emul.c
+index b03dbda7f1ab..59ec96e09321 100644
+--- a/arch/arm64/kvm/pmu-emul.c
++++ b/arch/arm64/kvm/pmu-emul.c
+@@ -619,18 +619,24 @@ void kvm_pmu_handle_pmcr(struct kvm_vcpu *vcpu, u64 val)
+ 	}
+ }
+ 
+-static bool kvm_pmu_counter_is_enabled(struct kvm_pmc *pmc)
++static u64 kvm_pmu_enabled_counter_mask(struct kvm_vcpu *vcpu)
+ {
+-	struct kvm_vcpu *vcpu = kvm_pmc_to_vcpu(pmc);
+-	unsigned int mdcr = __vcpu_sys_reg(vcpu, MDCR_EL2);
++	u64 mask = 0;
+ 
+-	if (!(__vcpu_sys_reg(vcpu, PMCNTENSET_EL0) & BIT(pmc->idx)))
+-		return false;
++	if (__vcpu_sys_reg(vcpu, MDCR_EL2) & MDCR_EL2_HPME)
++		mask |= kvm_pmu_hyp_counter_mask(vcpu);
+ 
+-	if (kvm_pmu_counter_is_hyp(vcpu, pmc->idx))
+-		return mdcr & MDCR_EL2_HPME;
++	if (kvm_vcpu_read_pmcr(vcpu) & ARMV8_PMU_PMCR_E)
++		mask |= ~kvm_pmu_hyp_counter_mask(vcpu);
++
++	return __vcpu_sys_reg(vcpu, PMCNTENSET_EL0) & mask;
++}
++
++static bool kvm_pmu_counter_is_enabled(struct kvm_pmc *pmc)
++{
++	struct kvm_vcpu *vcpu = kvm_pmc_to_vcpu(pmc);
+ 
+-	return kvm_vcpu_read_pmcr(vcpu) & ARMV8_PMU_PMCR_E;
++	return kvm_pmu_enabled_counter_mask(vcpu) & BIT(pmc->idx);
+ }
+ 
+ static bool kvm_pmc_counts_at_el0(struct kvm_pmc *pmc)
 
- NODE_ADDED_FIRST_MEMORY
-- Generated when memory has become available fo this node for the first tim=
-e.
-+ Generated when memory has become available for this node for the first ti=
-me.
+-- 
+2.53.0
 
- NODE_REMOVING_LAST_MEMORY
-  Generated when the last memory available to this node is about to be offl=
-ined.
---
-2.51.2.windows.1
