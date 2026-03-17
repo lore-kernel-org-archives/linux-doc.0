@@ -1,42 +1,42 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CE8D3AE187
-	for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 10:24:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4EA93ACA61
+	for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 10:24:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773743089; cv=none; b=unAglo3wctSSwAPx6BgzT1D2nJZ2SUA0sYVdqJ51s28pzJC2La7JILA+cxGdWI5iMdzFXzesXTvf7mpk7v6GbcZvi/QnGcXwn10UDNv8FLFCDm6JdsnRLaU2g7f5ifiqZyG0R2zUAwNwQ1Y+tauThObAYTfhrgg30w9CBW3G7cE=
+	t=1773743091; cv=none; b=EL8nEhTLrSK/RpZP6z5M3qNT9+tEsisG+bWBVvxScfnuAwYLpbHWganocA8lO+3w3FbJcaXr0/O1JFMp5W+Ezd/S8otykTm0o5lASPPMTm+wmj5EjwbU13HvBdG1oeYaNL+AJh5gWSRFm1mz+2vepsCbAJCLzz2+ED5bcLQfCvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773743089; c=relaxed/simple;
-	bh=CfDGuastMJOuxN8t3uMRhNG36tz6y42aN0NN4oRj03E=;
+	s=arc-20240116; t=1773743091; c=relaxed/simple;
+	bh=sdsv1Hbc59SO7e760W4ztNDNSZDoxHGmYI+tBXOkFlw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Y9SRxre5yfg36gF2CHv/9iTCOUhRO5FC4ZhzEpZ6zQ0QlF+81ElPtye1lpWK9hNaElhjdkuukJ5mQfD6SjnhxnnhEa5j7wWJc3uEVH/TvsIOj1d1M5Z0eWue6moij4/9yMw3rtNgSxbxObX9M8sk4nLo8CWHbmiUABxmDrMHb1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=YGaLsNL5; arc=none smtp.client-ip=185.171.202.116
+	 In-Reply-To:To:Cc; b=ekA5k7XHCtQxNpeC1XMcLuuO5QNdBfi9+s5cl5P6THrFjuX3UrZaBCtun3pRrISegauVNCRKVdwMuAFj7/kYflW26EBZzcclk1Qqyc4wD42fi90cdNThMdagJuREiVbjbzqkwThUXmXJ6iHcmRZzlDPFwApobAYBu612kuM8Imc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=SkqiC7+y; arc=none smtp.client-ip=185.246.85.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="YGaLsNL5"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="SkqiC7+y"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id A6A1EC55056;
-	Tue, 17 Mar 2026 10:25:10 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 7BDA84E425F5;
+	Tue, 17 Mar 2026 10:24:48 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id AB1815FC9A;
-	Tue, 17 Mar 2026 10:24:46 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 7B55F104503A6;
-	Tue, 17 Mar 2026 11:24:44 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 534025FC9A;
+	Tue, 17 Mar 2026 10:24:48 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 3199210450450;
+	Tue, 17 Mar 2026 11:24:46 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1773743085; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1773743087; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=hhd+i0LUsTLSToudA1/3v4V3xTFwJTwzl9JTAHOOnfs=;
-	b=YGaLsNL5NIap9iJ1S0r4MDPPQyM4yW3tvARWtSPoLGp7oBcSOQHGKEdjs8dBc8NT7sg9Td
-	jHT1eGTci41sGihzut70/oo+gvNhCs7KKXfuBtxnkPdgr0jD910EU+O0WqkWbMUocXbPfv
-	ury0q8crVqgyO9tjDzYoEAgMYDFnjCfFhGvlwfE9YjD0Q3xyd3WjVgc15qmmnjxVuTAdq4
-	arQs3W8CKLVqKHRPkBjcm2yMrrFTS098b17VDReWK1anQW6LgCKTzd64CGv7AsdgzW4QSz
-	iSA7B5s4dA1mLblunUtMpu0j5nqksF1DM3JtX0qDIFkyULbVG/7tIz+IChoK5w==
+	bh=TG25gTpMKnFiUp+Sljlgx8mZQgxucUxLjGaX0Scu7NE=;
+	b=SkqiC7+yTIGTo4kiWpqP998FqcN0SBhGSvVSUYSupXZNcXwvGXM1UoQcKp+FbIpGETudpH
+	TwtMU3CfdiPdIrTt63w6a1rXS8GjWjT7pi3KxNfiF1cINdPRjLto/IaYUszWE9ZsiZGR6n
+	Lr+50p135T+v0imIOOMx3RRPegj6P/9MPSNFPCd3tn1+bErAAW59xoP0KmCaBcGA66uElE
+	2GFRoOQnopBCEn2so6I/rDHHmQ+Q6kWgxfzhpZcRgzjdNRJPCw7h5mMZ0LZNM+znxYd2dd
+	ojNhWljzugqgs59ktreWL0+Xvatr4MSs3cV4Ot1k6JsRXRCqoxpgL6jfMOIshA==
 From: Miquel Raynal <miquel.raynal@bootlin.com>
-Date: Tue, 17 Mar 2026 11:24:22 +0100
-Subject: [PATCH v3 19/27] mtd: spi-nor: Add steps for testing locking
- support
+Date: Tue, 17 Mar 2026 11:24:23 +0100
+Subject: [PATCH v3 20/27] mtd: spi-nor: swp: Add support for the complement
+ feature
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -45,7 +45,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260317-winbond-v6-18-rc1-spi-nor-swp-v3-19-2ca9ea4e7b9b@bootlin.com>
+Message-Id: <20260317-winbond-v6-18-rc1-spi-nor-swp-v3-20-2ca9ea4e7b9b@bootlin.com>
 References: <20260317-winbond-v6-18-rc1-spi-nor-swp-v3-0-2ca9ea4e7b9b@bootlin.com>
 In-Reply-To: <20260317-winbond-v6-18-rc1-spi-nor-swp-v3-0-2ca9ea4e7b9b@bootlin.com>
 To: Pratyush Yadav <pratyush@kernel.org>, Michael Walle <mwalle@kernel.org>, 
@@ -61,156 +61,470 @@ Cc: Tudor Ambarus <tudor.ambarus@linaro.org>,
 X-Mailer: b4 0.14.3
 X-Last-TLS-Session-Version: TLSv1.3
 
-As recently raised on the mailing list, it may be useful to propose a
-list of steps to go through in order to proove the devices have been
-described correctly, especially since all the block protection
-information is not stored in any kind of table and is instead filled
-manually by developpers.
+The current locking implementation allows to select a power of two
+number of blocks, which is going to be the protected amount, as well as
+telling whether this is the data at the top (end of the device) or the
+bottom (beginning of the device). This means at most we can cover half
+of the device or the entire device, but nothing in between.
 
-Use the debugfs output to ease the comparison between expectations and
-reality.
+The complement feature allows a much finer grain of configuration, by
+allowing to invert what is considered locked and unlocked.
+
+Add support for this feature. The only known position for the CMP bit is
+bit 6 of the configuration register.
+
+The locking and unlocking logics are kept unchanged if the CMP bit is
+unavailable. Otherwise, once the regular logic has been applied, we
+check if we already found an optimal configuration. If not, we try with
+the CMP bit set. If the coverage is closer to the request, we use it.
 
 Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
 ---
- Documentation/driver-api/mtd/spi-nor.rst | 128 +++++++++++++++++++++++++++++++
- 1 file changed, 128 insertions(+)
+ drivers/mtd/spi-nor/core.c    |   3 +
+ drivers/mtd/spi-nor/core.h    |   4 +
+ drivers/mtd/spi-nor/debugfs.c |   1 +
+ drivers/mtd/spi-nor/swp.c     | 196 +++++++++++++++++++++++++++++++++++-------
+ include/linux/mtd/spi-nor.h   |   1 +
+ 5 files changed, 173 insertions(+), 32 deletions(-)
 
-diff --git a/Documentation/driver-api/mtd/spi-nor.rst b/Documentation/driver-api/mtd/spi-nor.rst
-index 148fa4288760..4755eb75fe5e 100644
---- a/Documentation/driver-api/mtd/spi-nor.rst
-+++ b/Documentation/driver-api/mtd/spi-nor.rst
-@@ -203,3 +203,131 @@ section, after the ``---`` marker.
-     mtd.writesize = 1
-     mtd.oobsize = 0
-     regions = 0
+diff --git a/drivers/mtd/spi-nor/core.c b/drivers/mtd/spi-nor/core.c
+index a2479942e350..e2bcf31d18ca 100644
+--- a/drivers/mtd/spi-nor/core.c
++++ b/drivers/mtd/spi-nor/core.c
+@@ -2974,6 +2974,9 @@ static void spi_nor_init_flags(struct spi_nor *nor)
+ 			nor->flags |= SNOR_F_HAS_SR_BP3_BIT6;
+ 	}
+ 
++	if (flags & SPI_NOR_HAS_CMP)
++		nor->flags |= SNOR_F_HAS_SR2_CMP_BIT6;
 +
-+5) If your flash supports locking, please go through the following test
-+   procedure to make sure it correctly behaves. The below example
-+   expects the typical situation where eraseblocks and lock sectors have
-+   the same size. In case you enabled MTD_SPI_NOR_USE_4K_SECTORS, you
-+   must adapt `bs` accordingly.
+ 	if (flags & SPI_NOR_RWW && nor->params->n_banks > 1 &&
+ 	    !nor->controller_ops)
+ 		nor->flags |= SNOR_F_RWW;
+diff --git a/drivers/mtd/spi-nor/core.h b/drivers/mtd/spi-nor/core.h
+index 99ed6c54b90f..333786913ff1 100644
+--- a/drivers/mtd/spi-nor/core.h
++++ b/drivers/mtd/spi-nor/core.h
+@@ -141,6 +141,7 @@ enum spi_nor_option_flags {
+ 	SNOR_F_ECC		= BIT(15),
+ 	SNOR_F_NO_WP		= BIT(16),
+ 	SNOR_F_SWAP16		= BIT(17),
++	SNOR_F_HAS_SR2_CMP_BIT6	= BIT(18),
+ };
+ 
+ struct spi_nor_read_command {
+@@ -483,6 +484,8 @@ struct spi_nor_id {
+  *   SPI_NOR_NO_ERASE:        no erase command needed.
+  *   SPI_NOR_QUAD_PP:         flash supports Quad Input Page Program.
+  *   SPI_NOR_RWW:             flash supports reads while write.
++ *   SPI_NOR_HAS_CMP:         flash SR2 has complement (CMP) protect bit. Must
++ *                            be used with SPI_NOR_HAS_LOCK.
+  *
+  * @no_sfdp_flags:  flags that indicate support that can be discovered via SFDP.
+  *                  Used when SFDP tables are not defined in the flash. These
+@@ -531,6 +534,7 @@ struct flash_info {
+ #define SPI_NOR_NO_ERASE		BIT(6)
+ #define SPI_NOR_QUAD_PP			BIT(8)
+ #define SPI_NOR_RWW			BIT(9)
++#define SPI_NOR_HAS_CMP			BIT(10)
+ 
+ 	u8 no_sfdp_flags;
+ #define SPI_NOR_SKIP_SFDP		BIT(0)
+diff --git a/drivers/mtd/spi-nor/debugfs.c b/drivers/mtd/spi-nor/debugfs.c
+index c290bfe20f73..fb6240dbbfc6 100644
+--- a/drivers/mtd/spi-nor/debugfs.c
++++ b/drivers/mtd/spi-nor/debugfs.c
+@@ -29,6 +29,7 @@ static const char *const snor_f_names[] = {
+ 	SNOR_F_NAME(ECC),
+ 	SNOR_F_NAME(NO_WP),
+ 	SNOR_F_NAME(SWAP16),
++	SNOR_F_NAME(HAS_SR2_CMP_BIT6),
+ };
+ #undef SNOR_F_NAME
+ 
+diff --git a/drivers/mtd/spi-nor/swp.c b/drivers/mtd/spi-nor/swp.c
+index 8de8459e8e90..ac405b1daf96 100644
+--- a/drivers/mtd/spi-nor/swp.c
++++ b/drivers/mtd/spi-nor/swp.c
+@@ -32,6 +32,15 @@ static u8 spi_nor_get_sr_tb_mask(struct spi_nor *nor)
+ 		return SR_TB_BIT5;
+ }
+ 
++static u8 spi_nor_get_sr_cmp_mask(struct spi_nor *nor)
++{
++	if (!(nor->flags & SNOR_F_NO_READ_CR) &&
++	    nor->flags & SNOR_F_HAS_SR2_CMP_BIT6)
++		return SR2_CMP_BIT6;
++	else
++		return 0;
++}
 +
-+   Warning: These tests may hard lock your device! Make sure:
-+   - The device is not hard locked already (#WP strapped to low and
-+     SR_SRWD bit set)
-+   - If you have a WPn pin, you may want to set `no-wp` in your DT for
-+     the time of the test, to only make use of software protection.
-+     Otherwise, clearing the locking state depends on the WPn
-+     signal and if it is tied to low, the flash will be permanently
-+     locked.
+ u64 spi_nor_get_min_prot_length_sr(struct spi_nor *nor)
+ {
+ 	unsigned int bp_slots, bp_slots_needed;
+@@ -59,8 +68,10 @@ void spi_nor_get_locked_range_sr(struct spi_nor *nor, const u8 *sr, loff_t *ofs,
+ 	u64 min_prot_len;
+ 	u8 bp_mask = spi_nor_get_sr_bp_mask(nor);
+ 	u8 tb_mask = spi_nor_get_sr_tb_mask(nor);
++	u8 cmp_mask = spi_nor_get_sr_tb_mask(nor);
+ 	u8 bp, val = sr[0] & bp_mask;
+ 	bool tb = (nor->flags & SNOR_F_HAS_SR_TB) ? sr[0] & tb_mask : 0;
++	bool cmp = sr[1] & cmp_mask;
+ 
+ 	if (nor->flags & SNOR_F_HAS_SR_BP3_BIT6 && val & SR_BP3_BIT6)
+ 		val = (val & ~SR_BP3_BIT6) | SR_BP3;
+@@ -68,22 +79,37 @@ void spi_nor_get_locked_range_sr(struct spi_nor *nor, const u8 *sr, loff_t *ofs,
+ 	bp = val >> SR_BP_SHIFT;
+ 
+ 	if (!bp) {
+-		/* No protection */
+-		*ofs = 0;
+-		*len = 0;
+-		return;
++		if (!cmp) {
++			/* No protection */
++			*ofs = 0;
++			*len = 0;
++			return;
++		} else {
++			/* Full protection */
++			*ofs = 0;
++			*len = nor->params->size;
++		}
+ 	}
+ 
+ 	min_prot_len = spi_nor_get_min_prot_length_sr(nor);
+ 	*len = min_prot_len << (bp - 1);
+-
+ 	if (*len > nor->params->size)
+ 		*len = nor->params->size;
+ 
+-	if (tb)
+-		*ofs = 0;
+-	else
+-		*ofs = nor->params->size - *len;
++	if (cmp)
++		*len = nor->params->size - *len;
 +
-+   Test full chip locking and make sure expectations, the MEMISLOCKED
-+   ioctl output, the debugfs output and experimental results are all
-+   aligned::
++	if (!cmp) {
++		if (tb)
++			*ofs = 0;
++		else
++			*ofs = nor->params->size - *len;
++	} else {
++		if (tb)
++			*ofs = nor->params->size - *len;
++		else
++			*ofs = 0;
++	}
+ }
+ 
+ /*
+@@ -140,13 +166,15 @@ static int spi_nor_sr_set_bp_mask(struct spi_nor *nor, u8 *sr, u8 pow)
+ }
+ 
+ static int spi_nor_build_sr(struct spi_nor *nor, const u8 *old_sr, u8 *new_sr,
+-			    u8 pow, bool use_top)
++			    u8 pow, bool use_top, bool cmp)
+ {
+ 	u8 bp_mask = spi_nor_get_sr_bp_mask(nor);
+ 	u8 tb_mask = spi_nor_get_sr_tb_mask(nor);
++	u8 cmp_mask = spi_nor_get_sr_cmp_mask(nor);
+ 	int ret;
+ 
+ 	new_sr[0] = old_sr[0] & ~bp_mask & ~tb_mask;
++	new_sr[1] = old_sr[1] & ~cmp_mask;
+ 
+ 	/* Build BP field */
+ 	ret = spi_nor_sr_set_bp_mask(nor, &new_sr[0], pow);
+@@ -154,9 +182,13 @@ static int spi_nor_build_sr(struct spi_nor *nor, const u8 *old_sr, u8 *new_sr,
+ 		return ret;
+ 
+ 	/* Build TB field */
+-	if (!use_top)
++	if ((!cmp && !use_top) || (cmp && use_top))
+ 		new_sr[0] |= tb_mask;
+ 
++	/* Build CMP field */
++	if (cmp)
++		new_sr[1] |= cmp_mask;
 +
-+    root@1:~# alias show_sectors='grep -A4 "locked sectors" /sys/kernel/debug/spi-nor/spi0.0/params'
-+    root@1:~# flash_lock -u /dev/mtd0
-+    root@1:~# flash_lock -i /dev/mtd0
-+    Device: /dev/mtd0
-+    Start: 0
-+    Len: 0x4000000
-+    Lock status: unlocked
-+    Return code: 0
-+    root@1:~# mtd_debug erase /dev/mtd0 0 2097152
-+    Erased 2097152 bytes from address 0x00000000 in flash
-+    root@1:~# mtd_debug write /dev/mtd0 0 2097152 spi_test
-+    Copied 2097152 bytes from spi_test to address 0x00000000 in flash
-+    root@1:~# mtd_debug read /dev/mtd0 0 2097152 spi_read
-+    Copied 2097152 bytes from address 0x00000000 in flash to spi_read
-+    root@1:~# sha256sum spi*
-+    c444216a6ba2a4a66cccd60a0dd062bce4b865dd52b200ef5e21838c4b899ac8  spi_read
-+    c444216a6ba2a4a66cccd60a0dd062bce4b865dd52b200ef5e21838c4b899ac8  spi_test
-+    root@1:~# show_sectors
-+    software locked sectors
-+     region (in hex)   | status   | #blocks
-+     ------------------+----------+--------
-+     00000000-03ffffff | unlocked | 1024
+ 	return 0;
+ }
+ 
+@@ -168,15 +200,22 @@ void spi_nor_cache_sr_lock_bits(struct spi_nor *nor, u8 *sr)
+ {
+ 	u8 bp_mask = spi_nor_get_sr_bp_mask(nor);
+ 	u8 tb_mask = spi_nor_get_sr_tb_mask(nor);
++	u8 cmp_mask = spi_nor_get_sr_cmp_mask(nor);
+ 
+ 	if (!sr) {
+ 		if (spi_nor_read_sr(nor, nor->bouncebuf))
+ 			return;
+ 
++		if (!(nor->flags & SNOR_F_NO_READ_CR)) {
++			if (spi_nor_read_cr(nor, nor->bouncebuf + 1))
++				return;
++		}
 +
-+    root@1:~# flash_lock -l /dev/mtd0
-+    root@1:~# flash_lock -i /dev/mtd0
-+    Device: /dev/mtd0
-+    Start: 0
-+    Len: 0x4000000
-+    Lock status: locked
-+    Return code: 1
-+    root@1:~# mtd_debug erase /dev/mtd0 0 2097152
-+    Erased 2097152 bytes from address 0x00000000 in flash
-+    root@1:~# mtd_debug read /dev/mtd0 0 2097152 spi_read
-+    Copied 2097152 bytes from address 0x00000000 in flash to spi_read
-+    root@1:~# sha256sum spi*
-+    c444216a6ba2a4a66cccd60a0dd062bce4b865dd52b200ef5e21838c4b899ac8  spi_read
-+    c444216a6ba2a4a66cccd60a0dd062bce4b865dd52b200ef5e21838c4b899ac8  spi_test
-+    root@1:~# dd if=/dev/urandom of=./spi_test2 bs=1M count=2
-+    2+0 records in
-+    2+0 records out
-+    root@1:~# mtd_debug write /dev/mtd0 0 2097152 spi_test2
-+    Copied 2097152 bytes from spi_test to address 0x00000000 in flash
-+    root@1:~# mtd_debug read /dev/mtd0 0 2097152 spi_read2
-+    Copied 2097152 bytes from address 0x00000000 in flash to spi_read
-+    root@1:~# sha256sum spi*
-+    c444216a6ba2a4a66cccd60a0dd062bce4b865dd52b200ef5e21838c4b899ac8  spi_read
-+    c444216a6ba2a4a66cccd60a0dd062bce4b865dd52b200ef5e21838c4b899ac8  spi_read2
-+    c444216a6ba2a4a66cccd60a0dd062bce4b865dd52b200ef5e21838c4b899ac8  spi_test
-+    bea9334df51c620440f86751cba0799214a016329f1736f9456d40cf40efdc88  spi_test2
-+    root@1:~# show_sectors
-+    software locked sectors
-+     region (in hex)   | status   | #blocks
-+     ------------------+----------+--------
-+     00000000-03ffffff |   locked | 1024
+ 		sr = nor->bouncebuf;
+ 	}
+ 
+ 	nor->dfs_sr_cache[0] = sr[0] & (bp_mask | tb_mask | SR_SRWD);
++	nor->dfs_sr_cache[1] = sr[1] & cmp_mask;
+ }
+ 
+ /*
+@@ -185,10 +224,11 @@ void spi_nor_cache_sr_lock_bits(struct spi_nor *nor, u8 *sr)
+  * register
+  * (SR). Does not support these features found in newer SR bitfields:
+  *   - SEC: sector/block protect - only handle SEC=0 (block protect)
+- *   - CMP: complement protect - only support CMP=0 (range is not complemented)
+  *
+  * Support for the following is provided conditionally for some flash:
+  *   - TB: top/bottom protect
++ *   - CMP: complement protect (BP and TP describe the unlocked part, while
++ *          the reminder is locked)
+  *
+  * Sample table portion for 8MB flash (Winbond w25q64fw):
+  *
+@@ -215,11 +255,13 @@ void spi_nor_cache_sr_lock_bits(struct spi_nor *nor, u8 *sr)
+ static int spi_nor_sr_lock(struct spi_nor *nor, loff_t ofs, u64 len)
+ {
+ 	u64 min_prot_len = spi_nor_get_min_prot_length_sr(nor);
+-	u8 status_old[1] = {}, status_new[1] = {};
+-	loff_t ofs_old, ofs_new;
+-	u64 len_old, len_new;
++	u8 status_old[2] = {}, status_new[2] = {}, status_new_cmp[2] = {};
++	u8 *best_status_new = status_new;
++	loff_t ofs_old, ofs_new, ofs_new_cmp;
++	u64 len_old, len_new, len_new_cmp;
+ 	loff_t lock_len;
+-	bool can_be_top = true, can_be_bottom = nor->flags & SNOR_F_HAS_SR_TB;
++	bool can_be_top = true, can_be_bottom = nor->flags & SNOR_F_HAS_SR_TB,
++		can_be_cmp = spi_nor_get_sr_cmp_mask(nor);
+ 	bool use_top;
+ 	int ret;
+ 	u8 pow;
+@@ -230,6 +272,14 @@ static int spi_nor_sr_lock(struct spi_nor *nor, loff_t ofs, u64 len)
+ 
+ 	status_old[0] = nor->bouncebuf[0];
+ 
++	if (!(nor->flags & SNOR_F_NO_READ_CR)) {
++		ret = spi_nor_read_cr(nor, nor->bouncebuf + 1);
++		if (ret)
++			return ret;
 +
-+   Once we trust the debugfs output we can use it to test various
-+   situations. Check top locking/unlocking (end of the device)::
++		status_old[1] = nor->bouncebuf[1];
++	}
 +
-+    root@1:~# bs=$(cat /sys/class/mtd/mtd0/erasesize)
-+    root@1:~# size=$(cat /sys/class/mtd/mtd0/size)
+ 	/* If nothing in our range is unlocked, we don't need to do anything */
+ 	if (spi_nor_is_locked_sr(nor, ofs, len, status_old))
+ 		return 0;
+@@ -260,24 +310,56 @@ static int spi_nor_sr_lock(struct spi_nor *nor, loff_t ofs, u64 len)
+ 	else
+ 		pow = ilog2(lock_len) - ilog2(min_prot_len) + 1;
+ 
+-	ret = spi_nor_build_sr(nor, status_old, status_new, pow, use_top);
++	ret = spi_nor_build_sr(nor, status_old, status_new, pow, use_top, false);
+ 	if (ret)
+ 		return ret;
+ 
++	/*
++	 * In case the region asked is not fully met, maybe we can try with the
++	 * complement feature
++	 */
++	spi_nor_get_locked_range_sr(nor, status_new, &ofs_new, &len_new);
++	if (can_be_cmp && len_new != lock_len) {
++		pow = ilog2(nor->params->size - lock_len) - ilog2(min_prot_len) + 1;
++		ret = spi_nor_build_sr(nor, status_old, status_new_cmp, pow, use_top, true);
++		if (ret)
++			return ret;
 +
-+    root@1:~# flash_lock -u /dev/mtd0
-+    root@1:~# flash_lock -l /dev/mtd0 $(($size - (2 * $bs))) 2 # last two
-+    root@1:~# show_sectors
-+    software locked sectors
-+     region (in hex)   | status   | #blocks
-+     ------------------+----------+--------
-+     00000000-03fdffff | unlocked | 1022
-+     03fe0000-03ffffff |   locked | 2
-+    root@1:~# flash_lock -u /dev/mtd0 $(($size - (2 * $bs))) 1 # last one
-+    root@1:~# show_sectors
-+    software locked sectors
-+     region (in hex)   | status   | #blocks
-+     ------------------+----------+--------
-+     00000000-03feffff | unlocked | 1023
-+     03ff0000-03ffffff |   locked | 1
++		/*
++		 * ilog2() "floors" the result, which means in some cases we may have to
++		 * manually reduce the scope when the complement feature is used.
++		 * The uAPI is to never lock more than what is requested, but less is accepted.
++		 * Make sure we are not covering a too wide range, reduce it otherwise.
++		 */
++		spi_nor_get_locked_range_sr(nor, status_new_cmp, &ofs_new_cmp, &len_new_cmp);
++		if (len_new_cmp > lock_len) {
++			pow++;
++			ret = spi_nor_build_sr(nor, status_old, status_new_cmp, pow, use_top, true);
++			if (ret)
++				return ret;
++		}
 +
-+   If the flash features 4 block protection bits (BP), we can protect
-+   more than 4MB (typically 128 64kiB-blocks or more), with a finer
-+   grain than locking the entire device::
++		/* Pick the CMP configuration if we cover a closer range */
++		spi_nor_get_locked_range_sr(nor, status_new, &ofs_new, &len_new);
++		spi_nor_get_locked_range_sr(nor, status_new_cmp, &ofs_new_cmp, &len_new_cmp);
++		if (len_new_cmp > len_new)
++			best_status_new = status_new_cmp;
++	}
 +
-+    root@1:~# flash_lock -u /dev/mtd0
-+    root@1:~# flash_lock -l /dev/mtd0 $(($size - (2**7 * $bs))) $((2**7))
-+    root@1:~# show_sectors
-+    software locked sectors
-+     region (in hex)   | status   | #blocks
-+     ------------------+----------+--------
-+     00000000-037fffff | unlocked | 896
-+     03800000-03ffffff |   locked | 128
+ 	/*
+ 	 * Disallow further writes if WP# pin is neither left floating nor
+ 	 * wrongly tied to GND (that includes internal pull-downs).
+ 	 * WP# pin hard strapped to GND can be a valid use case.
+ 	 */
+ 	if (!(nor->flags & SNOR_F_NO_WP))
+-		status_new[0] |= SR_SRWD;
++		best_status_new[0] |= SR_SRWD;
+ 
+ 	/* Don't bother if they're the same */
+-	if (status_new[0] == status_old[0])
++	if (best_status_new[0] == status_old[0] && best_status_new[1] == status_old[1])
+ 		return 0;
+ 
+ 	spi_nor_get_locked_range_sr(nor, status_old, &ofs_old, &len_old);
+-	spi_nor_get_locked_range_sr(nor, status_new, &ofs_new, &len_new);
++	spi_nor_get_locked_range_sr(nor, best_status_new, &ofs_new, &len_new);
+ 
+ 	/* Don't "lock" with no region! */
+ 	if (!len_new)
+@@ -288,11 +370,11 @@ static int spi_nor_sr_lock(struct spi_nor *nor, loff_t ofs, u64 len)
+ 	    (ofs_old < ofs_new || (ofs_new + len_new) < (ofs_old + len_old)))
+ 		return -EINVAL;
+ 
+-	ret = spi_nor_write_sr_and_check(nor, status_new[0]);
++	ret = spi_nor_write_sr_cr_and_check(nor, best_status_new);
+ 	if (ret)
+ 		return ret;
+ 
+-	spi_nor_cache_sr_lock_bits(nor, status_new);
++	spi_nor_cache_sr_lock_bits(nor, best_status_new);
+ 
+ 	return 0;
+ }
+@@ -306,11 +388,13 @@ static int spi_nor_sr_unlock(struct spi_nor *nor, loff_t ofs, u64 len)
+ {
+ 	u64 min_prot_len = spi_nor_get_min_prot_length_sr(nor);
+ 	int ret;
+-	u8 status_old[1], status_new[1];
+-	loff_t ofs_old, ofs_new;
+-	u64 len_old, len_new;
++	u8 status_old[2], status_new[2], status_new_cmp[2];
++	u8 *best_status_new = status_new;
++	loff_t ofs_old, ofs_new, ofs_new_cmp;
++	u64 len_old, len_new, len_new_cmp;
+ 	loff_t lock_len;
+-	bool can_be_top = true, can_be_bottom = nor->flags & SNOR_F_HAS_SR_TB;
++	bool can_be_top = true, can_be_bottom = nor->flags & SNOR_F_HAS_SR_TB,
++		can_be_cmp = spi_nor_get_sr_cmp_mask(nor);
+ 	bool use_top;
+ 	u8 pow;
+ 
+@@ -320,6 +404,14 @@ static int spi_nor_sr_unlock(struct spi_nor *nor, loff_t ofs, u64 len)
+ 
+ 	status_old[0] = nor->bouncebuf[0];
+ 
++	if (!(nor->flags & SNOR_F_NO_READ_CR)) {
++		ret = spi_nor_read_cr(nor, nor->bouncebuf + 1);
++		if (ret)
++			return ret;
 +
-+   If the flash features a Top/Bottom (TB) bit, we can protect the
-+   beginning of the flash::
++		status_old[1] = nor->bouncebuf[1];
++	}
 +
-+    root@1:~# flash_lock -u /dev/mtd0
-+    root@1:~# flash_lock -l /dev/mtd0 0 2 # first two
-+    root@1:~# show_sectors
-+    software locked sectors
-+     region (in hex)   | status   | #blocks
-+     ------------------+----------+--------
-+     00000000-0001ffff |   locked | 2
-+     00020000-03ffffff | unlocked | 1022
-+    root@1:~# flash_lock -u /dev/mtd0 $bs 1 # first one
-+    root@1:~# show_sectors
-+    software locked sectors
-+     region (in hex)   | status   | #blocks
-+     ------------------+----------+--------
-+     00000000-0000ffff |   locked | 1
-+     00010000-03ffffff | unlocked | 1023
+ 	/* If nothing in our range is locked, we don't need to do anything */
+ 	if (spi_nor_is_unlocked_sr(nor, ofs, len, status_old))
+ 		return 0;
+@@ -357,30 +449,62 @@ static int spi_nor_sr_unlock(struct spi_nor *nor, loff_t ofs, u64 len)
+ 	else
+ 		pow = ilog2(lock_len) - ilog2(min_prot_len) + 1;
+ 
+-	ret = spi_nor_build_sr(nor, status_old, status_new, pow, use_top);
++	ret = spi_nor_build_sr(nor, status_old, status_new, pow, use_top, false);
+ 	if (ret)
+ 		return ret;
+ 
++	/*
++	 * In case the region asked is not fully met, maybe we can try with the
++	 * complement feature
++	 */
++	spi_nor_get_locked_range_sr(nor, status_new, &ofs_new, &len_new);
++	if (can_be_cmp && len_new != lock_len) {
++		pow = ilog2(nor->params->size - lock_len) - ilog2(min_prot_len) + 1;
++		ret = spi_nor_build_sr(nor, status_old, status_new_cmp, pow, use_top, true);
++		if (ret)
++			return ret;
++
++		/*
++		 * ilog2() "floors" the result, which means in some cases we may have to
++		 * manually reduce the scope when the complement feature is used.
++		 * The uAPI is to never unlock more than what is requested, but less is accepted.
++		 * Make sure we are not covering a too small range, increase it otherwise.
++		 */
++		spi_nor_get_locked_range_sr(nor, status_new_cmp, &ofs_new_cmp, &len_new_cmp);
++		if (len_new_cmp < lock_len) {
++			pow--;
++			ret = spi_nor_build_sr(nor, status_old, status_new_cmp, pow, use_top, true);
++			if (ret)
++				return ret;
++		}
++
++		/* Pick the CMP configuration if we cover a closer range */
++		spi_nor_get_locked_range_sr(nor, status_new, &ofs_new, &len_new);
++		spi_nor_get_locked_range_sr(nor, status_new_cmp, &ofs_new_cmp, &len_new_cmp);
++		if (len_new_cmp > len_new)
++			best_status_new = status_new_cmp;
++	}
++
+ 	/* Don't protect status register if we're fully unlocked */
+ 	if (lock_len == 0)
+-		status_new[0] &= ~SR_SRWD;
++		best_status_new[0] &= ~SR_SRWD;
+ 
+ 	/* Don't bother if they're the same */
+-	if (status_new[0] == status_old[0])
++	if (best_status_new[0] == status_old[0] && best_status_new[1] == status_old[1])
+ 		return 0;
+ 
+ 	/* Only modify protection if it will not lock other areas */
+ 	spi_nor_get_locked_range_sr(nor, status_old, &ofs_old, &len_old);
+-	spi_nor_get_locked_range_sr(nor, status_new, &ofs_new, &len_new);
++	spi_nor_get_locked_range_sr(nor, best_status_new, &ofs_new, &len_new);
+ 	if (len_old && len_new &&
+ 	    (ofs_new < ofs_old || (ofs_old + len_old) < (ofs_new + len_new)))
+ 		return -EINVAL;
+ 
+-	ret = spi_nor_write_sr_and_check(nor, status_new[0]);
++	ret = spi_nor_write_sr_cr_and_check(nor, best_status_new);
+ 	if (ret)
+ 		return ret;
+ 
+-	spi_nor_cache_sr_lock_bits(nor, status_new);
++	spi_nor_cache_sr_lock_bits(nor, best_status_new);
+ 
+ 	return 0;
+ }
+@@ -400,6 +524,14 @@ static int spi_nor_sr_is_locked(struct spi_nor *nor, loff_t ofs, u64 len)
+ 	if (ret)
+ 		return ret;
+ 
++	if (!(nor->flags & SNOR_F_NO_READ_CR)) {
++		ret = spi_nor_read_cr(nor, nor->bouncebuf + 1);
++		if (ret)
++			return ret;
++	} else {
++		nor->bouncebuf[1] = 0;
++	}
++
+ 	return spi_nor_is_locked_sr(nor, ofs, len, nor->bouncebuf);
+ }
+ 
+diff --git a/include/linux/mtd/spi-nor.h b/include/linux/mtd/spi-nor.h
+index 9ad77f9e76c2..4b92494827b1 100644
+--- a/include/linux/mtd/spi-nor.h
++++ b/include/linux/mtd/spi-nor.h
+@@ -125,6 +125,7 @@
+ #define SR2_LB1			BIT(3)	/* Security Register Lock Bit 1 */
+ #define SR2_LB2			BIT(4)	/* Security Register Lock Bit 2 */
+ #define SR2_LB3			BIT(5)	/* Security Register Lock Bit 3 */
++#define SR2_CMP_BIT6		BIT(6)
+ #define SR2_QUAD_EN_BIT7	BIT(7)
+ 
+ /* Supported SPI protocols */
 
 -- 
 2.51.1
