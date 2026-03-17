@@ -1,71 +1,90 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4916225A38;
-	Tue, 17 Mar 2026 17:17:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C92F255F2C;
+	Tue, 17 Mar 2026 17:22:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773767840; cv=none; b=C24RzhKoqk1v+2g8v3h9Rk1oheTz22efLBvLWHcwt6gWeYTHlDJYR1MU2jZ6yUeU+uENFqslbsXiCDlgQ0fGrBbJw4TqRZjaT5TRkllTfDba2szPluSBfW1DvFAbh6O6wkB1k76Ws9b3MPejUokWJCbeoEdwh0wz2q8c5U5N1Gs=
+	t=1773768139; cv=none; b=O49z8EhDeYnDUgv+gHvDIfSqtA2Q9WGDu7VB8Pl6OkxHurkfPp0IwabTJx0r34DJ25JnIfYJwfDDq2z2K7uQBxy8ukpLZnXe6O0XiLib4CL12xmfteRHAtIGZina0BWJUcz0GL6jv0B9GhDyZwgM7o96TKp3r/YQYcWNtJLBadg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773767840; c=relaxed/simple;
-	bh=XhSjXodKL8Rt/Y67hCKslvvCpl7oVhQShD0o7Pvcs6k=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=uApy1CPHOLrZ515HxOA1b89z/uLf8u7iYn2Sama9hWW8leC7cK/e1zWCs1lBY7Gty6efK4MGLtxjmbn/KHVnQyR7qEZq/sCxYyUG20sYUsfQImGxHhR254tHR3N2nRaYTJs3WyyivmHtDGIrOg83sXUNX3ViQb+iiAruFzUzBpU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=FHzC+KyJ; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="FHzC+KyJ"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3DF9A411D3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1773767839; bh=XhSjXodKL8Rt/Y67hCKslvvCpl7oVhQShD0o7Pvcs6k=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=FHzC+KyJww9n9K3dOwGFMr8Lp8aJM6FHAJXQMgI3cKiLbu9hZ8uNnvgThGuNTGWF1
-	 wmf6vvVafAlxMDplcRgPFok5wx6N1zlNdKfajht6nd8XYJn3gnN5lY8wu1sI8+U0gt
-	 o7LWqUEaXBy0YpCmlt/gG8TJ+eYHFJ2EsA1dE6wwgXLIpPvLZQ/By6yef8rMNdqQv1
-	 pQeg6ZPabk/vr6jHl+ObduuveNeGFRm+EkdoFAH5GC6b3tL2cpp70q0Pe2pbsuSDUz
-	 D8xjae+mRn6HecwUupnl2ZZjMtvFuixWc2mnPVYmA/S6F1WCWb72kq59+Zir5Dup8L
-	 6FMj92vuJgqNw==
-Received: from localhost (c-71-229-227-126.hsd1.co.comcast.net [71.229.227.126])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 3DF9A411D3;
-	Tue, 17 Mar 2026 17:17:19 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Thorsten Leemhuis <linux@leemhuis.info>
-Cc: linux-doc@vger.kernel.org, regressions@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/5] docs: reporting-issues: tweak a few areas and
- rewrite the ending
-In-Reply-To: <cover.1773750701.git.linux@leemhuis.info>
-References: <cover.1773750701.git.linux@leemhuis.info>
-Date: Tue, 17 Mar 2026 11:17:18 -0600
-Message-ID: <87pl529y01.fsf@trenco.lwn.net>
+	s=arc-20240116; t=1773768139; c=relaxed/simple;
+	bh=jh2gPRot7MNqrfOgDPkLhGxWii5BtLA90rLtEfEs8oo=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=cRTfWcOomcBbGrNAot0b3fcGFzUTa8Nxu2x7ev5ROWgXx0qy7WiYpDGt15VP+EGINTG+95qlKAH0duK69UAlu6DIEvSlE7+/EY1+bHdUGzM/gJOzkXMq1yav3iPmo0NXJLVtg5Nq8ZSqPOmsCY76yMfzI9rYhmZ+IzV2hevZ+MI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.83])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fZzKG34n7zHnGhy;
+	Wed, 18 Mar 2026 01:21:54 +0800 (CST)
+Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
+	by mail.maildlp.com (Postfix) with ESMTPS id 556AB40573;
+	Wed, 18 Mar 2026 01:22:14 +0800 (CST)
+Received: from localhost (10.48.149.62) by dubpeml500005.china.huawei.com
+ (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Tue, 17 Mar
+ 2026 17:22:12 +0000
+Date: Tue, 17 Mar 2026 17:22:09 +0000
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
+To: Ben Horgan <ben.horgan@arm.com>
+CC: <amitsinght@marvell.com>, <baisheng.gao@unisoc.com>,
+	<baolin.wang@linux.alibaba.com>, <carl@os.amperecomputing.com>,
+	<dave.martin@arm.com>, <david@kernel.org>, <dfustini@baylibre.com>,
+	<fenghuay@nvidia.com>, <gshan@redhat.com>, <james.morse@arm.com>,
+	<kobak@nvidia.com>, <lcherian@marvell.com>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<peternewman@google.com>, <punit.agrawal@oss.qualcomm.com>,
+	<quic_jiles@quicinc.com>, <reinette.chatre@intel.com>,
+	<rohit.mathew@arm.com>, <scott@os.amperecomputing.com>,
+	<sdonthineni@nvidia.com>, <tan.shaopeng@fujitsu.com>,
+	<xhao@linux.alibaba.com>, <catalin.marinas@arm.com>, <will@kernel.org>,
+	<corbet@lwn.net>, <maz@kernel.org>, <oupton@kernel.org>,
+	<joey.gouly@arm.com>, <suzuki.poulose@arm.com>, <kvmarm@lists.linux.dev>,
+	<zengheng4@huawei.com>, <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v6 01/40] arm_mpam: Ensure in_reset_state is false after
+ applying configuration
+Message-ID: <20260317172209.00001ec9@huawei.com>
+In-Reply-To: <20260313144617.3420416-2-ben.horgan@arm.com>
+References: <20260313144617.3420416-1-ben.horgan@arm.com>
+	<20260313144617.3420416-2-ben.horgan@arm.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100009.china.huawei.com (7.191.174.83) To
+ dubpeml500005.china.huawei.com (7.214.145.207)
 
-Thorsten Leemhuis <linux@leemhuis.info> writes:
+On Fri, 13 Mar 2026 14:45:38 +0000
+Ben Horgan <ben.horgan@arm.com> wrote:
 
-> This patch-set tweaks a few parts in the fringes of our text on bug
-> reporting while replacing two sections at the end with a new text as
-> proper appendix that hopefully better fits the purpose and covers more
-> aspects.
->
-> This is the first versions of this patch-set, but it starts as v2, as it
-> contains three patches and a few bits that were part of an earlier and
-> bigger patch-set. This incorporates review feedback given there. The
-> last patch in this series is mostly new, but includes a few bits from
-> patch 4 and 5 of the earlier series.
+> From: Zeng Heng <zengheng4@huawei.com>
+> 
+> The per-RIS flag, in_reset_state, indicates whether or not the MSC
+> registers are in reset state, and allows avoiding resetting when they are
+> already in reset state. However, when mpam_apply_config() updates the
+> configuration it doesn't update the in_reset_state flag and so even after
+> the configuration update in_reset_state can be true and mpam_reset_ris()
+> will skip the actual register restoration on subsequent resets.
+> 
+> Once resctrl has a MPAM backend it will use resctrl_arch_reset_all_ctrls()
+> to reset the MSC configuration on unmount and, if the in_reset_state flag
+> is bogusly true, fail to reset the MSC configuration. The resulting
+> non-reset MSC configuration can lead to persistent performance restrictions
+> even after resctrl is unmounted.
+> 
+> Fix by clearing in_reset_state to false immediately after successful
+> configuration application, ensuring that the next reset operation
+> properly restores MSC register defaults.
+> 
+> Fixes: 09b89d2a72f3 ("arm_mpam: Allow configuration to be applied and restored during cpu online")
+> Signed-off-by: Zeng Heng <zengheng4@huawei.com>
+> Acked-by: Ben Horgan <ben.horgan@arm.com>
+> [Horgan: rewrite commit message to not be specific to resctrl unmount]
+> Signed-off-by: Ben Horgan <ben.horgan@arm.com>
+Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
 
-I don't see anything to complain about here ... if nobody screams, I'll
-apply them in a few days or so.
-
-Thanks,
-
-jon
