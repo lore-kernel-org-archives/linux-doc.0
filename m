@@ -1,145 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D596348880;
-	Tue, 17 Mar 2026 11:28:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BC88348880
+	for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 11:29:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773746922; cv=none; b=TTv4Q6472E9a2gEgWZeeKvdxdVVftO+XGcwRkFXEF+AwRvcPvBmwihUh2K8wJ/MjPnJlwTBt7vUx0FZ0gW2FY2ntvQ5PpQWs8Xfgib81HbZESHDDjwPThJ51Ym2l08vRv+XSvv+ncj4m52wl1oxjsaifzHV87U+WsboRCFJpgsY=
+	t=1773746948; cv=none; b=SBNWDC8XSRYNbzNY71+ztms9PepRK1cox5FkprHvaGCJSvKTpLgLYwoU6IKs/G1+qAm+WER7M2ESPz9vXotYMfsRPZE3zW9ZiTtfFPwbOlgI1VW9ib5eeaiD4zbRKe0oqqwMRCI5Ls/fEEH8OzCp2jeLUldAFvA68T0/0+Sq3ZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773746922; c=relaxed/simple;
-	bh=32qbYYZEgqHyAOOKzk5WrymnIe+x73RqYh712Mog1As=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Tjx34SGlAbH9Ph8DnMjDnLIEuZd3Gq89Kdt2IGJ8iJgAx5ckcKZIZrbLUN/4bpcvZyGj1ewKDdNauK9K2tP1YR0tMaGZLG/YiRfN3Ltzw2AzpnK9oolTmPQZTTRaGjezzTWxN+UefvuXINSd4zaBsdmGPXoBu8Cm/NhP8p8pfOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hdIGeuR5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773746948; c=relaxed/simple;
+	bh=F6L8vG7qMuFHqFg4ADKsBOb9hvQlU2v84xLG1A0YvZ8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=pNDCx4m0CHZc+ubVP+nIGDxk1kUXV/ZQAKQKleH3ZmgSqCoaZoqfyovhZBybhPdEoxgY92fsO5Dao+SnIud2jrIbGbIUMiVOSNDHDbRZN0y5c0f3yWjhhTJcXaMdmxH2Cia+NtHSQiM2jnUYIunJxCR2vSWsorXq1CHDbQHc+nY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=GIq6lRrK; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=IA4V2qNc; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hdIGeuR5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0FE9C4CEF7;
-	Tue, 17 Mar 2026 11:28:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773746922;
-	bh=32qbYYZEgqHyAOOKzk5WrymnIe+x73RqYh712Mog1As=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hdIGeuR59iiqFhPnWcecegpZD30lBPjH6oyJgNrZ6sTuqfj67G8KwOQMWRpH66ln7
-	 Tb+7rKSnyapJxOuOYPf0JqsZH2UEsi7+u7bYXa84wITJpd0GoQExdA157pROiQ0xUG
-	 FkP/HT0QhUuw5NL2RQRZavEB2AO8Z6ynUUE65XnPSOjoNXoU74KUjQ+SHXoxtRuIUS
-	 TOnUblaSujaS4wEbaEDE+Z0BBhVvhMdSbMomo10xrl9uEkH5esYJK4Bo9jOSvD5lO9
-	 UHg+lN1Vc3K6yiC0r5V5MihGfutd9Xtk6BEwYZhd4ijbJ2iH45Yye6vueuxh2SZZSA
-	 WmIwjPwb4DRKw==
-Received: from phl-compute-11.internal (phl-compute-11.internal [10.202.2.51])
-	by mailfauth.phl.internal (Postfix) with ESMTP id E28B8F40068;
-	Tue, 17 Mar 2026 07:28:40 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-11.internal (MEProxy); Tue, 17 Mar 2026 07:28:40 -0400
-X-ME-Sender: <xms:6Dq5aRezeypjqaoWwhIQjsBuBEhtrdSNLXG62S2ccj2KBrdeDFlkMQ>
-    <xme:6Dq5aY74Fzu_kW2IqbfV7ADlOCPU3a5H6IRhoUJbaJFuIFM6vzTvk6CH4GA_9jHxe
-    pdSR_A8fESh31IsvOjhte6pYMvlqQX2L24C8ZGztBbjCN7_vsrTO-o>
-X-ME-Received: <xmr:6Dq5aRdI5bQ3PZ3PcWm9JNgk0qQj8TjCz4neksWXvW5aj-IlU9F2Xjfx8kX_RQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefgedrtddtgdeftdduudefucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepmfhirhihlhcu
-    ufhhuhhtshgvmhgruhcuoehkrghssehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvg
-    hrnhepueeijeeiffekheeffffftdekleefleehhfefhfduheejhedvffeluedvudefgfek
-    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepkhhirh
-    hilhhlodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduieduudeivdeiheeh
-    qddvkeeggeegjedvkedqkhgrsheppehkvghrnhgvlhdrohhrghesshhhuhhtvghmohhvrd
-    hnrghmvgdpnhgspghrtghpthhtohepheegpdhmohguvgepshhmthhpohhuthdprhgtphht
-    thhopegurghvihgusehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrkhhpmheslhhinh
-    hugidqfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtohepmhhutghhuhhnrdhsohhn
-    gheslhhinhhugidruggvvhdprhgtphhtthhopeifihhllhihsehinhhfrhgruggvrggurd
-    horhhgpdhrtghpthhtohepuhhsrghmrggrrhhifheigedvsehgmhgrihhlrdgtohhmpdhr
-    tghpthhtohepfhhvughlsehgohhoghhlvgdrtghomhdprhgtphhtthhopehoshgrlhhvrg
-    guohhrsehsuhhsvgdruggvpdhrtghpthhtoheprhhpphhtsehkvghrnhgvlhdrohhrghdp
-    rhgtphhtthhopehvsggrsghkrgesshhushgvrdgtii
-X-ME-Proxy: <xmx:6Dq5afB40A8o3F4M6vXhGQivGB23CU8zGa6dY7zbd2L7KjB6TmweRw>
-    <xmx:6Dq5adGl3TJC6mmbn9eD1LlxwlRJZfuXH1_ME-MYxf98BtvkMSsgnQ>
-    <xmx:6Dq5aXi4DU2MhQ1B_Ii0EIM91z-qBbr92LZM83CYfF-7lQlzf6SkjQ>
-    <xmx:6Dq5afsxgNwr3DMB23qGX1nysq_EKzWatd4vzWcPpqaHXuIM_OQKzQ>
-    <xmx:6Dq5ad_BUpkXLTbLl-0RPF25cJY_OlBhTA00Q_FsAXEWdi13FUI84bed>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 17 Mar 2026 07:28:38 -0400 (EDT)
-Date: Tue, 17 Mar 2026 11:28:34 +0000
-From: Kiryl Shutsemau <kas@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Muchun Song <muchun.song@linux.dev>, Matthew Wilcox <willy@infradead.org>, 
-	Usama Arif <usamaarif642@gmail.com>, Frank van der Linden <fvdl@google.com>, 
-	Oscar Salvador <osalvador@suse.de>, Mike Rapoport <rppt@kernel.org>, 
-	Vlastimil Babka <vbabka@suse.cz>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	Zi Yan <ziy@nvidia.com>, Baoquan He <bhe@redhat.com>, Michal Hocko <mhocko@suse.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, kernel-team@meta.com, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	loongarch@lists.linux.dev, linux-riscv@lists.infradead.org
-Subject: Re: [PATCHv7 09/18] mm/hugetlb: Defer vmemmap population for bootmem
- hugepages
-Message-ID: <abk58j2bV0sGabEU@thinkstation>
-References: <20260227194302.274384-1-kas@kernel.org>
- <20260227194302.274384-10-kas@kernel.org>
- <4e52f70d-e0c3-471f-8073-68c0e9bc94ca@kernel.org>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="GIq6lRrK";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="IA4V2qNc"
+From: John Ogness <john.ogness@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1773746944;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=F6L8vG7qMuFHqFg4ADKsBOb9hvQlU2v84xLG1A0YvZ8=;
+	b=GIq6lRrK4mudn4xiFrRao3fwp5xVxTJ9MEdARUbupWEfW7+1CfqaNWNTgq7qsWTxJ1ojuq
+	Ch/YeA4X3TzrI6bh6XsPSDUaNH9uFFbvbcI9PQ+n1sGBYTz8zl+sZTtWiCcpnfk0IE0lVU
+	kfvfACwWdvxZLKK5PtFWwoSCl4m/9/obfj6QUdiAiR7XXNuoLL6qf/KhVfwCEf5/RbGxpD
+	xHM8XqVX4nqa3JoQTsOWzCzoRXP80VMDSTdLnUxWYAtRpbouKh/qqWxT55iMcvOMuKCb5s
+	91e0zGuLqOf3F0o5rDJ/UMGnMimVKjGt5Yl7uB18gS4NpC/DaL8eteNSeFeg9Q==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1773746944;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=F6L8vG7qMuFHqFg4ADKsBOb9hvQlU2v84xLG1A0YvZ8=;
+	b=IA4V2qNcWy9KrDuOvXn+cD62AfIBYfr2sHer8C1tDH7YQJe5s2ZDWKBT8MFpmegA42B+FN
+	Fy5RsUxGIg8PqBCA==
+To: h3288824963 <3288824963@qq.com>, linux-doc@vger.kernel.org
+Cc: pmladek@suse.com, senozhatsky@chromium.org, rostedt@goodmis.org,
+ qujingling@huawei.com, zhangjiaji1@huawei.com, xushuangxing@huawei.com,
+ hujinfei3@huawei.com, h3288824963 <3288824963@qq.com>
+Subject: Re: [PATCH v2] Documentation: printk: Add section about avoiding
+ lockups
+In-Reply-To: <tencent_FB5B7DCFFB10BCDE325397D1202226779D09@qq.com>
+References: <tencent_FB5B7DCFFB10BCDE325397D1202226779D09@qq.com>
+Date: Tue, 17 Mar 2026 12:35:03 +0106
+Message-ID: <87341yd79c.fsf@jogness.linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4e52f70d-e0c3-471f-8073-68c0e9bc94ca@kernel.org>
+Content-Type: text/plain
 
-On Mon, Mar 16, 2026 at 05:48:24PM +0100, David Hildenbrand (Arm) wrote:
-> On 2/27/26 20:42, Kiryl Shutsemau (Meta) wrote:
-> > Currently, the vmemmap for bootmem-allocated gigantic pages is populated
-> > early in hugetlb_vmemmap_init_early(). However, the zone information is
-> > only available after zones are initialized. If it is later discovered
-> > that a page spans multiple zones, the HVO mapping must be undone and
-> > replaced with a normal mapping using vmemmap_undo_hvo().
-> > 
-> > Defer the actual vmemmap population to hugetlb_vmemmap_init_late(). At
-> > this stage, zones are already initialized, so it can be checked if the
-> > page is valid for HVO before deciding how to populate the vmemmap.
-> > 
-> > This allows us to remove vmemmap_undo_hvo() and the complex logic
-> > required to rollback HVO mappings.
-> > 
-> > In hugetlb_vmemmap_init_late(), if HVO population fails or if the zones
-> > are invalid, fall back to a normal vmemmap population.
-> > 
-> > Postponing population until hugetlb_vmemmap_init_late() also makes zone
-> > information available from within vmemmap_populate_hvo().
-> 
-> So we'll keep marking the sections as SECTION_IS_VMEMMAP_PREINIT such
-> that sparse_init_nid() will still properly skip it and leave population
-> to hugetlb_vmemmap_init_late().
-> 
-> Should we clear SECTION_IS_VMEMMAP_PREINIT in case we run into the
-> hugetlb_bootmem_page_zones_valid() scenario?
-> 
-> I suspect we don't care about SECTION_IS_VMEMMAP_PREINIT after boot and
-> can just leave the flag set. (maybe we wan to add a comment in the code?
-> above the vmemmap_populate() ?)
+On 2026-03-17, h3288824963 <3288824963@qq.com> wrote:
+> Add a section 'Avoiding lockups from excessive printk() use' to
+> printk-basics.rst, explaining the risk of calling printk() in hot paths
+> with legacy consoles and suggesting alternatives.
+>
+> The section covers:
+> - Rate-limited and one-time printing variants
+> - Log level filtering
+> - printk_deferred() for legacy consoles
+> - Porting to nbcon API (preferred solution)
+> - Using tracepoints for permanent debugging
+>
+> This documentation is relevant only for legacy console drivers and
+> !PREEMPT_RT kernels.
+>
+> Suggested-by: Petr Mladek <pmladek@suse.com>
+> Suggested-by: John Ogness <john.ogness@linutronix.de>
+> Signed-off-by: h3288824963 <3288824963@qq.com>
 
-I think keeping the flag is right thing to do.
+Thanks for addressing my concerns.
 
-SECTION_IS_VMEMMAP_PREINIT indicates to core-sparse that the section
-should not be populated and it will be initialized elsewhere. Even in
-!hugetlb_bootmem_page_zones_valid() we take care of it in
-hugetlb_vmemmap_init_late().
-
-And, as you mentioned, nobody looks at the flag after boot.
-
-> Nothing else jumped at me
-> 
-> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
-> 
-> -- 
-> Cheers,
-> 
-> David
-
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+Reviewed-by: John Ogness <john.ogness@linutronix.de>
