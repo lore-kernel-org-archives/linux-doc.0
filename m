@@ -1,944 +1,309 @@
-Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011017.outbound.protection.outlook.com [52.101.57.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 831B3359A75;
-	Tue, 17 Mar 2026 22:04:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.17
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773785054; cv=fail; b=EN2FgZc7eVqDkbBY8dqLQ8LdOJaakOspPEXDSi3ZLQHD4d3vk4GK1itB7PszgqrPft7uxZQfbicj+i8V7Nxjoq7RAyYVGIOKA5tauL8pkdOBdqycyPqOsULl/Xn8O3a4GkmHujbABIMRcX3V77bHPYrQSmT/k3Wd9KSEMAMw2K0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773785054; c=relaxed/simple;
-	bh=RhD49OfiXkhAxhXKaB6giV82ZX4RBG/kYzemOkExkG4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=G6pLdNs3tCENYG1uCe+DSx0uRAInRQCBXmOJ2v/lqRuJ6qJoRYl6XkQ8wWU578xhL5r55KALDZkqH79FtoAVNPC63DcxrBBLVvqk9Piae1dgV/Fab+e9GuCFsJ+v2cIRctaN7IoRl3vF+6QUQsENotXS2Q24Mh+imgqHdM4QKAg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=sM9rUq2k; arc=fail smtp.client-ip=52.101.57.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C9C93A383A;
+	Tue, 17 Mar 2026 23:09:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773788962; cv=none; b=dFfUKz1ECowzef/+6eOcwOI/Qv6lJSWj2u85ZjKbcuFK64suzpJ1aqOp6vt7+T/IsY6coBeu+8Eezt7plAJ7A144Xt3FGdQv/1X+2/rneJtPVt9FYFw+1ACGLwBcxnZS2fm/F6qsZcn7Jf/LEp0FizENHG4EVkydav1myn4l8AE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773788962; c=relaxed/simple;
+	bh=EEtdb5vDUusZK87MYBHLA4U2DvAHvJNA4vPTu53c4Rc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=G/RWnjJ97+L9w3GVontxtqZLt/sGpzD7hl+LGJDhYvnnOnMxYDqWXSgmxUeDoH9tlH/m/KqVDwiqAh/1mFKTuOEA2ZSnc8mAD5Pu/kC5cljjTPS6sFHF9HFVU1h76Q8nOIu1hK+I81Ta5idAYua9GRRGpbx7J6rqHW8/KWEEFlQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JpofF690; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="sM9rUq2k"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=O3EFgHhGAgOIiwDEtShHDDQVWgiW1XwUTnphupJeC+9VmQrth2CW9dbODXlASVP9r4SH3UWZPpoLXXPJMO3epjrajhsSqCKRA9fHt6wEanKy08lJ867zfMEikUsOeTTd0q9u8bvvVjWspTsi4iHWoVipOB/pOOrbKrMxL7Aa86EgKvYO+wM05bQeqgTM/srVxNpLFyIqd1mlFq+8ycC2422HjawKyCKUD13ZzmTJR433ZSD/jridNa7wQpx9IKZTGG48pwaC9sWWgQNNXWUVy1zs2jIUBWPWqqcoOhuGJ3bcTNB1tCTssJrhdKvnJgotHkociUg4YcEZuB6NTtA4rQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=o4cC4zbmXg9Q6JsU7V0RmVEkLBC+umFayt/cbHpb2wI=;
- b=dv1/s8Ms70j8HgiAn+pEi2Zye7myHwlhWtt049EwgLR+6Y19NiBcc9SvIfFHjLQ8rrHjBL2q8OfAL511ob0ZV0EJfSs7qy2dty3yKwi1sNfHDebE7MtP9z0MrrYHIs4D33aAHh9gCw6hLt04Uq55F21T2f4gKwAJ6xqfWRQK7qNDQm88/e8nFKj2wNV6ioWq4UnaygyFdAsar+cH3RN4JG+di5R9fJ7le5FxsOMjSbDMmjqBMnHODH/WLKuGQ32vFit71eTRKk0bs3/yskCI+M5c2oK/dsvF58DP159X/SJqgalDghDCxvPegIIq/XVBc9c3P59ZM8eBuQMPI3xRwg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=o4cC4zbmXg9Q6JsU7V0RmVEkLBC+umFayt/cbHpb2wI=;
- b=sM9rUq2kFC41yCGW5Kp9BRdzJ3OqbkliaLOzekp+89XYgDs/DibYUtnaGb+b7qfGd6zahvFn0QdgDN2iNUTNmBn7WW2GYmaRBhDIbL6HZM1+LnZmNInY6WJp31EvIccUZtCVYLlLzgA0XZO93KxucLP49/KEpUsqF+lEvwlX03wJb1N3f/0E9aUSnhF4H/YNgAYCmSzTbhDM1SoNUwcQHj/lQj422Lic9r8PZGQPGAmndVRntNr+nYoY/Ag3TXu02nsUcbbtaiS576xRpXEc351OnaBIUEr+605Jn/qbzHu80tgmn8b9VrS0y1Nouaj54ZhaevWINseg9BjaU4YuUg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
- DM4PR12MB9735.namprd12.prod.outlook.com (2603:10b6:8:225::8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9723.16; Tue, 17 Mar 2026 22:04:02 +0000
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9723.014; Tue, 17 Mar 2026
- 22:04:02 +0000
-From: Joel Fernandes <joelagnelf@nvidia.com>
-To: linux-kernel@vger.kernel.org
-Cc: Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dave Airlie <airlied@redhat.com>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Koen Koning <koen.koning@linux.intel.com>,
-	dri-devel@lists.freedesktop.org,
-	rust-for-linux@vger.kernel.org,
-	Nikola Djukic <ndjukic@nvidia.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	Huang Rui <ray.huang@amd.com>,
-	Matthew Auld <matthew.auld@intel.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Lucas De Marchi <lucas.demarchi@intel.com>,
-	=?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
-	Helge Deller <deller@gmx.de>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	John Hubbard <jhubbard@nvidia.com>,
-	Alistair Popple <apopple@nvidia.com>,
-	Timur Tabi <ttabi@nvidia.com>,
-	Edwin Peer <epeer@nvidia.com>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Andrea Righi <arighi@nvidia.com>,
-	Andy Ritger <aritger@nvidia.com>,
-	Zhi Wang <zhiw@nvidia.com>,
-	Balbir Singh <balbirs@nvidia.com>,
-	Philipp Stanner <phasta@kernel.org>,
-	Elle Rhumsaa <elle@weathered-steel.dev>,
-	alexeyi@nvidia.com,
-	Eliot Courtney <ecourtney@nvidia.com>,
-	joel@joelfernandes.org,
-	linux-doc@vger.kernel.org,
-	amd-gfx@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
-	Joel Fernandes <joelagnelf@nvidia.com>
-Subject: [PATCH v13 1/2] rust: gpu: Add GPU buddy allocator bindings
-Date: Tue, 17 Mar 2026 18:03:22 -0400
-Message-Id: <20260317220323.1909618-2-joelagnelf@nvidia.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260317220323.1909618-1-joelagnelf@nvidia.com>
-References: <20260308180407.3988286-1-joelagnelf@nvidia.com>
- <20260317220323.1909618-1-joelagnelf@nvidia.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BLAPR05CA0024.namprd05.prod.outlook.com
- (2603:10b6:208:36e::20) To DS0PR12MB6486.namprd12.prod.outlook.com
- (2603:10b6:8:c5::21)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JpofF690"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773788961; x=1805324961;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=EEtdb5vDUusZK87MYBHLA4U2DvAHvJNA4vPTu53c4Rc=;
+  b=JpofF690K+x8H285Ga0EGUFGXCXiGuPCsHvhu0UEEZvqSQQJwyJ7Gp6F
+   qI3Hec7Ut7aOsxzreENkaog1zsM/yPJlX0spB3BBSgoT/kf23SPTgqtKU
+   lVHGDOVYI/FchkkV0x/OiYOKrH1cA7acesncERt6nh9U+zWv9srVt3eA7
+   L5DG4HEHsY2LEKInETBk+Dq+CmNgcfxh3N0bXr9cZ/Z024XVLvQYuSWHW
+   yb+GNtaqO/5DwOwiLltqma4HWLiAQVOYleBh7MuzJma+4U6sDDCMF67OL
+   q2oRV260SpLoywZP/G+Nnhwzm/Q+vc+KOw60mCST6TAfhfBOooSaz9OOV
+   g==;
+X-CSE-ConnectionGUID: oeA0hLxnToyQFK3S/HIBKw==
+X-CSE-MsgGUID: mlZGCd02TniOdC0rH33xhg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="74811564"
+X-IronPort-AV: E=Sophos;i="6.23,126,1770624000"; 
+   d="scan'208";a="74811564"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 16:09:20 -0700
+X-CSE-ConnectionGUID: cjk9yN39SGyyexT13blJAw==
+X-CSE-MsgGUID: HXmOvwZuTgCAmvhoXh62ww==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,126,1770624000"; 
+   d="scan'208";a="226566370"
+Received: from anguy11-upstream.jf.intel.com ([10.166.9.133])
+  by orviesa003.jf.intel.com with ESMTP; 17 Mar 2026 16:09:19 -0700
+From: Tony Nguyen <anthony.l.nguyen@intel.com>
+To: davem@davemloft.net,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	edumazet@google.com,
+	andrew+netdev@lunn.ch,
+	netdev@vger.kernel.org
+Cc: Tony Nguyen <anthony.l.nguyen@intel.com>,
+	larysa.zaremba@intel.com,
+	przemyslaw.kitszel@intel.com,
+	aleksander.lobakin@intel.com,
+	sridhar.samudrala@intel.com,
+	anjali.singhai@intel.com,
+	michal.swiatkowski@linux.intel.com,
+	maciej.fijalkowski@intel.com,
+	emil.s.tantilov@intel.com,
+	madhu.chittim@intel.com,
+	joshua.a.hay@intel.com,
+	jacob.e.keller@intel.com,
+	jayaprakash.shanmugam@intel.com,
+	natalia.wochtman@intel.com,
+	jiri@resnulli.us,
+	horms@kernel.org,
+	corbet@lwn.net,
+	richardcochran@gmail.com,
+	linux-doc@vger.kernel.org
+Subject: [PATCH net-next 00/15][pull request] Introduce iXD driver
+Date: Tue, 17 Mar 2026 16:08:48 -0700
+Message-ID: <20260317230905.847744-1-anthony.l.nguyen@intel.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|DM4PR12MB9735:EE_
-X-MS-Office365-Filtering-Correlation-Id: 86ae3b23-014d-4836-f81e-08de8471192a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|7416014|366016|56012099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	klCF7Vkt9ky5HhvLmU4Y4ReXzblKdkv4sA37yKExNZq6rci4JA017Qv7N0g46P5tUcjdF5/8410ym2bsH9YOuMxXJmQ3RVgT1S4jVjm0mUkoAVJ2zKqhImejpLjgHrNXUZ4mnfNz1408RqteiTJ+NfamNBhRpJ7bpkYiuP3kuqeefE6NmBtiAwcsUbPgjRaCJ9mQkO0eGHeOzlr3+yRWyLHoIzwGncHNHxDBxgVO77d0kFMKUueWT3UjILszaQik+YBgkCCm3MD5lmLa9bFhs0HvK5HGSMA32XrXWTrXs/xso2ZA/bSwYlB4i0HuiZUybVok5SjQUY34x024jFL/2A1HUHWJV2CW0OlaYzx2kPqAl4e8hsiFnsaYku6uZ45jU3RzPt3Anfw0IKzEK7wUBxvWVZgwgkJkPmWuzKKFJXTndPW3HlCkUgbMwA1sV47MduQGPnpCi5A3/Y5E6q0H9ApGKpL0FvKi7gbdAPneZ+9GngT5V5ZU8qxPtYwUx9sQSm+jzTqJB7L9qP42hjZt7oOdWyfLOf58uKdIOV+Fe9uy5qtKQLeEubzo5B7IzgLWOgduFeaIDRVJbbJj9bg/AwKhGf2DvGkX19p1zAYN7qVDCCrLcElW8DTnISYz3RNIOjbXDcC30G/DL1/rSpoa21mgkvwlrRqXQ1qvt16Muwc2hdB3wSa9L1TE62ni/MiyQDp++VU8CNUKgy7G77Qnu7w6xQ9OUOzG3NN0zvpGoyY=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?soNCTJCju8g17MCjxdESWmq4m4qPUfxyxzVN4UEDGE/BlNSzIP/8bQt2Lc9J?=
- =?us-ascii?Q?+befQGWPpuIL7KN+cpMY3fYi3NhI6zZ5pk5qUKz721k3WmPunCK/Ogua9ttL?=
- =?us-ascii?Q?sByg/lsw4N6wzfxWbJ+dBHOxqvDzD3Nb613owN4kTO2MHpBdoH1ShYypVPBV?=
- =?us-ascii?Q?V2GGp5FviakzcyB5rIKp1Cygj0LfBtNB1a3SCs1rTv+RBKbYSledF0m02dJB?=
- =?us-ascii?Q?a/nlCMh3/FBH47Tq62Af62o8H/1kSoTD564JdfQ2J/8wrMpuZ/NOY80hOdi3?=
- =?us-ascii?Q?bFNGcXTFlMCxnsZgRp6Q/L6MaRNIBaHc7B3b5pLgOgO4OVqjloXX4j+M0vtN?=
- =?us-ascii?Q?rgy5dYd+0Zkg7y94BA60iZ3u51S1YjW2oksYfbrapnGK7qPyqcSfbLQy9Yus?=
- =?us-ascii?Q?LQJSaz/6/zkAnMM/Sv1E+9Kfo+OjQNyXwHBHL1ukUWk9JtCxZ0vBi90i6fdO?=
- =?us-ascii?Q?I0slCq53OZNoCP8ARdQfTXKhaL+EoCac+kJVGTORC2/R9lMlKDAF2XObq56x?=
- =?us-ascii?Q?pU2zxa+woHPHsJZuDv6MvLE4Q+bbCPPWP1U/ZUS4d5YbSy7BT0fCFFXgDHRk?=
- =?us-ascii?Q?jhMCosMa/i+VTjq3j9jflw7/ciAw2lxcUfVbncoGKMGKGut3rfCOsG6hA3UR?=
- =?us-ascii?Q?mQakpSeOi7SU/FRcNZzkHJrksUjuu2abGtziCNTjuy3ijpua16j3EehLfSkn?=
- =?us-ascii?Q?7F90BZYjuwHq/pn3GrBsvZTtA1W76v+XCkvP4CxMZzhqYetp6dka76o4YeMn?=
- =?us-ascii?Q?WzksEZBj6EGjtIVkM3hE2jqkaBxndb8FMaGp+WA+Bc8MEsMUK4zlodQqV/Gp?=
- =?us-ascii?Q?jg4qcu7Lc/loVsysctL4hrakygemwaJ+XOBJI8tV4qNP4sks73dyFlgIR4iR?=
- =?us-ascii?Q?Go72r5BF6QWVB6SfsfRdYEtu9wjwtCLToGor9rEPBcuEExjZy8DAJFnzRBkB?=
- =?us-ascii?Q?lQ4H1EohoLNnPJYsXPa2Vr3mN8rA6ZSZiWMZbAfgufGeNgVm3uRVW9KjKdXA?=
- =?us-ascii?Q?GmWPctV58pDfzCBjsAK8dOga4OFKKmV7rjnttosJtwBDcWOYKiVIZxxc/YBP?=
- =?us-ascii?Q?kfyy3QDEUC3uJhQ4kNCV1oomd2y/2FAI23Bjb3snxzI64FLlr7rwfk5em1/M?=
- =?us-ascii?Q?g4xpn1ndUs1VrCSbBL51dZZmA7tZqdAeeV2L3mZikpPgJqRYSzXLeF/wplGF?=
- =?us-ascii?Q?XXvNyuvl9svv+0RKQZufmffKAmKDC8muGjxcN4ZTAdMkdFy2Cd71oZPZ/5RA?=
- =?us-ascii?Q?xvXrs08gaPdKhwlQM5nBNhNUvGr0FLY49V2hk6L8vQa3hddTD887IW9ec/vA?=
- =?us-ascii?Q?j/Qu7rk9Czla+Q9RFWoxmE/eYL2Dl8GYCpHU+utXByyeAunTGlqeYf5JWoXy?=
- =?us-ascii?Q?KI4KHL97DnLhYBNVWOgdwk3x2tRgKwBw90Yz4WIn9783Scd1Jkgf5uCX3u5z?=
- =?us-ascii?Q?DY6junb4ahjHeBWc/ySTUIdSfnpZtp/l/xCEnCstTPoYtH+427BHTGP12ecc?=
- =?us-ascii?Q?NqQgpocurRbRVPRoC1g9dJ4hTf22bUWw/zNyMM/QS4ZF57FliGsCLjYfc/yf?=
- =?us-ascii?Q?UQgh76LKUQtnIr8ot5PPuUt99S+H3V1TyqcMzcysZsV0s2IHaqla3XSRhfXj?=
- =?us-ascii?Q?rv9snhGwcVVHFNy0FZJXizad/Pl6AATHzURn/eDs4id8rsToSOdkkUpcvKYb?=
- =?us-ascii?Q?Fb+oSXhNqBbm1/63pXuwZ0o1tOg6DVryVzND1psoOg3Ddwr+Uqzdx8dZ7cpo?=
- =?us-ascii?Q?eis+hWxJCA=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 86ae3b23-014d-4836-f81e-08de8471192a
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2026 22:04:02.4188
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: f+TuuDcnatm/BgRTcKLHuALExf0yTaS+zI/SNxEu6clF2HR02LpukftOi6AthwNHvFTN01LOfgYA57G8a8mzXw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB9735
+Content-Transfer-Encoding: 8bit
 
-Add safe Rust abstractions over the Linux kernel's GPU buddy
-allocator for physical memory management. The GPU buddy allocator
-implements a binary buddy system useful for GPU physical memory
-allocation. nova-core will use it for physical memory allocation.
+Larysa Zaremba says:
 
-Cc: Nikola Djukic <ndjukic@nvidia.com>
-Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
----
- MAINTAINERS                     |   6 +
- rust/bindings/bindings_helper.h |  11 +
- rust/helpers/gpu.c              |  23 ++
- rust/helpers/helpers.c          |   1 +
- rust/kernel/gpu.rs              |   6 +
- rust/kernel/gpu/buddy.rs        | 622 ++++++++++++++++++++++++++++++++
- rust/kernel/lib.rs              |   2 +
- 7 files changed, 671 insertions(+)
- create mode 100644 rust/helpers/gpu.c
- create mode 100644 rust/kernel/gpu.rs
- create mode 100644 rust/kernel/gpu/buddy.rs
+This patch series adds the iXD driver, which supports the Intel(R)
+Control Plane PCI Function on Intel E2100 and later IPUs and FNICs.
+It facilitates a centralized control over multiple IDPF PFs/VFs/SFs
+exposed by the same card. The reason for the separation is to be able
+to offload the control plane to the host different from where the data
+plane is running.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e847099efcc2..cd9505d3be60 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8531,7 +8531,10 @@ T:	git https://gitlab.freedesktop.org/drm/rust/kernel.git
- F:	drivers/gpu/drm/nova/
- F:	drivers/gpu/drm/tyr/
- F:	drivers/gpu/nova-core/
-+F:	rust/helpers/gpu.c
- F:	rust/kernel/drm/
-+F:	rust/kernel/gpu.rs
-+F:	rust/kernel/gpu/
- 
- DRM DRIVERS FOR ALLWINNER A10
- M:	Chen-Yu Tsai <wens@kernel.org>
-@@ -8952,6 +8955,9 @@ F:	drivers/gpu/drm/drm_buddy.c
- F:	drivers/gpu/tests/gpu_buddy_test.c
- F:	include/drm/drm_buddy.h
- F:	include/linux/gpu_buddy.h
-+F:	rust/helpers/gpu.c
-+F:	rust/kernel/gpu.rs
-+F:	rust/kernel/gpu/
- 
- DRM AUTOMATED TESTING
- M:	Helen Koike <helen.fornazier@gmail.com>
-diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helper.h
-index 083cc44aa952..dbb765a9fdbd 100644
---- a/rust/bindings/bindings_helper.h
-+++ b/rust/bindings/bindings_helper.h
-@@ -29,6 +29,7 @@
- #include <linux/hrtimer_types.h>
- 
- #include <linux/acpi.h>
-+#include <linux/gpu_buddy.h>
- #include <drm/drm_device.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_file.h>
-@@ -146,6 +147,16 @@ const vm_flags_t RUST_CONST_HELPER_VM_MIXEDMAP = VM_MIXEDMAP;
- const vm_flags_t RUST_CONST_HELPER_VM_HUGEPAGE = VM_HUGEPAGE;
- const vm_flags_t RUST_CONST_HELPER_VM_NOHUGEPAGE = VM_NOHUGEPAGE;
- 
-+#if IS_ENABLED(CONFIG_GPU_BUDDY)
-+const unsigned long RUST_CONST_HELPER_GPU_BUDDY_RANGE_ALLOCATION = GPU_BUDDY_RANGE_ALLOCATION;
-+const unsigned long RUST_CONST_HELPER_GPU_BUDDY_TOPDOWN_ALLOCATION = GPU_BUDDY_TOPDOWN_ALLOCATION;
-+const unsigned long RUST_CONST_HELPER_GPU_BUDDY_CONTIGUOUS_ALLOCATION =
-+								GPU_BUDDY_CONTIGUOUS_ALLOCATION;
-+const unsigned long RUST_CONST_HELPER_GPU_BUDDY_CLEAR_ALLOCATION = GPU_BUDDY_CLEAR_ALLOCATION;
-+const unsigned long RUST_CONST_HELPER_GPU_BUDDY_CLEARED = GPU_BUDDY_CLEARED;
-+const unsigned long RUST_CONST_HELPER_GPU_BUDDY_TRIM_DISABLE = GPU_BUDDY_TRIM_DISABLE;
-+#endif
-+
- #if IS_ENABLED(CONFIG_ANDROID_BINDER_IPC_RUST)
- #include "../../drivers/android/binder/rust_binder.h"
- #include "../../drivers/android/binder/rust_binder_events.h"
-diff --git a/rust/helpers/gpu.c b/rust/helpers/gpu.c
-new file mode 100644
-index 000000000000..38b1a4e6bef8
---- /dev/null
-+++ b/rust/helpers/gpu.c
-@@ -0,0 +1,23 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include <linux/gpu_buddy.h>
-+
-+#ifdef CONFIG_GPU_BUDDY
-+
-+__rust_helper u64 rust_helper_gpu_buddy_block_offset(const struct gpu_buddy_block *block)
-+{
-+	return gpu_buddy_block_offset(block);
-+}
-+
-+__rust_helper unsigned int rust_helper_gpu_buddy_block_order(struct gpu_buddy_block *block)
-+{
-+	return gpu_buddy_block_order(block);
-+}
-+
-+__rust_helper u64 rust_helper_gpu_buddy_block_size(struct gpu_buddy *mm,
-+						   struct gpu_buddy_block *block)
-+{
-+	return gpu_buddy_block_size(mm, block);
-+}
-+
-+#endif /* CONFIG_GPU_BUDDY */
-diff --git a/rust/helpers/helpers.c b/rust/helpers/helpers.c
-index 724fcb8240ac..a53929ce52a3 100644
---- a/rust/helpers/helpers.c
-+++ b/rust/helpers/helpers.c
-@@ -32,6 +32,7 @@
- #include "err.c"
- #include "irq.c"
- #include "fs.c"
-+#include "gpu.c"
- #include "io.c"
- #include "jump_label.c"
- #include "kunit.c"
-diff --git a/rust/kernel/gpu.rs b/rust/kernel/gpu.rs
-new file mode 100644
-index 000000000000..1dc5d0c8c09d
---- /dev/null
-+++ b/rust/kernel/gpu.rs
-@@ -0,0 +1,6 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+//! GPU subsystem abstractions.
-+
-+#[cfg(CONFIG_GPU_BUDDY = "y")]
-+pub mod buddy;
-diff --git a/rust/kernel/gpu/buddy.rs b/rust/kernel/gpu/buddy.rs
-new file mode 100644
-index 000000000000..af99d66832fd
---- /dev/null
-+++ b/rust/kernel/gpu/buddy.rs
-@@ -0,0 +1,622 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+//! GPU buddy allocator bindings.
-+//!
-+//! C header: [`include/linux/gpu_buddy.h`](srctree/include/linux/gpu_buddy.h)
-+//!
-+//! This module provides Rust abstractions over the Linux kernel's GPU buddy
-+//! allocator, which implements a binary buddy memory allocator.
-+//!
-+//! The buddy allocator manages a contiguous address space and allocates blocks
-+//! in power-of-two sizes, useful for GPU physical memory management.
-+//!
-+//! # Examples
-+//!
-+//! Create a buddy allocator and perform a basic range allocation:
-+//!
-+//! ```
-+//! use kernel::{
-+//!     gpu::buddy::{
-+//!         GpuBuddy,
-+//!         GpuBuddyAllocFlags,
-+//!         GpuBuddyAllocMode,
-+//!         GpuBuddyParams, //
-+//!     },
-+//!     prelude::*,
-+//!     ptr::Alignment,
-+//!     sizes::*, //
-+//! };
-+//!
-+//! // Create a 1GB buddy allocator with 4KB minimum chunk size.
-+//! let buddy = GpuBuddy::new(GpuBuddyParams {
-+//!     base_offset: 0,
-+//!     physical_memory_size: SZ_1G as u64,
-+//!     chunk_size: Alignment::new::<SZ_4K>(),
-+//! })?;
-+//!
-+//! assert_eq!(buddy.size(), SZ_1G as u64);
-+//! assert_eq!(buddy.chunk_size(), Alignment::new::<SZ_4K>());
-+//! let initial_free = buddy.free_memory();
-+//!
-+//! // Allocate 16MB. Block lands at the top of the address range.
-+//! let allocated = KBox::pin_init(
-+//!     buddy.alloc_blocks(
-+//!         GpuBuddyAllocMode::Simple,
-+//!         SZ_16M as u64,
-+//!         Alignment::new::<SZ_16M>(),
-+//!         GpuBuddyAllocFlags::default(),
-+//!     ),
-+//!     GFP_KERNEL,
-+//! )?;
-+//! assert_eq!(buddy.free_memory(), initial_free - SZ_16M as u64);
-+//!
-+//! let block = allocated.iter().next().expect("expected one block");
-+//! assert_eq!(block.offset(), (SZ_1G - SZ_16M) as u64);
-+//! assert_eq!(block.order(), 12); // 2^12 pages = 16MB
-+//! assert_eq!(block.size(), SZ_16M as u64);
-+//! assert_eq!(allocated.iter().count(), 1);
-+//!
-+//! // Dropping the allocation returns the range to the buddy allocator.
-+//! drop(allocated);
-+//! assert_eq!(buddy.free_memory(), initial_free);
-+//! # Ok::<(), Error>(())
-+//! ```
-+//!
-+//! Top-down allocation allocates from the highest addresses:
-+//!
-+//! ```
-+//! # use kernel::{
-+//! #     gpu::buddy::{GpuBuddy, GpuBuddyAllocMode, GpuBuddyAllocFlags, GpuBuddyParams},
-+//! #     prelude::*,
-+//! #     ptr::Alignment,
-+//! #     sizes::*, //
-+//! # };
-+//! # let buddy = GpuBuddy::new(GpuBuddyParams {
-+//! #     base_offset: 0,
-+//! #     physical_memory_size: SZ_1G as u64,
-+//! #     chunk_size: Alignment::new::<SZ_4K>(),
-+//! # })?;
-+//! # let initial_free = buddy.free_memory();
-+//! let topdown = KBox::pin_init(
-+//!     buddy.alloc_blocks(
-+//!         GpuBuddyAllocMode::TopDown,
-+//!         SZ_16M as u64,
-+//!         Alignment::new::<SZ_16M>(),
-+//!         GpuBuddyAllocFlags::default(),
-+//!     ),
-+//!     GFP_KERNEL,
-+//! )?;
-+//! assert_eq!(buddy.free_memory(), initial_free - SZ_16M as u64);
-+//!
-+//! let block = topdown.iter().next().expect("expected one block");
-+//! assert_eq!(block.offset(), (SZ_1G - SZ_16M) as u64);
-+//! assert_eq!(block.order(), 12);
-+//! assert_eq!(block.size(), SZ_16M as u64);
-+//!
-+//! // Dropping the allocation returns the range to the buddy allocator.
-+//! drop(topdown);
-+//! assert_eq!(buddy.free_memory(), initial_free);
-+//! # Ok::<(), Error>(())
-+//! ```
-+//!
-+//! Non-contiguous allocation can fill fragmented memory by returning multiple
-+//! blocks:
-+//!
-+//! ```
-+//! # use kernel::{
-+//! #     gpu::buddy::{
-+//! #         GpuBuddy, GpuBuddyAllocFlags, GpuBuddyAllocMode, GpuBuddyParams,
-+//! #     },
-+//! #     prelude::*,
-+//! #     ptr::Alignment,
-+//! #     sizes::*, //
-+//! # };
-+//! # let buddy = GpuBuddy::new(GpuBuddyParams {
-+//! #     base_offset: 0,
-+//! #     physical_memory_size: SZ_1G as u64,
-+//! #     chunk_size: Alignment::new::<SZ_4K>(),
-+//! # })?;
-+//! # let initial_free = buddy.free_memory();
-+//! // Create fragmentation by allocating 4MB blocks at [0,4M) and [8M,12M).
-+//! let frag1 = KBox::pin_init(
-+//!     buddy.alloc_blocks(
-+//!         GpuBuddyAllocMode::Range { start: 0, end: SZ_4M as u64 },
-+//!         SZ_4M as u64,
-+//!         Alignment::new::<SZ_4M>(),
-+//!         GpuBuddyAllocFlags::default(),
-+//!     ),
-+//!     GFP_KERNEL,
-+//! )?;
-+//! assert_eq!(buddy.free_memory(), initial_free - SZ_4M as u64);
-+//!
-+//! let frag2 = KBox::pin_init(
-+//!     buddy.alloc_blocks(
-+//!         GpuBuddyAllocMode::Range {
-+//!             start: SZ_8M as u64,
-+//!             end: (SZ_8M + SZ_4M) as u64,
-+//!         },
-+//!         SZ_4M as u64,
-+//!         Alignment::new::<SZ_4M>(),
-+//!         GpuBuddyAllocFlags::default(),
-+//!     ),
-+//!     GFP_KERNEL,
-+//! )?;
-+//! assert_eq!(buddy.free_memory(), initial_free - SZ_8M as u64);
-+//!
-+//! // Allocate 8MB, this returns 2 blocks from the holes.
-+//! let fragmented = KBox::pin_init(
-+//!     buddy.alloc_blocks(
-+//!         GpuBuddyAllocMode::Range { start: 0, end: SZ_16M as u64 },
-+//!         SZ_8M as u64,
-+//!         Alignment::new::<SZ_4M>(),
-+//!         GpuBuddyAllocFlags::default(),
-+//!     ),
-+//!     GFP_KERNEL,
-+//! )?;
-+//! assert_eq!(buddy.free_memory(), initial_free - SZ_16M as u64);
-+//!
-+//! let (mut count, mut total) = (0u32, 0u64);
-+//! for block in fragmented.iter() {
-+//!     assert_eq!(block.size(), SZ_4M as u64);
-+//!     total += block.size();
-+//!     count += 1;
-+//! }
-+//! assert_eq!(total, SZ_8M as u64);
-+//! assert_eq!(count, 2);
-+//! # Ok::<(), Error>(())
-+//! ```
-+//!
-+//! Contiguous allocation fails when only fragmented space is available:
-+//!
-+//! ```
-+//! # use kernel::{
-+//! #     gpu::buddy::{
-+//! #         GpuBuddy, GpuBuddyAllocFlag, GpuBuddyAllocFlags, GpuBuddyAllocMode, GpuBuddyParams,
-+//! #     },
-+//! #     prelude::*,
-+//! #     ptr::Alignment,
-+//! #     sizes::*, //
-+//! # };
-+//! // Create a small 16MB buddy allocator with fragmented memory.
-+//! let small = GpuBuddy::new(GpuBuddyParams {
-+//!     base_offset: 0,
-+//!     physical_memory_size: SZ_16M as u64,
-+//!     chunk_size: Alignment::new::<SZ_4K>(),
-+//! })?;
-+//!
-+//! let _hole1 = KBox::pin_init(
-+//!     small.alloc_blocks(
-+//!         GpuBuddyAllocMode::Range { start: 0, end: SZ_4M as u64 },
-+//!         SZ_4M as u64,
-+//!         Alignment::new::<SZ_4M>(),
-+//!         GpuBuddyAllocFlags::default(),
-+//!     ),
-+//!     GFP_KERNEL,
-+//! )?;
-+//!
-+//! let _hole2 = KBox::pin_init(
-+//!     small.alloc_blocks(
-+//!         GpuBuddyAllocMode::Range {
-+//!             start: SZ_8M as u64,
-+//!             end: (SZ_8M + SZ_4M) as u64,
-+//!         },
-+//!         SZ_4M as u64,
-+//!         Alignment::new::<SZ_4M>(),
-+//!         GpuBuddyAllocFlags::default(),
-+//!     ),
-+//!     GFP_KERNEL,
-+//! )?;
-+//!
-+//! // 8MB contiguous should fail, only two non-contiguous 4MB holes exist.
-+//! let result = KBox::pin_init(
-+//!     small.alloc_blocks(
-+//!         GpuBuddyAllocMode::Simple,
-+//!         SZ_8M as u64,
-+//!         Alignment::new::<SZ_4M>(),
-+//!         GpuBuddyAllocFlag::Contiguous,
-+//!     ),
-+//!     GFP_KERNEL,
-+//! );
-+//! assert!(result.is_err());
-+//! # Ok::<(), Error>(())
-+//! ```
-+
-+use crate::{
-+    bindings,
-+    clist_create,
-+    error::to_result,
-+    interop::list::CListHead,
-+    new_mutex,
-+    prelude::*,
-+    ptr::Alignment,
-+    sync::{
-+        lock::mutex::MutexGuard,
-+        Arc,
-+        Mutex, //
-+    },
-+    types::Opaque, //
-+};
-+
-+/// Allocation mode for the GPU buddy allocator.
-+///
-+/// The mode determines the primary allocation strategy. Modes are mutually
-+/// exclusive: an allocation is either simple, range-constrained, or top-down.
-+///
-+/// Orthogonal modifier flags (e.g., contiguous, clear) are specified separately
-+/// via [`GpuBuddyAllocFlags`].
-+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
-+pub enum GpuBuddyAllocMode {
-+    /// Simple allocation without constraints.
-+    Simple,
-+    /// Range-based allocation between `start` and `end` addresses.
-+    Range {
-+        /// Start of the allocation range.
-+        start: u64,
-+        /// End of the allocation range.
-+        end: u64,
-+    },
-+    /// Allocate from top of address space downward.
-+    TopDown,
-+}
-+
-+impl GpuBuddyAllocMode {
-+    // Returns the C flags corresponding to the allocation mode.
-+    fn into_flags(self) -> usize {
-+        match self {
-+            Self::Simple => 0,
-+            Self::Range { .. } => bindings::GPU_BUDDY_RANGE_ALLOCATION,
-+            Self::TopDown => bindings::GPU_BUDDY_TOPDOWN_ALLOCATION,
-+        }
-+    }
-+
-+    // Extracts the range start/end, defaulting to (0, 0) for non-range modes.
-+    fn range(self) -> (u64, u64) {
-+        match self {
-+            Self::Range { start, end } => (start, end),
-+            _ => (0, 0),
-+        }
-+    }
-+}
-+
-+crate::impl_flags!(
-+    /// Modifier flags for GPU buddy allocation.
-+    ///
-+    /// These flags can be combined with any [`GpuBuddyAllocMode`] to control
-+    /// additional allocation behavior.
-+    #[derive(Clone, Copy, Default, PartialEq, Eq)]
-+    pub struct GpuBuddyAllocFlags(u32);
-+
-+    /// Individual modifier flag for GPU buddy allocation.
-+    #[derive(Clone, Copy, PartialEq, Eq)]
-+    pub enum GpuBuddyAllocFlag {
-+        /// Allocate physically contiguous blocks.
-+        Contiguous = bindings::GPU_BUDDY_CONTIGUOUS_ALLOCATION as u32,
-+
-+        /// Request allocation from cleared (zeroed) memory.
-+        Clear = bindings::GPU_BUDDY_CLEAR_ALLOCATION as u32,
-+
-+        /// Disable trimming of partially used blocks.
-+        TrimDisable = bindings::GPU_BUDDY_TRIM_DISABLE as u32,
-+    }
-+);
-+
-+/// Parameters for creating a GPU buddy allocator.
-+pub struct GpuBuddyParams {
-+    /// Base offset (in bytes) where the managed memory region starts.
-+    /// Allocations will be offset by this value.
-+    pub base_offset: u64,
-+    /// Total physical memory size (in bytes) managed by the allocator.
-+    pub physical_memory_size: u64,
-+    /// Minimum allocation unit / chunk size, must be >= 4KB.
-+    pub chunk_size: Alignment,
-+}
-+
-+/// Inner structure holding the actual buddy allocator.
-+///
-+/// # Synchronization
-+///
-+/// The C `gpu_buddy` API requires synchronization (see `include/linux/gpu_buddy.h`).
-+/// Internal locking ensures all allocator and free operations are properly
-+/// synchronized, preventing races between concurrent allocations and the
-+/// freeing that occurs when [`AllocatedBlocks`] is dropped.
-+///
-+/// # Invariants
-+///
-+/// The inner [`Opaque`] contains an initialized buddy allocator.
-+#[pin_data(PinnedDrop)]
-+struct GpuBuddyInner {
-+    #[pin]
-+    inner: Opaque<bindings::gpu_buddy>,
-+
-+    // TODO: Replace `Mutex<()>` with `Mutex<Opaque<..>>` once `Mutex::new()`
-+    // accepts `impl PinInit<T>`.
-+    #[pin]
-+    lock: Mutex<()>,
-+    /// Cached creation parameters (do not change after init).
-+    params: GpuBuddyParams,
-+}
-+
-+impl GpuBuddyInner {
-+    /// Create a pin-initializer for the buddy allocator.
-+    fn new(params: GpuBuddyParams) -> impl PinInit<Self, Error> {
-+        let size = params.physical_memory_size;
-+        let chunk_size = params.chunk_size;
-+
-+        // INVARIANT: `gpu_buddy_init` returns 0 on success, at which point the
-+        // `gpu_buddy` structure is initialized and ready for use with all
-+        // `gpu_buddy_*` APIs. `try_pin_init!` only completes if all fields succeed,
-+        // so the invariant holds when construction finishes.
-+        try_pin_init!(Self {
-+            inner <- Opaque::try_ffi_init(|ptr| {
-+                // SAFETY: `ptr` points to valid uninitialized memory from the pin-init
-+                // infrastructure. `gpu_buddy_init` will initialize the structure.
-+                to_result(unsafe { bindings::gpu_buddy_init(ptr, size, chunk_size.as_usize() as u64) })
-+            }),
-+            lock <- new_mutex!(()),
-+            params,
-+        })
-+    }
-+
-+    /// Lock the mutex and return a guard for accessing the allocator.
-+    fn lock(&self) -> GpuBuddyGuard<'_> {
-+        GpuBuddyGuard {
-+            inner: self,
-+            _guard: self.lock.lock(),
-+        }
-+    }
-+}
-+
-+#[pinned_drop]
-+impl PinnedDrop for GpuBuddyInner {
-+    fn drop(self: Pin<&mut Self>) {
-+        let guard = self.lock();
-+
-+        // SAFETY: Per the type invariant, `inner` contains an initialized
-+        // allocator. `guard` provides exclusive access.
-+        unsafe {
-+            bindings::gpu_buddy_fini(guard.as_raw());
-+        }
-+    }
-+}
-+
-+// SAFETY: `GpuBuddyInner` can be sent between threads.
-+unsafe impl Send for GpuBuddyInner {}
-+
-+// SAFETY: `GpuBuddyInner` is `Sync` because `GpuBuddyInner::lock`
-+// serializes all access to the C allocator, preventing data races.
-+unsafe impl Sync for GpuBuddyInner {}
-+
-+// Guard that proves the lock is held, enabling access to the allocator.
-+// The `_guard` holds the lock for the duration of this guard's lifetime.
-+struct GpuBuddyGuard<'a> {
-+    inner: &'a GpuBuddyInner,
-+    _guard: MutexGuard<'a, ()>,
-+}
-+
-+impl GpuBuddyGuard<'_> {
-+    /// Get a raw pointer to the underlying C `gpu_buddy` structure.
-+    fn as_raw(&self) -> *mut bindings::gpu_buddy {
-+        self.inner.inner.get()
-+    }
-+}
-+
-+/// GPU buddy allocator instance.
-+///
-+/// This structure wraps the C `gpu_buddy` allocator using reference counting.
-+/// The allocator is automatically cleaned up when all references are dropped.
-+///
-+/// Refer to the module-level documentation for usage examples.
-+pub struct GpuBuddy(Arc<GpuBuddyInner>);
-+
-+impl GpuBuddy {
-+    /// Create a new buddy allocator.
-+    ///
-+    /// Creates a buddy allocator that manages a contiguous address space of the given
-+    /// size, with the specified minimum allocation unit (chunk_size must be at least 4KB).
-+    pub fn new(params: GpuBuddyParams) -> Result<Self> {
-+        Arc::pin_init(GpuBuddyInner::new(params), GFP_KERNEL).map(Self)
-+    }
-+
-+    /// Get the base offset for allocations.
-+    pub fn base_offset(&self) -> u64 {
-+        self.0.params.base_offset
-+    }
-+
-+    /// Get the chunk size (minimum allocation unit).
-+    pub fn chunk_size(&self) -> Alignment {
-+        self.0.params.chunk_size
-+    }
-+
-+    /// Get the total managed size.
-+    pub fn size(&self) -> u64 {
-+        self.0.params.physical_memory_size
-+    }
-+
-+    /// Get the available (free) memory in bytes.
-+    pub fn free_memory(&self) -> u64 {
-+        let guard = self.0.lock();
-+
-+        // SAFETY: Per the type invariant, `inner` contains an initialized allocator.
-+        // `guard` provides exclusive access.
-+        unsafe { (*guard.as_raw()).avail }
-+    }
-+
-+    /// Allocate blocks from the buddy allocator.
-+    ///
-+    /// Returns a pin-initializer for [`AllocatedBlocks`].
-+    pub fn alloc_blocks(
-+        &self,
-+        mode: GpuBuddyAllocMode,
-+        size: u64,
-+        min_block_size: Alignment,
-+        flags: impl Into<GpuBuddyAllocFlags>,
-+    ) -> impl PinInit<AllocatedBlocks, Error> {
-+        let buddy_arc = Arc::clone(&self.0);
-+        let (start, end) = mode.range();
-+        let mode_flags = mode.into_flags();
-+        let modifier_flags = u32::from(flags.into()) as usize;
-+
-+        // Create pin-initializer that initializes list and allocates blocks.
-+        try_pin_init!(AllocatedBlocks {
-+            buddy: buddy_arc,
-+            list <- CListHead::new(),
-+            _: {
-+                // Reject zero-sized or inverted ranges.
-+                if let GpuBuddyAllocMode::Range { start, end } = mode {
-+                    if end <= start {
-+                        Err::<(), Error>(EINVAL)?;
-+                    }
-+                }
-+
-+                // Lock while allocating to serialize with concurrent frees.
-+                let guard = buddy.lock();
-+
-+                // SAFETY: Per the type invariant, `inner` contains an initialized
-+                // allocator. `guard` provides exclusive access.
-+                to_result(unsafe {
-+                    bindings::gpu_buddy_alloc_blocks(
-+                        guard.as_raw(),
-+                        start,
-+                        end,
-+                        size,
-+                        min_block_size.as_usize() as u64,
-+                        list.as_raw(),
-+                        mode_flags | modifier_flags,
-+                    )
-+                })?
-+            }
-+        })
-+    }
-+}
-+
-+/// Allocated blocks from the buddy allocator with automatic cleanup.
-+///
-+/// This structure owns a list of allocated blocks and ensures they are
-+/// automatically freed when dropped. Use `iter()` to iterate over all
-+/// allocated blocks.
-+///
-+/// # Invariants
-+///
-+/// - `list` is an initialized, valid list head containing allocated blocks.
-+#[pin_data(PinnedDrop)]
-+pub struct AllocatedBlocks {
-+    #[pin]
-+    list: CListHead,
-+    buddy: Arc<GpuBuddyInner>,
-+}
-+
-+impl AllocatedBlocks {
-+    /// Check if the block list is empty.
-+    pub fn is_empty(&self) -> bool {
-+        // An empty list head points to itself.
-+        !self.list.is_linked()
-+    }
-+
-+    /// Iterate over allocated blocks.
-+    ///
-+    /// Returns an iterator yielding [`AllocatedBlock`] values. Each [`AllocatedBlock`]
-+    /// borrows `self` and is only valid for the duration of that borrow.
-+    pub fn iter(&self) -> impl Iterator<Item = AllocatedBlock<'_>> + '_ {
-+        // SAFETY:
-+        // - Per the type invariant, `list` is an initialized sentinel `list_head`
-+        //   and is not concurrently modified (we hold a `&self` borrow).
-+        // - The list contains `gpu_buddy_block` items linked via
-+        //   `__bindgen_anon_1.link`.
-+        // - `Block` is `#[repr(transparent)]` over `gpu_buddy_block`.
-+        let head = self.list.as_raw();
-+        let clist = clist_create!(unsafe {
-+            head,
-+            Block,
-+            bindings::gpu_buddy_block,
-+            __bindgen_anon_1.link
-+        });
-+
-+        clist
-+            .iter()
-+            .map(|this| AllocatedBlock { this, blocks: self })
-+    }
-+}
-+
-+#[pinned_drop]
-+impl PinnedDrop for AllocatedBlocks {
-+    fn drop(self: Pin<&mut Self>) {
-+        let guard = self.buddy.lock();
-+
-+        // SAFETY:
-+        // - list is valid per the type's invariants.
-+        // - guard provides exclusive access to the allocator.
-+        unsafe {
-+            bindings::gpu_buddy_free_list(guard.as_raw(), self.list.as_raw(), 0);
-+        }
-+    }
-+}
-+
-+/// A GPU buddy block.
-+///
-+/// Transparent wrapper over C `gpu_buddy_block` structure. This type is returned
-+/// as references during iteration over [`AllocatedBlocks`].
-+///
-+/// # Invariants
-+///
-+/// The inner [`Opaque`] contains a valid, allocated `gpu_buddy_block`.
-+#[repr(transparent)]
-+struct Block(Opaque<bindings::gpu_buddy_block>);
-+
-+impl Block {
-+    /// Get a raw pointer to the underlying C block.
-+    fn as_raw(&self) -> *mut bindings::gpu_buddy_block {
-+        self.0.get()
-+    }
-+
-+    /// Get the block's raw offset in the buddy address space (without base offset).
-+    fn offset(&self) -> u64 {
-+        // SAFETY: `self.as_raw()` is valid per the type's invariants.
-+        unsafe { bindings::gpu_buddy_block_offset(self.as_raw()) }
-+    }
-+
-+    /// Get the block order.
-+    fn order(&self) -> u32 {
-+        // SAFETY: `self.as_raw()` is valid per the type's invariants.
-+        unsafe { bindings::gpu_buddy_block_order(self.as_raw()) }
-+    }
-+}
-+
-+// SAFETY: `Block` is a wrapper around `gpu_buddy_block` which can be
-+// sent across threads safely.
-+unsafe impl Send for Block {}
-+
-+// SAFETY: `Block` is only accessed through shared references after
-+// allocation, and thus safe to access concurrently across threads.
-+unsafe impl Sync for Block {}
-+
-+/// A buddy block paired with its owning [`AllocatedBlocks`] context.
-+///
-+/// Unlike a raw block, which only knows its offset within the buddy address
-+/// space, an [`AllocatedBlock`] also has access to the allocator's `base_offset`
-+/// and `chunk_size`, enabling it to compute absolute offsets and byte sizes.
-+///
-+/// Returned by [`AllocatedBlocks::iter()`].
-+pub struct AllocatedBlock<'a> {
-+    this: &'a Block,
-+    blocks: &'a AllocatedBlocks,
-+}
-+
-+impl AllocatedBlock<'_> {
-+    /// Get the block's offset in the address space.
-+    ///
-+    /// Returns the absolute offset including the allocator's base offset.
-+    /// This is the actual address to use for accessing the allocated memory.
-+    pub fn offset(&self) -> u64 {
-+        self.blocks.buddy.params.base_offset + self.this.offset()
-+    }
-+
-+    /// Get the block order (size = chunk_size << order).
-+    pub fn order(&self) -> u32 {
-+        self.this.order()
-+    }
-+
-+    /// Get the block's size in bytes.
-+    pub fn size(&self) -> u64 {
-+        (self.blocks.buddy.params.chunk_size.as_usize() as u64) << self.this.order()
-+    }
-+}
-diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
-index bdcf632050ee..2652933e585f 100644
---- a/rust/kernel/lib.rs
-+++ b/rust/kernel/lib.rs
-@@ -102,6 +102,8 @@
- pub mod firmware;
- pub mod fmt;
- pub mod fs;
-+#[cfg(CONFIG_GPU_BUDDY = "y")]
-+pub mod gpu;
- #[cfg(CONFIG_I2C = "y")]
- pub mod i2c;
- pub mod id_pool;
+This is the first phase in the release of this driver where we implement the
+initialization of the core PCI driver. Subsequent phases will implement
+advanced features like usage of idpf ethernet aux device, link management,
+NVM update via devlink, switchdev port representors, data and exception path,
+flow rule programming, etc.
+
+The first phase entails the following aspects:
+
+1. Additional libie functionalities:
+Patches 1-6 introduces additional common library API for drivers to
+communicate with the control plane through mailbox communication.
+A control queue is a hardware interface which is used by the driver
+to interact with other subsystems (like firmware). The library APIs
+allow the driver to setup and configure the control queues to send and
+receive virtchnl messages. The library has an internal bookkeeping
+(XN API) mechanism to keep track of the send messages. It supports both
+synchronous as well as asynchronous way of handling the messages. The
+library also handles the timeout internally for synchronous messages
+using events. This reduces the driver's overhead in handling the timeout
+error cases.
+
+The current patch series supports only APIs that are needed for device
+initialization. These include APIs in the libie_pci module:
+* Allocating/freeing the DMA memory and mapping the MMIO regions for
+  BAR0, read/write APIs for drivers to access the MMIO memory
+
+and libie_cp module:
+* Control queue initialization and configuration
+* Transport initialization for bookkeeping
+* Blocking and asynchronous mailbox transactions
+
+Once the mailbox is initialized, the drivers can send and receive virtchnl
+messages to/from the control plane.
+
+The modules above are not supposed to be linked with the main libie library,
+but do share the folder with it.
+
+2. idpf:
+Patches 7-11 refactor the idpf driver to use the libie APIs for control
+queue configuration, virtchnl transaction, device initialization and
+reset and adjust related code accordingly.
+
+3. ixd:
+Patches 12-15 add the ixd driver and implement multiple pieces of the
+initialization flow as follows:
+* Add the ability to load
+* A reset is issued to ensure a clean device state, followed by
+  initialization of the mailbox
+* Device capabilities:
+  As part of initialization, the driver has to determine what the device is
+  capable of (ex. max queues, vports, etc). This information is obtained from
+  the firmware and stored by the driver.
+* Enable initial support for the devlink interface
+
+The following are changes since commit 8737d7194d6d5947c3d7d8813895b44a25b84477:
+  net: airoha: select QDMA block according LAN/WAN configuration
+and are available in the git repository at:
+  git://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue 200GbE
+
+Amritha Nambiar (1):
+  ixd: add devlink support
+
+Larysa Zaremba (5):
+  idpf: make mbx_task queueing and cancelling more consistent
+  idpf: print a debug message and bail in case of non-event ctlq message
+  ixd: add basic driver framework for Intel(R) Control Plane Function
+  ixd: add reset checks and initialize the mailbox
+  ixd: add the core initialization
+
+Pavan Kumar Linga (4):
+  libeth: allow to create fill queues without NAPI
+  idpf: remove 'vport_params_reqd' field
+  idpf: refactor idpf to use libie_pci APIs
+  idpf: refactor idpf to use libie control queues
+
+Phani R Burra (3):
+  libie: add PCI device initialization helpers to libie
+  libie: add control queue support
+  libie: add bookkeeping support for control queue messages
+
+Victor Raj (2):
+  virtchnl: create 'include/linux/intel' and move necessary header files
+  virtchnl: introduce control plane version fields
+
+ .../device_drivers/ethernet/index.rst         |    1 +
+ .../device_drivers/ethernet/intel/ixd.rst     |   39 +
+ Documentation/networking/devlink/index.rst    |    1 +
+ Documentation/networking/devlink/ixd.rst      |   35 +
+ MAINTAINERS                                   |    6 +-
+ drivers/infiniband/hw/irdma/i40iw_if.c        |    2 +-
+ drivers/infiniband/hw/irdma/icrdma_if.c       |    2 +-
+ drivers/infiniband/hw/irdma/ig3rdma_if.c      |    2 +-
+ drivers/infiniband/hw/irdma/main.c            |    2 +-
+ drivers/infiniband/hw/irdma/main.h            |    2 +-
+ drivers/net/ethernet/intel/Kconfig            |    2 +
+ drivers/net/ethernet/intel/Makefile           |    1 +
+ drivers/net/ethernet/intel/i40e/i40e.h        |    4 +-
+ .../net/ethernet/intel/i40e/i40e_adminq_cmd.h |    2 +-
+ drivers/net/ethernet/intel/i40e/i40e_client.c |    2 +-
+ drivers/net/ethernet/intel/i40e/i40e_common.c |    2 +-
+ .../net/ethernet/intel/i40e/i40e_ethtool.c    |    2 +-
+ drivers/net/ethernet/intel/i40e/i40e_main.c   |    2 +-
+ .../net/ethernet/intel/i40e/i40e_prototype.h  |    2 +-
+ drivers/net/ethernet/intel/i40e/i40e_txrx.c   |    4 +-
+ drivers/net/ethernet/intel/i40e/i40e_txrx.h   |    2 +-
+ .../ethernet/intel/i40e/i40e_virtchnl_pf.h    |    2 +-
+ drivers/net/ethernet/intel/iavf/iavf.h        |    2 +-
+ .../net/ethernet/intel/iavf/iavf_adminq_cmd.h |    2 +-
+ drivers/net/ethernet/intel/iavf/iavf_common.c |    2 +-
+ drivers/net/ethernet/intel/iavf/iavf_main.c   |    2 +-
+ .../net/ethernet/intel/iavf/iavf_prototype.h  |    2 +-
+ drivers/net/ethernet/intel/iavf/iavf_txrx.c   |    2 +-
+ drivers/net/ethernet/intel/iavf/iavf_txrx.h   |    2 +-
+ drivers/net/ethernet/intel/iavf/iavf_types.h  |    4 +-
+ .../net/ethernet/intel/iavf/iavf_virtchnl.c   |    2 +-
+ drivers/net/ethernet/intel/ice/ice.h          |    2 +-
+ .../net/ethernet/intel/ice/ice_adminq_cmd.h   |    2 +-
+ drivers/net/ethernet/intel/ice/ice_base.c     |    2 +-
+ drivers/net/ethernet/intel/ice/ice_common.h   |    2 +-
+ drivers/net/ethernet/intel/ice/ice_flow.h     |    2 +-
+ drivers/net/ethernet/intel/ice/ice_idc_int.h  |    4 +-
+ drivers/net/ethernet/intel/ice/ice_txrx.c     |    2 +-
+ drivers/net/ethernet/intel/ice/ice_txrx_lib.c |    2 +-
+ drivers/net/ethernet/intel/ice/ice_type.h     |    2 +-
+ drivers/net/ethernet/intel/ice/ice_vf_lib.h   |    2 +-
+ .../net/ethernet/intel/ice/virt/virtchnl.h    |    2 +-
+ drivers/net/ethernet/intel/idpf/Kconfig       |    1 +
+ drivers/net/ethernet/intel/idpf/Makefile      |    2 -
+ drivers/net/ethernet/intel/idpf/idpf.h        |  103 +-
+ .../net/ethernet/intel/idpf/idpf_controlq.c   |   26 +-
+ .../net/ethernet/intel/idpf/idpf_controlq.h   |  144 --
+ .../ethernet/intel/idpf/idpf_controlq_api.h   |  177 --
+ drivers/net/ethernet/intel/idpf/idpf_dev.c    |  101 +-
+ .../net/ethernet/intel/idpf/idpf_ethtool.c    |   32 +-
+ drivers/net/ethernet/intel/idpf/idpf_idc.c    |   38 +-
+ drivers/net/ethernet/intel/idpf/idpf_lib.c    |   69 +-
+ drivers/net/ethernet/intel/idpf/idpf_main.c   |  114 +-
+ drivers/net/ethernet/intel/idpf/idpf_mem.h    |   20 -
+ drivers/net/ethernet/intel/idpf/idpf_txrx.h   |    4 +-
+ drivers/net/ethernet/intel/idpf/idpf_vf_dev.c |   99 +-
+ .../net/ethernet/intel/idpf/idpf_virtchnl.c   | 1792 +++++++----------
+ .../net/ethernet/intel/idpf/idpf_virtchnl.h   |   92 +-
+ .../ethernet/intel/idpf/idpf_virtchnl_ptp.c   |  296 ++-
+ drivers/net/ethernet/intel/ixd/Kconfig        |   15 +
+ drivers/net/ethernet/intel/ixd/Makefile       |   13 +
+ drivers/net/ethernet/intel/ixd/ixd.h          |   58 +
+ drivers/net/ethernet/intel/ixd/ixd_ctlq.c     |  149 ++
+ drivers/net/ethernet/intel/ixd/ixd_ctlq.h     |   33 +
+ drivers/net/ethernet/intel/ixd/ixd_dev.c      |   89 +
+ drivers/net/ethernet/intel/ixd/ixd_devlink.c  |   97 +
+ drivers/net/ethernet/intel/ixd/ixd_devlink.h  |   44 +
+ drivers/net/ethernet/intel/ixd/ixd_lan_regs.h |   68 +
+ drivers/net/ethernet/intel/ixd/ixd_lib.c      |  166 ++
+ drivers/net/ethernet/intel/ixd/ixd_main.c     |  147 ++
+ drivers/net/ethernet/intel/ixd/ixd_virtchnl.c |  178 ++
+ drivers/net/ethernet/intel/ixd/ixd_virtchnl.h |   12 +
+ drivers/net/ethernet/intel/ixgbe/ixgbe_type.h |    2 +-
+ .../ethernet/intel/ixgbe/ixgbe_type_e610.h    |    2 +-
+ drivers/net/ethernet/intel/libeth/rx.c        |    9 +-
+ drivers/net/ethernet/intel/libie/Kconfig      |   14 +
+ drivers/net/ethernet/intel/libie/Makefile     |    8 +
+ drivers/net/ethernet/intel/libie/adminq.c     |    2 +-
+ drivers/net/ethernet/intel/libie/controlq.c   | 1197 +++++++++++
+ drivers/net/ethernet/intel/libie/fwlog.c      |    2 +-
+ drivers/net/ethernet/intel/libie/pci.c        |  190 ++
+ drivers/net/ethernet/intel/libie/rx.c         |    2 +-
+ include/linux/{net => }/intel/i40e_client.h   |    0
+ include/linux/{net => }/intel/iidc_rdma.h     |    0
+ include/linux/{net => }/intel/iidc_rdma_ice.h |    0
+ .../linux/{net => }/intel/iidc_rdma_idpf.h    |    0
+ include/linux/{net => }/intel/libie/adminq.h  |    0
+ include/linux/intel/libie/controlq.h          |  423 ++++
+ include/linux/{net => }/intel/libie/fwlog.h   |    2 +-
+ include/linux/intel/libie/pci.h               |   56 +
+ include/linux/{net => }/intel/libie/pctype.h  |    0
+ include/linux/{net => }/intel/libie/rx.h      |    0
+ include/linux/{avf => intel}/virtchnl.h       |    0
+ .../idpf => include/linux/intel}/virtchnl2.h  |    6 +-
+ .../linux/intel}/virtchnl2_lan_desc.h         |    0
+ include/net/libeth/rx.h                       |    4 +-
+ 96 files changed, 4172 insertions(+), 2089 deletions(-)
+ create mode 100644 Documentation/networking/device_drivers/ethernet/intel/ixd.rst
+ create mode 100644 Documentation/networking/devlink/ixd.rst
+ delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_controlq.h
+ delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_controlq_api.h
+ delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_mem.h
+ create mode 100644 drivers/net/ethernet/intel/ixd/Kconfig
+ create mode 100644 drivers/net/ethernet/intel/ixd/Makefile
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd.h
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_ctlq.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_ctlq.h
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_dev.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_devlink.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_devlink.h
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_lan_regs.h
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_lib.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_main.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_virtchnl.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_virtchnl.h
+ create mode 100644 drivers/net/ethernet/intel/libie/controlq.c
+ create mode 100644 drivers/net/ethernet/intel/libie/pci.c
+ rename include/linux/{net => }/intel/i40e_client.h (100%)
+ rename include/linux/{net => }/intel/iidc_rdma.h (100%)
+ rename include/linux/{net => }/intel/iidc_rdma_ice.h (100%)
+ rename include/linux/{net => }/intel/iidc_rdma_idpf.h (100%)
+ rename include/linux/{net => }/intel/libie/adminq.h (100%)
+ create mode 100644 include/linux/intel/libie/controlq.h
+ rename include/linux/{net => }/intel/libie/fwlog.h (98%)
+ create mode 100644 include/linux/intel/libie/pci.h
+ rename include/linux/{net => }/intel/libie/pctype.h (100%)
+ rename include/linux/{net => }/intel/libie/rx.h (100%)
+ rename include/linux/{avf => intel}/virtchnl.h (100%)
+ rename {drivers/net/ethernet/intel/idpf => include/linux/intel}/virtchnl2.h (99%)
+ rename {drivers/net/ethernet/intel/idpf => include/linux/intel}/virtchnl2_lan_desc.h (100%)
+
 -- 
-2.34.1
+2.47.1
 
