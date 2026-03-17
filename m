@@ -1,128 +1,115 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF59137649B;
-	Tue, 17 Mar 2026 18:57:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF1513E5ED6;
+	Tue, 17 Mar 2026 19:05:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773773858; cv=none; b=hffAnHFdNqG4wudloAKBL+x7SgCzsGVSlFSnD2/NdKoZaoG0cA2ElvbV7LeeQwiefs2nNQJ1yPyRPItNfadDg3vMCcMDtqc5TBn7rApfItZJM2h7Mwt973UVZD/kgWj2TWQZpbiiTKWD/Z+EVFRRD4brjnHaOGwCG6eZJ7M3UQ4=
+	t=1773774343; cv=none; b=FhaFxk7N+eYDxLw42IvH+vOZ1PbpFV65O0RZem2eqVXg2B430hxhYoo/3l1L4AOUP3espcAWn9svwkC8QOQgkSYoZG133BPxrN4G7n61eW46RAcJPFYhnHUTe/MRoyrrEuBAQ2Sp++YvTzzTDROlCiH6hjp5qtHzMCPrqVszxaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773773858; c=relaxed/simple;
-	bh=pwww5r/oyomEH98GG3wM7tmflXS5Us/dG8w1TjARVyk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FY9LyccUv7/zPhJPjr/Bh8D9vwtASOwh8f5JOBDdCXZ5qDenKT6eKPOH1sAvjSQGUnTSvqzgCe9PjCWO+l2pxwNDszVYLwUdOj47kP4IjPEmePrEJJRhv2glYs04Xxxv/uRq1bkswXLIAJiOlH6Fh312dZagZSAgXo0H0eNBiTM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AyhG4kOY; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773774343; c=relaxed/simple;
+	bh=syW3z0x80IUsDkJqDO1sfU4YY8HBrpHtA77ObK08ZFo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q76V/LLtGIjS2sCJcdINX6Sw0By0nS+Hu6Kkf5jUEnoJmfKa+ZLAkRLO+x/iXpGtBjGDCTe+wGLLse9lX04auWLBhgSuBsYhDBs9NERchuUxOY0tzL/BxylIcdCBveFH+JkPCWBMLseC+DhimqxOpExH55Zrw0nwqryAnOhedck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VRWgTDqb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AyhG4kOY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DEF1C4CEF7;
-	Tue, 17 Mar 2026 18:57:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VRWgTDqb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1F64C4CEF7;
+	Tue, 17 Mar 2026 19:05:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773773858;
-	bh=pwww5r/oyomEH98GG3wM7tmflXS5Us/dG8w1TjARVyk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=AyhG4kOYhFjG1mwiOtFWyOThSQchNdUaZ4LKs4cFyzkHbsEm+ioR9PgJj+XgzaBnV
-	 L9XTF/IKQadOzt6dqQvdXvUcGMsAbKQS2ijG9mzfGmGqOQIRvRLdrxlbjInAF5itZX
-	 vD5uK0RStSNJNNPJEgfCuNsRmGemXEWaHIG/0De2uyPyZwCxassHNwNfX7/fl7zLPr
-	 phto4P8Jhefx6dT8+A/JZKNPA5a3/JQZom9KiDoGpTiBKcaOWR9qykdE8/TECQSNfW
-	 QYXJud7VGZQE2t2wnQz1r229Gw07gibSkO7dkuDnoG3SnikIuPPysNda40vUqrlHJH
-	 hwOVXMku4QPcg==
-Date: Tue, 17 Mar 2026 19:57:31 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Kees Cook <kees@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org,
- linux-kernel@vger.kernel.org, "Gustavo A. R. Silva"
- <gustavoars@kernel.org>, Aleksandr Loktionov
- <aleksandr.loktionov@intel.com>, Randy Dunlap <rdunlap@infradead.org>,
- Shuah Khan <skhan@linuxfoundation.org>, Vincent Mailhol
- <mailhol@kernel.org>
-Subject: Re: [PATCH v2 00/28] kernel-doc: use a C lexical tokenizer for
- transforms
-Message-ID: <20260317195731.315660b5@foz.lan>
-In-Reply-To: <87tsue9y7h.fsf@trenco.lwn.net>
-References: <cover.1773326442.git.mchehab+huawei@kernel.org>
-	<87tsue9y7h.fsf@trenco.lwn.net>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	s=k20201202; t=1773774343;
+	bh=syW3z0x80IUsDkJqDO1sfU4YY8HBrpHtA77ObK08ZFo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VRWgTDqbWe3Q1W3JoxRORGEv9cJSyULlIC1z8Bw/dttRqK0xrUjV3jcLj+FCNIlhA
+	 yfquFZi5RuoGYh094bwpTEqzMSy1oi20VB/mwVmDasAQXUEDUj69QwmFrLNkzzaaEW
+	 TxL4IoR2tfqmdocyZECPzry0Flux1xfTuoo78wga02G7HX9CfQP86SEbWHmeki3bnG
+	 fQQPAweWzmsOQWPyYRrr1vn+O2GeAM0lXjxVoRUKicNl0fMpfX0u90da1igsahAgWD
+	 lVpeDEoTnLCevj3RHVAGT/mI6ZPAnZpFvQykUFfbUgqTYwv27pZul8kECdVX2mxKrW
+	 MJpheC1EsGxUQ==
+Date: Tue, 17 Mar 2026 21:05:38 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Marek Szyprowski <m.szyprowski@samsung.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Petr Tesarik <ptesarik@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, virtualization@lists.linux.dev,
+	linux-rdma@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: Re: [PATCH v3 0/8] RDMA: Enable operation with DMA debug enabled
+Message-ID: <20260317190538.GD61385@unreal>
+References: <20260316-dma-debug-overlap-v3-0-1dde90a7f08b@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260316-dma-debug-overlap-v3-0-1dde90a7f08b@nvidia.com>
 
-On Tue, 17 Mar 2026 11:12:50 -0600
-Jonathan Corbet <corbet@lwn.net> wrote:
-
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+On Mon, Mar 16, 2026 at 09:06:44PM +0200, Leon Romanovsky wrote:
+> Add a new DMA_ATTR_REQUIRE_COHERENT attribute to the DMA API to mark
+> mappings that must run on a DMA‑coherent system. Such buffers cannot
+> use the SWIOTLB path, may overlap with CPU caches, and do not depend on
+> explicit cache flushing.
 > 
-> > Sorry for respamming this one too quick. It ends that v1 had some
-> > bugs causing it to fail on several cases. I opted to add extra
-> > patches in the end. This way, it better integrates with kdoc_re.
-> > As part of it, now c_lex will output file name when reporting
-> > errors. With that regards, only more serious errors will raise
-> > an exception. They are meant to indicate problems at kernel-doc
-> > itself. Parsing errors are now using the same warning approach
-> > as kdoc_parser.
-> >
-> > I also added a filter at Ctokenizer __str__() logic for the
-> > string convertion to drop some weirdness whitespaces and uneeded
-> > ";" characters at the output.
-> >
-> > Finally, v2 address the undefined behavior about private: comment
-> > propagation.
-> >
-> > This patch series change how kdoc parser handles macro replacements.  
+> Mappings using this attribute are rejected on systems where cache
+> side‑effects could lead to data corruption, and therefore do not need
+> the cache‑overlap debugging logic. This series also includes fixes for
+> DMA_ATTR_CPU_CACHE_CLEAN handling.
+> Thanks.
+
+<...>
+
+> ---
+> Leon Romanovsky (8):
+>       dma-debug: Allow multiple invocations of overlapping entries
+>       dma-mapping: handle DMA_ATTR_CPU_CACHE_CLEAN in trace output
+>       dma-mapping: Clarify valid conditions for CPU cache line overlap
+>       dma-mapping: Introduce DMA require coherency attribute
+>       dma-direct: prevent SWIOTLB path when DMA_ATTR_REQUIRE_COHERENT is set
+>       iommu/dma: add support for DMA_ATTR_REQUIRE_COHERENT attribute
+>       RDMA/umem: Tell DMA mapping that UMEM requires coherency
+>       mm/hmm: Indicate that HMM requires DMA coherency
 > 
-> I do worry about adding another 2000 lines to kernel-doc, even if more than
-> half of them are tests.  But hopefully it leads to a better and more
-> maintainable system.
+>  Documentation/core-api/dma-attributes.rst | 38 ++++++++++++++++++++++++-------
+>  drivers/infiniband/core/umem.c            |  5 ++--
+>  drivers/iommu/dma-iommu.c                 | 21 +++++++++++++----
+>  drivers/virtio/virtio_ring.c              | 10 ++++----
+>  include/linux/dma-mapping.h               | 15 ++++++++----
+>  include/trace/events/dma.h                |  4 +++-
+>  kernel/dma/debug.c                        |  9 ++++----
+>  kernel/dma/direct.h                       |  7 +++---
+>  kernel/dma/mapping.c                      |  6 +++++
+>  mm/hmm.c                                  |  4 ++--
+>  10 files changed, 86 insertions(+), 33 deletions(-)
 
-Net change due to the parser itself was ~650 lines of code, excluding
-unittests.
+Marek,
 
-Yet, at least for me, the code looks a lot better with:
+Despite the "RDMA ..." tag in the subject, the diffstat clearly shows that
+you are the appropriate person to take this patch.
 
-        (CMatch("VIRTIO_DECLARE_FEATURES"), r"union { u64 \1; u64 \1_array[VIRTIO_FEATURES_U64S]; }"),
-	...
-        (CMatch("struct_group"), r"struct { \2+ };"),
-        (CMatch("struct_group_attr"), r"struct { \3+ };"),
-        (CMatch("struct_group_tagged"), r"struct { \3+ };"),
-        (CMatch("__struct_group"), r"struct { \4+ };"),
-
-and other similar stuff than with the previous approach with
-very complex regular expressions and/or handing it on two
-steps. IMO this should be a lot easier to maintain as well.
-
-Also, the unittests will hopefully help to detect regressions(
-and to test new stuff there without hidden bugs.
-
-> We're starting to get late enough in the cycle that I'm a bit leery of
-> applying this work for 7.1.  What was your thinking on timing?
-
-There is something I want to change, but not sure if it will
-be in time: get rid of the ugly code at:
-
-	- rewrite_struct_members
-	- create_parameter_list
-	- split_struct_proto
-
-I started doing some changes with that regards, but unlikely to
-have time for 7.1.
-
-I do have a pile of patches sitting here to be rebased.
-
-Among them, there are unittests for KernelDoc class.
-IMO, it is worth rebasing at least some of them in time for this
-merge window. The ones with unittests are independent (or
-eventually might require minimal changes). I'd like to have
-at least those merged for 7.1.
-
-Among them, there are several tests written by Randy with
-regards to some parsing issues at kernel-doc. We should at
-least merge the ones that already pass after the tokenizer ;-)
+Thanks.
 
 
-Thanks,
-Mauro
+> ---
+> base-commit: 11439c4635edd669ae435eec308f4ab8a0804808
+> change-id: 20260305-dma-debug-overlap-21487c3fa02c
+> 
+> Best regards,
+> --  
+> Leon Romanovsky <leonro@nvidia.com>
+> 
