@@ -1,326 +1,264 @@
-Received: from out198-21.us.a.mail.aliyun.com (out198-21.us.a.mail.aliyun.com [47.90.198.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDC6F355F3C;
-	Tue, 17 Mar 2026 03:51:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=47.90.198.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0340635DA62
+	for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 03:52:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773719496; cv=none; b=LodfFE39FtgyutScRTniej57EW0c8xjarP2zFIo0vG74GDZ62iLHhs2tbiAGJiKG7b+sx/E+GjvRiWACMs7oa4SI7LDeeEzP9Rz9x+UNGLVzO296hSJ/ONVlO5rHnFJXWucpf7lDi71W2iUowzluEDjJTxfxiolDfKzqm5R+V0o=
+	t=1773719574; cv=none; b=LDqGK73i1JZb3s2xgA3YzzZIbaCNwEcP/qmYOejNeTGTK0F3QjVVNpWIapRHY9oLuRbIwxmcK2puXVKV9tPkNvMPa1+ogJE23wEgqTGybmt9XTWXtv+cu8U3eUa6egH5jUoh57odwB9Xh2KCwploxp1BO1ww7zUHhxgUKWy+pzo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773719496; c=relaxed/simple;
-	bh=TVGyocG9nLwgxmXfrtK0f6iShWeypFJYtDi5tk4ImVQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Imqs19WZ9sQiJ1nac8w3PBAVoLXpbRbZThESc6aNq5ODZB7beiU+MIF6p7FaYgryvI3araFgzLiuzAnwm4fyLDcZi76DNp85E3sYqYSUR6R/BzolmgYZB1wslYSTKduA8NSmQvxxOexICi9meQn1dg7gWOIXKJBlk7DfTjfhV1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com; spf=pass smtp.mailfrom=nebula-matrix.com; arc=none smtp.client-ip=47.90.198.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nebula-matrix.com
-X-Alimail-AntiSpam:AC=CONTINUE;BC=0.06712908|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_alarm|0.096439-0.0193839-0.884177;FP=17472117302710764532|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033037021130;MF=illusion.wang@nebula-matrix.com;NM=1;PH=DS;RN=20;RT=20;SR=0;TI=SMTPD_---.gtr4zj4_1773719143;
-Received: from localhost.localdomain(mailfrom:illusion.wang@nebula-matrix.com fp:SMTPD_---.gtr4zj4_1773719143 cluster:ay29)
-          by smtp.aliyun-inc.com;
-          Tue, 17 Mar 2026 11:45:44 +0800
-From: "illusion.wang" <illusion.wang@nebula-matrix.com>
-To: dimon.zhao@nebula-matrix.com,
-	illusion.wang@nebula-matrix.com,
-	alvin.wang@nebula-matrix.com,
-	sam.chen@nebula-matrix.com,
-	netdev@vger.kernel.org
-Cc: andrew+netdev@lunn.ch,
-	corbet@lwn.net,
-	kuba@kernel.org,
-	linux-doc@vger.kernel.org,
-	lorenzo@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	vadim.fedorenko@linux.dev,
-	lukas.bulwahn@redhat.com,
-	edumazet@google.com,
-	enelsonmoore@gmail.com,
-	skhan@linuxfoundation.org,
-	ani.nikula@intel.com,
-	hkallweit1@gmail.com,
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v8 net-next 04/11] net/nebula-matrix: channel msg value and msg struct
-Date: Tue, 17 Mar 2026 11:45:21 +0800
-Message-ID: <20260317034533.5600-5-illusion.wang@nebula-matrix.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260317034533.5600-1-illusion.wang@nebula-matrix.com>
-References: <20260317034533.5600-1-illusion.wang@nebula-matrix.com>
+	s=arc-20240116; t=1773719574; c=relaxed/simple;
+	bh=0SvX4m6vB3Urzbo1xNFUfeEerQYe8sJyA41Xo5c5wu8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nN0JC0Fb6Z11XpFqWmt+O4lJyT5SHSs7SgDTbwZcc5/5OilUVHs/EtK9MrSaaeEtsbjKZ9oEspEnkvcLdeGYqFH03c6GvHg0yyQPaPpeD3NGshcvpWb3wpKEVGHeV1M+6TwNeLKoMBCiG+iDJuJuOM7gpMtnT1BZtq9IuYhr8Ew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UqHitUvv; arc=none smtp.client-ip=74.125.82.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UqHitUvv"
+Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-2c0d1d096d7so188747eec.1
+        for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 20:52:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773719564; x=1774324364; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=FadqkpcCJP+o15yZeX31CrCHgzxcCtkbDe0Mr1AZuZQ=;
+        b=UqHitUvvvyzoaD+bXdKK8TXm9PX7vE0Tfv/ABG7rph6lsaLPWRd89NFP8HgFKw2kU4
+         FtC5SPm7nu51NGyqf3k5apBUCK76gGZ4rjFiQ0YL8P1HUB5IvN+2AlGkHWWC1nOzt2IT
+         IIzMOKOt/FIaL/JXlW6EkB5/poCYUJ3Ayz207icKNZB6OI9AYIrAhwA8jPZV5DuRaV/C
+         gt7tmx3GBxQ8oLp6y8UwYoQAQ0ekqHcZF1QPbjdQJm+hNrEU8afR6T1Q7FRISulBUIP/
+         F+NULLgiwQf5k6aO3eEndlWrd02gA0CiarnvUe4LDNqmsI/Q7taIvAI3LRjYM6qt5Wp8
+         svug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773719564; x=1774324364;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FadqkpcCJP+o15yZeX31CrCHgzxcCtkbDe0Mr1AZuZQ=;
+        b=QFUr1/KgqFvxDNQ8FxlvEcyXBcwt59rRCMb6EbZSrv0uxPZBkKHiHEVYfcg7NkezxZ
+         zdTyTu6eSFZ+tb+CzXoSa4XxZz66qyP3wImBnsafNIX4gUcbtdcOtP0oXmqL5Y49E6Y8
+         U3f890fJpwRCmQt5h3g65vDHkIa09Lqjx7ht2B/cDwmXozWYG/A+zUEpUBbIJ1uHn8ba
+         Iu0cJAdC9O5bOT/2c5REU/Q7lKJ89sQpjeseOu21nFXhKJO5fo11e5f+uAGjDHYgLOyB
+         HfoMtxCjCOThTtatx5jL7MZS6VB59g0yNpTZBy+bbHSo85dZWMdVfLXI15bj1iOd0XSb
+         Hn3w==
+X-Forwarded-Encrypted: i=1; AJvYcCVBRVUakYpHCgwSgqcFfLj47v+TvZqeqGwYLv2UEv9KNs2L9jtx2cymeUliPzgO5lJFBsRV66FzFiY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyCBdqGlbUTDJigRMehdC9K/YXIcmy6SSNFEUMHsewypBztmJro
+	qJrLSoIF3UtyCGcF2LDZMzaDubr+u/6ZGPUqaHhZEZuWLQUCkLi02Hg0
+X-Gm-Gg: ATEYQzxAiE0KQR1X/nNe3fg+GH/7xIUOZ7ZFkpnxi8Zaz1OnOWcRTEFU8iSaaBKQacO
+	0itTYJ1v+gTfJspb+NADE0t3TXZr1dCa1co8Cq/bDEdWx0ZRP8PnuJ0KjlPQIGEDcUreaOmF3g+
+	KKkvVxIoSZHLbK/6kFmvkaHIEj2/wbev3Z0wAXlI5eigcQRF/tF8okGmm/wMoZpVvXzKrl1nf+Q
+	9mOEy5JtNeRzL9kg0q96ra+ljPr3cUOrm5IfATsAUG5f1kOBgfVIi0sIeWS0bRoknzc5/1/rq2Q
+	wTrGcs9hwVkS52NPHGqX+ApFuJOIFGKcOumTmaTLoKE+dLieEXO7vkEmDN91LPNNB3/lirjgZ4y
+	KcHLrjpFaieIWpu+qOM7hNFsoSBIcHKCqfvoC45z7Aes0TP+pjkJMdMcZLNe4gllpkwovT9GipP
+	h6r4J3QhEzXgYhxGcNuZ7iagPKDz4nTVb2GJtwV4AT/JFNZ3bB1wog2+1pepAhtMvDahN38EnY
+X-Received: by 2002:a05:7300:7fa8:b0:2c0:ca48:3107 with SMTP id 5a478bee46e88-2c0d5248965mr677007eec.15.1773719563694;
+        Mon, 16 Mar 2026 20:52:43 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2beab525c5fsm17201908eec.22.2026.03.16.20.52.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Mar 2026 20:52:43 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <de06c50e-5552-46bc-bf85-439fc166879d@roeck-us.net>
+Date: Mon, 16 Mar 2026 20:52:41 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] hwmon/pmbus: (isl68137) Add support for Renesas
+ RAA228942 and RAA228943
+To: Dawei Liu <dawei.liu.jy@renesas.com>
+Cc: "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
+ <krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "corbet@lwn.net" <corbet@lwn.net>,
+ "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
+ "geert+renesas@glider.be" <geert+renesas@glider.be>,
+ "magnus.damm" <magnus.damm@gmail.com>,
+ Grant Peltier <grant.peltier.jg@renesas.com>
+References: <20260316053541.3903-1-dawei.liu.jy@renesas.com>
+ <35c39de7-773a-4f94-b495-97eb25555a71@roeck-us.net>
+ <TYWPR01MB11935E8EA8F851E93FFE271F1D541A@TYWPR01MB11935.jpnprd01.prod.outlook.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <TYWPR01MB11935E8EA8F851E93FFE271F1D541A@TYWPR01MB11935.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-For compatibility, the msg id value is fixed, and each msg struct can
-only have fields added (not removed), new fields must be appended
+On 3/16/26 19:50, Dawei Liu wrote:
+> Hi Guenter,
+> 
+> I understand that enum chips is not used in the device matching
+> logic. However, it provides a clear, centralized list of all
+> supported chip models for developers and users reviewing the code.
+> 
+> I added entries there to maintain consistency with recent commits
+> that had been accepted. For example:
+> - 71a117d28f87 "hwmon: (pmbus/isl68137) Add support for RAA229141"
+> - 2190ad55a601 "hwmon: (pmbus/isl68137) add support for Renesas
+>    RAA228244 and RAA228246"
+> 
+> Both commits follow the same pattern of adding to enum chips.
+> I think keeping these entries in enum chips maintains code
+> consistency and documentation value. However, if you prefer
+> not to add them there, I'm happy to adjust in v2.
+> 
 
-Signed-off-by: illusion.wang <illusion.wang@nebula-matrix.com>
----
- .../nbl/nbl_include/nbl_def_channel.h         | 249 ++++++++++++++++++
- 1 file changed, 249 insertions(+)
+What you are saying is that I did not notice the problem when reviewing the
+previous patches, and that it should be ok to continue the wrong pattern
+because of that. Sorry, that is not how things work.
 
-diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_channel.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_channel.h
-index 58753ea3e84f..5a6c2cf87a59 100644
---- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_channel.h
-+++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_channel.h
-@@ -6,6 +6,255 @@
- #ifndef _NBL_DEF_CHANNEL_H_
- #define _NBL_DEF_CHANNEL_H_
- 
-+enum nbl_chan_msg_type {
-+	NBL_CHAN_MSG_ACK,
-+	NBL_CHAN_MSG_ADD_MACVLAN,
-+	NBL_CHAN_MSG_DEL_MACVLAN,
-+	NBL_CHAN_MSG_ADD_MULTI_RULE,
-+	NBL_CHAN_MSG_DEL_MULTI_RULE,
-+	NBL_CHAN_MSG_SETUP_MULTI_GROUP,
-+	NBL_CHAN_MSG_REMOVE_MULTI_GROUP,
-+	NBL_CHAN_MSG_REGISTER_NET,
-+	NBL_CHAN_MSG_UNREGISTER_NET,
-+	NBL_CHAN_MSG_ALLOC_TXRX_QUEUES,
-+	NBL_CHAN_MSG_FREE_TXRX_QUEUES,
-+	NBL_CHAN_MSG_SETUP_QUEUE,
-+	NBL_CHAN_MSG_REMOVE_ALL_QUEUES,
-+	NBL_CHAN_MSG_CFG_DSCH,
-+	NBL_CHAN_MSG_SETUP_CQS,
-+	NBL_CHAN_MSG_REMOVE_CQS,
-+	NBL_CHAN_MSG_CFG_QDISC_MQPRIO,
-+	NBL_CHAN_MSG_CONFIGURE_MSIX_MAP,
-+	NBL_CHAN_MSG_DESTROY_MSIX_MAP,
-+	NBL_CHAN_MSG_MAILBOX_ENABLE_IRQ,
-+	NBL_CHAN_MSG_GET_GLOBAL_VECTOR,
-+	NBL_CHAN_MSG_GET_VSI_ID,
-+	NBL_CHAN_MSG_SET_PROSISC_MODE,
-+	NBL_CHAN_MSG_GET_FIRMWARE_VERSION,
-+	NBL_CHAN_MSG_GET_QUEUE_ERR_STATS,
-+	NBL_CHAN_MSG_GET_COALESCE,
-+	NBL_CHAN_MSG_SET_COALESCE,
-+	NBL_CHAN_MSG_SET_SPOOF_CHECK_ADDR,
-+	NBL_CHAN_MSG_SET_VF_SPOOF_CHECK,
-+	NBL_CHAN_MSG_GET_RXFH_INDIR_SIZE,
-+	NBL_CHAN_MSG_GET_RXFH_INDIR,
-+	NBL_CHAN_MSG_GET_RXFH_RSS_KEY,
-+	NBL_CHAN_MSG_GET_RXFH_RSS_ALG_SEL,
-+	NBL_CHAN_MSG_GET_HW_CAPS,
-+	NBL_CHAN_MSG_GET_HW_STATE,
-+	NBL_CHAN_MSG_REGISTER_RDMA,
-+	NBL_CHAN_MSG_UNREGISTER_RDMA,
-+	NBL_CHAN_MSG_GET_REAL_HW_ADDR,
-+	NBL_CHAN_MSG_GET_REAL_BDF,
-+	NBL_CHAN_MSG_GRC_PROCESS,
-+	NBL_CHAN_MSG_SET_SFP_STATE,
-+	NBL_CHAN_MSG_SET_ETH_LOOPBACK,
-+	NBL_CHAN_MSG_CHECK_ACTIVE_VF,
-+	NBL_CHAN_MSG_GET_PRODUCT_FLEX_CAP,
-+	NBL_CHAN_MSG_ALLOC_KTLS_TX_INDEX,
-+	NBL_CHAN_MSG_FREE_KTLS_TX_INDEX,
-+	NBL_CHAN_MSG_CFG_KTLS_TX_KEYMAT,
-+	NBL_CHAN_MSG_ALLOC_KTLS_RX_INDEX,
-+	NBL_CHAN_MSG_FREE_KTLS_RX_INDEX,
-+	NBL_CHAN_MSG_CFG_KTLS_RX_KEYMAT,
-+	NBL_CHAN_MSG_CFG_KTLS_RX_RECORD,
-+	NBL_CHAN_MSG_ADD_KTLS_RX_FLOW,
-+	NBL_CHAN_MSG_DEL_KTLS_RX_FLOW,
-+	NBL_CHAN_MSG_ALLOC_IPSEC_TX_INDEX,
-+	NBL_CHAN_MSG_FREE_IPSEC_TX_INDEX,
-+	NBL_CHAN_MSG_ALLOC_IPSEC_RX_INDEX,
-+	NBL_CHAN_MSG_FREE_IPSEC_RX_INDEX,
-+	NBL_CHAN_MSG_CFG_IPSEC_TX_SAD,
-+	NBL_CHAN_MSG_CFG_IPSEC_RX_SAD,
-+	NBL_CHAN_MSG_ADD_IPSEC_TX_FLOW,
-+	NBL_CHAN_MSG_DEL_IPSEC_TX_FLOW,
-+	NBL_CHAN_MSG_ADD_IPSEC_RX_FLOW,
-+	NBL_CHAN_MSG_DEL_IPSEC_RX_FLOW,
-+	NBL_CHAN_MSG_NOTIFY_IPSEC_HARD_EXPIRE,
-+	NBL_CHAN_MSG_GET_MBX_IRQ_NUM,
-+	NBL_CHAN_MSG_CLEAR_FLOW,
-+	NBL_CHAN_MSG_CLEAR_QUEUE,
-+	NBL_CHAN_MSG_GET_ETH_ID,
-+	NBL_CHAN_MSG_SET_OFFLOAD_STATUS,
-+	NBL_CHAN_MSG_INIT_OFLD,
-+	NBL_CHAN_MSG_INIT_CMDQ,
-+	NBL_CHAN_MSG_DESTROY_CMDQ,
-+	NBL_CHAN_MSG_RESET_CMDQ,
-+	NBL_CHAN_MSG_INIT_FLOW,
-+	NBL_CHAN_MSG_DEINIT_FLOW,
-+	NBL_CHAN_MSG_OFFLOAD_FLOW_RULE,
-+	NBL_CHAN_MSG_GET_ACL_SWITCH,
-+	NBL_CHAN_MSG_GET_VSI_GLOBAL_QUEUE_ID,
-+	NBL_CHAN_MSG_INIT_REP,
-+	NBL_CHAN_MSG_GET_LINE_RATE_INFO,
-+	NBL_CHAN_MSG_REGISTER_NET_REP,
-+	NBL_CHAN_MSG_UNREGISTER_NET_REP,
-+	NBL_CHAN_MSG_REGISTER_ETH_REP,
-+	NBL_CHAN_MSG_UNREGISTER_ETH_REP,
-+	NBL_CHAN_MSG_REGISTER_UPCALL_PORT,
-+	NBL_CHAN_MSG_UNREGISTER_UPCALL_PORT,
-+	NBL_CHAN_MSG_GET_PORT_STATE,
-+	NBL_CHAN_MSG_SET_PORT_ADVERTISING,
-+	NBL_CHAN_MSG_GET_MODULE_INFO,
-+	NBL_CHAN_MSG_GET_MODULE_EEPROM,
-+	NBL_CHAN_MSG_GET_LINK_STATE,
-+	NBL_CHAN_MSG_NOTIFY_LINK_STATE,
-+	NBL_CHAN_MSG_GET_QUEUE_CXT,
-+	NBL_CHAN_MSG_CFG_LOG,
-+	NBL_CHAN_MSG_INIT_VDPAQ,
-+	NBL_CHAN_MSG_DESTROY_VDPAQ,
-+	NBL_CHAN_MSG_GET_UPCALL_PORT,
-+	NBL_CHAN_MSG_NOTIFY_ETH_REP_LINK_STATE,
-+	NBL_CHAN_MSG_SET_ETH_MAC_ADDR,
-+	NBL_CHAN_MSG_GET_FUNCTION_ID,
-+	NBL_CHAN_MSG_GET_CHIP_TEMPERATURE,
-+	NBL_CHAN_MSG_DISABLE_HW_FLOW,
-+	NBL_CHAN_MSG_ENABLE_HW_FLOW,
-+	NBL_CHAN_MSG_SET_UPCALL_RULE,
-+	NBL_CHAN_MSG_UNSET_UPCALL_RULE,
-+	NBL_CHAN_MSG_GET_REG_DUMP,
-+	NBL_CHAN_MSG_GET_REG_DUMP_LEN,
-+	NBL_CHAN_MSG_CFG_LAG_HASH_ALGORITHM,
-+	NBL_CHAN_MSG_CFG_LAG_MEMBER_FWD,
-+	NBL_CHAN_MSG_CFG_LAG_MEMBER_LIST,
-+	NBL_CHAN_MSG_CFG_LAG_MEMBER_UP_ATTR,
-+	NBL_CHAN_MSG_ADD_LAG_FLOW,
-+	NBL_CHAN_MSG_DEL_LAG_FLOW,
-+	NBL_CHAN_MSG_SWITCHDEV_INIT_CMDQ,
-+	NBL_CHAN_MSG_SWITCHDEV_DEINIT_CMDQ,
-+	NBL_CHAN_MSG_SET_TC_FLOW_INFO,
-+	NBL_CHAN_MSG_UNSET_TC_FLOW_INFO,
-+	NBL_CHAN_MSG_INIT_ACL,
-+	NBL_CHAN_MSG_UNINIT_ACL,
-+	NBL_CHAN_MSG_CFG_LAG_MCC,
-+	NBL_CHAN_MSG_REGISTER_VSI2Q,
-+	NBL_CHAN_MSG_SETUP_Q2VSI,
-+	NBL_CHAN_MSG_REMOVE_Q2VSI,
-+	NBL_CHAN_MSG_SETUP_RSS,
-+	NBL_CHAN_MSG_REMOVE_RSS,
-+	NBL_CHAN_MSG_GET_REP_QUEUE_INFO,
-+	NBL_CHAN_MSG_CTRL_PORT_LED,
-+	NBL_CHAN_MSG_NWAY_RESET,
-+	NBL_CHAN_MSG_SET_INTL_SUPPRESS_LEVEL,
-+	NBL_CHAN_MSG_GET_ETH_STATS,
-+	NBL_CHAN_MSG_GET_MODULE_TEMPERATURE,
-+	NBL_CHAN_MSG_GET_BOARD_INFO,
-+	NBL_CHAN_MSG_GET_P4_USED,
-+	NBL_CHAN_MSG_GET_VF_BASE_VSI_ID,
-+	NBL_CHAN_MSG_ADD_LLDP_FLOW,
-+	NBL_CHAN_MSG_DEL_LLDP_FLOW,
-+	NBL_CHAN_MSG_CFG_ETH_BOND_INFO,
-+	NBL_CHAN_MSG_CFG_DUPPKT_MCC,
-+	NBL_CHAN_MSG_ADD_ND_UPCALL_FLOW,
-+	NBL_CHAN_MSG_DEL_ND_UPCALL_FLOW,
-+	NBL_CHAN_MSG_GET_BOARD_ID,
-+	NBL_CHAN_MSG_SET_SHAPING_DPORT_VLD,
-+	NBL_CHAN_MSG_SET_DPORT_FC_TH_VLD,
-+	NBL_CHAN_MSG_REGISTER_RDMA_BOND,
-+	NBL_CHAN_MSG_UNREGISTER_RDMA_BOND,
-+	NBL_CHAN_MSG_RESTORE_NETDEV_QUEUE,
-+	NBL_CHAN_MSG_RESTART_NETDEV_QUEUE,
-+	NBL_CHAN_MSG_RESTORE_HW_QUEUE,
-+	NBL_CHAN_MSG_KEEP_ALIVE,
-+	NBL_CHAN_MSG_GET_BASE_MAC_ADDR,
-+	NBL_CHAN_MSG_CFG_BOND_SHAPING,
-+	NBL_CHAN_MSG_CFG_BGID_BACK_PRESSURE,
-+	NBL_CHAN_MSG_ALLOC_KT_BLOCK,
-+	NBL_CHAN_MSG_FREE_KT_BLOCK,
-+	NBL_CHAN_MSG_GET_USER_QUEUE_INFO,
-+	NBL_CHAN_MSG_GET_ETH_BOND_INFO,
-+	NBL_CHAN_MSG_CLEAR_ACCEL_FLOW,
-+	NBL_CHAN_MSG_SET_BRIDGE_MODE,
-+	NBL_CHAN_MSG_GET_VF_FUNCTION_ID,
-+	NBL_CHAN_MSG_NOTIFY_LINK_FORCED,
-+	NBL_CHAN_MSG_SET_PMD_DEBUG,
-+	NBL_CHAN_MSG_REGISTER_FUNC_MAC,
-+	NBL_CHAN_MSG_SET_TX_RATE,
-+	NBL_CHAN_MSG_REGISTER_FUNC_LINK_FORCED,
-+	NBL_CHAN_MSG_GET_LINK_FORCED,
-+	NBL_CHAN_MSG_REGISTER_FUNC_VLAN,
-+	NBL_CHAN_MSG_GET_FD_FLOW,
-+	NBL_CHAN_MSG_GET_FD_FLOW_CNT,
-+	NBL_CHAN_MSG_GET_FD_FLOW_ALL,
-+	NBL_CHAN_MSG_GET_FD_FLOW_MAX,
-+	NBL_CHAN_MSG_REPLACE_FD_FLOW,
-+	NBL_CHAN_MSG_REMOVE_FD_FLOW,
-+	NBL_CHAN_MSG_CFG_FD_FLOW_STATE,
-+	NBL_CHAN_MSG_REGISTER_FUNC_RATE,
-+	NBL_CHAN_MSG_NOTIFY_VLAN,
-+	NBL_CHAN_MSG_GET_XDP_QUEUE_INFO,
-+	NBL_CHAN_MSG_STOP_ABNORMAL_SW_QUEUE,
-+	NBL_CHAN_MSG_STOP_ABNORMAL_HW_QUEUE,
-+	NBL_CHAN_MSG_NOTIFY_RESET_EVENT,
-+	NBL_CHAN_MSG_ACK_RESET_EVENT,
-+	NBL_CHAN_MSG_GET_VF_VSI_ID,
-+	NBL_CHAN_MSG_CONFIGURE_QOS,
-+	NBL_CHAN_MSG_GET_PFC_BUFFER_SIZE,
-+	NBL_CHAN_MSG_SET_PFC_BUFFER_SIZE,
-+	NBL_CHAN_MSG_GET_VF_STATS,
-+	NBL_CHAN_MSG_REGISTER_FUNC_TRUST,
-+	NBL_CHAN_MSG_NOTIFY_TRUST,
-+	NBL_CHAN_MSG_CHECK_VF_IS_ACTIVE,
-+	NBL_CHAN_MSG_GET_ETH_ABNORMAL_STATS,
-+	NBL_CHAN_MSG_GET_ETH_CTRL_STATS,
-+	NBL_CHAN_MSG_GET_PAUSE_STATS,
-+	NBL_CHAN_MSG_GET_ETH_MAC_STATS,
-+	NBL_CHAN_MSG_GET_FEC_STATS,
-+	NBL_CHAN_MSG_CFG_MULTI_MCAST_RULE,
-+	NBL_CHAN_MSG_GET_LINK_DOWN_COUNT,
-+	NBL_CHAN_MSG_GET_LINK_STATUS_OPCODE,
-+	NBL_CHAN_MSG_GET_RMON_STATS,
-+	NBL_CHAN_MSG_REGISTER_PF_NAME,
-+	NBL_CHAN_MSG_GET_PF_NAME,
-+	NBL_CHAN_MSG_CONFIGURE_RDMA_BW,
-+	NBL_CHAN_MSG_SET_RATE_LIMIT,
-+	NBL_CHAN_MSG_SET_TC_WGT,
-+	NBL_CHAN_MSG_REMOVE_QUEUE,
-+	NBL_CHAN_MSG_GET_MIRROR_TABLE_ID,
-+	NBL_CHAN_MSG_CONFIGURE_MIRROR,
-+	NBL_CHAN_MSG_CONFIGURE_MIRROR_TABLE,
-+	NBL_CHAN_MSG_CLEAR_MIRROR_CFG,
-+	NBL_CHAN_MSG_MIRROR_OUTPUTPORT_NOTIFY,
-+	NBL_CHAN_MSG_CHECK_FLOWTABLE_SPEC,
-+	NBL_CHAN_MSG_CHECK_VF_IS_VDPA,
-+	NBL_CHAN_MSG_GET_VDPA_VF_STATS,
-+	NBL_CHAN_MSG_SET_RX_RATE,
-+	NBL_CHAN_MSG_GET_UVN_PKT_DROP_STATS,
-+	NBL_CHAN_MSG_GET_USTORE_PKT_DROP_STATS,
-+	NBL_CHAN_MSG_GET_USTORE_TOTAL_PKT_DROP_STATS,
-+	NBL_CHAN_MSG_SET_WOL,
-+	NBL_CHAN_MSG_INIT_VF_MSIX_MAP,
-+	NBL_CHAN_MSG_GET_ST_NAME,
-+	NBL_CHAN_MSG_MTU_SET = 501,
-+	NBL_CHAN_MSG_SET_RXFH_INDIR = 506,
-+	NBL_CHAN_MSG_SET_RXFH_RSS_ALG_SEL = 508,
-+	/* mailbox msg end */
-+	NBL_CHAN_MSG_MAILBOX_MAX,
-+};
-+
-+struct nbl_chan_param_cfg_msix_map {
-+	u16 num_net_msix;
-+	u16 num_others_msix;
-+	u16 msix_mask_en;
-+};
-+
-+struct nbl_chan_param_enable_mailbox_irq {
-+	u16 vector_id;
-+	bool enable_msix;
-+};
-+
-+struct nbl_chan_param_get_vsi_id {
-+	u16 vsi_id;
-+	u16 type;
-+};
-+
-+struct nbl_chan_param_get_eth_id {
-+	u16 vsi_id;
-+	u8 eth_mode;
-+	u8 eth_id;
-+	u8 logic_eth_id;
-+};
-+
- enum nbl_channel_type {
- 	NBL_CHAN_TYPE_MAILBOX,
- 	NBL_CHAN_TYPE_MAX
--- 
-2.47.3
+What should be done is to drop the unnecessary enum values, not to add new ones.
+
+Guenter
+
+> Best regards,
+> Dawei Liu
+> 
+> -----Original Message-----
+> From: Guenter Roeck <groeck7@gmail.com> On Behalf Of Guenter Roeck
+> Sent: Monday, March 16, 2026 11:48 PM
+> To: Dawei Liu <dawei.liu.jy@renesas.com>
+> Cc: linux-hwmon@vger.kernel.org; linux-kernel@vger.kernel.org; linux-doc@vger.kernel.org; devicetree@vger.kernel.org; linux-renesas-soc@vger.kernel.org; robh@kernel.org; krzk+dt@kernel.org; conor+dt@kernel.org; corbet@lwn.net; skhan@linuxfoundation.org; geert+renesas@glider.be; magnus.damm <magnus.damm@gmail.com>; Grant Peltier <grant.peltier.jg@renesas.com>
+> Subject: Re: [PATCH 1/2] hwmon/pmbus: (isl68137) Add support for Renesas RAA228942 and RAA228943
+> 
+> On Mon, Mar 16, 2026 at 01:35:40PM +0800, Dawei Liu wrote:
+>> Both RAA228942 and RAA228943 are digital dual-output 16-Phase(X+Y ≤
+>> 16) PWM controllers
+>>
+>> Signed-off-by: Dawei Liu <dawei.liu.jy@renesas.com>
+>> ---
+>>   Documentation/hwmon/isl68137.rst | 20 ++++++++++++++++++++
+>>   drivers/hwmon/pmbus/isl68137.c   |  6 ++++++
+>>   2 files changed, 26 insertions(+)
+>>
+>> diff --git a/Documentation/hwmon/isl68137.rst
+>> b/Documentation/hwmon/isl68137.rst
+>> index e77f582c2..0ce20d091 100644
+>> --- a/Documentation/hwmon/isl68137.rst
+>> +++ b/Documentation/hwmon/isl68137.rst
+>> @@ -394,6 +394,26 @@ Supported chips:
+>>   
+>>         Provided by Renesas upon request and NDA
+>>   
+>> +  * Renesas RAA228942
+>> +
+>> +    Prefix: 'raa228942'
+>> +
+>> +    Addresses scanned: -
+>> +
+>> +    Datasheet:
+>> +
+>> +      Provided by Renesas upon request and NDA
+>> +
+>> +  * Renesas RAA228943
+>> +
+>> +    Prefix: 'raa228943'
+>> +
+>> +    Addresses scanned: -
+>> +
+>> +    Datasheet:
+>> +
+>> +      Provided by Renesas upon request and NDA
+>> +
+>>     * Renesas RAA229001
+>>   
+>>       Prefix: 'raa229001'
+>> diff --git a/drivers/hwmon/pmbus/isl68137.c
+>> b/drivers/hwmon/pmbus/isl68137.c index 78cff9712..da2484d42 100644
+>> --- a/drivers/hwmon/pmbus/isl68137.c
+>> +++ b/drivers/hwmon/pmbus/isl68137.c
+>> @@ -63,6 +63,8 @@ enum chips {
+>>   	raa228228,
+>>   	raa228244,
+>>   	raa228246,
+>> +	raa228942,
+>> +	raa228943,
+> 
+> AI:
+> 
+>    Is it necessary to add these entries to enum chips?
+>    Looking at the rest of the driver, this enum does not appear to be used
+>    anywhere. The device data mapping seems to rely on the variants enum
+>    (e.g., raa_dmpvr2_2rail_nontc) instead.
+> 
+> It has a point.
+> 
+> Guenter
+> 
+>>   	raa229001,
+>>   	raa229004,
+>>   	raa229141,
+>> @@ -478,6 +480,8 @@ static const struct i2c_device_id raa_dmpvr_id[] = {
+>>   	{"raa228228", raa_dmpvr2_2rail_nontc},
+>>   	{"raa228244", raa_dmpvr2_2rail_nontc},
+>>   	{"raa228246", raa_dmpvr2_2rail_nontc},
+>> +	{"raa228942", raa_dmpvr2_2rail_nontc},
+>> +	{"raa228943", raa_dmpvr2_2rail_nontc},
+>>   	{"raa229001", raa_dmpvr2_2rail},
+>>   	{"raa229004", raa_dmpvr2_2rail},
+>>   	{"raa229141", raa_dmpvr2_2rail_pmbus}, @@ -529,6 +533,8 @@ static
+>> const struct of_device_id isl68137_of_match[] = {
+>>   	{ .compatible = "renesas,raa228228", .data = (void *)raa_dmpvr2_2rail_nontc },
+>>   	{ .compatible = "renesas,raa228244", .data = (void *)raa_dmpvr2_2rail_nontc },
+>>   	{ .compatible = "renesas,raa228246", .data = (void
+>> *)raa_dmpvr2_2rail_nontc },
+>> +	{ .compatible = "renesas,raa228942", .data = (void *)raa_dmpvr2_2rail_nontc },
+>> +	{ .compatible = "renesas,raa228943", .data = (void
+>> +*)raa_dmpvr2_2rail_nontc },
+>>   	{ .compatible = "renesas,raa229001", .data = (void *)raa_dmpvr2_2rail },
+>>   	{ .compatible = "renesas,raa229004", .data = (void *)raa_dmpvr2_2rail },
+>>   	{ .compatible = "renesas,raa229621", .data = (void
+>> *)raa_dmpvr2_2rail },
 
