@@ -1,132 +1,131 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED8943A782E
-	for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 10:25:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03DA13A6B7E;
+	Tue, 17 Mar 2026 10:35:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773743102; cv=none; b=PIxy5Zw9QVStMpjce+PYoFyvktF9K6Gb9Dkrqgjx5Ow2sTYYCxmdQ2Brmjs25/jqLsowlgTzKBrfoMqNknFBGO2b3urvIhlt6ldzeE7TkHEFCPez2WfSfQe1nX98z9ZIsYxVHSFnGUNZoMsk2A1YGPcthZUCP94fa7rkJNuTGPc=
+	t=1773743718; cv=none; b=A/7zF4jkTMm0R0yzvwW/xCdA1XH4okPtKUqNpuxb5Al7+S9u6YTJBhv19F9VSf5uwE+I8jq35NXmVCU8Dfo+Z7YocjwfhgY0cBf6rB4Q8KsjRsMXn4ZzPjOdElOCKUNIzPGs/6obNJ8MT+2SFEdorJvSisBU1rwyo/URck5WP2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773743102; c=relaxed/simple;
-	bh=OAsshR8taJxBMFFyddHaDNJSHSzI1SzbRqNeGRPBYZw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=vFxfOxRk50oPmr396BZ7f5XGEttBnYE/3yPP6hdyW9k81eNOY+Cl9MDnI+QsUV9Of98sdz/9WHEP1fR+6ueMlkZCG+/necHFEpDQFkZY+ZYYTaZkg6nNTf5w/46eDTulSor9TTYA/JQKvPJySOB/1OnlPm0K5fBrNIeZ4fxSFas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=RLRMk7me; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1773743718; c=relaxed/simple;
+	bh=4/IkLFplsBX9CDR3n4uqSrG68fmITpAJIJjqY1jWYAw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=N1Y5Ms4R9m8oxcBZRoA0q3TDYCZIUXo3fllnDvAeu7dSdwOAcFVMp//mMb5wi62i6K3eAWjByMu6XkQWIpxGUQbAuu7hZQhMWr8IH+MYYi/xsZaSrrQxSfQ6EABhmQRUt9p3jiHseIOkB7AkXmsn9BEF1XskqkL9se/HknCtzu8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=he5PaZ07; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="RLRMk7me"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 8E4D61A2E89;
-	Tue, 17 Mar 2026 10:24:59 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 64BA05FC9A;
-	Tue, 17 Mar 2026 10:24:59 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5046E10450459;
-	Tue, 17 Mar 2026 11:24:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1773743098; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=wXJyxTh9zUcQqoOPuD+RgDBVRNZuUe3FPkKCommQgVQ=;
-	b=RLRMk7medhaQdMZDglFB2RUup/lNY0x+/HHwdND5mrW5cn9USg7Xl15Qg3PNUCt1UtUImZ
-	Bqg9O8vPjeBqCenzWiQ6yggPwJBuYexaj09MF7uO6YaDIL5yW+qgOJHFGQSW9gHCsbk6rY
-	mvuDKgqx3Z3efilAxN1bGdDHwnZ4YBxIpxCZZcTfdvaIlo5fHYgUQr+q2xHANTdM6sn8iN
-	PcSaB1hDmi62xfz/Vi3pp1TXhldkR0mlU6PseRKuqBzMVrt03gUf2r81VnL9eYMdCY3dtQ
-	+gIBjI9O6PsVHshQnPh2XKI1VNuzCZQ4+wer2cF3Sj5gODVrUQhYE5ARTY+VSQ==
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-Date: Tue, 17 Mar 2026 11:24:30 +0100
-Subject: [PATCH v3 27/27] mtd: spi-nor: winbond: Add W25Q02NWxxIM CMP
- locking support
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="he5PaZ07"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0B7E2C4CEF7;
+	Tue, 17 Mar 2026 10:35:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773743717;
+	bh=4/IkLFplsBX9CDR3n4uqSrG68fmITpAJIJjqY1jWYAw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=he5PaZ07HRCwRWE/JnlN46TWcmHXX4ILtqREpatB3T4GYFmyb7xNp7uPoULGSnk7W
+	 z+fvFm1bnGQkyNDFrcRVg4l00WSKcs2EZyY075PDyHOrmpoNBMriA+32okeiO4lH7E
+	 DQaVTDevzhguejSzg664RGljnqCE2TdEBfYszjvJ9SOLTXH/H8qLyX6ID+fR+tNCVv
+	 XdUrAOuH1OmleoJiDJ/uWUqkXggoQbYZpi74O6pH0I/7hA1AfPaiU7SAMzl2QtqP0y
+	 i7f49BVjIjsWNt4CyMu0B68gahsDbMbCg8fDK0H0Mht097ntEIBIajMAInC8B+aua7
+	 trm99hxAtZoKQ==
+Date: Tue, 17 Mar 2026 10:35:15 +0000
+From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+To: Nico Pache <npache@redhat.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, aarcange@redhat.com, 
+	akpm@linux-foundation.org, anshuman.khandual@arm.com, apopple@nvidia.com, baohua@kernel.org, 
+	baolin.wang@linux.alibaba.com, byungchul@sk.com, catalin.marinas@arm.com, cl@gentwo.org, 
+	corbet@lwn.net, dave.hansen@linux.intel.com, david@kernel.org, dev.jain@arm.com, 
+	gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, jack@suse.cz, 
+	jackmanb@google.com, jannh@google.com, jglisse@google.com, joshua.hahnjy@gmail.com, 
+	kas@kernel.org, lance.yang@linux.dev, Liam.Howlett@oracle.com, 
+	lorenzo.stoakes@oracle.com, mathieu.desnoyers@efficios.com, matthew.brost@intel.com, 
+	mhiramat@kernel.org, mhocko@suse.com, peterx@redhat.com, pfalcato@suse.de, 
+	rakie.kim@sk.com, raquini@redhat.com, rdunlap@infradead.org, 
+	richard.weiyang@gmail.com, rientjes@google.com, rostedt@goodmis.org, rppt@kernel.org, 
+	ryan.roberts@arm.com, shivankg@amd.com, sunnanyong@huawei.com, surenb@google.com, 
+	thomas.hellstrom@linux.intel.com, tiwai@suse.de, usamaarif642@gmail.com, vbabka@suse.cz, 
+	vishal.moola@gmail.com, wangkefeng.wang@huawei.com, will@kernel.org, willy@infradead.org, 
+	yang@os.amperecomputing.com, ying.huang@linux.alibaba.com, ziy@nvidia.com, zokeefe@google.com
+Subject: Re: [PATCH mm-unstable v15 11/13] mm/khugepaged: avoid unnecessary
+ mTHP collapse attempts
+Message-ID: <d8028d32-4791-4993-aae3-66506bf6d1bd@lucifer.local>
+References: <20260226031741.230674-1-npache@redhat.com>
+ <20260226032631.234234-1-npache@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260317-winbond-v6-18-rc1-spi-nor-swp-v3-27-2ca9ea4e7b9b@bootlin.com>
-References: <20260317-winbond-v6-18-rc1-spi-nor-swp-v3-0-2ca9ea4e7b9b@bootlin.com>
-In-Reply-To: <20260317-winbond-v6-18-rc1-spi-nor-swp-v3-0-2ca9ea4e7b9b@bootlin.com>
-To: Pratyush Yadav <pratyush@kernel.org>, Michael Walle <mwalle@kernel.org>, 
- Takahiro Kuwano <takahiro.kuwano@infineon.com>, 
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: Tudor Ambarus <tudor.ambarus@linaro.org>, 
- Sean Anderson <sean.anderson@linux.dev>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Steam Lin <STLin2@winbond.com>, linux-mtd@lists.infradead.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- Miquel Raynal <miquel.raynal@bootlin.com>
-X-Mailer: b4 0.14.3
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260226032631.234234-1-npache@redhat.com>
 
-This chip has support for the locking complement (CMP) feature. Add
-the relevant bit to enable it.
+On Wed, Feb 25, 2026 at 08:26:31PM -0700, Nico Pache wrote:
+> There are cases where, if an attempted collapse fails, all subsequent
+> orders are guaranteed to also fail. Avoid these collapse attempts by
+> bailing out early.
+>
+> Signed-off-by: Nico Pache <npache@redhat.com>
 
-Unfortunately, this chip also comes with an incorrect BFPT table,
-indicating the Control Register cannot be read back. This is wrong,
-reading back the register works and has no (observed) side effect. The
-datasheet clearly indicates supporting the 35h command and all bits from
-the CR are marked readable. QE and CMP bits are inside, and can be
-properly read back.
+With David's concern addressed:
 
-Add a fixup for this, otherwise it would defeat the use of the CMP
-feature.
+Reviewed-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
 
-Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
----
-Test run with W25Q02NWxxIM:
-$ flash_lock -u /dev/mtd0
-$ flash_lock -l /dev/mtd0 $bs $all_but_one # all but the first
-$ show_sectors
-locked sectors
- region (in hex)   | status   | #blocks
- ------------------+----------+--------
- 00000000-0000ffff | unlocked | 1
- 00010000-0fffffff |   locked | 4095
-$ flash_lock -u /dev/mtd0 $bs 1 # all but the two first
-$ show_sectors
-locked sectors
- region (in hex)   | status   | #blocks
- ------------------+----------+--------
- 00000000-0001ffff | unlocked | 2
- 00020000-0fffffff |   locked | 4094
-$ flash_lock -u /dev/mtd0
-$ flash_lock -l /dev/mtd0 0 $all_but_one # same from the other side
-$ show_sectors
-locked sectors
- region (in hex)   | status   | #blocks
- ------------------+----------+--------
- 00000000-0ffeffff |   locked | 4095
- 0fff0000-0fffffff | unlocked | 1
-$ flash_lock -u /dev/mtd0 $(($size - (2 * $bs))) 1 # all but two
-$ show_sectors
-locked sectors
- region (in hex)   | status   | #blocks
- ------------------+----------+--------
- 00000000-0ffdffff |   locked | 4094
- 0ffe0000-0fffffff | unlocked | 2
----
- drivers/mtd/spi-nor/winbond.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+> ---
+>  mm/khugepaged.c | 35 ++++++++++++++++++++++++++++++++++-
+>  1 file changed, 34 insertions(+), 1 deletion(-)
+>
+> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> index 1c3711ed4513..388d3f2537e2 100644
+> --- a/mm/khugepaged.c
+> +++ b/mm/khugepaged.c
+> @@ -1492,9 +1492,42 @@ static int mthp_collapse(struct mm_struct *mm, unsigned long address,
+>  			ret = collapse_huge_page(mm, collapse_address, referenced,
+>  						 unmapped, cc, mmap_locked,
+>  						 order);
+> -			if (ret == SCAN_SUCCEED) {
+> +
+> +			switch (ret) {
+> +			/* Cases were we continue to next collapse candidate */
+> +			case SCAN_SUCCEED:
+>  				collapsed += nr_pte_entries;
+> +				fallthrough;
+> +			case SCAN_PTE_MAPPED_HUGEPAGE:
+>  				continue;
+> +			/* Cases were lower orders might still succeed */
+> +			case SCAN_LACK_REFERENCED_PAGE:
+> +			case SCAN_EXCEED_NONE_PTE:
+> +			case SCAN_EXCEED_SWAP_PTE:
+> +			case SCAN_EXCEED_SHARED_PTE:
+> +			case SCAN_PAGE_LOCK:
+> +			case SCAN_PAGE_COUNT:
+> +			case SCAN_PAGE_LRU:
+> +			case SCAN_PAGE_NULL:
+> +			case SCAN_DEL_PAGE_LRU:
+> +			case SCAN_PTE_NON_PRESENT:
+> +			case SCAN_PTE_UFFD_WP:
+> +			case SCAN_ALLOC_HUGE_PAGE_FAIL:
+> +				goto next_order;
+> +			/* Cases were no further collapse is possible */
+> +			case SCAN_CGROUP_CHARGE_FAIL:
+> +			case SCAN_COPY_MC:
+> +			case SCAN_ADDRESS_RANGE:
+> +			case SCAN_NO_PTE_TABLE:
+> +			case SCAN_ANY_PROCESS:
+> +			case SCAN_VMA_NULL:
+> +			case SCAN_VMA_CHECK:
+> +			case SCAN_SCAN_ABORT:
+> +			case SCAN_PAGE_ANON:
+> +			case SCAN_PMD_MAPPED:
+> +			case SCAN_FAIL:
+> +			default:
 
-diff --git a/drivers/mtd/spi-nor/winbond.c b/drivers/mtd/spi-nor/winbond.c
-index 72053a4505f9..639d72f48769 100644
---- a/drivers/mtd/spi-nor/winbond.c
-+++ b/drivers/mtd/spi-nor/winbond.c
-@@ -377,7 +377,9 @@ static const struct flash_info winbond_nor_parts[] = {
- 	}, {
- 		/* W25Q02NWxxIM */
- 		.id = SNOR_ID(0xef, 0x80, 0x22),
--		.flags = SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | SPI_NOR_TB_SR_BIT6 | SPI_NOR_4BIT_BP,
-+		.flags = SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | SPI_NOR_TB_SR_BIT6 |
-+			 SPI_NOR_4BIT_BP | SPI_NOR_HAS_CMP,
-+		.fixups = &winbond_rdcr_fixup,
- 	}, {
- 		/* W25H512NWxxAM */
- 		.id = SNOR_ID(0xef, 0xa0, 0x20),
+Agree with david, let's spell them out please :)
 
--- 
-2.51.1
-
+> +				return collapsed;
+>  			}
+>  		}
+>
+> --
+> 2.53.0
+>
