@@ -1,423 +1,215 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DDB53FBED0;
-	Tue, 17 Mar 2026 23:09:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2F8336F43F
+	for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 23:36:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773788974; cv=none; b=ol3MJAhYfjlMm2EabgZ2mVD+yLePWQRZi75rzi9pRvKvWoi1tAbr6u2JJrfvTGtvEd79/kOt6afcMcs07fjx987tByVaHLv5fpewFNSOcuNnKJ8vfu+p2VUOrCYR3K9rJGXCBfQS+1eFYSoTLyPS34HEmGIPVsyAWVaoV0QJhqg=
+	t=1773790585; cv=none; b=KMvOvpzajGW9xHz9Q5pEn/lX0jQ099wxzWMQiXk3sAf2tfRXh8d/gZ1tnZgGnuudx+P+7fyohezjX9A1uopVwC11XdUQUDPjA7CvvcL0WUkgeb51DqXu5S3uuWdayKK/vQSQDoHrOE56gED0zPNRcDMTg4q+MvLVHldLbZuGYVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773788974; c=relaxed/simple;
-	bh=ppOGa98eeFcP9HWcVP+7Rch+V9AqLvpfrjIHHnatn/8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PhoDECnjdVh1uI2NweGsas9idqyryMuJeP+kkivMQ9U2KB9ax2OcAo9PpXqUc2VW7yr9EyYOAfvDIbGwBRfPE0Hf9rToyVd3PTpUAoD2JjxVr3atgaVGeeW7c84nwfvJT1G2bAHO5jfTnmFFpMQSIrgKV4DUfOsnt1KDzQ6BqLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=StMPTZ1W; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1773790585; c=relaxed/simple;
+	bh=MkP4whV4n0WRvTN87uMxy06HdXRu3qnfT38+QSsgLP4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q0/hH7lqUNK906dcc3n5bI33wmu2jqPDNM8P4SjOVtfHTbMZVamJPoIgPTkSKZwcaks7Ir0RuNmNRAJRPsC6wC5SaegLPfSfFPfOyfCjeXHfiDI0ocQ/mbNNz0wBOtK3rQtwc+CFUb/wnKzF6k63ioaXqdVlW2b2lH/f/hlW2hI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=lvc7e/Wu; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="StMPTZ1W"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773788974; x=1805324974;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=ppOGa98eeFcP9HWcVP+7Rch+V9AqLvpfrjIHHnatn/8=;
-  b=StMPTZ1WrbG6BAB3IJnV2b6EMcLq089xk0ycLg0FbLGSj8LrRxnLWZ6/
-   Oigr6fTuS20jYb1VBcntg8Eq5ScyuDhJynnA9uWKkyqs5SZiqmqDnKTgl
-   RZiDgz5Mnf7pahvheCkxUBrSo3ByDmuLb33omG08uUqXLyvsDjjn5kMsR
-   Wl9jG1tVQGL0KTjJigt1TzZVGn+kT3tZNYF/HW4LxZoNF5fSoPMEVBUpD
-   gQdsiSfBmXaIfzV1uk/U6n9AUBfK8gMgirhp3eXJ8QcowELmy6xBsbVgQ
-   RldH4dDuQjPN9wR57xdQePnhJF1YXTLrVoDWFk06XTRYBD6DuTGseYLkQ
-   g==;
-X-CSE-ConnectionGUID: Xf3UaZOKRsaECPGkgPb04A==
-X-CSE-MsgGUID: 5Vs19WmHQbSloXbZoi97PA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="74811702"
-X-IronPort-AV: E=Sophos;i="6.23,126,1770624000"; 
-   d="scan'208";a="74811702"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 16:09:25 -0700
-X-CSE-ConnectionGUID: mS7q+7MhTXqEl7uvNAA34w==
-X-CSE-MsgGUID: C34Ei8UFQvKR78Dof8mr0g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,126,1770624000"; 
-   d="scan'208";a="226566422"
-Received: from anguy11-upstream.jf.intel.com ([10.166.9.133])
-  by orviesa003.jf.intel.com with ESMTP; 17 Mar 2026 16:09:24 -0700
-From: Tony Nguyen <anthony.l.nguyen@intel.com>
-To: davem@davemloft.net,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	edumazet@google.com,
-	andrew+netdev@lunn.ch,
-	netdev@vger.kernel.org
-Cc: Amritha Nambiar <anthony.l.nguyen@intel.com>,
-	larysa.zaremba@intel.com,
-	przemyslaw.kitszel@intel.com,
-	aleksander.lobakin@intel.com,
-	sridhar.samudrala@intel.com,
-	anjali.singhai@intel.com,
-	michal.swiatkowski@linux.intel.com,
-	maciej.fijalkowski@intel.com,
-	emil.s.tantilov@intel.com,
-	madhu.chittim@intel.com,
-	joshua.a.hay@intel.com,
-	jacob.e.keller@intel.com,
-	jayaprakash.shanmugam@intel.com,
-	natalia.wochtman@intel.com,
-	jiri@resnulli.us,
-	horms@kernel.org,
-	corbet@lwn.net,
-	richardcochran@gmail.com,
-	linux-doc@vger.kernel.org,
-	Bharath R <Bharath.r@intel.com>
-Subject: [PATCH net-next 15/15] ixd: add devlink support
-Date: Tue, 17 Mar 2026 16:09:03 -0700
-Message-ID: <20260317230905.847744-16-anthony.l.nguyen@intel.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20260317230905.847744-1-anthony.l.nguyen@intel.com>
-References: <20260317230905.847744-1-anthony.l.nguyen@intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lvc7e/Wu"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2b052562254so43785ad.0
+        for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 16:36:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1773790583; x=1774395383; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=8R08fAS2L/TqkBdbNFXhbiB2wc1JFGzUh5S9wXtuww4=;
+        b=lvc7e/WuKaGBC03E3qC2dsAWlhQQpNr8aWFiEsG7aHARC+Xw/DRettyaan/HA3Iwot
+         ZykKbbjta3+VyoGA0/5ls9gopbEAL3fSVUfl0FPU+PBoesA/W8bSjfA/Ryw6+J9E5tTG
+         zcAkMgTEBzIyK61T9xKUkvIDJCsww0ilfUpjqLhR4q2y+LB2CWQcZXeZX3k6v4w4WZKc
+         y/P/FPpIKqmRmcsOFM+qSHOU29vGGxurwrFrIHtGlzgjtkdx0cEUGz+WQ/GEkFg/7/X8
+         Jxak6dT8SQU1IqyKNIaJFdswN2cC6/WsN6B5kuQbl6PYuw+AtBOxCr3uWtpydlFgJJ4e
+         jhig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773790583; x=1774395383;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8R08fAS2L/TqkBdbNFXhbiB2wc1JFGzUh5S9wXtuww4=;
+        b=ak2vgZN1ewO8c0oEqhiNYn9SOxw5uBeaprQRyqAMqI5J22YfR3fQiJbB7yC9Blui4e
+         32t4AHmBSeVqUyMEs6ZsbSjIhFd4SyPleidD+S47MV51t71b1qHnMdHEXwyHBGF5RE1h
+         TiXFk3s+aKqlqAC96S5pMLz5Op9zy4P4SCAGohw1UQBZ9FYxVV9Ho2dFunDcD0KFJ7So
+         ANmO1Dr6baAR8Xhf6QJWoZxGO8i1MtTSRy927EJZzP6VZLnlnmlbf3j7k1N9YG5x3TJ5
+         4Lnz8BHJkQNhlq7yIEjwoelcj6vpXADvZTLSYrr8zjVwouVS67A6y7iA+qtoKetz8Qt/
+         pGKA==
+X-Forwarded-Encrypted: i=1; AJvYcCWqgfhiIRBEzrAqJQ4QqQ3E2Omgm6giC6k8teaDFgpKj+eTmaizRrv/DkgW7QkFukibCpH2A85g7FI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzxWyLd35DkNO8kc9AocdxbLJnV94FuvmCUVR8ElGvhs63axOwu
+	GRkMc5bHttapgcBNbb7xPxtVEkQaHQk60bH61oTSNdQDSdR+yO0Xt9AfAX8Mo2g5Pw==
+X-Gm-Gg: ATEYQzyQnZsTbqpaDzBWTuJxoVzUvNjbE6UwJAk8noS2Uf4idJx/3aR4A0UHu2JbRYy
+	9ckxd289X7+8MyyysL1VGlLb+T4azt0Bb4RQRGEXUendM7Co2vGYsIxe6w4v9kaujp7YDxmHcuN
+	FbCzTcwgQHkYPCXWC1HQI1b5ui1DtY7tsbrlIxn0o3aebTXxkGDLOQAO7JqsEjIFQjxBp/kfPyx
+	RIqZ32UdSOmeg4Y5kBUsgZ612lVx81r55W6szVNYTbnOSfFYqA5JXwY6X3peRnuqLW54HJTrlXY
+	vKuSxnfRcvSNkaeWPUyZ+/Q0K71iVCHXpn9EDJEWVN9Kn0OFvNXtbicGdRPD8CwfkuoRZyB5iVt
+	8pR1hXvOQLbDm5JO38KJU0XbNoGZ3yfPm9/xf7RCf3HUJcOQ8QXGaWE6Q8kf+UO3GCKM6Q+QRCr
+	BRDbWSE18RPz2r/BWNyME3h6U7HyfFGVWQ4Ck32HokWVf4+aROOzf3NDxNbQ==
+X-Received: by 2002:a17:903:22c7:b0:2ae:c566:bd99 with SMTP id d9443c01a7336-2b06e88a5f7mr1634235ad.22.1773790582361;
+        Tue, 17 Mar 2026 16:36:22 -0700 (PDT)
+Received: from google.com (60.89.247.35.bc.googleusercontent.com. [35.247.89.60])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b06e629da3sm6015715ad.76.2026.03.17.16.36.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Mar 2026 16:36:21 -0700 (PDT)
+Date: Tue, 17 Mar 2026 16:36:17 -0700
+From: Vipin Sharma <vipinsh@google.com>
+To: David Matlack <dmatlack@google.com>
+Cc: Alex Williamson <alex@shazbot.org>, 
+	Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.com>, Alex Mastro <amastro@fb.com>, 
+	Alistair Popple <apopple@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Ankit Agrawal <ankita@nvidia.com>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Chris Li <chrisl@kernel.org>, David Rientjes <rientjes@google.com>, 
+	Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, 
+	Kevin Tian <kevin.tian@intel.com>, kexec@lists.infradead.org, kvm@vger.kernel.org, 
+	Leon Romanovsky <leon@kernel.org>, Leon Romanovsky <leonro@nvidia.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-pci@vger.kernel.org, Lukas Wunner <lukas@wunner.de>, 
+	=?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>, Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>, Pranjal Shrivastava <praan@google.com>, 
+	Pratyush Yadav <pratyush@kernel.org>, Raghavendra Rao Ananta <rananta@google.com>, 
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, Saeed Mahameed <saeedm@nvidia.com>, 
+	Samiullah Khawaja <skhawaja@google.com>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, Tomita Moeko <tomitamoeko@gmail.com>, 
+	Vivek Kasireddy <vivek.kasireddy@intel.com>, William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>, 
+	Zhu Yanjun <yanjun.zhu@linux.dev>
+Subject: Re: [PATCH v2 10/22] vfio/pci: Skip reset of preserved device after
+ Live Update
+Message-ID: <20260317232431.GA2795773.vipinsh@google.com>
+References: <aaDqhjdLyf1qSTSh@google.com>
+ <20260227084658.3767d801@shazbot.org>
+ <CALzav=fHy23RAzhgkdaL+JA5T2tL9FT6aPgRfXUh7i9zvYCGPA@mail.gmail.com>
+ <20260227105720.522ca97f@shazbot.org>
+ <CALzav=fjRPa_ZbXu7iFXyemcf_8Kq_dZTWT6c-A0bc6czF_Rdw@mail.gmail.com>
+ <abNOwcOTXqxCxNzt@google.com>
+ <20260316160759.GA1767448.vipinsh@google.com>
+ <CALzav=cskxLZtZ5-uRa0+aV+1Kb3fwQQJ5dS=Yes4GAHrS6GpQ@mail.gmail.com>
+ <20260316214055.GB1846904.vipinsh@google.com>
+ <CALzav=df8K0R0gJyQ=ifoznp_CMRRtyrWchbNvcw2-wpkdaBaQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALzav=df8K0R0gJyQ=ifoznp_CMRRtyrWchbNvcw2-wpkdaBaQ@mail.gmail.com>
 
-From: Amritha Nambiar <amritha.nambiar@intel.com>
+On Mon, Mar 16, 2026 at 03:14:18PM -0700, David Matlack wrote:
+> On Mon, Mar 16, 2026 at 2:49 PM Vipin Sharma <vipinsh@google.com> wrote:
+> >
+> > On Mon, Mar 16, 2026 at 10:18:22AM -0700, David Matlack wrote:
+> > > On Mon, Mar 16, 2026 at 9:22 AM Vipin Sharma <vipinsh@google.com> wrote:
+> > > >
+> > > > On Thu, Mar 12, 2026 at 11:39:45PM +0000, David Matlack wrote:
+> > > > > On 2026-03-09 10:32 AM, David Matlack wrote:
+> > > > > > On Fri, Feb 27, 2026 at 9:57 AM Alex Williamson <alex@shazbot.org> wrote:
+> > > > >
+> > > > > > > Sorry if I don't have the whole model in my head yet, but is exposing
+> > > > > > > the restriction to the vfio user of the device sufficient to manage the
+> > > > > > > liveupdate orchestration?  For example, a VFIO_DEVICE_INFO_CAP pushes
+> > > > > > > the knowledge to QEMU... what does QEMU do with that knowledge?  Who
+> > > > > > > imposes the policy decision to decide what support is sufficient?
+> > > > > >
+> > > > > > Hm.. good questions. I don't think we want userspace inspecting bits
+> > > > > > exposed by the kernel and trying to infer exactly what's being
+> > > > > > preserved and whether it's "good enough" to use. And such a UAPI would
+> > > > > > become tech debt once we finish development, I suspect.
+> > > > > >
+> > > > > > A better approach would be to hide this support from userspace until
+> > > > > > we decide it is ready for production use-cases.
+> > > > > >
+> > > > > > To enable development and testing, we can add an opt-in mechanism
+> > > > >
+> > > > > Here is what I am trending towards sending in v3 as the opt-in mechanism:
+> > > > >
+> > > > > diff --git a/drivers/vfio/pci/Kconfig b/drivers/vfio/pci/Kconfig
+> > > > > index 1e82b44bda1a..770231554221 100644
+> > > > > --- a/drivers/vfio/pci/Kconfig
+> > > > > +++ b/drivers/vfio/pci/Kconfig
+> > > > > @@ -58,6 +58,27 @@ config VFIO_PCI_ZDEV_KVM
+> > > > >  config VFIO_PCI_DMABUF
+> > > > >         def_bool y if VFIO_PCI_CORE && PCI_P2PDMA && DMA_SHARED_BUFFER
+> > > > >
+> > > > > +config VFIO_PCI_LIVEUPDATE
+> > > > > +       bool "VFIO PCI support for Live Update (EXPERIMENTAL)"
+> > > > > +       depends on LIVEUPDATE && VFIO_PCI
+> > > > > +       help
+> > > > > +         Support for preserving devices bound to vfio-pci across a Live
+> > > > > +         Update. The eventual goal is that preserved devices can run
+> > > > > +         uninterrupted during a Live Update, including DMA to preserved
+> > > > > +         memory buffers and P2P. However there are many steps still needed to
+> > > > > +         achieve this, including:
+> > > > > +
+> > > > > +          - Preservation of iommufd files
+> > > > > +          - Preservation of IOMMU driver state
+> > > > > +          - Preservation of PCI state (BAR resources, device state, ...)
+> > > > > +          - Preservation of vfio-pci driver state
+> > > > > +
+> > > > > +         This option should only be enabled by developers working on
+> > > > > +         implementing this support. Once enough support has landed in the
+> > > > > +         kernel, this option will no longer be marked EXPERIMENTAL.
+> > > > > +
+> > > > > +         If you don't know what to do here, say N.
+> > > > > +
+> > > >
+> > > > To use VFIO liveupdate, user has to do at least two things:
+> > > > 1. Enable CONFIG_LIVEUPDATE
+> > > > 2. Pass VFIO FD to a live update session.
+> > > >
+> > > > This means someone using it has to know what live update is and
+> > > > intentionally pass the VFIO FDs. Isn't act of doing this itself an
+> > > > opt-in mechanism?
+> > >
+> > > If it is, then I can leave this out. Alex?
+> > >
+> > > My thinking was: Distros are free to enable LIVEUPDATE and use it. The
+> > > support it enables today is all fully functional (albeit new).
+> > > vfio-cdev, OTOH, is not. A separate Kconfig can help express that
+> > > difference.
+> > >
+> > > Consider that LIVEUPDATE could be enabled by default in a future
+> > > release, but vfio-cdev support might not be ready yet at that point.
+> >
+> > But that also requires point 2 above i.e. userspace explicitly passing
+> > VFIO FD to liveupdate. Unless there is a capability mechanism like KVM
+> > then userspace cannot know what is exactly supported.
+> 
+> Yes that is why I propose not exposing the support to userspace at all
+> until it is ready, by compiling it out of kernel via new Kconfig. This
+> way it does not get accidentally enabled in distros or downstream
+> kernels before it is ready.
+> 
+> > Also, users who
+> > are using these APIs will already be advanced users and have to know
+> > many details about what liveupdate supports or not.
+> 
+> VMMs will be the ones preserving VFIO cdev files. I think you are
+> suggesting they should know what versions of Linux support what kind
+> of preservation? Like QEMU would know that Linux 7.1-7.4 supports
+> partial VFIO preservation and 7.5+ supports fully? That does not sound
+> like a good situation to be in.
 
-Enable initial support for the devlink interface with the ixd driver. The
-ixd hardware is a single function PCIe device. So, the PCIe adapter gets
-its own devlink instance to manage device-wide resources or configuration.
+I agree, for VMM its better to just assume it is a complete preservation
+feature but it is an experimental code in kernel.
 
-$ devlink dev show
-pci/0000:83:00.6
+> 
+> I think it's much better to hide the support behind Kconfig until its
+> ready. That way the PRESERVE_FD ioctl just fails on kernels that do
+> not fully support (because VFIO_PCI_LIVEUPDATE is not enabled), and
+> succeeds on kernels that do fully support.
+> 
+> If someone wants to enable and use VFIO_PCI_LIVEUPDATE while it is
+> still marked experimental, they're on their own.
+> 
 
-$ devlink dev info pci/0000:83:00.6
-pci/0000:83:00.6:
-  driver ixd
-  serial_number 00-a0-c9-ff-ff-23-45-67
-  versions:
-      fixed:
-        device.type MEV
-      running:
-        virtchnl 2.0
-
-Signed-off-by: Amritha Nambiar <amritha.nambiar@intel.com>
-Reviewed-by: Michal Swiatkowski <michal.swiatkowski@linux.intel.com>
-Reviewed-by: Maciej Fijalkowski <maciej.fijalkowski@intel.com>
-Reviewed-by: Przemek Kitszel <przemyslaw.kitszel@intel.com>
-Signed-off-by: Larysa Zaremba <larysa.zaremba@intel.com>
-Tested-by: Bharath R <Bharath.r@intel.com>
-Signed-off-by: Tony Nguyen <anthony.l.nguyen@intel.com>
----
- Documentation/networking/devlink/index.rst   |  1 +
- Documentation/networking/devlink/ixd.rst     | 35 +++++++
- drivers/net/ethernet/intel/ixd/Kconfig       |  1 +
- drivers/net/ethernet/intel/ixd/Makefile      |  1 +
- drivers/net/ethernet/intel/ixd/ixd_devlink.c | 97 ++++++++++++++++++++
- drivers/net/ethernet/intel/ixd/ixd_devlink.h | 44 +++++++++
- drivers/net/ethernet/intel/ixd/ixd_main.c    | 16 +++-
- 7 files changed, 192 insertions(+), 3 deletions(-)
- create mode 100644 Documentation/networking/devlink/ixd.rst
- create mode 100644 drivers/net/ethernet/intel/ixd/ixd_devlink.c
- create mode 100644 drivers/net/ethernet/intel/ixd/ixd_devlink.h
-
-diff --git a/Documentation/networking/devlink/index.rst b/Documentation/networking/devlink/index.rst
-index f7ba7dcf477d..f0c077843fa7 100644
---- a/Documentation/networking/devlink/index.rst
-+++ b/Documentation/networking/devlink/index.rst
-@@ -88,6 +88,7 @@ parameters, info versions, and other features it supports.
-    ionic
-    iosm
-    ixgbe
-+   ixd
-    kvaser_pciefd
-    kvaser_usb
-    mlx4
-diff --git a/Documentation/networking/devlink/ixd.rst b/Documentation/networking/devlink/ixd.rst
-new file mode 100644
-index 000000000000..81b28ffb00f6
---- /dev/null
-+++ b/Documentation/networking/devlink/ixd.rst
-@@ -0,0 +1,35 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===================
-+ixd devlink support
-+===================
-+
-+This document describes the devlink features implemented by the ``ixd``
-+device driver.
-+
-+Info versions
-+=============
-+
-+The ``ixd`` driver reports the following versions
-+
-+.. list-table:: devlink info versions implemented
-+    :widths: 5 5 5 90
-+
-+    * - Name
-+      - Type
-+      - Example
-+      - Description
-+    * - ``device.type``
-+      - fixed
-+      - MEV
-+      - The hardware type for this device
-+    * - ``cp``
-+      - running
-+      - 0.0
-+      - Version number (major.minor) of the Control Plane software
-+        running on the device.
-+    * - ``virtchnl``
-+      - running
-+      - 2.0
-+      - 2-digit version number (major.minor) of the communication channel
-+        (virtchnl) used by the device.
-diff --git a/drivers/net/ethernet/intel/ixd/Kconfig b/drivers/net/ethernet/intel/ixd/Kconfig
-index 24510c50070e..34181c59dcdc 100644
---- a/drivers/net/ethernet/intel/ixd/Kconfig
-+++ b/drivers/net/ethernet/intel/ixd/Kconfig
-@@ -7,6 +7,7 @@ config IXD
- 	select LIBETH
- 	select LIBIE_CP
- 	select LIBIE_PCI
-+	select NET_DEVLINK
- 	help
- 	  This driver supports Intel(R) Control Plane PCI Function
- 	  of Intel E2100 and later IPUs and FNICs.
-diff --git a/drivers/net/ethernet/intel/ixd/Makefile b/drivers/net/ethernet/intel/ixd/Makefile
-index 90abf231fb16..03760a2580b9 100644
---- a/drivers/net/ethernet/intel/ixd/Makefile
-+++ b/drivers/net/ethernet/intel/ixd/Makefile
-@@ -8,5 +8,6 @@ obj-$(CONFIG_IXD) += ixd.o
- ixd-y := ixd_main.o
- ixd-y += ixd_ctlq.o
- ixd-y += ixd_dev.o
-+ixd-y += ixd_devlink.o
- ixd-y += ixd_lib.o
- ixd-y += ixd_virtchnl.o
-diff --git a/drivers/net/ethernet/intel/ixd/ixd_devlink.c b/drivers/net/ethernet/intel/ixd/ixd_devlink.c
-new file mode 100644
-index 000000000000..23ab11226978
---- /dev/null
-+++ b/drivers/net/ethernet/intel/ixd/ixd_devlink.c
-@@ -0,0 +1,97 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/* Copyright (c) 2025, Intel Corporation. */
-+
-+#include "ixd.h"
-+#include "ixd_devlink.h"
-+
-+#define IXD_DEVLINK_INFO_LEN	128
-+
-+/**
-+ * ixd_fill_dsn - Get the serial number for the ixd device
-+ * @adapter: adapter to query
-+ * @buf: storage buffer for the info request
-+ */
-+static void ixd_fill_dsn(struct ixd_adapter *adapter, char *buf)
-+{
-+	u8 dsn[8];
-+
-+	/* Copy the DSN into an array in Big Endian format */
-+	put_unaligned_be64(pci_get_dsn(adapter->cp_ctx.mmio_info.pdev), dsn);
-+
-+	snprintf(buf, IXD_DEVLINK_INFO_LEN, "%8phD", dsn);
-+}
-+
-+/**
-+ * ixd_fill_device_name - Get the name of the underlying hardware
-+ * @adapter: adapter to query
-+ * @buf: storage buffer for the info request
-+ * @buf_size: size of the storage buffer
-+ */
-+static void ixd_fill_device_name(struct ixd_adapter *adapter, char *buf,
-+				 size_t buf_size)
-+{
-+	if (adapter->caps.device_type == cpu_to_le32(VIRTCHNL2_MEV_DEVICE))
-+		snprintf(buf, buf_size, "%s", "MEV");
-+	else
-+		snprintf(buf, buf_size, "%s", "UNKNOWN");
-+}
-+
-+/**
-+ * ixd_devlink_info_get - .info_get devlink handler
-+ * @devlink: devlink instance structure
-+ * @req: the devlink info request
-+ * @extack: extended netdev ack structure
-+ *
-+ * Callback for the devlink .info_get operation. Reports information about the
-+ * device.
-+ *
-+ * Return: zero on success or an error code on failure.
-+ */
-+static int ixd_devlink_info_get(struct devlink *devlink,
-+				struct devlink_info_req *req,
-+				struct netlink_ext_ack *extack)
-+{
-+	struct ixd_adapter *adapter = devlink_priv(devlink);
-+	char buf[IXD_DEVLINK_INFO_LEN];
-+	int err;
-+
-+	ixd_fill_dsn(adapter, buf);
-+	err = devlink_info_serial_number_put(req, buf);
-+	if (err)
-+		return err;
-+
-+	ixd_fill_device_name(adapter, buf, IXD_DEVLINK_INFO_LEN);
-+	err = devlink_info_version_fixed_put(req, "device.type", buf);
-+	if (err)
-+		return err;
-+
-+	snprintf(buf, sizeof(buf), "%u.%u",
-+		 adapter->vc_ver.major, adapter->vc_ver.minor);
-+
-+	return devlink_info_version_running_put(req, "virtchnl", buf);
-+}
-+
-+static const struct devlink_ops ixd_devlink_ops = {
-+	.info_get = ixd_devlink_info_get,
-+};
-+
-+/**
-+ * ixd_adapter_alloc - Allocate devlink and return adapter pointer
-+ * @dev: the device to allocate for
-+ *
-+ * Allocate a devlink instance for this device and return the private area as
-+ * the adapter structure.
-+ *
-+ * Return: adapter structure on success, NULL on failure
-+ */
-+struct ixd_adapter *ixd_adapter_alloc(struct device *dev)
-+{
-+	struct devlink *devlink;
-+
-+	devlink = devlink_alloc(&ixd_devlink_ops, sizeof(struct ixd_adapter),
-+				dev);
-+	if (!devlink)
-+		return NULL;
-+
-+	return devlink_priv(devlink);
-+}
-diff --git a/drivers/net/ethernet/intel/ixd/ixd_devlink.h b/drivers/net/ethernet/intel/ixd/ixd_devlink.h
-new file mode 100644
-index 000000000000..c43ce0655de2
---- /dev/null
-+++ b/drivers/net/ethernet/intel/ixd/ixd_devlink.h
-@@ -0,0 +1,44 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/* Copyright (c) 2025, Intel Corporation. */
-+
-+#ifndef _IXD_DEVLINK_H_
-+#define _IXD_DEVLINK_H_
-+#include <net/devlink.h>
-+
-+struct ixd_adapter *ixd_adapter_alloc(struct device *dev);
-+
-+/**
-+ * ixd_devlink_free - teardown the devlink
-+ * @adapter: the adapter structure to free
-+ *
-+ */
-+static inline void ixd_devlink_free(struct ixd_adapter *adapter)
-+{
-+	struct devlink *devlink = priv_to_devlink(adapter);
-+
-+	devlink_free(devlink);
-+}
-+
-+/**
-+ * ixd_devlink_unregister - Unregister devlink resources for this adapter.
-+ * @adapter: the adapter structure to cleanup
-+ *
-+ * Releases resources used by devlink and cleans up associated memory.
-+ */
-+static inline void ixd_devlink_unregister(struct ixd_adapter *adapter)
-+{
-+	devlink_unregister(priv_to_devlink(adapter));
-+}
-+
-+/**
-+ * ixd_devlink_register - Register devlink interface for this adapter
-+ * @adapter: pointer to ixd adapter structure to be associated with devlink
-+ *
-+ * Register the devlink instance associated with this adapter
-+ */
-+static inline void ixd_devlink_register(struct ixd_adapter *adapter)
-+{
-+	devlink_register(priv_to_devlink(adapter));
-+}
-+
-+#endif /* _IXD_DEVLINK_H_ */
-diff --git a/drivers/net/ethernet/intel/ixd/ixd_main.c b/drivers/net/ethernet/intel/ixd/ixd_main.c
-index 6d5e6aca77df..ea6aa793a6a7 100644
---- a/drivers/net/ethernet/intel/ixd/ixd_main.c
-+++ b/drivers/net/ethernet/intel/ixd/ixd_main.c
-@@ -4,6 +4,7 @@
- #include "ixd.h"
- #include "ixd_ctlq.h"
- #include "ixd_lan_regs.h"
-+#include "ixd_devlink.h"
- 
- MODULE_DESCRIPTION("Intel(R) Control Plane Function Device Driver");
- MODULE_IMPORT_NS("LIBIE_CP");
-@@ -21,11 +22,14 @@ static void ixd_remove(struct pci_dev *pdev)
- 	/* Do not mix removal with (re)initialization */
- 	cancel_delayed_work_sync(&adapter->init_task.init_work);
- 
-+	ixd_devlink_unregister(adapter);
-+
- 	/* Leave the device clean on exit */
- 	ixd_trigger_reset(adapter);
- 	ixd_deinit_dflt_mbx(adapter);
- 
- 	libie_pci_unmap_all_mmio_regions(&adapter->cp_ctx.mmio_info);
-+	ixd_devlink_free(adapter);
- }
- 
- /**
-@@ -93,7 +97,7 @@ static int ixd_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 	if (WARN_ON(ent->device != IXD_DEV_ID_CPF))
- 		return -EINVAL;
- 
--	adapter = devm_kzalloc(&pdev->dev, sizeof(*adapter), GFP_KERNEL);
-+	adapter = ixd_adapter_alloc(&pdev->dev);
- 	if (!adapter)
- 		return -ENOMEM;
- 
-@@ -102,13 +106,13 @@ static int ixd_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 
- 	err = libie_pci_init_dev(pdev);
- 	if (err)
--		return err;
-+		goto free_adapter;
- 
- 	pci_set_drvdata(pdev, adapter);
- 
- 	err = ixd_iomap_regions(adapter);
- 	if (err)
--		return err;
-+		goto free_adapter;
- 
- 	INIT_DELAYED_WORK(&adapter->init_task.init_work,
- 			  ixd_init_task);
-@@ -118,7 +122,13 @@ static int ixd_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 	queue_delayed_work(system_unbound_wq, &adapter->init_task.init_work,
- 			   msecs_to_jiffies(500));
- 
-+	ixd_devlink_register(adapter);
-+
- 	return 0;
-+
-+free_adapter:
-+	ixd_devlink_free(adapter);
-+	return err;
- }
- 
- static const struct pci_device_id ixd_pci_tbl[] = {
--- 
-2.47.1
-
+Sounds good. Thanks!
