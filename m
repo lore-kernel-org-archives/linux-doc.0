@@ -1,357 +1,126 @@
-Received: from fra-out-014.esa.eu-central-1.outbound.mail-perimeter.amazon.com (fra-out-014.esa.eu-central-1.outbound.mail-perimeter.amazon.com [18.199.210.3])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 201F13E5577
-	for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 14:13:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.199.210.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1D503E5589
+	for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 14:13:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773756792; cv=none; b=J9iiZYgdX01Ozh8Zkt5tQchGvFUWpieBkymL+5cJfFoTrlRdEjHLduKUHmc4CrynCafBodPwuoUC8OT5O9SLS2KcdplzNp6tjpcLJZ8mXaBjdIpm2M//TBKfTfuxR+ijUEDVxBpvpCIGB2ZaCKhYJb0gGHQOcmZI9QA7T/BesHs=
+	t=1773756795; cv=none; b=uwns+aa5dPqwESdhiXda0xEyNbMSFvOhjHsfj1itnJYX5NXA9kodjkplF6nG+UR2BxQUb4jObQbUdwr2Q1zpFNrdCPIyAZIobUQK/lfqq++KEOa4AGalRHnWni4Tgy7aQgASbLE+xUzQsfQn3z870OOqTMqlfn/vqdFHABVqWaQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773756792; c=relaxed/simple;
-	bh=JVJOvVbVc+qVjlNPD/f7NF7zTDZykPP1rSE329axAv4=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=d4FxuPi3nMY+cFtf00hDIiyrEovfykaGnLzvjUNfgmhB88SH1d4sOpcKDoM7t4vkCbhwNo1jENOFObOJWw8n0YoJx4x1nkvB2uAWXAmT/H9sIlfAOI51bzPsBDAD1+pu2croT0k19tmLIZnTEzfg0Ttl7amYTnPX4ceM8CgofFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.co.uk; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (2048-bit key) header.d=amazon.co.uk header.i=@amazon.co.uk header.b=m/3TcAAZ; arc=none smtp.client-ip=18.199.210.3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
+	s=arc-20240116; t=1773756795; c=relaxed/simple;
+	bh=91BKEugAixdxcjS7gsISaPOceXdhb9ubhvIKgagWg70=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=roGQKq3TLSEZyM7oCX4zDu34m+Gu5jmFJZ/VW4qolN0CZcmEeLMVZVuJnikVYIAIPtDe12HfrECaMCrlUCn/415OCjuuVDi7YDCDawIV/8fg0dhQuQSqlygP6Rw5fsNPjuDQ4bjF0Zishy7pu2UIpvBmk3X2LA9iYhXh4cqBJyI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=P7Iv96k1; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=CMU9Xxi6; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.co.uk header.i=@amazon.co.uk header.b="m/3TcAAZ"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="P7Iv96k1";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="CMU9Xxi6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1773756793;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=91BKEugAixdxcjS7gsISaPOceXdhb9ubhvIKgagWg70=;
+	b=P7Iv96k1HFlDwAeuNcJtuj0CdyXvZM5XgsE0chJvJjm/34dT8ogsZOOjS+HqMIZiDkXnO6
+	xoYCiC++ZguHBehzJhgklDbBI0enWVKsGfpLI/BvBXdr7SCrWqDFwvML515bJUm5Plj0gN
+	NPoaW7Rbwud3p7i0g3LuPIN3DU29rBs=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-614-gvn-QFUbPvKSEs1dVL6qxg-1; Tue, 17 Mar 2026 10:13:12 -0400
+X-MC-Unique: gvn-QFUbPvKSEs1dVL6qxg-1
+X-Mimecast-MFC-AGG-ID: gvn-QFUbPvKSEs1dVL6qxg_1773756792
+Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-89c4a339b6bso75907016d6.0
+        for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 07:13:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.co.uk; i=@amazon.co.uk; q=dns/txt;
-  s=amazoncorp2; t=1773756790; x=1805292790;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=ar/RLV2nTk0mEfqcj3AjlRvCzScvha3E/slvpgUYOeA=;
-  b=m/3TcAAZTctw/1Krb3ViYP5/APZ6jRabI5zsfeqsuXF36XQuVZA9C3LN
-   z1KfTsAOSBptTEnOyISJQRDvYPV4sztFLQjFZPZNLB0MVn1j1UlF38p86
-   a2z5ceKfGyVsF9Ae6vncOs7yZZx+/lOMHR4W8REQB+GoHaQo+7WQj/6iM
-   JvCs7VA43VirBDdxQ3aqwW2iNXXF6nVsnfEDdeJC+UA4pULNZiK5v8WjV
-   PN2pyTNjlBTQhvI/W5lTY+3R+l4sBbOz/0FS+UJs+vaqErSOyIvZEnp/U
-   YiNLcqXPOhjaINkgiRfcWE8OHXaKd8ZJpLr9n8hbjUEmMziWOlDelCaYG
-   A==;
-X-CSE-ConnectionGUID: T1LaMwNPRJ6RQfYYOiAiRQ==
-X-CSE-MsgGUID: OXCmZLuTSVWH/0TJytvPUA==
-X-IronPort-AV: E=Sophos;i="6.23,124,1770595200"; 
-   d="scan'208";a="10889118"
-Received: from ip-10-6-6-97.eu-central-1.compute.internal (HELO smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.6.97])
-  by internal-fra-out-014.esa.eu-central-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Mar 2026 14:13:05 +0000
-Received: from EX19MTAEUA001.ant.amazon.com [54.240.197.233:31988]
- by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.29.244:2525] with esmtp (Farcaster)
- id d45419bf-3856-4ff3-a593-a5c5b2e8eea5; Tue, 17 Mar 2026 14:13:05 +0000 (UTC)
-X-Farcaster-Flow-ID: d45419bf-3856-4ff3-a593-a5c5b2e8eea5
-Received: from EX19D005EUB003.ant.amazon.com (10.252.51.31) by
- EX19MTAEUA001.ant.amazon.com (10.252.50.192) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
- Tue, 17 Mar 2026 14:13:03 +0000
-Received: from EX19D005EUB003.ant.amazon.com (10.252.51.31) by
- EX19D005EUB003.ant.amazon.com (10.252.51.31) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
- Tue, 17 Mar 2026 14:13:03 +0000
-Received: from EX19D005EUB003.ant.amazon.com ([fe80::b825:becb:4b38:da0c]) by
- EX19D005EUB003.ant.amazon.com ([fe80::b825:becb:4b38:da0c%3]) with mapi id
- 15.02.2562.037; Tue, 17 Mar 2026 14:13:03 +0000
-From: "Kalyazin, Nikita" <kalyazin@amazon.co.uk>
-To: "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "kvmarm@lists.linux.dev"
-	<kvmarm@lists.linux.dev>, "linux-fsdevel@vger.kernel.org"
-	<linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"bpf@vger.kernel.org" <bpf@vger.kernel.org>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"kernel@xen0n.name" <kernel@xen0n.name>, "linux-riscv@lists.infradead.org"
-	<linux-riscv@lists.infradead.org>, "linux-s390@vger.kernel.org"
-	<linux-s390@vger.kernel.org>, "loongarch@lists.linux.dev"
-	<loongarch@lists.linux.dev>, "linux-pm@vger.kernel.org"
-	<linux-pm@vger.kernel.org>
-CC: "pbonzini@redhat.com" <pbonzini@redhat.com>, "corbet@lwn.net"
-	<corbet@lwn.net>, "maz@kernel.org" <maz@kernel.org>, "oupton@kernel.org"
-	<oupton@kernel.org>, "joey.gouly@arm.com" <joey.gouly@arm.com>,
-	"suzuki.poulose@arm.com" <suzuki.poulose@arm.com>, "yuzenghui@huawei.com"
-	<yuzenghui@huawei.com>, "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-	"will@kernel.org" <will@kernel.org>, "seanjc@google.com" <seanjc@google.com>,
-	"tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>,
-	"bp@alien8.de" <bp@alien8.de>, "dave.hansen@linux.intel.com"
-	<dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>,
-	"hpa@zytor.com" <hpa@zytor.com>, "luto@kernel.org" <luto@kernel.org>,
-	"peterz@infradead.org" <peterz@infradead.org>, "willy@infradead.org"
-	<willy@infradead.org>, "akpm@linux-foundation.org"
-	<akpm@linux-foundation.org>, "david@kernel.org" <david@kernel.org>,
-	"lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>,
-	"vbabka@kernel.org" <vbabka@kernel.org>, "rppt@kernel.org" <rppt@kernel.org>,
-	"surenb@google.com" <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>,
-	"ast@kernel.org" <ast@kernel.org>, "daniel@iogearbox.net"
-	<daniel@iogearbox.net>, "andrii@kernel.org" <andrii@kernel.org>,
-	"martin.lau@linux.dev" <martin.lau@linux.dev>, "eddyz87@gmail.com"
-	<eddyz87@gmail.com>, "song@kernel.org" <song@kernel.org>,
-	"yonghong.song@linux.dev" <yonghong.song@linux.dev>,
-	"john.fastabend@gmail.com" <john.fastabend@gmail.com>, "kpsingh@kernel.org"
-	<kpsingh@kernel.org>, "sdf@fomichev.me" <sdf@fomichev.me>,
-	"haoluo@google.com" <haoluo@google.com>, "jolsa@kernel.org"
-	<jolsa@kernel.org>, "jgg@ziepe.ca" <jgg@ziepe.ca>, "jhubbard@nvidia.com"
-	<jhubbard@nvidia.com>, "peterx@redhat.com" <peterx@redhat.com>,
-	"jannh@google.com" <jannh@google.com>, "pfalcato@suse.de" <pfalcato@suse.de>,
-	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>, "riel@surriel.com"
-	<riel@surriel.com>, "ryan.roberts@arm.com" <ryan.roberts@arm.com>,
-	"jgross@suse.com" <jgross@suse.com>, "yu-cheng.yu@intel.com"
-	<yu-cheng.yu@intel.com>, "kas@kernel.org" <kas@kernel.org>, "coxu@redhat.com"
-	<coxu@redhat.com>, "kevin.brodsky@arm.com" <kevin.brodsky@arm.com>,
-	"ackerleytng@google.com" <ackerleytng@google.com>, "yosry@kernel.org"
-	<yosry@kernel.org>, "ajones@ventanamicro.com" <ajones@ventanamicro.com>,
-	"maobibo@loongson.cn" <maobibo@loongson.cn>, "tabba@google.com"
-	<tabba@google.com>, "prsampat@amd.com" <prsampat@amd.com>,
-	"wu.fei9@sanechips.com.cn" <wu.fei9@sanechips.com.cn>, "mlevitsk@redhat.com"
-	<mlevitsk@redhat.com>, "jmattson@google.com" <jmattson@google.com>,
-	"jthoughton@google.com" <jthoughton@google.com>, "agordeev@linux.ibm.com"
-	<agordeev@linux.ibm.com>, "alex@ghiti.fr" <alex@ghiti.fr>,
-	"aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>, "borntraeger@linux.ibm.com"
-	<borntraeger@linux.ibm.com>, "chenhuacai@kernel.org" <chenhuacai@kernel.org>,
-	"dev.jain@arm.com" <dev.jain@arm.com>, "gor@linux.ibm.com"
-	<gor@linux.ibm.com>, "hca@linux.ibm.com" <hca@linux.ibm.com>,
-	"palmer@dabbelt.com" <palmer@dabbelt.com>, "pjw@kernel.org" <pjw@kernel.org>,
-	"shijie@os.amperecomputing.com" <shijie@os.amperecomputing.com>,
-	"svens@linux.ibm.com" <svens@linux.ibm.com>, "thuth@redhat.com"
-	<thuth@redhat.com>, "wyihan@google.com" <wyihan@google.com>,
-	"yang@os.amperecomputing.com" <yang@os.amperecomputing.com>,
-	"Jonathan.Cameron@huawei.com" <Jonathan.Cameron@huawei.com>,
-	"Liam.Howlett@oracle.com" <Liam.Howlett@oracle.com>, "urezki@gmail.com"
-	<urezki@gmail.com>, "zhengqi.arch@bytedance.com"
-	<zhengqi.arch@bytedance.com>, "gerald.schaefer@linux.ibm.com"
-	<gerald.schaefer@linux.ibm.com>, "jiayuan.chen@shopee.com"
-	<jiayuan.chen@shopee.com>, "lenb@kernel.org" <lenb@kernel.org>,
-	"osalvador@suse.de" <osalvador@suse.de>, "pavel@kernel.org"
-	<pavel@kernel.org>, "rafael@kernel.org" <rafael@kernel.org>,
-	"vannapurve@google.com" <vannapurve@google.com>, "jackmanb@google.com"
-	<jackmanb@google.com>, "aneesh.kumar@kernel.org" <aneesh.kumar@kernel.org>,
-	"patrick.roy@linux.dev" <patrick.roy@linux.dev>, "Thomson, Jack"
-	<jackabt@amazon.co.uk>, "Itazuri, Takahiro" <itazur@amazon.co.uk>,
-	"Manwaring, Derek" <derekmn@amazon.com>, "Kalyazin, Nikita"
-	<kalyazin@amazon.co.uk>
-Subject: [PATCH v11 13/16] KVM: selftests: Add guest_memfd based
- vm_mem_backing_src_types
-Thread-Topic: [PATCH v11 13/16] KVM: selftests: Add guest_memfd based
- vm_mem_backing_src_types
-Thread-Index: AQHcthgrl2L6VQHT9EGNGtASEbZtQQ==
-Date: Tue, 17 Mar 2026 14:13:03 +0000
-Message-ID: <20260317141031.514-14-kalyazin@amazon.com>
-References: <20260317141031.514-1-kalyazin@amazon.com>
-In-Reply-To: <20260317141031.514-1-kalyazin@amazon.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        d=redhat.com; s=google; t=1773756792; x=1774361592; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=91BKEugAixdxcjS7gsISaPOceXdhb9ubhvIKgagWg70=;
+        b=CMU9Xxi66Y2KWbcs7/D/+TUvxSSZjT1svwLcxNx3PCPtCuXh2UPA2HCSY3g9VeyF0p
+         KtMfoGdZ05yl+PuRi77yABP7/VJpB/wIgY09k2yrlPgSyfLCEln0jr7JMd6imMTP3Ww/
+         8Y0ThCaCQRfJw+4tTWrXB7sPd1ywmU273p0QVX3Grbik2/0q6g/xMtGCbIK0digSm9mS
+         cSP4iLCE6I3ZgCWLZkjpvJstVX9qxbH+hQnw7NspIQQrie6tJr8KBWIb5SiGe1jVm0M7
+         dvDvfymZVYHHUqfHMp/4pOlSvOC8Rf0R6MrUZoMlwR+JHsWyO8YxqUh3Gur7XhYQWGyC
+         3kOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773756792; x=1774361592;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=91BKEugAixdxcjS7gsISaPOceXdhb9ubhvIKgagWg70=;
+        b=BV1AYj71q4PTZ+/mnEe0p5MjsO5sH9ZxtgrJvOlxrpdNQPzvHojr09RmzgKBgPiuwJ
+         rKaSnoygTaNB7jud6qqO9ITFY/oaj173P5L0rg92KiRPVQhVgeY4W5p2bVWYgeRtLBQN
+         jHA8qbNs9gtXbmca7vQhVyCZMcZe7U/J6eIMtnNog15RJRyUdi9LZG1J9mlawAwbWPXF
+         MaDCMnkjkQ2Ma8zf6rMUKRkyylkEur80IY3EVtRL3ydLDmSFIbEtvbdWrzcc0+KmweJ5
+         A0CpLhDnRStc1JInOkKzHb21ULYhoc9m04OSrnh9DPQrEcdbwXdpOKiENi77smE+aVSo
+         dCsg==
+X-Forwarded-Encrypted: i=1; AJvYcCVJU3xYWOTJ4rX59LyEd5chayq6i9gYJqzjKoRoeaB4DlZMhiUKQscZWzR+5nI9yeZBKePVXVA+mnc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxBV9UtnKmmKXa6yTrRDInqps28TE0a7r8t/kCM1TeKnb1dk834
+	3mLq1E1aGT1bVHUE6R8vS5lncBsqxci8L1AFCSrW6IQXOFqduU0p1S1v1USfFFEneEj+LH1NFjo
+	/kpZVSZoXeRum7q7wEPujTfa15KGyL+kU/+Ut0cXWSyCeVeCA3H8Z1yb4d1LaRg==
+X-Gm-Gg: ATEYQzwJVHP9xxFuXy+EslKeEnzPgCp3RjaWGq1PngCdybcihPCwb6YnfLx4+NtNn4l
+	UC2x2fA71OIjbYp4Kfv+dM9XZ8rXXOd+jGv4lnJu9DR+RlMNHJzqcHFJI2jRZHz7oxQNVXwOwd/
+	W10yaW56pKEQ+RFxATSV/eoWa0Aa0moNO5U5xeuTtGffkReBkB6adYD96bwLBOv1CYHztR2w/Mq
+	Juo07cdTMBEjxlzYsk0p77cvWhBoR+DHBxXGbCpo2Y0OlhWmmddzS25KiyDlkevOXdfNZPPwbpg
+	v7Xw+WSya9/383aPRr/314gxRnd/bNwERU4q1+OnECG/ItPPxWXdUP7WtWBpPmaWVtCnU3KNFYn
+	92hfMonqpMeuKEsNZ3ownEQj+o/IcvlM9qnvlNkQCQ7MR/Ejo2oO9jPw7
+X-Received: by 2002:a05:6214:c2f:b0:89c:5bbe:1e73 with SMTP id 6a1803df08f44-89c5e3f07e5mr52990486d6.32.1773756791612;
+        Tue, 17 Mar 2026 07:13:11 -0700 (PDT)
+X-Received: by 2002:a05:6214:c2f:b0:89c:5bbe:1e73 with SMTP id 6a1803df08f44-89c5e3f07e5mr52989886d6.32.1773756791055;
+        Tue, 17 Mar 2026 07:13:11 -0700 (PDT)
+Received: from redhat.com (c-73-183-52-120.hsd1.pa.comcast.net. [73.183.52.120])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89c4feaaedbsm47275346d6.40.2026.03.17.07.13.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Mar 2026 07:13:10 -0700 (PDT)
+Date: Tue, 17 Mar 2026 10:13:08 -0400
+From: Brian Masney <bmasney@redhat.com>
+To: Abel Vesa <abel.vesa@oss.qualcomm.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Abel Vesa <abelvesa@kernel.org>,
+	Hans de Goede <hansg@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
+Subject: Re: [PATCH] clk: add new Kconfig to control default behavior of
+ disabling unused clocks
+Message-ID: <ablhdKJgEhU8KmtO@redhat.com>
+References: <20260316-clk-ignore-unused-kconfig-v1-1-6e95a4fb0c94@redhat.com>
+ <20260317-almond-leech-of-correction-2a2ef6@houat>
+ <com5zf4bfgb3eoelbmy5pfykhdow6ne3nteua6l7bnzkr72dsb@pehxxygji5z2>
+ <20260317-notorious-classic-sunfish-d016d5@houat>
+ <2dsd7hq4bn25dibqk62a7o56tt2tecf645tq3upccneq4hby67@cmjjc5d6ximt>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2dsd7hq4bn25dibqk62a7o56tt2tecf645tq3upccneq4hby67@cmjjc5d6ximt>
+User-Agent: Mutt/2.3.0 (2026-01-25)
 
-From: Patrick Roy <patrick.roy@linux.dev>=0A=
-=0A=
-Allow selftests to configure their memslots such that userspace_addr is=0A=
-set to a MAP_SHARED mapping of the guest_memfd that's associated with=0A=
-the memslot. This setup is the configuration for non-CoCo VMs, where all=0A=
-guest memory is backed by a guest_memfd whose folios are all marked=0A=
-shared, but KVM is still able to access guest memory to provide=0A=
-functionality such as MMIO emulation on x86.=0A=
-=0A=
-Add backing types for normal guest_memfd, as well as direct map removed=0A=
-guest_memfd.=0A=
-=0A=
-Signed-off-by: Patrick Roy <patrick.roy@linux.dev>=0A=
-Signed-off-by: Nikita Kalyazin <kalyazin@amazon.com>=0A=
----=0A=
- .../testing/selftests/kvm/include/kvm_util.h  | 18 ++++++=0A=
- .../testing/selftests/kvm/include/test_util.h |  7 +++=0A=
- tools/testing/selftests/kvm/lib/kvm_util.c    | 61 ++++++++++---------=0A=
- tools/testing/selftests/kvm/lib/test_util.c   |  8 +++=0A=
- 4 files changed, 65 insertions(+), 29 deletions(-)=0A=
-=0A=
-diff --git a/tools/testing/selftests/kvm/include/kvm_util.h b/tools/testing=
-/selftests/kvm/include/kvm_util.h=0A=
-index 8b39cb919f4f..056a003a63c0 100644=0A=
---- a/tools/testing/selftests/kvm/include/kvm_util.h=0A=
-+++ b/tools/testing/selftests/kvm/include/kvm_util.h=0A=
-@@ -664,6 +664,24 @@ static inline bool is_smt_on(void)=0A=
- =0A=
- void vm_create_irqchip(struct kvm_vm *vm);=0A=
- =0A=
-+static inline uint32_t backing_src_guest_memfd_flags(enum vm_mem_backing_s=
-rc_type t)=0A=
-+{=0A=
-+	uint32_t flags =3D 0;=0A=
-+=0A=
-+	switch (t) {=0A=
-+	case VM_MEM_SRC_GUEST_MEMFD_NO_DIRECT_MAP:=0A=
-+		flags |=3D GUEST_MEMFD_FLAG_NO_DIRECT_MAP;=0A=
-+		fallthrough;=0A=
-+	case VM_MEM_SRC_GUEST_MEMFD:=0A=
-+		flags |=3D GUEST_MEMFD_FLAG_MMAP | GUEST_MEMFD_FLAG_INIT_SHARED;=0A=
-+		break;=0A=
-+	default:=0A=
-+		break;=0A=
-+	}=0A=
-+=0A=
-+	return flags;=0A=
-+}=0A=
-+=0A=
- static inline int __vm_create_guest_memfd(struct kvm_vm *vm, uint64_t size=
-,=0A=
- 					uint64_t flags)=0A=
- {=0A=
-diff --git a/tools/testing/selftests/kvm/include/test_util.h b/tools/testin=
-g/selftests/kvm/include/test_util.h=0A=
-index 8140e59b59e5..ea6de20ce8ef 100644=0A=
---- a/tools/testing/selftests/kvm/include/test_util.h=0A=
-+++ b/tools/testing/selftests/kvm/include/test_util.h=0A=
-@@ -152,6 +152,8 @@ enum vm_mem_backing_src_type {=0A=
- 	VM_MEM_SRC_ANONYMOUS_HUGETLB_16GB,=0A=
- 	VM_MEM_SRC_SHMEM,=0A=
- 	VM_MEM_SRC_SHARED_HUGETLB,=0A=
-+	VM_MEM_SRC_GUEST_MEMFD,=0A=
-+	VM_MEM_SRC_GUEST_MEMFD_NO_DIRECT_MAP,=0A=
- 	NUM_SRC_TYPES,=0A=
- };=0A=
- =0A=
-@@ -184,6 +186,11 @@ static inline bool backing_src_is_shared(enum vm_mem_b=
-acking_src_type t)=0A=
- 	return vm_mem_backing_src_alias(t)->flag & MAP_SHARED;=0A=
- }=0A=
- =0A=
-+static inline bool backing_src_is_guest_memfd(enum vm_mem_backing_src_type=
- t)=0A=
-+{=0A=
-+	return t =3D=3D VM_MEM_SRC_GUEST_MEMFD || t =3D=3D VM_MEM_SRC_GUEST_MEMFD=
-_NO_DIRECT_MAP;=0A=
-+}=0A=
-+=0A=
- static inline bool backing_src_can_be_huge(enum vm_mem_backing_src_type t)=
-=0A=
- {=0A=
- 	return t !=3D VM_MEM_SRC_ANONYMOUS && t !=3D VM_MEM_SRC_SHMEM;=0A=
-diff --git a/tools/testing/selftests/kvm/lib/kvm_util.c b/tools/testing/sel=
-ftests/kvm/lib/kvm_util.c=0A=
-index 5b0865683047..fa4a2fc236fe 100644=0A=
---- a/tools/testing/selftests/kvm/lib/kvm_util.c=0A=
-+++ b/tools/testing/selftests/kvm/lib/kvm_util.c=0A=
-@@ -1046,6 +1046,33 @@ void vm_mem_add(struct kvm_vm *vm, enum vm_mem_backi=
-ng_src_type src_type,=0A=
- 	alignment =3D 1;=0A=
- #endif=0A=
- =0A=
-+	if (guest_memfd < 0) {=0A=
-+		if ((flags & KVM_MEM_GUEST_MEMFD) || backing_src_is_guest_memfd(src_type=
-)) {=0A=
-+			uint32_t guest_memfd_flags =3D backing_src_guest_memfd_flags(src_type);=
-=0A=
-+=0A=
-+			TEST_ASSERT(!guest_memfd_offset,=0A=
-+				    "Offset must be zero when creating new guest_memfd");=0A=
-+			guest_memfd =3D vm_create_guest_memfd(vm, mem_size, guest_memfd_flags);=
-=0A=
-+		}=0A=
-+	} else {=0A=
-+		/*=0A=
-+		 * Install a unique fd for each memslot so that the fd=0A=
-+		 * can be closed when the region is deleted without=0A=
-+		 * needing to track if the fd is owned by the framework=0A=
-+		 * or by the caller.=0A=
-+		 */=0A=
-+		guest_memfd =3D kvm_dup(guest_memfd);=0A=
-+	}=0A=
-+=0A=
-+	if (guest_memfd >=3D 0) {=0A=
-+		flags |=3D KVM_MEM_GUEST_MEMFD;=0A=
-+=0A=
-+		region->region.guest_memfd =3D guest_memfd;=0A=
-+		region->region.guest_memfd_offset =3D guest_memfd_offset;=0A=
-+	} else {=0A=
-+		region->region.guest_memfd =3D -1;=0A=
-+	}=0A=
-+=0A=
- 	/*=0A=
- 	 * When using THP mmap is not guaranteed to returned a hugepage aligned=
-=0A=
- 	 * address so we have to pad the mmap. Padding is not needed for HugeTLB=
-=0A=
-@@ -1061,10 +1088,13 @@ void vm_mem_add(struct kvm_vm *vm, enum vm_mem_back=
-ing_src_type src_type,=0A=
- 	if (alignment > 1)=0A=
- 		region->mmap_size +=3D alignment;=0A=
- =0A=
--	region->fd =3D -1;=0A=
--	if (backing_src_is_shared(src_type))=0A=
-+	if (backing_src_is_guest_memfd(src_type))=0A=
-+		region->fd =3D guest_memfd;=0A=
-+	else if (backing_src_is_shared(src_type))=0A=
- 		region->fd =3D kvm_memfd_alloc(region->mmap_size,=0A=
- 					     src_type =3D=3D VM_MEM_SRC_SHARED_HUGETLB);=0A=
-+	else=0A=
-+		region->fd =3D -1;=0A=
- =0A=
- 	region->mmap_start =3D kvm_mmap(region->mmap_size, PROT_READ | PROT_WRITE=
-,=0A=
- 				      vm_mem_backing_src_alias(src_type)->flag,=0A=
-@@ -1089,33 +1119,6 @@ void vm_mem_add(struct kvm_vm *vm, enum vm_mem_backi=
-ng_src_type src_type,=0A=
- 	}=0A=
- =0A=
- 	region->backing_src_type =3D src_type;=0A=
--=0A=
--	if (guest_memfd < 0) {=0A=
--		if (flags & KVM_MEM_GUEST_MEMFD) {=0A=
--			uint32_t guest_memfd_flags =3D 0;=0A=
--			TEST_ASSERT(!guest_memfd_offset,=0A=
--				    "Offset must be zero when creating new guest_memfd");=0A=
--			guest_memfd =3D vm_create_guest_memfd(vm, mem_size, guest_memfd_flags);=
-=0A=
--		}=0A=
--	} else {=0A=
--		/*=0A=
--		 * Install a unique fd for each memslot so that the fd=0A=
--		 * can be closed when the region is deleted without=0A=
--		 * needing to track if the fd is owned by the framework=0A=
--		 * or by the caller.=0A=
--		 */=0A=
--		guest_memfd =3D kvm_dup(guest_memfd);=0A=
--	}=0A=
--=0A=
--	if (guest_memfd >=3D 0) {=0A=
--		flags |=3D KVM_MEM_GUEST_MEMFD;=0A=
--=0A=
--		region->region.guest_memfd =3D guest_memfd;=0A=
--		region->region.guest_memfd_offset =3D guest_memfd_offset;=0A=
--	} else {=0A=
--		region->region.guest_memfd =3D -1;=0A=
--	}=0A=
--=0A=
- 	region->unused_phy_pages =3D sparsebit_alloc();=0A=
- 	if (vm_arch_has_protected_memory(vm))=0A=
- 		region->protected_phy_pages =3D sparsebit_alloc();=0A=
-diff --git a/tools/testing/selftests/kvm/lib/test_util.c b/tools/testing/se=
-lftests/kvm/lib/test_util.c=0A=
-index 8a1848586a85..ce9fe0271515 100644=0A=
---- a/tools/testing/selftests/kvm/lib/test_util.c=0A=
-+++ b/tools/testing/selftests/kvm/lib/test_util.c=0A=
-@@ -306,6 +306,14 @@ const struct vm_mem_backing_src_alias *vm_mem_backing_=
-src_alias(uint32_t i)=0A=
- 			 */=0A=
- 			.flag =3D MAP_SHARED,=0A=
- 		},=0A=
-+		[VM_MEM_SRC_GUEST_MEMFD] =3D {=0A=
-+			.name =3D "guest_memfd",=0A=
-+			.flag =3D MAP_SHARED,=0A=
-+		},=0A=
-+		[VM_MEM_SRC_GUEST_MEMFD_NO_DIRECT_MAP] =3D {=0A=
-+			.name =3D "guest_memfd_no_direct_map",=0A=
-+			.flag =3D MAP_SHARED,=0A=
-+		}=0A=
- 	};=0A=
- 	_Static_assert(ARRAY_SIZE(aliases) =3D=3D NUM_SRC_TYPES,=0A=
- 		       "Missing new backing src types?");=0A=
--- =0A=
-2.50.1=0A=
-=0A=
+On Tue, Mar 17, 2026 at 03:21:17PM +0200, Abel Vesa wrote:
+> The solution has been already discussed for a long time now and it is:
+> drop the clk_ignore_unused late_initcall entirely and then make a
+> generic sync_state callback that the clock providers can use (or they
+> could implement one themselves). This way, until sync_state is reached
+> for a specific clock provider driver, all unused clocks remain as is.
+
+I'm willing to work on the sync state support once my clk scaling
+series [1] lands upstream. I believe that Saravana posted a series
+related to clk sync state, and I need to look at that.
+
+FWIW, the only reason I posted this patch is because at the end of
+Stephen's LPC talk I got the impression that this was also an acceptable
+change. I'm fine with dropping this change.
+
+[1] https://lore.kernel.org/linux-clk/20260313-clk-scaling-v6-0-ce89968c5247@redhat.com/
+
+Brian
+
