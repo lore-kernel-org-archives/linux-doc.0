@@ -1,158 +1,283 @@
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11020135.outbound.protection.outlook.com [52.101.229.135])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA02F2C21C0;
-	Tue, 17 Mar 2026 03:13:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.135
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF8053093D8
+	for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 03:42:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.48
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773717208; cv=fail; b=uVM+7W6oGQZubEBJ4lsd9OPiaOdTEB+6Py5KgvGDH3cUu6Ue3ugw42W9+jbUxai3XfLjRDtIDCR+ONf2f4YKiddZpbm6Esae1GzzhIPth6UYihTgcyZzNQApf4CT2dx+n+zOprA1+A6W/IXlyKQmEsg64EhSoy3j1BSmfEI5FFU=
+	t=1773718925; cv=pass; b=HfroT8lwfHM97Iv3ME3iMJIm0HV2Y/RXtreVBrRNXlOD/+or7EFzq6LXy7B20gbfBXrNxHVhu5TiTAZTWpiXKx0PxYTKZuswil7cCb7DjL1SHxwOo1aDOvbJ5cQHPyVc16/DSRfRZrW5AaYEgNeJkjxYnvPt5WjlTtDOi3dL0zk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773717208; c=relaxed/simple;
-	bh=w4pBFE40dQ4ul/OIe0Gq3oHeqt4dyisIUOTwlQj9k3o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=Y3UpZphckQesdJ+e9LgheIlhKZs63NwTvMaOrBHobbx7gei31wSASmzQ/0D/jy6GTY8HMEN/gZ24QRIS9YH5tI8BaKQ6RZyoI/MPvQJZ0oTmIOC8yec/9vlJQSX2UwkFXLrKYDYlskPkjhF8i3u3v9Hc3A+Wbic7W+fkf9DQFHY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valinux.co.jp; spf=pass smtp.mailfrom=valinux.co.jp; dkim=pass (1024-bit key) header.d=valinux.co.jp header.i=@valinux.co.jp header.b=jFyO902j; arc=fail smtp.client-ip=52.101.229.135
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valinux.co.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=valinux.co.jp
+	s=arc-20240116; t=1773718925; c=relaxed/simple;
+	bh=WMHI6RHUC26ebl9/TVkwR2rJeC5kBjFPfSnTY/Oar1A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oTD5Mus+yk5kWz96nN+BWBbTyXx2kmXccwwDQ57qwn08sZp4FoGcln94XlHH2ipY1j5xJJ5S2ZFMuLwNA26B5heorq8F44Q1j2qZE4dDWdxOhqVm9RyglOgh4JiqlDLH8iDCzw+/+9fZ3iTLIaCr7vvGuUKexJdHWG+Zzhfr8yI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=cyh2ZdDD; arc=pass smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=valinux.co.jp header.i=@valinux.co.jp header.b="jFyO902j"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cg0oViRgO6faJiUSeSIA656lhrCaPAXClqfeGmGLhYynbK3TEZYSJ9MB8Fv1nGTsPxOYWy3dxTltiBBrpX4psdBLNCWc729mDofgVgurkbn7pYBe3i+GSx90O/meJz+M/HQT1SpOAMz4ztsU2Cx9mSyXAHFOPnNXWNktKxH6qhhXp/JWXEamkzp7vmKvCkZu1Q7yVa2OK7VrX9Awab198rJPb6h8gYQ5C2u56B/ldiUL+nlPsJAUYiB1Sb9WadtwVjmnW5+sH46VnuEtWE/Ben1usOVQBhOYMVsKeALjwHyzhjwKyZB8NvV2lgDOqoY1fgIGrQ1B37OrrvB/HrlkWw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gtLVW1N4Eq5yMN6W3RSmtDU2GCEiI/jUl2+1Gl2jIRU=;
- b=kLHax1zgnJfrywGPJvhY9xzOH0Hvf3nn6H+5Y57oAXTjWKfqWrntJKuCU8vtbhV6ZGAC+QvsatV0x5R349gHbepnoj6r7FBcwkQAMoJx/b9XeNCeq89xLnnMx13n0dpWkF4oHSjXEdrDc1hPl+ml25gPA9PTr1rKhEsTi+PV001toff8EtNtcVAT9JlvVItFClOLK7+313SOvQNnaZwUZh+oUhsh8NiCOzj0spWDXpyrcAjutJe4KVrkGwXUyvo/1y13Cl9gafz/lK3/sq4CEqdTVvL4TWzG/0t7/WhlN5TqEshpGoFIXj4onZkKi7vpc76paok7MegB9UnHfRia/g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=valinux.co.jp; dmarc=pass action=none
- header.from=valinux.co.jp; dkim=pass header.d=valinux.co.jp; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=valinux.co.jp;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gtLVW1N4Eq5yMN6W3RSmtDU2GCEiI/jUl2+1Gl2jIRU=;
- b=jFyO902jXnbROFgjeVqwaxY6MRq2UduaKv+ARFApPagj/Qh0YabVE21qYoUIA9HfNNbRyEu2joLcTXqdKHZ3yj75nsD2B71MJk9OH3PC9LfzVOb1EI5jWe7oggrQmTmkee91Qc5biWibfeSmVJELRmg0Q0qgra6kVZzHIZY12Q8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=valinux.co.jp;
-Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM (2603:1096:405:38f::10)
- by TYVP286MB3133.JPNP286.PROD.OUTLOOK.COM (2603:1096:400:299::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9700.25; Tue, 17 Mar
- 2026 03:13:25 +0000
-Received: from TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
- ([fe80::2305:327c:28ec:9b32]) by TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
- ([fe80::2305:327c:28ec:9b32%5]) with mapi id 15.20.9700.021; Tue, 17 Mar 2026
- 03:13:25 +0000
-Date: Tue, 17 Mar 2026 12:13:24 +0900
-From: Koichiro Den <den@valinux.co.jp>
-To: Frank Li <Frank.li@nxp.com>
-Cc: Manivannan Sadhasivam <mani@kernel.org>, 
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Vinod Koul <vkoul@kernel.org>, Frank Li <Frank.Li@kernel.org>, 
-	Jon Mason <jdmason@kudzu.us>, Dave Jiang <dave.jiang@intel.com>, 
-	Allen Hubbe <allenbh@gmail.com>, Jingoo Han <jingoohan1@gmail.com>, 
-	Lorenzo Pieralisi <lpieralisi@kernel.org>, Rob Herring <robh@kernel.org>, Baruch Siach <baruch@tkos.co.il>, 
-	Jerome Brunet <jbrunet@baylibre.com>, Niklas Cassel <cassel@kernel.org>, linux-pci@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org, 
-	ntb@lists.linux.dev
-Subject: Re: [PATCH 06/15] PCI: endpoint: pci-epf-vntb: Fold MW runtime state
- into a struct
-Message-ID: <735od76ic3rkz6imi2fguvjhi3nd5spjxpdesgt75nqnor6h4a@jahba3ai3iba>
-References: <20260312165005.1148676-1-den@valinux.co.jp>
- <20260312165005.1148676-7-den@valinux.co.jp>
- <abMjf6Y9o5kahSsm@lizhi-Precision-Tower-5810>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <abMjf6Y9o5kahSsm@lizhi-Precision-Tower-5810>
-X-ClientProxiedBy: TYWPR01CA0031.jpnprd01.prod.outlook.com
- (2603:1096:400:aa::18) To TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:38f::10)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="cyh2ZdDD"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-661169cd6d8so3742a12.1
+        for <linux-doc@vger.kernel.org>; Mon, 16 Mar 2026 20:42:03 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773718922; cv=none;
+        d=google.com; s=arc-20240605;
+        b=X8bpk5M7Ryenjs6o+nH3ZBBOEBiSuz6npPAD+gey0xaYIgexQ5aGklLQo4UyrsJps4
+         6ZCI58/wEx7b4rNU0I9tRDgMD06XlDKVx6e8+vFqA4czQ3wQ5oBqoy+qmknm8QqFu09t
+         AbU+hA46U9hFmKBUP13L0961dGmSDm/jIM5kZDtwkniqEy3Jdvh8MIhziO4l0Z/XMZKt
+         Je51rsfKqYZq/nBtBJP4UWMEpQDhVw29uMu5MqOWuKpvNcV/ArxKzqyEXQ7Rsbkco82e
+         w98rCvlCInxQLX653MxDbDUBBfKEIvskbctWB4RH/eePRQoU2M7/G1RmNy3UeYE+pDQT
+         Q2Tw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=SDjcbstE7vaBgKzikVP/a05WleFr4Bi6N01Q1DpO7Ng=;
+        fh=k0IbHf7iAB9h3elcrGe0nWmUOUYEfRS22n5hqR+05S0=;
+        b=Z9idg8XFrbTvC3yR2KsgR4vl9pO/rq0Xev+yUPtMnm9yJj59/Rb2ndzbtYPG7kPMgT
+         p0cmRU3PhbPtZWL2S7uOvQnMXsCKx+lChekP+VkKlFETe3swgoQNegkCFNHNT8lEm2GZ
+         KSlOdbeJdBs1TTAYZaKfJa744IdJKRZZTIzchK/lEm1LZDdaQlKzQ4JIOYNZYy4XV1mn
+         /SLs66l6s1kKeLDQxR7Q4JJwDkWbQhQA25iPtZgd6jFSLEHmUl+zhES1ZPKoQOnJqe5c
+         IpTIcNxCdH5nyz2rWt5yyKtAa6wDXUu5VrNgsdJG/KZ8Wrls0EX0G1+z7qDGq+42by5T
+         t4jA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1773718922; x=1774323722; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SDjcbstE7vaBgKzikVP/a05WleFr4Bi6N01Q1DpO7Ng=;
+        b=cyh2ZdDD25f0Dcfzqn0/fTS1Bga/5Iu+bb9UdhDFPQNIA51BZAHkfSliATWdhbLUcl
+         sOHWrtsy2Cd9yl38Ox6btyowj5g2gHJJzLJfanN+CYAsvcO/BImZK3+yFQPksOjSst4R
+         YxA2YDu31NoFKwMCouBzhi/5/N2cQnY2vq8vFHjQL9NAz2wwweLtbyQOhm+5PUrmrNSj
+         BO3N70T5CON4JQc/JPoQpRwgCSEZzGNqswZuC7HmiGpZDUrc5OgCugAY8jwCrbtSx5KZ
+         dD0f45YCU5fBS++odpfk/GilBzxm1tK6oo7rcHXQCq2IL1OYuGHmm9w1/6V7ar73F5yT
+         DH6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773718922; x=1774323722;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=SDjcbstE7vaBgKzikVP/a05WleFr4Bi6N01Q1DpO7Ng=;
+        b=nT2aeLFdNnTbp4uNQeB9UCJI1XTodM8CEsvbnVTBid4HpcUzuMhowUhsZLzSxxhRQp
+         opUe7+zTyMe6+DTGPUrkZszuKD2167Ore9DNTmPt28AzqdpqgQ3xG2HTQ90VyT61CjQa
+         9ChDK/5B1iiq46nP01MeQL9Bvqc/VkdGS77y7T0lyypMwRyEoT5Qa5I7yFU33mSEnU7E
+         1PUIhD97LmHunTkzhS9OYBXe8n71X4UUN9l3vngch6b1M41eja5Wag3b03n4cQ23Q3i0
+         Fp/uvrSrfgFerBL03Bzjx1xGF5KOlwA4iLa/RoQB0ehWeLfdhkgZTm7Ms34rwOXSg6Lj
+         iTIg==
+X-Forwarded-Encrypted: i=1; AJvYcCU/G23Ev6mP3S1Y5MPWv13rGc9jN8L3PzNSKvRNdsaA08ehOyBMlX/9prVQPnH9I9XyETpdU83f7JU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwPshbMOQlSMNUwiz6UC6ajkBj6SKN+LZ2ldwJ3Ks392JzzGDzl
+	Txxbz9ic9tFYkjA9XhGkT/Zaj++cBRY7DWriQZpmzvEz87T2exivOF8LXe1GxQDAF33C7Y6UU6R
+	6UFO50t/f4RI7iGcCoNoDkavj0zCK7W7fqsZ4w96N
+X-Gm-Gg: ATEYQzxzPTfuy6e4MIZn7HsK2rbecrMscPJrfNtrZHmGEe0F2KwxbPhTXM8JnP+escD
+	dgdOBju1K7quKN5J61LI3SOj4anS9v+C5PrS1LZQjDoI7esy6yRXjjqYdCswzh0HiqzYuhjF12I
+	AkfceolEm51khHXC4wglPxDhiXmH+Ki31QrcKV6BM66E1oonLe313nN7bo0nq1yEGIOEM32CR0m
+	B9V2IvdbTnizVcG0H4eyOOamGpJ8uE93qxZf5g4iUzFgp2XyyyTn1+lBEjhBb3sj9uajSJlaOkM
+	FlD4TQ==
+X-Received: by 2002:a05:6402:5047:b0:667:926:56e with SMTP id
+ 4fb4d7f45d1cf-6671449f938mr28406a12.2.1773718921655; Mon, 16 Mar 2026
+ 20:42:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY7P286MB7722:EE_|TYVP286MB3133:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4682365a-da54-4722-53f4-08de83d3275f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|10070799003|376014|7416014|366016|22082099003|18002099003|56012099003|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	IAYrwGSrOMPBmO8Ded5N6bZZjAXhon48G2DFoJng4PcPGkcA5X5eZ2yVjf6u84Fcx9kTYa9G+N6qowLKW9QdMMXGgTIBgX4hLvxxsLGGnKIwxQFsihOAa88J31NQNE54mtPOwjLTB614P8626z7zVr7V9jz9R/iO2m9VZoGWsNtatvtiRAQbyJo6vVZkEIgygn101B7eEd55iwPRilswJWuOm/5tf3nrVSzSW0Vh9wp4V50/UYUYADtu6W5NwUlGB9UXyzrVZUB0pTbGd0SmzGSn6R1kpBSzQUt9fMnF0nD2oe1J30X9m1vcn5Q7pUh46icgTUS7WxmzjDRk0l8wDXfVIvoWYm9xqYvxI9eahOpdxMpD2FtYzwIyvgT2lnDZEniJF6uYNfWV0ChVkNyK6r4+BcLiOsMPSTVNkxVw6xAdeQEcN1kSXtXaQy9+kwukxXkPN2tapcQd98SPKxuRGZQ4eqQxS4KJGtcMbpkRUjQBvKNp6Ff+DQARrNFWSRMyeYkTxC/J4Zbk7AmpbTahaNRxrwPffHnLlF5qdNBUgAYpM4J+QzewmhvK3N76EmBwWzS0XozfZXA6cgyx6ckhjQMIwXb5ZWfvwxyFFxY9nO99cRYKFuJIzzdwL38v2FnRhVm9KrtUm/9i9TKz/3SYXNtVH4MUSMMBRxiul103LscfY0y9x5tL85SVQbTmJ9hxiPCZU4oKnNR8LVIrH38Mpzo0cH6Y1jf2xor2Ve2QKsc=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(10070799003)(376014)(7416014)(366016)(22082099003)(18002099003)(56012099003)(7053199007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?J9Kd9Pbn/WoAZu0yVJtxoJzBJdf8zJuwCq/CQrilte5xVNEptV5/iygC2DBu?=
- =?us-ascii?Q?5J10qWidsH6qabBEUc+6+Mj1GpcRCA/sf8MWQoUY8dm+ucHOSwHer7gclFu6?=
- =?us-ascii?Q?L1SlH4vefhUk9+eDbdRzNKwAgQ6lbbYMj7dqNCjiBOTwLv4bwJWhRUz9xt9X?=
- =?us-ascii?Q?XLoBesgD5CURfBbqxeRaQWEtD5uor0G8mTkzX0HgDStAoI3pZ3zAjoPJuwFN?=
- =?us-ascii?Q?iRr2UzQNukcPFoXyzpPleP5E35cWFVjnDKTpE/zM11AnjKt63Yfq/davLaXP?=
- =?us-ascii?Q?cyyarh5IC8+fROc5Fne2YPClsMC8CsS2lo8z4+WNhv/YUgSbOn4Q4kdxwYbC?=
- =?us-ascii?Q?y2e7NRS/Dzg95BlDR26FBwy72WpzPwn6n4YO6k7BqJtP+4ej2PEOD4pGjIrr?=
- =?us-ascii?Q?8lBXuTeEkEXroVzb+djrUxHGbJaF5cBxjWruOvkyi1FzkMVhy7+xr/WHT5EZ?=
- =?us-ascii?Q?6EI7oNbgWBfPLAP4aI9BQINF6uM9Ncv0touyco53o0KGNw7zZRfZBXUHanOF?=
- =?us-ascii?Q?sr5RYDsMLP/2PxKreBU4r1y2HDB/+3dYDaDAZ5jVYCqr/hjPaTAt200AJzep?=
- =?us-ascii?Q?i2n9yXcDv6lOdFwtDOZ0DW+0aVtwaPKg5+pCJrmcP0AWt0Y0KYraA0/mxkE5?=
- =?us-ascii?Q?XyMmRK6nX3pt/ccpe9WreaUwVCKxgcUxhsKKSDPcUYKnVvV3knjqRWjv/6UE?=
- =?us-ascii?Q?ZBGLXLcqo8XUK1sahR9QbVLPA4D4kKAANuVKLNO8uQ8TPWw16qM2TMR/iTg7?=
- =?us-ascii?Q?reCMklhjdnrqWj3rhyjFsMrzeJUysRcK3rCayqvOblaaPnl8VqfavMKVnbKX?=
- =?us-ascii?Q?d4EXqvO7MNGSgBeAmO+lsvhKbSICPXITOLjlQsxvbL16yhlMxHn58YwhysLt?=
- =?us-ascii?Q?apCf10G5sRNQsogGdm+EQK1zUqgUt17U4GRLjasAfIPfVJOX/OKU5aSISpB4?=
- =?us-ascii?Q?eIOxnGeVGZjqnDH6opRdYNTJ+qN1N4Rtdj+oMMw/+IeCQ3Ced1wrsW960Zwr?=
- =?us-ascii?Q?s8KwN4P2w8Yt3vkGCpN/9wgVaOPrcqFFVCBGMZIphV4wujFQkMiW4FBjg6hG?=
- =?us-ascii?Q?/870cFNN1Wtc/YYkSQL3mZitCTfWJUvBmpxoz02btqD9+bIQbWSWm312dTar?=
- =?us-ascii?Q?5cjsmBxbH/6yVCspYuvDwWBG8wdbb7m7Qlyg9eM9Mn0wIFKZdkcZtUAxJouj?=
- =?us-ascii?Q?GcHv4MwjJWTH+yq06eTh85QqIMTigO0kxQrovu6U8yqpjBF66XCRIDd+8oRL?=
- =?us-ascii?Q?FX9nqvCR6NIVo3cBUDy7h/P1CfewJOThXIDaKoJ8Sz9HbmBH7l255rwj0K/z?=
- =?us-ascii?Q?l4qO50NCFGAymAwyUIhjae3GfHc7bFcGIN9skClMzYTwnCzJ3/nQ7HgrnavD?=
- =?us-ascii?Q?313HK36yTJQzXPNP41i61O9HDOs36jAw5rGLE3+XNaZj4D24yUiMblSGI7m+?=
- =?us-ascii?Q?9tW9NNANM7lSUiPhMc9jVgrxRufa4PQC/+YNaQlhxGZ01C1ZLMrlIeP1Iz9J?=
- =?us-ascii?Q?0XbBvSmPPyxdkdAhHXVpnR2ca72g2hGw8CNuas7ss1S14AU3QS7D9w32Urju?=
- =?us-ascii?Q?H2n8C1Fh05k1sv1CcjxLahJ1Qm25itu8A0gdCueoPOCDsePnkq5lfKQFPSpd?=
- =?us-ascii?Q?Gi9jQKZNrS3mQDNb8MbSzpOcVEtfBQOrJ7xQgUz/MNOG2iswOHT0j2uxCRDZ?=
- =?us-ascii?Q?u+ZxJv2SboDDSq3zLEXkkGlqgZRojCFzfqRBjcwPu+Em52xnPPigpO/wkmhe?=
- =?us-ascii?Q?7XQxWxMFKXOKZPW+YaMkJ6F2ENTPk5f1JUnFz6YjdRK9jsZdTw9t?=
-X-OriginatorOrg: valinux.co.jp
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4682365a-da54-4722-53f4-08de83d3275f
-X-MS-Exchange-CrossTenant-AuthSource: TY7P286MB7722.JPNP286.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2026 03:13:25.5700
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 7a57bee8-f73d-4c5f-a4f7-d72c91c8c111
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ht4FdIoE3fM8ehYHY1K/9IMnBpzvz4uJ0KoxZYcde4NVyYzBtdGuAyu3q3DXB40xHv9GulXLqK8D9LsXrcJ4Qg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYVP286MB3133
+References: <4a5fa45119220b9d99ed72a36308aed01a30d2c1.1773346620.git.ljs@kernel.org>
+ <20260313110745.2573005-1-usama.arif@linux.dev> <c62305d7-22c4-4cf7-969b-fbe214c93b64@lucifer.local>
+ <CAJuCfpFio6n-O-1NkPXrymV0o3UqvHYS8ZOyQtt=JXnZ5dTGhQ@mail.gmail.com> <2536c05e-e228-404f-9916-906c0447b114@lucifer.local>
+In-Reply-To: <2536c05e-e228-404f-9916-906c0447b114@lucifer.local>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Mon, 16 Mar 2026 20:41:48 -0700
+X-Gm-Features: AaiRm51L9yY6IK4TcJFLhN8NGwQS7Z64sx0O9EJzSXirWOtaRRhN6Ww7XVogluY
+Message-ID: <CAJuCfpH2XyAJOFKCZnviVV_UbF4O0wzj3QgJieo+LD=Cvr71jA@mail.gmail.com>
+Subject: Re: [PATCH 05/15] fs: afs: correctly drop reference count on mapping failure
+To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+Cc: Usama Arif <usama.arif@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
+	Clemens Ladisch <clemens@ladisch.de>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "K . Y . Srinivasan" <kys@microsoft.com>, 
+	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
+	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, 
+	Vignesh Raghavendra <vigneshr@ti.com>, Bodo Stroesser <bostroesser@gmail.com>, 
+	"Martin K . Petersen" <martin.petersen@oracle.com>, David Howells <dhowells@redhat.com>, 
+	Marc Dionne <marc.dionne@auristor.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, David Hildenbrand <david@kernel.org>, 
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, 
+	Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-hyperv@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org, 
+	linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org, 
+	target-devel@vger.kernel.org, linux-afs@lists.infradead.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	Ryan Roberts <ryan.roberts@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 12, 2026 at 04:35:11PM -0400, Frank Li wrote:
-> On Fri, Mar 13, 2026 at 01:49:56AM +0900, Koichiro Den wrote:
-> > The next patches add per-memory-window offsets, shared BAR placement,
-> > and optional DMA export state. Keeping per-window state in parallel
-> > arrays would make that work noisy and error-prone.
+On Mon, Mar 16, 2026 at 7:29=E2=80=AFAM Lorenzo Stoakes (Oracle) <ljs@kerne=
+l.org> wrote:
+>
+> On Sun, Mar 15, 2026 at 07:32:54PM -0700, Suren Baghdasaryan wrote:
+> > On Fri, Mar 13, 2026 at 5:00=E2=80=AFAM Lorenzo Stoakes (Oracle) <ljs@k=
+ernel.org> wrote:
+> > >
+> > > On Fri, Mar 13, 2026 at 04:07:43AM -0700, Usama Arif wrote:
+> > > > On Thu, 12 Mar 2026 20:27:20 +0000 "Lorenzo Stoakes (Oracle)" <ljs@=
+kernel.org> wrote:
+> > > >
+> > > > > Commit 9d5403b1036c ("fs: convert most other generic_file_*mmap()=
+ users to
+> > > > > .mmap_prepare()") updated AFS to use the mmap_prepare callback in=
+ favour of
+> > > > > the deprecated mmap callback.
+> > > > >
+> > > > > However, it did not account for the fact that mmap_prepare can fa=
+il to map
+> > > > > due to an out of memory error, and thus should not be incrementin=
+g a
+> > > > > reference count on mmap_prepare.
 > >
-> > Group the runtime memory-window state into struct epf_ntb_mw so
-> > follow-up changes can extend a single object instead of touching
-> > multiple arrays.
-> 
-> Simple said
-> 
-> PCI: endpoint: pci-epf-vntb: collect MW information into a struct
-> 
-> Group the runtime memory window state into struct epf_ntb_mw to improve
-> readability and make the code easier to extend.
-> 
-> No functional change intended.
+> > This is a bit confusing. I see the current implementation does
+> > afs_add_open_mmap() and then if generic_file_mmap_prepare() fails it
+> > does afs_drop_open_mmap(), therefore refcounting seems to be balanced.
+> > Is there really a problem?
+>
+> Firstly, mmap_prepare is invoked before we try to merge, so the VMA could=
+ in
+> theory get merged and then the refcounting will be wrong.
 
-Right, I'll update it when respinning.
+I see now. Ok, makes sense.
 
-Thanks for the review,
-Koichiro
+>
+> Secondly, mmap_prepare occurs at such at time where it is _possible_ that
+> allocation failures as described below could happen.
 
-> 
-> Reviewed-by: Frank Li <Frank.Li@nxp.com>
-> 
+Right, but in that case afs_file_mmap_prepare() would drop its
+refcount and return an error, so refcounting is still good, no?
+
+>
+> I'll update the commit message to reflect the merge aspect actually.
+
+Thanks!
+
+>
 > >
+> > > > >
+> > > > > With the newly added vm_ops->mapped callback available, we can si=
+mply defer
+> > > > > this operation to that callback which is only invoked once the ma=
+pping is
+> > > > > successfully in place (but not yet visible to userspace as the mm=
+ap and VMA
+> > > > > write locks are held).
+> > > > >
+> > > > > Therefore add afs_mapped() to implement this callback for AFS.
+> > > > >
+> > > > > In practice the mapping allocations are 'too small to fail' so th=
+is is
+> > > > > something that realistically should never happen in practice (or =
+would do
+> > > > > so in a case where the process is about to die anyway), but we sh=
+ould still
+> > > > > handle this.
+> >
+> > nit: I would drop the above paragraph. If it's impossible why are you
+> > handling it? If it's unlikely, then handling it is even more
+> > important.
+>
+> Sure I can drop it, but it's an ongoing thing with these small allocation=
+s.
+>
+> I wish we could just move to a scenario where we can simpy assume allocat=
+ions
+> will always succeed :)
+
+That would be really nice but unfortunately the world is not that
+perfect. I just don't want to be chasing some rarely reproducible bug
+because of the assumption that an allocation is too small to fail.
+
+>
+> Vlasta - thoughts?
+>
+> Cheers, Lorenzo
+>
+> >
+> > > > >
+> > > > > Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
+> > > > > ---
+> > > > >  fs/afs/file.c | 20 ++++++++++++++++----
+> > > > >  1 file changed, 16 insertions(+), 4 deletions(-)
+> > > > >
+> > > > > diff --git a/fs/afs/file.c b/fs/afs/file.c
+> > > > > index f609366fd2ac..69ef86f5e274 100644
+> > > > > --- a/fs/afs/file.c
+> > > > > +++ b/fs/afs/file.c
+> > > > > @@ -28,6 +28,8 @@ static ssize_t afs_file_splice_read(struct file=
+ *in, loff_t *ppos,
+> > > > >  static void afs_vm_open(struct vm_area_struct *area);
+> > > > >  static void afs_vm_close(struct vm_area_struct *area);
+> > > > >  static vm_fault_t afs_vm_map_pages(struct vm_fault *vmf, pgoff_t=
+ start_pgoff, pgoff_t end_pgoff);
+> > > > > +static int afs_mapped(unsigned long start, unsigned long end, pg=
+off_t pgoff,
+> > > > > +                 const struct file *file, void **vm_private_data=
+);
+> > > > >
+> > > > >  const struct file_operations afs_file_operations =3D {
+> > > > >     .open           =3D afs_open,
+> > > > > @@ -61,6 +63,7 @@ const struct address_space_operations afs_file_=
+aops =3D {
+> > > > >  };
+> > > > >
+> > > > >  static const struct vm_operations_struct afs_vm_ops =3D {
+> > > > > +   .mapped         =3D afs_mapped,
+> > > > >     .open           =3D afs_vm_open,
+> > > > >     .close          =3D afs_vm_close,
+> > > > >     .fault          =3D filemap_fault,
+> > > > > @@ -500,13 +503,22 @@ static int afs_file_mmap_prepare(struct vm_=
+area_desc *desc)
+> > > > >     afs_add_open_mmap(vnode);
+> > > >
+> > > > Is the above afs_add_open_mmap an additional one, which could cause=
+ a reference
+> > > > leak? Does the above one need to be removed and only the one in afs=
+_mapped()
+> > > > needs to be kept?
+> > >
+> > > Ah yeah good spot, will fix thanks!
+> > >
+> > > >
+> > > > >
+> > > > >     ret =3D generic_file_mmap_prepare(desc);
+> > > > > -   if (ret =3D=3D 0)
+> > > > > -           desc->vm_ops =3D &afs_vm_ops;
+> > > > > -   else
+> > > > > -           afs_drop_open_mmap(vnode);
+> > > > > +   if (ret)
+> > > > > +           return ret;
+> > > > > +
+> > > > > +   desc->vm_ops =3D &afs_vm_ops;
+> > > > >     return ret;
+> > > > >  }
+> > > > >
+> > > > > +static int afs_mapped(unsigned long start, unsigned long end, pg=
+off_t pgoff,
+> > > > > +                 const struct file *file, void **vm_private_data=
+)
+> > > > > +{
+> > > > > +   struct afs_vnode *vnode =3D AFS_FS_I(file_inode(file));
+> > > > > +
+> > > > > +   afs_add_open_mmap(vnode);
+> > > > > +   return 0;
+> > > > > +}
+> > > > > +
+> > > > >  static void afs_vm_open(struct vm_area_struct *vma)
+> > > > >  {
+> > > > >     afs_add_open_mmap(AFS_FS_I(file_inode(vma->vm_file)));
+> > > > > --
+> > > > > 2.53.0
+> > > > >
+> > > > >
+> > >
+> > > Cheers, Lorenzo
