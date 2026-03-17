@@ -1,141 +1,115 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12E0E3E95A7
-	for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 15:12:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06E233DCD9B;
+	Tue, 17 Mar 2026 15:15:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773760353; cv=none; b=YO0tA31xhK4enel06xGjJv5vwImp7yW8k3EOGVgb9hZ6LmfcYnxSKsBaPXYRzSvp35WXAQ77hFWwulCDp31AgUoBt/k6wsreNRA5BGHX72F2es2hXX+Z3Zv2OktG+ARSd8kMxkbwfOifymabQDl9CinSttHJzfg7WZSh5tyL2r8=
+	t=1773760505; cv=none; b=SVmntcjiVwxs5wHhvi6+fD2ND8uxh2kLLNTX+EZkYKUmef0xSe7hopSKThAy2nZEysVgEXbmpQVPqXI/qydydfgFyOF0IQTbnU8LHARWGjHYDbKh/QMQ05paawjCf9aNIrtmzMEU2sZm73BSoZgXf6lIVE7okjecXxcV9ZPdXjY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773760353; c=relaxed/simple;
-	bh=ElmNSzj36ahoXwShZ7ULHU6+01vzlQ4NHHLLRiYgGxg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=eb8m4HotzV+8zq+4hrsjXX13m7C8mDwSTCLtnURJM776lmN+y43LI7BuXry4uablhfMEIZ5P4c+tTFrdjSlzCk8y3ZDv6NlACgWWe7PkPcKn96biMSDVwUmXKZ0yvHmdrDxx2yxAz58100ejlQpHooc24bABlkjGOkZfRk/A12k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gXl7RI9L; arc=none smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1773760505; c=relaxed/simple;
+	bh=GnoZF4xXU3Ru3GlNC9iVumHKiNxYJyGj7qMhDqY4N5I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=C/qzGDgH+++oQBodXZkiml7BFM/6ALqLpTc0ntzAmdMcGNdJ4EDOt51APhwnfUH6CWuI/H+VOWkpl4+FKbjL5n2Ds4jr+9U+9UbgWXAg3k1PoYfctQCQRPXBzwCcEs/BiVNRsV8w6qd/DjQ8rilc0Lsusra4PJxH39xNUbbApbA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=clN6vGOr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gXl7RI9L"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-661b16ac011so9786306a12.2
-        for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 08:12:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773760349; x=1774365149; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VoX0sLLhblCiEStIbiYJ15WT9ZZm3Qh1HEveUrVMolU=;
-        b=gXl7RI9LbF78N95CqGOM2TXN6jazS1z8B5nh8JpDCHm2hlXoKv0hMmCoJHglbd9qD9
-         Qcn+MxmZqt2MVkNJfcuYIz2DjLWAy7U7TmojrSrvZDgkIMRPDQz2mBymNt3eWmllgqAb
-         YiIWitQ7FCQbybkb1blmjGMPIDhyMnBDqOKB4uLoS3uKTMr7pwjqzfE7y3F75V8JBY+N
-         p+Lz0d9VGeUzeCDS0ffKkEmB3k98G4WX5VD80cju0s5TdiMbfXDoaU8skGm8+DhGuiLB
-         CtQKU3RsbQnrFalL9ZHm4TD0CEC0mwIFqpTit7TpO0tBOSeKWRHMznsZ+5LcUIY9LKEp
-         SWRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773760349; x=1774365149;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VoX0sLLhblCiEStIbiYJ15WT9ZZm3Qh1HEveUrVMolU=;
-        b=W9xFOKbN/Y0vebJfvZCmagg8II4n1vbgbp8TBuwb4ZDm3aqJTzv1neP1V5dAZc6tb3
-         EvasiQ8Y7GAv8mcDX6KHEEVD2ejJN6C7cp8oG/G1gjy8XOZnjEKYRIP82W7CKigSPqVV
-         VDHOCLYyDsHWC/WTssxL8tsDRy6bSObwEUKaKjcU8zkAomZkjsMTqmASqdAJElOKsBHf
-         QzAwXNa5sRAaBfuZqd2/V3+qMBdUK5yOHi0BpsNFuls0c7PToRFCwo7Yh3BnxOnJYiT5
-         NEUUPUmDOvXBEiSnoO9ohLAuXTqr1tbFbHqM06ZmLAn1WHuJA+GWNUFbZMnQ/oRvyRQ1
-         tu3Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXYY0i9+V5kmZsWPONApi/xSUBkDLSdzyI7Wczjf6PW4gNt6QpFIrRVAb+ONfuFwwhhR5a6Tq82dpM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2U5eI2zQ2wTLiLWPf7Mg0nMZ9uMdEwKSbh1ZkLseY9Lbug/Hv
-	cnz6rnuiJI+DxLj7qSXSOKe2C7tTYLfh54UIh5cJnY/H/+AcuAx1zL9h
-X-Gm-Gg: ATEYQzz9fDQ/SDJSp5URX9X4gYIYJ20aIXM8XasnJh6U8Npb0xBj5xpuMlXgTJccUbL
-	s4ngEiAVdwcgCmmWj7IVUDhPCRz218BraBjF4QkfBWt+555qvTr71WamA6tj5eZTsDqaS/A91sF
-	OHdPpLOg8l1YL1VaD7OuMI15jAwQME+uTVmPxchsUGyMJATelPSxnsUrmgMVw3WwCCt69CRQ+vn
-	qI14o85lreLP8tYz21TPp+8hXvQglAJb+MCAoG82U+DDAgtvF+2ShmobiF11EqJyvibSvzvpHmL
-	5nwwKCfnMpEo4gaKU5cl2jLdXtW019mCCFly3uW6MqGa95uKxlT9tcNvGoCXRLWDx06QWS2VLAZ
-	+HiRibqkQVDpBT5AJ2RxEqWjrb3EKF2GARYzoC5F3laSXmBLzC+S24mqPqXd5MNXqrzMCvetbBe
-	ZZVAvMZuuq+7KHVDZBUjM7pK6oV0gjI0lIScwYKJaSkBwh
-X-Received: by 2002:a17:907:7fa2:b0:b97:ad82:973f with SMTP id a640c23a62f3a-b97ad829ee0mr546189866b.13.1773760349135;
-        Tue, 17 Mar 2026 08:12:29 -0700 (PDT)
-Received: from localhost.localdomain ([72.255.58.127])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b97f1460749sm3876966b.26.2026.03.17.08.12.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Mar 2026 08:12:28 -0700 (PDT)
-From: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
-To: corbet@lwn.net
-Cc: skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	mahad.ibrahim.dev@gmail.com
-Subject: [PATCH] docs: fix Sphinx C parser crash on __cond_acquires macro
-Date: Tue, 17 Mar 2026 11:11:56 -0400
-Message-Id: <20260317151156.1106-1-mahad.ibrahim.dev@gmail.com>
-X-Mailer: git-send-email 2.39.5
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="clN6vGOr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D239CC4CEF7;
+	Tue, 17 Mar 2026 15:15:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773760504;
+	bh=GnoZF4xXU3Ru3GlNC9iVumHKiNxYJyGj7qMhDqY4N5I=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=clN6vGOrofyGydrKNTqPJPBNPRTECyfCIRSdnCnCswoycIWxt4o0IKddpC8uvFaf0
+	 LLdL87DXDeAbzpNschaaFbQTn3H8l89eQhpvPP7Zkzky0Q3EfA7zX/wE+HdcxMVuLB
+	 ySMr5hJmZDsUMgdWZgc7Q+r94rYEdut7WGBjYt9z0tZDu/4GXV9VivzxD/koinLkyD
+	 OkrfjW2w15tp3YIgDLI0rgvWvBPVgfIzmyBaurSgLfmnH5S1e2tjDruIdA5SR8MIU1
+	 VBqFRFlXDYKokw6WsUXivO3/E9QnCpxef+y/wM36wAC7OXJY7ykQXt4Uog4jGB7Fh+
+	 ROBwl/7Yg32+A==
+Message-ID: <24801cf0-2c68-4b8c-b35f-b95e9688fcf5@kernel.org>
+Date: Tue, 17 Mar 2026 16:14:59 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] clk: add new Kconfig to control default behavior of
+ disabling unused clocks
+To: Brian Masney <bmasney@redhat.com>, Abel Vesa <abel.vesa@oss.qualcomm.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Abel Vesa <abelvesa@kernel.org>,
+ Saravana Kannan <saravanak@kernel.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org
+References: <20260316-clk-ignore-unused-kconfig-v1-1-6e95a4fb0c94@redhat.com>
+ <20260317-almond-leech-of-correction-2a2ef6@houat>
+ <com5zf4bfgb3eoelbmy5pfykhdow6ne3nteua6l7bnzkr72dsb@pehxxygji5z2>
+ <20260317-notorious-classic-sunfish-d016d5@houat>
+ <2dsd7hq4bn25dibqk62a7o56tt2tecf645tq3upccneq4hby67@cmjjc5d6ximt>
+ <ablhdKJgEhU8KmtO@redhat.com>
+ <hdagvfcxoh4nukz5sqocbp7qbezv3rxct3aygb7fvhsej7zp27@iyeoi74q2w7n>
+ <ablslaSoUraCRPKl@redhat.com>
+From: Hans de Goede <hansg@kernel.org>
+Content-Language: en-US, nl
+In-Reply-To: <ablslaSoUraCRPKl@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-When building the kernel-docs, the Sphinx C parser threw two errors:
+Hi,
 
-1. /home/code/linux/Documentation/core-api/kref:328:
-   ./include/linux/kref.h:72: WARNING: Invalid C declaration: Expected
-   end of definition. [error at 96]
-   int kref_put_mutex (
-                struct kref *kref,
-                void (*release) (struct kref *kref),
-                struct mutex *mutex)
-                __cond_acquires(true# mutex)
+On 17-Mar-26 16:00, Brian Masney wrote:
+> On Tue, Mar 17, 2026 at 04:20:06PM +0200, Abel Vesa wrote:
+>> On 26-03-17 10:13:08, Brian Masney wrote:
+>>> FWIW, the only reason I posted this patch is because at the end of
+>>> Stephen's LPC talk I got the impression that this was also an acceptable
+>>> change. I'm fine with dropping this change.
+>>
+>> Here is the scenario that proves adding such config isn't the right
+>> solution: think of single kernel image working with different SoCs from
+>> different vendors. This is actually the case where distros need to have
+>> a way to provide one kernel image + thousands of DTBs and be able to
+>> boot one each one of the boards. Whatever this config is set to in the
+>> kernel image, it will not work with all platforms.
+> 
+> Agreed.
+> 
+> However, with or without this new Kconfig, we have this problem today.
+> Right now the kernel isn't bootable on large numbers of systems, and
+> people have to manually add clk_ignore_unused.
+> 
+> I agree though that we don't want to penalize boards that are doing
+> things right, and have a full clock tree described with higher power
+> draw. 
+> 
+> As a test, on my Thinkpad x13s (sc8280xp) clk_disable_unused on Fedora
+> 43 turns off 96 clocks on this laptop! I can infer what some of the
+> clocks do based on their names, however I'm not in Qualcomm, and some
+> of these clocks I'm not entire sure which ones would need
+> CLK_IGNORE_UNUSED. I got it down to a set of 7 possible clocks that
+> may need that flag by excluding some classes of clocks, such as usb.
 
-2. /home/code/linux/Documentation/core-api/kref:328:
-   ./include/linux/kref.h:94: WARNING: Invalid C declaration: Expected
-   end of definition. [error at 92]
-   int kref_put_lock (
-                struct kref *kref,
-                void (*release)(struct kref *kref),
-                spinlock_t *lock)
-                __cond_acquires(true# lock)
+My plan for the T14s is to:
 
-The root cause of these errors is due to the parser's inability to
-understand sparse __cond_acquires() parameterized macro attached to the
-function. The parser expects a ';' or a '{' to verify a valid function
-signature ending.
-As of Sphinx 3.0, the parser is equipped to handle such cases via the
-c_paren_attributes list however that functionality was not adopted.
+1) Make sure I've working debug output in some form at this point
+of the boot, since lately the screen seems to go black during boot
+until the msm driver loads. Something which I / we really need to
+get to the bottom too.
 
-Out of all sparse/compiler-based context analysis parameterized macros
-inside the kernel, only __cond_acquires appears in the context of a
-kernel-docs comment and function, which is why it is the only macro that
-threw an error.
+2) Add printk-s of the clock name before disabling the clock,
+then sleep 10s then disable clock and move on to the next 1.
 
-This bug may be attributed to the kernel's recent shift from sparse to
-compiler-based context analysis, increased strictness of Sphinx C
-parser, or some other change which transcended domains.
+So the last clock you see printed before things go sideways will
+then need a CLK_IGNORE_UNUSED.
 
-Add c_paren_attributes to enable Sphinx parser to handle parameterized
-function macros like __cond_acquires.
+At least that is my naive plan for when I can make some time for
+this.
 
-Signed-off-by: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
----
- Documentation/conf.py | 7 +++++++
- 1 file changed, 7 insertions(+)
+Regards,
 
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 679861503a25..f2efe7fd107e 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -227,6 +227,13 @@ c_id_attributes = [
-     "__bpf_kfunc",
- ]
- 
-+# Since Sphinx 3.0, parameterized macros must be escaped using
-+# c_paren_attributes to prevent C domain parser crashes.
-+c_paren_attributes = [
-+    #include/linux/compiler-context-analysis.h
-+    "__cond_acquires",
-+]
-+
- # Ensure that autosectionlabel will produce unique names
- autosectionlabel_prefix_document = True
- autosectionlabel_maxdepth = 2
--- 
-2.39.5
+Hans
+
+
 
