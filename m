@@ -1,90 +1,275 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C92F255F2C;
-	Tue, 17 Mar 2026 17:22:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D309137CD5E;
+	Tue, 17 Mar 2026 17:49:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773768139; cv=none; b=O49z8EhDeYnDUgv+gHvDIfSqtA2Q9WGDu7VB8Pl6OkxHurkfPp0IwabTJx0r34DJ25JnIfYJwfDDq2z2K7uQBxy8ukpLZnXe6O0XiLib4CL12xmfteRHAtIGZina0BWJUcz0GL6jv0B9GhDyZwgM7o96TKp3r/YQYcWNtJLBadg=
+	t=1773769773; cv=none; b=Po36rIXyFJHOyd78SWTrL0m9SmwtJzBryfZnchj3BqqJgIgUzTvcJYfN5AgX/aAu0tmUzTF806IxUZwqYxN//YbhPz734PKL8SL1dDjAWGq1s+i6iJppnJlE0BP4W9uOAqHLghyaUNBohOr3aIFmEZVZityla30Z+FSQZ+Rj2eI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773768139; c=relaxed/simple;
-	bh=jh2gPRot7MNqrfOgDPkLhGxWii5BtLA90rLtEfEs8oo=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cRTfWcOomcBbGrNAot0b3fcGFzUTa8Nxu2x7ev5ROWgXx0qy7WiYpDGt15VP+EGINTG+95qlKAH0duK69UAlu6DIEvSlE7+/EY1+bHdUGzM/gJOzkXMq1yav3iPmo0NXJLVtg5Nq8ZSqPOmsCY76yMfzI9rYhmZ+IzV2hevZ+MI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.224.83])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fZzKG34n7zHnGhy;
-	Wed, 18 Mar 2026 01:21:54 +0800 (CST)
-Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
-	by mail.maildlp.com (Postfix) with ESMTPS id 556AB40573;
-	Wed, 18 Mar 2026 01:22:14 +0800 (CST)
-Received: from localhost (10.48.149.62) by dubpeml500005.china.huawei.com
- (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Tue, 17 Mar
- 2026 17:22:12 +0000
-Date: Tue, 17 Mar 2026 17:22:09 +0000
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
-To: Ben Horgan <ben.horgan@arm.com>
-CC: <amitsinght@marvell.com>, <baisheng.gao@unisoc.com>,
-	<baolin.wang@linux.alibaba.com>, <carl@os.amperecomputing.com>,
-	<dave.martin@arm.com>, <david@kernel.org>, <dfustini@baylibre.com>,
-	<fenghuay@nvidia.com>, <gshan@redhat.com>, <james.morse@arm.com>,
-	<kobak@nvidia.com>, <lcherian@marvell.com>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<peternewman@google.com>, <punit.agrawal@oss.qualcomm.com>,
-	<quic_jiles@quicinc.com>, <reinette.chatre@intel.com>,
-	<rohit.mathew@arm.com>, <scott@os.amperecomputing.com>,
-	<sdonthineni@nvidia.com>, <tan.shaopeng@fujitsu.com>,
-	<xhao@linux.alibaba.com>, <catalin.marinas@arm.com>, <will@kernel.org>,
-	<corbet@lwn.net>, <maz@kernel.org>, <oupton@kernel.org>,
-	<joey.gouly@arm.com>, <suzuki.poulose@arm.com>, <kvmarm@lists.linux.dev>,
-	<zengheng4@huawei.com>, <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v6 01/40] arm_mpam: Ensure in_reset_state is false after
- applying configuration
-Message-ID: <20260317172209.00001ec9@huawei.com>
-In-Reply-To: <20260313144617.3420416-2-ben.horgan@arm.com>
-References: <20260313144617.3420416-1-ben.horgan@arm.com>
-	<20260313144617.3420416-2-ben.horgan@arm.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1773769773; c=relaxed/simple;
+	bh=kVd7WqqIEuqnSnuvqyAQZDi/iz4O/JT2V16GHRpYCQY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=D5cjqsc5T517tut9q6Vm5V8UqiXGbJ0/AZPAUb5i8NX6MQ4pX8/ktOVacPvxLr6FB+u+O4Z2CH+UNh894g3QjPWPhS6k6Fv9ZiHS2xHVgvEAxgWHLwQ/8TQRYTkGRKnTZup2MnXum62niDvGW1vT1gWKVuGHmhCJIWC0DGHQOcA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=JeYqVH2P; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="JeYqVH2P"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C5C9940C7C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1773769768; bh=7Otd/TzkbZeVgZIL1Yn9LdpW6FPuE2AtPeVB8L4xye4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=JeYqVH2PyAkJTP9Ld5bMzQC8/28cz/40eb75rNFqPh8LI1+nxbYf5B96gwfWTA8p2
+	 IyFIrgVdBBfJL7u573qdLnPnz1PzG/2iRipw7nSlSb3eVzcMpn/Xnou62T4wECCeLP
+	 gPulEfT6Q3yxbbJ3HtXSV1pSFSlD/bqDiWANfk8rpeJITniK26zxsmU1NDmN5hzUZV
+	 uVO6IR23N56d8FgBZYhzQuSzXOZ30D9x2K1RiJhCbnaL/QWN4EG6Oq1uxLxbetfXAU
+	 1Cqe42RqkcTmRilKspV7MVWRickhe9lSFqloPVwSy8sfEKyve6l6I96bDT5KrRKdFF
+	 jEk/T2NSeqUCQ==
+Received: from localhost (c-71-229-227-126.hsd1.co.comcast.net [71.229.227.126])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id C5C9940C7C;
+	Tue, 17 Mar 2026 17:49:28 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Sasha Levin <sashal@kernel.org>, linux-api@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ workflows@vger.kernel.org, tools@kernel.org, x86@kernel.org, Thomas
+ Gleixner <tglx@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Dmitry Vyukov
+ <dvyukov@google.com>, Randy Dunlap <rdunlap@infradead.org>, Cyril Hrubis
+ <chrubis@suse.cz>, Kees Cook <kees@kernel.org>, Jake Edge <jake@lwn.net>,
+ David Laight <david.laight.linux@gmail.com>, Askar Safin
+ <safinaskar@zohomail.com>, Gabriele Paoloni <gpaoloni@redhat.com>, Mauro
+ Carvalho Chehab <mchehab@kernel.org>, Christian Brauner
+ <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, Andrew
+ Morton <akpm@linux-foundation.org>, Masahiro Yamada
+ <masahiroy@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, Ingo
+ Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>, Sasha Levin
+ <sashal@kernel.org>
+Subject: Re: [PATCH 1/9] kernel/api: introduce kernel API specification
+ framework
+In-Reply-To: <20260313150928.2637368-2-sashal@kernel.org>
+References: <20260313150928.2637368-1-sashal@kernel.org>
+ <20260313150928.2637368-2-sashal@kernel.org>
+Date: Tue, 17 Mar 2026 11:49:27 -0600
+Message-ID: <87h5qe9wig.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml100009.china.huawei.com (7.191.174.83) To
- dubpeml500005.china.huawei.com (7.214.145.207)
+Content-Type: text/plain
 
-On Fri, 13 Mar 2026 14:45:38 +0000
-Ben Horgan <ben.horgan@arm.com> wrote:
+Sasha Levin <sashal@kernel.org> writes:
 
-> From: Zeng Heng <zengheng4@huawei.com>
-> 
-> The per-RIS flag, in_reset_state, indicates whether or not the MSC
-> registers are in reset state, and allows avoiding resetting when they are
-> already in reset state. However, when mpam_apply_config() updates the
-> configuration it doesn't update the in_reset_state flag and so even after
-> the configuration update in_reset_state can be true and mpam_reset_ris()
-> will skip the actual register restoration on subsequent resets.
-> 
-> Once resctrl has a MPAM backend it will use resctrl_arch_reset_all_ctrls()
-> to reset the MSC configuration on unmount and, if the in_reset_state flag
-> is bogusly true, fail to reset the MSC configuration. The resulting
-> non-reset MSC configuration can lead to persistent performance restrictions
-> even after resctrl is unmounted.
-> 
-> Fix by clearing in_reset_state to false immediately after successful
-> configuration application, ensuring that the next reset operation
-> properly restores MSC register defaults.
-> 
-> Fixes: 09b89d2a72f3 ("arm_mpam: Allow configuration to be applied and restored during cpu online")
-> Signed-off-by: Zeng Heng <zengheng4@huawei.com>
-> Acked-by: Ben Horgan <ben.horgan@arm.com>
-> [Horgan: rewrite commit message to not be specific to resctrl unmount]
-> Signed-off-by: Ben Horgan <ben.horgan@arm.com>
-Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+> Add a framework for formally documenting kernel APIs with inline
+> specifications. This framework provides:
+>
+> - Structured API documentation with parameter specifications, return
+>   values, error conditions, and execution context requirements
+> - Runtime validation capabilities for debugging (CONFIG_KAPI_RUNTIME_CHECKS)
+> - Export of specifications via debugfs for tooling integration
+> - Support for both internal kernel APIs and system calls
 
+So I'll confess I have only scanned over the implementation, but I have
+some thoughts on the earlier stuff.
+
+[...]
+
+> diff --git a/Documentation/dev-tools/kernel-api-spec.rst b/Documentation/dev-tools/kernel-api-spec.rst
+> new file mode 100644
+> index 0000000000000..7c0c1694f1f4a
+> --- /dev/null
+> +++ b/Documentation/dev-tools/kernel-api-spec.rst
+> @@ -0,0 +1,482 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +======================================
+> +Kernel API Specification Framework
+> +======================================
+> +
+> +:Author: Sasha Levin <sashal@kernel.org>
+> +:Date: June 2025
+
+Has it not changed since then?
+
+> +.. contents:: Table of Contents
+> +   :depth: 3
+> +   :local:
+> +
+> +Introduction
+> +============
+
+[...]
+
+> +Usage Guide
+> +===========
+> +
+> +Basic API Specification
+> +-----------------------
+> +
+> +API specifications are written as KAPI-annotated kerneldoc comments directly in
+> +the source file, immediately preceding the function implementation. The ``kapi``
+> +tool extracts these annotations to produce structured specifications.
+> +
+> +.. code-block:: c
+> +
+> +    /**
+> +     * kmalloc - allocate kernel memory
+> +     * @size: Number of bytes to allocate
+> +     * @flags: Allocation flags (GFP_*)
+
+Given that the text thus far has talked about user-space API validation,
+it's a bit surprising to see an internal function used as an example.
+
+Also, maybe it should be kmalloc_obj()?  <runs away>
+
+> +     * context-flags: KAPI_CTX_PROCESS | KAPI_CTX_SOFTIRQ | KAPI_CTX_HARDIRQ
+> +     * param-count: 2
+
+param-count is two, but you only document one of them?
+
+> +     * param: size
+> +     *   type: KAPI_TYPE_UINT
+> +     *   flags: KAPI_PARAM_IN
+> +     *   constraint-type: KAPI_CONSTRAINT_RANGE
+> +     *   range: 0, KMALLOC_MAX_SIZE
+> +     *
+> +     * error: ENOMEM, Out of memory
+> +     *   desc: Insufficient memory available for the requested allocation.
+> +     */
+
+Honest question: can this be made a bit easier for people to create,
+with less shift-key wear?  My biggest worry with a system like this is
+that people won't take the time to create and maintain the entries, so
+anything that would ease the task would help.  Is there an impediment to
+something like:
+
+  contexts: process, softirq, hardirq
+
+  param: size
+    type: uint, input
+    constraint: range(0, KMALLOC_MAX_SIZE)
+
+See what I'm getting at?  ISTM that your DSL could be made a bit less
+verbose and shouty while being just as well defined, but perhaps I'm
+missing something?
+
+Even better, of course, would be to add a "description" field for each
+parameter, and allow that rather than the @param description that
+kerneldoc currently uses.  That would keep all the information together,
+at the minor cost of adding another significant complication to the
+kernel-doc script.  Mauro won't mind :)
+
+> +    void *kmalloc(size_t size, gfp_t flags)
+> +    {
+> +        /* Implementation */
+> +    }
+> +
+> +Alternatively, specifications can be defined using the ``DEFINE_KERNEL_API_SPEC``
+> +macro for compiled-in specs that are stored in the ``.kapi_specs`` ELF section:
+> +
+> +.. code-block:: c
+> +
+> +    #include <linux/kernel_api_spec.h>
+> +
+> +    DEFINE_KERNEL_API_SPEC(sys_open)
+> +    KAPI_DESCRIPTION("Open or create a file")
+> +    KAPI_CONTEXT(KAPI_CTX_PROCESS | KAPI_CTX_SLEEPABLE)
+> +    /* ... parameter, error, constraint definitions ... */
+> +    KAPI_END_SPEC
+
+So the reason for two completely separate mechanisms is not entirely
+clear to me.  The kerneldoc variant is essentially documentation, while
+the macro stuff is to be built into the executable?  What if you want
+both?
+
+It would be nice to only have one way if at all possible; I'm sure that
+crossed your mind at some point :)  If there have to be two, having both
+examples describe the same function would make the parallels more clear.
+
+> +System Call Specification
+> +-------------------------
+> +
+> +System calls are documented inline in the implementation file (e.g., ``fs/open.c``)
+> +using KAPI-annotated kerneldoc comments. When ``CONFIG_KAPI_RUNTIME_CHECKS`` is
+> +enabled, the ``SYSCALL_DEFINEx`` macros automatically look up the specification
+> +and validate parameters before and after the syscall executes.
+> +
+> +IOCTL Specification
+> +-------------------
+> +
+> +IOCTLs use the same annotation approach with additional structure field
+> +specifications
+
+This might be a really good place for an example
+
+[...]
+
+> +Usage Examples
+> +--------------
+> +
+> +Query specific API::
+> +
+> +    $ cat /sys/kernel/debug/kapi/apis/kmalloc/specification
+> +    API: kmalloc
+> +    Version: 3.0
+> +    Description: Allocate kernel memory
+> +
+> +    Parameters:
+> +      [0] size (size_t, in): Number of bytes to allocate
+> +          Range: 0 - 4194304
+> +      [1] flags (flags, in): Allocation flags (GFP_*)
+> +          Mask: 0x1ffffff
+
+Ah, you do document that second parameter somewhere :)
+
+> +    Returns: pointer - Pointer to allocated memory or NULL
+> +
+> +    Errors:
+> +      ENOMEM: Out of memory
+> +
+> +    Context: process, softirq, hardirq
+> +
+> +    Side Effects:
+> +      - Allocates memory from kernel heap
+
+That part wasn't in your example
+
+> +Export all specifications::
+> +
+> +    $ cat /sys/kernel/debug/kapi/export/all.json > kernel-apis.json
+> +
+> +Enable validation for specific API::
+> +
+> +    $ echo 1 > /sys/kernel/debug/kapi/apis/kmalloc/validate
+> +
+> +Performance Considerations
+> +==========================
+> +
+> +Memory Overhead
+> +---------------
+> +
+> +Each API specification consumes approximately 400-450KB of memory due to the
+> +fixed-size arrays in ``struct kernel_api_spec``. With the current 4 syscall
+> +specifications, total memory usage is approximately 1.7MB. Consider:
+
+Ouch.
+
+> +Documentation Generation
+> +------------------------
+> +
+> +The framework exports specifications via debugfs that can be used
+> +to generate documentation. Tools for automatic documentation generation
+> +from specifications are planned for future development.
+
+Documentation always comes last :)
+
+Interesting stuff.
+
+jon
