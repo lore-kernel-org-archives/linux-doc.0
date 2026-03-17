@@ -1,179 +1,201 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C709939151E
-	for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 10:40:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F12843A2549;
+	Tue, 17 Mar 2026 10:58:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773744060; cv=none; b=LHT1OcOQ7gtpk2Lr7fPjg5GYvN4j3q0wEO40jApYzJ07dTI/pof0nReF9vuzbbVIVJAvORsdF43itVoUFzYoDA1ahx0NKyePXnbVEsf0wMzgb4aur0yLtOnuhzJ/fOy0CdH0t3DOs1BBK+fZnoWRsY0wUWBuNMAqkt2D6dH/NiY=
+	t=1773745097; cv=none; b=Grr1INwfpOGafPSTQIq9cCsr1lNWsHQ92pvc0XAOt9G+kAAjqVXjW3p5voRfG76D/erDSxzRbaqKP6JCI7envUL6pbAOlaqQUF7+ueGQXPrJV1FhgGiJeCSe20VDI9rQ5rkmKXTKPOu4nfoBDcKIIlgxwIexw1pSckEzZWH/u3U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773744060; c=relaxed/simple;
-	bh=d4KD+yU5s7d45rA5ExgcEGlswfbkgijWZZsbyiom9Ug=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=fZJFAbyqYbXz7Z7RhQrM5R75kN/zX9iJDj0kYyf8Nzm5yROPo4LaFjfb3F87oP03Pq5hKA+41rrQsd9NiTUuo1pGXl4warSwg2oZrCUXI2Mdcx7Ki2aLifth040mhwxhdJqDfiVLCNZlfsx4+EE0/vYc4yig2CXKVexwcIdjXBY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=G8J/BKoo; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1773745097; c=relaxed/simple;
+	bh=JRICjwmVdpqzYAIOq+YrlzgrUpxdi4BRyqT6V9luW6w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UJPE9vYEsEAFT+p/a9qPMpjJFSI++inKbqDJfwHAy9TWKTOafg2aF7pStBUuhMgS2AOgfOqHOm3DuLSZ7jp5WDAaCTZFxvz0P0b9WeoNcHDQhkVlmh506MM09UMykv3ZnYN47tfSbnP5csqaGEpf4wO9UrayoKPT+vnYaAMULZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lrdGJ9/i; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="G8J/BKoo"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-43b4f48c47cso285858f8f.0
-        for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 03:40:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1773744057; x=1774348857; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:organization
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=d4KD+yU5s7d45rA5ExgcEGlswfbkgijWZZsbyiom9Ug=;
-        b=G8J/BKoo9f+EWdZfUu9gMkvuFwkHmjOw4+tOVbNC62eQlglZjwB8z3xjB6TcMoxYti
-         u5uE0iTBBCGjfl1/jitKphMYSXRQufoeQvhmU89sfr8dX3+i4XwKXbV8ae+86ZW+2Kkx
-         HEDa2AJ1AFamz7an2IN301dUSCgyjIpNsu4ALMxcdB8ammNV4uAQ/WeZT0Za4Jv1yxRF
-         SCURgTaccLhh6sh+5bniMYOT8xTY0lFjE76sBXtxs+YnJ/eo6JuKX+nHGP/HHnnI1CMd
-         Rv/Qjss3vnNDG9QYUJB9/N1I0e3qShMBqbtiIupEIg2YSQZrDYPJvqNIqaITMP9bbiqi
-         f4BA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773744057; x=1774348857;
-        h=mime-version:user-agent:content-transfer-encoding:organization
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=d4KD+yU5s7d45rA5ExgcEGlswfbkgijWZZsbyiom9Ug=;
-        b=sanCYFMxeLluGh7wI+HG7b0ruM17ogAymtPnkCN5DNdHqN2OanHVYgqMk3n3IaoVEu
-         ZedGVi27KNeg9juL0p+QDWe8nCca5Oi6LJP6Gwk029pmMI0D9WxvwVgNBkztNcBOZ5JE
-         52Lz/u05ta2quCWLDmM7si3tugYlYJeJZJI17QM3K9xYLqbJdsoHx6u3mB2TzVHZ+PUv
-         Ozsr7s359jsreGwBK2b57LgBO5yBW7m3zONmqALKq8Q4nAlHll4uuGUmuLJM2jHmIUP5
-         Z4t2BJQ3QsrCuEyjgo894bjJRiuZr2o4XmlJAtBhRTf7a5eW8ZTJLxgDI//qww/qQVpG
-         wCng==
-X-Forwarded-Encrypted: i=1; AJvYcCWq2qA4nPZGLJ8g88GYpEGIUcVNQTwFL/0lolH+FL4rg7UO0kTdFwcUUWTa6q76auXzP3A4qCfzmYA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzxidMaH7PkCY4i3gIU+HHb9EvVozVYGvK9NofkBeL4PMJ7762H
-	kfpdifdSDHzPCm2OiZRenVnh4mjVjgn76nBo7KsBqDA2+FFNfmNbB7OfzHAeab+VemU=
-X-Gm-Gg: ATEYQzw4NNkDQzQ/PrYCXL6I8/F1l8bNcJiA8TjLIWL8e7ci3QczQz4Gdca0l+iKKre
-	9CP8za48CSDOnFtFcmX9VvWEVMrXqoOG4xsslJ8DD4mxjXC1RlCo2yXH3E6+6rbj9Gds7y2LBRY
-	rRS/gbFscKsDvHwPslehVKvgk/wuPk8gRdwE+e3cTaQI63SYp1B0FAnnkF3nkIE2UN0UAjF1pla
-	9C53lU8RcHOicVPfeecfpMAOl3ktHZHWLUQUpTONoho8cnpmeVOGJX3ORA7lMUs6WDTP5vglya0
-	2w0jDOWqMHBykExeIU9O7KZ99J6nCTBSCBJlo4TjwZ2tqTt1IuuYHYqCdcSHqT5Q2ywlzfBKhIC
-	R17XC471wZBWE3QKg6Dq/4k5cAZI2aSAx6t724CUd0uf/EWYFszmXAVrSWpOqz8TnTUlgvKWKCm
-	AHKkEw5Qk=
-X-Received: by 2002:a05:6000:2283:b0:436:3707:2bf0 with SMTP id ffacd0b85a97d-43a04db7556mr30851486f8f.35.1773744057079;
-        Tue, 17 Mar 2026 03:40:57 -0700 (PDT)
-Received: from [10.128.148.212] ([151.37.253.94])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b41dd93c0sm17716128f8f.10.2026.03.17.03.40.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Mar 2026 03:40:56 -0700 (PDT)
-Message-ID: <1d268ffefd2a035331fd4ab7a920559fdf11cdda.camel@baylibre.com>
-Subject: Re: [PATCH v7 4/6] iio: ABI: Add support for floating-point numbers
- in buffer scan elements
-From: Francesco Lavra <flavra@baylibre.com>
-To: Jonathan Cameron <jic23@kernel.org>, Andy Shevchenko
-	 <andriy.shevchenko@intel.com>
-Cc: David Lechner <dlechner@baylibre.com>, Andy Shevchenko
- <andy.shevchenko@gmail.com>, Nuno =?ISO-8859-1?Q?S=E1?=
- <nuno.sa@analog.com>,  Andy Shevchenko <andy@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-iio@vger.kernel.org,  linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-Date: Tue, 17 Mar 2026 11:40:54 +0100
-In-Reply-To: <20260307125150.3bc60a45@jic23-huawei>
-References: <20260304080519.2844101-1-flavra@baylibre.com>
-	 <20260304080658.2844434-1-flavra@baylibre.com>
-	 <70f25902-5c79-46f9-8c67-99633b22b5ac@baylibre.com>
-	 <098886563f5fdcde837989d0556ed9a2d8d3203b.camel@baylibre.com>
-	 <CAHp75Vdni=OgHiDi8G5s6CgBFZZuypOyJSo5DFjaKYFkLGPqkQ@mail.gmail.com>
-	 <dd6d1436-d509-4233-ba1f-5a3f870f35fb@baylibre.com>
-	 <aarED5TAWg2qFtxi@ashevche-desk.local>
-	 <20260307125150.3bc60a45@jic23-huawei>
-Organization: BayLibre
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lrdGJ9/i"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9883C4CEF7;
+	Tue, 17 Mar 2026 10:58:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773745096;
+	bh=JRICjwmVdpqzYAIOq+YrlzgrUpxdi4BRyqT6V9luW6w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lrdGJ9/iis3b83G40HFKGqhkIYJXHTqFAkYNA/h4LpOAxnlaqvG7OKR3o7mN6WPvv
+	 FfeUpmVK6vb/7YovtaTzl+r8Ww3zHpqalWMmkmHCjdAwZwSC9ERWWQnCGrpKB57/9G
+	 s4jDs7jjGXMX+pPfbPyvG3EwBiBMgL5Zy8NRs6Taf8fYruEi5EWEG0C9Uu1G59mtsI
+	 5nU9L1fPycnOu0sG25ZiSIuGI21yppb5N+cry3GbOqo+jyHeeaarIBhqjq39//yG9C
+	 sb2Jc0gwLyaMrEBHsykPyIZPpxcdYWdR3/D546Dyq64sRivKCRyu5UnguGpvo+vX7v
+	 fhEGskjIuW/Ww==
+Date: Tue, 17 Mar 2026 10:58:14 +0000
+From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+To: Nico Pache <npache@redhat.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, aarcange@redhat.com, 
+	akpm@linux-foundation.org, anshuman.khandual@arm.com, apopple@nvidia.com, baohua@kernel.org, 
+	baolin.wang@linux.alibaba.com, byungchul@sk.com, catalin.marinas@arm.com, cl@gentwo.org, 
+	corbet@lwn.net, dave.hansen@linux.intel.com, david@kernel.org, dev.jain@arm.com, 
+	gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, jack@suse.cz, 
+	jackmanb@google.com, jannh@google.com, jglisse@google.com, joshua.hahnjy@gmail.com, 
+	kas@kernel.org, lance.yang@linux.dev, Liam.Howlett@oracle.com, 
+	lorenzo.stoakes@oracle.com, mathieu.desnoyers@efficios.com, matthew.brost@intel.com, 
+	mhiramat@kernel.org, mhocko@suse.com, peterx@redhat.com, pfalcato@suse.de, 
+	rakie.kim@sk.com, raquini@redhat.com, rdunlap@infradead.org, 
+	richard.weiyang@gmail.com, rientjes@google.com, rostedt@goodmis.org, rppt@kernel.org, 
+	ryan.roberts@arm.com, shivankg@amd.com, sunnanyong@huawei.com, surenb@google.com, 
+	thomas.hellstrom@linux.intel.com, tiwai@suse.de, usamaarif642@gmail.com, vbabka@suse.cz, 
+	vishal.moola@gmail.com, wangkefeng.wang@huawei.com, will@kernel.org, willy@infradead.org, 
+	yang@os.amperecomputing.com, ying.huang@linux.alibaba.com, ziy@nvidia.com, zokeefe@google.com
+Subject: Re: [PATCH mm-unstable v15 12/13] mm/khugepaged: run khugepaged for
+ all orders
+Message-ID: <a74178af-54f3-44ba-a007-4eaf49e40ab3@lucifer.local>
+References: <20260226031741.230674-1-npache@redhat.com>
+ <20260226032650.234386-1-npache@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260226032650.234386-1-npache@redhat.com>
 
-On Sat, 2026-03-07 at 12:51 +0000, Jonathan Cameron wrote:
-> On Fri, 6 Mar 2026 14:09:51 +0200
-> Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
->=20
-> > On Thu, Mar 05, 2026 at 08:37:48AM -0600, David Lechner wrote:
-> > > On 3/5/26 3:23 AM, Andy Shevchenko wrote:=C2=A0=20
-> > > > On Thu, Mar 5, 2026 at 11:09=E2=80=AFAM Francesco Lavra
-> > > > <flavra@baylibre.com> wrote:=C2=A0=20
-> > > > > On Wed, 2026-03-04 at 16:45 -0600, David Lechner wrote:=C2=A0=20
-> > > > > > On 3/4/26 2:06 AM, Francesco Lavra wrote:=C2=A0=20
-> > > > > > > In the data storage description of a scan element, the first
-> > > > > > > character
-> > > > > > > after the colon can have the values 's' and 'u' to specify
-> > > > > > > signed and
-> > > > > > > unsigned integers, respectively.
-> > > > > > > Add 'f' as an allowed value to specify floating-point numbers
-> > > > > > > formatted
-> > > > > > > according to the IEEE 754 standard.=C2=A0=20
-> >=20
-> > ...
-> >=20
-> > > > > > > -=C2=A0 Format is [be|le]:[s|u]bits/storagebits[Xrepeat][>>sh=
-ift]
-> > > > > > > .
-> > > > > > > +=C2=A0 Format is
-> > > > > > > [be|le]:[f|s|u]bits/storagebits[Xrepeat][>>shift] .
-> > > > > > >=20
-> > > > > > > =C2=A0=C2=A0 * *be* or *le*, specifies big or little endian.
-> > > > > > > +=C2=A0 * *f*, specifies if floating-point.
-> > > > > > > =C2=A0=C2=A0 * *s* or *u*, specifies if signed (2's complemen=
-t) or
-> > > > > > > unsigned.=C2=A0=20
-> > > > > >=20
-> > > > > > I would keep all of the format options on one bullet point.=C2=
-=A0=20
-> > > > >=20
-> > > > > That's what I did initially, but Andy suggested doing differently
-> > > > > [1].=C2=A0=20
-> > > >=20
-> > > > And still I think it's better to not mix them. The floating in the
-> > > > same sentence is confusing (along with 2's complement mention and
-> > > > sign).=C2=A0=20
-> > >=20
-> > > Then I would split up all 3. It is strange to mix some and not
-> > > all.=C2=A0=20
-> >=20
-> > I don't find it 'strange'. The integer are grouped together, floats do
-> > not
-> > belong to that group.
-> Maybe two paragaraphs in one bullet point?
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0* *f*, specifies if float=
-ing-point.
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *s* or *u*, specif=
-ies if signed (2's complement) or unsigned.=C2=A0=20
->=20
-> Though then we'll definitely need to check it didn't break the formatting
-> in the docs generated from these files.
+On Wed, Feb 25, 2026 at 08:26:50PM -0700, Nico Pache wrote:
+> From: Baolin Wang <baolin.wang@linux.alibaba.com>
+>
+> If any order (m)THP is enabled we should allow running khugepaged to
+> attempt scanning and collapsing mTHPs. In order for khugepaged to operate
+> when only mTHP sizes are specified in sysfs, we must modify the predicate
+> function that determines whether it ought to run to do so.
+>
+> This function is currently called hugepage_pmd_enabled(), this patch
+> renames it to hugepage_enabled() and updates the logic to check to
+> determine whether any valid orders may exist which would justify
+> khugepaged running.
+>
+> We must also update collapse_allowable_orders() to check all orders if
+> the vma is anonymous and the collapse is khugepaged.
+>
+> After this patch khugepaged mTHP collapse is fully enabled.
+>
+> Signed-off-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+> Signed-off-by: Nico Pache <npache@redhat.com>
 
-This does break the formatting in the HTML docs, where the two paragraphs
-end up in the same line.
+This looks good to me, so:
 
-> For me any of the above are fine.
+Reviewed-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
 
-I will keep it as is.
+> ---
+>  mm/khugepaged.c | 30 ++++++++++++++++++------------
+>  1 file changed, 18 insertions(+), 12 deletions(-)
+>
+> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> index 388d3f2537e2..e8bfcc1d0c9a 100644
+> --- a/mm/khugepaged.c
+> +++ b/mm/khugepaged.c
+> @@ -434,23 +434,23 @@ static inline int collapse_test_exit_or_disable(struct mm_struct *mm)
+>  		mm_flags_test(MMF_DISABLE_THP_COMPLETELY, mm);
+>  }
+>
+> -static bool hugepage_pmd_enabled(void)
+> +static bool hugepage_enabled(void)
+>  {
+>  	/*
+>  	 * We cover the anon, shmem and the file-backed case here; file-backed
+>  	 * hugepages, when configured in, are determined by the global control.
+> -	 * Anon pmd-sized hugepages are determined by the pmd-size control.
+> +	 * Anon hugepages are determined by its per-size mTHP control.
 
-> > ...
-> >=20
-> > > > > > > -is [be|le]:[s|u]bits/storagebits[Xrepeat][>>shift], where:
-> > > > > > > +is [be|le]:[f|s|u]bits/storagebits[Xrepeat][>>shift], where:
-> > > > > > >=20
-> > > > > > > =C2=A0- **be** or **le** specifies big or little-endian.
-> > > > > > > +- **f** specifies if floating-point.
-> > > > > > > =C2=A0- **s** or **u** specifies if signed (2's complement) o=
-r
-> > > > > > > unsigned.=C2=A0=20
-> > > > > >=20
-> > > > > > same here=C2=A0=20
-> > > > >=20
-> > > > > [1]
-> > > > > https://lore.kernel.org/linux-iio/aZ7dCdLs5xcJ4UGW@smile.fi.intel=
-.com/
-> > > > > =C2=A0
-> > > >=20
-> > > > Same here.
+Well also PMD right? I mean this terminology sucks because in a sense mTHP
+includes PMD... :)
 
-Same here.
+>  	 * Shmem pmd-sized hugepages are also determined by its pmd-size control,
+>  	 * except when the global shmem_huge is set to SHMEM_HUGE_DENY.
+>  	 */
+>  	if (IS_ENABLED(CONFIG_READ_ONLY_THP_FOR_FS) &&
+>  	    hugepage_global_enabled())
+>  		return true;
+> -	if (test_bit(PMD_ORDER, &huge_anon_orders_always))
+> +	if (READ_ONCE(huge_anon_orders_always))
+>  		return true;
+> -	if (test_bit(PMD_ORDER, &huge_anon_orders_madvise))
+> +	if (READ_ONCE(huge_anon_orders_madvise))
+>  		return true;
+> -	if (test_bit(PMD_ORDER, &huge_anon_orders_inherit) &&
+> +	if (READ_ONCE(huge_anon_orders_inherit) &&
+>  	    hugepage_global_enabled())
+>  		return true;
+>  	if (IS_ENABLED(CONFIG_SHMEM) && shmem_hpage_pmd_enabled())
+> @@ -521,8 +521,14 @@ static unsigned int collapse_max_ptes_none(unsigned int order)
+>  static unsigned long collapse_allowable_orders(struct vm_area_struct *vma,
+>  			vm_flags_t vm_flags, bool is_khugepaged)
+>  {
+> +	unsigned long orders;
+>  	enum tva_type tva_flags = is_khugepaged ? TVA_KHUGEPAGED : TVA_FORCED_COLLAPSE;
+> -	unsigned long orders = BIT(HPAGE_PMD_ORDER);
+> +
+> +	/* If khugepaged is scanning an anonymous vma, allow mTHP collapse */
+> +	if (is_khugepaged && vma_is_anonymous(vma))
+> +		orders = THP_ORDERS_ALL_ANON;
+> +	else
+> +		orders = BIT(HPAGE_PMD_ORDER);
+>
+>  	return thp_vma_allowable_orders(vma, vm_flags, tva_flags, orders);
+>  }
+> @@ -531,7 +537,7 @@ void khugepaged_enter_vma(struct vm_area_struct *vma,
+>  			  vm_flags_t vm_flags)
+>  {
+>  	if (!mm_flags_test(MMF_VM_HUGEPAGE, vma->vm_mm) &&
+> -	    hugepage_pmd_enabled()) {
+> +	    hugepage_enabled()) {
+>  		if (collapse_allowable_orders(vma, vm_flags, /*is_khugepaged=*/true))
+>  			__khugepaged_enter(vma->vm_mm);
+>  	}
+> @@ -2929,7 +2935,7 @@ static unsigned int collapse_scan_mm_slot(unsigned int pages, enum scan_result *
+>
+>  static int khugepaged_has_work(void)
+>  {
+> -	return !list_empty(&khugepaged_scan.mm_head) && hugepage_pmd_enabled();
+> +	return !list_empty(&khugepaged_scan.mm_head) && hugepage_enabled();
+>  }
+>
+>  static int khugepaged_wait_event(void)
+> @@ -3002,7 +3008,7 @@ static void khugepaged_wait_work(void)
+>  		return;
+>  	}
+>
+> -	if (hugepage_pmd_enabled())
+> +	if (hugepage_enabled())
+>  		wait_event_freezable(khugepaged_wait, khugepaged_wait_event());
+>  }
+>
+> @@ -3033,7 +3039,7 @@ static void set_recommended_min_free_kbytes(void)
+>  	int nr_zones = 0;
+>  	unsigned long recommended_min;
+>
+> -	if (!hugepage_pmd_enabled()) {
+> +	if (!hugepage_enabled()) {
+>  		calculate_min_free_kbytes();
+>  		goto update_wmarks;
+>  	}
+> @@ -3083,7 +3089,7 @@ int start_stop_khugepaged(void)
+>  	int err = 0;
+>
+>  	mutex_lock(&khugepaged_mutex);
+> -	if (hugepage_pmd_enabled()) {
+> +	if (hugepage_enabled()) {
+>  		if (!khugepaged_thread)
+>  			khugepaged_thread = kthread_run(khugepaged, NULL,
+>  							"khugepaged");
+> @@ -3109,7 +3115,7 @@ int start_stop_khugepaged(void)
+>  void khugepaged_min_free_kbytes_update(void)
+>  {
+>  	mutex_lock(&khugepaged_mutex);
+> -	if (hugepage_pmd_enabled() && khugepaged_thread)
+> +	if (hugepage_enabled() && khugepaged_thread)
+>  		set_recommended_min_free_kbytes();
+>  	mutex_unlock(&khugepaged_mutex);
+>  }
+> --
+> 2.53.0
+>
