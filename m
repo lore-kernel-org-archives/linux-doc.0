@@ -1,479 +1,639 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67A692F7AAB;
-	Tue, 17 Mar 2026 08:21:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AF50396B7D;
+	Tue, 17 Mar 2026 08:42:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773735718; cv=none; b=izbNCihl7YYTSmedJtFy2y48TsRBlj+zQa8roxQTdNv1EWW7aIEa6iN2OJYvcilxm8NiJ3wtwPMi8wg3gKOzrc25F5Ax57iSG+0m5hG46bX7amIR2rEJiDwTlkvJ+PEWLXDxmNYJ5U5fzm6iEvKFXW6FoJtZYBEU4RVWMwPWafU=
+	t=1773736947; cv=none; b=fQGjMV3mQMaBBvsL2wNKd3HCsC/T6V3eFkijs5rBkHmYVt5lQ7AgnRXjiJKRGvHKwPahpLuAdpNm2QlwdPaNbNuU6V+JQdIk1/o4P8jqdwpK1nIUqdJxbxdnabjiapymR/gQPFCFJhfuj9kTWlG2cEB8c2aEga2W4d9QT9TyRrc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773735718; c=relaxed/simple;
-	bh=fTN94n5YikLrAdrBwsqn+R5jLfwVuqObhU1lgsxxFN8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=q0Xx11h2mwbOLMIJpKJ63DPCX4OLWYg+YWIS/I2lwQU72LokrX3qrU1mAbmn43VyBFJgrquV8R/rIRFlE18SRrniQrceXijZQK8GYCF9bxakXwFivI5UlW88DbtHPpZ732JK6PcKJBa9Y37uyHTFmBFEKZqrurOCbaUqKkpwCU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GtbbaQMc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773736947; c=relaxed/simple;
+	bh=PfgLk/oowRn/pcURSDlIjoFQnU7EuG2yKe7gpblh9Vk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=vFVb1xaY833HUstwh49SMxuz45rZRnuRwy+ifNuSwpqE/gjiUYljD4L51F7JX7+kCO5JHhvgrXTkHWA8a0IlWYqTnMkkpJtw5UYFj984Kny8uJ3QtaZ2LtBhTXj76BSZjJDWyTkafeigoBUyRz7ibi3SBEScX3YVOqdeRTG94ZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=akkxNDod; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GtbbaQMc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AED0EC4CEF7;
-	Tue, 17 Mar 2026 08:21:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="akkxNDod"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 518ACC4CEF7;
+	Tue, 17 Mar 2026 08:42:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773735718;
-	bh=fTN94n5YikLrAdrBwsqn+R5jLfwVuqObhU1lgsxxFN8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=GtbbaQMciVsL+dnpkbI1MWB+fLYnXwwGk1J3+yJjAfia3zZ4W8AlkCgZ99RH8ijzh
-	 myHZTSH0JzYj3U15MnqYuxT95LKfmhGBjQzcN4mHSfcG2/DhblxfV60UWIV27bhmjC
-	 jV2DQvDdbSzNIOgspM3TUORaHYDZwLcfYNZl9XaRAvef3ZqVrtJRUPr80jZN7PIE0/
-	 tgLqbVALAw2NJwF1RVtz0EuteIX3BjwAycUy6M20Em4NKcfFYLs1l5MiEBGxj4goKB
-	 33TUBtPeINy2YFr5kGpnTywXIq+iBXkzX8wAOt1f0v5JBBCy7qjp/gUPORN8WTb7eA
-	 y+Bk+za1d6lvQ==
-Date: Tue, 17 Mar 2026 09:21:53 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Randy Dunlap <rdunlap@infradead.org>, Linux Doc Mailing List
- <linux-doc@vger.kernel.org>, linux-hardening@vger.kernel.org,
- linux-kernel@vger.kernel.org, Aleksandr Loktionov
- <aleksandr.loktionov@intel.com>
-Subject: Re: [PATCH v2 05/28] docs: kdoc_re: add a C tokenizer
-Message-ID: <20260317092153.11f2b10d@foz.lan>
-In-Reply-To: <87ldfrfimx.fsf@trenco.lwn.net>
-References: <cover.1773326442.git.mchehab+huawei@kernel.org>
-	<8541ffa469647db1a7154f274fb2d55b4c127dcb.1773326442.git.mchehab+huawei@kernel.org>
-	<177370220974.1754131.9642805524574261129.b4-review@b4>
-	<c53a3638-7a72-472c-81e8-86a6c235b598@infradead.org>
-	<87ldfrfimx.fsf@trenco.lwn.net>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	s=k20201202; t=1773736947;
+	bh=PfgLk/oowRn/pcURSDlIjoFQnU7EuG2yKe7gpblh9Vk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=akkxNDodHQnFmAvx56hcUe+Rr6o3ckxleCbHp8uU5enz3vaekMgSfUqKqdYnjWCzW
+	 HYc2OSuzG2EgGngC9JQDMpbpLu6IPmQ8OsYmf9cc56VENmvmIKYrbaPh9Ai8NYttpH
+	 qe4o8ykViJKT+lc9Xq4Pw2bZz1d5djsPoPWYBccCrMvL+GWJl16KcokNPMmEqFc7Al
+	 LmpNrU6ewErk3BxnibZzLVUcGpkItR8khq9vDzysD74OQ4Ocd3Bgpvae2ToIt3Kdz+
+	 FetVRUrkFQADYQEupaDhjy0JD+hcnaXsfYXC5N8axhVlQK69N27Rsxcb9nKP2qfgaL
+	 Y96uO6BQd+SbA==
+Date: Tue, 17 Mar 2026 08:42:15 +0000
+From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: Usama Arif <usama.arif@linux.dev>, 
+	Andrew Morton <akpm@linux-foundation.org>, Clemens Ladisch <clemens@ladisch.de>, 
+	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"K . Y . Srinivasan" <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>, 
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Miquel Raynal <miquel.raynal@bootlin.com>, 
+	Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
+	Bodo Stroesser <bostroesser@gmail.com>, "Martin K . Petersen" <martin.petersen@oracle.com>, 
+	David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
+	David Hildenbrand <david@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
+	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
+	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org, 
+	linux-mtd@lists.infradead.org, linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org, 
+	target-devel@vger.kernel.org, linux-afs@lists.infradead.org, linux-fsdevel@vger.kernel.org, 
+	linux-mm@kvack.org, Ryan Roberts <ryan.roberts@arm.com>
+Subject: Re: [PATCH 04/15] mm: add vm_ops->mapped hook
+Message-ID: <b9b64eee-44f0-4eac-8b39-fa0d113cfcff@lucifer.local>
+References: <0e0fe47852e6009f662b1fa42f836447b8d1283a.1773346620.git.ljs@kernel.org>
+ <20260313110238.2500603-1-usama.arif@linux.dev>
+ <24cbbaf6-19f2-4403-8cb7-415007597345@lucifer.local>
+ <CAJuCfpH1gzi50aWni7rh9=2gM8WwCzm=fY14DCFbjweAq82i6Q@mail.gmail.com>
+ <1f3423d7-ee33-4639-a9a0-f722c7b8b6f1@lucifer.local>
+ <CAJuCfpGFiKd-1rDdMviy8mUFiCtB9pxPj6ux-tF60eB4uVm4=A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJuCfpGFiKd-1rDdMviy8mUFiCtB9pxPj6ux-tF60eB4uVm4=A@mail.gmail.com>
 
-On Mon, 16 Mar 2026 17:40:22 -0600
-Jonathan Corbet <corbet@lwn.net> wrote:
+On Mon, Mar 16, 2026 at 04:39:00PM -0700, Suren Baghdasaryan wrote:
+> On Mon, Mar 16, 2026 at 6:39 AM Lorenzo Stoakes (Oracle) <ljs@kernel.org> wrote:
+> >
+> > On Sun, Mar 15, 2026 at 07:18:38PM -0700, Suren Baghdasaryan wrote:
+> > > On Fri, Mar 13, 2026 at 4:58 AM Lorenzo Stoakes (Oracle) <ljs@kernel.org> wrote:
+> > > >
+> > > > On Fri, Mar 13, 2026 at 04:02:36AM -0700, Usama Arif wrote:
+> > > > > On Thu, 12 Mar 2026 20:27:19 +0000 "Lorenzo Stoakes (Oracle)" <ljs@kernel.org> wrote:
+> > > > >
+> > > > > > Previously, when a driver needed to do something like establish a reference
+> > > > > > count, it could do so in the mmap hook in the knowledge that the mapping
+> > > > > > would succeed.
+> > > > > >
+> > > > > > With the introduction of f_op->mmap_prepare this is no longer the case, as
+> > > > > > it is invoked prior to actually establishing the mapping.
+> > > > > >
+> > > > > > To take this into account, introduce a new vm_ops->mapped callback which is
+> > > > > > invoked when the VMA is first mapped (though notably - not when it is
+> > > > > > merged - which is correct and mirrors existing mmap/open/close behaviour).
+> > > > > >
+> > > > > > We do better that vm_ops->open() here, as this callback can return an
+> > > > > > error, at which point the VMA will be unmapped.
+> > > > > >
+> > > > > > Note that vm_ops->mapped() is invoked after any mmap action is
+> > > > > > complete (such as I/O remapping).
+> > > > > >
+> > > > > > We intentionally do not expose the VMA at this point, exposing only the
+> > > > > > fields that could be used, and an output parameter in case the operation
+> > > > > > needs to update the vma->vm_private_data field.
+> > > > > >
+> > > > > > In order to deal with stacked filesystems which invoke inner filesystem's
+> > > > > > mmap() invocations, add __compat_vma_mapped() and invoke it on
+> > > > > > vfs_mmap() (via compat_vma_mmap()) to ensure that the mapped callback is
+> > > > > > handled when an mmap() caller invokes a nested filesystem's mmap_prepare()
+> > > > > > callback.
+> > > > > >
+> > > > > > We can now also remove call_action_complete() and invoke
+> > > > > > mmap_action_complete() directly, as we separate out the rmap lock logic to
+> > > > > > be called in __mmap_region() instead via maybe_drop_file_rmap_lock().
+> > > > > >
+> > > > > > We also abstract unmapping of a VMA on mmap action completion into its own
+> > > > > > helper function, unmap_vma_locked().
+> > > > > >
+> > > > > > Additionally, update VMA userland test headers to reflect the change.
+> > > > > >
+> > > > > > Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
+> > > > > > ---
+> > > > > >  include/linux/fs.h              |  9 +++-
+> > > > > >  include/linux/mm.h              | 17 +++++++
+> > > > > >  mm/internal.h                   | 10 ++++
+> > > > > >  mm/util.c                       | 86 ++++++++++++++++++++++++---------
+> > > > > >  mm/vma.c                        | 41 +++++++++++-----
+> > > > > >  tools/testing/vma/include/dup.h | 34 ++++++++++++-
+> > > > > >  6 files changed, 158 insertions(+), 39 deletions(-)
+> > > > > >
+> > > > > > diff --git a/include/linux/fs.h b/include/linux/fs.h
+> > > > > > index a2628a12bd2b..c390f5c667e3 100644
+> > > > > > --- a/include/linux/fs.h
+> > > > > > +++ b/include/linux/fs.h
+> > > > > > @@ -2059,13 +2059,20 @@ static inline bool can_mmap_file(struct file *file)
+> > > > > >  }
+> > > > > >
+> > > > > >  int compat_vma_mmap(struct file *file, struct vm_area_struct *vma);
+> > > > > > +int __vma_check_mmap_hook(struct vm_area_struct *vma);
+> > > > > >
+> > > > > >  static inline int vfs_mmap(struct file *file, struct vm_area_struct *vma)
+> > > > > >  {
+> > > > > > +   int err;
+> > > > > > +
+> > > > > >     if (file->f_op->mmap_prepare)
+> > > > > >             return compat_vma_mmap(file, vma);
+> > > > > >
+> > > > > > -   return file->f_op->mmap(file, vma);
+> > > > > > +   err = file->f_op->mmap(file, vma);
+> > > > > > +   if (err)
+> > > > > > +           return err;
+> > > > > > +
+> > > > > > +   return __vma_check_mmap_hook(vma);
+> > > > > >  }
+> > > > > >
+> > > > > >  static inline int vfs_mmap_prepare(struct file *file, struct vm_area_desc *desc)
+> > > > > > diff --git a/include/linux/mm.h b/include/linux/mm.h
+> > > > > > index 12a0b4c63736..7333d5db1221 100644
+> > > > > > --- a/include/linux/mm.h
+> > > > > > +++ b/include/linux/mm.h
+> > > > > > @@ -759,6 +759,23 @@ struct vm_operations_struct {
+> > > > > >      * Context: User context.  May sleep.  Caller holds mmap_lock.
+> > > > > >      */
+> > > > > >     void (*close)(struct vm_area_struct *vma);
+> > > > > > +   /**
+> > > > > > +    * @mapped: Called when the VMA is first mapped in the MM. Not called if
+> > > > > > +    * the new VMA is merged with an adjacent VMA.
+> > > > > > +    *
+> > > > > > +    * The @vm_private_data field is an output field allowing the user to
+> > > > > > +    * modify vma->vm_private_data as necessary.
+> > > > > > +    *
+> > > > > > +    * ONLY valid if set from f_op->mmap_prepare. Will result in an error if
+> > > > > > +    * set from f_op->mmap.
+> > > > > > +    *
+> > > > > > +    * Returns %0 on success, or an error otherwise. On error, the VMA will
+> > > > > > +    * be unmapped.
+> > > > > > +    *
+> > > > > > +    * Context: User context.  May sleep.  Caller holds mmap_lock.
+> > > > > > +    */
+> > > > > > +   int (*mapped)(unsigned long start, unsigned long end, pgoff_t pgoff,
+> > > > > > +                 const struct file *file, void **vm_private_data);
+> > > > > >     /* Called any time before splitting to check if it's allowed */
+> > > > > >     int (*may_split)(struct vm_area_struct *vma, unsigned long addr);
+> > > > > >     int (*mremap)(struct vm_area_struct *vma);
+> > > > > > diff --git a/mm/internal.h b/mm/internal.h
+> > > > > > index 7bfa85b5e78b..f0f2cf1caa36 100644
+> > > > > > --- a/mm/internal.h
+> > > > > > +++ b/mm/internal.h
+> > > > > > @@ -158,6 +158,8 @@ static inline void *folio_raw_mapping(const struct folio *folio)
+> > > > > >   * mmap hook and safely handle error conditions. On error, VMA hooks will be
+> > > > > >   * mutated.
+> > > > > >   *
+> > > > > > + * IMPORTANT: f_op->mmap() is deprecated, prefer f_op->mmap_prepare().
+> > > > > > + *
+> > >
+> > > What exactly would one do to "prefer f_op->mmap_prepare()"?
+> >
+> > I'm saying a person should implement f_op->mmap_prepare() rather than
+> > f_op->mmap(), since the latter is deprecated :)
+> >
+> > I think that's pretty clear no?
+> >
+> > > Since you are adding this comment for mmap_file(), I think you need to
+> > > describe more specifically what one should call instead.
+> >
+> > I think it'd be a complete distraction, since if you're at the point of calling
+> > mmap_file() you're already not implement mmap_prepare except as a compatbility
+> > layer.
+>
+> Yep, it seems like a warning that comes too late.
 
-> Randy Dunlap <rdunlap@infradead.org> writes:
-> 
-> > Uh, I find this review confusing.
-> > Do your (Jon) comments refer to the code above them?
-> > (more below)  
-> 
-> They do
-> 
-> Or, at least, they did...but they clearly got mixed up in the sending
-> somewhere.  Below is the intended version...
+Yeah, it's the wrong place for it, agreed.
 
-Oh, I should have read this one before... Ignore my previous comment.
-I'll move the answers to this reply, and answer the other ones.
+>
+> >
+> > I mean maybe I'll just drop this as it seems to be causing confusion.
+>
+> Maybe instead we add a comment that f_ops->mmap is deprecated in favor
+> of f_ops->mmap_prepare() in here:
+> https://elixir.bootlin.com/linux/v7.0-rc4/source/include/linux/fs.h#L1940
+> ?
 
-> > tools/lib/python/kdoc/kdoc_re.py | 234 +++++++++++++++++++++++++++++++
-> >  1 file changed, 234 insertions(+)
-> > 
-> > diff --git a/tools/lib/python/kdoc/kdoc_re.py b/tools/lib/python/kdoc/kdoc_re.py
-> > index 085b89a4547c..7bed4e9a8810 100644
-> > --- a/tools/lib/python/kdoc/kdoc_re.py
-> > +++ b/tools/lib/python/kdoc/kdoc_re.py
-> > @@ -141,6 +141,240 @@ class KernRe:
-> > 
-> > 	 return self.last_match.groups()
-> > 
-> > +class TokType():
-> > +
-> > +    @staticmethod
-> > +    def __str__(val):
-> > +        ""Return the name of an enum value""
-> > +        return TokType._name_by_val.get(val, f"UNKNOWN({val})")  
-> 
-> What is this class supposed to do?
+Yeah could do, I think maybe once the mmap_prepare changes are further along
+actually, as I am still essentially figuring out what functionality to
+provide/the shape of it as I develop it.
 
-This __str__() method ensures that, when printing a CToken object,
-the name will be displayed, instead of a number. This is really
-useful when debugging.
+It's a bit chicken-and-egg, but doing it this way has evolved to a pretty nice
+approach so far matching what drivers _actually do_ + finding new ways of doing
+them without risk of them breaking stuff which is kinda the whole point - this
+isn't a rework for rework's sake, but rather effectively completely changing how
+drivers perform mmap.
 
-See, if I add a print:
+>
+> >
+> > >
+> > > > > >   * @file: File which backs the mapping.
+> > > > > >   * @vma:  VMA which we are mapping.
+> > > > > >   *
+> > > > > > @@ -201,6 +203,14 @@ static inline void vma_close(struct vm_area_struct *vma)
+> > > > > >  /* unmap_vmas is in mm/memory.c */
+> > > > > >  void unmap_vmas(struct mmu_gather *tlb, struct unmap_desc *unmap);
+> > > > > >
+> > > > > > +static inline void unmap_vma_locked(struct vm_area_struct *vma)
+> > > > > > +{
+> > > > > > +   const size_t len = vma_pages(vma) << PAGE_SHIFT;
+> > > > > > +
+> > > > > > +   mmap_assert_locked(vma->vm_mm);
+> > >
+> > > You must hold the mmap write lock when unmapping. Would be better to
+> > > assert mmap_assert_write_locked() or even vma_assert_write_locked(),
+> > > which implies mmap_assert_write_locked().
+> >
+> > I'm not sure why we don't assert this in those paths.
+> >
+> > I think I assumed we could only assert readonly because one of those paths
+> > downgrades the mmap write lock to a read lock.
+> >
+> > I don't think we can do a VMA write lock assert here, since at the point of
+> > do_munmap() all callers can't possibly have the VMA write lock, since they are
+> > _looking up_ the VMA at the specified address.
+>
+> It sounds strange to me that we are unmapping a VMA that was not
+> locked beforehand. Let me look into the call chains a bit more to
+> convince myself one way or the other. The fact that do_munmap() looks
+> up the VMA by address and then write-locks it inside
+> vms_gather_munmap_vmas() does not mean the VMA was not already locked.
+> vma_start_write() is re-entrant.
 
-<snip>
---- a/tools/lib/python/kdoc/kdoc_parser.py
-+++ b/tools/lib/python/kdoc/kdoc_parser.py
-@@ -87,6 +87,7 @@ def trim_private_members(text):
-     """
- 
-     tokens = CTokenizer(text)
-+    print(tokens.tokens)
-     return str(tokens)
- 
-</snip>
+Well I mean:
 
-the tokens will appear as names at the output:
+SYSCALL_DEFINE2(munmap, ...)
+-> __vm_munmap [ takes mmap write lock ]
+-> do_vmi_munmap()
 
-$ ./scripts/kernel-doc -none er.c
-[CToken(CToken.ENUM, "enum", 0, (0, 0, 0)), CToken(CToken.SPACE, " ", 4, (0, 0, 0)), CToken(CToken.NAME, "dmub_abm_ace_curve_type", 5, (0, 0, 0)), CToken(CToken.SPACE, " ", 28, (0, 0, 0)), CToken(CToken.BEGIN, "{", 29, (0, 0, 1)), CToken(CToken.SPACE, " ", 30, (0, 0, 1)), CToken(CToken.COMMENT, "/**
-         * ACE curve as defined by the SW layer. */", 31, (0, 0, 1)), CToken(CToken.SPACE, " ", 86, (0, 0, 1)), CToken(CToken.NAME, "ABM_ACE_CURVE_TYPE__SW", 87, (0, 0, 1)), CToken(CToken.SPACE, " ", 109, (0, 0, 1)), CToken(CToken.OP, "=", 110, (0, 0, 1)), CToken(CToken.SPACE, " ", 111, (0, 0, 1)), CToken(CToken.NUMBER, "0", 112, (0, 0, 1)), CToken(CToken.PUNC, ",", 113, (0, 0, 1)), CToken(CToken.SPACE, " ", 114, (0, 0, 1)), CToken(CToken.COMMENT, "/**
-         * ACE curve as defined by the SW to HW translation interface layer. */", 115, (0, 0, 1)), CToken(CToken.SPACE, " ", 198, (0, 0, 1)), CToken(CToken.NAME, "ABM_ACE_CURVE_TYPE__SW_IF", 199, (0, 0, 1)), CToken(CToken.SPACE, " ", 224, (0, 0, 1)), CToken(CToken.OP, "=", 225, (0, 0, 1)), CToken(CToken.SPACE, " ", 226, (0, 0, 1)), CToken(CToken.NUMBER, "1", 227, (0, 0, 1)), CToken(CToken.PUNC, ",", 228, (0, 0, 1)), CToken(CToken.SPACE, " ", 229, (0, 0, 1)), CToken(CToken.END, "}", 230, (0, 0, 0)), CToken(CToken.PUNC, ";", 231, (0, 0, 0))]
+do_munmap() [ assumes (but does not assert, we should add) mmap write lock]
+-> do_vmi_munmap()
 
-> 
-> > +
-> > +class CToken():
-> > +    ""
-> > +    Data class to define a C token.
-> > +    ""
-> > +
-> > +    # Tokens that can be used by the parser. Works like an C enum.
-> > +
-> > +    COMMENT = 0     #: A standard C or C99 comment, including delimiter.
-> > +    STRING = 1      #: A string, including quotation marks.
-> > +    CHAR = 2        #: A character, including apostophes.
-> > +    NUMBER = 3      #: A number.
-> > +    PUNC = 4        #: A puntuation mark: ``;`` / ``,`` / ``.``.
-> > +    BEGIN = 5       #: A begin character: ``{`` / ``[`` / ``(``.
-> > +    END = 6         #: A end character: ``}`` / ``]`` / ``)``.
-> > +    CPP = 7         #: A preprocessor macro.
-> > +    HASH = 8        #: The hash character - useful to handle other macros.
-> > +    OP = 9          #: A C operator (add, subtract, ...).
-> > +    STRUCT = 10     #: A ``struct`` keyword.
-> > +    UNION = 11      #: An ``union`` keyword.
-> > +    ENUM = 12       #: A ``struct`` keyword.
-> > +    TYPEDEF = 13    #: A ``typedef`` keyword.
-> > +    NAME = 14       #: A name. Can be an ID or a type.
-> > +    SPACE = 15      #: Any space characters, including new lines
-> > +
-> > +    MISMATCH = 255  #: an error indicator: should never happen in practice.
-> > +
-> > +    # Dict to convert from an enum interger into a string.
-> > +    _name_by_val = {v: k for k, v in dict(vars()).items() if isinstance(v, int)}
-> > +
-> > +    # Dict to convert from string to an enum-like integer value.
-> > +    _name_to_val = {k: v for v, k in _name_by_val.items()}  
-> 
-> This stuff strikes me as a bit overdone; _name_to_val is really just the
-> variable list for the class, right?
+You can unmap more than one VMA from this interface, or even choose a range that
+doesn't have anything mapped.
 
-Those two vars are a kind of magic: they create two dictionaries:
+do_vmi_munmap() gets the first VMA and if none present exits early, then calls
+into do_vmi_align_munmap() otherwise, which does the whole gather/complete
+dance.
 
-- _name_by_val converts a token integer into a string;
-- _name_to_val converts a string to an integer.
+With respect to the mmap()'ing, actually we probably should always have VMA
+write lock, because for any action to be taken, you couldn't merge since
+VMA_SPECIAL_FLAGS would be specified (any kind of remap would be VMA_PFNMAP_BIT
++ friends, map kernel pages would be VMA_MIXEDMAP_BIT).
 
-I opted to use this approach for a couple of reasons:
+(Might be worth me adding an assert for that actually to avoid confusion.)
 
-1. using tok.kind == "BEGIN" (and similar) everywhere is harder to
-maintain, as python won't check for typos. Now, if one writes:
-CToken.BEGHIN, an error will be raised;
+Not merging would mean __mmap_new_vma() would be called which naturally gets the
+VMA write lock.
 
-2. the cost to convert from string to int is O(1), so not much
-   a performance issue at the conversion;
-
-3. using an integer on all checks should make the code faster as
-   it doesn't require a loop to check the string.
-
-> 
-> > +
-> > +    @staticmethod
-> > +    def to_name(val):
-> > +        ""Convert from an integer value from CToken enum into a string""
-> > +
-> > +        return CToken._name_by_val.get(val, f"UNKNOWN({val})")
-> > +
-> > +    @staticmethod
-> > +    def from_name(name):
-> > +        ""Convert a string into a CToken enum value""
-> > +        if name in CToken._name_to_val:
-> > +            return CToken._name_to_val[name]
-> > +
-> > +        return CToken.MISMATCH
-> > +
-> > +    def __init__(self, kind, value, pos,
-> > +                 brace_level, paren_level, bracket_level):
-> > +        self.kind = kind
-> > +        self.value = value
-> > +        self.pos = pos
-> > +        self.brace_level = brace_level
-> > +        self.paren_level = paren_level
-> > +        self.bracket_level = bracket_level
-> > +
-> > +    def __repr__(self):
-> > +        name = self.to_name(self.kind)
-> > +        if isinstance(self.value, str):
-> > +            value = '"' + self.value + '"'
-> > +        else:
-> > +            value = self.value
-> > +
-> > +        return f"CToken({name}, {value}, {self.pos}, " \
-> > +               f"{self.brace_level}, {self.paren_level}, {self.bracket_level})"
-> > +
-> > +#: Tokens to parse C code.
-> > +TOKEN_LIST = [  
-> 
-> So these aren't "tokens", this is a list of regexes; how is it intended
-> to be used?
-> 
-> > +    (CToken.COMMENT, r"//[^\n]*|/\*[\s\S]*?\*/"),  
-> 
-> How does "[\s\S]*" differ from plain old "*" ?
-
-They are not identical, as "*" doesn't match "\n". As the tokenizer
-also picks "\n" on several cases, like on comments, r"\s\S" works
-better.
-
-> 
-> > +
-> > +    (CToken.STRING,  r'"(?:\\.|[^"\\])*"'),
-> > +    (CToken.CHAR,    r"'(?:\\.|[^'\\])'"),
-> > +
-> > +    (CToken.NUMBER,  r"0[xX][0-9a-fA-F]+[uUlL]*|0[0-7]+[uUlL]*|"
-> > +                     r"[0-9]+(\.[0-9]*)?([eE][+-]?[0-9]+)?[fFlL]*"),
-> > +
-> > +    (CToken.PUNC,    r"[;,\.]"),
-> > +
-> > +    (CToken.BEGIN,   r"[\[\(\{]"),
-> > +
-> > +    (CToken.END,     r"[\]\)\}]"),
-> > +
-> > +    (CToken.CPP,     r"#\s*(define|include|ifdef|ifndef|if|else|elif|endif|undef|pragma)\b"),
-> > +
-> > +    (CToken.HASH,    r"#"),
-> > +
-> > +    (CToken.OP,      r"\+\+|\-\-|\->|==|\!=|<=|>=|&&|\|\||<<|>>|\+=|\-=|\*=|/=|%="
-> > +                     r"|&=|\|=|\^=|=|\+|\-|\*|/|%|<|>|&|\||\^|~|!|\?|\:"),  
-> 
-> "-" and "!" never need to be escaped.
-
-"-" usually needs to be escaped, because it can be a range. I actually
-tried without escaping it, but the regex failed. So I ended being 
-conservative. 
-
-> 
-> > +
-> > +    (CToken.STRUCT,  r"\bstruct\b"),
-> > +    (CToken.UNION,   r"\bunion\b"),
-> > +    (CToken.ENUM,    r"\benum\b"),
-> > +    (CToken.TYPEDEF, r"\bkinddef\b"),  
-> 
-> "kinddef" ?
-
-Should be "typedef".
-
-This was due to a "sed s,type,kind," I applied to avoid using
-"type" for the token type, as, when I started integrating it
-with kdoc_re, it became confusing.
-
-I'll fix at the next respin.
-
-
-> 
-> > +
-> > +    (CToken.NAME,      r"[A-Za-z_][A-Za-z0-9_]*"),
-> > +
-> > +    (CToken.SPACE,   r"[\s]+"),  
-> 
-> Don't need the [brackets] here
-
-True. This was [ \t] and there as a separate token for new line.
-I merged them, but forgot stripping the brackets.
-
-Will cleanup at the next respin.
-
-> 
-> > +
-> > +    (CToken.MISMATCH,r"."),
-> > +]
-> > +
-> > +#: Handle C continuation lines.
-> > +RE_CONT = KernRe(r"\\\n")
-> > +
-> > +RE_COMMENT_START = KernRe(r'/\*\s*')
-> > +
-> > +#: tokenizer regex. Will be filled at the first CTokenizer usage.
-> > +re_scanner = None  
-> 
-> That seems weird, why don't you just initialize it here?
-
-Yeah, I changed this one to:
-
-	def fill_re_scanner(token_list):
-	    """Ancillary routine to convert TOKEN_LIST into a finditer regex"""
-	    re_tokens = []
-
-	    for kind, pattern in token_list:
-	        name = CToken.to_name(kind)
-	        re_tokens.append(f"(?P<{name}>{pattern})")
-
-	    return KernRe("|".join(re_tokens), re.MULTILINE | re.DOTALL)
-
-	RE_SCANNER = fill_re_scanner(TOKEN_LIST)
-
-but I guess tis is on a patch later on.
-
-> 
-> > +
-> > +class CTokenizer():
-> > +    ""
-> > +    Scan C statements and definitions and produce tokens.
-> > +
-> > +    When converted to string, it drops comments and handle public/private
-> > +    values, respecting depth.
-> > +    ""
-> > +
-> > +    # This class is inspired and follows the basic concepts of:
-> > +    #   https://docs.python.org/3/library/re.html#writing-a-tokenizer
-> > +
-> > +    def _tokenize(self, source):
-> > +        ""
-> > +        Interactor that parses ``source``, splitting it into tokens, as defined
-> > +        at ``self.TOKEN_LIST``.
-> > +
-> > +        The interactor returns a CToken class object.
-> > +        ""  
-> 
-> Do you mean "iterator" here?
-
-Yes. will fix at the next respin.
-
-> 
-> > +
-> > +        # Handle continuation lines. Note that kdoc_parser already has a
-> > +        # logic to do that. Still, let's keep it for completeness, as we might
-> > +        # end re-using this tokenizer outsize kernel-doc some day - or we may
-> > +        # eventually remove from there as a future cleanup.
-> > +        source = RE_CONT.sub(", source)
-> > +
-> > +        brace_level = 0
-> > +        paren_level = 0
-> > +        bracket_level = 0
-> > +
-> > +        for match in re_scanner.finditer(source):
-> > +            kind = CToken.from_name(match.lastgroup)
-> > +            pos = match.start()
-> > +            value = match.group()
-> > +
-> > +            if kind == CToken.MISMATCH:
-> > +                raise RuntimeError(f"Unexpected token '{value}' on {pos}:\n\t{source}")
-> > +            elif kind == CToken.BEGIN:
-> > +                if value == '(':
-> > +                    paren_level += 1
-> > +                elif value == '[':
-> > +                    bracket_level += 1
-> > +                else:  # value == '{'
-> > +                    brace_level += 1
-> > +
-> > +            elif kind == CToken.END:
-> > +                if value == ')' and paren_level > 0:
-> > +                    paren_level -= 1
-> > +                elif value == ']' and bracket_level > 0:
-> > +                    bracket_level -= 1
-> > +                elif brace_level > 0:    # value == '}'
-> > +                    brace_level -= 1
-> > +
-> > +            yield CToken(kind, value, pos,
-> > +                         brace_level, paren_level, bracket_level)
-> > +
-> > +    def __init__(self, source):  
-> 
-> Putting __init__() first is fairly standard, methinks.
-
-Yes, but __init__ calls _tokenize().
-
-My personal preference is to have the caller methods before the methods 
-that actually call them, even inside a class, where the order doesn't
-matter - or even in C, when we have an include with all prototypes.
-
-But if you prefer, I can reorder it.
-
-> 
-> > +        ""
-> > +        Create a regular expression to handle TOKEN_LIST.
-> > +
-> > +        While I generally don't like using regex group naming via:
-> > +            (?P<name>...)
-> > +
-> > +        in this particular case, it makes sense, as we can pick the name
-> > +        when matching a code via re_scanner().
-> > +        ""
-> > +        global re_scanner
-> > +
-> > +        if not re_scanner:
-> > +            re_tokens = []
-> > +
-> > +            for kind, pattern in TOKEN_LIST:
-> > +                name = CToken.to_name(kind)
-> > +                re_tokens.append(f"(?P<{name}>{pattern})")
-> > +
-> > +            re_scanner = KernRe("|".join(re_tokens), re.MULTILINE | re.DOTALL)  
-> 
-> I still don't understand why you do this here - this is all constant, right?
-
-Yes. See above. I moved this logic to a function and called it during
-module init time, for it to happen just once.
-
-> 
-> > +
-> > +        self.tokens = []
-> > +        for tok in self._tokenize(source):
-> > +            self.tokens.append(tok)  
-> 
-> So you create a nice iterator structure, then just put it all together into a
-> list anyway?
-
-We could have used yield here, but what's the point? Due to C 
-transforms, we'll need to navigate on all tokens multiple times. 
-
-Having them on a list ends saving time, as we only need to 
-tokenize once per source code.
+So you're right I think we should hold the VMA lock here, but I'm wondering if
+it's much of a muchness since really we only _need_ the mmap write lock here.
 
 
+>
+> >
+> > But I can convert this to an mmap_assert_write_locked()!
+>
+> Ok, let's go with that. I don't want to slow down your patchset while
+> I investigate locking rules here. We can strengthen the assertion
+> later.
 
-> 
-> > +
-> > +    def __str__(self):
-> > +        out="
-> > +        show_stack = [True]
-> > +
-> > +        for tok in self.tokens:
-> > +            if tok.kind == CToken.BEGIN:
-> > +                show_stack.append(show_stack[-1])
-> > +
-> > +            elif tok.kind == CToken.END:
-> > +                prev = show_stack[-1]
-> > +                if len(show_stack) > 1:
-> > +                    show_stack.pop()
-> > +
-> > +                if not prev and show_stack[-1]:
-> > +                    #
-> > +                    # Try to preserve indent
-> > +                    #
-> > +                    out += "\t" * (len(show_stack) - 1)
-> > +
-> > +                    out += str(tok.value)
-> > +                    continue
-> > +
-> > +            elif tok.kind == CToken.COMMENT:
-> > +                comment = RE_COMMENT_START.sub(", tok.value)
-> > +
-> > +                if comment.startswith("private:"):
-> > +                    show_stack[-1] = False
-> > +                    show = False
-> > +                elif comment.startswith("public:"):
-> > +                    show_stack[-1] = True
-> > +
-> > +                continue
-> > +
-> > +            if show_stack[-1]:
-> > +                    out += str(tok.value)
-> > +
-> > +        return out
-> > +
-> > +
-> >  #: Nested delimited pairs (brackets and parenthesis)
-> >  DELIMITER_PAIRS = {
-> >      '{': '}',  
-> 
-> Thanks,
-> 
-> jon
-> 
+Thanks!
 
+>
+> >
+> > >
+> > > > > > +   do_munmap(vma->vm_mm, vma->vm_start, len, NULL);
+> > > > > > +}
+> > > > > > +
+> > > > > >  #ifdef CONFIG_MMU
+> > > > > >
+> > > > > >  static inline void get_anon_vma(struct anon_vma *anon_vma)
+> > > > > > diff --git a/mm/util.c b/mm/util.c
+> > > > > > index dba1191725b6..2b0ed54008d6 100644
+> > > > > > --- a/mm/util.c
+> > > > > > +++ b/mm/util.c
+> > > > > > @@ -1163,6 +1163,55 @@ void flush_dcache_folio(struct folio *folio)
+> > > > > >  EXPORT_SYMBOL(flush_dcache_folio);
+> > > > > >  #endif
+> > > > > >
+> > > > > > +static int __compat_vma_mmap(struct file *file, struct vm_area_struct *vma)
+> > > > > > +{
+> > > > > > +   struct vm_area_desc desc = {
+> > > > > > +           .mm = vma->vm_mm,
+> > > > > > +           .file = file,
+> > > > > > +           .start = vma->vm_start,
+> > > > > > +           .end = vma->vm_end,
+> > > > > > +
+> > > > > > +           .pgoff = vma->vm_pgoff,
+> > > > > > +           .vm_file = vma->vm_file,
+> > > > > > +           .vma_flags = vma->flags,
+> > > > > > +           .page_prot = vma->vm_page_prot,
+> > > > > > +
+> > > > > > +           .action.type = MMAP_NOTHING, /* Default */
+> > > > > > +   };
+> > > > > > +   int err;
+> > > > > > +
+> > > > > > +   err = vfs_mmap_prepare(file, &desc);
+> > > > > > +   if (err)
+> > > > > > +           return err;
+> > > > > > +
+> > > > > > +   err = mmap_action_prepare(&desc, &desc.action);
+> > > > > > +   if (err)
+> > > > > > +           return err;
+> > > > > > +
+> > > > > > +   set_vma_from_desc(vma, &desc);
+> > > > > > +   return mmap_action_complete(vma, &desc.action);
+> > > > > > +}
+> > > > > > +
+> > > > > > +static int __compat_vma_mapped(struct file *file, struct vm_area_struct *vma)
+> > > > > > +{
+> > > > > > +   const struct vm_operations_struct *vm_ops = vma->vm_ops;
+> > > > > > +   void *vm_private_data = vma->vm_private_data;
+> > > > > > +   int err;
+> > > > > > +
+> > > > > > +   if (!vm_ops->mapped)
+> > > > > > +           return 0;
+> > > > > > +
+> > > > >
+> > > > > Hello!
+> > > > >
+> > > > > Can vm_ops be NULL here?  __compat_vma_mapped() is called from
+> > > > > compat_vma_mmap(), which is reached when a filesystem provides
+> > > > > mmap_prepare.  If the mmap_prepare hook does not set desc->vm_ops,
+> > > > > vma->vm_ops will be NULL and this dereferences a NULL pointer.
+> > > >
+> > > > I _think_ for this to ever be invoked, you would need to be dealing with a
+> > > > file-backed VMA so vm_ops->fault would HAVE to be defined.
+> > > >
+> > > > But you're right anyway as a matter of principle we should check it! Will fix.
+> > > >
+> > > > >
+> > > > > For e.g. drivers/char/mem.c, mmap_zero_prepare() would trigger
+> > > > > a NULL pointer dereference here.
+> > > > >
+> > > > > Would need to do
+> > > > >       if (!vm_ops || !vm_ops->mapped)
+> > > > >               return 0;
+> > > > >
+> > > > > here
+> > > >
+> > > > Yes.
+> > > >
+> > > > >
+> > > > >
+> > > > > > +   err = vm_ops->mapped(vma->vm_start, vma->vm_end, vma->vm_pgoff, file,
+> > > > > > +                        &vm_private_data);
+> > > > > > +   if (err)
+> > > > > > +           unmap_vma_locked(vma);
+> > > > >
+> > > > > when mapped() returns an error, unmap_vma_locked(vma) is called
+> > > > > but execution continues into the vm_private_data update below.  After
+> > > > > unmap_vma_locked() the VMA may be freed (do_munmap can remove the VMA
+> > > > > entirely), so accessing vma->vm_private_data after that is a
+> > > > > use-after-free.
+> > > >
+> > > > Very good point :) will fix thanks!
+> > > >
+> > > > Probably:
+> > > >
+> > > >         if (err)
+> > > >                 unmap_vma_locked(vma);
+> > > >         else if (vm_private_data != vma->vm_private_data)
+> > > >                 vma->vm_private_data = vm_private_data;
+> > > >
+> > > >         return err;
+> > > >
+> > > > Would be fine.
+> > > >
+> > > > >
+> > > > > Probably need to do:
+> > > > >       if (err) {
+> > > > >               unmap_vma_locked(vma);
+> > > > >               return err;
+> > > > >       }
+> > > > >
+> > > > > > +   /* Update private data if changed. */
+> > > > > > +   if (vm_private_data != vma->vm_private_data)
+> > > > > > +           vma->vm_private_data = vm_private_data;
+> > > > > > +
+> > > > > > +   return err;
+> > > > > > +}
+> > > > > > +
+> > > > > >  /**
+> > > > > >   * compat_vma_mmap() - Apply the file's .mmap_prepare() hook to an
+> > > > > >   * existing VMA and execute any requested actions.
+> > > > > > @@ -1191,34 +1240,26 @@ EXPORT_SYMBOL(flush_dcache_folio);
+> > > > > >   */
+> > > > > >  int compat_vma_mmap(struct file *file, struct vm_area_struct *vma)
+> > > > > >  {
+> > > > > > -   struct vm_area_desc desc = {
+> > > > > > -           .mm = vma->vm_mm,
+> > > > > > -           .file = file,
+> > > > > > -           .start = vma->vm_start,
+> > > > > > -           .end = vma->vm_end,
+> > > > > > -
+> > > > > > -           .pgoff = vma->vm_pgoff,
+> > > > > > -           .vm_file = vma->vm_file,
+> > > > > > -           .vma_flags = vma->flags,
+> > > > > > -           .page_prot = vma->vm_page_prot,
+> > > > > > -
+> > > > > > -           .action.type = MMAP_NOTHING, /* Default */
+> > > > > > -   };
+> > > > > >     int err;
+> > > > > >
+> > > > > > -   err = vfs_mmap_prepare(file, &desc);
+> > > > > > -   if (err)
+> > > > > > -           return err;
+> > > > > > -
+> > > > > > -   err = mmap_action_prepare(&desc, &desc.action);
+> > > > > > +   err = __compat_vma_mmap(file, vma);
+> > > > > >     if (err)
+> > > > > >             return err;
+> > > > > >
+> > > > > > -   set_vma_from_desc(vma, &desc);
+> > > > > > -   return mmap_action_complete(vma, &desc.action);
+> > > > > > +   return __compat_vma_mapped(file, vma);
+> > > > > >  }
+> > > > > >  EXPORT_SYMBOL(compat_vma_mmap);
+> > > > > >
+> > > > > > +int __vma_check_mmap_hook(struct vm_area_struct *vma)
+> > > > > > +{
+> > > > > > +   /* vm_ops->mapped is not valid if mmap() is specified. */
+> > > > > > +   if (WARN_ON_ONCE(vma->vm_ops->mapped))
+> > > > > > +           return -EINVAL;
+> > > > >
+> > > > > I think vma->vm_ops can be NULL here. Should be:
+> > > > >
+> > > > >       if (vma->vm_ops && WARN_ON_ONCE(vma->vm_ops->mapped))
+> > > > >               return -EINVAL;
+> > > >
+> > > > I think again you'd probably only invoke this on file-backed so be ok, but again
+> > > > as a matter of principle we should check it so will fix, thanks!
+> > > >
+> > > > >
+> > > > > > +
+> > > > > > +   return 0;
+> > > > > > +}
+> > > > > > +EXPORT_SYMBOL(__vma_check_mmap_hook);
+> > >
+> > > nit: Any reason __vma_check_mmap_hook() is not inlined next to its
+> > > user vfs_mmap()?
+> >
+> > Headers fun, fs.h is a 'before mm.h' header, so vm_operations_struct is not
+> > declared yet here, so we can't actually do the check there.
+>
+> Ack.
+>
+> >
+> > >
+> > > > > > +
+> > > > > >  static void set_ps_flags(struct page_snapshot *ps, const struct folio *folio,
+> > > > > >                      const struct page *page)
+> > > > > >  {
+> > > > > > @@ -1316,10 +1357,7 @@ static int mmap_action_finish(struct vm_area_struct *vma,
+> > > > > >      * invoked if we do NOT merge, so we only clean up the VMA we created.
+> > > > > >      */
+> > > > > >     if (err) {
+> > > > > > -           const size_t len = vma_pages(vma) << PAGE_SHIFT;
+> > > > > > -
+> > > > > > -           do_munmap(current->mm, vma->vm_start, len, NULL);
+> > > > > > -
+> > > > > > +           unmap_vma_locked(vma);
+> > > > > >             if (action->error_hook) {
+> > > > > >                     /* We may want to filter the error. */
+> > > > > >                     err = action->error_hook(err);
+> > > > > > diff --git a/mm/vma.c b/mm/vma.c
+> > > > > > index 054cf1d262fb..ef9f5a5365d1 100644
+> > > > > > --- a/mm/vma.c
+> > > > > > +++ b/mm/vma.c
+> > > > > > @@ -2705,21 +2705,35 @@ static bool can_set_ksm_flags_early(struct mmap_state *map)
+> > > > > >     return false;
+> > > > > >  }
+> > > > > >
+> > > > > > -static int call_action_complete(struct mmap_state *map,
+> > > > > > -                           struct mmap_action *action,
+> > > > > > -                           struct vm_area_struct *vma)
+> > > > > > +static int call_mapped_hook(struct vm_area_struct *vma)
+> > > > > >  {
+> > > > > > -   int ret;
+> > > > > > +   const struct vm_operations_struct *vm_ops = vma->vm_ops;
+> > > > > > +   void *vm_private_data = vma->vm_private_data;
+> > > > > > +   int err;
+> > > > > >
+> > > > > > -   ret = mmap_action_complete(vma, action);
+> > > > > > +   if (!vm_ops || !vm_ops->mapped)
+> > > > > > +           return 0;
+> > > > > > +   err = vm_ops->mapped(vma->vm_start, vma->vm_end, vma->vm_pgoff,
+> > > > > > +                        vma->vm_file, &vm_private_data);
+> > > > > > +   if (err) {
+> > > > > > +           unmap_vma_locked(vma);
+> > > > > > +           return err;
+> > > > > > +   }
+> > > > > > +   /* Update private data if changed. */
+> > > > > > +   if (vm_private_data != vma->vm_private_data)
+> > > > > > +           vma->vm_private_data = vm_private_data;
+> > > > > > +   return 0;
+> > > > > > +}
+> > > > > >
+> > > > > > -   /* If we held the file rmap we need to release it. */
+> > > > > > -   if (map->hold_file_rmap_lock) {
+> > > > > > -           struct file *file = vma->vm_file;
+> > > > > > +static void maybe_drop_file_rmap_lock(struct mmap_state *map,
+> > > > > > +                                 struct vm_area_struct *vma)
+> > > > > > +{
+> > > > > > +   struct file *file;
+> > > > > >
+> > > > > > -           i_mmap_unlock_write(file->f_mapping);
+> > > > > > -   }
+> > > > > > -   return ret;
+> > > > > > +   if (!map->hold_file_rmap_lock)
+> > > > > > +           return;
+> > > > > > +   file = vma->vm_file;
+> > > > > > +   i_mmap_unlock_write(file->f_mapping);
+> > > > > >  }
+> > > > > >
+> > > > > >  static unsigned long __mmap_region(struct file *file, unsigned long addr,
+> > > > > > @@ -2773,8 +2787,11 @@ static unsigned long __mmap_region(struct file *file, unsigned long addr,
+> > > > > >     __mmap_complete(&map, vma);
+> > > > > >
+> > > > > >     if (have_mmap_prepare && allocated_new) {
+> > > > > > -           error = call_action_complete(&map, &desc.action, vma);
+> > > > > > +           error = mmap_action_complete(vma, &desc.action);
+> > > > > > +           if (!error)
+> > > > > > +                   error = call_mapped_hook(vma);
+> > > > > >
+> > > > > > +           maybe_drop_file_rmap_lock(&map, vma);
+> > > > > >             if (error)
+> > > > > >                     return error;
+> > > > > >     }
+> > > > > > diff --git a/tools/testing/vma/include/dup.h b/tools/testing/vma/include/dup.h
+> > > > > > index 908beb263307..47d8db809f31 100644
+> > > > > > --- a/tools/testing/vma/include/dup.h
+> > > > > > +++ b/tools/testing/vma/include/dup.h
+> > > > > > @@ -606,12 +606,34 @@ struct vm_area_struct {
+> > > > > >  } __randomize_layout;
+> > > > > >
+> > > > > >  struct vm_operations_struct {
+> > > > > > -   void (*open)(struct vm_area_struct * area);
+> > > > > > +   /**
+> > > > > > +    * @open: Called when a VMA is remapped or split. Not called upon first
+> > > > > > +    * mapping a VMA.
+> > > > > > +    * Context: User context.  May sleep.  Caller holds mmap_lock.
+> > > > > > +    */
+> > >
+> > > This comment should have been introduced in the previous patch.
+> >
+> > It's the testing code, it's not really important. But if I respin I'll fix... :)
+>
+> Thanks!
+>
+> >
+> > >
+> > > > > > +   void (*open)(struct vm_area_struct *vma);
+> > > > > >     /**
+> > > > > >      * @close: Called when the VMA is being removed from the MM.
+> > > > > >      * Context: User context.  May sleep.  Caller holds mmap_lock.
+> > > > > >      */
+> > > > > > -   void (*close)(struct vm_area_struct * area);
+> > > > > > +   void (*close)(struct vm_area_struct *vma);
+> > > > > > +   /**
+> > > > > > +    * @mapped: Called when the VMA is first mapped in the MM. Not called if
+> > > > > > +    * the new VMA is merged with an adjacent VMA.
+> > > > > > +    *
+> > > > > > +    * The @vm_private_data field is an output field allowing the user to
+> > > > > > +    * modify vma->vm_private_data as necessary.
+> > > > > > +    *
+> > > > > > +    * ONLY valid if set from f_op->mmap_prepare. Will result in an error if
+> > > > > > +    * set from f_op->mmap.
+> > > > > > +    *
+> > > > > > +    * Returns %0 on success, or an error otherwise. On error, the VMA will
+> > > > > > +    * be unmapped.
+> > > > > > +    *
+> > > > > > +    * Context: User context.  May sleep.  Caller holds mmap_lock.
+> > > > > > +    */
+> > > > > > +   int (*mapped)(unsigned long start, unsigned long end, pgoff_t pgoff,
+> > > > > > +                 const struct file *file, void **vm_private_data);
+> > > > > >     /* Called any time before splitting to check if it's allowed */
+> > > > > >     int (*may_split)(struct vm_area_struct *area, unsigned long addr);
+> > > > > >     int (*mremap)(struct vm_area_struct *area);
+> > > > > > @@ -1345,3 +1367,11 @@ static inline void vma_set_file(struct vm_area_struct *vma, struct file *file)
+> > > > > >     swap(vma->vm_file, file);
+> > > > > >     fput(file);
+> > > > > >  }
+> > > > > > +
+> > > > > > +static inline void unmap_vma_locked(struct vm_area_struct *vma)
+> > > > > > +{
+> > > > > > +   const size_t len = vma_pages(vma) << PAGE_SHIFT;
+> > > > > > +
+> > > > > > +   mmap_assert_locked(vma->vm_mm);
+> > > > > > +   do_munmap(vma->vm_mm, vma->vm_start, len, NULL);
+> > > > > > +}
+> > > > > > --
+> > > > > > 2.53.0
+> > > > > >
+> > > > > >
+> > > >
+> > > > Cheers, Lorenzo
 
-
-Thanks,
-Mauro
+Cheers, Lorenzo
