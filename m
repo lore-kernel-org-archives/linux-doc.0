@@ -1,89 +1,257 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C69A332604;
-	Tue, 17 Mar 2026 17:04:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 829AC2FFDEA;
+	Tue, 17 Mar 2026 17:05:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773767075; cv=none; b=m8F8dPLNQNLbI7gyb8YyLzMccCL96T5J0FPWduFJmWkh0XeE9XgQUREKDVn2U7rP9OlLv21xANEHVJQVJsZOQesIiXZPBsszprwNx7AQ+jCraOuZ0+S02Tu7WmBeLweDI5TudKS5dMULYiGG4LX45+KT6TDX5YbTAgyw/LJLS1I=
+	t=1773767142; cv=none; b=KqGf9Mh/4py3QV2xDFm6Ua8FPhqLFWS5ipRV3HsR+u/VaLOQF4MLFphZWcs5EMDngEzgYHYK/O5m5v96qHMuY53Rie1pj5um8+qhdB+R1OMKDTTi2w/mMt542NS6W9hT7Vk6aC7KssZ9sSGygp8znAck8s75mURrWwCrZ9tkisQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773767075; c=relaxed/simple;
-	bh=c+0YSnv2KSaPKhBhuNn5Nsv7+iNbPMkHgdfEK2nXqzQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Ohzo47RDuAnUWUWlHah6bhdfTNekS11YuDqZGPk776oFCJrrfYOhck1J6ms9z2Iu+yHCq+voK2sxTjGWEU24vEK2CfzRwAfhKEK5uWXOwgJs+YfooE0A+JQkBa4cwCFEONUxAxj0VzDRweN8P9X02/pMh7oZfnizDxmwmeuxJzo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=nPuWPgrm; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1773767142; c=relaxed/simple;
+	bh=ZP3HMEHUzi4atDgmrvVHmp93FHNmI+cfz5qg5zy80B0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YXIc2ySeVCS4+IAgtqe+IxVemMDwfvxdLMKU3s7TKFGDJxMR1XSv4pbo/bKK8Z/yDvWgHhtI6o8TvtpP9BbJ2MdGkGhXnT6xdfNSs3dXxmh2NFE6LusYlJRPvR9G6lGYjQHFaAsGVf83KsTp7RXggzDj2sU880IwKdTFgfYBJgI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ebClFaVM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="nPuWPgrm"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D1FB140C7C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1773767074; bh=A1p0ysFsiwBSG1TTkK/fu/2Q+uxxTN0BSEwpkRmQZHQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=nPuWPgrmnB9yRhtaQR8reDbjZR3S1trW15MIQ/FmU27sqlWNpcpVJnf3K6s60hvJC
-	 AjupysjCMAIt4hWN1S0vug0niKo3NVyrSP3ZWsyemOnaMtzWeDfX+IU7QXTY5FSRyz
-	 mmSapcOpnq2yF46ft2So8Fu1e6gBfRIwVNnIntaEM8+hd5vS9JgpPF3BlkZ/v+mVtO
-	 dPfgmhTXIgFya8ahQ1mA0SlNgx7k+gmfGcq/bsbg1vtvcPfkBaPNgcusyKKAE2ADM+
-	 iOxsXZb0WruF+h1v50AzTcI1q2Bno5nEEXHtRd1Q+hMkHpbPAShWv27Sbs3VMrAKKu
-	 G1A/rmNAP/ARQ==
-Received: from localhost (c-71-229-227-126.hsd1.co.comcast.net [71.229.227.126])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id D1FB140C7C;
-	Tue, 17 Mar 2026 17:04:33 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>, Linux Doc Mailing List
- <linux-doc@vger.kernel.org>, linux-hardening@vger.kernel.org,
- linux-kernel@vger.kernel.org, Aleksandr Loktionov
- <aleksandr.loktionov@intel.com>
-Subject: Re: [PATCH v2 05/28] docs: kdoc_re: add a C tokenizer
-In-Reply-To: <20260317092153.11f2b10d@foz.lan>
-References: <cover.1773326442.git.mchehab+huawei@kernel.org>
- <8541ffa469647db1a7154f274fb2d55b4c127dcb.1773326442.git.mchehab+huawei@kernel.org>
- <177370220974.1754131.9642805524574261129.b4-review@b4>
- <c53a3638-7a72-472c-81e8-86a6c235b598@infradead.org>
- <87ldfrfimx.fsf@trenco.lwn.net> <20260317092153.11f2b10d@foz.lan>
-Date: Tue, 17 Mar 2026 11:04:32 -0600
-Message-ID: <87y0jq9ylb.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ebClFaVM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B67F4C4CEF7;
+	Tue, 17 Mar 2026 17:05:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773767142;
+	bh=ZP3HMEHUzi4atDgmrvVHmp93FHNmI+cfz5qg5zy80B0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ebClFaVMzooBcPtbo04v+c2iW8qVnDLMoSLssgsGRbP+lvvi3eEsUIoA1bpWdaKE6
+	 bt0BnW6KMl3/+ln5YSMxUeCWZNMdmke+PqUMWZYAW+EO9+c+Fvobw/LGuXkwx54Zh6
+	 8BhkF37g1OKFH8zBznJW4zTNYkrJSJdOTf5v2kLbSoytTcqBkWExoj1hGordONksk5
+	 4jS1pJsBSU/0JnEsoCSWj3ljxANhZnfTJ4ysCVx8VbqI3L600siJV+LU+fKEXJGaDi
+	 tQIN4AV23McEOpvB3Jz5qBW3hNtBJfGQMdZ5WIUiTS9/dP4tpksQxzlWJ1fjpmpX/P
+	 4qUi7dTufrF0g==
+Date: Tue, 17 Mar 2026 17:05:40 +0000
+From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+To: Nico Pache <npache@redhat.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, aarcange@redhat.com, 
+	akpm@linux-foundation.org, anshuman.khandual@arm.com, apopple@nvidia.com, baohua@kernel.org, 
+	baolin.wang@linux.alibaba.com, byungchul@sk.com, catalin.marinas@arm.com, cl@gentwo.org, 
+	corbet@lwn.net, dave.hansen@linux.intel.com, david@kernel.org, dev.jain@arm.com, 
+	gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, jack@suse.cz, 
+	jackmanb@google.com, jannh@google.com, jglisse@google.com, joshua.hahnjy@gmail.com, 
+	kas@kernel.org, lance.yang@linux.dev, Liam.Howlett@oracle.com, 
+	lorenzo.stoakes@oracle.com, mathieu.desnoyers@efficios.com, matthew.brost@intel.com, 
+	mhiramat@kernel.org, mhocko@suse.com, peterx@redhat.com, pfalcato@suse.de, 
+	rakie.kim@sk.com, raquini@redhat.com, rdunlap@infradead.org, 
+	richard.weiyang@gmail.com, rientjes@google.com, rostedt@goodmis.org, rppt@kernel.org, 
+	ryan.roberts@arm.com, shivankg@amd.com, sunnanyong@huawei.com, surenb@google.com, 
+	thomas.hellstrom@linux.intel.com, tiwai@suse.de, usamaarif642@gmail.com, vbabka@suse.cz, 
+	vishal.moola@gmail.com, wangkefeng.wang@huawei.com, will@kernel.org, willy@infradead.org, 
+	yang@os.amperecomputing.com, ying.huang@linux.alibaba.com, ziy@nvidia.com, zokeefe@google.com
+Subject: Re: [PATCH mm-unstable v15 07/13] mm/khugepaged: add per-order mTHP
+ collapse failure statistics
+Message-ID: <c832d503-8b8c-487a-b61a-df74a3057308@lucifer.local>
+References: <20260226031741.230674-1-npache@redhat.com>
+ <20260226032504.233594-1-npache@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260226032504.233594-1-npache@redhat.com>
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
-
->> > tools/lib/python/kdoc/kdoc_re.py | 234 +++++++++++++++++++++++++++++++
->> >  1 file changed, 234 insertions(+)
->> > 
->> > diff --git a/tools/lib/python/kdoc/kdoc_re.py b/tools/lib/python/kdoc/kdoc_re.py
->> > index 085b89a4547c..7bed4e9a8810 100644
->> > --- a/tools/lib/python/kdoc/kdoc_re.py
->> > +++ b/tools/lib/python/kdoc/kdoc_re.py
->> > @@ -141,6 +141,240 @@ class KernRe:
->> > 
->> > 	 return self.last_match.groups()
->> > 
->> > +class TokType():
->> > +
->> > +    @staticmethod
->> > +    def __str__(val):
->> > +        ""Return the name of an enum value""
->> > +        return TokType._name_by_val.get(val, f"UNKNOWN({val})")  
->> 
->> What is this class supposed to do?
+On Wed, Feb 25, 2026 at 08:25:04PM -0700, Nico Pache wrote:
+> Add three new mTHP statistics to track collapse failures for different
+> orders when encountering swap PTEs, excessive none PTEs, and shared PTEs:
 >
-> This __str__() method ensures that, when printing a CToken object,
-> the name will be displayed, instead of a number. This is really
-> useful when debugging.
+> - collapse_exceed_swap_pte: Increment when mTHP collapse fails due to swap
+> 	PTEs
+>
+> - collapse_exceed_none_pte: Counts when mTHP collapse fails due to
+>   	exceeding the none PTE threshold for the given order
+>
+> - collapse_exceed_shared_pte: Counts when mTHP collapse fails due to shared
+>   	PTEs
+>
+> These statistics complement the existing THP_SCAN_EXCEED_* events by
+> providing per-order granularity for mTHP collapse attempts. The stats are
+> exposed via sysfs under
+> `/sys/kernel/mm/transparent_hugepage/hugepages-*/stats/` for each
+> supported hugepage size.
+>
+> As we currently dont support collapsing mTHPs that contain a swap or
+> shared entry, those statistics keep track of how often we are
+> encountering failed mTHP collapses due to these restrictions.
+>
+> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+> Signed-off-by: Nico Pache <npache@redhat.com>
+> ---
+>  Documentation/admin-guide/mm/transhuge.rst | 24 ++++++++++++++++++++++
+>  include/linux/huge_mm.h                    |  3 +++
+>  mm/huge_memory.c                           |  7 +++++++
+>  mm/khugepaged.c                            | 16 ++++++++++++---
+>  4 files changed, 47 insertions(+), 3 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
+> index c51932e6275d..eebb1f6bbc6c 100644
+> --- a/Documentation/admin-guide/mm/transhuge.rst
+> +++ b/Documentation/admin-guide/mm/transhuge.rst
+> @@ -714,6 +714,30 @@ nr_anon_partially_mapped
+>         an anonymous THP as "partially mapped" and count it here, even though it
+>         is not actually partially mapped anymore.
+>
+> +collapse_exceed_none_pte
+> +       The number of collapse attempts that failed due to exceeding the
+> +       max_ptes_none threshold. For mTHP collapse, Currently only max_ptes_none
+> +       values of 0 and (HPAGE_PMD_NR - 1) are supported. Any other value will
+> +       emit a warning and no mTHP collapse will be attempted. khugepaged will
 
-I was talking about the TokType class, though, not CToken.  This class
-doesn't appear to be used anywhere.  Indeed, I notice now that when you
-relocate CToken in patch 7, TokType is silently removed.  So perhaps
-it's better not to introduce it in the first place :)
+It's weird to document this here but not elsewhere in the document? I mean I
+made this comment on the documentation patch also.
 
-jon
+Not sure if I missed you adding it to another bit of the docs? :)
+
+> +       try to collapse to the largest enabled (m)THP size; if it fails, it will
+> +       try the next lower enabled mTHP size. This counter records the number of
+> +       times a collapse attempt was skipped for exceeding the max_ptes_none
+> +       threshold, and khugepaged will move on to the next available mTHP size.
+> +
+> +collapse_exceed_swap_pte
+> +       The number of anonymous mTHP PTE ranges which were unable to collapse due
+> +       to containing at least one swap PTE. Currently khugepaged does not
+> +       support collapsing mTHP regions that contain a swap PTE. This counter can
+> +       be used to monitor the number of khugepaged mTHP collapses that failed
+> +       due to the presence of a swap PTE.
+> +
+> +collapse_exceed_shared_pte
+> +       The number of anonymous mTHP PTE ranges which were unable to collapse due
+> +       to containing at least one shared PTE. Currently khugepaged does not
+> +       support collapsing mTHP PTE ranges that contain a shared PTE. This
+> +       counter can be used to monitor the number of khugepaged mTHP collapses
+> +       that failed due to the presence of a shared PTE.
+
+All of these talk about 'ranges' that could be of any size. Are these useful
+metrics? Counting a bunch of failures and not knowing if they are 256 KB
+failures or 16 KB failures or whatever is maybe not so useful information?
+
+Also, from the code, aren't you treating PMD events the same as mTHP ones from
+the point of view of these counters? Maybe worth documenting that?
+
+> +
+>  As the system ages, allocating huge pages may be expensive as the
+>  system uses memory compaction to copy data around memory to free a
+>  huge page for use. There are some counters in ``/proc/vmstat`` to help
+> diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
+> index 9941fc6d7bd8..e8777bb2347d 100644
+> --- a/include/linux/huge_mm.h
+> +++ b/include/linux/huge_mm.h
+> @@ -144,6 +144,9 @@ enum mthp_stat_item {
+>  	MTHP_STAT_SPLIT_DEFERRED,
+>  	MTHP_STAT_NR_ANON,
+>  	MTHP_STAT_NR_ANON_PARTIALLY_MAPPED,
+> +	MTHP_STAT_COLLAPSE_EXCEED_SWAP,
+> +	MTHP_STAT_COLLAPSE_EXCEED_NONE,
+> +	MTHP_STAT_COLLAPSE_EXCEED_SHARED,
+>  	__MTHP_STAT_COUNT
+>  };
+>
+> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+> index 228f35e962b9..1049a207a257 100644
+> --- a/mm/huge_memory.c
+> +++ b/mm/huge_memory.c
+> @@ -642,6 +642,10 @@ DEFINE_MTHP_STAT_ATTR(split_failed, MTHP_STAT_SPLIT_FAILED);
+>  DEFINE_MTHP_STAT_ATTR(split_deferred, MTHP_STAT_SPLIT_DEFERRED);
+>  DEFINE_MTHP_STAT_ATTR(nr_anon, MTHP_STAT_NR_ANON);
+>  DEFINE_MTHP_STAT_ATTR(nr_anon_partially_mapped, MTHP_STAT_NR_ANON_PARTIALLY_MAPPED);
+> +DEFINE_MTHP_STAT_ATTR(collapse_exceed_swap_pte, MTHP_STAT_COLLAPSE_EXCEED_SWAP);
+> +DEFINE_MTHP_STAT_ATTR(collapse_exceed_none_pte, MTHP_STAT_COLLAPSE_EXCEED_NONE);
+> +DEFINE_MTHP_STAT_ATTR(collapse_exceed_shared_pte, MTHP_STAT_COLLAPSE_EXCEED_SHARED);
+
+Is there a reason there's such a difference between the names and the actual
+enum names?
+
+> +
+>
+>  static struct attribute *anon_stats_attrs[] = {
+>  	&anon_fault_alloc_attr.attr,
+> @@ -658,6 +662,9 @@ static struct attribute *anon_stats_attrs[] = {
+>  	&split_deferred_attr.attr,
+>  	&nr_anon_attr.attr,
+>  	&nr_anon_partially_mapped_attr.attr,
+> +	&collapse_exceed_swap_pte_attr.attr,
+> +	&collapse_exceed_none_pte_attr.attr,
+> +	&collapse_exceed_shared_pte_attr.attr,
+>  	NULL,
+>  };
+>
+> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> index c739f26dd61e..a6cf90e09e4a 100644
+> --- a/mm/khugepaged.c
+> +++ b/mm/khugepaged.c
+> @@ -595,7 +595,9 @@ static enum scan_result __collapse_huge_page_isolate(struct vm_area_struct *vma,
+>  				continue;
+>  			} else {
+>  				result = SCAN_EXCEED_NONE_PTE;
+> -				count_vm_event(THP_SCAN_EXCEED_NONE_PTE);
+> +				if (is_pmd_order(order))
+> +					count_vm_event(THP_SCAN_EXCEED_NONE_PTE);
+> +				count_mthp_stat(order, MTHP_STAT_COLLAPSE_EXCEED_NONE);
+
+It's a bit gross to have separate stats for both thp and mthp but maybe
+unavoidable from a legacy stand point.
+
+Why are we dropping the _PTE suffix?
+
+>  				goto out;
+>  			}
+>  		}
+> @@ -631,10 +633,17 @@ static enum scan_result __collapse_huge_page_isolate(struct vm_area_struct *vma,
+>  			 * shared may cause a future higher order collapse on a
+>  			 * rescan of the same range.
+>  			 */
+> -			if (!is_pmd_order(order) || (cc->is_khugepaged &&
+> -			    shared > khugepaged_max_ptes_shared)) {
+
+OK losing track here :) as the series sadly doesn't currently apply so can't
+browser file as is.
+
+In the code I'm looking at, there's also a ++shared here that I guess another
+patch removed?
+
+Is this in the folio_maybe_mapped_shared() branch?
+
+> +			if (!is_pmd_order(order)) {
+> +				result = SCAN_EXCEED_SHARED_PTE;
+> +				count_mthp_stat(order, MTHP_STAT_COLLAPSE_EXCEED_SHARED);
+> +				goto out;
+> +			}
+> +
+> +			if (cc->is_khugepaged &&
+> +			    shared > khugepaged_max_ptes_shared) {
+>  				result = SCAN_EXCEED_SHARED_PTE;
+>  				count_vm_event(THP_SCAN_EXCEED_SHARED_PTE);
+> +				count_mthp_stat(order, MTHP_STAT_COLLAPSE_EXCEED_SHARED);
+>  				goto out;
+
+Anyway I'm a bit lost on this logic until a respin but this looks like a LOT of
+code duplication. I see David alluded to a refactoring so maybe what he suggests
+will help (not had a chance to check what it is specifically :P)
+
+>  			}
+>  		}
+> @@ -1081,6 +1090,7 @@ static enum scan_result __collapse_huge_page_swapin(struct mm_struct *mm,
+>  		 * range.
+>  		 */
+>  		if (!is_pmd_order(order)) {
+> +			count_mthp_stat(order, MTHP_STAT_COLLAPSE_EXCEED_SWAP);
+
+Hmm I thought we were incrementing mthp stats for pmd sized also?
+
+>  			pte_unmap(pte);
+>  			mmap_read_unlock(mm);
+>  			result = SCAN_EXCEED_SWAP_PTE;
+> --
+> 2.53.0
+>
+
+Cheers, Lorenzo
