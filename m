@@ -1,161 +1,93 @@
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D16EA280A21
-	for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 17:16:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773767806; cv=pass; b=TD6OXIJ5TZX4TEOBF0PuiExV8fkvUol8VEbHRT48hofksLv4x0HDJ++ikc6haN7xsFszG09+kgL3iqbzKQ8+g3wNgU/nNCdsOVDpPxtsD0XIxsB87dPN2FgsMNTo7NX5qPkm8vO90FUBKKlK8dxSWKuo/C2/68vvYT5X8yk8r2Y=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773767806; c=relaxed/simple;
-	bh=0X1C52PqIrwx96rcpzTjPe1RKwZx0UYmrEP+1YEkuuc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mQlLTbsV5wXhUnO0lMHI4vsCL8EjNVWWRDzLX7p1Mg9dxhnNx14vqFC1nKR3z4cj9Wn0axh04O6OPMDPaj07YVO0FXbHj9g0ifewMrconpWX2Bth4R0FWGBSrl7GIlc9m/PF+MedJGkt76/nggT8cfo0/uYDzGfKW13ZZA08bGw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=btUf5r46; arc=pass smtp.client-ip=209.85.160.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C0122C11CD;
+	Tue, 17 Mar 2026 17:17:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773767829; cv=none; b=OQRiaorFmpUNsCdRFW8gcySBXJIup5SmeN8lcUBJs7qmmPRW/3kqOZzgCdsGlM3+SPvf8aOgflr90hifijoqFY0xl8aHmQult3sjA4pLDjJrFPVE/gDo27L7yQwIIrn3ZXNIn/r1wXA3jXcy2tRlwmyR+7SecWWoYjfiijlZ9V4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773767829; c=relaxed/simple;
+	bh=pTeY+fLcN95htFrNGBHt7vym3xXoDgwY6cA1oE5cXLo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ACTObsNWr55nXzM3c8US85kz6XMKTSh7d3Ui9LVkzBsivJbMtbDaK5sQBX/mn81iM70mX4rIS0vwPkpTIo50V0zWlzVjYgGVGHce3iI1Lz2QdmUdGIVP2nPWoYt5k/pfTNljHWYt0p6iwHq6AgPTWVuySPJLfYl7oM+WTNGW6sg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=fW3gcGAV; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="btUf5r46"
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-40429b1d8baso2393672fac.0
-        for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 10:16:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773767804; cv=none;
-        d=google.com; s=arc-20240605;
-        b=SOG42vwE3WhV1LwD5P2WHzuFRlUVzqfKcIKDlOo2/1zmrqT/HxW95tRU9p5+ZIaSub
-         XTyuS6buXEOBW8ExihZKpeAYksopBuIJ5jfs2sNJVuPrUdGCTFp3mE4nVdoezoin7+4e
-         5IYd6N23Al2h0rv6XpE7JlogxzQBPLV4LliWIBeLy2bSfVrVle8FyOREuvJ0tqGO2Hj3
-         dhMRJGuO2M2M11HLSmSCc47ZfLy9IcLVbjbsr7o5DU45t6vQ1V7XuGG8L/gai/lTM/G7
-         PpfY2gvRbxGoAlZAJBJf751em7WzfvpP8NdPXHt0CBIfHEz6M/k3cIVhfAaAqr8OK3w4
-         NNdQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=IQA0G5mhKczJyjawYFlORE9tYVJfYphQQzWbxz3uW6o=;
-        fh=N3q8Ucd3G1Ekv/NFOrZ6iSqydVi7gQ+NyXpF7XJPLMU=;
-        b=KxBD+iKmTjn1HqCTkOLtaD61axEqpMbrr4ewPRzsHHE2iQG8Cxr31cvA5YCCMl8ure
-         ZOfGUp6WHClZe3Ayb908OlxBimKewJVwMiFcN6catHHa1BPMt8rsrTMKy8/W1p7kaSUV
-         oPmbFq4lwJIwvwd0PlXuCwwXQAyJq1KMN54NqXyhUgBn0g5bQIPxdGgM2dVodyKl1L7w
-         ihc7qmxeinE1Nu5qS/OEZTalFIvJFXoVE12Cieqaq1DfQ4pNVkKkR3mdNNzMVo2dkQcs
-         kRK5phQuzA6HTcTfUqbfxooO7NJ0lN3n4MFXfxcQOn3XelnbZtTpTkBHBiACcGLLmbhn
-         a/Eg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773767804; x=1774372604; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IQA0G5mhKczJyjawYFlORE9tYVJfYphQQzWbxz3uW6o=;
-        b=btUf5r46iNoTMcTXdyUVGlsEe++L3UKR4guXI4x8cFZMFS3swQIUz+HbuYqEf7Bwm+
-         SAB1/Fk+4tKqqo/dUH1/MBFt0TLZbxDPiRBoXSd6RJngAOuvvB41YbTukpTER/ZS92Tk
-         cn8rAlzM6VZmfOYjeU2jMFAOCIAbxWc2pTQPySnZqF4wMpPoZ4rJ4lX1fL4K9De1gPzx
-         RA+yfEIh82hqRaP5XOVWTsMofVi97KR4AGkggMEl1EGoTDxPdnCZAPQuSGxgFVvx1Fsc
-         gNheBaebcaT4z/7c9HbhRzulTpPOEtdJ4KPhF6OGMDyQ2xKzEEewT8ap5jXS3OZz/Avb
-         xF6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773767804; x=1774372604;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=IQA0G5mhKczJyjawYFlORE9tYVJfYphQQzWbxz3uW6o=;
-        b=m/26J8pT/UvoPVevwQKa1YhMMt2eLKKUngd/ZO4SYejK5yKVQ78Gfl1679EdwJL1SR
-         tXgA+cdcmjkTfKWxHyObd0fmk/+dNmSIMkHiTRqOuAHacxBEHMljHOLn86MJgL6g8xlz
-         y6u5v8RZ20mFmJppEk4vO/LCuUiXvXFMVs8iDm/3kEDf3mU80qQN8R0KBp6oEh1hd7KG
-         tJ5cB40Hzi/kSTmjLXMKtQLvS86GtYPEBiuOhwpx04b0HTstYHqJF59ovnmuBv8I/B8o
-         hc/96xesmimeszayuUSTDqSkpa+PLo2coQCrcpI/Ymz+9rDPyXSo9qzoQnp7XZlcj94j
-         bZOg==
-X-Forwarded-Encrypted: i=1; AJvYcCUUFeWIvw+bfMuTu7sxl2feXkiQQkfWArFUelxh2d7s10qbCDLAhFL05V0QG5b9OE7xTSMClXs66M4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwobqoEHRo+TXyERNOfv8lehvMNwhfaXIARDBafAd95qvnuH062
-	6go+WB25Ued/KT9RinDcM6Y84RrS3K7y9qNBqrV0+fXDlHe3fniYfrnGkQGRrq+B7oF3IsRH5Rv
-	1zF9N/w9j6YYAxAvTgbU4DPj1oZgsA7g=
-X-Gm-Gg: ATEYQzxZeEnBs7rv/c9H1NGZEBPDFPvQBpxCrIGk9jKrYzHLIvjI/y2VQVui57vjB6e
-	+mkAyxi+9e6Oiq5ssZHNKj7+uQdmAFM6yR0l1AZmH7QCfEcaFU9jeEZrZQk9MwYn2iaNxAY6jpg
-	rlzLsBpfcn3xLSPH5Q5VE42/+uBf35JT8CE4s7Ek6XZrrxdRDLCw4qs1l5ERExxnPf+skBdD8/i
-	zuNxT8xghAlf9F2fn6MmOTq6RE5rqK5AqNttCOTn/vuja3zN6Cb4T5v4m/7xloP8MnDtg5Sa+rC
-	Zd+DCzhscZ5NV8vh/io2ykxX64Rqfuzt0DPF+1Q=
-X-Received: by 2002:a05:6820:1694:b0:67b:b735:9cb8 with SMTP id
- 006d021491bc7-67c0da95086mr58777eaf.14.1773767803735; Tue, 17 Mar 2026
- 10:16:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="fW3gcGAV"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=v7UGPDzTUVntWZ7B9duUilqk99yTEBA4ZZT8dgC32yk=; b=fW3gcGAVDEtTMh6YEqK00To3LE
+	E4vX2+ido/HbsOQoVJFpyOQG8MkuNFk/E6SWu3xt9EJNv1VepyJPxAoDpYU+4gwA1lqENuoyxQQUU
+	BxZlVyhx5jFqLEXJ4Blo1OEIeYj2mqnPp+tV4oOx8nM/SJ2OjN4XpA50/D1CYXVMAiqxcwljSrxtj
+	aII+ZZGMUiAwqiO5CvsUoVN7Sfu+W2aZAZ1fGEGZt1XszUbplnT20qOWZO8cCD6zxGWS4ip6rIbs/
+	TWmv/FFAmxU0V1/pmR8qpoj7Yta4qbnAGkCr3hDqeg8YIH9UdboGs6mLJ1e+DN2Biah/oGmGRLT8U
+	XYWItKbg==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1w2Y2R-00000006urx-0KUn;
+	Tue, 17 Mar 2026 17:17:03 +0000
+Message-ID: <68072e04-49e6-4418-a465-6a70dbb01f13@infradead.org>
+Date: Tue, 17 Mar 2026 10:16:59 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260316212435.19303-1-arantescastro@gmail.com>
- <20260317140136.29256-1-arantescastro@gmail.com> <CAMAsx6c_oq5-cuf-N-+RTo-Hym-K+PF-=BOBZySWMN4E7O1s4A@mail.gmail.com>
- <875x6ubdci.fsf@trenco.lwn.net>
-In-Reply-To: <875x6ubdci.fsf@trenco.lwn.net>
-From: Daniel Pereira <danielmaraboo@gmail.com>
-Date: Tue, 17 Mar 2026 14:16:32 -0300
-X-Gm-Features: AaiRm50T8i9DJhfyOp-sreqN7PT8beJQEcDgsDLQhhGZfdiTpL2s0FBeRfng5e0
-Message-ID: <CAMAsx6eaXHDquZqCjp7P0e7hwK7UHi0mr=QTusCxPixzBPGFdQ@mail.gmail.com>
-Subject: Re: [PATCH v2] docs: pt_BR: translate process/1.Intro.rst
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Daniel Castro <arantescastro@gmail.com>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH mm-unstable v15 05/13] mm/khugepaged: generalize
+ collapse_huge_page for mTHP collapse
+To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
+ Nico Pache <npache@redhat.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, aarcange@redhat.com,
+ akpm@linux-foundation.org, anshuman.khandual@arm.com, apopple@nvidia.com,
+ baohua@kernel.org, baolin.wang@linux.alibaba.com, byungchul@sk.com,
+ catalin.marinas@arm.com, cl@gentwo.org, corbet@lwn.net,
+ dave.hansen@linux.intel.com, david@kernel.org, dev.jain@arm.com,
+ gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, jack@suse.cz,
+ jackmanb@google.com, jannh@google.com, jglisse@google.com,
+ joshua.hahnjy@gmail.com, kas@kernel.org, lance.yang@linux.dev,
+ Liam.Howlett@oracle.com, lorenzo.stoakes@oracle.com,
+ mathieu.desnoyers@efficios.com, matthew.brost@intel.com,
+ mhiramat@kernel.org, mhocko@suse.com, peterx@redhat.com, pfalcato@suse.de,
+ rakie.kim@sk.com, raquini@redhat.com, richard.weiyang@gmail.com,
+ rientjes@google.com, rostedt@goodmis.org, rppt@kernel.org,
+ ryan.roberts@arm.com, shivankg@amd.com, sunnanyong@huawei.com,
+ surenb@google.com, thomas.hellstrom@linux.intel.com, tiwai@suse.de,
+ usamaarif642@gmail.com, vbabka@suse.cz, vishal.moola@gmail.com,
+ wangkefeng.wang@huawei.com, will@kernel.org, willy@infradead.org,
+ yang@os.amperecomputing.com, ying.huang@linux.alibaba.com, ziy@nvidia.com,
+ zokeefe@google.com
+References: <20260226031741.230674-1-npache@redhat.com>
+ <20260226032427.233282-1-npache@redhat.com>
+ <9f0b8790-eace-4caa-a0c0-45f66285887f@lucifer.local>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <9f0b8790-eace-4caa-a0c0-45f66285887f@lucifer.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hello Jon,
 
-Initially, no, there are no further blocking issues for application.
 
-The purpose of my comments was solely related to the initial
-organization of the collaboration and ensuring adherence to community
-submission practices.
+On 3/17/26 9:51 AM, Lorenzo Stoakes (Oracle) wrote:
+> On Wed, Feb 25, 2026 at 08:24:27PM -0700, Nico Pache wrote:
+>> Pass an order and offset to collapse_huge_page to support collapsing anon
+>> memory to arbitrary orders within a PMD. order indicates what mTHP size we
+>> are attempting to collapse to, and offset indicates were in the PMD to
+>> start the collapse attempt.
+>>
+>> For non-PMD collapse we must leave the anon VMA write locked until after
+>> we collapse the mTHP-- in the PMD case all the pages are isolated, but in
+> The '--' seems weird here 🙂 maybe meant to be ' - '?
 
-As for the content itself, the Portuguese documentation is
-grammatically perfect.
+"--" is common typewriter(!) style for "dash".
+Single "-" is a hyphen.
 
-Thank you,
+-- 
+~Randy
 
-Daniel
-
-On Tue, Mar 17, 2026 at 2:00=E2=80=AFPM Jonathan Corbet <corbet@lwn.net> wr=
-ote:
->
-> Daniel Pereira <danielmaraboo@gmail.com> writes:
->
-> > On Tue, Mar 17, 2026 at 11:02=E2=80=AFAM Daniel Castro <arantescastro@g=
-mail.com> wrote:
-> >>
-> > Thank you for sending the new version. Please review the following
-> > crucial points before submitting v3:
-> >
-> > New Email for Each Version: Always send patches in a new email,
-> > including the version number in the subject (e.g., [PATCH v3] docs:
-> > pt_BR: translate process/1.Intro.rst). This is vital for community
-> > tracking.
->
-> Daniel did mark v2 correctly.  A new version definitely should be sent
-> as the start of a new thread, though, rather than as a reply to the
-> previous.
->
-> > Subheading Formatting: The misalignment in the subheading separators
-> > persists (e.g., +Cr=C3=A9ditos/+--------). Please correct this.
->
-> Looking at the patch:
->
-> > +
-> > +Cr=C3=A9ditos
-> > +--------
-> > +
-> >
->
-> ...I don't see the problem you are describing here?
->
-> And again, please put comments like that inline, as I am doing here;
-> that makes it far easier for everybody to follow what's going on.
->
-> > Use checkpatch.pl: Always run the checkpatch.pl tool before
-> > submitting. This is mandatory and will catch these style errors,
-> > helping to prevent rejections.
->
-> Good advice, but checkpatch doesn't emit any actionable suggestions for
-> this patch...?
->
-> All told, I don't see a reason not to apply this version, is there
-> something I'm missing?
->
-> Thanks,
->
-> jon
