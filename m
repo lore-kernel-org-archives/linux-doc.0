@@ -1,150 +1,201 @@
-Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2B383ED117
-	for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2026 18:57:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.172
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773860249; cv=pass; b=PBkUFG5Ma7EjZk8xJD2pN7c9tSwXMfhmQIJ4RiadGQzSeG98xcEvMhuKQnA6aTriuUmxIaSJpCm/6gAEj3PqufAwbQqOREu7CNcEXNDp+cGfOmV1y4KQruOuJCE16DJU2/vQtjWlu2GA74Za2OVhzczUyMrKiHSqHvBXnqnrg+s=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773860249; c=relaxed/simple;
-	bh=d3bcHjPGT0Fov9B4KoCksRHw66Y8wxvQ5LjIruDyWqI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=R13n2OUASuMFaVHMKPCtmM38JZkVwZ50Ex65l1cZsjlZv1pkPdh0UoEaaUfvM/bI7odyBBXtJZddGEZTxvAgTi+NT3aIzRSvzqyDQGFt48lClrciP87kSsqZIurMXJkakIB3XVyJXumg5cmGnwc+qu5XxFqDiaobfaCEVkQBVgo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bYiFswS+; arc=pass smtp.client-ip=74.125.82.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 396433ED5B2
+	for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2026 18:59:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773860385; cv=none; b=Bzrv6XDyIQMtYRY/uFbdbKotSZ68UdBm65bTRNw95BjgdZ5eBXt1kqk+RaIQIdWmWHnAhC5iSuZ1yT9Clbq9xIW8zGcdjW0v7jjwV3z56msE2irFgWVooGH2xmXcorqvWnXU0tOsFb7a+o7mRLFZGAir44mNGBR66BtiVBl4XgU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773860385; c=relaxed/simple;
+	bh=CurqXuQ/vp6aNN3iHT1OjoAxg6zX+Hf2ZpBNspx7VYw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MMQMdtXpnSH6B6dzP+swrBi22ZmBUwemC3M8La9OM5Kv6iXFyoAFbmbvYJ42twOgoT2Ko85C+Wqah0rd88pCqZ7mEvD3IlB4re09iMVzkSKAJmfaa7HRmxTGKVpVNhuoSNbAj9D7gODYO+c+AT9CpHkRGPBbV15CbsDn1/CWzSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=B8XasKqU; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=odIbdjH0; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bYiFswS+"
-Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-2c0c482dfc8so4377eec.1
-        for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2026 11:57:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773860247; cv=none;
-        d=google.com; s=arc-20240605;
-        b=NIcEwNRtasYTXNx0WBHmKC3BeZvohSlex1/ZnQz53sN2adZSZXexKWDplp2koOFqFJ
-         sfQBMfN5GdurEHfmezSfInbZ8leDPrhFnj5NaLRgz9vXHS83CyZrhXynvDWJ1n2sbR14
-         OTGPygzfaprHjMaDnc/bYKN3QUtWhFOGelwlmNoNe9xCYey0ILzT9G0RxeyZ81eUZN/E
-         4xoS9k8QHX7UGeMefpHoqk8UO/5H0RbnQrzL4vpG2SCdepXjHmGrkx/FHaQOEw6Ws54L
-         TK0OyL2D71i3tFqfdxqaDVzr09sfd4RyFCsqWIA1GLH/3xrCDBMcoCnR8vbR4IpHndFZ
-         6P8g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=d3bcHjPGT0Fov9B4KoCksRHw66Y8wxvQ5LjIruDyWqI=;
-        fh=hbs1GetsNNSPkT3ZpbKyHYyzTFaPFlizmx3Mn0hw0nY=;
-        b=ZoRYFbW19s3qjwid6J15g4NaxFYzZMhuQVZ/PFpo9fV7OKJTyHOwi642vFeGN2ivQG
-         I9pI0guvooG8e3vRiVh/loSFjUm5bfYrgLEnKNzjPUfNnAtFUrdpjaVWSYqW35QIrHy0
-         ZsvZ8MYxOtJasFvit79ukaN3TmMJaKK2cVKrSsSrTNoaoBlui3ZW05YN/CpFi74S6BCc
-         epDqAsgrXlirCKKXISEy14Pl1CLTFPcxZlDWk2cAq2SNZXmBudBkYP7r+qm6QHms9vXr
-         IJu4YrQLaHWH3dXEXsTIOfVG2vdHc+VTpfES7o+HOlLDeR6eB2EYqjf8EATOuvwtod8i
-         esVA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="B8XasKqU";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="odIbdjH0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1773860382;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=8fuwby0KHsweEWRKxCnMlD+TvTgOd6VacPqQH1y0xBQ=;
+	b=B8XasKqUYkPxlinzpE9EKUwbeWnJCc1JYWzRkfyvm3AfpLuqrovCaA89HmrZxPPC2KDXVw
+	AoS1zcjpGCmoL0RhJwYr5jSQw/3Ydg1q1wUAIXwhEIJAmgl/Kb4B9cDBFHkwTbfDyf6sFH
+	cOCtTKBt3sfnWZBiTEtr90Ec7lUNmCY=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-191-doQ6iv8APY6zMO8lJscpZA-1; Wed, 18 Mar 2026 14:59:40 -0400
+X-MC-Unique: doQ6iv8APY6zMO8lJscpZA-1
+X-Mimecast-MFC-AGG-ID: doQ6iv8APY6zMO8lJscpZA_1773860380
+Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-89c4b4ca093so15992926d6.2
+        for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2026 11:59:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773860247; x=1774465047; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=d3bcHjPGT0Fov9B4KoCksRHw66Y8wxvQ5LjIruDyWqI=;
-        b=bYiFswS+IF473HnaBsgMKvJRSNlZN/lfwu86MtxxErFc7DcLsZHIxIQ8VwiGoz2igY
-         LMN9LeIGAw02c01Ds9nr9kZrbrmMr7sm7FwmZctAlzxG19G1L2XNm76WU4GIro/1DiUc
-         DCZlr+tolR9/hW3MpT3u9TluRJMPMgLgKtlXcsMNi73+V5gKzLC4ZkDjkvz6BQehoGxc
-         T1K8Ja9T7lg8kQCI3VbTQb8TXxPEX0xZH/6zkapxMaNAFtrwNHsFP4OMNrDpqavYa8JA
-         tAJsWnbmAEril4JoMORwlcPrj7GkzZmqGiUka9ymMiJr8EV+npcabUuUCUMYKN4donni
-         JACA==
+        d=redhat.com; s=google; t=1773860380; x=1774465180; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8fuwby0KHsweEWRKxCnMlD+TvTgOd6VacPqQH1y0xBQ=;
+        b=odIbdjH0unXcMIymNnBuxNLXVFYvkJe0h02zoup+U6vu6XNr1M64DcsNwwe5Ysz6Li
+         yMi4e0DmdGiZL18shXyW9aHijSifpEf/RvbtgVrLdsGZqznLyCwvFkPjyLEYkXU/3gma
+         68gyr5ILv9Q2kVSDHapipENPdExK6yUCllQRRuOyqYp5+hQR4oKKAx7zEvvxDIr91qQz
+         2k0UhIkLzfMEqHSY/T6yyD26QpvLO/imRTynJAL+Z57Gqc8ZZSODtonlYFPIgqhPtJpP
+         yF/EjeqWwCg+lcHhCszzb+nFSGkDADQbBPkse3SCPTrAQ1fO3dhDxxThJz3s3M7jrDMk
+         k5lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773860247; x=1774465047;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=d3bcHjPGT0Fov9B4KoCksRHw66Y8wxvQ5LjIruDyWqI=;
-        b=gAMZ7gEs2txjsP9UApxmrnFWpEkE8G/L0CNzfOuQcx8TKa4o9jqnwwJ8zTKBHu06fC
-         aVVS5LUS27GKteBFCCBA0IdZfeyy+4GmToheGypKuqd2+oG+m3ENzo4l8uQDoWccQlve
-         iB8SbbU2Clj0eEAVC7eY0R8UNPGdL5++yJnQZRl8fyWdhZTfpKbH6MWwjJzdzGrdELHB
-         YYu7+WYTy8B/+O5CW2RXwKa1V3km4Owj0SFvJW8SZOmvVqAZtftm4Fcm1GhuR1JYdrh+
-         KBd72Xv9M1NxVt22Hc59ox3kwAABjdMtRrU1zs7+MZc4ZjLtvW2zUhy9ockBA7HYwDqR
-         AN9A==
-X-Forwarded-Encrypted: i=1; AJvYcCXDX1EV73jaOUP5vJ9WauccjkESEQr+RuzAKz8EfVFz0rX3uYXSElEmAKVcuHpHgla4BLDVogqHaxk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxfJjDywNOFLzQ9LBZ4u5cBM44p+P+/tuW66GLlg5NeMZpxY+qp
-	9pwrXCbS6xpYHozyqtZhRB8/Sv0x8wcza0Yv8TggokCdHo2FzgSR9/LkY/+/mQGnKLRCUehQ+Pf
-	oNd3dmAj8qljuYVRlrsD9n4QAqK4GO9Q=
-X-Gm-Gg: ATEYQzyiJWAwK0ByBwpYGbPSoBvfJYjILu03z3RyPDtfmZ8tHG52uxyTPbCZwvpm2Xs
-	qQvDfvfE74FJEWG/g8iaFOqlUq0efU2m05PCysnMEfkGFtIFNMmE67GGV17/KKHUwM3W4d2u2F+
-	Y1m+5nHTlij2w+2fZh6UPSOJs1K9Ce34078dgBNJF10gZKt/acy3sWlNuLrhEHymwWgA2qUBM+j
-	P/Iet/qV/33urBY4U1UZZz1VFV/3H/TD44wfBSFTChGdQq56DcITtrs2CGDRiXWsQfpFmKag9VT
-	R7Fh2C0Qzai23mAglHEt/Ss6L+lHsXU6dVIT6FscaAhaJNvpzanT0vQsj+zG/vjuVR3yI2cHH4Y
-	n6iHmIS1anIEBD0qDcSz1EM0=
-X-Received: by 2002:a05:7300:f191:b0:2be:9886:d4ff with SMTP id
- 5a478bee46e88-2c0e50fefe8mr982481eec.2.1773860246896; Wed, 18 Mar 2026
- 11:57:26 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1773860380; x=1774465180;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8fuwby0KHsweEWRKxCnMlD+TvTgOd6VacPqQH1y0xBQ=;
+        b=XjL4jvnrkfzcYWEK7s5hWIytLL2JZyf0KT/pO/N2klWf+K9r1a1bdJkZvKOnyUPSvD
+         3snT12jwtu4sfOtD2IU4T8RNkO65pZhi7pgsnPuCpA+Yh8flVVAeZQlHz899g52xiRs9
+         1h2v/roSTzj27nuz2IpJDkvEJyZQa80LNdRNg0s41A48hAE8tD5/VjSoCC6jBkEods9g
+         tw8Ep4ajzZIoejg5eXpreiU6MPY4eJJNH6gSJBuyGbtbXG6CmGbgicPwSsFmKDAYY9IH
+         Leb1j3LxEUtm+3KhtFGLjLyBMVjV2kIfx4NEfC1mK2EZdMGvlkJbAjlpUfXekJE/Hk8O
+         hsJg==
+X-Gm-Message-State: AOJu0YxZ52b9KlaFLMaO4AcEEP9WW8m08jWoKD09XFph3/153k6kNx7U
+	ieow+0T6Z0zFdSwqqQ4P6l+cPIehDMDgC+y0ceX8QVSEMpZoa9l9pxL4sSln0kmpH+yPY+UiPQy
+	LosNu6zz3JbSptUbWR+z93uGL/XAv3fRFfuHFuBtlh/OiIdqJ21uXzvc/WcH8dDtqL5hL8QrX
+X-Gm-Gg: ATEYQzy/cOzMJARxA0Sn6+kwyA3uDzDeH/KddgFMemfmxSKts+lNVrPSajxhNEgVx20
+	3WNt3veC3NAqndBGUrr9KEx4qmMXJm1cwNLvjD9cBZh1EoZeRv71Mf2EdBQkE8lJ6dSAn+W6JUW
+	IQL4WE+cokH3K8nweKiWfYAthQhAmcGUKhFJ+lDMUcR9V5DFOHsMbVycL9d8idHucn74N7pcuBI
+	rhmIfMFrFM4tmk3+YMKjAmTJQj/TZcEACkztJ8smA/AjGHaf+JWB1cRMAFqVjAxqZ02amZHm9MM
+	SuLDLCSIRmkTpgcGOPFsSfG1ZHy2DxJmbqIt3BjdzGy+N1PRbv4bmaUZmFgJXhr06B+BlH+j6iv
+	YgGWOLeAur3GsJCjll2lEciE+1aTfTkWsUnuay2iG30jsfdvWJRhiYg6tRljj
+X-Received: by 2002:a0c:f089:0:b0:89c:59d0:b056 with SMTP id 6a1803df08f44-89c6b5ca535mr54557596d6.30.1773860379962;
+        Wed, 18 Mar 2026 11:59:39 -0700 (PDT)
+X-Received: by 2002:a0c:f089:0:b0:89c:59d0:b056 with SMTP id 6a1803df08f44-89c6b5ca535mr54557206d6.30.1773860379310;
+        Wed, 18 Mar 2026 11:59:39 -0700 (PDT)
+Received: from [192.168.10.111] (c-76-154-99-94.hsd1.co.comcast.net. [76.154.99.94])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89c6b9cea7bsm31502716d6.27.2026.03.18.11.59.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Mar 2026 11:59:38 -0700 (PDT)
+Message-ID: <a9ddfa7b-5ee4-4c68-bac0-8a0c6c355bf7@redhat.com>
+Date: Wed, 18 Mar 2026 12:59:34 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260317201710.934932-1-joelagnelf@nvidia.com>
- <20260317201710.934932-2-joelagnelf@nvidia.com> <abqdUBqchnVFo7Qk@google.com> <71b6a115-98f1-4b09-9c04-a99349f51e49@nvidia.com>
-In-Reply-To: <71b6a115-98f1-4b09-9c04-a99349f51e49@nvidia.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Wed, 18 Mar 2026 19:57:14 +0100
-X-Gm-Features: AaiRm52hIUr0vzgoavDmbzyJmg3hgU_AUfgRxMfUiR8zNc5S5daML4wMbNTdaCA
-Message-ID: <CANiq72nZKx7pw_rZK2mHHvR=TaeGvMRvg5GTHOd58X17oyxieg@mail.gmail.com>
-Subject: Re: [PATCH v13 1/1] rust: interop: Add list module for C linked list interface
-To: Joel Fernandes <joelagnelf@nvidia.com>, =?UTF-8?Q?Alejandra_Gonz=C3=A1lez?= <blyxyas@gmail.com>
-Cc: Alice Ryhl <aliceryhl@google.com>, linux-kernel@vger.kernel.org, 
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Trevor Gross <tmgross@umich.edu>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Danilo Krummrich <dakr@kernel.org>, Dave Airlie <airlied@redhat.com>, David Airlie <airlied@gmail.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, Koen Koning <koen.koning@linux.intel.com>, 
-	Nikola Djukic <ndjukic@nvidia.com>, Alexandre Courbot <acourbot@nvidia.com>, 
-	Philipp Stanner <phasta@kernel.org>, Elle Rhumsaa <elle@weathered-steel.dev>, 
-	Jonathan Corbet <corbet@lwn.net>, Alex Deucher <alexander.deucher@amd.com>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Jani Nikula <jani.nikula@linux.intel.com>, 
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Tvrtko Ursulin <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>, 
-	Matthew Auld <matthew.auld@intel.com>, Matthew Brost <matthew.brost@intel.com>, 
-	Lucas De Marchi <lucas.demarchi@intel.com>, 
-	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
-	Helge Deller <deller@gmx.de>, John Hubbard <jhubbard@nvidia.com>, 
-	Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>, Edwin Peer <epeer@nvidia.com>, 
-	Andrea Righi <arighi@nvidia.com>, Andy Ritger <aritger@nvidia.com>, Zhi Wang <zhiw@nvidia.com>, 
-	Balbir Singh <balbirs@nvidia.com>, alexeyi@nvidia.com, 
-	Eliot Courtney <ecourtney@nvidia.com>, dri-devel@lists.freedesktop.org, 
-	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
-	amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
-	intel-xe@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH mm-unstable v15 11/13] mm/khugepaged: avoid unnecessary
+ mTHP collapse attempts
+To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, david@kernel.org
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, aarcange@redhat.com,
+ akpm@linux-foundation.org, anshuman.khandual@arm.com, apopple@nvidia.com,
+ baohua@kernel.org, baolin.wang@linux.alibaba.com, byungchul@sk.com,
+ catalin.marinas@arm.com, cl@gentwo.org, corbet@lwn.net,
+ dave.hansen@linux.intel.com, dev.jain@arm.com, gourry@gourry.net,
+ hannes@cmpxchg.org, hughd@google.com, jack@suse.cz, jackmanb@google.com,
+ jannh@google.com, jglisse@google.com, joshua.hahnjy@gmail.com,
+ kas@kernel.org, lance.yang@linux.dev, Liam.Howlett@oracle.com,
+ lorenzo.stoakes@oracle.com, mathieu.desnoyers@efficios.com,
+ matthew.brost@intel.com, mhiramat@kernel.org, mhocko@suse.com,
+ peterx@redhat.com, pfalcato@suse.de, rakie.kim@sk.com, raquini@redhat.com,
+ rdunlap@infradead.org, richard.weiyang@gmail.com, rientjes@google.com,
+ rostedt@goodmis.org, rppt@kernel.org, ryan.roberts@arm.com,
+ shivankg@amd.com, sunnanyong@huawei.com, surenb@google.com,
+ thomas.hellstrom@linux.intel.com, tiwai@suse.de, usamaarif642@gmail.com,
+ vbabka@suse.cz, vishal.moola@gmail.com, wangkefeng.wang@huawei.com,
+ will@kernel.org, willy@infradead.org, yang@os.amperecomputing.com,
+ ying.huang@linux.alibaba.com, ziy@nvidia.com, zokeefe@google.com
+References: <20260226031741.230674-1-npache@redhat.com>
+ <20260226032631.234234-1-npache@redhat.com>
+ <d8028d32-4791-4993-aae3-66506bf6d1bd@lucifer.local>
+From: Nico Pache <npache@redhat.com>
+Content-Language: en-US, en-ZM
+In-Reply-To: <d8028d32-4791-4993-aae3-66506bf6d1bd@lucifer.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Mar 18, 2026 at 7:31=E2=80=AFPM Joel Fernandes <joelagnelf@nvidia.c=
-om> wrote:
->
-> Anyway, the fix is simple, just need to do // SAFETY*: as Miguel suggests
-> here, instead of // SAFETY:
-> https://lore.kernel.org/all/CANiq72kEnDyUpnWMZmheJytjioeiJUK_C-yQJk77dPid=
-89LExw@mail.gmail.com/
 
-So, to clarify, I suggested it as a temporary thing we could do if we
-want to use that "fake `unsafe` block in macro matcher" pattern more
-and more.
 
-i.e. if we plan to use the pattern more, then I am happy to ask
-upstream if it would make sense for Clippy to recognize it (or perhaps
-it is just a false negative instead of a false positive, given
-`impl_device_context_deref`), so that we don't need a hacked safety
-tag (Cc'ing Alejandra).
+On 3/17/26 4:35 AM, Lorenzo Stoakes (Oracle) wrote:
+> On Wed, Feb 25, 2026 at 08:26:31PM -0700, Nico Pache wrote:
+>> There are cases where, if an attempted collapse fails, all subsequent
+>> orders are guaranteed to also fail. Avoid these collapse attempts by
+>> bailing out early.
+>>
+>> Signed-off-by: Nico Pache <npache@redhat.com>
+> 
+> With David's concern addressed:
+> 
+> Reviewed-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
+> 
+>> ---
+>>  mm/khugepaged.c | 35 ++++++++++++++++++++++++++++++++++-
+>>  1 file changed, 34 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+>> index 1c3711ed4513..388d3f2537e2 100644
+>> --- a/mm/khugepaged.c
+>> +++ b/mm/khugepaged.c
+>> @@ -1492,9 +1492,42 @@ static int mthp_collapse(struct mm_struct *mm, unsigned long address,
+>>  			ret = collapse_huge_page(mm, collapse_address, referenced,
+>>  						 unmapped, cc, mmap_locked,
+>>  						 order);
+>> -			if (ret == SCAN_SUCCEED) {
+>> +
+>> +			switch (ret) {
+>> +			/* Cases were we continue to next collapse candidate */
+>> +			case SCAN_SUCCEED:
+>>  				collapsed += nr_pte_entries;
+>> +				fallthrough;
+>> +			case SCAN_PTE_MAPPED_HUGEPAGE:
+>>  				continue;
+>> +			/* Cases were lower orders might still succeed */
+>> +			case SCAN_LACK_REFERENCED_PAGE:
+>> +			case SCAN_EXCEED_NONE_PTE:
+>> +			case SCAN_EXCEED_SWAP_PTE:
+>> +			case SCAN_EXCEED_SHARED_PTE:
+>> +			case SCAN_PAGE_LOCK:
+>> +			case SCAN_PAGE_COUNT:
+>> +			case SCAN_PAGE_LRU:
+>> +			case SCAN_PAGE_NULL:
+>> +			case SCAN_DEL_PAGE_LRU:
+>> +			case SCAN_PTE_NON_PRESENT:
+>> +			case SCAN_PTE_UFFD_WP:
+>> +			case SCAN_ALLOC_HUGE_PAGE_FAIL:
+>> +				goto next_order;
+>> +			/* Cases were no further collapse is possible */
+>> +			case SCAN_CGROUP_CHARGE_FAIL:
+>> +			case SCAN_COPY_MC:
+>> +			case SCAN_ADDRESS_RANGE:
+>> +			case SCAN_NO_PTE_TABLE:
+>> +			case SCAN_ANY_PROCESS:
+>> +			case SCAN_VMA_NULL:
+>> +			case SCAN_VMA_CHECK:
+>> +			case SCAN_SCAN_ABORT:
+>> +			case SCAN_PAGE_ANON:
+>> +			case SCAN_PMD_MAPPED:
+>> +			case SCAN_FAIL:
+>> +			default:
+> 
+> Agree with david, let's spell them out please :)
 
-But if we could put it outside, then we wouldn't need any of that.
-Unsafe macros support could help perhaps here, which I have had it in
-our wishlist too (https://github.com/Rust-for-Linux/linux/issues/354),
-but I guess the fake block could still be useful to make only certain
-macro arms unsafe? (Perhaps Rust could allow `unsafe` just at the
-start of each arm for that...).
+I believe David is arguing for the opposite. To drop all these spelt out cases
+and just leave the default case.
 
-Cheers,
-Miguel
+@david is that correct or did I misunderstand that.
+
+-- Nico
+
+> 
+>> +				return collapsed;
+>>  			}
+>>  		}
+>>
+>> --
+>> 2.53.0
+>>
+> 
+
