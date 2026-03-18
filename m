@@ -1,96 +1,148 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E642291C10;
-	Wed, 18 Mar 2026 16:51:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A5DF2F83A2;
+	Wed, 18 Mar 2026 17:27:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773852718; cv=none; b=Z1MSE4gUio/AO24MADzrTU25SQhIhVeZuVCD40K/KvzIfjIHl/18MZeDWFoZ6PabEiuw+0LT1IpVhuqkXFZQ6Gx+csSkayDj/7efy7zoJ/xeqNQ1EgVH3Uusi5Dg9FDkdwrwr8w7tCujpT4o2eA13brVhDg5rXhpXk9xC2srZno=
+	t=1773854856; cv=none; b=GtVZA3Lkbsicf6p4Fh1LRo03GY/26ebSPwTJujoxpLbdgCUbC/Rh5fVh5ZxKKL1yQaG33ImsdQEzShfksVrFFNt7fGUQBhPL1XB37y9dbvvYdDq5RqdXzNneFzv8Vc7J2rTDyJyF/eTDz3jG62n0kP/gTAaSeGCVY5jfbkzQ3xs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773852718; c=relaxed/simple;
-	bh=o/7yE6t93yQtFz6v7eAty53R//5LEtd721EuvOxoFn4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ry1YugnDZ6UrEDel3xG0RLCAuWYL4pH4mefB8867JWXOuNGYlkGJoBJ7HbQ+9oiw5EbpLGbNyUNDMzfuzQzDuwz6IV6HCHyuOsrK0v+fY6z7T0W8cIidAUbcNCAlProPu/eTfqECS7Q1InbpvJzviPZxuognERlMRR1VEPOh5/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=WulDNP+7; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1773854856; c=relaxed/simple;
+	bh=T9bC6g62zkjZlkxi+B63SQAYsJpcohcn3oqwWLqc/zk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BWoEVek+6BtVIVpUuHPUuptszXZxRebJz06X/BnHeOzwEGOTiUP86jk9fwwaxaOQQ06XLyOVY+3aHXb1SSvONHbi7pKPt0zjgs/fJ7bFQ6p7Yq4dZT72U3Tyxm0Q4TgkheQU/vHeiqs3Iieodn4R07LZHxvyoLeVPi3h6JUMWi8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c0PWTNv2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="WulDNP+7"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E0DEB40423
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1773852717; bh=nwEcRE80LRGRnH9IJ42jxIknbbtHfjezvT1c6qQwbv0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=WulDNP+7m6R8KkZAmeQSGPLvxaBvyXQI3v8TmWnQJHpjpLqPlKPJVWSwB4DatvWg3
-	 rt+SLAibuW96kRdSaOHpEuKw/vI3du5FlbI77xppMGnbxiRi5f1PTKH6zQAZNTz3fD
-	 7lYEJmmvcfYwypJHzACPy3BbF+zm7L4mq7PgPbdVIdw+OxSHRrZpGnIKX76mhOz3jP
-	 8KZxYjeaT/mVq+xis0VkYp/IJtfBs8I8+rlsyPViutIJ2bf2grknK6n2LdqEeMKDAk
-	 +MrzzQC6TEeUpSgHQgo7VHnbZHoMbbeb5KepqqlXsE9iRWTiY7dIX/SkuRUNIaEb/A
-	 jo1pLvWiAW/RQ==
-Received: from localhost (c-71-229-227-126.hsd1.co.comcast.net [71.229.227.126])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id E0DEB40423;
-	Wed, 18 Mar 2026 16:51:56 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Sasha Levin <sashal@kernel.org>
-Cc: linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org,
- workflows@vger.kernel.org, tools@kernel.org, x86@kernel.org, Thomas
- Gleixner <tglx@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Dmitry Vyukov
- <dvyukov@google.com>, Randy Dunlap <rdunlap@infradead.org>, Cyril Hrubis
- <chrubis@suse.cz>, Kees Cook <kees@kernel.org>, Jake Edge <jake@lwn.net>,
- David Laight <david.laight.linux@gmail.com>, Askar Safin
- <safinaskar@zohomail.com>, Gabriele Paoloni <gpaoloni@redhat.com>, Mauro
- Carvalho Chehab <mchehab@kernel.org>, Christian Brauner
- <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, Andrew
- Morton <akpm@linux-foundation.org>, Masahiro Yamada
- <masahiroy@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, Ingo
- Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH 1/9] kernel/api: introduce kernel API specification
- framework
-In-Reply-To: <abq3f5vdcwRXGJGX@laps>
-References: <20260313150928.2637368-1-sashal@kernel.org>
- <20260313150928.2637368-2-sashal@kernel.org>
- <87h5qe9wig.fsf@trenco.lwn.net> <abq3f5vdcwRXGJGX@laps>
-Date: Wed, 18 Mar 2026 10:51:56 -0600
-Message-ID: <87jyv95bdf.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c0PWTNv2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76149C19421;
+	Wed, 18 Mar 2026 17:27:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773854856;
+	bh=T9bC6g62zkjZlkxi+B63SQAYsJpcohcn3oqwWLqc/zk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=c0PWTNv2SzUQd+Ef31U2tJLHT/aTwdz2C0Jm+dvGlGhHJSH3SGAlB1CVuSGZ1eR+u
+	 CO6A3NqVzKMU1gUn+Jo9FuYmA4vvQc7/qgCw1wGJ87XPYIDjjtpx1p3Bi9FUgm3Q0z
+	 mRYmy3IiFE3ZZMPR5Q+CgPV2uyh3bUB1HDZTxeaXM/HjSYAH1Kg144iOpQUbJJY/+r
+	 eEHgj4j5ecEStg029m6OqbSEwEehSF3g4Xyk9aGdl8KBlpudw57Kkmb2U7F9QN2Gco
+	 PCm00fat2kiYqjQ4dxJkKoWNGjrptOcPO4tBtxe28vNZX8RUqi9o5muZNBT+zCQ2sQ
+	 B2obfRn24xa3w==
+Date: Wed, 18 Mar 2026 17:27:48 +0000
+From: Jean-Philippe Brucker <jpb@kernel.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Oliver Upton <oupton@kernel.org>, Dave Martin <Dave.Martin@arm.com>,
+	Fuad Tabba <tabba@google.com>, Mark Rutland <mark.rutland@arm.com>,
+	Ben Horgan <ben.horgan@arm.com>,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	Peter Maydell <peter.maydell@linaro.org>,
+	Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v10 17/30] KVM: arm64: Support SME identification
+ registers for guests
+Message-ID: <20260318172748.GA2390801@myrica>
+References: <20260306-kvm-arm64-sme-v10-0-43f7683a0fb7@kernel.org>
+ <20260306-kvm-arm64-sme-v10-17-43f7683a0fb7@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260306-kvm-arm64-sme-v10-17-43f7683a0fb7@kernel.org>
 
-Sasha Levin <sashal@kernel.org> writes:
+On Fri, Mar 06, 2026 at 05:01:09PM +0000, Mark Brown wrote:
+> The primary register for identifying SME is ID_AA64PFR1_EL1.SME.  This
+> is hidden from guests unless SME is enabled by the VMM.
+> When it is visible it is writable and can be used to control the
+> availability of SME2.
+> 
+> There is also a new register ID_AA64SMFR0_EL1 which we make writable,
+> forcing it to all bits 0 if SME is disabled.  This includes the field
+> SMEver giving the SME version, userspace is responsible for ensuring
+> the value is consistent with ID_AA64PFR1_EL1.SME.  It also includes
+> FA64, a separately enableable extension which provides the full FPSIMD
+> and SVE instruction set including FFR in streaming mode.  Userspace can
+> control the availability of FA64 by writing to this field.  The other
+> features enumerated there only add new instructions, there are no
+> architectural controls for these.
+> 
+> There is a further identification register SMIDR_EL1 which provides a
+> basic description of the SME microarchitecture, in a manner similar to
+> MIDR_EL1 for the PE.  It also describes support for priority management
+> and a basic affinity description for shared SME units, plus some RES0
+> space.  We do not support priority management for guests so this is
+> hidden from guests, along with any new fields.
+> 
+> As for MIDR_EL1 and REVIDR_EL1 we expose the implementer and revision
+> information to guests with the raw value from the CPU we are running on,
+> this may present issues for asymmetric systems or for migration as it
+> does for the existing registers.
+> 
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+...
+> +#define IMPLEMENTATION_ID_FILTERED(reg, mask, reg_visibility) {	\
+> +	SYS_DESC(SYS_##reg),				\
+> +	.access = access_imp_id_reg,			\
+> +	.get_user = get_id_reg,				\
+> +	.set_user = set_imp_id_reg,			\
+> +	.reset = reset_imp_id_reg,			\
+> +	.visibility = reg_visibility,				\
 
-> On Tue, Mar 17, 2026 at 11:49:27AM -0600, Jonathan Corbet wrote:
->>So the reason for two completely separate mechanisms is not entirely
->>clear to me.  The kerneldoc variant is essentially documentation, while
->>the macro stuff is to be built into the executable?  What if you want
->>both?
->>
->>It would be nice to only have one way if at all possible; I'm sure that
->>crossed your mind at some point :)  If there have to be two, having both
->>examples describe the same function would make the parallels more clear.
->
-> Woops, I forgot to finish writing my reply to this :)
->
-> Under the hood, kerneldoc specs are translated into those macros so they could
-> be part of the build process and embedded into the resulting binary (both for
-> documentation as well as the runtime validation).
->
-> I don't think anyone would use the macro format directly, but as it's there
-> anyway I figured I'd offer it as an option. Would it make sense to just hide it
-> behind the scenes?
+nit: rogue backslash
 
-If there are two ways of doing it, people will use both ways.  My
-kneejerk reaction would be to hide the macros as an implementation
-detail, but perhaps that's just me.
+> +	.val = mask,					\
+> +	}
+> +
+>  static u64 reset_mdcr(struct kvm_vcpu *vcpu, const struct sys_reg_desc *r)
+>  {
+>  	__vcpu_assign_sys_reg(vcpu, r->reg, vcpu->kvm->arch.nr_pmu_counters);
+> @@ -3238,7 +3280,6 @@ static const struct sys_reg_desc sys_reg_descs[] = {
+>  				       ID_AA64PFR1_EL1_MTE_frac |
+>  				       ID_AA64PFR1_EL1_NMI |
+>  				       ID_AA64PFR1_EL1_RNDR_trap |
+> -				       ID_AA64PFR1_EL1_SME |
+>  				       ID_AA64PFR1_EL1_RES0 |
+>  				       ID_AA64PFR1_EL1_MPAM_frac |
+>  				       ID_AA64PFR1_EL1_MTE)),
+> @@ -3248,7 +3289,7 @@ static const struct sys_reg_desc sys_reg_descs[] = {
+>  		    ID_AA64PFR2_EL1_MTESTOREONLY),
+>  	ID_UNALLOCATED(4,3),
+>  	ID_WRITABLE(ID_AA64ZFR0_EL1, ~ID_AA64ZFR0_EL1_RES0),
+> -	ID_HIDDEN(ID_AA64SMFR0_EL1),
+> +	ID_WRITABLE(ID_AA64SMFR0_EL1, ~ID_AA64SMFR0_EL1_RES0),
+>  	ID_UNALLOCATED(4,6),
+>  	ID_WRITABLE(ID_AA64FPFR0_EL1, ~ID_AA64FPFR0_EL1_RES0),
+>  
+> @@ -3454,6 +3495,13 @@ static const struct sys_reg_desc sys_reg_descs[] = {
+>  	{ SYS_DESC(SYS_CCSIDR_EL1), access_ccsidr },
+>  	{ SYS_DESC(SYS_CLIDR_EL1), access_clidr, reset_clidr, CLIDR_EL1,
+>  	  .set_user = set_clidr, .val = ~CLIDR_EL1_RES0 },
+> +	IMPLEMENTATION_ID_FILTERED(SMIDR_EL1,
+> +				   (SMIDR_EL1_NSMC | SMIDR_EL1_HIP |
+> +				    SMIDR_EL1_AFFINITY2 |
+> +				    SMIDR_EL1_IMPLEMENTER |
+> +				    SMIDR_EL1_REVISION | SMIDR_EL1_SH |
+> +				    SMIDR_EL1_AFFINITY),
+> +				   sme_visibility),
+
+Shouldn't we sanitize the SMIDR value obtained in reset_imp_id_reg() and
+add SMPS to this mask, if we're hiding everything from the guest?
 
 Thanks,
+Jean
 
-jon
+>  	IMPLEMENTATION_ID(AIDR_EL1, GENMASK_ULL(63, 0)),
+>  	{ SYS_DESC(SYS_CSSELR_EL1), access_csselr, reset_unknown, CSSELR_EL1 },
+>  	ID_FILTERED(CTR_EL0, ctr_el0,
+> 
+> -- 
+> 2.47.3
+> 
+> 
