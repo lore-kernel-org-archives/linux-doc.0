@@ -1,155 +1,198 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 492E13DBD47
-	for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2026 14:36:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C463E3DC4B5;
+	Wed, 18 Mar 2026 14:41:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773844581; cv=none; b=Os1Css0l6bNOuxomfZrydZf7U/NE6YiH9qnHBnw7x3r0MpTgd+ASNCybpxTq3xgAqNIyBsH6fOwheczerArHRIb1Z513iAHW2cjTyewFa9yzQhoIqea8nvhudV0ZnOfMK66iTMvmgjvn2haXo13Jn1I5EpVf/JHUJtC3XpLHlfc=
+	t=1773844917; cv=none; b=F5WVBthXXGhe91hBgFG7keX9w3TmQ7bNAJPJs9dmmS8PKP+iMTq9eqKwfyB6lQP1CYidkMOyGvynLH7eArkCt3HPR8gVWegRyABl7Lx8YdzVDEtUMs+8knRg85gGCBk6rZdAmwNd4UEw0xxcdCxEeiKD9YphcKuY3rVNUlR6F9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773844581; c=relaxed/simple;
-	bh=zt6n+MHwPLaSkNTNZKSy9t6IW5UBBrzEBFha3Girfko=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=U9odE2eGzK2OuXUFmJ0irOV8o/h3G4/nzlBSiIZEEOvUhCyCf2xA1u/Xu9dof0MSPLF+LTedvgx6pTGtbH3jhzV/vZcYiA0v3MifSrPaT8y5vw/eSCex9AIViT/MqaFGNQ608t1mDbscLW296/FS3AJcjIAv9yLK55ZkrfpStEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TyfmiS+7; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TyfmiS+7"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-829928e512aso3595512b3a.2
-        for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2026 07:36:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773844579; x=1774449379; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=T/zERP7+K/iV+VDILg//lKZjo5Bu+2vkBPqMNeIXFFg=;
-        b=TyfmiS+7sfxik0G/LGctrep97eHi0rBISeWUotJGwh/axtTnR6MdTSl7OQ89K5Q+MZ
-         zw2J7VQ5+UvjMFMAIs+BU6czoP+pA9Ar2AbIZP1+N4+BQQtfEQRcNAE40fwj54lxf7Lu
-         rqUovsPb3fr/vYRtklQi9t7VFSUzTzmKP9+r7zfHAcnpCBhNZwZhVPtEDWvwfBry+te+
-         xiI5goEZ/kjc+yiUH4AC4dp5IVDe8jDMzgft5r/LavB7VjAOUyIc1lFbalabBRCbe+F3
-         sjuh6YeCK1WQm16xXItAuu4/GttmcTZVwMFrUcommYmJPZsmQ6/YcSWnfj2fIF4U1VKg
-         NvrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773844579; x=1774449379;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=T/zERP7+K/iV+VDILg//lKZjo5Bu+2vkBPqMNeIXFFg=;
-        b=HjPLmPsLyVmnko+Zdob9O0D/HL4iqeqmWSe0SEZV6HIHFL74v+BgFTUwTKHrH+4Am3
-         KpiRbxSINVin6a4uOhR9wwAVWkj9YXN3iBfit3trsOupkhyYs/9MRqWL7mHoN7fMxxHY
-         IdLsDS1avfbL1UE1WkILxa+t/vcmDUASOOE6KIHcBVRUhVyG3c987Nk1+mAPnYY55h1r
-         +kDNTL5Hvb/+Gxb5ixPJ+quzTaODrtrbgrL+8mhxywDounu/Wvch8YbxjQQqSAZqonYc
-         FCmOYOi28T7WmuWEqFgwsDhosOBSUzDBc9rw4oaQwT1zqIsZF2mSvjBz6vUrNJRzJuCz
-         b0EQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVQBNAMT0+6QH40CYucQNnztAtDODesbJyd0XU01/RnzVOWHP8nfXZemZRIO6fk6G83YD7O+8uqXeE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxJz9MaQ4Ldwb+tmgj/b+DfRJ5phZN+PRQlLAbS8Qb97NIGVi0E
-	O5tTZ/ULKOzFIlHid2CvcZ3s9FHeNSmdtNp+ZZOggQeFb3RpgtpK4CUn
-X-Gm-Gg: ATEYQzx3sNx2qHgaPOhzFIdlgaykFANKobbnHQndHrwCMN4FkcwzJr9S6LQAzQoBNzG
-	aU/KgkF2VCmCXdHdnTP0KY1h8EP8Y0WVDfI5V/JbMaMM8IG8zSLPKntCGdBXs9+/dmSGJVLJJxK
-	x2v5X+SqDtzwMdHUscPGDw/pUMlyKaR1Emme6wv7KJTWULZAb8Rn8LQZfuWmre3PWkN+nLp1gk0
-	LnLRddJ6HRnjWOfGTYIsrMZg78RiYJYFbJP25b0A7sPaglttptYLkMMBfJmK42onBH6gjeJ1VHK
-	NkQ9EG8khcGqbOnQ287dLSZ3XdiHwzNuh/h/3vFUODIivaSA6lwSEsF5mU6la+FdgnAIXtkUI0n
-	UoT69NQQlld+4CXEjplcJkSO7vUbznnpxaeQfcPXIfJ0NRMdqnLLgsoPr7mSehU37jS2uLeFORE
-	2uSOK/+b5pMKp74PQPbJ2BriVewAW0HayOODkrQThTNcDQMBIU
-X-Received: by 2002:a05:6a00:1992:b0:829:8aa3:2ebf with SMTP id d2e1a72fcca58-82a6ac3955dmr3503745b3a.2.1773844579411;
-        Wed, 18 Mar 2026 07:36:19 -0700 (PDT)
-Received: from hu-ckantibh-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82a6bf0cf5fsm3767592b3a.61.2026.03.18.07.36.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Mar 2026 07:36:18 -0700 (PDT)
-From: Sanjay Chitroda <sanjayembeddedse@gmail.com>
-X-Google-Original-From: Sanjay Chitroda <sanjayembedded@gmail.com>
-To: airlied@gmail.com,
-	simona@ffwll.ch,
-	maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	tzimmermann@suse.de,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org
-Cc: dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] Documentation/gpu: resolve kerneldoc duplicate declaration warning
-Date: Wed, 18 Mar 2026 20:06:12 +0530
-Message-Id: <20260318143612.2533863-1-sanjayembedded@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1773844917; c=relaxed/simple;
+	bh=5e8weDSY3ldu9AeUGisPGa9Ryj0nEXxqoClRV/0Qbn4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=XIDYkCrtKXdEs+NfFBlFeXsxSzYOFoBmS+OiU01vqOXoq/EG2W67EiLwcb/bGtxUeiEesu/m8F8MuupsiGkO6MxUfM1RM9DNIdlgsrBPzoQFin31jea/zTTdYo4n9mV6U+MzPve7vP7ziGa9P8qqXVFCfxSc69kWjk0ReFYKTbk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei-partners.com; spf=pass smtp.mailfrom=huawei-partners.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei-partners.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei-partners.com
+Received: from mail.maildlp.com (unknown [172.18.224.150])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fbWjk2zqjzHnH7y;
+	Wed, 18 Mar 2026 22:41:30 +0800 (CST)
+Received: from mscpeml500003.china.huawei.com (unknown [7.188.49.51])
+	by mail.maildlp.com (Postfix) with ESMTPS id 181334056A;
+	Wed, 18 Mar 2026 22:41:52 +0800 (CST)
+Received: from [10.123.123.154] (10.123.123.154) by
+ mscpeml500003.china.huawei.com (7.188.49.51) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Wed, 18 Mar 2026 17:41:51 +0300
+Message-ID: <e51c09dc-81bd-441c-90ce-b973d21fe311@huawei-partners.com>
+Date: Wed, 18 Mar 2026 17:41:50 +0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v2 1/1] mm/damon: support MADV_COLLAPSE via
+ DAMOS_COLLAPSE scheme action
+To: SeongJae Park <sj@kernel.org>
+CC: <artem.kuzin@huawei.com>, <stepanov.anatoly@huawei.com>,
+	<wangkefeng.wang@huawei.com>, <yanquanmin1@huawei.com>, <zuoze1@huawei.com>,
+	<damon@lists.linux.dev>, <akpm@linux-foundation.org>, <ljs@kernel.org>,
+	<Liam.Howlett@oracle.com>, <vbabka@kernel.org>, <rppt@kernel.org>,
+	<surenb@google.com>, <mhocko@suse.com>, <corbet@lwn.net>,
+	<skhan@linuxfoundation.org>, <linux-doc@vger.kernel.org>,
+	<linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>
+References: <20260318005226.132181-1-sj@kernel.org>
+Content-Language: en-US
+From: Gutierrez Asier <gutierrez.asier@huawei-partners.com>
+In-Reply-To: <20260318005226.132181-1-sj@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: mscpeml100003.china.huawei.com (10.199.174.67) To
+ mscpeml500003.china.huawei.com (7.188.49.51)
 
-From: Sanjay Chitroda <sanjayembeddedse@gmail.com>
 
-kernel-doc build with `make htmldocs` reports following WARNINGS.
 
-  Documentation/gpu/drm-kms:360: ../drivers/gpu/drm/drm_fourcc.c:397:
-  WARNING: Duplicate C declaration, also defined at gpu/drm-kms:35.
-  Declaration is '.. c:function::
-  const struct drm_format_info * drm_format_info (u32 format)'.
+On 3/18/2026 3:52 AM, SeongJae Park wrote:
+> On Tue, 17 Mar 2026 09:52:09 +0300 Gutierrez Asier <gutierrez.asier@huawei-partners.com> wrote:
+> 
+>> Hi SJ,
+>>
+>> First of all, I just noticed that this was sent as v2 RFC, while
+>> it should be v1. Bear in mind that the next series will also be
+>> v2.
+> 
+> No worry :)
+> 
+>>
+>> On 3/17/2026 3:32 AM, SeongJae Park wrote:
+>>> Hello Asier,
+>>>
+>>> On Mon, 16 Mar 2026 18:38:05 +0000 <gutierrez.asier@huawei-partners.com> wrote:
+>>>
+>>>> From: Asier Gutierrez <gutierrez.asier@huawei-partners.com>
+>>>>
+>>>> This patch set introces a new action: DAMOS_COLLAPSE.
+>>>>
+>>>> For DAMOS_HUGEPAGE and DAMOS_NOHUGEPAGE to work, khugepaged should be
+>>>> working, since it relies on hugepage_madvise to add a new slot. This
+>>>> slot should be picked up by khugepaged and eventually collapse (or
+>>>> not, if we are using DAMOS_NOHUGEPAGE) the pages. If THP is not
+>>>> enabled, khugepaged will not be working, and therefore no collapse
+>>>> will happen.
+>>>>
+>>>> DAMOS_COLLAPSE eventually calls madvise_collapse, which will collapse
+>>>> the address range synchronously.
+>>>>
+>>>> This new action may be required to support autotuning with hugepage as
+>>>> a goal.
+>>>
+>>> Above all makes sense.  Thank you for posting this patch.
+>>>
+>>> Do you have some test results that you can also share together?  It would be
+>>> nice if it can demonstrate the benefit of DAMOS_COLLAPSE over DAMOS_HUGEPAGE.
+>> I will run some tests and benchmarks.
+> 
+> Looking forward to.
+> 
+>>>
+>>>>
+>>>> [1] https://lore.kernel.org/lkml/20260314165156.86647-1-sj@kernel.org/
+>>>
+>>> Seems the above link is just added by a mistake?  If not, please clarify.
+>> Yes, it looks like I copied the wrong link.
+>>>>
+>>>> Signed-off-by: Asier Gutierrez <gutierrez.asier@huawei-partners.com>
+>>>> Reviewed-by: SeongJae Park <sj@kernel.org>
+>>>> ---
+>>>>  Documentation/mm/damon/design.rst | 4 ++++
+>>>>  include/linux/damon.h             | 1 +
+>>>>  mm/damon/sysfs-schemes.c          | 4 ++++
+>>>>  mm/damon/vaddr.c                  | 3 +++
+>>>>  4 files changed, 12 insertions(+)
+>>> [...]
+>>>> diff --git a/include/linux/damon.h b/include/linux/damon.h
+>>>> index 3a441fbca170..6720dc70c487 100644
+>>>> --- a/include/linux/damon.h
+>>>> +++ b/include/linux/damon.h
+>>>> @@ -140,6 +140,7 @@ enum damos_action {
+>>>>  	DAMOS_PAGEOUT,
+>>>>  	DAMOS_HUGEPAGE,
+>>>>  	DAMOS_NOHUGEPAGE,
+>>>> +	DAMOS_COLLAPSE,
+>>>>  	DAMOS_LRU_PRIO,
+>>>>  	DAMOS_LRU_DEPRIO,
+>>>>  	DAMOS_MIGRATE_HOT,
+>>>
+>>> sashiko.dev adds [1] below comments.  Let me also add my comments in line.
+>>>
+>>> : This isn't a bug, but should a kernel-doc entry for @DAMOS_COLLAPSE be added
+>>> : to the comment block above this enum?
+>>>
+>>> Makes sense.  'make htmldocs' may complain otherwise.  Asier, could you please
+>>> add the kernel-doc comment for DAMOS_COLLAPSE in the next spin?
+>> OK, I will split this patch into 2: one with the code and the other one with
+>> the documentation.
+> 
+> Does the 'documentation' mean the change for 'design.rst'?  Or, the kernel-doc
+> comment?  If that's the former case (separating 'design.rst' side change as
+> another patch), that's completely good for me.
+I meant the doc/mm/damon/design.rst
+> 
+> If that's the latter case (separating kernel-doc comment addition as another
+> patch), that will make the commit trigger document build error, and the error
+> will be fixed only after the followup commit is applied.  Please ensure keeping
+> 'damon.h' side changes as a single patch, and therefore no warning or breaks in
+> the middle of the patch series is introduced (and later fixed).
+> 
+>>> : 
+>>> : Also, does inserting DAMOS_COLLAPSE here shift the integer values of the
+>>> : subsequent enum entries like DAMOS_STAT?
+>>> : 
+>>> : The DAMON sysfs selftest script (tools/testing/selftests/damon/sysfs.py) uses
+>>> : a hardcoded dictionary action_val to map string names to their integer enum
+>>> : values.
+>>> : 
+>>> : If the enum values shift, the test's assertion:
+>>> : 
+>>> : assert_true(dump['action'] == action_val[scheme.action])
+>>> : 
+>>> : might fail when checking the struct memory via drgn. Could the python test
+>>> : dictionary be updated to reflect the new values, or could the new action be
+>>> : added at the end of the enum list?
+>>>
+>>> There is no test that uses DAMOS actions that defined after DAMOS_NOHUGEPAGE,
+>>> so no real test will break.  But this is a good point.  It would be better to
+>>> update the hard-coded value together.  Asier, could you also update the
+>>> 'action_val' dict of assert_scheme_committed() function in
+>>> tools/testing/selftets/damon/sysfs.py for the updated enum value in the next
+>>> version?
+>> OK, I will do it.
+> 
+> Thank you :)
+> 
+>>>
+>>> [1] https://sashiko.dev/#/patchset/20260316183805.2090297-1-gutierrez.asier@huawei-partners.com
+>>>
+>>>
+>>> Thanks,
+>>> SJ
+>>>
+>>> [...]
+>>>
+>> Thanks for the feedback.
+> 
+> My pleasure.
+> 
+> 
+> Thanks,
+> SJ
+> 
+> [...]
+> 
 
-  Documentation/gpu/drm-kms:491: ../drivers/gpu/drm/drm_modeset_lock.c:377:
-  WARNING: Duplicate C declaration, also defined at gpu/drm-kms:48.
-  Declaration is '.. c:function:: int drm_modeset_lock
-  (struct drm_modeset_lock *lock, struct drm_modeset_acquire_ctx *ctx)'.
-
-  Documentation/gpu/drm-uapi:607: ../drivers/gpu/drm/drm_ioctl.c:923:
-  WARNING: Duplicate C declaration, also defined at gpu/drm-uapi:69.
-  Declaration is '.. c:function::
-  bool drm_ioctl_flags (unsigned int nr, unsigned int *flags)'.
-
-Add :no-identifiers: to prevent duplicate identifier generation and
-keep the function documented at its implementation site.
-
-No functional change.
-
-Link: https://lore.kernel.org/oe-kbuild-all/202512302319.1PGGt3CN-lkp@intel.com/
-Signed-off-by: Sanjay Chitroda <sanjayembeddedse@gmail.com>
----
- Documentation/gpu/drm-kms.rst  | 2 ++
- Documentation/gpu/drm-uapi.rst | 3 ++-
- 2 files changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
-index 2292e65f044c..0f0f90b3186d 100644
---- a/Documentation/gpu/drm-kms.rst
-+++ b/Documentation/gpu/drm-kms.rst
-@@ -356,6 +356,7 @@ Format Functions Reference
- 
- .. kernel-doc:: include/drm/drm_fourcc.h
-    :internal:
-+   :no-identifiers: drm_format_info
- 
- .. kernel-doc:: drivers/gpu/drm/drm_fourcc.c
-    :export:
-@@ -487,6 +488,7 @@ KMS Locking
- 
- .. kernel-doc:: include/drm/drm_modeset_lock.h
-    :internal:
-+   :no-identifiers: drm_modeset_lock
- 
- .. kernel-doc:: drivers/gpu/drm/drm_modeset_lock.c
-    :export:
-diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-index d98428a592f1..73b49e0dcda8 100644
---- a/Documentation/gpu/drm-uapi.rst
-+++ b/Documentation/gpu/drm-uapi.rst
-@@ -603,6 +603,7 @@ DRM specific patterns. Note that ENOTTY has the slightly unintuitive meaning of
- 
- .. kernel-doc:: include/drm/drm_ioctl.h
-    :internal:
-+   :no-identifiers: drm_ioctl_flags
- 
- .. kernel-doc:: drivers/gpu/drm/drm_ioctl.c
-    :export:
-@@ -761,4 +762,4 @@ Stable uAPI events
- From ``drivers/gpu/drm/scheduler/gpu_scheduler_trace.h``
- 
- .. kernel-doc::  drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
--   :doc: uAPI trace events
-\ No newline at end of file
-+   :doc: uAPI trace events
 -- 
-2.34.1
+Asier Gutierrez
+Huawei
 
