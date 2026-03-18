@@ -1,231 +1,96 @@
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FE2D262FDC;
-	Wed, 18 Mar 2026 04:04:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0DBC4964F
+	for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2026 04:48:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773806665; cv=none; b=siEnGK+Ha+gD3mHAz5sOKl/zRNO806ojBW4JtkkaW9T1v89zWdy1UpbxPOVexCiNQByeloWlxdvanI9snrJWO1rMKrtV4M3orQ5Wq+4GsIAPw893B6AAd8PAeW9Z60P2wXjsHJSdq/e+Yp9b5HHd8O1IOzlisqxbmvNKUulAmXY=
+	t=1773809340; cv=none; b=UrAeUjW/61XBHpvMt2L1XR+HZ1amERQNnUzkyuVqioDWf06vFikO5iVXzNjnVEe0V5xwvEDpwWcVfg4i+aX7deqwp2fvM2WxQfks/4tGQ4R/Lvz7cYbWw5bdgMeVA+QM+rGvNm7LCdumweNyj6f9xQZ/gSuj7HBWoeUzIl4MSwE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773806665; c=relaxed/simple;
-	bh=Dt5Oam7a8ddqq3BfktyQN9kIOpoRHtuXRpWswvc3GAs=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:CC:References:
-	 In-Reply-To:Content-Type; b=X2k0uAeGVyuUi0l1u69p2NJifwuEjybK8ALixmANy91hyaOW3q1lJVpXaKV+Z2WFP08f6dNwfwhhSiL/c7UNa7g9wm1j7KyWzUQXscYcrRBzkafktmg8Ehwd0wOlJR5oQpIKq+zQQdhUzvGQq05HN09slF9goks6XN5bV/JGHV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=tgKSLKH3; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=tgKSLKH3; arc=none smtp.client-ip=45.249.212.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1773809340; c=relaxed/simple;
+	bh=17iPzKkUJzPn4E61UcR7m/teEZK5kJ3beqSFLOUuoD0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rru+Aj/1vId7Y0w7AFbTBW8X16Ey+Y3xlCwEOfA/a4U7ydCJTkKupJla03XGTaSVci/aggaX+tjV7jRWq4frJWo7xAG/Z2T1uGtBZLDRXz/d5TGPi/w8l+A2rqteq4RT1S5g4roIPxvbdrBKrofIQxmTnCbaRS4rEAD7JrmNmfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EEETt0hu; arc=none smtp.client-ip=74.125.82.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="tgKSLKH3";
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="tgKSLKH3"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=XZKg5HSzqw961TE78Y1nHw4DDOpQ3KVITP3+xW3FZMU=;
-	b=tgKSLKH3FRXeuZflU+YmXS6o6Nivgvm0hUbiV+64ojQwdlRuj748sRRNImMTKVJ0zSqQ4mFD9
-	vyWfROqFApjH8PJl/yObRR3ZUwmsw9hG0AiTaunIlNM5kOdnbqS/nXO8pxQZ0gDOyc2ERqq/FSD
-	tUkS7f1ubwBj8AMZrIXLpUM=
-Received: from canpmsgout03.his.huawei.com (unknown [172.19.92.159])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTPS id 4fbFYS5SRyz1BFwf;
-	Wed, 18 Mar 2026 12:03:24 +0800 (CST)
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=XZKg5HSzqw961TE78Y1nHw4DDOpQ3KVITP3+xW3FZMU=;
-	b=tgKSLKH3FRXeuZflU+YmXS6o6Nivgvm0hUbiV+64ojQwdlRuj748sRRNImMTKVJ0zSqQ4mFD9
-	vyWfROqFApjH8PJl/yObRR3ZUwmsw9hG0AiTaunIlNM5kOdnbqS/nXO8pxQZ0gDOyc2ERqq/FSD
-	tUkS7f1ubwBj8AMZrIXLpUM=
-Received: from mail.maildlp.com (unknown [172.19.162.197])
-	by canpmsgout03.his.huawei.com (SkyGuard) with ESMTPS id 4fbFSC5sDgzpTMG;
-	Wed, 18 Mar 2026 11:58:51 +0800 (CST)
-Received: from kwepemk500009.china.huawei.com (unknown [7.202.194.94])
-	by mail.maildlp.com (Postfix) with ESMTPS id 19BFD40569;
-	Wed, 18 Mar 2026 12:04:15 +0800 (CST)
-Received: from [10.67.121.161] (10.67.121.161) by
- kwepemk500009.china.huawei.com (7.202.194.94) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Wed, 18 Mar 2026 12:04:14 +0800
-Message-ID: <0744ee77-78ee-4e3d-9f0d-e8fe44be1c28@huawei.com>
-Date: Wed, 18 Mar 2026 12:04:13 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EEETt0hu"
+Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-2c0d36f3888so2436687eec.0
+        for <linux-doc@vger.kernel.org>; Tue, 17 Mar 2026 21:48:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773809338; x=1774414138; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/ejLjWRAwoEU5o80iQ+QQ21HclzxMPuHPja9YvmCRZw=;
+        b=EEETt0huR+WR1z3OUWA2WqupaidOBI/4vf+bNW4OsgxgIChImYMLJhVKUBg6JVLqVl
+         CU/NB3qhdLFt5bqYfjSeg1kKfgkXhbauXbsF3QF1MGJycX0EPUBYlp7rfcAHgYjngcD+
+         A6912ib5mRN5+zndexEix63FZrxpuflz0+W2xLdWNuOE5hGwXwRh+A+w/3Ml7E6LIRWG
+         NDdeQ9rrfttyzhltN8mKi32LrVAYRydHj8l8CXFo2ymyVBAP04VYBw5qw1oY5xnoXmll
+         nTMfg+aHEhtXz0VAhJXEIlaZClM0G2/f0GVjFgFHIYT8KgqsJDJNMNtyaQEA3j0QBFS7
+         LWVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773809338; x=1774414138;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=/ejLjWRAwoEU5o80iQ+QQ21HclzxMPuHPja9YvmCRZw=;
+        b=Zc8+iaKemDRH4pIig3KyfaVwX2rnk+ISTxjYr4hZyiVpi4YJZcy5B6pqse/3sp2qx1
+         kXj0ch5a7hAkS2wwlaF5Mfy3aHMIhasq6uOVF2KDIu2Uc1GfxNeKAi+vropWwrr54j/Y
+         v42dOuN/h+iO06/pon+bTyr0bC39D1M7b1WIkTxTOHSdYlLDmEmRX+N9KjlcGrQtRj96
+         IVKnuydlkspUnEzKsRRjRErY7UqX6uCqPG6jczQ2KcHPPW7VN3Eu3s3lJSVxa/OxQCAW
+         WfgjzMio6rDU/GuTz2yw5AfMsmOb1Fscjh+wCUutBenPJFJclMGy9pV8W0z/gp9dqs/J
+         N0GA==
+X-Forwarded-Encrypted: i=1; AJvYcCUnKzDScmwlCs8xb9PWdRxn0/gdo5oOEOKo81BwsPX/EHh/DFOc6c+tjmW92y9L8nmRHEAalz/ltUA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyQPbZKFOOTsnzX3BHQ41ZFaq4SANU2NSCSF2+NYUqBlbfMPnyY
+	Q11YOoDQ7fmBpqSZcOOEj1IwbzEJvWuLnx7rzzJ9e1Wae6FnE6/9MHUWKfQRfA==
+X-Gm-Gg: ATEYQzzREw6n8U+bu1+ZXJEH06Rkb03yhW3VIihJC8vxttfOWNoY8FU5ZbmjxayGPfw
+	V0TXQh5ZvDFt7fXcOX4rAG+EJGYwDxBtRsYtpWE3enjSeSShQz4UUthGMQJL74UdO+O5ZBEAGTK
+	hJ8w8G5Ye+HsI5gOXAWQzTbViSf3IKFDzMyvEfPHlLL+Jesll/l3yX1YqMRfcDzT3oe8Hth390Z
+	/t18lOLtKpxzDs7M2kguVqAigupTG2ZSMtctNwZ+HnypRGmlgh0sw5z5JI4HjupWRl5JOSCY/9k
+	Uz+1w64DcxoJR5VYvYGK+iFlw/KqyQ07Q42wUuHRMN+j4aM10lOXnmqRngRxA0ikhhR8+Rn0tYQ
+	di3oMz2+KL3RW8LxMaKcS8jdzAbTKqmyPM3UYJbEkQyLazGylqiiY1n71ULqri44KhjkOnR2peJ
+	sWrOu9ZAn31SqQmprFk06QHephzm0aIofTubqI
+X-Received: by 2002:a05:7300:320b:b0:2be:171c:5048 with SMTP id 5a478bee46e88-2c0e5074af8mr957700eec.5.1773809337736;
+        Tue, 17 Mar 2026 21:48:57 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c0e560fb5fsm2902735eec.31.2026.03.17.21.48.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Mar 2026 21:48:57 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Tue, 17 Mar 2026 21:48:56 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Dawei Liu <dawei.liu.jy@renesas.com>
+Cc: linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net,
+	skhan@linuxfoundation.org, geert+renesas@glider.be,
+	magnus.damm@gmail.com, grant.peltier.jg@renesas.com,
+	linda.xin.jg@renesas.com, tabreztalks@gmail.com
+Subject: Re: [PATCH v2 1/3] hwmon: (pmbus/isl68137) Remove unused enum chips
+Message-ID: <2f1347a9-4284-463e-8ca4-abaced830468@roeck-us.net>
+References: <20260316053541.3903-1-dawei.liu.jy@renesas.com>
+ <20260318021921.75-1-dawei.liu.jy@renesas.com>
+ <20260318021921.75-2-dawei.liu.jy@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 1/3] ACPI: Refactor get_acpi_id_for_cpu() to
- acpi_get_cpu_uid() on non-x86
-From: fengchengwen <fengchengwen@huawei.com>
-To: Jeremy Linton <jeremy.linton@arm.com>, Bjorn Helgaas
-	<bhelgaas@google.com>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon
-	<will@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>
-CC: <punit.agrawal@oss.qualcomm.com>, <guohanjun@huawei.com>,
-	<suzuki.poulose@arm.com>, <ryan.roberts@arm.com>, <chenl311@chinatelecom.cn>,
-	<masahiroy@kernel.org>, <wangyuquan1236@phytium.com.cn>,
-	<anshuman.khandual@arm.com>, <heinrich.schuchardt@canonical.com>,
-	<Eric.VanTassell@amd.com>, <jonathan.cameron@huawei.com>,
-	<wangzhou1@hisilicon.com>, <wanghuiqiang@huawei.com>,
-	<liuyonglong@huawei.com>, <linux-pci@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <loongarch@lists.linux.dev>,
-	<linux-riscv@lists.infradead.org>, <xen-devel@lists.xenproject.org>,
-	<linux-acpi@vger.kernel.org>, <linux-perf-users@vger.kernel.org>,
-	<stable@vger.kernel.org>
-References: <20260313022144.40942-1-fengchengwen@huawei.com>
- <20260313022144.40942-2-fengchengwen@huawei.com>
- <e4b0aefa-7108-47b4-ad5d-d62d385b8f33@arm.com>
- <c9eb7f53-db46-4229-b9ef-8faa1138aca7@huawei.com>
-Content-Language: en-US
-In-Reply-To: <c9eb7f53-db46-4229-b9ef-8faa1138aca7@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
- kwepemk500009.china.huawei.com (7.202.194.94)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260318021921.75-2-dawei.liu.jy@renesas.com>
 
-Sorry to self-reply
+On Wed, Mar 18, 2026 at 10:19:19AM +0800, Dawei Liu wrote:
+> The enum chips is not used anywhere in the driver. Device matching
+> relies on the variants enum instead. Remove it to clean up the code.
+> 
+> Signed-off-by: Dawei Liu <dawei.liu.jy@renesas.com>
 
-On 3/18/2026 10:02 AM, fengchengwen wrote:
-> Hi,
-> 
-> On 3/18/2026 5:38 AM, Jeremy Linton wrote:
->> Hi,
->>
->> Lets try this again, since the last one looks like it got caught in the moderation system and wasn't quite right anyway.
->>
->> On 3/12/26 9:21 PM, Chengwen Feng wrote:
->>> Unify CPU ACPI ID retrieval interface across architectures by
->>> refactoring get_acpi_id_for_cpu() to acpi_get_cpu_uid() on
->>> arm64/riscv/loongarch:
->>> - Add input parameter validation
->>> - Adjust interface to int acpi_get_cpu_uid(unsigned int cpu, u32 *uid)
->>>    (old: u32 get_acpi_id_for_cpu(unsigned int cpu), no input check)
->>>
->>> This refactoring (not a pure rename) enhances interface robustness while
->>> preparing for consistent ACPI Processor UID retrieval across all
->>> ACPI-enabled platforms. Valid inputs retain original behavior.
->>>
->>> Note: Move the ARM64-specific get_cpu_for_acpi_id() implementation to
->>>        arch/arm64/kernel/acpi_numa.c to fix compilation errors from
->>>        circular header dependencies introduced by the rename.
->>>
->>> Cc: stable@vger.kernel.org
->>> Signed-off-by: Chengwen Feng <fengchengwen@huawei.com>
->>> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
->>> ---
->>>   arch/arm64/include/asm/acpi.h      | 16 +---------
->>>   arch/arm64/kernel/acpi.c           | 16 ++++++++++
->>>   arch/arm64/kernel/acpi_numa.c      | 14 +++++++++
->>>   arch/loongarch/include/asm/acpi.h  |  5 ---
->>>   arch/loongarch/kernel/acpi.c       |  9 ++++++
->>>   arch/riscv/include/asm/acpi.h      |  4 ---
->>>   arch/riscv/kernel/acpi.c           | 16 ++++++++++
->>>   arch/riscv/kernel/acpi_numa.c      |  9 ++++--
->>>   drivers/acpi/pptt.c                | 50 ++++++++++++++++++++++--------
->>>   drivers/acpi/riscv/rhct.c          |  7 ++++-
->>>   drivers/perf/arm_cspmu/arm_cspmu.c |  6 ++--
->>>   include/linux/acpi.h               | 13 ++++++++
->>>   12 files changed, 122 insertions(+), 43 deletions(-)
->>>
->>> diff --git a/arch/arm64/include/asm/acpi.h b/arch/arm64/include/asm/acpi.h
->>> index c07a58b96329..106a08556cbf 100644
->>> --- a/arch/arm64/include/asm/acpi.h
->>> +++ b/arch/arm64/include/asm/acpi.h
->>> @@ -114,22 +114,8 @@ static inline bool acpi_has_cpu_in_madt(void)
->>>   }
->>>     struct acpi_madt_generic_interrupt *acpi_cpu_get_madt_gicc(int cpu);
->>> -static inline u32 get_acpi_id_for_cpu(unsigned int cpu)
->>> -{
->>> -    return    acpi_cpu_get_madt_gicc(cpu)->uid;
->>> -}
->>> -
->>> -static inline int get_cpu_for_acpi_id(u32 uid)
->>> -{
->>> -    int cpu;
->>> -
->>> -    for (cpu = 0; cpu < nr_cpu_ids; cpu++)
->>> -        if (acpi_cpu_get_madt_gicc(cpu) &&
->>> -            uid == get_acpi_id_for_cpu(cpu))
->>> -            return cpu;
->>>   -    return -EINVAL;
->>> -}
->>> +int get_cpu_for_acpi_id(u32 uid);
->>>     static inline void arch_fix_phys_package_id(int num, u32 slot) { }
->>>   void __init acpi_init_cpus(void);
->>> diff --git a/arch/arm64/kernel/acpi.c b/arch/arm64/kernel/acpi.c
->>> index af90128cfed5..f3866606fc46 100644
->>> --- a/arch/arm64/kernel/acpi.c
->>> +++ b/arch/arm64/kernel/acpi.c
->>> @@ -458,3 +458,19 @@ int acpi_unmap_cpu(int cpu)
->>>   }
->>>   EXPORT_SYMBOL(acpi_unmap_cpu);
->>>   #endif /* CONFIG_ACPI_HOTPLUG_CPU */
->>> +
->>> +int acpi_get_cpu_uid(unsigned int cpu, u32 *uid)
->>> +{
->>> +    struct acpi_madt_generic_interrupt *gicc;
->>> +
->>> +    if (cpu >= nr_cpu_ids)
->>> +        return -EINVAL;
->> If this actually happens, its probably useful to know it with a pr_warn/pr_warn_once.> +
-> 
-> The function maybe called from userspace which on later roadmap, so I prefer not add
-> warning or error here.
-> BTW: the function will return -EINVAL, so caller could know the case.
-> 
->>> +    gicc = acpi_cpu_get_madt_gicc(cpu);
->>> +    if (!gicc)
->> I think this check is redundant because we can't have logical cpu's that aren't in the cpu_possible() list, which on arm64 doesn't AFAIK have holes. In the past this might have made sense if we weren't maintaining a copy of the gicc structure from the MADT for each core.> +        return -ENODEV;
-> 
-> This commit will backport to stable branch at least 6.6. So I think it's OK to keep it.
-> 
->>> +
->>> +    *uid = gicc->uid;
->>> +    return 0;
->>> +}
->>> +EXPORT_SYMBOL_GPL(acpi_get_cpu_uid);
->>> diff --git a/arch/arm64/kernel/acpi_numa.c b/arch/arm64/kernel/acpi_numa.c
->>> index 2465f291c7e1..41d1e46a4338 100644
->>> --- a/arch/arm64/kernel/acpi_numa.c
->>> +++ b/arch/arm64/kernel/acpi_numa.c
->>> @@ -34,6 +34,20 @@ int __init acpi_numa_get_nid(unsigned int cpu)
->>>       return acpi_early_node_map[cpu];
->>>   }
->>>   +int get_cpu_for_acpi_id(u32 uid)
->>> +{
->>> +    u32 cpu_uid;
->>> +    int ret;
->>> +
->>> +    for (int cpu = 0; cpu < nr_cpu_ids; cpu++) {
->>> +        ret = acpi_get_cpu_uid(cpu, &cpu_uid);
->> This might have been a simplification, but since we are basically doing a for_each_possible_cpu(cpu) and every possible cpu will have a GICC entry before it becomes 'possible' there will be a UID, so all the error checking AFAIK, is impossible here.> +        if (ret == 0 && uid == cpu_uid)
-> 
-> I prefer to keep the current impl, as it may catch future error.
-> 
->>> +            return cpu;
->>> +    }
->>> +
->>> +    return -EINVAL;
->>> +}
->>> +
->> I also moved this below acpi_get_cpu_uid() in acpi.c and I don't see the a forward error issue you mentioned. It seems to me that they should be kept close to each other since they are basically inverses of each other.
-> 
-> As long as you ensure that it is not placed in asm/acpi.h, that's fine.
-> So it's OK to move this function to acpi.c
-> 
-> But I just checked the callers of this function again and found that there are
-> all in acpi_numa.c, so I will now add the static keyword to this function and
-> make it an internal function.
+Applied.
 
-I just found drivers/irqchip/irq-gic-v3.c has a call for get_cpu_for_acpi_id,
-so We should not marking as static.
-
-According to your advise, I moved it in acpi.c in v8.
-
-Thanks
-
-> 
-> Thanks
-> 
->>
-> 
-
+Thanks,
+Guenter
