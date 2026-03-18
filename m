@@ -1,50 +1,50 @@
-Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
+Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B9E73E1D0F
-	for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2026 15:03:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E79493E4C97
+	for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2026 15:03:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773846200; cv=none; b=fSwwAvk7NM6w3rZWK2UDzKDQsenS9L2cieNzijdI83tVrfnECeab6XjX1XsCin/f37CbdQAzISXbeuQT76LQvu9P5eZb4o2ZTHrkJnp9tDvvSp7YhgON5+ou6uB3hAipQZFwdMof+hKXAXtICNSkRHptTvvcj6B7KmUB0FuFwEY=
+	t=1773846202; cv=none; b=ZLNvvbwMCvmzglRa0+6KKYWwhbu+EMJWkFGyPicU4bxxnFMJ87JxxKTkifDH+X4H8Q5l5g068776P3EppMXB5Hd/uARLBz8BCqI9Enh73GB5vRnqBzzLv38kc2+HH6YAP5zFe/tqGLXVhiOIEAD1V9fC8My5bkfiKMERy9PptCw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773846200; c=relaxed/simple;
-	bh=4NH5F9UrZZRv67H096Ecg+wmusilA5EZ4o5TxZuzEHw=;
+	s=arc-20240116; t=1773846202; c=relaxed/simple;
+	bh=Ij7TGfORAQUP2IphsTU6e3s0rP33QZOjwA4GqRA7oq8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AmWRl72FXu37MpNkgVcuTfUnu7LKfqBQDe3EPiufjkbiILecSg+xAtgY3m/WTzp+k9/+z2OjIjF85Z19c4KUbZT5nFD5pRVcI0MjnjM6yxlNKcvtjAwxl1dqy3BwzhnpqrE4/aEAI8awnGN8eLhlSVxQ0frPa8nANiC3hvEE7eY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fomichev.me; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=74.125.82.54
+	 MIME-Version; b=o2XOZ0oBeXLn3I9e6M5WIgLDrDXJt39wtykUVgJd6vZGcIabZQ5DhhcqigjyedfuIm9ek2T/+exrFPhuCgWnrOCNt/96gSxH7cKuSITT/Z7PMhbZmvuQL9xvMMN9f1zR7ILmyF+MhSeVw4dyHUZJ9kGIrJ3raaSRuQdO5KVtZEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fomichev.me; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=74.125.82.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fomichev.me
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-12732e6a123so2419409c88.1
-        for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2026 08:03:14 -0700 (PDT)
+Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-2c0ea57fea7so9589eec.0
+        for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2026 08:03:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773846194; x=1774450994;
+        d=1e100.net; s=20251104; t=1773846199; x=1774450999;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=N5GGovMWPDFF8AAhYqWq6WCuZYPSvbfMRDbyACSGUuM=;
-        b=D49SoZMjwgtrZ582tT2/VkVyqgXvW0e3Stt1uI77qr5bhoebVePSKcFBz7iQTYhnpA
-         fe4QaIrW0r4XN7Nb1yAY5MHNUDN5R2D1uNNrud2wqFzacQZxzwcaos6SQC0T0DkKyjpa
-         COYEKGeq1Ehnk7WDjPIE2Q9v+t+5/2cHTXiqah0QNb1RWlemm3gdek+GOIrYz89cMRji
-         vCrcwYv7lhnxCN95TQjvJcWdg61oBHjuf/UqL/4RyM0AbC0W5xJ9dxqXFhWT838HSDTr
-         AoPytQw2yvzc8kjZcCDypj5FkLBKPsTYLdARMGmGj4rR0wdhLCPnoPe5py6ru083fMas
-         Wp/w==
-X-Forwarded-Encrypted: i=1; AJvYcCVoc1qMm01rPF+YqG1m2yoXxurTcqFz0yHyzXuO1Pjm0Q2iMu0YetSVH7tz6Qm9l3xJPYMHHW28Wf4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyHzv+k89e/AcrYfGohLbBRXgcE9y7UQ3RCCmCtUBFEVuR0w6SW
-	N5DigqKXGLwrO1fsrHAIgIb6WGcu4U1OF6Tf9zEBdDJMvwxS1XlMQwo=
-X-Gm-Gg: ATEYQzzwa9rT0PafYAt0WKNDG3SpnsO6aEtCHBTy26wDKiPGIuA+bacDCU+gBu+m8vt
-	/9K0tW9uHcgFVUo5HNxr+fj1H/0Vde2JN5uBPouHzHt5DUj81qAGYes/d4oWaVaRMfGDmgSPmjh
-	5JYSKIQL2qxTdtnzpGNPB55vhAo4wyCfn+pLFeYuk80t1AdW0IwvR3b/j0jOtaJXBnvI2IbZwaw
-	OHueOZ9xxw9yVMeR1Ak+OViieAkdWxBsZBphShWez3CyfSKM9P2zMD7mfudRb94SR9sfMLUaxS0
-	BHsmNkXpXNpm+oLGx/DlcWmmSWT7dQBywE7Bhyk/Z7I5zSwHgn5Yx/aqPXZTM022RLq5Chh+6Qp
-	3dF8vY81S/W+vtQzKtuGH0i6MLaOnwWtCoLiWH/phEQZMdueOxs77ubGM/xHHMVbuU3+r1NHYI4
-	K81WN9ZQUu+FUwCxkyNkMalj/UFmaYxKx0o1uuyFS5RK2a4XnUNUnhJr8k7SSbaqCPhbZmpv9F7
-	G13Gsv5JDbCNmUUUVekJQmbx+hT
-X-Received: by 2002:a05:7301:1691:b0:2bd:d3f3:b0be with SMTP id 5a478bee46e88-2c0e503eb7bmr2177414eec.20.1773846193273;
-        Wed, 18 Mar 2026 08:03:13 -0700 (PDT)
+        bh=Ca+gBPWdaS3D9IVR2rmhybZb8dy4jn4+7E3W6do17GA=;
+        b=TMt3LwQcVp6yZ/SfLr8rqPbo3bvBb4KP4zERjOx6Lbt+5SzurUevVWp8JQOvlqtDRO
+         c3gywr8uuIKgxPD9I8hDSu6Zsy2xIITVrRMEIovixRtBenw22BhE2TkFCXQsDiuBVRLh
+         hIGWzCQWHBjE9Zpg/xEbQOkBf3awEx/HbCrhfrbzs4gkDAZegli2DaV9WKsaFGcD013z
+         +60VAXBmY11hPvbBH/CE2AbrxCAqRAAQvTaohezrAijs7QpKwcohjmnSEMcscQ6bAqrZ
+         BXnID8BwFl8dfAADYzbnyBYRQC26ZodOWBw3MpXcgCvqadn/4183NuTYMwBFDUPy3E7+
+         EQJg==
+X-Forwarded-Encrypted: i=1; AJvYcCU9RXoc7hAXVWqLEILNzta/+KgEk1yAD3qTgPRLYlwdEIR97NHNv46Hs6APWlPX7iDZ0FnyaaMMSO8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+wc/ZdmPGsKGhr5qNWTT4u3nrfHLIhw1eI7ahB3nXcm3F8Tq3
+	k7jssE0cKJ6OTnt7HdkFRPr2FcjpS6b68kJVj7RVAjAC7xVcsjzVdcQ=
+X-Gm-Gg: ATEYQzya6TKhletyxkKtOEdrd6Il/l2V9WMqz8+jDrcz9k/LjjdNnWKuH637+CsyRKa
+	j7a+EN64GPzxzivLH1hbd1SfhKR8a6OxhQ8GbhABGCARgkcj76MIjzS2t8iHX7rcu/r4U3S4PU6
+	JMdEoIjj9B/hyQsuv0uRlBKUQnqtyq1uRpGZ2jtIoc/NoZr6ns9+8ahl46EimzTrIvoXb/zSN1U
+	7GXLobasyIQZVrHXlEwXQ3rtKd2DkaUKmVLpnpPotnXf9Cvjy7DgUwSf1dvGyL25xn2gzJWmXIJ
+	OI6IedkD7j+sz3vQ8FfGEB7J0xMFj6fW8oBp21r1d182HpnjHj8LVIwKl1jjjY8NDFGBUxFMQkj
+	RWl0p/0ibGD7rgkiqivvQNtrxXZ37IA+YerMGU5Eej3J3wtbJmFvaOa3FmVswXo/G5IkY0cd9oL
+	zUZusGujAi3/ATQAmUvw19YbPRnXgrAu+BfsKtk1NNnHR0yp/XkCNgBGy6o18wwe4l6n62nwNgt
+	KY+TTcLu8hX74U3tw==
+X-Received: by 2002:a05:7301:658a:b0:2ba:6978:2b4 with SMTP id 5a478bee46e88-2c0e519749fmr1615494eec.20.1773846195984;
+        Wed, 18 Mar 2026 08:03:15 -0700 (PDT)
 Received: from localhost (c-76-102-12-149.hsd1.ca.comcast.net. [76.102.12.149])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c0e5582dd5sm4001338eec.15.2026.03.18.08.03.12
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c0e55ee672sm5054384eec.28.2026.03.18.08.03.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Mar 2026 08:03:12 -0700 (PDT)
+        Wed, 18 Mar 2026 08:03:15 -0700 (PDT)
 From: Stanislav Fomichev <sdf@fomichev.me>
 To: netdev@vger.kernel.org
 Cc: davem@davemloft.net,
@@ -80,10 +80,11 @@ Cc: davem@davemloft.net,
 	linux-rdma@vger.kernel.org,
 	linux-wireless@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
-	leon@kernel.org
-Subject: [PATCH net-next v2 04/13] net: move promiscuity handling into dev_rx_mode_work
-Date: Wed, 18 Mar 2026 08:02:56 -0700
-Message-ID: <20260318150305.123900-5-sdf@fomichev.me>
+	leon@kernel.org,
+	Cosmin Ratiu <cratiu@nvidia.com>
+Subject: [PATCH net-next v2 06/13] mlx5: convert to ndo_set_rx_mode_async
+Date: Wed, 18 Mar 2026 08:02:58 -0700
+Message-ID: <20260318150305.123900-7-sdf@fomichev.me>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260318150305.123900-1-sdf@fomichev.me>
 References: <20260318150305.123900-1-sdf@fomichev.me>
@@ -95,199 +96,164 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Move unicast promiscuity tracking into dev_rx_mode_work so it runs
-under netdev_ops_lock instead of under the addr_lock spinlock. This
-is required because __dev_set_promiscuity calls dev_change_rx_flags
-and __dev_notify_flags, both of which may need to sleep.
+Convert mlx5 from ndo_set_rx_mode to ndo_set_rx_mode_async. The
+driver's mlx5e_set_rx_mode now receives uc/mc snapshots and calls
+mlx5e_fs_set_rx_mode_work directly instead of queueing work.
 
-Change ASSERT_RTNL() to netdev_ops_assert_locked() in
-__dev_set_promiscuity, netif_set_allmulti and __dev_change_flags
-since these are now called from the work queue under the ops lock.
+mlx5e_sync_netdev_addr and mlx5e_handle_netdev_addr now take
+explicit uc/mc list parameters and iterate with
+netdev_hw_addr_list_for_each instead of netdev_for_each_{uc,mc}_addr.
 
+Fallback to netdev's uc/mc in a few places and grab addr lock.
+
+Cc: Saeed Mahameed <saeedm@nvidia.com>
+Cc: Tariq Toukan <tariqt@nvidia.com>
+Cc: Cosmin Ratiu <cratiu@nvidia.com>
 Signed-off-by: Stanislav Fomichev <sdf@fomichev.me>
 ---
- Documentation/networking/netdevices.rst |  4 ++
- net/core/dev.c                          | 79 +++++++++++++++++--------
- 2 files changed, 57 insertions(+), 26 deletions(-)
+ .../net/ethernet/mellanox/mlx5/core/en/fs.h   |  5 +++-
+ .../net/ethernet/mellanox/mlx5/core/en_fs.c   | 30 ++++++++++++-------
+ .../net/ethernet/mellanox/mlx5/core/en_main.c | 16 +++++++---
+ 3 files changed, 36 insertions(+), 15 deletions(-)
 
-diff --git a/Documentation/networking/netdevices.rst b/Documentation/networking/netdevices.rst
-index dc83d78d3b27..5cdaa1a3dcc8 100644
---- a/Documentation/networking/netdevices.rst
-+++ b/Documentation/networking/netdevices.rst
-@@ -298,6 +298,10 @@ struct net_device synchronization rules
- 	Notes: Sleepable version of ndo_set_rx_mode. Receives snapshots
- 	of the unicast and multicast address lists.
- 
-+ndo_change_rx_flags:
-+	Synchronization: rtnl_lock() semaphore. In addition, netdev instance
-+	lock if the driver implements queue management or shaper API.
-+
- ndo_setup_tc:
- 	``TC_SETUP_BLOCK`` and ``TC_SETUP_FT`` are running under NFT locks
- 	(i.e. no ``rtnl_lock`` and no device instance lock). The rest of
-diff --git a/net/core/dev.c b/net/core/dev.c
-index 77fdbe836754..d50d6dc6ac1f 100644
---- a/net/core/dev.c
-+++ b/net/core/dev.c
-@@ -9574,7 +9574,7 @@ static int __dev_set_promiscuity(struct net_device *dev, int inc, bool notify)
- 	kuid_t uid;
- 	kgid_t gid;
- 
--	ASSERT_RTNL();
-+	netdev_ops_assert_locked(dev);
- 
- 	promiscuity = dev->promiscuity + inc;
- 	if (promiscuity == 0) {
-@@ -9610,16 +9610,8 @@ static int __dev_set_promiscuity(struct net_device *dev, int inc, bool notify)
- 
- 		dev_change_rx_flags(dev, IFF_PROMISC);
- 	}
--	if (notify) {
--		/* The ops lock is only required to ensure consistent locking
--		 * for `NETDEV_CHANGE` notifiers. This function is sometimes
--		 * called without the lock, even for devices that are ops
--		 * locked, such as in `dev_uc_sync_multiple` when using
--		 * bonding or teaming.
--		 */
--		netdev_ops_assert_locked(dev);
-+	if (notify)
- 		__dev_notify_flags(dev, old_flags, IFF_PROMISC, 0, NULL);
--	}
- 	return 0;
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en/fs.h b/drivers/net/ethernet/mellanox/mlx5/core/en/fs.h
+index c3408b3f7010..091b80a67189 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/en/fs.h
++++ b/drivers/net/ethernet/mellanox/mlx5/core/en/fs.h
+@@ -201,7 +201,10 @@ int mlx5e_add_vlan_trap(struct mlx5e_flow_steering *fs, int  trap_id, int tir_nu
+ void mlx5e_remove_vlan_trap(struct mlx5e_flow_steering *fs);
+ int mlx5e_add_mac_trap(struct mlx5e_flow_steering *fs, int  trap_id, int tir_num);
+ void mlx5e_remove_mac_trap(struct mlx5e_flow_steering *fs);
+-void mlx5e_fs_set_rx_mode_work(struct mlx5e_flow_steering *fs, struct net_device *netdev);
++void mlx5e_fs_set_rx_mode_work(struct mlx5e_flow_steering *fs,
++			       struct net_device *netdev,
++			       struct netdev_hw_addr_list *uc,
++			       struct netdev_hw_addr_list *mc);
+ int mlx5e_fs_vlan_rx_add_vid(struct mlx5e_flow_steering *fs,
+ 			     struct net_device *netdev,
+ 			     __be16 proto, u16 vid);
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_fs.c b/drivers/net/ethernet/mellanox/mlx5/core/en_fs.c
+index 9352e2183312..b6c6779f131c 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/en_fs.c
++++ b/drivers/net/ethernet/mellanox/mlx5/core/en_fs.c
+@@ -610,20 +610,26 @@ static void mlx5e_execute_l2_action(struct mlx5e_flow_steering *fs,
  }
  
-@@ -9641,7 +9633,7 @@ int netif_set_allmulti(struct net_device *dev, int inc, bool notify)
- 	unsigned int old_flags = dev->flags, old_gflags = dev->gflags;
- 	unsigned int allmulti, flags;
+ static void mlx5e_sync_netdev_addr(struct mlx5e_flow_steering *fs,
+-				   struct net_device *netdev)
++				   struct net_device *netdev,
++				   struct netdev_hw_addr_list *uc,
++				   struct netdev_hw_addr_list *mc)
+ {
+ 	struct netdev_hw_addr *ha;
  
--	ASSERT_RTNL();
-+	netdev_ops_assert_locked(dev);
+-	netif_addr_lock_bh(netdev);
++	if (!uc || !mc) {
++		netif_addr_lock_bh(netdev);
++		mlx5e_sync_netdev_addr(fs, netdev, &netdev->uc, &netdev->mc);
++		netif_addr_unlock_bh(netdev);
++		return;
++	}
  
- 	allmulti = dev->allmulti + inc;
- 	if (allmulti == 0) {
-@@ -9671,12 +9663,36 @@ int netif_set_allmulti(struct net_device *dev, int inc, bool notify)
- 	return 0;
+ 	mlx5e_add_l2_to_hash(fs->l2.netdev_uc, netdev->dev_addr);
+-	netdev_for_each_uc_addr(ha, netdev)
++
++	netdev_hw_addr_list_for_each(ha, uc)
+ 		mlx5e_add_l2_to_hash(fs->l2.netdev_uc, ha->addr);
+ 
+-	netdev_for_each_mc_addr(ha, netdev)
++	netdev_hw_addr_list_for_each(ha, mc)
+ 		mlx5e_add_l2_to_hash(fs->l2.netdev_mc, ha->addr);
+-
+-	netif_addr_unlock_bh(netdev);
  }
  
-+/**
-+ * dev_uc_promisc_update() - evaluate whether uc_promisc should be toggled.
-+ * @dev: device
-+ *
-+ * Must be called under netif_addr_lock_bh.
-+ * Return: +1 to enter promisc, -1 to leave, 0 for no change.
-+ */
-+static int dev_uc_promisc_update(struct net_device *dev)
-+{
-+	if (dev->priv_flags & IFF_UNICAST_FLT)
-+		return 0;
-+
-+	if (!netdev_uc_empty(dev) && !dev->uc_promisc) {
-+		dev->uc_promisc = true;
-+		return 1;
-+	}
-+	if (netdev_uc_empty(dev) && dev->uc_promisc) {
-+		dev->uc_promisc = false;
-+		return -1;
-+	}
-+	return 0;
-+}
-+
- static void dev_rx_mode_work(struct work_struct *work)
+ static void mlx5e_fill_addr_array(struct mlx5e_flow_steering *fs, int list_type,
+@@ -725,7 +731,9 @@ static void mlx5e_apply_netdev_addr(struct mlx5e_flow_steering *fs)
+ }
+ 
+ static void mlx5e_handle_netdev_addr(struct mlx5e_flow_steering *fs,
+-				     struct net_device *netdev)
++				     struct net_device *netdev,
++				     struct netdev_hw_addr_list *uc,
++				     struct netdev_hw_addr_list *mc)
  {
- 	struct net_device *dev = container_of(work, struct net_device,
- 					      rx_mode_work);
- 	struct netdev_hw_addr_list uc_snap, mc_snap, uc_ref, mc_ref;
- 	const struct net_device_ops *ops = dev->netdev_ops;
-+	int promisc_inc;
- 	int err;
+ 	struct mlx5e_l2_hash_node *hn;
+ 	struct hlist_node *tmp;
+@@ -737,7 +745,7 @@ static void mlx5e_handle_netdev_addr(struct mlx5e_flow_steering *fs,
+ 		hn->action = MLX5E_ACTION_DEL;
  
- 	__hw_addr_init(&uc_snap);
-@@ -9704,15 +9720,28 @@ static void dev_rx_mode_work(struct work_struct *work)
- 		if (!err)
- 			err = __hw_addr_list_snapshot(&mc_ref, &dev->mc,
- 						      dev->addr_len);
--		netif_addr_unlock_bh(dev);
+ 	if (fs->state_destroy)
+-		mlx5e_sync_netdev_addr(fs, netdev);
++		mlx5e_sync_netdev_addr(fs, netdev, uc, mc);
  
- 		if (err) {
- 			__hw_addr_flush(&uc_snap);
- 			__hw_addr_flush(&uc_ref);
- 			__hw_addr_flush(&mc_snap);
-+			netif_addr_unlock_bh(dev);
- 			goto out;
- 		}
+ 	mlx5e_apply_netdev_addr(fs);
+ }
+@@ -821,7 +829,9 @@ static void mlx5e_destroy_promisc_table(struct mlx5e_flow_steering *fs)
+ }
  
-+		promisc_inc = dev_uc_promisc_update(dev);
-+
-+		netif_addr_unlock_bh(dev);
-+	} else {
-+		netif_addr_lock_bh(dev);
-+		promisc_inc = dev_uc_promisc_update(dev);
-+		netif_addr_unlock_bh(dev);
-+	}
-+
-+	if (promisc_inc)
-+		__dev_set_promiscuity(dev, promisc_inc, false);
-+
-+	if (ops->ndo_set_rx_mode_async) {
- 		ops->ndo_set_rx_mode_async(dev, &uc_snap, &mc_snap);
- 
- 		netif_addr_lock_bh(dev);
-@@ -9721,6 +9750,10 @@ static void dev_rx_mode_work(struct work_struct *work)
- 		__hw_addr_list_reconcile(&dev->mc, &mc_snap,
- 					 &mc_ref, dev->addr_len);
- 		netif_addr_unlock_bh(dev);
-+	} else if (ops->ndo_set_rx_mode) {
-+		netif_addr_lock_bh(dev);
-+		ops->ndo_set_rx_mode(dev);
-+		netif_addr_unlock_bh(dev);
- 	}
- 
- out:
-@@ -9739,28 +9772,22 @@ static void dev_rx_mode_work(struct work_struct *work)
- void __dev_set_rx_mode(struct net_device *dev)
+ void mlx5e_fs_set_rx_mode_work(struct mlx5e_flow_steering *fs,
+-			       struct net_device *netdev)
++			       struct net_device *netdev,
++			       struct netdev_hw_addr_list *uc,
++			       struct netdev_hw_addr_list *mc)
  {
- 	const struct net_device_ops *ops = dev->netdev_ops;
-+	int promisc_inc;
+ 	struct mlx5e_l2_table *ea = &fs->l2;
  
- 	/* dev_open will call this function so the list will stay sane. */
- 	if (!netif_up_and_present(dev))
- 		return;
+@@ -851,7 +861,7 @@ void mlx5e_fs_set_rx_mode_work(struct mlx5e_flow_steering *fs,
+ 	if (enable_broadcast)
+ 		mlx5e_add_l2_flow_rule(fs, &ea->broadcast, MLX5E_FULLMATCH);
  
--	if (ops->ndo_set_rx_mode_async) {
-+	if (ops->ndo_set_rx_mode_async || ops->ndo_change_rx_flags) {
- 		queue_work(rx_mode_wq, &dev->rx_mode_work);
- 		return;
- 	}
+-	mlx5e_handle_netdev_addr(fs, netdev);
++	mlx5e_handle_netdev_addr(fs, netdev, uc, mc);
  
--	if (!(dev->priv_flags & IFF_UNICAST_FLT)) {
--		/* Unicast addresses changes may only happen under the rtnl,
--		 * therefore calling __dev_set_promiscuity here is safe.
--		 */
--		if (!netdev_uc_empty(dev) && !dev->uc_promisc) {
--			__dev_set_promiscuity(dev, 1, false);
--			dev->uc_promisc = true;
--		} else if (netdev_uc_empty(dev) && dev->uc_promisc) {
--			__dev_set_promiscuity(dev, -1, false);
--			dev->uc_promisc = false;
--		}
--	}
-+	/* Legacy path for non-ops locked HW devices. */
+ 	if (disable_broadcast)
+ 		mlx5e_del_l2_flow_rule(fs, &ea->broadcast);
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_main.c b/drivers/net/ethernet/mellanox/mlx5/core/en_main.c
+index f7009da94f0b..e86cf1ee108d 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/en_main.c
++++ b/drivers/net/ethernet/mellanox/mlx5/core/en_main.c
+@@ -4108,11 +4108,16 @@ static void mlx5e_nic_set_rx_mode(struct mlx5e_priv *priv)
+ 	queue_work(priv->wq, &priv->set_rx_mode_work);
+ }
+ 
+-static void mlx5e_set_rx_mode(struct net_device *dev)
++static void mlx5e_set_rx_mode(struct net_device *dev,
++			      struct netdev_hw_addr_list *uc,
++			      struct netdev_hw_addr_list *mc)
+ {
+ 	struct mlx5e_priv *priv = netdev_priv(dev);
+ 
+-	mlx5e_nic_set_rx_mode(priv);
++	if (mlx5e_is_uplink_rep(priv))
++		return; /* no rx mode for uplink rep */
 +
-+	promisc_inc = dev_uc_promisc_update(dev);
-+	if (promisc_inc)
-+		__dev_set_promiscuity(dev, promisc_inc, false);
++	mlx5e_fs_set_rx_mode_work(priv->fs, dev, uc, mc);
+ }
  
- 	if (ops->ndo_set_rx_mode)
- 		ops->ndo_set_rx_mode(dev);
-@@ -9810,7 +9837,7 @@ int __dev_change_flags(struct net_device *dev, unsigned int flags,
- 	unsigned int old_flags = dev->flags;
- 	int ret;
+ static int mlx5e_set_mac(struct net_device *netdev, void *addr)
+@@ -5287,7 +5292,7 @@ const struct net_device_ops mlx5e_netdev_ops = {
+ 	.ndo_setup_tc            = mlx5e_setup_tc,
+ 	.ndo_select_queue        = mlx5e_select_queue,
+ 	.ndo_get_stats64         = mlx5e_get_stats,
+-	.ndo_set_rx_mode         = mlx5e_set_rx_mode,
++	.ndo_set_rx_mode_async   = mlx5e_set_rx_mode,
+ 	.ndo_set_mac_address     = mlx5e_set_mac,
+ 	.ndo_vlan_rx_add_vid     = mlx5e_vlan_rx_add_vid,
+ 	.ndo_vlan_rx_kill_vid    = mlx5e_vlan_rx_kill_vid,
+@@ -6272,8 +6277,11 @@ void mlx5e_set_rx_mode_work(struct work_struct *work)
+ {
+ 	struct mlx5e_priv *priv = container_of(work, struct mlx5e_priv,
+ 					       set_rx_mode_work);
++	struct net_device *dev = priv->netdev;
  
--	ASSERT_RTNL();
-+	netdev_ops_assert_locked(dev);
+-	return mlx5e_fs_set_rx_mode_work(priv->fs, priv->netdev);
++	netdev_lock_ops(dev);
++	mlx5e_fs_set_rx_mode_work(priv->fs, dev, NULL, NULL);
++	netdev_unlock_ops(dev);
+ }
  
- 	/*
- 	 *	Set the flags on our device.
+ /* mlx5e generic netdev management API (move to en_common.c) */
 -- 
 2.53.0
 
