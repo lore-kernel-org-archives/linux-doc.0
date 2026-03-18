@@ -1,225 +1,419 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28D3C36AB50;
-	Wed, 18 Mar 2026 07:48:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.10
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773820111; cv=fail; b=Z6uRoU2WGzwNMnkvOUP6lks9xHwMTL7b+S7ZhwVeDjzYPx3ZagqA3H/JDyp918tp7vvNx5ENJdps9xmEg3Dm65N0YH998VuIc1uyXPQHWLrPTfXuyOk8iXg9G4TgkA2aQHBNy8/vhuKkbyoM/Gf1h8XJscWQVM+wL52dVc6fBvE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773820111; c=relaxed/simple;
-	bh=dmVVRCDmjorppQYcfe832of82glQZmzsftIk8WfXbVw=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=PjQXC7KcJ++cQt8DN2DtvFlKUJ5SQltOT5McotYmu4IvYH9niYki+oVqdph5Wzksn1e1NZAtns7T43y71FlkuMUoEhcl9PKm08pFfQOdKm9J4vTa/QdhAkjW178cB8feBMCEBBk5nP9BO8RH0Cqb6odF87SP6i74ndrJnT9M1+A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bly7E2iV; arc=fail smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1CCA370D7C
+	for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2026 07:57:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773820630; cv=none; b=eDBtnsDjekqy0bNra+d3MYsvM5u/jKV1VpejqtMmGkouitoFNjtCMTq67VOxgd3ScNsSzvDlKNYzYd9vewZfGtWsHQ/YAUM1tn44fiR6C/nWac9UFg/l6QJHlAGrTsKGQIWQ5B1K+oTKFMQynI9itlw2llpCAycrV6EcOKxZ/RU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773820630; c=relaxed/simple;
+	bh=YfDNY7iT313cuWLGUm3tugBriz8wM1xUVFpg1wKyFdQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uGyjU2m8+IFBS+9tsx2UM+/g12I3vcJwm/Uj46Zg4EOVqwzE1/Ak6Y1yLT0u1W0KDXhwtGAT60H/4QojCwVgzrpoKWYqTSWh5ZqoGY+wcruT9V90Am0/LUfaJ93rvPNmWpADd8aoCpH6hGd5kHAdSKV7zUjjyUGTmQNi277H8IM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XioBKofw; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bly7E2iV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773820109; x=1805356109;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=dmVVRCDmjorppQYcfe832of82glQZmzsftIk8WfXbVw=;
-  b=bly7E2iVkJ5F2VBYDkI8fezzRoTdgq3V8v5DevGrHXEUJxjfKttdfPOX
-   vmkqNwwX9T1UFjBZ1OVub8FF0ckpvFv7MCYWpA/TFdUIoDo9yjXslNMye
-   zcmOKvjlw8PX3YyhFQz8KJ3/mGAAygk/1aJJRs1eeKjFHhLyKJWDRWo5V
-   JITPkeDxrPqFylZutaoFLD/Jh+78MU92HpCWxPyy0a1rWCx8R3g1nx5aZ
-   omKwKF3sQbmS/3HLfKHpLXl6/HQioZUWlMaURoR3mPrME4r+j1IyfA0gE
-   mTxfzcNFsS1Gz1adCDOmCEFAtG2xlwmwHkkj6c6L8PLi4ojc9YEcfczH7
-   w==;
-X-CSE-ConnectionGUID: x1onkyhVSe6elX+TJ8EJNg==
-X-CSE-MsgGUID: 3UBPA/j+SFymzSTBwbUvjQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="92249838"
-X-IronPort-AV: E=Sophos;i="6.23,127,1770624000"; 
-   d="scan'208";a="92249838"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2026 00:48:28 -0700
-X-CSE-ConnectionGUID: tUR9l6GpTNmwlKIcNeb96A==
-X-CSE-MsgGUID: jrhb7PN3RwSx7U9YgH2Rdg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,127,1770624000"; 
-   d="scan'208";a="222590210"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2026 00:48:28 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Wed, 18 Mar 2026 00:48:28 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Wed, 18 Mar 2026 00:48:28 -0700
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (52.101.43.11) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Wed, 18 Mar 2026 00:48:26 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XuCulRKH/ZETKIKRtzg430qT0SC0tKVWBjjVOMCBc1YPoEHEFRxz98eA+acSzVJ8spVrQE2abppLBqmGakqVQM2IopBirY0idxjXSD3r5PlEq3uMqt/cF4ld4RbarylD+S4rjN+bgjYFOS4waaZHGjt7dT25wpqrc/epcH33KIIGME5unIZj/JYuOL4c+D1cdeHMYXU6HQk/3wLRh5J9eWOMQKtvdY+9VSqadPYZQanWWtRHh5fL2OY4sad+Puo4SMrWpaVPP1iBTQQMKu+YA+fORfwdiIdaKFL96I5D4qR/O6R3tP2eXeOYuEPd8fsegqK1NoeaEtEymAlxVgYBjg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dmVVRCDmjorppQYcfe832of82glQZmzsftIk8WfXbVw=;
- b=Atdk8Gpgsd6MY2Y/VvgnqkIdwxayO8iOc4j7Dab0Q/5xEoJx+F1IH6EqaNgwvXSZSxAmwzFaLcveIBTJ/uTBdRSUFhlgV0vX/VcBAJZgwVDIkEKJWgjS7/NXUAADBp5fjYuzfLLoi7iSq4RTNf8+edYiaHOZ5f0a8yIUj9VpU++iR7KBdXik04Lkjqo1uOAiMro3tJmNnwJXvNbA6j03maGe1CwnW1YDNkhtfwctCG/7YVZJp28AmOnsXfcjhokO5ba80BuWn2PwRasSfZATVrhjegrZ/5cGoDSnkAa8V43SxFAzTMXWshAA0f8RQXTSIYBqXPomxvQm7xGy58xoMg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from IA3PR11MB8986.namprd11.prod.outlook.com (2603:10b6:208:577::21)
- by DM4PR11MB6191.namprd11.prod.outlook.com (2603:10b6:8:ac::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.16; Wed, 18 Mar
- 2026 07:48:23 +0000
-Received: from IA3PR11MB8986.namprd11.prod.outlook.com
- ([fe80::e6f0:6afb:6ef9:ab5c]) by IA3PR11MB8986.namprd11.prod.outlook.com
- ([fe80::e6f0:6afb:6ef9:ab5c%5]) with mapi id 15.20.9723.006; Wed, 18 Mar 2026
- 07:48:23 +0000
-From: "Loktionov, Aleksandr" <aleksandr.loktionov@intel.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Jonathan Corbet
-	<corbet@lwn.net>, Linux Doc Mailing List <linux-doc@vger.kernel.org>
-CC: "linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Randy Dunlap
-	<rdunlap@infradead.org>
-Subject: RE: [PATCH v3 06/22] docs: kdoc: use tokenizer to handle comments on
- structs
-Thread-Topic: [PATCH v3 06/22] docs: kdoc: use tokenizer to handle comments on
- structs
-Thread-Index: AQHctjlJA4FsgycvSkq0pI1/6UTQEbWz6rWQ
-Date: Wed, 18 Mar 2026 07:48:23 +0000
-Message-ID: <IA3PR11MB8986FAD8B8AD9DDA939B4094E54EA@IA3PR11MB8986.namprd11.prod.outlook.com>
-References: <cover.1773770483.git.mchehab+huawei@kernel.org>
- <054763260f7b5459ad0738ed906d7c358d640692.1773770483.git.mchehab+huawei@kernel.org>
-In-Reply-To: <054763260f7b5459ad0738ed906d7c358d640692.1773770483.git.mchehab+huawei@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: IA3PR11MB8986:EE_|DM4PR11MB6191:EE_
-x-ms-office365-filtering-correlation-id: da164883-6d14-4d69-3374-08de84c2bb45
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|366016|38070700021|22082099003|56012099003|18002099003;
-x-microsoft-antispam-message-info: SKPJHzVcS0rZtEL0iNxw44jZYFVRHBKRcmNRlrP9nzsx14KBTIN2mHNBkZSunYbR4lDCPpOeqmQSx29He+dGGiVyFXk0NSjQ+Zb3b0fkGIGL5F2MQ5zijMOetT8jStrT4yDhZadojLPyI3/cidPkPehCGi0ArU0q6niVJ0lewe4TMW5ope0qdRWi9WZrxlsMtYS8PinSHcJ0i8iDd3MNyNRSPqGrWBCwotnGBqWaIWJpkdmQrkWyYhquLKtHqcXjB2AA4xB2gOVkjjZuxR0WuEZIV4WeWBNHfbVbd/nsX2GThmMwz3tuDab0DwSoFmS3mr17FCc8TxikACSbXYGzgOQzH2OabMDz50WD8+sFwMdv2uSsny4PqlfQs3SiQmdn96/4bj3w8QvnyrPhSQh5J3Z8V9WSagphSfFCm7NpDCU2N6S8CUrPjtpJLjhcH1B0wsTXsKvp7igwnHxDrwC3FZoVYKAGHSp3p0n65r6omSfMCniaj1a3IVFKBN0JafOnv/AFWig5gE28Po9PzqfXsSbZ56QOVx0ck0cd0hi25/phQ89CMm8PHqQiHG5ccvz7ii+uEchXssIhtbjNqTNeJiN93bDgUS0ylpzWuV1ahMJ+zFYZwUV/hIBJGHpaJGWMu6k0DtFHsyOyI1xSPDjBZF3z1xIVe6vlyuNFKfUD2vfOzxt6De4DzAps94zK5mfIz9gY0ZGTjjOy194GLEr3Xzn+XTUrlDW32objDPqAegR/t9oEaXn8UrUfyRVxTq5iiKfAOcMzh/YEnwSZYExZ7NzmOJOPl1y6NKEKkbjY9HQ=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA3PR11MB8986.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700021)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?M3RmcVdidGIyTTRGR3NQVkVLdC83SkgzRDhIVDZONFhVMmFRQm84QkJLUmRZ?=
- =?utf-8?B?RE9aMC8zVnk0UXdzL2hoRFBlUk44K09jZStBWnA2SW8vUVMzSitoWDdidHEw?=
- =?utf-8?B?cTFKTG9aN3RxMUFZelduQlo2eU1Hb1JPWjhWekpmQStiMDNRQ1FBVWhjMlhH?=
- =?utf-8?B?SC9ZR0Z3MjFva2hJbExFMFd4Vmx4cHR0Snp0VSsvY1h4RHd0Z25Pd3FHbGtR?=
- =?utf-8?B?U2FLVERmb3c1Zjd3VzU2VFFWNmtEc1F5WmRodVBlQ3FCaVBibnVuRU9hZkdk?=
- =?utf-8?B?eURFbGFsUlMzaTBzMVFzR1hUcWpMZEVIeXo4YWdXdEpTTlhLT1BQa2dha09h?=
- =?utf-8?B?V2RIT3ZiMmNlZUZPRzJ3cEltejZXaHFwaXRJRFlCUzlpOEt5dFBsS0kxTEZY?=
- =?utf-8?B?M3dMYVQ0bGl2MGwrM2ZyTG9FZDIramhobmQvVllvYUdvQzFwZWR6UGhka2Vt?=
- =?utf-8?B?RlBTblh6bHlNWSs5REUrVHdCSTVxTGRoMHl1cUdFSU1YSnBaOWpwYUFacjVH?=
- =?utf-8?B?TG9YOUNSVFl6ZktUWFZKTnlhN2NjV0Jwb2k4TlVVL1ZuTXdOQXU2S2FSK2h6?=
- =?utf-8?B?dVVoZjRpY3pqL0dLaVJJMnVZV3lqSFc4K0c2RThCbG9uTUhQa0x6cENTRDhz?=
- =?utf-8?B?dUFVMnNsWnRtWW9MRFRuaVpYWkhXNkM2eXUyc1g3bGNzRFB0ZWdCUHA1ditV?=
- =?utf-8?B?VjNNNzc1VS9UNG9XaGtlNk9sSFlVSzBnZURrQ1VNUHAycnJYdll4d0toVnBY?=
- =?utf-8?B?cmVweE9ybnBVMm5rWW5ZcmJ3enFTb0dNQ3lEZDJva1duM05PRnd1ZU5ETzRN?=
- =?utf-8?B?bFZYdlZaclVPOWY4S0E2cjJCbVBnbitwNU91dytBak1WUmpJeGQvZ1RrR093?=
- =?utf-8?B?czFRQndRSGJRVENkS1NUOUNPVzVLYkZoUTdRYUdETzk5ZHdib0NCNUZQSkR6?=
- =?utf-8?B?QklzU1FsMW9BZlE5SmtHK2JDamNKczRXanRhbklaWStMYVd5aGdrUllEOVZW?=
- =?utf-8?B?cU5STlNxUTQyWTBSMmg5MExYdjhJNHZsRVNVSXNDK2xzVVpwQzZWdmJJdVQw?=
- =?utf-8?B?OTJ4VGcyaXJzYUhJUnF1NUdpV3hFN0xFUkZFQkhWR1FMeGxjNjhtWkhLTWJL?=
- =?utf-8?B?bzlVemhkUGsxT0FDWGIzVFl0ZEYzTUZUMEVKVy8ySkI3UStLeTMxZGQrMEI3?=
- =?utf-8?B?TFVpY1hyUlBqUzNzTTdEOVFpYWlyWkE1V3JhVU95Vkt2Y0pTSnRSMHBRcjZZ?=
- =?utf-8?B?WVhFZ2NXRXlVYWE2Uk5Sa2Znd0Foa2FOdWxKQ0pSZG53eVUwS2R4Z1FiRnNh?=
- =?utf-8?B?dy93bHlSNXIyWnlVeU1GVjlkdGo1eEltZ2g5VDNKUEFDK1AxWE1BNDd1anYz?=
- =?utf-8?B?OGpwZVlUckszeEVBWnhtbG82TTNENHVlUFlvbTJYZk9Ha0oxWXZQcUxUcjVQ?=
- =?utf-8?B?ZmdXdXRFSEkyM2tuaSt4WTFYRnB0cm84d0U4VS9MbVl5a3JlbDZFcHlQUWJq?=
- =?utf-8?B?ZnJMdXorQ2EwRDBSY2FIdG11akJKUm1tSnBDRHMwejFNcUVORUR4Wld0UHFi?=
- =?utf-8?B?V2xsRHczc3U4Q2h1djNmMW5ZYWxEeVk2TDJBL2FnYklWRC9oUmxXcWN5REdR?=
- =?utf-8?B?bjJWVUpwYkZRd2liUFdjaldvaTY0UzVYUTl3eEdaMzk0WjJaRjY3dFViSS85?=
- =?utf-8?B?T2FDQU95cytPNngrWmtXcE1kWnovaUo5R0FicWN6SjJQYUh5eTB4amhsRkFy?=
- =?utf-8?B?czhPQXFXZlZlWlNEeTdrcUc5THQ1MGw4RmFjK3VuSWdsd1UvczlvNlRDVWJ4?=
- =?utf-8?B?SDRGbFdzT095M0QzRitjaEVYeXJpREpVd0ZsaUhaelB6NEh0N2g2cTFqdnEz?=
- =?utf-8?B?VVpFSUc5MTZtVVNqQlhmbjZQakxNRkg1RURWTXgvZDZtV2ZZNTNxS0Ztb2Zo?=
- =?utf-8?B?N3djQW1OUTNBS0UzR0IxaTBNOXd5QTQyYm5BSHJNdlpta3FqMWpDSDdhbmhQ?=
- =?utf-8?B?cFhsN0V1ZkhqTGE0dHU0bFZjVnVjeXJPOGNIekNEZDVvK1VmYUhyOTVvQlB5?=
- =?utf-8?B?bVNEU1NnV2Ywc3JGQ0JTQlVDVk5wYWNhVTlLTGJuZzdPSE5veVpzSnAxdHFa?=
- =?utf-8?B?TXozQitDYWk3QnNkMHhIaUhzazdDR1Rob2lsdlA2ZGFNclhONFRoKzVMa1Fk?=
- =?utf-8?B?SERXUngvczQzYTNOdHhWbzRqMjRMTGdEaThMRmJiQVFUS1NzVHk0a3U2K1FP?=
- =?utf-8?B?b2VjVWRjRzdXOHVuVCtTUGQxbkQwQ2NWeXoyMGl1Z1pyL3huZXluelUxc0JI?=
- =?utf-8?B?NHBxU1NEZ3IzN2FCVlpmalVCMkl1OERzRlVTOUYwRzlPbGFFV3FnaDVEOXhs?=
- =?utf-8?Q?Ruh92V4n9Z7QbQ60=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XioBKofw"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-829781b2b01so4126806b3a.2
+        for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2026 00:57:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773820627; x=1774425427; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=PP/+AhmvNJgyxIG32WMnq0PVn4gPH/Re0miowrwzYdM=;
+        b=XioBKofwOjSvw9ZJSuxbeyg/DqL45J0qKGnufEOceOQznjCK3+CKOrs0V/R6c40TlX
+         xt2Flla8rN9b5l2AbrKfNJzewWv2eXw82JPe6EBbP/caRgyF3PW0Pw7geiJXVtMTc3Rl
+         qsbaCUx2+QcB7Bx1h+g1+s+KTEGy0rlUThZwFJkZ1HEma54RNstbO9nAgVaVeMP9RlIt
+         kuDHBt73/+rAwcj2eUEmC6jdwyHPByNUUUg3iGrKb+cQBZyeMxUbvl9dTwgDpkf0TzRB
+         W652oIkePEZmBGFE7w/UaBBpp4iQ5x3eBUto0mgxn4Fu0VR/wqIl4+v1kXuH1ZWu+iFj
+         A7kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773820627; x=1774425427;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PP/+AhmvNJgyxIG32WMnq0PVn4gPH/Re0miowrwzYdM=;
+        b=Q/+rPslS5BW+/P63gmoqyYtfqsXZgnp90BzpblItF6Bfwz8t3U5jkOHfuQnJOzlIU5
+         nXR6ewgpIEm3EO6cu79iie4DNLDHXZ5y469DnrrFmR3+IchSqGVX8wJ5L2kIL3NwNDQo
+         lXJEVq1XODEyew9TwBUAJBCCtUoOu/o4kof+9YZihLmZMNhbPuX7Lqxf3rLEGjvAZIAG
+         I9W4dubuW3ahsjvByWoLyyT5pGXH0WKFqfty3ESQBjDof+Ht444iTSkT483WmKkEAAm/
+         iKaDch3NsrcwcR958xKiqCEum7XPhrG/3InH8RMozn8lPmeT+O5QRcX7D2M2E7dW+UhF
+         wqkA==
+X-Forwarded-Encrypted: i=1; AJvYcCUO+MJ2bwcs83DFALsOI5WO9Mrc3ipnAXgpypS8WIByuayX76hP9FE31kNYGZ5PYuSM0oti95OgcC4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzEWsL35Dgrig6dWtwwal0qIG0swToF0hwl02fdmN72nmOWWfNW
+	WI7z2Ksgm838wakNauzqrlZNdDyUHOW/6FUHadbo2an87VrpXrkbNML5
+X-Gm-Gg: ATEYQzx5dCUs0OoEWEgXZsHZnyh2iE9mKbdYzGmqiU8cyda/0EwJZPnxBUFTZgGCHSk
+	GhJUOfLVNPXcQGv2quatxqHPqQ5sskhlPHd+47j+mWXTnKPnLw9c+ArZpvjtBHnGl/sFDHkJ/mY
+	4/HrKVyfnPS0ZzUugXZJ31zrj91uCUm+iFb8amw3xyn7qhpUKL5ndlAQMz24OK+f7OgHc+nXd2A
+	/lnjsz+jGqB53TAv6/UKIcOb9mZk/qBtSz57PWjB2x5PSboGY89bWTnGnaIaSr7IO68B2eTmSCY
+	1kQWFoBNgyZViqf/w1rmoJqr/NKXdiE2WrpO1hIFkZ+gKe5f5ZS++Q/yA3Uehl/7TwhXwl6X0GD
+	05BX++93e9q0x37w9/NnbnlLCQ2q8UGHOLL2AoPzKdTJFZ7MDOZfHN80g+xLKJhMbCdmjNBiUcp
+	3kkl5cmj59xfNsCwQAuEpnG30RdnaYOLORRkHLL/3R5Kdv+CFOnaFiZbkNovImrl0Zr2PPcU7f
+X-Received: by 2002:a05:6a00:12d5:b0:82a:1044:3582 with SMTP id d2e1a72fcca58-82a6ae70a27mr2457787b3a.28.1773820626922;
+        Wed, 18 Mar 2026 00:57:06 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82a6bbe1af0sm1894539b3a.41.2026.03.18.00.57.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Mar 2026 00:57:06 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <1e125855-53b8-44e4-a330-fc85e3afb833@roeck-us.net>
+Date: Wed, 18 Mar 2026 00:57:04 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: h5/y010YC5dZeZLfKubUhOspP7BBs0W9snVo53SzehGWp1sIs0P0/CSUlR6cyjgb1J+sbFnSQ4eNrjZcZ4HZWEoaGo0EiXe7sWMaY2AxotV+1JsLxDtmnlYhYa3N2pFiv1uotbr5E36Y/uK0qzXwevQXi8q9OfStgrBFKtqFdc31UEmCNpIeykH3VWWH2Oapj0Gk3Jz9+7gDj8rvNhyETi0JvCSkdJGEgyqprFpEFp/4k4OjkeD41wJR8yoR7VhTgAdO20HpKfk7SqtzUS9pbnHWEerQO0P/zq9XBlbQ0mubAxaRzxisv++rN87JQeIym3FKSgy+i7GuQskeTKEVrw==
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: IA3PR11MB8986.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: da164883-6d14-4d69-3374-08de84c2bb45
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Mar 2026 07:48:23.3241
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: hU1UzuDWD8Fj23heMh+cCE41djOylDYxlx3B+e6JryD4eUlgfF7ssBra/EQfYyD160zwJRoO90AvX/4syqhhYLMTSYGgwEVZa/+9OyLVlq4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6191
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] hwmon: add mpm369x driver
+To: Yuxi Wang <Yuxi.Wang@monolithicpower.com>, corbet@lwn.net,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: wyx137120466@gmail.com, linux-hwmon@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <20260318070115.1609-1-Yuxi.Wang@monolithicpower.com>
+ <0111019cffc12220-1800bb62-f2e0-4194-99a3-7d2ba03532c6-000000@us-west-1.amazonses.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <0111019cffc12220-1800bb62-f2e0-4194-99a3-7d2ba03532c6-000000@us-west-1.amazonses.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogTWF1cm8gQ2FydmFsaG8g
-Q2hlaGFiIDxtY2hlaGFiK2h1YXdlaUBrZXJuZWwub3JnPg0KPiBTZW50OiBUdWVzZGF5LCBNYXJj
-aCAxNywgMjAyNiA3OjA5IFBNDQo+IFRvOiBKb25hdGhhbiBDb3JiZXQgPGNvcmJldEBsd24ubmV0
-PjsgTGludXggRG9jIE1haWxpbmcgTGlzdCA8bGludXgtDQo+IGRvY0B2Z2VyLmtlcm5lbC5vcmc+
-DQo+IENjOiBNYXVybyBDYXJ2YWxobyBDaGVoYWIgPG1jaGVoYWIraHVhd2VpQGtlcm5lbC5vcmc+
-OyBsaW51eC0NCj4gaGFyZGVuaW5nQHZnZXIua2VybmVsLm9yZzsgbGludXgta2VybmVsQHZnZXIu
-a2VybmVsLm9yZzsgTG9rdGlvbm92LA0KPiBBbGVrc2FuZHIgPGFsZWtzYW5kci5sb2t0aW9ub3ZA
-aW50ZWwuY29tPjsgUmFuZHkgRHVubGFwDQo+IDxyZHVubGFwQGluZnJhZGVhZC5vcmc+DQo+IFN1
-YmplY3Q6IFtQQVRDSCB2MyAwNi8yMl0gZG9jczoga2RvYzogdXNlIHRva2VuaXplciB0byBoYW5k
-bGUgY29tbWVudHMNCj4gb24gc3RydWN0cw0KPiANCj4gQmV0dGVyIGhhbmRsZSBjb21tZW50cyBp
-bnNpZGUgc3RydWN0cy4gQWZ0ZXIgdGhvc2UgY2hhbmdlcywgYWxsDQo+IHVuaXR0ZXN0cyBub3cg
-cGFzczoNCj4gDQo+ICAgdGVzdF9wcml2YXRlOg0KPiAgICAgVGVzdFB1YmxpY1ByaXZhdGU6DQo+
-ICAgICAgICAgdGVzdCBiYWxhbmNlZF9pbm5lcl9wcml2YXRlOg0KPiBPSw0KPiAgICAgICAgIHRl
-c3QgYmFsYW5jZWRfbm9uX2dyZWRkeV9wcml2YXRlOg0KPiBPSw0KPiAgICAgICAgIHRlc3QgYmFs
-YW5jZWRfcHJpdmF0ZToNCj4gT0sNCj4gICAgICAgICB0ZXN0IG5vIHByaXZhdGU6DQo+IE9LDQo+
-ICAgICAgICAgdGVzdCB1bmJhbGFuY2VkX2lubmVyX3ByaXZhdGU6DQo+IE9LDQo+ICAgICAgICAg
-dGVzdCB1bmJhbGFuY2VkX3ByaXZhdGU6DQo+IE9LDQo+ICAgICAgICAgdGVzdCB1bmJhbGFuY2Vk
-X3N0cnVjdF9ncm91cF90YWdnZWRfd2l0aF9wcml2YXRlOg0KPiBPSw0KPiAgICAgICAgIHRlc3Qg
-dW5iYWxhbmNlZF90d29fc3RydWN0X2dyb3VwX3RhZ2dlZF9maXJzdF93aXRoX3ByaXZhdGU6DQo+
-IE9LDQo+ICAgICAgICAgdGVzdCB1bmJhbGFuY2VkX3dpdGhvdXRfZW5kX29mX2xpbmU6DQo+IE9L
-DQo+IA0KPiAgIFJhbiA5IHRlc3RzDQo+IA0KPiBUaGlzIGFsc28gc29sdmVzIGEgYnVnIHdoZW4g
-aGFuZGxpbmcgU1RSVUNUX0dST1VQKCkgd2l0aCBhIHByaXZhdGUNCj4gY29tbWVudCBvbiBpdDoN
-Cj4gDQo+IAlAQCAtMzk3MTM0LDcgKzM5NzEzNCw3IEBAIGJhc2ljIFY0TDIgZGV2aWNlLWxldmVs
-IHN1cHBvcnQuDQo+IAkgICAgICAgICAgICAgdW5zaWduZWQgaW50ICAgIG1heF9sZW47DQo+IAkg
-ICAgICAgICAgICAgdW5zaWduZWQgaW50ICAgIG9mZnNldDsNCj4gCSAgICAgICAgICAgICBzdHJ1
-Y3QgcGFnZV9wb29sX3BhcmFtc19zbG93ICBzbG93Ow0KPiAJLSAgICAgICAgICAgIFNUUlVDVF9H
-Uk9VUCggc3RydWN0IG5ldF9kZXZpY2UgKm5ldGRldjsNCj4gCSsgICAgICAgICAgICBzdHJ1Y3Qg
-bmV0X2RldmljZSAqbmV0ZGV2Ow0KPiAJICAgICAgICAgICAgIHVuc2lnbmVkIGludCBxdWV1ZV9p
-ZHg7DQo+IAkgICAgICAgICAgICAgdW5zaWduZWQgaW50ICAgIGZsYWdzOw0KPiAJICAgICAgIH07
-DQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBNYXVybyBDYXJ2YWxobyBDaGVoYWIgPG1jaGVoYWIraHVh
-d2VpQGtlcm5lbC5vcmc+DQo+IE1lc3NhZ2UtSUQ6DQo+IDxmODNlZTllOGMzODQwN2VhYWI2YWQx
-MGQ0Y2NmMTU1ZmIzNjY4M2NjLjE3NzMwNzQxNjYuZ2l0Lm1jaGVoYWIraHVhd2UNCj4gaUBrZXJu
-ZWwub3JnPg0KPiAtLS0NCj4gIHRvb2xzL2xpYi9weXRob24va2RvYy9rZG9jX3BhcnNlci5weSB8
-IDEzICsrKystLS0tLS0tLS0NCj4gIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDkg
-ZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvdG9vbHMvbGliL3B5dGhvbi9rZG9jL2tk
-b2NfcGFyc2VyLnB5DQo+IGIvdG9vbHMvbGliL3B5dGhvbi9rZG9jL2tkb2NfcGFyc2VyLnB5DQo+
-IGluZGV4IDRiM2M1NTVlNmM4ZS4uNjJkODAzMGNmNTMyIDEwMDY0NA0KPiAtLS0gYS90b29scy9s
-aWIvcHl0aG9uL2tkb2Mva2RvY19wYXJzZXIucHkNCj4gKysrIGIvdG9vbHMvbGliL3B5dGhvbi9r
-ZG9jL2tkb2NfcGFyc2VyLnB5DQo+IEBAIC0xMyw2ICsxMyw3IEBAIGltcG9ydCBzeXMNCj4gIGlt
-cG9ydCByZQ0KPiAgZnJvbSBwcHJpbnQgaW1wb3J0IHBmb3JtYXQNCj4gDQo+ICtmcm9tIGtkb2Mu
-Y19sZXggaW1wb3J0IENUb2tlbml6ZXINCj4gIGZyb20ga2RvYy5rZG9jX3JlIGltcG9ydCBOZXN0
-ZWRNYXRjaCwgS2VyblJlICBmcm9tIGtkb2Mua2RvY19pdGVtDQo+IGltcG9ydCBLZG9jSXRlbQ0K
-PiANCj4gQEAgLTg0LDE1ICs4NSw5IEBAIGRlZiB0cmltX3ByaXZhdGVfbWVtYmVycyh0ZXh0KToN
-Cj4gICAgICAiIiINCj4gICAgICBSZW1vdmUgYGBzdHJ1Y3RgYC9gYGVudW1gYCBtZW1iZXJzIHRo
-YXQgaGF2ZSBiZWVuIG1hcmtlZA0KPiAicHJpdmF0ZSIuDQo+ICAgICAgIiIiDQo+IC0gICAgIyBG
-aXJzdCBsb29rIGZvciBhICJwdWJsaWM6IiBibG9jayB0aGF0IGVuZHMgYSBwcml2YXRlIHJlZ2lv
-biwNCj4gdGhlbg0KPiAtICAgICMgaGFuZGxlIHRoZSAicHJpdmF0ZSB1bnRpbCB0aGUgZW5kIiBj
-YXNlLg0KPiAtICAgICMNCj4gLSAgICB0ZXh0ID0gS2VyblJlKHInL1wqXHMqcHJpdmF0ZTouKj8v
-XCpccypwdWJsaWM6Lio/XCovJywNCj4gZmxhZ3M9cmUuUykuc3ViKCcnLCB0ZXh0KQ0KPiAtICAg
-IHRleHQgPSBLZXJuUmUocicvXCpccypwcml2YXRlOi4qJywgZmxhZ3M9cmUuUykuc3ViKCcnLCB0
-ZXh0KQ0KPiAtICAgICMNCj4gLSAgICAjIFdlIG5lZWRlZCB0aGUgY29tbWVudHMgdG8gZG8gdGhl
-IGFib3ZlLCBidXQgbm93IHdlIGNhbiB0YWtlDQo+IHRoZW0gb3V0Lg0KPiAtICAgICMNCj4gLSAg
-ICByZXR1cm4gS2VyblJlKHInXHMqL1wqLio/XCovXHMqJywgZmxhZ3M9cmUuUykuc3ViKCcnLA0K
-PiB0ZXh0KS5zdHJpcCgpDQo+ICsNCj4gKyAgICB0b2tlbnMgPSBDVG9rZW5pemVyKHRleHQpDQo+
-ICsgICAgcmV0dXJuIHN0cih0b2tlbnMpDQo+IA0KPiAgY2xhc3Mgc3RhdGU6DQo+ICAgICAgIiIi
-DQo+IC0tDQo+IDIuNTIuMA0KDQpSZXZpZXdlZC1ieTogQWxla3NhbmRyIExva3Rpb25vdiA8YWxl
-a3NhbmRyLmxva3Rpb25vdkBpbnRlbC5jb20+DQo=
+On 3/18/26 00:02, Yuxi Wang wrote:
+> Add support for mps mpm369x chip family,
+> which includes mpm3695-20 and mpm3690S-15.
+> 
+
+mpm3695 is already supported by the mpq8785 driver, and mpm3690 can
+and should be added to the same driver.
+
+Any register adjustments besides the temperature register, if needed,
+that can easily be added to that driver.
+
+Thanks,
+Guenter
+
+> Signed-off-by: Yuxi Wang <Yuxi.Wang@monolithicpower.com>
+> ---
+>   Documentation/hwmon/index.rst   |   1 +
+>   Documentation/hwmon/mpm369x.rst |  75 +++++++++++++++++++++
+>   MAINTAINERS                     |   7 ++
+>   drivers/hwmon/pmbus/Kconfig     |   9 +++
+>   drivers/hwmon/pmbus/Makefile    |   1 +
+>   drivers/hwmon/pmbus/mpm369x.c   | 115 ++++++++++++++++++++++++++++++++
+>   6 files changed, 208 insertions(+)
+>   create mode 100644 Documentation/hwmon/mpm369x.rst
+>   create mode 100644 drivers/hwmon/pmbus/mpm369x.c
+> 
+> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+> index b2ca8513cfcd..340df0ccc9f1 100644
+> --- a/Documentation/hwmon/index.rst
+> +++ b/Documentation/hwmon/index.rst
+> @@ -190,6 +190,7 @@ Hardware Monitoring Kernel Drivers
+>      mp5990
+>      mp9941
+>      mp9945
+> +   mpm369x
+>      mpq8785
+>      nct6683
+>      nct6775
+> diff --git a/Documentation/hwmon/mpm369x.rst b/Documentation/hwmon/mpm369x.rst
+> new file mode 100644
+> index 000000000000..df15eb1f81c3
+> --- /dev/null
+> +++ b/Documentation/hwmon/mpm369x.rst
+> @@ -0,0 +1,75 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +Kernel driver mpm369x
+> +====================
+> +
+> +Supported chips:
+> +
+> +  * MPS mpm3695-20
+> +
+> +    Prefix: 'mpm3695-20'
+> +
+> +  * MPS mpm3690S-15
+> +
+> +    Prefix: 'mpm3690S-15'
+> +
+> +Author:
+> +
+> +	Yuxi Wang <Yuxi.Wang@monolithicpower.com>
+> +
+> +Description
+> +-----------
+> +
+> +This driver implements support for Monolithic Power Systems, Inc. (MPS)
+> +MPM3695-20 and MPM3690S-15 Controller.
+> +
+> +Device compliant with:
+> +
+> +- PMBus rev 1.3 interface.
+> +
+> +The driver exports the following attributes via the 'sysfs' files
+> +for input voltage:
+> +
+> +**in1_input**
+> +
+> +**in1_label**
+> +
+> +**in1_crit**
+> +
+> +**in1_crit_alarm**
+> +
+> +The driver provides the following attributes for output voltage:
+> +
+> +**in2_input**
+> +
+> +**in2_label**
+> +
+> +**in2_lcrit**
+> +
+> +**in2_lcrit_alarm**
+> +
+> +**in2_rated_max**
+> +
+> +**in2_rated_min**
+> +
+> +The driver provides the following attributes for output current:
+> +
+> +**curr1_input**
+> +
+> +**curr1_label**
+> +
+> +**curr1_max**
+> +
+> +**curr1_max_alarm**
+> +
+> +The driver provides the following attributes for temperature:
+> +
+> +**temp1_input**
+> +
+> +**temp1_crit**
+> +
+> +**temp1_crit_alarm**
+> +
+> +**temp1_max**
+> +
+> +**temp1_max_alarm**
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 96ea84948d76..26b2949b2dd6 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -17948,6 +17948,13 @@ S:	Maintained
+>   F:	Documentation/hwmon/mp9945.rst
+>   F:	drivers/hwmon/pmbus/mp9945.c
+>   
+> +MPS MPM369X DRIVER
+> +M:	Yuxi Wang <Yuxi.Wang@monolithicpower.com>
+> +L:	linux-hwmon@vger.kernel.org
+> +S:	Maintained
+> +F:	Documentation/hwmon/mpm369x.rst
+> +F:	drivers/hwmon/pmbus/mpm369x.c
+> +
+>   MR800 AVERMEDIA USB FM RADIO DRIVER
+>   M:	Alexey Klimov <alexey.klimov@linaro.org>
+>   L:	linux-media@vger.kernel.org
+> diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+> index fc1273abe357..4aadecd49209 100644
+> --- a/drivers/hwmon/pmbus/Kconfig
+> +++ b/drivers/hwmon/pmbus/Kconfig
+> @@ -517,6 +517,15 @@ config SENSORS_MP9945
+>   	  This driver can also be built as a module. If so, the module will
+>   	  be called mp9945.
+>   
+> +config SENSORS_MPM369X
+> +	tristate "MPS MPM369X"
+> +	help
+> +	  If you say yes here you get hardware monitoring support for MPS
+> +	  MPM369X chip family.
+> +
+> +	  This driver can also be built as a module. If so, the module will
+> +	  be called mpm369x.
+> +
+>   config SENSORS_MPQ7932_REGULATOR
+>   	bool "Regulator support for MPQ7932"
+>   	depends on SENSORS_MPQ7932 && REGULATOR
+> diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
+> index d6c86924f887..58f38f2013b0 100644
+> --- a/drivers/hwmon/pmbus/Makefile
+> +++ b/drivers/hwmon/pmbus/Makefile
+> @@ -52,6 +52,7 @@ obj-$(CONFIG_SENSORS_MP5926)	+= mp5926.o
+>   obj-$(CONFIG_SENSORS_MP5990)	+= mp5990.o
+>   obj-$(CONFIG_SENSORS_MP9941)	+= mp9941.o
+>   obj-$(CONFIG_SENSORS_MP9945)	+= mp9945.o
+> +obj-$(CONFIG_SENSORS_MPM369X)	+= mpm369x.o
+>   obj-$(CONFIG_SENSORS_MPQ7932)	+= mpq7932.o
+>   obj-$(CONFIG_SENSORS_MPQ8785)	+= mpq8785.o
+>   obj-$(CONFIG_SENSORS_PLI1209BC)	+= pli1209bc.o
+> diff --git a/drivers/hwmon/pmbus/mpm369x.c b/drivers/hwmon/pmbus/mpm369x.c
+> new file mode 100644
+> index 000000000000..3f1fe9c28ca7
+> --- /dev/null
+> +++ b/drivers/hwmon/pmbus/mpm369x.c
+> @@ -0,0 +1,115 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * mpm369x.c  - pmbus driver for mps mpm369x
+> + *
+> + * Copyright 2026 Monolithic Power Systems, Inc
+> + *
+> + * Author: Yuxi Wang <Yuxi.Wang@monolithicpower.com>
+> + */
+> +
+> +#include <linux/bitfield.h>
+> +#include <linux/bits.h>
+> +#include <linux/i2c.h>
+> +#include <linux/module.h>
+> +#include <linux/of_device.h>
+> +#include <linux/pmbus.h>
+> +#include "pmbus.h"
+> +
+> +#define PAGE	0x01
+> +#define MPM369x_FUNC	(PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT | \
+> +			 PMBUS_HAVE_IOUT | PMBUS_HAVE_TEMP | \
+> +			 PMBUS_HAVE_STATUS_VOUT | PMBUS_HAVE_STATUS_IOUT | \
+> +			 PMBUS_HAVE_STATUS_INPUT | PMBUS_HAVE_STATUS_TEMP)
+> +
+> +static int mpm369x_read_byte_data(struct i2c_client *client, int page,
+> +				  int reg)
+> +{
+> +	return -ENODATA;
+> +}
+> +
+> +static int mpm369x_read_word_data(struct i2c_client *client, int page, int phase,
+> +				  int reg)
+> +{
+> +	int ret;
+> +
+> +	switch (reg) {
+> +	case PMBUS_READ_TEMPERATURE_1:
+> +		ret = pmbus_read_word_data(client, page, phase, reg);
+> +		if (ret < 0)
+> +			return ret;
+> +		/*
+> +		 * Because the Temperature format used by the chip is a 2-byte,
+> +		 * twos complement integer and the sign bit is bits[9].
+> +		 * Report that signed short integer.
+> +		 */
+> +		if (ret & 0x200)
+> +			ret = (ret & 0x1ff) | 0xfe00;
+> +		break;
+> +	default:
+> +		ret = -ENODATA;
+> +		break;
+> +	}
+> +	return ret;
+> +}
+> +
+> +static struct pmbus_driver_info mpm369x_info = {
+> +	.pages = PAGE,
+> +	.format[PSC_VOLTAGE_IN] = direct,
+> +	.format[PSC_CURRENT_OUT] = direct,
+> +	.format[PSC_VOLTAGE_OUT] = direct,
+> +	.format[PSC_TEMPERATURE] = direct,
+> +
+> +	.m[PSC_VOLTAGE_IN] = 40,
+> +	.b[PSC_VOLTAGE_IN] = 0,
+> +	.R[PSC_VOLTAGE_IN] = 0,
+> +
+> +	.m[PSC_CURRENT_OUT] = 16,
+> +	.b[PSC_CURRENT_OUT] = 0,
+> +	.R[PSC_CURRENT_OUT] = 0,
+> +
+> +	.m[PSC_VOLTAGE_OUT] = 800,
+> +	.b[PSC_VOLTAGE_OUT] = 0,
+> +	.R[PSC_VOLTAGE_OUT] = 0,
+> +
+> +	.m[PSC_TEMPERATURE] = 1,
+> +	.b[PSC_TEMPERATURE] = 0,
+> +	.R[PSC_TEMPERATURE] = 3,
+> +
+> +	.read_word_data = mpm369x_read_word_data,
+> +	.read_byte_data = mpm369x_read_byte_data,
+> +	.func[0] = MPM369x_FUNC,
+> +};
+> +
+> +static int mpm369x_probe(struct i2c_client *client)
+> +{
+> +	return pmbus_do_probe(client, &mpm369x_info);
+> +}
+> +
+> +static const struct i2c_device_id mpm369x_id[] = {
+> +	{ "MPM3695-20", 0 },
+> +	{ "MPM3690S-15", 1 },
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(i2c, mpm369x_id);
+> +
+> +static const struct of_device_id mpm369x_of_match[] = {
+> +	{ .compatible = "mps,mpm3695-20" },
+> +	{ .compatible = "mps,mpm3690S-15" },
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(of, mpm369x_of_match);
+> +
+> +static struct i2c_driver mpm369x_driver = {
+> +	.probe = mpm369x_probe,
+> +	.driver = {
+> +			.name = "mpm369x",
+> +			.of_match_table = mpm369x_of_match,
+> +		   },
+> +	.id_table = mpm369x_id,
+> +};
+> +
+> +module_i2c_driver(mpm369x_driver);
+> +MODULE_AUTHOR("Yuxi Wang <Yuxi.Wang@monolithicpower.com>");
+> +MODULE_DESCRIPTION("MPS MPM369x pmbus driver");
+> +MODULE_LICENSE("GPL");
+> +MODULE_IMPORT_NS("PMBUS");
+
