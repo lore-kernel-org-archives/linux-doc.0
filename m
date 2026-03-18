@@ -1,317 +1,189 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012054.outbound.protection.outlook.com [52.101.43.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 272553A7852
-	for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2026 09:25:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC6973AE709;
+	Wed, 18 Mar 2026 09:36:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.54
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773825920; cv=pass; b=fRfES+K+jtW55jVj1hpsO76c64WU0ZIQyWU+nJ31eg0p1PgB1y2ZmeyT1tmOGhtRMD2sDGxtmDSLjMjFAeyG/IIFvWJHXdDeU86982f1Ueanhma29aBsmjPfX33tSAe/OUTETsxkbKHwMy30gGA9EdckG7OqBNnqidbp58wMIdk=
+	t=1773826571; cv=fail; b=E/6T1lnxwplYhilk4UBwJJfJhZ1Otu3QvCDJXNY3pSOgJSiC830k+b4z9He43laZ50a7uJL+athB3jEBZgit1Sis3Td7JkN0QTOiR3LhIdDDF0aOd/8QHTwTeS5hR1Xw9SpgiWjQHfGr11nYuvHPDS7Q60RwcPZv8NimSRXWmnk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773825920; c=relaxed/simple;
-	bh=9JuiciVIz25KyqDHZ9CSCPab+sXTsNkxP0wOlTCdKgQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KCTBujsYZytQx+Xo2qxxY+DKhHEHLsxrvrAl3s5zj9+/CZqt0HQ1zW6S4hCuh2HleWzTeiS/q3qebngzQN8ncwG1vRexueZpbjQcJDuJBTHRw8zSzZYG0bcLd7G3xAR3cPjb38dd5NNnM8WZWpZYkvdYxBu1gp5r5NU6YhsK0nQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Hsb6b0uw; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=ICZdwRgH; arc=pass smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1773826571; c=relaxed/simple;
+	bh=znI0DvA81clTVuLVFm7isoFnAtKRSOLEfHho25kHCOo=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=hBmcjHWzSZ81Au58MY25eWOqSQqnjV/9V1t6CuBq5rkFVk6n3DHt29O6H8gvXe8ccb05tOK7ZfUpLE08R7QTh6+5NAeb5GsdSlNTXWlzCBgmKd4oFjDYhpkw8FaIks7g8L27b1REKATVAScNYgrPgWD4s0q6E8nJtQE4WwSuY/o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Kn+UvlwF; arc=fail smtp.client-ip=52.101.43.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Hsb6b0uw";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="ICZdwRgH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1773825915;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iK/ov8EJ/J0ZYfo49iWJBtZbkdFjmhliHBuy1k9tqk4=;
-	b=Hsb6b0uw0vjivjtBPbu0qYaZ0uW7SgpogTKWTlfckL/tqNhfw/Jkpw3FR2AEV9eLT+yo+A
-	7mmBKMxUIPdIt28r7Lolxd8ebMGU8WASdM5f5vYYZcmwddfoL8nuz1uPUshaAc0UxML8zl
-	tjUNE4GNecW6PyNibuysjYkkNrsezwA=
-Received: from mail-yx1-f69.google.com (mail-yx1-f69.google.com
- [74.125.224.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-468-ZJdBqTigPrmmKMQXk-RHiA-1; Wed, 18 Mar 2026 05:25:13 -0400
-X-MC-Unique: ZJdBqTigPrmmKMQXk-RHiA-1
-X-Mimecast-MFC-AGG-ID: ZJdBqTigPrmmKMQXk-RHiA_1773825913
-Received: by mail-yx1-f69.google.com with SMTP id 956f58d0204a3-64ca3de57f1so878616d50.0
-        for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2026 02:25:13 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773825913; cv=none;
-        d=google.com; s=arc-20240605;
-        b=gJu5udGHVJ2wkO6mucMFIPSLSiPTKip8fgfx+pq3zSd0dQ0y7BaKNEOU19FNgAz2ub
-         F/EwCiUt3dEjkCLctxQ7bsT/S4xCcjiIlI0qweahGSTaS2OX+k+IBU5twtFb8gojK0p5
-         4abcWeCHL8D3fJ4opWOZcediFXz308/2/rvPDPav71fudpacNLAEq9pL0LoXg58MiT0T
-         BHmteHSIkWmU0cQsIFnlWA68t7lFKd9bTpilJSk66AzVCNloIx3ZXZ9d3gOkBQwLxu2l
-         eGBS/I9PeLrhXpRgHC/5701mRvddaKonR47PvKUANDE0Y6wDPMUjamRaY2iaxbaN1uo0
-         cwNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=iK/ov8EJ/J0ZYfo49iWJBtZbkdFjmhliHBuy1k9tqk4=;
-        fh=NNpjvG/9Pttj/u8ZFV7eV0/wDtpXnYyA8lST5jBFTjw=;
-        b=f4W+xgaTDmB+wWakKoqzzbl2JJt/OcUjFkD/lZAHruLB30UPq03J1y0nR5iKXcE1b6
-         782ZYz52a54PbUNVFhVaDw/4YV+eGIvw8N/ggJUVJpZY30NFbHyB7dQAhOGxu4VuJnLD
-         Dr0XDX/29zQwVjaejPnjrjdjPbUcoPr5g9aMSCbjIcmhw1xvPfMxs9VWtXS8dm4wrnvx
-         v42kHoY8V1xNGEAzKcQ5EuF9FtB+/++Y1EsLzNts8LSk1E7wnuRd0uZNgcssB6rj1sSo
-         gVfj7WthEbuW7VEAkd16q/Q+xbB57taonyjD14Cdvsy4HaYrXOwSrdkJ0Us+AVHtxssa
-         2CwQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1773825913; x=1774430713; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iK/ov8EJ/J0ZYfo49iWJBtZbkdFjmhliHBuy1k9tqk4=;
-        b=ICZdwRgHxXS2c2A3/y/aDMi18NqfhDjB5tbWxiSZplUKZn51ds/UWK4ks2E19cMpoJ
-         z3KWprX/eZYN2Ww+lM4lFKCsdOAJbI1hLtXCjdWSG7bZ+wO7icvJSHQYmiGIcs6FWp7G
-         Dos1xd/8yvfbGrDdjCdlaLgTqinhXzL9TCyeS6jg5vsVbf8Bxy/6exMLm0L/9aILGREs
-         zzPZIufwxQPggvPhjMEp+wSIguOFtgZSu8jzhqM+bqtGtbrVWf03th/9beyEXSyi8loB
-         8SZYPXO1m/qOhXP9reUdTXWqKpI5Fb1kNfwjyUURAppRFVDl6mFo8mUAoG26+SHAgBgF
-         4PcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773825913; x=1774430713;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=iK/ov8EJ/J0ZYfo49iWJBtZbkdFjmhliHBuy1k9tqk4=;
-        b=P8DY23+4s/GgQUWPG/JRRuGWXeujgaAn6lGPJmL8Yp6UeayydzRjw081Uf+pyCRSOt
-         W27ij1v07VMiFcYknASnZkO1ESI7k4qidXL75IRGI0Fhj7tD8tsMqgTxjVQdRnlsfAOg
-         EZioKXxHkUz2iuYFedsNxTYkn9l5M7z/Vw0fhqCqtCjXATT2Fd06qNBs7QZYuRBKpiaK
-         tp/73X6R+jZ5DJ5UDRjkDmq/b6sztEY/a7TwzP9FzJODgMqDyUQtH636vtwrO3XVCUmZ
-         SYZUggYQWJuREPFXNb1lDArMHKxIHXnMzKk7bhQ5L0mt0QAsjNiH3xz4TTJ1JWBn8Zip
-         nwMw==
-X-Forwarded-Encrypted: i=1; AJvYcCU6JTGXYQr/anRZ01jaDplu892bX/V4oqeMKJ29p+yjxiRiHvaoRel2qGEo07U1fIpvar654Si/eAU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwOghbMZx6cuzZCHK58P0gXq9uFAsLt3yR5uxmUDSZU/zxKkjek
-	fhEQM9YR4ZL8d0ZRh0gqgDro/1nlVcYxeS24TkUXn7ISGobt8pq2qY5b/Y7qXNU/24xQ5fYdwny
-	C8vNj5LOoeyJdYdjlJCZQGjJBs17l5r16BE9Rwp96KbFhSFivPG1E3rBjitJXBY5GLXER8K8JOv
-	0InACp+ef2q2S8gShdwTVkvBD6TUW3ABbqOmpa
-X-Gm-Gg: ATEYQzxYXtMVb6dcDRJcHqqzyoTrHnQmXJfQPXPAnyeRaue6luKpS4SxARB2mZlXw4Q
-	RMl7elPel/iJqNjDWpcZ46D1JYuDmH7rUioEQLAl9K8NEtFGxU4vJfdmqxgFxluPH4YoEFDhD4f
-	pCUzDO35ElVFI3GwPgrMRg/zMB6fe0bpVfwkvoSHUtMYvAW6XKABtF5ZeMKlP/chP0rK/zmHcCb
-	g==
-X-Received: by 2002:a53:c7cb:0:b0:649:e294:a380 with SMTP id 956f58d0204a3-64e915ced27mr2363087d50.37.1773825913080;
-        Wed, 18 Mar 2026 02:25:13 -0700 (PDT)
-X-Received: by 2002:a53:c7cb:0:b0:649:e294:a380 with SMTP id
- 956f58d0204a3-64e915ced27mr2363055d50.37.1773825912496; Wed, 18 Mar 2026
- 02:25:12 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Kn+UvlwF"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=HeXvCmIcG9vBEyPRIrktB3mZxYM8KABXcej7E8V6PNOF2B7wYuwwSbxWeZggoXp5+GyF0+1Ubz7XjEHKTdI7nCRTWLRbMITl1pJlcU0vXOFHLgQFlseowEMTlgrmmk5O41bWQIqZdJdNta3R39nVl0T7kcMre36VWlV4FKLdGMy1+hJ/8AF+joIz1Y1oyoKFQyPxOtSCAAWJAcqVY+OneXdrrT6Ej3KY2ARpCpQsbPGm08i+pjX/3Z6cC6RpicXVHpgdUif14/4lS2BMXClyOuE8Zwo9wl/o38RruzxbD7Km5TDcO//EF6vlwEnjLbl3Tquxd+JTcNkhx4Evh8fZKw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WBZGeXfcT5hGu1lP9x2cAzc913fAJXkKlIkeqqZP+TE=;
+ b=ylm4jLzIYiFLlQzRxozYfbISblLG6dLBy2CmHlswAylNHz8xC1sOEpOa+OREfFNKje2FKns9ZrOVIgwrifR0qb0Eb8wWPbuPsHt0PCRWtKgutNk6kcebmuRodIiN2O1sYqkosIc1ksrpV/eMPyoP/7co+Q/YVwQG1nBJtvhY9ZhmyC1A8iJi7Giv8qqCuuQhRDkCxJJlt1knk3sZis/A0WZe/hyMOpMEwl//GttAvtAnkWibbFnZE5pcfTlMHCVJ6JabbuATtvNe9vpBB9ml7m+sFlxSuz6mQjO3DndNmGEiBsuyojLkDFGFaWJ0w0Njx+GlyTAVz3POTOz/XWKkMQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WBZGeXfcT5hGu1lP9x2cAzc913fAJXkKlIkeqqZP+TE=;
+ b=Kn+UvlwFjh9gK1h2qXC1DxJwOZXeoaEpeeZZreh2Buvr/5WVJs1Ri1p5LHGP5kpfPxl9HYWOI0aXw/ow4Pi/A/DE5F1p56Xd64fdBTDBSgBGF7AMbPkRoJS70/ZjE8XmeOXkMf7iTqRcRv7DsuomBXQwxTplELIeypOXXQYFZJA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by BY5PR12MB4273.namprd12.prod.outlook.com (2603:10b6:a03:212::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.19; Wed, 18 Mar
+ 2026 09:36:01 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9723.016; Wed, 18 Mar 2026
+ 09:36:01 +0000
+Message-ID: <b5e88f9d-eb6b-4ad8-b40f-46d1a61979c9@amd.com>
+Date: Wed, 18 Mar 2026 10:35:36 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v13 2/2] MAINTAINERS: gpu: buddy: Update reviewer
+To: Joel Fernandes <joelagnelf@nvidia.com>, linux-kernel@vger.kernel.org
+Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+ Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
+ Dave Airlie <airlied@redhat.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Koen Koning <koen.koning@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org, Nikola Djukic <ndjukic@nvidia.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Corbet <corbet@lwn.net>, Alex Deucher <alexander.deucher@amd.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Helge Deller <deller@gmx.de>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, John Hubbard <jhubbard@nvidia.com>,
+ Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
+ Edwin Peer <epeer@nvidia.com>, Alexandre Courbot <acourbot@nvidia.com>,
+ Andrea Righi <arighi@nvidia.com>, Andy Ritger <aritger@nvidia.com>,
+ Zhi Wang <zhiw@nvidia.com>, Balbir Singh <balbirs@nvidia.com>,
+ Philipp Stanner <phasta@kernel.org>, Elle Rhumsaa
+ <elle@weathered-steel.dev>, alexeyi@nvidia.com,
+ Eliot Courtney <ecourtney@nvidia.com>, joel@joelfernandes.org,
+ linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org
+References: <20260308180407.3988286-1-joelagnelf@nvidia.com>
+ <20260317220323.1909618-1-joelagnelf@nvidia.com>
+ <20260317220323.1909618-3-joelagnelf@nvidia.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20260317220323.1909618-3-joelagnelf@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0058.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:93::9) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260317-kunit_add_support-v6-0-dd22aeb3fe5d@redhat.com>
- <69f4eb09-efbd-4bd1-81b8-963b78e1a3a3@kernel.org> <20260317113025.GG2872@noisy.programming.kicks-ass.net>
-In-Reply-To: <20260317113025.GG2872@noisy.programming.kicks-ass.net>
-From: Albert Esteve <aesteve@redhat.com>
-Date: Wed, 18 Mar 2026 10:25:00 +0100
-X-Gm-Features: AaiRm53OPQc-5hULPIiQu9-AZhqy7-XEfz_gt4uMR3ixjOm0K2seVoOetSgKzgk
-Message-ID: <CADSE00Jy=G7HhRkb7vmFSuGFmvpGGt1TQ2NA+7XGLZ4b=g3rxQ@mail.gmail.com>
-Subject: Re: [PATCH v6 0/5] kunit: Add support for suppressing warning backtraces
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, 
-	Rae Moar <raemoar63@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	kunit-dev@googlegroups.com, dri-devel@lists.freedesktop.org, 
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Alessandro Carminati <acarmina@redhat.com>, Guenter Roeck <linux@roeck-us.net>, Kees Cook <kees@kernel.org>, 
-	Linux Kernel Functional Testing <lkft@linaro.org>, Dan Carpenter <dan.carpenter@linaro.org>, 
-	=?UTF-8?B?TWHDrXJhIENhbmFs?= <mcanal@igalia.com>, 
-	Simona Vetter <simona.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|BY5PR12MB4273:EE_
+X-MS-Office365-Filtering-Correlation-Id: 45fa78bf-2c75-4232-bca4-08de84d1c434
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|7416014|1800799024|376014|7053199007|18002099003|56012099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	zhPV8t2V5Y5qEse/lQae6yHBsPqE4arh7JJgqtFuvuEC+Ka1oYZGolq+6A9RkHgANCMBEYFgmIW2quU8GJKWrbmbBzIG6YKKN7ZUX5eUvjWtDADnDB0nb7WRYEfifRET9UUAU5cqmAOCTDy8ll71G8eotHjiCw5rXKN7RZzvi4N1T5Vb5R5/lLVFaLmXmFwZM5slnfxkE0qWs7jxdfrzsv5niP88Se72b1FEr0wiMmOSCj0q/p9iXNwLRoal0K/TruOv0lstMgdQZLvo0PWWQnBYKUpFSdloFf88B/l9PHV55AmSE3iPAEUPd5ZrWLdrveejLYFzj7d9pORyzPwrt0fgtoNy7UW/xkNEManXn6Mpid+id2t12Nr/ssigQM8WVQqjXnE0xO8RyUDIZQDqKqfIfXqQLYiJtHGkthFJBwFXmm6c4CefqoyXIH9Fx86k/vHFugbvw8ZGO7W/Qyk8UdtOzt1tGHmnMJIKqzBvuswdLTkVYr07+jwnOEWP+Lw8kfVtWoCmhXEntnCCWGLVU1bCefBH2BdoG+7Cn1fpOVOdCDQMSzKsJthHyQTyt3gnkiAAMdAnJZH/O1RGY9AXZGwJ0Q0vJ6dRLChmf6SCCqdK65SBE4sA7UlQUiIQ2Cu/RYj4BBLfKw522bxxSYVTtqiLYxaV+wrBxY48kChwSNsMGjFGotjONn6WEgKpiwjj
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(1800799024)(376014)(7053199007)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?MUFlZE1SREVyR0VsZ3lDcSt6b3pWejNqck53dXltZ2gzbThiK1FSVDlVYTJO?=
+ =?utf-8?B?WFppcjVNKzV4ek9idC80VDBmQWtWbW81RHVXME5ubHRHUm1OaUM0UGVrTTB6?=
+ =?utf-8?B?d3N5Y3VDSWtaZW11SkFjMkNKMVd6K1E5RkdBeExDdXR4UlBxWVFMd1h0MjZi?=
+ =?utf-8?B?THFtRnM4QzBBNXhtTFVQTjZIdFozRFRGS2p6YWlLOHZNeURnbHROa0p6aXdL?=
+ =?utf-8?B?WWhnRW5ScW9qMjRONGJDNHFWSDkvYm52MEdDNEVrYUFVZ2FWYUwrMWdMT0h0?=
+ =?utf-8?B?ckpZZG9WZjZvOG5ZbW9LanI5cmdCaUt1WVk5YmpUcWFRajdCd1BGNjRqbkg5?=
+ =?utf-8?B?dUVtbFJSa01SandpQ1hqdDFoN3JYVnZhcmI5clpRa3JKbmQwb2ZLSW82dWI5?=
+ =?utf-8?B?NkFpOGpnK21CYnd0RWVsdVVFanpYejJIbEVFOW1id3p5Ti9SWEo3NHpkcTJ6?=
+ =?utf-8?B?dzlZcmd0MFVoQzdacyt3VzRjV1E3WWRDcE1kanBVZWcwdk0xVlJKb0V4Wmp5?=
+ =?utf-8?B?ZlBxcnllcjlaUFFiQUp6WmtEYnl2NjJSdWt1L2VwMEtxWGRidlMrSGc2STFa?=
+ =?utf-8?B?R1JoSGtwZldBNzN4Vi9ZcEphc3p2aGtIQjVOVmQrUW1SVmdpN2pYbHZKemVa?=
+ =?utf-8?B?SnY2Qmw4ZHpaaFZ3b0xmZllxMDNRQklVYW1vUm1XNTlRa2FzT3BhQmlCVUto?=
+ =?utf-8?B?TXh3WTU2QVR3aS9IVmRoK21sU1lPK0t1Y0VYMitpSEVDVTFYbG1vZFVhTnpi?=
+ =?utf-8?B?ZzhKMEt0Wm1Va3FlWkVucnF0SFBIK2pZK2hwcnNEL2JDTGtxYXZURGNIK1FV?=
+ =?utf-8?B?ZWt5YzcyMkEyUURFNHp4U2JCSVBJdWlLR01rODFuVnVsSHZMUnNqMkdEeFhG?=
+ =?utf-8?B?NFMvbm9lQ05IelZoTzFnNHBockZXNmVjTExIOUZBRHZwRzZWdFFQZ3V5akhX?=
+ =?utf-8?B?eW1Cd2Y4WTNhbHk4cEhKY3VQTUp2SUN3SkNZbUVxd3J0SE5XWWNUcHlpZUtV?=
+ =?utf-8?B?UWlBRnJvM1ZtcEJaMDJkdEQyTHUreGxzODZZcm1FNlY2eFFMWEdiT0d3NCsr?=
+ =?utf-8?B?bG9oRktEbStneVNMcytya3NOVFNBajVxekVZMHJ0TlVMTW0rSHRRZ3lVTkdB?=
+ =?utf-8?B?RlNKZjNoRFJuSGhiMlFOeTdNQnFTaDhVeEZ6bmd2MzU4L2tLc0YwYVhTVy9P?=
+ =?utf-8?B?ZTVqWW5VVnBaS0hGRE1MUnNML09VOWo4bEhFSjZBMS82eXRJdFNqdlczTGdQ?=
+ =?utf-8?B?Zk4xNldJcUxiSEZsY1Rtb0dqVkVpbkpSTkhFMDdzZ0lHMy85azZYVk9pZS9R?=
+ =?utf-8?B?NXZTcVNvZmowQktocHpXbDNXQ1BEVGdRUEdtd1hvb3hGalNacEZpN2V4L09p?=
+ =?utf-8?B?Sk9FVFE2NW9CN255S2h3eUNCTWdHeTNnbyt6eEJ2YWV6VE5zVEx3VHZ5bGFH?=
+ =?utf-8?B?UWhhZStYZVliamhBRFUwcW1tQjlJRG5YR09IaENRQzlGaVFDOHNBeUh4bTVY?=
+ =?utf-8?B?UFFTQngvK3pWU0Zkc2dYZkNKVXgvRnRGZ2lDWmYyRk8yN1ZKRlpwV2gyc2d5?=
+ =?utf-8?B?K29BYVBHZlQyUXNhL01zbnBOREtvMFhOa3prTkRkNTliWGFSekw1UGlzOWdt?=
+ =?utf-8?B?dE5YNmFpY1VCdU9tdE9uWHBjV1owaW01MzNzYWdSVVkxUWtMZEJxSGRTcjcz?=
+ =?utf-8?B?cDdEOVgzd0Fjc1huMndkVHJSdVZaNzNONTBXMVNYN0RjM3RBbjVxNFJSdHM5?=
+ =?utf-8?B?L0dXclg0bjBpTXh6TGh4b0JYMEFLL3NqenZvSjM0R2hNQ2E4MzQ2cDdYZmN0?=
+ =?utf-8?B?UVIrbHJBa3NWZXJDbDg3c3lUeFE2YnpKZ2tIYmVqUG1aSUVudnFWdFRsaEhU?=
+ =?utf-8?B?VEgxbitaVlNFdm9rTUkrRE1UZm9JZHVzTFNON2kyblhoVE1sSzBSU05ncDFR?=
+ =?utf-8?B?VklCOUhqRllQR2tYYkxoSVdoWFJ2Vi94WStDMFBtN0hKQzdJUnh6ZElGN1Fj?=
+ =?utf-8?B?QVlwb2lRTzF6Q01zWDVxV3RvQ09DanJMNzBybnR0UjBHYmY2bnIrU2xGYkJP?=
+ =?utf-8?B?ZWZVdS9zdml3ak1PS0JRZlJydmxKRE05VGNJcjJGbFkvUjV1Vzl2eXJKQjZu?=
+ =?utf-8?B?ZDQ4NW9heERVa3BZUnI2ZllDSGdWOTNOOEF0TTEzdS9uYXgvR3JOakhQeDZ1?=
+ =?utf-8?B?WXFVc0x4YmFKZWU4Y0RCSkxVSDJUV0lmWUFhMFZ5cHpQc3NtRnR6dmRnRkFp?=
+ =?utf-8?B?dGZDdVcxME40OEdDaDRMR2FQcFlDbVN3bUN4YVA0L2QxOVJzWk5mNnY1YXJj?=
+ =?utf-8?Q?7odK+yum9/OGvZAkLY?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 45fa78bf-2c75-4232-bca4-08de84d1c434
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2026 09:36:01.0257
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: AmzxZDkGDawqzNevS4bSzNuXc5vmJFZfojU8MRVRCdH0VV18LQo3fZ3g08n8inma
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4273
 
-Hi Peter,
+On 3/17/26 23:03, Joel Fernandes wrote:
+> Christian Koenig mentioned he'd like to step down from the reviewer
+> role for the GPU buddy allocator. Joel Fernandes is stepping in as
+> reviewer with agreement from Matthew Auld and Arun Pravin.
+> 
+> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
 
-On Tue, Mar 17, 2026 at 12:33=E2=80=AFPM Peter Zijlstra <peterz@infradead.o=
-rg> wrote:
->
-> On Tue, Mar 17, 2026 at 12:20:26PM +0100, Vlastimil Babka (SUSE) wrote:
-> > > For this iteration, the `__report_bug()` centralized approach was
-> > > revisited after the discussion in the previous version [1].
-> >
-> > Discussion with PeterZ, who is not CC'd here? (did it now for my reply)=
-.
+Acked-by: Christian König <christian.koenig@amd.com>
 
-(Sorry not to put you on CC, I thought auto-cc would pick you up already)
-
-> >
-> > > However, again this approach did not work because:
-> > > - Some warning output is generated directly in the macros before call=
-ing
-> > >   the centralized functions (e.g., `__warn_printk()` in `__WARN_print=
-f()`)
-> > > - Functions in the warning path like `warn_slowpath_fmt()` are marked
-> > >   `__always_inline`, making it difficult to intercept early enough
-> > > - So, by the time `__report_bug()` is called, output has already been=
- written
-> > >   to the console, making suppression ineffective
-> > >
-> > > Current Proposal: Check Directly in the `WARN()` Macros.
-> > > This avoids the need for function symbol resolution or ELF section
-> > > modification.
-> > > Suppression is implemented directly in the `WARN*()` macros.
-> >
-> > So does that bloat every warn/bug site (as Peter objected to) or not?
-> > And is it compatible with x86? I see you modify include/asm-generic/bug=
-.h
-> > but x86 has its own version of e.g. __WARN_printf ?
->
-> Yeah, they done it all wrong again :-(
->
-> This should be pushed inside __report_bug() through __WARN_printf with a
-> new BUGFLAG thing.
-
-Thanks for the specific suggestion to use BUGFLAG, but I do not think
-this is what we need. These flags seem to be used statically, but the
-goal is to enable and disable these warning suppressions dynamically
-in the tests. Happy to be corrected if I missed something.
-
-I want to highlight that I did not bluntly ignore your point in the
-last version. I thoroughly read the discussions there, and as I
-mentioned in the cover letter, I tried to move away from the per-macro
-approach. However, while doing that, I encountered the same issues
-Alessandro found in the last iteration. I=E2=80=99ll address that below, bu=
-t I
-decided to give this approach one more try and tackle the raised
-drawbacks.
-
-The main concern was the increased size of the code emitted by the
-WARN*() macros, which was a fair point. I tried to alleviate this with
-a static key and branching, and addressed other concerns by using RCU
-protection on the list for thread safety. I think it was worth a try,
-as all options seemed to have their own tradeoffs. However, if this
-option remains unacceptable even after trying to diminish its
-drawbacks, I am happy to focus on finding the best solution for the
-centralised approach, and keeping the discussion constructive.
-
-So back to my test on this. Alessandro detailed two strategies in the
-last version, one of them (storing the function name in `struct
-bug_entry`) was already used and discarded in older iterations of this
-series. So let's focus on the other strategy, using 'kallsyms`. Let's
-assume we still store the function name when registering a new symbol
-to suppress. Otherwise, we might need to check address ranges to
-ensure bugaddr is within the function's scope, which sounds trickier?
-With `kallsyms` we can infer the originating functionid. But this
-approach works unreliably with compiler-induced transformations (e.g.,
-inlining, cloning, code fragmentation). And we still cannot prevent
-all output. Additionally, we would need to prevent prints in
-`warn_slowpath_fmt()`. There may be other `printk`s embedded in the
-macros, but let's focus on suppressing all warnings as a best effort.
-It would already improve the quality of life for testers.
-
-Considering these remaining issues, I managed to create a centralised
-proposal. Please find the main changes at the bottom of this message.
-
-But again, even with these, the solution remains unreliable. We can
-mitigate this by registering the test name on the suppression list (at
-least, I can make the new test in this series pass with that). Not
-ideal, but we could mention it in the documentation. Something like
-"Suppression is matched by the function where the warning is reported.
-If the warning is triggered from a helper (or the compiler inlines it
-into the test), that function name may differ. In that case, register
-and start suppression for both the test and the helper so the test
-passes regardless of inlining."
-
-Would that be a more acceptable solution? Is there a better option I
-am not seeing?
-
-BR,
-Albert.
-
-diff --git a/kernel/panic.c b/kernel/panic.c
-index c78600212b6c1..3cb004a7803f4 100644
---- a/kernel/panic.c
-+++ b/kernel/panic.c
-@@ -39,6 +39,7 @@
- #include <linux/sys_info.h>
- #include <trace/events/error_report.h>
- #include <asm/sections.h>
-+#include <kunit/bug.h>
-
- #define PANIC_TIMER_STEP 100
- #define PANIC_BLINK_SPD 18
-@@ -1080,9 +1081,14 @@ void __warn(const char *file, int line, void
-*caller, unsigned taint,
- void warn_slowpath_fmt(const char *file, int line, unsigned taint,
-                       const char *fmt, ...)
- {
--       bool rcu =3D warn_rcu_enter();
-+       bool rcu;
-        struct warn_args args;
-
-+       if (__kunit_is_suppressed_warning_at((unsigned
-long)__builtin_return_address(0)))
-+               return;
-+
-+       rcu =3D warn_rcu_enter();
-+
-        pr_warn(CUT_HERE);
-
-        if (!fmt) {
-
-diff --git a/lib/bug.c b/lib/bug.c
-index 623c467a8b76c..e90b038d9225e 100644
---- a/lib/bug.c
-+++ b/lib/bug.c
-@@ -48,6 +48,7 @@
- #include <linux/rculist.h>
- #include <linux/ftrace.h>
- #include <linux/context_tracking.h>
-+#include <kunit/bug.h>
-
- extern struct bug_entry __start___bug_table[], __stop___bug_table[];
-
-@@ -223,6 +224,9 @@ static enum bug_trap_type __report_bug(struct
-bug_entry *bug, unsigned long buga
-        no_cut   =3D bug->flags & BUGFLAG_NO_CUT_HERE;
-        has_args =3D bug->flags & BUGFLAG_ARGS;
-
-+       if (warning && __kunit_is_suppressed_warning_at(bugaddr))
-+               return BUG_TRAP_TYPE_WARN;
-+
-        if (warning && once) {
-                if (done)
-                        return BUG_TRAP_TYPE_WARN;
-
-diff --git a/lib/kunit/bug.c b/lib/kunit/bug.c
-index 9c2c4ee013d92..13ffddb044636 100644
---- a/lib/kunit/bug.c
-+++ b/lib/kunit/bug.c
-@@ -11,6 +11,7 @@
- #include <linux/export.h>
- #include <linux/instrumentation.h>
- #include <linux/jump_label.h>
-+#include <linux/kallsyms.h>
- #include <linux/rculist.h>
- #include <linux/string.h>
-
-@@ -68,4 +69,16 @@ noinstr bool __kunit_is_suppressed_warning(const
-char *function)
- }
- EXPORT_SYMBOL_GPL(__kunit_is_suppressed_warning);
-
-+bool __kunit_is_suppressed_warning_at(unsigned long addr)
-+{
-+       char buf[KSYM_SYMBOL_LEN];
-+
-+       if (!static_branch_unlikely(&kunit_suppress_warnings_key))
-+               return false;
-+       if (sprint_symbol_no_offset(buf, addr) <=3D 0)
-+               return false;
-+       return __kunit_check_suppress(buf);
-+}
-+EXPORT_SYMBOL_GPL(__kunit_is_suppressed_warning_at);
-+
- #endif /* CONFIG_KUNIT_SUPPRESS_BACKTRACE */
-
-
-
->
-> So NAK from me on this -- again!
->
+> ---
+>  MAINTAINERS | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index cd9505d3be60..3353cbf98be1 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -8946,7 +8946,7 @@ F:	include/drm/ttm/
+>  GPU BUDDY ALLOCATOR
+>  M:	Matthew Auld <matthew.auld@intel.com>
+>  M:	Arun Pravin <arunpravin.paneerselvam@amd.com>
+> -R:	Christian Koenig <christian.koenig@amd.com>
+> +R:	Joel Fernandes <joelagnelf@nvidia.com>
+>  L:	dri-devel@lists.freedesktop.org
+>  S:	Maintained
+>  T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
 
