@@ -1,109 +1,156 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE08A3DA7F9;
-	Wed, 18 Mar 2026 14:53:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 004D83D647C
+	for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2026 15:03:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773845596; cv=none; b=T4PezzOunG4LsgIp8xGtPoUKYj0ar/qLddB54FP5SeLPzbDlpQ1BxGFITTcRzfAsqiS36g+qTQaL/VD2VHVwJ0EmcMS622Xacu7bvNOqw5D74vod/slgHBDlK67Wou9V1MplpJbPk/+JgdpFDXJ3lpkxanDqsKC2zIxODLvekPQ=
+	t=1773846190; cv=none; b=o6+2Srrgbw4WCl9H/wC4CWoTaY+oioSO48qbgx5MMxY3HjD+H5H3Y/fcprokP4m8bXdBHcBTXZdN+7ki2e7zaONtYe8+oTUQvNHnGyA5ZxTzN4M/wy/rhISPjhaIrHQp39vhKP76UsxTHlusu5p9+BX4lgHwS6FqoQ9ER2UOunA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773845596; c=relaxed/simple;
-	bh=P3RmEfeVl5rB1RolpuEMWoYT1Rcb+L0pzJIV0hoByz0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JnR3tHnxcWIsvMci8/ZA7sqxZ8MMELKGvexir3hypxvEGl2biWlvDr/X4ztPK+2x2YpAf1zNh2J7hnqs7EEtbW4dYU5QTtOUQImp5h8GoIAzMT56QCo+gc19JaL0Mh8W/E5XsqwvcLjFIks55CR+RmVszHjG9XCE3xzPvQFRT+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nMbtNwkb; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nMbtNwkb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D76BC2BC87;
-	Wed, 18 Mar 2026 14:53:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773845596;
-	bh=P3RmEfeVl5rB1RolpuEMWoYT1Rcb+L0pzJIV0hoByz0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nMbtNwkbW+OUuU+yZQ/XPWW5ssKtSEb4Ak7q/TSWFTi1wWOwPNs4+4ISaQx6iagfz
-	 SkjanjkVNtPWbP0meWOJ7lP8DKAX82gAY7qP/HO0qgwANKwBEaLX+UKQbaJw+D6C4l
-	 cR7MNfb7Ps3FMv0WCCEcuE7F6ICzla5fkKL5ZwacsE/BHx5ZsfODCGaESSn5M/1m9Y
-	 Iy0rqm72AtdPHXAKQKIj3JK0t2PTMahvgBoriZKu9XfHjus3xtxWEYsxtM+bB8/69G
-	 TbFSJHr6guXlhZ+mNEfKjW7nIs0+yBRKs+UvYe7qkKW6lSP3VJp0HT+Jq8r1Bu3hme
-	 l/qsqdQKh8ryg==
-Date: Wed, 18 Mar 2026 10:53:15 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-api@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, workflows@vger.kernel.org,
-	tools@kernel.org, x86@kernel.org, Thomas Gleixner <tglx@kernel.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Cyril Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>,
-	Jake Edge <jake@lwn.net>,
-	David Laight <david.laight.linux@gmail.com>,
-	Askar Safin <safinaskar@zohomail.com>,
-	Gabriele Paoloni <gpaoloni@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH 1/9] kernel/api: introduce kernel API specification
- framework
-Message-ID: <abq8W0jDtwgSsUdT@laps>
-References: <20260313150928.2637368-1-sashal@kernel.org>
- <20260313150928.2637368-2-sashal@kernel.org>
- <87h5qe9wig.fsf@trenco.lwn.net>
- <20260318070055.39f1af80@foz.lan>
+	s=arc-20240116; t=1773846190; c=relaxed/simple;
+	bh=Jiptg9yDJQrV+D8cHBp3a16G3+cX7N41SQHpo9ylaVY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aX/8zWqWzBoiQLX6yN95C3s+6WMXacTiHuD7Qu+yQNa22TbJdOIsvrEeC4K2fVLSED0NuCFxgeLew6WJUc8SzXzPp2stSHAlfRnHLfMJOL1dBzq+qX4GataEcBIQICOlaWrnseU38S3RaYe0XHnCwSfP4CdT98tet2MvGqbX5Jo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fomichev.me; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=74.125.82.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fomichev.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-2c0e38f3f60so537240eec.1
+        for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2026 08:03:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773846188; x=1774450988;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mel7QAaNVQ/Ezv2Sx36tyZ40BmWBA8rFfywqaIdVMQU=;
+        b=rbE3KbtbX328CtpA+g42gG/fg5sjYizwmKjuGBi5zlHuaLnybNQQiojPfPMtCyB2Nz
+         L7cFxJyna1IvJAeUczlCV4JirFsMO/wRgj0qh0EKDs0eRBA5LmWustoNuPhL6+RoDiPR
+         33VNmxVAewnFw5AqO8sBSMdOBbun4Mmg3ucWcPnI5CyiL4itj3j67R48jLkJ6JHSVR31
+         OtAS24/PlnuSE5aNkxAGJMdW5COjC5rw1LJACNjql6GWSoLq66RVXpF5AWMZgpCY6LWP
+         tS/Xoh3irEPiL47m4lZ4ksmv7rRMvJaIRPYPL6Z71YAsKIUe3bjCioZPHoQfCgJTaKbH
+         4r6g==
+X-Forwarded-Encrypted: i=1; AJvYcCXdOeNe1Sq4rA5Irb9xmwvHElcXipTXS8fy1GT7VPcLr699KIeVCur2hb7DtVfe9ejkzFO6QQIjk9w=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwEakp7spz1mPDxd3qstfI4QfRl0U7V5VG9O0JwQIwUzQlZhL4e
+	1L7/8JrTECpigFEEIwx7FF2ElFVL75idlqD8T6EIW5gUF1C9WbV3F1k=
+X-Gm-Gg: ATEYQzydyhuKIBG2WwaET1aKgspe79KyYOPaHujKk7KMwoYKBYMvqHkrSgIHIDoWJAC
+	gzmghqBKmwiaWCGQbveroLrDDiHboyi/SMOpJmfP+6dH1AW5ElbDnuKEflt/xkSk6AwWgrTI8gm
+	62Y55m+2jCSGc7YZSD2RT+7Q3B65LCCq+MVH/BO1X5Z2qFJVsAhkKMS4TEQbcwecXu4yj0aiuP4
+	RWa6XOglgei3oC9IKzWkbTWx5zszRrfwg1uQZ0Xyi6njju3SJvzny768Mj8l+CJxQ0U4f/9vy5c
+	tR6oZHiAg8Fkpch0kX1vy413nDbQ/TVFtNwAOQzI8eu7KYnO3APwfk3NyPDP7A9lJNZPfQdYw8a
+	psDkCREUtu1OefP5xkWWWYbzICAzotnzfnVxltSmhGZeA77O2wHrfTIt4JT91eiI/u0o+gfCb9L
+	oRAseqRAGq1tC1E2Zh+AUTHibyo12W2pkHgw1idBmQFE4uFwqUJjqNQk6jufD/SAwuN+BfQAL8c
+	ecVxEP0Z1YhqJX1ynZL1qQfr7BM
+X-Received: by 2002:a05:7300:dc91:b0:2be:88f2:3c98 with SMTP id 5a478bee46e88-2c0e46d3cd6mr1489917eec.1.1773846186396;
+        Wed, 18 Mar 2026 08:03:06 -0700 (PDT)
+Received: from localhost (c-76-102-12-149.hsd1.ca.comcast.net. [76.102.12.149])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c0e55ee672sm5053621eec.28.2026.03.18.08.03.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Mar 2026 08:03:06 -0700 (PDT)
+From: Stanislav Fomichev <sdf@fomichev.me>
+To: netdev@vger.kernel.org
+Cc: davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	andrew+netdev@lunn.ch,
+	michael.chan@broadcom.com,
+	pavan.chebbi@broadcom.com,
+	anthony.l.nguyen@intel.com,
+	przemyslaw.kitszel@intel.com,
+	saeedm@nvidia.com,
+	tariqt@nvidia.com,
+	mbloch@nvidia.com,
+	alexanderduyck@fb.com,
+	kernel-team@meta.com,
+	johannes@sipsolutions.net,
+	sd@queasysnail.net,
+	jianbol@nvidia.com,
+	dtatulea@nvidia.com,
+	sdf@fomichev.me,
+	mohsin.bashr@gmail.com,
+	jacob.e.keller@intel.com,
+	willemb@google.com,
+	skhawaja@google.com,
+	bestswngs@gmail.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	intel-wired-lan@lists.osuosl.org,
+	linux-rdma@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	leon@kernel.org
+Subject: [PATCH net-next v2 00/13] net: sleepable ndo_set_rx_mode
+Date: Wed, 18 Mar 2026 08:02:52 -0700
+Message-ID: <20260318150305.123900-1-sdf@fomichev.me>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20260318070055.39f1af80@foz.lan>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Mar 18, 2026 at 07:00:55AM +0100, Mauro Carvalho Chehab wrote:
->On Tue, 17 Mar 2026 11:49:27 -0600
->Jonathan Corbet <corbet@lwn.net> wrote:
->> So the reason for two completely separate mechanisms is not entirely
->> clear to me.  The kerneldoc variant is essentially documentation, while
->> the macro stuff is to be built into the executable?  What if you want
->> both?
->
->You can easily add support at kernel-doc to output such macros.
->
->All you need is to create a new class derived from OutputFormat and
->make it produce any different output format, including:
->
->    #include <linux/kernel_api_spec.h>
->
->    DEFINE_KERNEL_API_SPEC(sys_open)
->    KAPI_DESCRIPTION("Open or create a file")
->    KAPI_CONTEXT(KAPI_CTX_PROCESS | KAPI_CTX_SLEEPABLE)
->    /* ... parameter, error, constraint definitions ... */
->    KAPI_END_SPEC
->
->I'd say that converting from such output to `.kapi_specs`` ELF section
->itself and/or to sysfs/debugfs - e.g. something that would require to
->compile or be linked with Kernel's compiled binaries should be done by a
->separate tool, but we should aim to have a singe tool to process
->kernel documentation markups.
->
->It is hard enough to maintain just one tool - and to have people actually
->writing documentation. Having a second one to handle it, with a different
->format will likely increase a lot the documentation burden.
+This series adds a new ndo_set_rx_mode_async callback that enables
+drivers to handle address list updates in a sleepable context. The
+current ndo_set_rx_mode is called under the netif_addr_lock spinlock
+with BHs disabled, which prevents drivers from sleeping. This is
+problematic for ops-locked drivers that need to sleep.
 
-So this is exactly what happens under the hood :) kerneldoc outputs these
-macros and they get compiled ito the binary.
+The approach:
+1. Add snapshot/reconcile infrastructure for address lists
+2. Introduce dev_rx_mode_work that takes snapshots under the lock,
+   drops the lock, calls the driver, then reconciles changes back
+3. Move promiscuity handling into the scheduled work as well
+4. Convert existing ops-locked drivers to ndo_set_rx_mode_async
+5. Add a warning for ops-locked drivers still using ndo_set_rx_mode
+6. Add a selftest exercising the team+bridge+macvlan topology that
+   triggers the addr_lock -> ops_lock ordering issue
 
-I exposed the macros as an option since they're there anyway, but I'm happy to
-hide them as internal plumbing too.
+v2:
+- wifi: cfg80211: use __rtnl_unlock in nl80211_pre_doit (syzbot)
+- simplify mlx5e_sync_netdev_addr for !uc (Cosmin)
+- switch to snapshot in bnxt_cfg_rx_mode (Michael)
+- add team to net/config (Jakub)
+
+Stanislav Fomichev (13):
+  net: add address list snapshot and reconciliation infrastructure
+  wifi: cfg80211: use __rtnl_unlock in nl80211_pre_doit
+  net: introduce ndo_set_rx_mode_async and dev_rx_mode_work
+  net: move promiscuity handling into dev_rx_mode_work
+  fbnic: convert to ndo_set_rx_mode_async
+  mlx5: convert to ndo_set_rx_mode_async
+  bnxt: convert to ndo_set_rx_mode_async
+  bnxt: use snapshot in bnxt_cfg_rx_mode
+  iavf: convert to ndo_set_rx_mode_async
+  netdevsim: convert to ndo_set_rx_mode_async
+  dummy: convert to ndo_set_rx_mode_async
+  net: warn ops-locked drivers still using ndo_set_rx_mode
+  selftests: net: add team_bridge_macvlan rx_mode test
+
+ Documentation/networking/netdevices.rst       |  12 +
+ drivers/net/dummy.c                           |   6 +-
+ drivers/net/ethernet/broadcom/bnxt/bnxt.c     |  53 +--
+ drivers/net/ethernet/intel/iavf/iavf_main.c   |  14 +-
+ .../net/ethernet/mellanox/mlx5/core/en/fs.h   |   5 +-
+ .../net/ethernet/mellanox/mlx5/core/en_fs.c   |  30 +-
+ .../net/ethernet/mellanox/mlx5/core/en_main.c |  16 +-
+ .../net/ethernet/meta/fbnic/fbnic_netdev.c    |  20 +-
+ .../net/ethernet/meta/fbnic/fbnic_netdev.h    |   4 +-
+ drivers/net/ethernet/meta/fbnic/fbnic_pci.c   |   4 +-
+ drivers/net/ethernet/meta/fbnic/fbnic_rpc.c   |   2 +-
+ drivers/net/netdevsim/netdev.c                |   8 +-
+ include/linux/netdevice.h                     |  26 ++
+ net/core/dev.c                                | 175 ++++++++--
+ net/core/dev.h                                |   1 +
+ net/core/dev_addr_lists.c                     | 110 +++++-
+ net/core/dev_addr_lists_test.c                | 321 +++++++++++++++++-
+ net/wireless/nl80211.c                        |   2 +-
+ tools/testing/selftests/net/config            |   1 +
+ tools/testing/selftests/net/rtnetlink.sh      |  44 +++
+ 20 files changed, 761 insertions(+), 93 deletions(-)
 
 -- 
-Thanks,
-Sasha
+2.53.0
+
