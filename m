@@ -1,207 +1,158 @@
-Received: from canpmsgout01.his.huawei.com (canpmsgout01.his.huawei.com [113.46.200.216])
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011018.outbound.protection.outlook.com [52.101.125.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8777219F135;
-	Wed, 18 Mar 2026 02:02:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.216
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773799379; cv=none; b=I7bs/SHlEZuwDf+BbLawFoHI456ESqG9F4zFyWnBN/KQi5wnmjv1OR31yvpMwgYuq9NyEJVdSdwfJzEJZkTTYwFB1Tm7ESwgSrRymGyCvByICjm+Ej3ieMn+qrFTA61/uqPuCizwJhPq7B/kRE57+3+i0j7GqGJ4HY3GUy3jbkc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773799379; c=relaxed/simple;
-	bh=1aY8itGwueXfUym7kqMXhD3Bd0X8oZZRMQubLbTix9o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Rj8nxGNN5wW5KTu5N7ThvbEcqaecR6V4ttxkGYAjLlxgrvX7nyyQ0muH6L4tuLcFuoxszuN/K0qIVroyVmh2x79R86D3QG2NHuIyEWzq6luIj1WClniau/7ZeuTKbGKmZpReov6wjxoNlYvDxA0xtlVhTDzM706BYjixHXEczAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=aCEWYkJ5; arc=none smtp.client-ip=113.46.200.216
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 230E57081F;
+	Wed, 18 Mar 2026 02:19:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.18
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773800388; cv=fail; b=hjWStPibhEYIIqJCsz6EwKGkgy/JiXvzstJ9VGVK6+Ug3fvfO+9X3qbSblMNMStRY/lbyCzeEUVcdv3+tLwrt1kgoe20mFO3dzdA3IuWWmdqDCmLWwHW3J7PyNPmgZGes7qLjeaCF4GHZinA0GSxLNZuz6T/bVqVMkrpFgah3ic=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773800388; c=relaxed/simple;
+	bh=yKZrP9uwvPkrEly18344qCzL1cHR2Ai/mIukJd6Fo3c=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=NxM5vFlP9XnU96fVg61zKX6tdCr+ca72huFjY5turceqYSBN8gNDjGsxe3aRFQJDFAbXAsACL1RTd70UsY4lQrslMXGIZ8WDf3CuaK1qww9+X7U1BdsVsZ1yh8RSHnrGRw5wY93LbnzZO9SJWdOySovZaY2JUXgsb3aExD1lmD8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=A/Pcj4qz; arc=fail smtp.client-ip=52.101.125.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="aCEWYkJ5"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=tZ0YkW6QzHvviEShl9PgGlFvkR04UgvTgl/eoJfCubk=;
-	b=aCEWYkJ57RU+jYD6xeuAmQT6QWYhWukuC1lqL25B1ZrxDqI0Vs3NTfKvJ5AlwQLdM8pehEYQe
-	55n1qFUEZVHwC/PnTOrkKqsbc9EydqwCPUchnbkZH2IVuBilQdsFrdI/yQDCCC98dkWUvhAxjOH
-	sHTmJrb+EsIdeC3eKd+Ehz4=
-Received: from mail.maildlp.com (unknown [172.19.162.144])
-	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4fbBmC73pYz1T4Gh;
-	Wed, 18 Mar 2026 09:57:31 +0800 (CST)
-Received: from kwepemk500009.china.huawei.com (unknown [7.202.194.94])
-	by mail.maildlp.com (Postfix) with ESMTPS id C20BD40538;
-	Wed, 18 Mar 2026 10:02:52 +0800 (CST)
-Received: from [10.67.121.161] (10.67.121.161) by
- kwepemk500009.china.huawei.com (7.202.194.94) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Wed, 18 Mar 2026 10:02:51 +0800
-Message-ID: <c9eb7f53-db46-4229-b9ef-8faa1138aca7@huawei.com>
-Date: Wed, 18 Mar 2026 10:02:51 +0800
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="A/Pcj4qz"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=xh7xM7zjKBQ40pX6DWn0CuwUTLCwIBFyNEqeXNGNtA8bEVcOz7EPIqTcRH5pUoIuhqhmYQRNRxg+8zcQTFTe9ztazINTZtRoyALWAEXsY8PLeV0Pz0WSjy0IdQ76SejpnKVzyBh8TUYRx1nlDjg6TK6YBKtqycSFvJwrfFfVAfMgZxGD7D1LLbPJi7TTcw5sOme6qLtH3UXtCxWMmf1Xkn9YhPllnsvd9oTb0A5bQb9JMFlXFOZl3mg6+hQi2mmCgZB98xL/gRGwX9nEXPgfpn5S1Hq1TEGDrKPQ5jyngaBM7Nn1NTNm1qCtz8mGtKl08fQA/ucnr0g6TOX4nshHFw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=vtI43JiRBnyfpSSaaCGVgTBEnAMX0YJcQWpOxBsF344=;
+ b=b2XOHf/5B08q5kxLunIKw37FmOBZJFDpvvu9mJuwAY3Jvou77L6VX2zGW1HIv15JySrqkhe9TrMxfKxE3vGm/JMS313qw8Gt+6OsL6M6f5iwNu+LI9chl+LE+FiMZXBZ1/oFKe4VHTcYhVFI3l0SQUpCE2GqFZGlNaQYkp6BFFYaar1oPh3eGIRMob+9a82IyA4p3g00ph4Dx26riPawn9lk2rOmp+panFnEQeDxpDRKWxtsa74edfTRwKa6V86czOEb/7SaRPTo6zDhUvhoLz0GDvPZgwBmnagKovbBCePhyjA14jxjK8vAhCytktOYBnWxrabPWYc45D0+gYSmqg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vtI43JiRBnyfpSSaaCGVgTBEnAMX0YJcQWpOxBsF344=;
+ b=A/Pcj4qzS2Fs5izdnJ3pxlgznuLNhBCJNErTlzsPW5d7CDji4FArw5q3SzTm1F4rPVU6jbEvYNKMWm+a4A8e/VzZofwhAje0CNJifYO4xzSUvzdCLZS4pwp9R4jQAQqte5rCYQVZBeRyeGysgHg8ZAXOobzkYAzyArD80S3WpIM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
+Received: from TYWPR01MB11935.jpnprd01.prod.outlook.com (2603:1096:400:403::9)
+ by TYRPR01MB13423.jpnprd01.prod.outlook.com (2603:1096:405:1c7::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.19; Wed, 18 Mar
+ 2026 02:19:42 +0000
+Received: from TYWPR01MB11935.jpnprd01.prod.outlook.com
+ ([fe80::dc30:6b24:b7ba:d429]) by TYWPR01MB11935.jpnprd01.prod.outlook.com
+ ([fe80::dc30:6b24:b7ba:d429%4]) with mapi id 15.20.9723.018; Wed, 18 Mar 2026
+ 02:19:42 +0000
+From: Dawei Liu <dawei.liu.jy@renesas.com>
+To: linux@roeck-us.net
+Cc: linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	geert+renesas@glider.be,
+	magnus.damm@gmail.com,
+	grant.peltier.jg@renesas.com,
+	linda.xin.jg@renesas.com,
+	tabreztalks@gmail.com,
+	Dawei Liu <dawei.liu.jy@renesas.com>
+Subject: [PATCH v2 0/3] hwmon/pmbus: isl68137: Add RAA228942/RAA228943 support
+Date: Wed, 18 Mar 2026 10:19:18 +0800
+Message-Id: <20260318021921.75-1-dawei.liu.jy@renesas.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260316053541.3903-1-dawei.liu.jy@renesas.com>
+References: <20260316053541.3903-1-dawei.liu.jy@renesas.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: TPYP295CA0054.TWNP295.PROD.OUTLOOK.COM (2603:1096:7d0:8::6)
+ To TYWPR01MB11935.jpnprd01.prod.outlook.com (2603:1096:400:403::9)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 1/3] ACPI: Refactor get_acpi_id_for_cpu() to
- acpi_get_cpu_uid() on non-x86
-To: Jeremy Linton <jeremy.linton@arm.com>, Bjorn Helgaas
-	<bhelgaas@google.com>, Catalin Marinas <catalin.marinas@arm.com>, Will Deacon
-	<will@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>
-CC: <punit.agrawal@oss.qualcomm.com>, <guohanjun@huawei.com>,
-	<suzuki.poulose@arm.com>, <ryan.roberts@arm.com>, <chenl311@chinatelecom.cn>,
-	<masahiroy@kernel.org>, <wangyuquan1236@phytium.com.cn>,
-	<anshuman.khandual@arm.com>, <heinrich.schuchardt@canonical.com>,
-	<Eric.VanTassell@amd.com>, <jonathan.cameron@huawei.com>,
-	<wangzhou1@hisilicon.com>, <wanghuiqiang@huawei.com>,
-	<liuyonglong@huawei.com>, <linux-pci@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <loongarch@lists.linux.dev>,
-	<linux-riscv@lists.infradead.org>, <xen-devel@lists.xenproject.org>,
-	<linux-acpi@vger.kernel.org>, <linux-perf-users@vger.kernel.org>,
-	<stable@vger.kernel.org>
-References: <20260313022144.40942-1-fengchengwen@huawei.com>
- <20260313022144.40942-2-fengchengwen@huawei.com>
- <e4b0aefa-7108-47b4-ad5d-d62d385b8f33@arm.com>
-Content-Language: en-US
-From: fengchengwen <fengchengwen@huawei.com>
-In-Reply-To: <e4b0aefa-7108-47b4-ad5d-d62d385b8f33@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
- kwepemk500009.china.huawei.com (7.202.194.94)
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TYWPR01MB11935:EE_|TYRPR01MB13423:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0f9484e7-0454-4a82-989d-08de8494d015
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|52116014|1800799024|366016|38350700014|56012099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	HHuezURJbcrwCTeIL3LdrJaX+mPQftzivpm/Wn4Iz0pIgDhv6QnmjEHWiQLUYZLU3zgzJjrqQlYkUNvcdGAM5H49uRYozXQkOo2HSqc75FGNacOng8C4hMjPvUhVZL2mdKl9A0zJQVQKfBJOh9D4taiYzEDvL7grIjp7mr0mK76dwaTyFS1kCy9XTOT2zQ7WbIoFJv4aux62E/2s9RrnvttKpIpp4wHFQWN1AWRR4vvUMFRskRXfGLxPQa2+LbhFWc0GzMmr5TUw6PQEliv+0YDXUAhopxzke74HDg4dLpcSkV7GQAwSl4yRqDOJnaPOyRmZFAkaCPkuuZgdfdYrQCN3CX67N1+1U0AS/Ae4oh84MvnXRzFmI1O9ZdskXChSmgmYDmra8yN4p/wFddDkrfOQr2mZydPWZ+wZdyVfHN2WiFd3u+WOvrkEB2KPTCSk3eC1mkUgcWakJNuoml+hxftvFlQVmMmGVktWlZJYhs7MaQUtkHIuulP3jJtgsIMccEOz1+6FT77F1QCcjournyIAPYiM9KkKVKKy5On4npPUQE8F1dldyAgENqR33C5FnmZU+zweLt9FwyOGkAg1Sk/V7h9fn9E6OtWg/945S5qz0vYvVW5uIka0CzAxHyGwxqn33yxStVr0ZROpfBYK/epimIMtggkIG1/9hvusS3vhKDZhsst9lqdbCEocu9ZkAJfnMtwJgb1LZ9pRgud+zWJIjyuh8LKplOk/VaZslSXSNao8yWzr2iYjFbkDfsgvqWKMFTIHMW5FFXByv1oomaCvUwFbgWAfvH+6+XcJLC4=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYWPR01MB11935.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(52116014)(1800799024)(366016)(38350700014)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?cz2JYgEdw4ZwVjRtS2xkvs6pjmHqT7HPcUQ2mUjhC6gnFg0tvxGw/Wv0hOM6?=
+ =?us-ascii?Q?3TAnN0XB0p7mVPPi5kSVX3aNOa7miB4OOewD4Z3lAjycNO3EQSXcJ5xFNT1d?=
+ =?us-ascii?Q?ng0tCIatR253rrBi7NWjNvwERBg5MI7wAt/1XguPS8uZgrEcaReAcSKO/8rg?=
+ =?us-ascii?Q?oP31uZWbxGBPjeo6H04IcQa3WKWNx9DSrpdxLcDeSIhQalcmNLHuhqrUbIPY?=
+ =?us-ascii?Q?cGV78SohtzVwYDkdx2a/tKy5Ab/fX//S8esJq0lcfGPnFYMFnnzFSlvCp4l9?=
+ =?us-ascii?Q?klSqyMD7sZCEBnvowPqsxJ0p6n5/UYqujUhVeq0GJjCEbF5hDgRvRY7HvjN0?=
+ =?us-ascii?Q?Lta8qPFX0alkPYKFwuOw6e4S9DLw/AiifHEZD9WK2zNUotq4zob19EX9ivCD?=
+ =?us-ascii?Q?T72E3mKrrTaOStvV/v11g9/P4x9f9wrgkFcHqr7pk/fSfe+NIz9OjR3LS52i?=
+ =?us-ascii?Q?EpzHroVoE+FzDsMHYryCgJABq3i40R3LmO9apkC7Hk261kLoA5KtGJhh/kxn?=
+ =?us-ascii?Q?myKWethvlK+V7kBuju/xmPW1O3Ab5vNSgE1RhygY7jRHPB5ORCrFC4VbZYNN?=
+ =?us-ascii?Q?8l35RSbIU5TALTUmgXRifoW6CiDCHd0eKk5cnKCQmzhKgsnMEpFhsHzmHVWG?=
+ =?us-ascii?Q?8yEmPyPiIX+n1d0IX8pNxmRLuViddCD/8VmwexqM6xBUQSeZVz6YBNL3lrEJ?=
+ =?us-ascii?Q?7GYdjBrSz3VyrKnBsKRgnULxHo6W0LGwGDSWO0qTzlrdp87YTJ4U0xralllB?=
+ =?us-ascii?Q?/ANQ7uxk8/TBhzRwpy/0X1PHstAKW9+k9J60mNVCo5MSm2f4iIRgU3keBBwk?=
+ =?us-ascii?Q?07UbHo7EbMOfPY3nNbFdfAMtEXUtnfbJ8HxqxmkvSKmWG6Pd5q/68clPB41z?=
+ =?us-ascii?Q?x6ASmlVd7T+h7Fb0IcexS1rQIwXJFak8vttfP40OK+pvEichSuGp6OhHInxd?=
+ =?us-ascii?Q?bnrA/Qyy/G4yBYkXwMOJY7646AgjHdRTfrlb3+UFNYnWayS3UIB4tqs+mEgN?=
+ =?us-ascii?Q?8HMn2b2uI/iZfn6YW/nXFFivmmbfAXrGtfD8AHLtJiAEp2HdaOh8RB8GL0tW?=
+ =?us-ascii?Q?cvO6VqNMEuz9/1zYW42tXPv32G7SxKEoNFnmZs7O2ZSZ5TsH53rqFRtqGQfg?=
+ =?us-ascii?Q?qJLUGXRec0oyQlx03JihUzka5eE1ZNvcu11nGO8m/kRT0NJ3vFc7nxGocJU/?=
+ =?us-ascii?Q?ZeyT9p9HRftSy1x/npU6W06jwvs9Xok1HfQbVfOdwoPKieUy0tcKj+cFLra7?=
+ =?us-ascii?Q?zp35JMdtgwPXY8+HuPa9Y8SttadvVJl4p1JJ2/NycjAav2X/W2GO0SrkxRhs?=
+ =?us-ascii?Q?DJ+QMnaRidgyAAfKMzVxYb13GvVHCWdHNMyLinAfGUz5qP8xvLZcUPNQGmOc?=
+ =?us-ascii?Q?oJ5uxmrpKBQ2QxJ9fAxWlvdE7MZbas7i6wrQwIgKb22q2R3jmcQd/vBheCzJ?=
+ =?us-ascii?Q?8eJKO6ubWsxwOgbqcONXo1uRfdlsYdHTFvAu+UZItBjX8Z7VXDLhvkgKjzxk?=
+ =?us-ascii?Q?CrCRfTEn8kejxHy6A2y0l0rjceZ75yShW7ZOS0zsmEaXu0DTevN2TJrc7i8/?=
+ =?us-ascii?Q?v1/w6FeN91dCvqvLF0JuPtw910A4f8ZyRE61FzizDZfBUw1cZ4XKteS3a6AE?=
+ =?us-ascii?Q?VrgzCk099guY7Q49rI/vXi4Ltak5W3dDOTWTpNaDC2UxhHyRUXx1v840EuDH?=
+ =?us-ascii?Q?WLLKf+N+BdKCC8fqMuSm/kXEzXUhPJtHBKMbIsn1x3+NlVuVAVv/JBS4Pqg0?=
+ =?us-ascii?Q?pA26B/Uaww=3D=3D?=
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0f9484e7-0454-4a82-989d-08de8494d015
+X-MS-Exchange-CrossTenant-AuthSource: TYWPR01MB11935.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2026 02:19:41.8502
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: XrGPmQgnM7YsK/c/rtkHEowzbO7q+ZIudibHVQfVT14RyB4YB0MYWW1MF7H6m++ZgadqZN+CMdqyWHeEi8OtNgPUbVfsK4i1QDrcCzjwDdM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYRPR01MB13423
 
-Hi,
+Add support for Renesas RAA228942 and RAA228943 digital dual-output
+16-Phase PWM controllers. Also clean up the unused enum chips.
 
-On 3/18/2026 5:38 AM, Jeremy Linton wrote:
-> Hi,
-> 
-> Lets try this again, since the last one looks like it got caught in the moderation system and wasn't quite right anyway.
-> 
-> On 3/12/26 9:21 PM, Chengwen Feng wrote:
->> Unify CPU ACPI ID retrieval interface across architectures by
->> refactoring get_acpi_id_for_cpu() to acpi_get_cpu_uid() on
->> arm64/riscv/loongarch:
->> - Add input parameter validation
->> - Adjust interface to int acpi_get_cpu_uid(unsigned int cpu, u32 *uid)
->>    (old: u32 get_acpi_id_for_cpu(unsigned int cpu), no input check)
->>
->> This refactoring (not a pure rename) enhances interface robustness while
->> preparing for consistent ACPI Processor UID retrieval across all
->> ACPI-enabled platforms. Valid inputs retain original behavior.
->>
->> Note: Move the ARM64-specific get_cpu_for_acpi_id() implementation to
->>        arch/arm64/kernel/acpi_numa.c to fix compilation errors from
->>        circular header dependencies introduced by the rename.
->>
->> Cc: stable@vger.kernel.org
->> Signed-off-by: Chengwen Feng <fengchengwen@huawei.com>
->> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
->> ---
->>   arch/arm64/include/asm/acpi.h      | 16 +---------
->>   arch/arm64/kernel/acpi.c           | 16 ++++++++++
->>   arch/arm64/kernel/acpi_numa.c      | 14 +++++++++
->>   arch/loongarch/include/asm/acpi.h  |  5 ---
->>   arch/loongarch/kernel/acpi.c       |  9 ++++++
->>   arch/riscv/include/asm/acpi.h      |  4 ---
->>   arch/riscv/kernel/acpi.c           | 16 ++++++++++
->>   arch/riscv/kernel/acpi_numa.c      |  9 ++++--
->>   drivers/acpi/pptt.c                | 50 ++++++++++++++++++++++--------
->>   drivers/acpi/riscv/rhct.c          |  7 ++++-
->>   drivers/perf/arm_cspmu/arm_cspmu.c |  6 ++--
->>   include/linux/acpi.h               | 13 ++++++++
->>   12 files changed, 122 insertions(+), 43 deletions(-)
->>
->> diff --git a/arch/arm64/include/asm/acpi.h b/arch/arm64/include/asm/acpi.h
->> index c07a58b96329..106a08556cbf 100644
->> --- a/arch/arm64/include/asm/acpi.h
->> +++ b/arch/arm64/include/asm/acpi.h
->> @@ -114,22 +114,8 @@ static inline bool acpi_has_cpu_in_madt(void)
->>   }
->>     struct acpi_madt_generic_interrupt *acpi_cpu_get_madt_gicc(int cpu);
->> -static inline u32 get_acpi_id_for_cpu(unsigned int cpu)
->> -{
->> -    return    acpi_cpu_get_madt_gicc(cpu)->uid;
->> -}
->> -
->> -static inline int get_cpu_for_acpi_id(u32 uid)
->> -{
->> -    int cpu;
->> -
->> -    for (cpu = 0; cpu < nr_cpu_ids; cpu++)
->> -        if (acpi_cpu_get_madt_gicc(cpu) &&
->> -            uid == get_acpi_id_for_cpu(cpu))
->> -            return cpu;
->>   -    return -EINVAL;
->> -}
->> +int get_cpu_for_acpi_id(u32 uid);
->>     static inline void arch_fix_phys_package_id(int num, u32 slot) { }
->>   void __init acpi_init_cpus(void);
->> diff --git a/arch/arm64/kernel/acpi.c b/arch/arm64/kernel/acpi.c
->> index af90128cfed5..f3866606fc46 100644
->> --- a/arch/arm64/kernel/acpi.c
->> +++ b/arch/arm64/kernel/acpi.c
->> @@ -458,3 +458,19 @@ int acpi_unmap_cpu(int cpu)
->>   }
->>   EXPORT_SYMBOL(acpi_unmap_cpu);
->>   #endif /* CONFIG_ACPI_HOTPLUG_CPU */
->> +
->> +int acpi_get_cpu_uid(unsigned int cpu, u32 *uid)
->> +{
->> +    struct acpi_madt_generic_interrupt *gicc;
->> +
->> +    if (cpu >= nr_cpu_ids)
->> +        return -EINVAL;
-> If this actually happens, its probably useful to know it with a pr_warn/pr_warn_once.> +
+Changes in v2:
+  - Remove entire unused enum chips (suggested by Guenter Roeck)
+  - Improve commit message to clarify PMBus command compatibility
+    (suggested by Krzysztof Kozlowski)
+  - Split enum chips cleanup into separate patch
 
-The function maybe called from userspace which on later roadmap, so I prefer not add
-warning or error here.
-BTW: the function will return -EINVAL, so caller could know the case.
+Dawei Liu (3):
+  hwmon: (pmbus/isl68137) Remove unused enum chips
+  hwmon: (pmbus/isl68137) Add support for Renesas RAA228942 and
+    RAA228943
+  dt-bindings: hwmon: isl68137: Add compatible strings for RAA228942 and
+    RAA228943
 
->> +    gicc = acpi_cpu_get_madt_gicc(cpu);
->> +    if (!gicc)
-> I think this check is redundant because we can't have logical cpu's that aren't in the cpu_possible() list, which on arm64 doesn't AFAIK have holes. In the past this might have made sense if we weren't maintaining a copy of the gicc structure from the MADT for each core.> +        return -ENODEV;
+ .../bindings/hwmon/pmbus/isil,isl68137.yaml   |  2 +
+ Documentation/hwmon/isl68137.rst              | 20 ++++++++
+ drivers/hwmon/pmbus/isl68137.c                | 50 ++-----------------
+ 3 files changed, 26 insertions(+), 46 deletions(-)
 
-This commit will backport to stable branch at least 6.6. So I think it's OK to keep it.
-
->> +
->> +    *uid = gicc->uid;
->> +    return 0;
->> +}
->> +EXPORT_SYMBOL_GPL(acpi_get_cpu_uid);
->> diff --git a/arch/arm64/kernel/acpi_numa.c b/arch/arm64/kernel/acpi_numa.c
->> index 2465f291c7e1..41d1e46a4338 100644
->> --- a/arch/arm64/kernel/acpi_numa.c
->> +++ b/arch/arm64/kernel/acpi_numa.c
->> @@ -34,6 +34,20 @@ int __init acpi_numa_get_nid(unsigned int cpu)
->>       return acpi_early_node_map[cpu];
->>   }
->>   +int get_cpu_for_acpi_id(u32 uid)
->> +{
->> +    u32 cpu_uid;
->> +    int ret;
->> +
->> +    for (int cpu = 0; cpu < nr_cpu_ids; cpu++) {
->> +        ret = acpi_get_cpu_uid(cpu, &cpu_uid);
-> This might have been a simplification, but since we are basically doing a for_each_possible_cpu(cpu) and every possible cpu will have a GICC entry before it becomes 'possible' there will be a UID, so all the error checking AFAIK, is impossible here.> +        if (ret == 0 && uid == cpu_uid)
-
-I prefer to keep the current impl, as it may catch future error.
-
->> +            return cpu;
->> +    }
->> +
->> +    return -EINVAL;
->> +}
->> +
-> I also moved this below acpi_get_cpu_uid() in acpi.c and I don't see the a forward error issue you mentioned. It seems to me that they should be kept close to each other since they are basically inverses of each other.
-
-As long as you ensure that it is not placed in asm/acpi.h, that's fine.
-So it's OK to move this function to acpi.c
-
-But I just checked the callers of this function again and found that there are
-all in acpi_numa.c, so I will now add the static keyword to this function and
-make it an internal function.
-
-Thanks
-
-> 
+-- 
+2.34.1
 
