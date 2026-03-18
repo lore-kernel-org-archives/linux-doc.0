@@ -1,243 +1,495 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9680B2C11E6;
-	Wed, 18 Mar 2026 15:45:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81410425CC7
+	for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2026 16:00:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.179
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773848727; cv=fail; b=savGuumagi5UQfwX4N9jjPqGX19kOrofHR03AlsFhzjDlqHjXdXfvU/YkeAplZDqExK58uWPsx2/f5LWtwli+rMOFHDIo+WZ5LWoc4RmO8k0Z64Ruha+bvDq8r081DR+ZmmtI1k/3k/RcPgF8nG7/+PrGP1UBpyCEzdRGNT6DyE=
+	t=1773849636; cv=pass; b=JhUcov/HqkMlnsraIC2bVWzToAPgkvEKh8TA/wYMU4xkpwlltYT7vxMAAHPfMm5BUhcRdRPc/v8noxmyYl5c5mq2szIMJrULK3vRNMVZgw/LIUfCKOPMn9Yc6ldIf30W2RNhMCfblAnce9ihMcH0TpIO8bCPsirtMQDUHg5lCVM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773848727; c=relaxed/simple;
-	bh=HmdfTJ8OPf7zCF+ZVqTe8RCbT3kd44EQuxnEOZ7TWMc=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=OEf1xPwwTuuKZpWILo5fW7XctJANY+v1Rd8cAmFU86zKgoLhxGEVJq9gNWJMIrFCgyvnkb6s1uoMv25yO4RBL5F4G2LQ+QqjnvbwsuRcXxIz/Bh/aLRIo2EesWvsJOjTfnchY2I+7GoptWSDZQVOzB+thKOkD5qKZ9PJ/tI+p0Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E3ZOeKQA; arc=fail smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1773849636; c=relaxed/simple;
+	bh=dPbKT25C4GPcI3JtqDUYqqKrB12KKuXMc+HZEx8dtyI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HdaNZRh8V4u0AURQoyq1ADFMrzvTMNNJPC34H3sylC5JuuYeQbLnB9Q2l3CdiC2CGVU1cFgSVi3kDPSbjyQvBHnNcIDqTto8wYP9GBf81FP82MY4R9LV2WcXDeMC86PVosaq9xWbZMZd5hzuo8zBhkInU8QMDOHhG1yeBMC+DRY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=lnUpsYZw; arc=pass smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E3ZOeKQA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773848724; x=1805384724;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=HmdfTJ8OPf7zCF+ZVqTe8RCbT3kd44EQuxnEOZ7TWMc=;
-  b=E3ZOeKQANRcfzpGKkKaQ1K4BLeIxRt5vqA1T5mXe7KQJcmCB6+iqj8ox
-   kE6rSpoqmHA8CZeQaxYR819T/2o3nRU6j6C/w/M75Xvas1NNe907fk7z7
-   9eioF6vMwr2a773a8VmxP2I9BlWUxB1Ubsabs22Z0KONfxwKs4NRwD2Ee
-   NvYYfNGzKjJjiotTUJhAcO7FoSpPAt6leXARzVBwmOYL3IRR2P8I7UBPF
-   zlJdRQYKM3HMgtR4lwysfsX1Rug+dW4Q2VT/gg6QT/YdtPYA0SwihY7KI
-   Ct/9m0GB0H2VacMJT9vWNNpGVIsnuXkDwHT/vBmt+l1FKE0d4gvTpUYPg
-   Q==;
-X-CSE-ConnectionGUID: NvZELtd6S8CiCtgJ1UGysg==
-X-CSE-MsgGUID: LPoeVP4oTW6WLWjxXZL7vg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11733"; a="75087832"
-X-IronPort-AV: E=Sophos;i="6.23,127,1770624000"; 
-   d="scan'208";a="75087832"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2026 08:45:23 -0700
-X-CSE-ConnectionGUID: KR6Nmqy/TTSaO/GCTZ8iAg==
-X-CSE-MsgGUID: xeiQOOzNTte6H/f5BUA6Kw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,127,1770624000"; 
-   d="scan'208";a="220100365"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2026 08:45:22 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Wed, 18 Mar 2026 08:45:21 -0700
-Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Wed, 18 Mar 2026 08:45:21 -0700
-Received: from DM5PR21CU001.outbound.protection.outlook.com (52.101.62.61) by
- edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Wed, 18 Mar 2026 08:45:20 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SncRrMdsEIEDG4wrivUqXtZZ61X2ZXT+fin3Riqs2TL3D9Cuw2T9xWCvstYp0m5iyxrx0vrrgA0H6UjM3e1acn6R3YWyHdlYRkNsXBBuM1klw9Rf1rwdMm+oIxYSh/DDSfaVGLGVTgLZ7DOXiCEH9Gq9NLWOfLbb45SBaUTQOj0pP7BqaGBO7KHhhHj9eQEn+xE17txA7lS3rHY6wQzd7CpLnDcoT5J8Qpm9vDmJU614Ng1oF6+jO/Bn4rkv68sHay/bm9wuFHm/rrmDoqZFKaoGUbOvY8kCzbGL/PxDAzmc9swQ6CE4q7dAWWLZBEewaPy9vtjnC2QvmQrcIy7FSQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0wScH301BOXmOBexlR6DRpeMcP1py2MnEY53ZtTPcLo=;
- b=Vm3F+gKUiC5yDKfYYEeuL+km4X7ny4lmRKjsSOV2Hzgg1/tzFB5S5PzY+/0Gmdjg/3p7IeU6d6qKapvEB67kcp+h2ydz8DVaPvCKnbZ1W3FvHHXyzQ9sJyaJUTSzT0t1BBNnD4Jb9pQ4CCpKjKHUUSywQfSx3EKo2SbK89Kh4S+cKBN5Qsq/yUNgtP7+AAQA0v9dk7bKh5jho5ZmdFKjoOmJ97JX+xM887I9D0/EQSOQy8g0PD89MLt9OoFNp7WqEMzsrNgYeB68neYLzwn4HV4bicZNT9q+bXOQeGAOjUPnZbYY0c8PP/UOh9afvZERo4qYxFLkKbGXuRYXxgunzA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from IA3PR11MB8986.namprd11.prod.outlook.com (2603:10b6:208:577::21)
- by DM4PR11MB6455.namprd11.prod.outlook.com (2603:10b6:8:ba::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.17; Wed, 18 Mar
- 2026 15:45:12 +0000
-Received: from IA3PR11MB8986.namprd11.prod.outlook.com
- ([fe80::e6f0:6afb:6ef9:ab5c]) by IA3PR11MB8986.namprd11.prod.outlook.com
- ([fe80::e6f0:6afb:6ef9:ab5c%5]) with mapi id 15.20.9723.006; Wed, 18 Mar 2026
- 15:45:12 +0000
-From: "Loktionov, Aleksandr" <aleksandr.loktionov@intel.com>
-To: Stanislav Fomichev <sdf@fomichev.me>, "netdev@vger.kernel.org"
-	<netdev@vger.kernel.org>
-CC: "davem@davemloft.net" <davem@davemloft.net>, "edumazet@google.com"
-	<edumazet@google.com>, "kuba@kernel.org" <kuba@kernel.org>,
-	"pabeni@redhat.com" <pabeni@redhat.com>, "horms@kernel.org"
-	<horms@kernel.org>, "corbet@lwn.net" <corbet@lwn.net>,
-	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
-	"andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>, "michael.chan@broadcom.com"
-	<michael.chan@broadcom.com>, "pavan.chebbi@broadcom.com"
-	<pavan.chebbi@broadcom.com>, "Nguyen, Anthony L"
-	<anthony.l.nguyen@intel.com>, "Kitszel, Przemyslaw"
-	<przemyslaw.kitszel@intel.com>, "saeedm@nvidia.com" <saeedm@nvidia.com>,
-	"tariqt@nvidia.com" <tariqt@nvidia.com>, "mbloch@nvidia.com"
-	<mbloch@nvidia.com>, "alexanderduyck@fb.com" <alexanderduyck@fb.com>,
-	"kernel-team@meta.com" <kernel-team@meta.com>, "johannes@sipsolutions.net"
-	<johannes@sipsolutions.net>, "sd@queasysnail.net" <sd@queasysnail.net>,
-	"jianbol@nvidia.com" <jianbol@nvidia.com>, "dtatulea@nvidia.com"
-	<dtatulea@nvidia.com>, "mohsin.bashr@gmail.com" <mohsin.bashr@gmail.com>,
-	"Keller, Jacob E" <jacob.e.keller@intel.com>, "willemb@google.com"
-	<willemb@google.com>, "skhawaja@google.com" <skhawaja@google.com>,
-	"bestswngs@gmail.com" <bestswngs@gmail.com>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "intel-wired-lan@lists.osuosl.org"
-	<intel-wired-lan@lists.osuosl.org>, "linux-rdma@vger.kernel.org"
-	<linux-rdma@vger.kernel.org>, "linux-wireless@vger.kernel.org"
-	<linux-wireless@vger.kernel.org>, "linux-kselftest@vger.kernel.org"
-	<linux-kselftest@vger.kernel.org>, "leon@kernel.org" <leon@kernel.org>
-Subject: RE: [Intel-wired-lan] [PATCH net-next v2 07/13] bnxt: convert to
- ndo_set_rx_mode_async
-Thread-Topic: [Intel-wired-lan] [PATCH net-next v2 07/13] bnxt: convert to
- ndo_set_rx_mode_async
-Thread-Index: AQHctuhvPNcqv/OQiUKaydYzFZubBbW0boUw
-Date: Wed, 18 Mar 2026 15:45:11 +0000
-Message-ID: <IA3PR11MB8986E552C5622363BF487289E54EA@IA3PR11MB8986.namprd11.prod.outlook.com>
-References: <20260318150305.123900-1-sdf@fomichev.me>
- <20260318150305.123900-8-sdf@fomichev.me>
-In-Reply-To: <20260318150305.123900-8-sdf@fomichev.me>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: IA3PR11MB8986:EE_|DM4PR11MB6455:EE_
-x-ms-office365-filtering-correlation-id: f22f703d-a186-4030-9493-08de85055763
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|7416014|1800799024|38070700021|7053199007|22082099003|56012099003|18002099003;
-x-microsoft-antispam-message-info: KLV2vuhZBolFv7MxIpkghB/jR4N8Lgncw6vDuBwSUfyqXe7AGsYaqN7LA1pnfwKlNe+PP3WMdg+91I4OMF0gykixfBRdwjeTwJXgc1ZK4qxyGovB9v6onqVFrWSCK2yYGsZhGpiGZotr0POTJez4PbRrX4X0vznaN8WDUio3jZ3KfbTYNb80HrUjSMT19ZDgbHXHX4FabrVFNoOwwaiLSbB1NsL3r02PlDDbQauKdbU+Kzg6hdSZtVsRVqx44ti/UvcJ7NdEgZWyINnQp9J6OGx9kNIb7cgeql/nG+zkIYW5sBAxFyhCejK3VbG4F4l0DplPiDGfRa1KRJFEc5aJrc35L1TO4LUAkbHu1xX1w3cG6NxRmUOuE1Dp9rPoCBKyBi+OC11A7G3jSU7PT79eTjbxOkjhaqo4NVxlNW/V1y4XC9dLcq+cecRBfkFOV3KA9IkjKQbcZiWJOGkjC/erqTK+Hll2cEICZV61Trp/Ax77EVwixe0g8Ejs72S4OYroR+lnw7hnNifLH8XNGD2vms9O6wqT8WGQVaJr/foDHXB6/WztogqT6oeomf1V0vbFt0zipdw9zpqgZ+vBS6vCVjRCR1vRoSW/vssFlTjerq5X8PWS4D/aLAzNkGH/AE2y7NKwgBOdvzFzlNY49BFLJRG14OnJB7kHrPNJnTPtOI7janEWky98FGHjJ9A0dXvHGV10Vp5U0AhcBGgpXKKkwBJLu64bTZjiewokBCIabMc1GcBuoqhXti+2XQOHpsZJ2aYrLabUQpk1YxBHr6zY3kEKUT4n4tTKhKHM7r2AudY=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA3PR11MB8986.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(7416014)(1800799024)(38070700021)(7053199007)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?umRmWnzSyD25Wnj3WqXj9nJlvwtJTGwGlOITMDmoqZkpHynX4aPtwNkZdWV1?=
- =?us-ascii?Q?leYaOyHy4gPpmVZu9eCKVbm5ZcNUJ4g/1UCtYzwKDbBug/hJMQ9EsA1gnTDv?=
- =?us-ascii?Q?p5D+mpLgk7ggRP1Rlvqnp6vj4kkSONY1bm7Vgm6xIMaDGREGkStnECM0xH9J?=
- =?us-ascii?Q?lI0Utl5Pct8PQUiKiJePt14xpH/sxMfIcx280qYbpPAq55OCnknjmqyTJSbA?=
- =?us-ascii?Q?agmextdy1FK9Jg9cC4Z6Bo9xSM2N+uDBz5nQ0tWa8iiN+pvql+Obe0ViUTxn?=
- =?us-ascii?Q?7Ol0UGIEkxPIVHdIaG5/by/cf8pZpSrfrSF0HaiIgSdCVh1dJoXutPvXEh1d?=
- =?us-ascii?Q?qxZ8Gp6ZVTX9xJRwjZe8lgwYiouRhqxDMgNeX4rdd4dPD+cBsgkjK8kx7ZSo?=
- =?us-ascii?Q?FnaEYXZbmxoyss0mtZE0qj3MLHoj/tDxXERewm/NenUEKQw/73O0fcOf/01Z?=
- =?us-ascii?Q?LkgTBu1psDd+s2QBrEmG0uPEZwIHhDvQePTdw7/EF7gfIqmf07aWGFU0N8md?=
- =?us-ascii?Q?o2t9X7c90nfYgjpW+GBJ3nhtWT9KSk8W/lqfBNXhhRg9gmY/d+piYQwlMI0n?=
- =?us-ascii?Q?jjBquQkrFx6kMYV4PaqiYdubrhed4VWL+v2hPgWcAtA0UbZkWu15SujCW1KX?=
- =?us-ascii?Q?geixYJkh7yVxGxdtK1CKCLTUHt/zeQu8n4OwoI7Nse9EhI8AW0bO8b8Clksz?=
- =?us-ascii?Q?QZcRNfBLUMExrWcTR/DkVQtaPAPAuGaC4Zg4m19DcMTxbwgy2rJ07iPczQst?=
- =?us-ascii?Q?G+J/8lamdywvbaYtBEMFnAr+/kkQtE95WJDKctqjNC9tqgP2qtGvPvJ1o+sJ?=
- =?us-ascii?Q?TSr3tfW5E8ldPFOwJb3gMg1HaxGwik+P9aGp+3RbOum6GaSWFaokyyaFpVVj?=
- =?us-ascii?Q?Zer2NMSmz0FpuWMXcRil7VAjIR15pk+U0+GxuJr4WrPmeIlnsPDA34qn4cHb?=
- =?us-ascii?Q?lJrlphzD9I6RHw6AEXEoAoqH6phWYyGevniG5KbUPS6kGUihI7Z9n6QgB98m?=
- =?us-ascii?Q?3WQWtcJCO2bU+cPUtI2R+FaBjOYXkVkfM99KD+HXUQenPq9yfOQuGRJyU97f?=
- =?us-ascii?Q?oHY2lSRtI9JiYz/+KHqvuv56JJNAib1nrGNI5onQBELfsVoKH3b/Wj0DEG5h?=
- =?us-ascii?Q?8bVSRCMXRPY5v79DhXdnFPSoFEOhhCCJ4+iIAFJznYIYX8wVW1pyb9Y1FBD8?=
- =?us-ascii?Q?w5QID94hL4MVYOKLk0NSl+t9RR4AwKeeJJqcvOoZwAZVwTQoANrjZed7XP0E?=
- =?us-ascii?Q?fNre+/fI0G838mz94nmXWbpZp0V8e3t9HpnlU05MH+ayF6sMfgDXRC4+Rnns?=
- =?us-ascii?Q?XHuCw09RCDmc+pDRhFHBtVLYHc9sIVUj3JQwA8t9BJTuifz8Z/nbsXVHFXvY?=
- =?us-ascii?Q?LD60i8bqYuWPyZq9A8FVC4wBUl9NuPIPeH/UVlfnMaLRFL+sFBdqt+rH/Tdv?=
- =?us-ascii?Q?3vUo9/ODyCzJd6imLxtcWZyxgWu1LRETpm0Wm278AcVvJ68NS/W0C0SpOYwR?=
- =?us-ascii?Q?SxHf4bfumsnvGGGd7k7mPe94WfbXOaK6fnfIQzUOGFEGhLirBqetX7Yyt1Q7?=
- =?us-ascii?Q?EceycjFybdoMxcEnx+oUxSFMb3NyuqEnkOWpcouL3MqDDMpIryJICLyTQ/JH?=
- =?us-ascii?Q?4YZ0VUAzqU3IL1av5rBIGinuGUJeor/bj7fJk5jcr+ieIChrcgptLJ7Iz/oZ?=
- =?us-ascii?Q?YVVclB4IuFOWHcfJEGBNft5TPMmQWgB3EtiFqlcCdkhKJsdzdkz7EIK8w0OU?=
- =?us-ascii?Q?SNCrSZuFT4jr4IYsBzNxsCZ7HhY37G8=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lnUpsYZw"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-5091ed02c54so688021cf.1
+        for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2026 09:00:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773849627; cv=none;
+        d=google.com; s=arc-20240605;
+        b=cRhmNyfCgVexkHBfyjyQ07OFx/V3DwmLXewz7GpMF0YsRZzuycb/RvMNM9oRU5LWaU
+         SA+vVg0qhOKHtIu60mmv6+raX9EBtRPeio9zXu60F1ijjkVijKzUS/wObRR4k0uYBtsW
+         Z6d6KRCElnTFR4EQcbR1v/R7/+L6906sAxuTBF7isiOIKg/Sr4IphDu6SEyrVxGroCz2
+         pZAn8VbaVC075mllfwuKisJFIGtFZco/PmmDEi25XMGeZFRz2cmSRkRIber+s41u2Rg5
+         /iapt6yNmaqvyUOGIRWiLWbydpvYr+mp+iaqoDneXbJMASQ74QkuXg8Vc9VCb4Ed69E9
+         Yoyg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=8q0J7KCNx+A8Y+J2RSy7VQj65zrNoynNXfOuxxJlza4=;
+        fh=gZJtyGtqJRb1UFPllqttWtYH0wy7t2pIQkW8sGMTXms=;
+        b=UQukGXCrFZmer9OvoAvLvr0V8MVuVMLKOFcKbYY2ttmHIOC0gdAGx1O3uM7rm++CAi
+         mu/HNRF8T/D6Df8djDf63zgcPkvf17IeWaABh+tdoG+ZkUE8dxpIcTocmwD0/j9K4Tqn
+         Y++M2t76tXc1c2vpxLl3kkw0ZsDsJkmEZAOrvsqQDL2CeI2LYseAfzrzlzG8LeXuzScJ
+         n0mhbizOx/9aCdZU5vsoTRWGsJP4w9BLGpy0HWKtoqB7sqmsiIHGr55Gw/nSLl+oyfXG
+         V5nEZFhN7MTsEuaLt+SrTCPMLtHLudIrY1t9iIA03pTFBXYbnO04lAiU5aNlciZP1Lb8
+         W6yw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1773849627; x=1774454427; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8q0J7KCNx+A8Y+J2RSy7VQj65zrNoynNXfOuxxJlza4=;
+        b=lnUpsYZwWf6Ngn/dqPOq7iQ1HVijjDPBZhgwYESz9kfeLT/BZxbGPpEe/4D4KnGWPr
+         kCCPmUNpyoC+BM+S0/AilDKxE8o1CD/tQVzgZ8m85n+tmTvRkDDUKqDbBpQ8uzK/xkwW
+         krD3uuyiCYETL1cqk2fqid6RWjt8z8Yb3OG2zujBT/hOWReYHF+pLdi9roOdVeHzcsuA
+         QJXe02qdxmtUe6YfR1NFuqn15NuHUpLmj9pNFJwoHIswo1qAJhFVz7jWYhedR8di+XVA
+         5cqovfkCv1bJUZki95dI8il97zlBON76NQtpQB/JdBHgAIOrN5FGHw4Hm9tEDrXxvpNu
+         Ytgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773849627; x=1774454427;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=8q0J7KCNx+A8Y+J2RSy7VQj65zrNoynNXfOuxxJlza4=;
+        b=Sqc4/YmnlJMeoyhdpVkuEB9e+AB09U5c1C5UvsjARE4CZ4US4RdAHNN1E32WwJEF8w
+         t6O8q+ddvRl6goTDHxErb4eqlcSxN+KvNp+Y42Iv/II1OdM/RywqRf2IN5rK9V/Sq138
+         0z6dQL6WCPgpS9vEfnQ8avj2UFPJOs+OoGSZjhcw7IUb1ObauU5D2nNWVxvoaLDmWqOZ
+         4U8t7N/GsvR/7rNeJqxONnTOJR9jEGJGW+qPA6yFE55vXSxw+F64R8h1O7Rnllk9oWtv
+         XYyMsWFFXhOaMhLds75S/dj8PQWjp7OXfPVcl65p1q7lkBEUq/zWBrS6bS5esKqfJF7F
+         1kyw==
+X-Forwarded-Encrypted: i=1; AJvYcCWAUeChu3POgjtv3v+zsiBgW2Gou3LHFvw1oXt/Tve0Ff6R9qWUW3VE9MMEoBVWSad7vctR37LHV3Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxPl+uNeLU/QaS6lhiTgmFfH1/oMqlANYxRZa5GVrBjBWHWNnBH
+	jFwIiqt31lHeZC949S0spOw1ZjzIHbIPP+NBWDGB8fMfERu8Ytv01h1lgnu2YaDrTVe1AD5tZ3M
+	bAwkHdvfay3LHhua4dcF2raC7mhf372X4cCYSMRbf
+X-Gm-Gg: ATEYQzw6ggrrfF8bEFea8gKYiFbOeYEs29h3deUbAC56SqFSEQWcqE+QXl1q+f1IN5N
+	PdX6fApVjBU6J/FLyE2ALw4uLRVOK9Olg1s0ldAc3gc40x61BJQAKAiyr+VmN0377g+RpPPQkOB
+	RVY8XvejdbbwQqe7ScBM6+4W3eno1vOIt4rPCbYCJ0v0SBPvLwi7kji6JwMAclOwUgCeNxlHnMQ
+	8TDRJ89BBtHBA0Lp8rUGpMXUjC/CoW6JksBDm/ivh4gJhQWpYcpC6FUP6bGvmRHelhhE5eKTbw8
+	+pf29G2Kc7NC0r9003II0BfdT+qXVe7cQKl2FQ==
+X-Received: by 2002:ac8:7f4d:0:b0:509:174d:3224 with SMTP id
+ d75a77b69052e-50b15c109d1mr14316251cf.11.1773849625679; Wed, 18 Mar 2026
+ 09:00:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: cWdj6L7RTs2RrLPY60Qr8dlgOaa4lD/HIXriL+9HJuzv97psKn1OrarlnAAE2YdfYr2/NwBDoduor/FdoUcPj7sQIQX/P94dEm2RwTfOqNBoAMvhE6OLxG61X2q4zLem2CmOUvAFLNsL4+TJyKLHmNs3o83plfc34EP+GJuhx9cwW/AV8ZWKcwDuAZRspHJetk6jKa+NnkCC1allTn94X8Sun3CxEWjEVOrAkVCwFUGvhbySeNDGOunSSqSvOeFF4RTzZI8vtYx8VDTHL7WgzmTzDX/mD5Mes9MN7Nrkuf+aiN10MvC5a4brngO+dFmZOoUiA2UKiAJlnne/vLSZDw==
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: IA3PR11MB8986.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f22f703d-a186-4030-9493-08de85055763
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Mar 2026 15:45:12.0049
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: uivWxIiiuwR96jPK/fBRyTrn3XFUpFVhvsEvH733sELEUrZi4NJxyKrQyA20yZqdk0aGPyP6Afz2zj12PjGEAmpu3s7DvtKgDt/F5lsqxXU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB6455
-X-OriginatorOrg: intel.com
+References: <cover.1773695307.git.ljs@kernel.org> <8e28e4b63bae67bfa1a59ccbac9dc6db1442d75d.1773695307.git.ljs@kernel.org>
+In-Reply-To: <8e28e4b63bae67bfa1a59ccbac9dc6db1442d75d.1773695307.git.ljs@kernel.org>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Wed, 18 Mar 2026 09:00:13 -0700
+X-Gm-Features: AaiRm51xXcSMS3sQHOtwlzL9JQsE-2S39fLY5xwjkClhFBo1kCA372O2Zp37zjU
+Message-ID: <CAJuCfpF6eS18HLgNvQtkLGd=7N0_L1JPmF0GzM-Z0QimRWT7AQ@mail.gmail.com>
+Subject: Re: [PATCH v2 15/16] mm: add mmap_action_map_kernel_pages[_full]()
+To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Clemens Ladisch <clemens@ladisch.de>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "K . Y . Srinivasan" <kys@microsoft.com>, 
+	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
+	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, 
+	Vignesh Raghavendra <vigneshr@ti.com>, Bodo Stroesser <bostroesser@gmail.com>, 
+	"Martin K . Petersen" <martin.petersen@oracle.com>, David Howells <dhowells@redhat.com>, 
+	Marc Dionne <marc.dionne@auristor.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, David Hildenbrand <david@kernel.org>, 
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, 
+	Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-hyperv@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org, 
+	linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org, 
+	target-devel@vger.kernel.org, linux-afs@lists.infradead.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	Ryan Roberts <ryan.roberts@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, Mar 16, 2026 at 2:14=E2=80=AFPM Lorenzo Stoakes (Oracle) <ljs@kerne=
+l.org> wrote:
+>
+> A user can invoke mmap_action_map_kernel_pages() to specify that the
+> mapping should map kernel pages starting from desc->start of a specified
+> number of pages specified in an array.
+>
+> In order to implement this, adjust mmap_action_prepare() to be able to
+> return an error code, as it makes sense to assert that the specified
+> parameters are valid as quickly as possible as well as updating the VMA
+> flags to include VMA_MIXEDMAP_BIT as necessary.
+>
+> This provides an mmap_prepare equivalent of vm_insert_pages().
+>
+> We additionally update the existing vm_insert_pages() code to use
+> range_in_vma() and add a new range_in_vma_desc() helper function for the
+> mmap_prepare case, sharing the code between the two in range_is_subset().
+>
+> We add both mmap_action_map_kernel_pages() and
+> mmap_action_map_kernel_pages_full() to allow for both partial and full VM=
+A
+> mappings.
+>
+> We also add mmap_action_map_kernel_pages_discontig() to allow for
+> discontiguous mapping of kernel pages should the need arise.
+>
+> We update the documentation to reflect the new features.
+>
+> Finally, we update the VMA tests accordingly to reflect the changes.
+>
+> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
 
+With one nit,
+Reviewed-by: Suren Baghdasaryan <surenb@google.com>
 
-> -----Original Message-----
-> From: Intel-wired-lan <intel-wired-lan-bounces@osuosl.org> On Behalf
-> Of Stanislav Fomichev
-> Sent: Wednesday, March 18, 2026 4:03 PM
-> To: netdev@vger.kernel.org
-> Cc: davem@davemloft.net; edumazet@google.com; kuba@kernel.org;
-> pabeni@redhat.com; horms@kernel.org; corbet@lwn.net;
-> skhan@linuxfoundation.org; andrew+netdev@lunn.ch;
-> michael.chan@broadcom.com; pavan.chebbi@broadcom.com; Nguyen, Anthony
-> L <anthony.l.nguyen@intel.com>; Kitszel, Przemyslaw
-> <przemyslaw.kitszel@intel.com>; saeedm@nvidia.com; tariqt@nvidia.com;
-> mbloch@nvidia.com; alexanderduyck@fb.com; kernel-team@meta.com;
-> johannes@sipsolutions.net; sd@queasysnail.net; jianbol@nvidia.com;
-> dtatulea@nvidia.com; sdf@fomichev.me; mohsin.bashr@gmail.com; Keller,
-> Jacob E <jacob.e.keller@intel.com>; willemb@google.com;
-> skhawaja@google.com; bestswngs@gmail.com; linux-doc@vger.kernel.org;
-> linux-kernel@vger.kernel.org; intel-wired-lan@lists.osuosl.org; linux-
-> rdma@vger.kernel.org; linux-wireless@vger.kernel.org; linux-
-> kselftest@vger.kernel.org; leon@kernel.org
-> Subject: [Intel-wired-lan] [PATCH net-next v2 07/13] bnxt: convert to
-> ndo_set_rx_mode_async
->=20
-> Convert bnxt from ndo_set_rx_mode to ndo_set_rx_mode_async.
-> bnxt_set_rx_mode, bnxt_mc_list_updated and bnxt_uc_list_updated now
-> take explicit uc/mc list parameters and iterate with
-> netdev_hw_addr_list_for_each instead of netdev_for_each_{uc,mc}_addr.
->=20
-> The bnxt_cfg_rx_mode internal caller passes the real lists under
-> netif_addr_lock_bh.
->=20
-> BNXT_RX_MASK_SP_EVENT is still used here, next patch converts to the
-> direct call.
->=20
-> Cc: Michael Chan <michael.chan@broadcom.com>
-> Cc: Pavan Chebbi <pavan.chebbi@broadcom.com>
-> Signed-off-by: Stanislav Fomichev <sdf@fomichev.me>
 > ---
->  drivers/net/ethernet/broadcom/bnxt/bnxt.c | 31 +++++++++++++---------
-> -
->  1 file changed, 17 insertions(+), 14 deletions(-)
->=20
-> diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-> b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-> index c982aac714d1..225217b32e4b 100644
-> --- a/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-> +++ b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-> @@ -11040,7 +11040,8 @@ static int bnxt_setup_nitroa0_vnic(struct bnxt
-> *bp)  }
->=20
->  static int bnxt_cfg_rx_mode(struct bnxt *); -static bool
-> bnxt_mc_list_updated(struct bnxt *, u32 *);
+>  Documentation/filesystems/mmap_prepare.rst |  8 ++
+>  include/linux/mm.h                         | 95 +++++++++++++++++++++-
+>  include/linux/mm_types.h                   |  7 ++
+>  mm/memory.c                                | 42 +++++++++-
+>  mm/util.c                                  |  6 ++
+>  tools/testing/vma/include/dup.h            |  7 ++
+>  6 files changed, 159 insertions(+), 6 deletions(-)
+>
+> diff --git a/Documentation/filesystems/mmap_prepare.rst b/Documentation/f=
+ilesystems/mmap_prepare.rst
+> index be76ae475b9c..e810aa4134eb 100644
+> --- a/Documentation/filesystems/mmap_prepare.rst
+> +++ b/Documentation/filesystems/mmap_prepare.rst
+> @@ -156,5 +156,13 @@ pointer. These are:
+>  * mmap_action_simple_ioremap() - Sets up an I/O remap from a specified
+>    physical address and over a specified length.
+>
+> +* mmap_action_map_kernel_pages() - Maps a specified array of `struct pag=
+e`
+> +  pointers in the VMA from a specific offset.
+> +
+> +* mmap_action_map_kernel_pages_full() - Maps a specified array of `struc=
+t
+> +  page` pointers over the entire VMA. The caller must ensure there are
+> +  sufficient entries in the page array to cover the entire range of the
+> +  described VMA.
+> +
+>  **NOTE:** The ``action`` field should never normally be manipulated dire=
+ctly,
+>  rather you ought to use one of these helpers.
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index df8fa6e6402b..6f0a3edb24e1 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -2912,7 +2912,7 @@ static inline bool folio_maybe_mapped_shared(struct=
+ folio *folio)
+>   * The caller must add any reference (e.g., from folio_try_get()) it mig=
+ht be
+>   * holding itself to the result.
+>   *
+> - * Returns the expected folio refcount.
+> + * Returns: the expected folio refcount.
 
-...
+nit: I see both "Returns:" and "Return:" being used in the codebase
+but this header file uses "Return:", so for consistency you should
+probably do the same. This also applies to later instances in this
+patch.
 
->  	.ndo_eth_ioctl		=3D bnxt_ioctl,
->  	.ndo_validate_addr	=3D eth_validate_addr,
->  	.ndo_set_mac_address	=3D bnxt_change_mac_addr,
+>   */
+>  static inline int folio_expected_ref_count(const struct folio *folio)
+>  {
+> @@ -4364,6 +4364,45 @@ static inline void mmap_action_simple_ioremap(stru=
+ct vm_area_desc *desc,
+>         action->type =3D MMAP_SIMPLE_IO_REMAP;
+>  }
+>
+> +/**
+> + * mmap_action_map_kernel_pages - helper for mmap_prepare hook to specif=
+y that
+> + * @num kernel pages contained in the @pages array should be mapped to u=
+serland
+> + * starting at virtual address @start.
+> + * @desc: The VMA descriptor for the VMA requiring kernel pags to be map=
+ped.
+> + * @start: The virtual address from which to map them.
+> + * @pages: An array of struct page pointers describing the memory to map=
+.
+> + * @nr_pages: The number of entries in the @pages aray.
+> + */
+> +static inline void mmap_action_map_kernel_pages(struct vm_area_desc *des=
+c,
+> +               unsigned long start, struct page **pages,
+> +               unsigned long nr_pages)
+> +{
+> +       struct mmap_action *action =3D &desc->action;
+> +
+> +       action->type =3D MMAP_MAP_KERNEL_PAGES;
+> +       action->map_kernel.start =3D start;
+> +       action->map_kernel.pages =3D pages;
+> +       action->map_kernel.nr_pages =3D nr_pages;
+> +       action->map_kernel.pgoff =3D desc->pgoff;
+> +}
+> +
+> +/**
+> + * mmap_action_map_kernel_pages_full - helper for mmap_prepare hook to s=
+pecify that
+> + * kernel pages contained in the @pages array should be mapped to userla=
+nd
+> + * from @desc->start to @desc->end.
+> + * @desc: The VMA descriptor for the VMA requiring kernel pags to be map=
+ped.
+> + * @pages: An array of struct page pointers describing the memory to map=
+.
+> + *
+> + * The caller must ensure that @pages contains sufficient entries to cov=
+er the
+> + * entire range described by @desc.
+> + */
+> +static inline void mmap_action_map_kernel_pages_full(struct vm_area_desc=
+ *desc,
+> +               struct page **pages)
+> +{
+> +       mmap_action_map_kernel_pages(desc, desc->start, pages,
+> +                                    vma_desc_pages(desc));
+> +}
+> +
+>  int mmap_action_prepare(struct vm_area_desc *desc);
+>  int mmap_action_complete(struct vm_area_struct *vma,
+>                          struct mmap_action *action);
+> @@ -4380,10 +4419,59 @@ static inline struct vm_area_struct *find_exact_v=
+ma(struct mm_struct *mm,
+>         return vma;
+>  }
+>
+> +/**
+> + * range_is_subset - Is the specified inner range a subset of the outer =
+range?
+> + * @outer_start: The start of the outer range.
+> + * @outer_end: The exclusive end of the outer range.
+> + * @inner_start: The start of the inner range.
+> + * @inner_end: The exclusive end of the inner range.
+> + *
+> + * Returns: %true if [inner_start, inner_end) is a subset of [outer_star=
+t,
+> + * outer_end), otherwise %false.
+> + */
+> +static inline bool range_is_subset(unsigned long outer_start,
+> +                                  unsigned long outer_end,
+> +                                  unsigned long inner_start,
+> +                                  unsigned long inner_end)
+> +{
+> +       return outer_start <=3D inner_start && inner_end <=3D outer_end;
+> +}
+> +
+> +/**
+> + * range_in_vma - is the specified [@start, @end) range a subset of the =
+VMA?
+> + * @vma: The VMA against which we want to check [@start, @end).
+> + * @start: The start of the range we wish to check.
+> + * @end: The exclusive end of the range we wish to check.
+> + *
+> + * Returns: %true if [@start, @end) is a subset of [@vma->vm_start,
+> + * @vma->vm_end), %false otherwise.
+> + */
+>  static inline bool range_in_vma(const struct vm_area_struct *vma,
+>                                 unsigned long start, unsigned long end)
+>  {
+> -       return (vma && vma->vm_start <=3D start && end <=3D vma->vm_end);
+> +       if (!vma)
+> +               return false;
+> +
+> +       return range_is_subset(vma->vm_start, vma->vm_end, start, end);
+> +}
+> +
+> +/**
+> + * range_in_vma_desc - is the specified [@start, @end) range a subset of=
+ the VMA
+> + * described by @desc, a VMA descriptor?
+> + * @desc: The VMA descriptor against which we want to check [@start, @en=
+d).
+> + * @start: The start of the range we wish to check.
+> + * @end: The exclusive end of the range we wish to check.
+> + *
+> + * Returns: %true if [@start, @end) is a subset of [@desc->start, @desc-=
+>end),
+> + * %false otherwise.
+> + */
+> +static inline bool range_in_vma_desc(const struct vm_area_desc *desc,
+> +                                    unsigned long start, unsigned long e=
+nd)
+> +{
+> +       if (!desc)
+> +               return false;
+> +
+> +       return range_is_subset(desc->start, desc->end, start, end);
+>  }
+>
+>  #ifdef CONFIG_MMU
+> @@ -4427,6 +4515,9 @@ int remap_pfn_range(struct vm_area_struct *vma, uns=
+igned long addr,
+>  int vm_insert_page(struct vm_area_struct *, unsigned long addr, struct p=
+age *);
+>  int vm_insert_pages(struct vm_area_struct *vma, unsigned long addr,
+>                         struct page **pages, unsigned long *num);
+> +int map_kernel_pages_prepare(struct vm_area_desc *desc);
+> +int map_kernel_pages_complete(struct vm_area_struct *vma,
+> +                             struct mmap_action *action);
+>  int vm_map_pages(struct vm_area_struct *vma, struct page **pages,
+>                                 unsigned long num);
+>  int vm_map_pages_zero(struct vm_area_struct *vma, struct page **pages,
+> diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+> index 7538d64f8848..c46224020a46 100644
+> --- a/include/linux/mm_types.h
+> +++ b/include/linux/mm_types.h
+> @@ -815,6 +815,7 @@ enum mmap_action_type {
+>         MMAP_REMAP_PFN,         /* Remap PFN range. */
+>         MMAP_IO_REMAP_PFN,      /* I/O remap PFN range. */
+>         MMAP_SIMPLE_IO_REMAP,   /* I/O remap with guardrails. */
+> +       MMAP_MAP_KERNEL_PAGES,  /* Map kernel page range from array. */
+>  };
+>
+>  /*
+> @@ -833,6 +834,12 @@ struct mmap_action {
+>                         phys_addr_t start_phys_addr;
+>                         unsigned long size;
+>                 } simple_ioremap;
+> +               struct {
+> +                       unsigned long start;
+> +                       struct page **pages;
+> +                       unsigned long nr_pages;
+> +                       pgoff_t pgoff;
+> +               } map_kernel;
+>         };
+>         enum mmap_action_type type;
+>
+> diff --git a/mm/memory.c b/mm/memory.c
+> index f3f4046aee97..849d5d9eeb83 100644
+> --- a/mm/memory.c
+> +++ b/mm/memory.c
+> @@ -2484,13 +2484,14 @@ static int insert_pages(struct vm_area_struct *vm=
+a, unsigned long addr,
+>  int vm_insert_pages(struct vm_area_struct *vma, unsigned long addr,
+>                         struct page **pages, unsigned long *num)
+>  {
+> -       const unsigned long end_addr =3D addr + (*num * PAGE_SIZE) - 1;
+> +       const unsigned long nr_pages =3D *num;
+> +       const unsigned long end =3D addr + PAGE_SIZE * nr_pages;
+>
+> -       if (addr < vma->vm_start || end_addr >=3D vma->vm_end)
+> +       if (!range_in_vma(vma, addr, end))
+>                 return -EFAULT;
+>         if (!(vma->vm_flags & VM_MIXEDMAP)) {
+> -               BUG_ON(mmap_read_trylock(vma->vm_mm));
+> -               BUG_ON(vma->vm_flags & VM_PFNMAP);
+> +               VM_WARN_ON_ONCE(mmap_read_trylock(vma->vm_mm));
+> +               VM_WARN_ON_ONCE(vma->vm_flags & VM_PFNMAP);
+>                 vm_flags_set(vma, VM_MIXEDMAP);
+>         }
+>         /* Defer page refcount checking till we're about to map that page=
+. */
+> @@ -2498,6 +2499,39 @@ int vm_insert_pages(struct vm_area_struct *vma, un=
+signed long addr,
+>  }
+>  EXPORT_SYMBOL(vm_insert_pages);
+>
+> +int map_kernel_pages_prepare(struct vm_area_desc *desc)
+> +{
+> +       const struct mmap_action *action =3D &desc->action;
+> +       const unsigned long addr =3D action->map_kernel.start;
+> +       unsigned long nr_pages, end;
+> +
+> +       if (!vma_desc_test(desc, VMA_MIXEDMAP_BIT)) {
+> +               VM_WARN_ON_ONCE(mmap_read_trylock(desc->mm));
+> +               VM_WARN_ON_ONCE(vma_desc_test(desc, VMA_PFNMAP_BIT));
+> +               vma_desc_set_flags(desc, VMA_MIXEDMAP_BIT);
+> +       }
+> +
+> +       nr_pages =3D action->map_kernel.nr_pages;
+> +       end =3D addr + PAGE_SIZE * nr_pages;
+> +       if (!range_in_vma_desc(desc, addr, end))
+> +               return -EFAULT;
+> +
+> +       return 0;
+> +}
+> +EXPORT_SYMBOL(map_kernel_pages_prepare);
+> +
+> +int map_kernel_pages_complete(struct vm_area_struct *vma,
+> +                             struct mmap_action *action)
+> +{
+> +       unsigned long nr_pages;
+> +
+> +       nr_pages =3D action->map_kernel.nr_pages;
+> +       return insert_pages(vma, action->map_kernel.start,
+> +                           action->map_kernel.pages,
+> +                           &nr_pages, vma->vm_page_prot);
+> +}
+> +EXPORT_SYMBOL(map_kernel_pages_complete);
+> +
+>  /**
+>   * vm_insert_page - insert single page into user vma
+>   * @vma: user vma to map to
+> diff --git a/mm/util.c b/mm/util.c
+> index a166c48fe894..dea590e7a26c 100644
+> --- a/mm/util.c
+> +++ b/mm/util.c
+> @@ -1441,6 +1441,8 @@ int mmap_action_prepare(struct vm_area_desc *desc)
+>                 return io_remap_pfn_range_prepare(desc);
+>         case MMAP_SIMPLE_IO_REMAP:
+>                 return simple_ioremap_prepare(desc);
+> +       case MMAP_MAP_KERNEL_PAGES:
+> +               return map_kernel_pages_prepare(desc);
+>         }
+>
+>         WARN_ON_ONCE(1);
+> @@ -1472,6 +1474,9 @@ int mmap_action_complete(struct vm_area_struct *vma=
+,
+>         case MMAP_IO_REMAP_PFN:
+>                 err =3D io_remap_pfn_range_complete(vma, action);
+>                 break;
+> +       case MMAP_MAP_KERNEL_PAGES:
+> +               err =3D map_kernel_pages_complete(vma, action);
+> +               break;
+>         case MMAP_SIMPLE_IO_REMAP:
+>                 /*
+>                  * The simple I/O remap should have been delegated to an =
+I/O
+> @@ -1494,6 +1499,7 @@ int mmap_action_prepare(struct vm_area_desc *desc)
+>         case MMAP_REMAP_PFN:
+>         case MMAP_IO_REMAP_PFN:
+>         case MMAP_SIMPLE_IO_REMAP:
+> +       case MMAP_MAP_KERNEL_PAGES:
+>                 WARN_ON_ONCE(1); /* nommu cannot handle these. */
+>                 break;
+>         }
+> diff --git a/tools/testing/vma/include/dup.h b/tools/testing/vma/include/=
+dup.h
+> index 6658df26698a..4407caf207ad 100644
+> --- a/tools/testing/vma/include/dup.h
+> +++ b/tools/testing/vma/include/dup.h
+> @@ -454,6 +454,7 @@ enum mmap_action_type {
+>         MMAP_REMAP_PFN,         /* Remap PFN range. */
+>         MMAP_IO_REMAP_PFN,      /* I/O remap PFN range. */
+>         MMAP_SIMPLE_IO_REMAP,   /* I/O remap with guardrails. */
+> +       MMAP_MAP_KERNEL_PAGES,  /* Map kernel page range from an array. *=
+/
+>  };
+>
+>  /*
+> @@ -472,6 +473,12 @@ struct mmap_action {
+>                         phys_addr_t start;
+>                         unsigned long len;
+>                 } simple_ioremap;
+> +               struct {
+> +                       unsigned long start;
+> +                       struct page **pages;
+> +                       unsigned long num;
+> +                       pgoff_t pgoff;
+> +               } map_kernel;
+>         };
+>         enum mmap_action_type type;
+>
 > --
 > 2.53.0
-
-Reviewed-by: Aleksandr Loktionov <aleksandr.loktionov@intel.com>
+>
