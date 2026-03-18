@@ -1,45 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C84F3A5E99;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A8523A5E84;
 	Wed, 18 Mar 2026 09:11:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773825081; cv=none; b=rRjNjqsmv9l95auVkj15HEEv68wCQi5CfGdPvYu+hVDKTAeyT82TQlzrqT/HkajrPt78hrjpBXlVKxT0CSYnMPXYc81aCVgd5hU9lr/svU0Bu6Y7hDtnLJrvdehdlH0l4mUwgB4yGZJ6891fQQJiytXywa73JwIpWUoQ5WDDjBo=
+	t=1773825081; cv=none; b=jHNfIq/JM95yuZ0B2NR6NGpd38fPbqcBB5uTlk38SO1kzR/k/SRLKDWW3WnBQ/i0ON6Ax3EYeGMR9Y+cq43B5oHqtCdouMODoyHKMlat49Rv6IKIaxmaveNPC2zaFIvTg2G7kJ2Pk6+ImhjJWQF8ImT26ee8Qsvzfa8IdPZQdc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1773825081; c=relaxed/simple;
-	bh=BLxIAC+0ecDESspKr2mOmfyOm7KPoCXOrsFtpwI+cOw=;
+	bh=Kho/SfdXlAhptQOMVPd0Peuv9YWwg6RMPsq15weyqbI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NPl4ehV+IHnILCTkeWRLDDXuNWqPYy7lM4O9miTTKuU22EN5YfZcN61UIk5ezJyNjMSAj4kuK6AwYc3AQKlW04m/6yD3DfMRfPXdc6q5f/dZP/Rvt88Xphp4A03YR2eo+ngxg60GCObbrWPbn3fwBRwPPnrSyKJLb2CY/bDn088=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QeOX7hT8; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=QgJTPB1H51aQs8cXW4Oxyu6yJPgWbRfFQ/2mSLcQeuQrglZ8muEv+Slq5ehzJ5pqzpn5+1j559Ubr+2aQdYk3v7KLNoKUXtzR+Fx3EgssWkPhDKteCXl58HnYRpXsyE7Pv/KQPC8vkZ+8c0A19nBJp/u90rBmIVqIUTxwirnx8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qr3SdTAI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QeOX7hT8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A41DC2BCB2;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qr3SdTAI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F16FC2BCB4;
 	Wed, 18 Mar 2026 09:11:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1773825080;
-	bh=BLxIAC+0ecDESspKr2mOmfyOm7KPoCXOrsFtpwI+cOw=;
+	bh=Kho/SfdXlAhptQOMVPd0Peuv9YWwg6RMPsq15weyqbI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=QeOX7hT8BfEHwFwAO+XNFVsZIGt+g0XWKMVx86dJQOQhIGGF3YRGOwL2rJ0Rn5xO2
-	 p5JKfQlS2cPJWWxq6+rmkxLVrM52F4aRhEQX3zAAIT+yYoCYU1OHFLXqdZF5X3oSJp
-	 +SahHaeCo4IJ63VqJlm/2bG7HGEc1JgtAgYXJsFcPzS4ba7iGDxCGNF2bRKb8WdJRn
-	 L7Mc1y9EdqoLtBPkkGciB5J8nlEXpaHMVcZD/6MKLz9CTK/jA5enJpgUbqBub0WqXe
-	 jJJfSuspFmScwk1qGaUqPb50jDnYNSSIoQxSqCgT7ySc3TI5e3NOrMENIGoSTkhKzU
-	 fmh59tF7lYFhw==
+	b=Qr3SdTAIi4qOwu+yIHvjhmw59zZSAjdewzbb0m9ZfGJ9/udz07CPtcL21Mp4o2+Qu
+	 v58U1SN21lBLaXoMbxzhbd4pyZlbULjICPXuz9Bm5rAveNFrREXN2YeD/qPbRZ8tGK
+	 6aHFm4E/xvXPq+X/LXwaN79u+q6+GdCbkVWV/mC2Y/HZUYA2qeCyYYvnugibH9gilR
+	 Acgj+tMdZ+TnSGdQaugejfWnvh8nFblBiDfejra2EjwyjPx8jRZo6YG+CAR8dp+/HA
+	 pjXeRN/jNKPm7IOEyufCaPk9ZgMaAVby9nxbt85oqi80ExI6MXUbqKQ1DVUrglM9ON
+	 YPSiUwGnQRIXg==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1w2mvu-00000002fpW-2JDS;
+	id 1w2mvu-00000002fpm-2lDF;
 	Wed, 18 Mar 2026 10:11:18 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org,
+	Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH 04/14] docs: kdoc_files: use a class to group config parameters
-Date: Wed, 18 Mar 2026 10:11:04 +0100
-Message-ID: <a66ec9872c72a3ba1a5ac567881d67dc8ee581c6.1773823995.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 08/14] docs: kdoc_item: fix a typo on sections_start_lines
+Date: Wed, 18 Mar 2026 10:11:08 +0100
+Message-ID: <d1e0f1d3f80df41c11a1bbde6a12fd9468bc3813.1773823995.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <cover.1773823995.git.mchehab+huawei@kernel.org>
 References: <cover.1773823995.git.mchehab+huawei@kernel.org>
@@ -53,94 +54,82 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Instead of abusing argparse.Namespace, define a class to store
-configuration parameters and logger.
+Currently, there are 15 occurrences of section?_start_lines,
+with 10 using the plural way.
+
+This is an issue, as, while kdoc_output works with KdocItem,
+the term doesn't match its init value.
+
+The variable sections_start_lines stores multiple sections,
+so placing it in plural is its correct way.
+
+So, ensure that, on all parts of kdoc, this will be referred
+as sections_start_lines.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tools/lib/python/kdoc/kdoc_files.py | 45 ++++++++++++++++++++---------
- 1 file changed, 31 insertions(+), 14 deletions(-)
+ tools/lib/python/kdoc/kdoc_item.py   | 2 +-
+ tools/lib/python/kdoc/kdoc_output.py | 2 +-
+ tools/lib/python/kdoc/kdoc_parser.py | 6 +++---
+ 3 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/tools/lib/python/kdoc/kdoc_files.py b/tools/lib/python/kdoc/kdoc_files.py
-index 8c2059623949..1c5cb9e5f0e8 100644
---- a/tools/lib/python/kdoc/kdoc_files.py
-+++ b/tools/lib/python/kdoc/kdoc_files.py
-@@ -9,7 +9,6 @@ Classes for navigating through the files that kernel-doc needs to handle
- to generate documentation.
- """
+diff --git a/tools/lib/python/kdoc/kdoc_item.py b/tools/lib/python/kdoc/kdoc_item.py
+index 5f41790efacb..fe08cac861c2 100644
+--- a/tools/lib/python/kdoc/kdoc_item.py
++++ b/tools/lib/python/kdoc/kdoc_item.py
+@@ -82,7 +82,7 @@ class KdocItem:
+         Set sections and start lines.
+         """
+         self.sections = sections
+-        self.section_start_lines = start_lines
++        self.sections_start_lines = start_lines
  
--import argparse
- import logging
- import os
- import re
-@@ -87,6 +86,28 @@ class GlobSourceFiles:
-                 file_not_found_cb(fname)
+     def set_params(self, names, descs, types, starts):
+         """
+diff --git a/tools/lib/python/kdoc/kdoc_output.py b/tools/lib/python/kdoc/kdoc_output.py
+index 73d71cbeabb5..1b54117dbe19 100644
+--- a/tools/lib/python/kdoc/kdoc_output.py
++++ b/tools/lib/python/kdoc/kdoc_output.py
+@@ -389,7 +389,7 @@ class RestFormat(OutputFormat):
+             else:
+                 self.data += f'{self.lineprefix}**{section}**\n\n'
  
+-            self.print_lineno(args.section_start_lines.get(section, 0))
++            self.print_lineno(args.sections_start_lines.get(section, 0))
+             self.output_highlight(text)
+             self.data += "\n"
+         self.data += "\n"
+diff --git a/tools/lib/python/kdoc/kdoc_parser.py b/tools/lib/python/kdoc/kdoc_parser.py
+index f6c4ee3b18c9..35658a7e72d5 100644
+--- a/tools/lib/python/kdoc/kdoc_parser.py
++++ b/tools/lib/python/kdoc/kdoc_parser.py
+@@ -140,7 +140,7 @@ class KernelEntry:
+         self.parametertypes = {}
+         self.parameterdesc_start_lines = {}
  
-+class KdocConfig():
-+    """
-+    Stores all configuration attributes that kdoc_parser and kdoc_output
-+    needs.
-+    """
-+    def __init__(self, verbose=False, werror=False, wreturn=False,
-+                 wshort_desc=False, wcontents_before_sections=False,
-+                 logger=None):
-+
-+        self.verbose = verbose
-+        self.werror = werror
-+        self.wreturn = wreturn
-+        self.wshort_desc =  wshort_desc
-+        self.wcontents_before_sections = wcontents_before_sections
-+
-+        if logger:
-+            self.log = logger
-+        else:
-+            self.log = logging.getLogger(__file__)
-+
-+        self.warning = self.log.warning
-+
- class KernelFiles():
-     """
-     Parse kernel-doc tags on multiple kernel source files.
-@@ -224,29 +245,25 @@ class KernelFiles():
-             if kdoc_werror:
-                 werror = kdoc_werror
+-        self.section_start_lines = {}
++        self.sections_start_lines = {}
+         self.sections = {}
  
-+        if not logger:
-+           logger = logging.getLogger("kernel-doc")
-+        else:
-+            logger = logger
-+
-         # Some variables are global to the parser logic as a whole as they are
-         # used to send control configuration to KernelDoc class. As such,
-         # those variables are read-only inside the KernelDoc.
--        self.config = argparse.Namespace
-+        self.config = KdocConfig(verbose, werror, wreturn, wshort_desc,
-+                                 wcontents_before_sections, logger)
+         self.anon_struct_union = False
+@@ -220,7 +220,7 @@ class KernelEntry:
+                 self.sections[name] += '\n' + contents
+             else:
+                 self.sections[name] = contents
+-                self.section_start_lines[name] = self.new_start_line
++                self.sections_start_lines[name] = self.new_start_line
+                 self.new_start_line = 0
  
--        self.config.verbose = verbose
--        self.config.werror = werror
--        self.config.wreturn = wreturn
--        self.config.wshort_desc = wshort_desc
--        self.config.wcontents_before_sections = wcontents_before_sections
-+        # Override log warning, as we want to count errors
-+        self.config.warning = self.warning
- 
-         if xforms:
-             self.xforms = xforms
-         else:
-             self.xforms = CTransforms()
- 
--        if not logger:
--            self.config.log = logging.getLogger("kernel-doc")
--        else:
--            self.config.log = logger
--
--        self.config.warning = self.warning
--
-         self.config.src_tree = os.environ.get("SRCTREE", None)
- 
-         # Initialize variables that are internal to KernelFiles
+ #        self.config.log.debug("Section: %s : %s", name, pformat(vars(self)))
+@@ -316,7 +316,7 @@ class KernelDoc:
+         for section in ["Description", "Return"]:
+             if section in sections and not sections[section].rstrip():
+                 del sections[section]
+-        item.set_sections(sections, self.entry.section_start_lines)
++        item.set_sections(sections, self.entry.sections_start_lines)
+         item.set_params(self.entry.parameterlist, self.entry.parameterdescs,
+                         self.entry.parametertypes,
+                         self.entry.parameterdesc_start_lines)
 -- 
 2.53.0
 
