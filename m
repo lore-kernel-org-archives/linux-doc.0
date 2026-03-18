@@ -1,132 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from e242-11.smtp-out.us-west-1.amazonses.com (e242-11.smtp-out.us-west-1.amazonses.com [23.251.242.11])
+	(using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06B3736493A;
-	Wed, 18 Mar 2026 06:24:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACC2A175A72;
+	Wed, 18 Mar 2026 07:01:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.251.242.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773815060; cv=none; b=EogV22PWhGsGIAEjhgbe/+qEXbt9Q+Yx/4xDYtZDpWhEaTE2fF+OZ8wLDFk/4nrfcLn7MoghOzOKCq12b+coZYEc0uIZuhTDDFIu4UnXmGAb/8G54wIMIJU7Wjq4GARJjf7GhWpxH8F86T9qwBlojrcYIbD8WrQAyzbYGFTosqs=
+	t=1773817298; cv=none; b=XKUw1UEkLAdSaK3TGuMy8nAuOuBein/G8vP2+SJLSQ5XQj8cy9jDD3neRXgsLa04PLrD2qlfCGl6eZ/1xBXGKfzS+vEuChBQVH9Q2ppfrTKyWPMWJswXJyZRF+WnlR/RzGftUDLQUmTN1CNL/Quw5y8bysX9imkfOnnXiqhuYeA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773815060; c=relaxed/simple;
-	bh=pAl3NCDU41bTQKWjQ1fx4v1ez6c5MZxvJDobpWAZWPI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IcFajiegPqMGYuvfzNeMvJDsTuKk7xG0zKJUGxiFKCCHAOFPMKmHE17TfftxRFB/JUUg6GLOHE+5SyniyP0PNdF0Ew8mpdUjNmyK7UlteEyIOy+G1MezqLmVqQuVGtjSUiQHpZ+FQuAQjIK0vNIcK0lWhBoAasTDjtsE7aXutxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f0T+Bes8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773817298; c=relaxed/simple;
+	bh=09LSl1IjkmHBf8mV71JJJzNERuhqiOeb5UUbP7HCg50=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Oh/d5sU9UrkOh+gI2cRdn4uz2JBZKwAj8yQUVsuku/E24oaXXE1HYzFL+G2DE0xM5+u4nyEVPMmLi7BSVvrCKh6Usxy3Gd7f94wPAoljfIlWmqE1dZi2vU+BkY5ub96ZvWHEHbWMka8cY6GMvS4ThYaDvzDKJOs/LZHTxmLi8jA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=monolithicpower.com; spf=pass smtp.mailfrom=mail-mps-ses.monolithicpower.com; dkim=pass (2048-bit key) header.d=monolithicpower.com header.i=@monolithicpower.com header.b=FRiS6MAP; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=D9JJ7YUH; arc=none smtp.client-ip=23.251.242.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=monolithicpower.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail-mps-ses.monolithicpower.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f0T+Bes8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81047C19421;
-	Wed, 18 Mar 2026 06:24:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773815059;
-	bh=pAl3NCDU41bTQKWjQ1fx4v1ez6c5MZxvJDobpWAZWPI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=f0T+Bes8xiS9A0l45/c+XTCgLFlaLmSNEwXKeV0UhdIKVqg8XHB5fceBVlEv1L3h5
-	 ogM6c3g4wlNPBR+yvkgm8A8pKuNDRxfsS2DyHMjjVq5LlSKC0I/5/HCqbK3bidn1T2
-	 9kN4AAzceTso+wOIn0s85hNexDCCoBN0KlvIen9wZQ1+51wtohABua4OOn6LHwT2Xc
-	 aPKny+zxfBx0fH6wjrs11SE5x5RQFA+ASX+tQdHP/741NgtTU70qGvXGqH0ZFzkmsu
-	 YPRTJksgl+A8mQGhr3aoEl9BA3Om+TOl0Lt4ezhL6yE745IFf2VAzrWGAQEU6iFTqp
-	 TArGYEojn3Fjg==
-Date: Wed, 18 Mar 2026 07:24:10 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: Jakub Kicinski <kuba@kernel.org>, linux-api@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
- linux-kselftest@vger.kernel.org, workflows@vger.kernel.org,
- tools@kernel.org, x86@kernel.org, Thomas Gleixner <tglx@kernel.org>, "Paul
- E. McKenney" <paulmck@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, Dmitry
- Vyukov <dvyukov@google.com>, Randy Dunlap <rdunlap@infradead.org>, Cyril
- Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>, Jake Edge
- <jake@lwn.net>, David Laight <david.laight.linux@gmail.com>, Askar Safin
- <safinaskar@zohomail.com>, Gabriele Paoloni <gpaoloni@redhat.com>, Mauro
- Carvalho Chehab <mchehab@kernel.org>, Christian Brauner
- <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, Andrew
- Morton <akpm@linux-foundation.org>, Masahiro Yamada <masahiroy@kernel.org>,
- Shuah Khan <skhan@linuxfoundation.org>, Ingo Molnar <mingo@redhat.com>,
- Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH 0/9] Kernel API Specification Framework
-Message-ID: <20260318072410.72618011@foz.lan>
-In-Reply-To: <abZTg9ZwnE5J4qXa@laps>
-References: <20260313150928.2637368-1-sashal@kernel.org>
-	<20260314111822.63a2ba4a@kernel.org>
-	<abZTg9ZwnE5J4qXa@laps>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=monolithicpower.com header.i=@monolithicpower.com header.b="FRiS6MAP";
+	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="D9JJ7YUH"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rodjp4ft5fg4rp24cb2ntayvghblvgrq; d=monolithicpower.com;
+	t=1773817297;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Transfer-Encoding;
+	bh=09LSl1IjkmHBf8mV71JJJzNERuhqiOeb5UUbP7HCg50=;
+	b=FRiS6MAPpaXonbSlKUXNq374yfiFg5aH43rTnVABgPAMk738R/2cefE9K5oiOsrC
+	MuikkgxCD5QS/bFtsBEVN0ONIJP128AYjuRXy882fyYs2odqueQtxC3dDJX5zv1PYRA
+	WplC5M7Yt6WpE4UK7dJ9KihFOohgPXGN+227v/+90aeu3iWwF1xP6+hXQFZ/vxqhRkh
+	tuI7AewigL8LluosUjazhKoTicR/yHVwOlEzqsnSMm4ZzGxE0sUyVhsD7P8Z4H7OfO7
+	pJpSyGvza55UqEqXz0dUbp8tUkhIwkwSzqyqBqI0cYKS27rZ5BTV0d8F5fTIJ7BeMNJ
+	dia1r7XpzA==
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=voqdhibj3ww47nmt5hkqcrgg7xiynmza; d=amazonses.com; t=1773817297;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Feedback-ID;
+	bh=09LSl1IjkmHBf8mV71JJJzNERuhqiOeb5UUbP7HCg50=;
+	b=D9JJ7YUHDTVLJwwCVg0TWcuGnf8XIBxjdzV1/jKwTM0vfo8JJbS5ugSQe7sanFw6
+	MFECqEACOd8A9zy5uipXv5HnCV1sK6bjnS1QuPqAc2qX85XlsT+QFYPYnGxnI0cRVUH
+	eQlue95Sa5iwEyrMRmMI5eN795HmclINPNVr9hOY=
+From: Yuxi Wang <Yuxi.Wang@monolithicpower.com>
+To: Yuxi.Wang@monolithicpower.com, linux@roeck-us.net, corbet@lwn.net, 
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: wyx137120466@gmail.com, linux-hwmon@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org
+Subject: [PATCH 0/2] hwmon: Add support for MPS mpm369x chip family
+Date: Wed, 18 Mar 2026 07:01:36 +0000
+Message-ID: <0111019cffbff6a6-a0442cd4-b306-4acf-92a1-987e86b10639-000000@us-west-1.amazonses.com>
+X-Mailer: git-send-email 2.51.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Feedback-ID: :1.us-west-1.CVpA5H5M7EMrIGr0u6+8nP6wkCH59pkYLxtNQh1UjuczBtN1WmV60RtUapmzBbQ7+P+SiHg5vbyEpY0uRvudPF12wRQI7xDHNKjWPMJN/yd9hVbV9UslJ09o7rVZZCRhPDXT8kPM9Nch5RQcZE90uz62B8giHS2hgInWMbQKX5A=:1.us-west-1.yP6/L6iaxFc47BvsTr22yvAX3nKjbzwVEN8jceuJEpw=:AmazonSES
+X-SES-Outgoing: 2026.03.18-23.251.242.11
 
-On Sun, 15 Mar 2026 02:36:51 -0400
-Sasha Levin <sashal@kernel.org> wrote:
+Add mpm369x driver in hwmon and add dt-binding for it.
 
-> On Sat, Mar 14, 2026 at 11:18:22AM -0700, Jakub Kicinski wrote:
-> >On Fri, 13 Mar 2026 11:09:10 -0400 Sasha Levin wrote:  
-> >> This enables static analysis tools to verify userspace API usage at compile
-> >> time, test generation based on formal specifications, consistent error handling
-> >> validation, automated documentation generation, and formal verification of
-> >> kernel interfaces.  
-> >
-> >Could you give some examples? We have machine readable descriptions for
-> >Netlink interfaces, we approached syzbot folks and they did not really
-> >seem to care for those.  
-> 
-> Once the API is in a machine-readable format, we can write formatters to
-> output whatever downstream tools need. 
+Yuxi Wang (2):
+  dt-bindings: hwmon: Add mps mpm369x driver bindings
+  hwmon: add mpm369x driver
 
-Kernel-doc already does that. The way it works is that it handles 
-kernel-doc markups on two steps:
+ .../devicetree/bindings/trivial-devices.yaml  |   4 +
+ Documentation/hwmon/index.rst                 |   1 +
+ Documentation/hwmon/mpm369x.rst               |  75 ++++++++++++
+ MAINTAINERS                                   |   7 ++
+ drivers/hwmon/pmbus/Kconfig                   |   9 ++
+ drivers/hwmon/pmbus/Makefile                  |   1 +
+ drivers/hwmon/pmbus/mpm369x.c                 | 115 ++++++++++++++++++
+ 7 files changed, 212 insertions(+)
+ create mode 100644 Documentation/hwmon/mpm369x.rst
+ create mode 100644 drivers/hwmon/pmbus/mpm369x.c
 
-- first step: parse kernel-doc markups, function prototypes and data
-  types for variables, typedefs, structs, unions, enums.
+-- 
+2.39.2
 
-  This is done inside tools/lib/python/kdoc/kdoc_parser.py.
-
-  The documentation is stored in memory as a list of documentation
-  entries. Each element there belongs to class KdocItem.
-
-  It is trivial to output its content in JSON or YAML format. I
-  submitted a path series a while ago doing exactly that, aiming to help
-  writing unittests for first step:
-
-	https://lore.kernel.org/linux-doc/7648cb5f5a1b501d9ae9a57b4d8dbeb7273d9097.1770128540.git.mchehab+huawei@kernel.org/
-
-  I'm planing to rebase such patch series on the top of my latest
-  kernel-doc patch series.
-
-- second step: output generation. There is an abstract class named
-  OutputFormat which contains the following output methods:
-
-    def out_doc(self, fname, name, args):
-        """Outputs a DOC block."""
-
-    def out_function(self, fname, name, args):
-        """Outputs a function."""
-
-    def out_enum(self, fname, name, args):
-        """Outputs an enum."""
-
-    def out_var(self, fname, name, args):
-        """Outputs a variable."""
-
-    def out_typedef(self, fname, name, args):
-        """Outputs a typedef."""
-
-    def out_struct(self, fname, name, args):
-        """Outputs a struct."""
-
-  Producing a different output is as easy as doing:
-
-	class MyFormat(OutputFormat):
-	...
-	    def out_var(self, fname, name, args):
-        	self.data =+ f"whatever {name}"
-	...
-
-
-Thanks,
-Mauro
