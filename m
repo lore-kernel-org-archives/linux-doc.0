@@ -1,127 +1,205 @@
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012012.outbound.protection.outlook.com [52.101.43.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7408378D61
-	for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2026 08:03:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.11
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773820986; cv=none; b=V118UX152Dkg1i/41xwUYm7w904ThVXxUnDQIptyRL8hQU89GaE9CncOv4iPcN9QwVd50VNON1UrMmkECYSOvRK33ykTt4VhoDTXy8UqcIMwO0n2HCdCY0m4NGhcjdEnRNflQ7s1zcqszujaV+4cIX22s4YpApifFPzuKmxBkXw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773820986; c=relaxed/simple;
-	bh=KpETAyrs7YIkUM70PUxFjh8e+vMzcwee8eeDvL3R0fo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
-	 Content-Type:References; b=rOTZzLZIoL2QTT4L/rs0CAKl+VFB6qFkMpkNOPkooMAV4jD27haGw/Oo2zH+3ZFE/ezgqOA2kRPR3VSLqx78NANxJmv8ZHPg4yVv1sgzx0DZmD7eqeBSxYhTTSfYVACmYGe2TJfkqZGVh3CiXL0+p1Ci3S/gmVvs4oQsXZJL8fs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=QgHOLe5E; arc=none smtp.client-ip=210.118.77.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A5AA1D618A;
+	Wed, 18 Mar 2026 08:06:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773821185; cv=fail; b=Bc9+8N/OIg7gs8np/lyBKxd9M4hSOxqbdnNnr2FwkhtDJL0BtIukHR+B+8nNzkxh9ctCe0M0Am93WAfblGwBHxcW2xFduaGPz0B9cZzDV3sniicI77DGdLv2JMGYNLMpFI8H+g5pEoqyEcokv6wZ0D2WnjCK6omy9lWTwnBlJmo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773821185; c=relaxed/simple;
+	bh=BEc2di1dln0QEXiUscQysJ68a+Ec98AkVLSW+E1KCvQ=;
+	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
+	 To:Cc:MIME-Version; b=qRBCQs8jFLgc+g9FKh1Tklbb3GbJJvvnfEFMdUmKbjkRtKJD4q6vQDiY22WYjaTieOkBPZAe+dCQCBNNtcgo58/TuniXjh5B7rhBTDlrgNhkng6fwU17aElYZ87ENv/4Il0K64Bfu+8KJR9g95naJPJ70y2aRGkOr7Why72xtcc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=gUaJvepJ; arc=fail smtp.client-ip=52.101.43.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="QgHOLe5E"
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20260318080302euoutp01ddf3725c3b6a54afedc2a66009f64d17~d4Mkqjb7v0169801698euoutp01P
-	for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2026 08:03:02 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20260318080302euoutp01ddf3725c3b6a54afedc2a66009f64d17~d4Mkqjb7v0169801698euoutp01P
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1773820982;
-	bh=5GOrx/bM09mWS7d4FWSxDkysESa+9H3SzC9X1DevVpM=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=QgHOLe5EykCGGsrBolTj2JuPKhQ1Bki0f6knoOEenxKjutlnI1f1a+IvYzTNANjPB
-	 g3MbC1nXSFcfIo0O8YAnngJsBgO+mlGjP/L4WRyaF1fcYTT5wusxKKB3bQtIBpaz+e
-	 S5X3ZWGOfil6XUIO2rZg9WqmuiJ2qfPQBkCSac3g=
-Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-	20260318080302eucas1p2c05885afc838bdc98d55972adc31ab96~d4MkRZpJ60631706317eucas1p2v;
-	Wed, 18 Mar 2026 08:03:02 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
-	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20260318080300eusmtip289c1a6818cde8d982e474c8d0c9ee8f6~d4Mi2Bedq1876518765eusmtip2G;
-	Wed, 18 Mar 2026 08:03:00 +0000 (GMT)
-Message-ID: <de23ccf6-75ef-48af-8c69-2f416c564f2d@samsung.com>
-Date: Wed, 18 Mar 2026 09:03:00 +0100
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="gUaJvepJ"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=m22d/JIu1wDjs/Pg3OWHtRTNwQfrp7CqVjBRh0LhPPiHO58QTz8mKCV5AxJpD75BeLy/2/rtR0BVvghJgDOYukNLdOx88Q+0c2EIPNmRfAe4nVpncYVB8+TTXVwgB+fC2Dh7GrVaqMg7zYdw9yjRUdrJyoOnoOAWFs+eLQpe1xWfrBoIpJkc0uo0YzfnkrdxloYBvD8Ld1Ufczn4HcS5qnSIfNUW2j0EMzj3caeFIGOcd1RAXJ2ZIn+kMqbd+FlifKDBwaTOE5BORS2hBVSZiR9I7g7D5GIWkwkPwCc8ekLgbzc5aoMGWGCvd7WLmL7b5S19XMX8C4odlKqNZadSIQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CLlg5iqhSwT/6DISYNd5wGQuidf6+ytyrXDVepgE0JE=;
+ b=hRtjP7a1AOcBv8+atzIe0uYxED/B8GtDgNOer8c0hOKHlFDj9NIhYujzVI3gB5b11GvaEyUjOQpU1dnawqREY7PfxeOwVa0jiciQg9LGsH8H/ILEa6y7S/LJuSvuvsnVtWTFjdn6NQabQsQFGZ6bSUWAq/hSud1jlGT3deCBjWA6PA7+5iLHKKzJWoIs+rrS3kuDCjaAQ+85JA/ItmMhsz1v5hT+0K7aAChvVecFaSuJQmYCgXl9xWMdI+zZP02TR+7Yj/Fv69VQmsV1xRLr7WZkBzB4CDUJl82EejXA5jxKjkbOBPdK2Qfasrv4wFiAgDD5fTlJiXEg8UfwIOAOAA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CLlg5iqhSwT/6DISYNd5wGQuidf6+ytyrXDVepgE0JE=;
+ b=gUaJvepJbnCmHbJ1CMEGJDYn09Y3ds9mpuPMprnqJkNZs8mXKfiN26xQvHygImMROHR0re1vfits3w8apT3ueJ3vvymbLuz1sfFyKzf+1cTWdvlFPAeJNx5+rYBYubeXElisWoRPMgk07UyeZ0RcfCq6eJscI4I3637L/pkQkqAbFLDyHahxK8gGIR4kAQGTK7qJJwOHzzSjzJzb7j5HBvYxq/ZJW0Qjt4EQeHNbkTSI7uT4QZ5X1b352DemioO3+QEQtX3mn/ZvlTSjxtCHAgiG1mCU1O+pw34RV+bNK0iWmHRUusJbzSFLVmmloCrQgJbZucWBSDEsuSRYFds52A==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by DS0PR12MB8197.namprd12.prod.outlook.com (2603:10b6:8:f1::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.19; Wed, 18 Mar
+ 2026 08:06:16 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9745.007; Wed, 18 Mar 2026
+ 08:06:16 +0000
+From: Alexandre Courbot <acourbot@nvidia.com>
+Date: Wed, 18 Mar 2026 17:06:00 +0900
+Subject: [PATCH 2/8] gpu: nova-core: convert PBUS registers to kernel
+ register macro
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260318-b4-nova-register-v1-2-22a358aa4c63@nvidia.com>
+References: <20260318-b4-nova-register-v1-0-22a358aa4c63@nvidia.com>
+In-Reply-To: <20260318-b4-nova-register-v1-0-22a358aa4c63@nvidia.com>
+To: Danilo Krummrich <dakr@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Trevor Gross <tmgross@umich.edu>
+Cc: John Hubbard <jhubbard@nvidia.com>, 
+ Alistair Popple <apopple@nvidia.com>, 
+ Joel Fernandes <joelagnelf@nvidia.com>, Timur Tabi <ttabi@nvidia.com>, 
+ Zhi Wang <zhiw@nvidia.com>, Eliot Courtney <ecourtney@nvidia.com>, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org, 
+ rust-for-linux@vger.kernel.org, Alexandre Courbot <acourbot@nvidia.com>
+X-Mailer: b4 0.14.3
+X-ClientProxiedBy: TYCP286CA0299.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:3c8::19) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Betterbird (Windows)
-Subject: Re: [PATCH v3 0/8] RDMA: Enable operation with DMA debug enabled
-To: Leon Romanovsky <leon@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>, Petr Tesarik <ptesarik@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-	Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	=?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, Jason Gunthorpe
-	<jgg@ziepe.ca>, Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
-	<mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, Andrew Morton
-	<akpm@linux-foundation.org>
-Cc: iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, virtualization@lists.linux.dev,
-	linux-rdma@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Content-Language: en-US
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20260317190538.GD61385@unreal>
-Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20260318080302eucas1p2c05885afc838bdc98d55972adc31ab96
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20260317190552eucas1p28f3e818f88d252b1e4161332be084177
-X-EPHeader: CA
-X-CMS-RootMailID: 20260317190552eucas1p28f3e818f88d252b1e4161332be084177
-References: <20260316-dma-debug-overlap-v3-0-1dde90a7f08b@nvidia.com>
-	<CGME20260317190552eucas1p28f3e818f88d252b1e4161332be084177@eucas1p2.samsung.com>
-	<20260317190538.GD61385@unreal>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|DS0PR12MB8197:EE_
+X-MS-Office365-Filtering-Correlation-Id: f74e1777-4bb8-4f5d-47da-08de84c53aa3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|376014|7416014|10070799003|366016|921020|56012099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	i75uIPhnizavDTZadH3Lr62GoSPUjUlTKtmoNuo6ZdXFJJL3w9LkWDkeyPZzqUKvVK2L2yGf6JloPPHOSJvijFnV9yBEjLIvLcPxeXNTspong//L1nfZgUmhNnNUY2z3ypkhTCtguqGX0QaO5JowdlpSpYo/SwHHUoox8cKkEBg9RX8cp4fXJVBpdVebkhEqZR23TmNBBVYR3vWtBJ9JM8SXqYmuLRrou5UldLdRI9EHBcOlLZa5m8LUTmDhWa2LkQN5+lV11Na+hmChmTePeGB3xhFV5WRl9HoQx09yl7ScZpm/9Ox3yiM+QuiTBGvkfIHtcvWMhwoZCUgJfzZeQ57T3wF9WmK/HDM7u9F8TgCoJVqasuX4RejqcPK0U4ibV6EZuM4uy0V6V0h0wKHntf5G0t7JMjLOp/BI/mqsgW5+EGo9Ue9zAguwqrRUX/D9TFqn5sqw0wh8wpBuksnAJO424RBYdCkneBwfB4pWYcphWKXeo4mG6i88rXLWmea5ct1Sts1Yh5YO8iR7YIe/5nYzSiMnGg20C7TbGu6dB6R5VXXGtgqhftkJnWSJo9LHDy+SHBjWNXnSrJP+In2R1JY6Oyh3T+4yji9TVWZ9mysD1ZMu738hE8c/aupk4GO8kWFj9TBNWNYEPEF5Q3UmoxQz9VZ5KeanPk8iI7dSr3Rtv0bbWSSRSdBkCr9Q4Fb56TMxYtyxq4OJJpTnGWfl7gkNbw0QgVBp8LqfwTJitLN0cV386AH+d/lirw/Ug3DtlUTGKXoU+yY6NwtO3QdaoA==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(10070799003)(366016)(921020)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?RkV5dU9ja3oxeHlpZzM2eVV1a21EVjBuTHZVRUpYN0xGU1pLOWk0R3dYYUNH?=
+ =?utf-8?B?Vkoxd0EwNlRhQXhiY01KcXhERnhZSmVoK2RvNFJCSUdmRzdYMXkyRmdxNkFD?=
+ =?utf-8?B?TEo4SXh3dlkrQktGYXEwMEM1MHV5Y3NkWWdyb0lwRkI1SFord3kvYWlLVUhi?=
+ =?utf-8?B?ZG9BaHZPYmt6ZXl4NXJHYXcxMkJaUDBsTnNGdFNQRm85L2xOalJxMXVDUW9x?=
+ =?utf-8?B?VEN0TnFrZnVCWEtKcUk2R1B5MTM3NlZ3dVJWT1lHRGxLNnRTbTh4MXFRL0dl?=
+ =?utf-8?B?L04yYm9zSVkrNU1VejgwWG16MUpSZWV5ZUxTdmlFWDlYRUJQQXZBRm5GM21s?=
+ =?utf-8?B?UDUvRUFNNzF1L0VoUmRwVk0yTG5QRVBsYzRRd1h5aGRpY0ZJNlpxRnZUdHR0?=
+ =?utf-8?B?cXIycXRYYUZsMjE5alBtZm5qQnZhbDB4YmEydllNWEZFUmNRdXRkZUV2Vmds?=
+ =?utf-8?B?QkRqS1U5MWpDWkRrTG9MVzBIS0Myd0xBWG0xUHhlREdnVzhQVjU2T2lUcmlh?=
+ =?utf-8?B?MTNQRzh5RDJTeFBJY2JNYmc0WDBJTzZDRnZ3N0NLa2dZWUFZQUlwUHdHem1D?=
+ =?utf-8?B?ZDFpRm9Fc3Y2VFZjalMrb003bEtaYURYK1ZUb0lsV3hTR0ZNVU5JclhzTjQv?=
+ =?utf-8?B?L1pJS09WVTQwSWU0bzhvZURaTmdCU3JUWnk5VzNBNHNvUDMyWUFqUVJSQmRU?=
+ =?utf-8?B?cHFBQnk2V2RLa1JyWGhUQkJoSkNULzBOQ3hmMk5QQjUra21LblR6ZEh1dmk4?=
+ =?utf-8?B?WnV3UDlrUndMN2drc1pqaVE1Q2poKy9zY3VuT2tiakxaTHdDdGZ0NDdVdDZ1?=
+ =?utf-8?B?NXNUa0hFNzE4cFBOUjN4ZXJpQlJzU1dLaXlra1dFR3lNTXdhZlBObmRabnI0?=
+ =?utf-8?B?UExRYU9kL3JNMVBBOXlNeVRjVmhBcTNGekRRWkxGZVJaekVSbmRKa1RxR0JG?=
+ =?utf-8?B?Rm00Wjh0eGUwVXRubjhpM0ZHNi9JSTBYRG94NnJuNnRKSFVFSDgza1dnUkhy?=
+ =?utf-8?B?NTB0Um8yUnlKeVhuY0tZVWFXcVorYlZHMU41V2pacTZQZkpWM25qMndwaEJv?=
+ =?utf-8?B?Z2hFUVcwRmtnRkNqT3B5UWo2aEtGUGh6TFNqMDVlQVJJMjYwOThuSmNjdTlF?=
+ =?utf-8?B?UEo4S2ZuR25HdFhyT2pyQlg2WWJGdW5mUkcyZ1hYMEkxWkpnTldjTmdEL1g1?=
+ =?utf-8?B?QVI3NXg2c0ExRW1CRGlJTjZEd09HVFhoWDdaTHMwVHpNNjh6OWRxQWlxNXYx?=
+ =?utf-8?B?bDZaKyt3UkhBNHdPMXJ5eDJIWitFemdNR1JwRnBSN090RHl3NXdueWJEcjdT?=
+ =?utf-8?B?b2pFcE42anBOMFhtR0hLWUR6YlZ4bTUvK1pjNkxtY3VjdnlURXY5UjJ4RGZM?=
+ =?utf-8?B?TzdaVGlIc2I2eEpZSnZsY0ZMWUNwSFFxejRHUCtRM0czNVU1dzBpTnB5U0hJ?=
+ =?utf-8?B?OEpuRlprbmVkeE1taFFDVEsxYStvVUNtMFppbmlFNFgxQWRmbW9TaUlZYVhy?=
+ =?utf-8?B?MXVFUDkzYlFtZlJJZDFzcElYRFdvWTA0OFU5SVBNbFR0dEtBYjQvajNSOEpT?=
+ =?utf-8?B?MEw2c2lLSTByR1BUUHdUdE96dW9jeDBORWl6OVVhbkl4RU9ORUM1UmdVekgx?=
+ =?utf-8?B?TU4ycGNqdFFKR2ZDVWVibzNvUjZ5ajI0Zm1xQnM5SGVQVmgxOURBblJla05j?=
+ =?utf-8?B?NXhXWE1Wc0pIQmtmYytNZHdQZUI1eXBPaHYxMExDT2dENTRBOFd6OUtUYXBN?=
+ =?utf-8?B?dzNISDhHMlk0c3R6cXE2QStaVTIyNk9vc25YMlBRa28vSFVmZWpRcnpOcm5a?=
+ =?utf-8?B?WStRQUdoTXhQRjNXamxpY1JBeFpHVXh4TitiYVFVekZtTXgwVE02Y2ovbFpq?=
+ =?utf-8?B?QVNCZ0RYQmRUMkJhdXVJMWZwZEZZM1BjbS9vWTQvUURQY3lxd1I3TDRmWHQ5?=
+ =?utf-8?B?aVljNkFpNysrR3lpNkpwZmV0QlkxQTJ0RHVWTDlzZzVPM1VwTnBzTVA0eVY5?=
+ =?utf-8?B?NVNxK1NJRFVEVkRvOHhHRlcrUDdQd0tBZHNybWE5bVZDU2d0Y3NVMC9sazJD?=
+ =?utf-8?B?dzNqcE9pcWhrSnh3eWJURWlnR0RIS3dwRURxV0pBZkx4eWk0eE1aUjRueE9p?=
+ =?utf-8?B?Q3NrOW5LT1NmeHN6T3BvMVdRRFJIdzZtNldjTEVBK3ZQdUp1ckxTT1htaUJB?=
+ =?utf-8?B?WUd1cFg1N3ZINkV3Y1QrblN1QUord2hmenVLYmU0L2Y0a3h0VW9HYnFaaVUy?=
+ =?utf-8?B?Q09tWVFyc0IzbjFQUUNkOHJiOExlUWt2WU01emNWby9ON2VIWnMzM3dJcWdU?=
+ =?utf-8?B?d2d6TWJLM3p5c0RmSHQ2Qmt6OU1jaEhHQ1dFa29lTTVISWsvdEg1VXkzbzE4?=
+ =?utf-8?Q?FEZtrjImwVigwt32l/hM16fsonQBNQoOgVRkFPmmPiVmv?=
+X-MS-Exchange-AntiSpam-MessageData-1: d3SK2Kd2MJelzQ==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f74e1777-4bb8-4f5d-47da-08de84c53aa3
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2026 08:06:16.1794
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5DniVjPWbcCxjJuQ136Lbuar3uvfTNtJb/cbSYg6ouAzAz9V6Pw4VkPlE2FvPPRyhjq+jqwtq7yVHVa5P/Rkpg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8197
 
-Hi Leon,
+Convert all PBUS registers to use the kernel's register macro and update
+the code accordingly.
 
-On 17.03.2026 20:05, Leon Romanovsky wrote:
-> On Mon, Mar 16, 2026 at 09:06:44PM +0200, Leon Romanovsky wrote:
->> Add a new DMA_ATTR_REQUIRE_COHERENT attribute to the DMA API to mark
->> mappings that must run on a DMA‑coherent system. Such buffers cannot
->> use the SWIOTLB path, may overlap with CPU caches, and do not depend on
->> explicit cache flushing.
->>
->> Mappings using this attribute are rejected on systems where cache
->> side‑effects could lead to data corruption, and therefore do not need
->> the cache‑overlap debugging logic. This series also includes fixes for
->> DMA_ATTR_CPU_CACHE_CLEAN handling.
->> Thanks.
-> <...>
->
->> ---
->> Leon Romanovsky (8):
->>        dma-debug: Allow multiple invocations of overlapping entries
->>        dma-mapping: handle DMA_ATTR_CPU_CACHE_CLEAN in trace output
->>        dma-mapping: Clarify valid conditions for CPU cache line overlap
->>        dma-mapping: Introduce DMA require coherency attribute
->>        dma-direct: prevent SWIOTLB path when DMA_ATTR_REQUIRE_COHERENT is set
->>        iommu/dma: add support for DMA_ATTR_REQUIRE_COHERENT attribute
->>        RDMA/umem: Tell DMA mapping that UMEM requires coherency
->>        mm/hmm: Indicate that HMM requires DMA coherency
->>
->>   Documentation/core-api/dma-attributes.rst | 38 ++++++++++++++++++++++++-------
->>   drivers/infiniband/core/umem.c            |  5 ++--
->>   drivers/iommu/dma-iommu.c                 | 21 +++++++++++++----
->>   drivers/virtio/virtio_ring.c              | 10 ++++----
->>   include/linux/dma-mapping.h               | 15 ++++++++----
->>   include/trace/events/dma.h                |  4 +++-
->>   kernel/dma/debug.c                        |  9 ++++----
->>   kernel/dma/direct.h                       |  7 +++---
->>   kernel/dma/mapping.c                      |  6 +++++
->>   mm/hmm.c                                  |  4 ++--
->>   10 files changed, 86 insertions(+), 33 deletions(-)
-> Marek,
->
-> Despite the "RDMA ..." tag in the subject, the diffstat clearly shows that
-> you are the appropriate person to take this patch.
+Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+---
+ drivers/gpu/nova-core/gsp/boot.rs |  5 ++++-
+ drivers/gpu/nova-core/regs.rs     | 12 +++++++-----
+ 2 files changed, 11 insertions(+), 6 deletions(-)
 
-I plan to take the first 2 patches to the dma-mapping-fixes branch 
-(v7.0-rc) and the next to dma-mapping-for-next. Should I also take the 
-RDMA and HMM patches, or do You want a stable branch for merging them 
-via respective subsystem trees?
+diff --git a/drivers/gpu/nova-core/gsp/boot.rs b/drivers/gpu/nova-core/gsp/boot.rs
+index 6db2decbc6f5..d885190b6d92 100644
+--- a/drivers/gpu/nova-core/gsp/boot.rs
++++ b/drivers/gpu/nova-core/gsp/boot.rs
+@@ -5,6 +5,7 @@
+     dma::CoherentAllocation,
+     dma_write,
+     io::poll::read_poll_timeout,
++    io::Io,
+     pci,
+     prelude::*,
+     time::Delta, //
+@@ -87,7 +88,9 @@ fn run_fwsec_frts(
+         }
+ 
+         // SCRATCH_E contains the error code for FWSEC-FRTS.
+-        let frts_status = regs::NV_PBUS_SW_SCRATCH_0E_FRTS_ERR::read(bar).frts_err_code();
++        let frts_status = bar
++            .read(regs::NV_PBUS_SW_SCRATCH_0E_FRTS_ERR)
++            .frts_err_code();
+         if frts_status != 0 {
+             dev_err!(
+                 dev,
+diff --git a/drivers/gpu/nova-core/regs.rs b/drivers/gpu/nova-core/regs.rs
+index 62c2065e63ef..304fdd0c1705 100644
+--- a/drivers/gpu/nova-core/regs.rs
++++ b/drivers/gpu/nova-core/regs.rs
+@@ -132,12 +132,14 @@ fn fmt(&self, f: &mut kernel::fmt::Formatter<'_>) -> kernel::fmt::Result {
+ 
+ // PBUS
+ 
+-register!(NV_PBUS_SW_SCRATCH @ 0x00001400[64]  {});
++nv_reg! {
++    NV_PBUS_SW_SCRATCH[64] @ 0x00001400 {}
+ 
+-register!(NV_PBUS_SW_SCRATCH_0E_FRTS_ERR => NV_PBUS_SW_SCRATCH[0xe],
+-    "scratch register 0xe used as FRTS firmware error code" {
+-    31:16   frts_err_code as u16;
+-});
++    /// Scratch register 0xe used as FRTS firmware error code.
++    NV_PBUS_SW_SCRATCH_0E_FRTS_ERR => NV_PBUS_SW_SCRATCH[0xe] {
++        31:16   frts_err_code;
++    }
++}
+ 
+ // PFB
+ 
 
-Best regards
 -- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+2.53.0
 
