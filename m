@@ -1,122 +1,133 @@
-Received: from canpmsgout02.his.huawei.com (canpmsgout02.his.huawei.com [113.46.200.217])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B06D3CB2DA;
-	Wed, 18 Mar 2026 11:04:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.217
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AF783A4513;
+	Wed, 18 Mar 2026 11:04:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773831857; cv=none; b=t47E/xXYl5dirZK6d69TYySvLMA2Q1ghQOnI90lfHIdyWWHWqIbRB+VxteMXCatjV9G5hYTMhwihXjGBMs1n3oU1sfTOKUcYYlYHlF5WsS0XYjPmgbQWGm2XYgtU7wcgH4jWdi+JAakQSpi/BZA3si0z47hgUNeHYhZhYMatimE=
+	t=1773831866; cv=none; b=e4YYDFd9aXuiZFkx7GwbQGnEHfMEE+zdESMM6fDGkjHnD0EHF/x8KApBAA6aGLenFKvec9gS49RkdeMzdoG7GOg6xRYMu9GcUD03os0KY9zxHOe/fXCft+J1o24Qh/yEkNPgAuty6AY+RlRsfNAZMY79/iqDr8rLyTOqB1kZIQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773831857; c=relaxed/simple;
-	bh=5CBvTE3VxZKOYDn+lTEGcCVtNhzainWFyveh6ewR5wo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=dhVuIyn4tRJ03kx5HzaJNhAGJi38jLS23c0jdXuBrkZnfcJyogPNNYMKVGgrHh1sieUFIxfDYIJ70wGZggW0BZebTNb/aUWelie+MXZBtB8sV+hW9gFBXD9XbFAXIOTFvlRcT/Wy4e4oK07DhL9s3lquFwYGeqDM79gRSVpOC50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=h-partners.com; dkim=pass (1024-bit key) header.d=h-partners.com header.i=@h-partners.com header.b=lk8ZWqHL; arc=none smtp.client-ip=113.46.200.217
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=h-partners.com
+	s=arc-20240116; t=1773831866; c=relaxed/simple;
+	bh=Q7yYQ9uTUJsiwzhXBcD4JAag81xV4uhk/MNZfN6Luj0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gZx84j1vNnk5+4mWSIEFUXReDqQ5ZWxAltksT+Xaq4eX4Sj/b1fdxc/MztvzhyZGKRtsKRPjZp8oq57u1zzDt1sa5gLvGia8WcYW08+t9N4BXShceuX/ccLZvcIUjfMdmYaYKwWx9H3eONXq0FvDnQkHl5IP175HnPG0KSVoUis=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y4BZsyro; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=h-partners.com header.i=@h-partners.com header.b="lk8ZWqHL"
-dkim-signature: v=1; a=rsa-sha256; d=h-partners.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=2FYu3eYmosXCPk9EhFLN1puzsoxOcAP2QckJBCO/sU4=;
-	b=lk8ZWqHLIcI0LXKJaHrGm2T5kDXFOOiaf5ImfkVWeD6oo2Zzhi0Z/a2P8BX7+qf8P6jD7U/jB
-	wpn8TX8oB1NSWdTe1nUPssAs3XKF8XHcrUhhrNrL3kOTGITWo14UthyQPVAeA1JsVLR5d/KLuZ/
-	JGZ3b9EOpSfLAkwE2shDR50=
-Received: from mail.maildlp.com (unknown [172.19.162.223])
-	by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4fbQmQ0HBkzcb1V;
-	Wed, 18 Mar 2026 18:58:30 +0800 (CST)
-Received: from kwepemf100008.china.huawei.com (unknown [7.202.181.222])
-	by mail.maildlp.com (Postfix) with ESMTPS id 3C81940569;
-	Wed, 18 Mar 2026 19:04:09 +0800 (CST)
-Received: from [10.174.179.37] (10.174.179.37) by
- kwepemf100008.china.huawei.com (7.202.181.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.36; Wed, 18 Mar 2026 19:04:07 +0800
-Message-ID: <57e9ddeb-f767-8eae-1123-0d9085fe01f0@huawei.com>
-Date: Wed, 18 Mar 2026 19:04:06 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y4BZsyro"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED526C19421;
+	Wed, 18 Mar 2026 11:04:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773831866;
+	bh=Q7yYQ9uTUJsiwzhXBcD4JAag81xV4uhk/MNZfN6Luj0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Y4BZsyrop82tv1RVGdlfCx0kU5IxnNF220nWzRb9eEgXDwARKBP0FN+K4V+CbYkca
+	 hE+AlF4dMilTbPeC/+LF1r56L6zBuRkIHruO3J5Qlwp2jhzqL3cxrLw9yO877q4N0A
+	 REVFxWHE4S/+x8nRRfz65C6hfoLgclMHtU5HZXD6yq80KFnohWfT/Hg8MoQf/su0i/
+	 VAzrmxhdn+t+Ql01ejJKgvYgs2h/SbFwWP+v4FSzLrpl2tieDaJrJqvNSZBM5Q5xpw
+	 E02UwwHUJ3r9BA/j/02/V9A3I+P4mRTNbEcC19LZC7i1j7+RiKN2NDjZDYYrhAhAV2
+	 CC1q+Gs/5CbpA==
+Date: Wed, 18 Mar 2026 12:04:23 +0100
+From: Frederic Weisbecker <frederic@kernel.org>
+To: Joel Fernandes <joelagnelf@nvidia.com>
+Cc: linux-kernel@vger.kernel.org, "Paul E. McKenney" <paulmck@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Zqiang <qiang.zhang@linux.dev>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, rcu@vger.kernel.org,
+	Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH -next v1 10/16] rcu-tasks: Document that RCU Tasks Trace
+ grace periods now imply RCU grace periods
+Message-ID: <abqGt2CQCfM4PeqK@localhost.localdomain>
+References: <20260317212217.1527644-1-joelagnelf@nvidia.com>
+ <20260317212217.1527644-11-joelagnelf@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.11.0
-Subject: Re: [PATCH v6 21/40] arm_mpam: resctrl: Hide CDP emulation behind
- CONFIG_EXPERT
-Content-Language: en-US
-To: Ben Horgan <ben.horgan@arm.com>
-CC: <amitsinght@marvell.com>, <baisheng.gao@unisoc.com>,
-	<baolin.wang@linux.alibaba.com>, <carl@os.amperecomputing.com>,
-	<dave.martin@arm.com>, <david@kernel.org>, <dfustini@baylibre.com>,
-	<fenghuay@nvidia.com>, <gshan@redhat.com>, <james.morse@arm.com>,
-	<jonathan.cameron@huawei.com>, <kobak@nvidia.com>, <lcherian@marvell.com>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<peternewman@google.com>, <punit.agrawal@oss.qualcomm.com>,
-	<quic_jiles@quicinc.com>, <reinette.chatre@intel.com>,
-	<rohit.mathew@arm.com>, <scott@os.amperecomputing.com>,
-	<sdonthineni@nvidia.com>, <tan.shaopeng@fujitsu.com>,
-	<xhao@linux.alibaba.com>, <catalin.marinas@arm.com>, <will@kernel.org>,
-	<corbet@lwn.net>, <maz@kernel.org>, <oupton@kernel.org>,
-	<joey.gouly@arm.com>, <suzuki.poulose@arm.com>, <kvmarm@lists.linux.dev>,
-	<linux-doc@vger.kernel.org>
-References: <20260313144617.3420416-1-ben.horgan@arm.com>
- <20260313144617.3420416-22-ben.horgan@arm.com>
-From: Zeng Heng <zengheng4@huawei.com>
-In-Reply-To: <20260313144617.3420416-22-ben.horgan@arm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
- kwepemf100008.china.huawei.com (7.202.181.222)
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260317212217.1527644-11-joelagnelf@nvidia.com>
 
-Hi Ben,
+Le Tue, Mar 17, 2026 at 05:22:11PM -0400, Joel Fernandes a écrit :
+> From: "Paul E. McKenney" <paulmck@kernel.org>
+> 
+> Now that RCU Tasks Trace is implemented in terms of SRCU-fast, the fact
+> that each SRCU-fast grace period implies at least two RCU grace periods
 
-On 2026/3/13 22:45, Ben Horgan wrote:
-> When CDP is not enabled, the 'rmid_entry's in the limbo list,
-> rmid_busy_llc, map directly to a (PARTID,PMG) pair and when CDP is enabled
-> the mapping is to two different pairs. As the limbo list is reused between
-> mounts and CDP disabled on unmount this can lead to stale mapping and the
-> limbo handler will then make monitor reads with potentially out of range
-> PARTID. This may then cause an MPAM error interrupt and the driver will
-> disable MPAM.
+two or one?
+
+AFAIU srcu_readers_active_idx_check() it's only one?
+
+> in turn means that each RCU Tasks Trace grace period implies at least
+> two grace periods.  This commit therefore updates the documentation
+> accordingly.
 > 
-> No problems are expected if you just mount the resctrl file system
-> once with CDP enabled and never unmount it. Hide CDP emulation behind
-> CONFIG_EXPERT to protect the unwary.
-> 
-> Signed-off-by: Ben Horgan <ben.horgan@arm.com>
+> Reported-by: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+> Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
 > ---
-> Adding this ugliness in the hope of avoiding patch churn and extra
-> reviewer work. I am looking into the resctrl changes needed to fix this.
-> ---
->   drivers/resctrl/mpam_resctrl.c | 12 ++++++++++++
->   1 file changed, 12 insertions(+)
+>  Documentation/RCU/Design/Requirements/Requirements.rst | 7 +++++++
+>  include/linux/rcupdate.h                               | 9 +++------
+>  2 files changed, 10 insertions(+), 6 deletions(-)
 > 
-> diff --git a/drivers/resctrl/mpam_resctrl.c b/drivers/resctrl/mpam_resctrl.c
-> index 903d1a0f564f..cab3e9ccb5c7 100644
-> --- a/drivers/resctrl/mpam_resctrl.c
-> +++ b/drivers/resctrl/mpam_resctrl.c
-> @@ -82,6 +82,18 @@ int resctrl_arch_set_cdp_enabled(enum resctrl_res_level rid, bool enable)
->   	u32 partid_i = RESCTRL_RESERVED_CLOSID, partid_d = RESCTRL_RESERVED_CLOSID;
->   	int cpu;
->   
-> +	if (!IS_ENABLED(CONFIG_EXPERT) && enable) {
-> +		/*
-> +		 * If the resctrl fs is mounted more than once, sequentially,
-> +		 * then CDP can lead to the use of out of range PARTIDs.
-> +		 */
-> +		pr_warn("CDP not supported\n");
-> +		return -EOPNOTSUPP;
-> +	}
+> diff --git a/Documentation/RCU/Design/Requirements/Requirements.rst b/Documentation/RCU/Design/Requirements/Requirements.rst
+> index b5cdbba3ec2e..4d886e7c7a95 100644
+> --- a/Documentation/RCU/Design/Requirements/Requirements.rst
+> +++ b/Documentation/RCU/Design/Requirements/Requirements.rst
+> @@ -2787,6 +2787,13 @@ which avoids the read-side memory barriers, at least for architectures
+>  that apply noinstr to kernel entry/exit code (or that build with
+>  ``CONFIG_TASKS_TRACE_RCU_NO_MB=y``.
+>  
+> +Now that the implementation is based on SRCU-fast, a call
+> +to synchronize_rcu_tasks_trace() implies at least one call to
+> +synchronize_rcu(), that is, every Tasks Trace RCU grace period contains
+> +at least one plain vanilla RCU grace period.  Should there ever
+> +be a synchronize_rcu_tasks_trace_expedited(), this guarantee would
+> +*not* necessarily apply to this hypothetical API member.
 > +
-> +	if (enable)
-> +		pr_warn("CDP is an expert feature and may cause MPAM to malfunction.\n");
-> +
+>  The tasks-trace-RCU API is also reasonably compact,
+>  consisting of rcu_read_lock_trace(), rcu_read_unlock_trace(),
+>  rcu_read_lock_trace_held(), call_rcu_tasks_trace(),
+> diff --git a/include/linux/rcupdate.h b/include/linux/rcupdate.h
+> index 04f3f86a4145..18a85c30fd4f 100644
+> --- a/include/linux/rcupdate.h
+> +++ b/include/linux/rcupdate.h
+> @@ -208,12 +208,9 @@ static inline void exit_tasks_rcu_finish(void) { }
+>  /**
+>   * rcu_trace_implies_rcu_gp - does an RCU Tasks Trace grace period imply an RCU grace period?
+>   *
+> - * As an accident of implementation, an RCU Tasks Trace grace period also
+> - * acts as an RCU grace period.  However, this could change at any time.
+> - * Code relying on this accident must call this function to verify that
+> - * this accident is still happening.
+> - *
+> - * You have been warned!
+> + * Now that RCU Tasks Trace is implemented in terms of SRCU-fast, a
+> + * call to synchronize_rcu_tasks_trace() is guaranteed to imply at least
+> + * one call to synchronize_rcu().
+>   */
+>  static inline bool rcu_trace_implies_rcu_gp(void) { return true; }
 
-Agree that a proper fix will require modifications to resctrl to handle 
-the limbo state across mount sessions. Hiding CDP behind CONFIG_EXPERT 
-is acceptable as a short-term mitigation to prevent users from 
-accidentally hitting the mentioned issue.
+I guess the plan is to remote that function?
 
-Reviewed-by: Zeng Heng <zengheng4@huawei.com>
+Other than that:
+
+Reviewed-by: Frederic Weisbecker <frederic@kernel.org>
+
+
+>  
+> -- 
+> 2.34.1
+> 
+
+-- 
+Frederic Weisbecker
+SUSE Labs
