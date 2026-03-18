@@ -1,135 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A8523A5E84;
-	Wed, 18 Mar 2026 09:11:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA10838CFE6;
+	Wed, 18 Mar 2026 09:16:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773825081; cv=none; b=jHNfIq/JM95yuZ0B2NR6NGpd38fPbqcBB5uTlk38SO1kzR/k/SRLKDWW3WnBQ/i0ON6Ax3EYeGMR9Y+cq43B5oHqtCdouMODoyHKMlat49Rv6IKIaxmaveNPC2zaFIvTg2G7kJ2Pk6+ImhjJWQF8ImT26ee8Qsvzfa8IdPZQdc8=
+	t=1773825363; cv=none; b=Z28uR9g1hipDXruQbFYNMQ0S3DNRqjGr9sVa2w7R0QsIJJa1pXnugFWPEdb99PVayfRF2kNrlFbCsrp59R85PDbWzVYQvlTMBQ+Tr1ySSyQSeddaxyoilbK+r/mbk+1lCgE6FtrCG6nat1bjrQ4M3CyE4joOvnC/qb/sh/IzV6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773825081; c=relaxed/simple;
-	bh=Kho/SfdXlAhptQOMVPd0Peuv9YWwg6RMPsq15weyqbI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QgJTPB1H51aQs8cXW4Oxyu6yJPgWbRfFQ/2mSLcQeuQrglZ8muEv+Slq5ehzJ5pqzpn5+1j559Ubr+2aQdYk3v7KLNoKUXtzR+Fx3EgssWkPhDKteCXl58HnYRpXsyE7Pv/KQPC8vkZ+8c0A19nBJp/u90rBmIVqIUTxwirnx8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qr3SdTAI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773825363; c=relaxed/simple;
+	bh=PpwWrd+2QR2uovzpbfqsfAWdIZqDhI4/F4guxYzlqsQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=swWE7CroLeXH/d7RcHAtzPHrtb8ot7HM/lkPOTOeeGtlzFoebXRjBR93v7J0oxDlZ0RztaREiM2O3bsmguUttndt8t4SdXJkSMd5/nfCFG9t8REKPGl8Ouls3qe9ajGztLX/Oe1x/hcI4+6hH9twseIpqCvtJceWqSlqBlYrcZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ivf84CT0; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qr3SdTAI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F16FC2BCB4;
-	Wed, 18 Mar 2026 09:11:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773825080;
-	bh=Kho/SfdXlAhptQOMVPd0Peuv9YWwg6RMPsq15weyqbI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Qr3SdTAIi4qOwu+yIHvjhmw59zZSAjdewzbb0m9ZfGJ9/udz07CPtcL21Mp4o2+Qu
-	 v58U1SN21lBLaXoMbxzhbd4pyZlbULjICPXuz9Bm5rAveNFrREXN2YeD/qPbRZ8tGK
-	 6aHFm4E/xvXPq+X/LXwaN79u+q6+GdCbkVWV/mC2Y/HZUYA2qeCyYYvnugibH9gilR
-	 Acgj+tMdZ+TnSGdQaugejfWnvh8nFblBiDfejra2EjwyjPx8jRZo6YG+CAR8dp+/HA
-	 pjXeRN/jNKPm7IOEyufCaPk9ZgMaAVby9nxbt85oqi80ExI6MXUbqKQ1DVUrglM9ON
-	 YPSiUwGnQRIXg==
-Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1w2mvu-00000002fpm-2lDF;
-	Wed, 18 Mar 2026 10:11:18 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH 08/14] docs: kdoc_item: fix a typo on sections_start_lines
-Date: Wed, 18 Mar 2026 10:11:08 +0100
-Message-ID: <d1e0f1d3f80df41c11a1bbde6a12fd9468bc3813.1773823995.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <cover.1773823995.git.mchehab+huawei@kernel.org>
-References: <cover.1773823995.git.mchehab+huawei@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ivf84CT0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773825362; x=1805361362;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=PpwWrd+2QR2uovzpbfqsfAWdIZqDhI4/F4guxYzlqsQ=;
+  b=Ivf84CT0K9lRbuQAWr84oGjvLCaaIXHlk6+YjukjRAaQxq0cEo6AllJF
+   Ze6wpGtRAECvTKlXvzXD9mOBF2d2WpwBjpVEgf9ZUo0CQCeGn+KaRh/1X
+   oBnOmhmGdPyT0L9qEPKzQ5qgToN4AHhSS5/khHNACethp155Px6Z2voIm
+   DlJb3HmAwlSBBINBX5a44mrXf6LLH/p04TQ3HolDFIfDZWvSeRKs6P/Tv
+   TOw8HRy3Xq/guJzmp3r7OrvfQvz/mrnwx0CTNjo3pRvgCt+nOdbQMGsSE
+   L/l305qw77EHUnVUjzZBEdKeNajiGyzMXJBAea2oJfkkPd11ZYXjoArq4
+   g==;
+X-CSE-ConnectionGUID: ZLSEYtO0RVWWfdFfPT1QSQ==
+X-CSE-MsgGUID: 2F80Gzb9Q1CgJqR6A6mgbA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11732"; a="86345769"
+X-IronPort-AV: E=Sophos;i="6.23,127,1770624000"; 
+   d="scan'208";a="86345769"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2026 02:16:01 -0700
+X-CSE-ConnectionGUID: 6O7M7J2OR6OTF280f791KA==
+X-CSE-MsgGUID: 2je+XzzIS4a6LIAiBrIMmw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,127,1770624000"; 
+   d="scan'208";a="222783308"
+Received: from cpetruta-mobl1.ger.corp.intel.com (HELO [10.245.244.34]) ([10.245.244.34])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2026 02:15:49 -0700
+Message-ID: <ada571ca-b624-4494-a6fe-c9ca803c6cc6@intel.com>
+Date: Wed, 18 Mar 2026 09:15:46 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v13 2/2] MAINTAINERS: gpu: buddy: Update reviewer
+To: Joel Fernandes <joelagnelf@nvidia.com>, linux-kernel@vger.kernel.org
+Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+ Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
+ Dave Airlie <airlied@redhat.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Koen Koning <koen.koning@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org, Nikola Djukic <ndjukic@nvidia.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Corbet <corbet@lwn.net>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Helge Deller <deller@gmx.de>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, John Hubbard <jhubbard@nvidia.com>,
+ Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
+ Edwin Peer <epeer@nvidia.com>, Alexandre Courbot <acourbot@nvidia.com>,
+ Andrea Righi <arighi@nvidia.com>, Andy Ritger <aritger@nvidia.com>,
+ Zhi Wang <zhiw@nvidia.com>, Balbir Singh <balbirs@nvidia.com>,
+ Philipp Stanner <phasta@kernel.org>, Elle Rhumsaa
+ <elle@weathered-steel.dev>, alexeyi@nvidia.com,
+ Eliot Courtney <ecourtney@nvidia.com>, joel@joelfernandes.org,
+ linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org
+References: <20260308180407.3988286-1-joelagnelf@nvidia.com>
+ <20260317220323.1909618-1-joelagnelf@nvidia.com>
+ <20260317220323.1909618-3-joelagnelf@nvidia.com>
+Content-Language: en-GB
+From: Matthew Auld <matthew.auld@intel.com>
+In-Reply-To: <20260317220323.1909618-3-joelagnelf@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Currently, there are 15 occurrences of section?_start_lines,
-with 10 using the plural way.
+On 17/03/2026 22:03, Joel Fernandes wrote:
+> Christian Koenig mentioned he'd like to step down from the reviewer
+> role for the GPU buddy allocator. Joel Fernandes is stepping in as
+> reviewer with agreement from Matthew Auld and Arun Pravin.
+> 
+> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
 
-This is an issue, as, while kdoc_output works with KdocItem,
-the term doesn't match its init value.
+Acked-by: Matthew Auld <matthew.auld@intel.com>
 
-The variable sections_start_lines stores multiple sections,
-so placing it in plural is its correct way.
-
-So, ensure that, on all parts of kdoc, this will be referred
-as sections_start_lines.
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- tools/lib/python/kdoc/kdoc_item.py   | 2 +-
- tools/lib/python/kdoc/kdoc_output.py | 2 +-
- tools/lib/python/kdoc/kdoc_parser.py | 6 +++---
- 3 files changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/tools/lib/python/kdoc/kdoc_item.py b/tools/lib/python/kdoc/kdoc_item.py
-index 5f41790efacb..fe08cac861c2 100644
---- a/tools/lib/python/kdoc/kdoc_item.py
-+++ b/tools/lib/python/kdoc/kdoc_item.py
-@@ -82,7 +82,7 @@ class KdocItem:
-         Set sections and start lines.
-         """
-         self.sections = sections
--        self.section_start_lines = start_lines
-+        self.sections_start_lines = start_lines
- 
-     def set_params(self, names, descs, types, starts):
-         """
-diff --git a/tools/lib/python/kdoc/kdoc_output.py b/tools/lib/python/kdoc/kdoc_output.py
-index 73d71cbeabb5..1b54117dbe19 100644
---- a/tools/lib/python/kdoc/kdoc_output.py
-+++ b/tools/lib/python/kdoc/kdoc_output.py
-@@ -389,7 +389,7 @@ class RestFormat(OutputFormat):
-             else:
-                 self.data += f'{self.lineprefix}**{section}**\n\n'
- 
--            self.print_lineno(args.section_start_lines.get(section, 0))
-+            self.print_lineno(args.sections_start_lines.get(section, 0))
-             self.output_highlight(text)
-             self.data += "\n"
-         self.data += "\n"
-diff --git a/tools/lib/python/kdoc/kdoc_parser.py b/tools/lib/python/kdoc/kdoc_parser.py
-index f6c4ee3b18c9..35658a7e72d5 100644
---- a/tools/lib/python/kdoc/kdoc_parser.py
-+++ b/tools/lib/python/kdoc/kdoc_parser.py
-@@ -140,7 +140,7 @@ class KernelEntry:
-         self.parametertypes = {}
-         self.parameterdesc_start_lines = {}
- 
--        self.section_start_lines = {}
-+        self.sections_start_lines = {}
-         self.sections = {}
- 
-         self.anon_struct_union = False
-@@ -220,7 +220,7 @@ class KernelEntry:
-                 self.sections[name] += '\n' + contents
-             else:
-                 self.sections[name] = contents
--                self.section_start_lines[name] = self.new_start_line
-+                self.sections_start_lines[name] = self.new_start_line
-                 self.new_start_line = 0
- 
- #        self.config.log.debug("Section: %s : %s", name, pformat(vars(self)))
-@@ -316,7 +316,7 @@ class KernelDoc:
-         for section in ["Description", "Return"]:
-             if section in sections and not sections[section].rstrip():
-                 del sections[section]
--        item.set_sections(sections, self.entry.section_start_lines)
-+        item.set_sections(sections, self.entry.sections_start_lines)
-         item.set_params(self.entry.parameterlist, self.entry.parameterdescs,
-                         self.entry.parametertypes,
-                         self.entry.parameterdesc_start_lines)
--- 
-2.53.0
+> ---
+>   MAINTAINERS | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index cd9505d3be60..3353cbf98be1 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -8946,7 +8946,7 @@ F:	include/drm/ttm/
+>   GPU BUDDY ALLOCATOR
+>   M:	Matthew Auld <matthew.auld@intel.com>
+>   M:	Arun Pravin <arunpravin.paneerselvam@amd.com>
+> -R:	Christian Koenig <christian.koenig@amd.com>
+> +R:	Joel Fernandes <joelagnelf@nvidia.com>
+>   L:	dri-devel@lists.freedesktop.org
+>   S:	Maintained
+>   T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
 
