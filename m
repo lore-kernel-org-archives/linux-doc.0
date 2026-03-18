@@ -1,249 +1,149 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F3623EFD3F
-	for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2026 19:08:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D07FC3F0AB8;
+	Wed, 18 Mar 2026 19:14:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773860934; cv=none; b=LivvkfLkHSCwM14j45O7diMBhttqKWkYCzS/aNBc2CZdlbhsfKkmh1bLZE7FMzOUeSAFGICTsSJbgdTE8pFVxkOhsJpFlvtOPJ4dFUGGOhgsh9Xmg0hs3qnjrV99OoKlTya3B/Myseg1naJuFoRjruA9+cnq0i9PkxE1a/6PrBA=
+	t=1773861263; cv=none; b=eimtSYMJh+tDXePRVNdpI8kcmOUxioKOj8Cr5OqaGKJnlzSFLH4sQpiIngixn0746GKRlO9rgukEwRSfa/bWgqdZSA5eSIBmto61rz6lKNVWrGExmLxuClbD2tZl5zQ542narpVCfYln+rBUqE1tFlUyarxPXBzYebRFc7TJWBA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773860934; c=relaxed/simple;
-	bh=kSP8f+EFeZqq/yt7CxcU+u1gw3rFxQ/0Ql60j3rS71o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Le1DqNTZDf6bsEZcr/OIK264j4WHb6E5IS6AtFb0gxZPBb/FZzfcQxhZNXD6BrcSUAKLJfq+xY167xH32rQAtDZzjjEQNp8k+8mcaFdHroF2C+bFOE3i87LQogQbz7v/zKbmPFjsSM7idkJKabLEf8ZKMEc2Dq35k8l1X8Z1XfU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DC2a0uCQ; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=OQqTBVhs; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1773861263; c=relaxed/simple;
+	bh=iaMJc/x0hbL4+hGkHwPxGwqgMJ633NGk0/QTlyPgmQ0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sDJYmiqCj0YwnwK+oZ6ATBcdvvRKz+olIS759dHJ7bFBrIYokOKcJKxOzGDLOFUV7s+TSEnbQsWMXvurobbhegKqiGKCNTKG7AqZJ5wEaM8Jo/B/a5L92a3OKF7SIbJNXSXzv6yXgXKm3OpZIYL1J//3TiVxVc+cdUEI/CtfauE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D+Iodw/R; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DC2a0uCQ";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="OQqTBVhs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1773860932;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=f9mKVwa6vsUmWHqI0OSFKEaOfvWTxQGO1i2JeECq6pA=;
-	b=DC2a0uCQPgv6mZwXJLFUjA8WN25gM26p7EDHuSGiQAKGyT8qeVI7QOgGnnScswnoxR4WPt
-	8FEeTjneOOUwXHJpO3pL2l/sHibFwLEIHkXuA9RQnKBVY5h70VzreFvR/EHdO0Y0eSN6VI
-	t1kiXyN4Giey2DAfkHi3drxVwXZ4ULM=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-569-SmnNJQ8EPnGn6uT3fFQ7yg-1; Wed, 18 Mar 2026 15:08:51 -0400
-X-MC-Unique: SmnNJQ8EPnGn6uT3fFQ7yg-1
-X-Mimecast-MFC-AGG-ID: SmnNJQ8EPnGn6uT3fFQ7yg_1773860931
-Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-89c4a339b6bso14222116d6.0
-        for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2026 12:08:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1773860931; x=1774465731; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=f9mKVwa6vsUmWHqI0OSFKEaOfvWTxQGO1i2JeECq6pA=;
-        b=OQqTBVhsjJD/yjCHKoaKeBncXZQ+qrLG1eafMmRm+Jr+awW6kq0wO6f0A97iGAj+iF
-         FgNe+zXPq8t45x5b8atpL/PhL7cwwaQ1skwb+TYxs0FY4AVZqdumhfT+iYZIcW9J5NR1
-         /AM3h/UzvP38ej5SMSEFNW/lLuGacQMY0frgQtPSulzqi1RIQJ1f0xpTyE1k+g+tRw2s
-         9+IS1OmO6N8bIPLEbUTap2jIWI7jS/fLiLSB6xBb/udZjwGQgODoZruGX8G0Tj5/VLTp
-         skfFPGGAp7e/02VnjElawHQl2FXMdGUT+VAjmy37emy1egvPFdA4+puwWC1w/CpIZ+06
-         1cCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773860931; x=1774465731;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=f9mKVwa6vsUmWHqI0OSFKEaOfvWTxQGO1i2JeECq6pA=;
-        b=dUrkkEz0ZTQ0a4Fu/DbQaqUfWlQWIs0KmD66Fnndaq/YuUFlmBsCou2DlGMxM9so47
-         BF2j/btgvJ1BY25wQxUYGpf20YNaTUGff3q0C5RIZabv4wCGvDbmIXQhwhypn2dwEq9q
-         x4aStP0kOFezfGRlcQfnKR2vwObr6k1w/3I5RIepVhy3JfOEot6X+zMFBB+z+z25gDh9
-         8eC2Fj68bcrXLHf7FZMhArrPBTfawxRrg8pCUndIe4JZygJIoNGFz6ocDhGDvIKcEhYe
-         EGAaCYIu6411jJmROufrBpUoarHWJM6RbYCYCt/TYQLPLHU1TMmBxaey+2uz/SNX7nBb
-         w38g==
-X-Gm-Message-State: AOJu0YzrGwJW7I2rijTw290KmZBYpPB9bN/dt2e/6m4aYX7m+34xAK+z
-	wZRi1EWpVOlpBjdVi0VmQUWYOBkNaCYEQFAJIkT4IOsPeKsVGftMSxlb9YFVaC8yEE/Pc6U73M3
-	CjoX7q2/OTsjIdlwi+ynVRfk7GFPJCf2Ski47W4oIWfapEIgku2vHuHWCVopAdw==
-X-Gm-Gg: ATEYQzw74E3pmjLdsg2pFs30sfR4R6ZwFSuoHoDpj5I7OiMMaFkjWnkOzkdugfg78Dv
-	9Ygaj3ePf1QzTu4RcdqY5dbQTBEjUThSW/b34aKn5MjgfRI+wptBfIdk/oR0xsuO+ntZLlOKeRJ
-	H04sUIeBdVLTAPc9c5g9LyzFMujBdnJUu5wnM85vLVetUsd/peUiJFY2j5t7icVo4VZ6W1xgif4
-	9+qVGlUGYQG63Jas+OIQn24n+1DJPiEbRi1cNKsVXeCvjVTRyozZU8X/Mh/7UzGz2GymYbUJgmF
-	2bnuQUhFE65b4dCOZkraNoNVBVLI0/zhdK2fPctzyOvPI0jt04xqn0iBWim6jNpzIdrP4U5wUjf
-	wMQ/ewWc6WIVzBDRBriBinVqa3l6TILpmv+xEPypP+970QjJ658m1AvkM0oav
-X-Received: by 2002:ad4:5762:0:b0:899:ff66:814f with SMTP id 6a1803df08f44-89c7743a5efmr10892636d6.21.1773860930495;
-        Wed, 18 Mar 2026 12:08:50 -0700 (PDT)
-X-Received: by 2002:ad4:5762:0:b0:899:ff66:814f with SMTP id 6a1803df08f44-89c7743a5efmr10891856d6.21.1773860929913;
-        Wed, 18 Mar 2026 12:08:49 -0700 (PDT)
-Received: from [192.168.10.111] (c-76-154-99-94.hsd1.co.comcast.net. [76.154.99.94])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89c6b7df8c0sm32931796d6.0.2026.03.18.12.08.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Mar 2026 12:08:49 -0700 (PDT)
-Message-ID: <1adffe75-cc91-4c55-bde7-9406bf656c72@redhat.com>
-Date: Wed, 18 Mar 2026 13:08:45 -0600
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D+Iodw/R"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773861261; x=1805397261;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=iaMJc/x0hbL4+hGkHwPxGwqgMJ633NGk0/QTlyPgmQ0=;
+  b=D+Iodw/R+pUMFEEAmMSZd59qwBs2KYY7W9Q89uuvyOn5lh0UPm6IFhL2
+   XFPRVzTUlxf7CyQ9qUGk9NQxZ5etTGa8QTWz9g0ELmtgvop2Hq+fXGfm+
+   uhft2F+bgEAf6xAPjP2olF5fVDUrLybeownqcDInnnck6zGlTXHgdng4M
+   OxLCF/4dbNGA/a5gPwcreGrAFXYE2hSM9S37prRohATKay+Sms6Kgp8lz
+   FCZKXVT/MNQhdBExgMczItiYi5ahXudSThIrRU5UyGxnGqhyRGmRz+dLC
+   8TWYiLx8OhloKnttEIwVVgVl6C6Q5x3COrb3C585vmIxVlJXX02/1jS33
+   w==;
+X-CSE-ConnectionGUID: 7mz/3sHJSUWPzcRndmInjA==
+X-CSE-MsgGUID: XtDaBOo8QempVQET6jOWgA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11733"; a="97536673"
+X-IronPort-AV: E=Sophos;i="6.23,127,1770624000"; 
+   d="scan'208";a="97536673"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2026 12:14:20 -0700
+X-CSE-ConnectionGUID: qojLmZmzTe6qpnWD1m/YZA==
+X-CSE-MsgGUID: 3YcMJB16TIqoozb7h5nrpg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,127,1770624000"; 
+   d="scan'208";a="227423817"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.240])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2026 12:14:16 -0700
+Date: Wed, 18 Mar 2026 21:14:14 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: rodrigo.alencar@analog.com
+Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH RFC v2 4/9] iio: frequency: ad9910: add digital ramp
+ generator support
+Message-ID: <abr5hoBIQLlcOk_v@ashevche-desk.local>
+References: <20260318-ad9910-iio-driver-v2-0-e79f93becf11@analog.com>
+ <20260318-ad9910-iio-driver-v2-4-e79f93becf11@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH mm-unstable v15 13/13] Documentation: mm: update the admin
- guide for mTHP collapse
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>, david@kernel.org
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, aarcange@redhat.com,
- akpm@linux-foundation.org, anshuman.khandual@arm.com, apopple@nvidia.com,
- baohua@kernel.org, baolin.wang@linux.alibaba.com, byungchul@sk.com,
- catalin.marinas@arm.com, cl@gentwo.org, corbet@lwn.net,
- dave.hansen@linux.intel.com, dev.jain@arm.com, gourry@gourry.net,
- hannes@cmpxchg.org, hughd@google.com, jack@suse.cz, jackmanb@google.com,
- jannh@google.com, jglisse@google.com, joshua.hahnjy@gmail.com,
- kas@kernel.org, lance.yang@linux.dev, Liam.Howlett@oracle.com,
- lorenzo.stoakes@oracle.com, mathieu.desnoyers@efficios.com,
- matthew.brost@intel.com, mhiramat@kernel.org, mhocko@suse.com,
- peterx@redhat.com, pfalcato@suse.de, rakie.kim@sk.com, raquini@redhat.com,
- rdunlap@infradead.org, richard.weiyang@gmail.com, rientjes@google.com,
- rostedt@goodmis.org, rppt@kernel.org, ryan.roberts@arm.com,
- shivankg@amd.com, sunnanyong@huawei.com, surenb@google.com,
- thomas.hellstrom@linux.intel.com, tiwai@suse.de, usamaarif642@gmail.com,
- vbabka@suse.cz, vishal.moola@gmail.com, wangkefeng.wang@huawei.com,
- will@kernel.org, willy@infradead.org, yang@os.amperecomputing.com,
- ying.huang@linux.alibaba.com, ziy@nvidia.com, zokeefe@google.com,
- Bagas Sanjaya <bagasdotme@gmail.com>
-References: <20260226031741.230674-1-npache@redhat.com>
- <20260226032706.234519-1-npache@redhat.com>
- <638caee3-af71-47c7-bdc8-a905d3143387@lucifer.local>
-From: Nico Pache <npache@redhat.com>
-Content-Language: en-US, en-ZM
-In-Reply-To: <638caee3-af71-47c7-bdc8-a905d3143387@lucifer.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260318-ad9910-iio-driver-v2-4-e79f93becf11@analog.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
+
+On Wed, Mar 18, 2026 at 05:56:04PM +0000, Rodrigo Alencar via B4 Relay wrote:
+
+> Add DRG channels with destination selection (frequency, phase, or
+> amplitude), operating mode control, configurable upper/lower limits,
+> increment/decrement step sizes, and step rate settings for the digital
+> ramp generator.
+
+...
+
+> +static ssize_t ad9910_drg_attrs_read(struct iio_dev *indio_dev,
+> +				     uintptr_t private,
+> +				     const struct iio_chan_spec *chan,
+> +				     char *buf)
+> +{
+> +	struct ad9910_state *st = iio_priv(indio_dev);
+> +	unsigned int type;
+> +	int vals[2];
+> +	u64 tmp64;
+> +
+> +	guard(mutex)(&st->lock);
+> +
+> +	switch (chan->channel) {
+> +	case AD9910_CHANNEL_DRG_RAMP_UP:
+> +		tmp64 = FIELD_GET(AD9910_DRG_STEP_INC_MSK,
+> +				  st->reg[AD9910_REG_DRG_STEP].val64);
+> +		break;
+> +	case AD9910_CHANNEL_DRG_RAMP_DOWN:
+> +		tmp64 = FIELD_GET(AD9910_DRG_STEP_DEC_MSK,
+> +				  st->reg[AD9910_REG_DRG_STEP].val64);
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	switch (private) {
+> +	case AD9910_DRG_FREQ_STEP:
+> +		type = IIO_VAL_INT_PLUS_MICRO;
+> +		tmp64 *= st->data.sysclk_freq_hz;
+
+> +		vals[0] = upper_32_bits(tmp64);
+> +		vals[1] = upper_32_bits((u64)lower_32_bits(tmp64) * MICRO);
+
+Not sure if wordparts.h fits here, esp. taking into account...
+
+> +		break;
+> +	case AD9910_DRG_PHASE_STEP:
+> +		type = IIO_VAL_INT_PLUS_NANO;
+> +		tmp64 *= AD9910_PI_NANORAD;
+> +		tmp64 >>= 31;
+> +		vals[0] = div_u64_rem(tmp64, NANO, &vals[1]);
+> +		break;
+> +	case AD9910_DRG_AMP_STEP:
+> +		type = IIO_VAL_INT_PLUS_NANO;
+> +		vals[0] = 0;
+> +		vals[1] = tmp64 * NANO >> 32;
+
+...open coded approach here. I think the open coded calculations.
+
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	return iio_format_value(buf, type, ARRAY_SIZE(vals), vals);
+> +}
 
 
+-- 
+With Best Regards,
+Andy Shevchenko
 
-On 3/17/26 5:02 AM, Lorenzo Stoakes (Oracle) wrote:
-> On Wed, Feb 25, 2026 at 08:27:06PM -0700, Nico Pache wrote:
->> Now that we can collapse to mTHPs lets update the admin guide to
->> reflect these changes and provide proper guidance on how to utilize it.
->>
->> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
->> Signed-off-by: Nico Pache <npache@redhat.com>
-> 
-> LGTM, but maybe we should mention somewhere about mTHP's max_ptes_none
-> behaviour?
-
-IIRC we decided to strictly leave that out of the manual. I used to have it in
-here. @david?
-
-> 
-> Anyway with that addressed:
-> 
-> Reviewed-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
-> 
->> ---
->>  Documentation/admin-guide/mm/transhuge.rst | 48 +++++++++++++---------
->>  1 file changed, 28 insertions(+), 20 deletions(-)
->>
->> diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
->> index eebb1f6bbc6c..67836c683e8d 100644
->> --- a/Documentation/admin-guide/mm/transhuge.rst
->> +++ b/Documentation/admin-guide/mm/transhuge.rst
->> @@ -63,7 +63,8 @@ often.
->>  THP can be enabled system wide or restricted to certain tasks or even
->>  memory ranges inside task's address space. Unless THP is completely
->>  disabled, there is ``khugepaged`` daemon that scans memory and
->> -collapses sequences of basic pages into PMD-sized huge pages.
->> +collapses sequences of basic pages into huge pages of either PMD size
->> +or mTHP sizes, if the system is configured to do so.
->>
->>  The THP behaviour is controlled via :ref:`sysfs <thp_sysfs>`
->>  interface and using madvise(2) and prctl(2) system calls.
->> @@ -219,10 +220,10 @@ this behaviour by writing 0 to shrink_underused, and enable it by writing
->>  	echo 0 > /sys/kernel/mm/transparent_hugepage/shrink_underused
->>  	echo 1 > /sys/kernel/mm/transparent_hugepage/shrink_underused
->>
->> -khugepaged will be automatically started when PMD-sized THP is enabled
->> +khugepaged will be automatically started when any THP size is enabled
->>  (either of the per-size anon control or the top-level control are set
->>  to "always" or "madvise"), and it'll be automatically shutdown when
->> -PMD-sized THP is disabled (when both the per-size anon control and the
->> +all THP sizes are disabled (when both the per-size anon control and the
->>  top-level control are "never")
->>
->>  process THP controls
->> @@ -264,11 +265,6 @@ support the following arguments::
->>  Khugepaged controls
->>  -------------------
->>
->> -.. note::
->> -   khugepaged currently only searches for opportunities to collapse to
->> -   PMD-sized THP and no attempt is made to collapse to other THP
->> -   sizes.
->> -
->>  khugepaged runs usually at low frequency so while one may not want to
->>  invoke defrag algorithms synchronously during the page faults, it
->>  should be worth invoking defrag at least in khugepaged. However it's
->> @@ -296,11 +292,11 @@ allocation failure to throttle the next allocation attempt::
->>  The khugepaged progress can be seen in the number of pages collapsed (note
->>  that this counter may not be an exact count of the number of pages
->>  collapsed, since "collapsed" could mean multiple things: (1) A PTE mapping
->> -being replaced by a PMD mapping, or (2) All 4K physical pages replaced by
->> -one 2M hugepage. Each may happen independently, or together, depending on
->> -the type of memory and the failures that occur. As such, this value should
->> -be interpreted roughly as a sign of progress, and counters in /proc/vmstat
->> -consulted for more accurate accounting)::
->> +being replaced by a PMD mapping, or (2) physical pages replaced by one
->> +hugepage of various sizes (PMD-sized or mTHP). Each may happen independently,
->> +or together, depending on the type of memory and the failures that occur.
->> +As such, this value should be interpreted roughly as a sign of progress,
->> +and counters in /proc/vmstat consulted for more accurate accounting)::
->>
->>  	/sys/kernel/mm/transparent_hugepage/khugepaged/pages_collapsed
->>
->> @@ -308,16 +304,19 @@ for each pass::
->>
->>  	/sys/kernel/mm/transparent_hugepage/khugepaged/full_scans
->>
->> -``max_ptes_none`` specifies how many extra small pages (that are
->> -not already mapped) can be allocated when collapsing a group
->> -of small pages into one large page::
->> +``max_ptes_none`` specifies how many empty (none/zero) pages are allowed
->> +when collapsing a group of small pages into one large page::
->>
->>  	/sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_none
->>
->> -A higher value leads to use additional memory for programs.
->> -A lower value leads to gain less thp performance. Value of
->> -max_ptes_none can waste cpu time very little, you can
->> -ignore it.
->> +For PMD-sized THP collapse, this directly limits the number of empty pages
->> +allowed in the 2MB region. For mTHP collapse, only 0 or (HPAGE_PMD_NR - 1)
->> +are supported. Any other value will emit a warning and no mTHP collapse
->> +will be attempted.
->> +
->> +A higher value allows more empty pages, potentially leading to more memory
->> +usage but better THP performance. A lower value is more conservative and
->> +may result in fewer THP collapses.
->>
->>  ``max_ptes_swap`` specifies how many pages can be brought in from
->>  swap when collapsing a group of pages into a transparent huge page::
->> @@ -337,6 +336,15 @@ that THP is shared. Exceeding the number would block the collapse::
->>
->>  A higher value may increase memory footprint for some workloads.
->>
->> +.. note::
->> +   For mTHP collapse, khugepaged does not support collapsing regions that
->> +   contain shared or swapped out pages, as this could lead to continuous
->> +   promotion to higher orders. The collapse will fail if any shared or
->> +   swapped PTEs are encountered during the scan.
->> +
->> +   Currently, madvise_collapse only supports collapsing to PMD-sized THPs
->> +   and does not attempt mTHP collapses.
->> +
->>  Boot parameters
->>  ===============
->>
->> --
->> 2.53.0
->>
-> 
 
