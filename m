@@ -1,189 +1,122 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout02.his.huawei.com (canpmsgout02.his.huawei.com [113.46.200.217])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D8EC3BFE58
-	for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2026 10:59:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773831581; cv=pass; b=RrrWUELxkSuNqQ/swoQg+2gDE2rZpRXwdAkCfTMnZTIszf+8/GS5dhugPoY8s1+4rNC8Fwzl1dxICoJyTUdPpeeNc+Z/XWMPDFcLFMt/9De4XYBYFwTX9HJ9SlYJnHiPbq5uz4dqoSy4HuUfsxW+rMH1oHCNKkVQo/zFdKC4+04=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773831581; c=relaxed/simple;
-	bh=Pgoh1PKkU8EkNum5z9YJaIpEiyCNGWxAB1mlPafIbAY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jzyytJ48X0Kk7GHJnZeDpueFZWqXKSnXKUx08BkZtoAt/9iVd6OGaFxEL6hBDlnvzYQtw2KpS130FDDy4xgbRKG/D/BUTNnDlcgmDpA0gWxj7qZGhOxrPB0lkhf7rYhf0DUN1fCYKHtRTO7T3lnkodWdMGQMJNPJugB68YDw5yk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=JEdT/JNG; arc=pass smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B06D3CB2DA;
+	Wed, 18 Mar 2026 11:04:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.217
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773831857; cv=none; b=t47E/xXYl5dirZK6d69TYySvLMA2Q1ghQOnI90lfHIdyWWHWqIbRB+VxteMXCatjV9G5hYTMhwihXjGBMs1n3oU1sfTOKUcYYlYHlF5WsS0XYjPmgbQWGm2XYgtU7wcgH4jWdi+JAakQSpi/BZA3si0z47hgUNeHYhZhYMatimE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773831857; c=relaxed/simple;
+	bh=5CBvTE3VxZKOYDn+lTEGcCVtNhzainWFyveh6ewR5wo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=dhVuIyn4tRJ03kx5HzaJNhAGJi38jLS23c0jdXuBrkZnfcJyogPNNYMKVGgrHh1sieUFIxfDYIJ70wGZggW0BZebTNb/aUWelie+MXZBtB8sV+hW9gFBXD9XbFAXIOTFvlRcT/Wy4e4oK07DhL9s3lquFwYGeqDM79gRSVpOC50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=h-partners.com; dkim=pass (1024-bit key) header.d=h-partners.com header.i=@h-partners.com header.b=lk8ZWqHL; arc=none smtp.client-ip=113.46.200.217
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=h-partners.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JEdT/JNG"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-43a03cb1df9so6702624f8f.1
-        for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2026 03:59:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773831573; cv=none;
-        d=google.com; s=arc-20240605;
-        b=CAr+3tfjvTK0lEaxbb0jkro5WcX1qs23RnPGu3DRXyfkd4tA18I0oZ69oTDyY9ZPSt
-         J1IvpjmpG4SZtEMA5iJ+BMawEv+HcxbUQsQUd+zwhy7ipf9nUYyugSzdnSwomKYcefdz
-         TpTmPXff9r5agZwbTGA6ix3k2wwqUHE7vXSucaiJFLXBxXVPM2qF5QDS7PpbIpQ3LPNK
-         y1uxLIBB+c2aK6//nUz/QGj0PHEtTkiV2++8IDbggKjk2IX8O8ebnFnmLZjqDGvKUhtE
-         5eBM51Tde7MPEdLcIV5F5KiaIKjKqlkjDZfokvFRGguGorTMzyv90HX3ac6xBNl01/9Z
-         lXlg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=S/1Satukh6eOX2Q2yp9irpav0rskLC7MIDb5UTQcoh4=;
-        fh=/OVc3C67EgTaIjjH07H/NLprPJZBKvNHA2pj+Y0oEXo=;
-        b=M4B+a/zCQiFbSsuHwJO3jN5DSDHt2gUjkhWe2i6HNROA4F761Vse+U7RiFXz6Aabv9
-         gddGB1F0XTqEyLi1rGLb9tI3CaDZTtxSSrYne55xj3lphiwnB1kTH8N1LqxisTLnrB+u
-         d3fh4YN0ddkqiF4veHJvhidETkf/d4Mm3Hje9B9nkEUtembrXwVU5yc9MpkDLYXxX8Tq
-         /XA7P0CkRSiPWfxXVAZyi0igiPtWLQjRoEOlSQQ+7mNKmu60NeHmNcbxSfiMS7b9EICK
-         CHPJ0w0svTht/KAsQwydlnDzV0kfcAYjkiCBpBqKOTuCx61wX5UDDzco9GJGFcfXLpsb
-         6c/w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1773831573; x=1774436373; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=S/1Satukh6eOX2Q2yp9irpav0rskLC7MIDb5UTQcoh4=;
-        b=JEdT/JNGEUJVFgKNl4stdFsMaonzwem7OZEJcq7ozT6Dxzvoir14qgUs05Jmk/jHFS
-         jJcLf9UaOdLOcQZLiEFSZ0zCtXvHlNAXWIJLhnorMqOcrl/Vg6wOcW1BQrjHtMKLBcQz
-         68cql43rzoPp1kYLuEqYQrKUNeC7x7O3WqFrXy2bb1yJBI3X6S2JQFV5qeGfvxWtHmDa
-         u4v86Skvq8EwgVgzEBD80nIELKRW1LJqhkl8yhftyzK/cO1KHii53b4l7giD1zh7Ua5Q
-         aP3drDjTrt5Nh9UvJF6v3m2InTz+ZbkP5rHr7/eIK69gNMGbwqiD7LjSCi+lJ82AlgEv
-         3BQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773831573; x=1774436373;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=S/1Satukh6eOX2Q2yp9irpav0rskLC7MIDb5UTQcoh4=;
-        b=Iz2oyy4dglNhMDZb6jWxABCJf2msCHjmx9CqbfCvsVGQFpJzburG6G6TR6GFYly1dW
-         KrjrctJsLwqFg6kIHvOpo0Nz05rk4K3A2aHWuXD6z53ZvXSotNiDwSs4gKpRE4/8ZIAQ
-         BpYU9mNqb72hEEL/DDCN4Q0qL7+om3EupvS66JkE9sPQiReWoOXk6luhU81eT7XhrzKQ
-         ZflkWeHRbpC7RE4IgwOCiWkydMruEpHNepsxyta+1vGefiPbPMK843bxPcL2v4OA03mJ
-         Y70v4NHqjZqP2l7ncr9MLcUAIMhhyztrvs7qSr2oWf/xhf0eqdXSWCYfOwj02h6/ulip
-         7UAA==
-X-Forwarded-Encrypted: i=1; AJvYcCWzUO/9B1Jkf8cCija6DIKtuFThr9kTHjoRtAMH/720BDHptTwV7Lc3JGrEFpPS517ZYibyOsVRJM0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxc7GG5baOiNT2q996pKWdboxJQMsC5iSb7GBANXKYmwCu7GGp3
-	VGxXl+gxmvRKBMOWXFfOmt07ggDIzgI0wNziuu3K95m2vFSyR3K8jcgaHqHOFk9cBzOdGZ4PEQ+
-	iPPS7SBGPo649rfH9dQiSAYRU4G7N9+68FSn3wioy
-X-Gm-Gg: ATEYQzz3C2KiZ+GnoRP8cOlgErzymenFQYsQGMgBInZXirqESYEz5Gqg3slOQqdkS4g
-	KIzkE0wkbEigXODwmZ8MoXz3oF9dK7Tws4JOgzuY/sDY2YMqJ5hQL2wBm4Yt6Q4YwW5HwIHTfnF
-	UQBT74UCLlX53VfAM+B2+A5VsoNiEnBnsVbuVGOp+LC0iWUz0IYoO3EwNu7L0lYp0MVHOqZzecR
-	lV0ahta0f1zwgKwYqxrHIbeJXa5PK3TmhISvbI5z/eZuo9p/gj0+JPTfVpoms625DlkymI3CM9M
-	kr/zGtDNuK+zeTLby0j0I713MiE+Dc4iz9IPGIuO1AjCm/rHDBc98PRLD8fz7GY87C5EVw==
-X-Received: by 2002:a05:6000:2dc6:b0:439:c62a:6dc2 with SMTP id
- ffacd0b85a97d-43b527c8385mr4835579f8f.41.1773831572498; Wed, 18 Mar 2026
- 03:59:32 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=h-partners.com header.i=@h-partners.com header.b="lk8ZWqHL"
+dkim-signature: v=1; a=rsa-sha256; d=h-partners.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=2FYu3eYmosXCPk9EhFLN1puzsoxOcAP2QckJBCO/sU4=;
+	b=lk8ZWqHLIcI0LXKJaHrGm2T5kDXFOOiaf5ImfkVWeD6oo2Zzhi0Z/a2P8BX7+qf8P6jD7U/jB
+	wpn8TX8oB1NSWdTe1nUPssAs3XKF8XHcrUhhrNrL3kOTGITWo14UthyQPVAeA1JsVLR5d/KLuZ/
+	JGZ3b9EOpSfLAkwE2shDR50=
+Received: from mail.maildlp.com (unknown [172.19.162.223])
+	by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4fbQmQ0HBkzcb1V;
+	Wed, 18 Mar 2026 18:58:30 +0800 (CST)
+Received: from kwepemf100008.china.huawei.com (unknown [7.202.181.222])
+	by mail.maildlp.com (Postfix) with ESMTPS id 3C81940569;
+	Wed, 18 Mar 2026 19:04:09 +0800 (CST)
+Received: from [10.174.179.37] (10.174.179.37) by
+ kwepemf100008.china.huawei.com (7.202.181.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.36; Wed, 18 Mar 2026 19:04:07 +0800
+Message-ID: <57e9ddeb-f767-8eae-1123-0d9085fe01f0@huawei.com>
+Date: Wed, 18 Mar 2026 19:04:06 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260317201710.934932-1-joelagnelf@nvidia.com>
- <20260317201710.934932-2-joelagnelf@nvidia.com> <46986da6-8c89-475c-8561-964adaa7d034@nvidia.com>
- <abppV3e91iVzplcv@google.com> <DH5UOS96171T.Z8XSRX583Q60@nvidia.com>
-In-Reply-To: <DH5UOS96171T.Z8XSRX583Q60@nvidia.com>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Wed, 18 Mar 2026 11:59:20 +0100
-X-Gm-Features: AaiRm53Ixe1xgNfLSphN46y2ra7z4xTRu79njkh2iKHrEPi4sPbqBJ9Zi7PRuxY
-Message-ID: <CAH5fLgjUMaC5v3SERZLosdD1ajU-fvKSgNq6OgbBBcoTS21-Sg@mail.gmail.com>
-Subject: Re: [PATCH v13 1/1] rust: interop: Add list module for C linked list interface
-To: Alexandre Courbot <acourbot@nvidia.com>
-Cc: Joel Fernandes <joelagnelf@nvidia.com>, linux-kernel@vger.kernel.org, 
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Trevor Gross <tmgross@umich.edu>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Danilo Krummrich <dakr@kernel.org>, Dave Airlie <airlied@redhat.com>, David Airlie <airlied@gmail.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, Koen Koning <koen.koning@linux.intel.com>, 
-	Nikola Djukic <ndjukic@nvidia.com>, Philipp Stanner <phasta@kernel.org>, 
-	Elle Rhumsaa <elle@weathered-steel.dev>, Jonathan Corbet <corbet@lwn.net>, 
-	Alex Deucher <alexander.deucher@amd.com>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Jani Nikula <jani.nikula@linux.intel.com>, 
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Tvrtko Ursulin <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>, 
-	Matthew Auld <matthew.auld@intel.com>, Matthew Brost <matthew.brost@intel.com>, 
-	Lucas De Marchi <lucas.demarchi@intel.com>, 
-	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
-	Helge Deller <deller@gmx.de>, John Hubbard <jhubbard@nvidia.com>, 
-	Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>, Edwin Peer <epeer@nvidia.com>, 
-	Andrea Righi <arighi@nvidia.com>, Andy Ritger <aritger@nvidia.com>, Zhi Wang <zhiw@nvidia.com>, 
-	Balbir Singh <balbirs@nvidia.com>, alexeyi@nvidia.com, 
-	Eliot Courtney <ecourtney@nvidia.com>, dri-devel@lists.freedesktop.org, 
-	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
-	amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
-	intel-xe@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v6 21/40] arm_mpam: resctrl: Hide CDP emulation behind
+ CONFIG_EXPERT
+Content-Language: en-US
+To: Ben Horgan <ben.horgan@arm.com>
+CC: <amitsinght@marvell.com>, <baisheng.gao@unisoc.com>,
+	<baolin.wang@linux.alibaba.com>, <carl@os.amperecomputing.com>,
+	<dave.martin@arm.com>, <david@kernel.org>, <dfustini@baylibre.com>,
+	<fenghuay@nvidia.com>, <gshan@redhat.com>, <james.morse@arm.com>,
+	<jonathan.cameron@huawei.com>, <kobak@nvidia.com>, <lcherian@marvell.com>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<peternewman@google.com>, <punit.agrawal@oss.qualcomm.com>,
+	<quic_jiles@quicinc.com>, <reinette.chatre@intel.com>,
+	<rohit.mathew@arm.com>, <scott@os.amperecomputing.com>,
+	<sdonthineni@nvidia.com>, <tan.shaopeng@fujitsu.com>,
+	<xhao@linux.alibaba.com>, <catalin.marinas@arm.com>, <will@kernel.org>,
+	<corbet@lwn.net>, <maz@kernel.org>, <oupton@kernel.org>,
+	<joey.gouly@arm.com>, <suzuki.poulose@arm.com>, <kvmarm@lists.linux.dev>,
+	<linux-doc@vger.kernel.org>
+References: <20260313144617.3420416-1-ben.horgan@arm.com>
+ <20260313144617.3420416-22-ben.horgan@arm.com>
+From: Zeng Heng <zengheng4@huawei.com>
+In-Reply-To: <20260313144617.3420416-22-ben.horgan@arm.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
+ kwepemf100008.china.huawei.com (7.202.181.222)
 
-On Wed, Mar 18, 2026 at 11:53=E2=80=AFAM Alexandre Courbot <acourbot@nvidia=
-.com> wrote:
->
-> On Wed Mar 18, 2026 at 5:59 PM JST, Alice Ryhl wrote:
-> > On Tue, Mar 17, 2026 at 04:18:46PM -0400, Joel Fernandes wrote:
-> >>
-> >>
-> >> On 3/17/2026 4:17 PM, Joel Fernandes wrote:
-> >> > Add a new module `kernel::interop::list` for working with C's doubly
-> >> > circular linked lists. Provide low-level iteration over list nodes.
-> >> >
-> >> > Typed iteration over actual items is provided with a `clist_create`
-> >> > macro to assist in creation of the `CList` type.
-> >> >
-> >> > Cc: Nikola Djukic <ndjukic@nvidia.com>
-> >> > Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
-> >> > Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
-> >> > Acked-by: Alexandre Courbot <acourbot@nvidia.com>
-> >> > Acked-by: Gary Guo <gary@garyguo.net>
-> >> > Acked-by: Miguel Ojeda <ojeda@kernel.org>
-> >> > Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
-> >> > ---
-> >> >  MAINTAINERS                 |   8 +
-> >> >  rust/helpers/helpers.c      |   1 +
-> >> >  rust/helpers/list.c         |  17 ++
-> >> >  rust/kernel/interop.rs      |   9 +
-> >> >  rust/kernel/interop/list.rs | 342 +++++++++++++++++++++++++++++++++=
-+++
-> >> >  rust/kernel/lib.rs          |   2 +
-> >> >  6 files changed, 379 insertions(+)
-> >> >  create mode 100644 rust/helpers/list.c
-> >> >  create mode 100644 rust/kernel/interop.rs
-> >> >  create mode 100644 rust/kernel/interop/list.rs
-> >> >
-> >> > diff --git a/MAINTAINERS b/MAINTAINERS
-> >> > index 4bd6b538a51f..e847099efcc2 100644
-> >> > --- a/MAINTAINERS
-> >> > +++ b/MAINTAINERS
-> >> > @@ -23251,6 +23251,14 @@ T:        git https://github.com/Rust-for-L=
-inux/linux.git alloc-next
-> >> >  F:        rust/kernel/alloc.rs
-> >> >  F:        rust/kernel/alloc/
-> >> >
-> >> > +RUST [INTEROP]
-> >> > +M:        Joel Fernandes <joelagnelf@nvidia.com>
-> >> > +M:        Alexandre Courbot <acourbot@nvidia.com>
-> >> > +L:        rust-for-linux@vger.kernel.org
-> >> > +S:        Maintained
-> >> > +T:        git https://github.com/Rust-for-Linux/linux.git interop-n=
-ext
-> >> > +F:        rust/kernel/interop/
-> >>
-> >> Sorry, I forgot to add an additional F: for the rust/kernel/interop.rs=
- file.
-> >> Danilo/Miguel, do you mind adding this when applying?
-> >
-> > I think you should consider a mod.rs file to avoid this. It's tiny, and
-> > just re-exports submodules, so I don't think the "mod.rs name in file
-> > view" concern is that big, and IMO having files related to interop/
-> > inside the directory is much better than having them outside.
->
-> Ah, so there is a rationale for using a `mod.rs` file after all. What
-> are the project-wide guidelines re: `foo.rs` vs `foo/mod.rs`?
+Hi Ben,
 
-I'm not sure we have discussed it in detail yet. Both are used in-tree.
+On 2026/3/13 22:45, Ben Horgan wrote:
+> When CDP is not enabled, the 'rmid_entry's in the limbo list,
+> rmid_busy_llc, map directly to a (PARTID,PMG) pair and when CDP is enabled
+> the mapping is to two different pairs. As the limbo list is reused between
+> mounts and CDP disabled on unmount this can lead to stale mapping and the
+> limbo handler will then make monitor reads with potentially out of range
+> PARTID. This may then cause an MPAM error interrupt and the driver will
+> disable MPAM.
+> 
+> No problems are expected if you just mount the resctrl file system
+> once with CDP enabled and never unmount it. Hide CDP emulation behind
+> CONFIG_EXPERT to protect the unwary.
+> 
+> Signed-off-by: Ben Horgan <ben.horgan@arm.com>
+> ---
+> Adding this ugliness in the hope of avoiding patch churn and extra
+> reviewer work. I am looking into the resctrl changes needed to fix this.
+> ---
+>   drivers/resctrl/mpam_resctrl.c | 12 ++++++++++++
+>   1 file changed, 12 insertions(+)
+> 
+> diff --git a/drivers/resctrl/mpam_resctrl.c b/drivers/resctrl/mpam_resctrl.c
+> index 903d1a0f564f..cab3e9ccb5c7 100644
+> --- a/drivers/resctrl/mpam_resctrl.c
+> +++ b/drivers/resctrl/mpam_resctrl.c
+> @@ -82,6 +82,18 @@ int resctrl_arch_set_cdp_enabled(enum resctrl_res_level rid, bool enable)
+>   	u32 partid_i = RESCTRL_RESERVED_CLOSID, partid_d = RESCTRL_RESERVED_CLOSID;
+>   	int cpu;
+>   
+> +	if (!IS_ENABLED(CONFIG_EXPERT) && enable) {
+> +		/*
+> +		 * If the resctrl fs is mounted more than once, sequentially,
+> +		 * then CDP can lead to the use of out of range PARTIDs.
+> +		 */
+> +		pr_warn("CDP not supported\n");
+> +		return -EOPNOTSUPP;
+> +	}
+> +
+> +	if (enable)
+> +		pr_warn("CDP is an expert feature and may cause MPAM to malfunction.\n");
+> +
 
-Alice
+Agree that a proper fix will require modifications to resctrl to handle 
+the limbo state across mount sessions. Hiding CDP behind CONFIG_EXPERT 
+is acceptable as a short-term mitigation to prevent users from 
+accidentally hitting the mentioned issue.
+
+Reviewed-by: Zeng Heng <zengheng4@huawei.com>
