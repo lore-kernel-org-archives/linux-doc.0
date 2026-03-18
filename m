@@ -1,136 +1,91 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD9083D75CB
-	for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2026 14:31:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773844287; cv=pass; b=VLaO21npgsGTWZRdoHC/tEGKJ3H4crk8uFUgCppzDzvOImuANCHd6RWUFA4TorcvVoVOi50xhpzSEO9nYPBJ+ZCEv5G0z/Ijccwu4Gr/nXDh9hZ1gaww/AjWWw3oJuxYSSDyHqzleKTMGHYExToZ1rKTXi0zhQ2zNCfdew9oPj0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773844287; c=relaxed/simple;
-	bh=yo/HzWSmo18kRP45/efRc37F39eN0N4aihI2I0DZzEM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gUWyEKjF4XMHmw9aoryhb5vueNCz/94K8L5kE4Tl0MeHyQvTWtWdXQJuv+9g4EniiQ+AGlD35nfh4nzdI/LWteeVv6l4ceI+kaZ+dKPrZssCH9Okiv7z2SlBpDagegOyjJiTNP2Kpb3j76X4ynG53RgYf78IbBnmpa7jmfuR27A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Uvg6ZO4y; arc=pass smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 987933D9024;
+	Wed, 18 Mar 2026 14:32:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773844353; cv=none; b=NF20/xqmCg6UQ/ZDTjeUOnCQX6Sno2FPywL8vBogzAxfPVbcsaWHRx3x65E2cTTnboV6jwCVuN1NbuPpG6g54bSlryqsD5xPoG895Or5HJvmxt8R5AT1CLKeJybL41XLv7dT8WJNpeH/VeMN0X1uiV/U8TqL9eEaf+J+gdZQoGc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773844353; c=relaxed/simple;
+	bh=BkmNwvxpHD2rLSHreIl/KbDAd8IvuTpcKZIoErK/PhU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nDWr0bJo4Ai5aJMv0mvOa1xg8EIjeBDXSfMX44nUhnG11sBPyhfWfWkR9QrD1om0+fDPq7Tn0wM5NO5eDfrfAhDUHa1bWek4qgV7G4T32084hYo0WNtNffOsb4R/pBDK/cKWFldW355Co4IuhOqDBR3/KL4gYyeXsbwFV2yvy+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bMiZeZar; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Uvg6ZO4y"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-439b7c2788dso4401003f8f.1
-        for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2026 07:31:26 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773844285; cv=none;
-        d=google.com; s=arc-20240605;
-        b=FAl4zB1U2bzGctGyv3Dg7PRKTbDekF7Ss2yauTUF35j2YkNrz81c1sulaYDeBMWCIk
-         sHSiNxO7BC3c9TteLa3Pd0v9eXChYGVQgF50OlgaxQ6y3iGrs2i7v4+anqVSJlgwH/Dv
-         FaZh+JaN2+ZdWpwIWGmGJk4HAVUxRVrCy3+wFr/BV/ANNtv6ztc8NlgMiuNDYHNFO7Na
-         tiX3N0hXxP+8ZuEUNZmJQkXqLVUgRBOuJysEFIjd4LmkzKLYe/vrgH5z3Oa0TlXO/qAS
-         cqLDO/PQW/kvaWjOHNJivWgXB/9qi75wq4C+IpEGlyKCQSG+ICnizn+yjyGggZgtk8Xu
-         XlGA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=9Oke8F3j0iNZ3cSK0OCeOVMy+GmzWDcEKfA0PeIuC3c=;
-        fh=ebJ2AO4PlSiDjWMMM/KHWkwLsCY357h6gFod2om5a9c=;
-        b=gUrtJSP77mHi7ou1Bzn4K0SmfNuraOqLljMu3xjisIuELnPRpYT/VHlvSPKdM8l4pZ
-         UYuB5HubDjdKlvt+0piSZPE5o9tafSmBWyvkxneuioima8Gn1ELoW8U//lFKqYHqLh7p
-         EWpgHZbouDT2TB8XlXWFGZbkcGnI+W/DXdVjVgCYoK1RXyRgvSq3uv6Q1p0o12tcg+W4
-         LoAyYxAhjxSSgVk9VnZ7L4P7dAhryT0ZCTmYcwQ54D7SBKJkfng0cZFMMD3MZIpjKr8E
-         VnJWMZqPdEGTrdw755kRAEnPSxG5PvbLesnjMyASH7bk908RrzUqthisIJ9yzIR1xQzQ
-         Lygw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1773844285; x=1774449085; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9Oke8F3j0iNZ3cSK0OCeOVMy+GmzWDcEKfA0PeIuC3c=;
-        b=Uvg6ZO4yuFbCNzqx5IgkFjE5jT0+fReRtVmbA59JONr6Xm2hBLufDuAl+HwRA3MumJ
-         uN812HoVq01bIipHv2xtXa3ZZHJublyGr73DFSuYVnGafGadt8oAaJIEyXKmeZicpw6F
-         4x74RW1WCz65dZX/ujm1LnMPGWHnjCrihwE3HSRHT6XrrXCfrAxRnpYT8EmQsH9cMYyh
-         H1+e88ZdZwC2RuAJCbrUmoqjlwbzbmt/4ZLu5r/Ym52d7SUuYfAAjkMIZwyC+Vcmwbdv
-         7dbRLq1muvFqVMPphVbH+YS57ehpRFi60j78tAgyWXBiRz8oKCVK0wgDNLzolcyzVVjF
-         A1nA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773844285; x=1774449085;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=9Oke8F3j0iNZ3cSK0OCeOVMy+GmzWDcEKfA0PeIuC3c=;
-        b=UYQluWJeVZgL+sRxfMVGiJ5ZdQoXJ+uz9gok4IsSlqmSWtp871Ur8KGZm1AAamiZUP
-         t5zZknPrRuCV4EielX/qeiqo8ZVYVbE+3xAQk0q/gqyAQ5sDJRiObUD2chPaZef4/ivv
-         9My/CjtlAAZsAHa/MRmiKtG6phNRI/TmduAc73neWHmknhfWsfZHMgjmcJ0n7hU+x6Vd
-         NN6j8HKJKjVrlCv9/EgfykewVsOYuFbakXHXYi3J2K2LFTDFExJec6AdbLwRG0SKo2AA
-         4cKSFz/uAMquMwx8JLZP/j0vnzmxVSNbhwHZP0gMlmRLB9cn3TgRB3jDCh/LmBttDI7U
-         dqzw==
-X-Forwarded-Encrypted: i=1; AJvYcCUh55qVS26LxtqMyraxoty7uaS8WaFggbyw7gPppYM+EvrrH7L6eo3ZPm3HGegjlLIph7uBGKiKM+o=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy0fWwx0sLwW9Fmnk6SV6WaW+SAmKnBe44c51XdAHjQj9CnXBTj
-	xhlYVoLcw2iKYAHJeOHT4oilLfh9oHJaB6HoRpiDjRUvaPl4n5oW4NbaCgqswZOA/6WiTObwDaG
-	JhfnCwbUc6tU3DAD2dV5r1AIBqKjqkyyK7mY/qTjS
-X-Gm-Gg: ATEYQzwYJhj/0LkfJz4iMuUOy8kitV/BjbibGhcDxFcAxQGQWuVQmfVwjPONsqo9Si7
-	M6tzMX7Ot6vEDfMYhixse5FuB68wG/7RUF6sfd+Q+p9go23e7Y/0aN9KYg6SnhDW08uMjQuAdzG
-	LfTehrPtselbUMgE/0qEIpLDJDEVVsHczW19DClAPYajI4RNaUVJq4Xc/IJ7NMVNn5KTijwqXSS
-	PfgduHwbwrvVqFFklXVr1BteQ8Hb/gkMLs42pbnGc3+SDLEcz81VraiZiKbgMyBW8HVOpifgtVe
-	GIscTW4TXmACb0TIm59s/4hrTP22aYvn2hz/Hpfz3PxgZkdLk3iP5ta0DO1azMsI55bWiw==
-X-Received: by 2002:a5d:5f43:0:b0:439:ca85:8848 with SMTP id
- ffacd0b85a97d-43b527aa344mr6004289f8f.16.1773844284463; Wed, 18 Mar 2026
- 07:31:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bMiZeZar"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17D4BC19421;
+	Wed, 18 Mar 2026 14:32:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773844353;
+	bh=BkmNwvxpHD2rLSHreIl/KbDAd8IvuTpcKZIoErK/PhU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bMiZeZarKo0I6In8lAdDvOsPtB+Akkqq5eFK8sm/YRM5xM4gSk3GswcKWLx9V8CPt
+	 +6YYl1xS3tNFIQTKhM40jfz1qPoTtm1elg0NV868yjkd5chJjTqeJgEOV6/CjRxzkT
+	 mQDFtdNKBQ/xnnBOebXJ71uzotCfxEva6Zj23n1drQV+9WtCXRpVecdCosRr9wxlY6
+	 vtHhNHxZOYqX6DbExKyJvA7EW6fnoLWGHN6VIBgcwGz0PUL81aWr7tYmmCfeBlaDZE
+	 JbKmbSr+/Nh08b6WAlxfXt1VYRX2lavS093MPyeFA2L5/Ib4WDc+a58iauuYvq8QNp
+	 QgG84UCJntIbA==
+Date: Wed, 18 Mar 2026 10:32:31 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	workflows@vger.kernel.org, tools@kernel.org, x86@kernel.org,
+	Thomas Gleixner <tglx@kernel.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Cyril Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>,
+	Jake Edge <jake@lwn.net>,
+	David Laight <david.laight.linux@gmail.com>,
+	Askar Safin <safinaskar@zohomail.com>,
+	Gabriele Paoloni <gpaoloni@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH 1/9] kernel/api: introduce kernel API specification
+ framework
+Message-ID: <abq3f5vdcwRXGJGX@laps>
+References: <20260313150928.2637368-1-sashal@kernel.org>
+ <20260313150928.2637368-2-sashal@kernel.org>
+ <87h5qe9wig.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260317201710.934932-1-joelagnelf@nvidia.com>
- <20260317201710.934932-2-joelagnelf@nvidia.com> <46986da6-8c89-475c-8561-964adaa7d034@nvidia.com>
- <abppV3e91iVzplcv@google.com> <DH5UOS96171T.Z8XSRX583Q60@nvidia.com> <CANiq72=bmJ_GWKowAgv+DWQ8FcWK_HePwjaVgeDmRH+gVD-z5g@mail.gmail.com>
-In-Reply-To: <CANiq72=bmJ_GWKowAgv+DWQ8FcWK_HePwjaVgeDmRH+gVD-z5g@mail.gmail.com>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Wed, 18 Mar 2026 15:31:12 +0100
-X-Gm-Features: AaiRm51O3ZORqMPG2oSnP3bbIvsHXlypg7QXuPo86XIFyKOog2BgXzbGuVDuzJY
-Message-ID: <CAH5fLgg-kgeBw3Py-EZmAEJhm357u5NJP6na4qJe8v3aeFW5Cg@mail.gmail.com>
-Subject: Re: [PATCH v13 1/1] rust: interop: Add list module for C linked list interface
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Alexandre Courbot <acourbot@nvidia.com>, Joel Fernandes <joelagnelf@nvidia.com>, 
-	linux-kernel@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>, 
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Trevor Gross <tmgross@umich.edu>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Danilo Krummrich <dakr@kernel.org>, Dave Airlie <airlied@redhat.com>, David Airlie <airlied@gmail.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, Koen Koning <koen.koning@linux.intel.com>, 
-	Nikola Djukic <ndjukic@nvidia.com>, Philipp Stanner <phasta@kernel.org>, 
-	Elle Rhumsaa <elle@weathered-steel.dev>, Jonathan Corbet <corbet@lwn.net>, 
-	Alex Deucher <alexander.deucher@amd.com>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Jani Nikula <jani.nikula@linux.intel.com>, 
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Tvrtko Ursulin <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>, 
-	Matthew Auld <matthew.auld@intel.com>, Matthew Brost <matthew.brost@intel.com>, 
-	Lucas De Marchi <lucas.demarchi@intel.com>, 
-	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
-	Helge Deller <deller@gmx.de>, John Hubbard <jhubbard@nvidia.com>, 
-	Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>, Edwin Peer <epeer@nvidia.com>, 
-	Andrea Righi <arighi@nvidia.com>, Andy Ritger <aritger@nvidia.com>, Zhi Wang <zhiw@nvidia.com>, 
-	Balbir Singh <balbirs@nvidia.com>, alexeyi@nvidia.com, 
-	Eliot Courtney <ecourtney@nvidia.com>, dri-devel@lists.freedesktop.org, 
-	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
-	amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, 
-	intel-xe@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <87h5qe9wig.fsf@trenco.lwn.net>
 
-On Wed, Mar 18, 2026 at 3:21=E2=80=AFPM Miguel Ojeda
-<miguel.ojeda.sandonis@gmail.com> wrote:
-> [*] I would have preferred a middle ground like  modules being inside
-> but repeating the folder name, e.g. `.../pci/pci.rs`, but I doubt that
-> will ever be supported upstream since one probably wants to support
-> the other ways at the same time.
+On Tue, Mar 17, 2026 at 11:49:27AM -0600, Jonathan Corbet wrote:
+>So the reason for two completely separate mechanisms is not entirely
+>clear to me.  The kerneldoc variant is essentially documentation, while
+>the macro stuff is to be built into the executable?  What if you want
+>both?
+>
+>It would be nice to only have one way if at all possible; I'm sure that
+>crossed your mind at some point :)  If there have to be two, having both
+>examples describe the same function would make the parallels more clear.
 
-In principle this is possible using
+Woops, I forgot to finish writing my reply to this :)
 
-#[path =3D "pci/pci.rs"]
-pub mod pci;
+Under the hood, kerneldoc specs are translated into those macros so they could
+be part of the build process and embedded into the resulting binary (both for
+documentation as well as the runtime validation).
 
-Alice
+I don't think anyone would use the macro format directly, but as it's there
+anyway I figured I'd offer it as an option. Would it make sense to just hide it
+behind the scenes?
+
+-- 
+Thanks,
+Sasha
