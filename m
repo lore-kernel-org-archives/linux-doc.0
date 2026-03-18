@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C599E39FCDE;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5D0D3A0B31;
 	Wed, 18 Mar 2026 09:11:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773825080; cv=none; b=WLByfIHQlyHLwwuAF1vYKCLQBvcwJwIRcqAkvBr5wM7TVnDvweH0vkA96bGo/6+iE9YTgfYtZU8xH7TWk/aYhh4xRaj/wvE8wZ1VgdYN1GCckdWNLL02YDHDNtRAMbFrJxyIJgTCiTkiJAIVOy1kTlCdCv9Fc1ru8h1getKSIbk=
+	t=1773825080; cv=none; b=rk5TNm7ol9ZctVihre1ctYkSK4t8kOsbDEfkvFxnUQR+9Sim/hbw+9dg3XB8j6c72ngSfdnH0ppEves/f9WVxGBa12WxdICMyowr4IoQzc/3Dhij270WSpZqm2AJcFBI4CV8Iwb/GSRZvRj7xk6spuMhlSN7n+5YO+gs/FoXHbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1773825080; c=relaxed/simple;
-	bh=m5R1AXbCcILaBo3xNerP4PoMfOyK0t6s1ZbCKToPNNs=;
+	bh=XRb9wdHvGdnLc5i1pCfLDXwMgE/fB9jkCFBFCvRmepQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DVHtQlcIBnxlIGUbPd/i0U6LXOwhxsmLW7gQY8yHVDEeUNC+z9wzSgMnrjRCoZWufk/6mjLJPUBgsCb+3fE53k2lxAfa7Hcq/G7mF7p6q3mNGrs+AxVqaDS8g4+NMrg9kwqADPDweqwwHyTXsyXymxeZOPVSmowTJWwpmsybC9g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UbtVRubQ; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=gmhC330P0vHCjXsKLRxI3ocCxAaep9EIgcOXses+9Xy15rOmP1WKPJQQtclKhKrskhwkRhbiBATqleAzJfPDAZkyJmTPHpEiMbYm+QjMQp7ydlG4h5726kIeT/5qxArL3MEuizMR7RqJJO89qZKj5N2lGM/3r/kwG74vfd1z1Ck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W27qKi6o; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UbtVRubQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C676C19421;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W27qKi6o"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63431C2BCAF;
 	Wed, 18 Mar 2026 09:11:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1773825080;
-	bh=m5R1AXbCcILaBo3xNerP4PoMfOyK0t6s1ZbCKToPNNs=;
+	bh=XRb9wdHvGdnLc5i1pCfLDXwMgE/fB9jkCFBFCvRmepQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=UbtVRubQf8NEHQ9TwuK+JDLk+vr9iz3ePZxQ7AVpPL9G1THNE8XeqSStV/rzXj9P7
-	 oQ38QZOa8M92hCl8k3AWy4FrQq85J9GaGu/SG0gyICokzxqsYKMwcXRXlGNxO2dZqf
-	 uGN60FovXFUPrNOPxeFI2nf1IdBc4UhGknS05PDYxBfT+vOKFQTjHt8UAOVfTxtBYU
-	 PB+sLkm5Y87lFFYxL3nJRPcZ5sHQdp/qVIF8YMiFKqVe4mfU9XbWtIG1sUNLDwGk0L
-	 IREVame0g8jJev1+ERok9NZgnvPetl2jUIebHvpkZ41tG2GOCvjd+CrRuNpe5mzt26
-	 aTAOLSQd/2Yxg==
+	b=W27qKi6oYog/DKduY2jn35lbmNzVyIsQg9G+h2aEp1KRr4dEAhhrlpxM1TwZL8y/0
+	 Jn1dW8AFsJrsg7UGhCRkmK0+DwBQAPZQMM/OmI1w3lXAkuPpCAKhGMPRQ4tbMRf5Es
+	 o9iWo3+0yOHQIfwSvUn7FVdSrOy+2geLYSA815Re/Fh0XvFPdqq2mUly5cbA1V8Xri
+	 EwLbjVaHg09e4I38AsXgwDc3qLDroZhvb2ksgOKVx7qmAPVHBNeKbzdXyLIXtnqnOZ
+	 6vPCisvmIcwacSZkrThEZZmgThO16ZNb+U0ohg+eCMEi8KajjGso7YNc/zOWbox/X/
+	 s3GJnc7SPZZtg==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1w2mvu-00000002fpJ-1yD9;
+	id 1w2mvu-00000002fpe-2XP9;
 	Wed, 18 Mar 2026 10:11:18 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
@@ -36,9 +36,9 @@ To: Jonathan Corbet <corbet@lwn.net>,
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH 01/14] unittests: test_tokenizer: better handle mismatch error
-Date: Wed, 18 Mar 2026 10:11:01 +0100
-Message-ID: <6e19578bc1ffa96e536dc31997ff658017f60173.1773823995.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 06/14] docs: kdoc_item: fix initial value for parameterdesc_start_lines
+Date: Wed, 18 Mar 2026 10:11:06 +0100
+Message-ID: <1b4ea24dd4cd82e6711e9be80168684427d74c30.1773823995.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <cover.1773823995.git.mchehab+huawei@kernel.org>
 References: <cover.1773823995.git.mchehab+huawei@kernel.org>
@@ -52,50 +52,27 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-The current logic is too sensitive to how c_lex name is
-placed. Also, it doesn't really check the log.
-
-Change it to check if the expected message will be reported
-after a call to C tokenizer with an invalid source.
+Ensure that parameterdesc_start_lines is a dict at init time,
+as this is how it will be set later on at the parser.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tools/unittests/test_tokenizer.py | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ tools/lib/python/kdoc/kdoc_item.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tools/unittests/test_tokenizer.py b/tools/unittests/test_tokenizer.py
-index 5634b4a7283e..d1f3c565b9cf 100755
---- a/tools/unittests/test_tokenizer.py
-+++ b/tools/unittests/test_tokenizer.py
-@@ -46,10 +46,17 @@ def make_tokenizer_test(name, data):
+diff --git a/tools/lib/python/kdoc/kdoc_item.py b/tools/lib/python/kdoc/kdoc_item.py
+index 2b8a93f79716..c0585cdbcbd1 100644
+--- a/tools/lib/python/kdoc/kdoc_item.py
++++ b/tools/lib/python/kdoc/kdoc_item.py
+@@ -22,7 +22,7 @@ class KdocItem:
+         self.sections = {}
+         self.sections_start_lines = {}
+         self.parameterlist = []
+-        self.parameterdesc_start_lines = []
++        self.parameterdesc_start_lines = {}
+         self.parameterdescs = {}
+         self.parametertypes = {}
          #
-         # Check if logger is working
-         #
--        if "log_level" in data:
--            with self.assertLogs('kdoc.c_lex', level='ERROR') as cm:
-+        if "log_msg" in data:
-+            with self.assertLogs() as cm:
-                 tokenizer = CTokenizer(data["source"])
- 
-+                msg_found = False
-+                for result in cm.output:
-+                    if data["log_msg"] in result:
-+                        msg_found = True
-+
-+                self.assertTrue(msg_found, f"Missing log {data['log_msg']}")
-+
-             return
- 
-         #
-@@ -124,7 +131,7 @@ TESTS_TOKENIZER = {
- 
-     "mismatch_error": {
-         "source": "int a$ = 5;",          # $ is illegal
--        "log_level": "ERROR",
-+        "log_msg": "Unexpected token",
-     },
- }
- 
 -- 
 2.53.0
 
