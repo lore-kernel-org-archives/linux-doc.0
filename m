@@ -1,480 +1,243 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3235015B998;
-	Wed, 18 Mar 2026 20:49:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2733536C0C1
+	for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2026 21:08:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773866974; cv=none; b=ESI6rcqc72OiJ5iXghgplHw66/4/o9d+4wzIeuyzjfuv/+dkUqwo9aEtdJiLeZF2XAowyhZXLSvcP0Cwk8zWJleOuKH8/cpE6H+UVviJJE9PNKTYv1XH/SRDwAnF7Mx9iWrwrAAxgURWY7slrTuPV+vqkdmNZWR4/Ml4/SuVEP8=
+	t=1773868132; cv=none; b=de060SMiBv406T+rxjtvDjSfou7wWoJmGIlLSZzl1O/FlfAShfMkbDBiYp6WHLsvDXt1dkEHoMWyVLix4GaJkD8diDLO+a6RKdfDx4z9cJtJ04ZJMAAy2T6QCNrlSgmmXtouniQ4kfpuZ0ra+TTpiBe7byLa9xc8X1BcfFVr77E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773866974; c=relaxed/simple;
-	bh=LjcMc9LSHuiGcgxjPGNQzty3WY+CFykBJXDQtNgOAaQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=fb2hqUD+CNOIgbqD2n9AqmhZueovVeyurqTwKavrOOupeBI6kkSfZVPhHR5YoNH+ZDCToemUZKLwl6v6GJATkef3Wi5ZNos1gOdk2ukjuyrXZ9Q4gjQ+Wq4P9jK/p9M/MfmcAupXXV9orFy2PrFjyVWgg2RN0zSFzPqHaYHoOZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9339A1C00;
-	Wed, 18 Mar 2026 13:49:26 -0700 (PDT)
-Received: from e134710.arm.com (e134710.arm.com [10.33.10.82])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 874393F7BD;
-	Wed, 18 Mar 2026 13:49:30 -0700 (PDT)
-From: Ahmed Tiba <ahmed.tiba@arm.com>
-Date: Wed, 18 Mar 2026 20:48:07 +0000
-Subject: [PATCH v3 10/10] RAS: add firmware-first CPER provider
+	s=arc-20240116; t=1773868132; c=relaxed/simple;
+	bh=assmwfIFPbPLjAs2iUcmLblWZJgo/4bYd3ARcTcdVGw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=gZvVTN5R2/FPy0dBG/Kv2eXxcxGk/hzymgHK7ktj9RnqQXC6VZndpIvlHEWsjtPj7lJgVklcu3hwGqdYGyvK9iMqEdOqet1ABwyEfCDW9XOTlMZnTrFs4/OaTuFUI67BTV+cg9EKjHHGyvFrFpVJqwOl/H+uczGQQ+MkVfo610w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q1n+oSDv; arc=none smtp.client-ip=209.85.210.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q1n+oSDv"
+Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-7d7d096607bso149377a34.1
+        for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2026 14:08:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1773868130; x=1774472930; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hjkVCGc9UuS/iYmQSMn+hsLjVouvW5XYtaAItifULpw=;
+        b=Q1n+oSDvfZTOkz8T8nwE7iQGswYsdrxBo8zLAdhDRBXSLrz3Pp/7AfmQL3dFlHBv68
+         caedhZnLlgVZR2NhwzWaXfROhdjyPyBDYv283FnVHC741cZmUGWXnMIlAwlfAG1z7dNi
+         29PbVUqPL8wR0z4a08cp5SPFyReMqoUx5Q4bf1mXlz1gUpQAiaGEL28vGm69zLTt88dL
+         bIW57Ev7A83Es1DkOTa38R3/ucqrtxS11jAZqL1OAhmcqRx9JqsNkZW7pmIIa036Mw2l
+         mqHAIMd1pf0byb5iFGskKB/B7xF1r0+pJfLfvQwPOSnvGUZCwK6/udV1vRTeUy8+VTSy
+         P/9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773868130; x=1774472930;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=hjkVCGc9UuS/iYmQSMn+hsLjVouvW5XYtaAItifULpw=;
+        b=lIRduRukxNVqstx2bkWc0OeGN3ruobwNyt/WbvZUKN0bvKiUcnGm7K+L2eR0wlhaNm
+         6wKB4nxbnXgRYja1XDbohsaypq4bvoPD6WZLw/tF2TJ6VlfZirrZ33PiIujM1MIs+xyg
+         MeE/ECZOXmsa+FWSZbghoItu/6aQ0dbQrd1ldo7HqZm9otPSZhav8ntrKqr9oviDVSed
+         tXDDASOIWk6vYrbjIVFcs9Su4IpQ8CvgtiHTeoplA90+E0jI8PtDzpbwfoeV7xaAXgQb
+         W0V2XNcPuxOH3DNXp/RAVZndAuhca4da41csZ4pBSAWetFyPAzL3/vqHBsAUu1vI/kHB
+         VfqQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWJWSkTkTK20nFmjxzOZCtkeQ1Qmvc4zU09apzg9ZUyXBvA6yNwOBXW5C1OXRrhAJBvcR8cgV72ut4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwlrP1UVACTbZMjA2k5LGYEOxv01CuOPdz7wEq0OHD5+UFxLV2t
+	fVlLhwK/K/Bo6aPcAVOIGnklhUhhNkFU5cCeZv1PZAbhIAKXn/ubv7XZ
+X-Gm-Gg: ATEYQzzydnz2ymH/vwskyQskA2hEyqGIRBmb3Bhav5cBsqydMBWd0/l+Vy8Vlc0j42r
+	3YMO1QChxozmrqKilQ62qggWgxoz9AFq7y3UXdfl/0sCKfscfdrizQyStmpBZ+bzCnHmcC16KJM
+	hHG4vwDHGG2rhBLJEiqA+anOjFI5sHTVzMWVSUJswGZt6nky4NxbBdWbBuPZZzGmIJW9oHDP5UM
+	irSziqM4Spy3P8RpZDF9vv9FcAvpvaPIjNpTWL+U+zdHWyec8MVMMcHsT+ndG4x9+f49Msvyvk6
+	zBxUIvOwb59b2wcQQiw2JWCpgenZM8P7MBdDMIAxcoShUtgkYUpNa4WyLHCaCdL2Yszpoo2Qs8R
+	TFGqt3mvdVLXtUnEQV7yiL5MpyebmMbx0udzFA5bXKGi1NXrAMVwC8Mvc56cdG+YzfwkRxJ+6E6
+	C91byVTVJW07/aBFbHi5HOvDADEYeu6eUR
+X-Received: by 2002:a05:6820:4513:b0:67b:f775:e5fe with SMTP id 006d021491bc7-67c0db33831mr2728249eaf.65.1773868129977;
+        Wed, 18 Mar 2026 14:08:49 -0700 (PDT)
+Received: from localhost ([2a03:2880:10ff:56::])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-41bd2c3111dsm3532488fac.12.2026.03.18.14.08.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Mar 2026 14:08:48 -0700 (PDT)
+From: Joshua Hahn <joshua.hahnjy@gmail.com>
+To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Clemens Ladisch <clemens@ladisch.de>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"K . Y . Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>,
+	Dexuan Cui <decui@microsoft.com>,
+	Long Li <longli@microsoft.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Bodo Stroesser <bostroesser@gmail.com>,
+	"Martin K . Petersen" <martin.petersen@oracle.com>,
+	David Howells <dhowells@redhat.com>,
+	Marc Dionne <marc.dionne@auristor.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	David Hildenbrand <david@kernel.org>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Jann Horn <jannh@google.com>,
+	Pedro Falcato <pfalcato@suse.de>,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-hyperv@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mtd@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-scsi@vger.kernel.org,
+	target-devel@vger.kernel.org,
+	linux-afs@lists.infradead.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	Ryan Roberts <ryan.roberts@arm.com>
+Subject: Re: [PATCH v2 12/16] mm: allow handling of stacked mmap_prepare hooks in more drivers
+Date: Wed, 18 Mar 2026 14:08:45 -0700
+Message-ID: <20260318210845.2591228-1-joshua.hahnjy@gmail.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <72750af6906fd96fb6f18e83ac3e694cf357a2c1.1773695307.git.ljs@kernel.org>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260318-topics-ahmtib01-ras_ffh_arm_internal_review-v3-10-48e6a1c249ef@arm.com>
-References: <20260318-topics-ahmtib01-ras_ffh_arm_internal_review-v3-0-48e6a1c249ef@arm.com>
-In-Reply-To: <20260318-topics-ahmtib01-ras_ffh_arm_internal_review-v3-0-48e6a1c249ef@arm.com>
-To: linux-acpi@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-cxl@vger.kernel.org
-Cc: Ahmed Tiba <ahmed.tiba@arm.com>, Michael.Zhao2@arm.com, robh@kernel.org, 
- linux-arm-kernel@lists.infradead.org, Dmitry.Lamerov@arm.com, 
- rafael@kernel.org, conor@kernel.org, will@kernel.org, bp@alien8.de, 
- catalin.marinas@arm.com, krzk+dt@kernel.org, linux-doc@vger.kernel.org, 
- mchehab+huawei@kernel.org, tony.luck@intel.com
-X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1773866948; l=12767;
- i=ahmed.tiba@arm.com; s=20260219; h=from:subject:message-id;
- bh=LjcMc9LSHuiGcgxjPGNQzty3WY+CFykBJXDQtNgOAaQ=;
- b=rFHUTc4AbFOFD68FMC/Dxdt7+kiUKPz9fM6iXRBXTSKts8qOfB+glKLCa8TfCOwGRjpumDu35
- ALiMaPe4PhiCeadPTRElTHyjI65bautyDOUIp7q2hYrH8YfO485gXLD
-X-Developer-Key: i=ahmed.tiba@arm.com; a=ed25519;
- pk=xVOtd+Qklh/4tuM3tB+BEZD4jj5a6W59C3KCNX6v7OE=
+Content-Transfer-Encoding: 8bit
 
-Add a firmware-first CPER provider that reuses the shared
-GHES helpers, wire it into the RAS Kconfig/Makefile and
-document it in the admin guide.
+On Mon, 16 Mar 2026 21:12:08 +0000 "Lorenzo Stoakes (Oracle)" <ljs@kernel.org> wrote:
 
-Update MAINTAINERS now that the driver exists.
+> While the conversion of mmap hooks to mmap_prepare is underway, we wil
+> encounter situations where mmap hooks need to invoke nested mmap_prepare
+> hooks.
+> 
+> The nesting of mmap hooks is termed 'stacking'.  In order to flexibly
+> facilitate the conversion of custom mmap hooks in drivers which stack, we
+> must split up the existing compat_vma_mapped() function into two separate
+> functions:
+> 
+> * compat_set_desc_from_vma() - This allows the setting of a vm_area_desc
+>   object's fields to the relevant fields of a VMA.
 
-Signed-off-by: Ahmed Tiba <ahmed.tiba@arm.com>
----
- Documentation/admin-guide/RAS/main.rst |  18 +++
- MAINTAINERS                            |   1 +
- drivers/acpi/apei/apei-internal.h      |  10 +-
- drivers/acpi/apei/ghes_cper.c          |   2 +
- drivers/ras/Kconfig                    |  11 ++
- drivers/ras/Makefile                   |   1 +
- drivers/ras/cper-esource.c             | 257 +++++++++++++++++++++++++++++++++
- include/acpi/ghes_cper.h               |  10 ++
- 8 files changed, 301 insertions(+), 9 deletions(-)
+Hello Lorenzo, I hope you are doing well!
 
-diff --git a/Documentation/admin-guide/RAS/main.rst b/Documentation/admin-guide/RAS/main.rst
-index 5a45db32c49b..84219d25a072 100644
---- a/Documentation/admin-guide/RAS/main.rst
-+++ b/Documentation/admin-guide/RAS/main.rst
-@@ -205,6 +205,24 @@ Architecture (MCA)\ [#f3]_.
- .. [#f3] For more details about the Machine Check Architecture (MCA),
-   please read Documentation/arch/x86/x86_64/machinecheck.rst at the Kernel tree.
- 
-+Firmware-first CPER providers
-+-----------------------------
-+
-+Some systems expose Common Platform Error Record (CPER) data
-+through platform firmware instead of ACPI HEST tables.
-+Enable ``CONFIG_RAS_CPER_ESOURCE`` to build the ``drivers/ras/cper-esource.c``
-+driver. The current in-tree firmware description uses the
-+``Documentation/devicetree/bindings/firmware/arm,ras-cper.yaml`` binding.
-+The driver reuses the GHES CPER helper object in
-+``drivers/acpi/apei/ghes_cper.c`` so the logging, notifier chains, and
-+memory failure handling match the ACPI GHES behaviour even when
-+ACPI is disabled.
-+
-+Once a platform describes a firmware-first provider, both ACPI GHES and the
-+firmware-described driver reuse the same code paths. This keeps the
-+behaviour consistent regardless of whether the error source is described
-+by ACPI tables or another firmware description.
-+
- EDAC - Error Detection And Correction
- *************************************
- 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 69756fb61a98..7a2df54872bf 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -22013,6 +22013,7 @@ RAS ERROR STATUS
- M:	Ahmed Tiba <ahmed.tiba@arm.com>
- S:	Maintained
- F:	Documentation/devicetree/bindings/firmware/arm,ras-cper.yaml
-+F:	drivers/ras/cper-esource.c
- 
- RAS INFRASTRUCTURE
- M:	Tony Luck <tony.luck@intel.com>
-diff --git a/drivers/acpi/apei/apei-internal.h b/drivers/acpi/apei/apei-internal.h
-index 77c10a7a7a9f..c16ac541f15b 100644
---- a/drivers/acpi/apei/apei-internal.h
-+++ b/drivers/acpi/apei/apei-internal.h
-@@ -8,6 +8,7 @@
- #define APEI_INTERNAL_H
- 
- #include <linux/acpi.h>
-+#include <acpi/ghes_cper.h>
- 
- struct apei_exec_context;
- 
-@@ -120,15 +121,6 @@ int apei_exec_collect_resources(struct apei_exec_context *ctx,
- struct dentry;
- struct dentry *apei_get_debugfs_dir(void);
- 
--static inline u32 cper_estatus_len(struct acpi_hest_generic_status *estatus)
--{
--	if (estatus->raw_data_length)
--		return estatus->raw_data_offset + \
--			estatus->raw_data_length;
--	else
--		return sizeof(*estatus) + estatus->data_length;
--}
--
- int apei_osc_setup(void);
- 
- int einj_get_available_error_type(u32 *type, int einj_action);
-diff --git a/drivers/acpi/apei/ghes_cper.c b/drivers/acpi/apei/ghes_cper.c
-index bd172b769953..f7326ddc056b 100644
---- a/drivers/acpi/apei/ghes_cper.c
-+++ b/drivers/acpi/apei/ghes_cper.c
-@@ -46,7 +46,9 @@
- #include <asm/fixmap.h>
- #include <asm/tlbflush.h>
- 
-+#ifdef CONFIG_ACPI_APEI
- #include "apei-internal.h"
-+#endif
- 
- ATOMIC_NOTIFIER_HEAD(ghes_report_chain);
- 
-diff --git a/drivers/ras/Kconfig b/drivers/ras/Kconfig
-index fc4f4bb94a4c..3c1c63b2fefc 100644
---- a/drivers/ras/Kconfig
-+++ b/drivers/ras/Kconfig
-@@ -34,6 +34,17 @@ if RAS
- source "arch/x86/ras/Kconfig"
- source "drivers/ras/amd/atl/Kconfig"
- 
-+config RAS_CPER_ESOURCE
-+	bool "Firmware-first CPER error source block provider"
-+	select GHES_CPER_HELPERS
-+	help
-+	  Enable support for firmware-first Common Platform Error Record
-+	  (CPER) error source block providers. The current in-tree user is
-+	  described by the arm,ras-cper DeviceTree binding. The driver
-+	  reuses the existing GHES CPER helpers so the error processing
-+	  matches the ACPI code paths, but it can be built even when ACPI is
-+	  disabled.
-+
- config RAS_FMPM
- 	tristate "FRU Memory Poison Manager"
- 	default m
-diff --git a/drivers/ras/Makefile b/drivers/ras/Makefile
-index 11f95d59d397..0de069557f31 100644
---- a/drivers/ras/Makefile
-+++ b/drivers/ras/Makefile
-@@ -2,6 +2,7 @@
- obj-$(CONFIG_RAS)	+= ras.o
- obj-$(CONFIG_DEBUG_FS)	+= debugfs.o
- obj-$(CONFIG_RAS_CEC)	+= cec.o
-+obj-$(CONFIG_RAS_CPER_ESOURCE)	+= cper-esource.o
- 
- obj-$(CONFIG_RAS_FMPM)	+= amd/fmpm.o
- obj-y			+= amd/atl/
-diff --git a/drivers/ras/cper-esource.c b/drivers/ras/cper-esource.c
-new file mode 100644
-index 000000000000..83f7a910e50a
---- /dev/null
-+++ b/drivers/ras/cper-esource.c
-@@ -0,0 +1,257 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Firmware-first CPER error source provider.
-+ *
-+ * This driver shares the GHES CPER helpers so we keep the reporting and
-+ * notifier behaviour identical to ACPI GHES.
-+ *
-+ * Copyright (C) 2026 ARM Ltd.
-+ * Author: Ahmed Tiba <ahmed.tiba@arm.com>
-+ */
-+
-+#include <linux/bitops.h>
-+#include <linux/cleanup.h>
-+#include <linux/idr.h>
-+#include <linux/interrupt.h>
-+#include <linux/io.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/module.h>
-+#include <linux/panic.h>
-+#include <linux/platform_device.h>
-+#include <linux/property.h>
-+#include <linux/slab.h>
-+#include <linux/spinlock.h>
-+
-+#include <acpi/ghes.h>
-+#include <acpi/ghes_cper.h>
-+
-+static DEFINE_IDA(cper_esource_source_ids);
-+
-+struct cper_esource_ack {
-+	void __iomem *addr;
-+	u64 preserve;
-+	u64 set;
-+	u8 width;
-+	bool present;
-+};
-+
-+struct cper_esource {
-+	struct device *dev;
-+	void __iomem *status;
-+	size_t status_len;
-+
-+	struct cper_esource_ack ack;
-+
-+	struct acpi_hest_generic *generic;
-+	struct acpi_hest_generic_status *estatus;
-+
-+	bool sync;
-+	int irq;
-+
-+	/* Serializes access while firmware and the OS share the status buffer. */
-+	spinlock_t lock;
-+};
-+
-+static void cper_esource_release_source_id(void *data)
-+{
-+	struct acpi_hest_generic *generic = data;
-+
-+	ida_free(&cper_esource_source_ids, generic->header.source_id);
-+}
-+
-+static int cper_esource_init_pool(void)
-+{
-+	if (ghes_estatus_pool)
-+		return 0;
-+
-+	return ghes_estatus_pool_init(1);
-+}
-+
-+static int cper_esource_copy_status(struct cper_esource *ctx)
-+{
-+	memcpy_fromio(ctx->estatus, ctx->status, ctx->status_len);
-+	return 0;
-+}
-+
-+static void cper_esource_ack(struct cper_esource *ctx)
-+{
-+	u64 val;
-+
-+	if (!ctx->ack.present)
-+		return;
-+
-+	if (ctx->ack.width == 64) {
-+		val = readq(ctx->ack.addr);
-+		val &= ctx->ack.preserve;
-+		val |= ctx->ack.set;
-+		writeq(val, ctx->ack.addr);
-+	} else {
-+		val = readl(ctx->ack.addr);
-+		val &= (u32)ctx->ack.preserve;
-+		val |= (u32)ctx->ack.set;
-+		writel(val, ctx->ack.addr);
-+	}
-+}
-+
-+static void cper_esource_fatal(struct cper_esource *ctx)
-+{
-+	__ghes_print_estatus(KERN_EMERG, ctx->generic, ctx->estatus);
-+	add_taint(TAINT_MACHINE_CHECK, LOCKDEP_STILL_OK);
-+	panic("GHES: fatal firmware-first CPER record from %s\n",
-+	      dev_name(ctx->dev));
-+}
-+
-+static void cper_esource_process(struct cper_esource *ctx)
-+{
-+	int sev;
-+
-+	guard(spinlock_irqsave)(&ctx->lock);
-+
-+	if (cper_esource_copy_status(ctx))
-+		return;
-+
-+	sev = ghes_severity(ctx->estatus->error_severity);
-+	if (sev >= GHES_SEV_PANIC)
-+		cper_esource_fatal(ctx);
-+
-+	if (!ghes_estatus_cached(ctx->estatus) &&
-+	    ghes_print_estatus(NULL, ctx->generic, ctx->estatus))
-+		ghes_estatus_cache_add(ctx->generic, ctx->estatus);
-+
-+	ghes_cper_handle_status(ctx->dev, ctx->generic, ctx->estatus, ctx->sync);
-+	cper_esource_ack(ctx);
-+}
-+
-+static irqreturn_t cper_esource_irq(int irq, void *data)
-+{
-+	struct cper_esource *ctx = data;
-+
-+	cper_esource_process(ctx);
-+
-+	return IRQ_HANDLED;
-+}
-+
-+static int cper_esource_init_ack(struct platform_device *pdev,
-+				 struct cper_esource *ctx)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct resource *res;
-+	size_t size;
-+
-+	res = platform_get_resource(pdev, IORESOURCE_MEM, 1);
-+	if (!res)
-+		return 0;
-+
-+	ctx->ack.addr = devm_platform_get_and_ioremap_resource(pdev, 1, &res);
-+	if (IS_ERR(ctx->ack.addr))
-+		return PTR_ERR(ctx->ack.addr);
-+
-+	size = resource_size(res);
-+	switch (size) {
-+	case 4:
-+		ctx->ack.width = 32;
-+		ctx->ack.preserve = ~0U;
-+		break;
-+	case 8:
-+		ctx->ack.width = 64;
-+		ctx->ack.preserve = ~0ULL;
-+		break;
-+	default:
-+		return dev_err_probe(dev, -EINVAL,
-+				     "unsupported ack resource size %zu\n", size);
-+	}
-+
-+	ctx->ack.set = BIT_ULL(0);
-+	ctx->ack.present = true;
-+	return 0;
-+}
-+
-+static int cper_esource_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct cper_esource *ctx;
-+	struct resource *res;
-+	int source_id;
-+	int rc;
-+
-+	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
-+	if (!ctx)
-+		return -ENOMEM;
-+
-+	spin_lock_init(&ctx->lock);
-+	ctx->dev = dev;
-+	ctx->sync = device_property_read_bool(dev, "arm,sea-notify");
-+
-+	ctx->status = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
-+	if (IS_ERR(ctx->status))
-+		return dev_err_probe(dev, PTR_ERR(ctx->status),
-+				     "failed to map status region\n");
-+
-+	ctx->status_len = resource_size(res);
-+	if (!ctx->status_len)
-+		return dev_err_probe(dev, -EINVAL, "status region has zero length\n");
-+
-+	rc = cper_esource_init_ack(pdev, ctx);
-+	if (rc)
-+		return rc;
-+
-+	rc = cper_esource_init_pool();
-+	if (rc)
-+		return rc;
-+
-+	ctx->estatus = devm_kzalloc(dev, ctx->status_len, GFP_KERNEL);
-+	if (!ctx->estatus)
-+		return -ENOMEM;
-+
-+	ctx->generic = devm_kzalloc(dev, sizeof(*ctx->generic), GFP_KERNEL);
-+	if (!ctx->generic)
-+		return -ENOMEM;
-+
-+	source_id = ida_alloc_min(&cper_esource_source_ids, 1, GFP_KERNEL);
-+	if (source_id < 0)
-+		return source_id;
-+
-+	ctx->generic->header.type = ACPI_HEST_TYPE_GENERIC_ERROR;
-+	ctx->generic->header.source_id = source_id;
-+
-+	rc = devm_add_action_or_reset(dev, cper_esource_release_source_id,
-+				      ctx->generic);
-+	if (rc)
-+		return rc;
-+
-+	ctx->generic->notify.type = ctx->sync ?
-+		ACPI_HEST_NOTIFY_SEA : ACPI_HEST_NOTIFY_EXTERNAL;
-+	ctx->generic->error_block_length = ctx->status_len;
-+
-+	ctx->irq = platform_get_irq(pdev, 0);
-+	if (ctx->irq < 0)
-+		return ctx->irq;
-+
-+	rc = devm_request_threaded_irq(dev, ctx->irq, NULL, cper_esource_irq,
-+				       IRQF_ONESHOT,
-+				       dev_name(dev), ctx);
-+	if (rc)
-+		return dev_err_probe(dev, rc, "failed to request interrupt\n");
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id cper_esource_of_match[] = {
-+	{ .compatible = "arm,ras-cper" },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, cper_esource_of_match);
-+
-+static struct platform_driver cper_esource_driver = {
-+	.driver = {
-+		.name = "cper-esource",
-+		.of_match_table = cper_esource_of_match,
-+	},
-+	.probe = cper_esource_probe,
-+};
-+
-+module_platform_driver(cper_esource_driver);
-+
-+MODULE_AUTHOR("Ahmed Tiba <ahmed.tiba@arm.com>");
-+MODULE_DESCRIPTION("Firmware-first CPER provider");
-+MODULE_LICENSE("GPL");
-diff --git a/include/acpi/ghes_cper.h b/include/acpi/ghes_cper.h
-index d7fe71bd67bb..be383653e42b 100644
---- a/include/acpi/ghes_cper.h
-+++ b/include/acpi/ghes_cper.h
-@@ -83,6 +83,14 @@ static inline bool is_hest_sync_notify(struct ghes *ghes)
- 	return notify_type == ACPI_HEST_NOTIFY_SEA;
- }
- 
-+static inline u32 cper_estatus_len(struct acpi_hest_generic_status *estatus)
-+{
-+	if (estatus->raw_data_length)
-+		return estatus->raw_data_offset + estatus->raw_data_length;
-+	else
-+		return sizeof(*estatus) + estatus->data_length;
-+}
-+
- struct ghes_vendor_record_entry {
- 	struct work_struct work;
- 	int error_severity;
-@@ -109,6 +117,8 @@ int __ghes_read_estatus(struct acpi_hest_generic_status *estatus,
- int ghes_estatus_cached(struct acpi_hest_generic_status *estatus);
- void ghes_estatus_cache_add(struct acpi_hest_generic *generic,
- 			    struct acpi_hest_generic_status *estatus);
-+int ghes_register_vendor_record_notifier(struct notifier_block *nb);
-+void ghes_unregister_vendor_record_notifier(struct notifier_block *nb);
- void ghes_defer_non_standard_event(struct acpi_hest_generic_data *gdata,
- 				   int sev);
- int ghes_severity(int severity);
+Thank you for this patch. I was developing on top of mm-new today and had
+an error that I think was caused by this patch. I want to preface this by
+saying that I am not at all familiar with this area of the code, so please
+do forgive me if I've misinterpreted the crash and mistakenly pointed
+at this commit : -)
 
--- 
-2.43.0
+Here is the crash:
 
+[    1.083795] kernel tried to execute NX-protected page - exploit attempt? (uid: 0)
+[    1.083883] BUG: unable to handle page fault for address: ffa00000048efbb8
+[    1.083957] #PF: supervisor instruction fetch in kernel mode
+[    1.084030] #PF: error_code(0x0011) - permissions violation
+[    1.084086] PGD 100000067 P4D 10035f067 PUD 100364067 PMD 441ed9067 PTE 80000004466a3163
+[    1.084162] Oops: Oops: 0011 [#1] SMP
+[    1.084218] CPU: 0 UID: 0 PID: 305 Comm: mkdir Tainted: G        W   E       7.0.0-rc4-virtme-00442-ge53de5a0302f-dirty #85 PREEMPTLAZY
+
+As you can see, it's on a QEMU instance. I don't think this makes a difference
+in the crash, though.
+
+[    1.084321] Tainted: [W]=WARN, [E]=UNSIGNED_MODULE
+[    1.084369] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.3-5.el9 11/05/2023
+[    1.084450] RIP: 0010:0xffa00000048efbb8
+[    1.084489] Code: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 <40> 12 0e 00 01 00 11 ff d0 fa 8e 04 00 00 a0 ff 80 33 51 02 01 00
+[    1.084642] RSP: 0018:ffa00000048ef998 EFLAGS: 00010286
+[    1.084692] RAX: ffa00000048efbb8 RBX: ff11000102512cc0 RCX: 000000000000000d
+[    1.084766] RDX: ffffffffa06247d0 RSI: ffa00000048efa18 RDI: ff11000102512cc0
+[    1.084826] RBP: ffa00000048ef9c8 R08: 0000000000000000 R09: 0000000000000007
+[    1.084889] R10: ff110001047d1f08 R11: 00007effdc3d0fff R12: ff110001047d3b00
+[    1.084954] R13: ff11000446cae600 R14: ff110001024efe00 R15: ff11000102510a80
+[    1.085021] FS:  0000000000000000(0000) GS:ff110004aae72000(0000) knlGS:0000000000000000
+[    1.085083] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[    1.085136] CR2: ffa00000048efbb8 CR3: 0000000102667001 CR4: 0000000000771ef0
+[    1.085201] PKRU: 55555554
+[    1.085228] Call Trace:
+[    1.085248]  <TASK>
+[    1.085274]  ? __compat_vma_mmap+0x8e/0x130
+[    1.085318]  ? compat_vma_mmap+0x76/0x80
+[    1.085354]  ? mas_alloc_nodes+0xb2/0x110
+[    1.085390]  ? backing_file_mmap+0xc3/0xf0
+[    1.085426]  ? ovl_mmap+0x41/0x50
+[    1.085463]  ? ovl_mmap+0x50/0x50
+[    1.085499]  ? __mmap_region+0x7e8/0x1100
+[    1.085539]  ? do_mmap+0x49f/0x5e0
+[    1.085573]  ? vm_mmap_pgoff+0xef/0x1e0
+[    1.085609]  ? ksys_mmap_pgoff+0x15c/0x1f0
+[    1.085647]  ? do_syscall_64+0xab/0x980
+[    1.085684]  ? entry_SYSCALL_64_after_hwframe+0x4b/0x53
+[    1.085730]  </TASK>
+[    1.085770] Modules linked in: virtio_mmio(E) 9pnet_virtio(E) 9p(E) 9pnet(E) netfs(E)
+[    1.085838] CR2: ffa00000048efbb8
+[    1.085874] ---[ end trace 0000000000000000 ]---
+[    1.085875] kernel tried to execute NX-protected page - exploit attempt? (uid: 0)
+[    1.085918] RIP: 0010:0xffa00000048efbb8
+[    1.085921] Code: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 <40> 12 0e 00 01 00 11 ff d0 fa 8e 04 00 00 a0 ff 80 33 51 02 01 00
+[    1.085988] BUG: unable to handle page fault for address: ffa00000048f7bb8
+[    1.086026] RSP: 0018:ffa00000048ef998 EFLAGS: 00010286
+[    1.086166] #PF: supervisor instruction fetch in kernel mode
+[    1.086221]
+[    1.086267] #PF: error_code(0x0011) - permissions violation
+[    1.086321] RAX: ffa00000048efbb8 RBX: ff11000102512cc0 RCX: 000000000000000d
+[    1.086348] PGD 100000067
+[    1.086394] RDX: ffffffffa06247d0 RSI: ffa00000048efa18 RDI: ff11000102512cc0
+[    1.086459] P4D 10035f067
+[    1.086486] RBP: ffa00000048ef9c8 R08: 0000000000000000 R09: 0000000000000007
+[    1.086550] PUD 100364067
+[    1.086577] R10: ff110001047d1f08 R11: 00007effdc3d0fff R12: ff110001047d3b00
+[    1.086641] PMD 441ed9067
+[    1.086668] R13: ff11000446cae600 R14: ff110001024efe00 R15: ff11000102510a80
+[    1.086731] PTE 80000004433d3163
+[    1.086764] FS:  0000000000000000(0000) GS:ff110004aae72000(0000) knlGS:0000000000000000
+[    1.086829]
+[    1.086868] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[    1.086931] Oops: Oops: 0011 [#2] SMP
+[    1.086958] CR2: ffa00000048efbb8 CR3: 0000000102667001 CR4: 0000000000771ef0
+[    1.087015] CPU: 29 UID: 0 PID: 306 Comm: mount Tainted: G      D W   E       7.0.0-rc4-virtme-00442-ge53de5a0302f-dirty #85 PREEMPTLAZY
+[    1.087050] PKRU: 55555554
+[    1.087115] Tainted: [D]=DIE, [W]=WARN, [E]=UNSIGNED_MODULE
+[    1.087207] Kernel panic - not syncing: Fatal exception
+[    2.158392] Shutting down cpus with NMI
+[    2.158629] Kernel Offset: disabled
+[    2.158668] ---[ end Kernel panic - not syncing: Fatal exception ]---
+
+It crashes at compat_vma_mmap, and here is what I think could be the 
+potential crash path:
+
+- compat_vma_mmap() creates struct vm_area_desc desc;
+  - compat_set_desc_from_vma Doesn't initialize the struct, but instead
+    modifies independent fields. I think this is where the behavior
+    diverges, since before we would use the C initializer and uninitialized
+    variables would be set to 0 (including ommitted ones, like
+    action.success_hook or action.error_hook). But action.type = MMAP_NOTHING
+  - desc.action.success_hook remains uninitialized in vfs_mmap_prepare
+  - mmap_action_complete()
+    - Here, We've set action.type to be MMAP_NOTHING, so we have err = 0
+    - mmap_action_finish(action, vma, 0)
+      - And here, since err == 0, we check action->success_hook (which has
+        garbage, therefore it's nonzero) and call action->success_hook(vma)
+
+And I think action->success_hook(vma) where success_hook is uninitialized
+stack garbage gets me to where I am.
+
+Again, I'm not too familiar with this area of the kernel, this is just
+based on the quick digging that I did. And aplogies again if I'm missing
+something ; -) I do think that the uninitialized members could be a problem
+though.
+
+Thank you, I hope you have a great day Lorenzo!
+Joshua
