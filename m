@@ -1,184 +1,86 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mail-m16.yeah.net (mail-m16.yeah.net [220.197.32.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F05F386C32
-	for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 05:40:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7029F1A9B58;
+	Thu, 19 Mar 2026 06:04:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773898852; cv=none; b=tPYWjAtqDFEi6pbtJc1KTfLFdtekiG8jqRiV58ue+eZUfL5qDJXQrO4r+SFcuc4askSBsGTI0vjyrfz1y8hQdu9wezmD5vtP4+EPYnDdwzXug/6B1lG0+5ArVi/IVeef1wy3BFUm3wFAAoAbyQ7AEWd+29iJYPBeQvD/IHnU2qU=
+	t=1773900291; cv=none; b=CJWjojgBs6dYyCV1jvWSPROkns8Ebc5Mx5ApmNjPT473wz85iJNW1emvCkQ0pMJaWR42RLPLbdLK1IiwYZMn84QpGqEJiyN4yQ4r4IggKVzGb+7/sXPoUN5MTMMjkEN5eJxCggpbAmmz+KugvHNG178b6H2NFMKq7PLBH4eU0/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773898852; c=relaxed/simple;
-	bh=XWHZjySPatNcfSrBcwX0qERyY1r9YZCkhTFdImzBxm0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ck4MWGqn0xIA/DS6gp6YIJJz7ICbC7SvaD36xy0qsKcsSSgaSPso0ThjOnDmgQoLNgRIs1+F0SPQv5EwSzimZwkjq0LIaCqVnJtNI0FUmDtW0cGczo4i0JP1nadR1v4IytVhtCWd0laRfb60D9clJfyGooczgS3GeMs4YN0RGwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=MKMILTpR; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=EX6F01mu; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1773900291; c=relaxed/simple;
+	bh=xN7sLqYhl9HAKRfWnuVzFxqFn/br0Bl0gFke+of0BDw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jcccC3wcBHUcmdgbhdHt0ULNO/ZjBeEf9DEfu3bTGDsvBxEWfnzh3fvEYF11ItcO6pgiQsvcjKloRjCAvMzJdYbBEPMeneQPLQ59W2XsYscYAdu+EC/eLfkA5bz66ugrZSoZt/tuHmX8ec7e+fo68z7AJiZrc8hzjy0cv/idSGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yeah.net; spf=pass smtp.mailfrom=yeah.net; dkim=pass (1024-bit key) header.d=yeah.net header.i=@yeah.net header.b=mX6gJlGr; arc=none smtp.client-ip=220.197.32.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yeah.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yeah.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="MKMILTpR";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="EX6F01mu"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62J5XtXW1802744
-	for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 05:40:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	PUx9xVrh1YBiyYCcNow1M4IxPfA4MQ8LX3ZysQAwPbE=; b=MKMILTpR4fGzazvg
-	LX3j1CVl8SACtnb+oSLLViZi8OgDvWj95aC9UsegpEBk47mYArkdD9C9o4gTh1mH
-	p9eFZw9Yd+Wl+3EEoEibEup7gKA0E/FzgvQrxsV18jS0lF94vFRbvkm0dQlneomY
-	cAYBPC3sZKgS6/GfEiejFCosh54qOajQnL6Ux8bVa1TQQcoYHg43lXE1483YWByH
-	sGvFIdqfINTorRVYh0hvxMA4KhJox+HmiKh0LS6k0Nzof7Vj40hp4lZlxcfaES8v
-	timsUa6e6YNCj+2BH1Z/QCHZFdnQiTxXUnr8+sCtvjfqNPSjsGxFmrdVsW+4w8v4
-	TTWk0w==
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4cyscb3r73-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 05:40:50 +0000 (GMT)
-Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2b06c242a34so29390535ad.0
-        for <linux-doc@vger.kernel.org>; Wed, 18 Mar 2026 22:40:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1773898849; x=1774503649; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=PUx9xVrh1YBiyYCcNow1M4IxPfA4MQ8LX3ZysQAwPbE=;
-        b=EX6F01mu0rbd9z2bFzaw1oWnJSZziAOdOG6RJJ92/qakNnT5m+rquq+oUPZB/r9FPD
-         y0JxRODlQxJYNvy/v1ib2KPAcmYhW1W709s2TljFTWAYKwXOmbJHA8mDI26RZTGz2lC4
-         OkmwK4XvmOUctep9ONH2TnwRsaiWr+DZBg2UZYeRwbeE09ZvWnQtuOJpLMYPnNJ3xZc/
-         7giTAWcMpBD4uEH9QpwAKmsuJn0iWHadljszQC9jM9M7CZnuT+JWMJJzfzndZOxVYaVo
-         RZB194SjjAyo2iQ10vcckgYOMe7vNJWpSCtduDFDBTL6FQfuttKnZwPlmEtntdMnD2jv
-         Su6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773898849; x=1774503649;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=PUx9xVrh1YBiyYCcNow1M4IxPfA4MQ8LX3ZysQAwPbE=;
-        b=kZqbokh/LB2DXhvJHmyapUI7qfCOCgDvJ0IbkQK2Pi53Zd+VBr6b34ZtLUKOwjhZlW
-         l1+UAOduSVHxWYXcjnq/MziM+8K4GnqR/kdjg7nqtsxmuQN2hudXogvxETSRfKV+4Wz8
-         OqzwnveuB1xLsWiUL17lifhhChvIkseO5FF3N7fasu1hoiBdPSKmcsdmUuWdgf358Tpp
-         yB9VtnwtquLvL1wxj/PY6ba+e7B8bNbsbn+9vWhaEX0RkKhwK8PqyjRfT28bbNu4YXb9
-         8+tHuLEXfP3wWkzMj29DGuJqwxY34HsoGKA8wcuxMA7OzuPCJwCkk3zZkDADhOWzmhMU
-         TT0g==
-X-Forwarded-Encrypted: i=1; AJvYcCXloEXmSaReTapKlS6Vq+Mnz8uOXrnUYAoJHv9aVRPtaWoSz1pd5fI2OZ+eBY1kBtq1MY9KKmeL9VQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxcX1/DxKoO4GwU8k7kxRC7A+YTE8N33AnCnCoDwKXfrj1LN9L3
-	xAm0PD4jpuJyIRMTltBNNJgIpATeiU8MnLkDAPa8L40D2m9INqEgRJ24zD3qMXEyMgO1IDQaRl1
-	EJKzIVN8wbo6M4sY0C4o1fNQ/3deXWndJ/TBqcw65NCyE+0fJF563HUGtaBC8xqc=
-X-Gm-Gg: ATEYQzxrHWxu0Kq8cats23E5UM18drzkYclHZDznJVvIF9pKmkoZYQkndP/47VBmLQ7
-	Z+w0tmRBxistKF2yF81YwtLHWWH7Owbg8RM62ymPZQLlijCfjI4i+kOg/5KH0X1dIp7CEb9+oui
-	n+NnMVSeP5xGniqgMcZZV56P99pMUEOcy4t/2DOS/OjlUv9SWF02cZcaxhSff1mHYmLgxbM6N2v
-	Gyj/CvdwC5Jt084OkXe93eNu/OY9QKK8OXJOcRaxSR2Y0qTRN3w6vYnvhc0tB9QpT4ZTEN2UwfC
-	XC6AJmSKlA92Km3c22SdOFgNLWzsVQk+dJHruF2QWRLVVZ+Vjsz7RPfdwWDE3Kgzm4Vn59dK/E9
-	P9cXnzGZyHvescC0lfXs2C46G2NfVxjmL9mWN1AU8yxzOWJI2jJUgOwOVSVjvH5cUKH6aVOojE3
-	XrNVzd1m/fOb/A3jYs
-X-Received: by 2002:a17:903:1b03:b0:2b0:571f:6f07 with SMTP id d9443c01a7336-2b06e4079damr73635015ad.39.1773898849432;
-        Wed, 18 Mar 2026 22:40:49 -0700 (PDT)
-X-Received: by 2002:a17:903:1b03:b0:2b0:571f:6f07 with SMTP id d9443c01a7336-2b06e4079damr73634735ad.39.1773898848983;
-        Wed, 18 Mar 2026 22:40:48 -0700 (PDT)
-Received: from ?IPV6:2401:4900:88f7:d60f:c026:8389:5abe:d964? ([2401:4900:88f7:d60f:c026:8389:5abe:d964])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b06e4199easm61199775ad.5.2026.03.18.22.40.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Mar 2026 22:40:48 -0700 (PDT)
-Message-ID: <235572be-0789-4575-b6f5-f7a1895455a6@oss.qualcomm.com>
-Date: Thu, 19 Mar 2026 11:10:39 +0530
+	dkim=pass (1024-bit key) header.d=yeah.net header.i=@yeah.net header.b="mX6gJlGr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yeah.net;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=sW
+	8He8+FwkXyHwTK0tRaDJry9ai8pUezg8lRa+W7Xrg=; b=mX6gJlGrvfSAjNFkW0
+	YuZa4W5zpHCJDK0Gzhjz1aRhwf+iEhheui1yro9W3fapf+l/0jT4pgm2UEe+tpjP
+	Ehvxn4zmLIbZ7LGkmaVLRUtq4oiwnSHYSQXDptbscx9209GBd7HbBxiEBHsUP5gf
+	atQOEhThauUxVeQV382RgHrR4=
+Received: from localhost.localdomain (unknown [])
+	by gzsmtp3 (Coremail) with UTF8SMTPA id M88vCgCXv5BHkbtpKQHgAg--.61255S2;
+	Thu, 19 Mar 2026 14:01:44 +0800 (CST)
+From: wenswang@yeah.net
+To: krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	linux@roeck-us.net,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org
+Cc: devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Wensheng Wang <wenswang@yeah.net>
+Subject: [PATCH v2 0/2] hwmon: Add support for MPS mp2985
+Date: Thu, 19 Mar 2026 14:01:18 +0800
+Message-Id: <20260319060118.643352-1-wenswang@yeah.net>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] clk: add new Kconfig to control default behavior of
- disabling unused clocks
-To: Abel Vesa <abel.vesa@oss.qualcomm.com>, Brian Masney <bmasney@redhat.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd
- <sboyd@kernel.org>, Abel Vesa <abelvesa@kernel.org>,
-        Hans de Goede <hansg@kernel.org>,
-        Saravana Kannan <saravanak@kernel.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
-        Taniya Das <taniya.das@oss.qualcomm.com>,
-        Imran Shaik <imran.shaik@oss.qualcomm.com>
-References: <20260316-clk-ignore-unused-kconfig-v1-1-6e95a4fb0c94@redhat.com>
- <20260317-almond-leech-of-correction-2a2ef6@houat>
- <com5zf4bfgb3eoelbmy5pfykhdow6ne3nteua6l7bnzkr72dsb@pehxxygji5z2>
- <20260317-notorious-classic-sunfish-d016d5@houat>
- <2dsd7hq4bn25dibqk62a7o56tt2tecf645tq3upccneq4hby67@cmjjc5d6ximt>
- <ablhdKJgEhU8KmtO@redhat.com>
- <hdagvfcxoh4nukz5sqocbp7qbezv3rxct3aygb7fvhsej7zp27@iyeoi74q2w7n>
-Content-Language: en-US
-From: Jagadeesh Kona <jagadeesh.kona@oss.qualcomm.com>
-In-Reply-To: <hdagvfcxoh4nukz5sqocbp7qbezv3rxct3aygb7fvhsej7zp27@iyeoi74q2w7n>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: byJRnLzwkrEEXK1Gt8uo6U7EF3WST_Ao
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzE5MDA0MiBTYWx0ZWRfX2FzIFlmoAfe7
- aWj5UzzNabxUdoKgfJY+c8rhEPBqB3iFD/6Ghn9nzHEda1/9mTJxd56+o8NlXXu5Ij9QjPpg5uT
- 7w+AnhtGxctr2xz+4KgvFSq+bLat7D4YsBPK6KUzguMLWVh56UDmrDv8NiklmTd4WAsmhu13S0j
- XhkJJswfZEXRQ5NyvtJRcmak3Wf2zSyH/O5fBNntMhiXqwzO4XZCcpCAVVvrpbmmat/2S//bJuo
- oJUktOTNZZhBFfOV1TiQRDh4s6TMztYTJVXl6XElvgCsditA/HQgFyLTrZ/11Q1bRepBD1Qccz4
- D5l9DKt3eC3/dSSUB4/fz2mxi9HrVeNGWVQFzxdvb37di0XcggXyX3p2VYwnn7Sk7FRa0gRs7Fg
- 07UQU2d+paEtTMzkqmr6Oc6oMWHepm26XA+5mpfrc+6JP5ZBhLt55K3IrQuPQKV59q782MXuGpz
- lkBbovNkftZu9WrstaQ==
-X-Proofpoint-GUID: byJRnLzwkrEEXK1Gt8uo6U7EF3WST_Ao
-X-Authority-Analysis: v=2.4 cv=PtCergM3 c=1 sm=1 tr=0 ts=69bb8c62 cx=c_pps
- a=cmESyDAEBpBGqyK7t0alAg==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22 a=ih0Mk5aDYjs-EetowCwA:9
- a=QEXdDO2ut3YA:10 a=1OuFwYUASf3TG4hYMiVC:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-19_01,2026-03-17_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 clxscore=1011 priorityscore=1501 bulkscore=0 lowpriorityscore=0
- malwarescore=0 spamscore=0 adultscore=0 suspectscore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603190042
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:M88vCgCXv5BHkbtpKQHgAg--.61255S2
+X-Coremail-Antispam: 1Uf129KBjvdXoW7Jry5Cw1rKw45Zw43Ww18AFb_yoWftFcEkr
+	4xG3sFvF1UGFn3uayDCF1fWryUKw45WFn3J3WrtrZ8ZF1avrsIqr1kXr9rta47GFW7CFn8
+	XrWDXan5AFnrKjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7xRKeOJ5UUUUU==
+X-CM-SenderInfo: 5zhq24xdqjq5hhdkh0dhw/1tbiNAi-ZGm7kUjfyAAA37
 
+From: Wensheng Wang <wenswang@yeah.net>
 
+Add mp2985 driver in hwmon and add dt-bindings for it.
 
-On 3/17/2026 7:50 PM, Abel Vesa wrote:
-> On 26-03-17 10:13:08, Brian Masney wrote:
->> On Tue, Mar 17, 2026 at 03:21:17PM +0200, Abel Vesa wrote:
->>> The solution has been already discussed for a long time now and it is:
->>> drop the clk_ignore_unused late_initcall entirely and then make a
->>> generic sync_state callback that the clock providers can use (or they
->>> could implement one themselves). This way, until sync_state is reached
->>> for a specific clock provider driver, all unused clocks remain as is.
->>
->> I'm willing to work on the sync state support once my clk scaling
->> series [1] lands upstream. I believe that Saravana posted a series
->> related to clk sync state, and I need to look at that.
-> 
-> Yeah, I've spent time on it a couple of years as well, but got side
-> tracked...
-> 
-> I'd be nice if this actually lands soon.
-> 
+v1 -> v2:
+    1. add Krzysztof's Acked-by
+    2. remove duplicate entry in mp2985.rst
+    3. clamp vout value to 32767
+    4. simplify the code for obtaining PMBUS_VOUT_MODE bit value
+    5. add comment for explaining MP2985 supported vout mode
+    6. switch back to previous page after obtaining vid scale to avoid
+       confusing the PMBus core
 
-Yeah, In Qualcomm SoCs, we have use cases where certain consumer drivers are
-probed after the late init call. These drivers rely on clocks that are already
-enabled by the bootloader and expect those clocks to remain ON until their probe
-completes, after which these consumer drivers can vote on the required clocks.
-Supporting sync_state for clocks appears to be the right mechanism to address
-this requirement.
+Wensheng Wang (2):
+  dt-bindings: hwmon: Add MPS mp2985
+  hwmon: add MP2985 driver
 
-Thanks,
-Jagadeesh
+ .../devicetree/bindings/trivial-devices.yaml  |   2 +
+ Documentation/hwmon/index.rst                 |   1 +
+ Documentation/hwmon/mp2985.rst                | 147 +++++++
+ MAINTAINERS                                   |   7 +
+ drivers/hwmon/pmbus/Kconfig                   |   9 +
+ drivers/hwmon/pmbus/Makefile                  |   1 +
+ drivers/hwmon/pmbus/mp2985.c                  | 377 ++++++++++++++++++
+ 7 files changed, 544 insertions(+)
+ create mode 100644 Documentation/hwmon/mp2985.rst
+ create mode 100644 drivers/hwmon/pmbus/mp2985.c
 
->>
->> FWIW, the only reason I posted this patch is because at the end of
->> Stephen's LPC talk I got the impression that this was also an acceptable
->> change. I'm fine with dropping this change.
-> 
-> Here is the scenario that proves adding such config isn't the right
-> solution: think of single kernel image working with different SoCs from
-> different vendors. This is actually the case where distros need to have
-> a way to provide one kernel image + thousands of DTBs and be able to
-> boot one each one of the boards. Whatever this config is set to in the
-> kernel image, it will not work with all platforms.
-> 
+-- 
+2.25.1
 
