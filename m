@@ -1,327 +1,300 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from LO2P265CU024.outbound.protection.outlook.com (mail-uksouthazon11021139.outbound.protection.outlook.com [52.101.95.139])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C3C53C5DD0;
-	Thu, 19 Mar 2026 12:21:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773922866; cv=none; b=ihBORiwCd2qRQM9Sp2E53hbUydGfY6jKO7yx6I4PXzHUJ3ZOvwbn9PjBwMcmDSZgR4+V6+6qaZmPHeOV3Aa5ub8Ej9+LlkNAva6Y5WtbRpPXDEKorTGE9lRQVcXFWIgmFD/Fq6V3CisMBsDAV9ojkCPHnG75blwVrdbuZrlr+Wg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773922866; c=relaxed/simple;
-	bh=51qDref+96vLVVzgxex3Lz/aTp6JsO1HJFiooq62O/k=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jSpt4xxsI8kJdxSy5d+PSmXd0YdVO+SxYEuZtA+urfjrL94PC9A6/x+S1hU1ruSaUC0bkSsLn0yJllGL2AmdCGsKrGhG3EqcdhV/v5b8K4VTZz8WHE4HCwDbFf3WcPD8gutJrxuv3BkqrS76KJ/ie0FUV1Ml64UZzlqselIuHBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.224.107])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fc4X074MjzJ46Cq;
-	Thu, 19 Mar 2026 20:20:00 +0800 (CST)
-Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
-	by mail.maildlp.com (Postfix) with ESMTPS id 51D4740584;
-	Thu, 19 Mar 2026 20:21:00 +0800 (CST)
-Received: from localhost (10.203.177.15) by dubpeml500005.china.huawei.com
- (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 19 Mar
- 2026 12:20:58 +0000
-Date: Thu, 19 Mar 2026 12:20:57 +0000
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
-To: John Groves <john@groves.net>
-CC: Miklos Szeredi <miklos@szeredi.hu>, Dan Williams
-	<dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, "Alison
- Schofield" <alison.schofield@intel.com>, John Groves <jgroves@micron.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, "Alexander
- Viro" <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>,
-	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong"
-	<djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, Jeff Layton
-	<jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, Stefan Hajnoczi
-	<shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, Josef Bacik
-	<josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan
-	<chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>, Fuad Tabba
-	<tabba@google.com>, Sean Christopherson <seanjc@google.com>, Shivank Garg
-	<shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>, Gregory Price
-	<gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>, Ajay Joshi
-	<ajayjoshi@micron.com>, <venkataravis@micron.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<nvdimm@lists.linux.dev>, <linux-cxl@vger.kernel.org>,
-	<linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH V8 3/8] dax: add fsdev.c driver for fs-dax on character
- dax
-Message-ID: <20260319122057.00004503@huawei.com>
-In-Reply-To: <20260319012837.4443-1-john@groves.net>
-References: <20260318202737.4344.dax@groves.net>
-	<20260319012837.4443-1-john@groves.net>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1D5918FDBD;
+	Thu, 19 Mar 2026 12:21:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.95.139
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773922887; cv=fail; b=J5wj71hlP5yJmhDV5PqdQUjJTF3F0QtAYDFMDkPaZwBe3RlSCXRvd3leXF73u68ztLJcLfH1tZsoTOuUcI86NVtyOBGFvIxJe/oXtW33BtvoFwPvA1cUAMNDf2AzrK8jsBaI/rjSTMILgkCazK1ALnEdwFqfRY6u7yVG8h0mqEY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773922887; c=relaxed/simple;
+	bh=J3NMJ3zhV1+vDDcptlX87S2PaXgQgujZiGfu1EZ16Dw=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=Zt8lbXdf/afPcAxUnbU7/3S+1U9z6mqVXPIu4KsBuCgAPW7AONGgtxVfANfGSHx6orvZqY0SjJ0FyqPg8PylPvF4Nx54ewJkbsfCrX/a6fFvVJPvKdQ+b7uIsxcruCn9GoopptBSg/0L91zJXP77zWFdNKu3QXtjqWB6eZ3eIk8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=Z98da+Pg; arc=fail smtp.client-ip=52.101.95.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="Z98da+Pg"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=QCq1kUmgkJcgX6shziKOE/RnksPEnnHn16oZHh7a+aHSmDb7J0/PiIYpJNVb1jsrHUhPlhnL/Z1VBWp22lTm3980qy04J+MTuknEYXDor2mapphQ9HabkD2cKLu1M93h0Unh9EoK3GsBlvPUH9QGcS3galfVJE/zVU6WSbOQHLM+pdcIDqX42bIvP/HMTg23WY9C9GQBpCczH/MNqBATF08Le5hKngo6mPT9N4ndO8jw2NHZseJGqeKvBvG7Juq5O/AyLD7cle5UPfpyXfLop+xJbxdVUEv6ilTkH5XUmqMa1jQ/KMLnYJMkZ+2sCCpA/LCPOtnRRU6efJZZGfONjw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=QUDyMS4SPYtVrFK0EsHcm19mC4nwxv/itzEURW3MnZk=;
+ b=Xywd/DFNzfdBAgns0Qc6NZ4hh/92RiFdz/O3tNSn43d2qVcapFAIPKCS3xRnF+u0OTfv3EMjZ7VtRjG1rWpbL6dk40LKq7zTWFqrAXFHjuNYf0qU2QEvhnhPVxOs/yljQGva01hX+AZd/U0i4DifbO2PieCNaCwtZQD2WcgKVuCoPLZJQIrGBN9g4QfIwM7zmzCzWW2PkA/HybTi9SkYTxrcQEyfqH57/gjVszL+/oTmYirFaReXHjE4qPRUO0JN93rSQLnPsbqoIxGCOB7XADuVprxdp1aGgdZAKTwLukTFSto4wAkHe3pxLxqWZvCQQIZLuQP81EZUa1R3IbzmhA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QUDyMS4SPYtVrFK0EsHcm19mC4nwxv/itzEURW3MnZk=;
+ b=Z98da+PgDVNZvs7hO4WVMVVvfrcJFJHWzr8Rn1lZPusrzHvuG9bd4JRCgBsESyA0zNgAlJ1bQlLkgGa3XLRNykph/KOvrvdSPZrQhTqFb4DidhbvTl4Bn8dbwC9KD6RkrUE7M1QvRSJeigSV+tmg7/YMUKn4CM42o5k4xd6b/lA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by CW1P265MB8412.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:26f::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.19; Thu, 19 Mar
+ 2026 12:21:20 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9723.018; Thu, 19 Mar 2026
+ 12:21:19 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 19 Mar 2026 12:21:18 +0000
+Message-Id: <DH6R6GB10S07.AG2EY39F0P85@garyguo.net>
+Cc: "Joel Fernandes" <joelagnelf@nvidia.com>,
+ <linux-kernel@vger.kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun
+ Feng" <boqun@kernel.org>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Trevor Gross" <tmgross@umich.edu>, "Alex Gaynor" <alex.gaynor@gmail.com>,
+ "Dave Airlie" <airlied@redhat.com>, "David Airlie" <airlied@gmail.com>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
+ <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "Simona
+ Vetter" <simona@ffwll.ch>, "Daniel Almeida" <daniel.almeida@collabora.com>,
+ "Koen Koning" <koen.koning@linux.intel.com>, "Nikola Djukic"
+ <ndjukic@nvidia.com>, "Alexandre Courbot" <acourbot@nvidia.com>, "Philipp
+ Stanner" <phasta@kernel.org>, "Elle Rhumsaa" <elle@weathered-steel.dev>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Alex Deucher"
+ <alexander.deucher@amd.com>, =?utf-8?q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, "Jani Nikula" <jani.nikula@linux.intel.com>,
+ "Joonas Lahtinen" <joonas.lahtinen@linux.intel.com>, "Rodrigo Vivi"
+ <rodrigo.vivi@intel.com>, "Tvrtko Ursulin" <tursulin@ursulin.net>, "Huang
+ Rui" <ray.huang@amd.com>, "Matthew Auld" <matthew.auld@intel.com>, "Matthew
+ Brost" <matthew.brost@intel.com>, "Lucas De Marchi"
+ <lucas.demarchi@intel.com>, =?utf-8?q?Thomas_Hellstr=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>, "Helge Deller" <deller@gmx.de>, "John
+ Hubbard" <jhubbard@nvidia.com>, "Alistair Popple" <apopple@nvidia.com>,
+ "Timur Tabi" <ttabi@nvidia.com>, "Edwin Peer" <epeer@nvidia.com>, "Andrea
+ Righi" <arighi@nvidia.com>, "Andy Ritger" <aritger@nvidia.com>, "Zhi Wang"
+ <zhiw@nvidia.com>, "Balbir Singh" <balbirs@nvidia.com>,
+ <alexeyi@nvidia.com>, "Eliot Courtney" <ecourtney@nvidia.com>,
+ <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <amd-gfx@lists.freedesktop.org>,
+ <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
+ <linux-fbdev@vger.kernel.org>
+Subject: Re: [PATCH v13 1/1] rust: interop: Add list module for C linked
+ list interface
+From: "Gary Guo" <gary@garyguo.net>
+To: "Danilo Krummrich" <dakr@kernel.org>, "Gary Guo" <gary@garyguo.net>
+X-Mailer: aerc 0.21.0
+References: <20260317201710.934932-1-joelagnelf@nvidia.com>
+ <20260317201710.934932-2-joelagnelf@nvidia.com>
+ <DH6QAR1HHXRV.1Y7IZ22HC9FZ3@garyguo.net>
+ <DH6QUO2T941E.2S1UP7EABOP42@kernel.org>
+In-Reply-To: <DH6QUO2T941E.2S1UP7EABOP42@kernel.org>
+X-ClientProxiedBy: LO4P123CA0681.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:351::15) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml100009.china.huawei.com (7.191.174.83) To
- dubpeml500005.china.huawei.com (7.214.145.207)
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CW1P265MB8412:EE_
+X-MS-Office365-Filtering-Correlation-Id: f4fa447c-1346-4d0f-617d-08de85b206c9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|1800799024|376014|366016|10070799003|56012099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	/ukFdTC/J4uH9dT5W3gZ9msFb9OU+kOHa+vdnI7kYJ2DDlLp4qTRChAMPbrkJG+JE4S91Lh2XoXFHSiyTFDPwM69Kwclx8MLx9AiOPUsOrqmvhZ39zJxihitM5Rn44ep5VmLYyTvwfjzomISNymXkqAEn6mUMkm6pUOL25RVW1t4bBPtHrn3ZVI6Z76+AQYi23CDH8NslLQWyrNrxekqtxULNO2+REd6SmlaFLhflDdlYB/YPonY57QZVKRizxqNWU8Mb3ln/qMDIPgDckCmZG56JU4HqGFFKK5mfvLkxwec4V92A6pATTmy2DcRjmwx813/HuFZKNSOQEmcaEl4WJtaMJk3+hM6y90UA6GSMLTC+O8eUwc/rs89lK+34bqJGD244Fpv8LCQCRrCpzXAOZDrviBTLFsgQUPbl54WyqcXO7xDAHtHeBgnMf0YFQqtjj4sAsgmMz1GJcqxZMAAKzx7lai0Mv3PMi5gdvAIGNt45yJBqQuGdn95dhX2EAgXsXyoglfRxrkwkjn6qyM3zgwoIz4OQA4dydfFjaTpymnjXQKF3Lwjh53g0OYJJjlkFTNG2RIeT5rL9CHWOjT+ixN2cUW9PLkjUg36PVcnICF63K8Ws9GDYF7aKTokViiaDpsh76NvDJjfz239Vb8AanwD0EYhtT0nMj/icFRgBSNGbygtUXaiyiizHK8stXqq
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(366016)(10070799003)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?K29sYUZCQmJuNHRxcWpnK2ErOXFoSUlZTjZ6aEFjRDFxZU5IM0QwUm5ydHpk?=
+ =?utf-8?B?Z1VxRFdxTTZrbTVPcnJCOXdMNVM0S1lTUWxESlg5VFdyaGZiR2tNTm1saHZ6?=
+ =?utf-8?B?ajdxWWhTMFB1ZUZIS2JaR3MxaUh4eEVPVTNwTE1mamFRQkE5M0pmVGZ6Kzdo?=
+ =?utf-8?B?U3N6ak9rZU1neWhpWmhkV2lQL01iaXdUL0FmQWFDUUNHdlV5QUR5MGZqNERU?=
+ =?utf-8?B?Nm5CNEs3anovbWNnNHBTRFdGWkpNeTl6RUc3NmgzUmNGdmdkRVFOY2hFL2dY?=
+ =?utf-8?B?Q0ZmU29GUXArblN3ZDJzZVBONTBEMGtWUHNjZHhmcFFVb0RSZGdCeE9OVm5o?=
+ =?utf-8?B?ajRGTkJuUEVxQ2YrUzlodndRaHpmZ1hYU3FJOVNFdjRVZVZGNHpmK1RLSjZS?=
+ =?utf-8?B?MWYrNEJsRnJvV1NTMUo0R3d6aTlhb0JqU1htaUJ0ZVpCK0hSUG1Cd2tVK0lL?=
+ =?utf-8?B?Q1NvWjZxNHFrNDZmSjhVVnlaT3lLd2xyc09MY05ML1VuMDB2YXY3K1FENGxv?=
+ =?utf-8?B?cExaem93cmpXS0N3WHBPSldrMW55eW1CYXhyaWxVd1ZMUFFzN01neXhoclZ0?=
+ =?utf-8?B?WVZ0TGZTMmZ6UHlQVDRWSklRaUw3dVVXT2ZrSE5nT0c0TWpwb1lMMFdJZG5k?=
+ =?utf-8?B?NGR3cUtKWjdTdUhCU2h5UnorQnhNSGZjUDFHOWZqbVRQZ2N6azhxVDZIcWkw?=
+ =?utf-8?B?RHdMTkVQMFRqUmU4SEc4VmJ5WXI3VWxwQlBaaGJQemNNK1J2cE1FMU5EcHZZ?=
+ =?utf-8?B?NDZkL1BKNWZWOC9zNmlyNEEzY0hubW9DWFhiV1pqVWptY0VMUjZTcE03eTlS?=
+ =?utf-8?B?a1lZQVIzdmIvYlg5K3RWdkx0UkhkcnVaM1lmS2MwckxobEtGcHVTMnY4Ums1?=
+ =?utf-8?B?Y0orVk9XNEYydjJYUEo0Z2FzMlJtd3FkYlFLMUZmdVB1T1BkZXhvejk2Q0Fk?=
+ =?utf-8?B?QmdEQ2lKd1lvVkUyNlA5U2VLYjBPTkF1VnI0OW1QRWVERGM5K1lDTWtzbkVj?=
+ =?utf-8?B?ZEhGQm9CZmZQRG1obk9vd2t0WVNrVStOQldURG00S014RjNjUS8rV1R0Nyt2?=
+ =?utf-8?B?YlE4SVN2U2hQM0xqNnFHOHZmZlRwNHhJTEt6WVl6Zkh2VWJabEV6aVZLdjQ5?=
+ =?utf-8?B?RjhTUXdOS09kYW91dzVRN2xtOGdlNUNlVDZIWXA3QVI4Q25vWm41WnBPSUtq?=
+ =?utf-8?B?ckR6V3pTQ01CaTdjTHNjN25PTENCMktLTWNYVmJOZXhmK2Z5QnBycnFlcEVW?=
+ =?utf-8?B?a1FvWStaTTdCSnRXNi9ZK3MzalZBSDkvdEJ4d1MrMjRNelRCOHlYam1HWXh1?=
+ =?utf-8?B?ektzaE5HZTNsQWc5MXhxTEVSWWhRWmM1YkR5dGFzOTZNKzY0Q0tjWVVQdHpI?=
+ =?utf-8?B?MnJ6SG40cFU4R0FsOFNoWUozbkd6OVBsaG1kL1FPSkhzS2NXWWZIdXp2Q1Ru?=
+ =?utf-8?B?b3RpbGhrUWtMMFJCTlM3N21wOWFZZVpVZmlpTmlEZmJVUjBzNWZOejdTRUZ6?=
+ =?utf-8?B?NzExcWw1NXZDRjJzMGV6cyt6NGFadVVhdTBvUWI2OUlPL1E1bDZnS0tCUFpq?=
+ =?utf-8?B?WWlNRUV2N2hyV2w1WTluamgyb0VuRTI4NWh5RHd1eUhxWHFRcmM1VzVGd3BI?=
+ =?utf-8?B?QUpPOHh2N0JqTVUyLzZlbHp6R25XWlRmWHc5aEpVK3FKUFFZemNBQ3RCcHBJ?=
+ =?utf-8?B?ZWRnL1ZVZ0JvemZ3VXBOaFZkaTlVTEFYeDBqVGJNU0RxVDFhMUlpZll0SzZU?=
+ =?utf-8?B?ckxiQktCdTRSZ2FqR29Pd1FxVjNRdjAzWjhnWTdEL05yb1pmV1orWTV3eWp2?=
+ =?utf-8?B?bXZmOXBYUDgxSFZTN1kxNzZId3N2Q0ppNXFLRHlwSGJFQTRuQmY5Wjg1M0kv?=
+ =?utf-8?B?bU4rQmJUeGNxbGwyd3BneG9rNVozVFY4bEJpWEkyOWExR0N3R3VQZ1hkTFFF?=
+ =?utf-8?B?MFBUbFpZRkZ0Vm5Edis5OWgyNjVXZWQ5NFpyckM5R1ZLTm1zQWVmS1Y4T0dY?=
+ =?utf-8?B?QmVBWENhbldWU3ZqNmN6RFpxeldIUEJrdERSeHZ0Z3pLUXJQdm14aFhOWm1O?=
+ =?utf-8?B?RXhXQzU1K3B6b1B1U2VNbGVFVmp3QnVMVTJCUXJBVUxvaHBtS0Ewa3FQRU9V?=
+ =?utf-8?B?a0NSbDVrdHdVQ3Z0d25xKy9zVUJmYUM5OCtKaEovcnIvKzZkVDV3TFh6TzQy?=
+ =?utf-8?B?L1dlbnBxQmpLR2RQM050L1ZKNzVHNFNnSlJyaWN6U0QvaGUwaHRmOG9hV3B0?=
+ =?utf-8?B?MDRSaUppNXZzbDF5czVCRWx2WCtjcTFZTUIrRTJkNkJ6ZGlJc1hOQnZsVVJS?=
+ =?utf-8?B?ZkJYdUVKc2FTaVZzU1VkYi90SjQrL3ZnQ1VLMjdrRGVMY1J6OC9iZz09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: f4fa447c-1346-4d0f-617d-08de85b206c9
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Mar 2026 12:21:19.8496
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Rz8D+2P/7ElgtF1BXxEq3MeSJOhLnJpc3pO+jmB9waY5tIBb8dST/TxiDIgALQKpqb51NeE4/fKTYl3CdHm+6Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CW1P265MB8412
 
-On Wed, 18 Mar 2026 20:28:37 -0500
-John Groves <john@groves.net> wrote:
+On Thu Mar 19, 2026 at 12:05 PM GMT, Danilo Krummrich wrote:
+> On Thu Mar 19, 2026 at 12:39 PM CET, Gary Guo wrote:
+>> On Tue Mar 17, 2026 at 8:17 PM GMT, Joel Fernandes wrote:
+>>> Add a new module `kernel::interop::list` for working with C's doubly
+>>> circular linked lists. Provide low-level iteration over list nodes.
+>>>
+>>> Typed iteration over actual items is provided with a `clist_create`
+>>> macro to assist in creation of the `CList` type.
+>>>
+>>> Cc: Nikola Djukic <ndjukic@nvidia.com>
+>>> Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
+>>> Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
+>>> Acked-by: Alexandre Courbot <acourbot@nvidia.com>
+>>> Acked-by: Gary Guo <gary@garyguo.net>
+>>> Acked-by: Miguel Ojeda <ojeda@kernel.org>
+>>> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+>>> ---
+>>>  MAINTAINERS                 |   8 +
+>>>  rust/helpers/helpers.c      |   1 +
+>>>  rust/helpers/list.c         |  17 ++
+>>>  rust/kernel/interop.rs      |   9 +
+>>>  rust/kernel/interop/list.rs | 342 ++++++++++++++++++++++++++++++++++++
+>>>  rust/kernel/lib.rs          |   2 +
+>>>  6 files changed, 379 insertions(+)
+>>>  create mode 100644 rust/helpers/list.c
+>>>  create mode 100644 rust/kernel/interop.rs
+>>>  create mode 100644 rust/kernel/interop/list.rs
+>>>
+>>> +/// Create a C doubly-circular linked list interface [`CList`] from a =
+raw `list_head` pointer.
+>>> +///
+>>> +/// This macro creates a `CList<T, OFFSET>` that can iterate over item=
+s of type `$rust_type`
+>>> +/// linked via the `$field` field in the underlying C struct `$c_type`=
+.
+>>> +///
+>>> +/// # Arguments
+>>> +///
+>>> +/// - `$head`: Raw pointer to the sentinel `list_head` object (`*mut b=
+indings::list_head`).
+>>> +/// - `$rust_type`: Each item's rust wrapper type.
+>>> +/// - `$c_type`: Each item's C struct type that contains the embedded =
+`list_head`.
+>>> +/// - `$field`: The name of the `list_head` field within the C struct.
+>>> +///
+>>> +/// # Safety
+>>> +///
+>>> +/// The caller must ensure:
+>>> +///
+>>> +/// - `$head` is a valid, initialized sentinel `list_head` (e.g. via `=
+INIT_LIST_HEAD()`)
+>>> +///   pointing to a list that is not concurrently modified for the lif=
+etime of the [`CList`].
+>>> +/// - The list contains items of type `$c_type` linked via an embedded=
+ `$field`.
+>>> +/// - `$rust_type` is `#[repr(transparent)]` over `$c_type` or has com=
+patible layout.
+>>> +///
+>>> +/// # Examples
+>>> +///
+>>> +/// Refer to the examples in the [`crate::interop::list`] module docum=
+entation.
+>>> +#[macro_export]
+>>> +macro_rules! clist_create {
+>>> +    (unsafe { $head:ident, $rust_type:ty, $c_type:ty, $($field:tt).+ }=
+) =3D> {{
+>>> +        // Compile-time check that field path is a `list_head`.
+>>> +        // SAFETY: `p` is a valid pointer to `$c_type`.
+>>> +        let _: fn(*const $c_type) -> *const $crate::bindings::list_hea=
+d =3D
+>>> +            |p| unsafe { &raw const (*p).$($field).+ };
+>>
+>> Actually, this check is insufficient, you should create a reference inst=
+ead
+>> (just in case people put this inside `repr(packed)`.
+>>
+>> This could be something like
+>>
+>>     let _ =3D |p: &$c_type| { _ =3D &p.$($field).+ }
+>>
+>> ?
+>>
+>>> +
+>>> +        // Calculate offset and create `CList`.
+>>> +        const OFFSET: usize =3D ::core::mem::offset_of!($c_type, $($fi=
+eld).+);
+>>> +        // SAFETY: The caller of this macro is responsible for ensurin=
+g safety.
+>>> +        unsafe { $crate::interop::list::CList::<$rust_type, OFFSET>::f=
+rom_raw($head) }
+>>
+>> Given that this is unsafe, I am not sure why the macro should have unsaf=
+e
+>> keyword in it, rather than just being `clist_create(a, b, c, d)` and jus=
+t have
+>> user write unsafe.
+>
+> Either you are proposing to not wrap unsafe code within unsafe {} within =
+the
+> macro, such that the user is forced to write an unsafe {} around the macr=
+o, but
+> then they calls within the macro are not justified individually, or you p=
+ropose
+> to let the user write an unsafe {} around the macro regardless of the inn=
+er
+> unsafe {} blocks, but then then the compiler warns about an unnecessary u=
+nsafe
+> and nothing forces the user to actually wrap it in unsafe {}.
 
-> The new fsdev driver provides pages/folios initialized compatibly with
-> fsdax - normal rather than devdax-style refcounting, and starting out
-> with order-0 folios.
-> 
-> When fsdev binds to a daxdev, it is usually (always?) switching from the
-> devdax mode (device.c), which pre-initializes compound folios according
-> to its alignment. Fsdev uses fsdev_clear_folio_state() to switch the
-> folios into a fsdax-compatible state.
-> 
-> A side effect of this is that raw mmap doesn't (can't?) work on an fsdev
-> dax instance. Accordingly, The fsdev driver does not provide raw mmap -
-> devices must be put in 'devdax' mode (drivers/dax/device.c) to get raw
-> mmap capability.
-> 
-> In this commit is just the framework, which remaps pages/folios compatibly
-> with fsdax.
-> 
-> Enabling dax changes:
-> 
-> - bus.h: add DAXDRV_FSDEV_TYPE driver type
-> - bus.c: allow DAXDRV_FSDEV_TYPE drivers to bind to daxdevs
-> - dax.h: prototype inode_dax(), which fsdev needs
-> 
-> Suggested-by: Dan Williams <dan.j.williams@intel.com>
-> Suggested-by: Gregory Price <gourry@gourry.net>
-> Signed-off-by: John Groves <john@groves.net>
+The former.
 
-A few comments inline.  I think some of the code here could be moved
-to a helper library used by both this and device.c
+"The caller of this macro is responsible for ensuring safety" justification=
+ is
+not really useful here IMO.
 
-> ---
->  MAINTAINERS          |   8 ++
->  drivers/dax/Makefile |   6 +
->  drivers/dax/bus.c    |   4 +
->  drivers/dax/bus.h    |   1 +
->  drivers/dax/fsdev.c  | 253 +++++++++++++++++++++++++++++++++++++++++++
->  fs/dax.c             |   1 +
->  include/linux/dax.h  |   3 +
->  7 files changed, 276 insertions(+)
->  create mode 100644 drivers/dax/fsdev.c
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 96ea84948d76..e83cfcf7e932 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -7298,6 +7298,14 @@ L:	linux-cxl@vger.kernel.org
->  S:	Supported
->  F:	drivers/dax/
->  
-> +DEVICE DIRECT ACCESS (DAX) [fsdev_dax]
-> +M:	John Groves <jgroves@micron.com>
-> +M:	John Groves <John@Groves.net>
-> +L:	nvdimm@lists.linux.dev
-> +L:	linux-cxl@vger.kernel.org
-> +S:	Supported
-> +F:	drivers/dax/fsdev.c
-> +
->  DEVICE FREQUENCY (DEVFREQ)
->  M:	MyungJoo Ham <myungjoo.ham@samsung.com>
->  M:	Kyungmin Park <kyungmin.park@samsung.com>
-> diff --git a/drivers/dax/Makefile b/drivers/dax/Makefile
-> index 5ed5c39857c8..3bae252fd1bf 100644
-> --- a/drivers/dax/Makefile
-> +++ b/drivers/dax/Makefile
-> @@ -5,10 +5,16 @@ obj-$(CONFIG_DEV_DAX_KMEM) += kmem.o
->  obj-$(CONFIG_DEV_DAX_PMEM) += dax_pmem.o
->  obj-$(CONFIG_DEV_DAX_CXL) += dax_cxl.o
->  
-> +# fsdev_dax: fs-dax compatible devdax driver (needs DEV_DAX and FS_DAX)
-> +ifeq ($(CONFIG_FS_DAX),y)
-> +obj-$(CONFIG_DEV_DAX) += fsdev_dax.o
-> +endif
+If there're cases where we do want to justify unsafe code that's not immedi=
+ately
+deferring to the user inside the macro, we could use the SAFETY* trick prop=
+osed
+in the thread, without writing an actual `unsafe {}` block.
 
-Why not throw in a new CONFIG_FSDAX_DEV and handle the dependencies
-in Kconfig?  
+>
+> Is there a third option I'm not aware of? I.e. for the above reason
+> impl_device_context_deref!() was designed the same way.
 
-> +
->  dax-y := super.o
->  dax-y += bus.o
->  device_dax-y := device.o
->  dax_pmem-y := pmem.o
->  dax_cxl-y := cxl.o
-> +fsdev_dax-y := fsdev.o
->  
->  obj-y += hmem/
+impl_device_context_deref!() expands to an item, so the user couldn't put a=
+n
+`unsafe {}` on the outside. This macro expands to an expression, so users c=
+an
+add `unsafe` themselves.
 
-> diff --git a/drivers/dax/fsdev.c b/drivers/dax/fsdev.c
-> new file mode 100644
-> index 000000000000..e5b4396ce401
-> --- /dev/null
-> +++ b/drivers/dax/fsdev.c
+Best,
+Gary
 
-> +static int fsdev_dax_probe(struct dev_dax *dev_dax)
-> +{
-> +	struct dax_device *dax_dev = dev_dax->dax_dev;
-> +	struct device *dev = &dev_dax->dev;
-> +	struct dev_pagemap *pgmap;
-> +	u64 data_offset = 0;
-
-See below. I think you can useful reduce scope of this one.
-
-> +	struct inode *inode;
-> +	struct cdev *cdev;
-> +	void *addr;
-> +	int rc, i;
-> +
-
-There is a lot of duplication in here with dax/device.c
-Is any of it suitable for shared helpers?
-
-> +	if (static_dev_dax(dev_dax))  {
-> +		if (dev_dax->nr_range > 1) {
-> +			dev_warn(dev, "static pgmap / multi-range device conflict\n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		pgmap = dev_dax->pgmap;
-> +	} else {
-> +		size_t pgmap_size;
-> +
-> +		if (dev_dax->pgmap) {
-> +			dev_warn(dev, "dynamic-dax with pre-populated page map\n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		pgmap_size = struct_size(pgmap, ranges, dev_dax->nr_range - 1);
-> +		pgmap = devm_kzalloc(dev, pgmap_size,  GFP_KERNEL);
-
-Bonus space before GFP_KERNEL.
-
-
-> +		if (!pgmap)
-> +			return -ENOMEM;
-> +
-> +		pgmap->nr_range = dev_dax->nr_range;
-> +		dev_dax->pgmap = pgmap;
-> +
-> +		for (i = 0; i < dev_dax->nr_range; i++) {
-> +			struct range *range = &dev_dax->ranges[i].range;
-> +
-> +			pgmap->ranges[i] = *range;
-> +		}
-> +	}
-> +
-> +	for (i = 0; i < dev_dax->nr_range; i++) {
-> +		struct range *range = &dev_dax->ranges[i].range;
-> +
-> +		if (!devm_request_mem_region(dev, range->start,
-> +					range_len(range), dev_name(dev))) {
-> +			dev_warn(dev, "mapping%d: %#llx-%#llx could not reserve range\n",
-> +				 i, range->start, range->end);
-> +			return -EBUSY;
-> +		}
-> +	}
-
-Everything above here is shared.  Some sort of _init() or similar library function
-seems in order.
-
-> +
-> +	/*
-> +	 * FS-DAX compatible mode: Use MEMORY_DEVICE_FS_DAX type and
-> +	 * do NOT set vmemmap_shift. This leaves folios at order-0,
-> +	 * allowing fs-dax to dynamically create compound folios as needed
-> +	 * (similar to pmem behavior).
-> +	 */
-> +	pgmap->type = MEMORY_DEVICE_FS_DAX;
-> +	pgmap->ops = &fsdev_pagemap_ops;
-> +	pgmap->owner = dev_dax;
-> +
-> +	/*
-> +	 * CRITICAL DIFFERENCE from device.c:
-> +	 * We do NOT set vmemmap_shift here, even if align > PAGE_SIZE.
-> +	 * This ensures folios remain order-0 and are compatible with
-> +	 * fs-dax's folio management.
-> +	 */
-> +
-> +	addr = devm_memremap_pages(dev, pgmap);
-> +	if (IS_ERR(addr))
-> +		return PTR_ERR(addr);
-> +
-> +	/*
-> +	 * Clear any stale compound folio state left over from a previous
-> +	 * driver (e.g., device_dax with vmemmap_shift). Also register this
-> +	 * as a devm action so folio state is cleared on unbind, ensuring
-> +	 * clean pages for subsequent drivers (e.g., kmem for system-ram).
-> +	 */
-> +	fsdev_clear_folio_state(dev_dax);
-> +	rc = devm_add_action_or_reset(dev, fsdev_clear_folio_state_action,
-> +				      dev_dax);
-> +	if (rc)
-> +		return rc;
-> +
-> +	/* Detect whether the data is at a non-zero offset into the memory */
-> +	if (pgmap->range.start != dev_dax->ranges[0].range.start) {
-> +		u64 phys = dev_dax->ranges[0].range.start;
-> +		u64 pgmap_phys = dev_dax->pgmap[0].range.start;
-> +
-> +		if (!WARN_ON(pgmap_phys > phys))
-> +			data_offset = phys - pgmap_phys;
-> +
-> +		pr_debug("%s: offset detected phys=%llx pgmap_phys=%llx offset=%llx\n",
-> +		       __func__, phys, pgmap_phys, data_offset);
-
-Might change later, but at least at this point you could pull declaration of data_offset
-into this scope.
-
-> +	}
-> +
-> +	inode = dax_inode(dax_dev);
-> +	cdev = inode->i_cdev;
-> +	cdev_init(cdev, &fsdev_fops);
-> +	cdev->owner = dev->driver->owner;
-> +	cdev_set_parent(cdev, &dev->kobj);
-> +	rc = cdev_add(cdev, dev->devt, 1);
-> +	if (rc)
-> +		return rc;
-> +
-> +	rc = devm_add_action_or_reset(dev, fsdev_cdev_del, cdev);
-> +	if (rc)
-> +		return rc;
-> +
-> +	run_dax(dax_dev);
-> +	return devm_add_action_or_reset(dev, fsdev_kill, dev_dax);
-> +}
-
-> diff --git a/include/linux/dax.h b/include/linux/dax.h
-> index bf103f317cac..996493f5c538 100644
-> --- a/include/linux/dax.h
-> +++ b/include/linux/dax.h
-> @@ -51,6 +51,7 @@ struct dax_holder_operations {
->  
->  #if IS_ENABLED(CONFIG_DAX)
->  struct dax_device *alloc_dax(void *private, const struct dax_operations *ops);
-> +
-
-Unrelated change.  Tidy this up for v9.
-
-
->  void *dax_holder(struct dax_device *dax_dev);
->  void put_dax(struct dax_device *dax_dev);
->  void kill_dax(struct dax_device *dax_dev);
-> @@ -151,8 +152,10 @@ static inline void fs_put_dax(struct dax_device *dax_dev, void *holder)
->  #endif /* CONFIG_BLOCK && CONFIG_FS_DAX */
->  
->  #if IS_ENABLED(CONFIG_FS_DAX)
-> +struct dax_device *inode_dax(struct inode *inode);
-
-Already in dax_private.h so why does it want to be here?
-
-
->  int dax_writeback_mapping_range(struct address_space *mapping,
->  		struct dax_device *dax_dev, struct writeback_control *wbc);
-> +int dax_folio_reset_order(struct folio *folio);
->  
->  struct page *dax_layout_busy_page(struct address_space *mapping);
->  struct page *dax_layout_busy_page_range(struct address_space *mapping, loff_t start, loff_t end);
+>
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tr=
+ee/rust/kernel/device.rs#n650
 
