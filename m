@@ -1,143 +1,206 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com [209.85.161.69])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0319B221FBD;
-	Thu, 19 Mar 2026 21:34:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78D593B19C9
+	for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 21:36:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773956073; cv=none; b=aSQQ9JW+9NNSKMeSzs1H5GW3AIRyqMGtX0bUVxUV5xjG+dK62/1Of5+CATo4hZjxzLAxeKKLtj0q9UgmATgngoEm4tgHVWsbnfsIN35kCFm00LpdK9T0XE4uI/aZ2Wum0qJFoENqhVoD82VYBMAaR64xns37l6mD7kXm2VG+hH8=
+	t=1773956177; cv=none; b=CZ8c97DePjEfE1gN/CmrqD866eWxrqYgrGuXZJNI0UZCjFqm3qfQkLBjFysjZzCMhcds3aazTkjOx2cz114EXmKjTwN3Nipz+YuzVB3gY/o6lPRM5QiorWMnZNYjbwxIYdnFcn60yl++NKoaBMJKa4mSy3G4XInG3YIf3afglhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773956073; c=relaxed/simple;
-	bh=g+LqMrEXTH3sjaWpUEO2v9ZD3LohQOUKXpc2vxB0m0k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JGijl1i/sc+19JSrODRlMP+ieHw86kxmYMht0sFDWYNh4LuFwyTmNBKrtRP877SMj+lXOeWPljBYMhDJxzVhm60RqsJ2drhMhr1QqTU/LK1WTRUknMT9nMEOixRqOB99o1rThPaMNKRasSk6toHU4MBatwLrkz+s2wUnRjJ22xU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GK0j+6NK; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GK0j+6NK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773956071; x=1805492071;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=g+LqMrEXTH3sjaWpUEO2v9ZD3LohQOUKXpc2vxB0m0k=;
-  b=GK0j+6NKaO7GEKnbKQ5a3eVRIhnMh0jUZRDs4WLjeyjZWofLMSV4Zv+u
-   bJCjbv5vF2WWqrQziMfnFWhQhQwfmPUjoUn2i5BofvfUHkCzoSsPQquwf
-   I/4E/2gRxKpPHa7D+quEmnfE6jvrZo083PmS6aqQ/0J8Fz/J8J+CY2jLx
-   dYxCnNcGDi4o0xl2KwTA0ZexBZAEM/Nk978yXoYSga4f+8gEjx3fkvcOM
-   Vrfa7+vQtyi73ux3lp8JIaCe5yQLPYmR7siPVGlR2wlBaiuKvOaDTdpLb
-   5ItjuQGd+gVeSNGD16kYHdPdWBvWh3TKxmr6mz35HsZiRjXFSlBiJKTj8
-   w==;
-X-CSE-ConnectionGUID: tNZnTl2iTsKAijnV6WehmA==
-X-CSE-MsgGUID: gki98L1gSFSbo4QHcxYsTA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="75009559"
-X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="75009559"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 14:34:30 -0700
-X-CSE-ConnectionGUID: MHeiFwZpRga1OZ3bv96RyQ==
-X-CSE-MsgGUID: cbMLbtEgQBWLZbGHGKjnYQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
-   d="scan'208";a="227799513"
-Received: from guptapa-desk.jf.intel.com (HELO desk) ([10.165.239.46])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 14:34:28 -0700
-Date: Thu, 19 Mar 2026 14:34:21 -0700
-From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: x86@kernel.org, Nikolay Borisov <nik.borisov@suse.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	David Kaplan <david.kaplan@amd.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>, KP Singh <kpsingh@kernel.org>,
-	Jiri Olsa <jolsa@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	David Laight <david.laight.linux@gmail.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	David Ahern <dsahern@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org, Asit Mallick <asit.k.mallick@intel.com>,
-	Tao Zhang <tao1.zhang@intel.com>, bpf@vger.kernel.org,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7 07/10] x86/vmscape: Use static_call() for predictor
- flush
-Message-ID: <20260319213421.br6na4dulrjm6eke@desk>
-References: <20260319-vmscape-bhb-v7-0-b76a777a98af@linux.intel.com>
- <20260319-vmscape-bhb-v7-7-b76a777a98af@linux.intel.com>
- <20260319205802.GJ3738786@noisy.programming.kicks-ass.net>
+	s=arc-20240116; t=1773956177; c=relaxed/simple;
+	bh=iYv+0JMBhL0Y3n+y6pJw/rt2uBkC/RlMI6Ep70XgoGw=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
+	 Content-Type; b=rv6LAjgPy9L9t6m1lDRdAA4F7Ho2efLaNNkjpqNV3yiF6cHv1J+3YtzU0b8HvgjQciHNq6gCBX8fFZpjKW2tbD3XCtPw4GNkO/nkfn0VQATgQ+o8VsbkOSHxz/l6j2zA/JaR0PSVnUPOsuNgek6jQ4QmlFSL+htValnKDOcoADQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f69.google.com with SMTP id 006d021491bc7-66308f16ea1so17918089eaf.2
+        for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 14:36:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773956175; x=1774560975;
+        h=cc:to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ynbncJsLJEK7RgBrfoH+8cd27pvPqD1p1MxcDbeHsxs=;
+        b=ISZvGuxGr4U5rXnL1GsqWLcd+X1Fl+o71dmfKjupvoxzKixhbntYXcyHEPDQG0PxtJ
+         LDqLGcm6Ghd8yxLdXEx8aSCcnc16va9xpk72mz6NLzZPaSRHQYWHCVY/o/x2u6QaxbDL
+         LfWJSNwBOCN7i05zNOA6UMHe1vfUcTYrOO4V2419kaxX3UIRjkXnDuGR0mDu2pdBwgss
+         HMUmXbOoNSsnOIR2JpwCE+ReSdHE1dcnfBagxBZcztsvQS86ISrcvcmMPBcftiQSpJDA
+         gGhuRYBCI5bki+eJXhi1ZOZ+XZaWFAZNlGTn91IhV+FK8XvwXZOU/5trVYoZYJbuwOK0
+         xMSQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUBM/bf+0YiioIklDXae9guL2iVSNUW5EVStcPA2rwG0WeoaNDD0HwwNDVvqyDSZ5dl4OHuAwrvTq0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyV6hZfkcL6wSjDmVVc5mjcPiioXPLu7BYMYsBhdQQJNL0EqYJA
+	srjVhkhUjHsyTRtYeerwP4xkXr6AJHDdEOwtYenXRMVbpz9A9QNWyXFP2QipZqljxyX+qmSpMKL
+	TSwDzUD5rf2zy4lAJwwRjOqBX5pNaRnKnhe6hjqUO9A9zsIuZQpQgQLEMS0Q=
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260319205802.GJ3738786@noisy.programming.kicks-ass.net>
+X-Received: by 2002:a05:6820:3104:b0:67b:a667:f51f with SMTP id
+ 006d021491bc7-67c22bcbc3emr753879eaf.6.1773956175475; Thu, 19 Mar 2026
+ 14:36:15 -0700 (PDT)
+Date: Thu, 19 Mar 2026 14:36:15 -0700
+In-Reply-To: <20260318222953.441758-1-nphamcs@gmail.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <69bc6c4f.050a0220.3bf4de.0001.GAE@google.com>
+Subject: [syzbot ci] Re: Virtual Swap Space
+From: syzbot ci <syzbot+ci0215525ee2c0ed89@syzkaller.appspotmail.com>
+To: akpm@linux-foundation.org, apopple@nvidia.com, axelrasmussen@google.com, 
+	baohua@kernel.org, baolin.wang@linux.alibaba.com, bhe@redhat.com, 
+	byungchul@sk.com, cgroups@vger.kernel.org, chengming.zhou@linux.dev, 
+	chrisl@kernel.org, corbet@lwn.net, david@kernel.org, dev.jain@arm.com, 
+	gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, jannh@google.com, 
+	joshua.hahnjy@gmail.com, kasong@tencent.com, kernel-team@meta.com, 
+	lance.yang@linux.dev, lenb@kernel.org, liam.howlett@oracle.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-pm@vger.kernel.org, lorenzo.stoakes@oracle.com, matthew.brost@intel.com, 
+	mhocko@suse.com, muchun.song@linux.dev, npache@redhat.com, nphamcs@gmail.com, 
+	pavel@kernel.org, peterx@redhat.com, peterz@infradead.org, pfalcato@suse.de, 
+	rafael@kernel.org, rakie.kim@sk.com, riel@surriel.com, 
+	roman.gushchin@linux.dev, rppt@kernel.org, ryan.roberts@arm.com, 
+	shakeel.butt@linux.dev, shikemeng@huaweicloud.com, surenb@google.com, 
+	tglx@kernel.org, vbabka@suse.cz, weixugc@google.com, 
+	ying.huang@linux.alibaba.com
+Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Mar 19, 2026 at 09:58:02PM +0100, Peter Zijlstra wrote:
-> On Thu, Mar 19, 2026 at 08:41:54AM -0700, Pawan Gupta wrote:
-> > diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
-> > index 68e2df3e3bf5..b75eda114503 100644
-> > --- a/arch/x86/kernel/cpu/bugs.c
-> > +++ b/arch/x86/kernel/cpu/bugs.c
-> > @@ -144,6 +144,17 @@ EXPORT_SYMBOL_GPL(cpu_buf_idle_clear);
-> >   */
-> >  DEFINE_STATIC_KEY_FALSE(switch_mm_cond_l1d_flush);
-> >  
-> > +/*
-> > + * Controls CPU Fill buffer clear before VMenter. This is a subset of
-> > + * X86_FEATURE_CLEAR_CPU_BUF, and should only be enabled when KVM-only
-> > + * mitigation is required.
-> > + */
-> > +DEFINE_STATIC_KEY_FALSE(cpu_buf_vm_clear);
-> > +EXPORT_SYMBOL_GPL(cpu_buf_vm_clear);
-> > +
-> > +DEFINE_STATIC_CALL_NULL(vmscape_predictor_flush, write_ibpb);
-> > +EXPORT_STATIC_CALL_GPL(vmscape_predictor_flush);
-> 
-> Does that want to be:
-> 
-> EXPORT_STATIC_CALL_TRAMP_GPL(vmscape_predictor_flush);
-> 
-> The distinction being that if you only export the trampoline, modules
-> can do the static_call() thing, but cannot do static_call_update().
+syzbot ci has tested the following series
 
-Right, modules shouldn't be updating this static_call().
+[v4] Virtual Swap Space
+https://lore.kernel.org/all/20260318222953.441758-1-nphamcs@gmail.com
+* [PATCH v4 01/21] mm/swap: decouple swap cache from physical swap infrastructure
+* [PATCH v4 02/21] swap: rearrange the swap header file
+* [PATCH v4 03/21] mm: swap: add an abstract API for locking out swapoff
+* [PATCH v4 04/21] zswap: add new helpers for zswap entry operations
+* [PATCH v4 05/21] mm/swap: add a new function to check if a swap entry is in swap cached.
+* [PATCH v4 06/21] mm: swap: add a separate type for physical swap slots
+* [PATCH v4 07/21] mm: create scaffolds for the new virtual swap implementation
+* [PATCH v4 08/21] zswap: prepare zswap for swap virtualization
+* [PATCH v4 09/21] mm: swap: allocate a virtual swap slot for each swapped out page
+* [PATCH v4 10/21] swap: move swap cache to virtual swap descriptor
+* [PATCH v4 11/21] zswap: move zswap entry management to the virtual swap descriptor
+* [PATCH v4 12/21] swap: implement the swap_cgroup API using virtual swap
+* [PATCH v4 13/21] swap: manage swap entry lifecycle at the virtual swap layer
+* [PATCH v4 14/21] mm: swap: decouple virtual swap slot from backing store
+* [PATCH v4 15/21] zswap: do not start zswap shrinker if there is no physical swap slots
+* [PATCH v4 16/21] swap: do not unnecesarily pin readahead swap entries
+* [PATCH v4 17/21] swapfile: remove zeromap bitmap
+* [PATCH v4 18/21] memcg: swap: only charge physical swap slots
+* [PATCH v4 19/21] swap: simplify swapoff using virtual swap
+* [PATCH v4 20/21] swapfile: replace the swap map with bitmaps
+* [PATCH v4 21/21] vswap: batch contiguous vswap free calls
 
-One caveat of not exporting the static key is that KVM uses the key to
-determine whether the mitigation is deployed or not:
+and found the following issue:
+possible deadlock in vswap_iter
 
-  vcpu_enter_guest()
-  {
-      ...
+Full report is available here:
+https://ci.syzbot.org/series/f8238a2a-370e-404d-b3f7-5945b574bd63
 
-     /*
-      * Mark this CPU as needing a branch predictor flush before running
-      * userspace. Must be done before enabling preemption to ensure it gets
-      * set for the CPU that actually ran the guest, and not the CPU that it
-      * may migrate to.
-      */
-     if (static_call_query(vmscape_predictor_flush))
-                   this_cpu_write(x86_predictor_flush_exit_to_user, true);
+***
 
-With _TRAMP, KVM complains:
+possible deadlock in vswap_iter
 
- ERROR: modpost: "__SCK__vmscape_predictor_flush" [arch/x86/kvm/kvm.ko] undefined!
+tree:      bpf-next
+URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/bpf/bpf-next.git
+base:      05f7e89ab9731565d8a62e3b5d1ec206485eeb0b
+arch:      amd64
+compiler:  Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
+config:    https://ci.syzbot.org/builds/cf1517a6-d391-46d8-bfbe-98e6be6b93ce/config
+syz repro: https://ci.syzbot.org/findings/b4e84ae7-17d4-4bf8-9c3f-4c13b10a1e52/syz_repro
 
-Probably one option is to somehow make sure that the key can be set to
-__ro_after_init? I don't see a use case for modifying the static_call() after
-boot.
+============================================
+WARNING: possible recursive locking detected
+syzkaller #0 Not tainted
+--------------------------------------------
+syz.1.18/6001 is trying to acquire lock:
+ffff88811fba0018 (&cluster->lock){+.+.}-{3:3}, at: spin_lock include/linux/spinlock.h:351 [inline]
+ffff88811fba0018 (&cluster->lock){+.+.}-{3:3}, at: vswap_iter+0xfa/0x1b0 mm/vswap.c:274
+
+but task is already holding lock:
+ffff88811fba0018 (&cluster->lock){+.+.}-{3:3}, at: spin_lock_irq include/linux/spinlock.h:376 [inline]
+ffff88811fba0018 (&cluster->lock){+.+.}-{3:3}, at: swap_cache_lock_irq+0xe2/0x190 mm/vswap.c:1529
+
+other info that might help us debug this:
+ Possible unsafe locking scenario:
+
+       CPU0
+       ----
+  lock(&cluster->lock);
+  lock(&cluster->lock);
+
+ *** DEADLOCK ***
+
+ May be due to missing lock nesting notation
+
+3 locks held by syz.1.18/6001:
+ #0: ffff8881bb523440 (&mm->mmap_lock){++++}-{4:4}, at: mmap_read_lock include/linux/mmap_lock.h:391 [inline]
+ #0: ffff8881bb523440 (&mm->mmap_lock){++++}-{4:4}, at: madvise_lock+0x152/0x2e0 mm/madvise.c:1789
+ #1: ffff88811fba0018 (&cluster->lock){+.+.}-{3:3}, at: spin_lock_irq include/linux/spinlock.h:376 [inline]
+ #1: ffff88811fba0018 (&cluster->lock){+.+.}-{3:3}, at: swap_cache_lock_irq+0xe2/0x190 mm/vswap.c:1529
+ #2: ffffffff8e55a360 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:331 [inline]
+ #2: ffffffff8e55a360 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:867 [inline]
+ #2: ffffffff8e55a360 (rcu_read_lock){....}-{1:3}, at: vswap_cgroup_record+0x41/0x440 mm/vswap.c:1909
+
+stack backtrace:
+CPU: 0 UID: 0 PID: 6001 Comm: syz.1.18 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ print_deadlock_bug+0x279/0x290 kernel/locking/lockdep.c:3041
+ check_deadlock kernel/locking/lockdep.c:3093 [inline]
+ validate_chain kernel/locking/lockdep.c:3895 [inline]
+ __lock_acquire+0x253f/0x2cf0 kernel/locking/lockdep.c:5237
+ lock_acquire+0x106/0x330 kernel/locking/lockdep.c:5868
+ __raw_spin_lock include/linux/spinlock_api_smp.h:133 [inline]
+ _raw_spin_lock+0x2e/0x40 kernel/locking/spinlock.c:154
+ spin_lock include/linux/spinlock.h:351 [inline]
+ vswap_iter+0xfa/0x1b0 mm/vswap.c:274
+ vswap_cgroup_record+0xeb/0x440 mm/vswap.c:1910
+ swap_cgroup_record+0xc5/0x130 mm/vswap.c:1933
+ memcg1_swapout+0x358/0x9e0 mm/memcontrol-v1.c:623
+ __remove_mapping+0x7d4/0xa70 mm/vmscan.c:762
+ shrink_folio_list+0x287c/0x5160 mm/vmscan.c:1518
+ reclaim_folio_list+0x100/0x400 mm/vmscan.c:2198
+ reclaim_pages+0x45b/0x530 mm/vmscan.c:2235
+ madvise_cold_or_pageout_pte_range+0x1eac/0x2220 mm/madvise.c:444
+ walk_pmd_range mm/pagewalk.c:130 [inline]
+ walk_pud_range mm/pagewalk.c:224 [inline]
+ walk_p4d_range mm/pagewalk.c:262 [inline]
+ walk_pgd_range+0x1032/0x1d30 mm/pagewalk.c:303
+ __walk_page_range+0x14c/0x710 mm/pagewalk.c:410
+ walk_page_range_vma_unsafe+0x309/0x410 mm/pagewalk.c:714
+ madvise_pageout_page_range mm/madvise.c:622 [inline]
+ madvise_pageout mm/madvise.c:647 [inline]
+ madvise_vma_behavior+0x2951/0x43c0 mm/madvise.c:1366
+ madvise_walk_vmas+0x57a/0xaf0 mm/madvise.c:1721
+ madvise_do_behavior+0x386/0x540 mm/madvise.c:1937
+ do_madvise+0x1fa/0x2e0 mm/madvise.c:2030
+ __do_sys_madvise mm/madvise.c:2039 [inline]
+ __se_sys_madvise mm/madvise.c:2037 [inline]
+ __x64_sys_madvise+0xa6/0xc0 mm/madvise.c:2037
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xe2/0xf80 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f2b3459c799
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f2b35495028 EFLAGS: 00000246 ORIG_RAX: 000000000000001c
+RAX: ffffffffffffffda RBX: 00007f2b34815fa0 RCX: 00007f2b3459c799
+RDX: 0000000000000015 RSI: 0000000000600000 RDI: 0000200000000000
+RBP: 00007f2b34632c99 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f2b34816038 R14: 00007f2b34815fa0 R15: 00007ffcfbbae8f8
+ </TASK>
+
+
+***
+
+If these findings have caused you to resend the series or submit a
+separate fix, please add the following tag to your commit message:
+  Tested-by: syzbot@syzkaller.appspotmail.com
+
+---
+This report is generated by a bot. It may contain errors.
+syzbot ci engineers can be reached at syzkaller@googlegroups.com.
