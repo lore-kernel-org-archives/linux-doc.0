@@ -1,200 +1,582 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F1193148DC
-	for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 19:26:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773948386; cv=pass; b=lineiw50f6+kP86IN/EE3qurQM4KWMk5MkuzJIjpxrNSrPxNNDk8i5TJr0UbHpvuA8cAb4ttVKqOE1M91HASWtxsxIwxrrAD02fL0Zyq1d3PEaF6dp4xMV36V9SnGJvaNCk0vg1cWyH4aAs5dx1a5BUwKZeusPpz/XZMmEovplo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773948386; c=relaxed/simple;
-	bh=SMnbKcM0hUtzaR1GU2NyR71o3cgHMSUw0IGV8L9jlGA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nnxdtTTIkqNk3ACXi0BPSVMhSvzJLvNZuhqtSh1qaS0f0JRWjOT7+RHOj86g2F5fLpDjU0scKVTkAHN/J56vTLsKURwiCqQeLCvh8austjnr0u8oNakrpqqa3bVt8kBQi/uzmBK3Csg6dX1pUPEKX8v5ZjYS4mx9qFCzkKLWiN4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=azlytz9z; arc=pass smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6109838F65C
+	for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 19:29:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773948563; cv=none; b=FZm/sWSAZ1pidYCjGFtB35pn5JVq4v8ibFzBDtEGXgP5b4Btc8gIweSgCgwr26fo52nFDSqXaw+V5IQBmlbMHVmyUpF1CGgbnx/TjgOndtBJYxVQp5WlA7/1SnfOGjf8bUy+s9TPLP5r6ZiM+1OeJu2ejrlmL7mOiLf3+dZGO9c=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773948563; c=relaxed/simple;
+	bh=lJEt97rA6YJ3x59EYCjjBBJRzcw2T84iEhdz7sJxGOs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=P1/AeZb7n+PLZU6FpgFFABp5s87HxoPhoq0MwVGXQBISvHdCfIj+anzh9xyVhjxE/WEt/yYGozBOqwPdvgUHluQIXsMXX/irh+JN0bN2ibU/F4n3aTiQaadWZraVfEVfmIh2aOPayp9rKHQGmm2rZU/APxzvg6fYfBBQJbHukco=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bmtlaoo7; arc=none smtp.client-ip=74.125.82.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="azlytz9z"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-439cd6b09f8so950624f8f.3
-        for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 12:26:25 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773948384; cv=none;
-        d=google.com; s=arc-20240605;
-        b=DyfB0Ojy2TORM3NiMnGK8zWbm9uhAUv3YJAaTbBu27Q/7rL1LRP5QWLBHRfqf0qmMR
-         NnEkK1guL1iXQDhILyYiymZp7NkM4nmudQ3u+8wpd5qw2h2zBf40tQ9YafsrLolF7V6K
-         btltx6634jkM0MLg1ZrmHbqSYIX/aDdf0oiwowJt2RvTZYVJmOknLbHCKgpjrCpIIiWA
-         hmoFhULbEKk30/WPi1wH4uAn1zSDgDgFfmjzawxJVZSoRu+k2ZaC4pvhIG0l0xPlIpbB
-         uRwaRoOmpdDnMfRBKVXR3ltxQurqL6pfOUCd0/ueRyb+Bc/hbBxEUTWXjyASUF6zcGDg
-         9dbQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=STbYRptw5mPVfwcJPai4/18g1DT8t9j5hz3bTmCzNvY=;
-        fh=kkVdXpuqJH6uo3+/AzWBYY6ibci2n0UHkZyll91Uds8=;
-        b=CR1WYdDGtVYlpUKu4x78a+NOw3CfLs5HGyH2PBaSRLVZJ7GrNY9AWv/VL7eqknA/bV
-         3JZpKYK9mzl9DpSrZM4EdHFZ5156C8rY/RfpPKMQvP4LC8tIM6x+EF1U5MLHRs6DqbM1
-         MgvLKcHIFrrhYbbAfB5gTPNuEoWB1fXyV8AttK7bzY4S+6vkGx732Vl7e2vPaJgtKr/5
-         gd0oq4f9IBG3p8wrKzDCPP9Y61EmA+ZIeYWA9tpJ3hsANLgIGeK/xhkCzLm3KdQvRSpm
-         N5C0Arrw3JKEDVBqSVW5x64KZe4r97xPSe5uJzHlPw4ScMJJc0YWH7pL8ZY4kc+3b83b
-         3aXw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bmtlaoo7"
+Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-127380532eeso3481064c88.1
+        for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 12:29:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773948384; x=1774553184; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=STbYRptw5mPVfwcJPai4/18g1DT8t9j5hz3bTmCzNvY=;
-        b=azlytz9z55giRucLwQBXJnvDsmJgVV+BvIS/FGWSJecbPojKY/ZcQUn8Rj5aDVJgAY
-         ZDGLwxyrsNJRRvBEemL15yO608Lxdy+Nn3m/HCX5r5CoXt94c1cmaxTt0chgxeLh+kpZ
-         Q6wXw3mIBrdITdVVJR0h0e9y6ZNROAXvyh97dhS4HQzW1CNnx5/GidRn5KSN+zSKa4nK
-         39iah9St5FqmEIIOH4831/3EUu+so+c4qqNe5hI57VDjFpuUNicWJA36I9nCcr3hS1u6
-         oYSts+zQ17grXi2ECuJQmVIuBz3x51EzlsDTrejuSFq3C1zt4NEl1z5GQ417Vr+A7ohV
-         BohQ==
+        d=gmail.com; s=20230601; t=1773948561; x=1774553361; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=8Tn4p/PNavXSgVVfNdg0wirCLJpgdLt4any0Z9oblRk=;
+        b=Bmtlaoo7K3Zl5Ql1xOaLJ+g9uOnrfcUE3kx9gwe/aUhg7hCHKlqlgupCxf7cidtutp
+         jty9bd3s/qRKZ9p2IVRiG+BMvaFz6fW0hgLk+sLYmCW3o7HxooDA6TwjmK5Tpxk+OC5Z
+         drm1Xt1RlPLI4RNeUQmwzRkkUXrTJRvbyOLHQpat07ng7Wj02Dlq5AfMA/B3zQlGSe+c
+         0gFQ8QIF1imO+i/9++BbP1TxED6eGxIsdjQZy9h/njLgq6HSHXwWc5+y//kW59PB7p3L
+         NtPfIdFyyQ8wQsYTcXoP4iA5dJQlvEzhVPP7nznwwOPiWznqVOa8AJhtvdtkb3eY4lw2
+         Exxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773948384; x=1774553184;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=STbYRptw5mPVfwcJPai4/18g1DT8t9j5hz3bTmCzNvY=;
-        b=Y2uuC7tlKXrKXhx/UJriu8pnfxPPAuN0zq2tc0Em79SlbDvJgWVVSGHWvC7ePVuOvX
-         NOCWZvzkZLg2WsEqDFhrcnV46cBPLGEZr4Q+R0ZxIg0kbU1qjwJB67s8B8tvlE+gHPUS
-         c/b87FtfVB76IADGfoljsxp3Is4lKGavfFBuCx9cXCsePasu8l+3SpaMhSyr5ePVyRzk
-         g6cDvgGwqzjFRN4f3E8zQxAwlOSWePZSXHGUEBXHFe4yragdyarb1w6wd3VI1o+2jn7g
-         zJ+nWhNmgDbuCMieO8Mgp+l9Kys355xXDe+so3kmHc6MLmwJdW2GYyRh/sm1NSFd+hfj
-         EmSQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV2fwFgtskk52Wy5GPQRhH8s9y85fPGBPBbMp0rz8G8JMHIMX5hC7ZNXhHCpLbARLLSQFaAWxV5Q8g=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy/L37lEUZmche5jPhR1dzZxjVrDtrJLUoWYNQnMW4Ylo0qrvZM
-	ZGP2z6cFa1cQluKQZj3wJNYrfUqIByfuwO7sbuibNqwUCbteJs4IB5MLxtgp6sIftCW6rokkLI5
-	593Z7Jjx8RkC+74z8swlxX5XgG+YVJuE=
-X-Gm-Gg: ATEYQzyBpi5yy+qN8h5MDfB0dryGguKWGwu4/3ToempqIjP8a1upEJv8GSQja3/0lC7
-	VQtwFTMQlmhyNjOF5Hq45iWVYoaBsPnbr51zfn2qwZu42xW93WLBrw+De9jlBoFrOVAgEeoqpem
-	nWO4D+DbeLGvhfo7+3Y1goIQbs05Dti2exJSU8GL3zriAzKUo9Ky9q46iaErvmNqus/5qlYM6NB
-	Rhhr047QgEtheY4E3o3A5nn3rp94GCQeRyh87cDkX/LeyOjfsaQjuFlZLk8BdoVrfi009aI9A/Q
-	cZAeHFWFi6xUxEk5joHHMwnAM0gfNuc4XF3Spcga/V8v5A5uAA==
-X-Received: by 2002:a5d:590e:0:b0:43b:4352:1bd8 with SMTP id
- ffacd0b85a97d-43b6428ba33mr631337f8f.53.1773948383714; Thu, 19 Mar 2026
- 12:26:23 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1773948561; x=1774553361;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8Tn4p/PNavXSgVVfNdg0wirCLJpgdLt4any0Z9oblRk=;
+        b=bWA3UOLGtEwOTEgPQs/OgVqSvmbQjs1GgEevOUuXKNLRT8r5QpABTFvCmRu2+UG8To
+         YRE6gixWqRsJcgNN3I3pksIzlNfp18zEq41XTANImyC8LhS2I59zaFe2+bODLiQzZPFE
+         3qafRVfhJfxzY+A4oT7gEveNoQxF6WgGpmXA0U6DHZUKVnAvkjmqP0LmkQKzUqZcytqq
+         bELCsHG1/Z+pdi+Z99Bc+VeRfpMVuExqC/IU7r+eEPygw//+x745zMG6KC/LozA8eu6R
+         6YITVClq/H2oJT5cy+IQP46X5+SajT91OY0Mm9O+8hDwaYr5w93VKtSGajlc6GrMcF4c
+         LjfA==
+X-Forwarded-Encrypted: i=1; AJvYcCWXU1BgRJIVN3vW9xKEhZmJsrCoJi218TY+Wn76FVf2o/kfy5MubREd06NXzrQvUrsjuwUHRH1m75Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw7+rbzVz7yvKEDPcT/9eO8w7xKvsd4EguhxwmyIy2vuaj+DZWw
+	VY7WBggP9k9oy3wlwT363qYdZhME4fvPoGnzU+y+VR5sy0Qr4DyN0dZ9
+X-Gm-Gg: ATEYQzxfIP8vGs/hUsc3zqXGb54RTnFVm7yEvaGYmJ4tdvCpzg29jArW1Q82dtBg5O+
+	ARoZGzDEuxRKDk9BLIeHJ+GyHNV0Rg+gOPtIbFcijQ43s5YY7XJptQsDBQu94MpOb0ylzjkdnrf
+	IAe2aU4syuVq+kGIEExTjUHa74DO1FBCslBZ1XgTS9Koh2NrAfAHPP1ECHp0Iwa2SPP094iznsi
+	65IEDyxVDmxRGy7a+jlx7e99+6ZbFyG8mnYnfqFk+0m/p9dD/6rwE9HZ/+xaIpFPq6qPQRMm1oy
+	O0Nm0KzhOFl/++U+3jHvoCI5C7jNGzgd6HAh8u0NfPDxhqLaLkIab3Olb2imvO3Egjoiyr6DT0O
+	3AsgBPXrGl5Sc4Obvz6po+VCGNNbTkTgsHWTxG7CssiB7JIlne8FfvwbyZlklLh1lu0JJkbhb+S
+	XMec5OIELOsiliGVPHgk0qRjP1jP5xq0oYRsUoeXTYaz9F+FazHLOBGTqWNpp45CNrnMOnPfI6
+X-Received: by 2002:a05:7022:4590:b0:122:153:d161 with SMTP id a92af1059eb24-12a7267f80bmr191352c88.17.1773948560327;
+        Thu, 19 Mar 2026 12:29:20 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c10b14c99bsm38135eec.1.2026.03.19.12.29.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Mar 2026 12:29:19 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <fafaa8e9-1dd8-441b-9085-c0cc75739aea@roeck-us.net>
+Date: Thu, 19 Mar 2026 12:29:18 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260318222953.441758-1-nphamcs@gmail.com> <20260318222953.441758-10-nphamcs@gmail.com>
- <20260319075621.GR3738010@noisy.programming.kicks-ass.net> <CAKEwX=MUrLtZAcmwqBau5GLnWQrjL7A_4tYrdZ4TQQaE+hsVkA@mail.gmail.com>
-In-Reply-To: <CAKEwX=MUrLtZAcmwqBau5GLnWQrjL7A_4tYrdZ4TQQaE+hsVkA@mail.gmail.com>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Thu, 19 Mar 2026 12:26:11 -0700
-X-Gm-Features: AaiRm529wWFONjiD2biQuzKZu-r4Xpu1F03-qQuQMU-V-fDEyZaMmWMBQx2xjec
-Message-ID: <CAKEwX=Mp3=E_nVhFFvdyKWjHtdp6TB=edp9-x4OajZp6MPRwrA@mail.gmail.com>
-Subject: Re: [PATCH v4 09/21] mm: swap: allocate a virtual swap slot for each
- swapped out page
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: kasong@tencent.com, Liam.Howlett@oracle.com, akpm@linux-foundation.org, 
-	apopple@nvidia.com, axelrasmussen@google.com, baohua@kernel.org, 
-	baolin.wang@linux.alibaba.com, bhe@redhat.com, byungchul@sk.com, 
-	cgroups@vger.kernel.org, chengming.zhou@linux.dev, chrisl@kernel.org, 
-	corbet@lwn.net, david@kernel.org, dev.jain@arm.com, gourry@gourry.net, 
-	hannes@cmpxchg.org, hughd@google.com, jannh@google.com, 
-	joshua.hahnjy@gmail.com, lance.yang@linux.dev, lenb@kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-pm@vger.kernel.org, lorenzo.stoakes@oracle.com, matthew.brost@intel.com, 
-	mhocko@suse.com, muchun.song@linux.dev, npache@redhat.com, pavel@kernel.org, 
-	peterx@redhat.com, pfalcato@suse.de, rafael@kernel.org, rakie.kim@sk.com, 
-	roman.gushchin@linux.dev, rppt@kernel.org, ryan.roberts@arm.com, 
-	shakeel.butt@linux.dev, shikemeng@huaweicloud.com, surenb@google.com, 
-	tglx@kernel.org, vbabka@suse.cz, weixugc@google.com, 
-	ying.huang@linux.alibaba.com, yosry.ahmed@linux.dev, yuanchu@google.com, 
-	zhengqi.arch@bytedance.com, ziy@nvidia.com, kernel-team@meta.com, 
-	riel@surriel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] hwmon: add driver for ARCTIC Fan Controller
+To: Aureo Serrano de Souza <aureo.serrano@arctic.de>,
+ linux-hwmon@vger.kernel.org
+Cc: linux@weissschuh.net, corbet@lwn.net, skhan@linuxfoundation.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260319103509.243653-1-aureo.serrano@arctic.de>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20260319103509.243653-1-aureo.serrano@arctic.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, Mar 19, 2026 at 11:37=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wrot=
-e:
->
-> On Thu, Mar 19, 2026 at 12:56=E2=80=AFAM Peter Zijlstra <peterz@infradead=
-.org> wrote:
-> >
-> > On Wed, Mar 18, 2026 at 03:29:40PM -0700, Nhat Pham wrote:
-> > > diff --git a/include/linux/cpuhotplug.h b/include/linux/cpuhotplug.h
-> > > index 62cd7b35a29c9..85cb45022e796 100644
-> > > --- a/include/linux/cpuhotplug.h
-> > > +++ b/include/linux/cpuhotplug.h
-> > > @@ -86,6 +86,7 @@ enum cpuhp_state {
-> > >       CPUHP_FS_BUFF_DEAD,
-> > >       CPUHP_PRINTK_DEAD,
-> > >       CPUHP_MM_MEMCQ_DEAD,
-> > > +     CPUHP_MM_VSWAP_DEAD,
-> > >       CPUHP_PERCPU_CNT_DEAD,
-> > >       CPUHP_RADIX_DEAD,
-> > >       CPUHP_PAGE_ALLOC,
-> >
-> > > +static int vswap_cpu_dead(unsigned int cpu)
-> > > +{
-> > > +     struct vswap_cluster *cluster;
-> > > +     int order;
-> > > +
-> > > +     rcu_read_lock();
-> >
-> > nit:
-> >         guard(rcu)();
-> >
-> > > +     for (order =3D 0; order < SWAP_NR_ORDERS; order++) {
-> > > +             cluster =3D per_cpu(percpu_vswap_cluster.clusters[order=
-], cpu);
-> > > +             if (cluster) {
-> > > +                     per_cpu(percpu_vswap_cluster.clusters[order], c=
-pu) =3D NULL;
-> > > +                     spin_lock(&cluster->lock);
-> >
-> > This breaks on PREEMPT_RT as this is ran with IRQs disabled. This must
-> > be a raw_spinlock_t.
-> >
-> > > +                     cluster->cached =3D false;
-> > > +                     if (refcount_dec_and_test(&cluster->refcnt))
-> > > +                             vswap_cluster_free(cluster);
-> >
-> > And this... below.
-> >
-> > > +                     spin_unlock(&cluster->lock);
-> > > +             }
-> > > +     }
-> > > +     rcu_read_unlock();
-> > > +
-> > > +     return 0;
-> > > +}
-> >
-> > > +static void vswap_cluster_free(struct vswap_cluster *cluster)
-> > > +{
-> > > +     VM_WARN_ON(cluster->count || cluster->cached);
-> > > +     VM_WARN_ON(!spin_is_locked(&cluster->lock));
-> >
-> > This is terrible, please use:
-> >
-> >         lockdep_assert_held(&cluster->lock);
-> >
-> > > +     xa_lock(&vswap_cluster_map);
-> >
-> > This is again broken, this cannot be from a DEAD callback with IRQs
-> > disabled.
-> >
-> > > +     list_del_init(&cluster->list);
-> > > +     __xa_erase(&vswap_cluster_map, cluster->id);
-> >
-> > Strictly speaking this can end up in xas_alloc(), which is again, not
-> > allowed in a DEAD callback.
->
-> I see. I'll take a look at this. Thanks for pointing this out, Peter!
+On 3/19/26 03:34, Aureo Serrano de Souza wrote:
+> Add hwmon driver for the ARCTIC Fan Controller, a USB HID device
+> (VID 0x3904, PID 0xF001) with 10 fan channels. Exposes fan speed in
+> RPM (read-only) and PWM duty cycle (0-255, read/write) via sysfs.
+> 
+> The device pushes IN reports at ~1 Hz containing RPM readings. PWM is
+> set via OUT reports; the device applies the new duty cycle and sends
+> back a 2-byte ACK (Report ID 0x02). The driver waits up to 1 s for
+> the ACK using a completion. Measured device latency: max ~563 ms over
+> 500 iterations. PWM control is manual-only: the device never changes
+> duty cycle autonomously.
+> 
+> raw_event() may run in hardirq context, so fan_rpm[] is protected by
+> a spinlock with irq-save. pwm_duty[] and the report buffer are
+> serialized by the hwmon core, which holds its lock for the duration of
+> the read/write callbacks.
+> 
+> Signed-off-by: Aureo Serrano de Souza <aureo.serrano@arctic.de>
 
-Hmm seems like we can just defer-free on the cpu_dead path, and that
-should be safe?
+Feedback from Sashiko:
 
-Right now, if a cluster is cached on a CPU, we know that it's not
-cached on any other CPU, and it's not on any other partial lists.
-Maybe can call_rcu() here to defer-free it. Hopefully cpu dead is rare
-enough of an event that we dont have a backlog of free deferrals :)
+https://sashiko.dev/#/patchset/20260319103509.243653-1-aureo.serrano%40arctic.de
 
-The other alternative is workqueue (with some careful rcu handling in
-the free callback), but that seems unnecessary.
+Regarding DMA alignment: Please use ____cacheline_aligned to ensure that
+the buffer is DMA-aligned.
+
+Thanks,
+Guenter
+
+> ---
+> Thanks to the reviewers for their feedback.
+> 
+> Changes since v2:
+> - buf[]: add __aligned(8) for DMA safety
+> - ARCTIC_ACK_TIMEOUT_MS: add comment noting observed max ~563 ms
+> - arctic_fan_parse_report(): replace hwmon_lock/hwmon_unlock with
+>    spin_lock_irqsave; hwmon_lock() may sleep and is unsafe when
+>    raw_event() runs in hardirq/softirq context
+> - arctic_fan_raw_event(): use spin_lock_irqsave for ACK path
+> - arctic_fan_write(): use spin_lock_irqsave for completion reinit
+> - arctic_fan_write(): clamp val to [0, 255] before u8 cast
+> - hardware teardown: register arctic_fan_hw_stop() via
+>    devm_add_action_or_reset() before hwmon; devm LIFO order ensures
+>    hwmon unregisters before hid_hw_close/stop; remove() is a no-op
+> - remove priv->hwmon_dev (no longer needed)
+> 
+> Changes since v1:
+> - Use hid_dbg() instead of module_param debug flag
+> - Move hid_device_id table adjacent to hid_driver struct
+> - Use get_unaligned_le16() for RPM parsing
+> - Remove impossible bounds/NULL checks; remove retry loop
+> - Add hid_is_usb() guard
+> - Do not update pwm_duty from IN reports (device is manual-only)
+> - Add completion/ACK mechanism for OUT report acknowledgement
+> - Add Documentation/hwmon/arctic_fan_controller.rst and MAINTAINERS
+> 
+> diff --git a/Documentation/hwmon/arctic_fan_controller.rst b/Documentation/hwmon/arctic_fan_controller.rst
+> new file mode 100644
+> index 0000000000..e417f54b62
+> --- /dev/null
+> +++ b/Documentation/hwmon/arctic_fan_controller.rst
+> @@ -0,0 +1,34 @@
+> +.. SPDX-License-Identifier: GPL-2.0-or-later
+> +
+> +Kernel driver arctic_fan_controller
+> +===================================
+> +
+> +Supported devices:
+> +
+> +* ARCTIC Fan Controller (USB HID, VID 0x3904, PID 0xF001)
+> +
+> +Author: Aureo Serrano de Souza <aureo.serrano@arctic.de>
+> +
+> +Description
+> +-----------
+> +
+> +This driver provides hwmon support for the ARCTIC Fan Controller, a USB Custom HID
+> +device with 10 fan channels. The device sends IN reports about once per second
+> +containing current PWM (bytes 1–10) and RPM (bytes 11–30). PWM is set via OUT reports
+> +(bytes 1–10, 0–100% per channel). Fan control is manual-only: the device does not
+> +change PWM autonomously, only when it receives an OUT report from the host.
+> +
+> +Usage notes
+> +-----------
+> +
+> +Since it is a USB device, hotplug is supported. The device is autodetected.
+> +
+> +Sysfs entries
+> +-------------
+> +
+> +================ ===============================================================
+> +fan[1-10]_input   Fan speed in RPM (read-only, from device IN reports).
+> +pwm[1-10]         PWM duty cycle. Sysfs uses 0–255 (0%–100%); the device uses
+> +                  0–100% internally. Read: current duty from IN report (scaled
+> +                  to 0–255). Write: set duty via OUT report (value 0–255).
+> +================ ===============================================================
+> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+> index b2ca8513cf..c34713040e 100644
+> --- a/Documentation/hwmon/index.rst
+> +++ b/Documentation/hwmon/index.rst
+> @@ -42,6 +42,7 @@ Hardware Monitoring Kernel Drivers
+>      aht10
+>      amc6821
+>      aquacomputer_d5next
+> +   arctic_fan_controller
+>      asb100
+>      asc7621
+>      aspeed-g6-pwm-tach
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 96ea84948d..ec3112bd41 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2053,6 +2053,13 @@ S:	Maintained
+>   F:	drivers/net/arcnet/
+>   F:	include/uapi/linux/if_arcnet.h
+> 
+> +ARCTIC FAN CONTROLLER DRIVER
+> +M:	Aureo Serrano de Souza <aureo.serrano@arctic.de>
+> +L:	linux-hwmon@vger.kernel.org
+> +S:	Maintained
+> +F:	Documentation/hwmon/arctic_fan_controller.rst
+> +F:	drivers/hwmon/arctic_fan_controller.c
+> +
+>   ARM AND ARM64 SoC SUB-ARCHITECTURES (COMMON PARTS)
+>   M:	Arnd Bergmann <arnd@arndb.de>
+>   M:	Krzysztof Kozlowski <krzk@kernel.org>
+> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+> index 328867242c..6c90a8dd40 100644
+> --- a/drivers/hwmon/Kconfig
+> +++ b/drivers/hwmon/Kconfig
+> @@ -388,6 +388,18 @@ config SENSORS_APPLESMC
+>   	  Say Y here if you have an applicable laptop and want to experience
+>   	  the awesome power of applesmc.
+> 
+> +config SENSORS_ARCTIC_FAN_CONTROLLER
+> +	tristate "ARCTIC Fan Controller"
+> +	depends on USB_HID
+> +	help
+> +	  If you say yes here you get support for the ARCTIC Fan Controller,
+> +	  a USB HID device (VID 0x3904, PID 0xF001) with 10 fan channels.
+> +	  The driver exposes fan speed (RPM) and PWM control via the hwmon
+> +	  sysfs interface.
+> +
+> +	  This driver can also be built as a module. If so, the module
+> +	  will be called arctic_fan_controller.
+> +
+>   config SENSORS_ARM_SCMI
+>   	tristate "ARM SCMI Sensors"
+>   	depends on ARM_SCMI_PROTOCOL
+> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+> index 5833c807c6..ef831c3375 100644
+> --- a/drivers/hwmon/Makefile
+> +++ b/drivers/hwmon/Makefile
+> @@ -49,6 +49,7 @@ obj-$(CONFIG_SENSORS_ADT7475)	+= adt7475.o
+>   obj-$(CONFIG_SENSORS_AHT10)	+= aht10.o
+>   obj-$(CONFIG_SENSORS_APPLESMC)	+= applesmc.o
+>   obj-$(CONFIG_SENSORS_AQUACOMPUTER_D5NEXT) += aquacomputer_d5next.o
+> +obj-$(CONFIG_SENSORS_ARCTIC_FAN_CONTROLLER)	+= arctic_fan_controller.o
+>   obj-$(CONFIG_SENSORS_ARM_SCMI)	+= scmi-hwmon.o
+>   obj-$(CONFIG_SENSORS_ARM_SCPI)	+= scpi-hwmon.o
+>   obj-$(CONFIG_SENSORS_AS370)	+= as370-hwmon.o
+> diff --git a/drivers/hwmon/arctic_fan_controller.c b/drivers/hwmon/arctic_fan_controller.c
+> new file mode 100644
+> index 0000000000..d71b323e0b
+> --- /dev/null
+> +++ b/drivers/hwmon/arctic_fan_controller.c
+> @@ -0,0 +1,288 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * Linux hwmon driver for ARCTIC Fan Controller
+> + *
+> + * USB Custom HID device with 10 fan channels.
+> + * Exposes fan RPM (input) and PWM (0-255) via hwmon. Device pushes IN reports
+> + * at ~1 Hz; no GET_REPORT. OUT reports set PWM duty (bytes 1-10, 0-100%).
+> + * PWM is manual-only: the device does not change duty autonomously, only
+> + * when it receives an OUT report from the host.
+> + */
+> +
+> +#include <linux/completion.h>
+> +#include <linux/err.h>
+> +#include <linux/hid.h>
+> +#include <linux/hwmon.h>
+> +#include <linux/jiffies.h>
+> +#include <linux/minmax.h>
+> +#include <linux/module.h>
+> +#include <linux/spinlock.h>
+> +#include <linux/unaligned.h>
+> +
+> +#define ARCTIC_VID			0x3904
+> +#define ARCTIC_PID			0xF001
+> +#define ARCTIC_NUM_FANS			10
+> +#define ARCTIC_OUTPUT_REPORT_ID		0x01
+> +#define ARCTIC_REPORT_LEN		32
+> +#define ARCTIC_RPM_OFFSET		11	/* bytes 11-30: 10 x uint16 LE */
+> +/* ACK report: device sends Report ID 0x02, 2 bytes (ID + status) after applying OUT report */
+> +#define ARCTIC_ACK_REPORT_ID		0x02
+> +#define ARCTIC_ACK_REPORT_LEN		2
+> +/*
+> + * Time to wait for ACK report after send.
+> + * Measured over 500 iterations: max ~563 ms. Keep 1 s as margin.
+> + */
+> +#define ARCTIC_ACK_TIMEOUT_MS		1000
+> +
+> +struct arctic_fan_data {
+> +	struct hid_device *hdev;
+> +	spinlock_t in_report_lock;	/* protects fan_rpm[], ack_status, in_report_received */
+> +	struct completion in_report_received; /* ACK (ID 0x02) received in raw_event */
+> +	int ack_status;			/* 0 = OK, negative errno on device error */
+> +	u32 fan_rpm[ARCTIC_NUM_FANS];
+> +	u8 pwm_duty[ARCTIC_NUM_FANS];	/* 0-255 matching sysfs range; converted to 0-100 on send */
+> +	/* OUT report buffer; DMA-safe alignment; hwmon core serializes write callbacks */
+> +	u8 buf[ARCTIC_REPORT_LEN] __aligned(8);
+> +};
+> +
+> +/*
+> + * Parse RPM values from the periodic status report (10 x uint16 LE at rpm_off).
+> + * pwm_duty is not updated from the report: the device is manual-only, so the
+> + * host cache is the authoritative source for PWM.
+> + * Called from raw_event which may run in IRQ context; must not sleep.
+> + */
+> +static void arctic_fan_parse_report(struct arctic_fan_data *priv, u8 *buf,
+> +				    int len, int rpm_off)
+> +{
+> +	unsigned long flags;
+> +	int i;
+> +
+> +	if (len < rpm_off + 20)
+> +		return;
+> +
+> +	spin_lock_irqsave(&priv->in_report_lock, flags);
+> +	for (i = 0; i < ARCTIC_NUM_FANS; i++)
+> +		priv->fan_rpm[i] = get_unaligned_le16(&buf[rpm_off + i * 2]);
+> +	spin_unlock_irqrestore(&priv->in_report_lock, flags);
+> +}
+> +
+> +/*
+> + * raw_event: IN reports.
+> + *
+> + * Status report: Report ID 0x01, 32 bytes:
+> + *   byte 0 = report ID, bytes 1-10 = PWM 0-100%, bytes 11-30 = 10 x RPM uint16 LE.
+> + *   Device pushes these at ~1 Hz; no GET_REPORT.
+> + *
+> + * ACK report: Report ID 0x02, 2 bytes:
+> + *   byte 0 = 0x02, byte 1 = status (0x00 = OK, 0x01 = ERROR).
+> + *   Sent once after accepting and applying an OUT report (ID 0x01).
+> + */
+> +static int arctic_fan_raw_event(struct hid_device *hdev,
+> +				struct hid_report *report, u8 *data, int size)
+> +{
+> +	struct arctic_fan_data *priv = hid_get_drvdata(hdev);
+> +	unsigned long flags;
+> +
+> +	hid_dbg(hdev, "arctic_fan: raw_event id=%u size=%d\n", report->id, size);
+> +
+> +	if (report->id == ARCTIC_ACK_REPORT_ID && size == ARCTIC_ACK_REPORT_LEN) {
+> +		spin_lock_irqsave(&priv->in_report_lock, flags);
+> +		priv->ack_status = data[1] == 0x00 ? 0 : -EIO;
+> +		complete(&priv->in_report_received);
+> +		spin_unlock_irqrestore(&priv->in_report_lock, flags);
+> +		return 0;
+> +	}
+> +
+> +	if (report->id != ARCTIC_OUTPUT_REPORT_ID || size != ARCTIC_REPORT_LEN) {
+> +		hid_dbg(hdev, "arctic_fan: raw_event id=%u size=%d ignored\n",
+> +			report->id, size);
+> +		return 0;
+> +	}
+> +
+> +	arctic_fan_parse_report(priv, data, size, ARCTIC_RPM_OFFSET);
+> +	return 0;
+> +}
+> +
+> +static umode_t arctic_fan_is_visible(const void *data,
+> +				     enum hwmon_sensor_types type,
+> +				     u32 attr, int channel)
+> +{
+> +	if (type == hwmon_fan && attr == hwmon_fan_input)
+> +		return 0444;
+> +	if (type == hwmon_pwm && attr == hwmon_pwm_input)
+> +		return 0644;
+> +	return 0;
+> +}
+> +
+> +static int arctic_fan_read(struct device *dev, enum hwmon_sensor_types type,
+> +			   u32 attr, int channel, long *val)
+> +{
+> +	struct arctic_fan_data *priv = dev_get_drvdata(dev);
+> +	unsigned long flags;
+> +
+> +	if (type == hwmon_fan && attr == hwmon_fan_input) {
+> +		spin_lock_irqsave(&priv->in_report_lock, flags);
+> +		*val = priv->fan_rpm[channel];
+> +		spin_unlock_irqrestore(&priv->in_report_lock, flags);
+> +		return 0;
+> +	}
+> +	if (type == hwmon_pwm && attr == hwmon_pwm_input) {
+> +		/* pwm_duty is modified only in write(), which the hwmon core serializes */
+> +		*val = priv->pwm_duty[channel];
+> +		return 0;
+> +	}
+> +	return -EINVAL;
+> +}
+> +
+> +static int arctic_fan_write(struct device *dev, enum hwmon_sensor_types type,
+> +			    u32 attr, int channel, long val)
+> +{
+> +	struct arctic_fan_data *priv = dev_get_drvdata(dev);
+> +	unsigned long flags;
+> +	long t;
+> +	int i, ret;
+> +
+> +	/*
+> +	 * The hwmon core holds its lock for the duration of this callback,
+> +	 * serializing concurrent writes. priv->buf is heap-allocated (embedded
+> +	 * in the devm_kzalloc'd struct), satisfying usb_hcd_map_urb_for_dma().
+> +	 */
+> +	priv->pwm_duty[channel] = (u8)clamp_val(val, 0, 255);
+> +	priv->buf[0] = ARCTIC_OUTPUT_REPORT_ID;
+> +	for (i = 0; i < ARCTIC_NUM_FANS; i++)
+> +		priv->buf[1 + i] = DIV_ROUND_CLOSEST(
+> +			(unsigned int)priv->pwm_duty[i] * 100, 255);
+> +
+> +	/*
+> +	 * Serialized by the hwmon core: only one arctic_fan_write() runs at a
+> +	 * time, so reinit_completion() and wait_for_completion_*() below are
+> +	 * not racy against another concurrent write.
+> +	 * Use irqsave to match the IRQ context in which raw_event may run.
+> +	 */
+> +	spin_lock_irqsave(&priv->in_report_lock, flags);
+> +	priv->ack_status = -ETIMEDOUT;
+> +	reinit_completion(&priv->in_report_received);
+> +	spin_unlock_irqrestore(&priv->in_report_lock, flags);
+> +
+> +	ret = hid_hw_output_report(priv->hdev, priv->buf, ARCTIC_REPORT_LEN);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	t = wait_for_completion_interruptible_timeout(&priv->in_report_received,
+> +						      msecs_to_jiffies(ARCTIC_ACK_TIMEOUT_MS));
+> +	if (t < 0)
+> +		return t; /* interrupted by signal */
+> +	if (!t)
+> +		return -ETIMEDOUT;
+> +	return priv->ack_status; /* 0=OK, -EIO=device error */
+> +}
+> +
+> +static const struct hwmon_ops arctic_fan_ops = {
+> +	.is_visible = arctic_fan_is_visible,
+> +	.read = arctic_fan_read,
+> +	.write = arctic_fan_write,
+> +};
+> +
+> +static const struct hwmon_channel_info *arctic_fan_info[] = {
+> +	HWMON_CHANNEL_INFO(fan,
+> +			   HWMON_F_INPUT, HWMON_F_INPUT, HWMON_F_INPUT,
+> +			   HWMON_F_INPUT, HWMON_F_INPUT, HWMON_F_INPUT,
+> +			   HWMON_F_INPUT, HWMON_F_INPUT, HWMON_F_INPUT,
+> +			   HWMON_F_INPUT),
+> +	HWMON_CHANNEL_INFO(pwm,
+> +			   HWMON_PWM_INPUT, HWMON_PWM_INPUT, HWMON_PWM_INPUT,
+> +			   HWMON_PWM_INPUT, HWMON_PWM_INPUT, HWMON_PWM_INPUT,
+> +			   HWMON_PWM_INPUT, HWMON_PWM_INPUT, HWMON_PWM_INPUT,
+> +			   HWMON_PWM_INPUT),
+> +	NULL
+> +};
+> +
+> +static const struct hwmon_chip_info arctic_fan_chip_info = {
+> +	.ops = &arctic_fan_ops,
+> +	.info = arctic_fan_info,
+> +};
+> +
+> +static void arctic_fan_hw_stop(void *data)
+> +{
+> +	struct hid_device *hdev = data;
+> +
+> +	hid_hw_close(hdev);
+> +	hid_hw_stop(hdev);
+> +}
+> +
+> +static int arctic_fan_probe(struct hid_device *hdev,
+> +			    const struct hid_device_id *id)
+> +{
+> +	struct arctic_fan_data *priv;
+> +	struct device *hwmon_dev;
+> +	int ret;
+> +
+> +	if (!hid_is_usb(hdev))
+> +		return -ENODEV;
+> +
+> +	ret = hid_parse(hdev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	priv = devm_kzalloc(&hdev->dev, sizeof(*priv), GFP_KERNEL);
+> +	if (!priv)
+> +		return -ENOMEM;
+> +
+> +	priv->hdev = hdev;
+> +	spin_lock_init(&priv->in_report_lock);
+> +	init_completion(&priv->in_report_received);
+> +	hid_set_drvdata(hdev, priv);
+> +
+> +	ret = hid_hw_start(hdev, HID_CONNECT_DRIVER);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = hid_hw_open(hdev);
+> +	if (ret) {
+> +		hid_hw_stop(hdev);
+> +		return ret;
+> +	}
+> +
+> +	/*
+> +	 * Register hardware teardown before hwmon so that devm cleanup runs in
+> +	 * LIFO order: hwmon unregistered first, then hid_hw_close/stop. This
+> +	 * ensures no userspace sysfs write can reach an already stopped device.
+> +	 */
+> +	ret = devm_add_action_or_reset(&hdev->dev, arctic_fan_hw_stop, hdev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	hwmon_dev = devm_hwmon_device_register_with_info(&hdev->dev, "arctic_fan",
+> +							 priv, &arctic_fan_chip_info,
+> +							 NULL);
+> +	if (IS_ERR(hwmon_dev))
+> +		return PTR_ERR(hwmon_dev);
+> +
+> +	hid_device_io_start(hdev);
+> +	return 0;
+> +}
+> +
+> +static void arctic_fan_remove(struct hid_device *hdev)
+> +{
+> +	/* devm cleanup (LIFO) handles hid_hw_close/stop after hwmon unregistration */
+> +}
+> +
+> +static const struct hid_device_id arctic_fan_id_table[] = {
+> +	{ HID_USB_DEVICE(ARCTIC_VID, ARCTIC_PID) },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(hid, arctic_fan_id_table);
+> +
+> +static struct hid_driver arctic_fan_driver = {
+> +	.name = "arctic_fan",
+> +	.id_table = arctic_fan_id_table,
+> +	.probe = arctic_fan_probe,
+> +	.remove = arctic_fan_remove,
+> +	.raw_event = arctic_fan_raw_event,
+> +};
+> +
+> +module_hid_driver(arctic_fan_driver);
+> +
+> +MODULE_AUTHOR("Aureo Serrano de Souza <aureo.serrano@arctic.de>");
+> +MODULE_DESCRIPTION("HID hwmon driver for ARCTIC Fan Controller");
+> +MODULE_LICENSE("GPL");
+
