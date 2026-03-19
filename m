@@ -1,70 +1,70 @@
-Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
+Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 603D938836F
-	for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 11:54:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC82A3CC9E6
+	for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 11:54:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773921290; cv=none; b=oI2lNrqxm42MQLB8mw8ioMaIrVki+HuWt1VjZ209D7q1SgeGrD2hbE9tH2XGvDAAo57mhM5NiZEBcLQeXaJbE6/A6cLNuvesM8dqnYqsZFTCle+bOTKZRWiqW07j5KIDGANLzsc3j6JKkmHUP1V0NUczLPWFSIUQgUbOPmxR7mo=
+	t=1773921291; cv=none; b=HVzmA4YmNLU32ry5PbL97diKv9sZlPnrJ7beeavH0qstgcSqIz8t77F0fnYFLgyyijw0s5QqpbgZNnUy2IhC35z7QMgi0QIsEdI73CVl9w6x9WNfYzvCBCmjXu/Ox0QcFFEGcDDALl7U3XJcSTgU0+aLxhdxG+FSAOIxW2q3oQo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773921290; c=relaxed/simple;
-	bh=FYVNLZUMc0LTCAKwSLU9BGSSMIeZWPfYv0yvPu64f+4=;
+	s=arc-20240116; t=1773921291; c=relaxed/simple;
+	bh=nPMGypz+TbTu54lIHhy520adV8IO6vS1vuzXOnT6eGo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jf/LNPZisqyhhbE9Eeq/oBPrYqcrpknppTNQSapVXb4U7IoXXh45owBezoQols5rjKnnadilfZJOv9q/BShb6cUdur0YW150MyxOB2v78L/L/DjgVdy56zb2a+U83d8qzhWz6ArCclYR01yo/SKRps74XAiqqBAh3qb2J5OLJaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ui5/cd6W; arc=none smtp.client-ip=74.125.82.177
+	 MIME-Version:Content-Type; b=G4aUyN5OU3pqstp66i1eIinVDQA/OcW2wIK/xOb9TwoSXUUD1bf49B0ibzWU0n0Y0/tWTGxLaMWNe/ZojYCSXJFf08K72lck94R23PnyEB7JdX2ksqMN9fGpBrYeslqzHnBpzoyxU3ILdowVi7xjHZPTs4/ObrBEBLu32bHvZk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ONbuZlV2; arc=none smtp.client-ip=74.125.82.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ui5/cd6W"
-Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-2ba895adfeaso954545eec.0
-        for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 04:54:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ONbuZlV2"
+Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-2bdd40d3c61so928999eec.1
+        for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 04:54:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773921283; x=1774526083; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1773921285; x=1774526085; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kpCt/pPcWmA5MPSVc8Gz3coTqdarW/hvlGKXUU+caRo=;
-        b=Ui5/cd6WmKQXI1gQx25CFQeej42D4bzsmFb9z6j9jPsuVu0Y081LIsxr5JB7l4bQFd
-         Q88bRm1pa7Iqumcb2VQi+pTwkt95p8YB17svJfxUEg+Qk5yoiFrsyC2hfda8gkWaWtOQ
-         GB1VE5kRiB6UmqsetAUACSU0iTBLWcc9bmTVUTBdDSME33iABIQpW++LgL6xsVE/Oyk7
-         9zawS/67qMFo2G948eJNDsRyO/B/5JW8EkqeIjamhi0c1epKNZ3qGUmOaFyuf5yNeKXg
-         I3iM6fJBwjAwXFTNNv/5Sfzthuj54D073+sP0TzOTYGFNcrjrwtnsyzVtbxNyUqWlMly
-         504A==
+        bh=V+jy5i9gBTj8FibX6K701s42yI4fT23kAsngbSwJa1Q=;
+        b=ONbuZlV2zsbsZ3slem9s0AXqEG9ik0EojpZEQas0VcqgdM6VYGbbTutgyQ++ipdFAR
+         l8myuIs72d2a054HKwG4R2JJ8i33VTEUd9LXQBlNDi5Brs/2EIrpPlncFktX2CeZFCjW
+         P+j4y0i5i/HVnmw31Oj/QyYaPA9FLB4TbzbkKLz6dgNiumNjXZhLMruJvBKTVv4Wpdne
+         D8eplxuB5xlOsjG2wY3OJXpFV/+dUw2iYG/2LEMf4QdoTygecISm1L3g1fv7btY7u9+P
+         FjztSop5FUfE5ESQ3sqGfc82mpWFOhT0M5SXMl7Q3XjozSg5G8qyuw2rp/8K5BKjVDqX
+         m+rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773921283; x=1774526083;
+        d=1e100.net; s=20251104; t=1773921285; x=1774526085;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=kpCt/pPcWmA5MPSVc8Gz3coTqdarW/hvlGKXUU+caRo=;
-        b=WvBbaVa3FXLd8tNy/M/Pd7NZo3Rgut+R0Qov5oWr1ei31SnZmbE4dcU0nFbDbgpBfA
-         BCeEdXJLfnAqF1aYV6+V3CSU7L/93t2fBSzc79J5+mmex7PwP7+mxqQfbrY1Zk9rgfg/
-         UwaQnz6rfeDmg5SPtczALB1psEWSH98vAarAMPCC32Xmphrx3v2AYCwgFyYIJ7mJhDoV
-         esxsoMDrIsQyFXRCb6cckLQxv1U3N9GWhmJs5AEF4S1vOmjLwt3UD/s08keIZIb92yee
-         fNCPg5mivoDWzentZgykWloJa6bLiHMOw5qjdtO//0+PmVYqRygffvwnekToOxtRdKjz
-         TI4w==
-X-Gm-Message-State: AOJu0Ywe/Tvck1hTiAPTr8IiLSh8gZzZOwoFzykxbqD9H5+ZN9Wy4OqJ
-	m+/tkYqtlieyCJJR4CAlbEoP2qhtb2Jw4gQIsTkGdCJD6vKrLgwyE1R7/Pjrrcwg
-X-Gm-Gg: ATEYQzz1fOSn/a1RXG+aWxz1EGYJYVCCsCd79Isz7ng/WPECVvxbEZ8QXUhHKA6jh+N
-	zYgRzMLaGFNJc+ldBKDmpZ73HVDVu0G57FxGl9vZAa/C1mMcJ0kd70QFmT4+HbvVKWVhAl0hK7U
-	AHu001TiPZCCC145XMr4T+IVKz09JAsRW4M6MPTjN16S+wWy1KO3qi9ugbxhM0ZqBm0+lI/0LDB
-	c/nn/Dnt0PBeMzIL361a106uwlj8FFCFh/nkLnLIMM0rtLl2YE+GL0xYHvivbbB8PSkGqqXxFGT
-	cWg5lEPrW/jICMKGJJZc7mHsnVBuVx/sLtQ0EjfEe10a1SCK1ZBZL1Q59V33uxdPefHsLFVpily
-	NQC9ENXxi6EykvyPphe0rUjM3/4OWJ63xm50yGuN/cu4KMhQiX8w1v1UWOIetd/rxjTOJzNNNp4
-	P7PpPSlhX+kGhn2VmGf4l/+67aJnC2dnDu6e41Z7zHAoq3aJ2+bbZ+5LzGr7df8FgWzvE7AjDPd
-	WdRyw==
-X-Received: by 2002:a05:7300:fb97:b0:2c0:dc7e:ed17 with SMTP id 5a478bee46e88-2c0e50160b2mr3286258eec.10.1773921282700;
-        Thu, 19 Mar 2026 04:54:42 -0700 (PDT)
+        bh=V+jy5i9gBTj8FibX6K701s42yI4fT23kAsngbSwJa1Q=;
+        b=ZJxGttG0pa9WOTyWFD5osrnHzrF0tvEdROX57JcRn69l58ZBqg0n/dw3+3aZHtar1c
+         iITEn1D/GrB/wI8VFWCRIDtXbfnazT3Iu8QDzGkH1KfkGthHio/je3Ur8ytVVkGykX39
+         kW/ltQwNpaIAzah9/bT+gSDf+IETKz8dmYv4GT3CCMgT8htz+OCn55Ey8DdWbOWVamfG
+         QEroF9mMgk967s9ZaDo3ZqzJRYtCNI8vfb6DkXnM2EuoNX+2BfLxmykZTGBJTerWOGGM
+         NLLtgZaS+gbHnbFHk1J8wbX1NGsmaA/APvvzCKQZgyAgD4YixTyTRpXx/ymv6qwKQ/cA
+         S+Mg==
+X-Gm-Message-State: AOJu0YwN1Q4bWexwJcB9iSdiyWpGYdzueMjOkG9R8YRfbunIVXB4Bb9A
+	OoK6Gzi1c8NcyeEeLAAlT1tZITm7VfsrQyyTOH7YY15FWF9r24QyCM2/GBIjvnIg
+X-Gm-Gg: ATEYQzzWafPMjldrjh9fxjPmiZphSmiNHUv7ZCU0D6EcvO8YFKWuBPw6ymcC811zAwV
+	kfbzQL7PI8LFByHaAsYTNODDZE+5zCfqbnJcjrzps94G7Aw2z7DmDSiQM0lIG4HXWfMFTxMMtN0
+	aTchgAYGP9MjuPfO/PoYhT7Un9i5QSrzA1EwtFDEiwGQaiJsfqyFxGwdBwtb0cAzkvxHc+bQ2iq
+	0zoYNNVtlmJK/LOTbZlAmYR8CaCoAcBEQaOEbR+zQpkA8IErIFc1UIYydlIOsR9nzTBUpobcrST
+	bb1972J78Ybq0/d/bV2DIeEQbaO4UZk95B6Ph2Pd0BoUs64Z9nmTBxOzGbK+G8Z8cjAE9PSloqj
+	+rCgs++TJDxXZ4yxqDPwTUXg/AS73HxPIPtBdvQBspist+F2Ie4KB9IB0MnVm46xWfiA81AO5NH
+	189Y7k7Bfxo/9M0POpzC/N0bBuyCdk0yxISoQP7Y5eH8texGdBlcexNaps/P6VG8ftx8qi1RQ/v
+	fcTdty0rB3N1czy
+X-Received: by 2002:a05:7300:fb97:b0:2c0:e209:d3a3 with SMTP id 5a478bee46e88-2c0e50629cdmr3518866eec.22.1773921285116;
+        Thu, 19 Mar 2026 04:54:45 -0700 (PDT)
 Received: from localhost.localdomain ([2804:29b8:512d:4c55:1868:543f:1aeb:fd26])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c0e5582c31sm7937917eec.16.2026.03.19.04.54.40
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c0e5582c31sm7937917eec.16.2026.03.19.04.54.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Mar 2026 04:54:42 -0700 (PDT)
+        Thu, 19 Mar 2026 04:54:44 -0700 (PDT)
 From: Daniel Pereira <danielmaraboo@gmail.com>
 To: corbet@lwn.net
 Cc: linux-doc@vger.kernel.org,
 	Daniel Pereira <danielmaraboo@gmail.com>
-Subject: [PATCH v2 1/2] docs/pt_BR: translation of maintainer-soc.rst
-Date: Thu, 19 Mar 2026 08:54:11 -0300
-Message-ID: <20260319115416.495020-2-danielmaraboo@gmail.com>
+Subject: [PATCH v2 2/2] docs/pt_BR: translation of maintainer-soc-clean-dts.rst
+Date: Thu, 19 Mar 2026 08:54:12 -0300
+Message-ID: <20260319115416.495020-3-danielmaraboo@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260319115416.495020-1-danielmaraboo@gmail.com>
 References: <20260319115416.495020-1-danielmaraboo@gmail.com>
@@ -77,264 +77,69 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=y
 Content-Transfer-Encoding: 8bit
 
-Translate Documentation/process/maintainer-soc.rst into Portuguese.
-This is part of the effort to localize the kernel documentation.
+Translate Documentation/process/maintainer-soc-clean-dts.rst into Portuguese.
 
 Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
 ---
- Documentation/translations/pt_BR/index.rst    |   1 +
- .../pt_BR/process/maintainer-handbooks.rst    |   1 +
- .../pt_BR/process/maintainer-soc.rst          | 222 ++++++++++++++++++
- 3 files changed, 224 insertions(+)
- create mode 100644 Documentation/translations/pt_BR/process/maintainer-soc.rst
+ Documentation/translations/pt_BR/index.rst    |  1 +
+ .../pt_BR/process/maintainer-handbooks.rst    |  2 +-
+ .../process/maintainer-soc-clean-dts.rst      | 28 +++++++++++++++++++
+ 3 files changed, 30 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/pt_BR/process/maintainer-soc-clean-dts.rst
 
 diff --git a/Documentation/translations/pt_BR/index.rst b/Documentation/translations/pt_BR/index.rst
-index 8822e21cf..d6a28bc5a 100644
+index d6a28bc5a..86a608ac8 100644
 --- a/Documentation/translations/pt_BR/index.rst
 +++ b/Documentation/translations/pt_BR/index.rst
-@@ -70,3 +70,4 @@ kernel e sobre como ver seu trabalho integrado.
-    Requisitos mínimos <process/changes>
+@@ -71,3 +71,4 @@ kernel e sobre como ver seu trabalho integrado.
     Manuais dos mantenedores <process/maintainer-handbooks>
     Processo do subsistema de rede (netdev) <process/maintainer-netdev>
-+   Processo do subsistema SoC <process/maintainer-soc>
+    Processo do subsistema SoC <process/maintainer-soc>
++   Conformidade de DTS para SoC <process/maintainer-soc-clean-dts>
 diff --git a/Documentation/translations/pt_BR/process/maintainer-handbooks.rst b/Documentation/translations/pt_BR/process/maintainer-handbooks.rst
-index 20bb32490..71ea0b9d6 100644
+index 71ea0b9d6..ba36df8ee 100644
 --- a/Documentation/translations/pt_BR/process/maintainer-handbooks.rst
 +++ b/Documentation/translations/pt_BR/process/maintainer-handbooks.rst
-@@ -14,4 +14,5 @@ Conteúdos:
-    :maxdepth: 2
+@@ -15,4 +15,4 @@ Conteúdos:
  
     maintainer-netdev
-+   maintainer-soc
- 
-diff --git a/Documentation/translations/pt_BR/process/maintainer-soc.rst b/Documentation/translations/pt_BR/process/maintainer-soc.rst
+    maintainer-soc
+-
++   maintainer-soc-clean-dts
+diff --git a/Documentation/translations/pt_BR/process/maintainer-soc-clean-dts.rst b/Documentation/translations/pt_BR/process/maintainer-soc-clean-dts.rst
 new file mode 100644
-index 000000000..5a3ae213e
+index 000000000..a7e7bf0f1
 --- /dev/null
-+++ b/Documentation/translations/pt_BR/process/maintainer-soc.rst
-@@ -0,0 +1,222 @@
++++ b/Documentation/translations/pt_BR/process/maintainer-soc-clean-dts.rst
+@@ -0,0 +1,28 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+==============
-+Subsistema SoC
-+==============
++=====================================================
++Plataformas SoC com Requisitos de Conformidade de DTS
++=====================================================
 +
 +Visão Geral
 +-----------
 +
-+O subsistema SoC é um local de agregação para códigos específicos de SoC
-+System on Chip). Os principais componentes do subsistema são:
++As plataformas SoC ou subarquiteturas devem seguir todas as regras de
++Documentation/process/maintainer-soc.rst. Este documento, referenciado em
++MAINTAINERS, impõe requisitos adicionais listados abaixo.
 +
-+* Devicetrees (DTS) para ARM de 32 e 64 bits e RISC-V.
-+* Arquivos de placa (board files) ARM de 32 bits (arch/arm/mach*).
-+* Defconfigs ARM de 32 e 64 bits.
-+* Drivers específicos de SoC em diversas arquiteturas, em particular para ARM de
-+* 32 e 64 bits, RISC-V e Loongarch.
++Conformidade Estrita com DT Schema de DTS e dtc
++-----------------------------------------------
 +
-+Estes "drivers específicos de SoC" não incluem drivers de clock, GPIO, etc., que
-+possuem outros mantenedores de alto nível. O diretório ``drivers/soc/`` é
-+geralmente destinado a drivers internos do kernel que são usados por outros
-+drivers para fornecer funcionalidades específicas do SoC, como identificar uma
-+revisão do chip ou fazer a interface com domínios de energia.
++Nenhuma alteração nos arquivos de origem do Devicetree da plataforma SoC
++(arquivos DTS) deve introduzir novos avisos de ``make dtbs_check W=1``.
++Avisos em um novo DTS de placa, que sejam resultado de problemas em um
++arquivo DTSI incluído, são considerados avisos existentes, não novos.
++Para séries divididas entre árvores diferentes (vínculos de DT seguem pela
++árvore do subsistema de drivers), os avisos no linux-next são decisivos.
++Os mantenedores da plataforma possuem automação implementada que deve
++apontar quaisquer novos avisos.
 +
-+O subsistema SoC também serve como um local intermediário para alterações em
-+``drivers/bus``, ``drivers/firmware``, ``drivers/reset`` e ``drivers/memory``.
-+A adição de novas plataformas, ou a remoção de existentes, geralmente passa pela
-+árvore SoC como um branch dedicado cobrindo múltiplos subsistemas.
-+
-+A árvore principal do SoC está hospedada no git.kernel.org:
-+  https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git/
-+
-+Mantenedores
-+------------
-+
-+Claramente, esta é uma gama bastante ampla de tópicos, que nenhuma pessoa, ou
-+mesmo um pequeno grupo de pessoas, é capaz de manter. Em vez disso, o
-+subsistema SoC é composto por muitos submantenedores (mantenedores de
-+plataforma), cada um cuidando de plataformas individuais e subdiretórios de
-+drivers.
-+
-+Nesse sentido, "plataforma" geralmente se refere a uma série de SoCs de um
-+determinado fornecedor, por exemplo, a série de SoCs Tegra da Nvidia. Muitos
-+submantenedores operam em nível de fornecedor, sendo responsáveis por várias
-+linhas de produtos. Por diversos motivos, incluindo aquisições ou diferentes
-+unidades de negócios em uma empresa, as coisas variam significativamente aqui.
-+Os diversos submantenedores estão documentados no arquivo ``MAINTAINERS``.
-+
-+A maioria desses submantenedores possui suas próprias árvores onde preparam os
-+patches, enviando pull requests para a árvore SoC principal. Essas árvores são
-+geralmente, mas nem sempre, listadas em ``MAINTAINERS``.
-+
-+O que a árvore SoC não é, contudo, é um local para alterações de código
-+específicas da arquitetura. Cada arquitetura possui seus próprios mantenedores
-+que são responsáveis pelos detalhes arquiteturais, erratas de CPU e afins.
-+
-+Submetendo Patches para um Determinado SoC
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Todos os patches típicos relacionados à plataforma devem ser enviados por meio
-+dos submantenedores de SoC (mantenedores específicos da plataforma). Isso inclui
-+também alterações em defconfigs por plataforma ou compartilhadas. Note que
-+``scripts/get_maintainer.pl`` pode não fornecer os endereços corretos para a
-+defconfig compartilhada; portanto, ignore sua saída e crie manualmente a lista
-+de CC baseada no arquivo ``MAINTAINERS`` ou use algo como
-+``scripts/get_maintainer.pl -f drivers/soc/FOO/``.
-+
-+Submetendo Patches para os Mantenedores Principais de SoC
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Os mantenedores principais de SoC podem ser contatados via o alias
-+soc@kernel.org apenas nos seguintes casos:
-+
-+1. Não existem mantenedores específicos para a plataforma.
-+
-+2. Os mantenedores específicos da plataforma não respondem.
-+
-+3. Introdução de uma plataforma SoC completamente nova. Tal trabalho de novo SoC
-+   deve ser enviado primeiro para as listas de discussão comuns, indicadas por
-+   ``scripts/get_maintainer.pl``, para revisão da comunidade. Após uma revisão
-+   positiva da comunidade, o trabalho deve ser enviado para soc@kernel.org em
-+   um único conjunto de patches (*patchset*) contendo a nova entrada em
-+   ``arch/foo/Kconfig``, arquivos DTS, entrada no arquivo ``MAINTAINERS`` e,
-+   opcionalmente, drivers iniciais com seus respectivos bindings de Devicetree.
-+   A entrada no arquivo ``MAINTAINERS`` deve listar os novos mantenedores
-+   específicos da plataforma, que serão responsáveis por lidar com os patches
-+   da plataforma de agora em diante.
-+
-+Note que o endereço soc@kernel.org geralmente não é o local para discutir os
-+patches; portanto, o trabalho enviado para este endereço já deve ser
-+considerado aceitável pela comunidade.
-+
-+Informações para (novos) Submantenedores
-+----------------------------------------
-+
-+À medida que novas plataformas surgem, elas frequentemente trazem consigo novos
-+submantenedores, muitos dos quais trabalham para o fornecedor do silício e podem
-+não estar familiarizados com o processo.
-+
-+Estabilidade da ABI do Devicetree
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Talvez um dos pontos mais importantes a destacar é que os *dt-bindings*
-+documentam a ABI entre o devicetree e o kernel. Por favor, leia
-+``Documentation/devicetree/bindings/ABI.rst``.
-+
-+Se estiverem sendo feitas alterações em um DTS que sejam incompatíveis com
-+kernels antigos, o patch do DTS não deve ser aplicado até que o driver seja, ou
-+em um momento apropriado posterior. Mais importante ainda, quaisquer alterações
-+incompatíveis devem ser claramente apontadas na descrição do patch e no pull
-+request, juntamente com o impacto esperado nos usuários existentes, como
-+bootloaders ou outros sistemas operacionais.
-+
-+Dependências de Branch de Driver
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Um problema comum é a sincronização de alterações entre drivers de dispositivos
-+e arquivos de devicetree. Mesmo que uma alteração seja compatível em ambas as
-+direções, isso pode exigir a coordenação de como as mudanças são mescladas
-+através de diferentes árvores de mantenedores.
-+
-+Geralmente, o branch que inclui uma alteração de driver também incluirá a
-+mudança correspondente na descrição do binding do devicetree, para garantir que
-+sejam, de fato, compatíveis. Isso significa que o branch do devicetree pode
-+acabar causando avisos na etapa ``make dtbs_check``. Se uma alteração de
-+devicetree depender de adições ausentes em um arquivo de cabeçalho em
-+``include/dt-bindings/``, ela falhará na etapa ``make dtbs`` e não será mesclada.
-+
-+Existem várias maneiras de lidar com isso:
-+
-+* Evite definir macros personalizadas em ``include/dt-bindings/`` para constantes
-+  de hardware que podem ser derivadas de um datasheet -- macros de binding em
-+  arquivos de cabeçalho devem ser usadas apenas como último recurso, se não
-+  houver uma maneira natural de definir um binding.
-+
-+* Use valores literais no arquivo devicetree em vez de macros, mesmo quando um
-+  cabeçalho for necessário, e altere-os para a representação nomeada em um
-+  lançamento posterior.
-+
-+* Adie as alterações do devicetree para um lançamento após o binding e o driver
-+  já terem sido mesclados.
-+
-+* Altere os bindings em um branch imutável compartilhado que seja usado como
-+  base tanto para a alteração do driver quanto para as alterações do devicetree.
-+
-+* Adicione definições duplicadas no arquivo devicetree protegidas por uma seção
-+  ``#ifndef``, removendo-as em um lançamento posterior.
-+
-+Convenção de Nomenclatura de Devicetree
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+O esquema geral de nomenclatura para arquivos de devicetree é o seguinte. Os
-+aspectos de uma plataforma que são definidos no nível do SoC, como núcleos de
-+CPU, são contidos em um arquivo nomeado ``$soc.dtsi``, por exemplo,
-+``jh7100.dtsi``. Detalhes de integração, que variam de placa para placa, são
-+descritos em ``$soc-$board.dts``. Um exemplo disso é
-+``jh7100-beaglev-starlight.dts``. Frequentemente, muitas placas são variações
-+de um mesmo tema, e é comum haver arquivos intermediários, como
-+``jh7100-common.dtsi``, que ficam entre os arquivos ``$soc.dtsi`` e
-+``$soc-$board.dts``, contendo as descrições de hardware comum.
-+
-+Algumas plataformas também possuem *System on Modules* (SoM), contendo um SoC,
-+que são então integrados em diversas placas diferentes. Para essas plataformas,
-+``$soc-$som.dtsi`` e ``$soc-$som-$board.dts`` são típicos.
-+
-+Os diretórios geralmente são nomeados após o fornecedor do SoC no momento de sua
-+inclusão, o que leva a alguns nomes de diretórios históricos na árvore.
-+
-+Validando Arquivos de Devicetree
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+``make dtbs_check`` pode ser usado para validar se os arquivos de devicetree
-+estão em conformidade com os *dt-bindings* que descrevem a ABI. Por favor, leia
-+a seção "Running checks" de ``Documentation/devicetree/bindings/writing-schema.rst``
-+para mais informações sobre a validação de devicetrees.
-+
-+Para novas plataformas, ou adições a plataformas existentes, ``make dtbs_check``
-+não deve adicionar nenhum aviso (*warning*) novo. Para SoCs RISC-V e Samsung, é
-+exigido que ``make dtbs_check W=1`` não adicione nenhum novo aviso.
-+Se houver qualquer dúvida sobre uma alteração de devicetree, entre em contato
-+com os mantenedores de devicetree.
-+
-+Branches e Pull Requests
-+~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Assim como a árvore SoC principal possui vários branches, espera-se que os
-+submantenedores façam o mesmo. Alterações de drivers, defconfig e devicetree
-+devem ser todas divididas em branches separados e aparecer em pull requests
-+distintos para os mantenedores de SoC. Cada branch deve ser utilizável por si só
-+e evitar regressões originadas de dependências em outros branches.
-+
-+Pequenos conjuntos de patches também podem ser enviados como e-mails separados
-+para soc@kernel.org, agrupados nas mesmas categorias.
-+
-+Se as alterações não se encaixarem nos padrões normais, pode haver branches de
-+nível superior adicionais, por exemplo, para uma reformulação em toda a árvore
-+(*treewide rework*) ou a adição de novas plataformas SoC, incluindo arquivos dts
-+e drivers.
-+
-+Branches com muitas alterações podem se beneficiar ao serem divididos em
-+branches de tópicos separados, mesmo que acabem sendo mesclados no mesmo branch
-+da árvore SoC. Um exemplo aqui seria um branch para correções de avisos de
-+devicetree, um para uma reformulação e um para placas recém-adicionadas.
-+
-+Outra forma comum de dividir as alterações é enviar um pull request antecipado
-+com a maioria das mudanças em algum momento entre rc1 e rc4, seguido por um ou
-+mais pull requests menores no final do ciclo, que podem adicionar alterações
-+tardias ou resolver problemas identificados durante os testes do primeiro
-+conjunto.
-+
-+Embora não haja um prazo limite para pull requests tardios, ajuda enviar apenas
-+branches pequenos à medida que o tempo se aproxima da janela de mesclagem
-+(*merge window*).
-+
-+Pull requests para correções de bugs (*bugfixes*) da versão atual podem ser
-+enviados a qualquer momento, mas, novamente, ter múltiplos branches menores é
-+melhor do que tentar combinar muitos patches em um único pull request.
-+
-+A linha de assunto de um pull request deve começar com "[GIT PULL]" e ser feita
-+usando uma tag assinada, em vez de um branch. Esta tag deve conter uma breve
-+descrição resumindo as alterações no pull request. Para mais detalhes sobre o
-+envio de pull requests, consulte ``Documentation/maintainer/pull-requests.rst``.
++Se um commit que introduz novos avisos for aceito de alguma forma, os
++problemas resultantes deverão ser corrigidos em um tempo razoável
++(por exemplo, dentro de um ciclo de lançamento) ou o commit será revertido.
 -- 
 2.47.3
 
