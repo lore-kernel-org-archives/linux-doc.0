@@ -1,70 +1,90 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0027F3CE4B6;
-	Thu, 19 Mar 2026 13:23:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEE1F3D3CFC
+	for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 13:43:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773926620; cv=none; b=BP7aMon+5vTYQbTRkiZD6n7glnSKqXHwlUutaZI92kTVWEMwXtlNpQy8g3/N0TrQMqUQEp1T1FPwwTUdehjyvapfYzUkbmx3QtAy+agPPsPIArl7Q0L5YQtESeKzAxsaNN8uhN6k1qe5MGWLj2N5ZMTCIX6zG9pe6e7zu12gS8o=
+	t=1773927835; cv=none; b=r5Tq+EpF+/1ejZg2G7FrHDdXjGpnYJaEj/rhbF9ZTkvOuvu07ib0+FMpbv4heyR7E4WZs0WuEkQOWkDN01Be5qSuTb/RiqlZx3LO7rEQfYhXg7grHgjKB+4fO5NKIOv+6QrD6plh3eAWaEFCgZflhe1UOO984AiWtMUammcV+xo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773926620; c=relaxed/simple;
-	bh=F9QSgLm4eCZ9LBBJ4CAd/aJsUo4/reK+0URj2PC64ik=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=f2d3mzl9x++tehXo1jpSxO5bFdXASAy3WqA/V/eFGxMk/KtgiJo3Y80xy8eNERh41ulRUbGk8eWuQjkd86gVa9F8hwkBHFRO23gYm1yomrDV8vBUu1kcuVxZcMo4WMMZzNyQd+pjPc6gEcFxjKotPYCSc1AGvvrnTKwtb92usHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nHWFFRsG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773927835; c=relaxed/simple;
+	bh=Fa/Fief1P4zROqR9fX2RoLklMZ0ySyoencTReVNdA6I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=X4waGGLDIQZUBOdJpMP6ZEnY+EeFdwesh6o0sPsZGJVWbX3eis3TgP4VDqPowj4Qwunz44AgE9mecC8CGhQvK89Ij7AQQ/gghSGvSogOYOf8NiRi0CZ5hCivydc8CPY20SAcTaOGzT05Iy8r9L/M1if8UjUoLmJK3DsBrhxgPXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cCFGMDx5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nHWFFRsG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 251D4C19424;
-	Thu, 19 Mar 2026 13:23:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cCFGMDx5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D26E3C2BCC4
+	for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 13:43:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773926619;
-	bh=F9QSgLm4eCZ9LBBJ4CAd/aJsUo4/reK+0URj2PC64ik=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=nHWFFRsGsHh9ArmykQHgd4MaVEksXvEc5uL1FktWB6T4q1zAVgNgqzUF536iLJJqg
-	 4cZu7xSdutQu9IVmigX+BjhK82dtt7CLYjj2Ok3yTxfIHkDbgx03iQ34XtUzfuxHmZ
-	 MXW1OKtLkzFMAFcdYegSJTh5N2bCtXsvzvZGoi79zv056lLvBgr6XaPXBegzv6rduE
-	 YpvlJ8C3v9rCrKdqfZ7KprotUiXLbl+nxdMQduiE5J15dyolVDooInucnKj/2uJGJG
-	 0nXqb+C9mnh5albkmC++HcAZq/YqSaIS9/IC4o9HERkQkXfUyIrMf5Ce2pgantVxn/
-	 kp+k7Aww3WFlw==
-From: Chuck Lever <cel@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	Randy Dunlap <rdunlap@infradead.org>
-Cc: Chuck Lever <chuck.lever@oracle.com>,
-	Dai Ngo <dai.ngo@oracle.com>,
-	linux-nfs@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH] NFSD: Docs: clean up pnfs server timeout docs
-Date: Thu, 19 Mar 2026 09:23:35 -0400
-Message-ID: <177392660826.2548952.14857120018688840364.b4-ty@b4>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260318222105.3031225-1-rdunlap@infradead.org>
-References: <20260318222105.3031225-1-rdunlap@infradead.org>
+	s=k20201202; t=1773927834;
+	bh=Fa/Fief1P4zROqR9fX2RoLklMZ0ySyoencTReVNdA6I=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=cCFGMDx5K1bOQ7BdL9sehx8J+7gNGA1mui4U4C7+CnTeP7hPgFnJRB6VluFLH7aLn
+	 W88iizUGBm5wR0MorSTWodICnOzQ69vW19M+4O90puv0h7NgZCdrDfstj2uvBfEhWE
+	 mDktqNATNrhvwJSke4wCyic5Ke37hziIOoL+HlpDlh3uvly8DdjxccxCr6kqZVGeDv
+	 1Vd+icQ3KEnBzMNhvSSMLBfNWQ/BBP0ifWubXfPcL3g1xUt39zL2mXgUAbjry9jI/b
+	 MqT/Zw3VaQnk/LnIjgj9yqZS6siTR+Udqm1iGzU6EvNZ7qXRLj0H/lcU5KvhA2b0+u
+	 9lZIhK6Onzniw==
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-79a74765703so9652097b3.3
+        for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 06:43:54 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWf2Zkb7YVAx+q58h1QBjd1LY4Yk5x1uEpDufbafuqOkDwSDw0rFeEJdgK1FuK/XgqFTzMltLCMWJU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YySSV6wSgxyOF80SctIQFPhgZUaepm4MBpyHxwgCl47gDvX2KUG
+	twwnaDgDfck+4PQ08be7xW0OIsU3bO+Z5iun46luMj1o+dYpZs5Hg6q5d4/ZMhCrtorXfxEZp4d
+	6cHTaDLahaRrXFz7M1P/JmiuFdzDu8J0=
+X-Received: by 2002:a05:690c:e694:20b0:79a:6d65:c351 with SMTP id
+ 00721157ae682-79a71be5f7dmr53076387b3.36.1773927833922; Thu, 19 Mar 2026
+ 06:43:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20260313195801.2043306-1-shenwei.wang@nxp.com>
+ <CAD++jLkVZc7J+39eUtpWz4+YQm035HDtUyiyrEFGifQkcSMsCA@mail.gmail.com> <CANLsYkyd8x29kz1u2dkyn_5hhWVJehz6VVKEx81Ew6i1nKObwg@mail.gmail.com>
+In-Reply-To: <CANLsYkyd8x29kz1u2dkyn_5hhWVJehz6VVKEx81Ew6i1nKObwg@mail.gmail.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Thu, 19 Mar 2026 14:43:43 +0100
+X-Gmail-Original-Message-ID: <CAD++jLnEGs57dRt0cv8cn6wPBQysUd55xXp2OKNv9pi=KJcYEA@mail.gmail.com>
+X-Gm-Features: AaiRm51dQcDdZfF40DU8z4L0gvrWVXoJ8rq31Zd9UCtsSTES701kVKPMjzXNSzk
+Message-ID: <CAD++jLnEGs57dRt0cv8cn6wPBQysUd55xXp2OKNv9pi=KJcYEA@mail.gmail.com>
+Subject: Re: [PATCH v12 0/5] Enable Remote GPIO over RPMSG on i.MX Platform
+To: Mathieu Poirier <mathieu.poirier@linaro.org>
+Cc: Andrew Lunn <andrew@lunn.ch>, Shenwei Wang <shenwei.wang@nxp.com>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, arnaud.pouliquen@foss.st.com, 
+	Shuah Khan <skhan@linuxfoundation.org>, linux-gpio@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>, 
+	devicetree@vger.kernel.org, linux-remoteproc@vger.kernel.org, 
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Chuck Lever <chuck.lever@oracle.com>
+On Mon, Mar 16, 2026 at 5:01=E2=80=AFPM Mathieu Poirier
+<mathieu.poirier@linaro.org> wrote:
+> [Adding Andrew Lunn]
+>
+> On Mon, 16 Mar 2026 at 08:23, Linus Walleij <linusw@kernel.org> wrote:
+> >
+> > Hi Shenwei,
+> >
+> > On Fri, Mar 13, 2026 at 8:58=E2=80=AFPM Shenwei Wang <shenwei.wang@nxp.=
+com> wrote:
+> >
+> > > Support the remote devices on the remote processor via the RPMSG bus =
+on
+> > > i.MX platform.
+> >
+> > I think v12 looks pretty good, if Arnaud gives his ACK on this patch
+> > series I think it's ripe for merge.
+>
+> Please wait until Andrew and I have provided our RBs before merging.
 
-On Wed, 18 Mar 2026 15:21:05 -0700, Randy Dunlap wrote:
-> Make various changes to the documentation formatting to avoid docs
-> build errors and otherwise improve the produced output format:
-> 
-> - use bullets for lists
-> - don't use a '.' at the end of echo commands
-> - fix indentation
-> 
-> [...]
+Fair enough, I think either you will all agree or none of you anyway.
 
-Applied to nfsd-testing, thanks!
-
-[1/1] NFSD: Docs: clean up pnfs server timeout docs
-      commit: 4961fdf3193741f9b8004ba61238a99cdf396286
-
---
-Chuck Lever
-
+Yours,
+Linus Walleij
