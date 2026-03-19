@@ -1,398 +1,281 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012045.outbound.protection.outlook.com [52.101.43.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C98EF3EE1C1;
-	Thu, 19 Mar 2026 16:43:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773938622; cv=none; b=MiVFezGho297odAIEx/EDWDeG4L6qDLaptin38Q7apleUKRrmKvJlSxpItNmnn0lIS8WdnMzaw3sXkEZ87P7QdWoS5H7CGRcDpXVMA25Oatp1S6xasBLOIJ9xQRxFsmdozGQQjwQNMY9gfZWa7Za69C3eyCTYouqLtfNa4fbIUI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773938622; c=relaxed/simple;
-	bh=foBUrcbmXINTonPyjYsnHAi+9wmraBkIDrk1yWtnsHo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ej9oz1x6h6CExt8HFgQsZMDdLjT7jWrSK4YRpQJwcVLvBIE3v7ZN5Tpja4g0oX2tk2BeGMKXtHhsz/tbz5+oDHvkntH62bZBDTx9bl+GCYCezkzrW9V0aoN+5PhIDXt7Q6QWH/PkRHrKog1vJMUUE9F2eo7gsbYxTErJq8vcP4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eGYxvByH; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 636963F0A8F;
+	Thu, 19 Mar 2026 16:56:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773939378; cv=fail; b=QQokRa9icfy+8qWSbOag0H6hBxJghj7I+OBRBxxuuw7In4ysxf2ktdkrWyeES1X1XCmJLpD6HmI7CAxmEgTqjiFhN/hAuNe5mKGQm7XsVgiWhypM2WsYqOVwa/Ue1Aih8kDdAyN2h8z5VQQ2ABa/BZxt5ql/pGyevMgNiFVoA08=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773939378; c=relaxed/simple;
+	bh=pnWmbvhc8qITR9yy+m1PIlGCan91qXv+NTJgG0/r344=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=niRleXM2pob6ctqepI40BUjM8vttqJqnThqFjIlIemu6OE2SceYPnFEwZ5wSnuWx1I24A18/s7f7CD/XFqnIcWEpP+XgAdS6RQANBeiXQH4sGA+UjV9s29K8YaH+CUACDdkLG+8iuQTwL6q4jksiVI6b0/jMUSHiGSeIyrHEuL0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=MXh9lJGJ; arc=fail smtp.client-ip=52.101.43.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eGYxvByH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 469AAC19424;
-	Thu, 19 Mar 2026 16:43:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773938622;
-	bh=foBUrcbmXINTonPyjYsnHAi+9wmraBkIDrk1yWtnsHo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eGYxvByHR8IMCBbE9lLP8SI9qKS5gE9a/ge4KGQlf2AePTC7OrgSr0mA+iYehVUwL
-	 5+t81zao17yDB4cqp+Rds62nIQWtHEm+DPwbUqnVI38ANbgc/cgTzxaGiU03viLzNa
-	 WXvO5zJ0eNT9Tx4eGjHlyRxzEpPPtX9HxCKEJ+dgS+6xZAjVRRNhj9qOB3ZW679e87
-	 yr4ZDeJpUT7sXZPqw29rekm1R4pcQrFNN9APQukJ4mt4zTYZo1ds90NdSUvPEtDt9A
-	 HMyzfLzWWzqryREHu4C5bGP74SgfZfhre+Dbglyn7Sg8JaxbHRR5PQgymGb+a9+DfB
-	 N1qmt7E7DgAiA==
-Date: Thu, 19 Mar 2026 12:43:41 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Petr Pavlu <petr.pavlu@suse.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Richard Weinberger <richard@nod.at>,
-	Juergen Gross <jgross@suse.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	James Bottomley <James.Bottomley@hansenpartnership.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>, Daniel Gomez <da.gomez@kernel.org>,
-	Greg KH <gregkh@linuxfoundation.org>,
-	Petr Mladek <pmladek@suse.com>,
-	Steven Rostedt <rostedt@goodmis.org>, Kees Cook <kees@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Thorsten Leemhuis <linux@leemhuis.info>,
-	Vlastimil Babka <vbabka@kernel.org>, Helge Deller <deller@gmx.de>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Vivian Wang <wangruikang@iscas.ac.cn>, linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-modules@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 2/4] kallsyms: extend lineinfo to loadable modules
-Message-ID: <abwnvdbu4kjx7esJ@laps>
-References: <20260312030649.674699-1-sashal@kernel.org>
- <20260312030649.674699-3-sashal@kernel.org>
- <79244e56-b3ea-4986-b4a2-91a78b21bf07@suse.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="MXh9lJGJ"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=sFUGysjmjTqIj3N7MNrCxDJdWdWDQfK5LNns8vlM2Jx0J6STCa/ih+n9vEdP2U/dutIR2YKaIeEUbvEQiItETFOofiX1ZWd736Agb/q2xOsrxHsp0uLWY3m4sSv4S38KFplGU5B0+DptlvQaYnUdf+WxrBrQ5uMqVVXVT1tRUOXMc9L4X8o4MIrk6U5q+cDYX6ZEamK4dpuM9vOkp6T1FN5VK+YLHk9KqjbhQobeEKTsyWs5v2ZQoxPKfSAY9S6TLCOwCS8cOOUWmcjTqA5JGcy/XnfzYPEE0ZsrhDA7AV4LDWZlMHbaTUE4fYZhuBq4k/cNLQUJnef+9sQp2R+2qg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3J65qkoTYaMl8xOkSyRfQfykNclAHX6diJ+gQjej5sg=;
+ b=U9KVo1aicvSSRNourz0IUnGNgUz1L6wg6rZr2z2pd3jKNb77V4MGWx5dcp5ZPwk57qMyZnNxeVXKsAEMIRXd5XsBfi6Mn4+5HiA7M4ESuxhXJtJoxbBaClrAnNcFIp12Dk6P0vhrhOC91u+ojThCFxWQVwfJG5e/pNmob/4DIC/4zywmNNdh7+OKCNP44T88Ni3YyqqMofH9VdWJGoa8aML4aTSLQlMC+6XTw6mpTIu1OxKZ5dZDJblXfb+0nhHuXg4YxCcm8iX2a06zg0hMATw9m0tsAzZNUC2wKQp3bQG33BUJJ2t2HbSnJpk6efADZT1HpiQ1Ne5DA20mME3gxw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3J65qkoTYaMl8xOkSyRfQfykNclAHX6diJ+gQjej5sg=;
+ b=MXh9lJGJvRK55HYXz5diuCfAZp5Khl+XNZu42LooApg+kG2tZiKcozZfNBhZPw+Nps8WnIRUUJnYGdcAank5PaeTzIq47Ri2aqSP0bpbFQkwJH2bX6gfC8FMbQJ/yaWgGRCCWJomrsgdxVQ13YYz0Z9w2aI3vxJmimqSUxS+/YvaxDpgUOJdUSBDc2GX+TgNxAEp4rLs7QrHBDlpJCQTDQEHmIgusHhVYza7SxRaIoNdHIiBqhjvUvGoe8hlPj9rmAfZ5X7EC0atECtkcWIAoj8Ho/C8d7M1KkLnFgAcJLhjFg5mkQ6lJgKJKsNvxvE8Z5jTR2IHFc311eBhfHobmQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
+ SN7PR12MB7786.namprd12.prod.outlook.com (2603:10b6:806:349::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.9; Thu, 19 Mar
+ 2026 16:56:06 +0000
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9723.016; Thu, 19 Mar 2026
+ 16:56:06 +0000
+Message-ID: <4728e901-df27-4685-a21a-d33a84946558@nvidia.com>
+Date: Thu, 19 Mar 2026 12:56:00 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v13 1/1] rust: interop: Add list module for C linked list
+ interface
+To: Gary Guo <gary@garyguo.net>, Danilo Krummrich <dakr@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
+ Boqun Feng <boqun@kernel.org>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Dave Airlie <airlied@redhat.com>, David Airlie <airlied@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Simona Vetter <simona@ffwll.ch>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Koen Koning <koen.koning@linux.intel.com>, Nikola Djukic
+ <ndjukic@nvidia.com>, Alexandre Courbot <acourbot@nvidia.com>,
+ Philipp Stanner <phasta@kernel.org>, Elle Rhumsaa
+ <elle@weathered-steel.dev>, Jonathan Corbet <corbet@lwn.net>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Helge Deller <deller@gmx.de>, John Hubbard <jhubbard@nvidia.com>,
+ Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
+ Edwin Peer <epeer@nvidia.com>, Andrea Righi <arighi@nvidia.com>,
+ Andy Ritger <aritger@nvidia.com>, Zhi Wang <zhiw@nvidia.com>,
+ Balbir Singh <balbirs@nvidia.com>, alexeyi@nvidia.com,
+ Eliot Courtney <ecourtney@nvidia.com>, dri-devel@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+References: <20260317201710.934932-1-joelagnelf@nvidia.com>
+ <20260317201710.934932-2-joelagnelf@nvidia.com>
+ <DH6QAR1HHXRV.1Y7IZ22HC9FZ3@garyguo.net>
+ <DH6QUO2T941E.2S1UP7EABOP42@kernel.org>
+ <DH6R6GB10S07.AG2EY39F0P85@garyguo.net>
+Content-Language: en-US
+From: Joel Fernandes <joelagnelf@nvidia.com>
+In-Reply-To: <DH6R6GB10S07.AG2EY39F0P85@garyguo.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BN9PR03CA0844.namprd03.prod.outlook.com
+ (2603:10b6:408:13d::9) To DS0PR12MB6486.namprd12.prod.outlook.com
+ (2603:10b6:8:c5::21)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <79244e56-b3ea-4986-b4a2-91a78b21bf07@suse.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|SN7PR12MB7786:EE_
+X-MS-Office365-Filtering-Correlation-Id: 074ba107-42fe-44b0-1f05-08de85d8690e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|7416014|376014|18002099003|56012099003|22082099003|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	tyJqTbeSSGm6mQ4oaQ2oUJykJvQQcD4R6eWf03U+fvq2FgQ0Ab/HJdJ9VuT+oTpLNUYjuU7GrdSqAxgnQ+vJmt9Bp/e8Dzjlee54cjdvcQkX+xbjeMDqmvIeoHiWrZ0kJAtYj3kz9c1xOtWcA4inLapJZLVAYaBrsGOrVVucqSTFUY+h22UyPz3Yln0DLTXgo3nkh6pnNeXQBaReEjV/pS8gqDmceHXnSpkbx+BbhShK/rCBIQMVREHyGzz4TQtAJ7Zp26fSTPlpucBePAf04fh0c+4oGzJozN6/x9A3UB+KFJE9qWSYDW7pRKMGgYvvGrr/Ek2ul5R5aqGtcOZmymgRn9X4CcBgMTxdMgA4lNBfUN6G32dV0jSz0jwN1bdIzAH2VVRwvbeCnAKIpDa48OPtX2VLSRf8DR9zqOkEFsk7FR0P3I3Nz8iHtWY/gl/wqZYpzjsRLT+cG+aF8kjA1vFGgw1lkWJxJcXH9rYWrJTu0qEpGiWuPCAVDipN26Bjgo9uZPsQ2nYKeVY20q4z4OHx68K/n5SlDG8AUVorL8mlDZtTn27eeMvi64F4mFKRvbdBRI/Rh4SenNClGGdojgeuUTnWBCr9pVP9kGvNLoCCB0sPTKG7rfxG8O1xvDb23BcE3pmZQhwF2qqWd+Q0FdAG/ULn7lZuKFW6s/g+hefSlTc3hlwSN9UTiq4p8mYJ/l3H+RVwlbTKbN2IhN5rD9m7s2zYYgOXtUnnHKU28u4=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(18002099003)(56012099003)(22082099003)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?OWZVK09hcENMVEx6anJjdE5WUHdkK0YyZCtxVWVQYW53RFlVYUVoTTdRNkJa?=
+ =?utf-8?B?QVhzaWg3bHpUNkpCZEhoQWsrRlUwdWRCYnVNSGpkMTUyRmE2UnQvamt6WHNN?=
+ =?utf-8?B?U1Y1MjlHNkoyODV4MENaMGIrc3owRERqWkliNlU2Y25SVnZrc0JPY1hZTGVi?=
+ =?utf-8?B?YVVSK2JJRzFpNWFhNHdteGtrMHZyaVdLTnZmb0FzbUM3dFhER0doVmhCV3Zy?=
+ =?utf-8?B?ejZMUG9zcmRibzBEVVVySCs0aGgyRFhKUXY1YStQbjREdFlXeGpNb1J5dnc4?=
+ =?utf-8?B?eVVwWGFMOVZ0SzNxM2FSdVhYV0VrUmFrcThDaW5WWU5hdTJFZkRtbm9LaGpU?=
+ =?utf-8?B?bHpPaDlRUVp5c2tCSUluS2RiS0w5VlJZb0hZVGxOczBHeis5N0hBZjJZaHhD?=
+ =?utf-8?B?NTdZblZENFVHdkR0M3d2bVVLUzArSmJkNDRUQ2lkT3Brc1h3Q3pOMWVROFVa?=
+ =?utf-8?B?cVFwS2wyOEhXVDhYcGVSc0IrSWNHcnQyK2srTDFUZVVyNDVNdVk1UzF2TjVK?=
+ =?utf-8?B?TlQ3WUFSRUEvVHNVaEFDWDM5a1hBVlVubzBSdmhiN3oxeWNDYm5za3duV3Yx?=
+ =?utf-8?B?bmV1MkFSOWZLaTFHdUp5K01iWGxUL0Vqc0J5MW5KRUpqL1k4MjdoUUVaTVlr?=
+ =?utf-8?B?S3VwaW91MWZoMGg4WmF1bGJIWDRDRjJqekFjSkdBSitPYUdmd2w2ZTh1Mjlr?=
+ =?utf-8?B?SzRRZThxRGRrdHhONWt3eUdZVmNlU01YUlpCVm5RYXM5NDJxalhBMmR2TUZV?=
+ =?utf-8?B?WjhlU0VYUVFyY0lvZGx5N1JMQkVOWFlzbWV5elFRck1JcWN2R2dzaVhpMzFQ?=
+ =?utf-8?B?RGwrcElEMHU5VkN1bzU0OUN2azJ4NzM5d3R5ZllYeVVEbUdpRWhlK3pRcFpR?=
+ =?utf-8?B?ZVZ0ZkdiLzJuYm1ZZTdxOFArMUZGekVkK21oRzkzYVJ3bFZwbjA1SVdwZlZI?=
+ =?utf-8?B?MElaajE1NEpEdmF6bXNWSEh6MmNqdzZLNWk4V2owODJiQkptTGxlNlI4MzJx?=
+ =?utf-8?B?QWxYSGZxVkt2ZFlmeUFIaTZMRERsY2d1SDFXQ2Q3NzRUd1JNUDVtS1hSV0VS?=
+ =?utf-8?B?Nms2U2wrZnZMaU1vUmkvMFNnNDNVQ1o3cFljRGFHaUpXOU90YWlWV00rZkJy?=
+ =?utf-8?B?dHNXd1hWc2NIWklvYmExZDlWbXFHWElDRXF0dFI0U1Y0UFVNV0tiWjVXejlr?=
+ =?utf-8?B?c1NXRFU5ZWZvTGVGejA4MVJYcnA1c1dTQThHMzdsSHRwSXNVMDBkVDNIQ2JU?=
+ =?utf-8?B?NFJBWVl4anZITk5wMzFWdnBQbUNBZkFTMEY3TFhtQlM3VzNzQ1hkUmhZY0k0?=
+ =?utf-8?B?TWpaTnU1TUdhdXJUQklCakprOThjVlV5Si9pb2F0WjQ5TDN1YlJLak5mYzFz?=
+ =?utf-8?B?SHluMnM0UEpwTGtmMHVGbGNjQVF5UTVOc1czNzFWU2t3MFlyZXZWd21NaWVK?=
+ =?utf-8?B?ZVMvU0FOUzBSMURFUC9KeWMvWDduN0Q2dHViUGxGbi9SamFkc2NxNlh5NnAz?=
+ =?utf-8?B?Z2JNdHZiMFc1Qi9BQWUzOG9RTkJxRmZBZWtmN08xVWcvNmF1dWlUem5HNHJw?=
+ =?utf-8?B?TVFWNzdORk9oL29abXVTM2dWOERNdnh0ZFFBc0FGRzFRQXJqSmdUL2E4NHNj?=
+ =?utf-8?B?bnVwYk9qZkgxZnRmSjl5U3BqSWRDTDlhQkZvbHFWVDdxcHJ3OXlYYkliMkpJ?=
+ =?utf-8?B?WmhKVXJZNlpsajNSUnd6Wk5KVzREOHR2c3YvYm5hTjFpakNpUDdjbm5VNzVI?=
+ =?utf-8?B?SUJCaHRUVnFyZ2hBMTFSNlVxNzNUVzRTMDVLZFRKakJhSHpscmtoK0F3NWZT?=
+ =?utf-8?B?N2tSWTdnVE81WUZOcWNXVndUMFprNndJckR1bUprdUJYUXZwWDU1WVNKR1NQ?=
+ =?utf-8?B?MHV1WEFNL1VkekViVW84RFJhTGhWNTl1QnZZamNyalhFTThzWVZCdlVPZ2Ra?=
+ =?utf-8?B?RjI4aDQ4ZWNLYzluUUF3M25PNlNkTCtFWkJJUkowY3ZPOU1BR3VMN3ZHR0pY?=
+ =?utf-8?B?S2JxdDl1azB1amNZZWxkak5WK3QxLzdmTHlxV1hua0dFRWhzSmVOaU9mWFpD?=
+ =?utf-8?B?ZzdGb1B1dXBpbWFxTitQeFYzNERHUFdtZ0dibzZtY3IvQjdaQSs4dEMxVmhu?=
+ =?utf-8?B?dDVWRnB2ZlZpejFRRFU0Zm1MS3ZuVFlXQ1ZvR0R0MEY0MzlLUnFmak1RUHo3?=
+ =?utf-8?B?Y1N1dE1pcHR5eXlMUzFPRm4zWFZJcVlHSzd1R2VCVTl4amxlVXovZHdUN2FM?=
+ =?utf-8?B?SXczdU40ckNMdDNpU2VZR3R1YUowbldtdWhLeVA5OHhDK3UybXdRRjdqWUJ1?=
+ =?utf-8?B?em8rdmUzdXV6ZkVUTGFLQmZIREo2dUVkSE1oSW13UGVYMW1CQkJrQT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 074ba107-42fe-44b0-1f05-08de85d8690e
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Mar 2026 16:56:05.8406
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NaDyZlMC/OmnPSWOSEjkNAvGdzS3pvi7NY2xaMwiX/msp0uNwEagsp1tPdnp7o1Dkb2Nv67OzmFyiYinJjNLlQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7786
 
-Thanks for the great review!
 
-On Thu, Mar 19, 2026 at 11:37:18AM +0100, Petr Pavlu wrote:
->On 3/12/26 4:06 AM, Sasha Levin wrote:
->> +- **No init text**: For modules, functions in ``.init.text`` are not annotated
->> +  because that memory is freed after module initialization.
->
->A second table .init.mod_lineinfo could be added to provide the
->necessary information for .init sections, which would be dropped along
->with all the other init code+data.
 
-Sure, it's something we can look at it later. For this series I'd like to keep
-scope to runtime .text, since init code runs briefly and rarely appears in
-stack traces that need debugging. Adding a second section would require module
-loader changes for loading and freeing it alongside init memory.
-
->> --- /dev/null
->> +++ b/include/linux/mod_lineinfo.h
->> @@ -0,0 +1,68 @@
->> +/* SPDX-License-Identifier: GPL-2.0 */
->> +/*
->> + * mod_lineinfo.h - Binary format for per-module source line information
->> + *
->> + * This header defines the layout of the .mod_lineinfo section embedded
->> + * in loadable kernel modules.  It is dual-use: included from both the
->> + * kernel and the userspace gen_lineinfo tool.
->> + *
->> + * Section layout (all values in target-native endianness):
->> + *
->> + *   struct mod_lineinfo_header     (16 bytes)
->> + *   u32 addrs[num_entries]         -- offsets from .text base, sorted
->
->Modules are relocatable objects. The typical way to express a reference
->from one section to data in another section is to use relocations.
->Choosing to use an implicit base and resolved offsets means that the
->code has trouble correctly referencing the .text section and can't
->express line information data for other sections, such as .exit.text.
-
-I agree, which is why I scoped this just to .text :)
-
-My thinking was that using ELF relocations would add significant complexity to
-both the build tool and the runtime lookup path, which must remain NMI-safe and
-allocation-free.
-
->> + *   u16 file_ids[num_entries]      -- parallel to addrs
->> + *   <2-byte pad if num_entries is odd>
->> + *   u32 lines[num_entries]         -- parallel to addrs
->> + *   u32 file_offsets[num_files]    -- byte offset into filenames[]
->> + *   char filenames[filenames_size] -- concatenated NUL-terminated strings
->
->Nit: The description could be a bit easier to navigate if the
->mod_lineinfo_header struct was expanded, so it is clear where
->num_entries, num_files and filenames_size come from.
-
-Makes sense
-
->> + */
->> +#ifndef _LINUX_MOD_LINEINFO_H
->> +#define _LINUX_MOD_LINEINFO_H
->> +
->> +#ifdef __KERNEL__
->> +#include <linux/types.h>
->> +#else
->> +#include <stdint.h>
->> +typedef uint32_t u32;
->> +typedef uint16_t u16;
->> +#endif
->> +
->> +struct mod_lineinfo_header {
->> +	u32 num_entries;
->> +	u32 num_files;
->> +	u32 filenames_size;	/* total bytes of concatenated filenames */
->
->An alternative would be to say that the filenames data extends to the
->end of the section, without requiring an explicit filenames_size.
-
-I'd prefer to keep filenames_size explicit: it allows lineinfo_search() to
-validate filename offsets without knowing the section size. This keeps the
-search function reusable between vmlinux (where data comes from linker globals
-with no "section size") and modules (where it comes from a section). The cost
-is 4 bytes per module.
-
->> +	u32 reserved;		/* padding, must be 0 */
->
->I believe the format should remain internal to the kernel, so there is
->no need for such a reserved member.
-
-The format is indeed internal and we don't generally concern ourselves with
-out-of-tree modules. I've originally added it as a minimal safety net: if the
-format ever changes and a stale .ko with an old-format .mod_lineinfo gets
-loaded, the kernel would silently misparse lineinfo data.
-
-I don't feel too strongly about it either way, but 4 bytes felt a pretty cheap
-price to pay for this safety net :)
-
->> +static inline u32 mod_lineinfo_lines_off(u32 num_entries)
->> +{
->> +	/* u16 file_ids[] may need 2-byte padding to align lines[] to 4 bytes */
->> +	u32 off = mod_lineinfo_file_ids_off(num_entries) +
->> +		  num_entries * sizeof(u16);
->> +	return (off + 3) & ~3u;
->> +}
->> +
->> +static inline u32 mod_lineinfo_file_offsets_off(u32 num_entries)
->> +{
->> +	return mod_lineinfo_lines_off(num_entries) + num_entries * sizeof(u32);
->> +}
->> +
->> +static inline u32 mod_lineinfo_filenames_off(u32 num_entries, u32 num_files)
->> +{
->> +	return mod_lineinfo_file_offsets_off(num_entries) +
->> +	       num_files * sizeof(u32);
->> +}
->
->These helpers are used only from kernel/module/kallsyms.c. I assume they
->are present in this header file to stay close to the description of the
->format.
->
->I personally find them quite verbose. The module_lookup_lineinfo()
->function needs an intimate knowledge of the data format anyway. The code
->in module_lookup_lineinfo() could be replaced with just:
->
->	addrs = base + sizeof(struct mod_lineinfo_header);
->	file_ids = addrs + num_entries * sizeof(u32);
->	lines = (file_ids + num_entries * sizeof(u16) + 3) & ~3u;
->	file_offsets = lines + num_entries * sizeof(u32);
->	filenames = file_offsets + num_files * sizeof(u32);
-
-They are very verbose mostly to make it easy for me to understand :)
-
-Note that the next patch which adds compression rewrites these completely.
-
-I kept these here just to make it easier to understand what's happening during
-my development work as well as reviews.
-
->> +
->> +#endif /* _LINUX_MOD_LINEINFO_H */
->> diff --git a/include/linux/module.h b/include/linux/module.h
->> index 14f391b186c6d..d23e0cd9c7210 100644
->> --- a/include/linux/module.h
->> +++ b/include/linux/module.h
->> @@ -508,6 +508,8 @@ struct module {
->>  	void *btf_data;
->>  	void *btf_base_data;
->>  #endif
->> +	void *lineinfo_data;		/* .mod_lineinfo section in MOD_RODATA */
->> +	unsigned int lineinfo_data_size;
->
->The lineinfo-specific members should be enclosed within the `#ifdef
->CONFIG_KALLSYMS_LINEINFO_MODULES`.
->
->This will require module_lookup_lineinfo() to be conditionally compiled
->based on CONFIG_KALLSYMS_LINEINFO_MODULES, with a dummy version provided
->otherwise. Alternatively, accessors to module::lineinfo_data and
->module::lineinfo_data_size that handle CONFIG_KALLSYMS_LINEINFO_MODULES
->could be introduced in include/linux/module.h. For example, see
->module_buildid() or is_livepatch_module.
-
-The struct members were deliberately left without #ifdef guards following Helge
-Deller's suggestion in the v1 review[1]. I don't really mind either way, but
-I'd prefer to have a consensus before flipping it back and forth.
-
-Helge?
-
-[1] https://lore.kernel.org/all/3ab0cad6-bf55-4ae5-afb7-d9129ac2032e@gmx.de/
-
->> +	addrs = base + mod_lineinfo_addrs_off();
->> +	file_ids = base + mod_lineinfo_file_ids_off(num_entries);
->> +	lines = base + mod_lineinfo_lines_off(num_entries);
->> +	file_offsets = base + mod_lineinfo_file_offsets_off(num_entries);
->> +	filenames = base + mod_lineinfo_filenames_off(num_entries, num_files);
->> +
->> +	/* Compute offset from module .text base */
->> +	text_base = (unsigned long)mod->mem[MOD_TEXT].base;
->
->The module::mem[] covers module memory regions. One can think of them as
->ELF segments, except they are created dynamically by the module loader.
->The code conflates the .text section and the TEXT segment. I'm not aware
->of any guarantee that the .text section will be always placed as the
->first section in this segment.
-
-You're right that this conflates section and segment. In practice, .text is
-always first in MOD_TEXT because __layout_sections() processes SHF_EXECINSTR
-sections in ELF order, and .text is conventionally first.  But I agree this
-shouldn't be an implicit assumption.
-
-We can add a validation check at module load time to verify the assumption
-for now, and address it better when ...
-
->Relocations can be used to accurately reference the .text section.
-
-... we add full relocation support.
-
->> +	if (addr < text_base)
->> +		return false;
->> +
->> +	raw_offset = addr - text_base;
->> +	if (raw_offset > UINT_MAX)
->
->The offsets in the addrs array are of the u32 type, so this should be
->strictly speaking checked against U32_MAX.
-
-Right
-
->> --- a/scripts/Makefile
->> +++ b/scripts/Makefile
->> @@ -5,6 +5,7 @@
+On 3/19/2026 8:21 AM, Gary Guo wrote:
+> On Thu Mar 19, 2026 at 12:05 PM GMT, Danilo Krummrich wrote:
+>> On Thu Mar 19, 2026 at 12:39 PM CET, Gary Guo wrote:
+>>> On Tue Mar 17, 2026 at 8:17 PM GMT, Joel Fernandes wrote:
+>>>> Add a new module `kernel::interop::list` for working with C's doubly
+>>>> circular linked lists. Provide low-level iteration over list nodes.
+>>>>
+>>>> Typed iteration over actual items is provided with a `clist_create`
+>>>> macro to assist in creation of the `CList` type.
+>>>>
+>>>> Cc: Nikola Djukic <ndjukic@nvidia.com>
+>>>> Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
+>>>> Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
+>>>> Acked-by: Alexandre Courbot <acourbot@nvidia.com>
+>>>> Acked-by: Gary Guo <gary@garyguo.net>
+>>>> Acked-by: Miguel Ojeda <ojeda@kernel.org>
+>>>> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+>>>> ---
+>>>>  MAINTAINERS                 |   8 +
+>>>>  rust/helpers/helpers.c      |   1 +
+>>>>  rust/helpers/list.c         |  17 ++
+>>>>  rust/kernel/interop.rs      |   9 +
+>>>>  rust/kernel/interop/list.rs | 342 ++++++++++++++++++++++++++++++++++++
+>>>>  rust/kernel/lib.rs          |   2 +
+>>>>  6 files changed, 379 insertions(+)
+>>>>  create mode 100644 rust/helpers/list.c
+>>>>  create mode 100644 rust/kernel/interop.rs
+>>>>  create mode 100644 rust/kernel/interop/list.rs
+>>>>
+>>>> +/// Create a C doubly-circular linked list interface [`CList`] from a raw `list_head` pointer.
+>>>> +///
+>>>> +/// This macro creates a `CList<T, OFFSET>` that can iterate over items of type `$rust_type`
+>>>> +/// linked via the `$field` field in the underlying C struct `$c_type`.
+>>>> +///
+>>>> +/// # Arguments
+>>>> +///
+>>>> +/// - `$head`: Raw pointer to the sentinel `list_head` object (`*mut bindings::list_head`).
+>>>> +/// - `$rust_type`: Each item's rust wrapper type.
+>>>> +/// - `$c_type`: Each item's C struct type that contains the embedded `list_head`.
+>>>> +/// - `$field`: The name of the `list_head` field within the C struct.
+>>>> +///
+>>>> +/// # Safety
+>>>> +///
+>>>> +/// The caller must ensure:
+>>>> +///
+>>>> +/// - `$head` is a valid, initialized sentinel `list_head` (e.g. via `INIT_LIST_HEAD()`)
+>>>> +///   pointing to a list that is not concurrently modified for the lifetime of the [`CList`].
+>>>> +/// - The list contains items of type `$c_type` linked via an embedded `$field`.
+>>>> +/// - `$rust_type` is `#[repr(transparent)]` over `$c_type` or has compatible layout.
+>>>> +///
+>>>> +/// # Examples
+>>>> +///
+>>>> +/// Refer to the examples in the [`crate::interop::list`] module documentation.
+>>>> +#[macro_export]
+>>>> +macro_rules! clist_create {
+>>>> +    (unsafe { $head:ident, $rust_type:ty, $c_type:ty, $($field:tt).+ }) => {{
+>>>> +        // Compile-time check that field path is a `list_head`.
+>>>> +        // SAFETY: `p` is a valid pointer to `$c_type`.
+>>>> +        let _: fn(*const $c_type) -> *const $crate::bindings::list_head =
+>>>> +            |p| unsafe { &raw const (*p).$($field).+ };
+>>>
+>>> Actually, this check is insufficient, you should create a reference instead
+>>> (just in case people put this inside `repr(packed)`.
+>>>
+>>> This could be something like
+>>>
+>>>     let _ = |p: &$c_type| { _ = &p.$($field).+ }
+>>>
+>>> ?
+>>>
+>>>> +
+>>>> +        // Calculate offset and create `CList`.
+>>>> +        const OFFSET: usize = ::core::mem::offset_of!($c_type, $($field).+);
+>>>> +        // SAFETY: The caller of this macro is responsible for ensuring safety.
+>>>> +        unsafe { $crate::interop::list::CList::<$rust_type, OFFSET>::from_raw($head) }
+>>>
+>>> Given that this is unsafe, I am not sure why the macro should have unsafe
+>>> keyword in it, rather than just being `clist_create(a, b, c, d)` and just have
+>>> user write unsafe.
 >>
->>  hostprogs-always-$(CONFIG_KALLSYMS)			+= kallsyms
->>  hostprogs-always-$(CONFIG_KALLSYMS_LINEINFO)		+= gen_lineinfo
->> +hostprogs-always-$(CONFIG_KALLSYMS_LINEINFO_MODULES)	+= gen_lineinfo
->
->This line is unnecessary because CONFIG_KALLSYMS_LINEINFO_MODULES
->depends on CONFIG_KALLSYMS_LINEINFO.
-
-It is. I mostly left it here for clarity's sake. I'll drop it. 
-
->> @@ -59,6 +62,9 @@ if_changed_except = $(if $(call newer_prereqs_except,$(2))$(cmd-check),      \
->>  	+$(call if_changed_except,ld_ko_o,$(objtree)/vmlinux)
->>  ifdef CONFIG_DEBUG_INFO_BTF_MODULES
->>  	+$(if $(newer-prereqs),$(call cmd,btf_ko))
->> +endif
->> +ifdef CONFIG_KALLSYMS_LINEINFO_MODULES
->> +	+$(if $(newer-prereqs),$(call cmd,lineinfo_ko))
->
->Should this be 'if_changed_except.. vmlinux'?
-
-Lineinfo generation doesn't depend on vmlinux - it reads DWARF directly from
-the .ko file itself. Unlike BTF (which uses vmlinux as a base for
-deduplication), there's no vmlinux prerequisite to exclude.
-
->> @@ -194,9 +200,45 @@ static const char *make_relative(const char *path, const char *comp_dir)
->>  		return p ? p + 1 : path;
->>  	}
+>> Either you are proposing to not wrap unsafe code within unsafe {} within the
+>> macro, such that the user is forced to write an unsafe {} around the macro, but
+>> then they calls within the macro are not justified individually, or you propose
+>> to let the user write an unsafe {} around the macro regardless of the inner
+>> unsafe {} blocks, but then then the compiler warns about an unnecessary unsafe
+>> and nothing forces the user to actually wrap it in unsafe {}.
+> 
+> The former.
+> 
+> "The caller of this macro is responsible for ensuring safety" justification is
+> not really useful here IMO.
+> 
+> If there're cases where we do want to justify unsafe code that's not immediately
+> deferring to the user inside the macro, we could use the SAFETY* trick proposed
+> in the thread, without writing an actual `unsafe {}` block.
+> 
 >>
->> -	/* Fall back to basename */
->> -	p = strrchr(path, '/');
->> -	return p ? p + 1 : path;
->> +	/*
->> +	 * Relative path — check for duplicated-path quirk from libdw
->> +	 * on ET_REL files (e.g., "a/b.c/a/b.c" → "a/b.c").
->> +	 */
->
->When does this quirk occur? Is it a bug in libdw?
+>> Is there a third option I'm not aware of? I.e. for the above reason
+>> impl_device_context_deref!() was designed the same way.
+> 
+> impl_device_context_deref!() expands to an item, so the user couldn't put an
+> `unsafe {}` on the outside. This macro expands to an expression, so users can
+> add `unsafe` themselves.
+> 
+I like Gary's idea. I will drop the unsafe { } blocks within the macro and
+we can force the caller to clear the lint. That's the cleanest and most
+reasonable IMO, instead of working around the linter.
 
-This occurs with elfutils libdw when processing ET_REL .ko files.  libdw
-constructs source paths by concatenating DW_AT_comp_dir with DW_AT_name from
-the compilation unit. For modules where both are relative paths with the same
-prefix, this can produce doubled results like "net/foo/bar.c/net/foo/bar.c". It
-appears to be a libdw quirk with ET_REL DWARF handling.
+Unless someone yells, this is what I'll do for the next iteration.
 
->> +	{
->> +		size_t len = strlen(path);
->> +
->> +		for (p = path; (p = strchr(p, '/')) != NULL; p++) {
->> +			size_t prefix = p - path;
->> +			size_t rest = len - prefix - 1;
->> +
->> +			if (rest == prefix && !memcmp(path, p + 1, prefix))
->> +				return p + 1;
->> +		}
->
->Isn't this loop same as:
->
->size_t mid = len / 2;
->if (path[mid] == '/' && !memcmp(path, path + mid + 1, mid - 1))
->	return path + mid + 1;
+--
+Joel Fernandes
 
-I think so! For a true duplication "X/X", the split is always at the exact
-midpoint (len/2), so the loop over every '/' is unnecessary. I'll adopt this
-approach with the memcmp length as `mid` rather than `mid - 1` to compare the
-full second half.
-
->> +static unsigned int r_type_abs32(unsigned int e_machine)
->> +{
->> +	switch (e_machine) {
->> +	case EM_X86_64:		return 10;	/* R_X86_64_32 */
->> +	case EM_386:		return 1;	/* R_386_32 */
->> +	case EM_AARCH64:	return 258;	/* R_AARCH64_ABS32 */
->> +	case EM_ARM:		return 2;	/* R_ARM_ABS32 */
->> +	case EM_RISCV:		return 1;	/* R_RISCV_32 */
->> +	case EM_S390:		return 4;	/* R_390_32 */
->> +	case EM_MIPS:		return 2;	/* R_MIPS_32 */
->> +	case EM_PPC64:		return 1;	/* R_PPC64_ADDR32 */
->> +	case EM_PPC:		return 1;	/* R_PPC_ADDR32 */
->> +	case EM_LOONGARCH:	return 1;	/* R_LARCH_32 */
->> +	case EM_PARISC:		return 1;	/* R_PARISC_DIR32 */
->> +	default:		return 0;
->
->The source file already includes elf.h from elfutils. Is it necessary to
->hardcode these relocation values here?
-
-Right!
-
->>  static void process_dwarf(Dwarf *dwarf, unsigned long long text_addr)
->>  {
->>  	Dwarf_Off off = 0, next_off;
->> @@ -295,6 +490,16 @@ static void process_dwarf(Dwarf *dwarf, unsigned long long text_addr)
->>  			if (addr < text_addr)
->>  				continue;
->>
->> +			/*
->> +			 * In module mode, keep only .text addresses.
->> +			 * In ET_REL .ko files, .init.text/.exit.text may
->> +			 * overlap with .text address ranges, so we must
->> +			 * explicitly check against the .text bounds.
->> +			 */
->
->Nit: The use of "may" in this comment seems strange. It is fully
->expected that .text, .init.text, .exit.text or any other section will
->have their sh_addr set to 0 in relocatable objects and therefore the
->sections have overlapping address ranges.
-
-I guess I wasn't sure if it's really always the case. We can adjust the comment.
-
->> +			if (module_mode && text_section_end > text_section_start &&
->> +			    (addr < text_section_start || addr >= text_section_end))
->> +				continue;
->> +
->
->The current code is very specific to the .text section. It would be good
->to cover all sections in the future. I think it will naturally require
->use of relocations to refer to individual sections.
-
-Yup, we can definitely give it a go in the future.
-
--- 
-Thanks,
-Sasha
