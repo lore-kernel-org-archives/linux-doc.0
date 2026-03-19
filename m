@@ -1,103 +1,225 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB7B83876AD;
-	Thu, 19 Mar 2026 02:55:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDEAB175A7F;
+	Thu, 19 Mar 2026 03:33:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773888940; cv=none; b=cJ0XAtlI2nKQKX1AKcCkQNz12ma5UurQq47VBW0WTXbW/cPx+wYOPAaCt4FBtWse9UfZJgoa8hKj4TKNLjrfLgalSgHDoS7iOpZIsCIZmwasmzGZvXog0OmiYd/EujruHraSOltiaLwI3VPAzuLZSIw8SE/ANIG2ksQKViVeBwY=
+	t=1773891230; cv=none; b=WTATZggmDAmWOqTjM3VqQ1JWxwBe7XQM/U0jupUDU7PGOTwh4aRypdrnrXd3IFzuqZI6kXM+QQVFnUD+lU5VeCoDcZ3lWMTkfy+YmlmGEDqg1K4Xm+rigtkxYscaeXlbacG6cdDJD2l+2136e0YnK43AyaKmovgUSqfaGup5+vg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773888940; c=relaxed/simple;
-	bh=JBDcZtrG6mP/xc3gO7VDWwX/f7UpvWRqfTVDJQ9Ka3E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BR8OO+wbPGdqI/ywPZrk3bgLkrqpPh+h9jlU3HmLXuOab8fbb0qpwCSuPNZrZsMeTOEUHgUJxNTh0dcZUKmflQXk75NQDL0I9dVHsDME/9a9IXNNz8x1D84nkJYntoXpCn4NKmJ5gWQqbMx44qgjeXNGjG5iutgXnIBNOSSwSDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qaXE2ant; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773891230; c=relaxed/simple;
+	bh=XgOD2FxBzcrwEZanmqbfz/dgf+28LNZcyXFh5nHNaVM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=nFFr+7UzLihYWmGI5jXqkf8dgv15jtHlnvBMqboSlkmLw9peRLSL3qN74eFcFr+Pe8du2Lu39jYVdBbvimjVcv3vh0TCyzY1WBcnL4nTpn4G92WnMShNrV4Cl8OaVlgAoPLDmyGvFcb2FS4rc4vTJgEUWGKvMFp5aTwGr7b7kDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IZ2CRpiJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qaXE2ant"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4591C19421;
-	Thu, 19 Mar 2026 02:55:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IZ2CRpiJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 001DAC19425;
+	Thu, 19 Mar 2026 03:33:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773888939;
-	bh=JBDcZtrG6mP/xc3gO7VDWwX/f7UpvWRqfTVDJQ9Ka3E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qaXE2antR+2qcW2JyGyf3j3ytXGJhuhWliLmRXEZCYYn3f6Iz2vAzBbUw06nBEBFM
-	 TBSU4N0wO113tYoYLjp0HbJcD6+WDo8wE9KF+IF0K/FJxW9NQ+pv+vt9fpw0kYjLtI
-	 i/FfWVfuTuR8AQPYvbskeEq0gl92MOu8sruKbLBWqljXAWmLQvxKglVXDKO9dwy1Kh
-	 HW+fxYftX1Ge9fxykbUsL8fcIew9w1yQg32FFezUgESpVLQhu0GB8UIOXQ2LXp7/Lu
-	 10ralfWqjLT2qK79xcQWf3ckQP4IyjTB58kbURxZuvrG2Wwu/Kz1KuxHz27iBYUr4j
-	 ynjBwMPt4lsgA==
-Date: Wed, 18 Mar 2026 21:55:29 -0500
-From: Bjorn Andersson <andersson@kernel.org>
-To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Eugen Hristev <eugen.hristev@linaro.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>, 
-	Christoph Lameter <cl@gentwo.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Anna-Maria Behnsen <anna-maria@linutronix.de>, Frederic Weisbecker <frederic@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>, 
-	Vincent Guittot <vincent.guittot@linaro.org>, Dietmar Eggemann <dietmar.eggemann@arm.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, 
-	Valentin Schneider <vschneid@redhat.com>, David Hildenbrand <david@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Kees Cook <kees@kernel.org>, 
-	Brendan Jackman <jackmanb@google.com>, Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
-	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>, 
-	Barry Song <baohua@kernel.org>, Youngjun Park <youngjun.park@lge.com>, 
-	Petr Mladek <pmladek@suse.com>, John Ogness <john.ogness@linutronix.de>, 
-	Sergey Senozhatsky <senozhatsky@chromium.org>, Mathieu Poirier <mathieu.poirier@linaro.org>, 
-	Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Saravana Kannan <saravanak@kernel.org>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, linux-mm@kvack.org, 
-	linux-arm-msm@vger.kernel.org, linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 00/25] Introduce meminspect
-Message-ID: <abtlUQqMOxj5PwGB@baldur>
-References: <20260311-minidump-v2-v2-0-f91cedc6f99e@oss.qualcomm.com>
- <abdnp90cC5PI9wyz@baldur>
- <20260316181647.m7x4ncmwdjho6yvr@hu-mojha-hyd.qualcomm.com>
+	s=k20201202; t=1773891230;
+	bh=XgOD2FxBzcrwEZanmqbfz/dgf+28LNZcyXFh5nHNaVM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=IZ2CRpiJpQ1j2wZKFVLuyVlCxyZ0s/2vzeqmfoNECQAqPtT8Th5dkkZowiRHwybr+
+	 uw1pBqoHsikD3yjcN+Ij1zrO5L+PLL8c90YbexeEZrO1x/U0SzgV2n4OnJW6ExONrQ
+	 Xl93vDXO1JSV7hivhLKKH7XaCMY5SmXIquGzycjXQRuG0AKeinIZy+WCgI/oBXi7ZR
+	 z8kSsBSyBVMILZ4sxVB9Sskgjbceqh3PL21egeIAr75EHirgi1UJ54U8kq5LSf+KBf
+	 7ndvS0s2UchUI13zERp6UEXjggt6/NMLUnrBX5/lLM54UPdNT5yJAU5Dj80n2pyifC
+	 ODXBII86krGuA==
+Date: Wed, 18 Mar 2026 20:33:49 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: "illusion.wang" <illusion.wang@nebula-matrix.com>
+Cc: dimon.zhao@nebula-matrix.com, alvin.wang@nebula-matrix.com,
+ sam.chen@nebula-matrix.com, netdev@vger.kernel.org, andrew+netdev@lunn.ch,
+ corbet@lwn.net, linux-doc@vger.kernel.org, lorenzo@kernel.org,
+ pabeni@redhat.com, horms@kernel.org, vadim.fedorenko@linux.dev,
+ lukas.bulwahn@redhat.com, edumazet@google.com, enelsonmoore@gmail.com,
+ skhan@linuxfoundation.org, ani.nikula@intel.com, hkallweit1@gmail.com,
+ linux-kernel@vger.kernel.org (open list)
+Subject: Re: [PATCH v8 net-next 01/11] net/nebula-matrix: add minimum nbl
+ build framework
+Message-ID: <20260318203349.5d83eb69@kernel.org>
+In-Reply-To: <20260317034533.5600-2-illusion.wang@nebula-matrix.com>
+References: <20260317034533.5600-1-illusion.wang@nebula-matrix.com>
+	<20260317034533.5600-2-illusion.wang@nebula-matrix.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260316181647.m7x4ncmwdjho6yvr@hu-mojha-hyd.qualcomm.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Mar 16, 2026 at 11:46:47PM +0530, Mukesh Ojha wrote:
-> On Sun, Mar 15, 2026 at 09:24:39PM -0500, Bjorn Andersson wrote:
-> > On Wed, Mar 11, 2026 at 01:45:44AM +0530, Mukesh Ojha wrote:
-[..]
-> > >, to get all the regions as
-> > > separate files.  The tool from the host computer will list the regions
-> > > in the order they were downloaded.
-> > > 
-> > > Once you have all the files simply use `cat` to put them all together,
-> > > in the order of the indexes.  For my kernel config and setup, here is my
-> > > cat command : (you can use a script or something, I haven't done that so
-> > > far):
-> > 
-> > So these need to be sorted in numerical order, by that number at the end
-> > of the file name?
-> > 
-> > Do you manually punch these in? How do we make this user friendly?
+On Tue, 17 Mar 2026 11:45:18 +0800 illusion.wang wrote:
+> 1.Add nbl min build infrastructure for nbl driver.
 > 
-> Yes, manually.. but I think we can do better. We could make
-> this more user‑friendly by using the section header and string table in
-> the md_KELF binary both of which existed in the earlier implementation.
-> Then, we can write an upstream‑friendly script that reads this KELF
-> metadata file, checks whether a binary with the registered name is
-> present, and stitches everything together to form a complete ELF that
-> the crash tool can consume.  Let me know if you have any suggestion..
-> 
+> 2.Implemented the framework of pci device initialization.
 
-Can we somehow identify that these regions belong to the minidump and
-teach QDL to build the ELF for us?
+> +============================================================
+> +Linux Base Driver for Nebula-matrix M18100-NIC family
+> +============================================================
 
-Regards,
-Bjorn
+Shouldn't these lines also be the length of the text?
+
+> +Overview:
+> +=========
+> +M18100-NIC is a series of network interface card for the Data Center Area.
+> +
+> +The driver supports link-speed 100GbE/25GE/10GE.
+> +
+> +M18100-NIC devices support MSI-X interrupt vector for each Tx/Rx queue and
+> +interrupt moderation.
+> +
+> +M18100-NIC devices support also various offload features such as checksum offload,
+> +Receive-Side Scaling(RSS).
+> +
+> +Supported PCI vendor ID/device IDs:
+> +===================================
+> +
+> +1f0f:3403 - M18110 Family PF
+> +1f0f:3404 - M18110 Lx Family PF
+> +1f0f:3405 - M18110 Family BASE-T PF
+> +1f0f:3406 - M18110 Lx Family BASE-T PF
+> +1f0f:3407 - M18110 Family OCP PF
+> +1f0f:3408 - M18110 Lx Family OCP PF
+> +1f0f:3409 - M18110 Family BASE-T OCP PF
+> +1f0f:340a - M18110 Lx Family BASE-T OCP PF
+> +1f0f:340b - M18100 Family PF
+> +1f0f:340c - M18100 Lx Family PF
+> +1f0f:340d - M18100 Family BASE-T PF
+> +1f0f:340e - M18100 Lx Family BASE-T PF
+> +1f0f:340f - M18100 Family OCP PF
+> +1f0f:3410 - M18100 Lx Family OCP PF
+> +1f0f:3411 - M18100 Family BASE-T OCP PF
+> +1f0f:3412 - M18100 Lx Family BASE-T OCP PF
+
+Please don't list all the SKUs what's the point. PCIe device DB is 
+the place for that.
+
+> +NEBULA-MATRIX ETHERNET DRIVER (nebula-matrix)
+> +M:	Illusion.Wang <illusion.wang@nebula-matrix.com>
+> +M:	Dimon.Zhao <dimon.zhao@nebula-matrix.com>
+> +M:	Alvin.Wang <alvin.wang@nebula-matrix.com>
+> +M:	Sam Chen <sam.chen@nebula-matrix.com>
+
+What makes Sam Chen not have a dot in between name and surname?
+Maybe let's use the more usual notation and remove the dots?
+
+> +L:	netdev@vger.kernel.org
+> +S:	Maintained
+> +F:	Documentation/networking/device_drivers/ethernet/nebula-matrix/*
+
+Why the star at the end?
+
+> +++ b/drivers/net/ethernet/nebula-matrix/nbl/Makefile
+> @@ -0,0 +1,10 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +# Copyright (c) 2025 Nebula Matrix Limited.
+> +
+> +obj-$(CONFIG_NBL) := nbl.o
+> +
+> +nbl-objs +=      nbl_main.o
+> +
+> +# Provide include files
+> +ccflags-y += -I$(srctree)/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/
+> +ccflags-y += -I$(srctree)/drivers/net/ethernet/nebula-matrix/nbl/
+
+Why? You really shouldn't need this
+
+> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h
+> new file mode 100644
+> index 000000000000..8c50904b9151
+> --- /dev/null
+> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h
+> @@ -0,0 +1,16 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (c) 2025 Nebula Matrix Limited.
+> + */
+> +
+> +#ifndef _NBL_CORE_H_
+> +#define _NBL_CORE_H_
+> +
+> +enum {
+> +	NBL_CAP_HAS_CTRL_BIT = BIT(0),
+
+each header should be self-contained, you haven't included bits.h
+
+> +	NBL_CAP_HAS_NET_BIT = BIT(1),
+> +	NBL_CAP_IS_NIC_BIT = BIT(2),
+> +	NBL_CAP_IS_LEONIS_BIT = BIT(3),
+> +};
+> +
+> +#endif
+> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h
+> new file mode 100644
+> index 000000000000..914f1418f508
+> --- /dev/null
+> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h
+> @@ -0,0 +1,19 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (c) 2025 Nebula Matrix Limited.
+> + */
+> +
+> +#ifndef _NBL_INCLUDE_H_
+> +#define _NBL_INCLUDE_H_
+> +
+> +/*  ------  Basic definitions  -------  */
+> +#define NBL_DRIVER_NAME					"nbl"
+> +
+> +struct nbl_func_caps {
+> +	u32 has_ctrl:1;
+
+ditto, types.h
+
+> +	u32 has_net:1;
+> +	u32 is_nic:1;
+> +	u32 rsv:29;
+> +};
+> +
+> +#endif
+> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c
+> new file mode 100644
+> index 000000000000..c0b01fea2548
+> --- /dev/null
+> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c
+> @@ -0,0 +1,112 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (c) 2025 Nebula Matrix Limited.
+> + */
+> +
+> +#include <linux/device.h>
+> +#include <linux/pci.h>
+> +#include "nbl_include.h"
+> +#include "nbl_core.h"
+> +
+> +static int nbl_probe(struct pci_dev *pdev,
+> +		     const struct pci_device_id __always_unused *id)
+
+__always_unused should be after the arg name, not the type
+but also why? kernel build doesn't warn about unused args
+
+> +{
+> +	return 0;
+> +}
+
+> +MODULE_DEVICE_TABLE(pci, nbl_id_table);
+> +
+> +static struct pci_driver nbl_driver = {
+> +	.name = NBL_DRIVER_NAME,
+> +	.id_table = nbl_id_table,
+> +	.probe = nbl_probe,
+> +	.remove = nbl_remove,
+> +};
+> +
+> +module_pci_driver(nbl_driver);
+> +
+> +MODULE_LICENSE("GPL");
+> +MODULE_DESCRIPTION("Nebula Matrix Network Driver");
+
+missing include module.h ..
+-- 
+pw-bot: cr
