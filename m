@@ -1,199 +1,273 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D4EC3A901D;
-	Thu, 19 Mar 2026 08:20:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773908443; cv=none; b=PnKvJee4O3Wmc+OsYJEXc+0QoAcNZzXBEXTsgvOhqJmTnU0+MaQhkdMOQZcwOtGyDE7LyY7H7MTH74k1v/PbZcIQn5VNv0v51ZwBgw+n1kxlSxG3IdU0COW8t3m5GwJ6VqiarWq6yQzA5qbgxG8isgxZS7VCo2fleT1ATwgvBcY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773908443; c=relaxed/simple;
-	bh=TmE8XLBj7vggBAEN/5qnhQ9WJAu64UrHtpsd3cy0A6s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=B5FEOcZMZHKscfzdk3t5sDnCVjEEXTPB/4XK7+c8O87gVv7xl1+I+4FK+1T69VpC1LVi4bC1kCpUzplkwVY8tWwY7O9V8JBBUuAfRttAogsf+NsCmoqXP3+8wxol/SJsp0xsrjkzv1KivaqEKoiQ639RhJ0hhS6p57X1IRQaD6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bzrI2QJt; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D651918DF9D;
+	Thu, 19 Mar 2026 08:31:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.17
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773909071; cv=fail; b=V52zaewGSUqwd8+plj7FTU2lDduBAuBjoxCMEk/VJkYpI77Xpy3tIoUxZvJNyMU6mZH3bBMw1atJwQUaftzZI5RAB2qWlzCnZ/NKxfqns1qLMQk/dNoInAGVcEDCQNjrzkt60VeOAg6OFifkC8QTYCjNf1FWwNfXomUKZPMnEaQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773909071; c=relaxed/simple;
+	bh=RLGGIpg0ze6flIFGWmAnfBeoqN5AgaqKB43T7l9qpMQ=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=EJBCT8z0lJxsc1OrSk+3oQWXzIwf6mDLSknsQzYOir3zmj0heqszosQ/8in1lhkEdd5wZbr2P5JBV530VxZ1byLU54iOS6mJQh9ExytfwZOFWFqj2M8ii71KpSJc8oaqp+Lnz6OuSkEhm+qzz/wX8oHaOM6Od1Wcvbn+9vlUjsI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZMrqLNtM; arc=fail smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bzrI2QJt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BAD87C19424;
-	Thu, 19 Mar 2026 08:20:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773908443;
-	bh=TmE8XLBj7vggBAEN/5qnhQ9WJAu64UrHtpsd3cy0A6s=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=bzrI2QJtPx3dKX4MJg6SxQAO9wIwpeEUW2WRMyz7oRAYugL7DooaZr+zapqG8wMTQ
-	 5HbExMeqPoLyKhEYd6ysONxp6EqrS2jp35pi+zQTzHyXcJvXqUwN+yJ4eRnCHzro32
-	 MT4RTlXRB5d8XvizZmGkcVlwIbcgoVvUaEONRw0anXnY4/cdvMLzVnWah1JAPo+UW+
-	 a5hDxYGXbPk9EhBek219T9ql8QzaCYuPYd6ndY9mHYir1eR7gbw57K7+ESNIpPd3Es
-	 K5dUncAEEuR2RvUEf2hREUW8fQLYMpdAQehv4nxnhnwWvta3xLboyh7kBdNNhvUj7o
-	 +NHLzGRTrmW5g==
-Message-ID: <15e15ccc-c132-4170-bea2-f1053675ea9c@kernel.org>
-Date: Thu, 19 Mar 2026 09:20:38 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZMrqLNtM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773909069; x=1805445069;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=RLGGIpg0ze6flIFGWmAnfBeoqN5AgaqKB43T7l9qpMQ=;
+  b=ZMrqLNtMffTvVpR0A+jNi/+L6fUZsdtS8UnHLHGaI078F8VOX6B6Tmq/
+   v2+Nxm0Xp2mf/34mWj/40vvBWeORYIoMpBTD2eeEE5HcxdkPgQqyh/pSJ
+   1x6LD5K1lcwj0TIkf0oBXdfG9SxDhzSryiipN2LO2tyqzojlumnes44Ve
+   KIIazXGi3aUunPUnrbEOLbAVDfWRmzjPO8cGxHlQhxazYO4oxZsmwh+RJ
+   KLq2XPCbiVOqUXOB/XA/AtUC0VKuAY571uZBYov+KSUGI8HhAaxGQ9S6J
+   xIDwjmGP/QIgU4/2etfeGZGn7vfPD2tk2bInUKKR7imX8pdRDqUwKLoaU
+   A==;
+X-CSE-ConnectionGUID: RktDd7s/SKGvanh7VwQfyg==
+X-CSE-MsgGUID: GhnpIo0uQ2mZUI/l8PHOKw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11733"; a="74888140"
+X-IronPort-AV: E=Sophos;i="6.23,129,1770624000"; 
+   d="scan'208";a="74888140"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 01:31:08 -0700
+X-CSE-ConnectionGUID: JEGLWNVoTai0AVyzurdXLQ==
+X-CSE-MsgGUID: Gkf1JOAPT+mXSBAGah7NgA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,129,1770624000"; 
+   d="scan'208";a="220296905"
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 01:31:08 -0700
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 19 Mar 2026 01:31:07 -0700
+Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Thu, 19 Mar 2026 01:31:07 -0700
+Received: from CH4PR04CU002.outbound.protection.outlook.com (40.107.201.1) by
+ edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 19 Mar 2026 01:31:06 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=V4S8C8ObyHLY8AMZRjJvJwiApB7syGTOdvAcmVXtSsp4bvRQfaHFwA8dELB3Rzp0+R9WmP2r/oGn0gZxfIB5mUo0k7t68nzg4D5cH0sb//UGxhn86SARtB2IZYkEQzqkvHTrl7nXsy9+CVo8dyoa7mesWhpyba6bl2/4PQmVUJLejFUNn9l+Dd4pAPpRAiw+ymJNdVjUW9LULMzKYMAtqMmPUVTkh3NeoxGTDruUhl69/ePmEmX8XBWDtZaG1ACRcwFo1V13u5XoLQJhr38JcfqiKjGdsLXqsj6UUa+OWgDQrL44l/tlNFfPDNfOHm4BjhCWcVbRLCWVOeXtkCqhNw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=V/x2ox8UZqVMipUKg539XC2icTmNmPM3zRuEuHh5eek=;
+ b=I7hb9V2obrqZk3L9a5FWuXuQ4N4/vqqJa++y/R0HI23SOYlXwKDII2aN6HWZxcfR/Xv1IG4tNDx7wMI5TbqznfPJm8STtOodWNR8ltti85uKTwajIZC0m1wK9gF2CloSKCloCYbDagg+Tdy7XzqhHHHkcSnUI8IkzFd7h380vpzY0SeuS0lBhHd7xJz734tWZthXXRQ/PEmmBKx5xQaR8Ucotq5SJL0l2FElXIVCcvAILgG/6kRgQpyAjgoEi/4WyrgEKuDD5Osl4usO9jjqRWAth+9uzmIz8g1SbVlelSsaTNd4ebbHyudpE4J2DTcY7WxulF07+tn8Be1qAhKdUA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from IA3PR11MB8986.namprd11.prod.outlook.com (2603:10b6:208:577::21)
+ by CO1PR11MB4962.namprd11.prod.outlook.com (2603:10b6:303:99::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.17; Thu, 19 Mar
+ 2026 08:31:01 +0000
+Received: from IA3PR11MB8986.namprd11.prod.outlook.com
+ ([fe80::e6f0:6afb:6ef9:ab5c]) by IA3PR11MB8986.namprd11.prod.outlook.com
+ ([fe80::e6f0:6afb:6ef9:ab5c%5]) with mapi id 15.20.9723.006; Thu, 19 Mar 2026
+ 08:31:00 +0000
+From: "Loktionov, Aleksandr" <aleksandr.loktionov@intel.com>
+To: Stanislav Fomichev <sdf@fomichev.me>, "netdev@vger.kernel.org"
+	<netdev@vger.kernel.org>
+CC: "davem@davemloft.net" <davem@davemloft.net>, "edumazet@google.com"
+	<edumazet@google.com>, "kuba@kernel.org" <kuba@kernel.org>,
+	"pabeni@redhat.com" <pabeni@redhat.com>, "horms@kernel.org"
+	<horms@kernel.org>, "corbet@lwn.net" <corbet@lwn.net>,
+	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
+	"andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>, "michael.chan@broadcom.com"
+	<michael.chan@broadcom.com>, "pavan.chebbi@broadcom.com"
+	<pavan.chebbi@broadcom.com>, "Nguyen, Anthony L"
+	<anthony.l.nguyen@intel.com>, "Kitszel, Przemyslaw"
+	<przemyslaw.kitszel@intel.com>, "saeedm@nvidia.com" <saeedm@nvidia.com>,
+	"tariqt@nvidia.com" <tariqt@nvidia.com>, "mbloch@nvidia.com"
+	<mbloch@nvidia.com>, "alexanderduyck@fb.com" <alexanderduyck@fb.com>,
+	"kernel-team@meta.com" <kernel-team@meta.com>, "johannes@sipsolutions.net"
+	<johannes@sipsolutions.net>, "sd@queasysnail.net" <sd@queasysnail.net>,
+	"jianbol@nvidia.com" <jianbol@nvidia.com>, "dtatulea@nvidia.com"
+	<dtatulea@nvidia.com>, "mohsin.bashr@gmail.com" <mohsin.bashr@gmail.com>,
+	"Keller, Jacob E" <jacob.e.keller@intel.com>, "willemb@google.com"
+	<willemb@google.com>, "skhawaja@google.com" <skhawaja@google.com>,
+	"bestswngs@gmail.com" <bestswngs@gmail.com>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "intel-wired-lan@lists.osuosl.org"
+	<intel-wired-lan@lists.osuosl.org>, "linux-rdma@vger.kernel.org"
+	<linux-rdma@vger.kernel.org>, "linux-wireless@vger.kernel.org"
+	<linux-wireless@vger.kernel.org>, "linux-kselftest@vger.kernel.org"
+	<linux-kselftest@vger.kernel.org>, "leon@kernel.org" <leon@kernel.org>
+Subject: RE: [Intel-wired-lan] [PATCH net-next v2 08/13] bnxt: use snapshot in
+ bnxt_cfg_rx_mode
+Thread-Topic: [Intel-wired-lan] [PATCH net-next v2 08/13] bnxt: use snapshot
+ in bnxt_cfg_rx_mode
+Thread-Index: AQHctuhy6Syyj/hw/UaVLArroIy2m7W1hwNw
+Date: Thu, 19 Mar 2026 08:31:00 +0000
+Message-ID: <IA3PR11MB89866985981DB64EFEBDF0ACE54FA@IA3PR11MB8986.namprd11.prod.outlook.com>
+References: <20260318150305.123900-1-sdf@fomichev.me>
+ <20260318150305.123900-9-sdf@fomichev.me>
+In-Reply-To: <20260318150305.123900-9-sdf@fomichev.me>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: IA3PR11MB8986:EE_|CO1PR11MB4962:EE_
+x-ms-office365-filtering-correlation-id: 6a3f9567-1344-4a32-ef89-08de8591da14
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016|56012099003|22082099003|18002099003|7053199007|38070700021;
+x-microsoft-antispam-message-info: aleoCaY1N49HW39zK1rsNZB+9rihflDsCd+HpvMaZhf7iNz2wx2jmdQqAf8JZqOiC1eh1VciIEfhGbgwM+Q51w7VbKw0f4F8aRaXuc5FxUlirrB3BMpIUuj5XFxdadF/D6peaN2HMLV9/FgNT7m9H6dfa6H077bR+4aUyowK8Se/UjNQyjtwfGEIhNZUp8Jq7wnLi1lt7cDnxYMDCO8YTs8G3wMzS17oQgahAs1QCn9I+qquttRRuuBIblfhmwchNwrz8rrRlwR7+pNwugHIsjM+PcKmsne9wiJeYq2cg7yVOso3XHcqWYDailCM34zQkERUcHQZSW2+K8oyEWsZMmr06qg3lSSIzY1mJHn28Zo8LFldWd0AFFPTrXJMFmob9/RMS9wZAfrNjOYJ9G1n1zAFpBsOfu/MarnBa2UPLwKa36+/AeNJMxCySSoBJ1C7IfNvSbgF4kjdjLpsaAjHYTpvbhm+7NkvFYQXeqGrezQX63KxBjBPZyANIR1B+LYBT6cyZrAPtHW/PXaT+GH9QToJAy7aDUaQYSkOhHnUkuiSOyz9yRc+gUrKiQAYmirhE5/sQtn/DpUU6I7mLDr5fZ3ieqj2PxVQx+1fvYlzUojMr9yK0tDADm+EqiJb1nQL/RT4cXrlEHHtvL7RHDB/b0SdZ51l4BKAR/GhETYv5E913uY0d5GzJf9uIuiQhFzK++NVjeUrqSh+fHGSJg3Yat4OfwYyyoPkQeVa3XYN9iV4vJkCkggD64vrUJLQqNz9
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA3PR11MB8986.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(56012099003)(22082099003)(18002099003)(7053199007)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Gb5nm+NMH7U/uAwU4zLMJ1zmq676NAhxe6lHe/wwKLtQRGg1sP0rdmlZBQHd?=
+ =?us-ascii?Q?i1EgiHgnCYij6FEZ3pwmcDMH2vENKglN6qKOadoA42PzcYyaPpztcaCK3b4i?=
+ =?us-ascii?Q?0VF+GivWyrT1Ecy8sGA1JprRD63hDEfjQLEsxUV5HQ6RfgS0/9AaKkU+CyRC?=
+ =?us-ascii?Q?vOzWBnwbJPDp+tqcBB2vbE6FfT+zMdwFB0+hoz+88HVHyXorAUVvGV0w/YON?=
+ =?us-ascii?Q?gWEErAgVl+kMhgCUpMTee+aPLB5SmQ/pNWKq6ctxyk5L/GcV6tf8px9dQe7v?=
+ =?us-ascii?Q?YqKDHwC9ZAZpbw0mcRvT+cEn3MWQwkea7Ba3kM2RB9QEbxloRDbfxQ0dsY0L?=
+ =?us-ascii?Q?jkY2GhXRlOMLZf/RlAnr62Ry7lLlhHc1vb9NX0mj/xXpa+KME230abqRZ5N+?=
+ =?us-ascii?Q?3dutd4FAfAK0zVfwKWktyn3vcFuQPxMLtB+KajIbvShYH+7VsVOKgbNEYXqq?=
+ =?us-ascii?Q?+76Xo95esZTdcPxFPrDwFNizIZMfZILOtWXTlHKXScv/c6O1/yivQyEiUcMP?=
+ =?us-ascii?Q?BlIhY1Jb95hLwt+OfbCf3bhu8nRp03c66cghveCmzHrzkOKcpBjKCrZBW1Ir?=
+ =?us-ascii?Q?mqNOGuFIA5xjrUY30mQXoTTq3C9bLymZptbGuSG51fQoZ0cnjtSaoxsRBe5r?=
+ =?us-ascii?Q?5c25MWoMcA8Ft7juglIJPsaxoGIpPXmpb+c2gNCbTh6AlTl8K3dXWBQf3hlh?=
+ =?us-ascii?Q?63HTWxMrLaZaFha3VHtZHulQ4YOLbh1eKH2204te7THCq5KanQmDUhNd38Xw?=
+ =?us-ascii?Q?A7LhU7QMaacFjuNWuvCoAX4eRQGADaBeBUhlBj1Pcfykm4Dgpz2tA4ckKN5X?=
+ =?us-ascii?Q?jsCiwSdcX2Zr4PbFVNgEu9xLum1MHMsdxsDfv045utBOUB/kd0Qqi6Xz556U?=
+ =?us-ascii?Q?4izkXTkmiPRxM0GQCRHac/Qi8l8jDFw81gOZZ8cHHc0ixdw5BTwaOhcNnkN8?=
+ =?us-ascii?Q?imqFGiANR+EZPAjTXg0Tdmqw0szav5i5HtPBwuPJopuQk+EgC82fnBvfrTgG?=
+ =?us-ascii?Q?xHRV+GOO0PQKPWLoS8xq6OQ3FOOmlVDQEui0y+K0da+SvshV0jCRnIKtBFHJ?=
+ =?us-ascii?Q?kDrlZEhDWKxmz022Og2JRtLGVveiZuubyUEO5Pg0XNstpbDwbhD8z4EVzZ43?=
+ =?us-ascii?Q?QkPCXvladfy+CrV5vkMV77GQZAxiFXsAw5S0ROQulySdubb7jpODGC9mMuN8?=
+ =?us-ascii?Q?6py33cvrYaNps0qINuTTkBoIVpfHNOOctpO7sFfvNM1rJYAHzQwSD0RjNM92?=
+ =?us-ascii?Q?96u8N8c0ibZKZnL6NUfWteBeQjnUdun4hh/1CakdSYXCK+oTvaww6Eop0b1t?=
+ =?us-ascii?Q?mANxl5JtSP0zlW9t6ATkgdypCGKXPeTT+2YxXew7CRAdO0eWM6/k6zd/Q1Ao?=
+ =?us-ascii?Q?kjMtnLyZpyYQOqCeqD2nXyXw48cg8XBlHgNRbpqQcxWHY56xCKxLdbHRh9Op?=
+ =?us-ascii?Q?pNxWVT/eVLA02hhFhn7Ij2CXueN85GEnGcM2L8nxbzSTGy+CEF2Sw2CqNpc1?=
+ =?us-ascii?Q?8ljNyhdu7LzxXWGja6w3B8HpuKM1tzUPs8wSK+xqiIder1ckawo6U50qgWAd?=
+ =?us-ascii?Q?bo4Z2wLvnhWIggkHQ/Kro1D9DEo41TAeqMGvpOo8Vinthp/yejjtjqlpjCc6?=
+ =?us-ascii?Q?iQZw4LRECNfZzsPkZunFsweAARh9H3ERQ/BoJ6qVXt/OOFc41SDWw0ktH09z?=
+ =?us-ascii?Q?o6REGrVqllH3w57l2/1GHWJM6m3MatSJMgkcMAzH/O2alFOt6nzZD+mUnIh6?=
+ =?us-ascii?Q?3Xk1wccbvwB9tppid/DzvZ9D08bKLAQ=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 09/10] dt-bindings: firmware: add arm,ras-cper
-To: Ahmed Tiba <ahmed.tiba@arm.com>, linux-acpi@vger.kernel.org,
- devicetree@vger.kernel.org, linux-cxl@vger.kernel.org
-Cc: Michael.Zhao2@arm.com, robh@kernel.org,
- linux-arm-kernel@lists.infradead.org, Dmitry.Lamerov@arm.com,
- rafael@kernel.org, conor@kernel.org, will@kernel.org, bp@alien8.de,
- catalin.marinas@arm.com, krzk+dt@kernel.org, linux-doc@vger.kernel.org,
- mchehab+huawei@kernel.org, tony.luck@intel.com
-References: <20260318-topics-ahmtib01-ras_ffh_arm_internal_review-v3-0-48e6a1c249ef@arm.com>
- <20260318-topics-ahmtib01-ras_ffh_arm_internal_review-v3-9-48e6a1c249ef@arm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20260318-topics-ahmtib01-ras_ffh_arm_internal_review-v3-9-48e6a1c249ef@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Exchange-RoutingPolicyChecked: KUUAYG+vXqwnRX1F6FOYEaN++zI4dCAJDUPJYT/yruA60Ow0L63UfS8FZUmZBPQvAMQob60/289GaH07V7OILPUcuhUXzjUl5jdOjELAeRpUlJPfiXODbasaanDMLDCW9lw8z9n/hQo05zfzf5Qiv5R+om+zD+AQ07YophkVKN7vZrSB/mDV5t6WFUCehe397/+W1MLO/FvlGzn5pb1ndp7BB3z+Sz0XDPq4LfkEItIp5V14TJzZjUBrpzy9LrXUJ5WFU7OXNkgGOppSglxhDKfkfRdEdWXMQVJ8DYagdm0+Wj47zezNdQs9sDeR+qHayMpaJ9Y+2mhRTh7yzSN3gg==
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: IA3PR11MB8986.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6a3f9567-1344-4a32-ef89-08de8591da14
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Mar 2026 08:31:00.8460
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: MjIGcCH1js2UeSICevENROSwqbqim7fZyMvtpBJiyN+XaxuPjrBLIDIjgOi/7h/arem5PXCXrsGWNFT4TzCmyeA4M49B6bOomy+4DsejYCQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB4962
+X-OriginatorOrg: intel.com
 
-On 18/03/2026 21:48, Ahmed Tiba wrote:
-> Describe the DeviceTree node that exposes the Arm firmware-first
-> CPER provider and hook the file into MAINTAINERS so the
-> binding has an owner.
-> 
-> Signed-off-by: Ahmed Tiba <ahmed.tiba@arm.com>
+
+
+> -----Original Message-----
+> From: Intel-wired-lan <intel-wired-lan-bounces@osuosl.org> On Behalf
+> Of Stanislav Fomichev
+> Sent: Wednesday, March 18, 2026 4:03 PM
+> To: netdev@vger.kernel.org
+> Cc: davem@davemloft.net; edumazet@google.com; kuba@kernel.org;
+> pabeni@redhat.com; horms@kernel.org; corbet@lwn.net;
+> skhan@linuxfoundation.org; andrew+netdev@lunn.ch;
+> michael.chan@broadcom.com; pavan.chebbi@broadcom.com; Nguyen, Anthony
+> L <anthony.l.nguyen@intel.com>; Kitszel, Przemyslaw
+> <przemyslaw.kitszel@intel.com>; saeedm@nvidia.com; tariqt@nvidia.com;
+> mbloch@nvidia.com; alexanderduyck@fb.com; kernel-team@meta.com;
+> johannes@sipsolutions.net; sd@queasysnail.net; jianbol@nvidia.com;
+> dtatulea@nvidia.com; sdf@fomichev.me; mohsin.bashr@gmail.com; Keller,
+> Jacob E <jacob.e.keller@intel.com>; willemb@google.com;
+> skhawaja@google.com; bestswngs@gmail.com; linux-doc@vger.kernel.org;
+> linux-kernel@vger.kernel.org; intel-wired-lan@lists.osuosl.org; linux-
+> rdma@vger.kernel.org; linux-wireless@vger.kernel.org; linux-
+> kselftest@vger.kernel.org; leon@kernel.org
+> Subject: [Intel-wired-lan] [PATCH net-next v2 08/13] bnxt: use
+> snapshot in bnxt_cfg_rx_mode
+>=20
+> With the introduction of ndo_set_rx_mode_async (as discussed in [0])
+> we can call bnxt_cfg_rx_mode directly. Convert bnxt_cfg_rx_mode to use
+> uc/mc snapshots and move its call in bnxt_sp_task to the section that
+> resets BNXT_STATE_IN_SP_TASK. Switch to direct call in
+> bnxt_set_rx_mode.
+>=20
+> 0:
+> https://lore.kernel.org/netdev/CACKFLi=3D5vj8hPqEUKDd8RTw3au5G+zRgQEqjF+
+> 6NZnyoNm90KA@mail.gmail.com/
+>=20
+> Cc: Michael Chan <michael.chan@broadcom.com>
+> Cc: Pavan Chebbi <pavan.chebbi@broadcom.com>
+> Signed-off-by: Stanislav Fomichev <sdf@fomichev.me>
 > ---
->  .../devicetree/bindings/firmware/arm,ras-cper.yaml | 71 ++++++++++++++++++++++
->  MAINTAINERS                                        |  5 ++
->  2 files changed, 76 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/firmware/arm,ras-cper.yaml b/Documentation/devicetree/bindings/firmware/arm,ras-cper.yaml
-> new file mode 100644
-> index 000000000000..bd93cfb8d222
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/firmware/arm,ras-cper.yaml
-> @@ -0,0 +1,71 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/firmware/arm,ras-cper.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Arm RAS CPER provider
-> +
-> +maintainers:
-> +  - Ahmed Tiba <ahmed.tiba@arm.com>
-> +
-> +description: |
+>  drivers/net/ethernet/broadcom/bnxt/bnxt.c | 24 ++++++++++++++--------
+> -
+>  1 file changed, 15 insertions(+), 9 deletions(-)
 
-Do not need '|' unless you need to preserve formatting.
+...
 
-> +  Arm Reliability, Availability and Serviceability (RAS) firmware can expose
-> +  a firmware-first CPER error source directly via DeviceTree. Firmware
-> +  provides the CPER Generic Error Status block and notifies the OS through
-> +  an interrupt.
-> +
-> +properties:
-> +  compatible:
-> +    const: arm,ras-cper
-> +
-> +  reg:
-> +    minItems: 1
-> +    items:
-> +      - description:
-> +          CPER Generic Error Status block exposed by firmware
-> +      - description:
-> +          Optional 32- or 64-bit doorbell register used on platforms
-> +          where firmware needs an explicit "ack" handshake before overwriting
-> +          the CPER buffer. Firmware watches bit 0 and expects the OS to set it
-> +          once the current status block has been consumed.
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +    description:
-> +      Interrupt used to signal that a new status record is ready.
-> +
-> +  memory-region:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description:
-> +      Optional phandle to the reserved-memory entry that backs the status
+> -static int bnxt_cfg_rx_mode(struct bnxt *bp)
+> +static int bnxt_cfg_rx_mode(struct bnxt *bp, struct
+> netdev_hw_addr_list *uc,
+> +			    struct netdev_hw_addr_list *mc)
+>  {
+>  	struct net_device *dev =3D bp->dev;
+>  	struct bnxt_vnic_info *vnic =3D &bp-
+> >vnic_info[BNXT_VNIC_DEFAULT];
+> @@ -13623,7 +13625,7 @@ static int bnxt_cfg_rx_mode(struct bnxt *bp)
+>  	bool uc_update;
+>=20
+>  	netif_addr_lock_bh(dev);
+> -	uc_update =3D bnxt_uc_list_updated(bp, &dev->uc);
+> +	uc_update =3D bnxt_uc_list_updated(bp, uc);
+>  	netif_addr_unlock_bh(dev);
+>=20
+>  	if (!uc_update)
+> @@ -13642,7 +13644,7 @@ static int bnxt_cfg_rx_mode(struct bnxt *bp)
+>  	if (netdev_uc_count(dev) > (BNXT_MAX_UC_ADDRS - 1)) {
+>  		vnic->rx_mask |=3D
+> CFA_L2_SET_RX_MASK_REQ_MASK_PROMISCUOUS;
+This limit check uses the live device list, dev->uc.
+In the new async model, the live list can differ from the snapshot.
 
-Don't repeat schema in free form. Schema defines whether this is
-optional and phandle. Say just what is the reserved memory for.
+>  	} else {
+> -		netdev_for_each_uc_addr(ha, dev) {
+> +		netdev_hw_addr_list_for_each(ha, uc) {
+This loop iterates the snapshot list, uc. */
+So, the guard above and the loop below are checking different data.
 
-> +      buffer so firmware and the OS use the same carved-out region.
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +    reserved-memory {
-> +      #address-cells = <2>;
-> +      #size-cells = <2>;
-> +      ras_cper_buffer: cper@fe800000 {
-> +        reg = <0x0 0xfe800000 0x0 0x1000>;
-> +        no-map;
-> +      };
-> +    };
+>  			memcpy(vnic->uc_list + off, ha->addr, ETH_ALEN);
+>  			off +=3D ETH_ALEN;
+>  			vnic->uc_filter_count++;
+> @@ -14600,6 +14602,7 @@ static void bnxt_ulp_restart(struct bnxt *bp)
+> static void bnxt_sp_task(struct work_struct *work)  {
+>  	struct bnxt *bp =3D container_of(work, struct bnxt, sp_task);
+> +	struct net_device *dev =3D bp->dev;
+>=20
+>  	set_bit(BNXT_STATE_IN_SP_TASK, &bp->state);
+>  	smp_mb__after_atomic();
+> @@ -14613,9 +14616,6 @@ static void bnxt_sp_task(struct work_struct
+> *work)
+>  		bnxt_reenable_sriov(bp);
+>  	}
 
-I don't get why this appeared - wasn't in the version I reviewed.
+...
 
-> +
-> +    error-handler@fe800000 {
-> +      compatible = "arm,ras-cper";
-> +      reg = <0xfe800000 0x1000>,
-> +            <0xfe810000 0x4>;
-> +      memory-region = <&ras_cper_buffer>;
-> +      interrupts = <GIC_SPI 32 IRQ_TYPE_LEVEL_HIGH>;
-> +    };
-> +...
+> 2.53.0
 
-
-
-Best regards,
-Krzysztof
