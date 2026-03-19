@@ -1,103 +1,177 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CF473BFE3F;
-	Thu, 19 Mar 2026 10:58:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FE443C4568
+	for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 11:00:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773917927; cv=none; b=O25qrPVd+SD/jsF0514T0mv216K5uWfeOKR3cyxJkt8GWVJhW2Mim0Z9Z0l6U9n27tpOlgwk2Eoi62bJX1Igt1HvrmdtfqUVf34/QktTNNJsMS/65PxMKXiBCYL8NlweCzesJBHTRDG6zsALCOLUrkH2iCIoTGMOVTblblazL5k=
+	t=1773918003; cv=none; b=UNETrPk0autNnYLbuPPIito/jv2Of2m3JHI3TTPbXTfqe5opoTGWqHkj7zznp/RcD/B6lHG6AB6X5WtIMJO+6wLJx0SH1FdNwNz8PseT8YBH6HXN6k0sDHnKxqBMV80GqNB93ozz02DI4Pfs9DnuxuuVVfgMht6UuFrlTW28URU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773917927; c=relaxed/simple;
-	bh=AgCBXHZnTJeW1jAh7B9Ei661agzhi2bu6A1p7nceQYM=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=W+KonpLASqLy2VMjbNX4CgQFkFekGQhTCMMH499N84RPIPdzdq9uIJw2durS4qitlMsXEfJf++tlWRzrbFYX8K4PAzDe2CgOfM8JFyes5ytjPP4cJfPGwfQ2mNGLmLufXhTLXjNr6ePNEUsDxAuM23mp61RZ+SsmxGMOq8GEk+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.224.83])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fc2hx2gqtzJ46cg;
-	Thu, 19 Mar 2026 18:57:37 +0800 (CST)
-Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
-	by mail.maildlp.com (Postfix) with ESMTPS id 94D4A40569;
-	Thu, 19 Mar 2026 18:58:36 +0800 (CST)
-Received: from localhost (10.203.177.15) by dubpeml500005.china.huawei.com
- (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 19 Mar
- 2026 10:58:34 +0000
-Date: Thu, 19 Mar 2026 10:58:32 +0000
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
-To: Chengwen Feng <fengchengwen@huawei.com>
-CC: Bjorn Helgaas <bhelgaas@google.com>, Catalin Marinas
-	<catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, "Rafael J .
- Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
-	<skhan@linuxfoundation.org>, Huacai Chen <chenhuacai@kernel.org>, "WANG
- Xuerui" <kernel@xen0n.name>, Paul Walmsley <pjw@kernel.org>, "Palmer Dabbelt"
-	<palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, "Alexandre Ghiti"
-	<alex@ghiti.fr>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar
-	<mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
-	<dave.hansen@linux.intel.com>, <x86@kernel.org>, "H . Peter Anvin"
-	<hpa@zytor.com>, Juergen Gross <jgross@suse.com>, Boris Ostrovsky
-	<boris.ostrovsky@oracle.com>, Len Brown <lenb@kernel.org>, Sunil V L
-	<sunilvl@ventanamicro.com>, Mark Rutland <mark.rutland@arm.com>, Kees Cook
-	<kees@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, Sean Christopherson
-	<seanjc@google.com>, Kai Huang <kai.huang@intel.com>, Tom Lendacky
-	<thomas.lendacky@amd.com>, Thomas Huth <thuth@redhat.com>, Thorsten Blum
-	<thorsten.blum@linux.dev>, Kevin Loughlin <kevinloughlin@google.com>, Zheyun
- Shen <szy0127@sjtu.edu.cn>, Peter Zijlstra <peterz@infradead.org>, Pawan
- Gupta <pawan.kumar.gupta@linux.intel.com>, Xin Li <xin@zytor.com>, "Ahmed S .
- Darwish" <darwi@linutronix.de>, Sohil Mehta <sohil.mehta@intel.com>, Ilkka
- Koskinen <ilkka@os.amperecomputing.com>, Robin Murphy <robin.murphy@arm.com>,
-	James Clark <james.clark@linaro.org>, Besar Wicaksono
-	<bwicaksono@nvidia.com>, Ma Ke <make24@iscas.ac.cn>, "Wei Huang"
-	<wei.huang2@amd.com>, Andy Gospodarek <andrew.gospodarek@broadcom.com>,
-	Somnath Kotur <somnath.kotur@broadcom.com>, <punit.agrawal@oss.qualcomm.com>,
-	<guohanjun@huawei.com>, <suzuki.poulose@arm.com>, <ryan.roberts@arm.com>,
-	<chenl311@chinatelecom.cn>, <masahiroy@kernel.org>,
-	<wangyuquan1236@phytium.com.cn>, <anshuman.khandual@arm.com>,
-	<heinrich.schuchardt@canonical.com>, <Eric.VanTassell@amd.com>,
-	<wangzhou1@hisilicon.com>, <wanghuiqiang@huawei.com>,
-	<liuyonglong@huawei.com>, <linux-pci@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <loongarch@lists.linux.dev>,
-	<linux-riscv@lists.infradead.org>, <xen-devel@lists.xenproject.org>,
-	<linux-acpi@vger.kernel.org>, <linux-perf-users@vger.kernel.org>,
-	<stable@vger.kernel.org>
-Subject: Re: [PATCH v9 0/7] ACPI: Unify CPU UID interface and fix ARM64 TPH
- steer-tag issue
-Message-ID: <20260319105832.00002218@huawei.com>
-In-Reply-To: <20260319065735.45954-1-fengchengwen@huawei.com>
-References: <20260319065735.45954-1-fengchengwen@huawei.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1773918003; c=relaxed/simple;
+	bh=lDsTKKOW0M02gxeWI5CUcjsdvvgs0U6RXB5vNRUgEMA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iVL4A7gzFig25gyzTPN/fUp3HRSIOL9LKe5+e3hpoN0c9AAfTorEmA+Y1gaBSHVdpXvazQMSkGcl9IvNdo0zNYHtUm1aRquCMvNp/LUFMlh0eNOlSwVboedMsfFVFqPmilre+FdMVaFyco/Q+ts3GWKIfg3xz+at7o8/CXU8i/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=PcDkGLK+; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="PcDkGLK+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding; s=k1; bh=KB81XvoxVzxPeO
+	i/26wCRtiORDc5p8n0JHh4CTp/OTA=; b=PcDkGLK+SGUtnsfgW6hOFscnOGL+BT
+	dKa1bQM2q3f+KMWLx51FbKecyKl3CTTGMdyGB6dqrwuL5JkEEudobAqxgeU6ZFMr
+	Q/egIiyx6OHRYc21xA0Sg6RHS9duWIff1CFbEaPP2CfF36ozg9i4SuaRZ7MV6c5H
+	eCWWVJZ5KtG2AIocqV87rCfe50t4kw5N3wmJEAYynvgH2nsxCmP0QR9PCNreuRFf
+	mKmqzGl/3S3bTfYmXZSe0hhxeuBYswfqzt+swtd5l3aIkB5Df3owLfa84N3Fk1B2
+	xEr2d5idm1V67Pg0LjLzpw4DgNEnINr8JKle2ffApkdPHx/l3cXj3/1g==
+Received: (qmail 1099341 invoked from network); 19 Mar 2026 11:59:51 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 19 Mar 2026 11:59:51 +0100
+X-UD-Smtp-Session: l3s3148p1@AI+1d15Nvt0gAwDPXzF+ANZpdrMKUeLI
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-renesas-soc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Antonio Borneo <antonio.borneo@foss.st.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	driver-core@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Lee Jones <lee@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-iio@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org,
+	linux-spi@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev,
+	Mark Brown <broonie@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Srinivas Kandagatla <srini@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Waiman Long <longman@redhat.com>,
+	Wilken Gottwalt <wilken.gottwalt@posteo.net>,
+	Will Deacon <will@kernel.org>
+Subject: [PATCH v5 00/15] hwspinlock: move device alloc into core and refactor includes
+Date: Thu, 19 Mar 2026 11:59:22 +0100
+Message-ID: <20260319105947.6237-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500009.china.huawei.com (7.191.174.84) To
- dubpeml500005.china.huawei.com (7.214.145.207)
+Content-Transfer-Encoding: 8bit
 
-On Thu, 19 Mar 2026 14:57:28 +0800
-Chengwen Feng <fengchengwen@huawei.com> wrote:
+Changes since v4:
 
-> This patchset unifies ACPI Processor UID retrieval across
-> arm64/loongarch/riscv/x86 via acpi_get_cpu_uid() (with input validation)
-> and fixes ARM64 CPU steer-tag retrieval failure in PCI/TPH:
-> 
-> 1-4: Add acpi_get_cpu_uid() for arm64/loongarch/riscv/x86 (update
->      respective users)
-> 5: Centralize acpi_get_cpu_uid() declaration in include/linux/acpi.h
-> 6: Clean up ACPI/PPTT and remove unused get_acpi_id_for_cpu()
-> 7: Fix ARM64 platform CPU steer-tag retrieval failure
-> 
-> The interface refactor ensures consistent CPU UID retrieval across
-> architectures (no functional changes for valid inputs) and provides the
-> unified interface required for the ARM64 TPH fix.
+* update Documentation, too, when ABI gets changed (Thanks Antonio!)
+* rebased to 7.0-rc4
+* added more tags (Thanks!)
 
-Given the structure of the series has slowly evolved since I gave
-tags, I took another look.  All looks good to me.
-Nice work.
+My ultimate goal is to allow hwspinlock provider drivers outside of the
+subsystem directory. It turned out that a simple split of the headers
+files into a public provider and a public consumer header file is not
+enough because core internal structures need to stay hidden. Even more,
+their opaqueness could and should even be increased. That would also
+allow the core to handle the de-/allocation of the hwspinlock device
+itself.
 
-Jonathan
+This series does all that. Patches 1-2 remove the meanwhile unused
+platform_data to ease further refactoring. Patches 3-9 abstract access
+to internal structures away using helpers. Patch 10 then moves
+hwspinlock device handling to the core, simplifying drivers. The
+remaining patches refactor the headers until the internal one is gone
+and the public ones are divided into provider and consumer parts. More
+details are given in the patch descriptions.
+
+One note about using a callback to initialize hwspinlock priv: I also
+experimented with a dedicated 'set_priv' helper function. It felt a bit
+clumsy to me. Drivers would need to save the 'bank' pointer again and
+iterate over it. Because most drivers will only have a simple callback
+anyhow, it looked leaner to me.
+
+This series has been tested on a Renesas SparrowHawk board (R-Car V4H)
+with a yet-to-be-upstreamed hwspinlock driver for the MFIS IP core. A
+branch can be found here (without the MFIS driver currently):
+
+git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/hwspinlock/refactor-alloc-buildtest
+
+Build bots reported success.
+
+Happy hacking,
+
+   Wolfram
+
+Wolfram Sang (15):
+  hwspinlock: u8500: delete driver
+  hwspinlock: remove now unused pdata from header file
+  hwspinlock: add helpers to retrieve core data
+  hwspinlock: add callback to fill private data of a hwspinlock
+  hwspinlock: omap: use new callback to initialize hwspinlock priv
+  hwspinlock: qcom: use new callback to initialize hwspinlock priv
+  hwspinlock: sprd: use new callback to initialize hwspinlock priv
+  hwspinlock: stm32: use new callback to initialize hwspinlock priv
+  hwspinlock: sun6i: use new callback to initialize hwspinlock priv
+  hwspinlock: handle hwspinlock device allocation in the core
+  hwspinlock: move entries from internal to public header
+  hwspinlock: remove internal header
+  hwspinlock: sort include and update copyright
+  hwspinlock: refactor provider.h from public header
+  hwspinlock/treewide: refactor consumer.h from public header
+
+ Documentation/locking/hwspinlock.rst          |   7 +-
+ MAINTAINERS                                   |   3 +-
+ drivers/base/regmap/regmap.c                  |   2 +-
+ drivers/hwspinlock/Kconfig                    |  10 --
+ drivers/hwspinlock/Makefile                   |   1 -
+ drivers/hwspinlock/hwspinlock_core.c          | 129 +++++++++++----
+ drivers/hwspinlock/hwspinlock_internal.h      |  72 --------
+ drivers/hwspinlock/omap_hwspinlock.c          |  27 ++-
+ drivers/hwspinlock/qcom_hwspinlock.c          |  69 ++++----
+ drivers/hwspinlock/sprd_hwspinlock.c          |  39 ++---
+ drivers/hwspinlock/stm32_hwspinlock.c         |  26 +--
+ drivers/hwspinlock/sun6i_hwspinlock.c         |  36 ++--
+ drivers/hwspinlock/u8500_hsem.c               | 155 ------------------
+ drivers/iio/adc/sc27xx_adc.c                  |   2 +-
+ drivers/irqchip/irq-stm32mp-exti.c            |   2 +-
+ drivers/mfd/syscon.c                          |   2 +-
+ drivers/nvmem/sc27xx-efuse.c                  |   2 +-
+ drivers/nvmem/sprd-efuse.c                    |   2 +-
+ drivers/pinctrl/stm32/pinctrl-stm32.c         |   2 +-
+ drivers/soc/qcom/smem.c                       |   2 +-
+ drivers/spi/spi-sprd-adi.c                    |   2 +-
+ .../{hwspinlock.h => hwspinlock/consumer.h}   |  57 +------
+ include/linux/hwspinlock/provider.h           |  60 +++++++
+ 23 files changed, 263 insertions(+), 446 deletions(-)
+ delete mode 100644 drivers/hwspinlock/hwspinlock_internal.h
+ delete mode 100644 drivers/hwspinlock/u8500_hsem.c
+ rename include/linux/{hwspinlock.h => hwspinlock/consumer.h} (87%)
+ create mode 100644 include/linux/hwspinlock/provider.h
+
+-- 
+2.51.0
+
