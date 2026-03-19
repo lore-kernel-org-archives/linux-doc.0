@@ -1,574 +1,1098 @@
-Received: from FR6P281CU001.outbound.protection.outlook.com (mail-germanywestcentralazon11020089.outbound.protection.outlook.com [52.101.171.89])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C17F53B8BCA;
-	Thu, 19 Mar 2026 10:35:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.171.89
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773916562; cv=fail; b=QTptctiZlRzpWqVuYdo2ba6ox9iHoN/r/6f3Gv3QEgZki4FdrBpeGj61ZOI9ytKFi5pk0lsiNBK7PzhkPeQTTCenEAHM+CmlU0hdu8XZdRphYMUPVW+/ogwqMS2zE8kt/4pEk0q61Ufff5o0Cn6fvj5+2+Kog3ECmF+J6dZi5ig=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773916562; c=relaxed/simple;
-	bh=RZ+vNvqAd40KSBa2bgxy2SmDOHsZFPT5MRmvF7S/Q1U=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=vFILCscCf2Wdl6FZKJgYgKdRdl6RD8VWEyoSpru3mKM4SaAAnqnuuuVlNMe5tVZATQrwwIsXt2ItGg4g/oJeoRhWFMp7Ycf9ia9zXx4RoU5JOcqW4TIE7jGljwf4taCilcoMIKAt2Ibbvv7nU4BvxQJrzSWFOJg9w26NR+1nJxI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=arctic.de; spf=pass smtp.mailfrom=arctic.de; dkim=pass (2048-bit key) header.d=Arctic.de header.i=@Arctic.de header.b=BxBoM9W7; arc=fail smtp.client-ip=52.101.171.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=arctic.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arctic.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 090E83BFE44
+	for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 10:37:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773916645; cv=none; b=XO+F1ZRwTIEdBL/l+L37WXOdOPDyyRHgmINK2RZSUDD8qlxN4yY7bOaLSCnygsKZkD/VLcc3dZxdzyp7+bOCyM9HRCqlxLbtn+t/IRFe8HuXl/zZHIxuGDGaF7jdYJT1KB20CylTSs78Tz+f57ty8t9e6REjwm5lppEErEkZ5JA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773916645; c=relaxed/simple;
+	bh=4SDphnD5hDgAf2UsgDlJm4KJCfXx+GN2lXkOiul5KIU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YAQhxu+VRzfxFedCEAKjIP7zMQfEvyOC/4Fd9Vj0+MBvakQfEd4O1mk3VMGNIgpuoctU0L4cAqA7+t5RjU4kisL5/WL6q6U8jCuZi5unFWsr9650pOqbVPglbiXjW2IEHAIVEOFYA6F9WwFiwwfrXd20tv+wU75JWKy+3wZ3iZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=ED7fmuou; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Arctic.de header.i=@Arctic.de header.b="BxBoM9W7"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lDqDBpvHQDr+buA91F1/e+M6z9g+5mcm60CWWflqFo4q8mv9vKJiHqdBybdJfb4RNf4e5xlDgYKT6vfJs6MYq5MmvE/LhZ/rUEFgCSCCC5Qho0rYQqdwdF1p/XrsZ5YaSkiVz06foGpMbah5oyoOsdv5wIIZhsgcaT9h0jDFVQK0+l+MWWXAKDGKHUMEaaxK9OlxeQugCZEJiERnfDSwuaiGzxbsxxK+d78dX9OFIn/nKO9UtEsHoEnY24c3rv635KD9nuklCQX54uL0j0+A3JITzYWaV0m59CpzSfxrYmUKHB0dlq2MD0w735uk7wTxPcyQXjNrubFu4C+b2DS9OA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Odui2S2cgNR5h1DMjCx8KJXWqehFBVO8ApQqQhICpsU=;
- b=hD8F2Rk2FEyJjDIbUWOTo787W0ZHgjjFX2Nu/Zc/cf5tQEnQJnilTfz2fputdY4tc2CsnosinPQLRdL3RF0wjhodbN61A6te9wUicg/BwWims2xcREfqFczKEIh0nhEyz1uw8Rn/r9024uvYiTBr2/tKjzvCoY8+Hr1HAKFMKhxlMSni42TJkdJraE/ECgL2F8A0lSxGG6gWFddx3aLbZqDjxoYTpo9ss35R8bT5fTEMD7LhV7FkpOw+ao6essPKcWNY77pePhIY4HIlG+GiRGRCuYz3uDT9IN5FQozRoY9QLtW/Txg3/MY02+LGpIctQc6wPMxJiq1Sk8KDYDCDKw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arctic.de; dmarc=pass action=none header.from=arctic.de;
- dkim=pass header.d=arctic.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Arctic.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Odui2S2cgNR5h1DMjCx8KJXWqehFBVO8ApQqQhICpsU=;
- b=BxBoM9W7H3QpmT62Qfinrk5+g01RFYXPimmZcphklBETtn1sFSyQgHBREm65dQbrGq0Ik0wWcq9cZxNWab/MAS6YpL8pQetRJiyM1R00T9YivVllcQE7S8AVleM5sl15BFk2hbvWU11GeD/fxHYSaO9CLgdNjRj6UlRBoha/CSuKZmLpA9WcVi2n8ucFNpMdfibo07OFVLr4a8KMuws5mMckg+uvjX7mLX4aN6l/3s4kpN7bASedhaVgbwMVW+k+Yro4REkbOdXLGnaFnb3saUFwI2GIKPnLmZLyXvcudJ4v4oYQQJu4arCuv1P8MgOHpBzzzaRmVpMFyA6abTtCvQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arctic.de;
-Received: from FR6P281MB5900.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:1bf::9)
- by BE3P281MB5248.DEUP281.PROD.OUTLOOK.COM (2603:10a6:b10:d0::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.19; Thu, 19 Mar
- 2026 10:35:54 +0000
-Received: from FR6P281MB5900.DEUP281.PROD.OUTLOOK.COM
- ([fe80::7eba:ac95:a60d:521c]) by FR6P281MB5900.DEUP281.PROD.OUTLOOK.COM
- ([fe80::7eba:ac95:a60d:521c%5]) with mapi id 15.20.9723.018; Thu, 19 Mar 2026
- 10:35:53 +0000
-From: Aureo Serrano de Souza <aureo.serrano@arctic.de>
-To: linux-hwmon@vger.kernel.org
-Cc: linux@roeck-us.net,
-	linux@weissschuh.net,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Aureo Serrano de Souza <aureo.serrano@arctic.de>
-Subject: [PATCH v3] hwmon: add driver for ARCTIC Fan Controller
-Date: Thu, 19 Mar 2026 18:34:29 +0800
-Message-ID: <20260319103509.243653-1-aureo.serrano@arctic.de>
-X-Mailer: git-send-email 2.43.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: TP0P295CA0006.TWNP295.PROD.OUTLOOK.COM (2603:1096:910:2::6)
- To FR6P281MB5900.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:1bf::9)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="ED7fmuou"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-439b9cf8cb5so984245f8f.0
+        for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 03:37:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1773916640; x=1774521440; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TO1y6konA69/rJruQkSbZ9hkhpErgowRDYBjEEx+eEw=;
+        b=ED7fmuouLxnzKiXJYEaqwRUVpxw4N5ssGFIIrhcj4wSHDy3iNW9WRqsSSv8r2lDRl5
+         MaMvqljEJVYVMKFR/TWbAHTthb61iuRZ3UlB/VqNIZ9e53Fbm2AunIJRQ61UlftyGEQH
+         cN76oPQpMMDHdxFbjgs9g51qLiLKp/ivr5xwsVq004Ct0lglpb7uRnKUTt99MVoRDKgg
+         4vqhOSNppo3vr4j9QSinYHkrCPkJudgw5oLFQw0ct5cToTzxcOqS0LbfEsIvTjLDAmu/
+         bP4whCzJk2b+gjlUwZba/K5YyaILgDX2/4++XV1WQryUYpYqCDdLt7CoHviqFNM7p9oP
+         Xfog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773916640; x=1774521440;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TO1y6konA69/rJruQkSbZ9hkhpErgowRDYBjEEx+eEw=;
+        b=dYrARN/c57DUZSHDOw8vjKfxUNoEWWznmYr7Qs+WScJ7+ycYmMNOErgJQQvZR8L3Yg
+         Nhgt8UUgCyKqOu4YuZeQyPlKB4yCFaGstVMOt6GYAoPxfbOvwsB0HT8M1ckyuaKZdJLX
+         sRZ7fjWPQhkk7ENDAwpJ30SuBgDEuJxjsmLYaRduaf5BzgcKRRbK5hcJbNpmKf1MoPTk
+         0ozJtwBbXuZGtuOVcMgtxwU4FXkfK4PPpofrruvfS7xhxtZY87SCFK725xdCNCNaPStW
+         3GynNb4jzKgkVb+st23cukGDSgDBqj22n1zu4Rey5sUTJ854070hMO23QCX75XrPUuZj
+         5PFg==
+X-Forwarded-Encrypted: i=1; AJvYcCVDMb8/XGo7mkqINWoSpxpdkjdi0LT6oas0wdPvWCIX8kAEWug0ZNjG4nFw37NPMelzTHojTJx+4Eo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwPbr0i2H4B1yDLvHgEHbvQuuHmjSXe24+AV450xUR7CgFf2AUg
+	wDtekewnsnW4LvvsBpHxL0XUuLg9MDrABfcjuBEaDtFbuO71oC2qensfXJAqNjCYScE=
+X-Gm-Gg: ATEYQzxHPR8KDXZW5qvrLE5KSiEEiPeDrIUMXuHMLI+0GZO9wJmIogGpVqWLpAmB2w0
+	7saXeB4zJRzAwsaUoOo1pHBA2M1CqnPMOeKjfv/zouPE7Rw2kDCdvLbqERs4puKeM+XTJ9j33Bo
+	yCam4PG+0NzDRmMpxWutrnIK3Ew/kziGeHxpYHYXbrRgcOcqN9r9i452yCZOb77sjXmZjAeJQrr
+	o+UH0rODUSz/T5tUWUMyC03EkAAXRmWEZjRCxBZ3umUMv1ZzhCh42tOEvbkmF1vFlfBPhaTzQ9Y
+	oWsrsTW8atI0bFoM2lCkQa6+74AZYGH7mKqIi+LgWbxzASdLzJJAuq/9QYWG1CbsyItKOeB12yf
+	OoGNSzqax8tWACO6pai4D8/pNeBSWHjO9mo8dOo7UK71yYo3qghHw0doqcaW8UysMju6uwHcf/z
+	R1EgaNo/etIeQsZtmm9sBdmfgDmhX7NNJXb4AQoW8I6z3f
+X-Received: by 2002:a05:6000:144a:b0:43b:4625:5933 with SMTP id ffacd0b85a97d-43b527c42bfmr11631227f8f.30.1773916639878;
+        Thu, 19 Mar 2026 03:37:19 -0700 (PDT)
+Received: from [10.100.51.209] (nat2.prg.suse.com. [195.250.132.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b5184b8b9sm15527266f8f.1.2026.03.19.03.37.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Mar 2026 03:37:19 -0700 (PDT)
+Message-ID: <79244e56-b3ea-4986-b4a2-91a78b21bf07@suse.com>
+Date: Thu, 19 Mar 2026 11:37:18 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: FR6P281MB5900:EE_|BE3P281MB5248:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0efda6ef-c0ed-41c2-35ca-08de85a34c3c
-X-MS-Exchange-AtpMessageProperties: SA
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|52116014|376014|38350700014|55112099003|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	dDcJTXnOSuMhC4XV8MMx44VDdy6GFjFSYUp4ZURunVOtEDz8CGBS63sz4XBlmUwaBLFkz0s3NJUUBgGadWDeonelR1bWWOV/oDOQYckE/sZhogVrOMJYwq7izS0Mb9TMwiRwf5/UQ+4+qjRk67xFtOgk5LsQZ/5kaO1RSLc9NNqLFveT66JpmNUTBj8tiaSUEbeHV7TSaiP9uYSiG9ew+U4FmPR2ooN9Wfn2v0nIy3HdFRaeXmNtBY3w3q4CDL+UW3k1/Clk1uGW7+6LD42oqy+wAM/LfkIMZpOinlJuBW+mbvuTrt0DP+U3RlFB2cbyxc/1TdRWENyyvBdBMpTMf5AzC4De6qj2qjLLmdrUPk5rS7gqyk+4X4dAwQvnMH7qZGdgHhMikIqRQfTRfG2C4NAMWw29pDI5ZgqsTABd/NhXaGVP3UDf5c4npYQrJ3gcvtxmOmnVHITMP6MnfTsLnxa7TY8pDEINCCIUkeMY4Pxv2vWef2Hhv0CSzUoE6L9laACJ2JZgAoDBcvxkMXPJSgX/ZwbYz8GVXcQGXaj8M0qyP/3gppv+t/h0qBbjWZwEg52/ZLRsSLb3/cSWoQwTHlCcX5P7/jZtg4GobYZJOosrgvvAaq41roZql8K2fjrSE1FJaDOWPIzXQbg6Fn5HERCS3LcP9d6HSpd1hFaA1c6n5egkA9y3MzSQ+2ZNLMRnHA2s5Fw6wnhiP7NCUyLhXoIuNlPdS9L664x0ZEhuC6Dwv1NeTo70mZLlIwMUJ0rGv0cWVrLP5QxvwiyXPlDpWXo9WOiPW5g2mILiyUggDCQ=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:FR6P281MB5900.DEUP281.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(376014)(38350700014)(55112099003)(56012099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?bDlkS0MzQ01aWlROYjErQVJMZmFIcFpadHNsSytUb0RKMnBqSWo3RXJUWUNK?=
- =?utf-8?B?Q1JLc0IzOTI4RmZuUWRwMi9PeUh3dnViUm9qZlRVcWp4cjN3UlB4aXVlWEVK?=
- =?utf-8?B?T2oxSkc1VHMvMW9EL2NGbDlkVGc2SGtGNkw2d0lmNHhkTUdsZ21HRmF5SzJo?=
- =?utf-8?B?QVFFZXhINEtUY3dPdWNsT291dzJGNVNHNGcvU1VCakt4RFh2VlR1UFI1NTRP?=
- =?utf-8?B?cmpOaXdRekkzZUZ2YVNrd1pvTnE4Z3JMeVA5SC9pS1pJSTF3bjBNeUhBRmdp?=
- =?utf-8?B?RnVvNTRoY1NQOUZmN1A3WUpHMjJ0OFdVWjhBNE5uRlhZUE1DRUVUSGNXbjhO?=
- =?utf-8?B?WUhmS0RkSFpiVmZQK3RJTGQ5d3JNNW5hc1Vsb1UzYldTZ2h0WkVVMmE1cnhL?=
- =?utf-8?B?akkybEFJZXJBaWxIQ0ZFNlh6NVdvd3JXVTdWeXQrS0JNZ3p5c0p6d2Y4V01r?=
- =?utf-8?B?b0ZDZ1hWUTEvZ2lkMWVYcmh5dnk1YUN3Q0JVSjErZ3ZDUldUanZ2bXRnUWY5?=
- =?utf-8?B?UHNxK0JUSjlMbUxTc2czeWNKRDBiNzhidjRtWW9MMkdPay9INTN6Z0k3Rkx3?=
- =?utf-8?B?elFFemJ5d3pwamNZdHlwYTRKeUhNbTh1bk5CRDhaSXNqMzNOR0tFaGs1L0Fk?=
- =?utf-8?B?OWRGK05oRkNoamJHb2ppejFWUXVVM3RVbThiWFIxdk4xSnc1V3BKMGFGL24x?=
- =?utf-8?B?MkFDOFprQTlmbkhPUWZOQzRkc0NPdFJ2VHFtanZhM290V2hOYWo2dFErSXVU?=
- =?utf-8?B?bmp6Q2JSQVBxNUh2SWhFa0FQUEFvbnpaTXdZeWpxSW8vVVpNUEVJcG1OeTFh?=
- =?utf-8?B?WWVhempZWnZ1eEpLTEl5NWVsNmUyOEZzVEgvWEc1ZDhSVkYveFRGNjVLWWNu?=
- =?utf-8?B?N3ZFY24yWC9wLzFUdnlZeWlQMHI3MldpLzR3aDUxZWUvTWdiU1JtcU5KUy93?=
- =?utf-8?B?NTllMC9vMmNaRlA3TmZ4K0lzS0xzbUU3QVhJR1RleFpWM1g5d3VHa1RGZlpK?=
- =?utf-8?B?T1QzTVBWNVR5ZFI5YzJuRk9pMmN0bVExcXlpdk1uRzI2emovSzQ2UjQwUFhq?=
- =?utf-8?B?SEpRTENzUUp4WHgyS29FQkhoc01YcnF2MDBEaS9JWHZUMWRXWEQvdmdxT05B?=
- =?utf-8?B?SDF1YXU5UVNkVkV5WDkxNXR5YjBKU2pISngvelVUd0ZGa0NTcjU1MWVqV1VJ?=
- =?utf-8?B?ZU81Tk5QOHpJMGFUcmFNek9vOXA3NlVKYnNCd2Q4RlNhQ2VtTmt4WkJ4U3d4?=
- =?utf-8?B?OUs2WUlkLzN5TzNZVDJvaGxqS1gyQm1Sa1Bqei96RGlwbG9sU3pQdk5OdEVV?=
- =?utf-8?B?SjROaTdIS0tGc1ZWSjRTdHhGeklKWkNSR1BNcjNBSW9NRFRhVTluV0NJdGl4?=
- =?utf-8?B?dTBHZWFOaGlpaGxTTlpPUFk5dU9GV29ZVXA5OG9qUW9mb1lnRFkwRW15N3ZJ?=
- =?utf-8?B?cmFlQjc3Um00SGdkemlna2pabzRmbnBLbkgzQ1pnNE9ZZmdic1Nma216ejRT?=
- =?utf-8?B?VmZ2STFSVVFXSmpjQnArWlBJU1AwL01RSWYzZ3pJbzJ2bkdIM0tJeDVaTWk5?=
- =?utf-8?B?bWNMTldQZXJCeUdTZEtYWVkzbENlVjdSeDlCNWpkWUI2Y3JrR1c3cUxjcVdz?=
- =?utf-8?B?QUNUam5nVFZ6bE1hZDhOeDVrbDhudFVPVjFzTXd3Q1lWVmljVVQ1ajB4K0Zk?=
- =?utf-8?B?bHI4WWQ3SXdxaDNCY1o5VE5TZXIzRVZKSU1pL1ZlcmdjU2hOb1EyV2RRdlBC?=
- =?utf-8?B?bVR4bUtoNmRrc1dEbVVxKzhaa2IvMnhQYXl3U0xZSUR0Mmg0WVUzUm0zNTZv?=
- =?utf-8?B?NDZWRGZtTkNFREpZbG13ZFlvTkhZbzM3NEMxcEx2clZCckhub1FlT3ZQQytq?=
- =?utf-8?B?QkdoTnpMSGZRMHlvT1U2QVdmMUhaN1JzODR2bm5GSFQ1bmNTaXhmcjRwVCtv?=
- =?utf-8?B?TldXRkpBK25HZUZVTXlkZ09Zc1B2dmozbnU5Y2wyY2RHeDJSOHpKOFpsS29L?=
- =?utf-8?B?TlhSRUJJaGNPdnU2K3VXODM5ZG05MG9zUUNMdmp1YVhvdWpMc2xpVzRtYVF5?=
- =?utf-8?B?UEZmR3JkYjJja1kweGxQdkJUMldrMURrRkZTZHQ0dDJ0c0MxZUlVTldQNlVO?=
- =?utf-8?B?UDNGemJobmFVdUVDdDZYL3FiWTZ2OUtpcEhNNVBHVnlkelZIRVJEa005Q0lB?=
- =?utf-8?B?M0Q1YkdNa1ZheHBzUVQxZTkvMGxKWi9LalJoQnFLMkRYVjAzc0dnN2RDQU00?=
- =?utf-8?B?MkZDNkRIK2JmWmY1bDBLVkJuQXduQUhuTE1KYm9ZK0JDUXo1OGdVYVFPUStv?=
- =?utf-8?B?VklITjFRUXZDdnEremh1MklLQlRjNDVJN2dCZzZVU2p2M3AwSzgvQT09?=
-X-OriginatorOrg: Arctic.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0efda6ef-c0ed-41c2-35ca-08de85a34c3c
-X-MS-Exchange-CrossTenant-AuthSource: FR6P281MB5900.DEUP281.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Mar 2026 10:35:53.9243
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 51cc2c5f-af21-4667-81ec-d88d36e264bb
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8Z/tsKI/+cwMT/vL1LXBHH6qkQIMrA/fukSJNAs2hpi3ytV3blEtlBLgy9WzCg+mHWFKIM2VY6tA4djZm2+Hjw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BE3P281MB5248
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/4] kallsyms: extend lineinfo to loadable modules
+To: Sasha Levin <sashal@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain
+ <mcgrof@kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>,
+ Richard Weinberger <richard@nod.at>, Juergen Gross <jgross@suse.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ James Bottomley <James.Bottomley@HansenPartnership.com>,
+ Jonathan Corbet <corbet@lwn.net>, Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nsc@kernel.org>, Daniel Gomez <da.gomez@kernel.org>,
+ Greg KH <gregkh@linuxfoundation.org>, Petr Mladek <pmladek@suse.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Kees Cook <kees@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Thorsten Leemhuis <linux@leemhuis.info>, Vlastimil Babka
+ <vbabka@kernel.org>, Helge Deller <deller@gmx.de>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Vivian Wang <wangruikang@iscas.ac.cn>, linux-kernel@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linux-modules@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20260312030649.674699-1-sashal@kernel.org>
+ <20260312030649.674699-3-sashal@kernel.org>
+Content-Language: en-US
+From: Petr Pavlu <petr.pavlu@suse.com>
+In-Reply-To: <20260312030649.674699-3-sashal@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Add hwmon driver for the ARCTIC Fan Controller, a USB HID device
-(VID 0x3904, PID 0xF001) with 10 fan channels. Exposes fan speed in
-RPM (read-only) and PWM duty cycle (0-255, read/write) via sysfs.
+On 3/12/26 4:06 AM, Sasha Levin wrote:
+> Add CONFIG_KALLSYMS_LINEINFO_MODULES, which extends the
+> CONFIG_KALLSYMS_LINEINFO feature to loadable kernel modules.
+> 
+> At build time, each .ko is post-processed by scripts/gen-mod-lineinfo.sh
+> (modeled on gen-btf.sh) which runs scripts/gen_lineinfo --module on the
+> .ko, generates a .mod_lineinfo section containing a compact binary table
+> of .text-relative offsets, file IDs, line numbers, and filenames, and
+> embeds it back into the .ko via objcopy.
+> 
+> At runtime, module_lookup_lineinfo() performs a binary search on the
+> module's .mod_lineinfo section, and __sprint_symbol() calls it for
+> addresses that fall within a module.  The lookup is NMI/panic-safe
+> (no locks, no allocations) — the data lives in read-only module memory
+> and is freed automatically when the module is unloaded.
+> 
+> The gen_lineinfo tool gains --module mode which:
+>  - Uses .text section address as base (ET_REL files have no _text symbol)
+>  - Filters entries to .text-only (excludes .init.text/.exit.text)
+>  - Handles libdw's ET_REL path-doubling quirk in make_relative()
+>  - Outputs a flat binary-format section instead of named global symbols
+> 
+> Per-module overhead is approximately 10 bytes per DWARF line entry.
+> 
+> Assisted-by: Claude:claude-opus-4-6
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> ---
+>  .../admin-guide/kallsyms-lineinfo.rst         |  40 +-
+>  MAINTAINERS                                   |   2 +
+>  include/linux/mod_lineinfo.h                  |  68 ++++
+>  include/linux/module.h                        |   5 +
+>  init/Kconfig                                  |  13 +
+>  kernel/kallsyms.c                             |  18 +-
+>  kernel/module/kallsyms.c                      |  91 +++++
+>  kernel/module/main.c                          |   3 +
+>  scripts/Makefile                              |   1 +
+>  scripts/Makefile.modfinal                     |   6 +
+>  scripts/gen-mod-lineinfo.sh                   |  48 +++
+>  scripts/gen_lineinfo.c                        | 349 ++++++++++++++++--
+>  12 files changed, 604 insertions(+), 40 deletions(-)
+>  create mode 100644 include/linux/mod_lineinfo.h
+>  create mode 100755 scripts/gen-mod-lineinfo.sh
+> 
+> diff --git a/Documentation/admin-guide/kallsyms-lineinfo.rst b/Documentation/admin-guide/kallsyms-lineinfo.rst
+> index c8ec124394354..5cae995eb118e 100644
+> --- a/Documentation/admin-guide/kallsyms-lineinfo.rst
+> +++ b/Documentation/admin-guide/kallsyms-lineinfo.rst
+> @@ -51,22 +51,46 @@ With ``CONFIG_KALLSYMS_LINEINFO``::
+>  Note that assembly routines (such as ``entry_SYSCALL_64_after_hwframe``) are
+>  not annotated because they lack DWARF debug information.
+>  
+> +Module Support
+> +==============
+> +
+> +``CONFIG_KALLSYMS_LINEINFO_MODULES`` extends the feature to loadable kernel
+> +modules.  When enabled, each ``.ko`` is post-processed at build time to embed
+> +a ``.mod_lineinfo`` section containing the same kind of address-to-source
+> +mapping.
+> +
+> +Enable in addition to the base options::
+> +
+> +    CONFIG_MODULES=y
+> +    CONFIG_KALLSYMS_LINEINFO_MODULES=y
+> +
+> +Stack traces from module code will then include annotations::
+> +
+> +    my_driver_func+0x30/0x100 [my_driver] (drivers/foo/bar.c:123)
+> +
+> +The ``.mod_lineinfo`` section is loaded into read-only module memory alongside
+> +the module text.  No additional runtime memory allocation is required; the data
+> +is freed when the module is unloaded.
+> +
+>  Memory Overhead
+>  ===============
+>  
+> -The lineinfo tables are stored in ``.rodata`` and typically add approximately
+> -44 MiB to the kernel image for a standard configuration (~4.6 million DWARF
+> -line entries, ~10 bytes per entry after deduplication).
+> +The vmlinux lineinfo tables are stored in ``.rodata`` and typically add
+> +approximately 44 MiB to the kernel image for a standard configuration
+> +(~4.6 million DWARF line entries, ~10 bytes per entry after deduplication).
+> +
+> +Per-module lineinfo adds approximately 10 bytes per DWARF line entry to each
+> +``.ko`` file.
+>  
+>  Known Limitations
+>  =================
+>  
+> -- **vmlinux only**: Only symbols in the core kernel image are annotated.
+> -  Module symbols are not covered.
+> -- **4 GiB offset limit**: Address offsets from ``_text`` are stored as 32-bit
+> -  values.  Entries beyond 4 GiB from ``_text`` are skipped at build time with
+> -  a warning.
+> +- **4 GiB offset limit**: Address offsets from ``_text`` (vmlinux) or
+> +  ``.text`` base (modules) are stored as 32-bit values.  Entries beyond
+> +  4 GiB are skipped at build time with a warning.
+>  - **65535 file limit**: Source file IDs are stored as 16-bit values.  Builds
+>    with more than 65535 unique source files will fail with an error.
+>  - **No assembly annotations**: Functions implemented in assembly that lack
+>    DWARF ``.debug_line`` data are not annotated.
+> +- **No init text**: For modules, functions in ``.init.text`` are not annotated
+> +  because that memory is freed after module initialization.
 
-The device pushes IN reports at ~1 Hz containing RPM readings. PWM is
-set via OUT reports; the device applies the new duty cycle and sends
-back a 2-byte ACK (Report ID 0x02). The driver waits up to 1 s for
-the ACK using a completion. Measured device latency: max ~563 ms over
-500 iterations. PWM control is manual-only: the device never changes
-duty cycle autonomously.
+A second table .init.mod_lineinfo could be added to provide the
+necessary information for .init sections, which would be dropped along
+with all the other init code+data.
 
-raw_event() may run in hardirq context, so fan_rpm[] is protected by
-a spinlock with irq-save. pwm_duty[] and the report buffer are
-serialized by the hwmon core, which holds its lock for the duration of
-the read/write callbacks.
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index f061e69b6e32a..535e992ca5a20 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -13732,6 +13732,8 @@ KALLSYMS LINEINFO
+>  M:	Sasha Levin <sashal@kernel.org>
+>  S:	Maintained
+>  F:	Documentation/admin-guide/kallsyms-lineinfo.rst
+> +F:	include/linux/mod_lineinfo.h
+> +F:	scripts/gen-mod-lineinfo.sh
+>  F:	scripts/gen_lineinfo.c
+>  
+>  KASAN
+> diff --git a/include/linux/mod_lineinfo.h b/include/linux/mod_lineinfo.h
+> new file mode 100644
+> index 0000000000000..d62e9608f0f82
+> --- /dev/null
+> +++ b/include/linux/mod_lineinfo.h
+> @@ -0,0 +1,68 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * mod_lineinfo.h - Binary format for per-module source line information
+> + *
+> + * This header defines the layout of the .mod_lineinfo section embedded
+> + * in loadable kernel modules.  It is dual-use: included from both the
+> + * kernel and the userspace gen_lineinfo tool.
+> + *
+> + * Section layout (all values in target-native endianness):
+> + *
+> + *   struct mod_lineinfo_header     (16 bytes)
+> + *   u32 addrs[num_entries]         -- offsets from .text base, sorted
 
-Signed-off-by: Aureo Serrano de Souza <aureo.serrano@arctic.de>
----
-Thanks to the reviewers for their feedback.
+Modules are relocatable objects. The typical way to express a reference
+from one section to data in another section is to use relocations.
+Choosing to use an implicit base and resolved offsets means that the
+code has trouble correctly referencing the .text section and can't
+express line information data for other sections, such as .exit.text.
 
-Changes since v2:
-- buf[]: add __aligned(8) for DMA safety
-- ARCTIC_ACK_TIMEOUT_MS: add comment noting observed max ~563 ms
-- arctic_fan_parse_report(): replace hwmon_lock/hwmon_unlock with
-  spin_lock_irqsave; hwmon_lock() may sleep and is unsafe when
-  raw_event() runs in hardirq/softirq context
-- arctic_fan_raw_event(): use spin_lock_irqsave for ACK path
-- arctic_fan_write(): use spin_lock_irqsave for completion reinit
-- arctic_fan_write(): clamp val to [0, 255] before u8 cast
-- hardware teardown: register arctic_fan_hw_stop() via
-  devm_add_action_or_reset() before hwmon; devm LIFO order ensures
-  hwmon unregisters before hid_hw_close/stop; remove() is a no-op
-- remove priv->hwmon_dev (no longer needed)
+> + *   u16 file_ids[num_entries]      -- parallel to addrs
+> + *   <2-byte pad if num_entries is odd>
+> + *   u32 lines[num_entries]         -- parallel to addrs
+> + *   u32 file_offsets[num_files]    -- byte offset into filenames[]
+> + *   char filenames[filenames_size] -- concatenated NUL-terminated strings
 
-Changes since v1:
-- Use hid_dbg() instead of module_param debug flag
-- Move hid_device_id table adjacent to hid_driver struct
-- Use get_unaligned_le16() for RPM parsing
-- Remove impossible bounds/NULL checks; remove retry loop
-- Add hid_is_usb() guard
-- Do not update pwm_duty from IN reports (device is manual-only)
-- Add completion/ACK mechanism for OUT report acknowledgement
-- Add Documentation/hwmon/arctic_fan_controller.rst and MAINTAINERS
+Nit: The description could be a bit easier to navigate if the
+mod_lineinfo_header struct was expanded, so it is clear where
+num_entries, num_files and filenames_size come from.
 
-diff --git a/Documentation/hwmon/arctic_fan_controller.rst b/Documentation/hwmon/arctic_fan_controller.rst
-new file mode 100644
-index 0000000000..e417f54b62
---- /dev/null
-+++ b/Documentation/hwmon/arctic_fan_controller.rst
-@@ -0,0 +1,34 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+
-+Kernel driver arctic_fan_controller
-+===================================
-+
-+Supported devices:
-+
-+* ARCTIC Fan Controller (USB HID, VID 0x3904, PID 0xF001)
-+
-+Author: Aureo Serrano de Souza <aureo.serrano@arctic.de>
-+
-+Description
-+-----------
-+
-+This driver provides hwmon support for the ARCTIC Fan Controller, a USB Custom HID
-+device with 10 fan channels. The device sends IN reports about once per second
-+containing current PWM (bytes 1–10) and RPM (bytes 11–30). PWM is set via OUT reports
-+(bytes 1–10, 0–100% per channel). Fan control is manual-only: the device does not
-+change PWM autonomously, only when it receives an OUT report from the host.
-+
-+Usage notes
-+-----------
-+
-+Since it is a USB device, hotplug is supported. The device is autodetected.
-+
-+Sysfs entries
-+-------------
-+
-+================ ===============================================================
-+fan[1-10]_input   Fan speed in RPM (read-only, from device IN reports).
-+pwm[1-10]         PWM duty cycle. Sysfs uses 0–255 (0%–100%); the device uses
-+                  0–100% internally. Read: current duty from IN report (scaled
-+                  to 0–255). Write: set duty via OUT report (value 0–255).
-+================ ===============================================================
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index b2ca8513cf..c34713040e 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -42,6 +42,7 @@ Hardware Monitoring Kernel Drivers
-    aht10
-    amc6821
-    aquacomputer_d5next
-+   arctic_fan_controller
-    asb100
-    asc7621
-    aspeed-g6-pwm-tach
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 96ea84948d..ec3112bd41 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2053,6 +2053,13 @@ S:	Maintained
- F:	drivers/net/arcnet/
- F:	include/uapi/linux/if_arcnet.h
+> + */
+> +#ifndef _LINUX_MOD_LINEINFO_H
+> +#define _LINUX_MOD_LINEINFO_H
+> +
+> +#ifdef __KERNEL__
+> +#include <linux/types.h>
+> +#else
+> +#include <stdint.h>
+> +typedef uint32_t u32;
+> +typedef uint16_t u16;
+> +#endif
+> +
+> +struct mod_lineinfo_header {
+> +	u32 num_entries;
+> +	u32 num_files;
+> +	u32 filenames_size;	/* total bytes of concatenated filenames */
 
-+ARCTIC FAN CONTROLLER DRIVER
-+M:	Aureo Serrano de Souza <aureo.serrano@arctic.de>
-+L:	linux-hwmon@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/hwmon/arctic_fan_controller.rst
-+F:	drivers/hwmon/arctic_fan_controller.c
-+
- ARM AND ARM64 SoC SUB-ARCHITECTURES (COMMON PARTS)
- M:	Arnd Bergmann <arnd@arndb.de>
- M:	Krzysztof Kozlowski <krzk@kernel.org>
-diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-index 328867242c..6c90a8dd40 100644
---- a/drivers/hwmon/Kconfig
-+++ b/drivers/hwmon/Kconfig
-@@ -388,6 +388,18 @@ config SENSORS_APPLESMC
- 	  Say Y here if you have an applicable laptop and want to experience
- 	  the awesome power of applesmc.
+An alternative would be to say that the filenames data extends to the
+end of the section, without requiring an explicit filenames_size.
 
-+config SENSORS_ARCTIC_FAN_CONTROLLER
-+	tristate "ARCTIC Fan Controller"
-+	depends on USB_HID
-+	help
-+	  If you say yes here you get support for the ARCTIC Fan Controller,
-+	  a USB HID device (VID 0x3904, PID 0xF001) with 10 fan channels.
-+	  The driver exposes fan speed (RPM) and PWM control via the hwmon
-+	  sysfs interface.
-+
-+	  This driver can also be built as a module. If so, the module
-+	  will be called arctic_fan_controller.
-+
- config SENSORS_ARM_SCMI
- 	tristate "ARM SCMI Sensors"
- 	depends on ARM_SCMI_PROTOCOL
-diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-index 5833c807c6..ef831c3375 100644
---- a/drivers/hwmon/Makefile
-+++ b/drivers/hwmon/Makefile
-@@ -49,6 +49,7 @@ obj-$(CONFIG_SENSORS_ADT7475)	+= adt7475.o
- obj-$(CONFIG_SENSORS_AHT10)	+= aht10.o
- obj-$(CONFIG_SENSORS_APPLESMC)	+= applesmc.o
- obj-$(CONFIG_SENSORS_AQUACOMPUTER_D5NEXT) += aquacomputer_d5next.o
-+obj-$(CONFIG_SENSORS_ARCTIC_FAN_CONTROLLER)	+= arctic_fan_controller.o
- obj-$(CONFIG_SENSORS_ARM_SCMI)	+= scmi-hwmon.o
- obj-$(CONFIG_SENSORS_ARM_SCPI)	+= scpi-hwmon.o
- obj-$(CONFIG_SENSORS_AS370)	+= as370-hwmon.o
-diff --git a/drivers/hwmon/arctic_fan_controller.c b/drivers/hwmon/arctic_fan_controller.c
-new file mode 100644
-index 0000000000..d71b323e0b
---- /dev/null
-+++ b/drivers/hwmon/arctic_fan_controller.c
-@@ -0,0 +1,288 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * Linux hwmon driver for ARCTIC Fan Controller
-+ *
-+ * USB Custom HID device with 10 fan channels.
-+ * Exposes fan RPM (input) and PWM (0-255) via hwmon. Device pushes IN reports
-+ * at ~1 Hz; no GET_REPORT. OUT reports set PWM duty (bytes 1-10, 0-100%).
-+ * PWM is manual-only: the device does not change duty autonomously, only
-+ * when it receives an OUT report from the host.
-+ */
-+
-+#include <linux/completion.h>
-+#include <linux/err.h>
-+#include <linux/hid.h>
-+#include <linux/hwmon.h>
-+#include <linux/jiffies.h>
-+#include <linux/minmax.h>
-+#include <linux/module.h>
-+#include <linux/spinlock.h>
-+#include <linux/unaligned.h>
-+
-+#define ARCTIC_VID			0x3904
-+#define ARCTIC_PID			0xF001
-+#define ARCTIC_NUM_FANS			10
-+#define ARCTIC_OUTPUT_REPORT_ID		0x01
-+#define ARCTIC_REPORT_LEN		32
-+#define ARCTIC_RPM_OFFSET		11	/* bytes 11-30: 10 x uint16 LE */
-+/* ACK report: device sends Report ID 0x02, 2 bytes (ID + status) after applying OUT report */
-+#define ARCTIC_ACK_REPORT_ID		0x02
-+#define ARCTIC_ACK_REPORT_LEN		2
-+/*
-+ * Time to wait for ACK report after send.
-+ * Measured over 500 iterations: max ~563 ms. Keep 1 s as margin.
-+ */
-+#define ARCTIC_ACK_TIMEOUT_MS		1000
-+
-+struct arctic_fan_data {
-+	struct hid_device *hdev;
-+	spinlock_t in_report_lock;	/* protects fan_rpm[], ack_status, in_report_received */
-+	struct completion in_report_received; /* ACK (ID 0x02) received in raw_event */
-+	int ack_status;			/* 0 = OK, negative errno on device error */
-+	u32 fan_rpm[ARCTIC_NUM_FANS];
-+	u8 pwm_duty[ARCTIC_NUM_FANS];	/* 0-255 matching sysfs range; converted to 0-100 on send */
-+	/* OUT report buffer; DMA-safe alignment; hwmon core serializes write callbacks */
-+	u8 buf[ARCTIC_REPORT_LEN] __aligned(8);
-+};
-+
-+/*
-+ * Parse RPM values from the periodic status report (10 x uint16 LE at rpm_off).
-+ * pwm_duty is not updated from the report: the device is manual-only, so the
-+ * host cache is the authoritative source for PWM.
-+ * Called from raw_event which may run in IRQ context; must not sleep.
-+ */
-+static void arctic_fan_parse_report(struct arctic_fan_data *priv, u8 *buf,
-+				    int len, int rpm_off)
-+{
-+	unsigned long flags;
-+	int i;
-+
-+	if (len < rpm_off + 20)
-+		return;
-+
-+	spin_lock_irqsave(&priv->in_report_lock, flags);
-+	for (i = 0; i < ARCTIC_NUM_FANS; i++)
-+		priv->fan_rpm[i] = get_unaligned_le16(&buf[rpm_off + i * 2]);
-+	spin_unlock_irqrestore(&priv->in_report_lock, flags);
-+}
-+
-+/*
-+ * raw_event: IN reports.
-+ *
-+ * Status report: Report ID 0x01, 32 bytes:
-+ *   byte 0 = report ID, bytes 1-10 = PWM 0-100%, bytes 11-30 = 10 x RPM uint16 LE.
-+ *   Device pushes these at ~1 Hz; no GET_REPORT.
-+ *
-+ * ACK report: Report ID 0x02, 2 bytes:
-+ *   byte 0 = 0x02, byte 1 = status (0x00 = OK, 0x01 = ERROR).
-+ *   Sent once after accepting and applying an OUT report (ID 0x01).
-+ */
-+static int arctic_fan_raw_event(struct hid_device *hdev,
-+				struct hid_report *report, u8 *data, int size)
-+{
-+	struct arctic_fan_data *priv = hid_get_drvdata(hdev);
-+	unsigned long flags;
-+
-+	hid_dbg(hdev, "arctic_fan: raw_event id=%u size=%d\n", report->id, size);
-+
-+	if (report->id == ARCTIC_ACK_REPORT_ID && size == ARCTIC_ACK_REPORT_LEN) {
-+		spin_lock_irqsave(&priv->in_report_lock, flags);
-+		priv->ack_status = data[1] == 0x00 ? 0 : -EIO;
-+		complete(&priv->in_report_received);
-+		spin_unlock_irqrestore(&priv->in_report_lock, flags);
-+		return 0;
-+	}
-+
-+	if (report->id != ARCTIC_OUTPUT_REPORT_ID || size != ARCTIC_REPORT_LEN) {
-+		hid_dbg(hdev, "arctic_fan: raw_event id=%u size=%d ignored\n",
-+			report->id, size);
-+		return 0;
-+	}
-+
-+	arctic_fan_parse_report(priv, data, size, ARCTIC_RPM_OFFSET);
-+	return 0;
-+}
-+
-+static umode_t arctic_fan_is_visible(const void *data,
-+				     enum hwmon_sensor_types type,
-+				     u32 attr, int channel)
-+{
-+	if (type == hwmon_fan && attr == hwmon_fan_input)
-+		return 0444;
-+	if (type == hwmon_pwm && attr == hwmon_pwm_input)
-+		return 0644;
-+	return 0;
-+}
-+
-+static int arctic_fan_read(struct device *dev, enum hwmon_sensor_types type,
-+			   u32 attr, int channel, long *val)
-+{
-+	struct arctic_fan_data *priv = dev_get_drvdata(dev);
-+	unsigned long flags;
-+
-+	if (type == hwmon_fan && attr == hwmon_fan_input) {
-+		spin_lock_irqsave(&priv->in_report_lock, flags);
-+		*val = priv->fan_rpm[channel];
-+		spin_unlock_irqrestore(&priv->in_report_lock, flags);
-+		return 0;
-+	}
-+	if (type == hwmon_pwm && attr == hwmon_pwm_input) {
-+		/* pwm_duty is modified only in write(), which the hwmon core serializes */
-+		*val = priv->pwm_duty[channel];
-+		return 0;
-+	}
-+	return -EINVAL;
-+}
-+
-+static int arctic_fan_write(struct device *dev, enum hwmon_sensor_types type,
-+			    u32 attr, int channel, long val)
-+{
-+	struct arctic_fan_data *priv = dev_get_drvdata(dev);
-+	unsigned long flags;
-+	long t;
-+	int i, ret;
-+
-+	/*
-+	 * The hwmon core holds its lock for the duration of this callback,
-+	 * serializing concurrent writes. priv->buf is heap-allocated (embedded
-+	 * in the devm_kzalloc'd struct), satisfying usb_hcd_map_urb_for_dma().
-+	 */
-+	priv->pwm_duty[channel] = (u8)clamp_val(val, 0, 255);
-+	priv->buf[0] = ARCTIC_OUTPUT_REPORT_ID;
-+	for (i = 0; i < ARCTIC_NUM_FANS; i++)
-+		priv->buf[1 + i] = DIV_ROUND_CLOSEST(
-+			(unsigned int)priv->pwm_duty[i] * 100, 255);
-+
-+	/*
-+	 * Serialized by the hwmon core: only one arctic_fan_write() runs at a
-+	 * time, so reinit_completion() and wait_for_completion_*() below are
-+	 * not racy against another concurrent write.
-+	 * Use irqsave to match the IRQ context in which raw_event may run.
-+	 */
-+	spin_lock_irqsave(&priv->in_report_lock, flags);
-+	priv->ack_status = -ETIMEDOUT;
-+	reinit_completion(&priv->in_report_received);
-+	spin_unlock_irqrestore(&priv->in_report_lock, flags);
-+
-+	ret = hid_hw_output_report(priv->hdev, priv->buf, ARCTIC_REPORT_LEN);
-+	if (ret < 0)
-+		return ret;
-+
-+	t = wait_for_completion_interruptible_timeout(&priv->in_report_received,
-+						      msecs_to_jiffies(ARCTIC_ACK_TIMEOUT_MS));
-+	if (t < 0)
-+		return t; /* interrupted by signal */
-+	if (!t)
-+		return -ETIMEDOUT;
-+	return priv->ack_status; /* 0=OK, -EIO=device error */
-+}
-+
-+static const struct hwmon_ops arctic_fan_ops = {
-+	.is_visible = arctic_fan_is_visible,
-+	.read = arctic_fan_read,
-+	.write = arctic_fan_write,
-+};
-+
-+static const struct hwmon_channel_info *arctic_fan_info[] = {
-+	HWMON_CHANNEL_INFO(fan,
-+			   HWMON_F_INPUT, HWMON_F_INPUT, HWMON_F_INPUT,
-+			   HWMON_F_INPUT, HWMON_F_INPUT, HWMON_F_INPUT,
-+			   HWMON_F_INPUT, HWMON_F_INPUT, HWMON_F_INPUT,
-+			   HWMON_F_INPUT),
-+	HWMON_CHANNEL_INFO(pwm,
-+			   HWMON_PWM_INPUT, HWMON_PWM_INPUT, HWMON_PWM_INPUT,
-+			   HWMON_PWM_INPUT, HWMON_PWM_INPUT, HWMON_PWM_INPUT,
-+			   HWMON_PWM_INPUT, HWMON_PWM_INPUT, HWMON_PWM_INPUT,
-+			   HWMON_PWM_INPUT),
-+	NULL
-+};
-+
-+static const struct hwmon_chip_info arctic_fan_chip_info = {
-+	.ops = &arctic_fan_ops,
-+	.info = arctic_fan_info,
-+};
-+
-+static void arctic_fan_hw_stop(void *data)
-+{
-+	struct hid_device *hdev = data;
-+
-+	hid_hw_close(hdev);
-+	hid_hw_stop(hdev);
-+}
-+
-+static int arctic_fan_probe(struct hid_device *hdev,
-+			    const struct hid_device_id *id)
-+{
-+	struct arctic_fan_data *priv;
-+	struct device *hwmon_dev;
-+	int ret;
-+
-+	if (!hid_is_usb(hdev))
-+		return -ENODEV;
-+
-+	ret = hid_parse(hdev);
-+	if (ret)
-+		return ret;
-+
-+	priv = devm_kzalloc(&hdev->dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	priv->hdev = hdev;
-+	spin_lock_init(&priv->in_report_lock);
-+	init_completion(&priv->in_report_received);
-+	hid_set_drvdata(hdev, priv);
-+
-+	ret = hid_hw_start(hdev, HID_CONNECT_DRIVER);
-+	if (ret)
-+		return ret;
-+
-+	ret = hid_hw_open(hdev);
-+	if (ret) {
-+		hid_hw_stop(hdev);
-+		return ret;
-+	}
-+
-+	/*
-+	 * Register hardware teardown before hwmon so that devm cleanup runs in
-+	 * LIFO order: hwmon unregistered first, then hid_hw_close/stop. This
-+	 * ensures no userspace sysfs write can reach an already stopped device.
-+	 */
-+	ret = devm_add_action_or_reset(&hdev->dev, arctic_fan_hw_stop, hdev);
-+	if (ret)
-+		return ret;
-+
-+	hwmon_dev = devm_hwmon_device_register_with_info(&hdev->dev, "arctic_fan",
-+							 priv, &arctic_fan_chip_info,
-+							 NULL);
-+	if (IS_ERR(hwmon_dev))
-+		return PTR_ERR(hwmon_dev);
-+
-+	hid_device_io_start(hdev);
-+	return 0;
-+}
-+
-+static void arctic_fan_remove(struct hid_device *hdev)
-+{
-+	/* devm cleanup (LIFO) handles hid_hw_close/stop after hwmon unregistration */
-+}
-+
-+static const struct hid_device_id arctic_fan_id_table[] = {
-+	{ HID_USB_DEVICE(ARCTIC_VID, ARCTIC_PID) },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(hid, arctic_fan_id_table);
-+
-+static struct hid_driver arctic_fan_driver = {
-+	.name = "arctic_fan",
-+	.id_table = arctic_fan_id_table,
-+	.probe = arctic_fan_probe,
-+	.remove = arctic_fan_remove,
-+	.raw_event = arctic_fan_raw_event,
-+};
-+
-+module_hid_driver(arctic_fan_driver);
-+
-+MODULE_AUTHOR("Aureo Serrano de Souza <aureo.serrano@arctic.de>");
-+MODULE_DESCRIPTION("HID hwmon driver for ARCTIC Fan Controller");
-+MODULE_LICENSE("GPL");
+> +	u32 reserved;		/* padding, must be 0 */
+
+I believe the format should remain internal to the kernel, so there is
+no need for such a reserved member.
+
+> +};
+> +
+> +/* Offset helpers: compute byte offset from start of section to each array */
+> +
+> +static inline u32 mod_lineinfo_addrs_off(void)
+> +{
+> +	return sizeof(struct mod_lineinfo_header);
+> +}
+> +
+> +static inline u32 mod_lineinfo_file_ids_off(u32 num_entries)
+> +{
+> +	return mod_lineinfo_addrs_off() + num_entries * sizeof(u32);
+> +}
+> +
+> +static inline u32 mod_lineinfo_lines_off(u32 num_entries)
+> +{
+> +	/* u16 file_ids[] may need 2-byte padding to align lines[] to 4 bytes */
+> +	u32 off = mod_lineinfo_file_ids_off(num_entries) +
+> +		  num_entries * sizeof(u16);
+> +	return (off + 3) & ~3u;
+> +}
+> +
+> +static inline u32 mod_lineinfo_file_offsets_off(u32 num_entries)
+> +{
+> +	return mod_lineinfo_lines_off(num_entries) + num_entries * sizeof(u32);
+> +}
+> +
+> +static inline u32 mod_lineinfo_filenames_off(u32 num_entries, u32 num_files)
+> +{
+> +	return mod_lineinfo_file_offsets_off(num_entries) +
+> +	       num_files * sizeof(u32);
+> +}
+
+These helpers are used only from kernel/module/kallsyms.c. I assume they
+are present in this header file to stay close to the description of the
+format.
+
+I personally find them quite verbose. The module_lookup_lineinfo()
+function needs an intimate knowledge of the data format anyway. The code
+in module_lookup_lineinfo() could be replaced with just:
+
+	addrs = base + sizeof(struct mod_lineinfo_header);
+	file_ids = addrs + num_entries * sizeof(u32);
+	lines = (file_ids + num_entries * sizeof(u16) + 3) & ~3u;
+	file_offsets = lines + num_entries * sizeof(u32);
+	filenames = file_offsets + num_files * sizeof(u32);
+
+> +
+> +#endif /* _LINUX_MOD_LINEINFO_H */
+> diff --git a/include/linux/module.h b/include/linux/module.h
+> index 14f391b186c6d..d23e0cd9c7210 100644
+> --- a/include/linux/module.h
+> +++ b/include/linux/module.h
+> @@ -508,6 +508,8 @@ struct module {
+>  	void *btf_data;
+>  	void *btf_base_data;
+>  #endif
+> +	void *lineinfo_data;		/* .mod_lineinfo section in MOD_RODATA */
+> +	unsigned int lineinfo_data_size;
+
+The lineinfo-specific members should be enclosed within the `#ifdef
+CONFIG_KALLSYMS_LINEINFO_MODULES`.
+
+This will require module_lookup_lineinfo() to be conditionally compiled
+based on CONFIG_KALLSYMS_LINEINFO_MODULES, with a dummy version provided
+otherwise. Alternatively, accessors to module::lineinfo_data and
+module::lineinfo_data_size that handle CONFIG_KALLSYMS_LINEINFO_MODULES
+could be introduced in include/linux/module.h. For example, see
+module_buildid() or is_livepatch_module.
+
+>  #ifdef CONFIG_JUMP_LABEL
+>  	struct jump_entry *jump_entries;
+>  	unsigned int num_jump_entries;
+> @@ -1021,6 +1023,9 @@ static inline unsigned long find_kallsyms_symbol_value(struct module *mod,
+>  
+>  #endif  /* CONFIG_MODULES && CONFIG_KALLSYMS */
+>  
+> +bool module_lookup_lineinfo(struct module *mod, unsigned long addr,
+> +			    const char **file, unsigned int *line);
+> +
+>  /* Define __free(module_put) macro for struct module *. */
+>  DEFINE_FREE(module_put, struct module *, if (_T) module_put(_T))
+>  
+> diff --git a/init/Kconfig b/init/Kconfig
+> index c39f27e6393a8..bf53275bc405a 100644
+> --- a/init/Kconfig
+> +++ b/init/Kconfig
+> @@ -2070,6 +2070,19 @@ config KALLSYMS_LINEINFO
+>  
+>  	  If unsure, say N.
+>  
+> +config KALLSYMS_LINEINFO_MODULES
+> +	bool "Embed source file:line information in module stack traces"
+> +	depends on KALLSYMS_LINEINFO && MODULES
+> +	help
+> +	  Extends KALLSYMS_LINEINFO to loadable kernel modules.  Each .ko
+> +	  gets a lineinfo table generated from its DWARF data at build time,
+> +	  so stack traces from module code include (file.c:123) annotations.
+> +
+> +	  Requires elfutils (libdw-dev/elfutils-devel) on the build host.
+> +	  Increases .ko sizes by approximately 10 bytes per DWARF line entry.
+> +
+> +	  If unsure, say N.
+> +
+>  # end of the "standard kernel features (expert users)" menu
+>  
+>  config ARCH_HAS_MEMBARRIER_CALLBACKS
+> diff --git a/kernel/kallsyms.c b/kernel/kallsyms.c
+> index d0a9cd9c6dace..9df92b0fd9041 100644
+> --- a/kernel/kallsyms.c
+> +++ b/kernel/kallsyms.c
+> @@ -543,12 +543,24 @@ static int __sprint_symbol(char *buffer, unsigned long address,
+>  		len += sprintf(buffer + len, "]");
+>  	}
+>  
+> -	if (IS_ENABLED(CONFIG_KALLSYMS_LINEINFO) && !modname) {
+> +	if (IS_ENABLED(CONFIG_KALLSYMS_LINEINFO)) {
+>  		const char *li_file;
+>  		unsigned int li_line;
+> +		bool found = false;
+> +
+> +		if (!modname)
+> +			found = kallsyms_lookup_lineinfo(address,
+> +							 &li_file, &li_line);
+> +		else if (IS_ENABLED(CONFIG_KALLSYMS_LINEINFO_MODULES)) {
+> +			struct module *mod = __module_address(address);
+> +
+> +			if (mod)
+> +				found = module_lookup_lineinfo(mod, address,
+> +							      &li_file,
+> +							      &li_line);
+> +		}
+>  
+> -		if (kallsyms_lookup_lineinfo(address,
+> -					     &li_file, &li_line))
+> +		if (found)
+>  			len += snprintf(buffer + len, KSYM_SYMBOL_LEN - len,
+>  					" (%s:%u)", li_file, li_line);
+>  	}
+> diff --git a/kernel/module/kallsyms.c b/kernel/module/kallsyms.c
+> index 0fc11e45df9b9..5b46293e957ab 100644
+> --- a/kernel/module/kallsyms.c
+> +++ b/kernel/module/kallsyms.c
+> @@ -494,3 +494,94 @@ int module_kallsyms_on_each_symbol(const char *modname,
+>  	mutex_unlock(&module_mutex);
+>  	return ret;
+>  }
+> +
+> +#include <linux/mod_lineinfo.h>
+> +
+> +/*
+> + * Look up source file:line for an address within a loaded module.
+> + * Uses the .mod_lineinfo section embedded in the .ko at build time.
+> + *
+> + * Safe in NMI/panic context: no locks, no allocations.
+> + * Caller must hold RCU read lock (or be in a context where the module
+> + * cannot be unloaded).
+> + */
+> +bool module_lookup_lineinfo(struct module *mod, unsigned long addr,
+> +			    const char **file, unsigned int *line)
+> +{
+> +	const struct mod_lineinfo_header *hdr;
+> +	const void *base;
+> +	const u32 *addrs, *lines, *file_offsets;
+> +	const u16 *file_ids;
+> +	const char *filenames;
+> +	u32 num_entries, num_files, filenames_size;
+> +	unsigned long text_base;
+> +	unsigned int offset;
+> +	unsigned long long raw_offset;
+> +	unsigned int low, high, mid;
+> +	u16 file_id;
+> +
+> +	if (!IS_ENABLED(CONFIG_KALLSYMS_LINEINFO_MODULES))
+> +		return false;
+> +
+> +	base = mod->lineinfo_data;
+> +	if (!base)
+> +		return false;
+> +
+> +	if (mod->lineinfo_data_size < sizeof(*hdr))
+> +		return false;
+> +
+> +	hdr = base;
+> +	num_entries = hdr->num_entries;
+> +	num_files = hdr->num_files;
+> +	filenames_size = hdr->filenames_size;
+> +
+> +	if (num_entries == 0)
+> +		return false;
+> +
+> +	/* Validate section is large enough for all arrays */
+> +	if (mod->lineinfo_data_size <
+> +	    mod_lineinfo_filenames_off(num_entries, num_files) + filenames_size)
+> +		return false;
+> +
+> +	addrs = base + mod_lineinfo_addrs_off();
+> +	file_ids = base + mod_lineinfo_file_ids_off(num_entries);
+> +	lines = base + mod_lineinfo_lines_off(num_entries);
+> +	file_offsets = base + mod_lineinfo_file_offsets_off(num_entries);
+> +	filenames = base + mod_lineinfo_filenames_off(num_entries, num_files);
+> +
+> +	/* Compute offset from module .text base */
+> +	text_base = (unsigned long)mod->mem[MOD_TEXT].base;
+
+The module::mem[] covers module memory regions. One can think of them as
+ELF segments, except they are created dynamically by the module loader.
+The code conflates the .text section and the TEXT segment. I'm not aware
+of any guarantee that the .text section will be always placed as the
+first section in this segment.
+
+Relocations can be used to accurately reference the .text section.
+
+> +	if (addr < text_base)
+> +		return false;
+> +
+> +	raw_offset = addr - text_base;
+> +	if (raw_offset > UINT_MAX)
+
+The offsets in the addrs array are of the u32 type, so this should be
+strictly speaking checked against U32_MAX.
+
+> +		return false;
+> +	offset = (unsigned int)raw_offset;
+> +
+> +	/* Binary search for largest entry <= offset */
+> +	low = 0;
+> +	high = num_entries;
+> +	while (low < high) {
+> +		mid = low + (high - low) / 2;
+> +		if (addrs[mid] <= offset)
+> +			low = mid + 1;
+> +		else
+> +			high = mid;
+> +	}
+> +
+> +	if (low == 0)
+> +		return false;
+> +	low--;
+> +
+> +	file_id = file_ids[low];
+> +	if (file_id >= num_files)
+> +		return false;
+> +
+> +	if (file_offsets[file_id] >= filenames_size)
+> +		return false;
+> +
+> +	*file = &filenames[file_offsets[file_id]];
+> +	*line = lines[low];
+> +	return true;
+> +}
+> diff --git a/kernel/module/main.c b/kernel/module/main.c
+> index 2bac4c7cd019a..d11646b02730a 100644
+> --- a/kernel/module/main.c
+> +++ b/kernel/module/main.c
+> @@ -2648,6 +2648,9 @@ static int find_module_sections(struct module *mod, struct load_info *info)
+>  	mod->btf_base_data = any_section_objs(info, ".BTF.base", 1,
+>  					      &mod->btf_base_data_size);
+>  #endif
+> +	if (IS_ENABLED(CONFIG_KALLSYMS_LINEINFO_MODULES))
+> +		mod->lineinfo_data = any_section_objs(info, ".mod_lineinfo", 1,
+> +						      &mod->lineinfo_data_size);
+>  #ifdef CONFIG_JUMP_LABEL
+>  	mod->jump_entries = section_objs(info, "__jump_table",
+>  					sizeof(*mod->jump_entries),
+> diff --git a/scripts/Makefile b/scripts/Makefile
+> index ffe89875b3295..651df2a867ffb 100644
+> --- a/scripts/Makefile
+> +++ b/scripts/Makefile
+> @@ -5,6 +5,7 @@
+>  
+>  hostprogs-always-$(CONFIG_KALLSYMS)			+= kallsyms
+>  hostprogs-always-$(CONFIG_KALLSYMS_LINEINFO)		+= gen_lineinfo
+> +hostprogs-always-$(CONFIG_KALLSYMS_LINEINFO_MODULES)	+= gen_lineinfo
+
+This line is unnecessary because CONFIG_KALLSYMS_LINEINFO_MODULES
+depends on CONFIG_KALLSYMS_LINEINFO.
+
+>  hostprogs-always-$(BUILD_C_RECORDMCOUNT)		+= recordmcount
+>  hostprogs-always-$(CONFIG_BUILDTIME_TABLE_SORT)		+= sorttable
+>  hostprogs-always-$(CONFIG_ASN1)				+= asn1_compiler
+> diff --git a/scripts/Makefile.modfinal b/scripts/Makefile.modfinal
+> index adcbcde16a071..3941cf624526b 100644
+> --- a/scripts/Makefile.modfinal
+> +++ b/scripts/Makefile.modfinal
+> @@ -46,6 +46,9 @@ quiet_cmd_btf_ko = BTF [M] $@
+>  		$(CONFIG_SHELL) $(srctree)/scripts/gen-btf.sh --btf_base $(objtree)/vmlinux $@; \
+>  	fi;
+>  
+> +quiet_cmd_lineinfo_ko = LINEINFO [M] $@
+> +      cmd_lineinfo_ko = $(CONFIG_SHELL) $(srctree)/scripts/gen-mod-lineinfo.sh $@
+> +
+>  # Same as newer-prereqs, but allows to exclude specified extra dependencies
+>  newer_prereqs_except = $(filter-out $(PHONY) $(1),$?)
+>  
+> @@ -59,6 +62,9 @@ if_changed_except = $(if $(call newer_prereqs_except,$(2))$(cmd-check),      \
+>  	+$(call if_changed_except,ld_ko_o,$(objtree)/vmlinux)
+>  ifdef CONFIG_DEBUG_INFO_BTF_MODULES
+>  	+$(if $(newer-prereqs),$(call cmd,btf_ko))
+> +endif
+> +ifdef CONFIG_KALLSYMS_LINEINFO_MODULES
+> +	+$(if $(newer-prereqs),$(call cmd,lineinfo_ko))
+
+Should this be 'if_changed_except.. vmlinux'?
+
+>  endif
+>  	+$(call cmd,check_tracepoint)
+>  
+> diff --git a/scripts/gen-mod-lineinfo.sh b/scripts/gen-mod-lineinfo.sh
+> new file mode 100755
+> index 0000000000000..d0663b862d31b
+> --- /dev/null
+> +++ b/scripts/gen-mod-lineinfo.sh
+> @@ -0,0 +1,48 @@
+> +#!/bin/sh
+> +# SPDX-License-Identifier: GPL-2.0
+> +#
+> +# gen-mod-lineinfo.sh - Embed source line info into a kernel module (.ko)
+> +#
+> +# Reads DWARF from the .ko, generates a .mod_lineinfo section, and
+> +# embeds it back into the .ko.  Modeled on scripts/gen-btf.sh.
+> +
+> +set -e
+> +
+> +if [ $# -ne 1 ]; then
+> +	echo "Usage: $0 <module.ko>" >&2
+> +	exit 1
+> +fi
+> +
+> +KO="$1"
+> +
+> +cleanup() {
+> +	rm -f "${KO}.lineinfo.S" "${KO}.lineinfo.o" "${KO}.lineinfo.bin"
+> +}
+> +trap cleanup EXIT
+> +
+> +case "${KBUILD_VERBOSE}" in
+> +*1*)
+> +	set -x
+> +	;;
+> +esac
+> +
+> +# Generate assembly from DWARF -- if it fails (no DWARF), silently skip
+> +if ! ${objtree}/scripts/gen_lineinfo --module "${KO}" > "${KO}.lineinfo.S"; then
+> +	exit 0
+> +fi
+> +
+> +# Compile assembly to object file
+> +${CC} ${NOSTDINC_FLAGS} ${LINUXINCLUDE} ${KBUILD_CPPFLAGS} \
+> +	${KBUILD_AFLAGS} ${KBUILD_AFLAGS_MODULE} \
+> +	-c -o "${KO}.lineinfo.o" "${KO}.lineinfo.S"
+> +
+> +# Extract raw section content
+> +${OBJCOPY} -O binary --only-section=.mod_lineinfo \
+> +	"${KO}.lineinfo.o" "${KO}.lineinfo.bin"
+> +
+> +# Embed into the .ko with alloc,readonly flags
+> +${OBJCOPY} --add-section ".mod_lineinfo=${KO}.lineinfo.bin" \
+> +	--set-section-flags .mod_lineinfo=alloc,readonly \
+> +	"${KO}"
+> +
+> +exit 0
+> diff --git a/scripts/gen_lineinfo.c b/scripts/gen_lineinfo.c
+> index 37d5e84971be4..5ced6897cbbee 100644
+> --- a/scripts/gen_lineinfo.c
+> +++ b/scripts/gen_lineinfo.c
+> @@ -23,8 +23,16 @@
+>  #include <gelf.h>
+>  #include <limits.h>
+>  
+> +#include "../include/linux/mod_lineinfo.h"
+> +
+> +static int module_mode;
+> +
+>  static unsigned int skipped_overflow;
+>  
+> +/* .text range for module mode (keep only runtime code) */
+> +static unsigned long long text_section_start;
+> +static unsigned long long text_section_end;
+> +
+>  struct line_entry {
+>  	unsigned int offset;	/* offset from _text */
+>  	unsigned int file_id;
+> @@ -148,27 +156,25 @@ static const char *make_relative(const char *path, const char *comp_dir)
+>  {
+>  	const char *p;
+>  
+> -	/* If already relative, use as-is */
+> -	if (path[0] != '/')
+> -		return path;
+> -
+> -	/* comp_dir from DWARF is the most reliable method */
+> -	if (comp_dir) {
+> -		size_t len = strlen(comp_dir);
+> -
+> -		if (!strncmp(path, comp_dir, len) && path[len] == '/') {
+> -			const char *rel = path + len + 1;
+> -
+> -			/*
+> -			 * If comp_dir pointed to a subdirectory
+> -			 * (e.g. arch/parisc/kernel) rather than
+> -			 * the tree root, stripping it leaves a
+> -			 * bare filename.  Fall through to the
+> -			 * kernel_dirs scan so we recover the full
+> -			 * relative path instead.
+> -			 */
+> -			if (strchr(rel, '/'))
+> -				return rel;
+> +	if (path[0] == '/') {
+> +		/* Try comp_dir prefix from DWARF */
+> +		if (comp_dir) {
+> +			size_t len = strlen(comp_dir);
+> +
+> +			if (!strncmp(path, comp_dir, len) && path[len] == '/') {
+> +				const char *rel = path + len + 1;
+> +
+> +				/*
+> +				 * If comp_dir pointed to a subdirectory
+> +				 * (e.g. arch/parisc/kernel) rather than
+> +				 * the tree root, stripping it leaves a
+> +				 * bare filename.  Fall through to the
+> +				 * kernel_dirs scan so we recover the full
+> +				 * relative path instead.
+> +				 */
+> +				if (strchr(rel, '/'))
+> +					return rel;
+> +			}
+>  		}
+>  
+>  		/*
+> @@ -194,9 +200,45 @@ static const char *make_relative(const char *path, const char *comp_dir)
+>  		return p ? p + 1 : path;
+>  	}
+>  
+> -	/* Fall back to basename */
+> -	p = strrchr(path, '/');
+> -	return p ? p + 1 : path;
+> +	/*
+> +	 * Relative path — check for duplicated-path quirk from libdw
+> +	 * on ET_REL files (e.g., "a/b.c/a/b.c" → "a/b.c").
+> +	 */
+
+When does this quirk occur? Is it a bug in libdw?
+
+> +	{
+> +		size_t len = strlen(path);
+> +
+> +		for (p = path; (p = strchr(p, '/')) != NULL; p++) {
+> +			size_t prefix = p - path;
+> +			size_t rest = len - prefix - 1;
+> +
+> +			if (rest == prefix && !memcmp(path, p + 1, prefix))
+> +				return p + 1;
+> +		}
+
+Isn't this loop same as:
+
+size_t mid = len / 2;
+if (path[mid] == '/' && !memcmp(path, path + mid + 1, mid - 1))
+	return path + mid + 1;
+
+> +	}
+> +
+> +	/*
+> +	 * Bare filename with no directory component — try to recover the
+> +	 * relative path using comp_dir.  Some toolchains/elfutils combos
+> +	 * produce bare filenames where comp_dir holds the source directory.
+> +	 * Construct the absolute path and run the kernel_dirs scan.
+> +	 */
+> +	if (!strchr(path, '/') && comp_dir && comp_dir[0] == '/') {
+> +		static char buf[PATH_MAX];
+> +
+> +		snprintf(buf, sizeof(buf), "%s/%s", comp_dir, path);
+> +		for (p = buf + 1; *p; p++) {
+> +			if (*(p - 1) == '/') {
+> +				for (unsigned int i = 0; i < sizeof(kernel_dirs) /
+> +				     sizeof(kernel_dirs[0]); i++) {
+> +					if (!strncmp(p, kernel_dirs[i],
+> +						     strlen(kernel_dirs[i])))
+> +						return p;
+> +				}
+> +			}
+> +		}
+> +	}
+> +
+> +	return path;
+>  }
+>  
+>  static int compare_entries(const void *a, const void *b)
+> @@ -248,6 +290,159 @@ static unsigned long long find_text_addr(Elf *elf)
+>  	exit(1);
+>  }
+>  
+> +static void find_text_section_range(Elf *elf)
+> +{
+> +	Elf_Scn *scn = NULL;
+> +	GElf_Shdr shdr;
+> +	size_t shstrndx;
+> +
+> +	if (elf_getshdrstrndx(elf, &shstrndx) != 0)
+> +		return;
+> +
+> +	while ((scn = elf_nextscn(elf, scn)) != NULL) {
+> +		const char *name;
+> +
+> +		if (!gelf_getshdr(scn, &shdr))
+> +			continue;
+> +		name = elf_strptr(elf, shstrndx, shdr.sh_name);
+> +		if (name && !strcmp(name, ".text")) {
+> +			text_section_start = shdr.sh_addr;
+> +			text_section_end = shdr.sh_addr + shdr.sh_size;
+> +			return;
+> +		}
+> +	}
+> +}
+> +
+> +/*
+> + * Apply .rela.debug_line relocations to a mutable copy of .debug_line data.
+> + *
+> + * elfutils libdw (through at least 0.194) does NOT apply relocations for
+> + * ET_REL files when using dwarf_begin_elf().  The internal libdwfl layer
+> + * does this via __libdwfl_relocate(), but that API is not public.
+> + *
+> + * For DWARF5, the .debug_line file name table uses DW_FORM_line_strp
+> + * references into .debug_line_str.  Without relocation, all these offsets
+> + * resolve to 0 (or garbage), causing dwarf_linesrc()/dwarf_filesrc() to
+> + * return wrong filenames (typically the comp_dir for every file).
+> + *
+> + * This function applies the relocations manually so that the patched
+> + * .debug_line data can be fed to dwarf_begin_elf() and produce correct
+> + * results.
+> + *
+> + * See elfutils bug https://sourceware.org/bugzilla/show_bug.cgi?id=31447
+> + * A fix (dwelf_elf_apply_relocs) was proposed but not yet merged as of
+> + * elfutils 0.194: https://sourceware.org/pipermail/elfutils-devel/2024q3/007388.html
+> + */
+> +/*
+> + * Determine the relocation type for a 32-bit absolute reference
+> + * on the given architecture.  Returns 0 if unknown.
+> + */
+> +static unsigned int r_type_abs32(unsigned int e_machine)
+> +{
+> +	switch (e_machine) {
+> +	case EM_X86_64:		return 10;	/* R_X86_64_32 */
+> +	case EM_386:		return 1;	/* R_386_32 */
+> +	case EM_AARCH64:	return 258;	/* R_AARCH64_ABS32 */
+> +	case EM_ARM:		return 2;	/* R_ARM_ABS32 */
+> +	case EM_RISCV:		return 1;	/* R_RISCV_32 */
+> +	case EM_S390:		return 4;	/* R_390_32 */
+> +	case EM_MIPS:		return 2;	/* R_MIPS_32 */
+> +	case EM_PPC64:		return 1;	/* R_PPC64_ADDR32 */
+> +	case EM_PPC:		return 1;	/* R_PPC_ADDR32 */
+> +	case EM_LOONGARCH:	return 1;	/* R_LARCH_32 */
+> +	case EM_PARISC:		return 1;	/* R_PARISC_DIR32 */
+> +	default:		return 0;
+
+The source file already includes elf.h from elfutils. Is it necessary to
+hardcode these relocation values here?
+
+> +	}
+> +}
+> +
+> +static void apply_debug_line_relocations(Elf *elf)
+> +{
+> +	Elf_Scn *scn = NULL;
+> +	Elf_Scn *debug_line_scn = NULL;
+> +	Elf_Scn *rela_debug_line_scn = NULL;
+> +	Elf_Scn *symtab_scn = NULL;
+> +	GElf_Shdr shdr;
+> +	GElf_Ehdr ehdr;
+> +	unsigned int abs32_type;
+> +	size_t shstrndx;
+> +	Elf_Data *dl_data, *rela_data, *sym_data;
+> +	GElf_Shdr rela_shdr, sym_shdr;
+> +	size_t nrels, i;
+> +
+> +	if (gelf_getehdr(elf, &ehdr) == NULL)
+> +		return;
+> +
+> +	abs32_type = r_type_abs32(ehdr.e_machine);
+> +	if (!abs32_type)
+> +		return;
+> +
+> +	if (elf_getshdrstrndx(elf, &shstrndx) != 0)
+> +		return;
+> +
+> +	/* Find the relevant sections */
+> +	while ((scn = elf_nextscn(elf, scn)) != NULL) {
+> +		const char *name;
+> +
+> +		if (!gelf_getshdr(scn, &shdr))
+> +			continue;
+> +		name = elf_strptr(elf, shstrndx, shdr.sh_name);
+> +		if (!name)
+> +			continue;
+> +
+> +		if (!strcmp(name, ".debug_line"))
+> +			debug_line_scn = scn;
+> +		else if (!strcmp(name, ".rela.debug_line"))
+> +			rela_debug_line_scn = scn;
+> +		else if (shdr.sh_type == SHT_SYMTAB)
+> +			symtab_scn = scn;
+> +	}
+> +
+> +	if (!debug_line_scn || !rela_debug_line_scn || !symtab_scn)
+> +		return;
+> +
+> +	dl_data = elf_getdata(debug_line_scn, NULL);
+> +	rela_data = elf_getdata(rela_debug_line_scn, NULL);
+> +	sym_data = elf_getdata(symtab_scn, NULL);
+> +	if (!dl_data || !rela_data || !sym_data)
+> +		return;
+> +
+> +	if (!gelf_getshdr(rela_debug_line_scn, &rela_shdr))
+> +		return;
+> +	if (!gelf_getshdr(symtab_scn, &sym_shdr))
+> +		return;
+> +
+> +	nrels = rela_shdr.sh_size / rela_shdr.sh_entsize;
+> +
+> +	for (i = 0; i < nrels; i++) {
+> +		GElf_Rela rela;
+> +		GElf_Sym sym;
+> +		unsigned int r_type;
+> +		size_t r_sym;
+> +		uint32_t value;
+> +
+> +		if (!gelf_getrela(rela_data, i, &rela))
+> +			continue;
+> +
+> +		r_type = GELF_R_TYPE(rela.r_info);
+> +		r_sym = GELF_R_SYM(rela.r_info);
+> +
+> +		/* Only handle the 32-bit absolute reloc for this arch */
+> +		if (r_type != abs32_type)
+> +			continue;
+> +
+> +		if (!gelf_getsym(sym_data, r_sym, &sym))
+> +			continue;
+> +
+> +		/* Relocated value = sym.st_value + addend */
+> +		value = (uint32_t)(sym.st_value + rela.r_addend);
+> +
+> +		/* Patch the .debug_line data at the relocation offset */
+> +		if (rela.r_offset + 4 <= dl_data->d_size)
+> +			memcpy((char *)dl_data->d_buf + rela.r_offset,
+> +			       &value, sizeof(value));
+> +	}
+> +}
+> +
+>  static void process_dwarf(Dwarf *dwarf, unsigned long long text_addr)
+>  {
+>  	Dwarf_Off off = 0, next_off;
+> @@ -295,6 +490,16 @@ static void process_dwarf(Dwarf *dwarf, unsigned long long text_addr)
+>  			if (addr < text_addr)
+>  				continue;
+>  
+> +			/*
+> +			 * In module mode, keep only .text addresses.
+> +			 * In ET_REL .ko files, .init.text/.exit.text may
+> +			 * overlap with .text address ranges, so we must
+> +			 * explicitly check against the .text bounds.
+> +			 */
+
+Nit: The use of "may" in this comment seems strange. It is fully
+expected that .text, .init.text, .exit.text or any other section will
+have their sh_addr set to 0 in relocatable objects and therefore the
+sections have overlapping address ranges.
+
+> +			if (module_mode && text_section_end > text_section_start &&
+> +			    (addr < text_section_start || addr >= text_section_end))
+> +				continue;
+> +
+
+The current code is very specific to the .text section. It would be good
+to cover all sections in the future. I think it will naturally require
+use of relocations to refer to individual sections.
+
+>  			{
+>  				unsigned long long raw_offset = addr - text_addr;
+>  
+> @@ -440,6 +645,63 @@ static void output_assembly(void)
+>  	printf("\n");
+>  }
+>  
+> +static void output_module_assembly(void)
+> +{
+> +	unsigned int filenames_size = 0;
+> +
+> +	for (unsigned int i = 0; i < num_files; i++)
+> +		filenames_size += strlen(files[i].name) + 1;
+> +
+> +	printf("/* SPDX-License-Identifier: GPL-2.0 */\n");
+> +	printf("/*\n");
+> +	printf(" * Automatically generated by scripts/gen_lineinfo --module\n");
+> +	printf(" * Do not edit.\n");
+> +	printf(" */\n\n");
+> +
+> +	printf("\t.section .mod_lineinfo, \"a\"\n\n");
+> +
+> +	/* Header: num_entries, num_files, filenames_size, reserved */
+> +	printf("\t.balign 4\n");
+> +	printf("\t.long %u\n", num_entries);
+> +	printf("\t.long %u\n", num_files);
+> +	printf("\t.long %u\n", filenames_size);
+> +	printf("\t.long 0\n\n");
+> +
+> +	/* addrs[] */
+> +	for (unsigned int i = 0; i < num_entries; i++)
+> +		printf("\t.long 0x%x\n", entries[i].offset);
+> +	if (num_entries)
+> +		printf("\n");
+> +
+> +	/* file_ids[] */
+> +	for (unsigned int i = 0; i < num_entries; i++)
+> +		printf("\t.short %u\n", entries[i].file_id);
+> +
+> +	/* Padding to align lines[] to 4 bytes */
+> +	if (num_entries & 1)
+> +		printf("\t.short 0\n");
+> +	if (num_entries)
+> +		printf("\n");
+> +
+> +	/* lines[] */
+> +	for (unsigned int i = 0; i < num_entries; i++)
+> +		printf("\t.long %u\n", entries[i].line);
+> +	if (num_entries)
+> +		printf("\n");
+> +
+> +	/* file_offsets[] */
+> +	for (unsigned int i = 0; i < num_files; i++)
+> +		printf("\t.long %u\n", files[i].str_offset);
+> +	if (num_files)
+> +		printf("\n");
+> +
+> +	/* filenames[] */
+> +	for (unsigned int i = 0; i < num_files; i++)
+> +		print_escaped_asciz(files[i].name);
+> +	if (num_files)
+> +		printf("\n");
+> +}
+> +
+>  int main(int argc, char *argv[])
+>  {
+>  	int fd;
+> @@ -447,12 +709,23 @@ int main(int argc, char *argv[])
+>  	Dwarf *dwarf;
+>  	unsigned long long text_addr;
+>  
+> +	if (argc >= 2 && !strcmp(argv[1], "--module")) {
+> +		module_mode = 1;
+> +		argv++;
+> +		argc--;
+> +	}
+> +
+>  	if (argc != 2) {
+> -		fprintf(stderr, "Usage: %s <vmlinux>\n", argv[0]);
+> +		fprintf(stderr, "Usage: %s [--module] <ELF file>\n", argv[0]);
+>  		return 1;
+>  	}
+>  
+> -	fd = open(argv[1], O_RDONLY);
+> +	/*
+> +	 * For module mode, open O_RDWR so we can apply debug section
+> +	 * relocations to the in-memory ELF data.  The modifications
+> +	 * are NOT written back to disk (no elf_update() call).
+> +	 */
+> +	fd = open(argv[1], module_mode ? O_RDWR : O_RDONLY);
+>  	if (fd < 0) {
+>  		fprintf(stderr, "Cannot open %s: %s\n", argv[1],
+>  			strerror(errno));
+> @@ -460,7 +733,7 @@ int main(int argc, char *argv[])
+>  	}
+>  
+>  	elf_version(EV_CURRENT);
+> -	elf = elf_begin(fd, ELF_C_READ, NULL);
+> +	elf = elf_begin(fd, module_mode ? ELF_C_RDWR : ELF_C_READ, NULL);
+>  	if (!elf) {
+>  		fprintf(stderr, "elf_begin failed: %s\n",
+>  			elf_errmsg(elf_errno()));
+> @@ -468,7 +741,22 @@ int main(int argc, char *argv[])
+>  		return 1;
+>  	}
+>  
+> -	text_addr = find_text_addr(elf);
+> +	if (module_mode) {
+> +		/*
+> +		 * .ko files are ET_REL after ld -r.  libdw does NOT apply
+> +		 * relocations for ET_REL files, so DW_FORM_line_strp
+> +		 * references in .debug_line are not resolved.  Apply them
+> +		 * ourselves so that dwarf_linesrc() returns correct paths.
+> +		 *
+> +		 * DWARF addresses include the .text sh_addr.  Use .text
+> +		 * sh_addr as the base so offsets are .text-relative.
+> +		 */
+> +		apply_debug_line_relocations(elf);
+> +		find_text_section_range(elf);
+> +		text_addr = text_section_start;
+> +	} else {
+> +		text_addr = find_text_addr(elf);
+> +	}
+>  
+>  	dwarf = dwarf_begin_elf(elf, DWARF_C_READ, NULL);
+>  	if (!dwarf) {
+> @@ -494,7 +782,10 @@ int main(int argc, char *argv[])
+>  	fprintf(stderr, "lineinfo: %u entries, %u files\n",
+>  		num_entries, num_files);
+>  
+> -	output_assembly();
+> +	if (module_mode)
+> +		output_module_assembly();
+> +	else
+> +		output_assembly();
+>  
+>  	dwarf_end(dwarf);
+>  	elf_end(elf);
+
+-- 
+Thanks,
+Petr
