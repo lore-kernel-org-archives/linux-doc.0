@@ -1,281 +1,535 @@
-Received: from mout-b-203.mailbox.org (mout-b-203.mailbox.org [195.10.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FE7B3A7581;
-	Thu, 19 Mar 2026 15:14:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.10.208.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773933257; cv=none; b=jz4uxL0sRo0LSK/SDhhKTilPzdcXjI0vfAMzSZ5DgJze/RQeOksCbY851yIAxaQixgn959L0aU/pbbHtHqJHn2h1VTjb2iZkmtdQL2igEXSfOiunjixmhBoCG5YUp5nWMirmL57uti8HtE3Z6qs8itQhY5Ajzm6YaZ4r8nsxWi0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773933257; c=relaxed/simple;
-	bh=n8R0lxQXS/WRXKTyJKSYL9wuO+24uiQFtgi6nZnJAK0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=i4UyGRsm6kyNRxUsKAKKHYj7PcCbaXtWpTnsh+LoEejLIJOwLvNxWyQApDjFC/F57ZKKbJ7coRRMaA5bfEUP9haIfF2zrfoMSPi1XztrDm3bMNlSwe7rK4bFYcuIo3VHraz2VaSN5m39B4IrO81CSA5VcExB3i3hTcb2TIi7ODY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mandelbit.com; spf=pass smtp.mailfrom=mandelbit.com; dkim=pass (2048-bit key) header.d=mandelbit.com header.i=@mandelbit.com header.b=eXj+SHQW; arc=none smtp.client-ip=195.10.208.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mandelbit.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mandelbit.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A45113DD507
+	for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 15:15:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773933316; cv=pass; b=kYIoneoshCPggCXrTe/V9zWHhTFS4kAPPqAA5Kfq4JVPII3e5X2LEN2wjLmKcfsueax259hmvwLfL8oUYMnpZCJ4XcWDLLmob/acvXhKP+aNVEFnW9rl6vrRQf1rVHY8IsnNOB5D+16WGttI512TLHj1VBz46sbBdORT+JH82OA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773933316; c=relaxed/simple;
+	bh=+U+h5DHutsPWQLAl47H2kO1Rj4E77RwlLxKhQLCNe1o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UXuFcPHLnOVGW5tpi2aDzvSZw2xjC1LeFLaKcDoWcv5wRWWuHqDzYADfv8K7RmWovqTMDi/C/OUTKPaCNYizKTsWka547OEz6hIRecn92ch8yl+uy7TxKm5BI4OIrwvJNdGDAjmytgmCFtj382slbSOaVhJKSptHHtlnAhsYoyc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=DE5nROlW; arc=pass smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mandelbit.com header.i=@mandelbit.com header.b="eXj+SHQW"
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-b-203.mailbox.org (Postfix) with ESMTPS id 4fc8P035MVz9xDr;
-	Thu, 19 Mar 2026 16:14:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mandelbit.com;
-	s=MBO0001; t=1773933252;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=S7WhGtrDIV2TD9WUU8l0miYi1zOi2sYafJlFAbioGLo=;
-	b=eXj+SHQWkzay4JN2jAsFgEcsoQ6qBvwrc+fMFsOvi57VNcHgsLtzEwkW4S/hlQr/p1E8so
-	b0GYT8qyij5Xyb4/XwU54hkh/SHYay95u+LvQ+z2kUFx5tGX2fS333VM6VSjJ80YEzxITE
-	iYE8No1V8Aplil1Fs80lxtFGa0FL2mNbj8TkRMJqC6/HIo+6Yj9RhjTxzAllFOFLAD+jXe
-	nEegOeRm3LLn7XNtTeDWzSw/CIzl/3/vZ8OHR2h7XgvQowXhe3rxtV5mk40z1QEMCTKBp5
-	j/cuBk8EArFEx7/U5hZTR1qyE3WDCm37rB9mRo2q7Zh/vCTZduCJMjGMSo/nbw==
-From: Ralf Lici <ralf@mandelbit.com>
-To: netdev@vger.kernel.org
-Cc: =?UTF-8?q?Daniel=20Gr=C3=B6ber?= <dxld@darkboxed.org>,
-	Antonio Quartulli <antonio@mandelbit.com>,
-	Ralf Lici <ralf@mandelbit.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [RFC net-next 15/15] Documentation: networking: add ipxlat translator guide
-Date: Thu, 19 Mar 2026 16:12:24 +0100
-Message-ID: <20260319151230.655687-16-ralf@mandelbit.com>
-In-Reply-To: <20260319151230.655687-1-ralf@mandelbit.com>
-References: <20260319151230.655687-1-ralf@mandelbit.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DE5nROlW"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6628cc1bd69so9881a12.1
+        for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 08:15:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1773933308; cv=none;
+        d=google.com; s=arc-20240605;
+        b=PusdL3cgensV+yFfC9a1v/NEAak+nMmt7WJ7rl+/z6zCfU5rPoOTITF35us1WVnYbf
+         mGLjAqVRRvxLuPwIeDmeNicR9Nd61l3CqpWd9rWgBzxUNH5ugSOIjC858iuMPCYoio6y
+         lHJXDQaLIGbdBnfrK4+HXdIsw1PrRgMIqMsR9ELA9G7GU9mJ99Pa0QQpPRemQfF0cqM3
+         26IKNXEusnnfz3glU8Nv5KvLtkjBmk13zYwltIzybrGSMv2bcI9CIzH/DwohH2A20Nli
+         9GwyrtAoMcxuSRH+yTrjl0iB+y0mOQ4waGFSKtLA42CY3K/DKN703D3cWQvrCf+XUFjP
+         yT0w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=rDGWj2LZwlvIkcEpInl/kcvhbo0ZpIck8KTLQAEkgQo=;
+        fh=guyAm/WIULXGSCe8z4L56E4Pfnmw8YA9lMQ6z0eIcqQ=;
+        b=ktuiAcgtTywiTKMeQXMzW00cXXg8IdVZL/pPcvO+0+DZjRfioJ2mHDeIUzlm8iJDoz
+         faaYIHIPgWQ4QXthYQDdyqLLiwS7VRTfwi77tXTBo4lc7CBwZt2rUsKfVBCrsE+fWCW0
+         3ohPQoBsQamxZSZZahqBs2GKw4wAVjxIxvIgASGyllP1veDE/L4nJ99qFkvc7PQpRzr9
+         Jtz2/bBcLWgOObrGvkzFOjkWBEtgWuCJzdtOQcqSX4GIdNAC8RzzpOuA2N3mJUUlNzDn
+         gq+ZEKsPa5bvSYl7QM897trUKQ0RNIiRQACyP9ISaxVGNAMuJ81BtgJvGzwXXRwipZ9r
+         ULUA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1773933308; x=1774538108; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rDGWj2LZwlvIkcEpInl/kcvhbo0ZpIck8KTLQAEkgQo=;
+        b=DE5nROlWgazKgBK8ws/ypjB/EH7O1K8q0BnAaCLqSeFLCexzatM9olUBd+i7tkak17
+         RhOUZ5DPdKE3T/ibio5ywwZEnwVXOsi3yiGgU4qLbUWjKnnF8grKj6dgv6aHvZk2jlRs
+         ncHLtqjRDMEiupaIuSGF4bDRBZP6GbLGXVrOl4RH8vbdM0aIFCxlOnFdgG499BUoM1nJ
+         IlbldiG3jFSUU+QkE1at09HMk7khOz40CqsJfHBUDVu9QKeugTLG9Kjp40Dpzd9VfrX7
+         p2l4jz3ryBYO7lYJnvwEBagP+pwk6oNrRPgzwSQzNCvtvfEK27go576L6JC+jMWAz1oC
+         zMuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773933308; x=1774538108;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=rDGWj2LZwlvIkcEpInl/kcvhbo0ZpIck8KTLQAEkgQo=;
+        b=mVX92I6KcXJNVx3NONuI9S26hTREsiW4U1pwQDTCP7KkuF3j/0/b7/c8BkKSo6vDIg
+         G/QQ6lX0XPkjr1ncF6Afn0QBHJzQ3ojwy28E/PXOgWbsB+no5Vwbrd4u+FkLW4LBM4Jb
+         grND3Uqv1Vq+VEVLuLRZDkCi0dNVNwfvAI0J2nBsVvMbDt612djIzG2eFHeAnEMNoNIb
+         8kfbn4C+2WvDSugY2SUOrp33Gu8J56GPLx+ZCaILG/7dO7B6H2heCghh6UIr2xhxlRem
+         bOAYKtCSJOQsCc10TLxiVpoyNvWTQ4R24EFOyB3RUu1TCHx0Nr3oxXgcqXcTKBBcwxtJ
+         PWkA==
+X-Forwarded-Encrypted: i=1; AJvYcCWhhkIFHaWc2vgGEtbWMTCsddsf5IqmkLjCP6Z0t3mZljSwe9pj9G2EmEBfKjZIKtFSZBrtJnZ/uiw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwK54hGqmAT0HRdvCbuTA6bI670VNcVxOxh3pSh6EDV9nyV3H60
+	VxcCjAA7vZ9hGcpIS1doQa9g63vH6ZrdiMVnVLG387HX+fqGrwjPbSbDxLAOOL6ui9HG4zVwaI8
+	UhHQdIXtnnTxMx5Q9UXhbvhhHFJbMLY2oe7raYQcS
+X-Gm-Gg: ATEYQzzh3elVKLjc7giZAeZlPYv1F0f3LRcd9UfFUq4SJljX87gKBQbC6/bmNua8CZ/
+	WigVS08EEWTeiK+bR3E/3EvvxG1iUaz4soa0x7Ua5GUbb+7qfJGMCPKC5odOxX63oaKAngRycsw
+	swQ3TK95vBBi5Aqe6F2NiVk6SKx+kuXwuGtUBUpkYg+GHLul8AXZw3lbPt/0djNw0fPNibgbBqq
+	fchQaz/yly1ZiUrMn8F6YuhhWNoJCPWVT/uM4C+vp7IQCPPGyEZhjlWS+ZL9oh0/Sw0fiU12rv5
+	JnRgEOBA0e/ed3dpo2gDz8EZPuDpX9/xpR1E
+X-Received: by 2002:a05:6402:a518:20b0:660:f90b:a19b with SMTP id
+ 4fb4d7f45d1cf-66852d86339mr28785a12.8.1773933307787; Thu, 19 Mar 2026
+ 08:15:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <cover.1773695307.git.ljs@kernel.org> <8e28e4b63bae67bfa1a59ccbac9dc6db1442d75d.1773695307.git.ljs@kernel.org>
+ <CAJuCfpF6eS18HLgNvQtkLGd=7N0_L1JPmF0GzM-Z0QimRWT7AQ@mail.gmail.com> <d877ee66-1ac9-4b1b-b860-6919dc58edfe@lucifer.local>
+In-Reply-To: <d877ee66-1ac9-4b1b-b860-6919dc58edfe@lucifer.local>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Thu, 19 Mar 2026 08:14:54 -0700
+X-Gm-Features: AaiRm50TBB0_y5-6zEqCgnFax1lp80ds7Lm1WJGU5srttqxVqxdb1y_yg1RHpJs
+Message-ID: <CAJuCfpGsKgOEGA3rh+fMwv4BMMb0tZ5ZxVWeLCyOEvq7J12xOg@mail.gmail.com>
+Subject: Re: [PATCH v2 15/16] mm: add mmap_action_map_kernel_pages[_full]()
+To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Clemens Ladisch <clemens@ladisch.de>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "K . Y . Srinivasan" <kys@microsoft.com>, 
+	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
+	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, 
+	Vignesh Raghavendra <vigneshr@ti.com>, Bodo Stroesser <bostroesser@gmail.com>, 
+	"Martin K . Petersen" <martin.petersen@oracle.com>, David Howells <dhowells@redhat.com>, 
+	Marc Dionne <marc.dionne@auristor.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, David Hildenbrand <david@kernel.org>, 
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, 
+	Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-hyperv@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org, 
+	linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org, 
+	target-devel@vger.kernel.org, linux-afs@lists.infradead.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	Ryan Roberts <ryan.roberts@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Daniel Gröber <dxld@darkboxed.org>
+On Thu, Mar 19, 2026 at 8:05=E2=80=AFAM Lorenzo Stoakes (Oracle) <ljs@kerne=
+l.org> wrote:
+>
+> On Wed, Mar 18, 2026 at 09:00:13AM -0700, Suren Baghdasaryan wrote:
+> > On Mon, Mar 16, 2026 at 2:14=E2=80=AFPM Lorenzo Stoakes (Oracle) <ljs@k=
+ernel.org> wrote:
+> > >
+> > > A user can invoke mmap_action_map_kernel_pages() to specify that the
+> > > mapping should map kernel pages starting from desc->start of a specif=
+ied
+> > > number of pages specified in an array.
+> > >
+> > > In order to implement this, adjust mmap_action_prepare() to be able t=
+o
+> > > return an error code, as it makes sense to assert that the specified
+> > > parameters are valid as quickly as possible as well as updating the V=
+MA
+> > > flags to include VMA_MIXEDMAP_BIT as necessary.
+> > >
+> > > This provides an mmap_prepare equivalent of vm_insert_pages().
+> > >
+> > > We additionally update the existing vm_insert_pages() code to use
+> > > range_in_vma() and add a new range_in_vma_desc() helper function for =
+the
+> > > mmap_prepare case, sharing the code between the two in range_is_subse=
+t().
+> > >
+> > > We add both mmap_action_map_kernel_pages() and
+> > > mmap_action_map_kernel_pages_full() to allow for both partial and ful=
+l VMA
+> > > mappings.
+> > >
+> > > We also add mmap_action_map_kernel_pages_discontig() to allow for
+> > > discontiguous mapping of kernel pages should the need arise.
+> > >
+> > > We update the documentation to reflect the new features.
+> > >
+> > > Finally, we update the VMA tests accordingly to reflect the changes.
+> > >
+> > > Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
+> >
+> > With one nit,
+> > Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+>
+> Thanks!
+>
+> >
+> > > ---
+> > >  Documentation/filesystems/mmap_prepare.rst |  8 ++
+> > >  include/linux/mm.h                         | 95 ++++++++++++++++++++=
++-
+> > >  include/linux/mm_types.h                   |  7 ++
+> > >  mm/memory.c                                | 42 +++++++++-
+> > >  mm/util.c                                  |  6 ++
+> > >  tools/testing/vma/include/dup.h            |  7 ++
+> > >  6 files changed, 159 insertions(+), 6 deletions(-)
+> > >
+> > > diff --git a/Documentation/filesystems/mmap_prepare.rst b/Documentati=
+on/filesystems/mmap_prepare.rst
+> > > index be76ae475b9c..e810aa4134eb 100644
+> > > --- a/Documentation/filesystems/mmap_prepare.rst
+> > > +++ b/Documentation/filesystems/mmap_prepare.rst
+> > > @@ -156,5 +156,13 @@ pointer. These are:
+> > >  * mmap_action_simple_ioremap() - Sets up an I/O remap from a specifi=
+ed
+> > >    physical address and over a specified length.
+> > >
+> > > +* mmap_action_map_kernel_pages() - Maps a specified array of `struct=
+ page`
+> > > +  pointers in the VMA from a specific offset.
+> > > +
+> > > +* mmap_action_map_kernel_pages_full() - Maps a specified array of `s=
+truct
+> > > +  page` pointers over the entire VMA. The caller must ensure there a=
+re
+> > > +  sufficient entries in the page array to cover the entire range of =
+the
+> > > +  described VMA.
+> > > +
+> > >  **NOTE:** The ``action`` field should never normally be manipulated =
+directly,
+> > >  rather you ought to use one of these helpers.
+> > > diff --git a/include/linux/mm.h b/include/linux/mm.h
+> > > index df8fa6e6402b..6f0a3edb24e1 100644
+> > > --- a/include/linux/mm.h
+> > > +++ b/include/linux/mm.h
+> > > @@ -2912,7 +2912,7 @@ static inline bool folio_maybe_mapped_shared(st=
+ruct folio *folio)
+> > >   * The caller must add any reference (e.g., from folio_try_get()) it=
+ might be
+> > >   * holding itself to the result.
+> > >   *
+> > > - * Returns the expected folio refcount.
+> > > + * Returns: the expected folio refcount.
+> >
+> > nit: I see both "Returns:" and "Return:" being used in the codebase
+> > but this header file uses "Return:", so for consistency you should
+> > probably do the same. This also applies to later instances in this
+> > patch.
+>
+> Well here I'm just adding the colon, while I'm here (maybe have been an
+> update in response to feedback actualy).
+>
+> And this function that's not part of my change already uses 'Returns' and
+> I'm pretty sure that's the correct form.
+>
+> So I think not a big deal to keep using that?
 
-Add user and reviewer documentation for the ipxlat virtual netdevice in
-Documentation/networking/ipxlat.rst.
+Correct. Anything I mark as "nit:" is not critical and can be ignored.
 
-The document describes the datapath model, stateless IPv4/IPv6 address
-translation rules, ICMP handling, control-plane configuration, and test
-topology assumptions. It also records the intended runtime configuration
-contract and current behavior limits so deployment expectations are
-clear.
-
-Signed-off-by: Daniel Gröber <dxld@darkboxed.org>
-Signed-off-by: Ralf Lici <ralf@mandelbit.com>
----
- Documentation/networking/ipxlat.rst | 190 ++++++++++++++++++++++++++++
- 1 file changed, 190 insertions(+)
- create mode 100644 Documentation/networking/ipxlat.rst
-
-diff --git a/Documentation/networking/ipxlat.rst b/Documentation/networking/ipxlat.rst
-new file mode 100644
-index 000000000000..5a0ad02c05be
---- /dev/null
-+++ b/Documentation/networking/ipxlat.rst
-@@ -0,0 +1,190 @@
-+.. SPDX-License-Identifier: GPL-2.0+
-+.. Copyright (C) 2026 Daniel Gröber <dxld@debian.org>
-+
-+==============================================
-+IPXLAT - IPv6<>IPv4 IP/ICMP Translation (SIIT)
-+==============================================
-+
-+ipxlat (``CONFIG_IPXLAT=y``) provides a virtual netdevice implementing
-+stateless IP packet translation between IP versions 6 and 4. This is a
-+building block for establishing layer 3 connectivity between otherwise
-+uncommunicative IPv6-only and/or IPv4-only networks.
-+
-+
-+Creation and Configuration Parameters
-+=====================================
-+
-+An ipxlat netdevice can be created and configured using YNL like so::
-+
-+    $ ip link add siit0 type ipxlat
-+
-+    $ IID=$(cat /sys/class/net/siit0/ifindex)
-+
-+    $ ADDR_HEX=$(python3 -c 'import ipaddress,sys; \
-+        print(ipaddress.IPv6Address(sys.argv[1]).packed.hex())' \
-+        64:ff9b:: | tee /dev/stderr)
-+    0064ff9b000000000000000000000000
-+
-+    $ ./tools/net/ynl/pyynl/cli.py --family ipxlat --json '{"ifindex": $IID, \
-+        "config": {"xlat-prefix6": "'$HEX_ADDR'", "prefix-len": 96} }'
-+
-+(TODO: Once implemented) A ipxlat netdevice can be configured using
-+iproute2::
-+
-+    $ ip link add siit0 type ipxlat [ OPTIONS ]
-+
-+    # where OPTIONS can include (TODO: iproute2 patch):
-+    #
-+    #   prefix ADDR          (default 64:ff9b::/96)
-+    #
-+    #   lowest-ipv6-mtu MTU  (default 1280)
-+
-+
-+Introduction to Packet-level IPv6<>IPv4 Translation
-+===================================================
-+
-+Translatable packets delivered into an ipxlat device as either of the IP
-+protocol versions loop-back as the other. Untranslatable packets are
-+rejected with ICMP errors of the same IP version as appropriate or dropped
-+silently if required by RFC-SIIT_.
-+
-+.. _RFC-SIIT: https://datatracker.ietf.org/doc/html/rfc7915
-+
-+Supported upper layer protocols (TCP/UDP/ICMP) have their checksums
-+recomputed as-needed as part of translation. Unsupported IP protocols
-+(IPPROTO\_*) are passed through unmodified. This will make them fail at the
-+receiver except in special cases.
-+
-+Differences in IP layer semantic concerns are handled using several
-+different strategies, here we'll only give a high-level summary in the
-+areas of most friction:
-+  Fragmentation approach, Path MTU Discovery (PMTUD), IP Options and Extension
-+  Headers.
-+
-+**Fragmentation Approach** (v4: on-path vs v6: end-to-end) is smoothed over by:
-+ | 4->6: Fragmenting (DF=0) IPv4 packets when needed. See "lowest-ipv6-mtu".
-+ | 6->4: Using on-path frag. down the line for v4 pkts smaller than 1260.
-+ Details are tedious, check RFC-SIIT_.
-+
-+**PMTUD** is maintained by recalculating advised MTU values in ICMP
-+PKT_TOO_BIG and FRAG_NEEDED messages as they're being translated. Taking
-+into account the necessary header re-sizing and post-translation nexthop
-+MTU in the main routing table.
-+
-+**IP Options and IPv6 Extension Headers** except the Fragment Header are
-+dropped or ignored expept where more specific behaviour is specified in
-+RFC-SIIT_.
-+
-+
-+Address Translation
-+-------------------
-+
-+The ipxlat address translation algorithm is stateless, per RFC-ADDR_, all
-+possible IPv4 addressess are mapped one-to-one into the translation prefix,
-+optionally including a non-standard "suffix". See `RFC-ADDR Section 2.2
-+<https://datatracker.ietf.org/doc/html/rfc6052#section-2.2>`_.
-+
-+.. _RFC-ADDR: https://datatracker.ietf.org/doc/html/rfc6052
-+
-+IPv6 addressess outside this prefix are rejected with ICMPv6 errors with
-+the notable exception of ICMPv6 errors originating from untranslatable
-+source addressess. These are translated to be sourced from the IPv4 Dummy
-+Address ``192.0.0.8`` (per I-D-dummy_) instead to maintain IPv4 traceroute
-+visibility.
-+
-+.. _I-D-dummy:
-+   https://datatracker.ietf.org/doc/draft-ietf-v6ops-icmpext-xlat-v6only-source/
-+
-+In a basic bidirectional 6<>4 connectivity scenario this means IPv6 hosts
-+must be addressed wholly from inside the translation prefix and per
-+RFC-ADDR_. Plain vanilla SLAAC doesn't cut it here, static addressing or
-+DHCPv6 is needed, unless that is we introduce statefulnes (RFC-NAT64_) into
-+the mix. See below on that.
-+
-+.. _RFC-NAT64: https://datatracker.ietf.org/doc/html/rfc6146
-+
-+
-+Stateful Translation (NAT64)
-+----------------------------
-+
-+Using NAT64 has several drawbacks, it's necessary only when your control
-+over IPv4 or IPv6 addressing of hosts is limited.
-+
-+Using nftables we can turn a system into a stateful translator. For example
-+to make the IPv4 internet reachable to a IPv6-only LAN having this system
-+as it's default route, further assuming we have an IPv4 default route and
-+``192.0.2.1/32`` is routed to this system::
-+
-+ $ ip link add siit0 type ipxlat
-+ $ ip link set dev siit0 up
-+ $ ip route 192.0.2.1/32 dev siit0
-+ $ ip route 64:ff9b::/96 dev siit0
-+ $ sysctl -w net.ipv4.conf.all.forwarding=1
-+ $ sysctl -w net.ipv6.conf.all.forwarding=1
-+ $ nft -f- <<EOF
-+ table ip6 nat {
-+         chain postrouting {
-+                 type nat hook postrouting priority filter; policy accept;
-+                 oifname "siit0" snat to 64:ff9b::c002:1 comment "::192.0.2.1"
-+         }
-+ }
-+ table ip nat {
-+         chain postrouting {
-+                 type nat hook postrouting priority filter; policy accept;
-+                 iifname "siit0" masquerade
-+         }
-+ }
-+ EOF
-+
-+Note: Keep reading when replacing the 192.0.2.0/24 documentation
-+placeholder with RFC 1918 "private IPv4" space.
-+
-+
-+Translation Prefix Choice and Complications
-+-------------------------------------------
-+
-+Several prefix sizes between /32 and /96 are supported by ipxlat. Using
-+a /96 prefix is often convenient as it allows using the dotted quad IPv6
-+notation, eg.: "64:ff9b::192.0.2.1". RFC-ADDR_ "3.3. Choice of Prefix for
-+Stateless Translation Deployments" has more detailed recommendations.
-+
-+The "Well-Known Prefix" (WKP) 64:ff9b::/96, while a convenient and short
-+choice for LANs, comes with some IETF baggage. As specified (at time of
-+writing) addressess drawn from RFC 1918 "private IPv4" space "MUST NOT" be
-+used with the WKP. While ipxlat does not enforce this other network
-+elements may.
-+
-+If I-D-WKP-1918_ makes it through the IETF process this complication for
-+the cautious network engineer may dissapear in the future.
-+
-+.. _I-D-WKP-1918:
-+   https://datatracker.ietf.org/doc/draft-ietf-v6ops-nat64-wkp-1918/
-+
-+In the meantime the newer and more lax prefix allocated by RFC-LWKP_ or an
-+entirely Network-Specific Prefix may be a better fit. We'd recommend using
-+the checksum-neutral ``64:ff9b:1:fffe::/96`` prefix from the larger /48
-+allocation.
-+
-+.. _RFC-LWKP: https://datatracker.ietf.org/doc/html/rfc8215
-+
-+
-+RFC Considerations for Userspace
-+--------------------------------
-+
-+- Per `RFC 7915
-+  <https://datatracker.ietf.org/doc/html/rfc7915#section-4.5>`_,
-+  ipxlat SHOULD drop UDPv4 zero checksum packets, yet we chose to always
-+  recalculate checksums for unfragmented packets.
-+
-+  If you want your translator to follow the SHOULD add a netfilter rule
-+  dropping such packets. For example using ``nft(8)`` syntax::
-+
-+    nft add rule filter ip postrouting -- oifkind ipxlat udp checksum 0 log drop
-+
-+- Per `RFC 6146
-+  <https://datatracker.ietf.org/doc/html/rfc6146#section-3.4>`_,
-+  Fragmented UDPv4 zero checksum recalculation by reassembly is not
-+  supported.
-+
-+- I-D-dummy_: Adding a Node Identity Object to for IPv4-side traceroute
-+  disambiguation is not yet supported.
--- 
-2.53.0
-
+>
+> >
+> > >   */
+> > >  static inline int folio_expected_ref_count(const struct folio *folio=
+)
+> > >  {
+> > > @@ -4364,6 +4364,45 @@ static inline void mmap_action_simple_ioremap(=
+struct vm_area_desc *desc,
+> > >         action->type =3D MMAP_SIMPLE_IO_REMAP;
+> > >  }
+> > >
+> > > +/**
+> > > + * mmap_action_map_kernel_pages - helper for mmap_prepare hook to sp=
+ecify that
+> > > + * @num kernel pages contained in the @pages array should be mapped =
+to userland
+> > > + * starting at virtual address @start.
+> > > + * @desc: The VMA descriptor for the VMA requiring kernel pags to be=
+ mapped.
+> > > + * @start: The virtual address from which to map them.
+> > > + * @pages: An array of struct page pointers describing the memory to=
+ map.
+> > > + * @nr_pages: The number of entries in the @pages aray.
+> > > + */
+> > > +static inline void mmap_action_map_kernel_pages(struct vm_area_desc =
+*desc,
+> > > +               unsigned long start, struct page **pages,
+> > > +               unsigned long nr_pages)
+> > > +{
+> > > +       struct mmap_action *action =3D &desc->action;
+> > > +
+> > > +       action->type =3D MMAP_MAP_KERNEL_PAGES;
+> > > +       action->map_kernel.start =3D start;
+> > > +       action->map_kernel.pages =3D pages;
+> > > +       action->map_kernel.nr_pages =3D nr_pages;
+> > > +       action->map_kernel.pgoff =3D desc->pgoff;
+> > > +}
+> > > +
+> > > +/**
+> > > + * mmap_action_map_kernel_pages_full - helper for mmap_prepare hook =
+to specify that
+> > > + * kernel pages contained in the @pages array should be mapped to us=
+erland
+> > > + * from @desc->start to @desc->end.
+> > > + * @desc: The VMA descriptor for the VMA requiring kernel pags to be=
+ mapped.
+> > > + * @pages: An array of struct page pointers describing the memory to=
+ map.
+> > > + *
+> > > + * The caller must ensure that @pages contains sufficient entries to=
+ cover the
+> > > + * entire range described by @desc.
+> > > + */
+> > > +static inline void mmap_action_map_kernel_pages_full(struct vm_area_=
+desc *desc,
+> > > +               struct page **pages)
+> > > +{
+> > > +       mmap_action_map_kernel_pages(desc, desc->start, pages,
+> > > +                                    vma_desc_pages(desc));
+> > > +}
+> > > +
+> > >  int mmap_action_prepare(struct vm_area_desc *desc);
+> > >  int mmap_action_complete(struct vm_area_struct *vma,
+> > >                          struct mmap_action *action);
+> > > @@ -4380,10 +4419,59 @@ static inline struct vm_area_struct *find_exa=
+ct_vma(struct mm_struct *mm,
+> > >         return vma;
+> > >  }
+> > >
+> > > +/**
+> > > + * range_is_subset - Is the specified inner range a subset of the ou=
+ter range?
+> > > + * @outer_start: The start of the outer range.
+> > > + * @outer_end: The exclusive end of the outer range.
+> > > + * @inner_start: The start of the inner range.
+> > > + * @inner_end: The exclusive end of the inner range.
+> > > + *
+> > > + * Returns: %true if [inner_start, inner_end) is a subset of [outer_=
+start,
+> > > + * outer_end), otherwise %false.
+> > > + */
+> > > +static inline bool range_is_subset(unsigned long outer_start,
+> > > +                                  unsigned long outer_end,
+> > > +                                  unsigned long inner_start,
+> > > +                                  unsigned long inner_end)
+> > > +{
+> > > +       return outer_start <=3D inner_start && inner_end <=3D outer_e=
+nd;
+> > > +}
+> > > +
+> > > +/**
+> > > + * range_in_vma - is the specified [@start, @end) range a subset of =
+the VMA?
+> > > + * @vma: The VMA against which we want to check [@start, @end).
+> > > + * @start: The start of the range we wish to check.
+> > > + * @end: The exclusive end of the range we wish to check.
+> > > + *
+> > > + * Returns: %true if [@start, @end) is a subset of [@vma->vm_start,
+> > > + * @vma->vm_end), %false otherwise.
+> > > + */
+> > >  static inline bool range_in_vma(const struct vm_area_struct *vma,
+> > >                                 unsigned long start, unsigned long en=
+d)
+> > >  {
+> > > -       return (vma && vma->vm_start <=3D start && end <=3D vma->vm_e=
+nd);
+> > > +       if (!vma)
+> > > +               return false;
+> > > +
+> > > +       return range_is_subset(vma->vm_start, vma->vm_end, start, end=
+);
+> > > +}
+> > > +
+> > > +/**
+> > > + * range_in_vma_desc - is the specified [@start, @end) range a subse=
+t of the VMA
+> > > + * described by @desc, a VMA descriptor?
+> > > + * @desc: The VMA descriptor against which we want to check [@start,=
+ @end).
+> > > + * @start: The start of the range we wish to check.
+> > > + * @end: The exclusive end of the range we wish to check.
+> > > + *
+> > > + * Returns: %true if [@start, @end) is a subset of [@desc->start, @d=
+esc->end),
+> > > + * %false otherwise.
+> > > + */
+> > > +static inline bool range_in_vma_desc(const struct vm_area_desc *desc=
+,
+> > > +                                    unsigned long start, unsigned lo=
+ng end)
+> > > +{
+> > > +       if (!desc)
+> > > +               return false;
+> > > +
+> > > +       return range_is_subset(desc->start, desc->end, start, end);
+> > >  }
+> > >
+> > >  #ifdef CONFIG_MMU
+> > > @@ -4427,6 +4515,9 @@ int remap_pfn_range(struct vm_area_struct *vma,=
+ unsigned long addr,
+> > >  int vm_insert_page(struct vm_area_struct *, unsigned long addr, stru=
+ct page *);
+> > >  int vm_insert_pages(struct vm_area_struct *vma, unsigned long addr,
+> > >                         struct page **pages, unsigned long *num);
+> > > +int map_kernel_pages_prepare(struct vm_area_desc *desc);
+> > > +int map_kernel_pages_complete(struct vm_area_struct *vma,
+> > > +                             struct mmap_action *action);
+> > >  int vm_map_pages(struct vm_area_struct *vma, struct page **pages,
+> > >                                 unsigned long num);
+> > >  int vm_map_pages_zero(struct vm_area_struct *vma, struct page **page=
+s,
+> > > diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+> > > index 7538d64f8848..c46224020a46 100644
+> > > --- a/include/linux/mm_types.h
+> > > +++ b/include/linux/mm_types.h
+> > > @@ -815,6 +815,7 @@ enum mmap_action_type {
+> > >         MMAP_REMAP_PFN,         /* Remap PFN range. */
+> > >         MMAP_IO_REMAP_PFN,      /* I/O remap PFN range. */
+> > >         MMAP_SIMPLE_IO_REMAP,   /* I/O remap with guardrails. */
+> > > +       MMAP_MAP_KERNEL_PAGES,  /* Map kernel page range from array. =
+*/
+> > >  };
+> > >
+> > >  /*
+> > > @@ -833,6 +834,12 @@ struct mmap_action {
+> > >                         phys_addr_t start_phys_addr;
+> > >                         unsigned long size;
+> > >                 } simple_ioremap;
+> > > +               struct {
+> > > +                       unsigned long start;
+> > > +                       struct page **pages;
+> > > +                       unsigned long nr_pages;
+> > > +                       pgoff_t pgoff;
+> > > +               } map_kernel;
+> > >         };
+> > >         enum mmap_action_type type;
+> > >
+> > > diff --git a/mm/memory.c b/mm/memory.c
+> > > index f3f4046aee97..849d5d9eeb83 100644
+> > > --- a/mm/memory.c
+> > > +++ b/mm/memory.c
+> > > @@ -2484,13 +2484,14 @@ static int insert_pages(struct vm_area_struct=
+ *vma, unsigned long addr,
+> > >  int vm_insert_pages(struct vm_area_struct *vma, unsigned long addr,
+> > >                         struct page **pages, unsigned long *num)
+> > >  {
+> > > -       const unsigned long end_addr =3D addr + (*num * PAGE_SIZE) - =
+1;
+> > > +       const unsigned long nr_pages =3D *num;
+> > > +       const unsigned long end =3D addr + PAGE_SIZE * nr_pages;
+> > >
+> > > -       if (addr < vma->vm_start || end_addr >=3D vma->vm_end)
+> > > +       if (!range_in_vma(vma, addr, end))
+> > >                 return -EFAULT;
+> > >         if (!(vma->vm_flags & VM_MIXEDMAP)) {
+> > > -               BUG_ON(mmap_read_trylock(vma->vm_mm));
+> > > -               BUG_ON(vma->vm_flags & VM_PFNMAP);
+> > > +               VM_WARN_ON_ONCE(mmap_read_trylock(vma->vm_mm));
+> > > +               VM_WARN_ON_ONCE(vma->vm_flags & VM_PFNMAP);
+> > >                 vm_flags_set(vma, VM_MIXEDMAP);
+> > >         }
+> > >         /* Defer page refcount checking till we're about to map that =
+page. */
+> > > @@ -2498,6 +2499,39 @@ int vm_insert_pages(struct vm_area_struct *vma=
+, unsigned long addr,
+> > >  }
+> > >  EXPORT_SYMBOL(vm_insert_pages);
+> > >
+> > > +int map_kernel_pages_prepare(struct vm_area_desc *desc)
+> > > +{
+> > > +       const struct mmap_action *action =3D &desc->action;
+> > > +       const unsigned long addr =3D action->map_kernel.start;
+> > > +       unsigned long nr_pages, end;
+> > > +
+> > > +       if (!vma_desc_test(desc, VMA_MIXEDMAP_BIT)) {
+> > > +               VM_WARN_ON_ONCE(mmap_read_trylock(desc->mm));
+> > > +               VM_WARN_ON_ONCE(vma_desc_test(desc, VMA_PFNMAP_BIT));
+> > > +               vma_desc_set_flags(desc, VMA_MIXEDMAP_BIT);
+> > > +       }
+> > > +
+> > > +       nr_pages =3D action->map_kernel.nr_pages;
+> > > +       end =3D addr + PAGE_SIZE * nr_pages;
+> > > +       if (!range_in_vma_desc(desc, addr, end))
+> > > +               return -EFAULT;
+> > > +
+> > > +       return 0;
+> > > +}
+> > > +EXPORT_SYMBOL(map_kernel_pages_prepare);
+> > > +
+> > > +int map_kernel_pages_complete(struct vm_area_struct *vma,
+> > > +                             struct mmap_action *action)
+> > > +{
+> > > +       unsigned long nr_pages;
+> > > +
+> > > +       nr_pages =3D action->map_kernel.nr_pages;
+> > > +       return insert_pages(vma, action->map_kernel.start,
+> > > +                           action->map_kernel.pages,
+> > > +                           &nr_pages, vma->vm_page_prot);
+> > > +}
+> > > +EXPORT_SYMBOL(map_kernel_pages_complete);
+> > > +
+> > >  /**
+> > >   * vm_insert_page - insert single page into user vma
+> > >   * @vma: user vma to map to
+> > > diff --git a/mm/util.c b/mm/util.c
+> > > index a166c48fe894..dea590e7a26c 100644
+> > > --- a/mm/util.c
+> > > +++ b/mm/util.c
+> > > @@ -1441,6 +1441,8 @@ int mmap_action_prepare(struct vm_area_desc *de=
+sc)
+> > >                 return io_remap_pfn_range_prepare(desc);
+> > >         case MMAP_SIMPLE_IO_REMAP:
+> > >                 return simple_ioremap_prepare(desc);
+> > > +       case MMAP_MAP_KERNEL_PAGES:
+> > > +               return map_kernel_pages_prepare(desc);
+> > >         }
+> > >
+> > >         WARN_ON_ONCE(1);
+> > > @@ -1472,6 +1474,9 @@ int mmap_action_complete(struct vm_area_struct =
+*vma,
+> > >         case MMAP_IO_REMAP_PFN:
+> > >                 err =3D io_remap_pfn_range_complete(vma, action);
+> > >                 break;
+> > > +       case MMAP_MAP_KERNEL_PAGES:
+> > > +               err =3D map_kernel_pages_complete(vma, action);
+> > > +               break;
+> > >         case MMAP_SIMPLE_IO_REMAP:
+> > >                 /*
+> > >                  * The simple I/O remap should have been delegated to=
+ an I/O
+> > > @@ -1494,6 +1499,7 @@ int mmap_action_prepare(struct vm_area_desc *de=
+sc)
+> > >         case MMAP_REMAP_PFN:
+> > >         case MMAP_IO_REMAP_PFN:
+> > >         case MMAP_SIMPLE_IO_REMAP:
+> > > +       case MMAP_MAP_KERNEL_PAGES:
+> > >                 WARN_ON_ONCE(1); /* nommu cannot handle these. */
+> > >                 break;
+> > >         }
+> > > diff --git a/tools/testing/vma/include/dup.h b/tools/testing/vma/incl=
+ude/dup.h
+> > > index 6658df26698a..4407caf207ad 100644
+> > > --- a/tools/testing/vma/include/dup.h
+> > > +++ b/tools/testing/vma/include/dup.h
+> > > @@ -454,6 +454,7 @@ enum mmap_action_type {
+> > >         MMAP_REMAP_PFN,         /* Remap PFN range. */
+> > >         MMAP_IO_REMAP_PFN,      /* I/O remap PFN range. */
+> > >         MMAP_SIMPLE_IO_REMAP,   /* I/O remap with guardrails. */
+> > > +       MMAP_MAP_KERNEL_PAGES,  /* Map kernel page range from an arra=
+y. */
+> > >  };
+> > >
+> > >  /*
+> > > @@ -472,6 +473,12 @@ struct mmap_action {
+> > >                         phys_addr_t start;
+> > >                         unsigned long len;
+> > >                 } simple_ioremap;
+> > > +               struct {
+> > > +                       unsigned long start;
+> > > +                       struct page **pages;
+> > > +                       unsigned long num;
+> > > +                       pgoff_t pgoff;
+> > > +               } map_kernel;
+> > >         };
+> > >         enum mmap_action_type type;
+> > >
+> > > --
+> > > 2.53.0
+> > >
