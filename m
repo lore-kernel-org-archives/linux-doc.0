@@ -1,163 +1,84 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6C073BED66
-	for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 22:09:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773958190; cv=pass; b=OKXloieMgsCiI69NfG2y13peIkyIOrezwyBLBTtI+Oqhh38C+dkNqGNzlaIJxn7uAslMj7xpcW58evfF6/5qghcHSLzTwjc5Sn3BYUpgY+o9Ii8imW8de+tpSN2KOFRj9+rYMJC/i1U5sO2DBsheXUHhPZfXLSy3SWqIcuRuk94=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773958190; c=relaxed/simple;
-	bh=7oOcuw602t0Hs62ASwAporxmUlW6f0Mxodgh2CLwYtM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=o2SPAqbmWvcPYzvc1t+1aconxlST8ELCI6cdv/Xa8EBV9F3K21IORQzlotRjocj6crcgFvn9IF/VxdY7bGDfO5Ub4BZh/6VjVRD5/lCXS58nerK5O3pujvwLVbddZKF+rIc5hKV0QA6Y4cRkZtuP+0yUbj7rfKL/pJ3J79gTanY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=F64ZwUsg; arc=pass smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE43239B97D;
+	Thu, 19 Mar 2026 22:11:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773958280; cv=none; b=kWKGdaUrQ8Hk544egmcZY4G9s26dKjWsAqYriaakCFMKGybB3fQwG8FfgMmI+GEaxiepQlWMe/7tRC58MAbvaZ+QhQFXQrtMdGjl6KD2btPES3SZUySCL2rcEb5hP0bZ8V7H2agqCiToIn8QlBInZjcvrYCeSNxy4DcBtiP8lsk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773958280; c=relaxed/simple;
+	bh=9SEPiWDtYK915dM/C6koVFsZw+XgKzFlGBbVBs7PxtM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=MzEjXS5gzZrZkZGAmcYXqg6ggZw+FTbJkmA62SBe40+IACfVIxzKTC8oU1VIJOB8SQshKX+uUpTILAG/pgvaBu8s3JW0u/AdcadaKqJ5SB+b5BVAE62eK+Up3EwaR1guPsc+EYVsGF4WUqQMGAFQRMpQEg4GnBM4GjCQJCokHds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=mljWtymt; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="F64ZwUsg"
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-5a10d130b37so527840e87.0
-        for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 15:09:48 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773958187; cv=none;
-        d=google.com; s=arc-20240605;
-        b=UBIjmd3NjoFmEgD+N9nDrCyX2XbBkB7Kbz13ONTMUC5HtXi2cYejCbRmm+bCgKhpGa
-         XXtay8ZwlhBkUmXEyTWYQHeVxdOyooWIZx/WTfhhFq24DWhAYEObmJQdNL+wqlg74PhD
-         MJktIUgm/389oeJzSChVGihsgT07pZyBYz4swwfCfO9tV/rrgPngPsKqtZvFErv9wQVR
-         XN0DC3V842/jKMGquINPCuOER2CctybuePvop9qVgmEYZdV49kPOFqKeV9jUaTYsPnhA
-         kOgVJ7qLcw8y04SnnxLCwkWOSVm4AAGLUt53LYOxU7rDHYexGgdqWjjjV7c5kkUNqawG
-         z6zA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=svD4wMks8gwyXRL5XOV+qF8B6FaNKoBJNHk7PXgg3Q0=;
-        fh=+ByqnoRdQfkfuVgmz02Xsr2ks7cReGnFaS1PMl2M01Q=;
-        b=hi+SB+3oUB8Tr3lN819GXRsQKnN33xzPoO4VyvDrA6h+6V04lgR/mijZs2+U5OwreG
-         RApayBkN6UhXHWX9fE28IfkaKuSsUbJHMQLXUpTuow+tjkzz/dgIN7fizVlUzTRQroc4
-         eG/syXDfUJlvxoaPhVVtJxzfb1JIvHlmPv85AjNKYzedKkT2B/5pQzGOg0rYAsRRyHtF
-         doa6W4UDht3FRrihxDakZO9GH9Hc+GT2jXbYLB2RN6QQqlq+qAQohXbUu8d0gWd6ps82
-         TlhotP0LQO0azF2gaQJNcrhpSbgo5qrrxSLsXafW+BmLOraK9c+bhu5dkhk3x++MQDFZ
-         cnPA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1773958187; x=1774562987; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=svD4wMks8gwyXRL5XOV+qF8B6FaNKoBJNHk7PXgg3Q0=;
-        b=F64ZwUsggRvGf4oIJg5Pnpz/U5EPeC1NcxDs7F+x5V2FIoW4NMVVGcs/24x7SP8/1k
-         v7dCerCmDCdDZcyzC6wkbd5LkmSGdwGtqCA35r25QrgjSIv2kivWsxb0wg+cwYffsvWF
-         Pw50IEZPO7PQqP3m4bpQ17TvTqH3YlZgrD1z8pbMiPziV+6tP2lswRGU1QyXLt3U3Jpm
-         fE5XjdNMNEpFPGnrMzsvzqLTNT+IqAF5j5wVBPPkH4EbTVqzigsAZMh1h/++MBvDYY5F
-         01C5u3beOCIA5iMplFYqw495/j09gBcboHxHJNC1TSklD+udxxTBnWchD2geS7e2JAM8
-         GRoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773958187; x=1774562987;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=svD4wMks8gwyXRL5XOV+qF8B6FaNKoBJNHk7PXgg3Q0=;
-        b=OmYIdHfxg1u4L7CF75xfoJSGHR7VfLcZiiOqN55Bv8ioURttJUXABafPHzvCmMcrW2
-         M92/LRK/GHZVA9LssIoM54kvMPMLY1mQr5br5gub/0y5Uw3d/64al6jQ91VNCrBHFE0v
-         dPdYjfbTLfzxrYez3Yvd65n/F/bEUHEE/zT/w03zZNCIiEDu0liYYH3erfaL4QtwXiKo
-         /1FsahlFVV+IM/VnioEYHACTyfeQvjbnQ8xfzMx4Db8ponrSKVdYIRvXN0XhwF5L+mLr
-         pXzAHWmBEBgR/esrEatMvezIxeZuO1kpQRU9v07uUHwcCaWrUv+TntX5mBDqgBBOjU3v
-         LOoQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW2QgP8snS9eT9cu/qlAQ5ZyAvhHewLHHqHnE7N1UbUwUIDKwQwKzW6QaOXLi+MH3laLvNSA7CdkXg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz/9ZVsjna+mcw618IJqNd0wbgRrcBaWum8w8M9poPsl4ls3zsQ
-	e6xi/RXZ7lB1soq2EGa4Ugc/4cShaPwB96xXiMBJPI2LL1Eu8rUuA/Pc0XCPIR5pAlqzXo5ATzd
-	01g2vmn0d7wnPFy2KJb/P5f63V3AIr4Y05uJL5mBB
-X-Gm-Gg: ATEYQzwcs0Kb2k34QgXOrKHh6T0RkVQv7LvDVJDwh/T71ksI43K4/UCro1alUD9KOB1
-	WcTw07Y1f0aKsUtKAJLLlhIxkh/torntTNUwy7YnTPgdoyDpscSmp0priIf3RMpBCPV7lUxEP5p
-	Javo62UFLRCnV4eBPPC7vAroBANf35Ic3sJBsSTzvj2kZZzM94DeTDRcuKVTCqxUsYXKd3CCyGz
-	C1hx1p9CHomY5Tfy8qFJ1qq/c5jSEDchbzRNDNbU44p6nmkFSdIXnburPw2dhv0LAVdgoLEfSKP
-	Bh5n0n38
-X-Received: by 2002:a05:6512:3b22:b0:5a1:742d:277f with SMTP id
- 2adb3069b0e04-5a27de01545mr1986403e87.11.1773958186394; Thu, 19 Mar 2026
- 15:09:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="mljWtymt"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 67A8041209
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1773958272; bh=pMssSaY3o+6SS7PX7iNNHD9bSiFr2yXyJvC2G9sajBQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=mljWtymtW29QF0H6t3+rbQc9YPQR49BsqrPMLyyFIshT5SpcYDZpbG3hfx3zEa+2B
+	 DIy1R3nrrX13dniiEpKa4qoHRqJ1xuzG4M3/7U0621Um6WLKxAoZtySyyn8s1DUWaH
+	 5VkMJLibBjFeXjJSyrg751f9M7+/rzEi/YgKDubiWlPflAh23i/07ez2O4FaVezYc/
+	 KojiIJWUbDIo1jjZoj/xSIMTbrdaPOkQsRsChjW7IWzMTjiHUdqQZcq7pLZJssTRpg
+	 4trJfpaAgh68brPeN0q7f6+68hd5F5tf+DKHib6A3f5cNInhgsXKnWSnfZGQjdonig
+	 R0LphD1pLmivQ==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 67A8041209;
+	Thu, 19 Mar 2026 22:11:12 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Ralf Lici <ralf@mandelbit.com>, netdev@vger.kernel.org
+Cc: Daniel =?utf-8?Q?Gr=C3=B6ber?= <dxld@darkboxed.org>, Antonio Quartulli
+ <antonio@mandelbit.com>, Ralf Lici <ralf@mandelbit.com>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+ <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+ <horms@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC net-next 15/15] Documentation: networking: add ipxlat
+ translator guide
+In-Reply-To: <20260319151230.655687-16-ralf@mandelbit.com>
+References: <20260319151230.655687-1-ralf@mandelbit.com>
+ <20260319151230.655687-16-ralf@mandelbit.com>
+Date: Thu, 19 Mar 2026 16:11:11 -0600
+Message-ID: <87se9vh3ls.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260129212510.967611-1-dmatlack@google.com> <20260129212510.967611-5-dmatlack@google.com>
- <20260225143328.35be89f6@shazbot.org> <aZ-CnywNgMnr6f1k@google.com> <CAAywjhR4Azqx8hXRap0eLUrwetYRiX8TALEM=b+1BorPc3eJdQ@mail.gmail.com>
-In-Reply-To: <CAAywjhR4Azqx8hXRap0eLUrwetYRiX8TALEM=b+1BorPc3eJdQ@mail.gmail.com>
-From: David Matlack <dmatlack@google.com>
-Date: Thu, 19 Mar 2026 15:09:18 -0700
-X-Gm-Features: AaiRm51momKlFVcCV9Yk7taG4PZCOSiNfgaYNzeVE1MwV2qirg6S-TkURRRSfl8
-Message-ID: <CALzav=cMEkenGKYvA=rNmTmVjpf_DW_92MCFx-2gxqKbrdG0Kg@mail.gmail.com>
-Subject: Re: [PATCH v2 04/22] vfio/pci: Register a file handler with Live
- Update Orchestrator
-To: Samiullah Khawaja <skhawaja@google.com>
-Cc: Alex Williamson <alex@shazbot.org>, Adithya Jayachandran <ajayachandra@nvidia.com>, 
-	Alexander Graf <graf@amazon.com>, Alex Mastro <amastro@fb.com>, Alistair Popple <apopple@nvidia.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Ankit Agrawal <ankita@nvidia.com>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>, 
-	David Rientjes <rientjes@google.com>, Jacob Pan <jacob.pan@linux.microsoft.com>, 
-	Jason Gunthorpe <jgg@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>, Jonathan Corbet <corbet@lwn.net>, 
-	Josh Hilke <jrhilke@google.com>, Kevin Tian <kevin.tian@intel.com>, kexec@lists.infradead.org, 
-	kvm@vger.kernel.org, Leon Romanovsky <leon@kernel.org>, Leon Romanovsky <leonro@nvidia.com>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-pci@vger.kernel.org, Lukas Wunner <lukas@wunner.de>, 
-	=?UTF-8?Q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>, 
-	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, 
-	Pasha Tatashin <pasha.tatashin@soleen.com>, Pranjal Shrivastava <praan@google.com>, 
-	Pratyush Yadav <pratyush@kernel.org>, Raghavendra Rao Ananta <rananta@google.com>, 
-	Rodrigo Vivi <rodrigo.vivi@intel.com>, Saeed Mahameed <saeedm@nvidia.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, 
-	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
-	Tomita Moeko <tomitamoeko@gmail.com>, Vipin Sharma <vipinsh@google.com>, 
-	Vivek Kasireddy <vivek.kasireddy@intel.com>, William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>, 
-	Zhu Yanjun <yanjun.zhu@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 25, 2026 at 3:55=E2=80=AFPM Samiullah Khawaja <skhawaja@google.=
-com> wrote:
->
-> On Wed, Feb 25, 2026 at 3:15=E2=80=AFPM David Matlack <dmatlack@google.co=
-m> wrote:
-> >
-> > On 2026-02-25 02:33 PM, Alex Williamson wrote:
-> > > On Thu, 29 Jan 2026 21:24:51 +0000
-> > > David Matlack <dmatlack@google.com> wrote:
-> >
-> > > > +int __init vfio_pci_liveupdate_init(void)
-> > > > +{
-> > > > +   if (!liveupdate_enabled())
-> > > > +           return 0;
-> > > > +
-> > > > +   return liveupdate_register_file_handler(&vfio_pci_liveupdate_fh=
-);
-> > > > +}
-> > >
-> > > liveupdate_register_file_handler() "pins" vfio-pci with a
-> > > try_module_get().  Since this is done in our module_init function and
-> > > unregister occurs in our module_exit function, rather than relative
-> > > to any actual device binding or usage, this means vfio-pci CANNOT be
-> > > unloaded.  That seems bad.  Thanks,
-> >
-> > Good point. So a better approach that would allow vfio-pci to be
-> > unloaded would be to register the file handler when the number of
-> > devices bound to vfio-pci goes from 0->1 and then unregister on 1->0.
->
-> Yeah maybe a kref that gets inc/dec in probe/remove. I have a similar
-> problem with iommufd preservation, but I think I can handle it based
-> on the number of iommufd open.
->
-> I am wondering whether this file handler registration kref stuff can
-> be moved into LUO by adding it to LUO file_handler and the modules
-> only call get/put?
+Ralf Lici <ralf@mandelbit.com> writes:
 
-Circling back here, the new plan is for LUO to not take a module
-reference in liveupdate_register_file_handler():
+> From: Daniel Gr=C3=B6ber <dxld@darkboxed.org>
+>
+> Add user and reviewer documentation for the ipxlat virtual netdevice in
+> Documentation/networking/ipxlat.rst.
+>
+> The document describes the datapath model, stateless IPv4/IPv6 address
+> translation rules, ICMP handling, control-plane configuration, and test
+> topology assumptions. It also records the intended runtime configuration
+> contract and current behavior limits so deployment expectations are
+> clear.
+>
+> Signed-off-by: Daniel Gr=C3=B6ber <dxld@darkboxed.org>
+> Signed-off-by: Ralf Lici <ralf@mandelbit.com>
+> ---
+>  Documentation/networking/ipxlat.rst | 190 ++++++++++++++++++++++++++++
+>  1 file changed, 190 insertions(+)
+>  create mode 100644 Documentation/networking/ipxlat.rst
 
-  https://lore.kernel.org/lkml/20260318141637.1870220-13-pasha.tatashin@sol=
-een.com/
+You need to add this new file to Documentation/networking/index.rst or
+it won't be included in the build (and you'll get a warning).
 
-In the next version of this series I am going to rebase on top of
-Pasha's changes and keep the call to
-liveupdate_register_file_handler() where it is.
+Thanks,
+
+jon
