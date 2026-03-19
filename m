@@ -1,40 +1,66 @@
-Received: from canpmsgout09.his.huawei.com (canpmsgout09.his.huawei.com [113.46.200.224])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5746039B97D;
-	Thu, 19 Mar 2026 07:13:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.224
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A97A73A0E85
+	for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 07:33:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773904399; cv=none; b=s4FV7qYhWzK2fvO1C8ispQVrp25j/71PuVIrYCec5Pei75a8alZbq+VSj/xK1VvY0J1w9pHRwdn8gM9VnSpczg4OIiscyhBWpVGYINp1vhmRCIgj50MrRqbkn1lGzg/dJRFIUGwxhopmiTwxjMHCtZqxs/CTM4EU1qKDs7nQ0GE=
+	t=1773905642; cv=none; b=YanM1p56KQvX50+woCuSth2sHR6eBg96dRxXEGKzh8IwiswuHnPUgipCBHcjtUGpaCKoCGy7cPDdDEn5jZ0MlIFggEv6awR8ChxeHRbPxu7TTXNFMEXecQGpU9e8fQFDAq7aPZeNYQlCy9XZcO+RkaJ+zBa5aqdw7ofcazaTcLU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773904399; c=relaxed/simple;
-	bh=ObpxqKdd4T1HHP+LHUq29v7pjRvtkMicxQwklMl+rDM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=dq8xF1/veYqrn9XqbsFescYUGtSbk8SncJvlshK/c2VpMlskkK6yh9LbA9o0vjzWeHp4vDtyzag+lPXbvZAgow2E2REVaH582cYiiEf+EHzMcxSDYbsO3K+XAIzRrpqCTraj24IST6TvqO/UtBcpoHmd6Shf7AkMrRvXcpQPG/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=RRC8Qk+v; arc=none smtp.client-ip=113.46.200.224
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1773905642; c=relaxed/simple;
+	bh=AhNDDZecnmD2xFm+TNWATlQbxsUvN8KlFepA01COIwI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=j251cJEAbPnRRIdctZSplN8NkcEIplWdlxmDwL2qkg9yMrHWWFt5jqZgIw5pktRPoRO+kAT3NrkhsuEYC4eJeWcIpKR8dryFEnnBzKs/MNkihrd9N+GOcmB0me7GeXGcPycoWLADsvMSn1UmcGMvTFEeWCCNvKnuqQviPi6cK1k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IvOkIInU; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="RRC8Qk+v"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=rOgEX5LRjbf3VsJc30kly4+FTpT24EGUmpEIfFvp8FU=;
-	b=RRC8Qk+vDk32R8JHqebkm1tGtkV6aqC7Rw/5tqI1aHILlK2h2Fd3giMbyZt1JjR+/2C5nr3jN
-	LCoxznkWL7DSqvcKp14FgIYEdmkocS9XrRO5OVujVzcsJ5/bSzagK1Q0OB6Ne0iQgcMvxD/5fTO
-	P3k1x2ro3WxAtvbL88NnXM8=
-Received: from mail.maildlp.com (unknown [172.19.163.127])
-	by canpmsgout09.his.huawei.com (SkyGuard) with ESMTPS id 4fbxcD4jF6z1cyPP;
-	Thu, 19 Mar 2026 15:08:12 +0800 (CST)
-Received: from kwepemk500009.china.huawei.com (unknown [7.202.194.94])
-	by mail.maildlp.com (Postfix) with ESMTPS id 8543840363;
-	Thu, 19 Mar 2026 15:13:12 +0800 (CST)
-Received: from [10.67.121.161] (10.67.121.161) by
- kwepemk500009.china.huawei.com (7.202.194.94) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Thu, 19 Mar 2026 15:13:10 +0800
-Message-ID: <264525a9-aa36-4848-80c0-f8cf246f93b8@huawei.com>
-Date: Thu, 19 Mar 2026 15:13:09 +0800
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IvOkIInU"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-43b4915161fso516886f8f.2
+        for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 00:33:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1773905637; x=1774510437; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mfnoZII81lwHDQG+q8k3CqLmv9bwI5/ooG/r2BOJypo=;
+        b=IvOkIInU/YzZLqaHZgSxaRamre1CKdkvdI70PFUfeH49IfziLVMMlBx8JBwXExRU+I
+         gVRhh17h9JfspgTMMC/rrvpb6csmLx8UMmMITDH5bpFdSylsCAMhN1Lb8AzT8GzNRKmr
+         N+tZrhu9OWY5JmnPNsVUJjwjoIu07UIG/l/+kGr0XiojwstpSLa9eE3RBkwl3qeFJmxu
+         t0lzdAmp1R867dvF3FnUE6WLp2dQXwUnWLam6WCwjp8wJ6DKtsj1brcR/9puwlQMk37V
+         sffUCzBXmHbcM6FgB8e0rvmV9AhfAia6M6odtwKzHbGlQfiiTnQpney5fyj3ZKr3Mj/L
+         UTCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773905637; x=1774510437;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mfnoZII81lwHDQG+q8k3CqLmv9bwI5/ooG/r2BOJypo=;
+        b=AVXrXb9O3TF16fdD+S4xW+1Y3G+ixnKKqs3un3raTwg4cpZXuq+WX0T/g5rPhgFaY/
+         5SPSKpXvD8YdEar7S9p7Jd+gkaWye8DkXbTqNVsumr458cynR+MTnAWHedF3cczO6j5y
+         fMaStv8R5ZXMmcmpj2ca5F8zNEWAPm747I25Cxtz15Dxh+GNYzgscbzwnfVAOEfoxz/6
+         H31B9dn7kqcvXBJfLmiCOanNHIfA2Wr39SfOTk/fW+eSea12ILNNOPitK7SC+3Fpirwp
+         AN+8SYbNfyaFsPKMZPqHPCrxVj9RnHoKpgwuPHJYvfeay0938Q7/TTfTb62lKdp2tJoL
+         zTUA==
+X-Forwarded-Encrypted: i=1; AJvYcCXW3UicIKi0bLyjXIKLcIX/rNnJeh0UdzS8XbpnKhcpTwBwSJZR8TmgN1mZm6eIZQlXin+6dN97KE8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyCFpOgsCUmJl9Q304ApPHwgXJDoNHWoxAAe8bMd1UI+hO4+CzX
+	TBP0J11Kd0I+KZEMe4TTve8hJphdWEGEDIKicQe70NMv1fUNOlpjju3n7UkkiTBM3fg=
+X-Gm-Gg: ATEYQzw78pmW44cVqriNAxuCIIQ1n5gp8+Ib0q4YUkM8oU8wIJTgQFz1OlARa8Fr8zE
+	F/0fbUAYefv88yCbcPUypkhG1Ku6jttQCNVuVW71fYFrfgcJCm7hnn7E5JgKSLCU1JJkD1cIpcV
+	WA3pc/5OFoVLkMivvNbqsLOXH6HI6j75ztI4DJlIQUE38k2qYXFLWxDmzSy3cugF6a8OHtl1us7
+	yZsf9J0HYpv8/dgiGPhXvGlzib8i60JHtlWXKURryXSHYfrGZMkPv+hjWgL9DaB2znx6UhKKPeO
+	N9z9PM4FpkUFGSrnFQUB1eUt4X/fpe519FY0zBXuEY0r+vXPskMK3RErolU3HYTtZBc1hX8UOSh
+	JHll+JMtqoOIMh0ZBfkpYGUUBLPuxOfC5y3X76Nyc5OsZQ6psICCZK/sz2PKfm95Slh9/fKIb4d
+	J5paDsfu2YvJEwEnOOa5n7RpPlVqwnynM=
+X-Received: by 2002:a05:6000:25c6:b0:43b:4ae5:d7c8 with SMTP id ffacd0b85a97d-43b527a50cfmr10368836f8f.2.1773905636943;
+        Thu, 19 Mar 2026 00:33:56 -0700 (PDT)
+Received: from [192.168.0.34] ([82.76.24.202])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b51899622sm15875212f8f.28.2026.03.19.00.33.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Mar 2026 00:33:56 -0700 (PDT)
+Message-ID: <46c47101-2672-4970-a212-71e2c8555d80@linaro.org>
+Date: Thu, 19 Mar 2026 09:33:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -42,143 +68,96 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 1/3] ACPI: Refactor get_acpi_id_for_cpu() to
- acpi_get_cpu_uid() on non-x86
-To: Bjorn Helgaas <helgaas@kernel.org>
-CC: Bjorn Helgaas <bhelgaas@google.com>, Catalin Marinas
-	<catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, "Rafael J .
- Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Ingo Molnar
-	<mingo@redhat.com>, Juergen Gross <jgross@suse.com>, Boris Ostrovsky
-	<boris.ostrovsky@oracle.com>, Len Brown <lenb@kernel.org>, Sunil V L
-	<sunilvl@ventanamicro.com>, Mark Rutland <mark.rutland@arm.com>, Jonathan
- Cameron <jonathan.cameron@huawei.com>, Kees Cook <kees@kernel.org>, Yanteng
- Si <si.yanteng@linux.dev>, Sean Christopherson <seanjc@google.com>, Kai Huang
-	<kai.huang@intel.com>, Tom Lendacky <thomas.lendacky@amd.com>, Thomas Huth
-	<thuth@redhat.com>, Thorsten Blum <thorsten.blum@linux.dev>, Kevin Loughlin
-	<kevinloughlin@google.com>, Zheyun Shen <szy0127@sjtu.edu.cn>, Peter Zijlstra
-	<peterz@infradead.org>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, Xin
- Li <xin@zytor.com>, "Ahmed S . Darwish" <darwi@linutronix.de>, Sohil Mehta
-	<sohil.mehta@intel.com>, Ilkka Koskinen <ilkka@os.amperecomputing.com>, Robin
- Murphy <robin.murphy@arm.com>, James Clark <james.clark@linaro.org>, Besar
- Wicaksono <bwicaksono@nvidia.com>, Ma Ke <make24@iscas.ac.cn>, Wei Huang
-	<wei.huang2@amd.com>, Andy Gospodarek <andrew.gospodarek@broadcom.com>,
-	Somnath Kotur <somnath.kotur@broadcom.com>, <punit.agrawal@oss.qualcomm.com>,
-	<guohanjun@huawei.com>, <suzuki.poulose@arm.com>, <ryan.roberts@arm.com>,
-	<chenl311@chinatelecom.cn>, <masahiroy@kernel.org>,
-	<wangyuquan1236@phytium.com.cn>, <anshuman.khandual@arm.com>,
-	<heinrich.schuchardt@canonical.com>, <Eric.VanTassell@amd.com>,
-	<wangzhou1@hisilicon.com>, <wanghuiqiang@huawei.com>,
-	<liuyonglong@huawei.com>, <linux-pci@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <loongarch@lists.linux.dev>,
-	<linux-riscv@lists.infradead.org>, <xen-devel@lists.xenproject.org>,
-	<linux-acpi@vger.kernel.org>, <linux-perf-users@vger.kernel.org>,
-	<stable@vger.kernel.org>
-References: <20260318213458.GA474040@bhelgaas>
+Subject: Re: [PATCH v2 00/25] Introduce meminspect
+To: Bjorn Andersson <andersson@kernel.org>,
+ Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Arnd Bergmann <arnd@arndb.de>, Dennis Zhou <dennis@kernel.org>,
+ Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Thomas Gleixner
+ <tglx@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ Anna-Maria Behnsen <anna-maria@linutronix.de>,
+ Frederic Weisbecker <frederic@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+ Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
+ David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Kees Cook <kees@kernel.org>, Brendan Jackman <jackmanb@google.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+ Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>,
+ Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>,
+ Baoquan He <bhe@redhat.com>, Barry Song <baohua@kernel.org>,
+ Youngjun Park <youngjun.park@lge.com>, Petr Mladek <pmladek@suse.com>,
+ John Ogness <john.ogness@linutronix.de>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Saravana Kannan <saravanak@kernel.org>,
+ workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-mm@kvack.org, linux-arm-msm@vger.kernel.org,
+ linux-remoteproc@vger.kernel.org, devicetree@vger.kernel.org
+References: <20260311-minidump-v2-v2-0-f91cedc6f99e@oss.qualcomm.com>
+ <abdnp90cC5PI9wyz@baldur>
+ <20260316181647.m7x4ncmwdjho6yvr@hu-mojha-hyd.qualcomm.com>
+ <abtlUQqMOxj5PwGB@baldur>
 Content-Language: en-US
-From: fengchengwen <fengchengwen@huawei.com>
-In-Reply-To: <20260318213458.GA474040@bhelgaas>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
- kwepemk500009.china.huawei.com (7.202.194.94)
+From: Eugen Hristev <eugen.hristev@linaro.org>
+In-Reply-To: <abtlUQqMOxj5PwGB@baldur>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 3/19/2026 5:34 AM, Bjorn Helgaas wrote:
-> On Wed, Mar 18, 2026 at 02:01:49PM +0800, Chengwen Feng wrote:
->> Unify CPU ACPI ID retrieval interface across architectures by
->> refactoring get_acpi_id_for_cpu() to acpi_get_cpu_uid() on
->> arm64/riscv/loongarch:
->> - Add input parameter validation
->> - Adjust interface to int acpi_get_cpu_uid(unsigned int cpu, u32 *uid)
->>   (old: u32 get_acpi_id_for_cpu(unsigned int cpu), no input check)
+
+
+On 3/19/26 04:55, Bjorn Andersson wrote:
+> On Mon, Mar 16, 2026 at 11:46:47PM +0530, Mukesh Ojha wrote:
+>> On Sun, Mar 15, 2026 at 09:24:39PM -0500, Bjorn Andersson wrote:
+>>> On Wed, Mar 11, 2026 at 01:45:44AM +0530, Mukesh Ojha wrote:
+> [..]
+>>>> , to get all the regions as
+>>>> separate files.  The tool from the host computer will list the regions
+>>>> in the order they were downloaded.
+>>>>
+>>>> Once you have all the files simply use `cat` to put them all together,
+>>>> in the order of the indexes.  For my kernel config and setup, here is my
+>>>> cat command : (you can use a script or something, I haven't done that so
+>>>> far):
+>>>
+>>> So these need to be sorted in numerical order, by that number at the end
+>>> of the file name?
+>>>
+>>> Do you manually punch these in? How do we make this user friendly?
 >>
->> This refactoring (not a pure rename) enhances interface robustness while
->> preparing for consistent ACPI Processor UID retrieval across all
->> ACPI-enabled platforms. Valid inputs retain original behavior.
+>> Yes, manually.. but I think we can do better. We could make
+>> this more user‑friendly by using the section header and string table in
+>> the md_KELF binary both of which existed in the earlier implementation.
+>> Then, we can write an upstream‑friendly script that reads this KELF
+>> metadata file, checks whether a binary with the registered name is
+>> present, and stitches everything together to form a complete ELF that
+>> the crash tool can consume.  Let me know if you have any suggestion..
 >>
->> Note: Move the ARM64-specific get_cpu_for_acpi_id() implementation to
->>       arch/arm64/kernel/acpi.c to fix compilation errors from circular
->>       header dependencies introduced by the rename.
->>
->> Cc: stable@vger.kernel.org
->> Signed-off-by: Chengwen Feng <fengchengwen@huawei.com>
->> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
->> ---
->>  arch/arm64/include/asm/acpi.h      | 16 +---------
->>  arch/arm64/kernel/acpi.c           | 30 ++++++++++++++++++
->>  arch/loongarch/include/asm/acpi.h  |  5 ---
->>  arch/loongarch/kernel/acpi.c       |  9 ++++++
->>  arch/riscv/include/asm/acpi.h      |  4 ---
->>  arch/riscv/kernel/acpi.c           | 16 ++++++++++
->>  arch/riscv/kernel/acpi_numa.c      |  9 ++++--
->>  drivers/acpi/pptt.c                | 50 ++++++++++++++++++++++--------
->>  drivers/acpi/riscv/rhct.c          |  7 ++++-
->>  drivers/perf/arm_cspmu/arm_cspmu.c |  6 ++--
->>  include/linux/acpi.h               | 13 ++++++++
->>  11 files changed, 122 insertions(+), 43 deletions(-)
 > 
-> There's a lot going on in this single patch, which makes it hard to
-> review.  I think this might make more sense as several patches:
-> 
->   - arm64: declare acpi_get_cpu_uid() in arch/arm64/include, implement
->     it, and use in drivers/perf/arm_cspmu/arm_cspmu.c
-> 
->   - loongarch: declare acpi_get_cpu_uid() in arch/loongarch/include
->     and implement
-> 
->   - riscv: declare acpi_get_cpu_uid() in arch/riscv/include, implement
->     it, and use in rhct.c, riscv/kernel/acpi_numa.c
-> 
->   - x86: declare acpi_get_cpu_uid() in arch/x86/include, implement it,
->     and use in xen
-> 
->   - declare acpi_get_cpu_uid() in include/linux/acpi.h, remove
->     declarations from arm64, loongarch, riscv, x86
-> 
->   - convert acpi/pptt.c to use acpi_get_cpu_uid(), remove unused
->     get_acpi_id_for_cpu() from arm64, loongarch, riscv
-> 
->   - use acpi_get_cpu_uid() in tph.c
+> Can we somehow identify that these regions belong to the minidump and
+> teach QDL to build the ELF for us?
 
-Thanks for the detailed guidance, done in v9
+We could integrate the feature that Mukesh suggests directly into QDL as
+a separate command
+e.g. qdl download-and-build-minidump
+
+The first region (the ELF header) is mandatory, because all the regions
+themselves contain only data. To be able to use any of the regions, one
+needs to know at least the physical and virtual address of that memory.
+And this information is saved in the ELF header.
+So QDL could join together all the regions into a single crashdump-like
+file.
 
 > 
-> Doc nit below.
-> 
-
-...
-
->> diff --git a/include/linux/acpi.h b/include/linux/acpi.h
->> index 4d2f0bed7a06..035094a55f18 100644
->> --- a/include/linux/acpi.h
->> +++ b/include/linux/acpi.h
->> @@ -324,6 +324,19 @@ int acpi_unmap_cpu(int cpu);
->>  
->>  acpi_handle acpi_get_processor_handle(int cpu);
->>  
->> +#ifndef CONFIG_X86
->> +/*
->> + * acpi_get_cpu_uid() - Get ACPI Processor UID of a specified CPU from MADT table
->> + * @cpu: Logical CPU number (0-based)
->> + * @uid: Pointer to store the ACPI Processor UID (valid only on successful return)
-> 
-> This would normally go at the implementation, but it probably does
-> make sense here because each arch has its own implementation.
-> 
-> Should start with "/**" to make it kernel-doc though.
-> 
-> Wrap to fit in 78 columns, like other comments in this file.
-
-done in v9
-
-Thanks
-
-> 
->> + * Return: 0 on successful retrieval (the ACPI Processor ID is stored in *uid);
->> + *         -EINVAL if the CPU number is invalid or out of range;
->> + *         -ENODEV if the ACPI Processor UID for the specified CPU is not found.
->> + */
->> +int acpi_get_cpu_uid(unsigned int cpu, u32 *uid);
->> +#endif
-> 
+> Regards,
+> Bjorn
 
