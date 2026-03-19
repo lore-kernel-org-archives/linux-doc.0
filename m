@@ -1,121 +1,131 @@
-Received: from a11-70.smtp-out.amazonses.com (a11-70.smtp-out.amazonses.com [54.240.11.70])
-	(using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A93C3BED07;
-	Thu, 19 Mar 2026 13:20:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.240.11.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF6243D34B7;
+	Thu, 19 Mar 2026 13:20:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773926419; cv=none; b=EDYxyaUmJRw+0yePv2/4JhXxGz3lnzl1EJoJv0fzr9FfxmFBZDJ5DeBbwnfsyx4/Rzq7ULydMjWL2DOeeyArg3RaL9zbAxF5iC+Ym5IUG9fn+fm0SR2HTqeojkXGuZhSo9rVl52osrStN2kns8uXuBkd9+Kn+wkeyX5vEq/poRc=
+	t=1773926433; cv=none; b=epPLXapfphtzHVeesCbd5og+nGIvDP0/lyAwjMJj7u5ZZbZ2pSIPc37cjOjGZovnRhO61HpOOGZHY9Hq+l0LDBGlFgtw+5ra6+3cg4y8H3KhhbDFcW5KiC84k4Nb6Ix6a7XdJmR162+i1+3hpY1qwUBzc2TWZwFwBsC5MtLt7kg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773926419; c=relaxed/simple;
-	bh=3P1DJ3PxyuLI1lMtCqf3yEm20zZ5+pdmyAoAEVyDjtA=;
-	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:In-Reply-To:
-	 References:Message-ID; b=HuLchfkodM2ZLgq61wrVHeP6jiCd4PeW+S0OlyM43EIqvygG14QDtpmGRF+pkev88xYTkDYEbF6jvIgR8B7s7ApBl0Te4SoceuJRIAsNs2FnmwBjSmDsCWo8toDDRYsZsIco+RvXNhH408d6XguNeH88i7k4voWu5PDXwtnuhBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jagalactic.com; spf=pass smtp.mailfrom=amazonses.com; dkim=pass (1024-bit key) header.d=jagalactic.com header.i=@jagalactic.com header.b=Luq322gQ; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=Z8zEk/7M; arc=none smtp.client-ip=54.240.11.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jagalactic.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazonses.com
+	s=arc-20240116; t=1773926433; c=relaxed/simple;
+	bh=dFNCoB+OTvypkD2hCF907kjKiuMgY6mxgJCx8Z225YA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Vf19NaNzBFJ+K07RjzHZvq1gnyG5VNs36TythpQV8g8DejPEIOsHW5aOBq0hFJ/beYdrlkZP25qcwRsj0Ts2MJ30s4F+7O7/fVU+o9TrPdUd5N8UR2gxORHDRcoeICBXJ7vNC6ylws48AXDbQ7HoeBeqtyt9BXXSb1l4h4h0lQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BI0UppmV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=jagalactic.com header.i=@jagalactic.com header.b="Luq322gQ";
-	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="Z8zEk/7M"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=o25mqk5iffcfzgc3wo2zjhkohcyjzsoq; d=jagalactic.com; t=1773926417;
-	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:References:Message-Id;
-	bh=3P1DJ3PxyuLI1lMtCqf3yEm20zZ5+pdmyAoAEVyDjtA=;
-	b=Luq322gQ9ue7aqAEMLGHbzm01Qc8HL4tXw4s1fEQmYpJKvFKLkzwJBnPTlsdqV9J
-	hv4WCUAU7ctsK9VUvCQ28BGLAbvtX+zQFjY181dCC4D4Obf8ZoBC+DZnHGdsIEBHBzt
-	5riIlRfJ5JCcnL+FfpB1TlRGYMBWvnYP3ONKDsNg=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1773926417;
-	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:References:Message-Id:Feedback-ID;
-	bh=3P1DJ3PxyuLI1lMtCqf3yEm20zZ5+pdmyAoAEVyDjtA=;
-	b=Z8zEk/7MpmHxsMh7QEQ0SzPvM+AbbHbZMCkZlezjvP7eC/ONVBeao6Ht9yVa69g3
-	DNKfv5VIMEcgJiNJNAHU21ej1gGhfH0/sHJYpQxaDrfWcunv0QVa/twLTfLddx72AzP
-	mRSAgbZOQhemyk1OUDa5vPJrxJX2sajydwh+CGi8=
-Subject: [PATCH V8 08/10] famfs_fuse: Add DAX address_space_operations with
- noop_dirty_folio
-From: =?UTF-8?Q?John_Groves?= <john@jagalactic.com>
-To: =?UTF-8?Q?John_Groves?= <John@Groves.net>, 
-	=?UTF-8?Q?Miklos_Szeredi?= <miklos@szeredi.hu>, 
-	=?UTF-8?Q?Dan_Williams?= <dan.j.williams@intel.com>, 
-	=?UTF-8?Q?Bernd_Schubert?= <bschubert@ddn.com>, 
-	=?UTF-8?Q?Alison_Schofiel?= =?UTF-8?Q?d?= <alison.schofield@intel.com>
-Cc: =?UTF-8?Q?John_Groves?= <jgroves@micron.com>, 
-	=?UTF-8?Q?Jonathan_Corbe?= =?UTF-8?Q?t?= <corbet@lwn.net>, 
-	=?UTF-8?Q?Shuah_Khan?= <skhan@linuxfoundation.org>, 
-	=?UTF-8?Q?Vishal_Verma?= <vishal.l.verma@intel.com>, 
-	=?UTF-8?Q?Dave_Jiang?= <dave.jiang@intel.com>, 
-	=?UTF-8?Q?Matthew_Wilcox?= <willy@infradead.org>, 
-	=?UTF-8?Q?Jan_Kara?= <jack@suse.cz>, 
-	=?UTF-8?Q?Alexander_Viro?= <viro@zeniv.linux.org.uk>, 
-	=?UTF-8?Q?David_Hildenbrand?= <david@kernel.org>, 
-	=?UTF-8?Q?Christian_Bra?= =?UTF-8?Q?uner?= <brauner@kernel.org>, 
-	=?UTF-8?Q?Darrick_J_=2E_Wong?= <djwong@kernel.org>, 
-	=?UTF-8?Q?Randy_Dunlap?= <rdunlap@infradead.org>, 
-	=?UTF-8?Q?Jeff_Layton?= <jlayton@kernel.org>, 
-	=?UTF-8?Q?Amir_Goldstein?= <amir73il@gmail.com>, 
-	=?UTF-8?Q?Jonathan_Cameron?= <Jonathan.Cameron@huawei.com>, 
-	=?UTF-8?Q?Stefan_Hajnoczi?= <shajnocz@redhat.com>, 
-	=?UTF-8?Q?Joanne_Koong?= <joannelkoong@gmail.com>, 
-	=?UTF-8?Q?Josef_Bacik?= <josef@toxicpanda.com>, 
-	=?UTF-8?Q?Bagas_Sanjaya?= <bagasdotme@gmail.com>, 
-	=?UTF-8?Q?Chen_Linxuan?= <chenlinxuan@uniontech.com>, 
-	=?UTF-8?Q?James_Morse?= <james.morse@arm.com>, 
-	=?UTF-8?Q?Fuad_Tabba?= <tabba@google.com>, 
-	=?UTF-8?Q?Sean_Christopherson?= <seanjc@google.com>, 
-	=?UTF-8?Q?Shivank_Garg?= <shivankg@amd.com>, 
-	=?UTF-8?Q?Ackerley_Tng?= <ackerleytng@google.com>, 
-	=?UTF-8?Q?Gregory_Pric?= =?UTF-8?Q?e?= <gourry@gourry.net>, 
-	=?UTF-8?Q?Aravind_Ramesh?= <arramesh@micron.com>, 
-	=?UTF-8?Q?Ajay_Joshi?= <ajayjoshi@micron.com>, 
-	=?UTF-8?Q?venkataravis=40micron=2Ecom?= <venkataravis@micron.com>, 
-	=?UTF-8?Q?linux-doc=40vger=2Ekernel=2Eorg?= <linux-doc@vger.kernel.org>, 
-	=?UTF-8?Q?linux-kernel=40vger=2Ekernel=2Eorg?= <linux-kernel@vger.kernel.org>, 
-	=?UTF-8?Q?nvdimm=40lists=2Elinux=2Edev?= <nvdimm@lists.linux.dev>, 
-	=?UTF-8?Q?linux-cxl=40vger=2Ekernel=2Eorg?= <linux-cxl@vger.kernel.org>, 
-	=?UTF-8?Q?linux-fsdevel=40vger=2Ekernel=2Eorg?= <linux-fsdevel@vger.kernel.org>, 
-	=?UTF-8?Q?John_Groves?= <john@groves.net>
-Date: Thu, 19 Mar 2026 13:20:17 +0000
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BI0UppmV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31898C19424;
+	Thu, 19 Mar 2026 13:20:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1773926433;
+	bh=dFNCoB+OTvypkD2hCF907kjKiuMgY6mxgJCx8Z225YA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BI0UppmVh84xRnAWlYINgjL7AZ7lNQoaH2vDgf0QBYu8//8cFiCyQ4bboJ1iOoM1t
+	 g46xh446UX82uh5A62oLhHKD1M8sKTxg6Iqg+2IR6qOxcz43p3txdzxvG3e9vz2xOt
+	 +h+P26qnUtlMtLNRET348B+eO2vK4rCDO8TXj7S8peeYRXFHn81FYyKGbKg8eGTBny
+	 IXbG4A53ecwF9x4ZSkCAu45fpZi7BOZ3nf0vBgI99zha4HeSIIV1T/uLVEL1FsRx38
+	 K2t5U4UeebwSUYHs0ym1n5aGyyKWLPsl9m2nzvkC8y1leBqPT9tnx8OXRRYYw+72+k
+	 MNJirhQemJLYQ==
+Date: Thu, 19 Mar 2026 14:20:30 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+	Jyri Sarha <jyri.sarha@iki.fi>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: Re: [PATCH 01/14] drm/atomic: Document atomic state lifetime
+Message-ID: <20260319-analytic-purring-kittiwake-ca04fa@houat>
+References: <20260310-drm-mode-config-init-v1-0-de7397c8e1cf@kernel.org>
+ <20260310-drm-mode-config-init-v1-1-de7397c8e1cf@kernel.org>
+ <b0d9aee3-46c1-486d-9516-43ee23658f40@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20260318203054.4344.fuse@groves.net>
-References: <20260318203054.4344.fuse@groves.net> 
- <20260319132002.13463-1-john@jagalactic.com>
-X-Mailer: Amazon WorkMail
-Thread-Index: AQHctz+ZMjBZ3RwkQ1uhcQrmTMqILwAAVQgdABjhqxM=
-Thread-Topic: [PATCH V8 08/10] famfs_fuse: Add DAX address_space_operations
- with noop_dirty_folio
-X-Wm-Sent-Timestamp: 1773926415
-X-Original-Mailer: git-send-email 2.52.0
-Message-ID: <0100019d064102fd-58576b65-023d-41ee-bec5-9d3e8cad1ba4-000000@email.amazonses.com>
-Feedback-ID: ::1.us-east-1.LF00NED762KFuBsfzrtoqw+Brn/qlF9OYdxWukAhsl8=:AmazonSES
-X-SES-Outgoing: 2026.03.19-54.240.11.70
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="ekgjblyw25gmfu6n"
+Content-Disposition: inline
+In-Reply-To: <b0d9aee3-46c1-486d-9516-43ee23658f40@ideasonboard.com>
 
-From: John Groves <John@Groves.net>=0D=0A=0D=0AFamfs is memory-backed; th=
-ere is no place to write back to, and no=0D=0Areason to mark pages dirty =
-at all.=0D=0A=0D=0ASigned-off-by: John Groves <john@groves.net>=0D=0A---=0D=
-=0A fs/fuse/famfs.c | 11 +++++++++++=0D=0A 1 file changed, 11 insertions(=
-+)=0D=0A=0D=0Adiff --git a/fs/fuse/famfs.c b/fs/fuse/famfs.c=0D=0Aindex 8=
-7012df537eb..121ed74e9727 100644=0D=0A--- a/fs/fuse/famfs.c=0D=0A+++ b/fs=
-/fuse/famfs.c=0D=0A@@ -14,6 +14,7 @@=0D=0A #include <linux/mm.h>=0D=0A #i=
-nclude <linux/dax.h>=0D=0A #include <linux/iomap.h>=0D=0A+#include <linux=
-/pagemap.h>=0D=0A #include <linux/path.h>=0D=0A #include <linux/namei.h>=0D=
-=0A #include <linux/string.h>=0D=0A@@ -39,6 +40,15 @@ static const struct=
- dax_holder_operations famfs_fuse_dax_holder_ops =3D {=0D=0A =09.notify_f=
-ailure=09=09=3D famfs_dax_notify_failure,=0D=0A };=0D=0A=20=0D=0A+/*=0D=0A=
-+ * DAX address_space_operations for famfs.=0D=0A+ * famfs doesn't need d=
-irty tracking - writes go directly to=0D=0A+ * memory with no writeback r=
-equired.=0D=0A+ */=0D=0A+static const struct address_space_operations fam=
-fs_dax_aops =3D {=0D=0A+=09.dirty_folio=09=3D noop_dirty_folio,=0D=0A+};=0D=
-=0A+=0D=0A /*************************************************************=
-****************/=0D=0A=20=0D=0A /*=0D=0A@@ -624,6 +634,7 @@ famfs_file_i=
-nit_dax(=0D=0A =09if (famfs_meta_set(fi, meta) =3D=3D NULL) {=0D=0A =09=09=
-i_size_write(inode, meta->file_size);=0D=0A =09=09inode->i_flags |=3D S_D=
-AX;=0D=0A+=09=09inode->i_data.a_ops =3D &famfs_dax_aops;=0D=0A =09} else =
-{=0D=0A =09=09pr_debug("%s: file already had metadata\n", __func__);=0D=0A=
- =09=09__famfs_meta_free(meta);=0D=0A--=20=0D=0A2.53.0=0D=0A=0D=0A
+
+--ekgjblyw25gmfu6n
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 01/14] drm/atomic: Document atomic state lifetime
+MIME-Version: 1.0
+
+Hi Tomi,
+
+Thanks for your review
+
+On Wed, Mar 11, 2026 at 08:44:24AM +0200, Tomi Valkeinen wrote:
+> > + *
+> > + *     At that point, &struct drm_atomic_state stores three state
+> > + *     pointers for that particular entity: the old, new, and existing
+> > + *     (called "state") states. The old state is the state currently
+> > + *     active in the hardware, which is either the one initialized by
+> > + *     reset() or a newer one if a commit has been made. The new state
+> > + *     is the state we just allocated and we might eventually commit to
+> > + *     the hardware. The existing state points to the state we'll
+> > + *     eventually have to free when the drm_atomic_state will be
+> > + *     destroyed, but points to the new state for now.
+>=20
+> From this, I don't understand the difference between the old state and
+> the existing state. And if the existing state is the one we'll free,
+> isn't that the old state, not new state? Oh, is the existing state a
+> state we have to free when the drm_atomic_state would is freed? And at
+> this point the new state is the one, as it's not committed?
+
+Thanks for pointing it out, I need to update this part. state is never
+the active one, because drm_atomic_state disappears(ish) when the new
+state is committed and thus, by the time an object state is active,
+there's no drm_atomic_state to hold it anymore.
+
+When a new drm_atomic_state is allocated, and we call
+drm_atomic_get_$OBJECT_state, old state is filled with the current
+active state, new state is filled with a copy of it we can modify.
+
+The third pointer (that used to be called state) points to the state we
+need to destroy if we destroy drm_atomic_state. Before atomic_commit,
+it's the new state we didn't commit (probably to do an atomic_check).
+After atomic_commit, the new state has become the active state, and we
+need to destroy the old state (the state that got replaced). That
+pointer is now called state_to_destroy which should be more obvious.
+
+> > + *     state pointer (&drm_crtc.state or similar) to point to the new
+> > + *     state, and the existing states will now point to the old states,
+> > + *     that used to be active but isn't anymore.
+>=20
+> "aren't"
+>=20
+> I think I understand this, but... It kind of brings in a new state
+> concept, "active state".
+
+The active state is never really held by drm_atomic_state but by
+drm_$OBJECT->state. drm_atomic_state is really more of an update
+description (so something that might eventually become active) rather
+than the actual active state.
+
+Maxime
+
+--ekgjblyw25gmfu6n
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCabv4FgAKCRAnX84Zoj2+
+dlQsAYDR7vzmTwt1JEEv/HF8KAR9NNmfn3X6jRBwoBEB/S50xkW90weJ8uOC4KkW
+Bf35htABgLyQ4IYaMs06JFIkUjAQGwanCw9lq/ykEJohuZQeKiHG0wJ3tzCNJ1zE
+CE9cOqGIyQ==
+=7bK3
+-----END PGP SIGNATURE-----
+
+--ekgjblyw25gmfu6n--
