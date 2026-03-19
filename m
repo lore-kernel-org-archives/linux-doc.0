@@ -1,93 +1,398 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 901F43EF0AC;
-	Thu, 19 Mar 2026 16:40:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C98EF3EE1C1;
+	Thu, 19 Mar 2026 16:43:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773938422; cv=none; b=uAQJSzosJj18jL0B+S4p8YS7nV+WAjQ2TH+N4Sgu8oqLsICilD9N4+A4n6HdQYxWahDYoq+ylGAJTD6bqwaB9k4rNXUiw6tXtfgVYwGCX48JhSd7fIUrcqmvwjFV/8xYZ6wjpMQ3dz4uz22GFvL5iGx/vWML/9EvSUE3E5bQhf8=
+	t=1773938622; cv=none; b=MiVFezGho297odAIEx/EDWDeG4L6qDLaptin38Q7apleUKRrmKvJlSxpItNmnn0lIS8WdnMzaw3sXkEZ87P7QdWoS5H7CGRcDpXVMA25Oatp1S6xasBLOIJ9xQRxFsmdozGQQjwQNMY9gfZWa7Za69C3eyCTYouqLtfNa4fbIUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773938422; c=relaxed/simple;
-	bh=qdSHlS15YIrrYlKFILuH3C5YTTS41s9xNZ21/Pbj60E=;
-	h=Content-Type:MIME-Version:Message-Id:In-Reply-To:References:
-	 Subject:From:To:Cc:Date; b=c7zTWYGSZW3C/kj3HduppvLmh416tbEhTOnOpBMBaadjD+M1G1V4em936YqITDBLLArApBmsr7abAbUxH/Qji99u+x1a0jMxygIA2CodPmdK3IJCUBUEl1dSbxkp8YbsM64NA0mzv1w5UP7WP85PfarvIHyMRgXHQaJndFFc5v0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g80do7cc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773938622; c=relaxed/simple;
+	bh=foBUrcbmXINTonPyjYsnHAi+9wmraBkIDrk1yWtnsHo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ej9oz1x6h6CExt8HFgQsZMDdLjT7jWrSK4YRpQJwcVLvBIE3v7ZN5Tpja4g0oX2tk2BeGMKXtHhsz/tbz5+oDHvkntH62bZBDTx9bl+GCYCezkzrW9V0aoN+5PhIDXt7Q6QWH/PkRHrKog1vJMUUE9F2eo7gsbYxTErJq8vcP4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eGYxvByH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g80do7cc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F1E6C19425;
-	Thu, 19 Mar 2026 16:40:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eGYxvByH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 469AAC19424;
+	Thu, 19 Mar 2026 16:43:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773938422;
-	bh=qdSHlS15YIrrYlKFILuH3C5YTTS41s9xNZ21/Pbj60E=;
-	h=In-Reply-To:References:Subject:From:To:Cc:Date:From;
-	b=g80do7cc2w63gJseXEe4T/85gebLSO3Hmp2yZL3egt+lTDYqfUNU4qlI0WQd6QHSQ
-	 FHcHAbbxB9ruLGC3eFqZAnxUwBMzLdtZRCW6JEdLa8Skf+mVY+MgsUul0gYkVOMvot
-	 rGG2XoMQuysCJjJvmyQjTLje+aCdIB64HSQ4BCQjZ7QoDEhZfaZcQV03WZkWdy7hkG
-	 Lq108TcTKenwqaHzgfIIf+olkLDOHPbqT2p4xViRoUVWrv7keNgn/x1bp/qENWXxBv
-	 trb31M2KyfzqdAvpd29rJZ8E7TmX4vQWINb3KG1u05pJVRSbI0knydA+0DW+feHNje
-	 bxAlgKm5Dh9jg==
-Content-Type: multipart/mixed; boundary="===============8015506610791822796=="
+	s=k20201202; t=1773938622;
+	bh=foBUrcbmXINTonPyjYsnHAi+9wmraBkIDrk1yWtnsHo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eGYxvByHR8IMCBbE9lLP8SI9qKS5gE9a/ge4KGQlf2AePTC7OrgSr0mA+iYehVUwL
+	 5+t81zao17yDB4cqp+Rds62nIQWtHEm+DPwbUqnVI38ANbgc/cgTzxaGiU03viLzNa
+	 WXvO5zJ0eNT9Tx4eGjHlyRxzEpPPtX9HxCKEJ+dgS+6xZAjVRRNhj9qOB3ZW679e87
+	 yr4ZDeJpUT7sXZPqw29rekm1R4pcQrFNN9APQukJ4mt4zTYZo1ds90NdSUvPEtDt9A
+	 HMyzfLzWWzqryREHu4C5bGP74SgfZfhre+Dbglyn7Sg8JaxbHRR5PQgymGb+a9+DfB
+	 N1qmt7E7DgAiA==
+Date: Thu, 19 Mar 2026 12:43:41 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Petr Pavlu <petr.pavlu@suse.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Richard Weinberger <richard@nod.at>,
+	Juergen Gross <jgross@suse.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	James Bottomley <James.Bottomley@hansenpartnership.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>, Daniel Gomez <da.gomez@kernel.org>,
+	Greg KH <gregkh@linuxfoundation.org>,
+	Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>, Kees Cook <kees@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thorsten Leemhuis <linux@leemhuis.info>,
+	Vlastimil Babka <vbabka@kernel.org>, Helge Deller <deller@gmx.de>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Vivian Wang <wangruikang@iscas.ac.cn>, linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org, linux-modules@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 2/4] kallsyms: extend lineinfo to loadable modules
+Message-ID: <abwnvdbu4kjx7esJ@laps>
+References: <20260312030649.674699-1-sashal@kernel.org>
+ <20260312030649.674699-3-sashal@kernel.org>
+ <79244e56-b3ea-4986-b4a2-91a78b21bf07@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <a0134d85926936821c00147b9602b4f977519556e163ebd59dee2307c7618fb1@mail.kernel.org>
-In-Reply-To: <20260319-vmscape-bhb-v7-10-b76a777a98af@linux.intel.com>
-References: <20260319-vmscape-bhb-v7-10-b76a777a98af@linux.intel.com>
-Subject: Re: [PATCH v7 10/10] x86/vmscape: Add cmdline vmscape=on to override attack vector controls
-From: bot+bpf-ci@kernel.org
-To: pawan.kumar.gupta@linux.intel.com,x86@kernel.org,nik.borisov@suse.com,hpa@zytor.com,jpoimboe@kernel.org,david.kaplan@amd.com,seanjc@google.com,bp@alien8.de,dave.hansen@linux.intel.com,peterz@infradead.org,ast@kernel.org,daniel@iogearbox.net,andrii@kernel.org,kpsingh@kernel.org,jolsa@kernel.org,davem@davemloft.net,david.laight.linux@gmail.com,luto@kernel.org,tglx@kernel.org,mingo@redhat.com,dsahern@kernel.org,martin.lau@linux.dev,eddyz87@gmail.com,song@kernel.org,yonghong.song@linux.dev,john.fastabend@gmail.com,sdf@fomichev.me,haoluo@google.com,pbonzini@redhat.com,corbet@lwn.net
-Cc: linux-kernel@vger.kernel.org,kvm@vger.kernel.org,asit.k.mallick@intel.com,tao1.zhang@intel.com,bpf@vger.kernel.org,netdev@vger.kernel.org,linux-doc@vger.kernel.org,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,clm@meta.com,ihor.solodrai@linux.dev
-Date: Thu, 19 Mar 2026 16:40:21 +0000 (UTC)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <79244e56-b3ea-4986-b4a2-91a78b21bf07@suse.com>
 
---===============8015506610791822796==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Thanks for the great review!
 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -8375,9 +8375,11 @@
+On Thu, Mar 19, 2026 at 11:37:18AM +0100, Petr Pavlu wrote:
+>On 3/12/26 4:06 AM, Sasha Levin wrote:
+>> +- **No init text**: For modules, functions in ``.init.text`` are not annotated
+>> +  because that memory is freed after module initialization.
 >
->  			off		- disable the mitigation
->  			ibpb		- use Indirect Branch Prediction Barrier
-> -					  (IBPB) mitigation (default)
-> +					  (IBPB) mitigation
->  			force		- force vulnerability detection even on
->  					  unaffected processors
-> +			on		- (default) selects IBPB or BHB clear
-> +					  mitigation based on CPU
+>A second table .init.mod_lineinfo could be added to provide the
+>necessary information for .init sections, which would be dropped along
+>with all the other init code+data.
 
-Is the "(default)" label accurate here?  The code default is
-VMSCAPE_MITIGATION_AUTO, not VMSCAPE_MITIGATION_ON:
+Sure, it's something we can look at it later. For this series I'd like to keep
+scope to runtime .text, since init code runs briefly and rarely appears in
+stack traces that need debugging. Adding a second section would require module
+loader changes for loading and freeing it alongside init memory.
 
-    static enum vmscape_mitigations vmscape_mitigation __ro_after_init =
-        IS_ENABLED(CONFIG_MITIGATION_VMSCAPE) ?
-            VMSCAPE_MITIGATION_AUTO : VMSCAPE_MITIGATION_NONE;
+>> --- /dev/null
+>> +++ b/include/linux/mod_lineinfo.h
+>> @@ -0,0 +1,68 @@
+>> +/* SPDX-License-Identifier: GPL-2.0 */
+>> +/*
+>> + * mod_lineinfo.h - Binary format for per-module source line information
+>> + *
+>> + * This header defines the layout of the .mod_lineinfo section embedded
+>> + * in loadable kernel modules.  It is dual-use: included from both the
+>> + * kernel and the userspace gen_lineinfo tool.
+>> + *
+>> + * Section layout (all values in target-native endianness):
+>> + *
+>> + *   struct mod_lineinfo_header     (16 bytes)
+>> + *   u32 addrs[num_entries]         -- offsets from .text base, sorted
+>
+>Modules are relocatable objects. The typical way to express a reference
+>from one section to data in another section is to use relocations.
+>Choosing to use an implicit base and resolved offsets means that the
+>code has trouble correctly referencing the .text section and can't
+>express line information data for other sections, such as .exit.text.
 
-In vmscape_select_mitigation(), AUTO and ON take the same switch
-path for selecting between BHB clear and IBPB.  But AUTO goes
-through this check first:
+I agree, which is why I scoped this just to .text :)
 
-    if ((vmscape_mitigation == VMSCAPE_MITIGATION_AUTO) &&
-        !should_mitigate_vuln(X86_BUG_VMSCAPE))
-        vmscape_mitigation = VMSCAPE_MITIGATION_NONE;
+My thinking was that using ELF relocations would add significant complexity to
+both the build tool and the runtime lookup path, which must remain NMI-safe and
+allocation-free.
 
-ON skips that check, which is the whole point of this commit per
-the subject line ("override attack vector controls").
+>> + *   u16 file_ids[num_entries]      -- parallel to addrs
+>> + *   <2-byte pad if num_entries is odd>
+>> + *   u32 lines[num_entries]         -- parallel to addrs
+>> + *   u32 file_offsets[num_files]    -- byte offset into filenames[]
+>> + *   char filenames[filenames_size] -- concatenated NUL-terminated strings
+>
+>Nit: The description could be a bit easier to navigate if the
+>mod_lineinfo_header struct was expanded, so it is clear where
+>num_entries, num_files and filenames_size come from.
 
-A sysadmin reading "on (default)" would conclude that not passing
-any option gives the same behavior as vmscape=on, but the actual
-default respects attack vector controls while vmscape=on overrides
-them.
+Makes sense
 
+>> + */
+>> +#ifndef _LINUX_MOD_LINEINFO_H
+>> +#define _LINUX_MOD_LINEINFO_H
+>> +
+>> +#ifdef __KERNEL__
+>> +#include <linux/types.h>
+>> +#else
+>> +#include <stdint.h>
+>> +typedef uint32_t u32;
+>> +typedef uint16_t u16;
+>> +#endif
+>> +
+>> +struct mod_lineinfo_header {
+>> +	u32 num_entries;
+>> +	u32 num_files;
+>> +	u32 filenames_size;	/* total bytes of concatenated filenames */
+>
+>An alternative would be to say that the filenames data extends to the
+>end of the section, without requiring an explicit filenames_size.
 
----
-AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
-See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
+I'd prefer to keep filenames_size explicit: it allows lineinfo_search() to
+validate filename offsets without knowing the section size. This keeps the
+search function reusable between vmlinux (where data comes from linker globals
+with no "section size") and modules (where it comes from a section). The cost
+is 4 bytes per module.
 
-CI run summary: https://github.com/kernel-patches/bpf/actions/runs/23303796353
---===============8015506610791822796==--
+>> +	u32 reserved;		/* padding, must be 0 */
+>
+>I believe the format should remain internal to the kernel, so there is
+>no need for such a reserved member.
+
+The format is indeed internal and we don't generally concern ourselves with
+out-of-tree modules. I've originally added it as a minimal safety net: if the
+format ever changes and a stale .ko with an old-format .mod_lineinfo gets
+loaded, the kernel would silently misparse lineinfo data.
+
+I don't feel too strongly about it either way, but 4 bytes felt a pretty cheap
+price to pay for this safety net :)
+
+>> +static inline u32 mod_lineinfo_lines_off(u32 num_entries)
+>> +{
+>> +	/* u16 file_ids[] may need 2-byte padding to align lines[] to 4 bytes */
+>> +	u32 off = mod_lineinfo_file_ids_off(num_entries) +
+>> +		  num_entries * sizeof(u16);
+>> +	return (off + 3) & ~3u;
+>> +}
+>> +
+>> +static inline u32 mod_lineinfo_file_offsets_off(u32 num_entries)
+>> +{
+>> +	return mod_lineinfo_lines_off(num_entries) + num_entries * sizeof(u32);
+>> +}
+>> +
+>> +static inline u32 mod_lineinfo_filenames_off(u32 num_entries, u32 num_files)
+>> +{
+>> +	return mod_lineinfo_file_offsets_off(num_entries) +
+>> +	       num_files * sizeof(u32);
+>> +}
+>
+>These helpers are used only from kernel/module/kallsyms.c. I assume they
+>are present in this header file to stay close to the description of the
+>format.
+>
+>I personally find them quite verbose. The module_lookup_lineinfo()
+>function needs an intimate knowledge of the data format anyway. The code
+>in module_lookup_lineinfo() could be replaced with just:
+>
+>	addrs = base + sizeof(struct mod_lineinfo_header);
+>	file_ids = addrs + num_entries * sizeof(u32);
+>	lines = (file_ids + num_entries * sizeof(u16) + 3) & ~3u;
+>	file_offsets = lines + num_entries * sizeof(u32);
+>	filenames = file_offsets + num_files * sizeof(u32);
+
+They are very verbose mostly to make it easy for me to understand :)
+
+Note that the next patch which adds compression rewrites these completely.
+
+I kept these here just to make it easier to understand what's happening during
+my development work as well as reviews.
+
+>> +
+>> +#endif /* _LINUX_MOD_LINEINFO_H */
+>> diff --git a/include/linux/module.h b/include/linux/module.h
+>> index 14f391b186c6d..d23e0cd9c7210 100644
+>> --- a/include/linux/module.h
+>> +++ b/include/linux/module.h
+>> @@ -508,6 +508,8 @@ struct module {
+>>  	void *btf_data;
+>>  	void *btf_base_data;
+>>  #endif
+>> +	void *lineinfo_data;		/* .mod_lineinfo section in MOD_RODATA */
+>> +	unsigned int lineinfo_data_size;
+>
+>The lineinfo-specific members should be enclosed within the `#ifdef
+>CONFIG_KALLSYMS_LINEINFO_MODULES`.
+>
+>This will require module_lookup_lineinfo() to be conditionally compiled
+>based on CONFIG_KALLSYMS_LINEINFO_MODULES, with a dummy version provided
+>otherwise. Alternatively, accessors to module::lineinfo_data and
+>module::lineinfo_data_size that handle CONFIG_KALLSYMS_LINEINFO_MODULES
+>could be introduced in include/linux/module.h. For example, see
+>module_buildid() or is_livepatch_module.
+
+The struct members were deliberately left without #ifdef guards following Helge
+Deller's suggestion in the v1 review[1]. I don't really mind either way, but
+I'd prefer to have a consensus before flipping it back and forth.
+
+Helge?
+
+[1] https://lore.kernel.org/all/3ab0cad6-bf55-4ae5-afb7-d9129ac2032e@gmx.de/
+
+>> +	addrs = base + mod_lineinfo_addrs_off();
+>> +	file_ids = base + mod_lineinfo_file_ids_off(num_entries);
+>> +	lines = base + mod_lineinfo_lines_off(num_entries);
+>> +	file_offsets = base + mod_lineinfo_file_offsets_off(num_entries);
+>> +	filenames = base + mod_lineinfo_filenames_off(num_entries, num_files);
+>> +
+>> +	/* Compute offset from module .text base */
+>> +	text_base = (unsigned long)mod->mem[MOD_TEXT].base;
+>
+>The module::mem[] covers module memory regions. One can think of them as
+>ELF segments, except they are created dynamically by the module loader.
+>The code conflates the .text section and the TEXT segment. I'm not aware
+>of any guarantee that the .text section will be always placed as the
+>first section in this segment.
+
+You're right that this conflates section and segment. In practice, .text is
+always first in MOD_TEXT because __layout_sections() processes SHF_EXECINSTR
+sections in ELF order, and .text is conventionally first.  But I agree this
+shouldn't be an implicit assumption.
+
+We can add a validation check at module load time to verify the assumption
+for now, and address it better when ...
+
+>Relocations can be used to accurately reference the .text section.
+
+... we add full relocation support.
+
+>> +	if (addr < text_base)
+>> +		return false;
+>> +
+>> +	raw_offset = addr - text_base;
+>> +	if (raw_offset > UINT_MAX)
+>
+>The offsets in the addrs array are of the u32 type, so this should be
+>strictly speaking checked against U32_MAX.
+
+Right
+
+>> --- a/scripts/Makefile
+>> +++ b/scripts/Makefile
+>> @@ -5,6 +5,7 @@
+>>
+>>  hostprogs-always-$(CONFIG_KALLSYMS)			+= kallsyms
+>>  hostprogs-always-$(CONFIG_KALLSYMS_LINEINFO)		+= gen_lineinfo
+>> +hostprogs-always-$(CONFIG_KALLSYMS_LINEINFO_MODULES)	+= gen_lineinfo
+>
+>This line is unnecessary because CONFIG_KALLSYMS_LINEINFO_MODULES
+>depends on CONFIG_KALLSYMS_LINEINFO.
+
+It is. I mostly left it here for clarity's sake. I'll drop it. 
+
+>> @@ -59,6 +62,9 @@ if_changed_except = $(if $(call newer_prereqs_except,$(2))$(cmd-check),      \
+>>  	+$(call if_changed_except,ld_ko_o,$(objtree)/vmlinux)
+>>  ifdef CONFIG_DEBUG_INFO_BTF_MODULES
+>>  	+$(if $(newer-prereqs),$(call cmd,btf_ko))
+>> +endif
+>> +ifdef CONFIG_KALLSYMS_LINEINFO_MODULES
+>> +	+$(if $(newer-prereqs),$(call cmd,lineinfo_ko))
+>
+>Should this be 'if_changed_except.. vmlinux'?
+
+Lineinfo generation doesn't depend on vmlinux - it reads DWARF directly from
+the .ko file itself. Unlike BTF (which uses vmlinux as a base for
+deduplication), there's no vmlinux prerequisite to exclude.
+
+>> @@ -194,9 +200,45 @@ static const char *make_relative(const char *path, const char *comp_dir)
+>>  		return p ? p + 1 : path;
+>>  	}
+>>
+>> -	/* Fall back to basename */
+>> -	p = strrchr(path, '/');
+>> -	return p ? p + 1 : path;
+>> +	/*
+>> +	 * Relative path — check for duplicated-path quirk from libdw
+>> +	 * on ET_REL files (e.g., "a/b.c/a/b.c" → "a/b.c").
+>> +	 */
+>
+>When does this quirk occur? Is it a bug in libdw?
+
+This occurs with elfutils libdw when processing ET_REL .ko files.  libdw
+constructs source paths by concatenating DW_AT_comp_dir with DW_AT_name from
+the compilation unit. For modules where both are relative paths with the same
+prefix, this can produce doubled results like "net/foo/bar.c/net/foo/bar.c". It
+appears to be a libdw quirk with ET_REL DWARF handling.
+
+>> +	{
+>> +		size_t len = strlen(path);
+>> +
+>> +		for (p = path; (p = strchr(p, '/')) != NULL; p++) {
+>> +			size_t prefix = p - path;
+>> +			size_t rest = len - prefix - 1;
+>> +
+>> +			if (rest == prefix && !memcmp(path, p + 1, prefix))
+>> +				return p + 1;
+>> +		}
+>
+>Isn't this loop same as:
+>
+>size_t mid = len / 2;
+>if (path[mid] == '/' && !memcmp(path, path + mid + 1, mid - 1))
+>	return path + mid + 1;
+
+I think so! For a true duplication "X/X", the split is always at the exact
+midpoint (len/2), so the loop over every '/' is unnecessary. I'll adopt this
+approach with the memcmp length as `mid` rather than `mid - 1` to compare the
+full second half.
+
+>> +static unsigned int r_type_abs32(unsigned int e_machine)
+>> +{
+>> +	switch (e_machine) {
+>> +	case EM_X86_64:		return 10;	/* R_X86_64_32 */
+>> +	case EM_386:		return 1;	/* R_386_32 */
+>> +	case EM_AARCH64:	return 258;	/* R_AARCH64_ABS32 */
+>> +	case EM_ARM:		return 2;	/* R_ARM_ABS32 */
+>> +	case EM_RISCV:		return 1;	/* R_RISCV_32 */
+>> +	case EM_S390:		return 4;	/* R_390_32 */
+>> +	case EM_MIPS:		return 2;	/* R_MIPS_32 */
+>> +	case EM_PPC64:		return 1;	/* R_PPC64_ADDR32 */
+>> +	case EM_PPC:		return 1;	/* R_PPC_ADDR32 */
+>> +	case EM_LOONGARCH:	return 1;	/* R_LARCH_32 */
+>> +	case EM_PARISC:		return 1;	/* R_PARISC_DIR32 */
+>> +	default:		return 0;
+>
+>The source file already includes elf.h from elfutils. Is it necessary to
+>hardcode these relocation values here?
+
+Right!
+
+>>  static void process_dwarf(Dwarf *dwarf, unsigned long long text_addr)
+>>  {
+>>  	Dwarf_Off off = 0, next_off;
+>> @@ -295,6 +490,16 @@ static void process_dwarf(Dwarf *dwarf, unsigned long long text_addr)
+>>  			if (addr < text_addr)
+>>  				continue;
+>>
+>> +			/*
+>> +			 * In module mode, keep only .text addresses.
+>> +			 * In ET_REL .ko files, .init.text/.exit.text may
+>> +			 * overlap with .text address ranges, so we must
+>> +			 * explicitly check against the .text bounds.
+>> +			 */
+>
+>Nit: The use of "may" in this comment seems strange. It is fully
+>expected that .text, .init.text, .exit.text or any other section will
+>have their sh_addr set to 0 in relocatable objects and therefore the
+>sections have overlapping address ranges.
+
+I guess I wasn't sure if it's really always the case. We can adjust the comment.
+
+>> +			if (module_mode && text_section_end > text_section_start &&
+>> +			    (addr < text_section_start || addr >= text_section_end))
+>> +				continue;
+>> +
+>
+>The current code is very specific to the .text section. It would be good
+>to cover all sections in the future. I think it will naturally require
+>use of relocations to refer to individual sections.
+
+Yup, we can definitely give it a go in the future.
+
+-- 
+Thanks,
+Sasha
