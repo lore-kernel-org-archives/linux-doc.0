@@ -1,86 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 639A538A729;
-	Thu, 19 Mar 2026 16:21:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67D323E9F67;
+	Thu, 19 Mar 2026 16:28:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773937286; cv=none; b=czq7a6bvVRkgB1r7Y1ytCZt/uFI+TdIq66CFBROKst+4Ecq2Z9EfjsOtkRGR80DSJbwdjOUggnpI64S43bfdTwFmyl9TuShVvbZIiN8Q+DYpK+kzz4OnXo28Hii4dBws2IJV69wYr/hIzNbYcqqskSsMpHPo34kS7M6m5SxMecY=
+	t=1773937727; cv=none; b=ogAoXqhBpH9xATpvHNjNYgW2IyFHyRF2fPKS+B6i/EGvNddEwSda/TEG2CY3t0EO2FOW3BlC6H9FFOeoY2TMBydzVwiehbqyvYaklMvCnFDWFgKHyMr97hbhfDU4fcQPAFsaC6jTzA4AsBk43JIDEEz68nKowyQA1wgx+4zJBr8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773937286; c=relaxed/simple;
-	bh=SWuryUrLCruxqK7KPSnDrrfXYe0rzOzozifRFqJ4zdE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=oGO3IhgP3wMjBZVk4E7OYbzbmFaX/TlzpyMcInsWOcmpViGr2dqfxkV+h8r9nhhCejQcCqdHFPBvvnZZ4ARQTfOu4kHneuFd/aVO7BrjkhYXti0nW0M1N33YVhuj67j6UYTkk5TWGPXEsi4L8BGagsxE6XD8UR8uXDaOysdDyGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hef07Mus; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773937727; c=relaxed/simple;
+	bh=bjOJIOPM/2+acGORPk2A/p5g0k69GeX/tAxVXYIMaxI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=n/FUIj3LbaN/MuWBGh4U7LsgTmCSycT3Ow0uHIbXuAKka1LIR5ZCwhSKDQiawVYXFoU92YZGMNa7gs4QP6xPKiXsZyCbsRxOaYEWrpcscfoR3kPK1b8sFccKR2yV2zSdHa847E3DXh4rN3l7i63ome5+S/Mv9I7xFFl9bB6Z5nE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=qVsoVvGZ; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hef07Mus"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D019C19424;
-	Thu, 19 Mar 2026 16:21:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773937286;
-	bh=SWuryUrLCruxqK7KPSnDrrfXYe0rzOzozifRFqJ4zdE=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=hef07MusVcnp2t8J564ll1u+wYC0m2OUObIg5bVNiRf0DMkXUITgxK/oFxN6BCiA1
-	 KgL3T6+GrWN7m+5EdnN330/a/SUiUC0toYsQTDELmz8a+x+BFVVyOZ1wEU1L2Nx02y
-	 OC89WGOTkdpT56I6GVHGalJrrrG9RzVPNuPEwWUCI5mE0LaTCAXMA3wFg3CFUg4qpI
-	 nsYY82XrC4O+8O/nIzZmXsLQF85C7HkdNDSDrE1EyX5fSW2JiQsbQGz3ReUvx4AZt7
-	 1XGKMnUIz98LHRjJQ2oe3WxafNmRsX9xEjxbl9ig7li33yzfu1aNhwdiM1DJnnbN8j
-	 MUDhGgNciC/Rg==
-From: Lee Jones <lee@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>, 
- Tobias Schrammm <t.schramm@manjaro.org>, Sebastian Reichel <sre@kernel.org>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Dan Carpenter <dan.carpenter@linaro.org>, 
- Krzysztof Kozlowski <krzk@kernel.org>, Lee Jones <lee@kernel.org>, 
- Dzmitry Sankouski <dsankouski@gmail.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Benson Leung <bleung@chromium.org>, Tzung-Bi Shih <tzungbi@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: Matti Vaittinen <mazziesaccount@gmail.com>, driver-core@lists.linux.dev, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, chrome-platform@lists.linux.dev, 
- stable@vger.kernel.org
-In-Reply-To: <20260305-workqueue-devm-v2-0-66a38741c652@oss.qualcomm.com>
-References: <20260305-workqueue-devm-v2-0-66a38741c652@oss.qualcomm.com>
-Subject: Re: (subset) [PATCH v2 00/10] workqueue / drivers: Add
- device-managed allocate workqueue
-Message-Id: <177393728021.2870619.1816530869958472742.b4-ty@kernel.org>
-Date: Thu, 19 Mar 2026 16:21:20 +0000
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="qVsoVvGZ"
+Received: from localhost (unknown [20.191.74.188])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 3BEFF20B710C;
+	Thu, 19 Mar 2026 09:28:36 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3BEFF20B710C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1773937717;
+	bh=H52Zybh5o34dbFpC/ZH35I3IR0TeF3CcjTZ7JtQFu2w=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=qVsoVvGZBgiMTYzcaPymyws/zFtGLAsJuSf42v3omgVhgy4V/7SM/UFdDfZU97k+C
+	 vY11I8eol4oictnvBu/vQMefqoMTn+2RHUiOztqmT14YgkRFwnc3yMPdzePNXNxnxC
+	 Y01VMPNtIKCj5VPxAbfZbdq9ZRMZ8zsrYw0n9y2U=
+Date: Thu, 19 Mar 2026 09:28:35 -0700
+From: Jacob Pan <jacob.pan@linux.microsoft.com>
+To: Vipin Sharma <vipinsh@google.com>
+Cc: David Matlack <dmatlack@google.com>, Alex Williamson <alex@shazbot.org>,
+ Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf
+ <graf@amazon.com>, Alex Mastro <amastro@fb.com>, Alistair Popple
+ <apopple@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>, Ankit
+ Agrawal <ankita@nvidia.com>, Bjorn Helgaas <bhelgaas@google.com>, Chris Li
+ <chrisl@kernel.org>, David Rientjes <rientjes@google.com>, Jason Gunthorpe
+ <jgg@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>, Jonathan Corbet
+ <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, Kevin Tian
+ <kevin.tian@intel.com>, kexec@lists.infradead.org, kvm@vger.kernel.org,
+ Leon Romanovsky <leon@kernel.org>, Leon Romanovsky <leonro@nvidia.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+ linux-pci@vger.kernel.org, Lukas Wunner <lukas@wunner.de>, =?utf-8?Q?Mich?=
+ =?utf-8?Q?a=C5=82?= Winiarski <michal.winiarski@intel.com>, Mike Rapoport
+ <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, Pasha Tatashin
+ <pasha.tatashin@soleen.com>, Pranjal Shrivastava <praan@google.com>,
+ Pratyush Yadav <pratyush@kernel.org>, Raghavendra Rao Ananta
+ <rananta@google.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, Saeed Mahameed
+ <saeedm@nvidia.com>, Samiullah Khawaja <skhawaja@google.com>, Shuah Khan
+ <skhan@linuxfoundation.org>, Thomas =?utf-8?Q?Hellstr=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>, Tomita Moeko <tomitamoeko@gmail.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, William Tu <witu@nvidia.com>,
+ Yi Liu <yi.l.liu@intel.com>, Zhu Yanjun <yanjun.zhu@linux.dev>
+Subject: Re: [PATCH v2 10/22] vfio/pci: Skip reset of preserved device after
+ Live Update
+Message-ID: <20260319092835.00004887@linux.microsoft.com>
+In-Reply-To: <20260316162518.GB1767448.vipinsh@google.com>
+References: <20260129212510.967611-1-dmatlack@google.com>
+	<20260129212510.967611-11-dmatlack@google.com>
+	<20260226170030.5a938c74@shazbot.org>
+	<aaDqhjdLyf1qSTSh@google.com>
+	<20260227084658.3767d801@shazbot.org>
+	<CALzav=fHy23RAzhgkdaL+JA5T2tL9FT6aPgRfXUh7i9zvYCGPA@mail.gmail.com>
+	<20260227105720.522ca97f@shazbot.org>
+	<CALzav=fjRPa_ZbXu7iFXyemcf_8Kq_dZTWT6c-A0bc6czF_Rdw@mail.gmail.com>
+	<abNOwcOTXqxCxNzt@google.com>
+	<20260313083918.00005731@linux.microsoft.com>
+	<20260316162518.GB1767448.vipinsh@google.com>
+Organization: LSG
+X-Mailer: Claws Mail 3.21.0 (GTK+ 2.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.15-dev-52d38
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 05 Mar 2026 22:45:39 +0100, Krzysztof Kozlowski wrote:
-> Merging / Dependency
-> ====================
-> All further patches depend on the first one, thus this probably should
-> go via one tree, e.g. power supply.  The first patch might be needed for
-> other trees as well, e.g. if more drivers are discovered, so the best if
-> it is on dedicated branch in case it has to be shared.
-> 
-> [...]
+Hi Vipin,
 
-Applied, thanks!
+On Mon, 16 Mar 2026 09:28:32 -0700
+Vipin Sharma <vipinsh@google.com> wrote:
 
-[07/10] mfd: ezx-pcap: Drop memory allocation error message
-        commit: 33e0316783a205625b7c55a78041ddc0d5dce7c7
-[08/10] mfd: ezx-pcap: Return directly instead of empty gotos
-        commit: 444e11d9d9e56c994da8a253cdf7f33ac2eeb15b
-[09/10] mfd: ezx-pcap: Avoid rescheduling after destroying workqueue
-        commit: 356ee03f6ae7d04f90d8e2104660193c4f3a071c
+> On Fri, Mar 13, 2026 at 08:39:18AM -0700, Jacob Pan wrote:
+> > Hi David,
+> >  =20
+> > > +config VFIO_PCI_LIVEUPDATE
+> > > +       bool "VFIO PCI support for Live Update (EXPERIMENTAL)"
+> > > +       depends on LIVEUPDATE && VFIO_PCI
+> > > +       help
+> > > +         Support for preserving devices bound to vfio-pci across
+> > > a Live
+> > > +         Update. The eventual goal is that preserved devices can
+> > > run
+> > > +         uninterrupted during a Live Update, including DMA to
+> > > preserved
+> > > +         memory buffers and P2P. However there are many steps
+> > > still needed to
+> > > +         achieve this, including:
+> > > +
+> > > +          - Preservation of iommufd files
+> > > +          - Preservation of IOMMU driver state =20
+> > In the interim, what do you think about moving forward with noiommu
+> > mode without preserving IOMMU driver state? I=E2=80=99ve tested your
+> > vfio_pci_liveupdate_kexec_test with the noiommu cdev, and it works
+> > as expected.
+> >  =20
+>=20
+> Just curious, are you using qemu VM without iommu device for noiommu
+> work or do you have actual system without iommu hardware for testing?
 
---
-Lee Jones [李琼斯]
-
+I am using a qemu VM without iommu device and with an assigned
+nvme device. I use a low level nvme userspace driver (modified to use
+iommufd noiommu mode) for testing.
+https://github.com/SamsungDS/libvfn
