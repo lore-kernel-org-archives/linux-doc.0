@@ -1,131 +1,188 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from a8-40.smtp-out.amazonses.com (a8-40.smtp-out.amazonses.com [54.240.8.40])
+	(using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF6243D34B7;
-	Thu, 19 Mar 2026 13:20:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C16F37E2E6;
+	Thu, 19 Mar 2026 13:20:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.240.8.40
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773926433; cv=none; b=epPLXapfphtzHVeesCbd5og+nGIvDP0/lyAwjMJj7u5ZZbZ2pSIPc37cjOjGZovnRhO61HpOOGZHY9Hq+l0LDBGlFgtw+5ra6+3cg4y8H3KhhbDFcW5KiC84k4Nb6Ix6a7XdJmR162+i1+3hpY1qwUBzc2TWZwFwBsC5MtLt7kg=
+	t=1773926434; cv=none; b=LvF5nWPC7xuRL8IwCcq2otQQDIZa8QdePWQFwGJqRRSaNFMobqBnZzOupSQcQWoXGO1yPwgtsu7BiuqSnvCDLS6+ivijX7sVE+/wT/3D2t/R6FfzupOf48sUpcOT6uyOnmSFNAEot4lW1ylzyzOYFKZcf0zHdlhbfq8CdgL+pXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773926433; c=relaxed/simple;
-	bh=dFNCoB+OTvypkD2hCF907kjKiuMgY6mxgJCx8Z225YA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vf19NaNzBFJ+K07RjzHZvq1gnyG5VNs36TythpQV8g8DejPEIOsHW5aOBq0hFJ/beYdrlkZP25qcwRsj0Ts2MJ30s4F+7O7/fVU+o9TrPdUd5N8UR2gxORHDRcoeICBXJ7vNC6ylws48AXDbQ7HoeBeqtyt9BXXSb1l4h4h0lQk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BI0UppmV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773926434; c=relaxed/simple;
+	bh=D+N7TwRkCMJVOnBlkgJcpZilU8uPVzgv+cd9JtA2Xlk=;
+	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:In-Reply-To:
+	 References:Message-ID; b=TvArJkguAJaZ7HkVZkHz1H7m24lf4ZMK3GJwT1oHm5Pyf6Aawey6QJnVtBOZBj4t5yW6z/0d3e8fegfgM4A0ZjPJ5FFNU+gUHi/HZyW1hj3kCm9w6qCiczpWPAkXGEx9ehDHKvFUeRqxa5OkgT3YuKu2iYwH2OUHnT7xdnz9lkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jagalactic.com; spf=pass smtp.mailfrom=amazonses.com; dkim=pass (1024-bit key) header.d=jagalactic.com header.i=@jagalactic.com header.b=M66xKruP; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=s+nSn3ZR; arc=none smtp.client-ip=54.240.8.40
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jagalactic.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazonses.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BI0UppmV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31898C19424;
-	Thu, 19 Mar 2026 13:20:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773926433;
-	bh=dFNCoB+OTvypkD2hCF907kjKiuMgY6mxgJCx8Z225YA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BI0UppmVh84xRnAWlYINgjL7AZ7lNQoaH2vDgf0QBYu8//8cFiCyQ4bboJ1iOoM1t
-	 g46xh446UX82uh5A62oLhHKD1M8sKTxg6Iqg+2IR6qOxcz43p3txdzxvG3e9vz2xOt
-	 +h+P26qnUtlMtLNRET348B+eO2vK4rCDO8TXj7S8peeYRXFHn81FYyKGbKg8eGTBny
-	 IXbG4A53ecwF9x4ZSkCAu45fpZi7BOZ3nf0vBgI99zha4HeSIIV1T/uLVEL1FsRx38
-	 K2t5U4UeebwSUYHs0ym1n5aGyyKWLPsl9m2nzvkC8y1leBqPT9tnx8OXRRYYw+72+k
-	 MNJirhQemJLYQ==
-Date: Thu, 19 Mar 2026 14:20:30 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
-	Jyri Sarha <jyri.sarha@iki.fi>, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: Re: [PATCH 01/14] drm/atomic: Document atomic state lifetime
-Message-ID: <20260319-analytic-purring-kittiwake-ca04fa@houat>
-References: <20260310-drm-mode-config-init-v1-0-de7397c8e1cf@kernel.org>
- <20260310-drm-mode-config-init-v1-1-de7397c8e1cf@kernel.org>
- <b0d9aee3-46c1-486d-9516-43ee23658f40@ideasonboard.com>
+	dkim=pass (1024-bit key) header.d=jagalactic.com header.i=@jagalactic.com header.b="M66xKruP";
+	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="s+nSn3ZR"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=o25mqk5iffcfzgc3wo2zjhkohcyjzsoq; d=jagalactic.com; t=1773926432;
+	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:References:Message-Id;
+	bh=D+N7TwRkCMJVOnBlkgJcpZilU8uPVzgv+cd9JtA2Xlk=;
+	b=M66xKruPEYluJ+GdDhtzcGFGI17kPlzE9edE9udWfIm52SAbrxqsTGMz3FqJvp4s
+	nKFfNYjgnUe6YnTdAiMZCEBf2Q/E8EmTnWkMaQIEG4xZ0YRtDggXheHpNf06nymKLdc
+	m2EoWPTJg6e3QnfT3YdToeapCvMPu1B1poXwJcIs=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1773926432;
+	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:References:Message-Id:Feedback-ID;
+	bh=D+N7TwRkCMJVOnBlkgJcpZilU8uPVzgv+cd9JtA2Xlk=;
+	b=s+nSn3ZR/BIsDEWSUoq2UxB6pGmyK6mlCjakZ2Qkp3zlbM3u3GEWKOctb0fHDLex
+	QiK4IQ2tVyl0jLlodyFsyyBqrnfsONU9QPH213ODTolq6fBn8BtMwPY0ocZuYsu4X0j
+	wA6oKX7O0e2W9ThRzhD22FuA1X5BaF3UOtXB3jJo=
+Subject: [PATCH V8 09/10] famfs_fuse: Add famfs fmap metadata documentation
+From: =?UTF-8?Q?John_Groves?= <john@jagalactic.com>
+To: =?UTF-8?Q?John_Groves?= <John@Groves.net>, 
+	=?UTF-8?Q?Miklos_Szeredi?= <miklos@szeredi.hu>, 
+	=?UTF-8?Q?Dan_Williams?= <dan.j.williams@intel.com>, 
+	=?UTF-8?Q?Bernd_Schubert?= <bschubert@ddn.com>, 
+	=?UTF-8?Q?Alison_Schofiel?= =?UTF-8?Q?d?= <alison.schofield@intel.com>
+Cc: =?UTF-8?Q?John_Groves?= <jgroves@micron.com>, 
+	=?UTF-8?Q?Jonathan_Corbe?= =?UTF-8?Q?t?= <corbet@lwn.net>, 
+	=?UTF-8?Q?Shuah_Khan?= <skhan@linuxfoundation.org>, 
+	=?UTF-8?Q?Vishal_Verma?= <vishal.l.verma@intel.com>, 
+	=?UTF-8?Q?Dave_Jiang?= <dave.jiang@intel.com>, 
+	=?UTF-8?Q?Matthew_Wilcox?= <willy@infradead.org>, 
+	=?UTF-8?Q?Jan_Kara?= <jack@suse.cz>, 
+	=?UTF-8?Q?Alexander_Viro?= <viro@zeniv.linux.org.uk>, 
+	=?UTF-8?Q?David_Hildenbrand?= <david@kernel.org>, 
+	=?UTF-8?Q?Christian_Bra?= =?UTF-8?Q?uner?= <brauner@kernel.org>, 
+	=?UTF-8?Q?Darrick_J_=2E_Wong?= <djwong@kernel.org>, 
+	=?UTF-8?Q?Randy_Dunlap?= <rdunlap@infradead.org>, 
+	=?UTF-8?Q?Jeff_Layton?= <jlayton@kernel.org>, 
+	=?UTF-8?Q?Amir_Goldstein?= <amir73il@gmail.com>, 
+	=?UTF-8?Q?Jonathan_Cameron?= <Jonathan.Cameron@huawei.com>, 
+	=?UTF-8?Q?Stefan_Hajnoczi?= <shajnocz@redhat.com>, 
+	=?UTF-8?Q?Joanne_Koong?= <joannelkoong@gmail.com>, 
+	=?UTF-8?Q?Josef_Bacik?= <josef@toxicpanda.com>, 
+	=?UTF-8?Q?Bagas_Sanjaya?= <bagasdotme@gmail.com>, 
+	=?UTF-8?Q?Chen_Linxuan?= <chenlinxuan@uniontech.com>, 
+	=?UTF-8?Q?James_Morse?= <james.morse@arm.com>, 
+	=?UTF-8?Q?Fuad_Tabba?= <tabba@google.com>, 
+	=?UTF-8?Q?Sean_Christopherson?= <seanjc@google.com>, 
+	=?UTF-8?Q?Shivank_Garg?= <shivankg@amd.com>, 
+	=?UTF-8?Q?Ackerley_Tng?= <ackerleytng@google.com>, 
+	=?UTF-8?Q?Gregory_Pric?= =?UTF-8?Q?e?= <gourry@gourry.net>, 
+	=?UTF-8?Q?Aravind_Ramesh?= <arramesh@micron.com>, 
+	=?UTF-8?Q?Ajay_Joshi?= <ajayjoshi@micron.com>, 
+	=?UTF-8?Q?venkataravis=40micron=2Ecom?= <venkataravis@micron.com>, 
+	=?UTF-8?Q?linux-doc=40vger=2Ekernel=2Eorg?= <linux-doc@vger.kernel.org>, 
+	=?UTF-8?Q?linux-kernel=40vger=2Ekernel=2Eorg?= <linux-kernel@vger.kernel.org>, 
+	=?UTF-8?Q?nvdimm=40lists=2Elinux=2Edev?= <nvdimm@lists.linux.dev>, 
+	=?UTF-8?Q?linux-cxl=40vger=2Ekernel=2Eorg?= <linux-cxl@vger.kernel.org>, 
+	=?UTF-8?Q?linux-fsdevel=40vger=2Ekernel=2Eorg?= <linux-fsdevel@vger.kernel.org>, 
+	=?UTF-8?Q?John_Groves?= <john@groves.net>
+Date: Thu, 19 Mar 2026 13:20:31 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="ekgjblyw25gmfu6n"
-Content-Disposition: inline
-In-Reply-To: <b0d9aee3-46c1-486d-9516-43ee23658f40@ideasonboard.com>
-
-
---ekgjblyw25gmfu6n
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 01/14] drm/atomic: Document atomic state lifetime
-MIME-Version: 1.0
+In-Reply-To: <20260318203054.4344.fuse@groves.net>
+References: <20260318203054.4344.fuse@groves.net> 
+ <20260319132024.13482-1-john@jagalactic.com>
+X-Mailer: Amazon WorkMail
+Thread-Index: AQHctz+ZMjBZ3RwkQ1uhcQrmTMqILwAAVQgdABjj3bk=
+Thread-Topic: [PATCH V8 09/10] famfs_fuse: Add famfs fmap metadata
+ documentation
+X-Wm-Sent-Timestamp: 1773926430
+X-Original-Mailer: git-send-email 2.52.0
+Message-ID: <0100019d06413c38-24a4f68e-c904-4edb-87b8-8bdb4eb3fffb-000000@email.amazonses.com>
+Feedback-ID: ::1.us-east-1.LF00NED762KFuBsfzrtoqw+Brn/qlF9OYdxWukAhsl8=:AmazonSES
+X-SES-Outgoing: 2026.03.19-54.240.8.40
 
-Hi Tomi,
-
-Thanks for your review
-
-On Wed, Mar 11, 2026 at 08:44:24AM +0200, Tomi Valkeinen wrote:
-> > + *
-> > + *     At that point, &struct drm_atomic_state stores three state
-> > + *     pointers for that particular entity: the old, new, and existing
-> > + *     (called "state") states. The old state is the state currently
-> > + *     active in the hardware, which is either the one initialized by
-> > + *     reset() or a newer one if a commit has been made. The new state
-> > + *     is the state we just allocated and we might eventually commit to
-> > + *     the hardware. The existing state points to the state we'll
-> > + *     eventually have to free when the drm_atomic_state will be
-> > + *     destroyed, but points to the new state for now.
->=20
-> From this, I don't understand the difference between the old state and
-> the existing state. And if the existing state is the one we'll free,
-> isn't that the old state, not new state? Oh, is the existing state a
-> state we have to free when the drm_atomic_state would is freed? And at
-> this point the new state is the one, as it's not committed?
-
-Thanks for pointing it out, I need to update this part. state is never
-the active one, because drm_atomic_state disappears(ish) when the new
-state is committed and thus, by the time an object state is active,
-there's no drm_atomic_state to hold it anymore.
-
-When a new drm_atomic_state is allocated, and we call
-drm_atomic_get_$OBJECT_state, old state is filled with the current
-active state, new state is filled with a copy of it we can modify.
-
-The third pointer (that used to be called state) points to the state we
-need to destroy if we destroy drm_atomic_state. Before atomic_commit,
-it's the new state we didn't commit (probably to do an atomic_check).
-After atomic_commit, the new state has become the active state, and we
-need to destroy the old state (the state that got replaced). That
-pointer is now called state_to_destroy which should be more obvious.
-
-> > + *     state pointer (&drm_crtc.state or similar) to point to the new
-> > + *     state, and the existing states will now point to the old states,
-> > + *     that used to be active but isn't anymore.
->=20
-> "aren't"
->=20
-> I think I understand this, but... It kind of brings in a new state
-> concept, "active state".
-
-The active state is never really held by drm_atomic_state but by
-drm_$OBJECT->state. drm_atomic_state is really more of an update
-description (so something that might eventually become active) rather
-than the actual active state.
-
-Maxime
-
---ekgjblyw25gmfu6n
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCabv4FgAKCRAnX84Zoj2+
-dlQsAYDR7vzmTwt1JEEv/HF8KAR9NNmfn3X6jRBwoBEB/S50xkW90weJ8uOC4KkW
-Bf35htABgLyQ4IYaMs06JFIkUjAQGwanCw9lq/ykEJohuZQeKiHG0wJ3tzCNJ1zE
-CE9cOqGIyQ==
-=7bK3
------END PGP SIGNATURE-----
-
---ekgjblyw25gmfu6n--
+From: John Groves <John@Groves.net>=0D=0A=0D=0AThis describes the fmap me=
+tadata - both simple and interleaved=0D=0A=0D=0AReviewed-by: Dave Jiang <=
+dave.jiang@intel.com>=0D=0ASigned-off-by: John Groves <john@groves.net>=0D=
+=0A---=0D=0A fs/fuse/famfs_kfmap.h | 73 +++++++++++++++++++++++++++++++++=
+++++++++++=0D=0A 1 file changed, 73 insertions(+)=0D=0A=0D=0Adiff --git a=
+/fs/fuse/famfs_kfmap.h b/fs/fuse/famfs_kfmap.h=0D=0Aindex 0fff841f5a9e..9=
+70ad802b492 100644=0D=0A--- a/fs/fuse/famfs_kfmap.h=0D=0A+++ b/fs/fuse/fa=
+mfs_kfmap.h=0D=0A@@ -7,6 +7,79 @@=0D=0A #ifndef FAMFS_KFMAP_H=0D=0A #defi=
+ne FAMFS_KFMAP_H=0D=0A=20=0D=0A+/* KABI version 43 (aka v2) fmap structur=
+es=0D=0A+ *=0D=0A+ * The location of the memory backing for a famfs file =
+is described by=0D=0A+ * the response to the GET_FMAP fuse message (defin=
+ed in=0D=0A+ * include/uapi/linux/fuse.h=0D=0A+ *=0D=0A+ * There are curr=
+ently two extent formats: Simple and Interleaved.=0D=0A+ *=0D=0A+ * Simpl=
+e extents are just (devindex, offset, length) tuples, where devindex=0D=0A=
++ * references a devdax device that must be retrievable via the GET_DAXDE=
+V=0D=0A+ * message/response.=0D=0A+ *=0D=0A+ * The extent list size must =
+be >=3D file_size.=0D=0A+ *=0D=0A+ * Interleaved extents merit some addit=
+ional explanation. Interleaved=0D=0A+ * extents stripe data across a coll=
+ection of strips. Each strip is a=0D=0A+ * contiguous allocation from a s=
+ingle devdax device - and is described by=0D=0A+ * a simple_extent struct=
+ure.=0D=0A+ *=0D=0A+ * Interleaved_extent example:=0D=0A+ *   ie_nstrips =
+=3D 4=0D=0A+ *   ie_chunk_size =3D 2MiB=0D=0A+ *   ie_nbytes =3D 24MiB=0D=
+=0A+ *=0D=0A+ * =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=90=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=90=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90=0D=0A+ * =E2=94=82Chunk =3D=
+ 0   =E2=94=82Chunk =3D 1   =E2=94=82Chunk =3D 2   =E2=94=82Chunk =3D 3  =
+ =E2=94=82=0D=0A+ * =E2=94=82Strip =3D 0   =E2=94=82Strip =3D 1   =E2=94=82=
+Strip =3D 2   =E2=94=82Strip =3D 3   =E2=94=82=0D=0A+ * =E2=94=82Stripe =3D=
+ 0  =E2=94=82Stripe =3D 0  =E2=94=82Stripe =3D 0  =E2=94=82Stripe =3D 0  =
+=E2=94=82=0D=0A+ * =E2=94=82            =E2=94=82            =E2=94=82   =
+         =E2=94=82            =E2=94=82=0D=0A+ * =E2=94=94=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=98=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=98=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=98=0D=0A+ * =E2=94=82Chunk =3D 4   =E2=94=82Chunk =3D 5   =E2=94=82Chunk=
+ =3D 6   =E2=94=82Chunk =3D 7   =E2=94=82=0D=0A+ * =E2=94=82Strip =3D 0  =
+ =E2=94=82Strip =3D 1   =E2=94=82Strip =3D 2   =E2=94=82Strip =3D 3   =E2=
+=94=82=0D=0A+ * =E2=94=82Stripe =3D 1  =E2=94=82Stripe =3D 1  =E2=94=82St=
+ripe =3D 1  =E2=94=82Stripe =3D 1  =E2=94=82=0D=0A+ * =E2=94=82          =
+  =E2=94=82            =E2=94=82            =E2=94=82            =E2=94=82=
+=0D=0A+ * =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=98=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98=0D=0A+ * =E2=94=82Chunk =3D 8   =E2=
+=94=82Chunk =3D 9   =E2=94=82Chunk =3D 10  =E2=94=82Chunk =3D 11  =E2=94=82=
+=0D=0A+ * =E2=94=82Strip =3D 0   =E2=94=82Strip =3D 1   =E2=94=82Strip =3D=
+ 2   =E2=94=82Strip =3D 3   =E2=94=82=0D=0A+ * =E2=94=82Stripe =3D 2  =E2=
+=94=82Stripe =3D 2  =E2=94=82Stripe =3D 2  =E2=94=82Stripe =3D 2  =E2=94=82=
+=0D=0A+ * =E2=94=82            =E2=94=82            =E2=94=82            =
+=E2=94=82            =E2=94=82=0D=0A+ * =E2=94=94=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=98=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=98=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98=0D=0A=
++ *=0D=0A+ * * Data is laid out across chunks in chunk # order=0D=0A+ * *=
+ Columns are strips=0D=0A+ * * Strips are contiguous devdax extents, norm=
+ally each coming from a=0D=0A+ *   different memory device=0D=0A+ * * Row=
+s are stripes=0D=0A+ * * The number of chunks is (int)((file_size + chunk=
+_size - 1) / chunk_size)=0D=0A+ *   (and obviously the last chunk could b=
+e partial)=0D=0A+ * * The stripe_size =3D (nstrips * chunk_size)=0D=0A+ *=
+ * chunk_num(offset) =3D offset / chunk_size    //integer division=0D=0A+=
+ * * strip_num(offset) =3D chunk_num(offset) % nchunks=0D=0A+ * * stripe_=
+num(offset) =3D offset / stripe_size  //integer division=0D=0A+ * * ...Yo=
+u get the idea - see the code for more details...=0D=0A+ *=0D=0A+ * Some =
+concrete examples from the layout above:=0D=0A+ * * Offset 0 in the file =
+is offset 0 in chunk 0, which is offset 0 in=0D=0A+ *   strip 0=0D=0A+ * =
+* Offset 4MiB in the file is offset 0 in chunk 2, which is offset 0 in=0D=
+=0A+ *   strip 2=0D=0A+ * * Offset 15MiB in the file is offset 1MiB in ch=
+unk 7, which is offset=0D=0A+ *   3MiB in strip 3=0D=0A+ *=0D=0A+ * Notes=
+ about this metadata format:=0D=0A+ *=0D=0A+ * * For various reasons, chu=
+nk_size must be a multiple of the applicable=0D=0A+ *   PAGE_SIZE=0D=0A+ =
+* * Since chunk_size and nstrips are constant within an interleaved_exten=
+t,=0D=0A+ *   resolving a file offset to a strip offset within a single=0D=
+=0A+ *   interleaved_ext is order 1.=0D=0A+ * * If nstrips=3D=3D1, a list=
+ of interleaved_ext structures degenerates to a=0D=0A+ *   regular extent=
+ list (albeit with some wasted struct space).=0D=0A+ */=0D=0A+=0D=0A /*=0D=
+=0A  * The structures below are the in-memory metadata format for famfs f=
+iles.=0D=0A  * Metadata retrieved via the GET_FMAP response is converted =
+to this format=0D=0A--=20=0D=0A2.53.0=0D=0A=0D=0A
