@@ -1,207 +1,281 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from mout-b-203.mailbox.org (mout-b-203.mailbox.org [195.10.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D4CF3E0C7F;
-	Thu, 19 Mar 2026 15:12:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FE7B3A7581;
+	Thu, 19 Mar 2026 15:14:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.10.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773933128; cv=none; b=HQc/siZEF2xwYsPATJSYoVjVX0rcPLKGj5LnkZTF/3VrSivNtRuj6lmfwM8sNl1/TGOtVyFxMcn0H8rTZ9lUXMguVB5FVJ1co7Ss66TSdptbkAv+BJ+tiNG0RFWoFOo4mCF/7QaGPDhskLHeKG01ASEsfrrhOj+Jw1ThCnS1cV4=
+	t=1773933257; cv=none; b=jz4uxL0sRo0LSK/SDhhKTilPzdcXjI0vfAMzSZ5DgJze/RQeOksCbY851yIAxaQixgn959L0aU/pbbHtHqJHn2h1VTjb2iZkmtdQL2igEXSfOiunjixmhBoCG5YUp5nWMirmL57uti8HtE3Z6qs8itQhY5Ajzm6YaZ4r8nsxWi0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773933128; c=relaxed/simple;
-	bh=CQDG8hpAyrt4e8pfDENGAaTuq0OjnAQaqEiQYCI+bOs=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BjMeasA0Jysoy/5NljRLNfowXaIJeg8gYrMfTJ+mUS8qcQVBnz3PWZ/ktWiTRYD+k0YBbKP+nXkNo4tDyQ/lXDCjGlR7Ti9t+GWWU/+3nbzPvPHejymzCoz6100bvhpT8IObo1U384UM+NkQOEay/91rb6c9DvqhdPDh6x2iNwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.224.150])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fc8KL2nJ7zJ46BM;
-	Thu, 19 Mar 2026 23:11:02 +0800 (CST)
-Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
-	by mail.maildlp.com (Postfix) with ESMTPS id E2A9D4056A;
-	Thu, 19 Mar 2026 23:12:01 +0800 (CST)
-Received: from localhost (10.203.177.15) by dubpeml500005.china.huawei.com
- (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 19 Mar
- 2026 15:12:00 +0000
-Date: Thu, 19 Mar 2026 15:11:58 +0000
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
-To: John Groves <John@groves.net>
-CC: Ira Weiny <ira.weiny@intel.com>, John Groves <john@jagalactic.com>, Miklos
- Szeredi <miklos@szeredi.hu>, Dan Williams <dan.j.williams@intel.com>, Bernd
- Schubert <bschubert@ddn.com>, "Alison Schofield"
-	<alison.schofield@intel.com>, John Groves <jgroves@micron.com>, John Groves
-	<jgroves@fastmail.com>, Jonathan Corbet <corbet@lwn.net>, Vishal Verma
-	<vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox
-	<willy@infradead.org>, Jan Kara <jack@suse.cz>, "Alexander Viro"
-	<viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, Christian
- Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, Randy
- Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, Amir
- Goldstein <amir73il@gmail.com>, Stefan Hajnoczi <shajnocz@redhat.com>, Joanne
- Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, Bagas
- Sanjaya <bagasdotme@gmail.com>, James Morse <james.morse@arm.com>, Fuad Tabba
-	<tabba@google.com>, Sean Christopherson <seanjc@google.com>, Shivank Garg
-	<shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>, Gregory Price
-	<gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>, Ajay Joshi
-	<ajayjoshi@micron.com>, "venkataravis@micron.com" <venkataravis@micron.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH V7 03/19] dax: add fsdev.c driver for fs-dax on
- character dax
-Message-ID: <20260319151158.00003e37@huawei.com>
-In-Reply-To: <aZSoCIjbxKIqRZF4@groves.net>
-References: <0100019bd33b1f66-b835e86a-e8ae-443f-a474-02db88f7e6db-000000@email.amazonses.com>
-	<20260118223123.92341-1-john@jagalactic.com>
-	<0100019bd33c310f-1b4a8555-bc81-4ec3-b45f-27abc01dff05-000000@email.amazonses.com>
-	<698f922296bd0_bcb8910059@iweiny-mobl.notmuch>
-	<aZSoCIjbxKIqRZF4@groves.net>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1773933257; c=relaxed/simple;
+	bh=n8R0lxQXS/WRXKTyJKSYL9wuO+24uiQFtgi6nZnJAK0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=i4UyGRsm6kyNRxUsKAKKHYj7PcCbaXtWpTnsh+LoEejLIJOwLvNxWyQApDjFC/F57ZKKbJ7coRRMaA5bfEUP9haIfF2zrfoMSPi1XztrDm3bMNlSwe7rK4bFYcuIo3VHraz2VaSN5m39B4IrO81CSA5VcExB3i3hTcb2TIi7ODY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mandelbit.com; spf=pass smtp.mailfrom=mandelbit.com; dkim=pass (2048-bit key) header.d=mandelbit.com header.i=@mandelbit.com header.b=eXj+SHQW; arc=none smtp.client-ip=195.10.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mandelbit.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mandelbit.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=mandelbit.com header.i=@mandelbit.com header.b="eXj+SHQW"
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-b-203.mailbox.org (Postfix) with ESMTPS id 4fc8P035MVz9xDr;
+	Thu, 19 Mar 2026 16:14:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mandelbit.com;
+	s=MBO0001; t=1773933252;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=S7WhGtrDIV2TD9WUU8l0miYi1zOi2sYafJlFAbioGLo=;
+	b=eXj+SHQWkzay4JN2jAsFgEcsoQ6qBvwrc+fMFsOvi57VNcHgsLtzEwkW4S/hlQr/p1E8so
+	b0GYT8qyij5Xyb4/XwU54hkh/SHYay95u+LvQ+z2kUFx5tGX2fS333VM6VSjJ80YEzxITE
+	iYE8No1V8Aplil1Fs80lxtFGa0FL2mNbj8TkRMJqC6/HIo+6Yj9RhjTxzAllFOFLAD+jXe
+	nEegOeRm3LLn7XNtTeDWzSw/CIzl/3/vZ8OHR2h7XgvQowXhe3rxtV5mk40z1QEMCTKBp5
+	j/cuBk8EArFEx7/U5hZTR1qyE3WDCm37rB9mRo2q7Zh/vCTZduCJMjGMSo/nbw==
+From: Ralf Lici <ralf@mandelbit.com>
+To: netdev@vger.kernel.org
+Cc: =?UTF-8?q?Daniel=20Gr=C3=B6ber?= <dxld@darkboxed.org>,
+	Antonio Quartulli <antonio@mandelbit.com>,
+	Ralf Lici <ralf@mandelbit.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [RFC net-next 15/15] Documentation: networking: add ipxlat translator guide
+Date: Thu, 19 Mar 2026 16:12:24 +0100
+Message-ID: <20260319151230.655687-16-ralf@mandelbit.com>
+In-Reply-To: <20260319151230.655687-1-ralf@mandelbit.com>
+References: <20260319151230.655687-1-ralf@mandelbit.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500010.china.huawei.com (7.191.174.240) To
- dubpeml500005.china.huawei.com (7.214.145.207)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, 17 Feb 2026 11:56:20 -0600
-John Groves <John@groves.net> wrote:
+From: Daniel Gröber <dxld@darkboxed.org>
 
-> On 26/02/13 03:05PM, Ira Weiny wrote:
-> > John Groves wrote:  
-> > > From: John Groves <john@groves.net>
-> > > 
-> > > The new fsdev driver provides pages/folios initialized compatibly with
-> > > fsdax - normal rather than devdax-style refcounting, and starting out
-> > > with order-0 folios.
-> > > 
-> > > When fsdev binds to a daxdev, it is usually (always?) switching from the
-> > > devdax mode (device.c), which pre-initializes compound folios according
-> > > to its alignment. Fsdev uses fsdev_clear_folio_state() to switch the
-> > > folios into a fsdax-compatible state.
-> > > 
-> > > A side effect of this is that raw mmap doesn't (can't?) work on an fsdev
-> > > dax instance. Accordingly, The fsdev driver does not provide raw mmap -
-> > > devices must be put in 'devdax' mode (drivers/dax/device.c) to get raw
-> > > mmap capability.
-> > > 
-> > > In this commit is just the framework, which remaps pages/folios compatibly
-> > > with fsdax.
-> > > 
-> > > Enabling dax changes:
-> > > 
-> > > - bus.h: add DAXDRV_FSDEV_TYPE driver type
-> > > - bus.c: allow DAXDRV_FSDEV_TYPE drivers to bind to daxdevs
-> > > - dax.h: prototype inode_dax(), which fsdev needs
-> > > 
-> > > Suggested-by: Dan Williams <dan.j.williams@intel.com>
-> > > Suggested-by: Gregory Price <gourry@gourry.net>
-> > > Signed-off-by: John Groves <john@groves.net>
-> > > ---
-> > >  MAINTAINERS          |   8 ++
-> > >  drivers/dax/Makefile |   6 ++
-> > >  drivers/dax/bus.c    |   4 +
-> > >  drivers/dax/bus.h    |   1 +
-> > >  drivers/dax/fsdev.c  | 242 +++++++++++++++++++++++++++++++++++++++++++
-> > >  fs/dax.c             |   1 +
-> > >  include/linux/dax.h  |   5 +
-> > >  7 files changed, 267 insertions(+)
-> > >  create mode 100644 drivers/dax/fsdev.c
-> > >   
-> > 
-> > [snip]
-> >   
-> > > +
-> > > +static int fsdev_dax_probe(struct dev_dax *dev_dax)
-> > > +{
-> > > +	struct dax_device *dax_dev = dev_dax->dax_dev;
-> > > +	struct device *dev = &dev_dax->dev;
-> > > +	struct dev_pagemap *pgmap;
-> > > +	u64 data_offset = 0;
-> > > +	struct inode *inode;
-> > > +	struct cdev *cdev;
-> > > +	void *addr;
-> > > +	int rc, i;
-> > > +
-> > > +	if (static_dev_dax(dev_dax))  {
-> > > +		if (dev_dax->nr_range > 1) {
-> > > +			dev_warn(dev, "static pgmap / multi-range device conflict\n");
-> > > +			return -EINVAL;
-> > > +		}
-> > > +
-> > > +		pgmap = dev_dax->pgmap;
-> > > +	} else {
-> > > +		size_t pgmap_size;
-> > > +
-> > > +		if (dev_dax->pgmap) {
-> > > +			dev_warn(dev, "dynamic-dax with pre-populated page map\n");
-> > > +			return -EINVAL;
-> > > +		}
-> > > +
-> > > +		pgmap_size = struct_size(pgmap, ranges, dev_dax->nr_range - 1);
-> > > +		pgmap = devm_kzalloc(dev, pgmap_size,  GFP_KERNEL);
-> > > +		if (!pgmap)
-> > > +			return -ENOMEM;
-> > > +
-> > > +		pgmap->nr_range = dev_dax->nr_range;
-> > > +		dev_dax->pgmap = pgmap;
-> > > +
-> > > +		for (i = 0; i < dev_dax->nr_range; i++) {
-> > > +			struct range *range = &dev_dax->ranges[i].range;
-> > > +
-> > > +			pgmap->ranges[i] = *range;
-> > > +		}
-> > > +	}
-> > > +
-> > > +	for (i = 0; i < dev_dax->nr_range; i++) {
-> > > +		struct range *range = &dev_dax->ranges[i].range;
-> > > +
-> > > +		if (!devm_request_mem_region(dev, range->start,
-> > > +					range_len(range), dev_name(dev))) {
-> > > +			dev_warn(dev, "mapping%d: %#llx-%#llx could not reserve range\n",
-> > > +				 i, range->start, range->end);
-> > > +			return -EBUSY;
-> > > +		}
-> > > +	}  
-> > 
-> > All of the above code is AFAICT exactly the same as the dev_dax driver.
-> > Isn't there a way to make this common?
-> > 
-> > The rest of the common code is simple enough.  
-> 
-> dev_dax_probe() and fsdev_dax_probe() do indeed have some "same code" - 
-> range validity checking and pgmap setup, from the top of probe through 
-> the for loop above. After that they're different. Also, I just did a scan 
-> and the probe function seems like the only remaining common code between 
-> device.c and fsdev.c.
-> 
-> These are separate kmods; that code could certainly be factored out and 
-> shared, but it would need to go somewhere common (maybe bus.c)?
+Add user and reviewer documentation for the ipxlat virtual netdevice in
+Documentation/networking/ipxlat.rst.
 
-Given I made a similar comment on new version. I'll reply here.
-Could move it to core code, or if you want to keep stuff kmod, it's common
-enough to have helper / library modules.  They are non userselectable
-Kconfig options that are selected by the visible parts that need them.
-Then dependency management ensures the helper gets loaded first.
+The document describes the datapath model, stateless IPv4/IPv6 address
+translation rules, ICMP handling, control-plane configuration, and test
+topology assumptions. It also records the intended runtime configuration
+contract and current behavior limits so deployment expectations are
+clear.
 
-> 
-> So both device.c and fsdev.c would call bus.c:dax_prepare_pgmap() or
-> some such.
-> 
-> I feel like this might not be worth factoring out, but I'm happy to do it
-> if you and/or the dax team prefer it factored out and shared.
+Signed-off-by: Daniel Gröber <dxld@darkboxed.org>
+Signed-off-by: Ralf Lici <ralf@mandelbit.com>
+---
+ Documentation/networking/ipxlat.rst | 190 ++++++++++++++++++++++++++++
+ 1 file changed, 190 insertions(+)
+ create mode 100644 Documentation/networking/ipxlat.rst
 
-I think I'd like to see what it looks like. Maybe as a series on top.
-But not my area so over to Dax folk ;)
-
-Jonathan
-
-
-> 
+diff --git a/Documentation/networking/ipxlat.rst b/Documentation/networking/ipxlat.rst
+new file mode 100644
+index 000000000000..5a0ad02c05be
+--- /dev/null
++++ b/Documentation/networking/ipxlat.rst
+@@ -0,0 +1,190 @@
++.. SPDX-License-Identifier: GPL-2.0+
++.. Copyright (C) 2026 Daniel Gröber <dxld@debian.org>
++
++==============================================
++IPXLAT - IPv6<>IPv4 IP/ICMP Translation (SIIT)
++==============================================
++
++ipxlat (``CONFIG_IPXLAT=y``) provides a virtual netdevice implementing
++stateless IP packet translation between IP versions 6 and 4. This is a
++building block for establishing layer 3 connectivity between otherwise
++uncommunicative IPv6-only and/or IPv4-only networks.
++
++
++Creation and Configuration Parameters
++=====================================
++
++An ipxlat netdevice can be created and configured using YNL like so::
++
++    $ ip link add siit0 type ipxlat
++
++    $ IID=$(cat /sys/class/net/siit0/ifindex)
++
++    $ ADDR_HEX=$(python3 -c 'import ipaddress,sys; \
++        print(ipaddress.IPv6Address(sys.argv[1]).packed.hex())' \
++        64:ff9b:: | tee /dev/stderr)
++    0064ff9b000000000000000000000000
++
++    $ ./tools/net/ynl/pyynl/cli.py --family ipxlat --json '{"ifindex": $IID, \
++        "config": {"xlat-prefix6": "'$HEX_ADDR'", "prefix-len": 96} }'
++
++(TODO: Once implemented) A ipxlat netdevice can be configured using
++iproute2::
++
++    $ ip link add siit0 type ipxlat [ OPTIONS ]
++
++    # where OPTIONS can include (TODO: iproute2 patch):
++    #
++    #   prefix ADDR          (default 64:ff9b::/96)
++    #
++    #   lowest-ipv6-mtu MTU  (default 1280)
++
++
++Introduction to Packet-level IPv6<>IPv4 Translation
++===================================================
++
++Translatable packets delivered into an ipxlat device as either of the IP
++protocol versions loop-back as the other. Untranslatable packets are
++rejected with ICMP errors of the same IP version as appropriate or dropped
++silently if required by RFC-SIIT_.
++
++.. _RFC-SIIT: https://datatracker.ietf.org/doc/html/rfc7915
++
++Supported upper layer protocols (TCP/UDP/ICMP) have their checksums
++recomputed as-needed as part of translation. Unsupported IP protocols
++(IPPROTO\_*) are passed through unmodified. This will make them fail at the
++receiver except in special cases.
++
++Differences in IP layer semantic concerns are handled using several
++different strategies, here we'll only give a high-level summary in the
++areas of most friction:
++  Fragmentation approach, Path MTU Discovery (PMTUD), IP Options and Extension
++  Headers.
++
++**Fragmentation Approach** (v4: on-path vs v6: end-to-end) is smoothed over by:
++ | 4->6: Fragmenting (DF=0) IPv4 packets when needed. See "lowest-ipv6-mtu".
++ | 6->4: Using on-path frag. down the line for v4 pkts smaller than 1260.
++ Details are tedious, check RFC-SIIT_.
++
++**PMTUD** is maintained by recalculating advised MTU values in ICMP
++PKT_TOO_BIG and FRAG_NEEDED messages as they're being translated. Taking
++into account the necessary header re-sizing and post-translation nexthop
++MTU in the main routing table.
++
++**IP Options and IPv6 Extension Headers** except the Fragment Header are
++dropped or ignored expept where more specific behaviour is specified in
++RFC-SIIT_.
++
++
++Address Translation
++-------------------
++
++The ipxlat address translation algorithm is stateless, per RFC-ADDR_, all
++possible IPv4 addressess are mapped one-to-one into the translation prefix,
++optionally including a non-standard "suffix". See `RFC-ADDR Section 2.2
++<https://datatracker.ietf.org/doc/html/rfc6052#section-2.2>`_.
++
++.. _RFC-ADDR: https://datatracker.ietf.org/doc/html/rfc6052
++
++IPv6 addressess outside this prefix are rejected with ICMPv6 errors with
++the notable exception of ICMPv6 errors originating from untranslatable
++source addressess. These are translated to be sourced from the IPv4 Dummy
++Address ``192.0.0.8`` (per I-D-dummy_) instead to maintain IPv4 traceroute
++visibility.
++
++.. _I-D-dummy:
++   https://datatracker.ietf.org/doc/draft-ietf-v6ops-icmpext-xlat-v6only-source/
++
++In a basic bidirectional 6<>4 connectivity scenario this means IPv6 hosts
++must be addressed wholly from inside the translation prefix and per
++RFC-ADDR_. Plain vanilla SLAAC doesn't cut it here, static addressing or
++DHCPv6 is needed, unless that is we introduce statefulnes (RFC-NAT64_) into
++the mix. See below on that.
++
++.. _RFC-NAT64: https://datatracker.ietf.org/doc/html/rfc6146
++
++
++Stateful Translation (NAT64)
++----------------------------
++
++Using NAT64 has several drawbacks, it's necessary only when your control
++over IPv4 or IPv6 addressing of hosts is limited.
++
++Using nftables we can turn a system into a stateful translator. For example
++to make the IPv4 internet reachable to a IPv6-only LAN having this system
++as it's default route, further assuming we have an IPv4 default route and
++``192.0.2.1/32`` is routed to this system::
++
++ $ ip link add siit0 type ipxlat
++ $ ip link set dev siit0 up
++ $ ip route 192.0.2.1/32 dev siit0
++ $ ip route 64:ff9b::/96 dev siit0
++ $ sysctl -w net.ipv4.conf.all.forwarding=1
++ $ sysctl -w net.ipv6.conf.all.forwarding=1
++ $ nft -f- <<EOF
++ table ip6 nat {
++         chain postrouting {
++                 type nat hook postrouting priority filter; policy accept;
++                 oifname "siit0" snat to 64:ff9b::c002:1 comment "::192.0.2.1"
++         }
++ }
++ table ip nat {
++         chain postrouting {
++                 type nat hook postrouting priority filter; policy accept;
++                 iifname "siit0" masquerade
++         }
++ }
++ EOF
++
++Note: Keep reading when replacing the 192.0.2.0/24 documentation
++placeholder with RFC 1918 "private IPv4" space.
++
++
++Translation Prefix Choice and Complications
++-------------------------------------------
++
++Several prefix sizes between /32 and /96 are supported by ipxlat. Using
++a /96 prefix is often convenient as it allows using the dotted quad IPv6
++notation, eg.: "64:ff9b::192.0.2.1". RFC-ADDR_ "3.3. Choice of Prefix for
++Stateless Translation Deployments" has more detailed recommendations.
++
++The "Well-Known Prefix" (WKP) 64:ff9b::/96, while a convenient and short
++choice for LANs, comes with some IETF baggage. As specified (at time of
++writing) addressess drawn from RFC 1918 "private IPv4" space "MUST NOT" be
++used with the WKP. While ipxlat does not enforce this other network
++elements may.
++
++If I-D-WKP-1918_ makes it through the IETF process this complication for
++the cautious network engineer may dissapear in the future.
++
++.. _I-D-WKP-1918:
++   https://datatracker.ietf.org/doc/draft-ietf-v6ops-nat64-wkp-1918/
++
++In the meantime the newer and more lax prefix allocated by RFC-LWKP_ or an
++entirely Network-Specific Prefix may be a better fit. We'd recommend using
++the checksum-neutral ``64:ff9b:1:fffe::/96`` prefix from the larger /48
++allocation.
++
++.. _RFC-LWKP: https://datatracker.ietf.org/doc/html/rfc8215
++
++
++RFC Considerations for Userspace
++--------------------------------
++
++- Per `RFC 7915
++  <https://datatracker.ietf.org/doc/html/rfc7915#section-4.5>`_,
++  ipxlat SHOULD drop UDPv4 zero checksum packets, yet we chose to always
++  recalculate checksums for unfragmented packets.
++
++  If you want your translator to follow the SHOULD add a netfilter rule
++  dropping such packets. For example using ``nft(8)`` syntax::
++
++    nft add rule filter ip postrouting -- oifkind ipxlat udp checksum 0 log drop
++
++- Per `RFC 6146
++  <https://datatracker.ietf.org/doc/html/rfc6146#section-3.4>`_,
++  Fragmented UDPv4 zero checksum recalculation by reassembly is not
++  supported.
++
++- I-D-dummy_: Adding a Node Identity Object to for IPv4-side traceroute
++  disambiguation is not yet supported.
+-- 
+2.53.0
 
