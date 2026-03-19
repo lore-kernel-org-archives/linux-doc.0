@@ -1,188 +1,327 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EF393CCFAB;
-	Thu, 19 Mar 2026 12:06:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C3C53C5DD0;
+	Thu, 19 Mar 2026 12:21:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773921967; cv=none; b=otWgAwmhvRsdnojugFBjEnsn+2Aq8Eg3V8c6S7UIE4226n/iQ3jHxmSOJ4qioqlWi1Re0hv1zazjXC2I43GM8eshJysu4hWwld2VkbDTAEN6QZqLKUCy7/xKYvvKR/4LKidyp764sl1T5qbYabGRLczcBAaDZ79GUdbKw38wwyo=
+	t=1773922866; cv=none; b=ihBORiwCd2qRQM9Sp2E53hbUydGfY6jKO7yx6I4PXzHUJ3ZOvwbn9PjBwMcmDSZgR4+V6+6qaZmPHeOV3Aa5ub8Ej9+LlkNAva6Y5WtbRpPXDEKorTGE9lRQVcXFWIgmFD/Fq6V3CisMBsDAV9ojkCPHnG75blwVrdbuZrlr+Wg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773921967; c=relaxed/simple;
-	bh=w8tAFXa4fIuAqR0VU1Ba5fdAovqpAbKwCfet3tjmrgc=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=WVUohS7StWPbcAor109g58PUF80ycpbU70KxTnodGTkAVhm24Q0OI/5/+yOINTrm7eBc0VD0GZQWC4EDeMxdS5pko2L6+u0RsuKv4mo/8q67+JRAH0fgO+X3b5t0blWr+ZinnkcQ5iReubZvcx9bxCcJVL/XOYfXbgQWcICYDTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qcAmub1F; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qcAmub1F"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BA65C19424;
-	Thu, 19 Mar 2026 12:05:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773921966;
-	bh=w8tAFXa4fIuAqR0VU1Ba5fdAovqpAbKwCfet3tjmrgc=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To:From;
-	b=qcAmub1FUtgRFUZTVcUSU06EeQMSdbRK16OyR119849iTD4jv4DY8mR1zyoCNGZjl
-	 IPGJxXg0fRPLjBdmOYwd9w2LLEdD5Jr27LU+TqGJVn0M1K1GF1ErKVZR+Nn4gaA4y8
-	 3f3dnz2SncRA5uw7BJt2oKgW8kV9RTW/vM0LzjSpvprVB364nJPPqLwdeqKo2YxbkT
-	 kjaSbDu9vsWFYAuntvNF+AlS6/MQCeY0OJ5e4R8/yWoRcnZ6U5Uzm44nutkYWin4/H
-	 VlUHAG8w0xZGk0PNx/hXApvwti96nXcAzzVZVweQKmeTGLzE8AzRjRgWTXcRIoLhlK
-	 0BlvahEfBe7Tg==
+	s=arc-20240116; t=1773922866; c=relaxed/simple;
+	bh=51qDref+96vLVVzgxex3Lz/aTp6JsO1HJFiooq62O/k=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jSpt4xxsI8kJdxSy5d+PSmXd0YdVO+SxYEuZtA+urfjrL94PC9A6/x+S1hU1ruSaUC0bkSsLn0yJllGL2AmdCGsKrGhG3EqcdhV/v5b8K4VTZz8WHE4HCwDbFf3WcPD8gutJrxuv3BkqrS76KJ/ie0FUV1Ml64UZzlqselIuHBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.107])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fc4X074MjzJ46Cq;
+	Thu, 19 Mar 2026 20:20:00 +0800 (CST)
+Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
+	by mail.maildlp.com (Postfix) with ESMTPS id 51D4740584;
+	Thu, 19 Mar 2026 20:21:00 +0800 (CST)
+Received: from localhost (10.203.177.15) by dubpeml500005.china.huawei.com
+ (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Thu, 19 Mar
+ 2026 12:20:58 +0000
+Date: Thu, 19 Mar 2026 12:20:57 +0000
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
+To: John Groves <john@groves.net>
+CC: Miklos Szeredi <miklos@szeredi.hu>, Dan Williams
+	<dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, "Alison
+ Schofield" <alison.schofield@intel.com>, John Groves <jgroves@micron.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, "Alexander
+ Viro" <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>,
+	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong"
+	<djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, Jeff Layton
+	<jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, Stefan Hajnoczi
+	<shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, Josef Bacik
+	<josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan
+	<chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>, Fuad Tabba
+	<tabba@google.com>, Sean Christopherson <seanjc@google.com>, Shivank Garg
+	<shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>, Gregory Price
+	<gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>, Ajay Joshi
+	<ajayjoshi@micron.com>, <venkataravis@micron.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<nvdimm@lists.linux.dev>, <linux-cxl@vger.kernel.org>,
+	<linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH V8 3/8] dax: add fsdev.c driver for fs-dax on character
+ dax
+Message-ID: <20260319122057.00004503@huawei.com>
+In-Reply-To: <20260319012837.4443-1-john@groves.net>
+References: <20260318202737.4344.dax@groves.net>
+	<20260319012837.4443-1-john@groves.net>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 19 Mar 2026 13:05:55 +0100
-Message-Id: <DH6QUO2T941E.2S1UP7EABOP42@kernel.org>
-Subject: Re: [PATCH v13 1/1] rust: interop: Add list module for C linked
- list interface
-Cc: "Joel Fernandes" <joelagnelf@nvidia.com>,
- <linux-kernel@vger.kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun
- Feng" <boqun@kernel.org>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "Alex Gaynor" <alex.gaynor@gmail.com>,
- "Dave Airlie" <airlied@redhat.com>, "David Airlie" <airlied@gmail.com>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "Simona
- Vetter" <simona@ffwll.ch>, "Daniel Almeida" <daniel.almeida@collabora.com>,
- "Koen Koning" <koen.koning@linux.intel.com>, "Nikola Djukic"
- <ndjukic@nvidia.com>, "Alexandre Courbot" <acourbot@nvidia.com>, "Philipp
- Stanner" <phasta@kernel.org>, "Elle Rhumsaa" <elle@weathered-steel.dev>,
- "Jonathan Corbet" <corbet@lwn.net>, "Alex Deucher"
- <alexander.deucher@amd.com>, =?utf-8?q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, "Jani Nikula" <jani.nikula@linux.intel.com>,
- "Joonas Lahtinen" <joonas.lahtinen@linux.intel.com>, "Rodrigo Vivi"
- <rodrigo.vivi@intel.com>, "Tvrtko Ursulin" <tursulin@ursulin.net>, "Huang
- Rui" <ray.huang@amd.com>, "Matthew Auld" <matthew.auld@intel.com>, "Matthew
- Brost" <matthew.brost@intel.com>, "Lucas De Marchi"
- <lucas.demarchi@intel.com>, =?utf-8?q?Thomas_Hellstr=C3=B6m?=
- <thomas.hellstrom@linux.intel.com>, "Helge Deller" <deller@gmx.de>, "John
- Hubbard" <jhubbard@nvidia.com>, "Alistair Popple" <apopple@nvidia.com>,
- "Timur Tabi" <ttabi@nvidia.com>, "Edwin Peer" <epeer@nvidia.com>, "Andrea
- Righi" <arighi@nvidia.com>, "Andy Ritger" <aritger@nvidia.com>, "Zhi Wang"
- <zhiw@nvidia.com>, "Balbir Singh" <balbirs@nvidia.com>,
- <alexeyi@nvidia.com>, "Eliot Courtney" <ecourtney@nvidia.com>,
- <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <amd-gfx@lists.freedesktop.org>,
- <intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
- <linux-fbdev@vger.kernel.org>
-To: "Gary Guo" <gary@garyguo.net>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260317201710.934932-1-joelagnelf@nvidia.com>
- <20260317201710.934932-2-joelagnelf@nvidia.com>
- <DH6QAR1HHXRV.1Y7IZ22HC9FZ3@garyguo.net>
-In-Reply-To: <DH6QAR1HHXRV.1Y7IZ22HC9FZ3@garyguo.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100009.china.huawei.com (7.191.174.83) To
+ dubpeml500005.china.huawei.com (7.214.145.207)
 
-On Thu Mar 19, 2026 at 12:39 PM CET, Gary Guo wrote:
-> On Tue Mar 17, 2026 at 8:17 PM GMT, Joel Fernandes wrote:
->> Add a new module `kernel::interop::list` for working with C's doubly
->> circular linked lists. Provide low-level iteration over list nodes.
->>
->> Typed iteration over actual items is provided with a `clist_create`
->> macro to assist in creation of the `CList` type.
->>
->> Cc: Nikola Djukic <ndjukic@nvidia.com>
->> Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
->> Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
->> Acked-by: Alexandre Courbot <acourbot@nvidia.com>
->> Acked-by: Gary Guo <gary@garyguo.net>
->> Acked-by: Miguel Ojeda <ojeda@kernel.org>
->> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
->> ---
->>  MAINTAINERS                 |   8 +
->>  rust/helpers/helpers.c      |   1 +
->>  rust/helpers/list.c         |  17 ++
->>  rust/kernel/interop.rs      |   9 +
->>  rust/kernel/interop/list.rs | 342 ++++++++++++++++++++++++++++++++++++
->>  rust/kernel/lib.rs          |   2 +
->>  6 files changed, 379 insertions(+)
->>  create mode 100644 rust/helpers/list.c
->>  create mode 100644 rust/kernel/interop.rs
->>  create mode 100644 rust/kernel/interop/list.rs
->>
->> +/// Create a C doubly-circular linked list interface [`CList`] from a r=
-aw `list_head` pointer.
->> +///
->> +/// This macro creates a `CList<T, OFFSET>` that can iterate over items=
- of type `$rust_type`
->> +/// linked via the `$field` field in the underlying C struct `$c_type`.
->> +///
->> +/// # Arguments
->> +///
->> +/// - `$head`: Raw pointer to the sentinel `list_head` object (`*mut bi=
-ndings::list_head`).
->> +/// - `$rust_type`: Each item's rust wrapper type.
->> +/// - `$c_type`: Each item's C struct type that contains the embedded `=
-list_head`.
->> +/// - `$field`: The name of the `list_head` field within the C struct.
->> +///
->> +/// # Safety
->> +///
->> +/// The caller must ensure:
->> +///
->> +/// - `$head` is a valid, initialized sentinel `list_head` (e.g. via `I=
-NIT_LIST_HEAD()`)
->> +///   pointing to a list that is not concurrently modified for the life=
-time of the [`CList`].
->> +/// - The list contains items of type `$c_type` linked via an embedded =
-`$field`.
->> +/// - `$rust_type` is `#[repr(transparent)]` over `$c_type` or has comp=
-atible layout.
->> +///
->> +/// # Examples
->> +///
->> +/// Refer to the examples in the [`crate::interop::list`] module docume=
-ntation.
->> +#[macro_export]
->> +macro_rules! clist_create {
->> +    (unsafe { $head:ident, $rust_type:ty, $c_type:ty, $($field:tt).+ })=
- =3D> {{
->> +        // Compile-time check that field path is a `list_head`.
->> +        // SAFETY: `p` is a valid pointer to `$c_type`.
->> +        let _: fn(*const $c_type) -> *const $crate::bindings::list_head=
- =3D
->> +            |p| unsafe { &raw const (*p).$($field).+ };
->
-> Actually, this check is insufficient, you should create a reference inste=
-ad
-> (just in case people put this inside `repr(packed)`.
->
-> This could be something like
->
->     let _ =3D |p: &$c_type| { _ =3D &p.$($field).+ }
->
-> ?
->
->> +
->> +        // Calculate offset and create `CList`.
->> +        const OFFSET: usize =3D ::core::mem::offset_of!($c_type, $($fie=
-ld).+);
->> +        // SAFETY: The caller of this macro is responsible for ensuring=
- safety.
->> +        unsafe { $crate::interop::list::CList::<$rust_type, OFFSET>::fr=
-om_raw($head) }
->
-> Given that this is unsafe, I am not sure why the macro should have unsafe
-> keyword in it, rather than just being `clist_create(a, b, c, d)` and just=
- have
-> user write unsafe.
+On Wed, 18 Mar 2026 20:28:37 -0500
+John Groves <john@groves.net> wrote:
 
-Either you are proposing to not wrap unsafe code within unsafe {} within th=
-e
-macro, such that the user is forced to write an unsafe {} around the macro,=
- but
-then they calls within the macro are not justified individually, or you pro=
-pose
-to let the user write an unsafe {} around the macro regardless of the inner
-unsafe {} blocks, but then then the compiler warns about an unnecessary uns=
-afe
-and nothing forces the user to actually wrap it in unsafe {}.
+> The new fsdev driver provides pages/folios initialized compatibly with
+> fsdax - normal rather than devdax-style refcounting, and starting out
+> with order-0 folios.
+> 
+> When fsdev binds to a daxdev, it is usually (always?) switching from the
+> devdax mode (device.c), which pre-initializes compound folios according
+> to its alignment. Fsdev uses fsdev_clear_folio_state() to switch the
+> folios into a fsdax-compatible state.
+> 
+> A side effect of this is that raw mmap doesn't (can't?) work on an fsdev
+> dax instance. Accordingly, The fsdev driver does not provide raw mmap -
+> devices must be put in 'devdax' mode (drivers/dax/device.c) to get raw
+> mmap capability.
+> 
+> In this commit is just the framework, which remaps pages/folios compatibly
+> with fsdax.
+> 
+> Enabling dax changes:
+> 
+> - bus.h: add DAXDRV_FSDEV_TYPE driver type
+> - bus.c: allow DAXDRV_FSDEV_TYPE drivers to bind to daxdevs
+> - dax.h: prototype inode_dax(), which fsdev needs
+> 
+> Suggested-by: Dan Williams <dan.j.williams@intel.com>
+> Suggested-by: Gregory Price <gourry@gourry.net>
+> Signed-off-by: John Groves <john@groves.net>
 
-Is there a third option I'm not aware of? I.e. for the above reason
-impl_device_context_deref!() was designed the same way.
+A few comments inline.  I think some of the code here could be moved
+to a helper library used by both this and device.c
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
-/rust/kernel/device.rs#n650
+> ---
+>  MAINTAINERS          |   8 ++
+>  drivers/dax/Makefile |   6 +
+>  drivers/dax/bus.c    |   4 +
+>  drivers/dax/bus.h    |   1 +
+>  drivers/dax/fsdev.c  | 253 +++++++++++++++++++++++++++++++++++++++++++
+>  fs/dax.c             |   1 +
+>  include/linux/dax.h  |   3 +
+>  7 files changed, 276 insertions(+)
+>  create mode 100644 drivers/dax/fsdev.c
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 96ea84948d76..e83cfcf7e932 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -7298,6 +7298,14 @@ L:	linux-cxl@vger.kernel.org
+>  S:	Supported
+>  F:	drivers/dax/
+>  
+> +DEVICE DIRECT ACCESS (DAX) [fsdev_dax]
+> +M:	John Groves <jgroves@micron.com>
+> +M:	John Groves <John@Groves.net>
+> +L:	nvdimm@lists.linux.dev
+> +L:	linux-cxl@vger.kernel.org
+> +S:	Supported
+> +F:	drivers/dax/fsdev.c
+> +
+>  DEVICE FREQUENCY (DEVFREQ)
+>  M:	MyungJoo Ham <myungjoo.ham@samsung.com>
+>  M:	Kyungmin Park <kyungmin.park@samsung.com>
+> diff --git a/drivers/dax/Makefile b/drivers/dax/Makefile
+> index 5ed5c39857c8..3bae252fd1bf 100644
+> --- a/drivers/dax/Makefile
+> +++ b/drivers/dax/Makefile
+> @@ -5,10 +5,16 @@ obj-$(CONFIG_DEV_DAX_KMEM) += kmem.o
+>  obj-$(CONFIG_DEV_DAX_PMEM) += dax_pmem.o
+>  obj-$(CONFIG_DEV_DAX_CXL) += dax_cxl.o
+>  
+> +# fsdev_dax: fs-dax compatible devdax driver (needs DEV_DAX and FS_DAX)
+> +ifeq ($(CONFIG_FS_DAX),y)
+> +obj-$(CONFIG_DEV_DAX) += fsdev_dax.o
+> +endif
+
+Why not throw in a new CONFIG_FSDAX_DEV and handle the dependencies
+in Kconfig?  
+
+> +
+>  dax-y := super.o
+>  dax-y += bus.o
+>  device_dax-y := device.o
+>  dax_pmem-y := pmem.o
+>  dax_cxl-y := cxl.o
+> +fsdev_dax-y := fsdev.o
+>  
+>  obj-y += hmem/
+
+> diff --git a/drivers/dax/fsdev.c b/drivers/dax/fsdev.c
+> new file mode 100644
+> index 000000000000..e5b4396ce401
+> --- /dev/null
+> +++ b/drivers/dax/fsdev.c
+
+> +static int fsdev_dax_probe(struct dev_dax *dev_dax)
+> +{
+> +	struct dax_device *dax_dev = dev_dax->dax_dev;
+> +	struct device *dev = &dev_dax->dev;
+> +	struct dev_pagemap *pgmap;
+> +	u64 data_offset = 0;
+
+See below. I think you can useful reduce scope of this one.
+
+> +	struct inode *inode;
+> +	struct cdev *cdev;
+> +	void *addr;
+> +	int rc, i;
+> +
+
+There is a lot of duplication in here with dax/device.c
+Is any of it suitable for shared helpers?
+
+> +	if (static_dev_dax(dev_dax))  {
+> +		if (dev_dax->nr_range > 1) {
+> +			dev_warn(dev, "static pgmap / multi-range device conflict\n");
+> +			return -EINVAL;
+> +		}
+> +
+> +		pgmap = dev_dax->pgmap;
+> +	} else {
+> +		size_t pgmap_size;
+> +
+> +		if (dev_dax->pgmap) {
+> +			dev_warn(dev, "dynamic-dax with pre-populated page map\n");
+> +			return -EINVAL;
+> +		}
+> +
+> +		pgmap_size = struct_size(pgmap, ranges, dev_dax->nr_range - 1);
+> +		pgmap = devm_kzalloc(dev, pgmap_size,  GFP_KERNEL);
+
+Bonus space before GFP_KERNEL.
+
+
+> +		if (!pgmap)
+> +			return -ENOMEM;
+> +
+> +		pgmap->nr_range = dev_dax->nr_range;
+> +		dev_dax->pgmap = pgmap;
+> +
+> +		for (i = 0; i < dev_dax->nr_range; i++) {
+> +			struct range *range = &dev_dax->ranges[i].range;
+> +
+> +			pgmap->ranges[i] = *range;
+> +		}
+> +	}
+> +
+> +	for (i = 0; i < dev_dax->nr_range; i++) {
+> +		struct range *range = &dev_dax->ranges[i].range;
+> +
+> +		if (!devm_request_mem_region(dev, range->start,
+> +					range_len(range), dev_name(dev))) {
+> +			dev_warn(dev, "mapping%d: %#llx-%#llx could not reserve range\n",
+> +				 i, range->start, range->end);
+> +			return -EBUSY;
+> +		}
+> +	}
+
+Everything above here is shared.  Some sort of _init() or similar library function
+seems in order.
+
+> +
+> +	/*
+> +	 * FS-DAX compatible mode: Use MEMORY_DEVICE_FS_DAX type and
+> +	 * do NOT set vmemmap_shift. This leaves folios at order-0,
+> +	 * allowing fs-dax to dynamically create compound folios as needed
+> +	 * (similar to pmem behavior).
+> +	 */
+> +	pgmap->type = MEMORY_DEVICE_FS_DAX;
+> +	pgmap->ops = &fsdev_pagemap_ops;
+> +	pgmap->owner = dev_dax;
+> +
+> +	/*
+> +	 * CRITICAL DIFFERENCE from device.c:
+> +	 * We do NOT set vmemmap_shift here, even if align > PAGE_SIZE.
+> +	 * This ensures folios remain order-0 and are compatible with
+> +	 * fs-dax's folio management.
+> +	 */
+> +
+> +	addr = devm_memremap_pages(dev, pgmap);
+> +	if (IS_ERR(addr))
+> +		return PTR_ERR(addr);
+> +
+> +	/*
+> +	 * Clear any stale compound folio state left over from a previous
+> +	 * driver (e.g., device_dax with vmemmap_shift). Also register this
+> +	 * as a devm action so folio state is cleared on unbind, ensuring
+> +	 * clean pages for subsequent drivers (e.g., kmem for system-ram).
+> +	 */
+> +	fsdev_clear_folio_state(dev_dax);
+> +	rc = devm_add_action_or_reset(dev, fsdev_clear_folio_state_action,
+> +				      dev_dax);
+> +	if (rc)
+> +		return rc;
+> +
+> +	/* Detect whether the data is at a non-zero offset into the memory */
+> +	if (pgmap->range.start != dev_dax->ranges[0].range.start) {
+> +		u64 phys = dev_dax->ranges[0].range.start;
+> +		u64 pgmap_phys = dev_dax->pgmap[0].range.start;
+> +
+> +		if (!WARN_ON(pgmap_phys > phys))
+> +			data_offset = phys - pgmap_phys;
+> +
+> +		pr_debug("%s: offset detected phys=%llx pgmap_phys=%llx offset=%llx\n",
+> +		       __func__, phys, pgmap_phys, data_offset);
+
+Might change later, but at least at this point you could pull declaration of data_offset
+into this scope.
+
+> +	}
+> +
+> +	inode = dax_inode(dax_dev);
+> +	cdev = inode->i_cdev;
+> +	cdev_init(cdev, &fsdev_fops);
+> +	cdev->owner = dev->driver->owner;
+> +	cdev_set_parent(cdev, &dev->kobj);
+> +	rc = cdev_add(cdev, dev->devt, 1);
+> +	if (rc)
+> +		return rc;
+> +
+> +	rc = devm_add_action_or_reset(dev, fsdev_cdev_del, cdev);
+> +	if (rc)
+> +		return rc;
+> +
+> +	run_dax(dax_dev);
+> +	return devm_add_action_or_reset(dev, fsdev_kill, dev_dax);
+> +}
+
+> diff --git a/include/linux/dax.h b/include/linux/dax.h
+> index bf103f317cac..996493f5c538 100644
+> --- a/include/linux/dax.h
+> +++ b/include/linux/dax.h
+> @@ -51,6 +51,7 @@ struct dax_holder_operations {
+>  
+>  #if IS_ENABLED(CONFIG_DAX)
+>  struct dax_device *alloc_dax(void *private, const struct dax_operations *ops);
+> +
+
+Unrelated change.  Tidy this up for v9.
+
+
+>  void *dax_holder(struct dax_device *dax_dev);
+>  void put_dax(struct dax_device *dax_dev);
+>  void kill_dax(struct dax_device *dax_dev);
+> @@ -151,8 +152,10 @@ static inline void fs_put_dax(struct dax_device *dax_dev, void *holder)
+>  #endif /* CONFIG_BLOCK && CONFIG_FS_DAX */
+>  
+>  #if IS_ENABLED(CONFIG_FS_DAX)
+> +struct dax_device *inode_dax(struct inode *inode);
+
+Already in dax_private.h so why does it want to be here?
+
+
+>  int dax_writeback_mapping_range(struct address_space *mapping,
+>  		struct dax_device *dax_dev, struct writeback_control *wbc);
+> +int dax_folio_reset_order(struct folio *folio);
+>  
+>  struct page *dax_layout_busy_page(struct address_space *mapping);
+>  struct page *dax_layout_busy_page_range(struct address_space *mapping, loff_t start, loff_t end);
+
