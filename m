@@ -1,101 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 484BE3ED5B3;
-	Thu, 19 Mar 2026 16:29:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E470538BF61;
+	Thu, 19 Mar 2026 16:39:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773937762; cv=none; b=D2lsa1xovYtGCb9NtzR3iQTVaJ3Zg8MbTH/04ygdW5k8NhtvK++8sVJczlfHNg2izwIIZ4E/JNXUHWb2tZkfKJmul4mZZkoPkESXY94a5HuxZsi9pumopjy2p8BtYLf1ysZQCuZOmoPg3OF1AICivK+r0P50Yvz86NV1zP4cYXE=
+	t=1773938382; cv=none; b=q/Br8HjmborIltSyhLoancfJ3NhMhV6ePkEXswFxsS6ru0MXtob26LJBIkHVCN2QWkUDnMgQHTmXTCkRZCRrAcGEUsQoOEQSCir1EBmqKdjd9+IoFZ155ykIIEdvJ2uihFRNEiQqdC4m1moJOw7TvdQEbtY1K+tN1ovjUvbLa60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773937762; c=relaxed/simple;
-	bh=i5FY2xFUG82H2mxUurUo54YyYFYdXZArEFQEN+SDOy0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TGZv4Sp+knHT+6Rz+pX2vCNpk/eWehpOTuMx7R6RTn9hK6FaNncehrv/xhdEqCLgitypX4AcxkwqYlmq6xR6XSdjXjsu7vkg4E7bo9N9qGDX/9SkUfVSdVDkHV5NX/3WX//aGRAU0S5IXw6OD9asFGyGsR8dR3HENUyJYKl6U/A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aF5DbFFA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773938382; c=relaxed/simple;
+	bh=Y+Hv0DkWk/c+ewBI0ps5vOPQ63BNCB7+d21mTtAJtvo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=dNkVrqjoCvIDbN/TAyMzvanvlwP9mV0uMYMMIk0HyHYLRP7eNrAnBlRgcDJxyUuOHA1jP8lbqjwzUWDq6jntF3dk1C+odb+9gUnQBTQV5zr/dqnxgj1OmrSpcIEfU5SVy5d7vYc7OX7WJEMrGacHGW1AxJW/G3UhSJVUXk8ZULQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=bmMuGENd; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aF5DbFFA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 248A3C19424;
-	Thu, 19 Mar 2026 16:29:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773937761;
-	bh=i5FY2xFUG82H2mxUurUo54YyYFYdXZArEFQEN+SDOy0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aF5DbFFAnHCvzhvJhT5dGtrQoRtJ9QNrqQlmJnbfZGodcTPOczAfqoQkVJIF/LXmE
-	 NRUWZ3gYSMcre4wgwUNw09xxVKFI5Sgemkg2LAotinZjLLwX4iM1PGYkctTph/RumK
-	 vZbtY4tdz04aVkTwegcY+ogZdGqZvTefi0axkcs96JyYYbbFlBfs82HELbk8bZzpWu
-	 r3XKupXWro4jRmoWCi9Q8Sv10Og+jz9lMJHhwiLehTvhEzP5QW3ShgVjN49nGeFKrY
-	 HHr/eCyrr+oVH6Ygchgg5RWipe/5nmkCpI4UsgYg0JGgzQb2ofwBsZCXqUHlfYYlJr
-	 B/ySfzNIrgg5Q==
-Date: Thu, 19 Mar 2026 16:29:19 +0000
-From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-To: Suren Baghdasaryan <surenb@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Clemens Ladisch <clemens@ladisch.de>, 
-	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"K . Y . Srinivasan" <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>, 
-	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Miquel Raynal <miquel.raynal@bootlin.com>, 
-	Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
-	Bodo Stroesser <bostroesser@gmail.com>, "Martin K . Petersen" <martin.petersen@oracle.com>, 
-	David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	David Hildenbrand <david@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org, 
-	linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org, 
-	linux-mtd@lists.infradead.org, linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org, 
-	target-devel@vger.kernel.org, linux-afs@lists.infradead.org, linux-fsdevel@vger.kernel.org, 
-	linux-mm@kvack.org, Ryan Roberts <ryan.roberts@arm.com>
-Subject: Re: [PATCH v2 06/16] mm: add mmap_action_simple_ioremap()
-Message-ID: <939645bf-50c3-47bd-8132-89acf95056c5@lucifer.local>
-References: <cover.1773695307.git.ljs@kernel.org>
- <1e58aaf3cdb61cc317d890c12c9a558dfc206913.1773695307.git.ljs@kernel.org>
- <CAJuCfpGocCSRT0yDxPOLg2NZ+W_ZSTjHGPZRKBd3U90=sQtHCw@mail.gmail.com>
- <330f3614-7dc1-4e80-96c4-8472b25108bb@lucifer.local>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="bmMuGENd"
+Received: from localhost (unknown [52.148.171.5])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 744CF20B710C;
+	Thu, 19 Mar 2026 09:39:33 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 744CF20B710C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1773938375;
+	bh=8r3Rrhjz62mzvDnQKQk9Pz54iwWA+pJBFG61+YWArBw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=bmMuGENdC7hPcV8u5wKM+LeF+mgtVIFSJy2h9p6W0i9+tl+Hp7PwExVnUfQO1xHwB
+	 Ouf5VcCqaSQUs5qKCHuxTDWMmMZ137/dgQcmFiu/HC6R4d58LdmNNYeQegg7/tAA4c
+	 QVfQmqGCCPaKOdhfIjpxs7czL0tSUxWhHGO5GW4k=
+Date: Thu, 19 Mar 2026 09:39:32 -0700
+From: Jacob Pan <jacob.pan@linux.microsoft.com>
+To: David Matlack <dmatlack@google.com>
+Cc: Alex Williamson <alex@shazbot.org>, Adithya Jayachandran
+ <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.com>, Alex Mastro
+ <amastro@fb.com>, Alistair Popple <apopple@nvidia.com>, Andrew Morton
+ <akpm@linux-foundation.org>, Ankit Agrawal <ankita@nvidia.com>, Bjorn
+ Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>, David Rientjes
+ <rientjes@google.com>, Jason Gunthorpe <jgg@nvidia.com>, Jason Gunthorpe
+ <jgg@ziepe.ca>, Jonathan Corbet <corbet@lwn.net>, Josh Hilke
+ <jrhilke@google.com>, Kevin Tian <kevin.tian@intel.com>,
+ kexec@lists.infradead.org, kvm@vger.kernel.org, Leon Romanovsky
+ <leon@kernel.org>, Leon Romanovsky <leonro@nvidia.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+ linux-pci@vger.kernel.org, Lukas Wunner <lukas@wunner.de>, =?UTF-8?Q?Mich?=
+ =?UTF-8?Q?a=C5=82?= Winiarski <michal.winiarski@intel.com>, Mike Rapoport
+ <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, Pasha Tatashin
+ <pasha.tatashin@soleen.com>, Pranjal Shrivastava <praan@google.com>,
+ Pratyush Yadav <pratyush@kernel.org>, Raghavendra Rao Ananta
+ <rananta@google.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, Saeed Mahameed
+ <saeedm@nvidia.com>, Samiullah Khawaja <skhawaja@google.com>, Shuah Khan
+ <skhan@linuxfoundation.org>, Thomas =?UTF-8?Q?Hellstr=C3=B6m?=
+ <thomas.hellstrom@linux.intel.com>, Tomita Moeko <tomitamoeko@gmail.com>,
+ Vipin Sharma <vipinsh@google.com>, Vivek Kasireddy
+ <vivek.kasireddy@intel.com>, William Tu <witu@nvidia.com>, Yi Liu
+ <yi.l.liu@intel.com>, Zhu Yanjun <yanjun.zhu@linux.dev>
+Subject: Re: [PATCH v2 10/22] vfio/pci: Skip reset of preserved device after
+ Live Update
+Message-ID: <20260319093932.000078c2@linux.microsoft.com>
+In-Reply-To: <CALzav=eGLpo5nrsHq5L8bUTC=FWZ-SgrTE1FoScrWB4p+NDgnA@mail.gmail.com>
+References: <20260129212510.967611-1-dmatlack@google.com>
+	<20260129212510.967611-11-dmatlack@google.com>
+	<20260226170030.5a938c74@shazbot.org>
+	<aaDqhjdLyf1qSTSh@google.com>
+	<20260227084658.3767d801@shazbot.org>
+	<CALzav=fHy23RAzhgkdaL+JA5T2tL9FT6aPgRfXUh7i9zvYCGPA@mail.gmail.com>
+	<20260227105720.522ca97f@shazbot.org>
+	<CALzav=fjRPa_ZbXu7iFXyemcf_8Kq_dZTWT6c-A0bc6czF_Rdw@mail.gmail.com>
+	<abNOwcOTXqxCxNzt@google.com>
+	<20260313083918.00005731@linux.microsoft.com>
+	<CALzav=eGLpo5nrsHq5L8bUTC=FWZ-SgrTE1FoScrWB4p+NDgnA@mail.gmail.com>
+Organization: LSG
+X-Mailer: Claws Mail 3.21.0 (GTK+ 2.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <330f3614-7dc1-4e80-96c4-8472b25108bb@lucifer.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 18, 2026 at 08:39:25PM +0000, Lorenzo Stoakes (Oracle) wrote:
-> On Mon, Mar 16, 2026 at 09:14:28PM -0700, Suren Baghdasaryan wrote:
-> > > +int simple_ioremap_prepare(struct vm_area_desc *desc)
-> > > +{
-> > > +       struct mmap_action *action = &desc->action;
-> > > +       const phys_addr_t start = action->simple_ioremap.start_phys_addr;
-> > > +       const unsigned long size = action->simple_ioremap.size;
-> > > +       unsigned long pfn;
-> > > +       int err;
+Hi David,
+
+On Mon, 16 Mar 2026 11:11:20 -0700
+David Matlack <dmatlack@google.com> wrote:
+
+> On Fri, Mar 13, 2026 at 8:39=E2=80=AFAM Jacob Pan
+> <jacob.pan@linux.microsoft.com> wrote:
+> > On Thu, 12 Mar 2026 23:39:45 +0000
+> > David Matlack <dmatlack@google.com> wrote: =20
+>=20
+> > > +config VFIO_PCI_LIVEUPDATE
+> > > +       bool "VFIO PCI support for Live Update (EXPERIMENTAL)"
+> > > +       depends on LIVEUPDATE && VFIO_PCI
+> > > +       help
+> > > +         Support for preserving devices bound to vfio-pci across
+> > > a Live
+> > > +         Update. The eventual goal is that preserved devices can
+> > > run
+> > > +         uninterrupted during a Live Update, including DMA to
+> > > preserved
+> > > +         memory buffers and P2P. However there are many steps
+> > > still needed to
+> > > +         achieve this, including:
 > > > +
-> > > +       err = __simple_ioremap_prep(desc->start, desc->end, desc->pgoff,
-> > > +                                   start, size, &pfn);
-> > > +       if (err)
-> > > +               return err;
-> > > +
-> > > +       /* The I/O remap logic does the heavy lifting. */
-> > > +       mmap_action_ioremap(desc, desc->start, pfn, vma_desc_size(desc));
-> >
-> > nit: Looks like a perfect opportunity to use mmap_action_ioremap_full() here.
->
-> Yeah can do!
->
-> >
-> > > +       return mmap_action_prepare(desc);
-> >
-> > Ok, so IIUC this uses recursion:
-> > mmap_action_prepare(MMAP_SIMPLE_IO_REMAP) -> simple_ioremap_prepare()
-> > -> mmap_action_prepare(MMAP_IO_REMAP_PFN).
->
-> Yep, it's one level, I think that should be ok? :)
+> > > +          - Preservation of iommufd files
+> > > +          - Preservation of IOMMU driver state =20
+> > In the interim, what do you think about moving forward with noiommu
+> > mode without preserving IOMMU driver state? =20
+>=20
+> I haven't gotten a chance to look at your noiommu patches yet, but I
+> do think noiommu will probably be a good way to develop the VFIO and
+> PCI support for Live Update without blocking on IOMMU driver support.
+>=20
+> > I=E2=80=99ve tested your
+> > vfio_pci_liveupdate_kexec_test with the noiommu cdev, and it works
+> > as expected. =20
+>=20
+> Would you be able to send patches to add noiommu support to VFIO
+> selftests? That would be very helpful toward allowing us to develop
+> and test Live Update support with noiommu.
 
-On second thoughts, it's silly not just to call io_remap_pfn_range_prepare()
-direct so will change it to do that!
+It is included in the noiommu patchset; the only difference is that the
+VFIO cdev name is prefixed with noiommu, which is not strictly required
+and is done out of caution.
 
-Cheers, Lorenzo
+/dev/vfio/
+|-- devices
+|   `-- noiommu-vfio0
+
+https://lore.kernel.org/linux-iommu/20260312155637.376854-10-jacob.pan@linu=
+x.microsoft.com/
