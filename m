@@ -1,315 +1,222 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7789D1459F6
-	for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 15:46:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BAEA3E3165
+	for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 15:54:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773935180; cv=none; b=QuwyZYpNBLsA02Hd1jMfa6ynW6vuEV2hRi3gywsNdiGbfNaa8dOzIpujvGMszxR/qAkCVvynQmfsZbR9jYqr2YSHoBbqSn3gx9RFQOix3eezZstZwSjTOIvVY3EnBRxLoxL1fGE+q99Zo/Vmz6HwCwwIQtP+1r/HuHHrrkvjmFw=
+	t=1773935672; cv=none; b=GG4XHdozEuWkcqR6l1sykpKmCBubJ/Qz0IHXVGyqYL7DPgx4SzMXV9T93DrUNC0W/7CHI/xT/vK1m4ZPhOwRjb5lnjfFbut3vF3qC2O/Rn9Qh8K8wztvxOPqFeUWi+d4+ZgehQMd5ZmUxuugrmL0EGTzWs2t+606ZxeLrUtGFU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773935180; c=relaxed/simple;
-	bh=Vf1R+yppKEzBQbnfv9nkce2qdQA1SU29FndglGF4ckQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=F5YyN7nFLnd+o2obA18HwyjWraBY4QMspvTaxdPSAGAcGZ4c9NK7zmA9tiyd06rOx1kLMEL/i6yg+yEmDJhuvadoq9Ml+GvwtuBI50R9M/ALNabGibwGk8eJZvdLdlr3u8WlzPOT7ww7KFbyf8WHyhB2Alyn3haf81Jz8HzoNo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Yld7gZy2; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=hmZB4iML; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1773935672; c=relaxed/simple;
+	bh=R8P+nzrGUnHar1fqbHTHhRFzTZN26dppzSbv7zUS0FA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=r+252xh+xs21AqBLuYR3klhAf6QXYCqcVxaDUhabVSZC81pjvsUVvIGq3qB17qcQ/sqZC+bQLzHdUhVlpvxqSK3PPDWDRn8TNv0DIbx9vpsSw9LwvTCc5IuKqFWrVV8SftXwQfnKnzzYaNMe4nCWzwutE6PM/o5XrgOZ7TV5ZdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m+8mmbCo; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Yld7gZy2";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="hmZB4iML"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62JF4iQH1027084
-	for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 15:46:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=DvNqP241qE8dFBqHq5L6qVz4
-	ghSD7knOgVJYfSQ1B58=; b=Yld7gZy2Vwg7aTwn9M0NrrFrVWWy2GG/gLK7dKB6
-	3Xxqr/TDd+CZGMnsnJPz/K3Qa/xinQn4bBim6e/SIY2lxHC59LsOg3Ir/Bzop+FN
-	nXALqgBdEtgGwTx4hrDwAIgi3E++GbgchA/Tb9JqtNNJE0lGCxQFp70ZN7dnnhpb
-	gA2H4CjR3pEBLlK1y3IKFMLVtPdf3IqARQSJUG53twBLZifGbwlK4ijMhGb9hsol
-	oPtOLe3EiflHII4K6ErRMacybeKHiy5UDD1BRgXKQBSo5+2t7g6sdf7GTIUnXg7/
-	1fuSHqndq50QugXJHsDKcZ6CqP2RsEPQJBrTEF2i7yH6vg==
-Received: from mail-vs1-f71.google.com (mail-vs1-f71.google.com [209.85.217.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d0032kxg8-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 15:46:18 +0000 (GMT)
-Received: by mail-vs1-f71.google.com with SMTP id ada2fe7eead31-5ffa389eba3so1676891137.0
-        for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 08:46:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m+8mmbCo"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-82a62714fe6so548114b3a.0
+        for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 08:54:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1773935177; x=1774539977; darn=vger.kernel.org;
-        h=mime-version:message-id:date:user-agent:references:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DvNqP241qE8dFBqHq5L6qVz4ghSD7knOgVJYfSQ1B58=;
-        b=hmZB4iMLgb1rCmaGPrYpXX3ziT+z664Nsg/VTPmt9oKrDjAD7BP0UuqU5KA3iUK/hz
-         fPo5LeNwCASfr4n9/dvOLfISt5Xo0g+XpCjVr8Dd2HtfBmBkaYL+W4Axpf6f/SZ6cD+q
-         pnwETaWQciLPYMyAUSF8EeroDHGDB762r+WIvEuKDEo2faUXvYx9kLxG68vre1Wcbxih
-         hW5fKg9Gw0vONL8WCNrVhtONZR6HikszTCwyx+5YWK1tLisF6HueEu6ms2UXowVlJHJh
-         urwHcdf5qjXU6n/az0vSG69EhoPMojSHPPpRyuCULJltu53eKghK3Iz5cssST9F6m9of
-         KaUA==
+        d=gmail.com; s=20230601; t=1773935670; x=1774540470; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=flkM1UPgnzZIIWUPlhpYdE/CMruOMnml9ArMjCoVGE8=;
+        b=m+8mmbCoDRXID1BSDq4Yo8bF2vMzor2WqvMm9Nw0Y2AJ63KQ206DCRziTdiW6BuDBa
+         l+3E5e+hcL9SDO6+it1cO13CRo3sa4QYguChCHGKFBQQhZMsvRiNm0vpukn293Wesyw5
+         NyhmpGeXMjIp52E4EiVka+WgbJIHq1h2wd1RegjH5L/RoZ29l8se8WoEOvKNAHhmRw1l
+         ZSVEx2JAz5+O4cjZI1sVEGiqv0IXjbsOj8VtE0s8fsH3mR1Nho6okKKHAWGpQ6rXOUfK
+         atalspuIyLhm79iWEeJCJ4L3dLxGToieE5iZjdmC+/p8rGo1NxzcAFaCVSlx+p11o04x
+         S8iQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773935177; x=1774539977;
-        h=mime-version:message-id:date:user-agent:references:in-reply-to
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=DvNqP241qE8dFBqHq5L6qVz4ghSD7knOgVJYfSQ1B58=;
-        b=IE6RlZs5IuFzbCaBHFujjb3jZbLQhO5N3pvwuJaYlAysC8K20Ofj/KoiIN380hE3ab
-         Ate0Oj8byvkbH7SSy5QFXzNj9CTgCf9XqNo9jRODqLCNHZgVP8QaWUU0Ng6akc83Ken0
-         E9bO+ti7fXvc7nTbnp6SIPE19PndCC0SS/pohGLmUoF23kv+7dHV4HHR6hcYNaxOt0ML
-         8UxJWlYh21YP1GyVj5N2iX5j6oM7objaeVLqJzsbPpG+XkF/1u3dX058KVzMvv7+uVnR
-         W0E4ZWydcws3v1rM3+1HXDp+q5WPTzuAgAf8HLLjeJmv70smjPwrkWjXc06/fDvrrxPl
-         yCfg==
-X-Forwarded-Encrypted: i=1; AJvYcCWDm1+rYcMINEBrVBywXhi9xGZnUav37darfuNleVplgyEm/At5V4gOdn8zExMIkpjuOA2OZ2z6pqM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YycYgKISNzABlIJC78G2uFTw5GkmBNdfIUejTCz4KQwG1CbI4vM
-	flwd5W1rA1BCmCtssYJ57DKIeSBfH0EwujwnEZZk7LBYALimm7VmjpYrDfp1EEDZ8gcTN6TGkhF
-	ExYYYZyBlAj2HIFPFKAqEySdtyDk2a2CpEikzwD7G4nGTO+xCIgV+0ZYhKyMZ7ys=
-X-Gm-Gg: ATEYQzxipqJg9lZa4z95xOe6yR+DoHg1jaqSX6nOUx7eQ8JmG8LWCib9PCjsF3BnxHo
-	TbzQsXOsCFphTMNaC8Brpfa6JM+Uh3eYVo7NcXzwjC7GBGYIawDh2mWz/OMuPKDpNAXB7xzBRUI
-	T3Km1SD2p/o3MGwNEajP0egH6hZQf2Q01GB7ucEUyclPxPnKWC4payUTAZxZWo7bqTdeHtarEYI
-	lZg8YTF8PVWMFD5cFJ88NgRBBm0EREJXdz9Sz42tBU+CCQYUVkdND+C1CsSr7s9qmdEOlbimZMf
-	jLcIax8U8tEuc5OqPZ/vfCkTR2/HoKNtFke47ZW4+Z7nGnSM1YHQnhxuVD+B39g+duUFW+1ihUZ
-	2/YxENdc+3++91WE1q36QrUjE5OoCU3D0T12Q5Q==
-X-Received: by 2002:a05:6102:d89:b0:5ff:9d74:967b with SMTP id ada2fe7eead31-6027d330b13mr3043042137.20.1773935177020;
-        Thu, 19 Mar 2026 08:46:17 -0700 (PDT)
-X-Received: by 2002:a05:6102:d89:b0:5ff:9d74:967b with SMTP id ada2fe7eead31-6027d330b13mr3042963137.20.1773935176396;
-        Thu, 19 Mar 2026 08:46:16 -0700 (PDT)
-Received: from localhost ([2a01:4b00:b703:c200:1ac0:4dff:fe39:5426])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486f8c40ccbsm129162465e9.9.2026.03.19.08.46.15
+        d=1e100.net; s=20251104; t=1773935670; x=1774540470;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=flkM1UPgnzZIIWUPlhpYdE/CMruOMnml9ArMjCoVGE8=;
+        b=Vy1dv4xpQsRegAiZPtua327RSo6L+imLc7etTgHrnabctBmEkRbAMx0oV09BHKdMr4
+         pUvvS+SKTWEphM9Pg1EpHH3I3I/7+Cbsmeuu9Xmr2Qc07mcJywcYA7HnaEONK3E8tgA9
+         EmsUUTq4CRQmJsBVnLH7C+UfKv6FRs7rOPlRymunxY5LLVzG5r4TGvOIy45prsKW1kdH
+         f5/tUybPNJ1tu/iOziMnIjpMNiVou+ayK/fozx5QDpZXKGRRIK4sjdoDzM3S0n67kGcs
+         vTKW5BpVTv49RzQGkjXs3Zh2tVUlxtqzYEsnbYQBpGabN+9u7B9SoKVklsRDgXG8OgM2
+         Szaw==
+X-Forwarded-Encrypted: i=1; AJvYcCX2BtubKtqCaDQwh9MsUTnjaqGrrcyZI9gBsz16Ti5JZBOQZfptlrVFuSe9hYN5q4YigVTkG11LHsQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxmE5mWMX75jSUIV0IEU0V611jA4MsfJZJbM5YrnK2kyoPIQXC8
+	i6lRXk7IM2WJ0OJglofU5ZJImAOwbROQ9ovC9XD73AzPOS1hd9OXey4=
+X-Gm-Gg: ATEYQzyRNcQkcRAguNHPUcY3KNko/ktgRIHdWK2ycqjlOqyKGT34r1T26YVor8o858E
+	/1vE8saUIdL5lxFxJVfjRHC5HQf09KmO8JX5SGlee2Vro0mc2Ui3vf9mxSWb/8t8B44+EHkE0lW
+	A5NjYdfx5TDrS7gqlc/5xETJfgZMBpyrPFsy5k9PqXzkVGVT3UvizJEN+F7+SQ16ko0Qq5WFLuF
+	o9vudKsTyhbxnABVqnq0A08QlCr9SklbXqSR4/SIqYR/C8YlfZau439rjj/bbxPEHyZ6ei63dDE
+	cs4oeL5RaM0BewZg2GBO/xCqYdU84xnKaTKyg2nLBVg7BEQRfMDgGaLnQFIm5kQyiZMlXcngAPL
+	pOY0t75MqCJ4EWcWtbNW4yu2OdE2gQRG2WBEz6jAnVPki6whET1Uv/5hHsgLVEn6ZejZtw8AEpG
+	RIUSVswY6ohw8LwJ3C1UjCRKheevT27PL1w4gyZ3GeWgOXmXlYJs1vDn3NimJaktUR6WtF0d59u
+	0XsfQaGCLt7jtVQag==
+X-Received: by 2002:a05:6a00:a8c:b0:829:f777:dad4 with SMTP id d2e1a72fcca58-82a7a97b202mr3053986b3a.29.1773935669410;
+        Thu, 19 Mar 2026 08:54:29 -0700 (PDT)
+Received: from localhost (c-76-102-12-149.hsd1.ca.comcast.net. [76.102.12.149])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82a6bbb51d1sm7913205b3a.28.2026.03.19.08.54.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Mar 2026 08:46:15 -0700 (PDT)
-From: Punit Agrawal <punit.agrawal@oss.qualcomm.com>
-To: Chengwen Feng <fengchengwen@huawei.com>
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
-        Catalin Marinas
- <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        "Rafael J .
- Wysocki" <rafael@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah
- Khan <skhan@linuxfoundation.org>,
-        Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
-        Paul Walmsley <pjw@kernel.org>, Palmer
- Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-        Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Dave
- Hansen <dave.hansen@linux.intel.com>, <x86@kernel.org>,
-        "H . Peter
- Anvin" <hpa@zytor.com>, Juergen Gross <jgross@suse.com>,
-        Boris Ostrovsky
- <boris.ostrovsky@oracle.com>,
-        Len Brown <lenb@kernel.org>, Sunil V L
- <sunilvl@ventanamicro.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Jonathan Cameron <jonathan.cameron@huawei.com>,
-        Kees Cook
- <kees@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
-        Sean
- Christopherson <seanjc@google.com>,
-        Kai Huang <kai.huang@intel.com>,
-        Tom
- Lendacky <thomas.lendacky@amd.com>,
-        Thomas Huth <thuth@redhat.com>,
-        Thorsten Blum <thorsten.blum@linux.dev>,
-        Kevin Loughlin
- <kevinloughlin@google.com>,
-        Zheyun Shen <szy0127@sjtu.edu.cn>,
-        Peter
- Zijlstra <peterz@infradead.org>,
-        Pawan Gupta
- <pawan.kumar.gupta@linux.intel.com>,
-        Xin Li <xin@zytor.com>, "Ahmed S .
- Darwish" <darwi@linutronix.de>,
-        Sohil Mehta <sohil.mehta@intel.com>,
-        Ilkka Koskinen <ilkka@os.amperecomputing.com>,
-        Robin Murphy
- <robin.murphy@arm.com>,
-        James Clark <james.clark@linaro.org>,
-        Besar
- Wicaksono <bwicaksono@nvidia.com>, Ma Ke <make24@iscas.ac.cn>,
-        Wei Huang
- <wei.huang2@amd.com>,
-        Andy Gospodarek <andrew.gospodarek@broadcom.com>,
-        Somnath Kotur <somnath.kotur@broadcom.com>,
-        <punit.agrawal@oss.qualcomm.com>, <guohanjun@huawei.com>,
-        <suzuki.poulose@arm.com>, <ryan.roberts@arm.com>,
-        <chenl311@chinatelecom.cn>, <masahiroy@kernel.org>,
-        <wangyuquan1236@phytium.com.cn>, <anshuman.khandual@arm.com>,
-        <heinrich.schuchardt@canonical.com>, <Eric.VanTassell@amd.com>,
-        <wangzhou1@hisilicon.com>, <wanghuiqiang@huawei.com>,
-        <liuyonglong@huawei.com>, <linux-pci@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <loongarch@lists.linux.dev>,
-        <linux-riscv@lists.infradead.org>, <xen-devel@lists.xenproject.org>,
-        <linux-acpi@vger.kernel.org>, <linux-perf-users@vger.kernel.org>,
-        <stable@vger.kernel.org>
-Subject: Re: [PATCH v9 1/7] arm64/acpi: Add acpi_get_cpu_uid() and switch
- arm_cspmu to use it
-In-Reply-To: <20260319065735.45954-2-fengchengwen@huawei.com> (Chengwen Feng's
-	message of "Thu, 19 Mar 2026 14:57:29 +0800")
-References: <20260319065735.45954-1-fengchengwen@huawei.com>
-	<20260319065735.45954-2-fengchengwen@huawei.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
-Date: Thu, 19 Mar 2026 15:46:14 +0000
-Message-ID: <87341vq0u1.fsf@stealth>
+        Thu, 19 Mar 2026 08:54:29 -0700 (PDT)
+Date: Thu, 19 Mar 2026 08:54:28 -0700
+From: Stanislav Fomichev <stfomichev@gmail.com>
+To: "Loktionov, Aleksandr" <aleksandr.loktionov@intel.com>
+Cc: Stanislav Fomichev <sdf@fomichev.me>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"davem@davemloft.net" <davem@davemloft.net>,
+	"edumazet@google.com" <edumazet@google.com>,
+	"kuba@kernel.org" <kuba@kernel.org>,
+	"pabeni@redhat.com" <pabeni@redhat.com>,
+	"horms@kernel.org" <horms@kernel.org>,
+	"corbet@lwn.net" <corbet@lwn.net>,
+	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
+	"andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>,
+	"michael.chan@broadcom.com" <michael.chan@broadcom.com>,
+	"pavan.chebbi@broadcom.com" <pavan.chebbi@broadcom.com>,
+	"Nguyen, Anthony L" <anthony.l.nguyen@intel.com>,
+	"Kitszel, Przemyslaw" <przemyslaw.kitszel@intel.com>,
+	"saeedm@nvidia.com" <saeedm@nvidia.com>,
+	"tariqt@nvidia.com" <tariqt@nvidia.com>,
+	"mbloch@nvidia.com" <mbloch@nvidia.com>,
+	"alexanderduyck@fb.com" <alexanderduyck@fb.com>,
+	"kernel-team@meta.com" <kernel-team@meta.com>,
+	"johannes@sipsolutions.net" <johannes@sipsolutions.net>,
+	"sd@queasysnail.net" <sd@queasysnail.net>,
+	"jianbol@nvidia.com" <jianbol@nvidia.com>,
+	"dtatulea@nvidia.com" <dtatulea@nvidia.com>,
+	"mohsin.bashr@gmail.com" <mohsin.bashr@gmail.com>,
+	"Keller, Jacob E" <jacob.e.keller@intel.com>,
+	"willemb@google.com" <willemb@google.com>,
+	"skhawaja@google.com" <skhawaja@google.com>,
+	"bestswngs@gmail.com" <bestswngs@gmail.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
+	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+	"leon@kernel.org" <leon@kernel.org>
+Subject: Re: [Intel-wired-lan] [PATCH net-next v2 08/13] bnxt: use snapshot
+ in bnxt_cfg_rx_mode
+Message-ID: <abwcNMcZHW0ThCkW@mini-arch>
+Mail-Followup-To: Stanislav Fomichev <stfomichev@gmail.com>,
+	"Loktionov, Aleksandr" <aleksandr.loktionov@intel.com>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"davem@davemloft.net" <davem@davemloft.net>,
+	"edumazet@google.com" <edumazet@google.com>,
+	"kuba@kernel.org" <kuba@kernel.org>,
+	"pabeni@redhat.com" <pabeni@redhat.com>,
+	"horms@kernel.org" <horms@kernel.org>,
+	"corbet@lwn.net" <corbet@lwn.net>,
+	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
+	"andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>,
+	"michael.chan@broadcom.com" <michael.chan@broadcom.com>,
+	"pavan.chebbi@broadcom.com" <pavan.chebbi@broadcom.com>,
+	"Nguyen, Anthony L" <anthony.l.nguyen@intel.com>,
+	"Kitszel, Przemyslaw" <przemyslaw.kitszel@intel.com>,
+	"saeedm@nvidia.com" <saeedm@nvidia.com>,
+	"tariqt@nvidia.com" <tariqt@nvidia.com>,
+	"mbloch@nvidia.com" <mbloch@nvidia.com>,
+	"alexanderduyck@fb.com" <alexanderduyck@fb.com>,
+	"kernel-team@meta.com" <kernel-team@meta.com>,
+	"johannes@sipsolutions.net" <johannes@sipsolutions.net>,
+	"sd@queasysnail.net" <sd@queasysnail.net>,
+	"jianbol@nvidia.com" <jianbol@nvidia.com>,
+	"dtatulea@nvidia.com" <dtatulea@nvidia.com>,
+	"mohsin.bashr@gmail.com" <mohsin.bashr@gmail.com>,
+	"Keller, Jacob E" <jacob.e.keller@intel.com>,
+	"willemb@google.com" <willemb@google.com>,
+	"skhawaja@google.com" <skhawaja@google.com>,
+	"bestswngs@gmail.com" <bestswngs@gmail.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
+	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+	"leon@kernel.org" <leon@kernel.org>
+References: <20260318150305.123900-1-sdf@fomichev.me>
+ <20260318150305.123900-9-sdf@fomichev.me>
+ <IA3PR11MB89866985981DB64EFEBDF0ACE54FA@IA3PR11MB8986.namprd11.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: 09JbLKywjy88BlYJbTV7RRIllvZhCvq5
-X-Proofpoint-GUID: 09JbLKywjy88BlYJbTV7RRIllvZhCvq5
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzE5MDEyNCBTYWx0ZWRfXwBbyRuGmHUAn
- C8lz6+u0vuAVtNj0Mqs9xyHlXiZJwVzqjjAEDX+sh4mwyHga1alcdB4JbpaX4lPqc/OzOWCCxJr
- poU7lvoBfEhUXSLe2TcMqvL1FxV3W6Uyl/DpCseQU9LkGeE8bKepd7DXCxL/mAR5+DA1eptPSWI
- emjXR0KYr+4jAHNgTU6f6aUOe2kcFQc3hI8lYLZqwXk9vxPPnKaA9US20M/xIxnDAq9zHMCta3b
- SifUaPsQ0MUyh3DU9opGSP7jNaJd3XK95JrO6Swxf1FbPVb39esWyAZ1tVBMmrN5IZ9s7oTkIXt
- +TuCZX8EEyrkgGh8uPeQa8H9aql30bErQSZoa41lYoBbedkoq9E1i8QXnG0ZkrczsOLWB8eD2kj
- pRFYb/X3xYO/Z1arO/MI4//uKYQFxvbUptr5IJ6W0kF1QKOBk48Vs4kvTXBUrJKgPeUcrM83CqL
- aghtR0IIAdYlu4+zgYw==
-X-Authority-Analysis: v=2.4 cv=WO9yn3sR c=1 sm=1 tr=0 ts=69bc1a4a cx=c_pps
- a=P2rfLEam3zuxRRdjJWA2cw==:117 a=xqWC_Br6kY4A:10 a=Yq5XynenixoA:10
- a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=ZpdpYltYx_vBUK5n70dp:22 a=i0EeH86SAAAA:8 a=VwQbUJbxAAAA:8
- a=Gl9ZV0r3yxOOH3mhj0oA:9 a=ODZdjJIeia2B_SHc_B0f:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-03-19_02,2026-03-19_05,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 suspectscore=0 lowpriorityscore=0 impostorscore=0
- adultscore=0 clxscore=1015 spamscore=0 malwarescore=0 phishscore=0
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2603050001
- definitions=main-2603190124
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <IA3PR11MB89866985981DB64EFEBDF0ACE54FA@IA3PR11MB8986.namprd11.prod.outlook.com>
 
-Chengwen Feng <fengchengwen@huawei.com> writes:
+On 03/19, Loktionov, Aleksandr wrote:
+> 
+> 
+> > -----Original Message-----
+> > From: Intel-wired-lan <intel-wired-lan-bounces@osuosl.org> On Behalf
+> > Of Stanislav Fomichev
+> > Sent: Wednesday, March 18, 2026 4:03 PM
+> > To: netdev@vger.kernel.org
+> > Cc: davem@davemloft.net; edumazet@google.com; kuba@kernel.org;
+> > pabeni@redhat.com; horms@kernel.org; corbet@lwn.net;
+> > skhan@linuxfoundation.org; andrew+netdev@lunn.ch;
+> > michael.chan@broadcom.com; pavan.chebbi@broadcom.com; Nguyen, Anthony
+> > L <anthony.l.nguyen@intel.com>; Kitszel, Przemyslaw
+> > <przemyslaw.kitszel@intel.com>; saeedm@nvidia.com; tariqt@nvidia.com;
+> > mbloch@nvidia.com; alexanderduyck@fb.com; kernel-team@meta.com;
+> > johannes@sipsolutions.net; sd@queasysnail.net; jianbol@nvidia.com;
+> > dtatulea@nvidia.com; sdf@fomichev.me; mohsin.bashr@gmail.com; Keller,
+> > Jacob E <jacob.e.keller@intel.com>; willemb@google.com;
+> > skhawaja@google.com; bestswngs@gmail.com; linux-doc@vger.kernel.org;
+> > linux-kernel@vger.kernel.org; intel-wired-lan@lists.osuosl.org; linux-
+> > rdma@vger.kernel.org; linux-wireless@vger.kernel.org; linux-
+> > kselftest@vger.kernel.org; leon@kernel.org
+> > Subject: [Intel-wired-lan] [PATCH net-next v2 08/13] bnxt: use
+> > snapshot in bnxt_cfg_rx_mode
+> > 
+> > With the introduction of ndo_set_rx_mode_async (as discussed in [0])
+> > we can call bnxt_cfg_rx_mode directly. Convert bnxt_cfg_rx_mode to use
+> > uc/mc snapshots and move its call in bnxt_sp_task to the section that
+> > resets BNXT_STATE_IN_SP_TASK. Switch to direct call in
+> > bnxt_set_rx_mode.
+> > 
+> > 0:
+> > https://lore.kernel.org/netdev/CACKFLi=5vj8hPqEUKDd8RTw3au5G+zRgQEqjF+
+> > 6NZnyoNm90KA@mail.gmail.com/
+> > 
+> > Cc: Michael Chan <michael.chan@broadcom.com>
+> > Cc: Pavan Chebbi <pavan.chebbi@broadcom.com>
+> > Signed-off-by: Stanislav Fomichev <sdf@fomichev.me>
+> > ---
+> >  drivers/net/ethernet/broadcom/bnxt/bnxt.c | 24 ++++++++++++++--------
+> > -
+> >  1 file changed, 15 insertions(+), 9 deletions(-)
+> 
+> ...
+> 
+> > -static int bnxt_cfg_rx_mode(struct bnxt *bp)
+> > +static int bnxt_cfg_rx_mode(struct bnxt *bp, struct
+> > netdev_hw_addr_list *uc,
+> > +			    struct netdev_hw_addr_list *mc)
+> >  {
+> >  	struct net_device *dev = bp->dev;
+> >  	struct bnxt_vnic_info *vnic = &bp-
+> > >vnic_info[BNXT_VNIC_DEFAULT];
+> > @@ -13623,7 +13625,7 @@ static int bnxt_cfg_rx_mode(struct bnxt *bp)
+> >  	bool uc_update;
+> > 
+> >  	netif_addr_lock_bh(dev);
+> > -	uc_update = bnxt_uc_list_updated(bp, &dev->uc);
+> > +	uc_update = bnxt_uc_list_updated(bp, uc);
+> >  	netif_addr_unlock_bh(dev);
+> > 
+> >  	if (!uc_update)
+> > @@ -13642,7 +13644,7 @@ static int bnxt_cfg_rx_mode(struct bnxt *bp)
+> >  	if (netdev_uc_count(dev) > (BNXT_MAX_UC_ADDRS - 1)) {
+> >  		vnic->rx_mask |=
+> > CFA_L2_SET_RX_MASK_REQ_MASK_PROMISCUOUS;
+> This limit check uses the live device list, dev->uc.
+> In the new async model, the live list can differ from the snapshot.
 
-> Add arch-specific acpi_get_cpu_uid() for arm64, and update dependent
-> code:
-> - Declare acpi_get_cpu_uid() in arch/arm64/include/asm/acpi.h
-> - Implement acpi_get_cpu_uid() with input parameter validation
-> - Replace get_acpi_id_for_cpu() with acpi_get_cpu_uid() in
->   drivers/perf/arm_cspmu/arm_cspmu.c
-> - Reimplement get_cpu_for_acpi_id() based on acpi_get_cpu_uid() (to
->   align with new interface) and move its implementation next to
->   acpi_get_cpu_uid()
-
-There is no benefit in describing the code changes like this in the
-commit log. It makes it hard to follow the intent of the patch.
-
-> This is the first step towards unifying ACPI CPU UID retrieval interface
-> across architectures, while adding input validation for robustness.
-
-I would simplify the commit log to something along the lines of -
-
-    As a step towards unifying the interface for retrieving ACPI CPU uid
-    across architectures, introduce a new function
-    acpi_get_cpu_uid(). While at it, also add input validation to make
-    the code more robust.
-
-Just my 2c.
-
-The code changes looks fine.
-
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Chengwen Feng <fengchengwen@huawei.com>
-> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
-> ---
->  arch/arm64/include/asm/acpi.h      | 14 ++------------
->  arch/arm64/kernel/acpi.c           | 30 ++++++++++++++++++++++++++++++
->  drivers/perf/arm_cspmu/arm_cspmu.c |  6 ++++--
->  3 files changed, 36 insertions(+), 14 deletions(-)
->
-> diff --git a/arch/arm64/include/asm/acpi.h b/arch/arm64/include/asm/acpi.h
-> index c07a58b96329..2219a3301e72 100644
-> --- a/arch/arm64/include/asm/acpi.h
-> +++ b/arch/arm64/include/asm/acpi.h
-> @@ -118,18 +118,8 @@ static inline u32 get_acpi_id_for_cpu(unsigned int cpu)
->  {
->  	return	acpi_cpu_get_madt_gicc(cpu)->uid;
->  }
-> -
-> -static inline int get_cpu_for_acpi_id(u32 uid)
-> -{
-> -	int cpu;
-> -
-> -	for (cpu = 0; cpu < nr_cpu_ids; cpu++)
-> -		if (acpi_cpu_get_madt_gicc(cpu) &&
-> -		    uid == get_acpi_id_for_cpu(cpu))
-> -			return cpu;
-> -
-> -	return -EINVAL;
-> -}
-> +int acpi_get_cpu_uid(unsigned int cpu, u32 *uid);
-> +int get_cpu_for_acpi_id(u32 uid);
->  
->  static inline void arch_fix_phys_package_id(int num, u32 slot) { }
->  void __init acpi_init_cpus(void);
-> diff --git a/arch/arm64/kernel/acpi.c b/arch/arm64/kernel/acpi.c
-> index af90128cfed5..24b9d934be54 100644
-> --- a/arch/arm64/kernel/acpi.c
-> +++ b/arch/arm64/kernel/acpi.c
-> @@ -458,3 +458,33 @@ int acpi_unmap_cpu(int cpu)
->  }
->  EXPORT_SYMBOL(acpi_unmap_cpu);
->  #endif /* CONFIG_ACPI_HOTPLUG_CPU */
-> +
-> +int acpi_get_cpu_uid(unsigned int cpu, u32 *uid)
-> +{
-> +	struct acpi_madt_generic_interrupt *gicc;
-> +
-> +	if (cpu >= nr_cpu_ids)
-> +		return -EINVAL;
-> +
-> +	gicc = acpi_cpu_get_madt_gicc(cpu);
-> +	if (!gicc)
-> +		return -ENODEV;
-> +
-> +	*uid = gicc->uid;
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(acpi_get_cpu_uid);
-> +
-> +int get_cpu_for_acpi_id(u32 uid)
-> +{
-> +	u32 cpu_uid;
-> +	int ret;
-> +
-> +	for (int cpu = 0; cpu < nr_cpu_ids; cpu++) {
-> +		ret = acpi_get_cpu_uid(cpu, &cpu_uid);
-> +		if (ret == 0 && uid == cpu_uid)
-> +			return cpu;
-> +	}
-> +
-> +	return -EINVAL;
-> +}
-> diff --git a/drivers/perf/arm_cspmu/arm_cspmu.c b/drivers/perf/arm_cspmu/arm_cspmu.c
-> index 34430b68f602..ed72c3d1f796 100644
-> --- a/drivers/perf/arm_cspmu/arm_cspmu.c
-> +++ b/drivers/perf/arm_cspmu/arm_cspmu.c
-> @@ -1107,15 +1107,17 @@ static int arm_cspmu_acpi_get_cpus(struct arm_cspmu *cspmu)
->  {
->  	struct acpi_apmt_node *apmt_node;
->  	int affinity_flag;
-> +	u32 cpu_uid;
->  	int cpu;
-> +	int ret;
->  
->  	apmt_node = arm_cspmu_apmt_node(cspmu->dev);
->  	affinity_flag = apmt_node->flags & ACPI_APMT_FLAGS_AFFINITY;
->  
->  	if (affinity_flag == ACPI_APMT_FLAGS_AFFINITY_PROC) {
->  		for_each_possible_cpu(cpu) {
-> -			if (apmt_node->proc_affinity ==
-> -			    get_acpi_id_for_cpu(cpu)) {
-> +			ret = acpi_get_cpu_uid(cpu, &cpu_uid);
-> +			if (ret == 0 && apmt_node->proc_affinity == cpu_uid) {
->  				cpumask_set_cpu(cpu, &cspmu->associated_cpus);
->  				break;
->  			}
-
-I think cspmu changes go via a separate pull request. You might have to
-split this change into a separate commit.
+Oh, yes, good catch! Will do s/netdev_uc_count/netdev_hw_addr_list_count(uc).
