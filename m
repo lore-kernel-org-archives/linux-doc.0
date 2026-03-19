@@ -1,439 +1,234 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AD993E1D17
-	for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 15:19:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773933593; cv=pass; b=q798P5t22pxvoxVVuayAFkRhpOHcUOzTZZzJAKSZ1SUn7xJq3MCig8/CH0sbx02qb4xzBiNw7oEG0GK+qv2+Scp1H5MuoP4tVp3AOk5/fa4Q7uhabdCcFAKrgFS5p9dmN3Ch1aCyqz76AdOXOa0pDASHZs0Z4V5+FG8wQTXCIA4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773933593; c=relaxed/simple;
-	bh=cd2Yc6Pq+XjnR/Goq5WKVux5mwTDBBwiKIMMeMo1T34=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pkjLskg7bETlgYfz3bJbJnSPmR35eDU8cftQHDXmB30gt5HKWDEIYT3Du05SUJXSP6Z8/zSFz/oPcPqAuQAc2/Mvil5xZXodCMw7bUiXv/MSlhjKy6UqiE4IQG0Kbkp0C0VJcwllLRLKyM60oq0K48+ro4MwjC5Uc6mr14GGXwc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=APmyZl3o; arc=pass smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A61A93E3173;
+	Thu, 19 Mar 2026 15:40:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773934805; cv=none; b=MGc/TVnYL2bvhgsJc3qnpuBNsi8/OYGeIt17BsyGaIdWMSX488TTzgEd+7RsUJVHCzLtnl0rZAe7mVrP2+7p5bGf4WJu8dJVJ5jNcwwaGxFScSGCNhoCwmqKAxpQu63JpFNHTXcmNRgZvVBhB5XQuzSrZpjuaIuYPCWgNgghJ0Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773934805; c=relaxed/simple;
+	bh=8emaTLPxEgafUtAPvR+F0T/ynGTrAJNTFy/hqEOWGzE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=kwLpqRGwBYBMpI48TivVcuCSBwPHkY6PLrlTTLEA3j1SvXclCqF3DdN6hYtabMmOZzBDqqwR3LGBCyd0JZZHTU+8RcwO2wLyjAOLjPBC36NWwdYMC6eYF9q4yKJ8C+6RVPWicd0pCphCqG/vtfTjCPaKcvCjjZO0CHL6ZRD2dMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D8uYBtaF; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="APmyZl3o"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-667cde0fc88so10036a12.1
-        for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 08:19:51 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1773933590; cv=none;
-        d=google.com; s=arc-20240605;
-        b=VJ4YY/SP/jay6IlEAPGHQxm1gptC7+XbJCdgJDRwDXcXwl6mvljoQMEUW9o8tV6N3q
-         Z689aYeR/OjMWEFPEMml+lhjHY3u8NwBHOz7Fuck5S3/M091LlaLjvxGRx9ecHA9sT0u
-         evRt7Ypwa9Rt6gayywBNH+oPX2LXD/Nh2kYUzSFgG0nTB/OekJWZprDhLC92SEah7OIq
-         fHfrZM49k9gK0OYNtJnUZNNaedd/UN4EBisYUKmDUAPm5sRn3OurmRxVVC8kWkpFMuNt
-         yIHNxVnnM91D41YKtaqCOdn2UQHSqZ14xvz6c5L1XvI09SskHcD/I5BgLFGrqv/Y7q2Z
-         IPPg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=OfH8Q5Td26D2zz2vaWeEEQdnUyXBLu9cQNzXDyggGWs=;
-        fh=oS8x7u4DN4LKuu+DL4C/6E/4sp05z6UzETGooXYijdc=;
-        b=T3w+2UzjR5ApKkJImP41vLnTum4feoRzB6Aw1cVE4dhCbYJ/2s8smAV8Ev8wQp6VyU
-         RIinxfn3U85xVE7UCmvC5OnhqIIQ862XRIr8An/qt7NVX9nvhb7MXhp9HGAYBe49WBgi
-         soLjHzu3fMF05xV/MyHfaGsfkR1NwTarJAZLIq7GcSKXpi0MzTqzgGB6k1yWTc7LEhqp
-         9tkaaiieL0qysYL2B70YAMlJE1BGkuouos4xnSCXDAn4KDjs9Er5LVt+CzWqtU+469D0
-         pyAE1Ljq3iOVW0RqMMbohJKoIgME3q+QTHV59yEW0I44uFqb8g/dPW62P09gwjjQuXJ9
-         oYMg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1773933590; x=1774538390; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OfH8Q5Td26D2zz2vaWeEEQdnUyXBLu9cQNzXDyggGWs=;
-        b=APmyZl3oeQueRTmeziy3SJdrcPsjCwIOAj2jNKPmTym9K8ETNtFxyE/UFMUYhtrc5q
-         GB/nIPyLN6hfGntMHmt9dfHM7PfjMcnmARl7l9vxeRa5Z6X8vyFcJtavGpYR7HGrjgTd
-         HpxbSNjN/pR2DCvhPHO07tEo4jMm5sTFowCJH+oxCaHcjzN1z2eJfXeIPKrS9nuO3Sui
-         GiTp2InFaceJm8b9omVrtlETA1ZPWNMYCpfteIxl4+1j3B1JsIz7X9Rp+hvEi2VDArQn
-         7dbUq2H0Fgz455Cn+z49tHCsEmp/3RJ2CiDks0Ufyr7BUn2X/enGHT6A0qkiAuhn994R
-         CGUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773933590; x=1774538390;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=OfH8Q5Td26D2zz2vaWeEEQdnUyXBLu9cQNzXDyggGWs=;
-        b=bxMYqOY/+SxFLkI8RAQi9inh8hPx2+VCavsFtCgiFBoQ8TGLXimwl2ZnJ4B1yLGixF
-         eOOVPEi8e3nkuhGKgASUie41xWN57qGkkef4D85RAeEDM3qYIfFBTBmNzMcNM4JPe8f9
-         JaNS4E53KCWRmdWMUK67TRBcyKIO1rKikMcTLNdLKjnq8WBahXvI+kVYt8YEg2q4Lifo
-         64UahryvubV8ES617qlQ0p2Szf/H/HxSklDbvwQqzUQ/J260q5zHb3o7OG0JLERfzhfE
-         EUK6BczwSjA0J2G/G1GIP5Q7JqWY87w61XfhdRE/LHAR8DohyPE2PVvRMCISRrVV9/Q5
-         BnrA==
-X-Forwarded-Encrypted: i=1; AJvYcCUm40PSDXQzOsKLnRzTs2PjnkkM2eORAQpqobwrCSZdA2Nm8erch8wEmE6T69TCez1c15ImanwbhY4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw5uOfXIRLVVDA6Yccg8sSJTaWc3tKp6PZ5F0mgHDJFeM5ZvzZx
-	iFIzxJN4wBikovj8bf7icd7AdXqHl0OscP04CbN3yKICz6FRbZOwFWitm6HXaYjwcLTfL+Pedcv
-	ELIxbEF2Q2/MKxOOPF1j79o2zCW0H3e1BOlwA8tMA
-X-Gm-Gg: ATEYQzxkIVRX60F8VzC4VIE+x8aRDj8Y8bPDHWumaE3MYaXR+uQ0zNEXD3Bc7TjpfTZ
-	3yikARxZUwQKq4Nhi7v9lRIM7ydUPS5UGQ+Q4VH3LCZ1r1aXNIVGIRJw0YdquWyy8BsU5jlzb1/
-	71png/PKAn9G9KO5gZgIU0zu14AJdJ8Ba6yNQCx8OZPeHtK923CwXRcQWz4xEXZBoGnsqZAR0Hf
-	6zIaJsAl4TloZ8RoXC7ddfooY5VkmE0zEBB4kimS22MT00NtN173658y3gGFKYPGB7xiz+FlvCm
-	kF3VZwaC4YzyZkUP0KOEuyey28I69iMlKCAr
-X-Received: by 2002:a05:6402:46c5:b0:665:d39:4b18 with SMTP id
- 4fb4d7f45d1cf-66852d6c8abmr48783a12.8.1773933589136; Thu, 19 Mar 2026
- 08:19:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D8uYBtaF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1773934804; x=1805470804;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8emaTLPxEgafUtAPvR+F0T/ynGTrAJNTFy/hqEOWGzE=;
+  b=D8uYBtaFbn7rim+05cRTc6eGs0w1/YGk0Z6r0NVbWHgYoSTuJ/QnlRoP
+   FN38T/eD89wthabO1W0eDqrw4vGCMmdsVL7u8jwlaFEE7rLg8W0j/9bR7
+   TldIfmCkuIdpUrVG1cX7uJ74bgKS6S9SunS9oBEldL8QWZYNhCldM5t/r
+   3w5IiSCLBSb7zOuv/UW+ruRemXj1ojNzl9jww428xiG3SaalbTBNdvFxz
+   yFRpVq0eAcH9Yr9nyI7OACfcgYCL6ml0vCzJkQ8I/MQtf3pu/CX6CzzCZ
+   jVEKImGP92h34mbZgwQdQCDFvs7NfknbLKNNYZGsc88eJLlc6Toa4C5Ed
+   Q==;
+X-CSE-ConnectionGUID: lWOSUTtOShq4QQ9gCCmA9Q==
+X-CSE-MsgGUID: f1dSQysaT1mRHNS77NF8oQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="78868755"
+X-IronPort-AV: E=Sophos;i="6.23,129,1770624000"; 
+   d="scan'208";a="78868755"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 08:40:03 -0700
+X-CSE-ConnectionGUID: 4ioP+Kv7SFCqtVD3EB9QBA==
+X-CSE-MsgGUID: LlK2adJCRn2gb9b203t3RQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,129,1770624000"; 
+   d="scan'208";a="222241348"
+Received: from guptapa-desk.jf.intel.com (HELO desk) ([10.165.239.46])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 08:40:03 -0700
+Date: Thu, 19 Mar 2026 08:40:01 -0700
+From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+To: x86@kernel.org, Nikolay Borisov <nik.borisov@suse.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	David Kaplan <david.kaplan@amd.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>, KP Singh <kpsingh@kernel.org>,
+	Jiri Olsa <jolsa@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	David Laight <david.laight.linux@gmail.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	David Ahern <dsahern@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+	Asit Mallick <asit.k.mallick@intel.com>,
+	Tao Zhang <tao1.zhang@intel.com>, bpf@vger.kernel.org,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH v7 00/10] VMSCAPE optimization for BHI variant
+Message-ID: <20260319-vmscape-bhb-v7-0-b76a777a98af@linux.intel.com>
+X-B4-Tracking: v=1; b=H4sIAIEXvGkC/23QTWrDMBAF4KsEraugGf0xXfUepQtZI9eCxAl2K
+ lKC7145lCaiXr6B+eC9m5jTlNMsXnc3MaWS53waa/AvOxGHMH4mmblmgQqtInCyHOcYzkl2Qyf
+ Zs3FE3vfYi/pxnlKfr3ft/aPmIc+X0/R9xwus118HTeMUkEpysNCrBKQNvx3y+HXd5/GSDvt4O
+ opVK/gngALbClgFgtgxU9SB3LagnwT0raCrYD3piFabRHpbMA8BgFrBVAECBzbJEXPcFuyTgO2
+ excraA9m5ZFB3Sm0L7iGgglZw65IOFLMF68H8F5Zl+QHfXtB89gEAAA==
+X-Change-ID: 20250916-vmscape-bhb-d7d469977f2f
+X-Mailer: b4 0.15-dev
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1773695307.git.ljs@kernel.org> <48c6d25e374b57dba6df4fdddd4830d3fc1105be.1773695307.git.ljs@kernel.org>
- <CAJuCfpFXuHg4KPY27pqMC-xV5y9ZY2W72_R8_rxO0DvrJ=_yvw@mail.gmail.com>
- <CAJuCfpE5qZmi43EeZiRcy78pD6YvJb5n_xnoUJfwEjomowu0=A@mail.gmail.com>
- <8cdad898-b306-40fe-a367-efe7147f83b9@lucifer.local> <CAJuCfpHXqtxZr5s84jCcz513a2pgMeDoobsLBJH9pSON49cM+w@mail.gmail.com>
-In-Reply-To: <CAJuCfpHXqtxZr5s84jCcz513a2pgMeDoobsLBJH9pSON49cM+w@mail.gmail.com>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Thu, 19 Mar 2026 08:19:35 -0700
-X-Gm-Features: AaiRm51bFJ7jnCWExjTkTJWtl61x7cY-2jhtQRDi8xxndWDLsjo0Sko90eA6oXU
-Message-ID: <CAJuCfpG4F7r=AMTBRkazFeQsnKocu9OPFyV2TsQccLQc=oLwNA@mail.gmail.com>
-Subject: Re: [PATCH v2 11/16] staging: vme_user: replace deprecated mmap hook
- with mmap_prepare
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Clemens Ladisch <clemens@ladisch.de>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "K . Y . Srinivasan" <kys@microsoft.com>, 
-	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
-	Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>, 
-	Vignesh Raghavendra <vigneshr@ti.com>, Bodo Stroesser <bostroesser@gmail.com>, 
-	"Martin K . Petersen" <martin.petersen@oracle.com>, David Howells <dhowells@redhat.com>, 
-	Marc Dionne <marc.dionne@auristor.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, David Hildenbrand <david@kernel.org>, 
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, 
-	Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-hyperv@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org, 
-	linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org, 
-	target-devel@vger.kernel.org, linux-afs@lists.infradead.org, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	Ryan Roberts <ryan.roberts@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Mar 19, 2026 at 8:19=E2=80=AFAM Suren Baghdasaryan <surenb@google.c=
-om> wrote:
->
-> On Thu, Mar 19, 2026 at 7:55=E2=80=AFAM Lorenzo Stoakes (Oracle) <ljs@ker=
-nel.org> wrote:
-> >
-> > On Tue, Mar 17, 2026 at 02:32:16PM -0700, Suren Baghdasaryan wrote:
-> > > On Tue, Mar 17, 2026 at 2:26=E2=80=AFPM Suren Baghdasaryan <surenb@go=
-ogle.com> wrote:
-> > > >
-> > > > On Mon, Mar 16, 2026 at 2:14=E2=80=AFPM Lorenzo Stoakes (Oracle) <l=
-js@kernel.org> wrote:
-> > > > >
-> > > > > The f_op->mmap interface is deprecated, so update driver to use i=
-ts
-> > > > > successor, mmap_prepare.
-> > > > >
-> > > > > The driver previously used vm_iomap_memory(), so this change repl=
-aces it
-> > > > > with its mmap_prepare equivalent, mmap_action_simple_ioremap().
-> > > > >
-> > > > > Functions that wrap mmap() are also converted to wrap mmap_prepar=
-e()
-> > > > > instead.
-> > > > >
-> > > > > Also update the documentation accordingly.
-> > > > >
-> > > > > Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
+v7:
+- s/This allows/Allow/ and s/This does adds/This adds/ in patch 1/10 commit
+  message (Borislav).
+- Minimize register usage in BHB clearing seq. (David Laight)
+  - Instead of separate ecx/eax counters, use al/ah.
+  - Adjust the alignment of RET due to register size change.
+  - save/restore rax in the seq itself.
+  - Remove the save/restore of rax/rcx for BPF callers.
+- Rename clear_bhb_loop() to clear_bhb_loop_nofence() to make it
+  obvious that the LFENCE is not part of the sequence (Borislav).
+- Fix Kconfig: s/select/depends on/ HAVE_STATIC_CALL (PeterZ).
+- Rebased to v7.0-rc4.
 
-Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+v6: https://lore.kernel.org/r/20251201-vmscape-bhb-v6-0-d610dd515714@linux.intel.com
+- Remove semicolon at the end of asm in ALTERNATIVE (Uros).
+- Fix build warning in vmscape_select_mitigation() (LKP).
+- Rebased to v6.18.
 
-> > > > > ---
-> > > > >  Documentation/driver-api/vme.rst    |  2 +-
-> > > > >  drivers/staging/vme_user/vme.c      | 20 +++++------
-> > > > >  drivers/staging/vme_user/vme.h      |  2 +-
-> > > > >  drivers/staging/vme_user/vme_user.c | 51 +++++++++++++++++------=
-------
-> > > > >  4 files changed, 42 insertions(+), 33 deletions(-)
-> > > > >
-> > > > > diff --git a/Documentation/driver-api/vme.rst b/Documentation/dri=
-ver-api/vme.rst
-> > > > > index c0b475369de0..7111999abc14 100644
-> > > > > --- a/Documentation/driver-api/vme.rst
-> > > > > +++ b/Documentation/driver-api/vme.rst
-> > > > > @@ -107,7 +107,7 @@ The function :c:func:`vme_master_read` can be=
- used to read from and
-> > > > >
-> > > > >  In addition to simple reads and writes, :c:func:`vme_master_rmw`=
- is provided to
-> > > > >  do a read-modify-write transaction. Parts of a VME window can al=
-so be mapped
-> > > > > -into user space memory using :c:func:`vme_master_mmap`.
-> > > > > +into user space memory using :c:func:`vme_master_mmap_prepare`.
-> > > > >
-> > > > >
-> > > > >  Slave windows
-> > > > > diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme=
-_user/vme.c
-> > > > > index f10a00c05f12..7220aba7b919 100644
-> > > > > --- a/drivers/staging/vme_user/vme.c
-> > > > > +++ b/drivers/staging/vme_user/vme.c
-> > > > > @@ -735,9 +735,9 @@ unsigned int vme_master_rmw(struct vme_resour=
-ce *resource, unsigned int mask,
-> > > > >  EXPORT_SYMBOL(vme_master_rmw);
-> > > > >
-> > > > >  /**
-> > > > > - * vme_master_mmap - Mmap region of VME master window.
-> > > > > + * vme_master_mmap_prepare - Mmap region of VME master window.
-> > > > >   * @resource: Pointer to VME master resource.
-> > > > > - * @vma: Pointer to definition of user mapping.
-> > > > > + * @desc: Pointer to descriptor of user mapping.
-> > > > >   *
-> > > > >   * Memory map a region of the VME master window into user space.
-> > > > >   *
-> > > > > @@ -745,12 +745,13 @@ EXPORT_SYMBOL(vme_master_rmw);
-> > > > >   *         resource or -EFAULT if map exceeds window size. Other=
- generic mmap
-> > > > >   *         errors may also be returned.
-> > > > >   */
-> > > > > -int vme_master_mmap(struct vme_resource *resource, struct vm_are=
-a_struct *vma)
-> > > > > +int vme_master_mmap_prepare(struct vme_resource *resource,
-> > > > > +                           struct vm_area_desc *desc)
-> > > > >  {
-> > > > > +       const unsigned long vma_size =3D vma_desc_size(desc);
-> > > > >         struct vme_bridge *bridge =3D find_bridge(resource);
-> > > > >         struct vme_master_resource *image;
-> > > > >         phys_addr_t phys_addr;
-> > > > > -       unsigned long vma_size;
-> > > > >
-> > > > >         if (resource->type !=3D VME_MASTER) {
-> > > > >                 dev_err(bridge->parent, "Not a master resource\n"=
-);
-> > > > > @@ -758,19 +759,18 @@ int vme_master_mmap(struct vme_resource *re=
-source, struct vm_area_struct *vma)
-> > > > >         }
-> > > > >
-> > > > >         image =3D list_entry(resource->entry, struct vme_master_r=
-esource, list);
-> > > > > -       phys_addr =3D image->bus_resource.start + (vma->vm_pgoff =
-<< PAGE_SHIFT);
-> > > > > -       vma_size =3D vma->vm_end - vma->vm_start;
-> > > > > +       phys_addr =3D image->bus_resource.start + (desc->pgoff <<=
- PAGE_SHIFT);
-> > > > >
-> > > > >         if (phys_addr + vma_size > image->bus_resource.end + 1) {
-> > > > >                 dev_err(bridge->parent, "Map size cannot exceed t=
-he window size\n");
-> > > > >                 return -EFAULT;
-> > > > >         }
-> > > > >
-> > > > > -       vma->vm_page_prot =3D pgprot_noncached(vma->vm_page_prot)=
-;
-> > > > > -
-> > > > > -       return vm_iomap_memory(vma, phys_addr, vma->vm_end - vma-=
->vm_start);
-> > > > > +       desc->page_prot =3D pgprot_noncached(desc->page_prot);
-> > > > > +       mmap_action_simple_ioremap(desc, phys_addr, vma_size);
-> > > > > +       return 0;
-> > > > >  }
-> > > > > -EXPORT_SYMBOL(vme_master_mmap);
-> > > > > +EXPORT_SYMBOL(vme_master_mmap_prepare);
-> > > > >
-> > > > >  /**
-> > > > >   * vme_master_free - Free VME master window
-> > > > > diff --git a/drivers/staging/vme_user/vme.h b/drivers/staging/vme=
-_user/vme.h
-> > > > > index 797e9940fdd1..b6413605ea49 100644
-> > > > > --- a/drivers/staging/vme_user/vme.h
-> > > > > +++ b/drivers/staging/vme_user/vme.h
-> > > > > @@ -151,7 +151,7 @@ ssize_t vme_master_read(struct vme_resource *=
-resource, void *buf, size_t count,
-> > > > >  ssize_t vme_master_write(struct vme_resource *resource, void *bu=
-f, size_t count, loff_t offset);
-> > > > >  unsigned int vme_master_rmw(struct vme_resource *resource, unsig=
-ned int mask, unsigned int compare,
-> > > > >                             unsigned int swap, loff_t offset);
-> > > > > -int vme_master_mmap(struct vme_resource *resource, struct vm_are=
-a_struct *vma);
-> > > > > +int vme_master_mmap_prepare(struct vme_resource *resource, struc=
-t vm_area_desc *desc);
-> > > > >  void vme_master_free(struct vme_resource *resource);
-> > > > >
-> > > > >  struct vme_resource *vme_dma_request(struct vme_dev *vdev, u32 r=
-oute);
-> > > > > diff --git a/drivers/staging/vme_user/vme_user.c b/drivers/stagin=
-g/vme_user/vme_user.c
-> > > > > index d95dd7d9190a..11e25c2f6b0a 100644
-> > > > > --- a/drivers/staging/vme_user/vme_user.c
-> > > > > +++ b/drivers/staging/vme_user/vme_user.c
-> > > > > @@ -446,24 +446,14 @@ static void vme_user_vm_close(struct vm_are=
-a_struct *vma)
-> > > > >         kfree(vma_priv);
-> > > > >  }
-> > > > >
-> > > > > -static const struct vm_operations_struct vme_user_vm_ops =3D {
-> > > > > -       .open =3D vme_user_vm_open,
-> > > > > -       .close =3D vme_user_vm_close,
-> > > > > -};
-> > > > > -
-> > > > > -static int vme_user_master_mmap(unsigned int minor, struct vm_ar=
-ea_struct *vma)
-> > > > > +static int vme_user_vm_mapped(unsigned long start, unsigned long=
- end, pgoff_t pgoff,
-> > > > > +                             const struct file *file, void **vm_=
-private_data)
-> > > > >  {
-> > > > > -       int err;
-> > > > > +       const unsigned int minor =3D iminor(file_inode(file));
-> > > > >         struct vme_user_vma_priv *vma_priv;
-> > > > >
-> > > > >         mutex_lock(&image[minor].mutex);
-> > > > >
-> > > > > -       err =3D vme_master_mmap(image[minor].resource, vma);
-> > > > > -       if (err) {
-> > > > > -               mutex_unlock(&image[minor].mutex);
-> > > > > -               return err;
-> > > > > -       }
-> > > > > -
-> > > >
-> > > > Ok, this changes the set of the operations performed under image[mi=
-nor].mutex.
-> > > > Before we had:
-> > > >
-> > > > mutex_lock(&image[minor].mutex);
-> > > > vme_master_mmap();
-> > > > <some final adjustments>
-> > > > mutex_unlock(&image[minor].mutex);
-> > > >
-> > > > Now we have:
-> > > >
-> > > > mutex_lock(&image[minor].mutex);
-> > > > vme_master_mmap_prepare()
-> > > > mutex_unlock(&image[minor].mutex);
-> > > > vm_iomap_memory();
-> > > > mutex_lock(&image[minor].mutex);
-> > > > vme_user_vm_mapped(); // <some final adjustments>
-> > > > mutex_unlock(&image[minor].mutex);
-> > > >
-> > > > I think as long as image[minor] does not change while we are not
-> > > > holding the mutex we should be safe, and looking at the code it see=
-ms
-> > > > to be the case. But I'm not familiar with this driver and might be
-> > > > wrong. Worth double-checking.
-> >
-> > The file is pinned for the duration, the mutex is associated with the f=
-ile,
-> > so there's no sane world in which that could be problematic.
-> >
-> > Keeping in mind that we manipulate stuff on vme_user_vm_close() that
-> > directly acceses image[minor] at an arbitary time.
->
-> That was my understanding as well. Thanks for confirming.
->
-> >
-> > >
-> > > A side note: if we had to hold the mutex across all those operations =
-I
-> > > think we would need to take the mutex in the vm_ops->mmap_prepare and
-> > > add a vm_ops->map_failed hook or something along that line to drop th=
-e
-> > > mutex in case mmap_action_complete() fails. Not sure if we will have
-> > > such cases though...
-> >
-> > No, I don't want to do this if it can be at all avoided. You should in
-> > nearly any sane circumstance be able to defer things until the mapped h=
-ook
-> > anyway.
-> >
-> > Also a merge can happen too after an .mmap_prepare, so we'd have to hav=
-e
-> > some 'success' hook and I'm just not going there it'll end up open to a=
-buse
-> > again.
-> >
-> > (We do have success and error filtering hooks right now, sadly, but the=
-y're
-> > really for hugetlb and I plan to find a way to get rid of them).
-> >
-> > The mmap_prepare is meant to essentially be as stateless as possible.
->
-> Yes, I also hope we won't encounter cases requiring us to keep any
-> state information between the mmap_prepare and mapped stages.
->
-> >
-> > Anyway I don't think it's relevant here.
-> >
-> > >
-> > > >
-> > > > >         vma_priv =3D kmalloc_obj(*vma_priv);
-> > > > >         if (!vma_priv) {
-> > > > >                 mutex_unlock(&image[minor].mutex);
-> > > > > @@ -472,22 +462,41 @@ static int vme_user_master_mmap(unsigned in=
-t minor, struct vm_area_struct *vma)
-> > > > >
-> > > > >         vma_priv->minor =3D minor;
-> > > > >         refcount_set(&vma_priv->refcnt, 1);
-> > > > > -       vma->vm_ops =3D &vme_user_vm_ops;
-> > > > > -       vma->vm_private_data =3D vma_priv;
-> > > > > -
-> > > > > +       *vm_private_data =3D vma_priv;
-> > > > >         image[minor].mmap_count++;
-> > > > >
-> > > > >         mutex_unlock(&image[minor].mutex);
-> > > > > -
-> > > > >         return 0;
-> > > > >  }
-> > > > >
-> > > > > -static int vme_user_mmap(struct file *file, struct vm_area_struc=
-t *vma)
-> > > > > +static const struct vm_operations_struct vme_user_vm_ops =3D {
-> > > > > +       .mapped =3D vme_user_vm_mapped,
-> > > > > +       .open =3D vme_user_vm_open,
-> > > > > +       .close =3D vme_user_vm_close,
-> > > > > +};
-> > > > > +
-> > > > > +static int vme_user_master_mmap_prepare(unsigned int minor,
-> > > > > +                                       struct vm_area_desc *desc=
-)
-> > > > > +{
-> > > > > +       int err;
-> > > > > +
-> > > > > +       mutex_lock(&image[minor].mutex);
-> > > > > +
-> > > > > +       err =3D vme_master_mmap_prepare(image[minor].resource, de=
-sc);
-> > > > > +       if (!err)
-> > > > > +               desc->vm_ops =3D &vme_user_vm_ops;
-> > > > > +
-> > > > > +       mutex_unlock(&image[minor].mutex);
-> > > > > +       return err;
-> > > > > +}
-> > > > > +
-> > > > > +static int vme_user_mmap_prepare(struct vm_area_desc *desc)
-> > > > >  {
-> > > > > -       unsigned int minor =3D iminor(file_inode(file));
-> > > > > +       const struct file *file =3D desc->file;
-> > > > > +       const unsigned int minor =3D iminor(file_inode(file));
-> > > > >
-> > > > >         if (type[minor] =3D=3D MASTER_MINOR)
-> > > > > -               return vme_user_master_mmap(minor, vma);
-> > > > > +               return vme_user_master_mmap_prepare(minor, desc);
-> > > > >
-> > > > >         return -ENODEV;
-> > > > >  }
-> > > > > @@ -498,7 +507,7 @@ static const struct file_operations vme_user_=
-fops =3D {
-> > > > >         .llseek =3D vme_user_llseek,
-> > > > >         .unlocked_ioctl =3D vme_user_unlocked_ioctl,
-> > > > >         .compat_ioctl =3D compat_ptr_ioctl,
-> > > > > -       .mmap =3D vme_user_mmap,
-> > > > > +       .mmap_prepare =3D vme_user_mmap_prepare,
-> > > > >  };
-> > > > >
-> > > > >  static int vme_user_match(struct vme_dev *vdev)
-> > > > > --
-> > > > > 2.53.0
-> > > > >
-> >
-> > Cheers, Lorenzo
+v5: https://lore.kernel.org/r/20251126-vmscape-bhb-v5-2-02d66e423b00@linux.intel.com
+- For BHI seq, limit runtime-patching to loop counts only (Dave).
+  Dropped 2 patches that moved the BHB seq to a macro.
+- Remove redundant switch cases in vmscape_select_mitigation() (Nikolay).
+- Improve commit message (Nikolay).
+- Collected tags.
+
+v4: https://lore.kernel.org/r/20251119-vmscape-bhb-v4-0-1adad4e69ddc@linux.intel.com
+- Move LFENCE to the callsite, out of clear_bhb_loop(). (Dave)
+- Make clear_bhb_loop() work for larger BHB. (Dave)
+  This now uses hardware enumeration to determine the BHB size to clear.
+- Use write_ibpb() instead of indirect_branch_prediction_barrier() when
+  IBPB is known to be available. (Dave)
+- Use static_call() to simplify mitigation at exit-to-userspace. (Dave)
+- Refactor vmscape_select_mitigation(). (Dave)
+- Fix vmscape=on which was wrongly behaving as AUTO. (Dave)
+- Split the patches. (Dave)
+  - Patch 1-4 prepares for making the sequence flexible for VMSCAPE use.
+  - Patch 5 trivial rename of variable.
+  - Patch 6-8 prepares for deploying BHB mitigation for VMSCAPE.
+  - Patch 9 deploys the mitigation.
+  - Patch 10-11 fixes ON Vs AUTO mode.
+
+v3: https://lore.kernel.org/r/20251027-vmscape-bhb-v3-0-5793c2534e93@linux.intel.com
+- s/x86_pred_flush_pending/x86_predictor_flush_exit_to_user/ (Sean).
+- Removed IBPB & BHB-clear mutual exclusion at exit-to-userspace.
+- Collected tags.
+
+v2: https://lore.kernel.org/r/20251015-vmscape-bhb-v2-0-91cbdd9c3a96@linux.intel.com
+- Added check for IBPB feature in vmscape_select_mitigation(). (David)
+- s/vmscape=auto/vmscape=on/ (David)
+- Added patch to remove LFENCE from VMSCAPE BHB-clear sequence.
+- Rebased to v6.18-rc1.
+
+v1: https://lore.kernel.org/r/20250924-vmscape-bhb-v1-0-da51f0e1934d@linux.intel.com
+
+Hi All,
+
+These patches aim to improve the performance of a recent mitigation for
+VMSCAPE[1] vulnerability. This improvement is relevant for BHI variant of
+VMSCAPE that affect Alder Lake and newer processors.
+
+The current mitigation approach uses IBPB on kvm-exit-to-userspace for all
+affected range of CPUs. This is an overkill for CPUs that are only affected
+by the BHI variant. On such CPUs clearing the branch history is sufficient
+for VMSCAPE, and also more apt as the underlying issue is due to poisoned
+branch history.
+
+Below is the iPerf data for transfer between guest and host, comparing IBPB
+and BHB-clear mitigation. BHB-clear shows performance improvement over IBPB
+in most cases.
+
+Platform: Emerald Rapids
+Baseline: vmscape=off
+Target: IBPB at VMexit-to-userspace Vs the new BHB-clear at
+	VMexit-to-userspace mitigation (both compared against baseline).
+
+(pN = N parallel connections)
+
+| iPerf user-net | IBPB    | BHB Clear |
+|----------------|---------|-----------|
+| UDP 1-vCPU_p1  | -12.5%  |   1.3%    |
+| TCP 1-vCPU_p1  | -10.4%  |  -1.5%    |
+| TCP 1-vCPU_p1  | -7.5%   |  -3.0%    |
+| UDP 4-vCPU_p16 | -3.7%   |  -3.7%    |
+| TCP 4-vCPU_p4  | -2.9%   |  -1.4%    |
+| UDP 4-vCPU_p4  | -0.6%   |   0.0%    |
+| TCP 4-vCPU_p4  |  3.5%   |   0.0%    |
+
+| iPerf bridge-net | IBPB    | BHB Clear |
+|------------------|---------|-----------|
+| UDP 1-vCPU_p1    | -9.4%   |  -0.4%    |
+| TCP 1-vCPU_p1    | -3.9%   |  -0.5%    |
+| UDP 4-vCPU_p16   | -2.2%   |  -3.8%    |
+| TCP 4-vCPU_p4    | -1.0%   |  -1.0%    |
+| TCP 4-vCPU_p4    |  0.5%   |   0.5%    |
+| UDP 4-vCPU_p4    |  0.0%   |   0.9%    |
+| TCP 1-vCPU_p1    |  0.0%   |   0.9%    |
+
+| iPerf vhost-net | IBPB    | BHB Clear |
+|-----------------|---------|-----------|
+| UDP 1-vCPU_p1   | -4.3%   |   1.0%    |
+| TCP 1-vCPU_p1   | -3.8%   |  -0.5%    |
+| TCP 1-vCPU_p1   | -2.7%   |  -0.7%    |
+| UDP 4-vCPU_p16  | -0.7%   |  -2.2%    |
+| TCP 4-vCPU_p4   | -0.4%   |   0.8%    |
+| UDP 4-vCPU_p4   |  0.4%   |  -0.7%    |
+| TCP 4-vCPU_p4   |  0.0%   |   0.6%    |
+
+[1] https://comsec.ethz.ch/research/microarch/vmscape-exposing-and-exploiting-incomplete-branch-predictor-isolation-in-cloud-environments/
+
+---
+Pawan Gupta (10):
+      x86/bhi: x86/vmscape: Move LFENCE out of clear_bhb_loop()
+      x86/bhi: Make clear_bhb_loop() effective on newer CPUs
+      x86/bhi: Rename clear_bhb_loop() to clear_bhb_loop_nofence()
+      x86/vmscape: Rename x86_ibpb_exit_to_user to x86_predictor_flush_exit_to_user
+      x86/vmscape: Move mitigation selection to a switch()
+      x86/vmscape: Use write_ibpb() instead of indirect_branch_prediction_barrier()
+      x86/vmscape: Use static_call() for predictor flush
+      x86/vmscape: Deploy BHB clearing mitigation
+      x86/vmscape: Fix conflicting attack-vector controls with =force
+      x86/vmscape: Add cmdline vmscape=on to override attack vector controls
+
+ Documentation/admin-guide/hw-vuln/vmscape.rst   |  8 +++
+ Documentation/admin-guide/kernel-parameters.txt |  4 +-
+ arch/x86/Kconfig                                |  1 +
+ arch/x86/entry/entry_64.S                       | 34 +++++++----
+ arch/x86/include/asm/cpufeatures.h              |  2 +-
+ arch/x86/include/asm/entry-common.h             |  9 ++-
+ arch/x86/include/asm/nospec-branch.h            | 13 +++--
+ arch/x86/kernel/cpu/bugs.c                      | 75 ++++++++++++++++++++-----
+ arch/x86/kvm/x86.c                              |  4 +-
+ arch/x86/net/bpf_jit_comp.c                     | 11 +---
+ 10 files changed, 116 insertions(+), 45 deletions(-)
+---
+base-commit: f338e77383789c0cae23ca3d48adcc5e9e137e3c
+change-id: 20250916-vmscape-bhb-d7d469977f2f
+
+Best regards,
+--  
+Pawan
+
+
