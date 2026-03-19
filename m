@@ -1,154 +1,315 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F342F3DEAE2;
-	Thu, 19 Mar 2026 15:42:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7789D1459F6
+	for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 15:46:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773934972; cv=none; b=uhrf0NDW7iEDHw6PwUoqCxb4ITT05USuq7lL/OkbEcNMPN/t69ptuuGgU8r4C8xqofLmiSJaedx2GEmvPZ9zFuF2F8nBNHPKJm6Gjq9cuYnMwE9SRUS46sLTnVtZr+9szKqSawiec4IBvHhMd+s7Y0tEuld4Mesz3tedfpyzakY=
+	t=1773935180; cv=none; b=QuwyZYpNBLsA02Hd1jMfa6ynW6vuEV2hRi3gywsNdiGbfNaa8dOzIpujvGMszxR/qAkCVvynQmfsZbR9jYqr2YSHoBbqSn3gx9RFQOix3eezZstZwSjTOIvVY3EnBRxLoxL1fGE+q99Zo/Vmz6HwCwwIQtP+1r/HuHHrrkvjmFw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773934972; c=relaxed/simple;
-	bh=SMhEQ+pZHcmr0+HxLxjJHHt06QQIe9V8bFK9AAaiKxk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mCwPxigR9vB0i+YjYgyPx78GhJ8DdK6UHBAzoZ0fdQpPexHV48MbFJlTkoFr3w1y5ny8QIeZkkWNYRsRAIZXebT7AgmOs2tDujkHavGM7wwrCQjrPyLFaICg/yARtQMCpruO2ZOf1eKgqxc30Tcv/PsclNIAIbDRa84/mKtb64A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TPaHdqO0; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1773935180; c=relaxed/simple;
+	bh=Vf1R+yppKEzBQbnfv9nkce2qdQA1SU29FndglGF4ckQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=F5YyN7nFLnd+o2obA18HwyjWraBY4QMspvTaxdPSAGAcGZ4c9NK7zmA9tiyd06rOx1kLMEL/i6yg+yEmDJhuvadoq9Ml+GvwtuBI50R9M/ALNabGibwGk8eJZvdLdlr3u8WlzPOT7ww7KFbyf8WHyhB2Alyn3haf81Jz8HzoNo8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Yld7gZy2; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=hmZB4iML; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TPaHdqO0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1773934971; x=1805470971;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=SMhEQ+pZHcmr0+HxLxjJHHt06QQIe9V8bFK9AAaiKxk=;
-  b=TPaHdqO0Gf9p9YnAp40lWQ789XWmxXjJMH1laKme+1E211fOvoTy96qQ
-   r1oJEDYM5i5zniloi38YJX8PvwJQoJT3pCb2220YV7yoBfSQNHk2lalsT
-   74wNnEjc7PByUmPHy1sh/Aflph2mpYX7MC3zLE+C5l8m9bFUXZe1MrpEH
-   1mMuXceCxQUXkeqad//Kw/yEtkgbrMExK0+QXxnpAlexx5ohtFNj2s+W/
-   MXpGr8X2RtaV/Y21hmqO5FH1yxaVFsGC/1xw4pR/wbNdvnvJVkjxQsTfJ
-   I9RqUan/UOMxWhXvOOXeeTgInyrlMrbeyDw4BtVtiab6QQ5aOTjzKwaHn
-   g==;
-X-CSE-ConnectionGUID: dsjUUAdxSrO1Uq4hfF3bvg==
-X-CSE-MsgGUID: e2d/7psMQtCp7r4XLTwy1w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="75195895"
-X-IronPort-AV: E=Sophos;i="6.23,129,1770624000"; 
-   d="scan'208";a="75195895"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 08:42:50 -0700
-X-CSE-ConnectionGUID: xE5PzlJkRwGmNCmx6XZqWw==
-X-CSE-MsgGUID: e6DY7hSCT96D1Nlxu5fiCg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,129,1770624000"; 
-   d="scan'208";a="218891770"
-Received: from guptapa-desk.jf.intel.com (HELO desk) ([10.165.239.46])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2026 08:42:49 -0700
-Date: Thu, 19 Mar 2026 08:42:48 -0700
-From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-To: x86@kernel.org, Nikolay Borisov <nik.borisov@suse.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	David Kaplan <david.kaplan@amd.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>, KP Singh <kpsingh@kernel.org>,
-	Jiri Olsa <jolsa@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	David Laight <david.laight.linux@gmail.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	David Ahern <dsahern@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-	Asit Mallick <asit.k.mallick@intel.com>,
-	Tao Zhang <tao1.zhang@intel.com>, bpf@vger.kernel.org,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH v7 10/10] x86/vmscape: Add cmdline vmscape=on to override
- attack vector controls
-Message-ID: <20260319-vmscape-bhb-v7-10-b76a777a98af@linux.intel.com>
-X-Mailer: b4 0.15-dev
-References: <20260319-vmscape-bhb-v7-0-b76a777a98af@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Yld7gZy2";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="hmZB4iML"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62JF4iQH1027084
+	for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 15:46:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=DvNqP241qE8dFBqHq5L6qVz4
+	ghSD7knOgVJYfSQ1B58=; b=Yld7gZy2Vwg7aTwn9M0NrrFrVWWy2GG/gLK7dKB6
+	3Xxqr/TDd+CZGMnsnJPz/K3Qa/xinQn4bBim6e/SIY2lxHC59LsOg3Ir/Bzop+FN
+	nXALqgBdEtgGwTx4hrDwAIgi3E++GbgchA/Tb9JqtNNJE0lGCxQFp70ZN7dnnhpb
+	gA2H4CjR3pEBLlK1y3IKFMLVtPdf3IqARQSJUG53twBLZifGbwlK4ijMhGb9hsol
+	oPtOLe3EiflHII4K6ErRMacybeKHiy5UDD1BRgXKQBSo5+2t7g6sdf7GTIUnXg7/
+	1fuSHqndq50QugXJHsDKcZ6CqP2RsEPQJBrTEF2i7yH6vg==
+Received: from mail-vs1-f71.google.com (mail-vs1-f71.google.com [209.85.217.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d0032kxg8-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 15:46:18 +0000 (GMT)
+Received: by mail-vs1-f71.google.com with SMTP id ada2fe7eead31-5ffa389eba3so1676891137.0
+        for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 08:46:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1773935177; x=1774539977; darn=vger.kernel.org;
+        h=mime-version:message-id:date:user-agent:references:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DvNqP241qE8dFBqHq5L6qVz4ghSD7knOgVJYfSQ1B58=;
+        b=hmZB4iMLgb1rCmaGPrYpXX3ziT+z664Nsg/VTPmt9oKrDjAD7BP0UuqU5KA3iUK/hz
+         fPo5LeNwCASfr4n9/dvOLfISt5Xo0g+XpCjVr8Dd2HtfBmBkaYL+W4Axpf6f/SZ6cD+q
+         pnwETaWQciLPYMyAUSF8EeroDHGDB762r+WIvEuKDEo2faUXvYx9kLxG68vre1Wcbxih
+         hW5fKg9Gw0vONL8WCNrVhtONZR6HikszTCwyx+5YWK1tLisF6HueEu6ms2UXowVlJHJh
+         urwHcdf5qjXU6n/az0vSG69EhoPMojSHPPpRyuCULJltu53eKghK3Iz5cssST9F6m9of
+         KaUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773935177; x=1774539977;
+        h=mime-version:message-id:date:user-agent:references:in-reply-to
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=DvNqP241qE8dFBqHq5L6qVz4ghSD7knOgVJYfSQ1B58=;
+        b=IE6RlZs5IuFzbCaBHFujjb3jZbLQhO5N3pvwuJaYlAysC8K20Ofj/KoiIN380hE3ab
+         Ate0Oj8byvkbH7SSy5QFXzNj9CTgCf9XqNo9jRODqLCNHZgVP8QaWUU0Ng6akc83Ken0
+         E9bO+ti7fXvc7nTbnp6SIPE19PndCC0SS/pohGLmUoF23kv+7dHV4HHR6hcYNaxOt0ML
+         8UxJWlYh21YP1GyVj5N2iX5j6oM7objaeVLqJzsbPpG+XkF/1u3dX058KVzMvv7+uVnR
+         W0E4ZWydcws3v1rM3+1HXDp+q5WPTzuAgAf8HLLjeJmv70smjPwrkWjXc06/fDvrrxPl
+         yCfg==
+X-Forwarded-Encrypted: i=1; AJvYcCWDm1+rYcMINEBrVBywXhi9xGZnUav37darfuNleVplgyEm/At5V4gOdn8zExMIkpjuOA2OZ2z6pqM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YycYgKISNzABlIJC78G2uFTw5GkmBNdfIUejTCz4KQwG1CbI4vM
+	flwd5W1rA1BCmCtssYJ57DKIeSBfH0EwujwnEZZk7LBYALimm7VmjpYrDfp1EEDZ8gcTN6TGkhF
+	ExYYYZyBlAj2HIFPFKAqEySdtyDk2a2CpEikzwD7G4nGTO+xCIgV+0ZYhKyMZ7ys=
+X-Gm-Gg: ATEYQzxipqJg9lZa4z95xOe6yR+DoHg1jaqSX6nOUx7eQ8JmG8LWCib9PCjsF3BnxHo
+	TbzQsXOsCFphTMNaC8Brpfa6JM+Uh3eYVo7NcXzwjC7GBGYIawDh2mWz/OMuPKDpNAXB7xzBRUI
+	T3Km1SD2p/o3MGwNEajP0egH6hZQf2Q01GB7ucEUyclPxPnKWC4payUTAZxZWo7bqTdeHtarEYI
+	lZg8YTF8PVWMFD5cFJ88NgRBBm0EREJXdz9Sz42tBU+CCQYUVkdND+C1CsSr7s9qmdEOlbimZMf
+	jLcIax8U8tEuc5OqPZ/vfCkTR2/HoKNtFke47ZW4+Z7nGnSM1YHQnhxuVD+B39g+duUFW+1ihUZ
+	2/YxENdc+3++91WE1q36QrUjE5OoCU3D0T12Q5Q==
+X-Received: by 2002:a05:6102:d89:b0:5ff:9d74:967b with SMTP id ada2fe7eead31-6027d330b13mr3043042137.20.1773935177020;
+        Thu, 19 Mar 2026 08:46:17 -0700 (PDT)
+X-Received: by 2002:a05:6102:d89:b0:5ff:9d74:967b with SMTP id ada2fe7eead31-6027d330b13mr3042963137.20.1773935176396;
+        Thu, 19 Mar 2026 08:46:16 -0700 (PDT)
+Received: from localhost ([2a01:4b00:b703:c200:1ac0:4dff:fe39:5426])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486f8c40ccbsm129162465e9.9.2026.03.19.08.46.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Mar 2026 08:46:15 -0700 (PDT)
+From: Punit Agrawal <punit.agrawal@oss.qualcomm.com>
+To: Chengwen Feng <fengchengwen@huawei.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+        Catalin Marinas
+ <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>,
+        "Rafael J .
+ Wysocki" <rafael@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah
+ Khan <skhan@linuxfoundation.org>,
+        Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
+        Paul Walmsley <pjw@kernel.org>, Palmer
+ Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+        Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Dave
+ Hansen <dave.hansen@linux.intel.com>, <x86@kernel.org>,
+        "H . Peter
+ Anvin" <hpa@zytor.com>, Juergen Gross <jgross@suse.com>,
+        Boris Ostrovsky
+ <boris.ostrovsky@oracle.com>,
+        Len Brown <lenb@kernel.org>, Sunil V L
+ <sunilvl@ventanamicro.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Jonathan Cameron <jonathan.cameron@huawei.com>,
+        Kees Cook
+ <kees@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
+        Sean
+ Christopherson <seanjc@google.com>,
+        Kai Huang <kai.huang@intel.com>,
+        Tom
+ Lendacky <thomas.lendacky@amd.com>,
+        Thomas Huth <thuth@redhat.com>,
+        Thorsten Blum <thorsten.blum@linux.dev>,
+        Kevin Loughlin
+ <kevinloughlin@google.com>,
+        Zheyun Shen <szy0127@sjtu.edu.cn>,
+        Peter
+ Zijlstra <peterz@infradead.org>,
+        Pawan Gupta
+ <pawan.kumar.gupta@linux.intel.com>,
+        Xin Li <xin@zytor.com>, "Ahmed S .
+ Darwish" <darwi@linutronix.de>,
+        Sohil Mehta <sohil.mehta@intel.com>,
+        Ilkka Koskinen <ilkka@os.amperecomputing.com>,
+        Robin Murphy
+ <robin.murphy@arm.com>,
+        James Clark <james.clark@linaro.org>,
+        Besar
+ Wicaksono <bwicaksono@nvidia.com>, Ma Ke <make24@iscas.ac.cn>,
+        Wei Huang
+ <wei.huang2@amd.com>,
+        Andy Gospodarek <andrew.gospodarek@broadcom.com>,
+        Somnath Kotur <somnath.kotur@broadcom.com>,
+        <punit.agrawal@oss.qualcomm.com>, <guohanjun@huawei.com>,
+        <suzuki.poulose@arm.com>, <ryan.roberts@arm.com>,
+        <chenl311@chinatelecom.cn>, <masahiroy@kernel.org>,
+        <wangyuquan1236@phytium.com.cn>, <anshuman.khandual@arm.com>,
+        <heinrich.schuchardt@canonical.com>, <Eric.VanTassell@amd.com>,
+        <wangzhou1@hisilicon.com>, <wanghuiqiang@huawei.com>,
+        <liuyonglong@huawei.com>, <linux-pci@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <loongarch@lists.linux.dev>,
+        <linux-riscv@lists.infradead.org>, <xen-devel@lists.xenproject.org>,
+        <linux-acpi@vger.kernel.org>, <linux-perf-users@vger.kernel.org>,
+        <stable@vger.kernel.org>
+Subject: Re: [PATCH v9 1/7] arm64/acpi: Add acpi_get_cpu_uid() and switch
+ arm_cspmu to use it
+In-Reply-To: <20260319065735.45954-2-fengchengwen@huawei.com> (Chengwen Feng's
+	message of "Thu, 19 Mar 2026 14:57:29 +0800")
+References: <20260319065735.45954-1-fengchengwen@huawei.com>
+	<20260319065735.45954-2-fengchengwen@huawei.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
+Date: Thu, 19 Mar 2026 15:46:14 +0000
+Message-ID: <87341vq0u1.fsf@stealth>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260319-vmscape-bhb-v7-0-b76a777a98af@linux.intel.com>
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: 09JbLKywjy88BlYJbTV7RRIllvZhCvq5
+X-Proofpoint-GUID: 09JbLKywjy88BlYJbTV7RRIllvZhCvq5
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzE5MDEyNCBTYWx0ZWRfXwBbyRuGmHUAn
+ C8lz6+u0vuAVtNj0Mqs9xyHlXiZJwVzqjjAEDX+sh4mwyHga1alcdB4JbpaX4lPqc/OzOWCCxJr
+ poU7lvoBfEhUXSLe2TcMqvL1FxV3W6Uyl/DpCseQU9LkGeE8bKepd7DXCxL/mAR5+DA1eptPSWI
+ emjXR0KYr+4jAHNgTU6f6aUOe2kcFQc3hI8lYLZqwXk9vxPPnKaA9US20M/xIxnDAq9zHMCta3b
+ SifUaPsQ0MUyh3DU9opGSP7jNaJd3XK95JrO6Swxf1FbPVb39esWyAZ1tVBMmrN5IZ9s7oTkIXt
+ +TuCZX8EEyrkgGh8uPeQa8H9aql30bErQSZoa41lYoBbedkoq9E1i8QXnG0ZkrczsOLWB8eD2kj
+ pRFYb/X3xYO/Z1arO/MI4//uKYQFxvbUptr5IJ6W0kF1QKOBk48Vs4kvTXBUrJKgPeUcrM83CqL
+ aghtR0IIAdYlu4+zgYw==
+X-Authority-Analysis: v=2.4 cv=WO9yn3sR c=1 sm=1 tr=0 ts=69bc1a4a cx=c_pps
+ a=P2rfLEam3zuxRRdjJWA2cw==:117 a=xqWC_Br6kY4A:10 a=Yq5XynenixoA:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=ZpdpYltYx_vBUK5n70dp:22 a=i0EeH86SAAAA:8 a=VwQbUJbxAAAA:8
+ a=Gl9ZV0r3yxOOH3mhj0oA:9 a=ODZdjJIeia2B_SHc_B0f:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-19_02,2026-03-19_05,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 suspectscore=0 lowpriorityscore=0 impostorscore=0
+ adultscore=0 clxscore=1015 spamscore=0 malwarescore=0 phishscore=0
+ bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2603050001
+ definitions=main-2603190124
 
-In general, individual mitigation controls can be used to override the
-attack vector controls. But, nothing exists to select BHB clearing
-mitigation for VMSCAPE. The =force option comes close, but with a
-side-effect of also forcibly setting the bug, hence deploying the
-mitigation on unaffected parts too.
+Chengwen Feng <fengchengwen@huawei.com> writes:
 
-Add a new cmdline option vmscape=on to enable the mitigation based on the
-VMSCAPE variant the CPU is affected by.
+> Add arch-specific acpi_get_cpu_uid() for arm64, and update dependent
+> code:
+> - Declare acpi_get_cpu_uid() in arch/arm64/include/asm/acpi.h
+> - Implement acpi_get_cpu_uid() with input parameter validation
+> - Replace get_acpi_id_for_cpu() with acpi_get_cpu_uid() in
+>   drivers/perf/arm_cspmu/arm_cspmu.c
+> - Reimplement get_cpu_for_acpi_id() based on acpi_get_cpu_uid() (to
+>   align with new interface) and move its implementation next to
+>   acpi_get_cpu_uid()
 
-Reviewed-by: Nikolay Borisov <nik.borisov@suse.com>
-Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
----
- Documentation/admin-guide/hw-vuln/vmscape.rst   | 4 ++++
- Documentation/admin-guide/kernel-parameters.txt | 4 +++-
- arch/x86/kernel/cpu/bugs.c                      | 2 ++
- 3 files changed, 9 insertions(+), 1 deletion(-)
+There is no benefit in describing the code changes like this in the
+commit log. It makes it hard to follow the intent of the patch.
 
-diff --git a/Documentation/admin-guide/hw-vuln/vmscape.rst b/Documentation/admin-guide/hw-vuln/vmscape.rst
-index dc63a0bac03d..580f288ae8bf 100644
---- a/Documentation/admin-guide/hw-vuln/vmscape.rst
-+++ b/Documentation/admin-guide/hw-vuln/vmscape.rst
-@@ -112,3 +112,7 @@ The mitigation can be controlled via the ``vmscape=`` command line parameter:
- 
-    Force vulnerability detection and mitigation even on processors that are
-    not known to be affected.
-+
-+ * ``vmscape=on``:
-+
-+   Choose the mitigation based on the VMSCAPE variant the CPU is affected by.
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 03a550630644..1068569be5cf 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -8378,9 +8378,11 @@ Kernel parameters
- 
- 			off		- disable the mitigation
- 			ibpb		- use Indirect Branch Prediction Barrier
--					  (IBPB) mitigation (default)
-+					  (IBPB) mitigation
- 			force		- force vulnerability detection even on
- 					  unaffected processors
-+			on		- (default) selects IBPB or BHB clear
-+					  mitigation based on CPU
- 
- 	vsyscall=	[X86-64,EARLY]
- 			Controls the behavior of vsyscalls (i.e. calls to
-diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
-index aa4a727f0abf..d3fa6c2ad341 100644
---- a/arch/x86/kernel/cpu/bugs.c
-+++ b/arch/x86/kernel/cpu/bugs.c
-@@ -3088,6 +3088,8 @@ static int __init vmscape_parse_cmdline(char *str)
- 	} else if (!strcmp(str, "force")) {
- 		setup_force_cpu_bug(X86_BUG_VMSCAPE);
- 		vmscape_mitigation = VMSCAPE_MITIGATION_ON;
-+	} else if (!strcmp(str, "on")) {
-+		vmscape_mitigation = VMSCAPE_MITIGATION_ON;
- 	} else {
- 		pr_err("Ignoring unknown vmscape=%s option.\n", str);
- 	}
+> This is the first step towards unifying ACPI CPU UID retrieval interface
+> across architectures, while adding input validation for robustness.
 
--- 
-2.34.1
+I would simplify the commit log to something along the lines of -
 
+    As a step towards unifying the interface for retrieving ACPI CPU uid
+    across architectures, introduce a new function
+    acpi_get_cpu_uid(). While at it, also add input validation to make
+    the code more robust.
 
+Just my 2c.
+
+The code changes looks fine.
+
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Chengwen Feng <fengchengwen@huawei.com>
+> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+> ---
+>  arch/arm64/include/asm/acpi.h      | 14 ++------------
+>  arch/arm64/kernel/acpi.c           | 30 ++++++++++++++++++++++++++++++
+>  drivers/perf/arm_cspmu/arm_cspmu.c |  6 ++++--
+>  3 files changed, 36 insertions(+), 14 deletions(-)
+>
+> diff --git a/arch/arm64/include/asm/acpi.h b/arch/arm64/include/asm/acpi.h
+> index c07a58b96329..2219a3301e72 100644
+> --- a/arch/arm64/include/asm/acpi.h
+> +++ b/arch/arm64/include/asm/acpi.h
+> @@ -118,18 +118,8 @@ static inline u32 get_acpi_id_for_cpu(unsigned int cpu)
+>  {
+>  	return	acpi_cpu_get_madt_gicc(cpu)->uid;
+>  }
+> -
+> -static inline int get_cpu_for_acpi_id(u32 uid)
+> -{
+> -	int cpu;
+> -
+> -	for (cpu = 0; cpu < nr_cpu_ids; cpu++)
+> -		if (acpi_cpu_get_madt_gicc(cpu) &&
+> -		    uid == get_acpi_id_for_cpu(cpu))
+> -			return cpu;
+> -
+> -	return -EINVAL;
+> -}
+> +int acpi_get_cpu_uid(unsigned int cpu, u32 *uid);
+> +int get_cpu_for_acpi_id(u32 uid);
+>  
+>  static inline void arch_fix_phys_package_id(int num, u32 slot) { }
+>  void __init acpi_init_cpus(void);
+> diff --git a/arch/arm64/kernel/acpi.c b/arch/arm64/kernel/acpi.c
+> index af90128cfed5..24b9d934be54 100644
+> --- a/arch/arm64/kernel/acpi.c
+> +++ b/arch/arm64/kernel/acpi.c
+> @@ -458,3 +458,33 @@ int acpi_unmap_cpu(int cpu)
+>  }
+>  EXPORT_SYMBOL(acpi_unmap_cpu);
+>  #endif /* CONFIG_ACPI_HOTPLUG_CPU */
+> +
+> +int acpi_get_cpu_uid(unsigned int cpu, u32 *uid)
+> +{
+> +	struct acpi_madt_generic_interrupt *gicc;
+> +
+> +	if (cpu >= nr_cpu_ids)
+> +		return -EINVAL;
+> +
+> +	gicc = acpi_cpu_get_madt_gicc(cpu);
+> +	if (!gicc)
+> +		return -ENODEV;
+> +
+> +	*uid = gicc->uid;
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(acpi_get_cpu_uid);
+> +
+> +int get_cpu_for_acpi_id(u32 uid)
+> +{
+> +	u32 cpu_uid;
+> +	int ret;
+> +
+> +	for (int cpu = 0; cpu < nr_cpu_ids; cpu++) {
+> +		ret = acpi_get_cpu_uid(cpu, &cpu_uid);
+> +		if (ret == 0 && uid == cpu_uid)
+> +			return cpu;
+> +	}
+> +
+> +	return -EINVAL;
+> +}
+> diff --git a/drivers/perf/arm_cspmu/arm_cspmu.c b/drivers/perf/arm_cspmu/arm_cspmu.c
+> index 34430b68f602..ed72c3d1f796 100644
+> --- a/drivers/perf/arm_cspmu/arm_cspmu.c
+> +++ b/drivers/perf/arm_cspmu/arm_cspmu.c
+> @@ -1107,15 +1107,17 @@ static int arm_cspmu_acpi_get_cpus(struct arm_cspmu *cspmu)
+>  {
+>  	struct acpi_apmt_node *apmt_node;
+>  	int affinity_flag;
+> +	u32 cpu_uid;
+>  	int cpu;
+> +	int ret;
+>  
+>  	apmt_node = arm_cspmu_apmt_node(cspmu->dev);
+>  	affinity_flag = apmt_node->flags & ACPI_APMT_FLAGS_AFFINITY;
+>  
+>  	if (affinity_flag == ACPI_APMT_FLAGS_AFFINITY_PROC) {
+>  		for_each_possible_cpu(cpu) {
+> -			if (apmt_node->proc_affinity ==
+> -			    get_acpi_id_for_cpu(cpu)) {
+> +			ret = acpi_get_cpu_uid(cpu, &cpu_uid);
+> +			if (ret == 0 && apmt_node->proc_affinity == cpu_uid) {
+>  				cpumask_set_cpu(cpu, &cspmu->associated_cpus);
+>  				break;
+>  			}
+
+I think cspmu changes go via a separate pull request. You might have to
+split this change into a separate commit.
