@@ -1,225 +1,178 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDEAB175A7F;
-	Thu, 19 Mar 2026 03:33:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98F0F397E92;
+	Thu, 19 Mar 2026 05:22:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773891230; cv=none; b=WTATZggmDAmWOqTjM3VqQ1JWxwBe7XQM/U0jupUDU7PGOTwh4aRypdrnrXd3IFzuqZI6kXM+QQVFnUD+lU5VeCoDcZ3lWMTkfy+YmlmGEDqg1K4Xm+rigtkxYscaeXlbacG6cdDJD2l+2136e0YnK43AyaKmovgUSqfaGup5+vg=
+	t=1773897727; cv=none; b=B4rnrHXMoaDT0QtZVJap7DiMGZSp9tdSuQLQiiGkzLBYsnGJEis6EjY0/PaHHx9KstNdaA8e469CVqb4GIObbPY7S7HhvtYp0hN8z+SJGAZClwlcWgo+HgfetXczBYpJNj4t8Fj5nP1xhjReQBzV35vIUMea5pT1EzQCIZwTtS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773891230; c=relaxed/simple;
-	bh=XgOD2FxBzcrwEZanmqbfz/dgf+28LNZcyXFh5nHNaVM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nFFr+7UzLihYWmGI5jXqkf8dgv15jtHlnvBMqboSlkmLw9peRLSL3qN74eFcFr+Pe8du2Lu39jYVdBbvimjVcv3vh0TCyzY1WBcnL4nTpn4G92WnMShNrV4Cl8OaVlgAoPLDmyGvFcb2FS4rc4vTJgEUWGKvMFp5aTwGr7b7kDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IZ2CRpiJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773897727; c=relaxed/simple;
+	bh=o/Ftk1V+walX/j4lo8sRORN5eVEOzqwrT6r4WeWLY1I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Vbll24TA/nlNvAphb3We6ZvkVWil39UdD1TMXDVK5CbpCUJYbNigwlm2snbjU0esBZUejfg86iHuabBjK5wWWARK1Io75deYnv2sWxbwEP5jcDv+bbHHz6OI9B0I9VXKyRqA/+RXhuSyHxomHJrLUrO3TuvKcc4n0H1vM/OcAWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gwo2MNMQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IZ2CRpiJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 001DAC19425;
-	Thu, 19 Mar 2026 03:33:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gwo2MNMQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B73F5C19425;
+	Thu, 19 Mar 2026 05:22:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773891230;
-	bh=XgOD2FxBzcrwEZanmqbfz/dgf+28LNZcyXFh5nHNaVM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=IZ2CRpiJpQ1j2wZKFVLuyVlCxyZ0s/2vzeqmfoNECQAqPtT8Th5dkkZowiRHwybr+
-	 uw1pBqoHsikD3yjcN+Ij1zrO5L+PLL8c90YbexeEZrO1x/U0SzgV2n4OnJW6ExONrQ
-	 Xl93vDXO1JSV7hivhLKKH7XaCMY5SmXIquGzycjXQRuG0AKeinIZy+WCgI/oBXi7ZR
-	 z8kSsBSyBVMILZ4sxVB9Sskgjbceqh3PL21egeIAr75EHirgi1UJ54U8kq5LSf+KBf
-	 7ndvS0s2UchUI13zERp6UEXjggt6/NMLUnrBX5/lLM54UPdNT5yJAU5Dj80n2pyifC
-	 ODXBII86krGuA==
-Date: Wed, 18 Mar 2026 20:33:49 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: "illusion.wang" <illusion.wang@nebula-matrix.com>
-Cc: dimon.zhao@nebula-matrix.com, alvin.wang@nebula-matrix.com,
- sam.chen@nebula-matrix.com, netdev@vger.kernel.org, andrew+netdev@lunn.ch,
- corbet@lwn.net, linux-doc@vger.kernel.org, lorenzo@kernel.org,
- pabeni@redhat.com, horms@kernel.org, vadim.fedorenko@linux.dev,
- lukas.bulwahn@redhat.com, edumazet@google.com, enelsonmoore@gmail.com,
- skhan@linuxfoundation.org, ani.nikula@intel.com, hkallweit1@gmail.com,
- linux-kernel@vger.kernel.org (open list)
-Subject: Re: [PATCH v8 net-next 01/11] net/nebula-matrix: add minimum nbl
- build framework
-Message-ID: <20260318203349.5d83eb69@kernel.org>
-In-Reply-To: <20260317034533.5600-2-illusion.wang@nebula-matrix.com>
-References: <20260317034533.5600-1-illusion.wang@nebula-matrix.com>
-	<20260317034533.5600-2-illusion.wang@nebula-matrix.com>
+	s=k20201202; t=1773897727;
+	bh=o/Ftk1V+walX/j4lo8sRORN5eVEOzqwrT6r4WeWLY1I=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Gwo2MNMQy0NRf6Y8NkdQ2lcm+gbTmK0nYJ0t8ghYQcdpJboAtu7xhDX6XjLOWIhtq
+	 sfPJ64VoJDBlxrSHYdco5I7A+dTs0rgaSVJ+6XvEXZP2IO7rs0HEqgLNqcUDwm/F8r
+	 2lR+lByE3vGGLgVy8hZFaPYpeeMCOsb2RwDJNElCOqMR4USYVRBaWjdkKDoe6p5BGN
+	 GmDXh26cV++CtbxnEt/UcT/veisfqDLO5BbaQB34Ch03vaHgw7k0KhxRtvyID6YpfH
+	 5c0rzPAJO1go2PcUzYbTz9H/grcCAKYtDelVquVq9QXTtCuHxBkWok6ytc+fCuen0T
+	 aReCqZT4jDCYg==
+From: SeongJae Park <sj@kernel.org>
+To: 
+Cc: SeongJae Park <sj@kernel.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@google.com>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Shuah Khan <shuah@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	damon@lists.linux.dev,
+	kunit-dev@googlegroups.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [RFC PATCH v2 00/10] mm/damon: let DAMON be paused and resumed
+Date: Wed, 18 Mar 2026 22:21:43 -0700
+Message-ID: <20260319052157.99433-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Tue, 17 Mar 2026 11:45:18 +0800 illusion.wang wrote:
-> 1.Add nbl min build infrastructure for nbl driver.
-> 
-> 2.Implemented the framework of pci device initialization.
+DAMON utilizes a few mechanisms that enhance itself over time. Adaptive
+regions adjustment, goal-based DAMOS quota auto-tuning and monitoring
+intervals auto-tuning like self-training mechanisms are such examples.
+It also adds access frequency stability information (age) to the
+monitoring results, which makes it enhanced over time.
 
-> +============================================================
-> +Linux Base Driver for Nebula-matrix M18100-NIC family
-> +============================================================
+Sometimes users have to stop DAMON.  In this case, DAMON internal state
+that enhanced over the time of the last execution simply goes away.
+Restarted DAMON have to train itself and enhance its output from the
+scratch.  This makes DAMON less useful in such cases.  Introducing three
+such use cases below.
 
-Shouldn't these lines also be the length of the text?
+Investigation of DAMON.  It is best to do the investigation online,
+especially when it is a production environment.  DAMON therefore
+provides features for such online investigations, including DAMOS stats,
+monitoring result snapshot exposure, and multiple tracepoints.  When
+those are insufficient, and there are additional clues that could be
+interfered by DAMON, users have to temporarily stop DAMON to collect the
+additional clues.  It is not very useful since many of DAMON internal
+clues are gone when DAMON is stopped.  The loss of the monitoring
+results that improved over time is also problematic, especially in
+production environments.
 
-> +Overview:
-> +=========
-> +M18100-NIC is a series of network interface card for the Data Center Area.
-> +
-> +The driver supports link-speed 100GbE/25GE/10GE.
-> +
-> +M18100-NIC devices support MSI-X interrupt vector for each Tx/Rx queue and
-> +interrupt moderation.
-> +
-> +M18100-NIC devices support also various offload features such as checksum offload,
-> +Receive-Side Scaling(RSS).
-> +
-> +Supported PCI vendor ID/device IDs:
-> +===================================
-> +
-> +1f0f:3403 - M18110 Family PF
-> +1f0f:3404 - M18110 Lx Family PF
-> +1f0f:3405 - M18110 Family BASE-T PF
-> +1f0f:3406 - M18110 Lx Family BASE-T PF
-> +1f0f:3407 - M18110 Family OCP PF
-> +1f0f:3408 - M18110 Lx Family OCP PF
-> +1f0f:3409 - M18110 Family BASE-T OCP PF
-> +1f0f:340a - M18110 Lx Family BASE-T OCP PF
-> +1f0f:340b - M18100 Family PF
-> +1f0f:340c - M18100 Lx Family PF
-> +1f0f:340d - M18100 Family BASE-T PF
-> +1f0f:340e - M18100 Lx Family BASE-T PF
-> +1f0f:340f - M18100 Family OCP PF
-> +1f0f:3410 - M18100 Lx Family OCP PF
-> +1f0f:3411 - M18100 Family BASE-T OCP PF
-> +1f0f:3412 - M18100 Lx Family BASE-T OCP PF
+Monitoring of workloads that have different user-known phases.  For
+example, in Android, applications are known to have very different
+access patterns and behaviors when they are running on the foreground
+and the background.  It can therefore be useful to separate monitoring
+of apps based on whether they are running on the foreground and on the
+background.  Having two DAMON threads per application that paused and
+resumed for the apps foreground/background switches can be useful for
+the purpose.  But such pause/resume of the execution is not supported.
 
-Please don't list all the SKUs what's the point. PCIe device DB is 
-the place for that.
+Tests of DAMON.  A few DAMON selftests are using drgn to dump the
+internal DAMON status.  The tests show if the dumped status is the same
+as what the test code expected.  Because DAMON keeps running and
+modifying its internal status, there are chances of data races that can
+cause false test results.  Stopping DAMON can avoid the race.  But,
+since the internal state of DAMON is dropped, the test coverage will be
+limited.
 
-> +NEBULA-MATRIX ETHERNET DRIVER (nebula-matrix)
-> +M:	Illusion.Wang <illusion.wang@nebula-matrix.com>
-> +M:	Dimon.Zhao <dimon.zhao@nebula-matrix.com>
-> +M:	Alvin.Wang <alvin.wang@nebula-matrix.com>
-> +M:	Sam Chen <sam.chen@nebula-matrix.com>
+Let DAMON execution be paused and resumed without loss of the internal
+state, to overhaul the limitations.  For this, introduce a new DAMON
+context parameter, namely 'pause'.  API callers can update it while the
+context is running, using the online parameters update functions
+(damon_commit_ctx() and damon_call()).  Once it is set, kdamond_fn()
+main loop will do only limited works excluding the monitoring and DAMOS
+works, while sleeping sampling intervals per the work.  The limited
+works include handling of the online parameters update.  Hence users can
+unset the 'pause' parameter again.  Once it is unset, kdamond_fn() main
+loop will do all the work again (resumed).  Under the paused state, it
+also does stop condition checks and handling of it, so that paused DAMON
+can also be stopped if needed.  Expose the feature to the user space via
+DAMON sysfs interface.  Also, update existing drgn-based tests to test
+and use the feature.
 
-What makes Sam Chen not have a dot in between name and surname?
-Maybe let's use the more usual notation and remove the dots?
+Tests
+=====
 
-> +L:	netdev@vger.kernel.org
-> +S:	Maintained
-> +F:	Documentation/networking/device_drivers/ethernet/nebula-matrix/*
+I confirmed the feature functionality using real time tracing ('perf
+trace' or 'trace-cmd stream') of damon:damon_aggregated DAMON
+tracepoint.  By pausing and resuming the DAMON execution, I was able to
+see the trace stops and continued as expected.  Note that the pause
+feature support is added to DAMON user-space tool (damo) after v3.1.9.
+Users can use '--pause_ctx' command line option of damo for that, and I
+actually used it for my test.  The extended drgn-based selftests are
+also testing a part of the functionality.
 
-Why the star at the end?
+Patches Sequence
+================
 
-> +++ b/drivers/net/ethernet/nebula-matrix/nbl/Makefile
-> @@ -0,0 +1,10 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +# Copyright (c) 2025 Nebula Matrix Limited.
-> +
-> +obj-$(CONFIG_NBL) := nbl.o
-> +
-> +nbl-objs +=      nbl_main.o
-> +
-> +# Provide include files
-> +ccflags-y += -I$(srctree)/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/
-> +ccflags-y += -I$(srctree)/drivers/net/ethernet/nebula-matrix/nbl/
+Patch 1 introduces the new core API for the pause feature.  Patch 2
+extend DAMON sysfs interface for the new parameter.  Patches 3-5 update
+design, usage and ABI documents for the new sysfs file, respectively.
+The following five patches are for tests.  Patch 6 implements a new
+kunit test for the pause parameter online commitment.  Patches 7 and 8
+extend DAMON selftest helpers to support the new feature.  Patch 9
+extends selftest to test the commitment of the feature.  Finally, patch
+10 updates existing selftest to be safe from the race condition using
+the pause/resume feature.
 
-Why? You really shouldn't need this
+Changelog
+=========
 
-> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h
-> new file mode 100644
-> index 000000000000..8c50904b9151
-> --- /dev/null
-> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h
-> @@ -0,0 +1,16 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright (c) 2025 Nebula Matrix Limited.
-> + */
-> +
-> +#ifndef _NBL_CORE_H_
-> +#define _NBL_CORE_H_
-> +
-> +enum {
-> +	NBL_CAP_HAS_CTRL_BIT = BIT(0),
+Changes from RFC v1
+(https://lore.kernel.org/20260315210012.94846-1-sj@kernel.org)
+- Continuously cancel new damos_walk() requests when paused.
+- Initialize damon_sysfs_context->pause.
+- Make sysfs.py dump-purpose pausing to work for all contexts.
 
-each header should be self-contained, you haven't included bits.h
+SeongJae Park (10):
+  mm/damon/core: introduce damon_ctx->paused
+  mm/damon/sysfs: add pause file under context dir
+  Docs/mm/damon/design: update for context pause/resume feature
+  Docs/admin-guide/mm/damon/usage: update for pause file
+  Docs/ABI/damon: update for pause sysfs file
+  mm/damon/tests/core-kunit: test pause commitment
+  selftests/damon/_damon_sysfs: support pause file staging
+  selftests/damon/drgn_dump_damon_status: dump pause
+  selftests/damon/sysfs.py: check pause on assert_ctx_committed()
+  selftets/damon/sysfs.py: pause DAMON before dumping status
 
-> +	NBL_CAP_HAS_NET_BIT = BIT(1),
-> +	NBL_CAP_IS_NIC_BIT = BIT(2),
-> +	NBL_CAP_IS_LEONIS_BIT = BIT(3),
-> +};
-> +
-> +#endif
-> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h
-> new file mode 100644
-> index 000000000000..914f1418f508
-> --- /dev/null
-> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h
-> @@ -0,0 +1,19 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright (c) 2025 Nebula Matrix Limited.
-> + */
-> +
-> +#ifndef _NBL_INCLUDE_H_
-> +#define _NBL_INCLUDE_H_
-> +
-> +/*  ------  Basic definitions  -------  */
-> +#define NBL_DRIVER_NAME					"nbl"
-> +
-> +struct nbl_func_caps {
-> +	u32 has_ctrl:1;
+ .../ABI/testing/sysfs-kernel-mm-damon         |  7 ++++
+ Documentation/admin-guide/mm/damon/usage.rst  | 12 ++++---
+ Documentation/mm/damon/design.rst             |  7 ++++
+ include/linux/damon.h                         |  2 ++
+ mm/damon/core.c                               |  9 ++++++
+ mm/damon/sysfs.c                              | 31 ++++++++++++++++++
+ mm/damon/tests/core-kunit.h                   |  4 +++
+ tools/testing/selftests/damon/_damon_sysfs.py | 10 +++++-
+ .../selftests/damon/drgn_dump_damon_status.py |  1 +
+ tools/testing/selftests/damon/sysfs.py        | 32 +++++++++++++++++++
+ 10 files changed, 110 insertions(+), 5 deletions(-)
 
-ditto, types.h
 
-> +	u32 has_net:1;
-> +	u32 is_nic:1;
-> +	u32 rsv:29;
-> +};
-> +
-> +#endif
-> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c
-> new file mode 100644
-> index 000000000000..c0b01fea2548
-> --- /dev/null
-> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c
-> @@ -0,0 +1,112 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (c) 2025 Nebula Matrix Limited.
-> + */
-> +
-> +#include <linux/device.h>
-> +#include <linux/pci.h>
-> +#include "nbl_include.h"
-> +#include "nbl_core.h"
-> +
-> +static int nbl_probe(struct pci_dev *pdev,
-> +		     const struct pci_device_id __always_unused *id)
-
-__always_unused should be after the arg name, not the type
-but also why? kernel build doesn't warn about unused args
-
-> +{
-> +	return 0;
-> +}
-
-> +MODULE_DEVICE_TABLE(pci, nbl_id_table);
-> +
-> +static struct pci_driver nbl_driver = {
-> +	.name = NBL_DRIVER_NAME,
-> +	.id_table = nbl_id_table,
-> +	.probe = nbl_probe,
-> +	.remove = nbl_remove,
-> +};
-> +
-> +module_pci_driver(nbl_driver);
-> +
-> +MODULE_LICENSE("GPL");
-> +MODULE_DESCRIPTION("Nebula Matrix Network Driver");
-
-missing include module.h ..
+base-commit: 89fea69e3a636d7f4c7a0dee9c25e2b417a74c7a
 -- 
-pw-bot: cr
+2.47.3
