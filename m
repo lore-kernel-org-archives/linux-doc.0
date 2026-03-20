@@ -1,122 +1,90 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDD02361DC3;
-	Fri, 20 Mar 2026 17:14:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F12283D301E;
+	Fri, 20 Mar 2026 17:23:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774026897; cv=none; b=Ov5JmQqu8dsMq2fFbtMNTix4+VoIAXnzF1QsCvsQU4Yyt7q9qJusMlgWY2jjGeDZMYaIuqNfkB4OVGPFGANpfBGy0hfwURnbBIW6zVFAq3Awenp6pyfLrVYwMrRLOe63MIs399T4gKHKmcw0VgnLARqspD9Ftws5GuxxJZSlfk8=
+	t=1774027440; cv=none; b=jV2z/EjEIfEY5LAxzXLoXVDy+d08SShku8HuZWQNn6VoVv/OCGbf7tPwqgMN2g7aJXAkt49rZAUyGC586rz85EznqRbvjzgD9YKWU4aCzbB35JWrEoEDY5cEgyQb6aDhVnI6nKiX43oxsYM7KCSQLlNkDHXgDTb0VCGFakpNUik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774026897; c=relaxed/simple;
-	bh=MqgKTfip+nRILxJnhrg/eh79SR01kCItoSi2X6WQf54=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mUhiEGCjj4X8+T5UEVMcBQJDlrZugRDCqKsTJruCW0Assdrlx1Gbj+uUJSrKvxST/BaEpQBk8ePFl+DAWwTAIwq8lPj+kAQfvVlBvME/B9E3V0esisK2GwgdrZt8UMC3f8WJrzV4PxX17xXEwUvN9CUD6VT2zBUhY0RC+4iwe2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sKTi1u9N; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774027440; c=relaxed/simple;
+	bh=lkMH+Fs61pHyUrN0N7PA7Smmgeamo1Ed8V7OOsLNBN8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=i06Pi6kqFXTMqP0VgwRayALNC8dDkr1txrae51sJomqGD9EKGmP4gsfD95oalIdyYL69WJK5RmiWpeJiiDTJWKPokVKxl9nw9xHpOuzCn3+valAA6aMt9ejW4hQvcpP46HXkBQZjDDnugHm8v3jtU/qusWspDtK6Ro3Wa9c7joQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ATswcWl7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sKTi1u9N"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 580D7C4CEF7;
-	Fri, 20 Mar 2026 17:14:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ATswcWl7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 952EDC4CEF7;
+	Fri, 20 Mar 2026 17:23:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774026897;
-	bh=MqgKTfip+nRILxJnhrg/eh79SR01kCItoSi2X6WQf54=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sKTi1u9NyiIkcVR7MNfsEtRE0yMegJBJlNcf9Kc2SP7PgJhFiBgm56FVLhGeHbSVW
-	 lju/VNlPyNv2fRNhWmuBVbneFx0SW3KzDXjKuOqt4yafQRVCpTD4QmAmFcJOpPXSeb
-	 Q+qh8/VKkcp1kafUznTNGCGYz/usJIjMdEqLCJYsNL8yL5BsAiOD0g+7IFaUrPOzmI
-	 jEq3A57SEe4U+apU6tp72iSksL2wKdL2j2hXh0ny0DzRZvl50rlkHJTMoi3i3wjMjM
-	 +UMzABjIpjXTtIaz+UlDVTyKxKQLirR6yTu1IwkMMZ412avp4ndbCgU9PP1j0E6ewL
-	 vv7Qzstdk4MeQ==
-Date: Fri, 20 Mar 2026 17:14:51 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-Cc: rodrigo.alencar@analog.com, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH RFC v2 1/9] dt-bindings: iio: frequency: add ad9910
-Message-ID: <20260320-utensil-estate-ea3af0d8a623@spud>
-References: <20260318-ad9910-iio-driver-v2-0-e79f93becf11@analog.com>
- <20260318-ad9910-iio-driver-v2-1-e79f93becf11@analog.com>
- <20260319-annex-varying-afbddcb825b7@spud>
- <zi7ifl45h5fu76rlbdubkeq7wa7gtve5wsdruo574gzj5qbfu6@fl6rh3soaj74>
+	s=k20201202; t=1774027439;
+	bh=lkMH+Fs61pHyUrN0N7PA7Smmgeamo1Ed8V7OOsLNBN8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ATswcWl7MXWHHj389gFxOlECgcgQeJYv1wKqdExtZHqinVM8C1iUlLVry9OwlEG+s
+	 hQm57r7Pk+ZpJ3t0nw1/vvLOsQgKwispPEvcju2E9P/9JEP3v3yKvGkvycL7b0J2eK
+	 ezcqS/hxxM9fVO52XT/cmWkPIx24fW0C1LS9PL8IDJR6j8X/JoZ8s36B+4wxYvx/7M
+	 P98bC7b6fLvX4lzSxnJYRzQmThW9ckw1V9os4pxuNV73Z4BucD39QRODtyzANsRpNK
+	 4W1hTmWPTL9W0bOriXcoFpQK+v+c1Mbp60aVI67dnQEaAkyxZ6w2Qp0mXlzveN3nC0
+	 CSmw5tCHpFg1g==
+Message-ID: <b917813f-78fb-4c31-913c-5e343c52cab7@kernel.org>
+Date: Fri, 20 Mar 2026 18:23:49 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="llXdvqq1rnlyMPfA"
-Content-Disposition: inline
-In-Reply-To: <zi7ifl45h5fu76rlbdubkeq7wa7gtve5wsdruo574gzj5qbfu6@fl6rh3soaj74>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 02/16] mm: add documentation for the mmap_prepare file
+ operation callback
+Content-Language: en-US
+To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Clemens Ladisch <clemens@ladisch.de>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "K . Y . Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Bodo Stroesser <bostroesser@gmail.com>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ David Hildenbrand <david@kernel.org>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
+ <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ linux-mtd@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
+ linux-afs@lists.infradead.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, Ryan Roberts <ryan.roberts@arm.com>
+References: <cover.1773944114.git.ljs@kernel.org>
+ <172ef809d9976b067bba4cd9d2b78410c6c6d03d.1773944114.git.ljs@kernel.org>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+In-Reply-To: <172ef809d9976b067bba4cd9d2b78410c6c6d03d.1773944114.git.ljs@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+On 3/19/26 19:23, Lorenzo Stoakes (Oracle) wrote:
+> This documentation makes it easier for a driver/file system implementer to
+> correctly use this callback.
+> 
+> It covers the fundamentals, whilst intentionally leaving the less lovely
+> possible actions one might take undocumented (for instance - the
+> success_hook, error_hook fields in mmap_action).
+> 
+> The document also covers the new VMA flags implementation which is the
+> only one which will work correctly with mmap_prepare.
+> 
+> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
 
---llXdvqq1rnlyMPfA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 
-On Fri, Mar 20, 2026 at 11:21:37AM +0000, Rodrigo Alencar wrote:
-> On 26/03/19 05:25PM, Conor Dooley wrote:
-> > On Wed, Mar 18, 2026 at 05:56:01PM +0000, Rodrigo Alencar via B4 Relay =
-wrote:
-> > > From: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> > >=20
-> > > DT-bindings for AD9910, a 1 GSPS DDS with 14-bit DAC. It includes
-> > > configurations for clocks, DAC current, reset and basic GPIO control.
-> > >=20
-> > > Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
->=20
-> ...
->=20
-> > > +
-> > > +  clock-names:
-> > > +    oneOf:
-> > > +      - items:
-> > > +          - const: ref_clk
-> >=20
-> > s/_clk//, not like it can be anything else!
-> >=20
-> > > +      - items:
-> > > +          - const: ref_clk
-> > > +          - const: sync_in
-> > > +
-> > > +  '#clock-cells':
-> > > +    const: 1
-> > > +
-> > > +  clock-output-names:
-> > > +    minItems: 1
-> > > +    maxItems: 3
-> > > +    items:
-> > > +      enum: [ sync_clk, pdclk, sync_out ]
-> >=20
-> > I'd say same here, but then you've got some issues with differentiation,
-> > so idk.
->=20
-> so I've got the names as they are referred in the device pins in the data=
-sheet
-
-Coming back to this one, ye I think it just is less confusing to keep
-the _clk ultimately. This looks good then, I think, modulo the RFC-state
-of the series.
-
---llXdvqq1rnlyMPfA
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCab2AiAAKCRB4tDGHoIJi
-0hYsAP9f0vICL+gupvDNZvqA96BX/JRiLZWKrkGxlflMa+834wD+Nk37ojRccRUz
-RyAKw64JtEmI5hcC3LvRUaeUQUd6cwo=
-=7Q/R
------END PGP SIGNATURE-----
-
---llXdvqq1rnlyMPfA--
