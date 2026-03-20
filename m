@@ -1,33 +1,32 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F12283D301E;
-	Fri, 20 Mar 2026 17:23:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BBE11EA84;
+	Fri, 20 Mar 2026 17:24:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774027440; cv=none; b=jV2z/EjEIfEY5LAxzXLoXVDy+d08SShku8HuZWQNn6VoVv/OCGbf7tPwqgMN2g7aJXAkt49rZAUyGC586rz85EznqRbvjzgD9YKWU4aCzbB35JWrEoEDY5cEgyQb6aDhVnI6nKiX43oxsYM7KCSQLlNkDHXgDTb0VCGFakpNUik=
+	t=1774027479; cv=none; b=Zk2FTJypRW44SdRqZhZEY+77CvLCUMkIfOrsMFIbCzbjtz9OIgqVjjHkk19hpGA55k2aWJYszT3cZzIqaES2oHZ5V+KrRNrxiaBoyalas7XGgDChIk5B7rvNB8PRlUO9lFrNXlJwk1rqpbF8yMQ+RXwzWlknV7fTqVVdxY+vAWE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774027440; c=relaxed/simple;
-	bh=lkMH+Fs61pHyUrN0N7PA7Smmgeamo1Ed8V7OOsLNBN8=;
+	s=arc-20240116; t=1774027479; c=relaxed/simple;
+	bh=9CdwoiZKIF6Qqocl6+Gs6gl4DIsicE2nhb+fS/oX7vc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=i06Pi6kqFXTMqP0VgwRayALNC8dDkr1txrae51sJomqGD9EKGmP4gsfD95oalIdyYL69WJK5RmiWpeJiiDTJWKPokVKxl9nw9xHpOuzCn3+valAA6aMt9ejW4hQvcpP46HXkBQZjDDnugHm8v3jtU/qusWspDtK6Ro3Wa9c7joQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ATswcWl7; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=uWVdibD2cSxor/xNOx56T46T/Q0NfyoGoLzwlP4NUoQy+y3anmzor5bvrFohKRZmewe5dPSn5HJbLAYBaRkEVfSguosuy0wsZ4umq/cWuA2S/4sSS7ykOiHhKCdR4cukGObgmv+xmTwN4J9+0ptMGUAbQJ/DZpvQu2maWreCnOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=Xr0S5k11; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ATswcWl7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 952EDC4CEF7;
-	Fri, 20 Mar 2026 17:23:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774027439;
-	bh=lkMH+Fs61pHyUrN0N7PA7Smmgeamo1Ed8V7OOsLNBN8=;
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="Xr0S5k11"
+Received: from [192.168.1.10] (c-67-168-176-124.hsd1.wa.comcast.net [67.168.176.124])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 2501E20B6F01;
+	Fri, 20 Mar 2026 10:24:37 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 2501E20B6F01
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1774027477;
+	bh=e2sbO8DDbRt/3/I7TQWPjBVS7u7GzWT+lf4DDW28raQ=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ATswcWl7MXWHHj389gFxOlECgcgQeJYv1wKqdExtZHqinVM8C1iUlLVry9OwlEG+s
-	 hQm57r7Pk+ZpJ3t0nw1/vvLOsQgKwispPEvcju2E9P/9JEP3v3yKvGkvycL7b0J2eK
-	 ezcqS/hxxM9fVO52XT/cmWkPIx24fW0C1LS9PL8IDJR6j8X/JoZ8s36B+4wxYvx/7M
-	 P98bC7b6fLvX4lzSxnJYRzQmThW9ckw1V9os4pxuNV73Z4BucD39QRODtyzANsRpNK
-	 4W1hTmWPTL9W0bOriXcoFpQK+v+c1Mbp60aVI67dnQEaAkyxZ6w2Qp0mXlzveN3nC0
-	 CSmw5tCHpFg1g==
-Message-ID: <b917813f-78fb-4c31-913c-5e343c52cab7@kernel.org>
-Date: Fri, 20 Mar 2026 18:23:49 +0100
+	b=Xr0S5k11/J+JAEBiFmuc/knYVgBvRyFxqVeGd8dm5sbL+6Fzeo0zC8rO1UYUpJ6vp
+	 WEQRYVMgtn2Fe6imK9OcnVC8C85PUkn5vcsl06Cjp9LHt/EAv+sTu+ifz3yHU4mWl1
+	 /vv8w5RHrnKGVQgIiqagaoxo54CjOYxAhrXnAyrQ=
+Message-ID: <8f66014c-d7c8-4a33-be7b-cfd945af4a3a@linux.microsoft.com>
+Date: Fri, 20 Mar 2026 10:24:37 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,56 +34,85 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 02/16] mm: add documentation for the mmap_prepare file
- operation callback
+Subject: Re: [PATCH v3 3/3] ima: Add support for staging measurements for
+ deletion
+To: Roberto Sassu <roberto.sassu@huaweicloud.com>,
+ Mimi Zohar <zohar@linux.ibm.com>, corbet@lwn.net, skhan@linuxfoundation.org,
+ dmitry.kasatkin@gmail.com, eric.snowberg@oracle.com, paul@paul-moore.com,
+ jmorris@namei.org, serge@hallyn.com
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
+ gregorylumen@linux.microsoft.com, nramas@linux.microsoft.com,
+ Roberto Sassu <roberto.sassu@huawei.com>,
+ steven chen <chenste@linux.microsoft.com>
+References: <20260311171956.2317781-1-roberto.sassu@huaweicloud.com>
+ <20260311171956.2317781-3-roberto.sassu@huaweicloud.com>
+ <587e11bf4d29552bbbfc029f716146e8ebfca1eb.camel@linux.ibm.com>
+ <25e0a273-9044-4e0d-9812-0171ec99e1b7@linux.microsoft.com>
+ <ffe1d4645a66a690892163be8e16c4b5d24a690d.camel@linux.ibm.com>
+ <c9258708-2db2-4c08-998f-e67a681781da@linux.microsoft.com>
+ <332fc1447c03893988620189a40501cccaa8b4c5.camel@huaweicloud.com>
 Content-Language: en-US
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Clemens Ladisch <clemens@ladisch.de>,
- Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "K . Y . Srinivasan" <kys@microsoft.com>,
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
- Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Bodo Stroesser <bostroesser@gmail.com>,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- David Hildenbrand <david@kernel.org>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
- <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-mtd@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
- linux-afs@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org, Ryan Roberts <ryan.roberts@arm.com>
-References: <cover.1773944114.git.ljs@kernel.org>
- <172ef809d9976b067bba4cd9d2b78410c6c6d03d.1773944114.git.ljs@kernel.org>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-In-Reply-To: <172ef809d9976b067bba4cd9d2b78410c6c6d03d.1773944114.git.ljs@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: steven chen <chenste@linux.microsoft.com>
+In-Reply-To: <332fc1447c03893988620189a40501cccaa8b4c5.camel@huaweicloud.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 3/19/26 19:23, Lorenzo Stoakes (Oracle) wrote:
-> This documentation makes it easier for a driver/file system implementer to
-> correctly use this callback.
-> 
-> It covers the fundamentals, whilst intentionally leaving the less lovely
-> possible actions one might take undocumented (for instance - the
-> success_hook, error_hook fields in mmap_action).
-> 
-> The document also covers the new VMA flags implementation which is the
-> only one which will work correctly with mmap_prepare.
-> 
-> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
+On 3/20/2026 10:10 AM, Roberto Sassu wrote:
+> On Fri, 2026-03-20 at 09:58 -0700, steven chen wrote:
+>> On 3/20/2026 5:41 AM, Mimi Zohar wrote:
+>>> On Thu, 2026-03-19 at 14:31 -0700, steven chen wrote:
+>>>
+>>>>> - Support for deleting N measurement records (and pre-pending the remaining
+>>>>> measurement records)
+>>>> Is there any problem to bring work of "stage" step together to the
+>>>> deletion step?
+>>>>
+>>>> "Trim N" method does everything that "staged" method can do, right?
+>>>> what's the "stage" method can do but "trim N" method can't do?
+>>>>
+>>>> in user space, if in "staged" state, no other user space agent can
+>>>> access the IMA measure list, right?
+>>>>
+>>>> Could you explain the benefit of bringing the "stage" step?
+>>> The performance improvement is because "staging" the IMA measurement list takes
+>>> the lock in order to move the measurement list pointer and then releases it.
+>>> New measurements can then be appended to a new measurement list.  Deleting
+>>> records is done without taking the lock to walk the staged measurement list.
+>>>
+>>> Without staging the measurement list, walking the measurement list to trim N
+>>> records requires taking and holding the lock.  The performance is dependent on
+>>> the size of the measurement list.
+>>>
+>>> Your question isn't really about "staging" the measurement list records, but
+>>> requiring a userspace signal to delete them.  To answer that question, deleting
+>>> N records (third patch) could imply staging all the measurement records and
+>>> immediately deleting N records without an explicit userspace signal.
+>>>
+>>> I expect the requested "documentation" patch will provide the motivation for the
+>>> delayed deletion of the measurement list.
+>>>
+>>> Mimi
+>> "Staging" is great on reducing kernel IMA measurement list locking time.
+>>
+>> How about just do "stage N" entries and then delete the staged list in
+>> one shot?
+>> It means merge two APIs into one API
+>>       int ima_queue_stage(void)
+>>       int ima_queue_delete_staged(unsigned long req_value)
+>>
+>> The kernel lock time will be the same. And user space lock time will be
+>> reduced.
+> It is not the same. The walk on the staged list is done without holding
+> ima_extend_list_mutex.
+>
+> Roberto
 
-Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+Is it possible to merge two APIs work into one API?
+      int ima_queue_stage(void)
+      int ima_queue_delete_staged(unsigned long req_value)
+
+Thank,
+
+Steven
 
