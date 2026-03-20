@@ -1,89 +1,159 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71BE31E98E3;
-	Fri, 20 Mar 2026 09:04:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B6DE35E956;
+	Fri, 20 Mar 2026 09:46:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773997445; cv=none; b=udmEJxiMrMLJAcPd+T2Hp/8R8ORf6cSpXzOF6ZpCPFnKwdmx49u9I234I/YLEkB9KsCjw3QqhnIy2/Ag/T1Rp4oeR0IwrK7bzj5oFg2878XNh/S6UDRoQWp01AtNgrSsVUxQGOobWDAa1nlnL5ytriB+TzM51S1mE2u+M3CAZfs=
+	t=1774000006; cv=none; b=CY2bne/5405oY9lhGx3bDH5h0fHn8hlaZohNt0Hi3bAHU+wKUDxaGt7nQ+w+8LghI7I8oMikM4by0fbS2p47gj2FQ/NesgVoCRcpKza4w01HE+XraArUnFt5IqF8dobk9igLh6G4sEZMWVuuwivkNeEh0Mm1ZlX3z0HqzWw7RUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773997445; c=relaxed/simple;
-	bh=tLRV6GWt0nIH04h46cD5fAI/puIETbeyPGCSNjkPhWM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kL7hvZbt292QRRLw7vgnsI7i26Wq/vQqFiGacL/KmriXThMJmoSwZlVyTJXbeimF2ciHGmqqSzR9X29D3xhSdLni2HV7KN5EDu0olS2skY9K1NTaDwit/VocaIhXlTX53+XpPqnZwRa5S5YteoIFFi+ktYbSRwkJGt53DDbdnJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=RX25+PQ/; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1774000006; c=relaxed/simple;
+	bh=oGBXFVA6b5hSd8r6F4eDGUdi4rjMPmXLArBN5DXSie4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=k1BBFynBXhDD5oIDA4jvVpFfLLTz0PYUP7CxYHEwJegH8mhr+KMB1W4qTWjIE/I8mcbWrzHdOyBzOJCGxBSDWWiKL+VrtJ7AvdP7kP3Hp9clLAePU/WjMkU4PeI25xC0XVSRfosWfbw5kzcnt5TuJB3pTT8oCB9rVZPt1XqV5HQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PVSXhx3p; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="RX25+PQ/"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=tLRV6GWt0nIH04h46cD5fAI/puIETbeyPGCSNjkPhWM=; b=RX25+PQ//oLNIUwog0UzVIbDEP
-	uQEotUlu63UWGNG7lcvdJFT2beO1gYq+/Qvr896xR5OnHaQCLVudBWoF2v6l+hrS0/RzZzRpdcccu
-	fm+eBa7b22mZBFL5XFMn2S6+/vGbJH8Q3lo1DyYzBasF+rZOv79yMWc32W1tj00eTIe9ixzYixqEb
-	A5Zz7rQV5VAIMb7pf698D6LwS4Kk864K0cRZvtlLWLhke52kWXWI3DcS0gJ2QF2r38g8/4iXZ9NNP
-	zcvek9+l0a5HnoqZlql5Ciaxl+ISS/w7OAYXgmUA5Z2CpPGv/zfSLYJiJjaGv1NUEArV+zSnPukln
-	2DyVOwwg==;
-Received: from 2001-1c00-8d85-5700-266e-96ff-fe07-7dcc.cable.dynamic.v6.ziggo.nl ([2001:1c00:8d85:5700:266e:96ff:fe07:7dcc] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w3Vld-0000000FCA7-0OpM;
-	Fri, 20 Mar 2026 09:03:41 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 37587301150; Fri, 20 Mar 2026 10:03:40 +0100 (CET)
-Date: Fri, 20 Mar 2026 10:03:40 +0100
-From: Peter Zijlstra <peterz@infradead.org>
-To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-Cc: x86@kernel.org, Nikolay Borisov <nik.borisov@suse.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	David Kaplan <david.kaplan@amd.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>, KP Singh <kpsingh@kernel.org>,
-	Jiri Olsa <jolsa@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	David Laight <david.laight.linux@gmail.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	David Ahern <dsahern@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org, Asit Mallick <asit.k.mallick@intel.com>,
-	Tao Zhang <tao1.zhang@intel.com>, bpf@vger.kernel.org,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7 07/10] x86/vmscape: Use static_call() for predictor
- flush
-Message-ID: <20260320090340.GN3738786@noisy.programming.kicks-ass.net>
-References: <20260319-vmscape-bhb-v7-0-b76a777a98af@linux.intel.com>
- <20260319-vmscape-bhb-v7-7-b76a777a98af@linux.intel.com>
- <20260319205802.GJ3738786@noisy.programming.kicks-ass.net>
- <20260319213421.br6na4dulrjm6eke@desk>
- <20260319214409.GL3738786@noisy.programming.kicks-ass.net>
- <20260320062206.bdrnmnvho6lhmejw@desk>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PVSXhx3p"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E63C1C2BCB0;
+	Fri, 20 Mar 2026 09:46:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774000006;
+	bh=oGBXFVA6b5hSd8r6F4eDGUdi4rjMPmXLArBN5DXSie4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=PVSXhx3pC9IZPX3P8nkd7JZx7x+PSPFda1Aagvkj7mjsUlsrwhG0DeT0qTYNh/h/g
+	 0gxNpWTkD3I3OV5njMXksKqmDDxyioN2vVxWydj19iAA//qTnURb1+yL3PUrTblpb+
+	 3GeyZjV3G7sk4mW1yiLo+Fv48cupajDvB5yiep/slUZb/fI8AQV+oBNV/xDP2S0by2
+	 k6c7zLXGHDH//zy0cGJZbdv4EttKJ319clTSd6NqVEcjp8ZrutJeMF3tyAT8M//ZCX
+	 aFDZq/frRtQpSwQlkASuFGCKrF0ynBd/l9vjrwbCOEE03Pm6kCP04/Qc1j6pqRV0D6
+	 eLPzBaha7QIyg==
+Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1w3WRH-0000000CbvC-3cZJ;
+	Fri, 20 Mar 2026 10:46:43 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH RFC 2/2] HACK: add a parse_c.py file to test CDataParser
+Date: Fri, 20 Mar 2026 10:46:41 +0100
+Message-ID: <99bb5de72b3510f45c6aec7b505a7b48b060dbe3.1773998596.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <cover.1773998596.git.mchehab+huawei@kernel.org>
+References: <cover.1773998596.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260320062206.bdrnmnvho6lhmejw@desk>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-On Thu, Mar 19, 2026 at 11:22:06PM -0700, Pawan Gupta wrote:
+This patch should not be merged. It is a quick tool to test
+CDataParser.
 
-> This plus extending it to support EXPORT_STATIC_CALL_FOR_KVM() is probably
-> a better solution. Please let me know which one you prefer.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ parse_c.py | 87 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 87 insertions(+)
+ create mode 100755 parse_c.py
 
-The EXPORT twiddling will do I suppose. I'll try and not forget looking
-at doing the RO static_call thing some time.
+diff --git a/parse_c.py b/parse_c.py
+new file mode 100755
+index 000000000000..740445998965
+--- /dev/null
++++ b/parse_c.py
+@@ -0,0 +1,87 @@
++#!/usr/bin/env python3
++# example.py
++"""
++Run a quick demo on a real C source file.
++
++Usage
++-----
++    python -m c_struct_parser.example <path/to/c/file.c>
++"""
++
++import argparse
++
++from tools.lib.python.kdoc.data_parser import CDataParser
++
++TEST = """
++struct property_entry {
++	const char *name;
++	size_t length;
++	bool is_inline;   /* TEST */
++	struct foo {
++		char *bar[12];
++		struct foobar {
++			enum enum_type my_enum; /* TEST	2 */
++			struct {
++				uint_t test; /* TEST 3 */
++				static const int anonymous;
++			};
++		};
++		;;        /* This is valid, but should not occur in practice */
++		{};       /* Same here */
++	};
++	enum dev_prop_type type;
++		enum {
++			EXPRESSION_LITERAL,
++			EXPRESSION_BINARY,
++			EXPRESSION_UNARY,
++			EXPRESSION_FUNCTION,
++			EXPRESSION_ARRAY
++		} literal;
++
++	union {
++		const void *pointer;
++		union {
++			u8 boou8_data[sizeof(u64) / sizeof(u8)];
++			u16 u16_data[sizeof(u64) / sizeof(u16)];
++			u32 u32_data[sizeof(u64) / sizeof(u32)];
++			u64 u64_data[sizeof(u64) / sizeof(u64)];
++			const char *str[sizeof(u64) / sizeof(char *)];
++		};
++	};
++	char *prop_name;
++};
++"""
++
++
++def main():
++    p = argparse.ArgumentParser(description="Parse a C struct/union/enum definition.")
++
++    p.add_argument("fname", nargs="?", help="C source file to parse")
++
++    args = p.parse_args()
++
++    if args.fname:
++        with open(args.fname, "r", encoding="utf-8") as f:
++            source = f.read()
++    else:
++        source = TEST
++
++    parser = CDataParser(source)
++
++    item = parser.item
++
++    print(repr(item))
++
++    print(f"{item.decl_type} {item.decl_name}\n")
++
++    print("parameterlist:")
++    for p in item.parameterlist:
++        print(f"  - {p}")
++
++    print("\nparametertypes:")
++    for k, v in item.parametertypes.items():
++        print(f"  - {k}: {v}")
++
++
++if __name__ == "__main__":
++    main()
+-- 
+2.53.0
+
