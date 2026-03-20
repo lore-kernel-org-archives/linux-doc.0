@@ -1,261 +1,301 @@
-Received: from canpmsgout01.his.huawei.com (canpmsgout01.his.huawei.com [113.46.200.216])
+Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013005.outbound.protection.outlook.com [40.93.196.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE18429ACC5;
-	Fri, 20 Mar 2026 03:26:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.216
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773977198; cv=none; b=atAaL32n+jkSvt7bVbLfDjn3SpS+WxvGe81z1hS9LjPQbdPvHRjwdUqLqMP5D50Bmi9N1RviVBiPkUHSU9D0P6nWsBo8Wcsftl1ZfNRGnX8kv5si5eoSHaV5MW+/ckEH0jLKhYf7XHrBQ/FyUGrORlPDFS3zDP+WYtEwUiF5hHc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773977198; c=relaxed/simple;
-	bh=xh+ffbb2oaNHZsmPafLZjYdLct4e+SO5Mig7THEgVVg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=mIgZxr5MEX5sMXxAGhdbVvGFfOrDV/sb+S7NEqilT0u8KYKfuXs22StEe9pSVlcK6Cmg+OMvTwj0m5ADnht9FQbHXdXi0OadhXuZ7MUuOy2flW0bsA8Bhf/sNDRfHSDB/ZKsLRWBQUDhZwWAWm6a65jjU+ZzJf/cvS+VDLwJ9Gk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=PzyvQYqy; arc=none smtp.client-ip=113.46.200.216
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D67C271476;
+	Fri, 20 Mar 2026 04:57:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.5
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1773982648; cv=fail; b=Z6EyvSBcy6YHxCJaYnnhRzOGB5t13Ogu4eyl16wZYqZl5EKJdovteih47S4aRV/h+ki04X6CFSEDE5z6TSJpxPJzvsvRhVeAFGNHsao7Oj9g9a9AuTUmpVlst8rwvDEW4Q45VltHV88anHdYljttT0JaiJwpWwbT7qmK8SlWQWk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1773982648; c=relaxed/simple;
+	bh=Eybf10xr95hKqYShFF8zSt/SOLM5cLBFJNTltcnJyS0=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=cyscxkas4uhNePLqpbUhu/iDb5NxEUFuJzvh+w44vUlEKizeCckY2wk3pZF+3Ngv0JE+eTUH4N31eVT7YL+uBZoQvOovw0qy90N0mnNkRkynq+OdRLLjIS2kAYzl1xyPPrvyYe3kpI4bgs93Jezzh4RQ0L+K56cpGpk8QBUYdG8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=W6kPNMXI; arc=fail smtp.client-ip=40.93.196.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="PzyvQYqy"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=3LiHuocNrG9VyhQSPGsfxkLqow8jinLscyafTJUH7n0=;
-	b=PzyvQYqytsSSptjXyQJXJSFxg0IsfMHvz47ITRg5ssR326CVuLSufayFGG12zYgBkkQvJa9KB
-	JV6YGyDu/jcmqj8yhrn0VgSgQUJ+FE1fdp4aXgqP1j+6e0GjQLxYAFTO3TjEwrZXKdnbrJr1nvU
-	oTV5X1+VOGWBf29jt2KHEOw=
-Received: from mail.maildlp.com (unknown [172.19.162.223])
-	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4fcSWp0crhz1T4Fg;
-	Fri, 20 Mar 2026 11:21:10 +0800 (CST)
-Received: from kwepemk500009.china.huawei.com (unknown [7.202.194.94])
-	by mail.maildlp.com (Postfix) with ESMTPS id B830440569;
-	Fri, 20 Mar 2026 11:26:33 +0800 (CST)
-Received: from [10.67.121.161] (10.67.121.161) by
- kwepemk500009.china.huawei.com (7.202.194.94) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Fri, 20 Mar 2026 11:26:31 +0800
-Message-ID: <823d8281-f01c-4ed1-94ed-17869b2c7526@huawei.com>
-Date: Fri, 20 Mar 2026 11:26:31 +0800
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="W6kPNMXI"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZRWzNsxs4qyVJDlZww8HDL5+NtCBfKHUkP6QKTGR+BJT9rixCs7G0Qn1/xhMjl+6KcyFVOuYGuyAhvS3ShGs/yXN7ClV4ifo/e1fqPirXRLSICxHhVHVZ8PLGOXK3jyzW7Sd4caDJ0HjO39qOfHWrfpv6dL57PaqWuDi3d2EQHvmMsshqsbLGrHEneiSjddCbcI+BUBR1zHrKOypLVtHaL8dRbcOdWhwiDZhFjpsLzLRdNsIvGXruptWqJFtXgdrq4xNvaj6AMb7WaBKmqJz+jwidqZKCHe4gkHuvKP5xScfko62OXAbNkJ+AfbLuK5WmsDY54Vmy0mofc3nhw1huw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ige1SUMVxDCYED571NUQz3HCxKutYucDbhpAI9mJJrg=;
+ b=RCVtQ5o0QR3+lA5skFsiiwM4bvaSy2IAyC++8GaKINMObP+5Nb7loyx4NDzLigtEpRJUl/RikQqsTi9/U4l1Yvc2KwwHeNxo47fBsEI9CWfLCeN68wPkXKkT6fs0vVs73gR158ObjuGT1jVZLoXY4No8XzlsHnYldAxJx3f2X7EP21vpmWUBvqPSpktXgeN7Y+0CqbeIcafzcz4r36aQKPlTTvoAVF4sDu+Bl0XLbPCy34Pt/WZVNYhneQDA/QAB5UrdtPHMQYQAMBMNMnKsP0FqRsI13tp1UG0fQov9fDa3mP/7WRC7oDtvQT4ktcdsv+cDQU9IayEfIX1cMxfDcg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ige1SUMVxDCYED571NUQz3HCxKutYucDbhpAI9mJJrg=;
+ b=W6kPNMXIqri4JH3FKlR1u85YNrEadtT/0q4kaYWo3ctn7YXfFTYwKC666XCzSSXIRZyKvLCQtVXV9wq6n7P7nWyYoxau0lTk25BIwK7d1LEqbEpYOC4JEjSuMdO21mKysu3inehdJ99sJxf3xGGtxH4FzAdXgQ0XEwk/a8DRTVZDn44k79EoK2ohkwTZ7A0i/2GUrh5UAhsY2ma7ZdtOWfOWWROt+0bU787jKttyrATwaobsjmN77BoxFwlrZxPMbHCjDaHFn8QfFU868j4UOxMraJuKKbZf34s48mjSR5juOlM30+wNVkRd24QkkG7fYH+eiTOMQxVSS6EzbSTqXA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
+ MW4PR12MB7310.namprd12.prod.outlook.com (2603:10b6:303:22c::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.9; Fri, 20 Mar
+ 2026 04:57:18 +0000
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9745.007; Fri, 20 Mar 2026
+ 04:57:18 +0000
+From: Joel Fernandes <joelagnelf@nvidia.com>
+To: linux-kernel@vger.kernel.org
+Cc: Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dave Airlie <airlied@redhat.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Koen Koning <koen.koning@linux.intel.com>,
+	dri-devel@lists.freedesktop.org,
+	rust-for-linux@vger.kernel.org,
+	Nikola Djukic <ndjukic@nvidia.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	Huang Rui <ray.huang@amd.com>,
+	Matthew Auld <matthew.auld@intel.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Lucas De Marchi <lucas.demarchi@intel.com>,
+	=?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	Helge Deller <deller@gmx.de>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	John Hubbard <jhubbard@nvidia.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Timur Tabi <ttabi@nvidia.com>,
+	Edwin Peer <epeer@nvidia.com>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Andrea Righi <arighi@nvidia.com>,
+	Andy Ritger <aritger@nvidia.com>,
+	Zhi Wang <zhiw@nvidia.com>,
+	Balbir Singh <balbirs@nvidia.com>,
+	Philipp Stanner <phasta@kernel.org>,
+	Elle Rhumsaa <elle@weathered-steel.dev>,
+	alexeyi@nvidia.com,
+	Eliot Courtney <ecourtney@nvidia.com>,
+	joel@joelfernandes.org,
+	linux-doc@vger.kernel.org,
+	amd-gfx@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org,
+	Joel Fernandes <joelagnelf@nvidia.com>
+Subject: [PATCH v14 0/2] Rust GPU buddy allocator bindings
+Date: Fri, 20 Mar 2026 00:57:09 -0400
+Message-Id: <20260320045711.43494-1-joelagnelf@nvidia.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: CYZPR20CA0010.namprd20.prod.outlook.com
+ (2603:10b6:930:a2::18) To DS0PR12MB6486.namprd12.prod.outlook.com
+ (2603:10b6:8:c5::21)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 7/7] PCI/TPH: Fix get cpu steer-tag fail on ARM64
- platform
-To: Bjorn Helgaas <helgaas@kernel.org>
-CC: Bjorn Helgaas <bhelgaas@google.com>, Catalin Marinas
-	<catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, "Rafael J .
- Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
-	<skhan@linuxfoundation.org>, Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui
-	<kernel@xen0n.name>, Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt
-	<palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti
-	<alex@ghiti.fr>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar
-	<mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
-	<dave.hansen@linux.intel.com>, <x86@kernel.org>, "H . Peter Anvin"
-	<hpa@zytor.com>, Juergen Gross <jgross@suse.com>, Boris Ostrovsky
-	<boris.ostrovsky@oracle.com>, Len Brown <lenb@kernel.org>, Sunil V L
-	<sunilvl@ventanamicro.com>, Mark Rutland <mark.rutland@arm.com>, Jonathan
- Cameron <jonathan.cameron@huawei.com>, Kees Cook <kees@kernel.org>, Yanteng
- Si <si.yanteng@linux.dev>, Sean Christopherson <seanjc@google.com>, Kai Huang
-	<kai.huang@intel.com>, Tom Lendacky <thomas.lendacky@amd.com>, Thomas Huth
-	<thuth@redhat.com>, Thorsten Blum <thorsten.blum@linux.dev>, Kevin Loughlin
-	<kevinloughlin@google.com>, Zheyun Shen <szy0127@sjtu.edu.cn>, Peter Zijlstra
-	<peterz@infradead.org>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, Xin
- Li <xin@zytor.com>, "Ahmed S . Darwish" <darwi@linutronix.de>, Sohil Mehta
-	<sohil.mehta@intel.com>, Ilkka Koskinen <ilkka@os.amperecomputing.com>, Robin
- Murphy <robin.murphy@arm.com>, James Clark <james.clark@linaro.org>, Besar
- Wicaksono <bwicaksono@nvidia.com>, Ma Ke <make24@iscas.ac.cn>, Wei Huang
-	<wei.huang2@amd.com>, Andy Gospodarek <andrew.gospodarek@broadcom.com>,
-	Somnath Kotur <somnath.kotur@broadcom.com>, <punit.agrawal@oss.qualcomm.com>,
-	<guohanjun@huawei.com>, <suzuki.poulose@arm.com>, <ryan.roberts@arm.com>,
-	<chenl311@chinatelecom.cn>, <masahiroy@kernel.org>,
-	<wangyuquan1236@phytium.com.cn>, <anshuman.khandual@arm.com>,
-	<heinrich.schuchardt@canonical.com>, <Eric.VanTassell@amd.com>,
-	<wangzhou1@hisilicon.com>, <wanghuiqiang@huawei.com>,
-	<liuyonglong@huawei.com>, <linux-pci@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <loongarch@lists.linux.dev>,
-	<linux-riscv@lists.infradead.org>, <xen-devel@lists.xenproject.org>,
-	<linux-acpi@vger.kernel.org>, <linux-perf-users@vger.kernel.org>,
-	<stable@vger.kernel.org>
-References: <20260319183219.GA519221@bhelgaas>
-Content-Language: en-US
-From: fengchengwen <fengchengwen@huawei.com>
-In-Reply-To: <20260319183219.GA519221@bhelgaas>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
- kwepemk500009.china.huawei.com (7.202.194.94)
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|MW4PR12MB7310:EE_
+X-MS-Office365-Filtering-Correlation-Id: e0d21433-b48c-495c-a20b-08de863d2959
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|7416014|1800799024|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	2QN8LuXq62uBID1gNVF2Mtn3nLCcE1z/Zvvf4rwROa1WuRgiUg9onOLM95CCa14TSh6fmoE0afjA0DrZEhz28zMmIpjDv3IcyHI3LwIFipGTCn6y/+AVNFjRFb21tIFHdH9TTdHh2pjOP77HKBkz2wCjnbB1O6YEcVcyGjkN4/7WHckrVhHfVlKcpujLX7AKPCV66x59IT1Lm01+mmMYwF+nBMVv8Sp0aR0DEu5v/ye5ZAKzPxo84PzgP2F/O6pHQWzMzMXK3D1oukq7GVPrMEh4fLKOKEeD8S7Umpv4VERQRsbkrgCXjqOiA/qam6To1fSIMsyGroE0ubGrEpL9m/WLR964a6hJC3ERsnQBDfiNl5hogd2VcH9U40pskGLw6B82nPLfkDSmJF534CpFG4OJLkHVfmVvJX/b9ksAfZmFzAuQgk85h902XnwKVWqH2GiOIrFDTDd7sJV2PhpM4l2pbV4TNjA+qEITgoR2TjPxAtYlymOuaZuYybhceSzhdnlky0rSGeRI7gDnxRMQoiZnIvW11snaM2iVXL5mKt8GlODG59i8yHT2jNBtbaYe1mmX9vIz2KutQvav6YuFcMVjZN4ZsnRYHD2Ny05+xfKSsy3y1RnSCZeNzdLmwmQEvUhCVWCtgqfmVUq4Xa4iCPN/iyJuGWsMdn/ldUoO5AgP0zMzeHw5HzT/uSQWKvolvPnmLxTTkqqNt6d/mfiA8CUh5CAJCNmhPXkFcckpgiI=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?dDDXmn/g/67EwPhFFCKcttvPMefumBUWJp5Ko+Xgmvo5wrq8g2dGbmpwghsB?=
+ =?us-ascii?Q?IjPfWDHFR3Y0bJ96UjOq7gEu8kS68h1RLjhbaxy4HwZGTRFYXh01QJNhCVWi?=
+ =?us-ascii?Q?90BTYjQq0UdIsw2OoTLJuuKB0XTGAJPGRw3ckfqEc37yUyo+7YWx0LR9hOWJ?=
+ =?us-ascii?Q?FpfUNZNqvPghC3I6GoesFY2Y1ukOAb7Q60TBbfMKeyng/nNR8Le4i+H5rIQd?=
+ =?us-ascii?Q?2HPTxm32BTSCZ6eN526K4FSkajzlBrW+pslB0JEXECt5zQ6QWJwlTbYq62/Q?=
+ =?us-ascii?Q?bfJewlMbvXwEXz5olKscuWC3GG47OWKJ/mC1YJOM41l4eH6zsGMNuccFTT33?=
+ =?us-ascii?Q?1tDjYhyUscryO391bezyaq3R8UYwC1ylPvhRDHmcqwqxiz1pvaluLFSRdNvX?=
+ =?us-ascii?Q?3EIru+aTg7yDaaffhrm8vvqHveWBcLdWG1NX48epbzYmGHGGVcRagEal8AFw?=
+ =?us-ascii?Q?UOyIpC8udCHQHA3Od5gVQyraGG+2g/PqZtzI28ZAWvXrhxICcRDtxXa9zKel?=
+ =?us-ascii?Q?+29i0sK8GUhoPKrRd+BlOIt2J/a3krtYoNKlpoEdXTUFjfiINp9pfFJAnfS5?=
+ =?us-ascii?Q?HTDOzqs5aRKWdOsx8M8AGCVLeeavfTz7ph9zKq73fjLVWeo0LWKU3k9wLjdm?=
+ =?us-ascii?Q?+u+BvQLHYSVxMRzqFmfLI0HTN+tobtz5/MO4VSunJV/KLB4pXxxpNeR3qGaj?=
+ =?us-ascii?Q?zQ4Sj83nCHNtlTtAcUJGncIHeXu3jzETfjP2jQ9aCMSuZqjKg/efaRmKv3bB?=
+ =?us-ascii?Q?oKSiyn1VLRpdjx1sSsh9ufkf5TsZeI9XBWamJoUpcIxBT0r1chIr02VA757s?=
+ =?us-ascii?Q?adEvUpe2DefBhK590QmQ2IvxhEKO0Vd2ojm/vAOG2su0yxzY+VZ3f305+f+Y?=
+ =?us-ascii?Q?wcFUra87pk5Z95orxmKpCfVafx5k6CHOoinLiDQjRhra205buU023u96gjj+?=
+ =?us-ascii?Q?IBxQy/e4ZVQvGwUdDV/x3aMyQkuEcbrQgG8bnyYtM7z6xuO9YWtIJAud5RUZ?=
+ =?us-ascii?Q?PDRg93xMKmau/vGkYGeEPS68SeL/lTm+/gWc/ddcyAluh/Orqv42AW3NXt6d?=
+ =?us-ascii?Q?oN6hIDDd59h8jsDS6IMFTbc++Ax5KkmJ9C2bjQr/4RTijHKkgbkSDahQ1RbK?=
+ =?us-ascii?Q?w7uR34FXkuRYTuGheFoFy6esp/LpXUFReg4UvB7U+rzoFsmMaq2F/4HWaXst?=
+ =?us-ascii?Q?0ox125KEYvzkAIX3ar5sztfVxprBXNolhkJCvKb4sJ5YFqeq8lgcg0bgVqed?=
+ =?us-ascii?Q?hJfm8zJFZ0eLhAaDXGN971EuDUbF7ztMEgYUjwOzb4Ofu+9x2cmT4R5CLpT7?=
+ =?us-ascii?Q?r8txP4wBfcH4QaNEXrzIIHO3fZ+TMuJ/T6VTfPcB6XzaM1vqCZdmMjO8kjUE?=
+ =?us-ascii?Q?xRz8kXucIw12bFVEPzfPO+YqqdjHDRtg15ib8x/VOPLkyPcd5vGj8LqhF15/?=
+ =?us-ascii?Q?DldvsRSM+t7zH9PxYRXxTYxwUxK55Buaa1QOg66WzNuyFiF+IWRFXrG3RIey?=
+ =?us-ascii?Q?ya7mvVKoqZvMg/AIQ3Y7+n86HPr+fXr2OUT9eNTDNnu5UApzq4eRw+Gzp+zQ?=
+ =?us-ascii?Q?2Awh4JoKNmG5X67vJwoy8X1p3czm/JmwAj/VG0pfv+fiAazcVW6lHwTtBLlH?=
+ =?us-ascii?Q?PjVPyigvaH/uurMkioGu20nLLAygqqy+rjlpC/OZ0sHrtX1+f7P4xwPcso9w?=
+ =?us-ascii?Q?gzWe4h/VIT8PHzbjZz1tuyAMD0jtohs20gQl6KFLO816zT0JoYtsvLynVCw0?=
+ =?us-ascii?Q?NWF05gXMRQ=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e0d21433-b48c-495c-a20b-08de863d2959
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Mar 2026 04:57:18.0542
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: /+ApgZlQ2/p7xwl655dzG7zn39bGpTvVFIrO0tifVOd9L25XkxXlAE7lv7twecqwvMnn6j51/3B2nuqMQx7Q0Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7310
 
-On 3/20/2026 2:32 AM, Bjorn Helgaas wrote:
-> Let's make the subject a little more specific, e.g.,
-> 
->   PCI/TPH: Pass ACPI Processor UID to Cache Locality _DSM
+This patch adds safe Rust abstractions over the Linux kernel's GPU buddy
+allocator for physical memory management. The prerequisite infrastructure
+patches (DRM buddy code movement and the uninitialized buddy fix) have been
+absorbed into upstream -next, so this is now a set of standalone patches.
 
-done in v10
+The series along with all dependencies, including clist and nova-core mm
+patches, are available at:
+git://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git (tag: buddy-bindings-v14-20260319)
 
-> 
-> On Thu, Mar 19, 2026 at 02:57:35PM +0800, Chengwen Feng wrote:
->> pcie_tph_get_cpu_st() is broken on ARM64:
->> 1. pcie_tph_get_cpu_st() passes cpu_uid to the PCI ACPI DSM method.
->>    cpu_uid should be the ACPI Processor UID [1].
->> 2. In BNXT, pcie_tph_get_cpu_st() is passed a cpu_uid obtained via
->>    cpumask_first(irq->cpu_mask) - the logical CPU ID of a CPU core,
->>    generated and managed by kernel (e.g., [0,255] for a system  with 256
->>    logical CPU cores).
->> 3. On ARM64 platforms, ACPI assigns Processor UID to cores listed in the
->>    MADT table, and this UID may not match the kernel's logical CPU ID.
->>    When this occurs, the mismatch results in the wrong CPU steer-tag.
->> 4. On AMD x86 the logical CPU ID is identical to the ACPI Processor UID
->>    so the mismatch is not seen.
->>
->> Resolution:
->> 1. Use acpi_get_cpu_uid() in pcie_tph_get_cpu_st() to translate from
->>    logical CPU ID to ACPI Processor UID needed for the DSM call.
->> 2. Rename pcie_tpu_get_cpu_st() parameter from cpu_uid to cpu to
->>    reflect that it is a logical CPU_ID.
-> 
-> And simplify this, e.g.,
-> 
->   pcie_tph_get_cpu_st() uses the Query Cache Locality Features _DSM
->   [1] to retrieve the TPH Steering Tag for memory associated with the
->   CPU identified by its "cpu_uid" parameter, a Linux logical CPU ID.
-> 
->   The _DSM requires a ACPI Processor UID, which pcie_tph_get_cpu_st()
->   previously assumed was the same as the Linux logical CPU ID.  This
->   is true on x86 but not on arm64, so pcie_tph_get_cpu_st() failed on
->   arm64.
-> 
->   Convert the Linux logical CPU ID to the ACPI Processor UID with
->   acpi_get_cpu_uid() before passing it to the _DSM.
-> 
-> If there's a specific error message from BNXT or similar that is a
-> symptom of this problem, it'd be nice to include that.  Or if the
-> problem was just poor performance because the _DSM returned the wrong
-> Steering Tag, you could say something like:
-> 
->   ... so pcie_tph_get_cpu_st() returned the wrong Steering Tag,
->   resulting in poor network performance.
+Change log:
 
-It is indeed simplified, done in v10
+Changes from v13 to v14:
+- Changed clist_create! call site to use explicit unsafe{} block.
+- Various changes to change to Range type for ranges (Alex).
+- Renamed GpuBuddyParams::physical_memory_size to size (Alex).
+- Changed GpuBuddyAllocFlags inner type from u32 to usize (Alex).
+- Renamed free_memory() to avail()  (Alex).
+- Various nits (Alex).
 
-> 
->> [1] According to ECN_TPH-ST_Revision_20200924
->>     (https://members.pcisig.com/wg/PCI-SIG/document/15470), the input
->>     is defined as: "If the target is a processor, then this field
->>     represents the ACPI Processor UID of the processor as specified in
->>     the MADT. If the target is a processor container, then this field
->>     represents the ACPI Processor UID of the processor container as
->>     specified in the PPTT."
->>
->> Fixes: d2e8a34876ce ("PCI/TPH: Add Steering Tag support")
->> Cc: stable@vger.kernel.org
->> Signed-off-by: Chengwen Feng <fengchengwen@huawei.com>
->> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
-> 
-> The patch looks good to me.  Thanks for all your work on this!
-> 
-> Reviewed-by: Bjorn Helgaas <bhelgaas@google.com>
+Changes from v12 to v13:
+- Split MAINTAINERS reviewer update into a separate patch (Danilo).
+- Adjustments to use the Alignment type chunk size parameters (Alex).
+- Fixed doctest assertion due to blocks landing on top of range.
+- Changed chunk_size local vars to Alignment.
+- Changed block size to u64 from usize.
+- Renamed rust/kernel/gpu/mod.rs to rust/kernel/gpu.rs.
+- Several other adjustments (Alex).
 
-Thanks Bjorn for your review and kind words! I really appreciate it.
+Changes from v11 to v12:
+- Rebased on linux-next his is now a standalone single patch as dependencies
+  are absorbed (but not clist is a prequisite)
+- Redesigned allocation API (Alexandre Courbot) for better Rust ergonomics.
+- Split single long example into 4 self-contained examples (Alexandre Courbot).
+- Several safety and invariant comment changes (Danilo).
+- MAINTAINERS changes (Arun, Mathew, Danilo, Dave).
+- Fixed `#[cfg(CONFIG_GPU_BUDDY)]` to `#[cfg(CONFIG_GPU_BUDDY = "y")]` (Danilo Krummrich).
+- Updated `ffi::clist::CListHead` to `interop::list::CListHead`.
 
-> 
->> ---
->>  Documentation/PCI/tph.rst |  4 ++--
->>  drivers/pci/tph.c         | 16 +++++++++++-----
->>  include/linux/pci-tph.h   |  4 ++--
->>  3 files changed, 15 insertions(+), 9 deletions(-)
->>
->> diff --git a/Documentation/PCI/tph.rst b/Documentation/PCI/tph.rst
->> index e8993be64fd6..b6cf22b9bd90 100644
->> --- a/Documentation/PCI/tph.rst
->> +++ b/Documentation/PCI/tph.rst
->> @@ -79,10 +79,10 @@ To retrieve a Steering Tag for a target memory associated with a specific
->>  CPU, use the following function::
->>  
->>    int pcie_tph_get_cpu_st(struct pci_dev *pdev, enum tph_mem_type type,
->> -                          unsigned int cpu_uid, u16 *tag);
->> +                          unsigned int cpu, u16 *tag);
->>  
->>  The `type` argument is used to specify the memory type, either volatile
->> -or persistent, of the target memory. The `cpu_uid` argument specifies the
->> +or persistent, of the target memory. The `cpu` argument specifies the
->>  CPU where the memory is associated to.
->>  
->>  After the ST value is retrieved, the device driver can use the following
->> diff --git a/drivers/pci/tph.c b/drivers/pci/tph.c
->> index ca4f97be7538..b67c9ad14bda 100644
->> --- a/drivers/pci/tph.c
->> +++ b/drivers/pci/tph.c
->> @@ -236,21 +236,27 @@ static int write_tag_to_st_table(struct pci_dev *pdev, int index, u16 tag)
->>   * with a specific CPU
->>   * @pdev: PCI device
->>   * @mem_type: target memory type (volatile or persistent RAM)
->> - * @cpu_uid: associated CPU id
->> + * @cpu: associated CPU id
->>   * @tag: Steering Tag to be returned
->>   *
->>   * Return the Steering Tag for a target memory that is associated with a
->> - * specific CPU as indicated by cpu_uid.
->> + * specific CPU as indicated by cpu.
->>   *
->>   * Return: 0 if success, otherwise negative value (-errno)
->>   */
->>  int pcie_tph_get_cpu_st(struct pci_dev *pdev, enum tph_mem_type mem_type,
->> -			unsigned int cpu_uid, u16 *tag)
->> +			unsigned int cpu, u16 *tag)
->>  {
->>  #ifdef CONFIG_ACPI
->>  	struct pci_dev *rp;
->>  	acpi_handle rp_acpi_handle;
->>  	union st_info info;
->> +	u32 cpu_uid;
->> +	int ret;
->> +
->> +	ret = acpi_get_cpu_uid(cpu, &cpu_uid);
->> +	if (ret != 0)
->> +		return ret;
->>  
->>  	rp = pcie_find_root_port(pdev);
->>  	if (!rp || !rp->bus || !rp->bus->bridge)
->> @@ -265,9 +271,9 @@ int pcie_tph_get_cpu_st(struct pci_dev *pdev, enum tph_mem_type mem_type,
->>  
->>  	*tag = tph_extract_tag(mem_type, pdev->tph_req_type, &info);
->>  
->> -	pci_dbg(pdev, "get steering tag: mem_type=%s, cpu_uid=%d, tag=%#04x\n",
->> +	pci_dbg(pdev, "get steering tag: mem_type=%s, cpu=%d, tag=%#04x\n",
->>  		(mem_type == TPH_MEM_TYPE_VM) ? "volatile" : "persistent",
->> -		cpu_uid, *tag);
->> +		cpu, *tag);
->>  
->>  	return 0;
->>  #else
->> diff --git a/include/linux/pci-tph.h b/include/linux/pci-tph.h
->> index ba28140ce670..be68cd17f2f8 100644
->> --- a/include/linux/pci-tph.h
->> +++ b/include/linux/pci-tph.h
->> @@ -25,7 +25,7 @@ int pcie_tph_set_st_entry(struct pci_dev *pdev,
->>  			  unsigned int index, u16 tag);
->>  int pcie_tph_get_cpu_st(struct pci_dev *dev,
->>  			enum tph_mem_type mem_type,
->> -			unsigned int cpu_uid, u16 *tag);
->> +			unsigned int cpu, u16 *tag);
->>  void pcie_disable_tph(struct pci_dev *pdev);
->>  int pcie_enable_tph(struct pci_dev *pdev, int mode);
->>  u16 pcie_tph_get_st_table_size(struct pci_dev *pdev);
->> @@ -36,7 +36,7 @@ static inline int pcie_tph_set_st_entry(struct pci_dev *pdev,
->>  { return -EINVAL; }
->>  static inline int pcie_tph_get_cpu_st(struct pci_dev *dev,
->>  				      enum tph_mem_type mem_type,
->> -				      unsigned int cpu_uid, u16 *tag)
->> +				      unsigned int cpu, u16 *tag)
->>  { return -EINVAL; }
->>  static inline void pcie_disable_tph(struct pci_dev *pdev) { }
->>  static inline int pcie_enable_tph(struct pci_dev *pdev, int mode)
->> -- 
->> 2.17.1
->>
-> 
+Changes from v10 to v11:
+- Dropped "rust: ffi: Convert pub use to pub mod and create ffi module" patch;
+  the ffi module restructuring will go through a different path.
+- Dropped "rust: clist: Add support to interface with C linked lists" patch;
+  the clist module will be submitted separately.
+- Dropped "nova-core: Kconfig: Sort select statements alphabetically" cosmetic
+  patch.
+- Patches 1-3 (DRM buddy movement and fix) are included as reference only;
+  they are already being pulled into upstream via drm-misc-next.
+- Removed clist patches as those can go in independently (Alice).
+- Moved the Kconfig GPU_BUDDY selection patch to nova-core mm series to enable
+  it when it is actually used.
+- Various nits to comments, etc.
+
+Changes from v9 to v10:
+- Absorbed the DRM buddy code movement patches into this series as patches 1-2.
+  Dave Airlie reworked these into two parts for better git history.
+- Added "gpu: Fix uninitialized buddy for built-in drivers" fix by Koen Koning,
+  using subsys_initcall instead of module_init to fix NULL pointer dereference
+  when built-in drivers use the buddy allocator before initialization.
+- Added "rust: ffi: Convert pub use to pub mod and create ffi module" to prepare
+  the ffi module for hosting clist as a sub-module.
+- Moved clist from rust/kernel/clist.rs to rust/kernel/ffi/.
+- Added "nova-core: Kconfig: Sort select statements alphabetically" (Danilo).
+
+Changes from v8 to v9:
+- Updated nova-core Kconfig patch: addressed sorting of Kconfig options.
+- Added Daniel Almeida's Reviewed-by tag to clist patch.
+- Minor refinements to GPU buddy bindings.
+
+Changes from v7 to v8:
+- Added nova-core Kconfig patch to select GPU_BUDDY for VRAM allocation.
+- Various changes suggested by Danilo Krummrich, Gary Guo, and Daniel Almeida.
+- Added Acked-by: Gary Guo for clist patch.
+
+Changes from v6 to v7:
+- Major restructuring: split the large 26-patch v6 RFC series. v7 only contains
+  the Rust infrastructure patches (clist + GPU buddy bindings), extracted from
+  the full nova-core MM series. The nova-core MM patches follow separately.
+- Rebased on linux-next.
+
+Changes from v5 to v6:
+- Rebased on drm-rust-kernel/drm-rust-next.
+- Expanded from 6 to 26 patches with full nova-core MM infrastructure including
+  page table walker, VMM, BAR1 user interface, TLB flush, and GpuMm manager.
+
+Changes from v4 to v5:
+- Added PRAMIN aperture support with documentation and self-tests.
+- Improved buddy allocator bindings (fewer lines of code).
+- Based on drm-rust-next instead of linux-next.
+
+Changes from v3 to v4:
+- Combined the clist and DRM buddy series into a single coherent series.
+- Added DRM buddy allocator movement from drivers/gpu/drm/ up to drivers/gpu/,
+  renaming API from drm_buddy to gpu_buddy.
+- Added Rust bindings for the GPU buddy allocator.
+
+Changes from v2 to v3:
+- Squashed 3 clist patches into one due to inter-dependencies.
+- Changed Clist to Clist<'a, T> using const generic offset (Alex Courbot).
+- Simplified C helpers to only list_add_tail (Alex Courbot, John Hubbard).
+- Added init_list_head() Rust function (Alex Courbot).
+- Added FusedIterator, PartialEq/Eq impls.
+- Added MAINTAINERS entry (Miguel Ojeda).
+
+Changes from v1 (RFC) to v2:
+- Dropped DRM buddy allocator patches; series focuses solely on clist module.
+- Dropped sample modules, replaced with doctests.
+- Added proper lifetime management similar to scatterlist.
+- Split clist into 3 separate patches.
+
+Link to v13: https://lore.kernel.org/all/20260317220323.1909618-1-joelagnelf@nvidia.com/
+
+
+Joel Fernandes (2):
+  rust: gpu: Add GPU buddy allocator bindings
+  MAINTAINERS: gpu: buddy: Update reviewer
+
+ MAINTAINERS                     |   8 +-
+ rust/bindings/bindings_helper.h |  11 +
+ rust/helpers/gpu.c              |  23 ++
+ rust/helpers/helpers.c          |   1 +
+ rust/kernel/gpu.rs              |   6 +
+ rust/kernel/gpu/buddy.rs        | 613 ++++++++++++++++++++++++++++++++
+ rust/kernel/lib.rs              |   2 +
+ 7 files changed, 663 insertions(+), 1 deletion(-)
+ create mode 100644 rust/helpers/gpu.c
+ create mode 100644 rust/kernel/gpu.rs
+ create mode 100644 rust/kernel/gpu/buddy.rs
+
+--
+2.34.1
 
