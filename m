@@ -1,114 +1,164 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B895940DFA2
-	for <linux-doc@vger.kernel.org>; Fri, 20 Mar 2026 00:06:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D76E92BEC55
+	for <linux-doc@vger.kernel.org>; Fri, 20 Mar 2026 01:25:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773965200; cv=none; b=cXBjiUTUAGxvgcu5h4nPh1ID8BFRMmeQVKTwAjdzzShuVcpbSYfBS2ZvFAjugZCvsJl8coIhwmO9tqebBfqBKnmmJXH94eOiWbeS4Z6tknK1RrB/u1sZ7cfMnNMD2+7sBwNERc9jVnbpUJ2D1+Nno96DC6xQZMCT+SYZLYN7mgY=
+	t=1773969905; cv=none; b=bbcmI9W3Hx887ppCbi2DEL6MBWu+35JCK3gAG5N40/UNMuqdkHU3XUtJ1VTN645OcDooz10ZofSOoG63MVaDjZqQUQD3nZx40YgzGp+Z8SwsH1j/ZDzJhVn8pVv++5XFVNb0EcJdz6xwIhFq2gYy1CP/GdPEzooghMSo4TsvhOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773965200; c=relaxed/simple;
-	bh=fqsNbSn1vkUgkLA7W4HRsglbBk3L092lZP5y40GjB54=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QEOzJkkvOCrYReunp1skMs/ApGi3Ia/PyjAHtds5xz8cSzJf6w271aI/DvAKXA9Gvh4PKCrVOA9ZxF33Ss2AGVQQjko0qbx/XxYFc/4NoqUZPWZObFvXvfwOBRtKIGJbF5yH9NpfbcdxuhXnSjni1POJ6mX6K9i/6hyjmD5I1wg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XGugY9TB; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1773969905; c=relaxed/simple;
+	bh=k/3MiZh6ObBA2Gh0WgqU7rsQmjvA6q6JXhNX15TphY0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YCKWINezYkqzEJHUJYZoqT5fGsumIpQC/4uL1im7e1eIP5fccoYsbEJaOlqmh4mQOAIbGgTkRLlxdEmSFRowQqPgdQog8r7MzME1pucGrY/CU2Iv5ZiL+40mluYjFArXWV6FS6STapBpPhLoDgn0o655yByClTP8kMLQ8UjnxGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fomichev.me; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=74.125.82.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fomichev.me
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XGugY9TB"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2aaf59c4f7cso6878125ad.1
-        for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 17:06:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773965199; x=1774569999; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=fqsNbSn1vkUgkLA7W4HRsglbBk3L092lZP5y40GjB54=;
-        b=XGugY9TB7ik+A/6TFUhbEHPliyUnq8ypdQe8nrYoW3xYnxtd6nguMtoYGetziOSgaM
-         iju+qXQeMH6VACtiGisVkxmw4PoZiqs035M4nFaL+rUHj1ULy6p/mTGggAnQv1lHUGQp
-         K+yByIZsx2AMc008MlkLr3b1tY3QaHXPy5Np39NQmfs9Ck+HdKhYpMb/rwEL4d/Glp/u
-         ig7cWzUZ2RLhlNpvBJkJluBa8W3lZh1dP2rfCQ7FtspqFNVYJCWtvxJMbILqnGEKDeh1
-         rLHQTUNGjhTxTMHy4pvheGJ+5Splfl2a+4BXX6Tr3ftG/Cuc7dwpnWUEEOmyg7lW0Xrc
-         SItg==
+Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-2c0ecaae7dfso2572781eec.1
+        for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 18:25:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773965199; x=1774569999;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fqsNbSn1vkUgkLA7W4HRsglbBk3L092lZP5y40GjB54=;
-        b=it7tzxXXGpRFqKxsf9DRaEhmFD5fxbOwo0ApIHEbuVMSDBKFDHf3BEr+H4F7xTPAID
-         S4QHrlFTroMDyDs+vAGxa0al/623rFjRrLi+lL49m4THV/1fyUqxegx+mx5v0oFnSNqW
-         VI/W6fRHzRyV7Rtnt60P0lXzpZnxI6SGYmXPB+7Q/Uf2IbUWjQkZXIIi2j00ayORbxNB
-         h7j5r8wMUbVjbAnYsMQerZtPc8rB8B1mhACgxMQhx+70YCtpGFo/iYDeZKif9noii4oC
-         GTZHjSpeWnxMuTCqtc4qmtuA91JDlD0K1/DyWj+jfffXhMlAwni8UdwITNPKxCE3x491
-         pzyQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW60kbQszT+o/5Z+1bN+28MBeHoB4g1eSsQos9PFnYLjq+blDnBwBAxVsvrRA7QIUODZExVXX7f/OQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxeuCTgqgt7jUDCY1qekjvX+gdANAprg6Ejg+n7xPOCD5j/qy9v
-	Mkdf+NEN7guonZp0xNqg+skwPff3vagGW4MEyHfAw5ouaEIujGIhiSreOmRimU6I
-X-Gm-Gg: ATEYQzxEVAlrhBoANEg3sQbBK3z/WyddxwAo1Pii2byZ8AUHiZY9leFnV7ssXIC3i4m
-	4QKQWPtieU3u4/WGZ+CMPI3AfMou6ihwwMLnCtn4sD5u0tGnp22/t94A02jqPVAZ54C0FcqIxx2
-	GjoZzJhr588Q1AsSjqtLnF5BkgIIsWhnT0zw3Er5rn+YWS2E17deMKcKwFXjG8CpsR4OkhNvD/V
-	y+7UYBxYkKl9RSVy6rB2QbecGYhr9esUtHj0J/zv9cD1H7EJhlcbNCFmWgyslFPxFDktlltrQ0K
-	6fkSECD/Duzz4pDycQxcgFQm6S9sB+vb1Y0202H/uElknO1cj+fQOTA7A7NDAv4RbrInBSVBppS
-	KfBoki05ua10OVWfoAtkXo4oJbujaDJ8oYmZ1ZvHLoakXu3hQTn5+eQlwGQ5zeWTa2+Oj379GxT
-	nhcLchshgVa/sw3Vn/OaOlrh5/obQ7MA==
-X-Received: by 2002:a17:903:2284:b0:2ae:a45b:42f7 with SMTP id d9443c01a7336-2b0827a4c3dmr9865275ad.36.1773965198958;
-        Thu, 19 Mar 2026 17:06:38 -0700 (PDT)
-Received: from archie.me ([210.87.74.117])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b08366c56bsm3880485ad.57.2026.03.19.17.06.37
+        d=1e100.net; s=20251104; t=1773969903; x=1774574703;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6rpuLOskCPApojyOfZj7pXXkMzfKSIlGWmqpeqvyGp0=;
+        b=MILf39vwBvN7vQH8HeGcfVrZ/HCJo89K9V/zEi+kYutxQpnA93rGeNeF/c4sHFCs7i
+         6uhjtKh+c7yT3DawMgdB2T81tenOEVhqrCixlqLpfGCwUe3EjbyQ1NvYM5TsRGGOqbun
+         YTNPwded3IJTX1Uch6Mqh6lzzJRn+ygmWRKxrlWBJL8q4HdtTG8Ob5CUKF9lURKrZxi8
+         BLzSTnfkjCuQ7YI1PBoUoqJUbNMZ8OefDiX1DsmLvkvONKByMZoFiMVK47n+r51wGuc0
+         LzGhjHLf/zYyUI/L74noGsIMZ5TCWtz1H4X7LJ8WVHUhiphFL8bmsM9IOwyTNHvB5V1R
+         4r9A==
+X-Forwarded-Encrypted: i=1; AJvYcCVkLViLl/NscMyyHx1JIC6luzYnTuPRe8WbqEY7sekUZWq+Ra3Ihh5KpXr4uBvf/Q0aDhhn0HorO6g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwGF7wTsRgTPpmtnu+kAfM2ptLhkcWZ4S3echHqI89xPXWLvLS7
+	ntjTacidOeupObRVf1svKmkoSfg/36IPF5DRNKHIhmaTMNWEs3Aw6f8=
+X-Gm-Gg: ATEYQzyuLy/PRjpB9rH3/O4s1WpQjlhzaKCs+pJKF3Ok6ul5ToJn9JOgOz3+dTnZZkV
+	73MIgCCphoduoma/OLwXX0H4Y4fuek34kdnmTLq07HCgmA7fmm0dM6arMyVbIrc5/SFf8cZ+7cx
+	OIR2xKzxdyS4hZqMxD47IsPf9t9h3R0UjD4ms+8kr9799PQdVc7Nb5KJQZvfALuSew7IP0CJvs/
+	I4Htsjbc+SN1Hkg9itvtPPir9AhdV7NZwFY7JmY3uX053aI3n3nsfQ4OWZENZkLalIAI9w4naYJ
+	EsenPBYNBybPIsWk7hVwBt79w4Bd4nboet+sBGYPUOqiTFzH2+oLPNlFurYNy4fndfhl1SpdQ3Z
+	56MUOnMizzZdaJyKZy4/OxepK/eZovu8aFzHFzgXZxP3nKVPlpR0VVGVS+DLyTk++b/JMVAuzX9
+	DU9uD/1OtIMxekmAjVfQ5MohS9uAo0pjEL1NKtwQWxAADIqRz4EFm3wlfy3dvcsB2zT/rd1pibq
+	trIFnyk2HeKM97AeQ==
+X-Received: by 2002:a05:7301:9f0c:b0:2b8:4c95:365d with SMTP id 5a478bee46e88-2c1095f54afmr757541eec.10.1773969902833;
+        Thu, 19 Mar 2026 18:25:02 -0700 (PDT)
+Received: from localhost (c-76-102-12-149.hsd1.ca.comcast.net. [76.102.12.149])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c10b35116bsm1575407eec.30.2026.03.19.18.25.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Mar 2026 17:06:37 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 7C249420BAC8; Fri, 20 Mar 2026 07:06:34 +0700 (WIB)
-Date: Fri, 20 Mar 2026 07:06:34 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Kevin Brodsky <kevin.brodsky@arm.com>, linux-doc@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: Invalid link generation for equations
-Message-ID: <abyPiqMmw4BbB6eq@archie.me>
-References: <9b320e77-9acf-4f0d-8c52-6e1fc3a8cf53@arm.com>
+        Thu, 19 Mar 2026 18:25:02 -0700 (PDT)
+From: Stanislav Fomichev <sdf@fomichev.me>
+To: netdev@vger.kernel.org
+Cc: davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	andrew+netdev@lunn.ch,
+	michael.chan@broadcom.com,
+	pavan.chebbi@broadcom.com,
+	anthony.l.nguyen@intel.com,
+	przemyslaw.kitszel@intel.com,
+	saeedm@nvidia.com,
+	tariqt@nvidia.com,
+	mbloch@nvidia.com,
+	alexanderduyck@fb.com,
+	kernel-team@meta.com,
+	johannes@sipsolutions.net,
+	sd@queasysnail.net,
+	jianbol@nvidia.com,
+	dtatulea@nvidia.com,
+	sdf@fomichev.me,
+	mohsin.bashr@gmail.com,
+	jacob.e.keller@intel.com,
+	willemb@google.com,
+	skhawaja@google.com,
+	bestswngs@gmail.com,
+	aleksandr.loktionov@intel.com,
+	kees@kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	intel-wired-lan@lists.osuosl.org,
+	linux-rdma@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	leon@kernel.org
+Subject: [PATCH net-next v3 00/13] net: sleepable ndo_set_rx_mode
+Date: Thu, 19 Mar 2026 18:24:48 -0700
+Message-ID: <20260320012501.2033548-1-sdf@fomichev.me>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="1MQiTQnGEmAcnTfI"
-Content-Disposition: inline
-In-Reply-To: <9b320e77-9acf-4f0d-8c52-6e1fc3a8cf53@arm.com>
+Content-Transfer-Encoding: 8bit
 
+This series adds a new ndo_set_rx_mode_async callback that enables
+drivers to handle address list updates in a sleepable context. The
+current ndo_set_rx_mode is called under the netif_addr_lock spinlock
+with BHs disabled, which prevents drivers from sleeping. This is
+problematic for ops-locked drivers that need to sleep.
 
---1MQiTQnGEmAcnTfI
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The approach:
+1. Add snapshot/reconcile infrastructure for address lists
+2. Introduce dev_rx_mode_work that takes snapshots under the lock,
+   drops the lock, calls the driver, then reconciles changes back
+3. Move promiscuity handling into the scheduled work as well
+4. Convert existing ops-locked drivers to ndo_set_rx_mode_async
+5. Add a warning for ops-locked drivers still using ndo_set_rx_mode
+6. Add a selftest exercising the team+bridge+macvlan topology that
+   triggers the addr_lock -> ops_lock ordering issue
 
-On Wed, Mar 18, 2026 at 01:56:24PM +0100, Kevin Brodsky wrote:
-> Hi,
->=20
-> I have noticed that links to equation images are not generated correctly
-> on docs.kernel.org. For instance, Documentation/mm/memory-model.rst has:
->=20
-> =C2=A0 =C2=A0 .. math::
-> =C2=A0 =C2=A0=C2=A0
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0NR\_MEM\_SECTIONS =3D 2 ^ {(MAX\_PHYSMEM\_BITS=
- - SECTION\_SIZE\_BITS)}
+v3:
+- module_export(__rtnl_unlock) (nipa)
+- s/netdev_uc_count/netdev_hw_addr_list_count/ in bnxt (Aleksandr)
 
-I think we can just get rid of the math markup, no?
+v2:
+- wifi: cfg80211: use __rtnl_unlock in nl80211_pre_doit (syzbot)
+- simplify mlx5e_sync_netdev_addr for !uc (Cosmin)
+- switch to snapshot in bnxt_cfg_rx_mode (Michael)
+- add team to net/config (Jakub)
 
---=20
-An old man doll... just what I always wanted! - Clara
+Stanislav Fomichev (13):
+  net: add address list snapshot and reconciliation infrastructure
+  wifi: cfg80211: use __rtnl_unlock in nl80211_pre_doit
+  net: introduce ndo_set_rx_mode_async and dev_rx_mode_work
+  net: move promiscuity handling into dev_rx_mode_work
+  fbnic: convert to ndo_set_rx_mode_async
+  mlx5: convert to ndo_set_rx_mode_async
+  bnxt: convert to ndo_set_rx_mode_async
+  bnxt: use snapshot in bnxt_cfg_rx_mode
+  iavf: convert to ndo_set_rx_mode_async
+  netdevsim: convert to ndo_set_rx_mode_async
+  dummy: convert to ndo_set_rx_mode_async
+  net: warn ops-locked drivers still using ndo_set_rx_mode
+  selftests: net: add team_bridge_macvlan rx_mode test
 
---1MQiTQnGEmAcnTfI
-Content-Type: application/pgp-signature; name=signature.asc
+ Documentation/networking/netdevices.rst       |  12 +
+ drivers/net/dummy.c                           |   6 +-
+ drivers/net/ethernet/broadcom/bnxt/bnxt.c     |  55 +--
+ drivers/net/ethernet/intel/iavf/iavf_main.c   |  14 +-
+ .../net/ethernet/mellanox/mlx5/core/en/fs.h   |   5 +-
+ .../net/ethernet/mellanox/mlx5/core/en_fs.c   |  30 +-
+ .../net/ethernet/mellanox/mlx5/core/en_main.c |  16 +-
+ .../net/ethernet/meta/fbnic/fbnic_netdev.c    |  20 +-
+ .../net/ethernet/meta/fbnic/fbnic_netdev.h    |   4 +-
+ drivers/net/ethernet/meta/fbnic/fbnic_pci.c   |   4 +-
+ drivers/net/ethernet/meta/fbnic/fbnic_rpc.c   |   2 +-
+ drivers/net/netdevsim/netdev.c                |   8 +-
+ include/linux/netdevice.h                     |  26 ++
+ net/core/dev.c                                | 176 ++++++++--
+ net/core/dev.h                                |   1 +
+ net/core/dev_addr_lists.c                     | 110 +++++-
+ net/core/dev_addr_lists_test.c                | 321 +++++++++++++++++-
+ net/core/rtnetlink.c                          |   1 +
+ net/wireless/core.c                           |   1 +
+ net/wireless/nl80211.c                        |   2 +-
+ tools/testing/selftests/net/config            |   1 +
+ tools/testing/selftests/net/rtnetlink.sh      |  44 +++
+ 22 files changed, 765 insertions(+), 94 deletions(-)
 
------BEGIN PGP SIGNATURE-----
+-- 
+2.53.0
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCabyPhgAKCRD2uYlJVVFO
-o2c5AP4vnbdQq0PlIl7wBofiCS9+Eq0Smfur3EFIktC0eg98egD/Q1bbUCJUTtQO
-bCN5+5gF0FYkZnB3b9QfzTGAst4/vQY=
-=Vxa5
------END PGP SIGNATURE-----
-
---1MQiTQnGEmAcnTfI--
