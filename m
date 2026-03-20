@@ -1,47 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F0A736074D;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F1303612D5;
 	Fri, 20 Mar 2026 09:46:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774000006; cv=none; b=pRaOcZTQid0G6P91zl0JGYjDtq/Q7uxypzQ013f5n3vuIrLogELboZtrzJWjXv2gljDO+iWp6MXy2Pg1eK4nZ7nbdItUxovMOpiONIfW1SLQWJa/5T7mtN6sOyFe8iFfrtViv9eRbmmMlPdbP6GJWedCHMP8GCuXsHk8sR2CMDU=
+	t=1774000006; cv=none; b=KDsly9dBQSWROkvSiLvUGRPwl3X0AXA7Jf8Pc0ng2GPLIMNd6CWtqLYUzMfvyqzSrsupA8O2NBk+1UZNll4x11IXq+3Fc9wKa4HEfRp6nQQ0GveDA41dXea4tvoUCIGG+7PgbDiEehzABiAB061QVnBK2wuAN8c8wgKXmHrq2M0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1774000006; c=relaxed/simple;
-	bh=amOEbNCdxScY/BrrxmdqbgqqhNfYJZMIZiArzjmasRg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mgFeLKwAYYYBWCSVzpuGdQ4MrgRHpEaS/Kl+fOEHqMdI+SZQtG+gu+WdTBnipRquTJj6u4Re3eSousyeKGzNxIdS6n3SnJbJ3pnK0iWR5z4fPjflU+4cTRW55eigRStsacR0vvsyGrVQoUFb7KY/H3izkUlPd9B2tlUJBeOoMYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JUXnj1KH; arc=none smtp.client-ip=10.30.226.201
+	bh=id/+5FUwK/r9ct8wEGezIJo8TSE3/b0kuKkYVTMUuak=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=gi/2ZNJYh5d9LNLqFzfncLtc8r6OvTtWMSdYr3zUqktp54cyU1DHuBC2W3EYCJd9uu5CYHAVq+xIUp7b+zlxTSuMqbt5gKOXvpfqUXIDD2DDwPOJHYqwzIv4pN93LFOEZob0f8CYL1a3eyJKmSKwcbbnaI8TuMB1ih/WVtvUVn0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tvkovupo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JUXnj1KH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E17F6C4CEF7;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tvkovupo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4185C2BCAF;
 	Fri, 20 Mar 2026 09:46:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1774000005;
-	bh=amOEbNCdxScY/BrrxmdqbgqqhNfYJZMIZiArzjmasRg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=JUXnj1KHzN8u2IVYJIL8rwLY/7CQ/PnSU6dPJSbtb0eYQoKmGiOGPXbjQiC841054
-	 wT6OYzBrzR82xx5LAxPGTy9poPVFm2JoWDEChoVgK+WquBhovVhCquhMO0DQAhH7pj
-	 vFxLNpfXX/hyawtmRFbdF0exg2RVkhYMfqnxHNTF2uk1XhF02bMpQIGYUo3PThMxTH
-	 QF2ZOxTzPtrepSvsfI0pns8yPa4b/eWBCeBxw94Euujab/F2QE3x6efI1uS5VZ4AyA
-	 j10wLwsdcLCI4r0VS6QFyfgUf+mKkyqb+mVhfsS2gNrY7uzUqR0Bm1ipBgVMpKMUkI
-	 6kqmQCAnNelvA==
+	bh=id/+5FUwK/r9ct8wEGezIJo8TSE3/b0kuKkYVTMUuak=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Tvkovuponuqmt3vC4RfJRWeXFUld2XYSWOuapfRu1ey0YNkP5Xc6liNjFcWu9abs3
+	 TXwSgFNJ/kRYi24aT7eg2DAo+wVAT8j4iXVykKnChYQJPMZVsuFehWxg4b769VizBe
+	 82zbRAyNZ+Ui2f3ZHN7GyOBPmHHXgm65OGIWIt1IBMMRjVtXLB4JvzhliVuhnOelmi
+	 bk/g29g2Hff6cFaBO/u6B9DX665DCgsACT+VLQrutaPYF3GEvNdQBhf7yw3Nohma6b
+	 nUAddTWG3upiJhybllRZYWTMnQCvzRjKmt8WVPyz3XGdWV10IdyEVjld9FmNejAPmS
+	 IC/C780EwhSUA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1w3WRH-0000000Cbv8-3VfL;
+	id 1w3WRH-0000000Cbv5-3OLV;
 	Fri, 20 Mar 2026 10:46:43 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>
+To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH RFC 1/2] docs: kdoc: add a class to parse data items
-Date: Fri, 20 Mar 2026 10:46:40 +0100
-Message-ID: <202163ad179e3a88b0a2c32e0bbb256a4d7cee8f.1773998596.git.mchehab+huawei@kernel.org>
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH RFC 0/2] kernel-doc: better handle data prototypes
+Date: Fri, 20 Mar 2026 10:46:39 +0100
+Message-ID: <cover.1773998596.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <cover.1773998596.git.mchehab+huawei@kernel.org>
-References: <cover.1773998596.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,234 +49,87 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Instead of using very complex regular expressions and hamming
-inner structs/unions, use CTokenizer to handle data types.
+Hi Jon,
 
-It should be noticed that this doesn't handle "typedef".
+Don't merge this series. It is just a heads on about what I'm
+working right now.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
+This is basically a proof of concept, not yet integrated with
+kernel-doc. It helps to show that investing on a tokenizer
+was a good idea.
+
+I'm still testing the code.
+
+Right now, kernel-doc logic to handle data types is very
+complex, and the code is split into dump_<type> functions, which
+in turn calls several ancillary routines. The most complex ones
+are related to handling struct, with involves converting inner
+struct/unions into members of the main struct.
+
+By using this new code, all elements from most data types can
+be parsed with a single code.
+
+Please notice that the code was designed to pick a single
+declaration, as this is how kdoc_parser will use it.
+If you try to parse multiple ones, the output won't be right,
+as it will pick the first declaration name and create a single
+item with all data declarations on it.
+
+As it is not based on regexes, it can properly handle some
+problematic cases, like having:
+
+    {};
+
+and:
+    ;;;;;
+
+in the middle of a struct/union.
+
+For enums, if one has values inside the declaration, like:
+
+    enum { FOO, BAR } type;
+
+It picks the right data type. Kernel-doc maps this currently as:
+    enum type
+
+My plan is to integrate it at Kernel-doc and see how it goes.
+It will likely rise some corner cases, but, once we get it right,
+this will likely reduce the size and complexity of kdoc_parser.
+
+If you want to test, you can use:
+
+    ./parse_c.py
+
+to use an example hardcoded on it, or it reads from a fname with:
+
+    $ ./parse_c.py x.h
+    CDataItem(decl_type=None, decl_name=None, parameterlist=['u16_data'], parametertypes={'u16_data': 'u16 u16_data[sizeof(u64) / sizeof(u16)]'})
+    None None
+
+    parameterlist:
+      - u16_data
+
+    parametertypes:
+      - u16_data: u16 u16_data[sizeof(u64) / sizeof(u16)]
+
+   (on this example, x.h has just:
+    u16 u16_data[sizeof(u64) / sizeof(u16)];
+   )
+
+The logic stores decl_type and decl_name when the data is
+struct/union/enum. If the data is just a declaration, it fills
+only one element at parameterlist and at parametertypes.
+
+Mauro Carvalho Chehab (2):
+  docs: kdoc: add a class to parse data items
+  HACK: add a parse_c.py file to test CDataParser
+
+ parse_c.py                           |  87 +++++++++++
  tools/lib/python/kdoc/data_parser.py | 211 +++++++++++++++++++++++++++
- 1 file changed, 211 insertions(+)
+ 2 files changed, 298 insertions(+)
+ create mode 100755 parse_c.py
  create mode 100644 tools/lib/python/kdoc/data_parser.py
 
-diff --git a/tools/lib/python/kdoc/data_parser.py b/tools/lib/python/kdoc/data_parser.py
-new file mode 100644
-index 000000000000..f04915b67d6b
---- /dev/null
-+++ b/tools/lib/python/kdoc/data_parser.py
-@@ -0,0 +1,211 @@
-+#!/usr/bin/env python3
-+# SPDX-License-Identifier: GPL-2.0
-+# Copyright(c) 2025: Mauro Carvalho Chehab <mchehab@kernel.org>.
-+
-+"""
-+C lexical parser for variables.
-+"""
-+
-+import logging
-+import re
-+
-+from .c_lex import CTokenizer, CToken
-+
-+class CDataItem:
-+    """
-+    Represent a data declaration.
-+    """
-+    def __init__(self):
-+        self.decl_name = None
-+        self.decl_type = None
-+        self.parameterlist = []
-+        self.parametertypes = {}
-+
-+    def __repr__(self) -> str:
-+        """
-+        Return contents of the CDataItem.
-+        Useful for debugging purposes.
-+        """
-+        return (f"CDataItem(decl_type={self.decl_type!r}, "
-+                f"decl_name={self.decl_name!r}, "
-+                f"parameterlist={self.parameterlist!r}, "
-+                f"parametertypes={self.parametertypes!r})")
-+
-+class CDataParser:
-+    """
-+    Handles a C data prototype, converting it into a data element
-+    describing it.
-+    """
-+
-+    IGNORE_TOKENS = [CToken.SPACE, CToken.COMMENT]
-+
-+    def __init__(self, source):
-+        self.source = source
-+        self.item = CDataItem()
-+
-+        self._parse()
-+
-+    def _push_struct(self, tokens, stack, prev_kind, i):
-+        """
-+        Handles Structs and enums, picking the identifier just after
-+        ``struct`` or ``union``.
-+        """
-+
-+        if prev_kind:
-+            j = prev_kind + 1
-+            while j < len(tokens) and tokens[j].kind in self.IGNORE_TOKENS:
-+                j += 1
-+
-+            if j < len(tokens) and tokens[j].kind == CToken.NAME:
-+                stack.append(tokens[j].value)
-+                return
-+
-+            name = "{unnamed " + tokens[prev_kind].value + "}"
-+            stack.append(name)
-+            self.item.parameterlist.append(name)
-+            return
-+
-+        #
-+        # Empty block. We still need to append for stack levels to match
-+        #
-+        stack.append(None)
-+
-+    def _parse(self):
-+        """
-+        Core algorithm  it is a lightweight rewrite of the
-+        walk-the-tokens logic we sketched in the previous answer.
-+        """
-+        tokens = CTokenizer(self.source).tokens
-+
-+        stack= []
-+        current_type = []
-+        parameters = []
-+        types = {}
-+
-+        prev_kind = None
-+        get_id = False
-+        level = 0
-+
-+        for i in range(0, len(tokens)):
-+            tok = tokens[i]
-+            if tok.kind == CToken.COMMENT:
-+                continue
-+
-+            if tok.kind in [CToken.STRUCT, CToken.UNION, CToken.ENUM]:
-+                prev_kind = i
-+
-+            if tok.kind == CToken.BEGIN:
-+                if tok.value == "{":
-+                    if (prev_kind and
-+                        tokens[prev_kind].kind in [CToken.STRUCT, CToken.UNION]):
-+
-+                        self._push_struct(tokens, stack, prev_kind, i)
-+                        if not self.item.decl_name:
-+                            self.item.decl_name = stack[0]
-+                    else:
-+                        stack.append(None)
-+
-+                        #
-+                        # Add previous tokens
-+                        #
-+                        if prev_kind:
-+                            get_id = True
-+
-+                    if not self.item.decl_type:
-+                        self.item.decl_type = tokens[prev_kind].value
-+
-+                    current_type = []
-+
-+                    continue
-+
-+                level += 1
-+
-+            if tok.kind == CToken.END:
-+                if tok.value == "}":
-+                    if stack:
-+                        stack.pop()
-+
-+                    if get_id and prev_kind:
-+                        current_type = []
-+                        for j in range(prev_kind, i + 1):
-+                            current_type.append((level, tokens[j]))
-+                            if tok.kind == CToken.BEGIN:
-+                                break
-+
-+                        while j < len(tokens):
-+                            if tokens[j].kind not in self.IGNORE_TOKENS:
-+                                break
-+                            j += 1
-+
-+                        name = None
-+
-+                        if tokens[j].kind == CToken.NAME:
-+                            name = tokens[j].value
-+
-+                        if not self.item.decl_type and len(stack) ==  1:
-+                            self.item.decl_name = stack[0]
-+
-+                            self.item.parameterlist.append(name)
-+                            current_type.append((level, tok))
-+
-+                    get_id = False
-+                    prev_kind = None
-+                    continue
-+
-+                level -= 1
-+
-+            if tok.kind != CToken.ENDSTMT:
-+                current_type.append((level, tok))
-+                continue
-+
-+            #
-+            # End of an statement. Parse it if tokens are present
-+            #
-+
-+            if not current_type:
-+                current_type = []
-+                continue
-+
-+            #
-+            # the last NAME token with level 0 is the field name
-+            #
-+            name_token = None
-+            for pos, t in enumerate(reversed(current_type)):
-+                cur_level, cur_tok = t
-+                if not cur_level and cur_tok.kind == CToken.NAME:
-+                    name_token = cur_tok. value
-+                    break
-+
-+            #
-+            # TODO: we should likely emit a Warning here
-+            #
-+
-+            if not name_token:
-+                current_type = []
-+                continue
-+
-+            #
-+            # As we used reversed, we need to adjust pos here
-+            #
-+            pos = len(current_type) - pos - 1
-+
-+            #
-+            # For the type, pick everything but the name
-+            #
-+
-+            out = ""
-+            for l, t in current_type:
-+                out += t.value
-+
-+            names = []
-+            for n in stack[1:] + [name_token]:
-+                if n:
-+                    if not "{unnamed" in n:
-+                        names.append(n)
-+
-+            full_name = ".".join(names)
-+
-+            self.item.parameterlist.append(full_name)
-+            self.item.parametertypes[full_name] = out.strip()
-+
-+            current_type = []
 -- 
 2.53.0
 
