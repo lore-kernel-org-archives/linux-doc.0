@@ -1,71 +1,75 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E40E2C11E4
-	for <linux-doc@vger.kernel.org>; Fri, 20 Mar 2026 05:24:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11E0840DFC6
+	for <linux-doc@vger.kernel.org>; Fri, 20 Mar 2026 05:37:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773984277; cv=none; b=ZtMGEqBLopjfAXdIE+pSyy8ncLHBPNTguagHXmijFXvhgURSRXOlrRn8Miy24obbfjrh4fpIJNnp4omU19anlPak0WwcTc0dTw3tQkH7YQhyFgYJw8aKTrAdc5uwGhwDDGdttPHMVNiYgdrJjG7qFxfoAZA9w831wf3jel5tLaA=
+	t=1773985055; cv=none; b=Wn5OFr5MPGNKytBD/9YBf2kgJiFTb6bzFjJ/2CBFlQHrE2D8KbnKZUKw1QAqdQDfhXg7CGFXmiUgdXQU2oS87cNMsMaVBwancl66Z3wrdbwjuf/hOPuTzXHkntzYklwLXE6u9PeRGndXz9PqP3sPSBVfyMn6g4SBKyVV+InDrdg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773984277; c=relaxed/simple;
-	bh=XTy61AdYWWJdbL/8/InZlSZnoZsdovmZHMW+Vr904Gk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JPY8W8tO/1EP+4zM0rEEqoNCJ4vcomDoFR6g+A6oSOtoeEENUqKqAHDU/oMg/Qu3/M7IDe6gNgWiqkg0RcVka928yMUZY7m+v0iMgg0c7HkwWMjBE7baR8myO9t6+dZRA0G172ybcSAI2udGvE39Bx6kulZRkiEG7bE8PFjKR64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UMUSji1B; arc=none smtp.client-ip=209.85.214.177
+	s=arc-20240116; t=1773985055; c=relaxed/simple;
+	bh=t7AUkyahrA7jetaNYrGD367jzrlPTnRWAlYOYrOS3To=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=UaNTPK9X8b6OtMH5+yxp4Q59oeJcQXTvL934IFwuI3v47Qp5bDfNdfFll0yy1pkL6r95TPb/Mevun9egAV5yE0Xc06tMVgkOp88D6BrYWrOWb0Get+TiRXjVUevcNqkWtrUMQYtX+IV2cKJIcyVJjZ6z+emFf/97mulUyp4yElo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bkgkja1J; arc=none smtp.client-ip=209.85.216.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UMUSji1B"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2ad9a9be502so1514365ad.0
-        for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 22:24:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bkgkja1J"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-354a18c48b5so1187439a91.1
+        for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 22:37:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773984276; x=1774589076; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dMXG2iiWDtSJZMsB11hiOBrR4Hw4ibVnoY6QikWleZY=;
-        b=UMUSji1BQMVVubowB4AzwzUJt7uMIrK/84bBs2ToHuPb0OPxn/7yxHYlooOKo5osQ7
-         /O1zsjNM01MKYu3yV0KD9fkgCFWI+9JJDeF3dhw9QDMB6sTF/tdIJCQnEcQMH50uO0kM
-         4X2Taq+7QFFvVUchYfuvO+C1p9mvKYC2C13ywJa7PNC/1fippimflej01zHDBu6g1BrR
-         UPYDK5zc/3r+Gi/aNgquRh22NGQgBls3PUoHsZsWR+uIeLJ7okOxr4Pgnzt+XEJzeC4F
-         TfPCjcW1PxyUxHMo4ZZtiEGS2ZCbIp3Hf1ORbuIwNkljn9GRDYQFEJMrICrlqoWr9OLe
-         ZMrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773984276; x=1774589076;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1773985053; x=1774589853; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dMXG2iiWDtSJZMsB11hiOBrR4Hw4ibVnoY6QikWleZY=;
-        b=daBNVxWlxpg7oFRK6OhW5NYs7tkUnYckkJ/FRJWm1Q4TJaEptjB2zrwTm94GqyJjKh
-         1R/r+aAMf/Vr10MM97fp/QSHaK8gFPmGWV8amxKpTBFAAWKgp7KcEhag5/kEJvh8tDBN
-         fg2vbScsXTQ1ELzIUFuXLHiwTE4E9e8IHyzXAZvwiqKFB0POvOYj0oNaIXMdLEhe5jsq
-         usbBLIQZ0I4N82SSAsuFgHqhMUFMvy22X462Et7X3g15qL1mcdVR08Hv3bGn2v1izvFv
-         VdcYQ1w7UjDhuLmgT5YS3uOSSdtJScVbRYdK6dyG9TfhBEBCe6hJLJbE8cjpOl0B0Gl3
-         lFFA==
-X-Forwarded-Encrypted: i=1; AJvYcCVn6nNMly6qVThGo3Jx3Ru2R62Zt4wBvw0AN5ZLxsXuiSs6dMpKICyoAI1h1l5snKR7iXm8jPy9f9c=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx77vXjoXfYrzEFlHMEK0Uz7B4B5A5Hw7eiuDs2rzJsBFADU09Q
-	KjKR89Z1STzs+ny/Z/IZJKmXlg1PBTFcnet1mQG17Wv5M5Dok1wkj8l0
-X-Gm-Gg: ATEYQzzZBsXTol7fgous3+QmqUp6rdOKdy66ksWOM0/NtUysRtGsE9SMYzc7SgtZAFO
-	TaWoiTaVr3mULqSJQ7Hpk1c6IwGbWfNJg6Q+QMTAxb8GGlj1tJvCOMDKdYTR4zlO7Q/IUvvomnH
-	nE3C3r3/Hl2Gwm84aFAkotzqURSp9slfnbp30rxAMCK7SiAxeF8wTqkZYnSI9Kp18txBVJdAOP8
-	GY8GG5Qv9CtF0H/P79e+6e9xvydZkqT+Qfx7dATZr6wd26FP+6GaNS4X9ym+CAWsms4uKf9myOX
-	qVfQnKDXsCdKwe81mcuM58jgrSXcZZY+5MAurWSn1bVTaB58ku6SbDNYK9FKv/UOdmnrobQyJUR
-	6naEX5rG2sknfEgK8UDBa7sk7hTAGD3/kMJOOmQcVM0AuP46Qealy4waB9xF2hhPAd4ZWNEcoh8
-	WJpAP3qTotHWZWQL0lMnWPHJMAGGk95HwClAI3WpTfqwfCSmNL8Ok=
-X-Received: by 2002:a17:903:191:b0:2ae:8272:deb0 with SMTP id d9443c01a7336-2b0826feb3dmr17511375ad.15.1773984275780;
-        Thu, 19 Mar 2026 22:24:35 -0700 (PDT)
+        bh=t7AUkyahrA7jetaNYrGD367jzrlPTnRWAlYOYrOS3To=;
+        b=Bkgkja1JkGg4Uz5rSH5OcEJ1jqgHDLY7epOedCplYNx8UAxg0z/Txis7awIJ9057iY
+         Z7/uFGNz0JBrZp571g5hcTI2O/0N0ZbuzuEv6dH8dIMzlTcMzHy3o++C3xT2VAY+x1yK
+         9dbiHU8/VkyNx/X1t4HBFnQsZLiVE14ZmETgajn6ZugVfae8odKkSKxX8GY+dP5jM439
+         a5dzuWCRvL57o7j0dh83o7DrKMSzisYNJQrVc2LR6HSmtkkKDWhnsSBBKuphAiFAx7dZ
+         DpRmhgviJGNjGoeEnDXwP50n/+4vUljII/6amyWHOanqC8MLvs26u6abh2liIudaruP3
+         EYUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1773985053; x=1774589853;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=t7AUkyahrA7jetaNYrGD367jzrlPTnRWAlYOYrOS3To=;
+        b=himtzKn1PLC+g4QmX/JXQBnf07EvwdvEPzfEMz1Jjti+0uuPTVajsA+nbt05JszEfZ
+         IjkF+H5kzfBEBxH/1LHdHcdTrsTwSZctedw9sfZ3ZU3Gy7Ghxjo6FG1W5SWsyMm5zaZs
+         u/TygJIKBuP2t2T05rwcuUG+zGaWC8NSN5AqrAPOjzQ8TBUrtg2pn5cZroDjEECZmkht
+         ePexn5aBNM/KmZSwuEEm+uWze9B5zOUCb+dOVtZy1oBGLI2QYPdZFRNJgagW0seBLsDY
+         4rzd6T5QVjFlXII05/9hWjJ/92omyJnBnFhHwGXRaPfbBXQH44AxB1tgDk6KPdwVJZpQ
+         8l5A==
+X-Forwarded-Encrypted: i=1; AJvYcCU973/Zr78OkQGJ8SP2R/V6fOmGdjTiD8A6SIY9Kzm7Q4M04IJLV5Wt9m7gRJnN7LkFkS8AMEbB9J8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw0yvB5OQGWb5L4Z6ZSX3ApaNlbi3cZJo+lKhQJZQkfOM1RkksQ
+	yAxc5sgdcup8WBDvDr6glxP/FbvY9h4uKJD3OzRVsAtpS0wTg0z14+UV
+X-Gm-Gg: ATEYQzwPphAmPpS2f67IXaV5qTTLi5xDZE+ujkbTYQa55C7ALk/kqpIqzPm4iNqkYmZ
+	tYpJdPY7pY0THa274myMfXeAIotDF4baH8TneI9MAh2xxy6Ml0gkYQGsKs/p1yiiKwIA/qVxGnf
+	1dLI7O4tBjKWcDb0tD7u/ZuBuTL8z7RzujHpL+E2hBPEtB6kDqBuwZ95q5u7xG5Y/rH/t5JFzC/
+	4gt9EcfqGjamlwHbkJZhhQWCRzRLVq5XTU6cb1yORQ2dRCdN0kNuSG1r2Opb8cXI5Nf/qj7vjBS
+	Hzx31966xJ3UXgGFgZFfeLwSx+S3rc63sGYuGZ3tM8dSVYIHzBHAciM+q9//i9Axa5OZ/D3ifpQ
+	tytFpyfRXbxXJlQhuSTJOdtZo0H0IaLhugmECudnofN9wIjHCg/NAmXAL/RoPsvlzBIdZS9SBqa
+	r95MIdDeNey8/cWIwbS12W+b2UaNCvV0d0Lmw7ltIQhsNDZXye7k1guy4ObynXMA==
+X-Received: by 2002:a17:902:e850:b0:2b0:58a8:5f9b with SMTP id d9443c01a7336-2b0827de53fmr18104835ad.49.1773985053460;
+        Thu, 19 Mar 2026 22:37:33 -0700 (PDT)
 Received: from celestia.taila51cc2.ts.net ([2402:1980:898b:301c:d085:a35:99e7:ffec])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b08352ae70sm10024185ad.23.2026.03.19.22.24.32
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b08354bcf0sm10226655ad.33.2026.03.19.22.37.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Mar 2026 22:24:35 -0700 (PDT)
+        Thu, 19 Mar 2026 22:37:33 -0700 (PDT)
 From: Liew Rui Yan <aethernet65535@gmail.com>
 To: sj@kernel.org
-Cc: linux-mm@kvack.org,
+Cc: aethernet65535@gmail.com,
 	damon@lists.linux.dev,
 	linux-doc@vger.kernel.org,
-	Liew Rui Yan <aethernet65535@gmail.com>
-Subject: [PATCH] Docs/mm/damon: document min_nr_regions constraint and rationale
-Date: Fri, 20 Mar 2026 13:24:28 +0800
-Message-ID: <20260320052428.213230-1-aethernet65535@gmail.com>
+	linux-mm@kvack.org
+Subject: Re: [PATCH] Docs/mm/damon: document min_nr_regions constraint and rationale
+Date: Fri, 20 Mar 2026 13:37:28 +0800
+Message-ID: <20260320053728.213664-1-aethernet65535@gmail.com>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260320052428.213230-1-aethernet65535@gmail.com>
+References: <20260320052428.213230-1-aethernet65535@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -86,68 +90,9 @@ to accommodate two large unmapped areas. While this is specific to
 consistency.
 
 Also update reclaim.rst and lru_sort.rst by adding cross-references to
-this constraint within their respective 'min_nr_regions' parameter
-description sections, ensuring users are aware of the lower bound.
+this constraint at the end of their respective parameter description or
+usage sections, ensuring users are aware of the lower bound.
 
 This change is motivated from a recent discussion [1].
 
 [1] https://lore.kernel.org/damon/20260319151528.86490-1-sj@kernel.org/T/#t
-
-Signed-off-by: Liew Rui Yan <aethernet65535@gmail.com>
----
- Documentation/admin-guide/mm/damon/lru_sort.rst | 4 ++++
- Documentation/admin-guide/mm/damon/reclaim.rst  | 4 ++++
- Documentation/mm/damon/design.rst               | 7 +++++++
- 3 files changed, 15 insertions(+)
-
-diff --git a/Documentation/admin-guide/mm/damon/lru_sort.rst b/Documentation/admin-guide/mm/damon/lru_sort.rst
-index 20a8378d5a94..3d08baf9802c 100644
---- a/Documentation/admin-guide/mm/damon/lru_sort.rst
-+++ b/Documentation/admin-guide/mm/damon/lru_sort.rst
-@@ -221,6 +221,10 @@ But, setting this too high could result in increased monitoring overhead.
- Please refer to the DAMON documentation (:doc:`usage`) for more detail.  10 by
- default.
- 
-+Note that this must be 3 or higher. Please refer to the :ref:`Monitoring
-+<damon_design_monitoring>` section of the design document for the rationale
-+behind this lower bound.
-+
- max_nr_regions
- --------------
- 
-diff --git a/Documentation/admin-guide/mm/damon/reclaim.rst b/Documentation/admin-guide/mm/damon/reclaim.rst
-index 8eba3da8dcee..153bf42645dd 100644
---- a/Documentation/admin-guide/mm/damon/reclaim.rst
-+++ b/Documentation/admin-guide/mm/damon/reclaim.rst
-@@ -204,6 +204,10 @@ monitoring.  This can be used to set lower-bound of the monitoring quality.
- But, setting this too high could result in increased monitoring overhead.
- Please refer to the DAMON documentation (:doc:`usage`) for more detail.
- 
-+Note that this must be 3 or higher. Please refer to the :ref:`Monitoring
-+<damon_design_monitoring>` section of the design document for the rationale
-+behind this lower bound.
-+
- max_nr_regions
- --------------
- 
-diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
-index dd64f5d7f319..68a25e07203c 100644
---- a/Documentation/mm/damon/design.rst
-+++ b/Documentation/mm/damon/design.rst
-@@ -165,6 +165,13 @@ monitoring attributes, ``sampling interval``, ``aggregation interval``,
- ``update interval``, ``minimum number of regions``, and ``maximum number of
- regions``.
- 
-+Note that ``minimum number of regions`` must be 3 or higher. This is because the
-+virtual address space monitoring is designed to handle at least three regions to
-+accommodate two large unmapped areas commonly found in normal virtual address
-+spaces. While this restriction might not be strictly necessary for other
-+operation sets like ``paddr``, it is currently enforced across all DAMON
-+operations for consistency.
-+
- To know how user-space can set the attributes via :ref:`DAMON sysfs interface
- <sysfs_interface>`, refer to :ref:`monitoring_attrs <sysfs_monitoring_attrs>`
- part of the documentation.
--- 
-2.53.0
-
