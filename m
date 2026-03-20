@@ -1,136 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A24A3D3319;
-	Fri, 20 Mar 2026 16:28:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA84C282F32;
+	Fri, 20 Mar 2026 16:58:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774024104; cv=none; b=DcmzSRuO1jqXON2sHzhdbbPSdyLdAaUarizJmKRStiHg2TxUDZ3Cbi0ERUIXgeEQotgnlYqaGy1VhFmJ1Dg75c7KI07CYuzSeCE8hnMxGz4gW6E+jUZkP5zNgkwEsZn9Peu27SoOkpGC+lFttvPgIPbxjb3egH5q0flJOOg1n4w=
+	t=1774025934; cv=none; b=mThafek9IxHqIOAvKOilYjPovNUGqRtjVku6JHTyTTt4wnTzs5gWifWcVtec/IqksHlzZJmgd3jJHo3MgmpWoiO3kMYL/rAxstBuBJEVxk9GTdUcgGsafnFGtoZXjeIp6k4u7qYHL/Z2s7zm3UFE/LK0poD/x/Y+tOBbuV7LqDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774024104; c=relaxed/simple;
-	bh=b66Tl5kZoqYvPt0EneArcC4td5ZO+VTiTMrGRP4Ocis=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=dNDokNiq0WmXRSV300oJ/0prjZ4MjI3mJkQKLr+a3P82FZ8XFZ/UX8xX6eTgA+jaU9V4O1T3LZnACEi0RCzXcQ3h/2GmkXVT9hwKBETHJy3YGjguuucMCWySjOk/GnyhZ+tEvQd4pCwODT7MIibnLonBcPqx51K2ld4jlwQCvX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BJXf5Zeu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774025934; c=relaxed/simple;
+	bh=qk4VTItA9agI286S1iP+qevIWA8krtccqNwzrRb/aBc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XxSeBYnHs9La7qvLESOuy+dS9xQm4uwPoe8U5JdrhRCeEOf9tZ+VoTl7wCxaWUjCXR8xXaNICc7gHZ4Z83d27bFaCJ0C7FNdlNbyFgIGmwPAvgEY2piLcVsVl2eLiHLYOElqZvhr57ZczxVvrU/sSuWBGj/gghOHwoOMV6RdItA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=hbbomBaG; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BJXf5Zeu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F311C4CEF7;
-	Fri, 20 Mar 2026 16:28:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774024103;
-	bh=b66Tl5kZoqYvPt0EneArcC4td5ZO+VTiTMrGRP4Ocis=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=BJXf5ZeuYCDIhrvsHxH1x2cWRy5dggsOMwsdh/Y2nmJ4+p2VWxuuAWYNEFkUqEZEX
-	 c5zU/D5fcvlgkNcQhMcg+J4+kHBYh6zYnImaDb3QL6XrPmIqa5aYk7pJv5SuqthjfE
-	 XP3v1PzxM4PxnrBzRVk6VnzOvBbWMFPa4EgjcT64CDMpS2tHGfeu85H0taloLObfeJ
-	 p2/a7p1UULFu83tJjCpwTUhuIbS14XwM3xH0IKEhFkrBuGz2Fba1eQWkLTjspcQaxq
-	 8ewdQnrfExXM7dmP8nAeMzqLUuwC5rnu8/IQqQzzhBQMvNImN+Xbqgnt8vRgw/FmWS
-	 jGNtIzpcnK7wA==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Fri, 20 Mar 2026 17:27:27 +0100
-Subject: [PATCH v2 20/20] drm/bridge_connector: Convert to
- atomic_create_state
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="hbbomBaG"
+Received: from [192.168.1.10] (c-67-168-176-124.hsd1.wa.comcast.net [67.168.176.124])
+	by linux.microsoft.com (Postfix) with ESMTPSA id C8BF020B6F01;
+	Fri, 20 Mar 2026 09:58:51 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C8BF020B6F01
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1774025932;
+	bh=b9xAtUsCFiluKTtH26H8O3XHZI6EJ/ehZH7lQahfIjQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=hbbomBaG9iUX0poRNazn0EpjyMaYnwQ8FdgPCFFgEYLn4t4eYdItUkhHQhUjzzHOY
+	 4O8KsMbGs0F8oV3DNE5pr2FifvoieCZvhNPO1Uu1B3vCb+lPfHpbrvUZZTxQTSw7CC
+	 +CUhAFCKwBDOlFzwAsHscApToMRM0VcW7G0Waze8=
+Message-ID: <c9258708-2db2-4c08-998f-e67a681781da@linux.microsoft.com>
+Date: Fri, 20 Mar 2026 09:58:52 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260320-drm-mode-config-init-v2-20-c63f1134e76c@kernel.org>
-References: <20260320-drm-mode-config-init-v2-0-c63f1134e76c@kernel.org>
-In-Reply-To: <20260320-drm-mode-config-init-v2-0-c63f1134e76c@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- Jyri Sarha <jyri.sarha@iki.fi>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Simon Ser <contact@emersion.fr>, Harry Wentland <harry.wentland@amd.com>, 
- Melissa Wen <mwen@igalia.com>, Sebastian Wick <sebastian.wick@redhat.com>, 
- Alex Hung <alex.hung@amd.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, Chen-Yu Tsai <wens@kernel.org>, 
- Samuel Holland <samuel@sholland.org>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>, 
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- Maxime Ripard <mripard@kernel.org>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2228; i=mripard@kernel.org;
- h=from:subject:message-id; bh=b66Tl5kZoqYvPt0EneArcC4td5ZO+VTiTMrGRP4Ocis=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJl7S3M2nqx88cjFOTf5hobf8dcX952r1ee4+OuTn1bWU
- vl131597JjKwiDMySArpsjyRCbs9PL2xVUO9it/wMxhZQIZwsDFKQATOTedsWHmilddlx2LQsS0
- J3AGCM+fufLdwqwN0ip+73KN75ZNP/IspnKnWaWfW8bG6PKa1FcbbRnrC3MCpxmZOyjqL2H1WSq
- R0VPNLtgu+H3R06dF0u5ffrlxnVjNKzDp9U+/pxovJHkWTVoMAA==
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/3] ima: Add support for staging measurements for
+ deletion
+To: Mimi Zohar <zohar@linux.ibm.com>,
+ Roberto Sassu <roberto.sassu@huaweicloud.com>, corbet@lwn.net,
+ skhan@linuxfoundation.org, dmitry.kasatkin@gmail.com,
+ eric.snowberg@oracle.com, paul@paul-moore.com, jmorris@namei.org,
+ serge@hallyn.com
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
+ gregorylumen@linux.microsoft.com, nramas@linux.microsoft.com,
+ Roberto Sassu <roberto.sassu@huawei.com>,
+ steven chen <chenste@linux.microsoft.com>
+References: <20260311171956.2317781-1-roberto.sassu@huaweicloud.com>
+ <20260311171956.2317781-3-roberto.sassu@huaweicloud.com>
+ <587e11bf4d29552bbbfc029f716146e8ebfca1eb.camel@linux.ibm.com>
+ <25e0a273-9044-4e0d-9812-0171ec99e1b7@linux.microsoft.com>
+ <ffe1d4645a66a690892163be8e16c4b5d24a690d.camel@linux.ibm.com>
+Content-Language: en-US
+From: steven chen <chenste@linux.microsoft.com>
+In-Reply-To: <ffe1d4645a66a690892163be8e16c4b5d24a690d.camel@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-The connector created by drm_bridge_connector only initializes a
-pristine state in reset, which is equivalent to that atomic_create_state
-would expect. Let's convert to it.
+On 3/20/2026 5:41 AM, Mimi Zohar wrote:
+> On Thu, 2026-03-19 at 14:31 -0700, steven chen wrote:
+>
+>>> - Support for deleting N measurement records (and pre-pending the remaining
+>>> measurement records)
+>> Is there any problem to bring work of "stage" step together to the
+>> deletion step?
+>>
+>> "Trim N" method does everything that "staged" method can do, right?
+>> what's the "stage" method can do but "trim N" method can't do?
+>>
+>> in user space, if in "staged" state, no other user space agent can
+>> access the IMA measure list, right?
+>>
+>> Could you explain the benefit of bringing the "stage" step?
+> The performance improvement is because "staging" the IMA measurement list takes
+> the lock in order to move the measurement list pointer and then releases it.
+> New measurements can then be appended to a new measurement list.  Deleting
+> records is done without taking the lock to walk the staged measurement list.
+>
+> Without staging the measurement list, walking the measurement list to trim N
+> records requires taking and holding the lock.  The performance is dependent on
+> the size of the measurement list.
+>
+> Your question isn't really about "staging" the measurement list records, but
+> requiring a userspace signal to delete them.  To answer that question, deleting
+> N records (third patch) could imply staging all the measurement records and
+> immediately deleting N records without an explicit userspace signal.
+>
+> I expect the requested "documentation" patch will provide the motivation for the
+> delayed deletion of the measurement list.
+>
+> Mimi
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
- drivers/gpu/drm/display/drm_bridge_connector.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+"Staging" is great on reducing kernel IMA measurement list locking time.
 
-diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu/drm/display/drm_bridge_connector.c
-index 929f06b290626d2091418a6377a5230e3c264b60..b640e7d5a065d165a901bd73fc836afaab967dac 100644
---- a/drivers/gpu/drm/display/drm_bridge_connector.c
-+++ b/drivers/gpu/drm/display/drm_bridge_connector.c
-@@ -263,26 +263,33 @@ static void drm_bridge_connector_debugfs_init(struct drm_connector *connector,
- 		if (bridge->funcs->debugfs_init)
- 			bridge->funcs->debugfs_init(bridge, root);
- 	}
- }
- 
--static void drm_bridge_connector_reset(struct drm_connector *connector)
-+static struct drm_connector_state *
-+drm_bridge_connector_create_state(struct drm_connector *connector)
- {
- 	struct drm_bridge_connector *bridge_connector =
- 		to_drm_bridge_connector(connector);
-+	struct drm_connector_state *conn_state;
-+
-+	conn_state = drm_atomic_helper_connector_create_state(connector);
-+	if (IS_ERR(conn_state))
-+		return conn_state;
- 
--	drm_atomic_helper_connector_reset(connector);
- 	if (bridge_connector->bridge_hdmi)
- 		__drm_atomic_helper_connector_hdmi_state_init(connector,
--							      connector->state);
-+							      conn_state);
-+
-+	return conn_state;
- }
- 
- static const struct drm_connector_funcs drm_bridge_connector_funcs = {
--	.reset = drm_bridge_connector_reset,
- 	.detect = drm_bridge_connector_detect,
- 	.force = drm_bridge_connector_force,
- 	.fill_modes = drm_helper_probe_single_connector_modes,
-+	.atomic_create_state = drm_bridge_connector_create_state,
- 	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
- 	.debugfs_init = drm_bridge_connector_debugfs_init,
- 	.oob_hotplug_event = drm_bridge_connector_oob_hotplug_event,
- };
+How about just do "stage N" entries and then delete the staged list in 
+one shot?
+It means merge two APIs into one API
+     int ima_queue_stage(void)
+     int ima_queue_delete_staged(unsigned long req_value)
 
--- 
-2.53.0
+The kernel lock time will be the same. And user space lock time will be 
+reduced.
+
+Thanks,
+
+Steven
+
+>
+>
+>
+>
+>
 
