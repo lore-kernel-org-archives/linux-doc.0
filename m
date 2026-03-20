@@ -1,266 +1,180 @@
-Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 931343B637E
-	for <linux-doc@vger.kernel.org>; Fri, 20 Mar 2026 15:49:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C34DB194A6C;
+	Fri, 20 Mar 2026 16:27:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774021766; cv=none; b=SgvX628x2vc6ER36yiI9D9PqGaIMZWTTZUdTbeb8bLnjOxVwFwtQrbS/i++qfxg5Uehkao/rqUlonl3nJY4TImHmBVbIG0qsWH0dWZICwxJQMzIabqFvoSZk0ptBa9HNz1x/k8857k20MxkKRxUluXBoD/95UhumD9tVhulwnIA=
+	t=1774024047; cv=none; b=Frc0kdLkHkjlBp5ScfNMgf6d6J0Cz4MshnEctr94RgKw1Ia0X7lt/lECmdkm6qQlGerO+qtneMdnhJRou3d/zUIBUT+5FwGk0Hom+T7TJup34a44ZilRmxnLLQrS6KA2Mxi8kJE1rrYCguqW3axZWSQr7OVeJ2RkBPXnXn5YU/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774021766; c=relaxed/simple;
-	bh=5bNAXGs4cIMFl6Jp32gKXXVAunXQc+McFM1c11Lf6k8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tc90T1Egcz0E4IbY9O4Xo4KVy+uMX4QB0FsqHt+a5NzHlwq6sEKSgyOTuQvB/hhM8gJTbSWu1BQflEPOw+hSAXCID9nLty5/aSnJBNzxwCUTvWdQZ1dVWrQn4bI1e3/izyAzjZrJ2yEQ7OKVdmQQ3omSmDl9DSWLKH5eAChmeug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TqsD+V0e; arc=none smtp.client-ip=74.125.82.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774024047; c=relaxed/simple;
+	bh=tVGzG2OoAve6wdaEm6yQngdh47mMTYpnqYs26HoJiNs=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=JkuOPiHGXTnSTODPSbPPML6KL0w6/D0C0UBVTtYOZgTDPWcmVeAmw2psexkMyCvWa1x1e7jisQQsHTJ0ioOx5R/2SrfhpfXw33jl1Io3Di6d7COC7PqHQqvmNNcNc8MkZJMIQ8D9kmJO7U6eP04tQ6y7qxcD762xpG6o11vERZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lqm+YStX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TqsD+V0e"
-Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-2b6b0500e06so2316185eec.1
-        for <linux-doc@vger.kernel.org>; Fri, 20 Mar 2026 08:49:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774021762; x=1774626562; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1noh5STaRC1HybhuYlkIMhR1r7TUdhM17pEfO/82ZhA=;
-        b=TqsD+V0efLCtHkR1v28WRt0ZjiiW/DszxVXs02Ss3Npx+nBeLDXahfbuKHiLDCTLSe
-         inyjk1ptvRR6l54nMhspWFgyvXYAUxbWUYiolNYh9Qa1qGeooZziXfx+RfI9uXO2njsA
-         PIpZtIu7oWFT6pEsus+o8J8qjU+m5TpUDuoHorrWyc0ytHXUY8FhseaZTO8w+V5uKNYY
-         a7o8ojWZZeV2eg031HmOhxAtE60w6Jg0HANc8MKeFab2GPPV44poRCB9TV1I26WLeYov
-         WLaN85UITDG7rFc9tb0RrZC4GSNptfEm1lkkFmW71Hpg0Y6NXP4QijvMFvn72cUC5MRc
-         tQgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774021762; x=1774626562;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1noh5STaRC1HybhuYlkIMhR1r7TUdhM17pEfO/82ZhA=;
-        b=kq7n+LPQ63rr1UVGeDq6CIhLtme8+RELE2OR5DFCXDgql4ldObdngTANSFQdrFugv7
-         yysPFx0dJDoDAJ5ubDAYEd5WPFOHIm30fOwOrAz7pBt2Z6l8hWkmHRrGm/IxDepeH2s3
-         I1Zqiirdj6evir1n0Z6Gy9mAboz2MBd0LW+W86WnnpUpsCFl7Mo6z5lgLAN+YILAwRFQ
-         6K/PlTiqBRkFtsoR7PA7/51/IRQFmliJjFxBwQ+WIJmxhWl8Bbv0U05O8rO2v3Nu7z9e
-         IxKYIiVAyf4wcl4jSGad7mXddfU41x4NtxR9OeS2KrRK0keABzPy/dWz+IN4/3SD2NQ2
-         BbdQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUkdwbhJWSHuZ5JYJwoYYDTJtrC9XvwDTe67u1nWZAFFT0WPGF9RzKdFru4cz6OlWatZRLh2O1LykQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzOSxXKc83ttNTPHNbbUOGtrAXe1aC4vBKFBz3ICimXU0FiMo1E
-	vY83cbRk73YBnkg1hkQabDd4ODabkIiysWB9hmSZTOlpf+n6MOf74Nc=
-X-Gm-Gg: ATEYQzwj/LeS7QVIgCUGxuo6gBWORQSxLOFcrW9KutUH+UK+TBwMCJVABZ5ASMzQe+S
-	2pu1sF9/oqbIRQX8S8E+FMqmBqMpZayavEV5MKe6stOF4y382E5xr8n8dwV7tdLWXhhJID5L1o+
-	k+M7OlXSke6dPAXy4gsNhH4lo2O3z+ksreIGWb0UcZGWih6Dpb7p2R2yoOpSq9mhWDGhKPooKHz
-	orVN8XNgFhEAU/Bl7vJA7wrf4+V9YP25xSAYQ7r/4QcP8kUVCBwv1WDbsKx08zNIhEbgStjVgT2
-	DVOUVvWcdTfkUUPSyvh5ezM/NOg2MyoTSk1D2cV7ZuwMSz2Fdv75QnX7j81Or/glBYcUviaOCzI
-	2Ytk+i4CfxiZRfVQYa3g5B7zcWfMg2p0tX87lMD/ppNf07LwlJG6d3XBbbx61UrUsfX/jTQrYbr
-	FL+vylJlwuxegpIba2Prh4/78DmqxkI0Y39okJkZv0T7ZWnP4CHNCfl2tbyPlXc16LKTlI2O3ds
-	VxkZk8NxqpCm386le7npoVdZGzc
-X-Received: by 2002:a05:693c:3106:b0:2b7:b7e7:9025 with SMTP id 5a478bee46e88-2c10980a36dmr1639723eec.31.1774021762125;
-        Fri, 20 Mar 2026 08:49:22 -0700 (PDT)
-Received: from localhost (c-76-102-12-149.hsd1.ca.comcast.net. [76.102.12.149])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c10b17b1b8sm3724371eec.8.2026.03.20.08.49.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Mar 2026 08:49:21 -0700 (PDT)
-Date: Fri, 20 Mar 2026 08:49:20 -0700
-From: Stanislav Fomichev <stfomichev@gmail.com>
-To: "Loktionov, Aleksandr" <aleksandr.loktionov@intel.com>
-Cc: Stanislav Fomichev <sdf@fomichev.me>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"davem@davemloft.net" <davem@davemloft.net>,
-	"edumazet@google.com" <edumazet@google.com>,
-	"kuba@kernel.org" <kuba@kernel.org>,
-	"pabeni@redhat.com" <pabeni@redhat.com>,
-	"horms@kernel.org" <horms@kernel.org>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
-	"andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>,
-	"michael.chan@broadcom.com" <michael.chan@broadcom.com>,
-	"pavan.chebbi@broadcom.com" <pavan.chebbi@broadcom.com>,
-	"Nguyen, Anthony L" <anthony.l.nguyen@intel.com>,
-	"Kitszel, Przemyslaw" <przemyslaw.kitszel@intel.com>,
-	"saeedm@nvidia.com" <saeedm@nvidia.com>,
-	"tariqt@nvidia.com" <tariqt@nvidia.com>,
-	"mbloch@nvidia.com" <mbloch@nvidia.com>,
-	"alexanderduyck@fb.com" <alexanderduyck@fb.com>,
-	"kernel-team@meta.com" <kernel-team@meta.com>,
-	"johannes@sipsolutions.net" <johannes@sipsolutions.net>,
-	"sd@queasysnail.net" <sd@queasysnail.net>,
-	"jianbol@nvidia.com" <jianbol@nvidia.com>,
-	"dtatulea@nvidia.com" <dtatulea@nvidia.com>,
-	"mohsin.bashr@gmail.com" <mohsin.bashr@gmail.com>,
-	"Keller, Jacob E" <jacob.e.keller@intel.com>,
-	"willemb@google.com" <willemb@google.com>,
-	"skhawaja@google.com" <skhawaja@google.com>,
-	"bestswngs@gmail.com" <bestswngs@gmail.com>,
-	"kees@kernel.org" <kees@kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
-	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"leon@kernel.org" <leon@kernel.org>
-Subject: Re: [Intel-wired-lan] [PATCH net-next v3 03/13] net: introduce
- ndo_set_rx_mode_async and dev_rx_mode_work
-Message-ID: <ab1sgEg9ii3se1Zq@mini-arch>
-Mail-Followup-To: Stanislav Fomichev <stfomichev@gmail.com>,
-	"Loktionov, Aleksandr" <aleksandr.loktionov@intel.com>,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"davem@davemloft.net" <davem@davemloft.net>,
-	"edumazet@google.com" <edumazet@google.com>,
-	"kuba@kernel.org" <kuba@kernel.org>,
-	"pabeni@redhat.com" <pabeni@redhat.com>,
-	"horms@kernel.org" <horms@kernel.org>,
-	"corbet@lwn.net" <corbet@lwn.net>,
-	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
-	"andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>,
-	"michael.chan@broadcom.com" <michael.chan@broadcom.com>,
-	"pavan.chebbi@broadcom.com" <pavan.chebbi@broadcom.com>,
-	"Nguyen, Anthony L" <anthony.l.nguyen@intel.com>,
-	"Kitszel, Przemyslaw" <przemyslaw.kitszel@intel.com>,
-	"saeedm@nvidia.com" <saeedm@nvidia.com>,
-	"tariqt@nvidia.com" <tariqt@nvidia.com>,
-	"mbloch@nvidia.com" <mbloch@nvidia.com>,
-	"alexanderduyck@fb.com" <alexanderduyck@fb.com>,
-	"kernel-team@meta.com" <kernel-team@meta.com>,
-	"johannes@sipsolutions.net" <johannes@sipsolutions.net>,
-	"sd@queasysnail.net" <sd@queasysnail.net>,
-	"jianbol@nvidia.com" <jianbol@nvidia.com>,
-	"dtatulea@nvidia.com" <dtatulea@nvidia.com>,
-	"mohsin.bashr@gmail.com" <mohsin.bashr@gmail.com>,
-	"Keller, Jacob E" <jacob.e.keller@intel.com>,
-	"willemb@google.com" <willemb@google.com>,
-	"skhawaja@google.com" <skhawaja@google.com>,
-	"bestswngs@gmail.com" <bestswngs@gmail.com>,
-	"kees@kernel.org" <kees@kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
-	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
-	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"leon@kernel.org" <leon@kernel.org>
-References: <20260320012501.2033548-1-sdf@fomichev.me>
- <20260320012501.2033548-4-sdf@fomichev.me>
- <IA3PR11MB89865C96824F6518F4A01B9CE54CA@IA3PR11MB8986.namprd11.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lqm+YStX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D21B9C4CEF7;
+	Fri, 20 Mar 2026 16:27:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774024047;
+	bh=tVGzG2OoAve6wdaEm6yQngdh47mMTYpnqYs26HoJiNs=;
+	h=From:Subject:Date:To:Cc:From;
+	b=lqm+YStX5mvlt9/t3+JcPdjEZF9aZVQbBV98Nbb4Z1n/8nd/dUIwZ5L+iuTF2Zz9v
+	 L18yH8q16XltXwTEvnjJPLgUAQ2Lvm1hqjJkCM6HE7cSLsu4RmDYA96eZUFUh+WFHQ
+	 Ku6EHuDAfr6LcLOND7f2hr33dT7PGfRiVHmvZatzstK14iDXEYFioEKZT2tyjx7Ior
+	 fUJTD6izzSi/AZy7ebw9aqjqJufLtX4ZR0a0C8Pi52o1o4Vl08v0+tFBbjGbc/eTRu
+	 gnJdmEQqm0jOyVHnvfMZB/tnHD7/GS9hQwPeUKpjriN38MgcIMT8iVtGjD6PBHMeUz
+	 RJj5P/G5C5AHQ==
+From: Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH v2 00/20] drm/atomic: Rework initial state allocation
+Date: Fri, 20 Mar 2026 17:27:07 +0100
+Message-Id: <20260320-drm-mode-config-init-v2-0-c63f1134e76c@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <IA3PR11MB89865C96824F6518F4A01B9CE54CA@IA3PR11MB8986.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/32PsW7DMAxEf8XgXBaSHFepp/xHkUG2aYdtLaWUK
+ qQI/O+VlaVTJ+JI8N3dHSIJU4S+uYNQ5sjBF2GeGhgvzi+EPBUNRpkX1WqFk6y4holwDH7mBdl
+ zQk167sxgD92koLxehWa+Vezb+aGFvr4LPT2WMLi4I9aVU99UJscRPd0S7lao2jLhb4oSSplOK
+ 3WsGa7C2SXCMLyjUKSEjjQZe9DKWNfnDnbjC8cU5KfWy7o6/98kaywXsu2rHY+kx/n0QeLp8zn
+ IAudt234BvXY1zjIBAAA=
+X-Change-ID: 20260310-drm-mode-config-init-1e1f52b745d0
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Jyri Sarha <jyri.sarha@iki.fi>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Simon Ser <contact@emersion.fr>, Harry Wentland <harry.wentland@amd.com>, 
+ Melissa Wen <mwen@igalia.com>, Sebastian Wick <sebastian.wick@redhat.com>, 
+ Alex Hung <alex.hung@amd.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, Chen-Yu Tsai <wens@kernel.org>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>, 
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ Maxime Ripard <mripard@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4691; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=tVGzG2OoAve6wdaEm6yQngdh47mMTYpnqYs26HoJiNs=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJl7S5PvXGyV/PqC5WJcaIH+/K4C7WX5y4odH2/+/a4qc
+ 2Wl/Oz2jqksDMKcDLJiiixPZMJOL29fXOVgv/IHzBxWJpAhDFycAjCRmZaMdbYqLyv/yF1oPtwl
+ of93y4yavyuXrxMSTq56Z3OwdJno2YpVIrIWqt7HTt1iVQ5vnbeRl7Hh+aWuo3IuK0rCXjJUv82
+ ReWqjGlvrMWfmpOMp9h015YvU+iK93hl5FPt4Fm/+dU/v9DMA
+X-Developer-Key: i=mripard@kernel.org; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
-On 03/20, Loktionov, Aleksandr wrote:
-> 
-> 
-> > -----Original Message-----
-> > From: Intel-wired-lan <intel-wired-lan-bounces@osuosl.org> On Behalf
-> > Of Stanislav Fomichev
-> > Sent: Friday, March 20, 2026 2:25 AM
-> > To: netdev@vger.kernel.org
-> > Cc: davem@davemloft.net; edumazet@google.com; kuba@kernel.org;
-> > pabeni@redhat.com; horms@kernel.org; corbet@lwn.net;
-> > skhan@linuxfoundation.org; andrew+netdev@lunn.ch;
-> > michael.chan@broadcom.com; pavan.chebbi@broadcom.com; Nguyen, Anthony
-> > L <anthony.l.nguyen@intel.com>; Kitszel, Przemyslaw
-> > <przemyslaw.kitszel@intel.com>; saeedm@nvidia.com; tariqt@nvidia.com;
-> > mbloch@nvidia.com; alexanderduyck@fb.com; kernel-team@meta.com;
-> > johannes@sipsolutions.net; sd@queasysnail.net; jianbol@nvidia.com;
-> > dtatulea@nvidia.com; sdf@fomichev.me; mohsin.bashr@gmail.com; Keller,
-> > Jacob E <jacob.e.keller@intel.com>; willemb@google.com;
-> > skhawaja@google.com; bestswngs@gmail.com; Loktionov, Aleksandr
-> > <aleksandr.loktionov@intel.com>; kees@kernel.org; linux-
-> > doc@vger.kernel.org; linux-kernel@vger.kernel.org; intel-wired-
-> > lan@lists.osuosl.org; linux-rdma@vger.kernel.org; linux-
-> > wireless@vger.kernel.org; linux-kselftest@vger.kernel.org;
-> > leon@kernel.org
-> > Subject: [Intel-wired-lan] [PATCH net-next v3 03/13] net: introduce
-> > ndo_set_rx_mode_async and dev_rx_mode_work
-> > 
-> > Add ndo_set_rx_mode_async callback that drivers can implement instead
-> > of the legacy ndo_set_rx_mode. The legacy callback runs under the
-> > netif_addr_lock spinlock with BHs disabled, preventing drivers from
-> > sleeping. The async variant runs from a work queue with rtnl_lock and
-> > netdev_lock_ops held, in fully sleepable context.
-> > 
-> > When __dev_set_rx_mode() sees ndo_set_rx_mode_async, it schedules
-> > dev_rx_mode_work instead of calling the driver inline. The work
-> > function takes two snapshots of each address list (uc/mc) under the
-> > addr_lock, then drops the lock and calls the driver with the work
-> > copies. After the driver returns, it reconciles the snapshots back to
-> > the real lists under the lock.
-> > 
-> > Reviewed-by: Aleksandr Loktionov <aleksandr.loktionov@intel.com>
-> > Signed-off-by: Stanislav Fomichev <sdf@fomichev.me>
-> > ---
-> >  Documentation/networking/netdevices.rst |  8 +++
-> >  include/linux/netdevice.h               | 20 ++++++
-> >  net/core/dev.c                          | 95 +++++++++++++++++++++++-
-> > -
-> >  3 files changed, 116 insertions(+), 7 deletions(-)
-> > 
-> > diff --git a/Documentation/networking/netdevices.rst
-> > b/Documentation/networking/netdevices.rst
-> > index 35704d115312..dc83d78d3b27 100644
-> > --- a/Documentation/networking/netdevices.rst
-> > +++ b/Documentation/networking/netdevices.rst
-> > @@ -289,6 +289,14 @@ struct net_device synchronization rules
-> >  ndo_set_rx_mode:
-> >  	Synchronization: netif_addr_lock spinlock.
-> >  	Context: BHs disabled
-> 
-> ...
-> 
-> > to
-> > +device
-> > + * and configure RX filtering.
-> > + * @dev: device
-> > + *
-> > + * When the device doesn't support unicast filtering it is put in
-> > +promiscuous
-> > + * mode while unicast addresses are present.
-> >   */
-> >  void __dev_set_rx_mode(struct net_device *dev)  {
-> >  	const struct net_device_ops *ops = dev->netdev_ops;
-> > 
-> >  	/* dev_open will call this function so the list will stay sane.
-> > */
-> > -	if (!(dev->flags&IFF_UP))
-> > +	if (!netif_up_and_present(dev))
-> >  		return;
-> > 
-> > -	if (!netif_device_present(dev))
-> > +	if (ops->ndo_set_rx_mode_async) {
-> > +		queue_work(rx_mode_wq, &dev->rx_mode_work);
-> >  		return;
-> This early return skips the legacy core fallback below.
-> Before this patch, __dev_set_rx_mode() continued into the
-> existing unicast-filter handling when the device did not
-> advertise IFF_UNICAST_FLT.
-> 
-> After this patch, any driver that implements
-> ndo_set_rx_mode_async but does not set IFF_UNICAST_FLT
-> will never hit that fallback path.
+Hi,
 
-I believe this is addressed later in "net: move promiscuity handling into
-dev_rx_mode_work"? That should take care of doing __dev_set_promiscuity
-for !IFF_UNICAST_FLT+ndo_set_rx_mode_async. Not sure if there is a
-better way to rearrange the chunks in the patches.
+This series started from my work on the hardware state readout[1], and
+more specifically a discussion with Thomas[2].
 
-        if (ops->ndo_set_rx_mode_async) {
-                ...
+This series expands the work that has been merged recently to make
+drm_private_obj and drm_private_state allocation a bit more consistent
+and ended up creating a new atomic_create_state callback to allocate a
+new state with no side effect.
 
-+		promisc_inc = dev_uc_promisc_update(dev);
-+
-+		netif_addr_unlock_bh(dev);
-+	} else {
-+		netif_addr_lock_bh(dev);
-+		promisc_inc = dev_uc_promisc_update(dev);
-+		netif_addr_unlock_bh(dev);
-+	}
-+
-+	if (promisc_inc)
-+		__dev_set_promiscuity(dev, promisc_inc, false);
-+
+The first patches are a documentation of the existing behaviour and some
+random cleanups.
+
+Then, we add the new atomic_create_state callback to every other DRM
+object. Next, we leverage those new callbacks to create a new helper,
+drm_mode_config_create_state() to create the initial state for all the
+objects of a driver.
+
+Finally, we hook that new helper in drm_dev_register and start
+converting a few drivers.
+
+This was tested on a TI SK-AM62, with the tidss driver.
+
+Let me know what you think,
+Maxime
+
+1: https://lore.kernel.org/dri-devel/20250902-drm-state-readout-v1-0-14ad5315da3f@kernel.org/
+2: https://lore.kernel.org/dri-devel/5920ffe5-b6b1-484b-b320-332b9eb9db82@suse.de/
+
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+---
+Changes in v2:
+- Change the _state_reset function names to _state_init
+- Change the colorop too
+- Various doc improvements
+- Link to v1: https://lore.kernel.org/r/20260310-drm-mode-config-init-v1-0-de7397c8e1cf@kernel.org
+
+---
+Maxime Ripard (20):
+      drm/colorop: Fix typos in the doc
+      drm/atomic: Drop drm_private_state.obj assignment from create_state
+      drm/mode-config: Mention drm_mode_config_reset() culprits
+      drm/colorop: Rename __drm_colorop_state_reset()
+      drm/colorop: Create drm_atomic_helper_colorop_create_state()
+      drm/atomic-state-helper: Fix __drm_atomic_helper_plane_reset() doc typo
+      drm/atomic-state-helper: Rename __drm_atomic_helper_plane_state_reset()
+      drm/plane: Add new atomic_create_state callback
+      drm/atomic-state-helper: Rename __drm_atomic_helper_crtc_state_reset()
+      drm/crtc: Add new atomic_create_state callback
+      drm/atomic-state-helper: Rename __drm_atomic_helper_connector_state_reset()
+      drm/hdmi: Rename __drm_atomic_helper_connector_hdmi_reset()
+      drm/connector: Add new atomic_create_state callback
+      drm/mode-config: Create drm_mode_config_create_state()
+      drm/drv: Call drm_mode_config_create_state() by default
+      drm/atomic: Drop private obj state allocation
+      drm/drv: Drop drm_mode_config_reset() from our skeleton
+      drm/tidss: Drop call to drm_mode_config_reset at probe time
+      drm/tidss: Convert to atomic_create_state
+      drm/bridge_connector: Convert to atomic_create_state
+
+ drivers/gpu/drm/display/drm_bridge_connector.c     |  17 ++-
+ drivers/gpu/drm/display/drm_hdmi_state_helper.c    |  14 +-
+ drivers/gpu/drm/drm_atomic.c                       |  19 +--
+ drivers/gpu/drm/drm_atomic_state_helper.c          | 170 ++++++++++++++++++---
+ drivers/gpu/drm/drm_colorop.c                      |  41 +++--
+ drivers/gpu/drm/drm_drv.c                          |   6 +-
+ drivers/gpu/drm/drm_mode_config.c                  | 154 ++++++++++++++++++-
+ drivers/gpu/drm/i915/display/intel_crtc.c          |   2 +-
+ drivers/gpu/drm/i915/display/intel_plane.c         |   2 +-
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c             |   2 +-
+ drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c |   2 +-
+ drivers/gpu/drm/tidss/tidss_crtc.c                 |  17 +--
+ drivers/gpu/drm/tidss/tidss_drv.c                  |   2 -
+ drivers/gpu/drm/tidss/tidss_kms.c                  |   2 -
+ drivers/gpu/drm/tidss/tidss_plane.c                |   2 +-
+ drivers/gpu/drm/vc4/vc4_hdmi.c                     |   2 +-
+ include/drm/display/drm_hdmi_state_helper.h        |   4 +-
+ include/drm/drm_atomic_state_helper.h              |  18 ++-
+ include/drm/drm_colorop.h                          |   2 +
+ include/drm/drm_connector.h                        |  13 ++
+ include/drm/drm_crtc.h                             |  13 ++
+ include/drm/drm_mode_config.h                      |   1 +
+ include/drm/drm_plane.h                            |  13 ++
+ 23 files changed, 441 insertions(+), 77 deletions(-)
+---
+base-commit: cd5c40f745f10f082f75520ebc9deae3ea37b185
+change-id: 20260310-drm-mode-config-init-1e1f52b745d0
+prerequisite-change-id: 20251008-drm-private-obj-reset-ae1e2741027a:v5
+prerequisite-patch-id: 9684f0ca4b16455c1340409561e8fb32f98b327a
+prerequisite-patch-id: e177eb92b269436a94d7ef603d44436799be7469
+prerequisite-patch-id: fef6d20ab33358c1db6cd9d21aa8ec0990cae758
+prerequisite-patch-id: 2dcc96d43f34d8f6237829ed29d0087c092954d1
+
+Best regards,
+-- 
+Maxime Ripard <mripard@kernel.org>
+
