@@ -1,50 +1,50 @@
 Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB872305057
-	for <linux-doc@vger.kernel.org>; Fri, 20 Mar 2026 01:25:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8FCB30C353
+	for <linux-doc@vger.kernel.org>; Fri, 20 Mar 2026 01:25:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773969919; cv=none; b=rTqdXtF7RX8C8k5TpuxAkiz9pUZtflwiA1SZtrNK1gH9MCwij+emfmVCaDHJs4QPPmNt/m83scaxxNlLoPm3fMa/U8CPuH/RRNLom3dwPnrGFDw4bVGWHpjyJxedSf4Etz+JZW4pGkZ0AyjejMGY9HqzqhpdEl1ApNI0PElQAVo=
+	t=1773969920; cv=none; b=B7xnZypc9/CA1yP3XJnjd81pkC9XfuYDy1maILuQsHFrQ4xp3xUUmCGQcNXwwva5qYA/S1VrLVL7DY5sNiMd7/81Ig2Djsk71ZmWhZPiaEE1DGhwDa98rlQN16YnKJGFVJaI+YSjTWRa69jpxWhh/3vzo9lufyxAMAnl13QOafA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773969919; c=relaxed/simple;
-	bh=FkE3aEmYq3JFi5GpqJgM6OBmxi48BQXX3kwNVt8fzXo=;
+	s=arc-20240116; t=1773969920; c=relaxed/simple;
+	bh=5NcsxaHVIQ2NmCj9OLQh+nSLlXz0JVUjSv0mBYVb1MM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=F3H/eHIznixNEiosj1NNXmAa4P6CKbvohW4cVKhpRgrikkzaXD7eAwuiq3cGw+mnREbH1D2csSxTCZIlDIvA7S3XLppMXCjenim2szqmIVqE4oLoXLOOD7kgJ2DLgD7Z+2H/e4YNmaRjhA8YS0dUS7J0uWVam1mxJFcFrxvX+14=
+	 MIME-Version; b=bcC7xkPubcYfRFnzqpCInGQoXsPy/YET1bO+XVWyrCBAfM9q9qH+ZQY/GBfZe0aeIU6qF3mGfdfbtI5efKdusmHAzXx9MzWQDpChGtiK3htFa0Uwwsa2ei+At2yLME8huavH/J01JGx3CtjrQTFhB2aVf5kxra46BD12cIng8nI=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fomichev.me; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=74.125.82.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fomichev.me
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-2c0ecaae7dfso2572912eec.1
-        for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 18:25:16 -0700 (PDT)
+Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-2ba895adfeaso1786600eec.0
+        for <linux-doc@vger.kernel.org>; Thu, 19 Mar 2026 18:25:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773969916; x=1774574716;
+        d=1e100.net; s=20251104; t=1773969917; x=1774574717;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=RnwqqwAxnRG8s2vaRYDrbUdfVznpcDcr1raRDlnvaSE=;
-        b=FfA0bW06aIl6Y4NOcMPz/SmamPYWhTYmTcybFpfQJ+88QdDOcsoduIaZspaYXBevRT
-         Vd5n/PeFVldhx8cPLOyprlObZj8/PDHvdxCCriOPkOmTLqdYBI67g7ltvUkJkOeMc+KR
-         hU/5xbkCar1Ru5bvvf9Xg9fB7FBYUVEijitpieNQXrNNY5OK/n6NaVx9/30CJ04rWvea
-         u5kEm0iLzNaKVYAmlIUaG6S5yE/vDr3Bqh5r8R3ghYbeGhPkfNg2YG2KSOvS2DlDNfFX
-         tRnnopfgt/FMS4GfQRbotTxzA+zI+R78AjT17xFCEVR+F8+c1msgsTRVIPu7V3rh4Vcm
-         z++Q==
-X-Forwarded-Encrypted: i=1; AJvYcCW4PDPicFyT3BnPS491mXypMmnpUvZNsK/VPIhB6QdsZRF41HXXgk21HTaNcapEOu8Tdr8UcnkRSuQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxbDa4oqXbRyYu3vRdA6Zlv39XkA3zmQQ08mlR337Zf1qHJqlvD
-	b/4d9zWBlpEfgNXjVFBTP0wZkLNIO6Qbn0U3MiT0AGhmQjxL0nvKh+Y=
-X-Gm-Gg: ATEYQzyCfKTHmNY0WSBN/DisNTNkLiO9zudgIwIJCUBcMUYbSe559dCr3q7+FjA3ipF
-	cqgpG9+AhHxzJPmI2lwAj7RwWPzrVoiJEYQ5j5ZcUvrE0tbWE4w4G3dAM6L5bKZU+RWbRIpv87p
-	8I7T15ObMzOdE0uYZlm2ujl9R9Px1Mn3oIwfFyNtjm6KHufNtVOXxYY5cX/S8m3PQLRYknhLfwQ
-	R9/aX+0JWd3/j3hql1liVSgLGKk9YQelFHnxv9G1CeXMgdyH4O70VC4uy4CNQGo71yD2SmA3jte
-	uFO/2ffFcwFC/Lt6GxJkmPilVhrbZ8QayfedwgxNqWEfNXZlewvv/UAGCBuGMJEYYNRQ6oAFVVR
-	VXo8AEyp4ynQ7j/BpgOPmpH6TNNkaiSS92+jy6unXrft24TGwZbX0AQHpoJYb0Ml2V7KeHF68PA
-	JsRcG53vHaM9iUmmoQacSaiwXQsNpqMzs5XGrtmTjpx8piz0U9Sva9SZnZH6zM0rBioQHWlVH5N
-	Ia7U3hYYuNQeC9Rj+zqVxGejfQV
-X-Received: by 2002:a05:7301:4083:b0:2c0:cc90:a71 with SMTP id 5a478bee46e88-2c1095c78d8mr746759eec.8.1773969915768;
-        Thu, 19 Mar 2026 18:25:15 -0700 (PDT)
+        bh=HbyBRqP1dM0VO6fEJ4blZH7JfwL0DV5fAiX12aFZ5no=;
+        b=Fc9eV5WWRkOIu7I4OIlD4z26U4pCkEopa0BiX2DUxHYPHvUrEEEy3em/uuIgRgDOJN
+         XRxDv+wJa+7fzoY6/mzT7REXCkdCnQ4riktUriykHQvLLMlt7OONuQTdkmjGiPFPkJlq
+         HZnREAm20pvxczc251XEPRCjsEysunyAmLo4rxMR+A5zuq8V7kNfsTQl2y9Ze6cViH08
+         PG1EJvC0qD9JbuFWYogpjXreocBvR9E6JaAZPUEVLGrMdDGaH6iaSKUGu47nP6oUM0BK
+         PQmYrjFmCnXvynuL2204FTw/2FLd6i7YmnuY1X1RhqidyJoIkmCvpLCWY+HIqIt/yV2C
+         vKPw==
+X-Forwarded-Encrypted: i=1; AJvYcCXITT78sTbw6oW1HZu0dZsMR5pfinPvN1grMRbH95rgnOhS+d4bBsqTdM3DR898tcWVK8F8X1u8vvQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzz0fl0F0vFGkkanE5FOjYrA9o2ZWsHJibWeRq89ESvepJhDlAe
+	R/M9TBJyJS4RyZo9gOmD4/FzQIT3mbQ4fVhHDFx2YyYRr9GHnz9meg4=
+X-Gm-Gg: ATEYQzyXfvSkeLbTHsM5fdXf5McIVMiiWtGD9CAMeEzDSihgJxOeHJmJwZG0/sR/fTV
+	ie2ge/1/3ikkZgJGi1RkyENgnfXSO/11semvHweLaePP62kmggbBnZOG64WEWcjbBBPVbbvCfVF
+	CVQCN4PRst7Lob8PT5Hbb2oY0SgrkUd2ew9gjng3xqGHuaM+pbJUTJzvDFZPNoEbs/iotETFmEs
+	t4z5qpjysr3MnpIvIBEzIy2UI+qjj6VNMxLpJM5wnw1e3nIfTZefEIvmhQJpa/vrr2fBogxlp6o
+	aWh42rul4G7DkEJva4lsMtF45gOWmzPt8/6kb6Cuz5pLZKRYi5xyvQr6ZbHCJ0TURYoRo0sgX3K
+	UsMibkpIBqgKQgdRXC7O7ViTQQIeS+6jWjK5icy5wcx2BEkQyCq5QQBzqbRyqu+r1Nm9lm1dwa4
+	eVBcDhfeCrQHWcg8NbB3SaWsUsf5d2CadwtAD0+zwHIRG33ZxI1sV2D7xC7Wvynz4h3S+3WV0P3
+	q0UU2YZqGihD5f4eg==
+X-Received: by 2002:a05:7300:6da5:b0:2c0:eec6:279e with SMTP id 5a478bee46e88-2c10974fb69mr728307eec.22.1773969916878;
+        Thu, 19 Mar 2026 18:25:16 -0700 (PDT)
 Received: from localhost (c-76-102-12-149.hsd1.ca.comcast.net. [76.102.12.149])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c10b1a88e5sm1421784eec.13.2026.03.19.18.25.14
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c10b29c74bsm1146865eec.17.2026.03.19.18.25.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Mar 2026 18:25:15 -0700 (PDT)
+        Thu, 19 Mar 2026 18:25:16 -0700 (PDT)
 From: Stanislav Fomichev <sdf@fomichev.me>
 To: netdev@vger.kernel.org
 Cc: davem@davemloft.net,
@@ -83,9 +83,9 @@ Cc: davem@davemloft.net,
 	linux-wireless@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
 	leon@kernel.org
-Subject: [PATCH net-next v3 10/13] netdevsim: convert to ndo_set_rx_mode_async
-Date: Thu, 19 Mar 2026 18:24:58 -0700
-Message-ID: <20260320012501.2033548-11-sdf@fomichev.me>
+Subject: [PATCH net-next v3 11/13] dummy: convert to ndo_set_rx_mode_async
+Date: Thu, 19 Mar 2026 18:24:59 -0700
+Message-ID: <20260320012501.2033548-12-sdf@fomichev.me>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260320012501.2033548-1-sdf@fomichev.me>
 References: <20260320012501.2033548-1-sdf@fomichev.me>
@@ -97,48 +97,39 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert netdevsim from ndo_set_rx_mode to ndo_set_rx_mode_async.
-The callback is a no-op stub so just update the signature and
-ops struct wiring.
+Convert dummy driver from ndo_set_rx_mode to ndo_set_rx_mode_async.
+The dummy driver's set_multicast_list is a no-op, so the conversion
+is straightforward: update the signature and the ops assignment.
 
 Signed-off-by: Stanislav Fomichev <sdf@fomichev.me>
 ---
- drivers/net/netdevsim/netdev.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ drivers/net/dummy.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/net/netdevsim/netdev.c b/drivers/net/netdevsim/netdev.c
-index 5ec028a00c62..9c9217792125 100644
---- a/drivers/net/netdevsim/netdev.c
-+++ b/drivers/net/netdevsim/netdev.c
-@@ -182,7 +182,9 @@ static netdev_tx_t nsim_start_xmit(struct sk_buff *skb, struct net_device *dev)
- 	return NETDEV_TX_OK;
- }
+diff --git a/drivers/net/dummy.c b/drivers/net/dummy.c
+index d6bdad4baadd..f8a4eb365c3d 100644
+--- a/drivers/net/dummy.c
++++ b/drivers/net/dummy.c
+@@ -47,7 +47,9 @@
+ static int numdummies = 1;
  
--static void nsim_set_rx_mode(struct net_device *dev)
-+static void nsim_set_rx_mode(struct net_device *dev,
-+			     struct netdev_hw_addr_list *uc,
-+			     struct netdev_hw_addr_list *mc)
+ /* fake multicast ability */
+-static void set_multicast_list(struct net_device *dev)
++static void set_multicast_list(struct net_device *dev,
++			       struct netdev_hw_addr_list *uc,
++			       struct netdev_hw_addr_list *mc)
  {
  }
  
-@@ -641,7 +643,7 @@ static const struct net_shaper_ops nsim_shaper_ops = {
- 
- static const struct net_device_ops nsim_netdev_ops = {
- 	.ndo_start_xmit		= nsim_start_xmit,
--	.ndo_set_rx_mode	= nsim_set_rx_mode,
-+	.ndo_set_rx_mode_async	= nsim_set_rx_mode,
- 	.ndo_set_mac_address	= eth_mac_addr,
+@@ -87,7 +89,7 @@ static const struct net_device_ops dummy_netdev_ops = {
+ 	.ndo_init		= dummy_dev_init,
+ 	.ndo_start_xmit		= dummy_xmit,
  	.ndo_validate_addr	= eth_validate_addr,
- 	.ndo_change_mtu		= nsim_change_mtu,
-@@ -664,7 +666,7 @@ static const struct net_device_ops nsim_netdev_ops = {
- 
- static const struct net_device_ops nsim_vf_netdev_ops = {
- 	.ndo_start_xmit		= nsim_start_xmit,
--	.ndo_set_rx_mode	= nsim_set_rx_mode,
-+	.ndo_set_rx_mode_async	= nsim_set_rx_mode,
+-	.ndo_set_rx_mode	= set_multicast_list,
++	.ndo_set_rx_mode_async	= set_multicast_list,
  	.ndo_set_mac_address	= eth_mac_addr,
- 	.ndo_validate_addr	= eth_validate_addr,
- 	.ndo_change_mtu		= nsim_change_mtu,
+ 	.ndo_get_stats64	= dummy_get_stats64,
+ 	.ndo_change_carrier	= dummy_change_carrier,
 -- 
 2.53.0
 
