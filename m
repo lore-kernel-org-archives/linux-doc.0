@@ -1,229 +1,579 @@
-Received: from LO3P265CU004.outbound.protection.outlook.com (mail-uksouthazon11020079.outbound.protection.outlook.com [52.101.196.79])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95F4A32AAB5;
-	Fri, 20 Mar 2026 19:11:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.196.79
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774033920; cv=fail; b=Jo5eSAbm/CGFeHmjbJ8GMvld8Ox52yQj6tWC8lFy1Nj9pEr3PrMCFvy9xtzTShk2auMG7hs3N+VLYnRjN5G9UAIeWNb6BuZfTtz3Ia3Y7YzbsLwwcYkVDOUmj/GlngVWySHcQRN5YqaCmiwvQaNMBe9tlKHF0STOooUsbXJ44yo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774033920; c=relaxed/simple;
-	bh=ZNMknX2PJOnKxvZZWVjPO7ejrr4M8dnfzMz+7BvOauc=;
-	h=Content-Type:Date:Message-Id:Subject:From:To:Cc:References:
-	 In-Reply-To:MIME-Version; b=VVaYjW2IzWafoGqAxpOvBv9M0Umb3BZGIFgeoKtfkQkeapwxp3C91oF3ZJDkv8wuk7PxVdK7AlfYcHawCU+CNMSJ7y18jf56TNJIbvB3fvzbodcryx08hPMdZqo3cyN8s1Ngb0dxwFRUijzcaQbR83b0XcJymDHxFRGso5ywGeM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=MYweppZc; arc=fail smtp.client-ip=52.101.196.79
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E61E430EF90
+	for <linux-doc@vger.kernel.org>; Fri, 20 Mar 2026 19:27:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774034860; cv=none; b=TqH7nsWwH3+5nfGuYJrsqLV8BZqzdq6ySJ4srY765yb60RyOZxVIfOQELpZUafbnKOv/FrnKOsATu38GatGO4kUMLPVHf4v/QF1ldd5C64fZXsOCqP+nyAd2evA1daMpdLKl+FBH8qsHvvJj0exjlib6hnC7SU5ernwDKqagXP8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774034860; c=relaxed/simple;
+	bh=ohMKMfDO0iRdzdcMnxh3evbypVNayMdxMw4W1jjcado=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XejwpF1FwxKm/uHUbtUWvuQoCnVKWj/Fmrmng7iHVXE6XmrO/ypc4jjo+kJ9631bktMMr5K6rfqXt+pkRohjKZMVn/RgZ/hz2j/l4zyoKJw8672w71Wu690XfDTGunbUHyXdK5kt61ylx7uS/OxXA6Sc4dyQqGlNNFXUm9IWy4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G23OXR5P; arc=none smtp.client-ip=209.85.210.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="MYweppZc"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RWUJHVJAz1tnLEHCQPXu+/zbj14jfzjrNYI5smg6PQAaSI68VPFWB4RVjzKgvbN8ZdqOu8H02SzgpjqgEobcfCdGD3XDFltuIBbFqTMgaiGm0y83zaZrQKT0VmTuV9pLuaYISBgjJWuk8A/ofJH0sD9VDLIKiaAs/gMG/bV2kUKkmle/HDsxN/tEfF/f61rdgk/wOwcL147MmlA5rQeAHJgMlPNs+Q3k7H53U/c8UjX9aMW5fF7vHOk90Up3MothuKEBrx4oMvBqdfCM+m5GOy0QEPHzVN53I6BJhQkFFPL+1yZZYgPMCj/ueQXHol0WnDTtL5PHonP4QAdaci5vSg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=40s4oNuFk1bm9K15eTBat25beRXJkWc0PDbm0CkizuA=;
- b=Wn69IHeSbpXRFS/cOqJSHQdz3JcwsBHJYzqkAniZkDuU6nisQJG6kgkcyf2h+6B7xt8cDKLEsSfntZaJr+7RlBd0HpxiMqA5FCQ8GIhY+VyppvuayWBgYyT9vhGdENgjpYVUKCWg/uzptoIMmYJ8tJ67YTi2UpTr6gZwoAiKTTdY8PWJ2AhLj+jkemFXwwRsOh2sUour3/I4pwfz/Vs8qQL3wCKNqiG/1lFKNhb583Gyf735XxowzxmUYPxJiG0cGdePMeeaYKzS6v06B7+n5IX6/S2qpAJ+NMupOZHMznTUCa3ro53NjfNEz23MB1Dbj+7Fr22co0uMT06VudmaZg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=40s4oNuFk1bm9K15eTBat25beRXJkWc0PDbm0CkizuA=;
- b=MYweppZcifYZ6dCAc369TumkGFCd+5jk5xiltZUt52Nv/pv8AXa/SI9f/R//oAJRaq4s4VY0vE+XXhm+GcrIpGLc1ojWPXlnU/lEOcj9+LKXWJ46A7RvjDTYNfNAu6vXqTlSFBE9NzMWSGhchmGC4RPSeYe+k3Yk2COzqi4kTJY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by LO4P265MB6349.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:2e6::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.23; Fri, 20 Mar
- 2026 19:11:56 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9723.022; Fri, 20 Mar 2026
- 19:11:56 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 20 Mar 2026 19:11:55 +0000
-Message-Id: <DH7UJDWJ13W6.2UC9NH7XBAKMS@garyguo.net>
-Subject: Re: [PATCH v2 00/10] gpu: nova-core: convert registers to use the
- kernel register macro
-From: "Gary Guo" <gary@garyguo.net>
-To: "Alexandre Courbot" <acourbot@nvidia.com>, "Danilo Krummrich"
- <dakr@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "Miguel Ojeda"
- <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>, "Gary Guo"
- <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Trevor Gross" <tmgross@umich.edu>
-Cc: "John Hubbard" <jhubbard@nvidia.com>, "Alistair Popple"
- <apopple@nvidia.com>, "Joel Fernandes" <joelagnelf@nvidia.com>, "Timur
- Tabi" <ttabi@nvidia.com>, "Zhi Wang" <zhiw@nvidia.com>, "Eliot Courtney"
- <ecourtney@nvidia.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
- <linux-doc@vger.kernel.org>, <rust-for-linux@vger.kernel.org>
-X-Mailer: aerc 0.21.0
-References: <20260320-b4-nova-register-v2-0-88fcf103e8d4@nvidia.com>
-In-Reply-To: <20260320-b4-nova-register-v2-0-88fcf103e8d4@nvidia.com>
-X-ClientProxiedBy: LO4P123CA0524.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:2c5::9) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G23OXR5P"
+Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-7d556c1a79eso2387033a34.3
+        for <linux-doc@vger.kernel.org>; Fri, 20 Mar 2026 12:27:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1774034857; x=1774639657; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zrcE3UvryeyB5YTGqLUniErqYKDK2Y29+/MNQcp0NJw=;
+        b=G23OXR5PEyNDh7ThkTjzlpnwvq0VTlqd7IjC3F4YYd1o9Evo+aJDqkY5yLRgNZL5MM
+         DmfGgjqxsCNCSp50oHULd7Ctp5bKTCIQMnnORB3i1auwd0vYuJXz9AH6Q4NmMULBQaUI
+         RRbo9XXOnBXnF7CH/CPUwf6Nkw4cGZ1mkrGDxPDeBrbvxLOk+JurCwNvcFZL+XAZ83/O
+         T9xP8/jFUoXtJLimb3N0u7uP5g/1GhSvaqrpH/KWMe++cf+1K4xMHSHQ/gTdinrWVySQ
+         wKIruRFSOypP0Z9p5TyV6+ZzHfGPdQtB34rrmar8vHZZOkmnP8oGYBWMfpIOudfCma5F
+         kYrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774034857; x=1774639657;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zrcE3UvryeyB5YTGqLUniErqYKDK2Y29+/MNQcp0NJw=;
+        b=XYYBOvOF7SEspkkzp4NingxUO3qy9CKb6+pPQPqjBwkQrze8nsjYdVbQddkBMEWIkk
+         pS6PIC3CUNVkyJ+/1Ru9Y9WIwH6m9wLrp0jthynIv+ESYm+E4yQTMBAehH7avn5TS7c3
+         F/PO4kL8PW8CDq67NnhP4MBKizeza1lusvHxUpKvEZDwBstgsk+JrFIZJbraq1YvK2/t
+         FfdG9kRog8dznXJhsRHM/+UFw3WsjcaUsNrSkTIo/iXamRemS84++qvGxOlWovkRreSg
+         SEG58YoVy4PUJM6AW0KEjBbsju7nM6E1qiuaAwvIY4uyefHRf+zBErhXdaIJIfEh3z6r
+         m0hQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVEsuGU0qEORfOgWS4CGf4XRXZvfJCVPxZR1g+Ik4SYd4lPSi5wxzMA+HE1PhtlN5irjHu/4DAkLVY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwpBpfpPi7dSNoba1/E02W0N8R5vX1HD/1AUym0Mgj7xUIrqcHi
+	TQsK3xu8CorkAwbUlzBjCaXPpSLBn07xXKgEpLv8KNpbiIl86TaRiWMc
+X-Gm-Gg: ATEYQzz+FwB9HW9mo/98wUaLLmrbKz7J98Uia+9/eW5fH527kd3VV/qFW8vkpyfi/VG
+	ivv8699Pc+lAk0qiSux7t4JK4bPYmECBoLGxfGkMlqA8QH2XM9QABhKhpw9D796zBmz6Yf9cLZc
+	dFCnvnbGnCXd1E5eLgtocOn/e8wj5NacTJCmj5/IJKCSBZHdWjCGkf8BxyXsIOKVuq6BxnXj4tn
+	E5wpPAnKBx4R8tA2fSv9IWd6aTsdBUA7ULraZrydbJTMZSt/IpZ+KNlyoas/lsWPz6ig+97INoK
+	PuVtP6MbPeLXMzaEOVh9Cj1/t4TaUft3Hspb39OQucOLCFEQ8fwwDhQiAOkHgWgsUX89nRIuNfT
+	c1eDo7cEHgU/fgyweT1ogGsL/dwu8yHykP8X4qg+aVzHQ7xH91674MsNg34uTdFTtbOSkO2IttI
+	Mc2SYXstHrWINtLAbjxHfMWq7a4jE69U3DLPbLjpVXgZxaD4G/xaJcqb71
+X-Received: by 2002:a05:6830:67ea:b0:7d7:bf70:113 with SMTP id 46e09a7af769-7d7eaeac5acmr2629198a34.13.1774034856505;
+        Fri, 20 Mar 2026 12:27:36 -0700 (PDT)
+Received: from localhost ([2a03:2880:10ff:40::])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7d7eac2dffbsm2860426a34.10.2026.03.20.12.27.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Mar 2026 12:27:36 -0700 (PDT)
+From: Nhat Pham <nphamcs@gmail.com>
+To: kasong@tencent.com
+Cc: Liam.Howlett@oracle.com,
+	akpm@linux-foundation.org,
+	apopple@nvidia.com,
+	axelrasmussen@google.com,
+	baohua@kernel.org,
+	baolin.wang@linux.alibaba.com,
+	bhe@redhat.com,
+	byungchul@sk.com,
+	cgroups@vger.kernel.org,
+	chengming.zhou@linux.dev,
+	chrisl@kernel.org,
+	corbet@lwn.net,
+	david@kernel.org,
+	dev.jain@arm.com,
+	gourry@gourry.net,
+	hannes@cmpxchg.org,
+	hughd@google.com,
+	jannh@google.com,
+	joshua.hahnjy@gmail.com,
+	lance.yang@linux.dev,
+	lenb@kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-pm@vger.kernel.org,
+	lorenzo.stoakes@oracle.com,
+	matthew.brost@intel.com,
+	mhocko@suse.com,
+	muchun.song@linux.dev,
+	npache@redhat.com,
+	nphamcs@gmail.com,
+	pavel@kernel.org,
+	peterx@redhat.com,
+	peterz@infradead.org,
+	pfalcato@suse.de,
+	rafael@kernel.org,
+	rakie.kim@sk.com,
+	roman.gushchin@linux.dev,
+	rppt@kernel.org,
+	ryan.roberts@arm.com,
+	shakeel.butt@linux.dev,
+	shikemeng@huaweicloud.com,
+	surenb@google.com,
+	tglx@kernel.org,
+	vbabka@suse.cz,
+	weixugc@google.com,
+	ying.huang@linux.alibaba.com,
+	yosry.ahmed@linux.dev,
+	yuanchu@google.com,
+	zhengqi.arch@bytedance.com,
+	ziy@nvidia.com,
+	kernel-team@meta.com,
+	riel@surriel.com
+Subject: [PATCH v5 00/21] Virtual Swap Space
+Date: Fri, 20 Mar 2026 12:27:14 -0700
+Message-ID: <20260320192735.748051-1-nphamcs@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO4P265MB6349:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4ba955ef-eb8a-4873-207c-08de86b48da4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|7416014|1800799024|376014|10070799003|7053199007|56012099003|18002099003|22082099003|921020;
-X-Microsoft-Antispam-Message-Info:
-	tGMXQSD4PADyhn2PIYQNaAaDWUvb3sg5DgucZ7AVvb6BCTuJBftmUkY823tBhaFGsgqkLIjYGgsKDdc5PqTSaEmGpla8SFNVbL8dy7UvtJidbKsTfjYJ6KrLf2c6iYZK410CKXHiuYP2UW4eGPpz0e2tfLSMmAdCxA0tNj6GFGvgcfxcr6yXsTsswrEMWfZeh6rMeOO2pzfRjVF65UdW8U/7TK8d8VQWgiANh7VOUR277SSeyMe4ONIOjSwdggenMKaBsB2iMH0ZjKU65QbIBsk51Zchh46XZTiHwxqjLFCO4N+Sb+0gfxKyla8D0f3Z/vXmtzhS5yFxRL25Tcj5IAz726AA56OPsLX8HjuFeMAP1DyrXEhbPnjhPG2/JYnEYWyTvT72drDUHnlU9Qwh4d6erWREcmRl0s3QnvaL5MZrFrw7JivkENUx16OA/rNo2EBQBBtqdiGtKdm1u+LcXwWir6rNf/Gf2i0o6OU9gUcF7BluqI0tp5ReoHImu2ehomO+aq1OWGgLDSW2thn06wIt5ovNJBLwmko6wUINwg2OyohLuLxWNYJmjWN/zZ4exmW+8YHQ9NsbLEBZBREUDvy6n06CJG8BOcA5mA3xZEpFagnrhXJIezg5kR4eYbGSpIyNn4YyDKoS4OqN2+ZeHBvcwvh8sQEG9wmvj6U+O0/6Lkb+DMfJEWSPNKtzrv/e9/dD66boRZRcvQTPiycxh+kbcmxM6j4PWu5smztrocU=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(1800799024)(376014)(10070799003)(7053199007)(56012099003)(18002099003)(22082099003)(921020);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?L2tHcldaZFN6S2dqM0lTLzA2REtiQzV4b25RWVorVFc3RWZobEpOZC9IRVlk?=
- =?utf-8?B?cTM0Ny9Sa0ZUVGNmdUdSL1A1aENLS0RkN2xNM3RuMjBWYUE3RTd6VjBSTE1I?=
- =?utf-8?B?OFFVVFVsdm41djFIM2xQWTZSZTBrQUtTSFNRMVVWQzlzanBmb1FBSFlGVDFS?=
- =?utf-8?B?Mm5FMUhyOU1JSHdmUlB1TmZqTzZDeS8wbzhBMExTcjdxaHBlOExCVUwwbjU4?=
- =?utf-8?B?dFd4UmNmSHVkREdDRlN0TDhMTkczcWk1QldJZXBpRWt2Mk1nNU1ueVFHVmVW?=
- =?utf-8?B?WXd5bHdURkVqbEFVMGt0VlB4NlpWTVBrMVdYeCtsN2tIT0lQbnlqNXFRamR1?=
- =?utf-8?B?K256NjBibk9LeFRmUDNqSllJR3hKNWxnbHZxc0t1NE5uZVpqMXRyeGI5cmtX?=
- =?utf-8?B?Y09QN0pWNU5UVW5UaWpkdm9sRmt2c0tYaWNqcGo0WXlxWDB0SnBvN25IUGNj?=
- =?utf-8?B?U3U3MGF3dzZwaEEvWUEwWFlidU0zVEw2UmVMWDByVlpBc1JRWmI0RnhHNXNT?=
- =?utf-8?B?MUV4cDlIbDhYVHk2UEpzSkRQZW9XS0cveGhZcXVkSVhPcTk3Y3Y2ZnNSQ1E2?=
- =?utf-8?B?S3JNc3RDdGlZNFpaNEtYTWprTGZKREYyUmkvbytOdWhQOU5xbGxhazA3azNh?=
- =?utf-8?B?bkREV2g4WWQ4WkJvY3kzc2pSTVhxQmhCZDM0VzRvald6OGtBTDdCWTg4RUZw?=
- =?utf-8?B?Nk82U1dHc2tnanNJOHBjZ0pXVWtmS2Zja3MvRDlWaGE3M3Fob1RHYTVFK1JH?=
- =?utf-8?B?QVBpU1ZjNVVzczZzVkxwUEMyWW9laWJYVkt4VlhseVFYcWttalJNd3JJSjlh?=
- =?utf-8?B?SHpObE5WbEtKNFMxcEw4MWM4eGVRa0xadUxKZnpBODltTktlcEhtWjc2MXRz?=
- =?utf-8?B?UEpLVTRZdWNGU3JZUXRGMkUzQ0w4WWpyc01XZGFCd2lML3VDa3JkbHpXR3VR?=
- =?utf-8?B?azRRZkFmd2xMeU54elo3bitTb0tucitHREphdkx5dHhwdWNpcHNuLzFVTHFG?=
- =?utf-8?B?eXFmUFdvZ3E0ZllBdGxSaFl5cCt1cXlIS3g5bUVJMGxkTmkrNEt3VkdOcGZh?=
- =?utf-8?B?ampnblZ6MWwyYzZVaW4yVnZoTElKMUNSOGQ4RnpIYll3Q1l5bVNFTWt4K3ZG?=
- =?utf-8?B?S253SjJJbXVaMGl6cE9NeGg3OFFia0RMQ1NEZmp6cmJGWW5iVUxFUmREeUVU?=
- =?utf-8?B?T293ZW93aGpjKzY1NjVQVGV1cS9iUkM2L0drZ3hNbUczd1FhSkxqVUhxQWNz?=
- =?utf-8?B?MFNTeWVVaWpoVlYrMHBaWVV2T2s0VDdzc2tvMGhsTk8yS2dYc2pHdGZjVTFR?=
- =?utf-8?B?M2RQRGI5S29YM1FJNERQYk51ZGJBMnkrajdPQjVMS0xiSmxkSG9adlQ4cW9j?=
- =?utf-8?B?SldiR1oxZ052enZTSTNZQkIwTEsrU0UrL2tuZXZDVU5hMFpEWURwR25ucTlw?=
- =?utf-8?B?bzNsTHVyQjErTXNFUTdVT3JiUkpsU2xkQnhGcUZmdFdyb3dmM1BGSndOcDZD?=
- =?utf-8?B?NTNncFhyWFI2NEF1MjhPbnJRUitzLzRKa3M4Ti92WVV2K3AxaXB4TTVVbEhG?=
- =?utf-8?B?dGs1TzBiZy95QlR0SE5oNkRZampJOVQyQkZHSW80a1NzUjd6aGo0U2Qzc3RW?=
- =?utf-8?B?TW5KYVM2a1Uvc1VvZ3NlOHZyRHRyeEcwWkc1Nm56ZUpCbUlNWlZrQ0p5SGNN?=
- =?utf-8?B?aG9JRHljQVN2WVNvSjFIbHd1WUh6Y0JzTTlmRTJTWmhmTW9nYlhUQ3hVaS9u?=
- =?utf-8?B?REFrT1ZuNHcvSmFFZ0N5ZHZoTi9tVm9UMHBjZWpFKzNBdFlwZHpETnMrTDBn?=
- =?utf-8?B?UUxQTXkxOEhveTV6N2ljVGNoMXZFYnR2dXZVTEx5djZ1VXhOZmN0bFdGTUhr?=
- =?utf-8?B?MGhqTmVlWVpDak5HRkVYMlFucG4xcThWZFQwNUpSbjZFNklxeERFZkRyL1hx?=
- =?utf-8?B?UzdSN2huQUpsSEZ3anNNanVhd0ZXdHNYZGZUZHRLN0hLUWFnM0lrWXoyQlR1?=
- =?utf-8?B?cUo2UTU1clVNT3JIRDRLL3p1K3dtS21xWTZWbENtTlZONjU3UFkvZEVxWVBp?=
- =?utf-8?B?LzdzcURiUUw5bXlpdm5GR3pPMEVxUk5taDVVZ3pVZGZmUjcyYVFKejZLTkdE?=
- =?utf-8?B?RVRqN0dCQTJZVmo2bTBzZUw5R1JEcTd0VmlzK0h3UkRjWGVwZmtuby9RL3lF?=
- =?utf-8?B?TGMzanB2WVkydHZjcURzR3hpZVRwdjhPOE83d21NZkVXcnpVWnpXM3JnWVR1?=
- =?utf-8?B?V0xxeE45SWxXbXpDVVZPMUl1emNMcWJ4TGVNdXlHcEVIb1pJTE1admdxVUU1?=
- =?utf-8?B?QTM3eldLY1ZMQVp4cGtXeFlMTmFDTFRiY1d1ZG5pYmwvbk1Va0F4QT09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4ba955ef-eb8a-4873-207c-08de86b48da4
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Mar 2026 19:11:56.2295
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9tCe5qBtqj3+st296dWD+A02AHWf7u13IYjKK+UmHzwpFMegz75FpgMQIFSkbAJZla4DxXBmVXGNsh3lGa297Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO4P265MB6349
+Content-Transfer-Encoding: 8bit
 
-On Fri Mar 20, 2026 at 12:19 PM GMT, Alexandre Courbot wrote:
-> nova-core carried its own helper macro to declare register types. Its
-> purpose was to be temporary since the beginning, and to serve as a
-> testbed to develop an equivalent that could be used kernel-wide.
->
-> That equivalent has now been merged, so it is time to retire the
-> nova-core local version.
->
-> The kernel register macro has evolved into something significantly
-> different from the one in nova-core, so it cannot be used as a drop-in
-> replacement. All declarations and sites using registers need to be
-> updated. No semantic change should happen as a result.
->
-> All the patches in this series could also be squashed into a single one
-> without altering their reviewability significantly. Actually I am
-> leaning towards that option since it doesn't make much sense to
-> partially convert the driver anyway. I'm leaving it in split state for
-> now in case this drives more people towards review. :)
->
-> I hope to be able to merge this quickly so we can rebase in-flight
-> series to use the updated register syntax.
->
-> This series is based on drm-rust-next as of 2026-03-20 and has been
-> tested on Turing.
->
-> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
 
-Reviewed-by: Gary Guo <gary@garyguo.net>
+This patch series is based on 6.19. There are a couple more
+swap-related changes in mainline that I would need to coordinate
+with, but I still want to send this out as an update for the
+regressions reported by Kairui Song in [15]. It's probably easier
+to just build this thing rather than dig through that series of
+emails to get the fix patch :)
 
-With the comment in patch 1 & 7 fixed.
+Changelog:
+* v4 -> v5:
+    * Fix a deadlock in memcg1_swapout (reported by syzbot [16]).
+    * Replace VM_WARN_ON(!spin_is_locked()) with lockdep_assert_held(),
+      and use guard(rcu) in vswap_cpu_dead
+      (reported by Peter Zijlstra [17]).
+* v3 -> v4:
+    * Fix poor swap free batching behavior to alleviate a regression
+      (reported by Kairui Song).
+    * Fix assorted kernel build errors reported by kernel test robots
+      in the case of CONFIG_SWAP=n.
+* RFC v2 -> v3:
+    * Implement a cluster-based allocation algorithm for virtual swap
+      slots, inspired by Kairui Song and Chris Li's implementation, as
+      well as Johannes Weiner's suggestions. This eliminates the lock
+	  contention issues on the virtual swap layer.
+    * Re-use swap table for the reverse mapping.
+    * Remove CONFIG_VIRTUAL_SWAP.
+    * Reducing the size of the swap descriptor from 48 bytes to 24
+      bytes, i.e another 50% reduction in memory overhead from v2.
+    * Remove swap cache and zswap tree and use the swap descriptor
+      for this.
+    * Remove zeromap, and replace the swap_map bytemap with 2 bitmaps
+      (one for allocated slots, and one for bad slots).
+    * Rebase on top of 6.19 (7d0a66e4bb9081d75c82ec4957c50034cb0ea449)
+	* Update cover letter to include new benchmark results and discussion
+	  on overhead in various cases.
+* RFC v1 -> RFC v2:
+    * Use a single atomic type (swap_refs) for reference counting
+      purpose. This brings the size of the swap descriptor from 64 B
+      down to 48 B (25% reduction). Suggested by Yosry Ahmed.
+    * Zeromap bitmap is removed in the virtual swap implementation.
+      This saves one bit per physical swapfile slot.
+    * Rearrange the patches and the code change to make things more
+      reviewable. Suggested by Johannes Weiner.
+    * Update the cover letter a bit.
 
-Best,
-Gary
+This patch series implements the virtual swap space idea, based on Yosry's
+proposals at LSFMMBPF 2023 (see [1], [2], [3]), as well as valuable
+inputs from Johannes Weiner. The same idea (with different
+implementation details) has been floated by Rik van Riel since at least
+2011 (see [8]).
 
-> ---
-> Changes in v2:
-> - Reorder register fields in descending order.
-> - Drop `nv_reg` macro and use the kernel `register` macro directly.
-> - Make `FUSE_UCODE1_VERSION` registers return a u16 directly.
-> - Use `into_raw` instead of accessing the inner value of registers direct=
-ly.
-> - Use safer macro to generate the `From` and `TryFrom` implementations
->   of falcon enum types.
-> - Link to v1: https://patch.msgid.link/20260318-b4-nova-register-v1-0-22a=
-358aa4c63@nvidia.com
->
-> ---
-> Alexandre Courbot (10):
->       gpu: nova-core: convert PMC registers to kernel register macro
->       gpu: nova-core: convert PBUS registers to kernel register macro
->       gpu: nova-core: convert PFB registers to kernel register macro
->       gpu: nova-core: convert GC6 registers to kernel register macro
->       gpu: nova-core: convert FUSE registers to kernel register macro
->       gpu: nova-core: convert PDISP registers to kernel register macro
->       gpu: nova-core: falcon: introduce `bounded_enum` macro
->       gpu: nova-core: convert falcon registers to kernel register macro
->       gpu: nova-core: remove `io::` qualifier to register macro invocatio=
-ns
->       Documentation: nova: remove register abstraction task
->
->  Documentation/gpu/nova/core/todo.rst               |  76 ---
->  drivers/gpu/nova-core/falcon.rs                    | 582 ++++++++-------=
--
->  drivers/gpu/nova-core/falcon/gsp.rs                |  27 +-
->  drivers/gpu/nova-core/falcon/hal/ga102.rs          |  70 +-
->  drivers/gpu/nova-core/falcon/hal/tu102.rs          |  12 +-
->  drivers/gpu/nova-core/falcon/sec2.rs               |  17 +-
->  drivers/gpu/nova-core/fb.rs                        |   6 +-
->  drivers/gpu/nova-core/fb/hal/ga100.rs              |  37 +-
->  drivers/gpu/nova-core/fb/hal/ga102.rs              |   7 +-
->  drivers/gpu/nova-core/fb/hal/tu102.rs              |  17 +-
->  drivers/gpu/nova-core/firmware/fwsec/bootloader.rs |  19 +-
->  drivers/gpu/nova-core/gfw.rs                       |  11 +-
->  drivers/gpu/nova-core/gpu.rs                       |  37 +-
->  drivers/gpu/nova-core/gsp/boot.rs                  |  11 +-
->  drivers/gpu/nova-core/gsp/cmdq.rs                  |   9 +-
->  drivers/gpu/nova-core/regs.rs                      | 601 +++++++++------=
---
->  drivers/gpu/nova-core/regs/macros.rs               | 739 ---------------=
-------
->  17 files changed, 765 insertions(+), 1513 deletions(-)
-> ---
-> base-commit: a19457958c3018783881c4416f272cd594f13049
-> change-id: 20260318-b4-nova-register-6908b5118552
->
-> Best regards,
+
+I. Motivation
+
+Currently, when an anon page is swapped out, a slot in a backing swap
+device is allocated and stored in the page table entries that refer to
+the original page. This slot is also used as the "key" to find the
+swapped out content, as well as the index to swap data structures, such
+as the swap cache, or the swap cgroup mapping. Tying a swap entry to its
+backing slot in this way is performant and efficient when swap is purely
+just disk space, and swapoff is rare.
+
+However, the advent of many swap optimizations has exposed major
+drawbacks of this design. The first problem is that we occupy a physical
+slot in the swap space, even for pages that are NEVER expected to hit
+the disk: pages compressed and stored in the zswap pool, zero-filled
+pages, or pages rejected by both of these optimizations when zswap
+writeback is disabled. This is the arguably central shortcoming of
+zswap:
+* In deployments when no disk space can be afforded for swap (such as
+  mobile and embedded devices), users cannot adopt zswap, and are forced
+  to use zram. This is confusing for users, and creates extra burdens
+  for developers, having to develop and maintain similar features for
+  two separate swap backends (writeback, cgroup charging, THP support,
+  etc.). For instance, see the discussion in [4].
+* Resource-wise, it is hugely wasteful in terms of disk usage. At Meta,
+  we have swapfile in the order of tens to hundreds of GBs, which are
+  mostly unused and only exist to enable zswap usage and zero-filled
+  pages swap optimizations.
+* Tying zswap (and more generally, other in-memory swap backends) to
+  the current physical swapfile infrastructure makes zswap implicitly
+  statically sized. This does not make sense, as unlike disk swap, in
+  which we consume a limited resource (disk space) to
+  save another resource (memory), zswap consume the same resource it is
+  saving (memory). The more we zswap, the more memory we have available,
+  not less. We are not rationing a limited resource when we limit
+  the size of the zswap pool, but rather we are capping the resource
+  (memory) saving potential of zswap. Under memory pressure, using
+  more zswap is almost always better than the alternative (disk IOs, or
+  even worse, OOMs), and dynamically sizing the zswap pool on demand
+  allows the system to flexibly respond to these precarious scenarios.
+* Operationally, static provisioning the swapfile for zswap pose
+  significant challenges, because the sysadmin has to prescribe how
+  much swap is needed a priori, for each combination of
+  (memory size x disk space x workload usage). It is even more
+  complicated when we take into account the variance of memory
+  compression, which changes the reclaim dynamics (and as a result,
+  swap space size requirement). The problem is further exacerbated for
+  users who rely on swap utilization (and exhaustion) as an OOM signal.
+
+  All of these factors make it very difficult to configure the swapfile
+  for zswap: too small of a swapfile and we risk preventable OOMs and
+  limit the memory saving potentials of zswap; too big of a swapfile
+  and we waste disk space and memory due to swap metadata overhead.
+  This dilemma becomes more drastic in high memory systems, which can
+  have up to TBs worth of memory.
+
+Past attempts to decouple disk and compressed swap backends, namely the
+ghost swapfile approach (see [13]), as well as the alternative
+compressed swap backend zram, have mainly focused on eliminating the
+disk space usage of compressed backends. We want a solution that not
+only tackles that same problem, but also achieve the dynamicization of
+swap space to maximize the memory saving potentials while reducing
+operational and static memory overhead.
+
+Finally, any swap redesign should support efficient backend transfer,
+i.e without having to perform the expensive page table walk to
+update all the PTEs that refer to the swap entry:
+* The main motivation for this requirement is zswap writeback. To quote
+  Johannes (from [14]): "Combining compression with disk swap is
+  extremely powerful, because it dramatically reduces the worst aspects
+  of both: it reduces the memory footprint of compression by shedding
+  the coldest data to disk; it reduces the IO latencies and flash wear
+  of disk swap through the writeback cache. In practice, this reduces
+  *average event rates of the entire reclaim/paging/IO stack*."
+* Another motivation is to simplify swapoff, which is both complicated
+  and expensive in the current design, precisely because we are storing
+  an encoding of the backend positional information in the page table,
+  and thus requires a full page table walk to remove these references.
+
+
+II. High Level Design Overview
+
+To fix the aforementioned issues, we need an abstraction that separates
+a swap entry from its physical backing storage. IOW, we need to
+"virtualize" the swap space: swap clients will work with a dynamically
+allocated virtual swap slot, storing it in page table entries, and
+using it to index into various swap-related data structures. The
+backing storage is decoupled from the virtual swap slot, and the newly
+introduced layer will "resolve" the virtual swap slot to the actual
+storage. This layer also manages other metadata of the swap entry, such
+as its lifetime information (swap count), via a dynamically allocated,
+per-swap-entry descriptor:
+
+struct swp_desc {
+        union {
+                swp_slot_t         slot;                 /*     0     8 */
+                struct zswap_entry * zswap_entry;        /*     0     8 */
+        };                                               /*     0     8 */
+        union {
+                struct folio *     swap_cache;           /*     8     8 */
+                void *             shadow;               /*     8     8 */
+        };                                               /*     8     8 */
+        unsigned int               swap_count;           /*    16     4 */
+        unsigned short             memcgid:16;           /*    20: 0  2 */
+        bool                       in_swapcache:1;       /*    22: 0  1 */
+
+        /* Bitfield combined with previous fields */
+
+        enum swap_type             type:2;               /*    20:17  4 */
+
+        /* size: 24, cachelines: 1, members: 6 */
+        /* bit_padding: 13 bits */
+        /* last cacheline: 24 bytes */
+};
+
+(output from pahole).
+
+This design allows us to:
+* Decouple zswap (and zeromapped swap entry) from backing swapfile:
+  simply associate the virtual swap slot with one of the supported
+  backends: a zswap entry, a zero-filled swap page, a slot on the
+  swapfile, or an in-memory page.
+* Simplify and optimize swapoff: we only have to fault the page in and
+  have the virtual swap slot points to the page instead of the on-disk
+  physical swap slot. No need to perform any page table walking.
+
+The size of the virtual swap descriptor is 24 bytes. Note that this is
+not all "new" overhead, as the swap descriptor will replace:
+* the swap_cgroup arrays (one per swap type) in the old design, which
+  is a massive source of static memory overhead. With the new design,
+  it is only allocated for used clusters.
+* the swap tables, which holds the swap cache and workingset shadows.
+* the zeromap bitmap, which is a bitmap of physical swap slots to
+  indicate whether the swapped out page is zero-filled or not.
+* huge chunk of the swap_map. The swap_map is now replaced by 2 bitmaps,
+  one for allocated slots, and one for bad slots, representing 3 possible
+  states of a slot on the swapfile: allocated, free, and bad.
+* the zswap tree.
+
+So, in terms of additional memory overhead:
+* For zswap entries, the added memory overhead is rather minimal. The
+  new indirection pointer neatly replaces the existing zswap tree.
+  We really only incur less than one word of overhead for swap count
+  blow up (since we no longer use swap continuation) and the swap type.
+* For physical swap entries, the new design will impose fewer than 3 words
+  memory overhead. However, as noted above this overhead is only for
+  actively used swap entries, whereas in the current design the overhead is
+  static (including the swap cgroup array for example).
+
+  The primary victim of this overhead will be zram users. However, as
+  zswap now no longer takes up disk space, zram users can consider
+  switching to zswap (which, as a bonus, has a lot of useful features
+  out of the box, such as cgroup tracking, dynamic zswap pool sizing,
+  LRU-ordering writeback, etc.).
+
+For a more concrete example, suppose we have a 32 GB swapfile (i.e.
+8,388,608 swap entries), and we use zswap.
+
+0% usage, or 0 entries: 0.00 MB
+* Old design total overhead: 25.00 MB
+* Vswap total overhead: 0.00 MB
+
+25% usage, or 2,097,152 entries:
+* Old design total overhead: 57.00 MB
+* Vswap total overhead: 48.25 MB
+
+50% usage, or 4,194,304 entries:
+* Old design total overhead: 89.00 MB
+* Vswap total overhead: 96.50 MB
+
+75% usage, or 6,291,456 entries:
+* Old design total overhead: 121.00 MB
+* Vswap total overhead: 144.75 MB
+
+100% usage, or 8,388,608 entries:
+* Old design total overhead: 153.00 MB
+* Vswap total overhead: 193.00 MB
+
+So even in the worst case scenario for virtual swap, i.e when we
+somehow have an oracle to correctly size the swapfile for zswap
+pool to 32 GB, the added overhead is only 40 MB, which is a mere
+0.12% of the total swapfile :)
+
+In practice, the overhead will be closer to the 50-75% usage case, as
+systems tend to leave swap headroom for pathological events or sudden
+spikes in memory requirements. The added overhead in these cases are
+practically negligible. And in deployments where swapfiles for zswap
+are previously sparsely used, switching over to virtual swap will
+actually reduce memory overhead.
+
+Doing the same math for the disk swap, which is the worst case for
+virtual swap in terms of swap backends:
+
+0% usage, or 0 entries: 0.00 MB
+* Old design total overhead: 25.00 MB
+* Vswap total overhead: 2.00 MB
+
+25% usage, or 2,097,152 entries:
+* Old design total overhead: 41.00 MB
+* Vswap total overhead: 66.25 MB
+
+50% usage, or 4,194,304 entries:
+* Old design total overhead: 57.00 MB
+* Vswap total overhead: 130.50 MB
+
+75% usage, or 6,291,456 entries:
+* Old design total overhead: 73.00 MB
+* Vswap total overhead: 194.75 MB
+
+100% usage, or 8,388,608 entries:
+* Old design total overhead: 89.00 MB
+* Vswap total overhead: 259.00 MB
+
+The added overhead is 170MB, which is 0.5% of the total swapfile size,
+again in the worst case when we have a sizing oracle.
+
+Please see the attached patches for more implementation details.
+
+
+III. Usage and Benchmarking
+
+This patch series introduce no new syscalls or userspace API. Existing
+userspace setups will work as-is, except we no longer have to create a
+swapfile or set memory.swap.max if we want to use zswap, as zswap is no
+longer tied to physical swap. The zswap pool will be automatically and
+dynamically sized based on memory usage and reclaim dynamics.
+
+To measure the performance of the new implementation, I have run the
+following benchmarks:
+
+1. Kernel building: 52 workers (one per processor), memory.max = 3G.
+
+Using zswap as the backend:
+
+Baseline:
+real: mean: 164.29s, stdev: 0.53s
+user: mean: 5109.06s, stdev: 2.04s
+sys: mean: 672.62s, stdev: 30.46s
+
+Vswap:
+real: mean: 164.12s, stdev: 0.4s
+user: mean: 5105.24s, stdev: 2.01s
+sys: mean: 668.66s, stdev: 34.45s
+
+Using SSD swap as the backend:
+
+Baseline:
+real: mean: 189.74s, stdev: 2.03s
+user: mean: 5035.93s, stdev: 3.1s
+sys: mean: 500.01s, stdev: 4.16s
+
+Vswap:
+real: mean: 190.18s, stdev: 4.35s
+user: mean: 5038.26s, stdev: 7.39s
+sys: mean: 497.09s, stdev: 12.3s
+
+The performance is neck-to-neck for both swap backends, with vswap
+slightly edging out in systime. However, the variance is high, so it is
+hard to draw a definitive conclusion.
+
+2. Usemem: Per a report from Kairui Song ([15]), I have run the
+   following benchmark:
+
+Memory state of the system:
+
+free -m
+               total        used        free      shared  buff/cache   available
+Mem:           31596        5094       11667          19       15302       26502
+Swap:          65535          33       65502
+
+Running the usemem benchmark with n = 1, 56G for 5 times, and average
+out the result:
+
+Baseline (6.19):
+real: mean: 190.93s, stdev: 5.09s
+user: mean: 46.62s, stdev: 0.27s
+sys: mean: 128.51s, stdev: 5.17s
+throughput: mean: 382093 KB/s, stdev: 11173.6 KB/s
+free time: mean: 7916690.2 usecs, stdev: 88923.0 usecs
+
+VSS:
+real: mean: 187.66s, stdev: 5.67s
+user: mean: 46.5s, stdev: 0.16s
+sys: mean: 125.3s, stdev: 5.58s
+throughput: mean: 387506.4 KB/s, stdev: 12556.56 KB/s
+free time: mean: 7029733.8 usecs, stdev: 124661.34 usecs
+
+
+IV. Future Use Cases
+
+While the patch series focus on two applications (decoupling swap
+backends and swapoff optimization/simplification), this new,
+future-proof design also allows us to implement new swap features more
+easily and efficiently:
+
+* Multi-tier swapping (as mentioned in [5]), with transparent
+  transferring (promotion/demotion) of pages across tiers (see [8] and
+  [9]). Similar to swapoff, with the old design we would need to
+  perform the expensive page table walk.
+* Swapfile compaction to alleviate fragmentation (as proposed by Ying
+  Huang in [6]).
+* Mixed backing THP swapin (see [7]): Once you have pinned down the
+  backing store of THPs, then you can dispatch each range of subpages
+  to appropriate backend swapin handler.
+* Swapping a folio out with discontiguous physical swap slots
+  (see [10]).
+* Zswap writeback optimization: The current architecture pre-reserves
+  physical swap space for pages when they enter the zswap pool, giving
+  the kernel no flexibility at writeback time. With the virtual swap
+  implementation, the backends are decoupled, and physical swap space
+  is allocated on-demand at writeback time, at which point we can make
+  much smarter decisions: we can batch multiple zswap writeback
+  operations into a single IO request, allocating contiguous physical
+  swap slots for that request. We can even perform compressed writeback
+  (i.e writing these pages without decompressing them) (see [12]).
+
+
+V. References
+
+[1]: https://lore.kernel.org/all/CAJD7tkbCnXJ95Qow_aOjNX6NOMU5ovMSHRC+95U4wtW6cM+puw@mail.gmail.com/
+[2]: https://lwn.net/Articles/932077/
+[3]: https://www.youtube.com/watch?v=Hwqw_TBGEhg
+[4]: https://lore.kernel.org/all/Zqe_Nab-Df1CN7iW@infradead.org/
+[5]: https://lore.kernel.org/lkml/CAF8kJuN-4UE0skVHvjUzpGefavkLULMonjgkXUZSBVJrcGFXCA@mail.gmail.com/
+[6]: https://lore.kernel.org/linux-mm/87o78mzp24.fsf@yhuang6-desk2.ccr.corp.intel.com/
+[7]: https://lore.kernel.org/all/CAGsJ_4ysCN6f7qt=6gvee1x3ttbOnifGneqcRm9Hoeun=uFQ2w@mail.gmail.com/
+[8]: https://lore.kernel.org/linux-mm/4DA25039.3020700@redhat.com/
+[9]: https://lore.kernel.org/all/CA+ZsKJ7DCE8PMOSaVmsmYZL9poxK6rn0gvVXbjpqxMwxS2C9TQ@mail.gmail.com/
+[10]: https://lore.kernel.org/all/CACePvbUkMYMencuKfpDqtG1Ej7LiUS87VRAXb8sBn1yANikEmQ@mail.gmail.com/
+[11]: https://lore.kernel.org/all/CAMgjq7BvQ0ZXvyLGp2YP96+i+6COCBBJCYmjXHGBnfisCAb8VA@mail.gmail.com/
+[12]: https://lore.kernel.org/linux-mm/ZeZSDLWwDed0CgT3@casper.infradead.org/
+[13]: https://lore.kernel.org/all/20251121-ghost-v1-1-cfc0efcf3855@kernel.org/
+[14]: https://lore.kernel.org/linux-mm/20251202170222.GD430226@cmpxchg.org/
+[15]: https://lore.kernel.org/linux-mm/CAMgjq7AQNGK-a=AOgvn4-V+zGO21QMbMTVbrYSW_R2oDSLoC+A@mail.gmail.com/
+[16]: https://lore.kernel.org/all/69bc6c4f.050a0220.3bf4de.0001.GAE@google.com/
+[17]: https://lore.kernel.org/all/20260319075621.GR3738010@noisy.programming.kicks-ass.net/
+
+Nhat Pham (21):
+  mm/swap: decouple swap cache from physical swap infrastructure
+  swap: rearrange the swap header file
+  mm: swap: add an abstract API for locking out swapoff
+  zswap: add new helpers for zswap entry operations
+  mm/swap: add a new function to check if a swap entry is in swap
+    cached.
+  mm: swap: add a separate type for physical swap slots
+  mm: create scaffolds for the new virtual swap implementation
+  zswap: prepare zswap for swap virtualization
+  mm: swap: allocate a virtual swap slot for each swapped out page
+  swap: move swap cache to virtual swap descriptor
+  zswap: move zswap entry management to the virtual swap descriptor
+  swap: implement the swap_cgroup API using virtual swap
+  swap: manage swap entry lifecycle at the virtual swap layer
+  mm: swap: decouple virtual swap slot from backing store
+  zswap: do not start zswap shrinker if there is no physical swap slots
+  swap: do not unnecesarily pin readahead swap entries
+  swapfile: remove zeromap bitmap
+  memcg: swap: only charge physical swap slots
+  swap: simplify swapoff using virtual swap
+  swapfile: replace the swap map with bitmaps
+  vswap: batch contiguous vswap free calls
+
+ Documentation/mm/swap-table.rst |   69 --
+ MAINTAINERS                     |    3 +-
+ include/linux/cpuhotplug.h      |    1 +
+ include/linux/memcontrol.h      |    6 +
+ include/linux/mm_types.h        |   16 +
+ include/linux/shmem_fs.h        |    7 +-
+ include/linux/swap.h            |  185 ++-
+ include/linux/swap_cgroup.h     |   17 +-
+ include/linux/swapops.h         |   25 +
+ include/linux/zswap.h           |   17 +-
+ kernel/power/swap.c             |    6 +-
+ mm/Makefile                     |    5 +-
+ mm/filemap.c                    |   14 +-
+ mm/huge_memory.c                |   11 +-
+ mm/internal.h                   |   24 +-
+ mm/madvise.c                    |    2 +-
+ mm/memcontrol-v1.c              |    8 +-
+ mm/memcontrol.c                 |  144 ++-
+ mm/memory.c                     |  109 +-
+ mm/migrate.c                    |   13 +-
+ mm/mincore.c                    |   15 +-
+ mm/page_io.c                    |   83 +-
+ mm/shmem.c                      |  227 +---
+ mm/swap.h                       |  179 +--
+ mm/swap_cgroup.c                |  172 ---
+ mm/swap_state.c                 |  306 +----
+ mm/swap_table.h                 |   78 +-
+ mm/swapfile.c                   | 1517 ++++-------------------
+ mm/userfaultfd.c                |   18 +-
+ mm/vmscan.c                     |   28 +-
+ mm/vswap.c                      | 2034 +++++++++++++++++++++++++++++++
+ mm/zswap.c                      |  142 +--
+ 32 files changed, 2974 insertions(+), 2507 deletions(-)
+ delete mode 100644 Documentation/mm/swap-table.rst
+ delete mode 100644 mm/swap_cgroup.c
+ create mode 100644 mm/vswap.c
+
+
+base-commit: 05f7e89ab9731565d8a62e3b5d1ec206485eeb0b
+-- 
+2.52.0
 
