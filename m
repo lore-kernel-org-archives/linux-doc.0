@@ -1,421 +1,295 @@
-Received: from mail-yx1-f67.google.com (mail-yx1-f67.google.com [74.125.224.67])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from LO0P265CU003.outbound.protection.outlook.com (mail-uksouthazon11022139.outbound.protection.outlook.com [52.101.96.139])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE3B931AA8F
-	for <linux-doc@vger.kernel.org>; Fri, 20 Mar 2026 19:05:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.67
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774033507; cv=none; b=S9Um4c3YIi5AgCiExq8BU1zQxw9DAuCks6ImO9saEkofYiF8yeQWRtdBNcelbV3ilixctLNWF0ip+EVJOkH3r+S2B/pA1nJ1I3MMGa+cWojKdtE1cUgsxasw/a8lUyiceYsyP7KTtUsiVsfwbp7iCBvhtQQNpCjOCwH7zR+rXQk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774033507; c=relaxed/simple;
-	bh=wSfIa4k2FoGGGse9nhlCXRZG1PNoyEALZd0TlgrqxZE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nL6xdgm/p3XGK2jdDsCJqdYpa4DL+7hMNSYuZVjqEuLGv9k5eLraXK34Pl5tcqjmeQfL1GRIbXZCe/UW6DzhRC7ytx0uuz1d1ImqrEDyrsxUQyxSrpCc3wMpgUU7zR+2rvdhQWHvxEH84rt4jHXL1VKnqncrDBeJREq2W0yhFXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bKzr5daI; arc=none smtp.client-ip=74.125.224.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DE8331B838;
+	Fri, 20 Mar 2026 19:08:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.96.139
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774033739; cv=fail; b=UvkBbJInEP2gGZvEWl+Us5Lo/TDt3cnKZc+SMgOgAymIetO1QHCSoUVp4XbXhTayFwWxG0nTDtQBVewy/TzeyF2WIksby4MzubKHV3TXoTLdxbWhf/tLdG5sUwwKr10qFSN1j2Ecuvcl2VHPg8AFFsfxgTjPqXXT7Gdc993JuqE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774033739; c=relaxed/simple;
+	bh=oFkNMEiWSnP4548zd+Udnb7qXOeLV7gYeGBDtDkzRyA=;
+	h=Content-Type:Date:Message-Id:Subject:From:To:Cc:References:
+	 In-Reply-To:MIME-Version; b=mfnz14CCUQ1Qeav7z0pS0oCJAjOeERcKJZV+mydGSzQEkAFH7n3SVaUrM2GIf90WwxBLHW7xaDIL8rbOt0PPcLcjJdaV+ZeFirIGMsVPjixmk89JU30s4A3DsXdbZs5Z4mCVCWXjMRaUE/gDHkc/jfIS1NQrrPnKHTklZ0s/JE4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=W6wn7blq; arc=fail smtp.client-ip=52.101.96.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bKzr5daI"
-Received: by mail-yx1-f67.google.com with SMTP id 956f58d0204a3-64ae222d87dso2283692d50.2
-        for <linux-doc@vger.kernel.org>; Fri, 20 Mar 2026 12:05:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774033501; x=1774638301; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FsaG2cqBlzmGBKhCZrr0TNjZqNjOAajTDrfTI+nVTrg=;
-        b=bKzr5daI++OjxuTYNhPF0iNA/cediPJChfybkR1H0IoG0ljzfZAbpv/C8flne2+K4Z
-         mL0IB6LQc40h/2c/HywcKNTlO3OZV2OL5x91a8ZLZCgcX0bTRkcfZNnlpLbFSLn+V1em
-         kE+QHs+sUUyX20gZaUSicPL+pupn60BbAGGV+ZpSJXcYXV3AQJZ4QKJagHmLO4bAjr+g
-         qn4xsG8G+YHkOIwWyzupawVyVMdZP7T7Ex58KYedbj7ekNst+85LMmYj3wHt5W41RRN0
-         oL41/z+XS7gvvdVZnVgTmMeZ2iEjDrX9WQfppz8lqFPBavo4mkJSrM/JQrYSiXGrutZ9
-         43ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774033501; x=1774638301;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=FsaG2cqBlzmGBKhCZrr0TNjZqNjOAajTDrfTI+nVTrg=;
-        b=bsFJcoxVgj4lU7HVagB6oq65wSlN76RbTBVpi/v4Bx/RqAWM7EvjP+39JNSRSliXHW
-         VlAKt/mob6fxnDnkuy/9SKiZoOuWuqp1PQPpcJWhn8C8d2e8pdAxOglLOKsTx6+onqzk
-         j8sQh9jtp+5HPcC1eUsCBnpRKmDPgEJyMuJDbvkd/PNJ0reavLitV7ZqNp7neuuJacKn
-         N8k54qRI/H5BqxEZrZXn4RHRMFe6B3zRKfNjMSZdCLdHOmi9osqpBXomw6pOJl+M2by1
-         hI1bPTC9Scxzy4c1ZtxdXduS/I2DIJq1F8QaG/VYDdVn5MLKBQI5TjN99PYoyMxGE7f7
-         I8WA==
-X-Forwarded-Encrypted: i=1; AJvYcCXC6QUGmzPDUl0xAJMu4fE/Ey42y/diRj2drL4XJlW73Kj+gnpy1kMsdJjiJFCxNv8r+r3/arQhr/w=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywt5jhLJtdU6fzj3pemV8ARuqxDbOSLc4IvmzLxqDxI5x+HEaiS
-	jcQ0LWKVJKwS6tW/T8hAh6OA/wSNMde//FlbIRoE1zPJo+BPEvkmAeg=
-X-Gm-Gg: ATEYQzx0pn1t5NF0dNHgGuUe/EE2YIERBkak0Ne4T6bnGWjXdV/6ust1K5Ofs+5D8HE
-	2psezI54RQDPtwQfPob4fj51GMLVdPkA2xFGEeQVWOcr+eY0TWyjCi0yVr3IOczlw4jybPrgTju
-	RWjwJtIxFxHWblh2NfMOOvurD2wFK3aX+ETjzQO3KFN9HMYOzJF8Z56SihjqkjyvvsQa2Ccga+3
-	4uXlWW6H2prNA3z04jczIU6SVYWKeIV/4/kvIrQPa1tEaB9VIuFnd1Yb0Tg9cwjZyBIM39JzA1T
-	Ijiy/IdqPM0Hav6ySyoh3yM0Py9FMn/HkXJmBM3Uc3hQgqh8cgQklYEaU+adM4In9HctWhDdynG
-	TR7QNU208Rezg8ftw5t9u+D5aGsOZVLrOunYAnxgHZ6nBuIwusByWGx9jvrn2J7fRlPEVc+qST6
-	Q2MxCp8Z1LBO5mo39x6nO42Dy5kVSj22SEMzAnvEW0EsR+BCLkhp+xOOJoZRptmzFfv37gUwO0Y
-	A==
-X-Received: by 2002:a05:690e:e83:b0:64a:d705:31d0 with SMTP id 956f58d0204a3-64eaa701833mr4984332d50.28.1774033500742;
-        Fri, 20 Mar 2026 12:05:00 -0700 (PDT)
-Received: from localhost (23-116-43-216.lightspeed.sntcca.sbcglobal.net. [23.116.43.216])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-64eabe7e34esm1990519d50.10.2026.03.20.12.05.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Mar 2026 12:05:00 -0700 (PDT)
-From: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
-To: sj@kernel.org,
-	damon@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: akpm@linux-foundation.org,
-	corbet@lwn.net,
-	bijan311@gmail.com,
-	ajayjoshi@micron.com,
-	honggyu.kim@sk.com,
-	yunjeong.mun@sk.com,
-	ravis.opensrc@gmail.com
-Subject: [RFC PATCH v4 1/1] mm/damon: add node_eligible_mem_bp and node_ineligible_mem_bp goal metrics
-Date: Fri, 20 Mar 2026 12:04:53 -0700
-Message-ID: <20260320190453.1430-2-ravis.opensrc@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260320190453.1430-1-ravis.opensrc@gmail.com>
-References: <20260320190453.1430-1-ravis.opensrc@gmail.com>
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="W6wn7blq"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=lin0FognQAQjTosVbwWMcmjDP+N2lfShCF3dEyJS8BY0kjzvgde/mdj4Zg8/sLBFNrm6nW74VlzMp3E5AzzABG6GnsF2YG+fBfOIWPZ6ixETff1qnJQJROwVLMuR8kXHiU7tJ5o3pYF5r3DB6BC3v2Zo0C0C1TA1Q/6vxWJ4vibNSA7v8KqijsCRVkt8uLoBJP/fvjeh+JSljmOXNSu7JUW7CF2AgLy6OoRzmwioTgdJ+DOEK0nQ2jJTi5RsioOIceT9Bdck296waY34J7490Qsu8B6EsY0xQB/arIu3pVhIToMCj1lxAraWnGvMY0ENiiFqrBoQfW2s8+ZyfvA1Xw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=y/3cY/59i6MG5kFyiHxdyi9ZDgj76x2aQFf/1WTRbos=;
+ b=c5KUDVwz+wGklC6J2zJDWyI11nojmsmX96thkbvUGRi750jyda5Uv/PygevtAYjmM+DzP0r1x/LYNxWsjPyheqBqFxife14qy1S1xBI3CAV2xCyl4qps3isCnTAUqkBeaHLgcQDQ81PO8W7G26jtixalZ58oKkHnuOSrHUh2tOFNUa6oP6NGh7LPTZBGbA+oLLxvaWzodkrqMwqgO6DfxHSPEkeN7gzBRyHMLFjl9ePjJaeHOrsQjzg3SMlXc/Sy9mVAMvZH6GEy43JYim1bEKSzpQ2vCaoNrWMEUe9Z7uk4emJPc/XGN0bTet7yfTzTM9fFmch5Wi6SweDGnWcOGQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=y/3cY/59i6MG5kFyiHxdyi9ZDgj76x2aQFf/1WTRbos=;
+ b=W6wn7blqFZy2TmOdPEGNRSGaGoF/DgVuNGiJHxCAI2CTTAqHeOoMz6wbcyF2GbFVu0qCgfoSeDGuQoKwVmfHdEzCnfVvMNB7GPXxuoRMBSKbu2vfoPu3VwSffX5CnBEwtzGZ9n+mmjVPGY7TuAOy7iDfWPmU59xO7yp6JysFdHI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by LO4P265MB6349.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:2e6::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.23; Fri, 20 Mar
+ 2026 19:08:55 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9723.022; Fri, 20 Mar 2026
+ 19:08:54 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 20 Mar 2026 19:08:54 +0000
+Message-Id: <DH7UH2ITPZDT.E1DWRAW8891O@garyguo.net>
+Subject: Re: [PATCH v2 07/10] gpu: nova-core: falcon: introduce
+ `bounded_enum` macro
+From: "Gary Guo" <gary@garyguo.net>
+To: "Alexandre Courbot" <acourbot@nvidia.com>, "Danilo Krummrich"
+ <dakr@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "Miguel Ojeda"
+ <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>, "Gary Guo"
+ <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, "Trevor Gross" <tmgross@umich.edu>
+Cc: "John Hubbard" <jhubbard@nvidia.com>, "Alistair Popple"
+ <apopple@nvidia.com>, "Joel Fernandes" <joelagnelf@nvidia.com>, "Timur
+ Tabi" <ttabi@nvidia.com>, "Zhi Wang" <zhiw@nvidia.com>, "Eliot Courtney"
+ <ecourtney@nvidia.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+ <linux-doc@vger.kernel.org>, <rust-for-linux@vger.kernel.org>
+X-Mailer: aerc 0.21.0
+References: <20260320-b4-nova-register-v2-0-88fcf103e8d4@nvidia.com>
+ <20260320-b4-nova-register-v2-7-88fcf103e8d4@nvidia.com>
+In-Reply-To: <20260320-b4-nova-register-v2-7-88fcf103e8d4@nvidia.com>
+X-ClientProxiedBy: LO4P265CA0093.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2bc::18) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO4P265MB6349:EE_
+X-MS-Office365-Filtering-Correlation-Id: 494b424d-9acd-448f-7304-08de86b4218f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|7416014|1800799024|376014|10070799003|7053199007|56012099003|18002099003|22082099003|921020;
+X-Microsoft-Antispam-Message-Info:
+	2EyKXAdZ8W90GivhK6jvhUUrJtEtla8lm5fbVT8KACzIUmI8TtHRds9EAMIvUQw4QFB+T9h0jxndz0zfrKzCy52gFsSFkt/y5ZrZ6iTqh3AmcpWor+uxFacDf+/zAoaCdllRdbMf1p9QowEICZFkogwODKQdljlwY5+R7xvJNA8Qf+ENOWrNWK6lu1FziJqxEVS2u402d6e+7VTnJXPms9DU9AI/AYWKWZMCwDwfzWst5LxBxz31StqMEC1kvhZEQUgWLIx1c7vdoPtgEQ3IwYS4ibKkobFdp59quhRiNFxTIxjDWDjQqjn1v0UMLFuFAMSgWj1YIZ8WuYF/wT6Romthm96f13gEn2YsO76Pqs2tFbOkYoV9HdF+aSaE7FD6cXLSQ+PhVGpkpXBdekc4MprpISrIgAJBRI0EinOdGO6sdB2cXKEdJhN1qRlPvuXDS5jUK6ULlU9Z1amGcNh/Jog5jo75rOgnOW2NU27kQf4bwUgpx+BGZBfr7Tq8FA573Mrg9kfz56pMw8CtS/lF3LTA6XvGLyB1Krk9usEj5Br/Hu/fMLeRLuoW9cQwH2hG2j2EaQ+SXBMZocoHFhZe8EhMD3HhXbPqJkyoWrKRFFR57PZksY/K6jggQNOBcGsTKoky4E4mj4+EDCFqhKy1+CRa1vYsTrB4A9RiwIQC5EUO4TpYz0GTDo1H7Q9EQq1c4Rfey9gSTZP92qd4MeH+qhJgiiIrJVM1zD1qveVQW6D4jfod9lCSYVnRU+knhPUE4oD9BrgAYwoiY555YwPymw==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(1800799024)(376014)(10070799003)(7053199007)(56012099003)(18002099003)(22082099003)(921020);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?a0JoYjhHTFBDTXJCbndRL3RERG55ZVhoRXFLT0JUb3dPMEo2T3FESC8xb3I4?=
+ =?utf-8?B?L3hreTVZRHU0N2t2R2hMZkN1RFJWdXU0SGZad1Q1cVhOOGQyeHZYc3N4VGtY?=
+ =?utf-8?B?U0tvalIrYXAxSi9raTUvN3Q0d2dWL0VrMFZ1aXFPMjVGOUcwbGFKRCs2YnZI?=
+ =?utf-8?B?UDl6ODFtZWF5QldjSjdpZ2pncktOcUY5dzRxeFhURmY0a2VwbWxwK0t1bGxv?=
+ =?utf-8?B?cFVoN2F0R0RMTnE4cEg1bTVnSE1Pclh6WW1SRGNWZisyM0Z4Tm9Pak4yeWJi?=
+ =?utf-8?B?a25IZUU4Z2g3ZnYzcVRwMVhYTzJPcTlZMkk5N0ZKSW9pemZVVVNzaFNrV3BX?=
+ =?utf-8?B?azZFOUhYYUJpSmMwOXV5Ri93QjJ5NTlaNEw4cVlVUWwyR29ZQW9ONHM5ZnhI?=
+ =?utf-8?B?azN1RkEzOVZkQzJzeWk1dVhzbHN1VktnOTJINHNZVnRyU3IvcDVUcWJ0UEh1?=
+ =?utf-8?B?aEZ4WlRaaTVOSWRGc1hOSkVTN0hqZ3RiSE8wVU5sZmx0NnhWNHg2VVM5NW9I?=
+ =?utf-8?B?WCs5VU4ySDRTVUw5UzRnb254Vlh4bVJqSmtLdWhoYUJ1Tkt3dmhxN2tRRm05?=
+ =?utf-8?B?MHNackRqV0cxb0JxSkQ2NVcvTjRTZ1V2UjZRYlE2WHBvS0l4MXMxU250cUpi?=
+ =?utf-8?B?d09ZdXNvOFMrZTE5cHpiSjZQbHJOUm5iYXVzQWx2NU1GeS9ISlVTUTF2U3hU?=
+ =?utf-8?B?NVBMdUlJN05zMVZFcFdNelExYjVCWG1EQi85TGNKRWROQlNPSkVXVVlzZEFQ?=
+ =?utf-8?B?QTNRT1RQWXQ0Tnd2TERsdk4vdWFlK0FYSU8xNXZMcHc5dk5HQ3ZydDF5bVpz?=
+ =?utf-8?B?bU1XNlF2ZjM0WVU5d3YyUmVEQTdVNmNUL3dOTzJrc2FjRWc0YVozb2Exekd5?=
+ =?utf-8?B?dGRzd1RUM1V3N0JMT0ZGeFQwSnorTEZYTFZjb2FXSGFJTjcxSkowNUk5Vk9w?=
+ =?utf-8?B?aTJTdmZRM0F0NGF0Wk9Qd2pDRHhoOXc4TG9aeTIvOFI0UWs5eDJzS2cyeU9k?=
+ =?utf-8?B?bHlhcUIzWHB2VFN0cG9SN1RUZ2QrUGhrZHZUejJsRVliN3pOOENrVUp1WFdt?=
+ =?utf-8?B?VW9zV2pRMWc3azk1dHkyZ3VhdGdqT29YUzVaMXFCb2lrd3dObi95WWpIZDF6?=
+ =?utf-8?B?RjY1enZpbkxCNkVWNzBwZTFqN24wOWtMSnNMVTZSbWJBekRPeW1zSStzbVVX?=
+ =?utf-8?B?d2Jhb3gzQWNKY2dvMmE1bU5YcC91di9LQ2tQTnl0ZWdoTFBKbUJUSFZPak9y?=
+ =?utf-8?B?Z28reTUyZXhtVXJ2R3BHTWc1WHp2TkpWb09wcm9idStWQmNsdDE4aFZJdGFz?=
+ =?utf-8?B?RStEN3REaUVkeXVlRlhWVisrWXZ0VVM4Mmx4UjFJSGJRSGpudU1lY245aWls?=
+ =?utf-8?B?ZUpSc0xXZU9QWHlLTWRwWTZBSjdkbk1ybzcvVWVvNHlUaWMyVzVabnQ5a0FV?=
+ =?utf-8?B?RWdpU1dQRXpESk5ZVCtOaGNUVEJLUXp4WDBnU1R6aENZNWRPaGY1a0ZGME5U?=
+ =?utf-8?B?dHo5N0V5QVFvOUtqbmRqL29TcDgzbWxJREVUTGZFR1VVVnlPRThkSWw4eFln?=
+ =?utf-8?B?dE9vVndjYTVsSUJsYWRvQW9VU1VlcncvNm5QV1VRSC9hWWFyMjlCditqd3RH?=
+ =?utf-8?B?cnhqMTJZcnJ2RjNYTHRid2pmZmUxV1VmM3VMc21xUWFxT2RxSWlMbFVLVmdY?=
+ =?utf-8?B?QzlDazlGMm5mM1RQa1ZkUmRvUEZlZWVIcDY4aUIzNTZ5OVlJRjRLVkdMN3Fk?=
+ =?utf-8?B?Sy8zczN5NW8zQk03VVVGenFJWlc1ZE5pVkt1QnEvZ2tjaFJqVjBOYzh4UUdR?=
+ =?utf-8?B?NS9oU2NJZnYwUEtjYVB5cm8xb1hGY1I0TjAxYi9sMkVkREF3WldHZ2JyS1pK?=
+ =?utf-8?B?VWE5VmlaL1dVV1RJTFc2anIwQUNLVWRzR2NLSDdnNTY2SE5MS2JDemlxdnRu?=
+ =?utf-8?B?NGU0RHlXcmsxL1RqeUlKeEorb1Zmb21tMFIvdkJ4NUp1dTgvWHVMZmxiaUxi?=
+ =?utf-8?B?SlpTa3lKaWVYN2NQVitpMlkzSHU4aHRjbjk5S2RNd2lxNS84T3M1OXBXbHJ2?=
+ =?utf-8?B?TjhWVkJkZ2lXNWxWTVpDYW5FMzlqdGt1eGEwcWtQcEMxNk8yZ1dDRTFVSkR1?=
+ =?utf-8?B?enRtRkdGVHNXOG8vRmNobDFmU3BldjJ1OUF5RExCNi9RR0pneHlEZStCSVg1?=
+ =?utf-8?B?UlNhVkN1SUFLR2ZESERXTGpJdStzcXc3WTIzREVLOGk5ZGRpU2tqVFBjVnNQ?=
+ =?utf-8?B?K0FhVFV5dy9jY3dvSTVSTTE2dUhOcGp5aGt5MEgydnR6cTlqUXpOVUpOanFW?=
+ =?utf-8?B?USs2dWVucDh5QWp5NDJpZUt3SHlKZXR4ZFlvUUxtNnA0eFdtZVFxQT09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 494b424d-9acd-448f-7304-08de86b4218f
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Mar 2026 19:08:54.9496
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zHjTpn8Ke68yQy52PVmWus4izQ7Bx+MohL2V3zbv/DO7SCFxhy4wa6VQ8CG1Yyxxw2JbEZWROJ/tQO/kMsXnoQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO4P265MB6349
 
-Add new quota goal metrics for memory tiering that track scheme-eligible
-memory distribution across NUMA nodes:
+On Fri Mar 20, 2026 at 12:19 PM GMT, Alexandre Courbot wrote:
+> Introduce a powered-up version of our ad-hoc `impl_from_enum_to_u8`
+> macro that allows the definition of an enum type associated to a
+> `Bounded` of a given width, and provides the `From` and `TryFrom`
+> implementations required to use that enum as a register field member.
+>
+> The next patch will make use of it to convert all falcon registers to
+> the kernel register macro.
+>
+> The macro is unused in this patch: it is introduced ahead-of-time to
+> avoid diff mingling in the next patch that would make it difficult to
+> review.
+>
+> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+> ---
+>  drivers/gpu/nova-core/falcon.rs | 82 +++++++++++++++++++++++++++++++++++=
+++++++
+>  1 file changed, 82 insertions(+)
+>
+> diff --git a/drivers/gpu/nova-core/falcon.rs b/drivers/gpu/nova-core/falc=
+on.rs
+> index 5a4f7fc85160..5221e4476f90 100644
+> --- a/drivers/gpu/nova-core/falcon.rs
+> +++ b/drivers/gpu/nova-core/falcon.rs
+> @@ -54,6 +54,88 @@ fn from(value: $enum_type) -> Self {
+>      };
+>  }
+> =20
+> +/// Creates an enum type associated to a `Bounded`, with a `From` conver=
+sion to the associated
+> +/// `Bounded` and either a `TryFrom` or `From` converting from the assoc=
+iated `Bounded`.
+> +// TODO[FPRI]: This is a temporary solution to be replaced with the corr=
+esponding derive macros
+> +// once they land.
+> +#[expect(unused)]
+> +macro_rules! bounded_enum {
+> +    (
+> +        $(#[doc =3D $enum_doc:expr])*
+> +        enum $enum_type:ident with $from_impl:ident<Bounded<$width:ty, $=
+length:literal>> {
+> +            $( $(#[doc =3D $variant_doc:expr])* $variant:ident =3D $valu=
+e:expr),* $(,)*
+> +        }
+> +    ) =3D> {
+> +        $(#[doc =3D $enum_doc])*
+> +        #[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord)]
+> +        pub(crate) enum $enum_type {
+> +            $(
+> +                $(#[doc =3D $variant_doc])*
+> +                $variant =3D $value
+> +            ),*
+> +        }
+> +
+> +        impl From<$enum_type> for Bounded<$width, $length> {
+> +            fn from(value: $enum_type) -> Self {
+> +                match value {
+> +                    $($enum_type::$variant =3D> Bounded::<$width, _>::ne=
+w::<$value>()),*
 
-- DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP: ratio of eligible memory on a node
-- DAMOS_QUOTA_NODE_INELIGIBLE_MEM_BP: ratio of eligible memory NOT on
-  a node
+Given that you're having `$value:expr` instead of `$value:literal`, this
+probably should be `::new::<{$value}>`
 
-These complementary metrics enable push-pull migration schemes that
-maintain a target memory distribution across different NUMA nodes
-representing different memory tiers, based on access patterns defined
-by each scheme.
+> +                }
+> +            }
+> +        }
+> +
+> +        bounded_enum!(@impl_from $enum_type with $from_impl<Bounded<$wid=
+th, $length>> {
+> +            $($variant =3D $value),*
+> +        });
+> +    };
+> +
+> +    // `TryFrom` implementation from associated `Bounded` to enum type.
+> +    (@impl_from $enum_type:ident with TryFrom<Bounded<$width:ty, $length=
+:literal>> {
+> +        $($variant:ident =3D $value:expr),* $(,)*
+> +    }) =3D> {
+> +        impl TryFrom<Bounded<$width, $length>> for $enum_type {
+> +            type Error =3D Error;
+> +
+> +            fn try_from(value: Bounded<$width, $length>) -> Result<Self>=
+ {
+> +                match value.get() {
+> +                    $(
+> +                        $value =3D> Ok($enum_type::$variant),
+> +                    )*
+> +                    _ =3D> Err(EINVAL),
+> +                }
+> +            }
+> +        }
+> +    };
+> +
+> +    // `From` implementation from associated `Bounded` to enum type. Tri=
+ggers a `build_error` if
+> +    // all possible values of the `Bounded` are not covered by the enum =
+type.
+> +    (@impl_from $enum_type:ident with From<Bounded<$width:ty, $length:li=
+teral>> {
+> +        $($variant:ident =3D $value:expr),* $(,)*
+> +    }) =3D> {
+> +        impl From<Bounded<$width, $length>> for $enum_type {
+> +            fn from(value: Bounded<$width, $length>) -> Self {
+> +                $(
+> +                    // Ensure all enum values fit into the `Bounded` typ=
+e.
+> +                    const { assert!(
+> +                        $value < (1 << $length),
+> +                        "Enum variant doesn't fit into assigned `Bounded=
+` type."
+> +                    ); }
+> +                )*
+> +
+> +                // Makes the compiler optimizer aware of the possible ra=
+nge of values.
+> +                let value =3D value.get() & ((1 << $length) - 1);
+> +                match value {
+> +                    $(
+> +                        $value =3D> $enum_type::$variant,
+> +                    )*
+> +                    // We land here if the match didn't cover all possib=
+le values for the
+> +                    // `Bounded`.
+> +                    _ =3D> build_error!("Enum doesn't cover all values o=
+f the `Bounded` type."),
 
-The metrics iterate scheme-eligible regions and use damon_get_folio()
-to determine NUMA node placement of each folio, calculating the ratio
-of eligible memory on the specified node versus total eligible memory.
+Given that the length is actually fixed, you should be able to use the
+exhaustive check instead of `build_error!`:
 
-Suggested-by: SeongJae Park <sj@kernel.org>
-Signed-off-by: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
----
- include/linux/damon.h    |   6 ++
- mm/damon/core.c          | 158 ++++++++++++++++++++++++++++++++++++---
- mm/damon/sysfs-schemes.c |  12 +++
- 3 files changed, 164 insertions(+), 12 deletions(-)
+    const MAX: $width =3D 1 << $length;
 
-diff --git a/include/linux/damon.h b/include/linux/damon.h
-index b1d8fd88a0fc..490918804f85 100644
---- a/include/linux/damon.h
-+++ b/include/linux/damon.h
-@@ -193,6 +193,10 @@ enum damos_action {
-  * @DAMOS_QUOTA_NODE_MEMCG_FREE_BP:	MemFree ratio of a node for a cgroup.
-  * @DAMOS_QUOTA_ACTIVE_MEM_BP:		Active to total LRU memory ratio.
-  * @DAMOS_QUOTA_INACTIVE_MEM_BP:	Inactive to total LRU memory ratio.
-+ * @DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP:	Scheme-eligible memory ratio of a
-+ *					node.
-+ * @DAMOS_QUOTA_NODE_INELIGIBLE_MEM_BP:	Scheme-ineligible memory ratio of a
-+ *					node.
-  * @NR_DAMOS_QUOTA_GOAL_METRICS:	Number of DAMOS quota goal metrics.
-  *
-  * Metrics equal to larger than @NR_DAMOS_QUOTA_GOAL_METRICS are unsupported.
-@@ -206,6 +210,8 @@ enum damos_quota_goal_metric {
- 	DAMOS_QUOTA_NODE_MEMCG_FREE_BP,
- 	DAMOS_QUOTA_ACTIVE_MEM_BP,
- 	DAMOS_QUOTA_INACTIVE_MEM_BP,
-+	DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP,
-+	DAMOS_QUOTA_NODE_INELIGIBLE_MEM_BP,
- 	NR_DAMOS_QUOTA_GOAL_METRICS,
- };
- 
-diff --git a/mm/damon/core.c b/mm/damon/core.c
-index b9e12865622c..3e0ac65e34a0 100644
---- a/mm/damon/core.c
-+++ b/mm/damon/core.c
-@@ -17,6 +17,8 @@
- #include <linux/string.h>
- #include <linux/string_choices.h>
- 
-+#include "ops-common.h"
-+
- #define CREATE_TRACE_POINTS
- #include <trace/events/damon.h>
- 
-@@ -2552,6 +2554,112 @@ static unsigned long damos_get_node_memcg_used_bp(
- 		numerator = i.totalram - used_pages;
- 	return mult_frac(numerator, 10000, i.totalram);
- }
-+
-+/*
-+ * damos_calc_eligible_bytes() - Calculate raw eligible bytes per node.
-+ * @c:		The DAMON context.
-+ * @s:		The scheme.
-+ * @nid:	The target NUMA node id.
-+ * @total:	Output for total eligible bytes across all nodes.
-+ *
-+ * Iterates through each folio in eligible regions to accurately determine
-+ * which node the memory resides on. Returns eligible bytes on the specified
-+ * node and sets *total to the sum across all nodes.
-+ */
-+static unsigned long damos_calc_eligible_bytes(struct damon_ctx *c,
-+		struct damos *s, int nid, unsigned long *total)
-+{
-+	struct damon_target *t;
-+	struct damon_region *r;
-+	unsigned long total_eligible = 0;
-+	unsigned long node_eligible = 0;
-+
-+	damon_for_each_target(t, c) {
-+		damon_for_each_region(r, t) {
-+			phys_addr_t addr, end_addr;
-+
-+			if (!__damos_valid_target(r, s))
-+				continue;
-+
-+			/* Convert from core address units to physical bytes */
-+			addr = r->ar.start * c->addr_unit;
-+			end_addr = r->ar.end * c->addr_unit;
-+			while (addr < end_addr) {
-+				struct folio *folio;
-+				unsigned long folio_sz, counted;
-+
-+				folio = damon_get_folio(PHYS_PFN(addr));
-+				if (!folio) {
-+					addr += PAGE_SIZE;
-+					continue;
-+				}
-+
-+				folio_sz = folio_size(folio);
-+				/*
-+				 * Clip to region boundaries to avoid counting
-+				 * bytes outside the region when folio spans
-+				 * region boundaries.
-+				 */
-+				counted = min(folio_sz, (unsigned long)(end_addr - addr));
-+				total_eligible += counted;
-+				if (folio_nid(folio) == nid)
-+					node_eligible += counted;
-+
-+				addr += folio_sz;
-+				folio_put(folio);
-+			}
-+		}
-+	}
-+
-+	*total = total_eligible;
-+	return node_eligible;
-+}
-+
-+/*
-+ * damos_get_node_eligible_mem_bp() - Get eligible memory ratio for a node.
-+ * @c:		The DAMON context.
-+ * @s:		The scheme.
-+ * @nid:	The target NUMA node id.
-+ *
-+ * Calculates scheme-eligible bytes on the specified node and returns the
-+ * ratio in basis points (0-10000) relative to total eligible bytes across
-+ * all nodes.
-+ */
-+static unsigned long damos_get_node_eligible_mem_bp(struct damon_ctx *c,
-+		struct damos *s, int nid)
-+{
-+	unsigned long total_eligible = 0;
-+	unsigned long node_eligible = 0;
-+
-+	if (nid < 0 || nid >= MAX_NUMNODES || !node_online(nid))
-+		return 0;
-+
-+	node_eligible = damos_calc_eligible_bytes(c, s, nid, &total_eligible);
-+
-+	if (!total_eligible)
-+		return 0;
-+
-+	return mult_frac(node_eligible, 10000, total_eligible);
-+}
-+
-+static unsigned long damos_get_node_ineligible_mem_bp(struct damon_ctx *c,
-+		struct damos *s, int nid)
-+{
-+	unsigned long total_eligible = 0;
-+	unsigned long node_eligible;
-+
-+	if (nid < 0 || nid >= MAX_NUMNODES || !node_online(nid))
-+		return 0;
-+
-+	node_eligible = damos_calc_eligible_bytes(c, s, nid, &total_eligible);
-+
-+	/* No eligible memory anywhere - ratio is undefined, return 0 */
-+	if (!total_eligible)
-+		return 0;
-+
-+	/* Compute ineligible ratio directly: 10000 - eligible_bp */
-+	return 10000 - mult_frac(node_eligible, 10000, total_eligible);
-+}
- #else
- static __kernel_ulong_t damos_get_node_mem_bp(
- 		struct damos_quota_goal *goal)
-@@ -2564,6 +2672,18 @@ static unsigned long damos_get_node_memcg_used_bp(
- {
- 	return 0;
- }
-+
-+static unsigned long damos_get_node_eligible_mem_bp(struct damon_ctx *c,
-+		struct damos *s, int nid)
-+{
-+	return 0;
-+}
-+
-+static unsigned long damos_get_node_ineligible_mem_bp(struct damon_ctx *c,
-+		struct damos *s, int nid)
-+{
-+	return 0;
-+}
- #endif
- 
- /*
-@@ -2584,7 +2704,8 @@ static unsigned int damos_get_in_active_mem_bp(bool active_ratio)
- 	return mult_frac(inactive, 10000, total);
- }
- 
--static void damos_set_quota_goal_current_value(struct damos_quota_goal *goal)
-+static void damos_set_quota_goal_current_value(struct damon_ctx *c,
-+		struct damos *s, struct damos_quota_goal *goal)
- {
- 	u64 now_psi_total;
- 
-@@ -2611,19 +2732,28 @@ static void damos_set_quota_goal_current_value(struct damos_quota_goal *goal)
- 		goal->current_value = damos_get_in_active_mem_bp(
- 				goal->metric == DAMOS_QUOTA_ACTIVE_MEM_BP);
- 		break;
-+	case DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP:
-+		goal->current_value = damos_get_node_eligible_mem_bp(c, s,
-+				goal->nid);
-+		break;
-+	case DAMOS_QUOTA_NODE_INELIGIBLE_MEM_BP:
-+		goal->current_value = damos_get_node_ineligible_mem_bp(c, s,
-+				goal->nid);
-+		break;
- 	default:
- 		break;
- 	}
- }
- 
- /* Return the highest score since it makes schemes least aggressive */
--static unsigned long damos_quota_score(struct damos_quota *quota)
-+static unsigned long damos_quota_score(struct damon_ctx *c, struct damos *s)
- {
-+	struct damos_quota *quota = &s->quota;
- 	struct damos_quota_goal *goal;
- 	unsigned long highest_score = 0;
- 
- 	damos_for_each_quota_goal(goal, quota) {
--		damos_set_quota_goal_current_value(goal);
-+		damos_set_quota_goal_current_value(c, s, goal);
- 		highest_score = max(highest_score,
- 				mult_frac(goal->current_value, 10000,
- 					goal->target_value));
-@@ -2632,17 +2762,20 @@ static unsigned long damos_quota_score(struct damos_quota *quota)
- 	return highest_score;
- }
- 
--static void damos_goal_tune_esz_bp_consist(struct damos_quota *quota)
-+static void damos_goal_tune_esz_bp_consist(struct damon_ctx *c, struct damos *s)
- {
--	unsigned long score = damos_quota_score(quota);
-+	struct damos_quota *quota = &s->quota;
-+	unsigned long score = damos_quota_score(c, s);
- 
- 	quota->esz_bp = damon_feed_loop_next_input(
- 			max(quota->esz_bp, 10000UL), score);
- }
- 
--static void damos_goal_tune_esz_bp_temporal(struct damos_quota *quota)
-+static void damos_goal_tune_esz_bp_temporal(struct damon_ctx *c,
-+		struct damos *s)
- {
--	unsigned long score = damos_quota_score(quota);
-+	struct damos_quota *quota = &s->quota;
-+	unsigned long score = damos_quota_score(c, s);
- 
- 	if (score >= 10000)
- 		quota->esz_bp = 0;
-@@ -2655,8 +2788,9 @@ static void damos_goal_tune_esz_bp_temporal(struct damos_quota *quota)
- /*
-  * Called only if quota->ms, or quota->sz are set, or quota->goals is not empty
-  */
--static void damos_set_effective_quota(struct damos_quota *quota)
-+static void damos_set_effective_quota(struct damon_ctx *c, struct damos *s)
- {
-+	struct damos_quota *quota = &s->quota;
- 	unsigned long throughput;
- 	unsigned long esz = ULONG_MAX;
- 
-@@ -2667,9 +2801,9 @@ static void damos_set_effective_quota(struct damos_quota *quota)
- 
- 	if (!list_empty(&quota->goals)) {
- 		if (quota->goal_tuner == DAMOS_QUOTA_GOAL_TUNER_CONSIST)
--			damos_goal_tune_esz_bp_consist(quota);
-+			damos_goal_tune_esz_bp_consist(c, s);
- 		else if (quota->goal_tuner == DAMOS_QUOTA_GOAL_TUNER_TEMPORAL)
--			damos_goal_tune_esz_bp_temporal(quota);
-+			damos_goal_tune_esz_bp_temporal(c, s);
- 		esz = quota->esz_bp / 10000;
- 	}
- 
-@@ -2718,7 +2852,7 @@ static void damos_adjust_quota(struct damon_ctx *c, struct damos *s)
- 	/* First charge window */
- 	if (!quota->total_charged_sz && !quota->charged_from) {
- 		quota->charged_from = jiffies;
--		damos_set_effective_quota(quota);
-+		damos_set_effective_quota(c, s);
- 		if (trace_damos_esz_enabled())
- 			damos_trace_esz(c, s, quota);
- 	}
-@@ -2739,7 +2873,7 @@ static void damos_adjust_quota(struct damon_ctx *c, struct damos *s)
- 		quota->charged_sz = 0;
- 		if (trace_damos_esz_enabled())
- 			cached_esz = quota->esz;
--		damos_set_effective_quota(quota);
-+		damos_set_effective_quota(c, s);
- 		if (trace_damos_esz_enabled() && quota->esz != cached_esz)
- 			damos_trace_esz(c, s, quota);
- 	}
-diff --git a/mm/damon/sysfs-schemes.c b/mm/damon/sysfs-schemes.c
-index bf923709ab91..7e9cd19d5bff 100644
---- a/mm/damon/sysfs-schemes.c
-+++ b/mm/damon/sysfs-schemes.c
-@@ -1084,6 +1084,14 @@ struct damos_sysfs_qgoal_metric_name damos_sysfs_qgoal_metric_names[] = {
- 		.metric = DAMOS_QUOTA_INACTIVE_MEM_BP,
- 		.name = "inactive_mem_bp",
- 	},
-+	{
-+		.metric = DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP,
-+		.name = "node_eligible_mem_bp",
-+	},
-+	{
-+		.metric = DAMOS_QUOTA_NODE_INELIGIBLE_MEM_BP,
-+		.name = "node_ineligible_mem_bp",
-+	},
- };
- 
- static ssize_t target_metric_show(struct kobject *kobj,
-@@ -2717,6 +2725,10 @@ static int damos_sysfs_add_quota_score(
- 		case DAMOS_QUOTA_NODE_MEM_FREE_BP:
- 			goal->nid = sysfs_goal->nid;
- 			break;
-+		case DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP:
-+		case DAMOS_QUOTA_NODE_INELIGIBLE_MEM_BP:
-+			goal->nid = sysfs_goal->nid;
-+			break;
- 		case DAMOS_QUOTA_NODE_MEMCG_USED_BP:
- 		case DAMOS_QUOTA_NODE_MEMCG_FREE_BP:
- 			err = damon_sysfs_memcg_path_to_id(
--- 
-2.43.0
+    match value {
+        ...
+        MAX.. =3D> ...,
+    }
+
+This way compiler will complain about non-exhaustive patterns.
+
+Best,
+Gary
+
+> +                }
+> +            }
+> +        }
+> +    }
+> +}
+> +
+>  /// Revision number of a falcon core, used in the [`crate::regs::NV_PFAL=
+CON_FALCON_HWCFG1`]
+>  /// register.
+>  #[repr(u8)]
 
