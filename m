@@ -1,37 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E234F3D0921;
-	Fri, 20 Mar 2026 16:27:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3409D3D1717;
+	Fri, 20 Mar 2026 16:27:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774024053; cv=none; b=a/S6aaSAhYg/k9JVsRGIj0KPlP/2Kn/mIL2YIXVnh2T2OcymqstCkp5OmjyUAI26B9J6oX/BQmySjdlZSZBJdYLBHpCXktw9OynmYMfUgHrjft3QJglRmmEom+HhFoLsBxDeeKhcRlEFT0cdtjMbA95M9Ig37C3b8/fpYjvWmGE=
+	t=1774024053; cv=none; b=ZimLj8HiujnlAh2EJyw4NHOBxZlCEXvkbJDSiSe91cUzylN6qegn1T3CtlynA0DlwInaBKRxDM5lN5eESyUYcOH/y9jgv0vkR1shn5jUMqEvS+2A7g52aDXeui+x8BK3AdBBb3H1z38aemY8w1i1mYdaEHQDdSigeaElmZm/AzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1774024053; c=relaxed/simple;
-	bh=BpBCnDrxqpO+HK/oqvquJ/CpXOMW3iCWannJhR76pwU=;
+	bh=H+nAyAHG7r+c++BxBGG12xBnveAJ4BFIOThMlPVrju4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=O7DA+/RMmzKkPkky+OEwp6ECTk0PBoNqwsy9APsJ/tffMd1pnWyXYqkqnZmxDVxsvpZegEDbvYCz8HNbrw+gBQwngA76ORqel3c9zgaeUucHMX5iISJSmgmPoKTiDUvHxHbapVwm1U1d9glj3NvdjH4Z2Gut5gxsgdoKysW/wps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O+tYqyoM; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=HUAZjSt6jONdNZmMDdfV1qC0OgNqhRZJW7c7b0/XHHV/Ujby6q8PLTbDhRzqABeomCz1+5rGssvYumTIcAcoqxPpdiLck5EGCmU1bYB1B+lVBaABCAWpivoczugyeuFioQAXXiKkUIuGh+bGekmSHIPIntSZaH+H57k6qRsDL2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n+jGhnRW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O+tYqyoM"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id BBCFAC2BCB5;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n+jGhnRW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 835B8C19425;
 	Fri, 20 Mar 2026 16:27:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774024052;
-	bh=BpBCnDrxqpO+HK/oqvquJ/CpXOMW3iCWannJhR76pwU=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=O+tYqyoMEbb5xCv1TYtJGMyuj6DqHgvINgQhqyVUif8K60eZz3gGyNlXOUnVNAKsY
-	 L6Re9b4j4I7KCvEdxemfgn5XjLUb8QHRtNNeXGhEuMnFtiXjesNnp/EvSYHwx1IVnl
-	 yEqa2yQ2lNnPIsmu1DsO3c9QtduJn5FqTo5/Fk4DgRPcr98CRoq4mJ3VZ1SEMY/L83
-	 9Vp8TIbqX73cji+hg2nuId6YMjhdphVtl5/AlPMhOefjXmzDhn5niiFBcAY6ebsQZO
-	 g8n0/yHqIFg2xNRtPtS+4Xd7RAPqSyLSsooX+SGz9vwsPIuadGWIEt6NvM1Tu0yRL4
-	 l83E4WPfnCjKg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B39C610987AB;
-	Fri, 20 Mar 2026 16:27:32 +0000 (UTC)
-From: Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>
-Date: Fri, 20 Mar 2026 16:27:29 +0000
-Subject: [PATCH v9 4/9] iio: test: add kunit test for fixed-point parsing
+	s=k20201202; t=1774024053;
+	bh=H+nAyAHG7r+c++BxBGG12xBnveAJ4BFIOThMlPVrju4=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=n+jGhnRW032yI4TUKZGdS9Ogindi4qhXgdcN8dCcLhblct54XXcPInAz7SUNUpt/c
+	 BFTtx0Hqfpo6vyb0sjnuAmTpFfoEmMninyJvtFw2++5Meyd/Lk8gyPcG0GWPoe6xOB
+	 SQwkFGOerwleCoL8tFvz2maLjl6hAlgD1qg2bjHGqo5kwC2bPjo0oSxzewHFqb1HNa
+	 elgEIMFa2Nr4sre2tKv9z9Zv2P6G095/VgDUGUBQfPYvYn5+F09fjI/0u3ESDgDd8b
+	 MR2cChEG65XL7Fd24g3Ek8o0pWYZijVzm1bELRjnnKm8Ioc+MGR8bkvMTROnvzxXky
+	 VZJwKm9XguWAQ==
+From: Maxime Ripard <mripard@kernel.org>
+Date: Fri, 20 Mar 2026 17:27:09 +0100
+Subject: [PATCH v2 02/20] drm/atomic: Drop drm_private_state.obj assignment
+ from create_state
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -40,590 +38,83 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260320-adf41513-iio-driver-v9-4-132f0d076374@analog.com>
-References: <20260320-adf41513-iio-driver-v9-0-132f0d076374@analog.com>
-In-Reply-To: <20260320-adf41513-iio-driver-v9-0-132f0d076374@analog.com>
-To: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org
-Cc: Jonathan Cameron <jic23@kernel.org>, 
- David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
- Lars-Peter Clausen <lars@metafoo.de>, 
- Michael Hennerich <Michael.Hennerich@analog.com>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, 
- Steven Rostedt <rostedt@goodmis.org>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
- Sergey Senozhatsky <senozhatsky@chromium.org>, 
+Message-Id: <20260320-drm-mode-config-init-v2-2-c63f1134e76c@kernel.org>
+References: <20260320-drm-mode-config-init-v2-0-c63f1134e76c@kernel.org>
+In-Reply-To: <20260320-drm-mode-config-init-v2-0-c63f1134e76c@kernel.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
  Shuah Khan <skhan@linuxfoundation.org>, 
- Rodrigo Alencar <rodrigo.alencar@analog.com>, 
- Andy Shevchenko <andriy.shevchenko@intel.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1774024051; l=18700;
- i=rodrigo.alencar@analog.com; s=default; h=from:subject:message-id;
- bh=aKsekr6aADN0JdXC+aRNm76ghLJgEvDTC4O1L0cOpOQ=;
- b=u7DZsDCOiQ1W1o+hptm/z8CNw0Wki87zAfWgfQLyJlWNDnEsu4TEdNQ0PEAEN6IbqRyoC7Ops
- 0sGWr4GXwbGCa2McMgmO5IGrDe0knUBkXsj1q9tmhn+DOnzMwD8gsUn
-X-Developer-Key: i=rodrigo.alencar@analog.com; a=ed25519;
- pk=ULeHbgU/OYh/PG/4anHDfLgldFItQHAhOktYRVLMFRo=
-X-Endpoint-Received: by B4 Relay for rodrigo.alencar@analog.com/default
- with auth_id=561
-X-Original-From: Rodrigo Alencar <rodrigo.alencar@analog.com>
-Reply-To: rodrigo.alencar@analog.com
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Jyri Sarha <jyri.sarha@iki.fi>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Simon Ser <contact@emersion.fr>, Harry Wentland <harry.wentland@amd.com>, 
+ Melissa Wen <mwen@igalia.com>, Sebastian Wick <sebastian.wick@redhat.com>, 
+ Alex Hung <alex.hung@amd.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, Chen-Yu Tsai <wens@kernel.org>, 
+ Samuel Holland <samuel@sholland.org>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>, 
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+ Maxime Ripard <mripard@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1530; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=H+nAyAHG7r+c++BxBGG12xBnveAJ4BFIOThMlPVrju4=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJl7S1P+Pu433BjQ+OdChu/T5++uBT/p+Png94+XizZZa
+ /dO2Rlu1jGVhUGYk0FWTJHliUzY6eXti6sc7Ff+gJnDygQyhIGLUwAmktXDWB87WyvqzpTTF1Wk
+ LX7oWMcZRpSYRB9oPWSiqLJrqU0Rl/6ylk1LFy/0VDx904tRqTWwhbFh3nNHz4Ruey9n3k29Npq
+ Zlgf2iW/fe/aKWPWEy5N2sCjsrLH9cvRp0eHk63Fx07fsD9kKAA==
+X-Developer-Key: i=mripard@kernel.org; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
-From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+The initial intent of the atomic_create_state helper was to simply
+allocate a proper drm_private_state and returning it, without any side
+effect.
 
-Add kunit test cases that aims to verify expected behavior for
-iio_str_to_fixpoint() and iio_str_to_fixpoint64().
-To run the test, create a .kunitconfig file with:
+However, the __drm_atomic_helper_private_obj_create_state() introduces a
+side effect by setting the drm_private_obj.state to the newly allocated
+state.
 
-CONFIG_KUNIT=y
-CONFIG_IIO=y
-CONFIG_IIO_FIXPOINT_PARSE_KUNIT_TEST=y
+This assignment defeats the purpose, but is also redundant since
+the only caller, drm_atomic_private_obj_init(), will also set this
+pointer to the newly allocated state.
 
-and run the command:
-./tools/testing/kunit/kunit.py run --kunitconfig=.kunitconfig
+Let's drop the assignment in __drm_atomic_helper_private_obj_create_state().
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
+Fixes: e7be39ed1716 ("drm/atomic-helper: Add private_obj atomic_create_state helper")
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- MAINTAINERS                                |   6 +
- drivers/iio/test/Kconfig                   |  12 +
- drivers/iio/test/Makefile                  |   1 +
- drivers/iio/test/iio-test-fixpoint-parse.c | 470 +++++++++++++++++++++++++++++
- 4 files changed, 489 insertions(+)
+ drivers/gpu/drm/drm_atomic_state_helper.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e3568f08ea55..3acfee7a66cd 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12455,6 +12455,12 @@ F:	include/dt-bindings/iio/
- F:	include/linux/iio/
- F:	tools/iio/
+diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
+index 76746ad4a1bbb7142c067c93dd05fbec5d2f98eb..875149494b00e1eb7481e87d7d7038103b72b7e3 100644
+--- a/drivers/gpu/drm/drm_atomic_state_helper.c
++++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+@@ -729,12 +729,10 @@ EXPORT_SYMBOL(drm_atomic_helper_connector_destroy_state);
+ void __drm_atomic_helper_private_obj_create_state(struct drm_private_obj *obj,
+ 						  struct drm_private_state *state)
+ {
+ 	if (state)
+ 		state->obj = obj;
+-
+-	obj->state = state;
+ }
+ EXPORT_SYMBOL(__drm_atomic_helper_private_obj_create_state);
  
-+IIO FIXED POINT PARSE TEST
-+M:	Rodrigo Alencar <rodrigo.alencar@analog.com>
-+L:	linux-iio@vger.kernel.org
-+S:	Maintained
-+F:	drivers/iio/test/iio-test-fixpoint-parse.c
-+
- IIO UNIT CONVERTER
- M:	Peter Rosin <peda@axentia.se>
- L:	linux-iio@vger.kernel.org
-diff --git a/drivers/iio/test/Kconfig b/drivers/iio/test/Kconfig
-index 4fc17dd0dcd7..c60dff504bc2 100644
---- a/drivers/iio/test/Kconfig
-+++ b/drivers/iio/test/Kconfig
-@@ -29,6 +29,18 @@ config IIO_RESCALE_KUNIT_TEST
- 
- 	  If unsure, say N.
- 
-+config IIO_FIXPOINT_PARSE_KUNIT_TEST
-+	tristate "Test IIO fixpoint parsing functions" if !KUNIT_ALL_TESTS
-+	depends on KUNIT
-+	default KUNIT_ALL_TESTS
-+	help
-+	  build unit tests for the IIO fixpoint parsing functions.
-+
-+	  For more information on KUnit and unit tests in general, please refer
-+	  to the KUnit documentation in Documentation/dev-tools/kunit/.
-+
-+	  If unsure, say N.
-+
- config IIO_FORMAT_KUNIT_TEST
- 	tristate "Test IIO formatting functions" if !KUNIT_ALL_TESTS
- 	depends on KUNIT
-diff --git a/drivers/iio/test/Makefile b/drivers/iio/test/Makefile
-index 0c846bc21acd..0c31aaeed755 100644
---- a/drivers/iio/test/Makefile
-+++ b/drivers/iio/test/Makefile
-@@ -5,6 +5,7 @@
- 
- # Keep in alphabetical order
- obj-$(CONFIG_IIO_RESCALE_KUNIT_TEST) += iio-test-rescale.o
-+obj-$(CONFIG_IIO_FIXPOINT_PARSE_KUNIT_TEST) += iio-test-fixpoint-parse.o
- obj-$(CONFIG_IIO_FORMAT_KUNIT_TEST) += iio-test-format.o
- obj-$(CONFIG_IIO_GTS_KUNIT_TEST) += iio-test-gts.o
- obj-$(CONFIG_IIO_MULTIPLY_KUNIT_TEST) += iio-test-multiply.o
-diff --git a/drivers/iio/test/iio-test-fixpoint-parse.c b/drivers/iio/test/iio-test-fixpoint-parse.c
-new file mode 100644
-index 000000000000..69715d22d7ec
---- /dev/null
-+++ b/drivers/iio/test/iio-test-fixpoint-parse.c
-@@ -0,0 +1,470 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/* Unit tests for IIO fixpoint parsing functions
-+ *
-+ * Copyright 2026 Analog Devices Inc.
-+ */
-+
-+#include <kunit/test.h>
-+#include <linux/errno.h>
-+#include <linux/iio/iio.h>
-+#include <linux/limits.h>
-+#include <linux/math.h>
-+#include <linux/types.h>
-+
-+#define PRECISION(x)	(int_pow(10, (x) - 1))
-+
-+/* Test iio_str_to_fixpoint64() with valid positive integers */
-+static void iio_test_str_to_fixpoint64_positive_integers(struct kunit *test)
-+{
-+	s64 integer, fract;
-+	int ret;
-+
-+	/* Simple positive integer */
-+	ret = iio_str_to_fixpoint64("42", 0, &integer, &fract);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_EQ(test, integer, 42);
-+	KUNIT_EXPECT_EQ(test, fract, 0);
-+
-+	/* Positive integer with leading + */
-+	ret = iio_str_to_fixpoint64("+10", 0, &integer, &fract);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_EQ(test, integer, 10);
-+	KUNIT_EXPECT_EQ(test, fract, 0);
-+
-+	/* Large positive integer */
-+	ret = iio_str_to_fixpoint64("123456789", 0, &integer, &fract);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_EQ(test, integer, 123456789);
-+	KUNIT_EXPECT_EQ(test, fract, 0);
-+}
-+
-+/* Test iio_str_to_fixpoint64() with valid negative integers */
-+static void iio_test_str_to_fixpoint64_negative_integers(struct kunit *test)
-+{
-+	s64 integer, fract;
-+	int ret;
-+
-+	/* Simple negative integer */
-+	ret = iio_str_to_fixpoint64("-23", 0, &integer, &fract);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_EQ(test, integer, -23);
-+	KUNIT_EXPECT_EQ(test, fract, 0);
-+
-+	/* Large negative integer */
-+	ret = iio_str_to_fixpoint64("-987654321", 0, &integer, &fract);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_EQ(test, integer, -987654321);
-+	KUNIT_EXPECT_EQ(test, fract, 0);
-+}
-+
-+/* Test iio_str_to_fixpoint64() with zero */
-+static void iio_test_str_to_fixpoint64_zero(struct kunit *test)
-+{
-+	s64 integer, fract;
-+	int ret;
-+
-+	/* Zero */
-+	ret = iio_str_to_fixpoint64("0", 0, &integer, &fract);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_EQ(test, integer, 0);
-+	KUNIT_EXPECT_EQ(test, fract, 0);
-+
-+	/* Zero with decimal */
-+	ret = iio_str_to_fixpoint64("0.0", PRECISION(6), &integer, &fract);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_EQ(test, integer, 0);
-+	KUNIT_EXPECT_EQ(test, fract, 0);
-+
-+	/* leading zeros */
-+	ret = iio_str_to_fixpoint64("00000000000000000000042", 0, &integer,
-+				    &fract);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_EQ(test, integer, 42);
-+	KUNIT_EXPECT_EQ(test, fract, 0);
-+}
-+
-+/* Test iio_str_to_fixpoint64() with valid decimal numbers */
-+static void iio_test_str_to_fixpoint64_positive_decimals(struct kunit *test)
-+{
-+	s64 integer, fract;
-+	int ret;
-+
-+	/* Positive decimal */
-+	ret = iio_str_to_fixpoint64("3.14", PRECISION(6), &integer, &fract);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_EQ(test, integer, 3);
-+	KUNIT_EXPECT_EQ(test, fract, 140000);
-+
-+	/* Decimal less than 1 */
-+	ret = iio_str_to_fixpoint64("0.5", PRECISION(6), &integer, &fract);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_EQ(test, integer, 0);
-+	KUNIT_EXPECT_EQ(test, fract, 500000);
-+
-+	/* Decimal with trailing zeros */
-+	ret = iio_str_to_fixpoint64("+123.000", PRECISION(6), &integer, &fract);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_EQ(test, integer, 123);
-+	KUNIT_EXPECT_EQ(test, fract, 0);
-+
-+	/* High precision decimal */
-+	ret = iio_str_to_fixpoint64("1.123456789", PRECISION(9), &integer,
-+				    &fract);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_EQ(test, integer, 1);
-+	KUNIT_EXPECT_EQ(test, fract, 123456789);
-+
-+	/* Small decimal */
-+	ret = iio_str_to_fixpoint64("0.000000001", PRECISION(9), &integer,
-+				    &fract);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_EQ(test, integer, 0);
-+	KUNIT_EXPECT_EQ(test, fract, 1);
-+}
-+
-+/* Test iio_str_to_fixpoint64() with negative decimals */
-+static void iio_test_str_to_fixpoint64_negative_decimals(struct kunit *test)
-+{
-+	s64 integer, fract;
-+	int ret;
-+
-+	/* Negative decimal */
-+	ret = iio_str_to_fixpoint64("-2.71", PRECISION(5), &integer, &fract);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_EQ(test, integer, -2);
-+	KUNIT_EXPECT_EQ(test, fract, 71000);
-+
-+	/* Negative decimal less than -1 */
-+	ret = iio_str_to_fixpoint64("-0.5", PRECISION(6), &integer, &fract);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_EQ(test, integer, 0);
-+	KUNIT_EXPECT_EQ(test, fract, -500000);
-+
-+	/* Negative with high precision */
-+	ret = iio_str_to_fixpoint64("-0.000000001", PRECISION(9), &integer,
-+				    &fract);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_EQ(test, integer, 0);
-+	KUNIT_EXPECT_EQ(test, fract, -1);
-+}
-+
-+/* Test iio_str_to_fixpoint64() with precision edge cases */
-+static void iio_test_str_to_fixpoint64_precision_edge_cases(struct kunit *test)
-+{
-+	s64 integer, fract;
-+	int ret;
-+
-+	/* More digits than precision - should truncate */
-+	ret = iio_str_to_fixpoint64("1.23456", PRECISION(3), &integer, &fract);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_EQ(test, integer, 1);
-+	KUNIT_EXPECT_EQ(test, fract, 234);
-+
-+	/* Fewer digits than precision - should pad with zeros */
-+	ret = iio_str_to_fixpoint64("1.23", PRECISION(7), &integer, &fract);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_EQ(test, integer, 1);
-+	KUNIT_EXPECT_EQ(test, fract, 2300000);
-+
-+	/* Single digit fractional with high precision */
-+	ret = iio_str_to_fixpoint64("5.1", PRECISION(9), &integer, &fract);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_EQ(test, integer, 5);
-+	KUNIT_EXPECT_EQ(test, fract, 100000000);
-+}
-+
-+/* Test iio_str_to_fixpoint64() with newline characters */
-+static void iio_test_str_to_fixpoint64_with_newline(struct kunit *test)
-+{
-+	s64 integer, fract;
-+	int ret;
-+
-+	/* Integer with newline */
-+	ret = iio_str_to_fixpoint64("-42\n", PRECISION(6), &integer, &fract);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_EQ(test, integer, -42);
-+	KUNIT_EXPECT_EQ(test, fract, 0);
-+
-+	/* Decimal with newline */
-+	ret = iio_str_to_fixpoint64("3.141\n", PRECISION(6), &integer, &fract);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_EQ(test, integer, 3);
-+	KUNIT_EXPECT_EQ(test, fract, 141000);
-+}
-+
-+/* Test iio_str_to_fixpoint64() with edge cases */
-+static void iio_test_str_to_fixpoint64_edge_cases(struct kunit *test)
-+{
-+	s64 integer, fract;
-+	int ret;
-+
-+	/* Leading decimal point */
-+	ret = iio_str_to_fixpoint64(".5", PRECISION(4), &integer, &fract);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_EQ(test, integer, 0);
-+	KUNIT_EXPECT_EQ(test, fract, 5000);
-+
-+	/* Leading decimal with sign */
-+	ret = iio_str_to_fixpoint64("-.5", PRECISION(6), &integer, &fract);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_EQ(test, integer, 0);
-+	KUNIT_EXPECT_EQ(test, fract, -500000);
-+
-+	ret = iio_str_to_fixpoint64("+.5", PRECISION(3), &integer, &fract);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_EQ(test, integer, 0);
-+	KUNIT_EXPECT_EQ(test, fract, 500);
-+}
-+
-+/* Test iio_str_to_fixpoint64() with invalid inputs */
-+static void iio_test_str_to_fixpoint64_invalid(struct kunit *test)
-+{
-+	s64 integer, fract;
-+	int ret;
-+
-+	/* Empty string */
-+	ret = iio_str_to_fixpoint64("", PRECISION(6), &integer, &fract);
-+	KUNIT_EXPECT_EQ(test, ret, -EINVAL);
-+
-+	/* Just a sign */
-+	ret = iio_str_to_fixpoint64("-", PRECISION(6), &integer, &fract);
-+	KUNIT_EXPECT_EQ(test, ret, -EINVAL);
-+
-+	ret = iio_str_to_fixpoint64("+", PRECISION(6), &integer, &fract);
-+	KUNIT_EXPECT_EQ(test, ret, -EINVAL);
-+
-+	/* Just a decimal point */
-+	ret = iio_str_to_fixpoint64(".", PRECISION(6), &integer, &fract);
-+	KUNIT_EXPECT_EQ(test, ret, -EINVAL);
-+
-+	/* Non-numeric characters */
-+	ret = iio_str_to_fixpoint64("abc", PRECISION(6), &integer, &fract);
-+	KUNIT_EXPECT_EQ(test, ret, -EINVAL);
-+
-+	ret = iio_str_to_fixpoint64("12a", PRECISION(6), &integer, &fract);
-+	KUNIT_EXPECT_EQ(test, ret, -EINVAL);
-+
-+	ret = iio_str_to_fixpoint64("3.4x", PRECISION(6), &integer, &fract);
-+	KUNIT_EXPECT_EQ(test, ret, -EINVAL);
-+
-+	ret = iio_str_to_fixpoint64("0xff", PRECISION(6), &integer, &fract);
-+	KUNIT_EXPECT_EQ(test, ret, -EINVAL);
-+
-+	/* Multiple decimal points */
-+	ret = iio_str_to_fixpoint64("12.34.56", PRECISION(6), &integer, &fract);
-+	KUNIT_EXPECT_EQ(test, ret, -EINVAL);
-+
-+	/* Trailing decimal without digits */
-+	ret = iio_str_to_fixpoint64("42.", PRECISION(6), &integer, &fract);
-+	KUNIT_EXPECT_EQ(test, ret, -EINVAL);
-+
-+	/* Trailing spaces */
-+	ret = iio_str_to_fixpoint64("42 ", PRECISION(6), &integer, &fract);
-+	KUNIT_EXPECT_EQ(test, ret, -EINVAL);
-+
-+	/* Too many digits in fractional part */
-+	ret = iio_str_to_fixpoint64("1.123456789012345678901", PRECISION(21),
-+				    &integer, &fract);
-+	KUNIT_EXPECT_EQ(test, ret, -EINVAL); /* fails when checking precision */
-+}
-+
-+/* Test iio_str_to_fixpoint() with valid inputs */
-+static void iio_test_str_to_fixpoint_valid(struct kunit *test)
-+{
-+	int integer, fract;
-+	int ret;
-+
-+	/* Test with 6 decimal places */
-+	ret = iio_str_to_fixpoint("10.001234", PRECISION(6), &integer, &fract);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_EQ(test, integer, 10);
-+	KUNIT_EXPECT_EQ(test, fract, 1234);
-+
-+	ret = iio_str_to_fixpoint("-0.5", PRECISION(3), &integer, &fract);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_EQ(test, integer, 0);
-+	KUNIT_EXPECT_EQ(test, fract, -500);
-+
-+	/* Test with 9 decimal places */
-+	ret = iio_str_to_fixpoint("5.123456789", PRECISION(9), &integer, &fract);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_EQ(test, integer, 5);
-+	KUNIT_EXPECT_EQ(test, fract, 123456789);
-+
-+	ret = iio_str_to_fixpoint("1.0", PRECISION(9), &integer, &fract);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_EQ(test, integer, 1);
-+	KUNIT_EXPECT_EQ(test, fract, 0);
-+
-+	/* Test with 3 decimal places */
-+	ret = iio_str_to_fixpoint("-7.8", PRECISION(3), &integer, &fract);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_EQ(test, integer, -7);
-+	KUNIT_EXPECT_EQ(test, fract, 800);
-+
-+	/* Truncation with 2 decimal places */
-+	ret = iio_str_to_fixpoint("3.1415", PRECISION(2), &integer, &fract);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_EQ(test, integer, 3);
-+	KUNIT_EXPECT_EQ(test, fract, 14);
-+
-+	/* Integer with 6 decimal places */
-+	ret = iio_str_to_fixpoint("42", PRECISION(6), &integer, &fract);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_EQ(test, integer, 42);
-+	KUNIT_EXPECT_EQ(test, fract, 0);
-+}
-+
-+/* Test both functions with overflow cases */
-+static void iio_test_str_to_fixpoint_overflow(struct kunit *test)
-+{
-+	s64 integer64, fract64;
-+	int integer, fract;
-+	int ret;
-+
-+	/* integer overflow - value exceeds U64_MAX */
-+	ret = iio_str_to_fixpoint64("18446744073709551616", PRECISION(6),
-+				    &integer64, &fract64);
-+	KUNIT_EXPECT_EQ(test, ret, -ERANGE);
-+
-+	/* integer underflow - value less than S64_MIN */
-+	ret = iio_str_to_fixpoint64("-9223372036854775809", PRECISION(6),
-+				    &integer64, &fract64);
-+	KUNIT_EXPECT_EQ(test, ret, -ERANGE);
-+
-+	/* fractional underflow */
-+	ret = iio_str_to_fixpoint64("-0.9223372036854775810", PRECISION(19),
-+				    &integer64, &fract64);
-+	KUNIT_EXPECT_EQ(test, ret, -ERANGE);
-+
-+	/* Integer overflow - value exceeds U32_MAX */
-+	ret = iio_str_to_fixpoint("4294967296", PRECISION(6), &integer, &fract);
-+	KUNIT_EXPECT_EQ(test, ret, -ERANGE);
-+
-+	/* Integer underflow - value less than INT_MIN */
-+	ret = iio_str_to_fixpoint("-2147483649", PRECISION(6), &integer,
-+				  &fract);
-+	KUNIT_EXPECT_EQ(test, ret, -ERANGE);
-+
-+	/* fractional overflow */
-+	ret = iio_str_to_fixpoint("0.4294967296", PRECISION(10), &integer,
-+				  &fract);
-+	KUNIT_EXPECT_EQ(test, ret, -ERANGE);
-+
-+	/* fractional underflow */
-+	ret = iio_str_to_fixpoint("-0.2147483649", PRECISION(10), &integer,
-+				  &fract);
-+	KUNIT_EXPECT_EQ(test, ret, -ERANGE);
-+}
-+
-+/* Test iio_str_to_fixpoint() with invalid inputs */
-+static void iio_test_str_to_fixpoint_invalid(struct kunit *test)
-+{
-+	int integer, fract;
-+	int ret;
-+
-+	/* Empty string */
-+	ret = iio_str_to_fixpoint("", PRECISION(6), &integer, &fract);
-+	KUNIT_EXPECT_NE(test, ret, 0);
-+
-+	/* Non-numeric */
-+	ret = iio_str_to_fixpoint("abc", PRECISION(6), &integer, &fract);
-+	KUNIT_EXPECT_NE(test, ret, 0);
-+
-+	/* Invalid characters */
-+	ret = iio_str_to_fixpoint("12.34x", PRECISION(6), &integer, &fract);
-+	KUNIT_EXPECT_EQ(test, ret, -EINVAL);
-+}
-+
-+/* Test both functions with boundary values */
-+static void iio_test_fixpoint_boundary_values(struct kunit *test)
-+{
-+	s64 integer64, fract64;
-+	int integer32, fract32;
-+	int ret;
-+
-+	/* S32_MAX */
-+	ret = iio_str_to_fixpoint("2147483647", PRECISION(6), &integer32,
-+				  &fract32);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_EQ(test, integer32, S32_MAX);
-+	KUNIT_EXPECT_EQ(test, fract32, 0);
-+
-+	/* U32_MAX */
-+	ret = iio_str_to_fixpoint("4294967295", PRECISION(6), &integer32,
-+				  &fract32);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_EQ(test, (u32)integer32, U32_MAX);
-+	KUNIT_EXPECT_EQ(test, fract32, 0);
-+
-+	/* S32_MIN */
-+	ret = iio_str_to_fixpoint("-2147483648", PRECISION(6), &integer32,
-+				  &fract32);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_EQ(test, integer32, S32_MIN);
-+	KUNIT_EXPECT_EQ(test, fract32, 0);
-+
-+	/* S32_MIN with fractional part */
-+	ret = iio_str_to_fixpoint("-2147483648.2147483647", PRECISION(10),
-+				  &integer32, &fract32);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_EQ(test, integer32, S32_MIN);
-+	KUNIT_EXPECT_EQ(test, fract32, S32_MAX);
-+
-+	/* S64_MAX */
-+	ret = iio_str_to_fixpoint64("9223372036854775807", PRECISION(6),
-+				    &integer64, &fract64);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_EQ(test, integer64, S64_MAX);
-+	KUNIT_EXPECT_EQ(test, fract64, 0);
-+
-+	/* U64_MAX */
-+	ret = iio_str_to_fixpoint64("18446744073709551615", PRECISION(6),
-+				    &integer64, &fract64);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_EQ(test, (u64)integer64, U64_MAX);
-+	KUNIT_EXPECT_EQ(test, fract64, 0);
-+
-+	/* S64_MIN */
-+	ret = iio_str_to_fixpoint64("-9223372036854775808", PRECISION(6),
-+				    &integer64, &fract64);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_EQ(test, integer64, S64_MIN);
-+	KUNIT_EXPECT_EQ(test, fract64, 0);
-+
-+	/* S64_MIN with fractional part */
-+	ret = iio_str_to_fixpoint64("-9223372036854775808.9223372036854775807",
-+				    PRECISION(19), &integer64, &fract64);
-+	KUNIT_EXPECT_EQ(test, ret, 0);
-+	KUNIT_EXPECT_EQ(test, integer64, S64_MIN);
-+	KUNIT_EXPECT_EQ(test, fract64, S64_MAX);
-+}
-+
-+static struct kunit_case iio_fixpoint_parse_test_cases[] = {
-+	KUNIT_CASE(iio_test_str_to_fixpoint64_positive_integers),
-+	KUNIT_CASE(iio_test_str_to_fixpoint64_negative_integers),
-+	KUNIT_CASE(iio_test_str_to_fixpoint64_zero),
-+	KUNIT_CASE(iio_test_str_to_fixpoint64_positive_decimals),
-+	KUNIT_CASE(iio_test_str_to_fixpoint64_negative_decimals),
-+	KUNIT_CASE(iio_test_str_to_fixpoint64_precision_edge_cases),
-+	KUNIT_CASE(iio_test_str_to_fixpoint64_with_newline),
-+	KUNIT_CASE(iio_test_str_to_fixpoint64_edge_cases),
-+	KUNIT_CASE(iio_test_str_to_fixpoint64_invalid),
-+	KUNIT_CASE(iio_test_str_to_fixpoint_valid),
-+	KUNIT_CASE(iio_test_str_to_fixpoint_overflow),
-+	KUNIT_CASE(iio_test_str_to_fixpoint_invalid),
-+	KUNIT_CASE(iio_test_fixpoint_boundary_values),
-+	{ }
-+};
-+
-+static struct kunit_suite iio_fixpoint_parse_test_suite = {
-+	.name = "iio-fixpoint-parse",
-+	.test_cases = iio_fixpoint_parse_test_cases,
-+};
-+
-+kunit_test_suite(iio_fixpoint_parse_test_suite);
-+
-+MODULE_AUTHOR("Rodrigo Alencar <rodrigo.alencar@analog.com>");
-+MODULE_AUTHOR("IIO Kunit Test");
-+MODULE_DESCRIPTION("Test IIO fixpoint parsing functions");
-+MODULE_LICENSE("GPL");
+ /**
+  * __drm_atomic_helper_private_obj_duplicate_state - copy atomic private state
 
 -- 
-2.43.0
-
+2.53.0
 
