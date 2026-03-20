@@ -1,118 +1,146 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47B6337B3F0;
-	Fri, 20 Mar 2026 11:32:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CDF23AA517;
+	Fri, 20 Mar 2026 11:50:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774006348; cv=none; b=PEepSSH6w7jLf9SFgNAaNh01am5ZpxLz3fV8LXTjhwBxl9Bw+1LzDNgQcMv9jq1Puh+5+Lcw1P5RXXVF0YIAIRSVS4v8T+wl11d90ME10TXD5PIWpk7KpF1q3mc7YMz4QW4TkrwVNN5e2KaqII5IAV1toIVBQPjudAMPST4q5SI=
+	t=1774007420; cv=none; b=VtvMz9JYOkA7REgF+PSlliz3NaEmsn00Xwtzy2mkAGZdYdoP8/u/6gRKm/ZcuDKov0ISoENEx7ygwvRtLp8T7c0FolkM+vY/6JEd5VIBcmUray0VbFu3j5nLJMJ96cmhf9tOvH7Snfn0g1Dhnp681kTFSbm+aZTpK8+8jG9XzwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774006348; c=relaxed/simple;
-	bh=SD0zMPdbCHRSu5dynsAxjF/5Yo4hGkU6mOhwbKNqSvI=;
+	s=arc-20240116; t=1774007420; c=relaxed/simple;
+	bh=k2Ux2aWImiPiBRYhz9t4krfISTTvT7OqcLHKH8Hgdiw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mfDe+R0qwaepobVyHu3/z0GMeRD6XjswnLMBryWaULUPUYgHKQZ0TLTDbIvVNL1G/9MQGvPjP+O/L0VgTjBLOCkZ0ii5MIRBRSm0KgRYANRQqOpXKBmLxfkK+4g0SuJcnGF/BuVHvYAN33MG1Viv1EwiFALrXq+4Ow9ssCsFHTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=FIC+zJsa; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=Mv2fnXFNdS0+GEp+iNzAco5iDcvYqb+uKVf8Rhs7L9FQtFjaWPHUnr1VrZbcWhxmCH/hJIdyRqEX6ld45YtWboWxSal1kZ2ZYRy9RwM9c/USbYjZ8yzXa9di7DlBmkRDDBAWke7YWuLslpoLIoruHacdyD8U1ArAlmquIi0qNy0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SMygCkNn; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="FIC+zJsa"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id EFE2A40E01A9;
-	Fri, 20 Mar 2026 11:32:20 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id jib5ah3yJCN8; Fri, 20 Mar 2026 11:32:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1774006337; bh=eb8KDcq4gOieV0k+tw7u1jt0dzz7d5ZLktWlrQda5Ls=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FIC+zJsaEKChIBUTH8ESbHex4TyDU7HjjrqlwK9kDv0z2XWJfl+evZvc6UQBLCqxt
-	 CSlfupCZQdvW3d1U4IMFre0axZyZMxjlyRF30O9ZddhHl1HP8WaT6Vfhp6d1KhBuHQ
-	 pVRWJ0K45TIT8W7HnessO38xZDYclgu4YydseZTNsLxM7YWIZKojkDHdiCc+fmxy2L
-	 s34qYYktPJfCVQ5vtPsuop19XV2znWZF9+n13T4XsRdgs9CtV9EAi5kSDmcc88jkDV
-	 ibyJp14nKRY1gQxMEuTAet8GvFMfx1Vf5OEVRbmcMcxfz81MfFLquqWUogx5OKqgno
-	 lhny/8eN2t455j05/Rr272/mrWZx6MOHRcis1rDdiKvY5JsMTaDcrToxR7xCv+lWe4
-	 6YqyUBdWnRkEmMzyNHtW9pSufc/sXGAmyG+3s//Nj7+V76zcofh55Ehco01SUCoE4H
-	 vfDiqoEkLQUPeYrHtqf+sZ54zonRSOE7IsdTYV8uVGOP5huBGDSDriqHhgcflrPmAZ
-	 B9oM9GOQe7n+a2Ufp+EyFyLauVJl5GIRRZ43qxKIs/4yKkW1Kj9YHnzZd4iK2b4S7R
-	 EAxsCcQcghkPgAeFS8n58Q/SazUhfrAtej5SLgrHXzQCX9rXVc0vkDHm4ZJsyPR3ux
-	 fSsYCeOQOsa8qYUCYzb72lHw=
-Received: from zn.tnic (p5de8e020.dip0.t-ipconnect.de [93.232.224.32])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id EC93C40E021E;
-	Fri, 20 Mar 2026 11:31:40 +0000 (UTC)
-Date: Fri, 20 Mar 2026 12:31:34 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, x86@kernel.org,
-	Nikolay Borisov <nik.borisov@suse.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	David Kaplan <david.kaplan@amd.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>, KP Singh <kpsingh@kernel.org>,
-	Jiri Olsa <jolsa@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	David Laight <david.laight.linux@gmail.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	David Ahern <dsahern@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org, Asit Mallick <asit.k.mallick@intel.com>,
-	Tao Zhang <tao1.zhang@intel.com>, bpf@vger.kernel.org,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7 07/10] x86/vmscape: Use static_call() for predictor
- flush
-Message-ID: <20260320113134.GAab0wFqe-hewZc175@fat_crate.local>
-References: <20260319-vmscape-bhb-v7-0-b76a777a98af@linux.intel.com>
- <20260319-vmscape-bhb-v7-7-b76a777a98af@linux.intel.com>
- <20260319205802.GJ3738786@noisy.programming.kicks-ass.net>
- <20260319213421.br6na4dulrjm6eke@desk>
- <20260319214409.GL3738786@noisy.programming.kicks-ass.net>
- <20260320062206.bdrnmnvho6lhmejw@desk>
- <20260320090340.GN3738786@noisy.programming.kicks-ass.net>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SMygCkNn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774007417; x=1805543417;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=k2Ux2aWImiPiBRYhz9t4krfISTTvT7OqcLHKH8Hgdiw=;
+  b=SMygCkNnOkmRoZpExPl751ss2lpWAzJ7k/hShyRlxq6gY/McZOhKqDvA
+   7P43nVMQ6kw69732K5xTQRkq87YNaW/7C0SBK4Q/IVOjWrULmSn3B4Wlw
+   GaoQAqpJAkvZkyJ9uzdobdZDL4lv8z/BqZV4fkGONUh9gRUvQCicBNnH4
+   sI7eSXVCz92hJfUcCNuKUYd38n0nvGklcFFwZ2PvycXnKLER7wiXcugis
+   unxFprCglwInling/XntjZO+0zcbVLv+h+P/4V2K2QDNgOWiRDZMh4BeA
+   WlUg3Tzk0YzedN36vhlZCDjx33CMAJEKGXBDPtLoCv0iZHM3VawiYKKr8
+   Q==;
+X-CSE-ConnectionGUID: k5Aa0UIIQU2ACy6P9/ZCwA==
+X-CSE-MsgGUID: qM184sglSQiOBvQ/AVxxow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11734"; a="100545430"
+X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
+   d="scan'208";a="100545430"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 04:50:16 -0700
+X-CSE-ConnectionGUID: 0MAUj6p9QX6QyMqzUYi6AQ==
+X-CSE-MsgGUID: PLxY4bP6Rjy831F3P4oHRA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,130,1770624000"; 
+   d="scan'208";a="261164313"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost) ([10.245.245.40])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Mar 2026 04:50:13 -0700
+Date: Fri, 20 Mar 2026 13:50:10 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+Cc: rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH v8 02/10] lib: kstrtox: add kstrntoull() helper
+Message-ID: <ab00clb7LL-bmJWe@ashevche-desk.local>
+References: <20260303-adf41513-iio-driver-v8-0-8dd2417cc465@analog.com>
+ <20260303-adf41513-iio-driver-v8-2-8dd2417cc465@analog.com>
+ <aabm23jCikXs1l6F@ashevche-desk.local>
+ <qcloiwjlbehs4yyuttvrt46monh7isef4d5nzuwlaby6uxfael@j3trvc5jwosy>
+ <4mtdzxfj656sjr66npabfvrr7yd7q26l2unhsihjtniz4ossfj@g3qnzonoary6>
+ <rygken7oujyoupeanrdnl7r7smesa7js6sn3jsafbajc4sm3jh@adeslfqwwf3x>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260320090340.GN3738786@noisy.programming.kicks-ass.net>
+In-Reply-To: <rygken7oujyoupeanrdnl7r7smesa7js6sn3jsafbajc4sm3jh@adeslfqwwf3x>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Fri, Mar 20, 2026 at 10:03:40AM +0100, Peter Zijlstra wrote:
-> On Thu, Mar 19, 2026 at 11:22:06PM -0700, Pawan Gupta wrote:
+On Fri, Mar 20, 2026 at 11:16:32AM +0000, Rodrigo Alencar wrote:
+> On 26/03/04 10:02AM, Rodrigo Alencar wrote:
+> > On 26/03/03 02:16PM, Rodrigo Alencar wrote:
+> > > On 26/03/03 03:49PM, Andy Shevchenko wrote:
+> > > > On Tue, Mar 03, 2026 at 01:27:07PM +0000, Rodrigo Alencar via B4 Relay wrote:
+> > > > 
+> > > > > Add kstrntoull() function, which converts a string to an ULL with a max
+> > > > > character limit. The function is an alternative integer parsing function
+> > > > > that does not require a null-terminated string. It becomes a better option
+> > > > 
+> > > > null -->  NUL
+> > > > 
+> > > > > over simple_strtoull() or kstrtoull() when parsing integers from a buffer
+> > > > > with custom delimiters without having to create temporary copies.
+> > > > > The function is consumed inside the implementation _kstrtoull(),
+> > > > > promoting reuse.
+> > > > 
+> > > > But this will not properly convert 0000000000000000000000000000000000000000100,
+> > > > for example, if the max_chars say set to 20.
+> > > 
+> > > Why would I want that? truncation will happen in the case and the value will
+> > > be zero. max_chars can be zet to INT_MAX/SIZE_MAX if you want to get 100.
+> > > 
+> > > > Also kstrto*() have a common idea behind to consume the only \n and allowed
+> > > > digits. This (naming) doesn't fit into the kstrto*() category.
+> > > 
+> > > mmm ok, but include/linux/kstrtox.h is the right place for this? how about just
+> > > strntoull()? I feel like a safe_ prefix does not make much sense if it is
+> > > only to differentiate from simple_strto*(), which should have been safe at
+> > > the first place.
+> > 
+> > Also kstrntoull() does not really match kstrto*(), as the 'n' is often used
+> > to indicate a stop condition on amount of characters, which would not need
+> > to require any termination character at all.
+> > The 'k' prefix was add to 'strntoull', mostly because the function is being
+> > added to the include/linux/kstrtox.h file. Other names I could think off:
+> > - bounded_strtoull()
+> > - bstrtoull() - 'b' for bounded
+> > - bstrntoull()
+> > - strtoull_bounded()
+> > - strtoull_limit()
+> > - safe_strntoull() - emphasizes overflow safety over simple_strtoull()
+> > 
+> > Extras considerations:
+> > - Single-letter prefixes (bstrntoull, lstrntoull, etc.) are too cryptic
+> > for a public API
+> > - safe_ prefix is subjective and doesn't describe the actual behavior
+> > 
+> > kstrntoull() is still my first candidate, other than that it would be
+> > bounded_strtoull().
 > 
-> > This plus extending it to support EXPORT_STATIC_CALL_FOR_KVM() is probably
-> > a better solution. Please let me know which one you prefer.
-> 
-> The EXPORT twiddling will do I suppose. I'll try and not forget looking
-> at doing the RO static_call thing some time.
+> could you provide more feedback here? Thanks!
 
-Dunno, but exporting a static_call sounds really really wrong to me. No matter
-where. As in: we're exporting the underlying inner workings of it and that
-should be a big fat no-no.
+I don't know what new I can add here.
 
-So definitely +1 on exporting the helper instead.
-
-I'd say...
+My suggestion was (and still is) to have something in *_strtoull() family
+with additional checks added, but no limitations on the input string (i.e.
+no max_chars).  If you look at the printf() code the max_chars was added
+solely for scanf() and has no use otherwise (yes, I know about and aware
+of initramfs case).
 
 -- 
-Regards/Gruss,
-    Boris.
+With Best Regards,
+Andy Shevchenko
 
-https://people.kernel.org/tglx/notes-about-netiquette
+
