@@ -1,148 +1,118 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCD87387352
-	for <linux-doc@vger.kernel.org>; Fri, 20 Mar 2026 11:21:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47B6337B3F0;
+	Fri, 20 Mar 2026 11:32:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774005714; cv=none; b=DtGPAkDgCbi/DFO8YC2H2fSQ4iYSX072k89oshGAWMOm85aQ36G5WyvWoNwAs5qtrv8PDxYFmLpQuthgvHWuC1Q5NQf4Qg132Tf1kk2uEZIFIZyFrn6v4v50jdwmkaz80PxrFTjKgNdtvyQJo56diZQbXVMsR+MuIMxQJuc5Zp8=
+	t=1774006348; cv=none; b=PEepSSH6w7jLf9SFgNAaNh01am5ZpxLz3fV8LXTjhwBxl9Bw+1LzDNgQcMv9jq1Puh+5+Lcw1P5RXXVF0YIAIRSVS4v8T+wl11d90ME10TXD5PIWpk7KpF1q3mc7YMz4QW4TkrwVNN5e2KaqII5IAV1toIVBQPjudAMPST4q5SI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774005714; c=relaxed/simple;
-	bh=Kap1NF8qAwfz1jNFb4It5HyW+OIdruVv+i8Ry9pr2sE=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kezHXiGVUwrVGfrVYu+3VufQx9TsSHkuA/EGobdAdBlpKkMLRn5Vr5bzcZzcGj6qJ75qvYZ7lqCkZhVHpd+4r9SY2k98f1B3vl7wIktiN+xImtbpHIagpuhcW7mRb16gljTw5B4eHFhV547UeY8H0f+25a2pssaGuli6wcIj5rE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ftubBwgO; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774006348; c=relaxed/simple;
+	bh=SD0zMPdbCHRSu5dynsAxjF/5Yo4hGkU6mOhwbKNqSvI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mfDe+R0qwaepobVyHu3/z0GMeRD6XjswnLMBryWaULUPUYgHKQZ0TLTDbIvVNL1G/9MQGvPjP+O/L0VgTjBLOCkZ0ii5MIRBRSm0KgRYANRQqOpXKBmLxfkK+4g0SuJcnGF/BuVHvYAN33MG1Viv1EwiFALrXq+4Ow9ssCsFHTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=FIC+zJsa; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ftubBwgO"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-82a62714fe6so926948b3a.0
-        for <linux-doc@vger.kernel.org>; Fri, 20 Mar 2026 04:21:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774005713; x=1774610513; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SERTDDOETwbnm5ZBLxTdhDL1QG1xN74dj065fjHNw4Q=;
-        b=ftubBwgOlOvPTOD5rXOwU03Pym/MvP6Q+NRhDnbJzjOmMRuzkt3EqbDB8EcGg+fUz/
-         D6VJAzhHEIEP6W31jCtBd380YedyJb9c6X9LOEYsfGnL7arXoDotLzhGeAaBGJErJWc/
-         ykucukgM/DDHmTw4fDTFmZe2RhrF3PZgIIjQ56WKk04xcfyIQWcyQqmcjz3nuzwwzilI
-         2kADyuL9iMN1r7K+J2KSX2VOUV4vx0Adm+nHHI1velzqZl6WU/5fWphySMYayYyd+Vp3
-         2aiCBjEQapuhkBuq7Iqf708W+R9NZ7oaEPk7igu48gg2XesuodFn7f+RZtaIMlSNUSq5
-         119Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774005713; x=1774610513;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SERTDDOETwbnm5ZBLxTdhDL1QG1xN74dj065fjHNw4Q=;
-        b=LznuYNaZoG/Hay1DW841SgLEQe7XhB9+JA2yud+J8nGwUtXj1YtSltZtDW8tSQ+p6w
-         +o4kZH10Y4Ofz8MQf3Eesvp+rar0FMWl7wlKMrB7bnkosT1C+U8+7TyrjBd6gv30N6H/
-         KZ38bRBVBX+ksNFs5ZGGVqcabnZa7I4d9hB1XQtF9gtvfnTFsQtGWOqD3cfpoKAK6M9e
-         rV2K8FF+6TK8g+opJmrAkas+OudZi11alz5tPpdP9da1a2zrIPVhHz5eBYmkkgt+JN95
-         2f9GjGeKWj1TjGMqP6U6DrXXLCtvdsqALMPGG3itEZHQjWpazQn4bo/anIpjKKzEneCU
-         N9ig==
-X-Forwarded-Encrypted: i=1; AJvYcCX/AwG7LHWcViNGU1PkuAdt1G7t9GkqGVAcdjslgUyAFj59FwWw4TxzHn54rHFeueMVxt3aAqrPMBA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YytTaTGh/grG609KCFHgOqZU+aAcTp0Bc3x6eGO0PgDKpg/OQFN
-	OCMvwLYDU5DIyMKgfQ/8q/ePFsp+Wzjbk5OzMn21hTHCE7w4WztLDK7b
-X-Gm-Gg: ATEYQzz1RTfc/9wA/Sypc83g14nrERtz6iYHd1qikfT4szinIMjBCiem76zLYVVt0PC
-	GHzit+lHdDSS7PIDlLb/iu4dhVbd3dRlbnY8AItpIee/pfQG/TqBYnmbAN1I1E9Rur/+wHJ+Uyv
-	3ebNQibOT4THSOTy6+8Wg8nwYY+xTz0bYf2ne7ZoDmQat/D+5T3QEwQ9QHRj4lKjl+ldBK0PHKr
-	nuFo7QrkLs5dFeL1uNdCMPP/Rg2NBaS0onv3Ee/eLAyHttXOu2ni/EzjHT99B0oSAol+KHZeQVh
-	Wzrxfs5NNzE7HKLLnD3prwLmrkk3ohyFA/Jba1RpjctgcGftvORRDUkghJJsuSD9GSULzAW8UCr
-	g9ltbDoT2dNPgN6NHY+zHkl6xXyo2v/SGjS29VGjMvFYu+HLy96KLGdfv0ikMsiAwei4myPtq6b
-	HJZQ+i9VV83kq8jQWRrkVJ27P6gfWrWO+dD3HJ13X9BytV8XnhZkf9Zj/14JF5W6VKoqziiIP/K
-	AmDUfr0n8BcVoGJQpN2iemPh7q2/CgE39ffB3/rWPjGcaZ6FoM=
-X-Received: by 2002:a05:6a00:3a18:b0:824:b304:2d1e with SMTP id d2e1a72fcca58-82a8c2a1df5mr2016480b3a.8.1774005713032;
-        Fri, 20 Mar 2026 04:21:53 -0700 (PDT)
-Received: from RDEALENC-L01.ad.analog.com (24.206.116.131.netskope-rdns.com. [24.206.116.131])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82b0409f582sm1790118b3a.33.2026.03.20.04.21.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Mar 2026 04:21:52 -0700 (PDT)
-From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
-Date: Fri, 20 Mar 2026 11:21:37 +0000
-To: Conor Dooley <conor@kernel.org>, rodrigo.alencar@analog.com
-Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, Jonathan Cameron <jic23@kernel.org>, 
-	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH RFC v2 1/9] dt-bindings: iio: frequency: add ad9910
-Message-ID: <zi7ifl45h5fu76rlbdubkeq7wa7gtve5wsdruo574gzj5qbfu6@fl6rh3soaj74>
-References: <20260318-ad9910-iio-driver-v2-0-e79f93becf11@analog.com>
- <20260318-ad9910-iio-driver-v2-1-e79f93becf11@analog.com>
- <20260319-annex-varying-afbddcb825b7@spud>
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="FIC+zJsa"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id EFE2A40E01A9;
+	Fri, 20 Mar 2026 11:32:20 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id jib5ah3yJCN8; Fri, 20 Mar 2026 11:32:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1774006337; bh=eb8KDcq4gOieV0k+tw7u1jt0dzz7d5ZLktWlrQda5Ls=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FIC+zJsaEKChIBUTH8ESbHex4TyDU7HjjrqlwK9kDv0z2XWJfl+evZvc6UQBLCqxt
+	 CSlfupCZQdvW3d1U4IMFre0axZyZMxjlyRF30O9ZddhHl1HP8WaT6Vfhp6d1KhBuHQ
+	 pVRWJ0K45TIT8W7HnessO38xZDYclgu4YydseZTNsLxM7YWIZKojkDHdiCc+fmxy2L
+	 s34qYYktPJfCVQ5vtPsuop19XV2znWZF9+n13T4XsRdgs9CtV9EAi5kSDmcc88jkDV
+	 ibyJp14nKRY1gQxMEuTAet8GvFMfx1Vf5OEVRbmcMcxfz81MfFLquqWUogx5OKqgno
+	 lhny/8eN2t455j05/Rr272/mrWZx6MOHRcis1rDdiKvY5JsMTaDcrToxR7xCv+lWe4
+	 6YqyUBdWnRkEmMzyNHtW9pSufc/sXGAmyG+3s//Nj7+V76zcofh55Ehco01SUCoE4H
+	 vfDiqoEkLQUPeYrHtqf+sZ54zonRSOE7IsdTYV8uVGOP5huBGDSDriqHhgcflrPmAZ
+	 B9oM9GOQe7n+a2Ufp+EyFyLauVJl5GIRRZ43qxKIs/4yKkW1Kj9YHnzZd4iK2b4S7R
+	 EAxsCcQcghkPgAeFS8n58Q/SazUhfrAtej5SLgrHXzQCX9rXVc0vkDHm4ZJsyPR3ux
+	 fSsYCeOQOsa8qYUCYzb72lHw=
+Received: from zn.tnic (p5de8e020.dip0.t-ipconnect.de [93.232.224.32])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id EC93C40E021E;
+	Fri, 20 Mar 2026 11:31:40 +0000 (UTC)
+Date: Fri, 20 Mar 2026 12:31:34 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, x86@kernel.org,
+	Nikolay Borisov <nik.borisov@suse.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	David Kaplan <david.kaplan@amd.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>, KP Singh <kpsingh@kernel.org>,
+	Jiri Olsa <jolsa@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	David Laight <david.laight.linux@gmail.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	David Ahern <dsahern@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+	kvm@vger.kernel.org, Asit Mallick <asit.k.mallick@intel.com>,
+	Tao Zhang <tao1.zhang@intel.com>, bpf@vger.kernel.org,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v7 07/10] x86/vmscape: Use static_call() for predictor
+ flush
+Message-ID: <20260320113134.GAab0wFqe-hewZc175@fat_crate.local>
+References: <20260319-vmscape-bhb-v7-0-b76a777a98af@linux.intel.com>
+ <20260319-vmscape-bhb-v7-7-b76a777a98af@linux.intel.com>
+ <20260319205802.GJ3738786@noisy.programming.kicks-ass.net>
+ <20260319213421.br6na4dulrjm6eke@desk>
+ <20260319214409.GL3738786@noisy.programming.kicks-ass.net>
+ <20260320062206.bdrnmnvho6lhmejw@desk>
+ <20260320090340.GN3738786@noisy.programming.kicks-ass.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260319-annex-varying-afbddcb825b7@spud>
+In-Reply-To: <20260320090340.GN3738786@noisy.programming.kicks-ass.net>
 
-On 26/03/19 05:25PM, Conor Dooley wrote:
-> On Wed, Mar 18, 2026 at 05:56:01PM +0000, Rodrigo Alencar via B4 Relay wrote:
-> > From: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> > 
-> > DT-bindings for AD9910, a 1 GSPS DDS with 14-bit DAC. It includes
-> > configurations for clocks, DAC current, reset and basic GPIO control.
-> > 
-> > Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
-
-...
-
-> > +
-> > +  clock-names:
-> > +    oneOf:
-> > +      - items:
-> > +          - const: ref_clk
+On Fri, Mar 20, 2026 at 10:03:40AM +0100, Peter Zijlstra wrote:
+> On Thu, Mar 19, 2026 at 11:22:06PM -0700, Pawan Gupta wrote:
 > 
-> s/_clk//, not like it can be anything else!
+> > This plus extending it to support EXPORT_STATIC_CALL_FOR_KVM() is probably
+> > a better solution. Please let me know which one you prefer.
 > 
-> > +      - items:
-> > +          - const: ref_clk
-> > +          - const: sync_in
-> > +
-> > +  '#clock-cells':
-> > +    const: 1
-> > +
-> > +  clock-output-names:
-> > +    minItems: 1
-> > +    maxItems: 3
-> > +    items:
-> > +      enum: [ sync_clk, pdclk, sync_out ]
-> 
-> I'd say same here, but then you've got some issues with differentiation,
-> so idk.
+> The EXPORT twiddling will do I suppose. I'll try and not forget looking
+> at doing the RO static_call thing some time.
 
-so I've got the names as they are referred in the device pins in the datasheet
+Dunno, but exporting a static_call sounds really really wrong to me. No matter
+where. As in: we're exporting the underlying inner workings of it and that
+should be a big fat no-no.
 
-...
+So definitely +1 on exporting the helper instead.
 
-> > +dependencies:
-> > +  adi,charge-pump-current-microamp: [ 'adi,pll-enable' ]
-> > +  adi,refclk-out-drive-strength: [ 'adi,pll-enable' ]
-> > +  interrupts: [ interrupt-names ]
-> > +  clocks: [ clock-names ]
-> > +  '#clock-cells': [ clock-output-names ]
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - clocks
-> 
-> Worth pointing out, you haven't made either clock-names or
-> interrupt-names (when interrupts are used) mandatory, so the properties
-> cannot be used by a driver. I suggest you make clock-names mandatory and
-> interrupts depend on interrupt-names.
+I'd say...
 
-the dependecies is not enought make them required then? understood!
- 
 -- 
-Kind regards,
+Regards/Gruss,
+    Boris.
 
-Rodrigo Alencar
+https://people.kernel.org/tglx/notes-about-netiquette
