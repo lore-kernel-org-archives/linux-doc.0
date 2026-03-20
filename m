@@ -1,166 +1,165 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98007191F91
-	for <linux-doc@vger.kernel.org>; Fri, 20 Mar 2026 12:42:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FF4937187C;
+	Fri, 20 Mar 2026 12:43:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774010528; cv=none; b=CvRcsBVF1xtKN1k/6BAJ1wHZoNo30amYwY9N4ydCM58zaZ3Kuf+aI7TWhnlCfnr1aXGvvPZPfHzIRlnXMrLzrKyDaDTN1MXdIHQ0PBkNAhpgEESeOxln/cu27C1U4nG6WyL3txz0HCf8SkX5b1p29qGExEa6took8G/XeoCVFyc=
+	t=1774010634; cv=none; b=OTgnHux+zSsOu43Ug6DaxouZckStIFcbAuA4c9lFU090OBEPqwMOAO6IvERojNklaiNrKx4wiUCbRFkW79CRBNflFr7ueg8zoh7Vca4JayyKoG58xJmpvgb/klhJka6CWfobgkFNECb82ecY5WhIMEqEAHX4SXjhhKXrkDOeTPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774010528; c=relaxed/simple;
-	bh=HwklMMHuEmJBZfQL8IwNWcmQV8JTcDfhhxmPJKLQWgQ=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JrvUVmlvUllrXExDFuFMLi7l8cFaG3Jpf9mRZmb6Tr8Ppewr3BdXBt0xLH6taPE5uMmbGS/c7oxNOHQ3cpt1qmIuw12cZJEgabCJMnDtAQVfm+APw/b1hprIBFcSYP7I3rNBtmmK+LF9VZaX8L+xvqEd2ulIHohTwM4Urmn5v6I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iCbCxIz2; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774010634; c=relaxed/simple;
+	bh=yNppS9cHlBOq3hi2OuU+lLqCPo6TTLgiTKj2ELmxZFo=;
+	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
+	 Date:MIME-Version; b=plgJm4xG7t93BVWYcKz6FitQcUhW9qoOBbwByZdiQfZerm2eCOM24J9VQZTRaFkG0McTJ+lWrcFBVv0IkQis2sVOyokut28aO4T0SYA/WT7P4xu6M8cZvPJAFfxit4YM/zswbNpvW55XK7jzCiJu+4ZPgPlmQEqqZomG9DHvOj0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=biqgZdZ4; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iCbCxIz2"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-486fe36cfabso5034335e9.1
-        for <linux-doc@vger.kernel.org>; Fri, 20 Mar 2026 05:42:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774010524; x=1774615324; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=H8a7jdeYcOkG74XhQy98mbwT2qyiDyYFpNk1yDSPbdw=;
-        b=iCbCxIz2ggk6SLCwTUp2KwLgTQ+oi5S9X2nsaciGSn9BkxQO1Vrf997OhE8b7/eBFH
-         dhuNaUOgT8gOu7gcPU7BnB64wf3AnS6mm5tifXuf+zNbcYE1DTvUJuB2YlTWrkdXpL/K
-         0392kVJ909X9Lib3v8lgUPhTElIcMofKz1r7D7B9yg4LDt9IBf+eMLQJBm47OW+CNxzU
-         rpwaDS5+MQDcNwjLUOJluR2YtX0/4ul9GrMo+ITt49B/Hsc1/XbVQ9atZjQIDqkzy3Jm
-         R7SkIeRqWeRzN+NnIqTdu5rFGJRgx+QgcW6m3RyRSW0ru75epx9H9rnScQ6hhmeEdr3q
-         CWEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774010524; x=1774615324;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=H8a7jdeYcOkG74XhQy98mbwT2qyiDyYFpNk1yDSPbdw=;
-        b=dMVMg2i35MOx4WBL8cjDls48Q6eyWR8q5foMU7Ehnu37+zygw2Q/7gVDWfQWtYTRKe
-         7v3uEIOVk23hkbW++xXFqCBokkGfULjXp5xH8aBpTIgoNAt7vsXDpZNhIfkhIShyWK1J
-         R86QldqW3LFrme0OHQ30peh91QCj7P010eu0iJUeSvXWoQfqaii4ySral48X6r9UyWpS
-         XlJ3XRdumSFgEFipJbMHSJm25rXvnIiQjAVEUbal28tgnOQ9F1K9RDW0rfOnuVFXNAzz
-         /wcUU5BEHa0/6msodUenhQTWtzAHdNq8ZrMLTnB4nwuNLWZumT/quVFbKblBMCcs9dSV
-         IZZw==
-X-Forwarded-Encrypted: i=1; AJvYcCVQV2ywImedGzpLDJPR5c4ZxkRk/aPUUPOvsLDiT0/9CMaCw5nk1gguz7XH3cSEeIAd6NlE2ijv8qw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx+5DlGOOfxt4uM3upWLIED9tyxSKo1smNIwRs+FUu0SJ5UJd1I
-	o1l57izk0HVZ74FNeKsTPrdnDn0dISUcFgVEXLAiSJ1J179kYxub4KaZ
-X-Gm-Gg: ATEYQzx6TOPOjOv5TkcmavswUNHS0Oqa6fuSsm+Sl13rI4nJ0vdAGhNyQsw0xjITpsg
-	KOBKLN/jq6IOhkSxRgTYIfgrcu7Xl0szSvI1fSfeYy/RHe4DCfs+TbdClxhWsaWJvCGHobvdti5
-	vygDixhK4yasJiwndOs5BmzG5yXrEGseVEqVfvr4j/t3ucJz+1Xx7+I0IoryOEoPE5FsgUT48LX
-	Refw53Webs/JfxtGu/apWQQu4sskmFwSfrRmjsQRI4/UDMACGUCXZX43LJLc0HW2kpmcxNoigHN
-	qmNJKJ75sxZ+Li+6l5jlSEB32h/yYWgOhZxavNhagAHQTDZpR8EQCESrHRnazdMvFcZhl4bACIn
-	buIvImXUGkZFer+Re23esWd9M13/AC0Ka2qRnXJpdJsoMY3PYcFzqL9bIkqzYo3Qf5zRRGW1HPx
-	fy2qbwp7cj6TThzMzHJxpq0jvxVTiuFLmZkbr5eu+ZbTKu+Pq6E6Tp4abx4VMfugdI2b9bAE5gM
-	kPd1Pcr7yjEyERnpp7lbO+eoN55fwJTbSycrmbeWOWlJrW9v5c=
-X-Received: by 2002:a05:600d:8449:b0:477:9890:9ab8 with SMTP id 5b1f17b1804b1-486fe8a2bafmr39506145e9.3.1774010523562;
-        Fri, 20 Mar 2026 05:42:03 -0700 (PDT)
-Received: from RDEALENC-L01.ad.analog.com (24.206.116.103.netskope-rdns.com. [24.206.116.103])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486fe7e2665sm67966935e9.6.2026.03.20.05.42.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Mar 2026 05:42:02 -0700 (PDT)
-From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
-Date: Fri, 20 Mar 2026 12:41:57 +0000
-To: Andy Shevchenko <andriy.shevchenko@intel.com>, 
-	Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-Cc: rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org, 
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
-	Andy Shevchenko <andy@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH v8 02/10] lib: kstrtox: add kstrntoull() helper
-Message-ID: <qsquhriyrepndxwexox35oi5i7v4klb64lajuk3j3pfozkjiew@fp55l4znck4o>
-References: <20260303-adf41513-iio-driver-v8-0-8dd2417cc465@analog.com>
- <20260303-adf41513-iio-driver-v8-2-8dd2417cc465@analog.com>
- <aabm23jCikXs1l6F@ashevche-desk.local>
- <qcloiwjlbehs4yyuttvrt46monh7isef4d5nzuwlaby6uxfael@j3trvc5jwosy>
- <4mtdzxfj656sjr66npabfvrr7yd7q26l2unhsihjtniz4ossfj@g3qnzonoary6>
- <rygken7oujyoupeanrdnl7r7smesa7js6sn3jsafbajc4sm3jh@adeslfqwwf3x>
- <ab00clb7LL-bmJWe@ashevche-desk.local>
- <ixvzb5mni2lhz733f4fvvzhozmpezkx5s2q7sash3wv3u2g7ov@pgs6pve6kxrq>
- <ab08aHbudFWEtLi8@ashevche-desk.local>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="biqgZdZ4"
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62K9KQHp1190011;
+	Fri, 20 Mar 2026 12:43:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=dVXFCD
+	S6uoQ7xpxgXlI+9S5+RobPtFcQppGW3wo3APY=; b=biqgZdZ4cDNueXS2BO3mQm
+	xXVsaYwbJqM2uf9/tdb3AZ9lsBk5YHz2c4t3oWYLgV7sVQFKvNcgqzLjoC1xhlBn
+	drPTT0WGRkJAIK4ScbEtKLI1p3rjHN8clpMpi6QLVcE0c/hvWC6Js8JjyHC2uRbG
+	e/+I9004fo8wWjdQWYxP0DPkif4oRrvn5ncdJ9wfAuhVIw0zl5bhxEANXk0ZKdPq
+	ykXjkyGvnTzGyNcRla5Yz3YgE8XHOSkj3O2pa1g9Kb2ID5x1u3IgWh6f6Y3bfDEI
+	RGvWlZE+COtux0FflNSawh+RSeXIah9f+Agjg91RSnorCzKiHW2HOnvG9rqpAPJg
+	==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4cx7vfwux9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 20 Mar 2026 12:43:16 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 62KBtEVU014113;
+	Fri, 20 Mar 2026 12:43:15 GMT
+Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4cwjcyf7hs-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 20 Mar 2026 12:43:15 +0000
+Received: from smtpav01.wdc07v.mail.ibm.com (smtpav01.wdc07v.mail.ibm.com [10.39.53.228])
+	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 62KChExl29164222
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 20 Mar 2026 12:43:14 GMT
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id D50BA5804B;
+	Fri, 20 Mar 2026 12:43:14 +0000 (GMT)
+Received: from smtpav01.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 48FDA58055;
+	Fri, 20 Mar 2026 12:43:13 +0000 (GMT)
+Received: from li-43857255-d5e6-4659-90f1-fc5cee4750ad.ibm.com (unknown [9.61.147.150])
+	by smtpav01.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Fri, 20 Mar 2026 12:43:13 +0000 (GMT)
+Message-ID: <ffe1d4645a66a690892163be8e16c4b5d24a690d.camel@linux.ibm.com>
+Subject: Re: [PATCH v3 3/3] ima: Add support for staging measurements for
+ deletion
+From: Mimi Zohar <zohar@linux.ibm.com>
+To: steven chen <chenste@linux.microsoft.com>,
+        Roberto Sassu	
+ <roberto.sassu@huaweicloud.com>, corbet@lwn.net,
+        skhan@linuxfoundation.org, dmitry.kasatkin@gmail.com,
+        eric.snowberg@oracle.com, paul@paul-moore.com, jmorris@namei.org,
+        serge@hallyn.com
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
+        gregorylumen@linux.microsoft.com, nramas@linux.microsoft.com,
+        Roberto Sassu
+	 <roberto.sassu@huawei.com>
+In-Reply-To: <25e0a273-9044-4e0d-9812-0171ec99e1b7@linux.microsoft.com>
+References: <20260311171956.2317781-1-roberto.sassu@huaweicloud.com>
+	 <20260311171956.2317781-3-roberto.sassu@huaweicloud.com>
+	 <587e11bf4d29552bbbfc029f716146e8ebfca1eb.camel@linux.ibm.com>
+	 <25e0a273-9044-4e0d-9812-0171ec99e1b7@linux.microsoft.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 20 Mar 2026 08:41:18 -0400
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ab08aHbudFWEtLi8@ashevche-desk.local>
+User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-ORIG-GUID: LCuC5On_83ousWRx60Wk21U32FhyP-LH
+X-Authority-Analysis: v=2.4 cv=KajfcAYD c=1 sm=1 tr=0 ts=69bd40e4 cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=zauGFP8psBLEDG-jHCkA:9
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzIwMDEwMCBTYWx0ZWRfXxmCEw0mb2dRQ
+ bPt5+fyq4ZTouWloR4ChkkZ4PEz4tSCpg9QrvDmHiMaKU5/oMfwyrEZYbmG+5WjP023WWGr2Oha
+ +hYk06QZpfewSJ06jH8951wdTiGaeYCUf7/JcoK6GhZrOBCEaAQwntLLOY6w7zHtIKUSOtYL4Lf
+ G9OGdMrZTIIdK5wrYqA/s4nEk7bV7uUKuv3q+73Zc3SYuu/NGYqMqhgxCSvrtwXZg2hNlPEjki0
+ F+teb4JHruekgob4FFzPQEGjW93ObKBummfOGownlwUZytZY0ofWFT2nnj0XOrABCHqeMv5BsUK
+ vyLTDiMXw8LS1S7KcKRMK5E4zolcLLwW66YX4TTUPfQ8JR4oqMS3tfyJawLOAvvByN5BO58Q0kH
+ RQat8qp7LMYu3sox1TAJdIHFqeH5Ga2HyAme9AFTTf2mVk0Tp6n3kjeX3xQ4ZzcrlGplqeb2LVh
+ 8+FmnlR3KbOXhWvswGg==
+X-Proofpoint-GUID: WSIvWMAJxyv9drqAYdzx-nEZC9eLd_Br
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-20_02,2026-03-19_05,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 adultscore=0 spamscore=0 malwarescore=0 clxscore=1015
+ impostorscore=0 bulkscore=0 lowpriorityscore=0 priorityscore=1501
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2603050001
+ definitions=main-2603200100
 
-On 26/03/20 02:24PM, Andy Shevchenko wrote:
-> On Fri, Mar 20, 2026 at 12:08:41PM +0000, Rodrigo Alencar wrote:
-> > On 26/03/20 01:50PM, Andy Shevchenko wrote:
-> > > On Fri, Mar 20, 2026 at 11:16:32AM +0000, Rodrigo Alencar wrote:
-> > > > On 26/03/04 10:02AM, Rodrigo Alencar wrote:
-> 
-> ...
-> 
-> > > > could you provide more feedback here? Thanks!
-> > > 
-> > > I don't know what new I can add here.
-> > > 
-> > > My suggestion was (and still is) to have something in *_strtoull() family
-> > > with additional checks added, but no limitations on the input string (i.e.
-> > > no max_chars).  If you look at the printf() code the max_chars was added
-> > > solely for scanf() and has no use otherwise (yes, I know about and aware
-> > > of initramfs case).
-> > 
-> > but is it include/linux/kstrtox.h the right place for this?
-> 
-> Seems so, there simple_strto*() are declared.
-> 
-> > *_strtoull familly... then can we just expose simple_strntoull(), which is
-> > private to lib/vsprintf.c, by changing its prototype to expose a error return?
-> 
-> Why do you need that? I'm lost, sorry, I don't understand this big desire of
-> having that max_chars parameter.
-> 
-> > In my case the limitation on the input string is useful for the truncation of
-> > decimal places when parsing the fixed point value. It would avoid a 64-bit
-> > division.
-> 
-> How is it better than checking the returned end pointer? Just treat anything
-> that parses too many digits after dot as invalid input?
-> 
-> 	ret = ..._strtoull(..., &end, &result);
+On Thu, 2026-03-19 at 14:31 -0700, steven chen wrote:
 
-here I would want to pass max_chars as the precision of the fixed point parsing
+> > - Support for deleting N measurement records (and pre-pending the remai=
+ning
+> > measurement records)
+>=20
+> Is there any problem to bring work of "stage" step together to the=20
+> deletion step?
+>=20
+> "Trim N" method does everything that "staged" method can do, right?=20
+> what's the "stage" method can do but "trim N" method can't do?
+>=20
+> in user space, if in "staged" state, no other user space agent can=20
+> access the IMA measure list, right?
+>=20
+> Could you explain the benefit of bringing the "stage" step?
 
-> 	if (ret)
-> 		return ret; // overflow!
-> 
-> 	if (end - start > $YOUR_LIMIT)
-> 		return -EINVAL; // bad input
-> 
-> 	...process result...
+The performance improvement is because "staging" the IMA measurement list t=
+akes
+the lock in order to move the measurement list pointer and then releases it=
+.=20
+New measurements can then be appended to a new measurement list.  Deleting
+records is done without taking the lock to walk the staged measurement list=
+.
 
-otherwise, here I would need to check the amount of parsed characters and
-perform a 64-bit division if it goes beyond the desired precision.
-Also, having max_chars allows for more flexible usage of the parsing function.
+Without staging the measurement list, walking the measurement list to trim =
+N
+records requires taking and holding the lock.  The performance is dependent=
+ on
+the size of the measurement list.
 
-this is the prototype of simple_strntoull() that would be thinking on expose:
+Your question isn't really about "staging" the measurement list records, bu=
+t
+requiring a userspace signal to delete them.  To answer that question, dele=
+ting
+N records (third patch) could imply staging all the measurement records and
+immediately deleting N records without an explicit userspace signal.
 
-int simple_strntoull(const char *startp, char **endp,
-		     unsigned long long *res, unsigned int base,
-		     size_t max_chars)
+I expect the requested "documentation" patch will provide the motivation fo=
+r the
+delayed deletion of the measurement list.
 
-that would also allow to drop the existing FIXME in simple_strntoull().
+Mimi=20
 
-> Some (stupid) thoughts loudly. IIUC even if we implement '%g' in scanf(), it
-> wont help you as you want to have more precise values. Do I get it correct?
 
-If I am parsing 3.14159265359 with 6 decimal precision I want to stop at:
 
-frac = 141592
-int = 3
 
-and ignore the rest.
 
--- 
-Kind regards,
 
-Rodrigo Alencar
+
+
+
+
