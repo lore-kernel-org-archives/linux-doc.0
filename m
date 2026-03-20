@@ -1,318 +1,115 @@
-Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021089.outbound.protection.outlook.com [52.101.100.89])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33A662139C9;
-	Fri, 20 Mar 2026 13:04:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.100.89
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774011858; cv=fail; b=NCqzahUQ4BVN/JGZcFOtCGecGJ56fYlv7S3HsNlV9fCU+d3b1YO7rzCfi55229gbuH8w2HomJG9jpbaJwW66ldc6F1xJVisehQi6r/pbkfrBirKjlWBFnepEzOP9qWNDYRXKNe2i0Zl8GtuWxYX3GqhRLzZe6QRJE1z84KJoqRU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774011858; c=relaxed/simple;
-	bh=vRsuyoT50VidFfMrJ8UN7H2LiZhhBQLSwkJqAHZlXNQ=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=afOfjkp1suXBb+Gk3xHRE83vWR/EQKP1i9f8r6h/6bVk6z2AGsRl1P7bVBU76+pltNH957XhUk2Cf8XdQZY7CQQjw0xTygWpB0qws+2/4qj1Bl4AUn8C7BTSRphgvRP3ixz4bhYB85KPV9yuNW8RE1Eo5SY3SChWdarHHQB5FMA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=Ag2aX3k6; arc=fail smtp.client-ip=52.101.100.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CADD7359FB0
+	for <linux-doc@vger.kernel.org>; Fri, 20 Mar 2026 13:24:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774013048; cv=none; b=kNgdLg+t1oKi485wR6Lhe4zLDFqson1RBXNVoU+5/EsoIDtDSXCWwDd3K80BaOrTzsSYGIC6nlv4QSy+cli87Grn4fBr8TzNCKbdgxh1IYVXJgLWjIDknW2gkZ1gaEUvHMZW2u1eBCPqNOD9cocXeiqtLiIroUYZuc63uHfTOkg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774013048; c=relaxed/simple;
+	bh=qKboe0/DtcoJu2p1G1+lmquY232Ov8fUQpxq2txGni0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XMaCYxHSBhXLB/AEMFwjVPJ6LXdyH+GRd6JqeO1iF2W8cTatNYeCxzU81+gzMOvpWOD1Zn7E1h3E8m9E0xspbwsMeYa6N/07GPDWEhWMyJdwpNoroQBCLXXlVpMpIo4Td2mNJkC2pbYNLzgvrUJcCRE381hOTY6g+fdbsg+OqbY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IsmxSYJe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="Ag2aX3k6"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jkEFfybdGRJztWFMH9Lssbl1lsptaUsDR3PpjZtm6VuHbEnXYNY/ZLZk3KglOAeJADE20sTuhRljDoqdtLBBnO6SsYR0d4XWvIGesfmGk4gdSR7eABXdV/ySDDDwKhyhOcMh70SdbiEJ/Q4FhCT9oxKd84DTiAuL257Qd3KpIQChX3gxhrzq2LB9q3/4ON6Sip6Zi/GR3+whAxRq7Da8KqK0jUUBQBy3cMPwcc0Itli/7V4zaiwOXvlzGybrseZoprRpAYwNTTXvGPPwEEuPy2UK0025vntg5011LKEkab2xrNxidtAl2PuvIVDI7nCIgpE0mmBDacye9AK2+M7SWw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xwHfwJMJ/BoyqaGSSMonUhFCgp1zLjHqz6u+cp17t1I=;
- b=lS2Ire1/jcpF1fK1OrvncaYG3xc5ExY8v5Ur7TkhRLEeWZnhn8EP5V/6lkc99lnYNL5jGjQUISWhXxpvikIuIIMTLUTWg3PDkF0GkdHiOuRs9BWKIBz7zuSJQvsS+rlskiRHFrKY6F5Ighz3ON32fJ9kYhYPfWOy9ihq602FtsoB4hR2uIfe1FMbR5G2S61VH+PJmsFCcTElpIKiRfcoy7xmxQWJMOYqTt8A7yUNqf7v8djR47XTRMN8aJrJhKnySKXDwhfToW9iMY45t/S2FmQzvUitxjOwEHLjZLBjQVAJWnsLFK4/xDywF+vri3mRy4jkusSFtvLNvoK3nPo9TA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xwHfwJMJ/BoyqaGSSMonUhFCgp1zLjHqz6u+cp17t1I=;
- b=Ag2aX3k6m+6SK+9yaijTu2U/9Mzz2xPdUB/23hmvNRtuSuFzPa4cHj9yqe5Q44RMSYoin/lWauZFFTsaiCAd/2UTGE7aeoFmiPTDOpEdXlPFqwDlFZKwMBrIcqI1M8dPuO29T1vV4rhWCFDLTcuFLsQAaB7Ojzeh9TI1Vs75Jlk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by CWLP265MB5954.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1cc::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.23; Fri, 20 Mar
- 2026 13:04:12 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9723.022; Fri, 20 Mar 2026
- 13:04:12 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 20 Mar 2026 13:04:10 +0000
-Message-Id: <DH7MPTIK5OMK.3GHQAE07J5OO@garyguo.net>
-Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
- "Gary Guo" <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "Danilo Krummrich" <dakr@kernel.org>,
- "Dave Airlie" <airlied@redhat.com>, "Daniel Almeida"
- <daniel.almeida@collabora.com>, "Koen Koning"
- <koen.koning@linux.intel.com>, <dri-devel@lists.freedesktop.org>,
- <rust-for-linux@vger.kernel.org>, "Nikola Djukic" <ndjukic@nvidia.com>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
- Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Jonathan
- Corbet" <corbet@lwn.net>, "Alex Deucher" <alexander.deucher@amd.com>,
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, "Jani Nikula"
- <jani.nikula@linux.intel.com>, "Joonas Lahtinen"
- <joonas.lahtinen@linux.intel.com>, "Rodrigo Vivi" <rodrigo.vivi@intel.com>,
- "Tvrtko Ursulin" <tursulin@ursulin.net>, "Huang Rui" <ray.huang@amd.com>,
- "Matthew Auld" <matthew.auld@intel.com>, "Matthew Brost"
- <matthew.brost@intel.com>, "Lucas De Marchi" <lucas.demarchi@intel.com>,
- =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- "Helge Deller" <deller@gmx.de>, "Alex Gaynor" <alex.gaynor@gmail.com>,
- "Boqun Feng" <boqun.feng@gmail.com>, "John Hubbard" <jhubbard@nvidia.com>,
- "Alistair Popple" <apopple@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>,
- "Edwin Peer" <epeer@nvidia.com>, "Alexandre Courbot" <acourbot@nvidia.com>,
- "Andrea Righi" <arighi@nvidia.com>, "Andy Ritger" <aritger@nvidia.com>,
- "Zhi Wang" <zhiw@nvidia.com>, "Balbir Singh" <balbirs@nvidia.com>, "Philipp
- Stanner" <phasta@kernel.org>, "Elle Rhumsaa" <elle@weathered-steel.dev>,
- <alexeyi@nvidia.com>, "Eliot Courtney" <ecourtney@nvidia.com>,
- <joel@joelfernandes.org>, <linux-doc@vger.kernel.org>,
- <amd-gfx@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
- <intel-xe@lists.freedesktop.org>, <linux-fbdev@vger.kernel.org>
-Subject: Re: [PATCH v14 1/2] rust: gpu: Add GPU buddy allocator bindings
-From: "Gary Guo" <gary@garyguo.net>
-To: "Joel Fernandes" <joelagnelf@nvidia.com>, <linux-kernel@vger.kernel.org>
-X-Mailer: aerc 0.21.0
-References: <20260320045711.43494-1-joelagnelf@nvidia.com>
- <20260320045711.43494-2-joelagnelf@nvidia.com>
-In-Reply-To: <20260320045711.43494-2-joelagnelf@nvidia.com>
-X-ClientProxiedBy: LO4P123CA0306.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:196::23) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IsmxSYJe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A96AC2BCB9
+	for <linux-doc@vger.kernel.org>; Fri, 20 Mar 2026 13:24:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774013048;
+	bh=qKboe0/DtcoJu2p1G1+lmquY232Ov8fUQpxq2txGni0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=IsmxSYJe13Uh2Ham+r9TnB/dla6xbqEeqDJoJyBrjNZknv+2gLOnec6nA7rwmRRSp
+	 VX3aWbHsiGogLffTRLtYztOtlD8LUlE5JsZ/+h8X5AMO5UFjDy0hehWlkJA7emwQY9
+	 pdtYgrO9etYNEoUU6i8Wbq2iHg6VH9JEk5Y8yIUwQvxpzjEb0uci4kKmQf1Xj5AePh
+	 1admpNUXPfJIbek+/5Xlog+ItkFA1cIM0IH7Vc8i/l14DCc6Z9HDwG3SGdmqWhRQKZ
+	 v5VIafh3FUq2rN9HFg/qIeRgu71ekoko+6TS3kj3pjE82XNY464bVvJPsJ08Zgcync
+	 w29Hhl9Dn72pg==
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-79a40fb9890so6061207b3.1
+        for <linux-doc@vger.kernel.org>; Fri, 20 Mar 2026 06:24:08 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWoxsrBJ83hnOFK3sobQjMFsuQckfHcpZspett2jeD8ljbnBPL9TDCPGMnpQxvvU1JMm2l7Mc3l69o=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwwsbSwcKP0V8hKcegX16+HRMd3ot0x15FBIk3zDQ56JExq24k0
+	dD96upeglDA4ze8iaPWJeOgqd+NK73m9Ej5tDyds/60GsYZPj2uLwu1GfFdI8NkQu8t0WCJR+ax
+	Tb8BaK2sJEdI0+aSTLVC8ypALJnNG9ek=
+X-Received: by 2002:a05:690c:6608:b0:79a:3752:af20 with SMTP id
+ 00721157ae682-79a90aae9a8mr26948667b3.7.1774013047789; Fri, 20 Mar 2026
+ 06:24:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CWLP265MB5954:EE_
-X-MS-Office365-Filtering-Correlation-Id: 52ff095a-ee62-482e-1513-08de86812e42
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|10070799003|366016|1800799024|376014|7416014|7053199007|22082099003|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	hc6dYgZaWM/AKhw/VhoRY1RttCE7F8UyS6jDyWVnsgWNhF4IGD/DQYovQ2TmERdUIhYl8DaI4Usi6sqtx3dgErVkDoyyhjPR8J1BYO8l6yS9pj22pPXJ/usy2s6h7qPEoaxNVl6GpMVUXozZOdzurCsdY/HIovxeyiw7ZIes2TLySlDS2NdApEXG4U0dLvac9mJT8j0U/nDUhRj/k2P0sygBCb9qosToJ4suipNU7oQiE89lsyMCWW7zcU91E2ulbSXBmme484KdBQp3rqKdF5s1Eg/QQ2OevrCzd6J6h6FGDDgjI89zTG9k+HT2ocenSFgLm24+6zMfLv1cu9cFRMiibAQoBzvOsXMMQXdS98QEyIcx1K1FKa4sq2SBpgaQdIDA7xc2xWYO0mtne2w9n0hZ9Z3Q7x7BaUWfL+jd1VsrXb6S3N4YBz6v19gJMsEklOA7ryJO6vJf9EIEx5p72zzXBu0QknHjsK54YZoxlfIJ7UCDbB7Il5U9y22i5ZBAy3T8hAbldY63wE+vgSQwcLWnMl1/oPknSIwM3MB1Pl77NBt2ZSVYGOjmMUxOsCb9gtO1JvK90/2xVnIU3lONG8uQBHRlmWPfYqQLQqA+vxHgYtbPV/Acl/+7ZtcI74DGRVxA0vnWHsBfKCVL1AghzGOJTH6oWMif/Hchy87G2K55FACHRAICiUCC5LWdZTaN
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(366016)(1800799024)(376014)(7416014)(7053199007)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?MldjdHR6dHdQc3V1NFFhL0ZjL3RINjZDZTBNbHp4VXdMbDFKMVlLU24xR2hx?=
- =?utf-8?B?ajVBRC9rM25oQVE2NzhCemZlTWF2OHppamlEb3ZhNEZCYng4U0FlYTVsVUdK?=
- =?utf-8?B?VlE3bXRHWk02YjZlRWIyb0YyOFA3RVhYQTM1Tkc1WjZhZjYxZy9rUEN3TVFG?=
- =?utf-8?B?QjAycFRpTm8wNklZWVJiNnhFcVJwMXovNTBnZTZEaE5yM1duSTUzemtZemVZ?=
- =?utf-8?B?ZXE5S3NRbzBnUjM5QWdyM0dyVHQveDNiR3VNKzNvVTd1YU9WTXpqa1FqYk1a?=
- =?utf-8?B?QWpuQTRrbDNSaVVoWmJzSkdVSkRKWHZ1OUZRbFY1Z1NhMk8yNFVTYzQ3WjZ4?=
- =?utf-8?B?NUdISnNwN0pLSGtoa1RBak9GVlNuL2xkRTRFSko2dGpQT3ArM1V0dlRqWk83?=
- =?utf-8?B?Z1lJWnFIbkorSXJycVUvZGZOc0FWUkZIZHBDRlM5RkpmNlVkdU0wOUIrbURn?=
- =?utf-8?B?L2puTTE0R3lDQXFTeFFlS0FPU3hiUDcwUS9DcjFQS0FndXVkM2JlQVlJem50?=
- =?utf-8?B?S2JVdGdhMGs5OXRYVm45bXowUFZLYUVsKzJLK01kMEh6WkZUTkVSbzJqWEFU?=
- =?utf-8?B?SlRpMkphYjhwU25qbkc0bHBPekpTMWYwNjVUT1JBdWRDYlRmTDlrWmNSblVl?=
- =?utf-8?B?bytUek9WN296eVlNR3Nhdkl6anEyU25JYzFGR2lNbjVVN3FuR3U3QndaQ3Rs?=
- =?utf-8?B?ZGJsTkg2bE1HeEw4OGdXUGdoeEEzZHdIdGJJcWNtWVdMeDdMbTBOZnpHUWZQ?=
- =?utf-8?B?VnZuM3phZHgvOTJLYlBodllnOUU3VzY2NjNUVmtDdWQxUVVxakc2WWd6OGlP?=
- =?utf-8?B?TjloRTE2ajd5V1dGWDJQemRpRk5NZi9FbVdtT0E2TEhLRnQ2TC9SL0NmRFRY?=
- =?utf-8?B?TVB5V3JOVWRMMUQ2UFlTNzFXZGZFUlgweWdPS21ScDMzM3hWUGRVc1VZVFdI?=
- =?utf-8?B?Mkk0aGpBRUI2WjAxT29lbEVyWDNvWkpWQ1lKQy9JR1NwV2k0eElpY3l3L3hL?=
- =?utf-8?B?WnVod1FBY21icU5KcnBNb1kvQXR2TjlaWG1FaENGTjlrMTdOUG9jdDQrYTdk?=
- =?utf-8?B?YSszTS9VSENmTWpwaFh1Nkw2eEFnU3h5ZnRZSkd3VGVlU0sxK0ZvcTlSeGRB?=
- =?utf-8?B?UUxDMkRabmh2MUs5T2Uyd3V5V3VwZGprVThkZXNFZ1lqaG53UUpubTkrd2dZ?=
- =?utf-8?B?TVNIdFJ2ZERtQ2Y5Ni83SXMvK2JYQitsdThOemV5Lyt2UjZvRWJCelFkVHZD?=
- =?utf-8?B?NzNqRzc0RmFjbVQ4NFgxQ2hRNGR1RUp6QTNaVVg2dkQ0UktzQ2w3Z1hmRWdO?=
- =?utf-8?B?TmFQaTYzWVJuT1Axb0liczVFMi9UWFFTTWFEcXkyamJBT0JUQk5wQWxpYUhk?=
- =?utf-8?B?c1lEcGgvU05XUjA4RVBKcUtobThDNGFqYkp6M1BLWjdGMS9ocTkwbnZPVG5W?=
- =?utf-8?B?UFErWnFaMXQzOE1NeWhOd3RJZERLaEpLaGlLaFJCbDhzRFZjSjkrT2Q0cHpE?=
- =?utf-8?B?V1hQdzVURk9DR2ZCK01yTUZkbERXZmJkRWQ0cUVnZnp2ZE0zUjkzN0lPOFRB?=
- =?utf-8?B?QWFwNDdDNW45eVZURG83ZENoN2paLysxK3N5OEJXaUhITFNrSjU1TlZpdjN0?=
- =?utf-8?B?cis3V3E2eFZTQ2Ridm82M29MQzI4K3J3dkZnU01QcDlXbmZEWWxkTXFYYWtK?=
- =?utf-8?B?djBFaldpb3dBZ0xWeDVRSFpiZVZxcUxubzRsaDJIR0JhQVoyZjFpK2h1czBC?=
- =?utf-8?B?NkcwaTJlWmU0SXVZOHZ6bkRkNGJBeUZxMTVEVE9YOTVzU01VMXA4a2pzNTZm?=
- =?utf-8?B?bXlrcnFpUHZLeVI2VU9hQUpyTEtUUUlmemROcHByZEE1R1oxcWgrNks2c0to?=
- =?utf-8?B?ZlNhTTFYTytZRWZGRzVBSkt6SUt1OVI3aklPMXB5NUgzdzJPNEdBUG5nZjNL?=
- =?utf-8?B?czgwajlOT1hxcWlEWFBBUkIxM3Z4ZDdEQmUxUHFoQnVwdDZVMjJUOFJXU09P?=
- =?utf-8?B?dUE1L203ZVNLd3JFZE1JMFk5ZTJkeFBqd01Ea1pXR0MrMEZvTWY2RlpCcTZ2?=
- =?utf-8?B?NzRZOEtJemtkZXo1NVNCcERVcFpPeWc4akxCMXVaUG95cFQ0WGlpTFlJekR5?=
- =?utf-8?B?UUd6bDk1U1RRbGNidHF3RkhjckZpMGpwbmJoMXRxZkhFWTdQV2Vaa2hzNWpq?=
- =?utf-8?B?V0hjYk1qY0JucmczSE5IZEhTbkpyYktBWkl4K2FvNkc0ZnRzRkdpNXZLUURy?=
- =?utf-8?B?Nk9OUU1wOW4wMUl3TGRmNFFMelVMUzViWkRvU2ZXRWdSTHMvLzZXR0xzQkxT?=
- =?utf-8?B?WmhZL0IxdTBYMFZCcFMrRDBwNWVrcUhVVlduTnZyU0NhVVovelZYUT09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 52ff095a-ee62-482e-1513-08de86812e42
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Mar 2026 13:04:11.9450
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nVkYvFtazanLN3fSC+NcajCkvZO30MCpkBfeD8lE1RyGo3iyaJ+z1a8xFx8J3MSRnoj0XFgc4UkxPUvulY4DUg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB5954
+References: <20260313195801.2043306-1-shenwei.wang@nxp.com>
+ <20260313195801.2043306-4-shenwei.wang@nxp.com> <2aa1d063-181f-4145-9f1f-7e3012c4d0af@foss.st.com>
+ <104e9861-bfd4-4e0f-8967-a849edf7e6fb@lunn.ch> <CANLsYkx6KhspTjzpk51ywfgWcf-FR7-3XrH=MmBi_W6yZmMukA@mail.gmail.com>
+In-Reply-To: <CANLsYkx6KhspTjzpk51ywfgWcf-FR7-3XrH=MmBi_W6yZmMukA@mail.gmail.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Fri, 20 Mar 2026 14:23:56 +0100
+X-Gmail-Original-Message-ID: <CAD++jLkAQzQ+zzC9ycRt+CQ3801G4p=sJbg1K0h2ugHW0JnQ8w@mail.gmail.com>
+X-Gm-Features: AaiRm521fZwGOYxcLS7yMLe01ZzXoPJRV2jTRRY65q686pnlDl5uPYKXfNpRPU4
+Message-ID: <CAD++jLkAQzQ+zzC9ycRt+CQ3801G4p=sJbg1K0h2ugHW0JnQ8w@mail.gmail.com>
+Subject: Re: [PATCH v12 3/5] gpio: rpmsg: add generic rpmsg GPIO driver
+To: Mathieu Poirier <mathieu.poirier@linaro.org>
+Cc: Andrew Lunn <andrew@lunn.ch>, Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>, 
+	Shenwei Wang <shenwei.wang@nxp.com>, Bartosz Golaszewski <brgl@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Shuah Khan <skhan@linuxfoundation.org>, 
+	linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>, devicetree@vger.kernel.org, 
+	linux-remoteproc@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-imx@nxp.com, 
+	Bartosz Golaszewski <brgl@bgdev.pl>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri Mar 20, 2026 at 4:57 AM GMT, Joel Fernandes wrote:
-> Add safe Rust abstractions over the Linux kernel's GPU buddy
-> allocator for physical memory management. The GPU buddy allocator
-> implements a binary buddy system useful for GPU physical memory
-> allocation. nova-core will use it for physical memory allocation.
->
-> Cc: Nikola Djukic <ndjukic@nvidia.com>
-> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
-> ---
->  MAINTAINERS                     |   6 +
->  rust/bindings/bindings_helper.h |  11 +
->  rust/helpers/gpu.c              |  23 ++
->  rust/helpers/helpers.c          |   1 +
->  rust/kernel/gpu.rs              |   6 +
->  rust/kernel/gpu/buddy.rs        | 613 ++++++++++++++++++++++++++++++++
->  rust/kernel/lib.rs              |   2 +
->  7 files changed, 662 insertions(+)
->  create mode 100644 rust/helpers/gpu.c
->  create mode 100644 rust/kernel/gpu.rs
->  create mode 100644 rust/kernel/gpu/buddy.rs
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index e847099efcc2..cd9505d3be60 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -8531,7 +8531,10 @@ T:	git https://gitlab.freedesktop.org/drm/rust/ker=
-nel.git
->  F:	drivers/gpu/drm/nova/
->  F:	drivers/gpu/drm/tyr/
->  F:	drivers/gpu/nova-core/
-> +F:	rust/helpers/gpu.c
->  F:	rust/kernel/drm/
-> +F:	rust/kernel/gpu.rs
-> +F:	rust/kernel/gpu/
-> =20
->  DRM DRIVERS FOR ALLWINNER A10
->  M:	Chen-Yu Tsai <wens@kernel.org>
-> @@ -8952,6 +8955,9 @@ F:	drivers/gpu/drm/drm_buddy.c
->  F:	drivers/gpu/tests/gpu_buddy_test.c
->  F:	include/drm/drm_buddy.h
->  F:	include/linux/gpu_buddy.h
-> +F:	rust/helpers/gpu.c
-> +F:	rust/kernel/gpu.rs
-> +F:	rust/kernel/gpu/
-> =20
->  DRM AUTOMATED TESTING
->  M:	Helen Koike <helen.fornazier@gmail.com>
-> diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_hel=
-per.h
-> index 083cc44aa952..dbb765a9fdbd 100644
-> --- a/rust/bindings/bindings_helper.h
-> +++ b/rust/bindings/bindings_helper.h
-> @@ -29,6 +29,7 @@
->  #include <linux/hrtimer_types.h>
-> =20
->  #include <linux/acpi.h>
-> +#include <linux/gpu_buddy.h>
->  #include <drm/drm_device.h>
->  #include <drm/drm_drv.h>
->  #include <drm/drm_file.h>
-> @@ -146,6 +147,16 @@ const vm_flags_t RUST_CONST_HELPER_VM_MIXEDMAP =3D V=
-M_MIXEDMAP;
->  const vm_flags_t RUST_CONST_HELPER_VM_HUGEPAGE =3D VM_HUGEPAGE;
->  const vm_flags_t RUST_CONST_HELPER_VM_NOHUGEPAGE =3D VM_NOHUGEPAGE;
-> =20
-> +#if IS_ENABLED(CONFIG_GPU_BUDDY)
-> +const unsigned long RUST_CONST_HELPER_GPU_BUDDY_RANGE_ALLOCATION =3D GPU=
-_BUDDY_RANGE_ALLOCATION;
-> +const unsigned long RUST_CONST_HELPER_GPU_BUDDY_TOPDOWN_ALLOCATION =3D G=
-PU_BUDDY_TOPDOWN_ALLOCATION;
-> +const unsigned long RUST_CONST_HELPER_GPU_BUDDY_CONTIGUOUS_ALLOCATION =
-=3D
-> +								GPU_BUDDY_CONTIGUOUS_ALLOCATION;
-> +const unsigned long RUST_CONST_HELPER_GPU_BUDDY_CLEAR_ALLOCATION =3D GPU=
-_BUDDY_CLEAR_ALLOCATION;
-> +const unsigned long RUST_CONST_HELPER_GPU_BUDDY_CLEARED =3D GPU_BUDDY_CL=
-EARED;
-> +const unsigned long RUST_CONST_HELPER_GPU_BUDDY_TRIM_DISABLE =3D GPU_BUD=
-DY_TRIM_DISABLE;
-> +#endif
-> +
->  #if IS_ENABLED(CONFIG_ANDROID_BINDER_IPC_RUST)
->  #include "../../drivers/android/binder/rust_binder.h"
->  #include "../../drivers/android/binder/rust_binder_events.h"
-> diff --git a/rust/helpers/gpu.c b/rust/helpers/gpu.c
-> new file mode 100644
-> index 000000000000..38b1a4e6bef8
-> --- /dev/null
-> +++ b/rust/helpers/gpu.c
-> @@ -0,0 +1,23 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +#include <linux/gpu_buddy.h>
-> +
-> +#ifdef CONFIG_GPU_BUDDY
-> +
-> +__rust_helper u64 rust_helper_gpu_buddy_block_offset(const struct gpu_bu=
-ddy_block *block)
-> +{
-> +	return gpu_buddy_block_offset(block);
-> +}
-> +
-> +__rust_helper unsigned int rust_helper_gpu_buddy_block_order(struct gpu_=
-buddy_block *block)
-> +{
-> +	return gpu_buddy_block_order(block);
-> +}
-> +
-> +__rust_helper u64 rust_helper_gpu_buddy_block_size(struct gpu_buddy *mm,
-> +						   struct gpu_buddy_block *block)
-> +{
-> +	return gpu_buddy_block_size(mm, block);
-> +}
+On Wed, Mar 18, 2026 at 5:03=E2=80=AFPM Mathieu Poirier
+<mathieu.poirier@linaro.org> wrote:
 
-From Sashiko:
-https://sashiko.dev/#/patchset/20260320045711.43494-1-joelagnelf%40nvidia.c=
-om
+> I have made this point clear before: modeling legacy protocols in
+> mainline doesn't scale.  Mainline uses a single generic protocol, and
+> yes, it means breaking legacy protocols.  This is the cost of moving
+> to a mainline kernel.  If people want to use the legacy firmware, they
+> must stick with a legacy kernel.
 
-    Does the Rust wrapper use this helper? It looks like AllocatedBlock::si=
-ze()
-    manually duplicates the bitwise logic (chunk_size << order) rather than
-    calling this helper, which could create a divergence risk if the underl=
-ying C
-    allocator implementation changes.
+I mostly agree with this stance.
 
-Many other review comments there seem to be false positive, but it might wo=
-rth
-confirming.
+But it is under the assumption that the contributor is coming from the
+same legal body that can define and change the firmware in question.
 
-Best,
-Gary
+For example: the mainline Linux kernel supports a whole slew of
+funky Apple rpmsg-like protocols. c.f. drivers/soc/apple/rtkit.c
 
-> +
-> +#endif /* CONFIG_GPU_BUDDY */
-> diff --git a/rust/helpers/helpers.c b/rust/helpers/helpers.c
-> index 724fcb8240ac..a53929ce52a3 100644
-> --- a/rust/helpers/helpers.c
-> +++ b/rust/helpers/helpers.c
-> @@ -32,6 +32,7 @@
->  #include "err.c"
->  #include "irq.c"
->  #include "fs.c"
-> +#include "gpu.c"
->  #include "io.c"
->  #include "jump_label.c"
->  #include "kunit.c"
-> diff --git a/rust/kernel/gpu.rs b/rust/kernel/gpu.rs
-> new file mode 100644
-> index 000000000000..1dc5d0c8c09d
-> --- /dev/null
-> +++ b/rust/kernel/gpu.rs
-> @@ -0,0 +1,6 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +
-> +//! GPU subsystem abstractions.
-> +
-> +#[cfg(CONFIG_GPU_BUDDY =3D "y")]
-> +pub mod buddy;
+We cannot go and tell the Asahi contributors to change the Apple
+firmware to use rpmsg like everyone else, because they are not Apple,
+they just want to run Linux on someone else's hardware.
 
+In this case, the contributor is coming from the same legal body as
+the one doing the firmware. I know and sympathize with the fact
+that sometimes working inside a company to make changes happen
+can be as hard as working on the outside, and internal structures
+can be as resistant to pressure change as Microsoft, or Apple.
+Additionally they hit the contributor on the head with "just get this
+done, now, fast".
+
+So it is pretty important in this situation that it is NXP that we address.
+The contributor is just a representative of that legal body
+in this case.
+
+If someone *outside* of NXP, say an OpenWrt hobbyist contributor
+was pushing the same patches based on code drops and reverse
+engineering, the response would be *different*.
+
+In a way the situation is a bit icky. As the Linux community we often
+see all contributions as personal, individual. And the discussion here
+is that of standards committee, which we are not.
+
+So if we are addressing NXP, then we need to be explicit about that,
+and careful not to put their representative in the crosshairs. It's unfair,
+he's just the messenger.
+
+Yours,
+Linus Walleij
