@@ -1,85 +1,91 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C61E02620DE;
-	Fri, 20 Mar 2026 03:06:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99E26B652
+	for <linux-doc@vger.kernel.org>; Fri, 20 Mar 2026 03:10:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773976001; cv=none; b=tyE/VJFhk4lVAiFJ8JDYTh2IuqttzkEVWvOKbU1ny9tqB2gHsbt7mbA9KgRQGlV/wHKDISORERi5ENFHsL1TH8S4EdDOadTAyWBNoENjVUOG2D6jx2gXALaGjTu2VVusnBfhXEHQgiWas6bX2ZyiFiICM5Co9Z9WgpNIi7ypgG4=
+	t=1773976251; cv=none; b=APkO68O7nQ9mrDZKVQZGpw/iZYzJSmKtusfB9TGtd9RixTlbeLGG0F8K9fYFyF2brX6oyiVIWBj26HwGLYoP1AfMHnQfcdX/xmgCyP91YhEXzHJZ7a00cCGcv+xZd5aoEZZT/wvHafF5ee27g9fRgngDohyYnuOlJKADXrK93HY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773976001; c=relaxed/simple;
-	bh=Qa2kKiW2K4o32w52YsMZm0rMqJtB23Cf1BU+wGQGI/c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aRWwqy9GwDvipGVgCUPBldqx89IwGye/EQYUNrnSaQlTpma0LOJoylvsvz1NWcBsEUa5VNlaydSYdrruRmadz/6DkTp2kScf3/mofUbMImbdkNRj1527+oqiox3vw3ULjuJg7UA8OU+kIzH/NVtSj2sxwDjyaKquXgQlbStl3M8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VSuW0pWL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1773976251; c=relaxed/simple;
+	bh=oBjrze3Po0ddY7TWE2U9+PKJsnCjOQ4SpKsef0R9NPg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=txKHuzDwtDSBqBMUUi54o9hdVeXpGPZIVloOU0w8oryPlSUno31ApX7pElJ4aXqyXK/Qz7k5MhmjZqMlpii/tktcZMtVCWCpwy69jq6bjZamSQEgsvP1E8IZEktDqj2PmqWCY73tt8IGMZAgGr5aKAqsRHR2L4UmV4tpeQJdBQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=2AgmzBgY; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VSuW0pWL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A240C19424;
-	Fri, 20 Mar 2026 03:06:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1773976001;
-	bh=Qa2kKiW2K4o32w52YsMZm0rMqJtB23Cf1BU+wGQGI/c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VSuW0pWLO3r7l7Zja6MMNkzFI+8A1EBOKMEvtmHHOGIKOoyLKRqdZ/jQukHTWJu9b
-	 Fgx/wyx68udFKnMkZVza6jDMWbJm5ftMtTdj9V9GkEpG0MglFWioFcESAS/DI6X9GM
-	 mGCf2nu+ksWrxIpmWQQewDgsWAoSl6KLfWBW7fiIh0AE+ayV3Iyu7LvHIMZt981W/C
-	 gtTCVNs9ZuvSPL0GldB3BIkKZDrrDyTkHZALx8IPVz8CvH8OPb8mT14PCaZMeWkQSO
-	 eZMs6n6Kmb37cAfq9gU42TqtGO+315YwmgBUo/BkwwQ7KBvJySucgbldHrjtmzEWHv
-	 y1hEKlj1DR/mg==
-Date: Fri, 20 Mar 2026 03:06:35 +0000
-From: Tzung-Bi Shih <tzungbi@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, Tejun Heo <tj@kernel.org>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Tobias Schrammm <t.schramm@manjaro.org>,
-	Sebastian Reichel <sre@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>, Lee Jones <lee@kernel.org>,
-	Dzmitry Sankouski <dsankouski@gmail.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Benson Leung <bleung@chromium.org>,
-	Matti Vaittinen <mazziesaccount@gmail.com>,
-	driver-core@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, chrome-platform@lists.linux.dev,
-	stable@vger.kernel.org
-Subject: Re: (subset) [PATCH v2 00/10] workqueue / drivers: Add
- device-managed allocate workqueue
-Message-ID: <aby5u_ToXifVwf6B@google.com>
-References: <20260305-workqueue-devm-v2-0-66a38741c652@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="2AgmzBgY"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=JgnmdgHYRPB9X9WlKBqyfhLTiQ8T9jbKxeG1TNdGmQs=; b=2AgmzBgYH8YfaOxXcLitmJCH9p
+	mi24j8laZEmnsDr61Lr9bIeZDU2PKGE/El8m1ZhmK7x19OMurk7jmaEvf1hfmHKrJD00i3jd+8bu2
+	KoRdbjC1FDQE8zFUNYNKRIdE1AqQf8UEF59ri6DbtaCj/OCHZSPi+XXq99VXgPFv+iFPslTNQRenO
+	SeF3lY19SI8Qh9FBGKL4TpSpIucwuSkSMdeyNe52IEEcT+mJXty1PXxbGxxJyOJA2dPwTQarA/aho
+	F2e0Qxxgwgp0iX0zqc4ROZQKS/GrpMCiagNKBQlmelCuQHSI+ikeBEFa76aOK+DXbIpJUlJhcEsQ8
+	m+lpRRVw==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1w3QG4-0000000By9X-2cK4;
+	Fri, 20 Mar 2026 03:10:44 +0000
+Message-ID: <07f4d4aa-aed1-451f-a129-d8112094a49a@infradead.org>
+Date: Thu, 19 Mar 2026 20:10:42 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260305-workqueue-devm-v2-0-66a38741c652@oss.qualcomm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: Invalid link generation for equations
+To: Bagas Sanjaya <bagasdotme@gmail.com>,
+ Kevin Brodsky <kevin.brodsky@arm.com>, linux-doc@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+References: <9b320e77-9acf-4f0d-8c52-6e1fc3a8cf53@arm.com>
+ <abyPiqMmw4BbB6eq@archie.me>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <abyPiqMmw4BbB6eq@archie.me>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Mar 05, 2026 at 10:45:39PM +0100, Krzysztof Kozlowski wrote:
-> Merging / Dependency
-> ====================
-> All further patches depend on the first one, thus this probably should
-> go via one tree, e.g. power supply.  The first patch might be needed for
-> other trees as well, e.g. if more drivers are discovered, so the best if
-> it is on dedicated branch in case it has to be shared.
+
+
+On 3/19/26 5:06 PM, Bagas Sanjaya wrote:
+> On Wed, Mar 18, 2026 at 01:56:24PM +0100, Kevin Brodsky wrote:
+>> Hi,
+>>
+>> I have noticed that links to equation images are not generated correctly
+>> on docs.kernel.org. For instance, Documentation/mm/memory-model.rst has:
+>>
+>>     .. math::
+>>     
+>>        NR\_MEM\_SECTIONS = 2 ^ {(MAX\_PHYSMEM\_BITS - SECTION\_SIZE\_BITS)}
 > 
-> [...]
+> I think we can just get rid of the math markup, no?
+> 
 
-Applied to
+Why get rid of it?
+and does that assume that some specific package is installed?
 
-    https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
+Documentation/doc-guide/sphinx.rst says math expressions can be handled with
+imgmath or with mathjax.
+I don't either of them installed and this expression seems to render quite well
+as a math expression:
 
-[10/10] platform/chrome: cros_usbpd_logger: Simplify with devm
-        commit: 168e4b208ca8c2e04de20cc6cb7e2fb035dc1ec8
+<p>The maximal number of sections is denoted <cite>NR_MEM_SECTIONS</cite> and
+defined as</p>
+<div class="math notranslate nohighlight">
+\[NR\_MEM\_SECTIONS = 2 ^ {(MAX\_PHYSMEM\_BITS - SECTION\_SIZE\_BITS)}\]</div>
 
-Thanks!
+The "(MAX_PHYSMEM_BITS - SECTION_SIZE_BITS)" is presented as a superscript (power)
+of 2.
+
+OTOH, if you are saying that it's readable when just using ASCII text,
+I'm OK with that also.
+
+-- 
+~Randy
+
