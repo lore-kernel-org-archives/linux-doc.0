@@ -1,176 +1,217 @@
-Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11013057.outbound.protection.outlook.com [40.107.201.57])
+Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B614A40DFA5;
-	Sat, 21 Mar 2026 00:06:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.201.57
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774051599; cv=fail; b=R8CtcDh5cX5L4bZn/AZYYDz8QJahz/01BzUo12JOMUbIWLblSHpDfI4ZhgTLSLCt9zZ1UHtUAsqJooJsxlIfDW/kxHiZa+QMidT0d4eQJGtazm+iNWxc5Sk08jzMTvh8Sg5U0/skmEWN/4FnkNnG+CLmKsz6Pe7Xszbl3OBjMf8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774051599; c=relaxed/simple;
-	bh=MPe0rge1WKsxgBFo549+3nELOcKrdvGnKsiNyaqjsP4=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=BBWIz6WuNxqpLLOzbi5gVub29AUIzW2KfsXs4Ld91F5psKU4T4QJW1wQ88VvahlE6mzNwzFzDDh5Vo/GutEGENdQ8h7ldi/pYLJJkJgAypZKGt+39Fr7FEgvbiYjTvwOYlXXV8stoUUcFqY9kacMAZtvKK+fdwQpjktMBFWmjyc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=ck50Y3A0; arc=fail smtp.client-ip=40.107.201.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="ck50Y3A0"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ofm+bshZPKsVzkhS4G/eqhlytwcLo2sdD70PJW5kUAZ0RDqeu4q5PE+uWyenoAVktNnIrWgsShos/rSEG/5LwPu+D7CP+oGTyRZOmMhU06SfErFMsTLOq7szdB0/lyuXnLMOX0pS27lOQlEreAQnYN0LJDmxcT41V4/y6MzB/7vLkRjzgV0YXHtsch026Nt7LNEHjx8x2EWTMtFQzSSbAPNN8aw6A8bBOXR5X1s36535/OTpiXJZuPXQEsR/S9EMssekptZI3dtq5+3QqNLhN6KCfQSgOZ+UDZW2fBQqLTMQgROgZFP4h9o+LEAxR8ku3udAVHnr9qj1+jHvCK8zQw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MPe0rge1WKsxgBFo549+3nELOcKrdvGnKsiNyaqjsP4=;
- b=onm91WbjbcSqQhtJIDccfD2XpO/9gnTJD3R6FoFkZYfY3G9eKiPhpX9ky+zlc0/SLavmW4nKmHItEIMbkr6ZWIM6hcxWRDpr3Bz9JZfDbkVmzogCu/Al4VQedvn4al8WfH1NLq6DUPawC8jq4ai+6/0LuBFWbNrlebv4deCuUZjVOsM8siPtZVK5Gc0IA/f6ilfp919tXOTa7hBMbiZH29cW41WZphTCeDO2z2pgCVtREZm+VL2myPpdNEqUN4OtGYjQX+zcaI+7yl0JcA8f2ZgwBOaIUEnFXaL0qs0EgOOJpNN+8YqlFf8gR83E1K6aAcaxE22Z/eHeZ03B3jGpKw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MPe0rge1WKsxgBFo549+3nELOcKrdvGnKsiNyaqjsP4=;
- b=ck50Y3A0gP5zOglQ26qP/SuKWUdGAAmyjO7aunRGqYWqfQzu5u8Rmc9YMUS04iWN6310mWiwFOovtDwyM0l0CklZUsdf7wlk6arTutR0Q9kF8ZKJ5T8ZkJRWmhwFVsjEoLiu2vCRrPVhaov1MsmHsCBqfpoz5bRCYt3QXn3bk0IIaSFx4XBlP1IlqD19ga+ekjH1bzMNjCFOMRuNGTuUKfjwGGaFrWXEgkurW2C1BZ7T5uZKR1F8oG2OiNmTYuTqzY/ZRULpXox5DLO6P1nn+wqkAFcWrSJox4BJxm5cNf+V25T6HE5UxxBBnMZ+ggosVaDwR83GT91L3MFKpFUxdA==
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
- SJ2PR12MB8805.namprd12.prod.outlook.com (2603:10b6:a03:4d0::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.15; Sat, 21 Mar
- 2026 00:06:31 +0000
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9745.007; Sat, 21 Mar 2026
- 00:06:31 +0000
-From: Joel Fernandes <joelagnelf@nvidia.com>
-To: Alexandre Courbot <acourbot@nvidia.com>
-CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Miguel
- Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo
-	<gary@garyguo.net>, =?utf-8?B?QmrDtnJuIFJveSBCYXJvbg==?=
-	<bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Andreas
- Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, Trevor
- Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, Dave Airlie
-	<airlied@redhat.com>, Daniel Almeida <daniel.almeida@collabora.com>, Koen
- Koning <koen.koning@linux.intel.com>, "dri-devel@lists.freedesktop.org"
-	<dri-devel@lists.freedesktop.org>, "rust-for-linux@vger.kernel.org"
-	<rust-for-linux@vger.kernel.org>, Nikola Djukic <ndjukic@nvidia.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
-	<mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
-	<airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jonathan Corbet
-	<corbet@lwn.net>, Alex Deucher <alexander.deucher@amd.com>,
-	=?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <christian.koenig@amd.com>, Jani Nikula
-	<jani.nikula@linux.intel.com>, Joonas Lahtinen
-	<joonas.lahtinen@linux.intel.com>, Vivi Rodrigo <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>, Rui Huang <ray.huang@amd.com>, Matthew
- Auld <matthew.auld@intel.com>, Matthew Brost <matthew.brost@intel.com>, Lucas
- De Marchi <lucas.demarchi@intel.com>, =?utf-8?B?VGhvbWFzIEhlbGxzdHLDtm0=?=
-	<thomas.hellstrom@linux.intel.com>, Helge Deller <deller@gmx.de>, Alex Gaynor
-	<alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, John Hubbard
-	<jhubbard@nvidia.com>, Alistair Popple <apopple@nvidia.com>, Timur Tabi
-	<ttabi@nvidia.com>, Edwin Peer <epeer@nvidia.com>, Andrea Righi
-	<arighi@nvidia.com>, Andy Ritger <ARitger@nvidia.com>, Zhi Wang
-	<zhiw@nvidia.com>, Balbir Singh <balbirs@nvidia.com>, Philipp Stanner
-	<phasta@kernel.org>, Elle Rhumsaa <elle@weathered-steel.dev>, Alexey Ivanov
-	<alexeyi@nvidia.com>, Eliot Courtney <ecourtney@nvidia.com>,
-	"joel@joelfernandes.org" <joel@joelfernandes.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
-	"intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
-	"intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
-	"linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>
-Subject: Re: [PATCH v14 2/2] MAINTAINERS: gpu: buddy: Update reviewer
-Thread-Topic: [PATCH v14 2/2] MAINTAINERS: gpu: buddy: Update reviewer
-Thread-Index: AQHcuCYJpk4kz77CC0+Kkr7kSII3UrW3Vl6AgADGeec=
-Date: Sat, 21 Mar 2026 00:06:31 +0000
-Message-ID: <67D3DBE2-643E-411A-9C21-245926E6EAAA@nvidia.com>
-References: <20260320045711.43494-1-joelagnelf@nvidia.com>
- <20260320045711.43494-3-joelagnelf@nvidia.com>
- <DH7LP20OY5TJ.3ICBGXWHA7LQV@nvidia.com>
-In-Reply-To: <DH7LP20OY5TJ.3ICBGXWHA7LQV@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DS0PR12MB6486:EE_|SJ2PR12MB8805:EE_
-x-ms-office365-filtering-correlation-id: 363fd863-ec41-4ad9-dc46-08de86ddb4ba
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|1800799024|7416014|376014|38070700021|18002099003|22082099003|56012099003;
-x-microsoft-antispam-message-info:
- 9gG6dmWjYdsWWBLLUhe5SokRo29IXR2ETO5CvwBHpKbfEA3AX9YJgWfvQ5TVcO9I2kVtOUce7HKmeDTYLrN5VuCeCOQezoRvnd3xADpAirSFbu8O12u0RNSRc/w8Ho4B9NHW1VxaPSBo/0epkhLegRmTjvx7I/jAFIgW32cSV3yfZijvCYBJGOuAo9+Trvb6hZXjH2ySCvs44nZME8aaAz6JqWtLjK5qM1ZzTvPIaaSyK8nmc3ahXy0Ewo3gFpW2uz+j8bEc0DeJbOcrnCnTOuR0JOQv/eAQGszk8wwZ6dOLOpMfztAAuhg5rjIoapoD7z8HmTb/SljFmbZjmLBMJVE/szaVi0m7QorPMjqwviRjdGf5rt0SF8kaNUaJvL5ZLYeSF5Pu1ynTIT+4SBHzKzXFijv5Qzqinkjwr8OP8wyp9HdsrLpOwcT9cpUIhTikMNl0GGwcu3jOEhP3d0TJxiponJ4Ljvopo33dWrMQ4cx7YICTc9Dpundxxvt4tdiEXgIGi82zARnk0rBYplQAyaeXDzqi3boSAdabzIj1F982waiGxS6Yoqq5oMzQF1QgxtfGqySu+J3tpW8+6ZHNRYGzdJEbuxMrOpKlAUFp2rgG+itjhlKfz/ueZ5a7JEcpLzIecCDSmjcDkMcrQ+T5Az3zo8GS+NiB0ad/Jzp6Qi5o7nWXb6b0muzOFmZfAmG2pxQ1nV6OYhXZyVB6wEWWm43+cV+s6hAKeEgt3nN3NkfF7B/dvkvd/troKqALOBIMfRqkf5uEgwBc/FeGUxacFIlrshhW8jHNeSnBL3Pk2cM=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(38070700021)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?cjlHVXFGcmdlSWZQRVZtUWQ1NVRnbDFjWjE5dElaTFN5L3d3K3VTZTFtdVRY?=
- =?utf-8?B?S0V2VWdTVE1DdmlUMDdrdnBDNE1QcVg4NlA1dFRqV3pBLzU1L0xhbFFRNEtn?=
- =?utf-8?B?QUZaUWl4djVhVnBEOEpScHNZSC8rSjlVVHE0NVFnVnUwS2Yrd29PMHlGTnJk?=
- =?utf-8?B?ZkUxbysrbVpHQXlacVVzcy90SFMxeHJ1amxoTi92cDVJRHEzblpGMzMyUzk2?=
- =?utf-8?B?cWUxVTY0N2RtUldwTWZLdjc4V2pTclN1bVRJUEJGUTNmcWNOOTU3MklQTXZO?=
- =?utf-8?B?QWg3cER6VGg1UnVuUEtEZXRQUTBuWXJrSmpyQndJY3VQeUtCUXI1UG00c1c1?=
- =?utf-8?B?WVpGZys2K2NxUW8vSW1XdTRzcnZqNTVuNEkrQlRrTUo3S05QS3A4eFc0aU85?=
- =?utf-8?B?YVQ5Y0NuQVpmSHFnUFhEUktWMW5WcFZzTVJ3UlhrNWkvc3gwY3hYN1AvU0Rx?=
- =?utf-8?B?TzJKZytsMkZsaDVqMmZJSTN4bkRNQnZqYkR2V3EySXBhcTltUFZtRmlod2dB?=
- =?utf-8?B?ZlFyWkNDUTVDQWJPZmtHMkxRMVNFK3JhVmp3R2xjTXF2czNFcXpsL1RpQ0E4?=
- =?utf-8?B?eTBUYnBtU3h6b041QlRya3hENGJVRERJTnI2MUwvS2hETms0R1B0d1NFSGRW?=
- =?utf-8?B?dUpYaFdlcjVzcEtLRXdzMU9xTnpmeVBOU0tKVjY5ZHI1OTBCZkEzR2N5RmZY?=
- =?utf-8?B?cklmK0RDZEhLNWc0YWRGVzJkRGkxbkxjSWtDYXpPdnJlcmNIQWRXMkhaQXFE?=
- =?utf-8?B?Wkg3VmkyNmNoUUtyNmpLWlErZ3BYbmlvanJCYWJOdzcxM0ZINVJoSUFMaHQ0?=
- =?utf-8?B?eWRMVzFzWUI0b1lSVVpBNkYxZEtSYUFERjlRMk1VSTJPUjJvRFR3OFA1Vjhq?=
- =?utf-8?B?dW5YZmp5elNlcktHemdoVnRvNDJxODRhWkhhWmZGbFZNdGFRMXR6V1dZcnZZ?=
- =?utf-8?B?ZUlqUGNMRmUvVkk5emk3a3BiRTEwYjJ5a3BkNWdJL0lYZHg1bktCaG1vdU1o?=
- =?utf-8?B?ci9NRXN5aWVpbGR1M2pJazVxbDRWc1Rucm1jd2FVS0xMUmZRMHJsT3dSK1h5?=
- =?utf-8?B?Rzg0NFJuMHlUQUJOSTF5dWVDbFNwRXFxWHpmWGJwaGpyZDRiOTFIREJjUkNq?=
- =?utf-8?B?UWpkQlphRWp4N29PMUgvak5mTTk2OFB4aTdaUExsVUtibmtMNDBNQnVzRTNy?=
- =?utf-8?B?UlE4ZmFxTnhNdmw0N2JtbTU1NTF4OHdtWjY4c0RDYmIxSjIyMmRQZnhXcHpl?=
- =?utf-8?B?anp1T0M3MUdOMy9wcmZBdGd3TGpjSVI2VkdaSUY0QUNyR0xoMENHWHd4YkZV?=
- =?utf-8?B?azY1dmpVczBqTDZUWGZBZEgxOXloUU91STA5cGN1MEc1Q3Z2b0hBRUVkWitk?=
- =?utf-8?B?Rk9lM1I4ZVNKMy9YRVM3S1hWZ2F3OURMcDJyYisyTlJJUXdYTmxTL2x1NlNG?=
- =?utf-8?B?U3VyazZsOVpqbkJqZUxLQ0FVaHlscDlpYytNYW1weWU3WjdVZjZsbXE2djBl?=
- =?utf-8?B?WU95bUxoVTBVUnkrSmsySERiTEJGZGROWmVDQ1lpemsvckdPRmRZbUJsd0F3?=
- =?utf-8?B?WFJBYVhKWE9od2dYQktGTUZPL1ZpWVppa0tjT2ExeHZ1U0tUYUxiWmh5NWZu?=
- =?utf-8?B?Nk05NFBueUo3bnNzMEE4UGpSaVpzMTh6aFp4czJURi84TURkSmJvY2hBRmJC?=
- =?utf-8?B?UHdjNkdaQmRYMjBRckRtbUk2VHJ1aWkyd3ZGNm9qQjJkazdqOVF2V1loMVYv?=
- =?utf-8?B?WDN6azVBRW83WThEL085QkdkQ2J0Y3JZenZ2a1ZrUC9Pamhwck1oeTROT2Nn?=
- =?utf-8?B?ZmxMV3FVSVpxWUlmY3UzLzI5MW9wVkF4ZTRwanVDcHBRNTVjejFsTUdnbzg4?=
- =?utf-8?B?cWRBNmFoVi9hT1RkOGZ1SjJkWExvZld3SEt3RVZiQlQ5M2MvRXpjMTdpemJq?=
- =?utf-8?B?K2NUR3RsTEVKOWk2MHc5VWZtdnFkU2RXKzhxSHhTR3I5amFSOFVKTk1pODRS?=
- =?utf-8?B?Z3hjdlFOb2xHaWthbUZlZFhRS2J6KzdKbVpMeHk2bVFMN0d4T0p6eFI0SmpN?=
- =?utf-8?B?Q09Lb25zV3B3SjFjeHFjV3ZMNDBNSVFvamxmblRhWXc5Rzd5NmhHNFc3MHp2?=
- =?utf-8?B?QkdWZmdhci9HOFJrNHZSbFUyRUkrUENhdjBrWUZYNGdKQVlIMUlLK3prRk8v?=
- =?utf-8?B?bUtpM1dHbG1hYzAxdzRmajluT1dZNEZ6ZTlqN0NReTVjdXdvNnVZNHZrdk9N?=
- =?utf-8?B?UVRaUGJtcXNuVjBxMWxLSWFDVXJ0ZmwrelVuWG9PeFJMTHN0UlVtRjdaak5B?=
- =?utf-8?B?d1NrcGQzNFY1WTZQWjYzMlpMM2xMQW81bkp4WEtmdFJPWlBhQ3ZSdz09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 892A721E087;
+	Sat, 21 Mar 2026 00:28:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.11
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774052889; cv=none; b=aBmFjsgTIvoyS0KQelfWlp0EZNKKVVrXctrFAmQgnlPpyZuwV7dSQqnlWW9uiKvQ5Ua9F0J0IohUwA53X/oTLUMXnZngkuA3tlSPMFLiA3WcEhy/Q7Xnrhvt3XcyDmXSc4KGUOsKZl18pvFgvPXiALl6jvoNZPIcjh5x68tCdPg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774052889; c=relaxed/simple;
+	bh=wC6szQCqJZuY+Q9qJeJKyn6sqxCTs+A2/WskussJ2dY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R2afohXJVW5x2t/qsasgjKKQ/Z6oASxuFY390lSM8yTOpUknEhoJBOoMWAV/ILoV7th82Y1fFM9uNEaZTDFVkkpsooLLuqoPZVWIAnowGML4JBHcleRtvifxEr/4AkYN5xcr2se17tr5OOy/BzU7+UVJfD33hYl2NK0EPaFUGPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
+Received: from omf09.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay08.hostedemail.com (Postfix) with ESMTP id 496E8140472;
+	Sat, 21 Mar 2026 00:28:02 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf09.hostedemail.com (Postfix) with ESMTPA id BFF362002A;
+	Sat, 21 Mar 2026 00:27:49 +0000 (UTC)
+Date: Fri, 20 Mar 2026 19:27:47 -0500
+From: John Groves <john@groves.net>
+To: Jonathan Cameron <jonathan.cameron@huawei.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, 
+	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
+	Amir Goldstein <amir73il@gmail.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
+	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, venkataravis@micron.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
+	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>
+Subject: Re: [PATCH V8 2/8] dax: Factor out dax_folio_reset_order() helper
+Message-ID: <ab3lBTsWadqh6Eeu@groves.net>
+References: <20260318202737.4344.dax@groves.net>
+ <20260319012820.4420-1-john@groves.net>
+ <20260319113055.00001182@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 363fd863-ec41-4ad9-dc46-08de86ddb4ba
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Mar 2026 00:06:31.0866
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: n7F+OPPJUgqtpdW+R3zpb7IOjL6w7xa7ua9yidMgxabatFEwKkoktof4SQQAcUQKd0QFsuMl80Ly+ty6uoa3gA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8805
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260319113055.00001182@huawei.com>
+X-Stat-Signature: io611885a3m65o4m8sgw4p1giccihgro
+X-Rspamd-Server: rspamout01
+X-Rspamd-Queue-Id: BFF362002A
+X-Session-Marker: 6A6F686E4067726F7665732E6E6574
+X-Session-ID: U2FsdGVkX1/XeKQN2rh6FlNJIEhuaIZ9qtyi7+yXf4A=
+X-HE-Tag: 1774052869-390546
+X-HE-Meta: U2FsdGVkX188nkdXDqauVEIadXau6m45CjW7r70wKOrmsu604ksuKmEIjeaPzFT3x8LmZcyLqlLZJ5j6TFbsbfUTcj69Te9SRiT3vZ1IXIVEpMrmUBDsQgPNfbhnvu91xkaAa0TpkPmmq4eJkuwDGeXrhlp8+xK1BIAwqzv6SBUZSKD/zYl5WeFkmliAroyUhUTSTeltlx+M2D+ltG3r4081ZLvqKUdz3a3UJRzBT/Ae25RpnNzzAwpXsE8/TNuxslEUby5uIZIMGdLNl+ULP7rjgc07Sgj0oltOVymGsX5Z4ViCgOUBoxnFAfYQFfscQ52m4NHGLP5lo8IATwKNe1FFlNN4+KMof0DvLEFNqEqs2/t0ZWnPAewA3480RFb69E22cf7rvcwhM5lx0Zbk3Udy/Uenckvvf2UZ/Epf7X8=
 
-DQoNCj4gT24gTWFyIDIwLCAyMDI2LCBhdCA4OjE24oCvQU0sIEFsZXhhbmRyZSBDb3VyYm90IDxh
-Y291cmJvdEBudmlkaWEuY29tPiB3cm90ZToNCj4gDQo+IO+7v09uIEZyaSBNYXIgMjAsIDIwMjYg
-YXQgMTo1NyBQTSBKU1QsIEpvZWwgRmVybmFuZGVzIHdyb3RlOg0KPj4gQ2hyaXN0aWFuIEtvZW5p
-ZyBtZW50aW9uZWQgaGUnZCBsaWtlIHRvIHN0ZXAgZG93biBmcm9tIHRoZSByZXZpZXdlcg0KPj4g
-cm9sZSBmb3IgdGhlIEdQVSBidWRkeSBhbGxvY2F0b3IuIEpvZWwgRmVybmFuZGVzIGlzIHN0ZXBw
-aW5nIGluIGFzDQo+PiByZXZpZXdlciB3aXRoIGFncmVlbWVudCBmcm9tIE1hdHRoZXcgQXVsZCBh
-bmQgQXJ1biBQcmF2aW4uDQo+PiANCj4+IFNpZ25lZC1vZmYtYnk6IEpvZWwgRmVybmFuZGVzIDxq
-b2VsYWduZWxmQG52aWRpYS5jb20+DQo+IA0KPiBUaGlzIGlzIG1pc3NpbmcgdGhlIEFja2VkLWJ5
-cyB5b3UgY29sbGVjdGVkIG9uIHYxMy4NCg0KVGhhbmsgeW91LCB3b3VsZCBEYW5pbG8gYmUgd2ls
-bGluZyB0byBhZGQgaXQgb25seSBhcHBseSBzbyBJIGRvIG5vdCBuZWVkIHRvIHJlc2VuZD8gQWNr
-cyBhcmUgZnJvbSBNYXRoZXcsIEFydW4gYW5kIENocmlzdGlhbi4NCg0KDQoNCg==
+On 26/03/19 11:30AM, Jonathan Cameron wrote:
+> On Wed, 18 Mar 2026 20:28:20 -0500
+> John Groves <john@groves.net> wrote:
+> 
+> > From: John Groves <John@Groves.net>
+> > 
+> > Both fs/dax.c:dax_folio_put() and drivers/dax/fsdev.c:
+> > fsdev_clear_folio_state() (the latter coming in the next commit after this
+> > one) contain nearly identical code to reset a compound DAX folio back to
+> > order-0 pages. Factor this out into a shared helper function.
+> > 
+> > The new dax_folio_reset_order() function:
+> > - Clears the folio's mapping and share count
+> > - Resets compound folio state via folio_reset_order()
+> > - Clears PageHead and compound_head for each sub-page
+> > - Restores the pgmap pointer for each resulting order-0 folio
+> > - Returns the original folio order (for callers that need to advance by
+> >   that many pages)
+> > 
+> > This simplifies fsdev_clear_folio_state() from ~50 lines to ~15 lines while
+> > maintaining the same functionality in both call sites.
+> > 
+> > Suggested-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+> > Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+> > Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+> > Signed-off-by: John Groves <john@groves.net>
+> 
+> Comment below. I may well be needing more coffee, or failing wrt
+> to background knowledge as I only occasionally dip into dax.
+
+thanks!
+
+> 
+> 
+> > ---
+> >  fs/dax.c | 60 +++++++++++++++++++++++++++++++++++++++-----------------
+> >  1 file changed, 42 insertions(+), 18 deletions(-)
+> > 
+> > diff --git a/fs/dax.c b/fs/dax.c
+> > index 289e6254aa30..7d7bbfb32c41 100644
+> > --- a/fs/dax.c
+> > +++ b/fs/dax.c
+> > @@ -378,6 +378,45 @@ static void dax_folio_make_shared(struct folio *folio)
+> >  	folio->share = 1;
+> >  }
+> >  
+> > +/**
+> > + * dax_folio_reset_order - Reset a compound DAX folio to order-0 pages
+> > + * @folio: The folio to reset
+> > + *
+> > + * Splits a compound folio back into individual order-0 pages,
+> > + * clearing compound state and restoring pgmap pointers.
+> > + *
+> > + * Returns: the original folio order (0 if already order-0)
+> > + */
+> > +int dax_folio_reset_order(struct folio *folio)
+> > +{
+> > +	struct dev_pagemap *pgmap = page_pgmap(&folio->page);
+> > +	int order = folio_order(folio);
+> > +	int i;
+> > +
+> > +	folio->mapping = NULL;
+> > +	folio->share = 0;
+> 
+> This is different from the code you are replacing..
+> 
+> Just above the call to this in dax_folio_put()
+> 
+> if (!dax_folio_is_shared(folio))
+> // in here is the interesting bit...
+> 	ref = 0;
+> else
+> //this is fine because either it's still > 0 and we return
+> //or it is zero and you are writing that again.
+> 	ref = --folio->share;
+> if (ref)
+> 	return ref;
+> 
+> So the path that bothers me is if 
+> !dax_folio_is_shared() can return false with shared != 0
+> 
+> /*
+>  * A DAX folio is considered shared if it has no mapping set and ->share (which
+>  * shares the ->index field) is non-zero. Note this may return false even if the
+>  * page is shared between multiple files but has not yet actually been mapped
+>  * into multiple address spaces.
+>  */
+> static inline bool dax_folio_is_shared(struct folio *folio)
+> {
+> 	return !folio->mapping && folio->share;
+> }
+> 
+> So it can if !folio->mapping is false (i.e. folio->mapping is set)
+> 
+> Now I have zero idea of whether this is a real path and have
+> a long review queue so not looking into it for now.
+> However if it's not then I'd expect some commentary in the patch description
+> to say why it's not a problem.  Maybe even a precursor patch adding
+> the folio->share so there is a place to state clearly that it doesn't
+> matter and why.
+
+I believe it is correct, and I'm adding a clarifying comment above as follows:
+
+	/*
+	 * DAX maintains the invariant that folio->share != 0 only when
+	 * folio->mapping == NULL (enforced by dax_folio_make_shared()).
+	 * Equivalently: folio->mapping != NULL implies folio->share == 0.
+	 * Callers ensure share has been decremented to zero before calling
+	 * here, so unconditionally clearing both fields is correct.
+	 */
+	folio->mapping = NULL;
+	folio->share = 0;
+	...
+
+> 
+> > +
+> > +	if (!order) {
+> > +		folio->pgmap = pgmap;
+> This is also different...
+
+Here too, I think it is correct, and I'm adding a comment as follows:
+
+	if (!order) {
+		/*
+		 * Restore pgmap explicitly even for order-0 folios. For the
+		 * dax_folio_put() caller this is a no-op (same value), but
+		 * fsdev_clear_folio_state() may call this on folios that were
+		 * previously compound and need pgmap re-established.
+		 */
+		folio->pgmap = pgmap;
+		return 0;
+	}
+
+...but if I'm missing anything I hope somebody will point it out!
+
+> 
+> > +		return 0;
+> > +	}
+> > +
+> > +	folio_reset_order(folio);
+> > +
+> > +	for (i = 0; i < (1UL << order); i++) {
+> 
+> I'd take advantage of evolving conventions and do
+> 
+> 	for (int i = 0; i < ...) 
+
+Done, thanks!
+
+John
+
+<snip>
+
