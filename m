@@ -1,351 +1,136 @@
-Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABE1619046E;
-	Sat, 21 Mar 2026 00:45:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F14A258EC2
+	for <linux-doc@vger.kernel.org>; Sat, 21 Mar 2026 01:49:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774053922; cv=none; b=R0e9D0K7mb7s05m51qrASu/vylIksFsSlJg+b/0mnaGP0PqRgKbDH1NArMt7OxGboUn1NXOxoZvZjuoH/dspKrup60tA6YBJ1sNxuSVyEu0W2KKdRBRr9O41dAv87seczbdRotg3X6MQn1l9v482SbZKmA7TYOZhRgBS2VSOFQk=
+	t=1774057782; cv=none; b=ZSkV7D3iGdSsT/S+dFvg4t8qWpzH6G71YQ+Qh7ZiIYf9INOKkjY45GYqixoHaYRQ1gEGQEXaMDdVeCKvGK/SayvNF1YJIPEqCrItsH2aKDfxYRxgkaTQaQud+UJh1jLZPimA1scIjC1quFV6xkRCZVQwMh8O9fMEtEjTFn8wX30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774053922; c=relaxed/simple;
-	bh=wRg7rsaeRuAQSS/qCm0lX3GbzJ1kz5rh+jVQ/ORSHdc=;
+	s=arc-20240116; t=1774057782; c=relaxed/simple;
+	bh=aR4ZsgMA4L/ykHA71t1pfVqrTVdO2ihy0NJtdEerlMg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pMErkR+tRfvPyflAKdABhg4ktF84Gr8BS48XprDbPY6hGojK8hlUoJ7NjuDUxXjXn1oAvSy7WGD/IGHL4NPTthBj0MAgHKs5fusxxlB1UUA6Tig2Z3uzdeNI5son3PHV2Dps/OG3zJVv860/2e4NEfwlrA/BImDnBtBPDUbMf/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
-Received: from omf01.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay03.hostedemail.com (Postfix) with ESMTP id 43630B8D4A;
-	Sat, 21 Mar 2026 00:45:10 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf01.hostedemail.com (Postfix) with ESMTPA id 052D36001F;
-	Sat, 21 Mar 2026 00:44:57 +0000 (UTC)
-Date: Fri, 20 Mar 2026 19:44:56 -0500
-From: John Groves <john@groves.net>
-To: Jonathan Cameron <jonathan.cameron@huawei.com>
-Cc: Miklos Szeredi <miklos@szeredi.hu>, 
-	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
-	Amir Goldstein <amir73il@gmail.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, venkataravis@micron.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
-	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH V8 3/8] dax: add fsdev.c driver for fs-dax on character
- dax
-Message-ID: <ab3nFoKxirEgoS_v@groves.net>
-References: <20260318202737.4344.dax@groves.net>
- <20260319012837.4443-1-john@groves.net>
- <20260319122057.00004503@huawei.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=EuyEhm3f2RPSomOHSZPj4WdojqeHju7G3T9TGGRfnXyHvSdbkt2EbGVzfAbCO9/xkd7dR/Q7Ib3CtaDdgtrETq7pFPNELT8RL0MU/2zhu0LPXlunRK3uVV8Suf/uOZmBjmsfmeAzo9F2seq0L00g88M8yvUgRWWZ0RCZNW+7tfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OTfUyIle; arc=none smtp.client-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OTfUyIle"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-35a02f3b8feso1130387a91.3
+        for <linux-doc@vger.kernel.org>; Fri, 20 Mar 2026 18:49:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1774057781; x=1774662581; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=aR4ZsgMA4L/ykHA71t1pfVqrTVdO2ihy0NJtdEerlMg=;
+        b=OTfUyIlekoh0KINdHtgYoNMJjN9cZfuGaOqrJq2eNaoFHcvGtai6tUDBt2okCEX159
+         4RvLzDJkN4wSQnjDE5hmi46IoSgxmlc9eDgdZZuBQdriNYCXOdt7uU6Toamd1Zcqn984
+         XW54x8dr9jo1AlLQzq5MA0v0ramXY76EKkSAYMqsKbLlKfKpi5gUXUZhTf9a9FKkqF3C
+         kxjT+rXQj09CDY6v4OW5c/ILrjmQ01Ckzvh7DYPcqiVh+qsbMu/+dRXzQ18OIKtl8l8g
+         0behwFoyVDbQcfB68dJO3KO6c3z+2FvC1ALJbO0cjOn5Dvb9WKJw5biMDoBqpcxiH66d
+         QHoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774057781; x=1774662581;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=aR4ZsgMA4L/ykHA71t1pfVqrTVdO2ihy0NJtdEerlMg=;
+        b=Uo6aL9nw+lG1Bc08Oio9PBWtq7ys9GacEu8pB0KB7w/Z1Ou3bYPpS1edop/Qrw9MW+
+         GFuDeQhQI4EnrXMS/B2nEwaaBEz167OsudcSrc1530MYrKT6J6Ogo8mINVT4gk2/58a4
+         WGJ6oE714lMlmvSDE/f7GeWF66TJse8tqb3yQK0hZaiuitif7LBi/TKZM83Mj3d+pba5
+         sGrQU6GuH1kzFfBMBrPcRbGSkixG7l0OYLdGgoeYtDzwmXQTF6oDz/yh7y0yOKHlppfL
+         tYaiPuUYbIgH8GLJ/uKSqpl1wEC9D5M/z4/VggXOGbSmrjP5o2fDp1eGsD9EvG2DA566
+         +Ysg==
+X-Forwarded-Encrypted: i=1; AJvYcCXX0dZr9Ctw/XpdHezxWnYBNxeZ4knCMoiUIWiIviAJei1tX7oHGQk7gxU46MjxSZSzBQmKrv4JAyk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx9jNevzENbCG1f8ToamnNKRc8pWwPaW4Yn4GCDN6yJYGFdBCFj
+	JEjysAy1U9RzDhP27+ei5fNbKYbaWNepG4ZYQU3bvRznL0eSk7YEdCO0paS+q7vd
+X-Gm-Gg: ATEYQzy7vQ4B2a08YfmxmXenAb6arqEjAho7dIxT101Pz+EchoXQXz4IUeJvsWLHuAZ
+	593y1Y1Go/16fL76Td6GgHCYmzHzdR8WveO8Jv5+tCkgc1GTwUZNLoiHtwVkeqiLysax4gpNGnd
+	0uLK6eygCpSTfDVo4ODjIPzFuQgYz7EkPe0xMNWe0Z3TQlVvgWfxaaSN1+ToaWS0CWKvNe3HKIt
+	iNwIRrsa6NT2L+8o1RZ1K+nscruXICvy0qLNVJRZl/+Hb4JQkFC0JUmNa9JS35gwWC7D/cWDurE
+	g8NUZL99X7ptt3QTXTQPoruPGnYAX2z7f7hfS6ayq/HbRo1MdfJrhS/Xo+zgZZDnH5itGY25WaU
+	iIJ1ZSIxrNdQwzQeWbXja+IUhiKs82QaFDUA5WREpwVd04Kwm6yhGJogLUNQutFgfFGP0k5Ynei
+	YvougSEaYIcjaOFg68ERw=
+X-Received: by 2002:a17:902:f605:b0:2b0:5990:cf1e with SMTP id d9443c01a7336-2b0827d60cbmr43833305ad.33.1774057780604;
+        Fri, 20 Mar 2026 18:49:40 -0700 (PDT)
+Received: from archie.me ([210.87.74.117])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b08369617dsm47607935ad.71.2026.03.20.18.49.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Mar 2026 18:49:39 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 6A47B42706F1; Sat, 21 Mar 2026 08:49:34 +0700 (WIB)
+Date: Sat, 21 Mar 2026 08:49:34 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Randy Dunlap <rdunlap@infradead.org>,
+	Kevin Brodsky <kevin.brodsky@arm.com>, linux-doc@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: Invalid link generation for equations
+Message-ID: <ab35Lmct8nrRUKSH@archie.me>
+References: <9b320e77-9acf-4f0d-8c52-6e1fc3a8cf53@arm.com>
+ <abyPiqMmw4BbB6eq@archie.me>
+ <07f4d4aa-aed1-451f-a129-d8112094a49a@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="IGmgUggNFImv6oRO"
 Content-Disposition: inline
-In-Reply-To: <20260319122057.00004503@huawei.com>
-X-Stat-Signature: shg1e48hyfycmiemhtwsrtiegqfhpwma
-X-Rspamd-Server: rspamout08
-X-Rspamd-Queue-Id: 052D36001F
-X-Session-Marker: 6A6F686E4067726F7665732E6E6574
-X-Session-ID: U2FsdGVkX1+FqMoIr7feGjW7aclNJbDLBdE0GR9Ig9k=
-X-HE-Tag: 1774053897-27139
-X-HE-Meta: U2FsdGVkX1887YkisgdyGegKjqhVxo4pESgLdaZIC/5VCKoyMRIrSwmRs8Jbqk6QJT7dVIDxA7uLOsfFAaOcIA0PhtbikBH1DvPAK2GJDIrcAzV5BANyv2c8Zhml0bXlVaeKpgrobXDiIlA+/K/Lm4YmGMz9Asj/N0Zgk3U9QwI/osODb056YwaE2ez5vVuaYKLczXTAHcR2KvQZzjzDFvOk1hRy97XMryUfNQ8R22dKJWZD6bOh4i0LueMvAYfE0/WSe9SlkwfwgQQ7wx+F3cYVc/mH6xrsaNxU1XNUGIn7HnpMo/gOGefbh8B+K7Y0oyC47qHrUVzgijvql7pURRuXWfH7X6Mqz8qUJOzCyM3wJS0Nws9C/yaLmkTXZl0l0C865ZXGtz04FMZ8x9hNDGaDPGkZM5J3mmwg4PnyfENbYsmFhJhWTOUKyQL1KPaKD5Tte8q34Kmm8u0dAMpw8yY6Gfd9wgqf0AuZdRD7PMhX+sfYDAFLUg03q9IFC5heNyBl8wpnKpE8GR4Fwq/LVnzs1nBqjRzWt7ij2O8MFg9Ohr4Jbq0sTvhYGrEqYeWs
+In-Reply-To: <07f4d4aa-aed1-451f-a129-d8112094a49a@infradead.org>
 
-On 26/03/19 12:20PM, Jonathan Cameron wrote:
-> On Wed, 18 Mar 2026 20:28:37 -0500
-> John Groves <john@groves.net> wrote:
-> 
-> > The new fsdev driver provides pages/folios initialized compatibly with
-> > fsdax - normal rather than devdax-style refcounting, and starting out
-> > with order-0 folios.
-> > 
-> > When fsdev binds to a daxdev, it is usually (always?) switching from the
-> > devdax mode (device.c), which pre-initializes compound folios according
-> > to its alignment. Fsdev uses fsdev_clear_folio_state() to switch the
-> > folios into a fsdax-compatible state.
-> > 
-> > A side effect of this is that raw mmap doesn't (can't?) work on an fsdev
-> > dax instance. Accordingly, The fsdev driver does not provide raw mmap -
-> > devices must be put in 'devdax' mode (drivers/dax/device.c) to get raw
-> > mmap capability.
-> > 
-> > In this commit is just the framework, which remaps pages/folios compatibly
-> > with fsdax.
-> > 
-> > Enabling dax changes:
-> > 
-> > - bus.h: add DAXDRV_FSDEV_TYPE driver type
-> > - bus.c: allow DAXDRV_FSDEV_TYPE drivers to bind to daxdevs
-> > - dax.h: prototype inode_dax(), which fsdev needs
-> > 
-> > Suggested-by: Dan Williams <dan.j.williams@intel.com>
-> > Suggested-by: Gregory Price <gourry@gourry.net>
-> > Signed-off-by: John Groves <john@groves.net>
-> 
-> A few comments inline.  I think some of the code here could be moved
-> to a helper library used by both this and device.c
-> 
-> > ---
-> >  MAINTAINERS          |   8 ++
-> >  drivers/dax/Makefile |   6 +
-> >  drivers/dax/bus.c    |   4 +
-> >  drivers/dax/bus.h    |   1 +
-> >  drivers/dax/fsdev.c  | 253 +++++++++++++++++++++++++++++++++++++++++++
-> >  fs/dax.c             |   1 +
-> >  include/linux/dax.h  |   3 +
-> >  7 files changed, 276 insertions(+)
-> >  create mode 100644 drivers/dax/fsdev.c
-> > 
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 96ea84948d76..e83cfcf7e932 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -7298,6 +7298,14 @@ L:	linux-cxl@vger.kernel.org
-> >  S:	Supported
-> >  F:	drivers/dax/
-> >  
-> > +DEVICE DIRECT ACCESS (DAX) [fsdev_dax]
-> > +M:	John Groves <jgroves@micron.com>
-> > +M:	John Groves <John@Groves.net>
-> > +L:	nvdimm@lists.linux.dev
-> > +L:	linux-cxl@vger.kernel.org
-> > +S:	Supported
-> > +F:	drivers/dax/fsdev.c
-> > +
-> >  DEVICE FREQUENCY (DEVFREQ)
-> >  M:	MyungJoo Ham <myungjoo.ham@samsung.com>
-> >  M:	Kyungmin Park <kyungmin.park@samsung.com>
-> > diff --git a/drivers/dax/Makefile b/drivers/dax/Makefile
-> > index 5ed5c39857c8..3bae252fd1bf 100644
-> > --- a/drivers/dax/Makefile
-> > +++ b/drivers/dax/Makefile
-> > @@ -5,10 +5,16 @@ obj-$(CONFIG_DEV_DAX_KMEM) += kmem.o
-> >  obj-$(CONFIG_DEV_DAX_PMEM) += dax_pmem.o
-> >  obj-$(CONFIG_DEV_DAX_CXL) += dax_cxl.o
-> >  
-> > +# fsdev_dax: fs-dax compatible devdax driver (needs DEV_DAX and FS_DAX)
-> > +ifeq ($(CONFIG_FS_DAX),y)
-> > +obj-$(CONFIG_DEV_DAX) += fsdev_dax.o
-> > +endif
-> 
-> Why not throw in a new CONFIG_FSDAX_DEV and handle the dependencies
-> in Kconfig?  
 
-At one point I had another config parameter, but I'm trying not to
-gratuitously add them. The fsdev driver is pretty small, and including it
-whenever FS_DAX is enabled felt reasonable to me. I'm willing to change it
-if there's a consensus that way.
+--IGmgUggNFImv6oRO
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> > +
-> >  dax-y := super.o
-> >  dax-y += bus.o
-> >  device_dax-y := device.o
-> >  dax_pmem-y := pmem.o
-> >  dax_cxl-y := cxl.o
-> > +fsdev_dax-y := fsdev.o
-> >  
-> >  obj-y += hmem/
-> 
-> > diff --git a/drivers/dax/fsdev.c b/drivers/dax/fsdev.c
-> > new file mode 100644
-> > index 000000000000..e5b4396ce401
-> > --- /dev/null
-> > +++ b/drivers/dax/fsdev.c
-> 
-> > +static int fsdev_dax_probe(struct dev_dax *dev_dax)
-> > +{
-> > +	struct dax_device *dax_dev = dev_dax->dax_dev;
-> > +	struct device *dev = &dev_dax->dev;
-> > +	struct dev_pagemap *pgmap;
-> > +	u64 data_offset = 0;
-> 
-> See below. I think you can useful reduce scope of this one.
+On Thu, Mar 19, 2026 at 08:10:42PM -0700, Randy Dunlap wrote:
+>=20
+>=20
+> On 3/19/26 5:06 PM, Bagas Sanjaya wrote:
+> > On Wed, Mar 18, 2026 at 01:56:24PM +0100, Kevin Brodsky wrote:
+> >> Hi,
+> >>
+> >> I have noticed that links to equation images are not generated correct=
+ly
+> >> on docs.kernel.org. For instance, Documentation/mm/memory-model.rst ha=
+s:
+> >>
+> >> =C2=A0 =C2=A0 .. math::
+> >> =C2=A0 =C2=A0=C2=A0
+> >> =C2=A0 =C2=A0 =C2=A0 =C2=A0NR\_MEM\_SECTIONS =3D 2 ^ {(MAX\_PHYSMEM\_B=
+ITS - SECTION\_SIZE\_BITS)}
+> >=20
+> > I think we can just get rid of the math markup, no?
+> >=20
+>=20
+> Why get rid of it?
+> and does that assume that some specific package is installed?
+>=20
+> <snipped>...
+>
+> OTOH, if you are saying that it's readable when just using ASCII text,
+> I'm OK with that also.
 
-As of now, I've reduced the scope, but in the very next commit it needs to
-move back here. So meh...not sure that's worth it for one commit
+I think that's what I mean.
 
-> 
-> > +	struct inode *inode;
-> > +	struct cdev *cdev;
-> > +	void *addr;
-> > +	int rc, i;
-> > +
-> 
-> There is a lot of duplication in here with dax/device.c
-> Is any of it suitable for shared helpers?
+Thanks.
 
-I haven't addressed factoring out more duplicated code yet. Ideally I'd like
-to do that after the initial merge, but I'm paying attention to whether 
-there's pressure to do it.
+--=20
+An old man doll... just what I always wanted! - Clara
 
-> 
-> > +	if (static_dev_dax(dev_dax))  {
-> > +		if (dev_dax->nr_range > 1) {
-> > +			dev_warn(dev, "static pgmap / multi-range device conflict\n");
-> > +			return -EINVAL;
-> > +		}
-> > +
-> > +		pgmap = dev_dax->pgmap;
-> > +	} else {
-> > +		size_t pgmap_size;
-> > +
-> > +		if (dev_dax->pgmap) {
-> > +			dev_warn(dev, "dynamic-dax with pre-populated page map\n");
-> > +			return -EINVAL;
-> > +		}
-> > +
-> > +		pgmap_size = struct_size(pgmap, ranges, dev_dax->nr_range - 1);
-> > +		pgmap = devm_kzalloc(dev, pgmap_size,  GFP_KERNEL);
-> 
-> Bonus space before GFP_KERNEL.
+--IGmgUggNFImv6oRO
+Content-Type: application/pgp-signature; name=signature.asc
 
-Excised, thanks
+-----BEGIN PGP SIGNATURE-----
 
-> 
-> 
-> > +		if (!pgmap)
-> > +			return -ENOMEM;
-> > +
-> > +		pgmap->nr_range = dev_dax->nr_range;
-> > +		dev_dax->pgmap = pgmap;
-> > +
-> > +		for (i = 0; i < dev_dax->nr_range; i++) {
-> > +			struct range *range = &dev_dax->ranges[i].range;
-> > +
-> > +			pgmap->ranges[i] = *range;
-> > +		}
-> > +	}
-> > +
-> > +	for (i = 0; i < dev_dax->nr_range; i++) {
-> > +		struct range *range = &dev_dax->ranges[i].range;
-> > +
-> > +		if (!devm_request_mem_region(dev, range->start,
-> > +					range_len(range), dev_name(dev))) {
-> > +			dev_warn(dev, "mapping%d: %#llx-%#llx could not reserve range\n",
-> > +				 i, range->start, range->end);
-> > +			return -EBUSY;
-> > +		}
-> > +	}
-> 
-> Everything above here is shared.  Some sort of _init() or similar library function
-> seems in order.
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCab35JQAKCRD2uYlJVVFO
+o/upAQDDHDNejbW1bnzJEazdMwAd//4s9AsmVlJY3oCVWdqIQQD/bQXR90tOzyS2
+jEnH1o2XrNW0RqSJvO5rerkH6XufHAA=
+=+xlv
+-----END PGP SIGNATURE-----
 
-Taken under advisement. Will look at this soon.
-
-> 
-> > +
-> > +	/*
-> > +	 * FS-DAX compatible mode: Use MEMORY_DEVICE_FS_DAX type and
-> > +	 * do NOT set vmemmap_shift. This leaves folios at order-0,
-> > +	 * allowing fs-dax to dynamically create compound folios as needed
-> > +	 * (similar to pmem behavior).
-> > +	 */
-> > +	pgmap->type = MEMORY_DEVICE_FS_DAX;
-> > +	pgmap->ops = &fsdev_pagemap_ops;
-> > +	pgmap->owner = dev_dax;
-> > +
-> > +	/*
-> > +	 * CRITICAL DIFFERENCE from device.c:
-> > +	 * We do NOT set vmemmap_shift here, even if align > PAGE_SIZE.
-> > +	 * This ensures folios remain order-0 and are compatible with
-> > +	 * fs-dax's folio management.
-> > +	 */
-> > +
-> > +	addr = devm_memremap_pages(dev, pgmap);
-> > +	if (IS_ERR(addr))
-> > +		return PTR_ERR(addr);
-> > +
-> > +	/*
-> > +	 * Clear any stale compound folio state left over from a previous
-> > +	 * driver (e.g., device_dax with vmemmap_shift). Also register this
-> > +	 * as a devm action so folio state is cleared on unbind, ensuring
-> > +	 * clean pages for subsequent drivers (e.g., kmem for system-ram).
-> > +	 */
-> > +	fsdev_clear_folio_state(dev_dax);
-> > +	rc = devm_add_action_or_reset(dev, fsdev_clear_folio_state_action,
-> > +				      dev_dax);
-> > +	if (rc)
-> > +		return rc;
-> > +
-> > +	/* Detect whether the data is at a non-zero offset into the memory */
-> > +	if (pgmap->range.start != dev_dax->ranges[0].range.start) {
-> > +		u64 phys = dev_dax->ranges[0].range.start;
-> > +		u64 pgmap_phys = dev_dax->pgmap[0].range.start;
-> > +
-> > +		if (!WARN_ON(pgmap_phys > phys))
-> > +			data_offset = phys - pgmap_phys;
-> > +
-> > +		pr_debug("%s: offset detected phys=%llx pgmap_phys=%llx offset=%llx\n",
-> > +		       __func__, phys, pgmap_phys, data_offset);
-> 
-> Might change later, but at least at this point you could pull declaration of data_offset
-> into this scope.
-
-done as of now, but it's used right after the closing brace of this block
-in the very next commit.
-
-> 
-> > +	}
-> > +
-> > +	inode = dax_inode(dax_dev);
-> > +	cdev = inode->i_cdev;
-> > +	cdev_init(cdev, &fsdev_fops);
-> > +	cdev->owner = dev->driver->owner;
-> > +	cdev_set_parent(cdev, &dev->kobj);
-> > +	rc = cdev_add(cdev, dev->devt, 1);
-> > +	if (rc)
-> > +		return rc;
-> > +
-> > +	rc = devm_add_action_or_reset(dev, fsdev_cdev_del, cdev);
-> > +	if (rc)
-> > +		return rc;
-> > +
-> > +	run_dax(dax_dev);
-> > +	return devm_add_action_or_reset(dev, fsdev_kill, dev_dax);
-> > +}
-> 
-> > diff --git a/include/linux/dax.h b/include/linux/dax.h
-> > index bf103f317cac..996493f5c538 100644
-> > --- a/include/linux/dax.h
-> > +++ b/include/linux/dax.h
-> > @@ -51,6 +51,7 @@ struct dax_holder_operations {
-> >  
-> >  #if IS_ENABLED(CONFIG_DAX)
-> >  struct dax_device *alloc_dax(void *private, const struct dax_operations *ops);
-> > +
-> 
-> Unrelated change.  Tidy this up for v9.
-
-Spurious blank line dropped - thanks
-
-> 
-> 
-> >  void *dax_holder(struct dax_device *dax_dev);
-> >  void put_dax(struct dax_device *dax_dev);
-> >  void kill_dax(struct dax_device *dax_dev);
-> > @@ -151,8 +152,10 @@ static inline void fs_put_dax(struct dax_device *dax_dev, void *holder)
-> >  #endif /* CONFIG_BLOCK && CONFIG_FS_DAX */
-> >  
-> >  #if IS_ENABLED(CONFIG_FS_DAX)
-> > +struct dax_device *inode_dax(struct inode *inode);
-> 
-> Already in dax_private.h so why does it want to be here?
-
-Indeed, thanks!
-
-Regards,
-John
-
+--IGmgUggNFImv6oRO--
