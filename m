@@ -1,103 +1,90 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28324282F31;
-	Sat, 21 Mar 2026 20:07:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 369832EB0F;
+	Sat, 21 Mar 2026 20:46:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774123651; cv=none; b=K5SsZpxB3ZLy9sLZL3rK7s4qLIvFOlnC7h3FsyqPF7aeHlODtMrlD2+Y45W1/+sj4ubGI05aGzZ8HOS90tb+B0K6qmr+bDVBJVQjrg3jK3kX4ZMQD01La2r0Z7RIjleuO+gFWgLiN1T2jd6eS3LFxf10gBkJufKfHJStxT6iykA=
+	t=1774126017; cv=none; b=RuIM+dcL91EmjUqTEjEQIojf/qujtPPwr4oKuV1/pYr/1D3PPmt9hREMwMlVs17OGTTEDeOHRe0pIy++3VQ+KsrQ+qJzGUs+gokXiybuOmP4ZlxaASiSlXCIBrJ/hpWkaw0l2KeIZFfOLRlMSozS8i9TV1DgOfVCAyS7KPBXL/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774123651; c=relaxed/simple;
-	bh=0MNSbzVZDYdlO97OIWpX8pZ4IYNdLpcfoylYibgIq8Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kRSHyC45NaTPkvgqVttaUYJEGEwN3cccWo7cWZgZDgX4oXDq4V9KPlLifv9+m6JlKdjaORrpKmQdjLZKnbVW/AESbD7NXcw+dPtxhq9eFO3EEo4rv52Pvv2JXd52idB983ZcV1CRm2UZd8pffc1v8yGYP68KG3+TSOGfPepd5bY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m5Up56d0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774126017; c=relaxed/simple;
+	bh=klkuFutrzMFxyAKycJvuDYoccuxnDqF/tdTzOb5itaE=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=HHEeKhW0yYf6LEE2Un5wnBQKeVWwkrqODDvhkZsVoGXepIxr2Z3Ze3Ij+NfVb6jMMlAewatdC/+Kbsw3KaWGGNl2p878wUrLqVxeVazCwsr+vX1Wf7AAQRABU5H/QuRC4NnB+ey5cAmXylWXqrhLo4dcw65VciDI0vVH8YZifp0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=prxX25FB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m5Up56d0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DEC2C19421;
-	Sat, 21 Mar 2026 20:07:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="prxX25FB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D9E9C19421;
+	Sat, 21 Mar 2026 20:46:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774123650;
-	bh=0MNSbzVZDYdlO97OIWpX8pZ4IYNdLpcfoylYibgIq8Y=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=m5Up56d0Zpao4XkiAbIdKYjt57W+ElFPoy6ODEJOZ++dBPp05k9Ls4q8Z/3CpO8C9
-	 NFvp/nP+31hmAzLygzvWicm+18JCX5d+X2f/9XHNS2YOZg9WPZPIZbSgt5HCYaHtYC
-	 srSDJgSNGa3jqfN+/Dcv4ilKvGXpvylwWAn/lbFShXkyLQYrWlwbkYRXKyD2RvqrF3
-	 tRTsFBa9/PvJLmLe1jytUodREAIwjJyP8VkES1Zro5GHICnBP1vIqD0lDqIkDVVzeQ
-	 mirmhCZ8Sds3gKJHrmGk/5aX9sDCgyQc01fNFNECQ86wTRRhC98iNiRdCktEFBJPbi
-	 Cm4/kI2HfVlIg==
-From: SeongJae Park <sj@kernel.org>
-To: SeongJae Park <sj@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	David Gow <davidgow@google.com>,
-	David Hildenbrand <david@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Shuah Khan <shuah@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	damon@lists.linux.dev,
-	kunit-dev@googlegroups.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: Re: [PATCH 00/10] mm/damon: let DAMON be paused and resumed
-Date: Sat, 21 Mar 2026 13:07:22 -0700
-Message-ID: <20260321200723.95520-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260321181343.93971-1-sj@kernel.org>
-References: 
+	s=k20201202; t=1774126016;
+	bh=klkuFutrzMFxyAKycJvuDYoccuxnDqF/tdTzOb5itaE=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date:From;
+	b=prxX25FBOWsAtzY32uSjbDVTdexwER1tbRFf4csEK3P5v4Xxa7dssv9ArySMHz6Hy
+	 k9SXwLby+i+G05xjkfFOECtSKdbWgI2Ym8j7lPO1vlsONOsutp6nmfIkG41aXz8aTx
+	 kPLxGguF2uvj+7gNuuVjRJiURWjamPg6xKQ8CvF+2b/PMp07eF7Tr/JjVq+rBfLRWC
+	 5I7VVWIqUC2WaB29+QrP8gwm5LZRjKFlNina3OLgskY8N8z4Ui3RBeZC2/d/WsithC
+	 5vR0pjZu4CQopGsev1VujagmEA6RMc/C7pVwNmWHVrw3TwuvYbiExiQMH5MkGMZrJa
+	 a1gAKrruoi4VQ==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v2 3/3] dt-bindings: hwmon: isl68137: Add compatible
+ strings for RAA228942 and RAA228943
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Dawei Liu <dawei.liu.jy@renesas.com>
+Cc: linux@roeck-us.net, linux-hwmon@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net, 
+ skhan@linuxfoundation.org, geert+renesas@glider.be, magnus.damm@gmail.com, 
+ grant.peltier.jg@renesas.com, linda.xin.jg@renesas.com, 
+ tabreztalks@gmail.com
+In-Reply-To: <20260318021921.75-4-dawei.liu.jy@renesas.com>
+References: <20260316053541.3903-1-dawei.liu.jy@renesas.com>
+ <20260318021921.75-1-dawei.liu.jy@renesas.com>
+ <20260318021921.75-4-dawei.liu.jy@renesas.com>
+Date: Sat, 21 Mar 2026 21:46:50 +0100
+Message-Id: <177412601062.18368.450072825684601974.b4-reply@b4>
+X-Mailer: b4 0.15.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=694; i=krzk@kernel.org;
+ h=from:subject:message-id; bh=klkuFutrzMFxyAKycJvuDYoccuxnDqF/tdTzOb5itaE=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBpvwO8yWwYJg+pP2C7WsRo+crKuyoC5o0mp1YKP
+ xFTZz9iWPaJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCab8DvAAKCRDBN2bmhouD
+ 1zc1D/9hF2M4DmbtluqCgcE2Y7lUKfLRVUjFVLP7b535txXT1hjw2rrccNMEp5vN4V3CPenE6jG
+ pia9oDa61OdoU/V+HfSIf5ycTwKABaFgxddacNuV1K1chYmpodmJrONwlAp4aRKbqtPlUJi0gAG
+ to46pUFNKw3brdPP0KvoxdPeyLjAsWR3Obe+tHVMKzYtptSVZxCd0+KD5nbLZvHM+m33HnvZWaj
+ Hr3vdhBusNKxbXIk4PJcr28plxlEGvZ6s9OocGThtuXmDk4R47DiAOheN03c4kIhQHbJ/B03h0w
+ 54Yx4cbPKejGLry1Xqw2HhDRS8J5oB9OmUJOsr7BlL79IsW+U3nX8JzmjyDEMXKEjqfcc4jt6Y6
+ VSnNDfkr1mW7pE0fp+mwX3Mrx3hPsBBl5CSAx84L1QgmNTYUHofN6HxPS+cyC1jB/csVJmQakSP
+ TjQSqDSUNDCLPijSMRY3jc1UMdizbqux8SpEvdHcIjWHo32HJEJhV85tK7LEV9PfX3lX48sdsYS
+ tB9MpxvYxogWovA18kUqmsHbCBLmhg/3MobR0S9ZsV9temrUfFnj1YW+KCHD6IRcmKu2fCvFym+
+ jC1Saio1G8FEvud5wpAce++oa/m7Zb2tVpNDKq5/TjDZ1sRv5qlCGx5au1piPEVGfSH6V04h0Kx
+ 8TxHF7Hl1CErnXA==
+X-Developer-Key: i=krzk@kernel.org; a=openpgp;
+ fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 
-Forwarding sashiko.dev review status for this thread.
+On 2026-03-18 10:19 +0800, Dawei Liu wrote:
+> diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/isil,isl68137.yaml b/Documentation/devicetree/bindings/hwmon/pmbus/isil,isl68137.yaml
+> index ae23a0537..53d07c0ce 100644
+> --- a/Documentation/devicetree/bindings/hwmon/pmbus/isil,isl68137.yaml
+> +++ b/Documentation/devicetree/bindings/hwmon/pmbus/isil,isl68137.yaml
+> @@ -56,6 +56,8 @@ properties:
+>        - renesas,raa228228
+>        - renesas,raa228244
+>        - renesas,raa228246
+> +      - renesas,raa228942
+> +      - renesas,raa228943
 
-# review url: https://sashiko.dev/#/patchset/20260321181343.93971-1-sj@kernel.org
+If they are compatible, maybe finally this binding should switch to
+representing this with fallback?
 
-- [PATCH 01/10] mm/damon/core: introduce damon_ctx->paused
-  - status: Reviewed
-- [PATCH 02/10] mm/damon/sysfs: add pause file under context dir
-  - status: Reviewed
-  - review: No issues found.
-- [PATCH 03/10] Docs/mm/damon/design: update for context pause/resume feature
-  - status: Reviewed
-  - review: No issues found.
-- [PATCH 04/10] Docs/admin-guide/mm/damon/usage: update for pause file
-  - status: Reviewed
-  - review: No issues found.
-- [PATCH 05/10] Docs/ABI/damon: update for pause sysfs file
-  - status: Reviewed
-  - review: No issues found.
-- [PATCH 06/10] mm/damon/tests/core-kunit: test pause commitment
-  - status: Reviewed
-  - review: No issues found.
-- [PATCH 07/10] selftests/damon/_damon_sysfs: support pause file staging
-  - status: Reviewed
-  - review: No issues found.
-- [PATCH 08/10] selftests/damon/drgn_dump_damon_status: dump pause
-  - status: Reviewed
-  - review: No issues found.
-- [PATCH 09/10] selftests/damon/sysfs.py: check pause on assert_ctx_committed()
-  - status: Reviewed
-  - review: No issues found.
-- [PATCH 10/10] selftets/damon/sysfs.py: pause DAMON before dumping status
-  - status: Reviewed
+Best regards,
+Krzysztof
 
-# hkml [1] generated a draft of this mail.  It can be regenerated
-# using below command:
-#
-#     hkml patch sashiko_dev --thread_status --for_forwarding \
-#             20260321181343.93971-1-sj@kernel.org
-#
-# [1] https://github.com/sjp38/hackermail
+
