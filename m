@@ -1,69 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12B4C275B03;
-	Sat, 21 Mar 2026 18:22:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE8E6192B90;
+	Sat, 21 Mar 2026 19:17:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774117350; cv=none; b=saIYsxmuLnDY6t8N+X6j2bCGMkv7mZijSiT93lLu7Qg7DrdXnsYSs6BNdKp/j92gtZCf3GMkj03PVEhnbhC0rLtcKZ+zOQTwrGwOlS6EZ1z7bbv8faszakWhlaQ+5r+h+AubnJXNa9k3W0FZ4SDFaTWiSlKSa4OpYOedpXc93IU=
+	t=1774120677; cv=none; b=Xs/bGd1HQZNiCtm3hs3fMLikS0CXLzNBkF21MHEWDU//OrA8m6zZkfvfgtLfdGYa+640+ceB3fGdr1xjunzQIdSOAU5e6dFit5mzX/hXbErCwEXiSuyy5YCEwxOLVgJRW260Fv3TVCCDvCqZ8Jy7GJ29GePG4+ECUZubNPfn2Q4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774117350; c=relaxed/simple;
-	bh=Z5ShjZezr9g7HSBWIB7EdDeQzkiOkItYLDWdO/0hqwg=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=eQkUZHXA7Ij+NF04rSQnIv3NWKZM1UyyGbM6KArXdHgcdaz5xiRjK4j3iJzstWWdjLxuCt78Ub5XgbiWKJ/S+qNDV5f5+c5dAFsX6XRRcyLUfxwUCuc05a3lP4WfBpaT/+tZCk968wD0vzWa4d3ACaps66ahLRfOFP6L/W1oie0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=ZHnQ6lEE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774120677; c=relaxed/simple;
+	bh=+li0E4b/1na3oQmvEiHVJb5FVSo9ROmx6Bi/3fu0r+s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=a9Vji6hnSOqbdIqtXSi/oaJONTEvh59Cve2IZvhv3Vgf0HAIOC+zkBwhY6023Y6tiCO/Op04P/NQjpxaaSJHS1ugFDSWNJIJlXwTU1lWJGATOipEUZlFILpcKQl0kDg4HQKqijnMrs8it0qlTBx5GS0YDZgJO4ACywb5R/pVxLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=dBtYrV7M; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="ZHnQ6lEE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F66DC19421;
-	Sat, 21 Mar 2026 18:22:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1774117349;
-	bh=Z5ShjZezr9g7HSBWIB7EdDeQzkiOkItYLDWdO/0hqwg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ZHnQ6lEE88xOYc1iWlfVdzE5iZN8nimxIF52Ss4eTF1z+Nyp+L28Ma1fB9cqmr3uJ
-	 yzQG5uqOcJBToMwnI6OwsOuyqtwCjFvOO0UEqyuFC7carzJi376cVWa4tdboRarVLo
-	 ITCBnvYm+w+9Qx3q3fVDKpfDkqYqP/1uCASrkDmY=
-Date: Sat, 21 Mar 2026 11:22:27 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: kasong@tencent.com, Liam.Howlett@oracle.com, apopple@nvidia.com,
- axelrasmussen@google.com, baohua@kernel.org, baolin.wang@linux.alibaba.com,
- bhe@redhat.com, byungchul@sk.com, cgroups@vger.kernel.org,
- chengming.zhou@linux.dev, chrisl@kernel.org, corbet@lwn.net,
- david@kernel.org, dev.jain@arm.com, gourry@gourry.net, hannes@cmpxchg.org,
- hughd@google.com, jannh@google.com, joshua.hahnjy@gmail.com,
- lance.yang@linux.dev, lenb@kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-pm@vger.kernel.org,
- lorenzo.stoakes@oracle.com, matthew.brost@intel.com, mhocko@suse.com,
- muchun.song@linux.dev, npache@redhat.com, pavel@kernel.org,
- peterx@redhat.com, peterz@infradead.org, pfalcato@suse.de,
- rafael@kernel.org, rakie.kim@sk.com, roman.gushchin@linux.dev,
- rppt@kernel.org, ryan.roberts@arm.com, shakeel.butt@linux.dev,
- shikemeng@huaweicloud.com, surenb@google.com, tglx@kernel.org,
- vbabka@suse.cz, weixugc@google.com, ying.huang@linux.alibaba.com,
- yosry.ahmed@linux.dev, yuanchu@google.com, zhengqi.arch@bytedance.com,
- ziy@nvidia.com, kernel-team@meta.com, riel@surriel.com
-Subject: Re: [PATCH v5 00/21] Virtual Swap Space
-Message-Id: <20260321112227.bbcf113a6eae634d12695fd9@linux-foundation.org>
-In-Reply-To: <20260320192735.748051-1-nphamcs@gmail.com>
-References: <20260320192735.748051-1-nphamcs@gmail.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dBtYrV7M"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=TQAG6FBmUHODvPPC7X+nTbQ8ibEbqxJtsVDahrkQqwE=; b=dBtYrV7MIcMOEkYYpnz/mlkIWl
+	webjpqnTThBSpVGxCoX0KVk13QmFWJ41dapEcwHOilg/fsTdrcn8+je6j7Tmt+K9kbd0KdCyV8+oe
+	U8SNR6x6QJAsKtfhK8i4ywAy/reNHynBQiiFiG926KqaucxKipxB5QCQESo2myEUt13gIsAAyo2VS
+	CdgV7076bfaVFtZ5ZKExoV6qyH7BrzMdkcUQPxA7GY5RG3oHK4KgySw/9aFJypKB7y6FywgfQCQQx
+	uf8kgg7V+MPVPbJYJzi/303CBY9DUFzl8exMqpCfdCDyyt7jEhnnTniAi5RBAYSIMRWgrwjtT7zPo
+	8BNO9iVA==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1w41pS-0000000EjzH-1kvj;
+	Sat, 21 Mar 2026 19:17:46 +0000
+Message-ID: <2d4ab39f-53a1-4bbc-888a-53c9f72670c5@infradead.org>
+Date: Sat, 21 Mar 2026 12:17:45 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/1] docs: wrap generated tables to contain small-screen
+ overflow
+To: Rito Rhymes <rito@ritovision.com>, Jonathan Corbet <corbet@lwn.net>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-doc@vger.kernel.org
+Cc: Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org
+References: <20260321133811.17854-1-rito@ritovision.com>
+ <20260321133811.17854-2-rito@ritovision.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260321133811.17854-2-rito@ritovision.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Fri, 20 Mar 2026 12:27:14 -0700 Nhat Pham <nphamcs@gmail.com> wrote:
 
-> This patch series implements the virtual swap space idea, based on Yosry's
-> proposals at LSFMMBPF 2023 (see [1], [2], [3]), as well as valuable
-> inputs from Johannes Weiner. The same idea (with different
-> implementation details) has been floated by Rik van Riel since at least
-> 2011 (see [8]).
 
-AI review got partway through then decided it couldn't apply patches.  So
-a partial result: https://sashiko.dev/#/patchset/20260320192735.748051-1-nphamcs@gmail.com
+On 3/21/26 6:38 AM, Rito Rhymes wrote:
+> Some documentation tables exceed the fixed-width main content column.
+> On desktop this is usually acceptable because they can overflow the
+> 800px body without harming readability, but on smaller screens the
+> same tables create page-wide horizontal scroll overflow that breaks the
+> layout.
+> 
+> Wrap generated HTML tables in a dedicated container. Above
+> Alabaster's existing 65em breakpoint, the wrapper uses
+> `display: contents` to preserve current desktop rendering. At and
+> below that width, it becomes a horizontal scroll container so table
+> overflow is contained locally instead of breaking page layout.
+
+Yes, I can (did) observe that happening (horizontal slider bar).
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
+> Signed-off-by: Rito Rhymes <rito@ritovision.com>
+> ---
+>  Documentation/conf.py                  |  1 +
+>  Documentation/sphinx-static/custom.css | 16 ++++++++++++++
+>  Documentation/sphinx/table_wrapper.py  | 30 ++++++++++++++++++++++++++
+>  3 files changed, 47 insertions(+)
+>  create mode 100644 Documentation/sphinx/table_wrapper.py
+
+-- 
+~Randy
