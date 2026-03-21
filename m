@@ -1,84 +1,103 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE8E6192B90;
-	Sat, 21 Mar 2026 19:17:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28324282F31;
+	Sat, 21 Mar 2026 20:07:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774120677; cv=none; b=Xs/bGd1HQZNiCtm3hs3fMLikS0CXLzNBkF21MHEWDU//OrA8m6zZkfvfgtLfdGYa+640+ceB3fGdr1xjunzQIdSOAU5e6dFit5mzX/hXbErCwEXiSuyy5YCEwxOLVgJRW260Fv3TVCCDvCqZ8Jy7GJ29GePG4+ECUZubNPfn2Q4=
+	t=1774123651; cv=none; b=K5SsZpxB3ZLy9sLZL3rK7s4qLIvFOlnC7h3FsyqPF7aeHlODtMrlD2+Y45W1/+sj4ubGI05aGzZ8HOS90tb+B0K6qmr+bDVBJVQjrg3jK3kX4ZMQD01La2r0Z7RIjleuO+gFWgLiN1T2jd6eS3LFxf10gBkJufKfHJStxT6iykA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774120677; c=relaxed/simple;
-	bh=+li0E4b/1na3oQmvEiHVJb5FVSo9ROmx6Bi/3fu0r+s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=a9Vji6hnSOqbdIqtXSi/oaJONTEvh59Cve2IZvhv3Vgf0HAIOC+zkBwhY6023Y6tiCO/Op04P/NQjpxaaSJHS1ugFDSWNJIJlXwTU1lWJGATOipEUZlFILpcKQl0kDg4HQKqijnMrs8it0qlTBx5GS0YDZgJO4ACywb5R/pVxLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=dBtYrV7M; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1774123651; c=relaxed/simple;
+	bh=0MNSbzVZDYdlO97OIWpX8pZ4IYNdLpcfoylYibgIq8Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=kRSHyC45NaTPkvgqVttaUYJEGEwN3cccWo7cWZgZDgX4oXDq4V9KPlLifv9+m6JlKdjaORrpKmQdjLZKnbVW/AESbD7NXcw+dPtxhq9eFO3EEo4rv52Pvv2JXd52idB983ZcV1CRm2UZd8pffc1v8yGYP68KG3+TSOGfPepd5bY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m5Up56d0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dBtYrV7M"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=TQAG6FBmUHODvPPC7X+nTbQ8ibEbqxJtsVDahrkQqwE=; b=dBtYrV7MIcMOEkYYpnz/mlkIWl
-	webjpqnTThBSpVGxCoX0KVk13QmFWJ41dapEcwHOilg/fsTdrcn8+je6j7Tmt+K9kbd0KdCyV8+oe
-	U8SNR6x6QJAsKtfhK8i4ywAy/reNHynBQiiFiG926KqaucxKipxB5QCQESo2myEUt13gIsAAyo2VS
-	CdgV7076bfaVFtZ5ZKExoV6qyH7BrzMdkcUQPxA7GY5RG3oHK4KgySw/9aFJypKB7y6FywgfQCQQx
-	uf8kgg7V+MPVPbJYJzi/303CBY9DUFzl8exMqpCfdCDyyt7jEhnnTniAi5RBAYSIMRWgrwjtT7zPo
-	8BNO9iVA==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w41pS-0000000EjzH-1kvj;
-	Sat, 21 Mar 2026 19:17:46 +0000
-Message-ID: <2d4ab39f-53a1-4bbc-888a-53c9f72670c5@infradead.org>
-Date: Sat, 21 Mar 2026 12:17:45 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m5Up56d0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DEC2C19421;
+	Sat, 21 Mar 2026 20:07:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774123650;
+	bh=0MNSbzVZDYdlO97OIWpX8pZ4IYNdLpcfoylYibgIq8Y=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=m5Up56d0Zpao4XkiAbIdKYjt57W+ElFPoy6ODEJOZ++dBPp05k9Ls4q8Z/3CpO8C9
+	 NFvp/nP+31hmAzLygzvWicm+18JCX5d+X2f/9XHNS2YOZg9WPZPIZbSgt5HCYaHtYC
+	 srSDJgSNGa3jqfN+/Dcv4ilKvGXpvylwWAn/lbFShXkyLQYrWlwbkYRXKyD2RvqrF3
+	 tRTsFBa9/PvJLmLe1jytUodREAIwjJyP8VkES1Zro5GHICnBP1vIqD0lDqIkDVVzeQ
+	 mirmhCZ8Sds3gKJHrmGk/5aX9sDCgyQc01fNFNECQ86wTRRhC98iNiRdCktEFBJPbi
+	 Cm4/kI2HfVlIg==
+From: SeongJae Park <sj@kernel.org>
+To: SeongJae Park <sj@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@google.com>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Shuah Khan <shuah@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	damon@lists.linux.dev,
+	kunit-dev@googlegroups.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: Re: [PATCH 00/10] mm/damon: let DAMON be paused and resumed
+Date: Sat, 21 Mar 2026 13:07:22 -0700
+Message-ID: <20260321200723.95520-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260321181343.93971-1-sj@kernel.org>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] docs: wrap generated tables to contain small-screen
- overflow
-To: Rito Rhymes <rito@ritovision.com>, Jonathan Corbet <corbet@lwn.net>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-doc@vger.kernel.org
-Cc: Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org
-References: <20260321133811.17854-1-rito@ritovision.com>
- <20260321133811.17854-2-rito@ritovision.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260321133811.17854-2-rito@ritovision.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Forwarding sashiko.dev review status for this thread.
 
+# review url: https://sashiko.dev/#/patchset/20260321181343.93971-1-sj@kernel.org
 
-On 3/21/26 6:38 AM, Rito Rhymes wrote:
-> Some documentation tables exceed the fixed-width main content column.
-> On desktop this is usually acceptable because they can overflow the
-> 800px body without harming readability, but on smaller screens the
-> same tables create page-wide horizontal scroll overflow that breaks the
-> layout.
-> 
-> Wrap generated HTML tables in a dedicated container. Above
-> Alabaster's existing 65em breakpoint, the wrapper uses
-> `display: contents` to preserve current desktop rendering. At and
-> below that width, it becomes a horizontal scroll container so table
-> overflow is contained locally instead of breaking page layout.
+- [PATCH 01/10] mm/damon/core: introduce damon_ctx->paused
+  - status: Reviewed
+- [PATCH 02/10] mm/damon/sysfs: add pause file under context dir
+  - status: Reviewed
+  - review: No issues found.
+- [PATCH 03/10] Docs/mm/damon/design: update for context pause/resume feature
+  - status: Reviewed
+  - review: No issues found.
+- [PATCH 04/10] Docs/admin-guide/mm/damon/usage: update for pause file
+  - status: Reviewed
+  - review: No issues found.
+- [PATCH 05/10] Docs/ABI/damon: update for pause sysfs file
+  - status: Reviewed
+  - review: No issues found.
+- [PATCH 06/10] mm/damon/tests/core-kunit: test pause commitment
+  - status: Reviewed
+  - review: No issues found.
+- [PATCH 07/10] selftests/damon/_damon_sysfs: support pause file staging
+  - status: Reviewed
+  - review: No issues found.
+- [PATCH 08/10] selftests/damon/drgn_dump_damon_status: dump pause
+  - status: Reviewed
+  - review: No issues found.
+- [PATCH 09/10] selftests/damon/sysfs.py: check pause on assert_ctx_committed()
+  - status: Reviewed
+  - review: No issues found.
+- [PATCH 10/10] selftets/damon/sysfs.py: pause DAMON before dumping status
+  - status: Reviewed
 
-Yes, I can (did) observe that happening (horizontal slider bar).
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
-
-> Signed-off-by: Rito Rhymes <rito@ritovision.com>
-> ---
->  Documentation/conf.py                  |  1 +
->  Documentation/sphinx-static/custom.css | 16 ++++++++++++++
->  Documentation/sphinx/table_wrapper.py  | 30 ++++++++++++++++++++++++++
->  3 files changed, 47 insertions(+)
->  create mode 100644 Documentation/sphinx/table_wrapper.py
-
--- 
-~Randy
+# hkml [1] generated a draft of this mail.  It can be regenerated
+# using below command:
+#
+#     hkml patch sashiko_dev --thread_status --for_forwarding \
+#             20260321181343.93971-1-sj@kernel.org
+#
+# [1] https://github.com/sjp38/hackermail
