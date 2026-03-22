@@ -1,980 +1,911 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E17D6329C57;
-	Sun, 22 Mar 2026 13:15:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D04CE2BE644
+	for <linux-doc@vger.kernel.org>; Sun, 22 Mar 2026 15:53:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774185359; cv=none; b=RlWZnXm4xa5cHqleX+VjAhngVu5BlSHjckzeIDAGhXTeFIXOd2d69gcQ+X9xZT/PuHKvQASMaWy2vvHwLH6znl1ZzZE0p8k8olZ4tG9yGxVyELrQ6G0rT6VTiJGDECz2WbSkLYgqGGIILLOTU0ZN0PnxLfVh6uCydZ2tFPl/+5Q=
+	t=1774194797; cv=none; b=ht/ZW/BuEsgI4XcdsU/QVx0fnMZcCemjRUuE3CQ3VweXyKOsD57kQgk2Ouia2qTsGSWMKXCGaey7wDNQ6Lnmbp3B5eIMfr19CgzckR+1hxYLDYf3NCri39PkJA2MbNPnomzKE5GuMRh+GeeTr1/f5GwgjedfGI5cw7kWp3zxfNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774185359; c=relaxed/simple;
-	bh=VJwdCICo18xBWyjExrEtS1N8j00S8xqr3fyq5yvnVqM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lnVAOIVLKwEZRZuSAj64X2+I0Q8/cJYPocqw4iFnW1y1FV2d2aS8o2xAgWFUinJspQWqdO6ZhhgJKaVlCVPKtsDHNf9madnlLBcpYqDGWC8ahgUVOLwfje6Za5exr4suB7xTo4ovurytWdSulOloJ4gjnpBUk1i6/auO3sLUmx4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tAEpLZwT; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774194797; c=relaxed/simple;
+	bh=ntM1Hzl9NSb9tHpibj8P3zLZ+PNE2WelKmHDB0LSZL8=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=VMjpDtxtGqoS+YFC3D2MNH0aX49xEgCA++rHANFIbtbrsWXmYzYw3dX6taNbM82GPI9bsHmvNeEw4deMBx3ypsFDATBFPb3ZByrHg30sZOl45ea9e/sDZe6NywMPCZPKMmy3ndRF+O0ipppOV2hIhJEwopJg3a7UM5+tOmiAhbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SXW14kgC; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tAEpLZwT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBE6BC19424;
-	Sun, 22 Mar 2026 13:15:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774185358;
-	bh=VJwdCICo18xBWyjExrEtS1N8j00S8xqr3fyq5yvnVqM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=tAEpLZwTYa0f6ZT/0ohoRqeMiCrVLunBthVEMvn0IWE+hUSbE6+Mb6lh86lgCWa47
-	 TjgOpzdia6ASBCnIa5HLqNKJ9M3Sm43cAWbDBnhfCnyk/W+T6pxg1JelcczJV/E+vS
-	 8s1P1pSOm1XfIKiXyc/XXZqJIexoDbliebWgGLmtcZ1mn9HyPllivZopVOv7veFZU2
-	 Vkc3duyEEqluisF4BMiV6etfn8cGmEg8a+WSbNba9ouFWFIYmDwvIpzEzk3SJ5NXgb
-	 Dwp/xrZ6eSMkl68gajyBcZxvwCAhyd2z1cq7en7Sm1LMz/pJb5wQI9az2zJkJpvwKD
-	 mbZGcQMns12fg==
-From: Sasha Levin <sashal@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Richard Weinberger <richard@nod.at>,
-	Juergen Gross <jgross@suse.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	James Bottomley <James.Bottomley@HansenPartnership.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Greg KH <gregkh@linuxfoundation.org>,
-	Petr Mladek <pmladek@suse.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Kees Cook <kees@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Thorsten Leemhuis <linux@leemhuis.info>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Helge Deller <deller@gmx.de>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Vivian Wang <wangruikang@iscas.ac.cn>,
-	linux-kernel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	linux-modules@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH v4 4/4] kallsyms: add KUnit tests for lineinfo feature
-Date: Sun, 22 Mar 2026 09:15:43 -0400
-Message-ID: <20260322131543.971079-5-sashal@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260322131543.971079-1-sashal@kernel.org>
-References: <20260322131543.971079-1-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SXW14kgC"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-487035181a7so7716495e9.2
+        for <linux-doc@vger.kernel.org>; Sun, 22 Mar 2026 08:53:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1774194793; x=1774799593; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=PHNGU70N9+ja7t2Sr8WmnSEzu+wUwpmxlciBbvqcOsY=;
+        b=SXW14kgCT7bogtla+8MvNU5zBgVCqd//qwHG/hw/L2w0FJl3u4ohqyQb34/1gMi83E
+         X+1mo1PaxLGsifYGNacuue7+AXryLJ+9u6NW5OSFUDXzd4fF813bGquFKYaMzGtu25/P
+         bOwFPkBw8Ol8UvNQgPzV9wtIwrtQwe933SMGJh4v+XSlj4ip1BiJWiXnN4DqUBCk2vAB
+         B82QLsbhzr9wo8LM64Uo1pAngFixJ7BV9HhnJ8NCkjTkxwZ9sbdY0+I83aRrFl1zesWZ
+         Z67mEjaaxC7x1y3/oS9tSgdXbOqrDF42EIrCgrcyvEgqL0diAWWTGTgUgdFbs1Ox5bkd
+         q7EQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774194793; x=1774799593;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PHNGU70N9+ja7t2Sr8WmnSEzu+wUwpmxlciBbvqcOsY=;
+        b=JP7vsr+7D47at/UVinSvfUX2l69PYeiUt0Nee4qSV+h6ehP8qsEtKm8xOA0AL2Fzh6
+         n0VFzKIfrHL/w+7LFphQ7NdKIrjUD0hrvJcrGUGI/yWqGRgpyKa6ImVH16ItLmZCcNl8
+         bqLg0A92ZMmrOQORfV8cmiRY3Ppa55dDxP6PLBlYrauC6nUpqUEUyYfZ5nJq4GUZ3xwj
+         /duT165dgRLCTU2QcQ+JLBNXKtJh7v32/G3BvjjeJR8ibyIkE7ohJh20xXJW+UcAaUxC
+         UCdecyCioAy37ETQBNg9qJrWg34yjvho0CcUqtXmf+nSiYzor4hvhSIuQvtlojXAi9OX
+         ulEQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXihlff0J8y3f/G7wSyp6Rte243JTRUagcl9a2+2eRe0PV3Oo70U3TZPYteAZ5IYYch8SSJU10rSXQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyscDDCqbfR9ghEjRMUN3JFLyAL/c01Wpz6vg+i1PKT9t+8wuko
+	X+1TL57ZCaVlbyELzdy2ZXXMGxsqpiGR5QhdI9BdLmfLxmzLuY7h3xzZ
+X-Gm-Gg: ATEYQzw4ZdOH9GxdMCk/12tyFry0TITsVBpQ/c9SAR9XAN2G9TLUjVJlaBcuGxI2IpO
+	FMK6RklgJiEujia6r/KxNMKnTyQFEwkRAY//zpYPJPPrblP4V45OcsUOLunoFCLRNaaL9N9mRYw
+	yW0XtDEam+oSfXIeygI3Dq5I0w/GHI3jRdKEjvTuBAWoQpTAhbc8T+E0baobQGj/joYR8ih8JEk
+	w+79zadhEzJpOmIk831HfJ2LRm2y4JPpXnFNWPRU/rEFLcrxOoagPGtn1/kpi7WvAW8sMv1sTPU
+	+75Lz9ArnO34XWR3vrZ+S6Mas/5+FAsRuHh42jVv261P+3cWLh97VKCUSOqCmrhMEUvrRnNNEuQ
+	u2jO4sWtDof3XHBUZCXYOdyp9XY0nQTv0UKdjUA7T+ckNSnWCcXYm5TIGObWDxf300T3V3238bZ
+	QxNMAKKaljUjDCxJq1zeafAn0BlVnd02PFZkk=
+X-Received: by 2002:a05:600c:3e18:b0:486:fb69:4960 with SMTP id 5b1f17b1804b1-486fee0d56fmr133319905e9.19.1774194792726;
+        Sun, 22 Mar 2026 08:53:12 -0700 (PDT)
+Received: from [192.168.0.193] ([194.183.54.57])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486fe68ec05sm324013285e9.0.2026.03.22.08.53.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 22 Mar 2026 08:53:12 -0700 (PDT)
+Message-ID: <e43fc3be-7cee-432b-90cb-7fbc4af2fa68@gmail.com>
+Date: Sun, 22 Mar 2026 16:53:10 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+From: Jacek Anaszewski <jacek.anaszewski@gmail.com>
+Subject: Re: [RFC PATCH 1/1] leds: Introduce the multi_max_intensity sysfs
+ attribute
+To: Armin Wolf <W_Armin@gmx.de>, lee@kernel.org, pavel@kernel.org
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, linux-leds@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ wse@tuxedocomputers.com, pobrn@protonmail.com
+References: <20260314230107.65444-1-W_Armin@gmx.de>
+ <20260314230107.65444-2-W_Armin@gmx.de>
+Content-Language: en-US
+In-Reply-To: <20260314230107.65444-2-W_Armin@gmx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add a KUnit test module (CONFIG_LINEINFO_KUNIT_TEST) that verifies the
-kallsyms lineinfo feature produces correct source file:line annotations
-in stack traces.
+Hi Armin,
 
-Export sprint_backtrace() and sprint_backtrace_build_id() as GPL symbols
-so the test module can exercise the backtrace APIs.
+On 3/15/26 12:01 AM, Armin Wolf wrote:
+> Some multicolor LEDs support global brightness control in hardware,
+> meaning that the maximum intensity of the color components is not
+> connected to the maximum global brightness. Such LEDs cannot be
+> described properly by the current multicolor LED class interface,
+> because it assumes that the maximum intensity of each color component
+> is described by the maximum global brightness of the LED.
+> 
+> Fix this by introducing a new sysfs attribute called
+> "multi_max_intensity" holding the maximum intensity values for the
+> color components of a multicolor LED class device. Drivers can use
+> the new max_intensity field inside struct mc_subled to tell the
+> multicolor LED class code about those values. Intensity values written
+> by userspace applications will be limited to this maximum value.
+> 
+> Drivers for multicolor LEDs that do not support global brightness
+> control in hardware might still want to use the maximum global LED
+> brightness supplied via devicetree as the maximum intensity of each
+> individual color component. Such drivers should set max_intensity
+> to LED_USE_MAX_BRIGHTNESS so that the multicolor LED core can act
 
-Assisted-by: Claude:claude-opus-4-6
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- MAINTAINERS                |   1 +
- kernel/kallsyms.c          |   2 +
- lib/Kconfig.debug          |  10 +
- lib/tests/Makefile         |   3 +
- lib/tests/lineinfo_kunit.c | 813 +++++++++++++++++++++++++++++++++++++
- 5 files changed, 829 insertions(+)
- create mode 100644 lib/tests/lineinfo_kunit.c
+Since LED_USE_MAX_BRIGHTNESS value is 0, then I propose not to touch
+the drivers which we want to stick to the default max_intensity,
+unless they don't initialize their mc_subled structs to 0, or don't
+use struct initialization list, which in case the property is omitted,
+initializes it to 0.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 535e992ca5a20..118711f72b874 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -13733,6 +13733,7 @@ M:	Sasha Levin <sashal@kernel.org>
- S:	Maintained
- F:	Documentation/admin-guide/kallsyms-lineinfo.rst
- F:	include/linux/mod_lineinfo.h
-+F:	lib/tests/lineinfo_kunit.c
- F:	scripts/gen-mod-lineinfo.sh
- F:	scripts/gen_lineinfo.c
- 
-diff --git a/kernel/kallsyms.c b/kernel/kallsyms.c
-index 76e30cac3a277..e6f796d43dd70 100644
---- a/kernel/kallsyms.c
-+++ b/kernel/kallsyms.c
-@@ -625,6 +625,7 @@ int sprint_backtrace(char *buffer, unsigned long address)
- {
- 	return __sprint_symbol(buffer, address, -1, 1, 0);
- }
-+EXPORT_SYMBOL_GPL(sprint_backtrace);
- 
- /**
-  * sprint_backtrace_build_id - Look up a backtrace symbol and return it in a text buffer
-@@ -645,6 +646,7 @@ int sprint_backtrace_build_id(char *buffer, unsigned long address)
- {
- 	return __sprint_symbol(buffer, address, -1, 1, 1);
- }
-+EXPORT_SYMBOL_GPL(sprint_backtrace_build_id);
- 
- /* To avoid using get_symbol_offset for every symbol, we carry prefix along. */
- struct kallsym_iter {
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index 93f356d2b3d95..688bbcb3eaa62 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -3048,6 +3048,16 @@ config LONGEST_SYM_KUNIT_TEST
- 
- 	  If unsure, say N.
- 
-+config LINEINFO_KUNIT_TEST
-+	tristate "KUnit tests for kallsyms lineinfo" if !KUNIT_ALL_TESTS
-+	depends on KUNIT && KALLSYMS_LINEINFO
-+	default KUNIT_ALL_TESTS
-+	help
-+	  KUnit tests for the kallsyms source line info feature.
-+	  Verifies that stack traces include correct (file.c:line) annotations.
-+
-+	  If unsure, say N.
-+
- config HW_BREAKPOINT_KUNIT_TEST
- 	bool "Test hw_breakpoint constraints accounting" if !KUNIT_ALL_TESTS
- 	depends on HAVE_HW_BREAKPOINT
-diff --git a/lib/tests/Makefile b/lib/tests/Makefile
-index 05f74edbc62bf..c6add3b04bbd5 100644
---- a/lib/tests/Makefile
-+++ b/lib/tests/Makefile
-@@ -36,6 +36,9 @@ obj-$(CONFIG_LIVEUPDATE_TEST) += liveupdate.o
- CFLAGS_longest_symbol_kunit.o += $(call cc-disable-warning, missing-prototypes)
- obj-$(CONFIG_LONGEST_SYM_KUNIT_TEST) += longest_symbol_kunit.o
- 
-+CFLAGS_lineinfo_kunit.o += $(call cc-option,-fno-inline-functions-called-once)
-+obj-$(CONFIG_LINEINFO_KUNIT_TEST) += lineinfo_kunit.o
-+
- obj-$(CONFIG_MEMCPY_KUNIT_TEST) += memcpy_kunit.o
- obj-$(CONFIG_MIN_HEAP_KUNIT_TEST) += min_heap_kunit.o
- CFLAGS_overflow_kunit.o = $(call cc-disable-warning, tautological-constant-out-of-range-compare)
-diff --git a/lib/tests/lineinfo_kunit.c b/lib/tests/lineinfo_kunit.c
-new file mode 100644
-index 0000000000000..81696fa0000aa
---- /dev/null
-+++ b/lib/tests/lineinfo_kunit.c
-@@ -0,0 +1,813 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * KUnit tests for kallsyms lineinfo (CONFIG_KALLSYMS_LINEINFO).
-+ *
-+ * Copyright (c) 2026 Sasha Levin <sashal@kernel.org>
-+ *
-+ * Verifies that sprint_symbol() and related APIs append correct
-+ * " (file.c:NNN)" annotations to kernel symbol lookups.
-+ *
-+ * Build with: CONFIG_LINEINFO_KUNIT_TEST=m (or =y)
-+ * Run with:   ./tools/testing/kunit/kunit.py run lineinfo
-+ */
-+
-+#include <kunit/test.h>
-+#include <linux/kallsyms.h>
-+#include <linux/module.h>
-+#include <linux/smp.h>
-+#include <linux/string.h>
-+#include <linux/slab.h>
-+#include <linux/mod_lineinfo.h>
-+
-+/* --------------- helpers --------------- */
-+
-+static char *alloc_sym_buf(struct kunit *test)
-+{
-+	return kunit_kzalloc(test, KSYM_SYMBOL_LEN, GFP_KERNEL);
-+}
-+
-+/*
-+ * Return true if @buf contains a lineinfo annotation matching
-+ * the pattern " (<path>:<digits>)".
-+ *
-+ * The path may be a full path like "lib/tests/lineinfo_kunit.c" or
-+ * a shortened form from module lineinfo (e.g., just a directory name).
-+ */
-+static bool has_lineinfo(const char *buf)
-+{
-+	const char *p, *colon, *end;
-+
-+	p = strstr(buf, " (");
-+	if (!p)
-+		return false;
-+	p += 2; /* skip " (" */
-+
-+	colon = strchr(p, ':');
-+	if (!colon || colon == p)
-+		return false;
-+
-+	/* After colon: one or more digits then ')' */
-+	end = colon + 1;
-+	if (*end < '0' || *end > '9')
-+		return false;
-+	while (*end >= '0' && *end <= '9')
-+		end++;
-+	return *end == ')';
-+}
-+
-+/*
-+ * Extract line number from a lineinfo annotation.
-+ * Returns 0 if not found.
-+ */
-+static unsigned int extract_line(const char *buf)
-+{
-+	const char *p, *colon;
-+	unsigned int line = 0;
-+
-+	p = strstr(buf, " (");
-+	if (!p)
-+		return 0;
-+
-+	colon = strchr(p + 2, ':');
-+	if (!colon)
-+		return 0;
-+
-+	colon++;
-+	while (*colon >= '0' && *colon <= '9') {
-+		line = line * 10 + (*colon - '0');
-+		colon++;
-+	}
-+	return line;
-+}
-+
-+/*
-+ * Check if the lineinfo annotation contains the given filename substring.
-+ */
-+static bool lineinfo_contains_file(const char *buf, const char *name)
-+{
-+	const char *p, *colon;
-+
-+	p = strstr(buf, " (");
-+	if (!p)
-+		return false;
-+
-+	colon = strchr(p + 2, ':');
-+	if (!colon)
-+		return false;
-+
-+	/* Search for @name between '(' and ':' */
-+	return strnstr(p + 1, name, colon - p - 1) != NULL;
-+}
-+
-+/* --------------- target functions --------------- */
-+
-+static noinline int lineinfo_target_normal(void)
-+{
-+	barrier();
-+	return 42;
-+}
-+
-+static noinline int lineinfo_target_short(void)
-+{
-+	barrier();
-+	return 1;
-+}
-+
-+static noinline int lineinfo_target_with_arg(int x)
-+{
-+	barrier();
-+	return x + 1;
-+}
-+
-+static noinline int lineinfo_target_many_lines(void)
-+{
-+	int a = 0;
-+
-+	barrier();
-+	a += 1;
-+	a += 2;
-+	a += 3;
-+	a += 4;
-+	a += 5;
-+	a += 6;
-+	a += 7;
-+	a += 8;
-+	a += 9;
-+	a += 10;
-+	barrier();
-+	return a;
-+}
-+
-+static __always_inline int lineinfo_inline_helper(void)
-+{
-+	return 99;
-+}
-+
-+static noinline int lineinfo_inline_caller(void)
-+{
-+	barrier();
-+	return lineinfo_inline_helper();
-+}
-+
-+/* 10-deep call chain */
-+static noinline int lineinfo_chain_10(void) { barrier(); return 10; }
-+static noinline int lineinfo_chain_9(void)  { barrier(); return lineinfo_chain_10(); }
-+static noinline int lineinfo_chain_8(void)  { barrier(); return lineinfo_chain_9(); }
-+static noinline int lineinfo_chain_7(void)  { barrier(); return lineinfo_chain_8(); }
-+static noinline int lineinfo_chain_6(void)  { barrier(); return lineinfo_chain_7(); }
-+static noinline int lineinfo_chain_5(void)  { barrier(); return lineinfo_chain_6(); }
-+static noinline int lineinfo_chain_4(void)  { barrier(); return lineinfo_chain_5(); }
-+static noinline int lineinfo_chain_3(void)  { barrier(); return lineinfo_chain_4(); }
-+static noinline int lineinfo_chain_2(void)  { barrier(); return lineinfo_chain_3(); }
-+static noinline int lineinfo_chain_1(void)  { barrier(); return lineinfo_chain_2(); }
-+
-+/* --------------- Group A: Basic lineinfo presence --------------- */
-+
-+static void test_normal_function(struct kunit *test)
-+{
-+	char *buf = alloc_sym_buf(test);
-+	unsigned long addr = (unsigned long)lineinfo_target_normal;
-+
-+	sprint_symbol(buf, addr);
-+	KUNIT_EXPECT_TRUE_MSG(test, has_lineinfo(buf),
-+			      "No lineinfo in: %s", buf);
-+	KUNIT_EXPECT_TRUE_MSG(test,
-+			      lineinfo_contains_file(buf, "lineinfo_kunit.c"),
-+			      "Wrong file in: %s", buf);
-+}
-+
-+static void test_static_function(struct kunit *test)
-+{
-+	char *buf = alloc_sym_buf(test);
-+	unsigned long addr = (unsigned long)lineinfo_target_short;
-+
-+	sprint_symbol(buf, addr);
-+	KUNIT_EXPECT_TRUE_MSG(test, has_lineinfo(buf),
-+			      "No lineinfo in: %s", buf);
-+}
-+
-+static void test_noinline_function(struct kunit *test)
-+{
-+	char *buf = alloc_sym_buf(test);
-+	unsigned long addr = (unsigned long)lineinfo_target_with_arg;
-+
-+	sprint_symbol(buf, addr);
-+	KUNIT_EXPECT_TRUE_MSG(test, has_lineinfo(buf),
-+			      "No lineinfo in: %s", buf);
-+}
-+
-+static void test_inline_function(struct kunit *test)
-+{
-+	char *buf = alloc_sym_buf(test);
-+	unsigned long addr = (unsigned long)lineinfo_inline_caller;
-+
-+	sprint_symbol(buf, addr);
-+	KUNIT_EXPECT_TRUE_MSG(test, has_lineinfo(buf),
-+			      "No lineinfo for inline caller in: %s", buf);
-+	KUNIT_EXPECT_TRUE_MSG(test,
-+			      lineinfo_contains_file(buf, "lineinfo_kunit.c"),
-+			      "Wrong file in: %s", buf);
-+}
-+
-+static void test_short_function(struct kunit *test)
-+{
-+	char *buf = alloc_sym_buf(test);
-+	unsigned long addr = (unsigned long)lineinfo_target_short;
-+
-+	sprint_symbol(buf, addr);
-+	KUNIT_EXPECT_TRUE_MSG(test, has_lineinfo(buf),
-+			      "No lineinfo for short function in: %s", buf);
-+}
-+
-+static void test_many_lines_function(struct kunit *test)
-+{
-+	char *buf = alloc_sym_buf(test);
-+	unsigned long addr = (unsigned long)lineinfo_target_many_lines;
-+	unsigned int line;
-+
-+	sprint_symbol(buf, addr);
-+	KUNIT_EXPECT_TRUE_MSG(test, has_lineinfo(buf),
-+			      "No lineinfo in: %s", buf);
-+	line = extract_line(buf);
-+	KUNIT_EXPECT_GT_MSG(test, line, (unsigned int)0,
-+			    "Line number should be > 0 in: %s", buf);
-+}
-+
-+/* --------------- Group B: Deep call chain --------------- */
-+
-+typedef int (*chain_fn_t)(void);
-+
-+static void test_deep_call_chain(struct kunit *test)
-+{
-+	static const chain_fn_t chain_fns[] = {
-+		lineinfo_chain_1,  lineinfo_chain_2,
-+		lineinfo_chain_3,  lineinfo_chain_4,
-+		lineinfo_chain_5,  lineinfo_chain_6,
-+		lineinfo_chain_7,  lineinfo_chain_8,
-+		lineinfo_chain_9,  lineinfo_chain_10,
-+	};
-+	char *buf = alloc_sym_buf(test);
-+	int i, found = 0;
-+
-+	/* Call chain to prevent dead-code elimination */
-+	KUNIT_ASSERT_EQ(test, lineinfo_chain_1(), 10);
-+
-+	for (i = 0; i < ARRAY_SIZE(chain_fns); i++) {
-+		unsigned long addr = (unsigned long)chain_fns[i];
-+
-+		sprint_symbol(buf, addr);
-+		if (has_lineinfo(buf))
-+			found++;
-+	}
-+
-+	/*
-+	 * Not every tiny function gets DWARF line info (compiler may
-+	 * omit it for very small stubs), but at least some should.
-+	 */
-+	KUNIT_EXPECT_GT_MSG(test, found, 0,
-+			    "None of the 10 chain functions had lineinfo");
-+}
-+
-+/* --------------- Group C: sprint_symbol API variants --------------- */
-+
-+static void test_sprint_symbol_format(struct kunit *test)
-+{
-+	char *buf = alloc_sym_buf(test);
-+	unsigned long addr = (unsigned long)lineinfo_target_normal;
-+
-+	sprint_symbol(buf, addr);
-+
-+	/* Should contain +0x and /0x for offset/size */
-+	KUNIT_EXPECT_NOT_NULL_MSG(test, strstr(buf, "+0x"),
-+				  "Missing offset in: %s", buf);
-+	KUNIT_EXPECT_NOT_NULL_MSG(test, strstr(buf, "/0x"),
-+				  "Missing size in: %s", buf);
-+	KUNIT_EXPECT_TRUE_MSG(test, has_lineinfo(buf),
-+			      "No lineinfo in: %s", buf);
-+}
-+
-+static void test_sprint_backtrace(struct kunit *test)
-+{
-+	char *buf = alloc_sym_buf(test);
-+	unsigned long addr = (unsigned long)lineinfo_target_normal;
-+
-+	/* sprint_backtrace subtracts 1 internally to handle tail calls */
-+	sprint_backtrace(buf, addr + 1);
-+	KUNIT_EXPECT_TRUE_MSG(test, has_lineinfo(buf),
-+			      "No lineinfo in backtrace: %s", buf);
-+	KUNIT_EXPECT_TRUE_MSG(test,
-+			      lineinfo_contains_file(buf, "lineinfo_kunit.c"),
-+			      "Wrong file in backtrace: %s", buf);
-+}
-+
-+static void test_sprint_backtrace_build_id(struct kunit *test)
-+{
-+	char *buf = alloc_sym_buf(test);
-+	unsigned long addr = (unsigned long)lineinfo_target_normal;
-+
-+	sprint_backtrace_build_id(buf, addr + 1);
-+	KUNIT_EXPECT_TRUE_MSG(test, has_lineinfo(buf),
-+			      "No lineinfo in backtrace_build_id: %s", buf);
-+}
-+
-+static void test_sprint_symbol_no_offset(struct kunit *test)
-+{
-+	char *buf = alloc_sym_buf(test);
-+	unsigned long addr = (unsigned long)lineinfo_target_normal;
-+
-+	sprint_symbol_no_offset(buf, addr);
-+	/* No "+0x" in output */
-+	KUNIT_EXPECT_NULL_MSG(test, strstr(buf, "+0x"),
-+			      "Unexpected offset in no_offset: %s", buf);
-+	KUNIT_EXPECT_TRUE_MSG(test, has_lineinfo(buf),
-+			      "No lineinfo in no_offset: %s", buf);
-+}
-+
-+/* --------------- Group D: printk format specifiers --------------- */
-+
-+static void test_pS_format(struct kunit *test)
-+{
-+	char *buf = alloc_sym_buf(test);
-+	void *addr = lineinfo_target_normal;
-+
-+	snprintf(buf, KSYM_SYMBOL_LEN, "%pS", addr);
-+	KUNIT_EXPECT_TRUE_MSG(test, has_lineinfo(buf),
-+			      "No lineinfo in %%pS: %s", buf);
-+}
-+
-+static void test_pBb_format(struct kunit *test)
-+{
-+	char *buf = alloc_sym_buf(test);
-+	/*
-+	 * %pBb uses sprint_backtrace_build_id which subtracts 1 from the
-+	 * address, so pass addr+1 to resolve back to the function.
-+	 */
-+	void *addr = (void *)((unsigned long)lineinfo_target_normal + 1);
-+
-+	snprintf(buf, KSYM_SYMBOL_LEN, "%pBb", addr);
-+	KUNIT_EXPECT_TRUE_MSG(test, has_lineinfo(buf),
-+			      "No lineinfo in %%pBb: %s", buf);
-+}
-+
-+static void test_pSR_format(struct kunit *test)
-+{
-+	char *buf = alloc_sym_buf(test);
-+	void *addr = lineinfo_target_normal;
-+
-+	snprintf(buf, KSYM_SYMBOL_LEN, "%pSR", addr);
-+	KUNIT_EXPECT_TRUE_MSG(test, has_lineinfo(buf),
-+			      "No lineinfo in %%pSR: %s", buf);
-+}
-+
-+/* --------------- Group E: Address edge cases --------------- */
-+
-+static void test_symbol_start_addr(struct kunit *test)
-+{
-+	char *buf = alloc_sym_buf(test);
-+	unsigned long addr = (unsigned long)lineinfo_target_normal;
-+
-+	sprint_symbol(buf, addr);
-+	KUNIT_EXPECT_NOT_NULL_MSG(test, strstr(buf, "+0x0/"),
-+				  "Expected +0x0/ at function start: %s", buf);
-+	KUNIT_EXPECT_TRUE_MSG(test, has_lineinfo(buf),
-+			      "No lineinfo at function start: %s", buf);
-+}
-+
-+static void test_symbol_nonzero_offset(struct kunit *test)
-+{
-+	char *buf = alloc_sym_buf(test);
-+	unsigned long addr = (unsigned long)lineinfo_target_normal;
-+
-+	/*
-+	 * sprint_backtrace subtracts 1 internally.
-+	 * Passing addr+2 resolves to addr+1 which is inside the function
-+	 * at a non-zero offset.
-+	 */
-+	sprint_backtrace(buf, addr + 2);
-+	KUNIT_EXPECT_TRUE_MSG(test,
-+			      strnstr(buf, "lineinfo_target_normal",
-+				      KSYM_SYMBOL_LEN) != NULL,
-+			      "Didn't resolve to expected function: %s", buf);
-+	KUNIT_EXPECT_TRUE_MSG(test, has_lineinfo(buf),
-+			      "No lineinfo at non-zero offset: %s", buf);
-+}
-+
-+static void test_unknown_address(struct kunit *test)
-+{
-+	char *buf = alloc_sym_buf(test);
-+
-+	sprint_symbol(buf, 1UL);
-+	/* Should be "0x1" with no lineinfo */
-+	KUNIT_EXPECT_NOT_NULL_MSG(test, strstr(buf, "0x1"),
-+				  "Expected hex address for bogus addr: %s", buf);
-+	KUNIT_EXPECT_FALSE_MSG(test, has_lineinfo(buf),
-+			       "Unexpected lineinfo for bogus addr: %s", buf);
-+}
-+
-+static void test_kernel_function_lineinfo(struct kunit *test)
-+{
-+	char *buf = alloc_sym_buf(test);
-+	unsigned long addr = (unsigned long)sprint_symbol;
-+
-+	sprint_symbol(buf, addr);
-+	KUNIT_EXPECT_TRUE_MSG(test, has_lineinfo(buf),
-+			      "No lineinfo for sprint_symbol: %s", buf);
-+	KUNIT_EXPECT_TRUE_MSG(test,
-+			      lineinfo_contains_file(buf, "kallsyms.c"),
-+			      "Expected kallsyms.c in: %s", buf);
-+}
-+
-+static void test_assembly_no_lineinfo(struct kunit *test)
-+{
-+#if IS_BUILTIN(CONFIG_LINEINFO_KUNIT_TEST)
-+	char *buf = alloc_sym_buf(test);
-+	unsigned long addr = (unsigned long)_text;
-+
-+	sprint_symbol(buf, addr);
-+	/*
-+	 * _text is typically an asm entry point with no DWARF line info.
-+	 * If it has lineinfo, it's a C-based entry — skip in that case.
-+	 */
-+	if (has_lineinfo(buf))
-+		kunit_skip(test, "_text has lineinfo (C entry?): %s", buf);
-+
-+	KUNIT_EXPECT_FALSE_MSG(test, has_lineinfo(buf),
-+			       "Unexpected lineinfo for asm symbol: %s", buf);
-+#else
-+	kunit_skip(test, "_text not accessible from modules");
-+#endif
-+}
-+
-+/* --------------- Group F: Module path --------------- */
-+
-+static void test_module_function_lineinfo(struct kunit *test)
-+{
-+	char *buf = alloc_sym_buf(test);
-+	unsigned long addr = (unsigned long)lineinfo_target_normal;
-+
-+	if (!IS_MODULE(CONFIG_LINEINFO_KUNIT_TEST)) {
-+		kunit_skip(test, "Test only meaningful when built as module");
-+		return;
-+	}
-+
-+	sprint_symbol(buf, addr);
-+	KUNIT_EXPECT_NOT_NULL_MSG(test,
-+				  strstr(buf, "[lineinfo_kunit"),
-+				  "Missing module name in: %s", buf);
-+	KUNIT_EXPECT_TRUE_MSG(test, has_lineinfo(buf),
-+			      "No lineinfo for module function: %s", buf);
-+	KUNIT_EXPECT_TRUE_MSG(test,
-+			      lineinfo_contains_file(buf, "lineinfo_kunit.c"),
-+			      "Wrong file for module function: %s", buf);
-+}
-+
-+/* --------------- Group G: Stress --------------- */
-+
-+struct lineinfo_stress_data {
-+	unsigned long addr;
-+	atomic_t failures;
-+};
-+
-+static void lineinfo_stress_fn(void *info)
-+{
-+	struct lineinfo_stress_data *data = info;
-+	char buf[KSYM_SYMBOL_LEN];
-+	int i;
-+
-+	for (i = 0; i < 100; i++) {
-+		sprint_symbol(buf, data->addr);
-+		if (!has_lineinfo(buf))
-+			atomic_inc(&data->failures);
-+	}
-+}
-+
-+static void test_concurrent_sprint_symbol(struct kunit *test)
-+{
-+	struct lineinfo_stress_data data;
-+
-+	data.addr = (unsigned long)lineinfo_target_normal;
-+	atomic_set(&data.failures, 0);
-+
-+	on_each_cpu(lineinfo_stress_fn, &data, 1);
-+
-+	KUNIT_EXPECT_EQ_MSG(test, atomic_read(&data.failures), 0,
-+			    "Concurrent lineinfo failures detected");
-+}
-+
-+static void test_rapid_sprint_symbol(struct kunit *test)
-+{
-+	char *buf = alloc_sym_buf(test);
-+	unsigned long addr = (unsigned long)lineinfo_target_normal;
-+	int i, failures = 0;
-+
-+	for (i = 0; i < 1000; i++) {
-+		sprint_symbol(buf, addr);
-+		if (!has_lineinfo(buf))
-+			failures++;
-+	}
-+
-+	KUNIT_EXPECT_EQ_MSG(test, failures, 0,
-+			    "Rapid sprint_symbol failures: %d/1000", failures);
-+}
-+
-+/* --------------- Group H: Safety and plausibility --------------- */
-+
-+static void test_line_number_plausible(struct kunit *test)
-+{
-+	char *buf = alloc_sym_buf(test);
-+	unsigned long addr = (unsigned long)lineinfo_target_normal;
-+	unsigned int line;
-+
-+	sprint_symbol(buf, addr);
-+	KUNIT_ASSERT_TRUE(test, has_lineinfo(buf));
-+
-+	line = extract_line(buf);
-+	KUNIT_EXPECT_GT_MSG(test, line, (unsigned int)0,
-+			    "Line number should be > 0");
-+	KUNIT_EXPECT_LT_MSG(test, line, (unsigned int)10000,
-+			    "Line number %u implausibly large for this file",
-+			    line);
-+}
-+
-+static void test_buffer_no_overflow(struct kunit *test)
-+{
-+	const size_t canary_size = 16;
-+	char *buf;
-+	int i;
-+
-+	buf = kunit_kzalloc(test, KSYM_SYMBOL_LEN + canary_size, GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, buf);
-+
-+	/* Fill canary area past KSYM_SYMBOL_LEN with 0xAA */
-+	memset(buf + KSYM_SYMBOL_LEN, 0xAA, canary_size);
-+
-+	sprint_symbol(buf, (unsigned long)lineinfo_target_normal);
-+
-+	/* Verify canary bytes are untouched */
-+	for (i = 0; i < canary_size; i++) {
-+		KUNIT_EXPECT_EQ_MSG(test,
-+				    (unsigned char)buf[KSYM_SYMBOL_LEN + i],
-+				    (unsigned char)0xAA,
-+				    "Buffer overflow at offset %d past KSYM_SYMBOL_LEN",
-+				    i);
-+	}
-+}
-+
-+static void test_dump_stack_no_crash(struct kunit *test)
-+{
-+	/* Just verify dump_stack() completes without panic */
-+	dump_stack();
-+	KUNIT_SUCCEED(test);
-+}
-+
-+static void test_sprint_symbol_build_id(struct kunit *test)
-+{
-+	char *buf = alloc_sym_buf(test);
-+	unsigned long addr = (unsigned long)lineinfo_target_normal;
-+
-+	sprint_symbol_build_id(buf, addr);
-+	KUNIT_EXPECT_TRUE_MSG(test, has_lineinfo(buf),
-+			      "No lineinfo in sprint_symbol_build_id: %s", buf);
-+}
-+
-+static void test_sleb128_edge_cases(struct kunit *test)
-+{
-+	u32 pos;
-+	int32_t result;
-+
-+	/* Value 0: single byte 0x00 */
-+	{
-+		static const u8 data[] = { 0x00 };
-+
-+		pos = 0;
-+		result = lineinfo_read_sleb128(data, &pos, sizeof(data));
-+		KUNIT_EXPECT_EQ(test, result, (int32_t)0);
-+		KUNIT_EXPECT_EQ(test, pos, (u32)1);
-+	}
-+
-+	/* Value -1: single byte 0x7F */
-+	{
-+		static const u8 data[] = { 0x7f };
-+
-+		pos = 0;
-+		result = lineinfo_read_sleb128(data, &pos, sizeof(data));
-+		KUNIT_EXPECT_EQ(test, result, (int32_t)-1);
-+		KUNIT_EXPECT_EQ(test, pos, (u32)1);
-+	}
-+
-+	/* Value 1: single byte 0x01 */
-+	{
-+		static const u8 data[] = { 0x01 };
-+
-+		pos = 0;
-+		result = lineinfo_read_sleb128(data, &pos, sizeof(data));
-+		KUNIT_EXPECT_EQ(test, result, (int32_t)1);
-+		KUNIT_EXPECT_EQ(test, pos, (u32)1);
-+	}
-+
-+	/* Value -64: single byte 0x40 */
-+	{
-+		static const u8 data[] = { 0x40 };
-+
-+		pos = 0;
-+		result = lineinfo_read_sleb128(data, &pos, sizeof(data));
-+		KUNIT_EXPECT_EQ(test, result, (int32_t)-64);
-+		KUNIT_EXPECT_EQ(test, pos, (u32)1);
-+	}
-+
-+	/* Value 63: single byte 0x3F */
-+	{
-+		static const u8 data[] = { 0x3f };
-+
-+		pos = 0;
-+		result = lineinfo_read_sleb128(data, &pos, sizeof(data));
-+		KUNIT_EXPECT_EQ(test, result, (int32_t)63);
-+		KUNIT_EXPECT_EQ(test, pos, (u32)1);
-+	}
-+
-+	/* Value -128: two bytes 0x80 0x7F */
-+	{
-+		static const u8 data[] = { 0x80, 0x7f };
-+
-+		pos = 0;
-+		result = lineinfo_read_sleb128(data, &pos, sizeof(data));
-+		KUNIT_EXPECT_EQ(test, result, (int32_t)-128);
-+		KUNIT_EXPECT_EQ(test, pos, (u32)2);
-+	}
-+}
-+
-+static void test_uleb128_edge_cases(struct kunit *test)
-+{
-+	u32 pos, result;
-+
-+	/* Value 0: single byte 0x00 */
-+	{
-+		static const u8 data[] = { 0x00 };
-+
-+		pos = 0;
-+		result = lineinfo_read_uleb128(data, &pos, sizeof(data));
-+		KUNIT_EXPECT_EQ(test, result, (u32)0);
-+		KUNIT_EXPECT_EQ(test, pos, (u32)1);
-+	}
-+
-+	/* Value 127: single byte 0x7F */
-+	{
-+		static const u8 data[] = { 0x7F };
-+
-+		pos = 0;
-+		result = lineinfo_read_uleb128(data, &pos, sizeof(data));
-+		KUNIT_EXPECT_EQ(test, result, (u32)127);
-+		KUNIT_EXPECT_EQ(test, pos, (u32)1);
-+	}
-+
-+	/* Value 128: two bytes 0x80 0x01 */
-+	{
-+		static const u8 data[] = { 0x80, 0x01 };
-+
-+		pos = 0;
-+		result = lineinfo_read_uleb128(data, &pos, sizeof(data));
-+		KUNIT_EXPECT_EQ(test, result, (u32)128);
-+		KUNIT_EXPECT_EQ(test, pos, (u32)2);
-+	}
-+
-+	/* Max u32 0xFFFFFFFF: 5 bytes */
-+	{
-+		static const u8 data[] = { 0xFF, 0xFF, 0xFF, 0xFF, 0x0F };
-+
-+		pos = 0;
-+		result = lineinfo_read_uleb128(data, &pos, sizeof(data));
-+		KUNIT_EXPECT_EQ(test, result, (u32)0xFFFFFFFF);
-+		KUNIT_EXPECT_EQ(test, pos, (u32)5);
-+	}
-+
-+	/* Truncated input: pos >= end returns 0 */
-+	{
-+		static const u8 data[] = { 0x80 };
-+
-+		pos = 0;
-+		result = lineinfo_read_uleb128(data, &pos, 0);
-+		KUNIT_EXPECT_EQ_MSG(test, result, (u32)0,
-+				    "Expected 0 for empty input");
-+	}
-+
-+	/* Truncated mid-varint: continuation byte but end reached */
-+	{
-+		static const u8 data[] = { 0x80 };
-+
-+		pos = 0;
-+		result = lineinfo_read_uleb128(data, &pos, 1);
-+		KUNIT_EXPECT_EQ_MSG(test, result, (u32)0,
-+				    "Expected 0 for truncated varint");
-+		KUNIT_EXPECT_EQ(test, pos, (u32)1);
-+	}
-+}
-+
-+static void test_line_number_accuracy(struct kunit *test)
-+{
-+	char *buf = alloc_sym_buf(test);
-+	unsigned long addr = (unsigned long)lineinfo_target_normal;
-+	unsigned int line;
-+
-+	sprint_symbol(buf, addr);
-+	KUNIT_ASSERT_TRUE(test, has_lineinfo(buf));
-+
-+	line = extract_line(buf);
-+
-+	/*
-+	 * lineinfo_target_normal is defined around line 103-107.
-+	 * Allow wide range: KASAN instrumentation and module lineinfo
-+	 * address mapping can shift the reported line significantly.
-+	 */
-+	KUNIT_EXPECT_GE_MSG(test, line, (unsigned int)50,
-+			    "Line %u too low for lineinfo_target_normal", line);
-+	KUNIT_EXPECT_LE_MSG(test, line, (unsigned int)300,
-+			    "Line %u too high for lineinfo_target_normal", line);
-+}
-+
-+static void test_many_lines_mid_function(struct kunit *test)
-+{
-+	char *buf = alloc_sym_buf(test);
-+	unsigned long addr = (unsigned long)lineinfo_target_many_lines;
-+	unsigned int line;
-+	unsigned long mid_addr;
-+
-+	/* Get function size from sprint_symbol output */
-+	sprint_symbol(buf, addr);
-+	KUNIT_ASSERT_TRUE(test, has_lineinfo(buf));
-+
-+	/* Try an address 8 bytes into the function (past prologue) */
-+	mid_addr = addr + 8;
-+	sprint_symbol(buf, mid_addr);
-+
-+	/*
-+	 * Should still resolve to lineinfo_target_many_lines.
-+	 * Lineinfo should be present with a plausible line number.
-+	 */
-+	KUNIT_EXPECT_TRUE_MSG(test,
-+			      strnstr(buf, "lineinfo_target_many_lines",
-+				      KSYM_SYMBOL_LEN) != NULL,
-+			      "Mid-function addr resolved to wrong symbol: %s",
-+			      buf);
-+	if (has_lineinfo(buf)) {
-+		line = extract_line(buf);
-+		KUNIT_EXPECT_GE_MSG(test, line, (unsigned int)50,
-+				    "Line %u too low for mid-function", line);
-+		KUNIT_EXPECT_LE_MSG(test, line, (unsigned int)700,
-+				    "Line %u too high for mid-function", line);
-+	}
-+}
-+
-+/* --------------- Suite registration --------------- */
-+
-+static struct kunit_case lineinfo_test_cases[] = {
-+	/* Group A: Basic lineinfo presence */
-+	KUNIT_CASE(test_normal_function),
-+	KUNIT_CASE(test_static_function),
-+	KUNIT_CASE(test_noinline_function),
-+	KUNIT_CASE(test_inline_function),
-+	KUNIT_CASE(test_short_function),
-+	KUNIT_CASE(test_many_lines_function),
-+	/* Group B: Deep call chain */
-+	KUNIT_CASE(test_deep_call_chain),
-+	/* Group C: sprint_symbol API variants */
-+	KUNIT_CASE(test_sprint_symbol_format),
-+	KUNIT_CASE(test_sprint_backtrace),
-+	KUNIT_CASE(test_sprint_backtrace_build_id),
-+	KUNIT_CASE(test_sprint_symbol_no_offset),
-+	/* Group D: printk format specifiers */
-+	KUNIT_CASE(test_pS_format),
-+	KUNIT_CASE(test_pBb_format),
-+	KUNIT_CASE(test_pSR_format),
-+	/* Group E: Address edge cases */
-+	KUNIT_CASE(test_symbol_start_addr),
-+	KUNIT_CASE(test_symbol_nonzero_offset),
-+	KUNIT_CASE(test_unknown_address),
-+	KUNIT_CASE(test_kernel_function_lineinfo),
-+	KUNIT_CASE(test_assembly_no_lineinfo),
-+	/* Group F: Module path */
-+	KUNIT_CASE(test_module_function_lineinfo),
-+	/* Group G: Stress */
-+	KUNIT_CASE_SLOW(test_concurrent_sprint_symbol),
-+	KUNIT_CASE_SLOW(test_rapid_sprint_symbol),
-+	/* Group H: Safety and plausibility */
-+	KUNIT_CASE(test_line_number_plausible),
-+	KUNIT_CASE(test_buffer_no_overflow),
-+	KUNIT_CASE(test_dump_stack_no_crash),
-+	KUNIT_CASE(test_sprint_symbol_build_id),
-+	/* Group I: Encoding/decoding and accuracy */
-+	KUNIT_CASE(test_sleb128_edge_cases),
-+	KUNIT_CASE(test_uleb128_edge_cases),
-+	KUNIT_CASE(test_line_number_accuracy),
-+	KUNIT_CASE(test_many_lines_mid_function),
-+	{}
-+};
-+
-+static struct kunit_suite lineinfo_test_suite = {
-+	.name = "lineinfo",
-+	.test_cases = lineinfo_test_cases,
-+};
-+kunit_test_suites(&lineinfo_test_suite);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_DESCRIPTION("KUnit tests for kallsyms lineinfo");
-+MODULE_AUTHOR("Sasha Levin");
+> accordingly.
+> 
+> Compile-tested only.
+> 
+> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
+> ---
+>   .../ABI/testing/sysfs-class-led-multicolor    | 16 +++++++--
+>   Documentation/leds/leds-class-multicolor.rst  | 21 ++++++++++-
+>   drivers/hid/hid-lg-g15.c                      |  3 ++
+>   drivers/hid/hid-playstation.c                 |  3 ++
+>   drivers/leds/flash/leds-mt6360.c              |  8 ++---
+>   drivers/leds/led-class-multicolor.c           | 36 +++++++++++++++++--
+>   drivers/leds/leds-blinkm.c                    |  3 ++
+>   drivers/leds/leds-cros_ec.c                   |  1 +
+>   drivers/leds/leds-lp50xx.c                    |  1 +
+>   drivers/leds/leds-lp55xx-common.c             |  7 ++--
+>   drivers/leds/leds-max77705.c                  |  1 +
+>   drivers/leds/leds-sun50i-a100.c               |  3 ++
+>   drivers/leds/leds-turris-omnia.c              |  1 +
+>   drivers/leds/rgb/leds-group-multicolor.c      |  1 +
+>   drivers/leds/rgb/leds-ktd202x.c               |  1 +
+>   drivers/leds/rgb/leds-lp5812.c                |  1 +
+>   drivers/leds/rgb/leds-mt6370-rgb.c            |  8 ++---
+>   drivers/leds/rgb/leds-ncp5623.c               |  4 +--
+>   drivers/leds/rgb/leds-pwm-multicolor.c        |  1 +
+>   drivers/leds/rgb/leds-qcom-lpg.c              |  1 +
+>   drivers/platform/x86/silicom-platform.c       | 30 ++++++++++++++++
+>   drivers/platform/x86/uniwill/uniwill-acpi.c   |  4 +--
+>   include/linux/led-class-multicolor.h          | 32 ++++++++++++++++-
+>   23 files changed, 164 insertions(+), 23 deletions(-)
+> 
+> diff --git a/Documentation/ABI/testing/sysfs-class-led-multicolor b/Documentation/ABI/testing/sysfs-class-led-multicolor
+> index 16fc827b10cb..fbd95c5003e2 100644
+> --- a/Documentation/ABI/testing/sysfs-class-led-multicolor
+> +++ b/Documentation/ABI/testing/sysfs-class-led-multicolor
+> @@ -17,8 +17,20 @@ KernelVersion:	5.9
+>   Contact:	Dan Murphy <dmurphy@ti.com>
+>   Description:	read/write
+>   		This file contains array of integers. Order of components is
+> -		described by the multi_index array. The maximum intensity should
+> -		not exceed /sys/class/leds/<led>/max_brightness.
+> +		described by the multi_index array.
+> +		For additional details please refer to
+> +		Documentation/leds/leds-class-multicolor.rst.
+
+Why not to refer to the newly introduced multi_max_intensity file here
+instead?
+
+> +
+> +What:		/sys/class/leds/<led>/multi_max_intensity
+> +Date:		March 2026
+> +KernelVersion:	7.1
+> +Contact:	Armin Wolf <W_Armin@gmx.de>
+> +Description:	read
+> +		This file contains an array of integers describing the maximum
+> +		intensity value for each intensity component. Writing intensity
+> +		values larger than the maximum value of a given component will
+> +		result in those values being clamped.
+>   
+>   		For additional details please refer to
+>   		Documentation/leds/leds-class-multicolor.rst.
+> diff --git a/Documentation/leds/leds-class-multicolor.rst b/Documentation/leds/leds-class-multicolor.rst
+> index c6b47b4093c4..8f42f10078ad 100644
+> --- a/Documentation/leds/leds-class-multicolor.rst
+> +++ b/Documentation/leds/leds-class-multicolor.rst
+> @@ -25,10 +25,14 @@ color name to indexed value.
+>   The ``multi_index`` file is an array that contains the string list of the colors as
+>   they are defined in each ``multi_*`` array file.
+>   
+> -The ``multi_intensity`` is an array that can be read or written to for the
+> +The ``multi_intensity`` file is an array that can be read or written to for the
+>   individual color intensities.  All elements within this array must be written in
+>   order for the color LED intensities to be updated.
+>   
+> +The ``multi_max_intensity`` file is an array that contains the maximum intensity
+> +value supported by each color intensity. Intensity values above this will be
+> +automatically clamped into the supported range.
+> +
+>   Directory Layout Example
+>   ========================
+>   .. code-block:: console
+> @@ -38,6 +42,7 @@ Directory Layout Example
+>       -r--r--r--    1 root     root          4096 Oct 19 16:16 max_brightness
+>       -r--r--r--    1 root     root          4096 Oct 19 16:16 multi_index
+>       -rw-r--r--    1 root     root          4096 Oct 19 16:16 multi_intensity
+> +    -r--r--r--    1 root     root          4096 OCt 19 16:16 multi_max_intensity
+>   
+>   ..
+>   
+> @@ -104,3 +109,17 @@ the color LED group.
+>       128
+>   
+>   ..
+> +
+> +Writing intensity values larger than the maximum specified in ``multi_max_intensity``
+> +will result in those values being clamped into the supported range.
+> +
+> +.. code-block:: console
+> +
+> +   # cat /sys/class/leds/multicolor:status/multi_max_intensity
+> +   255 255 255
+> +
+> +   # echo 512 512 512 > /sys/class/leds/multicolor:status/multi_intensity
+> +   # cat /sys/class/leds/multicolor:status/multi_intensity
+> +   255 255 255
+> +
+> +..
+> diff --git a/drivers/hid/hid-lg-g15.c b/drivers/hid/hid-lg-g15.c
+> index 1a88bc44ada4..227f50b21c06 100644
+> --- a/drivers/hid/hid-lg-g15.c
+> +++ b/drivers/hid/hid-lg-g15.c
+> @@ -975,14 +975,17 @@ static void lg_g15_setup_led_rgb(struct lg_g15_data *g15, int index)
+>   		case LED_COLOR_ID_RED:
+>   			subled_info[i].color_index = LED_COLOR_ID_RED;
+>   			subled_info[i].intensity = gled->red;
+> +			subled_info[i].max_intensity = LED_USE_MAX_BRIGHTNESS;
+>   			break;
+>   		case LED_COLOR_ID_GREEN:
+>   			subled_info[i].color_index = LED_COLOR_ID_GREEN;
+>   			subled_info[i].intensity = gled->green;
+> +			subled_info[i].max_intensity = LED_USE_MAX_BRIGHTNESS;
+>   			break;
+>   		case LED_COLOR_ID_BLUE:
+>   			subled_info[i].color_index = LED_COLOR_ID_BLUE;
+>   			subled_info[i].intensity = gled->blue;
+> +			subled_info[i].max_intensity = LED_USE_MAX_BRIGHTNESS;
+>   			break;
+>   		}
+>   		subled_info[i].channel = i;
+> diff --git a/drivers/hid/hid-playstation.c b/drivers/hid/hid-playstation.c
+> index 3c0db8f93c82..a6de4dd49750 100644
+> --- a/drivers/hid/hid-playstation.c
+> +++ b/drivers/hid/hid-playstation.c
+> @@ -874,8 +874,11 @@ static int ps_lightbar_register(struct ps_device *ps_dev, struct led_classdev_mc
+>   		return -ENOMEM;
+>   
+>   	mc_led_info[0].color_index = LED_COLOR_ID_RED;
+> +	mc_led_info[0].max_intensity = LED_USE_MAX_BRIGHTNESS;
+>   	mc_led_info[1].color_index = LED_COLOR_ID_GREEN;
+> +	mc_led_info[1].max_intensity = LED_USE_MAX_BRIGHTNESS;
+>   	mc_led_info[2].color_index = LED_COLOR_ID_BLUE;
+> +	mc_led_info[2].max_intensity = LED_USE_MAX_BRIGHTNESS;
+>   
+>   	lightbar_mc_dev->subled_info = mc_led_info;
+>   	lightbar_mc_dev->num_colors = 3;
+> diff --git a/drivers/leds/flash/leds-mt6360.c b/drivers/leds/flash/leds-mt6360.c
+> index 462a902f54e0..f0331cbec6aa 100644
+> --- a/drivers/leds/flash/leds-mt6360.c
+> +++ b/drivers/leds/flash/leds-mt6360.c
+> @@ -100,7 +100,7 @@ static int mt6360_mc_brightness_set(struct led_classdev *lcdev,
+>   	struct led_classdev_mc *mccdev = lcdev_to_mccdev(lcdev);
+>   	struct mt6360_led *led = container_of(mccdev, struct mt6360_led, mc);
+>   	struct mt6360_priv *priv = led->priv;
+> -	u32 real_bright, enable_mask = 0, enable = 0;
+> +	u32 enable_mask = 0, enable = 0;
+>   	int i, ret;
+>   
+>   	mutex_lock(&priv->lock);
+> @@ -110,14 +110,13 @@ static int mt6360_mc_brightness_set(struct led_classdev *lcdev,
+>   	for (i = 0; i < mccdev->num_colors; i++) {
+>   		struct mc_subled *subled = mccdev->subled_info + i;
+>   
+> -		real_bright = min(lcdev->max_brightness, subled->brightness);
+>   		ret = regmap_update_bits(priv->regmap, MT6360_REG_ISNK(i),
+> -					 MT6360_ISNK_MASK, real_bright);
+> +					 MT6360_ISNK_MASK, subled->brightness);
+>   		if (ret)
+>   			goto out;
+>   
+>   		enable_mask |= MT6360_ISNK_ENMASK(subled->channel);
+> -		if (real_bright)
+> +		if (subled->brightness)
+>   			enable |= MT6360_ISNK_ENMASK(subled->channel);
+>   	}
+>   
+> @@ -660,6 +659,7 @@ static int mt6360_init_isnk_properties(struct mt6360_led *led,
+>   			priv->leds_active |= BIT(reg);
+>   			sub_led[num_color].color_index = color;
+>   			sub_led[num_color].channel = reg;
+> +			sub_led[num_color].max_intensity = LED_USE_MAX_BRIGHTNESS;
+>   			num_color++;
+>   		}
+>   
+> diff --git a/drivers/leds/led-class-multicolor.c b/drivers/leds/led-class-multicolor.c
+> index 6b671f3f9c61..72323e825331 100644
+> --- a/drivers/leds/led-class-multicolor.c
+> +++ b/drivers/leds/led-class-multicolor.c
+> @@ -7,6 +7,7 @@
+>   #include <linux/init.h>
+>   #include <linux/led-class-multicolor.h>
+>   #include <linux/math.h>
+> +#include <linux/minmax.h>
+>   #include <linux/module.h>
+>   #include <linux/slab.h>
+>   #include <linux/uaccess.h>
+> @@ -27,6 +28,30 @@ int led_mc_calc_color_components(struct led_classdev_mc *mcled_cdev,
+>   }
+>   EXPORT_SYMBOL_GPL(led_mc_calc_color_components);
+>   
+> +static ssize_t multi_max_intensity_show(struct device *dev,
+> +					struct device_attribute *intensity_attr, char *buf)
+> +{
+> +	struct led_classdev *led_cdev = dev_get_drvdata(dev);
+> +	struct led_classdev_mc *mcled_cdev = lcdev_to_mccdev(led_cdev);
+> +	unsigned int max_intensity;
+> +	int len = 0;
+> +	int i;
+> +
+> +	for (i = 0; i < mcled_cdev->num_colors; i++) {
+> +		max_intensity = mcled_cdev->subled_info[i].max_intensity;
+> +		if (max_intensity == LED_USE_MAX_BRIGHTNESS)
+> +			max_intensity = led_cdev->max_brightness;
+> +
+> +		len += sprintf(buf + len, "%u", max_intensity);
+> +		if (i < mcled_cdev->num_colors - 1)
+> +			len += sprintf(buf + len, " ");
+> +	}
+> +
+> +	buf[len++] = '\n';
+> +	return len;
+> +}
+> +static DEVICE_ATTR_RO(multi_max_intensity);
+> +
+>   static ssize_t multi_intensity_store(struct device *dev,
+>   				struct device_attribute *intensity_attr,
+>   				const char *buf, size_t size)
+> @@ -35,6 +60,7 @@ static ssize_t multi_intensity_store(struct device *dev,
+>   	struct led_classdev_mc *mcled_cdev = lcdev_to_mccdev(led_cdev);
+>   	int nrchars, offset = 0;
+>   	unsigned int intensity_value[LED_COLOR_ID_MAX];
+> +	unsigned int max_intensity;
+>   	int i;
+>   	ssize_t ret;
+>   
+> @@ -56,8 +82,13 @@ static ssize_t multi_intensity_store(struct device *dev,
+>   		goto err_out;
+>   	}
+>   
+> -	for (i = 0; i < mcled_cdev->num_colors; i++)
+> -		mcled_cdev->subled_info[i].intensity = intensity_value[i];
+> +	for (i = 0; i < mcled_cdev->num_colors; i++) {
+> +		max_intensity = mcled_cdev->subled_info[i].max_intensity;
+> +		if (max_intensity == LED_USE_MAX_BRIGHTNESS)
+> +			max_intensity = led_cdev->max_brightness;
+> +
+> +		mcled_cdev->subled_info[i].intensity = min(intensity_value[i], max_intensity);
+> +	}
+>   
+>   	if (!test_bit(LED_BLINK_SW, &led_cdev->work_flags))
+>   		led_set_brightness(led_cdev, led_cdev->brightness);
+> @@ -111,6 +142,7 @@ static ssize_t multi_index_show(struct device *dev,
+>   static DEVICE_ATTR_RO(multi_index);
+>   
+>   static struct attribute *led_multicolor_attrs[] = {
+> +	&dev_attr_multi_max_intensity.attr,
+>   	&dev_attr_multi_intensity.attr,
+>   	&dev_attr_multi_index.attr,
+>   	NULL,
+> diff --git a/drivers/leds/leds-blinkm.c b/drivers/leds/leds-blinkm.c
+> index 577497b9d426..7d1140767c76 100644
+> --- a/drivers/leds/leds-blinkm.c
+> +++ b/drivers/leds/leds-blinkm.c
+> @@ -694,8 +694,11 @@ static int register_multicolor(struct i2c_client *client, struct blinkm_data *da
+>   		return -ENOMEM;
+>   
+>   	mc_led_info[RED].color_index = LED_COLOR_ID_RED;
+> +	mc_led_info[RED].max_intensity = LED_USE_MAX_BRIGHTNESS;
+>   	mc_led_info[GREEN].color_index = LED_COLOR_ID_GREEN;
+> +	mc_led_info[GREEN].max_intensity = LED_USE_MAX_BRIGHTNESS;
+>   	mc_led_info[BLUE].color_index = LED_COLOR_ID_BLUE;
+> +	mc_led_info[BLUE].max_intensity = LED_USE_MAX_BRIGHTNESS;
+>   
+>   	mc_led->cdev.mcled_cdev.subled_info = mc_led_info;
+>   	mc_led->cdev.mcled_cdev.num_colors = NUM_LEDS;
+> diff --git a/drivers/leds/leds-cros_ec.c b/drivers/leds/leds-cros_ec.c
+> index bea3cc3fbfd2..b891471812ff 100644
+> --- a/drivers/leds/leds-cros_ec.c
+> +++ b/drivers/leds/leds-cros_ec.c
+> @@ -202,6 +202,7 @@ static int cros_ec_led_probe_one(struct device *dev, struct cros_ec_device *cros
+>   			continue;
+>   
+>   		subleds[subled].color_index = cros_ec_led_to_linux_id[i];
+> +		subleds[subled].max_intensity = LED_USE_MAX_BRIGHTNESS;
+>   		if (subled == 0)
+>   			subleds[subled].intensity = 100;
+>   		subled++;
+> diff --git a/drivers/leds/leds-lp50xx.c b/drivers/leds/leds-lp50xx.c
+> index e2a9c8592953..69c3550f1a31 100644
+> --- a/drivers/leds/leds-lp50xx.c
+> +++ b/drivers/leds/leds-lp50xx.c
+> @@ -525,6 +525,7 @@ static int lp50xx_probe_dt(struct lp50xx *priv)
+>   			}
+>   
+>   			mc_led_info[multi_index].color_index = color_id;
+> +			mc_led_info[multi_index].max_intensity = 255;
+>   			num_colors++;
+>   		}
+>   
+> diff --git a/drivers/leds/leds-lp55xx-common.c b/drivers/leds/leds-lp55xx-common.c
+> index ea131177de96..f637e74e8780 100644
+> --- a/drivers/leds/leds-lp55xx-common.c
+> +++ b/drivers/leds/leds-lp55xx-common.c
+> @@ -495,10 +495,9 @@ static int lp55xx_init_led(struct lp55xx_led *led,
+>   		led_cdev->brightness_set_blocking = lp55xx_set_mc_brightness;
+>   		led->mc_cdev.num_colors = pdata->led_config[chan].num_colors;
+>   		for (i = 0; i < led->mc_cdev.num_colors; i++) {
+> -			mc_led_info[i].color_index =
+> -				pdata->led_config[chan].color_id[i];
+> -			mc_led_info[i].channel =
+> -					pdata->led_config[chan].output_num[i];
+> +			mc_led_info[i].color_index = pdata->led_config[chan].color_id[i];
+> +			mc_led_info[i].channel = pdata->led_config[chan].output_num[i];
+> +			mc_led_info[i].max_intensity = LED_USE_MAX_BRIGHTNESS;
+>   		}
+>   
+>   		led->mc_cdev.subled_info = mc_led_info;
+> diff --git a/drivers/leds/leds-max77705.c b/drivers/leds/leds-max77705.c
+> index 1e2054c1bf80..bd2c078b42f3 100644
+> --- a/drivers/leds/leds-max77705.c
+> +++ b/drivers/leds/leds-max77705.c
+> @@ -149,6 +149,7 @@ static int max77705_parse_subled(struct device *dev, struct fwnode_handle *np,
+>   				     "failed to parse \"color\" of %pOF\n", np);
+>   
+>   	info->color_index = color;
+> +	info->max_intensity = LED_USE_MAX_BRIGHTNESS;
+>   
+>   	return 0;
+>   }
+> diff --git a/drivers/leds/leds-sun50i-a100.c b/drivers/leds/leds-sun50i-a100.c
+> index 2c9bd360ab81..6e77cbcb8b54 100644
+> --- a/drivers/leds/leds-sun50i-a100.c
+> +++ b/drivers/leds/leds-sun50i-a100.c
+> @@ -504,10 +504,13 @@ static int sun50i_a100_ledc_probe(struct platform_device *pdev)
+>   		fwnode_property_read_u32(child, "reg", &led->addr);
+>   
+>   		led->subled_info[0].color_index = LED_COLOR_ID_RED;
+> +		led->subled_info[0].max_intensity = LED_USE_MAX_BRIGHTNESS;
+>   		led->subled_info[0].channel = 0;
+>   		led->subled_info[1].color_index = LED_COLOR_ID_GREEN;
+> +		led->subled_info[1].max_intensity = LED_USE_MAX_BRIGHTNESS;
+>   		led->subled_info[1].channel = 1;
+>   		led->subled_info[2].color_index = LED_COLOR_ID_BLUE;
+> +		led->subled_info[2].max_intensity = LED_USE_MAX_BRIGHTNESS;
+>   		led->subled_info[2].channel = 2;
+>   
+>   		led->mc_cdev.num_colors = ARRAY_SIZE(led->subled_info);
+> diff --git a/drivers/leds/leds-turris-omnia.c b/drivers/leds/leds-turris-omnia.c
+> index 25ee5c1eb820..fc41891fe971 100644
+> --- a/drivers/leds/leds-turris-omnia.c
+> +++ b/drivers/leds/leds-turris-omnia.c
+> @@ -233,6 +233,7 @@ static int omnia_led_register(struct i2c_client *client, struct omnia_led *led,
+>   	/* Initial color is white */
+>   	for (int i = 0; i < OMNIA_LED_NUM_CHANNELS; ++i) {
+>   		led->subled_info[i].intensity = 255;
+> +		led->subled_info[i].max_intensity = LED_USE_MAX_BRIGHTNESS;
+>   		led->subled_info[i].brightness = 255;
+>   		led->subled_info[i].channel = i;
+>   	}
+> diff --git a/drivers/leds/rgb/leds-group-multicolor.c b/drivers/leds/rgb/leds-group-multicolor.c
+> index 548c7dd63ba1..c472ccbd506e 100644
+> --- a/drivers/leds/rgb/leds-group-multicolor.c
+> +++ b/drivers/leds/rgb/leds-group-multicolor.c
+> @@ -111,6 +111,7 @@ static int leds_gmc_probe(struct platform_device *pdev)
+>   
+>   		/* Configure the LED intensity to its maximum */
+>   		subled[i].intensity = max_brightness;
+> +		subled[i].max_intensity = LED_USE_MAX_BRIGHTNESS;
+>   	}
+>   
+>   	/* Initialise the multicolor's LED class device */
+> diff --git a/drivers/leds/rgb/leds-ktd202x.c b/drivers/leds/rgb/leds-ktd202x.c
+> index e4f0f25a5e45..4b054175b3b5 100644
+> --- a/drivers/leds/rgb/leds-ktd202x.c
+> +++ b/drivers/leds/rgb/leds-ktd202x.c
+> @@ -423,6 +423,7 @@ static int ktd202x_setup_led_rgb(struct ktd202x *chip, struct fwnode_handle *fwn
+>   		info[i].color_index = mono_color;
+>   		info[i].channel = reg;
+>   		info[i].intensity = KTD202X_MAX_BRIGHTNESS;
+> +		info[i].max_intensity = LED_USE_MAX_BRIGHTNESS;
+>   		i++;
+>   	}
+>   
+> diff --git a/drivers/leds/rgb/leds-lp5812.c b/drivers/leds/rgb/leds-lp5812.c
+> index ce6d703641e8..61fa8df493fb 100644
+> --- a/drivers/leds/rgb/leds-lp5812.c
+> +++ b/drivers/leds/rgb/leds-lp5812.c
+> @@ -353,6 +353,7 @@ static int lp5812_init_led(struct lp5812_led *led, struct lp5812_chip *chip, int
+>   		for (i = 0; i < led->mc_cdev.num_colors; i++) {
+>   			mc_led_info[i].color_index = chip->led_config[chan].color_id[i];
+>   			mc_led_info[i].channel = chip->led_config[chan].led_id[i];
+> +			mc_led_info[i].max_intensity = LED_USE_MAX_BRIGHTNESS;
+>   		}
+>   
+>   		led->mc_cdev.subled_info = mc_led_info;
+> diff --git a/drivers/leds/rgb/leds-mt6370-rgb.c b/drivers/leds/rgb/leds-mt6370-rgb.c
+> index c5927d0eb830..ea11ca9d3326 100644
+> --- a/drivers/leds/rgb/leds-mt6370-rgb.c
+> +++ b/drivers/leds/rgb/leds-mt6370-rgb.c
+> @@ -437,10 +437,7 @@ static int mt6370_mc_brightness_set(struct led_classdev *lcdev, enum led_brightn
+>   	disable = enable;
+>   
+>   	for (i = 0; i < mccdev->num_colors; i++) {
+> -		u32 brightness;
+> -
+>   		subled = mccdev->subled_info + i;
+> -		brightness = min(subled->brightness, lcdev->max_brightness);
+>   		disable &= ~MT6370_CHEN_BIT(subled->channel);
+>   
+>   		if (level == 0) {
+> @@ -453,14 +450,14 @@ static int mt6370_mc_brightness_set(struct led_classdev *lcdev, enum led_brightn
+>   			continue;
+>   		}
+>   
+> -		if (brightness == 0) {
+> +		if (subled->brightness == 0) {
+>   			enable &= ~MT6370_CHEN_BIT(subled->channel);
+>   			continue;
+>   		}
+>   
+>   		enable |= MT6370_CHEN_BIT(subled->channel);
+>   
+> -		ret = mt6370_set_led_brightness(priv, subled->channel, brightness);
+> +		ret = mt6370_set_led_brightness(priv, subled->channel, subled->brightness);
+>   		if (ret)
+>   			goto out_unlock;
+>   	}
+> @@ -742,6 +739,7 @@ static int mt6370_assign_multicolor_info(struct device *dev, struct mt6370_led *
+>   		sub_led[num_color].color_index = color;
+>   		sub_led[num_color].channel = reg;
+>   		sub_led[num_color].intensity = 0;
+> +		sub_led[num_color].max_intensity = LED_USE_MAX_BRIGHTNESS;
+>   		num_color++;
+>   	}
+>   
+> diff --git a/drivers/leds/rgb/leds-ncp5623.c b/drivers/leds/rgb/leds-ncp5623.c
+> index 85d6be6fff2b..f2528f06507d 100644
+> --- a/drivers/leds/rgb/leds-ncp5623.c
+> +++ b/drivers/leds/rgb/leds-ncp5623.c
+> @@ -56,8 +56,7 @@ static int ncp5623_brightness_set(struct led_classdev *cdev,
+>   	for (int i = 0; i < mc_cdev->num_colors; i++) {
+>   		ret = ncp5623_write(ncp->client,
+>   				    NCP5623_PWM_REG(mc_cdev->subled_info[i].channel),
+> -				    min(mc_cdev->subled_info[i].intensity,
+> -					NCP5623_MAX_BRIGHTNESS));
+> +				    mc_cdev->subled_info[i].intensity);
+>   		if (ret)
+>   			return ret;
+>   	}
+> @@ -190,6 +189,7 @@ static int ncp5623_probe(struct i2c_client *client)
+>   			goto release_led_node;
+>   
+>   		subled_info[ncp->mc_dev.num_colors].channel = reg;
+> +		subled_info[ncp->mc_dev.num_colors].max_intensity = NCP5623_MAX_BRIGHTNESS;
+>   		subled_info[ncp->mc_dev.num_colors++].color_index = color_index;
+>   	}
+>   
+> diff --git a/drivers/leds/rgb/leds-pwm-multicolor.c b/drivers/leds/rgb/leds-pwm-multicolor.c
+> index e0d7d3c9215c..578e67dcc881 100644
+> --- a/drivers/leds/rgb/leds-pwm-multicolor.c
+> +++ b/drivers/leds/rgb/leds-pwm-multicolor.c
+> @@ -95,6 +95,7 @@ static int iterate_subleds(struct device *dev, struct pwm_mc_led *priv,
+>   		}
+>   
+>   		subled[priv->mc_cdev.num_colors].color_index = color;
+> +		subled[priv->mc_cdev.num_colors].max_intensity = LED_USE_MAX_BRIGHTNESS;
+>   		priv->mc_cdev.num_colors++;
+>   	}
+>   
+> diff --git a/drivers/leds/rgb/leds-qcom-lpg.c b/drivers/leds/rgb/leds-qcom-lpg.c
+> index f6061c47f863..390dcbe1cd18 100644
+> --- a/drivers/leds/rgb/leds-qcom-lpg.c
+> +++ b/drivers/leds/rgb/leds-qcom-lpg.c
+> @@ -1411,6 +1411,7 @@ static int lpg_add_led(struct lpg *lpg, struct device_node *np)
+>   
+>   			info[i].color_index = led->channels[i]->color;
+>   			info[i].intensity = 0;
+> +			info[i].max_intensity = LED_USE_MAX_BRIGHTNESS;
+>   			i++;
+>   		}
+>   
+> diff --git a/drivers/platform/x86/silicom-platform.c b/drivers/platform/x86/silicom-platform.c
+> index 266f7bc5e416..5ed115b7dc01 100644
+> --- a/drivers/platform/x86/silicom-platform.c
+> +++ b/drivers/platform/x86/silicom-platform.c
+> @@ -283,18 +283,21 @@ static struct mc_subled plat_0222_wan_mc_subled_info[] __initdata = {
+>   		.color_index = LED_COLOR_ID_WHITE,
+>   		.brightness = 1,
+>   		.intensity = 0,
+> +		.max_intensity = LED_USE_MAX_BRIGHTNESS,
+>   		.channel = OFFSET_BIT_TO_CHANNEL(0x0c, 7),
+>   	},
+>   	{
+>   		.color_index = LED_COLOR_ID_YELLOW,
+>   		.brightness = 1,
+>   		.intensity = 0,
+> +		.max_intensity = LED_USE_MAX_BRIGHTNESS,
+>   		.channel = OFFSET_BIT_TO_CHANNEL(0x0c, 6),
+>   	},
+>   	{
+>   		.color_index = LED_COLOR_ID_RED,
+>   		.brightness = 1,
+>   		.intensity = 0,
+> +		.max_intensity = LED_USE_MAX_BRIGHTNESS,
+>   		.channel = OFFSET_BIT_TO_CHANNEL(0x0c, 5),
+>   	},
+>   };
+> @@ -304,18 +307,21 @@ static struct mc_subled plat_0222_sys_mc_subled_info[] __initdata = {
+>   		.color_index = LED_COLOR_ID_WHITE,
+>   		.brightness = 1,
+>   		.intensity = 0,
+> +		.max_intensity = LED_USE_MAX_BRIGHTNESS,
+>   		.channel = OFFSET_BIT_TO_CHANNEL(0x0c, 4),
+>   	},
+>   	{
+>   		.color_index = LED_COLOR_ID_AMBER,
+>   		.brightness = 1,
+>   		.intensity = 0,
+> +		.max_intensity = LED_USE_MAX_BRIGHTNESS,
+>   		.channel = OFFSET_BIT_TO_CHANNEL(0x0c, 3),
+>   	},
+>   	{
+>   		.color_index = LED_COLOR_ID_RED,
+>   		.brightness = 1,
+>   		.intensity = 0,
+> +		.max_intensity = LED_USE_MAX_BRIGHTNESS,
+>   		.channel = OFFSET_BIT_TO_CHANNEL(0x0c, 2),
+>   	},
+>   };
+> @@ -325,24 +331,28 @@ static struct mc_subled plat_0222_stat1_mc_subled_info[] __initdata = {
+>   		.color_index = LED_COLOR_ID_RED,
+>   		.brightness = 1,
+>   		.intensity = 0,
+> +		.max_intensity = LED_USE_MAX_BRIGHTNESS,
+>   		.channel = OFFSET_BIT_TO_CHANNEL(0x0c, 1),
+>   	},
+>   	{
+>   		.color_index = LED_COLOR_ID_GREEN,
+>   		.brightness = 1,
+>   		.intensity = 0,
+> +		.max_intensity = LED_USE_MAX_BRIGHTNESS,
+>   		.channel = OFFSET_BIT_TO_CHANNEL(0x0c, 0),
+>   	},
+>   	{
+>   		.color_index = LED_COLOR_ID_BLUE,
+>   		.brightness = 1,
+>   		.intensity = 0,
+> +		.max_intensity = LED_USE_MAX_BRIGHTNESS,
+>   		.channel = OFFSET_BIT_TO_CHANNEL(0x0d, 7),
+>   	},
+>   	{
+>   		.color_index = LED_COLOR_ID_YELLOW,
+>   		.brightness = 1,
+>   		.intensity = 0,
+> +		.max_intensity = LED_USE_MAX_BRIGHTNESS,
+>   		.channel = OFFSET_BIT_TO_CHANNEL(0x0d, 6),
+>   	},
+>   };
+> @@ -352,24 +362,28 @@ static struct mc_subled plat_0222_stat2_mc_subled_info[] __initdata = {
+>   		.color_index = LED_COLOR_ID_RED,
+>   		.brightness = 1,
+>   		.intensity = 0,
+> +		.max_intensity = LED_USE_MAX_BRIGHTNESS,
+>   		.channel = OFFSET_BIT_TO_CHANNEL(0x0d, 5),
+>   	},
+>   	{
+>   		.color_index = LED_COLOR_ID_GREEN,
+>   		.brightness = 1,
+>   		.intensity = 0,
+> +		.max_intensity = LED_USE_MAX_BRIGHTNESS,
+>   		.channel = OFFSET_BIT_TO_CHANNEL(0x0d, 4),
+>   	},
+>   	{
+>   		.color_index = LED_COLOR_ID_BLUE,
+>   		.brightness = 1,
+>   		.intensity = 0,
+> +		.max_intensity = LED_USE_MAX_BRIGHTNESS,
+>   		.channel = OFFSET_BIT_TO_CHANNEL(0x0d, 3),
+>   	},
+>   	{
+>   		.color_index = LED_COLOR_ID_YELLOW,
+>   		.brightness = 1,
+>   		.intensity = 0,
+> +		.max_intensity = LED_USE_MAX_BRIGHTNESS,
+>   		.channel = OFFSET_BIT_TO_CHANNEL(0x0d, 2),
+>   	},
+>   };
+> @@ -379,24 +393,28 @@ static struct mc_subled plat_0222_stat3_mc_subled_info[] __initdata = {
+>   		.color_index = LED_COLOR_ID_RED,
+>   		.brightness = 1,
+>   		.intensity = 0,
+> +		.max_intensity = LED_USE_MAX_BRIGHTNESS,
+>   		.channel = OFFSET_BIT_TO_CHANNEL(0x0d, 1),
+>   	},
+>   	{
+>   		.color_index = LED_COLOR_ID_GREEN,
+>   		.brightness = 1,
+>   		.intensity = 0,
+> +		.max_intensity = LED_USE_MAX_BRIGHTNESS,
+>   		.channel = OFFSET_BIT_TO_CHANNEL(0x0d, 0),
+>   	},
+>   	{
+>   		.color_index = LED_COLOR_ID_BLUE,
+>   		.brightness = 1,
+>   		.intensity = 0,
+> +		.max_intensity = LED_USE_MAX_BRIGHTNESS,
+>   		.channel = OFFSET_BIT_TO_CHANNEL(0x0e, 1),
+>   	},
+>   	{
+>   		.color_index = LED_COLOR_ID_YELLOW,
+>   		.brightness = 1,
+>   		.intensity = 0,
+> +		.max_intensity = LED_USE_MAX_BRIGHTNESS,
+>   		.channel = OFFSET_BIT_TO_CHANNEL(0x0e, 0),
+>   	},
+>   };
+> @@ -497,24 +515,28 @@ static struct mc_subled cordoba_fp_left_mc_subled_info[] __initdata = {
+>   		.color_index = LED_COLOR_ID_RED,
+>   		.brightness = 1,
+>   		.intensity = 0,
+> +		.max_intensity = LED_USE_MAX_BRIGHTNESS,
+>   		.channel = OFFSET_BIT_TO_CHANNEL(0x08, 6),
+>   	},
+>   	{
+>   		.color_index = LED_COLOR_ID_GREEN,
+>   		.brightness = 1,
+>   		.intensity = 0,
+> +		.max_intensity = LED_USE_MAX_BRIGHTNESS,
+>   		.channel = OFFSET_BIT_TO_CHANNEL(0x08, 5),
+>   	},
+>   	{
+>   		.color_index = LED_COLOR_ID_BLUE,
+>   		.brightness = 1,
+>   		.intensity = 0,
+> +		.max_intensity = LED_USE_MAX_BRIGHTNESS,
+>   		.channel = OFFSET_BIT_TO_CHANNEL(0x09, 7),
+>   	},
+>   	{
+>   		.color_index = LED_COLOR_ID_AMBER,
+>   		.brightness = 1,
+>   		.intensity = 0,
+> +		.max_intensity = LED_USE_MAX_BRIGHTNESS,
+>   		.channel = OFFSET_BIT_TO_CHANNEL(0x09, 4),
+>   	},
+>   };
+> @@ -524,24 +546,28 @@ static struct mc_subled cordoba_fp_center_mc_subled_info[] __initdata = {
+>   		.color_index = LED_COLOR_ID_RED,
+>   		.brightness = 1,
+>   		.intensity = 0,
+> +		.max_intensity = LED_USE_MAX_BRIGHTNESS,
+>   		.channel = OFFSET_BIT_TO_CHANNEL(0x08, 7),
+>   	},
+>   	{
+>   		.color_index = LED_COLOR_ID_GREEN,
+>   		.brightness = 1,
+>   		.intensity = 0,
+> +		.max_intensity = LED_USE_MAX_BRIGHTNESS,
+>   		.channel = OFFSET_BIT_TO_CHANNEL(0x08, 4),
+>   	},
+>   	{
+>   		.color_index = LED_COLOR_ID_BLUE,
+>   		.brightness = 1,
+>   		.intensity = 0,
+> +		.max_intensity = LED_USE_MAX_BRIGHTNESS,
+>   		.channel = OFFSET_BIT_TO_CHANNEL(0x08, 3),
+>   	},
+>   	{
+>   		.color_index = LED_COLOR_ID_AMBER,
+>   		.brightness = 1,
+>   		.intensity = 0,
+> +		.max_intensity = LED_USE_MAX_BRIGHTNESS,
+>   		.channel = OFFSET_BIT_TO_CHANNEL(0x09, 6),
+>   	},
+>   };
+> @@ -551,24 +577,28 @@ static struct mc_subled cordoba_fp_right_mc_subled_info[] __initdata = {
+>   		.color_index = LED_COLOR_ID_RED,
+>   		.brightness = 1,
+>   		.intensity = 0,
+> +		.max_intensity = LED_USE_MAX_BRIGHTNESS,
+>   		.channel = OFFSET_BIT_TO_CHANNEL(0x08, 2),
+>   	},
+>   	{
+>   		.color_index = LED_COLOR_ID_GREEN,
+>   		.brightness = 1,
+>   		.intensity = 0,
+> +		.max_intensity = LED_USE_MAX_BRIGHTNESS,
+>   		.channel = OFFSET_BIT_TO_CHANNEL(0x08, 1),
+>   	},
+>   	{
+>   		.color_index = LED_COLOR_ID_BLUE,
+>   		.brightness = 1,
+>   		.intensity = 0,
+> +		.max_intensity = LED_USE_MAX_BRIGHTNESS,
+>   		.channel = OFFSET_BIT_TO_CHANNEL(0x08, 0),
+>   	},
+>   	{
+>   		.color_index = LED_COLOR_ID_AMBER,
+>   		.brightness = 1,
+>   		.intensity = 0,
+> +		.max_intensity = LED_USE_MAX_BRIGHTNESS,
+>   		.channel = OFFSET_BIT_TO_CHANNEL(0x09, 5),
+>   	},
+>   };
+> diff --git a/drivers/platform/x86/uniwill/uniwill-acpi.c b/drivers/platform/x86/uniwill/uniwill-acpi.c
+> index fee93537aa43..9468a93f7a59 100644
+> --- a/drivers/platform/x86/uniwill/uniwill-acpi.c
+> +++ b/drivers/platform/x86/uniwill/uniwill-acpi.c
+> @@ -1082,8 +1082,7 @@ static int uniwill_led_brightness_set(struct led_classdev *led_cdev, enum led_br
+>   	guard(mutex)(&data->led_lock);
+>   
+>   	for (int i = 0; i < LED_CHANNELS; i++) {
+> -		/* Prevent the brightness values from overflowing */
+> -		value = min(LED_MAX_BRIGHTNESS, data->led_mc_subled_info[i].brightness);
+> +		value = data->led_mc_subled_info[i].brightness;
+>   		ret = regmap_write(data->regmap, uniwill_led_channel_to_ac_reg[i], value);
+>   		if (ret < 0)
+>   			return ret;
+> @@ -1182,6 +1181,7 @@ static int uniwill_led_init(struct uniwill_data *data)
+>   			return ret;
+>   
+>   		data->led_mc_subled_info[i].intensity = value;
+> +		data->led_mc_subled_info[i].max_intensity = LED_USE_MAX_BRIGHTNESS;
+>   		data->led_mc_subled_info[i].channel = i;
+>   	}
+>   
+> diff --git a/include/linux/led-class-multicolor.h b/include/linux/led-class-multicolor.h
+> index db9f34c6736e..67ac0ac0fd54 100644
+> --- a/include/linux/led-class-multicolor.h
+> +++ b/include/linux/led-class-multicolor.h
+> @@ -9,10 +9,33 @@
+>   #include <linux/leds.h>
+>   #include <dt-bindings/leds/common.h>
+>   
+> +#define LED_USE_MAX_BRIGHTNESS 0
+> +
+> +/**
+> + * struct mc_subled - Color component description.
+> + * @color_index: Color ID.
+> + * @brightness: Scaled intensity.
+> + * @intensity: Current intensity.
+> + * @max_intensity: Maximum supported intensity value.
+> + * @channel: Channel index.
+> + *
+> + * Describes a color component of a multicolor LED. Many multicolor LEDs
+> + * do no support gobal brightness control in hardware, so they use
+> + * the brightness field in connection with led_mc_calc_color_components()
+> + * to perform the intensity scaling in software.
+> + * Such drivers should set max_intensity to LED_USE_MAX_BRIGHTNESS
+
+I'd just mention here that the field needs to be left initialized to 0,
+to let the LED subsystem to adjust it to max_brightness. Note that in
+case of max_brightness we allow for the same - if it is 0, then
+led-class.c adjusts it to legacy LED_FULL (255).
+
+
+> + * to signal the multicolor LED core that the maximum global brightness of the
+> + * LED class device should be used for limiting incoming intensity values.
+> + *
+> + * Multicolor LEDs that do support global brightness control in hardware
+> + * should instead set max_intensity to the maximum intensity value supported
+> + * by the hardware for a given color component.
+> + */
+>   struct mc_subled {
+>   	unsigned int color_index;
+>   	unsigned int brightness;
+>   	unsigned int intensity;
+> +	unsigned int max_intensity;
+>   	unsigned int channel;
+>   };
+>   
+> @@ -53,7 +76,14 @@ int led_classdev_multicolor_register_ext(struct device *parent,
+>    */
+>   void led_classdev_multicolor_unregister(struct led_classdev_mc *mcled_cdev);
+>   
+> -/* Calculate brightness for the monochrome LED cluster */
+> +/**
+> + * led_mc_calc_color_components() - Calculate brightness for the monochrome LED cluster.
+
+It does not calculate brightness for the whole LED cluster, but for each
+sub-LED individually. Brightness of the whole cluster can be deemed a
+lightness of the multicolor LED, and the blend of the color components
+can be deemed its hue.
+
+In this case I'd document it as "Calculates brightness values for the
+LEDs of the monochrome LED cluster".
+
+> + * @mcled_cdev - Multicolor LED class device of the LED cluster.
+> + * @led_brightness - Global brightness of the LED cluster.
+> + *
+> + * Calculates the brightness values for each color component of a monochrome LED cluster,
+> + * see Documentation/leds/leds-class-multicolor.rst for details.
+> + */
+>   int led_mc_calc_color_components(struct led_classdev_mc *mcled_cdev,
+>   				 enum led_brightness brightness);
+>   
+
 -- 
-2.51.0
+Best regards,
+Jacek Anaszewski
 
