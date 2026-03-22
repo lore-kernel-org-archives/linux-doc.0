@@ -1,97 +1,92 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23D6D267714;
-	Sat, 21 Mar 2026 23:59:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774137598; cv=none; b=TfRscXfGKb+2EZZZCD8vqx1Qv2Bt0zIvyNOE1+ENe4nnTUPudwIlIHHWYk5WxY+AnRu/woxb2OaiH7qyDjxb3+Si3OrgVQScYhDKRxxBRiZbYpibWZa8+N8Czpxti4YDdIszbAQjqcnk+GPkJDyoWbXMoAMj3XXPcreMXcOapqQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774137598; c=relaxed/simple;
-	bh=EYACMA4HqI81wrMo5h2FmYJZml7ibwDQg5GvFIlYR7g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=a80WPhLCN4IGsKDRIt+KVGTU01F7w5kOaJtCLVfLYF0pgafuesyh331tIB+OVY0JfwEUa2YqVIbzpzrbGSiFZkE+gDu1643iYTgPRnUL/EXU/2o3K0+VGHxSMndX5DVtls5FUuNI3dnaokVfzPu/G6teseXM848yT+t++xDWiUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=RQtYzt2+; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41A1E2AD00;
+	Sun, 22 Mar 2026 01:13:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774142005; cv=pass; b=tP4PFuNBEzvUbV2EsaAiDwbWlgrofRg+WuPqyyyIu28eLI8OhlBL9uXF4GQFyDLtTYHEEmzASoG/Q+dDYWHnhSTUIA9KutpqtJOqkJZjOXG7YhHBpb63PFYNAhY/Rr8LtTqUCkzcOtQCdzcJ/rZCUYP8j693+YKVy17RC5c+mmY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774142005; c=relaxed/simple;
+	bh=KurxseXxXQJ5x9bDEN3oAQOTwNu4Dgvqsgmh4p9e9sk=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:From:To:Subject:
+	 References:In-Reply-To; b=Bwg3rE0N3Yfls6ozg+xpFru4cDerCSHdtnhNhsNXwFfHUZMcV712akkr/3HwBtjo97dsI/zd+cRcOrZEu4VM++VE5rVEj/2NedvXlfRdXmNq8mGWPfP+y2Fq5pWyRO/fDy0R3touLSYARTEl+P7AO+zMkTeMoQciQ1zi/V0PNUk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com; spf=pass smtp.mailfrom=ritovision.com; dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b=OkZYLmiE; arc=pass smtp.client-ip=136.143.188.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ritovision.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="RQtYzt2+"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=g8jk1iQ21koQvfBvXecCSJXtldfQ4k17gRRSWB9u4FI=; b=RQtYzt2+JQ4+r7q8Ykd+DzwOc5
-	py+YYEW0rWQWZPzf/8QcFANr0DwfV6G3Ug7sWT3c3l3cGMo0xKrBy1ryuVhVCuTDZLG2+ehkvt4eR
-	hRQOwtw6xpgP+IWnc1rHda3AbgPce7IP14CKSwL6gjxqqLns5Q7OnTwnbseEE/PhwMg5KaZLxgu9g
-	+t/tCl7wAMmJBLUzzCgPdaO79vFcKxACfT8oXcuvvqcDrbrPmGrEK0JPes+A9Rk5cYyEurrsW1O+d
-	tq4+qo/kZfg8+ibo0S2aievux/tStouQgRNQKuCfsnaPhIhyHOmNwVkOp2b5RQcx4h/50PpuDoQ+x
-	+35da1RQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w46ET-0000000EtkP-2Tls;
-	Sat, 21 Mar 2026 23:59:53 +0000
-Message-ID: <6cbf9940-0146-4b4d-bf74-4142b18602df@infradead.org>
-Date: Sat, 21 Mar 2026 16:59:52 -0700
+	dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b="OkZYLmiE"
+ARC-Seal: i=1; a=rsa-sha256; t=1774141979; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=cN3lX+s7UTVYz9QhyECXfBL+WAUhIvXvkfjYic0amF+WFkBxw1Kxc10ug+N2hrCiCwl8JujcVUA730U5frGRFbrTdo2/uYUZE5pNc9p5JHeYhWGFQYPhJLUM1p/RPaVuO7XW+HuE9VWcaUM5ZVDRln8ZZ+VodNw+DJ+lAp8e5zY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1774141979; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=KurxseXxXQJ5x9bDEN3oAQOTwNu4Dgvqsgmh4p9e9sk=; 
+	b=UWJZy3OqA14EVQ52JFzDLDV1AfF2Bn66y9gsR5TCY7pOISsLyaYtZ6TLDsU0bJPW8NCjPVNDAQJyph17LzAuCdSey2TZvM6IcdNdvBvWzfKPVDvSdRUgrbxWgM26/6zk5ZpGG6Jdb0N92n+V5V+XZ9I05hoyH+CapO9UVOMxhdA=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=ritovision.com;
+	spf=pass  smtp.mailfrom=rito@ritovision.com;
+	dmarc=pass header.from=<rito@ritovision.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774141979;
+	s=zmail; d=ritovision.com; i=rito@ritovision.com;
+	h=Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Date:Message-Id:Message-Id:Cc:Cc:From:From:To:To:Subject:Subject:References:In-Reply-To:Reply-To;
+	bh=KurxseXxXQJ5x9bDEN3oAQOTwNu4Dgvqsgmh4p9e9sk=;
+	b=OkZYLmiEsTyR6gCA+irwW7bukKfsgp9kxmxgbgYVjFqc4HGn0pitJhiB4a7mpZ6B
+	n4GmLUPZ61g5x8A15QTlQTjzGBkKAvXP2bpyajTdvacHbjMlOEQYoI1rjkraXGKNNep
+	izK59S/UwfNavGfjSl2hcz+Fs5PUhEuL7m2owsAo=
+Received: by mx.zohomail.com with SMTPS id 1774141977345483.8527676102449;
+	Sat, 21 Mar 2026 18:12:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 21 Mar 2026 21:12:53 -0400
+Message-Id: <DH8WUB5VFIDH.B2WQGIM3163@ritovision.com>
+Cc: "Shuah Khan" <skhan@linuxfoundation.org>, <linux-kernel@vger.kernel.org>
+From: "Rito Rhymes" <rito@ritovision.com>
+To: "Randy Dunlap" <rdunlap@infradead.org>, "Rito Rhymes"
+ <rito@ritovision.com>, "Jonathan Corbet" <corbet@lwn.net>, "Mauro Carvalho
+ Chehab" <mchehab@kernel.org>, <linux-doc@vger.kernel.org>
 Subject: Re: [PATCH] docs: add advanced search for kernel documentation
-To: Rito Rhymes <rito@ritovision.com>, Jonathan Corbet <corbet@lwn.net>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-doc@vger.kernel.org
-Cc: Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org
+X-Mailer: aerc 0.21.0
 References: <20260321181511.11706-1-rito@ritovision.com>
  <621b43a5-256b-4a82-b179-3cefe43d419f@infradead.org>
  <DH8UC6DVQE4P.13E9XDIRGJ645@ritovision.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <DH8UC6DVQE4P.13E9XDIRGJ645@ritovision.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+ <6cbf9940-0146-4b4d-bf74-4142b18602df@infradead.org>
+In-Reply-To: <6cbf9940-0146-4b4d-bf74-4142b18602df@infradead.org>
+X-ZohoMailClient: External
 
+I was using the in-tree build (`make htmldocs`) before. I just ran
+fresh rebuilds with both in-tree and out-of-tree (`make O=3DDOCS
+htmldocs`) builds, and I got identical search results of 280 hits for
+"futex" when serving both.
 
+I ran the builds and served the output on Linux/x86_64, and tested the
+pages in Chrome, Edge, and Firefox on Windows.
 
-On 3/21/26 4:15 PM, Rito Rhymes wrote:
-> That is not expected.
-> 
-> On my side, searching for "futex" with the default advanced-search
-> settings returns exactly 232 results.
-> 
-> I just tested out reproducing the steps you described on
-> Chrome, Edge and Firefox desktop on Windows and the results were
-> identical across each.
-> 
-> Let's debug here:
-> 
-> Which browser/version are you using? What OS?
-> 
+So at this point I have not been able to reproduce the "no output"
+behavior with either build mode, I think we can rule out build mode
+quirks.
 
-I tested with chromium-browser and opera.
-Chromium: Version 146.0.7680.80 (Official Build) stable@@ (64-bit)
-opera: version 121.0.5600.50
+More debugging:
 
-Linux v6.19.5 on x86_64.
+As a comparison, WITHOUT using my patch, upstream only build, does the
+normal Quick Search work? What results do you get for Futex?
 
-> Are you running with JavaScript enabled?
-> 
+WITH my patch, do Quick Search return any results for Futex?
 
-Yes.
+How are you opening or serving the generated docs? For example, via a
+local web server (`http://...`) or directly from disk (`file://...`)?
+I am serving the generated output over HTTP locally via
+`python -m http.server`.
 
-> Did the browser console show any JavaScript errors?
+What Sphinx version are you using for the build?
+I built with Sphinx 9.1.0.
 
-No.
-
-> How did you build the docs? In particular, was this from a fresh
-> rebuild after applying the patch? A stale generated asset or a JS
-> parse/runtime failure could match the behavior you describe.
-
-I removed my previous DOCS build output directory and then did
-$ make O=DOCS htmldocs
-
-
--- 
-~Randy
-
+If possible, could you also check in the browser network tab whether
+`_static/kernel-search.js`, `_static/language_data.js`, and
+`searchindex.js` are all loading successfully?
