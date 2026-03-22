@@ -1,191 +1,319 @@
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B73CF33F5AB;
-	Sun, 22 Mar 2026 12:15:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774181710; cv=pass; b=J3KCEZ/RDHsnPzrddrm5F6i3Fd6UF7/zHLu5XCce2JgFZL7TVcXY742y2kAJ9jfosv94ji4FzlgqyaJfC2vm58+7me+MUbVl544WHcHBu9+R+zUyyAckbf+55fN4TJePTi3mPJ93FgfLoBAAe8REALLO7Ds0bwCSQXJtjeSOLfA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774181710; c=relaxed/simple;
-	bh=3/qwMXxO7JUHqwLSoct/KqoIk9oiwHlkPAuEd8p73a8=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:From:To:Subject:
-	 References:In-Reply-To; b=JGjl0y2pk62Wp816T7rAwhYNMqNObEe4+GKV/OR8+kK50rW4/EDc5PZfV+z9hDNdpyifreHEKiEekyTOSBysguY+YPWLQ7rI2zEkrEyR43qRFUh3QF3hv5Sb7ttsSa/5xkskn2Ismbh4z5R3WEy5zeyAe/DiTbEShuKkeKMfE8k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com; spf=pass smtp.mailfrom=ritovision.com; dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b=HtyM7t8L; arc=pass smtp.client-ip=136.143.188.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ritovision.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7ABD328B4B;
+	Sun, 22 Mar 2026 13:15:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774185347; cv=none; b=b2d7tHbY0mvZBHt2PT4EEZVKsnlw4pIoA09xTnZl3tLWZLY6JHh6OK1vQ7cOZ280AD4wFAnoKKhneiS2AFvFTcYSUaRqjuXHqvYVT2D1cYJsXF58RNtD/m2/+H58OoRHZk/+Khke0bkuWfyyuI+/d0wib/Uke4toWzUB/BlKeeU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774185347; c=relaxed/simple;
+	bh=9dNHMu3VnFuzSVYqaegkUIg3pDM6/jDU2On3IqH4o9Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DvuPPfRoBXqU56mTPzgc8Km089oAAJob+zbyKvJaxE7NWPzeF4f4jrxeW5rh2654a0l1+OXBQRQISkmd4PMPKv0G1sTiA2muBWhcE8tGK7HMf9As3Z0qpLTtXwhrF6w5MMnqC0jWIjD8mKsFgAx/qinUtiBguZhyRd68ioYAmWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ol8N1ANr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b="HtyM7t8L"
-ARC-Seal: i=1; a=rsa-sha256; t=1774181697; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=Ar47Ijmc5/11vdyGfW4dz4EM+K70ktFAcL0cTfCFisbuP5zWZ3reb1cN7xZWi0My4LHQcFb47tTvrZSlqaqCVRVe63mMvFL233eQNjsKc5K0fsVIs0TwcjjBNsKbaWoqkb99BfXdolCvPGHkX1sD+F5x1jUI7mzAQ6rF/5c1Tv0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1774181697; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=3/qwMXxO7JUHqwLSoct/KqoIk9oiwHlkPAuEd8p73a8=; 
-	b=moZiBO15jSu4mCFFQH3nJwRTupmweEJBy8LqFljEYvz4+BMHsMIAkxwkPV6cAOovMwCmr7XkAhczEn6J1DnFAstY/gdCr2yPC6fWyrulv/80TA8H/FMcfN8ibWOMn0wlmO31hEKApBBfYX3YuNtoEiPm8tColi1zoQbkBUCZ97I=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=ritovision.com;
-	spf=pass  smtp.mailfrom=rito@ritovision.com;
-	dmarc=pass header.from=<rito@ritovision.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774181697;
-	s=zmail; d=ritovision.com; i=rito@ritovision.com;
-	h=Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Date:Message-Id:Message-Id:Cc:Cc:From:From:To:To:Subject:Subject:References:In-Reply-To:Reply-To;
-	bh=3/qwMXxO7JUHqwLSoct/KqoIk9oiwHlkPAuEd8p73a8=;
-	b=HtyM7t8LdT0Hdtn6NlMDarwQhIgC8bR7JhM1dGdB8ffGF9QM2HyzdEYTPAYVkhpQ
-	i6ASOrRYJbD1fpzz6T5VkoFP7Q5jSs+rs8CWvGyEDiAa2UA6UgiET1fDu3t5JEl/mrr
-	Qc7CMJhyK0Fz/BFqH9wbCTZEkMpfLPOxwSwBh/S8=
-Received: by mx.zohomail.com with SMTPS id 1774181695372209.37175484687805;
-	Sun, 22 Mar 2026 05:14:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ol8N1ANr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CD2FC19424;
+	Sun, 22 Mar 2026 13:15:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774185347;
+	bh=9dNHMu3VnFuzSVYqaegkUIg3pDM6/jDU2On3IqH4o9Y=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ol8N1ANrJPVwRk8afnmgLyaAFDOM6AAW6zBkaGMiya665M8ii2IGgFBVy+GedIMc4
+	 1eNehVJA66NmPFZmBMD4PLpcxZFkFv94Hv0bFA8N5IFlYZ8yRDd7h0k7gEdbM8BhO3
+	 LvVjn+uDv/YA+KRdcCIVJmfPQjWUsCFGa01MmUQ/2HsA0uwFJf7OQ2qm34ItheV/Zu
+	 0XxzSnWZwfDWIMmtGL/78taCejjbOG6UiZw0QHCF32TKVZ6ZRHTcZIhXUvfwRkw5KX
+	 rZhbWR/B1tD7UJeTIFCei8XXI450HMsG+tKK4w44fxbSmrfpNHaCV4ywKuKP4SGOuM
+	 p5/3p3gnb+Nvw==
+From: Sasha Levin <sashal@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Richard Weinberger <richard@nod.at>,
+	Juergen Gross <jgross@suse.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	James Bottomley <James.Bottomley@HansenPartnership.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Greg KH <gregkh@linuxfoundation.org>,
+	Petr Mladek <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Kees Cook <kees@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Thorsten Leemhuis <linux@leemhuis.info>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Helge Deller <deller@gmx.de>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Vivian Wang <wangruikang@iscas.ac.cn>,
+	linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-modules@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH v4 0/4] kallsyms: embed source file:line info in kernel stack traces
+Date: Sun, 22 Mar 2026 09:15:39 -0400
+Message-ID: <20260322131543.971079-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Date: Sun, 22 Mar 2026 08:14:52 -0400
-Message-Id: <DH9AX5UKDIXH.Q8NWGNIUI82X@ritovision.com>
-Cc: "Shuah Khan" <skhan@linuxfoundation.org>, <linux-kernel@vger.kernel.org>
-From: "Rito Rhymes" <rito@ritovision.com>
-To: "Randy Dunlap" <rdunlap@infradead.org>, "Rito Rhymes"
- <rito@ritovision.com>, "Jonathan Corbet" <corbet@lwn.net>,
- <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH 0/1] docs: examples of pages affected by heading
- overflow
-X-Mailer: aerc 0.21.0
-References: <20260321144855.30429-1-rito@ritovision.com>
- <f81edf19-9b33-4935-904e-636afa4dad79@infradead.org>
-In-Reply-To: <f81edf19-9b33-4935-904e-636afa4dad79@infradead.org>
-X-ZohoMailClient: External
+Content-Transfer-Encoding: 8bit
 
-Thanks for testing things out and for asking about the logic behind the
-implementation choices.
+This series adds CONFIG_KALLSYMS_LINEINFO, which embeds source file:line
+information directly in the kernel image so that stack traces annotate
+every frame with the originating source location - no external tools, no
+debug symbols at runtime, and safe to use in NMI/panic context.
 
-Is there consistency in the solutions chosen?
+Motivation
+==========
 
-Those 4 patches are not a single series for a reason. They are targeted
-fixes for distinct contexts and use cases where one solution may be
-preferable to the other, i.e. wrapping vs. contained horizontal scroll
-overflow. They are logically consistent in that the reasons for the
-chosen solution do not directly contradict each other across these
-contexts, but they should not all be treated as requiring the same
-generic behavior, such as wrapping everywhere or contained horizontal
-scrolling everywhere. I also did not submit them as a single patch
-series because I did not want each patch to have to justify itself
-against every other patch as a single thematic unit, because the cases
-are very different even if they share an underlying symptom (page-wide
-horizontal scroll overflow).
+The recent "slowly decommission bugzilla?" thread surfaced a recurring
+problem: when users encounter kernel crashes they see stack traces like
+`func+0x1ec/0x240` but have no way to identify which subsystem or
+maintainer to contact. Richard Weinberger proposed building a database
+mapping symbols to source files using nm/DWARF. Linus pointed to
+scripts/decode_stacktrace.sh as the existing solution. But as the
+discussion progressed, it became clear that decode_stacktrace.sh has
+significant practical barriers that prevent it from being useful in the
+common case.
 
-> docs: allow long unbroken headings to wrap and prevent overflow
+Problems with scripts/decode_stacktrace.sh
+==========================================
 
-Why prefer wrapping?
+- Requires debug symbols: the script needs vmlinux with DWARF debug
+  info. Many distros don't retain debug symbols for older or security
+  kernels, and even when available, asking users to obtain matching
+  debuginfo packages is a significant hurdle.
 
-You found an unfortunate edge case, but the core regression this fix
-addresses is headings pushing past the right page margin and creating
-page-wide horizontal scroll overflow that breaks the page layout
-instead of wrapping.
+- Requires toolchain: users need addr2line and nm installed.
 
-The edge case being:
+- Version-matching requirement: debug symbols must exactly match the
+  running kernel binary.
 
-GPIO_V2_LINE_GET_VALUES_IOCTL
+What this series does
+=====================
 
-Modern browsers do not treat underscores as natural word-break points.
-That whole string is a long unbroken token without a natural breakpoint,
-so without the added wrapping behavior it will create page-wide
-horizontal overflow on small enough screen sizes, as you can test on the
-live site.
+Patch 1: CONFIG_KALLSYMS_LINEINFO
 
-So semantically, it looks like a regression to see
+At build time, a host tool (scripts/gen_lineinfo) reads DWARF
+.debug_line from vmlinux, extracts address-to-file:line mappings, and
+embeds them as sorted lookup tables in .rodata. At runtime,
+kallsyms_lookup_lineinfo() binary-searches the table and
+__sprint_symbol() appends "(file:line)" to each stack frame. NMI/panic-
+safe (no locks, no allocations), KASLR-compatible.
 
-GPIO_V2_LINE_GET_VALUES_IOCT
-L
+Patch 2: CONFIG_KALLSYMS_LINEINFO_MODULES
 
-instead of:
+Extends lineinfo to loadable modules. Each .ko gets a .mod_lineinfo
+section embedded at build time. The module loader picks it up at load
+time. Same zero-allocation, NMI-safe lookup.
 
-GPIO_V2_LINE_GET_VALUES_
-IOCTL
+Patch 3: delta compression
 
-But that is still the expected browser behavior. It only looks
-semantically incorrect because the string has internal structure that
-the browser does not understand for wrapping purposes. It is equivalent
-to taking a long unbroken string like:
+Block-indexed delta-encoding with LEB128 varints, implementing the
+approach suggested by Juergen Gross in the RFC review. Reduces overhead
+from ~44 MiB to ~11 MiB (~3.7 bytes/entry), addressing the primary size
+concern from the RFC.
 
-GPIOV2LINEGETVALUESIOCTL
+Patch 4: KUnit tests
 
-and getting:
+30 KUnit tests covering the lineinfo lookup paths, delta-decode logic,
+boundary conditions, and integration with the backtrace formatting APIs.
 
-GPIOV2LINEGETVALUESIOCT
-L
+Example output
+==============
 
-There may be semantically parseable words in there, but regular browser
-wrapping does not know that.
+  [   11.206749]  dump_stack_lvl+0x5d/0x80 (lib/dump_stack.c:94)
+  [   11.207403]  vpanic+0x36e/0x620 (kernel/panic.c:650)
+  [   11.209324]  panic+0xc9/0xd0 (kernel/panic.c:787)
+  [   11.213312]  sysrq_handle_crash+0x1a/0x20 (drivers/tty/sysrq.c:154)
+  [   11.214005]  __handle_sysrq.cold+0x66/0x256 (drivers/tty/sysrq.c:611)
+  [   11.214712]  write_sysrq_trigger+0x65/0x80 (drivers/tty/sysrq.c:1221)
+  [   11.215424]  proc_reg_write+0x1bd/0x3c0 (fs/proc/inode.c:330)
+  [   11.216061]  vfs_write+0x1c6/0xff0 (fs/read_write.c:686)
+  [   11.218848]  ksys_write+0xfa/0x200 (fs/read_write.c:740)
+  [   11.222394]  do_syscall_64+0xf3/0x690 (arch/x86/entry/syscall_64.c:63)
 
-So this solution does come with a trade-off.
+Size impact
+===========
 
-Long unbroken strings that have semantic shape but no natural
-breakpoint, including code-style names, will wrap unnaturally.
+Measured with a Debian kernel config:
 
-But for the majority of headings, wrapping produces clean shapes where
-the semantic structure is preserved because there is spacing or a `-`
-somewhere in the heading.
+- bzImage: +3.6 MiB (14 MiB -> 18 MiB, +26%)
+- Runtime memory: +5.9 MiB (text+data+bss)
+- Code overhead: +5.0 KiB (.text, lookup functions only)
+- Data overhead: +5.9 MiB (.data, lineinfo tables)
 
-For headings, having everything immediately visible without requiring
-horizontal scrolling is the preferred trade-off. It is tolerable for
-headings to wrap differently across screen sizes, whether that means 1
-line, 2 lines, or 3 lines. In most cases, however many lines the
-heading wraps to, it remains readable and semantically preserved. I do
-not think it would be a reasonable trade-off to introduce contained
-horizontal scrolling for headings just to avoid the edge cases
-involving long unbroken code-style strings.
+Lineinfo data breakdown:
 
-Thus, wrapping is the appropriate choice here.
+- lineinfo_data (delta-compressed): 5,728 KiB (97%)
+- lineinfo_block_addrs: 99 KiB
+- lineinfo_block_offsets: 99 KiB
+- lineinfo_filenames: 111 KiB
+- lineinfo_file_offsets: 17 KiB
 
-With that said, we could go a step further and add JavaScript to help
-treat underscores as wrap points, but I do not think that is ideal. It
-would be client-side post-processing, and I do not see similar
-non-Sphinx-native JavaScript being used here for this kind of text
-shaping. I am open to that if people think it is worth it, but it would
-be a new precedent here and not a standard web approach.
+The ~5.9 MiB is after 2.7x delta compression; uncompressed would be
+~16 MiB. This is a fraction of the cost of shipping full DWARF debug
+info (hundreds of MiB), which distros must store and serve for every
+kernel version.
 
-> docs: contain horizontal overflow in C API descriptions
+For distros, maintaining debug symbol repositories is expensive: storage,
+mirrors, and CDN bandwidth for hundreds of MiB per kernel build add up
+quickly. A ~5.9 MiB increase in the kernel image itself is a modest cost
+that eliminates the need for users to find, download, and version-match
+debuginfo packages just to make a crash report useful.
 
-Why prefer contained horizontal scroll overflow?
+For developers, the file:line annotations appear immediately in crash
+traces - no post-processing with decode_stacktrace.sh needed.
 
-For this patch, contained horizontal scrolling is preferred because
-code fidelity is the priority. The code is isolated from the rest of the
-page in a dedicated block and presented in a form that is intended to
-remain representative of the code itself. Wrapping distorts spacing and
-line structure, which affects fidelity, creates misleading renderings,
-and reduces readability. Therefore, wrapping is not a good trade-off
-here.
+Changes since v3
+=================
 
-> docs: allow inline literals in paragraphs to wrap to prevent overflow
+- Remove redundant gen_lineinfo entry in scripts/Makefile for
+  CONFIG_KALLSYMS_LINEINFO_MODULES (depends on CONFIG_KALLSYMS_LINEINFO
+  which already builds it). (Reported by Petr Pavlu)
 
-Why prefer wrapping?
+- Use R_* constants from <elf.h> instead of hardcoded relocation type
+  values in r_type_abs32(). (Reported by Petr Pavlu)
 
-If preserving code fidelity were the priority here, the code would not
-be embedded inside explanatory prose. The purpose in this context is to
-read a paragraph that includes code as part of the explanation, and it
-would be distracting and hurt readability if the user needed to scroll
-horizontally mid-paragraph just to continue reading. In that context, we
-treat it like any other `<span>` inside of a `<p>`.
+- Simplify duplicated-path detection in make_relative(): replace loop
+  over every '/' with a direct midpoint check, since true path
+  duplication always splits at len/2. (Suggested by Petr Pavlu)
 
-> docs: wrap generated tables to contain small-screen overflow
+- Fix comment in process_dwarf(): sections in ET_REL objects have
+  sh_addr == 0 and therefore overlapping address ranges; this is
+  expected behavior, not a "may" situation. (Reported by Petr Pavlu)
 
-Why prefer contained horizontal scroll overflow?
+- Use U32_MAX instead of UINT_MAX for the module raw_offset bounds
+  check, matching the u32 type of the addrs array.
+  (Reported by Petr Pavlu)
 
-Wrapping is generally not practical here.
+- Document the assumption that .text is at the start of the MOD_TEXT
+  segment in module_lookup_lineinfo(). A proper fix using ELF
+  relocations is planned for a future series.
+  (Reported by Petr Pavlu)
 
-Many of these tables, often under a `*/features.html*`, exceed at least
-double the viewport width of a mobile screen size. Wrapping the cell
-content enough to fit within a small viewport would often create
-unreadable vertical stacks of wrapped text. Having the rows or columns
-reorganize themselves in some way to fit the viewport would
-fundamentally change the table structure and how it is intended to be
-navigated, which defeats the simplicity of keeping a single table
-structure for many purposes.
+- Wrap -fno-inline-functions-called-once in $(call cc-option,...) for
+  clang compatibility. Clang does not support this GCC-specific flag;
+  the noinline attribute is sufficient.
 
-The simplest solution is to respect the width the generated table
-creates and allow horizontal scrolling within the table container,
-without allowing the entire page width to expand.
+Changes since v2
+=================
+
+- Replace #ifdef CONFIG_KALLSYMS_LINEINFO with IS_ENABLED() throughout,
+  so the compiler checks the code for syntax errors regardless of
+  configuration. (Suggested by Helge Deller)
+
+- Replace zigzag + ULEB128 encoding of signed deltas with native SLEB128,
+  removing the unnecessary zigzag transform layer.
+  (Suggested by Vivian Wang)
+
+- Deduplicate the binary search and delta-decode logic: extract shared
+  struct lineinfo_table and lineinfo_search() into mod_lineinfo.h
+  instead of maintaining near-identical copies in kernel/kallsyms.c and
+  kernel/module/kallsyms.c. (Suggested by Vivian Wang)
+
+- Use .uleb128 / .sleb128 assembler directives in gen_lineinfo output
+  instead of encoding varints in C and emitting .byte hex literals.
+  (Suggested by Vivian Wang)
+
+- Redesign module mod_lineinfo_header to use explicit (offset, size)
+  pairs for each sub-array, similar to flattened devicetree layout.
+  This makes bounds validation straightforward: offset + size <=
+  section_size. (Suggested by Vivian Wang)
+
+- Remove dead sym_start parameter from kallsyms_lookup_lineinfo() and
+  module_lookup_lineinfo().
+
+Changes since v1
+=================
+
+- Fix path stripping regression on architectures where DWARF comp_dir is
+  a subdirectory (e.g. arch/parisc/kernel) rather than the source tree
+  root: paths now correctly show "kernel/traps.c:212" instead of bare
+  "traps.c:212". Added kernel_dirs[] fallback scan and bare-filename
+  recovery via comp_dir. (Reported by Helge Deller)
+
+- Fix RST heading: overline/underline must be at least as long as the
+  heading text in kallsyms-lineinfo.rst. (Reported by Randy Dunlap)
+
+- Fix MAINTAINERS alphabetical ordering: move KALLSYMS LINEINFO entry
+  before KASAN. (Reported by Randy Dunlap)
+
+- Fix arch-portability of .debug_line relocation handling: replace
+  hardcoded R_X86_64_32 with r_type_abs32() supporting x86, arm, arm64,
+  riscv, s390, mips, ppc, loongarch, and parisc.
+
+- Fix vmlinux compressed-path data_end for the last block: use
+  lineinfo_data_size instead of UINT_MAX.
+
+- Add file_offsets[] and filenames_size bounds checks in vmlinux lookup
+  path (the module path already had them).
+
+- Add alignment padding for file_offsets[] in module .mod_lineinfo
+  binary format (data[] is variable-length u8, followed by u32[]).
+
+- Remove sym_start cross-validation check that incorrectly rejected
+  valid lineinfo entries for assembly-adjacent functions.
+
+- Add KUnit test suite (new patch 4/4): 30 tests covering vmlinux
+  lookup, module lookup, delta decode, boundary conditions, and
+  backtrace formatting integration.
+
+Changes since RFC
+==================
+
+- Added module support (patch 2)
+- Added delta compression (patch 3), reducing size from ~44 MiB to
+  ~11 MiB, addressing the primary concern from RFC review
+- Added documentation (Documentation/admin-guide/kallsyms-lineinfo.rst)
+- Added MAINTAINERS entry
+
+Sasha Levin (4):
+  kallsyms: embed source file:line info in kernel stack traces
+  kallsyms: extend lineinfo to loadable modules
+  kallsyms: delta-compress lineinfo tables for ~2.7x size reduction
+  kallsyms: add KUnit tests for lineinfo feature
+
+ Documentation/admin-guide/index.rst           |   1 +
+ .../admin-guide/kallsyms-lineinfo.rst         |  97 ++
+ MAINTAINERS                                   |   9 +
+ include/linux/kallsyms.h                      |  17 +-
+ include/linux/mod_lineinfo.h                  | 243 +++++
+ include/linux/module.h                        |   5 +
+ init/Kconfig                                  |  35 +
+ kernel/kallsyms.c                             |  58 ++
+ kernel/kallsyms_internal.h                    |  11 +
+ kernel/module/kallsyms.c                      |  80 ++
+ kernel/module/main.c                          |   3 +
+ lib/Kconfig.debug                             |  10 +
+ lib/tests/Makefile                            |   3 +
+ lib/tests/lineinfo_kunit.c                    | 813 +++++++++++++++++
+ scripts/.gitignore                            |   1 +
+ scripts/Makefile                              |   3 +
+ scripts/Makefile.modfinal                     |   6 +
+ scripts/empty_lineinfo.S                      |  38 +
+ scripts/gen-mod-lineinfo.sh                   |  48 +
+ scripts/gen_lineinfo.c                        | 848 ++++++++++++++++++
+ scripts/kallsyms.c                            |  17 +
+ scripts/link-vmlinux.sh                       |  43 +-
+ 22 files changed, 2385 insertions(+), 4 deletions(-)
+ create mode 100644 Documentation/admin-guide/kallsyms-lineinfo.rst
+ create mode 100644 include/linux/mod_lineinfo.h
+ create mode 100644 lib/tests/lineinfo_kunit.c
+ create mode 100644 scripts/empty_lineinfo.S
+ create mode 100755 scripts/gen-mod-lineinfo.sh
+ create mode 100644 scripts/gen_lineinfo.c
+
+-- 
+2.51.0
+
