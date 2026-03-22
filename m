@@ -1,169 +1,215 @@
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E301B35F196;
-	Sun, 22 Mar 2026 19:24:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774207493; cv=pass; b=P4BU3kIhOZRLgIW/rt3YQE5Nxj8DavfIpmA04DKWDrLko3zZR03QZ4acWp0YmCDm7craMWrBq66Y4bxAJjQXbRGsm/sfo7Kwv6W4hKBCoUUPzDAfkJZDb4AwZWaaVNCaPoWyqPrBLjM2nP0AgSY4uQAdA/AcFn8VbgluuAjjLgU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774207493; c=relaxed/simple;
-	bh=bV3Ca33gJKnzayfvy74Wx0jK7/VOyxRp+mUU2h7Xe1c=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eGhJVaDItmf/emW5V6g+qeV8hwJOQlgrBLt2e3QlcezJ7+vIZcWi1EZJjpst2mFaV0MBN104lPayQOx+eW/7olQ+SKnVDRjtbsxZJaNaJiZgwDUXvd+QYPlAGAZi/9BVZ0zP25E24GQTGweMLhaYSSDId+DQnVVZaTjQeVkDCW8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com; spf=pass smtp.mailfrom=ritovision.com; dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b=H6ZvWo4g; arc=pass smtp.client-ip=136.143.188.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ritovision.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9461574C14;
+	Sun, 22 Mar 2026 19:29:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774207768; cv=none; b=hNfX6DsRnE3Toigx2yvePzi1vg4G9PVNMpoUpNIhbpdbo4GQviwoM1qMJz/qV/bsesg2dRP6AKj7dGt4vH9UUXipvXZAf0aWB7/fCgt4z3zNRZISmBnnkFWuoXDF4CzCsR4P7J7LIItwmIM4JbwZhVtFh4Buuw7mB11cUj2SLQY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774207768; c=relaxed/simple;
+	bh=rljp0LrhW6QeJNeEXwnga10UDShCpJ5wGuhC5OeNub4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JFhrdeUcw/leDdXdmwp7sTDgGr04LXkxGVw1Kxw3kYxt3h1FDe+aaHKqXYb5h8pXsai61HE/oOUSYLo+4MaJi+5Njf9gF47SoPXL+R9MUQfzp5YbG/7YiW1dYFMaePl4MwfGQjcNWi6y2kFadZ8gOKPEiGcb28ZPIwwNE4wsTFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=1zAEh18z; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b="H6ZvWo4g"
-ARC-Seal: i=1; a=rsa-sha256; t=1774207471; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=LnXkFMkT8tBtD1ecEVuyCvRG5G0N6PX27BwBzmSPKvojOhR654JAZZsVpWaWbKnW1dRwwfKa0L58tIO0J/A7cfXOK1qAJLtuZje22mUwG4QqXXoPgW+cDTeh3mGYTorMPsUmdfjXHQSZcZfSQHXS2li5YvtigiATAHi+dmyjQrY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1774207471; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=16eo07QexewcIArwik9axki+H3+bIvlMluC+wdGsApc=; 
-	b=bpxzIOdw+uuGRf4+ELR3322ttDF/TFrqy7fN8YQr+1uDK0zFIivK+04d5UmKog+TMdNhlj6y/m/d4oeWw6HtnwHiqCFvyBUyQfW0lQcTjflCeuKBbK+IDkkMikIaMk0YmLWJb4FRGR2XgwE1Q3F2kRg56fONoCE/s254MWRH6fA=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=ritovision.com;
-	spf=pass  smtp.mailfrom=rito@ritovision.com;
-	dmarc=pass header.from=<rito@ritovision.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774207471;
-	s=zmail; d=ritovision.com; i=rito@ritovision.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=16eo07QexewcIArwik9axki+H3+bIvlMluC+wdGsApc=;
-	b=H6ZvWo4gwYxHAVVMFOYieJSOowlRe0HsAUqzXnVluac9dWsaMIdDU3Eyq8k/r11J
-	CS87lhisn0Hdpt/F1j05c4XbS79koP112U2M4QQSGh0Q9ziewhGCRxIzNVrv9VToeUf
-	SFJQ52+iGr5kylB8gtu+PInpGBNUmSbSt/L4o3xU=
-Received: by mx.zohomail.com with SMTPS id 1774207469164448.2084924117048;
-	Sun, 22 Mar 2026 12:24:29 -0700 (PDT)
-From: Rito Rhymes <rito@ritovision.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-doc@vger.kernel.org
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org,
-	rdunlap@infradead.org,
-	Rito Rhymes <rito@ritovision.com>
-Subject: [PATCH v2 1/1] docs: wrap generated tables to contain small-screen overflow
-Date: Sun, 22 Mar 2026 15:24:26 -0400
-Message-ID: <20260322192426.65357-2-rito@ritovision.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260322192426.65357-1-rito@ritovision.com>
-References: <20260321133811.17854-1-rito@ritovision.com>
- <20260322192426.65357-1-rito@ritovision.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="1zAEh18z"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=wg3s8CcDc+GWO/7nh9UrpaSaa2nAf0tYpKp5lq1R4Ek=; b=1zAEh18zMnns9MHzX7P0l7QqRI
+	gNrJL7GZYxiMGmemzNtqLhel/Ej3+iq8r7yJ9F1mBE1JLECk6CYq7ZPmxEx2Zgd9fCOEzluNpxnpZ
+	ufjjxTqn0m3RGckED4ea98hvHok1ouPR7LBUTltK67YWHk37xMbYe06uyvYA0SMMNpshZ0Y/S2Fdw
+	Q39Jjbr4g0LEu8TFnBAVi2LDneXFUqLRHJpB/v6PivrSgbZtEAtiwvcyCsN5vG2mpAZuV4zdPh4kw
+	DjOBblXgEWQfZ08StglGDSS5bFjMQ7jm/z1871MDecX+sq52JbP+IIdxV9XBeFL/MsbHVOejWwwdj
+	ARTNqTrQ==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1w4OU8-0000000FbQx-4BB0;
+	Sun, 22 Mar 2026 19:29:17 +0000
+Message-ID: <ac4d4ec8-90d5-48df-96d4-38de535a6a9a@infradead.org>
+Date: Sun, 22 Mar 2026 12:29:15 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/1] docs: examples of pages affected by heading overflow
+To: Rito Rhymes <rito@ritovision.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org
+Cc: Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org
+References: <20260321144855.30429-1-rito@ritovision.com>
+ <f81edf19-9b33-4935-904e-636afa4dad79@infradead.org>
+ <DH9AX5UKDIXH.Q8NWGNIUI82X@ritovision.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <DH9AX5UKDIXH.Q8NWGNIUI82X@ritovision.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Some documentation tables exceed the fixed-width main content column.
-On desktop this is usually acceptable because they can overflow the
-800px body without harming readability, but on smaller screens the
-same tables create page-wide horizontal scroll overflow that breaks the
-layout.
+Hi,
 
-Wrap generated HTML tables in a dedicated container. Above
-Alabaster's existing 65em breakpoint, the wrapper uses
-`display: contents` to preserve current desktop rendering. At and
-below that width, it becomes a horizontal scroll container so table
-overflow is contained locally instead of breaking page layout.
+Thanks for the explanations.
 
-Signed-off-by: Rito Rhymes <rito@ritovision.com>
-Assisted-by: Codex:GPT-5.4
----
-v2: add Assisted-by attribution
 
- Documentation/conf.py                  |  1 +
- Documentation/sphinx-static/custom.css | 16 ++++++++++++++
- Documentation/sphinx/table_wrapper.py  | 30 ++++++++++++++++++++++++++
- 3 files changed, 47 insertions(+)
- create mode 100644 Documentation/sphinx/table_wrapper.py
+On 3/22/26 5:14 AM, Rito Rhymes wrote:
+> Thanks for testing things out and for asking about the logic behind the
+> implementation choices.
+> 
+> Is there consistency in the solutions chosen?
+> 
+> Those 4 patches are not a single series for a reason. They are targeted
+> fixes for distinct contexts and use cases where one solution may be
+> preferable to the other, i.e. wrapping vs. contained horizontal scroll
+> overflow. They are logically consistent in that the reasons for the
+> chosen solution do not directly contradict each other across these
+> contexts, but they should not all be treated as requiring the same
+> generic behavior, such as wrapping everywhere or contained horizontal
+> scrolling everywhere. I also did not submit them as a single patch
+> series because I did not want each patch to have to justify itself
+> against every other patch as a single thematic unit, because the cases
+> are very different even if they share an underlying symptom (page-wide
+> horizontal scroll overflow).
 
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 679861503..51756d779 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -159,6 +159,7 @@ extensions = [
-     "sphinx.ext.autodoc",
-     "sphinx.ext.autosectionlabel",
-     "sphinx.ext.ifconfig",
-+    "table_wrapper",
-     "translations",
- ]
- # Since Sphinx version 3, the C function parser is more pedantic with regards
-diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
-index db24f4344..d7c8c4f18 100644
---- a/Documentation/sphinx-static/custom.css
-+++ b/Documentation/sphinx-static/custom.css
-@@ -23,6 +23,13 @@ div.document {
-     margin: 20px 10px 0 10px;
-     width: auto;
- }
-+/*
-+ * Wrap generated tables in a container that preserves desktop overflow
-+ * while allowing contained scrolling on smaller screens.
-+ */
-+div.body div.table-overflow {
-+    display: contents;
-+}
- 
- /* Size the logo appropriately */
- img.logo {
-@@ -96,6 +103,15 @@ input.kernel-toc-toggle { display: none; }
-     div.kerneltoc a { color: black; }
- }
- 
-+@media screen and (max-width: 65em) {
-+    div.body div.table-overflow {
-+        display: block;
-+        max-width: 100%;
-+        overflow-x: auto;
-+        overflow-y: hidden;
-+    }
-+}
-+
- /* Language selection menu */
- 
- div.admonition {
-diff --git a/Documentation/sphinx/table_wrapper.py b/Documentation/sphinx/table_wrapper.py
-new file mode 100644
-index 000000000..dfe8c139b
---- /dev/null
-+++ b/Documentation/sphinx/table_wrapper.py
-@@ -0,0 +1,30 @@
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+"""Wrap generated HTML tables in a responsive overflow container."""
-+
-+from sphinx.writers.html5 import HTML5Translator
-+
-+__version__ = "1.0"
-+
-+
-+class TableWrapperHTMLTranslator(HTML5Translator):
-+    """Add a wrapper around tables so CSS can control overflow behavior."""
-+
-+    def visit_table(self, node):
-+        self.body.append('<div class="table-overflow">\n')
-+        super().visit_table(node)
-+
-+    def depart_table(self, node):
-+        super().depart_table(node)
-+        self.body.append("</div>\n")
-+
-+
-+def setup(app):
-+    for builder in ("html", "dirhtml", "singlehtml"):
-+        app.set_translator(builder, TableWrapperHTMLTranslator, override=True)
-+
-+    return dict(
-+        version=__version__,
-+        parallel_read_safe=True,
-+        parallel_write_safe=True,
-+    )
+OK.
+
+>> docs: allow long unbroken headings to wrap and prevent overflow
+> 
+> Why prefer wrapping?
+> 
+> You found an unfortunate edge case, but the core regression this fix
+> addresses is headings pushing past the right page margin and creating
+> page-wide horizontal scroll overflow that breaks the page layout
+> instead of wrapping.
+
+Yes, I understand that. And in general the patch is a good idea,
+even though I observed that edge case.
+
+> The edge case being:
+> 
+> GPIO_V2_LINE_GET_VALUES_IOCTL
+> 
+> Modern browsers do not treat underscores as natural word-break points.
+> That whole string is a long unbroken token without a natural breakpoint,
+> so without the added wrapping behavior it will create page-wide
+> horizontal overflow on small enough screen sizes, as you can test on the
+> live site.
+> 
+> So semantically, it looks like a regression to see
+> 
+> GPIO_V2_LINE_GET_VALUES_IOCT
+> L
+> 
+> instead of:
+> 
+> GPIO_V2_LINE_GET_VALUES_
+> IOCTL
+> 
+> But that is still the expected browser behavior. It only looks
+> semantically incorrect because the string has internal structure that
+> the browser does not understand for wrapping purposes. It is equivalent
+> to taking a long unbroken string like:
+> 
+> GPIOV2LINEGETVALUESIOCTL
+> 
+> and getting:
+> 
+> GPIOV2LINEGETVALUESIOCT
+> L
+> 
+> There may be semantically parseable words in there, but regular browser
+> wrapping does not know that.
+> 
+> So this solution does come with a trade-off.
+
+Yes, I wasn't trying to suggest using underscore as a break character.
+
+> Long unbroken strings that have semantic shape but no natural
+> breakpoint, including code-style names, will wrap unnaturally.
+> 
+> But for the majority of headings, wrapping produces clean shapes where
+> the semantic structure is preserved because there is spacing or a `-`
+> somewhere in the heading.
+
+OK.
+
+> For headings, having everything immediately visible without requiring
+> horizontal scrolling is the preferred trade-off. It is tolerable for
+> headings to wrap differently across screen sizes, whether that means 1
+> line, 2 lines, or 3 lines. In most cases, however many lines the
+> heading wraps to, it remains readable and semantically preserved. I do
+> not think it would be a reasonable trade-off to introduce contained
+> horizontal scrolling for headings just to avoid the edge cases
+> involving long unbroken code-style strings.
+> 
+> Thus, wrapping is the appropriate choice here.
+
+OK, sounds reasonable.
+
+> With that said, we could go a step further and add JavaScript to help
+> treat underscores as wrap points, but I do not think that is ideal. It
+> would be client-side post-processing, and I do not see similar
+> non-Sphinx-native JavaScript being used here for this kind of text
+> shaping. I am open to that if people think it is worth it, but it would
+> be a new precedent here and not a standard web approach.
+
+nah.
+
+>> docs: contain horizontal overflow in C API descriptions
+> 
+> Why prefer contained horizontal scroll overflow?
+> 
+> For this patch, contained horizontal scrolling is preferred because
+> code fidelity is the priority. The code is isolated from the rest of the
+> page in a dedicated block and presented in a form that is intended to
+> remain representative of the code itself. Wrapping distorts spacing and
+> line structure, which affects fidelity, creates misleading renderings,
+> and reduces readability. Therefore, wrapping is not a good trade-off
+> here.
+
+I see.
+
+>> docs: allow inline literals in paragraphs to wrap to prevent overflow
+> 
+> Why prefer wrapping?
+> 
+> If preserving code fidelity were the priority here, the code would not
+> be embedded inside explanatory prose. The purpose in this context is to
+> read a paragraph that includes code as part of the explanation, and it
+> would be distracting and hurt readability if the user needed to scroll
+> horizontally mid-paragraph just to continue reading. In that context, we
+> treat it like any other `<span>` inside of a `<p>`.
+> 
+>> docs: wrap generated tables to contain small-screen overflow
+> 
+> Why prefer contained horizontal scroll overflow?
+> 
+> Wrapping is generally not practical here.
+> 
+> Many of these tables, often under a `*/features.html*`, exceed at least
+> double the viewport width of a mobile screen size. Wrapping the cell
+> content enough to fit within a small viewport would often create
+> unreadable vertical stacks of wrapped text. Having the rows or columns
+> reorganize themselves in some way to fit the viewport would
+> fundamentally change the table structure and how it is intended to be
+> navigated, which defeats the simplicity of keeping a single table
+> structure for many purposes.
+
+Sounds messy.
+
+> The simplest solution is to respect the width the generated table
+> creates and allow horizontal scrolling within the table container,
+> without allowing the entire page width to expand.
+
+I see that Jon asked about provenance of these patches.
+I meant to do that as well but got wrapped up in Advanced Search
+testing.
+
 -- 
-2.51.0
+~Randy
+
