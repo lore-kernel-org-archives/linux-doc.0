@@ -1,50 +1,47 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E63133644C1;
-	Sun, 22 Mar 2026 21:25:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BE2E10785;
+	Sun, 22 Mar 2026 21:31:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774214746; cv=none; b=Bzns604LbYpSFu5xTNiNcNctUqkkDzIYUHomXwzoFrwlrMwkwcVZIs8nTl0obKoTp8UWfs8QRe1UcMXloQxdAbN570Fz7kVp22Lzr1M9LCGinos0SLwk2I/oKU22Gu81mJAluqsk3l83NQIeXJKB7cgrjCqtUuQNVf1SB4jEy18=
+	t=1774215093; cv=none; b=WuOCiF43sjfVxVB0CyK/PeLaOjPuYw9q/p8LwVVKyl0DOdhe2/YOTC2jJNmDY0ssOelSQ75QDN7gdHGrcIIBqY7VNkEx8K7g7PmI9iQzXIVkw5G10EBcRycadRLlSpGFDq6ekOyoSqLAJ8nkYrTrIAvZFzn9blYPjixhXUnoHno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774214746; c=relaxed/simple;
-	bh=sLzZwqlgIyIewuma8u6FvE4MBBCLnIib9IormRqucxo=;
+	s=arc-20240116; t=1774215093; c=relaxed/simple;
+	bh=BrF74nDAIGd7L30lHbXRMmvjGIRaq6jy0igU0FMQLbA=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=hvZuC3he6Xuk+O0E2LO0c+nEeswQkptal1dNKM4RtrwgPF7HwKwJqTLUAWuiWXdNtHSTJE48ueFtn0nT2S5plKmbg+nQLA9db6kLY5KHPUJ077Q384SB5WzwrbcY6MjAZt9/Ygea66MOecwE8TwsGs504aQUtJfGxzVL9GPoVt4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=GRPdBir0; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=BwwKGMNCRFyGT19W/7i/IfoBTLNUaGsRBT+3I/s3JMjorN1q5O+AwPuQTPEdnSbUdW9/ADTKvmf9nKT3AALQi1daHxHF9KY490DgWtpVnesdPEEA/vZalNQ34rxnInxAaozNjoE/tZUflIWa62fCGQQxibhcOKvUSPTLYz1qUgI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=pBAQagoC; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="GRPdBir0"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2846C411EA
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="pBAQagoC"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C7278411EA
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1774214745; bh=VN0HovmkbKOOtza+Hn4S6PjAcvyHLvcaFjoiB2Ew/30=;
+	t=1774215090; bh=7pEzzLyuu3bmen1FeLjdxYVvGdMIbaeCdfPHrVn+4lM=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=GRPdBir0mIhwM8QN5GPdJs0DjoEy5vsCuAizP3aPLh3+ES5U1kIhWXQ3YQyidIbcS
-	 wQrb0yLfbUP5TorCYzQh69pe9HTf3usaJimWfvio7jXjT0Y4T0tdm4pntYNuc176hu
-	 zGFofdXbuXW4JnpgmQQrlAz+FZh5y7WOzWL/rs/3ukbFznD10WbPINFl5ha2a/zMa4
-	 0oQX43/xcSWXHMVlv94ukaBgFD1GTUfSVqAgDPref7JD1geiNupelcnJ+kUWodYq/o
-	 o0z2uZnECkXsWrEv9D6s71uF4zR6pQtMcOxXqGljqEiMAYH5YNh6ctPIUo7njAJKYE
-	 9Tf7AW0TWj58Q==
+	b=pBAQagoC7IUc5fy8sPiRULhWHwZIpNH3rUPSLiIdTGP0T34MhFf6d8orhnZQFMcLI
+	 0Zd2zQOLzB9eZSvoW7uhYhjolu/b9X8BX1rTJmvP3r1tn9MLKWh6DAh3Kgj4CKIUd6
+	 Z228H/o6/g185+P/RK8LbaZfa9lPtIDVzBBD8uyAMJaEaTSH1wpRh/ARUmBNJYVWGe
+	 GFvb9bHtSjHh2cySA7/Px6BZHe1PStb8xx49ybd64O0IvGLifdf4kg7Dee/WwK0I4w
+	 ZUGEYyfGvnEEn/YkEhGlxdKoEV1IK+YHH+t6KxvKUV9maIeDYqBRM4XViP5/7ZW9UM
+	 92UVYGcGCN8NQ==
 Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 2846C411EA;
-	Sun, 22 Mar 2026 21:25:45 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id C7278411EA;
+	Sun, 22 Mar 2026 21:31:30 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Mauro Carvalho Chehab
- <mchehab@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Aleksandr
- Loktionov <aleksandr.loktionov@intel.com>, Randy Dunlap
- <rdunlap@infradead.org>, Shuah Khan <skhan@linuxfoundation.org>, Sasha
- Levin <sashal@kernel.org>
-Subject: Re: [PATCH 00/14] More kernel-doc patches
-In-Reply-To: <cover.1773823995.git.mchehab+huawei@kernel.org>
-References: <cover.1773823995.git.mchehab+huawei@kernel.org>
-Date: Sun, 22 Mar 2026 15:25:44 -0600
-Message-ID: <87wlz3blpj.fsf@trenco.lwn.net>
+To: Rito Rhymes <rito@ritovision.com>, linux-doc@vger.kernel.org
+Cc: Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ Rito Rhymes <rito@ritovision.com>
+Subject: Re: [PATCH v2] docs: use logo.svg as favicon
+In-Reply-To: <20260321125532.9568-1-rito@ritovision.com>
+References: <20260321111217.2404-1-rito@ritovision.com>
+ <20260321125532.9568-1-rito@ritovision.com>
+Date: Sun, 22 Mar 2026 15:31:29 -0600
+Message-ID: <87se9rblfy.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -53,32 +50,31 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+Rito Rhymes <rito@ritovision.com> writes:
 
-> Hi Jon,
+> Use the existing documentation logo as the HTML favicon.
 >
-> This series comes after:
->     https://lore.kernel.org/linux-doc/cover.1773770483.git.mchehab+huawei@kernel.org/
+> This makes generated documentation pages use a matching browser tab
+> icon without introducing a separate favicon asset.
 >
-> It basically contains patches I submitted before on a 40+ patch series,
-> but were less relevant, plus a couple of other minor fixes:
+> Signed-off-by: Rito Rhymes <rito@ritovision.com>
+> ---
+> v2: add commit message body and missing Signed-off-by
 >
-> - patch 1 improves one of the CTokenizer unit test, fixing some
->   potential issues on it;
-> - patches 2 and 3 contain some improvement/fixes for Sphinx
->   Python autodoc extension. They basically document c_lex.py;
+>  Documentation/conf.py | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> - The remaining patches:
->   - create a new class for kernel-doc config;
->   - fix some internal representations of KdocItem;
->   - add unit tests for KernelDoc() parser class;
->   - add support to output KdocItem in YAML, which is a
->     machine-readable output for all documented kAPI.
->
-> None of the patches should affect man or html output.
+> diff --git a/Documentation/conf.py b/Documentation/conf.py
+> index 679861503..9b822ab47 100644
+> --- a/Documentation/conf.py
+> +++ b/Documentation/conf.py
+> @@ -455,6 +455,7 @@ if html_theme == "alabaster":
+>  # The name of an image file (relative to this directory) to place at the top
+>  # of the sidebar.
+>  html_logo = "images/logo.svg"
+> +html_favicon = "images/logo.svg"
+>  
 
-OK, I applied this set too.
-
-Thanks,
+This seems straightforward enough; applied, thanks.
 
 jon
