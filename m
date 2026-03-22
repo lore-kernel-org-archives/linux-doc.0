@@ -1,91 +1,237 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD0DD2848AA;
-	Sun, 22 Mar 2026 11:33:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A9C533E372;
+	Sun, 22 Mar 2026 12:10:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774179219; cv=none; b=RCH5rnth8DZiGTDHKt+yHtHBSXKVrwbnFCYJM1lzluB8fGwD7ILREc6uQqfcRWWOmXHhCowzbNGsZB8thYltQvDSVDHiQZtmbudlUTh54dnrF4rRsRAma6TP15pzn9jlrs1VtMw5RllHvil8Lj+NG7ayh0jtq3+lVEgZvK2iOGs=
+	t=1774181433; cv=none; b=MkdZTo5hbSEiwO8zuJqn4M1UHuzunsxisfLWng/vEdEyIa474rCdWZ+wjC1dvD71PioAh6JtYpmCXr6Qpmld8HSpDZzMni/vsPEdOuQJfvosL0y0A34K2Q7xez12OGfL0qNwjtLKEYOLbU13sc30h38+QLqILwJa+q7kaDTtuE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774179219; c=relaxed/simple;
-	bh=Bccne5nPibsXJjVfsoiwRixeabEO/EhhjpYgKAcFl98=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hJVT8qnB5lnlPHKUfaMAr0Zm24MYbp29NRUGJfuK+6EmCciym4TdWtY13MtWVXp37QdoD9XFvkkjTKnQBXNRy6bu8JVfLPmIjMuxfjjJqbQdrrCFxBW76tVcQScJBxSlfiizs/jq84CG6Y8agYO8LC/rpNvduP6idI8TcuUA73U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kky4Zidk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774181433; c=relaxed/simple;
+	bh=eXYFZ7uGHI3Grre4sTGmBcfewI49V9FG78PjTdQ1SKY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fzLbTbw/aldSqPzTsmg8KJQ1J5Y2+Nb/Tj7yBR6SLzbX4UU64Sua3jbkkicvoWZUF8DkOIkYlNJHJTB2UuZYpbpAgig/F+i1OMeFcv93MZa6vts6rO++D3PAkRU2UtIvO4AnM9x+0ge28tBzBkSnWAbv5QwV4QS8enuSo5bj2h8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=STYWrpAg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kky4Zidk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F89FC19424;
-	Sun, 22 Mar 2026 11:33:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="STYWrpAg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5834EC2BCB1;
+	Sun, 22 Mar 2026 12:10:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774179219;
-	bh=Bccne5nPibsXJjVfsoiwRixeabEO/EhhjpYgKAcFl98=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=kky4ZidkO5RLwjYJMoFVg8ShSFgC4zNVnj5nmFOn3a549cVa0VNXqo5ycd7Y//GKG
-	 IVvLeaK9VtsDK0UCzMfsdrBf6zvVcaEJ3Vz4nAhoRIaUXedWwiw0+inwRzKAGbwUNV
-	 rGBK4XpfeeOl9vGxvpnNmZkkHQ4Li06ByyXF7MrwGExSykUyFRa9yHIns1H0KRa2N8
-	 lD3ANldATeCogr5yvSIyAxWGsGzeyLp26kYok80Ktk9WC58WzFq9/2W0zv5H1AeSd+
-	 +0OPGoLGYgTcn2AfIh6s7pWia8opil3ZtEX6GzPdqQFoaFsulfTOOgN1H8Qla6g+hb
-	 rnqgzAiodORtA==
-Date: Sun, 22 Mar 2026 11:33:25 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Rodrigo Alencar via B4 Relay
- <devnull+rodrigo.alencar.analog.com@kernel.org>
-Cc: rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-doc@vger.kernel.org, David Lechner <dlechner@baylibre.com>, Andy
- Shevchenko <andy@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Michael
- Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Andrew Morton
- <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, Steven Rostedt
- <rostedt@goodmis.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky
- <senozhatsky@chromium.org>, Shuah Khan <skhan@linuxfoundation.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, Andy Shevchenko
- <andriy.shevchenko@intel.com>
-Subject: Re: [PATCH v9 0/9] ADF41513/ADF41510 PLL frequency synthesizers
-Message-ID: <20260322113325.5d54df36@jic23-huawei>
-In-Reply-To: <20260320-adf41513-iio-driver-v9-0-132f0d076374@analog.com>
-References: <20260320-adf41513-iio-driver-v9-0-132f0d076374@analog.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-pc-linux-gnu)
+	s=k20201202; t=1774181433;
+	bh=eXYFZ7uGHI3Grre4sTGmBcfewI49V9FG78PjTdQ1SKY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=STYWrpAgCo41wKZJhW7NJkEr3ztVpp0KU68Z2HYStMzLGJOHOBfqD6YN6swWHBaca
+	 V/nCHHRjylD36MiDuZD8GAu3wRAldXDHs1YuhQoJ7N5s2gFBAEPUODB8MUdyW9hS8W
+	 NemHjFt5jTsRk8tX9TVj+ob0JWYD8D7QSS5wjIHJEdj+TYIdEdxiFERbELTnXkzQuu
+	 hV3K7eeDhoSNlRTPR5h2Egpr5Yw42qOpG7ideiI3AL+bvntDvfLVKTGIVysqpBR0al
+	 0865/BdVyJSpulywHd8/Ez4pUEm+f5CNjnG4lCax8TfheOi35lBT9bYQIxS5/hgxO+
+	 Cem9dVcC/Rd0w==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-api@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	workflows@vger.kernel.org,
+	tools@kernel.org,
+	x86@kernel.org,
+	Thomas Gleixner <tglx@kernel.org>,
+	"Paul E . McKenney" <paulmck@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Cyril Hrubis <chrubis@suse.cz>,
+	Kees Cook <kees@kernel.org>,
+	Jake Edge <jake@lwn.net>,
+	David Laight <david.laight.linux@gmail.com>,
+	Askar Safin <safinaskar@zohomail.com>,
+	Gabriele Paoloni <gpaoloni@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH v2 0/9] Kernel API Specification Framework
+Date: Sun, 22 Mar 2026 08:10:14 -0400
+Message-ID: <20260322121026.869758-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Fri, 20 Mar 2026 16:27:25 +0000
-Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
+This proposal introduces machinery for documenting kernel APIs, addressing the
+long-standing challenge of maintaining stable interfaces between the kernel and
+user-space programs. Despite the kernel's commitment to never breaking user
+space, the lack of machine-readable API specifications has led to breakages and
+across system calls and IOCTLs.
 
-> This patch series adds support for the Analog Devices ADF41513 and ADF41510
-> ultralow noise PLL frequency synthesizers. These devices are designed for
-> implementing local oscillators (LOs) in high-frequency applications.
-> The ADF41513 covers frequencies from 1 GHz to 26.5 GHz, while the ADF41510
-> operates from 1 GHz to 10 GHz.
-> 
-> Key features supported by this driver:
-> - Integer-N and fractional-N operation modes
-> - High maximum PFD frequency (250 MHz integer-N, 125 MHz fractional-N)
-> - 25-bit fixed modulus or 49-bit variable modulus fractional modes
-> - Digital lock detect functionality
-> - Phase resync capability for consistent output phase
-> - Load Enable vs Reference signal syncronization
-> 
-> The series includes:
-> 1. PLL driver implementation
-> 2. Device tree bindings documentation
-> 3. IIO ABI documentation
-> 
-> Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> ---
-> Changes in v9:
-> - Expose simple_strntoull() in a safer prototype instead of new kstrntoull()
-I'm leaving this part to the experts.  Other than that aspect, I took
-another look through the driver and all looks good to me.
+Specifications can document parameter types, valid ranges, constraints, and
+alignment requirements. They capture return value semantics including success
+conditions and error codes with their meaning. Execution context requirements,
+capabilities, locking constraints, signal handling behavior, and side effects
+can all be formally specified.
 
-Thanks,
+These specifications live alongside the code they document and are both
+human-readable and machine-parseable. They can be validated at runtime when
+CONFIG_KAPI_RUNTIME_CHECKS is enabled, exported via debugfs for userspace
+tools, and extracted from either vmlinux or source code.
 
-Jonathan
+This enables static analysis tools to verify userspace API usage at compile
+time, test generation based on formal specifications, consistent error handling
+validation, automated documentation generation, and formal verification of
+kernel interfaces.
+
+The implementation includes a core framework with ELF section storage,
+kerneldoc integration for inline specification, a debugfs interface for runtime
+querying, and a Rust-based extraction tool (tools/kapi) supporting JSON, RST,
+and plain text output formats. Example specifications are provided for the four
+fundamental file syscalls (sys_open, sys_close, sys_read, sys_write). The
+series also includes a KUnit test suite with 38 tests and a runtime
+verification selftest with 29+ TAP tests.
+
+The series with runtime testing enabled (CONFIG_KAPI_RUNTIME_CHECKS=y)
+currently survives LTP tests in a KVM VM.
+
+Changes since v1:
+
+- Removed DEFINE_KERNEL_API_SPEC macro from user-facing documentation and
+  examples. The macros are now internal plumbing only; kerneldoc annotations
+  are the sole authoring interface. (Jonathan Corbet, Mauro Carvalho Chehab)
+
+- Removed IOCTL specification section from documentation, as no IOCTL specs
+  are included in this series. (Jonathan Corbet)
+
+- Removed since-version field entirely from the framework: struct
+  kernel_api_spec, debugfs output, JSON export, kdoc parser, and all
+  extractors/formatters in the kapi tool. (Jonathan Corbet)
+
+- Removed stale :Date: field from documentation. (Jonathan Corbet)
+
+- Fixed kmalloc documentation example to include both parameters (size and
+  flags) and a side-effect entry, matching the output example. (Jonathan Corbet)
+
+- Simplified DSL references in documentation: converted Common Patterns
+  section from raw macros to kerneldoc annotation format, removed macro
+  references from Implementation Details and Troubleshooting. (Jonathan Corbet, Mauro Carvalho Chehab)
+
+- Reworded sys_close spec to describe behavior without referencing kernel
+  internal callbacks: "flush callback" replaced with "close-time flush
+  operation", "release callback" references removed entirely. (Greg Kroah-Hartman)
+
+- Removed HP-UX reference and "implementation-defined behavior" phrasing
+  from sys_close spec. (Greg Kroah-Hartman)
+
+- Added copyright lines to all new files: C headers, kernel modules, Python
+  scripts, Rust source files, and selftests. (Greg Kroah-Hartman)
+
+- Fixed rebasing artifact where patch 3 removed content from patch 1's
+  documentation additions. (Greg Kroah-Hartman)
+
+- Removed unnecessary pr_info() from debugfs init and braces from
+  single-line for loop. (Greg Kroah-Hartman)
+
+- Added commit message changelogs to all patches. (Greg Kroah-Hartman)
+
+References:
+
+  v1: https://lore.kernel.org/all/20260313150928.2637368-1-sashal@kernel.org/
+  RFC v5: https://lore.kernel.org/lkml/20251218204239.4159453-1-sashal@kernel.org/
+  RFC v4: https://lore.kernel.org/lkml/20250825181434.3340805-1-sashal@kernel.org/
+  RFC v3: https://lore.kernel.org/lkml/20250711114248.2288591-1-sashal@kernel.org/
+  RFC v2: https://lore.kernel.org/lkml/20250624180742.5795-1-sashal@kernel.org/
+  RFC v1: https://lore.kernel.org/lkml/20250614134858.790460-1-sashal@kernel.org/
+
+Sasha Levin (9):
+  kernel/api: introduce kernel API specification framework
+  kernel/api: enable kerneldoc-based API specifications
+  kernel/api: add debugfs interface for kernel API specifications
+  tools/kapi: Add kernel API specification extraction tool
+  kernel/api: add API specification for sys_open
+  kernel/api: add API specification for sys_close
+  kernel/api: add API specification for sys_read
+  kernel/api: add API specification for sys_write
+  kernel/api: add runtime verification selftest
+
+ .gitignore                                    |    1 +
+ Documentation/dev-tools/index.rst             |    1 +
+ Documentation/dev-tools/kernel-api-spec.rst   |  620 +++++++
+ MAINTAINERS                                   |   12 +
+ arch/x86/include/asm/syscall_wrapper.h        |   40 +
+ fs/open.c                                     |  565 +++++-
+ fs/read_write.c                               |  683 +++++++
+ include/asm-generic/vmlinux.lds.h             |   28 +
+ include/linux/kernel_api_spec.h               | 1580 +++++++++++++++++
+ include/linux/syscall_api_spec.h              |  186 ++
+ include/linux/syscalls.h                      |   39 +
+ init/Kconfig                                  |    2 +
+ kernel/Makefile                               |    3 +
+ kernel/api/.gitignore                         |    2 +
+ kernel/api/Kconfig                            |   70 +
+ kernel/api/Makefile                           |   14 +
+ kernel/api/kapi_debugfs.c                     |  499 ++++++
+ kernel/api/kapi_kunit.c                       |  538 ++++++
+ kernel/api/kernel_api_spec.c                  | 1277 +++++++++++++
+ scripts/Makefile.build                        |   31 +
+ scripts/Makefile.clean                        |    3 +
+ tools/docs/kernel-doc                         |    5 +
+ tools/kapi/.gitignore                         |    4 +
+ tools/kapi/Cargo.toml                         |   19 +
+ tools/kapi/src/extractor/debugfs.rs           |  578 ++++++
+ tools/kapi/src/extractor/kerneldoc_parser.rs  | 1555 ++++++++++++++++
+ tools/kapi/src/extractor/mod.rs               |  461 +++++
+ tools/kapi/src/extractor/source_parser.rs     |  408 +++++
+ .../src/extractor/vmlinux/binary_utils.rs     |  508 ++++++
+ .../src/extractor/vmlinux/magic_finder.rs     |  115 ++
+ tools/kapi/src/extractor/vmlinux/mod.rs       |  844 +++++++++
+ tools/kapi/src/formatter/json.rs              |  720 ++++++++
+ tools/kapi/src/formatter/mod.rs               |  142 ++
+ tools/kapi/src/formatter/plain.rs             |  707 ++++++++
+ tools/kapi/src/formatter/rst.rs               |  850 +++++++++
+ tools/kapi/src/main.rs                        |  122 ++
+ tools/lib/python/kdoc/kdoc_apispec.py         |  888 +++++++++
+ tools/lib/python/kdoc/kdoc_output.py          |    9 +-
+ tools/lib/python/kdoc/kdoc_parser.py          |   85 +-
+ tools/testing/selftests/kapi/Makefile         |    7 +
+ tools/testing/selftests/kapi/kapi_test_util.h |   33 +
+ tools/testing/selftests/kapi/test_kapi.c      | 1023 +++++++++++
+ 42 files changed, 15268 insertions(+), 9 deletions(-)
+ create mode 100644 Documentation/dev-tools/kernel-api-spec.rst
+ create mode 100644 include/linux/kernel_api_spec.h
+ create mode 100644 include/linux/syscall_api_spec.h
+ create mode 100644 kernel/api/.gitignore
+ create mode 100644 kernel/api/Kconfig
+ create mode 100644 kernel/api/Makefile
+ create mode 100644 kernel/api/kapi_debugfs.c
+ create mode 100644 kernel/api/kapi_kunit.c
+ create mode 100644 kernel/api/kernel_api_spec.c
+ create mode 100644 tools/kapi/.gitignore
+ create mode 100644 tools/kapi/Cargo.toml
+ create mode 100644 tools/kapi/src/extractor/debugfs.rs
+ create mode 100644 tools/kapi/src/extractor/kerneldoc_parser.rs
+ create mode 100644 tools/kapi/src/extractor/mod.rs
+ create mode 100644 tools/kapi/src/extractor/source_parser.rs
+ create mode 100644 tools/kapi/src/extractor/vmlinux/binary_utils.rs
+ create mode 100644 tools/kapi/src/extractor/vmlinux/magic_finder.rs
+ create mode 100644 tools/kapi/src/extractor/vmlinux/mod.rs
+ create mode 100644 tools/kapi/src/formatter/json.rs
+ create mode 100644 tools/kapi/src/formatter/mod.rs
+ create mode 100644 tools/kapi/src/formatter/plain.rs
+ create mode 100644 tools/kapi/src/formatter/rst.rs
+ create mode 100644 tools/kapi/src/main.rs
+ create mode 100644 tools/lib/python/kdoc/kdoc_apispec.py
+ create mode 100644 tools/testing/selftests/kapi/Makefile
+ create mode 100644 tools/testing/selftests/kapi/kapi_test_util.h
+ create mode 100644 tools/testing/selftests/kapi/test_kapi.c
+
+-- 
+2.51.0
+
