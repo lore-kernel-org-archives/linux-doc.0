@@ -1,53 +1,50 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2218E37E319;
-	Sun, 22 Mar 2026 21:08:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E63133644C1;
+	Sun, 22 Mar 2026 21:25:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774213695; cv=none; b=gzf97bk14vy5qzPstLvML3qvCrDDk7krjggK/XIbGBv3kf/pyA3iLEjMoXpxL+PVNpoIQWAlzbtk3yO1Ob2EqxorCE+71JN+U7s/m9+4PuenUwxvRTzPo0nJRbZFtNMrrM7G061wQuSAszE1TAllaMUNio9LgEyJzBFVTaO38yQ=
+	t=1774214746; cv=none; b=Bzns604LbYpSFu5xTNiNcNctUqkkDzIYUHomXwzoFrwlrMwkwcVZIs8nTl0obKoTp8UWfs8QRe1UcMXloQxdAbN570Fz7kVp22Lzr1M9LCGinos0SLwk2I/oKU22Gu81mJAluqsk3l83NQIeXJKB7cgrjCqtUuQNVf1SB4jEy18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774213695; c=relaxed/simple;
-	bh=1dIm+IRJ8YNviqNMy1x1h605kgMvdgBb1SG2sRlgD/w=;
+	s=arc-20240116; t=1774214746; c=relaxed/simple;
+	bh=sLzZwqlgIyIewuma8u6FvE4MBBCLnIib9IormRqucxo=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=sUhrEc0ZnPsESB/YD91j1UxROqYjo3EigFCfuMIQc6XuDtpm7298j+Fd9n4S79yhPrbYrsTbARzrXj1LE98TRTO3ZFzn6SiwH44TGkm1JzBOyvN/bR5GOt+99HAqGAFCRm4ljabOesE7Mvezrg0I2mFW+1wN4QtSTWmCaRmEcUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=XjesLpLP; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=hvZuC3he6Xuk+O0E2LO0c+nEeswQkptal1dNKM4RtrwgPF7HwKwJqTLUAWuiWXdNtHSTJE48ueFtn0nT2S5plKmbg+nQLA9db6kLY5KHPUJ077Q384SB5WzwrbcY6MjAZt9/Ygea66MOecwE8TwsGs504aQUtJfGxzVL9GPoVt4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=GRPdBir0; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="XjesLpLP"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7DB4F411EA
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="GRPdBir0"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2846C411EA
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1774213693; bh=c7Mkncglh+ov7MC8kT/zXkMfiXtW+S9B7hikGVB2yP8=;
+	t=1774214745; bh=VN0HovmkbKOOtza+Hn4S6PjAcvyHLvcaFjoiB2Ew/30=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=XjesLpLPc5lvC+qLnMB24elpRtpfZfwHwCfm2W9F6je6yaz37b8vGZ6LwZ7Ajtm0J
-	 l/YBMLv7mXobmWRw2h+dqAA7iRyPm49xo02TxXAGWAWJ/EF/E0hr0KyQ4wG/MqoXOy
-	 OfYJuLc1pXZW/0MtXrvh8nonvXBhNCp8jscBqUDzXR0lM91nznRJ5Xelh372C5brE/
-	 xiZDTlMubegdzNEdIRHYPFWCOH1FImGDOPWikhq3lnUkmDtzyDSNB3WwhMyc+eipQ4
-	 d+qNUFV3QSNlH+4BtYv1/wI8Z/EcodfrbDitO/z3N6go43Oc7dXqa++UWEkmbcDt9E
-	 ty6hHNW5KSdhQ==
+	b=GRPdBir0mIhwM8QN5GPdJs0DjoEy5vsCuAizP3aPLh3+ES5U1kIhWXQ3YQyidIbcS
+	 wQrb0yLfbUP5TorCYzQh69pe9HTf3usaJimWfvio7jXjT0Y4T0tdm4pntYNuc176hu
+	 zGFofdXbuXW4JnpgmQQrlAz+FZh5y7WOzWL/rs/3ukbFznD10WbPINFl5ha2a/zMa4
+	 0oQX43/xcSWXHMVlv94ukaBgFD1GTUfSVqAgDPref7JD1geiNupelcnJ+kUWodYq/o
+	 o0z2uZnECkXsWrEv9D6s71uF4zR6pQtMcOxXqGljqEiMAYH5YNh6ctPIUo7njAJKYE
+	 9Tf7AW0TWj58Q==
 Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 7DB4F411EA;
-	Sun, 22 Mar 2026 21:08:13 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 2846C411EA;
+	Sun, 22 Mar 2026 21:25:45 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Kees Cook
- <kees@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org,
- linux-kernel@vger.kernel.org, "Gustavo A. R. Silva"
- <gustavoars@kernel.org>, Aleksandr Loktionov
- <aleksandr.loktionov@intel.com>, Randy Dunlap <rdunlap@infradead.org>,
- Shuah Khan <skhan@linuxfoundation.org>, Vincent Mailhol
- <mailhol@kernel.org>
-Subject: Re: [PATCH v3 00/22] kernel-doc: use a C lexical tokenizer for
- transforms
-In-Reply-To: <cover.1773770483.git.mchehab+huawei@kernel.org>
-References: <cover.1773770483.git.mchehab+huawei@kernel.org>
-Date: Sun, 22 Mar 2026 15:08:12 -0600
-Message-ID: <871phbd137.fsf@trenco.lwn.net>
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Aleksandr
+ Loktionov <aleksandr.loktionov@intel.com>, Randy Dunlap
+ <rdunlap@infradead.org>, Shuah Khan <skhan@linuxfoundation.org>, Sasha
+ Levin <sashal@kernel.org>
+Subject: Re: [PATCH 00/14] More kernel-doc patches
+In-Reply-To: <cover.1773823995.git.mchehab+huawei@kernel.org>
+References: <cover.1773823995.git.mchehab+huawei@kernel.org>
+Date: Sun, 22 Mar 2026 15:25:44 -0600
+Message-ID: <87wlz3blpj.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -60,14 +57,27 @@ Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
 > Hi Jon,
 >
-> It follows v3 of the series. I basically addressed there the
-> points you mentioned. Besides that, I did a fix at CMatch
-> group(0) logic, and opted to create a special token for ";",
-> as it simplifies the code a little bit and will likely help to
-> simplify future changes.
+> This series comes after:
+>     https://lore.kernel.org/linux-doc/cover.1773770483.git.mchehab+huawei@kernel.org/
+>
+> It basically contains patches I submitted before on a 40+ patch series,
+> but were less relevant, plus a couple of other minor fixes:
+>
+> - patch 1 improves one of the CTokenizer unit test, fixing some
+>   potential issues on it;
+> - patches 2 and 3 contain some improvement/fixes for Sphinx
+>   Python autodoc extension. They basically document c_lex.py;
+>
+> - The remaining patches:
+>   - create a new class for kernel-doc config;
+>   - fix some internal representations of KdocItem;
+>   - add unit tests for KernelDoc() parser class;
+>   - add support to output KdocItem in YAML, which is a
+>     machine-readable output for all documented kAPI.
+>
+> None of the patches should affect man or html output.
 
-OK, I have gone ahead and applied this series...it doesn't seem to
-explode for me, anyway :)  Let's hope for the best...
+OK, I applied this set too.
 
 Thanks,
 
