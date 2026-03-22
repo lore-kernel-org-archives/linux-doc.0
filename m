@@ -1,662 +1,137 @@
-Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFFAA1684A4
-	for <linux-doc@vger.kernel.org>; Sun, 22 Mar 2026 03:16:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.180
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774149384; cv=none; b=Jq7EZoIwAcP8JDYzEtnKLkuPh6hSh5Mxwr09cdJcGVh86x9xTTxoNlO3a6fm7PjRzTxG6ER7rekVXifLDRu4O9hoZY//5nLiClp5vjT1+J1S9siNFzzPpYFjZCcXLKek8biYSoOKy/28AvwOZAUMie3WFlsmkxk8sAY0f7hFevo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774149384; c=relaxed/simple;
-	bh=W1rLdAGagHNMf2g+c+r233cuQ/o3gDmRftmWdFY8IDg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CrpjelZvkC7vX1qgugW1bMp4EYnDrbHUb1Oc5jsZrxyJFMOtyDdrqp23icSO5ZLhgujZyowVL3ZsJwUssq4ddjh63nf0/oSqUVvJMXvSnAj9ntXjNUlu9ymdLAGET5bKlhzHy2BBv3AKnV7pk+Vd4tbAPVRLSTgvmkrnXV77UTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aBI/y+tG; arc=none smtp.client-ip=74.125.82.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48639221FDE
+	for <linux-doc@vger.kernel.org>; Sun, 22 Mar 2026 03:20:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774149641; cv=pass; b=UzFqSwlvFKayKB6OSIO5RI/t4skujYzi0K//QTzkJyF0mff6Q9qfu15NQ8sj+zt5I1jNas/Lzx8jSomSTnGHG18boostkaO2m1kxZ/u80GTHDxoOmY3eCCu9pBDz/asWoBtjwXZjlVoMARwiVOlnA8xhe4n9XlRQv/qZYSmJkTo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774149641; c=relaxed/simple;
+	bh=D/jXk1pI5cXw11B7dE5qYnkpodxoajS0naREmh8Tang=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WEki1nHgbqzk0VHRvdFLWszvFPotCTT50QSJSmw98O53EiZL1nRz6KqoN9qKd9gvAR+pWmxr0J7rYVHeAiy68N7w/jDrMkoCr+0gqIx3TD9HruU4Sm8k6o4+n3UfiT9W2JrTfZXuDVIK/6MwgSSJNsI5h+GaSIBSNbf9ixi7P3Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cy+SnTzT; arc=pass smtp.client-ip=209.85.219.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aBI/y+tG"
-Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-2c107ef474fso2937627eec.0
-        for <linux-doc@vger.kernel.org>; Sat, 21 Mar 2026 20:16:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cy+SnTzT"
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-89c52ef3c2fso30780616d6.0
+        for <linux-doc@vger.kernel.org>; Sat, 21 Mar 2026 20:20:40 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774149639; cv=none;
+        d=google.com; s=arc-20240605;
+        b=gmk8cn9vFqhEukp1gApk02U1GQyDR+3N2O3ZcyzdEMs5GyZC4zjuhVr2RnBmDkas8T
+         E9iW465RbyYVQsIVj1DsCvvH3O+h9IHZaaxSyfYY7k1AaxQc0+7qVMmLpx6xDUqw2t3w
+         3e4saSgigNmh7CmRXK6YxfaB+zMYzY2yggAXSsUfv2YKrT8iMi6JD5sWIBSMPvlJMmlW
+         DTgCPr5VSZmjGZUwfu6Zkqd4+JakYEwB2gLLj3ahchZoDzjAJmPeJ4Pu64X5ygkJlP5S
+         WiSeKzWWbcg7BEoYG5bz3EgVr5m9ncd1pb7KZdcJTiqgh+gyz1quEZpZKwJHdy3H/xEs
+         WPgg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=JuN3KmF+V3XuyVg+Ox3zokYqXtXUn8OU7JfRGLL9pOw=;
+        fh=WfhSUNMEeTSgCODiWs4Xl1I1POTl83J5+S4jUrhBVDg=;
+        b=KagzZtsDk9qXuL3U3Du1XW5OUicCNCpdffCyZS++yOO4FLe0bTzpl5KfjvV6ZSvKiH
+         vdJZS2IglfdeUMzReJHGHgQ9NrjNOUAWK/PerH9Z8PgnF7yurHBbN4TZ9+rnCJmCRq54
+         W0htnJRb5rIX0K566447YUjen4xg+RLowO91h45bRHRIuoHVwD0VYPrIYUKpGoxG56Yq
+         42oNmy67Hl9YMSIYKke0GpYRg4S67A8qIqzHUjlXLekOj/hZP8xucq1i2VHXVFU3SLGk
+         IEaiBYViZ+p0IxqvjPLya1GoEsBRkwOZQXLvbS7/uA/Yv/0WfPhy60meGuN0kKCcf4gD
+         2ENQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774149381; x=1774754181; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1774149639; x=1774754439; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=os0SrvdIH4z45ssqOZ2Hn0vhnIJqpjEjlIqduxgwWG0=;
-        b=aBI/y+tGBTXbdut4ZpltePlZUlIvaJQQoT+HACy+1aatd/rLZtuV5xIY3C9TvheWxv
-         pknF09qp79YFg4XZ2VKijbz3a82qEauXP10DBplZnXTXt6Q9Qr7/KMy2KL2pKGh9Fx3d
-         3H2hK8MXhWziCldVflUFaa59k4pZNSdm85x+HUow1I6lOPeg3uOFrAgn4ElhNnN2mYLu
-         Tb7zjZNHzZ17qRxA80i72x1HrWaMEdKqK1cB6k05hjyX4eE5KSXsD3WSwSNl4ZTuy3XS
-         05uZCrlgl5YefGzeiGjuHSfd9fABtqS/u2MOLFxg+Dk2d+QykUrCJz9jkvUuGMRxrDoP
-         TozQ==
+        bh=JuN3KmF+V3XuyVg+Ox3zokYqXtXUn8OU7JfRGLL9pOw=;
+        b=cy+SnTzT12rdFe52I1H6QnKGY58j2E2ZK5q1d1acOg3CJ29DSLcYpm5SRbSAa+mK3D
+         SC9ie1gCLDIzH7PGWs5lJvl66fM55H8Pavl8RUTd8d/F/oz/IZoB2foEm5kbsQz1k5e2
+         BE9ySdGSwy/j3K9na0ZR6yETuPJCE66hUEfBuxTAKjlR+Y5AMJGLZCeA3nc63AXOTpEs
+         FG78RAAgs/SWKqpQ3QrSZtECv3UubABNKG5HXzM6kG/bmioyjDE9grwXi+8x21hjfFiq
+         YPslOQ8a4Kl9g6WwxcxWUSmohQK9/fb2cfMmXFzAQ2CHLWr+X9dgfDPjO1hlGLuJwuKg
+         c1fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774149381; x=1774754181;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1774149639; x=1774754439;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=os0SrvdIH4z45ssqOZ2Hn0vhnIJqpjEjlIqduxgwWG0=;
-        b=ffzq6lr8Z9PgypUHZBftP8FXpQEC297iEJi2E8toRCsZ9XJOGxeym2l9Unjbqi3UlB
-         U3T+NE8YikYypz9reri2kGDb51TVU+rJsyaK9c6zLvnoyNuCqebziYcZoHbZuUJrW+6d
-         l6fIfhuJQm6ITiYxe6dKtfj1ZMg+XJ5nlGY8v7B1KI31cdOiVWie8oiNv7nKgckR1N9b
-         h1wLx4ddtyoQs9YL5tgXSdLBRdWnxuTm39py/xtihbqZyxopCr5j/7n5BOcGuNTwOAvG
-         8RJ+iUaSh2/b/f/didQK4Z37JG/qx8rHiEVbR4p9VcuoxCos4ZVLQPKJlf1Rrx+31aXA
-         LYag==
-X-Forwarded-Encrypted: i=1; AJvYcCV01TA8eerjzm2WZS/3bq1KHx+/xidCUupEvze1emcK6Xls6ANmhRdOKnwup5Y4EtY+JblKhxOumFg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzvkl4RvL3IoGwopk/+4XSVit+Q/Yw7GBLjlZO+3kmvKUfm0oH4
-	rKyv2X4qibst+b/XgLeMEbainP7PxauMX+qNsuYTheQX48orwgSZ5D7o
-X-Gm-Gg: ATEYQzwDDY1jGqvmZ/3t5qlEsmqEi9E2jeflBX4HgKM8dapzwqEQE2okWyHWuFyX+uO
-	WnSbfqsxzU99PFpKUV9l03LLgD/UJTjilyobqu+PkGFLEQHcsaBzcoFt3kXEqEmCdsAJV8Ffyo4
-	1ucMPBsmVrqC8IYIDzDOTvYCsvx8lgjmCUGQfWgJcwloaOxkcgrMorRmtuphcD6KVUr6ijf5aq3
-	pfyE9CNbct9mg1JmPT14uQudxdD9ZQOlJxhIxAT1jn9+prBJBmRk6VtByLokDFqU/IXqnGP74Et
-	nteg7Drlogu9ajSzpk4B/sztjwLLFVaknJNLsOXms/qdKJ6LiFVPl9R24Uf1fjqIbjeMTD9i7r5
-	Z63UpvBvb6+d5fNNojzpRw61hcwcFIuNXTr3UEGf3pVwJnfVrB4n5E4/EO93wQiK4J6JtAaPRms
-	t5a1MlSi0KTURRiteD6yuArCRrEbl9LHUgpowBSR41upQyjwvnxrQTA771U1djSYmuTWOki6rTg
-	5Papgxr540bwTM=
-X-Received: by 2002:a05:7301:4198:b0:2c0:e31b:1814 with SMTP id 5a478bee46e88-2c10961ef26mr3439331eec.10.1774149380856;
-        Sat, 21 Mar 2026 20:16:20 -0700 (PDT)
-Received: from lappy (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c10b31bef1sm11220460eec.26.2026.03.21.20.16.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Mar 2026 20:16:20 -0700 (PDT)
-From: "Derek J. Clark" <derekjohn.clark@gmail.com>
-To: Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>
-Cc: "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
-	Lambert Fan <fanzhaoming@anopc.com>,
-	"Derek J . Clark" <derekjohn.clark@gmail.com>,
-	linux-input@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 4/4] HID: hid-oxp: Add Button Mapping Interface
-Date: Sun, 22 Mar 2026 03:16:15 +0000
-Message-ID: <20260322031615.1524307-5-derekjohn.clark@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260322031615.1524307-1-derekjohn.clark@gmail.com>
-References: <20260322031615.1524307-1-derekjohn.clark@gmail.com>
+        bh=JuN3KmF+V3XuyVg+Ox3zokYqXtXUn8OU7JfRGLL9pOw=;
+        b=CY84DDoQv4bvPJr0/ocj/KdeGsWQxenRm8ZXiSGLzyvK4Nho4rPayEK/3qyh4zGeJX
+         fHjulha7q8HRJFzA9X/Vj04wG8wiuMJLgeTDfhH1VVu8MkxK3V0K78hjD8U9Gjw6KAlV
+         m2rZZdRFkX/Bsxcfy9FLCcDU0OVDJTgeec+1chAbmC7S5e7Nw1g8x2hTfEamLgIuEcOi
+         5aCJ4gjctU56mVs26HLcShbw3l1Izt8XsgQCSBWN2UcBXf6niJUa0rdzKUd3qXClXWEv
+         Ihts3vfR+wndUfTtnOmnoq4Z0/BEgb1xtSZIzLlGXjtJqwEpD0MRkZsTzCJeFqG69ZK8
+         MQIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXbkzssd1KdvAsR+kvTWn80Rz64Uc3WlRiSU0vWHQmrJ9V6Mj02URuNqVKwyoItJfSxV5lYklV4+L4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzkwuebWGVPCO4eWOPFlwRJfnVhVytDiDca4LWV9F54lbW2HDOv
+	gXmQzaxKU7i2taRLNHDDTeb8vZoQBF27sNtUCgZpQ0XT6Gv/9kFkbL3Gy3FqTUMUAtQNF8YnxbX
+	3PwhMvVwAZcsQiiKCjZvMwdVN4jlMfdw=
+X-Gm-Gg: ATEYQzxxxZZL1nLGwPZBLM6X3NS9fSwnv3OEKcfrcUA/ofhSPu/2FvbzEDe82Owxg5a
+	W7jxhUNWlLMbt6LOWPD7eSwstu0tx99/YRNQNorj+cqA7sD6qW1mMxwz+PDr/19PC7MAvCbvJcX
+	tdXD7r0/EWhc5d9NiyJBkoDBdmU1Nbol7fbeIYoIGca6mh97mZsuM/RDnMJtBg2isnsEtFj1Y8G
+	7QClE0N20GfnfkvhPDQYkHiWaci+IjYEK89s1N+S07pMIloQSWO5vkTBoBTlPTAeVolfwqTcliy
+	iOKXPsDd
+X-Received: by 2002:a05:6214:1bce:b0:89a:10d8:f9ca with SMTP id
+ 6a1803df08f44-89c859e84d5mr132297946d6.26.1774149639178; Sat, 21 Mar 2026
+ 20:20:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260322031615.1524307-1-derekjohn.clark@gmail.com>
+In-Reply-To: <20260322031615.1524307-1-derekjohn.clark@gmail.com>
+From: Derek John Clark <derekjohn.clark@gmail.com>
+Date: Sat, 21 Mar 2026 20:20:28 -0700
+X-Gm-Features: AaiRm51WFDkUJtKya_d2Hd7XzkBhvrWuYD4OyuVFWBTk5xib76q2ZKap24xbwmU
+Message-ID: <CAFqHKTk54aN0c1SjjjEf33rbWuPWEfDpaKpDvmAPJ-2L1PNcwQ@mail.gmail.com>
+Subject: Re: [PATCH 0/4] Add OneXPlayer Configuration HID Driver
+To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>
+Cc: "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>, Lambert Fan <fanzhaoming@anopc.com>, 
+	linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Adds button mapping interface for second generation OneXPlayer
-configuration HID interfaces. This interface allows the MCU to swap
-button mappings at the hardware level. The current state cannot be
-retrieved, and the mappings may have been modified in Windows prior, so
-we reset the button mapping at init and expose an attribute to allow
-userspace to do this again at any time.
+On Sat, Mar 21, 2026 at 8:16=E2=80=AFPM Derek J. Clark
+<derekjohn.clark@gmail.com> wrote:
+>
+> Adds an HID driver for OneXPlayer HID configuration devices. There are
+> currently 2 generations of OneXPlayer HID protocol. The first generation
+> (OneXPlayer F1 series) only provides an RGB control interface over HID.
+> The Second generation (X1 mini series, G1 series, AOKZOE A1X) also
+> includes a hardware level button mapping interface, as well as a
+> "takeover" mode that was added by the ODM for debugging the button map.
+> This takeover mode can be useful for exposing the M1 and M2 accessory
+> buttons as unique inputs with some userspace tools that can consume it.
+>
+> Signed-off-by: Derel J. Clark <derekjohn.clark@gmail.com>
+>
+> Derek J. Clark (4):
+>   HID: hid-oxp: Add OneXPlayer configuration driver
+>   HID: hid-oxp: Add Second Generation RGB Control
+>   HID: hid-oxp: Add Second Generation Takeover Mode
+>   HID: hid-oxp: Add Button Mapping Interface
+>
+>  MAINTAINERS           |    6 +
+>  drivers/hid/Kconfig   |   12 +
+>  drivers/hid/Makefile  |    1 +
+>  drivers/hid/hid-ids.h |    6 +
+>  drivers/hid/hid-oxp.c | 1340 +++++++++++++++++++++++++++++++++++++++++
+>  5 files changed, 1365 insertions(+)
+>  create mode 100644 drivers/hid/hid-oxp.c
+>
+> --
+> 2.53.0
+>
 
-The interface requires two pages of button mapping data to be sent
-before the settings will take place. Since the MCU requires a 200ms
-delay after each message (total 400ms for these attributes) use the same
-debounce work queue method we used for RGB. This will allow for
-userspace or udev rules to rapidly map all buttons. The values will
-be cached before the final write is finally sent to the device.
+Note to everyone: I forgot to rebase to a clean for-next branch before
+sending this so build bots will likely fail. I'll be sure to update
+the source branch to the appropriate branch for v2 after a few days to
+allow time for comments on the patch substance. Sorry about the extra
+churn here.
 
-Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
----
- drivers/hid/hid-oxp.c | 510 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 510 insertions(+)
-
-diff --git a/drivers/hid/hid-oxp.c b/drivers/hid/hid-oxp.c
-index 5fed2799a2ad..915c17b97db0 100644
---- a/drivers/hid/hid-oxp.c
-+++ b/drivers/hid/hid-oxp.c
-@@ -33,10 +33,126 @@ enum oxp_function_index {
- 	OXP_FID_GEN1_RGB_SET =		0x07,
- 	OXP_FID_GEN1_RGB_REPLY =	0x0f,
- 	OXP_FID_GEN2_TOGGLE_MODE =	0xb2,
-+	OXP_FID_GEN2_KEY_STATE =	0xb4,
- 	OXP_FID_GEN2_RGB_EVENT =	0xb8,
- };
- 
-+enum oxp_joybutton_index {
-+	BUTTON_A = 0x01,
-+	BUTTON_B,
-+	BUTTON_X,
-+	BUTTON_Y,
-+	BUTTON_LB,
-+	BUTTON_RB,
-+	BUTTON_LT,
-+	BUTTON_RT,
-+	BUTTON_START,
-+	BUTTON_SELECT,
-+	BUTTON_L3,
-+	BUTTON_R3,
-+	BUTTON_DUP,
-+	BUTTON_DDOWN,
-+	BUTTON_DLEFT,
-+	BUTTON_DRIGHT,
-+	JOY_L_UP,
-+	JOY_L_UP_RIGHT,
-+	JOY_L_RIGHT,
-+	JOY_L_DOWN_RIGHT,
-+	JOY_L_DOWN,
-+	JOY_L_DOWN_LEFT,
-+	JOY_L_LEFT,
-+	JOY_L_UP_LEFT,
-+	JOY_R_UP,
-+	JOY_R_UP_RIGHT,
-+	JOY_R_RIGHT,
-+	JOY_R_DOWN_RIGHT,
-+	JOY_R_DOWN,
-+	JOY_R_DOWN_LEFT,
-+	JOY_R_LEFT,
-+	JOY_R_UP_LEFT,
-+	BUTTON_GUIDE = 0x22,
-+};
-+
-+static const char *const oxp_joybutton_text[] = {
-+	[BUTTON_A] = "a",
-+	[BUTTON_B] = "b",
-+	[BUTTON_X] = "x",
-+	[BUTTON_Y] = "y",
-+	[BUTTON_LB] = "lb",
-+	[BUTTON_RB] = "rb",
-+	[BUTTON_LT] = "lt",
-+	[BUTTON_RT] = "rt",
-+	[BUTTON_START] = "start",
-+	[BUTTON_SELECT] = "select",
-+	[BUTTON_L3] = "l3",
-+	[BUTTON_R3] = "r3",
-+	[BUTTON_DUP] = "d_up",
-+	[BUTTON_DDOWN] = "d_down",
-+	[BUTTON_DLEFT] = "d_left",
-+	[BUTTON_DRIGHT] = "d_right",
-+	[JOY_L_UP] = "joy_l_up",
-+	[JOY_L_UP_RIGHT] = "joy_l_up_right",
-+	[JOY_L_RIGHT] = "joy_l_right",
-+	[JOY_L_DOWN_RIGHT] = "joy_l_down_right",
-+	[JOY_L_DOWN] = "joy_l_down",
-+	[JOY_L_DOWN_LEFT] = "joy_l_down_left",
-+	[JOY_L_LEFT] = "joy_l_left",
-+	[JOY_L_UP_LEFT] = "joy_l_up_left",
-+	[JOY_R_UP] = "joy_r_up",
-+	[JOY_R_UP_RIGHT] = "joy_r_up_right",
-+	[JOY_R_RIGHT] = "joy_r_right",
-+	[JOY_R_DOWN_RIGHT] = "joy_r_down_right",
-+	[JOY_R_DOWN] = "joy_r_down",
-+	[JOY_R_DOWN_LEFT] = "joy_r_down_left",
-+	[JOY_R_LEFT] = "joy_r_left",
-+	[JOY_R_UP_LEFT] = "joy_r_up_left",
-+	[BUTTON_GUIDE] = "guide",
-+};
-+
-+enum oxp_custom_button_index {
-+	BUTTON_M1 = 0x22,
-+	BUTTON_M2,
-+	/* These are unused currently, reserved for future devices */
-+	BUTTON_M3,
-+	BUTTON_M4,
-+	BUTTON_M5,
-+	BUTTON_M6,
-+};
-+
-+struct oxp_button {
-+	u8 index;
-+	u8 mode;
-+	u8 mapping;
-+	u8 padding[3];
-+} __packed;
-+
-+struct oxp_bmap_page_1 {
-+	struct oxp_button btn_a;
-+	struct oxp_button btn_b;
-+	struct oxp_button btn_x;
-+	struct oxp_button btn_y;
-+	struct oxp_button btn_lb;
-+	struct oxp_button btn_rb;
-+	struct oxp_button btn_lt;
-+	struct oxp_button btn_rt;
-+	struct oxp_button btn_start;
-+} __packed;
-+
-+struct oxp_bmap_page_2 {
-+	struct oxp_button btn_select;
-+	struct oxp_button btn_l3;
-+	struct oxp_button btn_r3;
-+	struct oxp_button btn_dup;
-+	struct oxp_button btn_ddown;
-+	struct oxp_button btn_dleft;
-+	struct oxp_button btn_dright;
-+	struct oxp_button btn_m1;
-+	struct oxp_button btn_m2;
-+} __packed;
-+
- static struct oxp_hid_cfg {
-+	struct oxp_bmap_page_1 *bmap_1;
-+	struct oxp_bmap_page_2 *bmap_2;
- 	struct led_classdev_mc *led_mc;
- 	struct hid_device *hdev;
- 	struct mutex cfg_mutex; /*ensure single synchronous output report*/
-@@ -144,6 +260,10 @@ struct oxp_gen_2_rgb_report {
- 	u8 effect;
- } __packed;
- 
-+struct oxp_button_attr {
-+	u8 index;
-+};
-+
- static u16 get_usage_page(struct hid_device *hdev)
- {
- 	return hdev->collection[0].usage >> 16;
-@@ -351,9 +471,380 @@ static ssize_t button_takeover_index_show(struct device *dev,
- }
- static DEVICE_ATTR_RO(button_takeover_index);
- 
-+static void oxp_set_defaults_bmap_1(struct oxp_bmap_page_1 *bmap)
-+{
-+	bmap->btn_a.index = BUTTON_A;
-+	bmap->btn_a.mode = 0x01;
-+	bmap->btn_a.mapping = BUTTON_A;
-+	bmap->btn_b.index = BUTTON_B;
-+	bmap->btn_b.mode = 0x01;
-+	bmap->btn_b.mapping = BUTTON_B;
-+	bmap->btn_x.index = BUTTON_X;
-+	bmap->btn_x.mode = 0x01;
-+	bmap->btn_x.mapping = BUTTON_X;
-+	bmap->btn_y.index = BUTTON_Y;
-+	bmap->btn_y.mode = 0x01;
-+	bmap->btn_y.mapping = BUTTON_Y;
-+	bmap->btn_lb.index = BUTTON_LB;
-+	bmap->btn_lb.mode = 0x01;
-+	bmap->btn_lb.mapping = BUTTON_LB;
-+	bmap->btn_rb.index = BUTTON_RB;
-+	bmap->btn_rb.mode = 0x01;
-+	bmap->btn_rb.mapping = BUTTON_RB;
-+	bmap->btn_lt.index = BUTTON_LT;
-+	bmap->btn_lt.mode = 0x01;
-+	bmap->btn_lt.mapping = BUTTON_LT;
-+	bmap->btn_rt.index = BUTTON_RT;
-+	bmap->btn_rt.mode = 0x01;
-+	bmap->btn_rt.mapping = BUTTON_RT;
-+	bmap->btn_start.index = BUTTON_START;
-+	bmap->btn_start.mode = 0x01;
-+	bmap->btn_start.mapping = BUTTON_START;
-+}
-+
-+static void oxp_set_defaults_bmap_2(struct oxp_bmap_page_2 *bmap)
-+{
-+	bmap->btn_select.index = BUTTON_SELECT;
-+	bmap->btn_select.mode = 0x01;
-+	bmap->btn_select.mapping = BUTTON_SELECT;
-+	bmap->btn_l3.index = BUTTON_L3;
-+	bmap->btn_l3.mode = 0x01;
-+	bmap->btn_l3.mapping = BUTTON_L3;
-+	bmap->btn_r3.index = BUTTON_R3;
-+	bmap->btn_r3.mode = 0x01;
-+	bmap->btn_r3.mapping = BUTTON_R3;
-+	bmap->btn_dup.index = BUTTON_DUP;
-+	bmap->btn_dup.mode = 0x01;
-+	bmap->btn_dup.mapping = BUTTON_DUP;
-+	bmap->btn_ddown.index = BUTTON_DDOWN;
-+	bmap->btn_ddown.mode = 0x01;
-+	bmap->btn_ddown.mapping = BUTTON_DDOWN;
-+	bmap->btn_dleft.index = BUTTON_DLEFT;
-+	bmap->btn_dleft.mode = 0x01;
-+	bmap->btn_dleft.mapping = BUTTON_DLEFT;
-+	bmap->btn_dright.index = BUTTON_DRIGHT;
-+	bmap->btn_dright.mode = 0x01;
-+	bmap->btn_dright.mapping = BUTTON_DRIGHT;
-+	bmap->btn_m1.index = BUTTON_M1;
-+	bmap->btn_m1.mode = 0x01;
-+	bmap->btn_m1.mapping = BUTTON_LT;
-+	bmap->btn_m2.index = BUTTON_M2;
-+	bmap->btn_m2.mode = 0x01;
-+	bmap->btn_m2.mapping = BUTTON_RT;
-+}
-+
-+static int oxp_set_buttons(void)
-+{
-+	u8 data[59] = { 0x02, 0x00, 0x00, 0x00, 0x01 };
-+	u16 up = get_usage_page(drvdata.hdev);
-+	int ret;
-+
-+	if (up != GEN2_USAGE_PAGE)
-+		return -EINVAL;
-+
-+	memcpy(data + 5, drvdata.bmap_1, sizeof(struct oxp_bmap_page_1));
-+	ret = oxp_gen_2_property_out(OXP_FID_GEN2_KEY_STATE, data, ARRAY_SIZE(data));
-+	if (ret)
-+		return ret;
-+
-+	memcpy(data + 5, drvdata.bmap_2, sizeof(struct oxp_bmap_page_2));
-+	return oxp_gen_2_property_out(OXP_FID_GEN2_KEY_STATE, data, ARRAY_SIZE(data));
-+}
-+
-+static int oxp_reset_buttons(void)
-+{
-+	oxp_set_defaults_bmap_1(drvdata.bmap_1);
-+	oxp_set_defaults_bmap_2(drvdata.bmap_2);
-+	return oxp_set_buttons();
-+}
-+
-+static ssize_t reset_buttons_store(struct device *dev,
-+				   struct device_attribute *attr, const char *buf,
-+				   size_t count)
-+{
-+	int val, ret;
-+
-+	ret = kstrtoint(buf, 10, &val);
-+	if (ret)
-+		return ret;
-+
-+	if (val != 1)
-+		return -EINVAL;
-+
-+	ret = oxp_reset_buttons();
-+	if (ret)
-+		return ret;
-+
-+	return count;
-+}
-+static DEVICE_ATTR_WO(reset_buttons);
-+
-+static void oxp_btn_queue_fn(struct work_struct *work)
-+{
-+	int ret;
-+
-+	ret = oxp_set_buttons();
-+	if (ret)
-+		dev_err(&drvdata.hdev->dev,
-+			"Error: Failed to write button mapping: %i\n", ret);
-+}
-+
-+static DECLARE_DELAYED_WORK(oxp_btn_queue, oxp_btn_queue_fn);
-+
-+static ssize_t map_button_store(struct device *dev,
-+				struct device_attribute *attr, const char *buf,
-+				size_t count, u8 index)
-+{
-+	int ret;
-+	u8 val;
-+
-+	ret = sysfs_match_string(oxp_joybutton_text, buf);
-+	if (ret < 0)
-+		return ret;
-+
-+	val = ret;
-+
-+	switch (index) {
-+	case BUTTON_A:
-+		drvdata.bmap_1->btn_a.mapping = val;
-+		break;
-+	case BUTTON_B:
-+		drvdata.bmap_1->btn_b.mapping = val;
-+		break;
-+	case BUTTON_X:
-+		drvdata.bmap_1->btn_x.mapping = val;
-+		break;
-+	case BUTTON_Y:
-+		drvdata.bmap_1->btn_y.mapping = val;
-+		break;
-+	case BUTTON_LB:
-+		drvdata.bmap_1->btn_lb.mapping = val;
-+		break;
-+	case BUTTON_RB:
-+		drvdata.bmap_1->btn_rb.mapping = val;
-+		break;
-+	case BUTTON_LT:
-+		drvdata.bmap_1->btn_lt.mapping = val;
-+		break;
-+	case BUTTON_RT:
-+		drvdata.bmap_1->btn_rt.mapping = val;
-+		break;
-+	case BUTTON_START:
-+		drvdata.bmap_1->btn_start.mapping = val;
-+		break;
-+	case BUTTON_SELECT:
-+		drvdata.bmap_2->btn_select.mapping = val;
-+		break;
-+	case BUTTON_L3:
-+		drvdata.bmap_2->btn_l3.mapping = val;
-+		break;
-+	case BUTTON_R3:
-+		drvdata.bmap_2->btn_r3.mapping = val;
-+		break;
-+	case BUTTON_DUP:
-+		drvdata.bmap_2->btn_dup.mapping = val;
-+		break;
-+	case BUTTON_DDOWN:
-+		drvdata.bmap_2->btn_ddown.mapping = val;
-+		break;
-+	case BUTTON_DLEFT:
-+		drvdata.bmap_2->btn_dleft.mapping = val;
-+		break;
-+	case BUTTON_DRIGHT:
-+		drvdata.bmap_2->btn_dright.mapping = val;
-+		break;
-+	case BUTTON_M1:
-+		drvdata.bmap_2->btn_m1.mapping = val;
-+		break;
-+	case BUTTON_M2:
-+		drvdata.bmap_2->btn_m2.mapping = val;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	mod_delayed_work(system_wq, &oxp_btn_queue, msecs_to_jiffies(50));
-+	return count;
-+}
-+
-+static ssize_t map_button_show(struct device *dev,
-+			       struct device_attribute *attr, char *buf,
-+			       u8 index)
-+{
-+	u8 i;
-+
-+	switch (index) {
-+	case BUTTON_A:
-+		i = drvdata.bmap_1->btn_a.mapping;
-+		break;
-+	case BUTTON_B:
-+		i = drvdata.bmap_1->btn_b.mapping;
-+		break;
-+	case BUTTON_X:
-+		i = drvdata.bmap_1->btn_x.mapping;
-+		break;
-+	case BUTTON_Y:
-+		i = drvdata.bmap_1->btn_y.mapping;
-+		break;
-+	case BUTTON_LB:
-+		i = drvdata.bmap_1->btn_lb.mapping;
-+		break;
-+	case BUTTON_RB:
-+		i = drvdata.bmap_1->btn_rb.mapping;
-+		break;
-+	case BUTTON_LT:
-+		i = drvdata.bmap_1->btn_lt.mapping;
-+		break;
-+	case BUTTON_RT:
-+		i = drvdata.bmap_1->btn_rt.mapping;
-+		break;
-+	case BUTTON_START:
-+		i = drvdata.bmap_1->btn_start.mapping;
-+		break;
-+	case BUTTON_SELECT:
-+		i = drvdata.bmap_2->btn_select.mapping;
-+		break;
-+	case BUTTON_L3:
-+		i = drvdata.bmap_2->btn_l3.mapping;
-+		break;
-+	case BUTTON_R3:
-+		i = drvdata.bmap_2->btn_r3.mapping;
-+		break;
-+	case BUTTON_DUP:
-+		i = drvdata.bmap_2->btn_dup.mapping;
-+		break;
-+	case BUTTON_DDOWN:
-+		i = drvdata.bmap_2->btn_ddown.mapping;
-+		break;
-+	case BUTTON_DLEFT:
-+		i = drvdata.bmap_2->btn_dleft.mapping;
-+		break;
-+	case BUTTON_DRIGHT:
-+		i = drvdata.bmap_2->btn_dright.mapping;
-+		break;
-+	case BUTTON_M1:
-+		i = drvdata.bmap_2->btn_m1.mapping;
-+		break;
-+	case BUTTON_M2:
-+		i = drvdata.bmap_2->btn_m2.mapping;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	if (i >= ARRAY_SIZE(oxp_joybutton_text))
-+		return -EINVAL;
-+
-+	return sysfs_emit(buf, "%s\n", oxp_joybutton_text[i]);
-+}
-+
-+static ssize_t button_mapping_options_show(struct device *dev,
-+					   struct device_attribute *attr, char *buf)
-+{
-+	ssize_t count = 0;
-+	unsigned int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(oxp_joybutton_text); i++)
-+		count += sysfs_emit_at(buf, count, "%s ", oxp_joybutton_text[i]);
-+
-+	if (count)
-+		buf[count - 1] = '\n';
-+
-+	return count;
-+}
-+static DEVICE_ATTR_RO(button_mapping_options);
-+
-+#define OXP_DEVICE_ATTR_RW(_name, _group)                                     \
-+	static ssize_t _name##_store(struct device *dev,                      \
-+				     struct device_attribute *attr,           \
-+				     const char *buf, size_t count)           \
-+	{                                                                     \
-+		return _group##_store(dev, attr, buf, count, _name.index);    \
-+	}                                                                     \
-+	static ssize_t _name##_show(struct device *dev,                       \
-+				    struct device_attribute *attr, char *buf) \
-+	{                                                                     \
-+		return _group##_show(dev, attr, buf, _name.index);            \
-+	}                                                                     \
-+	static DEVICE_ATTR_RW(_name)
-+
-+static struct oxp_button_attr button_a = { BUTTON_A };
-+OXP_DEVICE_ATTR_RW(button_a, map_button);
-+
-+static struct oxp_button_attr button_b = { BUTTON_B };
-+OXP_DEVICE_ATTR_RW(button_b, map_button);
-+
-+static struct oxp_button_attr button_x = { BUTTON_X };
-+OXP_DEVICE_ATTR_RW(button_x, map_button);
-+
-+static struct oxp_button_attr button_y = { BUTTON_Y };
-+OXP_DEVICE_ATTR_RW(button_y, map_button);
-+
-+static struct oxp_button_attr button_lb = { BUTTON_LB };
-+OXP_DEVICE_ATTR_RW(button_lb, map_button);
-+
-+static struct oxp_button_attr button_rb = { BUTTON_RB };
-+OXP_DEVICE_ATTR_RW(button_rb, map_button);
-+
-+static struct oxp_button_attr button_lt = { BUTTON_LT };
-+OXP_DEVICE_ATTR_RW(button_lt, map_button);
-+
-+static struct oxp_button_attr button_rt = { BUTTON_RT };
-+OXP_DEVICE_ATTR_RW(button_rt, map_button);
-+
-+static struct oxp_button_attr button_start = { BUTTON_START };
-+OXP_DEVICE_ATTR_RW(button_start, map_button);
-+
-+static struct oxp_button_attr button_select = { BUTTON_SELECT };
-+OXP_DEVICE_ATTR_RW(button_select, map_button);
-+
-+static struct oxp_button_attr button_l3 = { BUTTON_L3 };
-+OXP_DEVICE_ATTR_RW(button_l3, map_button);
-+
-+static struct oxp_button_attr button_r3 = { BUTTON_R3 };
-+OXP_DEVICE_ATTR_RW(button_r3, map_button);
-+
-+static struct oxp_button_attr button_d_up = { BUTTON_DUP };
-+OXP_DEVICE_ATTR_RW(button_d_up, map_button);
-+
-+static struct oxp_button_attr button_d_down = { BUTTON_DDOWN };
-+OXP_DEVICE_ATTR_RW(button_d_down, map_button);
-+
-+static struct oxp_button_attr button_d_left = { BUTTON_DLEFT };
-+OXP_DEVICE_ATTR_RW(button_d_left, map_button);
-+
-+static struct oxp_button_attr button_d_right = { BUTTON_DRIGHT };
-+OXP_DEVICE_ATTR_RW(button_d_right, map_button);
-+
-+static struct oxp_button_attr button_m1 = { BUTTON_M1 };
-+OXP_DEVICE_ATTR_RW(button_m1, map_button);
-+
-+static struct oxp_button_attr button_m2 = { BUTTON_M2 };
-+OXP_DEVICE_ATTR_RW(button_m2, map_button);
-+
- static struct attribute *oxp_cfg_attrs[] = {
-+	&dev_attr_button_a.attr,
-+	&dev_attr_button_b.attr,
-+	&dev_attr_button_d_down.attr,
-+	&dev_attr_button_d_left.attr,
-+	&dev_attr_button_d_right.attr,
-+	&dev_attr_button_d_up.attr,
-+	&dev_attr_button_l3.attr,
-+	&dev_attr_button_lb.attr,
-+	&dev_attr_button_lt.attr,
-+	&dev_attr_button_m1.attr,
-+	&dev_attr_button_m2.attr,
-+	&dev_attr_button_mapping_options.attr,
-+	&dev_attr_button_r3.attr,
-+	&dev_attr_button_rb.attr,
-+	&dev_attr_button_rt.attr,
-+	&dev_attr_button_select.attr,
-+	&dev_attr_button_start.attr,
- 	&dev_attr_button_takeover.attr,
- 	&dev_attr_button_takeover_index.attr,
-+	&dev_attr_button_x.attr,
-+	&dev_attr_button_y.attr,
-+	&dev_attr_reset_buttons.attr,
- 	NULL,
- };
- 
-@@ -729,6 +1220,8 @@ static struct led_classdev_mc oxp_cdev_rgb = {
- 
- static int oxp_cfg_probe(struct hid_device *hdev, u16 up)
- {
-+	struct oxp_bmap_page_1 *bmap_1;
-+	struct oxp_bmap_page_2 *bmap_2;
- 	int ret;
- 
- 	hid_set_drvdata(hdev, &drvdata);
-@@ -756,6 +1249,23 @@ static int oxp_cfg_probe(struct hid_device *hdev, u16 up)
- 	if (up != GEN2_USAGE_PAGE)
- 		return 0;
- 
-+	bmap_1 = devm_kzalloc(&hdev->dev, sizeof(struct oxp_bmap_page_1), GFP_KERNEL);
-+	if (!bmap_1)
-+		return dev_err_probe(&hdev->dev, -ENOMEM,
-+				     "Unable to allocate button map page 1\n");
-+
-+	bmap_2 = devm_kzalloc(&hdev->dev, sizeof(struct oxp_bmap_page_2), GFP_KERNEL);
-+	if (!bmap_2)
-+		return dev_err_probe(&hdev->dev, -ENOMEM,
-+				     "Unable to allocate button map page 2\n");
-+
-+	drvdata.bmap_1 = bmap_1;
-+	drvdata.bmap_2 = bmap_2;
-+	ret = oxp_reset_buttons();
-+	if (ret)
-+		return dev_err_probe(&hdev->dev, ret,
-+				     "Failed to reset button mapping\n");
-+
- 	ret = devm_device_add_group(&hdev->dev, &oxp_cfg_attrs_group);
- 	if (ret)
- 		return dev_err_probe(&hdev->dev, ret,
--- 
-2.53.0
-
+Thanks,
+Derek
