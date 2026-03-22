@@ -1,54 +1,55 @@
 Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9979436E478;
-	Sun, 22 Mar 2026 19:20:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BB8D1A2C0B;
+	Sun, 22 Mar 2026 19:24:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774207235; cv=pass; b=FZEz+KY/H1PkSa6YNwUvZgKHjBygTYs5ukHAe/o3+cb6Rn/k7+xOPcA38JUzyV0JI5wtv0LnW0NxjEShNfk9TQGPs70GCINl1FJKtnijBsigIyoA6dYOvhUS2c7dNXyXtbQkhT0ZkVf+ky5MUgEBsFLc2fHs/Z9SEqjS4VzQ1aI=
+	t=1774207482; cv=pass; b=KFo/VyEpc6XQVLoEsiD/hHjrKbZukRp4ARWSCFWHui5wWTDFLzto+VApWBBk4umRAbp9PN5bghZEQjGcQw4MkQvXz95aWtENS6sCdJFDZQpit0/oOE0ZSkdrUuCNATsQNhYbyimKw9YA20/gCw1eawjmyY0aCzyAygA/1uf53zc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774207235; c=relaxed/simple;
-	bh=cDrNtXkyGSKmaY5MTB0Yq4tMBj16YCVkF2G8dSEMhCs=;
+	s=arc-20240116; t=1774207482; c=relaxed/simple;
+	bh=4HzVYnO3PBIKAJDJOoPAvIbkD/vW1K5TfRzAa24DYAA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=i79LzLnklbFZdynxi0pjOYOmV7Z7ZIQQxSGona3yl4pgXc64ZgUmK1KnuyErUqnJG7ok7HL+q8LWXyryqhzwZlmSsdy/q+yTddd7BzUDHAI1bEL/FPLdmEC9fNDJArkcmP0PgsatWsMkhf8fsafjkub+0JpikHc8cajtwsHlDsc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com; spf=pass smtp.mailfrom=ritovision.com; dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b=ZDM/VIyh; arc=pass smtp.client-ip=136.143.188.15
+	 MIME-Version; b=gNv19PeeH9NPj6vnG4iDIubxljb+O9CWU0rJVIytRYPboeIQNgPfTUh296WV7RXT4dMDphuDISeVn722h0rZyhlbxE19fi1vbRib8IhsQW3jD2kzJX7rg0xffLst2JS0fe6XtSIoS4bayJNomRe5/MzeCKoKdVXdESQlNGHDkpY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com; spf=pass smtp.mailfrom=ritovision.com; dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b=Oeg4hZS4; arc=pass smtp.client-ip=136.143.188.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ritovision.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b="ZDM/VIyh"
-ARC-Seal: i=1; a=rsa-sha256; t=1774207227; cv=none; 
+	dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b="Oeg4hZS4"
+ARC-Seal: i=1; a=rsa-sha256; t=1774207469; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=ddoHh8xOYhY9GaKYNgl7bMGrni3irxNz0QcF1U2IO4xTWNpxn63O+KoxLNbMYIoE4dXouJexSyiW/IICRyQqQn9kruL5Rb6NXzmJw49NOFHAh3/+fBMY0/+D/Jb0rpGJyiiwgX8cPAowdbg4fFf9xH1HJ88J10c4IhhVa/KikeA=
+	b=KDgizWRv77Jv3Rnt95PObVxXQwVXqrnDeoU2dDqiTYvxIhRuAgw95sVO3gEjiwlCrZRbKeZhnsTYtA0QqAKbHBqDzPoH6+LgGnjSOov1ROSJf2TnKIrC6B80OaDQmkuu7o7M6RLdJMzUe5Tgoja9ebPRMtMmxB7gd9IFvqn27CU=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1774207227; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=DvhpbCSIkJfqqs1DA/L/yqeXO2DxApuWDE/YjOpmHgY=; 
-	b=YKsHwnMzzGX5LFEEpUfAkTGM/QMcuDgutYNEUgKjxJ7/Y59alQq74ZBMfFAzgVhwc3rBCYHv+0KdycAq6loIoY/9l6a4rDKHV57Rb5bGjPDiWdHDVJUPdpeqQUp7bhf+TjigNGYB/vTkQhh8zV5Zm64u2FR+ACDcEmqBeRWMkcw=
+	t=1774207469; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=CmMQir9cbcPYWE0pYmHsKDZ07DZ9tjDS9tROzmlqT/8=; 
+	b=IpUmH+NElNVFDCHI0pXqraVSb4z7R11DysTnKU5iuKT5r0kC/0M/Dfd9FOZQ8/18+nSzuxfmitBvo/lZEbNZpkGLEjJQmg6SB9IxKwdaHt6rSBv0MYyHVKk86pQ1YlxLmhvotzR2WwAONlSr/MchPBUnKTC2ENBZXxiQbV6rPs4=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=ritovision.com;
 	spf=pass  smtp.mailfrom=rito@ritovision.com;
 	dmarc=pass header.from=<rito@ritovision.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774207227;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774207469;
 	s=zmail; d=ritovision.com; i=rito@ritovision.com;
 	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=DvhpbCSIkJfqqs1DA/L/yqeXO2DxApuWDE/YjOpmHgY=;
-	b=ZDM/VIyhaCZzO9X/Q9nE1vN1SrCq+im8EvDa9DuOcAN1cfjZ+ENFGpXCIuo4vGSs
-	WEqvk6lanN9IBXh+0jWeDbj7UdnIeUNnfGEjca7h6pLodzf7BKYBYTQg0aVf4oExdN/
-	jvjVpFL5KuAS0J7hCy3VJrBPUdqYP8tuGgmtyMbI=
-Received: by mx.zohomail.com with SMTPS id 1774207224178584.5786923698156;
-	Sun, 22 Mar 2026 12:20:24 -0700 (PDT)
+	bh=CmMQir9cbcPYWE0pYmHsKDZ07DZ9tjDS9tROzmlqT/8=;
+	b=Oeg4hZS4pQfINPzB2bT/bxtd6I5EvwZILR9l501kZYL23bFaBD/nLPHPcUq0SnO/
+	1aCyV0Wk6DVhM+5zMElOofDNQEmVNmVIeakjYEzC5pvs/gfMi8nVctF15u15X5XSOQ0
+	Zrf09a/7KypVsAzFsVT2d7FrJ+sJP0Cfll9yjKCY=
+Received: by mx.zohomail.com with SMTPS id 177420746792350.11675162887332;
+	Sun, 22 Mar 2026 12:24:27 -0700 (PDT)
 From: Rito Rhymes <rito@ritovision.com>
 To: Jonathan Corbet <corbet@lwn.net>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-doc@vger.kernel.org
 Cc: Shuah Khan <skhan@linuxfoundation.org>,
 	linux-kernel@vger.kernel.org,
+	rdunlap@infradead.org,
 	Rito Rhymes <rito@ritovision.com>
-Subject: [PATCH v2 2/2] docs: allow long table reference links to wrap and prevent overflow
-Date: Sun, 22 Mar 2026 15:20:20 -0400
-Message-ID: <20260322192021.63859-3-rito@ritovision.com>
+Subject: [PATCH v2 0/1] docs: examples of pages affected by table overflow
+Date: Sun, 22 Mar 2026 15:24:25 -0400
+Message-ID: <20260322192426.65357-1-rito@ritovision.com>
 X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260322192021.63859-1-rito@ritovision.com>
-References: <20260321180841.10166-1-rito@ritovision.com>
- <20260322192021.63859-1-rito@ritovision.com>
+In-Reply-To: <20260321133811.17854-1-rito@ritovision.com>
+References: <20260321133811.17854-1-rito@ritovision.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -58,38 +59,35 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-ZohoMailClient: External
 
-Some documentation pages contain docutils tables with reference links
-that use long unbroken strings. Those strings can expand the table
-width beyond the content column and cause page-wide horizontal
-overflow.
+Examples of affected pages this patch improves:
+  kernel-hacking/locking.html
+  arch/arc/features.html
+  arch/arm/memory.html
+  arch/arm/omap/dss.html
+  arch/mips/features.html
+  arch/nios2/features.html
+  arch/openrisc/features.html
+  arch/parisc/features.html
+  arch/powerpc/features.html
+  arch/riscv/features.html
+  arch/s390/features.html
+  arch/sparc/features.html
+  arch/x86/boot.html
+  arch/x86/zero-page.html
+  arch/x86/pat.html
+  arch/x86/amd-hfi.html
+  arch/x86/tsx_async_abort.html
+  arch/x86/features.html
+  driver-api/parport-lowlevel.html
 
-Allow reference links in docutils tables in the main document body to
-wrap when needed so the table stays within the content column and does
-not break page layout.
+Rito Rhymes (1):
+  docs: wrap generated tables to contain small-screen overflow
 
-Signed-off-by: Rito Rhymes <rito@ritovision.com>
-Assisted-by: Codex:GPT-5.4
----
-v2: add Assisted-by attribution
+ Documentation/conf.py                  |  1 +
+ Documentation/sphinx-static/custom.css | 16 ++++++++++++++
+ Documentation/sphinx/table_wrapper.py  | 30 ++++++++++++++++++++++++++
+ 3 files changed, 47 insertions(+)
+ create mode 100644 Documentation/sphinx/table_wrapper.py
 
- Documentation/sphinx-static/custom.css | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
-index 4ec617d40..b41c54c71 100644
---- a/Documentation/sphinx-static/custom.css
-+++ b/Documentation/sphinx-static/custom.css
-@@ -154,6 +154,11 @@ a {
-     overflow-wrap: anywhere;
- }
- 
-+/* Let rendered reference links in tables wrap when needed. */
-+div.body table.docutils a.reference {
-+    overflow-wrap: anywhere;
-+}
-+
- /* Make xrefs more universally visible */
- a.reference, a.reference:hover {
-     border-bottom: none;
 -- 
 2.51.0
