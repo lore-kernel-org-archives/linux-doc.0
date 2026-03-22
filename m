@@ -1,108 +1,111 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D671437D101;
-	Sun, 22 Mar 2026 19:59:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09BB7363098;
+	Sun, 22 Mar 2026 20:25:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774209548; cv=none; b=OZZe81yEyTlokk5iP+0Dx/eVHhawzL7FRDCjG3lVeVFb5xjQoKDdt87Ld3xi0DrsinjQTQHINarzmYTHCvBRiSEm8vDFdjR9ZGco2oSkrPWbAlABcxfCHvMUqxy2J8eaXjSpzeIyA0ysNznVulj2jDzzebHMUUvDgqonYq9rtK4=
+	t=1774211112; cv=none; b=FJHPM+ScBcABb+o7hfrzkx730VLzSosg+LTyvWgm19371SnSPpfFxszpe7Lo/srm8yjFDD7h4XYExnFdbom3qUSwPs3erdzAooNiwxIAcbsRT9oN0SPiU65jjkntHsnG/FASgwoldUPExTZARLavUWrnRht2DZwwa3bge9Q99+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774209548; c=relaxed/simple;
-	bh=/hIIuu1Eg4QqmEWMOlTu93hgTQslVerMvJcv8uodius=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ejbbPqhr+XyMKIFBMiSlABQB6b959ht4Ktp5R6bUmL2jOY3RGERr317mXbCIH4XTXUj7FOhOXs2KBJkTscFSZs0H/OTQsZGncfm7YW/1zMzIC7QxI7fmaxTW0pjNRfPh7CnLztfkt84NyU/uGlx/664PORDBfKb8yhjNt60uVNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=vyhfvJMU; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1774211112; c=relaxed/simple;
+	bh=G5LZqtIcgjaKbuXYnj0rMUPawOzenHFI+YPotGAAUhg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=JJrQ3P6OzY9yGG0Om2z31SCOKP6T8+8ISFGEAAXZIIA7eRqbZJWzE+jDZt8BSAxSnde0/yzPyT6CW8FxqTjr0izKyPCXZck2Hw+j06z+ZbOP5O1pCuSc9hcEp1ZkCQkdI5XSwDLFi4HBHjlz2aDkiBJHoX48KjgfCYgSWSTY1NY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Pyo33RJV; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="vyhfvJMU"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=82O7j1/FjWEHv9L2QiVtFHF5pWhwKr0vUuOC3qBkMgk=; b=vyhfvJMUftk7NViHE6uzk7CQQk
-	Xi9uDQAIEIHZM5ApCeawk94WJQNMTowHKiGmMfjgl1z3DBeTTKruGP2XU++Mxr5Kd8R2LjEgSi5N6
-	hPZ/UYHzdExZCrGZst8HpCk3Djb2c/ca1LMCi4JlOBVvD8732K8AtSFzitSCAIlY6eX6Njf4L2nl5
-	FxblStl646MBF4NtfZY8P8TSEJpVFfNd3baPvZT5QH9gvcz4bePm7KWrOa32oXgDB+66hKN67T4TW
-	Mk5P2BwQqfeqbDrEny/CiELxEQ5mtuUbIsYxOg/Xkdtz/a42EpDOucM8ci2bb5nHeyZ7RyC2kwIt2
-	VC/MR/kg==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w4Owz-0000000FcQh-0bsp;
-	Sun, 22 Mar 2026 19:59:05 +0000
-Message-ID: <4620a35c-5293-4973-aa71-49046fae9911@infradead.org>
-Date: Sun, 22 Mar 2026 12:59:04 -0700
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Pyo33RJV"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 36B76411EA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1774211110; bh=OjFssim/d/uRSDGCBNrQAY6kUf7BbxFkO5xIsQcvnG4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=Pyo33RJVNyhLNl6HvA4NBIIcnTJ3EmLS4t5DHwzDFKcQGNqUw7PMvXnPAihxILpwI
+	 ru02rxZ3R/XlLjArd20bkZcMYaAebm8LCSt1v+JCg+c14DgAh/Q9bLhPV0Sr/r8tue
+	 dlTdNhm+sYHKHHAx225j+YmGmBbNCsehvTyRg1mt7T8cpKbLVPWSNsdIze+ID9WHHj
+	 f2KdhlUuXf4rnauUE0GD9fq6bIT6FqkVfO5scm24FZ65T/TOnbxwzhfN5gQ8/eVDIX
+	 bhPJREZ4dtxg6zrljE+uBbrOt/rIIEm9iCq6+ZA4pV1w9QW62vN4QmLOK2Aq2n2+at
+	 OIOaUUi0s3B8Q==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 36B76411EA;
+	Sun, 22 Mar 2026 20:25:10 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Rito Rhymes <rito@ritovision.com>, Rito Rhymes <rito@ritovision.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-doc@vger.kernel.org
+Cc: Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: add advanced search for kernel documentation
+In-Reply-To: <DH9H5TPM3W0J.2XCBEY9U8NQF6@ritovision.com>
+References: <20260321181511.11706-1-rito@ritovision.com>
+ <87cy0vetu7.fsf@trenco.lwn.net>
+ <DH9H5TPM3W0J.2XCBEY9U8NQF6@ritovision.com>
+Date: Sun, 22 Mar 2026 14:25:09 -0600
+Message-ID: <878qbjehne.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: add advanced search for kernel documentation
-To: Rito Rhymes <rito@ritovision.com>, Jonathan Corbet <corbet@lwn.net>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-doc@vger.kernel.org
-Cc: Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org
-References: <20260321181511.11706-1-rito@ritovision.com>
- <621b43a5-256b-4a82-b179-3cefe43d419f@infradead.org>
- <DH8UC6DVQE4P.13E9XDIRGJ645@ritovision.com>
- <6cbf9940-0146-4b4d-bf74-4142b18602df@infradead.org>
- <DH8WUB5VFIDH.B2WQGIM3163@ritovision.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <DH8WUB5VFIDH.B2WQGIM3163@ritovision.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
+"Rito Rhymes" <rito@ritovision.com> writes:
 
+> Hi Jon
+>
+>> Documentation/process/coding-assistants.rst
+>
+> That was my oversight. I failed to include the appropriate
+> coding-assistant attribution/disclosure, and I will reroll my patches
+> accordingly.
 
-On 3/21/26 6:12 PM, Rito Rhymes wrote:
-> I was using the in-tree build (`make htmldocs`) before. I just ran
-> fresh rebuilds with both in-tree and out-of-tree (`make O=DOCS
-> htmldocs`) builds, and I got identical search results of 280 hits for
-> "futex" when serving both.
-> 
-> I ran the builds and served the output on Linux/x86_64, and tested the
-> pages in Chrome, Edge, and Firefox on Windows.
-> 
-> So at this point I have not been able to reproduce the "no output"
-> behavior with either build mode, I think we can rule out build mode
-> quirks.
-> 
-> More debugging:
-> 
-> As a comparison, WITHOUT using my patch, upstream only build, does the
-> normal Quick Search work? What results do you get for Futex?
+That's a good step in the right direction.
 
-Yes:
-Search Results
-Search finished, found 225 pages matching the search query.
+>> I'm curious about where you are going with this in general
+>
+> I am not contributing as a kernel developer. My background is in
+> front-end engineering, product/UX, and developer-facing documentation
+> and platform surfaces, and that is where I believe I can add value here.
 
+The reason I ask is that submissions to the kernel - even those for the
+documentation - have to be evaluated with an eye toward ongoing
+maintenance.  A couple of lines of CSS tweak are easily accepted.  1,000
+lines of uncommented Javascript, CSS, and Jinja -- none of which fall in
+the core strengths of most kernel developers -- have to be looked at
+more carefully.
 
-> WITH my patch, do Quick Search return any results for Futex?
+Who is going to maintain this code going forward?  How well do you truly
+understand this code, which you did not write yourself?  Will you be
+there to help resolve problems that show up in six months or a year?
 
-No. Just a search dialog page with no matches listed.
+> Linux is important infrastructure, and I have already been making
+> related contributions in its ecosystem. In trying to improve
+> lore.kernel.org, I contributed patches merged upstream to Public Inbox
+> for small-screen layout behavior and for enabling admin-injected meta
+> tags in the document head.
 
+You did get a few patches past Eric, that says something :)
 
-> How are you opening or serving the generated docs? For example, via a
-> local web server (`http://...`) or directly from disk (`file://...`)?
-> I am serving the generated output over HTTP locally via
-> `python -m http.server`.
+> More broadly, I have worked on improving developer-facing surfaces,
+> including documentation and related tooling, in other OSS projects.
+> That is the kind of value I am aiming to add here: not direct kernel
+> development, but improving usability, discoverability, and developer
+> experience around important technical infrastructure.
 
-file://...
+Worthy goals, certainly.
 
-> What Sphinx version are you using for the build?
-> I built with Sphinx 9.1.0.
+For the moment I'll ask you to slow down a bit; there are real humans on
+the receiving side of these patches who have to deal with them.  I'll
+get there shortly, but you're not the only thing in the queue.  The
+simple changes seem generally OK from a first quick glance.
 
-8.2.3-4.2 (latest from openSUSE Tumbleweed, rolling updates)
+I am far from convinced about this particular patch, though.  Before I
+accept code that will run in the browser of everybody who reads the
+rendered kernel docs, I need to understand that code well, and the
+current posting is not entirely amenable to that.
 
-> If possible, could you also check in the browser network tab whether
-> `_static/kernel-search.js`, `_static/language_data.js`, and
-> `searchindex.js` are all loading successfully?
+Thanks,
 
-They appear to be (this is new to me).
-They are listed and I don't see any errors associated with them.
-
--- 
-~Randy
-
+jon
