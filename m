@@ -1,53 +1,54 @@
 Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03A96184;
-	Sun, 22 Mar 2026 19:20:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5519337C101;
+	Sun, 22 Mar 2026 19:20:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774207229; cv=pass; b=OYtfk1ji5NXn8eDrJVbFQ50x1JRYyjngKc53dkf1ZMHJuTgh3Xm6t+yJc1iSEa/DoUmMtiMtenm3kputAj6lOFv1MAb53ORm5AH+/n1rivflp7o141M/XAdIba5s97lTfHkRXMEy0xOD0SkapWGkOGTacKGRLTHXFsQiMA9kipQ=
+	t=1774207232; cv=pass; b=tgKYqYZXQdOnvWoiNT0gsW2Y/DZQK0SmQSqZmmIEv/Jg8vfgG7OdYUiEVIiPfHONALqbqB2tnC1wqev1U3m5WIaMuEQfnaR8A5Vis/zmhwWDI3ieVZq6275GJjTb0i0+dI2yMbcS4TGnIdpm6k3Wx5CIhMP7+QtKGWSZhHxjUek=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774207229; c=relaxed/simple;
-	bh=iqECGmda+qDh61bJk5GVeOEIjs2i5mzQ9rM+O7dsf8Q=;
+	s=arc-20240116; t=1774207232; c=relaxed/simple;
+	bh=rrjbWG3JYx6oiPAeKgeIlCH+V0XT/DFbd3ED+z5Sby4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qA1befsbbfKSVEPSFvwnoz8HUIuRavqtEbQduNd6GI881NLcwJce3HT4JqfssbqEg9fDpbsfbDuc08jSmxwKm26Vfdbrx45qzwLgsoFKBqwJDV5rx2OBuyjnLkIaSHZ9Ezjqi8IecnWY2xKeoe/wd9Q4G0GNQ5xu7lGRLfAxtPM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com; spf=pass smtp.mailfrom=ritovision.com; dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b=GemY/d9e; arc=pass smtp.client-ip=136.143.188.15
+	 MIME-Version; b=GWd0fSze/4YVCE47VOhzAR5n1MLg09DmbVDlwa6S6zJWew2E9+dlJCzg/QEMMvrwwKNmvhZXwEgF9bGROBBWm/9Z8PrRRxDiDzK3sG3jfNnx0DU41EgQmUopIR4JcA5TnxeNn3VGYjdA/r/gAYZV+yX/23wKK/kTFHBQ8PiBYpM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com; spf=pass smtp.mailfrom=ritovision.com; dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b=PX3832+W; arc=pass smtp.client-ip=136.143.188.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ritovision.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b="GemY/d9e"
-ARC-Seal: i=1; a=rsa-sha256; t=1774207224; cv=none; 
+	dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b="PX3832+W"
+ARC-Seal: i=1; a=rsa-sha256; t=1774207226; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=gTDUzi/FG8KfFCwDnC/ENKx9Ai0cBl4iD7GUBLpATl1zP3gLFTWKiOuc4up4N8gY1HT4xCNbaqMWqzZ99P0MS/xVyysVYVhF0kqn7JpjSHMmb9EC1SSV34IIrd3i2eahj48VwBEtY6oMaLaavF1mTbVGv567fgQJNbr8O13QXZ8=
+	b=aMsK2yque1VwmcZPMhulR175qKY5fUwONR5bZpl71gRnON/sPUW51cdpLdxQh47EwFOFas59dMRqKmoT3B09sNE4iuraPN+vnU4IOAZgvNCvxsNIHTVBTM2br9TE3SIJ7XBDTTl/RTsATpH9o0iKCPdD8v92XD0ffeQZdmdc4dM=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1774207224; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=zme2o8WRnlfOC7PTflSSZ0BGzG26R0G9quZqT58R1Kk=; 
-	b=mvbckRLyEYE7CY+KO/2mrXPtkkaq/UtktTLMxL2Guk6DaZKzf+6dGnmn/8KCAO+s5kZ3pa2ld53pQRE3k1aGWYmXYh6OmbKytc64mDV9XNEjAcHD9MNxGkIYbDIsVI3zDc5HT9eIrlS63M9DfE1TvnoAWT46orJYv98YQYr0Pn8=
+	t=1774207226; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=Xj4IYphNYvQiQdWlA6KwkirF5GHxEU+yIkasY8jYCtg=; 
+	b=gWP9wcdbAYTv5wa86hYBDvMOwiiDOWU7zBSsQMzHL2nJqEejG8OczMB7Rr+STDBpCEnUzQRt4gdr6ycrtoNbb+4LNfzGyPT9MTFJUscwiW7LJSij1cp9nXqlf/S7n+qcdJ02hBZLiuRkmxjV265nVkQHHMGX/CY841JysKBtMyk=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=ritovision.com;
 	spf=pass  smtp.mailfrom=rito@ritovision.com;
 	dmarc=pass header.from=<rito@ritovision.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774207224;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774207226;
 	s=zmail; d=ritovision.com; i=rito@ritovision.com;
 	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=zme2o8WRnlfOC7PTflSSZ0BGzG26R0G9quZqT58R1Kk=;
-	b=GemY/d9e4tyZ1GcX3i7w2t4NZThnPxN32hitEiQvOxu347xTei94Fqkwv6981hOh
-	kRzX3Bw477AhYw6YYEfqP0cbV47g4fENT0MbXuT19tmRUsQ0XgVRKzk8vcXN3nBlLy+
-	iWtVDLfMA9+ZNUosjGDfckZMuPsAKGztVl04sarY=
-Received: by mx.zohomail.com with SMTPS id 1774207222361438.9245357307981;
-	Sun, 22 Mar 2026 12:20:22 -0700 (PDT)
+	bh=Xj4IYphNYvQiQdWlA6KwkirF5GHxEU+yIkasY8jYCtg=;
+	b=PX3832+We48iTQZE/v8GUq3upndm66QaJf+VT+f+T0kqiFBiyBZD6mZLXR/XYIeT
+	O4C/XasJxeogSaeSdKKu2RlbTR7DBlT7kiBu+sNTyXOMRzdiSRvU/pGmWpGXS+7/klo
+	dWhtt3Trp0+ABNY96ny8yDZ7n853WcW/q6Os5/vU=
+Received: by mx.zohomail.com with SMTPS id 1774207223339651.0082641296057;
+	Sun, 22 Mar 2026 12:20:23 -0700 (PDT)
 From: Rito Rhymes <rito@ritovision.com>
 To: Jonathan Corbet <corbet@lwn.net>,
 	linux-doc@vger.kernel.org
 Cc: Shuah Khan <skhan@linuxfoundation.org>,
 	linux-kernel@vger.kernel.org,
 	Rito Rhymes <rito@ritovision.com>
-Subject: [PATCH v2 0/2] docs: contain overflow from long links
-Date: Sun, 22 Mar 2026 15:20:18 -0400
-Message-ID: <20260322192021.63859-1-rito@ritovision.com>
+Subject: [PATCH v2 1/2] docs: allow long links to wrap per character to prevent page overflow
+Date: Sun, 22 Mar 2026 15:20:19 -0400
+Message-ID: <20260322192021.63859-2-rito@ritovision.com>
 X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260321180841.10166-1-rito@ritovision.com>
+In-Reply-To: <20260322192021.63859-1-rito@ritovision.com>
 References: <20260321180841.10166-1-rito@ritovision.com>
+ <20260322192021.63859-1-rito@ritovision.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -57,54 +58,37 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-ZohoMailClient: External
 
-Patch 1 allows long link text to wrap per character so unbroken links
-in the main document body do not force page-wide horizontal scroll
-overflow.
+Some documentation pages contain long link text without natural
+break points, which can force page-wide horizontal scroll overflow
+on small screens.
 
-Patch 2 remains necessary for rendered reference links inside docutils
-tables, where the affected table case still needs an explicit selector
-to keep the table within the content column.
+Use overflow-wrap: anywhere for anchor text in the docs stylesheet so
+links can wrap per character as a fallback when normal word boundaries
+are unavailable.
 
-Some of these pages may also overflow for other reasons, but the
-examples listed under [2/2] specifically include tables containing
-long reference links that may still need a table-specific CSS rule
-to keep the table within the content column.
+Signed-off-by: Rito Rhymes <rito@ritovision.com>
+Assisted-by: Codex:GPT-5.4
+---
+v2: add Assisted-by attribution
 
+ Documentation/sphinx-static/custom.css | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Examples of affected pages on docs.kernel.org this patch improves:
-
-[1/2]
-  firmware-guide/acpi/non-d0-probe.html
-  firmware-guide/acpi/lpit.html
-  arch/arm/vlocks.html
-  arch/arm/keystone/overview.html
-  arch/arm/keystone/knav-qmss.html
-  arch/loongarch/introduction.html
-  arch/nios2/nios2.html
-  arch/x86/earlyprintk.html
-  arch/x86/orc-unwinder.html#etymology
-  arch/x86/tdx.html
-  arch/x86/sva.html
-  driver-api/xilinx/eemi.html
-
-[2/2]
-  arch/openrisc/openrisc_port.html
-  power/apm-acpi.html
-  networking/devlink/stmmac.html
-  filesystems/ext2.html
-  networking/l2tp.html
-  process/embargoed-hardware-issues.html
-  arch/x86/boot.html
-  networking/devlink/devlink-info.html
-  admin-guide/sysctl/fs.html
-  userspace-api/ioctl/ioctl-number.html
-
-Rito Rhymes (2):
-  docs: allow long links to wrap per character to prevent page overflow
-  docs: allow long table reference links to wrap and prevent overflow
-
- Documentation/sphinx-static/custom.css | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
+diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
+index db24f4344..4ec617d40 100644
+--- a/Documentation/sphinx-static/custom.css
++++ b/Documentation/sphinx-static/custom.css
+@@ -149,6 +149,11 @@ div.language-selection ul li:hover {
+     background: #dddddd;
+ }
+ 
++/* Let long link text wrap instead of forcing overflow. */
++a {
++    overflow-wrap: anywhere;
++}
++
+ /* Make xrefs more universally visible */
+ a.reference, a.reference:hover {
+     border-bottom: none;
 -- 
 2.51.0
