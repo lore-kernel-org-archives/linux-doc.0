@@ -1,93 +1,98 @@
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21D1E2D2496;
-	Sun, 22 Mar 2026 17:08:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774199312; cv=pass; b=QQ3vsGJflv627P/pqm3esd9maerM7wbiEQ24g/j/NtHRcADTz0wrwl3o70glPl1wzZGtGDxYIp9Cz7CjVkJzaIciLVm9COKjmmcwns9yNjN++iOSBI0a5bdXcZ+MkMvezBZ6KVm29QIzt2hGs7G54U+tCcM0duE4qfyRoq8Pt4Y=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774199312; c=relaxed/simple;
-	bh=0rZ+VKR4j/UyfrgG8fRIOJB2/i5qvONKu6P2Q/+ET8o=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Subject:Cc:
-	 References:In-Reply-To; b=UQAxE4F1XgLTrEmp7yhwod3DPQrxSEPSX/rslpFryGisA7cJAFaT7W9F7rhpwL9fB5LcrrDIDTCX29XyTuf9zcu+rlry1C3tLvwT4hjmTrdoiFAcggiGJ74qKk2z8DtHFR3YsnUVXvWJAf1c2KWsEwP2jQAnkKcQ29Jz2IO8oBU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com; spf=pass smtp.mailfrom=ritovision.com; dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b=l9t17HwT; arc=pass smtp.client-ip=136.143.188.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ritovision.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ECC02D2496;
+	Sun, 22 Mar 2026 17:11:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774199483; cv=none; b=Wq8ZrIdv3oVVx/qIJIFZ0lzIeuMtadnpSzUkHTJVr7CoLv/81Kbk8/JYMOvm98Ax5yhdZ/e2c6kxPO/0rmIp3mA4w+Tc9jgigdAOYmQ6KLQ6RdHYEYpAqA2PGtfTZX85RUypKUanQETgvAibE3dqxMvptvqIw2Pub7T1JqgcPR0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774199483; c=relaxed/simple;
+	bh=1GWDWgR17ErUUXJrTZk+G7OZwGwEUaiSwip7+aut2Q4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=JCnEoPs/LqHS5+dRth3OSL7h48IHIQwJNF9YsZOahemUVN+i3siKOPklkREb3yQ9eYbQoYSRj6GD+FbGyITxeThDxxfKi6X/EVTz4QxFAxiizY1Bxkw0GQR7p6dgxDkrHTGYZkgxu6Jgm+9fWV3DkIrUeQGHy/uiLQ7AdX8d4bg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KMREz7MM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b="l9t17HwT"
-ARC-Seal: i=1; a=rsa-sha256; t=1774199304; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=Wf5OH80AbH7kRaMUhk02jKONRYgCjomhIB1Zl5PubIcx/qHUphT++98LAZGalvqIgD9DTx04l6OC3MmLAqEMBaxomu3Zz5DybollBxqV8GI5t/4QKnkhoVQ7c3+YsJ5zqjpWrbzsBQayXnM80Uk074jSoGWk4N+SqSJntXlB1Hw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1774199304; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=0rZ+VKR4j/UyfrgG8fRIOJB2/i5qvONKu6P2Q/+ET8o=; 
-	b=SE//CKfCHcg/jRgifoLS3RxTJdY40Ep5Eq1lNFldSGJS1/3QY2uq71XHt7NpSIV33Y7rUB8oPK13htfE+eUsDjSTUFeAKVRtgbpZlMVxGO6YQjePIZfWwQ0NjH7WBEVGIO+NdVNsIatpJWTwkuYxsGy19mfiRiTixTzETtRkOvM=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=ritovision.com;
-	spf=pass  smtp.mailfrom=rito@ritovision.com;
-	dmarc=pass header.from=<rito@ritovision.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774199304;
-	s=zmail; d=ritovision.com; i=rito@ritovision.com;
-	h=Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Date:Message-Id:Message-Id:From:From:To:To:Subject:Subject:Cc:Cc:References:In-Reply-To:Reply-To;
-	bh=0rZ+VKR4j/UyfrgG8fRIOJB2/i5qvONKu6P2Q/+ET8o=;
-	b=l9t17HwT44Ily+GGz94+ccg9H993Q08DHfIhjb8V2EwoKe4QJ2kQAwgmGemBeRLI
-	xMkpCoBaQi8U3iesVrMOmIC48r31QM855li9dMYYK+w0D5RgCrmVE3+R24jrjw7nQUd
-	9vjq5wGm4VIE3uQEPAZDH6iGGmN5DRFtBAd41bNI=
-Received: by mx.zohomail.com with SMTPS id 1774199301893514.6267438471627;
-	Sun, 22 Mar 2026 10:08:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KMREz7MM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AEE5C19424;
+	Sun, 22 Mar 2026 17:11:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774199482;
+	bh=1GWDWgR17ErUUXJrTZk+G7OZwGwEUaiSwip7+aut2Q4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=KMREz7MMbbGt8fgJ1q5oJOSMdkWWglYdNCAcEN+6mKr/d6uxSPo4tanA/9MWx0g5a
+	 PuCpvuZuy/5EHORXS5moIQxTamsgJTEKqRpMQ/XDComCVI48Aq4IFQlgdJlr9x5zt5
+	 XiwB93IgDbWZccYZRIGGjxVMCzDRIa3A/n9CzA4Vn6Z6ZCrYRMqVs2s6OeplAQSK0p
+	 uiRltAG6me1pzcwYJ+b2XYGTQMg7boNVL766m4DkkxqdAK4b7qIS6FbJ19o/yJ/lxz
+	 cSDuxhVtpFrJMN7C+n913IbxguuR9hHDW5toILWbvG+lGz8Z1YghCkFmPbi/W8c1bW
+	 mDIbTowoq6d8A==
+From: SeongJae Park <sj@kernel.org>
+To: SeongJae Park <sj@kernel.org>
+Cc: "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@google.com>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Shuah Khan <shuah@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	damon@lists.linux.dev,
+	kunit-dev@googlegroups.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: Re: (sashiko status) [RFC PATCH v4 00/10] mm/damon: let DAMON be paused and resumed
+Date: Sun, 22 Mar 2026 10:11:13 -0700
+Message-ID: <20260322171114.83314-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260322170506.82977-1-sj@kernel.org>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sun, 22 Mar 2026 13:08:18 -0400
-Message-Id: <DH9H5TPM3W0J.2XCBEY9U8NQF6@ritovision.com>
-From: "Rito Rhymes" <rito@ritovision.com>
-To: "Jonathan Corbet" <corbet@lwn.net>, "Rito Rhymes" <rito@ritovision.com>,
- "Mauro Carvalho Chehab" <mchehab@kernel.org>, <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH] docs: add advanced search for kernel documentation
-Cc: "Shuah Khan" <skhan@linuxfoundation.org>, <linux-kernel@vger.kernel.org>
-X-Mailer: aerc 0.21.0
-References: <20260321181511.11706-1-rito@ritovision.com>
- <87cy0vetu7.fsf@trenco.lwn.net>
-In-Reply-To: <87cy0vetu7.fsf@trenco.lwn.net>
-X-ZohoMailClient: External
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Hi Jon
+On Sun, 22 Mar 2026 10:05:05 -0700 SeongJae Park <sj@kernel.org> wrote:
 
-> Documentation/process/coding-assistants.rst
+> Forwarding sashiko.dev review status for this thread.
+> 
+> # review url: https://sashiko.dev/#/patchset/20260322155728.81434-1-sj@kernel.org
+> 
+> - [RFC PATCH v4 01/10] mm/damon/core: introduce damon_ctx->paused
+>   - status: Reviewed
+>   - review: ISSUES MAY FOUND
+> - [RFC PATCH v4 02/10] mm/damon/sysfs: add pause file under context dir
+>   - status: Reviewed
+>   - review: No issues found.
+> - [RFC PATCH v4 03/10] Docs/mm/damon/design: update for context pause/resume feature
+>   - status: Reviewed
+>   - review: No issues found.
+> - [RFC PATCH v4 04/10] Docs/admin-guide/mm/damon/usage: update for pause file
+>   - status: Reviewed
+>   - review: No issues found.
+> - [RFC PATCH v4 05/10] Docs/ABI/damon: update for pause sysfs file
+>   - status: Reviewed
+>   - review: No issues found.
+> - [RFC PATCH v4 06/10] mm/damon/tests/core-kunit: test pause commitment
+>   - status: Reviewed
+>   - review: No issues found.
+> - [RFC PATCH v4 07/10] selftests/damon/_damon_sysfs: support pause file staging
+>   - status: Pending
+>   - review: ISSUES MAY FOUND
 
-That was my oversight. I failed to include the appropriate
-coding-assistant attribution/disclosure, and I will reroll my patches
-accordingly.
+The status is pending.  'ISSUES MAY FOUND' is a bug of hkml.  I'm fixing it.
 
-> I'm curious about where you are going with this in general
 
-I am not contributing as a kernel developer. My background is in
-front-end engineering, product/UX, and developer-facing documentation
-and platform surfaces, and that is where I believe I can add value here.
+Thanks,
+SJ
 
-Linux is important infrastructure, and I have already been making
-related contributions in its ecosystem. In trying to improve
-lore.kernel.org, I contributed patches merged upstream to Public Inbox
-for small-screen layout behavior and for enabling admin-injected meta
-tags in the document head.
-
-After my Git patches for gitweb mobile responsiveness were merged,
-I prepared a kernel.org mobile-responsiveness patch series
-(current theme is only built for desktop and breaks on small screens).
-Since there was not an established mailing-list path for merging that
-work, Johannes Schindelin introduced me to Konstantin in an archived
-thread, which opened a concrete path for contributing to kernel.org.
-
-More broadly, I have worked on improving developer-facing surfaces,
-including documentation and related tooling, in other OSS projects.
-That is the kind of value I am aiming to add here: not direct kernel
-development, but improving usability, discoverability, and developer
-experience around important technical infrastructure.
-
-Rito
+[...]
