@@ -1,303 +1,216 @@
-Received: from mail-dl1-f66.google.com (mail-dl1-f66.google.com [74.125.82.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6566735B62C
-	for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 19:24:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.66
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774293842; cv=pass; b=Z8gA6yuumL3DVuQKSWFOBfCJVzZzYdlZj8nvzdmx+/iriDfEP8Uu/ptD8iOy1xE/b5OhFSrHfmMljnmUvarrQHgJgwGapWfOFfuxakocqy4T67+ovf/CHqD+f+kOUMacUBm4FuGtgTn6sc60/ZX/8wcQHJYImol6k2CkNdsDT4U=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774293842; c=relaxed/simple;
-	bh=sNMO+7JAtwKOL0cGOSgwp9po6bAqn+s7JRlEOufnWaE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oLyc+OSuqaGjiB1w+hP4vfn6DO/yPzaTpTpLUbLfo4v4UI5QTnHRQDINXaiyC6hBHPtNztReyD1zSC71cQkj1+gFA2C3seDAcGIGDaipzr/q7OMVlIanyrsf2miU9d6o0N1eqsWdfoVbuAixv7jAzbO6CgyQJYlAs366I03gHk4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IlK9BXIp; arc=pass smtp.client-ip=74.125.82.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C4B435AC05;
+	Mon, 23 Mar 2026 19:25:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774293959; cv=none; b=XNpQ8xrXGsD4E+SW56ExdJlw5mPH8+bX9b8LqoiO+/tQO2uAABTQGHmxv8OYZjGylRUjP0PfXeiQE3KPg8aV4IX6VDaqg3JpLj4e0X+ujWw+QcYHBDpbxwRB7LNC81rdhaJedrdrtWqmbpqTsHDiVxmDS4LP1aUo/VzZn45KqHQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774293959; c=relaxed/simple;
+	bh=pRVwcjWbGZOMkMxCgyb3wrPsEMkf/bME02y11ek+PBY=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=kkEK+jDLmwM9bJ1I5fRaSWdjo7NFvwLROpn2V784Z6uA2sv6aasjni9nohECvAu2qDY+nlK+pF+uFGihvZfNY9Lqu6qawrG2nlheSccekVIpG702mpJFAPbq2EXDHDeAd4ogJVaYdpqHyeFMFf8SzS98562RMGhE/Pco3a+5Q7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=f4tkw1r7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IlK9BXIp"
-Received: by mail-dl1-f66.google.com with SMTP id a92af1059eb24-12a71ade78cso680652c88.0
-        for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 12:24:01 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774293840; cv=none;
-        d=google.com; s=arc-20240605;
-        b=NRVdqFBqfZsMkhR5+mHgPws73oAG4+deQb6xqfOzrJ7dqsKesqW6iX8vz2LrSr97GW
-         tXLnoaz/p/UtBXY/z/01iBXsdh8X0oN7kAiiWRC9PaLLfWjrgLs67ZY5THaAu1jJNX3T
-         ntdb/KJmYjDhBIgGycmu3usDATDsSCtJ9UN1bF/L/bWBp/GnoWGTDv1zUs35JFWYupwz
-         FmyGQJJOGlZu71Kr8u08JXF4ygVQ+BUoTZMOHFiuWi4tWeDn4sH1vgisLugGxlyiTox7
-         IMuTZCgiX7vgsVy7Ebubpu0tUDGYwDh3BlkF8R7erpqoIObuMQNWEoDnWOByGTUfyPmK
-         M46w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=kd/Ap1nB3+5l9lLzCyst0NQXC8reE8pKqs/t9xxDzCM=;
-        fh=GADfVz86yEkIn/x3wlBYvpDNwPZ2ijL3S2yDTa75cDA=;
-        b=KcY8jvgJ/DVXW3nNs40sXubw4z+RMuJkahNBhCnwFQRPBulx/dB82mvxFfLuuYtE5u
-         xrBvpV9BjdBuA7xMpC0W1kFuj57qf0WZHSvQReP9y9l2fzhWAzssF9kDRcVivxjkCR75
-         LV0v02b6FzjtJfWhJJDYu1dou6aonSa0YOhsDL9wHl+/FGJD4/+5Al8fu4awGrBLY6nd
-         p6JlP8VEXWzav4GTywdGU5p0aYEsbormxozHbFcMqIV+TeKcghgEnAeHSlDwb2shHrkh
-         Y+iPSQhZwpEy60YyvdH2RaQNNCRQCUV0D+kcmZeRMKJsYDxUZW9HsW8NKeqW6opZF2GQ
-         ynDQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774293840; x=1774898640; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kd/Ap1nB3+5l9lLzCyst0NQXC8reE8pKqs/t9xxDzCM=;
-        b=IlK9BXIpEejQt7noh6tXonuQ1LoN+7uMfkIW+MVTV7qflZuonB6AidOgyQUrinbNAu
-         PLHfgabvSwoadBlhlxmlGfPKunlRM6QpZBQTgDMrGrtDrx8m3yv8QxUtRv43NFHdKK54
-         ZE6StB2kZOCayRWwA+9UHA0n1dHAIz7WaMmKK7iOEPqd3/sLdk/H/COadVqTGuZHEaoA
-         p+IGzU7B4ycchjyV2j2naUFaIBeDfymRiwtzvgguip24qAcSsGhpTv4D8ij1WI0AjVgE
-         BXva0+Z092OPMJlEqJXgHWJ2ZRTM2ULnFnTVgwgmnkleDT1G7QKlnRj5ZalJADIIvGoz
-         L4Xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774293840; x=1774898640;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=kd/Ap1nB3+5l9lLzCyst0NQXC8reE8pKqs/t9xxDzCM=;
-        b=q8lcenJUktaD+bEUZxxEb5v+KWt/vkSGqJ1ygRzPRxctDggLGwlMc3KA+3ASsYV5+J
-         sN/bKaXnlvzO5sHZERl6uXKjfp+QXx/8B2QaNSmjI3P/pUt80OP93qE3a6/oiz4gY1f2
-         n5pFhokB0zLTrxV6ts7rAIttzPXy5N48CHM/YMtacsBrp56AfIx9LjoEAsWyftpFIxNO
-         OuIor9NmSixq6v3y2RnW0RwrJZ1T24gT5YbhpvbK/Zsy29sEqw8+ZG/AqcCphxwecCs1
-         x5hRVGZIsJTBRulgORn/ZX0d0rd1GletR7p+6GuNBhmco8CNbIK+dZ6OnpomC2iGW3vH
-         mT1g==
-X-Forwarded-Encrypted: i=1; AJvYcCW3zaJGHJ57q4xfiAFzO7oLOMg6d1bNbt170QhMq4oN/MrxGxkWlTcih1TlhzkJftmadLi1oBBmo/A=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz96uc2wefQOHOD6+6TXp5uaOCqsiw7dd2FnViIDLKVpYDwV5KB
-	jijsWbIEb1uMTcbYxoJ9PhJJBcHGduujJdHVG79Nfr/D5L9urfF7qZpDO/6S/aOoatDD0w9PzR1
-	aJDU4H/jp5lEPIdH20ThhUv1MJ7Mp/w==
-X-Gm-Gg: ATEYQzyh1qQxaroRXP6SupP7Qqykj2wTk3Z2ggKFXis8b53OlXV+wmC+428mzcVLZoU
-	65FlImPOK4YkWB4cQT/pteO2LSOrjG4RSOqJztFzI5nLem5TybUbWRf6XZGndCuf4I+BBNx7SMs
-	6VKuAPAzaTuq7SCuWK4fiQlwx8WMnQOuhKRIoe/ISxjADwbkmRxG2GHiJ2TiLJMGaL/S8SKoIr+
-	irHmhNPLHlNQyHkq1CAsR+Mn+vjNUsEKuMewn++yOr9aM5sLSpezFTvysPRpIeW7hqJANLNCZzL
-	VUz/0I8=
-X-Received: by 2002:a05:7022:2507:b0:123:3500:b688 with SMTP id
- a92af1059eb24-12a726dc4a9mr5332008c88.19.1774293840376; Mon, 23 Mar 2026
- 12:24:00 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="f4tkw1r7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F156EC4CEF7;
+	Mon, 23 Mar 2026 19:25:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1774293958;
+	bh=pRVwcjWbGZOMkMxCgyb3wrPsEMkf/bME02y11ek+PBY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=f4tkw1r7yCmiIt3fIzSU21Bfp5TOVStZzHX6uyHlxTKAvxTTD2+o9fSiS7kBmu9gG
+	 airEsJ4osNi/vKFGX/JVHen33a1O9MJgHfmS8piqFGL8JXf8bywLfK1W16lFbnip6h
+	 mtpENkWsVlgrn9HCAqyv5vQKDdeCjtPLsOEGsjcw=
+Date: Mon, 23 Mar 2026 12:25:57 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Sasha Levin <sashal@kernel.org>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, Luis Chamberlain
+ <mcgrof@kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>,
+ Richard Weinberger <richard@nod.at>, Juergen Gross <jgross@suse.com>, Geert
+ Uytterhoeven <geert@linux-m68k.org>, James Bottomley
+ <James.Bottomley@HansenPartnership.com>, Jonathan Corbet <corbet@lwn.net>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@kernel.org>, Greg
+ KH <gregkh@linuxfoundation.org>, Petr Mladek <pmladek@suse.com>, Steven
+ Rostedt <rostedt@goodmis.org>, Kees Cook <kees@kernel.org>, Peter Zijlstra
+ <peterz@infradead.org>, Thorsten Leemhuis <linux@leemhuis.info>, Vlastimil
+ Babka <vbabka@kernel.org>, Helge Deller <deller@gmx.de>, Randy Dunlap
+ <rdunlap@infradead.org>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, Vivian Wang <wangruikang@iscas.ac.cn>,
+ linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ linux-modules@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 0/4] kallsyms: embed source file:line info in kernel
+ stack traces
+Message-Id: <20260323122557.3e0ef47671a0eea7c3d89253@linux-foundation.org>
+In-Reply-To: <20260322131543.971079-1-sashal@kernel.org>
+References: <20260322131543.971079-1-sashal@kernel.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260320190453.1430-1-ravis.opensrc@gmail.com> <20260321165746.84394-1-sj@kernel.org>
-In-Reply-To: <20260321165746.84394-1-sj@kernel.org>
-From: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
-Date: Mon, 23 Mar 2026 12:23:49 -0700
-X-Gm-Features: AaiRm53G1dtITD6OPSmNFBca8dgCST3mqTjoCxapaAIAN1uqhVUWdPIlUbgjZ-w
-Message-ID: <CALa+Y15sBCyVgGKC5994-WhS31nahyT=8uitDPG_isZ7sp_g_w@mail.gmail.com>
-Subject: Re: [RFC PATCH v4 0/1] mm/damon: add node_eligible_mem_bp and
- node_ineligible_mem_bp goal metrics
-To: SeongJae Park <sj@kernel.org>
-Cc: damon@lists.linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, akpm@linux-foundation.org, corbet@lwn.net, 
-	bijan311@gmail.com, ajayjoshi@micron.com, honggyu.kim@sk.com, 
-	yunjeong.mun@sk.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sat, Mar 21, 2026 at 9:57=E2=80=AFAM SeongJae Park <sj@kernel.org> wrote=
-:
->
-> Hello Ravi,
->
->
-> Thank you for this patch!  TL; DR: Other than trivial things I commented =
-below
-> and to the patch, I believe it is time to drop the RFC tag, and work on m=
-erging
-> this.
->
+On Sun, 22 Mar 2026 09:15:39 -0400 Sasha Levin <sashal@kernel.org> wrote:
 
-Thanks, SJ, for the prompt and detailed feedback!
+> This series adds CONFIG_KALLSYMS_LINEINFO, which embeds source file:line
+> information directly in the kernel image so that stack traces annotate
+> every frame with the originating source location - no external tools, no
+> debug symbols at runtime, and safe to use in NMI/panic context.
 
-> On Fri, 20 Mar 2026 12:04:52 -0700 Ravi Jonnalagadda <ravis.opensrc@gmail=
-.com> wrote:
->
-> > This patch introduces two new DAMON quota goal metrics for controlling
->
-> s/DAMON/DAMOS/ ?
->
+Thanks, I've updated mm.git's mm-nonmm-unstable branch to this version.
 
-Will fix it.
+> Changes since v3
+> =================
+> 
+> - Remove redundant gen_lineinfo entry in scripts/Makefile for
+>   CONFIG_KALLSYMS_LINEINFO_MODULES (depends on CONFIG_KALLSYMS_LINEINFO
+>   which already builds it). (Reported by Petr Pavlu)
+> 
+> - Use R_* constants from <elf.h> instead of hardcoded relocation type
+>   values in r_type_abs32(). (Reported by Petr Pavlu)
+> 
+> - Simplify duplicated-path detection in make_relative(): replace loop
+>   over every '/' with a direct midpoint check, since true path
+>   duplication always splits at len/2. (Suggested by Petr Pavlu)
+> 
+> - Fix comment in process_dwarf(): sections in ET_REL objects have
+>   sh_addr == 0 and therefore overlapping address ranges; this is
+>   expected behavior, not a "may" situation. (Reported by Petr Pavlu)
+> 
+> - Use U32_MAX instead of UINT_MAX for the module raw_offset bounds
+>   check, matching the u32 type of the addrs array.
+>   (Reported by Petr Pavlu)
+> 
+> - Document the assumption that .text is at the start of the MOD_TEXT
+>   segment in module_lookup_lineinfo(). A proper fix using ELF
+>   relocations is planned for a future series.
+>   (Reported by Petr Pavlu)
+> 
+> - Wrap -fno-inline-functions-called-once in $(call cc-option,...) for
+>   clang compatibility. Clang does not support this GCC-specific flag;
+>   the noinline attribute is sufficient.
 
-> > memory distribution in heterogeneous memory systems (e.g., DRAM and CXL
-> > memory tiering) using physical address (PA) mode monitoring.
-> >
-> > v3: https://lore.kernel.org/linux-mm/20260223123232.12851-1-ravis.opens=
-rc@gmail.com/
->
-> The above link would better to be put on 'Chage since v3' section below.
->
+Here's how v3 altered mm.git:
 
-Got it. Will take care of it next time.
 
-> >
-> > Changes since v3:
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >
-> > - The first two patches from v3 (goal_tuner initialization fix and
-> >   esz=3D0 quota bypass fix) are now in damon/next. This submission
->
-> It is not also in mm-unstable :)
+ kernel/module/kallsyms.c |    8 +++++--
+ lib/tests/Makefile       |    2 -
+ scripts/Makefile         |    1 
+ scripts/gen_lineinfo.c   |   40 +++++++++++++++++--------------------
+ 4 files changed, 26 insertions(+), 25 deletions(-)
 
-Good to know. Will mention this in the next version.
+--- a/kernel/module/kallsyms.c~b
++++ a/kernel/module/kallsyms.c
+@@ -547,13 +547,17 @@ bool module_lookup_lineinfo(struct modul
+ 	if (hdr->files_size < hdr->num_files * sizeof(u32))
+ 		return false;
+ 
+-	/* Compute offset from module .text base */
++	/*
++	 * Compute offset from module .text base.
++	 * NOTE: This assumes .text is at the start of the MOD_TEXT segment.
++	 * A proper fix would use ELF relocations to reference .text directly.
++	 */
+ 	text_base = (unsigned long)mod->mem[MOD_TEXT].base;
+ 	if (addr < text_base)
+ 		return false;
+ 
+ 	raw_offset = addr - text_base;
+-	if (raw_offset > UINT_MAX)
++	if (raw_offset > U32_MAX)
+ 		return false;
+ 
+ 	tbl.blk_addrs	= base + hdr->blocks_offset;
+--- a/lib/tests/Makefile~b
++++ a/lib/tests/Makefile
+@@ -36,7 +36,7 @@ obj-$(CONFIG_LIVEUPDATE_TEST) += liveupd
+ CFLAGS_longest_symbol_kunit.o += $(call cc-disable-warning, missing-prototypes)
+ obj-$(CONFIG_LONGEST_SYM_KUNIT_TEST) += longest_symbol_kunit.o
+ 
+-CFLAGS_lineinfo_kunit.o += -fno-inline-functions-called-once
++CFLAGS_lineinfo_kunit.o += $(call cc-option,-fno-inline-functions-called-once)
+ obj-$(CONFIG_LINEINFO_KUNIT_TEST) += lineinfo_kunit.o
+ 
+ obj-$(CONFIG_MEMCPY_KUNIT_TEST) += memcpy_kunit.o
+--- a/scripts/gen_lineinfo.c~b
++++ a/scripts/gen_lineinfo.c
+@@ -206,14 +206,11 @@ static const char *make_relative(const c
+ 	 */
+ 	{
+ 		size_t len = strlen(path);
++		size_t mid = len / 2;
+ 
+-		for (p = path; (p = strchr(p, '/')) != NULL; p++) {
+-			size_t prefix = p - path;
+-			size_t rest = len - prefix - 1;
+-
+-			if (rest == prefix && !memcmp(path, p + 1, prefix))
+-				return p + 1;
+-		}
++		if (len > 1 && path[mid] == '/' &&
++		    !memcmp(path, path + mid + 1, mid))
++			return path + mid + 1;
+ 	}
+ 
+ 	/*
+@@ -340,17 +337,17 @@ static void find_text_section_range(Elf
+ static unsigned int r_type_abs32(unsigned int e_machine)
+ {
+ 	switch (e_machine) {
+-	case EM_X86_64:		return 10;	/* R_X86_64_32 */
+-	case EM_386:		return 1;	/* R_386_32 */
+-	case EM_AARCH64:	return 258;	/* R_AARCH64_ABS32 */
+-	case EM_ARM:		return 2;	/* R_ARM_ABS32 */
+-	case EM_RISCV:		return 1;	/* R_RISCV_32 */
+-	case EM_S390:		return 4;	/* R_390_32 */
+-	case EM_MIPS:		return 2;	/* R_MIPS_32 */
+-	case EM_PPC64:		return 1;	/* R_PPC64_ADDR32 */
+-	case EM_PPC:		return 1;	/* R_PPC_ADDR32 */
+-	case EM_LOONGARCH:	return 1;	/* R_LARCH_32 */
+-	case EM_PARISC:		return 1;	/* R_PARISC_DIR32 */
++	case EM_X86_64:		return R_X86_64_32;
++	case EM_386:		return R_386_32;
++	case EM_AARCH64:	return R_AARCH64_ABS32;
++	case EM_ARM:		return R_ARM_ABS32;
++	case EM_RISCV:		return R_RISCV_32;
++	case EM_S390:		return R_390_32;
++	case EM_MIPS:		return R_MIPS_32;
++	case EM_PPC64:		return R_PPC64_ADDR32;
++	case EM_PPC:		return R_PPC_ADDR32;
++	case EM_LOONGARCH:	return R_LARCH_32;
++	case EM_PARISC:		return R_PARISC_DIR32;
+ 	default:		return 0;
+ 	}
+ }
+@@ -492,9 +489,10 @@ static void process_dwarf(Dwarf *dwarf,
+ 
+ 			/*
+ 			 * In module mode, keep only .text addresses.
+-			 * In ET_REL .ko files, .init.text/.exit.text may
+-			 * overlap with .text address ranges, so we must
+-			 * explicitly check against the .text bounds.
++			 * In ET_REL .ko files, .text, .init.text and
++			 * .exit.text all have sh_addr == 0 and therefore
++			 * overlapping address ranges.  Explicitly check
++			 * against the .text bounds.
+ 			 */
+ 			if (module_mode && text_section_end > text_section_start &&
+ 			    (addr < text_section_start || addr >= text_section_end))
+--- a/scripts/Makefile~b
++++ a/scripts/Makefile
+@@ -5,7 +5,6 @@
+ 
+ hostprogs-always-$(CONFIG_KALLSYMS)			+= kallsyms
+ hostprogs-always-$(CONFIG_KALLSYMS_LINEINFO)		+= gen_lineinfo
+-hostprogs-always-$(CONFIG_KALLSYMS_LINEINFO_MODULES)	+= gen_lineinfo
+ hostprogs-always-$(BUILD_C_RECORDMCOUNT)		+= recordmcount
+ hostprogs-always-$(CONFIG_BUILDTIME_TABLE_SORT)		+= sorttable
+ hostprogs-always-$(CONFIG_ASN1)				+= asn1_compiler
+_
 
->
-> >   contains only the core metrics patch, rebased on top of those fixes.
-> >
-> > - Simplified implementation: removed per-node eligible_bytes array, now
-> >   iterates scheme-eligible regions directly for each goal evaluation.
-> >
-> > - Handle regions crossing node boundaries: uses damon_get_folio() to
-> >   determine actual NUMA node placement of each folio rather than
-> >   assuming uniform node placement within a region.
-> >
-> > - Pass scheme pointer directly to metric calculation functions, avoidin=
-g
-> >   container_of() derivation from quota pointer.
-> >
-> > - Fixed 80-column wrapping issues.
->
-> Thank you for addressing all my comments!
->
-> >
-> > Background and Motivation
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
-> >
-> > In heterogeneous memory systems, controlling memory distribution across
-> > NUMA nodes is essential for performance optimization. This patch enable=
-s
-> > system-wide page distribution with target-state goals like "maintain 30=
-%
-> > of scheme-eligible memory on CXL" using PA-mode DAMON schemes.
-> >
-> > What These Metrics Measure
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
-> >
-> > node_eligible_mem_bp:
-> >     scheme_eligible_bytes_on_node / total_scheme_eligible_bytes * 10000
-> >
-> > node_ineligible_mem_bp:
-> >     (total - scheme_eligible_bytes_on_node) / total * 10000
-> >
-> > The metrics are complementary: eligible_bp + ineligible_bp =3D 10000 bp=
-.
-> >
-> > Two-Scheme Setup for Hot Page Distribution
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >
-> > For maintaining 30% of hot memory on CXL (node 1):
->
-> I think it could help easy reading if the above sentence also explains
-> node 0 is DRAM.  For example,
->
-> For maintaining hot memory on DRAM (node 0) and CXL (node 1) in 7:3 ratio=
-:
-
-Good suggestion, will clarify the node mapping.
-
->
-> >
-> >     PUSH scheme: migrate_hot from node 0 -> node 1
-> >       goal: node_ineligible_mem_bp, nid=3D0, target=3D3000
-> >       "Push hot pages out until 30% of hot memory is NOT on DRAM"
->
-> Seems the sentence assumes the actor is in DRAM.  It was not very clear t=
-o me.
-> How about making it clear?  E.g.,
->
-> "Move hot pages from DRAM to CXL, if more than 70% of hot data is in DRAM=
-"
-
-Got it. Will use your suggested wording.
-
->
-> >
-> >     PULL scheme: migrate_hot from node 1 -> node 0
-> >       goal: node_eligible_mem_bp, nid=3D0, target=3D7000
-> >       "Pull hot pages back until 70% of hot memory IS on DRAM"
->
-> If the above example is good for you, to be consistent with it, how about
-> rewording like below?
->
-> "Move hot pages from CXL to DRAM, if less than 70% of hot data is in DRAM=
-"
-
-Agreed. Will reword this too.
-
->
-> >
-> > The complementary goals create a feedback loop that converges to the
-> > target distribution.
-> >
-> > Dependencies
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >
-> > This patch is based on SJ's damon/next branch which includes the
-> > TEMPORAL goal tuner required for these metrics.
->
-> Your test might be depend on the feature.  But this patch series itself i=
-s not,
-> as users could also use it with CONSIST tuner?
->
-
-Correct, the metrics work with both tuners. Will reword to clarify that
-testing used TEMPORAL but the patch itself does not depend on it.
-
-> Also, as I mentioned above, the feature is now also in mm-unstable tree.
->
-> >
-> > Testing Results
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >
-> > Functionally tested on a two-node heterogeneous memory system with DRAM
-> > (node 0) and CXL memory (node 1). Used PUSH+PULL scheme configuration
-> > with migrate_hot action to maintain a target hot memory ratio between
-> > the two tiers.
-> >
-> > With the TEMPORAL goal tuner, the system converges quickly to the targe=
-t
-> > distribution. The tuner drives esz to maximum when under goal and to
-> > zero once the goal is met, forming a simple on/off feedback loop that
-> > stabilizes at the desired ratio.
-> >
-> > With the CONSIST tuner, the scheme still converges but more slowly, as
-> > it migrates and then throttles itself based on quota feedback. The time
-> > to reach the goal varies depending on workload intensity.
->
-> Sounds reasonable!
->
-> Do you plan to further evaluate some performance metrics?  I'd not strong=
-ly
-> request that, but it would be very nice if we can have that.
->
-
-Yes, I am planning to run additional tests. I will send v5 addressing
-all the review comments and dropping the RFC tag. Results will follow
-as the testing progresses.
-
-> Regardless of your answer to the above question, I think the current code=
- and
-> the test is good enough to consider merging this.  I suggest dropping the=
- RFC
-> tag from the next spin.
->
-> Thank you for doing this, Ravi!
->
-
-Thank you! Will drop the RFC tag for v5.
-
->
-> Thanks,
-> SJ
->
-
-Best Regards,
-Ravi.
-
-> [...]
