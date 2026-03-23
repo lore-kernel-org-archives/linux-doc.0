@@ -1,171 +1,356 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1260B38645C;
-	Mon, 23 Mar 2026 09:13:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D8B41FE44A;
+	Mon, 23 Mar 2026 09:35:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774257189; cv=none; b=IAMoIWp50673lX7OldzuRG0xhq1aOEoavrH2k18cJQNaGBO2KEcEjoe30rvsm8zP2qVXcubCUDDH4gU3hfGLUwhdb7SFjQGoNFxFJryEKqulPUlwI08yNhdy2xZUSwwA4+z5LcJrtLRRJjhztv6leVIEMgpRxIDbrN9KcIPvIPw=
+	t=1774258501; cv=none; b=cTP/QuxMSXF8HhGziyLj3Q+q4WjRXVCd1P35oI7EFQhAp1DENspqM5cyK6HONS/SCHanMHed3TO9+S0wcR7TFetmfNan03fVWw0Izmfr0aykRXICiRL75aF1qwrcn/3AF/0m4EgJjXqlqI54hpoJK8G1Mf9fo97mP5GNVi8qrTg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774257189; c=relaxed/simple;
-	bh=wzMrqKx3Jtzn/TAs56FycVP5WjxG7mSofPlph6puuTE=;
+	s=arc-20240116; t=1774258501; c=relaxed/simple;
+	bh=9DVS4XWePq3fWP8PnNkZL1RiZ3dghTt1ujGUsfLlRmM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d/6cb/WTHpRio3DUgEoymf65kGKM/au8CA4Uq5/BbqZzTJf87+0opctAdhyFO8MSHkafnHCXcFT2J9npxeUdeo4eq5R4siGPzTbjZWQUA3u9Xbu5xu9aAouUujc7U9/nSwmImCxldAajJrEIaALUNQnxn8f835rOUXQC8WENpZk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=joSxwlsp; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=qnQEftZYvpTuSidk8SNH6yeze1EUuRsFTpxG6U6hYLjC/sdFuSLvL9C9TeLE/VCfQtec68S6r05baxZnvoy33DdXWF9JspSLgIVOAPQNTigwtn8/DFyZMxvDPWHYgotgCKF8f9qzfuVSKLfeHI4uWx4sewcB+Nd6jAryYfxIjhc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tsTpQ8sr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="joSxwlsp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06702C4CEF7;
-	Mon, 23 Mar 2026 09:13:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tsTpQ8sr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E831BC2BC9E;
+	Mon, 23 Mar 2026 09:34:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774257188;
-	bh=wzMrqKx3Jtzn/TAs56FycVP5WjxG7mSofPlph6puuTE=;
+	s=k20201202; t=1774258500;
+	bh=9DVS4XWePq3fWP8PnNkZL1RiZ3dghTt1ujGUsfLlRmM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=joSxwlspVhKYcgE4zizMzEupkVxH7zBoRt16ItgpGqtktF8hLPrEEOTxfgh4aRR46
-	 H0U9alpLsA83SdovjY4NjT0S8IVfoGCFHfdV08wBojK7QatPitGsHroy+nurmzIUo5
-	 9LTrYrheRCty7XcM5Hdcd35jJVYk4YzX2FwqnAgbFVPaee1S/zk0OOYbb6dWKe54SV
-	 Qejn61X7CFhOqRsAbeUsXpGiEPrzUHGPx8hpLYNbDN7Ghgx9DVL33kddcsAYc4j5Sz
-	 AmCzqaip3eo7Xnd8PbIQkYXGzXvvJm8fegMwy8XoqhfyH8Ytxfa3hUrWvBicIE9Bu0
-	 C1NjdvWhW+Gjw==
-Date: Mon, 23 Mar 2026 09:13:06 +0000
-From: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-To: Michael Kelley <mhklinux@outlook.com>
-Cc: Long Li <longli@microsoft.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Clemens Ladisch <clemens@ladisch.de>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "K . Y . Srinivasan" <kys@microsoft.com>, 
-	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Miquel Raynal <miquel.raynal@bootlin.com>, 
-	Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
-	Bodo Stroesser <bostroesser@gmail.com>, "Martin K . Petersen" <martin.petersen@oracle.com>, 
-	David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	David Hildenbrand <david@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>, 
-	Pedro Falcato <pfalcato@suse.de>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>, 
-	"linux-stm32@st-md-mailman.stormreply.com" <linux-stm32@st-md-mailman.stormreply.com>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "linux-mtd@lists.infradead.org" <linux-mtd@lists.infradead.org>, 
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>, "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>, 
-	"target-devel@vger.kernel.org" <target-devel@vger.kernel.org>, "linux-afs@lists.infradead.org" <linux-afs@lists.infradead.org>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>, 
-	Ryan Roberts <ryan.roberts@arm.com>
-Subject: Re: [PATCH v4 18/21] drivers: hv: vmbus: replace deprecated mmap
- hook with mmap_prepare
-Message-ID: <409ff1b0-43ff-4b1d-ad07-7624e0817640@lucifer.local>
-References: <cover.1774045440.git.ljs@kernel.org>
- <05467cb62267d750e5c770147517d4df0246cda6.1774045440.git.ljs@kernel.org>
- <SN6PR02MB41573DF211DA2469D7FFE892D44BA@SN6PR02MB4157.namprd02.prod.outlook.com>
+	b=tsTpQ8sr9ZfFe23UYvY9gWpEp4pi3UFpdtCDyFUJ0o7LE32Uk5F4vgOPifpRJNFFY
+	 CK9ZxWImSDjq96G80Dpgjk0eEAT1UzCkSckZ+wUTTo1rwZgtfteXTCxy2eS0I0ivmj
+	 8ygvJ5lQwTk+7ZcemwDn0bDWOPeuokFyWfiIT12I7oWKoDelMfxFKX9wgcyrc3iTzg
+	 irjQBVP6hPhFVtkKv3WUp7FzrarlPkf8AngjZPRtaZEgRqxzwurhCueLJQZ5Xd3GHu
+	 BC0AgZQl897EaidI07vuDFoBbIPRr3E5WYLkF4Xsb9fvCiPPNXazkpFoZtGXnjIMCR
+	 P3Le4Kr6zRJRg==
+Date: Mon, 23 Mar 2026 15:04:50 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Thara Gopinath <thara.gopinath@gmail.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	"David S. Miller" <davem@davemloft.net>, Udit Tiwari <quic_utiwari@quicinc.com>, 
+	Md Sadre Alam <mdalam@qti.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
+	Stephan Gerhold <stephan.gerhold@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Peter Ujfalusi <peter.ujfalusi@gmail.com>, Michal Simek <michal.simek@amd.com>, 
+	Frank Li <Frank.Li@kernel.org>, dmaengine@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-crypto@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, brgl@kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: Re: [PATCH v13 05/12] dmaengine: qcom: bam_dma: add support for BAM
+ locking
+Message-ID: <hohx2judes5c6na4svpah254hqbaf4kbeyu7prwkprfv5dy7hj@26nxwlvb76yp>
+References: <20260317-qcom-qce-cmd-descr-v13-0-0968eb4f8c40@oss.qualcomm.com>
+ <20260317-qcom-qce-cmd-descr-v13-5-0968eb4f8c40@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <SN6PR02MB41573DF211DA2469D7FFE892D44BA@SN6PR02MB4157.namprd02.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260317-qcom-qce-cmd-descr-v13-5-0968eb4f8c40@oss.qualcomm.com>
 
-On Mon, Mar 23, 2026 at 04:16:20AM +0000, Michael Kelley wrote:
-> From: Lorenzo Stoakes (Oracle) <ljs@kernel.org> Sent: Friday, March 20, 2026 3:40 PM
-> >
-> > The f_op->mmap interface is deprecated, so update the vmbus driver to use
-> > its successor, mmap_prepare.
-> >
-> > This updates all callbacks which referenced the function pointer
-> > hv_mmap_ring_buffer to instead reference hv_mmap_prepare_ring_buffer,
-> > utilising the newly introduced compat_set_desc_from_vma() and
-> > __compat_vma_mmap() to be able to implement this change.
-> >
-> > The UIO HV generic driver is the only user of hv_create_ring_sysfs(),
-> > which is the only function which references
-> > vmbus_channel->mmap_prepare_ring_buffer which, in turn, is the only
-> > external interface to hv_mmap_prepare_ring_buffer.
-> >
-> > This patch therefore updates this caller to use mmap_prepare instead,
-> > which also previously used vm_iomap_memory(), so this change replaces it
-> > with its mmap_prepare equivalent, mmap_action_simple_ioremap().
-> >
-> > Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
-> > ---
-> >  drivers/hv/hyperv_vmbus.h    |  4 ++--
-> >  drivers/hv/vmbus_drv.c       | 31 +++++++++++++++++++------------
-> >  drivers/uio/uio_hv_generic.c | 11 ++++++-----
-> >  include/linux/hyperv.h       |  4 ++--
-> >  4 files changed, 29 insertions(+), 21 deletions(-)
-> >
->
-> There are two mmap() code paths in the Hyper-V UIO code. One path is
-> to mmap() the file descriptor for /dev/uio<n>, and the other is to mmap()
-> the "ring" entry under /sys/devices/vmbus/devices/<uuid>. The former is
-> done by uio_mmap(), and the latter by hv_uio_ring_mmap_prepare().
->
-> I tested both these paths using a combination of two methods in a
-> x86/x64 VM on Hyper-V:
->
-> 1) Using the fcopy daemon, which maps the ring buffer for the primary
-> channel and sends/receives messages with the Hyper-V host. This
-> method tests only the 1st path because the fcopy daemon doesn't create
-> any subchannels that would use the "ring" entry.
->
-> 2) Using a custom-built test program. This program doesn't communicate
-> with the Hyper-V host, but allows mostly verifying both code paths for the
-> primary channel. As a sanity check, it verifies that the two mmaps are
-> mapping the same memory, as expected.
->
-> As such,
->
-> Reviewed-by: Michael Kelley <mhklinux@outlook.com>
-> Tested-by: Michael Kelley <mhklinux@outlook.com>
+On Tue, Mar 17, 2026 at 03:02:12PM +0100, Bartosz Golaszewski wrote:
+> Add support for BAM pipe locking. To that end: when starting DMA on an RX
+> channel - prepend the existing queue of issued descriptors with an
+> additional "dummy" command descriptor with the LOCK bit set. Once the
+> transaction is done (no more issued descriptors), issue one more dummy
+> descriptor with the UNLOCK bit.
+> 
+> We *must* wait until the transaction is signalled as done because we
+> must not perform any writes into config registers while the engine is
+> busy.
+> 
+> The dummy writes must be issued into a scratchpad register of the client
+> so provide a mechanism to communicate the right address via descriptor
+> metadata.
+> 
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
-Perfect, thanks so much for this!
+I've left some comments in v12, but looks like you've missed them. Anyhow,
+this version looks good to me as the design looks simple and doesn't warrant
+much change from the client driver other than passing the scratchpad register as
+metadata. I just have some minor comments in this version. 
 
-It is tricky for me to test these, beyond fairly exhaustive logical
-confirmation of equivalence, so this is _hugely_ helpful.
+> ---
+>  drivers/dma/qcom/bam_dma.c       | 160 ++++++++++++++++++++++++++++++++++++++-
+>  include/linux/dma/qcom_bam_dma.h |   4 +
+>  2 files changed, 160 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/dma/qcom/bam_dma.c b/drivers/dma/qcom/bam_dma.c
+> index 83491e7c2f17d8c9d12a1a055baea7e3a0a75a53..895286452c8b5e701c1df482095e5fe4a49f4246 100644
+> --- a/drivers/dma/qcom/bam_dma.c
+> +++ b/drivers/dma/qcom/bam_dma.c
+> @@ -28,11 +28,13 @@
+>  #include <linux/clk.h>
+>  #include <linux/device.h>
+>  #include <linux/dma-mapping.h>
+> +#include <linux/dma/qcom_bam_dma.h>
+>  #include <linux/dmaengine.h>
+>  #include <linux/init.h>
+>  #include <linux/interrupt.h>
+>  #include <linux/io.h>
+>  #include <linux/kernel.h>
+> +#include <linux/lockdep.h>
+>  #include <linux/module.h>
+>  #include <linux/of_address.h>
+>  #include <linux/of_dma.h>
+> @@ -60,6 +62,8 @@ struct bam_desc_hw {
+>  #define DESC_FLAG_EOB BIT(13)
+>  #define DESC_FLAG_NWD BIT(12)
+>  #define DESC_FLAG_CMD BIT(11)
+> +#define DESC_FLAG_LOCK BIT(10)
+> +#define DESC_FLAG_UNLOCK BIT(9)
+>  
+>  struct bam_async_desc {
+>  	struct virt_dma_desc vd;
+> @@ -391,6 +395,14 @@ struct bam_chan {
+>  	struct list_head desc_list;
+>  
+>  	struct list_head node;
+> +
+> +	/* BAM locking infrastructure */
+> +	bool locked;
+> +	phys_addr_t scratchpad_addr;
+> +	struct scatterlist lock_sg;
+> +	struct scatterlist unlock_sg;
+> +	struct bam_cmd_element lock_ce;
+> +	struct bam_cmd_element unlock_ce;
+>  };
+>  
+>  static inline struct bam_chan *to_bam_chan(struct dma_chan *common)
+> @@ -652,6 +664,27 @@ static int bam_slave_config(struct dma_chan *chan,
+>  	return 0;
+>  }
+>  
+> +static int bam_metadata_attach(struct dma_async_tx_descriptor *desc, void *data, size_t len)
+> +{
+> +	struct bam_chan *bchan = to_bam_chan(desc->chan);
+> +	const struct bam_device_data *bdata = bchan->bdev->dev_data;
+> +	struct bam_desc_metadata *metadata = data;
+> +
+> +	if (!data)
+> +		return -EINVAL;
+> +
+> +	if (!bdata->pipe_lock_supported)
+> +		return -EOPNOTSUPP;
 
->
-> The most robust test would be to run DPDK networking against
-> UIO, as it would communicate with the Hyper-V host and use
-> multiple subchannels that resulting in mmap'ing the "ring"
-> entry under /sys.
->
-> @Long Li -- I'll leave it to your discretion as to whether you want
-> to test DPDK against these mmap() changes.
+As mentioned in v12, you should return 0 to avoid erroring out the clients if
+pipe lock is not supported.
 
-Thanks in advance for taking a look on this also!
+> +
+> +	bchan->scratchpad_addr = metadata->scratchpad_addr;
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct dma_descriptor_metadata_ops bam_metadata_ops = {
+> +	.attach = bam_metadata_attach,
+> +};
+> +
+>  /**
+>   * bam_prep_slave_sg - Prep slave sg transaction
+>   *
+> @@ -668,6 +701,7 @@ static struct dma_async_tx_descriptor *bam_prep_slave_sg(struct dma_chan *chan,
+>  	void *context)
+>  {
+>  	struct bam_chan *bchan = to_bam_chan(chan);
+> +	struct dma_async_tx_descriptor *tx_desc;
+>  	struct bam_device *bdev = bchan->bdev;
+>  	struct bam_async_desc *async_desc;
+>  	struct scatterlist *sg;
+> @@ -723,7 +757,12 @@ static struct dma_async_tx_descriptor *bam_prep_slave_sg(struct dma_chan *chan,
+>  		} while (remainder > 0);
+>  	}
+>  
+> -	return vchan_tx_prep(&bchan->vc, &async_desc->vd, flags);
+> +	tx_desc = vchan_tx_prep(&bchan->vc, &async_desc->vd, flags);
+> +	if (!tx_desc)
+> +		return NULL;
+> +
+> +	tx_desc->metadata_ops = &bam_metadata_ops;
+> +	return tx_desc;
+>  }
+>  
+>  /**
+> @@ -1012,13 +1051,115 @@ static void bam_apply_new_config(struct bam_chan *bchan,
+>  	bchan->reconfigure = 0;
+>  }
+>  
+> +static struct bam_async_desc *
+> +bam_make_lock_desc(struct bam_chan *bchan, struct scatterlist *sg,
+> +		   struct bam_cmd_element *ce, unsigned long flag)
+> +{
+> +	struct dma_chan *chan = &bchan->vc.chan;
+> +	struct bam_async_desc *async_desc;
+> +	struct bam_desc_hw *desc;
+> +	struct virt_dma_desc *vd;
+> +	struct virt_dma_chan *vc;
+> +	unsigned int mapped;
+> +	dma_cookie_t cookie;
+> +	int ret;
+> +
+> +	sg_init_table(sg, 1);
+> +
+> +	async_desc = kzalloc_flex(*async_desc, desc, 1, GFP_NOWAIT);
+> +	if (!async_desc) {
+> +		dev_err(bchan->bdev->dev, "failed to allocate the BAM lock descriptor\n");
+> +		return NULL;
+> +	}
+> +
+> +	async_desc->num_desc = 1;
+> +	async_desc->curr_desc = async_desc->desc;
+> +	async_desc->dir = DMA_MEM_TO_DEV;
+> +
+> +	desc = async_desc->desc;
+> +
+> +	bam_prep_ce_le32(ce, bchan->scratchpad_addr, BAM_WRITE_COMMAND, 0);
+> +	sg_set_buf(sg, ce, sizeof(*ce));
+> +
+> +	mapped = dma_map_sg_attrs(chan->slave, sg, 1, DMA_TO_DEVICE, DMA_PREP_CMD);
+> +	if (!mapped) {
+> +		kfree(async_desc);
+> +		return NULL;
+> +	}
+> +
+> +	desc->flags |= cpu_to_le16(DESC_FLAG_CMD | flag);
+> +	desc->addr = sg_dma_address(sg);
+> +	desc->size = sizeof(struct bam_cmd_element);
+> +
+> +	vc = &bchan->vc;
+> +	vd = &async_desc->vd;
+> +
+> +	dma_async_tx_descriptor_init(&vd->tx, &vc->chan);
+> +	vd->tx.flags = DMA_PREP_CMD;
+> +	vd->tx.desc_free = vchan_tx_desc_free;
+> +	vd->tx_result.result = DMA_TRANS_NOERROR;
+> +	vd->tx_result.residue = 0;
+> +
+> +	cookie = dma_cookie_assign(&vd->tx);
+> +	ret = dma_submit_error(cookie);
+> +	if (ret)
+> +		return NULL;
 
->
-> I've noted one minor issue below.
->
-> [snip]
->
-> --- a/include/linux/hyperv.h
-> +++ b/include/linux/hyperv.h
-> @@ -1015,8 +1015,8 @@ struct vmbus_channel {
->  	/* The max size of a packet on this channel */
->  	u32 max_pkt_size;
->
-> -	/* function to mmap ring buffer memory to the channel's sysfs ring attribute */
-> -	int (*mmap_ring_buffer)(struct vmbus_channel *channel, struct vm_area_struct *vma);
-> +	/* function to mmap_prepare ring buffer memory to the channel's sysfs ring attribute */
->
-> Changing the comment from "mmap ring buffer" to "mmap_prepare ring buffer"
-> produces awkward wording since "mmap" is used here as a verb.  It might be better
-> to just leave the comment unchanged.
+You are leaking async_desc here.
 
-Sure am happy with that of course, I think Sashiko moaned about this but
-it's obviously fine either way.
+> +
+> +	return async_desc;
+> +}
+> +
+> +static int bam_do_setup_pipe_lock(struct bam_chan *bchan, bool lock)
+> +{
+> +	struct bam_device *bdev = bchan->bdev;
+> +	const struct bam_device_data *bdata = bdev->dev_data;
+> +	struct bam_async_desc *lock_desc;
+> +	struct bam_cmd_element *ce;
+> +	struct scatterlist *sgl;
+> +	unsigned long flag;
+> +
+> +	lockdep_assert_held(&bchan->vc.lock);
+> +
+> +	if (!bdata->pipe_lock_supported || !bchan->scratchpad_addr ||
+> +	    bchan->slave.direction != DMA_MEM_TO_DEV)
+> +		return 0;
+> +
+> +	if (lock) {
+> +		sgl = &bchan->lock_sg;
+> +		ce = &bchan->lock_ce;
+> +		flag = DESC_FLAG_LOCK;
+> +	} else {
+> +		sgl = &bchan->unlock_sg;
+> +		ce = &bchan->unlock_ce;
+> +		flag = DESC_FLAG_UNLOCK;
+> +	}
+> +
+> +	lock_desc = bam_make_lock_desc(bchan, sgl, ce, flag);
+> +	if (!lock_desc)
+> +		return -ENOMEM;
+> +
+> +	if (lock)
+> +		list_add(&lock_desc->vd.node, &bchan->vc.desc_issued);
+> +	else
+> +		list_add_tail(&lock_desc->vd.node, &bchan->vc.desc_issued);
+> +
+> +	bchan->locked = lock;
 
-Andrew - do you mind restoring the comment to its original form above? Thanks!
+What is this flag for?
 
->
-> Michael
->
->
-> +	int (*mmap_prepare_ring_buffer)(struct vmbus_channel *channel, struct vm_area_desc *desc);
->
->  	/* boolean to control visibility of sysfs for ring buffer */
->  	bool ring_sysfs_visible;
+> +
+> +	return 0;
+> +}
+> +
+> +static void bam_setup_pipe_lock(struct bam_chan *bchan)
+> +{
+> +	if (bam_do_setup_pipe_lock(bchan, true) || bam_do_setup_pipe_lock(bchan, false))
+> +		dev_err(bchan->vc.chan.slave, "Failed to setup BAM pipe lock descriptors");
+> +}
+> +
+>  /**
+>   * bam_start_dma - start next transaction
+>   * @bchan: bam dma channel
+>   */
+>  static void bam_start_dma(struct bam_chan *bchan)
+>  {
+> -	struct virt_dma_desc *vd = vchan_next_desc(&bchan->vc);
+> +	struct virt_dma_desc *vd;
+>  	struct bam_device *bdev = bchan->bdev;
+>  	struct bam_async_desc *async_desc = NULL;
+>  	struct bam_desc_hw *desc;
+> @@ -1030,6 +1171,9 @@ static void bam_start_dma(struct bam_chan *bchan)
+>  
+>  	lockdep_assert_held(&bchan->vc.lock);
+>  
+> +	bam_setup_pipe_lock(bchan);
+> +
+> +	vd = vchan_next_desc(&bchan->vc);
+>  	if (!vd)
+>  		return;
+>  
+> @@ -1157,8 +1301,15 @@ static void bam_issue_pending(struct dma_chan *chan)
+>   */
+>  static void bam_dma_free_desc(struct virt_dma_desc *vd)
+>  {
+> -	struct bam_async_desc *async_desc = container_of(vd,
+> -			struct bam_async_desc, vd);
+> +	struct bam_async_desc *async_desc = container_of(vd, struct bam_async_desc, vd);
+> +	struct bam_desc_hw *desc = async_desc->desc;
+> +	struct dma_chan *chan = vd->tx.chan;
+> +	struct bam_chan *bchan = to_bam_chan(chan);
+> +
+> +	if (le16_to_cpu(desc->flags) & DESC_FLAG_LOCK)
+> +		dma_unmap_sg(chan->slave, &bchan->lock_sg, 1, DMA_TO_DEVICE);
+> +	else if (le16_to_cpu(desc->flags) & DESC_FLAG_UNLOCK)
+> +		dma_unmap_sg(chan->slave, &bchan->unlock_sg, 1, DMA_TO_DEVICE);
+>  
+>  	kfree(async_desc);
+>  }
+> @@ -1350,6 +1501,7 @@ static int bam_dma_probe(struct platform_device *pdev)
+>  	bdev->common.device_terminate_all = bam_dma_terminate_all;
+>  	bdev->common.device_issue_pending = bam_issue_pending;
+>  	bdev->common.device_tx_status = bam_tx_status;
+> +	bdev->common.desc_metadata_modes = DESC_METADATA_CLIENT;
+>  	bdev->common.dev = bdev->dev;
+>  
+>  	ret = dma_async_device_register(&bdev->common);
+> diff --git a/include/linux/dma/qcom_bam_dma.h b/include/linux/dma/qcom_bam_dma.h
+> index 68fc0e643b1b97fe4520d5878daa322b81f4f559..f85e0c72407b5e1a733750ac87bbaba6af6e8c78 100644
+> --- a/include/linux/dma/qcom_bam_dma.h
+> +++ b/include/linux/dma/qcom_bam_dma.h
+> @@ -34,6 +34,10 @@ enum bam_command_type {
+>  	BAM_READ_COMMAND,
+>  };
+>  
+> +struct bam_desc_metadata {
+> +	phys_addr_t scratchpad_addr;
 
-Cheers, Lorenzo
+I think it'd be worth adding a comment for this.
+
+- Mani
+
+-- 
+மணிவண்ணன் சதாசிவம்
