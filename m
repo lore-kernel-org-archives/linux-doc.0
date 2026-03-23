@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B1E238655B;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66F7B38656E;
 	Mon, 23 Mar 2026 09:10:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774257059; cv=none; b=BJ74oC9kXXM3HeZJfpy+6avQKXOFJ7jMMVbdAZxJ0SF2CqaZrLmOUXT0HSuDB6/nrYnipYVI3devJx33TvUF+pYC4GJvn5UvU7TwOjX/q1EqsfafAz3F31Geuo0tTHTL8j5otTeojmdHr9jQMm0yNVKObvpFzqhzLHRLmUbQjyU=
+	t=1774257059; cv=none; b=IkH7Q1f7nRnnN98BGQl5vdz3ddW+m7sIAM9AORxUkzNFG5Igucq1y2QWyWTh+ypY64Trl4EJzcLefEWwVx0jOYr/qfmTT5dzwycnDByJxtV71cvBKDm/hVX4wOAxFxK86YraYorbDLDpIgoMutl9b62miH5fA2ULtV8B34aExZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1774257059; c=relaxed/simple;
-	bh=I+Z90ZgRcAKwP9M+teTDbwHynmYojrMLzCXd+nUPEDY=;
+	bh=addHFIswpEMO6DerS1Dkay2VaZwGGhyLKO3G7KAZQRU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=k6yCIh7Zy/TrJc3JLA6Rjc3VWx1nbeF4o4bZrDFV1/m78YJrF02Gtcy5YSegtaj+UgyVkR+KBpyOkKdkRvTCAwVcKjREMMaSwYMUI6OB6tWsTOpjT7jq+xUkk0OuoxcuZFFEHQmIPiACH9W6UT2FQJSaCK6Wglc2J5PaysE1rZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NQwOqVfJ; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=l+nw9WeszjbNPMKqolq8R0AxI/DXonJHCQfHLyZ0PuFWFks7RbfOkQ+H+bla5CvyFvn0SPwDJSzEgjFd7TO6HvieEz78axjgRui12zzFEXT3ENzlXlJZKs5HrkQKXRoGGP5TCCUIEIT26MmX797xICZgTns4szrh6TZz6+P8tac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nj5m6xCE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NQwOqVfJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0289C2BCB6;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nj5m6xCE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3823C4AF09;
 	Mon, 23 Mar 2026 09:10:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1774257059;
-	bh=I+Z90ZgRcAKwP9M+teTDbwHynmYojrMLzCXd+nUPEDY=;
+	bh=addHFIswpEMO6DerS1Dkay2VaZwGGhyLKO3G7KAZQRU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=NQwOqVfJ7c8LIdpQ33R80m2rSH5vlLo5zbcwpKf51Ww6zmrcwhVaV/NC8S3BUCwR4
-	 xPPTRz4DILklEvqhPOkEIQGdHSJiwHax7lrKFhs4WLovnGpt8i3LdKUorzeN3x3hSL
-	 0QLQj9k6A9GTxLPOvbcyPOCwRfDbG1pEmea0FvHG+XNXdYyFeHff8UU4jVKG76HIdk
-	 /GQxskLVmNbP/0/knM6UiRSTxjOgxAnt+5zCVyPw9/d0iU22Hx3eRb8/bYHdSv4vJB
-	 xqek3BADD/kqSRLQ905ksBAtfh03kC9dPFjEIDUi8HS8IU0Te4yK/MaaTUkQ95rA1/
-	 N+HBaCkAfQNlg==
+	b=nj5m6xCEY2Y40B7doo3Lzagn6pzdmOj4OerQgs/UHg+/y+2YS5cWNawwXmRv3iBIO
+	 slJfxOyMHjfIvoQadbgNptl3eE9j6pZxWqiAvNDig9yGAjP7pByviEqzaKY1aVG4Rx
+	 pCAkON4b5u3S+dPXdV1KHGQOmeowyu0lB1bINLn9bQrz6t/TFAxZ0vTshcfgBDlGly
+	 7U3lYjmEbfZd6w6iF8CfeTD8wa3dAbnbkbQCxFrlpyEpFOGHvf6HEGhayTx5rt2hE1
+	 hF1a/C3AHiOzyP0v82NB0RTaGWZwMdoPcOVry7yjvObsmkAgsqyKoS1SxzaS6n4Xg/
+	 OwE8qh7TAm2HQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1w4bJI-00000002yWg-2IMT;
+	id 1w4bJI-00000002yWY-24Id;
 	Mon, 23 Mar 2026 10:10:56 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
@@ -36,11 +36,10 @@ To: Jonathan Corbet <corbet@lwn.net>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org,
-	Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
 	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH 07/10] docs: kdoc: better handle source when producing YAML output
-Date: Mon, 23 Mar 2026 10:10:50 +0100
-Message-ID: <77902dafabb5c3250486aa2dc1568d5fafa95c5b.1774256269.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 05/10] docs: kdoc-test.yaml: add more tests
+Date: Mon, 23 Mar 2026 10:10:48 +0100
+Message-ID: <75af93a45151b630c94b7f77637d173e6119fd41.1774256269.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <cover.1774256269.git.mchehab+huawei@kernel.org>
 References: <cover.1774256269.git.mchehab+huawei@kernel.org>
@@ -54,515 +53,1585 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-The current logic was storing symbols source code on a list,
-not linked to the actual KdocItem. While this works fine when
-kernel-doc markups are OK, on places where there is a "/**"
-without a valid kernel-doc markup, it ends that the 1:1 match
-between source code and KdocItem doesn't happen, causing
-problems to generate the YAML output.
+Add extra tests to check if the new "var" type is properly
+handled and to cover mutex context annotations.
 
-Fix it by storing the source code directly into the KdocItem
-structure.
-
-This shouldn't affect performance or memory footprint, except
-when --yaml option is used.
-
-While here, add a __repr__() function for KdocItem, as it
-helps debugging it.
-
+Co-developed-by: Randy Dunlap <rdunlap@infradead.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tools/lib/python/kdoc/kdoc_files.py     |   8 +-
- tools/lib/python/kdoc/kdoc_item.py      |   6 +-
- tools/lib/python/kdoc/kdoc_parser.py    | 100 ++++++++++++------------
- tools/lib/python/kdoc/kdoc_yaml_file.py |  28 +++----
- tools/unittests/test_kdoc_parser.py     |   9 +++
- 5 files changed, 79 insertions(+), 72 deletions(-)
+ tools/unittests/kdoc-test.yaml | 1548 +++++++++++++++++++++++++++++++-
+ 1 file changed, 1546 insertions(+), 2 deletions(-)
 
-diff --git a/tools/lib/python/kdoc/kdoc_files.py b/tools/lib/python/kdoc/kdoc_files.py
-index 5a299ed44d62..2428cfc4e843 100644
---- a/tools/lib/python/kdoc/kdoc_files.py
-+++ b/tools/lib/python/kdoc/kdoc_files.py
-@@ -203,10 +203,6 @@ class KernelFiles():
+diff --git a/tools/unittests/kdoc-test.yaml b/tools/unittests/kdoc-test.yaml
+index b6e04f10ccdb..14d36daa1bba 100644
+--- a/tools/unittests/kdoc-test.yaml
++++ b/tools/unittests/kdoc-test.yaml
+@@ -22,7 +22,6 @@ tests:
+       */
+     int func1(char *arg1) { return 0; };
  
-         self.results[fname] = entries
- 
--        source = doc.get_source()
--        if source:
--            self.source[fname] = source
 -
-     def process_export_file(self, fname):
-         """
-         Parses ``EXPORT_SYMBOL*`` macros from a single Kernel source file.
-@@ -294,7 +290,6 @@ class KernelFiles():
+   expected:
+   - rst: |
+     .. c:function:: int func1 (char *arg1)
+@@ -134,7 +133,6 @@ tests:
  
-         self.errors = 0
-         self.results = {}
--        self.source = {}
+         always return 0.
  
-         self.files = set()
-         self.export_files = set()
-@@ -364,8 +359,7 @@ class KernelFiles():
-                                           function_table, enable_lineno,
-                                           no_doc_sections)
- 
--                self.test_file.output_symbols(fname, symbols,
--                                              self.source.get(fname))
-+                self.test_file.output_symbols(fname, symbols)
- 
-                 continue
- 
-diff --git a/tools/lib/python/kdoc/kdoc_item.py b/tools/lib/python/kdoc/kdoc_item.py
-index fe08cac861c2..a7aa6e1e4c1c 100644
---- a/tools/lib/python/kdoc/kdoc_item.py
-+++ b/tools/lib/python/kdoc/kdoc_item.py
-@@ -14,7 +14,8 @@ class KdocItem:
-     then pass into the output modules.
-     """
- 
--    def __init__(self, name, fname, type, start_line, **other_stuff):
-+    def __init__(self, name, fname, type, start_line,
-+                 **other_stuff):
-         self.name = name
-         self.fname = fname
-         self.type = type
-@@ -60,6 +61,9 @@ class KdocItem:
-     def __getitem__(self, key):
-         return self.get(key)
- 
-+    def __repr__(self):
-+        return f"KdocItem({self.name}, {self.fname}, {self.type}, {self.declaration_start_line})"
+-    # TODO: how to handle timestamps at .TH?
+     man: |
+       .TH "func2" 9 "February 2026"  "" "Kernel API Manual"
+       .SH NAME
+@@ -152,3 +150,1549 @@ tests:
+       .SH "SEE ALSO"
+       .PP
+       Kernel file \fBfunc2.c\fR
 +
-     @classmethod
-     def from_dict(cls, d):
-         """Create a KdocItem from a plain dict."""
-diff --git a/tools/lib/python/kdoc/kdoc_parser.py b/tools/lib/python/kdoc/kdoc_parser.py
-index a10e64589d76..74af7ae47aa4 100644
---- a/tools/lib/python/kdoc/kdoc_parser.py
-+++ b/tools/lib/python/kdoc/kdoc_parser.py
-@@ -265,9 +265,6 @@ class KernelDoc:
-         # Place all potential outputs into an array
-         self.entries = []
- 
--        # When store_src is true, the kernel-doc source content is stored here
--        self.source = None
--
-         #
-         # We need Python 3.7 for its "dicts remember the insertion
-         # order" guarantee
-@@ -720,13 +717,14 @@ class KernelDoc:
-         return declaration
- 
- 
--    def dump_struct(self, ln, proto):
-+    def dump_struct(self, ln, proto, source):
-         """
-         Store an entry for a ``struct`` or ``union``
-         """
-         #
-         # Do the basic parse to get the pieces of the declaration.
-         #
-+        source = source
-         proto = trim_private_members(proto)
-         struct_parts = self.split_struct_proto(proto)
-         if not struct_parts:
-@@ -756,10 +754,11 @@ class KernelDoc:
-                                    declaration_name)
-         self.check_sections(ln, declaration_name, decl_type)
-         self.output_declaration(decl_type, declaration_name,
-+                                source=source,
-                                 definition=self.format_struct_decl(declaration),
-                                 purpose=self.entry.declaration_purpose)
- 
--    def dump_enum(self, ln, proto):
-+    def dump_enum(self, ln, proto, source):
-         """
-         Store an ``enum`` inside self.entries array.
-         """
-@@ -767,6 +766,7 @@ class KernelDoc:
-         # Strip preprocessor directives.  Note that this depends on the
-         # trailing semicolon we added in process_proto_type().
-         #
-+        source = source
-         proto = trim_private_members(proto)
-         proto = KernRe(r'#\s*((define|ifdef|if)\s+|endif)[^;]*;', flags=re.S).sub('', proto)
-         #
-@@ -831,9 +831,10 @@ class KernelDoc:
-                               f"Excess enum value '@{k}' description in '{declaration_name}'")
- 
-         self.output_declaration('enum', declaration_name,
-+                                source=source,
-                                 purpose=self.entry.declaration_purpose)
- 
--    def dump_var(self, ln, proto):
-+    def dump_var(self, ln, proto, source):
-         """
-         Store variables that are part of kAPI.
-         """
-@@ -846,6 +847,7 @@ class KernelDoc:
-         #
-         # Store the full prototype before modifying it
-         #
-+        source = source
-         full_proto = proto
-         declaration_name = None
- 
-@@ -895,32 +897,34 @@ class KernelDoc:
-             default_val = default_val.lstrip("=").strip()
- 
-         self.output_declaration("var", declaration_name,
-+                                source=source,
-                                 full_proto=full_proto,
-                                 default_val=default_val,
-                                 purpose=self.entry.declaration_purpose)
- 
--    def dump_declaration(self, ln, prototype):
-+    def dump_declaration(self, ln, prototype, source):
-         """
-         Store a data declaration inside self.entries array.
-         """
- 
-         if self.entry.decl_type == "enum":
--            self.dump_enum(ln, prototype)
-+            self.dump_enum(ln, prototype, source)
-         elif self.entry.decl_type == "typedef":
--            self.dump_typedef(ln, prototype)
-+            self.dump_typedef(ln, prototype, source)
-         elif self.entry.decl_type in ["union", "struct"]:
--            self.dump_struct(ln, prototype)
-+            self.dump_struct(ln, prototype, source)
-         elif self.entry.decl_type == "var":
--            self.dump_var(ln, prototype)
-+            self.dump_var(ln, prototype, source)
-         else:
-             # This would be a bug
-             self.emit_message(ln, f'Unknown declaration type: {self.entry.decl_type}')
- 
--    def dump_function(self, ln, prototype):
-+    def dump_function(self, ln, prototype, source):
-         """
-         Store a function or function macro inside self.entries array.
-         """
- 
-+        source = source
-         found = func_macro = False
-         return_type = ''
-         decl_type = 'function'
-@@ -1013,13 +1017,14 @@ class KernelDoc:
-         # Store the result.
-         #
-         self.output_declaration(decl_type, declaration_name,
-+                                source=source,
-                                 typedef=('typedef' in return_type),
-                                 functiontype=return_type,
-                                 purpose=self.entry.declaration_purpose,
-                                 func_macro=func_macro)
- 
- 
--    def dump_typedef(self, ln, proto):
-+    def dump_typedef(self, ln, proto, source):
-         """
-         Store a ``typedef`` inside self.entries array.
-         """
-@@ -1030,6 +1035,8 @@ class KernelDoc:
-         typedef_ident = r'\*?\s*(\w\S+)\s*'
-         typedef_args = r'\s*\((.*)\);'
- 
-+        source = source
++- name: doc_with_complex_table
++  description: Test if complex tables are handled
++  fname: mock.c
++  source: |
++    /**
++      * DOC: Supported input formats and encodings
++      *
++      * Depending on the Hardware configuration of the Controller IP, it supports
++      * a subset of the following input formats and encodings on its internal
++      * 48bit bus.
++      *
++      * +----------------------+----------------------------------+------------------------------+
++      * | Format Name          | Format Code                      | Encodings                    |
++      * +======================+==================================+==============================+
++      * | RGB 4:4:4 8bit       | ``MEDIA_BUS_FMT_RGB888_1X24``    | ``V4L2_YCBCR_ENC_DEFAULT``   |
++      * +----------------------+----------------------------------+------------------------------+
++      * | RGB 4:4:4 10bits     | ``MEDIA_BUS_FMT_RGB101010_1X30`` | ``V4L2_YCBCR_ENC_DEFAULT``   |
++      * +----------------------+----------------------------------+------------------------------+
++      */
++  expected:
++    - man: |
++        .TH "Supported input formats and encodings" 9 "March 2026" "" "Kernel API Manual"
++        .SH "Supported input formats and encodings"
++        Depending on the Hardware configuration of the Controller IP, it supports
++        a subset of the following input formats and encodings on its internal
++        48bit bus.
++        .PP
 +
-         typedef1 = KernRe(typedef_type + r'\(' + typedef_ident + r'\)' + typedef_args)
-         typedef2 = KernRe(typedef_type + typedef_ident + typedef_args)
- 
-@@ -1050,6 +1057,7 @@ class KernelDoc:
-             self.create_parameter_list(ln, 'function', args, ',', declaration_name)
- 
-             self.output_declaration('function', declaration_name,
-+                                    source=source,
-                                     typedef=True,
-                                     functiontype=return_type,
-                                     purpose=self.entry.declaration_purpose)
-@@ -1067,6 +1075,7 @@ class KernelDoc:
-                 return
- 
-             self.output_declaration('typedef', declaration_name,
-+                                    source=source,
-                                     purpose=self.entry.declaration_purpose)
-             return
- 
-@@ -1104,7 +1113,7 @@ class KernelDoc:
-         function_set.add(symbol)
-         return True
- 
--    def process_normal(self, ln, line):
-+    def process_normal(self, ln, line, source):
-         """
-         STATE_NORMAL: looking for the ``/**`` to begin everything.
-         """
-@@ -1118,7 +1127,7 @@ class KernelDoc:
-         # next line is always the function name
-         self.state = state.NAME
- 
--    def process_name(self, ln, line):
-+    def process_name(self, ln, line, source):
-         """
-         STATE_NAME: Looking for the "name - description" line
-         """
-@@ -1251,7 +1260,7 @@ class KernelDoc:
-         return False
- 
- 
--    def process_decl(self, ln, line):
-+    def process_decl(self, ln, line, source):
-         """
-         STATE_DECLARATION: We've seen the beginning of a declaration.
-         """
-@@ -1280,7 +1289,7 @@ class KernelDoc:
-             self.emit_msg(ln, f"bad line: {line}")
- 
- 
--    def process_special(self, ln, line):
-+    def process_special(self, ln, line, source):
-         """
-         STATE_SPECIAL_SECTION: a section ending with a blank line.
-         """
-@@ -1331,7 +1340,7 @@ class KernelDoc:
-             # Unknown line, ignore
-             self.emit_msg(ln, f"bad line: {line}")
- 
--    def process_body(self, ln, line):
-+    def process_body(self, ln, line, source):
-         """
-         STATE_BODY: the bulk of a kerneldoc comment.
-         """
-@@ -1345,7 +1354,7 @@ class KernelDoc:
-             # Unknown line, ignore
-             self.emit_msg(ln, f"bad line: {line}")
- 
--    def process_inline_name(self, ln, line):
-+    def process_inline_name(self, ln, line, source):
-         """STATE_INLINE_NAME: beginning of docbook comments within a prototype."""
- 
-         if doc_inline_sect.search(line):
-@@ -1363,10 +1372,10 @@ class KernelDoc:
-             # Don't let it add partial comments at the code, as breaks the
-             # logic meant to remove comments from prototypes.
-             #
--            self.process_proto_type(ln, "/**\n" + line)
-+            self.process_proto_type(ln, "/**\n" + line, source)
-         # else ... ??
- 
--    def process_inline_text(self, ln, line):
-+    def process_inline_text(self, ln, line, source):
-         """STATE_INLINE_TEXT: docbook comments within a prototype."""
- 
-         if doc_inline_end.search(line):
-@@ -1452,7 +1461,7 @@ class KernelDoc:
- 
-         return proto
- 
--    def process_proto_function(self, ln, line):
-+    def process_proto_function(self, ln, line, source):
-         """Ancillary routine to process a function prototype."""
- 
-         # strip C99-style comments to end of line
-@@ -1494,10 +1503,10 @@ class KernelDoc:
-             #
-             # ... and we're done
-             #
--            self.dump_function(ln, self.entry.prototype)
-+            self.dump_function(ln, self.entry.prototype, source)
-             self.reset_state(ln)
- 
--    def process_proto_type(self, ln, line):
-+    def process_proto_type(self, ln, line, source):
-         """
-         Ancillary routine to process a type.
-         """
-@@ -1527,7 +1536,7 @@ class KernelDoc:
-                 elif chunk == '}':
-                     self.entry.brcount -= 1
-                 elif chunk == ';' and self.entry.brcount <= 0:
--                    self.dump_declaration(ln, self.entry.prototype)
-+                    self.dump_declaration(ln, self.entry.prototype, source)
-                     self.reset_state(ln)
-                     return
-         #
-@@ -1536,7 +1545,7 @@ class KernelDoc:
-         #
-         self.entry.prototype += ' '
- 
--    def process_proto(self, ln, line):
-+    def process_proto(self, ln, line, source):
-         """STATE_PROTO: reading a function/whatever prototype."""
- 
-         if doc_inline_oneline.search(line):
-@@ -1548,17 +1557,18 @@ class KernelDoc:
-             self.state = state.INLINE_NAME
- 
-         elif self.entry.decl_type == 'function':
--            self.process_proto_function(ln, line)
-+            self.process_proto_function(ln, line, source)
- 
-         else:
--            self.process_proto_type(ln, line)
-+            self.process_proto_type(ln, line, source)
- 
--    def process_docblock(self, ln, line):
-+    def process_docblock(self, ln, line, source):
-         """STATE_DOCBLOCK: within a ``DOC:`` block."""
- 
-         if doc_end.search(line):
-             self.dump_section()
--            self.output_declaration("doc", self.entry.identifier)
-+            self.output_declaration("doc", self.entry.identifier,
-+                                    source=source)
-             self.reset_state(ln)
- 
-         elif doc_content.search(line):
-@@ -1596,15 +1606,6 @@ class KernelDoc:
-         state.DOCBLOCK:			process_docblock,
-         }
- 
--    def get_source(self):
--        """
--        Return the file content of the lines handled by kernel-doc at the
--        latest parse_kdoc() run.
--
--        Returns none if KernelDoc() was not initialized with store_src,
--        """
--        return self.source
--
-     def parse_kdoc(self):
-         """
-         Open and process each line of a C source file.
-@@ -1618,8 +1619,8 @@ class KernelDoc:
-         prev = ""
-         prev_ln = None
-         export_table = set()
--        self.source = []
-         self.state = state.NORMAL
-+        source = ""
- 
-         try:
-             with open(self.fname, "r", encoding="utf8",
-@@ -1646,7 +1647,11 @@ class KernelDoc:
-                                           ln, state.name[self.state],
-                                           line)
- 
--                    prev_state = self.state
-+                    if self.store_src:
-+                        if source and self.state == state.NORMAL:
-+                            source = ""
-+                        elif self.state != state.NORMAL:
-+                            source += line + "\n"
- 
-                     # This is an optimization over the original script.
-                     # There, when export_file was used for the same file,
-@@ -1655,16 +1660,11 @@ class KernelDoc:
-                     #
-                     if (self.state != state.NORMAL) or \
-                        not self.process_export(export_table, line):
-+                        prev_state = self.state
-                         # Hand this line to the appropriate state handler
--                        self.state_actions[self.state](self, ln, line)
--
--                    if self.store_src and prev_state != self.state or self.state != state.NORMAL:
--                        if self.state == state.NAME:
--                            # A "/**" was detected. Add a new source element
--                            self.source.append({"ln": ln, "data": line + "\n"})
--                        else:
--                            # Append to the existing one
--                            self.source[-1]["data"] += line + "\n"
-+                        self.state_actions[self.state](self, ln, line, source)
-+                        if prev_state == state.NORMAL and self.state != state.NORMAL:
-+                            source += line + "\n"
- 
-             self.emit_unused_warnings()
- 
-diff --git a/tools/lib/python/kdoc/kdoc_yaml_file.py b/tools/lib/python/kdoc/kdoc_yaml_file.py
-index 18737abb1176..1e2ae7c59d70 100644
---- a/tools/lib/python/kdoc/kdoc_yaml_file.py
-+++ b/tools/lib/python/kdoc/kdoc_yaml_file.py
-@@ -85,7 +85,7 @@ class KDocTestFile():
- 
-         return d
- 
--    def output_symbols(self, fname, symbols, source):
-+    def output_symbols(self, fname, symbols):
-         """
-         Store source, symbols and output strings at self.tests.
-         """
-@@ -96,16 +96,10 @@ class KDocTestFile():
-         kdoc_item = []
-         expected = []
- 
--        if not symbols and not source:
--            return
--
--        if not source or len(symbols) != len(source):
--            print(f"Warning: lengths are different. Ignoring {fname}")
--
--            # Folding without line numbers is too hard.
--            # The right thing to do here to proceed would be to delete
--            # not-handled source blocks, as len(source) should be bigger
--            # than len(symbols)
-+        #
-+        # Source code didn't produce any symbol
-+        #
-+        if not symbols:
-             return
- 
-         base_name = "test_" + fname.replace(".", "_").replace("/", "_")
-@@ -115,9 +109,15 @@ class KDocTestFile():
-         for i in range(0, len(symbols)):
-             arg = symbols[i]
- 
--            if "KdocItem" in self.yaml_content:
-+            source = arg.get("source", "")
 +
-+            if arg and "KdocItem" in self.yaml_content:
-                 msg = self.get_kdoc_item(arg)
- 
-+                other_stuff = msg.get("other_stuff", {})
-+                if "source" in other_stuff:
-+                    del other_stuff["source"]
++        .TS
++        box;
++        l	l	l.
++        \fBFormat Name\fP	\fBFormat Code\fP	\fBEncodings\fP
++        _
++        RGB 4:4:4 8bit	``MEDIA_BUS_FMT_RGB888_1X24	V4L2_YCBCR_ENC_DEFAULT
++        RGB 4:4:4 10bits	MEDIA_BUS_FMT_RGB101010_1X30	V4L2_YCBCR_ENC_DEFAULT``
++        .TE
++        .SH "SEE ALSO"
++        .PP
++        Kernel file \fBmock.c\fR
 +
-                 expected_dict["kdoc_item"] = msg
- 
-             for out_style in self.out_style:
-@@ -132,9 +132,9 @@ class KDocTestFile():
- 
-             test = {
-                 "name": name,
--                "description": f"{fname} line {source[i]["ln"]}",
-+                "description": f"{fname} line {arg.declaration_start_line}",
-                 "fname": fname,
--                "source": source[i]["data"],
-+                "source": source,
-                 "expected": [expected_dict]
-             }
- 
-diff --git a/tools/unittests/test_kdoc_parser.py b/tools/unittests/test_kdoc_parser.py
-index f2250ef192ce..c4a76ed13dbc 100755
---- a/tools/unittests/test_kdoc_parser.py
-+++ b/tools/unittests/test_kdoc_parser.py
-@@ -167,7 +167,16 @@ class GenerateKdocItem(unittest.TestCase):
-                 self.assertIsInstance(entry, KdocItem)
- 
-                 d = vars(entry)
++      rst: |-
++        .. _Supported input formats and encodings:
++        **Supported input formats and encodings**
++        Depending on the Hardware configuration of the Controller IP, it supports
++        a subset of the following input formats and encodings on its internal
++        48bit bus.
++        +----------------------+----------------------------------+------------------------------+
++        | Format Name          | Format Code                      | Encodings                    |
++        +======================+==================================+==============================+
++        | RGB 4:4:4 8bit       | ``MEDIA_BUS_FMT_RGB888_1X24``    | ``V4L2_YCBCR_ENC_DEFAULT``   |
++        +----------------------+----------------------------------+------------------------------+
++        | RGB 4:4:4 10bits     | ``MEDIA_BUS_FMT_RGB101010_1X30`` | ``V4L2_YCBCR_ENC_DEFAULT``   |
++        +----------------------+----------------------------------+------------------------------+
++- name: func_with_ascii_artwork
++  description: Test if ascii artwork is properly output
++  fname: mock.c
++  source: |
++    /**
++      * add_cxl_resources() - reflect CXL fixed memory windows in iomem_resource
++      * @cxl_res: A standalone resource tree where each CXL window is a sibling
++      *
++      * Walk each CXL window in @cxl_res and add it to iomem_resource potentially
++      * expanding its boundaries to ensure that any conflicting resources become
++      * children. If a window is expanded it may then conflict with a another window
++      * entry and require the window to be truncated or trimmed. Consider this
++      * situation::
++      *
++      *      |-- "CXL Window 0" --||----- "CXL Window 1" -----|
++      *      |--------------- "System RAM" -------------|
++      *
++      * ...where platform firmware has established as System RAM resource across 2
++      * windows, but has left some portion of window 1 for dynamic CXL region
++      * provisioning. In this case "Window 0" will span the entirety of the "System
++      * RAM" span, and "CXL Window 1" is truncated to the remaining tail past the end
++      * of that "System RAM" resource.
++      */
++    static int add_cxl_resources(struct resource *cxl_res);
++  expected:
++    - man: |-
++        .TH "add_cxl_resources" 9 "March 2026" "" "Kernel API Manual"
++        .SH NAME
++        add_cxl_resources \- reflect CXL fixed memory windows in iomem_resource
++        .SH SYNOPSIS
++        .B "int" add_cxl_resources
++        .BI "(struct resource *cxl_res "  ");"
++        .SH ARGUMENTS
++        .IP "cxl_res" 12
++        A standalone resource tree where each CXL window is a sibling
++        .SH "DESCRIPTION"
++        Walk each CXL window in \fIcxl_res\fP and add it to iomem_resource potentially
++        expanding its boundaries to ensure that any conflicting resources become
++        children. If a window is expanded it may then conflict with a another window
++        entry and require the window to be truncated or trimmed. Consider this
++        situation:
++        .nf
 +
-+                other_stuff = d.get("other_stuff", {})
-+                if "source" in other_stuff:
-+                    del other_stuff["source"]
++             |-- "CXL Window 0" --||----- "CXL Window 1" -----|
++             |--------------- "System RAM" -------------|
 +
-                 for key, value in expected.items():
-+                    if key == "other_stuff":
-+                        if "source" in value:
-+                            del value["source"]
 +
-                     result = clean_whitespc(d[key], relax_whitespace)
-                     value = clean_whitespc(value, relax_whitespace)
- 
++        .fi
++        .PP
++
++        \&...where platform firmware has established as System RAM resource across 2
++        windows, but has left some portion of window 1 for dynamic CXL region
++        provisioning. In this case "Window 0" will span the entirety of the "System
++        RAM" span, and "CXL Window 1" is truncated to the remaining tail past the end
++        of that "System RAM" resource.
++        .SH "SEE ALSO"
++        .PP
++        Kernel file \fBmock.c\fR
++      rst: |
++        .. c:function:: int add_cxl_resources (struct resource *cxl_res)
++
++          reflect CXL fixed memory windows in iomem_resource
++
++        .. container:: kernelindent
++
++          **Parameters**
++
++          ``struct resource *cxl_res``
++            A standalone resource tree where each CXL window is a sibling
++
++          **Description**
++
++          Walk each CXL window in **cxl_res** and add it to iomem_resource potentially
++          expanding its boundaries to ensure that any conflicting resources become
++          children. If a window is expanded it may then conflict with a another window
++          entry and require the window to be truncated or trimmed. Consider this
++          situation::
++
++            |-- "CXL Window 0" --||----- "CXL Window 1" -----|
++            |--------------- "System RAM" -------------|
++
++          ...where platform firmware has established as System RAM resource across 2
++          windows, but has left some portion of window 1 for dynamic CXL region
++          provisioning. In this case "Window 0" will span the entirety of the "System
++          RAM" span, and "CXL Window 1" is truncated to the remaining tail past the end
++          of that "System RAM" resource.
++
++- name: simple_tables
++  description: Test formatting two simple tables
++  fname: mock.c
++  source: |
++    /**
++     * bitmap_onto - translate one bitmap relative to another
++     *      @dst: resulting translated bitmap
++     *      @orig: original untranslated bitmap
++     *      @relmap: bitmap relative to which translated
++     *      @bits: number of bits in each of these bitmaps
++     *
++     *      =============== ============== =================
++     *      @orig           tmp            @dst
++     *      0                0             40
++     *      1                1             41
++     *      =============== ============== =================
++     *
++     * And:
++     *
++     *      =============== ============== =================
++     *      @orig           tmp            @dst
++     *      =============== ============== =================
++     *      9                9             95
++     *      10               0             40 [#f1]_
++     *      =============== ============== =================
++     */
++    void bitmap_onto(unsigned long *dst, const unsigned long *orig,
++                     const unsigned long *relmap, unsigned int bits);
++  expected:
++    - man: |
++        .TH "bitmap_onto" 9 "March 2026" "" "Kernel API Manual"
++        .SH NAME
++        bitmap_onto \- translate one bitmap relative to another
++        .SH SYNOPSIS
++        .B "void" bitmap_onto
++        .BI "(unsigned long *dst "  ","
++        .BI "const unsigned long *orig "  ","
++        .BI "const unsigned long *relmap "  ","
++        .BI "unsigned int bits "  ");"
++        .SH ARGUMENTS
++        .IP "dst" 12
++        resulting translated bitmap
++        .IP "orig" 12
++        original untranslated bitmap
++        .IP "relmap" 12
++        bitmap relative to which translated
++        .IP "bits" 12
++        number of bits in each of these bitmaps
++        .SH "DESCRIPTION"
++
++        .TS
++        box;
++        l	l	l.
++        \fIorig\fP	tmp	\fIdst\fP
++        0	0	40
++        1	1	41
++        .TE
++        .PP
++
++        And:
++        .PP
++
++
++        .TS
++        box;
++        l	l	l.
++        \fIorig\fP	tmp	\fIdst\fP
++        .TE
++        9                9             95
++        10               0             40 [#f1]_
++        .SH "SEE ALSO"
++        .PP
++        Kernel file \fBmock.c\fR
++
++      rst: |
++        .. c:function:: void bitmap_onto (unsigned long *dst, const unsigned long *orig, const unsigned long *relmap,  unsigned int bits)
++
++          translate one bitmap relative to another
++
++        .. container:: kernelindent
++
++          **Parameters**
++
++          ``unsigned long *dst``
++            resulting translated bitmap
++
++          ``const unsigned long *orig``
++            original untranslated bitmap
++
++          ``const unsigned long *relmap``
++            bitmap relative to which translated
++
++          ``unsigned int bits``
++            number of bits in each of these bitmaps
++
++          **Description**
++
++              =============== ============== =================
++              **orig**           tmp            **dst**
++              0                0             40
++              1                1             41
++              =============== ============== =================
++
++          And:
++
++              =============== ============== =================
++              **orig**           tmp            **dst**
++              =============== ============== =================
++              9                9             95
++              10               0             40 [#f1]_
++              =============== ============== =================
++
++#
++# Variable tests from Randy Dunlap's testset
++#
++- name: unsigned_long_var_on_uppercase
++  description: Test an unsigned long varaible in uppercase
++  fname: mock-vars.c
++  source: |
++    /**
++     * var ROOT_DEV - system root device
++     *
++     * @ROOT_DEV is either the successful root device or the root device
++     * that failed boot in the boot failure message.
++     */
++    unsigned long ROOT_DEV;
++  expected:
++  - man: |
++      .TH "var ROOT_DEV" 9 "February 2026"  "" "Kernel API Manual"
++      .SH NAME
++      ROOT_DEV \- system root device
++      .SH SYNOPSIS
++      unsigned long ROOT_DEV;
++      .SH "Description"
++      \fIROOT_DEV\fP is either the successful root device or the root device
++      that failed boot in the boot failure message.
++      .SH "SEE ALSO"
++      .PP
++      Kernel file \fBmock-vars.c\fR
++    rst: |
++      .. c:macro:: ROOT_DEV
++
++        ``unsigned long ROOT_DEV;``
++
++        system root device
++
++        **Description**
++
++        **ROOT_DEV** is either the successful root device or the root device
++        that failed boot in the boot failure message.
++- name: enum_var
++  description: Test an enum var with __read_mostly
++  fname: mock-vars.c
++  source: |
++    /**
++     * var system_state - system state used during boot or suspend/hibernate/resume
++     *
++     * @system_state can be used during boot to determine if it is safe to
++     * make certain calls to other parts of the kernel. It can also be used
++     * during suspend/hibernate or resume to determine the order of actions
++     * that need to be executed. The numerical values of system_state are
++     * sometimes used in numerical ordering tests, so the relative values
++     * must not be altered.
++     */
++    enum system_states system_state __read_mostly;
++  expected:
++  - man: |
++      .TH "var system_state" 9 "February 2026"  "" "Kernel API Manual"
++      .SH NAME
++      system_state \- system state used during boot or suspend/hibernate/resume
++      .SH SYNOPSIS
++      enum system_states system_state __read_mostly;
++      .SH "Description"
++      \fIsystem_state\fP can be used during boot to determine if it is safe to
++      make certain calls to other parts of the kernel. It can also be used
++      during suspend/hibernate or resume to determine the order of actions
++      that need to be executed. The numerical values of system_state are
++      sometimes used in numerical ordering tests, so the relative values
++      must not be altered.
++      .SH "SEE ALSO"
++      .PP
++      Kernel file \fBmock-vars.c\fR
++    rst: |
++      .. c:macro:: system_state
++
++        ``enum system_states system_state __read_mostly;``
++
++        system state used during boot or suspend/hibernate/resume
++
++        **Description**
++
++        **system_state** can be used during boot to determine if it is safe to
++        make certain calls to other parts of the kernel. It can also be used
++        during suspend/hibernate or resume to determine the order of actions
++        that need to be executed. The numerical values of system_state are
++        sometimes used in numerical ordering tests, so the relative values
++        must not be altered.
++- name: char_pointer_var
++  description: Test char * var with __ro_after_init
++  fname: mock-vars.c
++  source: |
++    /**
++     * var saved_command_line - kernel's command line, saved from use at
++     * any later time in the kernel.
++     */
++    char *saved_command_line __ro_after_init;
++  expected:
++  - man: |
++      .TH "var saved_command_line" 9 "February 2026"  "" "Kernel API Manual"
++      .SH NAME
++      saved_command_line \- kernel's command line, saved from use at any later time in the kernel.
++      .SH SYNOPSIS
++      char *saved_command_line __ro_after_init;
++      .SH "SEE ALSO"
++      .PP
++      Kernel file \fBmock-vars.c\fR
++    rst: |
++      .. c:macro:: saved_command_line
++
++        ``char *saved_command_line __ro_after_init;``
++
++        kernel's command line, saved from use at any later time in the kernel.
++- name: unsigned_long_with_default
++  description: Test an unsigned long var that is set to a default value
++  fname: mock-vars.c
++  source: |
++    /**
++     * var loop_per_jiffy - calculated loop count needed to consume one jiffy
++     * of time
++     */
++    unsigned long loops_per_jiffy = (1<<12);
++  expected:
++  - man: |
++      .TH "var loops_per_jiffy" 9 "February 2026"  "" "Kernel API Manual"
++      .SH NAME
++      loops_per_jiffy \- calculated loop count needed to consume one jiffy of time
++      .SH SYNOPSIS
++      unsigned long loops_per_jiffy = (1<<12);
++      .SH "Initialization"
++      default: (1<<12)
++      .SH "SEE ALSO"
++      .PP
++      Kernel file \fBmock-vars.c\fR
++    rst: |
++      .. c:macro:: loops_per_jiffy
++
++        ``unsigned long loops_per_jiffy = (1<<12);``
++
++        calculated loop count needed to consume one jiffy of time
++
++        **Initialization**
++
++        default: ``(1<<12)``
++- name: unsigned_long
++  description: test a simple unsigned long variable.
++  fname: mock-vars.c
++  source: |
++    /**
++     * var preset_lpj - lpj (loops per jiffy) value set from kernel
++     * command line using "lpj=VALUE"
++     *
++     * See Documentation/admin-guide/kernel-parameters.txt ("lpj=") for details.
++     */
++    unsigned long preset_lpj;
++  expected:
++  - man: |
++      .TH "var preset_lpj" 9 "February 2026"  "" "Kernel API Manual"
++      .SH NAME
++      preset_lpj \- lpj (loops per jiffy) value set from kernel command line using "lpj=VALUE"
++      .SH SYNOPSIS
++      unsigned long preset_lpj;
++      .SH "Description"
++      See Documentation/admin-guide/kernel-parameters.txt ("lpj=") for details.
++      .SH "SEE ALSO"
++      .PP
++      Kernel file \fBmock-vars.c\fR
++    rst: |
++      .. c:macro:: preset_lpj
++
++        ``unsigned long preset_lpj;``
++
++        lpj (loops per jiffy) value set from kernel command line using "lpj=VALUE"
++
++        **Description**
++
++        See Documentation/admin-guide/kernel-parameters.txt ("lpj=") for details.
++- name: char_array
++  description: test a char array variable
++  fname: mock-vars.c
++  source: |
++    /**
++     * var linux_proc_banner - text used from /proc/version file
++     *
++     * * first %s is sysname (e.g., "Linux")
++     * * second %s is release
++     * * third %s is version
++     */
++    char linux_proc_banner[];
++  expected:
++  - man: |
++      .TH "var linux_proc_banner" 9 "February 2026"  "" "Kernel API Manual"
++      .SH NAME
++      linux_proc_banner \- text used from /proc/version file
++      .SH SYNOPSIS
++      char linux_proc_banner[];
++      .SH "Description"
++      .IP \[bu]
++      first s is sysname (e.g., "Linux")
++      .IP \[bu]
++      second s is release
++      .IP \[bu]
++      third s is version
++      .SH "SEE ALSO"
++      .PP
++      Kernel file \fBmock-vars.c\fR
++    rst: |
++      .. c:macro:: linux_proc_banner
++
++        ``char linux_proc_banner[];``
++
++        text used from /proc/version file
++
++        **Description**
++
++        * first ``s`` is sysname (e.g., "Linux")
++        * second ``s`` is release
++        * third ``s`` is version
++- name: const_char_array
++  description: test a const char array variable
++  fname: mock-vars.c
++  source: |
++    /**
++     * var linux_banner - Linux boot banner, usually printed at boot time
++     */
++    const char linux_banner[];
++  expected:
++  - man: |
++      .TH "var linux_banner" 9 "February 2026"  "" "Kernel API Manual"
++      .SH NAME
++      linux_banner \- Linux boot banner, usually printed at boot time
++      .SH SYNOPSIS
++      const char linux_banner[];
++      .SH "SEE ALSO"
++      .PP
++      Kernel file \fBmock-vars.c\fR
++    rst: |
++      .. c:macro:: linux_banner
++
++        ``const char linux_banner[];``
++
++        Linux boot banner, usually printed at boot time
++- name: static_atomic64_t_var
++  description: test a static atomi64_t variable
++  fname: mock-vars.c
++  source: |
++    /**
++     * var diskseq - unique sequence number for block device instances
++     *
++     * Allows userspace to associate uevents to the lifetime of a device
++     */
++    static atomic64_t diskseq;
++  expected:
++  - man: |
++      .TH "var diskseq" 9 "February 2026"  "" "Kernel API Manual"
++      .SH NAME
++      diskseq \- unique sequence number for block device instances
++      .SH SYNOPSIS
++      static atomic64_t diskseq;
++      .SH "Description"
++      Allows userspace to associate uevents to the lifetime of a device
++      .SH "SEE ALSO"
++      .PP
++      Kernel file \fBmock-vars.c\fR
++    rst: |
++      .. c:macro:: diskseq
++
++        ``static atomic64_t diskseq;``
++
++        unique sequence number for block device instances
++
++        **Description**
++
++        Allows userspace to associate uevents to the lifetime of a device
++- name: unsigned_long_on_init
++  description: test an unsigned long var at "init" with a different timestamp.
++  fname: init/mock-vars.c
++  source: |
++    /**
++     * var rtnl_mutex - historical global lock for networking control operations.
++     *
++     * @rtnl_mutex is used to serialize rtnetlink requests
++     * and protect all kernel internal data structures related to networking.
++     *
++     * See Documentation/networking/netdevices.rst for details.
++     * Often known as the rtnl_lock, although rtnl_lock is a kernel function.
++     */
++    unsigned long rtnl_mutex;
++  expected:
++  - man: |
++      .TH "var rtnl_mutex" 9 "February 2026"  "init" "Kernel API Manual"
++      .SH NAME
++      rtnl_mutex \- historical global lock for networking control operations.
++      .SH SYNOPSIS
++      unsigned long rtnl_mutex;
++      .SH "Description"
++      \fIrtnl_mutex\fP is used to serialize rtnetlink requests
++      and protect all kernel internal data structures related to networking.
++      .PP
++
++      See Documentation/networking/netdevices.rst for details.
++      Often known as the rtnl_lock, although rtnl_lock is a kernel function.
++      .SH "SEE ALSO"
++      .PP
++      Kernel file \fBinit/mock-vars.c\fR
++    rst: |
++      .. c:macro:: rtnl_mutex
++
++        ``unsigned long rtnl_mutex;``
++
++      historical global lock for networking control operations.
++
++      **Description**
++
++      **rtnl_mutex** is used to serialize rtnetlink requests
++      and protect all kernel internal data structures related to networking.
++
++      See Documentation/networking/netdevices.rst for details.
++      Often known as the rtnl_lock, although rtnl_lock is a kernel function.
++
++
++- name: struct_kcov
++  fname: mock_tests/kdoc-drop-ctx-lock.c
++  source: |
++    /**
++     * struct kcov - kcov descriptor (one per opened debugfs file).
++     * State transitions of the descriptor:
++     *
++     *  - initial state after open()
++     *  - then there must be a single ioctl(KCOV_INIT_TRACE) call
++     *  - then, mmap() call (several calls are allowed but not useful)
++     *  - then, ioctl(KCOV_ENABLE, arg), where arg is
++     *      KCOV_TRACE_PC - to trace only the PCs
++     *      or
++     *      KCOV_TRACE_CMP - to trace only the comparison operands
++     *  - then, ioctl(KCOV_DISABLE) to disable the task.
++     *
++     * Enabling/disabling ioctls can be repeated (only one task a time allowed).
++     */
++    struct kcov {
++            /**
++             * @refcount: Reference counter. We keep one for:
++             *  - opened file descriptor
++             *  - task with enabled coverage (we can't unwire it from another task)
++             *  - each code section for remote coverage collection
++             */
++            refcount_t              refcount;
++            /**
++             * @lock: The lock protects mode, size, area and t.
++             */
++            spinlock_t              lock;
++            /**
++             * @mode: the kcov_mode
++             */
++            enum kcov_mode          mode __guarded_by(&lock);
++            /**
++             * @size: Size of arena (in long's).
++             */
++            unsigned int            size __guarded_by(&lock);
++            /**
++             * @area: Coverage buffer shared with user space.
++             */
++            void                    *area __guarded_by(&lock);
++            /**
++             * @t: Task for which we collect coverage, or NULL.
++             */
++            struct task_struct      *t __guarded_by(&lock);
++            /**
++             * @remote: Collecting coverage from remote (background) threads.
++             */
++            bool                    remote;
++            /**
++             * @remote_size: Size of remote area (in long's).
++             */
++            unsigned int            remote_size;
++            /**
++             * @sequence: Sequence is incremented each time kcov is reenabled,
++             * used by kcov_remote_stop(), see the comment there.
++             */
++            int                     sequence;
++    };
++  expected:
++  - man: |
++      .TH "struct kcov" 9 "February 2026"  "mock_tests" "Kernel API Manual"
++      .SH NAME
++      struct kcov \- kcov descriptor (one per opened debugfs file). State transitions of the descriptor:
++      .SH SYNOPSIS
++      struct kcov {
++      .br
++      .BI "    refcount_t refcount;"
++      .br
++      .BI "    spinlock_t lock;"
++      .br
++      .BI "    enum kcov_mode          mode;"
++      .br
++      .BI "    unsigned int            size;"
++      .br
++      .BI "    void *area;"
++      .br
++      .BI "    struct task_struct      *t;"
++      .br
++      .BI "    bool remote;"
++      .br
++      .BI "    unsigned int            remote_size;"
++      .br
++      .BI "    int sequence;"
++      .br
++      .BI "
++      };
++      .br
++
++      .SH Members
++      .IP "refcount" 12
++      Reference counter. We keep one for:
++      .IP \[bu]
++      opened file descriptor
++      .IP \[bu]
++      task with enabled coverage (we can't unwire it from another task)
++      .IP \[bu]
++      each code section for remote coverage collection
++      .IP "lock" 12
++      The lock protects mode, size, area and t.
++      .IP "mode" 12
++      the kcov_mode
++      .IP "size" 12
++      Size of arena (in long's).
++      .IP "area" 12
++      Coverage buffer shared with user space.
++      .IP "t" 12
++      Task for which we collect coverage, or NULL.
++      .IP "remote" 12
++      Collecting coverage from remote (background) threads.
++      .IP "remote_size" 12
++      Size of remote area (in long's).
++      .IP "sequence" 12
++      Sequence is incremented each time kcov is reenabled,
++      used by \fBkcov_remote_stop\fP, see the comment there.
++      .SH "Description"
++      .IP \[bu]
++      initial state after \fBopen\fP
++      .IP \[bu]
++      then there must be a single ioctl(KCOV_INIT_TRACE) call
++      .IP \[bu]
++      then, \fBmmap\fP call (several calls are allowed but not useful)
++      .IP \[bu]
++      then, ioctl(KCOV_ENABLE, arg), where arg is
++      KCOV_TRACE_PC - to trace only the PCs
++      or
++      KCOV_TRACE_CMP - to trace only the comparison operands
++      .IP \[bu]
++      then, ioctl(KCOV_DISABLE) to disable the task.
++      .PP
++
++      Enabling/disabling ioctls can be repeated (only one task a time allowed).
++      .SH "SEE ALSO"
++      .PP
++      Kernel file \fBmock_tests/kdoc-drop-ctx-lock.c\fR
++    rst: |
++      .. c:struct:: kcov
++
++        kcov descriptor (one per opened debugfs file). State transitions of the descriptor:
++
++      .. container:: kernelindent
++
++        **Definition**::
++
++          struct kcov {
++              refcount_t refcount;
++              spinlock_t lock;
++              enum kcov_mode          mode;
++              unsigned int            size;
++              void *area;
++              struct task_struct      *t;
++              bool remote;
++              unsigned int            remote_size;
++              int sequence;
++          };
++
++        **Members**
++
++        ``refcount``
++          Reference counter. We keep one for:
++           - opened file descriptor
++           - task with enabled coverage (we can't unwire it from another task)
++           - each code section for remote coverage collection
++
++        ``lock``
++          The lock protects mode, size, area and t.
++
++        ``mode``
++          the kcov_mode
++
++        ``size``
++          Size of arena (in long's).
++
++        ``area``
++          Coverage buffer shared with user space.
++
++        ``t``
++          Task for which we collect coverage, or NULL.
++
++        ``remote``
++          Collecting coverage from remote (background) threads.
++
++        ``remote_size``
++          Size of remote area (in long's).
++
++        ``sequence``
++          Sequence is incremented each time kcov is reenabled,
++          used by kcov_remote_stop(), see the comment there.
++
++
++       **Description**
++
++       - initial state after open()
++       - then there must be a single ioctl(KCOV_INIT_TRACE) call
++       - then, mmap() call (several calls are allowed but not useful)
++       - then, ioctl(KCOV_ENABLE, arg), where arg is
++           KCOV_TRACE_PC - to trace only the PCs
++           or
++           KCOV_TRACE_CMP - to trace only the comparison operands
++       - then, ioctl(KCOV_DISABLE) to disable the task.
++
++       Enabling/disabling ioctls can be repeated (only one task a time allowed).
++
++- name: pool_offset
++  description: mock_tests/kdoc-drop-ctx-lock.c line 83
++  fname: mock_tests/kdoc-drop-ctx-lock.c
++  source: |
++    /**
++     * var pool_offset - Offset to the unused space in the currently used pool.
++     *
++     */
++    size_t pool_offset __guarded_by(&pool_lock) = DEPOT_POOL_SIZE;
++  expected:
++  - man: |
++      .TH "var pool_offset" 9 "February 2026"  "mock_tests" "Kernel API Manual"
++      .SH NAME
++      pool_offset \- Offset to the unused space in the currently used pool.
++      .SH SYNOPSIS
++      size_t pool_offset __guarded_by(&pool_lock) = DEPOT_POOL_SIZE;
++      .SH "Initialization"
++      default: DEPOT_POOL_SIZE
++      .SH "SEE ALSO"
++      .PP
++      Kernel file \fBmock_tests/kdoc-drop-ctx-lock.c\fR
++    rst: |
++      .. c:macro:: pool_offset
++
++        ``size_t pool_offset __guarded_by(&pool_lock) = DEPOT_POOL_SIZE;``
++
++        Offset to the unused space in the currently used pool.
++
++        **Initialization**
++
++        default: ``DEPOT_POOL_SIZE``
++- name: free_stacks
++  description: mock_tests/kdoc-drop-ctx-lock.c line 88
++  fname: mock_tests/kdoc-drop-ctx-lock.c
++  source: |
++    /**
++     * var free_stacks - Freelist of stack records within stack_pools.
++     *
++     */
++    __guarded_by(&pool_lock) LIST_HEAD(free_stacks);
++  expected:
++  - man: |
++      .TH "var free_stacks" 9 "February 2026"  "mock_tests" "Kernel API Manual"
++      .SH NAME
++      free_stacks \- Freelist of stack records within stack_pools.
++      .SH SYNOPSIS
++      __guarded_by(&pool_lock) LIST_HEAD(free_stacks);
++      .SH "SEE ALSO"
++      .PP
++      Kernel file \fBmock_tests/kdoc-drop-ctx-lock.c\fR
++    rst: |
++      .. c:macro:: free_stacks
++
++        ``__guarded_by(&pool_lock) LIST_HEAD(free_stacks);``
++
++        Freelist of stack records within stack_pools.
++- name: stack_pools
++  description: mock_tests/kdoc-drop-ctx-lock.c line 94
++  fname: mock_tests/kdoc-drop-ctx-lock.c
++  source: |
++    /**
++     * var stack_pools - Array of memory regions that store stack records.
++     *
++     */
++    void **stack_pools __pt_guarded_by(&pool_lock);
++  expected:
++  - man: |
++      .TH "var stack_pools" 9 "February 2026"  "mock_tests" "Kernel API Manual"
++      .SH NAME
++      stack_pools \- Array of memory regions that store stack records.
++      .SH SYNOPSIS
++      void **stack_pools __pt_guarded_by(&pool_lock);
++      .SH "SEE ALSO"
++      .PP
++      Kernel file \fBmock_tests/kdoc-drop-ctx-lock.c\fR
++    rst: |
++      .. c:macro:: stack_pools
++
++        ``void **stack_pools __pt_guarded_by(&pool_lock);``
++
++        Array of memory regions that store stack records.
++- name: prepare_report_consumer
++  description: mock_tests/kdoc-drop-ctx-lock.c line 103
++  fname: mock_tests/kdoc-drop-ctx-lock.c
++  source: |
++    /**
++     * prepare_report_consumer - prepare the report consumer
++     * @flags: flags
++     * @ai: not that AI
++     * @other_info: yes that
++     */
++    bool prepare_report_consumer(unsigned long *flags,
++                                const struct access_info *ai,
++                                struct other_info *other_info)
++            __cond_acquires(true, &report_lock)
++    {
++  expected:
++  - man: |
++      .TH "prepare_report_consumer" 9 "February 2026"  "mock_tests" "Kernel API Manual"
++      .SH NAME
++      prepare_report_consumer \- prepare the report consumer
++      .SH SYNOPSIS
++      .B "bool" prepare_report_consumer
++      .BI "(unsigned long *flags "  ","
++      .BI "const struct access_info *ai "  ","
++      .BI "struct other_info *other_info "  ");"
++      .SH ARGUMENTS
++      .IP "flags" 12
++      flags
++      .IP "ai" 12
++      not that AI
++      .IP "other_info" 12
++      yes that
++      .SH "SEE ALSO"
++      .PP
++      Kernel file \fBmock_tests/kdoc-drop-ctx-lock.c\fR
++    rst: |
++      .. c:function:: bool prepare_report_consumer (unsigned long *flags, const struct access_info *ai, struct other_info *other_info)
++
++         prepare the report consumer
++
++      .. container:: kernelindent
++
++        **Parameters**
++
++        ``unsigned long *flags``
++          flags
++
++        ``const struct access_info *ai``
++          not that AI
++
++        ``struct other_info *other_info``
++          yes that
++- name: tcp_sigpool_start
++  description: mock_tests/kdoc-drop-ctx-lock.c line 117
++  fname: mock_tests/kdoc-drop-ctx-lock.c
++  source: |
++    /**
++     * tcp_sigpool_start - start a tcp message of @id, using @c
++     * @id: TCP message ID
++     * @c: the &tcp_sigpool to use
++     */
++    int tcp_sigpool_start(unsigned int id, struct tcp_sigpool *c) __cond_acquires(0, RCU_BH)
++    {
++  expected:
++  - man: |
++      .TH "tcp_sigpool_start" 9 "February 2026"  "mock_tests" "Kernel API Manual"
++      .SH NAME
++      tcp_sigpool_start \- start a tcp message of @id, using @c
++      .SH SYNOPSIS
++      .B "int" tcp_sigpool_start
++      .BI "(unsigned int id "  ","
++      .BI "struct tcp_sigpool *c "  ");"
++      .SH ARGUMENTS
++      .IP "id" 12
++      TCP message ID
++      .IP "c" 12
++      the \fItcp_sigpool\fP to use
++      .SH "SEE ALSO"
++      .PP
++      Kernel file \fBmock_tests/kdoc-drop-ctx-lock.c\fR
++    rst: |
++      .. c:function:: int tcp_sigpool_start (unsigned int id, struct tcp_sigpool *c)
++
++         start a tcp message of **id**, using **c**
++
++      .. container:: kernelindent
++
++        **Parameters**
++
++        ``unsigned int id``
++          TCP message ID
++
++        ``struct tcp_sigpool *c``
++          the :c:type:`tcp_sigpool` to use
++- name: undo_report_consumer
++  description: mock_tests/kdoc-drop-ctx-lock.c line 129
++  fname: mock_tests/kdoc-drop-ctx-lock.c
++  source: |
++    /**
++     * undo_report_consumer -  teardown a report consumer
++     * @flags: those flags
++     * @ai: not that AI
++     * @other_info: yes that
++     */
++    bool undo_report_consumer(unsigned long *flags,
++                                const struct access_info *ai,
++                                struct other_info *other_info)
++            __cond_releases(true, &report_lock)
++    {
++  expected:
++  - man: |
++      .TH "undo_report_consumer" 9 "February 2026"  "mock_tests" "Kernel API Manual"
++      .SH NAME
++      undo_report_consumer \- teardown a report consumer
++      .SH SYNOPSIS
++      .B "bool" undo_report_consumer
++      .BI "(unsigned long *flags "  ","
++      .BI "const struct access_info *ai "  ","
++      .BI "struct other_info *other_info "  ");"
++      .SH ARGUMENTS
++      .IP "flags" 12
++      those flags
++      .IP "ai" 12
++      not that AI
++      .IP "other_info" 12
++      yes that
++      .SH "SEE ALSO"
++      .PP
++      Kernel file \fBmock_tests/kdoc-drop-ctx-lock.c\fR
++    rst: |
++      .. c:function:: bool undo_report_consumer (unsigned long *flags, const struct access_info *ai, struct other_info *other_info)
++
++         teardown a report consumer
++
++      .. container:: kernelindent
++
++        **Parameters**
++
++        ``unsigned long *flags``
++          those flags
++
++        ``const struct access_info *ai``
++          not that AI
++
++        ``struct other_info *other_info``
++          yes that
++- name: debugfs_enter_cancellation
++  description: mock_tests/kdoc-drop-ctx-lock.c line 143
++  fname: mock_tests/kdoc-drop-ctx-lock.c
++  source: |
++    /**
++     * debugfs_enter_cancellation - begin a cancellation operation on @file
++     * @file: the target file
++     * @cancellation: the operation to execute
++     */
++    void debugfs_enter_cancellation(struct file *file,
++                                    struct debugfs_cancellation *cancellation) __acquires(cancellation)
++    { }
++  expected:
++  - man: |
++      .TH "debugfs_enter_cancellation" 9 "February 2026"  "mock_tests" "Kernel API Manual"
++      .SH NAME
++      debugfs_enter_cancellation \- begin a cancellation operation on @file
++      .SH SYNOPSIS
++      .B "void" debugfs_enter_cancellation
++      .BI "(struct file *file "  ","
++      .BI "struct debugfs_cancellation *cancellation "  ");"
++      .SH ARGUMENTS
++      .IP "file" 12
++      the target file
++      .IP "cancellation" 12
++      the operation to execute
++      .SH "SEE ALSO"
++      .PP
++      Kernel file \fBmock_tests/kdoc-drop-ctx-lock.c\fR
++    rst: |
++      .. c:function:: void debugfs_enter_cancellation (struct file *file, struct debugfs_cancellation *cancellation)
++
++         begin a cancellation operation on **file**
++
++      .. container:: kernelindent
++
++        **Parameters**
++
++        ``struct file *file``
++          the target file
++
++        ``struct debugfs_cancellation *cancellation``
++          the operation to execute
++- name: debugfs_leave_cancellation
++  description: mock_tests/kdoc-drop-ctx-lock.c line 152
++  fname: mock_tests/kdoc-drop-ctx-lock.c
++  source: |
++    /**
++     * debugfs_leave_cancellation - wrapup the cancellation operation on @file
++     * @file: the target file
++     * @cancellation: the operation to wrapup
++     */
++    void debugfs_leave_cancellation(struct file *file,
++                                    struct debugfs_cancellation *cancellation) __releases(cancellation)
++    { }
++  expected:
++  - man: |
++      .TH "debugfs_leave_cancellation" 9 "February 2026"  "mock_tests" "Kernel API Manual"
++      .SH NAME
++      debugfs_leave_cancellation \- wrapup the cancellation operation on @file
++      .SH SYNOPSIS
++      .B "void" debugfs_leave_cancellation
++      .BI "(struct file *file "  ","
++      .BI "struct debugfs_cancellation *cancellation "  ");"
++      .SH ARGUMENTS
++      .IP "file" 12
++      the target file
++      .IP "cancellation" 12
++      the operation to wrapup
++      .SH "SEE ALSO"
++      .PP
++      Kernel file \fBmock_tests/kdoc-drop-ctx-lock.c\fR
++    rst: |
++      .. c:function:: void debugfs_leave_cancellation (struct file *file, struct debugfs_cancellation *cancellation)
++
++         wrapup the cancellation operation on **file**
++
++      .. container:: kernelindent
++
++        **Parameters**
++
++        ``struct file *file``
++          the target file
++
++        ``struct debugfs_cancellation *cancellation``
++          the operation to wrapup
++- name: acpi_os_acquire_lock
++  description: mock_tests/kdoc-drop-ctx-lock.c line 161
++  fname: mock_tests/kdoc-drop-ctx-lock.c
++  source: |
++    /**
++     * acpi_os_acquire_lock - Acquire a spinlock.
++     * @lockp: pointer to the spinlock_t.
++     */
++    acpi_cpu_flags acpi_os_acquire_lock(acpi_spinlock lockp)
++            __acquires(lockp)
++    {
++  expected:
++  - man: |
++      .TH "acpi_os_acquire_lock" 9 "February 2026"  "mock_tests" "Kernel API Manual"
++      .SH NAME
++      acpi_os_acquire_lock \- Acquire a spinlock.
++      .SH SYNOPSIS
++      .B "acpi_cpu_flags" acpi_os_acquire_lock
++      .BI "(acpi_spinlock lockp "  ");"
++      .SH ARGUMENTS
++      .IP "lockp" 12
++      pointer to the spinlock_t.
++      .SH "SEE ALSO"
++      .PP
++      Kernel file \fBmock_tests/kdoc-drop-ctx-lock.c\fR
++    rst: |
++      .. c:function:: acpi_cpu_flags acpi_os_acquire_lock (acpi_spinlock lockp)
++
++         Acquire a spinlock.
++
++      .. container:: kernelindent
++
++        **Parameters**
++
++        ``acpi_spinlock lockp``
++          pointer to the spinlock_t.
++- name: acpi_os_release_lock
++  description: mock_tests/kdoc-drop-ctx-lock.c line 172
++  fname: mock_tests/kdoc-drop-ctx-lock.c
++  source: |
++    /**
++     * acpi_os_release_lock - Release a spinlock.
++     * @lockp: pointer to the spinlock_t.
++     * @not_used: these flags are not used.
++     */
++    void acpi_os_release_lock(acpi_spinlock lockp, acpi_cpu_flags not_used)
++            __releases(lockp)
++    {
++  expected:
++  - man: |
++      .TH "acpi_os_release_lock" 9 "February 2026"  "mock_tests" "Kernel API Manual"
++      .SH NAME
++      acpi_os_release_lock \- Release a spinlock.
++      .SH SYNOPSIS
++      .B "void" acpi_os_release_lock
++      .BI "(acpi_spinlock lockp "  ","
++      .BI "acpi_cpu_flags not_used "  ");"
++      .SH ARGUMENTS
++      .IP "lockp" 12
++      pointer to the spinlock_t.
++      .IP "not_used" 12
++      these flags are not used.
++      .SH "SEE ALSO"
++      .PP
++      Kernel file \fBmock_tests/kdoc-drop-ctx-lock.c\fR
++    rst: |
++      .. c:function:: void acpi_os_release_lock (acpi_spinlock lockp, acpi_cpu_flags not_used)
++
++         Release a spinlock.
++
++      .. container:: kernelindent
++
++        **Parameters**
++
++        ``acpi_spinlock lockp``
++          pointer to the spinlock_t.
++
++        ``acpi_cpu_flags not_used``
++          these flags are not used.
++- name: tx
++  description: mock_tests/kdoc-drop-ctx-lock.c line 183
++  fname: mock_tests/kdoc-drop-ctx-lock.c
++  source: |
++    /**
++     * tx - transmit message ID @id
++     * @id: message ID to transmit
++     */
++    int tx(int id) __must_hold(&txlock)
++    {
++  expected:
++  - man: |
++      .TH "tx" 9 "February 2026"  "mock_tests" "Kernel API Manual"
++      .SH NAME
++      tx \- transmit message ID @id
++      .SH SYNOPSIS
++      .B "int" tx
++      .BI "(int id "  ");"
++      .SH ARGUMENTS
++      .IP "id" 12
++      message ID to transmit
++      .SH "SEE ALSO"
++      .PP
++      Kernel file \fBmock_tests/kdoc-drop-ctx-lock.c\fR
++    rst: |
++      .. c:function:: int tx (int id)
++
++         transmit message ID **id**
++
++      .. container:: kernelindent
++
++        **Parameters**
++
++        ``int id``
++          message ID to transmit
++- name: contend_for_bm
++  description: mock_tests/kdoc-drop-ctx-lock.c line 192
++  fname: mock_tests/kdoc-drop-ctx-lock.c
++  source: |
++    /**
++     * contend_for_bm - try to become the bus master
++     * @card: the &fw_card (describes the bus)
++     */
++    enum bm_contention_outcome contend_for_bm(struct fw_card *card)
++        __must_hold(&card->lock)
++    {
++  expected:
++  - man: |
++      .TH "contend_for_bm" 9 "February 2026"  "mock_tests" "Kernel API Manual"
++      .SH NAME
++      contend_for_bm \- try to become the bus master
++      .SH SYNOPSIS
++      .B "enum bm_contention_outcome" contend_for_bm
++      .BI "(struct fw_card *card "  ");"
++      .SH ARGUMENTS
++      .IP "card" 12
++      the \fIfw_card\fP (describes the bus)
++      .SH "SEE ALSO"
++      .PP
++      Kernel file \fBmock_tests/kdoc-drop-ctx-lock.c\fR
++    rst: |
++      .. c:function:: enum bm_contention_outcome contend_for_bm (struct fw_card *card)
++
++         try to become the bus master
++
++      .. container:: kernelindent
++
++        **Parameters**
++
++        ``struct fw_card *card``
++          the :c:type:`fw_card` (describes the bus)
++- name: prepare_report_producer
++  description: mock_tests/kdoc-drop-ctx-lock.c line 202
++  fname: mock_tests/kdoc-drop-ctx-lock.c
++  source: |
++    /**
++     * prepare_report_producer - prepare the report producer
++     * @flags: still flags
++     * @ai: some AI
++     * @other_info: Populate @other_info; requires that the provided
++     *   @other_info not in use.
++     */
++    void prepare_report_producer(unsigned long *flags,
++                                const struct access_info *ai,
++                                struct other_info *other_info)
++            __must_not_hold(&report_lock)
++    { }
++  expected:
++  - man: |
++      .TH "prepare_report_producer" 9 "February 2026"  "mock_tests" "Kernel API Manual"
++      .SH NAME
++      prepare_report_producer \- prepare the report producer
++      .SH SYNOPSIS
++      .B "void" prepare_report_producer
++      .BI "(unsigned long *flags "  ","
++      .BI "const struct access_info *ai "  ","
++      .BI "struct other_info *other_info "  ");"
++      .SH ARGUMENTS
++      .IP "flags" 12
++      still flags
++      .IP "ai" 12
++      some AI
++      .IP "other_info" 12
++      Populate \fIother_info\fP; requires that the provided
++      \fIother_info\fP not in use.
++      .SH "SEE ALSO"
++      .PP
++      Kernel file \fBmock_tests/kdoc-drop-ctx-lock.c\fR
++    rst: |
++      .. c:function:: void prepare_report_producer (unsigned long *flags, const struct access_info *ai, struct other_info *other_info)
++
++         prepare the report producer
++
++      .. container:: kernelindent
++
++        **Parameters**
++
++        ``unsigned long *flags``
++          still flags
++
++        ``const struct access_info *ai``
++          some AI
++
++        ``struct other_info *other_info``
++          Populate **other_info**; requires that the provided
++          **other_info** not in use.
++- name: crypto_alg_lookup
++  description: mock_tests/kdoc-drop-ctx-lock.c line 215
++  fname: mock_tests/kdoc-drop-ctx-lock.c
++  source: |
++    /**
++     * __crypto_alg_lookup() - lookup the algorithm by name/type/mask
++     * @name: name to search for
++     * @type: type to search for
++     * @mask: mask to match
++     */
++    struct crypto_alg *__crypto_alg_lookup(const char *name, u32 type,
++                                                  u32 mask)
++            __must_hold_shared(&crypto_alg_sem)
++    {
++  expected:
++  - man: |
++      .TH "__crypto_alg_lookup" 9 "February 2026"  "mock_tests" "Kernel API Manual"
++      .SH NAME
++      __crypto_alg_lookup \- lookup the algorithm by name/type/mask
++      .SH SYNOPSIS
++      .B "struct crypto_alg *" __crypto_alg_lookup
++      .BI "(const char *name "  ","
++      .BI "u32 type "  ","
++      .BI "u32 mask "  ");"
++      .SH ARGUMENTS
++      .IP "name" 12
++      name to search for
++      .IP "type" 12
++      type to search for
++      .IP "mask" 12
++      mask to match
++      .SH "SEE ALSO"
++      .PP
++      Kernel file \fBmock_tests/kdoc-drop-ctx-lock.c\fR
++    rst: |
++      .. c:function:: struct crypto_alg * __crypto_alg_lookup (const char *name, u32 type, u32 mask)
++
++         lookup the algorithm by name/type/mask
++
++      .. container:: kernelindent
++
++        **Parameters**
++
++        ``const char *name``
++          name to search for
++
++        ``u32 type``
++          type to search for
++
++        ``u32 mask``
++          mask to match
++- name: down_read_trylock
++  description: mock_tests/kdoc-drop-ctx-lock.c line 228
++  fname: mock_tests/kdoc-drop-ctx-lock.c
++  source: |
++    /**
++     * down_read_trylock - trylock for reading
++     * @sem: the semaphore to try to lock
++     *
++     * Returns: 1 if successful, 0 if contention
++     */
++    extern int down_read_trylock(struct rw_semaphore *sem) __cond_acquires_shared(true, sem);
++  expected:
++  - man: |
++      .TH "down_read_trylock" 9 "February 2026"  "mock_tests" "Kernel API Manual"
++      .SH NAME
++      down_read_trylock \- trylock for reading
++      .SH SYNOPSIS
++      .B "int" down_read_trylock
++      .BI "(struct rw_semaphore *sem "  ");"
++      .SH ARGUMENTS
++      .IP "sem" 12
++      the semaphore to try to lock
++      .SH "RETURN"
++      1 if successful, 0 if contention
++      .SH "SEE ALSO"
++      .PP
++      Kernel file \fBmock_tests/kdoc-drop-ctx-lock.c\fR
++    rst: |
++      .. c:function:: int down_read_trylock (struct rw_semaphore *sem)
++
++         trylock for reading
++
++      .. container:: kernelindent
++
++        **Parameters**
++
++        ``struct rw_semaphore *sem``
++          the semaphore to try to lock
++
++        **Return**
++
++        1 if successful, 0 if contention
++- name: tomoyo_read_lock
++  description: mock_tests/kdoc-drop-ctx-lock.c line 236
++  fname: mock_tests/kdoc-drop-ctx-lock.c
++  source: |
++    /**
++     * tomoyo_read_lock - Take lock for protecting policy.
++     *
++     * Returns: index number for tomoyo_read_unlock().
++     */
++    int tomoyo_read_lock(void)
++            __acquires_shared(&tomoyo_ss)
++    {
++  expected:
++  - man: |
++      .TH "tomoyo_read_lock" 9 "February 2026"  "mock_tests" "Kernel API Manual"
++      .SH NAME
++      tomoyo_read_lock \- Take lock for protecting policy.
++      .SH SYNOPSIS
++      .B "int" tomoyo_read_lock
++      .BI "(void "  ");"
++      .SH ARGUMENTS
++      .IP "void" 12
++      no arguments
++      .SH "RETURN"
++      index number for \fBtomoyo_read_unlock\fP.
++      .SH "SEE ALSO"
++      .PP
++      Kernel file \fBmock_tests/kdoc-drop-ctx-lock.c\fR
++    rst: |
++      .. c:function:: int tomoyo_read_lock (void)
++
++         Take lock for protecting policy.
++
++      .. container:: kernelindent
++
++        **Parameters**
++
++        ``void``
++          no arguments
++
++        **Return**
++
++        index number for tomoyo_read_unlock().
++- name: tomoyo_read_unlock
++  description: mock_tests/kdoc-drop-ctx-lock.c line 247
++  fname: mock_tests/kdoc-drop-ctx-lock.c
++  source: |
++    /**
++     * tomoyo_read_unlock - Release lock for protecting policy.
++     *
++     * @idx: Index number returned by tomoyo_read_lock().
++     */
++    void tomoyo_read_unlock(int idx)
++            __releases_shared(&tomoyo_ss)
++    { }
++  expected:
++  - man: |
++      .TH "tomoyo_read_unlock" 9 "February 2026"  "mock_tests" "Kernel API Manual"
++      .SH NAME
++      tomoyo_read_unlock \- Release lock for protecting policy.
++      .SH SYNOPSIS
++      .B "void" tomoyo_read_unlock
++      .BI "(int idx "  ");"
++      .SH ARGUMENTS
++      .IP "idx" 12
++      Index number returned by \fBtomoyo_read_lock\fP.
++      .SH "SEE ALSO"
++      .PP
++      Kernel file \fBmock_tests/kdoc-drop-ctx-lock.c\fR
++    rst: |
++      .. c:function:: void tomoyo_read_unlock (int idx)
++
++         Release lock for protecting policy.
++
++      .. container:: kernelindent
++
++        **Parameters**
++
++        ``int idx``
++          Index number returned by tomoyo_read_lock().
++- name: c_stop
++  description: mock_tests/kdoc-drop-ctx-lock.c line 256
++  fname: mock_tests/kdoc-drop-ctx-lock.c
++  source: |
++    /**
++     * c_stop - stop the seq_file iteration
++     * @m: the &struct seq_file
++     * @p: handle
++     */
++    void c_stop(struct seq_file *m, void *p)
++            __releases_shared(&crypto_alg_sem)
++    { }
++  expected:
++  - man: |
++      .TH "c_stop" 9 "February 2026"  "mock_tests" "Kernel API Manual"
++      .SH NAME
++      c_stop \- stop the seq_file iteration
++      .SH SYNOPSIS
++      .B "void" c_stop
++      .BI "(struct seq_file *m "  ","
++      .BI "void *p "  ");"
++      .SH ARGUMENTS
++      .IP "m" 12
++      the \fIstruct seq_file\fP
++      .IP "p" 12
++      handle
++      .SH "SEE ALSO"
++      .PP
++      Kernel file \fBmock_tests/kdoc-drop-ctx-lock.c\fR
++    rst: |
++      .. c:function:: void c_stop (struct seq_file *m, void *p)
++
++         stop the seq_file iteration
++
++      .. container:: kernelindent
++
++        **Parameters**
++
++        ``struct seq_file *m``
++          the :c:type:`struct seq_file <seq_file>`
++
++        ``void *p``
++          handle
++- name: spin_lock
++  description: mock_tests/kdoc-drop-ctx-lock.c line 265
++  fname: mock_tests/kdoc-drop-ctx-lock.c
++  source: |
++    /**
++     * spin_lock - spin until the @lock is acquired
++     * @lock: the spinlock
++     */
++    void spin_lock(spinlock_t *lock)
++            __acquires(lock) __no_context_analysis
++    { }
++  expected:
++  - man: |
++      .TH "spin_lock" 9 "February 2026"  "mock_tests" "Kernel API Manual"
++      .SH NAME
++      spin_lock \- spin until the @lock is acquired
++      .SH SYNOPSIS
++      .B "void" spin_lock
++      .BI "(spinlock_t *lock "  ");"
++      .SH ARGUMENTS
++      .IP "lock" 12
++      the spinlock
++      .SH "SEE ALSO"
++      .PP
++      Kernel file \fBmock_tests/kdoc-drop-ctx-lock.c\fR
++    rst: |
++      .. c:function:: void spin_lock (spinlock_t *lock)
++
++         spin until the **lock** is acquired
++
++      .. container:: kernelindent
++
++        **Parameters**
++
++        ``spinlock_t *lock``
++          the spinlock
 -- 
 2.53.0
 
