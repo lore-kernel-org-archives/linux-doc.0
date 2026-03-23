@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0D75386452;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19683386453;
 	Mon, 23 Mar 2026 09:10:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774257059; cv=none; b=V+iUoIYoiGjevZ3wdss8sAablpVE6/43ghHHIVL1evLwGPFLimyWziXohDp3K+pIILnO7Mewx5U3dDFpjYAbKQI1d7zm25gu2BENBpPbdOS0MFqBB6bcqJMvqxQfsYt+26wztMeHOnjq5kfS5Wi83+WILJNg9Owo5cGhioKG4Cc=
+	t=1774257059; cv=none; b=cLCgMZpJPMxLi6VvanM0fyJcQgwg+K7ZZsaRO/GqCqw0PpKDkx7eLuZTj6EzwuYFplnEZMDuJIIzqUgAEZICRQnRJ6e74Z6nDhAABJJBUNxqHhhFStiG4eaoXzn7kZZn+d5GVQye43MEWQDd4yRs0NIaSlaPzWbkUIpAnC6OBNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1774257059; c=relaxed/simple;
-	bh=a05Vd8qHdqT2ZnuRBv0SnC55B9ItAT/pJgyul5M5lIE=;
+	bh=fPzInczANAdOGjNACOlImNH9I8DEnTQnoNy6KxDMv84=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uo2QzlvUDVhyztB7zmwyaF8U1wOW/Ptp1F3Ub50ytE/jCKNNYpxHBPBLXB7f07rWbydX71TLrXSGc2aWVShtgt2uNhM58Y56sPJ62VbAct+DGHenqR7LrHFYTLbQybqvLHYiCvGlsRGhOTDbGRp6qkQ9WsS9KHImUQibuQ+fIiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W1nF5H6k; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=CL903bWcEqOPFeY1JALADuWXzSrvdUkC1TnD8n4ra15u5D89Q9VYG1MEIvX6LqxfEdv1I39S1qTU6gmSkKtpc1l3DXN9sls6UOyQHSexRwUqNruV6eEiyCczekYABBD01bW38yIt9fChq2+NiIkmStSdpgMHz0V9n+uV8Gi9dqQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WcxXn9Kb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W1nF5H6k"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3C41C4AF0C;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WcxXn9Kb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3572C2BC9E;
 	Mon, 23 Mar 2026 09:10:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1774257058;
-	bh=a05Vd8qHdqT2ZnuRBv0SnC55B9ItAT/pJgyul5M5lIE=;
+	bh=fPzInczANAdOGjNACOlImNH9I8DEnTQnoNy6KxDMv84=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=W1nF5H6klfS2mJn9aIZd43KfU7bK+Qy/KezTPgU5AJJZFaq93mlK330jq6vyGTPCm
-	 dQDuZMJ/ZXhxG2PzIZ3HQi8VJxHSpDDE8MbUbYk6T2Nlb5spvakGvj/coIvHKg0aG7
-	 ZN/UmOSiuc97oML14CsMoTaIor+bCyqTaDwnipAPFomANaOHLr1KllkSuun6cQkxuS
-	 6dx307FQI8jgsOsLIu/VOYoeoPyJ7vZzZRNYtV11IaNFwunc5HgnoszVH0pJ/iIrX/
-	 G3LocYeFG+uRcL+K+IC7cP6yw/zdubiXZ/yYT52jyn9m/uYF4NK07PVx+lBnpH/Ua/
-	 R6QURklPtj5QA==
+	b=WcxXn9KbyrozgA4LcNrurgvB0aXFzvx395cXPq97WNBvy5kvoTHwYsGDdzvu/aV+1
+	 P5Biji5gFqwd0K7A03F/DOtK1BHPNyurf3u1Xg5IsGtwTNoa8FOtlKd4uspevalYnF
+	 ZX8ka64VQTklRi2s9ZOD6/JTwagU6Q1LS43rz2qCUFU4CdQPkX9pY/Pf5+i00ZaFCa
+	 DaJxJcoqJMcYEfwZN/jVNkXY+H/mje6uklt7cA99xPW9i+UxMBvwwixlQRadfKG4AZ
+	 tR80hXq/5jszy9DZ2dNIewvfHLkRUyHozirLX14b9Eomv8YR4LFX9DmmysbnVbAXqX
+	 aU6KSHPmmCYXg==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1w4bJI-00000002yWc-2B6s;
+	id 1w4bJI-00000002yWU-1wWB;
 	Mon, 23 Mar 2026 10:10:56 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
@@ -36,9 +36,9 @@ To: Jonathan Corbet <corbet@lwn.net>,
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH 06/10] docs: kdoc_output: fix handling of simple tables
-Date: Mon, 23 Mar 2026 10:10:49 +0100
-Message-ID: <dea95337c05040f95e5a95ae41d69ddef0aaa8d6.1774256269.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 04/10] docs: kdoc_yaml_file: add a representer to make strings look nicer
+Date: Mon, 23 Mar 2026 10:10:47 +0100
+Message-ID: <422041a8b49b2609de5749092fe074b7948c32a6.1774256269.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <cover.1774256269.git.mchehab+huawei@kernel.org>
 References: <cover.1774256269.git.mchehab+huawei@kernel.org>
@@ -52,50 +52,51 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Fix check for simple table delimiters.
-
-ReST simple tables use "=" instead of "-". I ended testing it with
-a table modified from a complex one, using "--- --- ---", instead
-of searching for a real Kernel example.
-
-Only noticed when adding an unit test and seek for an actual
-example from kernel-doc markups.
+The strings representation is not ok, currently. Add a helper
+function to improve it, and drop blank lines at beginning and
+at the end of the dumps
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tools/lib/python/kdoc/kdoc_output.py | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ tools/lib/python/kdoc/kdoc_yaml_file.py | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
-diff --git a/tools/lib/python/kdoc/kdoc_output.py b/tools/lib/python/kdoc/kdoc_output.py
-index 1b54117dbe19..2bfcd356654b 100644
---- a/tools/lib/python/kdoc/kdoc_output.py
-+++ b/tools/lib/python/kdoc/kdoc_output.py
-@@ -846,14 +846,14 @@ class ManFormat(OutputFormat):
-         colspec_row = None
+diff --git a/tools/lib/python/kdoc/kdoc_yaml_file.py b/tools/lib/python/kdoc/kdoc_yaml_file.py
+index db131503c3f6..18737abb1176 100644
+--- a/tools/lib/python/kdoc/kdoc_yaml_file.py
++++ b/tools/lib/python/kdoc/kdoc_yaml_file.py
+@@ -126,7 +126,7 @@ class KDocTestFile():
+                 else:
+                     key = "rst"
  
-         pos = []
--        for m in KernRe(r'\-+').finditer(lines[i]):
-+        for m in KernRe(r'\=+').finditer(lines[i]):
-             pos.append((m.start(), m.end() - 1))
+-                expected_dict[key]= out_style.output_symbols(fname, [arg])
++                expected_dict[key]= out_style.output_symbols(fname, [arg]).strip()
  
-         i += 1
-         while i < len(lines):
-             line = lines[i]
+             name = f"{base_name}_{i:03d}"
  
--            if KernRe(r"^\s*[\-]+[ \t\-]+$").match(line):
-+            if KernRe(r"^\s*[\=]+[ \t\=]+$").match(line):
-                 i += 1
-                 break
+@@ -148,8 +148,20 @@ class KDocTestFile():
+         """
+         import yaml
  
-@@ -969,7 +969,7 @@ class ManFormat(OutputFormat):
-                     self.data += text
-                     continue
++        # Helper function to better handle multilines
++        def str_presenter(dumper, data):
++            if "\n" in data:
++                return dumper.represent_scalar("tag:yaml.org,2002:str", data, style="|")
++
++            return dumper.represent_scalar("tag:yaml.org,2002:str", data)
++
++        # Register the representer
++        yaml.add_representer(str, str_presenter)
++
+         data = {"tests": self.tests}
  
--                if KernRe(r"^\-+[ \t]\-[ \t\-]+$").match(line):
-+                if KernRe(r"^\=+[ \t]\=[ \t\=]+$").match(line):
-                     i, text = self.simple_table(lines, i)
-                     self.data += text
-                     continue
+         with open(self.test_file, "w", encoding="utf-8") as fp:
+-            yaml.safe_dump(data, fp, sort_keys=False, default_style="|",
+-                           default_flow_style=False, allow_unicode=True)
++            yaml.dump(data, fp,
++                      sort_keys=False, width=120, indent=2,
++                      default_flow_style=False, allow_unicode=True,
++                      explicit_start=False, explicit_end=False)
 -- 
 2.53.0
 
