@@ -1,95 +1,111 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96E143009F6;
-	Mon, 23 Mar 2026 08:45:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02DF838552A;
+	Mon, 23 Mar 2026 09:03:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774255548; cv=none; b=tXUUx6RN4sjWoJwk7F3z/84GxYxSFo0lLKGiRjVbf4VWcUNVvxvAOIv15bILKHXwqieXYFFV1fyOd1rQommX0tZ1oZC8GcohrOIoLxNP87Ssk4EBQnWPoG2d4m+sDP4za4iJZDKQY4YKvfehUPzrBw+/3GV7sHOiAgUuJrIqCg8=
+	t=1774256589; cv=none; b=DcWBe+9XA8NLFVZwQ/4aYJ1WgKVbdztKyRI3ySnYFNJcRCagBFeJUaLH8EGA+2xTudvDacdxyx8sqjSQFOCz0dVt6uybEo3fUjHGH/d1wX55lRlrxu9HMoYmVRSATd/WwNuCYl/bkH55WKdhwmyEWukDWeHZ77zRi4XK3B48LkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774255548; c=relaxed/simple;
-	bh=IZrg3073YvRn5Dp2yAL/QnRBIbaZV1wKQhSYGwFdg0w=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:From:To:
-	 References:In-Reply-To; b=gth8udZDLHCvSGfJESuawaTUWN4tC+UgNowfrYH0ckl1ekusjrK1ucdVUtKBBt/4gXXAhc7lfcwGMr6EZdrvRXhtkGEglwMwHa77OQbGzOvZYZIVEbUDXaF1ZAgWbmfledIpwAd/2qZKPry/ONF07KNJ/BQ0YSjcrHsuG6zZw0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MqZJJ+jE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774256589; c=relaxed/simple;
+	bh=IEWz/yDGTqNpb9yF4r5qDEyb/sGLpVM6hsRHTY8svVg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HrWHqrgde830bN/6vbiZVDSOaSGmRnzasQ2pZHJnjHypVk+FKCnWGAENcUwbg3Cfpn85xwL9yMucOk4K3a6DIyWyI6n7/+H190Tz/mTyTlN5yytQv0VAcW8fdh9dQuh1LoweXT3rqilghqpgfVsL8UkGDSEg3lhPgyVgbDPNXzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EYrZFK5s; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MqZJJ+jE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE996C4CEF7;
-	Mon, 23 Mar 2026 08:45:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EYrZFK5s"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B02A9C2BC9E;
+	Mon, 23 Mar 2026 09:03:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774255548;
-	bh=IZrg3073YvRn5Dp2yAL/QnRBIbaZV1wKQhSYGwFdg0w=;
-	h=Date:Subject:Cc:From:To:References:In-Reply-To:From;
-	b=MqZJJ+jEXv66rnW751yqXlW9hMqAGiXOgu5FRwFFx4ERxXcucMsrpn0wmuKJyfre/
-	 z0b2cJa57c4a6Pzy04GpXyRidWJ14kWnKCMRi3eeULZh/K087FrQ0KiP/6lcPknEGs
-	 bjtsxeanA+J5BKE+ZiRQf+wqwO+vFnjITVtnOxoRUQjMDf3IUln1PWB+DJ2vtIiPFc
-	 9VcUX83Ma/9wRdW0/nn2KvTkgW4sQrC6fQR3RDYbnpG9qXCIPoI7NgcxKtqyxs9KqJ
-	 njgU6s/2VapcsTCeQmQ/TjhQZDWpDW+ks0UZn01j5x3HfuNems7N6rLOvemIejM8D6
-	 ur2+jgFfIaHLg==
+	s=k20201202; t=1774256588;
+	bh=IEWz/yDGTqNpb9yF4r5qDEyb/sGLpVM6hsRHTY8svVg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EYrZFK5sh4eEIon27+KRCuxRRlO+nCshQb3BJJSDa057fK9I2qx5BaZzEAnJPsDXD
+	 OWtaco5xO42HLCMofsfuJI0VUvPfv82XiE4HbrrkqGxbdKQQoepzxUmM2iiVTEr6qR
+	 NMDuAFoKsJBNsh/k9uOQ3VpSiYkNctpMtKQzu5b/eCBnB3qylq4ryKQRyCeUsipsft
+	 SIsrvYMfmsPGADl3ITVarsrX6obTFGU1W+FOrV83mEyFeXPKm9dlO5uak6vi4diqoG
+	 UBMdzDRq7xV9WdeV900A+cP+XDNj1+miTSeg/4E2epFIeO84bXq5Q30Ps9LvSUXXfa
+	 ZsoO7G/XnXFpA==
+Date: Mon, 23 Mar 2026 14:32:57 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Thara Gopinath <thara.gopinath@gmail.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	"David S. Miller" <davem@davemloft.net>, Udit Tiwari <quic_utiwari@quicinc.com>, 
+	Md Sadre Alam <mdalam@qti.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
+	Stephan Gerhold <stephan.gerhold@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Peter Ujfalusi <peter.ujfalusi@gmail.com>, Michal Simek <michal.simek@amd.com>, 
+	Frank Li <Frank.Li@kernel.org>, dmaengine@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-crypto@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, brgl@kernel.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Subject: Re: [PATCH v13 04/12] dmaengine: qcom: bam_dma: Add
+ pipe_lock_supported flag support
+Message-ID: <ak4ktv4qjmjkiodahqees46gmyt3yabbd3r5f7kcf3ufq3oikm@yirezure7rlh>
+References: <20260317-qcom-qce-cmd-descr-v13-0-0968eb4f8c40@oss.qualcomm.com>
+ <20260317-qcom-qce-cmd-descr-v13-4-0968eb4f8c40@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: multipart/signed;
- boundary=bd4a73f9dd4d15328054ccc0b5312fbbd2fc1c943838d1efe8c042901083;
- micalg=pgp-sha384; protocol="application/pgp-signature"
-Date: Mon, 23 Mar 2026 09:45:37 +0100
-Message-Id: <DHA13HM1GIJW.1E7XCMY349JX7@kernel.org>
-Subject: Re: [PATCH v2 6/7] dt-bindings: watchdog: Drop SMARC-sAM67 support
-Cc: <linux-arm-kernel@lists.infradead.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-hwmon@vger.kernel.org>,
- <linux-watchdog@vger.kernel.org>, <linux-doc@vger.kernel.org>, "Conor
- Dooley" <conor.dooley@microchip.com>
-From: "Michael Walle" <mwalle@kernel.org>
-To: "Guenter Roeck" <linux@roeck-us.net>, "Nishanth Menon" <nm@ti.com>,
- "Vignesh Raghavendra" <vigneshr@ti.com>, "Tero Kristo" <kristo@kernel.org>,
- "Rob Herring" <robh@kernel.org>, "Krzysztof Kozlowski"
- <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>, "Srinivas
- Kandagatla" <srini@kernel.org>, "Wim Van Sebroeck"
- <wim@linux-watchdog.org>, "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan"
- <skhan@linuxfoundation.org>
-X-Mailer: aerc 0.20.0
-References: <20260302122540.1377444-1-mwalle@kernel.org>
- <20260302122540.1377444-7-mwalle@kernel.org>
- <f124b200-09e3-4e73-a100-f47007732e8f@roeck-us.net>
-In-Reply-To: <f124b200-09e3-4e73-a100-f47007732e8f@roeck-us.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260317-qcom-qce-cmd-descr-v13-4-0968eb4f8c40@oss.qualcomm.com>
 
---bd4a73f9dd4d15328054ccc0b5312fbbd2fc1c943838d1efe8c042901083
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+On Tue, Mar 17, 2026 at 03:02:11PM +0100, Bartosz Golaszewski wrote:
+> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> 
+> Extend the device match data with a flag indicating whether the IP
+> supports the BAM lock/unlock feature. Set it to true on BAM IP versions
+> 1.4.0 and above.
+> 
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
 
-Hi,
+Acked-by: Manivannan Sadhasivam <mani@kernel.org>
 
-On Mon Mar 2, 2026 at 4:01 PM CET, Guenter Roeck wrote:
-> On 3/2/26 04:24, Michael Walle wrote:
->> I was just informed that this product is discontinued (without being
->> ever released to the market). Pull the plug and let's not waste any more
->> maintainers time and revert commit 354f31e9d2a3 ("dt-bindings: watchdog:
->> Add SMARC-sAM67 support").
->>=20
->> Acked-by: Conor Dooley <conor.dooley@microchip.com>
->> Signed-off-by: Michael Walle <mwalle@kernel.org>
->
-> Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+- Mani
 
-Everything expect this patch was picked up. Guenter, do you want to
-take it, or should it go through the TI SoC queue?
+> ---
+>  drivers/dma/qcom/bam_dma.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/dma/qcom/bam_dma.c b/drivers/dma/qcom/bam_dma.c
+> index 8f6d03f6c673b57ed13aeca6c8331c71596d077b..83491e7c2f17d8c9d12a1a055baea7e3a0a75a53 100644
+> --- a/drivers/dma/qcom/bam_dma.c
+> +++ b/drivers/dma/qcom/bam_dma.c
+> @@ -115,6 +115,7 @@ struct reg_offset_data {
+>  
+>  struct bam_device_data {
+>  	const struct reg_offset_data *reg_info;
+> +	bool pipe_lock_supported;
+>  };
+>  
+>  static const struct reg_offset_data bam_v1_3_reg_info[] = {
+> @@ -181,6 +182,7 @@ static const struct reg_offset_data bam_v1_4_reg_info[] = {
+>  
+>  static const struct bam_device_data bam_v1_4_data = {
+>  	.reg_info = bam_v1_4_reg_info,
+> +	.pipe_lock_supported = true,
+>  };
+>  
+>  static const struct reg_offset_data bam_v1_7_reg_info[] = {
+> @@ -214,6 +216,7 @@ static const struct reg_offset_data bam_v1_7_reg_info[] = {
+>  
+>  static const struct bam_device_data bam_v1_7_data = {
+>  	.reg_info = bam_v1_7_reg_info,
+> +	.pipe_lock_supported = true,
+>  };
+>  
+>  /* BAM CTRL */
+> 
+> -- 
+> 2.47.3
+> 
 
-Thanks,
--michael
-
---bd4a73f9dd4d15328054ccc0b5312fbbd2fc1c943838d1efe8c042901083
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iKgEABMJADAWIQTIVZIcOo5wfU/AngkSJzzuPgIf+AUCacD9sxIcbXdhbGxlQGtl
-cm5lbC5vcmcACgkQEic87j4CH/j8xgF/YE8auGYf7y4fj5Wh1h3SKh5Yl6dpVBAG
-OKsJlsNtaEhDxOMkeG3zYURQ/NqDSjQ+AYCRn1+pOiDB/8sAFVZx1L9i4pZWq3cQ
-Eidq3hJvghVNoQcTlcufj4jMfOPRjSUh4QU=
-=P+gh
------END PGP SIGNATURE-----
-
---bd4a73f9dd4d15328054ccc0b5312fbbd2fc1c943838d1efe8c042901083--
+-- 
+மணிவண்ணன் சதாசிவம்
