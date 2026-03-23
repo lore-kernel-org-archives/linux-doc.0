@@ -1,130 +1,112 @@
-Received: from www.redadmin.org (bc043154.ppp.asahi-net.or.jp [222.228.43.154])
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10B2F383C7C;
-	Mon, 23 Mar 2026 09:45:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=222.228.43.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50D60387347;
+	Mon, 23 Mar 2026 09:57:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774259113; cv=pass; b=FkkZUSbRAa1F8A6WEAdwSn/aFcXdi4fvZuIkbJOpKjwT7fd0ELHaSvbSaWCPN0qL0s4owvUxOj4GgJ70R4NeJOoZAc3ja3J3onjvdbnXI4Lo14OZT7r9L6Hg/5bL5BhYIzUejrjGiipzJIsgvBbBKloKFwmHU/hD+tmG5OK1Vz8=
+	t=1774259869; cv=pass; b=NrP3Ps7mhdAiCjaqPZD0JhQcYWtljWRR0r2Xp0QDx3j/rsklCJXpLh1P40s+GEk9tkx1FTAYFCdYyDRqy7XN1fzkkx4Jtj3lxhr+OPa2y22PHYe13R7P7zK2N0VYKTqwZbvlXIMZJKdlZR56QjYTLjjYfbAuJXd6+vSLaJj+z7A=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774259113; c=relaxed/simple;
-	bh=fZRPkFJ1u5VLlOxU1eIHcOghRkxbrh3ZR0ApR1KxIB0=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=peRs0TNClRL9zoLi+tP4PZsB5E5QCs/TAipHdJbhLje+nhEFdA+o4SDCGfW5vJaSaGsecegt6LMVBczQxKIcCmGJfP03hjTJkwG637aLjOsGgbgp8aWZ3+tQ6mxj8zwR5Lprm9lMTJCzupAF5olTC/JxHDU/5PCt8CP7KbnYYlQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=QAUx54Ei; arc=pass smtp.client-ip=222.228.43.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
+	s=arc-20240116; t=1774259869; c=relaxed/simple;
+	bh=hJUxfGUSHiaElRZYzXglO2jCav3ZlOnkwh4WOSBrvcA=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:From:To:
+	 References:In-Reply-To; b=HDJ05vpfouEsdnjqekaiDhQ4CBI5o6Eov0Q84mpBg09xTtnIuJarTrp3U+Cr4ObPuZD3Cf59NE7wEGQ/eqJcER1k10f4J5QI3qyqbH4/7BpBjKWJ/dy7CcHpzqir3G+xCC7a6qTq24y6iz9ejp+w5+3OM/07Rr3PRY8asBQQEkY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com; spf=pass smtp.mailfrom=ritovision.com; dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b=kshbpdY0; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ritovision.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="QAUx54Ei"
-Received: from localhost (localhost [127.0.0.1])
-	by www.redadmin.org (Postfix) with ESMTP id D0884109E68B4;
-	Mon, 23 Mar 2026 17:29:24 +0900 (JST)
-X-Virus-Scanned: amavis at redadmin.org
-Received: from www.redadmin.org ([127.0.0.1])
- by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id w0BqFK1_7g8g; Mon, 23 Mar 2026 17:29:21 +0900 (JST)
-Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=192.168.11.50
-DMARC-Filter: OpenDMARC Filter v1.4.2 www.redadmin.org 48847109EFAD6
-ARC-Seal: i=1; d=redadmin.org; s=20231208space; a=rsa-sha256; cv=none;
-	t=1774254561;
-	b=JmgXQz3qN5MPaEJmc0n48LDtV8JgGvrFR6+9MBqei/HQoaJv7VHv3kCG1ftZcDIt3pb2
-	 zZDsJ2Xh0QyimXM2rLoGt7Wj+EjXCRISxfTeCppnhHB2TO2c+GjteILCpR4bUvq43OJgh
-	 lu3M3VSzLMnEOk2XcVnjm4UmYTscXUM5uU=
-ARC-Message-Signature: i=1; d=redadmin.org; s=20231208space; a=rsa-sha256;
-	c=relaxed/relaxed; t=1774254561;
-	h=DKIM-Filter:DKIM-Signature:MIME-Version:Date:From:To:Cc:Subject:
-	 In-Reply-To:References:Message-ID:X-Sender:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=SzsfmQb9+IK/bBsH4J6q8HEBVce2MtXYfcy9oDqgTEY=;
-	b=d/AfkNXlwPLzwtp6l3MIJA6w1tJL7DBw2VSCrzHNucDEs0G5Sthr1TOMwlIAtuOaUF/q
-	 dR/mNF+M4RFYt30raAw/9tZsaf37pLyPao1AFr4XPJkPs7L2nxSO+9QSmedOvIzm7K7Rm
-	 4QQtfvalcTHmfedZVLfbqpr2BgAFk6ZP3c=
-ARC-Authentication-Results: i=1; www.redadmin.org; arc=none smtp.remote-ip=192.168.11.50
-Received: from webmail.redadmin.org (redadmin.org [192.168.11.50])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-256) server-digest SHA256)
-	(Client did not present a certificate)
-	(Authenticated sender: weibu@redadmin.org)
-	by www.redadmin.org (Postfix) with ESMTPSA id 48847109EFAD6;
-	Mon, 23 Mar 2026 17:29:21 +0900 (JST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org 48847109EFAD6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
-	s=20231208space; t=1774254561;
-	bh=SzsfmQb9+IK/bBsH4J6q8HEBVce2MtXYfcy9oDqgTEY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=QAUx54EiekKD60EIRYRrRCxjo+2+EJDiq9QaNPN2JCSimQfhYk1PICZIXbV5AOdLD
-	 T4rKPABsGQJUr4UFi1wqs150s3W5oWQbTMJmXyRo/dZZa4BtKdAGPAqgdaPNaUvFDX
-	 MRmBLvPJDjSsPl6cansmP98X0k1+WFyk3Vrlj0w4=
+	dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b="kshbpdY0"
+ARC-Seal: i=1; a=rsa-sha256; t=1774259848; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=GF9uO5Bl6leTD0NiT4z2qVunlCAEFAIZDN+2dg+kOZinGOU1eR7aNi7Ur8W6V7v3zyUX5XszLmfugA/b7/ncJ7EyEpaDM9Bn3+Yu3gt89AvMEXFbF1mcEHN4M3rSrjmFrRXq8G+zoF3luDkWif5CNefv0A6XtBPvwveV0LFIDbc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1774259848; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=hJUxfGUSHiaElRZYzXglO2jCav3ZlOnkwh4WOSBrvcA=; 
+	b=h5kkoq8xUIQu39H8Ss+jvKEEO03qgAWl3JvkKUyZM2tCOWm4Kkk/pZZzXrNB8kP6Ubvmj71NWUxyDnz1+h3ep7fboNx17jKzHyYiY3svOteYwbI/vdAkqyOLFCqUd4WpxoY0QL8hyNNPJXOFWVCA3i1CDua84aQ9IW+geXKegPs=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=ritovision.com;
+	spf=pass  smtp.mailfrom=rito@ritovision.com;
+	dmarc=pass header.from=<rito@ritovision.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774259848;
+	s=zmail; d=ritovision.com; i=rito@ritovision.com;
+	h=Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Date:Message-Id:Message-Id:Subject:Subject:Cc:Cc:From:From:To:To:References:In-Reply-To:Reply-To;
+	bh=hJUxfGUSHiaElRZYzXglO2jCav3ZlOnkwh4WOSBrvcA=;
+	b=kshbpdY0KeValy1cofO/sSYhF0yN88feMcvoKbeM35VMejdDTMP95w7wG243lbp0
+	piH4FNklN1CfCfbyztE0yNnxgQcwHXmSXpNe1kOsLmOpIXLT7YFkyvm3gt+lixK+hEz
+	8p8RaA/HbFPSCwWPD/QOwoN+s64AX6A3ezVl5Tsw=
+Received: by mx.zohomail.com with SMTPS id 1774259846072979.4009215937739;
+	Mon, 23 Mar 2026 02:57:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Date: Mon, 23 Mar 2026 17:29:21 +0900
-From: weibu@redadmin.org
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: corbet@lwn.net, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: ja_JP: process: translate second half of 'Describe
- your changes'
-In-Reply-To: <68e16682-aba3-4e10-8776-1c04c55b7ddc@gmail.com>
-References: <20260309105015.309116-1-weibu@redadmin.org>
- <68e16682-aba3-4e10-8776-1c04c55b7ddc@gmail.com>
-Message-ID: <ab5ea24af2b342e119d13db0447a4987@redadmin.org>
-X-Sender: weibu@redadmin.org
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 23 Mar 2026 05:57:23 -0400
+Message-Id: <DHA2MFSL71FH.1Z930JBKI8AOE@ritovision.com>
+Subject: Re: [PATCH v2 0/1] docs: examples of pages affected by C API
+ signature overflow
+Cc: "Shuah Khan" <skhan@linuxfoundation.org>,
+ <linux-kernel@vger.kernel.org>, <rdunlap@infradead.org>
+From: "Rito Rhymes" <rito@ritovision.com>
+To: "Jonathan Corbet" <corbet@lwn.net>, "Rito Rhymes" <rito@ritovision.com>,
+ <linux-doc@vger.kernel.org>
+X-Mailer: aerc 0.21.0
+References: <20260321142559.26005-2-rito@ritovision.com>
+ <20260322193740.68784-1-rito@ritovision.com>
+ <874im7eh6e.fsf@trenco.lwn.net>
+In-Reply-To: <874im7eh6e.fsf@trenco.lwn.net>
+X-ZohoMailClient: External
 
-Hi Akira-san,
+Thank you for the feedback.
 
-Thank you very much for your review and for your kind message.
+I'll put some examples in the changelogs with versioned URLs and
+reroll them without a cover letter.
 
-I appreciate your taking the time to look at the patch.
-Thank you also for letting me know about the minor translation issues.
+> The cover letter tells reviewers what the series as a whole does
 
-If you are willing to prepare a follow-up patch, I would greatly 
-appreciate it.
-I am also glad that the reason for the line wrapping makes sense.
+Admittedly, I knew including a cover letter for a single patch was
+non-standard. Given the quantity of examples I aimed to include,
+I didn't think it acceptable to include it all in the changelog, but I
+knew having the examples was important for testing, so I repurposed the
+cover letter as the vehicle for including them. I'll lay off that.
 
-Thank you again for your help and support.
+> In this case, some examples of the problem being solved are certainly
+> warranted, though perhaps not so many as given here.
 
-Best regards,
-Akiyoshi Kurita
+I'll scale it down to just a few for the rerolls in the patchlogs.
 
-2026-03-23 17:11 に Akira Yokosawa さんは書きました:
-> Hi,
-> 
-> Sorry for the late response.
-> 
-> On Mon,  9 Mar 2026 19:50:15 +0900, Akiyoshi Kurita wrote:
->> Translate the remaining part of the "Describe your changes" section in
->> Documentation/translations/ja_JP/process/submitting-patches.rst.
->> 
->> Follow review comments on wording and line wrapping, and cover 
->> guidance
->> on self-contained patch descriptions, imperative mood, commit
->> references, and Link:/Closes:/Fixes: tags.
->> 
->> Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
-> 
-> Acked-by: Akira Yokosawa <akiyks@gmail.com>
-> 
-> I have noticed a couple of minor translation issues in this patch,
-> but I'd rather submit a patch on top of this, rather than comment on
-> those issues in English.
-> 
-> I guess I can prepare a follow-up patch within a week.
-> 
-> By the way, now I see why Kurita-san is wrapping lines at 30 wide-chars
-> or so.  I guess they are broken that way so that each line corresponds
-> to that in the English text.  That makes sense.
-> 
-> Thanks, Akira
-> 
->> ---
->>  .../ja_JP/process/submitting-patches.rst      | 84 
->> +++++++++++++++++++
->>  1 file changed, 84 insertions(+)
->> 
-> [...]
+FWIW my rationale was clear:
+
+"Is this issue a significant enough pattern to justify the risk of
+regressions and the review bandwidth required to address it?"
+
+^ I thought it was important to preempt that question given the size
+of this repo, assuming layout issues aren't exactly top of mind and
+that the potential changes may have systemic effects to consider.
+
+I did an audit for each of the layout fixes and resolved that if I
+couldn't find 10 instances of an issue, it would not be worthwhile or
+defensible to push. As a first-time contributor here, I figured showing
+a concrete list of examples I found was preferable to a take-my-word-
+for-it description of each issue's scale while showing only 1 or 2
+examples.
+
+> The names of HTML files are perhaps not ideal; since you're
+> talking about docs.kernel.org in particular, you could give URLs
+> that people could view directly.
+> So for example
+>
+> https://docs.kernel.org/6.19/core-api/genalloc.html
+>
+> Note the explicit version so that the problem will be findable in the
+> distant future, even after the fix is applied.
+
+Yeah that approach makes more sense; the versioning anchors the fix
+well for future. I had used neutral HTML file names with local user
+testing in mind where the canonical domain wouldn't be used now or in
+post-fix source trees.
+
+Rito
