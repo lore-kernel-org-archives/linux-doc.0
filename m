@@ -1,540 +1,227 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E8FA2BD5A8
-	for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 10:30:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B73CB3859D4
+	for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 10:34:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774261860; cv=none; b=ptC+MjoDfMqHUcqMS0THNxs3j1x2CuT0S9hunrveuz6BUqXwxiu4gNSsscxzhuByxTdYwtncTXdDjcaz72+G4L3+ch8vkJEdPyvgJD97KcJ3X7FmtED6jmQapOFnZTI24lnusEdVNO4KSVWiN/8uePi0IYxCMFPU+xsGx9Deky4=
+	t=1774262087; cv=none; b=U857aL+2F/EqLlHdDgJRNgxZq9opJFd4FQsGa9Gi9hcKcgSEx8exyfP44uteqqayfK1D1dTUNpE4UBU01Hx0oo5P21jug8PADPipABvPmG4Cz5y/KeZwsaqjpAHsDoKiZoEtF9///3rBNrYqIw6/QR9bUIv83p5mhx2RXiyLXMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774261860; c=relaxed/simple;
-	bh=9BTalxwlh1Mh2scj8wMZQq0AwVPesNF38J9Sd1pnlqg=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=PE1SbjzqMuyEAYxHzw3tGug7SZq9OoFq6ZG2Hk4Y8bRfYJdcL4eWxMWACyYg7wgn7RTZmh+moraiJbLtzoRbUNecEylfF73hl9yzxMqodn/RqmyHEfJqN2GBETdn/poj2YO18RAOpEe1eZwoiYZNLfYe1fncXGpyluNmW4zmVxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Yjj71JNm; arc=none smtp.client-ip=209.85.221.41
+	s=arc-20240116; t=1774262087; c=relaxed/simple;
+	bh=mZ0McTWcGztL7qdM6zf7TJThxnCQDdRXIOTXjADCJGs=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iQ20Hs70dcgvv0eQz1Z0ILbKnmOOdAun+IFWZA8wK1IM4FIBbEN+HmSTiLugIgxJiev2j2CAYy+N1HPRf0xAgT8V8zZseDOQgBVVpMADOzhq6H6R1ViFsGCWZc/DsipxL7YtdBpd56aVRT72fechL/bUfUDVHuH/eWk9UWXBR5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fnz63AHs; arc=none smtp.client-ip=209.85.221.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yjj71JNm"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-439b2965d4bso1821355f8f.2
-        for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 03:30:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fnz63AHs"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-43b3f91a7abso1719f8f.1
+        for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 03:34:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774261857; x=1774866657; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=FAUC7EMC761kM0AB4QTI5/vhwcsmLlwu3yojYOSJN0E=;
-        b=Yjj71JNmxi4eJ88Tuv2R58gSrZpe8jl4ICrYgz3NAmse+MNKpirWzEgeYabhCpMxpT
-         /qmsk3RZVsyFTdwFRE1QSeG+yIHZHzIIKR1Y7C5f3pvcqecXSBNW6W90e6LE9jHRdc8G
-         nlI0UVc0k7RDcj8nl8LsyBQq89vtYGOxl6HaSM+wGfXp8raYLM/MmjY3hO/iQJr0vi3u
-         Rs7tRcKy9SEnEQG7O//nr51AC5fv0A/mTut0bH003ralcroYJ5s5G7tKVtGM9aGVT0sR
-         E1CswvIbVeuACp0oTVZTApIEiJ7CsDZR4Gmu8NPBAe7T5/uSvJFhGSAyZRwRqWOMUI+T
-         xtpw==
+        d=gmail.com; s=20230601; t=1774262084; x=1774866884; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fUqIsDJo6AEfyjgSHUzAgFLd+VFu9ll5ZcHVDadW1X8=;
+        b=fnz63AHsrX9ozrEeV992GJJLxUcx5KIIrsPMTuBEQCACkeMdAK8MX+SBS9unjo4WpT
+         717+ugih3+eR63no1P2b6hesVzzT07XATJnR0rtkK60JkmmxrK1PBTwxRzpcEB6fvNdV
+         4EQCt5k5gTvnL5WfKLejeq6pXpZiesZZ1K9l+F4KcwTxR4vkoWP5XzWvLUphiO2Zf0HU
+         K10uqjgjmcWo8EAwZqxQWUIrTOFXt/0JuyuRoAk7++oE/i0a8kUqCdvhuRea+F8KmE01
+         XCPMyZCw+MbI9rGSqMIqBYfjFrRTIdEp6wyVp4y07VnmJ32gHs++jJHRlqa/ZXy4GSfF
+         4Bxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774261857; x=1774866657;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FAUC7EMC761kM0AB4QTI5/vhwcsmLlwu3yojYOSJN0E=;
-        b=IPEHxXjCGPQ/zyUY8Z3B9/KgsZwMd8rILaRxLZPs5vg51J7jc8w14NsmAPgFc73k0g
-         EJHTA49cH1tK72aP/L0XjvRdRct/XxUeVz5OGbWCX1AgeKu8yY7ZQKq/ld4lumV2wzKW
-         LbJ+v2CYmj3qIw/u80cvoFgKDeaEeilWRZmQfzzBm5DmvZLpJRRBkQ3qamrnP9X4OiuE
-         DiqdY+qlJS7K9XFQL3dLaNiaXLHe/logWIRA60OLNAW6qv8qqu6o8l29D3EsRn+t2FjF
-         3yms7L7byPkpDm1fHKDhusnREEXQtV1phobB78Ap2+CbiAGmQtaKCq77pqPacNNYbqtY
-         XR2g==
-X-Forwarded-Encrypted: i=1; AJvYcCXT/KvMDoCHMizpl2eDKPrtvdwF73DcsDFHu6fqD4dN/ODjPEANt/PegEzD10lzw7uydVabWrlijt8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw/6DMwHI5MpK91M6z0tHhb9FeGOT4qH0er6jtQMSqMuRiWfxSd
-	qvIK4n6f9aPkB7zwW62uNCIB2G3sCcPSTiwhMMTMZdgxmUN3n53j3k16
-X-Gm-Gg: ATEYQzyRFzHttoERsiF0WRSz8eza+ZRCgXD/9qVvkUDxV9eDZRxmC35Pp+gzGmDCQH8
-	gCSjA5Ui3j7YLXwCQsC2ItiHi5bS0bdRyyBgtV0Bb5Sxl7VPleIrjQ98w1fVHfMIETBTB65+2/F
-	X/HIHuwU2swKRmLVO+Xqw1XstPJC8ffOXhU3nEzGpsTvYGGovggfUSTdV9BZASMVaHX/fTYx6jM
-	OVk4riJPKKkbA8S6GNZb9Awuiol8kC6nIbw8dBMTvXPq3ZLHr8E93T3rw2tAFOAgehR1uquzeSq
-	3gHNSd671F3DL98mPFbSJg+9X2FE3fYt2iX80BVMnVfeOtlVnuoo5wfssjOrV0Bwfi3d0rShLIp
-	Az1wpuwxaxxpsU52QaSAWZa2il1VNUVXuU+CZc9c+S6g0rp5hX309oOWyqoyNCkqYT4eiiIfvRu
-	034FJXpWtLmfhm32iCXBIPJiGDUaXBjq4=
-X-Received: by 2002:a05:6000:2601:b0:43b:4352:1bd9 with SMTP id ffacd0b85a97d-43b64290e38mr17288556f8f.48.1774261856543;
-        Mon, 23 Mar 2026 03:30:56 -0700 (PDT)
-Received: from [192.168.1.187] ([148.63.225.166])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b644bd0dcsm27324936f8f.11.2026.03.23.03.30.55
+        d=1e100.net; s=20251104; t=1774262084; x=1774866884;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fUqIsDJo6AEfyjgSHUzAgFLd+VFu9ll5ZcHVDadW1X8=;
+        b=hRgI+rXaEyw/IOdAJKpPivEJVfXkjU0wTdsvXOi4oFxnE4Ald7hurywWBA4eIG3Iz1
+         wOFSgm9U+V06vfPqwbkXzzgN5dYBtlGf54uvchyRBKrPe3y1fVJ3x8WBXK76pLKXJ5HH
+         MBf5jQ9vUmjhy15lhSU5/ZTWHe6JeesE+hrgYB6y2czwhx0xmRi1rGcH5Rh5bQU196yQ
+         LooQvqJaniuvVzB5NlKXsZbXm5mEpnl2X+K641+TKs8o8QyzUT3mQ29xV47uwH1NeghR
+         FOOE+hUzPQwVjOYxj9KdbRKImSAJRFBtlmpXoAGL9FFhhKy6zldT9trWwlSl60oUSmns
+         1/AQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU5OZ0k1s65kcWIRJpfGNcl5I7cgbD38kpwypqYU7pW2tNM1B/ga+WHKz8d6ZkM7b2ODQocCr3/IR4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxYbu1eRYWaZgT0/DJjrT/9P9UsG/J9oPTtB6FEDTNHfqQvykGD
+	Bf8fqUa3nOqLGb+3FD7SHjAT1Ch4kV1NmZVoCv5VMCdKa3Ln82Bf7yvH
+X-Gm-Gg: ATEYQzx6uULaykSRvfyEt+Z4obqfHYBSJeCVXV7L6bEYmgdAlx6DyyWHdTlqWS88+aE
+	XCvRk0CpaK8drL9oxNsgmL05PDEGvsuucbdFQOZVA7ICRoSn2vwXU5EGbG2KOY4MzhHPz5eOSaM
+	1w88v/R3Gcu0/+K/hn53WXVtgTNnIk8VC6Q9vZwyp2Yks/2k4rzpstFJ1Q0IJrMpqftRUNuGrfh
+	2aO8m+PrgIJwm7ubmNAxU/xTqW2UdOQx1X8fGOKfNhszaGZaj971v25wQJHmr1eQR8Nl+wXEjeB
+	56qb8TCJQs5HcOp8FZdQAZvSY9csBbNUg3eoq/viR61nT/qhChhEgdQ8XjFH4SOyABCiISGaSNE
+	TqMM4ilN7IeKfPaVN+iIrF5zS1JFHHfOIv6A/TZuaO9s5LppUVvpBz9Ok32Z43wNn9/CkhT2w65
+	8GGI3b2auwAGnTfAoG7/sJCasEaCAIder55iHacL9ZSCXzpkoJjxvUni8IHncpRjAseBAt3EQKV
+	UoeIP6g7BzTJrDsEJ0HWoV1qeia9oEeoSMDMz2ME6qTOlJClFA=
+X-Received: by 2002:a05:600c:c8a:b0:485:4453:401d with SMTP id 5b1f17b1804b1-486fede7336mr170383695e9.2.1774262083711;
+        Mon, 23 Mar 2026 03:34:43 -0700 (PDT)
+Received: from RDEALENC-L01.ad.analog.com (24.206.116.131.netskope-rdns.com. [24.206.116.131])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486ff118bb4sm124482435e9.2.2026.03.23.03.34.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Mar 2026 03:30:56 -0700 (PDT)
-Message-ID: <77cd7e879a10df791d9d5eb1f16f1654e9904199.camel@gmail.com>
-Subject: Re: [PATCH v7 1/3] dt-bindings: hwmon: Document the LTC4283 Swap
- Controller
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Guenter Roeck <linux@roeck-us.net>, nuno.sa@analog.com
-Cc: linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, Rob Herring
-	 <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
-	 <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
-	 <skhan@linuxfoundation.org>, Linus Walleij <linusw@kernel.org>, Bartosz
- Golaszewski <brgl@kernel.org>
-Date: Mon, 23 Mar 2026 10:31:42 +0000
-In-Reply-To: <c395fad0-ca24-448a-a77f-ddac1cd9f809@roeck-us.net>
-References: <20260314-ltc4283-support-v7-0-1cda48e93802@analog.com>
-	 <20260314-ltc4283-support-v7-1-1cda48e93802@analog.com>
-	 <c395fad0-ca24-448a-a77f-ddac1cd9f809@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 
+        Mon, 23 Mar 2026 03:34:42 -0700 (PDT)
+From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
+Date: Mon, 23 Mar 2026 10:34:37 +0000
+To: Jonathan Cameron <jic23@kernel.org>, 
+	Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>
+Cc: rodrigo.alencar@analog.com, linux-iio@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH RFC v2 2/9] iio: frequency: ad9910: initial driver
+ implementation
+Message-ID: <grjlyz76cmjy7t3ytwycaklauipbqcj7adjr2t7k3axwlayowr@4zbuzehcrpvs>
+References: <20260318-ad9910-iio-driver-v2-0-e79f93becf11@analog.com>
+ <20260318-ad9910-iio-driver-v2-2-e79f93becf11@analog.com>
+ <20260322165058.6c4b193e@jic23-huawei>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260322165058.6c4b193e@jic23-huawei>
 
-On Mon, 2026-03-16 at 08:59 -0700, Guenter Roeck wrote:
-> On Sat, Mar 14, 2026 at 10:52:19AM +0000, Nuno S=C3=A1 via B4 Relay wrote=
-:
-> > From: Nuno S=C3=A1 <nuno.sa@analog.com>
-> >=20
-> > The LTC4283 is a negative voltage hot swap controller that drives an
-> > external N-channel MOSFET to allow a board to be safely inserted and
-> > removed from a live backplane.
-> >=20
-> > Special note for the "adi,vpower-drns-enable" property. It allows to ch=
-oose
-> > between the attenuated MOSFET drain voltage or the attenuated input
-> > voltage at the RTNS pin (effectively choosing between input or output
-> > power). This is a system level decision not really intended to change a=
-t
-> > runtime and hence is being added as a Firmware property.
-> >=20
-> > Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
-> > Signed-off-by: Nuno S=C3=A1 <nuno.sa@analog.com>
->=20
-> Some AI review feedback inline. Feel free to ignore if wrong, but please =
-let me know
-> to help improve it.
->=20
-> Thanks,
-> Guenter
->=20
-> > ---
-> > =C2=A0.../devicetree/bindings/hwmon/adi,ltc4283.yaml=C2=A0=C2=A0=C2=A0=
-=C2=A0 | 272 +++++++++++++++++++++
-> > =C2=A0MAINTAINERS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 6 +
-> > =C2=A02 files changed, 278 insertions(+)
-> >=20
-> > diff --git a/Documentation/devicetree/bindings/hwmon/adi,ltc4283.yaml
-> > b/Documentation/devicetree/bindings/hwmon/adi,ltc4283.yaml
-> > new file mode 100644
-> > index 0000000000000000000000000000000000000000..f82fff1ec7e4407ed63d00f=
-8b1281db459d7221b
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/hwmon/adi,ltc4283.yaml
-> > @@ -0,0 +1,272 @@
-> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/hwmon/adi,ltc4283.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: LTC4283 Negative Voltage Hot Swap Controller
-> > +
-> > +maintainers:
-> > +=C2=A0 - Nuno S=C3=A1 <nuno.sa@analog.com>
-> > +
-> > +description: |
-> > +=C2=A0 The LTC4283 negative voltage hot swap controller drives an exte=
-rnal N-channel
-> > +=C2=A0 MOSFET to allow a board to be safely inserted and removed from =
-a live
-> > +=C2=A0 backplane.
-> > +
-> > +=C2=A0 https://www.analog.com/media/en/technical-documentation/data-sh=
-eets/ltc4283.pdf
-> > +
-> > +properties:
-> > +=C2=A0 compatible:
-> > +=C2=A0=C2=A0=C2=A0 enum:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - adi,ltc4283
-> > +
-> > +=C2=A0 reg:
-> > +=C2=A0=C2=A0=C2=A0 maxItems: 1
-> > +
-> > +=C2=A0 adi,rsense-nano-ohms:
-> > +=C2=A0=C2=A0=C2=A0 description: Value of the sense resistor.
-> > +
-> > +=C2=A0 adi,current-limit-sense-microvolt:
-> > +=C2=A0=C2=A0=C2=A0 description:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 The current limit sense voltage of the =
-chip is adjustable between
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 15mV and 30mV in 1mV steps. This effect=
-ively limits the current
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 on the load.
-> > +=C2=A0=C2=A0=C2=A0 minimum: 15000
-> > +=C2=A0=C2=A0=C2=A0 maximum: 30000
-> > +=C2=A0=C2=A0=C2=A0 default: 15000
-> > +
-> > +=C2=A0 adi,current-limit-foldback-factor:
-> > +=C2=A0=C2=A0=C2=A0 description:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Specifies the foldback factor for the c=
-urrent limit. The current limit
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 can be reduced (folded back) to one of =
-four preset levels. The value
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 represents the percentage of the curren=
-t limit sense voltage to use
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 during foldback. A value of 100 means n=
-o foldback.
-> > +=C2=A0=C2=A0=C2=A0 $ref: /schemas/types.yaml#/definitions/uint32
-> > +=C2=A0=C2=A0=C2=A0 enum: [10, 20, 50, 100]
-> > +=C2=A0=C2=A0=C2=A0 default: 100
-> > +
-> > +=C2=A0 adi,cooling-delay-ms:
-> > +=C2=A0=C2=A0=C2=A0 description:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Cooling time to apply after an overcurr=
-ent fault, FET bad or
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 external fault.
-> > +=C2=A0=C2=A0=C2=A0 enum: [512, 1002, 2005, 4100, 8190, 16400, 32800, 6=
-5600]
-> > +=C2=A0=C2=A0=C2=A0 default: 512
-> > +
-> > +=C2=A0 adi,fet-bad-timer-delay-ms:
-> > +=C2=A0=C2=A0=C2=A0 description:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 FET bad timer delay. After a FET bad st=
-atus condition is detected,
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 this timer is started. If the condition=
- persists for the
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 specified time, the FET is turned off a=
-nd a fault is logged.
-> > +=C2=A0=C2=A0=C2=A0 enum: [256, 512, 1002, 2005]
-> > +=C2=A0=C2=A0=C2=A0 default: 256
-> > +
-> > +=C2=A0 adi,power-good-reset-on-fet:
-> > +=C2=A0=C2=A0=C2=A0 description:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 If set, resets the power good status wh=
-en the MOSFET is turned off.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Otherwise, it resets when a low output =
-voltage is detected.
-> > +=C2=A0=C2=A0=C2=A0 type: boolean
-> > +
-> > +=C2=A0 adi,fet-turn-off-disable:
-> > +=C2=A0=C2=A0=C2=A0 description:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 If set, the MOSFET is turned off immedi=
-ately when a FET fault is detected.
-> > +=C2=A0=C2=A0=C2=A0 type: boolean
->=20
-> Is there a logic inversion between the property name and its description?
-> The property name uses a -disable suffix, but the description says "If se=
-t,
-> the MOSFET is turned off immediately", which sounds like it is enabling t=
-he
-> behavior rather than disabling it.
+On 26/03/22 04:50PM, Jonathan Cameron wrote:
+> On Wed, 18 Mar 2026 17:56:02 +0000
+> Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
+> 
+> > From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> > 
+> > Add the core AD9910 DDS driver infrastructure with single tone mode
+> > support. This includes SPI register access, profile management via GPIO
+> > pins, PLL/DAC configuration from firmware properties, and single tone
+> > frequency/phase/amplitude control through IIO attributes.
+> > 
+> > Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
 
-Yes. Misleading description. This has -disable because the default is the -=
-enable case which
-indeed is the case when the FET is turned off. Will update the description =
-so that is not
-confusing.
+...
+
+> > +#include <linux/array_size.h>
+> > +#include <linux/bitfield.h>
+> > +#include <linux/clk.h>
+> > +#include <linux/delay.h>
+> > +#include <linux/device.h>
+> 
+> Generally can avoid including device.h in favour of more specific
+> headers.  There are a few exceptions where we can't such as actual
+> dereferencing of struct device, but I don't recall seeing a case in here.
+
+I understood that the usage of devm_add_action_or_reset() would justify
+the header.
+
+...
+
+> > +#define AD9910_EXT_INFO(_name, _ident, _shared) { \
+> > +	.name = _name, \
+> > +	.read = ad9910_ext_info_read, \
+> > +	.write = ad9910_ext_info_write, \
+> > +	.private = _ident, \
+> > +	.shared = _shared, \
+> 
+> If there are only a few of these, I'd put it long hand rather than
+> using a macro. Tends to end up easier to read.
+
+Next patches will leverage the macro as more ext_info attrs will be introduced.
+I suppose we can build the foundation for later extension.
+ 
+> > +}
+> > +
+> > +static const struct iio_chan_spec_ext_info ad9910_phy_ext_info[] = {
+> > +	AD9910_EXT_INFO("profile", AD9910_PROFILE, IIO_SEPARATE),
+> > +	AD9910_EXT_INFO("powerdown", AD9910_POWERDOWN, IIO_SEPARATE),
+> > +	{ }
+> > +};
+> 
+> > +static int ad9910_read_raw(struct iio_dev *indio_dev,
+> > +			   struct iio_chan_spec const *chan,
+> > +			   int *val, int *val2, long info)
+> > +{
+> > +	struct ad9910_state *st = iio_priv(indio_dev);
+> > +	u64 tmp64;
+> > +	u32 tmp32;
+> > +
+> > +	guard(mutex)(&st->lock);
+> > +
+> > +	switch (info) {
+> > +	case IIO_CHAN_INFO_FREQUENCY:
+> > +		switch (chan->channel) {
+> > +		case AD9910_CHANNEL_SINGLE_TONE:
+> 
+> I haven't read on yet, but if you never have any other cases in here,
+> perhaps us an if() as it will reduce indent of the code that follows.
+
+Similar, other channels will be introduced here so additions are easier
+to review.
+
+> > +			tmp32 = FIELD_GET(AD9910_PROFILE_ST_FTW_MSK,
+> > +					  st->reg[AD9910_REG_PROFILE(st->profile)].val64);
+> > +			break;
+> > +		default:
+> > +			return -EINVAL;
+> > +		}
+> > +		tmp64 = (u64)tmp32 * st->data.sysclk_freq_hz;
+> > +		*val = upper_32_bits(tmp64);
+> > +		*val2 = upper_32_bits((u64)lower_32_bits(tmp64) * MICRO);
+
+...
 
 > > +
-> > +=C2=A0 adi,tmr-pull-down-disable:
-> > +=C2=A0=C2=A0=C2=A0 description: Disables 2uA pull-down current on the =
-TMR pin.
-> > +=C2=A0=C2=A0=C2=A0 type: boolean
+> > +static int ad9910_cfg_sysclk(struct ad9910_state *st, bool update)
+> > +{
+> > +	u32 tmp32, cfr3 = AD9910_CFR3_OPEN_MSK;
 > > +
-> > +=C2=A0 adi,dvdt-inrush-control-disable:
-> > +=C2=A0=C2=A0=C2=A0 description:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Enables dV/dt inrush control during sta=
-rtup. In dV/dt mode, the inrush
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 current is limited by controlling a con=
-stant output voltage ramp rate.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 If not set, the inrush control mechanis=
-m is active current limiting.
-> > +=C2=A0=C2=A0=C2=A0 type: boolean
->=20
-> Does this description contradict the property name?
-> The -disable suffix implies the property turns off the dV/dt inrush contr=
-ol,
-> but the description states that setting the property enables it.
->=20
-> [ Non-AI note: It seems to me that the description contradicts itself.=
-=20
-> =C2=A0 It first says "_Enables_ ...", then it says "If _not_ set, the inr=
-ush control
-> =C2=A0 mechanism is active current limiting" ]
+> > +	cfr3 |= AD9910_CFR3_VCO_SEL_MSK |
+> > +		FIELD_PREP(AD9910_CFR3_DRV0_MSK, st->data.refclk_out_drv);
+> > +
+> > +	if (st->data.pll_enabled) {
+> > +		tmp32 = st->data.pll_charge_pump_current - AD9910_ICP_MIN_uA;
+> > +		tmp32 = DIV_ROUND_CLOSEST(tmp32, AD9910_ICP_STEP_uA);
+> > +		cfr3 |= FIELD_PREP(AD9910_CFR3_ICP_MSK, tmp32) |
+> > +			AD9910_CFR3_PLL_EN_MSK;
+> > +	} else {
+> > +		cfr3 |= AD9910_CFR3_ICP_MSK |
+> 
+> For this, be explicit what value you are setting, probably be defining a max value
+> that the field can take.  Whilst just setting the mask is the same it doesn't
+> convey the same meaning to someone reading the code.
 
-Yeah same thing as above. I will update this one just by s/Enables/Disables=
-/
+This is just the default value from the datasheet, ICP should not really matter
+when the PLL is disabled, so removing this should be fine.
 
->=20
+> 
+> > +			AD9910_CFR3_REFCLK_DIV_RESETB_MSK |
+> > +			AD9910_CFR3_PFD_RESET_MSK;
+> > +	}
+> > +	st->reg[AD9910_REG_CFR3].val32 = cfr3;
 > > +
-> > +=C2=A0 adi,fault-log-enable:
-> > +=C2=A0=C2=A0=C2=A0 description:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 If set, enables logging fault registers=
- and ADC data into EEPROM upon a
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fault.
-> > +=C2=A0=C2=A0=C2=A0 type: boolean
+> > +	return ad9910_set_sysclk_freq(st, AD9910_PLL_OUT_MAX_FREQ_HZ, update);
+> > +}
 > > +
-> > +=C2=A0 adi,vpower-drns-enable:
-> > +=C2=A0=C2=A0=C2=A0 description:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 If set, enables the attenuated MOSFET d=
-rain voltage to be monitored. This
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 effectively means that the MOSFET power=
- is monitored. If not set, the
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 attenuated input voltage (and hence inp=
-ut power) is monitored.
-> > +=C2=A0=C2=A0=C2=A0 type: boolean
+> > +static int ad9910_parse_fw(struct ad9910_state *st)
+> > +{
+> > +	struct device *dev = &st->spi->dev;
+> > +	u32 tmp;
+> > +	int ret;
 > > +
-> > +=C2=A0 adi,external-fault-fet-off-enable:
-> > +=C2=A0=C2=A0=C2=A0 description: Turns MOSFET off following an external=
- fault.
-> > +=C2=A0=C2=A0=C2=A0 type: boolean
-> > +
-> > +=C2=A0 adi,undervoltage-retry-disable:
-> > +=C2=A0=C2=A0=C2=A0 description: Do not retry to turn on the MOSFET aft=
-er an undervoltage fault.
-> > +=C2=A0=C2=A0=C2=A0 type: boolean
-> > +
-> > +=C2=A0 adi,overvoltage-retry-disable:
-> > +=C2=A0=C2=A0=C2=A0 description: Do not retry to turn on the MOSFET aft=
-er an overvoltage fault.
-> > +=C2=A0=C2=A0=C2=A0 type: boolean
-> > +
-> > +=C2=A0 adi,external-fault-retry-enable:
-> > +=C2=A0=C2=A0=C2=A0 description: Retry to turn on the MOSFET retry afte=
-r an external fault.
-> > +=C2=A0=C2=A0=C2=A0 type: boolean
->=20
-> This isn't a bug, but there's a typo in the description where the word
-> "retry" is repeated.
+> > +	st->data.pll_enabled = device_property_read_bool(dev, "adi,pll-enable");
+> > +	if (st->data.pll_enabled) {
+> > +		tmp = AD9910_ICP_MAX_uA;
+> 
+> Defaulting to max current seems unusual.  What's the motivation? Normal instinct is
+> go minimum if no other info.
 
-ack.
+ICP_MAX_uA leads to 111 in the CFR3_ICP field, which is the default value when the
+device resets or when it powers on. I suppose that if we are not touching that
+property, there would be no reason to change that.
 
->=20
-> > +
-> > +=C2=A0 adi,overcurrent-retries:
-> > +=C2=A0=C2=A0=C2=A0 description: Configures auto-retry following an Ove=
-rcurrent fault.
-> > +=C2=A0=C2=A0=C2=A0 $ref: /schemas/types.yaml#/definitions/string
-> > +=C2=A0=C2=A0=C2=A0 enum: [latch-off, "1", "7", unlimited]
-> > +=C2=A0=C2=A0=C2=A0 default: latch-off
-> > +
-> > +=C2=A0 adi,fet-bad-retries:
-> > +=C2=A0=C2=A0=C2=A0 description:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Configures auto-retry following a FET b=
-ad fault and a consequent MOSFET
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 turn off.
-> > +=C2=A0=C2=A0=C2=A0 $ref: /schemas/types.yaml#/definitions/string
-> > +=C2=A0=C2=A0=C2=A0 enum: [latch-off, "1", "7", unlimited]
-> > +=C2=A0=C2=A0=C2=A0 default: latch-off
-> > +
-> > +=C2=A0 adi,pgio1-func:
-> > +=C2=A0=C2=A0=C2=A0 description: Configures the function of the PGIO1 p=
-in.
-> > +=C2=A0=C2=A0=C2=A0 $ref: /schemas/types.yaml#/definitions/string
-> > +=C2=A0=C2=A0=C2=A0 enum: [inverted_power_good, power_good, gpio]
-> > +=C2=A0=C2=A0=C2=A0 default: inverted_power_good
-> > +
-> > +=C2=A0 adi,pgio2-func:
-> > +=C2=A0=C2=A0=C2=A0 description: Configures the function of the PGIO2 p=
-in.
-> > +=C2=A0=C2=A0=C2=A0 $ref: /schemas/types.yaml#/definitions/string
-> > +=C2=A0=C2=A0=C2=A0 enum: [inverted_power_good, power_good, gpio, activ=
-e_current_limiting]
-> > +=C2=A0=C2=A0=C2=A0 default: inverted_power_good
-> > +
-> > +=C2=A0 adi,pgio3-func:
-> > +=C2=A0=C2=A0=C2=A0 description: Configures the function of the PGIO3 p=
-in.
-> > +=C2=A0=C2=A0=C2=A0 $ref: /schemas/types.yaml#/definitions/string
-> > +=C2=A0=C2=A0=C2=A0 enum: [inverted_power_good_input, power_good_input,=
- gpio]
-> > +=C2=A0=C2=A0=C2=A0 default: inverted_power_good_input
-> > +
-> > +=C2=A0 adi,pgio4-func:
-> > +=C2=A0=C2=A0=C2=A0 description: Configures the function of the PGIO4 p=
-in.
-> > +=C2=A0=C2=A0=C2=A0 $ref: /schemas/types.yaml#/definitions/string
-> > +=C2=A0=C2=A0=C2=A0 enum: [inverted_external_fault, external_fault, gpi=
-o]
-> > +=C2=A0=C2=A0=C2=A0 default: inverted_external_fault
-> > +
-> > +=C2=A0 adi,gpio-on-adio1:
-> > +=C2=A0=C2=A0=C2=A0 description: If set, the ADIO1 pin is used as a GPI=
-O.
-> > +=C2=A0=C2=A0=C2=A0 type: boolean
-> > +
-> > +=C2=A0 adi,gpio-on-adio2:
-> > +=C2=A0=C2=A0=C2=A0 description: If set, the ADIO2 pin is used as a GPI=
-O.
-> > +=C2=A0=C2=A0=C2=A0 type: boolean
-> > +
-> > +=C2=A0 adi,gpio-on-adio3:
-> > +=C2=A0=C2=A0=C2=A0 description: If set, the ADIO3 pin is used as a GPI=
-O.
-> > +=C2=A0=C2=A0=C2=A0 type: boolean
-> > +
-> > +=C2=A0 adi,gpio-on-adio4:
-> > +=C2=A0=C2=A0=C2=A0 description: If set, the ADIO4 pin is used as a GPI=
-O.
-> > +=C2=A0=C2=A0=C2=A0 type: boolean
->=20
-> Does this dependency block force a redundant specification of adi,pgio4-f=
-unc?
-> The default for adi,pgio4-func is inverted_external_fault, which means th=
-e
-> default hardware state already supports external fault features.
-> If a device tree legitimately omits adi,pgio4-func to rely on that defaul=
-t,
-> will it fail schema validation here since the dependencies keyword strict=
-ly
-> checks for the literal presence of properties without injecting defaults?
+...
 
-Fair point. I guess it will fail but the alternative is to not have any con=
-strain at all so
-maybe worth it to be explicit in here?
+-- 
+Kind regards,
 
-- Nuno S=C3=A1
-
->=20
-> > +
-> > +=C2=A0 gpio-controller: true
-> > +
-> > +=C2=A0 '#gpio-cells':
-> > +=C2=A0=C2=A0=C2=A0 const: 2
-> > +
-> > +dependencies:
-> > +=C2=A0 adi,gpio-on-adio1:
-> > +=C2=A0=C2=A0=C2=A0 - gpio-controller
-> > +=C2=A0=C2=A0=C2=A0 - '#gpio-cells'
-> > +=C2=A0 adi,gpio-on-adio2:
-> > +=C2=A0=C2=A0=C2=A0 - gpio-controller
-> > +=C2=A0=C2=A0=C2=A0 - '#gpio-cells'
-> > +=C2=A0 adi,gpio-on-adio3:
-> > +=C2=A0=C2=A0=C2=A0 - gpio-controller
-> > +=C2=A0=C2=A0=C2=A0 - '#gpio-cells'
-> > +=C2=A0 adi,gpio-on-adio4:
-> > +=C2=A0=C2=A0=C2=A0 - gpio-controller
-> > +=C2=A0=C2=A0=C2=A0 - '#gpio-cells'
-> > +=C2=A0 adi,external-fault-retry-enable:
-> > +=C2=A0=C2=A0=C2=A0 - adi,pgio4-func
-> > +=C2=A0 adi,external-fault-fet-off-enable:
-> > +=C2=A0=C2=A0=C2=A0 - adi,pgio4-func
-> > +
-> > +required:
-> > +=C2=A0 - compatible
-> > +=C2=A0 - reg
-> > +=C2=A0 - adi,rsense-nano-ohms
-> > +
-> > +allOf:
-> > +=C2=A0 - if:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 properties:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 adi,pgio1-func:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const: gpio
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 required:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - adi,pgio1-func
-> > +=C2=A0=C2=A0=C2=A0 then:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 required:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - gpio-controller
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - '#gpio-cells'
-> > +
-> > +=C2=A0 - if:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 properties:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 adi,pgio2-func:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const: gpio
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 required:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - adi,pgio2-func
-> > +=C2=A0=C2=A0=C2=A0 then:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 required:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - gpio-controller
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - '#gpio-cells'
-> > +
-> > +=C2=A0 - if:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 properties:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 adi,pgio3-func:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const: gpio
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 required:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - adi,pgio3-func
-> > +=C2=A0=C2=A0=C2=A0 then:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 required:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - gpio-controller
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - '#gpio-cells'
-> > +
-> > +=C2=A0 - if:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 properties:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 adi,pgio4-func:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const: gpio
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 required:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - adi,pgio4-func
-> > +=C2=A0=C2=A0=C2=A0 then:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 properties:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 adi,external-fault-retry-en=
-able: false
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 adi,external-fault-fet-off-=
-enable: false
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 required:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - gpio-controller
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - '#gpio-cells'
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +=C2=A0 - |
-> > +=C2=A0=C2=A0=C2=A0 i2c {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #address-cells =3D <1>;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #size-cells =3D <0>;
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 swap-controller@15 {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 com=
-patible =3D "adi,ltc4283";
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 reg=
- =3D <0x15>;
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 adi=
-,rsense-nano-ohms =3D <500>;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 adi=
-,current-limit-sense-microvolt =3D <25000>;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 adi=
-,current-limit-foldback-factor =3D <10>;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 adi=
-,cooling-delay-ms =3D <8190>;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 adi=
-,fet-bad-timer-delay-ms =3D <512>;
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 adi=
-,external-fault-fet-off-enable;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 adi=
-,pgio4-func =3D "external_fault";
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 adi=
-,gpio-on-adio1;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 adi=
-,pgio1-func =3D "gpio";
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 gpi=
-o-controller;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #gp=
-io-cells =3D <2>;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 };
-> > +=C2=A0=C2=A0=C2=A0 };
-> > +...
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 830c6f076b0029f0ff1abee148ad0e1905a60e82..13ae2f3db449e5fd3a7d0fb=
-ac92aabdc01734ba9 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -15141,6 +15141,12 @@ F:	Documentation/devicetree/bindings/hwmon/adi=
-,ltc4282.yaml
-> > =C2=A0F:	Documentation/hwmon/ltc4282.rst
-> > =C2=A0F:	drivers/hwmon/ltc4282.c
-> > =C2=A0
-> > +LTC4283 HARDWARE MONITOR AND GPIO DRIVER
-> > +M:	Nuno S=C3=A1 <nuno.sa@analog.com>
-> > +L:	linux-hwmon@vger.kernel.org
-> > +S:	Supported
-> > +F:	Documentation/devicetree/bindings/hwmon/adi,ltc4283.yaml
-> > +
-> > =C2=A0LTC4286 HARDWARE MONITOR DRIVER
-> > =C2=A0M:	Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>
-> > =C2=A0L:	linux-hwmon@vger.kernel.org
-> >=20
-> > --=20
-> > 2.51.0
-> >=20
-> >=20
-> >=20
+Rodrigo Alencar
