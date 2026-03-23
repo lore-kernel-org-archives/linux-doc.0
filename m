@@ -1,170 +1,143 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C98513C198A;
-	Mon, 23 Mar 2026 16:44:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00A563BF665;
+	Mon, 23 Mar 2026 16:49:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774284276; cv=none; b=XmOS0eUCy55CmzflKpUAqJ1U+tJBExYabonf/KZfZc9oiDs97TqrHluK0OWBPCmuxiRflCTuG8d05mzIgqY07/01qakNbVJRqBQbrS/uODKDwgIu46F6tYwHIkWyX1RcQQek6rcu3ligQetYwf5RIGB8VFeGLyIHt2SWTyeRZEA=
+	t=1774284550; cv=none; b=VQjyJ7iQGJM6Od3rD5GMBrch6qOa/URftvPPsKmJFVTQ8kMLdyOAj9GhkuzoC/v+2oDJvhP4JH/G/ucFJF0/FWV4SP5TzQHK9KOy48RGJ/4nDN5F3CyMyTbjtxZXO3o1XCIlGFJUHB2/+zgym4krJL5keAy9A3ghVzIEiG6H+jw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774284276; c=relaxed/simple;
-	bh=rDr6NT1Sv35coLIThTn5ymCPYQNnEGzN4OhDYsaf3R8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iC9zjGIcV/38d8pbvFTogYGedhIb8St5QE+6wev6kqyh9Kr1/bQP8QDSJZLUrpcIQPBaJXO45uZN46WSkxUE5BKll9gsAbq526rpz/6b833moRcuCZl3+MtiyRZus55ozv6AqEN5Vd29RKGXXs/irS3Mjsr1lTYB0jmq7Wwit9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=dlZIzt5Y; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
+	s=arc-20240116; t=1774284550; c=relaxed/simple;
+	bh=EHB56yz9Q2YdtCy/0KpSoteN7vl9bwzv8n9uiKRf7Dk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XAan5cx6J+epvf4x+cQJXDdOZVA9d4YflwSC+QfjG1ALrTWw/ayqJcsJO3s56bKNE9ujNk5ZPmsQVYvK3nset/M0tUwJ3baPxkVFIhJcsA73GXghzrxTi1u0Fi2AFaa4izV+b0VNIY/vjoL7PmWMpJlH649GHOkX//OxwaZMMwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FF1zUqht; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="dlZIzt5Y"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Reply-To:Content-ID:Content-Description;
-	bh=u646cOHMJ/zTHL9+VZ4W7Ux0q5cDJeWhhX/W1yOam3I=; b=dlZIzt5YzevTl4QnSJxxDuhppU
-	q2WiFtssembwHpot97e7p66yyqpF3dN8xA6eo3mU9Y5cs77fG/ib/E0pmR2yPSYUbOk1yB04ldCYA
-	8ZSzKzhPXOJ2uxLAeNtLzVEnC72HyX/Da0COA18pwxZ18OR3/xTPzoczvd+eOfdbXU+oe4D6zXNln
-	RL3AID6EDlGZkPD4dqQGcVL8hyyuo84fScfgh1+HpHr0th+N7IyqowEsgziGLLV0rZFhpAPGgdSUN
-	uSgV3My9CRMDXuTe1oUCC4dNUN3U7nThOJTD+Dmv8QRP2jO2Jg1/VT/h7vj784PI985iF8yh77g2G
-	eh4Qqoxg==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.94.2)
-	(envelope-from <leitao@debian.org>)
-	id 1w4iMe-007fRI-16; Mon, 23 Mar 2026 16:42:50 +0000
-Date: Mon, 23 Mar 2026 09:42:38 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Jinjie Ruan <ruanjinjie@huawei.com>
-Cc: corbet@lwn.net, skhan@linuxfoundation.org, catalin.marinas@arm.com, 
-	will@kernel.org, chenhuacai@kernel.org, kernel@xen0n.name, maddy@linux.ibm.com, 
-	mpe@ellerman.id.au, npiggin@gmail.com, chleroy@kernel.org, pjw@kernel.org, 
-	palmer@dabbelt.com, aou@eecs.berkeley.edu, alex@ghiti.fr, tglx@kernel.org, 
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com, 
-	robh@kernel.org, saravanak@kernel.org, akpm@linux-foundation.org, bhe@redhat.com, 
-	vgoyal@redhat.com, dyoung@redhat.com, rdunlap@infradead.org, peterz@infradead.org, 
-	feng.tang@linux.alibaba.com, pawan.kumar.gupta@linux.intel.com, dapeng1.mi@linux.intel.com, 
-	kees@kernel.org, elver@google.com, paulmck@kernel.org, lirongqing@baidu.com, 
-	safinaskar@gmail.com, rppt@kernel.org, ardb@kernel.org, jbohac@suse.cz, 
-	cfsworks@gmail.com, osandov@fb.com, tangyouling@kylinos.cn, 
-	sourabhjain@linux.ibm.com, ritesh.list@gmail.com, eajames@linux.ibm.com, 
-	songshuaishuai@tinylab.org, kevin.brodsky@arm.com, samuel.holland@sifive.com, 
-	vishal.moola@gmail.com, junhui.liu@pigmoral.tech, coxu@redhat.com, liaoyuanhong@vivo.com, 
-	fuqiang.wang@easystack.cn, x86@kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, loongarch@lists.linux.dev, 
-	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
-	kexec@lists.infradead.org
-Subject: Re: [PATCH v9 4/5] arm64: kexec: Add support for crashkernel CMA
- reservation
-Message-ID: <acFtMLyCWbYOyFZT@gmail.com>
-References: <20260323072745.2481719-1-ruanjinjie@huawei.com>
- <20260323072745.2481719-5-ruanjinjie@huawei.com>
- <acETyW3FYaWCShUc@gmail.com>
- <a5694ee0-7a95-4c15-6775-990d70c8d77b@huawei.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FF1zUqht"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 714D2C4CEF7;
+	Mon, 23 Mar 2026 16:49:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774284549;
+	bh=EHB56yz9Q2YdtCy/0KpSoteN7vl9bwzv8n9uiKRf7Dk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=FF1zUqhtJg9+qUTuYWgAvYr63kc903U588Br0VefAPGuMNRJrXMEwgSxdyV7sdXnB
+	 J/2qvzXyXMu0oTi+kMqUwBG7cN6MPjfmygMis3jSHM0IIOfZwqZfWsZ6ZRJLcCeF6W
+	 gZ0/hziE1LcAll3J4HkHSd009maWB7ZZuJp8eKFgbaIT6xCeIJqShQSKze0gSKd2uF
+	 uJPiIg1dFZ3o4lmmBbSe2Co9LxJ5GYpgrq/RiKfQ0i7LqJSGE3s/drPCx6XfUdidTQ
+	 YBymox/1Wtf/0r+Rr68GSlvz4+5xIQqinkwQjsMXbUuBXSzz64W1heVtpBHdZ1ZsI3
+	 YwZjkDJhNTwDQ==
+From: Sasha Levin <sashal@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>
+Cc: Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Petr Mladek <pmladek@suse.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	David Gow <davidgow@google.com>,
+	Kees Cook <kees@kernel.org>,
+	Greg KH <gregkh@linuxfoundation.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Helge Deller <deller@gmx.de>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Juergen Gross <jgross@suse.com>,
+	James Bottomley <James.Bottomley@HansenPartnership.com>,
+	Alexey Dobriyan <adobriyan@gmail.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	x86@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-modules@vger.kernel.org,
+	bpf@vger.kernel.org,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 0/2] kallsyms: show typed function parameters in oops/WARN dumps
+Date: Mon, 23 Mar 2026 12:48:55 -0400
+Message-ID: <20260323164858.1939248-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <a5694ee0-7a95-4c15-6775-990d70c8d77b@huawei.com>
-X-Debian-User: leitao
 
-On Mon, Mar 23, 2026 at 07:17:21PM +0800, Jinjie Ruan wrote:
-> 
-> 
-> On 2026/3/23 18:20, Breno Leitao wrote:
-> > On Mon, Mar 23, 2026 at 03:27:44PM +0800, Jinjie Ruan wrote:
-> >> Commit 35c18f2933c5 ("Add a new optional ",cma" suffix to the
-> >> crashkernel= command line option") and commit ab475510e042 ("kdump:
-> >> implement reserve_crashkernel_cma") added CMA support for kdump
-> >> crashkernel reservation.
-> >>
-> >> Crash kernel memory reservation wastes production resources if too
-> >> large, risks kdump failure if too small, and faces allocation difficulties
-> >> on fragmented systems due to contiguous block constraints. The new
-> >> CMA-based crashkernel reservation scheme splits the "large fixed
-> >> reservation" into a "small fixed region + large CMA dynamic region": the
-> >> CMA memory is available to userspace during normal operation to avoid
-> >> waste, and is reclaimed for kdump upon crash—saving memory while
-> >> improving reliability.
-> >>
-> >> So extend crashkernel CMA reservation support to arm64. The following
-> >> changes are made to enable CMA reservation:
-> >>
-> >> - Parse and obtain the CMA reservation size along with other crashkernel
-> >>   parameters.
-> >> - Call reserve_crashkernel_cma() to allocate the CMA region for kdump.
-> >> - Include the CMA-reserved ranges for kdump kernel to use.
-> >> - Exclude the CMA-reserved ranges from the crash kernel memory to
-> >>   prevent them from being exported through /proc/vmcore, which is already
-> >>   done in the crash core.
-> >>
-> >> Update kernel-parameters.txt to document CMA support for crashkernel on
-> >> arm64 architecture.
-> >>
-> >> Acked-by: Rob Herring (Arm) <robh@kernel.org>
-> >> Acked-by: Baoquan He <bhe@redhat.com>
-> >> Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> >> Acked-by: Ard Biesheuvel <ardb@kernel.org>
-> >> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
-> >> ---
-> >> v7:
-> >> - Correct the inclusion of CMA-reserved ranges for kdump
-> >>   kernel in of/kexec.
-> >> v3:
-> >> - Add Acked-by.
-> >> v2:
-> >> - Free cmem in prepare_elf_headers()
-> >> - Add the mtivation.
-> >> ---
-> >>  Documentation/admin-guide/kernel-parameters.txt | 2 +-
-> >>  arch/arm64/kernel/machine_kexec_file.c          | 2 +-
-> >>  arch/arm64/mm/init.c                            | 5 +++--
-> >>  drivers/of/fdt.c                                | 9 +++++----
-> >>  drivers/of/kexec.c                              | 9 +++++++++
-> >>  5 files changed, 19 insertions(+), 8 deletions(-)
-> >>
-> >> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> >> index cb850e5290c2..afb3112510f7 100644
-> >> --- a/Documentation/admin-guide/kernel-parameters.txt
-> >> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> >> @@ -1121,7 +1121,7 @@ Kernel parameters
-> >>  			It will be ignored when crashkernel=X,high is not used
-> >>  			or memory reserved is below 4G.
-> >>  	crashkernel=size[KMG],cma
-> >> -			[KNL, X86, ppc] Reserve additional crash kernel memory from
-> >> +			[KNL, X86, ARM64, PPC] Reserve additional crash kernel memory from
-> >>  			CMA. This reservation is usable by the first system's
-> >>  			userspace memory and kernel movable allocations (memory
-> >>  			balloon, zswap). Pages allocated from this memory range
-> >> diff --git a/arch/arm64/kernel/machine_kexec_file.c b/arch/arm64/kernel/machine_kexec_file.c
-> >> index c338506a580b..cc577d77df00 100644
-> >> --- a/arch/arm64/kernel/machine_kexec_file.c
-> >> +++ b/arch/arm64/kernel/machine_kexec_file.c
-> >> @@ -42,7 +42,7 @@ int arch_kimage_file_post_load_cleanup(struct kimage *image)
-> >>  #ifdef CONFIG_CRASH_DUMP
-> >>  unsigned int arch_get_system_nr_ranges(void)
-> >>  {
-> >> -	unsigned int nr_ranges = 2; /* for exclusion of crashkernel region */
-> >> +	unsigned int nr_ranges = 2 + crashk_cma_cnt; /* for exclusion of crashkernel region */
-> > 
-> > You update arch_get_system_nr_ranges() to account for CMA ranges, but
-> > prepare_elf_headers() in the same file (line 51) still has the
-> > hardcoded:
-> > 
-> >         nr_ranges = 2; /* for exclusion of crashkernel region */
-> 
-> I don't see any logic related to prepare_elf_headers() or hardcoded
-> nr_ranges = 2 in the arm64 implementation.
+Building on the lineinfo series, this adds typed function parameter
+display to oops and WARN dumps.  A build-time tool extracts parameter
+names and types from DWARF, and the kernel maps pt_regs to the calling
+convention at crash time.  When BTF is available, struct pointer
+parameters are dereferenced and their members displayed.
 
-Just ignore me here, I've mis applied the patch, and then I got
-arch_get_system_nr_ranges() and prepare_elf_headers(), but, they are the
-same thing at in here.
+Example output from a WARN in a function receiving struct new_utsname *
+(kernel version info) and struct file * parameters:
 
-> > 
-> > and does not exclude CMA ranges from cmem. If the generic crash core
-> > handles CMA exclusion from vmcore, then shouldn't
-> > arch_get_system_nr_ranges() also not need this change?
-> > 
+ ------------[ cut here ]------------
+ WARNING: drivers/tty/sysrq.c:1209 at demo_crash+0xf/0x20 (drivers/tty/sysrq.c:1209)
+ CPU: 2 UID: 0 PID: 323 Comm: bash
+ RIP: 0010:demo_crash+0xf/0x20 (drivers/tty/sysrq.c:1209)
+ ...
+ RDI: ffffffffb8ca8d00
+ RSI: ffffa0a3c250acc0
+ ...
+ Function parameters (paraminfo_demo_crash):
+  uts      (struct new_utsname *) = 0xffffffffb8ca8d00
+   .sysname = "Linux"                        .nodename = "localhost"
+   .release = "7.0.0-rc2-00006-g3190..."     .version = "#45 SMP PRE"
+  file     (struct file *       ) = 0xffffa0a3c250acc0
+   .f_mode = (fmode_t)67993630               .f_op = (struct file_operations *)0xffffffffb7237620
+   .f_flags = (unsigned int)32769            .f_cred = (struct cred *)0xffffa0a3c2e06a80
+   .dentry = (struct dentry *)0xffffa0a3c0978cc0
+   .prev_pos = (loff_t)-1
+ Call Trace:
+  <TASK>
+  write_sysrq_trigger+0x96/0xb0 (drivers/tty/sysrq.c:1222)
+  proc_reg_write+0x54/0xa0 (fs/proc/inode.c:330)
+  vfs_write+0xc9/0x480 (fs/read_write.c:686)
+  ksys_write+0x6e/0xe0 (fs/read_write.c:738)
+  do_syscall_64+0xe2/0x570 (arch/x86/entry/syscall_64.c:62)
+  entry_SYSCALL_64_after_hwframe+0x77/0x7f (arch/x86/entry/entry_64.S:121)
+
+Patch 1 adds the core paraminfo infrastructure (DWARF extraction,
+kernel-side lookup, register-to-parameter mapping, ~1-2 MB overhead).
+Patch 2 adds optional BTF-based struct rendering, gated behind
+CONFIG_KALLSYMS_PARAMINFO_BTF.
+
+Sasha Levin (2):
+  kallsyms: show function parameter info in oops/WARN dumps
+  kallsyms: add BTF-based deep parameter rendering in oops dumps
+
+ .../admin-guide/kallsyms-lineinfo.rst         |  31 +
+ arch/x86/kernel/dumpstack.c                   |   6 +-
+ include/linux/kallsyms.h                      |   9 +
+ init/Kconfig                                  |  40 ++
+ kernel/Makefile                               |   1 +
+ kernel/kallsyms.c                             | 182 ++++++
+ kernel/kallsyms_internal.h                    |   6 +
+ kernel/kallsyms_paraminfo_btf.c               | 199 ++++++
+ lib/Kconfig.debug                             |  11 +
+ lib/tests/Makefile                            |   3 +
+ lib/tests/paraminfo_kunit.c                   | 249 ++++++++
+ scripts/Makefile                              |   3 +
+ scripts/empty_paraminfo.S                     |  18 +
+ scripts/gen_paraminfo.c                       | 597 ++++++++++++++++++
+ scripts/link-vmlinux.sh                       |  44 +-
+ 15 files changed, 1393 insertions(+), 6 deletions(-)
+ create mode 100644 kernel/kallsyms_paraminfo_btf.c
+ create mode 100644 lib/tests/paraminfo_kunit.c
+ create mode 100644 scripts/empty_paraminfo.S
+ create mode 100644 scripts/gen_paraminfo.c
+
+--
+2.51.0
+
