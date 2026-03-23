@@ -1,251 +1,156 @@
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazolkn19012069.outbound.protection.outlook.com [52.103.14.69])
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011023.outbound.protection.outlook.com [52.101.125.23])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BACEF7404E;
-	Mon, 23 Mar 2026 04:16:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.14.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 808A848CFC;
+	Mon, 23 Mar 2026 04:22:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.23
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774239386; cv=fail; b=XC/cnD2V2nyvlZQ0DCiopsGzUq2Ihvo+wmGBdnE6gR/fWrAPD+rUWvrnz9gD0urItOP6lz3SsMency5ZZTTojceuWTgwqlO5cLMHdm7zD7rETKvn34a5806igfRAHnwowxjVV7Pu+ly1+WFMm0IVhw/ibRD812ubYq70Qv9xk4c=
+	t=1774239738; cv=fail; b=J/ycY+EotIxWCEEeYJRMgUSpaK/uF2/PFCIw1bhg//DGw1ascKIbiWmeWic21vVeecnRrK6fjFZox9NlLCodsMenPR2ZmHLhfiw5uZCuzeL2QUnOXhBNa0fPFNUyvYg6/U9SA91giY0JNbTNyYTpv4ZDP4VKjwkTJH0F9p0t+l4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774239386; c=relaxed/simple;
-	bh=BP+bJA2nIZOCZ7m0hQAVim18REWMxqa25vfPNyn7X2Q=;
+	s=arc-20240116; t=1774239738; c=relaxed/simple;
+	bh=W9ysO+r61meBtA32jdvP4vWcEhUrOrqLEcojpiRpfQc=;
 	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=KDe5htSwekqOhhRZoHHJIZ3gHSNE5qHuRtXPRs38W933/OZYQNtjj5Kta80kyCLEUESCr6zeVAiIzaWoa3jIBuK8FYxddT9p4+JgjUFyTtv3sEdlO87dFLlAkw8BL82aQpGBLDJGmwEJ0P0yi06YnoCJud3BeVPt+3hV9RD9CVw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=hkdGdBl4; arc=fail smtp.client-ip=52.103.14.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+	 Content-Type:MIME-Version; b=VQW3NN5Ncpx91E/yD6cqU4nOsfPRkUdM+wtGQJD6gJCGvUxryEmXJ9Mfx9O/pUO5Q08sLJDsoevgyff1dZhtLAqg7gUnVTdRX1Fe0hmmSG3MvvHiNElf90XiDSDeBjv8qNF+gelhinUpYVDxdkfHdkfr31rZdQprDguuuwZwyks=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com; spf=pass smtp.mailfrom=renesas.com; dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b=hr8Rk3uu; arc=fail smtp.client-ip=52.101.125.23
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=renesas.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="hkdGdBl4"
+	dkim=pass (1024-bit key) header.d=renesas.com header.i=@renesas.com header.b="hr8Rk3uu"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dCfOTcVkN+MJK3Jh06UvxjDCUc5A+5aFISjcZJogegWIqsoBoAxYW7++ud2uy0UlKhplHciU6TdfVSuDs2FdQkwQlEL3zYsqQw10VJMAtZH78t3ANVViCgkdasQQirKUuIIU0wi8KyeGq20fP9JLbdpkTSNNgDaBLJmlN3La9MaRjjerdBJnxk/ZpHTCCpThQrpb1Jp+Pwr5UtaMw/ePvbzzLkLpHXNdO3PXke6shBQBsjOmM8e3+W3zVcVL/F+j1lSXMCP87rDr3+Ja6vLcLMqoHpyfvWpuJS8uuGamU4E6A3ccx8wzgQHqfwUrAbPUCXmbG6y0FoAlXHcgq8O23Q==
+ b=uuSJnmydIaME0AEj+dto5rvNMpceRktt+JQ5vDrCM9KLBh+U7X0G6fZa/a5BXvnnq6AjS/nw9d6AB89q4L31H2uJE14KD2p3+CO24YLx3PPnei4ULtx+UNaKkP3StGs9gi8TvBDsdUIWstJ7uKRNS2wiJlBURS4Qr8r0JuQYmEw37t/ykNk99i2JTiVimmCQ6GB0fD7Dy4muc060xSoK72R8Of5PlgliPFcFdBalvjO0tFvdf4Wrt8Hzem6T6sjAjl9vIqjwm7s2GfhLP3ypQNeJmcaEXwa2kPQcqWgQyks2gDJPyrCEsRj0+QOdvQYhy/qL7mxv4qmQrxxFAGSjCg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LCvlBXZ99NDG5pUFS9gt2G6Z2/x0v6v15bYfZuhB25U=;
- b=d9YM24qG78WxbUeoehMX2UN9+YpL7gRbqhFyN9lVphDvbyL+Q9QmLLysGN2xxlGVqfTjAUbU4L+talLB0ww12wh46CJtENV+B8wY51IOAhO247MoW8UW2mo/rs40Rt7tU45VYTez1zAvTSEMfxh7Cxerq+ZKR6mCr3CoYMXD34IVk6fRUCCrWjbWyiwPpkXcxY2hhu/X1JdpbEAdcqa+IssjvxMab/uFJb1DuT4C1NLsirEqNd2/13HYh8QDVE0fr3DXxSHwwQtFHKsLOU7GAp1snrdXN2tv40c0nXZh64kPhHxw7kuUAjDQv4CWVEvjw2Bf5tbLQbpTpHOfAze66g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ bh=W9ysO+r61meBtA32jdvP4vWcEhUrOrqLEcojpiRpfQc=;
+ b=Hrt6htI9PLtqYHhvw3MePValFgn5vxL7a3GRDya2fAtSJ/nz9IRPN7QvGqkCSMao+f9IcRmCFO4AzzjKj88+ayLMHbDiW8ua3Pj2uLpsWHVhkCYenPz4p8AA+YrUST/kEpPu4UZfS3SRMxdzah9fBPrU9qO4xVZtbU/E4lnYDZbAwvPFuKmwt2c8kG7Yufb6CxboKF2+lgtZDHXA8x2pslDfx+k0SwwGkPSFqM7QfQOPGU9eaZDm1/7CW4HnUtPYyO5Nz48Wm/j9egiP+o6Vp723xoeFmaxOGFFLU89gWOxxyoY0NNWkhGfMLBiFfV8J2tvW0Y7qSlPb2MZ1LD7suQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LCvlBXZ99NDG5pUFS9gt2G6Z2/x0v6v15bYfZuhB25U=;
- b=hkdGdBl4GhpKB4eBfHmXOjRFGtlCoLErRHJ3nFK7ly5al1EUpRTQUQ4xXVjZH5Q3Khffc1y8yhyWNYBs+jzN/4aJQsaDLdKKAu6NMgBMT6xJHD0tFplc7xCQS0VKnXkzoU8pMRHxFYAEfGwDg/UJHCb7Qe7Vyoickj7I/o80/WPAMAqXcGcU+xQRM3wOsrXhYupAzfWeyVwF6LYyIP3hJBts9aSr+qB48wCwWAna6oXFI1qGMeG8YkYA9UOSwSULSVHUjKeI/ZUIoZV5kKTLMZXQekpInERU9SbCK2SIIFG2y753n6U9s5bc6EkbWSSYfK+ygfqmqLFPLkJ6cRTcgQ==
-Received: from SN6PR02MB4157.namprd02.prod.outlook.com (2603:10b6:805:33::23)
- by IA0PR02MB9193.namprd02.prod.outlook.com (2603:10b6:208:43a::21) with
+ bh=W9ysO+r61meBtA32jdvP4vWcEhUrOrqLEcojpiRpfQc=;
+ b=hr8Rk3uuwex1RlfxSZVfw3U+x1zz9ZRPZ5BRKNJyHhzf/0v4wZTaRPQEKW6yFjY1FPlIXC3t47dVnP9LUcx2Z81hlyJurKxeawB96WjGNQB5chQSVSEdav9OXStJk9j7xN35XEI7p8CfOMwob6QeZ1oSqFu+4+17fWyjRwyJdgk=
+Received: from TYWPR01MB11935.jpnprd01.prod.outlook.com (2603:1096:400:403::9)
+ by TYCPR01MB6701.jpnprd01.prod.outlook.com (2603:1096:400:9c::11) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.25; Mon, 23 Mar
- 2026 04:16:20 +0000
-Received: from SN6PR02MB4157.namprd02.prod.outlook.com
- ([fe80::900:1ccf:2b1e:52b6]) by SN6PR02MB4157.namprd02.prod.outlook.com
- ([fe80::900:1ccf:2b1e:52b6%6]) with mapi id 15.20.9723.018; Mon, 23 Mar 2026
- 04:16:20 +0000
-From: Michael Kelley <mhklinux@outlook.com>
-To: Long Li <longli@microsoft.com>, "Lorenzo Stoakes (Oracle)"
-	<ljs@kernel.org>, Andrew Morton <akpm@linux-foundation.org>
-CC: Jonathan Corbet <corbet@lwn.net>, Clemens Ladisch <clemens@ladisch.de>,
-	Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, "K . Y . Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, Dexuan
- Cui <decui@microsoft.com>, Alexander Shishkin
-	<alexander.shishkin@linux.intel.com>, Maxime Coquelin
-	<mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger
-	<richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, Bodo Stroesser
-	<bostroesser@gmail.com>, "Martin K . Petersen" <martin.petersen@oracle.com>,
-	David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner
-	<brauner@kernel.org>, Jan Kara <jack@suse.cz>, David Hildenbrand
-	<david@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, Vlastimil
- Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, Suren
- Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jann Horn
-	<jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
-	"linux-stm32@st-md-mailman.stormreply.com"
-	<linux-stm32@st-md-mailman.stormreply.com>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-mtd@lists.infradead.org"
-	<linux-mtd@lists.infradead.org>, "linux-staging@lists.linux.dev"
-	<linux-staging@lists.linux.dev>, "linux-scsi@vger.kernel.org"
-	<linux-scsi@vger.kernel.org>, "target-devel@vger.kernel.org"
-	<target-devel@vger.kernel.org>, "linux-afs@lists.infradead.org"
-	<linux-afs@lists.infradead.org>, "linux-fsdevel@vger.kernel.org"
-	<linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
-	Ryan Roberts <ryan.roberts@arm.com>
-Subject: RE: [PATCH v4 18/21] drivers: hv: vmbus: replace deprecated mmap hook
- with mmap_prepare
-Thread-Topic: [PATCH v4 18/21] drivers: hv: vmbus: replace deprecated mmap
- hook with mmap_prepare
-Thread-Index: AQJN0rqm5S7tosaoM3nkaYB8eJypuAGlwE9MtMwd4aA=
-Date: Mon, 23 Mar 2026 04:16:20 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.31; Mon, 23 Mar
+ 2026 04:22:05 +0000
+Received: from TYWPR01MB11935.jpnprd01.prod.outlook.com
+ ([fe80::dc30:6b24:b7ba:d429]) by TYWPR01MB11935.jpnprd01.prod.outlook.com
+ ([fe80::dc30:6b24:b7ba:d429%4]) with mapi id 15.20.9723.030; Mon, 23 Mar 2026
+ 04:22:05 +0000
+From: Dawei Liu <dawei.liu.jy@renesas.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+CC: "linux@roeck-us.net" <linux@roeck-us.net>, "linux-hwmon@vger.kernel.org"
+	<linux-hwmon@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, "linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>, "robh@kernel.org" <robh@kernel.org>,
+	"krzk+dt@kernel.org" <krzk+dt@kernel.org>, "conor+dt@kernel.org"
+	<conor+dt@kernel.org>, "corbet@lwn.net" <corbet@lwn.net>,
+	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
+	"geert+renesas@glider.be" <geert+renesas@glider.be>, magnus.damm
+	<magnus.damm@gmail.com>, Grant Peltier <grant.peltier.jg@renesas.com>, Linda
+ Xin <linda.xin.jg@renesas.com>, "tabreztalks@gmail.com"
+	<tabreztalks@gmail.com>
+Subject: RE: [PATCH v2 3/3] dt-bindings: hwmon: isl68137: Add compatible
+ strings for RAA228942 and RAA228943
+Thread-Topic: [PATCH v2 3/3] dt-bindings: hwmon: isl68137: Add compatible
+ strings for RAA228942 and RAA228943
+Thread-Index: AQHctn204ex+FeF5rEmz/2sFsNGYCbW5erMAgAIQviA=
+Date: Mon, 23 Mar 2026 04:22:05 +0000
 Message-ID:
- <SN6PR02MB41573DF211DA2469D7FFE892D44BA@SN6PR02MB4157.namprd02.prod.outlook.com>
-References: <cover.1774045440.git.ljs@kernel.org>
- <05467cb62267d750e5c770147517d4df0246cda6.1774045440.git.ljs@kernel.org>
-In-Reply-To:
- <05467cb62267d750e5c770147517d4df0246cda6.1774045440.git.ljs@kernel.org>
-Accept-Language: en-US
+ <TYWPR01MB11935F24356873C46E02FAB5CD54BA@TYWPR01MB11935.jpnprd01.prod.outlook.com>
+References: <20260316053541.3903-1-dawei.liu.jy@renesas.com>
+ <20260318021921.75-1-dawei.liu.jy@renesas.com>
+ <20260318021921.75-4-dawei.liu.jy@renesas.com>
+ <177412601062.18368.450072825684601974.b4-reply@b4>
+In-Reply-To: <177412601062.18368.450072825684601974.b4-reply@b4>
+Accept-Language: en-US, zh-CN
 Content-Language: en-US
 X-MS-Has-Attach:
 X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=renesas.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN6PR02MB4157:EE_|IA0PR02MB9193:EE_
-x-ms-office365-filtering-correlation-id: 39a7b7e5-fd47-45ff-0fe0-08de8892f01f
+x-ms-traffictypediagnostic: TYWPR01MB11935:EE_|TYCPR01MB6701:EE_
+x-ms-office365-filtering-correlation-id: b34c50bb-847d-4524-af32-08de8893bdb7
+x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam:
- BCL:0;ARA:14566002|461199028|31061999003|13091999003|19110799012|8060799015|8062599012|37011999003|15080799012|12121999013|3412199025|440099028|102099032|40105399003|41105399003|53005399003;
+ BCL:0;ARA:13230040|366016|1800799024|376014|7416014|38070700021|18002099003|22082099003|56012099003;
 x-microsoft-antispam-message-info:
- =?us-ascii?Q?/N3H04TX5bQahuSHyUaieq8RAF4eEp0DeU+m1gxuxPYqKo05Rg5bEthYXy0N?=
- =?us-ascii?Q?7SH4HlohLeS6InvGttrjB4SxysDESZLPBoQWfq1pWOWy8V0RwCCEjYRyroMM?=
- =?us-ascii?Q?PiWCMUEwQdoQ2TLCfacF5D5JPl5FfMWhTCjfOmnuJ/XJqM2HhZfJJTCCdP/s?=
- =?us-ascii?Q?mtCJwE/7NlQ1YQBHAsToPL3VKQ//bY73JrFHJAg04TFtTxnVsuYkwaMkaWQ5?=
- =?us-ascii?Q?CjUUcz8WwXXvJ2OrkvZDAxrcu/CsAS+QypPLO+l2y6tER5FdizzmttuZ+RhD?=
- =?us-ascii?Q?vGzzgKeyNib5W5I1Jvqo2LSp9K7+EVQlnLuVvlE+q8Vwi5KiM0cP/1WL4vcl?=
- =?us-ascii?Q?1iFsRh3nMwOMWFNhMVAw4mfIpB/P7NpVPHcaTb18aL01uAuik7JWV1cw0Hk6?=
- =?us-ascii?Q?jHImw/whHJn4lEh8QQZl/kJHUZWrxNIGMXH8e3pLjMsF4yZJJHfbnwO6ti0G?=
- =?us-ascii?Q?fZ2LNG8NCyjQpvHfdOENae8alVB4aqAsrX18h2QLJVjGrCQSvprRgUVMZKGG?=
- =?us-ascii?Q?Oz5G5hw4YCBiRWG0E8UXiKVOnGvk/Tgk2P6wBEEdZ71L1sTSu3cAWHcrmHE/?=
- =?us-ascii?Q?0XGrG/GnnnTmgOM1g1WYEQ68kJBpKBn1vyxZkF63sWG+b1l5ysyjUwbFzLOv?=
- =?us-ascii?Q?ypEv74WbTjJ2SPsrZAZxD2N4IqYbvIq0ZNbroUGEKJNd8LGY6YwHjkHRwxwv?=
- =?us-ascii?Q?NiKKDVYdcKXUf61EB0AKbHXPBq0Eg+b76UpRtHbmbjdIBWfrTUVoo47QXzJU?=
- =?us-ascii?Q?CPMgw3HHhTFXHztdrE1aWtJeiMRbyC/PRiIGxf2atZatkjfe5A+pArLRqnb2?=
- =?us-ascii?Q?fnK7OkffAlcRzD+lkYY14VQG7uew80QoDEVx5mXYq1qBYX+3v8q5qanYVj0C?=
- =?us-ascii?Q?Vpb1FgEwlpgCV13XnGRc6lqclLC5MtsW8kzGgbxMcWyT4LYpKq6WpJtvnpaz?=
- =?us-ascii?Q?HgfFhxUq62jDj6JgzEMEhx7fUrD3V0J6fCfVchBE26lg3WgveIQBCYcK1qEz?=
- =?us-ascii?Q?7bA8gm2IeSLoxeicTkzr1/AzKieOvz+rWKmNOyDMaJ7wmGc=3D?=
+ 1CsoBT+s+sG7gwBu5spjYeO7X1u+gOdvyLFPA5J2xd1A0LCIp1g4jHvHydtmS9bjIbPf/navwqomOPzRUCrZHe/ytVnss+OOu/07S43Rhyipy7n6UH/FxSDYmZcbcePiMtlvsFkeplAtIU2gFvYRJNP8DVmxYX2KcY6LQOn6vKZ9g5NEQRh3rAr9fVzhPHtzP8Wadwvk7j+jyLpP/r31cViMzef3NWkjWSVvnkVjGripoPEvcuiuFmAUizh29dkhl2H9EdVT0JfAA7N9n3U60HHx6mJeVy+jitIdObyW1VXXwuq1RWuekE04n04VJe5GKB8F/UmN+vKt7iDMpmhx16tkVK83M5MkIxKY0XHp1MKnz+PUhonECsYA7rPq4bNVwWDDyZDwLLba3vloTjzyb6QKxWrqMdyP0ayw7vx40qNhq++6JkFclumtWbEfQkms1bkksQl7qly0cMGyNX82STrr1uMPtrrNictVKhPjMbUta2O68cIcpD85HWszcpk+fv7ig5Z7SI7RBAiRmH7m80PT9Wrrkjld3mqHkBWQensgF+QqSH0lmseSe49/S2/tRL/C+NTMl8V1l9MPUwCMJ1NRLoehNWYqq/cArWsFiTqrdOwiOtG3Z+L8irxn3tYl7RsJQ0OoYInwasO/2LjKK5YfimOry6hn/aHT83cuIMSAhEPKVUaXZS27YxDORU5QXK+QUHvXKELeG7L1E1E86KQgOd0VV2cnRBEshAgsQcfxPJi08JBkjogDV8r9NNcrn0xpsX6t3g7oSNLSqtvcGHtUBzbNaJNl4KxbCo1Nj7E=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYWPR01MB11935.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(38070700021)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?pAMnP1LvvhF6KDwQuSIFbjHW8GgI+vXR6DbPhPgwY7SHNdHVXCQ9HaN3O2lo?=
- =?us-ascii?Q?HCs2smjpU0aA6wKe89W5KOYn7KnlqqvDpej/UGUbpFK6dToRKGXKbWQWmvZ6?=
- =?us-ascii?Q?NlQfqGQbgtrVCNczIH2pMIFB7AYgVIGAttry3EdFXRS8nuozl/sWJdCJOzZn?=
- =?us-ascii?Q?TkyDp6mpsaLiXS3/1nJLjfZw94prMwcak27DqlV0HDRYBu9aDnTG3hzT41r/?=
- =?us-ascii?Q?P5mjl4A+bGyp5SSG/h4g6+5VRc9QADCNkq4mSuw0rmINiM5BIiPhqtAv9FG4?=
- =?us-ascii?Q?R/yoiwHjTwrjNf12DhFLgq4pedb/rrhvQTd8ggKIAUdpg7PaAfBooBPoh9YL?=
- =?us-ascii?Q?7OmoCBbOGozkr0ysbUr1C1b+zmCB/2Es32Iq2m5lk8LVZB9Gm6ag0DlYxufH?=
- =?us-ascii?Q?U9dPHDHSFSVFT8PWzB4aB5rIVseQKu0ki7jlUvkPovmqJcZU/D8tQhmIvbw7?=
- =?us-ascii?Q?VBpfOln/+y9OU+idyZmvLe4CZ0hUq81M525qlghOvgy+VlQVBmWfxBJqHjCC?=
- =?us-ascii?Q?zLQC1BW0oSL06F3LsHA2843eMJlIJXFuustI7ZoAAlZicR/qgM0d12P7lSmE?=
- =?us-ascii?Q?zlIJHXS3TFjHV4S+dc/eyEiYVo59KSeiC01WcJMD/8iKrjs3iNmEBMU8yGwk?=
- =?us-ascii?Q?dPqfwplnl4VashuIWIlUh6RDbomjJsbDV7DdWVODh07HelgIsQaNIaCv+2Cn?=
- =?us-ascii?Q?MgCGrxrnbOAOpbMv+0njzuL1fjySU8OC8PsdeNzLJWaacuQrk55yFar9WSUP?=
- =?us-ascii?Q?V9f5oMNkQQr5IwEhiHNg6mGSmnVgWvof/vALd5y/VzeO8nPtoRXfw6uXxBDf?=
- =?us-ascii?Q?usv5O748XBNIuvGWHd54GcnwUC2qnRlemQBMN/cL9LIvL9tbnh5PBKJKJ6P1?=
- =?us-ascii?Q?JDcGYxLcW8fxNyXXyS+FDHrGYW8bz+Q4BlkHrIvxm3qgeoHeSOebN6aA9qTB?=
- =?us-ascii?Q?0pjNBiXu/OJSrn7w9sJHWG1uys2agIEeHFVTSU1jXb0INe2GkG/MbX6dvC7f?=
- =?us-ascii?Q?T+nqZ3S7mwWAQzv/pK/aiNwEPVXWC/0bMgSfXTGSFE2Kq3hRu7pL9R5B4I89?=
- =?us-ascii?Q?rPGPtLKHpG6YW+fSuVD6zzvp7anVQAmcRKM3zfEsI2XBr03XegxQdtxuximM?=
- =?us-ascii?Q?PUXExKxk8G+thuLDCWkertAMsb8HJNm4yv+2cF9tb1b8a124oLTvj2S6hpsh?=
- =?us-ascii?Q?Bf3EFX2CrQUjHdRfZKlKSSAxkujLMJK3AtLx3Q17IPA40QdOFXwQLutI7yxA?=
- =?us-ascii?Q?tFnogOlM9DijqvgOCL8YqXBy9Qr1uY2SFQLb0iaixSXbWow7+fu6Lwl1C4dD?=
- =?us-ascii?Q?HneraP9k0fQ3+IOA4qLCFgZgNR34FAktHImiSbpDkodftG+5+JAh9ZEFtX+n?=
- =?us-ascii?Q?4qbj2yA=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ =?utf-8?B?L3hMaUlFSXJLWlZqU2RvQm43WkxoTFlFUjB4Mk1kdnd3bGgvZWUxMXNZK2dT?=
+ =?utf-8?B?cm1QWTNJQzdXeWgwa3ppalVEU1cxZ0gxM3pEcnpHV0d1Z1YreGwzeTJYVnlQ?=
+ =?utf-8?B?TFk2STVZZjMvK01kNjM1TWRDcTRzWXpZV2pRTUtIVDFVcHExbEhxQmlzOGRC?=
+ =?utf-8?B?UzREd1oyMkUxcm4reDJXVDVxSzRHMDA4NWpxaWdPeVY4SWhiLzQxV2FINkN2?=
+ =?utf-8?B?NHh6NjVSdnFOUHJUOG1URndPS01ia3lMYmpvTEpWZjM2QUMxZzhHVHF4bjNi?=
+ =?utf-8?B?NWNBY2FIZ2l6V3ZEUG5FcVFiREhEYlBMVW1pMVJ5RE5wZFRJRGxaV1B5d2ll?=
+ =?utf-8?B?ZFhvekpoQ3d6MlVRNlpXQ3orRHgybWs2QzMySFBsN2FaamJ2cVpaOXJkVHFQ?=
+ =?utf-8?B?aXloTlJUYnMrYUJLQ21JZmhQZ29DUTZEMUhpSUo2dTFIUStTckkrd3lXTzdz?=
+ =?utf-8?B?MDRML2ljVGZROUxVTmd0bE03d2lDbVBMaFlKY3dSWXhBbnNkWjB2YkV2L1ov?=
+ =?utf-8?B?Tzh0SDhHaGFUQkZDME1LSENmb3puZWJTdTZzUVhKVlpLcW9iWkNPSlZaSnl5?=
+ =?utf-8?B?VXJ2N0N0U254SmU2L0ZFUTJTOGZPRHB1OU4zZkNsYUJ4ckFWeVJBajlENDh5?=
+ =?utf-8?B?Zm1GSmlrd2JjTUNPRTRNZklhMXdFTy9aQThqZ0Npa2ZOdnpGaFRvMm1SUW5C?=
+ =?utf-8?B?YmtLSW9wSElla3FxMEt4QzhMcWhpMXphZEQ1eHd2V054aGcyUUJiR2J3SFYv?=
+ =?utf-8?B?UFA0MkRkM1dqWmVuTEkyTXpHMy9oZ3hSb0RuUXZGRkdNaDRXc1NMNjdpaVJF?=
+ =?utf-8?B?b3htemNkS1NPRkJKZTQ4eTFVNXoxelo4R01KeTJHTWZXUUl5TVFRTVdOR0I2?=
+ =?utf-8?B?VHFXYXBYU3RhYXU2a3V4SlRVRzFyaklGbmtHSy9aa05rcTdlK09mRlhJeFYy?=
+ =?utf-8?B?dThpQzgyZHBHa1lhK3l6K0xFcWxCMThSUzg3WVB5VlVKN1VvR05rNDN5SHBp?=
+ =?utf-8?B?S1JabFdOWFBia2FNSGowOHNXUEtNeGUyQnVsS2tWZ0laTFJTTjBiTCtiUXhM?=
+ =?utf-8?B?L2RSQVZRRnkzYUFuakh5TTBqVjVLTnBwS3A0YWQvZzdmUXp1c09EYnRBeFJj?=
+ =?utf-8?B?NzY4Nld3VVExdFJjcEVoeWF6OW5ZR2NXazN0R1lESXp1SWozUGdYSVpZVEla?=
+ =?utf-8?B?VC81ejJpWmM2Y3JDMERaUVArb3U0MTh3NVdZMUYvNmRVSXFiQjg4NlBGVEVY?=
+ =?utf-8?B?eFQwVmhsZWJFMFhiVkx1Q3VBRFBRS09HanFiSkVmQ3Y2L3puZWJFeTdQZHBn?=
+ =?utf-8?B?RXk1cG8yRHZpMVh0eUVjcDFLRlEzTHhlN0oyOVpqUDZhQ0JuS3o5U28zcFBz?=
+ =?utf-8?B?YUdNemd4Z1RsOFJSR3JkRHpJcit2RUd2SHZQYUdXMGx2L0Zhb2xCZzdPU2I0?=
+ =?utf-8?B?QS83eExkdlRHeWQralNRVDR2bnAyYnhjOW9YT2RaWHQ3MUwraVRZdE9ERjVQ?=
+ =?utf-8?B?Y25ISzNMb1EvamNNTURRYTVWRmJlWWNuaG90N0ZoSFNoRHhyMWxOeEtxdTE3?=
+ =?utf-8?B?dmZpbngrR3hNcjFoRFhjMlgwTUd5aEduZ05TeDMrWUJNNkcwKzZzWFh1bXlE?=
+ =?utf-8?B?c0EvZCtURlRxSC9ZMWdhVVgvZkFhcldTVk9UdUJIbmNHUWhQUHJocFNVSEZ2?=
+ =?utf-8?B?ZkJLT0s1dzI4QkRWSUVBRWpsUEw0MjF2M1p5bCt3VDREbWx3aU9TY21DNC9x?=
+ =?utf-8?B?TWtBRE0zSnZCZGZETGxUY0JVcVJ4SDJBS2pFUElqVFc4UEsvT3hoN3l2UGda?=
+ =?utf-8?B?N1lGZnpqL0VDMVJPdVRpa0ZEL2pFbis3YXJ6RWtiZ2o2WW9rUlh4THBGRnpZ?=
+ =?utf-8?B?S1E0NldhcEo2aTlSQy94K3lEZmxYNDNjRXNCQWdDSldTV2h4R0t6eUxFUk9p?=
+ =?utf-8?B?aCtSbGtIemJVT3JwUEFBdmdnWm4rRm9Vb21UeVNPK2xONDVwY0NEOUpqK2xY?=
+ =?utf-8?B?S0VkdlpSYit5cHM2ZGdOSk9yV0syVlh3dVFRZHAvUEZjVkpRQ2ZjdFM3UmY4?=
+ =?utf-8?B?dzhrYzdwZDFqY2pHTjVaR2plaTAveWQ0aWFVcjkvRHo2K0ZEWTZiaHFpUkJx?=
+ =?utf-8?B?bHMyTGZGQ1ZmOVFFanhjVXZNS0JQejhBam5McGx5YmhnQnlyaXhjeGkrYjBm?=
+ =?utf-8?B?djExUlhOaEpFbE5vdFJqK0JQcHRMNWhBRFF4TFllVUpCaTIrVU90NytFRVN2?=
+ =?utf-8?B?ekVrUVRUMUlkYVA3Rm1BenB3Rml5SlRmTmhQQXgrbnQvcTFxTkZIdHFwd0M1?=
+ =?utf-8?B?aXR5MmIrdUdaM0tkanNXaENMOFpqTlc5VDNkV2tZWFEwY3orbmFWQT09?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
+X-OriginatorOrg: renesas.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR02MB4157.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 39a7b7e5-fd47-45ff-0fe0-08de8892f01f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Mar 2026 04:16:20.7940
+X-MS-Exchange-CrossTenant-AuthSource: TYWPR01MB11935.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b34c50bb-847d-4524-af32-08de8893bdb7
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Mar 2026 04:22:05.7110
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR02MB9193
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: BoCAm7lHIBr2pp3qEBJ0Yt0m2KokcKmYB/v0RXyXgDF6Dm7rujX3cFrVK0g5eWwhT/e9d1qijEw8wE3TP6J2PFFRQSfQPM5Q07fmwq0gcxE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYCPR01MB6701
 
-From: Lorenzo Stoakes (Oracle) <ljs@kernel.org> Sent: Friday, March 20, 202=
-6 3:40 PM
->=20
-> The f_op->mmap interface is deprecated, so update the vmbus driver to use
-> its successor, mmap_prepare.
->=20
-> This updates all callbacks which referenced the function pointer
-> hv_mmap_ring_buffer to instead reference hv_mmap_prepare_ring_buffer,
-> utilising the newly introduced compat_set_desc_from_vma() and
-> __compat_vma_mmap() to be able to implement this change.
->=20
-> The UIO HV generic driver is the only user of hv_create_ring_sysfs(),
-> which is the only function which references
-> vmbus_channel->mmap_prepare_ring_buffer which, in turn, is the only
-> external interface to hv_mmap_prepare_ring_buffer.
->=20
-> This patch therefore updates this caller to use mmap_prepare instead,
-> which also previously used vm_iomap_memory(), so this change replaces it
-> with its mmap_prepare equivalent, mmap_action_simple_ioremap().
->=20
-> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
-> ---
->  drivers/hv/hyperv_vmbus.h    |  4 ++--
->  drivers/hv/vmbus_drv.c       | 31 +++++++++++++++++++------------
->  drivers/uio/uio_hv_generic.c | 11 ++++++-----
->  include/linux/hyperv.h       |  4 ++--
->  4 files changed, 29 insertions(+), 21 deletions(-)
->=20
-
-There are two mmap() code paths in the Hyper-V UIO code. One path is
-to mmap() the file descriptor for /dev/uio<n>, and the other is to mmap()
-the "ring" entry under /sys/devices/vmbus/devices/<uuid>. The former is
-done by uio_mmap(), and the latter by hv_uio_ring_mmap_prepare().
-
-I tested both these paths using a combination of two methods in a
-x86/x64 VM on Hyper-V:
-
-1) Using the fcopy daemon, which maps the ring buffer for the primary
-channel and sends/receives messages with the Hyper-V host. This
-method tests only the 1st path because the fcopy daemon doesn't create
-any subchannels that would use the "ring" entry.
-
-2) Using a custom-built test program. This program doesn't communicate
-with the Hyper-V host, but allows mostly verifying both code paths for the
-primary channel. As a sanity check, it verifies that the two mmaps are
-mapping the same memory, as expected.
-
-As such,
-
-Reviewed-by: Michael Kelley <mhklinux@outlook.com>
-Tested-by: Michael Kelley <mhklinux@outlook.com>
-
-The most robust test would be to run DPDK networking against
-UIO, as it would communicate with the Hyper-V host and use
-multiple subchannels that resulting in mmap'ing the "ring"
-entry under /sys.
-
-@Long Li -- I'll leave it to your discretion as to whether you want
-to test DPDK against these mmap() changes.
-
-I've noted one minor issue below.
-
-[snip]
-
---- a/include/linux/hyperv.h
-+++ b/include/linux/hyperv.h
-@@ -1015,8 +1015,8 @@ struct vmbus_channel {
- 	/* The max size of a packet on this channel */
- 	u32 max_pkt_size;
-=20
--	/* function to mmap ring buffer memory to the channel's sysfs ring attrib=
-ute */
--	int (*mmap_ring_buffer)(struct vmbus_channel *channel, struct vm_area_str=
-uct *vma);
-+	/* function to mmap_prepare ring buffer memory to the channel's sysfs rin=
-g attribute */
-
-Changing the comment from "mmap ring buffer" to "mmap_prepare ring buffer"
-produces awkward wording since "mmap" is used here as a verb.  It might be =
-better
-to just leave the comment unchanged.
-
-Michael
-
-
-+	int (*mmap_prepare_ring_buffer)(struct vmbus_channel *channel, struct vm_=
-area_desc *desc);
-=20
- 	/* boolean to control visibility of sysfs for ring buffer */
- 	bool ring_sysfs_visible;
+PiBJZiB0aGV5IGFyZSBjb21wYXRpYmxlLCBtYXliZSBmaW5hbGx5IHRoaXMgYmluZGluZyBzaG91
+bGQgc3dpdGNoIHRvIHJlcHJlc2VudGluZyB0aGlzIHdpdGggZmFsbGJhY2s/DQoNClRoZXNlIGNo
+aXBzIGhhdmUgZGlmZmVyZW50IGhhcmR3YXJlIGludGVyZmFjZXMgYW5kDQpmZWF0dXJlIHNldHMg
+Y29tcGFyZWQgdG8gZXhpc3RpbmcgZmFtaWx5IG1lbWJlcnMsDQpyZXF1aXJpbmcgc2VwYXJhdGUg
+Y29tcGF0aWJsZSBzdHJpbmdzIGZvciBjb3JyZWN0DQpoYXJkd2FyZSBpZGVudGlmaWNhdGlvbi4N
+Cg0KSSBoYXZlIHNlbnQgdjMgd2l0aCBhbiB1cGRhdGVkIGNvbW1pdCBtZXNzYWdlIHRvDQpiZXR0
+ZXIgcmVmbGVjdCB0aGlzLg0KDQoNCkJlc3QgcmVnYXJkcywNCkRhd2VpIExpdQ0KDQoNCg==
