@@ -1,66 +1,66 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91E5939098C
-	for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 11:36:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EBE739B962
+	for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 11:59:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774265778; cv=none; b=bVMKgeUA7r3xYerM9gPykYnHXOZp8cw98jPDtBzOFqRZ9cDpDj1tMSutdzZ5XAGsmTX0Ch96LpI7K4NLuPOTj+NqbwoIEWCXPfCHmlLYEKcBvvKSeJxw76GcZeUuAmabhIOh6vVGgZ7MuF1SLWg53JBCoVoBesAUXW0LeQzlozo=
+	t=1774267144; cv=none; b=sCO17kg6x/BU13ZlCoPjCFFO4loHhtsZ7WoUSGQfMXHi8hElpdKmHNgwK4STHemi+rYdQg/s3u1BvH2zYIJJM3+Bi0iFjwWWcBOP0P2bkuzUppwfIOCi1ov3NrjIG4RdBGkNSwcb/NGOF/NX98m8t9BQJjcZQsqqMizOrPakHxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774265778; c=relaxed/simple;
-	bh=H1TCB6pgxK69XHkiDK+lyZ/sLnPn9seuN4WF/0M5FCU=;
+	s=arc-20240116; t=1774267144; c=relaxed/simple;
+	bh=ELtImlRs/RlYTP+Zv0TOi4aJNiHzPqCPYyRyWRRAAK8=;
 	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XMMnnRZGt46HTfPDtAAp539hP2QoZHUwuRQmc4A6SGEGaqriF2wWHpcnTROWG5f4rDTUp+5XgZnhT5cXLNnLPb7nOyjhV82cTZhA4zXhL5gkbGa99jwiimtnbwF9l4S/JHtgA0ta+lmox7UxZPGkomBAv5zehx4y14IiF0vm8TE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P/FAxqrI; arc=none smtp.client-ip=209.85.128.44
+	 Content-Type:Content-Disposition:In-Reply-To; b=B5GsfBmbDwaBdPErbRCzMnhwJr4poH07YEPO55tExBqZzyNyn1BdFix+eQGlarZgPrXzINfiDBJzm010WJrPozLxYdx11rREEsdmUGle3c1EEQZiMpI+fuV3ck5YJX4AIfv7k6MS7dUfwIZ9e+dOXEyc5Qq438d6Y2JxYyoPnoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e+pEUPqk; arc=none smtp.client-ip=209.85.208.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P/FAxqrI"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-48558d6ef83so25717335e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 04:36:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e+pEUPqk"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-6634bb959a2so73056a12.1
+        for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 04:59:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774265775; x=1774870575; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1774267141; x=1774871941; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Tf29XD1+StXXEJC3V1UNJd3XstlYoXOmSXkvCeAyZ7k=;
-        b=P/FAxqrIlL/XL7GIx02VFC5yZMrEJUI4bk7oF7+QnDrfmUTHASjNkkUFF56Zpk5l8E
-         LCFQeBZHCT/xD8ox0UGgK+miRayEbbq6EvDpyL5T7CbpZ19H6vO9ejfXOr5lhBZRH32o
-         CmbkG0R+J26x3w6cz1YR7MFDgUxI0L/hmFdFQd6oKjpKjwr9+wvo+AZJlOQHQnjZnrIj
-         paf/2NZs3O/7U1XGYoaD3eYTLSgvX1ZeNcMBfk7K/t/Nt01vo9cDjOj5bHs1u0YQNsTm
-         6BUfEh8L/yUNIekDECce4uUXjAMC14DCgTfMs262fD+Id1hnXSu/cP9GdaEkfIJ7ZK89
-         tvhw==
+        bh=RU6NYRz6AVXhi5ZvZvCh4JAOhWnWFdHOlwdskFh6xa4=;
+        b=e+pEUPqkJf0PV9orarFsbxEOZl4avUX+L7fgplxP/WjHxt5CdG9TOREvZEjKodbrcm
+         lL96qAT4L7JDKJg2X1cHhM9/B3pKrb+LIzpdTzgdlY9dqtvKkHY0V7DmD3ZBEelmTzc9
+         8SKDueW4zwx3fz10TsTfbfdgu1uGkP/4avaOl50E88eK1mGrVyl/M931O1m6ctNaJLzM
+         Xb+dqcM2UDO+YalCbloqc9/dc6VO5vIaTal3rPPtO989LpRD9VQhcdY9/8tu/fDORxb3
+         hGHqgDXfTcjC9HQePN7kX3KXcu1q2kPp/aSogvPQBVLWC+KwNSVuoPrZXJLmyx5iyz3L
+         dr6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774265775; x=1774870575;
+        d=1e100.net; s=20251104; t=1774267141; x=1774871941;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Tf29XD1+StXXEJC3V1UNJd3XstlYoXOmSXkvCeAyZ7k=;
-        b=OtBFCYFTHyTpbxiTPqZqfgP8FAnYGNnIwbRAWjXX0p9rnhqACBZbyHecQVChch6TrD
-         Ld15dCFGjHOslJgyODWIovl9dgqhDhIghijjRirbSWaIm/hIzay35QM73y4k8bXTC+jf
-         /gbp2nElzCKaiXRM9+3+cQUoLcEYjjo2xwJ3r9qkMqfhoNBgw02gcCeVfaDhXitmXahK
-         viQxihrx99haY8NR8gYNU76GXX9+SIZ7KIjiux5bFtDCSmOEdyGVwW9PVrn5v/Ggqmqi
-         0netbi8PwH/aSe+NcSFPJxqx3D+o0ZYKrwjZ5DvzAGlNBbMTU+KPIeqydAE6tCc6tivF
-         Bevw==
-X-Forwarded-Encrypted: i=1; AJvYcCUiysw3RNpG88LSWLDL65TIYjxAuk2mqTdIqXzRC83QL4XwScrjge2Sx/zvC3KgD7QV07A9Tz+SvJ8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyatz3SiRppqHeMmENA7Y9RHW19YMp5FfUzfcHve9iOz9BVIWig
-	cP9MiB623GjGm7e3WQQp4zW+K7jKfvjqKaBfJ5Gr5vGmoOjQhcUk0dqlkdAGMzRz
-X-Gm-Gg: ATEYQzxd9MzdulFNyaOitrc3W8T0GLbvOjxSNlJLALiejt8TGwq6KXgQ9cdocS4Dlop
-	D3bHpD9BChYSKSMwA9YeQrXHy2mm9JnYsSW0dXg7IluYoiGxSnPgh+WfgaQN8eebMsd+JuTzZV6
-	nQlB7Ou00fT+ZVZIkXei506ANvu4lQZJz6i77i9EdTJpFKnf3UsiN6G8eNRl+ldkLpMyV06xwqv
-	hS+NzAjfTfIvQE+DLE4RTH3FlVPxje+yiYsYPn+kFCYyu6ZrBF5gkCW8FaoVG/xGGoSG2N2d1ej
-	h7DV8Q1DI09K5u+1/2R512xmv3ZGLek66i6Nc8VyWkWx9K40AV7iRiIxV/kL2EE10AcDBrbiNUq
-	pOPLXAkPVPRHSRccfCvi1srqdmGiKDZZO0F0S52dxD6wxnEiEv8cbsY/pGcif8jtm92pzrMHNtD
-	Z/c/Pr0cTvlBgu9sbo0vVWI/8p4eIAyKauPAR9JnqHULdeLQ5ZzATE9nA2c1neswsF/4KqS5QOu
-	iyaMssRo254SEWaKLXn1PV+K+7L6mxp7+U8JIx5TGuaBPaWZ5YaluiqfmFLkQ==
-X-Received: by 2002:a05:600c:a55:b0:486:fd5c:2b35 with SMTP id 5b1f17b1804b1-486fedbc28cmr171565545e9.13.1774265774669;
-        Mon, 23 Mar 2026 04:36:14 -0700 (PDT)
-Received: from RDEALENC-L01.ad.analog.com (24.206.116.131.netskope-rdns.com. [24.206.116.131])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486fe897fc2sm81426715e9.11.2026.03.23.04.36.13
+        bh=RU6NYRz6AVXhi5ZvZvCh4JAOhWnWFdHOlwdskFh6xa4=;
+        b=iY61Vcts6His/yCPjTjFg2aKutTkXvRxaukTx9hJyHwZJ7ChugzjI9yorDgHk0Sj2t
+         4O6h7i+e6/SXNdr24FbBiMWGZRWSeAy7pJsrMN4vst0JsXMdudDvPJCGCtgm8oFVRKtZ
+         l7OddvJ7rALByUetmI6HtRp0ZvInIGRtzISKxWX959pjKzBS680Axj+aVZcGrgtB2+/C
+         g6ntrCTrEylRhzkjfcmyk4Fwnm58WYheTguIBMuDrthP/EvZ2eRhB98Q/TCozTkY7VDx
+         DvyGhBoc+K5isz9lR5ANOo2yMShF14FtdDPDZx2ixacpu+fQLz6Eac4StQ0A3jJoy35Z
+         ulTg==
+X-Forwarded-Encrypted: i=1; AJvYcCXngb1JUZVaYOpCKPcaylalHXBMmaX9S4jKU0kzs7cVt5O2TQJNNUZUPO8J1515Yd0KaWXxvyXYhR0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzjUzD69NkTaOuVGolNOYyDc1E6AN28+UGg0laLc6r1FUzy+pHW
+	CDLeuLgUPv7uD0G6ROai2an4/ifjcsh1gTjiVv23xiGo6vQhYa65LlXb
+X-Gm-Gg: ATEYQzz2lSRvEf7p3jXXrC8BO710C3HEm2VW+eySAmHgHFrk9UnlQM4aVMttM/Bbqy/
+	2WNig3vY531Y1op8xLDKJwCvtWFJ+vUTrAvR24Pj/FnQ39/g54rL5SXxn77gWvb4XwTRuvY6b05
+	TootWE97JKgawSAXi8Tb7M4PtF7TH3zIHI9xUz/VYeVhiM6O2FZth+t+9HfEI3KQOKFSjXb0LU2
+	V5uUD1RnN9QEbnlsYj9/tSkaUWIDXtjEliAwusnFwUZk8wPdIH9bCjckTTffvksdb9Umr3A4qiD
+	eIISpsDEZqg0053VMxJdSqVgJ0D6sAs6wHAv0/qFgK0UYTQmyVQ5RivypGRJLZG0f72qFdb/npJ
+	nZ+qmeMHTYZS5tfCiQJd98s9tiLk9I1vkj9wPV0O1KWVdSo2uKokWl8Q14FV7lvZZXDS9aHVRQy
+	bNWoHkCZ5McnfgvqKnTsIwBB5Y7hp9WRv4J9Aja6vlHxmHk2I9jWt0ctLd53PVUFujNA9sBp6DU
+	7RpLv5G7ENOLWhoXNnbs82KzHymYmmCR8vUmVb9qq+TWzvAbkU=
+X-Received: by 2002:a17:907:c789:b0:b88:6164:6421 with SMTP id a640c23a62f3a-b982f1f2b12mr865165466b.16.1774267140453;
+        Mon, 23 Mar 2026 04:59:00 -0700 (PDT)
+Received: from RDEALENC-L01.ad.analog.com (24.206.116.103.netskope-rdns.com. [24.206.116.103])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b98416ac27asm362764166b.59.2026.03.23.04.58.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Mar 2026 04:36:14 -0700 (PDT)
+        Mon, 23 Mar 2026 04:58:59 -0700 (PDT)
 From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
 X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
-Date: Mon, 23 Mar 2026 11:36:08 +0000
+Date: Mon, 23 Mar 2026 11:58:53 +0000
 To: Jonathan Cameron <jic23@kernel.org>, 
 	Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>
 Cc: rodrigo.alencar@analog.com, linux-iio@vger.kernel.org, 
@@ -70,12 +70,11 @@ Cc: rodrigo.alencar@analog.com, linux-iio@vger.kernel.org,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
 	Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
 	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH RFC v2 8/9] Documentation: ABI: testing: add docs for
- ad9910 sysfs entries
-Message-ID: <mtqjtmsysz6ywvybeut6qzhee2o4qedwgvr5isbn4um7bwhjbe@sg2b7hwlszwd>
+Subject: Re: [PATCH RFC v2 9/9] docs: iio: add documentation for ad9910 driver
+Message-ID: <g57xnbhtvu25dvzy5b5pz76yzalpcjpnyclob6dy6j7fphxqle@5vww7psogbv3>
 References: <20260318-ad9910-iio-driver-v2-0-e79f93becf11@analog.com>
- <20260318-ad9910-iio-driver-v2-8-e79f93becf11@analog.com>
- <20260322172257.1681de69@jic23-huawei>
+ <20260318-ad9910-iio-driver-v2-9-e79f93becf11@analog.com>
+ <20260322173434.23d2ee0d@jic23-huawei>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -84,153 +83,122 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260322172257.1681de69@jic23-huawei>
+In-Reply-To: <20260322173434.23d2ee0d@jic23-huawei>
 
-On 26/03/22 05:22PM, Jonathan Cameron wrote:
-> On Wed, 18 Mar 2026 17:56:08 +0000
+On 26/03/22 05:34PM, Jonathan Cameron wrote:
+> On Wed, 18 Mar 2026 17:56:09 +0000
 > Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
 > 
 > > From: Rodrigo Alencar <rodrigo.alencar@analog.com>
 > > 
-> > Add ABI documentation file for the DDS AD9910 with sysfs entries to
-> > control Parallel Port, Digital Ramp Generator, RAM and OSK parameters.
+> > Add documentation for the AD9910 DDS IIO driver, which describes channels,
+> > DDS modes, attributes and ABI usage examples.
 > > 
 > > Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> > ---
 
 ...
 
-> > +What:		/sys/bus/iio/devices/iio:deviceX/out_altvoltageY_profile
-> > +KernelVersion:
-> > +Contact:	linux-iio@vger.kernel.org
-> > +Description:
-> > +		Read/write the active profile index [0, 7] from/to the physical
-> > +		channel. The AD9910 supports 8 profiles, each storing a complete
-> > +		set of single tone (frequency, phase, amplitude) and RAM playback
-> > +		parameters.
+> > +Channel hierarchy
+> > +=================
+> > +
+> > +The driver exposes the following IIO output channels, each identified by a
+> > +unique channel number and a human-readable label:
+> > +
+> > +* ``out_altvoltage100``: ``phy``: Physical output: system clock and profile control
+> > +
+> > +  * ``out_altvoltage110``: ``single_tone``: Single tone mode: per-profile
+> > +    frequency, phase, amplitude
+> > +
+> > +  * ``out_altvoltage120``: ``parallel_port``: Parallel port modulation: enable
+> > +    and offset/scale parameters
+> > +
+> > +  * ``out_altvoltage130``: ``digital_ramp_generator``: DRG control: enable,
+> > +    destination, operating mode
+> > +
+> > +    * ``out_altvoltage131``: ``digital_ramp_up``: DRG ramp-up parameters:
+> > +      limits, step sizes, ramp rate
+> > +    * ``out_altvoltage132``: ``digital_ramp_down``: DRG ramp-down parameters:
+> > +      limits, step sizes, ramp rate
+> > +
+> > +  * ``out_altvoltage140``: ``ram_control``: RAM playback: enable, destination,
+> > +    operating mode, address range
+> > +
+> > +  * ``out_altvoltage150``: ``output_shift_keying``: OSK: enable, amplitude
+> > +    scale, ramp rate, auto/manual control
+> > +
+> > +The ``phy`` channel is the root of the hierarchy. Changing its
+> > +``sampling_frequency`` reconfigures the system clock (SYSCLK) which affects all
+> > +other channels. The ``profile`` attribute on this channel selects the active
+> > +hardware profile (0-7) used by the single tone and RAM channels.
+> I asked out this profile thing in one of the other patches.  Key to me is
+> that how we write non active profiles?  The most similar thing we've seen
+> in the past has been setting other frequencies for FSK or phases for PSK or
+> more mundane DC DAC output that are symbol based. (often an external signal)
+
+Yes, not allowing to configure a non-active profile at this point.
+Initially was not seeing this as a problem, but would you think different
+channels for each profiles should be created? e.g.:
+
+- out_altvoltage111 ... out_altvoltage118 for single tone profiles; and
+- out_altvoltage141 .. out_altvoltage148 for RAM profiles
+
+That would not remove the need for something like the profile attribute.
+
+> For those we have added an additional index so we can see which symbol we
+> are changing parameters for.  Here it might need to be done in the channel
+> numbering. I'm not sure.
 > 
-> This one is interesting.  Can we treat them as symbols that we are picking
-> between?  We have similar DAC ABIs for that already.
-
-The profile concept comes from the datasheet and defines sets of configuration
-for single tone and RAM control mode. I am not sure how we fit this idea into a
-"symbol"
-
-> Is this picking between them for purposes of configuration or setting which one is
-> in being output currently?
-
-Well, this is being used for configuration and activating, then, yes, you can only configure
-an active profile, but I was not seeing that as an issue. I suppose that simplifies the
-ABI a bit.
+> > +
+> > +All mode-specific channels (parallel port, DRG, RAM, OSK) have an ``enable``
+> > +attribute. The DRG and RAM channels additionally have ``destination`` and
+> > +``operating_mode`` attributes that configure which DDS core parameter is
+> > +modulated and how.
+> 
+> I wonder if we flatten things out and have separate channels for each type
+> of modulation. Might lead to a more standard looking interfaces. We don't really
+> have a standard path to control one type of thing feeding another, whereas
+> we do have simple 'enable' interfaces.
 
 ...
 
-> > +What:		/sys/bus/iio/devices/iio:deviceX/out_altvoltageY_destination
-> > +KernelVersion:
-> > +Contact:	linux-iio@vger.kernel.org
-> > +Description:
-> > +		Read/write the digital ramp generator (DRG) or the RAM control
-> > +		destination parameter. Determines which DDS core parameter is to
-> > +		be modulated when the child mode channel is enabled.
+> > +RAM mode
+> > +--------
 > > +
-> > +		Available values can be read from the corresponding
-> > +		out_altvoltageY_destination_available attribute.
+> > +The AD9910 contains a 1024 x 32-bit RAM that can be loaded with waveform data
+> > +and played back to modulate frequency, phase, amplitude, or polar (phase +
+> > +amplitude) parameters.
 > > +
-> > +		Valid values: "polar" (only for RAM control), "frequency", "phase"
-> > +		and "amplitude"
-> 
-> This is very device specific. Maybe we are better representing these as separate
-> channels each with their own controls for DRG.  No problem if changing one changes
-> another.
-
-You mean removing this generic Y there? Indeed, there are separate configs for each one.
+> > +RAM control channel attributes
+> > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > +
+> > +.. flat-table::
+> > +   :header-rows: 1
+> > +
+> > +   * - Attribute
+> > +     - Unit
+> > +     - Description
+> > +
+> > +   * - ``out_altvoltage140_en``
+> > +     - boolean
+> > +     - Enable/disable RAM playback. Toggling swaps profile registers between
+> > +       single tone and RAM configurations across all 8 profiles.
 
 ...
 
-> > +What:		/sys/bus/iio/devices/iio:deviceX/out_altvoltageY_operating_mode
-> > +KernelVersion:
-> > +Contact:	linux-iio@vger.kernel.org
-> > +Description:
-> > +		Read/write the DRG or RAM control operating mode. For the DRG
-> > +		channel it controls the no-dwell behavior of the ramp.
+> > +   * - ``out_altvoltage140_address_start``
+> Do we need this flexibility to set the start?  We needed a length, but
+> if we want different effective start can just load a different image.
+
+There is one image being loaded into the entire RAM and each profile may choose
+from wich sample it starts and ends its address ramp.
+The profiles can have those address ranges to overlap or not, then I suppose
+considering different images would just complicate things.
+
+> > +     - integer
+> > +     - Start address for the active profile. Range [0, 1023]. Cannot be
+> > +       changed while RAM mode is enabled. If set above current end address,
+> > +       end address is automatically adjusted.
 > > +
-> > +		Available values can be read from the corresponding
-> > +		out_altvoltageY_operating_mode_available attribute.
-> > +
-> > +		Valid values for DRG channel:
-> > +
-> > +		  - "bidirectional": Normal ramp generation (ramp up then
-> > +		    down, dwelling at limits).
-> 
-> Some sort of trapezium wave?  Maybe this and continuous forms are combined
-> and we have a separate dwell time control?
-
-Yes, sort of. Dwell control is made by an external pin (DRCTL), often controlled
-by an FPGA to achieve certain required timings. I can say that software control
-is not really recommended, unless only a one-shot ramp is necessary.
-
-When adding the IIO backend support, extendend attributes will be added to
-support control of dwell times.
-
-> 
-> > +		  - "ramp_down": No-dwell low; the ramp resets to upper
-> > +		    limit upon reaching the lower limit.
-> > +		  - "ramp_up": No-dwell high; the ramp resets to lower
-> > +		    limit upon reaching the upper limit.
-> > +		  - "bidirectional_continuous": Both no-dwell high and low;
-> > +		    the ramp continuously sweeps without dwelling.
-> 
-> Triangle wave?  bidirectional continuous is a rather confusing term so maybe
-> we should rethink this one.
-
-Mostly yes, but not only that. Sawtooth can be achieved as well by changing
-the step sizes, also other weird patterns can be achieved by toggling DRCTL pin.
-This mode is the most useful when one does not have an FPGA and want to save
-resources on controlling the DRCTL pin. That mode name comes from the datasheet,
-so I suppose it was fine.
-
-> > +
-> > +		Valid values for RAM control channel:
-> > +
-> > +		  - "direct_switch": start address defines fixed word to be used
-> > +		    by the selected profile.
-> > +		  - "ramp_up": One-shot ramp up through current profile's address
-> > +		    range.
-> > +		  - "bidirectional": Ramp up then down through PROFILE0 pin.
-> 
-> Avoid specifics like this.  Can we call external control pin or something like that?
-> 
-> > +		  - "bidirectional_continuous": Continuous ramp up/down
-> > +		    through current profile's address range.
-> > +		  - "ramp_up_continuous": Continuous ramp up through
-> > +		    current profile's address range.
-> 
-> I guess this goes back to start on finishing ramping up?
-
-Yes, any dwell time should be considered when loading the "waveform" into the RAM
-
-> 
-> > +		  - "sequenced": Sequenced playback of RAM profiles up to
-> > +		    the active profile. Requires active profile > 0.
-> Is this just running through each profile one after another? (other than profile 0)?
-
-for this, this would be the actions:
-- configure all desired profiles (0 up to X) 
-- Set the operating mode to sequenced (profile X would be active at this point)
-- Enable RAM mode
-
-When RAM mode is enabled, it would trigger the execution of profiles 0 up to X,
-in sequence, according to the configured address range and sample rate for each profile.
-When one profile ends the next starts until profile X finishes.
-
-> > +		  - "sequenced_continuous": Continuous sequenced playback
-> > +		    of RAM profiles up to the active profile. Requires
-> > +		    active profile > 0.
-> Similar to above, maybe separate out dwell time if that's the difference between
-> sequenced and sequenced_continuous.
-
-The difference here is that when Profile X finishes, Profile 0 starts again.
-So the previous one is kind of an one-shot mode of multiple profiles in sequence
 
 ...
 
