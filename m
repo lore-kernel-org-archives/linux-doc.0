@@ -1,131 +1,105 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D38A4245020;
-	Mon, 23 Mar 2026 15:30:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774279822; cv=none; b=BbIbLqmR7HeaK7nGEcNyj7oHuJPA9C7+hoO+mk+CktqwJ9CSjqbI6Q5gwz3j0Be3UssCdUEJUoH7Jaj9ui+ar9nABSgX69AuILpiFw51vjW1WntWPal/TnEw0TMXg+P3zp+gD83mkDzAxqAzPNPtFUlxv0GWqy943pCCPPY51iw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774279822; c=relaxed/simple;
-	bh=jL377ytdCoM//Ho4ubP48OOIfsA/+ymH7ZOPYpJWWKA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Y42kpyNLi6OamIQ9lWYLnAhs7SI/qr3yqptVcmBh2R7YUineS5DV+GzIM7actWDL+/jZLX8TTXO0eEONb0PYM3EPEs5ndo3IOyrYIGbV6DApWYW+uFa3fFJz3X6zcnorfXun5XpI5TPp3NkuLKf3gR9B/cnPch2onhgRTkYUyFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=RrBpgySw; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9DCF3B3C0C;
+	Mon, 23 Mar 2026 15:30:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774279838; cv=pass; b=Gr8ZVIqX+kz5wi/IXo7CKbvmjEBIaXDPlDKaxMuVHXxy8mlRzKOBy3zzY8E73lN9xiH8Myya2LaGEYRfrHOyjf7P15Tt/OSmIDmn9zrd/F7kEb3E4qBgkkOG64rKhINglW2AQDib/nCjnWloRKvfrxWcBmM1oIfjPtKsZgM9rQM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774279838; c=relaxed/simple;
+	bh=VFtTjVhQZF6rYyLMY2jMggYpUBsfoI3OHkQSmEmwiuA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Hk8LpAColAFo2j1CAJV7OZ+scco6KlJ7GGiHXpNTVZeTsoPEueR/bTEE1lusY4R5Sz69/ARFwtX6pz2AnjG2flWwLbRBE5DxzDICKRgWD/CuQWRMycztHK0MiO+zcR4vPCvprNRKpX0cm4K0fWw5T5n5Dujdbzq6JT4lAtSe1E4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com; spf=pass smtp.mailfrom=ritovision.com; dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b=Cd5nGQYC; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ritovision.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="RrBpgySw"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:In-Reply-To:References:
-	Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
-	From:Reply-To:Content-ID:Content-Description;
-	bh=KyGXX5+HJx34fkYM+Eg9zTm4QCG3KHrCHOBtah8R85E=; b=RrBpgySwdjAV3+WFL8Mru5P980
-	9SQ4rhZSkDsOj2AC06ricxqYeCuzcnP8frnZvPhoHMeG68POl+066JMgStWe7nZwmkowZodBmZKek
-	ls0OsdFPOqdBgQjTGFpyzMk32dkwH8+srZvwoZuUp8hqI3Uo+I5qfZA6+u1cVAGnFghtBxBv/4SGM
-	NVILKMSpMFngQNz6XYrBj/jLAwNUX1FUDqMKTUuFS+mf8fUbRHKTO7I84qGQ5sbAdg7M5XyC1wczA
-	qCFXWKJARagKGWdRqIurlMpP0CYkxQG4XyV/6gQ+te3fq0mbvNFuCjPouWPGP1SsWeCBZwIaIirFf
-	IaUnVbSw==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.94.2)
-	(envelope-from <leitao@debian.org>)
-	id 1w4hEQ-007cwX-Ah; Mon, 23 Mar 2026 15:30:17 +0000
-From: Breno Leitao <leitao@debian.org>
-Date: Mon, 23 Mar 2026 08:29:42 -0700
-Subject: [PATCH 2/2] Documentation: document
- panic_on_unrecoverable_memory_failure sysctl
+	dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b="Cd5nGQYC"
+ARC-Seal: i=1; a=rsa-sha256; t=1774279827; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=mk3J8C9p+PfycXFeLYlWnWSbc7sF05u3FUZAu9VxmuGKHV0CYsWcn2rovAVAuOs1BRSBTFFPOGgs4l79CTFLOOCQHZ/snOKcDO2cNrNjArv4n+ZZ7CydkLD/wEnSIu3V58ktfcNZtdGnbhivG+gIIJAgQ6HoQ5lcpU2Is17tUoE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1774279827; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=hlhJ93wIT8LEPInUdbDQjSKutao6zriCXimBZ8jrDJI=; 
+	b=n+r+dJfyUm4WEmY0KCcH1/TXlftsldPj2+gEGjtLmj5uSpWzHxMsEHXv/soi0nXiGANOD4BdNZTq7bqvfbi9QO7C4n250UnFHUFHDvXJS/FDjchsHhgQRTx/5mrwTehSlZdHLy5DIaW6TIkSV+BkRdEQ8Bj1gabUKfdGcceTd5E=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=ritovision.com;
+	spf=pass  smtp.mailfrom=rito@ritovision.com;
+	dmarc=pass header.from=<rito@ritovision.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774279827;
+	s=zmail; d=ritovision.com; i=rito@ritovision.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=hlhJ93wIT8LEPInUdbDQjSKutao6zriCXimBZ8jrDJI=;
+	b=Cd5nGQYCbOLjcyFNAwC3CWD1Wa0s5eeGd/RgxK420pf6ZzwVLkl2LEvK1t6FFLRv
+	KOLkLQHZcMqFvMguTENEwRYDF2brLmJQar/KxeCfskQtmwtS0ad5y2XymTcl0wbgTXQ
+	xEEMAbuhJcln75iUHOlUkVUhrlvkwFm8wfMqhEZw=
+Received: by mx.zohomail.com with SMTPS id 1774279826072871.7555484499007;
+	Mon, 23 Mar 2026 08:30:26 -0700 (PDT)
+From: Rito Rhymes <rito@ritovision.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org,
+	rdunlap@infradead.org,
+	Rito Rhymes <rito@ritovision.com>
+Subject: [PATCH v3] docs: allow long unbroken headings to wrap and prevent overflow
+Date: Mon, 23 Mar 2026 11:30:24 -0400
+Message-ID: <20260323153024.32317-1-rito@ritovision.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260321144855.30429-1-rito@ritovision.com>
+References: <20260321144855.30429-1-rito@ritovision.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260323-ecc_panic-v1-2-72a1921726c5@debian.org>
-References: <20260323-ecc_panic-v1-0-72a1921726c5@debian.org>
-In-Reply-To: <20260323-ecc_panic-v1-0-72a1921726c5@debian.org>
-To: Miaohe Lin <linmiaohe@huawei.com>, 
- Naoya Horiguchi <nao.horiguchi@gmail.com>, 
- Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, Breno Leitao <leitao@debian.org>, 
- kernel-team@meta.com
-X-Mailer: b4 0.16-dev-453a6
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2201; i=leitao@debian.org;
- h=from:subject:message-id; bh=jL377ytdCoM//Ho4ubP48OOIfsA/+ymH7ZOPYpJWWKA=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBpwVx9mcJMRz348d1iYSLpK0wFK23u5H0p2MPTV
- Ay34qwVDoyJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCacFcfQAKCRA1o5Of/Hh3
- bWCwD/4umHrQNt+Fr5RoDabDdN2N48BqAz6131TiiU4X7zt4klDtfPB2xnQqS+9sLjngMAa9kzT
- wuAmSOGQnfT7UsZyMc/JkmutvxbYno8plRiyS9GgjHv52AiloMxFqKxsnDVJh1ifr6dIsyDv1NJ
- rPLcxkHijJBvpdDUdz59qgXnSV66sP85FfkKN2+f/QM6ftCMBdjB38EPjbEIXnIoYOhyg3G9OAM
- Fc/CUO/CyjLRBoly+vLX2m9oE5scQMbCeasRtMSeN/5eQOEmbixhW34b7nW+dWABAfdCRiX+abC
- UK8PMV0o8kJf8vX+7NtdcHyrJ79BEF+T7n1vc893/QjPi5cFzMW1/0u5esdzI5UQkLU7YMW96OR
- o/0qluJ7zsSc2dxuTxe/9RzPj4TWPjLD1Rm5VPoYLi1Dst1sR7/8a9QZRwZSoMnDRvgwm0K3XGm
- GkZkIY7+s+PI36s+IGF4VvC1hOuDSdtjL0dcVYTnvwOkMXKIlNpcsYKj2qw3+cSi7bNSudJtNhz
- Sm2UbW/PLzz6LdGt/JZB+sp448S+DIQrG1SLZaI33mLG6qSOicBW6+f1+EF22QB64fzjxW2F5hB
- uuqQx1PmMJ90+cKJ0eaPK2Rwg9c4TAHLWwwkmJKaYOgQB4hZQm9RL2gTdgf6VsCXFX978Ak0YZd
- 5ViR8/D3+ttpvjQ==
-X-Developer-Key: i=leitao@debian.org; a=openpgp;
- fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
-X-Debian-User: leitao
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-Document the new vm.panic_on_unrecoverable_memory_failure sysctl in the
-admin guide, following the same format as panic_on_unrecovered_nmi.
+Some documentation pages contain long headings with unbroken strings
+that can exceed the content width and cause page-wide horizontal scroll
+overflow.
 
-Signed-off-by: Breno Leitao <leitao@debian.org>
+Allow headings to wrap when needed so they stay within the content
+column and do not break page layout.
+
+Browsers do not treat underscores as natural wrap points, so some
+code-style headings may still wrap awkwardly. That trade-off is
+preferable to allowing horizontal scroll overflow, since headings
+should remain immediately visible rather than partly hidden behind
+horizontal scrolling.
+
+Examples:
+  https://docs.kernel.org/6.15/userspace-api/gpio/gpio-v2-line-get-values-ioctl.html
+  https://docs.kernel.org/6.15/userspace-api/sysfs-platform_profile.html
+
+Signed-off-by: Rito Rhymes <rito@ritovision.com>
+Assisted-by: Codex:GPT-5.4
 ---
- Documentation/admin-guide/sysctl/vm.rst | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+v3: add latest public versioned URL examples to the patchlog
 
-diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-index 97e12359775c9..3310fb8272fb9 100644
---- a/Documentation/admin-guide/sysctl/vm.rst
-+++ b/Documentation/admin-guide/sysctl/vm.rst
-@@ -67,6 +67,7 @@ Currently, these files are in /proc/sys/vm:
- - page-cluster
- - page_lock_unfairness
- - panic_on_oom
-+- panic_on_unrecoverable_memory_failure
- - percpu_pagelist_high_fraction
- - stat_interval
- - stat_refresh
-@@ -925,6 +926,32 @@ panic_on_oom=2+kdump gives you very strong tool to investigate
- why oom happens. You can get snapshot.
- 
- 
-+panic_on_unrecoverable_memory_failure
-+======================================
-+
-+When a hardware memory error (e.g. multi-bit ECC) hits an in-use kernel
-+page that cannot be recovered by the memory failure handler, the default
-+behaviour is to ignore the error and continue operation.  This is
-+dangerous because the corrupted data remains accessible to the kernel,
-+risking silent data corruption or a delayed crash when the poisoned
-+memory is next accessed.
-+
-+Pages that reach this path include slab objects (dentry cache, inode
-+cache, etc.), page tables, kernel stacks, and other kernel allocations
-+that lack the reverse mapping needed to isolate all references.
-+
-+For many environments it is preferable to panic immediately with a clean
-+crash dump that captures the original error context, rather than to
-+continue and face a random crash later whose cause is difficult to
-+diagnose.
-+
-+= ===================================================================
-+0 Try to continue operation (default).
-+1 Panic immediately.  If the ``panic`` sysctl is also non-zero then the
-+  machine will be rebooted.
-+= ===================================================================
-+
-+
- percpu_pagelist_high_fraction
- =============================
- 
+ Documentation/sphinx-static/custom.css | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
+diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
+index db24f4344..14711c7be 100644
+--- a/Documentation/sphinx-static/custom.css
++++ b/Documentation/sphinx-static/custom.css
+@@ -8,6 +8,13 @@ div.body h1 { font-size: 180%; }
+ div.body h2 { font-size: 150%; }
+ div.body h3 { font-size: 130%; }
+ div.body h4 { font-size: 110%; }
++/*
++ * Let long headings wrap before they overflow page layout.
++ */
++div.body h1, div.body h2, div.body h3, div.body h4,
++div.body h5, div.body h6 {
++    overflow-wrap: anywhere;
++}
+ 
+ /* toctree captions are styled like h2 */
+ div.toctree-wrapper p.caption[role=heading] { font-size: 150%; }
 -- 
-2.52.0
-
+2.51.0
