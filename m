@@ -1,85 +1,85 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BD2035BDAA
-	for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 06:52:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 191FB35CBD6
+	for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 06:55:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774248738; cv=none; b=JEN9+CmhpUXRGCzWSSsrkNgjD04MPFN6UbpAzQheWDVzuCwbUmwPNxD2rawkF/SY9aizLGVKMgkSELZWvGcwZOPdndL6EulFz+d3Nb0Defp+rrnHH6xa6WsDQukgncsVSe+axsCdvwhPlPG6vSG9J6p8ls0izjTBFMjuuxJpK1E=
+	t=1774248940; cv=none; b=kzT48UJNCYOPtMWnr2C9hGikQ4PxuBGS3M2GDv5+hVAobtjh/h5GOSc4d9P7tnoxWUjxEc4fAEMa775yQ67tll5rz6cNfPwDFVgpK3hvGbqp4E4ZwJayMgUsiDBCklTW0ww8gJesR+FEnmzsoH1NHiVQRhBoyGrxfVFXdeRCxZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774248738; c=relaxed/simple;
-	bh=Ho3xMrajWw9hSp68d8ltLv/+KIt5O6ifbl/4YdZnT48=;
+	s=arc-20240116; t=1774248940; c=relaxed/simple;
+	bh=vZrXsbPeGeCkiMIqLDbuiKx8v3tlHBlMlQKRAhMixBw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DZNrDWGryk9HwRwXZs3N7/lzBWMvR0GMeP6pisHbkbxdPiCzBmrb678k0MorA9ToEI0jwmvp1grKmio31t7RbWhAQAXExUd+LXMW8RbsTbsNVspRxR9Hy9VbuPhiFDb641gjUHNkQffdJdJaPeBnbgXaBOzF6qV3Gg7uXREOMi4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=V/nJVevj; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=OYReLEFM; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:Content-Type; b=ubDaAdALvEoQtPlhK9VcqylL3mQUQWN9GRuOxWXCP+jQfBUNARpgXMcdoSoiWjwdMFzh2ySiTpbu15Url2wrFgAoYcttYDjb7+NjXjI6lbWrTDNWKq3lMekhiRGdHSmwGkgdeZWDaD74no2yiIdNEKU0oSu8Ulg+DclMmEgLneI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SaOCMMOt; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=r5Hzpd5i; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="V/nJVevj";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="OYReLEFM"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SaOCMMOt";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="r5Hzpd5i"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1774248736;
+	s=mimecast20190719; t=1774248938;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=NKbSNz1bnQPVRgBTucbuG+mAtDWNAO0AjF15TWaqka0=;
-	b=V/nJVevjj0DjRhK5QX2jhgyM3dwptn26kG3yo2eeALJKzdaaknNAHEepA0RaZ95qqO9C2x
-	A5uBRHFknoOX1FZo2IIP7TjHKcdOLO7Nqj1zCbT5Edh8kuDHKa9CH/FMBia05Ba+4xUv5I
-	8xPhoicGPRgVDEN+qs1r9QzcfByo8gE=
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
- [209.85.210.198]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=cUFvGhq55JONPygTQtBYsqFeVViX1eQUM3HJHzaMYXs=;
+	b=SaOCMMOtP6rrCr9XSx7byEPy3Nd/aKMwApoc3GVQSLWxanovorO2pk+LSimm1QpO8iYIKE
+	F473zJpcEU18MUrFkL9y/Dk2wrzKnzb0rukZx1VboZ69qLprRAANM4Ot00kj8TIDcKeJsS
+	M6p4CDKnRA2JtuR/iwMVDp8FEO8l618=
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
+ [209.85.215.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-114-CSOKfbCwMESYS5GkJWbu5w-1; Mon, 23 Mar 2026 02:52:15 -0400
-X-MC-Unique: CSOKfbCwMESYS5GkJWbu5w-1
-X-Mimecast-MFC-AGG-ID: CSOKfbCwMESYS5GkJWbu5w_1774248734
-Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-82a855dc82aso2472869b3a.2
-        for <linux-doc@vger.kernel.org>; Sun, 22 Mar 2026 23:52:15 -0700 (PDT)
+ us-mta-450-VvbOcARANniQYidw-zJfyA-1; Mon, 23 Mar 2026 02:55:36 -0400
+X-MC-Unique: VvbOcARANniQYidw-zJfyA-1
+X-Mimecast-MFC-AGG-ID: VvbOcARANniQYidw-zJfyA_1774248936
+Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-c7385a1476aso2851176a12.2
+        for <linux-doc@vger.kernel.org>; Sun, 22 Mar 2026 23:55:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1774248734; x=1774853534; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1774248935; x=1774853735; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=NKbSNz1bnQPVRgBTucbuG+mAtDWNAO0AjF15TWaqka0=;
-        b=OYReLEFMKvwg/gRED58Hel1g9LLmR9eA43eFYi1Ls1oUNnCtgoO5bFXvQa7iSfB3j0
-         AxNKDXPXcXKO/uc0GuxN0rNmrhn/BL70b4VzKRvWE7Qvq1s57upQgUecSt2JlLLXupOO
-         1QsfzJvtgoFzJWVsc0noorVWVaM18RSDTWA9xuhiMu3tlO4OY2ckAffVgtwVFgpwdThS
-         BSQLnO9n96tAOglmjhcQqDTzCJaNXkJrDt5s2fASZbeWkZhW/0FdAnRqFM+Nimmyz/lb
-         ylm8oroggJGdWFrMbP/mNEyWBTKoESY5d8XF50oqyycnu61py1JfgHIHK/xLP4c4qFj4
-         Cqeg==
+        bh=cUFvGhq55JONPygTQtBYsqFeVViX1eQUM3HJHzaMYXs=;
+        b=r5Hzpd5iUWCnyDdTho7paarCU2nRJbJ2VSac2D5aWpb58IuYNtMwbMwACcig0suyyI
+         x+ZHUc/gysMsdn0A4ESYZNvr6sCAKXQ9EodP3YuHWNAZkASGbfTPniR9gZVKaDnZtSiJ
+         xb6vq4U9UnlELZgJ9T0EXUwjRoHQtmqrAlSerO3aLII8RMOW1Jpr2hg0AyBSxMByPVhm
+         H4Sc5xAnUdSoWgt9z0k/AlJxMB+chqXbgZKCdpxSu3Hw06vbnmDEn9UTAV24XcLB6G2v
+         i7VIACnddeDzN7zz9V0xokRtWeAJWfNWBLoM0DRypHKNgEaExEejYW7lDRO1MpZ/m2eE
+         JXSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774248734; x=1774853534;
+        d=1e100.net; s=20251104; t=1774248935; x=1774853735;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=NKbSNz1bnQPVRgBTucbuG+mAtDWNAO0AjF15TWaqka0=;
-        b=brd8RiF8celz+J93LzRxnUmakTa1RVZUvEpNiPx5InPmXB89WyZTs8rFaeU8Nae8iQ
-         IQShzijUKBbK31XBhdzyzbvtKVW1iJiAGKuxM0/o0GbPJXPFvwWH8ulPM9XtPrSj14fT
-         uTMz9S4Ei4UeCwvoNjjfiFfKgeB7Hrp+kQMo4Pif6O0KzhNuIfabuPnBsuB87UIwdRZc
-         N7WyaY4Zyn/AcdY6wWc/7AsjDN5DGXky8rxjlZdCVienu8j2+KvR4Qwxnt1sWDGptp1M
-         Po2HJstP6aynlOyhH6QobeSQrUMiJ36mTM59x8Ov12oL83F4vPHgo0W4yUY6UT+a+4ku
-         8fmA==
-X-Forwarded-Encrypted: i=1; AJvYcCVV1T/OLdu/8uD7ghFRqrPEpVhua0bcR3Xf5hpgGzQPzx0t8ZX5mXDPEpYGR539AdANydkrRVKTGSs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxpWmD1wAeHY77jNW5YM8ajtkckxb7iL0710jNs2De3NnOppfhw
-	xW9upGDcD2hRdN8t6Lo3UxRFeR/WAd36GIE0E0bLYQWoRaF4sPLdLuQQGZjX0JBtn7EVJ70v85S
-	tGVByGsxOzvkoAqGh8n4vmDC/azMHKvf4H0EmPWbhNlaRy6SLt3KmoStIN3wSxy3C/vz1qQ==
-X-Gm-Gg: ATEYQzwEQUt0MeNds1IYICjg3JU/dh3N+UuHCejMIT8sUPjkEvO1FN94oBFgh1jyBuG
-	nCTG9YSNPgQbWqZPnOTeD6XiOncEHkhRC2J4rdWHQ/owietZ8a+kB6Iiq+DxzjVOy0dnFq5sSLM
-	2x/zTNIpD8JZ+WX4r7aofyv4IdspgkvuemmysXPp3j8xW3S6oyyFYS9MbHMoj45GpcYfjaEW1iG
-	JGbZMDDj2ow8m0mt5gIaJ4r7CoCWb69iBu4sP93mtzQV2a98k8r0FuAa57Y4jGQULIhURJw/uko
-	AwR9/hhKn8S7X/yyT05DUDa62gJoz1qYkCFf1es5uRFkLTC5/xliqXsBWMw4JOqsJ/QjactVmV8
-	pWpFdc8jck2xkA+JnpBcWbDoMkbaLS8ObLALw67rYSY/RMatUVeFdthmhWBD2p0+z
-X-Received: by 2002:a05:6a00:23d6:b0:82a:14aa:795f with SMTP id d2e1a72fcca58-82a8c35da6amr9132173b3a.35.1774248733795;
-        Sun, 22 Mar 2026 23:52:13 -0700 (PDT)
-X-Received: by 2002:a05:6a00:23d6:b0:82a:14aa:795f with SMTP id d2e1a72fcca58-82a8c35da6amr9132130b3a.35.1774248733349;
-        Sun, 22 Mar 2026 23:52:13 -0700 (PDT)
+        bh=cUFvGhq55JONPygTQtBYsqFeVViX1eQUM3HJHzaMYXs=;
+        b=mWnx8sQhauOAnMWs91gpeRWfeVl/TK8Il9moIqGZzks5jIEjqpxooPN3WAPlbgUPNe
+         AnvaVJG/ZsylG5etM0vYUoj1Yo33nW3htFbSusnI2rk41TaIM02WDy8aYp1Fv/3hfKue
+         uW1AwZWSX8BRmQxx3FnDWOP5TknftvCuDOA6T4PpensSav7ZOgsogCpEomHK9CQ8di11
+         WeAiOPrNytK/ZI8c5/13aVfXXecdKnWml+NZcJBLbFZjQ1NH6xvtalO07d8axMfbRadZ
+         4B7dKna34acuHJPsREkn4jqnNMq4zTv1czCwmt2l1st+a/M4GUsYco28dwjNNdJrhMpK
+         /WDA==
+X-Forwarded-Encrypted: i=1; AJvYcCVgrylGnBInhz2k2BI95IVEcJz532eLp8sa4O4SIXQHQkLwUTKdYIGJX8vaZL5ViyTswFupL0klgxc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YygBpRszNTMwddHmFsPyXqzSv9eGsuunqtj1d+qDyIpPY49i8Kn
+	6XGTOfvcjjrfwhZj9h2UsTi694Nk9GZrvRNo9DYBF8x5e1mPLooT+D4iar4tyXyUD+iyQ/TIp8F
+	Q0OjyKPYyLSYdnM4rbgugD2G8Og0j1rKjv1H9w4hjCAR+zutJlqfdZMhInKrsFw==
+X-Gm-Gg: ATEYQzwVA+Z59HxDgBDtcjFKtNK18YbxxQ7UOwMaOnxSlwsx+1Z7Zy5IzCIOgQeybdF
+	sOOhwTLS7pWbN0i5LCCDxSPo7t1CWFPgL2gAB6n7a6078DK4bIuyAWCQDlmey94K3phW0j0jHuE
+	vIRNd+xBPfAIBJVyolBQ6O+AuIYMKS5NSben3Fpvc7glvnnbaSSH+F0cEkPGRZNtef7cLGLZJIn
+	Heh1TDs6MC/925RUGWgSVMn62W4l7YDU0z5HZ8nzycP4ZHft5HXGCDbPwYYITYCdX0r0mE8jUh5
+	vNKX/bt5cIPec1Zm7slxUJL8iN0gHV76Z51pKloEAnWdDjm02mcQG1G6gv1Tl07CvnDH0Bqenjf
+	pu1fkRn+oEZXJEJbcsGeCbbfG4VK2FA9FezOjFa2OKP45DQoX/3Pfz9TBo6idboKI
+X-Received: by 2002:a05:6a21:3286:b0:398:7e12:c03b with SMTP id adf61e73a8af0-39bceb41272mr9670983637.44.1774248935568;
+        Sun, 22 Mar 2026 23:55:35 -0700 (PDT)
+X-Received: by 2002:a05:6a21:3286:b0:398:7e12:c03b with SMTP id adf61e73a8af0-39bceb41272mr9670964637.44.1774248935151;
+        Sun, 22 Mar 2026 23:55:35 -0700 (PDT)
 Received: from [192.168.68.51] (n175-34-8-244.mrk21.qld.optusnet.com.au. [175.34.8.244])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82b03bbebbfsm9997455b3a.18.2026.03.22.23.51.58
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c743a7ff529sm6924198a12.2.2026.03.22.23.55.20
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 22 Mar 2026 23:52:12 -0700 (PDT)
-Message-ID: <98e46fa1-8e33-4288-9894-e1756da113e2@redhat.com>
-Date: Mon, 23 Mar 2026 16:51:56 +1000
+        Sun, 22 Mar 2026 23:55:34 -0700 (PDT)
+Message-ID: <670cca31-ef2b-4fd8-89ad-221526a07f7e@redhat.com>
+Date: Mon, 23 Mar 2026 16:55:17 +1000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -87,8 +87,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 18/40] arm_mpam: resctrl: Implement helpers to update
- configuration
+Subject: Re: [PATCH v6 19/40] arm_mpam: resctrl: Add plumbing against arm64
+ task and cpu hooks
 To: Ben Horgan <ben.horgan@arm.com>
 Cc: amitsinght@marvell.com, baisheng.gao@unisoc.com,
  baolin.wang@linux.alibaba.com, carl@os.amperecomputing.com,
@@ -105,29 +105,21 @@ Cc: amitsinght@marvell.com, baisheng.gao@unisoc.com,
  zengheng4@huawei.com, linux-doc@vger.kernel.org,
  Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
 References: <20260313144617.3420416-1-ben.horgan@arm.com>
- <20260313144617.3420416-19-ben.horgan@arm.com>
+ <20260313144617.3420416-20-ben.horgan@arm.com>
 Content-Language: en-US
 From: Gavin Shan <gshan@redhat.com>
-In-Reply-To: <20260313144617.3420416-19-ben.horgan@arm.com>
+In-Reply-To: <20260313144617.3420416-20-ben.horgan@arm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 3/14/26 12:45 AM, Ben Horgan wrote:
 > From: James Morse <james.morse@arm.com>
 > 
-> resctrl has two helpers for updating the configuration.
-> resctrl_arch_update_one() updates a single value, and is used by the
-> software-controller to apply feedback to the bandwidth controls, it has to
-> be called on one of the CPUs in the resctrl:domain.
+> arm64 provides helpers for changing a task's and a cpu's mpam partid/pmg
+> values.
 > 
-> resctrl_arch_update_domains() copies multiple staged configurations, it can
-> be called from anywhere.
-> 
-> Both helpers should update any changes to the underlying hardware.
-> 
-> Implement resctrl_arch_update_domains() to use
-> resctrl_arch_update_one(). Neither need to be called on a specific CPU as
-> the mpam driver will send IPIs as needed.
+> These are used to back a number of resctrl_arch_ functions. Connect them
+> up.
 > 
 > Tested-by: Gavin Shan <gshan@redhat.com>
 > Tested-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
@@ -140,16 +132,14 @@ On 3/14/26 12:45 AM, Ben Horgan wrote:
 > Signed-off-by: James Morse <james.morse@arm.com>
 > Signed-off-by: Ben Horgan <ben.horgan@arm.com>
 > ---
-> Changes since rfc:
-> list_for_each_entry -> list_for_each_entry_rcu
-> return 0
-> Restrict scope of local variables
-> 
 > Changes since v2:
-> whitespace fix
+> apostrophes in commit message
 > ---
->   drivers/resctrl/mpam_resctrl.c | 70 ++++++++++++++++++++++++++++++++++
->   1 file changed, 70 insertions(+)
+>   drivers/resctrl/mpam_resctrl.c | 58 ++++++++++++++++++++++++++++++++++
+>   include/linux/arm_mpam.h       |  5 +++
+>   2 files changed, 63 insertions(+)
 > 
+
 Reviewed-by: Gavin Shan <gshan@redhat.com>
+
 
