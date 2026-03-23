@@ -1,65 +1,86 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A2993845CF;
-	Mon, 23 Mar 2026 23:20:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 751042571C7;
+	Mon, 23 Mar 2026 23:45:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774308056; cv=none; b=o3Bb8u0b/X3yevYYWURi/i/RBeSql4T9WUwCPAQvaSXRKgB7Yw96ovQmyQH8UeQKRBQcAfi+p3uexUPR71zIZp9Sv1JigyKdUIpdC1ZJnW9BwykQQA2Q0B/MUh5vcp+Ei9qK0bomnzhoYJNtVpGzL5xQL6XxRMYM+54riruD1qE=
+	t=1774309537; cv=none; b=k9AIxuaF+yig3JfG+V/517MGuRkzhkTAXMF3jzs0Dq9SLZVqB+Of5xiFQDmQfA96+NVysnqFTECOaLliyrHRCxOihKNPBngg4Ifzy9cTmgI8XjuMxpkpZuyR8/BgGFvOrhWynvmi6YMv9ofanDIRVhUKvVF5WWNAvd5Xjf5LOJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774308056; c=relaxed/simple;
-	bh=CXejRXkyFv8rzwbuR+qRhnfSeAcHAubW4BagLISel5c=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bGkl6vLDavXf8oBX12g63rvz7MHG3YV2IzvggddLP092It8GIr52NqTcFlZAEQALqz7MFjPx489ybQshs2eN87N+u4ffmdhgb39IpU/U25FUEmBdXWS6C9EPZA5BF2rCIZvIZrpDwMQvNC6U62gpCJ3vp9qpawc5nqAnXoNDvf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZdlTOt1M; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774309537; c=relaxed/simple;
+	bh=wAhrSG+O4G13mI6rUqEHR2ZQ5aOUUhnwCEn157FgXIU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jd7PQfCC+VgQJSsLJZOWe8Qdf6PAvquE5JetSsemt8xaqb9E8GGIyfkGT6XXg3z1oMzjC79XBt1kY/98ZoZZ2wyEssQmFPS43c5BkvJDRnmqV7phEX2QDMTjXHqcnWPJgtP067MmL+M6E4CBfvEw3CxNfURFIVJZuiUoHKmYeNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wu4eNhCq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZdlTOt1M"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CADCC4CEF7;
-	Mon, 23 Mar 2026 23:20:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wu4eNhCq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE097C4CEF7;
+	Mon, 23 Mar 2026 23:45:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774308056;
-	bh=CXejRXkyFv8rzwbuR+qRhnfSeAcHAubW4BagLISel5c=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ZdlTOt1MVA50vXHQJe1+nFkk5CqbYNEGEHbm1Jh/Zbvbs8K08YUviCmu7EibRkZV6
-	 bb94ryBxk95AElS9QWgt1wWP4P56O+KGnzsw82Xa+o01uMWuZO5JoppSrVCl/Q5HL0
-	 gt/Ey6dGjRO74d3MSJTkpnGBtzNnC/+5id2o7yo5y4zVDEAb20PmUtL3Z49BWLoggk
-	 NgHoF07Tg5iV8d0qblBTT7euugeW2kFY7bWgWqqb/uo/TqF2b9N37m0QwIfpnqi0ac
-	 N8psFvp2TG+lYLONfU0ghuKdwV/PRZc4greILDVF7Hq42eLVp7jZf/ZjtnXodPzF4L
-	 o08Gjtn9Br5Ng==
-Date: Mon, 23 Mar 2026 16:20:53 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Stanislav Fomichev <sdf@fomichev.me>
-Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
- pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
- skhan@linuxfoundation.org, andrew+netdev@lunn.ch,
- michael.chan@broadcom.com, pavan.chebbi@broadcom.com,
- anthony.l.nguyen@intel.com, przemyslaw.kitszel@intel.com,
- saeedm@nvidia.com, tariqt@nvidia.com, mbloch@nvidia.com,
- alexanderduyck@fb.com, kernel-team@meta.com, johannes@sipsolutions.net,
- sd@queasysnail.net, jianbol@nvidia.com, dtatulea@nvidia.com,
- mohsin.bashr@gmail.com, jacob.e.keller@intel.com, willemb@google.com,
- skhawaja@google.com, bestswngs@gmail.com, aleksandr.loktionov@intel.com,
- kees@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- intel-wired-lan@lists.osuosl.org, linux-rdma@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux-kselftest@vger.kernel.org,
- leon@kernel.org
-Subject: Re: [PATCH net-next v3 01/13] net: add address list snapshot and
- reconciliation infrastructure
-Message-ID: <20260323162053.62a148c2@kernel.org>
-In-Reply-To: <20260320012501.2033548-2-sdf@fomichev.me>
-References: <20260320012501.2033548-1-sdf@fomichev.me>
-	<20260320012501.2033548-2-sdf@fomichev.me>
+	s=k20201202; t=1774309537;
+	bh=wAhrSG+O4G13mI6rUqEHR2ZQ5aOUUhnwCEn157FgXIU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Wu4eNhCqey6dvy9Pj3dGKa7HfQmwK6p7XQuJ1/3jfIY2eB6q0lo6Oe91eMmiBOLYq
+	 U+0pyryBL0yAlBxDmOGWnSVBpWUH+JPsKEqGJXL2Ig59wTGicUwqEAN0EVBoJBagkC
+	 ecV0T+ZOQT07+KKeFUzahXS9DinIfzIfOhvQSdqJC+ZK5cZ5kjLl3EgtqaCBeham8i
+	 bXMCTGTW5QI4qiwGdcV2zpcACP3Fsooy3Wu+62m8QyWyw47bDYvkdS07FupCEKLhN4
+	 N1QNllBVwPDvxAuNv9tG56HQx795yz8TcwidO4GhteH7BEFL/BeK5pgH21Ty2HrNVs
+	 bvrehnewkVTPg==
+From: SeongJae Park <sj@kernel.org>
+To: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	akpm@linux-foundation.org,
+	corbet@lwn.net,
+	bijan311@gmail.com,
+	ajayjoshi@micron.com,
+	honggyu.kim@sk.com,
+	yunjeong.mun@sk.com
+Subject: Re: [RFC PATCH v4 0/1] mm/damon: add node_eligible_mem_bp and node_ineligible_mem_bp goal metrics
+Date: Mon, 23 Mar 2026 16:45:27 -0700
+Message-ID: <20260323234529.85790-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <CALa+Y15sBCyVgGKC5994-WhS31nahyT=8uitDPG_isZ7sp_g_w@mail.gmail.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, 19 Mar 2026 18:24:49 -0700 Stanislav Fomichev wrote:
-> +EXPORT_SYMBOL(__hw_addr_list_snapshot);
-> +EXPORT_SYMBOL(__hw_addr_list_reconcile);
+On Mon, 23 Mar 2026 12:23:49 -0700 Ravi Jonnalagadda <ravis.opensrc@gmail.com> wrote:
 
-Why?  For the kunit tests?
+> On Sat, Mar 21, 2026 at 9:57 AM SeongJae Park <sj@kernel.org> wrote:
+[...]
+> > >
+> > > Changes since v3:
+> > > =================
+> > >
+> > > - The first two patches from v3 (goal_tuner initialization fix and
+> > >   esz=0 quota bypass fix) are now in damon/next. This submission
+> >
+> > It is not also in mm-unstable :)
+
+What I really wanted to say is, s/not/now/
+
+> 
+> Good to know. Will mention this in the next version.
+
+I think Ravi understood what I really wanted to mean, though.
+
+[...]
+> Thank you! Will drop the RFC tag for v5.
+
+Looking forward to!
+
+
+Thanks,
+SJ
+
+[...]
