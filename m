@@ -1,172 +1,108 @@
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3861B388E7D;
-	Mon, 23 Mar 2026 15:37:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774280259; cv=pass; b=YgpcleZWkk4y9fVBsTUIUX1wfSgjGNbqBaEBGofDlMnvb1FJvCa9+JTqC0AlFtMdOdcUYF7Vo1eQ7mnzFJA/6rvNsNqy4piWoFMy9weLM0x+18X1/wYAove7EuIzD6Bvu+UiO2S1HYMpBi1/0sALsCmQSE5RoaEPnv9xaXcz9Fo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774280259; c=relaxed/simple;
-	bh=kRd9MamsZhHFX0eXeHK52K6PQIUtE4kq1Kg13hQI2kU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QdTJg2VeBJUE9+ulAvdNBnUo0104k5QLodz+6EGnxm3NP9+HD8m9cqpSXvGqtAFQrBV6P4XOeX8R4eUKMc7yKsxLKXnMKB9TVfzRpprrz/X54EJAMr+qOssjbmRvgml/XSEmsslCkNH2a38bw2QaPr0r1UyBuutZR4H8IQbCHio=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com; spf=pass smtp.mailfrom=ritovision.com; dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b=myxW9xtA; arc=pass smtp.client-ip=136.143.188.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ritovision.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E5893B47FD
+	for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 15:47:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774280831; cv=none; b=lS2pVTZ83aMYIonr6ujz0tMca6N8bB+Yk0XlmyQ34qjXtMKz2QiPdTJK5c4JL6fqRbCquHCOBJh6shPbX7j2xZui1ekp+h9DzAVrmszrjEB/g1QXJpkw1n/a8xV8TR6YCUxcltHmtQY9H2y1n3qJ1la4oSI0kg7jYDkU09LBc1w=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774280831; c=relaxed/simple;
+	bh=G8j5VdLcKlfqBzhD5E96qCqDUHkNy5m8xRujbXzWVLE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CBpv1TEzyZXG9YK2xQ8QncUrI7UR+AkabW/AKSrikDMLVCnzF4det5bRoaQNLecNKGoupWh7mNzBa0IsxPl6MJDamWJkItEu3y568+5jpMZUpFaIZDrWRGTNCM67JNE2m4BWs63k7RtnSPmzfbbYMXAkO++ACNSP0bCfGnae/yI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=TRXa/kDl; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b="myxW9xtA"
-ARC-Seal: i=1; a=rsa-sha256; t=1774280245; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=EjUWoDY1aiHrpRmcavcih4CIUoB+hDcwNQ0hNmtdcZLKxKrX5Ifbo97yQIs4ECKbw0ZBWDOHJ8eMPmbQgvZF4iGZb45jgTigZqPbdNwXVtiDyaTsXWWhz0XK4o/BE6ZX0oJDFJbDT5vYWub5R/sPOdhB3Km7JFLkvGe9oHgBJtc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1774280245; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=Hwx5iPsfiTD+smIHpTbJOj3oQ8RJOB3tC6ppa36fcak=; 
-	b=HKVXQeiEbADGKuidE/pQ69Yqsya8bgioWaluQtlQgtLaOpFIFjploUMznPWyFqrFQJiAPzDKxZcF+n5h31GoY+Du1UJ/YjJx3pxFg8CzelnkVcqCV6dm8NLzWdX55z+yfY6tgjPjT0ogvF4IU707CITjk5vDOqsAvU+SzM4/pBI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=ritovision.com;
-	spf=pass  smtp.mailfrom=rito@ritovision.com;
-	dmarc=pass header.from=<rito@ritovision.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774280245;
-	s=zmail; d=ritovision.com; i=rito@ritovision.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=Hwx5iPsfiTD+smIHpTbJOj3oQ8RJOB3tC6ppa36fcak=;
-	b=myxW9xtAxT3tb/dxNU0uSMPZC56r8rNRkhKRWq/4dp49hWd9seV0f0zl1yXgqc5E
-	eTCt5znnx7RuTxOdYu0vBQBM23gJJl7U6E5E01wcQxEFvuteQaopLvG+RVVMtwgT9rX
-	sCw8OUEOf0enaibsSP4QmxRBL1yforT+5bNblbmI=
-Received: by mx.zohomail.com with SMTPS id 1774280244592714.6661640224551;
-	Mon, 23 Mar 2026 08:37:24 -0700 (PDT)
-From: Rito Rhymes <rito@ritovision.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-doc@vger.kernel.org
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org,
-	rdunlap@infradead.org,
-	Rito Rhymes <rito@ritovision.com>
-Subject: [PATCH v3] docs: wrap generated tables to contain small-screen overflow
-Date: Mon, 23 Mar 2026 11:37:23 -0400
-Message-ID: <20260323153723.34735-1-rito@ritovision.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260321133811.17854-1-rito@ritovision.com>
-References: <20260321133811.17854-1-rito@ritovision.com>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="TRXa/kDl"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4852a9c6309so25894265e9.0
+        for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 08:47:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1774280827; x=1774885627; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=p1P8EN8xuW2XM/nvn4JwAjz9BQQ7OXUbARn0dbOo/2E=;
+        b=TRXa/kDl0Ozhj8EUMcBmj5LnaAxrmbsXTNG5KYmrhe2+k3T8/q3l532xMPFB9lzMjG
+         +s5stxV+EPn+4AVcaT16txUAVvZofDCfWiYNYbWSpHFW+OBJxdllkFlNF97neVfP6IU0
+         HyfwSUF+Xwc7VDJ7MZJxOLpf8gh9SQmgbxoLAnO/FlcHWBuwHZ2/m3cxlqX1Pdkbw6Ry
+         VwA89R46zWc65Po0911Y96KwtoKglHUSKTO5M1NxLGB+Yjk+6QNMoVTMOqLdS3X0BGqP
+         ec/N1xgHKMxjDvJdW4mpLmHDBH0PyivzGjQUM8iC8MI5tzNw7XuwaUuWnH7hygZGvqTd
+         HPOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774280827; x=1774885627;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=p1P8EN8xuW2XM/nvn4JwAjz9BQQ7OXUbARn0dbOo/2E=;
+        b=WTczO/V6c+gTYCjPTATQasZJlQajT0SXqX/Nty9dGhQSHEEXYkUAGs+xm0nJYvJ5hf
+         fCmRahGinoKsThtVlPKmBbARksHhHt3odmqND7E4rbbCyI2MhcodPqHYvbH8Jq392+bN
+         eDrPqStDPnN0fYGW5wy4Rx6PBtDOn7G0dKA8NQbc2AVtgHoYssg8pIBcZANZd33QJ9iX
+         lcQ6a1eH5UDrb2alOsPSEV0E8C7B9CexaKehqoQFQSnvoOsxd5L8VnjusW9NQ1RPfvpb
+         /Pt9YYbzK97UUuFi3ZcS2FuSQ76ZRVDS81CzzUNLtOqsjS9pUJLzfcPCC/KpdHcPAhsP
+         hiJg==
+X-Forwarded-Encrypted: i=1; AJvYcCVS3QKBuRLfRny35sYuFZ04rh06Be6x7/c0hSy+j3DjQ7qkT5GQksZKzczeO0uxuoJuO9rZGuk3/p4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyikgtu2N5gqOWzKKGaSsM7jBJmC6+XowYDpIutSeStmyx94DNo
+	yQLq18afP+CLygRhwvO1muKIIWXLkg/3/TGqDNcFuFMuAYLPKbrumRALODmk/5jlCUM=
+X-Gm-Gg: ATEYQzwziQvPxtduRW++gEmfVbR13oxNtqHtlGunOZa6MeuAQyqwuROCXXNezspNp9P
+	e8fLTPTXExWd90IFLGUUpCXpuKv8G2vC/W7tlm2+gZbLAbMcVDpHYDIzAHkSbsFsTNdQuXXOYhp
+	MHsdryeq/rXxrxM7eJ6XSzWab01FR0H/ZaZ30+PjfMScY/1sKIs58FajkOejcI//S7yqvrmZXDs
+	IJavlfHPhPw4Q/HpGFKPm1H39fTxtvQeuF8lDzRwP90p+CWuJnRoWQBM3wNeVuwtfb0ZER3icpx
+	QY/Rz+x5DvHvEy1qfvlJArkE1gyHzp1QmK3hft3WFjq+go2Iq8TacSCWOljgskTtSBkyRt0RbBr
+	+WcYWnWusRCpA3cEvIlaBECrjG9p8owp5ikGQKI5ZY2DGSRMYV4fssubimS6QRBca5fjSQoBDNg
+	AYYI2bV6sRH8UNav7Jqp2flT9eEg==
+X-Received: by 2002:a05:600c:c09c:b0:486:fcdf:c065 with SMTP id 5b1f17b1804b1-486ff01caa3mr140759835e9.27.1774280826645;
+        Mon, 23 Mar 2026 08:47:06 -0700 (PDT)
+Received: from pathway.suse.cz ([176.114.240.130])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486fe68ec05sm425261635e9.0.2026.03.23.08.47.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Mar 2026 08:47:06 -0700 (PDT)
+Date: Mon, 23 Mar 2026 16:47:04 +0100
+From: Petr Mladek <pmladek@suse.com>
+To: mrungta@google.com
+Cc: Jinchao Wang <wangjinchao600@gmail.com>,
+	Yunhui Cui <cuiyunhui@bytedance.com>,
+	Stephane Eranian <eranian@google.com>,
+	Ian Rogers <irogers@google.com>, Li Huafei <lihuafei1@huawei.com>,
+	Feng Tang <feng.tang@linux.alibaba.com>,
+	Max Kellermann <max.kellermann@ionos.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Douglas Anderson <dianders@chromium.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Florian Delizy <fdelizy@google.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 1/5] watchdog: Return early in
+ watchdog_hardlockup_check()
+Message-ID: <acFgeGymRQALM1dk@pathway.suse.cz>
+References: <20260312-hardlockup-watchdog-fixes-v2-0-45bd8a0cc7ed@google.com>
+ <20260312-hardlockup-watchdog-fixes-v2-1-45bd8a0cc7ed@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260312-hardlockup-watchdog-fixes-v2-1-45bd8a0cc7ed@google.com>
 
-Some documentation tables exceed the fixed-width main content column.
-On desktop this is usually acceptable because they can overflow the
-800px body without harming readability, but on smaller screens the
-same tables create page-wide horizontal scroll overflow that breaks the
-layout.
+On Thu 2026-03-12 16:22:02, Mayank Rungta via B4 Relay wrote:
+> From: Mayank Rungta <mrungta@google.com>
+> 
+> Invert the `is_hardlockup(cpu)` check in `watchdog_hardlockup_check()`
+> to return early when a hardlockup is not detected. This flattens the
+> main logic block, reducing the indentation level and making the code
+> easier to read and maintain.
+> 
+> This refactoring serves as a preparation patch for future hardlockup
+> changes.
+> 
+> Signed-off-by: Mayank Rungta <mrungta@google.com>
 
-Wrap generated HTML tables in a dedicated container. Above
-Alabaster's existing 65em breakpoint, the wrapper uses
-`display: contents` to preserve current desktop rendering. At and
-below that width, it becomes a horizontal scroll container so table
-overflow is contained locally instead of breaking page layout.
+LGTM:
 
-Examples:
-  https://docs.kernel.org/6.15/kernel-hacking/locking.html
-  https://docs.kernel.org/6.15/arch/arc/features.html
+Reviewed-by: Petr Mladek <pmladek@suse.com>
 
-Signed-off-by: Rito Rhymes <rito@ritovision.com>
-Assisted-by: Codex:GPT-5.4
----
-v3: add latest public versioned URL examples to the patchlog
-
- Documentation/conf.py                  |  1 +
- Documentation/sphinx-static/custom.css | 16 ++++++++++++++
- Documentation/sphinx/table_wrapper.py  | 30 ++++++++++++++++++++++++++
- 3 files changed, 47 insertions(+)
- create mode 100644 Documentation/sphinx/table_wrapper.py
-
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 679861503..51756d779 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -159,6 +159,7 @@ extensions = [
-     "sphinx.ext.autodoc",
-     "sphinx.ext.autosectionlabel",
-     "sphinx.ext.ifconfig",
-+    "table_wrapper",
-     "translations",
- ]
- # Since Sphinx version 3, the C function parser is more pedantic with regards
-diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
-index db24f4344..d7c8c4f18 100644
---- a/Documentation/sphinx-static/custom.css
-+++ b/Documentation/sphinx-static/custom.css
-@@ -23,6 +23,13 @@ div.document {
-     margin: 20px 10px 0 10px;
-     width: auto;
- }
-+/*
-+ * Wrap generated tables in a container that preserves desktop overflow
-+ * while allowing contained scrolling on smaller screens.
-+ */
-+div.body div.table-overflow {
-+    display: contents;
-+}
- 
- /* Size the logo appropriately */
- img.logo {
-@@ -96,6 +103,15 @@ input.kernel-toc-toggle { display: none; }
-     div.kerneltoc a { color: black; }
- }
- 
-+@media screen and (max-width: 65em) {
-+    div.body div.table-overflow {
-+        display: block;
-+        max-width: 100%;
-+        overflow-x: auto;
-+        overflow-y: hidden;
-+    }
-+}
-+
- /* Language selection menu */
- 
- div.admonition {
-diff --git a/Documentation/sphinx/table_wrapper.py b/Documentation/sphinx/table_wrapper.py
-new file mode 100644
-index 000000000..dfe8c139b
---- /dev/null
-+++ b/Documentation/sphinx/table_wrapper.py
-@@ -0,0 +1,30 @@
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+"""Wrap generated HTML tables in a responsive overflow container."""
-+
-+from sphinx.writers.html5 import HTML5Translator
-+
-+__version__ = "1.0"
-+
-+
-+class TableWrapperHTMLTranslator(HTML5Translator):
-+    """Add a wrapper around tables so CSS can control overflow behavior."""
-+
-+    def visit_table(self, node):
-+        self.body.append('<div class="table-overflow">\n')
-+        super().visit_table(node)
-+
-+    def depart_table(self, node):
-+        super().depart_table(node)
-+        self.body.append("</div>\n")
-+
-+
-+def setup(app):
-+    for builder in ("html", "dirhtml", "singlehtml"):
-+        app.set_translator(builder, TableWrapperHTMLTranslator, override=True)
-+
-+    return dict(
-+        version=__version__,
-+        parallel_read_safe=True,
-+        parallel_write_safe=True,
-+    )
--- 
-2.51.0
+Best Regards,
+Petr
