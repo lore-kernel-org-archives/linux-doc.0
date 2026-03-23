@@ -1,87 +1,78 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F9293BADB2;
-	Mon, 23 Mar 2026 16:52:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70C633C0622;
+	Mon, 23 Mar 2026 16:55:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774284724; cv=none; b=HYzTVZPS40Tukee1KN4O1/4MlXESKi+9TXxtXJ/SKSxFWzSnPIVV8oImqZi0wdA5FDnc13aKIqaO9b1ytArGSGSKbH6P8CZxoVqcJ8mlaTGr1qo/kkPNyF4LTkhQxu9LAc4g16AxAM37FiLOhMn33eYeZgz5yjMbwH/J3PsO0DM=
+	t=1774284951; cv=none; b=bKY+J6G7TPsJnh0hRGzZiUE9os3S9I6jy1ejYJPYOxB/KbOmELyEivPL06LaIxvDPggaKPsblyB8VpndGZ0GO6RjRmTDrQOSll5edwQjX4jG6SP7iXx9TsD0q0PxevnvgZNYZXXuezVQEt9ixgUDKfNs0CCD43Y7e/bAbWa0vm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774284724; c=relaxed/simple;
-	bh=RWbkdTJSoIUSPpri8l6gNHEff1Dz8wVuzblC+YTXA8Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GkfQ+/FXXIoMRpsfAS3/2cF1aCUwf+6fgHR5riozpNErpflhAsZDWr8dkyNGq0mKPMFcdBZ+WpgJG9PtTmc20lRlrqR3JDUR73VXbH9ms9PYYlQpPnwlt6UOhqBO1vf5E2Hn7dO3JNEpeDRFSRWs1hSUR6yke3PDHSQMYqneKbE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=o4TsikL4; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1774284951; c=relaxed/simple;
+	bh=0LuJYoTQTDvWV9NTWOPFuNPtv2UN3kOMEh+jhXWnc2s=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=p1PF/ywELsynI3c5BcuLLm81rzOaq/lc+qmjFPvPT0P5Z3sGlr5EhzO0X7bpvkHTmeP6/NX7FqpEkpy8GbqZnv4G/QI6aG76LuXBy+DFmU3O466nJbp+X9ItwaZpUprzTZjNzjyItOw3zDrcp25z0GClQVwuAIZRRBgayfVeMqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=qgGXTep1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="o4TsikL4"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=+AOu/lG5FJLGR8YlmX7KFaeM98ayrUFnh1YxZgcIYfA=; b=o4TsikL4Tk4to7UNeChQjhrIk4
-	UaAWPkpAcNQaRA5LiNanDkI5k9+64CyVaXuTN91PX/4vEqwLfxBg3MB6kKBu6W0/5ssfLEeoytrF0
-	cxmSERhOkvXetbBF45GC8g8iQRD7Uw4Eo/gFVAAuIM72M0Va+zWvC3AeRN42r/55GZiZ/ExKtgKZ9
-	QXIHDCP+x1779VxDx4nckOO1Y/yFyt7bXtkZQ8wtPHl3QHt2WE4hvFDpWHVkbJvSBK3+Bp5sUBxyi
-	VRPpkyVHMnSacF7Ln5Pxvu/QU982cH095ufLI7ax0mI709Wi6DCBH63X3b/CBYHY2V0XHsYAjxjKD
-	dNaYLiWQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w4iVR-0000000HAh8-0DHU;
-	Mon, 23 Mar 2026 16:51:57 +0000
-Message-ID: <e046d0a8-b10b-405f-b3dd-94b7f4450313@infradead.org>
-Date: Mon, 23 Mar 2026 09:51:55 -0700
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="qgGXTep1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28F2FC2BC9E;
+	Mon, 23 Mar 2026 16:55:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1774284951;
+	bh=0LuJYoTQTDvWV9NTWOPFuNPtv2UN3kOMEh+jhXWnc2s=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=qgGXTep1YmJrPSvqa0ycQRzl2NPgm4AaiOcjYyoeytss6axGtvgS0EzKKZIBsxxsA
+	 V6fyRWqr/ZIWLg5r94g6isrv7Lul5Ery6vKJi/XjccJ0tkvgqlQUYmdi/KPsKX+oSy
+	 WOcrfjFCALXA7q5Zf2q/7NKZNQeM2jvJT0tXbqY8=
+Date: Mon, 23 Mar 2026 09:55:48 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Jinjie Ruan <ruanjinjie@huawei.com>
+Cc: <corbet@lwn.net>, <skhan@linuxfoundation.org>,
+ <catalin.marinas@arm.com>, <will@kernel.org>, <chenhuacai@kernel.org>,
+ <kernel@xen0n.name>, <maddy@linux.ibm.com>, <mpe@ellerman.id.au>,
+ <npiggin@gmail.com>, <chleroy@kernel.org>, <pjw@kernel.org>,
+ <palmer@dabbelt.com>, <aou@eecs.berkeley.edu>, <alex@ghiti.fr>,
+ <tglx@kernel.org>, <mingo@redhat.com>, <bp@alien8.de>,
+ <dave.hansen@linux.intel.com>, <hpa@zytor.com>, <robh@kernel.org>,
+ <saravanak@kernel.org>, <bhe@redhat.com>, <vgoyal@redhat.com>,
+ <dyoung@redhat.com>, <rdunlap@infradead.org>, <peterz@infradead.org>,
+ <feng.tang@linux.alibaba.com>, <pawan.kumar.gupta@linux.intel.com>,
+ <dapeng1.mi@linux.intel.com>, <kees@kernel.org>, <elver@google.com>,
+ <paulmck@kernel.org>, <lirongqing@baidu.com>, <safinaskar@gmail.com>,
+ <rppt@kernel.org>, <ardb@kernel.org>, <leitao@debian.org>,
+ <jbohac@suse.cz>, <cfsworks@gmail.com>, <osandov@fb.com>,
+ <tangyouling@kylinos.cn>, <sourabhjain@linux.ibm.com>,
+ <ritesh.list@gmail.com>, <eajames@linux.ibm.com>,
+ <songshuaishuai@tinylab.org>, <kevin.brodsky@arm.com>,
+ <samuel.holland@sifive.com>, <vishal.moola@gmail.com>,
+ <junhui.liu@pigmoral.tech>, <coxu@redhat.com>, <liaoyuanhong@vivo.com>,
+ <fuqiang.wang@easystack.cn>, <x86@kernel.org>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <loongarch@lists.linux.dev>, <linuxppc-dev@lists.ozlabs.org>,
+ <linux-riscv@lists.infradead.org>, <devicetree@vger.kernel.org>,
+ <kexec@lists.infradead.org>
+Subject: Re: [PATCH v9 0/5] arm64/riscv: Add support for crashkernel CMA
+ reservation
+Message-Id: <20260323095548.fa4e13d6e8ae5005ae585e13@linux-foundation.org>
+In-Reply-To: <20260323072745.2481719-1-ruanjinjie@huawei.com>
+References: <20260323072745.2481719-1-ruanjinjie@huawei.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] Documentation: document
- panic_on_unrecoverable_memory_failure sysctl
-To: Breno Leitao <leitao@debian.org>, Miaohe Lin <linmiaohe@huawei.com>,
- Naoya Horiguchi <nao.horiguchi@gmail.com>,
- Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, kernel-team@meta.com
-References: <20260323-ecc_panic-v1-0-72a1921726c5@debian.org>
- <20260323-ecc_panic-v1-2-72a1921726c5@debian.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260323-ecc_panic-v1-2-72a1921726c5@debian.org>
-Content-Type: text/plain; charset=UTF-8
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
+On Mon, 23 Mar 2026 15:27:40 +0800 Jinjie Ruan <ruanjinjie@huawei.com> wrote:
 
-
-On 3/23/26 8:29 AM, Breno Leitao wrote:
-> Document the new vm.panic_on_unrecoverable_memory_failure sysctl in the
-> admin guide, following the same format as panic_on_unrecovered_nmi.
+> The crash memory allocation, and the exclude of crashk_res, crashk_low_res
+> and crashk_cma memory are almost identical across different architectures,
+> This patch set handle them in crash core in a general way, which eliminate
+> a lot of duplication code.
 > 
-> Signed-off-by: Breno Leitao <leitao@debian.org>
-> ---
->  Documentation/admin-guide/sysctl/vm.rst | 27 +++++++++++++++++++++++++++
->  1 file changed, 27 insertions(+)
-> 
-> diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-> index 97e12359775c9..3310fb8272fb9 100644
-> --- a/Documentation/admin-guide/sysctl/vm.rst
-> +++ b/Documentation/admin-guide/sysctl/vm.rst
+> And add support for crashkernel CMA reservation for arm64 and riscv.
 
-
-> +
-> += ===================================================================
-> +0 Try to continue operation (default).
-> +1 Panic immediately.  If the ``panic`` sysctl is also non-zero then the
-> +  machine will be rebooted.
-> += ===================================================================
-
-The table begin and end lines must be at least as long as the text (may be
-longer). Please extend the =========== lines by a few characters.
-
--- 
-~Randy
-
+Thanks.  AI review has completed and it asks questions:
+	https://sashiko.dev/#/patchset/20260323072745.2481719-1-ruanjinjie@huawei.com
