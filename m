@@ -1,54 +1,54 @@
-Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FDA438F64B
-	for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 23:59:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96AEC3890EA
+	for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 23:59:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774310342; cv=none; b=hiMtbqPpYg+au3b1BtRopkezikGEJsYfEKhskpCMYPtZARk9V7WZbiebcoWk6uYzRUfJZRdtDvVHc4JeO/iQQWzf1ovr56mw0U4PqUf9wFZ61xKiRvikru9HzmX2UI84UlvAKOWX/Z0N34vc5yjUMUPfKr+Z4AnZctQKO6EobCw=
+	t=1774310349; cv=none; b=l+VyxLFC89MJ0skmbNPE5e4/qsnDR2GxO+D/NVIToeldf1SVUtvOlHJh3bQKT5XcVrzliJZ6ao/tYrngKUyGSFHArzzADbpemboc5oY6CTu0UAKd4EZyIBPXtjGHQAt7v0d2aFX0SN1eOcGr7w1MVtzZG/8umJANCrKVGjHraIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774310342; c=relaxed/simple;
-	bh=+70kIpVyn2x8kiDDC1PyFViZ/JQI+XUMMGbOcdpeoO4=;
+	s=arc-20240116; t=1774310349; c=relaxed/simple;
+	bh=Pal8NLhSzj5NFCdkK3kSKC8PcLcfaBEm4Hex4yzxfHQ=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=PjpcY/yJ9SHFSVcrpRas574mxpvglf/5ytc4EyEwTjxIheNaXNTtJdzo0Yhr6Q3bY5SkPZtsL2SIC8HQP1fpc3XYqsOWuKTeXR9u99j5TlEK/flbnINAfcb9N4B4YOwcbMqSHnjPsl5mDyTv5EmUpGkCkFkTLqey72aSHx6I7mc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=KonaVZOw; arc=none smtp.client-ip=209.85.216.74
+	 To:Cc:Content-Type; b=vGMJ1Yzn4923N1azIt1bTHfr01jnEvMmsu1cEwmI6Bp+CQJgYJw2MB38e8JNZlUbOJwJhGe+TGCytVlv4AivWSH9v4IbdSKvn8jJO/uJUfSywXKRWJ8Ocidz+DhinuKwqW1HV4SKImlKt0R9ET5zdXMlOazq5nyaLNJTipWUMtE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Z2t4gcwi; arc=none smtp.client-ip=209.85.214.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KonaVZOw"
-Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-35b93be1227so4036238a91.0
-        for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 16:59:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Z2t4gcwi"
+Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-2b056b2f0cfso8991585ad.0
+        for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 16:59:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1774310340; x=1774915140; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1774310344; x=1774915144; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=aeeFxLRNeEzMbfk8m3pX/GNMnylfMV1s3l1hGn54HBA=;
-        b=KonaVZOwrYOL3fHMUF+ukavBeIxBBYT0e1WJa4WvMJ1RSBuLqVV3Mk00Rrky5dagLx
-         fSp009YFXfhs6YpR64ZSDt9o0Gx5tFeW2h8hSdMd5p07DR2H5BzGHf1Rh0VlayyCtHuo
-         cS518Ky3jhHGrVUdoZ4eViVu5rsz+zFMmEtG+ZA4p0bDqxs1LHfaxv7Y8d9A5+gvkxE8
-         /xZml+WaebaztMPMViWBzVXwvU3k0br3vM8z0hkLDstZ0y1LUjnOQLE1ICpDqg8Gq0zJ
-         f+v5z6k6SeaDg7+6dKEkku3vtwTz71tCrVxXoc9R0K0tf2MJlFH/InQhQtIhzviMKipW
-         ukfw==
+        bh=d5dX1H4XkIVUdogReT0P+xEIybXWqypp015VM5/RpRc=;
+        b=Z2t4gcwiYdiRpMKelEM5gq77MCDju8RQIdsyXTs2OzZCyqLxRg7gT1yeIU5DlOKpR4
+         yY+RKvGB+tdPDY33SuRwansSOKKKNrcZmF1pXDfKjK62tuwUFitbvm7sKACE+qXmkcAU
+         AmMhWNFv4ZL2ONeOg7ceMa59EGtNu23uTZXelEqdsDPr3XM/Lvdk+glOkq7wUxTbON5C
+         m1zVxMqHK8zZEz8Vp80w5wDmZ5Zmx9HHdtrsT3C1SoaXgAJIgbnJoyID0UkCgGgXCcHz
+         bZ2lob6kHuPGGzUQkdZbXgGiijYLOyet3PpHGUEQwue4/F3+Y2V2ccc8DOf2mqfM9Q4n
+         jCjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774310340; x=1774915140;
+        d=1e100.net; s=20251104; t=1774310344; x=1774915144;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aeeFxLRNeEzMbfk8m3pX/GNMnylfMV1s3l1hGn54HBA=;
-        b=OUu4PK3x4r1i2TznvgzhEFDMU9pIMm+KlwNFfZWmeYA77/FbONehxmv9iLSuz/DFES
-         wotIAgpNFAbHWHE8MZoLC4ydY4+WC76xTwiCZrVU0QrAU2ZTu3hkrjhWiFpcMGBqAcbw
-         I0yr73kJPjhQU/04fFHfsvAZDto6xSCtedyomQwlehwnNkrGdNElNf34nMg/HigHJ7a9
-         77EwXNyUphyF4J02vGag5cJ0URcyq0nOWYUMg7AhsonCo41G5ekkhsqKx5k9mTO8TJdM
-         PhsRuG7NvAvsoz1I5tCCKNTc6axqIsyuLywITUsDTOLLPoGJX1ijlAa+l2+Lxak5nLbC
-         1YDA==
-X-Forwarded-Encrypted: i=1; AJvYcCWtpHbimieIzhky5OUWp74s8UYR/095dZ1bHLG8JiX9b1zI0PfZ8Ll38tkO/2CLf1QrN0MS1rX9lwI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2e8Mhv0lpzNSlMzUH2HUPbX5rn1Sz4qVDief6GSxOF+Y9hSrW
-	pkNrbVFF7rvahHigFyTH68nJDXbXz0SeWS5izWi5hK/GhPhJWqPiR7kZhUJUMJBqnH9Z6xauNLh
-	ay0On83j593vWaQ==
-X-Received: from pgbcl21.prod.google.com ([2002:a05:6a02:995:b0:c73:90cf:9638])
+        bh=d5dX1H4XkIVUdogReT0P+xEIybXWqypp015VM5/RpRc=;
+        b=k+D4LiAnE5Kfz0YI4d0xi334SE1gRhdwK88K41puw39rFO/IGvx2A27lAlDQ01l8MT
+         YKUsP3H0FSnuOIm4UhryuJ8h0NXQo4Du9QCEnyDcEBgxmhLG6PYWZJbV1x/Ima+qIol2
+         nsUXXR6HtFtkk4BruMy5qnAEpxvecoXL4Mfqb78OMFpeU4Bjzqimy/1tU4vVcAv8Qx+S
+         LJ8e/l95qGnwBEcdbk6sjW5R4X4mmpAGd12xmKjeqD2QFfo/omTWL/dXkBSZ07/9a5im
+         JT41ZlaP8BUEViEqAcoO/T8OWs1Ny1BJmQ/6+zUjjedgAAcMIdFL1YXUiKd/h2IBWpTh
+         K4PQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXzVkp4N4YPeD82nUTrikwCF2/eCyyzv1U+4RJW1t0KRf+rptauxjiEx/l09nWQXco3zj88mthiIiU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz4jaJH1y77jL4PP6GhVA5b5+b6+GrZaa92p9SI/B3OzFYWmLs5
+	sXpKUA7rGUHr1xgFhcoBXvzAyO4pCPaxc2ZZ2P1ECcGzXCWRe7WO0/BlT74julabzrNMi8Bh5s8
+	M7202Bfx5IUnEIg==
+X-Received: from plpn15.prod.google.com ([2002:a17:902:968f:b0:2ae:c5aa:fcd7])
  (user=dmatlack job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6a21:3286:b0:398:7ca0:43a9 with SMTP id adf61e73a8af0-39bceb46904mr12137508637.36.1774310340303;
- Mon, 23 Mar 2026 16:59:00 -0700 (PDT)
-Date: Mon, 23 Mar 2026 23:58:05 +0000
+ 2002:a17:903:124f:b0:2b0:54dc:62c with SMTP id d9443c01a7336-2b0827c9a7cmr151447295ad.48.1774310343811;
+ Mon, 23 Mar 2026 16:59:03 -0700 (PDT)
+Date: Mon, 23 Mar 2026 23:58:07 +0000
 In-Reply-To: <20260323235817.1960573-1-dmatlack@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -58,8 +58,9 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20260323235817.1960573-1-dmatlack@google.com>
 X-Mailer: git-send-email 2.53.0.983.g0bb29b3bc5-goog
-Message-ID: <20260323235817.1960573-14-dmatlack@google.com>
-Subject: [PATCH v3 13/24] docs: liveupdate: Add documentation for VFIO PCI
+Message-ID: <20260323235817.1960573-16-dmatlack@google.com>
+Subject: [PATCH v3 15/24] selftests/liveupdate: Add helpers to
+ preserve/retrieve FDs
 From: David Matlack <dmatlack@google.com>
 To: Alex Williamson <alex@shazbot.org>, Bjorn Helgaas <bhelgaas@google.com>
 Cc: Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.com>, 
@@ -87,70 +88,108 @@ Cc: Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.
 	Zhu Yanjun <yanjun.zhu@linux.dev>
 Content-Type: text/plain; charset="UTF-8"
 
-Add documentation for preserving VFIO device files across a Live Update,
-generated from the kernel-doc comments in the code.
+From: Vipin Sharma <vipinsh@google.com>
 
+Add helper functions to preserve and retrieve file descriptors from an
+LUO session. These will be used be used in subsequent commits to
+preserve FDs other than memfd.
+
+No functional change intended.
+
+Signed-off-by: Vipin Sharma <vipinsh@google.com>
+Co-developed-by: David Matlack <dmatlack@google.com>
 Signed-off-by: David Matlack <dmatlack@google.com>
 ---
- Documentation/core-api/liveupdate.rst         |  1 +
- .../driver-api/vfio_pci_liveupdate.rst        | 23 +++++++++++++++++++
- MAINTAINERS                                   |  1 +
- 3 files changed, 25 insertions(+)
- create mode 100644 Documentation/driver-api/vfio_pci_liveupdate.rst
+ .../liveupdate/lib/include/libliveupdate.h    |  3 ++
+ .../selftests/liveupdate/lib/liveupdate.c     | 41 +++++++++++++++----
+ 2 files changed, 35 insertions(+), 9 deletions(-)
 
-diff --git a/Documentation/core-api/liveupdate.rst b/Documentation/core-api/liveupdate.rst
-index d56a7760978a..c55d0d9d1d3b 100644
---- a/Documentation/core-api/liveupdate.rst
-+++ b/Documentation/core-api/liveupdate.rst
-@@ -34,6 +34,7 @@ The following types of file descriptors can be preserved
-    :maxdepth: 1
+diff --git a/tools/testing/selftests/liveupdate/lib/include/libliveupdate.h b/tools/testing/selftests/liveupdate/lib/include/libliveupdate.h
+index 4390a2737930..2b04b3256382 100644
+--- a/tools/testing/selftests/liveupdate/lib/include/libliveupdate.h
++++ b/tools/testing/selftests/liveupdate/lib/include/libliveupdate.h
+@@ -26,6 +26,9 @@ int luo_create_session(int luo_fd, const char *name);
+ int luo_retrieve_session(int luo_fd, const char *name);
+ int luo_session_finish(int session_fd);
  
-    ../mm/memfd_preservation
-+   ../driver-api/vfio_pci_liveupdate
++int luo_session_preserve_fd(int session_fd, int fd, __u64 token);
++int luo_session_retrieve_fd(int session_fd, __u64 token);
++
+ int create_and_preserve_memfd(int session_fd, int token, const char *data);
+ int restore_and_verify_memfd(int session_fd, int token, const char *expected_data);
  
- Public API
- ==========
-diff --git a/Documentation/driver-api/vfio_pci_liveupdate.rst b/Documentation/driver-api/vfio_pci_liveupdate.rst
-new file mode 100644
-index 000000000000..1098b84e5ecd
---- /dev/null
-+++ b/Documentation/driver-api/vfio_pci_liveupdate.rst
-@@ -0,0 +1,23 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
+diff --git a/tools/testing/selftests/liveupdate/lib/liveupdate.c b/tools/testing/selftests/liveupdate/lib/liveupdate.c
+index 60121873f685..3e070975a3ec 100644
+--- a/tools/testing/selftests/liveupdate/lib/liveupdate.c
++++ b/tools/testing/selftests/liveupdate/lib/liveupdate.c
+@@ -54,9 +54,35 @@ int luo_retrieve_session(int luo_fd, const char *name)
+ 	return arg.fd;
+ }
+ 
++int luo_session_preserve_fd(int session_fd, int fd, __u64 token)
++{
++	struct liveupdate_session_preserve_fd arg = {
++		.size = sizeof(arg),
++		.fd = fd,
++		.token = token,
++	};
 +
-+====================================
-+VFIO PCI Device Preservation via LUO
-+====================================
++	if (ioctl(session_fd, LIVEUPDATE_SESSION_PRESERVE_FD, &arg))
++		return -errno;
 +
-+.. kernel-doc:: drivers/vfio/pci/vfio_pci_liveupdate.c
-+   :doc: VFIO PCI Preservation via LUO
++	return 0;
++}
 +
-+VFIO PCI Preservation ABI
-+=========================
++int luo_session_retrieve_fd(int session_fd, __u64 token)
++{
++	struct liveupdate_session_retrieve_fd arg = {
++		.size = sizeof(arg),
++		.token = token,
++	};
 +
-+.. kernel-doc:: include/linux/kho/abi/vfio_pci.h
-+   :doc: VFIO PCI Live Update ABI
++	if (ioctl(session_fd, LIVEUPDATE_SESSION_RETRIEVE_FD, &arg))
++		return -errno;
 +
-+.. kernel-doc:: include/linux/kho/abi/vfio_pci.h
-+   :internal:
++	return arg.fd;
++}
 +
-+See Also
-+========
-+
-+- :doc:`/core-api/liveupdate`
-+- :doc:`/core-api/kho/index`
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a16a7ecc67a4..a6a31b94a4e8 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -27684,6 +27684,7 @@ T:	git https://github.com/awilliam/linux-vfio.git
- F:	Documentation/ABI/testing/debugfs-vfio
- F:	Documentation/ABI/testing/sysfs-devices-vfio-dev
- F:	Documentation/driver-api/vfio.rst
-+F:	Documentation/driver-api/vfio_pci_liveupdate.rst
- F:	drivers/vfio/
- F:	include/linux/kho/abi/vfio_pci.h
- F:	include/linux/vfio.h
+ int create_and_preserve_memfd(int session_fd, int token, const char *data)
+ {
+-	struct liveupdate_session_preserve_fd arg = { .size = sizeof(arg) };
+ 	long page_size = sysconf(_SC_PAGE_SIZE);
+ 	void *map = MAP_FAILED;
+ 	int mfd = -1, ret = -1;
+@@ -75,9 +101,8 @@ int create_and_preserve_memfd(int session_fd, int token, const char *data)
+ 	snprintf(map, page_size, "%s", data);
+ 	munmap(map, page_size);
+ 
+-	arg.fd = mfd;
+-	arg.token = token;
+-	if (ioctl(session_fd, LIVEUPDATE_SESSION_PRESERVE_FD, &arg) < 0)
++	ret = luo_session_preserve_fd(session_fd, mfd, token);
++	if (ret)
+ 		goto out;
+ 
+ 	ret = 0;
+@@ -92,15 +117,13 @@ int create_and_preserve_memfd(int session_fd, int token, const char *data)
+ int restore_and_verify_memfd(int session_fd, int token,
+ 			     const char *expected_data)
+ {
+-	struct liveupdate_session_retrieve_fd arg = { .size = sizeof(arg) };
+ 	long page_size = sysconf(_SC_PAGE_SIZE);
+ 	void *map = MAP_FAILED;
+ 	int mfd = -1, ret = -1;
+ 
+-	arg.token = token;
+-	if (ioctl(session_fd, LIVEUPDATE_SESSION_RETRIEVE_FD, &arg) < 0)
+-		return -errno;
+-	mfd = arg.fd;
++	mfd = luo_session_retrieve_fd(session_fd, token);
++	if (mfd < 0)
++		return mfd;
+ 
+ 	map = mmap(NULL, page_size, PROT_READ, MAP_SHARED, mfd, 0);
+ 	if (map == MAP_FAILED)
 -- 
 2.53.0.983.g0bb29b3bc5-goog
 
