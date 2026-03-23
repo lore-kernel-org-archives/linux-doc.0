@@ -1,67 +1,66 @@
-Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D9C83AD525
-	for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 14:33:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B779A399352
+	for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 14:44:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774276389; cv=none; b=gXHQ4lQ/Jj9TgHtxxSO9VZKa5HYNxPpOfloX86e/1uWeAB93l7cGpFYsHOePSN8BYm30QvCeKn3+/pWi5hMmWdkzjpZtEw+VXiora5mFVp9lMezrkzlZul8qDEZApps2Axkinhufu7fgriZixY3o2P7EeQO05kOylmMVIt3QGwc=
+	t=1774277070; cv=none; b=Nrx0ro1gm1hLlEOqg2mFiq7Cn1KsatvWEfytpz8GbrvsQWntl3h0fJu/+FyYTyNCkW60DBB3Al0OjWWEVDVdd/LaSkITN8XVs2uTCdjvVaTEO0iOHMaOqc6JKJ5eEP+ytm0IAO1iMIButfz1s+NwHezJa4+fKcgRmT6seoenhak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774276389; c=relaxed/simple;
-	bh=FUWZG338Lvqw+ZHMyYOjy0LBZ3vZYoG/uj35Q/vhN94=;
+	s=arc-20240116; t=1774277070; c=relaxed/simple;
+	bh=Sz8BjVHNR/2cFKMwkkMdh6g+P4C3BczN2D44AA+h7X4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YH90av/fmN+MiEs80CF+ZM9A6DCUKT67j/S6G3Q2syyBExScbemw3VMjcPh09ug6pOivuvGyI+cJOAa3Z/kKLuZ45M5WXonvqIBYeBRYzbiFg4foiQBU7KitCYev54MByiSmBsQbkbQsRApHYHdo6B/6334FrNmPlXO/BvUa0Xk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=amahc5fH; arc=none smtp.client-ip=74.125.82.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=e2bcgrk8vRKVv79pqJjLfBbSGGL8rhCTQhX9OPVrHPuznfiMWIRYrEmG+CHtwvXMHIBwl00Rg4/369v2bdLPYhJQsmGp8o1qxocsbHUJj4vQOQSWrYwXcR63vnUbJsfFmB5EJz+pfGJr58nSdaiBo/KelVjr2lMpxwq3H0ui3FY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=a8KQOH0p; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="amahc5fH"
-Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-1279eced0b9so3908300c88.0
-        for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 07:33:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="a8KQOH0p"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-43b527ac5d0so1436579f8f.2
+        for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 07:44:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774276387; x=1774881187; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=iNYejPjdBPqYLtoCLQEnNEXgxoTT0I9CZ1Nfe3G/xyM=;
-        b=amahc5fHDmJqnb7n4fNt74zuTEtzDFexr1hIg5HPXWOSt5Mjb5YLEynkH++s8TsUOc
-         VK678SjLda3kPMG7XflF4l4tayrbGrgOwxCiH9zab63CaTspNKguizmg8B4c9mG0/4pR
-         QfK8thS+vA6IHv4lmWBcBsKDAcXHmHOa4OiCqcAQK+sTXCO+HgorMyK8Im88ZlL5kzO9
-         W/CL89OVc3FFNpaWR6FmvJggbAjRJQrdxfegAp14olgL7KoV0Yu3qNjxAuro9hmdXNlS
-         F8t+qE9HYrbrSdJKEABGERj9vcjseo6u/ak7ou9RsIZVW/spWGYGqgS2FU9B4c7a1eyo
-         f6Hw==
+        d=suse.com; s=google; t=1774277067; x=1774881867; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=Apeh08iQfW1zl1kubqYMTfp/o+HNBm1KzQrtiUj8S3o=;
+        b=a8KQOH0pAiA+ZM2rly7YnfrDD2YqKsHDVUBb2o1l44+QTfjmWE6o4ws2LBQYAKyg/A
+         +eCm2okHqUbQwMj5chUBGiBTgtm3Ya5EyVje19T/qC6taiNJXvdxIE4NrprbnMA4STy9
+         ip5yGuHO1Buo1i8ncJKVrf0auBAfCz4cLaKq9v8lUFOo9YKogshshzYfksooJcaPacxX
+         KxdBaI4VsVTasjEOc4O7XRzwD5shgDauAApetKvFkq5o+vj1ZHQhYPoMh72D1M+z5Fl2
+         Stelny+pssN3keGJj7mTnZuVzbvYIP4xCItPgj3St3vgAxqzdKvSUcqIU0eREBTGHdxv
+         yI+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774276387; x=1774881187;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iNYejPjdBPqYLtoCLQEnNEXgxoTT0I9CZ1Nfe3G/xyM=;
-        b=otkbiLtJaNT0lsdeYJbyiQnPLM1ZyLGjgdMrjQB76kEgu1/kwrPpBNpcQW6mouqq1t
-         BBgtgh6TDb0N2rdpHXdn9jmFDdWPftcyBxRGbxqzjzPkMUap/ss2KX+Qkgz0G79J9i2G
-         TFTg0PJQYkmhQ1+h59qqzckGJlKex3Uqhhkomx/knMSykGW4CfVuIH1H39DA0v4H2dUg
-         bQzg3A93eOb5IqNRiXag/CroISzuhpKQhzyvSISsGnDq7B7K61yOTh2lA6blDrSl78V7
-         o1dboe8PPnDJl8/KIZR7vg+3thC6zg7qmWWn4OqKH99N3930C1WfHkPR2YkESIW1vAtg
-         aimQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWSALhzdvSHCcK18htBT/Fi4EqHxrEddlMWZR19cqrKM6E/+CTkUFmAn55H/kW4sk0yq6yFELYdpM0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz9mNEiz2paYV6Cv6JNgbv2TkMAtu2m7rIrbOuN8/NPLzOZrNSR
-	5JjXqnEw7gUK3rKhFA2gyo33gDlR24NwKqn5ye+R4MbO/lFwlC3a7lLu
-X-Gm-Gg: ATEYQzy4LagXIPTZrsyG8SxIs4hXTOpTefJw98uvBwbD57K/yqxlyq9B6k/duJmkFK5
-	X68Dmb9/JGKPFggR3oh0uuCVeUo0MjNREUeZ5iVcKCMyp4i4uvOu3EyNF3wprt2jOoKW7m3X0uE
-	Ds02dRL1njFnp0szZnqBchY2G5Gn6W8btNb/F9l+/c09mxCcFoFzIE8LqUu6WjbaSUL7OB7euGy
-	Ccu1iHTTK+fsF36u2FCD/XGqwTcHPRAXx0Hc50SWTn1EtdSBCSRNercp25o0RTzJ4mwP8KcfLkl
-	ANt7Vz1qlLi08RIR9w6hZQ4ONID4jli+rwMMbRwNjl9hcHwqdMjnfaFJjdVEak6B1VaQKxbpzSO
-	f/0wlbvlhd2srvdAWUyDTS3JDhkDSUBBWp2tO3m34M2FZzgbgsd4ox7eiimbnVhEix7/9eSBYvk
-	wB0exwQ4OI9rO7OrX9efze/bDcYPH/+pkW8ZYLMWv6reme7HcoVXYElpnx1nw+jWplbj8LUOKn
-X-Received: by 2002:a05:7022:e29:b0:128:d20a:2f40 with SMTP id a92af1059eb24-12a7267d0c0mr5552465c88.8.1774276387345;
-        Mon, 23 Mar 2026 07:33:07 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12a7330d1c5sm8887677c88.0.2026.03.23.07.33.06
+        d=1e100.net; s=20251104; t=1774277067; x=1774881867;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Apeh08iQfW1zl1kubqYMTfp/o+HNBm1KzQrtiUj8S3o=;
+        b=KNbAuDhRmFyg+6h62s2sYmhdcglsoqOi2uy8lpIGOGyJK6H0gd6UlE2f1wXQsQN+gQ
+         tgRSFPQUA+WEqiYORuPvQuOZEgQcVoUkNT19addORScI4HA6uj62L9d5KfDfp76oqiHA
+         P54WrD/X74xY0m7E75HjeD9u4Tj+DRI2XzClU4uiZSbOxYrYUB4VBQI7HymPt90H3YXQ
+         jPViDhRehxw6es2Sw7nB03iRkNvsbBLgXOEyZWG4JgXNBfRXMmnUpv6TgwyAj57pHdAd
+         cOQ96Ti3MiLTKJ/ey8tMFVof4Mmw2oFWKsqCfEuGM6Zvv7FTvj37b9YfS8R9j76uCSNO
+         1EYg==
+X-Forwarded-Encrypted: i=1; AJvYcCVyQJtnVG85LIrZXLeaWDpbLo4Kkk0Z31870BJ9nKSfcmR86ZUAmWveH/CE+dlw8oIFE8u45ErIw0A=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxLWacNLZnravLxLpJZ3sChoeDefDjk2bP/aNqdMZ932/RYDF8G
+	v94bwzQKP7jeRy696HBIDRJoFdim7IwhozknPswh+x3xM2ePPPOpIyuNU0DeKibkguQ=
+X-Gm-Gg: ATEYQzxbHpfJID7TypRkbzbVweHx0OAjxkIhI28bWAjmA2nX77CF0vTCn2lgUqWHqeM
+	tTGaXCFQun5My5y4LO54Iecq4y/OH3FroTiUBJ4msOlAFpve/ZrMgLQvbip2oCYKqCI8MZpBlHS
+	LbifNzbqlOSaZmupy0PYix93RCNxOZ8LdI6rikq1rYazvdogqDM6CUQy1XCTUVfzu+8e6wtwmkQ
+	koqVXCf+MlhR70/qZceT7P/iukgD0/3HymhgI49FZDs2o3dI/iNRMlvwpXd2ii3RJoBiRmca//o
+	lcoSXWFNkMyZxbwetb61H6bYRbynHlk89nd79dSaYXVpeReGnmYugekPs6aptj2n7tE50NZ1lq6
+	KyMVi3wAZhYG/rqK7gPAP3c0yWFx6CDIKA3C0rPKl8C8/eXwT18rTTiNZp82igDK7pH71vyPb/n
+	I2DwyTC9hI6L7+h3SHJK8QzlT6yg==
+X-Received: by 2002:a05:6000:4381:b0:439:afd8:621c with SMTP id ffacd0b85a97d-43b6428b417mr17458154f8f.55.1774277067029;
+        Mon, 23 Mar 2026 07:44:27 -0700 (PDT)
+Received: from [192.168.0.20] ([212.21.133.10])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b644bd0dcsm29028576f8f.11.2026.03.23.07.44.24
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Mar 2026 07:33:06 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <453dbd6c-c68d-4977-8418-a898008b0fe7@roeck-us.net>
-Date: Mon, 23 Mar 2026 07:33:05 -0700
+        Mon, 23 Mar 2026 07:44:26 -0700 (PDT)
+Message-ID: <6c315cb3-b3a0-478e-b8ec-36d82684d310@suse.com>
+Date: Mon, 23 Mar 2026 16:44:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,141 +68,102 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 1/3] dt-bindings: hwmon: Document the LTC4283 Swap
- Controller
-To: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>, nuno.sa@analog.com
-Cc: linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org,
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Linus Walleij <linusw@kernel.org>,
- Bartosz Golaszewski <brgl@kernel.org>
-References: <20260314-ltc4283-support-v7-0-1cda48e93802@analog.com>
- <20260314-ltc4283-support-v7-1-1cda48e93802@analog.com>
- <c395fad0-ca24-448a-a77f-ddac1cd9f809@roeck-us.net>
- <77cd7e879a10df791d9d5eb1f16f1654e9904199.camel@gmail.com>
+Subject: Re: [PATCH v7 03/10] x86/bhi: Rename clear_bhb_loop() to
+ clear_bhb_loop_nofence()
+To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Josh Poimboeuf <jpoimboe@kernel.org>,
+ David Kaplan <david.kaplan@amd.com>, Sean Christopherson
+ <seanjc@google.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Peter Zijlstra <peterz@infradead.org>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ KP Singh <kpsingh@kernel.org>, Jiri Olsa <jolsa@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>,
+ David Laight <david.laight.linux@gmail.com>,
+ Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, David Ahern <dsahern@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>,
+ Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+ Asit Mallick <asit.k.mallick@intel.com>, Tao Zhang <tao1.zhang@intel.com>,
+ bpf@vger.kernel.org, netdev@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20260319-vmscape-bhb-v7-0-b76a777a98af@linux.intel.com>
+ <20260319-vmscape-bhb-v7-3-b76a777a98af@linux.intel.com>
+From: Nikolay Borisov <nik.borisov@suse.com>
 Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <77cd7e879a10df791d9d5eb1f16f1654e9904199.camel@gmail.com>
+Autocrypt: addr=nik.borisov@suse.com; keydata=
+ xsFNBGcrpvIBEAD5cAR5+qu30GnmPrK9veWX5RVzzbgtkk9C/EESHy9Yz0+HWgCVRoNyRQsZ
+ 7DW7vE1KhioDLXjDmeu8/0A8u5nFMqv6d1Gt1lb7XzSAYw7uSWXLPEjFBtz9+fBJJLgbYU7G
+ OpTKy6gRr6GaItZze+r04PGWjeyVUuHZuncTO7B2huxcwIk9tFtRX21gVSOOC96HcxSVVA7X
+ N/LLM2EOL7kg4/yDWEhAdLQDChswhmdpHkp5g6ytj9TM8bNlq9I41hl/3cBEeAkxtb/eS5YR
+ 88LBb/2FkcGnhxkGJPNB+4Siku7K8Mk2Y6elnkOctJcDvk29DajYbQnnW4nhfelZuLNupb1O
+ M0912EvzOVI0dIVgR+xtosp66bYTOpX4Xb0fylED9kYGiuEAeoQZaDQ2eICDcHPiaLzh+6cc
+ pkVTB0sXkWHUsPamtPum6/PgWLE9vGI5s+FaqBaqBYDKyvtJfLK4BdZng0Uc3ijycPs3bpbQ
+ bOnK9LD8TYmYaeTenoNILQ7Ut54CCEXkP446skUMKrEo/HabvkykyWqWiIE/UlAYAx9+Ckho
+ TT1d2QsmsAiYYWwjU8igXBecIbC0uRtF/cTfelNGrQwbICUT6kJjcOTpQDaVyIgRSlUMrlNZ
+ XPVEQ6Zq3/aENA8ObhFxE5PLJPizJH6SC89BMKF3zg6SKx0qzQARAQABzSZOaWtvbGF5IEJv
+ cmlzb3YgPG5pay5ib3Jpc292QHN1c2UuY29tPsLBkQQTAQoAOxYhBDuWB8EJLBUZCPjT3SRn
+ XZEnyhfsBQJnK6byAhsDBQsJCAcCAiICBhUKCQgLAgQWAgMBAh4HAheAAAoJECRnXZEnyhfs
+ XbIQAJxuUnelGdXbSbtovBNm+HF3LtT0XnZ0+DoR0DemUGuA1bZAlaOXGr5mvVbTgaoGUQIJ
+ 3Ejx3UBEG7ZSJcfJobB34w1qHEDO0pN9orGIFT9Bic3lqhawD2r85QMcWwjsZH5FhyRx7P2o
+ DTuUClLMO95GuHYQngBF2rHHl8QMJPVKsR18w4IWAhALpEApxa3luyV7pAAqKllfCNt7tmed
+ uKmclf/Sz6qoP75CvEtRbfAOqYgG1Uk9A62C51iAPe35neMre3WGLsdgyMj4/15jPYi+tOUX
+ Tc7AAWgc95LXyPJo8069MOU73htZmgH4OYy+S7f+ArXD7h8lTLT1niff2bCPi6eiAQq6b5CJ
+ Ka4/27IiZo8tm1XjLYmoBmaCovqx5y5Xt2koibIWG3ZGD2I+qRwZ0UohKRH6kKVHGcrmCv0J
+ YO8yIprxgoYmA7gq21BpTqw3D4+8xujn/6LgndLKmGESM1FuY3ymXgj5983eqaxicKpT9iq8
+ /a1j31tms4azR7+6Dt8H4SagfN6VbJ0luPzobrrNFxUgpjR4ZyQQ++G7oSRdwjfIh1wuCF6/
+ mDUNcb6/kA0JS9otiC3omfht47yQnvod+MxFk1lTNUu3hePJUwg1vT1te3vO5oln8lkUo9BU
+ knlYpQ7QA2rDEKs+YWqUstr4pDtHzwQ6mo0rqP+zzsFNBGcrpvIBEADGYTFkNVttZkt6e7yA
+ LNkv3Q39zQCt8qe7qkPdlj3CqygVXfw+h7GlcT9fuc4kd7YxFys4/Wd9icj9ZatGMwffONmi
+ LnUotIq2N7+xvc4Xu76wv+QJpiuGEfCDB+VdZOmOzUPlmMkcJc/EDSH4qGogIYRu72uweKEq
+ VfBI43PZIGpGJ7TjS3THX5WVI2YNSmuwqxnQF/iVqDtD2N72ObkBwIf9GnrOgxEyJ/SQq2R0
+ g7hd6IYk7SOKt1a8ZGCN6hXXKzmM6gHRC8fyWeTqJcK4BKSdX8PzEuYmAJjSfx4w6DoxdK5/
+ 9sVrNzaVgDHS0ThH/5kNkZ65KNR7K2nk45LT5Crjbg7w5/kKDY6/XiXDx7v/BOR/a+Ryo+lM
+ MffN3XSnAex8cmIhNINl5Z8CAvDLUtItLcbDOv7hdXt6DSyb65CdyY8JwOt6CWno1tdjyDEG
+ 5ANwVPYY878IFkOJLRTJuUd5ltybaSWjKIwjYJfIXuoyzE7OL63856MC/Os8PcLfY7vYY2LB
+ cvKH1qOcs+an86DWX17+dkcKD/YLrpzwvRMur5+kTgVfXcC0TAl39N4YtaCKM/3ugAaVS1Mw
+ MrbyGnGqVMqlCpjnpYREzapSk8XxbO2kYRsZQd8J9ei98OSqgPf8xM7NCULd/xaZLJUydql1
+ JdSREId2C15jut21aQARAQABwsF2BBgBCgAgFiEEO5YHwQksFRkI+NPdJGddkSfKF+wFAmcr
+ pvICGwwACgkQJGddkSfKF+xuuxAA4F9iQc61wvAOAidktv4Rztn4QKy8TAyGN3M8zYf/A5Zx
+ VcGgX4J4MhRUoPQNrzmVlrrtE2KILHxQZx5eQyPgixPXri42oG5ePEXZoLU5GFRYSPjjTYmP
+ ypyTPN7uoWLfw4TxJqWCGRLsjnkwvyN3R4161Dty4Uhzqp1IkNhl3ifTDYEvbnmHaNvlvvna
+ 7+9jjEBDEFYDMuO/CA8UtoVQXjy5gtOhZZkEsptfwQYc+E9U99yxGofDul7xH41VdXGpIhUj
+ 4wjd3IbgaCiHxxj/M9eM99ybu5asvHyMo3EFPkyWxZsBlUN/riFXGspG4sT0cwOUhG2ZnExv
+ XXhOGKs/y3VGhjZeCDWZ+0ZQHPCL3HUebLxW49wwLxvXU6sLNfYnTJxdqn58Aq4sBXW5Un0Q
+ vfbd9VFV/bKFfvUscYk2UKPi9vgn1hY38IfmsnoS8b0uwDq75IBvup9pYFyNyPf5SutxhFfP
+ JDjakbdjBoYDWVoaPbp5KAQ2VQRiR54lir/inyqGX+dwzPX/F4OHfB5RTiAFLJliCxniKFsM
+ d8eHe88jWjm6/ilx4IlLl9/MdVUGjLpBi18X7ejLz3U2quYD8DBAGzCjy49wJ4Di4qQjblb2
+ pTXoEyM2L6E604NbDu0VDvHg7EXh1WwmijEu28c/hEB6DwtzslLpBSsJV0s1/jE=
+In-Reply-To: <20260319-vmscape-bhb-v7-3-b76a777a98af@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-[ ...]
->>> +  adi,pgio1-func:
->>> +    description: Configures the function of the PGIO1 pin.
->>> +    $ref: /schemas/types.yaml#/definitions/string
->>> +    enum: [inverted_power_good, power_good, gpio]
->>> +    default: inverted_power_good
->>> +
->>> +  adi,pgio2-func:
->>> +    description: Configures the function of the PGIO2 pin.
->>> +    $ref: /schemas/types.yaml#/definitions/string
->>> +    enum: [inverted_power_good, power_good, gpio, active_current_limiting]
->>> +    default: inverted_power_good
->>> +
->>> +  adi,pgio3-func:
->>> +    description: Configures the function of the PGIO3 pin.
->>> +    $ref: /schemas/types.yaml#/definitions/string
->>> +    enum: [inverted_power_good_input, power_good_input, gpio]
->>> +    default: inverted_power_good_input
->>> +
->>> +  adi,pgio4-func:
->>> +    description: Configures the function of the PGIO4 pin.
->>> +    $ref: /schemas/types.yaml#/definitions/string
->>> +    enum: [inverted_external_fault, external_fault, gpio]
->>> +    default: inverted_external_fault
->>> +
->>> +  adi,gpio-on-adio1:
->>> +    description: If set, the ADIO1 pin is used as a GPIO.
->>> +    type: boolean
->>> +
->>> +  adi,gpio-on-adio2:
->>> +    description: If set, the ADIO2 pin is used as a GPIO.
->>> +    type: boolean
->>> +
->>> +  adi,gpio-on-adio3:
->>> +    description: If set, the ADIO3 pin is used as a GPIO.
->>> +    type: boolean
->>> +
->>> +  adi,gpio-on-adio4:
->>> +    description: If set, the ADIO4 pin is used as a GPIO.
->>> +    type: boolean
->>
->> Does this dependency block force a redundant specification of adi,pgio4-func?
->> The default for adi,pgio4-func is inverted_external_fault, which means the
->> default hardware state already supports external fault features.
->> If a device tree legitimately omits adi,pgio4-func to rely on that default,
->> will it fail schema validation here since the dependencies keyword strictly
->> checks for the literal presence of properties without injecting defaults?
+
+
+On 19.03.26 г. 17:40 ч., Pawan Gupta wrote:
+> To reflect the recent change that moved LFENCE to the caller side.
 > 
-> Fair point. I guess it will fail but the alternative is to not have any constrain at all so
-> maybe worth it to be explicit in here?
-> 
+> Suggested-by: Borislav Petkov <bp@alien8.de>
+> Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
 
-I don't claim to understand how to define devicetree properties, but
 
-adi,pgio4-func = <"gpio">
+Nit: I think having the _nofence in the function name is leaking an 
+implementation detail into the name/interface. I.e things change and we 
+decide that the implementation of a particular function must change so 
+we just do the change and substantiate it in the commit message or in a 
+comment. Especially that we don't have a "with an lfence" version.
 
-and
+What's more I'd consider this a "private" function, that's called via 
+the CLEAR_BRANCH_HISTORY macros, the only place it's called directly is 
+in the bpf jit code, but that's more of an exception.
 
-adi,gpio-on-adio4;
+Still,
 
-seem to be equivalent to me, and omitting the first property (because
-it defaults to inverted_external_fault) would cause the second to fail.
-So either both would be necessary or none. If that is correct, what is
-the point of having the adi,gpio-on-adio4 property in the first place ?
+Reviewed-by: Nikolay Borisov <nik.borisov@suse.com>
 
-In other words, what is the difference between
-	adi,pgio4-func = <"gpio">;
-	adi,gpio-on-adio4;
-
-and
-	adi,pgio4-func = <"gpio">;
-(with no boolean property) ?
-
-Thanks,
-Guenter
+<snip>
 
