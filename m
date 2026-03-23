@@ -1,44 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20974386458;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21DF238645C;
 	Mon, 23 Mar 2026 09:10:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774257059; cv=none; b=sLRtIgtpAFdV1aXDWhE4KzB2gpD7p6WzcbnoMK7Kl1ibOQ1FOT1E2gW9QJUMdhy9UWGi4UgSKid6R/sIVG777fUQ/vwvuy/g/U2SYvK+CwZ7bjxIlUsirtdM09CkL6ckvfOxDikXshvPZsessO7+0BVKCxPZRNXbUYnkbEe9eMw=
+	t=1774257059; cv=none; b=eCbA6i+x5PvOI3wKwRPOE1dyjJYoOT0YlsrbEp60IDglDtX2osJIh5OWnMGdEMo4rhQ/MYNOtXnM9Jyb56wtGY5khV2vzVFkfU+A38gg3dADAS65lCoL6uPMpwFln78vrvFUGA5o4FKI1loNvADlN46nStI1/0LlzObMGsODNJ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1774257059; c=relaxed/simple;
-	bh=9bP3dZmN9dqpLzA2P9uYLroVbRJTwYSVc6XXaOpsBAY=;
+	bh=SZbd372k/0FI0Z5e+bMZ4b4koJeDa2OHUSQu+POB+Eg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=paL5HxVpmOo2rUY+9ZzECcT9JGqlWxZNkfTq4aNN6XvTK28EOVrZKz66/XN7z5l5AXg1BZcOkaojG8qNz61gKp0No0ZsbW5jRJ3tpuLEiBGRvFKK/CDDCydRDPbtUAYq22B2bP51Q6LY9XBdspiUgbB7pPSiomS3ZR67+KRQ8b8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=swUYgibz; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=gB5nCKyIPdO5ZplZ5gQCHrofCDiz0e8gzJOr3S+tJMTAd9FfEpDHuosE/CNSFxSvu0AJ7k2Lsx+cquI6sNMh2uHpHi/llQ6ZF7Hs5LE3m0s0PpNpgYVYGibhd3hLkZaUncW7iQNtcPXCleZ2h8+bP3EGdB1b1QqAhZVB2oWORag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZlUeLCsE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="swUYgibz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB981C2BCB4;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZlUeLCsE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDE19C2BCB1;
 	Mon, 23 Mar 2026 09:10:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1774257058;
-	bh=9bP3dZmN9dqpLzA2P9uYLroVbRJTwYSVc6XXaOpsBAY=;
+	bh=SZbd372k/0FI0Z5e+bMZ4b4koJeDa2OHUSQu+POB+Eg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=swUYgibzFJdQN8iDOu5XIB9/VQqqZyTluwz/hNGv0wKnXiJswJRt39TEN1+M35w22
-	 PURQSoT7ESF2W7yDkFTnPNHGXtHwplQTdNWHEZQtKJTCFVXvBw3kmCpLgTwbzmnAY6
-	 K0ZWV/EoFQKE5tCJJXnxNBxsZQxFgk3pEBzbT4OIx2ptdvckTwgG1p4JvI6+Wmwm+4
-	 5mlltT9RjT9WWs0NsUwL9BQVTAFQCRBVdH+E3qPbZAVvf92wkIXMqjPCQtEAcLcruU
-	 Hr/poTyBwo76zlpfgXhdalQwfrUqoEGMDFb6sM9RpakIXwOY3izzJnLhGg+vX/7aoM
-	 vUSqCV5Puv5Qw==
+	b=ZlUeLCsEWUOGMRKsvciqc+0sdMlCoolYL2g0TQa69E4dFX1jtrs40Q3r+A7LSp37M
+	 4EyfioJ2fGr+lJ+6YHVy0fKa3IOdS6Y82fcCmI1g0UjQArbz2RrMCfBvlpC14Tju+6
+	 NMWKYiGu782suDfxm67EuJ6ROdoIHVQn06R97obWzoVL3FLK2sqaKoZVW33dMUfn+y
+	 sLFf4Um1GPvI42eNnfIF2Ot6DRLRRb+moz5mQtFXvY4XXpJd621vSyIiNUHptgU5dx
+	 BwZarOgC8Ok5o2n7LG915ShFr02MKHXjC9ToWLBd8QWNPQjUlpJqm+sNZxpZfhged9
+	 l8SHVVJRE+s/Q==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1w4bJI-00000002yWM-1ipo;
+	id 1w4bJI-00000002yWs-2czj;
 	Mon, 23 Mar 2026 10:10:56 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 02/10] unittests: test_kdoc_parser: add command line arg to read a YAML file
-Date: Mon, 23 Mar 2026 10:10:45 +0100
-Message-ID: <1d1a56de012c43756f9ca87aa9bf6c285674f113.1774256269.git.mchehab+huawei@kernel.org>
+	linux-kernel@vger.kernel.org,
+	Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH 10/10] docs: c_lex.py: store logger on its data
+Date: Mon, 23 Mar 2026 10:10:53 +0100
+Message-ID: <467979dc18149e4b2a7113c178e0cb07919632f2.1774256269.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <cover.1774256269.git.mchehab+huawei@kernel.org>
 References: <cover.1774256269.git.mchehab+huawei@kernel.org>
@@ -52,83 +53,40 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-The test_kdoc_parser.py already supports loading dynamic tests
-when running unit tests.
-
-Add support to read from a different file. This is useful for:
-- regression tests before/afer some changes;
-- preparing new unit tests;
-- test a different yaml before adding its contents at
-  tools/unittests/kdoc-test.yaml.
-
-It should be noticed that passing an argument to a unit test
-is not too trivial, as unittest core will load itself the
-runner with a separate environment. The best (only?) way to
-do it is by setting the system environment. This way, when
-the class is called by the unit test loader, it can pick
-the var from the environment without relying on a global
-variable.
-
-The unittest_helper has already provision for it, so let's
-use its support.
+By having the logger stored there, any code using CTokenizer can
+log messages there.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tools/unittests/test_kdoc_parser.py | 23 ++++++++++++++++++++---
- 1 file changed, 20 insertions(+), 3 deletions(-)
+ tools/lib/python/kdoc/c_lex.py | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/tools/unittests/test_kdoc_parser.py b/tools/unittests/test_kdoc_parser.py
-index 723dd8c7f4f3..f2250ef192ce 100755
---- a/tools/unittests/test_kdoc_parser.py
-+++ b/tools/unittests/test_kdoc_parser.py
-@@ -30,7 +30,7 @@ from kdoc.kdoc_output import RestFormat, ManFormat
+diff --git a/tools/lib/python/kdoc/c_lex.py b/tools/lib/python/kdoc/c_lex.py
+index e01b154f458e..cb95f5172448 100644
+--- a/tools/lib/python/kdoc/c_lex.py
++++ b/tools/lib/python/kdoc/c_lex.py
+@@ -177,7 +177,7 @@ class CTokenizer():
+     # This class is inspired and follows the basic concepts of:
+     #   https://docs.python.org/3/library/re.html#writing-a-tokenizer
  
- from kdoc.xforms_lists import CTransforms
+-    def __init__(self, source=None, log=None):
++    def __init__(self, source=None):
+         """
+         Create a regular expression to handle RE_SCANNER_LIST.
  
--from unittest_helper import run_unittest
-+from unittest_helper import TestUnits
- 
- 
- #
-@@ -38,6 +38,10 @@ from unittest_helper import run_unittest
- #
- TEST_FILE = os.path.join(SRC_DIR, "kdoc-test.yaml")
- 
-+env = {
-+    "yaml_file": TEST_FILE
-+}
-+
- #
- # Ancillary logic to clean whitespaces
- #
-@@ -470,7 +474,9 @@ class KernelDocDynamicTests():
-         optional ones.
+@@ -188,6 +188,12 @@ class CTokenizer():
+         when matching a code via RE_SCANNER.
          """
  
--        with open(TEST_FILE, encoding="utf-8") as fp:
-+        test_file = os.environ.get("yaml_file", TEST_FILE)
++        #
++        # Store logger to allow parser classes to re-use it
++        #
++        global log
++        self.log = log
 +
-+        with open(test_file, encoding="utf-8") as fp:
-             testset = yaml.safe_load(fp)
+         self.tokens = []
  
-         tests = testset["tests"]
-@@ -531,4 +537,15 @@ KernelDocDynamicTests.create_tests()
- # Run all tests
- #
- if __name__ == "__main__":
--    run_unittest(__file__)
-+    runner = TestUnits()
-+    parser = runner.parse_args()
-+    parser.add_argument("-y", "--yaml-file", "--yaml",
-+                        help='Name of the yaml file to load')
-+
-+    args = parser.parse_args()
-+
-+    if args.yaml_file:
-+        env["yaml_file"] = os.path.expanduser(args.yaml_file)
-+
-+    # Run tests with customized arguments
-+    runner.run(__file__, parser=parser, args=args, env=env)
+         if not source:
 -- 
 2.53.0
 
