@@ -1,54 +1,54 @@
 Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A1333AEF25
-	for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 23:59:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4CAB387596
+	for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 23:59:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774310357; cv=none; b=rmiU93EeQcZD/AwLQCcoGbfxSb/TaMHwJeHnIl5wOqzCY0pJRlx4T+meBXv6/RnrynzUz1F+hMhd2fwNwmtb+aXYoev4GGJqq1/Dmxlx4+b5K2Dmy8FilQjlGqHhWf06BLvR7YY9O1xj2I3cQtncBtuhn3SRPYAZmcCmvbM6nVE=
+	t=1774310359; cv=none; b=eaDUrBpu7gGlsXvsZak8ArSljk0rbLTLgVsF/MITrxi0jZfWcvFQbxgrQngFs35FxrdULfzFiWjau4L7+N1wiD19aqdEvUiYCz9esed+zT1Qti/JLHpq+P9QZb2c/TUIAfFmNXZpxLtyrl0IyFMnfcv+yq3o/w5s0RLJWtG72Go=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774310357; c=relaxed/simple;
-	bh=WyJEus1uJnXy8m0ACloG+/0RKFyldGkXc9VBNsLAa5g=;
+	s=arc-20240116; t=1774310359; c=relaxed/simple;
+	bh=XYunvBN/JOFiTVeFj3WUZep3oT3AVgN42lf66K2Tnww=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=BB5+lb6scbWiAdKLaoAVHfvy+AK6NVClQ9Wpx2tnD9DEa7/oUrKVx9yMc7EB17j14aHGvAqTJW2jNrnJIrJUMhwy5Q1NMWIgxZq4pDgNj0f+q9QMvVHRCD09C9cX3H6TOjPhmPzAIrjUhZlD9oL/ejqFH41HIAnasOnA5iyEwko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ajyUNY48; arc=none smtp.client-ip=209.85.216.74
+	 To:Cc:Content-Type; b=BPJGkwnGaYO8pT+k3I90GxSfPH4a7eYDYLalXBCM0w78gpCq3GuVnYfJFBooNLbMNCCpqwCsPxXmdIZR/Cg9jduDJit5QxN2fj1Iq8QC15ixWPXecPtjhSMnvsb8OSYTNj2aUuzZtbNKRBfhmsWOIkI5QcsE09pyynjgSwjYsy0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=M3osV84X; arc=none smtp.client-ip=209.85.216.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ajyUNY48"
-Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-3595485abbbso913086a91.2
-        for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 16:59:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="M3osV84X"
+Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-354490889b6so21889008a91.3
+        for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 16:59:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1774310355; x=1774915155; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1774310346; x=1774915146; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=CreqaGlwQEQK+YRyK6iGxzdx6WSNNVSy3f0PqjRZciY=;
-        b=ajyUNY48YtupU10DQPf/1QAF7odcTf4OF8sqdhpBiGvFQLNJH9cTPvJZtO1s1753Pv
-         MA6FnBthhJ1bbcJ9DEcL1fHOVJYpURhQf9RnV9nBBEtOw2q7JJalwEzS5KJBw5i9G1bv
-         wH9kkAB42BSECyvkJuWH1d0ZrBE7IA+LhG4IV0Qsnt9At1aianoU9jmO2LEDq0TXFV63
-         WmhdKVW+Ug3oPAFbJ56TUEtM9ayhjVwxySBQS6Lb7all80wZ/2FkD4NIKRMaAAk8nsZh
-         jfl2Q+dkxavhG/jk/LI0A0YlzDaIYKs5arvXLkRi308kvupxkiG9jWawFCjaYa9vO7Oy
-         +Bgw==
+        bh=bCulrz/+ZC3yY//mGMCNHFkV5P7dfGgY4CJSUX7daUA=;
+        b=M3osV84Xk+p/MMKFxwwAMN5wu3Crzw6Z1XVO86jMGaE7SQreQW6vHZXBv4bbbkv6YF
+         8VTH5vWCCSYgICG7ZUB9hkKD0e8VGw5WRdw0/3wf9BgWcEeVA/LvlHCBWaZEzr+6z70F
+         GC4JcmbZ3hTYr760jIYOqkFvCrHPfA+8ciQRYqL02OXzXb66zFAiYDOF7a6I2XaKJti6
+         zzrxbid2UmCaxEIDZ3Wzsp93wyJ3v8/f2gEYUFe/VQ171Dt1rHlsSQqdc/PyvJOkZEa2
+         8WOI22OTSTSnKVfQh0wBGEIUJn2l6l+lwYaisiy3BjYAreQQ3pFFFEljZSmgG8xHGyej
+         RgRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774310355; x=1774915155;
+        d=1e100.net; s=20251104; t=1774310346; x=1774915146;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CreqaGlwQEQK+YRyK6iGxzdx6WSNNVSy3f0PqjRZciY=;
-        b=tKkAjOcLIsxx9Apxu+1Z8NDnj7+ZKnfGDDpylrh8mdK3o7G0uA+OYk44iWKepG2Vsm
-         CZkTXojcAwergdeyLZXiSJ3x9rltvzNWlY5GMpM8sfKEzkW0oJyQBx3B71GWAP7zrxud
-         VDrgOpsOFxzp0aRcRij5OGcMrd+YO/F6Fq7wD/x8SZcLi0SyOh5Ve2XtBK74d8zF91xd
-         2tSCH+6n5LaT/ob4PpIoVzfViJfvBNepsUrIRaw6G+Fl/sv8wMuE/gI5c0V3ka+4utXi
-         f7KNyTQhmBxCs6LAhTZPZHKu+Kevs24WQjx4gX4EdwdmtyVQ5rbzBYT9jtbGwePrxiCk
-         /BAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUGPEBNtSceCz9BhiN1hb0v1elP8QaYyi0f/OKVT4giLLQ6asSfakFfQnfcrAlCO6claYDXG/MimTs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx+BlpkCN012SkohbPiHZRcQqWZvkk/cPgD3aXmdq6z5c7cd6EE
-	dRB2Md3LbwcKXxVepYaSTDQzEctK6fx1oa/YfOqtJnVMgdRXrFyy0BREDMuNryHQWAOAawKyDDn
-	H0da7A6qfHgOUQA==
-X-Received: from pjat16.prod.google.com ([2002:a17:90a:d10:b0:35b:a2ad:add2])
+        bh=bCulrz/+ZC3yY//mGMCNHFkV5P7dfGgY4CJSUX7daUA=;
+        b=YmoY/2KNjiC0wP6NOF42TIPzTy4uBAaNzUUnYXJ8zWgElCHI/hKKEc0IxlxTDIlPVI
+         W1JBYNm6NngxaEM/oEFYX0CnGf01SJp+4Zq7AX6DTixrlBE0+bHUU0Q9grQ7BGtIesgG
+         awePA8/zhnRjWiWDrVUXAyprgAEovjy23h2VJ7c73iB3vxQKrctZFfBthp2UP7ABX9e1
+         Lv6mzzHQygGXboOJYT6wTvAPmDW9apIuuh2kbr5aewZuPf9MTBtf3HsQTGQHVIqNpiYP
+         W2CBY+ujd9dUqRIcK3mZWXUHImI1rQoQXDKAuon1kl92APjqDEiUvszQnzVhvsihqjSM
+         //Kw==
+X-Forwarded-Encrypted: i=1; AJvYcCUMMCdmkGDAjIFpv6tbXoX3BMfgiJilCkq0cgdjxDStK8EJV5Jc+50+eQYG4vK8Rsu09Vs4IzOXGKU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZAU28b/N6bf3c7iVzKIDSFzI6Av/Ma/FejnqxtUJU1IRMN3q6
+	Gw2DwYm4PnwJwQ3VsqYxVIDxgUxzlAlX//wbmq2GcLSJhVSus7Z7aZI0tBuSuClMTkR1tE+Pzdp
+	m/UWtSETVJagemg==
+X-Received: from pjvd16.prod.google.com ([2002:a17:90a:d990:b0:35b:a305:76f5])
  (user=dmatlack job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90b:3d85:b0:359:1063:6aed with SMTP id 98e67ed59e1d1-35bd2cb3e52mr11055132a91.22.1774310354638;
- Mon, 23 Mar 2026 16:59:14 -0700 (PDT)
-Date: Mon, 23 Mar 2026 23:58:13 +0000
+ 2002:a17:90a:15c2:b0:35b:e4f8:78e1 with SMTP id 98e67ed59e1d1-35be4f87c2bmr4832204a91.11.1774310345696;
+ Mon, 23 Mar 2026 16:59:05 -0700 (PDT)
+Date: Mon, 23 Mar 2026 23:58:08 +0000
 In-Reply-To: <20260323235817.1960573-1-dmatlack@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -58,8 +58,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20260323235817.1960573-1-dmatlack@google.com>
 X-Mailer: git-send-email 2.53.0.983.g0bb29b3bc5-goog
-Message-ID: <20260323235817.1960573-22-dmatlack@google.com>
-Subject: [PATCH v3 21/24] vfio: selftests: Expose iommu_modes to tests
+Message-ID: <20260323235817.1960573-17-dmatlack@google.com>
+Subject: [PATCH v3 16/24] vfio: selftests: Build liveupdate library in VFIO selftests
 From: David Matlack <dmatlack@google.com>
 To: Alex Williamson <alex@shazbot.org>, Bjorn Helgaas <bhelgaas@google.com>
 Cc: Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.com>, 
@@ -87,50 +87,49 @@ Cc: Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.
 	Zhu Yanjun <yanjun.zhu@linux.dev>
 Content-Type: text/plain; charset="UTF-8"
 
-Expose the list of iommu_modes to enable tests that want to iterate
-through all possible iommu modes.
+From: Vipin Sharma <vipinsh@google.com>
 
+Import and build liveupdate selftest library in VFIO selftests.
+
+It allows to use liveupdate ioctls in VFIO selftests
+
+Signed-off-by: Vipin Sharma <vipinsh@google.com>
 Signed-off-by: David Matlack <dmatlack@google.com>
 ---
- tools/testing/selftests/vfio/lib/include/libvfio/iommu.h | 2 ++
- tools/testing/selftests/vfio/lib/iommu.c                 | 4 +++-
- 2 files changed, 5 insertions(+), 1 deletion(-)
+ tools/testing/selftests/vfio/Makefile | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/tools/testing/selftests/vfio/lib/include/libvfio/iommu.h b/tools/testing/selftests/vfio/lib/include/libvfio/iommu.h
-index e9a3386a4719..4b9cbe262159 100644
---- a/tools/testing/selftests/vfio/lib/include/libvfio/iommu.h
-+++ b/tools/testing/selftests/vfio/lib/include/libvfio/iommu.h
-@@ -15,6 +15,8 @@ struct iommu_mode {
- 	unsigned long iommu_type;
- };
+diff --git a/tools/testing/selftests/vfio/Makefile b/tools/testing/selftests/vfio/Makefile
+index 8e90e409e91d..7f3c94da289d 100644
+--- a/tools/testing/selftests/vfio/Makefile
++++ b/tools/testing/selftests/vfio/Makefile
+@@ -20,6 +20,7 @@ TEST_FILES += scripts/setup.sh
  
-+extern const struct iommu_mode iommu_modes[];
-+extern const int nr_iommu_modes;
- extern const char *default_iommu_mode;
+ include ../lib.mk
+ include lib/libvfio.mk
++include ../liveupdate/lib/libliveupdate.mk
  
- struct dma_region {
-diff --git a/tools/testing/selftests/vfio/lib/iommu.c b/tools/testing/selftests/vfio/lib/iommu.c
-index 035dac069d60..95a494f829d2 100644
---- a/tools/testing/selftests/vfio/lib/iommu.c
-+++ b/tools/testing/selftests/vfio/lib/iommu.c
-@@ -23,7 +23,7 @@
- const char *default_iommu_mode = MODE_IOMMUFD;
+ CFLAGS += -I$(top_srcdir)/tools/include
+ CFLAGS += -MD
+@@ -27,11 +28,15 @@ CFLAGS += $(EXTRA_CFLAGS)
  
- /* Reminder: Keep in sync with FIXTURE_VARIANT_ADD_ALL_IOMMU_MODES(). */
--static const struct iommu_mode iommu_modes[] = {
-+const struct iommu_mode iommu_modes[] = {
- 	{
- 		.name = MODE_VFIO_TYPE1_IOMMU,
- 		.container_path = "/dev/vfio/vfio",
-@@ -49,6 +49,8 @@ static const struct iommu_mode iommu_modes[] = {
- 	},
- };
+ LDFLAGS += -pthread
  
-+const int nr_iommu_modes = ARRAY_SIZE(iommu_modes);
+-$(TEST_GEN_PROGS): %: %.o $(LIBVFIO_O)
+-	$(CC) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) $< $(LIBVFIO_O) $(LDLIBS) -o $@
++LIBS_O := $(LIBVFIO_O)
++LIBS_O += $(LIBLIVEUPDATE_O)
 +
- static const struct iommu_mode *lookup_iommu_mode(const char *iommu_mode)
- {
- 	int i;
++$(TEST_GEN_PROGS): %: %.o $(LIBS_O)
++	$(CC) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) $(TARGET_ARCH) $< $(LIBS_O) $(LDLIBS) -o $@
+ 
+ TEST_GEN_PROGS_O = $(patsubst %, %.o, $(TEST_GEN_PROGS))
+-TEST_DEP_FILES = $(patsubst %.o, %.d, $(TEST_GEN_PROGS_O) $(LIBVFIO_O))
++TEST_DEP_FILES := $(patsubst %.o, %.d, $(TEST_GEN_PROGS_O))
++TEST_DEP_FILES += $(patsubst %.o, %.d, $(LIBS_O))
+ -include $(TEST_DEP_FILES)
+ 
+ EXTRA_CLEAN += $(TEST_GEN_PROGS_O) $(TEST_DEP_FILES)
 -- 
 2.53.0.983.g0bb29b3bc5-goog
 
