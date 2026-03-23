@@ -1,121 +1,140 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FE1F2459CF
-	for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 15:58:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 297383B9DAC
+	for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 16:04:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774281505; cv=none; b=tcyXpsLl141JfOgHYOiaOHuoWqDjdT26XSRruAcuMB9F2eKWeh5pfOENhRfccQwws5/3jYvAElJqccHIuj9bRUfomVSrJcFOEmIWXo2AGqxA7BIqnydRZ+1vBpCeBd0ZVWmhGIQzHWrapb1lM0+WjpMzAEwjIB7lGjqnkSO1XPI=
+	t=1774281858; cv=none; b=dFyc9NMrD3EbKTRWROCejdOldd22IHNArWj+UZ/YCWMQzPmza/Q7gJK6p0e8vvR+mK0Ix6H9d2rxkOFOaiyev1B+XOmvMLkacyi/QdGTEgDWb/f0T8ReLFhz3kvJYmgWtSKmqNJmEE0DUBq8b1teYU0RtV2/iOMxBa6Xfuwg9Zk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774281505; c=relaxed/simple;
-	bh=SIjbg6eQXOuP0jmqsWy91IC/EBDBEn/9XloeItaVU68=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lLWQGP/b1ph3YcMcvyvERJELeDjAfRub3Z63MhMg3JGCONf/C6kaT1B8febTEviUKUTPkyJIdlXqlVelTWfG3XUxqFnRVMKA6T7UBLHZTsJODOe53EEiy6q6ZMcBftodzhQcz6toxE3RJ56QFx55css6tWU4yqqcEoPEoCzSES8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=cgHXN7np; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1774281858; c=relaxed/simple;
+	bh=8ha1A3Upqoft3A/vZsGBrxpfXd8ABWmzhRsBL16vIYU=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ZK0CSqvGbCtl9HxSNOh+/iF8H0ZL86g1rtMBHbPP0vOJctdeMAv0Rx5BnCod48VHL6Cnlp+f5L1lVbwE/5YimQMyvJUtkKDeAtF9LcRB0w/BGFnMMlDOMjABUW+ZkzckAK8V1E2/eV0C0uBVdPnpyhB7KqlxK7vPkU8L+gfhGYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=kS+QmkK7; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="cgHXN7np"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-43b7ffed973so162932f8f.2
-        for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 08:58:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="kS+QmkK7"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-48702d51cd0so29027275e9.2
+        for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 09:04:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1774281502; x=1774886302; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8zPvozvDLJbXtRtO+DHPg5/yA/CXI1wJZEDcBqH6tn8=;
-        b=cgHXN7npgAa66dLMAJomcLstkLy5RwlIwYGHigdgK/tyGfVYeJeYv3XlzNpAwSDwCT
-         Jphw/S2X+aS8Ne1+/5Z6iG1+vRZTEB/L/R8ivUz0h3ZfoCKnSLBW8YdZLWklN7I1JBCS
-         wP/sY/SJ30kwrZCr7OAOyT5mc1fPOCtOYnIQuaTfTiH7b5qOS3nWDb/fKZ5gmMNYna/j
-         iLaqX8w9RgYC7MXS8zFJf/PRl2zjjC8j5w8NMeSIruq4X00LkbPwsLobFqkON40F2Sfk
-         naqy3xbO/hzb3KGGXZczqRfFwE58zDHJrioLvrUHPIMuU/tO0VqF3S8lHdS72/EryZGg
-         2wig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774281502; x=1774886302;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1774281853; x=1774886653; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:organization
+         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8zPvozvDLJbXtRtO+DHPg5/yA/CXI1wJZEDcBqH6tn8=;
-        b=TkhS+K4WOyZNil395FnEwVPQm0bTELjRL/mvPDFlEmV02+DtpsSbKwj6s5wIzbCdX/
-         sr+kMOCXhe+0AAZexLpsVkQY0WxEY2HN9UyopgqQjDQPQJisb9gq/hW6M00B5M2Z1EOE
-         s7onM8Sw7rQB8RwRVm+4Ki3SISzzNm+gs7BH8oabfROB2u4kkE3ltJUSGR8TfTRU3qGe
-         d/IptbGnzq3RQRV6FIB3zB2jlLJ08FTAJsZrT5bXx8J5zjbsWnUGPb6PX2EmNDUbyiqi
-         CyCIWB0acufa4u8zsVD5+yXaMlNt07/eLBKKN0uUAfVOvXRkw5xPDbB6rgoaT0y8vnjC
-         Nopw==
-X-Forwarded-Encrypted: i=1; AJvYcCUMI7rT3UOdlDkb+HlMySzNcQ52pMdnMh9/Oppv7CZ+8VHy86VXi/OtRlthm3tYk7vZSjSqPedqFiw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YywhgJQfOMSTLKzLEQxtT+1j6/MLpzAuKm9d61+qc76ZedrJJ+A
-	ff+RhU+ZdLjJSFyR81Iq+DMGE2BGAuPi390GdqSEMGXPtwj7EJA10Vz/eL5ivegMLdk=
-X-Gm-Gg: ATEYQzyFrwy7zrmnv4kXzqeOc9AmfijrVXe1SUlsVK9+qTwoEigosKBE2dPa/Jpx+9g
-	GyfFa0wjmrOyziHf7kxTXtpU2hjxL7j2kg1SU/ldMDQNP6KY4zGlWzYMo4uj8N+T/63QJgZUb2F
-	i+ni1OEzw3zCoX3XAmTsHCotHu8FXe+KfIbZY4OywTgMS331n7d0otxTPJVMxyTKYQ9tZ5R06BP
-	0tzkpfNHOl6nQc6tS0ApAPt3SUBcMKua9KV1m7gTuutdz3/4HS4nCDXoptYwWMVi8hlNPx8w90C
-	wCme2qya97Yb6+0POFa4yYpJINRFRgoIVcFQ6MBwOV78qnS790yZ4gVBzIcsNOGU7ecYlB7+DuU
-	qWuLFhycJf9A13YHFbKnDYrZvsKQ11G1gIPeHSptX079Ee8g/8BGJ8MeDRDhERh4KzEON/O4BPV
-	24QK/qbZWIBH96Q3x6LneeWdrD3Q==
-X-Received: by 2002:a05:6000:2302:b0:439:b339:7ee8 with SMTP id ffacd0b85a97d-43b64244554mr19220543f8f.21.1774281501697;
-        Mon, 23 Mar 2026 08:58:21 -0700 (PDT)
-Received: from pathway.suse.cz ([176.114.240.130])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b646b0b0csm29070120f8f.15.2026.03.23.08.58.20
+        bh=8ha1A3Upqoft3A/vZsGBrxpfXd8ABWmzhRsBL16vIYU=;
+        b=kS+QmkK7qwGvF8EIctTG4pvdoWb4tMqENHrQzXCkQyiBiJfhhL9/Y1DW/hOyW1+Wzs
+         iinuqwrE9/4Wrk3M+LvkN73bRUMZXFFqKZPlJAPQYTNrBG++GCodqIy0CY83BKGsPbfy
+         Id/ojcwcGtSM9Ia0/1ya5/o5lQzIEypIY59uvjm2N7gCi0bcfc9b0ZNAMdbVwFZGHerK
+         qOkBtCfNYoZWUrVf6waLJnRwbiE7whghztMqyqlGw6ztW8pxzeKfTmku+ArcysLqdafF
+         G0xMLFuWLtR683fiK9Wk3IN9YAkzpSlVjINKfC64EdJI4Usz1hq/vRJK7EQCUpiFCxXh
+         XWLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774281853; x=1774886653;
+        h=mime-version:user-agent:content-transfer-encoding:organization
+         :references:in-reply-to:date:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8ha1A3Upqoft3A/vZsGBrxpfXd8ABWmzhRsBL16vIYU=;
+        b=VX+HtTz2LKtj0NX5bZawb4NsEkr8HP5D0EekMRGKEP+XL/dO9sFeBEFEhmmkQcsypm
+         Odn4aBfv+x2V6uo4WPqy4nWKfzpBWNE9hUO1r1iAnQnrsVTezrFVwmEH0ZbVFrreeU7S
+         GVxX2Atq6T3Xxzd/W+IluKkZbD0GkPtQMhxiUtC1+tXpYVfeSEXsLeUy+PjkLV2MfxcH
+         azg1WMXR8kxIiEaumLImwCgfKAb0lCRHPkmyRayos3aAGLBsOTmHXS88BzIry8ebT/H3
+         sp2+HA8txln0bYYI9pJdn5rSFvw+iMaDXavTH2EDDU2LG35tRr7o1ykm+ZARnN5QUg7F
+         Feiw==
+X-Forwarded-Encrypted: i=1; AJvYcCV11n7n9v66tGiDQkfqKay81bQwu0Hgf8Q+GZbwnfiwlOswtvELSuun7/Q0P7G1n5Pw04crHJs8qxw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxxDYs4zuOkeD+AqiILGCI4RqR5eOvkQ8hZd+J5GerSR4TcmR01
+	Gfx8PhDsf8jIpEB0HD0550v9ecOoDlM8p9a/2/ZynPH/aIDcfjhpYjPwjWWytJyasoQ=
+X-Gm-Gg: ATEYQzzl6wnd5fumSid9jB3g78Yn/KqJxvlq4OcNSJ0OEf5KtCQDbRYQMDgatRPOf81
+	8bbxGmOZuaER53B1PZViizPzkBklNjB3cDDZstVlY0cIFyuokyPGDkb8vhVUWkDDpEUHccf8P9p
+	tlVBQFiYUMreUZuhtef8BQj9WmuelZfHhnx0ZmCFltVvLuOFBw6zwajYvMziWMEe9Gtu/riaz+F
+	KU++oXOHQx6+X/s7eFMvS25eStXDA2tpEPcpR9v1cW2IrbdoE7m0IrRAPh5pPyX4McDF/bQGx8P
+	dGTeMqEsRLJXMBLGvsg3CeAgi/zlG7NfQ5UDXwNtnMg56sj1wzOECBQ9qLtzUH988bADvXT2Hco
+	qFmrlREWg9uRHkRPxp7trBcqVsVv7cO0rdSSrOtIqySwSoc0HCw/+RLCTx6joN2rDc0M3Cxosky
+	x6AVI3
+X-Received: by 2002:a05:600c:45c7:b0:485:3fd1:9936 with SMTP id 5b1f17b1804b1-486fede721amr164460475e9.5.1774281853328;
+        Mon, 23 Mar 2026 09:04:13 -0700 (PDT)
+Received: from [10.76.209.31] ([151.35.182.48])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486fe032a55sm555492685e9.7.2026.03.23.09.04.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Mar 2026 08:58:21 -0700 (PDT)
-Date: Mon, 23 Mar 2026 16:58:19 +0100
-From: Petr Mladek <pmladek@suse.com>
-To: mrungta@google.com
-Cc: Jinchao Wang <wangjinchao600@gmail.com>,
-	Yunhui Cui <cuiyunhui@bytedance.com>,
-	Stephane Eranian <eranian@google.com>,
-	Ian Rogers <irogers@google.com>, Li Huafei <lihuafei1@huawei.com>,
-	Feng Tang <feng.tang@linux.alibaba.com>,
-	Max Kellermann <max.kellermann@ionos.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Douglas Anderson <dianders@chromium.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Florian Delizy <fdelizy@google.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 2/5] watchdog: Update saved interrupts during check
-Message-ID: <acFjG2u9Y0asuOrt@pathway.suse.cz>
-References: <20260312-hardlockup-watchdog-fixes-v2-0-45bd8a0cc7ed@google.com>
- <20260312-hardlockup-watchdog-fixes-v2-2-45bd8a0cc7ed@google.com>
+        Mon, 23 Mar 2026 09:04:13 -0700 (PDT)
+Message-ID: <af2128c68d2a14e1eb664ce9dc075ed02b640407.camel@baylibre.com>
+Subject: Re: [PATCH v8 2/6] iio: Replace 'sign' field with union in struct
+ iio_scan_type
+From: Francesco Lavra <flavra@baylibre.com>
+To: David Lechner <dlechner@baylibre.com>, Jonathan Corbet <corbet@lwn.net>,
+  Shuah Khan <skhan@linuxfoundation.org>, Jonathan Cameron
+ <jic23@kernel.org>, Nuno =?ISO-8859-1?Q?S=E1?= <nuno.sa@analog.com>, Andy
+ Shevchenko <andy@kernel.org>,  linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,  linux-iio@vger.kernel.org
+Date: Mon, 23 Mar 2026 17:04:10 +0100
+In-Reply-To: <4723284d-1e18-4a13-9ec1-878220af257e@baylibre.com>
+References: <20260317150316.3878107-1-flavra@baylibre.com>
+	 <20260317150401.3878294-1-flavra@baylibre.com>
+	 <4723284d-1e18-4a13-9ec1-878220af257e@baylibre.com>
+Organization: BayLibre
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.46.4-2 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260312-hardlockup-watchdog-fixes-v2-2-45bd8a0cc7ed@google.com>
 
-On Thu 2026-03-12 16:22:03, Mayank Rungta via B4 Relay wrote:
-> From: Mayank Rungta <mrungta@google.com>
-> 
-> Currently, arch_touch_nmi_watchdog() causes an early return that
-> skips updating hrtimer_interrupts_saved. This leads to stale
-> comparisons and delayed lockup detection.
-> 
-> I found this issue because in our system the serial console is fairly
-> chatty. For example, the 8250 console driver frequently calls
-> touch_nmi_watchdog() via console_write(). If a CPU locks up after a
-> timer interrupt but before next watchdog check, we see the following
-> sequence:
-> 
->   * watchdog_hardlockup_check() saves counter (e.g., 1000)
->   * Timer runs and updates the counter (1001)
->   * touch_nmi_watchdog() is called
->   * CPU locks up
->   * 10s pass: check() notices touch, returns early, skips update
->   * 10s pass: check() saves counter (1001)
->   * 10s pass: check() finally detects lockup
-> 
-> This delays detection to 30 seconds. With this fix, we detect the
-> lockup in 20 seconds.
-> 
-> Reviewed-by: Douglas Anderson <dianders@chromium.org>
-> Signed-off-by: Mayank Rungta <mrungta@google.com>
+T24gU2F0LCAyMDI2LTAzLTIxIGF0IDEyOjIyIC0wNTAwLCBEYXZpZCBMZWNobmVyIHdyb3RlOgo+
+IE9uIDMvMTcvMjYgMTA6MDQgQU0sIEZyYW5jZXNjbyBMYXZyYSB3cm90ZToKPiA+IFRoaXMgZmll
+bGQgaXMgdXNlZCB0byBkaWZmZXJlbnRpYXRlIGJldHdlZW4gc2lnbmVkIGFuZCB1bnNpZ25lZAo+
+ID4gaW50ZWdlcnMuCj4gPiBBIGZvbGxvd2luZyBjb21taXQgd2lsbCBleHRlbmQgaXRzIHVzZSBp
+biBvcmRlciB0byBhZGQgc3VwcG9ydCBmb3Igbm9uLQo+ID4gaW50ZWdlciBzY2FuIGVsZW1lbnRz
+OyB0aGVyZWZvcmUsIHJlcGxhY2UgaXQgd2l0aCBhIHVuaW9uIHRoYXQgY29udGFpbnMKPiA+IGEK
+PiA+IG1vcmUgZ2VuZXJpYyAnZm9ybWF0JyBmaWVsZC4gVGhpcyB1bmlvbiB3aWxsIGJlIGRyb3Bw
+ZWQgd2hlbiBhbGwKPiA+IGRyaXZlcnMKPiA+IGFyZSBjaGFuZ2VkIHRvIHVzZSB0aGUgZm9ybWF0
+IGZpZWxkLgo+ID4gT3Bwb3J0dW5pc3RpY2FsbHkgcmVwbGFjZSBjaGFyYWN0ZXIgbGl0ZXJhbHMg
+d2l0aCBzeW1ib2xpYyBjb25zdGFudHMKPiA+IHRoYXQKPiA+IHJlcHJlc2VudCB0aGUgc2V0IG9m
+IGFsbG93ZWQgdmFsdWVzIGZvciB0aGUgZm9ybWF0IGZpZWxkLgo+ID4gCj4gPiBTaWduZWQtb2Zm
+LWJ5OiBGcmFuY2VzY28gTGF2cmEgPGZsYXZyYUBiYXlsaWJyZS5jb20+Cj4gPiAtLS0KPiA+IMKg
+RG9jdW1lbnRhdGlvbi9kcml2ZXItYXBpL2lpby9idWZmZXJzLnJzdCB8wqAgNCArKy0tCj4gPiDC
+oGluY2x1ZGUvbGludXgvaWlvL2lpby5owqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oCB8IDE3ICsrKysrKysrKysrKysrKy0tCj4gPiDCoDIgZmlsZXMgY2hhbmdlZCwgMTcgaW5zZXJ0
+aW9ucygrKSwgNCBkZWxldGlvbnMoLSkKPiA+IAo+ID4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRp
+b24vZHJpdmVyLWFwaS9paW8vYnVmZmVycy5yc3QKPiA+IGIvRG9jdW1lbnRhdGlvbi9kcml2ZXIt
+YXBpL2lpby9idWZmZXJzLnJzdAo+ID4gaW5kZXggNjNmMzY0ZTg2MmQxLi5lMTZhYmFmODI2ZmUg
+MTAwNjQ0Cj4gPiAtLS0gYS9Eb2N1bWVudGF0aW9uL2RyaXZlci1hcGkvaWlvL2J1ZmZlcnMucnN0
+Cj4gPiArKysgYi9Eb2N1bWVudGF0aW9uL2RyaXZlci1hcGkvaWlvL2J1ZmZlcnMucnN0Cj4gPiBA
+QCAtNzgsNyArNzgsNyBAQCBmaWVsZHMgaW4gaWlvX2NoYW5fc3BlYyBkZWZpbml0aW9uOjoKPiA+
+IMKgwqDCoCAvKiBvdGhlciBtZW1iZXJzICovCj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlu
+dCBzY2FuX2luZGV4Cj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHN0cnVjdCB7Cj4gPiAtwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGNoYXIgc2lnbjsKPiA+ICvCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY2hhciBmb3JtYXQ7Cj4gPiDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB1OCByZWFsYml0czsKPiA+IMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHU4IHN0b3JhZ2ViaXRzOwo+ID4gwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgdTggc2hpZnQ7Cj4gPiBAQCAtOTgsNyArOTgs
+NyBAQCBmb2xsb3dpbmcgY2hhbm5lbCBkZWZpbml0aW9uOjoKPiA+IMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCAvKiBvdGhlciBzdHVmZiBoZXJlICovCj4gPiDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLnNjYW5faW5kZXggPSAwLAo+ID4gwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIC5zY2FuX3R5cGUgPSB7Cj4gPiAtwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLnNpZ24gPSAncycsCj4g
+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLmZv
+cm1hdCA9IElJT19TQ0FOX0ZPUk1BVF9TSUdORURfSU5ULAo+ID4gwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAucmVhbGJpdHMgPSAxMiwKPiA+IMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLnN0b3Jh
+Z2ViaXRzID0gMTYsCj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgIC5zaGlmdCA9IDQsCj4gPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9saW51eC9p
+aW8vaWlvLmggYi9pbmNsdWRlL2xpbnV4L2lpby9paW8uaAo+ID4gaW5kZXggYTllY2ZmMTkxYmQ5
+Li5kNDhhMGFiMDFiOGQgMTAwNjQ0Cj4gPiAtLS0gYS9pbmNsdWRlL2xpbnV4L2lpby9paW8uaAo+
+ID4gKysrIGIvaW5jbHVkZS9saW51eC9paW8vaWlvLmgKPiA+IEBAIC0xNzYsOSArMTc2LDE5IEBA
+IHN0cnVjdCBpaW9fZXZlbnRfc3BlYyB7Cj4gPiDCoMKgwqDCoMKgwqDCoMKgdW5zaWduZWQgbG9u
+ZyBtYXNrX3NoYXJlZF9ieV9hbGw7Cj4gPiDCoH07Cj4gPiDCoAo+ID4gKy8qCj4gPiArICogRm9y
+bWF0IHZhbHVlcyBpbiBzY2FuIHR5cGUKPiA+ICsgKiBASUlPX1NDQU5fRk9STUFUX1NJR05FRF9J
+TlQ6IFNpZ25lZCBpbnRlZ2VyICh0d28ncyBjb21wbGVtZW50KS4KPiA+ICsgKiBASUlPX1NDQU5f
+Rk9STUFUX1VOU0lHTkVEX0lOVDogVW5zaWduZWQgaW50ZWdlci4KPiA+ICsgKi8KPiAKPiBXZSBj
+b3VsZCBtYWtlIHRoaXMgcHJvcGVyIGtlcm5lbCBkb2MgZm9ybWF0IHdpdGggb25lIGNvbW1lbnQg
+cGVyIG1hY3JvLgoKQWN0dWFsbHksIGEgc2V0IG9mIHJlbGF0ZWQgI2RlZmluZXMgY2FuIGJlIGRv
+Y3VtZW50ZWQgd2l0aCBhIHNpbmdsZQpjb21tZW50LiBJIHNlZSBhIGZldyBleGFtcGxlcyBkb2lu
+ZyB0aGF0IGluIGluY2x1ZGUvbGludXgvZ2ZwX3R5cGVzLmggYW5kCmluY2x1ZGUvbGludXgvZnBn
+YS9mcGdhLW1nci5oCgoKPiA+ICsjZGVmaW5lIElJT19TQ0FOX0ZPUk1BVF9TSUdORURfSU5UwqDC
+oMKgwqDCoCdzJwo+ID4gKyNkZWZpbmUgSUlPX1NDQU5fRk9STUFUX1VOU0lHTkVEX0lOVMKgwqDC
+oCd1Jwo+ID4gKwoK
 
-I agree with Doug's analyze and it looks good to me:
-
-Reviewed-by: Petr Mladek <pmladek@suse.com>
-
-Best Regards,
-Petr
