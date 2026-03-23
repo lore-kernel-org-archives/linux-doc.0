@@ -1,87 +1,122 @@
-Received: from mailout3.hostsharing.net (mailout3.hostsharing.net [144.76.133.104])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 620DF29994B;
-	Mon, 23 Mar 2026 07:00:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.76.133.104
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F207217F33;
+	Mon, 23 Mar 2026 07:20:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774249259; cv=none; b=bmoWlFYdanXZYOE9Td1EQzC7X90m//PVcfKplSN/GqCj846R8z7LXO5ozpDxpqtk7mtouNHL41Dh45hqyXq1a3fqfPkSdsSWezBxsPc4yK/dgqpi9meMRzIICtVRoI1Oklte/or1r3p9tGMXiKKqPQLsvXVJgTnGkIyKmrEXbwA=
+	t=1774250439; cv=none; b=uiFNdubYfWis3Q8IKd3aH/Vd7XZUcW2qwpqllLc1wxSbrgdyg+K3ED0bMb6QhmCkKaBVTXIJXAm35b9EukbDkuAtCWSaG4VhQUa54+khN9CoFZJHW6Z0hk+S8SxIXpU1x4D85kvmQWq+ZzEaPiZDX9JnJD9xJ3r7xxKqURgn3QU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774249259; c=relaxed/simple;
-	bh=YH4DWVWEgztyUuYoCeNMjlqf6GO+QsfbVOkNkAB2JWY=;
-	h=Message-Id:From:Date:Subject:To:Cc; b=J5GcQ3ZEGSKJE/FCrJW+2mFQvMvqtnQHHUYZqqDyi8rKuiTO7B0sKdUab3YEvVFsgt7tiytOR8qsd9aHRF6pNg4uQ+rVYmyDe3hoNBnvIUGP9+FBUtnV421Xstz0639OJ7KOJaLBQPYSO4aagbiHaef2FSdgZ2pWNfHLIzGzl24=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de; spf=pass smtp.mailfrom=wunner.de; arc=none smtp.client-ip=144.76.133.104
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wunner.de
-Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature ECDSA (secp384r1) server-digest SHA384
-	 client-signature ECDSA (secp384r1) client-digest SHA384)
-	(Client CN "*.hostsharing.net", Issuer "GlobalSign GCC R6 AlphaSSL CA 2025" (verified OK))
-	by mailout3.hostsharing.net (Postfix) with ESMTPS id 364E7C23;
-	Mon, 23 Mar 2026 07:53:12 +0100 (CET)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
-	id 037C96020F68; Mon, 23 Mar 2026 07:53:11 +0100 (CET)
-Message-Id: <bf826c41b4c1d255c7dcb16e266b52f774d944ed.1774246067.git.lukas@wunner.de>
-From: Lukas Wunner <lukas@wunner.de>
-Date: Mon, 23 Mar 2026 07:52:39 +0100
-Subject: [PATCH] Documentation: PCI: Document decoding of TLP Header in AER
- messages
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-pci@vger.kernel.org, linux-doc@vger.kernel.org, Mika Westerberg <mika.westerberg@linux.intel.com>, Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>, Maciej Grochowski <mx2pg@pm.me>, Kai-Heng Feng <kaihengf@nvidia.com>
+	s=arc-20240116; t=1774250439; c=relaxed/simple;
+	bh=j+4gCwDKNt18nYrPJDaOZxG+CXRwN10EMUoXJTiglkQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=B7yxRXZr7CPGmswBxfh3Nd3IMHgNbBskr+Q1KANUA0kdP6k0eUxpd98wcZisNlYaZ6ieRJVRwHCkvShll1WleNQegRdzi6tmBaE/S2DUO1IxeEQqQqdb/SxNVByMjUWWv9SEhM6UkWTsdhUyScsCfJoXNedS0m4RVyN0eRt0ZbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QA484GZk; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QA484GZk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95919C4CEF7;
+	Mon, 23 Mar 2026 07:20:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774250439;
+	bh=j+4gCwDKNt18nYrPJDaOZxG+CXRwN10EMUoXJTiglkQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=QA484GZkXPZaraO56d0yygpwtA9o34pBnD3u3x0MyXXsOOeQnTiENMOGGRHLeaE6G
+	 /wUjib2IEJ/ISzLerCchgWF/JNXOKG3iOUDlyTzejKkephzqrRHINtbRbLA1qNTfIl
+	 RSmcmfT6PVgROWNb7yGZ8KX9DT3gSlC6XBgYoJBpIVKfZHg4CYYlMcEsK90SPHbVxA
+	 nRFhreTzvs5qCzkee/INzYF5lky2yhg5JyQ02MsztdUQ90dXOAKD6qmDd+BDLLtL8P
+	 CZ2NkJSfsN1I0j/tlOfeNIXuq8ptq44+NmNsAtQJRg1YvGk2eojdTtSPn2YPw5JzYd
+	 9TmeBgmimIafw==
+Message-ID: <e199b63c-8137-4cbd-962b-f3dfe13b5739@kernel.org>
+Date: Mon, 23 Mar 2026 08:20:33 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/3] dt-bindings: hwmon: isl68137: Add compatible
+ strings for RAA228942 and RAA228943
+To: Dawei Liu <dawei.liu.jy@renesas.com>
+Cc: "linux@roeck-us.net" <linux@roeck-us.net>,
+ "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+ "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
+ <krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "corbet@lwn.net" <corbet@lwn.net>,
+ "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
+ "geert+renesas@glider.be" <geert+renesas@glider.be>,
+ "magnus.damm" <magnus.damm@gmail.com>,
+ Grant Peltier <grant.peltier.jg@renesas.com>,
+ Linda Xin <linda.xin.jg@renesas.com>,
+ "tabreztalks@gmail.com" <tabreztalks@gmail.com>
+References: <20260316053541.3903-1-dawei.liu.jy@renesas.com>
+ <20260318021921.75-1-dawei.liu.jy@renesas.com>
+ <20260318021921.75-4-dawei.liu.jy@renesas.com>
+ <177412601062.18368.450072825684601974.b4-reply@b4>
+ <TYWPR01MB11935F24356873C46E02FAB5CD54BA@TYWPR01MB11935.jpnprd01.prod.outlook.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <TYWPR01MB11935F24356873C46E02FAB5CD54BA@TYWPR01MB11935.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The prefix/header of the TLP that caused an error is recorded by the Root
-Complex and emitted to the kernel log in raw hex format.  Document the
-existence and usage of tlp-tool, which allows decoding the TLP Header
-into human-readable form.
+On 23/03/2026 05:22, Dawei Liu wrote:
+>> If they are compatible, maybe finally this binding should switch to representing this with fallback?
+> 
+> These chips have different hardware interfaces and
+> feature sets compared to existing family members,
+> requiring separate compatible strings for correct
+> hardware identification.
 
-The TLP Header hints at the root cause of an error, yet is often ignored
-because of its seeming opaqueness.  Instead, PCIe errors are frequently
-worked around by a change in the kernel without fully understanding the
-actual source of the problem.  With more documentation on available tools
-we'll hopefully come up with better solutions.
+Really? I see that you do not use the different compatible at all and
+they look completely compatible.
 
-There are also wireshark dissectors for TLPs, but it seems they expect a
-complete TLP, not just the header, and they cannot grok the hex format
-emitted by the kernel directly.  tlp-tool appears to be the most cut and
-dried solution out there.
-
-Signed-off-by: Lukas Wunner <lukas@wunner.de>
-Cc: Maciej Grochowski <mx2pg@pm.me>
----
-We could also go one step further and point users to this tool
-in a printk_once() message when the first error occurs.
-For now, just amending the documentation is probably sufficient.
-
- Documentation/PCI/pcieaer-howto.rst | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/Documentation/PCI/pcieaer-howto.rst b/Documentation/PCI/pcieaer-howto.rst
-index 3210c47..90fdfdd 100644
---- a/Documentation/PCI/pcieaer-howto.rst
-+++ b/Documentation/PCI/pcieaer-howto.rst
-@@ -85,6 +85,16 @@ In the example, 'Requester ID' means the ID of the device that sent
- the error message to the Root Port. Please refer to PCIe specs for other
- fields.
- 
-+The 'TLP Header' is the prefix/header of the TLP that caused the error
-+in raw hex format. To decode the TLP Header into human-readable form
-+one may use tlp-tool:
-+
-+https://github.com/mmpg-x86/tlp-tool
-+
-+Example usage::
-+
-+  curl -L https://git.kernel.org/linus/2ca1c94ce0b6 | rtlp-tool --aer
-+
- AER Ratelimits
- --------------
- 
--- 
-2.51.0
-
+Best regards,
+Krzysztof
