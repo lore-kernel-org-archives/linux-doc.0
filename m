@@ -1,162 +1,84 @@
-Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0333F23AB9D
-	for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 14:45:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2899E3AF679;
+	Mon, 23 Mar 2026 14:50:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774277142; cv=none; b=DV4usvdCaDgR2prUF6pER2FGSZ/POLB5NM1EsPOCZCXpH59zJHID/Iqjby8RII9dW/jZV3v27juVUMiCzBIgpXmIoX0xLrgeWpzB3hfWmlXUVVyC4ciQuAwzC52dgxvtUJHbjwsdfGZx7fyK81eoe6BjE9Z5auNcl5xdeBJ7UmQ=
+	t=1774277449; cv=none; b=f8hzTlcNgQwsZm+LVNUPd6wITNft2WxrqF5iSf5YL+/ffE41Cv3+KZtt7BnCy2esP1Iaq4yF9eaxgH3J/otZvJEnb1oeoNWI3mR4bh4vYmrLuk8LgZwjthO9oNVQPDRHJmzM3e0O219+7pYEyRcf2T/N8c3KsiHoQ1NzlgRvv7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774277142; c=relaxed/simple;
-	bh=Btw1c2HBNOjynBg9HMKRXHEjIeWm2xGVPfJB65Us2d8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qmUnVdqk0w5TArHHind1z+AfM1fFjAnLBHt6hN2orHjQ9f4Ys+6m6lENo0c6YSk2SwA84Fc3N1XFrbuyAbiaao5aw0QGDEgtQeioypOuAwJ+8oHwYxMnOC4MVih7PvDbZFqDDVM0UdI4JrxR1/UtdhcOUX8eMQuZgby9oEyyR8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fqfN0Rh7; arc=none smtp.client-ip=74.125.82.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774277449; c=relaxed/simple;
+	bh=4f9AlNnvt1H1wntRZn7D84y90Dv7pzJJe2ZUYbDXEHM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Gsdh/vF6f5Uz9yHX707+2OuWpw4adIqv1xBf4K6I0VGuaH+FB8E6W72rX36haPjVhE+jAR5HSk8bzUKIVHCNcSuveUSDSgKFfo9VKilPgxm7rA915dTLlFfZT0o4uqhP5EAOJq4GMbxpLb8TfQ9FzqZqoLu7Wl876wjz9UwfjZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FOaDly/p; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fqfN0Rh7"
-Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-2c10a2e2cd1so2617225eec.0
-        for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 07:45:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774277140; x=1774881940; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=I+oWMSCKxMSzMwfiT72a6Og/7ntIqLA0/09brtyvtUs=;
-        b=fqfN0Rh7Tb/VxDt08+L2oHEOl/thL5w89e5GssIa/BvSQEZFSWTeXng/1MZUy4pkBi
-         G5RlLDQRSX0OUzfuM8KvBgnFsQB80I6O6F6LS1ppIDkngvsF1UiKZYmpT3SmeXHnBNCm
-         PEPiNKj08J9PTEFlMIx4MiUtO93Ct+QyRmiaTWrxhKglxiH7TS01M+b64nzY2M6LW7CX
-         pQ9Hhq4kMyrv0F/tSVCzYZ8voA0Cgp1KybD1nXgz55FNCwLDDJ6a/6Y7JMqvpsBrnkfS
-         /LBHQrbUOWJozrHUQo1VMIFurfzKGEwvIbfDeO9ywedwhkDDRs0O6/Fou7GsJfmGPZu1
-         fY2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774277140; x=1774881940;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=I+oWMSCKxMSzMwfiT72a6Og/7ntIqLA0/09brtyvtUs=;
-        b=MrulTowcHCD3j1vMOhMaq/+q15+51SfaHo0v6IjbKyqEh6wxvx6IK0q+6uVQnnPK+X
-         zDFE8V+CtIozQFtnGKRUWvu8a2GCUHR9peYas6sHCaPuJ7qXHbsnNfNYVnlMWgAL0++3
-         Y/FJa3Hx71yZvitmCfRKISVLOAGPaBIqEHHR7ff6Z9/3fDXH4SPElc6cxKIiA9eT2mQN
-         VOlbSfD7FhZ7pwIMVIgtgMWnBBFJFgpEI9iabDwYTZDGAnv+gv7iEZSiR3XABAEdU6LA
-         eIIFdYgoemf7adnBkN7GiqkJ3MyyCIH3KiBmhpKzO4JDeyid+705Oef11jTuaEt+Xzbb
-         gCjQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXBEBrv4G9cF11giEByAIi0AKbFzpWSDnnXwjXOggx/2tC6qQEdvWzvpsKNXu6unXNiajEVEWpQc9A=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz8GJ6DVsFsvtjfLFxUXMLVAAcMle0ZXLdYcgCsAzC8GLBTp9k4
-	7Bdo6UXhmhnl24CTEANCqRIZeOOLoGIAo1O6JE6HQLsZFsfSXu21K9zA
-X-Gm-Gg: ATEYQzwD+8RLzYMN4glh1uVH3/GxIOtD0VImpGVb57un5/Za4ZY1u2rUESj0xF1XBsi
-	i3kCxdMi8tX1t/C14SuVZgCtvaVt3diNwml0G9tgf59TZuMWB4UTBwNZ9zzrf79EpoKzcA2N+Mk
-	Cr5WW0pPZa2UrGN766/TGDGZPRwT1RDdI9VDrpfZw3Oh6qEjIjRKAzOMHXUqfRdrPd2MkA4MZNY
-	XUb+t3M8uCfSsuBIoTKaii/kKqkcPvw3gWoUD8fthfPHpCKIMivvPoWciiM4PTBvuYX0dLJvFJI
-	ccf8/I+/qtmnmoBRY/LfeNLs8v8e2tVZxtJq4FqrLWSldNmMkmr8rWcMt8MRxKBPTV5PGAV/dUu
-	O0uamRBrYDmqHLMIJler2THdANIKn7/Ckqg6kr7fmWGskOfLLDeCHST4i3wmFsBRHpYaiWfMPQE
-	Beit1ag6L9PKD/0m2J6F+zBm8twdUk9EHl5He+zzQ+z5F0cAhhzrflTAaD945UVGggZB4lD20C
-X-Received: by 2002:a05:7300:a883:b0:2c0:fec3:fcff with SMTP id 5a478bee46e88-2c109712ae0mr5271934eec.17.1774277140029;
-        Mon, 23 Mar 2026 07:45:40 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c10b29d28csm15457195eec.19.2026.03.23.07.45.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Mar 2026 07:45:39 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <696f0e32-5deb-401c-9b98-830c6bfdeca6@roeck-us.net>
-Date: Mon, 23 Mar 2026 07:45:38 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FOaDly/p"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED885C4CEF7;
+	Mon, 23 Mar 2026 14:50:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774277448;
+	bh=4f9AlNnvt1H1wntRZn7D84y90Dv7pzJJe2ZUYbDXEHM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=FOaDly/pqt/70MZIhJMoawJx76IEihEHmZB1Ce+Y5f6I8d/wxrvQPxgDDnzXM0ZQK
+	 Merm8QOne1mkGi8lCRYK4bmQyrR555HqK49t3LE/DwKK/o2zXdD83yfs4Py5Gc53u3
+	 gnE3Fv7dX4u5h9EISNvxniACL61WTnS/suvEhuPrpF2l2gm09PBtT0CSzrly0RJkPO
+	 kq2b5ZiGV1zmF2hCVIxL2z1ql+6OD439tLE59xZ/BSkB24sLfvDTOdhE+wvEzYcOBE
+	 N0/Tk3Bn8RU8cRwJeoQSvAfFma+GIGjJ7FHRRTmkiwFTbxC5OSotDW/EmbrVjtyD1O
+	 gsNjbK6+DMb2g==
+From: Bjorn Andersson <andersson@kernel.org>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Casey Connolly <casey.connolly@linaro.org>,
+	=?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
+	David Heidelberg <david@ixit.cz>
+Cc: linux-input@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	phone-devel@vger.kernel.org,
+	Gergo Koteles <soyer@irl.hu>,
+	Casey Connolly <casey@connolly.tech>
+Subject: Re: (subset) [PATCH v8 0/2] Add support for sound profile switching and leverage for OnePlus slider
+Date: Mon, 23 Mar 2026 09:50:42 -0500
+Message-ID: <177427743912.13372.18307860238374412246.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20251113-op6-tri-state-v8-0-54073f3874bc@ixit.cz>
+References: <20251113-op6-tri-state-v8-0-54073f3874bc@ixit.cz>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 6/7] dt-bindings: watchdog: Drop SMARC-sAM67 support
-To: Michael Walle <mwalle@kernel.org>, Nishanth Menon <nm@ti.com>,
- Vignesh Raghavendra <vigneshr@ti.com>, Tero Kristo <kristo@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Srinivas Kandagatla <srini@kernel.org>,
- Wim Van Sebroeck <wim@linux-watchdog.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-watchdog@vger.kernel.org, linux-doc@vger.kernel.org,
- Conor Dooley <conor.dooley@microchip.com>
-References: <20260302122540.1377444-1-mwalle@kernel.org>
- <20260302122540.1377444-7-mwalle@kernel.org>
- <f124b200-09e3-4e73-a100-f47007732e8f@roeck-us.net>
- <DHA13HM1GIJW.1E7XCMY349JX7@kernel.org>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <DHA13HM1GIJW.1E7XCMY349JX7@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On 3/23/26 01:45, Michael Walle wrote:
-> Hi,
+
+On Thu, 13 Nov 2025 17:02:57 +0100, David Heidelberg wrote:
+> This series add initial support for OnePlus 6 and 6T, but other OnePlus
+> phones contains same mechanism to switch sound profiles.
 > 
-> On Mon Mar 2, 2026 at 4:01 PM CET, Guenter Roeck wrote:
->> On 3/2/26 04:24, Michael Walle wrote:
->>> I was just informed that this product is discontinued (without being
->>> ever released to the market). Pull the plug and let's not waste any more
->>> maintainers time and revert commit 354f31e9d2a3 ("dt-bindings: watchdog:
->>> Add SMARC-sAM67 support").
->>>
->>> Acked-by: Conor Dooley <conor.dooley@microchip.com>
->>> Signed-off-by: Michael Walle <mwalle@kernel.org>
->>
->> Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+> This code was tested for two years within the downstream Snapdragon 845 tree.
+> It is now perfectly integrated with feedbackd in the Phosh environment.
 > 
-> Everything expect this patch was picked up. Guenter, do you want to
-> take it, or should it go through the TI SoC queue?
+> The series is also available (until merged) at
+>   https://gitlab.com/sdm845/sdm845-next/-/commits/b4/op6-tri-state
 > 
-> Thanks,
-> -michael
+> [...]
 
-I am fine with either approach. Wim handles all watchdog subsystem pull requests,
-so we'll need his feedback.
+Applied, thanks!
 
-Thanks,
-Guenter
+[2/2] arm64: dts: qcom: sdm845-oneplus: Add alert-slider
+      commit: ca5adb26c5927f28016c6b1778622dee9ada5ca0
 
+Best regards,
+-- 
+Bjorn Andersson <andersson@kernel.org>
