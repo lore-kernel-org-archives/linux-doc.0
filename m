@@ -1,47 +1,47 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0CB3386450;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0C2438644F;
 	Mon, 23 Mar 2026 09:10:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774257059; cv=none; b=AZRgiql765evoYIsOKSHfFb7atdWo3gLNdWUAyjnQj7/ayjCvEBmpXuuZcvOjOz/bE9HloLCJAsti4ebD2Z7XeGMNrpG1kv/9oKSsTlPdHZlyskO9Kr2CEjNGc3OsDi6Cx0aPG7OgxWyBwOJS/Q2BWyS9/rOvIWiikFsvxamoiQ=
+	t=1774257059; cv=none; b=gW1YmF27QG2fYiw21k5xHFV9M9vcg/ngiCwSWqPryBmbmojg3GgETQsRmVU11OZeIVSOXSLyzkJN9XbLSjdPUrJRuhuUpBpcBZhiEUl6g6TDvcJbL6yjBKMvkps4l1FAACIUeF0d1tL/EaDspWLY6RLtVfgOBBKmaPBkWHd8/Ko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1774257059; c=relaxed/simple;
-	bh=TdokLuCPi3Ct9yuqj0G7Fs0DxpFowZxp+/6gtcqOTCY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=gZCjI7201zkrG8b41JAmQvePjxc0MvYijSvViEVeq/A4pJQbzXVoHBM6MxQwGkgQBvsAKSGTaC4a03+e3Pkx3X5uOoZP9DhuYfzNo0Nx9Wh63jTuTeyJDZBo0oKQYHII3vncy8k55z5hWJX0jkzV7JU01VOCIINAJ9Ynr7ODl9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YkBy3dWY; arc=none smtp.client-ip=10.30.226.201
+	bh=aqYdN+DcUv3ujKrgqqFAwZYM7QbeYhyVHwsYgAW9BR0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DA6z9gCKmvG2sJwbdq/HbJvitw4dwJAey3R+S8X9ZkXH48sYMUbmNwAwHPIDivo69NTwD9htNavYTn2eu+MBGs8rS0TgL0aIjKfDLpxuqHr+Va/XF2YHq8v3XtBtE4v5aVMW3GBztPE+5V5mJxJurRftke+rUATzEfkCR92yKXs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Lw6Jvsy9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YkBy3dWY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C34ECC4CEF7;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Lw6Jvsy9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C93DEC2BCB0;
 	Mon, 23 Mar 2026 09:10:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1774257058;
-	bh=TdokLuCPi3Ct9yuqj0G7Fs0DxpFowZxp+/6gtcqOTCY=;
-	h=From:To:Cc:Subject:Date:From;
-	b=YkBy3dWYiDJSL4ZDdenHZoxTAyZd47Gb0S1RwwJA96ICAYdUeI4dBQnapl3jrnOUW
-	 ABlpZK/w7RI661xWQa+ZJkD3Xu7ZQ2wWVPA3qGotNRye+SUzs86BZx2ZcyGL5pmDBW
-	 43CG6likptve1EHjQqcp6sCfDTfQWYOnS6wnboxMwSFO4IyRweNWYIMgbVa0pKENBC
-	 I+//0kcWl9DCwzCWgqmXgKe8Kn4n5SGUoJ2+qtgUtPXMmHIJvN8LzxOtM+vXPpuXW8
-	 lGYkKPZgk+GNECvjo83Dc4uNG15LAA1C4FTuto/JPYSslISssrGIn5StM2wiI5pLbj
-	 UJ2clIEh6XbOA==
+	bh=aqYdN+DcUv3ujKrgqqFAwZYM7QbeYhyVHwsYgAW9BR0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Lw6Jvsy9BhRr9YbH1YGe78gBsCnA6tGi5cWGpAMuSUMu0U4n2ggsFd+0bws3m8FDR
+	 ve8XzuDjZnML8yu6YdbRSF9SE3w5QgG8JCKcIpT73oFNBbBXE3RFPTXibkZGkVHN7Z
+	 59uY9FN+anYgGjOCzWpDnK8tv4xV2uLvg5Yericx06TaEGJJy44qJaQoygNIKbRNB6
+	 2lytEY6cR49KZMdZXGJDHpx5gZBE4qmjjGjRS15ZcCwjfrX+xBxO/q5dKimKxS+8Op
+	 AMXbP3YPcYFIV1iCe5zYruU0a+36cGJVcb1jgLJ6xIlw4Dx6lzr532wBGGZG0W7Zzi
+	 PbIthqgVZsinA==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1w4bJI-00000002yWF-1UUp;
+	id 1w4bJI-00000002yWI-1bpu;
 	Mon, 23 Mar 2026 10:10:56 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH 00/10] minor changes at kernel-doc and a fix
-Date: Mon, 23 Mar 2026 10:10:43 +0100
-Message-ID: <cover.1774256269.git.mchehab+huawei@kernel.org>
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH 01/10] MAINTAINERS: update documentation scripts to add unittests
+Date: Mon, 23 Mar 2026 10:10:44 +0100
+Message-ID: <6be396b8423372dd006484351ca2dbc54220587e.1774256269.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <cover.1774256269.git.mchehab+huawei@kernel.org>
+References: <cover.1774256269.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,53 +52,31 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Hi Jon,
+Ensure that we'll receive e-mails for attempts to touch
+tools/unittests.
 
-Thanks for picking the other series. This one does minor changes
-at kernel-doc, focused on YAML input and adding more regression tests:
+While here, place entries alphabetically sorted.
 
-- adds an entry at MAINTAINERS for unittests;
-- adds more parser tests for some corner cases;
-- the YAML output is now using literals on all multi-line
-  keys, making it a lot easier to handle it;
-- the YAML output now uses better names;
-- the YAML output can now output all tests. Previously, 
-  some bad-formatted kernel-doc tags caused it to give up
-  adding some tests;
-- added a check for a hidden problem at kdoc_output;
-- improved logging when CTokenizer find issues.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ MAINTAINERS | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-After adding parser tests, I picked a bug on how simple tables
-are handled on man pages, fixed on this patch:
-
-      docs: kdoc_output: fix handling of simple tables                                                                                                                                 
-That's the only visible change at kdoc output and affects
-only man pages.
-
-Mauro Carvalho Chehab (10):
-  MAINTAINERS: update documentation scripts to add unittests
-  unittests: test_kdoc_parser: add command line arg to read a YAML file
-  docs: tools: include kdoc_yaml_file at documentation
-  docs: kdoc_yaml_file: add a representer to make strings look nicer
-  docs: kdoc-test.yaml: add more tests
-  docs: kdoc_output: fix handling of simple tables
-  docs: kdoc: better handle source when producing YAML output
-  docs: kdoc_yaml_file: use a better name for the tests
-  docs: kdoc_output: raise an error if full_proto not available for var
-  docs: c_lex.py: store logger on its data
-
- Documentation/tools/kdoc_ancillary.rst  |    8 +
- MAINTAINERS                             |    3 +-
- tools/lib/python/kdoc/c_lex.py          |    8 +-
- tools/lib/python/kdoc/kdoc_files.py     |    8 +-
- tools/lib/python/kdoc/kdoc_item.py      |    6 +-
- tools/lib/python/kdoc/kdoc_output.py    |   10 +-
- tools/lib/python/kdoc/kdoc_parser.py    |  100 +-
- tools/lib/python/kdoc/kdoc_yaml_file.py |   67 +-
- tools/unittests/kdoc-test.yaml          | 1548 ++++++++++++++++++++++-
- tools/unittests/test_kdoc_parser.py     |   32 +-
- 10 files changed, 1699 insertions(+), 91 deletions(-)
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c05a72245049..f0b106a4dd96 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7679,8 +7679,9 @@ M:	Mauro Carvalho Chehab <mchehab@kernel.org>
+ L:	linux-doc@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/sphinx/
+-F:	tools/lib/python/*
+ F:	tools/docs/
++F:	tools/lib/python/*
++F:	tools/unittests/*
+ 
+ DOCUMENTATION/ITALIAN
+ M:	Federico Vaga <federico.vaga@vaga.pv.it>
 -- 
 2.53.0
 
