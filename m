@@ -1,51 +1,51 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 754713C9EC8;
-	Mon, 23 Mar 2026 17:41:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 627743CAE68;
+	Mon, 23 Mar 2026 17:41:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774287672; cv=none; b=acJLEV/XUclAl5VRBJwQQMrIHqiKjzY8c6WFJb7Tej2DimGVQdWHgHrW0vNBiMUr/8Sn+W2hVkiHa3yRXmS7rcaY3kkpjCP/KZzZDPfs7pNsFcGP5/5h2ySxTn1PeXUShin7EMY7K3bn9md39BOpbrebGwMxlIMzu8E1f5jlLCk=
+	t=1774287672; cv=none; b=OU2/0NfXJG0zdzr05+G9Yu34vLI+t4W4+AcuHWPd4DIyk+GcBBagTV1cinF/3j28atTt4XMHbQHFS1JQAeDp9zchWF2GLrf+0RgCybMEVd3B0r4e8PB9eNkijB2sFlzNdDPmSQG84CIyMEdFnvQ0s0zK/QUxvl2HHAXBTqs/Amg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1774287672; c=relaxed/simple;
-	bh=f89MZan3iUCMImpwFJMAPlV8Oa0551rEAwn3TXkL7pI=;
+	bh=TrZ3hswvgfQOE0DkGI4vXqV0V72Ukrv+nXsdh9FZD9E=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uSQugHGh0ZrHHeGd2TF8aiPmf5qXPwgdFzITyGNue11LjLRvMHzAeS/Nw5G07cf+VZ9BTR+Vyo877P3CDOiT5D9qI/62Nx9DKDENtGOHVLZ2zd4/a81AD+2oFy+xDnDfR6ftC7uPKlVmCwmrDI2p1S38jaMYjkjS18vuWvUj/+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QmTbnGaV; arc=none smtp.client-ip=198.175.65.16
+	 MIME-Version; b=PXxlLkxqxGPxztvEo8orWNgsvadBhO+m0Nnp0ZqhvQSYq/GHcFwCAEsP0YnSO0Wrz4033uy5GDKHSpvAW+yp9tXIS267aGTEwaxXmtKSqi1M4QzYbWxomL/5g9os0LzSKYGIZ2Ols5klqUFvH0moCbqmvweSDLx+Mgf5u2Vrhr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=biZum7GN; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QmTbnGaV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="biZum7GN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774287666; x=1805823666;
+  t=1774287671; x=1805823671;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=f89MZan3iUCMImpwFJMAPlV8Oa0551rEAwn3TXkL7pI=;
-  b=QmTbnGaV8+2bzhkSZnD4EQ8aMEMxYJ2nDR53msKMISmC8/mUdEuYfuuo
-   rd/L9QhHeTzAPZOp8aEtsWE37sdGjQRmuEl/NpU6nMKHnyEzY5JUxZVMo
-   +5Vy8eCGZCuL7YvEX7RgQFBYP9ViJtWBoZs3PuILDFwJ8QlXF9jsgLdS9
-   v3aGi7SBcLFP25eUSecJQ6mHgKN8Cw8gSaMhWDntX7qBrbusdz4c/g+Ek
-   AO4/H+NtA7plvjprWPLYolWg5Bizclr9xrvu1yrXb2yn4oUbB5B+X0fo3
-   5T+s9FdDl+lM1V2kl4lLmeyZ7HQEZEZDtxMQB0KMWlBAAapThnbia5tMl
+  bh=TrZ3hswvgfQOE0DkGI4vXqV0V72Ukrv+nXsdh9FZD9E=;
+  b=biZum7GNeLY/gtR6R5O1pcezJI5SySFqNwNx0RatUSA78kQkX04JSRcx
+   dSvMZ0KG6eF32tX4ilPHhhuwvPVOWUrJuuSfxes+Qvluqn2fjw66yGIMA
+   sxVFwxVbOwVfXvjdr4NXqOAz3kj1Knl8leAcN5j1oGQi8Yh1pa7xSF8QM
+   za1RYp7aEj8pOWWy2Wi0cFvOeVKpZcw1+DzNR/05yxCVzAnLyfaXJ7Gg+
+   XXiaoEdRLd7RKLA6E7mhufnVLJ5EPG8gvdyE6V5eVWvJ0E4503gHsdakm
+   oi9qMLdylv2+RCSucazK+s6qZHBs6ab0aLXeBiiJz8eXTSdsSZOxB2AGn
    Q==;
-X-CSE-ConnectionGUID: CJetOlDZT0KnS57v74Z9wg==
-X-CSE-MsgGUID: c38d4x37ThmvdOAL0QvtuQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="75484644"
+X-CSE-ConnectionGUID: YhDfzg5tT72+XDlM29zg+Q==
+X-CSE-MsgGUID: sz90LqoYSpSlSxYa4UKx/Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="75484679"
 X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="75484644"
+   d="scan'208";a="75484679"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 10:41:05 -0700
-X-CSE-ConnectionGUID: SqoOOJ9SQWazPZr4A4rryA==
-X-CSE-MsgGUID: wBVtjHzRTz6xy0Od+kV8kw==
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 10:41:11 -0700
+X-CSE-ConnectionGUID: W9R+BMcEQFGrD9hMIdyu0Q==
+X-CSE-MsgGUID: CXxZ9ZF4QpKu9wUiyDcD8g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="228576636"
+   d="scan'208";a="228576679"
 Received: from irvmail002.ir.intel.com ([10.43.11.120])
-  by orviesa004.jf.intel.com with ESMTP; 23 Mar 2026 10:41:00 -0700
+  by orviesa004.jf.intel.com with ESMTP; 23 Mar 2026 10:41:05 -0700
 Received: from mglak.igk.intel.com (mglak.igk.intel.com [10.237.112.146])
-	by irvmail002.ir.intel.com (Postfix) with ESMTP id E83ED312FB;
-	Mon, 23 Mar 2026 17:40:57 +0000 (GMT)
+	by irvmail002.ir.intel.com (Postfix) with ESMTP id 09B0E32C86;
+	Mon, 23 Mar 2026 17:41:02 +0000 (GMT)
 From: Larysa Zaremba <larysa.zaremba@intel.com>
 To: intel-wired-lan@lists.osuosl.org,
 	Tony Nguyen <anthony.l.nguyen@intel.com>
@@ -73,9 +73,9 @@ Cc: aleksander.lobakin@intel.com,
 	netdev@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH iwl-next v6 03/14] libeth: allow to create fill queues without NAPI
-Date: Mon, 23 Mar 2026 18:40:34 +0100
-Message-ID: <20260323174052.5355-4-larysa.zaremba@intel.com>
+Subject: [PATCH iwl-next v6 06/14] idpf: remove 'vport_params_reqd' field
+Date: Mon, 23 Mar 2026 18:40:37 +0100
+Message-ID: <20260323174052.5355-7-larysa.zaremba@intel.com>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <20260323174052.5355-1-larysa.zaremba@intel.com>
 References: <20260323174052.5355-1-larysa.zaremba@intel.com>
@@ -89,89 +89,141 @@ Content-Transfer-Encoding: 8bit
 
 From: Pavan Kumar Linga <pavan.kumar.linga@intel.com>
 
-Control queues can utilize libeth_rx fill queues, despite working outside
-of NAPI context. The only problem is standard fill queues requiring NAPI
-that provides them with the device pointer.
+While sending a create vport message to the device control plane, a create
+vport virtchnl message is prepared with all the required info to initialize
+the vport. This info is stored in the adapter struct but never used
+thereafter. So, remove the said field.
 
-Introduce a way to provide the device directly without using NAPI.
-
-Suggested-by: Alexander Lobakin <aleksander.lobakin@intel.com>
-Reviewed-by: Maciej Fijalkowski <maciej.fijalkowski@intel.com>
 Signed-off-by: Pavan Kumar Linga <pavan.kumar.linga@intel.com>
+Reviewed-by: Maciej Fijalkowski <maciej.fijalkowski@intel.com>
+Reviewed-by: Madhu Chittim <madhu.chittim@intel.com>
 Signed-off-by: Larysa Zaremba <larysa.zaremba@intel.com>
-Tested-by: Bharath R <bharath.r@intel.com>
 Tested-by: Samuel Salin <Samuel.salin@intel.com>
 Signed-off-by: Tony Nguyen <anthony.l.nguyen@intel.com>
 ---
- drivers/net/ethernet/intel/libeth/rx.c | 12 ++++++++----
- include/net/libeth/rx.h                |  4 +++-
- 2 files changed, 11 insertions(+), 5 deletions(-)
+ drivers/net/ethernet/intel/idpf/idpf.h        |  2 --
+ drivers/net/ethernet/intel/idpf/idpf_lib.c    |  2 --
+ .../net/ethernet/intel/idpf/idpf_virtchnl.c   | 30 +++++++------------
+ 3 files changed, 10 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/net/ethernet/intel/libeth/rx.c b/drivers/net/ethernet/intel/libeth/rx.c
-index 62521a1f4ec9..0c1a565a1b3a 100644
---- a/drivers/net/ethernet/intel/libeth/rx.c
-+++ b/drivers/net/ethernet/intel/libeth/rx.c
-@@ -145,25 +145,29 @@ static bool libeth_rx_page_pool_params_zc(struct libeth_fq *fq,
- /**
-  * libeth_rx_fq_create - create a PP with the default libeth settings
-  * @fq: buffer queue struct to fill
-- * @napi: &napi_struct covering this PP (no usage outside its poll loops)
-+ * @napi_dev: &napi_struct for NAPI (data) queues, &device for others
-  *
-  * Return: %0 on success, -%errno on failure.
-  */
--int libeth_rx_fq_create(struct libeth_fq *fq, struct napi_struct *napi)
-+int libeth_rx_fq_create(struct libeth_fq *fq, void *napi_dev)
- {
-+	struct napi_struct *napi = fq->no_napi ? NULL : napi_dev;
- 	struct page_pool_params pp = {
- 		.flags		= PP_FLAG_DMA_MAP | PP_FLAG_DMA_SYNC_DEV,
- 		.order		= LIBETH_RX_PAGE_ORDER,
- 		.pool_size	= fq->count,
- 		.nid		= fq->nid,
--		.dev		= napi->dev->dev.parent,
--		.netdev		= napi->dev,
-+		.dev		= napi ? napi->dev->dev.parent : napi_dev,
-+		.netdev		= napi ? napi->dev : NULL,
- 		.napi		= napi,
- 	};
- 	struct libeth_fqe *fqes;
- 	struct page_pool *pool;
- 	int ret;
+diff --git a/drivers/net/ethernet/intel/idpf/idpf.h b/drivers/net/ethernet/intel/idpf/idpf.h
+index fe6ca5fcc5e3..e717f8097d23 100644
+--- a/drivers/net/ethernet/intel/idpf/idpf.h
++++ b/drivers/net/ethernet/intel/idpf/idpf.h
+@@ -638,7 +638,6 @@ struct idpf_vc_xn_manager;
+  * @avail_queues: Device given queue limits
+  * @vports: Array to store vports created by the driver
+  * @netdevs: Associated Vport netdevs
+- * @vport_params_reqd: Vport params requested
+  * @vport_params_recvd: Vport params received
+  * @vport_ids: Array of device given vport identifiers
+  * @singleq_pt_lkup: Lookup table for singleq RX ptypes
+@@ -697,7 +696,6 @@ struct idpf_adapter {
+ 	struct idpf_avail_queue_info avail_queues;
+ 	struct idpf_vport **vports;
+ 	struct net_device **netdevs;
+-	struct virtchnl2_create_vport **vport_params_reqd;
+ 	struct virtchnl2_create_vport **vport_params_recvd;
+ 	u32 *vport_ids;
  
-+	if (!pp.netdev && fq->type == LIBETH_FQE_MTU)
-+		return -EINVAL;
+diff --git a/drivers/net/ethernet/intel/idpf/idpf_lib.c b/drivers/net/ethernet/intel/idpf/idpf_lib.c
+index cf966fe6c759..d88ca59edf97 100644
+--- a/drivers/net/ethernet/intel/idpf/idpf_lib.c
++++ b/drivers/net/ethernet/intel/idpf/idpf_lib.c
+@@ -1109,8 +1109,6 @@ static void idpf_vport_rel(struct idpf_vport *vport)
+ 
+ 	kfree(adapter->vport_params_recvd[idx]);
+ 	adapter->vport_params_recvd[idx] = NULL;
+-	kfree(adapter->vport_params_reqd[idx]);
+-	adapter->vport_params_reqd[idx] = NULL;
+ 
+ 	kfree(vport);
+ 	adapter->num_alloc_vports--;
+diff --git a/drivers/net/ethernet/intel/idpf/idpf_virtchnl.c b/drivers/net/ethernet/intel/idpf/idpf_virtchnl.c
+index d5a877e1fef8..6e6aa38654f6 100644
+--- a/drivers/net/ethernet/intel/idpf/idpf_virtchnl.c
++++ b/drivers/net/ethernet/intel/idpf/idpf_virtchnl.c
+@@ -1555,14 +1555,10 @@ int idpf_send_create_vport_msg(struct idpf_adapter *adapter,
+ 	ssize_t reply_sz;
+ 
+ 	buf_size = sizeof(struct virtchnl2_create_vport);
+-	if (!adapter->vport_params_reqd[idx]) {
+-		adapter->vport_params_reqd[idx] = kzalloc(buf_size,
+-							  GFP_KERNEL);
+-		if (!adapter->vport_params_reqd[idx])
+-			return -ENOMEM;
+-	}
++	vport_msg = kzalloc(buf_size, GFP_KERNEL);
++	if (!vport_msg)
++		return -ENOMEM;
+ 
+-	vport_msg = adapter->vport_params_reqd[idx];
+ 	vport_msg->vport_type = cpu_to_le16(VIRTCHNL2_VPORT_TYPE_DEFAULT);
+ 	vport_msg->vport_index = cpu_to_le16(idx);
+ 
+@@ -1579,8 +1575,7 @@ int idpf_send_create_vport_msg(struct idpf_adapter *adapter,
+ 	err = idpf_vport_calc_total_qs(adapter, idx, vport_msg, max_q);
+ 	if (err) {
+ 		dev_err(&adapter->pdev->dev, "Enough queues are not available");
+-
+-		return err;
++		goto rel_buf;
+ 	}
+ 
+ 	if (!adapter->vport_params_recvd[idx]) {
+@@ -1588,7 +1583,7 @@ int idpf_send_create_vport_msg(struct idpf_adapter *adapter,
+ 							   GFP_KERNEL);
+ 		if (!adapter->vport_params_recvd[idx]) {
+ 			err = -ENOMEM;
+-			goto free_vport_params;
++			goto rel_buf;
+ 		}
+ 	}
+ 
+@@ -1604,13 +1599,15 @@ int idpf_send_create_vport_msg(struct idpf_adapter *adapter,
+ 		goto free_vport_params;
+ 	}
+ 
++	kfree(vport_msg);
 +
- 	pp.dma_dir = fq->xdp ? DMA_BIDIRECTIONAL : DMA_FROM_DEVICE;
+ 	return 0;
  
- 	if (!fq->hsplit)
-diff --git a/include/net/libeth/rx.h b/include/net/libeth/rx.h
-index 5d991404845e..0e736846c5e8 100644
---- a/include/net/libeth/rx.h
-+++ b/include/net/libeth/rx.h
-@@ -69,6 +69,7 @@ enum libeth_fqe_type {
-  * @type: type of the buffers this queue has
-  * @hsplit: flag whether header split is enabled
-  * @xdp: flag indicating whether XDP is enabled
-+ * @no_napi: the queue is not a data queue and does not have NAPI
-  * @buf_len: HW-writeable length per each buffer
-  * @nid: ID of the closest NUMA node with memory
-  */
-@@ -85,12 +86,13 @@ struct libeth_fq {
- 	enum libeth_fqe_type	type:2;
- 	bool			hsplit:1;
- 	bool			xdp:1;
-+	bool			no_napi:1;
+ free_vport_params:
+ 	kfree(adapter->vport_params_recvd[idx]);
+ 	adapter->vport_params_recvd[idx] = NULL;
+-	kfree(adapter->vport_params_reqd[idx]);
+-	adapter->vport_params_reqd[idx] = NULL;
++rel_buf:
++	kfree(vport_msg);
  
- 	u32			buf_len;
- 	int			nid;
- };
+ 	return err;
+ }
+@@ -3416,8 +3413,6 @@ static void idpf_vport_params_buf_rel(struct idpf_adapter *adapter)
+ {
+ 	kfree(adapter->vport_params_recvd);
+ 	adapter->vport_params_recvd = NULL;
+-	kfree(adapter->vport_params_reqd);
+-	adapter->vport_params_reqd = NULL;
+ 	kfree(adapter->vport_ids);
+ 	adapter->vport_ids = NULL;
+ }
+@@ -3432,15 +3427,10 @@ static int idpf_vport_params_buf_alloc(struct idpf_adapter *adapter)
+ {
+ 	u16 num_max_vports = idpf_get_max_vports(adapter);
  
--int libeth_rx_fq_create(struct libeth_fq *fq, struct napi_struct *napi);
-+int libeth_rx_fq_create(struct libeth_fq *fq, void *napi_dev);
- void libeth_rx_fq_destroy(struct libeth_fq *fq);
+-	adapter->vport_params_reqd = kzalloc_objs(*adapter->vport_params_reqd,
+-						  num_max_vports);
+-	if (!adapter->vport_params_reqd)
+-		return -ENOMEM;
+-
+ 	adapter->vport_params_recvd = kzalloc_objs(*adapter->vport_params_recvd,
+ 						   num_max_vports);
+ 	if (!adapter->vport_params_recvd)
+-		goto err_mem;
++		return -ENOMEM;
  
- /**
+ 	adapter->vport_ids = kcalloc(num_max_vports, sizeof(u32), GFP_KERNEL);
+ 	if (!adapter->vport_ids)
 -- 
 2.47.0
 
