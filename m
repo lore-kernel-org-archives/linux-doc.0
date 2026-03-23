@@ -1,81 +1,86 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 297383B9DAC
-	for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 16:04:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48B913AF645
+	for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 16:06:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774281858; cv=none; b=dFyc9NMrD3EbKTRWROCejdOldd22IHNArWj+UZ/YCWMQzPmza/Q7gJK6p0e8vvR+mK0Ix6H9d2rxkOFOaiyev1B+XOmvMLkacyi/QdGTEgDWb/f0T8ReLFhz3kvJYmgWtSKmqNJmEE0DUBq8b1teYU0RtV2/iOMxBa6Xfuwg9Zk=
+	t=1774281990; cv=none; b=FWulPBqKpIsF5YYlAgKJ41wop/WQzUOGtpYUWhtUByLSNyBSKocs8wdk9gzqdmpQyMzDPWcZRGFKDfaNrmNw3tZ2YyG/U0uxDzTk6noxTJyj3ng32Gz1PDjVwXXj8uNbuUf5ZssBYIOnFqkBAhweMftrOeP5Hr2c8uxlGbzPiaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774281858; c=relaxed/simple;
-	bh=8ha1A3Upqoft3A/vZsGBrxpfXd8ABWmzhRsBL16vIYU=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ZK0CSqvGbCtl9HxSNOh+/iF8H0ZL86g1rtMBHbPP0vOJctdeMAv0Rx5BnCod48VHL6Cnlp+f5L1lVbwE/5YimQMyvJUtkKDeAtF9LcRB0w/BGFnMMlDOMjABUW+ZkzckAK8V1E2/eV0C0uBVdPnpyhB7KqlxK7vPkU8L+gfhGYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=kS+QmkK7; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1774281990; c=relaxed/simple;
+	bh=Z/LmWnslyMEA8KuS1V4Xy1sI8gOsop003nSeTpsLEAs=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=VW90ObsGTzZGlhSKyrgNVAQselUi88BlCj3ofEV+Ctmpr2/KUeJXC0cfEJGl1Hh57QAfQS2OjzbQAD3KYexnsmYVd0ZpyMp3AjFhOsN/4VUJpBhQTPYU/xQQty9HSAa6PdjyIJXQmq/6C/5jfWGryTTiR0EZqJjGbgf57Nlf1iU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UkHyyJVk; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="kS+QmkK7"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-48702d51cd0so29027275e9.2
-        for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 09:04:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UkHyyJVk"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-48538c5956bso40557065e9.0
+        for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 09:06:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1774281853; x=1774886653; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:organization
-         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8ha1A3Upqoft3A/vZsGBrxpfXd8ABWmzhRsBL16vIYU=;
-        b=kS+QmkK7qwGvF8EIctTG4pvdoWb4tMqENHrQzXCkQyiBiJfhhL9/Y1DW/hOyW1+Wzs
-         iinuqwrE9/4Wrk3M+LvkN73bRUMZXFFqKZPlJAPQYTNrBG++GCodqIy0CY83BKGsPbfy
-         Id/ojcwcGtSM9Ia0/1ya5/o5lQzIEypIY59uvjm2N7gCi0bcfc9b0ZNAMdbVwFZGHerK
-         qOkBtCfNYoZWUrVf6waLJnRwbiE7whghztMqyqlGw6ztW8pxzeKfTmku+ArcysLqdafF
-         G0xMLFuWLtR683fiK9Wk3IN9YAkzpSlVjINKfC64EdJI4Usz1hq/vRJK7EQCUpiFCxXh
-         XWLQ==
+        d=gmail.com; s=20230601; t=1774281985; x=1774886785; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=iZ+8+0X30kHk32CK+85EMrU3OFRM220+pzBDKFOaV7I=;
+        b=UkHyyJVkpURCccfu4FgMmG+38Vo9SZf7KCxtdSbAfvboG4SzQAkCPb9dr3PrYINV1o
+         zFH256SA8yYsZ6lD+Pq/nOCsvETvekJq3/WonN68fHaQYjomZ931ZwibpWlh4kPMy0uZ
+         WTPVULbC2/mX8IsumKPD90dQchmq+LIWFnX7W4y30/HHKwKLsKUJcIDqX8BiCDilhbWA
+         k7Tmtp22BeQ1CI05HR8D3sG/4VDQKAcVo+BpgLKDunJSn5cjAicCnBItOQOJPxzfPJHS
+         c7Rrk761SDhBKouRNpRHWoWIjhuSZ/nm28Cq/Hel5RvsY57oy1lvRgq0C72drLLAuDD0
+         seow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774281853; x=1774886653;
-        h=mime-version:user-agent:content-transfer-encoding:organization
-         :references:in-reply-to:date:to:from:subject:message-id:x-gm-gg
+        d=1e100.net; s=20251104; t=1774281985; x=1774886785;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8ha1A3Upqoft3A/vZsGBrxpfXd8ABWmzhRsBL16vIYU=;
-        b=VX+HtTz2LKtj0NX5bZawb4NsEkr8HP5D0EekMRGKEP+XL/dO9sFeBEFEhmmkQcsypm
-         Odn4aBfv+x2V6uo4WPqy4nWKfzpBWNE9hUO1r1iAnQnrsVTezrFVwmEH0ZbVFrreeU7S
-         GVxX2Atq6T3Xxzd/W+IluKkZbD0GkPtQMhxiUtC1+tXpYVfeSEXsLeUy+PjkLV2MfxcH
-         azg1WMXR8kxIiEaumLImwCgfKAb0lCRHPkmyRayos3aAGLBsOTmHXS88BzIry8ebT/H3
-         sp2+HA8txln0bYYI9pJdn5rSFvw+iMaDXavTH2EDDU2LG35tRr7o1ykm+ZARnN5QUg7F
-         Feiw==
-X-Forwarded-Encrypted: i=1; AJvYcCV11n7n9v66tGiDQkfqKay81bQwu0Hgf8Q+GZbwnfiwlOswtvELSuun7/Q0P7G1n5Pw04crHJs8qxw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxxDYs4zuOkeD+AqiILGCI4RqR5eOvkQ8hZd+J5GerSR4TcmR01
-	Gfx8PhDsf8jIpEB0HD0550v9ecOoDlM8p9a/2/ZynPH/aIDcfjhpYjPwjWWytJyasoQ=
-X-Gm-Gg: ATEYQzzl6wnd5fumSid9jB3g78Yn/KqJxvlq4OcNSJ0OEf5KtCQDbRYQMDgatRPOf81
-	8bbxGmOZuaER53B1PZViizPzkBklNjB3cDDZstVlY0cIFyuokyPGDkb8vhVUWkDDpEUHccf8P9p
-	tlVBQFiYUMreUZuhtef8BQj9WmuelZfHhnx0ZmCFltVvLuOFBw6zwajYvMziWMEe9Gtu/riaz+F
-	KU++oXOHQx6+X/s7eFMvS25eStXDA2tpEPcpR9v1cW2IrbdoE7m0IrRAPh5pPyX4McDF/bQGx8P
-	dGTeMqEsRLJXMBLGvsg3CeAgi/zlG7NfQ5UDXwNtnMg56sj1wzOECBQ9qLtzUH988bADvXT2Hco
-	qFmrlREWg9uRHkRPxp7trBcqVsVv7cO0rdSSrOtIqySwSoc0HCw/+RLCTx6joN2rDc0M3Cxosky
-	x6AVI3
-X-Received: by 2002:a05:600c:45c7:b0:485:3fd1:9936 with SMTP id 5b1f17b1804b1-486fede721amr164460475e9.5.1774281853328;
-        Mon, 23 Mar 2026 09:04:13 -0700 (PDT)
-Received: from [10.76.209.31] ([151.35.182.48])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486fe032a55sm555492685e9.7.2026.03.23.09.04.11
+        bh=iZ+8+0X30kHk32CK+85EMrU3OFRM220+pzBDKFOaV7I=;
+        b=Olt/OQbWDVMjeBQcEGRKpcwF6r+PCoyhWyCaYmzQBcamfJKXajgeV9WliMdQGo7CXn
+         LThzERudCnGiwd3kdKnQx/tP+ViWNTgwlMwG2H+2eqQGqK20AP8Q83eQJKVLzY5o96s5
+         BJsBJz9RNL7LwHtsu+93k7bpohsU54QvkoXEjw1pweszrgTDoSF9EOI7R3A+zdoJ8Awa
+         +Ax6raH6EcSFotUhzbOnhvso85cheBURLFZf/Zy32U+zsvj8ANkvx9/Lp9ZHjv+Y7M5C
+         Ans+j+TPVsCwN8tVTtNfFmkvIgWGlewMDv8DsB/Bs/SSTQqYf0LwtDJYTVSp/U6yhctk
+         fDgA==
+X-Forwarded-Encrypted: i=1; AJvYcCWCiPcqKnn2IUClQRFl/NNThaFAt7l55QrJBnD/1L5LyQBj1L89N1e0bWoRm62KtjryuPxmpNzwL5g=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxe7DKzbAhgoaYOtMCL2FgLT3GbpZN5rJdw3HiZFZ9q97u8QAzN
+	XiWey927L6ZIAmg0q+pgA5C2qX4PpUfu1fKER7/ZqyQsNj2pzDXcJ6Ri
+X-Gm-Gg: ATEYQzzvKDIpAZyu3wTM0Nu8JEA/aBp7PdplUY/jGHH6dl1zRVTZh0pTFjxLbVlJPPM
+	w75DItmSwmBPUdQ5Zr7CE6KtOGTZc6Mcv6dc1A0nTlak0FYnOCCLqp4zOejgA822nN5fimjYjhq
+	kIDv+76ofR+NoxgsyokhypYEhIqUvZLOoFxKtSS4YcCe4vallfHdAnathOkLJ0nqU1m8BFRi+CK
+	JHW5aRlZVQ/o94Nj/S+Hx8RYGnXS7FdUsaEIVJIWPavf+m5HyHV97qEuf4Z44PdVVqB0WasgGe5
+	o4/gvs9rOI4uqB1C52H2EkM7eu4JJYatQ2wsYOWNfH5E+a9S5CI5QVOPP/zP+VD1SJJBTg4Grfn
+	WU8/JvNEc91jjekjIKuRPnud1a6ceu9drT2oAeQh/alzpr2hLuBnNdgA1cZty51Rs1OKwxYcw/2
+	axkdoii9LPJoJP9PsjtfIECZHS1Bw6AR+v7K4+pwrHTA==
+X-Received: by 2002:a05:600c:6096:b0:47e:e59c:67c5 with SMTP id 5b1f17b1804b1-4870f1fc5e2mr1845745e9.8.1774281985360;
+        Mon, 23 Mar 2026 09:06:25 -0700 (PDT)
+Received: from [192.168.1.187] ([148.63.225.166])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-486fe6d923fsm469841175e9.1.2026.03.23.09.06.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Mar 2026 09:04:13 -0700 (PDT)
-Message-ID: <af2128c68d2a14e1eb664ce9dc075ed02b640407.camel@baylibre.com>
-Subject: Re: [PATCH v8 2/6] iio: Replace 'sign' field with union in struct
- iio_scan_type
-From: Francesco Lavra <flavra@baylibre.com>
-To: David Lechner <dlechner@baylibre.com>, Jonathan Corbet <corbet@lwn.net>,
-  Shuah Khan <skhan@linuxfoundation.org>, Jonathan Cameron
- <jic23@kernel.org>, Nuno =?ISO-8859-1?Q?S=E1?= <nuno.sa@analog.com>, Andy
- Shevchenko <andy@kernel.org>,  linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org,  linux-iio@vger.kernel.org
-Date: Mon, 23 Mar 2026 17:04:10 +0100
-In-Reply-To: <4723284d-1e18-4a13-9ec1-878220af257e@baylibre.com>
-References: <20260317150316.3878107-1-flavra@baylibre.com>
-	 <20260317150401.3878294-1-flavra@baylibre.com>
-	 <4723284d-1e18-4a13-9ec1-878220af257e@baylibre.com>
-Organization: BayLibre
+        Mon, 23 Mar 2026 09:06:25 -0700 (PDT)
+Message-ID: <ff6a81b9fdefa6b6156f1af39943312d6a445145.camel@gmail.com>
+Subject: Re: [PATCH v7 1/3] dt-bindings: hwmon: Document the LTC4283 Swap
+ Controller
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Guenter Roeck <linux@roeck-us.net>, nuno.sa@analog.com
+Cc: linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, Rob Herring
+	 <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+	 <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+	 <skhan@linuxfoundation.org>, Linus Walleij <linusw@kernel.org>, Bartosz
+ Golaszewski <brgl@kernel.org>
+Date: Mon, 23 Mar 2026 16:07:11 +0000
+In-Reply-To: <821aafb4-d1a8-4611-addc-5bff4f1e187e@roeck-us.net>
+References: <20260314-ltc4283-support-v7-0-1cda48e93802@analog.com>
+	 <20260314-ltc4283-support-v7-1-1cda48e93802@analog.com>
+	 <c395fad0-ca24-448a-a77f-ddac1cd9f809@roeck-us.net>
+	 <77cd7e879a10df791d9d5eb1f16f1654e9904199.camel@gmail.com>
+	 <453dbd6c-c68d-4977-8418-a898008b0fe7@roeck-us.net>
+	 <63baaa6ea6ce7a8534046fea3d9f14fdb26f87a3.camel@gmail.com>
+	 <821aafb4-d1a8-4611-addc-5bff4f1e187e@roeck-us.net>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.46.4-2 
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -83,58 +88,126 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-T24gU2F0LCAyMDI2LTAzLTIxIGF0IDEyOjIyIC0wNTAwLCBEYXZpZCBMZWNobmVyIHdyb3RlOgo+
-IE9uIDMvMTcvMjYgMTA6MDQgQU0sIEZyYW5jZXNjbyBMYXZyYSB3cm90ZToKPiA+IFRoaXMgZmll
-bGQgaXMgdXNlZCB0byBkaWZmZXJlbnRpYXRlIGJldHdlZW4gc2lnbmVkIGFuZCB1bnNpZ25lZAo+
-ID4gaW50ZWdlcnMuCj4gPiBBIGZvbGxvd2luZyBjb21taXQgd2lsbCBleHRlbmQgaXRzIHVzZSBp
-biBvcmRlciB0byBhZGQgc3VwcG9ydCBmb3Igbm9uLQo+ID4gaW50ZWdlciBzY2FuIGVsZW1lbnRz
-OyB0aGVyZWZvcmUsIHJlcGxhY2UgaXQgd2l0aCBhIHVuaW9uIHRoYXQgY29udGFpbnMKPiA+IGEK
-PiA+IG1vcmUgZ2VuZXJpYyAnZm9ybWF0JyBmaWVsZC4gVGhpcyB1bmlvbiB3aWxsIGJlIGRyb3Bw
-ZWQgd2hlbiBhbGwKPiA+IGRyaXZlcnMKPiA+IGFyZSBjaGFuZ2VkIHRvIHVzZSB0aGUgZm9ybWF0
-IGZpZWxkLgo+ID4gT3Bwb3J0dW5pc3RpY2FsbHkgcmVwbGFjZSBjaGFyYWN0ZXIgbGl0ZXJhbHMg
-d2l0aCBzeW1ib2xpYyBjb25zdGFudHMKPiA+IHRoYXQKPiA+IHJlcHJlc2VudCB0aGUgc2V0IG9m
-IGFsbG93ZWQgdmFsdWVzIGZvciB0aGUgZm9ybWF0IGZpZWxkLgo+ID4gCj4gPiBTaWduZWQtb2Zm
-LWJ5OiBGcmFuY2VzY28gTGF2cmEgPGZsYXZyYUBiYXlsaWJyZS5jb20+Cj4gPiAtLS0KPiA+IMKg
-RG9jdW1lbnRhdGlvbi9kcml2ZXItYXBpL2lpby9idWZmZXJzLnJzdCB8wqAgNCArKy0tCj4gPiDC
-oGluY2x1ZGUvbGludXgvaWlvL2lpby5owqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oCB8IDE3ICsrKysrKysrKysrKysrKy0tCj4gPiDCoDIgZmlsZXMgY2hhbmdlZCwgMTcgaW5zZXJ0
-aW9ucygrKSwgNCBkZWxldGlvbnMoLSkKPiA+IAo+ID4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRp
-b24vZHJpdmVyLWFwaS9paW8vYnVmZmVycy5yc3QKPiA+IGIvRG9jdW1lbnRhdGlvbi9kcml2ZXIt
-YXBpL2lpby9idWZmZXJzLnJzdAo+ID4gaW5kZXggNjNmMzY0ZTg2MmQxLi5lMTZhYmFmODI2ZmUg
-MTAwNjQ0Cj4gPiAtLS0gYS9Eb2N1bWVudGF0aW9uL2RyaXZlci1hcGkvaWlvL2J1ZmZlcnMucnN0
-Cj4gPiArKysgYi9Eb2N1bWVudGF0aW9uL2RyaXZlci1hcGkvaWlvL2J1ZmZlcnMucnN0Cj4gPiBA
-QCAtNzgsNyArNzgsNyBAQCBmaWVsZHMgaW4gaWlvX2NoYW5fc3BlYyBkZWZpbml0aW9uOjoKPiA+
-IMKgwqDCoCAvKiBvdGhlciBtZW1iZXJzICovCj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlu
-dCBzY2FuX2luZGV4Cj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHN0cnVjdCB7Cj4gPiAtwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGNoYXIgc2lnbjsKPiA+ICvCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY2hhciBmb3JtYXQ7Cj4gPiDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB1OCByZWFsYml0czsKPiA+IMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHU4IHN0b3JhZ2ViaXRzOwo+ID4gwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgdTggc2hpZnQ7Cj4gPiBAQCAtOTgsNyArOTgs
-NyBAQCBmb2xsb3dpbmcgY2hhbm5lbCBkZWZpbml0aW9uOjoKPiA+IMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCAvKiBvdGhlciBzdHVmZiBoZXJlICovCj4gPiDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLnNjYW5faW5kZXggPSAwLAo+ID4gwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIC5zY2FuX3R5cGUgPSB7Cj4gPiAtwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLnNpZ24gPSAncycsCj4g
-PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLmZv
-cm1hdCA9IElJT19TQ0FOX0ZPUk1BVF9TSUdORURfSU5ULAo+ID4gwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAucmVhbGJpdHMgPSAxMiwKPiA+IMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLnN0b3Jh
-Z2ViaXRzID0gMTYsCj4gPiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgIC5zaGlmdCA9IDQsCj4gPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9saW51eC9p
-aW8vaWlvLmggYi9pbmNsdWRlL2xpbnV4L2lpby9paW8uaAo+ID4gaW5kZXggYTllY2ZmMTkxYmQ5
-Li5kNDhhMGFiMDFiOGQgMTAwNjQ0Cj4gPiAtLS0gYS9pbmNsdWRlL2xpbnV4L2lpby9paW8uaAo+
-ID4gKysrIGIvaW5jbHVkZS9saW51eC9paW8vaWlvLmgKPiA+IEBAIC0xNzYsOSArMTc2LDE5IEBA
-IHN0cnVjdCBpaW9fZXZlbnRfc3BlYyB7Cj4gPiDCoMKgwqDCoMKgwqDCoMKgdW5zaWduZWQgbG9u
-ZyBtYXNrX3NoYXJlZF9ieV9hbGw7Cj4gPiDCoH07Cj4gPiDCoAo+ID4gKy8qCj4gPiArICogRm9y
-bWF0IHZhbHVlcyBpbiBzY2FuIHR5cGUKPiA+ICsgKiBASUlPX1NDQU5fRk9STUFUX1NJR05FRF9J
-TlQ6IFNpZ25lZCBpbnRlZ2VyICh0d28ncyBjb21wbGVtZW50KS4KPiA+ICsgKiBASUlPX1NDQU5f
-Rk9STUFUX1VOU0lHTkVEX0lOVDogVW5zaWduZWQgaW50ZWdlci4KPiA+ICsgKi8KPiAKPiBXZSBj
-b3VsZCBtYWtlIHRoaXMgcHJvcGVyIGtlcm5lbCBkb2MgZm9ybWF0IHdpdGggb25lIGNvbW1lbnQg
-cGVyIG1hY3JvLgoKQWN0dWFsbHksIGEgc2V0IG9mIHJlbGF0ZWQgI2RlZmluZXMgY2FuIGJlIGRv
-Y3VtZW50ZWQgd2l0aCBhIHNpbmdsZQpjb21tZW50LiBJIHNlZSBhIGZldyBleGFtcGxlcyBkb2lu
-ZyB0aGF0IGluIGluY2x1ZGUvbGludXgvZ2ZwX3R5cGVzLmggYW5kCmluY2x1ZGUvbGludXgvZnBn
-YS9mcGdhLW1nci5oCgoKPiA+ICsjZGVmaW5lIElJT19TQ0FOX0ZPUk1BVF9TSUdORURfSU5UwqDC
-oMKgwqDCoCdzJwo+ID4gKyNkZWZpbmUgSUlPX1NDQU5fRk9STUFUX1VOU0lHTkVEX0lOVMKgwqDC
-oCd1Jwo+ID4gKwoK
+On Mon, 2026-03-23 at 08:27 -0700, Guenter Roeck wrote:
+> On 3/23/26 08:17, Nuno S=C3=A1 wrote:
+> > On Mon, 2026-03-23 at 07:33 -0700, Guenter Roeck wrote:
+> > > [ ...]
+> > > > > > +=C2=A0 adi,pgio1-func:
+> > > > > > +=C2=A0=C2=A0=C2=A0 description: Configures the function of the=
+ PGIO1 pin.
+> > > > > > +=C2=A0=C2=A0=C2=A0 $ref: /schemas/types.yaml#/definitions/stri=
+ng
+> > > > > > +=C2=A0=C2=A0=C2=A0 enum: [inverted_power_good, power_good, gpi=
+o]
+> > > > > > +=C2=A0=C2=A0=C2=A0 default: inverted_power_good
+> > > > > > +
+> > > > > > +=C2=A0 adi,pgio2-func:
+> > > > > > +=C2=A0=C2=A0=C2=A0 description: Configures the function of the=
+ PGIO2 pin.
+> > > > > > +=C2=A0=C2=A0=C2=A0 $ref: /schemas/types.yaml#/definitions/stri=
+ng
+> > > > > > +=C2=A0=C2=A0=C2=A0 enum: [inverted_power_good, power_good, gpi=
+o, active_current_limiting]
+> > > > > > +=C2=A0=C2=A0=C2=A0 default: inverted_power_good
+> > > > > > +
+> > > > > > +=C2=A0 adi,pgio3-func:
+> > > > > > +=C2=A0=C2=A0=C2=A0 description: Configures the function of the=
+ PGIO3 pin.
+> > > > > > +=C2=A0=C2=A0=C2=A0 $ref: /schemas/types.yaml#/definitions/stri=
+ng
+> > > > > > +=C2=A0=C2=A0=C2=A0 enum: [inverted_power_good_input, power_goo=
+d_input, gpio]
+> > > > > > +=C2=A0=C2=A0=C2=A0 default: inverted_power_good_input
+> > > > > > +
+> > > > > > +=C2=A0 adi,pgio4-func:
+> > > > > > +=C2=A0=C2=A0=C2=A0 description: Configures the function of the=
+ PGIO4 pin.
+> > > > > > +=C2=A0=C2=A0=C2=A0 $ref: /schemas/types.yaml#/definitions/stri=
+ng
+> > > > > > +=C2=A0=C2=A0=C2=A0 enum: [inverted_external_fault, external_fa=
+ult, gpio]
+> > > > > > +=C2=A0=C2=A0=C2=A0 default: inverted_external_fault
+> > > > > > +
+> > > > > > +=C2=A0 adi,gpio-on-adio1:
+> > > > > > +=C2=A0=C2=A0=C2=A0 description: If set, the ADIO1 pin is used =
+as a GPIO.
+> > > > > > +=C2=A0=C2=A0=C2=A0 type: boolean
+> > > > > > +
+> > > > > > +=C2=A0 adi,gpio-on-adio2:
+> > > > > > +=C2=A0=C2=A0=C2=A0 description: If set, the ADIO2 pin is used =
+as a GPIO.
+> > > > > > +=C2=A0=C2=A0=C2=A0 type: boolean
+> > > > > > +
+> > > > > > +=C2=A0 adi,gpio-on-adio3:
+> > > > > > +=C2=A0=C2=A0=C2=A0 description: If set, the ADIO3 pin is used =
+as a GPIO.
+> > > > > > +=C2=A0=C2=A0=C2=A0 type: boolean
+> > > > > > +
+> > > > > > +=C2=A0 adi,gpio-on-adio4:
+> > > > > > +=C2=A0=C2=A0=C2=A0 description: If set, the ADIO4 pin is used =
+as a GPIO.
+> > > > > > +=C2=A0=C2=A0=C2=A0 type: boolean
+> > > > >=20
+> > > > > Does this dependency block force a redundant specification of adi=
+,pgio4-func?
+> > > > > The default for adi,pgio4-func is inverted_external_fault, which =
+means the
+> > > > > default hardware state already supports external fault features.
+> > > > > If a device tree legitimately omits adi,pgio4-func to rely on tha=
+t default,
+> > > > > will it fail schema validation here since the dependencies keywor=
+d strictly
+> > > > > checks for the literal presence of properties without injecting d=
+efaults?
+> > > >=20
+> > > > Fair point. I guess it will fail but the alternative is to not have=
+ any constrain at all so
+> > > > maybe worth it to be explicit in here?
+> > > >=20
+> > >=20
+> > > I don't claim to understand how to define devicetree properties, but
+> > >=20
+> > > adi,pgio4-func =3D <"gpio">
+> > >=20
+> > > and
+> > >=20
+> > > adi,gpio-on-adio4;
+> > >=20
+> > > seem to be equivalent to me, and omitting the first property (because
+> >=20
+> > Not exactly. ADIO4 and PGIO4 are different pins and can be both configu=
+red
+> > as GPIOs. ADIO is a boolean because they are either monitored by the AD=
+C (default)
+> > or configured as GPIOs. PGIOs can have additional configurations and he=
+nce the
+> > enum.
+> >=20
+>=20
+> Ah, I didn't realize the small "A" vs. "G" difference (and apparently
+> I don't understand what the AI is complaining about ;-). Sorry for the no=
+ise.
+>=20
+
+My understanding about the AI complain is the below dependencies:
+
++  adi,external-fault-retry-enable:
++    - adi,pgio4-func
++  adi,external-fault-fet-off-enable:
++    - adi,pgio4-func
+
+The default value (omitting the property) is a valid case to use any of the=
+ above two
+flags but with the above, omitting the property and adding the flag should =
+result in
+an error when validating the binding (because of the dependency). That is w=
+hy I replied
+with
+
+"Fair point. I guess it will fail but the alternative is to not have any co=
+nstrain at all so
+maybe worth it to be explicit in here?"
+
+
+- Nuno S=C3=A1
 
