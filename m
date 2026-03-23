@@ -1,97 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C58A3B2FEF;
-	Mon, 23 Mar 2026 15:18:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774279129; cv=none; b=rne/jwOse9HAPD/4Q7ZEzh/GIUdAN7Z9DmAfgpUcOEO2WmSyd90K4kW0vV+6rR3Y6yEstCzfySu3/AUQ8LvVnfcyWyKRRdenuh+tb+32Ak1SpoSvTFWQjlqg1TKqRstFRqlyS49cWDFOpPQJD9Mxbxy4oJ0Cs+rxATIov4vPiQc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774279129; c=relaxed/simple;
-	bh=pbXYxhzMz1CXELl5GAMQGqn3VS0cXr+c3mpboLxq4hA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VmSXXN8c2WtH3wQQynNMPQ/4OJ1Uiby0h0yibazGqP0nyC08VKPKrqEkc2mYo/CrLemmjYefUxJhEgk+j+9xtLRyyydgJDuY1dBsKpzwQVR5QpZnJ8ozea5zTzisYi+u0qHwyFw4HtTHUCBw2oZbBuStV0Gh2a7JNJHtZkfRpFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=CJ5hRoCK; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25031258CD9;
+	Mon, 23 Mar 2026 15:24:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774279483; cv=pass; b=gyG2AaVANJYNI/CNmYujRlZu8Ezlr/JdHYGRT21HkQw7UVSs6G9jUi1eidxdnPJUygUb0aKxqzFuSiEA6oKCWSk4qfnSFy4ktcuLv2T9C6dNI6xuONS516/DvarBMWbYC6N8v0d3i8u3c/Qmm85T+a1XjUI/3HJmv4ClkKpYczI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774279483; c=relaxed/simple;
+	bh=uFiHoVfu9qJdRqJCicAG5hiiOOLeUcbT64+PDrRCzTM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ctUh9zeuKZB65HCJB8g07unfgRqif4gRV7Aw1rlDqJ8NZ0wDEt03w3VGjI2DuMeaKt2ja21cpmUYBwWq/bCqdYDXzGZ+ToK6lee9sAqhODaZXVVGYkRODM8BboMmGApMgCo+VCYJLWkO5kOw777A/ceZNkO+GXsfzvF/FXTKOuk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com; spf=pass smtp.mailfrom=ritovision.com; dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b=Y0lEY72b; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ritovision.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="CJ5hRoCK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72CCBC4CEF7;
-	Mon, 23 Mar 2026 15:18:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1774279129;
-	bh=pbXYxhzMz1CXELl5GAMQGqn3VS0cXr+c3mpboLxq4hA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CJ5hRoCKajUHc8KKiBAP2gYu1mVfUOfWRR6xc1nDC/KmFM8FTX4OS4y9Nfd8vhfAi
-	 J23Pc2XVcANhfXnjGTAo+urvXkyrzow5gFm2OspORm1S/DdOvkBQZXlQYlKUBUvn28
-	 tpGOuXncYvNz+HkAvROWP9p1b6eqV6ah8hy5xkd8=
-Date: Mon, 23 Mar 2026 14:52:58 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	workflows@vger.kernel.org, tools@kernel.org, x86@kernel.org,
-	Thomas Gleixner <tglx@kernel.org>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Cyril Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>,
-	Jake Edge <jake@lwn.net>,
-	David Laight <david.laight.linux@gmail.com>,
-	Askar Safin <safinaskar@zohomail.com>,
-	Gabriele Paoloni <gpaoloni@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH v2 3/9] kernel/api: add debugfs interface for kernel API
- specifications
-Message-ID: <2026032309-jargon-stalling-28c2@gregkh>
-References: <20260322121026.869758-1-sashal@kernel.org>
- <20260322121026.869758-4-sashal@kernel.org>
+	dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b="Y0lEY72b"
+ARC-Seal: i=1; a=rsa-sha256; t=1774279472; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=oBkdVH3aruq7HOXqDYUmzlhDdULaN1JxBJSJ/YYffNbc3hC72fwYj9PiIHqgwTiXK2UUSVb8KONwahKwXafKC9v9uTCmx/gbdbPSoVjUR0U/CBWW3QuuobrlXIOXa7L+CUJvsNy59ajVSFSdERM2xdOP/Xu0d039tO7UatVvpEs=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1774279472; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=bKwNC3oYBC87zktx+ult9d2bfUYP6RHypbxps9hFVdE=; 
+	b=LgtJ2GxT7OcW2pcZY3UvoPp8qXHh5rl6bQwvw4NSnM8BFdTvxl/b744UmWJuSURR4mG9MwdjdA07Th9K7fsJURKQbHm5pot5J5LbepedHitifnVhSz5FMec0bJ3xduUVBfSCauW9IWQafr2TC0yJCoqlMCzYt7VtaRsOrpZEnIk=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=ritovision.com;
+	spf=pass  smtp.mailfrom=rito@ritovision.com;
+	dmarc=pass header.from=<rito@ritovision.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774279472;
+	s=zmail; d=ritovision.com; i=rito@ritovision.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=bKwNC3oYBC87zktx+ult9d2bfUYP6RHypbxps9hFVdE=;
+	b=Y0lEY72bs1TsYrRzoB1F7q40Tk/aCbog+dVMnYgryuUYmgMSMR2Ggz8kauK79UGP
+	gmISwR+EjydGRr+kxk6v8dx8mr3gzi6EYN0qxIRb/OBa7LmkD7VwbPy3GKYDjIZwGrT
+	tlrln1AXJB34koz7doNucuStq06YTQMVhtXxT4UM=
+Received: by mx.zohomail.com with SMTPS id 1774279469832708.1824775079593;
+	Mon, 23 Mar 2026 08:24:29 -0700 (PDT)
+From: Rito Rhymes <rito@ritovision.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org,
+	rdunlap@infradead.org,
+	Rito Rhymes <rito@ritovision.com>
+Subject: [PATCH v3 1/2] docs: allow long links to wrap per character to prevent page overflow
+Date: Mon, 23 Mar 2026 11:24:27 -0400
+Message-ID: <20260323152428.30483-1-rito@ritovision.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260321180841.10166-1-rito@ritovision.com>
+References: <20260321180841.10166-1-rito@ritovision.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260322121026.869758-4-sashal@kernel.org>
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-On Sun, Mar 22, 2026 at 08:10:17AM -0400, Sasha Levin wrote:
-> Add a debugfs interface to expose kernel API specifications at runtime.
-> This allows tools and users to query the complete API specifications
-> through the debugfs filesystem.
-> 
-> The interface provides:
-> - /sys/kernel/debug/kapi/list - lists all available API specifications
-> - /sys/kernel/debug/kapi/specs/<name> - detailed info for each API
-> 
-> Each specification file includes:
-> - Function name, version, and descriptions
-> - Execution context requirements and flags
-> - Parameter details with types, flags, and constraints
-> - Return value specifications and success conditions
-> - Error codes with descriptions and conditions
-> - Locking requirements and constraints
-> - Signal handling specifications
-> - Examples, notes, and deprecation status
-> 
-> This enables runtime introspection of kernel APIs for documentation
-> tools, static analyzers, and debugging purposes.
-> 
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
+Some documentation pages contain long link text without natural
+break points, which can force page-wide horizontal scroll overflow
+on small screens.
 
-Debugfs logic looks sane, nice.
+Use overflow-wrap: anywhere for anchor text in the docs stylesheet so
+links can wrap per character as a fallback when normal word boundaries
+are unavailable.
 
-But this only works if the kabi stuff is built into the kernel image,
-right?  This doesn't work if any of these abi sections are in a module
-or am I missing that logic here?
+Examples:
+  https://docs.kernel.org/6.15/firmware-guide/acpi/non-d0-probe.html
+  https://docs.kernel.org/6.15/arch/x86/earlyprintk.html
 
-thanks,
+Signed-off-by: Rito Rhymes <rito@ritovision.com>
+Assisted-by: Codex:GPT-5.4
+---
+v3: add latest public versioned URL examples to the patchlog
 
-greg k-h
+ Documentation/sphinx-static/custom.css | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
+index db24f4344..4ec617d40 100644
+--- a/Documentation/sphinx-static/custom.css
++++ b/Documentation/sphinx-static/custom.css
+@@ -149,6 +149,11 @@ div.language-selection ul li:hover {
+     background: #dddddd;
+ }
+ 
++/* Let long link text wrap instead of forcing overflow. */
++a {
++    overflow-wrap: anywhere;
++}
++
+ /* Make xrefs more universally visible */
+ a.reference, a.reference:hover {
+     border-bottom: none;
+-- 
+2.51.0
