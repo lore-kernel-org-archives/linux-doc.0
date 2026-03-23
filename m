@@ -1,96 +1,72 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 960EF3112BC;
-	Mon, 23 Mar 2026 22:58:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0546079CD;
+	Mon, 23 Mar 2026 23:01:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774306683; cv=none; b=ltN0xOo8wmOkekaF6lobGAYt7IkzwZDgAxsVnZkaFE47AiG+BadNqJJrAl570Npjgm3QIAi494WLltqT2T3AdfOOLTaPwU0F+5DL7m9x3T1kCeQcRBN82cu6Z1rkiJhS7LYGOw3IbuzTDI0yCkHdqisWz0vSlHhrCRjpphQthuY=
+	t=1774306902; cv=none; b=ZCJHhtQmdGCwh/TZiXQC4XjJLqJ0txsj7sDOTUW/KDWfvPywZdv5GQjLO+fFKRWJAHxt//DwUAp+rQGjrrFgJrWaAEkvcPobm6CnfzOs2DPnOlUhxR+DRPukzPPL51OM6QehXOFgHz6w96+gn30gf4lwlerQ5rqmOHeAGPSy5dI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774306683; c=relaxed/simple;
-	bh=EiNat42VuczjsdffLBCVZQ9x3qS9l3P6OlVBuRMXo54=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s5kBgT1kB1zgBbMUgGC/L3FXtLw6ixgBZFce9umz+9j1yynM0zE7rT8BSacjQq6tldRh0hAoumKhDvaSVeKPwiGmvA9zVwsCQZroyc3ZgwIMneoiGDbkQbEH8oO07fHdieuzpTM3vPjNfrw3ud2do8Qf6FuFFB4P7sf3ZHgZ3Lg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WV9CkoFD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774306902; c=relaxed/simple;
+	bh=toyhR0KbEaSMuTUVSxlNnq5OtFVNtTeUOy3I6MZQPts=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Jd+UCcCB0jcc4bwlUhn/4v374eu0y29uNqC9vYHxrFSn0drv87Ao2mqmr6Mt7b8I8q7j5P5oanyYbxY4D6rsBQvOwY8/UAEjl5XjspHJT40f0TIQCeOlnkW2qOEKafd5vEg6Rs2nuDfuqYYrHgDYP1VhMUTQvrOuSN5nqy3am8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=EQh9N5ul; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WV9CkoFD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6A7AC4CEF7;
-	Mon, 23 Mar 2026 22:58:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774306683;
-	bh=EiNat42VuczjsdffLBCVZQ9x3qS9l3P6OlVBuRMXo54=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WV9CkoFDBmBIU6xtzEagghBdFHHY+EtZfn9qhuFP6Xufv2DTDU2/nu4VLTGSukXLw
-	 lQK7Skxq+8G/QLkY/NmSNRdmYoNLUw4OO3XcKER1sKYtutpIrH1s0EHnPPUAr9/LBL
-	 t+4+jkF1QIOjUlUMkKjxT2ieEGx2f8nxRLQm/GHFlsYBFLUodmJBFwO9GCuUpe0rn0
-	 rLe3WMYsTOs2bqTz1bP224rxJNrmAm7S6vHDlQWP2y5v1nSJQtz8hsDmYKQdKNQ3kg
-	 b/ez1GLrwyd0j7q06Pu2Ca9DrdwW5QEj3tawZlMXArqwlwE9yxsaryb9KUyTbUuL/U
-	 BBCJeNlNQFbuA==
-Date: Mon, 23 Mar 2026 18:58:01 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Alexey Dobriyan <adobriyan@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Petr Mladek <pmladek@suse.com>, Alexei Starovoitov <ast@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, David Gow <davidgow@google.com>,
-	Kees Cook <kees@kernel.org>, Greg KH <gregkh@linuxfoundation.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>, Helge Deller <deller@gmx.de>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Juergen Gross <jgross@suse.com>,
-	James Bottomley <James.Bottomley@hansenpartnership.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Petr Pavlu <petr.pavlu@suse.com>, x86@kernel.org,
-	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-modules@vger.kernel.org,
-	bpf@vger.kernel.org
-Subject: Re: [PATCH 0/2] kallsyms: show typed function parameters in
- oops/WARN dumps
-Message-ID: <acHFeaE8QRV2NJzB@laps>
-References: <20260323164858.1939248-1-sashal@kernel.org>
- <cdd61497-8d50-4fc5-aec8-47286e23d537@p183>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="EQh9N5ul"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=99hlkLfa8IThBgtzSY8NsrJ2ygIkKnZEJHYHwGg1HNs=; b=EQh9N5ul4hcUwmTS5/WS1HGTF8
+	Lt4HK9k55+7MV63WMFcLXRn880gcUK1yw5D20xJJuOw8Dua2bgBgUmULpL4x2TPr3behDT0NhmM3H
+	DpmaQBSf4HNYjO7ZWbj9bFGdx1bebCb/5N4LYEeKZQmNQDxoD/P5jf82E7vqyrShHwYoJy3zb7giZ
+	RGC492oTrG0islK8JJ2ah39BY35xvqWtPxS6+8905L3ed8jcnEvo7ZO7n0aqOXq/kKglvCmGrXLUw
+	VEDqIrhUOU8SfNuEKrVDa3YPV2lXjf+8+bJme6WmARzNKWEyN0xuIYmZLnGXdfObr1C2lQaea0ejV
+	M3bH5zHg==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1w4oH7-0000000076D-0adi;
+	Mon, 23 Mar 2026 23:01:33 +0000
+Message-ID: <04294157-7833-4dfa-b41a-457cbd8750a5@infradead.org>
+Date: Mon, 23 Mar 2026 16:01:31 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <cdd61497-8d50-4fc5-aec8-47286e23d537@p183>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: add advanced search for kernel documentation
+To: Rito Rhymes <rito@ritovision.com>, Jonathan Corbet <corbet@lwn.net>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-doc@vger.kernel.org
+Cc: Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org
+References: <20260321181511.11706-1-rito@ritovision.com>
+ <621b43a5-256b-4a82-b179-3cefe43d419f@infradead.org>
+ <DH8UC6DVQE4P.13E9XDIRGJ645@ritovision.com>
+ <6cbf9940-0146-4b4d-bf74-4142b18602df@infradead.org>
+ <DH8WUB5VFIDH.B2WQGIM3163@ritovision.com>
+ <4620a35c-5293-4973-aa71-49046fae9911@infradead.org>
+ <DHAJ2FE2Z4OL.ZUA8AQEMPC01@ritovision.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <DHAJ2FE2Z4OL.ZUA8AQEMPC01@ritovision.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Mar 23, 2026 at 09:43:59PM +0300, Alexey Dobriyan wrote:
->On Mon, Mar 23, 2026 at 12:48:55PM -0400, Sasha Levin wrote:
->>  Function parameters (paraminfo_demo_crash):
->>   uts      (struct new_utsname *) = 0xffffffffb8ca8d00
->>    .sysname = "Linux"                        .nodename = "localhost"
->>    .release = "7.0.0-rc2-00006-g3190..."     .version = "#45 SMP PRE"
->>   file     (struct file *       ) = 0xffffa0a3c250acc0
->>    .f_mode = (fmode_t)67993630               .f_op = (struct file_operations *)0xffffffffb7237620
->>    .f_flags = (unsigned int)32769            .f_cred = (struct cred *)0xffffa0a3c2e06a80
->>    .dentry = (struct dentry *)0xffffa0a3c0978cc0
->
->Should this be in crash's format?
->
->	struct dentry ffffffffffff0000
 
-The format currently used comes from the kernel's own BTF show infrastructure.
-                                                                                                                                                                           
-crash's struct dentry ffffffffffff0000 syntax is specific to crash. drgn, GDB,
-bpftool, and the kernel's own BTF rendering all use the (struct type *)0xaddr
-notation we're already using. Adopting crash's format would make this output
-inconsistent with all other BTF-based output in the kernel, and would also lose
-the member name context (.dentry).
+
+On 3/23/26 3:50 PM, Rito Rhymes wrote:
+> I believe I identified the issue as a Sphinx version compatibility
+> problem.
+> 
+> I've been working on a more robust reroll. I expect to have it by
+> tomorrow, and we can test it when you're ready.
+
+Sounds good. Thanks.
 
 -- 
-Thanks,
-Sasha
+~Randy
+
