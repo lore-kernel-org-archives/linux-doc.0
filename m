@@ -1,286 +1,226 @@
-Received: from LO0P265CU003.outbound.protection.outlook.com (mail-uksouthazon11022099.outbound.protection.outlook.com [52.101.96.99])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89B373A8746;
-	Mon, 23 Mar 2026 12:43:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.96.99
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774269830; cv=fail; b=H/p0WLls8Ryc9w8GZE46kgwx89mOs6rSdKA6RBMWJgn0Lzhl9YtCtnXUzDwSpKNDZGdfdLzN1UuwzKZEHOc3wk8DnOaxkrobPBVZrJjaYn/I0JpX43K/XLBw5/uBUsMPzwN3orqSiDAPw6A+FQR+HVssKDO1zFsNAb7WJUPLIdo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774269830; c=relaxed/simple;
-	bh=3ZYoNl7SYG3q3JnOWBMUqQSSfW7EOWjpj032mAyiRRc=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=MocKifQM54VZ0vWb7t9ZvBi+oOzni54Bz/8yKEub7liTZCWq2xilXA2ayuFys46lg8VsUI2RJ3sIVGN5XcjpgDoNQ162lChY4OPdh7WPrhKiZPBmfYxB92YewLL8lfAyfCidj3n3AsMhWvvtv9eeP27U0iU53AIYlq7QJ6+O10c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=Tcq7pmRu; arc=fail smtp.client-ip=52.101.96.99
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA75B3AC0C4
+	for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 13:37:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774273032; cv=none; b=NprMKY8QykE5Xd7Ol8dA6d7MIZcWL8JJ7O0vsVRcRhycze8AhmJD3KZPHExnpIB0E0d/BkmZEi8I4oBtFKeBDnei3pmr+XSrCzh8HacgjKA0sFT9orxzljkfDroEH2pU18758ndNiT4v7jbpkBss6ox+csHPxxHQcZo1HR0DSfE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774273032; c=relaxed/simple;
+	bh=bv/SaUq1HdOMFnRKapZs5n44wqZCvMp+Q5Yg1ZUqQT4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AbGn1c8UJCAN2PDZW96vogb2nBwAliJ1lwASjvFOPLh6g9iAHhn7QCwRU9WUHEPwRoFqd0qaEwHgdtybEwAUY5ZrCH/JnN0ZPDzfwvt/C1sL9hAw1ARpwk0idTfATgzwClF6Mi68NKpLouoT4vQ9HDAYUFk7L+rGmp/UC2hswaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m7zrVHz8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="Tcq7pmRu"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gQ+zDgQN9AgDdKjPWUqGdp5T6B6Zy7ykdrzZeGvl/8sF/8PM2q06IbzyH0+JYCKnVmBnnouTB9f1qBTLeKpczkerZpiZ5WfuJP9kSPpWL5d9Zzpcide09tPTFIRqldN4F1fqQKjRQwOhsmPWyBbKG9wJtnTyKkb60Muh6OE43HBHOCAO1oN8+GpVHgn0L8Y7pmFdQ1j9wxCD3Mx3LDG4pavRChO/itD8FNfAmvqMXFmzY5+8jyn6jvMUczNZbnSWjhsoh5U1ujVQ0y99OJVttwAB61EbjURFoLuExnlQacbwCgVamu85di8pr7KWdpklyIRAVdJHC0isfMNGQuz5uA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uR8+u+cAuJsmmguW2NRNWGYeAwE+ccXvj69/LwsFudk=;
- b=NDxmKImb7gtjUgpc/oFAib/hlgBm42pE/OCluAYZ9xB4yekaLJA814jdTqWtCGuA+IUtJ/flppkKDezRftdj/I4DSKwlx9kuzxEnKjcH27I0HPj1rGHFXzf9ykX35h/v0C+ZYFVvMXF7YnbIp5+nXQUA7ZLKyc5DPxX5vVjlu+eG+UPIhwsfE0nQRSXrvAaQYV4KVfyKTWceonTDeRH31s8usUwEzPXLLNFJeXc0g4tIVZmQOzhaK0cFRmSsSoq/kjscB6D7vLZZWm49BPLqBipM8GgEs91ckqRkyrDUzibkMaen+nstXfkaDUCEdOCbZNQVGYeeilTfMCKHh/2O3w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uR8+u+cAuJsmmguW2NRNWGYeAwE+ccXvj69/LwsFudk=;
- b=Tcq7pmRufykJmUbGpXj1Bxgr0mibkygcXwFcoDMXWEfVM3lFsOUrBFJp8oFDsWuXklOeOtkZ7bOz/Ha2kRWV9JcRda/oN5mR0i1nMiViLV/emv+WN+aUtv2HOwAbAvg8CipYhF/uXfoq9mwpgQhIwwmLfbCNKkteQZfUYrNSxII=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by LO2P265MB5547.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:25e::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9723.31; Mon, 23 Mar
- 2026 12:43:43 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%5]) with mapi id 15.20.9723.030; Mon, 23 Mar 2026
- 12:43:43 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 23 Mar 2026 12:43:42 +0000
-Message-Id: <DHA65RY78M31.20BCCF00R67TH@garyguo.net>
-Cc: "John Hubbard" <jhubbard@nvidia.com>, "Alistair Popple"
- <apopple@nvidia.com>, "Joel Fernandes" <joelagnelf@nvidia.com>, "Timur
- Tabi" <ttabi@nvidia.com>, "Zhi Wang" <zhiw@nvidia.com>, "Eliot Courtney"
- <ecourtney@nvidia.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
- <linux-doc@vger.kernel.org>, <rust-for-linux@vger.kernel.org>
-Subject: Re: [PATCH v3 07/10] gpu: nova-core: falcon: introduce
- `bounded_enum` macro
-From: "Gary Guo" <gary@garyguo.net>
-To: "Alexandre Courbot" <acourbot@nvidia.com>, "Danilo Krummrich"
- <dakr@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "Miguel Ojeda"
- <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>, "Gary Guo"
- <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Trevor Gross" <tmgross@umich.edu>
-X-Mailer: aerc 0.21.0
-References: <20260323-b4-nova-register-v3-0-ae2486ecef1b@nvidia.com>
- <20260323-b4-nova-register-v3-7-ae2486ecef1b@nvidia.com>
-In-Reply-To: <20260323-b4-nova-register-v3-7-ae2486ecef1b@nvidia.com>
-X-ClientProxiedBy: LO4P123CA0511.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:272::12) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m7zrVHz8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C1D5C4CEF7
+	for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 13:37:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774273032;
+	bh=bv/SaUq1HdOMFnRKapZs5n44wqZCvMp+Q5Yg1ZUqQT4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=m7zrVHz8jG70gOBJcuvGd9dQDhChoJnZeciGZMEwB53wUhOugKsxbQdtTrzaMLE3K
+	 woO/Y0CCFVTtdfxh7PBN0MdrIo/XxqM+d1R6o95whzgIxItgVy1RiPKVlCgpnSYUJn
+	 3rC/v/c6EyhgWN07TN5XFfJM0fHtI7fIJ6Ax7QK1CyvhBX6dJJqIycyep4Lr0vs/3K
+	 5vf/eoZ90MF5eg1u1jFqhozl0yY8btTvkEWzPUtTccVnHiwkQN12MKkhvfz1G0OJkN
+	 LEn9AaxmO+cngxDe3AgvKNSpPpZyP6KFlH3OLBIfRGoQYTmaZiRBHIvCCB3vbuQo1K
+	 xrIdkAq1a9mqg==
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5a13f6bcbf4so182555e87.1
+        for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 06:37:12 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUBPByh+vrFzZSNVI6H8XEY36dCDTBoRUFj9Jobz+/L6jpZ2Xbf2OTVumHgRpq4uijQrCOjT11U33U=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxljW9S+CaIq/l2PC8v/GO7WPcJHHwD9N2A0eX3ID1Copha19C6
+	cUhzJViG1jwHKFjY65u/3JLs8YUMNPhwq+DRQ7aynEtqGHRAY1JfzrMA7eWxMbyr+AHOcCR/Vxw
+	q3J4yAqWtUQwNa0qQ0ljTBCgyen9Y7Ppqz1edQ9+GCQ==
+X-Received: by 2002:a05:6512:10d3:b0:5a1:7458:c17e with SMTP id
+ 2adb3069b0e04-5a285b55dd3mr3848196e87.37.1774273031248; Mon, 23 Mar 2026
+ 06:37:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO2P265MB5547:EE_
-X-MS-Office365-Filtering-Correlation-Id: d8660fc2-31fd-47a7-4337-08de88d9d101
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|10070799003|366016|1800799024|376014|7416014|921020|22082099003|56012099003|18002099003|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	eutzm3XoLpldZXw3974Or9zVtcwC8f1HtUxuZf0GaOPNzv0OAbghwHFntrFJRNy9B3n1RJR8HQh2p93dHxlV/31kVsFKzmfhPbWo7xEGcPjF+0X3N8LF9gTnoyZOPy1XG5og/QvZuj3hQtdfI5yfsl3sqwmoZ1MG/df8c5nrhAdQX5Hp4akiMkcwmFaX+FVBkWJNYgJX864aB0Ix8veiCrr7wTXTHdAdrpyUl+rUN+3MkTuQTUrlcJKFJoNxG8DDdYayWFWQqjIDQ5cvQZRqgPEJd7r/RE5OPOJuzMKCKpvDVJSCKieqto8pvZL+UTLEpdsdIqkyDyEw903gskEsZRb/w2hIzhg9EOXBB5FSPRqcqULxzPzC61eCh4t4/xOTaxFlBaWwn7XVtqpbS4aVWqypyL/rDtyhMzufuEJQaewWjIwGma3t2J/P4Q8lVeJrmQtw7Yj2k06yBFnGnhOmX47C85JQfDSONk/blEMvYxwPyeOCeEAcFWCQ+Tq2ifZytEpcpKqWtNatcrLpbJHRRTOOq2HX2DzBTfvfpxEA8WC9WiawsTO9z5L8ApLM5rFG7nNJ2UrfRdtz841ijgrJd5IP5GfMaL20OyQEmbxCV9zLv+d8aLeCBDlfNeUffcYW0d7uOz+p1/cVCY0EPvOmgnyY8jUDsBzFkfjbiP1FNdv2TwVmBtuBfzxiObNJLSN62wjetRgjvssrwOY5CeOSGJ/mrVsYuofb97/cPWw+ZFBc6SO/Aul0XGdHGr2gU9XX/Q1qg2tFZM+rxAiu35Wn8Q==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(366016)(1800799024)(376014)(7416014)(921020)(22082099003)(56012099003)(18002099003)(7053199007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?cE1NOUVWYkdHRFR2NXFmeUd0U2R6WUJXaHZtbW9sTEJMSEhPQVoreCtiWldG?=
- =?utf-8?B?Y3FNVFdUWHJ2R1A1aisva09jUU9FMXF4QlRobU1aczB1aGIyRDFXSlR3aDAz?=
- =?utf-8?B?a0hpdmd0NW9ibStYK1gzMERiSytDTlhpVVNtRFhXYWdzeU5GSjBhWkdubHZi?=
- =?utf-8?B?TWgwOGprNFpvRlEwYlVPaVBtcnExWDdLZSsweklVbzJrTHNaTHd3MFVtMVZw?=
- =?utf-8?B?VEhuend0b0ZvK3dNUXg0eDRicG45UnNSaFkwOVVONlRBOWJpZ01kOCtzb0hs?=
- =?utf-8?B?LzJ6UEZQTUNBRENzakg4cG43MzFrZWJWQ2dRTjBUYWZyNmhvY3pkcExsbGRR?=
- =?utf-8?B?YUxMQSt2aWdHSzF1NG1ZdDBDS01mT2pUWm93a2Q3cHZLUmpnaHBad1VPTWZE?=
- =?utf-8?B?RmVzdEtXSmJwdm1WS3FzMCsvRURyRVZEYUZYN3cyaHJZYWJWdmd4Q01nMlBi?=
- =?utf-8?B?cFI5S1pGd0wwaERzUnlkMzQ1dUdiZ2hkWXJvNzMxT3k5YUZ5eDI1VVRLanJk?=
- =?utf-8?B?YWZxa3VMT0h2aFlzc3M4MTdIMVp4S0FiZEFhQ0dLMkxlUTQ2aWd2RU96Tytu?=
- =?utf-8?B?KzZKQnZEOUxsUHJFUDJGczFBSXRMSllFeG9sTTlpZkIzWm14cVZDU1p3RlJP?=
- =?utf-8?B?ancxdGpveVVSQ1p1cXNSeFBKWDFCOHRFblZtRkN4b2dlQ2NsY203THpSRmlS?=
- =?utf-8?B?UWRwYUxBRDJZUlFCLzZodXpGcE5WMkwvNXZTV2RrNHp0d0xSSG5wRHRLYlR1?=
- =?utf-8?B?eTNGVktBaFlVMVNhbnUzblJXeERaNVE5NThlbDIzNy9renlheFM3L05heEYz?=
- =?utf-8?B?Q1I5bGM1b3RCblE2SGJuWjhXbUkyWFhzTXJocFdXeGQzZlRYczB0YVNVaWpW?=
- =?utf-8?B?b2dZbERlRGRXTVFucktSQ2R2Wis3NE1pZEZpVlRvamFMeVZQVWM4bjlObndP?=
- =?utf-8?B?MUZnTjF4bXFGaGVXdzV4dEx0K1JrNmhUcXBTTGphTWV0ZXErU1hxemlrOXoz?=
- =?utf-8?B?bUJ6WHg4M1VaUHJLKzg2WHQ4ZTdldlphaW1tT1lXY0xoZE41V1g3R0tkSU11?=
- =?utf-8?B?L3lyaU4vdlNBTEZYSVNYUzJ1NEtDSU1iYTBMdDJaRUwzWFhjUjdzckNVa2Ev?=
- =?utf-8?B?bmlSRVlPcHVhU0FNM0pHZTVmZ3ZJdXpVZXRZMjJTeWxZLzExR2pYQ2N3eEk4?=
- =?utf-8?B?RXd2MS84VVQ3YmtGUVMvQmNIazlVY2hNMjluRXMvN0hzc2FRRnRLWENLZkhx?=
- =?utf-8?B?aXBnUVNjenNyT0kva1BHd05wVHNreFFEOUdpMDNlaUE5UDFieFJkRHpBY2ls?=
- =?utf-8?B?SEtlcEJ4eUhtZUlwb0ZRRmhQbFNxRGR2eXk5TzBOYitnTDZxNE9YOTN5a2Ji?=
- =?utf-8?B?cjhuN2hKTFQyY0NiWlpIRzc5eERLcjNFc2FGbmNyUDZpdHF6RERVRVJPUkJo?=
- =?utf-8?B?QUt3c25PQ0NUaU5xbnBFYXhndHdSOGVCQmRoUkhJSnd3bGNhTndQS0Fzc256?=
- =?utf-8?B?WmpnUXltR0RZVjI1MkMwR0VBVEhEQXlQQ2lyUUF4cGoxdHMxRlFZODAraGpr?=
- =?utf-8?B?S1kvMWU1T3ByWHhialU2OTlqaFJTTGhPOEkvS2JOdURnbk1XY2VZWk82cWVl?=
- =?utf-8?B?NDlTNlRmVUlxa2hlWFYyRTZETWc2bGZIZ0IvMnlCN05SMUcvOGQxT3JweERv?=
- =?utf-8?B?R2U0ZEM2UzRjRmd4VitIK3dxUzVxd3FxVmVTSnI1eEdMSEt3Snl4R2tHUWx2?=
- =?utf-8?B?RHRzekJTcUt4UEU0aklvbHIrMjk1OFl1UlZ2L3Z5UGc3OURIS0tXRjAxTlpv?=
- =?utf-8?B?bzZ6V1dpQS9hUWtPUmI0dEduT1E0d0pVdVRCbVA2azl0Zk55WHlBczM5Tm0r?=
- =?utf-8?B?TTR3S094OGVieGlNVkpJVE9vNStRcG5NR0ZTejFWRGtUQmRwZWZ4VWZ4L1VR?=
- =?utf-8?B?WU05TkNrRUo2NmRJR0x3TWVUOVFudTRzU0RjYU9aQTYwRjNtbStpOGdvS2tl?=
- =?utf-8?B?UWJBMk44L1QwakxCaWZYcjVBL2EzNUhZVEpxODNLN2xKc0VUYlVLcUdabWRk?=
- =?utf-8?B?Y0JIcGNtL0ZRNUhFUWxaSHB4blg3TkxSZ2VaMXRMbDczK3ZOQ0VkbUl5RG9H?=
- =?utf-8?B?bk9JZlB2Ujg0YlE0N25tN2RUT2NpM0F2Q01HUnlTOVNQSkpvNkJ3L0d6Tkh2?=
- =?utf-8?B?WWk3MHoyTUxrYlczMmk0aWVvS2V3UVU1eWVVZFJGYXUvVXRsWW1HNW5ZaC9u?=
- =?utf-8?B?Nm9OL2JydjdoeXBTSGFSWjhkS0N0bFQyVXlLTldLdzNnc0FyWW9nOUpYSG1z?=
- =?utf-8?B?VkhPelduczE3cmVjNkdrcXpMWEh5aFU3KzhzVllIWlY3WWVUUWZtQT09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: d8660fc2-31fd-47a7-4337-08de88d9d101
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2026 12:43:42.9833
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WIhx59Pv5rxFI3Gz1nBApIaW11BVTxkdRTNHS7ATx1JFAHf+E0fMGTp65GV+U9b/7/w+NQr//shxGye1evVawg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO2P265MB5547
+References: <20260317-qcom-qce-cmd-descr-v13-0-0968eb4f8c40@oss.qualcomm.com>
+ <20260317-qcom-qce-cmd-descr-v13-5-0968eb4f8c40@oss.qualcomm.com> <hohx2judes5c6na4svpah254hqbaf4kbeyu7prwkprfv5dy7hj@26nxwlvb76yp>
+In-Reply-To: <hohx2judes5c6na4svpah254hqbaf4kbeyu7prwkprfv5dy7hj@26nxwlvb76yp>
+From: Bartosz Golaszewski <brgl@kernel.org>
+Date: Mon, 23 Mar 2026 14:36:59 +0100
+X-Gmail-Original-Message-ID: <CAMRc=McostnmVjE=uV=2KA7-dqLvQ2BAJYTXzANacFpPGgS+Sw@mail.gmail.com>
+X-Gm-Features: AaiRm52smHlzaZX3o3c7rJCXBkH0quFZvqCL-0liNookxclyfizWuRA5g5cCXoU
+Message-ID: <CAMRc=McostnmVjE=uV=2KA7-dqLvQ2BAJYTXzANacFpPGgS+Sw@mail.gmail.com>
+Subject: Re: [PATCH v13 05/12] dmaengine: qcom: bam_dma: add support for BAM locking
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, Vinod Koul <vkoul@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Thara Gopinath <thara.gopinath@gmail.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>, 
+	Udit Tiwari <quic_utiwari@quicinc.com>, Md Sadre Alam <mdalam@qti.qualcomm.com>, 
+	Dmitry Baryshkov <lumag@kernel.org>, Stephan Gerhold <stephan.gerhold@linaro.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Peter Ujfalusi <peter.ujfalusi@gmail.com>, 
+	Michal Simek <michal.simek@amd.com>, Frank Li <Frank.Li@kernel.org>, dmaengine@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-crypto@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon Mar 23, 2026 at 11:07 AM GMT, Alexandre Courbot wrote:
-> Introduce a powered-up version of our ad-hoc `impl_from_enum_to_u8`
-> macro that allows the definition of an enum type associated to a
-> `Bounded` of a given width, and provides the `From` and `TryFrom`
-> implementations required to use that enum as a register field member.
+On Mon, Mar 23, 2026 at 10:35=E2=80=AFAM Manivannan Sadhasivam <mani@kernel=
+.org> wrote:
 >
-> The next patch will make use of it to convert all falcon registers to
-> the kernel register macro.
+> On Tue, Mar 17, 2026 at 03:02:12PM +0100, Bartosz Golaszewski wrote:
+> > Add support for BAM pipe locking. To that end: when starting DMA on an =
+RX
+> > channel - prepend the existing queue of issued descriptors with an
+> > additional "dummy" command descriptor with the LOCK bit set. Once the
+> > transaction is done (no more issued descriptors), issue one more dummy
+> > descriptor with the UNLOCK bit.
 >
-> The macro is unused in this patch: it is introduced ahead-of-time to
-> avoid diff mingling in the next patch that would make it difficult to
-> review.
+> I've left some comments in v12, but looks like you've missed them.
+
+Sorry for that, as I explained in private, this email did not end up
+in my inbox and I didn't see it on lore.
+
+> >
+> > +static int bam_metadata_attach(struct dma_async_tx_descriptor *desc, v=
+oid *data, size_t len)
+> > +{
+> > +     struct bam_chan *bchan =3D to_bam_chan(desc->chan);
+> > +     const struct bam_device_data *bdata =3D bchan->bdev->dev_data;
+> > +     struct bam_desc_metadata *metadata =3D data;
+> > +
+> > +     if (!data)
+> > +             return -EINVAL;
+> > +
+> > +     if (!bdata->pipe_lock_supported)
+> > +             return -EOPNOTSUPP;
 >
-> Reviewed-by: Gary Guo <gary@garyguo.net>
-> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
-> ---
->  drivers/gpu/nova-core/falcon.rs | 82 +++++++++++++++++++++++++++++++++++=
-++++++
->  1 file changed, 82 insertions(+)
+> As mentioned in v12, you should return 0 to avoid erroring out the client=
+s if
+> pipe lock is not supported.
 >
-> diff --git a/drivers/gpu/nova-core/falcon.rs b/drivers/gpu/nova-core/falc=
-on.rs
-> index 5a4f7fc85160..5221e4476f90 100644
-> --- a/drivers/gpu/nova-core/falcon.rs
-> +++ b/drivers/gpu/nova-core/falcon.rs
-> @@ -54,6 +54,88 @@ fn from(value: $enum_type) -> Self {
->      };
->  }
-> =20
-> +/// Creates an enum type associated to a `Bounded`, with a `From` conver=
-sion to the associated
-> +/// `Bounded` and either a `TryFrom` or `From` converting from the assoc=
-iated `Bounded`.
-> +// TODO[FPRI]: This is a temporary solution to be replaced with the corr=
-esponding derive macros
-> +// once they land.
-> +#[expect(unused)]
-> +macro_rules! bounded_enum {
-> +    (
-> +        $(#[doc =3D $enum_doc:expr])*
-> +        enum $enum_type:ident with $from_impl:ident<Bounded<$width:ty, $=
-length:literal>> {
-> +            $( $(#[doc =3D $variant_doc:expr])* $variant:ident =3D $valu=
-e:expr),* $(,)*
-> +        }
-> +    ) =3D> {
-> +        $(#[doc =3D $enum_doc])*
-> +        #[derive(Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord)]
-> +        pub(crate) enum $enum_type {
-> +            $(
-> +                $(#[doc =3D $variant_doc])*
-> +                $variant =3D $value
-> +            ),*
-> +        }
-> +
-> +        impl From<$enum_type> for Bounded<$width, $length> {
-> +            fn from(value: $enum_type) -> Self {
-> +                match value {
-> +                    $($enum_type::$variant =3D> Bounded::<$width, _>::ne=
-w::<$value>()),*
 
-Hi Alex,
+If the client attaches the scratchpad register then it probably does
+want to use locking, right? On the other hand, I assume you're
+thinking about a situation where the client wants locking but BAM does
+not support it. It's unlikely but ok, I'll change it.
 
-This looks exactly the same as the last version, without out the {} and MAX=
-..
-change made (which you mentioned in the cover letter).
+> >
+> > +static struct bam_async_desc *
+> > +bam_make_lock_desc(struct bam_chan *bchan, struct scatterlist *sg,
+> > +                struct bam_cmd_element *ce, unsigned long flag)
+> > +{
+> > +     struct dma_chan *chan =3D &bchan->vc.chan;
+> > +     struct bam_async_desc *async_desc;
+> > +     struct bam_desc_hw *desc;
+> > +     struct virt_dma_desc *vd;
+> > +     struct virt_dma_chan *vc;
+> > +     unsigned int mapped;
+> > +     dma_cookie_t cookie;
+> > +     int ret;
+> > +
+> > +     sg_init_table(sg, 1);
+> > +
+> > +     async_desc =3D kzalloc_flex(*async_desc, desc, 1, GFP_NOWAIT);
+> > +     if (!async_desc) {
+> > +             dev_err(bchan->bdev->dev, "failed to allocate the BAM loc=
+k descriptor\n");
+> > +             return NULL;
+> > +     }
+> > +
+> > +     async_desc->num_desc =3D 1;
+> > +     async_desc->curr_desc =3D async_desc->desc;
+> > +     async_desc->dir =3D DMA_MEM_TO_DEV;
+> > +
+> > +     desc =3D async_desc->desc;
+> > +
+> > +     bam_prep_ce_le32(ce, bchan->scratchpad_addr, BAM_WRITE_COMMAND, 0=
+);
+> > +     sg_set_buf(sg, ce, sizeof(*ce));
+> > +
+> > +     mapped =3D dma_map_sg_attrs(chan->slave, sg, 1, DMA_TO_DEVICE, DM=
+A_PREP_CMD);
+> > +     if (!mapped) {
+> > +             kfree(async_desc);
+> > +             return NULL;
+> > +     }
+> > +
+> > +     desc->flags |=3D cpu_to_le16(DESC_FLAG_CMD | flag);
+> > +     desc->addr =3D sg_dma_address(sg);
+> > +     desc->size =3D sizeof(struct bam_cmd_element);
+> > +
+> > +     vc =3D &bchan->vc;
+> > +     vd =3D &async_desc->vd;
+> > +
+> > +     dma_async_tx_descriptor_init(&vd->tx, &vc->chan);
+> > +     vd->tx.flags =3D DMA_PREP_CMD;
+> > +     vd->tx.desc_free =3D vchan_tx_desc_free;
+> > +     vd->tx_result.result =3D DMA_TRANS_NOERROR;
+> > +     vd->tx_result.residue =3D 0;
+> > +
+> > +     cookie =3D dma_cookie_assign(&vd->tx);
+> > +     ret =3D dma_submit_error(cookie);
+> > +     if (ret)
+> > +             return NULL;
+>
+> You are leaking async_desc here.
+>
 
-Best,
-Gary
+Yeah, not only that but also should unmap the sg here too. Thanks.
 
-> +                }
-> +            }
-> +        }
-> +
-> +        bounded_enum!(@impl_from $enum_type with $from_impl<Bounded<$wid=
-th, $length>> {
-> +            $($variant =3D $value),*
-> +        });
-> +    };
-> +
-> +    // `TryFrom` implementation from associated `Bounded` to enum type.
-> +    (@impl_from $enum_type:ident with TryFrom<Bounded<$width:ty, $length=
-:literal>> {
-> +        $($variant:ident =3D $value:expr),* $(,)*
-> +    }) =3D> {
-> +        impl TryFrom<Bounded<$width, $length>> for $enum_type {
-> +            type Error =3D Error;
-> +
-> +            fn try_from(value: Bounded<$width, $length>) -> Result<Self>=
- {
-> +                match value.get() {
-> +                    $(
-> +                        $value =3D> Ok($enum_type::$variant),
-> +                    )*
-> +                    _ =3D> Err(EINVAL),
-> +                }
-> +            }
-> +        }
-> +    };
-> +
-> +    // `From` implementation from associated `Bounded` to enum type. Tri=
-ggers a `build_error` if
-> +    // all possible values of the `Bounded` are not covered by the enum =
-type.
-> +    (@impl_from $enum_type:ident with From<Bounded<$width:ty, $length:li=
-teral>> {
-> +        $($variant:ident =3D $value:expr),* $(,)*
-> +    }) =3D> {
-> +        impl From<Bounded<$width, $length>> for $enum_type {
-> +            fn from(value: Bounded<$width, $length>) -> Self {
-> +                $(
-> +                    // Ensure all enum values fit into the `Bounded` typ=
-e.
-> +                    const { assert!(
-> +                        $value < (1 << $length),
-> +                        "Enum variant doesn't fit into assigned `Bounded=
-` type."
-> +                    ); }
-> +                )*
-> +
-> +                // Makes the compiler optimizer aware of the possible ra=
-nge of values.
-> +                let value =3D value.get() & ((1 << $length) - 1);
-> +                match value {
-> +                    $(
-> +                        $value =3D> $enum_type::$variant,
-> +                    )*
-> +                    // We land here if the match didn't cover all possib=
-le values for the
-> +                    // `Bounded`.
-> +                    _ =3D> build_error!("Enum doesn't cover all values o=
-f the `Bounded` type."),
-> +                }
-> +            }
-> +        }
-> +    }
-> +}
-> +
->  /// Revision number of a falcon core, used in the [`crate::regs::NV_PFAL=
-CON_FALCON_HWCFG1`]
->  /// register.
->  #[repr(u8)]
+> > +
+> > +     return async_desc;
+> > +}
+> > +
+> > +static int bam_do_setup_pipe_lock(struct bam_chan *bchan, bool lock)
+> > +{
+> > +     struct bam_device *bdev =3D bchan->bdev;
+> > +     const struct bam_device_data *bdata =3D bdev->dev_data;
+> > +     struct bam_async_desc *lock_desc;
+> > +     struct bam_cmd_element *ce;
+> > +     struct scatterlist *sgl;
+> > +     unsigned long flag;
+> > +
+> > +     lockdep_assert_held(&bchan->vc.lock);
+> > +
+> > +     if (!bdata->pipe_lock_supported || !bchan->scratchpad_addr ||
+> > +         bchan->slave.direction !=3D DMA_MEM_TO_DEV)
+> > +             return 0;
+> > +
+> > +     if (lock) {
+> > +             sgl =3D &bchan->lock_sg;
+> > +             ce =3D &bchan->lock_ce;
+> > +             flag =3D DESC_FLAG_LOCK;
+> > +     } else {
+> > +             sgl =3D &bchan->unlock_sg;
+> > +             ce =3D &bchan->unlock_ce;
+> > +             flag =3D DESC_FLAG_UNLOCK;
+> > +     }
+> > +
+> > +     lock_desc =3D bam_make_lock_desc(bchan, sgl, ce, flag);
+> > +     if (!lock_desc)
+> > +             return -ENOMEM;
+> > +
+> > +     if (lock)
+> > +             list_add(&lock_desc->vd.node, &bchan->vc.desc_issued);
+> > +     else
+> > +             list_add_tail(&lock_desc->vd.node, &bchan->vc.desc_issued=
+);
+> > +
+> > +     bchan->locked =3D lock;
+>
+> What is this flag for?
+>
 
+Just a leftover. I'll drop it, thanks.
+
+> >
+> > +struct bam_desc_metadata {
+> > +     phys_addr_t scratchpad_addr;
+>
+> I think it'd be worth adding a comment for this.
+>
+
+Will do.
+
+Bart
