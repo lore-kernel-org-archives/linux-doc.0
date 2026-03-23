@@ -1,100 +1,210 @@
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4D33283FE5;
-	Mon, 23 Mar 2026 15:24:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774279490; cv=pass; b=c/P4ZHhozwe8mrzPTtk9QIpB7XLkD/MpPiUNLypsNID+aZIo53PJapPcN1OhNGPyB64ly0Z72IDeGveLpZ68ZVH7562hzMHL3Nq63KzS/BtxIJ25luViADdyH1ggBiUYd27WbyYbUtAAX/d+AL3HSaQymcWX1LUY3SSfQIQyKFg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774279490; c=relaxed/simple;
-	bh=/aaNUmB6j1KlMaHLCf2ZBCw+qhT7kZak3VlBbufwaRw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LH3lFUV13vtF+0QdDdNNLXLWquLqw9n9Zm9nCCaYeU3ZJ/Ny3tolWFbiSAiYqb1JXXlD6k1AHAc9mf46kIsHC6CdUA9iA2Z6BtQ8n2rHds0Fxa60sWRnKL37v37g3CLIT8xuycu6ki2FJz3Wu22l+PKT7U1EwuUFrap0ubixR3o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com; spf=pass smtp.mailfrom=ritovision.com; dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b=MmSIv5vL; arc=pass smtp.client-ip=136.143.188.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ritovision.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F12333B0AE2
+	for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 15:27:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774279632; cv=none; b=kfFQv+p2Jvuamlk5kiFd7+I6PWFB1bbfbpV9Khc5DLN4yVvdZtf5losARIX/Xs1fmn2HKvvh/oQYXkWkAVeAQR+Y0QQbqilDsPCg7UMx90h7vFC3oDD6zMIe8uBh4MjF5FSnzw3lXx1F7KHxg63+SIz12RjZQXAiuMOIaTJzwcQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774279632; c=relaxed/simple;
+	bh=aotX8Y0OB5iUl6M5+m/EYZdBeHI3Be7C4ZhRAvf6Wn0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Vq//gRGbV0laA8ant16dkas6raDB0DldLjGe/W/xhKo8jMVGDksrvVWMJJbWlYzYgL7bsLS70sZtWchR4w1KIvQdn9OXaHN0j5TT4G2HvdQU8rY5bKgVXjGnLbWWxkgR1MRkzSE0JyrrCVgbIzKTjiWTit3Lydkgvfy7Wb0IGJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hYFliupL; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b="MmSIv5vL"
-ARC-Seal: i=1; a=rsa-sha256; t=1774279474; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=B8TIN2xa/DGNmjVJpeeO8SqDWwdFGsnj5k534Gr2TVG3GwzD7pNHCobwuWsvi1kHHj4USl5Ih61nK8PIca72PWni8k/Nd8KfKm6d9iaKohqW1Lj1PjKAGe/cNVbjz9ndsXyaghYDqLcEuRzrBK57btGCXVozBFf2X3HSViRGhzo=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1774279474; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=4kva+Q2/WqTp9lUr3JHsLiEZyjnVj8naYHRAhkFJ61U=; 
-	b=iL9sid5g7RKvgfkvfyVELxpIgq0aEGL9PTbbvI47ZABCCVBdGH1AK4XMmTdf+o4FHpW4m988u6PqPTtK4qCSf0Xnw9DwjqcyE/GoKm3j0vbpq6ppCxH7kWUpgzfEaLrKqMNO+bnoSln+EmAdbwndY8uMvBJppMTjl3zFKfZnMdg=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=ritovision.com;
-	spf=pass  smtp.mailfrom=rito@ritovision.com;
-	dmarc=pass header.from=<rito@ritovision.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774279474;
-	s=zmail; d=ritovision.com; i=rito@ritovision.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=4kva+Q2/WqTp9lUr3JHsLiEZyjnVj8naYHRAhkFJ61U=;
-	b=MmSIv5vLNw1h6GlgCzeqzEYzagnPGwyeRKvHNVCFta1UEl+aAu9IvKrSzY3/UQ+h
-	soaOKcQSKjHFHBMFGQ6Q1RourTR/orztq5pqvMeRAylsNM9LiR9UTksBfIAkUbpaFTo
-	Sbi/1mCCH4dZjNVQcowMnm8tZ9WiCneYj+VrnCIc=
-Received: by mx.zohomail.com with SMTPS id 1774279470970372.45836678383864;
-	Mon, 23 Mar 2026 08:24:30 -0700 (PDT)
-From: Rito Rhymes <rito@ritovision.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org,
-	rdunlap@infradead.org,
-	Rito Rhymes <rito@ritovision.com>
-Subject: [PATCH v3 2/2] docs: allow long table reference links to wrap and prevent overflow
-Date: Mon, 23 Mar 2026 11:24:28 -0400
-Message-ID: <20260323152428.30483-2-rito@ritovision.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260323152428.30483-1-rito@ritovision.com>
-References: <20260321180841.10166-1-rito@ritovision.com>
- <20260323152428.30483-1-rito@ritovision.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hYFliupL"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2b04d051664so37393075ad.0
+        for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 08:27:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1774279630; x=1774884430; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=5NoeMR8U45GnsnIDfTDvWItVyG2eNxjWxI4CR2iFJ84=;
+        b=hYFliupL2C7IcQtJXPKn2iiEOMB9U8lMdLQU3F5EdmNDZWLPGGmB1XYASiqMvMMHIp
+         kbyeo8tmR7FjbAfybUEeNaxe/wN8Hw5rhlHgEQzaL8BdbGB2FUr/jPNJr391sM9nCKCC
+         2ltg9ZQ5PqjZJ8/Y0SLuvNlOO5s93RTodP7nTsjthZz9QwICXOXJsNysw1r3l5lPWwZl
+         zrx/ct444591Xtmdiqq1l86y0rqJii5DYvjgHzjbBEuEdI6JbPaoN6GgbvJGM4YoZl5H
+         NJGPz9WNK66ATEphMjzdfgmC6UA9zUinB4Fn7u86H85mQ9e+wV1XiP/aZ5SU5qCuRw9U
+         HELQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774279630; x=1774884430;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5NoeMR8U45GnsnIDfTDvWItVyG2eNxjWxI4CR2iFJ84=;
+        b=BBXyqd3+Qd4fLKo7iXh/aWYLatYKWkhsNKpOv3Q+l1CCdDwEOCLed1/be04izexSlI
+         praWYNC0G1mO1RW93eYlIceAySK0GpOkE0y/pdygHVnzcReXiYnrRyUaMmRoXtjf/50a
+         YRELSK5j/Mg7HExiOqJDVko39uEUYr1fDY/uvPTTXPKcKBCPOSdvKYUuqTFfjmhPAQJl
+         qOBGiNFA/8X8bv8M1Oa6BW5FiyEzfgdbIajkJcD0rkKZ6cko3X2vcMr4/75XQtU4kEQw
+         4dNw3mlqjS+WAhNa2nWHCYkW5kwc13NUyYbbZ58lcx9i5Wy5y5U0RHAEemreKWJlVEa6
+         7pxA==
+X-Forwarded-Encrypted: i=1; AJvYcCX5UKZ1/3yRbK1QbwbXydtw/YcaFY9ywWa6rvGpo6hS1uiL3NGCQ2MfN8LhtER2df377O7h57NiCrU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwsD8mgkIFLTze86T/F4hSMt3kyWtJcVtmi1z4cdeD/ru80svfa
+	T/t9KQHXDYygV7XFWW0m3rsOzk75mI1mqZfrhAjTt3AZzdY/9mgXYKAK
+X-Gm-Gg: ATEYQzw355vxi2NcFfRXlBWcu19ZYGx9qyLDUmD4vtTV7QGR72lyaNNLkALCWK7OzXm
+	jXMYLkcaY7leGlHQ9QqJzY/GtPAmhAxXHMOSfCyIrkT9oH45ggUP+4FFsgQYRBL/1UAdG6qdhxL
+	ThnS/bgOuCUhfBGATkhcRuZnTK8EOBA/ef1erylLy9Qbj0Oi56mIEdo8FlUPHviKfkaOxp4EAqO
+	pYUicp0Bv09ZHWn+2A3kM0LRnpZdotMO4m8qdqnfGbgaeWfPJb6F9onhUjZVVN0/YDI4RZgTwTd
+	DKE+kAEr3PDtALRux2JcvEpv6Fab/4OCLfdWow2E60du8QmwBiKNyp1O4tZFBjYkEj8Yhlm08hW
+	nmZUq6kqBABZkzf5v5CCQRFVUETdZOSYwUGTm1Hxnv6CT8FzkL4y6xK09IXv0KtXa3TEUNiJGRb
+	VzwpklBip+XJM5wtEo0yMPirg/RCAkDsebpe4UkT83U4KfPOhmmWU+83fdXXK/0fSl1QzulYcO
+X-Received: by 2002:a17:903:2449:b0:2b0:686a:d470 with SMTP id d9443c01a7336-2b082724c4fmr136696995ad.23.1774279630185;
+        Mon, 23 Mar 2026 08:27:10 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b083549cc7sm118306985ad.29.2026.03.23.08.27.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Mar 2026 08:27:09 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <821aafb4-d1a8-4611-addc-5bff4f1e187e@roeck-us.net>
+Date: Mon, 23 Mar 2026 08:27:08 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 1/3] dt-bindings: hwmon: Document the LTC4283 Swap
+ Controller
+To: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>, nuno.sa@analog.com
+Cc: linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Linus Walleij <linusw@kernel.org>,
+ Bartosz Golaszewski <brgl@kernel.org>
+References: <20260314-ltc4283-support-v7-0-1cda48e93802@analog.com>
+ <20260314-ltc4283-support-v7-1-1cda48e93802@analog.com>
+ <c395fad0-ca24-448a-a77f-ddac1cd9f809@roeck-us.net>
+ <77cd7e879a10df791d9d5eb1f16f1654e9904199.camel@gmail.com>
+ <453dbd6c-c68d-4977-8418-a898008b0fe7@roeck-us.net>
+ <63baaa6ea6ce7a8534046fea3d9f14fdb26f87a3.camel@gmail.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <63baaa6ea6ce7a8534046fea3d9f14fdb26f87a3.camel@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
 
-Some documentation pages contain docutils tables with reference links
-that use long unbroken strings. Those strings can expand the table
-width beyond the content column and cause page-wide horizontal
-overflow.
+On 3/23/26 08:17, Nuno Sá wrote:
+> On Mon, 2026-03-23 at 07:33 -0700, Guenter Roeck wrote:
+>> [ ...]
+>>>>> +  adi,pgio1-func:
+>>>>> +    description: Configures the function of the PGIO1 pin.
+>>>>> +    $ref: /schemas/types.yaml#/definitions/string
+>>>>> +    enum: [inverted_power_good, power_good, gpio]
+>>>>> +    default: inverted_power_good
+>>>>> +
+>>>>> +  adi,pgio2-func:
+>>>>> +    description: Configures the function of the PGIO2 pin.
+>>>>> +    $ref: /schemas/types.yaml#/definitions/string
+>>>>> +    enum: [inverted_power_good, power_good, gpio, active_current_limiting]
+>>>>> +    default: inverted_power_good
+>>>>> +
+>>>>> +  adi,pgio3-func:
+>>>>> +    description: Configures the function of the PGIO3 pin.
+>>>>> +    $ref: /schemas/types.yaml#/definitions/string
+>>>>> +    enum: [inverted_power_good_input, power_good_input, gpio]
+>>>>> +    default: inverted_power_good_input
+>>>>> +
+>>>>> +  adi,pgio4-func:
+>>>>> +    description: Configures the function of the PGIO4 pin.
+>>>>> +    $ref: /schemas/types.yaml#/definitions/string
+>>>>> +    enum: [inverted_external_fault, external_fault, gpio]
+>>>>> +    default: inverted_external_fault
+>>>>> +
+>>>>> +  adi,gpio-on-adio1:
+>>>>> +    description: If set, the ADIO1 pin is used as a GPIO.
+>>>>> +    type: boolean
+>>>>> +
+>>>>> +  adi,gpio-on-adio2:
+>>>>> +    description: If set, the ADIO2 pin is used as a GPIO.
+>>>>> +    type: boolean
+>>>>> +
+>>>>> +  adi,gpio-on-adio3:
+>>>>> +    description: If set, the ADIO3 pin is used as a GPIO.
+>>>>> +    type: boolean
+>>>>> +
+>>>>> +  adi,gpio-on-adio4:
+>>>>> +    description: If set, the ADIO4 pin is used as a GPIO.
+>>>>> +    type: boolean
+>>>>
+>>>> Does this dependency block force a redundant specification of adi,pgio4-func?
+>>>> The default for adi,pgio4-func is inverted_external_fault, which means the
+>>>> default hardware state already supports external fault features.
+>>>> If a device tree legitimately omits adi,pgio4-func to rely on that default,
+>>>> will it fail schema validation here since the dependencies keyword strictly
+>>>> checks for the literal presence of properties without injecting defaults?
+>>>
+>>> Fair point. I guess it will fail but the alternative is to not have any constrain at all so
+>>> maybe worth it to be explicit in here?
+>>>
+>>
+>> I don't claim to understand how to define devicetree properties, but
+>>
+>> adi,pgio4-func = <"gpio">
+>>
+>> and
+>>
+>> adi,gpio-on-adio4;
+>>
+>> seem to be equivalent to me, and omitting the first property (because
+> 
+> Not exactly. ADIO4 and PGIO4 are different pins and can be both configured
+> as GPIOs. ADIO is a boolean because they are either monitored by the ADC (default)
+> or configured as GPIOs. PGIOs can have additional configurations and hence the
+> enum.
+> 
 
-Allow reference links in docutils tables in the main document body to
-wrap when needed so the table stays within the content column and does
-not break page layout.
+Ah, I didn't realize the small "A" vs. "G" difference (and apparently
+I don't understand what the AI is complaining about ;-). Sorry for the noise.
 
-Examples:
-  https://docs.kernel.org/6.15/arch/openrisc/openrisc_port.html
-  https://docs.kernel.org/6.15/filesystems/ext2.html
+Guenter
 
-Signed-off-by: Rito Rhymes <rito@ritovision.com>
-Assisted-by: Codex:GPT-5.4
----
-v3: add latest public versioned URL examples to the patchlog
-
- Documentation/sphinx-static/custom.css | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
-index 4ec617d40..b41c54c71 100644
---- a/Documentation/sphinx-static/custom.css
-+++ b/Documentation/sphinx-static/custom.css
-@@ -154,6 +154,11 @@ a {
-     overflow-wrap: anywhere;
- }
- 
-+/* Let rendered reference links in tables wrap when needed. */
-+div.body table.docutils a.reference {
-+    overflow-wrap: anywhere;
-+}
-+
- /* Make xrefs more universally visible */
- a.reference, a.reference:hover {
-     border-bottom: none;
--- 
-2.51.0
