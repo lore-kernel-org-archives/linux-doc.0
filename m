@@ -1,182 +1,247 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2042383C6F
-	for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 22:45:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2D2737F74A
+	for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 22:49:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774305926; cv=none; b=a8x1lUAQevPNn5SJ58L2gPl0zC8Qyv5ndzRBbjxrBowQPStgMrWQU8q9p8g0PARgBmgmgUX3NpOlfVgvBCn0t/iRfSAhkglkfHlPoc8fpxdsi2jpgg9idKPD0VBA7QRwkhKexwcZpoggEOeBvjo4+0YdclppdAflokJMH/XEHSM=
+	t=1774306191; cv=none; b=MVY/21UhuQSvq2CcqrNZ1IYKscwB43k6TrMEGkos1aGlmikv9KVer5DhxREJNbkApGxhg14qtm+7wH99ggX6R/E0fFx1b5/SIhU89ik0L1HawHkit9DjI5HRxQkBEAfj5Fm3VLbyUnzlVG3RwXEug04HpE2J4UCCxTEWp0WiKuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774305926; c=relaxed/simple;
-	bh=2kzu9QAS8nq/rWccuNU8yORG+G8Zz82R9sasi+YwJb8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hvYPxjb2Zfg8+eKAmZ8ggejTADLvgPUibFAtPBMrhqLGlFFqP0GfULSuEjolup4KcnTil3s0koZIMI9mgvpsM0ydyQ72sNoMfFD1nIcDww0C/EOSWrLeMmah+/1xIBvIDdowMxvNZUMKxnOUD1lxmv0WtZnGcq8hgaYS+c48X0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=bCUdNBUP; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1774306191; c=relaxed/simple;
+	bh=CWwK4Tm6E69NVJb7lwc4kj65ZUlUbfZH69SjivY7RiU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CClce5PCRwsF3oOxzoHINF4TrCARTTyfmSwb+iQD80B0BhXaUsSI4uvfv7OnxaOZwBq3uuH06AFW1COPyPYs8ILA99DNaGjMK91I5a9KtSDWL6PL2nKM7c8lNJa2Z/AaZwsndCb5M5QJsWm8O5bvbWJjsqqSWtCFbbDR9/CtwVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ixpDs1u6; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=XLsbSXyv; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="bCUdNBUP"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b9831ed36d4so487782566b.3
-        for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 15:45:23 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ixpDs1u6";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="XLsbSXyv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1774306188;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TOwEUV/+/IiwRIdM5bNrsbwxqPiiVpPpeKsMREHuJ0s=;
+	b=ixpDs1u6chAoZKLYc/ziv2JfcaQfCmwhYBn+tNnOmSd8AH0WfqlCHOkJSlobL6iFTwiA82
+	txri1v3sOH0ZcBHn/HCEa/hoiyrp9tD+ttMu/1CmCNnY5aJshUj9bM7h5pkZgimwoxZBvo
+	On+18hZbCv/n0fFtOLbVvyVUU+24j5Y=
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
+ [209.85.214.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-220-bdIoUNBMOjmPWxhY8UEZTg-1; Mon, 23 Mar 2026 18:49:47 -0400
+X-MC-Unique: bdIoUNBMOjmPWxhY8UEZTg-1
+X-Mimecast-MFC-AGG-ID: bdIoUNBMOjmPWxhY8UEZTg_1774306186
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2adef9d486bso30206535ad.2
+        for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 15:49:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1774305919; x=1774910719; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=c32OW1kHdsnT8w2YL8DHro/JExX0+zDl978uxGueykc=;
-        b=bCUdNBUPmtJagxJqaShQ5uTRih63RmwKTgksnx9JUrSBaQmB5N/TCvpPIi0SXKrpgx
-         h2XJqLJwMJMPV4rEgibJPx1zXjoKlJbGpSJ+x1Zr4T4u1T+JLC7qHDPE1S010ljr4DsF
-         Em8b5etnhBrU6NsFUlx2kYDZWg2uJUrOpFdMY=
+        d=redhat.com; s=google; t=1774306186; x=1774910986; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TOwEUV/+/IiwRIdM5bNrsbwxqPiiVpPpeKsMREHuJ0s=;
+        b=XLsbSXyv20xV925DusKKhk9g47AVY1NdJucNcQ44Gc/MLMpQb4E2gF8rSiA7RTFmbQ
+         LhjHIWDxrreebFJltJ7nkMTlW7NWm783wwBUvBkqOBEFFWMJ5Fd6YiNcb4bUcsIEwoLO
+         oyID3ARaHh+cwkmQtC9WcWjAeSw0ex203YAONFwk3qTJ06L89JJXrZicGcMWLarMS6Cf
+         Zv0Za2zp8o4l0SQ/v0qc+0uRo13vrGRjeIB1I38nbH5k9W+jlFvmmjVQpm7BHb5nbBdE
+         Iafs/Qo3FeibgT8L48agKGcvo1DjyrDTAJve8PmjMdfZUcbZvxyvFVpT3wmnWUELSQ2i
+         JJqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774305919; x=1774910719;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=c32OW1kHdsnT8w2YL8DHro/JExX0+zDl978uxGueykc=;
-        b=LOWLL2zMtHjQgZSEc5izZga/VyRF8GqzIo/YfFTIPJCVo4lkdpHIapDYH1gsjdCS9U
-         6ooVKaB0ak9t9bv7iJMhiSPH78EV/02DoPYps0FAW4PCe9iCf/h3Hvg5tyqnAKzLgYdo
-         V6ZCpjTMVXDSz+6KOprlenax4C52gN9lUeh0zzJ6kUUfYBCv+3lpdlgkjDzVErWPl+Cb
-         mP9G03EkNOQjsvGY6n2nm0Z1MrrTTTSzfbci++zo8xgIak5vW1SkMbxddooTiTBm3Wwe
-         5s7PsPO5ZVouvZRbtg2AayyGtGxiv6b+Vnx1Rl6KS4rdex3hYOq+uLzzhEXi7JL70O3J
-         tjZg==
-X-Forwarded-Encrypted: i=1; AJvYcCUTWfaZGSAVy41+LrOXOPmYBopFCIixCHPf4dGT/b4V+t6PH8i0bETXCrz1urHE7lc1P+S3nieq9PI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwGHxyPC91g0wBbqV4fzyup2Yg3/BaRBlA7zxPqaHTQ5/dZAqn/
-	qPfairZKg+tP+rQB4g7kul3bOJrmQLFbo4CWIk65Fht8tNl91vVzDAgbL85p5Wt8jZbhMh/Bzbb
-	1nWDmJtNe
-X-Gm-Gg: ATEYQzw1H0u2OTwDMh5mZvA1rPSffzBZp4LVDXnZzFmYkUy33l/MU5LguzRopaYQGDW
-	wpjIulw6Cpxh8a8cezGl1bT6ZMj+BM0toDgxoRdZ7SwGX1Irr25EjY2i34TabNvqjwVtsi8oqvG
-	exsg9aXJNBU91rdb03XwMauh7QP7YnhSATJYjjNAoKrjh4VG+yD2IoJ1DtayLVXsRIREyoWEOXY
-	4ooSjrsYQ+y6hV357SX/+CrISuIxtgxQjjjRGjsPNS/tTTVe/Y96C7IUEi9SgT3rzajbIkkj/ZG
-	UswzmzXESULXcgfEqcDZrf20hEPimZKCGL46mqZLlDbk8mHyxm6e8TUamcn28kp79XjLajZji/m
-	SLLmCtiTcGtwy3AU6MnLZRsTJSitWJeYoX3jqUxEv96/UDYRvTXfMnlIrRVTiX08gU7ETanmN/5
-	oit+EKurTfs0P1kzCheqVILZk03zVf8tYzojkW88khZkLeI5vICUae5KmvlEY4I5upi+ryEIKK
-X-Received: by 2002:a17:907:c281:b0:b98:a49:a237 with SMTP id a640c23a62f3a-b982f0c0082mr953025466b.6.1774305919242;
-        Mon, 23 Mar 2026 15:45:19 -0700 (PDT)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com. [209.85.221.41])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9832f439d1sm554531966b.13.2026.03.23.15.45.17
-        for <linux-doc@vger.kernel.org>
+        d=1e100.net; s=20251104; t=1774306186; x=1774910986;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TOwEUV/+/IiwRIdM5bNrsbwxqPiiVpPpeKsMREHuJ0s=;
+        b=blADMrWd+SHqNQYZU4t593nUpPwWtRtDb5fv1a+nyPwcGoRqy7p+p4vLNH4ih70DSc
+         X2BmJ1uhDQkJViDhESfIqU1RpUc6cyX/yLPXbLEyIGj2DQ69LEZ4phJTEWE3SgUXL0aV
+         awB0tsefJ7ecw6z7KJW5UeV74DiDCJefqlRQO+iY0WGdbqAoAGRfRABoUFOVMmvVsYb7
+         n4h/yq1MHHXCnUxzWMpmKp+dnh9UcyQyuz2gbWb1jwy2m2jdFZVDDSVzT66t1iPrlAi6
+         AEaQSJVKw/8JEZbpdspSWnp9Xz0w/VVuXGZWaoIEzQMx0pDDO2O62PUpbl+sAp5qkojG
+         32Sg==
+X-Forwarded-Encrypted: i=1; AJvYcCV7alIDr3sdUp8p0IsnNy5ARUBXGItRwAAAUwzjo8OIJOE1u80GpbZ3d4hbea4OFoWLF1JemQsf6k8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yynm6W98yn3L2FQkFkZkqch/IBAK1eVcA54o70xMXUyQWIH7ZEq
+	4TIZJ2RNvr8fJpNgE5uiwfDvQB4d/vlKiipnvtafG/KaKnSsfZTQjkdXJIsKe601n5VgBO/b1JK
+	F7dkmSBKqYDVTRKG6E4iUxFaeCZqGV7DtEVD+89TGn00YqF0TRooN1fusv4rZJQ==
+X-Gm-Gg: ATEYQzzJ4OG8056/1VQ7SwBKnPjmN1kM6+R7U/aEXO7lbEei3e0iQ/PgKHcHw868MF/
+	egPwjzw4+HZfaBP+pn5K1+ROygkeMH9rw6XKBq2BNffDcjGQvxp0KSrgivcv+2XHgu62ttyC3aI
+	dRkndBxXTvtCAYQlawBtqDGo3RRvQUJHNeIkyo9EmAaSDqfn5Gyo1hjJKLIl6w1Ow+Afz73sIy4
+	5HCp7ZsnYLHZe22uavxoIRmrauJvAmtTHPspckR7WzaMfZMlutyHDvaH4QbihSudI4XKtkeGRm2
+	hnVgiuZsRGDTcsYTK3RkM4VF+r4NoAKWgfNv9g6ymq4fY+HFm0PXdrShQ41ChSqZThK2lRJhqyf
+	AqURNHNN5O5F6xgFxqMHjDiD7TBjTF33Vlo4c8ocgwT0xLBTQsKgtgtV+F60MV6hQ
+X-Received: by 2002:a17:902:ce82:b0:2b0:6f20:8044 with SMTP id d9443c01a7336-2b0827e94edmr130458495ad.43.1774306186322;
+        Mon, 23 Mar 2026 15:49:46 -0700 (PDT)
+X-Received: by 2002:a17:902:ce82:b0:2b0:6f20:8044 with SMTP id d9443c01a7336-2b0827e94edmr130458205ad.43.1774306185890;
+        Mon, 23 Mar 2026 15:49:45 -0700 (PDT)
+Received: from [192.168.68.51] (n175-34-8-244.mrk21.qld.optusnet.com.au. [175.34.8.244])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b08369617dsm155881845ad.71.2026.03.23.15.49.31
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Mar 2026 15:45:17 -0700 (PDT)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-439b97a8a8cso3543096f8f.1
-        for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 15:45:17 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUQv9NqoYB0RYgLgVYbjJcwihJU+jY85c2gj+rfUQTW1iTr8va555jnVCygv6+1BXGTgG4bx6bhJWs=@vger.kernel.org
-X-Received: by 2002:a05:6000:2011:b0:43b:3c05:d7fb with SMTP id
- ffacd0b85a97d-43b6427d66dmr21380349f8f.54.1774305917248; Mon, 23 Mar 2026
- 15:45:17 -0700 (PDT)
+        Mon, 23 Mar 2026 15:49:45 -0700 (PDT)
+Message-ID: <bd450f1f-05a3-44d6-9bbc-1c48d967baa4@redhat.com>
+Date: Tue, 24 Mar 2026 08:49:29 +1000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260312-hardlockup-watchdog-fixes-v2-0-45bd8a0cc7ed@google.com>
- <20260312-hardlockup-watchdog-fixes-v2-5-45bd8a0cc7ed@google.com> <acF3tXBxSr0KOP9b@pathway.suse.cz>
-In-Reply-To: <acF3tXBxSr0KOP9b@pathway.suse.cz>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 23 Mar 2026 15:45:06 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=VWcEnmKvVKRY24a7sPq-Y3Oa6dSDqAUdV68oc_z8U4Aw@mail.gmail.com>
-X-Gm-Features: AQROBzA1gqGckllUFmr_E4I0wr1AMi1GxakThognUpVQgrReaZ8OfkssaQC5qnE
-Message-ID: <CAD=FV=VWcEnmKvVKRY24a7sPq-Y3Oa6dSDqAUdV68oc_z8U4Aw@mail.gmail.com>
-Subject: Re: [PATCH v2 5/5] doc: watchdog: Document buddy detector
-To: Petr Mladek <pmladek@suse.com>
-Cc: mrungta@google.com, Jinchao Wang <wangjinchao600@gmail.com>, 
-	Yunhui Cui <cuiyunhui@bytedance.com>, Stephane Eranian <eranian@google.com>, 
-	Ian Rogers <irogers@google.com>, Li Huafei <lihuafei1@huawei.com>, 
-	Feng Tang <feng.tang@linux.alibaba.com>, Max Kellermann <max.kellermann@ionos.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>, 
-	Florian Delizy <fdelizy@google.com>, Shuah Khan <skhan@linuxfoundation.org>, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 22/40] arm_mpam: resctrl: Convert to/from MPAMs
+ fixed-point formats
+To: Ben Horgan <ben.horgan@arm.com>
+Cc: amitsinght@marvell.com, baisheng.gao@unisoc.com,
+ baolin.wang@linux.alibaba.com, carl@os.amperecomputing.com,
+ dave.martin@arm.com, david@kernel.org, dfustini@baylibre.com,
+ fenghuay@nvidia.com, james.morse@arm.com, jonathan.cameron@huawei.com,
+ kobak@nvidia.com, lcherian@marvell.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ peternewman@google.com, punit.agrawal@oss.qualcomm.com,
+ quic_jiles@quicinc.com, reinette.chatre@intel.com, rohit.mathew@arm.com,
+ scott@os.amperecomputing.com, sdonthineni@nvidia.com,
+ tan.shaopeng@fujitsu.com, xhao@linux.alibaba.com, catalin.marinas@arm.com,
+ will@kernel.org, corbet@lwn.net, maz@kernel.org, oupton@kernel.org,
+ joey.gouly@arm.com, suzuki.poulose@arm.com, kvmarm@lists.linux.dev,
+ zengheng4@huawei.com, linux-doc@vger.kernel.org,
+ Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+References: <20260313144617.3420416-1-ben.horgan@arm.com>
+ <20260313144617.3420416-23-ben.horgan@arm.com>
+Content-Language: en-US
+From: Gavin Shan <gshan@redhat.com>
+In-Reply-To: <20260313144617.3420416-23-ben.horgan@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi,
+Hi Ben,
 
-On Mon, Mar 23, 2026 at 10:26=E2=80=AFAM Petr Mladek <pmladek@suse.com> wro=
-te:
->
-> From f1cfdc330cfbc68568dfe6bf2513bde9373c89d7 Mon Sep 17 00:00:00 2001
-> From: Petr Mladek <pmladek@suse.com>
-> Date: Mon, 23 Mar 2026 18:21:38 +0100
-> Subject: [PATCH] doc: watchdog: Futher improvements
->
-> Signed-off-by: Petr Mladek <pmladek@suse.com>
+On 3/14/26 12:45 AM, Ben Horgan wrote:
+> From: Dave Martin <Dave.Martin@arm.com>
+> 
+> MPAM uses a fixed-point formats for some hardware controls.  Resctrl
+> provides the bandwidth controls as a percentage. Add helpers to convert
+> between these.
+> 
+> Ensure bwa_wd is at most 16 to make it clear higher values have no meaning.
+> 
+> Tested-by: Gavin Shan <gshan@redhat.com>
+> Tested-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+> Tested-by: Peter Newman <peternewman@google.com>
+> Tested-by: Zeng Heng <zengheng4@huawei.com>
+> Tested-by: Punit Agrawal <punit.agrawal@oss.qualcomm.com>
+> Reviewed-by: Zeng Heng <zengheng4@huawei.com>
+> Reviewed-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+> Signed-off-by: Dave Martin <Dave.Martin@arm.com>
+> Signed-off-by: James Morse <james.morse@arm.com>
+> Signed-off-by: Ben Horgan <ben.horgan@arm.com>
 > ---
->  .../admin-guide/lockup-watchdogs.rst          | 44 ++++++++++---------
->  1 file changed, 24 insertions(+), 20 deletions(-)
->
-> diff --git a/Documentation/admin-guide/lockup-watchdogs.rst b/Documentati=
-on/admin-guide/lockup-watchdogs.rst
-> index 7ae7ce3abd2c..d0773edf3396 100644
-> --- a/Documentation/admin-guide/lockup-watchdogs.rst
-> +++ b/Documentation/admin-guide/lockup-watchdogs.rst
-> @@ -41,31 +41,35 @@ is a trade-off between fast response to lockups and d=
-etection overhead.
->  Implementation
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
-> -The soft lockup detector is built on top of the hrtimer subsystem.
-> -The hard lockup detector is built on top of the perf subsystem
-> -(on architectures that support it) or uses an SMP "buddy" system.
-> -
-> -Softlockup Detector
-> --------------------
-> -
-> -The watchdog job runs in a stop scheduling thread that updates a
-> -timestamp every time it is scheduled. If that timestamp is not updated
-> -for 2*watchdog_thresh seconds (the softlockup threshold) the
-> -'softlockup detector' (coded inside the hrtimer callback function)
-> -will dump useful debug information to the system log, after which it
-> -will call panic if it was instructed to do so or resume execution of
-> -other kernel code.
-> +The soft and hard lockup detectors are built around a hrtimer.
-> +In addition, the softlockup detector regularly schedules a job, and
-> +the hard lockup detector might use Perf/NMI events on architectures
-> +that support it.
->
->  Frequency and Heartbeats
->  ------------------------
->
-> -The hrtimer used by the softlockup detector serves a dual purpose:
-> -it detects softlockups, and it also generates the interrupts
-> -(heartbeats) that the hardlockup detectors use to verify CPU liveness.
-> +The core of the detectors in a hrtimer. It servers multiple purpose:
->
-> -The period of this hrtimer is 2*watchdog_thresh/5. This means the
-> -hrtimer has two or three chances to generate an interrupt before the
-> -NMI hardlockup detector kicks in.
-> +- schedules watchdog job for the softlockup detector
-> +- bumps the interrupt counter for hardlockup detectors (heartbeat)
-> +- detects softlockups
-> +- detects hardlockups in Buddy mode
+> Changes since v2:
+> Ensure bwa_wd is at most 16 (moved from patch 40: arm_mpam: Generate a
+> configuration for min controls)
+> Expand comments
+> ---
+>   drivers/resctrl/mpam_devices.c |  7 +++++
+>   drivers/resctrl/mpam_resctrl.c | 51 ++++++++++++++++++++++++++++++++++
+>   2 files changed, 58 insertions(+)
+> 
+
+One nitpick below, but this looks good to me in either way.
+
+Reviewed-by: Gavin Shan <gshan@redhat.com>
+
+> diff --git a/drivers/resctrl/mpam_devices.c b/drivers/resctrl/mpam_devices.c
+> index 0e5e24ef60fe..0c97f7708722 100644
+> --- a/drivers/resctrl/mpam_devices.c
+> +++ b/drivers/resctrl/mpam_devices.c
+> @@ -713,6 +713,13 @@ static void mpam_ris_hw_probe(struct mpam_msc_ris *ris)
+>   			mpam_set_feature(mpam_feat_mbw_part, props);
+>   
+>   		props->bwa_wd = FIELD_GET(MPAMF_MBW_IDR_BWA_WD, mbw_features);
 > +
-> +The period of this hrtimer is 2*watchdog_thresh/5, which is 4 seconds
-> +by default. The hrtimer has two or three chances to generate an interrup=
-t
-> +(heartbeat) before the hardlockup detector kicks in.
+> +		/*
+> +		 * The BWA_WD field can represent 0-63, but the control fields it
+> +		 * describes have a maximum of 16 bits.
+> +		 */
+> +		props->bwa_wd = min(props->bwa_wd, 16);
 > +
-> +Softlockup Detector
-> +-------------------
+
+16 may deserve a definition for it since it's a constant value and referred
+for multiple times in this patch, if we need to give this series another
+respin :-)
+
+>   		if (props->bwa_wd && FIELD_GET(MPAMF_MBW_IDR_HAS_MAX, mbw_features))
+>   			mpam_set_feature(mpam_feat_mbw_max, props);
+>   
+> diff --git a/drivers/resctrl/mpam_resctrl.c b/drivers/resctrl/mpam_resctrl.c
+> index cab3e9ccb5c7..adaec522c1a1 100644
+> --- a/drivers/resctrl/mpam_resctrl.c
+> +++ b/drivers/resctrl/mpam_resctrl.c
+> @@ -10,6 +10,7 @@
+>   #include <linux/errno.h>
+>   #include <linux/limits.h>
+>   #include <linux/list.h>
+> +#include <linux/math.h>
+>   #include <linux/printk.h>
+>   #include <linux/rculist.h>
+>   #include <linux/resctrl.h>
+> @@ -242,6 +243,56 @@ static bool cache_has_usable_cpor(struct mpam_class *class)
+>   	return class->props.cpbm_wd <= 32;
+>   }
+>   
+> +/*
+> + * Each fixed-point hardware value architecturally represents a range
+> + * of values: the full range 0% - 100% is split contiguously into
+> + * (1 << cprops->bwa_wd) equal bands.
+> + *
+> + * Although the bwa_bwd fields have 6 bits the maximum valid value is 16
+> + * as it reports the width of fields that are at most 16 bits. When
+> + * fewer than 16 bits are valid the least significant bits are
+> + * ignored. The implied binary point is kept between bits 15 and 16 and
+> + * so the valid bits are leftmost.
+> + *
+> + * See ARM IHI0099B.a "MPAM system component specification", Section 9.3,
+> + * "The fixed-point fractional format" for more information.
+> + *
+> + * Find the nearest percentage value to the upper bound of the selected band:
+> + */
+> +static u32 mbw_max_to_percent(u16 mbw_max, struct mpam_props *cprops)
+> +{
+> +	u32 val = mbw_max;
 > +
-> +The watchdog job is scheduled by the hrtimer and runs in a stop scheduli=
-ng
-> +thread. It updates a timestamp every time it is scheduled. If that times=
-tamp
-> +is not updated for 2*watchdog_thresh seconds (the softlockup threshold) =
-the
-> +'softlockup detector' (coded inside the hrtimer callback function)
-> +will dump useful debug information to the system log, after which it
-> +will call panic if it was instructed to do so or resume execution of
-> +other kernel code.
+> +	val >>= 16 - cprops->bwa_wd;
+> +	val += 1;
+> +	val *= MAX_MBA_BW;
+> +	val = DIV_ROUND_CLOSEST(val, 1 << cprops->bwa_wd);
+> +
+> +	return val;
+> +}
+> +
+> +/*
+> + * Find the band whose upper bound is closest to the specified percentage.
+> + *
+> + * A round-to-nearest policy is followed here as a balanced compromise
+> + * between unexpected under-commit of the resource (where the total of
+> + * a set of resource allocations after conversion is less than the
+> + * expected total, due to rounding of the individual converted
+> + * percentages) and over-commit (where the total of the converted
+> + * allocations is greater than expected).
+> + */
+> +static u16 percent_to_mbw_max(u8 pc, struct mpam_props *cprops)
+> +{
+> +	u32 val = pc;
+> +
+> +	val <<= cprops->bwa_wd;
+> +	val = DIV_ROUND_CLOSEST(val, MAX_MBA_BW);
+> +	val = max(val, 1) - 1;
+> +	val <<= 16 - cprops->bwa_wd;
+> +
+> +	return val;
+> +}
+> +
+>   /* Test whether we can export MPAM_CLASS_CACHE:{2,3}? */
+>   static void mpam_resctrl_pick_caches(void)
+>   {
 
-I'm happy with Petr's further improvements.
+Thanks,
+Gavin
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
-
-I think Andrew can just pick it up atop Mayank's. Andrew: If you need
-any reposting, please yell.
-
-Petr: thank you very much for your review of these patches! I'm super
-happy you found the bug in Mayank's V1 that I missed and I think
-things look nice now. :-)
-
--Doug
