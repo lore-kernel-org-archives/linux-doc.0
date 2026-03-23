@@ -1,78 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70C633C0622;
-	Mon, 23 Mar 2026 16:55:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 353D93BF687;
+	Mon, 23 Mar 2026 17:07:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774284951; cv=none; b=bKY+J6G7TPsJnh0hRGzZiUE9os3S9I6jy1ejYJPYOxB/KbOmELyEivPL06LaIxvDPggaKPsblyB8VpndGZ0GO6RjRmTDrQOSll5edwQjX4jG6SP7iXx9TsD0q0PxevnvgZNYZXXuezVQEt9ixgUDKfNs0CCD43Y7e/bAbWa0vm8=
+	t=1774285637; cv=none; b=MdTshzzALFcnT1+Tln+4VixGj8+sfuvnrxwBVw/JvLyX7XC9hIg4hUPEa+pGtn5G9alj5nYuloDH+781VC7WmZQQRX0PtiGeIWjWSeW0nguAZK7xt5M9KzuGU3AKm0d0JJLvIPk2jGWWhmzA0XfSux9Bw+VQdiOFtSEN9OMHdzQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774284951; c=relaxed/simple;
-	bh=0LuJYoTQTDvWV9NTWOPFuNPtv2UN3kOMEh+jhXWnc2s=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=p1PF/ywELsynI3c5BcuLLm81rzOaq/lc+qmjFPvPT0P5Z3sGlr5EhzO0X7bpvkHTmeP6/NX7FqpEkpy8GbqZnv4G/QI6aG76LuXBy+DFmU3O466nJbp+X9ItwaZpUprzTZjNzjyItOw3zDrcp25z0GClQVwuAIZRRBgayfVeMqU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=qgGXTep1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774285637; c=relaxed/simple;
+	bh=ZPRtjSbDYAuXP+R2fMzJuVURJbzdyj1iPTpdebc3THE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bskLGxPEzb99/Qy6vmsVA2PkfAdpXTO3JKyEO816HMchN4dEZsLyIqCP604Tn1SZv5sF0/XVjL2NyDFCLSTwQ/F0rKww0xOEShhScB3YFvBOHQfNoQ8HUhz6j+jCrmIiOGyWbzDt+v89HMwbUCvIAE6viUxe+Nybo5GTcv7tIGY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m2zZpA5e; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="qgGXTep1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28F2FC2BC9E;
-	Mon, 23 Mar 2026 16:55:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1774284951;
-	bh=0LuJYoTQTDvWV9NTWOPFuNPtv2UN3kOMEh+jhXWnc2s=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=qgGXTep1YmJrPSvqa0ycQRzl2NPgm4AaiOcjYyoeytss6axGtvgS0EzKKZIBsxxsA
-	 V6fyRWqr/ZIWLg5r94g6isrv7Lul5Ery6vKJi/XjccJ0tkvgqlQUYmdi/KPsKX+oSy
-	 WOcrfjFCALXA7q5Zf2q/7NKZNQeM2jvJT0tXbqY8=
-Date: Mon, 23 Mar 2026 09:55:48 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Jinjie Ruan <ruanjinjie@huawei.com>
-Cc: <corbet@lwn.net>, <skhan@linuxfoundation.org>,
- <catalin.marinas@arm.com>, <will@kernel.org>, <chenhuacai@kernel.org>,
- <kernel@xen0n.name>, <maddy@linux.ibm.com>, <mpe@ellerman.id.au>,
- <npiggin@gmail.com>, <chleroy@kernel.org>, <pjw@kernel.org>,
- <palmer@dabbelt.com>, <aou@eecs.berkeley.edu>, <alex@ghiti.fr>,
- <tglx@kernel.org>, <mingo@redhat.com>, <bp@alien8.de>,
- <dave.hansen@linux.intel.com>, <hpa@zytor.com>, <robh@kernel.org>,
- <saravanak@kernel.org>, <bhe@redhat.com>, <vgoyal@redhat.com>,
- <dyoung@redhat.com>, <rdunlap@infradead.org>, <peterz@infradead.org>,
- <feng.tang@linux.alibaba.com>, <pawan.kumar.gupta@linux.intel.com>,
- <dapeng1.mi@linux.intel.com>, <kees@kernel.org>, <elver@google.com>,
- <paulmck@kernel.org>, <lirongqing@baidu.com>, <safinaskar@gmail.com>,
- <rppt@kernel.org>, <ardb@kernel.org>, <leitao@debian.org>,
- <jbohac@suse.cz>, <cfsworks@gmail.com>, <osandov@fb.com>,
- <tangyouling@kylinos.cn>, <sourabhjain@linux.ibm.com>,
- <ritesh.list@gmail.com>, <eajames@linux.ibm.com>,
- <songshuaishuai@tinylab.org>, <kevin.brodsky@arm.com>,
- <samuel.holland@sifive.com>, <vishal.moola@gmail.com>,
- <junhui.liu@pigmoral.tech>, <coxu@redhat.com>, <liaoyuanhong@vivo.com>,
- <fuqiang.wang@easystack.cn>, <x86@kernel.org>, <linux-doc@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <loongarch@lists.linux.dev>, <linuxppc-dev@lists.ozlabs.org>,
- <linux-riscv@lists.infradead.org>, <devicetree@vger.kernel.org>,
- <kexec@lists.infradead.org>
-Subject: Re: [PATCH v9 0/5] arm64/riscv: Add support for crashkernel CMA
- reservation
-Message-Id: <20260323095548.fa4e13d6e8ae5005ae585e13@linux-foundation.org>
-In-Reply-To: <20260323072745.2481719-1-ruanjinjie@huawei.com>
-References: <20260323072745.2481719-1-ruanjinjie@huawei.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m2zZpA5e"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774285636; x=1805821636;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=ZPRtjSbDYAuXP+R2fMzJuVURJbzdyj1iPTpdebc3THE=;
+  b=m2zZpA5eoXOSOA6rSnbe92h1IrIrvZ91L/PHuHqY5B5RddnLRoH49n3y
+   /ZUStjaftN/d52TDJIP44ESWMsluh7nYD1oYj0j/QHmo0NKEAt8uMDnCw
+   tWtYpkug8Qkv8F1YZgkpSOArzIyHl87o99+aZtNK+nXFJ/GtXQGocPKHH
+   uyKYhojZAZFEp/nWOe8xwQLy1Xj9Kl1bYVyslkEzEsCqdRrGK/d6c7qOF
+   ggiVPDvuT9T5e2VORe+WRWs3vm1VX+vj+FvUQDu9DXSdTeenb0h2tHPe9
+   sUQW31jsv6Zkf8EEZ2UmE4+lWiJbI8HR74hHd1ljD9K5FUyIXVfIYKQ/7
+   w==;
+X-CSE-ConnectionGUID: mwn/cEOOTAa9M2/J68LzmA==
+X-CSE-MsgGUID: 80mGv3fvTbyWvRFvHsqe/A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="86657187"
+X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
+   d="scan'208";a="86657187"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 10:07:15 -0700
+X-CSE-ConnectionGUID: m87CQPESS927IIVwJpteSg==
+X-CSE-MsgGUID: BMDfODy4QgaI4VGb46H6FA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
+   d="scan'208";a="224298095"
+Received: from guptapa-desk.jf.intel.com (HELO desk) ([10.165.239.46])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 10:07:15 -0700
+Date: Mon, 23 Mar 2026 10:07:09 -0700
+From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+To: Nikolay Borisov <nik.borisov@suse.com>
+Cc: x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	David Kaplan <david.kaplan@amd.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>, KP Singh <kpsingh@kernel.org>,
+	Jiri Olsa <jolsa@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	David Laight <david.laight.linux@gmail.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	David Ahern <dsahern@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+	kvm@vger.kernel.org, Asit Mallick <asit.k.mallick@intel.com>,
+	Tao Zhang <tao1.zhang@intel.com>, bpf@vger.kernel.org,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v7 03/10] x86/bhi: Rename clear_bhb_loop() to
+ clear_bhb_loop_nofence()
+Message-ID: <20260323170709.7lpdet4nnmhbdcxa@desk>
+References: <20260319-vmscape-bhb-v7-0-b76a777a98af@linux.intel.com>
+ <20260319-vmscape-bhb-v7-3-b76a777a98af@linux.intel.com>
+ <6c315cb3-b3a0-478e-b8ec-36d82684d310@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6c315cb3-b3a0-478e-b8ec-36d82684d310@suse.com>
 
-On Mon, 23 Mar 2026 15:27:40 +0800 Jinjie Ruan <ruanjinjie@huawei.com> wrote:
-
-> The crash memory allocation, and the exclude of crashk_res, crashk_low_res
-> and crashk_cma memory are almost identical across different architectures,
-> This patch set handle them in crash core in a general way, which eliminate
-> a lot of duplication code.
+On Mon, Mar 23, 2026 at 04:44:24PM +0200, Nikolay Borisov wrote:
 > 
-> And add support for crashkernel CMA reservation for arm64 and riscv.
+> 
+> On 19.03.26 г. 17:40 ч., Pawan Gupta wrote:
+> > To reflect the recent change that moved LFENCE to the caller side.
+> > 
+> > Suggested-by: Borislav Petkov <bp@alien8.de>
+> > Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+> 
+> 
+> Nit: I think having the _nofence in the function name is leaking an
+> implementation detail into the name/interface. I.e things change and we
+> decide that the implementation of a particular function must change so we
+> just do the change and substantiate it in the commit message or in a
+> comment. Especially that we don't have a "with an lfence" version.
 
-Thanks.  AI review has completed and it asks questions:
-	https://sashiko.dev/#/patchset/20260323072745.2481719-1-ruanjinjie@huawei.com
+The explicit "_nofence" is because the series changes the implementation of
+clear_bhb_loop() from lfence. If new call sites miss to add an lfence when
+it is required could lead to a security issue. Having the "_nofence" in the
+name helps avoid it.
+
+Apart from the name, the commit message of patch 1/10 and the comment in
+clear_bhb_loop() implementation covers this.
+
+> What's more I'd consider this a "private" function, that's called via the
+> CLEAR_BRANCH_HISTORY macros, the only place it's called directly is in the
+> bpf jit code, but that's more of an exception.
+
+Another place where the explicit "_nofence" in the name could help is while
+applying the mitigation in vmscape_apply_mitigation(), which sets the
+static call:
+
+vmscape_apply_mitigation()
+{
+...
+    if (vmscape_mitigation == VMSCAPE_MITIGATION_IBPB_EXIT_TO_USER)
+        static_call_update(vmscape_predictor_flush, write_ibpb);
+    else if (vmscape_mitigation == VMSCAPE_MITIGATION_BHB_CLEAR_EXIT_TO_USER)
+        static_call_update(vmscape_predictor_flush, clear_bhb_loop_nofence);
+
+> Still,
+> 
+> Reviewed-by: Nikolay Borisov <nik.borisov@suse.com>
+
+Thank you.
