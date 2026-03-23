@@ -1,221 +1,78 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFDBE344D9A;
-	Mon, 23 Mar 2026 13:42:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCB7E3AC0C4;
+	Mon, 23 Mar 2026 13:42:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774273333; cv=none; b=YkDG7c3P5YSjqywpoe1mD5yLpq7YVU3WJ1S3xPYcinO0sOuM6ZgshnRqwAx+WoD9rlMTfGw2c0hBddXUh4PcdB3rkEUmgF6/eIp0bi2Cu/PeJoai9G7zW0auraSbIon3m6jC3ryNzaKi+bf2PkbARPJc3z9VxtokI3jdyWSaIOw=
+	t=1774273340; cv=none; b=DtkbT1s7KCu4jaH+9hbvQClYKyn2zzV+k8Htoya0c1irfgAsZXOfzVmmpyTdNbIKXGG6D3F9tGtG1QgFYpBsMyAVwoCGBC5YFIVSzdhscJC3uCkD0KWjHQzYdkZ5KyUeiBBvqhyPdFdeXBrS3DxWOn8G50+e3+Gqjpne1VMVOU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774273333; c=relaxed/simple;
-	bh=ZtPoRCkru0zgzMg1Dtr1KtTXqI/BbXwaUF7s9LHVs9g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jAi0xP2Y6j8XcceHQDElLFIvoYwd2UFV9cVaeip6du/EX0OhQKFKW5u3WkNH3lo+G1dTmlULBSSgZQqo66wz64oe6WjR03CCloAmvqhvS931SnA3CSCTXArsbrHZm7AhsDNX1VM6JebyAYurxtKpvmK6WYGwxHCsHrM+RC4+KEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QIxB7vn8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774273340; c=relaxed/simple;
+	bh=Xul45EXTSkpTVTUpvk9cJwsqIpRkkqQ3IcrHaxWzzwU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=GI+tpJkYZ34LRI/rAWN9hdEKc7MCtKbH74Fb5Z/gsBtKHw6gQx7CB7xz1y52BeedBf0FSuT1MGq93X7AOljhI3+OYngpLF3Ucolau/emJ3ghfD5+1sOtWlSvoyHSSXn1AQ9RdQyLrFV0t1R7+KEz6s2QucTqCDMyMbAsF0beiDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=LLUgpdW1; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QIxB7vn8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF8C8C2BC9E;
-	Mon, 23 Mar 2026 13:42:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774273333;
-	bh=ZtPoRCkru0zgzMg1Dtr1KtTXqI/BbXwaUF7s9LHVs9g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QIxB7vn8lilMCHPxPp+kxXTrecdLy1a7i2KTdVl3MMbLYSvrJVTyOCSfscdRkKN33
-	 MCVYxvIfx2UPiEWZASusQSJ0bK67Y3D4sUd1r/Aj1ecHcsFFOROGx+xxJPwRVxhHJQ
-	 hZiyy3CaMLMsRjh81BqYBWMfAGWCPCd+cBjNfZIMrByTtUeRZEllBttXO+yg055goV
-	 XUWcLiHHgMYd5ePrUwlGkcQIW0yKROm7dH9ZoifRjCDabIRhAXPPAeJG4OG7W8zm5k
-	 A934KPuhHN69KZgJbiXYoSEbjW49m/et+1nOeMto3lzz0GYpXBrMAaEonnllPUUEJZ
-	 eFuG/V0t6QoXQ==
-Date: Mon, 23 Mar 2026 19:11:58 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Bartosz Golaszewski <brgl@kernel.org>
-Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>, 
-	Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Thara Gopinath <thara.gopinath@gmail.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	"David S. Miller" <davem@davemloft.net>, Udit Tiwari <quic_utiwari@quicinc.com>, 
-	Md Sadre Alam <mdalam@qti.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
-	Stephan Gerhold <stephan.gerhold@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Peter Ujfalusi <peter.ujfalusi@gmail.com>, Michal Simek <michal.simek@amd.com>, 
-	Frank Li <Frank.Li@kernel.org>, dmaengine@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-crypto@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: Re: [PATCH v13 05/12] dmaengine: qcom: bam_dma: add support for BAM
- locking
-Message-ID: <5i4vef45tsr5oquo4kpdnydgnmmciprpzif3do5g5clfx3ny2e@tfjapk6haitq>
-References: <20260317-qcom-qce-cmd-descr-v13-0-0968eb4f8c40@oss.qualcomm.com>
- <20260317-qcom-qce-cmd-descr-v13-5-0968eb4f8c40@oss.qualcomm.com>
- <hohx2judes5c6na4svpah254hqbaf4kbeyu7prwkprfv5dy7hj@26nxwlvb76yp>
- <CAMRc=McostnmVjE=uV=2KA7-dqLvQ2BAJYTXzANacFpPGgS+Sw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="LLUgpdW1"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net DAE0840423
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1774273338; bh=Xul45EXTSkpTVTUpvk9cJwsqIpRkkqQ3IcrHaxWzzwU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=LLUgpdW1TKyMRiNb/ZsTM0UvnjkQKotPQtVPm8cFN8vLwWq8QKpx6+JqTk4E/JqVC
+	 /KoZVk0dGyZOA3LrVXqMQdTJErzWXCEofE7+pSFoNdrNvPefs98J/HXwF9X7NFf5ps
+	 NFVFFTwLUtpXlEyLQeQ7AG6eS1e6f+5YRnotP/0DCb0A6AOCSwFMkYLnYhTVAAoEqe
+	 ueaaOOA0o3pda2GmYIG5P6mFcF4HJlz3vwF3HvcV6ctSX4b+1gP6oVzib0pOQJAGEB
+	 GSrqFmu0WjsI1ue8hVNRpEbRcdcxCBjuxm/fm/rY+BRXd14PYJOBG/tZDY/M/aSdc6
+	 k4N02ghcmGjEQ==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id DAE0840423;
+	Mon, 23 Mar 2026 13:42:17 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Rito Rhymes <rito@ritovision.com>, Rito Rhymes <rito@ritovision.com>,
+ linux-doc@vger.kernel.org
+Cc: Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ rdunlap@infradead.org
+Subject: Re: [PATCH v2 0/1] docs: examples of pages affected by C API
+ signature overflow
+In-Reply-To: <DHA2MFSL71FH.1Z930JBKI8AOE@ritovision.com>
+References: <20260321142559.26005-2-rito@ritovision.com>
+ <20260322193740.68784-1-rito@ritovision.com>
+ <874im7eh6e.fsf@trenco.lwn.net>
+ <DHA2MFSL71FH.1Z930JBKI8AOE@ritovision.com>
+Date: Mon, 23 Mar 2026 07:42:17 -0600
+Message-ID: <87jyv2br2e.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMRc=McostnmVjE=uV=2KA7-dqLvQ2BAJYTXzANacFpPGgS+Sw@mail.gmail.com>
+Content-Type: text/plain
 
-On Mon, Mar 23, 2026 at 02:36:59PM +0100, Bartosz Golaszewski wrote:
-> On Mon, Mar 23, 2026 at 10:35 AM Manivannan Sadhasivam <mani@kernel.org> wrote:
-> >
-> > On Tue, Mar 17, 2026 at 03:02:12PM +0100, Bartosz Golaszewski wrote:
-> > > Add support for BAM pipe locking. To that end: when starting DMA on an RX
-> > > channel - prepend the existing queue of issued descriptors with an
-> > > additional "dummy" command descriptor with the LOCK bit set. Once the
-> > > transaction is done (no more issued descriptors), issue one more dummy
-> > > descriptor with the UNLOCK bit.
-> >
-> > I've left some comments in v12, but looks like you've missed them.
-> 
-> Sorry for that, as I explained in private, this email did not end up
-> in my inbox and I didn't see it on lore.
-> 
-> > >
-> > > +static int bam_metadata_attach(struct dma_async_tx_descriptor *desc, void *data, size_t len)
-> > > +{
-> > > +     struct bam_chan *bchan = to_bam_chan(desc->chan);
-> > > +     const struct bam_device_data *bdata = bchan->bdev->dev_data;
-> > > +     struct bam_desc_metadata *metadata = data;
-> > > +
-> > > +     if (!data)
-> > > +             return -EINVAL;
-> > > +
-> > > +     if (!bdata->pipe_lock_supported)
-> > > +             return -EOPNOTSUPP;
-> >
-> > As mentioned in v12, you should return 0 to avoid erroring out the clients if
-> > pipe lock is not supported.
-> >
-> 
-> If the client attaches the scratchpad register then it probably does
-> want to use locking, right? On the other hand, I assume you're
-> thinking about a situation where the client wants locking but BAM does
-> not support it. It's unlikely but ok, I'll change it.
-> 
+"Rito Rhymes" <rito@ritovision.com> writes:
 
-Locking is supported only since v1.4.0. So I was trying to avoid erroring out
-the clients wanting to use DMA on older platforms (pre 1.4.0). I'm not sure if
-such platforms exist, but could be possible.
+> Thank you for the feedback.
+>
+> I'll put some examples in the changelogs with versioned URLs and
+> reroll them without a cover letter.
+>
+>> The cover letter tells reviewers what the series as a whole does
+>
+> Admittedly, I knew including a cover letter for a single patch was
+> non-standard. Given the quantity of examples I aimed to include,
+> I didn't think it acceptable to include it all in the changelog, but I
+> knew having the examples was important for testing, so I repurposed the
+> cover letter as the vehicle for including them. I'll lay off that.
 
-- Mani
+If you want to include extra information for reviewers that doesn't
+belong in the changelog, you can put it below the "---" line and it will
+be stripped out at application time.
 
-> > >
-> > > +static struct bam_async_desc *
-> > > +bam_make_lock_desc(struct bam_chan *bchan, struct scatterlist *sg,
-> > > +                struct bam_cmd_element *ce, unsigned long flag)
-> > > +{
-> > > +     struct dma_chan *chan = &bchan->vc.chan;
-> > > +     struct bam_async_desc *async_desc;
-> > > +     struct bam_desc_hw *desc;
-> > > +     struct virt_dma_desc *vd;
-> > > +     struct virt_dma_chan *vc;
-> > > +     unsigned int mapped;
-> > > +     dma_cookie_t cookie;
-> > > +     int ret;
-> > > +
-> > > +     sg_init_table(sg, 1);
-> > > +
-> > > +     async_desc = kzalloc_flex(*async_desc, desc, 1, GFP_NOWAIT);
-> > > +     if (!async_desc) {
-> > > +             dev_err(bchan->bdev->dev, "failed to allocate the BAM lock descriptor\n");
-> > > +             return NULL;
-> > > +     }
-> > > +
-> > > +     async_desc->num_desc = 1;
-> > > +     async_desc->curr_desc = async_desc->desc;
-> > > +     async_desc->dir = DMA_MEM_TO_DEV;
-> > > +
-> > > +     desc = async_desc->desc;
-> > > +
-> > > +     bam_prep_ce_le32(ce, bchan->scratchpad_addr, BAM_WRITE_COMMAND, 0);
-> > > +     sg_set_buf(sg, ce, sizeof(*ce));
-> > > +
-> > > +     mapped = dma_map_sg_attrs(chan->slave, sg, 1, DMA_TO_DEVICE, DMA_PREP_CMD);
-> > > +     if (!mapped) {
-> > > +             kfree(async_desc);
-> > > +             return NULL;
-> > > +     }
-> > > +
-> > > +     desc->flags |= cpu_to_le16(DESC_FLAG_CMD | flag);
-> > > +     desc->addr = sg_dma_address(sg);
-> > > +     desc->size = sizeof(struct bam_cmd_element);
-> > > +
-> > > +     vc = &bchan->vc;
-> > > +     vd = &async_desc->vd;
-> > > +
-> > > +     dma_async_tx_descriptor_init(&vd->tx, &vc->chan);
-> > > +     vd->tx.flags = DMA_PREP_CMD;
-> > > +     vd->tx.desc_free = vchan_tx_desc_free;
-> > > +     vd->tx_result.result = DMA_TRANS_NOERROR;
-> > > +     vd->tx_result.residue = 0;
-> > > +
-> > > +     cookie = dma_cookie_assign(&vd->tx);
-> > > +     ret = dma_submit_error(cookie);
-> > > +     if (ret)
-> > > +             return NULL;
-> >
-> > You are leaking async_desc here.
-> >
-> 
-> Yeah, not only that but also should unmap the sg here too. Thanks.
-> 
-> > > +
-> > > +     return async_desc;
-> > > +}
-> > > +
-> > > +static int bam_do_setup_pipe_lock(struct bam_chan *bchan, bool lock)
-> > > +{
-> > > +     struct bam_device *bdev = bchan->bdev;
-> > > +     const struct bam_device_data *bdata = bdev->dev_data;
-> > > +     struct bam_async_desc *lock_desc;
-> > > +     struct bam_cmd_element *ce;
-> > > +     struct scatterlist *sgl;
-> > > +     unsigned long flag;
-> > > +
-> > > +     lockdep_assert_held(&bchan->vc.lock);
-> > > +
-> > > +     if (!bdata->pipe_lock_supported || !bchan->scratchpad_addr ||
-> > > +         bchan->slave.direction != DMA_MEM_TO_DEV)
-> > > +             return 0;
-> > > +
-> > > +     if (lock) {
-> > > +             sgl = &bchan->lock_sg;
-> > > +             ce = &bchan->lock_ce;
-> > > +             flag = DESC_FLAG_LOCK;
-> > > +     } else {
-> > > +             sgl = &bchan->unlock_sg;
-> > > +             ce = &bchan->unlock_ce;
-> > > +             flag = DESC_FLAG_UNLOCK;
-> > > +     }
-> > > +
-> > > +     lock_desc = bam_make_lock_desc(bchan, sgl, ce, flag);
-> > > +     if (!lock_desc)
-> > > +             return -ENOMEM;
-> > > +
-> > > +     if (lock)
-> > > +             list_add(&lock_desc->vd.node, &bchan->vc.desc_issued);
-> > > +     else
-> > > +             list_add_tail(&lock_desc->vd.node, &bchan->vc.desc_issued);
-> > > +
-> > > +     bchan->locked = lock;
-> >
-> > What is this flag for?
-> >
-> 
-> Just a leftover. I'll drop it, thanks.
-> 
-> > >
-> > > +struct bam_desc_metadata {
-> > > +     phys_addr_t scratchpad_addr;
-> >
-> > I think it'd be worth adding a comment for this.
-> >
-> 
-> Will do.
-> 
-> Bart
+Thanks,
 
--- 
-மணிவண்ணன் சதாசிவம்
+jon
