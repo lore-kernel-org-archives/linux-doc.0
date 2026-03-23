@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19683386453;
-	Mon, 23 Mar 2026 09:10:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20974386458;
+	Mon, 23 Mar 2026 09:10:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774257059; cv=none; b=cLCgMZpJPMxLi6VvanM0fyJcQgwg+K7ZZsaRO/GqCqw0PpKDkx7eLuZTj6EzwuYFplnEZMDuJIIzqUgAEZICRQnRJ6e74Z6nDhAABJJBUNxqHhhFStiG4eaoXzn7kZZn+d5GVQye43MEWQDd4yRs0NIaSlaPzWbkUIpAnC6OBNY=
+	t=1774257059; cv=none; b=sLRtIgtpAFdV1aXDWhE4KzB2gpD7p6WzcbnoMK7Kl1ibOQ1FOT1E2gW9QJUMdhy9UWGi4UgSKid6R/sIVG777fUQ/vwvuy/g/U2SYvK+CwZ7bjxIlUsirtdM09CkL6ckvfOxDikXshvPZsessO7+0BVKCxPZRNXbUYnkbEe9eMw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1774257059; c=relaxed/simple;
-	bh=fPzInczANAdOGjNACOlImNH9I8DEnTQnoNy6KxDMv84=;
+	bh=9bP3dZmN9dqpLzA2P9uYLroVbRJTwYSVc6XXaOpsBAY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CL903bWcEqOPFeY1JALADuWXzSrvdUkC1TnD8n4ra15u5D89Q9VYG1MEIvX6LqxfEdv1I39S1qTU6gmSkKtpc1l3DXN9sls6UOyQHSexRwUqNruV6eEiyCczekYABBD01bW38yIt9fChq2+NiIkmStSdpgMHz0V9n+uV8Gi9dqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WcxXn9Kb; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=paL5HxVpmOo2rUY+9ZzECcT9JGqlWxZNkfTq4aNN6XvTK28EOVrZKz66/XN7z5l5AXg1BZcOkaojG8qNz61gKp0No0ZsbW5jRJ3tpuLEiBGRvFKK/CDDCydRDPbtUAYq22B2bP51Q6LY9XBdspiUgbB7pPSiomS3ZR67+KRQ8b8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=swUYgibz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WcxXn9Kb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3572C2BC9E;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="swUYgibz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB981C2BCB4;
 	Mon, 23 Mar 2026 09:10:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1774257058;
-	bh=fPzInczANAdOGjNACOlImNH9I8DEnTQnoNy6KxDMv84=;
+	bh=9bP3dZmN9dqpLzA2P9uYLroVbRJTwYSVc6XXaOpsBAY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=WcxXn9KbyrozgA4LcNrurgvB0aXFzvx395cXPq97WNBvy5kvoTHwYsGDdzvu/aV+1
-	 P5Biji5gFqwd0K7A03F/DOtK1BHPNyurf3u1Xg5IsGtwTNoa8FOtlKd4uspevalYnF
-	 ZX8ka64VQTklRi2s9ZOD6/JTwagU6Q1LS43rz2qCUFU4CdQPkX9pY/Pf5+i00ZaFCa
-	 DaJxJcoqJMcYEfwZN/jVNkXY+H/mje6uklt7cA99xPW9i+UxMBvwwixlQRadfKG4AZ
-	 tR80hXq/5jszy9DZ2dNIewvfHLkRUyHozirLX14b9Eomv8YR4LFX9DmmysbnVbAXqX
-	 aU6KSHPmmCYXg==
+	b=swUYgibzFJdQN8iDOu5XIB9/VQqqZyTluwz/hNGv0wKnXiJswJRt39TEN1+M35w22
+	 PURQSoT7ESF2W7yDkFTnPNHGXtHwplQTdNWHEZQtKJTCFVXvBw3kmCpLgTwbzmnAY6
+	 K0ZWV/EoFQKE5tCJJXnxNBxsZQxFgk3pEBzbT4OIx2ptdvckTwgG1p4JvI6+Wmwm+4
+	 5mlltT9RjT9WWs0NsUwL9BQVTAFQCRBVdH+E3qPbZAVvf92wkIXMqjPCQtEAcLcruU
+	 Hr/poTyBwo76zlpfgXhdalQwfrUqoEGMDFb6sM9RpakIXwOY3izzJnLhGg+vX/7aoM
+	 vUSqCV5Puv5Qw==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1w4bJI-00000002yWU-1wWB;
+	id 1w4bJI-00000002yWM-1ipo;
 	Mon, 23 Mar 2026 10:10:56 +0100
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org,
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH 04/10] docs: kdoc_yaml_file: add a representer to make strings look nicer
-Date: Mon, 23 Mar 2026 10:10:47 +0100
-Message-ID: <422041a8b49b2609de5749092fe074b7948c32a6.1774256269.git.mchehab+huawei@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 02/10] unittests: test_kdoc_parser: add command line arg to read a YAML file
+Date: Mon, 23 Mar 2026 10:10:45 +0100
+Message-ID: <1d1a56de012c43756f9ca87aa9bf6c285674f113.1774256269.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <cover.1774256269.git.mchehab+huawei@kernel.org>
 References: <cover.1774256269.git.mchehab+huawei@kernel.org>
@@ -52,51 +52,83 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-The strings representation is not ok, currently. Add a helper
-function to improve it, and drop blank lines at beginning and
-at the end of the dumps
+The test_kdoc_parser.py already supports loading dynamic tests
+when running unit tests.
+
+Add support to read from a different file. This is useful for:
+- regression tests before/afer some changes;
+- preparing new unit tests;
+- test a different yaml before adding its contents at
+  tools/unittests/kdoc-test.yaml.
+
+It should be noticed that passing an argument to a unit test
+is not too trivial, as unittest core will load itself the
+runner with a separate environment. The best (only?) way to
+do it is by setting the system environment. This way, when
+the class is called by the unit test loader, it can pick
+the var from the environment without relying on a global
+variable.
+
+The unittest_helper has already provision for it, so let's
+use its support.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tools/lib/python/kdoc/kdoc_yaml_file.py | 18 +++++++++++++++---
- 1 file changed, 15 insertions(+), 3 deletions(-)
+ tools/unittests/test_kdoc_parser.py | 23 ++++++++++++++++++++---
+ 1 file changed, 20 insertions(+), 3 deletions(-)
 
-diff --git a/tools/lib/python/kdoc/kdoc_yaml_file.py b/tools/lib/python/kdoc/kdoc_yaml_file.py
-index db131503c3f6..18737abb1176 100644
---- a/tools/lib/python/kdoc/kdoc_yaml_file.py
-+++ b/tools/lib/python/kdoc/kdoc_yaml_file.py
-@@ -126,7 +126,7 @@ class KDocTestFile():
-                 else:
-                     key = "rst"
+diff --git a/tools/unittests/test_kdoc_parser.py b/tools/unittests/test_kdoc_parser.py
+index 723dd8c7f4f3..f2250ef192ce 100755
+--- a/tools/unittests/test_kdoc_parser.py
++++ b/tools/unittests/test_kdoc_parser.py
+@@ -30,7 +30,7 @@ from kdoc.kdoc_output import RestFormat, ManFormat
  
--                expected_dict[key]= out_style.output_symbols(fname, [arg])
-+                expected_dict[key]= out_style.output_symbols(fname, [arg]).strip()
+ from kdoc.xforms_lists import CTransforms
  
-             name = f"{base_name}_{i:03d}"
+-from unittest_helper import run_unittest
++from unittest_helper import TestUnits
  
-@@ -148,8 +148,20 @@ class KDocTestFile():
+ 
+ #
+@@ -38,6 +38,10 @@ from unittest_helper import run_unittest
+ #
+ TEST_FILE = os.path.join(SRC_DIR, "kdoc-test.yaml")
+ 
++env = {
++    "yaml_file": TEST_FILE
++}
++
+ #
+ # Ancillary logic to clean whitespaces
+ #
+@@ -470,7 +474,9 @@ class KernelDocDynamicTests():
+         optional ones.
          """
-         import yaml
  
-+        # Helper function to better handle multilines
-+        def str_presenter(dumper, data):
-+            if "\n" in data:
-+                return dumper.represent_scalar("tag:yaml.org,2002:str", data, style="|")
+-        with open(TEST_FILE, encoding="utf-8") as fp:
++        test_file = os.environ.get("yaml_file", TEST_FILE)
 +
-+            return dumper.represent_scalar("tag:yaml.org,2002:str", data)
-+
-+        # Register the representer
-+        yaml.add_representer(str, str_presenter)
-+
-         data = {"tests": self.tests}
++        with open(test_file, encoding="utf-8") as fp:
+             testset = yaml.safe_load(fp)
  
-         with open(self.test_file, "w", encoding="utf-8") as fp:
--            yaml.safe_dump(data, fp, sort_keys=False, default_style="|",
--                           default_flow_style=False, allow_unicode=True)
-+            yaml.dump(data, fp,
-+                      sort_keys=False, width=120, indent=2,
-+                      default_flow_style=False, allow_unicode=True,
-+                      explicit_start=False, explicit_end=False)
+         tests = testset["tests"]
+@@ -531,4 +537,15 @@ KernelDocDynamicTests.create_tests()
+ # Run all tests
+ #
+ if __name__ == "__main__":
+-    run_unittest(__file__)
++    runner = TestUnits()
++    parser = runner.parse_args()
++    parser.add_argument("-y", "--yaml-file", "--yaml",
++                        help='Name of the yaml file to load')
++
++    args = parser.parse_args()
++
++    if args.yaml_file:
++        env["yaml_file"] = os.path.expanduser(args.yaml_file)
++
++    # Run tests with customized arguments
++    runner.run(__file__, parser=parser, args=args, env=env)
 -- 
 2.53.0
 
