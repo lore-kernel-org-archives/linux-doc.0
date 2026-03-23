@@ -1,136 +1,151 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 353D93BF687;
-	Mon, 23 Mar 2026 17:07:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C06A3C6A21
+	for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 17:12:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774285637; cv=none; b=MdTshzzALFcnT1+Tln+4VixGj8+sfuvnrxwBVw/JvLyX7XC9hIg4hUPEa+pGtn5G9alj5nYuloDH+781VC7WmZQQRX0PtiGeIWjWSeW0nguAZK7xt5M9KzuGU3AKm0d0JJLvIPk2jGWWhmzA0XfSux9Bw+VQdiOFtSEN9OMHdzQ=
+	t=1774285924; cv=none; b=bj0BiefuS4ilIiiIkeiNYLLtNqQcrcpY2uAbD3ujftx0bK5rNpHxpG0cEAYVZUaEi+7JN8Re2WRBQxgb3KPXfDiqp28bXY0l1LBIPRnF8zuxT/1wticujhSugjbIRaWc+lYdsam+eaOZ461Japm9+U8oONqe/rwXnup6Xaona5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774285637; c=relaxed/simple;
-	bh=ZPRtjSbDYAuXP+R2fMzJuVURJbzdyj1iPTpdebc3THE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bskLGxPEzb99/Qy6vmsVA2PkfAdpXTO3JKyEO816HMchN4dEZsLyIqCP604Tn1SZv5sF0/XVjL2NyDFCLSTwQ/F0rKww0xOEShhScB3YFvBOHQfNoQ8HUhz6j+jCrmIiOGyWbzDt+v89HMwbUCvIAE6viUxe+Nybo5GTcv7tIGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m2zZpA5e; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1774285924; c=relaxed/simple;
+	bh=FpZm/llMTc0l0PrioU5iza6ypggWVRYru+XZ9161Xaw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WDrxXxLNynkYTfSVVKC/MeKK7FmZGQHMitQVIRD1NnzxcgNY7vt31tbqsCCXVFofuJ3a+wERA9aLOTPC0kZ/zyQHI5LKnbSsUnULZWawnRrj3hMkSGaQLEBpsWzhvpj+dZqm9A7BCBmEKZNoQqXU+1WqQFcbDIFJhZLeDuoaFM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hKtAdm5q; arc=none smtp.client-ip=209.85.217.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m2zZpA5e"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774285636; x=1805821636;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=ZPRtjSbDYAuXP+R2fMzJuVURJbzdyj1iPTpdebc3THE=;
-  b=m2zZpA5eoXOSOA6rSnbe92h1IrIrvZ91L/PHuHqY5B5RddnLRoH49n3y
-   /ZUStjaftN/d52TDJIP44ESWMsluh7nYD1oYj0j/QHmo0NKEAt8uMDnCw
-   tWtYpkug8Qkv8F1YZgkpSOArzIyHl87o99+aZtNK+nXFJ/GtXQGocPKHH
-   uyKYhojZAZFEp/nWOe8xwQLy1Xj9Kl1bYVyslkEzEsCqdRrGK/d6c7qOF
-   ggiVPDvuT9T5e2VORe+WRWs3vm1VX+vj+FvUQDu9DXSdTeenb0h2tHPe9
-   sUQW31jsv6Zkf8EEZ2UmE4+lWiJbI8HR74hHd1ljD9K5FUyIXVfIYKQ/7
-   w==;
-X-CSE-ConnectionGUID: mwn/cEOOTAa9M2/J68LzmA==
-X-CSE-MsgGUID: 80mGv3fvTbyWvRFvHsqe/A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="86657187"
-X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="86657187"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 10:07:15 -0700
-X-CSE-ConnectionGUID: m87CQPESS927IIVwJpteSg==
-X-CSE-MsgGUID: BMDfODy4QgaI4VGb46H6FA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,137,1770624000"; 
-   d="scan'208";a="224298095"
-Received: from guptapa-desk.jf.intel.com (HELO desk) ([10.165.239.46])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 10:07:15 -0700
-Date: Mon, 23 Mar 2026 10:07:09 -0700
-From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-To: Nikolay Borisov <nik.borisov@suse.com>
-Cc: x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	David Kaplan <david.kaplan@amd.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>, KP Singh <kpsingh@kernel.org>,
-	Jiri Olsa <jolsa@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	David Laight <david.laight.linux@gmail.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	David Ahern <dsahern@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org, Asit Mallick <asit.k.mallick@intel.com>,
-	Tao Zhang <tao1.zhang@intel.com>, bpf@vger.kernel.org,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7 03/10] x86/bhi: Rename clear_bhb_loop() to
- clear_bhb_loop_nofence()
-Message-ID: <20260323170709.7lpdet4nnmhbdcxa@desk>
-References: <20260319-vmscape-bhb-v7-0-b76a777a98af@linux.intel.com>
- <20260319-vmscape-bhb-v7-3-b76a777a98af@linux.intel.com>
- <6c315cb3-b3a0-478e-b8ec-36d82684d310@suse.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hKtAdm5q"
+Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-5ffe6887e29so271467137.1
+        for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 10:12:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1774285922; x=1774890722; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ap6ZhUEA26TMDksk4cBN6Hca/v2BYwWTeQbjHirR9Pw=;
+        b=hKtAdm5qyzdrKtXNTiZ3oP1OPA/MWDUyA8J410ZqCz59nReCQImBLRrclkoFaEb0pH
+         VvVRfEJg2iyCWXVfGSxTbFDAN0XVD0/Sx35WEpCHR+A0X/CObJS5hEQx8Bfbbkb8irnE
+         xCtyMwLxKdaOPfac8z7aQG8lHNcNRG7aM8A/LRLxYyHGRHFu1BJfipqvIm0QnRGLN1I6
+         ChqPvqGEBiyKZvcMph6sFZzNZmSHgKNwJ1iArv2kqyMEVU6XgYBpkEnfn1C6p+A8/SZO
+         wxmfwv1b+Ql0UWfXZntBQ0hefg153L0ONHleHevVuCu89Z0W6QbiMRuyAhF0aH4raZre
+         UtBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774285922; x=1774890722;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ap6ZhUEA26TMDksk4cBN6Hca/v2BYwWTeQbjHirR9Pw=;
+        b=l1Yad59eW5Rk1+YCAZ0WXKFneBbcq8SaiM8oBsfdu2Y0sDD3v2Tf6BbxUaCQuQ/B6B
+         yFJfd36W4Q74A+T7CpJCEhNulrVx8evLn4BzMcBR6OMETFDP1rNcI9Bf3aIpTG2lrhBo
+         xwxKoLOK4JLbui1xpzuuXviI4xV4oGtACebkuxHQiLENCzmtnkJy/iljCPYKX0bLNC1E
+         RMyRsuxT7AYn3frl8AHdcxC65K8r2IbSrl+DT2l81d++bN4UstQoLiibgpr4M/fThzZB
+         OvuvIq5kolNO/OmhH0csMvb70Oa3d/pC06qzP7Vas3yitZq5+y90qxbpPPkuwM+SX88k
+         VxuQ==
+X-Gm-Message-State: AOJu0Yzdr0+TKQ3ZpO7osg+f5av73uUl6epynGjSggkHGpSaP8ctnK+v
+	+nOr4XzIKY+7yfkQ6LimO7RKcdUiX91uo/UtS/HE0KeR1Wr47WGOfKOw
+X-Gm-Gg: ATEYQzwe7uYCnLkBnlH+4HBVjkAAj/pyltZlQnQ3SFIg+aN7Kl0mDbluKeReojedmkY
+	GlAqC06A4s+l+Q5DxMDuiaNXTBpYSXksLdeVIfnoR3jIICa/Kdv3fF3rviaDo4k/YyiDoSTYpI4
+	+tERxdYacG7+s22f1cJd/aOv5jYd+mIHqkNDyY55akJpiA9vr0iVfUu76osAYyE2XQQaGAjnTpN
+	99tlIi7jOKZBw99hQ9YrjP7BqqYZBA5jgC11lUSdetfYd2lGPJGfGHxdNBUg9HUb97UdVvbe4QG
+	pvhzZZRJOAHiyWe9eJUlhR9SuTOH8t8OFm7X7Tg7NYzz/R5PrHRSPSvdgvX8vAuagYEuyMf694P
+	+aPomccicSw9QK5mKEc/sDgbxqow9rT5jsK1Ar+TV0TcStBLHei5YYEF60+IazkOhEHf2B3RQVG
+	0UkVImt0V5QYjwKHAQ9EZOphmlpfouNbzDzYBgdl4r9xpzr5lojnb85bEhQweiO4uPCRXhYDcsr
+	g==
+X-Received: by 2002:a05:6102:80aa:b0:5fe:f14:e701 with SMTP id ada2fe7eead31-602aecd5abdmr6170914137.24.1774285921992;
+        Mon, 23 Mar 2026 10:12:01 -0700 (PDT)
+Received: from parrot.dimenoc.com ([2804:29b8:512d:4c55:1868:543f:1aeb:fd26])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-95136bb0901sm9507306241.4.2026.03.23.10.11.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Mar 2026 10:12:01 -0700 (PDT)
+From: Daniel Pereira <danielmaraboo@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org,
+	Daniel Pereira <danielmaraboo@gmail.com>
+Subject: [PATCH 1/2] docs: pt_BR: Add translation for process/conclave.rst
+Date: Mon, 23 Mar 2026 14:11:31 -0300
+Message-ID: <20260323171133.88074-2-danielmaraboo@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260323171133.88074-1-danielmaraboo@gmail.com>
+References: <20260323171133.88074-1-danielmaraboo@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=y
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <6c315cb3-b3a0-478e-b8ec-36d82684d310@suse.com>
 
-On Mon, Mar 23, 2026 at 04:44:24PM +0200, Nikolay Borisov wrote:
-> 
-> 
-> On 19.03.26 г. 17:40 ч., Pawan Gupta wrote:
-> > To reflect the recent change that moved LFENCE to the caller side.
-> > 
-> > Suggested-by: Borislav Petkov <bp@alien8.de>
-> > Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-> 
-> 
-> Nit: I think having the _nofence in the function name is leaking an
-> implementation detail into the name/interface. I.e things change and we
-> decide that the implementation of a particular function must change so we
-> just do the change and substantiate it in the commit message or in a
-> comment. Especially that we don't have a "with an lfence" version.
+Translate the Linux kernel project continuity documentation (conclave.rst)
+into Portuguese (pt_BR). Also, update the main pt_BR index to include
+the link to the new translation.
 
-The explicit "_nofence" is because the series changes the implementation of
-clear_bhb_loop() from lfence. If new call sites miss to add an lfence when
-it is required could lead to a security issue. Having the "_nofence" in the
-name helps avoid it.
+Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
+---
+ Documentation/translations/pt_BR/index.rst    |  1 +
+ .../translations/pt_BR/process/conclave.rst   | 40 +++++++++++++++++++
+ 2 files changed, 41 insertions(+)
+ create mode 100644 Documentation/translations/pt_BR/process/conclave.rst
 
-Apart from the name, the commit message of patch 1/10 and the comment in
-clear_bhb_loop() implementation covers this.
+diff --git a/Documentation/translations/pt_BR/index.rst b/Documentation/translations/pt_BR/index.rst
+index a89837aef..efe6a4a3f 100644
+--- a/Documentation/translations/pt_BR/index.rst
++++ b/Documentation/translations/pt_BR/index.rst
+@@ -69,6 +69,7 @@ kernel e sobre como ver seu trabalho integrado.
+    Introdução <process/1.Intro>
+    Como começar <process/howto>
+    Requisitos mínimos <process/changes>
++   Conclave (Continuidade do projeto) <process/conclave>
+    Manuais dos mantenedores <process/maintainer-handbooks>
+    Processo do subsistema de rede (netdev) <process/maintainer-netdev>
+    Processo do subsistema SoC <process/maintainer-soc>
+diff --git a/Documentation/translations/pt_BR/process/conclave.rst b/Documentation/translations/pt_BR/process/conclave.rst
+new file mode 100644
+index 000000000..9071b5a39
+--- /dev/null
++++ b/Documentation/translations/pt_BR/process/conclave.rst
+@@ -0,0 +1,40 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Continuidade do projeto do kernel Linux
++=======================================
++
++O projeto de desenvolvimento do kernel Linux é amplamente distribuído, com mais de
++100 mantenedores, cada um trabalhando para manter as mudanças fluindo através de
++seus próprios repositórios. A etapa final, no entanto, é centralizada, onde as
++mudanças são puxadas para o repositório mainline. Isso é normalmente feito por
++Linus Torvalds mas, como foi demonstrado pelo lançamento da versão 4.19 em 2018,
++existem outros que podem realizar esse trabalho quando surge a necessidade.
++
++Caso os mantenedores desse repositório se tornem indispostos ou incapazes de
++realizar esse trabalho daqui em diante (incluindo a facilitação de uma transição),
++o projeto precisará encontrar um ou mais substitutos sem demora. O processo pelo
++qual isso será feito está listado abaixo. O $ORGANIZER é o último organizador do
++Maintainer Summit ou o atual presidente do Conselho Consultivo Técnico (TAB) da
++Linux Foundation (LF) como reserva.
++
++- Em até 72 horas, o $ORGANIZER abrirá uma discussão com os convidados do
++  Maintainer Summit concluído mais recentemente. Uma reunião desses convidados e
++  do TAB, seja online ou presencial, será agendada o mais rápido possível de uma
++  forma que maximize o número de pessoas que possam participar.
++
++- Se não houver ocorrido um Maintainer Summit nos últimos 15 meses, o conjunto de
++  convidados para esta reunião será determinado pelo TAB.
++
++- Os convidados para esta reunião podem trazer outros mantenedores conforme
++  necessário.
++
++- Esta reunião, presidida pelo $ORGANIZER, considerará opções para a gestão
++  contínua do repositório de nível superior do kernel, de forma consistente com
++  a expectativa de maximizar a saúde a longo prazo do projeto e de sua comunidade.
++
++- Em até duas semanas, um representante deste grupo comunicará à comunidade em
++  geral, utilizando a lista de discussão ksummit@lists.linux.dev, quais serão os
++  próximos passos.
++
++A Linux Foundation, conforme orientada pelo TAB, tomará as medidas necessárias
++para apoiar e implementar este plano.
+-- 
+2.47.3
 
-> What's more I'd consider this a "private" function, that's called via the
-> CLEAR_BRANCH_HISTORY macros, the only place it's called directly is in the
-> bpf jit code, but that's more of an exception.
-
-Another place where the explicit "_nofence" in the name could help is while
-applying the mitigation in vmscape_apply_mitigation(), which sets the
-static call:
-
-vmscape_apply_mitigation()
-{
-...
-    if (vmscape_mitigation == VMSCAPE_MITIGATION_IBPB_EXIT_TO_USER)
-        static_call_update(vmscape_predictor_flush, write_ibpb);
-    else if (vmscape_mitigation == VMSCAPE_MITIGATION_BHB_CLEAR_EXIT_TO_USER)
-        static_call_update(vmscape_predictor_flush, clear_bhb_loop_nofence);
-
-> Still,
-> 
-> Reviewed-by: Nikolay Borisov <nik.borisov@suse.com>
-
-Thank you.
