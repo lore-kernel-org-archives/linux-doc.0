@@ -1,279 +1,105 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E01B83B4E8C
-	for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 15:33:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC643B5308;
+	Mon, 23 Mar 2026 15:33:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774279992; cv=pass; b=nLvnANOQAg02+jZmRkWxIvwpTa62CxM8IT6WD28YdXN0UFaqfhcbtRkAQvYanOcP+caXXKtNifhKZcwKBsJKm/6tJrpd1pzR55AZ+I4BCm6b36M908U92djCyE+Zr//sXIEVireVZjFQc4pHxf1B9lMhVP/kyqXWhYcwaEVzYcE=
+	t=1774280035; cv=pass; b=lK7WM2MaAC2u78oVw8QNt6/hxZCN2lV3vXkWVy38Xbyqu4hiH06WUNOMjq+y3Vcr9AF6EsfA6XJt9aam6BYXTQx127mAJPm1Hr9MBwIeWvOpg/70/xJrP4B1tWfIdSxa8QCyI2kRvq9xiWB1oBbWu8M7voQZnntakuKZ7iS6E1w=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774279992; c=relaxed/simple;
-	bh=arS6rKQpeugPn1Nw9evVWPQO6eJXSH50PWdiL/uU/vU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Fxhon5PPKGXt9D0ioDZbX7FOSLqjSGUoP3eVtBEYqxIMlaNtjxqD8AgoaSPqL/n+x0c0WKG4VdrY++kt/AN5ohiWEUo1doifMjUQbg2128psInsEsG0h7xUT9mKTzv1QLQebo7X3yBToweXHl2yidte7YH8lGQx7luL4P5ErHbk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PZjwIrys; arc=pass smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774280035; c=relaxed/simple;
+	bh=e2acOagzJG/huXRgOXdYd/hrb7GuUII3t4THK+adtD0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=IkbIbGvAak6IaH6O0bAyrmuSkr1OS9hUxzpR+Bg8nDel3cVcJ4QC6Es9vVYZtWIef++oFgkGYNP62fjNjZZ0UD4B7puh+ttL8vKT8BMhSv92U4kDD0hNzqxIBdfr6wPRwG36zV75KgHVp4HgC8eu+Lk2aekGcS1mH8dk8gU9e+U=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com; spf=pass smtp.mailfrom=ritovision.com; dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b=ccukB+C0; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ritovision.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PZjwIrys"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-43b4f48c47cso2250847f8f.0
-        for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 08:33:10 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774279989; cv=none;
-        d=google.com; s=arc-20240605;
-        b=BxVE7OnejlvgWqgwgEYdHok70QtFnaISe7doNRVFUnaramL6zmqlkayBkhzazcUgLV
-         RlO5ojsPCLDYR7MAtPiQ527r/Cu8Xsl0MZcddlq+MMx7gsO0M7h6gEKXLb/r6LpQeXc+
-         27KY3RDkZILy+eBhYKMmaEdoYHuZTNmi2XPqaFBRHa9HuoD82zRzQ3FJCv6oFwRuBxCe
-         hgvZ0VtwGrXcWvvkCDeMoPpmUcetqq+OA/IH17j7oV4wIOKbWO5qARDpz4qvuLYoANaS
-         OgHRXJyoyjxLDwwWljK5+RD6WWaVOFvI27UgJ0P9Z1JdG1CbbNBaSNNjgaNooMX9Y2UZ
-         yRPA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=/8/EpSUMiobTzSVmJaDTjFNXTjCi0aA95G2967Wvfq8=;
-        fh=xbmWM4JoOzjYwAwxSrf8DdIc0u1z+xArovFRljwK8/Y=;
-        b=AxxXeo/r2y1fZ5OqArAH/V6xykuFSzrkftLtD8H+hTe1ts9CC04tcM3YKlawEnjjq6
-         ylNbCHSM6SIVIlU83GL5brVjIrpcEv1ttuOFqndBU+IC8S2kIyslxNYEWRK6FHVdNKU4
-         Lc0UxGpu1f82iocZPq1qiiPDxES4TXG+FzSqic6Orq/KVqUfdSrWsvxvTpOQuROpaCe0
-         hIWEt0nOqlQwBSjOYhUZqJ9Sptm/sagl9hODcRuOD6AXyVuwFMZTt3ExaDJhJFW/f80G
-         viNQWBuo1WZiMLug2ggjFXfU1E7r7Kj6Kf6yRKFn4hTGnPHWtycY3daINFtaFGIKnTxr
-         C72A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1774279989; x=1774884789; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/8/EpSUMiobTzSVmJaDTjFNXTjCi0aA95G2967Wvfq8=;
-        b=PZjwIrysaUY04YiNZGW8yIggnceuIonNG1kp4/viAwXQeNEO0i55lo5gOao1Kir4W1
-         qSiSLZfnvNhXvJMt0m3lPixAJA4qcycSa7aLtudq2abTJlPQU6UkDE6+VF998QVu4gfA
-         szeaamGx7JReHhnP4IGS4AKwMQlFNtzrWgE4m6CNDRLM/xNkfNk8cZmiVYF5uwswsHcw
-         CbzP/Rj9rDtwdgLWpBlyskRdl9yUuev+DOYnb+8AKFFtYSolujcxkvJSTZJ+dJPY1p+u
-         aVKZfOaAHRr52AX/pEAoJtx7ovftL7tBECTAYVLFKirg4T89MP/3nhIb9ujnh0eUsFcw
-         id4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774279989; x=1774884789;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=/8/EpSUMiobTzSVmJaDTjFNXTjCi0aA95G2967Wvfq8=;
-        b=O+tMrEnv+cP3y/rc6wwz1OLU54NRp2D5WRNes0PuSf9c4fcaWyYN+XfZKj8VQh3t8M
-         NCBWvHxNqjKXIIbA82tqW2VuctP+stNgOt1VW/obH9OvAoQBZKEULLFt/7cazpJFXQhL
-         Y/Lc2C9NB6IAKJJQ5T+86AF6TVAQ06CoWgxCXUwCcbtAEZthz1d7oIfVqjkq5GLSya7l
-         2Yh8ycYdEOZ+LQ24TEWP6Srtj9UMNKWy8HMurcnUU4DNh2rLPwEeQeVb1Gvk3Op6oxc+
-         U5dHohju5X5XRw/rzapvNgruAY1Q/P5KZQFNl/AEzCZCmOkEvgGf64pb1v08+VK6dNL2
-         EuZw==
-X-Forwarded-Encrypted: i=1; AJvYcCW5vz5YtCxo1q+BB8j3Jjog+BoBtO8A9tgFVxGALQ2ZsfExGbV+cujkh7tXTlpIpSzgt4OxLVycHVM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YybQ5pj8F6R1gdsqY7viHD7RqiJ+IkBP5K86TEk4HwdmU0F+Q+A
-	BN4u4J8RtYef5xg5aQ58OMzW6jS825leiuFgUdtLHApZ0++8fKxc/Z8Zq3ZeoTQ8dIY/fH4Ri3T
-	KFJSze2BU/Np/wH2w0ZqjUx5g02y8GQ4=
-X-Gm-Gg: ATEYQzymzAY51x9hI1/TkpkQcJaON4PuE6oPiIoxb721mSREKpZdzoLyrrst7Er2j1n
-	iQCRJ2mQgOM0DHZWooQqMggArQg/e+yBR0Dp8z55eXphDyP4xv4Rg+j5aHs/xXGpgjN3VpBjMFg
-	s8Kdj+DoJkCVZEhplvzP9cOx2iI/TskUKfZRIv+s4M3MpStLE9rVQzm/YyVhDuy7Ihf+uiv8TeM
-	Z+DEB77KFfOHGB2X5T/dsi+qIhAVTVXqw/tYQ9E+oxSu7tTeHlEyu5jc2Yu/9+x0EbVynIwvK+r
-	SU5TUsHecA2BBdkYFy5lz/q5sQZYSeAAMW6ZyZMpCmoo7j5cuzgw
-X-Received: by 2002:a5d:5f84:0:b0:43b:4703:9de5 with SMTP id
- ffacd0b85a97d-43b642870f9mr18306704f8f.44.1774279988876; Mon, 23 Mar 2026
- 08:33:08 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b="ccukB+C0"
+ARC-Seal: i=1; a=rsa-sha256; t=1774280026; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=nNsaT/999RL0D2fW/wa9hEF19hst8WEOBIdk5O3FYtYIstgaRisT/Vfof+4fobhSRPVtsUgtSTIlUoHbrrQheIGkP5x2A93XhIhfkyEDRd/3hLCnesrRidWxCF92FL6kKOppTXWNUUGPYdWFGYiEjmPdNPOoj7YDfCXu5M0xm50=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1774280026; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=NG0s9819ji/Je2v8+H1LAz7+l1W2ps/GmYPxq/4+v7o=; 
+	b=YIPnElzNe1DwOmk0Rji2ot7rIBqZZkKsKGpOso8rbF87MWhTtXt+XkYzl+jjkcoqMKwc96KGyWbFzFZh3XeTaw0JAhFzmJ2HdfS5zfqN2GRG96I1sDv32XkSoRS3AsYOmcIpL2rVfr0FSAIVj2yoT/oBz5bWfpaim9adpF0SV0o=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=ritovision.com;
+	spf=pass  smtp.mailfrom=rito@ritovision.com;
+	dmarc=pass header.from=<rito@ritovision.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774280026;
+	s=zmail; d=ritovision.com; i=rito@ritovision.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=NG0s9819ji/Je2v8+H1LAz7+l1W2ps/GmYPxq/4+v7o=;
+	b=ccukB+C0NW7cpgnSkb+3S7gn/gSs6BXu8EPbWrhy2tb3I2T26qX0GSuj1xLIGfeP
+	61NA9ykJnDTI8uvFkc60Wvtb4+1jmrKSeuIKI/tCH8/qpBn98B29nxYaZLiJ8sQMhyX
+	vM0g+JT6b2sX0S0qPh7quxRY2oy9H+xHWY5sSXhQ=
+Received: by mx.zohomail.com with SMTPS id 1774280024045642.3474149673956;
+	Mon, 23 Mar 2026 08:33:44 -0700 (PDT)
+From: Rito Rhymes <rito@ritovision.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org,
+	rdunlap@infradead.org,
+	Rito Rhymes <rito@ritovision.com>
+Subject: [PATCH v3] docs: contain horizontal overflow in C API descriptions
+Date: Mon, 23 Mar 2026 11:33:42 -0400
+Message-ID: <20260323153342.33447-1-rito@ritovision.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260321142559.26005-2-rito@ritovision.com>
+References: <20260321142559.26005-2-rito@ritovision.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260320192735.748051-1-nphamcs@gmail.com> <CAMgjq7AiUr_Ntj51qoqvV+=XbEATjr7S4MH+rgD32T5pHfF7mg@mail.gmail.com>
-In-Reply-To: <CAMgjq7AiUr_Ntj51qoqvV+=XbEATjr7S4MH+rgD32T5pHfF7mg@mail.gmail.com>
-From: Nhat Pham <nphamcs@gmail.com>
-Date: Mon, 23 Mar 2026 11:32:57 -0400
-X-Gm-Features: AQROBzBAs5nRbrIlBu1cKcNEaCz87nNyEV8cMyR6rMkBGG9vg_P1d2ioQYJMLuk
-Message-ID: <CAKEwX=PBjMVfMvKkNfqbgiw7o10NFyZBSB62ODzsqogv-WDYKQ@mail.gmail.com>
-Subject: Re: [PATCH v5 00/21] Virtual Swap Space
-To: Kairui Song <ryncsn@gmail.com>
-Cc: Liam.Howlett@oracle.com, akpm@linux-foundation.org, apopple@nvidia.com, 
-	axelrasmussen@google.com, baohua@kernel.org, baolin.wang@linux.alibaba.com, 
-	bhe@redhat.com, byungchul@sk.com, cgroups@vger.kernel.org, 
-	chengming.zhou@linux.dev, chrisl@kernel.org, corbet@lwn.net, david@kernel.org, 
-	dev.jain@arm.com, gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, 
-	jannh@google.com, joshua.hahnjy@gmail.com, lance.yang@linux.dev, 
-	lenb@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-pm@vger.kernel.org, lorenzo.stoakes@oracle.com, 
-	matthew.brost@intel.com, mhocko@suse.com, muchun.song@linux.dev, 
-	npache@redhat.com, pavel@kernel.org, peterx@redhat.com, peterz@infradead.org, 
-	pfalcato@suse.de, rafael@kernel.org, rakie.kim@sk.com, 
-	roman.gushchin@linux.dev, rppt@kernel.org, ryan.roberts@arm.com, 
-	shakeel.butt@linux.dev, shikemeng@huaweicloud.com, surenb@google.com, 
-	tglx@kernel.org, vbabka@suse.cz, weixugc@google.com, 
-	ying.huang@linux.alibaba.com, yosry.ahmed@linux.dev, yuanchu@google.com, 
-	zhengqi.arch@bytedance.com, ziy@nvidia.com, kernel-team@meta.com, 
-	riel@surriel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-On Mon, Mar 23, 2026 at 6:09=E2=80=AFAM Kairui Song <ryncsn@gmail.com> wrot=
-e:
->
-> On Sat, Mar 21, 2026 at 3:29=E2=80=AFAM Nhat Pham <nphamcs@gmail.com> wro=
-te:
-> > This patch series is based on 6.19. There are a couple more
-> > swap-related changes in mainline that I would need to coordinate
-> > with, but I still want to send this out as an update for the
-> > regressions reported by Kairui Song in [15]. It's probably easier
-> > to just build this thing rather than dig through that series of
-> > emails to get the fix patch :)
-> >
-> > Changelog:
-> > * v4 -> v5:
-> >     * Fix a deadlock in memcg1_swapout (reported by syzbot [16]).
-> >     * Replace VM_WARN_ON(!spin_is_locked()) with lockdep_assert_held(),
-> >       and use guard(rcu) in vswap_cpu_dead
-> >       (reported by Peter Zijlstra [17]).
-> > * v3 -> v4:
-> >     * Fix poor swap free batching behavior to alleviate a regression
-> >       (reported by Kairui Song).
->
+Some documentation pages contain long C API signatures that can exceed
+the content width and cause page-wide horizontal scroll overflow.
 
-Hi Kairui! Thanks a lot for the testing big boss :) I will focus on
-the regression in this patch series - we can talk more about
-directions in another thread :)
+Apply contained horizontal scrolling to C API description blocks and
+keep their signature rows on one line. This preserves signature
+formatting while preventing them from breaking page layout.
 
-> I tested the v5 (including the batched-free hotfix) and am still
-> seeing significant regressions in both sequential and concurrent swap
-> workloads
->
-> Thanks for the update as I can see It's a lot of thoughtful work.
-> Actually I did run some tests already with your previously posted
-> hotfix based on v3. I didn't update the result because very
-> unfortunately, I still see a major performance regression even with a
-> very simple setup.
->
-> BTW there seems a simpler way to reproduce that, just use memhog:
-> sudo mkswap /dev/pmem0; sudo swapon /dev/pmem0; time memhog 48G; sudo swa=
-poff -a
->
-> Before:
-> (I'm using fish shell on that test machine so this is fish time format):
-> ________________________________________________________
-> Executed in   20.80 secs    fish           external
->    usr time    5.14 secs    0.00 millis    5.14 secs
->    sys time   15.65 secs    1.17 millis   15.65 secs
-> ________________________________________________________
-> Executed in   21.69 secs    fish           external
->    usr time    5.31 secs  725.00 micros    5.31 secs
->    sys time   16.36 secs  579.00 micros   16.36 secs
-> ________________________________________________________
-> Executed in   21.86 secs    fish           external
->    usr time    5.39 secs    1.02 millis    5.39 secs
->    sys time   16.46 secs    0.27 millis   16.46 secs
->
-> After:
-> ________________________________________________________
-> Executed in   30.77 secs    fish           external
->    usr time    5.16 secs  767.00 micros    5.16 secs
->    sys time   25.59 secs  580.00 micros   25.59 secs
-> ________________________________________________________
-> Executed in   37.47 secs    fish           external
->    usr time    5.48 secs    0.00 micros    5.48 secs
->    sys time   31.98 secs  674.00 micros   31.98 secs
-> ________________________________________________________
-> Executed in   31.34 secs    fish           external
->    usr time    5.22 secs    0.00 millis    5.22 secs
->    sys time   26.09 secs    1.30 millis   26.09 secs
->
-> It's obviously a lot slower.
->
-> pmem may seem rare but SSDs are good at sequential, and memhog uses
-> the same filled page and backend like ZRAM has extremely low overhead
-> for same filled pages. Results with ZRAM are very similar, and many
-> production workloads have massive amounts of samefill memory.
->
-> For example on the Android phone I'm using right now at this moment:
-> # cat /sys/block/zram0/mm_stat
-> 4283899904 1317373036 1370259456        0 1475977216   116457  1991851
->    87273  1793760
-> ~450M of samefill page in ZRAM, we may see more on some server
-> workload. And I'm seeing similar memhog results with ZRAM, pmem is
-> just easier to setup and less noisy. also simulates high speed
-> storage.
+Contained horizontal scrolling is preferred over wrapping here because
+code fidelity is the priority. These blocks are intended to remain
+representative of the code itself. Wrapping distorts spacing and line
+structure, which affects fidelity, creates misleading renderings, and
+reduces readability.
 
-Interesting. Normally "lots of zero-filled page" is a very beneficial
-case for vswap. You don't need a swapfile, or any zram/zswap metadata
-overhead - it's a native swap backend. If production workload has this
-many zero-filled pages, I think the numbers of vswap would be much
-less alarming - perhaps even matching memory overhead because you
-don't need to maintain a zram entry metadata (it's at least 2 words
-per zram entry right?), while there's no reverse map overhead induced
-(so it's 24 bytes on both side), and no need to do zram-side locking
-:)
+Examples:
+  https://docs.kernel.org/6.15/driver-api/regulator.html
+  https://docs.kernel.org/6.15/userspace-api/fwctl/fwctl-cxl.html
 
-So I was surprised to see that it's not working out very well here. I
-checked the implementation of memhog - let me know if this is wrong
-place to look:
+Signed-off-by: Rito Rhymes <rito@ritovision.com>
+Assisted-by: Codex:GPT-5.4
+---
+v3: add latest public versioned URL examples to the patchlog
 
-https://man7.org/linux/man-pages/man8/memhog.8.html
-https://github.com/numactl/numactl/blob/master/memhog.c#L52
+ Documentation/sphinx-static/custom.css | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-I think this is what happened here: memhog was populating the memory
-0xff, which triggers the full overhead of a swapfile-backed swap entry
-because even though it's "same-filled" it's not zero-filled! I was
-following Usama's observation - "less than 1% of the same-filled pages
-were non-zero" - and so I only handled the zero-filled case here:
-
-https://lore.kernel.org/all/20240530102126.357438-1-usamaarif642@gmail.com/
-
-This sounds a bit artificial IMHO - as Usama pointed out above, I
-think most samefilled pages are zero pages, in real production
-workloads. However, if you think there are real use cases with a lot
-of non-zero samefilled pages, please let me know I can fix this real
-quick. We can support this in vswap with zero extra metadata overhead
-- change the VSWAP_ZERO swap entry type to VSWAP_SAME_FILLED, then use
-the backend field to store that value. I can send you a patch if
-you're interested.
-
->
-> I also ran the previous usemem matrix, which seems better than V3 but
-> still pretty bad:
-> Test: usemem --init-time -O -n 1 56G, 16G mem, 48G swap, avgs of 8 run.
-> Before:
-> Throughput (Sum): 528.98 MB/s Throughput (Mean): 526.113333 MB/s Free
-> Latency: 3037932.888889
-> After:
-> Throughput (Sum): 453.74 MB/s Throughput (Mean): 454.875000 MB/s Free
-> Latency: 5001144.500000 (~10%, 64% slower)
->
-> I'm not sure why our results differ so much =E2=80=94 perhaps different L=
-RU
-> settings, memory pressure ratios, or THP/mTHP configs? Here's my exact
-> config in the attachment. Also includes the full log and info, with
-> all debug options disabled for close to production. I ran it 8 times
-> and just attached the first result log, it's all similar anyway, my
-> test framework reboot the machine after each test run to reduce any
-> potential noise.
-
-Ohh interesting - I see that you're testing with MGLRU. I can give that a t=
-ry.
-
-I'm not enabling THP/mTHP, but I don't see that you're enabling it
-either - there's some 2MB swpout but that seems incidental.
-
-Another difference is the swap backend:
-
-1. Regarding pmem backend - I'm not sure if I can get my hands on one
-of these, but if you think SSD has the same characteristics maybe I
-can give that a try? The problem with SSD is for some reason variance
-tends to be pretty high, between iterations yes, but especially across
-reboots. Or maybe zram?
-
-2. What about the other numbers below? Are they also on pmem? FTR I
-was running most of my benchmarks on zswap, except for one kernel
-build benchmark on SSD.
-
-3. Any other backends and setup you're interested in?
-
-BTW, sounds like you have a great benchmark suite - is it open source
-somewhere? If not, can you share it with us :) Vswap aside, I think
-this would be a good suite to run all swap related changes for every
-swap contributor.
-
-Once again, thank you so much for your engagement, Kairui. Very much
-appreciated - I owe you a beverage of your choice whenever we meet.
-And have a great rest of your day :)
+diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
+index db24f4344..18bf8813b 100644
+--- a/Documentation/sphinx-static/custom.css
++++ b/Documentation/sphinx-static/custom.css
+@@ -40,6 +40,13 @@ li { text-indent: 0em; }
+ dl.function, dl.struct, dl.enum { margin-top: 2em; background-color: #ecf0f3; }
+ /* indent lines 2+ of multi-line function prototypes */
+ dl.function dt { margin-left: 10em; text-indent: -10em; }
++/*
++ * Preserve C API signatures on one line and apply contained horizontal
++ * scrolling to prevent them from exceeding their container width and
++ * breaking page layout.
++ */
++dl.c { overflow-x: auto; overflow-y: hidden; }
++dl.c > dt.sig.sig-object { white-space: nowrap; }
+ dt.sig-object { font-size: larger; }
+ div.kernelindent { margin-left: 2em; margin-right: 4em; }
+ 
+-- 
+2.51.0
