@@ -1,107 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6559B3BF665;
-	Mon, 23 Mar 2026 16:50:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F9293BADB2;
+	Mon, 23 Mar 2026 16:52:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774284641; cv=none; b=dumBk1yHQvPYBHK9k6b/k0Py3/r9ECJKDnczxpOVJ5S6/2qgczjCYb/niuFES/8xDlNY+eSXZqnnlW5WmliG9wIx3skwEWAT99G8qZ6arUsQjCkgLsm0ixfE5RVBRjWBX+F0bqg3W7wPZ5zlEa5+xk/XHzR0o7qPUMCdrmwn3QY=
+	t=1774284724; cv=none; b=HYzTVZPS40Tukee1KN4O1/4MlXESKi+9TXxtXJ/SKSxFWzSnPIVV8oImqZi0wdA5FDnc13aKIqaO9b1ytArGSGSKbH6P8CZxoVqcJ8mlaTGr1qo/kkPNyF4LTkhQxu9LAc4g16AxAM37FiLOhMn33eYeZgz5yjMbwH/J3PsO0DM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774284641; c=relaxed/simple;
-	bh=x4UyYYR8+iwWvMg2BIGbPYGIypU602o9uURawY09SJw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=uZwRFHXn9ao4RvVgdNXkFMFIxLnmNsilF4TjlNUGGH8pTx1gyKjluRcxDwhnQWbX/JLjtRu/ARJ/uRqBazI5ZzZYDQlZ6wy7tNF3S0pi/AREz1CcWW0fUI1VG/JfVu2iLW0j6+1VtanTzOMBoNFmjZEZilNsqRyrgo1VGetjE40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JT2AWrtU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774284724; c=relaxed/simple;
+	bh=RWbkdTJSoIUSPpri8l6gNHEff1Dz8wVuzblC+YTXA8Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GkfQ+/FXXIoMRpsfAS3/2cF1aCUwf+6fgHR5riozpNErpflhAsZDWr8dkyNGq0mKPMFcdBZ+WpgJG9PtTmc20lRlrqR3JDUR73VXbH9ms9PYYlQpPnwlt6UOhqBO1vf5E2Hn7dO3JNEpeDRFSRWs1hSUR6yke3PDHSQMYqneKbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=o4TsikL4; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JT2AWrtU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B07EFC4CEF7;
-	Mon, 23 Mar 2026 16:50:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774284641;
-	bh=x4UyYYR8+iwWvMg2BIGbPYGIypU602o9uURawY09SJw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=JT2AWrtUMFhsc4V1mxvSKjOPzLB1zrksvFEvxUyI1nlFCGlSNmetXtLJWDaF08iZ8
-	 NEl0PGvOzh3rVmyg9rOXffF7W4mVtsYyGrAdWWJDJL7Hf/lw/FQSZISZacn1IPmvSz
-	 G9GIDcnc2pl/nU05DQ+568cLPp10/4ylp1cDlZu9Jpl+aV6P0Wcv9qk9UZub6HYTN/
-	 hj7kI6PPgpN3tg6bf+YPBa4JVjSxpQ5ax+xn/cZZGPM7+z7trSG8jg8h+pmMK2OSRg
-	 pwSHsRN+40nsF4RR5P3T9X/JwRC1fkADBHBOuKQCYcH0HiDVWci2hinsV8apGLspUL
-	 cTBZN7kLu3k9g==
-Date: Mon, 23 Mar 2026 11:50:38 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Lukas Wunner <lukas@wunner.de>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-pci@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>,
-	Maciej Grochowski <mx2pg@pm.me>,
-	Kai-Heng Feng <kaihengf@nvidia.com>
-Subject: Re: [PATCH] Documentation: PCI: Document decoding of TLP Header in
- AER messages
-Message-ID: <20260323165038.GA830530@bhelgaas>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="o4TsikL4"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=+AOu/lG5FJLGR8YlmX7KFaeM98ayrUFnh1YxZgcIYfA=; b=o4TsikL4Tk4to7UNeChQjhrIk4
+	UaAWPkpAcNQaRA5LiNanDkI5k9+64CyVaXuTN91PX/4vEqwLfxBg3MB6kKBu6W0/5ssfLEeoytrF0
+	cxmSERhOkvXetbBF45GC8g8iQRD7Uw4Eo/gFVAAuIM72M0Va+zWvC3AeRN42r/55GZiZ/ExKtgKZ9
+	QXIHDCP+x1779VxDx4nckOO1Y/yFyt7bXtkZQ8wtPHl3QHt2WE4hvFDpWHVkbJvSBK3+Bp5sUBxyi
+	VRPpkyVHMnSacF7Ln5Pxvu/QU982cH095ufLI7ax0mI709Wi6DCBH63X3b/CBYHY2V0XHsYAjxjKD
+	dNaYLiWQ==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1w4iVR-0000000HAh8-0DHU;
+	Mon, 23 Mar 2026 16:51:57 +0000
+Message-ID: <e046d0a8-b10b-405f-b3dd-94b7f4450313@infradead.org>
+Date: Mon, 23 Mar 2026 09:51:55 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <bf826c41b4c1d255c7dcb16e266b52f774d944ed.1774246067.git.lukas@wunner.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] Documentation: document
+ panic_on_unrecoverable_memory_failure sysctl
+To: Breno Leitao <leitao@debian.org>, Miaohe Lin <linmiaohe@huawei.com>,
+ Naoya Horiguchi <nao.horiguchi@gmail.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, kernel-team@meta.com
+References: <20260323-ecc_panic-v1-0-72a1921726c5@debian.org>
+ <20260323-ecc_panic-v1-2-72a1921726c5@debian.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260323-ecc_panic-v1-2-72a1921726c5@debian.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Mar 23, 2026 at 07:52:39AM +0100, Lukas Wunner wrote:
-> The prefix/header of the TLP that caused an error is recorded by the Root
-> Complex and emitted to the kernel log in raw hex format.  Document the
-> existence and usage of tlp-tool, which allows decoding the TLP Header
-> into human-readable form.
+
+
+On 3/23/26 8:29 AM, Breno Leitao wrote:
+> Document the new vm.panic_on_unrecoverable_memory_failure sysctl in the
+> admin guide, following the same format as panic_on_unrecovered_nmi.
 > 
-> The TLP Header hints at the root cause of an error, yet is often ignored
-> because of its seeming opaqueness.  Instead, PCIe errors are frequently
-> worked around by a change in the kernel without fully understanding the
-> actual source of the problem.  With more documentation on available tools
-> we'll hopefully come up with better solutions.
-> 
-> There are also wireshark dissectors for TLPs, but it seems they expect a
-> complete TLP, not just the header, and they cannot grok the hex format
-> emitted by the kernel directly.  tlp-tool appears to be the most cut and
-> dried solution out there.
-> 
-> Signed-off-by: Lukas Wunner <lukas@wunner.de>
-> Cc: Maciej Grochowski <mx2pg@pm.me>
-
-Applied to pci/for-linus for v7.0, thanks!
-
-I tweaked the commit log to note that the Header Log is in the AER
-Capability, which may be in any PCIe function.
-
+> Signed-off-by: Breno Leitao <leitao@debian.org>
 > ---
-> We could also go one step further and point users to this tool
-> in a printk_once() message when the first error occurs.
-> For now, just amending the documentation is probably sufficient.
+>  Documentation/admin-guide/sysctl/vm.rst | 27 +++++++++++++++++++++++++++
+>  1 file changed, 27 insertions(+)
 > 
->  Documentation/PCI/pcieaer-howto.rst | 10 ++++++++++
->  1 file changed, 10 insertions(+)
-> 
-> diff --git a/Documentation/PCI/pcieaer-howto.rst b/Documentation/PCI/pcieaer-howto.rst
-> index 3210c47..90fdfdd 100644
-> --- a/Documentation/PCI/pcieaer-howto.rst
-> +++ b/Documentation/PCI/pcieaer-howto.rst
-> @@ -85,6 +85,16 @@ In the example, 'Requester ID' means the ID of the device that sent
->  the error message to the Root Port. Please refer to PCIe specs for other
->  fields.
->  
-> +The 'TLP Header' is the prefix/header of the TLP that caused the error
-> +in raw hex format. To decode the TLP Header into human-readable form
-> +one may use tlp-tool:
+> diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
+> index 97e12359775c9..3310fb8272fb9 100644
+> --- a/Documentation/admin-guide/sysctl/vm.rst
+> +++ b/Documentation/admin-guide/sysctl/vm.rst
+
+
 > +
-> +https://github.com/mmpg-x86/tlp-tool
-> +
-> +Example usage::
-> +
-> +  curl -L https://git.kernel.org/linus/2ca1c94ce0b6 | rtlp-tool --aer
-> +
->  AER Ratelimits
->  --------------
->  
-> -- 
-> 2.51.0
-> 
+> += ===================================================================
+> +0 Try to continue operation (default).
+> +1 Panic immediately.  If the ``panic`` sysctl is also non-zero then the
+> +  machine will be rebooted.
+> += ===================================================================
+
+The table begin and end lines must be at least as long as the text (may be
+longer). Please extend the =========== lines by a few characters.
+
+-- 
+~Randy
+
