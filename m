@@ -1,120 +1,277 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8F0438AC90;
-	Tue, 24 Mar 2026 15:32:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2644238F62C;
+	Tue, 24 Mar 2026 15:33:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774366348; cv=none; b=grV/dUaA/CixhdCqAuJglIzwf/GU3jNISvGlSrhW7HO3OVO09U8d8uyMsZ4svkpqE3mQi/lp6lOSEQn0wrXiArq0tnDJ1Vd+loHUpNmb286l2cr9r4eO3I53JQhPrdUiYnXNUZCT9YrsJTiNBUaQwktRCFjgPg6x3VmgfqDiU7Q=
+	t=1774366435; cv=none; b=F1+2ezB2oyPrVLU2GCgMONGfVuAF2ifX+c46rQU+SSoPwweJBm8QXrcOAT6pci3g4eBUGFm9QN5B7OAo7j1Qf2sZbWRq1hObdC0e/ls+G0CkkC3hmARBN3T2kUDH5kXt5Fm+gmOre5YEhHkYZ/SCIL/lVgvZKjEEGQByZbvme4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774366348; c=relaxed/simple;
-	bh=Pj+OtiBpuBF7IoC42Kw/vtLSB42CPkuKUZUpsmZAtF8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JQ8HAgoisIhTyxZX6WPGP1AfGRfPar7Z4QzJWHkKg5/oJjsJvPJ8iDhrhUZRRiS+kbvOzE1JMq882IbpUisPdyySInvH+eT/kTqhCY7kS8Mw0auVYHLNYZqv/+2OnJK1dg5gLlPGH7pBpN7T/HJLXDpAG7RU7A63SJZfXU1HWfk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A8CdR1TD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774366435; c=relaxed/simple;
+	bh=zQAqURLKYaYrF3T8jIh4Hb3yeI14k56SXnxJkduGXqI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Ut+g83JfmYvtGW1VqRTooIgePzDbtg83DoxJrS2Wn3AlPemwWEU+PQZ81j/ArvpmqQpN///dqoRa7Klizg9GeWF6KZrOAQA9lkxwQpyyPDm0ITiJ9lFHxrdUvoAL1EPmUmqZgc4vBaEQTD4wVo5mHLJVUyt/j+gTiVjWhMZ+MbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UwWRw7oX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A8CdR1TD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5E0FC19424;
-	Tue, 24 Mar 2026 15:32:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UwWRw7oX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77460C19424;
+	Tue, 24 Mar 2026 15:33:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774366348;
-	bh=Pj+OtiBpuBF7IoC42Kw/vtLSB42CPkuKUZUpsmZAtF8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=A8CdR1TDIvUqf/UIBWs17Nn4y+ea/fY6CzTak5aX12J4D+twwLfy+SwnX5lrhff4D
-	 CUzBvNr9gv4/0D50Bsuh5GstOCFIQ7l1/YDJTViyrQcTcXkjPsV2NcEd1kTpkceCXt
-	 qvmlEfeNjP0yn00Q1AmSFrv9QGGtJ2oKpyqS2VkQuMlb7xlEpzGPo2Z8H/X24jQkzS
-	 /dRZDV1lzwWddAwn65weghGa9oo7qiThUc/kW/BhhH1pEumyxJoYG7WP3BMi6+9/xr
-	 Y4kgvnO6kl4rFLyL5hI2Nvbd4V/5vHv9ZNMEpKAQRKpcauDbgPeLzXT7iYy5Aj7+iX
-	 gcx1tICooGAPQ==
-Message-ID: <ee66e204-4439-482f-a8cc-93de1d332a8d@kernel.org>
-Date: Tue, 24 Mar 2026 16:32:17 +0100
+	s=k20201202; t=1774366434;
+	bh=zQAqURLKYaYrF3T8jIh4Hb3yeI14k56SXnxJkduGXqI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=UwWRw7oXISb4SdDCeuMd4OjQ4ENfTMsaSI0ZXUAXTMisJpwBV4jv3WACvm8dsARmV
+	 VBK2kM7eAHqvp8B2Ujhtxjbb1a+7EXZmrP+Y9YYIsKWXd6Ji2S8xtJlj1s5pANsDMo
+	 GYkuY1A/EBwHspDbdn/KTE+Ws2GnAGTxW2nkxZRQYr64eHrBzjNGRoaGmX3FtPijdj
+	 vJuzLfl9udLBQ87H5EsdkePYz30rkFQJKIioPzc78znYv8tOG1KtsQMREjZtzr4J+t
+	 98pG6lWlcWGFd187RluFnmtpnxH4Iv6WZKB54aFW+gIjZkB/DyMQA2UBxbomGvmmMX
+	 nokvi0J9IuE0w==
+Received: from localhost ([::1])
+	by mail.kernel.org with esmtp (Exim 4.99.1)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1w53lP-00000007JGH-2D1I;
+	Tue, 24 Mar 2026 16:33:51 +0100
+Date: Tue, 24 Mar 2026 16:33:50 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC 0/2] kernel-doc: better handle data prototypes
+Message-ID: <20260324163350.2b75fe3a@localhost>
+In-Reply-To: <cover.1773998596.git.mchehab+huawei@kernel.org>
+References: <cover.1773998596.git.mchehab+huawei@kernel.org>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 08/21] mm: add vm_ops->mapped hook
-Content-Language: en-US
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Clemens Ladisch <clemens@ladisch.de>,
- Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "K . Y . Srinivasan" <kys@microsoft.com>,
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
- Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Bodo Stroesser <bostroesser@gmail.com>,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- David Hildenbrand <david@kernel.org>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
- <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org,
- linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org,
- target-devel@vger.kernel.org, linux-afs@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- Ryan Roberts <ryan.roberts@arm.com>
-References: <cover.1774045440.git.ljs@kernel.org>
- <4c5e98297eb0aae9565c564e1c296a112702f144.1774045440.git.ljs@kernel.org>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-In-Reply-To: <4c5e98297eb0aae9565c564e1c296a112702f144.1774045440.git.ljs@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 3/20/26 23:39, Lorenzo Stoakes (Oracle) wrote:
-> Previously, when a driver needed to do something like establish a
-> reference count, it could do so in the mmap hook in the knowledge that the
-> mapping would succeed.
-> 
-> With the introduction of f_op->mmap_prepare this is no longer the case, as
-> it is invoked prior to actually establishing the mapping.
-> 
-> mmap_prepare is not appropriate for this kind of thing as it is called
-> before any merge might take place, and after which an error might occur
-> meaning resources could be leaked.
-> 
-> To take this into account, introduce a new vm_ops->mapped callback which
-> is invoked when the VMA is first mapped (though notably - not when it is
-> merged - which is correct and mirrors existing mmap/open/close behaviour).
-> 
-> We do better that vm_ops->open() here, as this callback can return an
-> error, at which point the VMA will be unmapped.
-> 
-> Note that vm_ops->mapped() is invoked after any mmap action is complete
-> (such as I/O remapping).
-> 
-> We intentionally do not expose the VMA at this point, exposing only the
-> fields that could be used, and an output parameter in case the operation
-> needs to update the vma->vm_private_data field.
-> 
-> In order to deal with stacked filesystems which invoke inner filesystem's
-> mmap() invocations, add __compat_vma_mapped() and invoke it on vfs_mmap()
-> (via compat_vma_mmap()) to ensure that the mapped callback is handled when
-> an mmap() caller invokes a nested filesystem's mmap_prepare() callback.
-> 
-> Update the mmap_prepare documentation to describe the mapped hook and make
-> it clear what its intended use is.
-> 
-> The vm_ops->mapped() call is handled by the mmap complete logic to ensure
-> the same code paths are handled by both the compatibility and VMA layers.
-> 
-> Additionally, update VMA userland test headers to reflect the change.
-> 
-> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
+On Fri, 20 Mar 2026 10:46:39 +0100
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
-Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+> Hi Jon,
+> 
+> Don't merge this series. It is just a heads on about what I'm
+> working right now.
+> 
+> This is basically a proof of concept, not yet integrated with
+> kernel-doc. It helps to show that investing on a tokenizer
+> was a good idea.
+> 
+> I'm still testing the code.
+
+Heh, getting it working is hard, but I ended with something that
+should work with a somewhat complex scenario.
+
+The new version is at my scratch repository at:
+
+	https://github.com/mchehab/linux PR_CDataParser-v2
+
+I'm expecting that this parser should be able to handle:
+
+	- typedef (for data types);
+	- struct
+	- union
+	- enum
+	- var
+
+So, after properly integrated(*), it should simplify a lot the
+code inside kdoc_parser.
+
+(*) right now, it is minimally integrated, handling just
+    struct/unions.
+	
+My current plan is to test it more with real-case scenarios,
+aiming to submit it after 7.1-rc1, as it sounds to be that a
+change like that is too late to be submitted like that.
+
+IMO the newer code should be more reliable than the current
+approach and should produce a better output once done.
+
+
+-- 
+Thanks,
+Mauro
+
+For this input:
+
+<snip>
+/**
+ * struct property_entry - property entry
+ *
+ * @name: name description
+ * @length: length description
+ * @is_inline: is_inline description
+ * @bar: bar description
+ * @my_enum: my_enum description
+ * @test: test description
+ * @anonymous: anon description
+ * @type: type description
+ * @literal: literal description
+ * @pointer: pointer description
+ * @value: value description
+ * @boou8_data: boou8_data description
+ * @u16_data: u16_data description
+ * @u32_data: u32_data description
+ * @u64_data: u64_data description
+ * @str: str description
+ * @prop_name: prop name description
+ */
+
+struct property_entry {
+	const char *name;
+	size_t length;
+	bool is_inline;   /* TEST */
+	struct foo {
+		char *bar[12];
+		struct {
+			enum enum_type my_enum; /* TEST	2 */
+			struct {
+				uint_t test; /* TEST 3 */
+				static const int anonymous;
+			};
+		} foobar ;
+		;;
+		{};
+	};
+	enum dev_prop_type type;
+
+	enum {
+		EXPRESSION_LITERAL,
+		EXPRESSION_BINARY,
+		EXPRESSION_UNARY,
+		EXPRESSION_FUNCTION,
+		EXPRESSION_ARRAY
+	} literal;
+
+	union {
+		const void *pointer;
+		union {
+			u8 boou8_data[sizeof(u64) / sizeof(u8)];
+			u16 u16_data[sizeof(u64) / sizeof(u16)];
+			u32 u32_data[sizeof(u64) / sizeof(u32)];
+			u64 u64_data[sizeof(u64) / sizeof(u64)];
+			const char *str[sizeof(u64) / sizeof(char *)];
+		};
+	};
+	char *prop_name;
+};
+</snip>
+
+Kernel-doc produces a proper result:
+
+<snip>
+Ignoring foobar
+
+
+.. c:struct:: property_entry
+
+  property entry
+
+.. container:: kernelindent
+
+  **Definition**::
+
+    struct property_entry {
+        const char *name;
+        size_t length;
+        bool is_inline;
+        struct foo {
+            char *bar[12];
+            struct {
+                enum enum_type my_enum;
+                struct {
+                    uint_t test;
+                    static const int anonymous;
+                };
+            } foobar;
+            {
+            };
+        };
+        enum dev_prop_type type;
+        enum {
+            EXPRESSION_LITERAL,
+            EXPRESSION_BINARY,
+            EXPRESSION_UNARY,
+            EXPRESSION_FUNCTION,
+        EXPRESSION_ARRAY } literal;
+        union {
+            const void *pointer;
+            union {
+                u8 boou8_data[sizeof(u64) / sizeof(u8)];
+                u16 u16_data[sizeof(u64) / sizeof(u16)];
+                u32 u32_data[sizeof(u64) / sizeof(u32)];
+                u64 u64_data[sizeof(u64) / sizeof(u64)];
+                const char *str[sizeof(u64) / sizeof(char *)];
+            };
+        };
+        char *prop_name;
+        }
+    };
+
+  **Members**
+
+  ``{unnamed_struct}``
+    anonymous
+
+  ``name``
+    name description
+
+  ``length``
+    length description
+
+  ``is_inline``
+    is_inline description
+
+  ``bar``
+    bar description
+
+  ``my_enum``
+    my_enum description
+
+  ``{unnamed_struct}``
+    anonymous
+
+  ``test``
+    test description
+
+  ``anonymous``
+    anon description
+
+  ``type``
+    type description
+
+  ``literal``
+    literal description
+
+  ``{unnamed_union}``
+    anonymous
+
+  ``pointer``
+    pointer description
+
+  ``boou8_data``
+    boou8_data description
+
+  ``u16_data``
+    u16_data description
+
+  ``u32_data``
+    u32_data description
+
+  ``u64_data``
+    u64_data description
+
+  ``str``
+    str description
+
+  ``prop_name``
+    prop name description
+</snip>
+
 
 
