@@ -1,101 +1,120 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E82F390C9A
-	for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 15:30:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8F0438AC90;
+	Tue, 24 Mar 2026 15:32:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774366239; cv=none; b=fTRDRRSbFgK1Pc6bDgWsvr+3CNSo5uXJSjJhhykK7To1GTWceNH7r5q8XWrAAyyqbwPTHyi2jRDDP2MDwkHLwTP9dhapD5eVTP28p29XD2WljrjzmGSs09X3ZJoJuAAWw++U81bOY5fFwU87JwwNEgyWO/e2HEAMOeITnDMYVks=
+	t=1774366348; cv=none; b=grV/dUaA/CixhdCqAuJglIzwf/GU3jNISvGlSrhW7HO3OVO09U8d8uyMsZ4svkpqE3mQi/lp6lOSEQn0wrXiArq0tnDJ1Vd+loHUpNmb286l2cr9r4eO3I53JQhPrdUiYnXNUZCT9YrsJTiNBUaQwktRCFjgPg6x3VmgfqDiU7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774366239; c=relaxed/simple;
-	bh=gAfLzcxzb5imxOXbOMzClv6ppwCmz/QiaDAaLw0iWak=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JoFmcuqDGW07FIUObEwz0XH95HpdrPXtnuWTaGlvcoxTjOtEN87AglsiSzw3lq8yWV42BaTVHi6QDY4bNZrXk8CZoYzK026TRP2ME7rGSp8h9WwP49E/9qR1PJLW/hkEfXUr7vGM+LvetmCWzDHOdgPuh28KCGjrmvAA2fJmpGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=XV2pXuWG; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1774366348; c=relaxed/simple;
+	bh=Pj+OtiBpuBF7IoC42Kw/vtLSB42CPkuKUZUpsmZAtF8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JQ8HAgoisIhTyxZX6WPGP1AfGRfPar7Z4QzJWHkKg5/oJjsJvPJ8iDhrhUZRRiS+kbvOzE1JMq882IbpUisPdyySInvH+eT/kTqhCY7kS8Mw0auVYHLNYZqv/+2OnJK1dg5gLlPGH7pBpN7T/HJLXDpAG7RU7A63SJZfXU1HWfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A8CdR1TD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XV2pXuWG"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-486fd3a577eso35608445e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 08:30:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1774366236; x=1774971036; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=EYKECZ+c2+1LaN0ZpFAMYQ/fUaZTTSWm0KVzZuhW4Vk=;
-        b=XV2pXuWG7rxFy5ipjK9CA18xJUvder5LDpvT+L/Li6pTg23usRSINUk9udkN8adrQ0
-         9ThbsJKLArHhkgGnnMxlphnVrYXZHi0cDcrJ4KoGv1V5M+pb93/QMQlX3Vy8QKzk+6oM
-         aTncfP9WM8JjSmr70VMcuSR3YV50pafVWvYAWdKussborjmYdMFkUyhzwDhEbEEVklj1
-         ALgjT8iIiaQux7zfwKKFAH8/ianFnZZct3tpKWYokJPbVBU3PxIsduoTRNZSKn4HdfH3
-         b+3k+WU6+1Rd21BLU1yRMQOL9L2DTa76Wp++71qddu4YcSUT+mvEZ7uaB3S0GwTYPpAu
-         nzww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774366236; x=1774971036;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EYKECZ+c2+1LaN0ZpFAMYQ/fUaZTTSWm0KVzZuhW4Vk=;
-        b=LyqVoOhelAI8Xv8ZL+VGXcohhGQcTg0awvKB/TODmeLp1n1vq19paXGN6eR5rqTh6G
-         lgeBMyorRJGTFM5rH0hggm3gsiHhkW8E860ofe9t7cI7c9p/NLQW+JpP2KFFFGj2AIPi
-         Bw/+ZL+8x5dRDgRPbvUjzeK1tzJMtvxiDsIRTv/4DWoVqB13XV+0HMkSQjWEaQLETu6t
-         5M2/W1gLSvDRgzVOnznJFxBtInPbiW6s+1ED3oub64y+Wxl60kTNaUbdOCmkSnMIeDo1
-         Mxy+vnle8rTbAsMOSEpZsPk/P00HPlAtW3oSgo/NAToDGD7/G3ucvET2jRD8aZkDbIyh
-         skoQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWcKCgKS0NEfHQva0rR3ij7aCJ4Szs53jnHWGbx8ZzBzhcoXG1QOybB+94Hpfq7PW4QWfnnMbtxY+M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxLnFpSmSJszio3DNDhbDJ8WO+K9bFQYoJmy55rJ5TgJDAU21rn
-	C7pGYKlRgQZh20Q3F5rVhbXXScjXaTHyYADZY3TySYdg/oIV556YvIy/xTNIg9d2OA==
-X-Gm-Gg: ATEYQzwPp7V9EF1DT8K+CjkMeRWiaA86df5rG8TBombQfQ9J4bT2GMNRPEvgSMo7F/m
-	Qq9a2yzPhLnvVu87nVhQ2HTfRm64uHsoKshHL41l+UbiZhBf/SD+1HeUic8DLc//GhiMzsEfb9o
-	YJTBD4lPTDLGb5yJU3ASJ3TcmV7/b2Rh4MUL9MWv/VejW7UL1vy/cZB1NK3R2YBeJo/Fh04zLGl
-	fSN/5oVZ0+tvyHHv9Wt0N60+5mNh4pTBLIhcxBqO1NQYnYSkfuG4GkJ340+PYjMHNrvfMPtQy4+
-	jrg72QTJZlJ0uMzqKo3TzL61jPhyDnI6RmJWbvfrlHtiC030TCaNaTQLfyAyWXX3k+E+LF0A4n3
-	O6FZLBZyT+w4NncpyEW1KXUtI+KJ5Kq5cxyhwynu76aRb7BUQLqeAj53bqAebWcusRAEWdppzBi
-	EjMriTR7WCr6YjJQlbiO7WtpWCQT8upC+omCXKCf/Tdsx+sOfRMxDrGg==
-X-Received: by 2002:a05:600d:8:b0:483:1403:c47f with SMTP id 5b1f17b1804b1-48715fb7246mr2891295e9.6.1774366235189;
-        Tue, 24 Mar 2026 08:30:35 -0700 (PDT)
-Received: from google.com ([2a00:79e0:288a:8:820c:ac9a:1d85:a65e])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4871105c799sm26733795e9.20.2026.03.24.08.30.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2026 08:30:33 -0700 (PDT)
-Date: Tue, 24 Mar 2026 16:30:27 +0100
-From: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>
-To: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
-Cc: "Panagiotis \"Ivory\" Vasilopoulos" <git@n0toose.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Dan Cojocaru <dan@dcdev.ro>
-Subject: Re: [PATCH v4] landlock: Expand restrict flags example for ABI
- version 8
-Message-ID: <acKuE2X2PWsRkfpR@google.com>
-References: <20260304-landlock-docs-add-tsync-example-v4-1-819a276f05c5@n0toose.net>
- <20260323.sheiHaR5uRoo@digikod.net>
- <acJa_56LtPeeH956@google.com>
- <20260324.aqu5Eic7Thee@digikod.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A8CdR1TD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5E0FC19424;
+	Tue, 24 Mar 2026 15:32:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774366348;
+	bh=Pj+OtiBpuBF7IoC42Kw/vtLSB42CPkuKUZUpsmZAtF8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=A8CdR1TDIvUqf/UIBWs17Nn4y+ea/fY6CzTak5aX12J4D+twwLfy+SwnX5lrhff4D
+	 CUzBvNr9gv4/0D50Bsuh5GstOCFIQ7l1/YDJTViyrQcTcXkjPsV2NcEd1kTpkceCXt
+	 qvmlEfeNjP0yn00Q1AmSFrv9QGGtJ2oKpyqS2VkQuMlb7xlEpzGPo2Z8H/X24jQkzS
+	 /dRZDV1lzwWddAwn65weghGa9oo7qiThUc/kW/BhhH1pEumyxJoYG7WP3BMi6+9/xr
+	 Y4kgvnO6kl4rFLyL5hI2Nvbd4V/5vHv9ZNMEpKAQRKpcauDbgPeLzXT7iYy5Aj7+iX
+	 gcx1tICooGAPQ==
+Message-ID: <ee66e204-4439-482f-a8cc-93de1d332a8d@kernel.org>
+Date: Tue, 24 Mar 2026 16:32:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260324.aqu5Eic7Thee@digikod.net>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 08/21] mm: add vm_ops->mapped hook
+Content-Language: en-US
+To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Clemens Ladisch <clemens@ladisch.de>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "K . Y . Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Bodo Stroesser <bostroesser@gmail.com>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ David Hildenbrand <david@kernel.org>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
+ <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org,
+ linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org,
+ target-devel@vger.kernel.org, linux-afs@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ Ryan Roberts <ryan.roberts@arm.com>
+References: <cover.1774045440.git.ljs@kernel.org>
+ <4c5e98297eb0aae9565c564e1c296a112702f144.1774045440.git.ljs@kernel.org>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+In-Reply-To: <4c5e98297eb0aae9565c564e1c296a112702f144.1774045440.git.ljs@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Mar 24, 2026 at 04:06:01PM +0100, Mickaël Salaün wrote:
-> On Tue, Mar 24, 2026 at 10:48:29AM +0100, Günther Noack wrote:
-> > Apologies for the delay, this must have slipped through the cracks.
-> > Thanks for bringing it up again.  Yes, this looks good.
-> > 
-> > Signed-off-by: Günther Noack <gnoack@google.com>
+On 3/20/26 23:39, Lorenzo Stoakes (Oracle) wrote:
+> Previously, when a driver needed to do something like establish a
+> reference count, it could do so in the mmap hook in the knowledge that the
+> mapping would succeed.
 > 
-> Shouldn't it be a Reviewed-by?
+> With the introduction of f_op->mmap_prepare this is no longer the case, as
+> it is invoked prior to actually establishing the mapping.
+> 
+> mmap_prepare is not appropriate for this kind of thing as it is called
+> before any merge might take place, and after which an error might occur
+> meaning resources could be leaked.
+> 
+> To take this into account, introduce a new vm_ops->mapped callback which
+> is invoked when the VMA is first mapped (though notably - not when it is
+> merged - which is correct and mirrors existing mmap/open/close behaviour).
+> 
+> We do better that vm_ops->open() here, as this callback can return an
+> error, at which point the VMA will be unmapped.
+> 
+> Note that vm_ops->mapped() is invoked after any mmap action is complete
+> (such as I/O remapping).
+> 
+> We intentionally do not expose the VMA at this point, exposing only the
+> fields that could be used, and an output parameter in case the operation
+> needs to update the vma->vm_private_data field.
+> 
+> In order to deal with stacked filesystems which invoke inner filesystem's
+> mmap() invocations, add __compat_vma_mapped() and invoke it on vfs_mmap()
+> (via compat_vma_mmap()) to ensure that the mapped callback is handled when
+> an mmap() caller invokes a nested filesystem's mmap_prepare() callback.
+> 
+> Update the mmap_prepare documentation to describe the mapped hook and make
+> it clear what its intended use is.
+> 
+> The vm_ops->mapped() call is handled by the mmap complete logic to ensure
+> the same code paths are handled by both the compatibility and VMA layers.
+> 
+> Additionally, update VMA userland test headers to reflect the change.
+> 
+> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
 
-Absolutely, thanks! I meant to send a Reviewed-by.
-Please ignore the previous message.
+Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
 
-Reviewed-by: Günther Noack <gnoack@google.com>
 
-—Günther
