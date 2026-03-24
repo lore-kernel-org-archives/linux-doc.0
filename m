@@ -1,138 +1,112 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E1B32745C
-	for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 00:10:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3830927C162;
+	Tue, 24 Mar 2026 00:29:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774311018; cv=none; b=TW4dcxQ5K6rX2xXxpjYN6G9ofr4C/eENRW8t0hN8fXPKHPp/hjbAcHQfbY54+AyvBbKo8PTBMVTI1ErHKpB4404TNjNuAtvW6WOqPdl31y4xL1qFuSPglqbtNzCbzodtk8aqlMJiK4LxeKc2LqcZf9aThYWGysLve9MfA49URmQ=
+	t=1774312181; cv=none; b=R6ehG9lesYUfJz2cUpeaECAWTWiZ06rLpHgoc+7fbasQ9C8BSJ0JnvD+uaY+MjlnLtgA26Ev8Fue40l3tkExv2Y8aoZFwJB1IhR7jYosZ3CdfzsumPGeLWf5NJ/u5OvTj3mqSkLAK8sPZT2A7HDNGD4Fr1STRVezymxrcjXgd3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774311018; c=relaxed/simple;
-	bh=SKDiXHePuAyeXNzknJSyiwJw2797eaphjpfFtoS3Lu4=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=STX/fYsV19hxkjbyM3I3wPQ1pfTaLN91lFHfiuSsdpRS2yd5xRYm+DtqjtNwWp5FT9squ1MoFb3zDyQaGAJQWHlLxrseApraA1oYZa5sPU3oeArQxO0mbFFX+7DcJU5bwjJO89ZkGeao9xsPBfAkPLsN/7fLI1WxdDAZwzNVBg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JvOiEycl; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1774312181; c=relaxed/simple;
+	bh=84oF5StXlVFM1n0EH38q9LyOhne9+NiaW3HGzpjiGRc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=TZrpc2pIlVQalLF5yiPAvvkXV5AxBxjUB+Bmrab8jB/S7brK0B10A8RRQfVYBrbuFUAqqTnegExvdUhC0CeHhdAE+pJtPDdU+mepy1heKqnlMYXuj+3bL6TFLgXFi5fP5UzchudW3YnbwPvK9nwmGOXJGGQdyDo/+QA4cKXdqSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Lff1/uUm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JvOiEycl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774311014; x=1805847014;
-  h=date:from:to:cc:subject:message-id;
-  bh=SKDiXHePuAyeXNzknJSyiwJw2797eaphjpfFtoS3Lu4=;
-  b=JvOiEycl/NR4ESoQKIx0k0qVZ7xQnWhyiGhTHWn0TErA4L5flztsJDwd
-   c0uQPA44ofmOSeIDYg9PpMnmUo+fSRXv1DjkB4BWXds6xXR+p9o7/j0cA
-   k1D6ifx3TPMGPFiv5GzHFfpdcuUQxqCX4kkMRe5JA/UQhkDfOKdc0BLNw
-   sMLyOM+X1WJVR1R6r2MS4bP29kKV8MHOP55eC/tms/pAv+hYsHWi/VWeU
-   orWQBwiQusrfVA4onpQP7zcYSF6xWBYkNiB1sgLQHOEF6XKkSHBQHHTHu
-   qlb6EzrCUNOOrrfhtHI14J+zz/H+E+7MxElBvcbA5JU5oFnsiv+68X8E6
-   g==;
-X-CSE-ConnectionGUID: fUahfWW6QkKMdI32/FOzTw==
-X-CSE-MsgGUID: caSNbYMuRii+eM6XGsMY3A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="97940759"
-X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="97940759"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 17:10:14 -0700
-X-CSE-ConnectionGUID: n1IRWXl0TZ+sXEuta0c07w==
-X-CSE-MsgGUID: VmmvGAwhSRGsPu2qLteYVg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="224403081"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 23 Mar 2026 17:10:13 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w4pLW-000000006l3-1l7N;
-	Tue, 24 Mar 2026 00:10:10 +0000
-Date: Tue, 24 Mar 2026 01:09:51 +0100
-From: kernel test robot <lkp@intel.com>
-To: Julian Anastasov <ja@ssi.bg>
-Cc: oe-kbuild-all@lists.linux.dev, Florian Westphal <fw@strlen.de>,
- linux-doc@vger.kernel.org
-Subject: [netfilter-nf-next:testing 14/14] htmldocs:
- Documentation/networking/ipvs-sysctl.rst:40: WARNING: Block quote ends
- without a blank line; unexpected unindent. [docutils]
-Message-ID: <202603240111.Z3ZKbxGg-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Lff1/uUm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FC1DC4CEF7;
+	Tue, 24 Mar 2026 00:29:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774312180;
+	bh=84oF5StXlVFM1n0EH38q9LyOhne9+NiaW3HGzpjiGRc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Lff1/uUmxbVvOZ9EJJ+4R89lBZdIrsToD8UvgKOAnB6ajDrqzszez4G+SFVcJ4V8M
+	 5Yw3fOb7PsbHI2QqRTVb+IN5qoORgfqZmlYw8o9oko/5A+W+x3Jx6hJlV86HG2b6Af
+	 n/OZgE42YkjRq88gbmAnTD5iib5OtKZ8VNtxJdR+TJL6W8PkZ2tDAl1i5qy2JC7pV/
+	 eITXzooZcjeIrDn6H3NGF3gdSLT1xVO9WkoGNRNkoSBvNGS7rRM55AlfndhHL3N/1U
+	 cxsg/zcZVd8lLWgvAowQ9MyXr2ctDeNOcPLYt/8ljBMHP/v2hWj15OCw0DZ0ja3zX6
+	 KRLlp1KCfxQcA==
+From: SeongJae Park <sj@kernel.org>
+To: gutierrez.asier@huawei-partners.com
+Cc: SeongJae Park <sj@kernel.org>,
+	artem.kuzin@huawei.com,
+	stepanov.anatoly@huawei.com,
+	wangkefeng.wang@huawei.com,
+	yanquanmin1@huawei.com,
+	zuoze1@huawei.com,
+	damon@lists.linux.dev,
+	akpm@linux-foundation.org,
+	ljs@kernel.org,
+	Liam.Howlett@oracle.com,
+	vbabka@kernel.org,
+	rppt@kernel.org,
+	surenb@google.com,
+	mhocko@suse.com,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: (sashiko review) [RFC PATCH v2 1/1] mm/damon: support MADV_COLLAPSE via DAMOS_COLLAPSE scheme action
+Date: Mon, 23 Mar 2026 17:29:36 -0700
+Message-ID: <20260324002936.86653-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260323145646.4165053-2-gutierrez.asier@huawei-partners.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf-next.git testing
-head:   93cd433f9f3d3ef04f6c03a201f5d91ca2965dd9
-commit: 93cd433f9f3d3ef04f6c03a201f5d91ca2965dd9 [14/14] ipvs: add conn_lfactor and svc_lfactor sysctl vars
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260324/202603240111.Z3ZKbxGg-lkp@intel.com/reproduce)
+Forwarding Sashiko review for doing discussions via mails.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603240111.Z3ZKbxGg-lkp@intel.com/
+# review url: https://sashiko.dev/#/patchset/20260323145646.4165053-2-gutierrez.asier@huawei-partners.com
+# start of sashiko.dev inline review
+commit eaed291e6fae91842b1836c68bab867d53525db5
+Author: Asier Gutierrez <gutierrez.asier@huawei-partners.com>
 
-All warnings (new ones prefixed by >>):
+mm/damon: support MADV_COLLAPSE via DAMOS_COLLAPSE scheme action
 
-   Non-Preserved Properties
-   ======================== [docutils]
-   Documentation/networking/ipvs-sysctl.rst:39: ERROR: Unexpected indentation. [docutils]
->> Documentation/networking/ipvs-sysctl.rst:40: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/networking/skbuff:36: ./include/linux/skbuff.h:48: ERROR: Unexpected section title.
+This commit introduces a new DAMON action, DAMOS_COLLAPSE. It allows
+DAMON to synchronously collapse an address range by calling madvise
+with MADV_COLLAPSE.
+
+Link: https://lore.kernel.org/damon/20260313000816.79933-1-sj@kernel.org/
+
+[ ... ]
+> diff --git a/tools/testing/selftests/damon/sysfs.py b/tools/testing/selftests/damon/sysfs.py
+> index 3aa5c91548a5..c6476e63f4fb 100755
+> --- a/tools/testing/selftests/damon/sysfs.py
+> +++ b/tools/testing/selftests/damon/sysfs.py
+> @@ -123,11 +123,12 @@ def assert_scheme_committed(scheme, dump):
+>              'pageout': 2,
+>              'hugepage': 3,
+>              'nohugeapge': 4,
+> -            'lru_prio': 5,
+> -            'lru_deprio': 6,
+> -            'migrate_hot': 7,
+> -            'migrate_cold': 8,
+> -            'stat': 9,
+> +            'collapse': 5
+> +            'lru_prio': 6,
+
+Will this cause a Python syntax error when executing the selftest? It looks
+like there is a missing comma after 'collapse': 5, which might break the
+execution of the DAMON sysfs test suite.
 
 
-vim +40 Documentation/networking/ipvs-sysctl.rst
+# end of sashiko.dev inline review
+# review url: https://sashiko.dev/#/patchset/20260323145646.4165053-2-gutierrez.asier@huawei-partners.com
+#
+# hkml [1] generated a draft of this mail.  It can be regenerated
+# using below command:
+#
+#     hkml patch sashiko_dev --for_forwarding \
+#             20260323145646.4165053-2-gutierrez.asier@huawei-partners.com
+#
+# [1] https://github.com/sjp38/hackermail
 
-     9	
-    10	am_droprate - INTEGER
-    11		default 10
-    12	
-    13		It sets the always mode drop rate, which is used in the mode 3
-    14		of the drop_rate defense.
-    15	
-    16	amemthresh - INTEGER
-    17		default 1024
-    18	
-    19		It sets the available memory threshold (in pages), which is
-    20		used in the automatic modes of defense. When there is no
-    21		enough available memory, the respective strategy will be
-    22		enabled and the variable is automatically set to 2, otherwise
-    23		the strategy is disabled and the variable is  set  to 1.
-    24	
-    25	backup_only - BOOLEAN
-    26		- 0 - disabled (default)
-    27		- not 0 - enabled
-    28	
-    29		If set, disable the director function while the server is
-    30		in backup mode to avoid packet loops for DR/TUN methods.
-    31	
-    32	conn_lfactor - INTEGER
-    33		Possible values: -8 (larger table) .. 8 (smaller table)
-    34	
-    35		Default: -4
-    36	
-    37		Controls the sizing of the connection hash table based on the
-    38		load factor (number of connections per table buckets):
-  > 39			2^conn_lfactor = nodes / buckets
-  > 40		As result, the table grows if load increases and shrinks when
-    41		load decreases in the range of 2^8 - 2^conn_tab_bits (module
-    42		parameter).
-    43		The value is a shift count where negative values select
-    44		buckets = (connection hash nodes << -value) while positive
-    45		values select buckets = (connection hash nodes >> value). The
-    46		negative values reduce the collisions and reduce the time for
-    47		lookups but increase the table size. Positive values will
-    48		tolerate load above 100% when using smaller table is
-    49		preferred with the cost of more collisions. If using NAT
-    50		connections consider decreasing the value with one because
-    51		they add two nodes in the hash table.
-    52	
-    53		Example:
-    54		-4: grow if load goes above 6% (buckets = nodes * 16)
-    55		2: grow if load goes above 400% (buckets = nodes / 4)
-    56	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Sent using hkml (https://github.com/sjp38/hackermail)
