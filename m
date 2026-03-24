@@ -1,151 +1,196 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4076408258;
-	Tue, 24 Mar 2026 18:51:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73BC0239085;
+	Tue, 24 Mar 2026 19:02:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774378302; cv=none; b=Vu7puVQHQG0oNmSDwOkCwVQQEI/xjQ9NfDU2AO4f/5PxaIEB9kfk4HG0EaBSBihbBv+IFf0gCH363C8oGw1FN+zoe3P7VKj6F0GeezTTYVLvX1Kdn+tH/OuGvE3lXfWdcgPdrs6i9jYUKOPWEzJlr33Red+thbL1Nh2mobhkce8=
+	t=1774378968; cv=none; b=G5MlY7DK2nQpPrhnmlgnpVnrCruCaDFwCbyjEHQzLjHrbf4YdTX9EEOat8ghrRgDPfSdZOYOC7ikw+gGohPGsMyH1H1aLYd1cJdu19mAfKrPdF//WoVWVjUKq/NpkabSxq+fC3x+k4qBF0UCRnSegl9bunqVYmA61PkQULSKo1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774378302; c=relaxed/simple;
-	bh=wtRzYnIH+bMH7Ye72CQ2Kv9676KwiVZQu06Yl7jdjr0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AVXakbsvbPkXjxdQK1EMRY6zQgsz8VMwzSM7ePp1eiZM48Un33UVoc4LUOBy53u8sbcLTkgFTfqx3kAFo+dSPFl+R5zVL54tE6MceXxwtqKJGdLa4+wq+yR5vPNH/2PKF2wL2e9ixdlXvsbioeygNip+zUcRnCQcnJgaCRN7yhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nj5MLm82; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nj5MLm82"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E21EDC19424;
-	Tue, 24 Mar 2026 18:51:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774378302;
-	bh=wtRzYnIH+bMH7Ye72CQ2Kv9676KwiVZQu06Yl7jdjr0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nj5MLm820D8jXHlqIW13S77Dxa/WXF6aR4rqmdgRqf+Llxz2eXskd9y7mH/tR2sMQ
-	 LjOGcPEop83DcjXRCbya6BgyoBuSMzFDMwaqv3ImJnCkzMkRfzUf/VL247rGvzkHUk
-	 beQn6cXTn4t/aE7Z3iwSP38fq87xYhrRY0E3pELUwN8N1IxLGCMmK3s46xzFO8/4ZY
-	 rHVT1HUDflcJg4mX10tyHOL79mJmu1r6atkuGzBk9kEcXrQOxaWC+F/M9Hu4p/slIw
-	 C011knvbK4VIpiTEQHAFXsfGleDFA9iyqO1Xw8rL7mv4FNWC0adN9sz/NCl5sky3E5
-	 B0Sg17maltdqg==
-Date: Tue, 24 Mar 2026 14:51:40 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Alan Maguire <alan.maguire@oracle.com>
-Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Petr Mladek <pmladek@suse.com>, Alexei Starovoitov <ast@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, David Gow <davidgow@google.com>,
-	Kees Cook <kees@kernel.org>, Greg KH <gregkh@linuxfoundation.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>, Helge Deller <deller@gmx.de>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Juergen Gross <jgross@suse.com>,
-	James Bottomley <James.Bottomley@hansenpartnership.com>,
-	Alexey Dobriyan <adobriyan@gmail.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Petr Pavlu <petr.pavlu@suse.com>, X86 ML <x86@kernel.org>,
-	LKML <linux-kernel@vger.kernel.org>,
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	linux-modules@vger.kernel.org, bpf <bpf@vger.kernel.org>
-Subject: Re: [PATCH 1/2] kallsyms: show function parameter info in oops/WARN
- dumps
-Message-ID: <acLdPAlB0y3kCcBj@laps>
-References: <20260323164858.1939248-1-sashal@kernel.org>
- <20260323164858.1939248-2-sashal@kernel.org>
- <CAADnVQJjJwRtUQNZAhLoXF7DYprhU97xJReZg9izV7n3f7=uJQ@mail.gmail.com>
- <acK1M_CvbYCtq7im@laps>
- <cbeb9f50-9398-4afb-9fb7-243d2841187e@oracle.com>
+	s=arc-20240116; t=1774378968; c=relaxed/simple;
+	bh=pLADkz47Gi6G2xqFECg+KAw/tEwaX0Gk5QNHrL+Ja1Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Qwj94lsdaL/8zYkzVhexNMJcpDZpGeteb+wIws6Ua5juJ5vE/+S59fnusasg5wyXUquCe350nCwzoa/hr5xKWCssw229Se4T7KIYM6D8VoFf3WMUrU7uAwzaRHk0cVtgKNmPSM3oz/2WQlQzVo5aTlXHSo/OcUJQU+0sepGit5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf10.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay05.hostedemail.com (Postfix) with ESMTP id 84DAE5875A;
+	Tue, 24 Mar 2026 18:53:07 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf10.hostedemail.com (Postfix) with ESMTPA id 52DDE41;
+	Tue, 24 Mar 2026 18:53:05 +0000 (UTC)
+Date: Tue, 24 Mar 2026 14:53:47 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Wesley Atwell <atwellwea@gmail.com>
+Cc: mhiramat@kernel.org, mark.rutland@arm.com,
+ mathieu.desnoyers@efficios.com, corbet@lwn.net, skhan@linuxfoundation.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] tracing: drain deferred trigger frees if kthread
+ startup fails
+Message-ID: <20260324145347.29d8ee75@gandalf.local.home>
+In-Reply-To: <20260310064715.527906-3-atwellwea@gmail.com>
+References: <20260310064715.527906-1-atwellwea@gmail.com>
+	<20260310064715.527906-3-atwellwea@gmail.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <cbeb9f50-9398-4afb-9fb7-243d2841187e@oracle.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Server: rspamout07
+X-Rspamd-Queue-Id: 52DDE41
+X-Stat-Signature: h4pojkar4dzkwehjisye7c5wxpt4quig
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1/vYR1P7wsVSGfjTF+LiWTz9Xhq3KtXLDM=
+X-HE-Tag: 1774378385-130353
+X-HE-Meta: U2FsdGVkX18tIg+/ueuE6N8C+J4Sz7foWLk1VvuUjnOaZh7FLK7zbHJIigaaB5b068hpdbfAqgutQcCOJ6CqnQngiSBac0OHyJ0JqBLh/VM8doqmQZ7J5q0vUOLIHV1Tt70j7jN0VglEfp/M49PNQwlFUaTclhFze+F4fEh02aLm5iQBaVa33ylkHOgVXKPObmmJ5xWiBbGdeOw+sbPSbitaEbd+EdmmbiM926C21jCuSz/JQ9yY3PBjtLPd0Dt7Vz/W47XSE48LgR6riKL5/pYY1gnlVl3N6uEZKju/haZD8cUHgVwNnI8m50rXDGRhmoIE4aftqXDHpJlfF3aWxsYE5Z/vAxHA
 
-On Tue, Mar 24, 2026 at 05:34:06PM +0000, Alan Maguire wrote:
->On 24/03/2026 16:00, Sasha Levin wrote:
->> On Tue, Mar 24, 2026 at 08:03:30AM -0700, Alexei Starovoitov wrote:
->>> On Mon, Mar 23, 2026 at 9:49 AM Sasha Levin <sashal@kernel.org> wrote:
->>>>
->>>> Embed DWARF-derived function parameter name and type information in the
->>>> kernel image so that oops and WARN dumps display the crashing function's
->>>> register-passed arguments with their names, types, and values.
->>>>
->>>> A new build-time tool (scripts/gen_paraminfo.c) parses DW_TAG_subprogram
->>>> and DW_TAG_formal_parameter entries from DWARF .debug_info, extracting
->>>> parameter names and human-readable type strings. The resulting tables are
->>>> stored in .rodata using the same two-phase link approach as lineinfo.
->>>>
->>>> At runtime, kallsyms_show_paraminfo() performs a binary search on the
->>>> paraminfo tables, maps parameters to x86-64 calling convention registers
->>>> (RDI, RSI, RDX, RCX, R8, R9), and prints each parameter's name, type,
->>>> and value from pt_regs. If a parameter value matches the page fault
->>>> address (CR2), it is highlighted with "<-- fault address".
->>>>
->>>> Integration at show_regs() means this works for both oops and WARN()
->>>> automatically, since both paths provide full pt_regs at the exception
->>>> point.
->>>>
->>>> Example output:
->>>>
->>>>   Function parameters (ext4_readdir):
->>>>     file     (struct file *)         = 0xffff888123456000
->>>>     ctx      (struct dir_context *)  = 0x0000000000001234  <-- fault address
->>>>
->>>> Gated behind CONFIG_KALLSYMS_PARAMINFO (depends on CONFIG_KALLSYMS_LINEINFO).
->>>> Adds approximately 1-2 MB to the kernel image for ~58K functions.
->>>>
->>>> Assisted-by: Claude:claude-opus-4-6
->>>> Signed-off-by: Sasha Levin <sashal@kernel.org>
->>>
->>> Nack.
->>>
->>> You asked claude to reinvent pahole and BTF and it did it
->>> completely missing years of fine tuning that pahole does.
->>
->> Let's keep this on the technical side please.
->>
->>> dwarf cannot be trusted as-is. pahole converts it carefully
->>> by analyzing optimized out arguments and dropping signatures
->>
->> Fair point about pahole and optimized-out args. The problem is that BTF depends
->> on BPF_SYSCALL, and the environments I care about can't enable either.
->> Automotive, robotics, and safety configs all have DWARF and KALLSYMS but no
->> path to BTF.
->>
->
->Curious what the blockers are to BTF adoption? Hopefully we can tackle some
->of these or get them on a roadmap at least. I know some embedded folks want
->vmlinux BTF as a module instead of directly contained in the vmlinux binary
->to minimize vmlinux size; is this the problem you run into? Are there other
->issues? Any info you could provide would be great as the aim is to make BTF
->feasible in as many environments as possible. Thanks!
+On Tue, 10 Mar 2026 00:47:15 -0600
+Wesley Atwell <atwellwea@gmail.com> wrote:
 
-So the biggest reason I'm aware of is that those systems do not want to enable
-BPF, and BTF is hidden behind BPF.
+> Boot-time trigger registration can fail before the trigger-data cleanup
+> kthread exists. Deferring those frees until late init is fine, but the
+> post-boot fallback must still drain the deferred list if kthread
+> creation never succeeds.
+> 
+> Otherwise, boot-deferred nodes can accumulate on
+> trigger_data_free_list, later frees fall back to synchronously freeing
+> only the current object, and the older queued entries are leaked
+> forever.
+> 
+> Keep the deferred boot-time behavior, but when kthread creation fails,
+> drain the whole queued list synchronously. Do the same in the late-init
+> drain path so queued entries are not stranded there either.
+> 
+> Fixes: 61d445af0a7c ("tracing: Add bulk garbage collection of freeing event_trigger_data")
+> Signed-off-by: Wesley Atwell <atwellwea@gmail.com>
+> ---
+>  kernel/trace/trace_events_trigger.c | 79 ++++++++++++++++++++++++-----
+>  1 file changed, 66 insertions(+), 13 deletions(-)
+> 
+> diff --git a/kernel/trace/trace_events_trigger.c b/kernel/trace/trace_events_trigger.c
+> index d5230b759a2d..428b46272ac8 100644
+> --- a/kernel/trace/trace_events_trigger.c
+> +++ b/kernel/trace/trace_events_trigger.c
+> @@ -22,6 +22,39 @@ static struct task_struct *trigger_kthread;
+>  static struct llist_head trigger_data_free_list;
+>  static DEFINE_MUTEX(trigger_data_kthread_mutex);
+>  
+> +static int trigger_kthread_fn(void *ignore);
+> +
+> +static void trigger_start_kthread_locked(void)
+> +{
+> +	lockdep_assert_held(&trigger_data_kthread_mutex);
+> +
+> +	if (!trigger_kthread) {
+> +		struct task_struct *kthread;
+> +
+> +		kthread = kthread_create(trigger_kthread_fn, NULL,
+> +					 "trigger_data_free");
 
-Other than that:
+This only creates the thread and doesn't start it. The function name is
+confusing. Please change it to:
 
-  1. Toolchain qualifications for safety uses (we'd need to get pahole safety
-certified).
-  2. On the ecosystem side, from what I saw, BTF isn't part of most BSPs that
-vendors produce.
-  3. I saw concerns in the past about interactions with PREEMPT_RT, but I'm not
-sure if it's still a thing.
+	trigger_create_kthread_locked()
 
--- 
-Thanks,
-Sasha
+
+> +		if (!IS_ERR(kthread))
+> +			WRITE_ONCE(trigger_kthread, kthread);
+> +	}
+> +}
+> +
+> +static void trigger_data_free_queued_locked(void)
+> +{
+> +	struct event_trigger_data *data, *tmp;
+> +	struct llist_node *llnodes;
+> +
+> +	lockdep_assert_held(&trigger_data_kthread_mutex);
+> +
+> +	llnodes = llist_del_all(&trigger_data_free_list);
+> +	if (!llnodes)
+> +		return;
+> +
+> +	tracepoint_synchronize_unregister();
+> +
+> +	llist_for_each_entry_safe(data, tmp, llnodes, llist)
+> +		kfree(data);
+> +}
+> +
+>  /* Bulk garbage collection of event_trigger_data elements */
+>  static int trigger_kthread_fn(void *ignore)
+>  {
+> @@ -56,30 +89,50 @@ void trigger_data_free(struct event_trigger_data *data)
+>  	if (data->cmd_ops->set_filter)
+>  		data->cmd_ops->set_filter(NULL, data, NULL);
+>  
+> +	/*
+> +	 * Boot-time trigger registration can fail before kthread creation
+> +	 * works. Keep the deferred-free semantics during boot and let late
+> +	 * init start the kthread to drain the list.
+> +	 */
+> +	if (system_state == SYSTEM_BOOTING && !trigger_kthread) {
+> +		llist_add(&data->llist, &trigger_data_free_list);
+> +		return;
+> +	}
+> +
+>  	if (unlikely(!trigger_kthread)) {
+>  		guard(mutex)(&trigger_data_kthread_mutex);
+> +
+> +		trigger_start_kthread_locked();
+>  		/* Check again after taking mutex */
+>  		if (!trigger_kthread) {
+> -			struct task_struct *kthread;
+> -
+> -			kthread = kthread_create(trigger_kthread_fn, NULL,
+> -						 "trigger_data_free");
+> -			if (!IS_ERR(kthread))
+> -				WRITE_ONCE(trigger_kthread, kthread);
+> +			llist_add(&data->llist, &trigger_data_free_list);
+> +			/* Drain the queued frees synchronously if startup failed. */
+
+                                                       s/startup/creation/
+
+> +			trigger_data_free_queued_locked();
+> +			return;
+>  		}
+>  	}
+
+-- Steve
+
+>  
+> -	if (!trigger_kthread) {
+> -		/* Do it the slow way */
+> -		tracepoint_synchronize_unregister();
+> -		kfree(data);
+> -		return;
+> -	}
+> -
+>  	llist_add(&data->llist, &trigger_data_free_list);
+>  	wake_up_process(trigger_kthread);
+>  }
+>  
+> +static int __init trigger_data_free_init(void)
+> +{
+> +	guard(mutex)(&trigger_data_kthread_mutex);
+> +
+> +	if (llist_empty(&trigger_data_free_list))
+> +		return 0;
+> +
+> +	trigger_start_kthread_locked();
+> +	if (trigger_kthread)
+> +		wake_up_process(trigger_kthread);
+> +	else
+> +		trigger_data_free_queued_locked();
+> +
+> +	return 0;
+> +}
+> +late_initcall(trigger_data_free_init);
+> +
+>  static inline void data_ops_trigger(struct event_trigger_data *data,
+>  				    struct trace_buffer *buffer,  void *rec,
+>  				    struct ring_buffer_event *event)
+
