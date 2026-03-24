@@ -1,102 +1,187 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C01CD3E2755;
-	Tue, 24 Mar 2026 11:33:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FFC73EAC90
+	for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 11:33:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774352004; cv=none; b=tmJDR9e4+T1lIOnX6qwdyAOrXvI0hMCUKjAkEPx6wMBGLXGoWoMfUfMRYWck69m+VZ9Iw2eWPcjoLD7RpxjWMYze+Kfty1svvzDAtsQeJcwSYDwLg2i6bm8IZP+pdZQ3K9xjWPeovIxQ+zEc7H45S5jjRWZ6q3XhjW8iSDGZ4gs=
+	t=1774352017; cv=none; b=fu+lu5KYcFbjkJ4VR3kXqMi4KjH6x6+4jT4R8g1kvDnvrJ4Hdd1pH/QbbH7oM1JzyXQfOF0MT/jriH2n7aTJRgTY3vHNrNLlGP5FcvpXRTQDNhl+eGD+Bw6RvSNqicbeKhOYGCvzdVraRR8M8zgIAfxG4JzqV6y1bCryNY5NOvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774352004; c=relaxed/simple;
-	bh=ePPalIgg9PA9MCfjCpp8oHYfR8UicQpTOa+6XnR0aI8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bxn2U50pLxJN8c8ckp+3pilKmutCTCFALS4j1u21a5jlxA285LlkI42J7nHBFhNeT8BuuFa51XuLJE84iApOfLLZEyMU7n9r8B1h0i52r/1NUPwzqJT6pfrbbFYIUl8IUki6qx8/TOHF0e4idx2vyFJ0tjHrRnHCMUBgb+Zhagc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P2qWxv6K; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774352017; c=relaxed/simple;
+	bh=GrKvDX1ji57i3Sq2Cn23BB9Ti8XkjnCPU1lJqk5WwGs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=q3Xv1KaVk9J4h2j+PnqqvT1dbzHVgX2TD0g2ImWky8RcpwSCUr9SMpYFUX1vJj7bsfEN+H1KA6Z8/vejb1/yUGJkKV5PKXgtPh9+bY9y4UxQ2u0qZgF3s/5T0hHceFqHIwM0L8kqgvPzPBQBV5mwsrC3aN9j3YEZa8EmNDdnZGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WhVwMNzZ; arc=none smtp.client-ip=74.125.82.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P2qWxv6K"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13859C19424;
-	Tue, 24 Mar 2026 11:33:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774352004;
-	bh=ePPalIgg9PA9MCfjCpp8oHYfR8UicQpTOa+6XnR0aI8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=P2qWxv6K0w5Xbm53d2TWqvQIthrkpHsbYVZ6Z9sWjeq4Bbn79xA3u1A1gQJkAoXsW
-	 z80rpTUWyJzQAf4CAtWj8YIqd6AlcGMTlZUVep7sW2iQTTVzJF49cz4NxnFqlc/JPr
-	 YWC/NhMBBXhPgY0MfSIMjC346ciyg26qn+oM1mrX4yPtfdxpX6IqKvE0KcXuNulk7C
-	 +0staUq/7YmkMUd7t3MNJ3adKH/68nBDba9sTOIUHCA/PV/i0oG1FcJ9o8WX0x4iii
-	 /317o9eYcsgYa2k1z4Oh9Lpu9ehuZEXIx3bPTRNi/UOYmiCfFRy5TnCTTmoWCi0OB/
-	 Jp4A7svm/HrHQ==
-Date: Tue, 24 Mar 2026 07:33:22 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	workflows@vger.kernel.org, tools@kernel.org, x86@kernel.org,
-	Thomas Gleixner <tglx@kernel.org>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Cyril Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>,
-	Jake Edge <jake@lwn.net>,
-	David Laight <david.laight.linux@gmail.com>,
-	Askar Safin <safinaskar@zohomail.com>,
-	Gabriele Paoloni <gpaoloni@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH v2 3/9] kernel/api: add debugfs interface for kernel API
- specifications
-Message-ID: <acJ2gnnA9MP1wO_Z@laps>
-References: <20260322121026.869758-1-sashal@kernel.org>
- <20260322121026.869758-4-sashal@kernel.org>
- <2026032309-jargon-stalling-28c2@gregkh>
- <acHTupVGxJR3gmFT@laps>
- <2026032411-paramount-lapdog-41e6@gregkh>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WhVwMNzZ"
+Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-2bdcf5970cdso4211813eec.0
+        for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 04:33:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774352015; x=1774956815; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=xVLL0DMqhfW1NaHcAuU3NvnXvKaindH3Q3xhBOqsfOM=;
+        b=WhVwMNzZnLBjCHUD6vNNsHzXOJujJt6UyA7DBowpss1RT3MryVHZOk6pmX7DTcEbYC
+         6aml9UTj46KyyjvAIg7LEffFXpFmJvq+lmFFQQXPOUPcPORvNYAdJ9C60IiBBxFdIVXm
+         qL/ViFWm+WDeLMcI6B4oeq9Ly36QGSt3xi2Yh0BEZBy4LUM94Vx09vAaB5Lc/j4Ybtch
+         hOq9cwu6QggPv3r0gVrd66S04a6UGKAzLZH9ua8DpBOzgDKLUtmCXcBpCnNW2WN1ofea
+         Lc+K7kNXVASIKHxnt+MjDgjydlgq5DELV57+jH5aMU8VzlDXTCCJaPt8iAg2fzaQD+7N
+         2zmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774352015; x=1774956815;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xVLL0DMqhfW1NaHcAuU3NvnXvKaindH3Q3xhBOqsfOM=;
+        b=a+obk6qikAm22hXVzWMq461TVs52/QJjuDcEqYbbV3MbLfqVcSk+jL1LlH8LlTm3EF
+         ZxayOrpJSVpubXxNNGR7aQf88xEgen06Aq7uR1ddPPi88t2QVa9fXUd6eBdIdhDx3G/g
+         G/E2EV7jkaxh7ERAiCydg6zV+X+KiYnv8nR+tpqdaYPfGtAWFDCkHixP4Y9A7LlpzXjC
+         XCP01vf6smGX+zU7XDnLgHoz1hJqFsYmECqZlPxo4nD0fEgiyOJguC/c8MhEHnB0jNxx
+         Fdr2fg28CZVbEdbVI6GV7pXX6QvfF9RAKHdS+6BWGSTnMLcxVwJc6MUa4cXvrlOQ3RmM
+         Ni2w==
+X-Forwarded-Encrypted: i=1; AJvYcCUNga9P4soGYZSsWJkhNXHXbT+Fsnh6zS+/NBvskd6Ov9+mip+J26IklAeaiZo6IuUKzP+5uadXaHo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxp9BbmFJgPEpBndh9NBYMxgdsko0tHWo/cAJZvwOsjdTlN3Are
+	oWIOcWQ3QkhgAS3mmagTtpCyGRt12E88zBfBAsZ1aiX1/Kc8q2rRSSji
+X-Gm-Gg: ATEYQzxQx4drpWg+Fi5z1C9lzUsLbDt0pb7jl/la/SnRtAbuKfY+ARSrVKdYm0yPt2Q
+	NujrEUF2zt7LAC1e/QJOC2nkz6Z3ZKtoxW/wdCOK25pudHr/OG3cXUbAfymX5CovM7rBwywQmp/
+	7uxOw23uVKpRMtnvzJqJrgV+T8IBSUxu3Niue6QaBRp1glJqzohP/cpnSm7ZcbHbDkBZmz/WAaY
+	h3bLXQDvLd2fwn6o68amnVE75twBN/u+sfVhi6NFk5J3+AnRFpXMaBQuubZxjUVAtMc7cx4fWkk
+	q148DRWj3VLiWwtDT3jTSx1euJE6w1IoXJWH0gCseVUhRBMM2iZjPbrXVb7tDDikbrkXByCEwfL
+	Qh/MCwml6RrzIlgG635EdQKbIA9H9YblBwMZDdjl0jdfTpHLIRLjkVI2Df5dlQpGx/oX2EPYK73
+	WFZginjIvk8Cp1XAjP7rubmaue5ZiUB4sQjDycPvnQjwuMNsVE5hX4qbi83+LEVQzyxFzaKFNsA
+	SIAZSip3Uc=
+X-Received: by 2002:a05:7300:2319:b0:2c0:c1e0:2449 with SMTP id 5a478bee46e88-2c14b46f3bdmr1419149eec.2.1774352015053;
+        Tue, 24 Mar 2026 04:33:35 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c10b2d673asm18181543eec.24.2026.03.24.04.33.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Mar 2026 04:33:34 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <91e527b8-f753-411b-bdf5-7439edb48c34@roeck-us.net>
+Date: Tue, 24 Mar 2026 04:33:32 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <2026032411-paramount-lapdog-41e6@gregkh>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/6] hwmon/misc: amd-sbi: Move core SBTSI support from
+ hwmon to misc
+To: "Gupta, Akshay" <Akshay.Gupta@amd.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Cc: "corbet@lwn.net" <corbet@lwn.net>,
+ "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
+ "arnd@arndb.de" <arnd@arndb.de>,
+ "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+ "L k, Prathima" <Prathima.Lk@amd.com>,
+ "Chatradhi, Naveen Krishna" <NaveenKrishna.Chatradhi@amd.com>,
+ "Umarji, Anand" <Anand.Umarji@amd.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+ "kunyi@google.com" <kunyi@google.com>
+References: <20260323110811.2898997-1-Akshay.Gupta@amd.com>
+ <20260323110811.2898997-2-Akshay.Gupta@amd.com>
+ <86ec222b-d252-4586-a1cc-2a7a5674e1b4@roeck-us.net>
+ <d0ed96aa-529d-42fb-a680-917c325998ee@amd.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <d0ed96aa-529d-42fb-a680-917c325998ee@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Mar 24, 2026 at 09:20:01AM +0100, Greg Kroah-Hartman wrote:
->On Mon, Mar 23, 2026 at 07:58:50PM -0400, Sasha Levin wrote:
->> > But this only works if the kabi stuff is built into the kernel image,
->> > right?  This doesn't work if any of these abi sections are in a module
->> > or am I missing that logic here?
+On 3/24/26 03:36, Gupta, Akshay wrote:
+> 
+> On 3/23/2026 7:45 PM, Guenter Roeck wrote:
+>> Caution: This message originated from an External Source. Use proper caution when opening attachments, clicking links, or responding.
 >>
->> That is correct, for now.
 >>
->> I'm only trying to tackle syscalls to begin with, and since no syscalls live in
->> modules, we have no need for module support.
->
->We used to support syscalls in modules, but thankfully that is now gone.
->But, how will this work for stuff like usbfs ioctls?  That is a module,
->and our uapi is, by far, in drivers through ioctl "hell" and that would
->be great to be able to document through all of this.  Will that just not
->be in the debugfs api?
+>> On 3/23/26 04:08, Akshay Gupta wrote:
+>>> From: Prathima <Prathima.Lk@amd.com>
+>>>
+>>> Move SBTSI core functionality out of the hwmon-only path and into
+>>> drivers/misc/amd-sbi so it can be reused by non-hwmon consumers.
+>>>
+>>> This split prepares the driver for additional interfaces while keeping
+>>> hwmon support as an optional layer on top of common SBTSI core logic.
+>>>
+>> This moves the driver out of hwmon space into misc/amd-sbi which,
+>> in my opinion, is completely unnecessary to accomplish the stated goals.
+>>
+>> I assume this is to be able to make changes which do not follow
+>> the hwmon ABI and/or to bypass hwmon subsystem review, similar
+>> to what has been done by others.
+>>
+>> Obviously, I think this is a bad idea. I won't give it a NACK,
+>> but I won't approve (nor review) it either.
+>>
+>> Guenter
+> 
+> Hi Guenter,
+> 
+> Thank you for your quick response.
+> 
+> At present, TSI supports a range of functionalities that cannot be exposed through hwmon. Additionally, a new protocol leveraging the TSI endpoint in hardware has been introduced, which, to our understanding, cannot be accommodated within the hwmon subsystem.
+> 
+> Since we already support the RMI interface via misc/amd-sbi, we believe this remains the appropriate place to continue AMD's out-of-band support.
+> 
+> I will update the commit message and cover letter to clearly articulate the rationale behind this change.
+> 
+> Thank you
+> 
 
-It will. I see it working just like how BTF or trace events do it now.
+That is neither a reason or an argument for moving _hwmon_ part of the code
+out of the hwmon subsystem.
 
-When a module loads, find_module_sections() extracts the .kapi_specs section
-pointer and element count into new struct module fields. The COMING notifier
-then iterates those specs, registers each via the existing kapi_register_spec()
-dynamic registration path, and creates per-spec debugfs files under the
-existing /sys/kernel/debug/kapi/specs/ directory. The kapi_list_show() function
-is extended to also walk the dynamic_api_specs list (currently it only iterates
-the static __start_kapi_specs..__stop_kapi_specs range). On GOING, all specs
-owned by that module are removed from the list and their debugfs entries
-cleaned up via debugfs_remove().
+FWIW, your patch series removes a lot of error handling code. Sashiko has
+a field day with it.
 
--- 
-Thanks,
-Sasha
+Guenter
+
