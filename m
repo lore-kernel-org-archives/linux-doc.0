@@ -1,85 +1,60 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50EC41AAE17
-	for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 04:21:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 758E51A6832;
+	Tue, 24 Mar 2026 04:36:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774326095; cv=none; b=XGhbI+FGK3/CnheapS3uLeAMH8PwDFCZ8qmTtPoO5YcSkRsPeVIY+Eo+F/X+XY1GF8zATje13jTq4ug70AG5C5Rd3Y8qjz9JL84hcY4syp+DbFlSsRQ0wSfS3i+DHmSiArOQfVuOdQk14NfogvN/mJrHDKN8yczZ+BUm0lXRDwg=
+	t=1774327010; cv=none; b=Npg0NSBCeoAtlRjSUv828LiN5XGafOzRAxFcPcYIXBxl08lRqoIsq8THbavIO2tcY4wZvuo7sUE+r7I8OVPH1mbn0f/F0i9YxTYwRygRVfhOscyX1kc4vSLEzflNl9pG7lZIQkl9RBcjadiI28+WanmzRapp70y+vvHHda/LxOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774326095; c=relaxed/simple;
-	bh=Q9J8EZ7KakpOEdBx6xv3rMsDRoJWbyFh7BbfJZNgiME=;
+	s=arc-20240116; t=1774327010; c=relaxed/simple;
+	bh=YKdITOvvQhJNHMtPOgodoOd4kkVDiVEFKSvcRCNlwUE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rGO36ewUlTuPBO6nb5IA27CxKRBEpPg6cT3GomakdHcmx08IcosfFH/tmo61AcNPNHAnGGse44KxPYKnTRWhkUXZed7GvD8oiGqfTzeedOqch4w3OUoy+lzgaYvV3So+h4N3Ivl+n4nPmwIYgqYPeFL+MB/gcKrJsPF7vaj3/Mw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fwKY/fxl; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZJnllv0H; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 In-Reply-To:Content-Type; b=mxvvS91720JgaJJZ0rFVFexBsCjfscyMggsMHFQrHobH6Img4Dz5rfxyDgOiYYCqID923pVm2psD3oyr37i9y9z6Muh/aAp5AAks56VxbzkdmivHSmZpa03ClpbUvZwhrFSyOxL091WsWSHoan3Kut8uQ2rqbaYfjxwT73M8Y3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=mB9Wv5H1; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fwKY/fxl";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZJnllv0H"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1774326092;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=as1oD5ZP7ir6ec+9vRMPKCBQFoPmXvB2fXhjUdsVMTM=;
-	b=fwKY/fxlPiT9oD4Lvx2vzByL+RUvS31Rs4n+DUPcG3brpA8U+Oyf53dCNR/R+3s4CK8656
-	UgTLCGJ80eQj7gNNmGonm6QY+kj9YDFxl+YgtBjeVy6BsSfs6qvWA5ozawcL+fY3pPaExt
-	xKTmU10a9Qy56rA+XqDw2cf4IuQkNXE=
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
- [209.85.214.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-510-ek7IJRAnPLOm_3fNhkiGlQ-1; Tue, 24 Mar 2026 00:21:30 -0400
-X-MC-Unique: ek7IJRAnPLOm_3fNhkiGlQ-1
-X-Mimecast-MFC-AGG-ID: ek7IJRAnPLOm_3fNhkiGlQ_1774326090
-Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2b06b68783dso21688395ad.3
-        for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 21:21:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1774326090; x=1774930890; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=as1oD5ZP7ir6ec+9vRMPKCBQFoPmXvB2fXhjUdsVMTM=;
-        b=ZJnllv0HNhNKlboA5QSumRvol2gYaa41d0QlPvrnf3HYYiZ48hxk6bf3lrnvMsBqiS
-         LNbda3VT/R7ZVxqKCF+/2GDw5saero9QDe9hzIfOhRGLzp9S4+6+97mNSm/Rvo7GCy1D
-         Gmb4y/Vvt2mLWRfJm4BGHpbI/8l0yOwJE5zQ7wJlxYRkVHxPCXcggjLeyvk0y5jZLERu
-         aqvJngewQiA5f8nvjoqRF8QwJoIBN7ZFVYWjWuU7mXtNzHDs/bmL8KHrsPPnrlaI7f2n
-         54G15mlC8Dj3joO5E78piRzB5WIuPIALL7cKRA0X6afCgVqOYEb0U9bKVjVtrw5vZObe
-         SKHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774326090; x=1774930890;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=as1oD5ZP7ir6ec+9vRMPKCBQFoPmXvB2fXhjUdsVMTM=;
-        b=kJiG1nHnMX3GUxXL5yjxY6QbeYs4P8stH/wJ2WRTi9qJHJu3rO83JbLHxh6A+65cNP
-         qkSBw8JKuyCE6UPbANPne4YuMoEDFX3FhEp3k0MNCHzuIeO3kuiGscqe/+ic6+I0HOYb
-         UxCkF0PtKvwaWZbytyVpbueu0YwXcJqw/+QuMTDbZYdsZI888180YCZ4uprHLXqgf8P8
-         t2baDiuS0i60LeC58UDaj0Ktytb35AescE5TYuqPtY9JUoPE5qJenFNEy01+ZJcj21Ls
-         do5bdivJMYTPJA0px4qGbBxS+waRl/YVn899HOdNE6YXtzwWF4gaRNkFszRmdZRKB9pP
-         1Ksg==
-X-Forwarded-Encrypted: i=1; AJvYcCX86xnwBM8JEcR3RfJPcc7gaQBn47TqD3rkSdI4EwUAb6XvE+XQEepfMvNEPplkzagtdW4qlfvkmgQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyFdD3N6S+ioYK3SoS8P6wzJyVXjOwcBMRO9RJvLtj3AmE4HoDn
-	AsLlk1bu4AWU3vUAV0Fszu3q3S3w/5FShTgimBA0OkarIsfln/2bQaRargMb98tGQYL+Cwsgk3E
-	aZo7b3sTILc6Hh2EehwgC3H+LJzjHMqLJl3UwzJaYp3qLDrl7YpVP7gZn0WqFog==
-X-Gm-Gg: ATEYQzzTQYOQL9C1QyaVV+w+Q3CwIXSWhSb2uvnzeSUb+5aHSvIdKpvmPE+oZpBukza
-	k04lpa4SJQ5TkWdMM0HLgRqQetOKQpWzI9YJIcbKwdKLaQVHplage7z58evsa/5bC0XynOP9/gG
-	UJm46xBq1Ma7FTLZYgvQEhH8Pdu+9i8FRsFvDKD/C0KxK5etO69QbmsAsQgItOXBDMELM1yS53j
-	/Iirqk8fRq0vfHMW2OInDa5YfAf67RgSk8N7VmiWLAhTiPW+Rx+CHx4Dx/Nh0VhSTJd5TniwUKy
-	cN/gxxPjcCdB5Qdkp/1XQmLwJ2WzM57m/wfGJwowOfYHfBnEYbM4yu7qESjqQVK+vt8Ue+we9Xh
-	8cDcC9KZtRGGnyKlutPzPjSQcy7lvJqmEu2rA6Ij9vnVJqAC2RpLfGWDp+NtlAG5Q
-X-Received: by 2002:a17:903:1a67:b0:2b0:694d:f5db with SMTP id d9443c01a7336-2b0828238d5mr130410725ad.52.1774326089752;
-        Mon, 23 Mar 2026 21:21:29 -0700 (PDT)
-X-Received: by 2002:a17:903:1a67:b0:2b0:694d:f5db with SMTP id d9443c01a7336-2b0828238d5mr130410275ad.52.1774326089350;
-        Mon, 23 Mar 2026 21:21:29 -0700 (PDT)
-Received: from [192.168.68.51] (n175-34-8-244.mrk21.qld.optusnet.com.au. [175.34.8.244])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b08366c74dsm171510225ad.62.2026.03.23.21.21.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Mar 2026 21:21:28 -0700 (PDT)
-Message-ID: <d82f9434-ec90-4872-b779-2b20aa8e700d@redhat.com>
-Date: Tue, 24 Mar 2026 14:21:12 +1000
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="mB9Wv5H1"
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62NNiqj13599991;
+	Tue, 24 Mar 2026 04:30:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=UwLBZY
+	0xAh69HUU4FoGM+gFkY3rpuiGhmJBMb77IXic=; b=mB9Wv5H1BQQFmjl5i+JJgj
+	qn9zW0bW8lQhQu6a9d1rAws2VXcIiQIiTOQ6AbmLb/203lRQvPD4WFheBYcSd+Q4
+	k2h/DDlmVJyT9YXLFPfYCF4S1MXTaNoiu1/ZL6QXOqVHf634k5gCN0/b1SQMymjJ
+	i3By4hwkn+DB7dhSE4kc1N2nh1lYsNfnu9CB/PIOZOyQxQ97tO4/QTxSSxCAkz9N
+	J9SwlOeMwg56JvPu6egjodai8zMXTWZTvoI79/agfx+TOQWbvls2aXuExJkZwdwr
+	pHNnfrJ2DEvn0+RIt1yIBqE6TBfZkG3LtmpV2O88ojpBe1d9LnNjDOozNnw7Dcgw
+	==
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4d1ktusa71-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 24 Mar 2026 04:30:05 +0000 (GMT)
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 62O3hwNd008745;
+	Tue, 24 Mar 2026 04:30:05 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4d26nng532-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 24 Mar 2026 04:30:05 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 62O4U0nh29819348
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 24 Mar 2026 04:30:00 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 6B60F2004E;
+	Tue, 24 Mar 2026 04:30:00 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id DC9F32004F;
+	Tue, 24 Mar 2026 04:29:47 +0000 (GMT)
+Received: from [9.123.14.142] (unknown [9.123.14.142])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 24 Mar 2026 04:29:47 +0000 (GMT)
+Message-ID: <595e793d-adc3-4acb-af18-f0a3cf2d5e73@linux.ibm.com>
+Date: Tue, 24 Mar 2026 09:59:46 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -87,58 +62,168 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 39/40] arm_mpam: Quirk CMN-650's CSU NRDY behaviour
-To: Ben Horgan <ben.horgan@arm.com>
-Cc: amitsinght@marvell.com, baisheng.gao@unisoc.com,
- baolin.wang@linux.alibaba.com, carl@os.amperecomputing.com,
- dave.martin@arm.com, david@kernel.org, dfustini@baylibre.com,
- fenghuay@nvidia.com, james.morse@arm.com, jonathan.cameron@huawei.com,
- kobak@nvidia.com, lcherian@marvell.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- peternewman@google.com, punit.agrawal@oss.qualcomm.com,
- quic_jiles@quicinc.com, reinette.chatre@intel.com, rohit.mathew@arm.com,
- scott@os.amperecomputing.com, sdonthineni@nvidia.com,
- tan.shaopeng@fujitsu.com, xhao@linux.alibaba.com, catalin.marinas@arm.com,
- will@kernel.org, corbet@lwn.net, maz@kernel.org, oupton@kernel.org,
- joey.gouly@arm.com, suzuki.poulose@arm.com, kvmarm@lists.linux.dev,
- zengheng4@huawei.com, linux-doc@vger.kernel.org
-References: <20260313144617.3420416-1-ben.horgan@arm.com>
- <20260313144617.3420416-40-ben.horgan@arm.com>
+Subject: Re: [PATCH v9 0/5] arm64/riscv: Add support for crashkernel CMA
+ reservation
+To: Jinjie Ruan <ruanjinjie@huawei.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, catalin.marinas@arm.com,
+        will@kernel.org, chenhuacai@kernel.org, kernel@xen0n.name,
+        maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com,
+        chleroy@kernel.org, pjw@kernel.org, palmer@dabbelt.com,
+        aou@eecs.berkeley.edu, alex@ghiti.fr, tglx@kernel.org,
+        mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+        hpa@zytor.com, robh@kernel.org, saravanak@kernel.org, bhe@redhat.com,
+        vgoyal@redhat.com, dyoung@redhat.com, rdunlap@infradead.org,
+        peterz@infradead.org, feng.tang@linux.alibaba.com,
+        pawan.kumar.gupta@linux.intel.com, dapeng1.mi@linux.intel.com,
+        kees@kernel.org, elver@google.com, paulmck@kernel.org,
+        lirongqing@baidu.com, safinaskar@gmail.com, rppt@kernel.org,
+        ardb@kernel.org, leitao@debian.org, jbohac@suse.cz, cfsworks@gmail.com,
+        osandov@fb.com, tangyouling@kylinos.cn, ritesh.list@gmail.com,
+        eajames@linux.ibm.com, songshuaishuai@tinylab.org,
+        kevin.brodsky@arm.com, samuel.holland@sifive.com,
+        vishal.moola@gmail.com, junhui.liu@pigmoral.tech, coxu@redhat.com,
+        liaoyuanhong@vivo.com, fuqiang.wang@easystack.cn, x86@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, loongarch@lists.linux.dev,
+        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+        devicetree@vger.kernel.org, kexec@lists.infradead.org
+References: <20260323072745.2481719-1-ruanjinjie@huawei.com>
+ <20260323095548.fa4e13d6e8ae5005ae585e13@linux-foundation.org>
+ <4cfde40c-673a-12b0-dfc5-703d582d6ea9@huawei.com>
 Content-Language: en-US
-From: Gavin Shan <gshan@redhat.com>
-In-Reply-To: <20260313144617.3420416-40-ben.horgan@arm.com>
+From: Sourabh Jain <sourabhjain@linux.ibm.com>
+In-Reply-To: <4cfde40c-673a-12b0-dfc5-703d582d6ea9@huawei.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-ORIG-GUID: yqbo1T1ZaS3NpXm72fU-pbHKExRLmg3o
+X-Authority-Analysis: v=2.4 cv=aMr9aL9m c=1 sm=1 tr=0 ts=69c2134e cx=c_pps
+ a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=c92rfblmAAAA:8
+ a=i0EeH86SAAAA:8 a=m-v9b-Je9hLO35U8NS8A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=GvGzcOZaWPEFPQC_NcjD:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzI0MDAzMyBTYWx0ZWRfXzR3+xHlpbmBf
+ h/N+fBRudva2vYWP6OptwoTRwOQzk1I8/3wQnvPa8Rt/ZrqSgHhrsvrawZDmpMS0QwmYF43FDLf
+ HlCcmZsZgGC9X4WGG+3JZZK+v1BoEcZgoSmWPT7YCzbgc19cK+AUrfnZA/DUdwa/YT8kQD4rVlJ
+ +AYgnBwkbmjz7qrae9ZCL552mIuzQ18wgAemKsIkFWdhOLIL4ViVPczjF8UwQTYlK4/5RG8BQ8Q
+ tl3FOXuw+eX+JAqN+wSMhGu6UgmoqO7EbJb8S22yBrkRpJwFgdl/rtl8Q0hKyH19wnnthRldQqI
+ X/qDqLZ7EhN0SsJ3JFGZ1b1s+r8tmBO0tZUjYSrg9H8a4ceYd1A47+bG1j2tcY2xqcNcb3ffolE
+ iJSsS9+xp+U8AIJYdBrf1z4HTVo/7/BmQXix362mLRgyxssrXQT2AO9/MLJgcELw2l/0CYMNHHh
+ HrbQML69S4TZV0GnIYA==
+X-Proofpoint-GUID: fSy1nmOMAAI_wqT62ef4G42SLgos6nvO
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-24_01,2026-03-23_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 lowpriorityscore=0 adultscore=0 impostorscore=0 malwarescore=0
+ suspectscore=0 phishscore=0 priorityscore=1501 bulkscore=0 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603240033
 
-On 3/14/26 12:46 AM, Ben Horgan wrote:
-> From: James Morse <james.morse@arm.com>
-> 
-> CMN-650 is afflicted with an erratum where the CSU NRDY bit never clears.
-> This tells us the monitor never finishes scanning the cache. The erratum
-> document says to wait the maximum time, then ignore the field.
-> 
-> Add a flag to indicate whether this is the final attempt to read the
-> counter, and when this quirk is applied, ignore the NRDY field.
-> 
-> This means accesses to this counter will always retry, even if the counter
-> was previously programmed to the same values.
-> 
-> The counter value is not expected to be stable, it drifts up and down with
-> each allocation and eviction. The CSU register provides the value for a
-> point in time.
-> 
-> Reviewed-by: Zeng Heng <zengheng4@huawei.com>
-> Signed-off-by: James Morse <james.morse@arm.com>
-> Signed-off-by: Ben Horgan <ben.horgan@arm.com>
-> ---
-> Changes since v3:
-> parentheses in macro
-> ---
->   Documentation/arch/arm64/silicon-errata.rst |  3 +++
->   drivers/resctrl/mpam_devices.c              | 12 ++++++++++++
->   drivers/resctrl/mpam_internal.h             |  6 ++++++
->   3 files changed, 21 insertions(+)
-> 
 
-Reviewed-by: Gavin Shan <gshan@redhat.com>
+
+On 24/03/26 09:32, Jinjie Ruan wrote:
+>
+> On 2026/3/24 0:55, Andrew Morton wrote:
+>> On Mon, 23 Mar 2026 15:27:40 +0800 Jinjie Ruan <ruanjinjie@huawei.com> wrote:
+>>
+>>> The crash memory allocation, and the exclude of crashk_res, crashk_low_res
+>>> and crashk_cma memory are almost identical across different architectures,
+>>> This patch set handle them in crash core in a general way, which eliminate
+>>> a lot of duplication code.
+>>>
+>>> And add support for crashkernel CMA reservation for arm64 and riscv.
+>> Thanks.  AI review has completed and it asks questions:
+>> 	https://sashiko.dev/#/patchset/20260323072745.2481719-1-ruanjinjie@huawei.com
+> I believe it identified 4 valid issues:
+>
+> - The already discovered crashk_low_res not excluded bug in the existing
+> RISC-V code.
+>
+> - An existing memory leak issue in the existing PowerPC code.
+
+Yes and suggested approach to fix the issue looks good.
+Which is basically replace return with goto out.
+
+diff --git a/arch/powerpc/kexec/crash.c b/arch/powerpc/kexec/crash.c
+index 898742a5205c..1426d2099bad 100644
+--- a/arch/powerpc/kexec/crash.c
++++ b/arch/powerpc/kexec/crash.c
+@@ -440,7 +440,7 @@ static void update_crash_elfcorehdr(struct kimage 
+*image, struct memory_notify *
+         ret = get_crash_memory_ranges(&cmem);
+         if (ret) {
+                 pr_err("Failed to get crash mem range\n");
+-               return;
++               goto out;
+         }
+
+         /*
+
+Are you planning to handle this in this patch series? Or do you want me 
+to send a separate fix patch?
+
+
+>
+> - The ordering issue of adding CMA ranges to "linux,usable-memory-range".
+>
+> - An existing concurrency issue. A Concurrent memory hotplug may occur
+> between reading memblock and attempting to fill cmem during kexec_load()
+> for almost all existing architectures，I'm not sure if this is a
+> practical issue in reality..
+>
+>   Race Condition Scenario
+>
+>    Timeline:
+>    ---------------------------------------------------------------------
+>    T1: kexec_load() syscall starts
+>    T2: kexec_trylock() acquires kexec_lock
+>    T3: crash_prepare_headers() is called
+>    T4: arch_get_system_nr_ranges() queries memblock → finds 100 memory ranges
+>    T5: cmem = alloc_cmem(100) allocates buffer for 100 ranges
+>    T6: [RACE WINDOW] Another process triggers memory hotplug
+>    T7: add_memory() → lock_device_hotplug() → memblock_add_node()
+>    T8: New memory region added to memblock
+>    T9: arch_crash_populate_cmem() iterates: now finds 102 ranges
+>    T10: cmem->ranges[100] → OUT OF BOUNDS WRITE!
+>    T11: cmem->ranges[101] → OUT OF BOUNDS WRITE!
+>    T12: Kernel crash or memory corruption
+>
+>    Why This Happens
+>
+>    1. Different locks used:
+>      - kexec_load() uses kexec_trylock (atomic_t)
+>      - Memory hotplug uses device_hotplug_lock (mutex)
+>    2. No synchronization between these two operations
+>    3. Time-of-check to time-of-use (TOCTOU) issue:
+>      - Step T4-T5: We query the number of ranges and allocate buffer
+>      - Step T6-T9: Memory hotplug adds new ranges between query and
+> population
+>
+>
+>
+> Any comments or suggestions on the following approach?
+>
+>
+> int crash_prepare_headers(...)
+>    {
+>        unsigned int max_nr_ranges;
+>        struct crash_mem *cmem;
+>        int ret;
+>
+>        lock_device_hotplug();
+>
+>        max_nr_ranges = arch_get_system_nr_ranges();
+>        // ...
+>        ret = arch_crash_populate_cmem(cmem);
+>        // ...
+>
+>        unlock_device_hotplug();
+>        return ret;
+>    }
+>
+>
 
