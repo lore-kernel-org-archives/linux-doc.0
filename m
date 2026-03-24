@@ -1,91 +1,260 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 795BA3FFAC3;
-	Tue, 24 Mar 2026 14:53:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC7FE3644B3;
+	Tue, 24 Mar 2026 14:54:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774364037; cv=none; b=oTwmWYGATPjXUvVJ7TrWa9D2B+xvVzEtX6v4igATL8FmwkHmC4PhoBRn26W5s6rGg03VRINZPW3x3uISvFSTFhTz76VUd/saY9nu48J9a2HNzsnxLTRjsLbHVCbhIe4hMphf2mqCTe5fTyBDqFEq8G5P9gCMmseUkxPTe3nGYmc=
+	t=1774364102; cv=none; b=hsuhd3f05jBCTN6O9kuWY/HVMswSrCdBw9NqH2N5bDEicDfMU/ZfiEEUFxu6skTWMK5CSqIT6+98QQPVpDo8CkvhnlicmMf0GpPkDLW7RfdNg9ntK+iPZQKRUsoLvDFIdA1nUuiT6WyZdWRaczcCvxttDcEgK06m5ed5xriJUg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774364037; c=relaxed/simple;
-	bh=izN5BqXH7ypvzKY+zoIDfa3X5OW6W7M/6WfX2y/Wo+4=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FIHXsKoBHiMy/azgjyZP30rTZlgpkA11xw2oUxEVGcwoKyuuEm/9/FxBRdwcSOVCfe0tQJD/2F5SgF8os8H6uFwnVYpfM1UJn2su41jRutYf4ow3JY8MDTbpBPgDlhAMQIc8sgjSZQPnp9ta91P45cJh6RSC4eTOO3ZYFjqofYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.224.107])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fgChZ6rjszHnGk0;
-	Tue, 24 Mar 2026 22:53:18 +0800 (CST)
-Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
-	by mail.maildlp.com (Postfix) with ESMTPS id 76B2F4058B;
-	Tue, 24 Mar 2026 22:53:52 +0800 (CST)
-Received: from localhost (10.203.177.15) by dubpeml500005.china.huawei.com
- (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Tue, 24 Mar
- 2026 14:53:50 +0000
-Date: Tue, 24 Mar 2026 14:53:49 +0000
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
-To: John Groves <john@jagalactic.com>
-CC: John Groves <John@Groves.net>, Miklos Szeredi <miklos@szeredi.hu>, "Dan
- Williams" <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>,
-	Alison Schofield <alison.schofield@intel.com>, John Groves
-	<jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
-	<skhan@linuxfoundation.org>, Vishal Verma <vishal.l.verma@intel.com>, "Dave
- Jiang" <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, "Jan
- Kara" <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, "David
- Hildenbrand" <david@kernel.org>, Christian Brauner <brauner@kernel.org>,
-	"Darrick J . Wong" <djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
-	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, Stefan
- Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, Josef
- Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Chen
- Linxuan <chenlinxuan@uniontech.com>, "James Morse" <james.morse@arm.com>,
-	Fuad Tabba <tabba@google.com>, "Sean Christopherson" <seanjc@google.com>,
-	Shivank Garg <shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>,
-	Gregory Price <gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>, Ajay
- Joshi <ajayjoshi@micron.com>, "venkataravis@micron.com"
-	<venkataravis@micron.com>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev"
-	<nvdimm@lists.linux.dev>, "linux-cxl@vger.kernel.org"
-	<linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org"
-	<linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH V9 6/8] dax: Add dax_set_ops() for setting
- dax_operations at bind time
-Message-ID: <20260324145349.00002317@huawei.com>
-In-Reply-To: <0100019d1d4814db-1e36cd9c-09c3-4e60-b48f-2b5c3cb9e406-000000@email.amazonses.com>
-References: <0100019d1d463523-617e8165-a084-4d91-aa5e-13778264d5d4-000000@email.amazonses.com>
-	<20260324003906.5083-1-john@jagalactic.com>
-	<0100019d1d4814db-1e36cd9c-09c3-4e60-b48f-2b5c3cb9e406-000000@email.amazonses.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1774364102; c=relaxed/simple;
+	bh=7m7jcKmXqO1sTQ38TYr7OO0Ri9bYkWMYtiPW+oyCnhY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=I+iu9wuvzfqVm6+xauqLEkhwG/jzX9kudVS2h/popO7Cvta8If9Z18paFjDHSLzNHrAM8mrTU6gccc8VUQhdHZjdJ1TF7EFcSX1yhK+suT9mB0Mc/zKT2bKwYEMdrVl4pi5HcPDZPKvcjluzGtssmiYzxbcn/wqvddBUvYoa8gA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=QeHzDmRP; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="QeHzDmRP"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 31F9D14BF;
+	Tue, 24 Mar 2026 07:54:53 -0700 (PDT)
+Received: from [10.1.196.46] (e134344.arm.com [10.1.196.46])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 638653F915;
+	Tue, 24 Mar 2026 07:54:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1774364099; bh=7m7jcKmXqO1sTQ38TYr7OO0Ri9bYkWMYtiPW+oyCnhY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=QeHzDmRP3CWEWa1dRjkF7lnY5fVKH35+Xc8iZ1/5hFYcWjbCv9eSKtaqkVr631zYb
+	 dT8OyLdPKcwtyToCPTPFu9m1MZz+kFhZYoaBjJYIS/qQbSMa5lhnjKl0HLOeYsPyx9
+	 YdVaPlvHAelmubIFhR57Vu6REfoDt0hC+pta+t8g=
+Message-ID: <0f8d0966-4e05-4d5a-a523-098b3dbcf7d9@arm.com>
+Date: Tue, 24 Mar 2026 14:54:54 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+User-Agent: Thunderbird Daily
+Subject: Re: [PATCH v10 28/30] KVM: arm64: selftests: Skip impossible invalid
+ value tests
+To: Mark Brown <broonie@kernel.org>, Marc Zyngier <maz@kernel.org>,
+ Joey Gouly <joey.gouly@arm.com>, Catalin Marinas <catalin.marinas@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, Will Deacon <will@kernel.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <shuah@kernel.org>, Oliver Upton <oupton@kernel.org>
+Cc: Dave Martin <Dave.Martin@arm.com>, Fuad Tabba <tabba@google.com>,
+ Mark Rutland <mark.rutland@arm.com>, linux-arm-kernel@lists.infradead.org,
+ kvmarm@lists.linux.dev, linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ Peter Maydell <peter.maydell@linaro.org>, Eric Auger <eric.auger@redhat.com>
+References: <20260306-kvm-arm64-sme-v10-0-43f7683a0fb7@kernel.org>
+ <20260306-kvm-arm64-sme-v10-28-43f7683a0fb7@kernel.org>
+Content-Language: en-US
+From: Ben Horgan <ben.horgan@arm.com>
+In-Reply-To: <20260306-kvm-arm64-sme-v10-28-43f7683a0fb7@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml100010.china.huawei.com (7.191.174.197) To
- dubpeml500005.china.huawei.com (7.214.145.207)
 
-On Tue, 24 Mar 2026 00:39:16 +0000
-John Groves <john@jagalactic.com> wrote:
+Hi Mark,
 
-> From: John Groves <John@Groves.net>
+On 3/6/26 17:01, Mark Brown wrote:
+> The set_id_regs test currently assumes that there will always be invalid
+> values available in bitfields for it to generate but this may not be the
+> case if the architecture has defined meanings for every possible value for
+> the bitfield. An assert added in commit bf09ee918053e ("KVM: arm64:
+> selftests: Remove ARM64_FEATURE_FIELD_BITS and its last user") refuses to
+> run for single bit fields which will show the issue most readily but there
+> is no reason wider ones can't show the same issue.
 > 
-> Add a new dax_set_ops() function that allows drivers to set the
-> dax_operations after the dax_device has been allocated. This is needed
-> for fsdev_dax where the operations need to be set during probe and
-> cleared during unbind.
+> Rework the tests for invalid value to check if an invalid value can be
+> generated and skip the test if not, removing the assert.
 > 
-> The fsdev driver uses devm_add_action_or_reset() for cleanup consistency,
-> avoiding the complexity of mixing devm-managed resources with manual
-> cleanup in a remove() callback. This ensures cleanup happens automatically
-> in the correct reverse order when the device is unbound.
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> ---
+>  tools/testing/selftests/kvm/arm64/set_id_regs.c | 63 +++++++++++++++++++++----
+>  1 file changed, 53 insertions(+), 10 deletions(-)
 > 
-> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-> Signed-off-by: John Groves <john@groves.net>
-Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+> diff --git a/tools/testing/selftests/kvm/arm64/set_id_regs.c b/tools/testing/selftests/kvm/arm64/set_id_regs.c
+> index bfca7be3e766..928e7d9e5ab7 100644
+> --- a/tools/testing/selftests/kvm/arm64/set_id_regs.c
+> +++ b/tools/testing/selftests/kvm/arm64/set_id_regs.c
+> @@ -317,11 +317,12 @@ uint64_t get_safe_value(const struct reg_ftr_bits *ftr_bits, uint64_t ftr)
+>  }
+>  
+>  /* Return an invalid value to a given ftr_bits an ftr value */
+> -uint64_t get_invalid_value(const struct reg_ftr_bits *ftr_bits, uint64_t ftr)
+> +uint64_t get_invalid_value(const struct reg_ftr_bits *ftr_bits, uint64_t ftr,
+> +			   bool *skip)
+>  {
+>  	uint64_t ftr_max = ftr_bits->mask >> ftr_bits->shift;
+>  
+> -	TEST_ASSERT(ftr_max > 1, "This test doesn't support single bit features");
+> +	*skip = false;
+>  
+>  	if (ftr_bits->sign == FTR_UNSIGNED) {
+>  		switch (ftr_bits->type) {
+> @@ -329,42 +330,81 @@ uint64_t get_invalid_value(const struct reg_ftr_bits *ftr_bits, uint64_t ftr)
+>  			ftr = max((uint64_t)ftr_bits->safe_val + 1, ftr + 1);
+>  			break;
+>  		case FTR_LOWER_SAFE:
+> +			if (ftr == ftr_max)
+> +				*skip = true;
+>  			ftr++;
+>  			break;
+>  		case FTR_HIGHER_SAFE:
+> +			if (ftr == 0)
+> +				*skip = true;
+>  			ftr--;
+>  			break;
+>  		case FTR_HIGHER_OR_ZERO_SAFE:
+> -			if (ftr == 0)
+> +			switch (ftr) {
+> +			case 0:
+>  				ftr = ftr_max;
+> -			else
+> +				break;
+> +			case 1:
+> +				*skip = true;
+> +				break;
+> +			default:
+>  				ftr--;
+> +				break;
+> +			}
+>  			break;
+>  		default:
+> +			*skip = true;
+>  			break;
+>  		}
+>  	} else if (ftr != ftr_max) {
+>  		switch (ftr_bits->type) {
+>  		case FTR_EXACT:
+>  			ftr = max((uint64_t)ftr_bits->safe_val + 1, ftr + 1);
+> +			if (ftr >= ftr_max)
+> +				*skip = true;
+>  			break;
+>  		case FTR_LOWER_SAFE:
+>  			ftr++;
+>  			break;
+>  		case FTR_HIGHER_SAFE:
+> -			ftr--;
+> +			/* FIXME: "need to check for the actual highest." */
+> +			if (ftr == ftr_max)
+> +				*skip = true;
+> +			else
+> +				ftr--;
+>  			break;
+>  		case FTR_HIGHER_OR_ZERO_SAFE:
+> -			if (ftr == 0)
+> -				ftr = ftr_max - 1;
+> -			else
+> +			switch (ftr) {
+> +			case 0:
+> +				if (ftr_max > 1)
+> +					ftr = ftr_max - 1;
+> +				else
+> +					*skip = true;
+> +				break;
+> +			case 1:
+> +				*skip = true;
+> +				break;
+> +			default:
+>  				ftr--;
+> +				break;
+> +			}
+>  			break;
+>  		default:
+> +			*skip = true;
+>  			break;
+>  		}
+>  	} else {
+> -		ftr = 0;
+> +		switch (ftr_bits->type) {
+> +		case FTR_LOWER_SAFE:
+> +			if (ftr == 0)
+> +				*skip = true;
+> +			else
+> +				ftr = 0;
+> +			break;
+> +		default:
+> +			*skip = true;
+> +			break;
+> +		}
+>  	}
 
+I hacked up a quick loop to check what this function is doing.
+With a mask=0x1 I see some value returned that have bits set
+outside of the mask.
+
+safe_val ftr out
+
+UNSIGNED
+
+FTR_EXACT
+0x0 0x0 0x1
+0x0 0x1 0x2 # out of range
+0x1 0x0 0x2 # out of range
+0x1 0x1 0x2 # out of range
+FTR_LOWER_SAFE
+0x0 0x0 0x1
+0x0 0x1 SKIP
+0x1 0x0 0x1
+0x1 0x1 SKIP
+FTR_HIGHER_SAFE
+0x0 0x0 SKIP
+0x0 0x1 0x0
+0x1 0x0 SKIP
+0x1 0x1 0x0
+FTR_HIGHER_OR_ZERO_SAFE
+0x0 0x0 0x1
+0x0 0x1 SKIP
+0x1 0x0 0x1
+0x1 0x1 SKIP
+
+SIGNED
+
+FTR_EXACT
+0x0 0x0 SKIP
+0x0 0x1 SKIP
+0x1 0x0 SKIP
+0x1 0x1 SKIP
+FTR_LOWER_SAFE
+0x0 0x0 0x1
+0x0 0x1 0x0
+0x1 0x0 0x1
+0x1 0x1 0x0
+FTR_HIGHER_SAFE
+0x0 0x0 0xffffffffffffffff # out of range
+0x0 0x1 SKIP
+0x1 0x0 0xffffffffffffffff # out of range
+0x1 0x1 SKIP
+FTR_HIGHER_OR_ZERO_SAFE
+0x0 0x0 SKIP
+0x0 0x1 SKIP
+0x1 0x0 SKIP
+0x1 0x1 SKIP
+
+Thanks,
+
+Ben
+
+>  
+>  	return ftr;
+> @@ -399,12 +439,15 @@ static void test_reg_set_fail(struct kvm_vcpu *vcpu, uint64_t reg,
+>  	uint8_t shift = ftr_bits->shift;
+>  	uint64_t mask = ftr_bits->mask;
+>  	uint64_t val, old_val, ftr;
+> +	bool skip;
+>  	int r;
+>  
+>  	val = vcpu_get_reg(vcpu, reg);
+>  	ftr = (val & mask) >> shift;
+>  
+> -	ftr = get_invalid_value(ftr_bits, ftr);
+> +	ftr = get_invalid_value(ftr_bits, ftr, &skip);
+> +	if (skip)
+> +		return;
+>  
+>  	old_val = val;
+>  	ftr <<= shift;
+> 
 
