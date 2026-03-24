@@ -1,93 +1,136 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC0D138423A;
-	Tue, 24 Mar 2026 10:09:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 792C418D658;
+	Tue, 24 Mar 2026 10:09:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774346993; cv=none; b=Xclb/jpJYBH/O5VCs0CryW0wg4KPvAaaZFtTdrubsxeuQ46TzeclMCqGX4LD4Qy52V3RdJ5APuUvBO+b3YGURzvWi/tgBkmf46rB8vCZ2rCKPEnw5aKIVEf+Xh23dqTBazRjfeSwvbK6cN6TUH83iDGysKaJPO7Ko8pWzk6pntY=
+	t=1774346994; cv=none; b=KUEzRsUi+D2ToiFGlykNSVaimr6C3nUEqo8rHaEnwkSevECuMKDEP6XyInQEAO0AhP72KXeS9VZ6olGJTEr94pGtPozKuPZYfGSPPU/T8F71zbxVsLbbIi4Un/GQRgDpjsvNMD9OOI15XXBNSV+YWfguhyMPb3dHIq3QmQ3iWE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774346993; c=relaxed/simple;
-	bh=btjhgDL8ET2xQZVptsvzISz3oajysKwLAulBrTG65So=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F5X8k66TvTYVGb3E8U7cNKpDzNqUqtrF6lu5NxGd1yN6uinihkGngrX0z0qgpvA7ijMX9Y5/0WFZALZfJA9SRKOTqe8IlB08TP8mCuAq1LOrIRMQbbcP5NJ4luKSH1hnHlM9E1hrWIV8Swrp/Qa4KNAUi6U0GOHFZhe9mb/bw+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=XEt4Joa/; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="XEt4Joa/"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=jmlJnTySZmDWMkOjZAoeUQR+fhdtlT74RZiVZ452PIM=; b=XEt4Joa/vs/skHzujopdU/ZI1b
-	EQuOLj0QUlR56RAzsi4wNnyAJqTq2PI/cQaFdXuPUHJ8E840mzctlxYjEZ3H8993FwYh0JM67dndW
-	Q57OGXRyzAjhP6RhlXfRZRxuAl23u6Wntp3t4Fr+G/d+6KvC1J1msDKkf51DKHPpqBxIzzPggTLZi
-	hTLJ6MXSJz3D6dz9E5C987wP0IheEtwH/CmAk/F7aXKp7Y4pLqGH0e1wx9nKGRJLEDuQujE0zNusl
-	54TAnoJxpVWtu3fkBeEVDVQfQvySqehpiM19UfsJKmPZARUGSIw/qr5/RWYXffTc2F4DF57sNP6Ld
-	GunnQvWA==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.94.2)
-	(envelope-from <leitao@debian.org>)
-	id 1w4yhX-008ELG-GY; Tue, 24 Mar 2026 10:09:30 +0000
-Date: Tue, 24 Mar 2026 03:09:25 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Miaohe Lin <linmiaohe@huawei.com>, 
-	Naoya Horiguchi <nao.horiguchi@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH 2/2] Documentation: document
- panic_on_unrecoverable_memory_failure sysctl
-Message-ID: <acJh0Sk4UdjaTFLh@gmail.com>
-References: <20260323-ecc_panic-v1-0-72a1921726c5@debian.org>
- <20260323-ecc_panic-v1-2-72a1921726c5@debian.org>
- <e046d0a8-b10b-405f-b3dd-94b7f4450313@infradead.org>
+	s=arc-20240116; t=1774346994; c=relaxed/simple;
+	bh=hbR/9TAYrlIND1OK66BlXU5nb6AlyxM23Kr3q9lcyfk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=d0bJdfifAGnFO5FBbGvZHNYns7Wqwg4mVqfFq73BSv74USpS/uESJxHKucU/IAhXf/c9xGTAIRkJAYBgzVO56+dmR+WicuMjKnDLPTzNap7ph09oenxLfIyc7ntVd+LakanGas6WLlHUCBS/l+NFINN3aEkxqpGAUGoTLDpVSfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D5AFF1476;
+	Tue, 24 Mar 2026 03:09:45 -0700 (PDT)
+Received: from [10.1.196.46] (e134344.arm.com [10.1.196.46])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 733453F63F;
+	Tue, 24 Mar 2026 03:09:47 -0700 (PDT)
+Message-ID: <745ed151-949a-47cf-a987-b811c98cf251@arm.com>
+Date: Tue, 24 Mar 2026 10:09:46 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e046d0a8-b10b-405f-b3dd-94b7f4450313@infradead.org>
-X-Debian-User: leitao
+User-Agent: Thunderbird Daily
+Subject: Re: [PATCH v6 00/40] arm_mpam: Add KVM/arm64 and resctrl glue code
+To: Gavin Shan <gshan@redhat.com>
+Cc: amitsinght@marvell.com, baisheng.gao@unisoc.com,
+ baolin.wang@linux.alibaba.com, carl@os.amperecomputing.com,
+ dave.martin@arm.com, david@kernel.org, dfustini@baylibre.com,
+ fenghuay@nvidia.com, james.morse@arm.com, jonathan.cameron@huawei.com,
+ kobak@nvidia.com, lcherian@marvell.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ peternewman@google.com, punit.agrawal@oss.qualcomm.com,
+ quic_jiles@quicinc.com, reinette.chatre@intel.com, rohit.mathew@arm.com,
+ scott@os.amperecomputing.com, sdonthineni@nvidia.com,
+ tan.shaopeng@fujitsu.com, xhao@linux.alibaba.com, catalin.marinas@arm.com,
+ will@kernel.org, corbet@lwn.net, maz@kernel.org, oupton@kernel.org,
+ joey.gouly@arm.com, suzuki.poulose@arm.com, kvmarm@lists.linux.dev,
+ zengheng4@huawei.com, linux-doc@vger.kernel.org
+References: <20260313144617.3420416-1-ben.horgan@arm.com>
+ <71f9ac1e-9f5a-4f12-807b-bbe0803f99e7@redhat.com>
+Content-Language: en-US
+From: Ben Horgan <ben.horgan@arm.com>
+In-Reply-To: <71f9ac1e-9f5a-4f12-807b-bbe0803f99e7@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hello Randy,
+Hi Gavin,
 
-On Mon, Mar 23, 2026 at 09:51:55AM -0700, Randy Dunlap wrote:
-> On 3/23/26 8:29 AM, Breno Leitao wrote:
-> > Document the new vm.panic_on_unrecoverable_memory_failure sysctl in the
-> > admin guide, following the same format as panic_on_unrecovered_nmi.
-> >
-> > Signed-off-by: Breno Leitao <leitao@debian.org>
-> > ---
-> >  Documentation/admin-guide/sysctl/vm.rst | 27 +++++++++++++++++++++++++++
-> >  1 file changed, 27 insertions(+)
-> >
-> > diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-> > index 97e12359775c9..3310fb8272fb9 100644
-> > --- a/Documentation/admin-guide/sysctl/vm.rst
-> > +++ b/Documentation/admin-guide/sysctl/vm.rst
->
->
-> > +
-> > += ===================================================================
-> > +0 Try to continue operation (default).
-> > +1 Panic immediately.  If the ``panic`` sysctl is also non-zero then the
-> > +  machine will be rebooted.
-> > += ===================================================================
->
-> The table begin and end lines must be at least as long as the text (may be
-> longer). Please extend the =========== lines by a few characters.
+On 3/23/26 04:41, Gavin Shan wrote:
+> * # Be careful, this email looks suspicious; * Out of Character: The sender is exhibiting a significant deviation from
+> their usual behavior, this may indicate that their account has been compromised. Be extra cautious before opening links
+> or attachments. *
+> On 3/14/26 12:45 AM, Ben Horgan wrote:
+>> This version of the mpam missing pieces series sees a couple of things
+>> dropped or hidden. Memory bandwith utilization with free-running counters
+>> is dropped in preference of just always using 'mbm_event' mode (ABMC
+>> emulation) which simplifies the code and allows for, in the future,
+>> filtering by read/write traffic. So, for the interim, there is no memory
+>> bandwidth utilization support. CDP is hidden behind config expert as
+>> remount of resctrl fs could potentially lead to out of range PARTIDs being
+>> used and the fix requires a change in fs/resctrl. The setting of MPAM2_EL2
+>> (for pkvm/nvhe) is dropped as too expensive a write for not much value.
+>>
+>> There are a couple of 'fixes' at the start of the series which address
+>> problems in the base driver but are only user visible due to this series.
+>>
+>> Changelogs in patches
+>>
+>> Thanks for all the reviewing and testing so far. Just a bit more to get this
+>> over the line.
+>>
+>> There is a small build conflict with the MPAM abmc precursors series [1], which
+>> alters some of the resctrl arch hooks. I will shortly be posting a respin
+>> of that too.
+>>
+>> [1] https://lore.kernel.org/lkml/20260225201905.3568624-1-ben.horgan@arm.com/
+>>
+>>  From James' cover letter:
+>>
+>> This is the missing piece to make MPAM usable resctrl in user-space. This has
+>> shed its debugfs code and the read/write 'event configuration' for the monitors
+>> to make the series smaller.
+>>
+>> This adds the arch code and KVM support first. I anticipate the whole thing
+>> going via arm64, but if goes via tip instead, the an immutable branch with those
+>> patches should be easy to do.
+>>
+>> Generally the resctrl glue code works by picking what MPAM features it can expose
+>> from the MPAM drive, then configuring the structs that back the resctrl helpers.
+>> If your platform is sufficiently Xeon shaped, you should be able to get L2/L3 CPOR
+>> bitmaps exposed via resctrl. CSU counters work if they are on/after the L3. MBWU
+>> counters are considerably more hairy, and depend on hueristics around the topology,
+>> and a bunch of stuff trying to emulate ABMC.
+>> If it didn't pick what you wanted it to, please share the debug messages produced
+>> when enabling dynamic debug and booting with:
+>> | dyndbg="file mpam_resctrl.c +pl"
+>>
+>> I've not found a platform that can test all the behaviours around the monitors,
+>> so this is where I'd expect the most bugs.
+>>
+>> The MPAM spec that describes all the system and MMIO registers can be found here:
+>> https://developer.arm.com/documentation/ddi0598/db/?lang=en
+>> (Ignored the 'RETIRED' warning - that is just arm moving the documentation around.
+>>   This document has the best overview)
+>>
+>>
+>> Based on v7.0-rc3
+>>
+>> The series can be retrieved from:
+>> https://gitlab.arm.com/linux-arm/linux-bh.git mpam_resctrl_glue_v6
+>>
+> 
+> [...]
+> 
+> Retested this series on NVidia's grace-hopper machine where L3 cache partitioning
+> and MBW (soft) limiting worked as expected. Besides, The L3 cache monitor counters
+> are increased as more cache usage is observed.
+> 
+> Tested-by: Gavin Shan <gshan@redhat.com>
 
-The HTML renders correctly in Sphinx (likely due to automatic column
-expansion), but I agree the raw table format should be properly
-structured.
+Thanks for testing and all the reviews.
 
-I'll send v2 with this corrected.
+Ben
 
-Thanks for the review,
---breno
+> 
+> Thanks,
+> Gavin
+> 
+> 
+
