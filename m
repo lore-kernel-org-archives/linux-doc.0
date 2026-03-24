@@ -1,228 +1,147 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 522A226ED37;
-	Tue, 24 Mar 2026 17:01:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BBC63EE1F3
+	for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 17:06:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774371664; cv=none; b=XDIbSS7h8jsaZ0wGQb5fJfrDR9tJ1mcLf8G9mHLDOlXFePg+jib8T2QE/lnofv8iphQwPxCJ3qukvQn3QYKhFwjO8fKbmS+h4dHAmR9ju5t5Px6RDRsq64wOajIFWX/o3KQ62PGCesf8efHe1nthylzdBP4+iPvxWLa76NqqR2Q=
+	t=1774371962; cv=none; b=YnWOesUtzL3ff14ke1Z/uCflRTvEg8Pp4UzTdaWLbGAFAqe9g04D5wxHCwQ4P4Pr8rv4SuD07jTqTcMyt+ydWOGhdIDN0nGYOyk4CGr3Ia/F1mQMsks7AKfm25lNEnwyZnI4KR1BecSLzxm7QuBcUFYTeX37C8ziXY57nsX0zIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774371664; c=relaxed/simple;
-	bh=aDKWI4cKGQKK5hVg6AfnHxki62nohW34+6dDQKvaUzA=;
+	s=arc-20240116; t=1774371962; c=relaxed/simple;
+	bh=5Sv9xAJZpaaT64nid3Je6B7u2J/2/RXvcmlIiaS9WJs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gOd8hE7UsjfxFZRmKHYu37siS+IKjTgXMwLCqzu6XxehrwwIPE8gzP5vf8MwQsJpmKXLkHo9CUdnuuT5sUBL2uMa9QXLciYGAgiVJP7NV6CYNl+WUUc8s1/zMmzF4YpfoRVVz+EX/tXZFqNK3lldN+AKSjTqlQ49LRR6JkEne74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QJ6QsE/K; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=MjTU6+KMND49MN5b2Pamw9EA3iD3qeke0oOhsZqXZ7kbghF2AjKhgmxN7QtlD50ej6fcUQRXvdsCOwT8xjO69FqWuzEECr4BpQ99f1YxFcFwG9yIXZOttr+6ywuxhAO57exG32Lx30sCoxd/2D60wI46pZRgby8kgjjuiMIPi+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=F+ocCLqH; arc=none smtp.client-ip=209.85.216.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QJ6QsE/K"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774371662; x=1805907662;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=aDKWI4cKGQKK5hVg6AfnHxki62nohW34+6dDQKvaUzA=;
-  b=QJ6QsE/Kf0vPrsjXJ/dQnbh5tHFprQkYl06i7lluhM0QlwW7EJRxfzH2
-   xZdCQMRS44/SFFBsXzuv70WzPLUQhn8xoFAmz0UxQ+VChtslI8ImTMdWR
-   tFoO6+o61WNqDMhuhLso6btP9gYCtaPuqV2T40tKsr5egKadJsJT6xl5g
-   g2btoa0QRa0msOPQUTcCJjoc+ky9XljXoodN+CENGwuWVx9smrNnyznBJ
-   IJAApmqj+HlM4ssPeCmwuiwJjexi5KOwKDk68oB5hgJE7AbKYTjTwFqnz
-   uR12UGYwXCgbUgU4l7dIJGWzmWcYdI3FaaTA2uzOtWQDzBsuXztypNHbR
-   w==;
-X-CSE-ConnectionGUID: ZvPSEm7iS12ptha/C+KBNg==
-X-CSE-MsgGUID: 1oWepLONTlqfA78l1cUg8Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="78991856"
-X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="78991856"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 10:01:00 -0700
-X-CSE-ConnectionGUID: b4BAW2/ERUWoQ6r6oZykng==
-X-CSE-MsgGUID: SL+/tSDtRZahvvTQl/a0tQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
-   d="scan'208";a="254912602"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.220])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 10:00:49 -0700
-Date: Tue, 24 Mar 2026 19:00:45 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
-	Rodrigo Siqueira <siqueira@igalia.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
-	Andy Yan <andy.yan@rock-chips.com>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="F+ocCLqH"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-35c05d7e0e9so774238a91.1
+        for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 10:06:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1774371961; x=1774976761; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=oHY3J33g6ujwnRTqJrGO/jD1PTpcRqvXhZiCbNP/dps=;
+        b=F+ocCLqHYAl+5Nc+4oVSi7m0MB45HhMwwGram+xxk+ok4l5Rgi55wO5VdXordRD9n3
+         JqHAZNOJ3l5EmfJDXbH9R3Zs6GcE8DVzMsqQciMx5+ccLWQulqC51YKSLjC031syfrLR
+         8LRl8tIr8z2MTLzw/wb7/S+QzhUNxoNYlb5k7OFDYTKid7ZJwMH0TxTrZ0uSf2U+HMDf
+         eCpbLo1ex6VU/MjzjpkFwcn0kHW+nvSCnTZ2pfYPs3EjtXKvZDr6D5msjGik81+r2mtz
+         zokKo3/2k5YytK/jpjzakodzAOIhLsQ8dJcPgCgHQU2kqCNu0fvm+zHQglERoWcLPK0b
+         O7tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774371961; x=1774976761;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=oHY3J33g6ujwnRTqJrGO/jD1PTpcRqvXhZiCbNP/dps=;
+        b=Ch692s7su7Byx19SoYDys4rHJCPEYX/PDk3RisOtntGOiySwsD07WE+xhhouKEuQOl
+         N854DJIZTj8kzmcCIx+bMvrqbQ9owLHk6LCs/7aoTkxNSv8bzzCExGJW9efnFRGCCRlG
+         VJ+0NXE/ZSZYMfkNj1zu/WS1iGNgG0IE143V1PB2OohYlUm9X72voZTSmOloZe9gvjam
+         orrJd4zcUOHQHf2KDST0dvQFrW4HeulA83+ql8eqGPCxNR/9350DaLf4Ao/WzdN7EplX
+         aVnsldev/ktm9PCKk0pYw3qs/Xh8+PmMbeIt5RlA+ybOcJw8wP3HpchNgWjyqD8YOFlK
+         tWyA==
+X-Forwarded-Encrypted: i=1; AJvYcCVmZjrVNgcxQ64mMVIlwAP0Hrpi0vcmFKrF99AlEiYDO3JXfjeUpuob1aeQO72GHYQrh9oq8A3yZyw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxM5GmEhRkA5QtxtNnNBgkcAqWfMAcksKStjRpO3qZ7HxfCM836
+	9ctFHhpgoCy2HFz1HijLobRzpiUdec1Fgbjthl+DIAqV8vkoZ7QRw+KvmCjw44B5EA==
+X-Gm-Gg: ATEYQzyeZ0yNIpRmRBVTnYqCeycRrJGYE7DlTxCWTUtlF680sI4Mw657g5eXiEE/HZA
+	VIy5lcAOWY1VjZk0r4d6N0Uo8SxKNqUPWsnxSVpHt0jptXYpsiyvumCALg3YEPQVm/sULw8r2/L
+	i4xXeGm0bQ1SPNo+Kuoxqzzl9nPENzQXRPpOmsjeC9LGAx4EQvzBymkVwn1+z+nCnJssWNA072T
+	yhP+OGxGe5n+5cc8CkwOoUtXxaKWPs1EndqDkjQGLnyMnsuGVwf5aJC5r5nJWHCOr4wmNoAFOet
+	7Q2q7KBcNoSUV0zcz8aIKCpgX8MXZmWqi9vIfD6qjnNfG/Jf6f71+y9iGpmXf/CUNRsQNweHs2o
+	n3WQFObbKSPIM4jR1Ie411e3Q7HEcLPk4x2NuFJoTExsPHhAKJtTN3sDixzrC4V+4tpouL0rBLU
+	vyyre1xPBhxZd7EZ4r8nVDm7zHas7eWfJybCN8mXhMMThy0kyK3W407ftDOukjSw==
+X-Received: by 2002:a17:90b:2249:b0:35b:a53a:7d0b with SMTP id 98e67ed59e1d1-35c0dd3ae00mr92968a91.20.1774371960194;
+        Tue, 24 Mar 2026 10:06:00 -0700 (PDT)
+Received: from google.com (239.23.105.34.bc.googleusercontent.com. [34.105.23.239])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35c03172a8asm3524836a91.15.2026.03.24.10.05.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Mar 2026 10:05:59 -0700 (PDT)
+Date: Tue, 24 Mar 2026 17:05:55 +0000
+From: David Matlack <dmatlack@google.com>
+To: Yi Liu <yi.l.liu@intel.com>
+Cc: Alex Williamson <alex@shazbot.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Adithya Jayachandran <ajayachandra@nvidia.com>,
+	Alexander Graf <graf@amazon.com>, Alex Mastro <amastro@fb.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Ankit Agrawal <ankita@nvidia.com>, Arnd Bergmann <arnd@arndb.de>,
+	Askar Safin <safinaskar@gmail.com>,
+	"Borislav Petkov (AMD)" <bp@alien8.de>,
+	Chris Li <chrisl@kernel.org>,
+	Dapeng Mi <dapeng1.mi@linux.intel.com>,
+	David Rientjes <rientjes@google.com>,
+	Feng Tang <feng.tang@linux.alibaba.com>,
+	Jacob Pan <jacob.pan@linux.microsoft.com>,
+	Jason Gunthorpe <jgg@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>,
+	Kees Cook <kees@kernel.org>, Kevin Tian <kevin.tian@intel.com>,
+	kexec@lists.infradead.org, kvm@vger.kernel.org,
+	Leon Romanovsky <leon@kernel.org>,
+	Leon Romanovsky <leonro@nvidia.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org, linux-pci@vger.kernel.org,
+	Li RongQing <lirongqing@baidu.com>, Lukas Wunner <lukas@wunner.de>,
+	Marco Elver <elver@google.com>,
+	=?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
+	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+	"Peter Zijlstra (Intel)" <peterz@infradead.org>,
+	Pranjal Shrivastava <praan@google.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Raghavendra Rao Ananta <rananta@google.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
 	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Rob Herring <robh@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, kernel@collabora.com,
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, intel-gfx@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org, linux-doc@vger.kernel.org,
-	Werner Sembach <wse@tuxedocomputers.com>,
-	Andri Yngvason <andri@yngvason.is>,
-	Marius Vlad <marius.vlad@collabora.com>
-Subject: Re: [PATCH v11 03/22] drm: Add new general DRM property "color
- format"
-Message-ID: <acLDPYuaVI2-12JX@intel.com>
-References: <20260324-color-format-v11-0-605559af4fb4@collabora.com>
- <20260324-color-format-v11-3-605559af4fb4@collabora.com>
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Samiullah Khawaja <skhawaja@google.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Vipin Sharma <vipinsh@google.com>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>,
+	William Tu <witu@nvidia.com>, Zhu Yanjun <yanjun.zhu@linux.dev>
+Subject: Re: [PATCH v3 08/24] vfio/pci: Retrieve preserved device files after
+ Live Update
+Message-ID: <acLEczJW3sGpeL5b@google.com>
+References: <20260323235817.1960573-1-dmatlack@google.com>
+ <20260323235817.1960573-9-dmatlack@google.com>
+ <815947ee-2603-47f0-9b03-f523601eae86@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260324-color-format-v11-3-605559af4fb4@collabora.com>
-X-Patchwork-Hint: comment
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+In-Reply-To: <815947ee-2603-47f0-9b03-f523601eae86@intel.com>
 
-On Tue, Mar 24, 2026 at 05:01:07PM +0100, Nicolas Frattaroli wrote:
-> +enum drm_connector_color_format {
-> +	/**
-> +	 * @DRM_CONNECTOR_COLOR_FORMAT_AUTO: The driver or display protocol
-> +	 * helpers should pick a suitable color format. All implementations of a
-> +	 * specific display protocol must behave the same way with "AUTO", but
-> +	 * different display protocols do not necessarily have the same "AUTO"
-> +	 * semantics.
-> +	 *
-> +	 * For HDMI, "AUTO" picks RGB, but falls back to YCbCr 4:2:0 if the
-> +	 * bandwidth required for full-scale RGB is not available, or the mode
-> +	 * is YCbCr 4:2:0-only, as long as the mode and output both support
-> +	 * YCbCr 4:2:0.
-> +	 *
-> +	 * For display protocols other than HDMI, the recursive bridge chain
-> +	 * format selection picks the first chain of bridge formats that works,
-> +	 * as has already been the case before the introduction of the "color
-> +	 * format" property. Non-HDMI bridges should therefore either sort their
-> +	 * bus output formats by preference, or agree on a unified auto format
-> +	 * selection logic that's implemented in a common state helper (like
-> +	 * how HDMI does it).
-> +	 */
-> +	DRM_CONNECTOR_COLOR_FORMAT_AUTO = 0,
-> +
-> +	/**
-> +	 * @DRM_CONNECTOR_COLOR_FORMAT_RGB444: RGB output format
-> +	 */
-> +	DRM_CONNECTOR_COLOR_FORMAT_RGB444,
-> +
-> +	/**
-> +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR444: YCbCr 4:4:4 output format (ie.
-> +	 * not subsampled)
-> +	 */
-> +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR444,
-> +
-> +	/**
-> +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR422: YCbCr 4:2:2 output format (ie.
-> +	 * with horizontal subsampling)
-> +	 */
-> +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR422,
-> +
-> +	/**
-> +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR420: YCbCr 4:2:0 output format (ie.
-> +	 * with horizontal and vertical subsampling)
-> +	 */
-> +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR420,
-
-Seems like this should document what the quantization range
-should be for each format.
-
-> +
-> +	/**
-> +	 * @DRM_CONNECTOR_COLOR_FORMAT_COUNT: Number of valid connector color
-> +	 * format values in this enum
-> +	 */
-> +	DRM_CONNECTOR_COLOR_FORMAT_COUNT,
-> +};
-> +
-> +/**
-> + * drm_connector_color_format_valid - Validate drm_connector_color_format value
-> + * @fmt: value to check against all values of &enum drm_connector_color_format
-> + *
-> + * Checks whether the passed in value of @fmt is one of the allowable values in
-> + * &enum drm_connector_color_format.
-> + *
-> + * Returns: %true if it's a valid value for the enum, %false otherwise.
-> + */
-> +static inline bool __pure
-> +drm_connector_color_format_valid(enum drm_connector_color_format fmt)
-> +{
-> +	switch (fmt) {
-> +	case DRM_CONNECTOR_COLOR_FORMAT_AUTO:
-> +	case DRM_CONNECTOR_COLOR_FORMAT_RGB444:
-> +	case DRM_CONNECTOR_COLOR_FORMAT_YCBCR444:
-> +	case DRM_CONNECTOR_COLOR_FORMAT_YCBCR422:
-> +	case DRM_CONNECTOR_COLOR_FORMAT_YCBCR420:
-> +		return true;
-> +	default:
-> +		return false;
-> +	}
-> +}
-> +
->  const char *
->  drm_hdmi_connector_get_output_format_name(enum drm_output_color_format fmt);
->  
-> @@ -1129,6 +1217,13 @@ struct drm_connector_state {
->  	 */
->  	enum drm_colorspace colorspace;
->  
-> +	/**
-> +	 * @color_format: State variable for Connector property to request
-> +	 * color format change on Sink. This is most commonly used to switch
-> +	 * between RGB to YUV and vice-versa.
-> +	 */
-> +	enum drm_connector_color_format color_format;
-> +
->  	/**
->  	 * @writeback_job: Writeback job for writeback connectors
->  	 *
-> @@ -2127,6 +2222,12 @@ struct drm_connector {
->  	 */
->  	struct drm_property *colorspace_property;
->  
-> +	/**
-> +	 * @color_format_property: Connector property to set the suitable
-> +	 * color format supported by the sink.
-> +	 */
-> +	struct drm_property *color_format_property;
-> +
->  	/**
->  	 * @path_blob_ptr:
->  	 *
-> @@ -2610,6 +2711,9 @@ bool drm_connector_has_possible_encoder(struct drm_connector *connector,
->  					struct drm_encoder *encoder);
->  const char *drm_get_colorspace_name(enum drm_colorspace colorspace);
->  
-> +int drm_connector_attach_color_format_property(struct drm_connector *connector,
-> +					       unsigned long supported_color_formats);
-> +
->  /**
->   * drm_for_each_connector_iter - connector_list iterator macro
->   * @connector: &struct drm_connector pointer used as cursor
+On 2026-03-24 09:08 PM, Yi Liu wrote:
+> On 3/24/26 07:58, David Matlack wrote:
+> > From: Vipin Sharma <vipinsh@google.com>
+> > 
+> > Enable userspace to retrieve preserved VFIO device files from VFIO after
+> > a Live Update by implementing the retrieve() and finish() file handler
+> > callbacks.
+> > 
+> > Use an anonymous inode when creating the file, since the retrieved
+> > device file is not opened through any particular cdev inode, and the
+> > cdev inode does not matter in practice.
 > 
-> -- 
-> 2.53.0
+> do we have a list of struct file fields that do not matter?
 
--- 
-Ville Syrjälä
-Intel
+My understanding is that VFIO only cares about these fields in struct
+file:
+
+ - private_data: Pointer to struct vfio_device_file
+ - f_op: Pointer to vfio_device_fops
+ - f_mapping: Pointer to vfio_device->inode->i_mapping
+
+This is based on cross-referencing VFIO_GROUP_GET_DEVICE_FD (which uses
+an anonymous inode) and the cdev code.
+
+> > +err_free_device_file:
+> > +	kvfree(df);
+> 
+> any reason to use kvfree()?
+
+No this can be kfree(). Will fix in v4.
