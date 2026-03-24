@@ -1,85 +1,85 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D137139DBE3
-	for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 03:43:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCBF239EF28
+	for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 03:44:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774323787; cv=none; b=CpKZzIvt/cRdboZHYbNp3O/MEOtWMPtZYFJ0GPkCnid7rPCsQCKpOpA1t7qJbY1J3aI/apTLC0MvRhUFvsMwyk4lxvtYnXsH2Uhd3BhZ1zJKZdckpicGaa9GNtG6ixo45eOVzseNB/3VmozopzPdmLWTcGi0iJQ9oQPaDUHezlM=
+	t=1774323847; cv=none; b=fXgXUlaF014TtgB/P5kLeTpRp5y/tw7KpoxYZTRRYXs+3cn/Rr9Sy5Vntbkg/RgwCoyL5caYsBxMONm+PcCDdN9mtUUze+38iPxb7Rn3f+EPPRH2dNR7PYhuaFt2XFxQcm0Wb+XjTrL934T5KZpYEIbUyi2Ly8ONO27gqG9BGJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774323787; c=relaxed/simple;
-	bh=tYxPUmrkSqy+h9zx39+4UE8iSXzxJ2KKz/e/bnLjXkg=;
+	s=arc-20240116; t=1774323847; c=relaxed/simple;
+	bh=4N9M70mrOIh0OO9rMT+OhiXTYQ/fudlY2z4WjzA3saQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jjKWwdFhHiqJI31Ximz+V7ZCcbVBFgPDT6K4Ls0e7ZNlZX2E5/kaA5QxEmqmJCO80zO/v4SweUmhI68Loeqv+lLp5LfeAouphm5Z+j0CRjfFwjuoxgpKvQIfFYdweXC8paWyWvxoqqkHjZyY5ixBIFIiPfArjSLxIGrBM2dGxOA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ObV05ZyU; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=n7g9LkR/; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:Content-Type; b=TCmUdYsph/WlUNEIBsU5A1ZsY8qtV2eym78uDLF6HrR9thor0yC108MIAH6N20DwimNrYM6yaVWg3PDDgKs2XF1D8larTjTLRm8uaLtqQuIDt7JC+CquVM38rq66bsLO+gMtsGZW0gp6PJ0rPCSmlYOXBqYC9qHwIXtFxiqBTts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Z7QHDzby; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=QwtkfI0T; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ObV05ZyU";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="n7g9LkR/"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Z7QHDzby";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="QwtkfI0T"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1774323785;
+	s=mimecast20190719; t=1774323844;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=SY61T0BWUy1OFaShdZnORkkoebo47/qKa/D/wut4yWA=;
-	b=ObV05ZyUi3o/1ImnGG1143JfLjcVVUt6aiL0HOj7m0XjguBOnD3ovdvCvCzWhPrhPHf0/c
-	RSkgxvr+6tkZoOajE1itjMXLlC8eXe5iRU32O6s2iN2ok8x0EEbcDEAkrjYjnhocK2SPoT
-	Nd6Wd5XQnPiKyhNiC5xaQXxFpBmSsfM=
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=46vkEpgGwh3UWUDmy3UOMOyjg6y8cRBpPBBpbY3RHZo=;
+	b=Z7QHDzbyPzWO6RU6PgFomJtv64hprEguElMO7NsphCeHJzTAi3zEHL+OzqXM/f0Mepdvav
+	nPlvC39H9ie+X5WjrxJ88LtOe3Lhgn6Xz6RZqDMothsKsp+hTmJF8PUXZ1+jS2iWlLwL8r
+	lKn3NGry9XhY0j1Lx4ipmSXa0xneErs=
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
+ [209.85.214.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-325-VMSvxtcPO0-R6JMojs-K8g-1; Mon, 23 Mar 2026 23:43:03 -0400
-X-MC-Unique: VMSvxtcPO0-R6JMojs-K8g-1
-X-Mimecast-MFC-AGG-ID: VMSvxtcPO0-R6JMojs-K8g_1774323783
-Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-35b96fbfc64so18427695a91.2
-        for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 20:43:03 -0700 (PDT)
+ us-mta-524-uAXl7xiHOiuBnu6GfkC34w-1; Mon, 23 Mar 2026 23:44:03 -0400
+X-MC-Unique: uAXl7xiHOiuBnu6GfkC34w-1
+X-Mimecast-MFC-AGG-ID: uAXl7xiHOiuBnu6GfkC34w_1774323843
+Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2b0565d77a6so12320095ad.2
+        for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 20:44:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1774323782; x=1774928582; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1774323843; x=1774928643; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=SY61T0BWUy1OFaShdZnORkkoebo47/qKa/D/wut4yWA=;
-        b=n7g9LkR/EWVmkoHkWuIS7T60abEwfh2KZos3pTtNJxr9mcCv8d0huhXvqaXMBz06Tb
-         npZuYFwZcrfcdsq0wHZznSP3oKZ4vvOIaLSosKz88UtiUr0em/X9NJlBHjUswL1Le7c+
-         7AH41A9cVR37FQk4JxAzmImuI7CWdb+QsBjusMxq4341u8dO8JQbW0hr+H/e9JFIHyS0
-         UZJu6y3rspJpZ3yB+QHTDnhEpJ5+lIYUDdxQ3i1ZvSdKR0iTmMTWbI3O4HTqvO+heSC9
-         YX4h64V3WPQBNDasbDLwXlVdmyb4TAQmFQ78TLQiusvnuZy8ECvehb2WoJ9qtZu9zp4I
-         Cy3Q==
+        bh=46vkEpgGwh3UWUDmy3UOMOyjg6y8cRBpPBBpbY3RHZo=;
+        b=QwtkfI0T/+0WVBBLuwDNGn4dZUNFkQd9DadS+QV0sm991j9aUz4hWH+9MgVEKF0bE3
+         RcaPGm0FR6v3ONjllmhO29sgdlQLWEuF0ko5E3ZidJ7fz4OQKh4Tb5bhMqHB35k3lJHp
+         B57yAeOMd53m8xFa7DMA/60ZqVGN+DPYv1IM3kVfGZ19ulU28qFkEh6Rw0AlFenfl5YA
+         UzviCVzy7665Wtqgk2dYnZ4Ge0SEqT+BOpIaaJbGoD7VfZa2MBeVLOWyP4snKt/fXm93
+         OFXcZM805dPXEoW0Nbjj2lIUQ34q+3SroPHbUlYtQ72lh/+oUT5Sis9/j5juG8g2DlgO
+         Hlpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774323782; x=1774928582;
+        d=1e100.net; s=20251104; t=1774323843; x=1774928643;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=SY61T0BWUy1OFaShdZnORkkoebo47/qKa/D/wut4yWA=;
-        b=l8G6Irrvfu35zG2neqLcW3o1N6WADsog6yKYYeB0jwZGZ5htYpkoTo+mHDmehfLXnU
-         xhnziUVhxTYbBUeyMmE+G70YFO0DOiv/vTwn82zQzmjcadsoPzhlKqTpGrL06leQlCXm
-         kE/4TrKsOPehsEvefQ7eQ4CB9zKEw9isL97tQ3cBuhJuyC8qgq6GdWLoKboR2FryBJfJ
-         JbyrEdlURI2cVSQliLYl2XaHAz+3xYGmHlvForYUqYDLlN97yvzpOkOK3xjKUS4TRfBZ
-         e69lEpb5sCYjgmtBsnYRRklzNVxpTFtvxGYCbzjFJ1VbYy2EH9P7V2fqpViTqxcYoyb4
-         Ttvg==
-X-Forwarded-Encrypted: i=1; AJvYcCVutkTyoI3OYVnUn3oJ/kRQa94EoP0njQ7wI96QJe0hPYJrZOH4NI9+CDDlSj5qiwsXyax/OjGNIog=@vger.kernel.org
-X-Gm-Message-State: AOJu0YySVYRXVhWqZ7q1DzIopq9dkD/Md6omvNgleOVdfKWx8HByDlms
-	k4rFvY4lAiUdRYi2TcolW+IjcroTYVhEIoynqfnxud+8TWpJMzQix/dnucYn14Jq24jveHi/iWd
-	dJSIkfsJMA4l/iwEZQCvc0bo/KAhvaSV4jflumdme/yfVJfOZ/jZGSGGkAmboOA==
-X-Gm-Gg: ATEYQzwPu+IDU/nOVxP5GN1STqswl2r9D2ci9EzDwB84WVPSmxGGVRPj+lIcgaNBS0O
-	ybKdGQObu4BRVCBjkaTFjAtK9mkXVN/z/w2+51QTHyjpe3BXbI4q1pKU2E4e9JHrSFRLU5OUDxO
-	aNl+iLrqzvP4TOfNGVWI5shdJcToKC1CNJt7QekAip2hA3+33ecmNWdK92oxtUkFzjCtlfSfM2k
-	mruPOUn4nGa2m9jdBh0ojl+wmO3+qlbki/jrtOtXEmE8Zf3UFUJn3zYcQUNi1VKGb4VMxD4Behj
-	9fA7SvSCM9LVGPTBeqDY2HJWbZa1G32GJAz/SJx8xVhgCSgj+yPhrNt9p7qeSCX3EBKo/XQC3RL
-	NGM+6zWMI5jyhxhv3qi0wTmVb8ODBsEXIJwtcE+nGjaOEvtb0Pg51z6LLz7C82Sbq
-X-Received: by 2002:a17:90b:3946:b0:354:bfb7:db0c with SMTP id 98e67ed59e1d1-35bd2d349efmr12535756a91.22.1774323782506;
-        Mon, 23 Mar 2026 20:43:02 -0700 (PDT)
-X-Received: by 2002:a17:90b:3946:b0:354:bfb7:db0c with SMTP id 98e67ed59e1d1-35bd2d349efmr12535706a91.22.1774323782097;
-        Mon, 23 Mar 2026 20:43:02 -0700 (PDT)
+        bh=46vkEpgGwh3UWUDmy3UOMOyjg6y8cRBpPBBpbY3RHZo=;
+        b=ipV+AEjEhj7c9FKA+YcCHREn2ZT1ZLueM1eCR+3TIzFZxUQ862axHcs19bvs3d0BFE
+         REQE9p1zTJ8Duvnqj4ss402480dAHrBLxVBy2kLxqK7SLGQjNm9Fwy6FNk4Tx/oN0+6o
+         WYVpui71aHrNUydT5JMM4jrLXfRwP1qmspVCDYwQoqfBenPaKHcDHmCs01rmx0EPydZI
+         gOYEh9bUXjpJV8YVmaZc3bZdFnqOd9Kz4Weh0rzidGVdpDdX+Ivg3dIxKA85qMxtRC1X
+         QlCApifcUiqqoB9NuH0UCMdDjIFrj1crBDb8x1+RS7iuhpp1ICGY87P0ylVy/MMoDMDa
+         PWFA==
+X-Forwarded-Encrypted: i=1; AJvYcCVE4jV8n1jR8N9dkwaHEmElPzUloViPBlvHxwpxhFk6DK4T7yH6bsASh6m1wOeMVo1+Iufh0/Xj2hQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzGa2/jT1zLXqv5sK0x4FGG0sWQV45LPNIpDFYgxB5/tUBod71L
+	I5PtFE8eMCblnA30ZjR5VkU/h928M7zOuA/uPWjYMVFmb2YxoI8Pu3aZN67gZkIuKDJoE3tnWWy
+	FHX+7nzcZ1m7CcPIN0nWixuPzFiixhBV1n2rO+xCeUScpE3aqW3gVNeBPqTDorA==
+X-Gm-Gg: ATEYQzznjTsYluBH7uHNqjgiGk3291zpPJ6uWYWUWDyuwrnSRsIYiWexcv8JLQaj5qe
+	EW+q0hghNALKax7gECSvpePtctFz5AjkHZx5VV+IrPQ03DEuopJOSjNB5q3rxApSEWwWl40SCs0
+	Qea8FYSkYS/n57kh0aQhFXCriVz+SKwwwSnk9GHhl7LpHfGQMHp+VcjUKA6WkKK9PE6Q5e+YbUZ
+	zSo6Ql4DY6DaMHrWB7AvDfmIoksDYr7p3KlAsegCrPCj4AZ+pcKQeDSOsVVIj5rUKIiz4203TDC
+	x196D3jkLLI8mGlSxJziET6R4VzgasaZgLavuMpygXqzVPfyrY6bMERuHDY/nJ9Fk4+oX6R7sDP
+	i5n/OBtAovjKnK6HeDBNzjn1YJH8hhIKaPmUvgtFW3zY7XeRLwESWnMpE4zjDL+kc
+X-Received: by 2002:a17:903:1a0c:b0:2b0:686a:d461 with SMTP id d9443c01a7336-2b0827b7946mr131722275ad.45.1774323842344;
+        Mon, 23 Mar 2026 20:44:02 -0700 (PDT)
+X-Received: by 2002:a17:903:1a0c:b0:2b0:686a:d461 with SMTP id d9443c01a7336-2b0827b7946mr131721755ad.45.1774323841960;
+        Mon, 23 Mar 2026 20:44:01 -0700 (PDT)
 Received: from [192.168.68.51] (n175-34-8-244.mrk21.qld.optusnet.com.au. [175.34.8.244])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35c03044d04sm751468a91.0.2026.03.23.20.42.47
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b08352aea8sm162613375ad.21.2026.03.23.20.43.47
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Mar 2026 20:43:01 -0700 (PDT)
-Message-ID: <a09e6800-bbdd-4798-a419-df656e18668e@redhat.com>
-Date: Tue, 24 Mar 2026 13:42:45 +1000
+        Mon, 23 Mar 2026 20:44:01 -0700 (PDT)
+Message-ID: <32238136-6edc-4bab-a539-76b66f6276b0@redhat.com>
+Date: Tue, 24 Mar 2026 13:43:44 +1000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -87,7 +87,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 33/40] arm64: mpam: Select ARCH_HAS_CPU_RESCTRL
+Subject: Re: [PATCH v6 34/40] arm_mpam: resctrl: Call resctrl_init() on
+ platforms that can support resctrl
 To: Ben Horgan <ben.horgan@arm.com>
 Cc: amitsinght@marvell.com, baisheng.gao@unisoc.com,
  baolin.wang@linux.alibaba.com, carl@os.amperecomputing.com,
@@ -104,24 +105,18 @@ Cc: amitsinght@marvell.com, baisheng.gao@unisoc.com,
  zengheng4@huawei.com, linux-doc@vger.kernel.org,
  Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
 References: <20260313144617.3420416-1-ben.horgan@arm.com>
- <20260313144617.3420416-34-ben.horgan@arm.com>
+ <20260313144617.3420416-35-ben.horgan@arm.com>
 Content-Language: en-US
 From: Gavin Shan <gshan@redhat.com>
-In-Reply-To: <20260313144617.3420416-34-ben.horgan@arm.com>
+In-Reply-To: <20260313144617.3420416-35-ben.horgan@arm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 3/14/26 12:46 AM, Ben Horgan wrote:
 > From: James Morse <james.morse@arm.com>
 > 
-> Enough MPAM support is present to enable ARCH_HAS_CPU_RESCTRL.  Let it
-> rip^Wlink!
-> 
-> ARCH_HAS_CPU_RESCTRL indicates resctrl can be enabled. It is enabled by the
-> arch code simply because it has 'arch' in its name.
-> 
-> This removes ARM_CPU_RESCTRL as a mimic of X86_CPU_RESCTRL.  While here,
-> move the ACPI dependency to the driver's Kconfig file.
+> Now that MPAM links against resctrl, call resctrl_init() to register the
+> filesystem and setup resctrl's structures.
 > 
 > Tested-by: Gavin Shan <gshan@redhat.com>
 > Tested-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
@@ -132,16 +127,19 @@ On 3/14/26 12:46 AM, Ben Horgan wrote:
 > Reviewed-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
 > Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
 > Signed-off-by: James Morse <james.morse@arm.com>
-> Acked-by: Catalin Marinas <catalin.marinas@arm.com>
 > Signed-off-by: Ben Horgan <ben.horgan@arm.com>
 > ---
->   arch/arm64/Kconfig               | 2 +-
->   arch/arm64/include/asm/resctrl.h | 2 ++
->   drivers/resctrl/Kconfig          | 7 +++++++
->   drivers/resctrl/Makefile         | 2 +-
->   4 files changed, 11 insertions(+), 2 deletions(-)
->   create mode 100644 arch/arm64/include/asm/resctrl.h
+> Changes since v2:
+> Use for_each_mpam...
+> error path tidying
 > 
-
+> Changes since v3:
+> Don't consider abmc/mbwu in teardown
+> ---
+>   drivers/resctrl/mpam_devices.c  | 32 ++++++++++++++---
+>   drivers/resctrl/mpam_internal.h |  4 +++
+>   drivers/resctrl/mpam_resctrl.c  | 63 ++++++++++++++++++++++++++++++++-
+>   3 files changed, 94 insertions(+), 5 deletions(-)
+> 
 Reviewed-by: Gavin Shan <gshan@redhat.com>
 
