@@ -1,117 +1,192 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 530374AEE2
-	for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 14:49:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD4923FFAA3;
+	Tue, 24 Mar 2026 14:52:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774363760; cv=none; b=sGOCDurGUq3EInG7iu9L/tgjdDd2+Ux4hpCDhOA4uyH7iiKM7u5pQpP+YJmBT0YUqobRr/EvVc+kfXR+oEXU2bLZAC9LVJvnm19x7a+XUUfT/uatpY9V6zeP+3P2tKMs+CPkooYcgTE77z6ICtIkat4RU/Y0AaVcCayBTrdQjfA=
+	t=1774363932; cv=none; b=qjo5JGZHb/wUnp+ZUU0ECyb8ohViyclTOHnz2zxONgXF1rpbubFDwbPxoNFb9K7Gm/XeyJLcM3TbML6ee3sq8vFqyngZ6BQU++cEtB6JIcxe0VTAk6XmeZ16+onsiq15NJa5WtUAFe1TceYJUk4uAHucJ98wC6dVjuSWLI5IBOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774363760; c=relaxed/simple;
-	bh=XvSZWxaAXywlzabKR7BIDShF6Tq9Q+3wmC3P9wsxAqE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZuL7fyR+nqBc0Mz4B1S9OO817R0j35Cn6mfoBtlBPv11l++9VZ+JymMAQVkBjOsG6Odq4xTTlZYXcEWu/wNRd1p6otEIWwmb9ckrtsXlp98/O3FwkpW+pxBKNEFvpvO6738IcZHkSwPv1xjm9GuM6leA82e0O3EgkCqQW9G8/jY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ec9Yx0pM; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ec9Yx0pM"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2b0abdde280so4996325ad.1
-        for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 07:49:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774363758; x=1774968558; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gSh9sYTNfvPCviCi4VjGmuUXLd20wXWnwnWNNQiCwBQ=;
-        b=Ec9Yx0pMbykyBGKkbiPuIWSE3ZsuAWunaUrVXQ1qZ0DcQe7swWIE90qdE5PuSchhfe
-         ZtAZHLCysOFS4571VgNYLo5daSj9EtfgqUydjsbt35hVU/ZZTJcb61BT1sy2S/mNEGLL
-         r+YHxO+AnIm/4j6A1QDADYz6i3O7aWf0jzsU9kCDTeM8/wZEm+r4r33dDNR36Of641eY
-         fZij+TqQVok+R0GL6HCQnPiR++sS/aZ5Oqq4H0F4UrWbFgZCOim3Ltwc0YaWrS0J+EAk
-         tkDfF5AqxyqNEeQJs195Agrt5X4ydQ3tWW1X7f/AclmCFLLyp2d4Bi74g1x1hg4iOf1Y
-         9Tlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774363758; x=1774968558;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gSh9sYTNfvPCviCi4VjGmuUXLd20wXWnwnWNNQiCwBQ=;
-        b=ZgQ+GdUqWH0ddaLBT1L28QT/KSqHf5fMBXi10RuP24QkogJ5RPFVAYq0v6B31nah3R
-         bRbVVuEHf0iW266rDbTWzZHgOYl/+SYR3f93BT8916iyPFWASIoAovSQmeIp3mwGHlzB
-         sKn5uOGk2LB0yp7TSBppKhKD+xY6Mh4hN2HACqsXfnJJ60kEqpCv8JEtQQJs4cApQW5n
-         tEwk1amgPjHFHcEQCBGJOZ7nq4AS69jYedJOpeYuXxniO3hYqrSQ39CB8WpoJyr/INKV
-         Z53CNn9NNBfkPGjub+CEuV9iAfbV2jamo8dkIDGuVAjU8VOhDTT6Pa17EVGWHRquiczq
-         nNXA==
-X-Forwarded-Encrypted: i=1; AJvYcCU4XtMmz+ZDNb8DFttq6Bb9se2ydZQIjrCCip8BhxlNuRfnN+sVhrX2vwQgfZQ2Cxg/ji7LXrnnTLU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzESVinPlR5O7OFBXIYFAQYLoKtvErxWZUj/eL6R8k52lnNpwNn
-	pdF96tA8FDxyPO1fo7pNnGm+IRlWLjMuKlH5iEKWcdXOnAMcxuuZfpPO
-X-Gm-Gg: ATEYQzytdPZjtFEedP5LaK56CcfKksQgNpCszLXBfhabkPQ3MloBf10g43K5pBuGxVU
-	nMrZ0kLaKbSSlcFiOEHBl26yyraO2DlhmRIXgRqYTn1y0/NRqEm/flmHD8vKoLCv4auuXLlDst6
-	FoIckLOAX8YooFSbKEQauXKQABCji8M5G77McAA+B1zm75rFti2LrqNJKln/PVGKe+UarhiNtUG
-	HD9xDgmNMtLDAZ6jvegDJ7hTlpC+lzHYVBMrQggSd3OP3Ni3kkAoCT/2fyH9gL2f6xIenacXe3B
-	8epLrdtXCc3Mqp7I4ayrAg/jJ0aLKfrepnsB0iGcm/262U4mYZC4rLpmVZx3jUBmITG1sjR3bg8
-	dgc4pgaQpxUvdATxxKg40u2xn1L9DSYkRtnBcwitt8msWc3oy7mtr99q81aDEkD62a1xufp4Ow/
-	OnVr9veLOyIsrJwhbTz8Y3YB8=
-X-Received: by 2002:a17:903:32c6:b0:2ae:55eb:f82d with SMTP id d9443c01a7336-2b0826d751dmr162082965ad.1.1774363757621;
-        Tue, 24 Mar 2026 07:49:17 -0700 (PDT)
-Received: from fedora ([2402:7500:a2e:a774:5078:e5c1:bc34:6044])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b083516ab1sm201252325ad.5.2026.03.24.07.49.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2026 07:49:16 -0700 (PDT)
-From: Cheng-Han Wu <hank20010209@gmail.com>
-To: sj@kernel.org,
-	corbet@lwn.net,
-	damon@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: skhan@linuxfoundation.org,
-	Cheng-Han Wu <hank20010209@gmail.com>
-Subject: [PATCH] Documentation/admin-guide/mm/damon: fix 'parametrs' typo
-Date: Tue, 24 Mar 2026 22:48:51 +0800
-Message-ID: <20260324144851.12883-1-hank20010209@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	s=arc-20240116; t=1774363932; c=relaxed/simple;
+	bh=eb7e5Ix0OyV9hWbj3JMA/NzJW9ZgvAlM/NWr5lwNJSw=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ZkG5O2J7TEGDw1nysuftzFPQkH4TLEH8hpT04rrC5WkFj4ecsbpjCzf/V8y+dWzJGn/Pw1S+I90XSkczk6TwVcafoTX3Tp49oLczFG3Jls+d2+T6vXwWRwTHu9py2mzy3pX2Z9wWUtDalnlqXGQZJuvhV9NYXG4PMK5XGtWO9pI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.107])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fgCfT0C2JzHnGkS;
+	Tue, 24 Mar 2026 22:51:29 +0800 (CST)
+Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
+	by mail.maildlp.com (Postfix) with ESMTPS id 879BC40587;
+	Tue, 24 Mar 2026 22:52:02 +0800 (CST)
+Received: from localhost (10.203.177.15) by dubpeml500005.china.huawei.com
+ (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Tue, 24 Mar
+ 2026 14:52:00 +0000
+Date: Tue, 24 Mar 2026 14:51:59 +0000
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
+To: John Groves <john@jagalactic.com>, "nvdimm@lists.linux.dev"
+	<nvdimm@lists.linux.dev>
+CC: John Groves <John@Groves.net>, Miklos Szeredi <miklos@szeredi.hu>, "Dan
+ Williams" <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>,
+	Alison Schofield <alison.schofield@intel.com>, John Groves
+	<jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+	<skhan@linuxfoundation.org>, Vishal Verma <vishal.l.verma@intel.com>, "Dave
+ Jiang" <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, "Jan
+ Kara" <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, "David
+ Hildenbrand" <david@kernel.org>, Christian Brauner <brauner@kernel.org>,
+	"Darrick J . Wong" <djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, Stefan
+ Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, Josef
+ Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Chen
+ Linxuan <chenlinxuan@uniontech.com>, "James Morse" <james.morse@arm.com>,
+	Fuad Tabba <tabba@google.com>, "Sean Christopherson" <seanjc@google.com>,
+	Shivank Garg <shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>,
+	Gregory Price <gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>, Ajay
+ Joshi <ajayjoshi@micron.com>, "venkataravis@micron.com"
+	<venkataravis@micron.com>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-cxl@vger.kernel.org"
+	<linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org"
+	<linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH V9 5/8] dax: Add dax_operations for use by fs-dax on
+ fsdev dax
+Message-ID: <20260324145159.0000078f@huawei.com>
+In-Reply-To: <0100019d1d47e459-48f2a4e6-edab-4002-bde3-2ba642deccaf-000000@email.amazonses.com>
+References: <0100019d1d463523-617e8165-a084-4d91-aa5e-13778264d5d4-000000@email.amazonses.com>
+	<20260324003851.5045-1-john@jagalactic.com>
+	<0100019d1d47e459-48f2a4e6-edab-4002-bde3-2ba642deccaf-000000@email.amazonses.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100010.china.huawei.com (7.191.174.197) To
+ dubpeml500005.china.huawei.com (7.214.145.207)
 
-Fix the misspelling of "parametrs" as "parameters" in
-reclaim.rst and lru_sort.rst.
+On Tue, 24 Mar 2026 00:39:04 +0000
+John Groves <john@jagalactic.com> wrote:
 
-Signed-off-by: Cheng-Han Wu <hank20010209@gmail.com>
----
- Documentation/admin-guide/mm/damon/lru_sort.rst | 2 +-
- Documentation/admin-guide/mm/damon/reclaim.rst  | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+> From: John Groves <John@Groves.net>
+> 
+> fsdev: Add dax_operations for use by famfs.
+> 
+> This replicates the functionality from drivers/nvdimm/pmem.c that
+> conventional fs-dax file systems (e.g. xfs) use to support dax
+> read/write/mmap to a daxdev - without which famfs can't sit atop a
+> daxdev.
+> 
+> - These methods are based on pmem_dax_ops from drivers/nvdimm/pmem.c
+> - fsdev_dax_direct_access() returns the hpa, pfn and kva. The kva was
+>   newly stored as dev_dax->virt_addr by dev_dax_probe().
+> - The hpa/pfn are used for mmap (dax_iomap_fault()), and the kva is used
+>   for read/write (dax_iomap_rw())
+> - fsdev_dax_recovery_write() and dev_dax_zero_page_range() have not been
+>   tested yet. I'm looking for suggestions as to how to test those.
+> - dax-private.h: add dev_dax->cached_size, which fsdev needs to
+>   remember. The dev_dax size cannot change while a driver is bound
+>   (dev_dax_resize returns -EBUSY if dev->driver is set). Caching the size
+>   at probe time allows fsdev's direct_access path can use it without
+>   acquiring dax_dev_rwsem (which isn't exported anyway).
+> 
+> Signed-off-by: John Groves <john@groves.net>
+The indent of trailing parameter lines is very random in here.
+Pick a style and stick to it.  Few other trivial things inline.
 
-diff --git a/Documentation/admin-guide/mm/damon/lru_sort.rst b/Documentation/admin-guide/mm/damon/lru_sort.rst
-index 20a8378d5a94..4f6a644be2ff 100644
---- a/Documentation/admin-guide/mm/damon/lru_sort.rst
-+++ b/Documentation/admin-guide/mm/damon/lru_sort.rst
-@@ -75,7 +75,7 @@ Make DAMON_LRU_SORT reads the input parameters again, except ``enabled``.
- 
- Input parameters that updated while DAMON_LRU_SORT is running are not applied
- by default.  Once this parameter is set as ``Y``, DAMON_LRU_SORT reads values
--of parametrs except ``enabled`` again.  Once the re-reading is done, this
-+of parameters except ``enabled`` again.  Once the re-reading is done, this
- parameter is set as ``N``.  If invalid parameters are found while the
- re-reading, DAMON_LRU_SORT will be disabled.
- 
-diff --git a/Documentation/admin-guide/mm/damon/reclaim.rst b/Documentation/admin-guide/mm/damon/reclaim.rst
-index 8eba3da8dcee..1f54a2d270f5 100644
---- a/Documentation/admin-guide/mm/damon/reclaim.rst
-+++ b/Documentation/admin-guide/mm/damon/reclaim.rst
-@@ -67,7 +67,7 @@ Make DAMON_RECLAIM reads the input parameters again, except ``enabled``.
- 
- Input parameters that updated while DAMON_RECLAIM is running are not applied
- by default.  Once this parameter is set as ``Y``, DAMON_RECLAIM reads values
--of parametrs except ``enabled`` again.  Once the re-reading is done, this
-+of parameters except ``enabled`` again.  Once the re-reading is done, this
- parameter is set as ``N``.  If invalid parameters are found while the
- re-reading, DAMON_RECLAIM will be disabled.
- 
--- 
-2.53.0
+Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+
+
+> ---
+>  drivers/dax/dax-private.h |  1 +
+>  drivers/dax/fsdev.c       | 84 +++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 85 insertions(+)
+
+> diff --git a/drivers/dax/fsdev.c b/drivers/dax/fsdev.c
+> index c75478d3d548..be3d2b0e8418 100644
+> --- a/drivers/dax/fsdev.c
+> +++ b/drivers/dax/fsdev.c
+
+> +static long __fsdev_dax_direct_access(struct dax_device *dax_dev, pgoff_t pgoff,
+> +			long nr_pages, enum dax_access_mode mode, void **kaddr,
+> +			unsigned long *pfn)
+> +{
+> +	struct dev_dax *dev_dax = dax_get_private(dax_dev);
+> +	size_t size = nr_pages << PAGE_SHIFT;
+> +	size_t offset = pgoff << PAGE_SHIFT;
+> +	void *virt_addr = dev_dax->virt_addr + offset;
+> +	phys_addr_t phys;
+> +	unsigned long local_pfn;
+> +
+> +	phys = dax_pgoff_to_phys(dev_dax, pgoff, nr_pages << PAGE_SHIFT);
+> +	if (phys == -1) {
+> +		dev_dbg(&dev_dax->dev,
+> +			"pgoff (%#lx) out of range\n", pgoff);
+> +		return -EFAULT;
+> +	}
+> +
+> +	if (kaddr)
+> +		*kaddr = virt_addr;
+> +
+> +	local_pfn = PHYS_PFN(phys);
+Trivial but if !pfn, local_pfn not used so...
+
+	if (pfn)
+		*pfn = PHYS_PFN(phys);
+
+Obviously ignore this if it becomes used in some later patch.
+
+> +	if (pfn)
+> +		*pfn = local_pfn;
+> +
+> +	/*
+> +	 * Use cached_size which was computed at probe time. The size cannot
+> +	 * change while the driver is bound (resize returns -EBUSY).
+Might be worth capturing somewhere in code that using the value from
+probe means you don't need locking.
+> +	 */
+> +	return PHYS_PFN(min(size, dev_dax->cached_size - offset));
+> +}
+> +
+> +static int fsdev_dax_zero_page_range(struct dax_device *dax_dev,
+> +			pgoff_t pgoff, size_t nr_pages)
+Three tabs
+> +{
+> +	void *kaddr;
+> +
+> +	WARN_ONCE(nr_pages > 1, "%s: nr_pages > 1\n", __func__);
+> +	__fsdev_dax_direct_access(dax_dev, pgoff, 1, DAX_ACCESS, &kaddr, NULL);
+> +	fsdev_write_dax(kaddr, ZERO_PAGE(0), 0, PAGE_SIZE);
+> +	return 0;
+> +}
+> +
+> +static long fsdev_dax_direct_access(struct dax_device *dax_dev,
+> +		  pgoff_t pgoff, long nr_pages, enum dax_access_mode mode,
+
+Why that indent?  Two tabs and a couple of spaces...
+Either two tabs, or align after (
+
+> +		  void **kaddr, unsigned long *pfn)
+> +{
+> +	return __fsdev_dax_direct_access(dax_dev, pgoff, nr_pages, mode,
+> +					 kaddr, pfn);
+> +}
+> +
+> +static size_t fsdev_dax_recovery_write(struct dax_device *dax_dev, pgoff_t pgoff,
+> +		void *addr, size_t bytes, struct iov_iter *i)
+two tabs....
+> +{
+> +	return _copy_from_iter_flushcache(addr, bytes, i);
+> +}
+> +
+> +static const struct dax_operations dev_dax_ops = {
+> +	.direct_access = fsdev_dax_direct_access,
+> +	.zero_page_range = fsdev_dax_zero_page_range,
+> +	.recovery_write = fsdev_dax_recovery_write,
+> +};
+
 
