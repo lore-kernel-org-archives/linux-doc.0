@@ -1,63 +1,63 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E6103A544F
-	for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 13:05:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 566773F7ABD
+	for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 13:05:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774357536; cv=none; b=txFkS4Q+6KNufP9crNrlNTxG4D9IfQsbUMnM+rVH2AxRPcBSCz2ZdoBOh+H/UnQiwPIi+UoiJE33wLrMwt0nncpcuf2tzCW2h0DD41v3UtyVC2nrE5NWa1ZTM2WoTuC/2vZplnLdrD6ei0B/fj7puQ0KwLMr7gInz0O+htBoiD8=
+	t=1774357557; cv=none; b=cwkFXb6mu4sr3CeKGSpxpbWZHVHV09anCQmIT2gUnnlKO5OoU0jZXRiaf/c5mo7im48W4h6ET/U0ZJw17gaxQdxCzaELw9ckKVyr4Udqt9GrTOa+WQFjLUTCUHaPDchUGAj5gYWXF55uTCGg9caFTi42yHcIGmfyeDKrbhVKEsk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774357536; c=relaxed/simple;
-	bh=c5ob8x+63Jafk7vg3P7eaQn2ve59Nggw5TcAv/2m3zw=;
+	s=arc-20240116; t=1774357557; c=relaxed/simple;
+	bh=cw7XrKGnbZgtS8pgMWwXTOKSgj52ibjy+qLdH1G/JKw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sQdokeMRKq5zxfLVKF7VtI13EKGCWO6mUPGZewW7wSMDEwr4eu18sk5We9JpR2khUXtIbmcnCpQa5zNCx9nLlNnWjE5EyugcMNOlanNKU50BxXoa9KEZoa8X+i953bqwpnKphcVaerR1eTAcDUVG62Zq0HmAzpv3Dzq4Yb7pW/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=EFzEjqL1; arc=none smtp.client-ip=209.85.128.44
+	 Content-Type:Content-Disposition:In-Reply-To; b=OgbGkWE+vd9buTlBB167VswRr0JtSkFXbe0QmLkAhEEZ/HADSaJBFti5CZAUPPX6wwUtlBi2QHHP6MwknNV+KnAIohrESDKux6QAgnq4qtD5frVcSl1a53XcjU/ZxETjQmCDL979klsLQNR9qd7zCZodb8aFKFYwRp3uX/2uR2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=bVuM8NHo; arc=none smtp.client-ip=209.85.221.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="EFzEjqL1"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-487035181a7so21612235e9.2
-        for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 06:05:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="bVuM8NHo"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-439c6fc2910so992822f8f.0
+        for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 06:05:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1774357534; x=1774962334; darn=vger.kernel.org;
+        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1774357555; x=1774962355; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=c5ob8x+63Jafk7vg3P7eaQn2ve59Nggw5TcAv/2m3zw=;
-        b=EFzEjqL1CrH9+xTEQCCpzA5wU2vTa0ZY3RcosBio97hIDcHZBskxxAceCFYxV67SFM
-         PsTcBXmJJvz4+0zHWTzSrknsIRvi1p7y9gYNNDPeAy6cBzEUo4GHYGzSilSFRbUdOhBY
-         shUTABQWxsLpoSzpCZFYP6G9GqGEMj90LW9rmoQwemQ6I9/otaeFCWu9SP/rKdtOcV2N
-         RvyJsoJ+5I/0lFD5fi+ZjIej+CX+layGDTrr9dJUmgQdQVZwYcZafg8XEa/nZSkm45a2
-         MXtwhLewzXFRS37telw/QsZrlr9R1w/prdiV7ebHrNdCbRvSWCdfyMihQCLi4MxiZtni
-         bT7g==
+        bh=cw7XrKGnbZgtS8pgMWwXTOKSgj52ibjy+qLdH1G/JKw=;
+        b=bVuM8NHoZV50ZFj9OagRUGXJyS3nVAzC6XcpeTbnAFals5IF/fB70YMGhn4GnfnS7d
+         1WeL2D0NskAabQ/EKXp8kHU9Ic1H2QASEdVcN3aU/w8SfEylfztJLnWs1WRjFGTyBHC/
+         3LO+Aqqh65k/Jq7xqGmHzdZXWm8BsP5z8MrgCB72Ie92T+fZ8re8xFEPHxz1Y7twTxoA
+         HUybpoztHaIP50ikrUpcXd128Wi2MOwoNibcUYvaNaGPBe02qvCicW12NDhksSNxH1ud
+         mqPIX0YwEtEI4QwX+Y7L9jGjcx84zNpWM2rfvc/pz3KMEfGwV1bDDrrv26WsnR/vxxEi
+         dS3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774357534; x=1774962334;
+        d=1e100.net; s=20251104; t=1774357555; x=1774962355;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=c5ob8x+63Jafk7vg3P7eaQn2ve59Nggw5TcAv/2m3zw=;
-        b=KS0jq0bM29tz8gnnGxnMdjJOwfjJhMtV6lN2ZhQ5Pf4jpocjefDA1PyaCJ0BBNCOzO
-         Uh9RlQUrlCsJFRNLLqUIjUAmfLKWk+UQN+bnKb+QxTuL/t8Aje1pVQ1pod9HPHlhhxlJ
-         q/AwFk92khmrdCLJ6Tl1zJVfDs5Po+lRifHfQtZI61tpmMRoxfcaM/4hEUv4QzzRrq2S
-         7XlKrOh3V957Ka4lZcsXdNwvBbu/0rHgJO06s0WbEwQrqKVWPhKVBnUR0mJ+6uJInK2O
-         /73BfsIUamRzy7SEltRuCcVjv2DWVyrbCLHvdmKBzcC2SQmw8NU1ZIXgfHzzJssxVV3S
-         jrBQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWDEdQJ2FHifEOWkWQY1XTGA8Qz20UOF/qgw6TplWvLCngPglD4XrxGzsFKYrOxBm2nAt2CyFibJMM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw9lgb2ozluwvP0B5R0Wu9yT9DT/AEZ1pJrmADxt/2g73Lw8iWD
-	d8kUJgsJi4dFFRhwfZR7kQIrM0vf4OZ2fSZ7knfMtiCPegqnUPS+HOtv8ibuWKaa/74=
-X-Gm-Gg: ATEYQzzafYWCi1/q3P3V9f8wIkjHCZ3XSF3v2XtxUsadKE0v3XwlGEGsdz31R8U5uD7
-	CXB5WlQgpNnY8oGypMNwVYPUHoN2h5FWK89wGG9pf6KKeeufoAdSotcoqJlHaDIpMj6Yakm8mmo
-	nNzFBjvpnsLOYCQ+eBsoXHEjRiZ5n+NR8IlF1G/yhA7GC/3CCkOxIq9mufPHX6rPZZcyrIgf2r/
-	5+/qijZCurmxQPEmKOfA2BpXSa+TLvs67strE2291pfKy0a3tbz5d3VM0hTRnZVSJUayl1ECiI7
-	oDiUFNQ8frcbqxVovvQG3MlfFWCY4uhnJJ7npLEEeze6duoq1YCei6X1avJ2odZWjN/lO3RqGlv
-	5oKCaKKLOLOhh0r0VThecusJY9PTGDLUcxeUkHfyakIqhg/CwKh+TpdtFsXYvJfARvyRkiHLFuh
-	mL3L+w6ZbMbRrLx5r3fI8iFsVOWhafKKZc3/I=
-X-Received: by 2002:a05:600c:4f10:b0:487:2e8:69c5 with SMTP id 5b1f17b1804b1-48702e86a88mr205126035e9.15.1774357533835;
-        Tue, 24 Mar 2026 06:05:33 -0700 (PDT)
+        bh=cw7XrKGnbZgtS8pgMWwXTOKSgj52ibjy+qLdH1G/JKw=;
+        b=fzFE5IZzlrTNkDbj3/qqNiPlFiAtnNvLEn2QKkOAEfiTQqfOIKHR6tVF/YCvY+Zp5l
+         iho/CivqZc3w37GecWw1aw+YDfZJVSyAMJapZgO2sur2JjH6mZP45vzYcxF+NWBX17+M
+         BYBoNdSUjS7rGeTyWVAmVcf6CeXtBSgbUAZFC5PCkdurRaOfYGH8AqxBJkdznuCmjGUZ
+         Rx3jPzx6cN2ebf5/nBcFbpLe2qYqI4MjMzziCTxtDLuT46Q0I4jz5/jLxXSzgPZrVpbM
+         KFQUbDdf/B56nT8hpVkhHYAmwVcJxBwqcM2QT4GvuvGwc4WIonIbMUV+hp/dac4TaiZ+
+         CDvA==
+X-Forwarded-Encrypted: i=1; AJvYcCVa2dh9hFHmVlYj/+gffow4e4rUBt0iSZJPeGE123IDGsx/AmralEhjjhLkCaus4xcUWAjqF5gqa6A=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyOCTwMzz1zLlAIO1GYL+dWiiMynpEKhQ81wkAjxjgHEQp+VEbK
+	gQlLpxLKv7v5IoEKDxbYJNmlQ8Ue7txrgsVMPzH2t6HS1SdOW3wGWwhZSS4J51S7CTM=
+X-Gm-Gg: ATEYQzzwMCEumJCDr9erAIxlch0mVqET8Yof3seAh7YEOrIFEtFmOhMGddvMivp7l15
+	/xIXFRo/sAKi4HUB4mYIhjASDKRhExm7sydmGYX23gbsIYYKE4n0SiQwbOYYWnFUJvbzQpT82uN
+	XgOqutWUwcBeD8PdSXln7yxQkC3ztfRoCu2fjQeJjB9Fm2oS9YP5T4SRhS393dRjqNb4gH83chk
+	ZxaYHQlYh4a5tjYlqMWhTbzdQYrBDB7o2LX29d8DDWGaReNyk5V3m+DFDTw7vQf25/J6ldUHDUY
+	xBlof2bOBAODA71dnDUWwyMHxsHzBC3AD137Z70pPxx5pBDPVzuLjYA/MBgn/HSZn9aKL2H+k35
+	K/vJiXk7IBXmfYJRhaav1mZv3msf8nJFs/RtOiHrmDmZVJJNsDNWNknRyTjJxis7cKa3a1o55Yx
+	KRl213MWpfmRVUpAJ098cXUf3VWaj06iu9L2qnK1IZZOmngA==
+X-Received: by 2002:a05:6000:26d2:b0:43b:3d4f:e18d with SMTP id ffacd0b85a97d-43b64287044mr25237105f8f.39.1774357554406;
+        Tue, 24 Mar 2026 06:05:54 -0700 (PDT)
 Received: from FV6GYCPJ69 ([140.209.217.211])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48710fa0e35sm46182275e9.3.2026.03.24.06.05.31
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b6470f902sm39989765f8f.28.2026.03.24.06.05.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2026 06:05:33 -0700 (PDT)
-Date: Tue, 24 Mar 2026 14:05:30 +0100
+        Tue, 24 Mar 2026 06:05:54 -0700 (PDT)
+Date: Tue, 24 Mar 2026 14:05:51 +0100
 From: Jiri Pirko <jiri@resnulli.us>
 To: Tariq Toukan <tariqt@nvidia.com>
 Cc: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
@@ -76,11 +76,11 @@ Cc: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
 	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
 	linux-rdma@vger.kernel.org, linux-kselftest@vger.kernel.org, Gal Pressman <gal@nvidia.com>, 
 	Jiri Pirko <jiri@nvidia.com>
-Subject: Re: [PATCH net-next V8 03/14] devlink: Migrate from info->user_ptr
- to info->ctx
-Message-ID: <yfpepx63i2om7y62kspzizq7a3xxknfnzrg7j27ppt2oxpeou2@kfbomamxpdo4>
+Subject: Re: [PATCH net-next V8 01/14] devlink: Update nested instance
+ locking comment
+Message-ID: <owfpttw4n7ft5gisy4gvmd7z22hcafjlcr5i3e4t22j4w3rgz5@drxvpqqmiuen>
 References: <20260324122848.36731-1-tariqt@nvidia.com>
- <20260324122848.36731-4-tariqt@nvidia.com>
+ <20260324122848.36731-2-tariqt@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -89,18 +89,19 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260324122848.36731-4-tariqt@nvidia.com>
+In-Reply-To: <20260324122848.36731-2-tariqt@nvidia.com>
 
-Tue, Mar 24, 2026 at 01:28:37PM +0100, tariqt@nvidia.com wrote:
+Tue, Mar 24, 2026 at 01:28:35PM +0100, tariqt@nvidia.com wrote:
 >From: Cosmin Ratiu <cratiu@nvidia.com>
 >
->Replace deprecated info->user_ptr[0]/[1] with a typed
->devlink_nl_ctx struct stored in info->ctx. The struct aliases
->the same union memory, so the migration is safe.
+>In commit [1] a comment about nested instance locking was updated. But
+>there's another place where this is mentioned, so update that as well.
 >
->There are no functionality changes here.
+>[1] commit 0061b5199d7c ("devlink: Reverse locking order for nested
+>instances")
 >
 >Signed-off-by: Cosmin Ratiu <cratiu@nvidia.com>
+>Reviewed-by: Carolina Jubran <cjubran@nvidia.com>
 >Signed-off-by: Tariq Toukan <tariqt@nvidia.com>
 
 Reviewed-by: Jiri Pirko <jiri@nvidia.com>
