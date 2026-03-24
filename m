@@ -1,224 +1,186 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from a48-178.smtp-out.amazonses.com (a48-178.smtp-out.amazonses.com [54.240.48.178])
+	(using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 386E632AAA7;
-	Tue, 24 Mar 2026 00:40:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7A2C2701CB;
+	Tue, 24 Mar 2026 00:40:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.240.48.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774312801; cv=none; b=LvJ3M4E9sYZOvbljotigY21N/IV92W2PBI5NCo9T7pMYljaP9wtUmPzyJyGbnBpnAqx5hYq6c2m85le+lGLI9SKYtEtCasALgbuvJ8/cia7+VK484rRHegBx/yHNoEe210rPiVwCkecaZ8MRFQXKiGBLwrDJXgJ4SpdNtt75iRQ=
+	t=1774312839; cv=none; b=sozKW50SSAPzN1Yye2CoI4VT23Bxdm0e7hTWvGOgRyCd7wZc/jcLB5+DMz9Vx9wePpGYHeQ43B+zfLVhFF4xSs6e4ct9XrNL8qw+WbiNPL9dudIE7XWhzYetvwOxp6ClRiQIDaSnFwkmDDqHPXUJTL4YGEurW8A2Sn/8pHiKrgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774312801; c=relaxed/simple;
-	bh=vjPTBgwRkNPpj8g60XG24l6u4MKrR9E2q9j+xrBCY/c=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fffSdwMm0XCr+zOcYjGG4+a7K7qvA4l+Bk/vJX14KqYQenU1FMcxHtUKsHL02nnvkBH8W7v4G1gL/J7fuloMxbdpn6ua4BFaeEq9TPAYX1CWk4oDhZWcIvOmESbTkpmAIljhWbIIoSgU0Wdji5VSa4oYFYzho3adrZPxiy1TCQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UMAN5iao; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774312839; c=relaxed/simple;
+	bh=aVOWktn7Be6Ghxm+vuGHaN6h+AiXFLMEER9GbIe1bII=;
+	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:In-Reply-To:
+	 References:Message-ID; b=i6f8+eXtu5hYWNu8S0KHf4x0YyjV2vLykuWoyxHvYuf0PzI5f/VESxiK1qhw6CFb6bYTbi7kfsG7k/E3qX6DAEPLHYipMrdZJOers4HuLtQX4NY9nsfJsnKwXV3zVxQKcGT8uB1IuuIOpPJN2E6LSJYRnXU3kv8KtsTwz5x2FmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jagalactic.com; spf=pass smtp.mailfrom=amazonses.com; dkim=pass (1024-bit key) header.d=jagalactic.com header.i=@jagalactic.com header.b=e3135u4/; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=mceDZUFp; arc=none smtp.client-ip=54.240.48.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jagalactic.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazonses.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UMAN5iao"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AB6AC2BCB7;
-	Tue, 24 Mar 2026 00:40:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774312800;
-	bh=vjPTBgwRkNPpj8g60XG24l6u4MKrR9E2q9j+xrBCY/c=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=UMAN5iaoN2R/H4BluGxXNkZeGXMDBR6YJkTKMNLE+NO961MjiVG2tQEldY0QSzZVn
-	 3BiqXbsb3fjMJEViEEfP3uus6I53jVjQR/ymhU2zWmcH/i3j7VKaRBCMwtXbkNJXWr
-	 bU6WIKeMBEoHHz2wF4ogzI28eZndPd5G95BmLHe07xgBGMik/oRSuuA6jazLtc6V7J
-	 VZpv/e4s9Fx33wHsLnCLYJcz5w6kBvpL7RSVelWr0WDbrFyc0FFYY+UgI8sw8tc9kJ
-	 AOMoO1GSXGa1Nea/U4xJEAFGm4a9V6HAyT08GbgzLY8uST8micXKu7GlvNiBQPzks+
-	 M8BA39GykcmuQ==
-From: SeongJae Park <sj@kernel.org>
-To: gutierrez.asier@huawei-partners.com
-Cc: SeongJae Park <sj@kernel.org>,
-	artem.kuzin@huawei.com,
-	stepanov.anatoly@huawei.com,
-	wangkefeng.wang@huawei.com,
-	yanquanmin1@huawei.com,
-	zuoze1@huawei.com,
-	damon@lists.linux.dev,
-	akpm@linux-foundation.org,
-	ljs@kernel.org,
-	Liam.Howlett@oracle.com,
-	vbabka@kernel.org,
-	rppt@kernel.org,
-	surenb@google.com,
-	mhocko@suse.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v1 1/1] This patch set introces a new action: DAMOS_COLLAPSE.
-Date: Mon, 23 Mar 2026 17:39:51 -0700
-Message-ID: <20260324003952.86819-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260323145646.4165053-1-gutierrez.asier@huawei-partners.com>
-References: 
+	dkim=pass (1024-bit key) header.d=jagalactic.com header.i=@jagalactic.com header.b="e3135u4/";
+	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="mceDZUFp"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=o25mqk5iffcfzgc3wo2zjhkohcyjzsoq; d=jagalactic.com; t=1774312836;
+	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:References:Message-Id;
+	bh=aVOWktn7Be6Ghxm+vuGHaN6h+AiXFLMEER9GbIe1bII=;
+	b=e3135u4/l40Wb37A57vL7i9gjpihgHoJqUc0IxkDExmycii4Wh40FsQlQ359rOUb
+	z+4w40g1FvXFOsBr1y4W/8tIQ3Ja8mtHyY5ujUaSuFy8aoDYPzq6xqkkxhw5ov6DEls
+	dE+eUY+mrqsqBHE2iNNrl0OTMFj55E1Tcas4kq6M=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1774312836;
+	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:References:Message-Id:Feedback-ID;
+	bh=aVOWktn7Be6Ghxm+vuGHaN6h+AiXFLMEER9GbIe1bII=;
+	b=mceDZUFpv9Sch9W80gndT4ARXd4ld3WdZN7wZwO09jtaKmVlKx1LvbWKDdsRCkb7
+	Bzoz3OSSQimWn2tl7r740X25CsIO3T+YmVgyqmvo4GiaFiSt5K/upiyMSU+hyvWNLfB
+	jjH1cUgwqItGWmv3GvW5/ibanH9kP9Q1C2Yi+I08=
+Subject: [PATCH V9 01/10] famfs_fuse: Update macro
+ s/FUSE_IS_DAX/FUSE_IS_VIRTIO_DAX/
+From: =?UTF-8?Q?John_Groves?= <john@jagalactic.com>
+To: =?UTF-8?Q?John_Groves?= <John@Groves.net>, 
+	=?UTF-8?Q?Miklos_Szeredi?= <miklos@szeredi.hu>, 
+	=?UTF-8?Q?Dan_Williams?= <dan.j.williams@intel.com>, 
+	=?UTF-8?Q?Bernd_Schubert?= <bschubert@ddn.com>, 
+	=?UTF-8?Q?Alison_Schofiel?= =?UTF-8?Q?d?= <alison.schofield@intel.com>
+Cc: =?UTF-8?Q?John_Groves?= <jgroves@micron.com>, 
+	=?UTF-8?Q?Jonathan_Corbe?= =?UTF-8?Q?t?= <corbet@lwn.net>, 
+	=?UTF-8?Q?Shuah_Khan?= <skhan@linuxfoundation.org>, 
+	=?UTF-8?Q?Vishal_Verma?= <vishal.l.verma@intel.com>, 
+	=?UTF-8?Q?Dave_Jiang?= <dave.jiang@intel.com>, 
+	=?UTF-8?Q?Matthew_Wilcox?= <willy@infradead.org>, 
+	=?UTF-8?Q?Jan_Kara?= <jack@suse.cz>, 
+	=?UTF-8?Q?Alexander_Viro?= <viro@zeniv.linux.org.uk>, 
+	=?UTF-8?Q?David_Hildenbrand?= <david@kernel.org>, 
+	=?UTF-8?Q?Christian_Bra?= =?UTF-8?Q?uner?= <brauner@kernel.org>, 
+	=?UTF-8?Q?Darrick_J_=2E_Wong?= <djwong@kernel.org>, 
+	=?UTF-8?Q?Randy_Dunlap?= <rdunlap@infradead.org>, 
+	=?UTF-8?Q?Jeff_Layton?= <jlayton@kernel.org>, 
+	=?UTF-8?Q?Amir_Goldstein?= <amir73il@gmail.com>, 
+	=?UTF-8?Q?Jonathan_Cameron?= <Jonathan.Cameron@huawei.com>, 
+	=?UTF-8?Q?Stefan_Hajnoczi?= <shajnocz@redhat.com>, 
+	=?UTF-8?Q?Joanne_Koong?= <joannelkoong@gmail.com>, 
+	=?UTF-8?Q?Josef_Bacik?= <josef@toxicpanda.com>, 
+	=?UTF-8?Q?Bagas_Sanjaya?= <bagasdotme@gmail.com>, 
+	=?UTF-8?Q?Chen_Linxuan?= <chenlinxuan@uniontech.com>, 
+	=?UTF-8?Q?James_Morse?= <james.morse@arm.com>, 
+	=?UTF-8?Q?Fuad_Tabba?= <tabba@google.com>, 
+	=?UTF-8?Q?Sean_Christopherson?= <seanjc@google.com>, 
+	=?UTF-8?Q?Shivank_Garg?= <shivankg@amd.com>, 
+	=?UTF-8?Q?Ackerley_Tng?= <ackerleytng@google.com>, 
+	=?UTF-8?Q?Gregory_Pric?= =?UTF-8?Q?e?= <gourry@gourry.net>, 
+	=?UTF-8?Q?Aravind_Ramesh?= <arramesh@micron.com>, 
+	=?UTF-8?Q?Ajay_Joshi?= <ajayjoshi@micron.com>, 
+	=?UTF-8?Q?venkataravis=40micron=2Ecom?= <venkataravis@micron.com>, 
+	=?UTF-8?Q?linux-doc=40vger=2Ekernel=2Eorg?= <linux-doc@vger.kernel.org>, 
+	=?UTF-8?Q?linux-kernel=40vger=2Ekernel=2Eorg?= <linux-kernel@vger.kernel.org>, 
+	=?UTF-8?Q?nvdimm=40lists=2Elinux=2Edev?= <nvdimm@lists.linux.dev>, 
+	=?UTF-8?Q?linux-cxl=40vger=2Ekernel=2Eorg?= <linux-cxl@vger.kernel.org>, 
+	=?UTF-8?Q?linux-fsdevel=40vger=2Ekernel=2Eorg?= <linux-fsdevel@vger.kernel.org>, 
+	=?UTF-8?Q?John_Groves?= <john@groves.net>
+Date: Tue, 24 Mar 2026 00:40:36 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: 
+ <0100019d1d48b7e8-4468329f-b446-43f1-87db-3c7e1ff6f28b-000000@email.amazonses.com>
+References: 
+ <0100019d1d48b7e8-4468329f-b446-43f1-87db-3c7e1ff6f28b-000000@email.amazonses.com> 
+ <20260324004026.5170-1-john@jagalactic.com>
+X-Mailer: Amazon WorkMail
+Thread-Index: AQHcuybTO/D9a4/hQ3unp0Ndtenrjg==
+Thread-Topic: [PATCH V9 01/10] famfs_fuse: Update macro
+ s/FUSE_IS_DAX/FUSE_IS_VIRTIO_DAX/
+X-Wm-Sent-Timestamp: 1774312835
+X-Original-Mailer: git-send-email 2.52.0
+Message-ID: <0100019d1d494e7b-2f01e83a-ebaa-4d1b-ae35-33b882a7bda4-000000@email.amazonses.com>
+Feedback-ID: ::1.us-east-1.LF00NED762KFuBsfzrtoqw+Brn/qlF9OYdxWukAhsl8=:AmazonSES
+X-SES-Outgoing: 2026.03.24-54.240.48.178
 
-Hello Asier,
-
-On Mon, 23 Mar 2026 14:56:45 +0000 <gutierrez.asier@huawei-partners.com> wrote:
-
-> From: Asier Gutierrez <gutierrez.asier@huawei-partners.com>
-> 
-> For DAMOS_HUGEPAGE and DAMOS_NOHUGEPAGE to work, khugepaged should be
-> working, since it relies on hugepage_madvise to add a new slot. This
-> slot should be picked up by khugepaged and eventually collapse (or
-> not, if we are using DAMOS_NOHUGEPAGE) the pages. If THP is not
-> enabled, khugepaged will not be working, and therefore no collapse
-> will happen.
-> 
-> DAMOS_COLLAPSE eventually calls madvise_collapse, which will collapse
-> the address range synchronously.
-> 
-> This new action may be required to support autotuning with hugepage as
-> a goal[1].
-> 
-> [1]: https://lore.kernel.org/damon/20260313000816.79933-1-sj@kernel.org/
-> 
-> ---------
-> Benchmarks:
-> 
-> T n: THP never
-> T m: THP madvise
-> D h: DAMON action hugepage
-> D c: DAMON action collapse
-> 
-> +------------------+----------+----------+----------+
-> |                  | T n, D h | T m, D h | T n, D c |
-> +------------------+----------+----------+----------+
-> | Total memory use | 2.07     | 2.09     | 2.07     |
-> | Huge pages       | 0        | 1.3      | 1.25     |
-> +------------------+----------+----------+----------+
-
-Thank you for sharing the benchmark results!  But, I'm having a hard time to
-understand what this really means.  Could you please further clarify the setup
-of the benchmarks and interpretation of the results?
-
-> 
-> Changes
-> ---------
-> v1-v2:
-> Added benchmarks
-> Added damos_filter_type documentation for new action to fix kernel-doc
-
-Please add Changelog on the commentary section [1].  Also, please consider
-adding links to previous versions.
-
-> 
-> Signed-off-by: Asier Gutierrez <gutierrez.asier@huawei-partners.com>
-> ---
->  Documentation/mm/damon/design.rst      |  4 ++++
->  include/linux/damon.h                  |  2 ++
->  mm/damon/sysfs-schemes.c               |  4 ++++
->  mm/damon/vaddr.c                       |  3 +++
->  tools/testing/selftests/damon/sysfs.py | 11 ++++++-----
->  5 files changed, 19 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
-> index 838b14d22519..405142641e55 100644
-> --- a/Documentation/mm/damon/design.rst
-> +++ b/Documentation/mm/damon/design.rst
-> @@ -467,6 +467,10 @@ that supports each action are as below.
->     Supported by ``vaddr`` and ``fvaddr`` operations set. When
->     TRANSPARENT_HUGEPAGE is disabled, the application of the action will just
->     fail.
-> + - ``collapse``: Call ``madvise()`` for the region with ``MADV_COLLAPSE``.
-> +   Supported by ``vaddr`` and ``fvaddr`` operations set. When
-> +   TRANSPARENT_HUGEPAGE is disabled, the application of the action will just
-> +   fail.
->   - ``lru_prio``: Prioritize the region on its LRU lists.
->     Supported by ``paddr`` operations set.
->   - ``lru_deprio``: Deprioritize the region on its LRU lists.
-> diff --git a/include/linux/damon.h b/include/linux/damon.h
-> index d9a3babbafc1..6941113968ec 100644
-> --- a/include/linux/damon.h
-> +++ b/include/linux/damon.h
-> @@ -121,6 +121,7 @@ struct damon_target {
->   * @DAMOS_PAGEOUT:	Reclaim the region.
->   * @DAMOS_HUGEPAGE:	Call ``madvise()`` for the region with MADV_HUGEPAGE.
->   * @DAMOS_NOHUGEPAGE:	Call ``madvise()`` for the region with MADV_NOHUGEPAGE.
-> + * @DAMOS_COLLAPSE:	Call ``madvise()`` for the region with MADV_COLLAPSE.
->   * @DAMOS_LRU_PRIO:	Prioritize the region on its LRU lists.
->   * @DAMOS_LRU_DEPRIO:	Deprioritize the region on its LRU lists.
->   * @DAMOS_MIGRATE_HOT:  Migrate the regions prioritizing warmer regions.
-> @@ -140,6 +141,7 @@ enum damos_action {
->  	DAMOS_PAGEOUT,
->  	DAMOS_HUGEPAGE,
->  	DAMOS_NOHUGEPAGE,
-> +	DAMOS_COLLAPSE,
->  	DAMOS_LRU_PRIO,
->  	DAMOS_LRU_DEPRIO,
->  	DAMOS_MIGRATE_HOT,
-> diff --git a/mm/damon/sysfs-schemes.c b/mm/damon/sysfs-schemes.c
-> index 5186966dafb3..aa08a8f885fb 100644
-> --- a/mm/damon/sysfs-schemes.c
-> +++ b/mm/damon/sysfs-schemes.c
-> @@ -2041,6 +2041,10 @@ static struct damos_sysfs_action_name damos_sysfs_action_names[] = {
->  		.action = DAMOS_NOHUGEPAGE,
->  		.name = "nohugepage",
->  	},
-> +	{
-> +		.action = DAMOS_COLLAPSE,
-> +		.name = "collapse",
-> +	},
->  	{
->  		.action = DAMOS_LRU_PRIO,
->  		.name = "lru_prio",
-> diff --git a/mm/damon/vaddr.c b/mm/damon/vaddr.c
-> index b069dbc7e3d2..dd5f2d7027ac 100644
-> --- a/mm/damon/vaddr.c
-> +++ b/mm/damon/vaddr.c
-> @@ -903,6 +903,9 @@ static unsigned long damon_va_apply_scheme(struct damon_ctx *ctx,
->  	case DAMOS_NOHUGEPAGE:
->  		madv_action = MADV_NOHUGEPAGE;
->  		break;
-> +	case DAMOS_COLLAPSE:
-> +		madv_action = MADV_COLLAPSE;
-> +		break;
->  	case DAMOS_MIGRATE_HOT:
->  	case DAMOS_MIGRATE_COLD:
->  		return damos_va_migrate(t, r, scheme, sz_filter_passed);
-> diff --git a/tools/testing/selftests/damon/sysfs.py b/tools/testing/selftests/damon/sysfs.py
-> index 3aa5c91548a5..c6476e63f4fb 100755
-> --- a/tools/testing/selftests/damon/sysfs.py
-> +++ b/tools/testing/selftests/damon/sysfs.py
-> @@ -123,11 +123,12 @@ def assert_scheme_committed(scheme, dump):
->              'pageout': 2,
->              'hugepage': 3,
->              'nohugeapge': 4,
-> -            'lru_prio': 5,
-> -            'lru_deprio': 6,
-> -            'migrate_hot': 7,
-> -            'migrate_cold': 8,
-> -            'stat': 9,
-> +            'collapse': 5
-
-Comman is missed?
-
-> +            'lru_prio': 6,
-> +            'lru_deprio': 7,
-> +            'migrate_hot': 8,
-> +            'migrate_cold': 9,
-> +            'stat': 10,
->              }
->      assert_true(dump['action'] == action_val[scheme.action], 'action', dump)
->      assert_true(dump['apply_interval_us'] == scheme. apply_interval_us,
-> -- 
-> 2.43.0
-
-Other than the selftest part, code looks good.  Please consider dropping RFC
-tag from the next spin.  Clarifying more details about the test would be
-helpful, though.
-
-[1] https://docs.kernel.org/process/submitting-patches.html#commentary
-
-
-Thanks,
-SJ
+From: John Groves <john@groves.net>=0D=0A=0D=0AVirtio_fs now needs to det=
+ermine if an inode is DAX && not famfs.=0D=0AThis relaces the FUSE_IS_DAX=
+() macro with FUSE_IS_VIRTIO_DAX(),=0D=0Ain preparation for famfs in late=
+r commits. The dummy=0D=0Afuse_file_famfs() macro will be replaced with a=
+ working=0D=0Afunction.=0D=0A=0D=0AReviewed-by: Joanne Koong <joannelkoon=
+g@gmail.com>=0D=0AReviewed-by: Dave Jiang <dave.jiang@intel.com>=0D=0ASig=
+ned-off-by: John Groves <john@groves.net>=0D=0A---=0D=0A fs/fuse/dir.c   =
+ |  2 +-=0D=0A fs/fuse/file.c   | 13 ++++++++-----=0D=0A fs/fuse/fuse_i.h=
+ |  9 ++++++++-=0D=0A fs/fuse/inode.c  |  4 ++--=0D=0A fs/fuse/iomode.c |=
+  2 +-=0D=0A 5 files changed, 20 insertions(+), 10 deletions(-)=0D=0A=0D=0A=
+diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c=0D=0Aindex 7ac6b232ef12..c63f0=
+97bc697 100644=0D=0A--- a/fs/fuse/dir.c=0D=0A+++ b/fs/fuse/dir.c=0D=0A@@ =
+-2161,7 +2161,7 @@ int fuse_do_setattr(struct mnt_idmap *idmap, struct de=
+ntry *dentry,=0D=0A =09=09is_truncate =3D true;=0D=0A =09}=0D=0A=20=0D=0A=
+-=09if (FUSE_IS_DAX(inode) && is_truncate) {=0D=0A+=09if (FUSE_IS_VIRTIO_=
+DAX(fi) && is_truncate) {=0D=0A =09=09filemap_invalidate_lock(mapping);=0D=
+=0A =09=09fault_blocked =3D true;=0D=0A =09=09err =3D fuse_dax_break_layo=
+uts(inode, 0, -1);=0D=0Adiff --git a/fs/fuse/file.c b/fs/fuse/file.c=0D=0A=
+index b1bb7153cb78..4ee5065737d8 100644=0D=0A--- a/fs/fuse/file.c=0D=0A++=
++ b/fs/fuse/file.c=0D=0A@@ -252,7 +252,7 @@ static int fuse_open(struct i=
+node *inode, struct file *file)=0D=0A =09int err;=0D=0A =09bool is_trunca=
+te =3D (file->f_flags & O_TRUNC) && fc->atomic_o_trunc;=0D=0A =09bool is_=
+wb_truncate =3D is_truncate && fc->writeback_cache;=0D=0A-=09bool dax_tru=
+ncate =3D is_truncate && FUSE_IS_DAX(inode);=0D=0A+=09bool dax_truncate =3D=
+ is_truncate && FUSE_IS_VIRTIO_DAX(fi);=0D=0A=20=0D=0A =09if (fuse_is_bad=
+(inode))=0D=0A =09=09return -EIO;=0D=0A@@ -1812,11 +1812,12 @@ static ssi=
+ze_t fuse_file_read_iter(struct kiocb *iocb, struct iov_iter *to)=0D=0A =09=
+struct file *file =3D iocb->ki_filp;=0D=0A =09struct fuse_file *ff =3D fi=
+le->private_data;=0D=0A =09struct inode *inode =3D file_inode(file);=0D=0A=
++=09struct fuse_inode *fi =3D get_fuse_inode(inode);=0D=0A=20=0D=0A =09if=
+ (fuse_is_bad(inode))=0D=0A =09=09return -EIO;=0D=0A=20=0D=0A-=09if (FUSE=
+_IS_DAX(inode))=0D=0A+=09if (FUSE_IS_VIRTIO_DAX(fi))=0D=0A =09=09return f=
+use_dax_read_iter(iocb, to);=0D=0A=20=0D=0A =09/* FOPEN_DIRECT_IO overrid=
+es FOPEN_PASSTHROUGH */=0D=0A@@ -1833,11 +1834,12 @@ static ssize_t fuse_=
+file_write_iter(struct kiocb *iocb, struct iov_iter *from)=0D=0A =09struc=
+t file *file =3D iocb->ki_filp;=0D=0A =09struct fuse_file *ff =3D file->p=
+rivate_data;=0D=0A =09struct inode *inode =3D file_inode(file);=0D=0A+=09=
+struct fuse_inode *fi =3D get_fuse_inode(inode);=0D=0A=20=0D=0A =09if (fu=
+se_is_bad(inode))=0D=0A =09=09return -EIO;=0D=0A=20=0D=0A-=09if (FUSE_IS_=
+DAX(inode))=0D=0A+=09if (FUSE_IS_VIRTIO_DAX(fi))=0D=0A =09=09return fuse_=
+dax_write_iter(iocb, from);=0D=0A=20=0D=0A =09/* FOPEN_DIRECT_IO override=
+s FOPEN_PASSTHROUGH */=0D=0A@@ -2370,10 +2372,11 @@ static int fuse_file_=
+mmap(struct file *file, struct vm_area_struct *vma)=0D=0A =09struct fuse_=
+file *ff =3D file->private_data;=0D=0A =09struct fuse_conn *fc =3D ff->fm=
+->fc;=0D=0A =09struct inode *inode =3D file_inode(file);=0D=0A+=09struct =
+fuse_inode *fi =3D get_fuse_inode(inode);=0D=0A =09int rc;=0D=0A=20=0D=0A=
+ =09/* DAX mmap is superior to direct_io mmap */=0D=0A-=09if (FUSE_IS_DAX=
+(inode))=0D=0A+=09if (FUSE_IS_VIRTIO_DAX(fi))=0D=0A =09=09return fuse_dax=
+_mmap(file, vma);=0D=0A=20=0D=0A =09/*=0D=0A@@ -2934,7 +2937,7 @@ static =
+long fuse_file_fallocate(struct file *file, int mode, loff_t offset,=0D=0A=
+ =09=09.mode =3D mode=0D=0A =09};=0D=0A =09int err;=0D=0A-=09bool block_f=
+aults =3D FUSE_IS_DAX(inode) &&=0D=0A+=09bool block_faults =3D FUSE_IS_VI=
+RTIO_DAX(fi) &&=0D=0A =09=09(!(mode & FALLOC_FL_KEEP_SIZE) ||=0D=0A =09=09=
+ (mode & (FALLOC_FL_PUNCH_HOLE | FALLOC_FL_ZERO_RANGE)));=0D=0A=20=0D=0Ad=
+iff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h=0D=0Aindex 7f16049387d1..=
+45e108dec771 100644=0D=0A--- a/fs/fuse/fuse_i.h=0D=0A+++ b/fs/fuse/fuse_i=
+=2Eh=0D=0A@@ -1508,7 +1508,14 @@ void fuse_free_conn(struct fuse_conn *fc=
+);=0D=0A=20=0D=0A /* dax.c */=0D=0A=20=0D=0A-#define FUSE_IS_DAX(inode) (=
+IS_ENABLED(CONFIG_FUSE_DAX) && IS_DAX(inode))=0D=0A+static inline bool fu=
+se_file_famfs(struct fuse_inode *fuse_inode) /* Will be superseded */=0D=0A=
++{=0D=0A+=09(void)fuse_inode;=0D=0A+=09return false;=0D=0A+}=0D=0A+#defin=
+e FUSE_IS_VIRTIO_DAX(fuse_inode) (IS_ENABLED(CONFIG_FUSE_DAX)=09\=0D=0A+=09=
+=09=09=09=09&& IS_DAX(&fuse_inode->inode)  \=0D=0A+=09=09=09=09=09&& !fus=
+e_file_famfs(fuse_inode))=0D=0A=20=0D=0A ssize_t fuse_dax_read_iter(struc=
+t kiocb *iocb, struct iov_iter *to);=0D=0A ssize_t fuse_dax_write_iter(st=
+ruct kiocb *iocb, struct iov_iter *from);=0D=0Adiff --git a/fs/fuse/inode=
+=2Ec b/fs/fuse/inode.c=0D=0Aindex e57b8af06be9..1333b3ebb18a 100644=0D=0A=
+--- a/fs/fuse/inode.c=0D=0A+++ b/fs/fuse/inode.c=0D=0A@@ -162,7 +162,7 @@=
+ static void fuse_evict_inode(struct inode *inode)=0D=0A =09/* Will write=
+ inode on close/munmap and in all other dirtiers */=0D=0A =09WARN_ON(inod=
+e_state_read_once(inode) & I_DIRTY_INODE);=0D=0A=20=0D=0A-=09if (FUSE_IS_=
+DAX(inode))=0D=0A+=09if (FUSE_IS_VIRTIO_DAX(fi))=0D=0A =09=09dax_break_la=
+yout_final(inode);=0D=0A=20=0D=0A =09truncate_inode_pages_final(&inode->i=
+_data);=0D=0A@@ -170,7 +170,7 @@ static void fuse_evict_inode(struct inod=
+e *inode)=0D=0A =09if (inode->i_sb->s_flags & SB_ACTIVE) {=0D=0A =09=09st=
+ruct fuse_conn *fc =3D get_fuse_conn(inode);=0D=0A=20=0D=0A-=09=09if (FUS=
+E_IS_DAX(inode))=0D=0A+=09=09if (FUSE_IS_VIRTIO_DAX(fi))=0D=0A =09=09=09f=
+use_dax_inode_cleanup(inode);=0D=0A =09=09if (fi->nlookup) {=0D=0A =09=09=
+=09fuse_queue_forget(fc, fi->forget, fi->nodeid,=0D=0Adiff --git a/fs/fus=
+e/iomode.c b/fs/fuse/iomode.c=0D=0Aindex 3728933188f3..31ee7f3304c6 10064=
+4=0D=0A--- a/fs/fuse/iomode.c=0D=0A+++ b/fs/fuse/iomode.c=0D=0A@@ -203,7 =
++203,7 @@ int fuse_file_io_open(struct file *file, struct inode *inode)=0D=
+=0A =09 * io modes are not relevant with DAX and with server that does no=
+t=0D=0A =09 * implement open.=0D=0A =09 */=0D=0A-=09if (FUSE_IS_DAX(inode=
+) || !ff->args)=0D=0A+=09if (FUSE_IS_VIRTIO_DAX(fi) || !ff->args)=0D=0A =09=
+=09return 0;=0D=0A=20=0D=0A =09/*=0D=0A--=20=0D=0A2.53.0=0D=0A=0D=0A
