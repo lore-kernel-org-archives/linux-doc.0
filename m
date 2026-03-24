@@ -1,75 +1,80 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7432930EF8B
-	for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 06:20:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FDA63BE644
+	for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 06:35:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774333236; cv=none; b=XAqH6K6vDcrskMLkYJtovNBPXl8oDaUphV1CkY/9n/I28QIIfru2Wx6PlsCDla5hV2aTbiqyyKfxjaDU+EoOqx5REzTryzFqABP/tbGFjy+LENF4ffXsWphbwMmbhyrg6Wg7veEz99ax04jQF1FSnp5bxdD1js7QvMLFSdNG4wI=
+	t=1774334129; cv=none; b=DZO8UpcgO68TXTZNQ+vVaiA0lc/xwB0JgMwZhwM/U6K0x5SJei+6erwllODFSfng3mGDxWIgjUni1ik8bJIbpm1chCPvvWiDWEag/6o5/HlayoQAW96HeEmy/Aw2OQgEB7nGxaypHNLK4TX4Mnii4j5al6t5bEumL/PXtz1rtOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774333236; c=relaxed/simple;
-	bh=7b1aDTSE0qRQSk30U9x92MpkGPkxm8eaUPvv8l2E0Gs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RtzrQpFFejqsejonTi7865GzzUvx43d4ldKcoYzBPRE/Ch1Ig1aefpVLltmScE53Hxoo+MvglaBmRLvVgIhv8qEYzuJI6LgLKO7RnbpJq6ULQmGEr7qkApAbp1yFwGTjH7FZTuWe2EjfAfscib2j9Nwn6E4paKRrxz8ivTDZ2Kc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ets3LISb; arc=none smtp.client-ip=209.85.216.49
+	s=arc-20240116; t=1774334129; c=relaxed/simple;
+	bh=yu3nC6vhpzZez3hZu5WSDBz9l+V7URi8BT2ABBFXuP8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ta80LFJujHsuHLq+h5gGUB4WlFwTQfGvBG0FEasj4zdFUUGWavJ53ga5g15Z8rKfJi4P1GTNtZRkqn3hLk2uNYoQpHaTlc+HTLSp4cu/gR6jWRfksOJU9dLftQhYhFjWeb3RJ0yQDEoW7iVZlXy9tZ0imjvCcCjXadLX7tWq5RI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PMcMgJdl; arc=none smtp.client-ip=209.85.221.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ets3LISb"
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-35a1f549e7eso2046766a91.0
-        for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 23:20:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PMcMgJdl"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-43b4fd681c2so712462f8f.3
+        for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 23:35:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774333234; x=1774938034; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=8tWMba298e2gRxfQlq4zFMDhOWDqH8fZHMm6s7SJDP8=;
-        b=Ets3LISb6w9SkWBs9LfK8gUovSeJxWTJfXngB01ZklhV2wFXtQcZlWpwB4jElnsa4h
-         f3Y/2N9/FQZ05oEcsK5M7veGxekZiQPtJCwQjqd4s+WV+7LrO6tu7JD8aaz6egQZr/9e
-         B6t9b2A9hcNOOVGG/K1NfxacJH6r1flfF/IqfQxEovRRlSoqM9y58tIe37ugT7vXcA70
-         QfZsMW+hMO4noiJB9pb75DkKrQjt3ad9Tr9Vl8D4izT5X3zlGcgINp4wKGUFfcAirSAT
-         5la3G/x/DxZBDEiTjwPGzKsK5VA+yBgKzYv6priIX1kvj1CO6/o37txqibUVQu4kIwz/
-         DTaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774333234; x=1774938034;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1774334125; x=1774938925; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8tWMba298e2gRxfQlq4zFMDhOWDqH8fZHMm6s7SJDP8=;
-        b=G4xcWYBXvvNv8JLj67FY5rdd5/2xJSK3W+joxoNv2Vgsh6fzpPNTfkCV4d2f0B2TiQ
-         GnvpZB4TZQM+3Gqr+OlyeKd3e66YcCS0O8Mu5weSup2HDjwc5ea0EKZlpATnQIj3mTT9
-         H4SPtcTEhk7q/dTXeOhqak4vcqW1XcBhj4Y7kQdZZA+L2zyflDc3Gn2dBvmCtHDOA/1Z
-         EM1GO0ip7rcUnTb4xfn3Nml5164pQd7xhNWxN/b2w9Q65PlykSJf45NMgu9AJNOCZGPl
-         N38OxFSxnxHJT4MLY+mpb13pX/+fuf8/Z4VQZEatW/E85v94eKi5i61TiKMIaXVgJ+AC
-         bsUA==
-X-Forwarded-Encrypted: i=1; AJvYcCW8QCpdiRtfyi0WNGpSbiwSYpbPia0YLxJiZiJvKWPHmo6E3VJeIERTkqkQrDifOJXEfY4luHg40cU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy6JdcEaDSqRrf1aSbRDwO0BQ9sDBofMEHHs4Yi61Dt+pJ0Ds6Q
-	xtBOYhLlqdBq0tILsumCg/3ZdRGAR3Y/q0T+IDsYnGgjiH58DIRSb7wQ
-X-Gm-Gg: ATEYQzxpHM8TXAGHBlMRnngEhcEZXfsdmZ6RrglQd1/UVIFn5jNBbhbZREOth9eGdjI
-	RxDUvx253mgnBeWBRglDyya55JGnoV6Ui0LsyejKdrJlTZNpGeOEGsUamDxthYrw/tZSyaAWXXT
-	DGoIiUElSXNGgySyJz6ojKKqLv156EZUmpQDsToUWvZX+pwRBWueHuUur2DSsarGfN+VrJ16onH
-	m2zpqsq0tbpR5uMnOuM3eVmSZqRye4HYYgdJe3ZNNaE3knSTAs2U5ATexoSt4FkG4s/txb4uT1s
-	oCfWwBWZpVZFQGfqqsOtwHwY0e4/BxhfILYJ876BRRkI76FvMAy0q/+VVrlVc9Py2paoLDxszue
-	GDr0Tn2Yph2jydug9CW/ACLcQgfilc+hP/yc1BIb3yyGcgYvT0fZGj6tZd+s0s/5cgs2GCnv3Mp
-	pJQdMZn9aRKePwgABVqMobZQkt6EQTkQe8vbGTQLT0Z6sn0KDTw+mP4fJGogLf1OEo3S8NLfOxQ
-	GujFgJXZFEmeQ==
-X-Received: by 2002:a17:90b:5107:b0:34e:63c1:4a08 with SMTP id 98e67ed59e1d1-35bd2c98e30mr11242780a91.20.1774333233828;
-        Mon, 23 Mar 2026 23:20:33 -0700 (PDT)
-Received: from mi-HP-ProDesk-680-G6-PCI-Microtower-PC.mioffice.cn ([43.224.245.226])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35c0312f1cbsm1091367a91.4.2026.03.23.23.20.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Mar 2026 23:20:33 -0700 (PDT)
-From: zhidao su <soolaugust@gmail.com>
-X-Google-Original-From: zhidao su <suzhidao@xiaomi.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	workflows@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
+        bh=Mifv6lV/1vhl2tnAgC+pUhj48DLTv7wevR0+F6OEtI0=;
+        b=PMcMgJdl9+8nEGQiWKxf5k+f+ICevnvHpmyNIIebnq1FtFkE/eKPmDJO32bvzB/Ne2
+         wLtCDuYLT8RX+PC5LskQqp6Y+SD2O2ZMU5PJhOCWTdTFrxD2437tSkYxsmY1ut9+vD42
+         Sw/oZT00uEJ9Kju8mKIohmNb9xlYPjhOF9BvPBFV355YRteNnqNsmizeOOoHkR1h4yyU
+         ARky9VX4+fkk+1Y8Ym9qTYtdLcQIC3Sd4XYoRLL0XfCfIEhlmkT1JQpL/sK2ngw0mzri
+         hgehwSzc6SjzT3VLET+jNAvqPw2FIawqcbfQEL8YFIZo+WIZdrhFnkAmTKuhj1+n9SSn
+         A1VA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774334125; x=1774938925;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Mifv6lV/1vhl2tnAgC+pUhj48DLTv7wevR0+F6OEtI0=;
+        b=b8uxut7N9CNrdbIEQRABD2hsItibt+MdpwTbfJEtCZkDhPzYvOGNeBku2L/PbxkOmP
+         2fMe8St+/AIfHnuRHq6nKzvEAt1z01y/JYCFWXHfx9XHAEcS5U1rGQ4Ek4sTbPGCzvn6
+         Eh7MStEI0XJCSLZVUdkWVJs8xYlk0LRyzizyRXP2oAkW7Z+qpTs67p9csMg402M7LYl/
+         is+4b4CDKERJftgC49w4lg4EcCXikBoSiNcWqY9kwgK6VKadNhvj9j8D9SebSvnkMAkR
+         HuG1VpUXaYoeG7LSIngfyfSORwG1qzVjhqxvAEa+1c+X0SJJVlhvXrlUhBXSSjJaoJ/M
+         ciBA==
+X-Forwarded-Encrypted: i=1; AJvYcCW9SM9utOwK3V1uSPZDmHmEPbkFoI1Vi88vNjlTNGBG+NDpUg7papHrHuwWQ3vPie867Ha+jA6LG6A=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywz08GOVtCwf2ZwkMmhJVBiTwk3V057vN2kvLUF9P0mvgGMCM6x
+	UL4sYDaahDvapPiZ84TAAth31an8B7mTVPaY6E8AwUBziHJ9b+NKQcJ+
+X-Gm-Gg: ATEYQzxSdm8yBSl4TkGx/eY4566BOIkawC6N+5sG8s1ch++bQurnEVFg4lMwKqTYl+o
+	NQvmCkNIR8J0+5Kt+afu7tVh5OoY9kB6ODnMxyTHJ1z6JnOIKHHGGXv0pBZ3Cb6u7soDup+CVvs
+	oXWGf+hLkO7umNpV47g0aKSEdFwkUzZIQnjKeIq2YnDb69pWGIAssKTNN6Nes1dF757jViv5jdi
+	HBJY6JbAnm6wYdCDFkh4gDG3oB0LNOtcvP1ytBNcXG4aqp3HAJlrqoRUFyBH0lQRFeWAVwSZOqK
+	vJuyU90bsyIeMwTXvzVbMZhME1QkqzbcyOITKPxIJTx8+tsjntdHZEABLbAzQLNvH2e/mWdYcAx
+	N22pJyAcnHp6yUqfvgDZzZBia9m4qdZNNMwwo0050K3CSKd3MCVr/wA2NxiOC/qxwFV0j9JzysH
+	VmIukdBigs3pZP+f+z2M8=
+X-Received: by 2002:a05:6000:1aca:b0:439:be78:e1e9 with SMTP id ffacd0b85a97d-43b6423fabamr24225594f8f.14.1774334124571;
+        Mon, 23 Mar 2026 23:35:24 -0700 (PDT)
+Received: from localhost ([212.73.77.104])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-43b6470380asm34457509f8f.24.2026.03.23.23.35.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Mar 2026 23:35:23 -0700 (PDT)
+From: Askar Safin <safinaskar@gmail.com>
+To: ruanjinjie@huawei.com
+Cc: devicetree@vger.kernel.org,
+	kexec@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
 	linux-doc@vger.kernel.org,
-	bpf@vger.kernel.org,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	zhidao su <suzhidao@xiaomi.com>
-Subject: [PATCH] docs: Document pahole v1.26 requirement for KF_IMPLICIT_ARGS kfuncs
-Date: Tue, 24 Mar 2026 14:20:28 +0800
-Message-ID: <20260324062028.2479059-1-suzhidao@xiaomi.com>
-X-Mailer: git-send-email 2.43.0
+	linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linuxppc-dev@lists.ozlabs.org,
+	loongarch@lists.linux.dev,
+	x86@kernel.org
+Subject: Re: [PATCH v9 0/5] arm64/riscv: Add support for crashkernel CMA reservation
+Date: Tue, 24 Mar 2026 09:35:18 +0300
+Message-ID: <20260324063519.3258161-1-safinaskar@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260323072745.2481719-1-ruanjinjie@huawei.com>
+References: <20260323072745.2481719-1-ruanjinjie@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -78,40 +83,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Since Linux 7.0, kfuncs annotated with KF_IMPLICIT_ARGS require pahole
-v1.26 or later. Without it, such kfuncs have incorrect BTF prototypes in
-vmlinux, causing BPF programs to fail with 'func_proto incompatible with
-vmlinux' error.
+Please, remove me from CC list in future versions of this patchset
 
-This affects all sched_ext kfuncs (e.g. scx_bpf_create_dsq,
-scx_bpf_dispatch) and other KF_IMPLICIT_ARGS kfuncs across the kernel.
-Ubuntu 24.04 LTS ships pahole v1.25 by default, causing 23/30 sched_ext
-selftests to fail on affected systems.
-
-Document this requirement in Documentation/process/changes.rst so users
-understand the failure mode and can upgrade pahole appropriately.
-
-Signed-off-by: zhidao su <suzhidao@xiaomi.com>
----
- Documentation/process/changes.rst | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index 6b373e193548..141a4576c24d 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -145,6 +145,11 @@ Since Linux 5.2, if CONFIG_DEBUG_INFO_BTF is selected, the build system
- generates BTF (BPF Type Format) from DWARF in vmlinux, a bit later from kernel
- modules as well.  This requires pahole v1.22 or later.
- 
-+Since Linux 7.0, kfuncs annotated with KF_IMPLICIT_ARGS require pahole v1.26
-+or later.  Without it, such kfuncs will have incorrect BTF prototypes in
-+vmlinux, causing BPF programs to fail to load with a "func_proto incompatible
-+with vmlinux" error.  Many sched_ext kfuncs are affected.
-+
- It is found in the 'dwarves' or 'pahole' distro packages or from
- https://fedorapeople.org/~acme/dwarves/.
- 
 -- 
-2.43.0
-
+Askar Safin
