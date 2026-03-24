@@ -1,304 +1,413 @@
-Received: from mail-qt1-f227.google.com (mail-qt1-f227.google.com [209.85.160.227])
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 620E62DB7B7
-	for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 01:09:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.227
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5529E1DDC28
+	for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 01:17:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.181
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774314547; cv=pass; b=s90isKNQ+AVHoSpk9RKDRcNIYeU0FTvt7Hv0ISdD229goo70KNu68nlLcolF6RUAVZyxjAGSLeeAu2Zkh7XJ/Eo8Bq+lyVSgADAeGvKDSGWmkovEoZcy5MLcOBwkUShFg5r/edErNYJA0nE2RTM69wecVBdCM/hoD8Z6Aj1kaHU=
+	t=1774315056; cv=pass; b=lFWLyqwZW67hUALDLS53WnYW6LtRndVLWNZ6kiGVoVYoO9i51EGctwXNEFwnrlVUle08XLfH5P1AAdJqGgL5ez7yQ6qK1IT96MVfg7OS2JEDJxPt24/XWJ9mA9MMPNzhbpXKosNpu5cA9/o3en5BV2vthi+BAiw3Foj5Z1aUp6c=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774314547; c=relaxed/simple;
-	bh=s6tl19KWBMFRBF65auUGOdWvZUgsz+4+3DfnkMvs+0Y=;
+	s=arc-20240116; t=1774315056; c=relaxed/simple;
+	bh=C11AH1kVww8sFK0ry6pxhuwgoBhS3WLX7gzIk3cVokw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nBZlSQCzDfUGJer8v9PBu/i6VdHNcLAOHVXL3hfBsvkiUWW5kgUkZBOfljBhrkkilBcpDzF301olCssV8IsdfSGoyXXtCuhq7D9x3lZz+LkliYAX0zpYvHF2YeihPMtVHWfDsj4p14BKQNaZunCfemRaueNJ9fpgnjqUCETuJMc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=RpJoL9/M; arc=pass smtp.client-ip=209.85.160.227
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	 To:Cc:Content-Type; b=qUFUvrmAuYXtxflkiYXk0alK3MXbUFY5D261HeTCYyuX+m+FJvIzs1MMPD+sdmvaWemy7JcJfpqIU+XT+TyBua5U7CxdWpUm0hfJ2IdEUNFtIhUjUwSBK4yrff2750vLvu2frXGJAocbOd0Wy0lYA8xN/iJEbSnhje7Nfk+E6Nk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=Lv7XH5QG; arc=pass smtp.client-ip=209.85.208.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="RpJoL9/M"
-Received: by mail-qt1-f227.google.com with SMTP id d75a77b69052e-50917e02472so40233721cf.2
-        for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 18:09:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774314545; x=1774919345;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KJHibBsiYqMwaH8CWWvZUIcaGlw17laajJNDlHW58rs=;
-        b=IhTsDounpHltNvcjX9If8164x4utv7TU2UpIHy+E63ig8kg6wcCU/JUXD0Y2BCoT2+
-         7YQQIKJ9mHiXqlhYTYAcoNRR7GqKycr9Irm02wKmlmarISdruT2B6fV7Zx5ctJqflLlF
-         lLsKtT48Hsdl/cntDg53HH25sOAzzVWTF3FtxeSPY6w5ductc0wLfG+mdTH5eiVfEagL
-         WEZMhbTNqv58917PfBSsNe6zu17FtPd9KmeQvxm1DkWr3cftZRYxNw3Ex6Ak9pWqaqeA
-         IW+w2Fv8JbiAu7e5B0tn+ae4oj2d/ugvFJBcgGyg0ASkD0nsRrChKTYTG4Lx9dScga+m
-         EKlw==
-X-Forwarded-Encrypted: i=2; AJvYcCXhPplSQhI47wI3lou3s5jcCoi59UAInZUmahNe/JbHe/4Zml6MgywR36FxKubN5MLuDYTfI/0NE2s=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxgKngws3pjezbTWCzCY4BWauhI1KK+Tjy7zIqzVQrvSfQ/RHJ0
-	ekMUHt+Pl/mr4bvTAjdSJ9w+SfsKFdtwZLU9SneGqAKIYap5mQlvHbtT8cErnBLTYYscuSDcIMg
-	5YExLP6LGDTu+K/w5z5z79CpwHtA1EGnXl/MhKyuvSegf2+FGWqZQcnKPQZMlB5LMwsGWATVSVi
-	HhZYb7Xdsdp/nXQGE4i/fZS9dXj0s8BqdTm0QLxndMxuvNCd1nETbFtnq9KTg7/8JlForPX9s00
-	vK3oobda/eZnjs=
-X-Gm-Gg: ATEYQzyTXjC7Qo0WYvNSVI5Olkv14eo48RuXnZO7XWVQ5bPG3T6mS0UsFMdmtB+2V6u
-	WGNWOcfBSRTuAPgfFalPGJIzA+7Hr7wVfPWasdrKp/VHGa+U4uXtrjIol6AksYN0hrmVfnj4LnZ
-	jKHmNrV+8hUD1JYD4jbwmK16sxMExByS8UaJQ0YeBbZ5NitskoTlD85HiYheECLv3mjhYpJqmnJ
-	+6f/UFjz7VfBc5X+0f+ld66SQED0L3kz7PeqcjEcS4i1rWIQjo6JNp+xtBD616qCaXK5jJVgUEd
-	TFT0++aLxYtwBRtKlJ+jKD1O/bEAYXLMVevo8TtD84o+T1H5LljPGtPeP1uj6j+LPp7xqWrrWvn
-	8yjspccbgcUhWyrS+Jy67Ojhc8dzFpPqM2Yuw7pcMh9kltYPO80unvUXbp86h80TUX+IG7wgRlc
-	WNxxP97d0wPfv66z2JbXFiVzdzJAl0RXzTzHQtT+Qr6ZgKDvDi+blQeiViz78=
-X-Received: by 2002:a05:622a:1804:b0:501:17a9:5ff5 with SMTP id d75a77b69052e-50b37422234mr232838661cf.21.1774314545245;
-        Mon, 23 Mar 2026 18:09:05 -0700 (PDT)
-Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-117.dlp.protect.broadcom.com. [144.49.247.117])
-        by smtp-relay.gmail.com with ESMTPS id d75a77b69052e-50b36df9aefsm10917991cf.6.2026.03.23.18.09.04
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 23 Mar 2026 18:09:05 -0700 (PDT)
-X-Relaying-Domain: broadcom.com
-X-CFilter-Loop: Reflected
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-b97a3f9ebfaso69973166b.2
-        for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 18:09:04 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774314543; cv=none;
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Lv7XH5QG"
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-38bf85e4810so5908621fa.2
+        for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 18:17:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774315052; cv=none;
         d=google.com; s=arc-20240605;
-        b=N3sqTktz2nA7cjw4rimmsWynig3Hdf3PsvxItod24w9YhSLXi98JXINk4oX548wA67
-         Xf0Z1BZtZqBOpX8AHnCeaWnsyGWZKjBdB7ynW0VgHPzJbVXjdByqtU7dLpZQDaEecXRW
-         /rQrGxLMXTfhAoEBvnET6cYzFrND3eWF3jtsr5pzW7wWy9M6+zxJemECvOw3PFBYx+Gx
-         ewkl3P8POpx3jcaQl5oOpRTwgdsV1CNnDRiMPd7Rhbs74IT5uTowBd2mQYmeIKGwv82r
-         t2ZTVyMccaRyl0Vb6NQLuPA8PlOX66/CycJqyFC5i1Nc6fOMBrNejMHwiiHSE/EgrkVM
-         4jrQ==
+        b=Qb5niXufWGbGVW2473SoR3PN321RUWFG41G3M0GmtvvutBN6Aico9ypS8hVDerX3fX
+         s85/1ZT8KKyYwelNlmAsDCghemF82X4Qm2HlrCyD5icKFOkysmTWDUEhjFWMAu121Jek
+         ebDKvUDauLE5nG3AYj5J4ehzH5SrT2094H8jyJ+tImJIyAiLwXwiL4BmQAl5cWrCM49z
+         GvvMFBHDUKBOCLsxnJAaq/06RXQsfd/dhbuPdA/tNhSY45BpltwJA+O6gT8rWh/aTJ7C
+         9z71KO0OBrUnGkxNzbZ66skEz0s5JXRSQ7bdjTCbWP1Jfb4s9Xy/4yLBgGXcbzy7Hwhm
+         6/aQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=KJHibBsiYqMwaH8CWWvZUIcaGlw17laajJNDlHW58rs=;
-        fh=RtvMlzDcyZYcJ+4R8UQUuom5XhnGlZsLpvTwj+nDw0U=;
-        b=BejIIECNtHGnqwIW6qyjRtr3Koh+QP31g9meS7upZ+O4VV7vnn3qwDbD3at1O3vAtT
-         SJkhHxhfh18UrDHfaALFIzThZghD996NY4Mj9tJuz754y07ODm6rD3AjD7bAqlja/tqc
-         OyHCXyytoe4U4RwvFNU0uGQiAoGPRjMFwa2+r/gFOOevnkrrMPiLZVcpIZW2JLntEEj/
-         69qWc1CP61B3fitR6UcayXMigI3384lCf/zCUOLi4j67Qgyo6XjoplZjrCzkqLWQSYfk
-         JHa042N2HNKMHWFFoVAd7GE+m2UkfBkY40hfTddzY8ZtgZc4hxl2doLL3IVRaXh3xuGj
-         n23Q==;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=hfwM8KSN40LrO6gLEbXFjV/MW1Yh6JfamdSS45rUHbM=;
+        fh=4OQrhFfY8WujMWHyS/5+b1VCvfMQQQYXZ8wXMq10WR4=;
+        b=d9zNeF/M0ty2T6Zv73/USNkLB78kElOt6sjVqjFTzQfI1Z/VBd9GhJk1LpZgigFxhO
+         qpcTU+ICr4JHQiTn6MVDdpw8mf8huwoNdXCjR9kev662/2BgqNLQeniCYJDV9yowrU09
+         1tsbe6RSYi9c/wSsEdGiYY6RzEOaRk2yKgeR6MHhNFczfGgeQ6lukn91PIWXqRwAEOST
+         x9/AKSzFek49kbk4Z4rUnTtbYRa81Pi6uxIjE9OHmK9dwE40fnbTxzVRNijbrv6wUEf7
+         MD37S8Bt/lUb9kCcf4OmbDfCZtMMXVbvoEdPFQ1cLExUapozmvMLWn3CdaFNU6VmJVxU
+         7NoQ==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1774314543; x=1774919343; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=KJHibBsiYqMwaH8CWWvZUIcaGlw17laajJNDlHW58rs=;
-        b=RpJoL9/MYAc2cEgaqMhY/qXQlaxM9TFZs/9qZFN927+ls4yt5XHSk+2k0ihghEfoif
-         Z6LfGvBGalUbPBn5m8sChWU2aGINRWua86wVz11JxBhb2ko6zSRLimcvjohwCcHVdpM6
-         x/pyM1gjapw+3V7IgoXdATNSyTZdxEVg5cyOA=
-X-Forwarded-Encrypted: i=1; AJvYcCXcGcIal7/n0HPL++8kZHDEqf6+0nsy9lyQFJjhEh08bqBWEYOYaLBoFPEs0vEJDPRtRjUE68prA+s=@vger.kernel.org
-X-Received: by 2002:a17:907:6b0e:b0:b96:db93:5d0e with SMTP id a640c23a62f3a-b982f4e6533mr1073950766b.41.1774314543413;
-        Mon, 23 Mar 2026 18:09:03 -0700 (PDT)
-X-Received: by 2002:a17:907:6b0e:b0:b96:db93:5d0e with SMTP id
- a640c23a62f3a-b982f4e6533mr1073945666b.41.1774314542785; Mon, 23 Mar 2026
- 18:09:02 -0700 (PDT)
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1774315052; x=1774919852; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hfwM8KSN40LrO6gLEbXFjV/MW1Yh6JfamdSS45rUHbM=;
+        b=Lv7XH5QG6X1qvbBSakahrH8IGsrGtfsoJIAZLpWmFaCF16MA1XIRU07wudtZPKwSri
+         JpybmGOowaw5jARTMRRr9GrQdgTKADjC+cymvGtf9LFW2mZz8ZX9/kMWf250Ia78GhMs
+         bBKajRaK5SLvCYGRlbmecV8flv5EHXNJ0cY4wjlzuQDI/oX3tOFtrp3SmswSjPLctXvf
+         OiBhHpy8U7XD6Pwsm5EiQ9TiWe9btf7liUnSLTFNK0KDUGPURWe1oajD7olBM7dpjyCB
+         0QRIKazkSw8SCYfbpYoTsvm7DfwdNO7O00gm7aqipVlj9HLwRrMtzvC5cZsPtUNUMcav
+         usFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774315052; x=1774919852;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=hfwM8KSN40LrO6gLEbXFjV/MW1Yh6JfamdSS45rUHbM=;
+        b=a7fcyCt0398kWyHQ2+H8auXuY7kX7KJt2lNzxirxMSvjy9gLjmFMZLRaVXd4rJdNnU
+         EsxYl+3k6FSUoioPXiWUUmTp92Aa7cofyGt1fA1FbWPRZ9L8g7iXPowOOj7DWpApK3sR
+         XljjDZFVQ58CioI3EHsvHeSKHEhrHKmehQNIpADtr7taDsHXudsq6b6w00LbiUk+S9FX
+         x+NZGPM5Wzy4Hal7Qy8Pfwv1+btiJzgSXw/t8jzDX+W3x7ITr0e2g+IQ62dba4Hg2eji
+         B3lF4ZhTuQ5B94kWWsrIXdQ+erdY7R9hlGt4A3jiTT/07gVZzInTlJVLcZHsUvKunjms
+         rWzg==
+X-Forwarded-Encrypted: i=1; AJvYcCUx1hMjqSd15MXw2usW7KxiGF7gqtKVyhDJ7b/7inY6nElH8O2kMpZm0JTSKhUv07ML6H0iEpQR2fQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz0aAUGZKYDGvc6SSlOaz7mZ2GC7OKgeYGCxxVk9cpr43ycaLsW
+	qXKIDF/l50Q11KxXkQL7agVgEcqvwTNsP4u7h0tdLsMPVSh7nl2D3GDURyVAvlwf2iprux0ugKP
+	mKbI+7QefSLxd+KF/javdFxSRnszZv/eNm7azGthhRg==
+X-Gm-Gg: ATEYQzwtpgr81ToI7AVIIU4tD37QP6uenVPfu/C621rObohwc0i9FlKlutFHKOVMLIg
+	fpbLZSZOuj7wb5t0pMgzwAwtqw543dhwPtl6BCCunRmgS2pWkeZA9Bpf8LqVOjgaKksobT3W7nA
+	uJnj6GtYIKxWLfPYPfggEPqHYfrxPHlYTBsL4FQlwWtKudKmviBvO22kEe25JdVGP/gnEAe4Qgs
+	OWPSgF3bIcztwNqJu1s/x9hoNi+AZlf/2AONMCOzu5GrUvcxyERmweUJCeTOP46PPCIHjCmUrke
+	H6vNrMMDIKzt21baeKtWaq9tBmUDQMB1kwcX7HppWYDGV1oCw+QWXn5OS9Obr2zSWRo=
+X-Received: by 2002:a2e:8a94:0:b0:38b:fbb9:42d4 with SMTP id
+ 38308e7fff4ca-38bfbb96a60mr42209251fa.15.1774315051920; Mon, 23 Mar 2026
+ 18:17:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260320012501.2033548-1-sdf@fomichev.me> <20260320012501.2033548-9-sdf@fomichev.me>
-In-Reply-To: <20260320012501.2033548-9-sdf@fomichev.me>
-From: Michael Chan <michael.chan@broadcom.com>
-Date: Mon, 23 Mar 2026 18:08:51 -0700
-X-Gm-Features: AQROBzBKAHCpXL_0uNaZPLnOtADU_LCPjRl7n7D8OXK2y_iwcTGmn-vseoYacPQ
-Message-ID: <CACKFLi=j7DO_d46jwZnmZ=OfmkoFA3AXUoX4nmF0tQuYt5Y3UQ@mail.gmail.com>
-Subject: Re: [PATCH net-next v3 08/13] bnxt: use snapshot in bnxt_cfg_rx_mode
-To: Stanislav Fomichev <sdf@fomichev.me>
-Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com, 
-	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, corbet@lwn.net, 
-	skhan@linuxfoundation.org, andrew+netdev@lunn.ch, pavan.chebbi@broadcom.com, 
-	anthony.l.nguyen@intel.com, przemyslaw.kitszel@intel.com, saeedm@nvidia.com, 
-	tariqt@nvidia.com, mbloch@nvidia.com, alexanderduyck@fb.com, 
-	kernel-team@meta.com, johannes@sipsolutions.net, sd@queasysnail.net, 
-	jianbol@nvidia.com, dtatulea@nvidia.com, mohsin.bashr@gmail.com, 
-	jacob.e.keller@intel.com, willemb@google.com, skhawaja@google.com, 
-	bestswngs@gmail.com, aleksandr.loktionov@intel.com, kees@kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	intel-wired-lan@lists.osuosl.org, linux-rdma@vger.kernel.org, 
-	linux-wireless@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	leon@kernel.org
-X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="0000000000001c7021064dbacc7b"
-
---0000000000001c7021064dbacc7b
+References: <20260217081203.1792025-1-sbogdanov@baylibre.com>
+ <20260217081203.1792025-2-sbogdanov@baylibre.com> <8f691afc-cac1-4583-9c64-68372644aa1d@roeck-us.net>
+In-Reply-To: <8f691afc-cac1-4583-9c64-68372644aa1d@roeck-us.net>
+From: Stoyan Bogdanov <sbogdanov@baylibre.com>
+Date: Tue, 24 Mar 2026 03:17:21 +0200
+X-Gm-Features: AaiRm52Q-LudHWUdkyfb4NRH3cblijITVGbekAmUdXhLCS0V6BXudIgrWN3tW9I
+Message-ID: <CAJ83Ew7ggUBNsydZE3rPjdLDk5QCENeMkkw7_uTdKubBVHDWrg@mail.gmail.com>
+Subject: Re: [PATCH v3 1/3] hwmon: (pmbus/tps25990): Rework TPS25990 non
+ standatd direct conversion
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: jbrunet@baylibre.com, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org, 
+	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 19, 2026 at 6:25=E2=80=AFPM Stanislav Fomichev <sdf@fomichev.me=
-> wrote:
+On Sun, Mar 8, 2026 at 7:27=E2=80=AFPM Guenter Roeck <linux@roeck-us.net> w=
+rote:
 >
-> With the introduction of ndo_set_rx_mode_async (as discussed in [0])
-> we can call bnxt_cfg_rx_mode directly. Convert bnxt_cfg_rx_mode to
-> use uc/mc snapshots and move its call in bnxt_sp_task to the
-> section that resets BNXT_STATE_IN_SP_TASK. Switch to direct call in
-> bnxt_set_rx_mode.
+> On Tue, Feb 17, 2026 at 10:12:01AM +0200, Stoyan Bogdanov wrote:
+> > Rework existing implementation for calculation of direct
+> > format conversion for TPS25990. With this implamentation
+> > is leveraged code reusability for non standard parameters.
+> >  - Add enum for parameter
+> >  - Add m, b, R structure to hold value per device
+> >  - Add data structure to hold for pmbus_driver_info and
+> >    local_direct_values
+> >  - Conversion functions are implemented according to formula from
+> >    TPS25990 datasheet
+> >  - Remove previously used defines replace with structure
+> >
+> > Signed-off-by: Stoyan Bogdanov <sbogdanov@baylibre.com>
+> > ---
+> >  drivers/hwmon/pmbus/tps25990.c | 115 +++++++++++++++++++++++++--------
+> >  1 file changed, 88 insertions(+), 27 deletions(-)
+> >
+> > diff --git a/drivers/hwmon/pmbus/tps25990.c b/drivers/hwmon/pmbus/tps25=
+990.c
+> > index c13edd7e1abf..33f6367f797c 100644
+> > --- a/drivers/hwmon/pmbus/tps25990.c
+> > +++ b/drivers/hwmon/pmbus/tps25990.c
+> > @@ -36,17 +36,58 @@
+> >  #define  TPS25990_UNLOCKED           BIT(7)
+> >
+> >  #define TPS25990_8B_SHIFT            2
+> > -#define TPS25990_VIN_OVF_NUM         525100
+> > -#define TPS25990_VIN_OVF_DIV         10163
+> > -#define TPS25990_VIN_OVF_OFF         155
+> > -#define TPS25990_IIN_OCF_NUM         953800
+> > -#define TPS25990_IIN_OCF_DIV         129278
+> > -#define TPS25990_IIN_OCF_OFF         157
+> >
+> >  #define PK_MIN_AVG_RST_MASK          (PK_MIN_AVG_RST_PEAK | \
+> >                                        PK_MIN_AVG_RST_AVG  | \
+> >                                        PK_MIN_AVG_RST_MIN)
+> >
+> > +enum tps25990_parameters {
+> > +     TPS25990_VIN_OVF =3D 0, /* VIN over volatage fault */
+> > +     TPS25990_IIN_OCF, /* IIN Over currect fault */
+> > +     TPS25590_DIRECT_VALUES_MAX, /* Max value ensure there enough spac=
+e */
+> > +};
+> > +
+> > +struct local_direct_value {
+> > +     int m[TPS25590_DIRECT_VALUES_MAX]; /* mantissa for direct data fo=
+rmat */
+> > +     int b[TPS25590_DIRECT_VALUES_MAX]; /* offset */
+> > +     int R[TPS25590_DIRECT_VALUES_MAX]; /* exponent */
+> > +};
+> > +
+> > +struct tps25990_data {
+> > +     struct pmbus_driver_info *info;
+> > +     struct local_direct_value *info_local;
+> > +};
+> > +
+> > +static int tps25990_raw_to_value(struct i2c_client *client, int param,=
+ int raw)
+> > +{
+> > +     struct tps25990_data *data =3D (struct tps25990_data *)of_device_=
+get_match_data(&client->dev);
 >
-> 0: https://lore.kernel.org/netdev/CACKFLi=3D5vj8hPqEUKDd8RTw3au5G+zRgQEqj=
-F+6NZnyoNm90KA@mail.gmail.com/
->
-> Cc: Michael Chan <michael.chan@broadcom.com>
-> Cc: Pavan Chebbi <pavan.chebbi@broadcom.com>
-> Signed-off-by: Stanislav Fomichev <sdf@fomichev.me>
-> ---
->  drivers/net/ethernet/broadcom/bnxt/bnxt.c | 26 ++++++++++++++---------
->  1 file changed, 16 insertions(+), 10 deletions(-)
->
-> diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.c b/drivers/net/ethe=
-rnet/broadcom/bnxt/bnxt.c
-> index 225217b32e4b..12265bd7fda4 100644
-> --- a/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-> +++ b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-> @@ -11039,7 +11039,8 @@ static int bnxt_setup_nitroa0_vnic(struct bnxt *b=
-p)
->         return rc;
->  }
->
-> -static int bnxt_cfg_rx_mode(struct bnxt *);
-> +static int bnxt_cfg_rx_mode(struct bnxt *, struct netdev_hw_addr_list *,
-> +                           struct netdev_hw_addr_list *);
->  static bool bnxt_mc_list_updated(struct bnxt *, u32 *,
->                                  const struct netdev_hw_addr_list *);
->
-> @@ -11135,7 +11136,7 @@ static int bnxt_init_chip(struct bnxt *bp, bool i=
-rq_re_init)
->                 vnic->rx_mask |=3D mask;
->         }
->
-> -       rc =3D bnxt_cfg_rx_mode(bp);
-> +       rc =3D bnxt_cfg_rx_mode(bp, &bp->dev->uc, &bp->dev->mc);
->         if (rc)
->                 goto err_out;
->
-> @@ -13610,11 +13611,12 @@ static void bnxt_set_rx_mode(struct net_device =
-*dev,
->         if (mask !=3D vnic->rx_mask || uc_update || mc_update) {
->                 vnic->rx_mask =3D mask;
->
-> -               bnxt_queue_sp_work(bp, BNXT_RX_MASK_SP_EVENT);
-> +               bnxt_cfg_rx_mode(bp, uc, mc);
->         }
->  }
->
-> -static int bnxt_cfg_rx_mode(struct bnxt *bp)
-> +static int bnxt_cfg_rx_mode(struct bnxt *bp, struct netdev_hw_addr_list =
-*uc,
-> +                           struct netdev_hw_addr_list *mc)
->  {
->         struct net_device *dev =3D bp->dev;
->         struct bnxt_vnic_info *vnic =3D &bp->vnic_info[BNXT_VNIC_DEFAULT]=
-;
-> @@ -13623,7 +13625,7 @@ static int bnxt_cfg_rx_mode(struct bnxt *bp)
->         bool uc_update;
->
->         netif_addr_lock_bh(dev);
-> -       uc_update =3D bnxt_uc_list_updated(bp, &dev->uc);
-> +       uc_update =3D bnxt_uc_list_updated(bp, uc);
+> This returns the global data structure (which is corrupted on
+> multi-instance systems) instead of per-instance data.
 
-Will the uc list snapshot change between bnxt_set_rx_mode() and
-bnxt_cfg_rx_mode() with the direct call now?  In the original deferred
-update implementation, the uc list can change and that's why we check
-in both functions.
+Noted, will fix that in next revision.
 
---0000000000001c7021064dbacc7b
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
+> > +     struct local_direct_value *info_local =3D data->info_local;
+> > +
+> > +     /* Formula : X =3D (Y / 10^R - b) / m */
+> > +     if (info_local->R[param] >=3D 0)
+> > +             raw /=3D int_pow(10, info_local->R[param]);
+> > +     else
+> > +             raw *=3D int_pow(10, -info_local->R[param]);
+>
+> This will overflow if the exponent is -6 and raw is larger than ~2147.
+> This may not happen with current parameters, but it is brittle.
+>
 
-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
-DPVtLUtep/P3evQuAtTQRaKedjamBcUpJ7qUhBuv/Z07LlLIlB/vfNSPWe1V+njTezc8m3VfvNEC
-qEpXasPSfDgfcuUhcPR+7++oUDaTt9iqGFOjwiURxx08pL6ogSuiT41O4Xu7msabnUE6RY0O0xR5
-5UGwbpC1QSmnBq7TAy8oQg/nNw4vowEh3S2lmjdHCOdR270Ygd7jet8WQKa5ia4ZK4QdkS8+5uLt
-rMMRyM3QurndiZZJBipjPvEWJR/+jod8867f3n0CAwEAAaOCAd0wggHZMA4GA1UdDwEB/wQEAwIF
-oDAMBgNVHRMBAf8EAjAAMIGTBggrBgEFBQcBAQSBhjCBgzBGBggrBgEFBQcwAoY6aHR0cDovL3Nl
-Y3VyZS5nbG9iYWxzaWduLmNvbS9jYWNlcnQvZ3NnY2NyNnNtaW1lY2EyMDIzLmNydDA5BggrBgEF
-BQcwAYYtaHR0cDovL29jc3AuZ2xvYmFsc2lnbi5jb20vZ3NnY2NyNnNtaW1lY2EyMDIzMGUGA1Ud
-IAReMFwwCQYHZ4EMAQUDAzALBgkrBgEEAaAyASgwQgYKKwYBBAGgMgoDAjA0MDIGCCsGAQUFBwIB
-FiZodHRwczovL3d3dy5nbG9iYWxzaWduLmNvbS9yZXBvc2l0b3J5LzBBBgNVHR8EOjA4MDagNKAy
-hjBodHRwOi8vY3JsLmdsb2JhbHNpZ24uY29tL2dzZ2NjcjZzbWltZWNhMjAyMy5jcmwwJAYDVR0R
-BB0wG4EZbWljaGFlbC5jaGFuQGJyb2FkY29tLmNvbTATBgNVHSUEDDAKBggrBgEFBQcDBDAfBgNV
-HSMEGDAWgBQAKTaeXHq6D68tUC3boCOFGLCgkjAdBgNVHQ4EFgQUJbO/Fi7RhZHYmATVQf6NlAH2
-qUcwDQYJKoZIhvcNAQELBQADggIBABcLQEF8mPE9o6GHJd52vmHFsKsf8vRmdMEouFxrW+GhXXzg
-2/AqqhXeeFZki82D6/5VAPkeVcgDeGZ43Bv89GHnjh/Vv0iCUGHgClZezpWdKCAXkn698xoh1+Wx
-K/c/SHMqGWfBSVm1ygKAWkmzJLF/rd4vUE0pjvZVBpNSVkjXgc80dTZcs7OvoFnt14UgvjuYe+Ia
-H/ux6819kbi0Tmmj5LwSZW8GXw3zcPmAyEYc0ZDCZk9QckL5yPzMlTAsy0Q+NMVpJ8onLj/mHgTk
-Ev8zt1OUE8MlXZj2+wgVY+az2T8rGmqRU2iOzRlJnc86qVwuwjL9AA9v4R13Yt8zYyA7jL0NiBNP
-WaOSajKBB5Z/4ZVtcvOMILD1+G+CVZX7GUWERT9NRXw/SyIEMU59lFbuvy4zxe3+RbOleCgp3pze
-q8HE2p9rkOJT3MkCNLxe+ij4RytIvPQXACsZeLdfTDUnjeXCDDJ9KugVhuqMelAZc4NissPz8FOn
-2NK++r5/QamlFqYRhsFxSBIvhkh2Q/hD3/zy4j17Yf/FUje5uyg03FblSBOk2WYpRpXEuCpyn5pb
-bYVIzfhQJgwGfO+L8BAeZIFjO1QL3s/zzn+RBlTl4wdDzh8L9eS+QEDhMcSsqb4fFRDbsoVuRjpx
-R5MunSUzk4GcmmM19m7oHhPGeKwIMYICVzCCAlMCAQEwYjBSMQswCQYDVQQGEwJCRTEZMBcGA1UE
-ChMQR2xvYmFsU2lnbiBudi1zYTEoMCYGA1UEAxMfR2xvYmFsU2lnbiBHQ0MgUjYgU01JTUUgQ0Eg
-MjAyMwIMZh03KTi4m/vsqWZxMA0GCWCGSAFlAwQCAQUAoIHHMC8GCSqGSIb3DQEJBDEiBCCR33Mw
-/YA8D9hJe2rawnAotsSH69SPoOptXJYmGQDmvjAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwG
-CSqGSIb3DQEJBTEPFw0yNjAzMjQwMTA5MDNaMFwGCSqGSIb3DQEJDzFPME0wCwYJYIZIAWUDBAEq
-MAsGCWCGSAFlAwQBFjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwCwYJKoZIhvcNAQEHMAsGCWCG
-SAFlAwQCATANBgkqhkiG9w0BAQEFAASCAQAZK/hLs0Gm5EKim2KTMmzLSwFU9kz4BkvvzyAsOYD2
-/+o8DpLIIx3C+1zyK4eo2/f0xcMbWL7tJ25Rg+uFfSmb2ZJ7T/QLj1uHSSIpW2k4X0OXIEpf71yc
-G78A4ch9unqd9OTC5dP3L2fOy+DQu+WEckpdq3kehFtSdqMsSpTbpCMNPnPt64Csoz6jAyrNeQJ0
-QboP8dBb10SexWfruwePEfwLCf3xCh72jB66zdgE7OhE8nurQafkPij1+YyoFqgLHXnrumW6SeY6
-kDi3Tuwf+G4KTyR3Tq7RfyVaxpgIdqpeOZB/h3r4AIDvLv1wf7vD3tBf6mX5YpC8I96O79Re
---0000000000001c7021064dbacc7b--
+I understand that the whole calculation is fragile
+Another approach will be to break it in to phases, but it will lost precisi=
+on
+
+// make sure R is positive
+u32 r_pos =3D info_local->R[param] >=3D 0 ? info_local->R[param] :
+-info_local->R[param];
+
+// if (r_pos < 9) will overflow 32bit
+u32 r_pow =3D int_pow(10, r_pos);
+
+if (info_local->R[param] >=3D 0) {
+    val =3D DIV_ROUND_CLOSEST_ULL(raw , r_pow); // result should fit in 32b=
+it
+    val -=3D info_local->b[param]; // fit 32bit
+    val =3D DIV_ROUND_CLOSEST(val , info_local->m[param]); // fit 32bit
+} else { // info_local->R[param] < 0
+    // val =3D raw * r_pos; // most likely will overflow 32 bit with big nu=
+mbers
+    // raw * r_pow / m
+    // assume r_pow is bigger number
+    val =3D DIV_ROUND_CLOSEST(r_pow , info_local->m[param]); // fit 32bit
+    val =3D raw * val;
+    b_div =3D DIV_ROUND_CLOSEST(info_local->b[param],
+info_local->m[param]); // fit 32bit
+    val -=3D b_div;
+}
+
+> > +
+> > +     return DIV_ROUND_CLOSEST(raw - info_local->b[param], info_local->=
+m[param]);
+> > +}
+> > +
+> > +static unsigned int tps25990_value_to_raw(struct i2c_client *client, i=
+nt param, int val)
+> > +{
+> > +     struct tps25990_data *data =3D (struct tps25990_data *)of_device_=
+get_match_data(&client->dev);
+> > +     struct local_direct_value *info_local =3D data->info_local;
+> > +
+> > +     /* Formula : Y =3D ( m * X + b) * 10^R */
+> > +     val =3D (long)val * info_local->m[param] + info_local->b[param];
+>
+> This will overflow on 32-bit systems (where long is a 32-bit value).
+>
+
+Similar approach could be used as in tps25990_raw_to_value
+
+> > +
+> > +     if (info_local->R[param] >=3D 0)
+> > +             val *=3D int_pow(10, info_local->R[param]);
+> > +     else
+> > +             val =3D DIV_ROUND_CLOSEST(val, int_pow(10, -info_local->R=
+[param]));
+> > +
+> > +     return val;
+> > +}
+> > +
+> >  /*
+> >   * Arbitrary default Rimon value: 1kOhm
+> >   * This correspond to an overcurrent limit of 55A, close to the specif=
+ied limit
+> > @@ -184,9 +225,7 @@ static int tps25990_read_word_data(struct i2c_clien=
+t *client,
+> >               ret =3D pmbus_read_word_data(client, page, phase, reg);
+> >               if (ret < 0)
+> >                       break;
+> > -             ret =3D DIV_ROUND_CLOSEST(ret * TPS25990_VIN_OVF_NUM,
+> > -                                     TPS25990_VIN_OVF_DIV);
+> > -             ret +=3D TPS25990_VIN_OVF_OFF;
+> > +             ret =3D tps25990_raw_to_value(client, TPS25990_VIN_OVF, r=
+et);
+> >               break;
+> >
+> >       case PMBUS_IIN_OC_FAULT_LIMIT:
+> > @@ -198,9 +237,7 @@ static int tps25990_read_word_data(struct i2c_clien=
+t *client,
+> >               ret =3D pmbus_read_byte_data(client, page, TPS25990_VIREF=
+);
+> >               if (ret < 0)
+> >                       break;
+> > -             ret =3D DIV_ROUND_CLOSEST(ret * TPS25990_IIN_OCF_NUM,
+> > -                                     TPS25990_IIN_OCF_DIV);
+> > -             ret +=3D TPS25990_IIN_OCF_OFF;
+> > +             ret =3D tps25990_raw_to_value(client, TPS25990_IIN_OCF, r=
+et);
+> >               break;
+> >
+> >       case PMBUS_VIRT_SAMPLES:
+> > @@ -246,17 +283,13 @@ static int tps25990_write_word_data(struct i2c_cl=
+ient *client,
+> >               break;
+> >
+> >       case PMBUS_VIN_OV_FAULT_LIMIT:
+> > -             value -=3D TPS25990_VIN_OVF_OFF;
+> > -             value =3D DIV_ROUND_CLOSEST(((unsigned int)value) * TPS25=
+990_VIN_OVF_DIV,
+> > -                                       TPS25990_VIN_OVF_NUM);
+> > +             value =3D tps25990_value_to_raw(client, TPS25990_VIN_OVF,=
+ value);
+> >               value =3D clamp_val(value, 0, 0xf);
+> >               ret =3D pmbus_write_word_data(client, page, reg, value);
+> >               break;
+> >
+> >       case PMBUS_IIN_OC_FAULT_LIMIT:
+> > -             value -=3D TPS25990_IIN_OCF_OFF;
+> > -             value =3D DIV_ROUND_CLOSEST(((unsigned int)value) * TPS25=
+990_IIN_OCF_DIV,
+> > -                                       TPS25990_IIN_OCF_NUM);
+> > +             value =3D tps25990_value_to_raw(client, TPS25990_IIN_OCF,=
+ value);
+> >               value =3D clamp_val(value, 0, 0x3f);
+> >               ret =3D pmbus_write_byte_data(client, page, TPS25990_VIRE=
+F, value);
+> >               break;
+> > @@ -337,7 +370,16 @@ static const struct regulator_desc tps25990_reg_de=
+sc[] =3D {
+> >  };
+> >  #endif
+> >
+> > -static const struct pmbus_driver_info tps25990_base_info =3D {
+> > +struct local_direct_value tps25590_local_info =3D {
+> > +     .m[TPS25990_VIN_OVF] =3D 10163,
+> > +     .b[TPS25990_VIN_OVF] =3D -30081,
+> > +     .R[TPS25990_VIN_OVF] =3D -4,
+> > +     .m[TPS25990_IIN_OCF] =3D 9538,
+> > +     .b[TPS25990_IIN_OCF] =3D 0,
+> > +     .R[TPS25990_IIN_OCF] =3D -6,
+> > +};
+> > +
+> > +static struct pmbus_driver_info tps25990_base_info =3D {
+> >       .pages =3D 1,
+> >       .format[PSC_VOLTAGE_IN] =3D direct,
+> >       .m[PSC_VOLTAGE_IN] =3D 5251,
+> > @@ -386,14 +428,19 @@ static const struct pmbus_driver_info tps25990_ba=
+se_info =3D {
+> >  #endif
+> >  };
+> >
+> > +struct tps25990_data data_tps25990 =3D {
+> > +     .info =3D &tps25990_base_info,
+> > +     .info_local =3D &tps25590_local_info,
+> > +};
+> > +
+> >  static const struct i2c_device_id tps25990_i2c_id[] =3D {
+> > -     { "tps25990" },
+> > +     { .name =3D "tps25990", .driver_data =3D (kernel_ulong_t)&data_tp=
+s25990 },
+> >       {}
+> >  };
+> >  MODULE_DEVICE_TABLE(i2c, tps25990_i2c_id);
+> >
+> >  static const struct of_device_id tps25990_of_match[] =3D {
+> > -     { .compatible =3D "ti,tps25990" },
+> > +     { .compatible =3D "ti,tps25990", .data =3D &data_tps25990 },
+> >       {}
+> >  };
+> >  MODULE_DEVICE_TABLE(of, tps25990_of_match);
+> > @@ -401,23 +448,37 @@ MODULE_DEVICE_TABLE(of, tps25990_of_match);
+> >  static int tps25990_probe(struct i2c_client *client)
+> >  {
+> >       struct device *dev =3D &client->dev;
+> > -     struct pmbus_driver_info *info;
+> > +     struct tps25990_data *data;
+> >       u32 rimon =3D TPS25990_DEFAULT_RIMON;
+> > +     struct pmbus_driver_info *info_get;
+> > +     struct local_direct_value *info_local_get;
+> >       int ret;
+> >
+> >       ret =3D device_property_read_u32(dev, "ti,rimon-micro-ohms", &rim=
+on);
+> >       if (ret < 0 && ret !=3D -EINVAL)
+> >               return dev_err_probe(dev, ret, "failed to get rimon\n");
+> >
+> > -     info =3D devm_kmemdup(dev, &tps25990_base_info, sizeof(*info), GF=
+P_KERNEL);
+> > -     if (!info)
+> > +     data =3D (struct tps25990_data *)of_device_get_match_data(dev);
+> > +     if (!data)
+> > +             return -EOPNOTSUPP;
+>
+> By calling of_device_get_match_data() which returns NULL on non-devicetre=
+e
+> systems, this patch breaks support for such systems.
+>
+
+I understand , will fix that in next revision
+
+> > +
+> > +     info_get =3D data->info;
+> > +     /* Make copy of pmbus_info and replace it to preserve original va=
+lues */
+> > +     data->info =3D devm_kmemdup(dev, info_get, sizeof(*info_get), GFP=
+_KERNEL);
+>
+> This overwrites information in the global data structure returned by
+> of_device_get_match_data(). When multiple instances of the device exist,
+> each subsequent probe overwrites the global pointer. If any device is
+> removed, the global pointer now points to freed memory, leading to a
+> Use-After-Free when other instances access it via of_device_get_match_dat=
+a
+> or during their own removal/re-probe.
+>
+> This also completely breaks multi-instance support.
+>
+
+I understand , will fix that in next revision
+
+
+> > +     if (!data->info)
+> > +             return -ENOMEM;
+> > +
+> > +     info_local_get =3D data->info_local;
+> > +     /* Make copy of pmbus_info and replace it to preserve original va=
+lues */
+> > +     data->info_local =3D devm_kmemdup(dev, info_local_get, sizeof(*in=
+fo_local_get), GFP_KERNEL);
+> > +     if (!data->info_local)
+> >               return -ENOMEM;
+> >
+> >       /* Adapt the current and power scale for each instance */
+> > -     tps25990_set_m(&info->m[PSC_CURRENT_IN], rimon);
+> > -     tps25990_set_m(&info->m[PSC_POWER], rimon);
+> > +     tps25990_set_m(&data->info->m[PSC_CURRENT_IN], rimon);
+> > +     tps25990_set_m(&data->info->m[PSC_POWER], rimon);
+> >
+> > -     return pmbus_do_probe(client, info);
+> > +     return pmbus_do_probe(client, data->info);
+> >  }
+> >
+> >  static struct i2c_driver tps25990_driver =3D {
