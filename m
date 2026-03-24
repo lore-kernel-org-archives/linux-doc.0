@@ -1,211 +1,174 @@
-Received: from mail-ua1-f53.google.com (mail-ua1-f53.google.com [209.85.222.53])
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A383D3CED
-	for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 16:16:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9665A3A0E81
+	for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 16:20:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774368994; cv=none; b=VgX0cIMery+DjVx7w9BfU+Pk0lGVZZlsuQdB+veOju82Em7aeWpuwdpEN08UgKMAt/LxBbHBBrFX4rQDMQJjnizgNwjYwDd7nTM1WSzW3E6S+LgvEteJpWuS5fKYnM71ih8KuCH6uSib2dOjFyLcPV9yR/Tes/Ju/hkCS4tuCL4=
+	t=1774369226; cv=none; b=BrnW9IJbMdF7ZLItVdqiPkF6qAv/ANztKXckV/O1BprFU8EfisLlQtuEVVUsWRdd8S8ETIVzFR4ciFfGQedZ0422u2ueSlbQ6RHCTdkyawpvn2R4GEiZ9sT2XlCwlU7zR/7e3KkLFpuTHlC36zjvqdlMSgMTBwGggrE0bEWDpHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774368994; c=relaxed/simple;
-	bh=BIc3wHAs8s2sPATriFf+fq+uKIS7NsyRMXlyBl5vVsI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Iq5jnQnpmpUp6hssEWrCl7yzxoqI6NuIKJW2M2mtWzSUV6w0s/Rgj4zeVaJpmeTbvwQVfZ5nVgHPd6Mv5jgOVHMYUz5+BmGW++JGzAZ5Omnahpq82th1LpXpDzhG/52ZMcUtTiZB323A9lGQSJncflISwTcFF09xXARBnfspWTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	s=arc-20240116; t=1774369226; c=relaxed/simple;
+	bh=ShZzsedpZ4aW8QJPj4e2mYky907divykpkQ0QdK/r0g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=iGuiu2QPOSr6aK5MFmOrBVTYYp6yPsLzgd+WbLo+RZ4tmNld5k4NYFALecYh3+ldZozl5a9G4J5YMwJrldfE8VAb7lap9XyWXfpdh0EWDixQSG8fD72Pgc0/g0djGMfn8yiQWTG1VFE0zNYjzRMLV62eSZ+ksYOtj1WxyrPtc9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T1glXB/V; arc=none smtp.client-ip=209.85.128.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f53.google.com with SMTP id a1e0cc1a2514c-94e2ad66abcso468673241.1
-        for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 09:16:33 -0700 (PDT)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T1glXB/V"
+Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-486fba7ce4cso14422275e9.3
+        for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 09:20:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774369222; x=1774974022; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/jWMdlVdJKj8bPYO8LUTgqDdZKhQ7oXnPeiOOcGdoOA=;
+        b=T1glXB/VzG+efx2uRD3ujbaA0TkcJbWNrOdmTGVHsySc59GD0lu5z/wggveBJFW0lB
+         3JarF7ITph41orbsInhfSXoWcgDBH7ivdZsNt8KR9C10wYno7XsECP31/Jx0PUmEDEfP
+         kOt7d0f8QUVXNJZGBNE83I72JGJZcc6k10kUljFo4XspjNjNR5ZovDzWzcqdNUKOJccA
+         vwMStPTJsGZwsLSxDH0yACpWgcvWL9/VSu6t/rTrO2Rne85CiFcVBXyZsPoJvh2gPTn7
+         BNNanbuKNNXmZLZueMSPcfwZbRQERjM/YJsXjXjwBu394tNqVL93nqrJKXGtDqsL3PYS
+         nLEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774368992; x=1774973792;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1774369222; x=1774974022;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jmRf0clXa/z48rdOhDwIqsCZTl6MAr1IPl0XdGWzmtg=;
-        b=e0JpVBK6cxthIxQZsURDJZ/TCqOisWQnREJYd7X65hNQwuelC+KmE/nEhpC+Th1mDK
-         tBAjbbH7/15AbSIFJ+Xul5aHxe9DOxhTQ1lvEhKiT/8M04bWL9DZYXZeK68DXWl5Ghcz
-         v+2Z6Wzjr/i7qyEfYpPQm5Nhgpq/pxjmieD92uIcufjTGr6Kpf0OYLbOzV40YyNGjjD+
-         fEPAQFK+CGoMp8y183/4HgM0mqn5g43yOtr6B9uJg63HmgYIMVGGsLJN9vlZZKukQ3bw
-         pC+j5Y1++bJOSb/ODg1lBDep0kn53YjKsFC/CB2IoEiWVXW8OepZcDvnb5LsaSGZW/G6
-         Aogg==
-X-Forwarded-Encrypted: i=1; AJvYcCXEOShtRnNLcPbvW6SkTGJVjPpVuYxUdNaaneQV11gCeYZwvBgV0c84WMyjbLvvRohpyZLoScH1L70=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw6kBlfTRmKqQ5hPkLlCL0MYVZoW4xd6nGohmqhpyY6KqmqdLUu
-	sF6C1y/VZYLkLev6zO8J6GW6GnjNwMrtAsAXtcC3GgAaPJvwF6HiQ0Chlm8IVDA1QE4=
-X-Gm-Gg: ATEYQzydUInwfFM7zmYsVPxHo05k1JAe7ISVKNke0w6G0MaJG2sIg2fn/kwxH/jWFWC
-	wHZ2ci3/p80C1shdVzxWS29/O+IzMjtCPFE+nv52wgnPBJ8NfsJZQZXnAt517xIHD+twD5BEFmj
-	7wVJHpJFlpgPGqSUMWsGfe4wAJDUui7d6qr2rIBdCjPT9S/QG8Jj2G7hWtqyP3IZ/BRK2Y51rb8
-	BecJ9E2r8UJ61V9vkCgne5sWfHtsd9pwzMSYsjKrFXBM+x9DtD1cia1f99S/FvC4k4oczt6VK+8
-	cAoz6rE9s/fy1PFVFhi0vie55ngBPPFe+YS8HhnreVQdAzov2KAMu7pX6CUXBBXAselzKcsXmAn
-	bdNuQIrWsv5okN0BF6h5ge0XgVeQlMYPnzGfMlBnIg4N0VxCh6EvtvYB0kRp3rdUMMl8ekdrN4g
-	7VC1X0B3ITNS0UVfo5rm6mHYz/gr6ZLcBjPQQjUnr0b84LnOeg942B5KDUUI6HRBdU
-X-Received: by 2002:a05:6102:2b85:b0:5ff:fbe4:8a4 with SMTP id ada2fe7eead31-6038726704cmr242432137.21.1774368992134;
-        Tue, 24 Mar 2026 09:16:32 -0700 (PDT)
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com. [209.85.221.173])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-602af8b0ceesm10958174137.5.2026.03.24.09.16.31
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Mar 2026 09:16:31 -0700 (PDT)
-Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-5673804da95so684073e0c.0
-        for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 09:16:31 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV5uYf2F8MCpujVUVM5s/Kqp5yh/HqELze4jq5hHzNy/Z9UGZZA2bp3yd7Y+MbM5zcHtuhgi81nZwo=@vger.kernel.org
-X-Received: by 2002:a05:6102:5801:b0:603:270c:9ece with SMTP id
- ada2fe7eead31-60386ebc7d7mr249544137.11.1774368990997; Tue, 24 Mar 2026
- 09:16:30 -0700 (PDT)
+        bh=/jWMdlVdJKj8bPYO8LUTgqDdZKhQ7oXnPeiOOcGdoOA=;
+        b=TOnzRltYfBa55/yHDoRTYawkQ0KrJiwK5VagHfSgJZnnzzbQoA7k04dOlwggciEWho
+         l0Ye0+x9uYvJ5BLcu/2dn1uDEwNxvCO4xqQUmB0M+1zKmtkRF07SlxoHeXsi7Q/KMr78
+         8Kk6FGHvD6bFEOIglYp/qXsJ8KylvRcJXHg3vExMTGusVGcIM/3i74LcrrECWcoxgxN/
+         QD8wxpscfFVvbBLR0G+sFeLp8hqViTbjWeH1yjO2py2yOUiolpUdX7VOkKpHy7Dt9ZhO
+         9dBKh0DoUNn07j7TxSpkEvWKMK472Ab1ba3Uga45iDscnQ0U0fl+qxXXu1uUyLzezwks
+         i34w==
+X-Forwarded-Encrypted: i=1; AJvYcCVrv/pMFuBbAiVINU9s/uSFr5PhiO9KD0fmPJoPaSPDvVxYrr071GuwPrtkCpjtzhDAkcGRYHN0qQI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxfeWufr4Y7XOoyqELEeveMIFgyi71A6t10vYWPQX4qxK1syiqd
+	P8x5zyjaQuTvZAKzqvPTMMy74Xl9IkZ7XMLslnULe/uTQ/8R3ryiQCt4GpxObGlNwsI=
+X-Gm-Gg: ATEYQzwXmXfAEH54AcFm1pgJIX2S4mTiClvslfb6fL5a1nQbL/cjF9FcWIZetBA8IBh
+	c2FE0cl0naC7L9VoXRdOIggDJ6enp1oMAnaqGW9ZVwsv0a5Ne1poOw9SXXqhjIfqySo3REkyLR4
+	NHwJejX+qx/8IpUkRysh82dBZA4vZtkdFMzfVzjAmLglpK1E8VDwFiw66y7anXd6+LnI6deL4T+
+	t7XQqCMqGSMg8rDROFib+rpmD0ShPaxSp5PaIx5BxNfaKkjvmzbLdVjVpSpbB4w+4OpDLoRhnxF
+	QfOFOBgG0iyK/FTfKRFI+JolmXKpcqfB+BVu7iU1OLROosReVoYZPUEgaNYjtXNr89JYu6HVZvu
+	ZRzLYRFCyTlhaBJ0ewyJmzuUsQjpmv55serHB5Bc9XEZFnItpEpMpZjgq0O3SN2DNCwdjZTVHVg
+	BOPFb5um7BGPX28kLqOS3WB2ozY7/2V0NNSJRHqQBupY/l
+X-Received: by 2002:a05:600c:4e46:b0:485:3f30:6250 with SMTP id 5b1f17b1804b1-4871605ce94mr4985295e9.20.1774369221461;
+        Tue, 24 Mar 2026 09:20:21 -0700 (PDT)
+Received: from localhost.localdomain ([2a0c:5a87:9504:9400:da3a:ddff:feee:f1b0])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-487116ee57esm56211175e9.14.2026.03.24.09.20.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Mar 2026 09:20:20 -0700 (PDT)
+From: =?UTF-8?q?Tom=C3=A1s=20Pando?= <tovictakamine@gmail.com>
+To: corbet@lwn.net
+Cc: skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	tovicito <tovictakamine@gmail.com>
+Subject: [PATCH v2] docs: driver-api: fix 6 spelling typos in Documentation/driver-api
+Date: Tue, 24 Mar 2026 17:19:13 +0100
+Message-ID: <20260324161913.5480-1-tovictakamine@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260309-gpio-hog-fwnode-v2-0-4e61f3dbf06a@oss.qualcomm.com> <20260309-gpio-hog-fwnode-v2-2-4e61f3dbf06a@oss.qualcomm.com>
-In-Reply-To: <20260309-gpio-hog-fwnode-v2-2-4e61f3dbf06a@oss.qualcomm.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 24 Mar 2026 17:16:19 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdX6RuZXAozrF5m625ZepJTVVr4pcyKczSk12MedWvoejw@mail.gmail.com>
-X-Gm-Features: AQROBzCujwdtX4JkcLDjVnd6LogBn_okx21mGqzFRhZGg9NW5EWThevgncjlCbw
-Message-ID: <CAMuHMdX6RuZXAozrF5m625ZepJTVVr4pcyKczSk12MedWvoejw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/6] gpio: move hogs into GPIO core
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Frank Rowand <frowand.list@gmail.com>, Mika Westerberg <westeri@kernel.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Aaro Koskinen <aaro.koskinen@iki.fi>, 
-	Janusz Krzysztofik <jmkrzyszt@gmail.com>, Tony Lindgren <tony@atomide.com>, 
-	Russell King <linux@armlinux.org.uk>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, linux-gpio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Mika Westerberg <mika.westerberg@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Bartosz,
+From: tovicito <tovictakamine@gmail.com>
 
-On Mon, 9 Mar 2026 at 13:43, Bartosz Golaszewski
-<bartosz.golaszewski@oss.qualcomm.com> wrote:
-> Refactor line hogging code by moving the parts duplicated in
-> gpiolib-acpi-core.c and gpiolib-of.c into gpiolib.c, leaving just the
-> OF-specific bits in the latter.
->
-> This makes fwnode the primary API for setting up hogs and allows to use
-> software nodes in addition to ACPI and OF nodes.
->
-> Reviewed-by: Mika Westerberg <mika.westerberg@linux.intel.com>
-> Reviewed-by: Linus Walleij <linusw@kernel.org>
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Fix minor spelling mistakes in the driver-api documentation. These
+changes improve readability in ACPI, CXL, DMA and PCI docs.
 
-Thanks for your patch, which is now commit d1d564ec4992945d ("gpio:
-move hogs into GPIO core") in gpio/gpio/for-next.
+Signed-off-by: tovicito <tovictakamine@gmail.com>
+Signed-off-by: Tomás Pando <tovictakamine@gmail.com>
+---
+ Documentation/driver-api/acpi/acpi-drivers.rst         | 2 +-
+ Documentation/driver-api/cxl/platform/acpi/cedt.rst    | 2 +-
+ Documentation/driver-api/cxl/platform/bios-and-efi.rst | 2 +-
+ Documentation/driver-api/dmaengine/pxa_dma.rst         | 2 +-
+ Documentation/driver-api/libata.rst                    | 2 +-
+ Documentation/driver-api/pci/p2pdma.rst                | 2 +-
+ 6 files changed, 6 insertions(+), 6 deletions(-)
 
-This breaks GPIO on the Renesas Marzen (R-Car H1) board:
-
-    -gpio_rcar ffc40000.gpio: driving 32 GPIOs
-    +gpiochip_add_data_with_key: GPIOs 512..543 (ffc40000.gpio) failed
-to register, -22
-    +gpio_rcar ffc40000.gpio: failed to add GPIO controller
-    +gpio_rcar ffc40000.gpio: probe with driver gpio_rcar failed with error -22
-
-> --- a/drivers/gpio/gpiolib.c
-> +++ b/drivers/gpio/gpiolib.c
-> @@ -960,6 +960,98 @@ static void machine_gpiochip_add(struct gpio_chip *gc)
->         }
->  }
->
-> +int gpiochip_add_hog(struct gpio_chip *gc, struct fwnode_handle *fwnode)
-> +{
-> +       struct fwnode_handle *gc_node = dev_fwnode(&gc->gpiodev->dev);
-> +       struct fwnode_reference_args gpiospec;
-> +       enum gpiod_flags dflags;
-> +       struct gpio_desc *desc;
-> +       unsigned long lflags;
-> +       const char *name;
-> +       int ret, argc;
-> +       u32 gpios[3]; /* We support up to three-cell bindings. */
-> +       u32 cells;
-> +
-> +       lflags = GPIO_LOOKUP_FLAGS_DEFAULT;
-> +       dflags = GPIOD_ASIS;
-> +       name = NULL;
-> +
-> +       argc = fwnode_property_count_u32(fwnode, "gpios");
-> +       if (argc < 0)
-> +               return argc;
-> +       if (argc > 3)
-> +               return -EINVAL;
-
-The GPIO hog at [1] has a gpios property with two entries:
-
-    gpios = <17 GPIO_ACTIVE_LOW>, <18 GPIO_ACTIVE_LOW>;
-
-hence argc = 4, which is considered invalid.
-
-The check should take into account the actual value of #gpio-cells,
-and handle the presence of multiple GPIOs.
-
-"git grep -Ww gpio-hog -- arch/*/boot/dts/ | grep 'gpios\s*=.*>,'" finds
-several other places where multiple GPIOs are specified.
-
-> +
-> +       ret = fwnode_property_read_u32_array(fwnode, "gpios", gpios, argc);
-> +       if (ret < 0)
-> +               return ret;
-> +
-> +       if (is_of_node(fwnode)) {
-> +               /*
-> +                * OF-nodes need some additional special handling for
-> +                * translating of devicetree flags.
-> +                */
-> +               ret = fwnode_property_read_u32(gc_node, "#gpio-cells", &cells);
-> +               if (ret)
-> +                       return ret;
-> +               if (!ret && argc != cells)
-> +                       return -EINVAL;
-> +
-> +               memset(&gpiospec, 0, sizeof(gpiospec));
-> +               gpiospec.fwnode = fwnode;
-> +               gpiospec.nargs = argc;
-> +
-> +               for (int i = 0; i < argc; i++)
-> +                       gpiospec.args[i] = gpios[i];
-> +
-> +               ret = of_gpiochip_get_lflags(gc, &gpiospec, &lflags);
-> +               if (ret)
-> +                       return ret;
-> +       } else {
-> +               /*
-> +                * GPIO_ACTIVE_LOW is currently the only lookup flag
-> +                * supported for non-OF firmware nodes.
-> +                */
-> +               if (gpios[1])
-> +                       lflags |= GPIO_ACTIVE_LOW;
-> +       }
-> +
-> +       if (fwnode_property_present(fwnode, "input"))
-> +               dflags |= GPIOD_IN;
-> +       else if (fwnode_property_present(fwnode, "output-low"))
-> +               dflags |= GPIOD_OUT_LOW;
-> +       else if (fwnode_property_present(fwnode, "output-high"))
-> +               dflags |= GPIOD_OUT_HIGH;
-> +       else
-> +               return -EINVAL;
-> +
-> +       fwnode_property_read_string(fwnode, "line-name", &name);
-> +
-> +       desc = gpiochip_get_desc(gc, gpios[0]);
-> +       if (IS_ERR(desc))
-> +               return PTR_ERR(desc);
-> +
-> +       return gpiod_hog(desc, name, lflags, dflags);
-> +}
-
-[1] https://elixir.bootlin.com/linux/v6.19.9/source/arch/arm/boot/dts/renesas/r8a7779-marzen.dts#L196
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/Documentation/driver-api/acpi/acpi-drivers.rst b/Documentation/driver-api/acpi/acpi-drivers.rst
+index b1fbbddb8..376b6d8a6 100644
+--- a/Documentation/driver-api/acpi/acpi-drivers.rst
++++ b/Documentation/driver-api/acpi/acpi-drivers.rst
+@@ -47,7 +47,7 @@ generally be avoided and so struct acpi_driver objects should not be used.
+ Moreover, a device ID is necessary to bind a driver directly to an ACPI device
+ node, but device IDs are not generally associated with all of them.  Some of
+ them contain alternative information allowing the corresponding pieces of
+-hardware to be identified, for example represeted by an _ADR object return
++hardware to be identified, for example represented by an _ADR object return
+ value, and device IDs are not used in those cases.  In consequence, confusingly
+ enough, binding an ACPI driver to an ACPI device node may even be impossible.
+ 
+diff --git a/Documentation/driver-api/cxl/platform/acpi/cedt.rst b/Documentation/driver-api/cxl/platform/acpi/cedt.rst
+index 1d9c9d359..217a75fb4 100644
+--- a/Documentation/driver-api/cxl/platform/acpi/cedt.rst
++++ b/Documentation/driver-api/cxl/platform/acpi/cedt.rst
+@@ -55,7 +55,7 @@ voltile vs persistent, etc). One or more bits may be set. ::
+   Bit[1]: CXL Type 3 Memory
+   Bit[2]: Volatile Memory
+   Bit[3]: Persistent Memory
+-  Bit[4]: Fixed Config (HPA cannot be re-used)
++  Bit[4]: Fixed Config (HPA cannot be reused)
+ 
+ INTRA-host-bridge interleave (multiple devices on one host bridge) is NOT
+ reported in this structure, and is solely defined via CXL device decoder
+diff --git a/Documentation/driver-api/cxl/platform/bios-and-efi.rst b/Documentation/driver-api/cxl/platform/bios-and-efi.rst
+index a4b44c018..5d918b06f 100644
+--- a/Documentation/driver-api/cxl/platform/bios-and-efi.rst
++++ b/Documentation/driver-api/cxl/platform/bios-and-efi.rst
+@@ -277,7 +277,7 @@ The CFMWS field of the CEDT has special restriction bits which describe whether
+ the described memory region allows volatile or persistent memory (or both). If
+ the platform intends to support either:
+ 
+-1) A device with multiple medias, or
++1) A device with multiple media, or
+ 2) Using a persistent memory device as normal memory
+ 
+ A platform may wish to create multiple CEDT CFMWS entries to describe the same
+diff --git a/Documentation/driver-api/dmaengine/pxa_dma.rst b/Documentation/driver-api/dmaengine/pxa_dma.rst
+index 442ee691a..8f9da66b0 100644
+--- a/Documentation/driver-api/dmaengine/pxa_dma.rst
++++ b/Documentation/driver-api/dmaengine/pxa_dma.rst
+@@ -40,7 +40,7 @@ Design
+ ======
+ a) Virtual channels
+ Same concept as in sa11x0 driver, ie. a driver was assigned a "virtual
+-channel" linked to the requestor line, and the physical DMA channel is
++channel" linked to the requester line, and the physical DMA channel is
+ assigned on the fly when the transfer is issued.
+ 
+ b) Transfer anatomy for a scatter-gather transfer
+diff --git a/Documentation/driver-api/libata.rst b/Documentation/driver-api/libata.rst
+index 93d97fe78..28b8437f6 100644
+--- a/Documentation/driver-api/libata.rst
++++ b/Documentation/driver-api/libata.rst
+@@ -286,7 +286,7 @@ and other exceptional conditions. The primary responsibility of an
+ implementation is to call :c:func:`ata_std_error_handler`.
+ 
+ :c:func:`ata_std_error_handler` will perform a standard error handling sequence
+-to resurect failed devices, detach lost devices and add new devices (if any).
++to resurrect failed devices, detach lost devices and add new devices (if any).
+ This function will call the various reset operations for a port, as needed.
+ These operations are as follows.
+ 
+diff --git a/Documentation/driver-api/pci/p2pdma.rst b/Documentation/driver-api/pci/p2pdma.rst
+index 280673b50..d3f406cca 100644
+--- a/Documentation/driver-api/pci/p2pdma.rst
++++ b/Documentation/driver-api/pci/p2pdma.rst
+@@ -38,7 +38,7 @@ for all usage refcounts to reach zero.
+ At the lowest level the P2P subsystem offers a naked struct p2p_provider that
+ delegates lifecycle management to the providing driver. It is expected that
+ drivers using this option will wrap their MMIO memory in DMABUF and use DMABUF
+-to provide an invalidation shutdown. These MMIO addresess have no struct page, and
++to provide an invalidation shutdown. These MMIO addresses have no struct page, and
+ if used with mmap() must create special PTEs. As such there are very few
+ kernel uAPIs that can accept pointers to them; in particular they cannot be used
+ with read()/write(), including O_DIRECT.
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.53.0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
