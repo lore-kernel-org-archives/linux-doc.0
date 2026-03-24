@@ -1,98 +1,240 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D96163A3810;
-	Tue, 24 Mar 2026 19:09:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774379375; cv=none; b=rk7tJij4kPeXWR1HFM381AukPVJal/txEUJbL8uewz+ydS6YOoTIUpromyRrlQDkcB5YffEqulyelWnKf36cp6BG9s1BvwI28lUG1G27ZoWiRNTCdMs/r/LtxXnEjYFvnlQHptdaKUZ46yvbNb3APhMN3//5cgIAeP/D8rOA+no=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774379375; c=relaxed/simple;
-	bh=HvDIKDZOlydf2prVH96BDaY5a3aikgF0T0HQ0Bo2uMY=;
-	h=Content-Type:MIME-Version:Message-Id:In-Reply-To:References:
-	 Subject:From:To:Cc:Date; b=RqHX+UHUuqeCoQwI0N3fHsU4mtmN7fU8P++ytaRF3IqXYzR6+njdy15OEDw2LmLLGT3bLVU0XXkpnPDfNRVQLV800OVIfG8blQxmrZMXXPZN90m/k96FRJnCnmBV+VgA3WYBWiwzzajFM+cbssZmfmPCdrDNK7Z5CnRj3jJ7euM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NzByaaAZ; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2EBF3CA4A9;
+	Tue, 24 Mar 2026 19:11:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774379481; cv=pass; b=p7+Wl43uGYl42SYX14fMuJCM8XwXVa3nAFQYTWyBsARsmXxUQCkRHDP4uW0UmyFcxDLkMDkNRbt7cWJyR0TlEfDdo7PY0wbrAqBlh9buxfUjFznk8N90b0H8zFoKjyP4PBKdskFEr6OcWeNBJtIMWCSD9MFe9I6cx57Dq1anAog=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774379481; c=relaxed/simple;
+	bh=kK3J/ntdz/QTjXQC2M+O9RYSyiaCV3FeZFwB5rg3TN4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=KiFu4iaBcAKedvKmeeIbn2YghVL9P/ZUf/ZewMXUQm9d6IbthUMmqnG2TXIkrcrh0wQyi+mtQA3YfZmg4JWd0jq4qMFrD8qMxlTeVQ6S+/SDSVN5gqhosQi3q3s9UOLd+SofdgdIEl5xSztdbwgO4978uHOVJbJoIjLwy32Lwqo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=XjbgTY7M; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NzByaaAZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C50EDC19424;
-	Tue, 24 Mar 2026 19:09:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774379374;
-	bh=HvDIKDZOlydf2prVH96BDaY5a3aikgF0T0HQ0Bo2uMY=;
-	h=In-Reply-To:References:Subject:From:To:Cc:Date:From;
-	b=NzByaaAZkngMGpcw6UZTzZ+zLVHWO74+K6pKWy+HoxZvvF7q94+4XtLo7xPb4y7I4
-	 xulj7eZ0o3Yjhx7oxsHaK90nj/nxqkzcpM7YsNRKTqfOab93/UrxUVHRnJqBh9sLht
-	 YG4qlK/9A0/swVMBu3vd+zn7jMN3QTepVamyblvVNyb1oflQeb1I5iy6RyMAlPLz1/
-	 1OI8IgREXA55oxhw87AFMSFH4u/uC171lxZ9sqnXogIKLAD3sYziAXuPYBl+1oSZWt
-	 F/ZXeUYtBECVSgMsTZ3d40TnEVxQ/KTJ8HH2dbAOk8V6gQf4ZA7le08BuMlOoqLMNE
-	 laXf5+AqUHKIA==
-Content-Type: multipart/mixed; boundary="===============5868570892331209961=="
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="XjbgTY7M"
+ARC-Seal: i=1; a=rsa-sha256; t=1774379422; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=JwmfU3nI64lANcTkOJ2pptWtxs1wPlS9WAKzNUHw+UmfXiMj6E76AJuUGE1dUuUB9KFdm4poJkc3/4iweEnXYg39pe+B+E0RawYrt7N+GHbSgTSPoUN0808n6nIp72tssVMND5WVVKzksaEAJqUNTa+pBJZ/JilUNrURP5JPwdQ=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1774379422; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=oIHhgYRTZYTwgPpGgsACesVAZLnr0SI2o+pjUNHNbec=; 
+	b=XKnKaF7lYeRKqvW1sR5dSc3xOJtNoj8KO64AF/R2Bt7kj+XePRPL6DWo3ezLa0ifxii/Pwi6RKyqtj0MnHXIBxQBJ1H9FKHRowaC9lzDkWi62V2uixSkk/rCNrsYojyNPM+wpNEpSlCRYupfsCzcCkQBz8cjM7Uib9S/P9bUfgw=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774379422;
+	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+	bh=oIHhgYRTZYTwgPpGgsACesVAZLnr0SI2o+pjUNHNbec=;
+	b=XjbgTY7MCveOU54UWyjfIY6w858uZYvJ0pY1cuI9G1qSVXsiM+jNqczIX3O+kNZr
+	FezgxnSjsqcdP8RjZn8+GEt2o6KC+kfWQM5EJR0LQ8+to1BezR8iKwhkw1rFdzwfwju
+	CA5g5dnFUKnLmIkgFD4Fcq0PsWPU0APg17ufDRQM=
+Received: by mx.zohomail.com with SMTPS id 1774379421185170.28810178052595;
+	Tue, 24 Mar 2026 12:10:21 -0700 (PDT)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ kernel@collabora.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, Werner Sembach <wse@tuxedocomputers.com>,
+ Andri Yngvason <andri@yngvason.is>, Marius Vlad <marius.vlad@collabora.com>
+Subject:
+ Re: [PATCH v11 03/22] drm: Add new general DRM property "color format"
+Date: Tue, 24 Mar 2026 20:10:11 +0100
+Message-ID: <23910073.EfDdHjke4D@workhorse>
+In-Reply-To: <acLDPYuaVI2-12JX@intel.com>
+References:
+ <20260324-color-format-v11-0-605559af4fb4@collabora.com>
+ <20260324-color-format-v11-3-605559af4fb4@collabora.com>
+ <acLDPYuaVI2-12JX@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <ed36be8ab3fd8dc38efe3fe4c5846d1f315fbeef0782ab56550e279960e57ce8@mail.kernel.org>
-In-Reply-To: <20260324-vmscape-bhb-v8-8-68bb524b3ab9@linux.intel.com>
-References: <20260324-vmscape-bhb-v8-8-68bb524b3ab9@linux.intel.com>
-Subject: Re: [PATCH v8 08/10] x86/vmscape: Deploy BHB clearing mitigation
-From: bot+bpf-ci@kernel.org
-To: pawan.kumar.gupta@linux.intel.com,x86@kernel.org,jon@nutanix.com,nik.borisov@suse.com,hpa@zytor.com,jpoimboe@kernel.org,david.kaplan@amd.com,seanjc@google.com,bp@alien8.de,dave.hansen@linux.intel.com,peterz@infradead.org,ast@kernel.org,daniel@iogearbox.net,andrii@kernel.org,kpsingh@kernel.org,jolsa@kernel.org,davem@davemloft.net,david.laight.linux@gmail.com,luto@kernel.org,tglx@kernel.org,mingo@redhat.com,dsahern@kernel.org,martin.lau@linux.dev,eddyz87@gmail.com,song@kernel.org,yonghong.song@linux.dev,john.fastabend@gmail.com,sdf@fomichev.me,haoluo@google.com,pbonzini@redhat.com,corbet@lwn.net
-Cc: linux-kernel@vger.kernel.org,kvm@vger.kernel.org,asit.k.mallick@intel.com,tao1.zhang@intel.com,bpf@vger.kernel.org,netdev@vger.kernel.org,linux-doc@vger.kernel.org,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,clm@meta.com,ihor.solodrai@linux.dev
-Date: Tue, 24 Mar 2026 19:09:33 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
---===============5868570892331209961==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+On Tuesday, 24 March 2026 18:00:45 Central European Standard Time Ville Syr=
+j=C3=A4l=C3=A4 wrote:
+> On Tue, Mar 24, 2026 at 05:01:07PM +0100, Nicolas Frattaroli wrote:
+> > +enum drm_connector_color_format {
+> > +	/**
+> > +	 * @DRM_CONNECTOR_COLOR_FORMAT_AUTO: The driver or display protocol
+> > +	 * helpers should pick a suitable color format. All implementations o=
+f a
+> > +	 * specific display protocol must behave the same way with "AUTO", but
+> > +	 * different display protocols do not necessarily have the same "AUTO"
+> > +	 * semantics.
+> > +	 *
+> > +	 * For HDMI, "AUTO" picks RGB, but falls back to YCbCr 4:2:0 if the
+> > +	 * bandwidth required for full-scale RGB is not available, or the mode
+> > +	 * is YCbCr 4:2:0-only, as long as the mode and output both support
+> > +	 * YCbCr 4:2:0.
+> > +	 *
+> > +	 * For display protocols other than HDMI, the recursive bridge chain
+> > +	 * format selection picks the first chain of bridge formats that work=
+s,
+> > +	 * as has already been the case before the introduction of the "color
+> > +	 * format" property. Non-HDMI bridges should therefore either sort th=
+eir
+> > +	 * bus output formats by preference, or agree on a unified auto format
+> > +	 * selection logic that's implemented in a common state helper (like
+> > +	 * how HDMI does it).
+> > +	 */
+> > +	DRM_CONNECTOR_COLOR_FORMAT_AUTO =3D 0,
+> > +
+> > +	/**
+> > +	 * @DRM_CONNECTOR_COLOR_FORMAT_RGB444: RGB output format
+> > +	 */
+> > +	DRM_CONNECTOR_COLOR_FORMAT_RGB444,
+> > +
+> > +	/**
+> > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR444: YCbCr 4:4:4 output format (i=
+e.
+> > +	 * not subsampled)
+> > +	 */
+> > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR444,
+> > +
+> > +	/**
+> > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR422: YCbCr 4:2:2 output format (i=
+e.
+> > +	 * with horizontal subsampling)
+> > +	 */
+> > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR422,
+> > +
+> > +	/**
+> > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR420: YCbCr 4:2:0 output format (i=
+e.
+> > +	 * with horizontal and vertical subsampling)
+> > +	 */
+> > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR420,
+>=20
+> Seems like this should document what the quantization range
+> should be for each format.
+>=20
 
-> diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
-> index a7dee7ec6ea39..8cacd9474fdf0 100644
-> --- a/arch/x86/kernel/cpu/bugs.c
-> +++ b/arch/x86/kernel/cpu/bugs.c
+I don't think so? If you want per-component bit depth values,
+DRM_FORMAT_* defines would be the appropriate values to use. This
+enum is more abstract than that, and is there to communicate
+YUV vs. RGB and chroma subsampling, with bit depth being handled
+by other properties.
 
-[ ... ]
+If you mean the factor used for subsampling, then that'd only be
+relevant if YCBCR410 was supported where one chroma plane isn't
+halved but quartered in resolution. I suspect 4:1:0 will never
+be added; no digital display protocol standard supports it to my
+knowledge, and hopefully none ever will.
 
-> @@ -3136,6 +3149,8 @@ static void __init vmscape_apply_mitigation(void)
->  {
->  	if (vmscape_mitigation == VMSCAPE_MITIGATION_IBPB_EXIT_TO_USER)
->  		static_call_update(vmscape_predictor_flush, write_ibpb);
-> +	else if (vmscape_mitigation == VMSCAPE_MITIGATION_BHB_CLEAR_EXIT_TO_USER)
-> +		static_call_update(vmscape_predictor_flush, clear_bhb_loop_nofence);
->  }
+> > +
+> > +	/**
+> > +	 * @DRM_CONNECTOR_COLOR_FORMAT_COUNT: Number of valid connector color
+> > +	 * format values in this enum
+> > +	 */
+> > +	DRM_CONNECTOR_COLOR_FORMAT_COUNT,
+> > +};
+> > +
+> > +/**
+> > + * drm_connector_color_format_valid - Validate drm_connector_color_for=
+mat value
+> > + * @fmt: value to check against all values of &enum drm_connector_colo=
+r_format
+> > + *
+> > + * Checks whether the passed in value of @fmt is one of the allowable =
+values in
+> > + * &enum drm_connector_color_format.
+> > + *
+> > + * Returns: %true if it's a valid value for the enum, %false otherwise.
+> > + */
+> > +static inline bool __pure
+> > +drm_connector_color_format_valid(enum drm_connector_color_format fmt)
+> > +{
+> > +	switch (fmt) {
+> > +	case DRM_CONNECTOR_COLOR_FORMAT_AUTO:
+> > +	case DRM_CONNECTOR_COLOR_FORMAT_RGB444:
+> > +	case DRM_CONNECTOR_COLOR_FORMAT_YCBCR444:
+> > +	case DRM_CONNECTOR_COLOR_FORMAT_YCBCR422:
+> > +	case DRM_CONNECTOR_COLOR_FORMAT_YCBCR420:
+> > +		return true;
+> > +	default:
+> > +		return false;
+> > +	}
+> > +}
+> > +
+> >  const char *
+> >  drm_hdmi_connector_get_output_format_name(enum drm_output_color_format=
+ fmt);
+> > =20
+> > @@ -1129,6 +1217,13 @@ struct drm_connector_state {
+> >  	 */
+> >  	enum drm_colorspace colorspace;
+> > =20
+> > +	/**
+> > +	 * @color_format: State variable for Connector property to request
+> > +	 * color format change on Sink. This is most commonly used to switch
+> > +	 * between RGB to YUV and vice-versa.
+> > +	 */
+> > +	enum drm_connector_color_format color_format;
+> > +
+> >  	/**
+> >  	 * @writeback_job: Writeback job for writeback connectors
+> >  	 *
+> > @@ -2127,6 +2222,12 @@ struct drm_connector {
+> >  	 */
+> >  	struct drm_property *colorspace_property;
+> > =20
+> > +	/**
+> > +	 * @color_format_property: Connector property to set the suitable
+> > +	 * color format supported by the sink.
+> > +	 */
+> > +	struct drm_property *color_format_property;
+> > +
+> >  	/**
+> >  	 * @path_blob_ptr:
+> >  	 *
+> > @@ -2610,6 +2711,9 @@ bool drm_connector_has_possible_encoder(struct dr=
+m_connector *connector,
+> >  					struct drm_encoder *encoder);
+> >  const char *drm_get_colorspace_name(enum drm_colorspace colorspace);
+> > =20
+> > +int drm_connector_attach_color_format_property(struct drm_connector *c=
+onnector,
+> > +					       unsigned long supported_color_formats);
+> > +
+> >  /**
+> >   * drm_for_each_connector_iter - connector_list iterator macro
+> >   * @connector: &struct drm_connector pointer used as cursor
+> >=20
+>=20
+>=20
 
-When vmscape_predictor_flush is set to clear_bhb_loop_nofence, the
-call site in arch_exit_to_user_mode_prepare() becomes:
-
-    static_call_cond(vmscape_predictor_flush)();
-    this_cpu_write(x86_predictor_flush_exit_to_user, false);
-
-The comment above clear_bhb_loop_nofence() in entry_64.S says:
-
-    Note, callers should use a speculation barrier like LFENCE
-    immediately after a call to this function to ensure BHB is
-    cleared before indirect branches.
-
-Every other callsite follows this requirement, e.g. in
-CLEAR_BRANCH_HISTORY and CLEAR_BRANCH_HISTORY_VMEXIT:
-
-    call clear_bhb_loop_nofence; lfence
-
-The previous static_call target, write_ibpb(), uses wrmsr which is
-serializing and inherently acts as a speculation barrier. But
-clear_bhb_loop_nofence() is just a loop that fills the BHB -- it is
-not serializing.
-
-Without an lfence after the static_call, is there a speculative
-window where indirect branches could execute using stale
-(guest-controlled) branch history before the BHB clear takes
-architectural effect?
 
 
----
-AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
-See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
 
-CI run summary: https://github.com/kernel-patches/bpf/actions/runs/23506000396
---===============5868570892331209961==--
