@@ -1,141 +1,205 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from canpmsgout04.his.huawei.com (canpmsgout04.his.huawei.com [113.46.200.219])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F0F63AF67D
-	for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 06:05:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B87B38239F;
+	Tue, 24 Mar 2026 06:14:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.219
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774332319; cv=none; b=KpsJqjWXp3Zn/6ngmHodsVgxbRJB/5QaXaqj/+mHhlF/gL6B+J9Iu81y9izyZhzA2qzMkmN8x54Puxqv0FwIw/ICvi4caE1/lyJ5cjEfHx665od34MwvE5qxtXKkl1Nqvz+7w1wTk2tThcbBnXWUl1qits6ZrG3fvKu2c1ReSgY=
+	t=1774332870; cv=none; b=lSxfu2o6j0ZTIVtW/2OeI35hIzRaCfezG+6+GylpEDOheufeeqJ7HhYGyokTHWmi3iGpblUxBe51PfJjbAg6lp67KgeE9WrmJqeMZIpU8y65dSSzWcmsvELlDj/MaDytMizJ66/UbJaO/N+Q08q73hQKRVM4cTK3af+yCo/s0js=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774332319; c=relaxed/simple;
-	bh=9kKEAqIsofsf9j9eZKJ2uLxM6sd+kjyOhrgvEs4OXX4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=E5+J6q4qlCH4co13k2ftj8n38qwVBwDtyhA2OJV0NdcpI97cQTTz0P8PoJgGnwh2EDTwATcffRkpDcD0C84fRYGvrCyCAv7eM/MybM6RFY+IQkIbhYTNocysfBGCHRg4jYtf8j8f8/fANS+dbSfr8Mih31uv7ePL+TkRFp/kLS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SO8djeE6; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=RBi3ogoG; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1774332870; c=relaxed/simple;
+	bh=kNeCzHN9m3XWkpbevz8LJ6DnLZ6XMrA3XVh7yVPFY4A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=MdHBbJjtwKo2u+2A9k5f8n1u+9kThYzdje53Mx0Go4xIIN2TrJKIEMLKg/0U/omYWuI5egEG2e86rXeXewi0NbVTXHBH10hYmZlJYBDCyrJdU2Ewkn3F1SCskXfEluAE4Hysh0H6wTxQaMuJ+xze9h5txxOI67v2wGnQR+CzcpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=jpV0OS8P; arc=none smtp.client-ip=113.46.200.219
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SO8djeE6";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="RBi3ogoG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1774332316;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xw85OR1VT86W5/UYlwDEouH2+FNxd6th+BcXCbo6xiM=;
-	b=SO8djeE6yP6bMmuZNf+nkbfH0AxwfzJP4l0wwYvSY+kWou/wYo31Hcv6p8uqvS7f6mbRQD
-	goPRy/yRV4Fef+4liBBd+SMITo2L5B2RXm+1loRwKUpMDRJkphLiyrDSJfo9TugQfiXgt2
-	Wesw/MCe3zKgV9DkjVKP6GHkYAufotM=
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-374-GVo2oV9LMCmUztwICCj8ig-1; Tue, 24 Mar 2026 02:05:14 -0400
-X-MC-Unique: GVo2oV9LMCmUztwICCj8ig-1
-X-Mimecast-MFC-AGG-ID: GVo2oV9LMCmUztwICCj8ig_1774332313
-Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2b079b4a8c3so23512195ad.3
-        for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 23:05:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1774332313; x=1774937113; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xw85OR1VT86W5/UYlwDEouH2+FNxd6th+BcXCbo6xiM=;
-        b=RBi3ogoGORzsqp+85hfkn3742gHibFA+EGjA4r/oAejKGlno06lJpooSWGBhgXkcFk
-         qpqngTIbrmiLns9JOpKcP4ASCqzEKD7G9Q1T4co+nlv0A0n6nD6WMcJvOMWAOJe+TBob
-         msjOSh8M3g3hO95N83wcFNncOFCwfH5uKHbA5y9VkQStUqBtPg6vOareCcO42qQ6SWev
-         TCNvbNB0lmE/zN+Vj7C/Nmc9Wjw9k0t/+aYCdEhrU1/J+AJh4cR3ZG3oaQgNcaZB6nKh
-         IujffCD4l5rehbqYCGbaBWkG+4uGmEt3q0L9wGsghX0O5Otl2IsUE2KKCfvFCy+n3nBP
-         P51w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774332313; x=1774937113;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xw85OR1VT86W5/UYlwDEouH2+FNxd6th+BcXCbo6xiM=;
-        b=AMuA1Ri16FNHrjRZgd4UbmT1HvSaXT1R7f7oa+Vnecp5z9zDHK7nRIzYt31c5TMlxD
-         f3yV2HppMi9y4OZxFUFHoYPS+qPX3xFi35OnB+OiDGTwREXoTS5q/GMMdFychQOb8cS6
-         Sm8rYSDIyNvPyRkhRgmf8Ll2wx1qkb90j+gyBhyaDLy/bTaU6zML3zZhRinlvXz+KGHS
-         Th59kWHFVRn5PkX/atrdV+SC3ZDg9zC3QqdnMZ170UucrYPLO5aPfjfemqElHbaozx5d
-         HbY3RyP14kRBkQIWQLS0bUmVJV7MHywzkm90WtAJtUHrPjYdFlyrA4W8eNk1mvhy2+Ug
-         Jcyw==
-X-Forwarded-Encrypted: i=1; AJvYcCU/758e5txVxqWPydTHwgVlQSy/spnDKA6MtLP28f9YH9Klg6N0xnJSWUTeUaJyBdAf/vnxxy/iK7U=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyGmkFBNcJrvSVb90GKCnr5N3cNC1wDadHA7r1xCgjJIFwroqDd
-	6niST3R11QxrpNlhDF8bqkcoQxgvsQSChXG9cuCK6Mr9Gzm8g5avM1frh1y+Xa3BeFd1ZKRcap0
-	NI4vQH2mMz2KvQuLuDkIyVFK1/2W/EWeCyjIj1wS9wyLXQEbPLpACZCge/kLmXw==
-X-Gm-Gg: ATEYQzz39uOPTb7r1YVuGS1UxMkEHSd7YoKEDo31va6Ah5gLCC1KByl9ZehZPxH4Cke
-	ldysDgGoB79ZX0bmrbHNY90gw3NW4NuVoArryMwviK4l2U8FjRpFg6Dxr1wcRr9M+weJu6Vmyx3
-	E6icHnTQu0alNZ1I3Bz5enoTO++wBN/7+GvljxOY51fmTyAc4tOVZfx3AykDqHVKniqWuJZcaSP
-	uaoqCAqwE6EwyQJCI0s4BWkvtZtMGxgyHaxIs+gj74EHog3EmU+Te1KMiF0f1deFn9YO7V+oC6z
-	TxvasmRYd5bXh7Z2zXAhsrX49P4ENGprIEK3q33JBpi09MOE7vlMUKBb8TL7rnt5o6u7pdI21Pb
-	GE5nend+hTsMVIo05/8AAXffi9F7n0n3mAZ3o212WqSF5z6QqEd2RAVNEFV1ODfI7
-X-Received: by 2002:a17:903:288:b0:2b0:4554:9c24 with SMTP id d9443c01a7336-2b082797405mr140735055ad.32.1774332312849;
-        Mon, 23 Mar 2026 23:05:12 -0700 (PDT)
-X-Received: by 2002:a17:903:288:b0:2b0:4554:9c24 with SMTP id d9443c01a7336-2b082797405mr140734575ad.32.1774332312435;
-        Mon, 23 Mar 2026 23:05:12 -0700 (PDT)
-Received: from [192.168.68.51] (n175-34-8-244.mrk21.qld.optusnet.com.au. [175.34.8.244])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b0836556desm174549575ad.47.2026.03.23.23.04.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Mar 2026 23:05:11 -0700 (PDT)
-Message-ID: <6373e449-6bbb-4fe3-b140-6cf452255558@redhat.com>
-Date: Tue, 24 Mar 2026 16:04:54 +1000
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="jpV0OS8P"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=qfaMojy4YCJI6x7hn3yLKKO+h1WPTwEnl4yVpQYK7UQ=;
+	b=jpV0OS8P669YME8Q51wZE1sJYxg0mWoQB30y8MPrPMbvQ22ehAAXuIqteUT/3sIxyL1MmSP7h
+	RbyG9KeFJGYgssJdZyGAsROKKri5Ypb8c7977na6j8YwpXxHoqMP1oXnnOWDxdKrCxthN2TlvfT
+	lJ1A1OOOgmTlVrMeRWDFqEE=
+Received: from mail.maildlp.com (unknown [172.19.162.140])
+	by canpmsgout04.his.huawei.com (SkyGuard) with ESMTPS id 4fg02m0NPjz1prkX;
+	Tue, 24 Mar 2026 14:08:16 +0800 (CST)
+Received: from dggpemf500011.china.huawei.com (unknown [7.185.36.131])
+	by mail.maildlp.com (Postfix) with ESMTPS id B7AF22012A;
+	Tue, 24 Mar 2026 14:14:23 +0800 (CST)
+Received: from [10.67.109.254] (10.67.109.254) by
+ dggpemf500011.china.huawei.com (7.185.36.131) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Tue, 24 Mar 2026 14:14:20 +0800
+Message-ID: <e51d5a5d-40d4-950b-274f-229e1d72e60d@huawei.com>
+Date: Tue, 24 Mar 2026 14:14:18 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 40/40] arm64: mpam: Add initial MPAM documentation
-To: Ben Horgan <ben.horgan@arm.com>
-Cc: amitsinght@marvell.com, baisheng.gao@unisoc.com,
- baolin.wang@linux.alibaba.com, carl@os.amperecomputing.com,
- dave.martin@arm.com, david@kernel.org, dfustini@baylibre.com,
- fenghuay@nvidia.com, james.morse@arm.com, jonathan.cameron@huawei.com,
- kobak@nvidia.com, lcherian@marvell.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- peternewman@google.com, punit.agrawal@oss.qualcomm.com,
- quic_jiles@quicinc.com, reinette.chatre@intel.com, rohit.mathew@arm.com,
- scott@os.amperecomputing.com, sdonthineni@nvidia.com,
- tan.shaopeng@fujitsu.com, xhao@linux.alibaba.com, catalin.marinas@arm.com,
- will@kernel.org, corbet@lwn.net, maz@kernel.org, oupton@kernel.org,
- joey.gouly@arm.com, suzuki.poulose@arm.com, kvmarm@lists.linux.dev,
- zengheng4@huawei.com, linux-doc@vger.kernel.org,
- Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
-References: <20260313144617.3420416-1-ben.horgan@arm.com>
- <20260313144617.3420416-41-ben.horgan@arm.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH v9 0/5] arm64/riscv: Add support for crashkernel CMA
+ reservation
 Content-Language: en-US
-From: Gavin Shan <gshan@redhat.com>
-In-Reply-To: <20260313144617.3420416-41-ben.horgan@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+To: Sourabh Jain <sourabhjain@linux.ibm.com>, Andrew Morton
+	<akpm@linux-foundation.org>
+CC: <corbet@lwn.net>, <skhan@linuxfoundation.org>, <catalin.marinas@arm.com>,
+	<will@kernel.org>, <chenhuacai@kernel.org>, <kernel@xen0n.name>,
+	<maddy@linux.ibm.com>, <mpe@ellerman.id.au>, <npiggin@gmail.com>,
+	<chleroy@kernel.org>, <pjw@kernel.org>, <palmer@dabbelt.com>,
+	<aou@eecs.berkeley.edu>, <alex@ghiti.fr>, <tglx@kernel.org>,
+	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
+	<hpa@zytor.com>, <robh@kernel.org>, <saravanak@kernel.org>, <bhe@redhat.com>,
+	<vgoyal@redhat.com>, <dyoung@redhat.com>, <rdunlap@infradead.org>,
+	<peterz@infradead.org>, <feng.tang@linux.alibaba.com>,
+	<pawan.kumar.gupta@linux.intel.com>, <dapeng1.mi@linux.intel.com>,
+	<kees@kernel.org>, <elver@google.com>, <paulmck@kernel.org>,
+	<lirongqing@baidu.com>, <safinaskar@gmail.com>, <rppt@kernel.org>,
+	<ardb@kernel.org>, <leitao@debian.org>, <jbohac@suse.cz>,
+	<cfsworks@gmail.com>, <osandov@fb.com>, <tangyouling@kylinos.cn>,
+	<ritesh.list@gmail.com>, <eajames@linux.ibm.com>,
+	<songshuaishuai@tinylab.org>, <kevin.brodsky@arm.com>,
+	<samuel.holland@sifive.com>, <vishal.moola@gmail.com>,
+	<junhui.liu@pigmoral.tech>, <coxu@redhat.com>, <liaoyuanhong@vivo.com>,
+	<fuqiang.wang@easystack.cn>, <x86@kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<loongarch@lists.linux.dev>, <linuxppc-dev@lists.ozlabs.org>,
+	<linux-riscv@lists.infradead.org>, <devicetree@vger.kernel.org>,
+	<kexec@lists.infradead.org>
+References: <20260323072745.2481719-1-ruanjinjie@huawei.com>
+ <20260323095548.fa4e13d6e8ae5005ae585e13@linux-foundation.org>
+ <4cfde40c-673a-12b0-dfc5-703d582d6ea9@huawei.com>
+ <595e793d-adc3-4acb-af18-f0a3cf2d5e73@linux.ibm.com>
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+In-Reply-To: <595e793d-adc3-4acb-af18-f0a3cf2d5e73@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
+ dggpemf500011.china.huawei.com (7.185.36.131)
 
-On 3/14/26 12:46 AM, Ben Horgan wrote:
-> MPAM (Memory Partitioning and Monitoring) is now exposed to user-space via
-> resctrl. Add some documentation so the user knows what features to expect.
-> 
-> Reviewed-by: Zeng Heng <zengheng4@huawei.com>
-> Reviewed-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
-> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
-> Signed-off-by: James Morse <james.morse@arm.com>
-> Acked-by: Catalin Marinas <catalin.marinas@arm.com>
-> Signed-off-by: Ben Horgan <ben.horgan@arm.com>
-> ---
-> Changes by Ben:
-> Some tidying, update for current heuristics
-> 
-> Changes from v4:
-> Fix unusual indentation
-> 
-> Changes from v5:
-> Drop cdp (under CONFIG_EXPERT) and mbwu (back with abmc)
-> ---
->   Documentation/arch/arm64/index.rst |  1 +
->   Documentation/arch/arm64/mpam.rst  | 72 ++++++++++++++++++++++++++++++
->   2 files changed, 73 insertions(+)
->   create mode 100644 Documentation/arch/arm64/mpam.rst
-> 
 
-Reviewed-by: Gavin Shan <gshan@redhat.com>
 
+On 2026/3/24 12:29, Sourabh Jain wrote:
+> 
+> 
+> On 24/03/26 09:32, Jinjie Ruan wrote:
+>>
+>> On 2026/3/24 0:55, Andrew Morton wrote:
+>>> On Mon, 23 Mar 2026 15:27:40 +0800 Jinjie Ruan
+>>> <ruanjinjie@huawei.com> wrote:
+>>>
+>>>> The crash memory allocation, and the exclude of crashk_res,
+>>>> crashk_low_res
+>>>> and crashk_cma memory are almost identical across different
+>>>> architectures,
+>>>> This patch set handle them in crash core in a general way, which
+>>>> eliminate
+>>>> a lot of duplication code.
+>>>>
+>>>> And add support for crashkernel CMA reservation for arm64 and riscv.
+>>> Thanks.  AI review has completed and it asks questions:
+>>>     https://sashiko.dev/#/patchset/20260323072745.2481719-1-ruanjinjie@huawei.com
+>> I believe it identified 4 valid issues:
+>>
+>> - The already discovered crashk_low_res not excluded bug in the existing
+>> RISC-V code.
+>>
+>> - An existing memory leak issue in the existing PowerPC code.
+> 
+> Yes and suggested approach to fix the issue looks good.
+> Which is basically replace return with goto out.
+> 
+> diff --git a/arch/powerpc/kexec/crash.c b/arch/powerpc/kexec/crash.c
+> index 898742a5205c..1426d2099bad 100644
+> --- a/arch/powerpc/kexec/crash.c
+> +++ b/arch/powerpc/kexec/crash.c
+> @@ -440,7 +440,7 @@ static void update_crash_elfcorehdr(struct kimage
+> *image, struct memory_notify *
+>         ret = get_crash_memory_ranges(&cmem);
+>         if (ret) {
+>                 pr_err("Failed to get crash mem range\n");
+> -               return;
+> +               goto out;
+>         }
+> 
+>         /*
+> 
+> Are you planning to handle this in this patch series? Or do you want me
+> to send a separate fix patch?
+
+Yes, will fix it in v10, thanks for the clarification.
+
+Best regards,
+Jinjie
+
+> 
+> 
+>>
+>> - The ordering issue of adding CMA ranges to "linux,usable-memory-range".
+>>
+>> - An existing concurrency issue. A Concurrent memory hotplug may occur
+>> between reading memblock and attempting to fill cmem during kexec_load()
+>> for almost all existing architectures，I'm not sure if this is a
+>> practical issue in reality..
+
+What are your thoughts on this concurrency issue?
+
+>>
+>>   Race Condition Scenario
+>>
+>>    Timeline:
+>>    ---------------------------------------------------------------------
+>>    T1: kexec_load() syscall starts
+>>    T2: kexec_trylock() acquires kexec_lock
+>>    T3: crash_prepare_headers() is called
+>>    T4: arch_get_system_nr_ranges() queries memblock → finds 100 memory
+>> ranges
+>>    T5: cmem = alloc_cmem(100) allocates buffer for 100 ranges
+>>    T6: [RACE WINDOW] Another process triggers memory hotplug
+>>    T7: add_memory() → lock_device_hotplug() → memblock_add_node()
+>>    T8: New memory region added to memblock
+>>    T9: arch_crash_populate_cmem() iterates: now finds 102 ranges
+>>    T10: cmem->ranges[100] → OUT OF BOUNDS WRITE!
+>>    T11: cmem->ranges[101] → OUT OF BOUNDS WRITE!
+>>    T12: Kernel crash or memory corruption
+>>
+>>    Why This Happens
+>>
+>>    1. Different locks used:
+>>      - kexec_load() uses kexec_trylock (atomic_t)
+>>      - Memory hotplug uses device_hotplug_lock (mutex)
+>>    2. No synchronization between these two operations
+>>    3. Time-of-check to time-of-use (TOCTOU) issue:
+>>      - Step T4-T5: We query the number of ranges and allocate buffer
+>>      - Step T6-T9: Memory hotplug adds new ranges between query and
+>> population
+>>
+>>
+>>
+>> Any comments or suggestions on the following approach?
+>>
+>>
+>> int crash_prepare_headers(...)
+>>    {
+>>        unsigned int max_nr_ranges;
+>>        struct crash_mem *cmem;
+>>        int ret;
+>>
+>>        lock_device_hotplug();
+>>
+>>        max_nr_ranges = arch_get_system_nr_ranges();
+>>        // ...
+>>        ret = arch_crash_populate_cmem(cmem);
+>>        // ...
+>>
+>>        unlock_device_hotplug();
+>>        return ret;
+>>    }
+>>
+>>
+> 
