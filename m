@@ -1,193 +1,338 @@
-Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.hostedemail.com (smtprelay0010.hostedemail.com [216.40.44.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B9A73A5435
-	for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 18:29:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53CE33A758F;
+	Tue, 24 Mar 2026 18:43:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774376947; cv=none; b=qET9Cd2LrxL40BIvjylqBztlyndr6t1q+IQNG1UUm2UWUEXyTvLONsCcPQrVr3fXUrOieoKxb4lFeQtqgtIrVCLJ6jJrLJ/aWcSbsaYGV3yqqsRkmtpVwEl7gATFAkD8t3pnG/xSN5Wre2g+oPumvkBGfOjZ5AYkhkssWc1sjTI=
+	t=1774377789; cv=none; b=hPWa9OXA69GNzaxWj1j3jMNMFk+h1O4Mmi8N6chWEU+xj2CfcvJRRlwAbEA6QL+GnZtV+pue7eAQ9c+rlB6hUuHnpRPx6eb6/hi3WWS907a4qRWINwO55I7JD0EEZOkqPKtZKPcdk+EkWl3BH19maTqugAjuqN7yfJQD5aGf698=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774376947; c=relaxed/simple;
-	bh=sGV42ckhq/fpPos7s40zEY8GgVxzQ5KkyRYafuhMkVo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c48rIzxtdahVhYsfIiJa+lkXOaxihbYGcQXbXfd1xa4Fsrj4VFB23X4df4u4RqklST/NCQoaVxx9vRVLjJUQwin8q4NpxHNfrUZcjCGq4K3WmzLNd0KK5qeq1p2KfRVj2hbLf1XsETOPx9iDs4+JMW2cbVVqwufMNWl11F/7E3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Si9eJvV+; arc=none smtp.client-ip=74.125.82.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Si9eJvV+"
-Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-2b6b0500e06so6817904eec.1
-        for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 11:29:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774376943; x=1774981743; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=5VMp4SS5F3P0M1XmfAAhBrmRFWjAnWFpCGzWfd4HYYM=;
-        b=Si9eJvV+wG0pnnZly81arvtokXngiSJgE/XgfsZU0Na9vPRu1tvrCqZ5gqQTszzY9/
-         032LyVYrZnVEd4UKxSHn0Z165a3Qet4sl4NI6QZKTOi0iGw76cf5qnPA+3A269FBtEbO
-         X8IG2rfQIw23UnZTxgg45+ntz6F8eXhFjajIyGjtE7JtE3Wg2TD9OJNAtOCmcdtlhfbU
-         ya9WTgIOxj8eSdM6rrvcXtsPY8dF+sci+K4nwf8a20oNAbYR3/cQfrlkJS8GFvuJSH/4
-         RE5GcvNB6Xsxnq6lcQLcP124p6e1Qq1ggzu6EALemizIC3Pqm2IVd9C1Thh5N862IMIZ
-         8P4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774376943; x=1774981743;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:mail-followup-to:message-id:subject:cc:to
-         :from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5VMp4SS5F3P0M1XmfAAhBrmRFWjAnWFpCGzWfd4HYYM=;
-        b=jfSrUyBZUpon6q4iTJX87gx1cupDaj8bSNY6iFyk/RqWnYPPIY7Ea5GlG9kOQYQz9m
-         VAs3NTEVdyemmKKJdNGJU9gu72+izoFWjOuRyDOwXDnQgyJdSrMCj2GBObRFLwwv/Jvd
-         Jd9G9icsdszLeFT68F8P7SsKnWEqSK3/A+ONMnhU7XTPONLYGWuOV2OLsKXBFLKRGJbl
-         1TP0uef7ohO5Ar3Jc2yFyvR2WMcNoHcY0pjCrKTP+esRYInp/nInRkJJRLYgP8/onLkg
-         4Nnzu0WWL2ixDW9CqZ2ubsVqeAj24fWBOWYJ7ZcwTB/vDIQABEcRFczkoBAjZ1i/NDxO
-         RamA==
-X-Forwarded-Encrypted: i=1; AJvYcCVl2HNmnpnasT8JLBSmrrXEBnK1YXvbkXXWrN3r7Er/PKkutuj8qy9Ge12baRuhX7SxMCo23ntsMzI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyl0Z7TWM1Vei6wyUCX24N7Sv5Js+fUDDS4TDZpJTyHLqwU3fCF
-	AXRMW3gmXjUDkSTIKX2pHbleNTcnzG/ZV2BL9hzAkBKunrttrD1LRI4=
-X-Gm-Gg: ATEYQzymy3tgIPM/pbsRGSCjtvPd964dzd9R1137XJqqO51arillELApRAa90OK2q63
-	YODDDQW21H2Es11yzIwEntoTd9NYtb+miZF7JedzXLpxnnHHgpp+zuMYkE9lTPuuW7be4nDSNiw
-	FddZMihbtMWkSfq98tg2lrJ7goSjbOPZ93IUsSxcM8Kgg2dNL+fPUMEFSGnTc9jZhXTzfjYjowb
-	9U+k18MDaGpaLJ7kolKEGdBER/6V/90YXko1vwPYj5FvhPvT+rL1ozjdiSRD4KgzLrNWtrRs6kU
-	lU7IW2lHW6askr52XY/f9XudZ66M/ShKD8GNGzcdyHdsOJduIPHsFW/72hP1H4WojQV/GZ63Kfy
-	tjtiQCeBMsJVrYL7UxOw+yOUpOzucY9R3LAiQ25uP9uNxEPztTg4s8WFWoczhFAa/o2YhlczrEV
-	RHvbheu9evMFHLdmTsf/it+y0htCJoTxV2v+MZKMhlSl1grj6ZLa71x/4AK/U8ADBBMGei47mXH
-	Hhlosf3mKRyYSV/7kSSsxFWeRXP
-X-Received: by 2002:a05:7300:7b90:b0:2b0:48f7:837d with SMTP id 5a478bee46e88-2c15d2dfa68mr213205eec.11.1774376942754;
-        Tue, 24 Mar 2026 11:29:02 -0700 (PDT)
-Received: from localhost (c-76-102-12-149.hsd1.ca.comcast.net. [76.102.12.149])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c10b14c299sm15827125eec.6.2026.03.24.11.29.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2026 11:29:02 -0700 (PDT)
-Date: Tue, 24 Mar 2026 11:29:01 -0700
-From: Stanislav Fomichev <stfomichev@gmail.com>
-To: Michael Chan <michael.chan@broadcom.com>
-Cc: Stanislav Fomichev <sdf@fomichev.me>, netdev@vger.kernel.org,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
-	skhan@linuxfoundation.org, andrew+netdev@lunn.ch,
-	pavan.chebbi@broadcom.com, anthony.l.nguyen@intel.com,
-	przemyslaw.kitszel@intel.com, saeedm@nvidia.com, tariqt@nvidia.com,
-	mbloch@nvidia.com, alexanderduyck@fb.com, kernel-team@meta.com,
-	johannes@sipsolutions.net, sd@queasysnail.net, jianbol@nvidia.com,
-	dtatulea@nvidia.com, mohsin.bashr@gmail.com,
-	jacob.e.keller@intel.com, willemb@google.com, skhawaja@google.com,
-	bestswngs@gmail.com, aleksandr.loktionov@intel.com, kees@kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	intel-wired-lan@lists.osuosl.org, linux-rdma@vger.kernel.org,
-	linux-wireless@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	leon@kernel.org
-Subject: Re: [PATCH net-next v3 08/13] bnxt: use snapshot in bnxt_cfg_rx_mode
-Message-ID: <acLX7XCmoc-tFCbD@mini-arch>
-Mail-Followup-To: Stanislav Fomichev <stfomichev@gmail.com>,
-	Michael Chan <michael.chan@broadcom.com>,
-	Stanislav Fomichev <sdf@fomichev.me>, netdev@vger.kernel.org,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
-	skhan@linuxfoundation.org, andrew+netdev@lunn.ch,
-	pavan.chebbi@broadcom.com, anthony.l.nguyen@intel.com,
-	przemyslaw.kitszel@intel.com, saeedm@nvidia.com, tariqt@nvidia.com,
-	mbloch@nvidia.com, alexanderduyck@fb.com, kernel-team@meta.com,
-	johannes@sipsolutions.net, sd@queasysnail.net, jianbol@nvidia.com,
-	dtatulea@nvidia.com, mohsin.bashr@gmail.com,
-	jacob.e.keller@intel.com, willemb@google.com, skhawaja@google.com,
-	bestswngs@gmail.com, aleksandr.loktionov@intel.com, kees@kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	intel-wired-lan@lists.osuosl.org, linux-rdma@vger.kernel.org,
-	linux-wireless@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	leon@kernel.org
-References: <20260320012501.2033548-1-sdf@fomichev.me>
- <20260320012501.2033548-9-sdf@fomichev.me>
- <CACKFLi=j7DO_d46jwZnmZ=OfmkoFA3AXUoX4nmF0tQuYt5Y3UQ@mail.gmail.com>
+	s=arc-20240116; t=1774377789; c=relaxed/simple;
+	bh=wB03bJFHQsLxVwqb32vJbGbzt4aYoelP+6FV8EYWLHU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=KGrOd5c/EGSq7N4TgIeElUggpOsimv+TVlCOSKfKjvI0ag6ofy7Xp9OvQa9OFldkw2uB+/yk9oFnbV7zbspFLw6WnoSsAlwnM1rsI1AHPEFNAn/97HN/SI992SAiA1UWH2dNaxspDswuFxnFLGP6VR0YjruXjlbCRDC7yxA6gxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf06.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay04.hostedemail.com (Postfix) with ESMTP id CDC201A03BA;
+	Tue, 24 Mar 2026 18:43:05 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf06.hostedemail.com (Postfix) with ESMTPA id AEC262000E;
+	Tue, 24 Mar 2026 18:43:03 +0000 (UTC)
+Date: Tue, 24 Mar 2026 14:43:45 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Wesley Atwell <atwellwea@gmail.com>
+Cc: mhiramat@kernel.org, mark.rutland@arm.com,
+ mathieu.desnoyers@efficios.com, corbet@lwn.net, skhan@linuxfoundation.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] tracing: preserve repeated boot-time tracing
+ parameters
+Message-ID: <20260324144345.0fff670b@gandalf.local.home>
+In-Reply-To: <20260310064715.527906-2-atwellwea@gmail.com>
+References: <20260310064715.527906-1-atwellwea@gmail.com>
+	<20260310064715.527906-2-atwellwea@gmail.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACKFLi=j7DO_d46jwZnmZ=OfmkoFA3AXUoX4nmF0tQuYt5Y3UQ@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: ws3do4qe696pgwwtyynbhqiuef5htwf5
+X-Rspamd-Server: rspamout02
+X-Rspamd-Queue-Id: AEC262000E
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1+sKPZRBSUHJdO9MLhcgnQRHAdk9jcP2DQ=
+X-HE-Tag: 1774377783-882305
+X-HE-Meta: U2FsdGVkX1+G0qllFPSl9yFfHbaeFILaNuD51kOgxMLMpusk+podMjX/tMvpCrxNYvk40hf3SWtbbECWyS9djw2y7xborDfAONEie5BmKCUJjqspxdkgZpc/t0IBYSn0Re5KgTdWwVZVlu/T4IWnN2FhoOn973ECUrbma9Ar5A8vr+6hulPcAAZJnLhqWTW0bBqMUxOG4QG7/29+urFUGarlsotY+w4YaH7vrEaYiloF1qJ6FPVcvRnHyUpfy171HRBpiQUZeciS+5aIDHYm30UK2PfgbLMv7B9KBwfJfSKkqGCBAbb8B/dHj59aVGnG56agdW2qkWZqpkz4aPlccnjc+bxsDgQwh+03PJMP3Qbur02vzurHYfAh73fGgbi5M0S/y9rEVKhKWaOOjwFBsQ==
 
-On 03/23, Michael Chan wrote:
-> On Thu, Mar 19, 2026 at 6:25 PM Stanislav Fomichev <sdf@fomichev.me> wrote:
-> >
-> > With the introduction of ndo_set_rx_mode_async (as discussed in [0])
-> > we can call bnxt_cfg_rx_mode directly. Convert bnxt_cfg_rx_mode to
-> > use uc/mc snapshots and move its call in bnxt_sp_task to the
-> > section that resets BNXT_STATE_IN_SP_TASK. Switch to direct call in
-> > bnxt_set_rx_mode.
-> >
-> > 0: https://lore.kernel.org/netdev/CACKFLi=5vj8hPqEUKDd8RTw3au5G+zRgQEqjF+6NZnyoNm90KA@mail.gmail.com/
-> >
-> > Cc: Michael Chan <michael.chan@broadcom.com>
-> > Cc: Pavan Chebbi <pavan.chebbi@broadcom.com>
-> > Signed-off-by: Stanislav Fomichev <sdf@fomichev.me>
-> > ---
-> >  drivers/net/ethernet/broadcom/bnxt/bnxt.c | 26 ++++++++++++++---------
-> >  1 file changed, 16 insertions(+), 10 deletions(-)
-> >
-> > diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.c b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-> > index 225217b32e4b..12265bd7fda4 100644
-> > --- a/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-> > +++ b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-> > @@ -11039,7 +11039,8 @@ static int bnxt_setup_nitroa0_vnic(struct bnxt *bp)
-> >         return rc;
-> >  }
-> >
-> > -static int bnxt_cfg_rx_mode(struct bnxt *);
-> > +static int bnxt_cfg_rx_mode(struct bnxt *, struct netdev_hw_addr_list *,
-> > +                           struct netdev_hw_addr_list *);
-> >  static bool bnxt_mc_list_updated(struct bnxt *, u32 *,
-> >                                  const struct netdev_hw_addr_list *);
-> >
-> > @@ -11135,7 +11136,7 @@ static int bnxt_init_chip(struct bnxt *bp, bool irq_re_init)
-> >                 vnic->rx_mask |= mask;
-> >         }
-> >
-> > -       rc = bnxt_cfg_rx_mode(bp);
-> > +       rc = bnxt_cfg_rx_mode(bp, &bp->dev->uc, &bp->dev->mc);
-> >         if (rc)
-> >                 goto err_out;
-> >
-> > @@ -13610,11 +13611,12 @@ static void bnxt_set_rx_mode(struct net_device *dev,
-> >         if (mask != vnic->rx_mask || uc_update || mc_update) {
-> >                 vnic->rx_mask = mask;
-> >
-> > -               bnxt_queue_sp_work(bp, BNXT_RX_MASK_SP_EVENT);
-> > +               bnxt_cfg_rx_mode(bp, uc, mc);
-> >         }
-> >  }
-> >
-> > -static int bnxt_cfg_rx_mode(struct bnxt *bp)
-> > +static int bnxt_cfg_rx_mode(struct bnxt *bp, struct netdev_hw_addr_list *uc,
-> > +                           struct netdev_hw_addr_list *mc)
-> >  {
-> >         struct net_device *dev = bp->dev;
-> >         struct bnxt_vnic_info *vnic = &bp->vnic_info[BNXT_VNIC_DEFAULT];
-> > @@ -13623,7 +13625,7 @@ static int bnxt_cfg_rx_mode(struct bnxt *bp)
-> >         bool uc_update;
-> >
-> >         netif_addr_lock_bh(dev);
-> > -       uc_update = bnxt_uc_list_updated(bp, &dev->uc);
-> > +       uc_update = bnxt_uc_list_updated(bp, uc);
+On Tue, 10 Mar 2026 00:47:14 -0600
+Wesley Atwell <atwellwea@gmail.com> wrote:
+
+Hi,
+
+FYI, the tracing subsystem uses capital letters in subjects:
+
+   tracing: Preserve repeated boot-time tracing parameters
+
+> Some tracing boot parameters already accept delimited value lists, but
+> their __setup() handlers keep only the last instance seen at boot.
+> Make repeated instances append to the same boot-time buffer in the
+> format each parser already consumes, and document that behavior in
+> admin-guide/kernel-parameters.txt.
 > 
-> Will the uc list snapshot change between bnxt_set_rx_mode() and
-> bnxt_cfg_rx_mode() with the direct call now?  In the original deferred
-> update implementation, the uc list can change and that's why we check
-> in both functions.
+> Use a shared trace_append_boot_param() helper for the ftrace filters,
+> trace_options, and kprobe_event boot parameters. trace_trigger=
+> tokenizes its backing storage in place, so keep a running offset and
+> only parse the newly appended chunk into bootup_triggers[].
+> 
+> This also lets Bootconfig array values work naturally when they expand
+> to repeated param=value entries.
+> 
+> Signed-off-by: Wesley Atwell <atwellwea@gmail.com>
+> ---
+>  .../admin-guide/kernel-parameters.txt         | 18 ++++++++++--
+>  kernel/trace/ftrace.c                         | 12 +++++---
+>  kernel/trace/trace.c                          |  3 +-
+>  kernel/trace/trace.h                          | 29 +++++++++++++++++++
+>  kernel/trace/trace_events.c                   | 26 +++++++++++++++--
+>  kernel/trace/trace_kprobe.c                   |  3 +-
+>  6 files changed, 79 insertions(+), 12 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 55ffc0f8858a..203863c1839b 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -1803,13 +1803,15 @@ Kernel parameters
+>  			tracer at boot up. function-list is a comma-separated
+>  			list of functions. This list can be changed at run
+>  			time by the set_ftrace_filter file in the debugfs
+> -			tracing directory.
+> +			tracing directory. Repeated instances append more
+> +			functions to the same list.
+>  
+>  	ftrace_notrace=[function-list]
+>  			[FTRACE] Do not trace the functions specified in
+>  			function-list. This list can be changed at run time
+>  			by the set_ftrace_notrace file in the debugfs
+> -			tracing directory.
+> +			tracing directory. Repeated instances append more
+> +			functions to the same list.
+>  
+>  	ftrace_graph_filter=[function-list]
+>  			[FTRACE] Limit the top level callers functions traced
+> @@ -1817,12 +1819,16 @@ Kernel parameters
+>  			function-list is a comma-separated list of functions
+>  			that can be changed at run time by the
+>  			set_graph_function file in the debugfs tracing directory.
+> +			Repeated instances append more functions to the same
+> +			list.
+>  
+>  	ftrace_graph_notrace=[function-list]
+>  			[FTRACE] Do not trace from the functions specified in
+>  			function-list.  This list is a comma-separated list of
+>  			functions that can be changed at run time by the
+>  			set_graph_notrace file in the debugfs tracing directory.
+> +			Repeated instances append more functions to the same
+> +			list.
+>  
+>  	ftrace_graph_max_depth=<uint>
+>  			[FTRACE] Used with the function graph tracer. This is
+> @@ -3053,6 +3059,8 @@ Kernel parameters
+>  			The probe-list is a semicolon delimited list of probe
+>  			definitions. Each definition is same as kprobe_events
+>  			interface, but the parameters are comma delimited.
+> +			Repeated instances append more probe definitions to
+> +			the same boot-time list.
+>  			For example, to add a kprobe event on vfs_read with
+>  			arg1 and arg2, add to the command line;
+>  
+> @@ -7820,6 +7828,9 @@ Kernel parameters
+>  
+>  			    /sys/kernel/tracing/trace_options
+>  
+> +			Repeated instances append more options to the same
+> +			boot-time list.
+> +
+>  			For example, to enable stacktrace option (to dump the
+>  			stack trace of each event), add to the command line:
+>  
+> @@ -7831,7 +7842,8 @@ Kernel parameters
+>  	trace_trigger=[trigger-list]
+>  			[FTRACE] Add an event trigger on specific events.
+>  			Set a trigger on top of a specific event, with an optional
+> -			filter.
+> +			filter. Repeated instances append more triggers to
+> +			the same boot-time list.
 
-The snapshot is gonna be the same for bnxt_set_rx_mode->bnxt_cfg_rx_mode path.
+I know Masami mentioned to document this, but honestly, I don't think this
+update is needed. Please remove it.
 
-So you're saying that it's ok to remove the one in bnxt_cfg_rx_mode
-because it's called either from bnxt_set_rx_mode (with a new list) or,
-explicitly, via the BNXT_RX_MASK_SP_EVENT retry mechanism (where we know
-that we need to redo the updates anyway)?
+>  
+>  			The format is "trace_trigger=<event>.<trigger>[ if <filter>],..."
+>  			Where more than one trigger may be specified that are comma delimited.
+> diff --git a/kernel/trace/ftrace.c b/kernel/trace/ftrace.c
+> index 8df69e702706..d0a486b63ed6 100644
+> --- a/kernel/trace/ftrace.c
+> +++ b/kernel/trace/ftrace.c
+> @@ -6841,7 +6841,8 @@ bool ftrace_filter_param __initdata;
+>  static int __init set_ftrace_notrace(char *str)
+>  {
+>  	ftrace_filter_param = true;
+> -	strscpy(ftrace_notrace_buf, str, FTRACE_FILTER_SIZE);
+> +	trace_append_boot_param(ftrace_notrace_buf, str, ',',
+> +				FTRACE_FILTER_SIZE);
+>  	return 1;
+>  }
+>  __setup("ftrace_notrace=", set_ftrace_notrace);
+> @@ -6849,7 +6850,8 @@ __setup("ftrace_notrace=", set_ftrace_notrace);
+>  static int __init set_ftrace_filter(char *str)
+>  {
+>  	ftrace_filter_param = true;
+> -	strscpy(ftrace_filter_buf, str, FTRACE_FILTER_SIZE);
+> +	trace_append_boot_param(ftrace_filter_buf, str, ',',
+> +				FTRACE_FILTER_SIZE);
+>  	return 1;
+>  }
+>  __setup("ftrace_filter=", set_ftrace_filter);
+> @@ -6861,14 +6863,16 @@ static int ftrace_graph_set_hash(struct ftrace_hash *hash, char *buffer);
+>  
+>  static int __init set_graph_function(char *str)
+>  {
+> -	strscpy(ftrace_graph_buf, str, FTRACE_FILTER_SIZE);
+> +	trace_append_boot_param(ftrace_graph_buf, str, ',',
+> +				FTRACE_FILTER_SIZE);
+>  	return 1;
+>  }
+>  __setup("ftrace_graph_filter=", set_graph_function);
+>  
+>  static int __init set_graph_notrace_function(char *str)
+>  {
+> -	strscpy(ftrace_graph_notrace_buf, str, FTRACE_FILTER_SIZE);
+> +	trace_append_boot_param(ftrace_graph_notrace_buf, str, ',',
+> +				FTRACE_FILTER_SIZE);
+>  	return 1;
+>  }
+>  __setup("ftrace_graph_notrace=", set_graph_notrace_function);
+> diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
+> index ebd996f8710e..5086239a75dc 100644
+> --- a/kernel/trace/trace.c
+> +++ b/kernel/trace/trace.c
+> @@ -329,7 +329,8 @@ static char trace_boot_options_buf[MAX_TRACER_SIZE] __initdata;
+>  
+>  static int __init set_trace_boot_options(char *str)
+>  {
+> -	strscpy(trace_boot_options_buf, str, MAX_TRACER_SIZE);
+> +	trace_append_boot_param(trace_boot_options_buf, str, ',',
+> +				MAX_TRACER_SIZE);
+>  	return 1;
+>  }
+>  __setup("trace_options=", set_trace_boot_options);
+> diff --git a/kernel/trace/trace.h b/kernel/trace/trace.h
+> index b8f3804586a0..4f5abac4bd19 100644
+> --- a/kernel/trace/trace.h
+> +++ b/kernel/trace/trace.h
+> @@ -23,6 +23,7 @@
+>  #include <linux/once_lite.h>
+>  #include <linux/ftrace_regs.h>
+>  #include <linux/llist.h>
+> +#include <linux/string.h>
+>  
+>  #include "pid_list.h"
+>  
+> @@ -262,6 +263,34 @@ static inline bool still_need_pid_events(int type, struct trace_pid_list *pid_li
+>  		(!(type & TRACE_NO_PIDS) && no_pid_list);
+>  }
+>  
+> +/*
+> + * Repeated boot parameters, including Bootconfig array expansions, need
+> + * to stay in the delimiter form that the existing parser consumes.
+> + */
+> +static inline void __init trace_append_boot_param(char *buf, const char *str,
+> +						  char sep, size_t size)
+> +{
 
-This makes me wonder whether I need to push the retrying mechanism to
-the core stack... Right now, if some of the allocations in wq handler
-fail, we just give up, maybe I should handle it better. And I can plug
-the signal from the driver (make ndo_set_rx_mode_async return int)
-in the same retry mechanism.
+Masami said:
+
+  Please make a generic append function in kernel/trace/trace.h, e.g.
+
+  void trace_append_boot_param(char *buf, const char *str, char sep, size_t ssize);
+
+  and use it instead of strscpy.
+
+He did not say to make a static inline in the header. Please make this a
+normal function in trace.c and just add the prototype in the header.
+
+-- Steve
+
+
+> +	size_t len, str_len;
+> +
+> +	if (buf[0] == '\0') {
+> +		strscpy(buf, str, size);
+> +		return;
+> +	}
+> +
+> +	str_len = strlen(str);
+> +	if (!str_len)
+> +		return;
+> +
+> +	len = strlen(buf);
+> +	if (len >= size - 1)
+> +		return;
+> +	if (str_len >= size - len - 1)
+> +		return;
+> +
+> +	buf[len] = sep;
+> +	strscpy(buf + len + 1, str, size - len - 1);
+> +}
+> +
+>  typedef bool (*cond_update_fn_t)(struct trace_array *tr, void *cond_data);
+>  
+>  /**
+> diff --git a/kernel/trace/trace_events.c b/kernel/trace/trace_events.c
+> index 249d1cba72c0..5f72be33f2d1 100644
+> --- a/kernel/trace/trace_events.c
+> +++ b/kernel/trace/trace_events.c
+> @@ -3679,20 +3679,40 @@ static struct boot_triggers {
+>  } bootup_triggers[MAX_BOOT_TRIGGERS];
+>  
+>  static char bootup_trigger_buf[COMMAND_LINE_SIZE];
+> +static size_t bootup_trigger_buf_len;
+>  static int nr_boot_triggers;
+>  
+>  static __init int setup_trace_triggers(char *str)
+>  {
+>  	char *trigger;
+>  	char *buf;
+> +	size_t start, str_len;
+>  	int i;
+>  
+> -	strscpy(bootup_trigger_buf, str, COMMAND_LINE_SIZE);
+> +	if (bootup_trigger_buf_len >= COMMAND_LINE_SIZE)
+> +		return 1;
+> +
+> +	start = bootup_trigger_buf_len;
+> +	if (start && !*str)
+> +		return 1;
+> +
+> +	str_len = strlen(str);
+> +	if (start && str_len >= COMMAND_LINE_SIZE - start)
+> +		return 1;
+> +
+> +	/*
+> +	 * trace_trigger= parsing tokenizes the backing storage in place.
+> +	 * Copy each repeated parameter into fresh space and only parse that
+> +	 * newly copied chunk here.
+> +	 */
+> +	trace_append_boot_param(bootup_trigger_buf + start, str, '\0',
+> +				COMMAND_LINE_SIZE - start);
+> +	bootup_trigger_buf_len += strlen(bootup_trigger_buf + start) + 1;
+>  	trace_set_ring_buffer_expanded(NULL);
+>  	disable_tracing_selftest("running event triggers");
+>  
+> -	buf = bootup_trigger_buf;
+> -	for (i = 0; i < MAX_BOOT_TRIGGERS; i++) {
+> +	buf = bootup_trigger_buf + start;
+> +	for (i = nr_boot_triggers; i < MAX_BOOT_TRIGGERS; i++) {
+>  		trigger = strsep(&buf, ",");
+>  		if (!trigger)
+>  			break;
+> diff --git a/kernel/trace/trace_kprobe.c b/kernel/trace/trace_kprobe.c
+> index a5dbb72528e0..e9f1c55aea64 100644
+> --- a/kernel/trace/trace_kprobe.c
+> +++ b/kernel/trace/trace_kprobe.c
+> @@ -31,7 +31,8 @@ static char kprobe_boot_events_buf[COMMAND_LINE_SIZE] __initdata;
+>  
+>  static int __init set_kprobe_boot_events(char *str)
+>  {
+> -	strscpy(kprobe_boot_events_buf, str, COMMAND_LINE_SIZE);
+> +	trace_append_boot_param(kprobe_boot_events_buf, str, ';',
+> +				COMMAND_LINE_SIZE);
+>  	disable_tracing_selftest("running kprobe events");
+>  
+>  	return 1;
+
