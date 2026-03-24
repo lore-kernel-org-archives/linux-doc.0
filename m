@@ -1,174 +1,90 @@
-Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63EB43E95B6
-	for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 11:39:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C643A3EF0B6;
+	Tue, 24 Mar 2026 11:39:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774352369; cv=none; b=huTyE0SO8hg+y1071POovp9aV3/b+uZc9IQGtMMecPAKOhkjicVunuZx14o3jtLoWOOMNKEv8jiYdymkuLKCrfLntevwJmsEUFvHh9nnyN2gMxJXLpIfhpVF9dOO8yc1YIGKycLmiaZqmPvCriaVGucdmo0z6A4QQjelvNnjol0=
+	t=1774352381; cv=none; b=bWB8xXRFWQL0gInkQNXNRYrojvIHiX9wwKn+TZtTlgMGF1nQ6VISKF6YgfSM+63YIqsv6lUSFPhMjWhCLHcrMFVEzmoksCAW2Kn3WcLg8rQuBpUUOQ0Py956tEcQFQXBNV06/JJ97RIkiqZ7WgkoTzyvEbv3JFfVAGqCA7t6PU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774352369; c=relaxed/simple;
-	bh=PDFPeDWBXH0OF27IClRhT/UuqvQMIEeVEFwye8VKhQ0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=F3YvNybOnjZabQEgLe5qApETn3s+Dwz8NI4GIexTFZpmjdijc2xiEsmhWETzC+16JHpiuRcz/KguHlv3RsFNjebQAcT265/TvNwFjgkNelzL3Qg8JeGRO/pjc0ej2LhkVpc6DKYxm6Y+cxnXgJ5Sj9Dg8ctyqJK4c6I0FfRDhcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bj9TsJqM; arc=none smtp.client-ip=74.125.82.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774352381; c=relaxed/simple;
+	bh=UknkrSuNDYtTn/8MeNcb6hXJiGQu0qdkPOIQvTQmQ2I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cY72cCSg/ES/VQQ98/cWlEbzZXAE3sQ0WAKV6G56P9h+fd7Y9pviS4TMD0yGTZm1JBIFAYSJeNJN2hv+xA3aU4mNXgzvx5LU7UAGrFgbcNZt+4X1v7sFMKKZjuhaOEV1In6xL4+ayzOVIn3pATBh2bV6KBjLny3869wtQMMCI4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=olXoGqqK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bj9TsJqM"
-Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-2c1092cc08cso151908eec.1
-        for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 04:39:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774352364; x=1774957164; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=9oy4ye8U5X50eKcjgSsbe9Ht5UDnG6Y/yDd1Q2SO2EQ=;
-        b=Bj9TsJqMaEnR0blXMZdSSib7emsrmUYJYVaspFHbFVGB9HO5vrp9p72aZ9ojqA/D72
-         DFY95m/PM84jP6dU5VKYrp3Eg5pcj3nvqq5hR5QmljoFOuZGmCshCKRVjw1H7JrD1vwV
-         UlAl6F7zFhxgP96tYkiD6fxmTcMck5d9sXTfEK9A8cfXo4gLy7Wv/10a2r+bY2k2TNYu
-         xoe74GjoAngyTgmugPdgaYpgyNDTUcznnpR9O4+yTxrD6PXn/UCeq3qrSYb7lwW9dGAc
-         zebRGDNbMAP0bQ3Falz2fJ4W+e0cJVzpg2WzYMD8YXbCE9ODDZ01YFta7X302pHMIYLl
-         amag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774352364; x=1774957164;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9oy4ye8U5X50eKcjgSsbe9Ht5UDnG6Y/yDd1Q2SO2EQ=;
-        b=VWTtDXpAHwOQVOUL47bFNnhL7wRlaFhNWrf5ijA7UOVdvw53TVYkM1w4S2aIH8hAfP
-         AppmmrpsN028vzEhaQ9Cmz9NyQzCUQeoSN6eISw7BWiSkNseey7KLCJ7Oo+VjpH2N3Ar
-         YAcVyQiBAJq6/wcBzoaifJsH5EbLUtve2ejc7EhYED1as3dOZqj0qPPcN7ozZ4J5BnSd
-         QgXJk23+7VZyGngPN7Tm5rkkMhH88wFQaV+krlliKzZlR4o9RQPMhxDF6rhCnnxC15AZ
-         FZJR0d9UjleBYsZTwfOSy+KObQ6WNh7Mr8mDo/yS1bErR356uhZ2qkYE3NkAc0ZYEQfv
-         epYw==
-X-Forwarded-Encrypted: i=1; AJvYcCWbtNFYelASajTBG5jBdFyNBvjfCu21DJfJhs4X9AXe/TA49HpNaceDvSWOUlFeVsYXvYGwXS710ZU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YymB21hq9dsmaKgRQfLs2d6vCqjjLIvhfr6tLikbLu4lTdOB2l+
-	yquoxafGoUx9x8rk65C78IOSczf5hPs+kXBR7+zl9dyWc7qcUyTFfMmn
-X-Gm-Gg: ATEYQzzOEBcd4Z/eTRWU4pIVVIIAS0Kf4vK/maFyVhvAkLROy0scz72FJioO9gwgQYC
-	hYgMGYpTDISfh6nh3JKPmvaQTQXLgkWrznx/8b2wJd04QBQyGUn449R2fsuXJtyrFvazTLPB4qI
-	pLQ63ZFeU9/9QX9Q/Af2qJGfTDJs9ajNHnnc2qYVBvyjOVhXnp+ZhIEQPCnKF8tG4wSxM8WC84E
-	Utc3mobbUBFi/bIJ60VQaXRdP8UlyrSMuq4WNCnx+6SCpuxaKmkbjNVTKm12yboko6lIwYoaLkW
-	Z08MvaXVGIE77j+U380sy82XLYKMVyh9CsD/3OC0feYGSk5zc5WIpEVegn1z+oQfMttvBHJM+Dd
-	yIpSX21OP4K6fgx/YLnitwZ0m132tIvJGAIjnQhlkwFXwV/Ws3kp03cAMRGK2zqCi/uEGwfTiZB
-	NeS2cYz17HyjWICmIXEQw4XWddmuKogrcHd7xHDUA9pfo4VP5ciQpZlzSlqJGZyoZ98Z1Kd4Xv
-X-Received: by 2002:a05:7301:9f06:b0:2c0:da6f:55e0 with SMTP id 5a478bee46e88-2c1097c084cmr8550193eec.27.1774352364093;
-        Tue, 24 Mar 2026 04:39:24 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c10b29c74bsm15315133eec.17.2026.03.24.04.39.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Mar 2026 04:39:23 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <f3915b73-0ad9-427d-b89e-5e4e88453a82@roeck-us.net>
-Date: Tue, 24 Mar 2026 04:39:21 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="olXoGqqK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBDDDC2BCB2;
+	Tue, 24 Mar 2026 11:39:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774352381;
+	bh=UknkrSuNDYtTn/8MeNcb6hXJiGQu0qdkPOIQvTQmQ2I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=olXoGqqKINrHT9MBi6UPkYfU0ZKw58C6sHbsrU3gtf4636xlcN++qk0VzQMXWxDWR
+	 RjmJ6XKhs+g0WIzxddkigtIvUu+JTdZJmWQpVScLIGjGk0mgOeCa+oLzslnceDcKaG
+	 XXMNYxhQZ4u0C2UbNsSUt6nVjTWuayrXcjW28BiZtmw09XeLaoHQPh8+CSoYBV3J1F
+	 ceqOX7ceZiuusH8+vqKDrtdVJRVMM5uTfwyA3Yrf1xnC7RPx00LjSDTHzcok7q9KoA
+	 aKiz3rbo7ie/MbZ/8nW8jnV0gjc+LVYjGUP16XWI8MdzgJtY6FED24yR2nsYTR6sCz
+	 8YBc+94F/v0Rw==
+Date: Tue, 24 Mar 2026 07:39:39 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Jiri Olsa <olsajiri@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Petr Mladek <pmladek@suse.com>, Alexei Starovoitov <ast@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, David Gow <davidgow@google.com>,
+	Kees Cook <kees@kernel.org>, Greg KH <gregkh@linuxfoundation.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>, Helge Deller <deller@gmx.de>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Juergen Gross <jgross@suse.com>,
+	James Bottomley <James.Bottomley@hansenpartnership.com>,
+	Alexey Dobriyan <adobriyan@gmail.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Petr Pavlu <petr.pavlu@suse.com>, x86@kernel.org,
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-modules@vger.kernel.org,
+	bpf@vger.kernel.org
+Subject: Re: [PATCH 0/2] kallsyms: show typed function parameters in
+ oops/WARN dumps
+Message-ID: <acJ3-2o0yxsFWwGJ@laps>
+References: <20260323164858.1939248-1-sashal@kernel.org>
+ <acJR51EAjn-7EOPm@krava>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] docs: hwmon: Update TMP108 documentation for NXP
- P3T1084UK support
-To: Anshika Gupta <guptaanshika.ag@gmail.com>, corbet@lwn.net,
- skhan@linuxfoundation.org, linux-hwmon@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org
-Cc: lakshaypiplani77@gmail.com
-References: <20260323162252.15508-1-guptaanshika.ag@gmail.com>
- <20260323162252.15508-2-guptaanshika.ag@gmail.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20260323162252.15508-2-guptaanshika.ag@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <acJR51EAjn-7EOPm@krava>
 
-On 3/23/26 09:22, Anshika Gupta wrote:
-> Add references to the NXP P3T1084UK temperature sensor in the TMP108
-> hardware monitoring documentation. The P3T1084UK is compatible with
-> the TMP108 register interface and protocol, and the hwmon driver now
-> supports it. Update the .rst document accordingly to reflect the new
-> compatible device and its expected behavior.
-> 
-> Signed-off-by: Lakshay Piplani <lakshaypiplani77@gmail.com>
-> Signed-off-by: Anshika Gupta <guptaanshika.ag@gmail.com>
-> ---
->   Documentation/hwmon/tmp108.rst | 7 +++++++
->   1 file changed, 7 insertions(+)
-> 
-> diff --git a/Documentation/hwmon/tmp108.rst b/Documentation/hwmon/tmp108.rst
-> index c218ea333dd6..cda280032710 100644
-> --- a/Documentation/hwmon/tmp108.rst
-> +++ b/Documentation/hwmon/tmp108.rst
-> @@ -11,6 +11,13 @@ Supported chips:
->   
->       Datasheet: https://www.nxp.com/docs/en/data-sheet/P3T1035XUK_P3T2030XUK.pdf
->   
-> + * NXP P3T1084
+On Tue, Mar 24, 2026 at 09:57:11AM +0100, Jiri Olsa wrote:
+>On Mon, Mar 23, 2026 at 12:48:55PM -0400, Sasha Levin wrote:
+>> Building on the lineinfo series, this adds typed function parameter
+>
+>hi,
+>could you please specify the exact tree/commit and point to the
+>series this patchset is based on?
 
-Sashiko:
+Yup, sorry, I should have noted that. This series is based on Andrew Morton's
+mm-nonmm-unstable branch (git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm
+mm-nonmm-unstable) since he took the base lineinfo patches and these build on
+code adjacent to it.
 
-This isn't a bug, but the new bullet point uses a single leading space,
-whereas the surrounding list items use two leading spaces. This inconsistent
-indentation might cause parsing issues when generating the reStructuredText
-documentation.
+There's no direct dependency between the two, but they touch the same parts of
+the code.
 
-> +
-> +    Prefix: 'p3t1045'
-> +
-
-P3T1084 or p3t1045 ?
-
-> +    Addresses scanned: none
-> +
-> +    Datasheet: https://www.nxp.com/docs/en/data-sheet/P3T1084UK.pdf
->   
->     * NXP P3T1085
->   
-
-Guenter
-
+-- 
+Thanks,
+Sasha
