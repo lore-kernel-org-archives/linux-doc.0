@@ -1,196 +1,180 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 119BC3D88FE
-	for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 08:47:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93D713D6CBA
+	for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 08:57:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774342077; cv=none; b=Bp+HMEWGkolwwGttzkRP2eBjCC9j7h3XRwISjSA4esUc3gAFsKUrL5vdyWuQR+XU2RV2LCyDdLrgB8c7UoxrgESrVc1ZvodUCVGtihBVm89+tYN9T6fOF/PpHzVwE7BD0ewl2G+8oxrxQhyJmG6IkR/5g/JRIvHPHiQbpd+X6hc=
+	t=1774342637; cv=none; b=uSVuklYxB9ZBBBZ02/XixaLnFsyyEldUMN4AIZsq+2KOvdb7eWrYbssrVNoazOPOg96nPB6BeNtVdcQZxPVxbcbxqLaV6ib9gSJrWHjKVOTn5+XvLpop/ze//3FWZnOFHXOWpSnbWcSjc7EhDdtTvcBMlSY/YFQb1yKuPcnl6Sc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774342077; c=relaxed/simple;
-	bh=xFpob9c+xdUrGxlB4E2lbBybpHAq+lDyjDXxB70k3Yw=;
-	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Z8oyvxtvdZilvDet62sDpfgCUgTMKyks0tnS274B0nITLG4Bmmswtvud38fEOf6EP3R9rFJ+vsENlV+iCL4MmmSKhoeytnTsS4zBB21h+wR612G9ffcmgfZ3MqjUkiQpe5DUzBCljhUosk63NsmhptbvxwvRVe5aVKg8nlQxO7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=apnL3AwH; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1774342637; c=relaxed/simple;
+	bh=7zBFqX7ByhUH7THOne1A2FrxDyPagzTEbZXn/LE9rsE=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RFAg0+GZ0ZGYma52kXtnbx4TfmcgtLOuGpguCIpMO/m4Om76TBXwjide80h+uNj1E5q5qDghtkKyAf80pDmfAKU7UGAbTuuHnB0PUG5NZwmYumzZRiM4/4BIW5OaR0K1/enymRrGAOsO3L4AIzTVgDF2rYrwfefiTBsChEYXC04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oOCZO/5g; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="apnL3AwH"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-486507134e4so11940765e9.0
-        for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 01:47:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oOCZO/5g"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4852e9ca034so34509945e9.2
+        for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 01:57:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1774342074; x=1774946874; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=eF1e1Cyy5V3LKfwsAPdeSvaTgNGlIqK/dZZ0MK0ok9s=;
-        b=apnL3AwHZVba907nCL5CURBmZKXKIiIA/RtBTxo91xN49zSRRmAZhfYlKkZSoomKv5
-         8FSQGZXdO6Emy8qhNttAZ/d16E4nxuLySaJA0AzOuFS+cqhg6OtkCyiNE5y+jAnghrrp
-         2YojOkzB+BTOgsOY7DIxbLTvmrZn/Y/cdzRs0sq7mSZiDvNDAOanRcdlRhrK5ReCkvr3
-         2N6+9iAWhOtxUcZgaKeoJbR5oitMoaRr/6IhASIXmqfHVfl6lcZPJdzNvoVqFeIf6SAf
-         mWFXsWRpTYyZCt9rDNSTKlJqJnGr5QqzYz75heOaE00fH7VAq6IBKH3QDnrik4XZpkJB
-         kSng==
+        d=gmail.com; s=20251104; t=1774342634; x=1774947434; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2N8pM8rI/exlpoJn6H8Uz7b0TMfTyl2xUTL4+Iyxt4A=;
+        b=oOCZO/5gucluzXtpEeCsf7fX31zKjRapIzVuC8mUmcW/w9zdVA+/IKyaDM+97QFbDF
+         Jc4hsZqmldPCWgltTpS3xjoyzH+nssEpjScwHwH7fniYXBjVyHJlvngF/IsvZR7Fu0oo
+         t23txzJf9wKvTmTswudfLPbLDRExU5JMredYiIlPjyn5Zj+t5kCiSVbVefUZMfDATjoS
+         QSPj4Naij2cQUj5eQQEBRhVQDvhI+SKfNoXkZu8rvjOgZGu1LKdOyrZkXq3J6cNrd9ds
+         0HC29iHZwUpsik521V1+eUICQd3PZ9gYNMeU9kazLONPDnUPjMpaODaIPN5d+/Kh0KE6
+         t4PA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774342074; x=1774946874;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=eF1e1Cyy5V3LKfwsAPdeSvaTgNGlIqK/dZZ0MK0ok9s=;
-        b=DUyziR053yrmeELZz9qRrT3R3mM6mXG55vNNLN3M2JfGQXjlcAQOcnUvMbM71URDig
-         R2gOBl5pcfs819pvNJVTNDdrm62gDXtz2LuV2bB1Lnb4ojWjxQAtYZ34SMYjRbCrxMfm
-         K3SCEGE/tiuYN/f6FKzQkz5xQA9B9xyurcUDdishDXmhI7O1JR7CUg0baCCkWwUimMQb
-         6mcV2ajsKtFQmpdSKL3w4pDwLIfa7WNqXvW7NqPXF0ZVag/y4qjKi0ty4wFuNkqSppO2
-         YBUySq7gxQ0nFOpJo+tBcY7EAxv4ZiV2CW7csbFMh6mBGsXXULRSQ+Pu+t/oisCSyDuj
-         czFA==
-X-Forwarded-Encrypted: i=1; AJvYcCUeS5hvDDr61vLwwiUqNqVtlZ5oOqzGwixqufCRAEZMhzKZUOyPV+Rz6rUEVLYZiI5xWsrzG+qzXhc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxAs6c5vXGJV8k8X4BXWBVXJxuai26Cf1PxFV+QCa+zOC6M6NEu
-	SPGKR6b9hV4LIBaygrrwv9z/EDjCP+Rpo6ck5ORd45Khb35HHURb4bz502EuIH4a1io=
-X-Gm-Gg: ATEYQzw694Cygzl3gp1TeChdSvFQAvPIzlZQ7z9R48Z0rqDZnL4mOKcq3SpJn2q4STG
-	UOJvjey/k6soK3oO5VfUHdyXNdF2lcRtpBh9F6XDKdtkCgK5MTkIUxKdyHExn6gRJ2lP3xdJrYq
-	UJ4GW5YHtxEx6zWm5QIBjvbW240o5yx+cAanszFSPLZc/VrzLccM4dvZnmVTRy6yVlv2TBYS0Lb
-	SLJ5byyviXNhmbRNBilxpT9+aUf+/mZKc3GqsCe07NhtI7vCn/SSnVAKGZnSu8BwyoEIobYfD14
-	LIYNA8/1MYU1EjLe8igO/axDCGJo4MnktcpBUuHU95NL6abvqqs6lFABNYFsWgi0Y9sQAQjMmA0
-	PEv58HwicqEg8aSmzdPNUMYMIXfB5iETdW1j6aXCTwQjHNb62ZHY8dpktkx0xfXpIXQs=
-X-Received: by 2002:a05:600c:3b07:b0:485:4278:2558 with SMTP id 5b1f17b1804b1-486fedab705mr205574955e9.6.1774342074389;
-        Tue, 24 Mar 2026 01:47:54 -0700 (PDT)
-Received: from localhost ([151.43.230.2])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4871105c7a5sm13620915e9.16.2026.03.24.01.47.53
+        d=1e100.net; s=20251104; t=1774342634; x=1774947434;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2N8pM8rI/exlpoJn6H8Uz7b0TMfTyl2xUTL4+Iyxt4A=;
+        b=SElQtc7uEhXGzYBWGUq7zWt8e2Kd+UpUI4PBjlKaplDQ/uHqT2GBq/NShimlkPcc7u
+         jmc3I1qx2NdpVdeNEMu5qz4gloITXK81Tq9lEDAGRFB04wZ4XNVlQx82MoMXDZAhbQNm
+         MZwDQpK0gyAiuewQM2TD1zapXclocYsfMXNc7Xjye0ciFFtvcfE/v53ansHLKXH7M4vW
+         3XG+ENfVOLkZ0RWmfZ1QSnw/klTLfmjSHRySIvI/H1O0CcYKXYiWT2QuWQOt+pLO/PE2
+         7X/9nUEo5IvFHYfx9bPIRIlIlElFliMKYCpg5forCOuC/hGSss1bj3OCeyZUGpu69X7K
+         WFRQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWephkP2FE2v3FBjtAcYAwJSWm7BAvrssU3rPQvz5tbPl+2upc7AfTew0CxB0nFtobVrv2XAr+wCrA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzGUFEsqCl1Ke2QVe55lzqosx/hCyhUVNDYDSH772gaB+k5XLlR
+	FE2P42ABPfvnjWXaK/dZPa/nosCnCUybyezBDkJLmVXmBahvUbMh4FsB
+X-Gm-Gg: ATEYQzx96nZ80oPmuSpEKJpSlSUnyGNSX7NaelkqunqEUwfXBoIJ755enbR26L7hQtM
+	0IlY7Vb+eQ9NkSGu6vkiUDXx5L3xeLJurlIgCOyPWeTLC2yUii7aA0KSXw/4zL145GXMObgHinf
+	AHgACmvNhGyMKRUveZ+qxxJYKBMFKaOOMIJyEj4argBhWOOMZTVSVfzup2QX8IbDbdFfF1zGoAK
+	SElGeVISmZLYphedLjv9wY+IGLun/VcnxTaG4ct+TMKVZftbXOYeHBEvSa0xqagpTx0K/FZgzJw
+	qmCiPUf3ie9LwxKMAiaNLkMtH4clmUbGsC2tumEwWPa4j9wx9cUiSy+2CsPWVC29+VjqQUopYoX
+	xUQ83PBLZkvSRjL7lN/TUzHLMUB5qwLxgxl3dNuV3/em5rpeoOJeR9TDJFTt/2Gef926EN03b
+X-Received: by 2002:a05:600c:4714:b0:485:3bc7:a231 with SMTP id 5b1f17b1804b1-486ff01f1d0mr218776415e9.29.1774342633627;
+        Tue, 24 Mar 2026 01:57:13 -0700 (PDT)
+Received: from krava ([2a02:8308:a00c:e200::d99c])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-487116ee514sm43591345e9.13.2026.03.24.01.57.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2026 01:47:54 -0700 (PDT)
-From: Francesco Lavra <flavra@baylibre.com>
-To: Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v9 4/6] iio: ABI: Add support for floating-point numbers in buffer scan elements
-Date: Tue, 24 Mar 2026 09:47:53 +0100
-Message-Id: <20260324084753.654037-1-flavra@baylibre.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20260324084655.653781-1-flavra@baylibre.com>
-References: <20260324084655.653781-1-flavra@baylibre.com>
+        Tue, 24 Mar 2026 01:57:13 -0700 (PDT)
+From: Jiri Olsa <olsajiri@gmail.com>
+X-Google-Original-From: Jiri Olsa <jolsa@kernel.org>
+Date: Tue, 24 Mar 2026 09:57:11 +0100
+To: Sasha Levin <sashal@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Petr Mladek <pmladek@suse.com>, Alexei Starovoitov <ast@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, David Gow <davidgow@google.com>,
+	Kees Cook <kees@kernel.org>, Greg KH <gregkh@linuxfoundation.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>, Helge Deller <deller@gmx.de>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Juergen Gross <jgross@suse.com>,
+	James Bottomley <James.Bottomley@hansenpartnership.com>,
+	Alexey Dobriyan <adobriyan@gmail.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Petr Pavlu <petr.pavlu@suse.com>, x86@kernel.org,
+	linux-kernel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-modules@vger.kernel.org,
+	bpf@vger.kernel.org
+Subject: Re: [PATCH 0/2] kallsyms: show typed function parameters in
+ oops/WARN dumps
+Message-ID: <acJR51EAjn-7EOPm@krava>
+References: <20260323164858.1939248-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5730; i=flavra@baylibre.com; h=from:subject; bh=xFpob9c+xdUrGxlB4E2lbBybpHAq+lDyjDXxB70k3Yw=; b=owEB7QES/pANAwAKAe3xO3POlDZfAcsmYgBpwk+47k6zuOvuU9cHfiHzsxR9jkRQJzMMrJo3m Jv+TAeOEyKJAbMEAAEKAB0WIQSGV4VPlTvcox7DFObt8TtzzpQ2XwUCacJPuAAKCRDt8TtzzpQ2 X57EC/43WSzXh5yhYFg1UnElcKGkaOMJShfdS/lwgczqeTfBJX3nWtBAGKO5qHT3g5BtxM6DpjF GA0BGtlK9AMIQKDY8G4fJuKl3S5S1ruusuJHMYzo5Ro040Llo7L0vpdQsQAiINabLg3nL4xfts+ iEk+xEJvusQ5aBPcHvf+EDOI9AAdcC+TMc5HVRmjWt2vw9yT+6hN0guZ8tB8blTHQ1kxCVifiTf ZuPak3ArdPOCgfCCU1DfS8AHfYtnqt7i2WdIY/fu4YzrzmHl6Vk9TuIaJO9Wz3iWYmW3vkC10Kd E29UnD4RPr5AhrXQXaD810MTg/sJ7Z5R70X7fTeU/WmBe4P3QbwDMqOYy2P3DiWXwRAK5pFVIEt IrimJoKIxV1JJZdAdme76Hd7a9DHrXTi92e7gSLZVyhdhUQflwWOg5ayxZodI5TKS+57O7RxL5k EMLCXLHrfdFH3KJQjaXMOKOzHqxBVAW+000wg/z/Kz3ihIYj3YN66UPh+26g03QJizqPo=
-X-Developer-Key: i=flavra@baylibre.com; a=openpgp; fpr=8657854F953BDCA31EC314E6EDF13B73CE94365F
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260323164858.1939248-1-sashal@kernel.org>
 
-In the data storage description of a scan element, the first character
-after the colon can have the values 's' and 'u' to specify signed and
-unsigned integers, respectively.
-Add 'f' as an allowed value to specify floating-point numbers formatted
-according to the IEEE 754 standard.
+On Mon, Mar 23, 2026 at 12:48:55PM -0400, Sasha Levin wrote:
+> Building on the lineinfo series, this adds typed function parameter
 
-Signed-off-by: Francesco Lavra <flavra@baylibre.com>
----
- Documentation/ABI/testing/sysfs-bus-iio  | 33 +++++++++++++-----------
- Documentation/driver-api/iio/buffers.rst |  3 ++-
- Documentation/iio/iio_devbuf.rst         |  3 ++-
- include/linux/iio/iio.h                  |  7 +++++
- 4 files changed, 29 insertions(+), 17 deletions(-)
+hi,
+could you please specify the exact tree/commit and point to the
+series this patchset is based on?
 
-diff --git a/Documentation/ABI/testing/sysfs-bus-iio b/Documentation/ABI/testing/sysfs-bus-iio
-index 5f87dcee78f7..bd6c3305dd2b 100644
---- a/Documentation/ABI/testing/sysfs-bus-iio
-+++ b/Documentation/ABI/testing/sysfs-bus-iio
-@@ -1510,21 +1510,24 @@ Contact:	linux-iio@vger.kernel.org
- Description:
- 		Description of the scan element data storage within the buffer
- 		and hence the form in which it is read from user-space.
--		Form is [be|le]:[s|u]bits/storagebits[>>shift].
--		be or le specifies big or little endian. s or u specifies if
--		signed (2's complement) or unsigned. bits is the number of bits
--		of data and storagebits is the space (after padding) that it
--		occupies in the buffer. shift if specified, is the shift that
--		needs to be applied prior to masking out unused bits. Some
--		devices put their data in the middle of the transferred elements
--		with additional information on both sides.  Note that some
--		devices will have additional information in the unused bits
--		so to get a clean value, the bits value must be used to mask
--		the buffer output value appropriately.  The storagebits value
--		also specifies the data alignment.  So s48/64>>2 will be a
--		signed 48 bit integer stored in a 64 bit location aligned to
--		a 64 bit boundary. To obtain the clean value, shift right 2
--		and apply a mask to zero the top 16 bits of the result.
-+		Form is [be|le]:[f|s|u]bits/storagebits[>>shift].
-+		be or le specifies big or little endian. f means floating-point
-+		(IEEE 754 binary format), s means signed (2's complement), u means
-+		unsigned. bits is the number of bits of data and storagebits is the
-+		space (after padding) that it occupies in the buffer; when using a
-+		floating-point format, bits must be one of the width values defined
-+		in the IEEE 754 standard for binary interchange formats (e.g. 16
-+		indicates the binary16 format for half-precision numbers). shift,
-+		if specified, is the shift that needs to be applied prior to
-+		masking out unused bits. Some devices put their data in the middle
-+		of the transferred elements with additional information on both
-+		sides. Note that some devices will have additional information in
-+		the unused bits, so to get a clean value the bits value must be
-+		used to mask the buffer output value appropriately. The storagebits
-+		value also specifies the data alignment. So s48/64>>2 will be a
-+		signed 48 bit integer stored in a 64 bit location aligned to a 64
-+		bit boundary. To obtain the clean value, shift right 2 and apply a
-+		mask to zero the top 16 bits of the result.
- 		For other storage combinations this attribute will be extended
- 		appropriately.
- 
-diff --git a/Documentation/driver-api/iio/buffers.rst b/Documentation/driver-api/iio/buffers.rst
-index e16abaf826fe..8779022e3da5 100644
---- a/Documentation/driver-api/iio/buffers.rst
-+++ b/Documentation/driver-api/iio/buffers.rst
-@@ -37,9 +37,10 @@ directory contains attributes of the following form:
- * :file:`index`, the scan_index of the channel.
- * :file:`type`, description of the scan element data storage within the buffer
-   and hence the form in which it is read from user space.
--  Format is [be|le]:[s|u]bits/storagebits[Xrepeat][>>shift] .
-+  Format is [be|le]:[f|s|u]bits/storagebits[Xrepeat][>>shift] .
- 
-   * *be* or *le*, specifies big or little endian.
-+  * *f*, specifies if floating-point.
-   * *s* or *u*, specifies if signed (2's complement) or unsigned.
-   * *bits*, is the number of valid data bits.
-   * *storagebits*, is the number of bits (after padding) that it occupies in the
-diff --git a/Documentation/iio/iio_devbuf.rst b/Documentation/iio/iio_devbuf.rst
-index dca1f0200b0d..e91730fa3cea 100644
---- a/Documentation/iio/iio_devbuf.rst
-+++ b/Documentation/iio/iio_devbuf.rst
-@@ -83,9 +83,10 @@ and the relevant _type attributes to establish the data storage format.
- 
- Read-only attribute containing the description of the scan element data storage
- within the buffer and hence the form in which it is read from userspace. Format
--is [be|le]:[s|u]bits/storagebits[Xrepeat][>>shift], where:
-+is [be|le]:[f|s|u]bits/storagebits[Xrepeat][>>shift], where:
- 
- - **be** or **le** specifies big or little-endian.
-+- **f** specifies if floating-point.
- - **s** or **u** specifies if signed (2's complement) or unsigned.
- - **bits** is the number of valid data bits.
- - **storagebits** is the number of bits (after padding) that it occupies in the
-diff --git a/include/linux/iio/iio.h b/include/linux/iio/iio.h
-index 745290bd9af4..97ac4961585f 100644
---- a/include/linux/iio/iio.h
-+++ b/include/linux/iio/iio.h
-@@ -190,6 +190,13 @@ struct iio_event_spec {
-  */
- #define IIO_SCAN_FORMAT_UNSIGNED_INT	'u'
- 
-+/**
-+ * define IIO_SCAN_FORMAT_FLOAT - floating-point data format
-+ *
-+ * &iio_scan_type.format value for IEEE 754 floating-point numbers.
-+ */
-+#define IIO_SCAN_FORMAT_FLOAT		'f'
-+
- /**
-  * struct iio_scan_type - specification for channel data format in buffer
-  * @sign:		Deprecated, use @format instead.
--- 
-2.39.5
+thanks,
+jirka
 
+
+> display to oops and WARN dumps.  A build-time tool extracts parameter
+> names and types from DWARF, and the kernel maps pt_regs to the calling
+> convention at crash time.  When BTF is available, struct pointer
+> parameters are dereferenced and their members displayed.
+> 
+> Example output from a WARN in a function receiving struct new_utsname *
+> (kernel version info) and struct file * parameters:
+> 
+>  ------------[ cut here ]------------
+>  WARNING: drivers/tty/sysrq.c:1209 at demo_crash+0xf/0x20 (drivers/tty/sysrq.c:1209)
+>  CPU: 2 UID: 0 PID: 323 Comm: bash
+>  RIP: 0010:demo_crash+0xf/0x20 (drivers/tty/sysrq.c:1209)
+>  ...
+>  RDI: ffffffffb8ca8d00
+>  RSI: ffffa0a3c250acc0
+>  ...
+>  Function parameters (paraminfo_demo_crash):
+>   uts      (struct new_utsname *) = 0xffffffffb8ca8d00
+>    .sysname = "Linux"                        .nodename = "localhost"
+>    .release = "7.0.0-rc2-00006-g3190..."     .version = "#45 SMP PRE"
+>   file     (struct file *       ) = 0xffffa0a3c250acc0
+>    .f_mode = (fmode_t)67993630               .f_op = (struct file_operations *)0xffffffffb7237620
+>    .f_flags = (unsigned int)32769            .f_cred = (struct cred *)0xffffa0a3c2e06a80
+>    .dentry = (struct dentry *)0xffffa0a3c0978cc0
+>    .prev_pos = (loff_t)-1
+>  Call Trace:
+>   <TASK>
+>   write_sysrq_trigger+0x96/0xb0 (drivers/tty/sysrq.c:1222)
+>   proc_reg_write+0x54/0xa0 (fs/proc/inode.c:330)
+>   vfs_write+0xc9/0x480 (fs/read_write.c:686)
+>   ksys_write+0x6e/0xe0 (fs/read_write.c:738)
+>   do_syscall_64+0xe2/0x570 (arch/x86/entry/syscall_64.c:62)
+>   entry_SYSCALL_64_after_hwframe+0x77/0x7f (arch/x86/entry/entry_64.S:121)
+> 
+> Patch 1 adds the core paraminfo infrastructure (DWARF extraction,
+> kernel-side lookup, register-to-parameter mapping, ~1-2 MB overhead).
+> Patch 2 adds optional BTF-based struct rendering, gated behind
+> CONFIG_KALLSYMS_PARAMINFO_BTF.
+> 
+> Sasha Levin (2):
+>   kallsyms: show function parameter info in oops/WARN dumps
+>   kallsyms: add BTF-based deep parameter rendering in oops dumps
+> 
+>  .../admin-guide/kallsyms-lineinfo.rst         |  31 +
+>  arch/x86/kernel/dumpstack.c                   |   6 +-
+>  include/linux/kallsyms.h                      |   9 +
+>  init/Kconfig                                  |  40 ++
+>  kernel/Makefile                               |   1 +
+>  kernel/kallsyms.c                             | 182 ++++++
+>  kernel/kallsyms_internal.h                    |   6 +
+>  kernel/kallsyms_paraminfo_btf.c               | 199 ++++++
+>  lib/Kconfig.debug                             |  11 +
+>  lib/tests/Makefile                            |   3 +
+>  lib/tests/paraminfo_kunit.c                   | 249 ++++++++
+>  scripts/Makefile                              |   3 +
+>  scripts/empty_paraminfo.S                     |  18 +
+>  scripts/gen_paraminfo.c                       | 597 ++++++++++++++++++
+>  scripts/link-vmlinux.sh                       |  44 +-
+>  15 files changed, 1393 insertions(+), 6 deletions(-)
+>  create mode 100644 kernel/kallsyms_paraminfo_btf.c
+>  create mode 100644 lib/tests/paraminfo_kunit.c
+>  create mode 100644 scripts/empty_paraminfo.S
+>  create mode 100644 scripts/gen_paraminfo.c
+> 
+> --
+> 2.51.0
+> 
+> 
