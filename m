@@ -1,110 +1,140 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60DB8390222
-	for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 16:00:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93BF8391820;
+	Tue, 24 Mar 2026 16:00:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774368028; cv=none; b=CWBzPgqZ+hBZIDO/ALXrsdLfAm60BhAbJAd7PfgffMPTXVZUDCGUxYhKAoGUKAKcjY+wQnG052VxcWmjf+HBW9YOD6EFQzZ7Xkke2rFrk4AOPsbMXsh77oxpkCgJCQXCLinfIMSQoGXapGRiwRdwp6J5XA0tY599oZ4JysJdFeQ=
+	t=1774368053; cv=none; b=OuqL5KJJR8AtmbKJd9uZNG+h40wL+rTSvhVvEtT9rwn0fUK5gOxDt4d36EG8q/Fp0jKyzSQHcJdzd2Lx3+dU1XiHSb40kzK30t3D5dXxH4LceDxlsi0I+zOwvZPuGI92i846BFlSPZBwKwgXTa6lYALs1BNZ8Vk8QL5XWrymwnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774368028; c=relaxed/simple;
-	bh=GSRmBhTh289JMeFAVm+lGZT1u+oVb+TsC82qWLSJGvs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Pfh6oGybrNtQTdbIAIBx6372xNE902ZzlUFcgN0nK+dJONAOY8NLcQoScqmUo74wypVWklyTzWKAwJa66GUJPdZ0cfvNMGtW/A8ND/tV0Iw5RFCnrzs95pnAWF45OgYHBa35URvuq3f4lYHwQvB0ctTjTK7sxG4MnjQ5pJx+Gqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HlDEIdL2; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1774368053; c=relaxed/simple;
+	bh=8RaYjZXsvjEKffpi5M4eBw0CuUbzJ4yG2TQpC1Z8emA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GSjctEFZz38amekqDfqCF3mMJ6v2K6NzHdtO49E9vsZUNYSDJl11MHGPiMc10H2+/jALZiFqEqCMT7hmxyRSStFjINzlUSlVZQwmLXtKU0uOMc7MJTPeh7zZY+2QNKY2uvSsWukciUYYxzov8KBsM+V9mzh/IPoas9zbU+hklKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NBA4Ikkm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HlDEIdL2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1774368026;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wC5nlWS/Y001sSjAKXCDip+yjnGKfdG8L6ptY0xqiA8=;
-	b=HlDEIdL2ZtCCRvlLWXoPvbyKl395tnt4alN3aXtgXCgadeSDa/r0I8hnw5vwb+RqdbaaJ8
-	XX7HXYWKRFK5JMAM+nA9ezfZopTk39xqjc3QE8dQvPLVjDMqlHHtNYA/PDK/4eWvOBTCon
-	80l0WkZ44lbWMLIf0TZOeKl4VKZMz5w=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-6-7rwywur6Ot6qqo9pzJ8YaA-1; Tue,
- 24 Mar 2026 12:00:24 -0400
-X-MC-Unique: 7rwywur6Ot6qqo9pzJ8YaA-1
-X-Mimecast-MFC-AGG-ID: 7rwywur6Ot6qqo9pzJ8YaA_1774368022
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1800318005B6;
-	Tue, 24 Mar 2026 16:00:22 +0000 (UTC)
-Received: from [10.22.65.192] (unknown [10.22.65.192])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id B2EDD180075D;
-	Tue, 24 Mar 2026 16:00:18 +0000 (UTC)
-Message-ID: <579827ac-a933-45ec-b396-01656c30c9e4@redhat.com>
-Date: Tue, 24 Mar 2026 12:00:17 -0400
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NBA4Ikkm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE2CCC19424;
+	Tue, 24 Mar 2026 16:00:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774368053;
+	bh=8RaYjZXsvjEKffpi5M4eBw0CuUbzJ4yG2TQpC1Z8emA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NBA4IkkmTD174x1FH18UsrH1IDgfvtKZSkGBB1f/PPwWKOAVFVjXnsnttPvgieXWx
+	 VMRERsR11XHRXHfrrTaeg8So7mS5HV9qklD0XG97vxgVgFbBkH1n9esTZBnF4YMT7P
+	 F+5V6p2hcK/OoVAsxhnmhlpuTsWYBuGJkEQdZjq+I0bRqNc+4fFGNthu/uYhf2cBhS
+	 hM4JJsBUuo9JTIMRE/AhHNZbn+Yq8ZAh9Znjh1Ac2jQrKvqvPkJ0S/fkd3/plpabc5
+	 iXtDFUD3+7LhNHHDGuDGKOJ56760aTrzqa4WuPvL1Q+YppSdB9xi+KXb81/g4i88aX
+	 Rs5KiUhSZPJbA==
+Date: Tue, 24 Mar 2026 12:00:51 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Petr Mladek <pmladek@suse.com>, Alexei Starovoitov <ast@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, David Gow <davidgow@google.com>,
+	Kees Cook <kees@kernel.org>, Greg KH <gregkh@linuxfoundation.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>, Helge Deller <deller@gmx.de>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Juergen Gross <jgross@suse.com>,
+	James Bottomley <James.Bottomley@hansenpartnership.com>,
+	Alexey Dobriyan <adobriyan@gmail.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Petr Pavlu <petr.pavlu@suse.com>, X86 ML <x86@kernel.org>,
+	LKML <linux-kernel@vger.kernel.org>,
+	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	linux-modules@vger.kernel.org, bpf <bpf@vger.kernel.org>
+Subject: Re: [PATCH 1/2] kallsyms: show function parameter info in oops/WARN
+ dumps
+Message-ID: <acK1M_CvbYCtq7im@laps>
+References: <20260323164858.1939248-1-sashal@kernel.org>
+ <20260323164858.1939248-2-sashal@kernel.org>
+ <CAADnVQJjJwRtUQNZAhLoXF7DYprhU97xJReZg9izV7n3f7=uJQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] doc: Add CPU Isolation documentation
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Frederic Weisbecker <frederic@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- Anna-Maria Behnsen <anna-maria@linutronix.de>,
- Gabriele Monaco <gmonaco@redhat.com>, Ingo Molnar <mingo@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Marcelo Tosatti <mtosatti@redhat.com>,
- Marco Crivellari <marco.crivellari@suse.com>,
- Michal Hocko <mhocko@kernel.org>, "Paul E . McKenney" <paulmck@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>, Phil Auld <pauld@redhat.com>,
- Steven Rostedt <rostedt@goodmis.org>, Thomas Gleixner <tglx@linutronix.de>,
- Valentin Schneider <vschneid@redhat.com>, Vlastimil Babka <vbabka@suse.cz>,
- linux-doc@vger.kernel.org
-References: <20250809094247.8384-1-frederic@kernel.org>
- <20260324153823.VKwebBuG@linutronix.de>
-Content-Language: en-US
-From: Waiman Long <longman@redhat.com>
-In-Reply-To: <20260324153823.VKwebBuG@linutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+In-Reply-To: <CAADnVQJjJwRtUQNZAhLoXF7DYprhU97xJReZg9izV7n3f7=uJQ@mail.gmail.com>
 
-On 3/24/26 11:38 AM, Sebastian Andrzej Siewior wrote:
-> On 2025-08-09 11:42:47 [+0200], Frederic Weisbecker wrote:
-> …
->> --- /dev/null
->> +++ b/Documentation/admin-guide/cpu-isolation.rst
->> @@ -0,0 +1,338 @@
-> …
->> +CPUSET configuration (cgroup v2)
->> +--------------------------------
->> +
->> +Assuming cgroup v2 is mounted to /sys/fs/cgroup, the following script
->> +isolates CPU 7 from scheduler domains.
->> +
->> +  cd /sys/fs/cgroup
->> +  # Activate the cpuset subsystem
->> +  echo +cpuset > cgroup.subtree_control
->> +  # Create partition to be isolated
->> +  mkdir test
->> +  cd test
->> +  echo +cpuset > cgroup.subtree_control
->> +  # Isolate CPU 7
->> +  echo 7 > cpuset.cpus
->> +  echo "isolated" > cpuset.cpus.partition
-> while looking at this again, shouldn't you also do
-> 	echo 7 > cpuset.cpus.exclusive
+On Tue, Mar 24, 2026 at 08:03:30AM -0700, Alexei Starovoitov wrote:
+>On Mon, Mar 23, 2026 at 9:49 AM Sasha Levin <sashal@kernel.org> wrote:
+>>
+>> Embed DWARF-derived function parameter name and type information in the
+>> kernel image so that oops and WARN dumps display the crashing function's
+>> register-passed arguments with their names, types, and values.
+>>
+>> A new build-time tool (scripts/gen_paraminfo.c) parses DW_TAG_subprogram
+>> and DW_TAG_formal_parameter entries from DWARF .debug_info, extracting
+>> parameter names and human-readable type strings. The resulting tables are
+>> stored in .rodata using the same two-phase link approach as lineinfo.
+>>
+>> At runtime, kallsyms_show_paraminfo() performs a binary search on the
+>> paraminfo tables, maps parameters to x86-64 calling convention registers
+>> (RDI, RSI, RDX, RCX, R8, R9), and prints each parameter's name, type,
+>> and value from pt_regs. If a parameter value matches the page fault
+>> address (CR2), it is highlighted with "<-- fault address".
+>>
+>> Integration at show_regs() means this works for both oops and WARN()
+>> automatically, since both paths provide full pt_regs at the exception
+>> point.
+>>
+>> Example output:
+>>
+>>   Function parameters (ext4_readdir):
+>>     file     (struct file *)         = 0xffff888123456000
+>>     ctx      (struct dir_context *)  = 0x0000000000001234  <-- fault address
+>>
+>> Gated behind CONFIG_KALLSYMS_PARAMINFO (depends on CONFIG_KALLSYMS_LINEINFO).
+>> Adds approximately 1-2 MB to the kernel image for ~58K functions.
+>>
+>> Assisted-by: Claude:claude-opus-4-6
+>> Signed-off-by: Sasha Levin <sashal@kernel.org>
 >
-> to ensure the CPU isn't used somewhere else?
+>Nack.
+>
+>You asked claude to reinvent pahole and BTF and it did it
+>completely missing years of fine tuning that pahole does.
 
-For backport compatibility, the use of cpuset.cpus.exclusive is optional 
-for creating a local partition underneath the cgroup root. The example 
-should still work without setting cpuset.cpus.exclusive.
+Let's keep this on the technical side please.
 
-Cheers,
-Longman
+>dwarf cannot be trusted as-is. pahole converts it carefully
+>by analyzing optimized out arguments and dropping signatures
 
+Fair point about pahole and optimized-out args. The problem is that BTF depends
+on BPF_SYSCALL, and the environments I care about can't enable either.
+Automotive, robotics, and safety configs all have DWARF and KALLSYMS but no
+path to BTF.
+
+>from BTF that are not accurate. This work is still ongoing.
+>For example see this set:
+>https://lore.kernel.org/bpf/20260320190917.1970524-1-yonghong.song@linux.dev/
+
+Ack. I wasn't familiar with this, and looks like it makes the 2nd patch in this
+series unnecessary.
+
+>pahole isn't perfect, but what you attempted to do here
+>is just broken.
+
+I hear you that raw DWARF isn't perfect with optimized code, but I'd rather
+show best-effort info than nothing. Happy to mark it as such in the output.
+Open to suggestions on improving accuracy without the BTF dependency.
+
+-- 
+Thanks,
+Sasha
