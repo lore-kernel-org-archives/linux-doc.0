@@ -1,147 +1,133 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E39A3F7876
-	for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 11:49:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8254D3E9588;
+	Tue, 24 Mar 2026 11:52:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774352944; cv=none; b=EAyP/XDYya3DKA1thsozKsyQj0A09A+UjOQeQ3GeTwoui0s7l/OHcLrL6NxnIGu3lp3GCvavXS1ECLT1S1wMW8oc/c1q0deFa7u9T3jfM9Z7cG66Si/yrm1k1VkHlG0aI8FPb8fJjd+6kcQwOO+Tl0tFusezaj7Cch060S+v/A4=
+	t=1774353169; cv=none; b=JygvZ2DfLae2B9RmZh7XTU0D+wxJBOeOXziYN5YZkm1I2uVtJPdkcR2rv5HnXt9jwasP2ru5zHd95Oi7DPibLqrtAXLcx5B0Qad+1uJu5ycXknSxDKxVONy/RnEY24pzsCBuBzUq00idwecictcRsEtQ+UH+vPRQekex9EFlRJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774352944; c=relaxed/simple;
-	bh=rjdlh7bfjjpgPBB6MBM48+VIQFySi0/2bBYsnW/0rK8=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=m7giCvPtCHgiOrpl+8kU6uimzSwZweaNl6e+ljsmIy18A9DSPl3/v1CTGfr/0nmikf9b2kdJ6ap7JD+8qHIy1joViU2KOvxuKOsnk249IRYc7tut+4fiuO8jb6GjiflY1IZpZ7GTUb0YRCzLrxCEw/WGSrVNlZyuEpZYS/HkJXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BHA0uio7; arc=none smtp.client-ip=209.85.216.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774353169; c=relaxed/simple;
+	bh=ynXvcCupS3J2V6Hsp6xer64h2x9CP6ZMA6xWIxwuQ7k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EmmVTQjyzT0no+czzUlLq7PtvbHZcYKvpZcuyZBkvmv4doaLOY0mi4ITNdLiYtEmiZFhA+wY+U6pqN5p5ToB6kj1hyg3UcKNZi1K4iBi5r/bUc2ZQqVgTuKmmH4Ecq9K11zs1bAv9JuBybtCY1f24u4nEFVVeNUGOpwr02WyFOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=guaerw+5; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BHA0uio7"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-35bb9070644so2359008a91.2
-        for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 04:49:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774352939; x=1774957739; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EOmnOvJidcot6jxLrH1u76JLYVqpj1sXzmwoS6+GMMY=;
-        b=BHA0uio75PXHnR3qYdzl7LNQj7JXYtX0vUUq3m0U2mUnoJizXkePNioU1tc08SEdCw
-         nN9PNH0+YkFDxUEz2xTaa8OGkt2su3yeUGMcQkYpOo/UggBdzFRT4fo4SKuRLYhv9Fgi
-         JEsEIPiIaw2Aq0YxZtMn3h8IeZTNV4i48rCZeSn/LWyHugJfWwSYaSCgENC1YOkTqSGL
-         a2v6Gh/IhOpZn9oNFy6nFidRwh9pfdb2JrIvm1sgYAtgFFTRiGdIJWKd0GoGqE90yujc
-         Zaeexn3O/uvlN1Rq0PYbSdGOX2+iITgMtPHZMa81WNE9U8v8mvbO59H4bfjvXpp2VKoI
-         ZX7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774352939; x=1774957739;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EOmnOvJidcot6jxLrH1u76JLYVqpj1sXzmwoS6+GMMY=;
-        b=k/hCB8MWkmVUGONtnYLyoLA4ylx1kvVj9HxlKicBmvWdm616H+FlFadIl15+jMQ+ff
-         bTIBJ5NSGHEL2IQTS8kpY3pUTcYjxMYCKA+zZ2Gcv8TT1m4cpwOsh5DBbVpvacHZSk+C
-         c64AwiOcySobY4FDRniLtsH0OtlLW5+Ky5IbYZSh0JsIrzK+ktDSmWeKsusC9cd5qrEb
-         kCo1CmutOjtJBixOlwu53RwuW83U1F9fDl6W1kLTwehU0ck/sb4JNpFCkZe8a7+YMoNj
-         MA+xt644K2ybFk7kHvYs1PTRVkSXcjh+jElXaMKLGtmXWwD1ispFHwfBgfr/Xb9Dcfal
-         fDoQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWUsrLXn/NymoEFewroMKdAwJzmUtFQYy9glhhLYsToFAXvwdD+je8uhAeHjlkXcvUwbA7HzdDIIag=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyyky3GpvxAQWzlEjzRODb74/DbvoRf6YqmkDRwyjtdl11MJBqK
-	vKLe7YSW/R7n51fVd/W+Ei8ZQpdPdk0pRdgV0E/9cLf9Tl56QbDULkKI
-X-Gm-Gg: ATEYQzwUyX/ExFlKj27x7Hku5QcEimp9Hh6e5K7MgF8SvhMBHfMgDBNSc08rJggs92L
-	7pmJqZbsdEw8+/AYw9cQYiK1I/EPCal4O1Z2UiwU3OL2LHo7X+CMKWRA3m807rNdRnrBFLLmIv8
-	3drIen0xXHWTrk8PnlKnuYhPaUueFhNm6Q0fLoi4xdwPIjmgKN+ezr6eTjsSt0hqbhn6pkKj2Im
-	7VN2KKHFGIhU+UK78HpMVoWgja5VlghJp7nbG7CXV7HTXQLCUyBt4cxNIXw1y8bqr0RvV/UtX5z
-	CUvAWNaR8IDz1YvRLPfFvfdZxeATzP7TkCrHtCw0PjdlBo6Lfkg92DpGMLjf5bQdrnerkMZfUiK
-	Lx0cfve6PzylKWLsrKuLUb1e6sv3Tw2KiQnhB6J20ZjCf/ZW/V3IGQFielYBgI89vdRpZXlZfD9
-	Eo1vCg0KBcaW42+DX5Bcfgh0/7jhjNBKRFkNLHEcE/u8kRZckxuVVJe5kyypgKpta1uBGU
-X-Received: by 2002:a17:902:e54a:b0:2ae:825b:49a5 with SMTP id d9443c01a7336-2b0825bf592mr154385155ad.0.1774352939359;
-        Tue, 24 Mar 2026 04:48:59 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b0836a31ecsm143127965ad.77.2026.03.24.04.48.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Mar 2026 04:48:59 -0700 (PDT)
-Message-ID: <2ceb291b-3b18-43a7-9d51-5c752f1eebf4@gmail.com>
-Date: Tue, 24 Mar 2026 20:48:55 +0900
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="guaerw+5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774353169; x=1805889169;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=ynXvcCupS3J2V6Hsp6xer64h2x9CP6ZMA6xWIxwuQ7k=;
+  b=guaerw+5Ii3T6/NLfCCB4NMTYPOORO3XWprmKHePJAX3uf7T5vehGec9
+   8oCsMBp4S1q6YLY0PMug7W2eU+qpg1sGdU7YN1pSlIhBR06DcK23ZPWqy
+   j9rO3SvVeRXI/JynHWTyYhHR8L16ixq6Vudw85O1kRUbZWygS9O9CQ1rL
+   ZVTna0DU/xiU5xIrBgq2RxeUzwHBl+3ADDphA7rdONIcZXfA6barzf8HU
+   gKQ6xzu0E594Mrm2jrg7MlPo0dkpJ3lbY50FL6VxIoceBiGw9YmYzUOac
+   evrq46UcZM+XVQRJh1vi5Ac1VQIIUG3rbsSHErqlngtlWf/GS7dVHN7jG
+   A==;
+X-CSE-ConnectionGUID: FpkdTwTDTni7rD3FcKQ9RQ==
+X-CSE-MsgGUID: EwH/guXaTi+NJ6qpQXV6Wg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="75556777"
+X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
+   d="scan'208";a="75556777"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 04:52:48 -0700
+X-CSE-ConnectionGUID: vkyGIRzcSgKL2Yjq+LImwA==
+X-CSE-MsgGUID: v6bi1lpXRpqddsJGtxss9A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
+   d="scan'208";a="225974965"
+Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.244.214])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 04:52:45 -0700
+Date: Tue, 24 Mar 2026 13:52:43 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Francesco Lavra <flavra@baylibre.com>
+Cc: David Lechner <dlechner@baylibre.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org
+Subject: Re: [PATCH v8 2/6] iio: Replace 'sign' field with union in struct
+ iio_scan_type
+Message-ID: <acJ7C-RU8_p4EsuW@ashevche-desk.local>
+References: <20260317150316.3878107-1-flavra@baylibre.com>
+ <20260317150401.3878294-1-flavra@baylibre.com>
+ <4723284d-1e18-4a13-9ec1-878220af257e@baylibre.com>
+ <af2128c68d2a14e1eb664ce9dc075ed02b640407.camel@baylibre.com>
+ <acFvHgTo-3cxH_UP@ashevche-desk.local>
+ <5c780b1be8a64f7862a421db5a1f5be861cb197c.camel@baylibre.com>
+ <acJv1RNLugS0aat9@ashevche-desk.local>
+ <46a937ffd470d190b8e7da2bfc78dbbb7ecda94c.camel@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: leitao@debian.org
-Cc: akpm@linux-foundation.org, corbet@lwn.net, kernel-team@meta.com,
- linmiaohe@huawei.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org, nao.horiguchi@gmail.com,
- rdunlap@infradead.org, skhan@linuxfoundation.org
-References: <acJh0Sk4UdjaTFLh@gmail.com>
-Subject: Re: [PATCH 2/2] Documentation: document
- panic_on_unrecoverable_memory_failure sysctl
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <acJh0Sk4UdjaTFLh@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <46a937ffd470d190b8e7da2bfc78dbbb7ecda94c.camel@baylibre.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Hi,
+On Tue, Mar 24, 2026 at 12:42:19PM +0100, Francesco Lavra wrote:
+> On Tue, 2026-03-24 at 13:04 +0200, Andy Shevchenko wrote:
+> > On Mon, Mar 23, 2026 at 06:37:38PM +0100, Francesco Lavra wrote:
+> > > On Mon, 2026-03-23 at 18:49 +0200, Andy Shevchenko wrote:
+> > > > On Mon, Mar 23, 2026 at 05:04:10PM +0100, Francesco Lavra wrote:
+> > > > > On Sat, 2026-03-21 at 12:22 -0500, David Lechner wrote:
+> > > > > > On 3/17/26 10:04 AM, Francesco Lavra wrote:
 
-On Tue, 24 Mar 2026 03:09:25 -0700, Breno Leitao wrote:
-> Hello Randy,
+...
+
+> > > > > > > + * @IIO_SCAN_FORMAT_SIGNED_INT: Signed integer (two's
+> > > > > > > complement).
+> > > > > > > + * @IIO_SCAN_FORMAT_UNSIGNED_INT: Unsigned integer.
+> > > > 
+> > > > > > We could make this proper kernel doc format with one comment per
+> > > > > > macro.
+> > > > > 
+> > > > > Actually, a set of related #defines can be documented with a single
+> > > > > comment. I see a few examples doing that in
+> > > > > include/linux/gfp_types.h
+> > > > > and
+> > > > > include/linux/fpga/fpga-mgr.h
+> > > > > 
+> > > > > > > +#define IIO_SCAN_FORMAT_SIGNED_INT     's'
+> > > > > > > +#define IIO_SCAN_FORMAT_UNSIGNED_INT   'u'
+> > > > 
+> > > > ...or use enum
+> > > > 
+> > > > /**
+> > > >  * ...kernel-doc for enum...
+> > > >  */
+> > > > enum {
+> > > >         IIO_SCAN_FORMAT_SIGNED_INT = 's',
+> > > >         IIO_SCAN_FORMAT_UNSIGNED_INT = 'u',
+> > > > };
+> > > 
+> > > There is no standard kernel-doc format for anonymous enums.
+> > 
+> > What do you mean? We have such in kernel, for example,
+> > drivers/pinctrl/intel/pinctrl-intel.c.
 > 
-> On Mon, Mar 23, 2026 at 09:51:55AM -0700, Randy Dunlap wrote:
->> On 3/23/26 8:29 AM, Breno Leitao wrote:
->> > Document the new vm.panic_on_unrecoverable_memory_failure sysctl in the
->> > admin guide, following the same format as panic_on_unrecovered_nmi.
->> >
->> > Signed-off-by: Breno Leitao <leitao@debian.org>
->> > ---
->> >  Documentation/admin-guide/sysctl/vm.rst | 27 +++++++++++++++++++++++++++
->> >  1 file changed, 27 insertions(+)
->> >
->> > diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
->> > index 97e12359775c9..3310fb8272fb9 100644
->> > --- a/Documentation/admin-guide/sysctl/vm.rst
->> > +++ b/Documentation/admin-guide/sysctl/vm.rst
->>
->>
->> > +
->> > += ===================================================================
->> > +0 Try to continue operation (default).
->> > +1 Panic immediately.  If the ``panic`` sysctl is also non-zero then the
->> > +  machine will be rebooted.
->> > += ===================================================================
->>
->> The table begin and end lines must be at least as long as the text (may be
->> longer). Please extend the =========== lines by a few characters.
-> 
-> The HTML renders correctly in Sphinx (likely due to automatic column
-> expansion), but I agree the raw table format should be properly
-> structured.
+> The kernel-doc guidelines at Documentation/doc-guide/kernel-doc.rst, in the
+> section that describe structure, union, and enumeration documentation,
+> include the name of the struct in the example, so I thought they wouldn't
+> apply to anonymous types. But now I see that anonymous enum comments are
+> processed just fine by the kernel-doc tool.
+> Anyway, in v9 I switched to one comment per macro, as suggested by David.
 
-Just to be clear, Sphinx is behaving as expected here.
+WFM, thanks.
 
-The table is in the form of so-called "simple tables" in the reST
-(or docutils) parlance.  The rightmost column can exceed the width
-indicated by "==========".
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Quote from [1]:
 
-   The rightmost column is unbounded; text may continue past the
-   edge of the table (as indicated by the table borders). However,
-   it is recommended that borders be made long enough to contain
-   the entire text.
-
-[1]: https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#simple-tables
-
-So, it's just a recommendation, rather than a requirement.
-
-"Grid tables" have a stricter rule.
-
-Hope this helps.
-
-Regards,
-Akira
-
-> 
-> I'll send v2 with this corrected.
-> 
-> Thanks for the review,
-> --breno
