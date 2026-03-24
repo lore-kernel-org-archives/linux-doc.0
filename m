@@ -1,136 +1,73 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 792C418D658;
-	Tue, 24 Mar 2026 10:09:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mailout1.hostsharing.net (mailout1.hostsharing.net [83.223.95.204])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6F2E3DCD90;
+	Tue, 24 Mar 2026 10:22:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.223.95.204
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774346994; cv=none; b=KUEzRsUi+D2ToiFGlykNSVaimr6C3nUEqo8rHaEnwkSevECuMKDEP6XyInQEAO0AhP72KXeS9VZ6olGJTEr94pGtPozKuPZYfGSPPU/T8F71zbxVsLbbIi4Un/GQRgDpjsvNMD9OOI15XXBNSV+YWfguhyMPb3dHIq3QmQ3iWE8=
+	t=1774347757; cv=none; b=dn8f9cCbV4z00OBMadVXU+TJSpjbz/kswzBxEczQX/20BeVECcJZ47I13aWftKLCeJRVE9/uXjf/i3Llev17r3jQ4KxhvSrwOdpiVzKJPANRqvcUKtZJ8Qfe5Eb3D0Euq5V/2904eTD+ZFndI1oPTl8nqXwEnt/mg/FsSczRQcc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774346994; c=relaxed/simple;
-	bh=hbR/9TAYrlIND1OK66BlXU5nb6AlyxM23Kr3q9lcyfk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=d0bJdfifAGnFO5FBbGvZHNYns7Wqwg4mVqfFq73BSv74USpS/uESJxHKucU/IAhXf/c9xGTAIRkJAYBgzVO56+dmR+WicuMjKnDLPTzNap7ph09oenxLfIyc7ntVd+LakanGas6WLlHUCBS/l+NFINN3aEkxqpGAUGoTLDpVSfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D5AFF1476;
-	Tue, 24 Mar 2026 03:09:45 -0700 (PDT)
-Received: from [10.1.196.46] (e134344.arm.com [10.1.196.46])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 733453F63F;
-	Tue, 24 Mar 2026 03:09:47 -0700 (PDT)
-Message-ID: <745ed151-949a-47cf-a987-b811c98cf251@arm.com>
-Date: Tue, 24 Mar 2026 10:09:46 +0000
+	s=arc-20240116; t=1774347757; c=relaxed/simple;
+	bh=ZaVpOuqWe+lMTa4ioP4YzsJIB0fj6T3JpZ+eEhkTogM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mrzaNJJifv+iNAWjPWzrIoR4osEhd2m8RvlfrGlv86FYZ1HhUVp6ubRLzERp1wWc8RvmmHGH8h1jXTBQAtPIjVwelXeTRYdPc5CUmPwXhof1i1FR9WYNjmXOaf+qijyiWm4OUnpxbbxaj61e3iumaWg3J67eP6BoOgKfnZytsFU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de; spf=pass smtp.mailfrom=wunner.de; arc=none smtp.client-ip=83.223.95.204
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wunner.de
+Received: from h08.hostsharing.net (h08.hostsharing.net [IPv6:2a01:37:1000::53df:5f1c:0])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature ECDSA (secp384r1) server-digest SHA384
+	 client-signature ECDSA (secp384r1) client-digest SHA384)
+	(Client CN "*.hostsharing.net", Issuer "GlobalSign GCC R6 AlphaSSL CA 2025" (verified OK))
+	by mailout1.hostsharing.net (Postfix) with ESMTPS id 1A338111F;
+	Tue, 24 Mar 2026 11:22:26 +0100 (CET)
+Received: by h08.hostsharing.net (Postfix, from userid 100393)
+	id 02239602F6DA; Tue, 24 Mar 2026 11:22:25 +0100 (CET)
+Date: Tue, 24 Mar 2026 11:22:25 +0100
+From: Lukas Wunner <lukas@wunner.de>
+To: Maciej Grochowski <mx2pg@pm.me>
+Cc: Bjorn Helgaas <helgaas@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Ilpo Jarvinen <ilpo.jarvinen@linux.intel.com>,
+	Kai-Heng Feng <kaihengf@nvidia.com>
+Subject: Re: [PATCH] Documentation: PCI: Document decoding of TLP Header in
+ AER messages
+Message-ID: <acJl4UuObg04RbAd@wunner.de>
+References: <20260323165038.GA830530@bhelgaas>
+ <jlpBGxAZL6_8dQI417NowB0RVfrnwcnuaNvBlTN035buqP4dRBJaaX3fwqtYxZu2evmcNCAJVzj2suZKDA5iriUSrpj_ziWQVWxZS3nEkEg=@pm.me>
+ <acJi32zgSVvDPVyK@wunner.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Thunderbird Daily
-Subject: Re: [PATCH v6 00/40] arm_mpam: Add KVM/arm64 and resctrl glue code
-To: Gavin Shan <gshan@redhat.com>
-Cc: amitsinght@marvell.com, baisheng.gao@unisoc.com,
- baolin.wang@linux.alibaba.com, carl@os.amperecomputing.com,
- dave.martin@arm.com, david@kernel.org, dfustini@baylibre.com,
- fenghuay@nvidia.com, james.morse@arm.com, jonathan.cameron@huawei.com,
- kobak@nvidia.com, lcherian@marvell.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- peternewman@google.com, punit.agrawal@oss.qualcomm.com,
- quic_jiles@quicinc.com, reinette.chatre@intel.com, rohit.mathew@arm.com,
- scott@os.amperecomputing.com, sdonthineni@nvidia.com,
- tan.shaopeng@fujitsu.com, xhao@linux.alibaba.com, catalin.marinas@arm.com,
- will@kernel.org, corbet@lwn.net, maz@kernel.org, oupton@kernel.org,
- joey.gouly@arm.com, suzuki.poulose@arm.com, kvmarm@lists.linux.dev,
- zengheng4@huawei.com, linux-doc@vger.kernel.org
-References: <20260313144617.3420416-1-ben.horgan@arm.com>
- <71f9ac1e-9f5a-4f12-807b-bbe0803f99e7@redhat.com>
-Content-Language: en-US
-From: Ben Horgan <ben.horgan@arm.com>
-In-Reply-To: <71f9ac1e-9f5a-4f12-807b-bbe0803f99e7@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <acJi32zgSVvDPVyK@wunner.de>
 
-Hi Gavin,
+On Tue, Mar 24, 2026 at 11:09:35AM +0100, Lukas Wunner wrote:
+> Ilpo (who is cc'ed) amended the kernel last year with commit
+> 7e077e6707b3 ("PCI/ERR: Handle TLP Log in Flit mode") to suffix
+> the hexdump with " (Flit)" in Flit Mode:
+> 
+> https://git.kernel.org/linus/7e077e6707b3
 
-On 3/23/26 04:41, Gavin Shan wrote:
-> * # Be careful, this email looks suspicious; * Out of Character: The sender is exhibiting a significant deviation from
-> their usual behavior, this may indicate that their account has been compromised. Be extra cautious before opening links
-> or attachments. *
-> On 3/14/26 12:45 AM, Ben Horgan wrote:
->> This version of the mpam missing pieces series sees a couple of things
->> dropped or hidden. Memory bandwith utilization with free-running counters
->> is dropped in preference of just always using 'mbm_event' mode (ABMC
->> emulation) which simplifies the code and allows for, in the future,
->> filtering by read/write traffic. So, for the interim, there is no memory
->> bandwidth utilization support. CDP is hidden behind config expert as
->> remount of resctrl fs could potentially lead to out of range PARTIDs being
->> used and the fix requires a change in fs/resctrl. The setting of MPAM2_EL2
->> (for pkvm/nvhe) is dropped as too expensive a write for not much value.
->>
->> There are a couple of 'fixes' at the start of the series which address
->> problems in the base driver but are only user visible due to this series.
->>
->> Changelogs in patches
->>
->> Thanks for all the reviewing and testing so far. Just a bit more to get this
->> over the line.
->>
->> There is a small build conflict with the MPAM abmc precursors series [1], which
->> alters some of the resctrl arch hooks. I will shortly be posting a respin
->> of that too.
->>
->> [1] https://lore.kernel.org/lkml/20260225201905.3568624-1-ben.horgan@arm.com/
->>
->>  From James' cover letter:
->>
->> This is the missing piece to make MPAM usable resctrl in user-space. This has
->> shed its debugfs code and the read/write 'event configuration' for the monitors
->> to make the series smaller.
->>
->> This adds the arch code and KVM support first. I anticipate the whole thing
->> going via arm64, but if goes via tip instead, the an immutable branch with those
->> patches should be easy to do.
->>
->> Generally the resctrl glue code works by picking what MPAM features it can expose
->> from the MPAM drive, then configuring the structs that back the resctrl helpers.
->> If your platform is sufficiently Xeon shaped, you should be able to get L2/L3 CPOR
->> bitmaps exposed via resctrl. CSU counters work if they are on/after the L3. MBWU
->> counters are considerably more hairy, and depend on hueristics around the topology,
->> and a bunch of stuff trying to emulate ABMC.
->> If it didn't pick what you wanted it to, please share the debug messages produced
->> when enabling dynamic debug and booting with:
->> | dyndbg="file mpam_resctrl.c +pl"
->>
->> I've not found a platform that can test all the behaviours around the monitors,
->> so this is where I'd expect the most bugs.
->>
->> The MPAM spec that describes all the system and MMIO registers can be found here:
->> https://developer.arm.com/documentation/ddi0598/db/?lang=en
->> (Ignored the 'RETIRED' warning - that is just arm moving the documentation around.
->>   This document has the best overview)
->>
->>
->> Based on v7.0-rc3
->>
->> The series can be retrieved from:
->> https://gitlab.arm.com/linux-arm/linux-bh.git mpam_resctrl_glue_v6
->>
-> 
-> [...]
-> 
-> Retested this series on NVidia's grace-hopper machine where L3 cache partitioning
-> and MBW (soft) limiting worked as expected. Besides, The L3 cache monitor counters
-> are increased as more cache usage is observed.
-> 
-> Tested-by: Gavin Shan <gshan@redhat.com>
+Sorry, I should have mentioned that this commit first appeared in
+v6.15, so auto-detection of Flit mode logs in user space tools
+should be possible from that kernel version onward.
 
-Thanks for testing and all the reviews.
-
-Ben
-
+> As an aside:  Prior to that, commit f68ea779d98a ("PCI: Add
+> pcie_print_tlp_log() to print TLP Header and Prefix Log")
+> changed the log message to prefix each dword with "0x".
+> But I tested it and it seems that tlp-tool groks both the
+> old and the new format without any code change:
 > 
-> Thanks,
-> Gavin
-> 
-> 
+> https://git.kernel.org/linus/f68ea779d98a
 
+This landed in v6.14.
+
+Thanks,
+
+Lukas
