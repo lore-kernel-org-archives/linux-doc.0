@@ -1,169 +1,203 @@
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender-of-o58.zoho.eu (sender-of-o58.zoho.eu [136.143.169.58])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADF4939185D
-	for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 16:46:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D73E3B6BF1;
+	Tue, 24 Mar 2026 16:54:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.169.58
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774370796; cv=pass; b=HN0HnGJF2Eoy8AQkY76SGYgJ23pu4iCJHVIBPG9uMVSshbpVq5J8hGnu+Kut0yauXbk37K1Y1NRhiNF6MS04js95btc7oZCdvE0j7AX2PEv2mYkQ51x2xok1Au532qwJqAj8Io9VfE0cqFzGx/GzlDcZeEiqLSJ+tgwyrJS/u/M=
+	t=1774371284; cv=pass; b=Xovj4TRQ5saaHsZKf6NVOs50S1ehSyKo7DfttrcI+rHwyFHXfYAKFwNy8Hu2P7gzhaamDCPIx7yO8dp2YZV1lfhLZ32tQAqMj1F2Iw67JdrKIjrmmb4XrMp31dZQ2+tvqEpJAL4wwE9kgfHxknKgYIbv21qMQ+HODn21glWFDng=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774370796; c=relaxed/simple;
-	bh=kRBNZYBXvdyd0G3IRhmHcdN/BFg2bxldCxeHP1r/m7A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fYy5KtfrQjPuZNNhSLzWecIZ8aFpyscRAufHy90eoFU2fY6fvDXt17WhdvWo5zDm95svi2Af7CQD8l0JybqEvXAps/wS7om0hnSln1eZ9hADrcFctGGnDjFUokvTFcy4/hafSilm9lpgqkbFUpA7WtQ3Y4yzviogbgFDbHxAW8s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=H4sO8PKp; arc=pass smtp.client-ip=209.85.208.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1774371284; c=relaxed/simple;
+	bh=eD214mtHF/WW6H68DsGLo/msR8qnvnqZKMwXvGv+2X4=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=sM/fCHWRkZNW3ifLvSQ69jdKDcJRc14TpxnRHITn4BS+Qx06Z8KhdM58uvpkh2krU4VgZdQ0KeG+tNiHI74O65+/gZ2hNOcOW3v7jLR7uvk0NZmEpmiV/AUXUQoH/IbyBSNOh5WNrxan4DZiXyq4U8d7SfW8DSF4St+CamuaSlM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=objecting.org; spf=pass smtp.mailfrom=objecting.org; dkim=pass (1024-bit key) header.d=objecting.org header.i=objecting@objecting.org header.b=gZyNlLd3; arc=pass smtp.client-ip=136.143.169.58
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=objecting.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=objecting.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="H4sO8PKp"
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-389f9895c81so14422211fa.2
-        for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 09:46:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774370793; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Q/br2bKccQJb5Tzb6F5oJxbCvflizozAsABC4o8WJWZPNROKCCU3w3dQXIj4HOs9cu
-         vs2KD81qVOK/iljqDqQbI/kNxcmfbXEnlD5ENTNrRMbkIyoYZFdBnMLBcR36IpqLIM4t
-         mtSrVWOXIwlUrnxxHwEkC7qXB/uHPs8Fh44eKZ8J00H4HqMN47dkrLQH5JdCMfqNqoj4
-         wlGriJ9zZL4HwStpv9/iRrO4J4dOEFpDjAUD2xQGJl+ncSC63tNnpfXG+nUOWIiLckre
-         BxScsJOdEvg/ZKAK6EThkgbe3NW2mSr+X8vzoagVCdf89nEAS8Zy/x9/41RhX4Kl2Caa
-         Iw/g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=UCikAyXiicm5k2VXyH9xrW1vWINN0uWZrBsYrIEp9jQ=;
-        fh=Qt/zOguGxVlwnB/Yktp2HmnkcTSgr5V7NW0fCwWt3M4=;
-        b=RTmfvIrlGyX7eAl+VGqCIZfzDU4qe/N1uCf5XmyYOQqxiYWObeLAHIpWdqqLArMO4/
-         7ORMmt5KdPWQdQ8piauBcskk5iQLI62bOvOJzmX4Hw4LlI8wowzjhkAM3juGqc/AKhQj
-         i+JqHPwjpN0fIUDnoAKhD0hRrcw9RoqiRIn/ThbHPYC8snqgN4VY3JX5YaBLyLHSXCHl
-         B7qKeplw1wZPGKK8byO4c1zGuX2mHASaESyVf8WxzMnS6CUxKWQicIJTr04ikuqaeD/R
-         Moc8xGNsWNi+VrRsmXNDZ096SlIp9XSGyEhp9YeC+vERjgb0iTeF5fz6KVTr7ivpvLbl
-         VE4Q==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1774370793; x=1774975593; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UCikAyXiicm5k2VXyH9xrW1vWINN0uWZrBsYrIEp9jQ=;
-        b=H4sO8PKp9fcAPhpWTxNV+tFmYJ/sEMYatbvIzld2dPiEOMw9aGpQ+WGNGjATEm+51/
-         YbUcXFrcz97hbxrzxsEftuOqLKQiOSrFXG8T8HXyVGKMdQx0HKHJye0LmCsymPDZPSvG
-         M/CHqF2rcTta7qW3KZgb2NMHPAsk5WrMBrhk43stRUaU83lXDhrC0HIe/9Bl1cZQ4HWb
-         MFIwP/f7Wk9f1aXFttOJmUlBwtLno++Ijt//Yg+3pVY62V59rXXtcCnbpzbyAluM8rv4
-         cpGGN572WnyszDNQd0dUYDT9JLIypM2+/qb1F2bL6BWSOgFP/9k2jDhbbXODCuJNqqJx
-         AsOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774370793; x=1774975593;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=UCikAyXiicm5k2VXyH9xrW1vWINN0uWZrBsYrIEp9jQ=;
-        b=E2tIUFlpk+4crsA+xMYYUKkRKvPCcoXPzYEznPSDKWkSXN3UwCDHYwpmyOIIPDqU49
-         vWYCCGJGauGtC6P1NlbJi6Qw3qYwJY1fTsA0OTBgEiGKT1es/TDf0Af3Z007Ul3D5/Pk
-         1nXhbMzdK2NJuRXarIetsd0b9jH1mmGM9WvrmsM9ORNK6ThotewoxPG/mkXfhggNyvY2
-         E5E8An0B3mSFur8lIJLBNftDCxK2MgB3TX7HpPAdbrgUux2GdG81N+w7y04as65KcdPS
-         ynZflZMx6PXyyzWCqyobXjyzuldgVKEKHqiBSueXQA30/gY3BJLXH/LFeqY1ZnvPu9uh
-         sydw==
-X-Forwarded-Encrypted: i=1; AJvYcCUYdFf03VtcsUEMlty6cWo/ZvpWCk2vglkBC85JvfMuE59zBlMFibW6hroQ4I27yJav8tUETSrT+bc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzvYdWX7fW/EabDYCuB0gMqmhIcalcgR/yox+gtTO/goMoyknOQ
-	wY25dts8ll6n4eS0PM3VDarVQbBF5Qo2ZtETecss+hE7guTieVJSO5HCp7E9M2iKgRyJN8byC2v
-	KjNZ17eXhfglrU23LpSnPpFRNUr+8XU29SbwaCIZ4
-X-Gm-Gg: ATEYQzxaivWDy701USh/AI+Qu0gbBKfWt1cAQqjkAdb8Ds6XeTSOdlzbN/YtL8YiKYO
-	VogjDQhm1d3G4EvZJHWPTqfPSRG0s+L9dXIEdIvaG3GMRiF8++UBgNRCUoqgH0vyayOKd7bK4xJ
-	1nJPygakS7lsbBvKGvIUMLaewNZfRJ7cQ32Hi8IU+L9Ck2dDot4iZJo7VjlqIWvFNXD5l2dTPVV
-	dOo63gwTeYTe2ySOoUr0UjwV7ROnEdEY1zCNVd/4ncFbqG1AII6ok6jUrAtbAfVcH3T2S5KNuo0
-	yK5q+vVm
-X-Received: by 2002:a05:651c:198d:b0:38a:45d6:c246 with SMTP id
- 38308e7fff4ca-38c4309f785mr403821fa.8.1774370792285; Tue, 24 Mar 2026
- 09:46:32 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=objecting.org header.i=objecting@objecting.org header.b="gZyNlLd3"
+ARC-Seal: i=1; a=rsa-sha256; t=1774371260; cv=none; 
+	d=zohomail.eu; s=zohoarc; 
+	b=DMMMiR4qRi/UPFQQ9cPQRqNNkpMHm+Xnov/DG5TugLijJaqF5OstFiqOSfhSwZvpv6x4LfIVG5D+pLKrystA13bY2HBYBkHKsIJU/meuZoPSXUJ8Lp2Qtbc427/9Va6pe8IDf/Z1+4wpXQ8kzfJMpCBDS465+fUJH8m3VsLI52U=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.eu; s=zohoarc; 
+	t=1774371260; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=rVcgEwVcIpvGmwWCuy/AsiNt0X+iXREcY/5B7RMvY+c=; 
+	b=Qc2XMRgLpyTtJ2fpqgBP/cZcaQDF/AuJg1ArNgX89muEWb/Q//Z0wTg16KwYmyWUSpEb6TgpGTkKWm4Bvo3WTX6g4opGVtB/m0KiwbTqbWhyd5hccbLtW9LK1T11KIjsHtO4fBrMZRJ+rVCgL9tfgeLmuIxS8kR4Y3L/brAUvZs=
+ARC-Authentication-Results: i=1; mx.zohomail.eu;
+	dkim=pass  header.i=objecting.org;
+	spf=pass  smtp.mailfrom=objecting@objecting.org;
+	dmarc=pass header.from=<objecting@objecting.org>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774371260;
+	s=zmail; d=objecting.org; i=objecting@objecting.org;
+	h=Date:Date:From:From:To:To:CC:Subject:Subject:In-Reply-To:References:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To:Cc;
+	bh=rVcgEwVcIpvGmwWCuy/AsiNt0X+iXREcY/5B7RMvY+c=;
+	b=gZyNlLd3mBmt+hdcbGnth0yU//HaBB35LDSaM6xqGIGlYpXZbT0EDly2YQKRYVPR
+	sec3hxw7CROA3nw8Km9ut2C6i+Sc0UC3HvY0GZYy8vDLsiXVOMmG8SkRZaOBJ5k7f9Z
+	5caMbEABZeyKwGsAYs7g8YFGGOniRfhIgDbPLVqI=
+Received: by mx.zoho.eu with SMTPS id 1774371258497571.9224101306835;
+	Tue, 24 Mar 2026 17:54:18 +0100 (CET)
+Date: Tue, 24 Mar 2026 16:54:17 +0000
+From: Josh Law <objecting@objecting.org>
+To: =?ISO-8859-1?Q?Tom=E1s_Pando?= <tovictakamine@gmail.com>, corbet@lwn.net
+CC: skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v3=5D_docs=3A_driver-api=3A_fix_6_s?=
+ =?US-ASCII?Q?pelling_typos_in_Documentation/driver-api?=
+User-Agent: Thunderbird for Android
+In-Reply-To: <20260324163604.5710-1-tovictakamine@gmail.com>
+References: <20260324163604.5710-1-tovictakamine@gmail.com>
+Message-ID: <2F84DD09-2880-45E0-AA98-204F10848F85@objecting.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260323235817.1960573-1-dmatlack@google.com> <20260323235817.1960573-8-dmatlack@google.com>
- <df5dac48-8a54-49e2-acb8-9370b7078033@intel.com>
-In-Reply-To: <df5dac48-8a54-49e2-acb8-9370b7078033@intel.com>
-From: David Matlack <dmatlack@google.com>
-Date: Tue, 24 Mar 2026 09:46:03 -0700
-X-Gm-Features: AaiRm53x8nRAyhq72BKXQ8vBk2jNU8cpC5QwT_5hu3qjlEbsk36YMzg6v1f1PaQ
-Message-ID: <CALzav=cGzzZTL-tyaaG_AhC3gP7ULiU6hWS=X6joLTjyoo-6sg@mail.gmail.com>
-Subject: Re: [PATCH v3 07/24] vfio/pci: Preserve vfio-pci device files across
- Live Update
-To: Yi Liu <yi.l.liu@intel.com>
-Cc: Alex Williamson <alex@shazbot.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.com>, Alex Mastro <amastro@fb.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Ankit Agrawal <ankita@nvidia.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Askar Safin <safinaskar@gmail.com>, 
-	"Borislav Petkov (AMD)" <bp@alien8.de>, Chris Li <chrisl@kernel.org>, Dapeng Mi <dapeng1.mi@linux.intel.com>, 
-	David Rientjes <rientjes@google.com>, Feng Tang <feng.tang@linux.alibaba.com>, 
-	Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, 
-	Kees Cook <kees@kernel.org>, Kevin Tian <kevin.tian@intel.com>, kexec@lists.infradead.org, 
-	kvm@vger.kernel.org, Leon Romanovsky <leon@kernel.org>, Leon Romanovsky <leonro@nvidia.com>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-pci@vger.kernel.org, Li RongQing <lirongqing@baidu.com>, 
-	Lukas Wunner <lukas@wunner.de>, Marco Elver <elver@google.com>, 
-	=?UTF-8?Q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>, 
-	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, 
-	Pasha Tatashin <pasha.tatashin@soleen.com>, "Paul E. McKenney" <paulmck@kernel.org>, 
-	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, 
-	"Peter Zijlstra (Intel)" <peterz@infradead.org>, Pranjal Shrivastava <praan@google.com>, 
-	Pratyush Yadav <pratyush@kernel.org>, Raghavendra Rao Ananta <rananta@google.com>, 
-	Randy Dunlap <rdunlap@infradead.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Saeed Mahameed <saeedm@nvidia.com>, Samiullah Khawaja <skhawaja@google.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Vipin Sharma <vipinsh@google.com>, 
-	Vivek Kasireddy <vivek.kasireddy@intel.com>, William Tu <witu@nvidia.com>, 
-	Zhu Yanjun <yanjun.zhu@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+X-ZohoMailClient: External
 
-On Tue, Mar 24, 2026 at 6:01=E2=80=AFAM Yi Liu <yi.l.liu@intel.com> wrote:
-> On 3/24/26 07:57, David Matlack wrote:
 
-> > + * Usage Example
-> > + * =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > + *
-> > + * VFIO PCI devices can be preserved across a kexec by preserving the =
-file
-> > + * associated with the device in a LUO session::
-> > + *
-> > + *   device_fd =3D open("/dev/vfio/devices/X");
+
+On 24 March 2026 16:36:04 GMT, "Tom=C3=A1s Pando" <tovictakamine@gmail=2Ec=
+om> wrote:
+>Fix minor spelling mistakes in the driver-api documentation=2E These
+>changes improve readability in ACPI, CXL, DMA and PCI docs=2E
+>v3: Added reviewed-by from Randy Dunlap=2E
+>v2: Added full name as requested by Jon Corbet=2E
 >
-> /dev/vfio/devices/vfioX
-
-Will fix in v4.
-
-> > + *  * The device file must have been acquired from the VFIO character =
-device,
-> > + *    not ``VFIO_GROUP_GET_DEVICE_FD``.
+>Reviewed-by: Randy Dunlap <rdunlap@infradead=2Eorg>
+>Signed-off-by: Tom=C3=A1s Pando <tovictakamine@gmail=2Ecom>
+>---
+> Documentation/driver-api/acpi/acpi-drivers=2Erst         | 2 +-
+> Documentation/driver-api/cxl/platform/acpi/cedt=2Erst    | 2 +-
+> Documentation/driver-api/cxl/platform/bios-and-efi=2Erst | 2 +-
+> Documentation/driver-api/dmaengine/pxa_dma=2Erst         | 2 +-
+> Documentation/driver-api/libata=2Erst                    | 2 +-
+> Documentation/driver-api/pci/p2pdma=2Erst                | 2 +-
+> 6 files changed, 6 insertions(+), 6 deletions(-)
 >
-> how about "The device file descriptor must be obtained by opening the
-> VFIO device
-> character device (``/dev/vfio/devices/vfioX``), not via
-> ``VFIO_GROUP_GET_DEVICE_FD``."?
->
-> just be aligned with the below words in vfio.rst.
->
-> "Traditionally user acquires a device fd via VFIO_GROUP_GET_DEVICE_FD
-> user can now acquire a device fd by directly opening a character device
-> /dev/vfio/devices/vfioX"
+>diff --git a/Documentation/driver-api/acpi/acpi-drivers=2Erst b/Documenta=
+tion/driver-api/acpi/acpi-drivers=2Erst
+>index b1fbbddb8=2E=2E376b6d8a6 100644
+>--- a/Documentation/driver-api/acpi/acpi-drivers=2Erst
+>+++ b/Documentation/driver-api/acpi/acpi-drivers=2Erst
+>@@ -47,7 +47,7 @@ generally be avoided and so struct acpi_driver objects =
+should not be used=2E
+> Moreover, a device ID is necessary to bind a driver directly to an ACPI =
+device
+> node, but device IDs are not generally associated with all of them=2E  S=
+ome of
+> them contain alternative information allowing the corresponding pieces o=
+f
+>-hardware to be identified, for example represeted by an _ADR object retu=
+rn
+>+hardware to be identified, for example represented by an _ADR object ret=
+urn
+> value, and device IDs are not used in those cases=2E  In consequence, co=
+nfusingly
+> enough, binding an ACPI driver to an ACPI device node may even be imposs=
+ible=2E
+>=20
+>diff --git a/Documentation/driver-api/cxl/platform/acpi/cedt=2Erst b/Docu=
+mentation/driver-api/cxl/platform/acpi/cedt=2Erst
+>index 1d9c9d359=2E=2E217a75fb4 100644
+>--- a/Documentation/driver-api/cxl/platform/acpi/cedt=2Erst
+>+++ b/Documentation/driver-api/cxl/platform/acpi/cedt=2Erst
+>@@ -55,7 +55,7 @@ voltile vs persistent, etc)=2E One or more bits may be =
+set=2E ::
+>   Bit[1]: CXL Type 3 Memory
+>   Bit[2]: Volatile Memory
+>   Bit[3]: Persistent Memory
+>-  Bit[4]: Fixed Config (HPA cannot be re-used)
+>+  Bit[4]: Fixed Config (HPA cannot be reused)
+>=20
+> INTRA-host-bridge interleave (multiple devices on one host bridge) is NO=
+T
+> reported in this structure, and is solely defined via CXL device decoder
+>diff --git a/Documentation/driver-api/cxl/platform/bios-and-efi=2Erst b/D=
+ocumentation/driver-api/cxl/platform/bios-and-efi=2Erst
+>index a4b44c018=2E=2E5d918b06f 100644
+>--- a/Documentation/driver-api/cxl/platform/bios-and-efi=2Erst
+>+++ b/Documentation/driver-api/cxl/platform/bios-and-efi=2Erst
+>@@ -277,7 +277,7 @@ The CFMWS field of the CEDT has special restriction b=
+its which describe whether
+> the described memory region allows volatile or persistent memory (or bot=
+h)=2E If
+> the platform intends to support either:
+>=20
+>-1) A device with multiple medias, or
+>+1) A device with multiple media, or
+> 2) Using a persistent memory device as normal memory
+>=20
+> A platform may wish to create multiple CEDT CFMWS entries to describe th=
+e same
+>diff --git a/Documentation/driver-api/dmaengine/pxa_dma=2Erst b/Documenta=
+tion/driver-api/dmaengine/pxa_dma=2Erst
+>index 442ee691a=2E=2E8f9da66b0 100644
+>--- a/Documentation/driver-api/dmaengine/pxa_dma=2Erst
+>+++ b/Documentation/driver-api/dmaengine/pxa_dma=2Erst
+>@@ -40,7 +40,7 @@ Design
+> =3D=3D=3D=3D=3D=3D
+> a) Virtual channels
+> Same concept as in sa11x0 driver, ie=2E a driver was assigned a "virtual
+>-channel" linked to the requestor line, and the physical DMA channel is
+>+channel" linked to the requester line, and the physical DMA channel is
+> assigned on the fly when the transfer is issued=2E
+>=20
+> b) Transfer anatomy for a scatter-gather transfer
+>diff --git a/Documentation/driver-api/libata=2Erst b/Documentation/driver=
+-api/libata=2Erst
+>index 93d97fe78=2E=2E28b8437f6 100644
+>--- a/Documentation/driver-api/libata=2Erst
+>+++ b/Documentation/driver-api/libata=2Erst
+>@@ -286,7 +286,7 @@ and other exceptional conditions=2E The primary respo=
+nsibility of an
+> implementation is to call :c:func:`ata_std_error_handler`=2E
+>=20
+> :c:func:`ata_std_error_handler` will perform a standard error handling s=
+equence
+>-to resurect failed devices, detach lost devices and add new devices (if =
+any)=2E
+>+to resurrect failed devices, detach lost devices and add new devices (if=
+ any)=2E
+> This function will call the various reset operations for a port, as need=
+ed=2E
+> These operations are as follows=2E
+>=20
+>diff --git a/Documentation/driver-api/pci/p2pdma=2Erst b/Documentation/dr=
+iver-api/pci/p2pdma=2Erst
+>index 280673b50=2E=2Ed3f406cca 100644
+>--- a/Documentation/driver-api/pci/p2pdma=2Erst
+>+++ b/Documentation/driver-api/pci/p2pdma=2Erst
+>@@ -38,7 +38,7 @@ for all usage refcounts to reach zero=2E
+> At the lowest level the P2P subsystem offers a naked struct p2p_provider=
+ that
+> delegates lifecycle management to the providing driver=2E It is expected=
+ that
+> drivers using this option will wrap their MMIO memory in DMABUF and use =
+DMABUF
+>-to provide an invalidation shutdown=2E These MMIO addresess have no stru=
+ct page, and
+>+to provide an invalidation shutdown=2E These MMIO addresses have no stru=
+ct page, and
+> if used with mmap() must create special PTEs=2E As such there are very f=
+ew
+> kernel uAPIs that can accept pointers to them; in particular they cannot=
+ be used
+> with read()/write(), including O_DIRECT=2E
 
-Thanks for the suggestion. Here is the wording I have for v4:
 
-  *  * The device file being preserved must have been obtained by
-opening the
-  *    VFIO character device (``/dev/vfio/devices/vfioX``), not via
-  *    ``VFIO_GROUP_GET_DEVICE_FD``.
 
-> > +#include <linux/kexec_handover.h>
-> >   #include <linux/kho/abi/vfio_pci.h>
-> >   #include <linux/liveupdate.h>
-> >   #include <linux/errno.h>
-> > +#include <linux/vfio.h>
->
-> maybe follow alphabet order. errno.h would be moved to the top first.
+Acked-By: Josh Law <objecting@objecting=2Eorg>
 
-I will reorder errno.h to be at the top in the previous patch (where
-the alphabetical ordering issue is introduced).
+
+Patches like these are good clarification=20
+
+Keep it up!
+
+
+V/R
+
+Josh Law
