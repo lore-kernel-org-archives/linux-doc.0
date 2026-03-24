@@ -1,291 +1,138 @@
-Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6022A3E51F1
-	for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 23:59:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E1B32745C
+	for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 00:10:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774310362; cv=none; b=IWuCjXI6hXCBHlcG76tuiTVNcBbRGEDOA6x0MwX7JkDzhz0kfCTzIxc8k7hPObRs/jq5fWX0k6NctEaUvWv0PB9SkrHzxJV2c349vDXOBqETi2+vqwNR+FmKt07c9RL29TqUURDg0eiwGqAMx1z0XZmpEb3n0XOWlKpXaA4hRQ0=
+	t=1774311018; cv=none; b=TW4dcxQ5K6rX2xXxpjYN6G9ofr4C/eENRW8t0hN8fXPKHPp/hjbAcHQfbY54+AyvBbKo8PTBMVTI1ErHKpB4404TNjNuAtvW6WOqPdl31y4xL1qFuSPglqbtNzCbzodtk8aqlMJiK4LxeKc2LqcZf9aThYWGysLve9MfA49URmQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774310362; c=relaxed/simple;
-	bh=vpHjJ0pn077dUCj9wV/y1NEgQP72set6GB5RHBGwAdM=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=QCg1V15cZD8f9oKlUD8ulmAKlto5L4NL9bWyuQVfDE1r6XwWiisT90cZDmu0C9zBsM+BZvaqQ0b0ECYSoipRBt973k2sMN97SCE77dR4c6WCcWbL5wfPUON98rqRlWjd0TEjvxBsdZXaY34GNGzS1MZ7Gge9OKhQWrars/ItEHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=iHCuUcD1; arc=none smtp.client-ip=209.85.214.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com
+	s=arc-20240116; t=1774311018; c=relaxed/simple;
+	bh=SKDiXHePuAyeXNzknJSyiwJw2797eaphjpfFtoS3Lu4=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=STX/fYsV19hxkjbyM3I3wPQ1pfTaLN91lFHfiuSsdpRS2yd5xRYm+DtqjtNwWp5FT9squ1MoFb3zDyQaGAJQWHlLxrseApraA1oYZa5sPU3oeArQxO0mbFFX+7DcJU5bwjJO89ZkGeao9xsPBfAkPLsN/7fLI1WxdDAZwzNVBg8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JvOiEycl; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="iHCuUcD1"
-Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-2b05a3c2421so8473075ad.1
-        for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 16:59:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1774310360; x=1774915160; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=emXTkfduCARpReH/0NkUqCqksAosTTU4j/dciIvOyCs=;
-        b=iHCuUcD1MXluPlFGR9QaLpMovlhc43mYSiP5FnvngghaPKZCwxqWpBQ3l97AKVY4mm
-         C+lIG/50aD4f5beKECih57U0jbIXYtpKSbNL3+jm78RPQgp4ZD1sCB3QcSUASbBfyFrU
-         pefSw9WULtAHhzcEbXM26XiSMtvMc7jp3fVTiHPrBRyNigX5umOTiJeC8VHI5uUhK3FL
-         tCXfDiVgjAzi7ThSb1TK6HACV9WyNK77Cv7Rg9BC5NOg9mquA+OSggYPcB8nrBshn3bU
-         +ZFoZMPQxqpzmYW7U6y/rvzPLcolxmBFzUOpHiEDHe+/JH+7qv7Xv0tePHYuTu5JYwiF
-         UM0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774310360; x=1774915160;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=emXTkfduCARpReH/0NkUqCqksAosTTU4j/dciIvOyCs=;
-        b=qcUxKm+Ix6CxBo4megyqXu7gNevEx4CPdci+JDAo9YpAhRlecbr2MZOf2ctIA0dk1s
-         pcMJGf3h8YRJ0j+gTUqeBx1o+2zF5Ydf1aZWMs5axZLOSxSyUVY7EkxqPXqtMVx+V+Uq
-         99W9Hv66iHU8jnpBEvlTtteMHYIY9fMpNAlYCC80rTGXG0vz6ulK3c6MJk7VaUn4Vy2I
-         ykZRMkOrDUoxe5B8coJaeU4xsuQOIjgGEPm9Hw3//w9oVKHQIq0OgYUfV4SMweVATI3h
-         V13g25VE7CND3S1NvwQzrPzubuoRfAL1EY+uYVdS5ywm+FpAHpuSuPwWRd9dp3Q2tI/a
-         Cp7g==
-X-Forwarded-Encrypted: i=1; AJvYcCX29In+sT2ciQlDFvKMUQ6eZOV3y5y50qEyToYvWhMFFmcsTBxigAwvNru9P9bYb+S79/oHXzre9Xs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw3RvE2qTflA7URT0Rt6QE0+YYcdlvI/6DcO+KlIwlqVlkaHTcN
-	3SkBvyDXV1ouxcdMFAvlIeJyKh0tKToO1F96KB2HAArbXcNaW+H2DHybNhuOGXJanTs1cFBgGI1
-	7P8jOrcyfxlhx4g==
-X-Received: from plcp2.prod.google.com ([2002:a17:902:e342:b0:2b0:6c44:fc55])
- (user=dmatlack job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:902:d54a:b0:2ae:c9be:5f2c with SMTP id d9443c01a7336-2b08271d042mr130329495ad.21.1774310359658;
- Mon, 23 Mar 2026 16:59:19 -0700 (PDT)
-Date: Mon, 23 Mar 2026 23:58:16 +0000
-In-Reply-To: <20260323235817.1960573-1-dmatlack@google.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JvOiEycl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774311014; x=1805847014;
+  h=date:from:to:cc:subject:message-id;
+  bh=SKDiXHePuAyeXNzknJSyiwJw2797eaphjpfFtoS3Lu4=;
+  b=JvOiEycl/NR4ESoQKIx0k0qVZ7xQnWhyiGhTHWn0TErA4L5flztsJDwd
+   c0uQPA44ofmOSeIDYg9PpMnmUo+fSRXv1DjkB4BWXds6xXR+p9o7/j0cA
+   k1D6ifx3TPMGPFiv5GzHFfpdcuUQxqCX4kkMRe5JA/UQhkDfOKdc0BLNw
+   sMLyOM+X1WJVR1R6r2MS4bP29kKV8MHOP55eC/tms/pAv+hYsHWi/VWeU
+   orWQBwiQusrfVA4onpQP7zcYSF6xWBYkNiB1sgLQHOEF6XKkSHBQHHTHu
+   qlb6EzrCUNOOrrfhtHI14J+zz/H+E+7MxElBvcbA5JU5oFnsiv+68X8E6
+   g==;
+X-CSE-ConnectionGUID: fUahfWW6QkKMdI32/FOzTw==
+X-CSE-MsgGUID: caSNbYMuRii+eM6XGsMY3A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11738"; a="97940759"
+X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
+   d="scan'208";a="97940759"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2026 17:10:14 -0700
+X-CSE-ConnectionGUID: n1IRWXl0TZ+sXEuta0c07w==
+X-CSE-MsgGUID: VmmvGAwhSRGsPu2qLteYVg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
+   d="scan'208";a="224403081"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa007.jf.intel.com with ESMTP; 23 Mar 2026 17:10:13 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w4pLW-000000006l3-1l7N;
+	Tue, 24 Mar 2026 00:10:10 +0000
+Date: Tue, 24 Mar 2026 01:09:51 +0100
+From: kernel test robot <lkp@intel.com>
+To: Julian Anastasov <ja@ssi.bg>
+Cc: oe-kbuild-all@lists.linux.dev, Florian Westphal <fw@strlen.de>,
+ linux-doc@vger.kernel.org
+Subject: [netfilter-nf-next:testing 14/14] htmldocs:
+ Documentation/networking/ipvs-sysctl.rst:40: WARNING: Block quote ends
+ without a blank line; unexpected unindent. [docutils]
+Message-ID: <202603240111.Z3ZKbxGg-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260323235817.1960573-1-dmatlack@google.com>
-X-Mailer: git-send-email 2.53.0.983.g0bb29b3bc5-goog
-Message-ID: <20260323235817.1960573-25-dmatlack@google.com>
-Subject: [PATCH v3 24/24] vfio: selftests: Add continuous DMA to vfio_pci_liveupdate_kexec_test
-From: David Matlack <dmatlack@google.com>
-To: Alex Williamson <alex@shazbot.org>, Bjorn Helgaas <bhelgaas@google.com>
-Cc: Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.com>, 
-	Alex Mastro <amastro@fb.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Ankit Agrawal <ankita@nvidia.com>, Arnd Bergmann <arnd@arndb.de>, Askar Safin <safinaskar@gmail.com>, 
-	"Borislav Petkov (AMD)" <bp@alien8.de>, Chris Li <chrisl@kernel.org>, Dapeng Mi <dapeng1.mi@linux.intel.com>, 
-	David Matlack <dmatlack@google.com>, David Rientjes <rientjes@google.com>, 
-	Feng Tang <feng.tang@linux.alibaba.com>, Jacob Pan <jacob.pan@linux.microsoft.com>, 
-	Jason Gunthorpe <jgg@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>, Jonathan Corbet <corbet@lwn.net>, 
-	Josh Hilke <jrhilke@google.com>, Kees Cook <kees@kernel.org>, Kevin Tian <kevin.tian@intel.com>, 
-	kexec@lists.infradead.org, kvm@vger.kernel.org, 
-	Leon Romanovsky <leon@kernel.org>, Leon Romanovsky <leonro@nvidia.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-mm@kvack.org, linux-pci@vger.kernel.org, 
-	Li RongQing <lirongqing@baidu.com>, Lukas Wunner <lukas@wunner.de>, Marco Elver <elver@google.com>, 
-	"=?UTF-8?q?Micha=C5=82=20Winiarski?=" <michal.winiarski@intel.com>, Mike Rapoport <rppt@kernel.org>, 
-	Parav Pandit <parav@nvidia.com>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, 
-	"Peter Zijlstra (Intel)" <peterz@infradead.org>, Pranjal Shrivastava <praan@google.com>, 
-	Pratyush Yadav <pratyush@kernel.org>, Raghavendra Rao Ananta <rananta@google.com>, 
-	Randy Dunlap <rdunlap@infradead.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Saeed Mahameed <saeedm@nvidia.com>, Samiullah Khawaja <skhawaja@google.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Vipin Sharma <vipinsh@google.com>, 
-	Vivek Kasireddy <vivek.kasireddy@intel.com>, William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>, 
-	Zhu Yanjun <yanjun.zhu@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
 
-Add a long-running DMA memcpy operation to
-vfio_pci_liveupdate_kexec_test so that the device attempts to perform
-DMAs continuously during the Live Update.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf-next.git testing
+head:   93cd433f9f3d3ef04f6c03a201f5d91ca2965dd9
+commit: 93cd433f9f3d3ef04f6c03a201f5d91ca2965dd9 [14/14] ipvs: add conn_lfactor and svc_lfactor sysctl vars
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260324/202603240111.Z3ZKbxGg-lkp@intel.com/reproduce)
 
-At this point iommufd preservation is not supported and bus mastering is
-not kept enabled on the device during across the kexec, so most of these
-DMAs will be dropped. However this test ensures that the current device
-preservation support does not lead to system instability or crashes if
-the device is active. And once iommufd and bus mastering are preserved,
-this test can be relaxed to check that the DMA operations completed
-successfully.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603240111.Z3ZKbxGg-lkp@intel.com/
 
-Signed-off-by: David Matlack <dmatlack@google.com>
----
- .../vfio/vfio_pci_liveupdate_kexec_test.c     | 129 ++++++++++++++++++
- 1 file changed, 129 insertions(+)
+All warnings (new ones prefixed by >>):
 
-diff --git a/tools/testing/selftests/vfio/vfio_pci_liveupdate_kexec_test.c b/tools/testing/selftests/vfio/vfio_pci_liveupdate_kexec_test.c
-index 65c48196e44e..36bddfbb88ed 100644
---- a/tools/testing/selftests/vfio/vfio_pci_liveupdate_kexec_test.c
-+++ b/tools/testing/selftests/vfio/vfio_pci_liveupdate_kexec_test.c
-@@ -1,8 +1,16 @@
- // SPDX-License-Identifier: GPL-2.0-only
- 
-+#include <linux/sizes.h>
-+#include <sys/mman.h>
-+
- #include <libliveupdate.h>
- #include <libvfio.h>
- 
-+#define MEMCPY_SIZE SZ_1G
-+#define DRIVER_SIZE SZ_1M
-+#define MEMFD_SIZE (MEMCPY_SIZE + DRIVER_SIZE)
-+
-+static struct dma_region memcpy_region;
- static const char *device_bdf;
- 
- static char state_session[LIVEUPDATE_SESSION_NAME_LENGTH];
-@@ -11,8 +19,89 @@ static char device_session[LIVEUPDATE_SESSION_NAME_LENGTH];
- enum {
- 	STATE_TOKEN,
- 	DEVICE_TOKEN,
-+	MEMFD_TOKEN,
- };
- 
-+static void dma_memcpy_one(struct vfio_pci_device *device)
-+{
-+	void *src = memcpy_region.vaddr, *dst;
-+	u64 size;
-+
-+	size = min_t(u64, memcpy_region.size / 2, device->driver.max_memcpy_size);
-+	dst = src + size;
-+
-+	memset(src, 1, size);
-+	memset(dst, 0, size);
-+
-+	printf("Kicking off 1 DMA memcpy operations of size 0x%lx...\n", size);
-+	vfio_pci_driver_memcpy(device,
-+			       to_iova(device, src),
-+			       to_iova(device, dst),
-+			       size);
-+
-+	VFIO_ASSERT_EQ(memcmp(src, dst, size), 0);
-+}
-+
-+static void dma_memcpy_start(struct vfio_pci_device *device)
-+{
-+	void *src = memcpy_region.vaddr, *dst;
-+	u64 count, size;
-+
-+	size = min_t(u64, memcpy_region.size / 2, device->driver.max_memcpy_size);
-+	dst = src + size;
-+
-+	/*
-+	 * Rough Math: If we assume the device will perform memcpy at a rate of
-+	 * 30GB/s then 7200GB of transfers will run for about 4 minutes.
-+	 */
-+	count = (u64)7200 * SZ_1G / size;
-+	count = min_t(u64, count, device->driver.max_memcpy_count);
-+
-+	memset(src, 1, size / 2);
-+	memset(dst, 0, size / 2);
-+
-+	printf("Kicking off %lu DMA memcpy operations of size 0x%lx...\n", count, size);
-+	vfio_pci_driver_memcpy_start(device,
-+				     to_iova(device, src),
-+				     to_iova(device, dst),
-+				     size, count);
-+}
-+
-+static void dma_memfd_map(struct vfio_pci_device *device, int fd)
-+{
-+	void *vaddr;
-+
-+	vaddr = mmap(NULL, MEMFD_SIZE, PROT_WRITE, MAP_SHARED, fd, 0);
-+	VFIO_ASSERT_NE(vaddr, MAP_FAILED);
-+
-+	memcpy_region.iova = SZ_4G;
-+	memcpy_region.size = MEMCPY_SIZE;
-+	memcpy_region.vaddr = vaddr;
-+	iommu_map(device->iommu, &memcpy_region);
-+
-+	device->driver.region.iova = memcpy_region.iova + memcpy_region.size;
-+	device->driver.region.size = DRIVER_SIZE;
-+	device->driver.region.vaddr = vaddr + memcpy_region.size;
-+	iommu_map(device->iommu, &device->driver.region);
-+}
-+
-+static void dma_memfd_setup(struct vfio_pci_device *device, int session_fd)
-+{
-+	int fd, ret;
-+
-+	fd = memfd_create("dma-buffer", 0);
-+	VFIO_ASSERT_GE(fd, 0);
-+
-+	ret = fallocate(fd, 0, 0, MEMFD_SIZE);
-+	VFIO_ASSERT_EQ(ret, 0);
-+
-+	printf("Preserving memfd of size 0x%x in session\n", MEMFD_SIZE);
-+	ret = luo_session_preserve_fd(session_fd, fd, MEMFD_TOKEN);
-+	VFIO_ASSERT_EQ(ret, 0);
-+
-+	dma_memfd_map(device, fd);
-+}
-+
- static void before_kexec(int luo_fd)
- {
- 	struct vfio_pci_device *device;
-@@ -32,6 +121,27 @@ static void before_kexec(int luo_fd)
- 	ret = luo_session_preserve_fd(session_fd, device->fd, DEVICE_TOKEN);
- 	VFIO_ASSERT_EQ(ret, 0);
- 
-+	dma_memfd_setup(device, session_fd);
-+
-+	/*
-+	 * If the device has a selftests driver, kick off a long-running DMA
-+	 * operation to exercise the device trying to DMA during a Live Update.
-+	 * Since iommufd preservation is not supported yet, these DMAs should be
-+	 * dropped. So this is just looking to verify that the system does not
-+	 * fall over and crash as a result of a busy device being preserved.
-+	 */
-+	if (device->driver.ops) {
-+		vfio_pci_driver_init(device);
-+		dma_memcpy_start(device);
-+
-+		/*
-+		 * Disable interrupts on the device or freeze() will fail.
-+		 * Unfortunately there isn't a way to easily have a test for
-+		 * that here since the check happens during shutdown.
-+		 */
-+		vfio_pci_msix_disable(device);
-+	}
-+
- 	close(luo_fd);
- 	daemonize_and_wait();
- }
-@@ -78,6 +188,7 @@ static void after_kexec(int luo_fd, int state_session_fd)
- 	struct iommu *iommu;
- 	int session_fd;
- 	int device_fd;
-+	int memfd;
- 	int stage;
- 
- 	check_open_vfio_device_fails();
-@@ -88,6 +199,10 @@ static void after_kexec(int luo_fd, int state_session_fd)
- 	session_fd = luo_retrieve_session(luo_fd, device_session);
- 	VFIO_ASSERT_GE(session_fd, 0);
- 
-+	printf("Retrieving memfd from LUO\n");
-+	memfd = luo_session_retrieve_fd(session_fd, MEMFD_TOKEN);
-+	VFIO_ASSERT_GE(memfd, 0);
-+
- 	printf("Finishing the session before retrieving the device (should fail)\n");
- 	VFIO_ASSERT_NE(luo_session_finish(session_fd), 0);
- 
-@@ -109,9 +224,23 @@ static void after_kexec(int luo_fd, int state_session_fd)
- 	 */
- 	device = __vfio_pci_device_init(device_bdf, iommu, device_fd);
- 
-+	dma_memfd_map(device, memfd);
-+
- 	printf("Finishing the session\n");
- 	VFIO_ASSERT_EQ(luo_session_finish(session_fd), 0);
- 
-+	/*
-+	 * Once iommufd preservation is supported and the device is kept fully
-+	 * running across the Live Update, this should wait for the long-
-+	 * running DMA memcpy operation kicked off in before_kexec() to
-+	 * complete. But for now we expect the device to be reset so just
-+	 * trigger a single memcpy to make sure it's still functional.
-+	 */
-+	if (device->driver.ops) {
-+		vfio_pci_driver_init(device);
-+		dma_memcpy_one(device);
-+	}
-+
- 	vfio_pci_device_cleanup(device);
- 	iommu_cleanup(iommu);
- }
+   Non-Preserved Properties
+   ======================== [docutils]
+   Documentation/networking/ipvs-sysctl.rst:39: ERROR: Unexpected indentation. [docutils]
+>> Documentation/networking/ipvs-sysctl.rst:40: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/networking/skbuff:36: ./include/linux/skbuff.h:48: ERROR: Unexpected section title.
+
+
+vim +40 Documentation/networking/ipvs-sysctl.rst
+
+     9	
+    10	am_droprate - INTEGER
+    11		default 10
+    12	
+    13		It sets the always mode drop rate, which is used in the mode 3
+    14		of the drop_rate defense.
+    15	
+    16	amemthresh - INTEGER
+    17		default 1024
+    18	
+    19		It sets the available memory threshold (in pages), which is
+    20		used in the automatic modes of defense. When there is no
+    21		enough available memory, the respective strategy will be
+    22		enabled and the variable is automatically set to 2, otherwise
+    23		the strategy is disabled and the variable is  set  to 1.
+    24	
+    25	backup_only - BOOLEAN
+    26		- 0 - disabled (default)
+    27		- not 0 - enabled
+    28	
+    29		If set, disable the director function while the server is
+    30		in backup mode to avoid packet loops for DR/TUN methods.
+    31	
+    32	conn_lfactor - INTEGER
+    33		Possible values: -8 (larger table) .. 8 (smaller table)
+    34	
+    35		Default: -4
+    36	
+    37		Controls the sizing of the connection hash table based on the
+    38		load factor (number of connections per table buckets):
+  > 39			2^conn_lfactor = nodes / buckets
+  > 40		As result, the table grows if load increases and shrinks when
+    41		load decreases in the range of 2^8 - 2^conn_tab_bits (module
+    42		parameter).
+    43		The value is a shift count where negative values select
+    44		buckets = (connection hash nodes << -value) while positive
+    45		values select buckets = (connection hash nodes >> value). The
+    46		negative values reduce the collisions and reduce the time for
+    47		lookups but increase the table size. Positive values will
+    48		tolerate load above 100% when using smaller table is
+    49		preferred with the cost of more collisions. If using NAT
+    50		connections consider decreasing the value with one because
+    51		they add two nodes in the hash table.
+    52	
+    53		Example:
+    54		-4: grow if load goes above 6% (buckets = nodes * 16)
+    55		2: grow if load goes above 400% (buckets = nodes / 4)
+    56	
+
 -- 
-2.53.0.983.g0bb29b3bc5-goog
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
