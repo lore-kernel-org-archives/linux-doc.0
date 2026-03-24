@@ -1,159 +1,238 @@
-Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 099F13E0224
-	for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 12:41:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5283D366046;
+	Tue, 24 Mar 2026 12:53:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774356070; cv=none; b=Ef698ZWGR0VTuby3WHEaUHOK3sAQUIme7H0YRUNaHEgCSO3S2qZ3jIswcICjx0JXdlWVZCG75xpqnE5L4tsq1GEx8WxBP5aRatDX/aKXpiQYVc4Q4txgKQrnitgJtVBMykJBCwYgJraU05fKEl76r9aWN5pisAI+tCm5r020cO0=
+	t=1774356781; cv=none; b=fpYU5evYOSG+m4B3j2bRxQwB2xJA/H0+QdTxnZmlK6na95pu6SCiD8izEHwbPLzrJLF4jZz9LcMUQVKqTkVVJQlbafR59Rwlu2BH31zJNJHUtkru7fhFufvSr9wHuLTFNkzUugSVS4H/erloe2ZW/8Ig3+S9yQV0MQdscHcT+q4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774356070; c=relaxed/simple;
-	bh=bHsqkffR9nN5dimOIdRFPxaUCA87shbFhhQWaEGYRxI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=cPGuIrM40hrZQhUg08FsbVxXD12J5ouyI73sYOXQmYmF09qA9F/RF/tWTbj/5zzMgsAToPUJWXrBMGI0VkfO8VFAbTS1kIiCs2FW9K3M4GSbWPXc4vNaluBOeI39HJg5bjSD3Or1pYktam1EqiiYv8FHeHfssOnqjG6I6kQ67eQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IzcLBl/Q; arc=none smtp.client-ip=74.125.82.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774356781; c=relaxed/simple;
+	bh=hMHfyhuZ/LGtkXe5f9H+RQyLAe34IsVFvYnBUUwvH/A=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=gq4Bguam7HFvr3AXKprpcHC/DFfMv9sxs/HpXxmk9E7GL1yKIR4VSi4odWYhVJZu+4TvHQZyC79LrtlI0lrMOHrvyR+fhtBpQlitRwdpG587cyKQmM6xvP3Gn6yxfr6cJ+YbmFjdcj/tzbaHShA2K+n/AFr2mOyJAavw5jCsmgs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=uuI5QZn+; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IzcLBl/Q"
-Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-2c1092cc08cso290067eec.1
-        for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 05:41:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774356068; x=1774960868; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=OJeNQnZA7CoGP/YHWM8mHyQRW5SiQkbtHGkl1A3bBSQ=;
-        b=IzcLBl/Q8ZAiUAS1JS8/KHSYRJ87p5DjLDyK09JnQISL8V95j4kKRMTARZ375gk4DX
-         kT+89YWEjXt24Fd2iIGTTGy/MbIT84eLFDvTpPVCpdKnmHHO2sjVz7Ssk70otxbtGV7A
-         mC3HCOdUPPni5kpxjT/sd0X4TDhAWT558ZyWTMnF0XPQTfmKSFtFnOqSFVv7O4oo4vxA
-         P6qrY6BaXL9FQSLyoSFKX7miJ4Q6ZxPkqtDkEQHEXkLZir7sdsHIEau58aZBBhe/Xtut
-         t3as9LAtBIybAfq9Iz9OZ8FmZ2+7Ju5bW0FBVxO4c8d8tYVvOHUtmwley9xve8w9xeGE
-         F0rQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774356068; x=1774960868;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:to:subject:user-agent:mime-version:date
-         :message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=OJeNQnZA7CoGP/YHWM8mHyQRW5SiQkbtHGkl1A3bBSQ=;
-        b=Po4UaMCnHYvA5l/KnEnqFxrUi+Pvso0aoW15hhsz/6ExvTeSNMQqkflkPav3q6E8u3
-         7ntU1YmMTxpgEJI9xSL4Dh7E7nR4K2wXoFf8oP+vkO8a4wruSkQ586gBI6vath1bCG7y
-         3BEpht+7hZ7G80bHJCtxDDC/m0TlQiwCcizeMkEkc9JTDa4ZxMwo1Y0d8Z+0T0W0WfE/
-         OBi9ZM33XpuBL36quCSBhsphIitVNTovA6nCkku+yCVSP45n2T5aOd23vIR8pzuNWTJ+
-         VAzZDy6nq+ITmJ3IaohD2BEdR4bG9dz1khi8WPpnersDw6kBy6pDjuC5kPIDoyR2X8hz
-         5YNw==
-X-Forwarded-Encrypted: i=1; AJvYcCVFzVXjfR5Wb2qLKxPwRykKgqDzx3mMsItxj2p7eWe1Af1wYuRysrq7/pzu/nCGQj2AdKYIPCiGB8Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx+nXNUudpieTapP/XmVIh9S2VPfG4lSzXS0g5031wPqaVPGOpg
-	tBcgoCejog/JvAG3Qm0ENZL24Jj/T09sQFy0yN8za+xrgZExr5TLOc8m
-X-Gm-Gg: ATEYQzzOTHyNEeJQ6oQ5xNba9N7vIhePfFCBHxTHOHHgEsblj8IPHZdHirGXAIrCxzV
-	/TuEsVBINZ3cfrM2PuHhFXu5NKf4NDj1awNgqZ++QNablUKhC0hRGbxSWT9AiJhQl0yTiV2tEsc
-	yQSZJ2v+tKECRUHOxjZDJiqttnwwvHiweEOMudZfzbHU+uKwsQ4whikDckCWjTrD8ZKyCo4Cfx5
-	8W0oF5hCDoNjDI+GMzV10SpraaDs1/HAeiybNf2oTWOhE1PwRle2IwD5+3nEACzNALxBTxOmCNM
-	u2mqTKIbN4eHQEbeoooqq5xXvOTm3sRq+olgqotDabE5hg8N0yteHN3/eD0VSS8lUZyncEanM0C
-	hwpUePx+/P9WAtjkTviW7PQEaYAQplZksetzIaomqmy6pG7uQa/Nllq+a+XYNplIgGbpCeXPram
-	u2rH+v7PTjlqa0fSkVng+DwG9gDb97HgmDdMrQbOFvc495Q7yy+hSN3krdYK7BKZFb2c0lVsQ3
-X-Received: by 2002:a05:7300:8ca6:b0:2c1:778:d897 with SMTP id 5a478bee46e88-2c109752f8dmr7772833eec.21.1774356068254;
-        Tue, 24 Mar 2026 05:41:08 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c10b31bef1sm19110428eec.26.2026.03.24.05.41.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Mar 2026 05:41:07 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <6245c03f-6321-491c-8e9f-be66945ed1c5@roeck-us.net>
-Date: Tue, 24 Mar 2026 05:41:05 -0700
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="uuI5QZn+"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:Message-Id:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:
+	Reply-To:Content-ID:Content-Description:In-Reply-To:References;
+	bh=9zFa1KDhUeszsD2HvlXQ2UZcTHj1u0HIeIKpOr+cxPA=; b=uuI5QZn+ZVYON10UqiuwtQyD5b
+	3jtZ+qIgDUpU2FwQMLbahJaLxxKJCdkYjdSv5uNvW1WyKXD64LAUA2AtiU9Od4BVdzcX4xK5Eqe6j
+	jKiGVhFCl8eGhXvLcGu6BaQMcEES/cId4A9YIz3Frt/HEldJcSg/m7zY0v/xHO1ShkZ8hs/S64ASd
+	gSghAogCserrLTc/nlE4TDFwZ/tfrouOKZWOt3m+azX/tVO8+1xkrrY4XrJp54s/q5JRVAV7lLy8R
+	FU+z41FneFwEXBkTgJEI5UUIuJVMHtz+p3XQE7ZnznkDZBsAsy8OklZi52uhSdea8sE5PzweswRNk
+	yVb3j6KQ==;
+Received: from authenticated user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.94.2)
+	(envelope-from <leitao@debian.org>)
+	id 1w51FX-008JWM-HL; Tue, 24 Mar 2026 12:52:46 +0000
+From: Breno Leitao <leitao@debian.org>
+Date: Tue, 24 Mar 2026 05:52:33 -0700
+Subject: [PATCH] bootconfig: Apply early options from embedded config
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: watchdog: explain watchdog API options
-To: Shubham Chakraborty <chakrabortyshubham66@gmail.com>,
- Wim Van Sebroeck <wim@linux-watchdog.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, linux-watchdog@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260311121602.139967-1-chakrabortyshubham66@gmail.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20260311121602.139967-1-chakrabortyshubham66@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260324-early_bootconfig-v1-1-1c0e625aff06@debian.org>
+X-B4-Tracking: v=1; b=H4sIABGJwmkC/yXM0QqCMBQG4Fc5/NcO1qZCe5WImPNMT8QWm0Uiv
+ nuUl9/Nt6FyEa5wtKHwW6rkBEenhhBmnyZWMsIRjDa9tsYq9uWx3oacl5BTlEkZjqHt9NlHO6I
+ hPAtH+fzLy/VwfQ13Dsvvwb5/ASuf4fF0AAAA
+X-Change-ID: 20260323-early_bootconfig-2efc4509af3d
+To: Masami Hiramatsu <mhiramat@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, oss@malat.biz, paulmck@kernel.org, 
+ rostedt@goodmis.org, kernel-team@meta.com, Breno Leitao <leitao@debian.org>
+X-Mailer: b4 0.16-dev-453a6
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6125; i=leitao@debian.org;
+ h=from:subject:message-id; bh=hMHfyhuZ/LGtkXe5f9H+RQyLAe34IsVFvYnBUUwvH/A=;
+ b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBpwokZvln8UJbR7zTZLs/LUeiV/7t+/ew1EWlzA
+ rq3Ve2JtSiJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCacKJGQAKCRA1o5Of/Hh3
+ bUjhD/9HHpayrdoIa6qp9nVuDWWIk3M0m5pKtFIZnxkuA+aaokFfTgdjh4Q1vITbIO2HL830k8J
+ 9uz0rojlKWqYIQ+ds1HPxo5NyE54QhzktVZMrYzpbxyaRNPXThwnizzDFvoe3I5tWeAEVFDrChM
+ nqSa8YagihKm3hMUqCvIV0y5i6rpcUGdsGOtmFTXhsZmU62cNxqGxZdFk/Q0+vD6SDgrCSCVk0k
+ 97lNUVrQ422XkAunqtO8/7xGDoO3u6iKsPgCq2Pt4PtVkvtPmoVksZCbYznl66pIBDvE+UbdSE2
+ 7fP8joTyBH/kplhpbYHAoJz1gKoASbyVaOyXKlcWTiCCiUCwPTUmYop/kaSKDVwRXjejjnNTrKx
+ rVyyQN3s5imKACjgv1H8FzyDVz+9VJvRwS8aqnb0NZjJCv+3Aa6qJE57a7djOczd3HZ1JejArM9
+ T4xrSGELmgM7woqmtkhaoDcPX4zMo7OU+hyXQn/4l4aI9cQlwjlB85+4uO9ihtr9xpj9AN+O7Qj
+ SLAzNtQFhzK5cdQvvjAdipVRYQh6qZF8ZlnyTU65upXCVcrqRNEgynoyr4jvif/TSjSYhksM3vX
+ B+1WPbLE0tiBmoMokDXNLhuEHR9Hb8qFlOeMWlB9H23yf2y+ebxs5hE2ACY1Sww6debKs6Scz+3
+ O5ZprEVvJRwfePw==
+X-Developer-Key: i=leitao@debian.org; a=openpgp;
+ fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
+X-Debian-User: leitao
 
-On 3/11/26 05:16, Shubham Chakraborty wrote:
-> Replace FIXME comment with proper documentation for
-> WDIOS_DISABLECARD, WDIOS_ENABLECARD, and WDIOS_TEMPPANIC
-> options.
-> 
-> Signed-off-by: Shubham Chakraborty <chakrabortyshubham66@gmail.com>
+Right not is impossible to set early parameters in bootconfig, which
+limits the usage of bootconfig to some critical parameters.
 
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+Add bootconfig_apply_early_params() which walks all kernel.* keys in the
+parsed XBC tree and calls do_early_param() for each one. It is called
+from setup_boot_config() immediately after a successful xbc_init() on
+the embedded data, which happens before parse_early_param() runs in
+start_kernel().
 
-> ---
->   Documentation/watchdog/watchdog-api.rst | 11 ++++++++++-
->   1 file changed, 10 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/watchdog/watchdog-api.rst b/Documentation/watchdog/watchdog-api.rst
-> index 78e228c272cf..984f7362d5fb 100644
-> --- a/Documentation/watchdog/watchdog-api.rst
-> +++ b/Documentation/watchdog/watchdog-api.rst
-> @@ -268,4 +268,13 @@ The following options are available:
->   	WDIOS_TEMPPANIC		Kernel panic on temperature trip
->   	=================	================================
->   
-> -[FIXME -- better explanations]
-> +The WDIOS_DISABLECARD option allows you to stop the watchdog timer via
-> +software. Note that this will only work if the "nowayout" module parameter
-> +(or CONFIG_WATCHDOG_NOWAYOUT) is not set.
-> +
-> +The WDIOS_ENABLECARD option turns on the watchdog timer.
-> +
-> +The WDIOS_TEMPPANIC option is used by some drivers (like the pcwd driver)
-> +to trigger a system halt (typically a kernel panic or power off) when the
-> +temperature trip point is reached. This ensures that the system is halted
-> +immediately in case of an overheat condition.
+This allows early options such as:
+
+  kernel.mitigations = off
+  kernel.irqchip.gicv3_pseudo_nmi = 1
+
+to be placed in the embedded bootconfig and take effect, without
+requiring them to be on the kernel command line.
+
+Early options in initrd bootconfig are still silently ignored, as the
+initrd is only available after the early param window has closed.
+
+Document this behaviour in both Kconfig and the admin guide.
+
+Signed-off-by: Breno Leitao <leitao@debian.org>
+---
+ Documentation/admin-guide/bootconfig.rst |  4 ++
+ init/Kconfig                             |  6 +++
+ init/main.c                              | 67 +++++++++++++++++++++++++++++++-
+ 3 files changed, 76 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/admin-guide/bootconfig.rst b/Documentation/admin-guide/bootconfig.rst
+index f712758472d5c..e820f33d3ad16 100644
+--- a/Documentation/admin-guide/bootconfig.rst
++++ b/Documentation/admin-guide/bootconfig.rst
+@@ -169,6 +169,10 @@ Boot Kernel With a Boot Config
+ There are two options to boot the kernel with bootconfig: attaching the
+ bootconfig to the initrd image or embedding it in the kernel itself.
+ 
++Early options (those registered with ``early_param()``) may only be
++specified in the embedded bootconfig, because the initrd is not yet
++available when early parameters are processed.
++
+ Attaching a Boot Config to Initrd
+ ---------------------------------
+ 
+diff --git a/init/Kconfig b/init/Kconfig
+index 938fbe6a91e15..5e8057e73fe06 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -1534,6 +1534,12 @@ config BOOT_CONFIG_EMBED
+ 	  image. But if the system doesn't support initrd, this option will
+ 	  help you by embedding a bootconfig file while building the kernel.
+ 
++	  Unlike bootconfig attached to initrd, the embedded bootconfig also
++	  supports early options (those registered with early_param()). Any
++	  kernel.* key in the embedded bootconfig is applied before
++	  parse_early_param() runs. Early options in initrd bootconfig will
++	  not be applied.
++
+ 	  If unsure, say N.
+ 
+ config BOOT_CONFIG_EMBED_FILE
+diff --git a/init/main.c b/init/main.c
+index 453ac9dff2da0..eba42b2351d47 100644
+--- a/init/main.c
++++ b/init/main.c
+@@ -416,9 +416,63 @@ static int __init warn_bootconfig(char *str)
+ 	return 0;
+ }
+ 
++/*
++ * do_early_param() is defined later in this file but called from
++ * bootconfig_apply_early_params() below, so we need a forward declaration.
++ */
++static int __init do_early_param(char *param, char *val,
++				 const char *unused, void *arg);
++
++/*
++ * bootconfig_apply_early_params - dispatch kernel.* keys from the embedded
++ * bootconfig as early_param() calls.
++ *
++ * early_param() handlers must run before most of the kernel initialises
++ * (e.g. before the GIC driver reads irqchip.gicv3_pseudo_nmi).  A bootconfig
++ * attached to the initrd arrives too late for this because the initrd is not
++ * mapped yet when early params are processed.  The embedded bootconfig lives
++ * in the kernel image itself (.init.data), so it is always reachable.
++ *
++ * This function is called from setup_boot_config() which runs in
++ * start_kernel() before parse_early_param(), making the timing correct.
++ */
++static void __init bootconfig_apply_early_params(void)
++{
++	char val_buf[COMMAND_LINE_SIZE];
++	struct xbc_node *knode, *root;
++	const char *val;
++
++	root = xbc_find_node("kernel");
++	if (!root)
++		return;
++
++	/*
++	 * Keys that do not match any early_param() handler are silently
++	 * ignored — do_early_param() always returns 0.
++	 */
++	xbc_node_for_each_key_value(root, knode, val) {
++		if (xbc_node_compose_key_after(root, knode, xbc_namebuf, XBC_KEYLEN_MAX) < 0)
++			continue;
++
++		if (!val) {
++			do_early_param(xbc_namebuf, NULL, NULL, NULL);
++			continue;
++		}
++
++		/*
++		 * We need to copy const char *val to a char pointer,
++		 * which is what do_early_param() need, given it might
++		 * call strsep(), strtok() later.
++		 */
++		strscpy(val_buf, val, sizeof(val_buf));
++		do_early_param(xbc_namebuf, val_buf, NULL, NULL);
++	}
++}
++
+ static void __init setup_boot_config(void)
+ {
+ 	static char tmp_cmdline[COMMAND_LINE_SIZE] __initdata;
++	bool using_embedded = false;
+ 	const char *msg, *data;
+ 	int pos, ret;
+ 	size_t size;
+@@ -427,8 +481,17 @@ static void __init setup_boot_config(void)
+ 	/* Cut out the bootconfig data even if we have no bootconfig option */
+ 	data = get_boot_config_from_initrd(&size);
+ 	/* If there is no bootconfig in initrd, try embedded one. */
+-	if (!data)
++	if (!data) {
+ 		data = xbc_get_embedded_bootconfig(&size);
++		/*
++		 * Record that we are using the embedded config so that
++		 * bootconfig_apply_early_params() is called below.
++		 * When CONFIG_BOOT_CONFIG_EMBED is not set,
++		 * xbc_get_embedded_bootconfig() is a stub returning NULL, so
++		 * data is always NULL here and using_embedded stays false.
++		 */
++		using_embedded = data;
++	}
+ 
+ 	strscpy(tmp_cmdline, boot_command_line, COMMAND_LINE_SIZE);
+ 	err = parse_args("bootconfig", tmp_cmdline, NULL, 0, 0, 0, NULL,
+@@ -466,6 +529,8 @@ static void __init setup_boot_config(void)
+ 	} else {
+ 		xbc_get_info(&ret, NULL);
+ 		pr_info("Load bootconfig: %ld bytes %d nodes\n", (long)size, ret);
++		if (using_embedded)
++			bootconfig_apply_early_params();
+ 		/* keys starting with "kernel." are passed via cmdline */
+ 		extra_command_line = xbc_make_cmdline("kernel");
+ 		/* Also, "init." keys are init arguments */
+
+---
+base-commit: 785f0eb2f85decbe7c1ef9ae922931f0194ffc2e
+change-id: 20260323-early_bootconfig-2efc4509af3d
+
+Best regards,
+--  
+Breno Leitao <leitao@debian.org>
 
