@@ -1,146 +1,154 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from smtp-bc0d.mail.infomaniak.ch (smtp-bc0d.mail.infomaniak.ch [45.157.188.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3E1F405AA3;
-	Tue, 24 Mar 2026 15:05:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82750405AD8
+	for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 15:06:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.157.188.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774364738; cv=none; b=hSaoVKLaZfFTRcEJReySGZOLBqxv7Tja71qQI5A3Cx3aoODpn97hJ54rUgUPtf9aV1X+FKhvqukVbYj+Hb5tzapsCxx8Q2kW1N2in9axTFk4YAMR+EME2bcLJPTpyFOs1EX/mVRb/4QtFxlC6rG1oESDdj7+00aRsNfTx0/UmIo=
+	t=1774364776; cv=none; b=ua66hocn69LfnpigVKA8uKmdguYT7yweS5MlSxHT3rwrstDZolnYKOzkBfqY8bODelgbWNqZXG0XbWymp9tYa58JbaCX0G924b4UqHDSO5fk76uyoUZV/Jx5S/EgXOF5HlBlGqp0rzgdIUnckcw9h6RpyZDcuxoQ7ue7HKV8dqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774364738; c=relaxed/simple;
-	bh=m8Hx0ozzwk19ZnIruRTH2dbp9moQA8wQsvvEZaTUXFY=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jiNaR7a5CltESsGZyo1w0eDWLgNRVm2aNaSIdf2Ek8kH5PcybWg2be6jUmWW52eq3V/QS9SxwI9W8qLSspCexNhDOP2Xn/fN6+iUHOc0TgMJ2JERJuI74lDmiJJpSk+zHdU7JTFWEHLcEmruVkzOZwdSM/eejc5NEcVqS3k0c7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.224.83])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fgCyV34T6zJ46Dy;
-	Tue, 24 Mar 2026 23:05:22 +0800 (CST)
-Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
-	by mail.maildlp.com (Postfix) with ESMTPS id 7263940573;
-	Tue, 24 Mar 2026 23:05:29 +0800 (CST)
-Received: from localhost (10.203.177.15) by dubpeml500005.china.huawei.com
- (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Tue, 24 Mar
- 2026 15:05:27 +0000
-Date: Tue, 24 Mar 2026 15:05:26 +0000
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
-To: John Groves <john@jagalactic.com>
-CC: John Groves <John@Groves.net>, Miklos Szeredi <miklos@szeredi.hu>, "Dan
- Williams" <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>,
-	Alison Schofield <alison.schofield@intel.com>, John Groves
-	<jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
-	<skhan@linuxfoundation.org>, Vishal Verma <vishal.l.verma@intel.com>, "Dave
- Jiang" <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, "Jan
- Kara" <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, "David
- Hildenbrand" <david@kernel.org>, Christian Brauner <brauner@kernel.org>,
-	"Darrick J . Wong" <djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
-	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, Stefan
- Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, Josef
- Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Chen
- Linxuan <chenlinxuan@uniontech.com>, "James Morse" <james.morse@arm.com>,
-	Fuad Tabba <tabba@google.com>, "Sean Christopherson" <seanjc@google.com>,
-	Shivank Garg <shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>,
-	Gregory Price <gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>, Ajay
- Joshi <ajayjoshi@micron.com>, "venkataravis@micron.com"
-	<venkataravis@micron.com>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev"
-	<nvdimm@lists.linux.dev>, "linux-cxl@vger.kernel.org"
-	<linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org"
-	<linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH V9 7/8] dax: Add fs_dax_get() func to prepare dax for
- fs-dax usage
-Message-ID: <20260324150526.000047b6@huawei.com>
-In-Reply-To: <0100019d1d484ddc-2487f887-7ecd-49a3-abfe-9dabec28873f-000000@email.amazonses.com>
-References: <0100019d1d463523-617e8165-a084-4d91-aa5e-13778264d5d4-000000@email.amazonses.com>
-	<20260324003919.5106-1-john@jagalactic.com>
-	<0100019d1d484ddc-2487f887-7ecd-49a3-abfe-9dabec28873f-000000@email.amazonses.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1774364776; c=relaxed/simple;
+	bh=c2gb/FNBBagWrS1XVKZ3P96gfYZYYcvX2+2LtJPkQxk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z2W9yQe0g1H3ntj9qocys+ffKXnSVmDkMl2z01npY1MzS2ZZTXSMFs+ovljZAjEnQUMvuTsg3RTgZsl2vieIJrpp3NlyYoQ3EcK+qVsoj02dosafeHhQBodFtj7RlnnIB2gqaSavL2lVbm0uzKwpRm6V/L/etAVSJ430fSW63uQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net; spf=pass smtp.mailfrom=digikod.net; dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b=fYStLhUi; arc=none smtp.client-ip=45.157.188.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=digikod.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=digikod.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=digikod.net header.i=@digikod.net header.b="fYStLhUi"
+Received: from smtp-4-0000.mail.infomaniak.ch (smtp-4-0000.mail.infomaniak.ch [10.7.10.107])
+	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4fgCzL4N8tz12Vc;
+	Tue, 24 Mar 2026 16:06:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=digikod.net;
+	s=20191114; t=1774364766;
+	bh=Jmu6wWTlmezDVq+veZoOrDH/dJwq3wLCXrKIoQI3uxo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fYStLhUiScxTb6yLxOIdLcAzjcTJmG5YGmMFzQCEhVNeQCY+CsJJtrmpCHFosEMye
+	 2nZff9Ve9VrT03IDW6gOHpyWN8AX1MMPz/eRkPkgaMlkxzdi+QBhZ7zKTdw3SYIpmp
+	 TcEaFVoJYPLkHN8jCRmrDO5LJfQbs2Lcb0enSoDc=
+Received: from unknown by smtp-4-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4fgCzK5C43zpXq;
+	Tue, 24 Mar 2026 16:06:05 +0100 (CET)
+Date: Tue, 24 Mar 2026 16:06:01 +0100
+From: =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+To: =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>
+Cc: "Panagiotis \"Ivory\" Vasilopoulos" <git@n0toose.net>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Dan Cojocaru <dan@dcdev.ro>
+Subject: Re: [PATCH v4] landlock: Expand restrict flags example for ABI
+ version 8
+Message-ID: <20260324.aqu5Eic7Thee@digikod.net>
+References: <20260304-landlock-docs-add-tsync-example-v4-1-819a276f05c5@n0toose.net>
+ <20260323.sheiHaR5uRoo@digikod.net>
+ <acJa_56LtPeeH956@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml100010.china.huawei.com (7.191.174.197) To
- dubpeml500005.china.huawei.com (7.214.145.207)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <acJa_56LtPeeH956@google.com>
+X-Infomaniak-Routing: alpha
 
-On Tue, 24 Mar 2026 00:39:31 +0000
-John Groves <john@jagalactic.com> wrote:
-
-> From: John Groves <john@groves.net>
+On Tue, Mar 24, 2026 at 10:48:29AM +0100, Günther Noack wrote:
+> Hello!
 > 
-> The fs_dax_get() function should be called by fs-dax file systems after
-> opening a fsdev dax device. This adds holder_operations, which provides
-> a memory failure callback path and effects exclusivity between callers
-> of fs_dax_get().
+> On Mon, Mar 23, 2026 at 07:56:21PM +0100, Mickaël Salaün wrote:
+> > Thanks!  I pushed your patch in next with a minor fix.
+> > 
+> > Günther, does it look good to you?
+> > 
+> > On Wed, Mar 04, 2026 at 07:13:04PM +0100, Panagiotis "Ivory" Vasilopoulos wrote:
+> > > Add LANDLOCK_RESTRICT_SELF_TSYNC to the backwards compatibility example
+> > > for restrict flags. This introduces completeness, similar to that of
+> > > the ruleset attributes example. However, as the new example can impact
+> > > enforcement in certain cases, an appropriate warning is also included.
+> > > 
+> > > Additionally, I modified the two comments of the example to make them
+> > > more consistent with the ruleset attributes example's.
+> > > 
+> > > Signed-off-by: Panagiotis 'Ivory' Vasilopoulos <git@n0toose.net>
+> > > Co-developed-by: Dan Cojocaru <dan@dcdev.ro>
+> > > Signed-off-by: Dan Cojocaru <dan@dcdev.ro>
+> > > ---
+> > > Changes in v4:
+> > > - Make warning somewhat more terse, merge comments.
+> > >   - Remove some sensationalization. ("Don't copy-paste this just yet!")
+> > >   - Apply Günther's suggestion (v3 "recycled" some phrases, was long)
+> > >     - ... but also retain some of the wording on ABI differences
+> > > - Provide a brief overview that contextualizes the example further:
+> > >   - Clarify the difference behind ABI < 8 & ABI v8, to avoid
+> > >     misunderstandings on which option is the default.
+> > >   - Make "linear reading" easier.
+> > > - Based on Mickaël's feedback: Avoid cans of worms w.r.t. use cases
+> > > - Link to v3: https://lore.kernel.org/r/20260228-landlock-docs-add-tsync-example-v3-1-140ab50f0524@n0toose.net
+> > > 
+> > > Changes in v3:
+> > > - Add __attribute__((fallthrough)) like in earlier example.
+> > > - Improve comment for LANDLOCK_RESTRICT_SELF_TSYNC (ABI < 8) example.
+> > > - Add relevant warning for ABI < 8 example based on Günther's feedback.
+> > > - Link to v2: https://lore.kernel.org/r/20260221-landlock-docs-add-tsync-example-v2-1-60990986bba5@n0toose.net
+> > > 
+> > > Changes in v2:
+> > > - Fix formatting error.
+> > > - Link to v1: https://lore.kernel.org/r/20260221-landlock-docs-add-tsync-example-v1-1-f89383809eb4@n0toose.net
+> > > ---
+> > >  Documentation/userspace-api/landlock.rst | 22 ++++++++++++++++++----
+> > >  1 file changed, 18 insertions(+), 4 deletions(-)
+> > > 
+> > > diff --git a/Documentation/userspace-api/landlock.rst b/Documentation/userspace-api/landlock.rst
+> > > index 13134bccdd39d78ddce3daf454f32dda162ce91b..64c7138a788d74f99da0a71428da392b3d873bf8 100644
+> > > --- a/Documentation/userspace-api/landlock.rst
+> > > +++ b/Documentation/userspace-api/landlock.rst
+> > > @@ -196,13 +196,27 @@ similar backwards compatibility check is needed for the restrict flags
+> > >  (see sys_landlock_restrict_self() documentation for available flags):
+> > >  
+> > >  .. code-block:: c
+> > > -
+> > > -    __u32 restrict_flags = LANDLOCK_RESTRICT_SELF_LOG_NEW_EXEC_ON;
+> > > -    if (abi < 7) {
+> > > -        /* Clear logging flags unsupported before ABI 7. */
+> > > +    __u32 restrict_flags =
+> > > +        LANDLOCK_RESTRICT_SELF_LOG_NEW_EXEC_ON |
+> > > +        LANDLOCK_RESTRICT_SELF_TSYNC;
+> > > +    switch (abi) {
+> > > +    case 1 ... 6:
+> > > +        /* Clear logging flags unsupported for ABI < 7 */
+> > >          restrict_flags &= ~(LANDLOCK_RESTRICT_SELF_LOG_SAME_EXEC_OFF |
+> > >                              LANDLOCK_RESTRICT_SELF_LOG_NEW_EXEC_ON |
+> > >                              LANDLOCK_RESTRICT_SELF_LOG_SUBDOMAINS_OFF);
+> > > +        __attribute__((fallthrough));
+> > > +    case 7:
+> > > +        /*
+> > > +         * Removes multithreaded enforcement flag unsupported for ABI < 8
+> > > +         *
+> > > +         * WARNING: Without this flag, calling landlock_restrict_self(2) is
+> > > +         * only equivalent if the calling process is single-threaded. Below
+> > > +         * ABI v8 (and as of ABI v8, when not using this flag), a Landlock
+> > > +         * policy would only be enforced for the calling thread and its
+> > > +         * children (and not for all threads, including parents and siblings).
+> > > +         */
+> > > +        restrict_flags &= ~LANDLOCK_RESTRICT_SELF_TSYNC;
+> > >      }
+> > >  
+> > >  The next step is to restrict the current thread from gaining more privileges
+> > > 
+> > > ---
+> > > base-commit: ceb977bfe9e8715e6cd3a4785c7aab8ea5cd2b77
+> > > change-id: 20260221-landlock-docs-add-tsync-example-e8fd5c64a366
+> > > 
+> > > Best regards,
+> > > -- 
+> > > Panagiotis "Ivory" Vasilopoulos <git@n0toose.net>
+> > > 
+> > > 
 > 
-> fs_dax_get() is specific to fsdev_dax, so it checks the driver type
-> (which required touching bus.[ch]). fs_dax_get() fails if fsdev_dax is
-> not bound to the memory.
+> Apologies for the delay, this must have slipped through the cracks.
+> Thanks for bringing it up again.  Yes, this looks good.
 > 
-> This function serves the same role as fs_dax_get_by_bdev(), which dax
-> file systems call after opening the pmem block device.
-> 
-> This can't be located in fsdev.c because struct dax_device is opaque
-> there.
-> 
-> This will be called by fs/fuse/famfs.c in a subsequent commit.
-> 
-> Signed-off-by: John Groves <john@groves.net>
-Hi John,
+> Signed-off-by: Günther Noack <gnoack@google.com>
 
-Looks like a stray header change  - see inline.
-
-With that tidied up.
-Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
-
->  #define dax_driver_register(driver) \
-> diff --git a/drivers/dax/super.c b/drivers/dax/super.c
-> index ba0b4cd18a77..d4ab60c406bf 100644
-> --- a/drivers/dax/super.c
-> +++ b/drivers/dax/super.c
-
-> diff --git a/include/linux/dax.h b/include/linux/dax.h
-> index b19bfe0c2fd1..bf37b9a982f3 100644
-> --- a/include/linux/dax.h
-> +++ b/include/linux/dax.h
-
->  #if IS_ENABLED(CONFIG_FS_DAX)
-> +void fs_put_dax(struct dax_device *dax_dev, void *holder);
-> +int fs_dax_get(struct dax_device *dax_dev, void *holder,
-> +	       const struct dax_holder_operations *hops);
-> +struct dax_device *inode_dax(struct inode *inode);
-
-What's this? Not used in this patch and not stubbed.
-It's in drivers/dax/dax-private.h already and given I assume code builds
-before this patch (and it's not used in patch 8) then presumably it doesn't
-need to be here.
-
-I got suspicious due to the lack of stub rather indicating something differnt
-form the other two.
-
->  int dax_writeback_mapping_range(struct address_space *mapping,
->  		struct dax_device *dax_dev, struct writeback_control *wbc);
->  int dax_folio_reset_order(struct folio *folio);
-> @@ -164,6 +164,15 @@ dax_entry_t dax_lock_mapping_entry(struct address_space *mapping,
->  void dax_unlock_mapping_entry(struct address_space *mapping,
->  		unsigned long index, dax_entry_t cookie);
->  #else
-> +static inline void fs_put_dax(struct dax_device *dax_dev, void *holder)
-> +{
-> +}
-> +
-> +static inline int fs_dax_get(struct dax_device *dax_dev, void *holder,
-> +			     const struct dax_holder_operations *hops)
-> +{
-> +	return -EOPNOTSUPP;
-> +}
->  static inline struct page *dax_layout_busy_page(struct address_space *mapping)
->  {
->  	return NULL;
-
+Shouldn't it be a Reviewed-by?
