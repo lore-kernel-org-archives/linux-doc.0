@@ -1,122 +1,246 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF9944035C3
-	for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 15:12:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774365147; cv=pass; b=UHQ2F2sD2vkf1Kvx/g9UniGhFq9SJryafrNhS3t+b5krvZZ5vVJ3IWOctoLTiaWGq1ZqdN1MrXcA5NVMMe7AuLqIFMXSGWA8dFfOPqfe1umomJzEl8x0zJUEfCh73IpXiGNiyxthHBMIQZoVkDG48xJ46q0QnWoyOGnWzJsZT6I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774365147; c=relaxed/simple;
-	bh=DkvA0f0R1I6yYwVuzVRz3vdcNRxquFRNpQPJVodbTWs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SxaBAhoAQ6/O1/Ba29fnitCduC/igOjqzIn0QIyBwla1WzN1JOSOP1QwCsMJeR1DkYf7vZYLvbeA1f0QeJp+v/LirgUzrgfFRO73j2rS+0hFW/TuC5bEfUQZx7lzGCWnjX6d49opMUR5sOW0njcBO7ZLhu2eWkNKCB0sLqAh3AE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g7rIUCpN; arc=pass smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g7rIUCpN"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-486b9675d36so45279495e9.0
-        for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 08:12:25 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774365144; cv=none;
-        d=google.com; s=arc-20240605;
-        b=ifvP0lL3BEIDn8SINGRjG4rXZ4SIhpwRhehx7Kab2lcmDvlVpZjsJs/Jtwry6Qj+VS
-         wrM8bLnlFxcQvP7FSb77OH2QZtEVpjBfKCpvWDfjlT3ov3WBLV/HyWYGYHc1394tlo6y
-         jlTyCIi7D/7aSd95NIbCTkgJ3D5tynau5WB4WwvRNjW2M1gnquxpQe4qg4OdvwI0n3jc
-         lItWCyNTQgVLt4tZgRbeNXOcQZ6qnC1FE4jHoJdW1kS54YS3pv3DpDyLGtJ59T2u76SA
-         SNdj93tvc2/SB6VmK0hiQrlePA18zsKOHijXZWt6/TajjcSU44hVnFpgUWB7a3NM92o3
-         xPjQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=DkvA0f0R1I6yYwVuzVRz3vdcNRxquFRNpQPJVodbTWs=;
-        fh=UF8scd1CcLTDWC07kLkphLtskkThQRn/AzuG2BCD+x8=;
-        b=k+oAhCjnXMd2hd2YWcB/YZqYhzuzgVvNbNcMk31KLKUFhaG8N34G4ZkboWy47P99bd
-         z+U7baXCTCG6mkZO0zPvoNc1pLg3C3Zlkr7rLDjFfAwfVJ7AJ2ojnGcmMaAxG/tnXSGC
-         zpqvYYgsq2BxqTDMsKJ6gHOoNA7ETEmk3CYruC97K0clLiZWRsjMdAJ2rZgj7ha9Qmhg
-         PBY3zgZUY+4H/V3AJz+k7M70Ok++6phgtGeSLu1h5ZrAQ0x6GYekLE9ivqu9mvVUAnHa
-         RTaZxF6M5F2TgHnOquTp03VInSaVOwgOVl+0jUtHc5q38jenyh0he7eHr5BnVJa1YfM2
-         Wt8A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774365144; x=1774969944; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DkvA0f0R1I6yYwVuzVRz3vdcNRxquFRNpQPJVodbTWs=;
-        b=g7rIUCpN58WhowYUjDPPlmNqt+6u6uR+cqQJIMUf56KJgn5f8cuIIPmFBTBWKMTk9o
-         H8KFVnOV8gxYeX8cDgg2YgY2k0QGTPFci0+HeL0H7e82neTkmdFSRoAbNixhx4+5+eXa
-         QAQguesxRw8k7uueqqu0EE4JtAdpfCv4iW0Suu6JKZrZUSVxzkVyZaEhE+gfpF533mpo
-         Xjc9dOz//GKSYX8Az2wVsz5fcy+erS6XfYpukMtwPtka6Ot/iZYFlTMK3363cjFH1XFf
-         1+RrJXZyDr18iLZDBMAfjbZDeIUR5ulRj3OCsWLJAZ3RXQf/MHxrHS/ob3ZRlXT0d32t
-         E+1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774365144; x=1774969944;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=DkvA0f0R1I6yYwVuzVRz3vdcNRxquFRNpQPJVodbTWs=;
-        b=g/V1Seicqao8DktJl0Q6/g7LEaDF8cX+zUCxQNvEB325bo4xW9hfn9CHMigJxYQWV4
-         opDQ3R4xZLsaHdf5PXGK0i9Oi1J7+/k/X5iPnhAFv0no43K517WPDjjaV6HR0bolu1j8
-         /1TNuyqwSB86Fsp+lpkQUy6pLyX/JUmzA2ad8Jji6Rmju3pMn+VlKTilv0HixXeGQBf7
-         c2ajLiiQsIG98VJahRjsMqAu0mfM+HlpdE6fAEagcgb+hrI8vrU7DiWxjXC3vnakK9tL
-         oxz3LSGthlSX4dT+elPB0B+gtIc24zWXgl2F2/y3coHFisJqQNerUNwu3hBJaQUJppz2
-         GciA==
-X-Forwarded-Encrypted: i=1; AJvYcCWhPPnR2b9Znr2zQ0Bb5XeOl+DaHX/CChyj4NHxfQQN9+HNjsgJ2eSlA5sZTdK/Et/dFaTCnp5vIQE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxhytJ1I+mJu5U+pxujVJcKh4YKMcwkczqDfNfiWudP9kqZ9Tfy
-	QkuuOzaYLAm2Kn6y/GRU8hdM47i37mFFAx6n5KaLc5ve+1+xwZ1rPBDgkUf2tAy7Tab3KLzR/mm
-	KUllZQQyMOFmACkkOJ+aoyrikiy2venA=
-X-Gm-Gg: ATEYQzxB6goBtQ51n5ZLzA4MLxc+JAxMGOuxs5MEQI7o6Nm0Pc0H8wJ3PuzwciZRffk
-	0v/MzNfyXHVWHgXIIAtJ4fHYKRmOhGgYPEIVjxGMjILpENHr7euN1rdnaOFKoTKQyXdv/1XvDud
-	9CeyVbqzsF1POQg9oyBv2oQI6G574ko2X95qko7XlFSJFb2t+N3vwpohyNerQDxnZwyBr4LBLLB
-	0BPREsxyRMkDZAvsC6Dz8ubamreXUWVGfW6IMSWoa5aVl+ZB4WswQqYcNpFdlbBnTAF1J6Vqic2
-	iu+CkH+mes28fjWGTCkMau6vtD1xkO7N34nFt4xfj8jeQWY3htxW0FTnJPkV+yEbG+sL9+W3Dzw
-	lzcqZOjc/Uy5BgwBVptqY3BOFOg==
-X-Received: by 2002:a05:600c:1d02:b0:487:716:2fa2 with SMTP id
- 5b1f17b1804b1-48716039accmr1663945e9.16.1774365144110; Tue, 24 Mar 2026
- 08:12:24 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFD224035B0;
+	Tue, 24 Mar 2026 15:12:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774365179; cv=none; b=oUFRPLO4EYJuWXRkEV1/jj026BrUZltTKIjKt3TPcu/L0fcV9pKkgQLN7jrlx/DBVtIwSaMuFm7nGrPbwZnLxu7l60DH0PdlGb9rNj08eNk1H49EhmMghHG2XsT+57mJi7DOx0khCcvfEqLKii6D2zq9nZZ+ZT8VaZ2FtBkX0NI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774365179; c=relaxed/simple;
+	bh=o1VBIWE+N6GLi7LTM8CwipxHM7Ni32sdzn0HUs5T0yU=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=vGBcM3SOF8nGzUKLr9CFbUps6ACox9KYhbgITjgTQYS66IPGiThycZAe5e8d+nw1GZVN//9U2iHJNG+X84JCOdoS0tyg6gKfiR3oCBb7P59BgHPeABsTkSsCvM861G8ZonbN3k4IqIFfsmvG8rBu5kH7lxak8Frod1RdeRA7OVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.83])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fgD6Z2x7qzHnGjS;
+	Tue, 24 Mar 2026 23:12:22 +0800 (CST)
+Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
+	by mail.maildlp.com (Postfix) with ESMTPS id EE6FA40569;
+	Tue, 24 Mar 2026 23:12:55 +0800 (CST)
+Received: from localhost (10.203.177.15) by dubpeml500005.china.huawei.com
+ (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Tue, 24 Mar
+ 2026 15:12:54 +0000
+Date: Tue, 24 Mar 2026 15:12:53 +0000
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
+To: John Groves <john@jagalactic.com>
+CC: John Groves <John@Groves.net>, Miklos Szeredi <miklos@szeredi.hu>, "Dan
+ Williams" <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>,
+	Alison Schofield <alison.schofield@intel.com>, John Groves
+	<jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+	<skhan@linuxfoundation.org>, Vishal Verma <vishal.l.verma@intel.com>, "Dave
+ Jiang" <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, "Jan
+ Kara" <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, "David
+ Hildenbrand" <david@kernel.org>, Christian Brauner <brauner@kernel.org>,
+	"Darrick J . Wong" <djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, Stefan
+ Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, Josef
+ Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Chen
+ Linxuan <chenlinxuan@uniontech.com>, "James Morse" <james.morse@arm.com>,
+	Fuad Tabba <tabba@google.com>, "Sean Christopherson" <seanjc@google.com>,
+	Shivank Garg <shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>,
+	Gregory Price <gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>, Ajay
+ Joshi <ajayjoshi@micron.com>, "venkataravis@micron.com"
+	<venkataravis@micron.com>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev"
+	<nvdimm@lists.linux.dev>, "linux-cxl@vger.kernel.org"
+	<linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org"
+	<linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH V9 01/10] famfs_fuse: Update macro
+ s/FUSE_IS_DAX/FUSE_IS_VIRTIO_DAX/
+Message-ID: <20260324151253.00006b86@huawei.com>
+In-Reply-To: <0100019d1d494e7b-2f01e83a-ebaa-4d1b-ae35-33b882a7bda4-000000@email.amazonses.com>
+References: <0100019d1d48b7e8-4468329f-b446-43f1-87db-3c7e1ff6f28b-000000@email.amazonses.com>
+	<20260324004026.5170-1-john@jagalactic.com>
+	<0100019d1d494e7b-2f01e83a-ebaa-4d1b-ae35-33b882a7bda4-000000@email.amazonses.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260324062028.2479059-1-suzhidao@xiaomi.com>
-In-Reply-To: <20260324062028.2479059-1-suzhidao@xiaomi.com>
-From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date: Tue, 24 Mar 2026 08:12:12 -0700
-X-Gm-Features: AQROBzAeVSzmHwocMIzC_T43SeE5ZYGvZMyy7DiwYCSIR-IJMsc074leAglTCeM
-Message-ID: <CAADnVQLbtuD=7mtGZFR25ULhjZ-3ifBpkyRcqu9jPSd2Mt3fBw@mail.gmail.com>
-Subject: Re: [PATCH] docs: Document pahole v1.26 requirement for
- KF_IMPLICIT_ARGS kfuncs
-To: zhidao su <soolaugust@gmail.com>, Ihor Solodrai <ihor.solodrai@linux.dev>
-Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org, 
-	LKML <linux-kernel@vger.kernel.org>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, bpf <bpf@vger.kernel.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>, zhidao su <suzhidao@xiaomi.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100012.china.huawei.com (7.191.174.184) To
+ dubpeml500005.china.huawei.com (7.214.145.207)
 
-On Mon, Mar 23, 2026 at 11:22=E2=80=AFPM zhidao su <soolaugust@gmail.com> w=
-rote:
->
-> Since Linux 7.0, kfuncs annotated with KF_IMPLICIT_ARGS require pahole
-> v1.26 or later. Without it, such kfuncs have incorrect BTF prototypes in
-> vmlinux, causing BPF programs to fail with 'func_proto incompatible with
-> vmlinux' error.
->
-> This affects all sched_ext kfuncs (e.g. scx_bpf_create_dsq,
-> scx_bpf_dispatch) and other KF_IMPLICIT_ARGS kfuncs across the kernel.
-> Ubuntu 24.04 LTS ships pahole v1.25 by default, causing 23/30 sched_ext
-> selftests to fail on affected systems.
+On Tue, 24 Mar 2026 00:40:36 +0000
+John Groves <john@jagalactic.com> wrote:
 
-I don't think that's true.
-At least when implicit args were designed the goal was to avoid
-pahole dependencies.
+> From: John Groves <john@groves.net>
+> 
+> Virtio_fs now needs to determine if an inode is DAX && not famfs.
+FWIW patch bundles broke sashiko
 
-Please share exact steps to reproduce.
+https://sashiko.dev/#/message/0100019d1d46d094-cc0a4b79-3bd2-43e8-a08d-ab8cd21266a6-000000%40email.amazonses.com
+It only reviewed the fuse part.  (I was looking to see what it had found I missed
+in the DAX ones).
+> This relaces the FUSE_IS_DAX() macro with FUSE_IS_VIRTIO_DAX(),
 
-Updating doc is definitely not an answer.
+replaces (Sashiko spell checks ;)
 
-pw-bot: cr
+> in preparation for famfs in later commits. The dummy
+> fuse_file_famfs() macro will be replaced with a working
+> function.
+> 
+> Reviewed-by: Joanne Koong <joannelkoong@gmail.com>
+> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+> Signed-off-by: John Groves <john@groves.net>
+
+
+
+> ---
+>  fs/fuse/dir.c    |  2 +-
+>  fs/fuse/file.c   | 13 ++++++++-----
+>  fs/fuse/fuse_i.h |  9 ++++++++-
+>  fs/fuse/inode.c  |  4 ++--
+>  fs/fuse/iomode.c |  2 +-
+>  5 files changed, 20 insertions(+), 10 deletions(-)
+> 
+> diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+> index 7ac6b232ef12..c63f097bc697 100644
+> --- a/fs/fuse/dir.c
+> +++ b/fs/fuse/dir.c
+> @@ -2161,7 +2161,7 @@ int fuse_do_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+>  		is_truncate = true;
+>  	}
+>  
+> -	if (FUSE_IS_DAX(inode) && is_truncate) {
+> +	if (FUSE_IS_VIRTIO_DAX(fi) && is_truncate) {
+>  		filemap_invalidate_lock(mapping);
+>  		fault_blocked = true;
+>  		err = fuse_dax_break_layouts(inode, 0, -1);
+> diff --git a/fs/fuse/file.c b/fs/fuse/file.c
+> index b1bb7153cb78..4ee5065737d8 100644
+> --- a/fs/fuse/file.c
+> +++ b/fs/fuse/file.c
+> @@ -252,7 +252,7 @@ static int fuse_open(struct inode *inode, struct file *file)
+>  	int err;
+>  	bool is_truncate = (file->f_flags & O_TRUNC) && fc->atomic_o_trunc;
+>  	bool is_wb_truncate = is_truncate && fc->writeback_cache;
+> -	bool dax_truncate = is_truncate && FUSE_IS_DAX(inode);
+> +	bool dax_truncate = is_truncate && FUSE_IS_VIRTIO_DAX(fi);
+>  
+>  	if (fuse_is_bad(inode))
+>  		return -EIO;
+> @@ -1812,11 +1812,12 @@ static ssize_t fuse_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
+>  	struct file *file = iocb->ki_filp;
+>  	struct fuse_file *ff = file->private_data;
+>  	struct inode *inode = file_inode(file);
+> +	struct fuse_inode *fi = get_fuse_inode(inode);
+>  
+>  	if (fuse_is_bad(inode))
+>  		return -EIO;
+>  
+> -	if (FUSE_IS_DAX(inode))
+> +	if (FUSE_IS_VIRTIO_DAX(fi))
+>  		return fuse_dax_read_iter(iocb, to);
+>  
+>  	/* FOPEN_DIRECT_IO overrides FOPEN_PASSTHROUGH */
+> @@ -1833,11 +1834,12 @@ static ssize_t fuse_file_write_iter(struct kiocb *iocb, struct iov_iter *from)
+>  	struct file *file = iocb->ki_filp;
+>  	struct fuse_file *ff = file->private_data;
+>  	struct inode *inode = file_inode(file);
+> +	struct fuse_inode *fi = get_fuse_inode(inode);
+>  
+>  	if (fuse_is_bad(inode))
+>  		return -EIO;
+>  
+> -	if (FUSE_IS_DAX(inode))
+> +	if (FUSE_IS_VIRTIO_DAX(fi))
+>  		return fuse_dax_write_iter(iocb, from);
+>  
+>  	/* FOPEN_DIRECT_IO overrides FOPEN_PASSTHROUGH */
+> @@ -2370,10 +2372,11 @@ static int fuse_file_mmap(struct file *file, struct vm_area_struct *vma)
+>  	struct fuse_file *ff = file->private_data;
+>  	struct fuse_conn *fc = ff->fm->fc;
+>  	struct inode *inode = file_inode(file);
+> +	struct fuse_inode *fi = get_fuse_inode(inode);
+>  	int rc;
+>  
+>  	/* DAX mmap is superior to direct_io mmap */
+> -	if (FUSE_IS_DAX(inode))
+> +	if (FUSE_IS_VIRTIO_DAX(fi))
+>  		return fuse_dax_mmap(file, vma);
+>  
+>  	/*
+> @@ -2934,7 +2937,7 @@ static long fuse_file_fallocate(struct file *file, int mode, loff_t offset,
+>  		.mode = mode
+>  	};
+>  	int err;
+> -	bool block_faults = FUSE_IS_DAX(inode) &&
+> +	bool block_faults = FUSE_IS_VIRTIO_DAX(fi) &&
+>  		(!(mode & FALLOC_FL_KEEP_SIZE) ||
+>  		 (mode & (FALLOC_FL_PUNCH_HOLE | FALLOC_FL_ZERO_RANGE)));
+>  
+> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+> index 7f16049387d1..45e108dec771 100644
+> --- a/fs/fuse/fuse_i.h
+> +++ b/fs/fuse/fuse_i.h
+> @@ -1508,7 +1508,14 @@ void fuse_free_conn(struct fuse_conn *fc);
+>  
+>  /* dax.c */
+>  
+> -#define FUSE_IS_DAX(inode) (IS_ENABLED(CONFIG_FUSE_DAX) && IS_DAX(inode))
+> +static inline bool fuse_file_famfs(struct fuse_inode *fuse_inode) /* Will be superseded */
+> +{
+> +	(void)fuse_inode;
+> +	return false;
+> +}
+> +#define FUSE_IS_VIRTIO_DAX(fuse_inode) (IS_ENABLED(CONFIG_FUSE_DAX)	\
+> +					&& IS_DAX(&fuse_inode->inode)  \
+> +					&& !fuse_file_famfs(fuse_inode))
+
+The AI overlord pointed out you should probably have a few more brackets
+just in case someone passes something odd in as fuse_inode. Lets assume
+they don't pass things with side effects in.
+
+#define FUSE_IS_VIRTIO_DAX(fuse_inode) (IS_ENABLED(CONFIG_FUSE_DAX)	\
+					&& IS_DAX(&(fuse_inode)->inode)  \
+					&& !fuse_file_famfs(fuse_inode))
+
+
+>  
+>  ssize_t fuse_dax_read_iter(struct kiocb *iocb, struct iov_iter *to);
+>  ssize_t fuse_dax_write_iter(struct kiocb *iocb, struct iov_iter *from);
+> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+> index e57b8af06be9..1333b3ebb18a 100644
+> --- a/fs/fuse/inode.c
+> +++ b/fs/fuse/inode.c
+> @@ -162,7 +162,7 @@ static void fuse_evict_inode(struct inode *inode)
+>  	/* Will write inode on close/munmap and in all other dirtiers */
+>  	WARN_ON(inode_state_read_once(inode) & I_DIRTY_INODE);
+>  
+> -	if (FUSE_IS_DAX(inode))
+> +	if (FUSE_IS_VIRTIO_DAX(fi))
+>  		dax_break_layout_final(inode);
+>  
+>  	truncate_inode_pages_final(&inode->i_data);
+> @@ -170,7 +170,7 @@ static void fuse_evict_inode(struct inode *inode)
+>  	if (inode->i_sb->s_flags & SB_ACTIVE) {
+>  		struct fuse_conn *fc = get_fuse_conn(inode);
+>  
+> -		if (FUSE_IS_DAX(inode))
+> +		if (FUSE_IS_VIRTIO_DAX(fi))
+>  			fuse_dax_inode_cleanup(inode);
+>  		if (fi->nlookup) {
+>  			fuse_queue_forget(fc, fi->forget, fi->nodeid,
+> diff --git a/fs/fuse/iomode.c b/fs/fuse/iomode.c
+> index 3728933188f3..31ee7f3304c6 100644
+> --- a/fs/fuse/iomode.c
+> +++ b/fs/fuse/iomode.c
+> @@ -203,7 +203,7 @@ int fuse_file_io_open(struct file *file, struct inode *inode)
+>  	 * io modes are not relevant with DAX and with server that does not
+>  	 * implement open.
+>  	 */
+> -	if (FUSE_IS_DAX(inode) || !ff->args)
+> +	if (FUSE_IS_VIRTIO_DAX(fi) || !ff->args)
+>  		return 0;
+>  
+>  	/*
+
