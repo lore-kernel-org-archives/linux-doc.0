@@ -1,173 +1,304 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A18503939DF
-	for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 16:04:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C12939D6D2;
+	Tue, 24 Mar 2026 16:04:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774368260; cv=pass; b=ABGT2sGK7Szu8URtj0rCiFlsazBl6+ppa6qfjQA1DKrLcV7j0EmPaeHR2eQHb8fXHbuP1YfPP1Lcr98EFoJFrzJ1flYt81UicUyLEp01WPdncKCp4/kW3tLgQIN4Duw29EsW+ko8uEF3aD3SRdQhWgtUnHRCU+L4pnEgMqfTVtg=
+	t=1774368260; cv=pass; b=JxCsabreyyy3pZZJdFDDxlHtMljqw+uAP4dBhyiSiuBN7lC0+a9YpxEs1RIzXdw00JhvSRWSTCdZhlQud+2Bvy5/q+YXD3be6+BdB0E2l2/PkpLBP3synvl490zqCGncqMDhi0SCGbI2epQeGYbiEjr+HZT1YMynZFhj6roZUfc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1774368260; c=relaxed/simple;
-	bh=Bap2I2Iwx1j90rJe9QRr9BlObCdTslZ+pvyg11P5Bkk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MRbFlkTlUCp/1yO1H1/EBt1aE7Xp0lHqx83qtaatmFXztLsDSjVH8UZK2C+BvbXcMQfKXAuBZAMi0oMS4n0kqf4WzyHLQYymnzvu9lhxiFIVi1fWDQ71t9BXNd+DOMvZfSqn9d3fg9BL3urjdwYOOrkLLnacnyektw0oW26AC1Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qh6tn7NE; arc=pass smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	bh=fG4KU145iaRygEdFUv3bPauxKeOgwA+cwxY+4l6H8EM=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=V14OsflnicSojcEGfRa0R8xW2I16KWhNJm1FH4tW1t34+etNcjGjOfQyMIsm5ss27GyqoqmaGA1gl3jVUmsTUW3v/eWrTmQxMGexXTKRT0AgPPOKV0LJu+eF9L2M+rWkyyy6NU2KjBU1KuWGO8jeJQlMnh5PmpUk9xnXdYWyKYY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=EQmsLJvU; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qh6tn7NE"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-b9961e4f71bso71620066b.3
-        for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 09:04:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774368256; cv=none;
-        d=google.com; s=arc-20240605;
-        b=NIw6FUyZ34GhmQs6WdKsk9gxtZvOkQ53hd7eg/VgP/MRkV0fRaFZpLbjUM4urMgvEk
-         1nl+2rbT7d8jfrhZ87tYTopub81su86p3NwqP9hTYpp4M0pMlFVakyxyTsb010ThVp9S
-         4yF2zBbrGWbkSTDdfzFhwFAc6m0A4v+5vkRmw5m0qeYhVO1VZAvxvDDScS69x5yD/2Sd
-         uJfu4+Zv1p5YZJvK2HTTMTVPjj93p87HvE0YqyP1d2/aRVsxMCtoxffX3yYpziCHcYEx
-         g+QAkhiRUvjsoziFs0jg5V31IiSQkk/PUvAamHYPRypZjL5HItJoWU1eHSga6KLlMd1j
-         BkEg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=9lAIj9nrwaKz6NfMKfdrELFElXaxUC4oA/DBJISnVu8=;
-        fh=eWEm7KH28NgUswDmJa4RllDU3g5yspbHteE+Xdz3EiY=;
-        b=gDeNJuvlkAl3uONiTOkF62iOLcJnz2ASOjhvKkPpSko7hya/K0Iho1+/dFrq4j4Iq8
-         OhxN0ijH891+ZB381knXFKzATBGBXZgn/fg6zF+S9nC6xfaOxpi9HWGhHzbdE54imL5A
-         u04bd9etcF2qF7go73XYeorSOZTArZDqpRcj8XXd8Xbvu3UcbEnBsg3woUYZ7ucw4yVn
-         CdcQRShldbqPYMH7I5fBjlybUfaC9Jw8kYciqcyvp23+PDC9bTiEb0a/D9CQdn5XwzAl
-         nw0KnTugYxeKqJ/qJ1IQHYtSuMnIutOe/h8VcJi6MKRl3azAIZwzWsy521DFIIriV9lV
-         iiFA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774368256; x=1774973056; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9lAIj9nrwaKz6NfMKfdrELFElXaxUC4oA/DBJISnVu8=;
-        b=qh6tn7NEE62HHX3lMpBe7k2khmCW7U35AtqhMprApltPlBRt9IlTWtAF584ZGtnAf/
-         Rdh/SWyughatgMoucsZtjvMqa3P0la0SKGbrWMU8Z0Bf2/FGFkPPP7oLX2k4OdesqcPa
-         k9k2eid1bA6w6ZouXsQd8pHUDafnTZh1tsFgaKzsXg1ZrvZ/j7c20MG3gacpDE37rIJ4
-         3SWsPTR7SvHbb8DoFVhh3pSq+IrFw4VrLGJS2tlJgubFQ5R3JQS9ozUfD6ep76AFTJLC
-         CbGHW2Rogx5U00e38UbbQjFENm60+9lpMFL1qLJT/nDcVxNzfczk9zreYGRLKQnKThpX
-         RBnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774368256; x=1774973056;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=9lAIj9nrwaKz6NfMKfdrELFElXaxUC4oA/DBJISnVu8=;
-        b=GCx/qplXMOspOSFdj6PLsS8eHEhGPuMDzDsMTwj4C//kohG7HgvUdzmPagU0L8Gdmq
-         aQll/6gkLPtPGS6dot0o+Ciqh+9p4Rs0nypkEQezb8Zq01B1CflCi0SgGh6PPIP+66Gn
-         XQopkwlhZilZPmhCKn4aLfyo0CmHKfdIP1LGVxc3cxC1zAEfuIwhHamQ713K5+8bmc4R
-         /sRTsvJD/8hwxq2GtMCUZbmHnqQHu3k4gmpzrm+4Xcm+ucJ3F6D1HiUGgeGNBgvmWtA7
-         JHEbE8PPB128pfcIV6EfvH4OrLvYPk7DEGYN5mfsiLTOZP09Ok76EWeQZ0qNX5q9NYiv
-         DfTg==
-X-Forwarded-Encrypted: i=1; AJvYcCXBp51Vncexi5ixoKv38MA0UFn9/ry96rR6JbVYl3YPY+GcWd2+Mbfg7e4PoPSmepJjyDAgr9yQXck=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyVaRAgPVJzvbTF1MlBtlRlqaK60i0TkOgcHxMuD7eOExf4kVYY
-	FP7RmhGgX7Q6IxRDoCSP/2CvwS3ncLTGalLheLpWpusyBj5jObh6hamYTQKTA8KarOXBOIo9tf2
-	6dc8zOg2GYbdxDm7e0acn2uj5mJVBcw0=
-X-Gm-Gg: ATEYQzyIGw8ya+KCwQBp9340A2nREPctupQZy9QHaqUil6c2+dGPkkLa4eTqrQy5BoG
-	W4LaGO0qqU/wneptvGK34OYFCk/ib4FSES8BWkdgtcbCE3QQBTtCEC3nowW05fb32i5J7j5CnXN
-	eyXxHsIM/CfL8kyvf4XycN31G126eSE+I92oC9oP4SuW3yf0oI3agQ9DxkmKKDbyR/4MN8Q72WH
-	2UVXm2OVqlRVPzE8imDlr0qR9b9jwpceCxkLN5jFMymW4VxcPtck/HKywWj0vFs4aTOhHPAXuSG
-	zxIh9CFAxZTVdEMtl3Zg/vBYrVXWLLK1iluTNp1TXOqgC73vtEEd5V7WDEJiNbD1a17JaKgEfGO
-	oS+M1v6NPIkEEkIKNkPv9/jD/Uw==
-X-Received: by 2002:a17:907:a807:b0:b90:8016:cfe4 with SMTP id
- a640c23a62f3a-b982f0bd41bmr1118661566b.10.1774368255441; Tue, 24 Mar 2026
- 09:04:15 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="EQmsLJvU"
+ARC-Seal: i=1; a=rsa-sha256; t=1774368212; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=d1HZ43YxYps5jSV/OWux/h0yakd+FsGebeEtqV0faDg/244dxgX3P8JIrslVg4OL7knoJFybv0TVdm308YR/gQkAFxslaLSZO4CehFXahmZZHQUzpl67Uk23wq9kHcis2oAG4ZeFGhgLdgv5Gpn0wzedZxLNhzk33KTUOB7KKIo=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1774368212; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=Ie/eq0inRUU2aCbmY9VrEVaURjAeZrPm1L8QWg00EiM=; 
+	b=EZHZMjprsYHzbcY4s3u2iOKrsS/fCBopuqAuD3Hwr1NEU8i9wOB0VGqXw8BaRVk0SOeALWr4NiNurg0c9pe2e3KfhyihxNfxcIpz8DarAp3qAeCsj/WX9544sQ+Jg99IkTPLkbKJNVnKIyQXbWptRPSfFeeghTWS6yLEMjbhR1o=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774368212;
+	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
+	bh=Ie/eq0inRUU2aCbmY9VrEVaURjAeZrPm1L8QWg00EiM=;
+	b=EQmsLJvUzeW9Z8zTB2bZrHUAYCn3kesH3e8fCOvv5MUrSBY5v/oV/ORDaq4DBZWW
+	7PJiBa/GM8BZsK/z6Ztcjgj2mcKkC68A2UUjCGenOJIb7FQ5z/AF8YutLkHg77u47A8
+	LA9tKEgGCkLGuiIcjY/CHFcjxJ8xFCu4OwKDAH2g=
+Received: by mx.zohomail.com with SMTPS id 1774368210608633.339390395918;
+	Tue, 24 Mar 2026 09:03:30 -0700 (PDT)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Date: Tue, 24 Mar 2026 17:01:19 +0100
+Subject: [PATCH v11 15/22] drm/rockchip: dw_hdmi_qp: Implement "color
+ format" DRM property
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260323164858.1939248-1-sashal@kernel.org> <20260323164858.1939248-2-sashal@kernel.org>
- <CAADnVQJjJwRtUQNZAhLoXF7DYprhU97xJReZg9izV7n3f7=uJQ@mail.gmail.com> <acK1M_CvbYCtq7im@laps>
-In-Reply-To: <acK1M_CvbYCtq7im@laps>
-From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date: Tue, 24 Mar 2026 09:04:03 -0700
-X-Gm-Features: AaiRm50g5sRljE-pOlu1qkME3uHtiXscwZS9bY6E1gCFONCc9DBnMt7wYDgAtI4
-Message-ID: <CAADnVQLr5Sx+vG6D4Jxm8r2vPxu7ygFz60LGwmqfkc=VB0-Miw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] kallsyms: show function parameter info in oops/WARN dumps
-To: Sasha Levin <sashal@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Petr Mladek <pmladek@suse.com>, Alexei Starovoitov <ast@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	David Gow <davidgow@google.com>, Kees Cook <kees@kernel.org>, 
-	Greg KH <gregkh@linuxfoundation.org>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Helge Deller <deller@gmx.de>, 
-	Randy Dunlap <rdunlap@infradead.org>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-	Juergen Gross <jgross@suse.com>, James Bottomley <James.Bottomley@hansenpartnership.com>, 
-	Alexey Dobriyan <adobriyan@gmail.com>, Vlastimil Babka <vbabka@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Petr Pavlu <petr.pavlu@suse.com>, 
-	X86 ML <x86@kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, linux-modules@vger.kernel.org, 
-	bpf <bpf@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260324-color-format-v11-15-605559af4fb4@collabora.com>
+References: <20260324-color-format-v11-0-605559af4fb4@collabora.com>
+In-Reply-To: <20260324-color-format-v11-0-605559af4fb4@collabora.com>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+ Rodrigo Siqueira <siqueira@igalia.com>, 
+ Alex Deucher <alexander.deucher@amd.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: kernel@collabora.com, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+ linux-doc@vger.kernel.org, 
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+X-Mailer: b4 0.15.0
 
-On Tue, Mar 24, 2026 at 9:00=E2=80=AFAM Sasha Levin <sashal@kernel.org> wro=
-te:
->
-> On Tue, Mar 24, 2026 at 08:03:30AM -0700, Alexei Starovoitov wrote:
-> >On Mon, Mar 23, 2026 at 9:49=E2=80=AFAM Sasha Levin <sashal@kernel.org> =
-wrote:
-> >>
-> >> Embed DWARF-derived function parameter name and type information in th=
-e
-> >> kernel image so that oops and WARN dumps display the crashing function=
-'s
-> >> register-passed arguments with their names, types, and values.
-> >>
-> >> A new build-time tool (scripts/gen_paraminfo.c) parses DW_TAG_subprogr=
-am
-> >> and DW_TAG_formal_parameter entries from DWARF .debug_info, extracting
-> >> parameter names and human-readable type strings. The resulting tables =
-are
-> >> stored in .rodata using the same two-phase link approach as lineinfo.
-> >>
-> >> At runtime, kallsyms_show_paraminfo() performs a binary search on the
-> >> paraminfo tables, maps parameters to x86-64 calling convention registe=
-rs
-> >> (RDI, RSI, RDX, RCX, R8, R9), and prints each parameter's name, type,
-> >> and value from pt_regs. If a parameter value matches the page fault
-> >> address (CR2), it is highlighted with "<-- fault address".
-> >>
-> >> Integration at show_regs() means this works for both oops and WARN()
-> >> automatically, since both paths provide full pt_regs at the exception
-> >> point.
-> >>
-> >> Example output:
-> >>
-> >>   Function parameters (ext4_readdir):
-> >>     file     (struct file *)         =3D 0xffff888123456000
-> >>     ctx      (struct dir_context *)  =3D 0x0000000000001234  <-- fault=
- address
-> >>
-> >> Gated behind CONFIG_KALLSYMS_PARAMINFO (depends on CONFIG_KALLSYMS_LIN=
-EINFO).
-> >> Adds approximately 1-2 MB to the kernel image for ~58K functions.
-> >>
-> >> Assisted-by: Claude:claude-opus-4-6
-> >> Signed-off-by: Sasha Levin <sashal@kernel.org>
-> >
-> >Nack.
-> >
-> >You asked claude to reinvent pahole and BTF and it did it
-> >completely missing years of fine tuning that pahole does.
->
-> Let's keep this on the technical side please.
->
-> >dwarf cannot be trusted as-is. pahole converts it carefully
-> >by analyzing optimized out arguments and dropping signatures
->
-> Fair point about pahole and optimized-out args. The problem is that BTF d=
-epends
-> on BPF_SYSCALL, and the environments I care about can't enable either.
+Switch between requested color formats by setting the right bus formats,
+configuring the VO GRF registers, and setting the right output mode.
 
-This is trivially fixable without reinventing pahole.
+To do this, the encoder's atomic_check queries the bus format of the
+first bridge, which was determined by the bridge chain recursive format
+selection. Pick the input format if it's !FIXED, otherwise, pick the
+output format.
+
+The previously unused GRF register color format defines are redone as
+well. Both RK3588 and RK3576 use the same defines; it didn't look like
+this as there was a typo in the previously (unused) definition.
+
+Reviewed-by: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
+Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+---
+ drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c | 107 ++++++++++++++++++++++---
+ 1 file changed, 98 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
+index 1a09bcc96c3e..e2fa1aa53394 100644
+--- a/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
++++ b/drivers/gpu/drm/rockchip/dw_hdmi_qp-rockchip.c
+@@ -11,6 +11,7 @@
+ #include <linux/gpio/consumer.h>
+ #include <linux/hw_bitfield.h>
+ #include <linux/mfd/syscon.h>
++#include <linux/media-bus-format.h>
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
+ #include <linux/phy/phy.h>
+@@ -43,10 +44,6 @@
+ #define RK3576_8BPC			0x0
+ #define RK3576_10BPC			0x6
+ #define RK3576_COLOR_FORMAT_MASK	GENMASK(7, 4)
+-#define RK3576_RGB			0x9
+-#define RK3576_YUV422			0x1
+-#define RK3576_YUV444			0x2
+-#define RK3576_YUV420			0x3
+ #define RK3576_CECIN_MASK		BIT(3)
+ 
+ #define RK3576_VO0_GRF_SOC_CON14	0x0038
+@@ -74,8 +71,6 @@
+ #define RK3588_8BPC			0x0
+ #define RK3588_10BPC			0x6
+ #define RK3588_COLOR_FORMAT_MASK	GENMASK(3, 0)
+-#define RK3588_RGB			0x0
+-#define RK3588_YUV420			0x3
+ #define RK3588_SCLIN_MASK		BIT(9)
+ #define RK3588_SDAIN_MASK		BIT(10)
+ #define RK3588_MODE_MASK		BIT(11)
+@@ -87,6 +82,11 @@
+ #define HOTPLUG_DEBOUNCE_MS		150
+ #define MAX_HDMI_PORT_NUM		2
+ 
++#define RK_COLOR_FMT_RGB		0x0
++#define RK_COLOR_FMT_YUV422		0x1
++#define RK_COLOR_FMT_YUV444		0x2
++#define RK_COLOR_FMT_YUV420		0x3
++
+ struct rockchip_hdmi_qp {
+ 	struct device *dev;
+ 	struct regmap *regmap;
+@@ -115,6 +115,33 @@ static struct rockchip_hdmi_qp *to_rockchip_hdmi_qp(struct drm_encoder *encoder)
+ 	return container_of(rkencoder, struct rockchip_hdmi_qp, encoder);
+ }
+ 
++/**
++ * dw_hdmi_qp_rockchip_bus_fmt_to_reg - converts a bus format to a GRF reg value
++ * @bus_fmt: One of the MEDIA_BUS_FMT_s allowed by this driver's atomic_check
++ *
++ * Returns: an unshifted value to be written to the COLOR_FORMAT GRF register
++ * on success, or %-EINVAL if the bus format is not supported.
++ */
++static int __pure dw_hdmi_qp_rockchip_bus_fmt_to_reg(u32 bus_fmt)
++{
++	switch (bus_fmt) {
++	case MEDIA_BUS_FMT_RGB888_1X24:
++	case MEDIA_BUS_FMT_RGB101010_1X30:
++		return RK_COLOR_FMT_RGB;
++	case MEDIA_BUS_FMT_UYVY8_1X16:
++	case MEDIA_BUS_FMT_UYVY10_1X20:
++		return RK_COLOR_FMT_YUV422;
++	case MEDIA_BUS_FMT_YUV8_1X24:
++	case MEDIA_BUS_FMT_YUV10_1X30:
++		return RK_COLOR_FMT_YUV444;
++	case MEDIA_BUS_FMT_UYYVYY8_0_5X24:
++	case MEDIA_BUS_FMT_UYYVYY10_0_5X30:
++		return RK_COLOR_FMT_YUV420;
++	}
++
++	return -EINVAL;
++}
++
+ static void dw_hdmi_qp_rockchip_encoder_enable(struct drm_encoder *encoder)
+ {
+ 	struct rockchip_hdmi_qp *hdmi = to_rockchip_hdmi_qp(encoder);
+@@ -130,29 +157,83 @@ static void dw_hdmi_qp_rockchip_encoder_enable(struct drm_encoder *encoder)
+ 		hdmi->ctrl_ops->enc_init(hdmi, to_rockchip_crtc_state(crtc->state));
+ }
+ 
++/**
++ * dw_hdmi_qp_rockchip_get_vop_format - get the bus format VOP should output
++ * @encoder: pointer to a &struct drm_encoder
++ * @conn_state: pointer to the current atomic &struct drm_connector_state
++ *
++ * Determines which bus format the Rockchip video processor should output as
++ * to feed into the bridge chain.
++ *
++ * Returns a MEDIA_BUS_FMT_* on success, or %0 on error.
++ */
++static u32 dw_hdmi_qp_rockchip_get_vop_format(struct drm_encoder *encoder,
++					      struct drm_connector_state *conn_state)
++{
++	struct drm_bridge *bridge __free(drm_bridge_put) = NULL;
++	struct drm_bridge_state *bstate;
++
++	bridge = drm_bridge_chain_get_first_bridge(encoder);
++	if (!bridge)
++		return 0;
++
++	bstate = drm_atomic_get_bridge_state(conn_state->state, bridge);
++	if (!bstate)
++		return 0;
++
++	if (bstate->input_bus_cfg.format != MEDIA_BUS_FMT_FIXED)
++		return bstate->input_bus_cfg.format;
++
++	return bstate->output_bus_cfg.format;
++}
++
+ static int
+ dw_hdmi_qp_rockchip_encoder_atomic_check(struct drm_encoder *encoder,
+ 					 struct drm_crtc_state *crtc_state,
+ 					 struct drm_connector_state *conn_state)
+ {
+-	struct rockchip_hdmi_qp *hdmi = to_rockchip_hdmi_qp(encoder);
+ 	struct rockchip_crtc_state *s = to_rockchip_crtc_state(crtc_state);
++	struct rockchip_hdmi_qp *hdmi = to_rockchip_hdmi_qp(encoder);
+ 	union phy_configure_opts phy_cfg = {};
++	u32 ingest_fmt;
+ 	int ret;
+ 
++	ingest_fmt = dw_hdmi_qp_rockchip_get_vop_format(encoder, conn_state);
++	if (!ingest_fmt)
++		return -EINVAL;
++
+ 	if (hdmi->tmds_char_rate == conn_state->hdmi.tmds_char_rate &&
+-	    s->output_bpc == conn_state->hdmi.output_bpc)
++	    s->output_bpc == conn_state->hdmi.output_bpc &&
++	    s->bus_format == ingest_fmt)
+ 		return 0;
+ 
++	switch (ingest_fmt) {
++	case MEDIA_BUS_FMT_RGB888_1X24:
++	case MEDIA_BUS_FMT_RGB101010_1X30:
++	case MEDIA_BUS_FMT_YUV8_1X24:
++	case MEDIA_BUS_FMT_YUV10_1X30:
++		s->output_mode = ROCKCHIP_OUT_MODE_AAAA;
++		break;
++	case MEDIA_BUS_FMT_UYVY8_1X16:
++		s->output_mode = ROCKCHIP_OUT_MODE_YUV422;
++		break;
++	case MEDIA_BUS_FMT_UYYVYY8_0_5X24:
++	case MEDIA_BUS_FMT_UYYVYY10_0_5X30:
++		s->output_mode = ROCKCHIP_OUT_MODE_YUV420;
++		break;
++	default:
++		return -EINVAL;
++	}
++
+ 	phy_cfg.hdmi.tmds_char_rate = conn_state->hdmi.tmds_char_rate;
+ 	phy_cfg.hdmi.bpc = conn_state->hdmi.output_bpc;
+ 
+ 	ret = phy_configure(hdmi->phy, &phy_cfg);
+ 	if (!ret) {
+ 		hdmi->tmds_char_rate = conn_state->hdmi.tmds_char_rate;
+-		s->output_mode = ROCKCHIP_OUT_MODE_AAAA;
+ 		s->output_type = DRM_MODE_CONNECTOR_HDMIA;
+ 		s->output_bpc = conn_state->hdmi.output_bpc;
++		s->bus_format = ingest_fmt;
+ 	} else {
+ 		dev_err(hdmi->dev, "Failed to configure phy: %d\n", ret);
+ 	}
+@@ -382,6 +463,7 @@ static void dw_hdmi_qp_rk3588_io_init(struct rockchip_hdmi_qp *hdmi)
+ static void dw_hdmi_qp_rk3576_enc_init(struct rockchip_hdmi_qp *hdmi,
+ 				       struct rockchip_crtc_state *state)
+ {
++	int color = dw_hdmi_qp_rockchip_bus_fmt_to_reg(state->bus_format);
+ 	u32 val;
+ 
+ 	if (state->output_bpc == 10)
+@@ -389,12 +471,16 @@ static void dw_hdmi_qp_rk3576_enc_init(struct rockchip_hdmi_qp *hdmi,
+ 	else
+ 		val = FIELD_PREP_WM16(RK3576_COLOR_DEPTH_MASK, RK3576_8BPC);
+ 
++	if (likely(color >= 0))
++		val |= FIELD_PREP_WM16(RK3576_COLOR_FORMAT_MASK, color);
++
+ 	regmap_write(hdmi->vo_regmap, RK3576_VO0_GRF_SOC_CON8, val);
+ }
+ 
+ static void dw_hdmi_qp_rk3588_enc_init(struct rockchip_hdmi_qp *hdmi,
+ 				       struct rockchip_crtc_state *state)
+ {
++	int color = dw_hdmi_qp_rockchip_bus_fmt_to_reg(state->bus_format);
+ 	u32 val;
+ 
+ 	if (state->output_bpc == 10)
+@@ -402,6 +488,9 @@ static void dw_hdmi_qp_rk3588_enc_init(struct rockchip_hdmi_qp *hdmi,
+ 	else
+ 		val = FIELD_PREP_WM16(RK3588_COLOR_DEPTH_MASK, RK3588_8BPC);
+ 
++	if (likely(color >= 0))
++		val |= FIELD_PREP_WM16(RK3588_COLOR_FORMAT_MASK, color);
++
+ 	regmap_write(hdmi->vo_regmap,
+ 		     hdmi->port_id ? RK3588_GRF_VO1_CON6 : RK3588_GRF_VO1_CON3,
+ 		     val);
+
+-- 
+2.53.0
+
