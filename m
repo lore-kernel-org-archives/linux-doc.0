@@ -1,196 +1,72 @@
-Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73BC0239085;
-	Tue, 24 Mar 2026 19:02:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0348E3B2FD9;
+	Tue, 24 Mar 2026 19:09:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774378968; cv=none; b=G5MlY7DK2nQpPrhnmlgnpVnrCruCaDFwCbyjEHQzLjHrbf4YdTX9EEOat8ghrRgDPfSdZOYOC7ikw+gGohPGsMyH1H1aLYd1cJdu19mAfKrPdF//WoVWVjUKq/NpkabSxq+fC3x+k4qBF0UCRnSegl9bunqVYmA61PkQULSKo1I=
+	t=1774379371; cv=none; b=XrKiGGA98Uw0YPCOsNGJtMAcOiIZhSdtL/lauE6GHZA9ZKg7lViWlv1R5uVLnc8oNgt+nAM8J0RLPmGSkfJ8VPqOflq2gd1Oj1yWa4IreIawhP232py4nM6TWrVoLOPIRm64glsyS0p+cpETHbnaEBGj7DNGd9mzp1VS4l4E0Lc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774378968; c=relaxed/simple;
-	bh=pLADkz47Gi6G2xqFECg+KAw/tEwaX0Gk5QNHrL+Ja1Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Qwj94lsdaL/8zYkzVhexNMJcpDZpGeteb+wIws6Ua5juJ5vE/+S59fnusasg5wyXUquCe350nCwzoa/hr5xKWCssw229Se4T7KIYM6D8VoFf3WMUrU7uAwzaRHk0cVtgKNmPSM3oz/2WQlQzVo5aTlXHSo/OcUJQU+0sepGit5U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf10.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay05.hostedemail.com (Postfix) with ESMTP id 84DAE5875A;
-	Tue, 24 Mar 2026 18:53:07 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf10.hostedemail.com (Postfix) with ESMTPA id 52DDE41;
-	Tue, 24 Mar 2026 18:53:05 +0000 (UTC)
-Date: Tue, 24 Mar 2026 14:53:47 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Wesley Atwell <atwellwea@gmail.com>
-Cc: mhiramat@kernel.org, mark.rutland@arm.com,
- mathieu.desnoyers@efficios.com, corbet@lwn.net, skhan@linuxfoundation.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] tracing: drain deferred trigger frees if kthread
- startup fails
-Message-ID: <20260324145347.29d8ee75@gandalf.local.home>
-In-Reply-To: <20260310064715.527906-3-atwellwea@gmail.com>
-References: <20260310064715.527906-1-atwellwea@gmail.com>
-	<20260310064715.527906-3-atwellwea@gmail.com>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1774379371; c=relaxed/simple;
+	bh=cLvyemoKai7DTqe2H3sBJp82HfUQPEIuN1t/PEFDUqs=;
+	h=Content-Type:MIME-Version:Message-Id:In-Reply-To:References:
+	 Subject:From:To:Cc:Date; b=IaefGNDpxUN9munFumo78zVsaeuQPoNAwhQwUzWBaM3Dxqb7kHTpM/6SRWeHj/Ftt7yB/0Krj8aIJRrn15F7SPZBuE5BKhDHDpGucntgRYyvEbEFoFNhGY1ITdTHfqLM3JoWnhhfeOLOp7h2DGBdJadDC/yfVWOmOAEEoEnw844=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FZ++px7B; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FZ++px7B"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D62B5C2BCB7;
+	Tue, 24 Mar 2026 19:09:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774379370;
+	bh=cLvyemoKai7DTqe2H3sBJp82HfUQPEIuN1t/PEFDUqs=;
+	h=In-Reply-To:References:Subject:From:To:Cc:Date:From;
+	b=FZ++px7BhBiiCpXKxydrJ8NGgV8kq5/IL5Aq7Oj2ZjMOrldJWmMMnzk06HAR6pJgu
+	 OF3Iyq27KBFAk2botQsmkwJFqHVu85QGTOZtwdEkVDBZCXuFFPjFoh8ls8r31JWUqY
+	 NIfAzaj1UsFzqpsp07vqOMA7QNmOQg10dY/O2BqoqZgVUzXdZNHBaLZhKWuno3dVTH
+	 YnDskexGUVxjCTh2UGQ6WaBbcV+N2lGPQK4chbeIeSujWJg2TtUr/+XxC7scWxXV0l
+	 vdtwbTQr2Q/7btVhU5V+CK4mbNnzWRcOk2wt//LDXkIQ8pY9UeKBmiarC/oJcJn8r1
+	 UWmoztiU1bMnA==
+Content-Type: multipart/mixed; boundary="===============5100326488123237701=="
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Message-Id: <458ec30c147d396db9a3f7a4be989d538ba8d9256b3df20cea088ade38d98cbc@mail.kernel.org>
+In-Reply-To: <20260324-vmscape-bhb-v8-10-68bb524b3ab9@linux.intel.com>
+References: <20260324-vmscape-bhb-v8-10-68bb524b3ab9@linux.intel.com>
+Subject: Re: [PATCH v8 10/10] x86/vmscape: Add cmdline vmscape=on to override attack vector controls
+From: bot+bpf-ci@kernel.org
+To: pawan.kumar.gupta@linux.intel.com,x86@kernel.org,jon@nutanix.com,nik.borisov@suse.com,hpa@zytor.com,jpoimboe@kernel.org,david.kaplan@amd.com,seanjc@google.com,bp@alien8.de,dave.hansen@linux.intel.com,peterz@infradead.org,ast@kernel.org,daniel@iogearbox.net,andrii@kernel.org,kpsingh@kernel.org,jolsa@kernel.org,davem@davemloft.net,david.laight.linux@gmail.com,luto@kernel.org,tglx@kernel.org,mingo@redhat.com,dsahern@kernel.org,martin.lau@linux.dev,eddyz87@gmail.com,song@kernel.org,yonghong.song@linux.dev,john.fastabend@gmail.com,sdf@fomichev.me,haoluo@google.com,pbonzini@redhat.com,corbet@lwn.net
+Cc: linux-kernel@vger.kernel.org,kvm@vger.kernel.org,asit.k.mallick@intel.com,tao1.zhang@intel.com,bpf@vger.kernel.org,netdev@vger.kernel.org,linux-doc@vger.kernel.org,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,clm@meta.com,ihor.solodrai@linux.dev
+Date: Tue, 24 Mar 2026 19:09:29 +0000 (UTC)
+
+--===============5100326488123237701==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Server: rspamout07
-X-Rspamd-Queue-Id: 52DDE41
-X-Stat-Signature: h4pojkar4dzkwehjisye7c5wxpt4quig
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX1/vYR1P7wsVSGfjTF+LiWTz9Xhq3KtXLDM=
-X-HE-Tag: 1774378385-130353
-X-HE-Meta: U2FsdGVkX18tIg+/ueuE6N8C+J4Sz7foWLk1VvuUjnOaZh7FLK7zbHJIigaaB5b068hpdbfAqgutQcCOJ6CqnQngiSBac0OHyJ0JqBLh/VM8doqmQZ7J5q0vUOLIHV1Tt70j7jN0VglEfp/M49PNQwlFUaTclhFze+F4fEh02aLm5iQBaVa33ylkHOgVXKPObmmJ5xWiBbGdeOw+sbPSbitaEbd+EdmmbiM926C21jCuSz/JQ9yY3PBjtLPd0Dt7Vz/W47XSE48LgR6riKL5/pYY1gnlVl3N6uEZKju/haZD8cUHgVwNnI8m50rXDGRhmoIE4aftqXDHpJlfF3aWxsYE5Z/vAxHA
 
-On Tue, 10 Mar 2026 00:47:15 -0600
-Wesley Atwell <atwellwea@gmail.com> wrote:
-
-> Boot-time trigger registration can fail before the trigger-data cleanup
-> kthread exists. Deferring those frees until late init is fine, but the
-> post-boot fallback must still drain the deferred list if kthread
-> creation never succeeds.
-> 
-> Otherwise, boot-deferred nodes can accumulate on
-> trigger_data_free_list, later frees fall back to synchronously freeing
-> only the current object, and the older queued entries are leaked
-> forever.
-> 
-> Keep the deferred boot-time behavior, but when kthread creation fails,
-> drain the whole queued list synchronously. Do the same in the late-init
-> drain path so queued entries are not stranded there either.
-> 
-> Fixes: 61d445af0a7c ("tracing: Add bulk garbage collection of freeing event_trigger_data")
-> Signed-off-by: Wesley Atwell <atwellwea@gmail.com>
-> ---
->  kernel/trace/trace_events_trigger.c | 79 ++++++++++++++++++++++++-----
->  1 file changed, 66 insertions(+), 13 deletions(-)
-> 
-> diff --git a/kernel/trace/trace_events_trigger.c b/kernel/trace/trace_events_trigger.c
-> index d5230b759a2d..428b46272ac8 100644
-> --- a/kernel/trace/trace_events_trigger.c
-> +++ b/kernel/trace/trace_events_trigger.c
-> @@ -22,6 +22,39 @@ static struct task_struct *trigger_kthread;
->  static struct llist_head trigger_data_free_list;
->  static DEFINE_MUTEX(trigger_data_kthread_mutex);
->  
-> +static int trigger_kthread_fn(void *ignore);
+> diff --git a/Documentation/admin-guide/hw-vuln/vmscape.rst b/Documentation/admin-guide/hw-vuln/vmscape.rst
+> --- a/Documentation/admin-guide/hw-vuln/vmscape.rst
+> +++ b/Documentation/admin-guide/hw-vuln/vmscape.rst
+> @@ -117,3 +117,7 @@
+>
+>     Choose the mitigation based on the VMSCAPE variant the CPU is affected by.
+>     (default when CONFIG_MITIGATION_VMSCAPE=y)
 > +
-> +static void trigger_start_kthread_locked(void)
-> +{
-> +	lockdep_assert_held(&trigger_data_kthread_mutex);
+> + * ``vmscape=on``:
 > +
-> +	if (!trigger_kthread) {
-> +		struct task_struct *kthread;
-> +
-> +		kthread = kthread_create(trigger_kthread_fn, NULL,
-> +					 "trigger_data_free");
+> +   Same as `auto`, except that it overrides attack vector controls.
 
-This only creates the thread and doesn't start it. The function name is
-confusing. Please change it to:
-
-	trigger_create_kthread_locked()
+Should `auto` use double backticks here (``auto``) to match the rest of
+the file? All other inline code references in this document use RST
+literal markup with double backticks.
 
 
-> +		if (!IS_ERR(kthread))
-> +			WRITE_ONCE(trigger_kthread, kthread);
-> +	}
-> +}
-> +
-> +static void trigger_data_free_queued_locked(void)
-> +{
-> +	struct event_trigger_data *data, *tmp;
-> +	struct llist_node *llnodes;
-> +
-> +	lockdep_assert_held(&trigger_data_kthread_mutex);
-> +
-> +	llnodes = llist_del_all(&trigger_data_free_list);
-> +	if (!llnodes)
-> +		return;
-> +
-> +	tracepoint_synchronize_unregister();
-> +
-> +	llist_for_each_entry_safe(data, tmp, llnodes, llist)
-> +		kfree(data);
-> +}
-> +
->  /* Bulk garbage collection of event_trigger_data elements */
->  static int trigger_kthread_fn(void *ignore)
->  {
-> @@ -56,30 +89,50 @@ void trigger_data_free(struct event_trigger_data *data)
->  	if (data->cmd_ops->set_filter)
->  		data->cmd_ops->set_filter(NULL, data, NULL);
->  
-> +	/*
-> +	 * Boot-time trigger registration can fail before kthread creation
-> +	 * works. Keep the deferred-free semantics during boot and let late
-> +	 * init start the kthread to drain the list.
-> +	 */
-> +	if (system_state == SYSTEM_BOOTING && !trigger_kthread) {
-> +		llist_add(&data->llist, &trigger_data_free_list);
-> +		return;
-> +	}
-> +
->  	if (unlikely(!trigger_kthread)) {
->  		guard(mutex)(&trigger_data_kthread_mutex);
-> +
-> +		trigger_start_kthread_locked();
->  		/* Check again after taking mutex */
->  		if (!trigger_kthread) {
-> -			struct task_struct *kthread;
-> -
-> -			kthread = kthread_create(trigger_kthread_fn, NULL,
-> -						 "trigger_data_free");
-> -			if (!IS_ERR(kthread))
-> -				WRITE_ONCE(trigger_kthread, kthread);
-> +			llist_add(&data->llist, &trigger_data_free_list);
-> +			/* Drain the queued frees synchronously if startup failed. */
+---
+AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
+See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
 
-                                                       s/startup/creation/
-
-> +			trigger_data_free_queued_locked();
-> +			return;
->  		}
->  	}
-
--- Steve
-
->  
-> -	if (!trigger_kthread) {
-> -		/* Do it the slow way */
-> -		tracepoint_synchronize_unregister();
-> -		kfree(data);
-> -		return;
-> -	}
-> -
->  	llist_add(&data->llist, &trigger_data_free_list);
->  	wake_up_process(trigger_kthread);
->  }
->  
-> +static int __init trigger_data_free_init(void)
-> +{
-> +	guard(mutex)(&trigger_data_kthread_mutex);
-> +
-> +	if (llist_empty(&trigger_data_free_list))
-> +		return 0;
-> +
-> +	trigger_start_kthread_locked();
-> +	if (trigger_kthread)
-> +		wake_up_process(trigger_kthread);
-> +	else
-> +		trigger_data_free_queued_locked();
-> +
-> +	return 0;
-> +}
-> +late_initcall(trigger_data_free_init);
-> +
->  static inline void data_ops_trigger(struct event_trigger_data *data,
->  				    struct trace_buffer *buffer,  void *rec,
->  				    struct ring_buffer_event *event)
-
+CI run summary: https://github.com/kernel-patches/bpf/actions/runs/23506000396
+--===============5100326488123237701==--
