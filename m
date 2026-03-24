@@ -1,167 +1,128 @@
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F37F2376FD
-	for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 16:01:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.67
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774368082; cv=none; b=iOkfU9lp/yoVM4I1tnUQNUdx0Eqtben3fWL2UrfN8W/c538q15wGoXTT+7QyyXd/9+yUzd2u7g0bCt37MxlVBoo+pH6ttyWiPIJdGOSNydPACCc/zLyYdhK+Hz4XKG/wu2kaXDRLEKNFG0xaDFbG53SzvZh9Q3hnVs9d1Y/Qb20=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774368082; c=relaxed/simple;
-	bh=+MP5OZfZtfhlhRXIz/gQp3JJyWaLjXeKG3UkGoZNA2A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MeSwwWIM2NFezhG06aNRsyreioEW2jkdJGIa8UI1uxE+1TqnYIobu1z+AYTEc1l+vEY2sJmym5GAxafAcueW7w621Uboh4IJv38yg18tJKVz2npiNCFzSBnYdG3fcuez1XT7gf8Gf/KsfSKlMO42vbrhPYJfs5R0W7BruoMw6LE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ckhIZcG6; arc=none smtp.client-ip=209.85.128.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DDAC370D74;
+	Tue, 24 Mar 2026 16:02:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774368170; cv=pass; b=EE8vNQsXLwyqpx4/E54wwPXD/xwm0SaFF5/ZaGuopIDpv0mnNmXoLeHJsemZSEUJsqTk+NZ1GhvHVHQsYt91wmRU2YwxNEAyV+WNk6afBH0O9nZN3JeR2F7Hh/x9Icb+dZAO2X+TF3pm4kdIdvQyr0Z8JEvgLUc4c8TJrc4wbg0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774368170; c=relaxed/simple;
+	bh=V48IT+aQhiArOnuOtmpjQ732fYUJQEiUvA0CwepEi0M=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=VZgkdcHiw1xgKGy/OveWj4Ka5/eVoZmsvtyL9VLGQ7Yf4sh7lgO9l53WsnL2gGvAUfDo2uHFXOFHdHV0lOLvAH0kwg75wMmHr91FDY36foI6qR8C+WaQnDY/NpH7kkp+80/jPI/Xp6vGA/VDszBSspezfVLGgiqQIL4eeXJ1EWs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=P/FNneop; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ckhIZcG6"
-Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-486fd3a577eso35975785e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 09:01:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774368080; x=1774972880; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=PfSGofvTqm76QjsXejgeUzCgTv8V+LAKQZ3dxfOOqYU=;
-        b=ckhIZcG6Qg6SPvuVSmawJs2eqlRGEoplWarTJlBjc65UB3UoYQb1sy7GKP3KCIzApf
-         rr7jbh6RLEZ1OiZUylOPUC4wEktr5IeYPprYtTsi+DOgte8fEZ2mLYuSIG74iojGdqoF
-         BaT4d1VS1ayHWf9HFwztyxtAUylrnBkWJOkum2zyaNdSMkmucMqf2DLI4jOAlM7ITmBT
-         kvif0hq6/syMciF8p9hHYixPHEiht/yFL9Z/1PrbQS8DnjjRxiqB+fqxD1LRu7e/0kcD
-         /v/W7m0fqWSMtvy7J+MxFk26D1Aplb11pZjj4ZSJ/IH2kWjBgKLgZ9k56mdpWkHSjftw
-         3w2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774368080; x=1774972880;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PfSGofvTqm76QjsXejgeUzCgTv8V+LAKQZ3dxfOOqYU=;
-        b=jrjiC0p/nIQlO/17SPNQW/pDsL3FeLjPwFTf1785GAEH3zkN6lSLmauDQmi89ukw79
-         kqL12HC3D6S7NLeJGpM2ZxyNRWwVTaXkgrXmWmqs1cCkCF8Q2M1xuHa06ZkpmKbAthEf
-         A3lAhTLT5gXdWaExXLK2YN+/esFrTe3EwO2OvkVzzOsicD7zwAjz3xYcbGtgCLo5ivjp
-         NVG7t4+XllHV9R0Lew0T7C4jWTjwRJdCli5y6pI77sWAzPShbLkpfE2JyjS+qIzylp3l
-         SyV5yezWsDQs/hrXSmFCNHlmlkGXqZGsGxj7GmX5NXTlOn1ysVQVRxRSOQUjtBGZg9OG
-         /wng==
-X-Forwarded-Encrypted: i=1; AJvYcCUXmK99ixV3sq6iJql+b6fvLh8y4h+wBAfHNdq6ADdagypoyhjlFofGQMvFD6Qdplmu1InuYP6TSnk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwuTo5Qi/JoopmQ6PgUAc8gzlCpE0XwV0aDUO5IAntgadkUD42l
-	i9JUKDfmK5qf+YRHFpeptP+MKtKlJ8j3gOP+Zg9MM3y871AmUJvTmQUJ
-X-Gm-Gg: ATEYQzy0SM8RRhscVFTUsryBA3Otg7l7zxRXBHUKm5jzMDM32MLDDlX/DuEGZ0C2llz
-	DRwbcz4WxXPtHSNVjNHr1NsIyheqB+BpK2MikTs3OUqCfu39gEbZ07WFohDSGqFVeulmZHzIifJ
-	6w7iEfxM5h8u57SiilQ4TvlegjsOAxu5faq8xbKLeRTCmIMZTsgESn+ZBCZPEhsRDtntMMXgO2k
-	gjPglE5Qb2FTQO1bnbs6hUZsJGOsOE0AzE4E0igDdYIllaF5PDq4E2NZnAvgrQpCTD1GIoiCfJe
-	2o+S859udUds0via3+IDWswHhr3tOAdgZQ538CGpohVRCqF0/ncjjr1fzWi4e6wBmTHdiCNtGgh
-	/gnSfzcss5i39zH+Vt8c5t4gXFLNZgLj0Jafq7DEl5UaAs151kEVuZr6UqKoWFNoTT8uz7EwkRT
-	d4rMh36xgPIGRpXJK6pYviZqmNQZBAlgat/XxKZj7qt7IE
-X-Received: by 2002:a05:600c:a30d:b0:477:54f9:6ac2 with SMTP id 5b1f17b1804b1-48715f003e8mr4867615e9.0.1774368079199;
-        Tue, 24 Mar 2026 09:01:19 -0700 (PDT)
-Received: from localhost.localdomain ([2a0c:5a87:9504:9400:da3a:ddff:feee:f1b0])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-487116c086dsm64121235e9.8.2026.03.24.09.01.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2026 09:01:18 -0700 (PDT)
-From: tovicito <tovictakamine@gmail.com>
-To: corbet@lwn.net
-Cc: skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	tovicito <tovictakamine@gmail.com>
-Subject: [PATCH] docs: driver-api: fix 6 spelling typos in Documentation/driver-api
-Date: Tue, 24 Mar 2026 17:00:48 +0100
-Message-ID: <20260324160048.4899-1-tovictakamine@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="P/FNneop"
+ARC-Seal: i=1; a=rsa-sha256; t=1774368107; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=GSHLWSvL1ey7UKnEBHr54QllXY25zi/iQYdBm7ghNiOOdAHUi8fcb6NpCFMfO+Qbc+cO/STQto2RMa2ohRzCJ0juDO8itcchMeh1NSB+QrkN/oMF/d1UktGUEqBCT5MF7NuxnvGNm+Yx0aOu/pKNxd8qWyz4ct7lkkkTHcd1fVo=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1774368107; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=mu1XGj5EiVT5drNcReQYQM3PhOjoRRxgQTVeHo55NM8=; 
+	b=cPx4mz3NM6wUCjjDUa7wMoSJOctK4qnKBGZjE91hXLlUlTEVqj7BDTBhRx7Pwkh7iYQGjAssKdK3tHrWmXOt/OXqiaKqzSPZZ2YVbtwtE7rDa9PMIbBX4P059F8C2Rg5BYjMt3tU63jR4CRxR9w4xApr4gRhoIKQ5B3owG1vApc=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774368107;
+	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
+	bh=mu1XGj5EiVT5drNcReQYQM3PhOjoRRxgQTVeHo55NM8=;
+	b=P/FNneoplZ4So8iGyT1GqXJyB034CB0kLTbF3pDKjudgCA8V/XUqkaYs8yD35acY
+	mLMDxTVIwJeMxR9AcQ0U/04UZ73EpIoCPca8bVGMiyPld1Qb1CHpWPbqpWxAEXMbMJ1
+	cJFUvVdrz3WQeeO74tqIHbxWj5a95wDiK1PQnAz8=
+Received: by mx.zohomail.com with SMTPS id 1774368105495460.86037447788044;
+	Tue, 24 Mar 2026 09:01:45 -0700 (PDT)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Date: Tue, 24 Mar 2026 17:01:05 +0100
+Subject: [PATCH v11 01/22] drm/amd/display: Remove unnecessary
+ SIGNAL_TYPE_HDMI_TYPE_A check
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260324-color-format-v11-1-605559af4fb4@collabora.com>
+References: <20260324-color-format-v11-0-605559af4fb4@collabora.com>
+In-Reply-To: <20260324-color-format-v11-0-605559af4fb4@collabora.com>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+ Rodrigo Siqueira <siqueira@igalia.com>, 
+ Alex Deucher <alexander.deucher@amd.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Andrzej Hajda <andrzej.hajda@intel.com>, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Sandy Huang <hjc@rock-chips.com>, 
+ =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Andy Yan <andy.yan@rock-chips.com>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: kernel@collabora.com, amd-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+ linux-doc@vger.kernel.org, 
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
+ Werner Sembach <wse@tuxedocomputers.com>, 
+ Andri Yngvason <andri@yngvason.is>
+X-Mailer: b4 0.15.0
 
-Signed-off-by: tovicito <tovictakamine@gmail.com>
+From: Werner Sembach <wse@tuxedocomputers.com>
+
+Remove unnecessary SIGNAL_TYPE_HDMI_TYPE_A check that was performed in the
+drm_mode_is_420_only() case, but not in the drm_mode_is_420_also() &&
+force_yuv420_output case.
+
+Without further knowledge if YCbCr 4:2:0 is supported outside of HDMI,
+there is no reason to use RGB when the display
+reports drm_mode_is_420_only() even on a non HDMI connection.
+
+This patch also moves both checks in the same if-case. This  eliminates an
+extra else-if-case.
+
+Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+Signed-off-by: Andri Yngvason <andri@yngvason.is>
+Tested-by: Andri Yngvason <andri@yngvason.is>
+Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 ---
- Documentation/driver-api/acpi/acpi-drivers.rst         | 2 +-
- Documentation/driver-api/cxl/platform/acpi/cedt.rst    | 2 +-
- Documentation/driver-api/cxl/platform/bios-and-efi.rst | 2 +-
- Documentation/driver-api/dmaengine/pxa_dma.rst         | 2 +-
- Documentation/driver-api/libata.rst                    | 2 +-
- Documentation/driver-api/pci/p2pdma.rst                | 2 +-
- 6 files changed, 6 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/driver-api/acpi/acpi-drivers.rst b/Documentation/driver-api/acpi/acpi-drivers.rst
-index b1fbbddb8..376b6d8a6 100644
---- a/Documentation/driver-api/acpi/acpi-drivers.rst
-+++ b/Documentation/driver-api/acpi/acpi-drivers.rst
-@@ -47,7 +47,7 @@ generally be avoided and so struct acpi_driver objects should not be used.
- Moreover, a device ID is necessary to bind a driver directly to an ACPI device
- node, but device IDs are not generally associated with all of them.  Some of
- them contain alternative information allowing the corresponding pieces of
--hardware to be identified, for example represeted by an _ADR object return
-+hardware to be identified, for example represented by an _ADR object return
- value, and device IDs are not used in those cases.  In consequence, confusingly
- enough, binding an ACPI driver to an ACPI device node may even be impossible.
- 
-diff --git a/Documentation/driver-api/cxl/platform/acpi/cedt.rst b/Documentation/driver-api/cxl/platform/acpi/cedt.rst
-index 1d9c9d359..217a75fb4 100644
---- a/Documentation/driver-api/cxl/platform/acpi/cedt.rst
-+++ b/Documentation/driver-api/cxl/platform/acpi/cedt.rst
-@@ -55,7 +55,7 @@ voltile vs persistent, etc). One or more bits may be set. ::
-   Bit[1]: CXL Type 3 Memory
-   Bit[2]: Volatile Memory
-   Bit[3]: Persistent Memory
--  Bit[4]: Fixed Config (HPA cannot be re-used)
-+  Bit[4]: Fixed Config (HPA cannot be reused)
- 
- INTRA-host-bridge interleave (multiple devices on one host bridge) is NOT
- reported in this structure, and is solely defined via CXL device decoder
-diff --git a/Documentation/driver-api/cxl/platform/bios-and-efi.rst b/Documentation/driver-api/cxl/platform/bios-and-efi.rst
-index a4b44c018..5d918b06f 100644
---- a/Documentation/driver-api/cxl/platform/bios-and-efi.rst
-+++ b/Documentation/driver-api/cxl/platform/bios-and-efi.rst
-@@ -277,7 +277,7 @@ The CFMWS field of the CEDT has special restriction bits which describe whether
- the described memory region allows volatile or persistent memory (or both). If
- the platform intends to support either:
- 
--1) A device with multiple medias, or
-+1) A device with multiple media, or
- 2) Using a persistent memory device as normal memory
- 
- A platform may wish to create multiple CEDT CFMWS entries to describe the same
-diff --git a/Documentation/driver-api/dmaengine/pxa_dma.rst b/Documentation/driver-api/dmaengine/pxa_dma.rst
-index 442ee691a..8f9da66b0 100644
---- a/Documentation/driver-api/dmaengine/pxa_dma.rst
-+++ b/Documentation/driver-api/dmaengine/pxa_dma.rst
-@@ -40,7 +40,7 @@ Design
- ======
- a) Virtual channels
- Same concept as in sa11x0 driver, ie. a driver was assigned a "virtual
--channel" linked to the requestor line, and the physical DMA channel is
-+channel" linked to the requester line, and the physical DMA channel is
- assigned on the fly when the transfer is issued.
- 
- b) Transfer anatomy for a scatter-gather transfer
-diff --git a/Documentation/driver-api/libata.rst b/Documentation/driver-api/libata.rst
-index 93d97fe78..28b8437f6 100644
---- a/Documentation/driver-api/libata.rst
-+++ b/Documentation/driver-api/libata.rst
-@@ -286,7 +286,7 @@ and other exceptional conditions. The primary responsibility of an
- implementation is to call :c:func:`ata_std_error_handler`.
- 
- :c:func:`ata_std_error_handler` will perform a standard error handling sequence
--to resurect failed devices, detach lost devices and add new devices (if any).
-+to resurrect failed devices, detach lost devices and add new devices (if any).
- This function will call the various reset operations for a port, as needed.
- These operations are as follows.
- 
-diff --git a/Documentation/driver-api/pci/p2pdma.rst b/Documentation/driver-api/pci/p2pdma.rst
-index 280673b50..d3f406cca 100644
---- a/Documentation/driver-api/pci/p2pdma.rst
-+++ b/Documentation/driver-api/pci/p2pdma.rst
-@@ -38,7 +38,7 @@ for all usage refcounts to reach zero.
- At the lowest level the P2P subsystem offers a naked struct p2p_provider that
- delegates lifecycle management to the providing driver. It is expected that
- drivers using this option will wrap their MMIO memory in DMABUF and use DMABUF
--to provide an invalidation shutdown. These MMIO addresess have no struct page, and
-+to provide an invalidation shutdown. These MMIO addresses have no struct page, and
- if used with mmap() must create special PTEs. As such there are very few
- kernel uAPIs that can accept pointers to them; in particular they cannot be used
- with read()/write(), including O_DIRECT.
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 646fbdd5688b..86a64e98e8a1 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -6713,12 +6713,9 @@ static void fill_stream_properties_from_drm_display_mode(
+ 	timing_out->v_border_top = 0;
+ 	timing_out->v_border_bottom = 0;
+ 	/* TODO: un-hardcode */
+-	if (drm_mode_is_420_only(info, mode_in)
+-			&& stream->signal == SIGNAL_TYPE_HDMI_TYPE_A)
+-		timing_out->pixel_encoding = PIXEL_ENCODING_YCBCR420;
+-	else if (drm_mode_is_420_also(info, mode_in)
+-			&& aconnector
+-			&& aconnector->force_yuv420_output)
++	if (drm_mode_is_420_only(info, mode_in) ||
++	    (aconnector && aconnector->force_yuv420_output &&
++	     drm_mode_is_420_also(info, mode_in)))
+ 		timing_out->pixel_encoding = PIXEL_ENCODING_YCBCR420;
+ 	else if ((connector->display_info.color_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422))
+ 			&& aconnector
+
 -- 
 2.53.0
 
