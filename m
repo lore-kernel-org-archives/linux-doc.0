@@ -1,203 +1,228 @@
-Received: from sender-of-o58.zoho.eu (sender-of-o58.zoho.eu [136.143.169.58])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D73E3B6BF1;
-	Tue, 24 Mar 2026 16:54:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.169.58
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774371284; cv=pass; b=Xovj4TRQ5saaHsZKf6NVOs50S1ehSyKo7DfttrcI+rHwyFHXfYAKFwNy8Hu2P7gzhaamDCPIx7yO8dp2YZV1lfhLZ32tQAqMj1F2Iw67JdrKIjrmmb4XrMp31dZQ2+tvqEpJAL4wwE9kgfHxknKgYIbv21qMQ+HODn21glWFDng=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774371284; c=relaxed/simple;
-	bh=eD214mtHF/WW6H68DsGLo/msR8qnvnqZKMwXvGv+2X4=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=sM/fCHWRkZNW3ifLvSQ69jdKDcJRc14TpxnRHITn4BS+Qx06Z8KhdM58uvpkh2krU4VgZdQ0KeG+tNiHI74O65+/gZ2hNOcOW3v7jLR7uvk0NZmEpmiV/AUXUQoH/IbyBSNOh5WNrxan4DZiXyq4U8d7SfW8DSF4St+CamuaSlM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=objecting.org; spf=pass smtp.mailfrom=objecting.org; dkim=pass (1024-bit key) header.d=objecting.org header.i=objecting@objecting.org header.b=gZyNlLd3; arc=pass smtp.client-ip=136.143.169.58
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=objecting.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=objecting.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 522A226ED37;
+	Tue, 24 Mar 2026 17:01:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774371664; cv=none; b=XDIbSS7h8jsaZ0wGQb5fJfrDR9tJ1mcLf8G9mHLDOlXFePg+jib8T2QE/lnofv8iphQwPxCJ3qukvQn3QYKhFwjO8fKbmS+h4dHAmR9ju5t5Px6RDRsq64wOajIFWX/o3KQ62PGCesf8efHe1nthylzdBP4+iPvxWLa76NqqR2Q=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774371664; c=relaxed/simple;
+	bh=aDKWI4cKGQKK5hVg6AfnHxki62nohW34+6dDQKvaUzA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gOd8hE7UsjfxFZRmKHYu37siS+IKjTgXMwLCqzu6XxehrwwIPE8gzP5vf8MwQsJpmKXLkHo9CUdnuuT5sUBL2uMa9QXLciYGAgiVJP7NV6CYNl+WUUc8s1/zMmzF4YpfoRVVz+EX/tXZFqNK3lldN+AKSjTqlQ49LRR6JkEne74=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QJ6QsE/K; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=objecting.org header.i=objecting@objecting.org header.b="gZyNlLd3"
-ARC-Seal: i=1; a=rsa-sha256; t=1774371260; cv=none; 
-	d=zohomail.eu; s=zohoarc; 
-	b=DMMMiR4qRi/UPFQQ9cPQRqNNkpMHm+Xnov/DG5TugLijJaqF5OstFiqOSfhSwZvpv6x4LfIVG5D+pLKrystA13bY2HBYBkHKsIJU/meuZoPSXUJ8Lp2Qtbc427/9Va6pe8IDf/Z1+4wpXQ8kzfJMpCBDS465+fUJH8m3VsLI52U=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.eu; s=zohoarc; 
-	t=1774371260; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=rVcgEwVcIpvGmwWCuy/AsiNt0X+iXREcY/5B7RMvY+c=; 
-	b=Qc2XMRgLpyTtJ2fpqgBP/cZcaQDF/AuJg1ArNgX89muEWb/Q//Z0wTg16KwYmyWUSpEb6TgpGTkKWm4Bvo3WTX6g4opGVtB/m0KiwbTqbWhyd5hccbLtW9LK1T11KIjsHtO4fBrMZRJ+rVCgL9tfgeLmuIxS8kR4Y3L/brAUvZs=
-ARC-Authentication-Results: i=1; mx.zohomail.eu;
-	dkim=pass  header.i=objecting.org;
-	spf=pass  smtp.mailfrom=objecting@objecting.org;
-	dmarc=pass header.from=<objecting@objecting.org>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774371260;
-	s=zmail; d=objecting.org; i=objecting@objecting.org;
-	h=Date:Date:From:From:To:To:CC:Subject:Subject:In-Reply-To:References:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To:Cc;
-	bh=rVcgEwVcIpvGmwWCuy/AsiNt0X+iXREcY/5B7RMvY+c=;
-	b=gZyNlLd3mBmt+hdcbGnth0yU//HaBB35LDSaM6xqGIGlYpXZbT0EDly2YQKRYVPR
-	sec3hxw7CROA3nw8Km9ut2C6i+Sc0UC3HvY0GZYy8vDLsiXVOMmG8SkRZaOBJ5k7f9Z
-	5caMbEABZeyKwGsAYs7g8YFGGOniRfhIgDbPLVqI=
-Received: by mx.zoho.eu with SMTPS id 1774371258497571.9224101306835;
-	Tue, 24 Mar 2026 17:54:18 +0100 (CET)
-Date: Tue, 24 Mar 2026 16:54:17 +0000
-From: Josh Law <objecting@objecting.org>
-To: =?ISO-8859-1?Q?Tom=E1s_Pando?= <tovictakamine@gmail.com>, corbet@lwn.net
-CC: skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v3=5D_docs=3A_driver-api=3A_fix_6_s?=
- =?US-ASCII?Q?pelling_typos_in_Documentation/driver-api?=
-User-Agent: Thunderbird for Android
-In-Reply-To: <20260324163604.5710-1-tovictakamine@gmail.com>
-References: <20260324163604.5710-1-tovictakamine@gmail.com>
-Message-ID: <2F84DD09-2880-45E0-AA98-204F10848F85@objecting.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QJ6QsE/K"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774371662; x=1805907662;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=aDKWI4cKGQKK5hVg6AfnHxki62nohW34+6dDQKvaUzA=;
+  b=QJ6QsE/Kf0vPrsjXJ/dQnbh5tHFprQkYl06i7lluhM0QlwW7EJRxfzH2
+   xZdCQMRS44/SFFBsXzuv70WzPLUQhn8xoFAmz0UxQ+VChtslI8ImTMdWR
+   tFoO6+o61WNqDMhuhLso6btP9gYCtaPuqV2T40tKsr5egKadJsJT6xl5g
+   g2btoa0QRa0msOPQUTcCJjoc+ky9XljXoodN+CENGwuWVx9smrNnyznBJ
+   IJAApmqj+HlM4ssPeCmwuiwJjexi5KOwKDk68oB5hgJE7AbKYTjTwFqnz
+   uR12UGYwXCgbUgU4l7dIJGWzmWcYdI3FaaTA2uzOtWQDzBsuXztypNHbR
+   w==;
+X-CSE-ConnectionGUID: ZvPSEm7iS12ptha/C+KBNg==
+X-CSE-MsgGUID: 1oWepLONTlqfA78l1cUg8Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="78991856"
+X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
+   d="scan'208";a="78991856"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 10:01:00 -0700
+X-CSE-ConnectionGUID: b4BAW2/ERUWoQ6r6oZykng==
+X-CSE-MsgGUID: SL+/tSDtRZahvvTQl/a0tQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,138,1770624000"; 
+   d="scan'208";a="254912602"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.220])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2026 10:00:49 -0700
+Date: Tue, 24 Mar 2026 19:00:45 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+	Rodrigo Siqueira <siqueira@igalia.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Sandy Huang <hjc@rock-chips.com>,
+	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+	Andy Yan <andy.yan@rock-chips.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Rob Herring <robh@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, kernel@collabora.com,
+	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org, linux-doc@vger.kernel.org,
+	Werner Sembach <wse@tuxedocomputers.com>,
+	Andri Yngvason <andri@yngvason.is>,
+	Marius Vlad <marius.vlad@collabora.com>
+Subject: Re: [PATCH v11 03/22] drm: Add new general DRM property "color
+ format"
+Message-ID: <acLDPYuaVI2-12JX@intel.com>
+References: <20260324-color-format-v11-0-605559af4fb4@collabora.com>
+ <20260324-color-format-v11-3-605559af4fb4@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260324-color-format-v11-3-605559af4fb4@collabora.com>
+X-Patchwork-Hint: comment
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
 
+On Tue, Mar 24, 2026 at 05:01:07PM +0100, Nicolas Frattaroli wrote:
+> +enum drm_connector_color_format {
+> +	/**
+> +	 * @DRM_CONNECTOR_COLOR_FORMAT_AUTO: The driver or display protocol
+> +	 * helpers should pick a suitable color format. All implementations of a
+> +	 * specific display protocol must behave the same way with "AUTO", but
+> +	 * different display protocols do not necessarily have the same "AUTO"
+> +	 * semantics.
+> +	 *
+> +	 * For HDMI, "AUTO" picks RGB, but falls back to YCbCr 4:2:0 if the
+> +	 * bandwidth required for full-scale RGB is not available, or the mode
+> +	 * is YCbCr 4:2:0-only, as long as the mode and output both support
+> +	 * YCbCr 4:2:0.
+> +	 *
+> +	 * For display protocols other than HDMI, the recursive bridge chain
+> +	 * format selection picks the first chain of bridge formats that works,
+> +	 * as has already been the case before the introduction of the "color
+> +	 * format" property. Non-HDMI bridges should therefore either sort their
+> +	 * bus output formats by preference, or agree on a unified auto format
+> +	 * selection logic that's implemented in a common state helper (like
+> +	 * how HDMI does it).
+> +	 */
+> +	DRM_CONNECTOR_COLOR_FORMAT_AUTO = 0,
+> +
+> +	/**
+> +	 * @DRM_CONNECTOR_COLOR_FORMAT_RGB444: RGB output format
+> +	 */
+> +	DRM_CONNECTOR_COLOR_FORMAT_RGB444,
+> +
+> +	/**
+> +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR444: YCbCr 4:4:4 output format (ie.
+> +	 * not subsampled)
+> +	 */
+> +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR444,
+> +
+> +	/**
+> +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR422: YCbCr 4:2:2 output format (ie.
+> +	 * with horizontal subsampling)
+> +	 */
+> +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR422,
+> +
+> +	/**
+> +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR420: YCbCr 4:2:0 output format (ie.
+> +	 * with horizontal and vertical subsampling)
+> +	 */
+> +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR420,
 
+Seems like this should document what the quantization range
+should be for each format.
 
-On 24 March 2026 16:36:04 GMT, "Tom=C3=A1s Pando" <tovictakamine@gmail=2Ec=
-om> wrote:
->Fix minor spelling mistakes in the driver-api documentation=2E These
->changes improve readability in ACPI, CXL, DMA and PCI docs=2E
->v3: Added reviewed-by from Randy Dunlap=2E
->v2: Added full name as requested by Jon Corbet=2E
->
->Reviewed-by: Randy Dunlap <rdunlap@infradead=2Eorg>
->Signed-off-by: Tom=C3=A1s Pando <tovictakamine@gmail=2Ecom>
->---
-> Documentation/driver-api/acpi/acpi-drivers=2Erst         | 2 +-
-> Documentation/driver-api/cxl/platform/acpi/cedt=2Erst    | 2 +-
-> Documentation/driver-api/cxl/platform/bios-and-efi=2Erst | 2 +-
-> Documentation/driver-api/dmaengine/pxa_dma=2Erst         | 2 +-
-> Documentation/driver-api/libata=2Erst                    | 2 +-
-> Documentation/driver-api/pci/p2pdma=2Erst                | 2 +-
-> 6 files changed, 6 insertions(+), 6 deletions(-)
->
->diff --git a/Documentation/driver-api/acpi/acpi-drivers=2Erst b/Documenta=
-tion/driver-api/acpi/acpi-drivers=2Erst
->index b1fbbddb8=2E=2E376b6d8a6 100644
->--- a/Documentation/driver-api/acpi/acpi-drivers=2Erst
->+++ b/Documentation/driver-api/acpi/acpi-drivers=2Erst
->@@ -47,7 +47,7 @@ generally be avoided and so struct acpi_driver objects =
-should not be used=2E
-> Moreover, a device ID is necessary to bind a driver directly to an ACPI =
-device
-> node, but device IDs are not generally associated with all of them=2E  S=
-ome of
-> them contain alternative information allowing the corresponding pieces o=
-f
->-hardware to be identified, for example represeted by an _ADR object retu=
-rn
->+hardware to be identified, for example represented by an _ADR object ret=
-urn
-> value, and device IDs are not used in those cases=2E  In consequence, co=
-nfusingly
-> enough, binding an ACPI driver to an ACPI device node may even be imposs=
-ible=2E
->=20
->diff --git a/Documentation/driver-api/cxl/platform/acpi/cedt=2Erst b/Docu=
-mentation/driver-api/cxl/platform/acpi/cedt=2Erst
->index 1d9c9d359=2E=2E217a75fb4 100644
->--- a/Documentation/driver-api/cxl/platform/acpi/cedt=2Erst
->+++ b/Documentation/driver-api/cxl/platform/acpi/cedt=2Erst
->@@ -55,7 +55,7 @@ voltile vs persistent, etc)=2E One or more bits may be =
-set=2E ::
->   Bit[1]: CXL Type 3 Memory
->   Bit[2]: Volatile Memory
->   Bit[3]: Persistent Memory
->-  Bit[4]: Fixed Config (HPA cannot be re-used)
->+  Bit[4]: Fixed Config (HPA cannot be reused)
->=20
-> INTRA-host-bridge interleave (multiple devices on one host bridge) is NO=
-T
-> reported in this structure, and is solely defined via CXL device decoder
->diff --git a/Documentation/driver-api/cxl/platform/bios-and-efi=2Erst b/D=
-ocumentation/driver-api/cxl/platform/bios-and-efi=2Erst
->index a4b44c018=2E=2E5d918b06f 100644
->--- a/Documentation/driver-api/cxl/platform/bios-and-efi=2Erst
->+++ b/Documentation/driver-api/cxl/platform/bios-and-efi=2Erst
->@@ -277,7 +277,7 @@ The CFMWS field of the CEDT has special restriction b=
-its which describe whether
-> the described memory region allows volatile or persistent memory (or bot=
-h)=2E If
-> the platform intends to support either:
->=20
->-1) A device with multiple medias, or
->+1) A device with multiple media, or
-> 2) Using a persistent memory device as normal memory
->=20
-> A platform may wish to create multiple CEDT CFMWS entries to describe th=
-e same
->diff --git a/Documentation/driver-api/dmaengine/pxa_dma=2Erst b/Documenta=
-tion/driver-api/dmaengine/pxa_dma=2Erst
->index 442ee691a=2E=2E8f9da66b0 100644
->--- a/Documentation/driver-api/dmaengine/pxa_dma=2Erst
->+++ b/Documentation/driver-api/dmaengine/pxa_dma=2Erst
->@@ -40,7 +40,7 @@ Design
-> =3D=3D=3D=3D=3D=3D
-> a) Virtual channels
-> Same concept as in sa11x0 driver, ie=2E a driver was assigned a "virtual
->-channel" linked to the requestor line, and the physical DMA channel is
->+channel" linked to the requester line, and the physical DMA channel is
-> assigned on the fly when the transfer is issued=2E
->=20
-> b) Transfer anatomy for a scatter-gather transfer
->diff --git a/Documentation/driver-api/libata=2Erst b/Documentation/driver=
--api/libata=2Erst
->index 93d97fe78=2E=2E28b8437f6 100644
->--- a/Documentation/driver-api/libata=2Erst
->+++ b/Documentation/driver-api/libata=2Erst
->@@ -286,7 +286,7 @@ and other exceptional conditions=2E The primary respo=
-nsibility of an
-> implementation is to call :c:func:`ata_std_error_handler`=2E
->=20
-> :c:func:`ata_std_error_handler` will perform a standard error handling s=
-equence
->-to resurect failed devices, detach lost devices and add new devices (if =
-any)=2E
->+to resurrect failed devices, detach lost devices and add new devices (if=
- any)=2E
-> This function will call the various reset operations for a port, as need=
-ed=2E
-> These operations are as follows=2E
->=20
->diff --git a/Documentation/driver-api/pci/p2pdma=2Erst b/Documentation/dr=
-iver-api/pci/p2pdma=2Erst
->index 280673b50=2E=2Ed3f406cca 100644
->--- a/Documentation/driver-api/pci/p2pdma=2Erst
->+++ b/Documentation/driver-api/pci/p2pdma=2Erst
->@@ -38,7 +38,7 @@ for all usage refcounts to reach zero=2E
-> At the lowest level the P2P subsystem offers a naked struct p2p_provider=
- that
-> delegates lifecycle management to the providing driver=2E It is expected=
- that
-> drivers using this option will wrap their MMIO memory in DMABUF and use =
-DMABUF
->-to provide an invalidation shutdown=2E These MMIO addresess have no stru=
-ct page, and
->+to provide an invalidation shutdown=2E These MMIO addresses have no stru=
-ct page, and
-> if used with mmap() must create special PTEs=2E As such there are very f=
-ew
-> kernel uAPIs that can accept pointers to them; in particular they cannot=
- be used
-> with read()/write(), including O_DIRECT=2E
+> +
+> +	/**
+> +	 * @DRM_CONNECTOR_COLOR_FORMAT_COUNT: Number of valid connector color
+> +	 * format values in this enum
+> +	 */
+> +	DRM_CONNECTOR_COLOR_FORMAT_COUNT,
+> +};
+> +
+> +/**
+> + * drm_connector_color_format_valid - Validate drm_connector_color_format value
+> + * @fmt: value to check against all values of &enum drm_connector_color_format
+> + *
+> + * Checks whether the passed in value of @fmt is one of the allowable values in
+> + * &enum drm_connector_color_format.
+> + *
+> + * Returns: %true if it's a valid value for the enum, %false otherwise.
+> + */
+> +static inline bool __pure
+> +drm_connector_color_format_valid(enum drm_connector_color_format fmt)
+> +{
+> +	switch (fmt) {
+> +	case DRM_CONNECTOR_COLOR_FORMAT_AUTO:
+> +	case DRM_CONNECTOR_COLOR_FORMAT_RGB444:
+> +	case DRM_CONNECTOR_COLOR_FORMAT_YCBCR444:
+> +	case DRM_CONNECTOR_COLOR_FORMAT_YCBCR422:
+> +	case DRM_CONNECTOR_COLOR_FORMAT_YCBCR420:
+> +		return true;
+> +	default:
+> +		return false;
+> +	}
+> +}
+> +
+>  const char *
+>  drm_hdmi_connector_get_output_format_name(enum drm_output_color_format fmt);
+>  
+> @@ -1129,6 +1217,13 @@ struct drm_connector_state {
+>  	 */
+>  	enum drm_colorspace colorspace;
+>  
+> +	/**
+> +	 * @color_format: State variable for Connector property to request
+> +	 * color format change on Sink. This is most commonly used to switch
+> +	 * between RGB to YUV and vice-versa.
+> +	 */
+> +	enum drm_connector_color_format color_format;
+> +
+>  	/**
+>  	 * @writeback_job: Writeback job for writeback connectors
+>  	 *
+> @@ -2127,6 +2222,12 @@ struct drm_connector {
+>  	 */
+>  	struct drm_property *colorspace_property;
+>  
+> +	/**
+> +	 * @color_format_property: Connector property to set the suitable
+> +	 * color format supported by the sink.
+> +	 */
+> +	struct drm_property *color_format_property;
+> +
+>  	/**
+>  	 * @path_blob_ptr:
+>  	 *
+> @@ -2610,6 +2711,9 @@ bool drm_connector_has_possible_encoder(struct drm_connector *connector,
+>  					struct drm_encoder *encoder);
+>  const char *drm_get_colorspace_name(enum drm_colorspace colorspace);
+>  
+> +int drm_connector_attach_color_format_property(struct drm_connector *connector,
+> +					       unsigned long supported_color_formats);
+> +
+>  /**
+>   * drm_for_each_connector_iter - connector_list iterator macro
+>   * @connector: &struct drm_connector pointer used as cursor
+> 
+> -- 
+> 2.53.0
 
-
-
-Acked-By: Josh Law <objecting@objecting=2Eorg>
-
-
-Patches like these are good clarification=20
-
-Keep it up!
-
-
-V/R
-
-Josh Law
+-- 
+Ville Syrjälä
+Intel
