@@ -1,178 +1,148 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0E14277CA5
-	for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 16:30:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9813C39DBE3
+	for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 16:33:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.49
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774369827; cv=pass; b=D0hxOzqeRuxlc7/RtejDn4N1Tu1IHLXl/qXCWTxdo+BUWKyBShFxZThOy4BwBs6m58UY4HsdUppm7vsRUA5N08FTxDkS+T8U0CQ4ZucuR5eHJvazFn0hdO/naZs3iPKaqYfKdbQcs33JfX0yI4B7SsXJDWYnBWR1VpTv1Fy0DLg=
+	t=1774370023; cv=pass; b=OLTOcsiI31fPk6yxs9z+e8rFiffZ52rq0mTMnN5QiHmaDAkjwcjZl9bT+vwGVLZqyFbYhXfCoLcE+PWGbHZdxsqt0K0pTqUaZCQLepkY8lRTYRO0UK5gc2bAvKhHUG0uA8WMt20N/TGy3I6vB+81mzUQAakOKDEPF8XCpixXbL4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774369827; c=relaxed/simple;
-	bh=GedLTtgddWEJUyRlhK6X15vbM4AFh3IuYy7fD8Qy7UA=;
+	s=arc-20240116; t=1774370023; c=relaxed/simple;
+	bh=KyZccWfRZPRCXyH3JPYtLHqoTnA1c/Yv1X7rEaPg17A=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Edgnmu9c0lEaPkzstGTaF4SgcZTTaBCTtl2pOAazZ/Jc9/UoIfC+LKD2f8s+NByFXrPJ6iMAC5VImfHktHrNj4q05qK26K4aYbqNRi6PYqcz0Jf0VLkr0mNoebbsnPUnQnHP4CCLNn+oEPE5VKipLgxUcuQNrpz5Ydqk4KbBEhk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SI1l376t; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=FPbJwMGR; arc=pass smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 To:Cc:Content-Type; b=jQCCIvDVPdeWLH6msh+SGnsHMDsVYI8l+mXpzVSUC4Q4lN3NbWrvkqCdBZxgZdnLeArj+MhS/TyObl+nV5B2zRvhuQSC/cdlNQEx6pvDWWQ/C5Yv5MuU2y7qxv/4K1WUaMWF5ZlQAvLXp3sF/2454mHn3WA0HJxKFPeqnQyBl0c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=HW6Q9NWL; arc=pass smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SI1l376t";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="FPbJwMGR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1774369824;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Cy/sMQ7RhCqH87m41O4mchOBapesGxmdoWuSE/4nMCU=;
-	b=SI1l376t6yd6pNekT2quVF4D3msgqAL2aRffwcf8DOHrdJqe1golf45ml8HM0LU+3hERbt
-	r/gLFSfKDUVo/hgDwzvLtZ4FyNMvH1CfegdVAO1R7zbyEtF8W3/BgnTD3cMi2X24h+1lyD
-	LeILgaOkT39YCvecg12T5z4Z3GbEpUk=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-533-LQInycpBNXWMupi01rncLQ-1; Tue, 24 Mar 2026 12:30:23 -0400
-X-MC-Unique: LQInycpBNXWMupi01rncLQ-1
-X-Mimecast-MFC-AGG-ID: LQInycpBNXWMupi01rncLQ_1774369822
-Received: by mail-ed1-f72.google.com with SMTP id 4fb4d7f45d1cf-661827d7a81so65752a12.0
-        for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 09:30:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774369822; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="HW6Q9NWL"
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5a126c8aab9so4759665e87.0
+        for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 09:33:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774370021; cv=none;
         d=google.com; s=arc-20240605;
-        b=CJ1ZxQIQrzdLV3lx1ngssSgXCm7PwVsQXXNd2q2jaISR6hzDgUqHSkZWwxKEkUHU82
-         wStGgsBXqz9/K+fekWX/fGEbJak3dmMDobyU1+v9P3Ifxdfz/W09IqVrgqEBOTL6IP8Z
-         PzB7s9wJYB7ogqM7Aa0L7GVwfCVkZhkoddQuU8AIbbHcE5uTCAkzIXx4rEOXa58hn39v
-         s6rwfIDyiOM0+xh5JYOauSa8AW3gVay1vyS93fyLudtVTRekHlkzVv4y2K2VyFTsincm
-         MLtXh0HdpFLZu9vNlixWQsVW79HDR3awdf6ahxyysc5Ez0hqy49e7AOTxc2fUhVzukJ4
-         ARPQ==
+        b=FiuPwBi9iIvqDEET6I80nWGjtzdVd/LRSUmigf4ujpSVmOzs76lw6Yn1gHWtOyAyEN
+         Q/6vkNkTAx/c2z73kKs0MFtN9FB6eTFW9z2UkegzknjFXuGv+CAquuUFeQsj1uXfQzy8
+         zZGuP04E8w1K3HIBaaUsUsT0Z5EahxiJyzobqJZq6gOjLjahBnrLBfnylfOJhdPCIitH
+         /5j4dasfLlhMAzqFGg1SjVIBAsnJi7IoqdPHM6EkS4hbwod1PcJOVw3wnovFBRDxdoQ9
+         MbvbOE7LuhbuDl92B6SEKmPCFKVfqmWEIHIu1Rhx86nkXkcFjWyPU1tYvEf3ahkxf57M
+         9EAQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=Cy/sMQ7RhCqH87m41O4mchOBapesGxmdoWuSE/4nMCU=;
-        fh=ihzwCrHiE0HoNQqdlO0a1MPagm7hKiuI9FSuru+zPPA=;
-        b=XXPBXfKAtyPFpIyVI7/tS0ntL2C/jGwAWFZC9QUp/fRZqDL9F4LuR/q43xPH8apP3x
-         kx6Uuqd7Ej2kAQRjeff4Kj5ve3+pUS2wCd3PLoDPPzYGimMBzkeChTBbLutchF5wWEL+
-         JhLmLO18BxnxYOnu/XKmec5H651tujCaLDKFQcprVJU0FQ5JohccKDhBJV+BAzxiRTsg
-         0zrCTdeGGCSmMumTwjKLFpeh7ITxNB+reeKhSIebnkAPgXTL5mvP3uvHzgYtRxUUoXPi
-         9+0kDjRv91xuCwT/n982K/vaZ1+fQQS1wkSqr7pGpwdRpOZRDpgj+Uhr1U0euIVZcr9c
-         gFhg==;
+        bh=f++PU3wwkpbB0N6cii11zfED2xylkHlgqhKc/U2ncVo=;
+        fh=ZmJuy56xANJOQ2sm7BiCab8vPrZvhhbuRFr+IqaeHEQ=;
+        b=OKx+WLPhmcP+lpIFTwMr72jkxq2v3wXocl+uNH3yfV0V3BvhgnQ0AV4l95zO/hAD9I
+         BK1Yt5cuoORVrPkixd95V7PD8s1OF3lhgZegEEigGW1oaqHx8I+/1GJjaazch1VkLRiP
+         9gLbVc0XYH/arGCN0K4XoWuzBFM88QDdP9riFPph2mJuzPwIg04/evSOtgPirTVNUMDJ
+         nIMaoI5o3tENHXkJNxXYMdojWHmeyPUawn1QpZ0GlOQalMbiD6UtQkr73KG+1pwvv8Wy
+         Jv5qKAt06DixdYDfCYrrshq/hbI6eUugTxtFVNHt4qTZqdD+JFypULNO1V9UAx+NoLz3
+         sf/A==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1774369822; x=1774974622; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1774370021; x=1774974821; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Cy/sMQ7RhCqH87m41O4mchOBapesGxmdoWuSE/4nMCU=;
-        b=FPbJwMGRAtA9+VTtIlylhht05gz2qWvPeTbjlSObz01lWtZQ0E5wm2w25xDjw4cPVi
-         oCynpWPjOGgXRuhDVxvKItlsZmt+UDU8g9kmIMbJ/aTlJ4zqTMBMwz5sUX7o5wldfOj7
-         khVYVpwhDpZgYAk+XVVmKBb+GaMM3nLTyTh9MfVIFeXfJTC3z4B+96tfe4vsazX6pmc5
-         5asvojh2p3VgpDtUzXbymrZDE77A/EcC/DSRktGxBFnjrQHMnqbMix4bTUKBw2Q6iLTI
-         GB+S1WHVK/ddx2q9pmA9LORBJWJwZyOSmht25FWbJzcht8Dzo0U2A1HN7p0U3VNPnmRh
-         3d9Q==
+        bh=f++PU3wwkpbB0N6cii11zfED2xylkHlgqhKc/U2ncVo=;
+        b=HW6Q9NWLycxYs8C8OOQKDxwRZAuJuQI9wdKwP6+z6AcgPywU01ml6PpY55p34Zdi1z
+         xwwbe9uS568Mz3uM+ZUTpdl4x8sIZV3+5Xq0wiiZtI5mlflMpQLOP4d7CtoB6BPuukiU
+         fZxn4j+WFmsZRFNUGas7J47gd9YQNXgYlZ97JH6kk3lVfdGiEiH4CygTGrkkB/ngLfRH
+         q7muSWLsaGO2EqKJDYVHsVSl52GjCMhUbRNY2Xbd1qDKLL8/vESy4wESEkqSxtf5oL3w
+         ibHgdDgJWGH8NY7mxCGKFzII/YX2lS3BAQFV/j9ZoJKuXTnRttyweZrCBuf7uekiLjUm
+         FIcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774369822; x=1774974622;
+        d=1e100.net; s=20251104; t=1774370021; x=1774974821;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Cy/sMQ7RhCqH87m41O4mchOBapesGxmdoWuSE/4nMCU=;
-        b=auCMysra8uiIxD8YX8CHCi+QggN7DaDTxViGS+4hViCz+tQ52rYxLrfiNOpDl/A3r3
-         CNeZPOEL7v3mUwCCcgALZ8RLj8W8itaDWZ7CoulmOVI3YfHl9jPNtA8buIxVDlVHAZTm
-         diJUkxncDgzpMWuwU/uUoxnZtNDipqPztRLihPjKPN1o8RAP+CPKVEeBCOznIhhKt6zY
-         4zM3RLKWIzdo+g2uugfrYWoTXh73ecGLjXlsy971lzSnXuKodinBej1QKQXh1Fxt5U/T
-         BpC0olArcE+9oUA2p7Q6z+T1Bb7P0L6UTfGGFSjRW9eRLkKO3GRh0pqVGcRLh/pLubh+
-         TrhQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWSq6LjpO5VyTSPdwfTkdyQDeffTdMkLTYdvDjUaGWzIG628CTeStedMMgc6dLYRhyL7jH0BuOT5Fs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwQBGXCuIrnZdNBzyzjpcScUIKhqyhHpn8z0CkfHN+4luyguApP
-	hrMIb2qAKHgMaP16Vr6sZatmFcqzyUdAlktRgyvMQz+G887OFPOd0dTrhmBH2lE+TEKIcvHKaYS
-	NDT21f3p9zZmPFIGx7ipQqCUvJvflPG5k4gv5wu44VXewXMBgDby1DDpMR+NW3IYBVBAra1wd2T
-	/Odk2Me0NpCsS/8ed0/82xlhR4NriO27OlmXYo
-X-Gm-Gg: ATEYQzxtGcJKNrRZhcyXvN/ls3tg4ZqSBnMS7IH4TerF3wC568TvLcWU5P+19unqLTq
-	Ic0hT+kvtn148bTFnRqLxwjwrsve3jAiwYvMEWo3Q+/zhUEs3O5GwaZy7kX8oVqYIEI8IMRGcbi
-	GCK+EcDpnhfnGegGWmLeI8mUliVsXL/0WI6ht/20djSfYcot6dHtnnJc8TMFb9o1oj6WkkGnfui
-	F/OkA==
-X-Received: by 2002:a17:907:e916:b0:b94:113c:a89e with SMTP id a640c23a62f3a-b9886321044mr276827466b.11.1774369821873;
-        Tue, 24 Mar 2026 09:30:21 -0700 (PDT)
-X-Received: by 2002:a17:907:e916:b0:b94:113c:a89e with SMTP id
- a640c23a62f3a-b9886321044mr276824466b.11.1774369821401; Tue, 24 Mar 2026
- 09:30:21 -0700 (PDT)
+        bh=f++PU3wwkpbB0N6cii11zfED2xylkHlgqhKc/U2ncVo=;
+        b=IHtUeM0AinXCjIepQ4RNmMPr1j1G19o8W3Aw3kH+0ILfbGwN1HwcwLnQRFX1S68trI
+         tnan0UAKkSkCIjRJjXuuqY8zyEEEqorsnZmKBgeYMmyQF4ELfIZ8AmhZgY6jFOFzCTfz
+         XyWf04uHO9diUNpm+sRNv42+m47rOb4IBB6pNu2R7//OTlnaV+CREI23njrc8k9VlLGH
+         D4z3TB5F/xGxE4sVwW27HvFY3CoTcIV4Xn2wpOpL/xoZVQlf4EnqX2xMIiBRwTEFgkWh
+         pVlZPAvJmyv9+yf4+0sc8YKO7Exh9TBvYtAKaqqrgDZy8zrUHkpB7FOgYDYghcvI0GQu
+         ACxQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUohijNUjmsARXJTyTSprHaXOoIEyGBsd1zHw7JuTpgu9Pfiiwy7FAbJ4yWgroP72X/qllAaN65jY8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJsqLPoruuF9h0AaDjEeGPzlLumAyBAehc+T0nNrqMibqMQStO
+	7BSKOm1TWY539qW/6FUyyQB+X0gduglNPkEeM0v5Gn4dJ+iSm/uILRtJoymvsM7Zgv4Uy0EekbC
+	S0eRwZHTq2wr/QNIzWxNqq9r0zdh+eRTB/GLbIGy7
+X-Gm-Gg: ATEYQzzXRgYxdCHWp7YCPVeFcnTkKf410BUreyrWuk8yaiKE6cB/XKu2+bVfobq72dW
+	14t1sdS3JtcIyXtoFuClpuZ4BAzfNzbt4lQWa4waySBEWoHx+3oo+/hDmwQlhO16tR5oQwTi9/F
+	ScZvWOf67FQwGOo5e9SOQ4Exdrf4CINTmSC8WNfsTNJya056ZtLXyOUJYsp/23JCKZwV3Te3cPz
+	BaYUmpVyqjH9hRV6KYfjtENe5L1/8v9SAk/RNTMHASaQ7LlugONcxtWBdOp07VHH0uAiuVgO/np
+	B3SexVd8
+X-Received: by 2002:a05:6512:3044:b0:5a1:1899:a0cb with SMTP id
+ 2adb3069b0e04-5a29b9a1efbmr55664e87.34.1774370018671; Tue, 24 Mar 2026
+ 09:33:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260324123229.152424-1-tglozar@redhat.com> <20260324112249.5fe25641@gandalf.local.home>
-In-Reply-To: <20260324112249.5fe25641@gandalf.local.home>
-From: Tomas Glozar <tglozar@redhat.com>
-Date: Tue, 24 Mar 2026 17:30:09 +0100
-X-Gm-Features: AaiRm50Win-KQMvQ3JCFdbn6fqEhXmkuYyGL5536EXJW4ZPMCiOhtVACMahWg9I
-Message-ID: <CAP4=nvRj3beYwzWKwGFRsM350xYhVwcOAUZBuSBsHfAeawk-oA@mail.gmail.com>
-Subject: Re: [PATCH] Documentation/rtla: Document SIGINT behavior
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	John Kacur <jkacur@redhat.com>, Luis Goncalves <lgoncalv@redhat.com>, 
-	Crystal Wood <crwood@redhat.com>, Costa Shulyupin <costa.shul@redhat.com>, 
-	Wander Lairson Costa <wander@redhat.com>, LKML <linux-kernel@vger.kernel.org>, 
-	linux-trace-kernel <linux-trace-kernel@vger.kernel.org>, linux-doc <linux-doc@vger.kernel.org>, 
-	Attila Fazekas <afazekas@redhat.com>
+References: <20260323235817.1960573-1-dmatlack@google.com> <20260323235817.1960573-7-dmatlack@google.com>
+ <0d2eedec-01c1-41c9-bc74-0133ae6ebb04@intel.com>
+In-Reply-To: <0d2eedec-01c1-41c9-bc74-0133ae6ebb04@intel.com>
+From: David Matlack <dmatlack@google.com>
+Date: Tue, 24 Mar 2026 09:33:10 -0700
+X-Gm-Features: AaiRm530aoKtDDdSXYb9CaNnVHDZa0HeKfsko4zWVykFU0w66CUzojlEOk9szPI
+Message-ID: <CALzav=d65Z1Va14rmoRcx5WrK1GfRvuHmrqK16wJJeTiq28eCA@mail.gmail.com>
+Subject: Re: [PATCH v3 06/24] vfio/pci: Register a file handler with Live
+ Update Orchestrator
+To: Yi Liu <yi.l.liu@intel.com>
+Cc: Alex Williamson <alex@shazbot.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.com>, Alex Mastro <amastro@fb.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Ankit Agrawal <ankita@nvidia.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Askar Safin <safinaskar@gmail.com>, 
+	"Borislav Petkov (AMD)" <bp@alien8.de>, Chris Li <chrisl@kernel.org>, Dapeng Mi <dapeng1.mi@linux.intel.com>, 
+	David Rientjes <rientjes@google.com>, Feng Tang <feng.tang@linux.alibaba.com>, 
+	Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, 
+	Kees Cook <kees@kernel.org>, Kevin Tian <kevin.tian@intel.com>, kexec@lists.infradead.org, 
+	kvm@vger.kernel.org, Leon Romanovsky <leon@kernel.org>, Leon Romanovsky <leonro@nvidia.com>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-pci@vger.kernel.org, Li RongQing <lirongqing@baidu.com>, 
+	Lukas Wunner <lukas@wunner.de>, Marco Elver <elver@google.com>, 
+	=?UTF-8?Q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>, 
+	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>, "Paul E. McKenney" <paulmck@kernel.org>, 
+	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, 
+	"Peter Zijlstra (Intel)" <peterz@infradead.org>, Pranjal Shrivastava <praan@google.com>, 
+	Pratyush Yadav <pratyush@kernel.org>, Raghavendra Rao Ananta <rananta@google.com>, 
+	Randy Dunlap <rdunlap@infradead.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+	Saeed Mahameed <saeedm@nvidia.com>, Samiullah Khawaja <skhawaja@google.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Vipin Sharma <vipinsh@google.com>, 
+	Vivek Kasireddy <vivek.kasireddy@intel.com>, William Tu <witu@nvidia.com>, 
+	Zhu Yanjun <yanjun.zhu@linux.dev>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-=C3=BAt 24. 3. 2026 v 16:22 odes=C3=ADlatel Steven Rostedt <rostedt@goodmis=
-.org> napsal:
-> >
-> > Note: There was a bug in SIGINT behavior, fixed in upcoming commit [1].
-> >
-> > [1] https://lore.kernel.org/linux-trace-kernel/20260310160725.144443-1-=
-tglozar@redhat.com/
->
-> Hmm, this may be interesting enough to add to the change log itself.
->
+On Tue, Mar 24, 2026 at 6:00=E2=80=AFAM Yi Liu <yi.l.liu@intel.com> wrote:
+> On 3/24/26 07:57, David Matlack wrote:
 
-I thought about that, but it felt a bit redundant, since the other
-patch will also be a part of the commit history. I see that some
-documentation patches do mention the commit that introduced the
-change. Here, it is only the SIGINT during cleanup part that got
-changed (segfault/undefined behavior -> default handler) so it might
-make sense.
-
-> > +Also note that when using the timerlat tool in BPF mode, samples are p=
-rocessed
-> > +in-kernel; RTLA only copies them out to display them to the user. A se=
-cond
-> > +SIGINT does not affect in-kernel sample aggregation.
->
-> But does it affect the user space side of reading that information?
->
-
-No, it shouldn't, the pattern for both timerlat-top and timerlat-hist is:
-
-while(stop_tracing) {
-   timerlat_bpf_wait(...);
-   timerlat_{top,hist}_pull_bpf_data(...);
-   ...
-}
-
-The BPF program is detached after this, so all data gathered up to the
-point of the SIGINT will be displayed. A second SIGINT does not affect
-it, since it calls tracefs_iterate_stop() which stops
-tracefs_iterate_raw_events(). It does not stop
-timelat_{top,hist}_pull_bpf_data() - which is aggregated anyway, so
-stopping it would just leave a part of the histogram/top empty.
-
+> > --- a/drivers/vfio/pci/vfio_pci.c
+> > +++ b/drivers/vfio/pci/vfio_pci.c
+> > @@ -170,6 +170,7 @@ static int vfio_pci_probe(struct pci_dev *pdev, con=
+st struct pci_device_id *id)
+> >       ret =3D vfio_pci_core_register_device(vdev);
+> >       if (ret)
+> >               goto out_put_vdev;
 > > +
-> >  EXIT STATUS
-> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >
 >
-> Other than that ... LGTM,
+> a meaningless line here.
+
+Will fix in v4, thanks.
+
+> > --- /dev/null
+> > +++ b/include/linux/kho/abi/vfio_pci.h
+> > @@ -0,0 +1,28 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +
+> > +/*
+> > + * Copyright (c) 2025, Google LLC.
 >
-> Reviewed-by: Steven Rostedt (Google) <rostedt@goodmis.org>
->
-> -- Steve
->
+> would be nice to update 2025 to 2026 now. :)
 
-Thanks for looking at this.
-
-
-Tomas
-
+Oops, missed this one, thanks. Will fix in v4.
