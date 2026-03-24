@@ -1,85 +1,85 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29DC7366557
-	for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 03:41:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46C6A25F7A5
+	for <linux-doc@vger.kernel.org>; Tue, 24 Mar 2026 03:41:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774323662; cv=none; b=tWQ8pWOhqnwrjNkw9ODStU1791qfBOFh85cUc0I0eEOEarNf7oKqF4bKIqv0NpQDn8FFZprD19anb03kc6RnV/p+IPhxf5/RhXPIbTOsjmrHjV29nIalbXAGs81q7pSRMtTO5mE+jaQOfxu1ZagyChKkzxOgM/ZpINO48kX1xH8=
+	t=1774323692; cv=none; b=hblFGC/Pfwt74VxqcrLP3p3HB/2fbO8DtjIZm9+udvyIrBwXmLeVKvajXBeCv/cMaG1TwDkm8bg2zJAPmKajSB7xkFwUF4cEVotIMoG+o8wqhA7XGTw7F8ikz7Hc9J1I8zqbQjNRdcun2hHcV+Q9kWcUIt/5z5lG43EzmdmISUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774323662; c=relaxed/simple;
-	bh=at5qO47FiC/Sq0RzqHfPejenzE2Z8Wn2nDR43pAscRU=;
+	s=arc-20240116; t=1774323692; c=relaxed/simple;
+	bh=jMZhaLlFd0YDU3XA3qv775N0MXu7/T2FVRzNRe97FB4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YSvc1kdXBqK5m6HU1xQACoydwHscQi9uEJDfm5AyS5Xn4rnOZRm5rmklW8rswcOBxD584USOx63guTqMTC/R0odX4GYHK0inDcqYMKGTKhB3kCMnrJI44iw9AgGlOBNIc4NHebE2XsSxmBKNEEYdmJfLBNsHcJT2LUTYs2ikfp4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Zn4G1h6p; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=HcUt8aKH; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:Content-Type; b=CINkVQN4CqH7rvPXuLYDo1Y+movuwXx3VK/HyCHY3UbpqezoY2cbRcvLfA9NNdzokxcNoREZ3Hp5ksGvKNpaMEtEKwsrxhmagM1raAoNTihUhEKs+3jxqAWUpIfLTl7MK28WWxx56xu/LauSWV6z+6EdZHWzsq7/QydJg/rtTnM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hwrPCndM; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=NXVIaucz; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Zn4G1h6p";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="HcUt8aKH"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hwrPCndM";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="NXVIaucz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1774323660;
+	s=mimecast20190719; t=1774323690;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=LD86M66XQ6z2RDnVdKVUV2lC/ws2IdjFX4ukZlHTEIA=;
-	b=Zn4G1h6pw1IDZCrFMdhPoJ9FZRsncG1dVIVvAeeWZcj8t/2xpXYWRkwHvwYtU4YNK/LsFq
-	PbyL75LmwEZ6atFVRt7p+GY1A5BWI4BywnES603+1z1VJ8R79XOLUGeLPaV1YPBGws04tF
-	GpNnyLhLEcxVjBuDsVxyt+DlVomAYi0=
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
- [209.85.215.200]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=BTotqZEROYbDyldT/C8jFT2PqJQkiiFw2H0d7yIV7KA=;
+	b=hwrPCndMx2va9H2fjFLujREY6Gm/7hffbsbuS9agouOcjlzZe8j0Sty7HntLNYwa8ZzcWK
+	Fn6JtYTpFPDufi7KbLIoA7S5mw+Z7oYCO+UQjMj09GLNpMmYG1PvdP27IfTPGvTw3ylJ64
+	xEIvc3y25tixFoZJrBVrD4JVuJmoAVU=
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com
+ [209.85.215.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-605-vk6RnvNjPyKiuNojtw93AA-1; Mon, 23 Mar 2026 23:40:58 -0400
-X-MC-Unique: vk6RnvNjPyKiuNojtw93AA-1
-X-Mimecast-MFC-AGG-ID: vk6RnvNjPyKiuNojtw93AA_1774323658
-Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-c70f19f0f37so3128166a12.0
-        for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 20:40:58 -0700 (PDT)
+ us-mta-250-ctkvgwEFOdqot0xS6PB-iQ-1; Mon, 23 Mar 2026 23:41:28 -0400
+X-MC-Unique: ctkvgwEFOdqot0xS6PB-iQ-1
+X-Mimecast-MFC-AGG-ID: ctkvgwEFOdqot0xS6PB-iQ_1774323688
+Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-c6e7f45e2ddso2910442a12.1
+        for <linux-doc@vger.kernel.org>; Mon, 23 Mar 2026 20:41:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1774323657; x=1774928457; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1774323688; x=1774928488; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=LD86M66XQ6z2RDnVdKVUV2lC/ws2IdjFX4ukZlHTEIA=;
-        b=HcUt8aKHijqsHmnVhQ11HbdzlJAxEVq0oiXNsKlHzlqTL3kLbP18ulFLEtobcd35CR
-         AQZ5Cg2WFFTNbuAdhbR0L+6fZ/NRdenaWjG9xdZscSu2OItOhqWgX07+3YHAbOsMyvLb
-         jxiooO+SbWBYP91uP8gyzR7jeS1XFYJMfmGICTUGMNf3EiJ/yKrgsHf0179SHaoL8AuU
-         LHoq74XekcZlOgl21Vu1uObfnq84bIhVhVvbaTQf61Oe8uvAmj5G241RVC0LayJTsk/g
-         rzPc1UDs8QjHu3pfqFUO3yC46MAW/DaQzL7fIjwNP57V5maKGIx5QWSziUKD08BWw/vX
-         ZcMQ==
+        bh=BTotqZEROYbDyldT/C8jFT2PqJQkiiFw2H0d7yIV7KA=;
+        b=NXVIauczHzN5u26tWYBBM/xqXbru7zI5jjSZAvi0z018FID6hCaqpvPjjelb87UrC/
+         SbBRoGOqrAhGKay+itRQUTpOp4BI9RgQSHa0CXGIcO/R7acsRtrj4h35jfP7/A5trFYg
+         3dj4Q6Q6DugX4LUC5sfMvQ1594AsjrUeE0vJrNq3i4B8rIG5uuk3sddoGXoOgDKAL5Nn
+         DmahQeQxYHpeHDA+Bg5c2TjEzny9AThoiQ7HWyXvym9b2guxIoPSNVG0QVuAMToYrHEe
+         DLzvRQfdS6Fho35Zft8/RkioJQyZiaFAoq5wIsQpFlH0QNCgdRHkAfv1guIihRF4PxjP
+         Nsng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774323657; x=1774928457;
+        d=1e100.net; s=20251104; t=1774323688; x=1774928488;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=LD86M66XQ6z2RDnVdKVUV2lC/ws2IdjFX4ukZlHTEIA=;
-        b=Xew13+61kkUcc9JYtLZG+ofKhdKQQMl5syjW5KCjvX6W18S5/iM+mFu2fEDr/z4fzv
-         wnRO3MxzRYC5jWYqQVfVFmJpdp1lTmQl3PTlr3KVWYVbH3qVi0gihH0g5sMZqYOGrWx0
-         aJfFnCOFm0XSXV8uVEZkW+TLw8h4pgA6ZLkmXbUX3rSz4vjgvcOUBMbwPFqkSXgymxfP
-         YIwGVcFAEv2nHPvNDPgcLXmUMsTyvxRrYsebzK0Isf7VzlGYLGkUkgwx+QFtrYOt/ha7
-         tZXZoowCQJjKEW8Pl5oxcYOC+Q3tzRKbyz4tiY0+7nS0YyQCqn+DL7fc9kqEd8jOwX60
-         HamQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWhJV1KCExtcTk2cJOa95oHFM7HfLdiLIUUEzSmKIFQQrS68jxr3TBW1vIjX2dfqsXjmxNatwDkkWA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw27vRsUTECraJ2H2JBEds2c+wP6oW1tFRiL/KRuoW6rHmkf3uh
-	2NSndvWAlhiIuTzVcUyG3Gd/0PuzxdmPHfCmHDVPADeVETUKQAHX1Ur66OhUCM1in+VKieBN3/Z
-	v7kPuW8z2isUYrS+Vv5pNra8wHhkd0XYtN6ZyN39eesv5up8vafdR5mMHGBNHOg==
-X-Gm-Gg: ATEYQzzjXwDeN98cFJb26u5df/Uyxps9cT6SbEhr6/qVnXKCAdDf0zptykW1OlVMHVA
-	/EccBU+590fbVfpYSl2A9aB66N0NHyLTvkbcF9VY8FZWSDoN0y9d2pWaWj5i52qLXAz2c0vn1p0
-	LyqAMla/M3j/5NHX2oyMrejHl8UbzvdmXm3T0oRCA7wHozbFH/Afv8gTYzRXNRR3KyrAIi0T3hz
-	uyuqB8IGKrY3w+VpT2pUH8pPddDh4h0s9b8AbHEBOuAAxfSHe9LtA5/vlteqTJhKrtur5UXuMDs
-	UG+HUbcR9m7VNJgPhZqevy4T0BnyaUWd9MQppHQzlgoVZ/wWTVQRUFAg5R3Jb6bpq8km/tKCser
-	APm/tX1KW/fiATpx2xDzuDz8UDrsisc4m9gWY0tm3vi6pZ/at375gybuZB6diclU7
-X-Received: by 2002:a05:6a00:2d82:b0:82a:67ce:66de with SMTP id d2e1a72fcca58-82c5bdb0f77mr1586850b3a.14.1774323657558;
-        Mon, 23 Mar 2026 20:40:57 -0700 (PDT)
-X-Received: by 2002:a05:6a00:2d82:b0:82a:67ce:66de with SMTP id d2e1a72fcca58-82c5bdb0f77mr1586793b3a.14.1774323657062;
-        Mon, 23 Mar 2026 20:40:57 -0700 (PDT)
+        bh=BTotqZEROYbDyldT/C8jFT2PqJQkiiFw2H0d7yIV7KA=;
+        b=RvWHB7lbb2+0yaMmtV3FJRa6+qlml6Q5dzviJrffEOVLbijSOwWa0rB+woKpb/m5hI
+         q24AlyUd99lA/URm0cBJXAmrNmZOcqaQPbU2u8P6xEjML/i31I2Kpx19SyNJaWDme742
+         uhFdPDNZfyA7QiKR/YrLxVBntDqHnOFaLJotFzC7LcQ2f7xd+dOp6Ul9N8lXnnoJddHf
+         r+I6v6fxFzBLfSUlQzDKncHmbq6lEYdEicskfVrJVR1zY4DYHIdNmCzIDG2LpnesZmu2
+         Pi/kbO3K9/wZI1vTnl3c2ZoUV5izOLcIXthfdQhXPPPrWcC2YBdLajxmxHd9VDgikQnT
+         GvIw==
+X-Forwarded-Encrypted: i=1; AJvYcCWdq5KiMW3UaKZh1A+I8eRpLs8nQjJOExDsiufYEDNxl3NxdflJNCWbzUgGm88Z2Pj1ZG131dQ4lsg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz9Dzijah3dWzq1zvj4+34ZVKt27TbXG40lEpVqtxGtqFCypF9M
+	AvMwvXE6247RiSpD/4KzAS6v+syGj27gYLX4l0tvhx9PKQGqAEkhd/udHDLFif3HMT3NAsc87XH
+	u8qr6j7o342fOcO/edYEXe262Wld9Q/9tBoEknfSOEtK58wpYAUUvTNw4umWX2Q==
+X-Gm-Gg: ATEYQzy27LWk12IR5Fd6LsIku2jCeyDvEdSccI2pCC+o1xX4RXWwGEj02yuXPRgIEfv
+	00ly6Qc54lQuldpZcd1w7KvuW7oJkH8qPfaEGr4qVjtUnO4T+gjtgzQ05Dwvv7mDV93s/9rHWaQ
+	9uyEhwdIcywg2ACg5aqtSTBjX/lnJ1d8Jdu/UaCW0dTOI0HLKUWba7wUTl+kcmjjTQ5wGnFA3Wu
+	8QlbdusnokSFtvXHk46H4yqpWucVLV2BPAm63bquMyfuOmUVkp+U2Htz5TyyF98R45Xxl6G/9v9
+	6HvkEMbuK3bcWbng4o80eUW8dw2L2HXLLHvtW50+ajzAu35NrmrkxEaxeynH7K+/79re1bEhcux
+	852vSMISbD+IlycEfvo6E9TwVm07O4wqGTtDkVHULwL+wukEC2QE+d4cpI2UykfAh
+X-Received: by 2002:a05:6a20:9392:b0:39c:c3:4030 with SMTP id adf61e73a8af0-39c00c342ddmr6959319637.34.1774323687672;
+        Mon, 23 Mar 2026 20:41:27 -0700 (PDT)
+X-Received: by 2002:a05:6a20:9392:b0:39c:c3:4030 with SMTP id adf61e73a8af0-39c00c342ddmr6959271637.34.1774323687305;
+        Mon, 23 Mar 2026 20:41:27 -0700 (PDT)
 Received: from [192.168.68.51] (n175-34-8-244.mrk21.qld.optusnet.com.au. [175.34.8.244])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82b0354baefsm11044528b3a.0.2026.03.23.20.40.42
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c74487b5b8csm9108581a12.31.2026.03.23.20.41.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Mar 2026 20:40:56 -0700 (PDT)
-Message-ID: <6ff8f2f2-e7b9-49a5-bbc1-3cfdc2fff4fb@redhat.com>
-Date: Tue, 24 Mar 2026 13:40:41 +1000
+        Mon, 23 Mar 2026 20:41:26 -0700 (PDT)
+Message-ID: <711b91dc-8861-4948-97b8-47a5ec21affa@redhat.com>
+Date: Tue, 24 Mar 2026 13:41:09 +1000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -87,7 +87,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 28/40] arm_mpam: resctrl: Add support for csu counters
+Subject: Re: [PATCH v6 29/40] arm_mpam: resctrl: Allow resctrl to allocate
+ monitors
 To: Ben Horgan <ben.horgan@arm.com>
 Cc: amitsinght@marvell.com, baisheng.gao@unisoc.com,
  baolin.wang@linux.alibaba.com, carl@os.amperecomputing.com,
@@ -104,64 +105,57 @@ Cc: amitsinght@marvell.com, baisheng.gao@unisoc.com,
  zengheng4@huawei.com, linux-doc@vger.kernel.org,
  Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
 References: <20260313144617.3420416-1-ben.horgan@arm.com>
- <20260313144617.3420416-29-ben.horgan@arm.com>
+ <20260313144617.3420416-30-ben.horgan@arm.com>
 Content-Language: en-US
 From: Gavin Shan <gshan@redhat.com>
-In-Reply-To: <20260313144617.3420416-29-ben.horgan@arm.com>
+In-Reply-To: <20260313144617.3420416-30-ben.horgan@arm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 3/14/26 12:46 AM, Ben Horgan wrote:
 > From: James Morse <james.morse@arm.com>
 > 
-> resctrl exposes a counter via a file named llc_occupancy. This isn't really
-> a counter as its value goes up and down, this is a snapshot of the cache
-> storage usage monitor.
+> When resctrl wants to read a domain's 'QOS_L3_OCCUP', it needs to allocate
+> a monitor on the corresponding resource. Monitors are allocated by class
+> instead of component.
 > 
-> Add some picking code which will only find an L3. The resctrl counter
-> file is called llc_occupancy but we don't check it is the last one as
-> it is already identified as L3.
+> Add helpers to allocate a CSU monitor. These helper return an out of range
+> value for MBM counters.
 > 
+> Allocating a montitor context is expected to block until hardware resources
+> become available. This only makes sense for QOS_L3_OCCUP as unallocated MBM
+> counters are losing data.
+> 
+> Tested-by: Gavin Shan <gshan@redhat.com>
 > Tested-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+> Tested-by: Peter Newman <peternewman@google.com>
 > Tested-by: Zeng Heng <zengheng4@huawei.com>
 > Tested-by: Punit Agrawal <punit.agrawal@oss.qualcomm.com>
 > Reviewed-by: Zeng Heng <zengheng4@huawei.com>
 > Reviewed-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
 > Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
 > Signed-off-by: James Morse <james.morse@arm.com>
-> Co-developed-by: Dave Martin <dave.martin@arm.com>
-> Signed-off-by: Dave Martin <dave.martin@arm.com>
 > Signed-off-by: Ben Horgan <ben.horgan@arm.com>
 > ---
 > Changes since rfc:
-> Allow csu counters however many partid or pmg there are
-> else if -> if
-> reduce scope of local variables
-> drop has_csu
+> USE_RMID_IDX -> USE_PRE_ALLOCATED in comment
+> Remove unnecessary arch_mon_ctx = NULL
 > 
 > Changes since v2:
-> return -> break so works for mbwu in later patch
-> add for_each_mpam_resctrl_mon
-> return error from mpam_resctrl_monitor_init(). It may fail when is abmc
-> allocation introduced in a later patch.
-> Squashed in patch from Dave Martin:
-> https://lore.kernel.org/lkml/20250820131621.54983-1-Dave.Martin@arm.com/
+> Add include of resctrl_types.h as dropped from earlier patch
 > 
 > Changes since v3:
-> resctrl_enable_mon_event() signature update
-> Restrict the events considered
-> num-rmid update
-> Use raw_smp_processor_id()
-> Tighten heuristics:
->   Make sure it is the L3
->   Please shout if this means the counters aren't exposed on any platforms
-> Drop tags due to change in policy/rework
+> Don't mention ABMC in commit message
 > 
-> Changes since v4:
-> Move generic monitor boilerplate to separate patch
+> Changes since v5:
+> Remove MBM free running sentence from commit message
+> kmalloc -> kmalloc_obj
 > ---
->   drivers/resctrl/mpam_resctrl.c | 83 ++++++++++++++++++++++++++++++++++
->   1 file changed, 83 insertions(+)
+>   drivers/resctrl/mpam_internal.h | 14 ++++++-
+>   drivers/resctrl/mpam_resctrl.c  | 67 +++++++++++++++++++++++++++++++++
+>   include/linux/arm_mpam.h        |  5 +++
+>   3 files changed, 85 insertions(+), 1 deletion(-)
 > 
+
 Reviewed-by: Gavin Shan <gshan@redhat.com>
 
