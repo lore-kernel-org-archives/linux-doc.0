@@ -1,37 +1,37 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED3C839DBE1;
-	Tue, 24 Mar 2026 16:21:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E870363C61;
+	Tue, 24 Mar 2026 16:24:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774369274; cv=none; b=ebhm7+mZJFwuq7Ic6qT8zuZyFvy+DsEUuA2kY3qWIcscx0YuVcL4mrytwQq1nCM0X6GNhUcbTDLxACi3JQUtIUbBO7zWz0c3eqmbcGG62oUFYb/tawnA04j+R/hjUeWrPafdre8te2kOXL0FcTbqdQ/HdfoxC5TRx2cIdOMcOdM=
+	t=1774369448; cv=none; b=i0sVKS4wvIRp5AuW+UryMNRqwA47pFAT0McJbEfqK8do77P1YF9xuX8/PZJIj6Yj5Skahoo6OSAtuStQNi+KckmPIOCPlnVmDFjvIQuRc11kKc+XsjtfG+Or5xBuxpf5aj5PYCd7FLp0twWkIdgELLOx5dCznNWusjCptcBfrE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774369274; c=relaxed/simple;
-	bh=Y4P//gKJYKBIeGmA/ifT11Z9G31elTHHmiAnZwYb05k=;
+	s=arc-20240116; t=1774369448; c=relaxed/simple;
+	bh=7rKmnaLemA4yayvIHA3RdoP0hVRC5U3QcDfEb76UJIA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DvJc3CMTeHklYdGHOR7eKzYYvLE4B4DqWmPH/MXmXOwtr/mfHFcS6WF1njVYsB/arxGb3O1R9y2Qe7rjnARrUYClTCRVh0y8+8g4oEKuqRhkJKeHJDP4+xiyLohnQrKUgn6Q5lDWdtv9+MMQKpDvZ8FyTXV7ta9CUrfn4X4B9rw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=uadL7XUV; arc=none smtp.client-ip=198.137.202.133
+	 In-Reply-To:Content-Type; b=G4we9L8Dld3ohBeyjpyq7b2EhOxk3cg1hzA8gicr8r15bQXNPb+9wASS2Fb5yHpZTDJriHIIP6MycEshVnai7e12HtFJzF7dPt3cHQukGs4+NeU3yobwmLf0k3Rjo4aVWpyLF37rsn58fFyK0XYHV1og7EE+95C13Q/JC3dJ0l0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=FqIM8rLt; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="uadL7XUV"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="FqIM8rLt"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=O+y3BMZYyzHjKrmL9DS2rHlhBb3QhE653K/I70G3pUQ=; b=uadL7XUVZK+dbOIKqMAMptDHQU
-	89zCJP5YQcqMFt6jxthcE4yHkQ0TAuTt3IA5ljOYi7NWlwzJkTBN/y2LyQygv08aYqG3RlDpvjwp+
-	cQnLYHfUyeENMcUmrcSs1KGR+POSle/p91Tt1VEauUVpUmKaczpvAcjJ0G+6DTf6CQ9b46amhSICO
-	yZ8ga2zcufkYWUl/WXzNZVBobJYKUrD1jKtX1svTVG+E41hHCwuChKpWSZli5lhbBxN8oD+OxCMk3
-	NjP20VPKiOjCWgbMSQ4edLaDn/3sFogfgQkpX7fZQE73eBWvoOroleEjao5HOi12rPHS6eDSlSmxl
-	VVcxHzEQ==;
+	bh=fS1bjnQ+QGU+h4p/CxhcNAZyeuuxnXFqgllOh28ZBiA=; b=FqIM8rLt08yuV9/jD2INOc1vOJ
+	r9RA5a/cCjVB0tLAO4E1vA6srRRd8ktdwNlN8hffskej3pp9uqu7X72Q0KBoSKG5Pwy3H2M8uVD/6
+	6LpSASRFsueMiwqv4iSdCxWHENLMWfXyOnyHHwvXWNoEaW9M0CD8n+VjQelal0/OhG4mtBJFC7oOy
+	gZEGYwWeUC47i10ujCD6lw+v6VKk46TygurdnB2X/XwTK9KJoHQ9q3a0WIvZU6WQbXdXA3uZQAW2l
+	oAOrMbGVBuD4W8Q2KvHPAXlEEOG+zw8NQx0A/WF3JBea+xNzHXmvScZdQIwDC4LGkGcnahUH+gPkP
+	jFxAe0zA==;
 Received: from [50.53.43.113] (helo=[192.168.254.34])
 	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w54V9-00000001sqT-1vlm;
-	Tue, 24 Mar 2026 16:21:07 +0000
-Message-ID: <d2600bc9-9dfd-4268-ad57-21992c3a10ac@infradead.org>
-Date: Tue, 24 Mar 2026 09:21:06 -0700
+	id 1w54Y2-00000001swQ-2tIj;
+	Tue, 24 Mar 2026 16:24:06 +0000
+Message-ID: <c17639f2-c3c8-4f62-a109-248a10dbc553@infradead.org>
+Date: Tue, 24 Mar 2026 09:24:05 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,59 +39,40 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2] docs/mlx5: Fix typo subfuction
-To: Ryohei Kinugawa <ryohei.kinugawa@gmail.com>, rrameshbabu@nvidia.com,
- saeedm@nvidia.com, leon@kernel.org, tariqt@nvidia.com, mbloch@nvidia.com,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
- pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
- skhan@linuxfoundation.org
-Cc: netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-doc@vger.kernel.org, joe@dama.to
-References: <20260324053416.70166-1-ryohei.kinugawa@gmail.com>
+Subject: Re: [PATCH] docs: driver-api: fix 6 spelling typos in
+ Documentation/driver-api
+To: Jonathan Corbet <corbet@lwn.net>, tovicito <tovictakamine@gmail.com>
+Cc: skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260324160048.4899-1-tovictakamine@gmail.com>
+ <87tsu56wg2.fsf@trenco.lwn.net>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260324053416.70166-1-ryohei.kinugawa@gmail.com>
+In-Reply-To: <87tsu56wg2.fsf@trenco.lwn.net>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 3/23/26 10:34 PM, Ryohei Kinugawa wrote:
-> Fix two typos:
->  - 'Subfunctons' -> 'Subfunctions'
->  - 'subfuction' -> 'subfunction'
+On 3/24/26 9:09 AM, Jonathan Corbet wrote:
+> tovicito <tovictakamine@gmail.com> writes:
 > 
-> Reviewed-by: Joe Damato <joe@dama.to>
-> Signed-off-by: Ryohei Kinugawa <ryohei.kinugawa@gmail.com>
+>> Signed-off-by: tovicito <tovictakamine@gmail.com>
+>> ---
+>>  Documentation/driver-api/acpi/acpi-drivers.rst         | 2 +-
+>>  Documentation/driver-api/cxl/platform/acpi/cedt.rst    | 2 +-
+>>  Documentation/driver-api/cxl/platform/bios-and-efi.rst | 2 +-
+>>  Documentation/driver-api/dmaengine/pxa_dma.rst         | 2 +-
+>>  Documentation/driver-api/libata.rst                    | 2 +-
+>>  Documentation/driver-api/pci/p2pdma.rst                | 2 +-
+>>  6 files changed, 6 insertions(+), 6 deletions(-)
+> 
+> The changes don't look terrible, but please resubmit with a proper
+> changelog and a full-name Signed-off-by line.
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
+and you can add to the v2 patch:
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 
 thanks.
-
-> ---
->  .../device_drivers/ethernet/mellanox/mlx5/kconfig.rst         | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/networking/device_drivers/ethernet/mellanox/mlx5/kconfig.rst b/Documentation/networking/device_drivers/ethernet/mellanox/mlx5/kconfig.rst
-> index 34e911480108..b45d6871492c 100644
-> --- a/Documentation/networking/device_drivers/ethernet/mellanox/mlx5/kconfig.rst
-> +++ b/Documentation/networking/device_drivers/ethernet/mellanox/mlx5/kconfig.rst
-> @@ -114,13 +114,13 @@ Enabling the driver and kconfig options
->  **CONFIG_MLX5_SF=(y/n)**
->  
->  |    Build support for subfunction.
-> -|    Subfunctons are more light weight than PCI SRIOV VFs. Choosing this option
-> +|    Subfunctions are more light weight than PCI SRIOV VFs. Choosing this option
->  |    will enable support for creating subfunction devices.
->  
->  
->  **CONFIG_MLX5_SF_MANAGER=(y/n)**
->  
-> -|    Build support for subfuction port in the NIC. A Mellanox subfunction
-> +|    Build support for subfunction port in the NIC. A Mellanox subfunction
->  |    port is managed through devlink.  A subfunction supports RDMA, netdevice
->  |    and vdpa device. It is similar to a SRIOV VF but it doesn't require
->  |    SRIOV support.
-
 -- 
 ~Randy
