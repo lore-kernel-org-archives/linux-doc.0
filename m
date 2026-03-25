@@ -1,203 +1,285 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBE062F1FEC;
-	Wed, 25 Mar 2026 11:03:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774436612; cv=none; b=mOtwrrSbWIkRyBtyIiW3kZ1GjhuBzNyCoqUYHy5LtDCKpIehr6VWsKVPyB/K0J8+g0FHmj+fM8aIQi+bH7H9/1Cjo5o1jjN1sHXKarfz/M3Smv0L3Y5uKmSuX82LWvEtOxN4kmVR9exgjWzEp2Xi+mSYCEoWcJtaeeOMhL5bchY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774436612; c=relaxed/simple;
-	bh=bterWpEmBgkkyTS7H4efC0u7uGIIi8w4Tnviz/GzV6Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nkH+OhxASWiwBuF+HI1g9qvZh+/noh8ntaWnyRTz2EPlwe6Z4X+Ej09Xt2CcL/lPGUNpQAzGIkcLaIBFK8B4/QMcjUdNppbwtfAMBQG02xlKlaRtmc8qNkZz1y43lmhFkCiJiQKob5v/+JT8yYlhfwNsGYzQA4Sy4SFyCEu2tJw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kEFG0/5R; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C895F3C5542;
+	Wed, 25 Mar 2026 11:05:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.13
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774436710; cv=fail; b=rNvaDGXs8ioB4jXJoGee78qFeGsaEpoplFOZo/Xin2gDo9zVMb7vLejVCNkxvcJmbpLio/VuqPG02DXBFMU0c1HmKIKiDORAI75asxaM9edeu55VYzBz3J/iMk0cxCpFN0Khmj1Kz0wtY362YzWZH90VEtk/swEJQR8zcI+k80I=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774436710; c=relaxed/simple;
+	bh=imt1cext6K6DQzJd2pEeH3Aud1tLo+yB5vwLDlmv91c=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=YlvDPvLc03anNFJqaPJ2I1AEtZX66d0ECh7018og/4Zxiq6+jpB+eGcHwMJPLGHO1FbRES94CKVKL4pECLKwpFQv394aY9ZEU+DNv7AXc8fpG/FbPM30VgGOkxzgysoUJeLmEh33jEVbQ8KdDJoxmAdsSsxnTEXfcmov9Zfm3L4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OEQie3IM; arc=fail smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kEFG0/5R"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OEQie3IM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774436610; x=1805972610;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=bterWpEmBgkkyTS7H4efC0u7uGIIi8w4Tnviz/GzV6Q=;
-  b=kEFG0/5Ri03/55zoHPOvJbuBwZKZizYMZS0Aa397sk2QVXpwHlbAzq+j
-   08L3+FWRCv10kak2/1jrivkxoqAeKgJLuKsWg9dLiXifh7fJvHnXH73Kq
-   wdpMPkaV+s5+SLHBerxM3Kh4/R+yAJmQY4kEZ8bH0Aoh24WrdiS/uZFeQ
-   vjINAqmAYgto7mIZfDL2/H2cvxvM0aI3zgXvoGclD8kONUtRXp+tb+HnT
-   nQNGJ5zeAcD1k7blAukn/fOf9Ht7qvUq5p+QXZe2ZmvFMcjc8P9YGmLt7
-   wZ7Pkx9ua3R239Zm6jGZd86FMOJI8faqJJx19bMYu2cvWCJbnxOFfA5nw
+  t=1774436708; x=1805972708;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=imt1cext6K6DQzJd2pEeH3Aud1tLo+yB5vwLDlmv91c=;
+  b=OEQie3IMCOtz/hD9m9qPzM9ZUvDWV+Hd86iTCEDx73GmXrB01571YWNC
+   EN13gRFjIqsfnH/o8KJy+l6/Q/7LOKX1V1khkPgwFBMJ2WBhcv3tsdRGp
+   u+zy3XbQ1fR/9huiZ/AkZ/9hnvPLNbj8Fyp/qyOoZWosWRiNw4NwAjx0c
+   llUq+Fs3yAuWnxguOiRit3thjios86kkqCt8trqih6GL6+OGTvisnRcCe
+   FmTJUzsnGIltOUlGZsEhqsxp19VNcxEiHRJEbeiyRh9yRsHI8wUsBhFx/
+   Ywq9rboTb3QFDJexPnYJqFh68CO6C8nWPXZah4qOObfvQEWpeWM4mocNU
    Q==;
-X-CSE-ConnectionGUID: n50ulGyWRK+kCj8Wu9Ci4g==
-X-CSE-MsgGUID: vOegzq7eQSu2NrhUWTNJiw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="79376302"
+X-CSE-ConnectionGUID: lRfnlFxwSuCyshZ5Yvhoew==
+X-CSE-MsgGUID: bPPw1m6CRpWTNEfdZeqrXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="78068178"
 X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="79376302"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 04:03:20 -0700
-X-CSE-ConnectionGUID: Ar6fcB3pSfyKZhdtJmvIeQ==
-X-CSE-MsgGUID: SV+2zclvQrGIZTCj+qSR7w==
+   d="scan'208";a="78068178"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 04:05:06 -0700
+X-CSE-ConnectionGUID: L0GF283BQCqqoe4wXVvy7A==
+X-CSE-MsgGUID: 2dDmLeX0QXWiKYO4Jm4zng==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="262569794"
-Received: from smoticic-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.117])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 04:03:11 -0700
-Date: Wed, 25 Mar 2026 13:03:07 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
-	Harry Wentland <harry.wentland@amd.com>,
-	Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
-	Andy Yan <andy.yan@rock-chips.com>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Rob Herring <robh@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, kernel@collabora.com,
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, intel-gfx@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org, linux-doc@vger.kernel.org,
-	Werner Sembach <wse@tuxedocomputers.com>,
-	Andri Yngvason <andri@yngvason.is>,
-	Marius Vlad <marius.vlad@collabora.com>
-Subject: Re: [PATCH v11 03/22] drm: Add new general DRM property "color
- format"
-Message-ID: <acPA60Ci3n_t__xF@intel.com>
-References: <20260324-color-format-v11-0-605559af4fb4@collabora.com>
- <20260324-color-format-v11-3-605559af4fb4@collabora.com>
- <acLDPYuaVI2-12JX@intel.com>
- <23910073.EfDdHjke4D@workhorse>
- <acLrv5hLyNss-Px5@intel.com>
- <20260325-neat-elegant-raven-ebc9ab@houat>
+   d="scan'208";a="226290739"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 04:05:05 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Wed, 25 Mar 2026 04:05:05 -0700
+Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Wed, 25 Mar 2026 04:05:05 -0700
+Received: from BL2PR02CU003.outbound.protection.outlook.com (52.101.52.41) by
+ edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Wed, 25 Mar 2026 04:05:04 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=U/eblCu7j517SS751y0ndM4ICUnOC2mfEwodF/GP1X2+ttZ/mDyaTUr4AgT+XizzPY9KMwzUnb667CL3tvCGihFtJeSQ09nZdlk5hOcY8SRiFf2kPAYluNl77fFhfXiaGdQ8xOxFot+rQStSy8bhDa7cZ2G6Rt4uNKPbK8VH1tcCEQFFxklqLvSmiwKsWIrsjKMjSBm3NfU3CejCXPN2Dch8ev150+6NW54VUV1huXDzJBRx2TGXoLcMqXfJCtyvtIiP75PKl5OO1z+Qz3ytOt3eY/kBxIUL/CniY25bzXiAvwtpm6yXcT+2DegX8eMbLf+wF87elsLBV90ve+LUHw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hl9itglNZ+nwpXlM/1VmBFLcC/GeV+/1K+p6m/gQmsc=;
+ b=NYa1qzog2TyUpmhF3Sn0sLd+CKoPP7i0M1X3LljJZni+frf4XQof0A8Izf9FQmxP3KnT4FNsxFDsyMwksmzuih0Gp7R/Hp9iC0yA6uXCvykYJFUyazTlCwNZYLL9g+IQH/z3xsyV/eyyw/PAGBOqozlB9+ltadiNifuNwMI5dmkxVQpX/J8C9goNP4chPGOj6JFjGc4SBT64f2cwLCCpaKov6OB/imOO5/Vlq2UlhKM95sI/o7oMwBvjvf3MzDjySMeeRVIwXBHoOqupHB6phSWykgVFy82IVxJIjrHIX4opc6EAiraNAaR3IXNbhhTm3D0rWUdkVCwN04kLvzZPMw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from LV8PR11MB8509.namprd11.prod.outlook.com (2603:10b6:408:1e6::15)
+ by CYXPR11MB8692.namprd11.prod.outlook.com (2603:10b6:930:e4::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.20; Wed, 25 Mar
+ 2026 11:05:00 +0000
+Received: from LV8PR11MB8509.namprd11.prod.outlook.com
+ ([fe80::f5bd:4dde:4f2f:20b7]) by LV8PR11MB8509.namprd11.prod.outlook.com
+ ([fe80::f5bd:4dde:4f2f:20b7%5]) with mapi id 15.20.9745.019; Wed, 25 Mar 2026
+ 11:04:59 +0000
+Message-ID: <b16f93af-1ec6-43f5-b4d0-b1d390e3c23c@intel.com>
+Date: Wed, 25 Mar 2026 19:12:33 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 03/24] PCI: Require Live Update preserved devices are
+ in singleton iommu_groups
+To: David Matlack <dmatlack@google.com>
+CC: Alex Williamson <alex@shazbot.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf
+	<graf@amazon.com>, Alex Mastro <amastro@fb.com>, Andrew Morton
+	<akpm@linux-foundation.org>, Ankit Agrawal <ankita@nvidia.com>, Arnd Bergmann
+	<arnd@arndb.de>, Askar Safin <safinaskar@gmail.com>, "Borislav Petkov (AMD)"
+	<bp@alien8.de>, Chris Li <chrisl@kernel.org>, Dapeng Mi
+	<dapeng1.mi@linux.intel.com>, David Rientjes <rientjes@google.com>, Feng Tang
+	<feng.tang@linux.alibaba.com>, Jacob Pan <jacob.pan@linux.microsoft.com>,
+	Jason Gunthorpe <jgg@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>, "Jonathan
+ Corbet" <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, Kees Cook
+	<kees@kernel.org>, Kevin Tian <kevin.tian@intel.com>,
+	<kexec@lists.infradead.org>, <kvm@vger.kernel.org>, Leon Romanovsky
+	<leon@kernel.org>, Leon Romanovsky <leonro@nvidia.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>, <linux-mm@kvack.org>,
+	<linux-pci@vger.kernel.org>, Li RongQing <lirongqing@baidu.com>, Lukas Wunner
+	<lukas@wunner.de>, Marco Elver <elver@google.com>,
+	=?UTF-8?Q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>, Mike Rapoport
+	<rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, Pasha Tatashin
+	<pasha.tatashin@soleen.com>, "Paul E. McKenney" <paulmck@kernel.org>, "Pawan
+ Gupta" <pawan.kumar.gupta@linux.intel.com>, "Peter Zijlstra (Intel)"
+	<peterz@infradead.org>, Pranjal Shrivastava <praan@google.com>, "Pratyush
+ Yadav" <pratyush@kernel.org>, Raghavendra Rao Ananta <rananta@google.com>,
+	Randy Dunlap <rdunlap@infradead.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Saeed Mahameed <saeedm@nvidia.com>, Samiullah Khawaja <skhawaja@google.com>,
+	Shuah Khan <skhan@linuxfoundation.org>, Vipin Sharma <vipinsh@google.com>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>, William Tu <witu@nvidia.com>,
+	Zhu Yanjun <yanjun.zhu@linux.dev>
+References: <20260323235817.1960573-1-dmatlack@google.com>
+ <20260323235817.1960573-4-dmatlack@google.com>
+ <376910fa-4232-4e58-bf87-0504202866a5@intel.com>
+ <acLRICLAP5Ccqt9I@google.com>
+Content-Language: en-US
+From: Yi Liu <yi.l.liu@intel.com>
+In-Reply-To: <acLRICLAP5Ccqt9I@google.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: TPYP295CA0039.TWNP295.PROD.OUTLOOK.COM
+ (2603:1096:7d0:7::10) To LV8PR11MB8509.namprd11.prod.outlook.com
+ (2603:10b6:408:1e6::15)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260325-neat-elegant-raven-ebc9ab@houat>
-X-Patchwork-Hint: comment
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV8PR11MB8509:EE_|CYXPR11MB8692:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1eea5afa-622a-41f7-4db4-08de8a5e5af2
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024|42112799006|56012099003|18002099003|22082099003|7053199007;
+X-Microsoft-Antispam-Message-Info: /d0iJsSksAYxtFQoMvHtlNfaJNRB+ZOtc5m2BoiySyTzmk/Use6dcCeOzVym+xX9TBJS9O1wv1IQK57M55tRyQrmvwJAI599cw2IoISEZUPnaam1Xi3ff1JcIq9dTElFw+H9ylce8/kmAua8xRPmb9S7QMSjp2OZ6f5PxFzZQI4Ou9IcB4kcgYwKBELV+/iM7ahpmyHO7T1QiPPGpTaY+sfgh+hz3OTeEvMpCnDMtQx4ChSpgGLvIVSE3FdOolTWB1e+B4S5qTMSVEo/0zI26bJ3rFn5di57dOyNbeOllPHJye67CY1oBWAAjfBHZpT/7H0Leeqix4GNWOB1DjhN9efnKHDPCYqbdPPtfEMqVgjxSLakHkRhbw8Rq5CTnE1kO/ROT3AbCZVfPtGFNp2h84ha+NzjdryESVKeXWueHJGQsiiIt7IVOn21sGO/3zrMR2CfT9WqEjyogA0Ny44lrSPDrAEzqXBh4sPM23AdYuZEJEqbH3wuJGv45WxRNlA3L5inFkn1AeoHNANk7NyCKThfqPL8PfDSOU9ZwhAYjfdgM/YXGtLIHFjbaemwuVufdWZj+gU9dPgL6gUIkOCq4slpt7G6+3dItWwm0apBn8K13eJUKcf7xTkMb3pnxo8KVtIH3vbZX/4+M1HGKp2QRrQJWkGUuiL6SOJPQ6Cn4FkKCHzipvKZo6bE7KcdUuZYktm6o9GUlwXhwr6Kr/Sflw6YQ6987dfZ6mo2JeAOn20=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV8PR11MB8509.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(42112799006)(56012099003)(18002099003)(22082099003)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dkExK0FyNVd0UUpiSDhqcFFleG5LVXNOSHBHWHhMbGxFTXJVNTJlSThMVHdy?=
+ =?utf-8?B?Y0RuN2JXUTQvcnp1KzdqWHRHeTlrdjJxNDdKcUVVL2xLNnRaMVZaWXk2M0pH?=
+ =?utf-8?B?UXpocE9WbVhzYlY3ZGtPRkFSZ3ZJWGVJNXV6VnBYY1RRdWFIRksvWFViTExR?=
+ =?utf-8?B?ODBmSlZoNHdCVVorcW5MRmlScURQbHd0bWQ0K0lCeTNOcUhSTElKdlZUWGNo?=
+ =?utf-8?B?RWRYeFJ4aG0wQ1RTNERrVEdONEVHNTRvcUlUaEhxTlQ1b1VkWmtabnZXaGY0?=
+ =?utf-8?B?WUtRZkdDUzNXVTVSOTZPZWIxaE15Z3BmeWhvQUFyb09VUEhmaC90K3NDZEZs?=
+ =?utf-8?B?Y2tCRWJXam1nZGczTDE5TERJZCtEdW9vWUloRWE5UGY5c000WWpVallVQ1Z2?=
+ =?utf-8?B?WW1kVFJJZ1krVThqV2ROVTVWVzB6MjVzOGxUeWRrU04vOFdjQWoySExialph?=
+ =?utf-8?B?ME1qNC9IU3RSMVFMK291QWQweVA1emZoWlRPVFV6K2grNzREaGRmMWh0bExO?=
+ =?utf-8?B?Vm9NendoWlAwVW4yc0h0VzQrQ1VPNmZEeURUcUplWmtCb1NJRWNrdFNhSUJv?=
+ =?utf-8?B?aGh6Um5xK3dSanJGQzExT0drbVF1YkVuR0FjeDE3MHl4QXRSZkN2Sk90eXcr?=
+ =?utf-8?B?Wld3bDBESHY0SGVxTUU0Z1prbFl0OC9mK1dwUlFMMEkxd1Jhb1RvYTFKVVJ0?=
+ =?utf-8?B?WGh1QUw1dEtoSXJ2NGMzQnBzU3krdENhWWl0VUJQd2tMa3l0a2lvaWw3LzVG?=
+ =?utf-8?B?YlU5b2hBNVlRNGZSRjcxcFd0MjVwMSsrYlZBRHpJUFVObmtnOVRsN091Z1hC?=
+ =?utf-8?B?VzZ4d001QnVvcC9NTXBicDU3OTBWWlBtZXVRQkpUaEZZV204Z3BRZFl5Z2tD?=
+ =?utf-8?B?d29qYjBDL1hWcDZINUFjZkFPSDlIR1NMUmVDaWhaMEJNK3I0TUJ5VkY2UlAy?=
+ =?utf-8?B?YmhKbzlwSWE0RWY1Nm05Q2YvdmRVRk91SzFhOFFyMXFPZVNxek5yZmpPOWZR?=
+ =?utf-8?B?eVdXSEJ3K3Z2NDlISVR4QXBsbTNRdmdjRTR4c0tjNlVqVzVEQ1RKdG1jbHFO?=
+ =?utf-8?B?NWk3b2FIZlN4ekhScmxuN2tiSnQrWFFzcGs5MkFoaXh2WUxRNFdZN1ZKYytD?=
+ =?utf-8?B?NXM5VE95T2FJSWY4S0hRM0F3Qjk3cHgrNjdXTmo2ZDlhY1ZkdThrb2lWWVNu?=
+ =?utf-8?B?TFhvSTNDUjFxNi9YOWFpaU1LTm53eThmOCt2ZllZQ21pdnhuVkFaYlRma2h1?=
+ =?utf-8?B?QWRFbEFkQmE4ZDYzWkpsWmVDTGN0VS9vMDlPei9FNW5xc2hpYnY1bzRHRGRO?=
+ =?utf-8?B?MldzN1ZDNHo2UER1ZTNLZE5NWms3RUcyNEd0OEFqcEh5a0FIMU9zK1g4ZEsz?=
+ =?utf-8?B?OW9yalhxWWNHT0xxZUx4K3BXaGoxSURsTWxxc1ZucGhlVXRkM29uWlNwU2Nl?=
+ =?utf-8?B?K041ZS9BRlFzZ2tVV3R1eFFMUEh6RW42ZFZRZkVTMWpCTGZtay9uWlNRYTU0?=
+ =?utf-8?B?L2NTZFoxenpMVXhLaXFLd3l1TExuUythUWZsWVlna205bDlLT0Q5ZlhacGhU?=
+ =?utf-8?B?SXkrWDJIV253Q1VTblM3aUQzMDZldzR3TjNOYXRaN3NYNWdBS1lUbkRxd05C?=
+ =?utf-8?B?LzZ0WFAxYmYxclBER0F4SDVXQ0VSaHhxd21INTlEa3hXVWZiaXh1cGlWanJl?=
+ =?utf-8?B?d3I3dUhGTlJXOEwzaW1uSU05cnRZTlZDQmZBRVd4VXFvenJQRWI5eThvOU11?=
+ =?utf-8?B?MVFtY0ZkZXNOWWc5NWRSSmh4ZlpLN2pwZ2pxNVVCeXltVUVZUFZwU2tjcFBB?=
+ =?utf-8?B?NXdRNml3Mi80UG9BL1Y4a21MM2trWXliclppUXVMbm1ITDlEQk5oMjdOemN3?=
+ =?utf-8?B?MEQzTjFVeUNLa0dJTG5FenlVM3lxWHV1RXh1NVE0RVNjVWE4cnB1MGVqM21y?=
+ =?utf-8?B?cHZGaXpTcHh4UzRVZ2J2Wm5QR1ZkVTNUTnFIOXFFRUUvUWJJd3RaN1R4OXp3?=
+ =?utf-8?B?OXpvN2NQLzBpWjhPT3BhK0Q5eHpEaXpab3JManFvMWErWjBYWjFyNTdoVkto?=
+ =?utf-8?B?aWJYV0F2NW9qeDJPZ1pXNHRRcEovQzVvZTZFQlZ2eWc3UUFTYW5HMktHMlpy?=
+ =?utf-8?B?M3lwa01PWU1HZW50Z3VsUTdxdENTcjNMYWVIT3E3M1hWSnh1WkN6NU1Ienlz?=
+ =?utf-8?B?blhNWWowSXhvenNERXVDQnlFTm40Snp5ckJLSFlMS0NNdU9zcHFxbmRTM05x?=
+ =?utf-8?B?ZXZGdTVDV1M1RHRHdWtocmtJUUZqcy8vN25SR0JNa2dnSUpBWUFsQzYxZE1z?=
+ =?utf-8?B?SWJGbjFyQkR6UkdMeWNCVThOa09IRTJEbzY5UERISk9VclJSdjg4UT09?=
+X-Exchange-RoutingPolicyChecked: sNKlx6rhcHKpg7sjOD4CpGtXFqoK/vwD2M3CXk65NCqyZ+5J+pXP6yBuvxFMM6rD6DCbisGZIZNxoKvD8RT7ECS1qgMsJTVoHtKJrRpGf4On/7WhcwyAUBM3YFpJNR2A/FEpNZbhZxJtKj1x8E6zlDiXPzxXOh/SgM+FiAFi81vfyjoZUSsSFmmBvwCMVfedl8zFuzaYWC54rw6IEjKgsp5cFfjJa9GLHaK3iOM/jSRqm5JuA2rDqFFtSwn+Yzsji2F8rUwVKrvG4HpWCis86Mw5Mi99mIZhl8gbpmDLFj7r8N2+XJindo2ih9t9PIOG58Xw5j8YjEGklKPKYwDxTw==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1eea5afa-622a-41f7-4db4-08de8a5e5af2
+X-MS-Exchange-CrossTenant-AuthSource: LV8PR11MB8509.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2026 11:04:59.3841
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: x0vLyzZ1FzeWOshkikZFV5Ob1X7FcB4EmxN+PU/0Wn1vHHDISeSxKPhvKcE6IXS7fNJE1aPJmdkzkPAz+HjXHw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYXPR11MB8692
+X-OriginatorOrg: intel.com
 
-On Wed, Mar 25, 2026 at 09:24:27AM +0100, Maxime Ripard wrote:
-> On Tue, Mar 24, 2026 at 09:53:35PM +0200, Ville Syrjälä wrote:
-> > On Tue, Mar 24, 2026 at 08:10:11PM +0100, Nicolas Frattaroli wrote:
-> > > On Tuesday, 24 March 2026 18:00:45 Central European Standard Time Ville Syrjälä wrote:
-> > > > On Tue, Mar 24, 2026 at 05:01:07PM +0100, Nicolas Frattaroli wrote:
-> > > > > +enum drm_connector_color_format {
-> > > > > +	/**
-> > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_AUTO: The driver or display protocol
-> > > > > +	 * helpers should pick a suitable color format. All implementations of a
-> > > > > +	 * specific display protocol must behave the same way with "AUTO", but
-> > > > > +	 * different display protocols do not necessarily have the same "AUTO"
-> > > > > +	 * semantics.
-> > > > > +	 *
-> > > > > +	 * For HDMI, "AUTO" picks RGB, but falls back to YCbCr 4:2:0 if the
-> > > > > +	 * bandwidth required for full-scale RGB is not available, or the mode
-> > > > > +	 * is YCbCr 4:2:0-only, as long as the mode and output both support
-> > > > > +	 * YCbCr 4:2:0.
-> > > > > +	 *
-> > > > > +	 * For display protocols other than HDMI, the recursive bridge chain
-> > > > > +	 * format selection picks the first chain of bridge formats that works,
-> > > > > +	 * as has already been the case before the introduction of the "color
-> > > > > +	 * format" property. Non-HDMI bridges should therefore either sort their
-> > > > > +	 * bus output formats by preference, or agree on a unified auto format
-> > > > > +	 * selection logic that's implemented in a common state helper (like
-> > > > > +	 * how HDMI does it).
-> > > > > +	 */
-> > > > > +	DRM_CONNECTOR_COLOR_FORMAT_AUTO = 0,
-> > > > > +
-> > > > > +	/**
-> > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_RGB444: RGB output format
-> > > > > +	 */
-> > > > > +	DRM_CONNECTOR_COLOR_FORMAT_RGB444,
-> > > > > +
-> > > > > +	/**
-> > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR444: YCbCr 4:4:4 output format (ie.
-> > > > > +	 * not subsampled)
-> > > > > +	 */
-> > > > > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR444,
-> > > > > +
-> > > > > +	/**
-> > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR422: YCbCr 4:2:2 output format (ie.
-> > > > > +	 * with horizontal subsampling)
-> > > > > +	 */
-> > > > > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR422,
-> > > > > +
-> > > > > +	/**
-> > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR420: YCbCr 4:2:0 output format (ie.
-> > > > > +	 * with horizontal and vertical subsampling)
-> > > > > +	 */
-> > > > > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR420,
-> > > > 
-> > > > Seems like this should document what the quantization range
-> > > > should be for each format.
-> > > > 
-> > > 
-> > > I don't think so? If you want per-component bit depth values,
-> > > DRM_FORMAT_* defines would be the appropriate values to use. This
-> > > enum is more abstract than that, and is there to communicate
-> > > YUV vs. RGB and chroma subsampling, with bit depth being handled
-> > > by other properties.
-> > > 
-> > > If you mean the factor used for subsampling, then that'd only be
-> > > relevant if YCBCR410 was supported where one chroma plane isn't
-> > > halved but quartered in resolution. I suspect 4:1:0 will never
-> > > be added; no digital display protocol standard supports it to my
-> > > knowledge, and hopefully none ever will.
-> > 
-> > No, I mean the quantization range (16-235 vs. 0-255 etc).
-> > 
-> > The i915 behaviour is that YCbCr is always limited range,
-> > RGB can either be full or limited range depending on the 
-> > "Broadcast RGB" property and other related factors.
+
+
+On 3/25/26 02:00, David Matlack wrote:
+> On 2026-03-24 09:07 PM, Yi Liu wrote:
+>> On 3/24/26 07:57, David Matlack wrote:
+>>> Require that Live Update preserved devices are in singleton iommu_groups
+>>> during preservation (outgoing kernel) and retrieval (incoming kernel).
+>>>
+>>> PCI devices preserved across Live Update will be allowed to perform
+>>> memory transactions throughout the Live Update. Thus IOMMU groups for
+>>> preserved devices must remain fixed. Since all current use cases for
+>>> Live Update are for PCI devices in singleton iommu_groups, require that
+>>> as a starting point. This avoids the complexity of needing to enforce
+>>> arbitrary iommu_group topologies while still allowing all current use
+>>> cases.
+>>>
+>>> Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
+>>> Signed-off-by: David Matlack <dmatlack@google.com>
+>>> ---
+>>>    drivers/pci/liveupdate.c | 34 +++++++++++++++++++++++++++++++++-
+>>>    1 file changed, 33 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/pci/liveupdate.c b/drivers/pci/liveupdate.c
+>>> index bec7b3500057..a3dbe06650ff 100644
+>>> --- a/drivers/pci/liveupdate.c
+>>> +++ b/drivers/pci/liveupdate.c
+>>> @@ -75,6 +75,8 @@
+>>>     *
+>>>     *  * The device must not be a Physical Function (PF).
+>>>     *
+>>> + *  * The device must be the only device in its IOMMU group.
+>>> + *
+>>>     * Preservation Behavior
+>>>     * =====================
+>>>     *
+>>> @@ -105,6 +107,7 @@
+>>>    #include <linux/bsearch.h>
+>>>    #include <linux/io.h>
+>>> +#include <linux/iommu.h>
+>>>    #include <linux/kexec_handover.h>
+>>>    #include <linux/kho/abi/pci.h>
+>>>    #include <linux/liveupdate.h>
+>>> @@ -222,6 +225,31 @@ static void pci_ser_delete(struct pci_ser *ser, struct pci_dev *dev)
+>>>    	ser->nr_devices--;
+>>>    }
+>>> +static int count_devices(struct device *dev, void *__nr_devices)
+>>> +{
+>>> +	(*(int *)__nr_devices)++;
+>>> +	return 0;
+>>> +}
+>>> +
+>>
+>> there was a related discussion on the singleton group check. have you
+>> considered the device_group_immutable_singleton() in below link?
+>>
+>> https://lore.kernel.org/linux-iommu/20220421052121.3464100-4-baolu.lu@linux.intel.com/
 > 
-> So far the HDMI state has both the format and quantization range as
-> different fields. I'm not sure we need to document the range in the
-> format field, maybe only mention it's not part of the format but has a
-> field of its own?
+> Thanks for the link.
+> 
+> Based on the discussion in the follow-up threads, I think the only check
+> in that function that is needed on top of what is in this patch to
+> ensure group immutability is this one:
+> 
+> 	/*
+> 	 * The device could be considered to be fully isolated if
+> 	 * all devices on the path from the device to the host-PCI
+> 	 * bridge are protected from peer-to-peer DMA by ACS.
+> 	 */
+> 	if (!pci_acs_path_enabled(pdev, NULL, REQ_ACS_FLAGS))
+> 		return false;
+> 
+> However, this would restrict Live Update support to only device
+> topologies that have these flags enabled. I am not yet sure if this
+> would be overly restrictive for the scenarios we care about supporting.
 
-I think we only have it for RGB (on some drivers only?). For YCbCr
-I think the assumption is limited range everywhere.
+yes. It's a bit different from that thread in which not only require
+singleton group but also need to be immutable.
 
-But I'm not really concerned about documenting struct members.
-What I'm talking about is the *uapi* docs. Surely userspace
-will want to know what the new property actually does so the
-uapi needs to be documented properly. And down the line some
-new driver might also implement the wrong behaviour if there
-is no clear specification.
+> An alternative way to ensure immutability would be to block adding
+> devices at probe time. i.e. Fail pci_device_group() if the device being
+> added has liveupdate_incoming=True, or if the group already contains a
+> device with liveupdate_{incoming,outgoing}=True. We would still need the
+> check in pci_liveupdate_preserve() to pretect against setting
+> liveupdate_outgoing=True on a device in a multi-device group.
 
-So I'm thinking (or perhaps hoping) the rule might be something like:
-- YCbCr limited range 
-- RGB full range if "Broadcast RGB" property is not present
-- RGB full or limited range based on the "Broadcast RGB" property
-  if it's present
+this looks good to me. But you'll disallow hotplug-in during liveupdate.
+not sure about if any decision w.r.t. hotplug. is it acceptable?
 
-I think the "Broadcast RGB" property itself might also be lacking
-proper uapi docs, so that may need to be remedied as well.
+BTW. A question not specific to this patch. If failure happens after
+executing kexec, is there any chance to fallback to the prior kernel?
 
--- 
-Ville Syrjälä
-Intel
+Regards,
+Yi Liu
