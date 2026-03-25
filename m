@@ -1,226 +1,137 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67DE533B6D1;
-	Wed, 25 Mar 2026 18:43:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6829F33C182;
+	Wed, 25 Mar 2026 18:45:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774464211; cv=none; b=nMcO4U8j9u96ft6ho9i97vqlpdtHRVp9BAhlY8z1iJlU8nc4N5jgCcwrwRF4HNFZ2FBE44SkRhY/LOWCovz+PLU0mXJGshFH45EK3P64oQIJzEN8N8+XSFAmgZcF6/D6WI53cnM9loyj7AEG0G0/kAaS5cgQH2coTMM9ui8DmaA=
+	t=1774464302; cv=none; b=H2N2PLRIvGiuXjMIkwpLQpUTRDsvz8pCaMTgV0Qf+QO7gr6lh1r7oTZJArLJvL80mmXNIRe1tWbPm2ife/brLwvgngJSeaSLaMnm8hPWPFE+baqJ0qm8ILrMecTp7AYViDkkV+/XX3MWs8mNzmHFrTasxi6RFg4dE24Orbkgc3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774464211; c=relaxed/simple;
-	bh=0uB4cz/kaaU7qp1vt9+ccjoVdLBU34QCUDDWtFm5dH4=;
+	s=arc-20240116; t=1774464302; c=relaxed/simple;
+	bh=zalW9eqZ+xlnOVkgVJJnOnpqxej4tDRqBlTwGTbwGXA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZB1VvkTPWSXbYQh4npXNj9TSV0QPiYXvjN+j/ScAU2NQKVtmN4mK1RBaFGRKfoaaG38a5tzjTGVrYOz86BcVqhwGmFHj2oR6hsgrPC9d1A4R0I1lyLsRQ62SR7OhYTo/oY/SmeqBf0yjF1Ia/JIUVImnqZUOU+Z85s8uV4tyXtQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NaKE8aSh; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=IlaBvwouzLJs0g0dOoebn5fxGE0PEefhaPEbhzqVobPfxQAPVgComqV6jC1ugYgyB/wqeKuKOY8lZNKHtGx5n+pUXSg3hyWfG8w/2+IFntBqPVSN7AX0mALGavXktcumgjRP17Ter/ABBPblBiEmtL2op6yiHfLu3hYxX21dTIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WUt5dQSU; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NaKE8aSh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WUt5dQSU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774464209; x=1806000209;
+  t=1774464300; x=1806000300;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:content-transfer-encoding:in-reply-to;
-  bh=0uB4cz/kaaU7qp1vt9+ccjoVdLBU34QCUDDWtFm5dH4=;
-  b=NaKE8aSh5S78hxkSpItvlAh6zs/LP7H2VEht8IDk6rm3jmYO7iGgXKRY
-   Rx9Fe8bw3Y1S1gvAuGJKjwXXbH0PFQfBX11BJ18sv2p7jPBsWTohadkIQ
-   tNDayFi9BnRt4/FNVS1Upe0tHZw+qeB18npBwfOFA6EbZXPdXDO+QgWiu
-   /iXoLqfwxyFOrz/vwhw/XZJl2CVuY2griNe/qaWQNVe0188NLoTVv7tJY
-   YY93JNkjG2dg22+ijQhlHg+WQMXbk7PPCjA8kR1Ye7thlEctv7kOsIFp0
-   9LkUO9aVIKJCfw2mmEYEdKR2ufPBf0YrxfT6IwcwtcbEBWga4Z2ARDaTO
-   Q==;
-X-CSE-ConnectionGUID: JCyG2RB5QSC6boaAmu66KA==
-X-CSE-MsgGUID: zFxDfkndQfiAxpYjY3M8tQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="75228914"
+  bh=zalW9eqZ+xlnOVkgVJJnOnpqxej4tDRqBlTwGTbwGXA=;
+  b=WUt5dQSUwdhnKs5f+h1FzxGDpfYfDWJa1X4PQEwkaf2qnvLLM6kzyHCY
+   CiT8i04cYGVxHLT7wB5KmbiqcrBDauqLaFvCHzk0SiiR0wgWKiBL4PjMz
+   rsSmnHMcqV6wb8usbtXNmHcQvmwdeTUfQPCk1bAiXez+70qq8Ys0g6IOb
+   /FN4rcog65ao6R5XolTysD6YFPGB16Wlj1dDAtHOrShsmerPEp6uXK4dQ
+   k9g0kgRRlzpUthUulVboohDVgm8ItN+bBJb7cAYjX2xtrI21BaB6b0DMr
+   vv8cX/5oUah1FS9eJjpp5f3qPEpJcUEw9DiWKwMvB3l7v1cX1it1b+2sr
+   w==;
+X-CSE-ConnectionGUID: JcA/kONdRI+RQpXrVNditQ==
+X-CSE-MsgGUID: JrbVpbSHToqLMsQQq6viww==
+X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="75229053"
 X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="75228914"
+   d="scan'208";a="75229053"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 11:43:28 -0700
-X-CSE-ConnectionGUID: PIgWhb1sReuCAFXJCMmd4Q==
-X-CSE-MsgGUID: SQkIRvm5QpyELM31Jk3yCw==
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 11:44:59 -0700
+X-CSE-ConnectionGUID: mrpuvO0tQcSc5PUPJGSn3w==
+X-CSE-MsgGUID: Rm90cqjAREWRCqh81LoaDg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="229541235"
-Received: from smoticic-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.117])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 11:43:17 -0700
-Date: Wed, 25 Mar 2026 20:43:15 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
-	Harry Wentland <harry.wentland@amd.com>,
-	Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
-	Andy Yan <andy.yan@rock-chips.com>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Rob Herring <robh@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, kernel@collabora.com,
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, intel-gfx@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org, linux-doc@vger.kernel.org,
-	Werner Sembach <wse@tuxedocomputers.com>,
-	Andri Yngvason <andri@yngvason.is>,
-	Marius Vlad <marius.vlad@collabora.com>
-Subject: Re: [PATCH v11 03/22] drm: Add new general DRM property "color
- format"
-Message-ID: <acQsw3Wi_xVlBZ8d@intel.com>
-References: <20260324-color-format-v11-0-605559af4fb4@collabora.com>
- <20260324-color-format-v11-3-605559af4fb4@collabora.com>
- <acLDPYuaVI2-12JX@intel.com>
- <23910073.EfDdHjke4D@workhorse>
- <acLrv5hLyNss-Px5@intel.com>
- <20260325-neat-elegant-raven-ebc9ab@houat>
- <acPA60Ci3n_t__xF@intel.com>
- <20260325-magnificent-ultraviolet-oarfish-baefbc@houat>
+   d="scan'208";a="229541708"
+Received: from guptapa-desk.jf.intel.com (HELO desk) ([10.165.239.46])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 11:44:59 -0700
+Date: Wed, 25 Mar 2026 11:44:53 -0700
+From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+To: Jim Mattson <jmattson@google.com>
+Cc: x86@kernel.org, Jon Kohler <jon@nutanix.com>,
+	Nikolay Borisov <nik.borisov@suse.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	David Kaplan <david.kaplan@amd.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>, KP Singh <kpsingh@kernel.org>,
+	Jiri Olsa <jolsa@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	David Laight <david.laight.linux@gmail.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	David Ahern <dsahern@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+	kvm@vger.kernel.org, Asit Mallick <asit.k.mallick@intel.com>,
+	Tao Zhang <tao1.zhang@intel.com>, bpf@vger.kernel.org,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v8 02/10] x86/bhi: Make clear_bhb_loop() effective on
+ newer CPUs
+Message-ID: <20260325184453.njfyuhqdamu7ihzi@desk>
+References: <20260324-vmscape-bhb-v8-0-68bb524b3ab9@linux.intel.com>
+ <20260324-vmscape-bhb-v8-2-68bb524b3ab9@linux.intel.com>
+ <CALMp9eTZRucL+CUSp1yUPG0aSTpyQ=po1EmurZhX9+R+vxgbPA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260325-magnificent-ultraviolet-oarfish-baefbc@houat>
-X-Patchwork-Hint: comment
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+In-Reply-To: <CALMp9eTZRucL+CUSp1yUPG0aSTpyQ=po1EmurZhX9+R+vxgbPA@mail.gmail.com>
 
-On Wed, Mar 25, 2026 at 03:56:58PM +0100, Maxime Ripard wrote:
-> On Wed, Mar 25, 2026 at 01:03:07PM +0200, Ville Syrjälä wrote:
-> > On Wed, Mar 25, 2026 at 09:24:27AM +0100, Maxime Ripard wrote:
-> > > On Tue, Mar 24, 2026 at 09:53:35PM +0200, Ville Syrjälä wrote:
-> > > > On Tue, Mar 24, 2026 at 08:10:11PM +0100, Nicolas Frattaroli wrote:
-> > > > > On Tuesday, 24 March 2026 18:00:45 Central European Standard Time Ville Syrjälä wrote:
-> > > > > > On Tue, Mar 24, 2026 at 05:01:07PM +0100, Nicolas Frattaroli wrote:
-> > > > > > > +enum drm_connector_color_format {
-> > > > > > > +	/**
-> > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_AUTO: The driver or display protocol
-> > > > > > > +	 * helpers should pick a suitable color format. All implementations of a
-> > > > > > > +	 * specific display protocol must behave the same way with "AUTO", but
-> > > > > > > +	 * different display protocols do not necessarily have the same "AUTO"
-> > > > > > > +	 * semantics.
-> > > > > > > +	 *
-> > > > > > > +	 * For HDMI, "AUTO" picks RGB, but falls back to YCbCr 4:2:0 if the
-> > > > > > > +	 * bandwidth required for full-scale RGB is not available, or the mode
-> > > > > > > +	 * is YCbCr 4:2:0-only, as long as the mode and output both support
-> > > > > > > +	 * YCbCr 4:2:0.
-> > > > > > > +	 *
-> > > > > > > +	 * For display protocols other than HDMI, the recursive bridge chain
-> > > > > > > +	 * format selection picks the first chain of bridge formats that works,
-> > > > > > > +	 * as has already been the case before the introduction of the "color
-> > > > > > > +	 * format" property. Non-HDMI bridges should therefore either sort their
-> > > > > > > +	 * bus output formats by preference, or agree on a unified auto format
-> > > > > > > +	 * selection logic that's implemented in a common state helper (like
-> > > > > > > +	 * how HDMI does it).
-> > > > > > > +	 */
-> > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_AUTO = 0,
-> > > > > > > +
-> > > > > > > +	/**
-> > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_RGB444: RGB output format
-> > > > > > > +	 */
-> > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_RGB444,
-> > > > > > > +
-> > > > > > > +	/**
-> > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR444: YCbCr 4:4:4 output format (ie.
-> > > > > > > +	 * not subsampled)
-> > > > > > > +	 */
-> > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR444,
-> > > > > > > +
-> > > > > > > +	/**
-> > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR422: YCbCr 4:2:2 output format (ie.
-> > > > > > > +	 * with horizontal subsampling)
-> > > > > > > +	 */
-> > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR422,
-> > > > > > > +
-> > > > > > > +	/**
-> > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR420: YCbCr 4:2:0 output format (ie.
-> > > > > > > +	 * with horizontal and vertical subsampling)
-> > > > > > > +	 */
-> > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR420,
-> > > > > > 
-> > > > > > Seems like this should document what the quantization range
-> > > > > > should be for each format.
-> > > > > > 
-> > > > > 
-> > > > > I don't think so? If you want per-component bit depth values,
-> > > > > DRM_FORMAT_* defines would be the appropriate values to use. This
-> > > > > enum is more abstract than that, and is there to communicate
-> > > > > YUV vs. RGB and chroma subsampling, with bit depth being handled
-> > > > > by other properties.
-> > > > > 
-> > > > > If you mean the factor used for subsampling, then that'd only be
-> > > > > relevant if YCBCR410 was supported where one chroma plane isn't
-> > > > > halved but quartered in resolution. I suspect 4:1:0 will never
-> > > > > be added; no digital display protocol standard supports it to my
-> > > > > knowledge, and hopefully none ever will.
-> > > > 
-> > > > No, I mean the quantization range (16-235 vs. 0-255 etc).
-> > > > 
-> > > > The i915 behaviour is that YCbCr is always limited range,
-> > > > RGB can either be full or limited range depending on the 
-> > > > "Broadcast RGB" property and other related factors.
-> > > 
-> > > So far the HDMI state has both the format and quantization range as
-> > > different fields. I'm not sure we need to document the range in the
-> > > format field, maybe only mention it's not part of the format but has a
-> > > field of its own?
-> > 
-> > I think we only have it for RGB (on some drivers only?). For YCbCr
-> > I think the assumption is limited range everywhere.
-> > 
-> > But I'm not really concerned about documenting struct members.
-> > What I'm talking about is the *uapi* docs. Surely userspace
-> > will want to know what the new property actually does so the
-> > uapi needs to be documented properly. And down the line some
-> > new driver might also implement the wrong behaviour if there
-> > is no clear specification.
+On Wed, Mar 25, 2026 at 10:50:58AM -0700, Jim Mattson wrote:
+> On Tue, Mar 24, 2026 at 11:19â€¯AM Pawan Gupta
+> <pawan.kumar.gupta@linux.intel.com> wrote:
+> >
+> > As a mitigation for BHI, clear_bhb_loop() executes branches that overwrites
+> > the Branch History Buffer (BHB). On Alder Lake and newer parts this
+> > sequence is not sufficient because it doesn't clear enough entries. This
+> > was not an issue because these CPUs have a hardware control (BHI_DIS_S)
+> > that mitigates BHI in kernel.
+> >
+> > BHI variant of VMSCAPE requires isolating branch history between guests and
+> > userspace. Note that there is no equivalent hardware control for userspace.
+> > To effectively isolate branch history on newer CPUs, clear_bhb_loop()
+> > should execute sufficient number of branches to clear a larger BHB.
+> >
+> > Dynamically set the loop count of clear_bhb_loop() such that it is
+> > effective on newer CPUs too. Use the hardware control enumeration
+> > X86_FEATURE_BHI_CTRL to select the appropriate loop count.
+> >
+> > Suggested-by: Dave Hansen <dave.hansen@linux.intel.com>
+> > Reviewed-by: Nikolay Borisov <nik.borisov@suse.com>
+> > Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+> > ---
+> >  arch/x86/entry/entry_64.S   | 21 ++++++++++++++++-----
+> >  arch/x86/net/bpf_jit_comp.c |  7 -------
+> >  2 files changed, 16 insertions(+), 12 deletions(-)
+> >
+> > diff --git a/arch/x86/entry/entry_64.S b/arch/x86/entry/entry_64.S
+> > index 3a180a36ca0e..8128e00ca73f 100644
+> > --- a/arch/x86/entry/entry_64.S
+> > +++ b/arch/x86/entry/entry_64.S
+> > @@ -1535,8 +1535,17 @@ SYM_CODE_END(rewind_stack_and_make_dead)
+> >  SYM_FUNC_START(clear_bhb_loop)
+> >         ANNOTATE_NOENDBR
+> >         push    %rbp
+> > +       /* BPF caller may require %rax to be preserved */
+> > +       push    %rax
 > 
-> Ack
-> 
-> > So I'm thinking (or perhaps hoping) the rule might be something like:
-> > - YCbCr limited range 
-> > - RGB full range if "Broadcast RGB" property is not present
-> 
-> Isn't it much more complicated than that for HDMI though? My
-> recollection was that any VIC but VIC1 would be limited range, and
-> anything else full range?
+> Shouldn't the "push %rax" come after "mov %rsp, %rbp"?
 
-Do we have some driver that implements the CTA-861 CE vs. IT mode
-logic but doesn't expose the "Broadcast RGB" property? I was hoping
-those would always go hand in hand now.
+Right, thanks for catching that.
 
-> 
-> > - RGB full or limited range based on the "Broadcast RGB" property
-> >   if it's present
-> > 
-> > I think the "Broadcast RGB" property itself might also be lacking
-> > proper uapi docs, so that may need to be remedied as well.
-> 
-> I took care of documenting it when merging the HDMI helpers:
-> https://docs.kernel.org/gpu/drm-kms.html#hdmi-specific-connector-properties
-> 
-> Maxime
-
-
-
--- 
-Ville Syrjälä
-Intel
+> >         mov     %rsp, %rbp
+> > -       movl    $5, %ecx
