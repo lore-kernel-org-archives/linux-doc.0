@@ -1,93 +1,103 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8763C39B95B;
-	Wed, 25 Mar 2026 09:56:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 154CA38D00F;
+	Wed, 25 Mar 2026 09:58:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774432596; cv=none; b=nB5oLS5Jozi9KqwGmQ3iAgWyS0o7evtn3tT+3GMFf4xxUMsqlqRpcA2QP7v90VQaP8bdvP++V6xfOl7AILM3EOQcBC3TLeNT5v49ZZI4+7/v7V+7X+9DBkrqXvq/xhKFxKAz7dCgEuiOZNOC1GGWqwUrsmMmSTiNWKfRKToxbfo=
+	t=1774432718; cv=none; b=aU2aRitSln/rwkEyE0m0UQsH5YGaodCqEZ9uCh+HBLpDDxtISJgbIjdbqQHk+Ou13MgRsAgNKh4h7f29iAUseXORigGfXNGNv1TuwlcGf1CdZrk6TElxyQd+BMSbDK/plrGZ0zDCeiCDGvMxG5hXDJdgokDpayf8edLw/F55pfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774432596; c=relaxed/simple;
-	bh=lzJB7EbrHC2KlsN4ad0AIXE/JqPFffVa4MuVG4nprqg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=raTjEddeQBovwkbFUEEiKFkLoQvedeuOaQHOsI2Vmh6yYDzTA4GLn9GxJB/FiBy4xO1NQ1ZTbp7mwtHRQdAbYk3M3U+d2+1mezHUUA4uN9zUpGr4y71q4L4ribTipnnMqWNf+uAtB6pQsFzHhwk2WgKcSYdVTTAPIuoYj0P1Tng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=dyZRqhwm; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=j67m7QkG; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1774432718; c=relaxed/simple;
+	bh=HuY/gXey+uWVLYsCI6CkmOeVgc5q6DFm7SVnZaIS/YM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YG+tbgfN2Y59l10U8ZCb+e1hb5lwyWSIi8As7dpKyxVyItzcG4GIAO7uITBV/566VNeD75k2DscsNukYNcYHq9vfhJ+0fdglbA5hLkWSAza4p22DocfedPa4enyhs2HBqh39cwUY9Vq7mygFB/krMUCdfRfgRpbjAaU0pWow0JY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u+uY8j9D; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="dyZRqhwm";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="j67m7QkG"
-Date: Wed, 25 Mar 2026 10:56:25 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1774432587;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yo43Mk65qIi3fVAhr90NoZvnNv04dJVqhDfc2jkLXUQ=;
-	b=dyZRqhwmGHRDBqNCP852OEwrrmdokd34RZ/dh8iqvruAekLf8RyRGlDLGQv+eTIismmwBj
-	Wsz4q+/tf7RMcexbIk/sVSloNGDErormvM6oPtoTYRs21dU4vGJz0OICF1KE2mFSKSp2g9
-	s/26/SVQrgsNMuqEKAoE5QPs+KqYkTmSNSxHoEyrG4DlyktJ/HFheZh2H8FKk5gj8HVEk7
-	mryOkXOczNrmtI9yjk4cgAyizmOTH1YjJqJM10IypzIcHXVmhG/X8XjAqpJhp6sLMURRSO
-	GJWdeeTFzV1dtEV4XZp3tEyvdkkUmVsnwFoG9tNejcsSQyES3XiYjPSLjNNDJQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1774432587;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=yo43Mk65qIi3fVAhr90NoZvnNv04dJVqhDfc2jkLXUQ=;
-	b=j67m7QkG/T09g7TX1updhEyOfg/iinv6Be6bYTMWphS/myAxELmqHSaQmKRY0fHCEn+qF8
-	aqN+p9bt5i8aOtBQ==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Waiman Long <longman@redhat.com>
-Cc: Frederic Weisbecker <frederic@kernel.org>,
-	LKML <linux-kernel@vger.kernel.org>,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Gabriele Monaco <gmonaco@redhat.com>,
-	Ingo Molnar <mingo@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Marcelo Tosatti <mtosatti@redhat.com>,
-	Marco Crivellari <marco.crivellari@suse.com>,
-	Michal Hocko <mhocko@kernel.org>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>, Phil Auld <pauld@redhat.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vlastimil Babka <vbabka@suse.cz>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] doc: Add CPU Isolation documentation
-Message-ID: <20260325095625.dFHbtoPr@linutronix.de>
-References: <20250809094247.8384-1-frederic@kernel.org>
- <20260324153823.VKwebBuG@linutronix.de>
- <579827ac-a933-45ec-b396-01656c30c9e4@redhat.com>
- <20260324164005.eBNX2ppQ@linutronix.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u+uY8j9D"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEFACC4CEF7;
+	Wed, 25 Mar 2026 09:58:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774432717;
+	bh=HuY/gXey+uWVLYsCI6CkmOeVgc5q6DFm7SVnZaIS/YM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=u+uY8j9DdWnf6aJO3ZHhf6pj8o6upnz4tgfFLuwATHjhN6SatZRmXJbkO3JFsl45s
+	 ADbQAVoZ2bfxIeImDpnwFdFCo0b8tn6HNyoZW5/j1NFRa+uXe019/Hzk1B5PNJSpge
+	 oitV6NhzQsBWdl1ZGdGjjAleBOpYArsdSSBmuxkg0gbhRkp5b/B8T8vJcIMEA4HjHA
+	 nsppJG3k+pdtmXbLxSqIZuQQW9qLID/Ou1ZIPnKK9/Xrsxbabxym2XTk8bjNKNnh79
+	 gW+HYIQy6QtFwqaoSQC+HIe2caOI1oDm6sqQ/VOpZmE6eK1dpqAouDkD3M6o3nEwh3
+	 regiPf+e17GQA==
+Message-ID: <9b205b06-e938-4f30-a16d-7d90f8c49818@kernel.org>
+Date: Wed, 25 Mar 2026 10:58:28 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260324164005.eBNX2ppQ@linutronix.de>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 11/21] mm: add mmap_action_simple_ioremap()
+Content-Language: en-US
+To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Clemens Ladisch <clemens@ladisch.de>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "K . Y . Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Bodo Stroesser <bostroesser@gmail.com>,
+ "Martin K . Petersen" <martin.petersen@oracle.com>,
+ David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>,
+ Alexander Viro <viro@zeniv.linux.org.uk>,
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+ David Hildenbrand <david@kernel.org>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
+ <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
+ Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org,
+ linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org,
+ target-devel@vger.kernel.org, linux-afs@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ Ryan Roberts <ryan.roberts@arm.com>
+References: <cover.1774045440.git.ljs@kernel.org>
+ <a08ef1c4542202684da63bb37f459d5dbbeddd91.1774045440.git.ljs@kernel.org>
+From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+In-Reply-To: <a08ef1c4542202684da63bb37f459d5dbbeddd91.1774045440.git.ljs@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 2026-03-24 17:40:07 [+0100], To Waiman Long wrote:
-> On 2026-03-24 12:00:17 [-0400], Waiman Long wrote:
-> > > while looking at this again, shouldn't you also do
-> > > 	echo 7 > cpuset.cpus.exclusive
-> > > 
-> > > to ensure the CPU isn't used somewhere else?
-> > 
-> > For backport compatibility, the use of cpuset.cpus.exclusive is optional for
-> > creating a local partition underneath the cgroup root. The example should
-> > still work without setting cpuset.cpus.exclusive.
+On 3/20/26 23:39, Lorenzo Stoakes (Oracle) wrote:
+> Currently drivers use vm_iomap_memory() as a simple helper function for
+> I/O remapping memory over a range starting at a specified physical address
+> over a specified length.
 > 
-> I would have to double check but I think only after the
-> cpuset.cpus.exclusive the CPU vanished from the cpumask of my current
-> task.
-
-Let me take that back. After setting cpuset.cpus.partition the CPU mask
-of the remaining tasks gets updated. All good.
-
-> > Cheers,
-> > Longman
+> In order to utilise this from mmap_prepare, separate out the core logic
+> into __simple_ioremap_prep(), update vm_iomap_memory() to use it, and add
+> simple_ioremap_prepare() to do the same with a VMA descriptor object.
 > 
-Sebastian
+> We also add MMAP_SIMPLE_IO_REMAP and relevant fields to the struct
+> mmap_action type to permit this operation also.
+> 
+> We use mmap_action_ioremap() to set up the actual I/O remap operation once
+> we have checked and figured out the parameters, which makes
+> simple_ioremap_prepare() easy to implement.
+> 
+> We then add mmap_action_simple_ioremap() to allow drivers to make use of
+> this mode.
+> 
+> We update the mmap_prepare documentation to describe this mode.  Finally,
+> we update the VMA tests to reflect this change.
+> 
+> Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
+
+Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+
