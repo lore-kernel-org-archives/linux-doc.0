@@ -1,94 +1,203 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D0A93A3817;
-	Wed, 25 Mar 2026 10:35:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBE062F1FEC;
+	Wed, 25 Mar 2026 11:03:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774434904; cv=none; b=bhdS8vBz1BYbtBiJdTIH2sVYq8ONzzYPR2HbmkPifooeEifNtE/d4O2g5t4IGCW9YRH0z3KepsYvMmdpCFmYyGemfZLWwvzb1Sd8r5NY3t18PVsYlB2FhYGLL5DHg915iAS8/hIpsncKQDFPZ8fPkYmyA4EMWodHsZ99b1Qty/A=
+	t=1774436612; cv=none; b=mOtwrrSbWIkRyBtyIiW3kZ1GjhuBzNyCoqUYHy5LtDCKpIehr6VWsKVPyB/K0J8+g0FHmj+fM8aIQi+bH7H9/1Cjo5o1jjN1sHXKarfz/M3Smv0L3Y5uKmSuX82LWvEtOxN4kmVR9exgjWzEp2Xi+mSYCEoWcJtaeeOMhL5bchY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774434904; c=relaxed/simple;
-	bh=+W7AYaAXVw1i2DYITazSh58FngLmUYCv1t3fq5pVTRU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PYBWbnb8+Ba6pysZ+eIyrXT+0pqlHIhEbYXaK8xopzgn07rtcSLiEuWhfhGo8Tg4E194+WjmUutfhWlJZjVm8RLKz2f16COP3YfySn4/eK/1thyRZ+7yZ5tWBECWbkFUQx0nCfzbaazrSx0Ay4Gru5o+ofCd97+th5XikYLCUXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XyqtwD0B; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774436612; c=relaxed/simple;
+	bh=bterWpEmBgkkyTS7H4efC0u7uGIIi8w4Tnviz/GzV6Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nkH+OhxASWiwBuF+HI1g9qvZh+/noh8ntaWnyRTz2EPlwe6Z4X+Ej09Xt2CcL/lPGUNpQAzGIkcLaIBFK8B4/QMcjUdNppbwtfAMBQG02xlKlaRtmc8qNkZz1y43lmhFkCiJiQKob5v/+JT8yYlhfwNsGYzQA4Sy4SFyCEu2tJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kEFG0/5R; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XyqtwD0B"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEB41C4CEF7;
-	Wed, 25 Mar 2026 10:34:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774434904;
-	bh=+W7AYaAXVw1i2DYITazSh58FngLmUYCv1t3fq5pVTRU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=XyqtwD0BVJpUUEeIxQNuop7kP0eDlwdduGR8d5uf2MwwJPd+cw307oTk9Phhs8x3l
-	 Hh6rIELrW6PhJt0RPyJGSFPMzadyDZwsObuPFoqXKHX/qCFcrK66BtKCtHaH7HSpF+
-	 0NGL1KxEeCeVDvLkU166GKoCMV5sPI0Hq9RLohb9yNUsRArIsKfhzMbamkj//nH3YJ
-	 4ug/r3J4vaM4CSS0e7WBb9VfoiGQ7drIOGpXk5kZ8oqKTpFew/rcW80Y1ZfDDm0HKl
-	 tIqVPpHAE7k98Loz1LnKsoU5+bfkVjx6lxzQNcGzna+siEzTrHVlZuoNwTrwpSF67C
-	 HbfXsN+/yyUDQ==
-Message-ID: <ec28f19e-072f-4f26-ad6b-feadf7a88dfc@kernel.org>
-Date: Wed, 25 Mar 2026 11:34:54 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kEFG0/5R"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774436610; x=1805972610;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=bterWpEmBgkkyTS7H4efC0u7uGIIi8w4Tnviz/GzV6Q=;
+  b=kEFG0/5Ri03/55zoHPOvJbuBwZKZizYMZS0Aa397sk2QVXpwHlbAzq+j
+   08L3+FWRCv10kak2/1jrivkxoqAeKgJLuKsWg9dLiXifh7fJvHnXH73Kq
+   wdpMPkaV+s5+SLHBerxM3Kh4/R+yAJmQY4kEZ8bH0Aoh24WrdiS/uZFeQ
+   vjINAqmAYgto7mIZfDL2/H2cvxvM0aI3zgXvoGclD8kONUtRXp+tb+HnT
+   nQNGJ5zeAcD1k7blAukn/fOf9Ht7qvUq5p+QXZe2ZmvFMcjc8P9YGmLt7
+   wZ7Pkx9ua3R239Zm6jGZd86FMOJI8faqJJx19bMYu2cvWCJbnxOFfA5nw
+   Q==;
+X-CSE-ConnectionGUID: n50ulGyWRK+kCj8Wu9Ci4g==
+X-CSE-MsgGUID: vOegzq7eQSu2NrhUWTNJiw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="79376302"
+X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
+   d="scan'208";a="79376302"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 04:03:20 -0700
+X-CSE-ConnectionGUID: Ar6fcB3pSfyKZhdtJmvIeQ==
+X-CSE-MsgGUID: SV+2zclvQrGIZTCj+qSR7w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
+   d="scan'208";a="262569794"
+Received: from smoticic-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.117])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 04:03:11 -0700
+Date: Wed, 25 Mar 2026 13:03:07 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+	Harry Wentland <harry.wentland@amd.com>,
+	Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Sandy Huang <hjc@rock-chips.com>,
+	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+	Andy Yan <andy.yan@rock-chips.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Rob Herring <robh@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, kernel@collabora.com,
+	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org, linux-doc@vger.kernel.org,
+	Werner Sembach <wse@tuxedocomputers.com>,
+	Andri Yngvason <andri@yngvason.is>,
+	Marius Vlad <marius.vlad@collabora.com>
+Subject: Re: [PATCH v11 03/22] drm: Add new general DRM property "color
+ format"
+Message-ID: <acPA60Ci3n_t__xF@intel.com>
+References: <20260324-color-format-v11-0-605559af4fb4@collabora.com>
+ <20260324-color-format-v11-3-605559af4fb4@collabora.com>
+ <acLDPYuaVI2-12JX@intel.com>
+ <23910073.EfDdHjke4D@workhorse>
+ <acLrv5hLyNss-Px5@intel.com>
+ <20260325-neat-elegant-raven-ebc9ab@houat>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 16/21] staging: vme_user: replace deprecated mmap hook
- with mmap_prepare
-Content-Language: en-US
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Clemens Ladisch <clemens@ladisch.de>,
- Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "K . Y . Srinivasan" <kys@microsoft.com>,
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
- Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Bodo Stroesser <bostroesser@gmail.com>,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- David Hildenbrand <david@kernel.org>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
- <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org,
- linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org,
- target-devel@vger.kernel.org, linux-afs@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- Ryan Roberts <ryan.roberts@arm.com>
-References: <cover.1774045440.git.ljs@kernel.org>
- <08ecc1e1d319564fd49b9e9012f994edaff921db.1774045440.git.ljs@kernel.org>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-In-Reply-To: <08ecc1e1d319564fd49b9e9012f994edaff921db.1774045440.git.ljs@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260325-neat-elegant-raven-ebc9ab@houat>
+X-Patchwork-Hint: comment
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
 
-On 3/20/26 23:39, Lorenzo Stoakes (Oracle) wrote:
-> The f_op->mmap interface is deprecated, so update driver to use its
-> successor, mmap_prepare.
+On Wed, Mar 25, 2026 at 09:24:27AM +0100, Maxime Ripard wrote:
+> On Tue, Mar 24, 2026 at 09:53:35PM +0200, Ville Syrjälä wrote:
+> > On Tue, Mar 24, 2026 at 08:10:11PM +0100, Nicolas Frattaroli wrote:
+> > > On Tuesday, 24 March 2026 18:00:45 Central European Standard Time Ville Syrjälä wrote:
+> > > > On Tue, Mar 24, 2026 at 05:01:07PM +0100, Nicolas Frattaroli wrote:
+> > > > > +enum drm_connector_color_format {
+> > > > > +	/**
+> > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_AUTO: The driver or display protocol
+> > > > > +	 * helpers should pick a suitable color format. All implementations of a
+> > > > > +	 * specific display protocol must behave the same way with "AUTO", but
+> > > > > +	 * different display protocols do not necessarily have the same "AUTO"
+> > > > > +	 * semantics.
+> > > > > +	 *
+> > > > > +	 * For HDMI, "AUTO" picks RGB, but falls back to YCbCr 4:2:0 if the
+> > > > > +	 * bandwidth required for full-scale RGB is not available, or the mode
+> > > > > +	 * is YCbCr 4:2:0-only, as long as the mode and output both support
+> > > > > +	 * YCbCr 4:2:0.
+> > > > > +	 *
+> > > > > +	 * For display protocols other than HDMI, the recursive bridge chain
+> > > > > +	 * format selection picks the first chain of bridge formats that works,
+> > > > > +	 * as has already been the case before the introduction of the "color
+> > > > > +	 * format" property. Non-HDMI bridges should therefore either sort their
+> > > > > +	 * bus output formats by preference, or agree on a unified auto format
+> > > > > +	 * selection logic that's implemented in a common state helper (like
+> > > > > +	 * how HDMI does it).
+> > > > > +	 */
+> > > > > +	DRM_CONNECTOR_COLOR_FORMAT_AUTO = 0,
+> > > > > +
+> > > > > +	/**
+> > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_RGB444: RGB output format
+> > > > > +	 */
+> > > > > +	DRM_CONNECTOR_COLOR_FORMAT_RGB444,
+> > > > > +
+> > > > > +	/**
+> > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR444: YCbCr 4:4:4 output format (ie.
+> > > > > +	 * not subsampled)
+> > > > > +	 */
+> > > > > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR444,
+> > > > > +
+> > > > > +	/**
+> > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR422: YCbCr 4:2:2 output format (ie.
+> > > > > +	 * with horizontal subsampling)
+> > > > > +	 */
+> > > > > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR422,
+> > > > > +
+> > > > > +	/**
+> > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR420: YCbCr 4:2:0 output format (ie.
+> > > > > +	 * with horizontal and vertical subsampling)
+> > > > > +	 */
+> > > > > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR420,
+> > > > 
+> > > > Seems like this should document what the quantization range
+> > > > should be for each format.
+> > > > 
+> > > 
+> > > I don't think so? If you want per-component bit depth values,
+> > > DRM_FORMAT_* defines would be the appropriate values to use. This
+> > > enum is more abstract than that, and is there to communicate
+> > > YUV vs. RGB and chroma subsampling, with bit depth being handled
+> > > by other properties.
+> > > 
+> > > If you mean the factor used for subsampling, then that'd only be
+> > > relevant if YCBCR410 was supported where one chroma plane isn't
+> > > halved but quartered in resolution. I suspect 4:1:0 will never
+> > > be added; no digital display protocol standard supports it to my
+> > > knowledge, and hopefully none ever will.
+> > 
+> > No, I mean the quantization range (16-235 vs. 0-255 etc).
+> > 
+> > The i915 behaviour is that YCbCr is always limited range,
+> > RGB can either be full or limited range depending on the 
+> > "Broadcast RGB" property and other related factors.
 > 
-> The driver previously used vm_iomap_memory(), so this change replaces it
-> with its mmap_prepare equivalent, mmap_action_simple_ioremap().
-> 
-> Functions that wrap mmap() are also converted to wrap mmap_prepare()
-> instead.
-> 
-> Also update the documentation accordingly.
-> 
-> Reviewed-by: Suren Baghdasaryan <surenb@google.com>
-> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
+> So far the HDMI state has both the format and quantization range as
+> different fields. I'm not sure we need to document the range in the
+> format field, maybe only mention it's not part of the format but has a
+> field of its own?
 
-Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+I think we only have it for RGB (on some drivers only?). For YCbCr
+I think the assumption is limited range everywhere.
 
+But I'm not really concerned about documenting struct members.
+What I'm talking about is the *uapi* docs. Surely userspace
+will want to know what the new property actually does so the
+uapi needs to be documented properly. And down the line some
+new driver might also implement the wrong behaviour if there
+is no clear specification.
+
+So I'm thinking (or perhaps hoping) the rule might be something like:
+- YCbCr limited range 
+- RGB full range if "Broadcast RGB" property is not present
+- RGB full or limited range based on the "Broadcast RGB" property
+  if it's present
+
+I think the "Broadcast RGB" property itself might also be lacking
+proper uapi docs, so that may need to be remedied as well.
+
+-- 
+Ville Syrjälä
+Intel
