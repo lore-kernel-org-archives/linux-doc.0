@@ -1,33 +1,39 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 603D523D281;
-	Wed, 25 Mar 2026 09:47:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3C1E3A1696;
+	Wed, 25 Mar 2026 09:55:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774432051; cv=none; b=Q6VVoyDu4oDBiezXkcjTmsJC/IEBsyyeFurc4qDAMK5fpvF+5WmfQhFKmI6K465hELUYjogonhMROIs/VtZblubQ5Jx50Xq1erb7eiEXIgyRBuL4Kr+QpNy0u9uyXVFfCkbPZcsJEU8kOknGx1qSNB+onzpXCYXLGAfDkmr2GO0=
+	t=1774432504; cv=none; b=DPKOz/O78IhQ2ll7cV+TC7KbsbnDlTihqNWWNdxjU54PxLGvp/MXT2kwox9BZ2j1q1po1JBLjiOsUyGuUeNTjzR85MuSA7v54kfs/ypizi6cXDtcQs+v2nzMZ0PB/NZ1E1/H5KDLeB9j9D2Rz9nrA0vA3NvT9/6PNYPDHGo8+Ik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774432051; c=relaxed/simple;
-	bh=vUFrcOFz84OveU1pgKHoD1qwpdPZX9ciji33h3siGaE=;
+	s=arc-20240116; t=1774432504; c=relaxed/simple;
+	bh=gaNhVTC8EDbOnwsIWvUdCY2bCLksP3J9tcz7lO6NvnE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aZnLNvsIizDm7i/tjj711gyDkHHekYIrWSYjBxt4p4odXKxXZX7PAroLFJnlMdA1PJKWxgwGZ8VoSPDoqTWBQ1LMJIywleZ0FcrU4MbQbcvCN5rIFRl9Rsw23gWvJ2ovMscSn0MjudMJMqJNhsYTKoeRMs2ZsOoJCl2P+W/HgtE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h7rjxRys; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=PuUuf+1BJD/f4yL1Wx04ctF+1rOERQlmjSHs0sv779GZ5LqKx0+syktH2ldmi6mKTz/QBoZO5AqyXvD7a2mgjUM7QZjqh59tMa/Zv9/vG/Ta/xyD8/gr7UORg6IMZw2xriTPzMYyMkAUOICLK1ZqSCsLI0Ww5CwJyv39uc0Cdxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=fHDDSwl2; arc=none smtp.client-ip=157.90.84.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h7rjxRys"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44F83C2BC9E;
-	Wed, 25 Mar 2026 09:47:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774432051;
-	bh=vUFrcOFz84OveU1pgKHoD1qwpdPZX9ciji33h3siGaE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=h7rjxRys800WY0i8LFUswSR3PcQtVI+WfcvFbM55iwz1ZH6sEQagzhf2LyOreVOSW
-	 R1lGyQTKbfLllWJzdn5W8eaoKRVYpL0edcGcr6SCeDfoN1NRmrSZOCLjsPkGst2Vue
-	 whTAV+F4IJb7xm4J+qcGoX5SFmIZFB+fhBwrR2605pUGNgx0fg/E3JSQRqS9sFkabZ
-	 CtbaFD/j2jHu/4k19QPOkOOINFcC55JlaP/BKzrZDZAQkiiAvQh9vim4ubQ9CkIKj9
-	 xhp7ke2Xf5zs7lnOYxqAky/AVcczwO5PeQU9qs8vfUKFRe22DcZ0GFLqD7cqpncinF
-	 7/z8KNyW3nyVA==
-Message-ID: <2bf17da7-fb46-4503-8de9-9368a73d8487@kernel.org>
-Date: Wed, 25 Mar 2026 10:47:21 +0100
+	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="fHDDSwl2"
+Received: from [192.168.178.24] (i5C75F6C1.versanet.de [92.117.246.193])
+	(Authenticated sender: wse@tuxedocomputers.com)
+	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id 5E3D22FC0219;
+	Wed, 25 Mar 2026 10:54:58 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
+	s=default; t=1774432498;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FMddY2ctQl+1Z2ZkLiYt/psc9L7/NvXzf3Zsbs+/1Os=;
+	b=fHDDSwl2s4Iovlb+fK+97GtC3871gNlq+ZaAZqbHvnl3RmyYOQeCpiY8pmlQTf1/qn72/g
+	jUNDQte40JFx3IqHYowTAigkomZrIsHC85BrzZCQTlSJFuJoDgVI/jzRaLmPZoyL38ppKO
+	TlqXfMegzSunT2Iy3AdbSfqxklq5twA=
+Authentication-Results: mail.tuxedocomputers.com;
+	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
+Message-ID: <27e83d34-fa3e-410d-9897-4d0192775730@tuxedocomputers.com>
+Date: Wed, 25 Mar 2026 10:54:57 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,181 +41,316 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 10/21] fs: afs: restore mmap_prepare implementation
+Subject: Re: [PATCH 1/1] leds: Introduce the multi_max_intensity sysfs
+ attribute
+To: Armin Wolf <W_Armin@gmx.de>, lee@kernel.org, pavel@kernel.org
+Cc: linux-kernel@vger.kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
+ linux-leds@vger.kernel.org, linux-doc@vger.kernel.org,
+ jacek.anaszewski@gmail.com, pobrn@protonmail.com, m.tretter@pengutronix.de
+References: <20260324202751.6486-1-W_Armin@gmx.de>
+ <20260324202751.6486-2-W_Armin@gmx.de>
 Content-Language: en-US
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Clemens Ladisch <clemens@ladisch.de>,
- Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "K . Y . Srinivasan" <kys@microsoft.com>,
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
- Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Bodo Stroesser <bostroesser@gmail.com>,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- David Hildenbrand <david@kernel.org>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
- <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org,
- linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org,
- target-devel@vger.kernel.org, linux-afs@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- Ryan Roberts <ryan.roberts@arm.com>
-References: <cover.1774045440.git.ljs@kernel.org>
- <ad9a94350a9c7d2bdab79fc397ef0f64d3412d71.1774045440.git.ljs@kernel.org>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-In-Reply-To: <ad9a94350a9c7d2bdab79fc397ef0f64d3412d71.1774045440.git.ljs@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+From: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <20260324202751.6486-2-W_Armin@gmx.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 3/20/26 23:39, Lorenzo Stoakes (Oracle) wrote:
-> Commit 9d5403b1036c ("fs: convert most other generic_file_*mmap() users to
-> .mmap_prepare()") updated AFS to use the mmap_prepare callback in favour
-> of the deprecated mmap callback.
-> 
-> However, it did not account for the fact that mmap_prepare is called
-> pre-merge, and may then be merged, nor that mmap_prepare can fail to map
-> due to an out of memory error.
-> 
-> This change was therefore since reverted.
-> 
-> Both of those are cases in which we should not be incrementing a reference
-> count.
-> 
-> With the newly added vm_ops->mapped callback available, we can simply
-> defer this operation to that callback which is only invoked once the
-> mapping is successfully in place (but not yet visible to userspace as the
-> mmap and VMA write locks are held).
-> 
-> This allows us to once again reimplement the .mmap_prepare implementation
-> for this file system.
-> 
-> Therefore add afs_mapped() to implement this callback for AFS, and remove
-> the code doing so in afs_mmap_prepare().
-> 
-> Also update afs_vm_open(), afs_vm_close() and afs_vm_map_pages() to be
-> consistent in how the vnode is accessed.
-> 
-> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
+Hi,
 
-Yep that should take care of that reference count problem.
+Am 24.03.26 um 21:27 schrieb Armin Wolf:
+> Some multicolor LEDs support global brightness control in hardware,
+> meaning that the maximum intensity of the color components is not
+> connected to the maximum global brightness. Such LEDs cannot be
+> described properly by the current multicolor LED class interface,
+> because it assumes that the maximum intensity of each color component
+> is described by the maximum global brightness of the LED.
+>
+> Fix this by introducing a new sysfs attribute called
+> "multi_max_intensity" holding the maximum intensity values for the
+> color components of a multicolor LED class device. Drivers can use
+> the new max_intensity field inside struct mc_subled to tell the
+> multicolor LED class code about those values. Intensity values written
+> by userspace applications will be limited to this maximum value.
+>
+> Drivers for multicolor LEDs that do not support global brightness
+> control in hardware might still want to use the maximum global LED
+> brightness supplied via devicetree as the maximum intensity of each
+> individual color component. Such drivers should set max_intensity
+> to 0 so that the multicolor LED core can act accordingly.
+>
+> The lp50xx and ncp5623 LED drivers already use hardware-based control
+> for the global LED brightness. Modify those drivers to correctly
+> initalize .max_intensity to avoid being limited to the maximum global
+> brightness supplied via devicetree.
+>
+> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
 
-Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+lgtm
+
+Reviewed-by: Werner Sembach <wse@tuxedocomputers.com>
+
+Best regards,
+
+Werner
 
 > ---
->  fs/afs/file.c | 42 +++++++++++++++++++++++++++++-------------
->  1 file changed, 29 insertions(+), 13 deletions(-)
-> 
-> diff --git a/fs/afs/file.c b/fs/afs/file.c
-> index 74d04af51ff4..85696ac984cc 100644
-> --- a/fs/afs/file.c
-> +++ b/fs/afs/file.c
-> @@ -19,7 +19,7 @@
->  #include <trace/events/netfs.h>
->  #include "internal.h"
-> 
-> -static int afs_file_mmap(struct file *file, struct vm_area_struct *vma);
-> +static int afs_file_mmap_prepare(struct vm_area_desc *desc);
-> 
->  static ssize_t afs_file_read_iter(struct kiocb *iocb, struct iov_iter *iter);
->  static ssize_t afs_file_splice_read(struct file *in, loff_t *ppos,
-> @@ -28,6 +28,8 @@ static ssize_t afs_file_splice_read(struct file *in, loff_t *ppos,
->  static void afs_vm_open(struct vm_area_struct *area);
->  static void afs_vm_close(struct vm_area_struct *area);
->  static vm_fault_t afs_vm_map_pages(struct vm_fault *vmf, pgoff_t start_pgoff, pgoff_t end_pgoff);
-> +static int afs_mapped(unsigned long start, unsigned long end, pgoff_t pgoff,
-> +		      const struct file *file, void **vm_private_data);
-> 
->  const struct file_operations afs_file_operations = {
->  	.open		= afs_open,
-> @@ -35,7 +37,7 @@ const struct file_operations afs_file_operations = {
->  	.llseek		= generic_file_llseek,
->  	.read_iter	= afs_file_read_iter,
->  	.write_iter	= netfs_file_write_iter,
-> -	.mmap		= afs_file_mmap,
-> +	.mmap_prepare	= afs_file_mmap_prepare,
->  	.splice_read	= afs_file_splice_read,
->  	.splice_write	= iter_file_splice_write,
->  	.fsync		= afs_fsync,
-> @@ -61,6 +63,7 @@ const struct address_space_operations afs_file_aops = {
->  };
-> 
->  static const struct vm_operations_struct afs_vm_ops = {
-> +	.mapped		= afs_mapped,
->  	.open		= afs_vm_open,
->  	.close		= afs_vm_close,
->  	.fault		= filemap_fault,
-> @@ -492,34 +495,47 @@ static void afs_drop_open_mmap(struct afs_vnode *vnode)
->  /*
->   * Handle setting up a memory mapping on an AFS file.
->   */
-> -static int afs_file_mmap(struct file *file, struct vm_area_struct *vma)
-> +static int afs_file_mmap_prepare(struct vm_area_desc *desc)
->  {
-> -	struct afs_vnode *vnode = AFS_FS_I(file_inode(file));
->  	int ret;
-> 
-> -	afs_add_open_mmap(vnode);
-> +	ret = generic_file_mmap_prepare(desc);
-> +	if (ret)
-> +		return ret;
-> 
-> -	ret = generic_file_mmap(file, vma);
-> -	if (ret == 0)
-> -		vma->vm_ops = &afs_vm_ops;
-> -	else
-> -		afs_drop_open_mmap(vnode);
-> +	desc->vm_ops = &afs_vm_ops;
->  	return ret;
->  }
-> 
-> +static int afs_mapped(unsigned long start, unsigned long end, pgoff_t pgoff,
-> +		      const struct file *file, void **vm_private_data)
-> +{
-> +	struct afs_vnode *vnode = AFS_FS_I(file_inode(file));
+>   .../ABI/testing/sysfs-class-led-multicolor    | 19 ++++++--
+>   Documentation/leds/leds-class-multicolor.rst  | 21 ++++++++-
+>   drivers/leds/led-class-multicolor.c           | 47 ++++++++++++++++++-
+>   drivers/leds/leds-lp50xx.c                    |  1 +
+>   drivers/leds/rgb/leds-ncp5623.c               |  4 +-
+>   include/linux/led-class-multicolor.h          | 30 +++++++++++-
+>   6 files changed, 113 insertions(+), 9 deletions(-)
+>
+> diff --git a/Documentation/ABI/testing/sysfs-class-led-multicolor b/Documentation/ABI/testing/sysfs-class-led-multicolor
+> index 16fc827b10cb..197da3e775b4 100644
+> --- a/Documentation/ABI/testing/sysfs-class-led-multicolor
+> +++ b/Documentation/ABI/testing/sysfs-class-led-multicolor
+> @@ -16,9 +16,22 @@ Date:		March 2020
+>   KernelVersion:	5.9
+>   Contact:	Dan Murphy <dmurphy@ti.com>
+>   Description:	read/write
+> -		This file contains array of integers. Order of components is
+> -		described by the multi_index array. The maximum intensity should
+> -		not exceed /sys/class/leds/<led>/max_brightness.
+> +		This file contains an array of integers. The order of components
+> +		is described by the multi_index array. The maximum intensity value
+> +		supported by each color component is described by the multi_max_intensity
+> +		file. Writing intensity values larger than the maximum value of a
+> +		given color component will result in those values being clamped.
 > +
-> +	afs_add_open_mmap(vnode);
-> +	return 0;
+> +		For additional details please refer to
+> +		Documentation/leds/leds-class-multicolor.rst.
+> +
+> +What:		/sys/class/leds/<led>/multi_max_intensity
+> +Date:		March 2026
+> +KernelVersion:	7.1
+> +Contact:	Armin Wolf <W_Armin@gmx.de>
+> +Description:	read
+> +		This file contains an array of integers describing the maximum
+> +		intensity value for each intensity component.
+>   
+>   		For additional details please refer to
+>   		Documentation/leds/leds-class-multicolor.rst.
+> diff --git a/Documentation/leds/leds-class-multicolor.rst b/Documentation/leds/leds-class-multicolor.rst
+> index c6b47b4093c4..8f42f10078ad 100644
+> --- a/Documentation/leds/leds-class-multicolor.rst
+> +++ b/Documentation/leds/leds-class-multicolor.rst
+> @@ -25,10 +25,14 @@ color name to indexed value.
+>   The ``multi_index`` file is an array that contains the string list of the colors as
+>   they are defined in each ``multi_*`` array file.
+>   
+> -The ``multi_intensity`` is an array that can be read or written to for the
+> +The ``multi_intensity`` file is an array that can be read or written to for the
+>   individual color intensities.  All elements within this array must be written in
+>   order for the color LED intensities to be updated.
+>   
+> +The ``multi_max_intensity`` file is an array that contains the maximum intensity
+> +value supported by each color intensity. Intensity values above this will be
+> +automatically clamped into the supported range.
+> +
+>   Directory Layout Example
+>   ========================
+>   .. code-block:: console
+> @@ -38,6 +42,7 @@ Directory Layout Example
+>       -r--r--r--    1 root     root          4096 Oct 19 16:16 max_brightness
+>       -r--r--r--    1 root     root          4096 Oct 19 16:16 multi_index
+>       -rw-r--r--    1 root     root          4096 Oct 19 16:16 multi_intensity
+> +    -r--r--r--    1 root     root          4096 OCt 19 16:16 multi_max_intensity
+>   
+>   ..
+>   
+> @@ -104,3 +109,17 @@ the color LED group.
+>       128
+>   
+>   ..
+> +
+> +Writing intensity values larger than the maximum specified in ``multi_max_intensity``
+> +will result in those values being clamped into the supported range.
+> +
+> +.. code-block:: console
+> +
+> +   # cat /sys/class/leds/multicolor:status/multi_max_intensity
+> +   255 255 255
+> +
+> +   # echo 512 512 512 > /sys/class/leds/multicolor:status/multi_intensity
+> +   # cat /sys/class/leds/multicolor:status/multi_intensity
+> +   255 255 255
+> +
+> +..
+> diff --git a/drivers/leds/led-class-multicolor.c b/drivers/leds/led-class-multicolor.c
+> index 6b671f3f9c61..13a35e6a28df 100644
+> --- a/drivers/leds/led-class-multicolor.c
+> +++ b/drivers/leds/led-class-multicolor.c
+> @@ -7,10 +7,28 @@
+>   #include <linux/init.h>
+>   #include <linux/led-class-multicolor.h>
+>   #include <linux/math.h>
+> +#include <linux/minmax.h>
+>   #include <linux/module.h>
+>   #include <linux/slab.h>
+>   #include <linux/uaccess.h>
+>   
+> +static unsigned int led_mc_get_max_intensity(struct led_classdev_mc *mcled_cdev, size_t index)
+> +{
+> +	unsigned int max_intensity;
+> +
+> +	/* The maximum global brightness value might still be changed by
+> +	 * led_classdev_register_ext() using devicetree properties. This
+> +	 * prevents us from changing subled_info[X].max_intensity when
+> +	 * registering a multicolor LED class device, so we have to do
+> +	 * this during runtime.
+> +	 */
+> +	max_intensity = mcled_cdev->subled_info[index].max_intensity;
+> +	if (max_intensity)
+> +		return max_intensity;
+> +
+> +	return mcled_cdev->led_cdev.max_brightness;
 > +}
 > +
->  static void afs_vm_open(struct vm_area_struct *vma)
->  {
-> -	afs_add_open_mmap(AFS_FS_I(file_inode(vma->vm_file)));
-> +	struct file *file = vma->vm_file;
-> +	struct afs_vnode *vnode = AFS_FS_I(file_inode(file));
+>   int led_mc_calc_color_components(struct led_classdev_mc *mcled_cdev,
+>   				 enum led_brightness brightness)
+>   {
+> @@ -27,6 +45,27 @@ int led_mc_calc_color_components(struct led_classdev_mc *mcled_cdev,
+>   }
+>   EXPORT_SYMBOL_GPL(led_mc_calc_color_components);
+>   
+> +static ssize_t multi_max_intensity_show(struct device *dev,
+> +					struct device_attribute *intensity_attr, char *buf)
+> +{
+> +	struct led_classdev *led_cdev = dev_get_drvdata(dev);
+> +	struct led_classdev_mc *mcled_cdev = lcdev_to_mccdev(led_cdev);
+> +	unsigned int max_intensity;
+> +	int len = 0;
+> +	int i;
 > +
-> +	afs_add_open_mmap(vnode);
->  }
-> 
->  static void afs_vm_close(struct vm_area_struct *vma)
->  {
-> -	afs_drop_open_mmap(AFS_FS_I(file_inode(vma->vm_file)));
-> +	struct file *file = vma->vm_file;
-> +	struct afs_vnode *vnode = AFS_FS_I(file_inode(file));
+> +	for (i = 0; i < mcled_cdev->num_colors; i++) {
+> +		max_intensity = led_mc_get_max_intensity(mcled_cdev, i);
+> +		len += sprintf(buf + len, "%u", max_intensity);
+> +		if (i < mcled_cdev->num_colors - 1)
+> +			len += sprintf(buf + len, " ");
+> +	}
 > +
-> +	afs_drop_open_mmap(vnode);
->  }
-> 
->  static vm_fault_t afs_vm_map_pages(struct vm_fault *vmf, pgoff_t start_pgoff, pgoff_t end_pgoff)
->  {
-> -	struct afs_vnode *vnode = AFS_FS_I(file_inode(vmf->vma->vm_file));
-> +	struct file *file = vmf->vma->vm_file;
-> +	struct afs_vnode *vnode = AFS_FS_I(file_inode(file));
-> 
->  	if (afs_check_validity(vnode))
->  		return filemap_map_pages(vmf, start_pgoff, end_pgoff);
-> --
-> 2.53.0
-
+> +	buf[len++] = '\n';
+> +	return len;
+> +}
+> +static DEVICE_ATTR_RO(multi_max_intensity);
+> +
+>   static ssize_t multi_intensity_store(struct device *dev,
+>   				struct device_attribute *intensity_attr,
+>   				const char *buf, size_t size)
+> @@ -35,6 +74,7 @@ static ssize_t multi_intensity_store(struct device *dev,
+>   	struct led_classdev_mc *mcled_cdev = lcdev_to_mccdev(led_cdev);
+>   	int nrchars, offset = 0;
+>   	unsigned int intensity_value[LED_COLOR_ID_MAX];
+> +	unsigned int max_intensity;
+>   	int i;
+>   	ssize_t ret;
+>   
+> @@ -56,8 +96,10 @@ static ssize_t multi_intensity_store(struct device *dev,
+>   		goto err_out;
+>   	}
+>   
+> -	for (i = 0; i < mcled_cdev->num_colors; i++)
+> -		mcled_cdev->subled_info[i].intensity = intensity_value[i];
+> +	for (i = 0; i < mcled_cdev->num_colors; i++) {
+> +		max_intensity = led_mc_get_max_intensity(mcled_cdev, i);
+> +		mcled_cdev->subled_info[i].intensity = min(intensity_value[i], max_intensity);
+> +	}
+>   
+>   	if (!test_bit(LED_BLINK_SW, &led_cdev->work_flags))
+>   		led_set_brightness(led_cdev, led_cdev->brightness);
+> @@ -111,6 +153,7 @@ static ssize_t multi_index_show(struct device *dev,
+>   static DEVICE_ATTR_RO(multi_index);
+>   
+>   static struct attribute *led_multicolor_attrs[] = {
+> +	&dev_attr_multi_max_intensity.attr,
+>   	&dev_attr_multi_intensity.attr,
+>   	&dev_attr_multi_index.attr,
+>   	NULL,
+> diff --git a/drivers/leds/leds-lp50xx.c b/drivers/leds/leds-lp50xx.c
+> index e2a9c8592953..69c3550f1a31 100644
+> --- a/drivers/leds/leds-lp50xx.c
+> +++ b/drivers/leds/leds-lp50xx.c
+> @@ -525,6 +525,7 @@ static int lp50xx_probe_dt(struct lp50xx *priv)
+>   			}
+>   
+>   			mc_led_info[multi_index].color_index = color_id;
+> +			mc_led_info[multi_index].max_intensity = 255;
+>   			num_colors++;
+>   		}
+>   
+> diff --git a/drivers/leds/rgb/leds-ncp5623.c b/drivers/leds/rgb/leds-ncp5623.c
+> index 85d6be6fff2b..f2528f06507d 100644
+> --- a/drivers/leds/rgb/leds-ncp5623.c
+> +++ b/drivers/leds/rgb/leds-ncp5623.c
+> @@ -56,8 +56,7 @@ static int ncp5623_brightness_set(struct led_classdev *cdev,
+>   	for (int i = 0; i < mc_cdev->num_colors; i++) {
+>   		ret = ncp5623_write(ncp->client,
+>   				    NCP5623_PWM_REG(mc_cdev->subled_info[i].channel),
+> -				    min(mc_cdev->subled_info[i].intensity,
+> -					NCP5623_MAX_BRIGHTNESS));
+> +				    mc_cdev->subled_info[i].intensity);
+>   		if (ret)
+>   			return ret;
+>   	}
+> @@ -190,6 +189,7 @@ static int ncp5623_probe(struct i2c_client *client)
+>   			goto release_led_node;
+>   
+>   		subled_info[ncp->mc_dev.num_colors].channel = reg;
+> +		subled_info[ncp->mc_dev.num_colors].max_intensity = NCP5623_MAX_BRIGHTNESS;
+>   		subled_info[ncp->mc_dev.num_colors++].color_index = color_index;
+>   	}
+>   
+> diff --git a/include/linux/led-class-multicolor.h b/include/linux/led-class-multicolor.h
+> index db9f34c6736e..26f6d20b887d 100644
+> --- a/include/linux/led-class-multicolor.h
+> +++ b/include/linux/led-class-multicolor.h
+> @@ -9,10 +9,31 @@
+>   #include <linux/leds.h>
+>   #include <dt-bindings/leds/common.h>
+>   
+> +/**
+> + * struct mc_subled - Color component description.
+> + * @color_index: Color ID.
+> + * @brightness: Scaled intensity.
+> + * @intensity: Current intensity.
+> + * @max_intensity: Maximum supported intensity value.
+> + * @channel: Channel index.
+> + *
+> + * Describes a color component of a multicolor LED. Many multicolor LEDs
+> + * do no support gobal brightness control in hardware, so they use
+> + * the brightness field in connection with led_mc_calc_color_components()
+> + * to perform the intensity scaling in software.
+> + * Such drivers should set max_intensity to 0 to signal the multicolor LED core
+> + * that the maximum global brightness of the LED class device should be used for
+> + * limiting incoming intensity values.
+> + *
+> + * Multicolor LEDs that do support global brightness control in hardware
+> + * should instead set max_intensity to the maximum intensity value supported
+> + * by the hardware for a given color component.
+> + */
+>   struct mc_subled {
+>   	unsigned int color_index;
+>   	unsigned int brightness;
+>   	unsigned int intensity;
+> +	unsigned int max_intensity;
+>   	unsigned int channel;
+>   };
+>   
+> @@ -53,7 +74,14 @@ int led_classdev_multicolor_register_ext(struct device *parent,
+>    */
+>   void led_classdev_multicolor_unregister(struct led_classdev_mc *mcled_cdev);
+>   
+> -/* Calculate brightness for the monochrome LED cluster */
+> +/**
+> + * led_mc_calc_color_components() - Calculates component brightness values of a LED cluster.
+> + * @mcled_cdev - Multicolor LED class device of the LED cluster.
+> + * @led_brightness - Global brightness of the LED cluster.
+> + *
+> + * Calculates the brightness values for each color component of a monochrome LED cluster,
+> + * see Documentation/leds/leds-class-multicolor.rst for details.
+> + */
+>   int led_mc_calc_color_components(struct led_classdev_mc *mcled_cdev,
+>   				 enum led_brightness brightness);
+>   
