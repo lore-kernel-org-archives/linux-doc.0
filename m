@@ -1,128 +1,238 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail-m3269.qiye.163.com (mail-m3269.qiye.163.com [220.197.32.69])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3DE01531E8;
-	Wed, 25 Mar 2026 02:15:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0A491531E8;
+	Wed, 25 Mar 2026 02:34:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.32.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774404947; cv=none; b=YZh50BCmoVDtE27WjrXgPnsrifvyqIsLnwHQtlqMXrY9NVPr0JZrnM4U0FYbKbVzdJxmz7qyyyebW9r13GtCNPyz7K87Xvs+zVXv/BIc23tujolF4eKY4QBp4rxRBuvrCOm/XCnwPw45Fk2ei0yBTHGkSxtm+9RKiNncK0hpWpo=
+	t=1774406067; cv=none; b=irL53jsoYlhQAQRhppOph2I8iYv3ka3MkOUK/BY44Sy8bL01gH8iIyWrtbfZeCwIMilIqsnHE/BK55N6Gap6Ut4YP1Rb5UhetDLnfwAeWxLOzutbC5B5vHAPi1V/J9l+0G2Yzdjjextmq1+A5YShlr0Q1507Jt0gWliMPsmXDFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774404947; c=relaxed/simple;
-	bh=UQ36BHD5AltOWCXoTF1F067alxzo/XmfYIE8jWkukFg=;
-	h=Content-Type:MIME-Version:Message-Id:In-Reply-To:References:
-	 Subject:From:To:Cc:Date; b=utbXcFxEJnAMLwY50zLEkbUxcKiDsDhI71yTplfq8DMOpLSWTIL024qEkHVKCJnIk2dguyDpbM2iGV5e/EZlLXJ7dQUttSYJjVc9udigzOk7d4SnsmRe+0V3lbx4Dqd1xpNbLrbkXjRui0EBd01BaLWcZeqzUUI5yaUOpEvbi8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SXIEB9nN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774406067; c=relaxed/simple;
+	bh=xEPSg9x35pAm5jF0bqxjz5w5egKkzWVsk078GyOjTy4=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References; b=ZYkOUAGSppNyDna+er0wqyhhp3zGvUt/L5LHxI9duRDJFWEONYaMTQok8njSzz7ClKGBKCKe2P2FJvWvpgjQ4D21BVb+R13xwvEvss6tChqwMB0cFDB4Ej4gIajSsqt55jsDAxzKd80aGs5rukD1HjEwUbAcsSwCLZQC/eVD154=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=gz89Ybf3; arc=none smtp.client-ip=220.197.32.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SXIEB9nN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FA8AC19424;
-	Wed, 25 Mar 2026 02:15:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774404947;
-	bh=UQ36BHD5AltOWCXoTF1F067alxzo/XmfYIE8jWkukFg=;
-	h=In-Reply-To:References:Subject:From:To:Cc:Date:From;
-	b=SXIEB9nNxGuVM7+G/zWqCOrk3ScU5D3kc7pMf71uYqS54jCtztJ3t+D04TLw1M3+9
-	 mE+HMEOIhSemtT3fb3I33VAZzmbye7BmjuY0RbnWai5x8v+2r19d2UnmZzoxCNaobX
-	 lDmRWkDamwqaLHrsf2JDHFktCY7tSSDxHyJMflQBbIOpJd/oOpk6D+/VxyUcbzoBEi
-	 Zzhih8EOYlxaTYl/EifYRfbS/Ps5Frot2VNd5AJNVtF31ssKLpr5c8EsGrT9cqc0fF
-	 h4zDDkpYCLfZGSgBAngHj44aq+k8UIY25+Qct7AOMEgeTNNsoSe76bnuQarmVRPZjm
-	 NK8PSxE6hMPLQ==
-Content-Type: multipart/mixed; boundary="===============8578444517970282799=="
+	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="gz89Ybf3"
+Received: from localhost.localdomain (unknown [58.22.7.114])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 382e78d8b;
+	Wed, 25 Mar 2026 09:58:46 +0800 (GMT+08:00)
+From: Shawn Lin <shawn.lin@rock-chips.com>
+To: Manivannan Sadhasivam <mani@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>
+Cc: linux-rockchip@lists.infradead.org,
+	linux-pci@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Shawn Lin <shawn.lin@rock-chips.com>
+Subject: [PATCH v5 3/3] PCI: dw-rockchip: Add pcie_ltssm_state_transition trace support
+Date: Wed, 25 Mar 2026 09:58:32 +0800
+Message-Id: <1774403912-210670-4-git-send-email-shawn.lin@rock-chips.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1774403912-210670-1-git-send-email-shawn.lin@rock-chips.com>
+References: <1774403912-210670-1-git-send-email-shawn.lin@rock-chips.com>
+X-HM-Tid: 0a9d22b73a1309cckunm61c156f0a558ae
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQkMdTFYaGR9JSUtITxpOSR5WFRQJFh
+	oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
+	hVSktLVUpCS0tZBg++
+DKIM-Signature: a=rsa-sha256;
+	b=gz89Ybf3vXAzPkxRsV/sY2TRC/F1Qbuf1E1T8HZlGmzRAn3aNHv0Xl+P7Z7PriyaDTV+BS23CZIxnqYqxJAhaPatqmTSOJZEuujBevwYJRn8Qq8TSyw5eW7DL1s3DizcfhMPu7SH5zvTCs6JZVxSGXrOQ8CtX5ZCqRycMJp4zao=; s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
+	bh=mVQ3wBTObZTHeiuagy3/HA6ngtLOnHt9udd3dqVawG4=;
+	h=date:mime-version:subject:message-id:from;
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Message-Id: <64037c46ac65e4e72f45f78a9703a8f938441d7499486ac389262aa406654b8b@mail.kernel.org>
-In-Reply-To: <20260325011853.657295-1-sashal@kernel.org>
-References: <20260325011853.657295-1-sashal@kernel.org>
-Subject: Re: [RFC] btf: split core BTF parsing out of BPF subsystem into kernel/btf/
-From: bot+bpf-ci@kernel.org
-To: sashal@kernel.org,sashal@kernel.org
-Cc: James.Bottomley@hansenpartnership.com,adobriyan@gmail.com,akpm@linux-foundation.org,alexei.starovoitov@gmail.com,ast@kernel.org,bp@alien8.de,bpf@vger.kernel.org,corbet@lwn.net,dave.hansen@linux.intel.com,davidgow@google.com,deller@gmx.de,geert@linux-m68k.org,gregkh@linuxfoundation.org,hpa@zytor.com,jgross@suse.com,jpoimboe@kernel.org,kees@kernel.org,laurent.pinchart@ideasonboard.com,linux-doc@vger.kernel.org,linux-kbuild@vger.kernel.org,linux-kernel@vger.kernel.org,linux-modules@vger.kernel.org,masahiroy@kernel.org,mcgrof@kernel.org,mingo@redhat.com,nathan@kernel.org,nsc@kernel.org,peterz@infradead.org,petr.pavlu@suse.com,pmladek@suse.com,rdunlap@infradead.org,rostedt@goodmis.org,tglx@kernel.org,vbabka@kernel.org,x86@kernel.org,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,clm@meta.com,ihor.solodrai@linux.dev
-Date: Wed, 25 Mar 2026 02:15:46 +0000 (UTC)
 
---===============8578444517970282799==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Rockchip platforms provide a 64x4 bytes debug FIFO to trace the
+LTSSM history. Any LTSSM change will be recorded. It's useful
+for debug purpose, for example link failure, etc.
 
-> diff --git a/kernel/btf/bpf.c b/kernel/btf/bpf.c
-> new file mode 100644
-> index 0000000000000..ef973771bb2ab
-> --- /dev/null
-> +++ b/kernel/btf/bpf.c
-
-[ ... ]
-
-> +struct btf_struct_ops_tab {
-> +	u32 cnt;
-> +	u32 capacity;
-> +	struct bpf_struct_ops_desc ops[];
-> +};
-> +	u32 id;
-> +	struct rcu_head rcu;
-> +	struct btf_kfunc_set_tab *kfunc_set_tab;
-> +	struct btf_id_dtor_kfunc_tab *dtor_kfunc_tab;
-> +	struct btf_struct_metas *struct_meta_tab;
-> +	struct btf_struct_ops_tab *struct_ops_tab;
-> +s32 bpf_find_btf_id(const char *name, u32 kind, struct btf **btf_p)
-
-These six declarations between the closing brace of struct
-btf_struct_ops_tab and bpf_find_btf_id() appear to be orphaned
-fields from the original struct btf definition that were left
-behind during the split.
-
-They are parsed as file-scope global variable definitions. With
--fno-common, the name "id" in particular is likely to collide at
-link time. Were these meant to be removed here, given that they
-already appear correctly inside struct btf in kernel/btf/btf.h
-under the CONFIG_BPF_SYSCALL guard?
-
-> diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-> index 93f356d2b3d95..0009a7ac78462 100644
-> --- a/lib/Kconfig.debug
-> +++ b/lib/Kconfig.debug
-> @@ -395,14 +395,23 @@ config DEBUG_INFO_SPLIT
-
-[ ... ]
-
-> +config BTF
-> +	bool "BTF type information support"
-> +	depends on !DEBUG_INFO_SPLIT && !DEBUG_INFO_REDUCED
-> +	depends on !GCC_PLUGIN_RANDSTRUCT || COMPILE_TEST
-> +	depends on PAHOLE_VERSION >= 122
-> +	# pahole uses elfutils, which does not have support for Hexagon relocations
-> +	depends on !HEXAGON
-
-[ ... ]
-
-> +config DEBUG_INFO_BTF
-> +	bool "Generate BTF type information"
-> +	select BTF
-
-The old DEBUG_INFO_BTF had its own depends on lines:
-
-    depends on !DEBUG_INFO_SPLIT && !DEBUG_INFO_REDUCED
-    depends on !GCC_PLUGIN_RANDSTRUCT || COMPILE_TEST
-    depends on BPF_SYSCALL
-    depends on PAHOLE_VERSION >= 122
-    depends on !HEXAGON
-
-Those constraints now live only on CONFIG_BTF, and DEBUG_INFO_BTF
-uses "select BTF" with no depends of its own. Since select bypasses
-the selected symbol's depends-on checks, DEBUG_INFO_BTF is now
-visible and selectable even when BTF's dependencies are not met
-(e.g. on Hexagon, or with PAHOLE_VERSION < 122).
-
-Should DEBUG_INFO_BTF use "depends on BTF" instead of (or in
-addition to) "select BTF", so that it inherits the same
-constraints?
-
-
+Signed-off-by: Shawn Lin <shawn.lin@rock-chips.com>
 ---
-AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
-See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
 
-CI run summary: https://github.com/kernel-patches/bpf/actions/runs/23520643445
---===============8578444517970282799==--
+Changes in v5:
+- rebase
+- use trace_pcie_ltssm_state_transition_enabled()
+
+Changes in v4:
+- skip trace if pci_ltssm_tp_enabled() is false.(Steven)
+- wrap into 80 columns(Bjorn)
+
+Changes in v3:
+- reorder variables(Mani)
+- rename loop to i; rename en to enable(Mani)
+- use FIELD_GET(Mani)
+- add comment about how the FIFO works(Mani)
+
+Changes in v2:
+- use tracepoint
+
+ drivers/pci/controller/dwc/pcie-dw-rockchip.c | 111 ++++++++++++++++++++++++++
+ 1 file changed, 111 insertions(+)
+
+diff --git a/drivers/pci/controller/dwc/pcie-dw-rockchip.c b/drivers/pci/controller/dwc/pcie-dw-rockchip.c
+index bb5d1a3..e737103 100644
+--- a/drivers/pci/controller/dwc/pcie-dw-rockchip.c
++++ b/drivers/pci/controller/dwc/pcie-dw-rockchip.c
+@@ -22,6 +22,8 @@
+ #include <linux/platform_device.h>
+ #include <linux/regmap.h>
+ #include <linux/reset.h>
++#include <linux/workqueue.h>
++#include <trace/events/pci_controller.h>
+ 
+ #include "../../pci.h"
+ #include "pcie-designware.h"
+@@ -73,6 +75,20 @@
+ #define  PCIE_CLIENT_CDM_RASDES_TBA_L1_1	BIT(4)
+ #define  PCIE_CLIENT_CDM_RASDES_TBA_L1_2	BIT(5)
+ 
++/* Debug FIFO information */
++#define PCIE_CLIENT_DBG_FIFO_MODE_CON	0x310
++#define  PCIE_CLIENT_DBG_EN		0xffff0007
++#define  PCIE_CLIENT_DBG_DIS		0xffff0000
++#define PCIE_CLIENT_DBG_FIFO_PTN_HIT_D0	0x320
++#define PCIE_CLIENT_DBG_FIFO_PTN_HIT_D1	0x324
++#define PCIE_CLIENT_DBG_FIFO_TRN_HIT_D0	0x328
++#define PCIE_CLIENT_DBG_FIFO_TRN_HIT_D1	0x32c
++#define  PCIE_CLIENT_DBG_TRANSITION_DATA 0xffff0000
++#define PCIE_CLIENT_DBG_FIFO_STATUS	0x350
++#define  PCIE_DBG_FIFO_RATE_MASK	GENMASK(22, 20)
++#define  PCIE_DBG_FIFO_L1SUB_MASK	GENMASK(10, 8)
++#define PCIE_DBG_LTSSM_HISTORY_CNT	64
++
+ /* Hot Reset Control Register */
+ #define PCIE_CLIENT_HOT_RESET_CTRL	0x180
+ #define  PCIE_LTSSM_APP_DLY2_EN		BIT(1)
+@@ -98,6 +114,7 @@ struct rockchip_pcie {
+ 	struct irq_domain *irq_domain;
+ 	const struct rockchip_pcie_of_data *data;
+ 	bool supports_clkreq;
++	struct delayed_work trace_work;
+ };
+ 
+ struct rockchip_pcie_of_data {
+@@ -208,6 +225,96 @@ static enum dw_pcie_ltssm rockchip_pcie_get_ltssm(struct dw_pcie *pci)
+ 	return rockchip_pcie_get_ltssm_reg(rockchip) & PCIE_LTSSM_STATUS_MASK;
+ }
+ 
++#ifdef CONFIG_TRACING
++static void rockchip_pcie_ltssm_trace_work(struct work_struct *work)
++{
++	struct rockchip_pcie *rockchip = container_of(work,
++						struct rockchip_pcie,
++						trace_work.work);
++	struct dw_pcie *pci = &rockchip->pci;
++	enum dw_pcie_ltssm state;
++	u32 i, l1ss, prev_val = DW_PCIE_LTSSM_UNKNOWN, rate, val;
++
++	if (!trace_pcie_ltssm_state_transition_enabled())
++		goto skip_trace;
++
++	for (i = 0; i < PCIE_DBG_LTSSM_HISTORY_CNT; i++) {
++		val = rockchip_pcie_readl_apb(rockchip,
++				PCIE_CLIENT_DBG_FIFO_STATUS);
++		rate = FIELD_GET(PCIE_DBG_FIFO_RATE_MASK, val);
++		l1ss = FIELD_GET(PCIE_DBG_FIFO_L1SUB_MASK, val);
++		val = FIELD_GET(PCIE_LTSSM_STATUS_MASK, val);
++
++		/*
++		 * Hardware Mechanism: The ring FIFO employs two tracking
++		 * counters:
++		 * - 'last-read-point': maintains the user's last read position
++		 * - 'last-valid-point': tracks the HW's last state update
++		 *
++		 * Software Handling: When two consecutive LTSSM states are
++		 * identical, it indicates invalid subsequent data in the FIFO.
++		 * In this case, we skip the remaining entries. The dual counter
++		 * design ensures that on the next state transition, reading can
++		 * resume from the last user position.
++		 */
++		if ((i > 0 && val == prev_val) || val > DW_PCIE_LTSSM_RCVRY_EQ3)
++			break;
++
++		state = prev_val = val;
++		if (val == DW_PCIE_LTSSM_L1_IDLE) {
++			if (l1ss == 2)
++				state = DW_PCIE_LTSSM_L1_2;
++			else if (l1ss == 1)
++				state = DW_PCIE_LTSSM_L1_1;
++		}
++
++		trace_pcie_ltssm_state_transition(dev_name(pci->dev),
++				dw_pcie_ltssm_status_string(state),
++				((rate + 1) > pci->max_link_speed) ?
++				PCI_SPEED_UNKNOWN : PCIE_SPEED_2_5GT + rate);
++	}
++
++skip_trace:
++	schedule_delayed_work(&rockchip->trace_work, msecs_to_jiffies(5000));
++}
++
++static void rockchip_pcie_ltssm_trace(struct rockchip_pcie *rockchip,
++				      bool enable)
++{
++	if (enable) {
++		rockchip_pcie_writel_apb(rockchip,
++					 PCIE_CLIENT_DBG_TRANSITION_DATA,
++					 PCIE_CLIENT_DBG_FIFO_PTN_HIT_D0);
++		rockchip_pcie_writel_apb(rockchip,
++					 PCIE_CLIENT_DBG_TRANSITION_DATA,
++					 PCIE_CLIENT_DBG_FIFO_PTN_HIT_D1);
++		rockchip_pcie_writel_apb(rockchip,
++					 PCIE_CLIENT_DBG_TRANSITION_DATA,
++					 PCIE_CLIENT_DBG_FIFO_TRN_HIT_D0);
++		rockchip_pcie_writel_apb(rockchip,
++					 PCIE_CLIENT_DBG_TRANSITION_DATA,
++					 PCIE_CLIENT_DBG_FIFO_TRN_HIT_D1);
++		rockchip_pcie_writel_apb(rockchip,
++					 PCIE_CLIENT_DBG_EN,
++					 PCIE_CLIENT_DBG_FIFO_MODE_CON);
++
++		INIT_DELAYED_WORK(&rockchip->trace_work,
++				  rockchip_pcie_ltssm_trace_work);
++		schedule_delayed_work(&rockchip->trace_work, 0);
++	} else {
++		rockchip_pcie_writel_apb(rockchip,
++					 PCIE_CLIENT_DBG_DIS,
++					 PCIE_CLIENT_DBG_FIFO_MODE_CON);
++		cancel_delayed_work_sync(&rockchip->trace_work);
++	}
++}
++#else
++static void rockchip_pcie_ltssm_trace(struct rockchip_pcie *rockchip,
++				      bool enable)
++{
++}
++#endif
++
+ static void rockchip_pcie_enable_ltssm(struct rockchip_pcie *rockchip)
+ {
+ 	rockchip_pcie_writel_apb(rockchip, PCIE_CLIENT_ENABLE_LTSSM,
+@@ -291,6 +398,9 @@ static int rockchip_pcie_start_link(struct dw_pcie *pci)
+ 	 * 100us as we don't know how long should the device need to reset.
+ 	 */
+ 	msleep(PCIE_T_PVPERL_MS);
++
++	rockchip_pcie_ltssm_trace(rockchip, true);
++
+ 	gpiod_set_value_cansleep(rockchip->rst_gpio, 1);
+ 
+ 	return 0;
+@@ -301,6 +411,7 @@ static void rockchip_pcie_stop_link(struct dw_pcie *pci)
+ 	struct rockchip_pcie *rockchip = to_rockchip_pcie(pci);
+ 
+ 	rockchip_pcie_disable_ltssm(rockchip);
++	rockchip_pcie_ltssm_trace(rockchip, false);
+ }
+ 
+ static int rockchip_pcie_host_init(struct dw_pcie_rp *pp)
+-- 
+2.7.4
+
