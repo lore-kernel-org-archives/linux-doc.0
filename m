@@ -1,255 +1,206 @@
-Received: from mout-y-209.mailbox.org (mout-y-209.mailbox.org [91.198.250.237])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 807A7346A0D;
-	Wed, 25 Mar 2026 19:48:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.198.250.237
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2DDB34DCFF
+	for <linux-doc@vger.kernel.org>; Wed, 25 Mar 2026 20:06:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774468137; cv=none; b=AcEsbVpTPAXDHp8fqRHwgj25JrzQ2coTdeV7t9S5rSxQDkzqmr+qcrZq+MdbLO6CvZ7hrL6TfnRPGCLvreVs3LSlAm1yGAAE9Lk5BTeBWWAhZW1Y81tjZK81ZJJTtN/HulJBB8osiguK5pyRekH2VmDFhQoCdoTkNOuqYtHCSTg=
+	t=1774469214; cv=none; b=avI/P8BOcZgXtwZYhR8G7ez3BXShsbPXr5WOsTh2oM9PIQhUaukvM/ytMv6vO35OvWlPwo5jyDVd5jlnxPyOGC23ceZ4/U/axb59naNDss70DlSY8/Zx9K/G6A5eg0TfdBEOq1PI6MWa6l1TzoMCiD0SrWncZpb+YcNzF5qzrdQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774468137; c=relaxed/simple;
-	bh=YiRp5hORkFx58+pTD1Uty4st8OKgPd7AyEupV4UQpz4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BBmPLjjtlWMn+NTJqhHymg17135Xca7KyRvLmCr3/CR4e0HwD6+yo2P9QWp+p74UE1IDb/lOECti+GIp3mzu1eZCrS21frrhKlODkQCV+SMgIyYONTFcs/PZUQfEeQJ8qoud0j3LyjDHXezNbaskv5VTriNb7laUhrR4oBYpP10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=wpwJu42Q; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=X6hd1SRo; arc=none smtp.client-ip=91.198.250.237
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1774469214; c=relaxed/simple;
+	bh=QWkkdA+pFF8rjilsaUm1i/vpWu+c/k23cgJdC8WUDOw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VeV0962gHrcRXsRWYvMuhW+38SFLml+zG/CEhDhsSEHLK0DDigOdyCvs+YrHfbn3A0eR9uYJF0HMX1F0pqp3u5svAjqwTupqwx1e6I2FvuH0MBlwqDiBP53PR4jRQ606ZXOhC0alC1hZxu6LrmnmStY3lyfbROVJ3kCC2puCtAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=XOmpIf3w; arc=none smtp.client-ip=209.85.215.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="wpwJu42Q";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="X6hd1SRo"
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-y-209.mailbox.org (Postfix) with ESMTPS id 4fgyC95QRBzB115;
-	Wed, 25 Mar 2026 20:48:53 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1774468133;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=R3ztjrhg6iQ74avdDRyLJhlD8H9QW1fbnKgbJpR86Ls=;
-	b=wpwJu42QnvZ+RmOQ9DYxN2QH2l2D2VevXqo3SuQ7kX1jQZdn3WGq5ycLK/dgHKHG+XhEUo
-	vHjvOfh4rbTOvI3TwlV8G48KrCpmkpz4J8d9XacaZWYDIUAqqW18XgfrYn9xvbqepWKFnC
-	y8D7E12lqd+l0t3rJhC+Lsu7k8fH3jLbaJZTdPshj0MUE3WF54wR5uzHdpBqz64UP89CO5
-	oBsTZ44GmV6EcfGBVJztUZrmizg+BFzXBOvKx99sQNMjCBWwVE7rDFBgxiSZ3nLA8hAdu2
-	2CiSZ/jsou10RJCTmRKSMVrsGvCgHBFVBWdwLDmAVE9lBQdgscNqdOid22fukQ==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=X6hd1SRo;
-	spf=pass (outgoing_mbo_mout: domain of manuelebner@mailbox.org designates 2001:67c:2050:b231:465::1 as permitted sender) smtp.mailfrom=manuelebner@mailbox.org
-From: Manuel Ebner <manuelebner@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1774468132;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=R3ztjrhg6iQ74avdDRyLJhlD8H9QW1fbnKgbJpR86Ls=;
-	b=X6hd1SRosFFQIs3KDiUAUWzH81wJ4QoZSLRIJLAU7O+7i4xIWI5sG+aI5/B+gpNzVqBQ28
-	VbsT0XU9JMDA+rkId6r9G3n67VJ7d+/RWy9pEnil1uaXiIb5fK2+0zbGoU+U32/zIFREnx
-	S/02WFkH28RqzSkV2cZTJwqy15EcV9WZRWJG/IkgG6GnZWSexg99mOc9Vzrxts9LyXnHka
-	7voTGLn4LrIUSpgoNbUY6QfWmo0F2b4PqoW/yIeIftijxOVTFsYQqK5wR7K57TLL/pW5Zk
-	es6mEBaIJnexYCFnSzeqTrVexBheXC01ADcSUsLiUcHRpaLMQ1YZoTEIPrSeaA==
-To: Jonathan Corbet <corbet@lwn.net>,
-	Collin Funk <collin.funk1@gmail.com>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Manuel Ebner <manuelebner@mailbox.org>
-Subject: [PATCH v5 2/2] workflows, scripts: sort ver_linux and changes.rst
-Date: Wed, 25 Mar 2026 20:48:12 +0100
-Message-ID: <20260325194811.78509-2-manuelebner@mailbox.org>
-In-Reply-To: <20260325194326.77923-2-manuelebner@mailbox.org>
-References: <20260325194326.77923-2-manuelebner@mailbox.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XOmpIf3w"
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-c742723c863so183687a12.0
+        for <linux-doc@vger.kernel.org>; Wed, 25 Mar 2026 13:06:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1774469213; x=1775074013; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+fZRp4AJi5cb/F6jA80ZrndPdXYxEQL1IK9u8/P+m9k=;
+        b=XOmpIf3wx3OAbYuBhazQbr1ZVOYiuW+8XsO0/K8RYWS3pqy/6NzSJ5O/zdVru6DhcX
+         TN6TGjZnxbzAHb449USGJQVZniTerw0en2lgBy3FjoXYn0yAjHyngXhNjCR82oB3iiht
+         gfGhIRTHxeS9ZrUjf6Lr+jDGi5pJA//Jg1aa6+rgnMwl0FD0kx++MMoKWg6pjEvs4ES5
+         FwzwIixpP2SiehviX4OWfOpTkR2ae0/WarXcOTsbL/obTaljzRiwBU9Oh5K9PunnEmBi
+         wgLr3NLM5/3w6YM131plNM2nDc2A7DgzxLS+xfohjZ4x8siHv+E7wnBG6STMqu4yfXsp
+         PYzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774469213; x=1775074013;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+fZRp4AJi5cb/F6jA80ZrndPdXYxEQL1IK9u8/P+m9k=;
+        b=M9KpAshlovAHsz2yeqaiTy1F3L618JGVGbGcmegoXxNBbTXM6h1GAzXOjBaTCNiZsi
+         +r6Ht7kNRLNEXB/UYvrnGuZkS/Wgpm/FysrPAUBEdDGOZjWWk+heqCdQhyl1Lv9jmbgB
+         wUfMIv99RWnYB0UjaJkOcvk9qNOZ8epIydK6N4mBl8UZ9/+yiJA/IUasAuJkFkVhgbDE
+         JwJr3zADHeK9W9fCpY7ne+J+H9DoLjJGj853j2ifcct25NT11me7VKWPGZpO5WZQZ5ly
+         a7SME5Onf/zRHwJPg0GL7l5RSEWABgUvRo9enjlZoxaLZjV22DKgG8kKkfVMXGZkAKoR
+         0L6g==
+X-Forwarded-Encrypted: i=1; AJvYcCXM7GUN9XLG09qhz/E+bx7IEJfv74TXkrwlt/qbTyopb+tuiccc6TICrUjMYKF6/2GGAdWKkm8RyHA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxQ+bD4tV01ikyts2UByPXihnP+lUSSKrwxReB/Dk+P6LGmmwk3
+	F94cRZjgyIHyVnbEmcsxTvpQBgVwSqKs+AQK6Usp01K/f4SdlQK6fEKRkdxjLxnxNA==
+X-Gm-Gg: ATEYQzyaCuT4m6FpbAbRUEDZCjqTJBaJk83cbGBHEvKv5vz0FLrKCkCbSl02mSem4Wz
+	/vI8eZeXFi1PyaFiAdHgReYqaHS3vEC+PGQ1b7U5HI+grp5fnWpccWQRElX3qA3cTnbV6oz8EhA
+	UidZY6BXU9LpfIYs+isrGmBPByrJ99C0GhSgA8wne4o3SLRZxp+XnaAM4qAzyGWfts0o/WHlrl3
+	YJx/sX/J06UQ39HHFAXp76h76Y/oiLpfsz6GW6VcLfq1b/vms40OgGYBun3kRXRMf9rGgGrPHkQ
+	oDT4LIB3xbs/bVjScUAfLm/FpIy8nRLq7+2u6imNP1mZADNTYF1RncyZ2kUSlxPIvBjXiWBYdOy
+	KPymabFDTlGMJ/tbDXjBvfwdDR8jdxqVKgHvOMsTfrj8hieF2yhoDNhJiGcRAESadE/YcoXrjXe
+	hjrONOBTaNAUGFSW03RdYnF13hJyInund7tEEfkct0HLiovX7gYIO2nPlxujzajQ==
+X-Received: by 2002:a05:6a20:8ca6:b0:398:b3bd:de58 with SMTP id adf61e73a8af0-39c4aed5082mr3746836637.65.1774469212632;
+        Wed, 25 Mar 2026 13:06:52 -0700 (PDT)
+Received: from google.com (239.23.105.34.bc.googleusercontent.com. [34.105.23.239])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c7673819da1sm305751a12.11.2026.03.25.13.06.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Mar 2026 13:06:51 -0700 (PDT)
+Date: Wed, 25 Mar 2026 20:06:47 +0000
+From: David Matlack <dmatlack@google.com>
+To: Alex Williamson <alex@shazbot.org>, Bjorn Helgaas <bhelgaas@google.com>
+Cc: Adithya Jayachandran <ajayachandra@nvidia.com>,
+	Alexander Graf <graf@amazon.com>, Alex Mastro <amastro@fb.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Ankit Agrawal <ankita@nvidia.com>, Arnd Bergmann <arnd@arndb.de>,
+	Askar Safin <safinaskar@gmail.com>,
+	"Borislav Petkov (AMD)" <bp@alien8.de>,
+	Chris Li <chrisl@kernel.org>,
+	Dapeng Mi <dapeng1.mi@linux.intel.com>,
+	David Rientjes <rientjes@google.com>,
+	Feng Tang <feng.tang@linux.alibaba.com>,
+	Jacob Pan <jacob.pan@linux.microsoft.com>,
+	Jason Gunthorpe <jgg@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>,
+	Kees Cook <kees@kernel.org>, Kevin Tian <kevin.tian@intel.com>,
+	kexec@lists.infradead.org, kvm@vger.kernel.org,
+	Leon Romanovsky <leon@kernel.org>,
+	Leon Romanovsky <leonro@nvidia.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org, linux-pci@vger.kernel.org,
+	Li RongQing <lirongqing@baidu.com>, Lukas Wunner <lukas@wunner.de>,
+	Marco Elver <elver@google.com>,
+	=?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
+	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+	"Peter Zijlstra (Intel)" <peterz@infradead.org>,
+	Pranjal Shrivastava <praan@google.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Raghavendra Rao Ananta <rananta@google.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Samiullah Khawaja <skhawaja@google.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Vipin Sharma <vipinsh@google.com>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>,
+	William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>,
+	Zhu Yanjun <yanjun.zhu@linux.dev>
+Subject: Re: [PATCH v3 02/24] PCI: Add API to track PCI devices preserved
+ across Live Update
+Message-ID: <acRAV7IK6RW8h_QM@google.com>
+References: <20260323235817.1960573-1-dmatlack@google.com>
+ <20260323235817.1960573-3-dmatlack@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: bf910aa68fa9af2a123
-X-MBO-RS-META: fmdmwa9k1ib1r4413bci5sgebjw4w3hz
-X-Rspamd-Queue-Id: 4fgyC95QRBzB115
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260323235817.1960573-3-dmatlack@google.com>
 
-sort output of scripts/ver_linux alphabetically
-sort list in changes.rst alphabetically
+On 2026-03-23 11:57 PM, David Matlack wrote:
 
-Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
----
- Documentation/process/changes.rst | 52 ++++++++++++-------------
- scripts/ver_linux                 | 64 +++++++++++++++----------------
- 2 files changed, 58 insertions(+), 58 deletions(-)
+> +static void pci_flb_finish(struct liveupdate_flb_op_args *args)
+> +{
+> +	kho_restore_free(args->obj);
+> +}
+> +
+> +static struct liveupdate_flb_ops pci_liveupdate_flb_ops = {
+> +	.preserve = pci_flb_preserve,
+> +	.unpreserve = pci_flb_unpreserve,
+> +	.retrieve = pci_flb_retrieve,
+> +	.finish = pci_flb_finish,
+> +	.owner = THIS_MODULE,
+> +};
+...
+> +static int pci_liveupdate_flb_get_incoming(struct pci_ser **serp)
+> +{
+> +	int ret;
+> +
+> +	ret = liveupdate_flb_get_incoming(&pci_liveupdate_flb, (void **)serp);
+> +
+> +	/* Live Update is not enabled. */
+> +	if (ret == -EOPNOTSUPP)
+> +		return ret;
+> +
+> +	/* Live Update is enabled, but there is no incoming FLB data. */
+> +	if (ret == -ENODATA)
+> +		return ret;
+> +
+> +	/*
+> +	 * Live Update is enabled and there is incoming FLB data, but none of it
+> +	 * matches pci_liveupdate_flb.compatible.
+> +	 *
+> +	 * This could mean that no PCI FLB data was passed by the previous
+> +	 * kernel, but it could also mean the previous kernel used a different
+> +	 * compatibility string (i.e.a different ABI). The latter deserves at
+> +	 * least a WARN_ON_ONCE() but it cannot be distinguished from the
+> +	 * former.
+> +	 */
+> +	if (ret == -ENOENT) {
+> +		pr_info_once("PCI: No incoming FLB data detected during Live Update");
+> +		return ret;
+> +	}
+> +
+> +	/*
+> +	 * There is incoming FLB data that matches pci_liveupdate_flb.compatible
+> +	 * but it cannot be retrieved. Proceed with standard initialization as
+> +	 * if there was not incoming PCI FLB data.
+> +	 */
+> +	WARN_ONCE(ret, "PCI: Failed to retrieve incoming FLB data during Live Update");
+> +	return ret;
+> +}
+> +
+> +u32 pci_liveupdate_incoming_nr_devices(void)
+> +{
+> +	struct pci_ser *ser;
+> +
+> +	if (pci_liveupdate_flb_get_incoming(&ser))
+> +		return 0;
+> +
+> +	return ser->nr_devices;
+> +}
+> +
+> +void pci_liveupdate_setup_device(struct pci_dev *dev)
+> +{
+> +	struct pci_ser *ser;
+> +
+> +	if (pci_liveupdate_flb_get_incoming(&ser))
+> +		return;
+> +
+> +	if (!pci_ser_find(ser, dev))
+> +		return;
+> +
+> +	dev->liveupdate_incoming = true;
+> +}
 
-diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index d94503341254..6ba9ca928e49 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -30,41 +30,41 @@ you probably do not need to concern yourself with pcmciautils.
- ====================== ===============  ========================================
-         Program        Minimal version       Command to check the version
- ====================== ===============  ========================================
--GNU C                  8.1              gcc --version
--Clang/LLVM (optional)  15.0.0           clang --version
--Rust (optional)        1.78.0           rustc --version
--bindgen (optional)     0.65.1           bindgen --version
--GNU make               4.0              make --version
- bash                   4.2              bash --version
-+bc                     1.06.95          bc --version
-+bindgen (optional)     0.65.1           bindgen --version
- binutils               2.30             ld -v
--flex                   2.5.35           flex --version
- bison                  2.0              bison --version
--pahole                 1.22             pahole --version
--util-linux             2.10o            mount --version
--kmod                   13               kmod -V
-+btrfs-progs            0.18             btrfs --version
-+Clang/LLVM (optional)  15.0.0           clang --version
- e2fsprogs              1.41.4           e2fsck -V
-+flex                   2.5.35           flex --version
-+gdb                    7.2              gdb --version
-+GNU awk (optional)     5.1.0            gawk --version
-+GNU C                  8.1              gcc --version
-+GNU make               4.0              make --version
-+GNU tar                1.28             tar --version
-+GRUB                   0.93             grub --version || grub-install --version
-+gtags (optional)       6.6.5            gtags --version
-+iptables               1.4.2            iptables -V
- jfsutils               1.1.3            fsck.jfs -V
--xfsprogs               2.6.0            xfs_db -V
--squashfs-tools         4.0              mksquashfs -version
--btrfs-progs            0.18             btrfs --version
-+kmod                   13               kmod -V
-+mcelog                 0.6              mcelog --version
-+mkimage (optional)     2017.01          mkimage --version
-+nfs-utils              1.0.5            showmount --version
-+openssl & libcrypto    1.0.0            openssl version
-+pahole                 1.22             pahole --version
- pcmciautils            004              pccardctl -V
--quota-tools            3.09             quota -V
- PPP                    2.4.0            pppd --version
--nfs-utils              1.0.5            showmount --version
- procps                 3.2.0            ps --version
--udev                   081              udevadm --version
--GRUB                   0.93             grub --version || grub-install --version
--mcelog                 0.6              mcelog --version
--iptables               1.4.2            iptables -V
--openssl & libcrypto    1.0.0            openssl version
--bc                     1.06.95          bc --version
--Sphinx\ [#f1]_         3.4.3            sphinx-build --version
--GNU tar                1.28             tar --version
--gtags (optional)       6.6.5            gtags --version
--mkimage (optional)     2017.01          mkimage --version
- Python                 3.9.x            python3 --version
--GNU awk (optional)     5.1.0            gawk --version
--gdb                    7.2              gdb --version
-+quota-tools            3.09             quota -V
-+Rust (optional)        1.78.0           rustc --version
-+Sphinx\ [#f1]_         3.4.3            sphinx-build --version
-+squashfs-tools         4.0              mksquashfs -version
-+udev                   081              udevadm --version
-+util-linux             2.10o            mount --version
-+xfsprogs               2.6.0            xfs_db -V
- ====================== ===============  ========================================
- 
- .. [#f1] Sphinx is needed only to build the Kernel documentation
-diff --git a/scripts/ver_linux b/scripts/ver_linux
-index fab0c68a6c52..00bdaf30d590 100755
---- a/scripts/ver_linux
-+++ b/scripts/ver_linux
-@@ -17,58 +17,58 @@ BEGIN {
- 	libc = "libc[.]so[.][0-9]+$"
- 	libcpp = "(libg|stdc)[+]+[.]so([.][0-9]+)+$"
- 
--	printversion("GNU C", version("gcc -dumpversion"))
--	printversion("GNU make", version("make --version"))
--	printversion("binutils", version("ld -v"))
--	printversion("util-linux", version("mount --version"))
--	printversion("Mount", version("mount --version"))
--	printversion("Module-init-tools", version("depmod -V"))
--	printversion("e2fsprogs", version("e2fsck -V"))
--	printversion("jfsutils", version("fsck.jfs -V"))
--	printversion("xfsprogs", version("xfs_db -V"))
--	printversion("pcmciautils", version("pccardctl -V"))
--	printversion("Pcmcia-cs", version("cardmgr -V"))
--	printversion("quota-tools", version("quota -V"))
--	printversion("PPP", version("pppd --version"))
--	printversion("Isdn4k-utils", version("isdnctrl"))
--	printversion("nfs-utils", version("showmount --version"))
--	printversion("bison", version("bison --version"))
--	printversion("flex", version("flex --version"))
--
--	while ("ldconfig -p 2>/dev/null" | getline > 0)
--		if ($NF ~ libc || $NF ~ libcpp)
--			if (!seen[ver = version("readlink " $NF)]++)
--				printversion("Linux C" ($NF ~ libcpp? "++" : "") " Library", ver)
--
--	printversion("Dynamic linker (ldd)", version("ldd --version"))
--	printversion("procps", version("ps --version"))
--	printversion("Net-tools", version("ifconfig --version"))
--	printversion("Kbd", version("loadkeys -V"))
--	printversion("Console-tools", version("loadkeys -V"))
--	printversion("Sh-utils", version("expr --v"))
--	printversion("udev", version("udevadm --version"))
--	printversion("Wireless-tools", version("iwconfig --version"))
- 	printversion("bash", version("bash --version"))
- 	printversion("bc", version("bc --version"))
- 	printversion("bindgen", version("bindgen --version"))
-+	printversion("binutils", version("ld -v"))
-+	printversion("bison", version("bison --version"))
- 	printversion("btrfs-progs", version("btrfs --version"))
- 	printversion("Clang", version("clang --version"))
-+	printversion("Console-tools", version("loadkeys -V"))
-+	printversion("Dynamic linker (ldd)", version("ldd --version"))
-+	printversion("e2fsprogs", version("e2fsck -V"))
-+	printversion("flex", version("flex --version"))
- 	printversion("gdb", version("gdb -version"))
- 	printversion("GNU awk", version("gawk --version"))
-+	printversion("GNU C", version("gcc -dumpversion"))
-+	printversion("GNU make", version("make --version"))
- 	printversion("GNU tar", version("tar --version"))
--	printversion("GRUB", version("grub-install --version"))
- 	printversion("GRUB2", version("grub2-install --version"))
-+	printversion("GRUB", version("grub-install --version"))
- 	printversion("gtags", version("gtags --version"))
- 	printversion("iptables", version("iptables -V"))
-+	printversion("Isdn4k-utils", version("isdnctrl"))
-+	printversion("jfsutils", version("fsck.jfs -V"))
-+	printversion("Kbd", version("loadkeys -V"))
- 	printversion("kmod", version("kmod -V"))
-+
-+	while ("ldconfig -p 2>/dev/null" | getline > 0)
-+		if ($NF ~ libc || $NF ~ libcpp)
-+			if (!seen[ver = version("readlink " $NF)]++)
-+				printversion("Linux C" ($NF ~ libcpp? "++" : "") " Library", ver)
-+
- 	printversion("mcelog", version("mcelog --version"))
- 	printversion("mkimage", version("mkimage --version"))
-+	printversion("Module-init-tools", version("depmod -V"))
-+	printversion("Mount", version("mount --version"))
-+	printversion("Net-tools", version("ifconfig --version"))
-+	printversion("nfs-utils", version("showmount --version"))
- 	printversion("openssl", version("openssl version"))
- 	printversion("pahole", version("pahole --version"))
-+	printversion("Pcmcia-cs", version("cardmgr -V"))
-+	printversion("pcmciautils", version("pccardctl -V"))
-+	printversion("PPP", version("pppd --version"))
-+	printversion("procps", version("ps --version"))
- 	printversion("Python", version("python3 -V"))
-+	printversion("quota-tools", version("quota -V"))
- 	printversion("Rust", version("rustc --version"))
-+	printversion("Sh-utils", version("expr --v"))
- 	printversion("Sphinx", version("sphinx-build --version"))
- 	printversion("squashfs-tools", version("mksquashfs -version"))
-+	printversion("udev", version("udevadm --version"))
-+	printversion("util-linux", version("mount --version"))
-+	printversion("Wireless-tools", version("iwconfig --version"))
-+	printversion("xfsprogs", version("xfs_db -V"))
- 
- 	while ("sort /proc/modules" | getline > 0) {
- 		mods = mods sep $1
--- 
-2.53.0
+There is an inerent race between callers of
+liveupdate_flb_get_incoming() and liveupdate_flb_ops.finish(). There is
+no way for callers to protect themselves against the finish() callback
+running and freeing the incoming FLB after liveupdate_flb_get_incoming()
+returns. Sashiko flagged this as well [1].
 
+After some off list discussion with Pasha and Sami, the proposal to fix
+this is to have liveupdate_flb_get_incoming() increment the reference
+count on the incoming FLB. We will add a liveupdate_flb_put_incoming()
+to drop the reference when the caller is done using the incoming FLB.
+
+I plan to include a patch for this in v4.
+
+[1] https://sashiko.dev/#/patchset/20260323235817.1960573-1-dmatlack%40google.com?patch=7974
