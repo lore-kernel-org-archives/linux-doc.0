@@ -1,248 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0756434C123;
-	Wed, 25 Mar 2026 22:40:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE058371046
+	for <linux-doc@vger.kernel.org>; Wed, 25 Mar 2026 22:40:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774478413; cv=none; b=WL1UiZs3tRc6HBHINpGzkWgJHJC70eEYN0Ev10hByXvQMJyAnDjWQyDA9Ch0fISHbE4tO1WKkAGxMLS/0hPm0QRNx0yASwor4tRPzvdoVZ39ZZSXmJk3bFUy3VzFjdI/jaiF4EOdY6IB0Zmntzb6gzbVOWAjwSDCZgXfkBPrTSE=
+	t=1774478425; cv=none; b=OUTVYp57tQFRRIQv6y5nsfloCmagvjP7yauBeFxmx7T9C1K2plbVSGpQ21RB/RDml/KezOaUMIh6/XBrcDfsANdt0ak0jqbq7kdSlc5mBhTlkAZdXF4WFJbuvJ9G4YNKvL/WwK0ClENphh05nqJ7l1Iy56MWB3i3Qe3sEhaMLEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774478413; c=relaxed/simple;
-	bh=PqTP0XkdJntwO9g5IgLymwo+IDzZfl5miQp0d2W3nxw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oSPfg24GeU2qVLhIgeDiLCh2yHyrW3fUUlstZzGRDgnPzabKi4Ft58/zh4cjgIZugtP68OkguFP8PcKleI/y9i8ie0g6ExNh7oSVD0I0xlPYSO0/D2/NCQf7WIlj7Wb2G2qw9nna6mu9vgzKOQf/1rM+6IDNWwhtdgY/sKiiEgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eAs7Ry9d; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1774478425; c=relaxed/simple;
+	bh=ZaZzTXMztz4BsrTjEetn5WiYeq1UcdFaHBBkV9D77uw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JORF+hsQjv26uktUJKq4jm+6dVNCnKSgpYy91tP/BqXVKxJPYdLd/av/FkksYaNDpCzpzRI+uy7B6j/RPm0d4jX77m39ranWRJLI+bt6eQD3yKeQ8lSFJUSMv3TUKISXzopOgjZYXvDGZs+uP7JSunTSFiEZQQe+EI6HQRYXVRQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KF/z/bkj; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eAs7Ry9d"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774478411; x=1806014411;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=PqTP0XkdJntwO9g5IgLymwo+IDzZfl5miQp0d2W3nxw=;
-  b=eAs7Ry9dKOzEAjFTShCSgM3TZ09/4x2rzanN71mnkIC9PCYfgjgLXCdq
-   zmIIAsLWZNtHZFCcCE4xvztEWdUMCx+umDviMzvIz56A2xcSha6WrS/4q
-   rzJoGQrErSADbO84R8MP60SHqIlADAsBDnBtlz+4ekzVQuGn57+6W62oK
-   FIvLJAyP7RGvqShrRdiKSOyFl6dkXPIpKTr6qe2VPnPj3FhlyBkwPr2Et
-   IPndHSJ4iwFKAF1IQOOS+Ds7QgdcZpj5SSzEAyp5+oCyr7FPPWoWX0gg0
-   ibqNdlGR8EYqdHXI8aXyzct7F7E3k6ImCs/qXybCawAqXhLETj8cAONpn
-   Q==;
-X-CSE-ConnectionGUID: 2Y8GG1ApTXq0DasAe6qSqg==
-X-CSE-MsgGUID: AiEeCuKkS1mRkx3CRnhnYA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="75431523"
-X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="75431523"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 15:40:10 -0700
-X-CSE-ConnectionGUID: +H3iDFUlR1yAwroMyKoUFw==
-X-CSE-MsgGUID: 78ZJoL+WQp6zAP/rCFkm6A==
-X-ExtLoop1: 1
-Received: from rchatre-mobl4.amr.corp.intel.com (HELO [10.125.110.56]) ([10.125.110.56])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 15:40:05 -0700
-Message-ID: <d4461e56-8a4d-4d2c-8de9-23a265dc617f@intel.com>
-Date: Wed, 25 Mar 2026 15:40:04 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KF/z/bkj"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-48374014a77so4250285e9.3
+        for <linux-doc@vger.kernel.org>; Wed, 25 Mar 2026 15:40:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774478422; x=1775083222; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NX3VfcRobzAAPxO9qiWCisTs8vMckyJXXZiebELxbNI=;
+        b=KF/z/bkjpjUHw64U3XS+R73TuCv+VhuISeiZNyWCXuvwekFlYSOpJ0rfGo/l9bdSWI
+         5vwDZAdMcNnputxdNrUTG6pEKKCJBD4Cvy6qJXCmz7ZBWy27atDhqfyVerDQBwKn7jZ2
+         nNUMIOlGseveQBvXrSHJlYCyjmlV2SD7kE+ShvizP3t75rgnteyT3sSbM1NqqXr5WewA
+         dxW9nMz3lpOKDPU764Sr5WqUUcMDOX2OczbDnqm16lCyaukE60XpiHrb7ck2EIxi7xUu
+         IIhnrWT9icYMgLpeUsnrynAP3bnxRrj7kxAclWHznlnI0RcahBK90cObpnqNaD7HtygV
+         QUkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774478422; x=1775083222;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=NX3VfcRobzAAPxO9qiWCisTs8vMckyJXXZiebELxbNI=;
+        b=AA7TMxXRov77HFhzuUo4uLogyc20TiFF8wpvt6IBRQHySyCXYeUiFi0iSmxrWdwfS2
+         tgYhD7kUgWojA+qgC6z2PeIX+WqcgRHnvjchjqaNMaga0Rnue/nFuHQQNZwHF3mRwGPX
+         n5UcNVbICp1nST1GryTeYAaObP1u/YNOuLLdEVXBHi8NnTka/pvfX7CRzjhK3xL4QYzy
+         htN2iPjJxujY0iLx+ZBY2xUSeNGlIrny2GCDFKnbRsibQjZ0sEjXGcsCzZ6aMLhbuykH
+         YQqQXO6wMxFYFMDtOVE7UAh032Qwdtjnm2nBJq6Hkm/VO/5QYaush0endaeGFRNfboeS
+         6hJw==
+X-Forwarded-Encrypted: i=1; AJvYcCVOQEotToWrZ8x8Fsfb8isNQhDaLJQ2pQIQakPgUfeyiTkuCnjmiZ6Bfn4ot8XobN+sy9xuIcChm+E=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxfU+z4kNabagMxbrb5i5SW8FHg0p9UipCUyw+voBoEuvSfDXaH
+	8uH3iJxYWDhDsYf4DqTGJHcpR7RMHXQbs61IugROqenJ8v+udtbeqBBE
+X-Gm-Gg: ATEYQzwyJa3tqoR+aSW1Acn00hr0oRqsQ4RK7af1V1ASYlQ2zo4VQGI5UMR0rIVAiXZ
+	mWCIVx4A1l1ISkAsWHtpJx9Q3ggJoLUJ07TKRIT2qciLfqoAWC++s3ATOugOjYdgt7tln88VtZb
+	OA4q2M8TO7ig/f/4w4phnRd68KjLT0tCR3YwLpfDTH5f3PFIdXoPMNXLkomHDyzsHI2RiQtmgYP
+	Cml+4Tk4WMu8twhFp0J1er2MmvNHQnM7C++F1jUj8pp8kSTo3u7mri/DmHjBl4VnwhzzKKq81Qc
+	1fOgQRGHABu+83bw8mb8eRTVheGk8QRbCdh/txeY83R2o9hwy+5wb/osAap5h2Bydfs7kGcrDwW
+	sqzVxUaUNgeNgGp5VovDhu7kWHTCHWOkbchzxAs6KzS9eGs7nWv0dn/yk+KI2jAHigKYdLM8Qoa
+	CbPDpxfzf+wZLZjVDzYpzXs22DNbliDA3FDHHIPysZIdEx/gVe1uU2thN5iEuX1CYD
+X-Received: by 2002:a05:600c:34ca:b0:485:3a27:a960 with SMTP id 5b1f17b1804b1-48715f0369fmr78201225e9.0.1774478421934;
+        Wed, 25 Mar 2026 15:40:21 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-487208ca5b0sm5779385e9.2.2026.03.25.15.40.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Mar 2026 15:40:21 -0700 (PDT)
+Date: Wed, 25 Mar 2026 22:40:18 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Borislav Petkov <bp@alien8.de>
+Cc: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, x86@kernel.org, Jon
+ Kohler <jon@nutanix.com>, Nikolay Borisov <nik.borisov@suse.com>, "H. Peter
+ Anvin" <hpa@zytor.com>, Josh Poimboeuf <jpoimboe@kernel.org>, David Kaplan
+ <david.kaplan@amd.com>, Sean Christopherson <seanjc@google.com>, Dave
+ Hansen <dave.hansen@linux.intel.com>, Peter Zijlstra
+ <peterz@infradead.org>, Alexei Starovoitov <ast@kernel.org>, Daniel
+ Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, KP
+ Singh <kpsingh@kernel.org>, Jiri Olsa <jolsa@kernel.org>, "David S. Miller"
+ <davem@davemloft.net>, Andy Lutomirski <luto@kernel.org>, Thomas Gleixner
+ <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, David Ahern
+ <dsahern@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, Eduard
+ Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, Yonghong Song
+ <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>,
+ Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, Paolo
+ Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-kernel@vger.kernel.org, kvm@vger.kernel.org, Asit Mallick
+ <asit.k.mallick@intel.com>, Tao Zhang <tao1.zhang@intel.com>,
+ bpf@vger.kernel.org, netdev@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v8 02/10] x86/bhi: Make clear_bhb_loop() effective on
+ newer CPUs
+Message-ID: <20260325224018.34714c6e@pumpkin>
+In-Reply-To: <20260325203759.GCacRHp2t8a7c4Bp6E@fat_crate.local>
+References: <20260324-vmscape-bhb-v8-0-68bb524b3ab9@linux.intel.com>
+	<20260324-vmscape-bhb-v8-2-68bb524b3ab9@linux.intel.com>
+	<20260324205930.GQacL7Mp7vwGBKX1W7@fat_crate.local>
+	<20260324221308.7sh6afdy6r6tsf4w@desk>
+	<20260325203759.GCacRHp2t8a7c4Bp6E@fat_crate.local>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V9 5/8] dax: Add dax_operations for use by fs-dax on fsdev
- dax
-To: John Groves <john@jagalactic.com>, John Groves <John@Groves.net>,
- Miklos Szeredi <miklos@szeredi.hu>, Dan Williams <dan.j.williams@intel.com>,
- Bernd Schubert <bschubert@ddn.com>,
- Alison Schofield <alison.schofield@intel.com>
-Cc: John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Vishal Verma <vishal.l.verma@intel.com>, Matthew Wilcox
- <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- David Hildenbrand <david@kernel.org>, Christian Brauner
- <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>,
- Amir Goldstein <amir73il@gmail.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong
- <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>,
- Bagas Sanjaya <bagasdotme@gmail.com>,
- Chen Linxuan <chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>,
- Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>,
- Shivank Garg <shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>,
- Gregory Price <gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>,
- Ajay Joshi <ajayjoshi@micron.com>,
- "venkataravis@micron.com" <venkataravis@micron.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
- "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-References: <0100019d1d463523-617e8165-a084-4d91-aa5e-13778264d5d4-000000@email.amazonses.com>
- <20260324003851.5045-1-john@jagalactic.com>
- <0100019d1d47e459-48f2a4e6-edab-4002-bde3-2ba642deccaf-000000@email.amazonses.com>
-Content-Language: en-US
-From: Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <0100019d1d47e459-48f2a4e6-edab-4002-bde3-2ba642deccaf-000000@email.amazonses.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
+On Wed, 25 Mar 2026 21:37:59 +0100
+Borislav Petkov <bp@alien8.de> wrote:
 
-
-On 3/23/26 5:39 PM, John Groves wrote:
-> From: John Groves <John@Groves.net>
+> On Tue, Mar 24, 2026 at 03:13:08PM -0700, Pawan Gupta wrote:
+...
+> > Although call to clear_bhb_loop() will be inserted at the end of the BPF
+> > program before it returns, I am not sure if it is safe to assume that
+> > trashing registers in the path clear_bhb_loop() -> __clear_bhb_loop() is
+> > okay? Especially, when we don't know what code compiler generated for
+> > clear_bhb_loop(). BPF experts would know better?  
 > 
-> fsdev: Add dax_operations for use by famfs.
+> The compiler would preserve the regs. If you write it in asm and you adhere to
+> the C ABI, you could preserve them too. Shouldn't be too many.
+
+The BPF code that calls it doesn't use the C ABI - it just puts
+a call instruction in the code it generates.
+Hence all registers must be preserved.
+
+	David
+
 > 
-> This replicates the functionality from drivers/nvdimm/pmem.c that
-> conventional fs-dax file systems (e.g. xfs) use to support dax
-> read/write/mmap to a daxdev - without which famfs can't sit atop a
-> daxdev.
+> Thx.
 > 
-> - These methods are based on pmem_dax_ops from drivers/nvdimm/pmem.c
-> - fsdev_dax_direct_access() returns the hpa, pfn and kva. The kva was
->   newly stored as dev_dax->virt_addr by dev_dax_probe().
-> - The hpa/pfn are used for mmap (dax_iomap_fault()), and the kva is used
->   for read/write (dax_iomap_rw())
-> - fsdev_dax_recovery_write() and dev_dax_zero_page_range() have not been
->   tested yet. I'm looking for suggestions as to how to test those.
-> - dax-private.h: add dev_dax->cached_size, which fsdev needs to
->   remember. The dev_dax size cannot change while a driver is bound
->   (dev_dax_resize returns -EBUSY if dev->driver is set). Caching the size
->   at probe time allows fsdev's direct_access path can use it without
->   acquiring dax_dev_rwsem (which isn't exported anyway).
 > 
-> Signed-off-by: John Groves <john@groves.net>
-
-Couple nits below while I'm stealing code from you.
-
-> ---
->  drivers/dax/dax-private.h |  1 +
->  drivers/dax/fsdev.c       | 84 +++++++++++++++++++++++++++++++++++++++
->  2 files changed, 85 insertions(+)
-> 
-> diff --git a/drivers/dax/dax-private.h b/drivers/dax/dax-private.h
-> index 7a3727d76a68..ee8f3af8387f 100644
-> --- a/drivers/dax/dax-private.h
-> +++ b/drivers/dax/dax-private.h
-> @@ -85,6 +85,7 @@ struct dev_dax {
->  	struct dax_region *region;
->  	struct dax_device *dax_dev;
->  	void *virt_addr;
-> +	u64 cached_size;
->  	unsigned int align;
->  	int target_node;
->  	bool dyn_id;
-> diff --git a/drivers/dax/fsdev.c b/drivers/dax/fsdev.c
-> index c75478d3d548..be3d2b0e8418 100644
-> --- a/drivers/dax/fsdev.c
-> +++ b/drivers/dax/fsdev.c
-> @@ -28,6 +28,85 @@
->   * - No mmap support - all access is through fs-dax/iomap
->   */
->  
-> +static void fsdev_write_dax(void *pmem_addr, struct page *page,
-
-addr instead of pmem_addr? copy pasta error?
-
-> +		unsigned int off, unsigned int len)
-> +{
-> +	while (len) {
-> +		void *mem = kmap_local_page(page);
-> +		unsigned int chunk = min_t(unsigned int, len, PAGE_SIZE - off);
-> +
-> +		memcpy_flushcache(pmem_addr, mem + off, chunk);
-> +		kunmap_local(mem);
-> +		len -= chunk;
-> +		off = 0;
-> +		page++;
-> +		pmem_addr += chunk;
-> +	}
-> +}
-> +
-> +static long __fsdev_dax_direct_access(struct dax_device *dax_dev, pgoff_t pgoff,
-> +			long nr_pages, enum dax_access_mode mode, void **kaddr,
-> +			unsigned long *pfn)
-> +{
-> +	struct dev_dax *dev_dax = dax_get_private(dax_dev);
-> +	size_t size = nr_pages << PAGE_SHIFT;
-> +	size_t offset = pgoff << PAGE_SHIFT;
-> +	void *virt_addr = dev_dax->virt_addr + offset;
-> +	phys_addr_t phys;
-> +	unsigned long local_pfn;
-> +
-> +	phys = dax_pgoff_to_phys(dev_dax, pgoff, nr_pages << PAGE_SHIFT);
-
-you can use 'size' instead here since it's previously computed already.
-
-DJ
-
-> +	if (phys == -1) {
-> +		dev_dbg(&dev_dax->dev,
-> +			"pgoff (%#lx) out of range\n", pgoff);
-> +		return -EFAULT;
-> +	}
-> +
-> +	if (kaddr)
-> +		*kaddr = virt_addr;
-> +
-> +	local_pfn = PHYS_PFN(phys);
-> +	if (pfn)
-> +		*pfn = local_pfn;
-> +
-> +	/*
-> +	 * Use cached_size which was computed at probe time. The size cannot
-> +	 * change while the driver is bound (resize returns -EBUSY).
-> +	 */
-> +	return PHYS_PFN(min(size, dev_dax->cached_size - offset));
-> +}
-> +
-> +static int fsdev_dax_zero_page_range(struct dax_device *dax_dev,
-> +			pgoff_t pgoff, size_t nr_pages)
-> +{
-> +	void *kaddr;
-> +
-> +	WARN_ONCE(nr_pages > 1, "%s: nr_pages > 1\n", __func__);
-> +	__fsdev_dax_direct_access(dax_dev, pgoff, 1, DAX_ACCESS, &kaddr, NULL);
-> +	fsdev_write_dax(kaddr, ZERO_PAGE(0), 0, PAGE_SIZE);
-> +	return 0;
-> +}
-> +
-> +static long fsdev_dax_direct_access(struct dax_device *dax_dev,
-> +		  pgoff_t pgoff, long nr_pages, enum dax_access_mode mode,
-> +		  void **kaddr, unsigned long *pfn)
-> +{
-> +	return __fsdev_dax_direct_access(dax_dev, pgoff, nr_pages, mode,
-> +					 kaddr, pfn);
-> +}
-> +
-> +static size_t fsdev_dax_recovery_write(struct dax_device *dax_dev, pgoff_t pgoff,
-> +		void *addr, size_t bytes, struct iov_iter *i)
-> +{
-> +	return _copy_from_iter_flushcache(addr, bytes, i);
-> +}
-> +
-> +static const struct dax_operations dev_dax_ops = {
-> +	.direct_access = fsdev_dax_direct_access,
-> +	.zero_page_range = fsdev_dax_zero_page_range,
-> +	.recovery_write = fsdev_dax_recovery_write,
-> +};
-> +
->  static void fsdev_cdev_del(void *cdev)
->  {
->  	cdev_del(cdev);
-> @@ -167,6 +246,11 @@ static int fsdev_dax_probe(struct dev_dax *dev_dax)
->  		}
->  	}
->  
-> +	/* Cache size now; it cannot change while driver is bound */
-> +	dev_dax->cached_size = 0;
-> +	for (i = 0; i < dev_dax->nr_range; i++)
-> +		dev_dax->cached_size += range_len(&dev_dax->ranges[i].range);
-> +
->  	/*
->  	 * Use MEMORY_DEVICE_FS_DAX without setting vmemmap_shift, leaving
->  	 * folios at order-0. Unlike device.c (MEMORY_DEVICE_GENERIC), this
 
