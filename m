@@ -1,104 +1,78 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B1D7397686
-	for <linux-doc@vger.kernel.org>; Wed, 25 Mar 2026 21:40:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774474820; cv=none; b=uiuT8FtGZTYIBqZyi9P4YzeCuS/7pAIy6dwkLxTmonMcLHe+ObwqcsOVT7frQEXDLOn7q4lC7+j3D9o5y4O5hP9USBdSAlDlIgTkd0b8ByahTJPMIsFezgrVHcq/qWaRhTbokmPsR5ST1zvJ6nEfUFKn1U9ez7sXOlhfVN1cI7I=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774474820; c=relaxed/simple;
-	bh=csmrTT340zkIbZ9NzcqImALDbah84oawXYdMA8Ya2x0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Y35aYQR9fSwgKCqlKyZCjmfOZwV5Tlo+v1OrrjjzNu0ozSu9WVOl7WwZojZ1srxhn34Tb5b+IF88qNEUAb+LbUQFRMWolRSSS45E0OYAYj6JqCS9LrhHW7GWZCmF7RvJt0/DDmrFcm/Jf8R9rNe/YRSlxCSKGP+Du6L0UPOAxJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KnjMplhK; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CB36329C57;
+	Wed, 25 Mar 2026 21:46:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774475216; cv=pass; b=WcZlzuE1vBqdJdklxJ8HAN/M8OD7Gx9l6ZDc4jrDwhAJk+ZNKaT/dKDjbeqnnbuKPaOXDK9PLxiJr9xeyx/9yAnqle8Bzq0sMToTce4aHC0sjlCTRGM89vSdLRvk7r5m5XYhYaTVKD4EftxqLle00ErCnf+iA/gN69Vs45bektc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774475216; c=relaxed/simple;
+	bh=ywz5+C2OKnQapOSCsR3v4vfq4qMta+gUDoRvWCrnfyY=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:Subject:Cc:From:
+	 References:In-Reply-To; b=G0vPrU1xIAUl7ot2eCPGM2ZytNZU+wFaWfEL0EX/uae26a39CkApeVKpz1v2f80GzgY35P520xUZQ9zKKEAGBk1kNNwpbZ5t0KpPZorRgEFRWFFzn6EkfUwro65gVdt47cw97vmnlIhnOMAjs9I6jLD/V0zdKHdKTErdLWrb1Ws=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com; spf=pass smtp.mailfrom=ritovision.com; dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b=iL20IU0o; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ritovision.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KnjMplhK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42653C4CEF7;
-	Wed, 25 Mar 2026 21:40:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774474819;
-	bh=csmrTT340zkIbZ9NzcqImALDbah84oawXYdMA8Ya2x0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=KnjMplhKz5tLnyoyHdpaJpt/jdPTtVw6/g9bMIqNouJdOQ+lqt2WaY9PP7ceuNK93
-	 ZlQo2Q5pzm3ZitnNFA9ermjC8mkYbUM7p0l/uJsqdNQqS5TfEgzbwLD4aiqC9XiT7l
-	 IbDvxvlPrVDtmPWfRueg1E5n/P3MvfGS598s6T/12igC4mJ8tjzapCkdyphHHStg2x
-	 q3sgQFgEpfj2awroyWy6Qtl40Fz8KqYjYZTiczLRYSN5z6HQ7wDF6A0ajMQy/x4f2y
-	 QBp9cZr6LO0T205d2PbQt3wAXD4DZyKawg9a1g4gw3XONDjmxX/MssdpLwcBvd7fed
-	 a6HRnXOnDaVdA==
-Date: Wed, 25 Mar 2026 22:40:15 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>, Kevin Brodsky
- <kevin.brodsky@arm.com>, linux-doc@vger.kernel.org, Konstantin Ryabitsev
- <mricon@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Akira
- Yokosawa <akiyks@gmail.com>
-Subject: Re: Invalid link generation for equations
-Message-ID: <20260325224015.1ba54eda@foz.lan>
-In-Reply-To: <87o6kbehr6.fsf@trenco.lwn.net>
-References: <9b320e77-9acf-4f0d-8c52-6e1fc3a8cf53@arm.com>
-	<87se9nejza.fsf@trenco.lwn.net>
-	<501de93f-65f2-4a45-a84b-d38560cd9e22@linuxfoundation.org>
-	<87o6kbehr6.fsf@trenco.lwn.net>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b="iL20IU0o"
+ARC-Seal: i=1; a=rsa-sha256; t=1774475206; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=CmSkkTeNnmB/flhbDjdfcac3e275m+TYQwSM7X556Eqv6C+l9fuo9Ek0TsEUy2+yJFIrgSNpDZXn8Q41rITCT2SB0V6gyzT951ylyiaA2TzRxIgVlnl1a/PikpQJU9DwytC5xqpAJtwYGJ/ooBkgQyARhxR41ZTDFcTCdPlbjd0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1774475206; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=ywz5+C2OKnQapOSCsR3v4vfq4qMta+gUDoRvWCrnfyY=; 
+	b=CxzJyurKK7kYjJeKePFYHkQyuWkLOvOX4kMih+g+m+Ohz8nN2YxvQqgUkaUZfdxYM9ACC3pk+LuWQo2CUj7tshyuuh1T3ug2uYBJkXuACQerjb3G/Dhrx3Eo/MlBrNGAKlouK+pQ9SuKCgZGrxSYfd44XCS+pzJ8QAoefC4zM1I=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=ritovision.com;
+	spf=pass  smtp.mailfrom=rito@ritovision.com;
+	dmarc=pass header.from=<rito@ritovision.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774475206;
+	s=zmail; d=ritovision.com; i=rito@ritovision.com;
+	h=Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Date:Message-Id:Message-Id:To:To:Subject:Subject:Cc:Cc:From:From:References:In-Reply-To:Reply-To;
+	bh=ywz5+C2OKnQapOSCsR3v4vfq4qMta+gUDoRvWCrnfyY=;
+	b=iL20IU0oNWuN2A0eE3t8szjOp8rrX5/HKsBndf7D7VUNxA3abnFTs1kUklLImDgo
+	TVfr1CXBoX7mSXEoo/ywLkUt0tLfGCvE4mBBSP0QuRLI7i1inFP0MI+LH6L5yrPmaIJ
+	KUFRFRKEGkf5lxSlLrIui3RTJz26vYBXWGJNhDfs=
+Received: by mx.zohomail.com with SMTPS id 1774475203960542.272431314822;
+	Wed, 25 Mar 2026 14:46:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 25 Mar 2026 17:46:41 -0400
+Message-Id: <DHC6YLUN5PC9.2ZFFTKEOMHZGI@ritovision.com>
+To: "Rito Rhymes" <rito@ritovision.com>, "Jonathan Corbet" <corbet@lwn.net>,
+ <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v3] docs: allow long unbroken headings to wrap and
+ prevent overflow
+Cc: "Shuah Khan" <skhan@linuxfoundation.org>,
+ <linux-kernel@vger.kernel.org>, <rdunlap@infradead.org>
+From: "Rito Rhymes" <rito@ritovision.com>
+X-Mailer: aerc 0.21.0
+References: <20260321144855.30429-1-rito@ritovision.com>
+ <20260323153024.32317-1-rito@ritovision.com>
+ <87h5q3g288.fsf@trenco.lwn.net> <DHC6NJM3JZJC.3EIT3YD7O8CDW@ritovision.com>
+In-Reply-To: <DHC6NJM3JZJC.3EIT3YD7O8CDW@ritovision.com>
+X-ZohoMailClient: External
 
-On Wed, 25 Mar 2026 15:11:57 -0600
-Jonathan Corbet <corbet@lwn.net> wrote:
+Also, did you test both pages in the patchlog example?
 
-> Shuah Khan <skhan@linuxfoundation.org> writes:
-> 
-> >> OK, so this is more than passing strange...I can't reproduce that
-> >> problem locally.  The HTML I get is:
-> >> 
-> >>    <img src="../_images/math/d9936822[...]
-> >> 
-> >> On docs.kernel.org, instead:
-> >> 
-> >>    <img src="_images/math/d9936822[...]
-> >> 
-> >> Note the missing "../".
-> >> 
-> >> I will confess that I don't have a great understanding of how imgmath
-> >> works and how that link gets set.  We could "fix" the problem generally
-> >> by setting imgmath_embed=True, but it would be good to understand what's
-> >> actually happening here.  
-> >
-> > Respect SPHINX_IMGMATH (for html docs only) in Documentation/conf.py
-> > might explain why imgmath_embed=True works?
-> >
-> > # Load math renderer:
-> > # For html builder, load imgmath only when its dependencies are met.
-> > # mathjax is the default math renderer since Sphinx 1.8.
-> > have_latex = have_command("latex")
-> > have_dvipng = have_command("dvipng")
-> > load_imgmath = have_latex and have_dvipng
-> >
-> > Without setting imgmath_embed=true, math_renderer is mathjax which is
-> > default since Sphinx 1.8  
-> 
-> We default to imgmath if the requisite utilities (latex, dvipng) are
-> installed on the system; perhaps that's not ideal, but it's what we have
-> done for a while.  It all seems to be working as expected, except that
-> the <img> element has the wrong URI in it.  Strange.
+For me on desktop Chrome, this one overflows a lot with just the
+outer window width at its minimum:
+https://docs.kernel.org/6.15/userspace-api/gpio/gpio-v2-line-get-values-ioc=
+tl.html
 
-Looking at this changelog from Akira:
+And for the other one, it's more clear on a mobile device / DevTools
+resizing. This part wraps down `/sys/firmware/acpi/platform_profile`
+but then that part itself as an unbroken string doesn't wrap any further
+and exceeds mobile screen viewport width causing page-wide overflow:
+https://docs.kernel.org/6.15/userspace-api/sysfs-platform_profile.html
 
-	6b0d3e7c5888 ("docs/conf.py: Treat mathjax as fallback math renderer")
+I can host some screenshots if that would be helpful. Let me know.
 
-It mentions that this is kept due to epub output. On a quick search:
-
-	https://github.com/sphinx-doc/sphinx/issues/1570
-
-I'm not sure how this is handled in PDF, but mathjax seems to be
-specific for html output only.
-	
-Thanks,
-Mauro
+Rito
