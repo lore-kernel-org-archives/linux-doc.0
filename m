@@ -1,88 +1,104 @@
-Received: from mail.cock.li (mail.cock.li [37.120.193.123])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D92FD1B81D3;
-	Wed, 25 Mar 2026 00:15:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.120.193.123
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6AA81FC7C5;
+	Wed, 25 Mar 2026 00:51:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774397753; cv=none; b=hKMa7sR6sx+oWD1lG9EOWdoEmWqoA0v+9tNLaGu1rIpI/Ry4E5bFT24GjI4XWR+PnqXXmvEGNmYqOPw3mKtZP6XZITpukeXy9wDN2rQUcAPEfOKRXmTgV4FKFcr9wRQs3di72/kfnxxVsYfB8zWhI0po1ZQH4AxLUYjak14dxtM=
+	t=1774399862; cv=none; b=LmwoQxKttLKc7xlsKQ1lc42LMDxKKYJy5h7F8iAjEKyTfwZ2OkOgr7vb98TgegUOKbNZFwoo28FkgGHxCfl3dlrsN6IceeBLr2+xfacj+d8Gp9xDVtl5PipAA+t0voNpgVqIGWfHsf5SsCVnPJcciM1uGD+ixAqgKxuwvQ/p0kQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774397753; c=relaxed/simple;
-	bh=+CsiFVWL6gkDtGIaeByjh02mpbj/NL8dmZGcz/tZsn8=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=qNCo77MIiVJ5R1nGAm2to0eYvadUBCJvE8AaYtLUiYe4mrKKiKLOzRxIOqa4+bcuNnqeGlLwzAlQ2BmKpr4Ap/9UdX9yP9Oc47YYTykt85uWhgiahEl0N2DzKSXmy9SmWSJmfvBxL8CQ9Kik7w1bnv53wRbJGFNTu/ObaqfPNro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=airmail.cc; spf=pass smtp.mailfrom=airmail.cc; dkim=pass (2048-bit key) header.d=airmail.cc header.i=@airmail.cc header.b=YE1CfLWE; arc=none smtp.client-ip=37.120.193.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=airmail.cc
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=airmail.cc
+	s=arc-20240116; t=1774399862; c=relaxed/simple;
+	bh=Jaid/zGe70u6fJqMsBOyqNfjp1TnESLl65AlY/1aRvQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ROq0e01iS6dGXk6CQR+5HEe/9dxYnfiHho/HrtpWkrHBxjHgA0KVX4ET5sxoA/BabxY47hhTCI3F9a91dwrSLNx4sL9hhl1kRDJY64i2AEO3Vu2sj+RhMvd0xz/9LKU4TPjHvGjBlS+TLVms2VrkBo29rc/2nnryFFKIPQVgxao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=1qNtMMeM; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=airmail.cc header.i=@airmail.cc header.b="YE1CfLWE"
-Message-ID: <21f66cb8aa8e3ede1666bec65540824784041aa3.camel@airmail.cc>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=airmail.cc; s=mail;
-	t=1774288244; bh=+CsiFVWL6gkDtGIaeByjh02mpbj/NL8dmZGcz/tZsn8=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=YE1CfLWEDkAARHfs7o9vvwpK4i68cmWetzK1aUXMd0pHPchFeZjyOpSn2wPMpYlu0
-	 RLoXc0LVKieSHbSn6z8PFUiJM5LQpmcjy+t1U5bd2ZG+WEFExdjx8McWcXZSsGXvvE
-	 1ClbqM3+x5r3Nak5loGSNJGfT22a/48x10OXSglTM2LyNMChl6XiNQ8x2gleHCiQEc
-	 xI0AXrWSTigaKYBqz9j7rDWrDH/uH5ICOhPc2CQL18gh2Rxwz8KOq8qCE9cmKQeonM
-	 tcnbnPqHejVjokl9xF/SEAk4JrREwT54tzzpI6Bor3/H4d4AE+zrftiXtyGTozOeAW
-	 Q7FNELv6zk5Bg==
-Subject: Re: [PATCH v4 2/4] workflow: process/changes.rst: expand and
- cleanup list
-From: Manuel Ebner <manuelebner@airmail.cc>
-To: Jonathan Corbet <corbet@lwn.net>, Collin Funk <collin.funk1@gmail.com>, 
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Date: Mon, 23 Mar 2026 18:50:16 +0100
-In-Reply-To: <87fr5ycxao.fsf@trenco.lwn.net>
-References: <20260311164935.183495-3-manuelebner@airmail.cc>
-			 <20260311165612.184288-2-manuelebner@airmail.cc>
-			 <87fr5ycxao.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.2 (3.58.2-1.fc43app1) 
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="1qNtMMeM"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=CHa+qB77v8wObW1H+FZqLep8MrRtsUKYj+gNTUzFWXw=; b=1qNtMMeM2OUr5ii0FxJw9iV7Ja
+	rujE3As8ucTFuzlmCV9j2NMcY/p2NnXK1eURxl9EUchEY5RsD2FWdoqKuSKiX5D4BFNYrB+MPSH/T
+	Dd3kbgFTAFNPgWYkxiot0KFuPlbDDY3czLiEOKhfWpXjWmVU+VTJTgbkgqTJQFl4p8sxGQarTpF9O
+	eD8/ThwSiNt001Ja509QlHTivNCZL986y1Rc8LwbauhvhUKv6r+ze84VcCJcVkhaNtU6RebWnYB8h
+	ozABQXgl1px7BWyqmJeacbmNEMo/vsXS5CkYlHzlxa6Q+kZNxc81NSLnMXx9EXdJV1hEAZ9akSWYE
+	cpksilig==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1w5CSU-00000002QKj-0iTD;
+	Wed, 25 Mar 2026 00:50:54 +0000
+Message-ID: <9c6f2530-a8c0-4652-962a-526eca5b0f8a@infradead.org>
+Date: Tue, 24 Mar 2026 17:50:53 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/2] docs: allow long table reference links to wrap and
+ prevent overflow
+To: Rito Rhymes <rito@ritovision.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org
+Cc: Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org
+References: <20260321180841.10166-1-rito@ritovision.com>
+ <20260323152428.30483-1-rito@ritovision.com>
+ <20260323152428.30483-2-rito@ritovision.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260323152428.30483-2-rito@ritovision.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, 2026-03-17 at 09:04 -0600, Jonathan Corbet wrote:
-> Manuel Ebner <manuelebner@airmail.cc> writes:
-> > remove footnote for sphinx
-> > =C2=A0in the paragraph before the list it says:
-> > =C2=A0"Also, not all tools are necessary on all systems;
-> > =C2=A0obviously, if you don't have any PC Card hardware, for example,
-> > =C2=A0you probably needn't concern yourself with pcmciautils."
 
-i understand this paragraph like this:
-most or all tools can be optional, depending on the specific use case.
-e.g. quota-tools is optional for people compiling the kernel.
-that's why i removed the optional markings.
 
-and pcmciautils, the example in the the file, is not marked as optional in =
-changes.rst:
+On 3/23/26 8:24 AM, Rito Rhymes wrote:
+> Some documentation pages contain docutils tables with reference links
+> that use long unbroken strings. Those strings can expand the table
+> width beyond the content column and cause page-wide horizontal
+> overflow.
+> 
+> Allow reference links in docutils tables in the main document body to
+> wrap when needed so the table stays within the content column and does
+> not break page layout.
+> 
+> Examples:
+>   https://docs.kernel.org/6.15/arch/openrisc/openrisc_port.html
+>   https://docs.kernel.org/6.15/filesystems/ext2.html
+> 
+> Signed-off-by: Rito Rhymes <rito@ritovision.com>
+> Assisted-by: Codex:GPT-5.4
 
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-        Program        Minimal version       Command to check the version
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-[...]
-pcmciautils            004              pccardctl -V
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
 
-> > remove "(optional)" for the same reason as above
->=20
-> Here you have lost some information - now the document doesn't say
-> *which* tools are optional.=C2=A0 That is, I think, not ideal.
+thanks.
 
-that's true.
-my question is: what are the tools optional for?
-or what is the criteria for "optional"?
+> ---
+> v3: add latest public versioned URL examples to the patchlog
+> 
+>  Documentation/sphinx-static/custom.css | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
+> index 4ec617d40..b41c54c71 100644
+> --- a/Documentation/sphinx-static/custom.css
+> +++ b/Documentation/sphinx-static/custom.css
+> @@ -154,6 +154,11 @@ a {
+>      overflow-wrap: anywhere;
+>  }
+>  
+> +/* Let rendered reference links in tables wrap when needed. */
+> +div.body table.docutils a.reference {
+> +    overflow-wrap: anywhere;
+> +}
+> +
+>  /* Make xrefs more universally visible */
+>  a.reference, a.reference:hover {
+>      border-bottom: none;
 
-Manuel
+-- 
+~Randy
