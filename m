@@ -1,122 +1,106 @@
-Received: from lgeamrelo07.lge.com (lgeamrelo07.lge.com [156.147.51.103])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87124340A7D
-	for <linux-doc@vger.kernel.org>; Wed, 25 Mar 2026 18:53:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.147.51.103
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2AC83385B2;
+	Wed, 25 Mar 2026 19:00:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774464831; cv=none; b=mZbYukS6qJoRzfWHb9TXZRTKgrbgCQIh48empaaB8iWr+Oxws0QwEzAy3ltEFXREWbySNVIcBZB1ntoYmT6f0HeLJnUSvQKjXYuT+ATy5q7pM9DsR6/odMZB3AZZ7m00AFVdPYnfKWvINOgA6fymfnb4krnwTxBLpj2h+LB2GUY=
+	t=1774465206; cv=none; b=W1Y6SDDINM2fzxdsJkBH23pKITNfLWpadkwjCBrvIR4zQLhqmpU3GUsGzQdXAG8T1F3d7zxVQJ6sGojI8OMES5FKWsPwWB2ZBwondrwL4jrjVdxUGGB5R5sa+GKODaS+1V9lFTno+dId6MdrrI4kHGLAwU1zYawTej7ylN3utWA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774464831; c=relaxed/simple;
-	bh=UEoTyIJYna8viJe9xzaww5o+VrPLcSrda7wcuEf6C3k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bToVfXcDkAFMHuqgDNyRMM+0iOnh86dx7WY+AJIfzBlLcLZRZY5dEhyu6bzYT63x9pHbGEHrpeYiDbaMLskUzHGP1eO0sNC5rONeAHCY0ZUw3QajiON41wNFS/SVFkY9dPO3jgaDEiMmGAzP4dO03TxOtW2du5Vs0nDisdlU6y0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lge.com; spf=pass smtp.mailfrom=lge.com; arc=none smtp.client-ip=156.147.51.103
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lge.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lge.com
-Received: from unknown (HELO yjaykim-PowerEdge-T330) (10.177.112.156)
-	by 156.147.51.103 with ESMTP; 26 Mar 2026 03:53:41 +0900
-X-Original-SENDERIP: 10.177.112.156
-X-Original-MAILFROM: youngjun.park@lge.com
-Date: Thu, 26 Mar 2026 03:53:41 +0900
-From: YoungJun Park <youngjun.park@lge.com>
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: Kairui Song <ryncsn@gmail.com>, Liam.Howlett@oracle.com,
-	akpm@linux-foundation.org, apopple@nvidia.com,
-	axelrasmussen@google.com, baohua@kernel.org,
-	baolin.wang@linux.alibaba.com, bhe@redhat.com, byungchul@sk.com,
-	cgroups@vger.kernel.org, chengming.zhou@linux.dev,
-	chrisl@kernel.org, corbet@lwn.net, david@kernel.org,
-	dev.jain@arm.com, gourry@gourry.net, hannes@cmpxchg.org,
-	hughd@google.com, jannh@google.com, joshua.hahnjy@gmail.com,
-	lance.yang@linux.dev, lenb@kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-pm@vger.kernel.org, lorenzo.stoakes@oracle.com,
-	matthew.brost@intel.com, mhocko@suse.com, muchun.song@linux.dev,
-	npache@redhat.com, pavel@kernel.org, peterx@redhat.com,
-	peterz@infradead.org, pfalcato@suse.de, rafael@kernel.org,
-	rakie.kim@sk.com, roman.gushchin@linux.dev, rppt@kernel.org,
-	ryan.roberts@arm.com, shakeel.butt@linux.dev,
-	shikemeng@huaweicloud.com, surenb@google.com, tglx@kernel.org,
-	vbabka@suse.cz, weixugc@google.com, ying.huang@linux.alibaba.com,
-	yosry.ahmed@linux.dev, yuanchu@google.com,
-	zhengqi.arch@bytedance.com, ziy@nvidia.com, kernel-team@meta.com,
-	riel@surriel.com
-Subject: Re: [PATCH v5 00/21] Virtual Swap Space
-Message-ID: <acQvNRLpHwnHt7i+@yjaykim-PowerEdge-T330>
-References: <20260320192735.748051-1-nphamcs@gmail.com>
- <CAMgjq7AiUr_Ntj51qoqvV+=XbEATjr7S4MH+rgD32T5pHfF7mg@mail.gmail.com>
- <CAKEwX=PBjMVfMvKkNfqbgiw7o10NFyZBSB62ODzsqogv-WDYKQ@mail.gmail.com>
+	s=arc-20240116; t=1774465206; c=relaxed/simple;
+	bh=bx8b2zZShhGt0JH6vLj6+mEzYaGJnGrCIs08nUXzX7M=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=DVu5D0t4vWycoSgMsER6NsgCMupXHm70eGKgzwV6Q0h6Bi9ucgKI/xURPeEClCfmD7F0Gsy0KwI7mg+yze3HUbvOqZ/B5pLhyROYX4zFDgFM6eQJQo+zKsFEihJN1D9+0pJP4fPyA65HFORblYcfNN5SiUNPWiQEAEmEEC4fI3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=J+MkMiPo; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="J+MkMiPo"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 85F5840C6F
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1774465202; bh=p91A/mGZzCO1FjNMmAxf1OvUJbcrsKomd7ldotsyPZI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=J+MkMiPo40jR7W9ORSO5jqJih23CpFVwPjpVy2VA+1QF2B5az0xHjJwzdRD4UAyfq
+	 KkuubHCZ+/CFUYex+V2Gqnzx1rbgzMZ7fatZ5MxccCjVs/JYfaU2XJhmfwg+ARh/z1
+	 3nvtXgGVgWsSYPj9+to0FjOP18mUYnrWH+djbIg5N3SmBsDkRMSFSWGb4yhl9ROY9e
+	 bvrJJYBJMD1PrJnJmHzo6//EaZgVJSmgY3oqN3F5N/R1Sx9PGhusPUWhFp/B59ZjID
+	 QlA6i9SmUL+yrGmd7JnmPGtaWcm20Qsr1g7e9Vrz+cEr8c5ffPE7s8GzxCmZqs4/tV
+	 lSxYdEllOMwqQ==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 85F5840C6F;
+	Wed, 25 Mar 2026 19:00:02 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Rito Rhymes <rito@ritovision.com>, linux-doc@vger.kernel.org
+Cc: Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ rdunlap@infradead.org, Rito Rhymes <rito@ritovision.com>
+Subject: Re: [PATCH v3] docs: contain horizontal overflow in C API descriptions
+In-Reply-To: <20260323153342.33447-1-rito@ritovision.com>
+References: <20260321142559.26005-2-rito@ritovision.com>
+ <20260323153342.33447-1-rito@ritovision.com>
+Date: Wed, 25 Mar 2026 13:00:01 -0600
+Message-ID: <87jyuzg2fi.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKEwX=PBjMVfMvKkNfqbgiw7o10NFyZBSB62ODzsqogv-WDYKQ@mail.gmail.com>
+Content-Type: text/plain
 
-On Mon, Mar 23, 2026 at 11:32:57AM -0400, Nhat Pham wrote:
+Rito Rhymes <rito@ritovision.com> writes:
 
-> Interesting. Normally "lots of zero-filled page" is a very beneficial
-> case for vswap. You don't need a swapfile, or any zram/zswap metadata
-> overhead - it's a native swap backend. If production workload has this
-> many zero-filled pages, I think the numbers of vswap would be much
-> less alarming - perhaps even matching memory overhead because you
-> don't need to maintain a zram entry metadata (it's at least 2 words
-> per zram entry right?), while there's no reverse map overhead induced
-> (so it's 24 bytes on both side), and no need to do zram-side locking
-> :)
-> 
-> So I was surprised to see that it's not working out very well here. I
-> checked the implementation of memhog - let me know if this is wrong
-> place to look:
-> 
-> https://man7.org/linux/man-pages/man8/memhog.8.html
-> https://github.com/numactl/numactl/blob/master/memhog.c#L52
-> 
-> I think this is what happened here: memhog was populating the memory
-> 0xff, which triggers the full overhead of a swapfile-backed swap entry
-> because even though it's "same-filled" it's not zero-filled! I was
-> following Usama's observation - "less than 1% of the same-filled pages
-> were non-zero" - and so I only handled the zero-filled case here:
-> 
-> https://lore.kernel.org/all/20240530102126.357438-1-usamaarif642@gmail.com/
-> 
-> This sounds a bit artificial IMHO - as Usama pointed out above, I
-> think most samefilled pages are zero pages, in real production
-> workloads. However, if you think there are real use cases with a lot
-> of non-zero samefilled pages, please let me know I can fix this real
-> quick. We can support this in vswap with zero extra metadata overhead
-> - change the VSWAP_ZERO swap entry type to VSWAP_SAME_FILLED, then use
-> the backend field to store that value. I can send you a patch if
-> you're interested.
+> Some documentation pages contain long C API signatures that can exceed
+> the content width and cause page-wide horizontal scroll overflow.
+>
+> Apply contained horizontal scrolling to C API description blocks and
+> keep their signature rows on one line. This preserves signature
+> formatting while preventing them from breaking page layout.
+>
+> Contained horizontal scrolling is preferred over wrapping here because
+> code fidelity is the priority. These blocks are intended to remain
+> representative of the code itself. Wrapping distorts spacing and line
+> structure, which affects fidelity, creates misleading renderings, and
+> reduces readability.
+>
+> Examples:
+>   https://docs.kernel.org/6.15/driver-api/regulator.html
+>   https://docs.kernel.org/6.15/userspace-api/fwctl/fwctl-cxl.html
+>
+> Signed-off-by: Rito Rhymes <rito@ritovision.com>
+> Assisted-by: Codex:GPT-5.4
+> ---
+> v3: add latest public versioned URL examples to the patchlog
+>
+>  Documentation/sphinx-static/custom.css | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>
+> diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
+> index db24f4344..18bf8813b 100644
+> --- a/Documentation/sphinx-static/custom.css
+> +++ b/Documentation/sphinx-static/custom.css
+> @@ -40,6 +40,13 @@ li { text-indent: 0em; }
+>  dl.function, dl.struct, dl.enum { margin-top: 2em; background-color: #ecf0f3; }
+>  /* indent lines 2+ of multi-line function prototypes */
+>  dl.function dt { margin-left: 10em; text-indent: -10em; }
+> +/*
+> + * Preserve C API signatures on one line and apply contained horizontal
+> + * scrolling to prevent them from exceeding their container width and
+> + * breaking page layout.
+> + */
+> +dl.c { overflow-x: auto; overflow-y: hidden; }
+> +dl.c > dt.sig.sig-object { white-space: nowrap; }
+>  dt.sig-object { font-size: larger; }
 
-This brings back memories -- I'm pretty sure we talked about
-exactly this at LPC. Our custom swap device already handles both
-zero-filled and same-filled pages on its own, so what we really
-wanted was a way to tell the swap layer "just skip the detection
-and let it through."
- 
-I looked at two approaches back then but never submitted either:
- 
-  - A per-swap_info flag to opt out of zero/same-filled handling.
-    But this felt wrong from vswap's perspective -- if even one
-    device opts out of the zeromap, the model gets messy.
- 
-  - Revisiting Usama's patch 2 approach.
-    Sounded good in theory, but as you said,
-    it's not as simple to verify in practice. And it is more clean design
-    swapout time zero check as I see. So,  I gave up on it.
- 
-Seeing this come up again is actually kind of nice :)
- 
-One thought -- maybe a compile-time CONFIG or a boot param to
-control the scope? e.g. zero-only, same-filled, or disabled.
-That way vendors like us just turn it off, and setups like
-Kairui's can opt into broader detection. Just an idea though --
-open to other approaches if you have something in mind.
- 
+I am not convinced this is the best solution to the problem; somebody
+looking at this documentation is going to want to see the prototype, and
+reaching over for horizontal scrolling will not be entirely welcome.
+
+I guess, though, that it's better than what we have now, so I have
+applied this one.
+
 Thanks,
-Youngjun Park
+
+jon
