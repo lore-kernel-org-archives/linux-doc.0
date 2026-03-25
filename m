@@ -1,201 +1,204 @@
-Received: from mail-10630.protonmail.ch (mail-10630.protonmail.ch [79.135.106.30])
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013051.outbound.protection.outlook.com [40.93.201.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A3CE1F4615
-	for <linux-doc@vger.kernel.org>; Wed, 25 Mar 2026 05:18:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.30
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774415918; cv=none; b=mOxEYpi1o5l8yLfyleyBXWncS8d5jp2DwK3X+IFxpQmbDpA2RXxJwJXmGuZXuwZDdBWY+K2CViQ4DqsfEaZSlmcWm8GvNwmp7bSqjuuJ3PzVgezqM9xVbqvCD23Xh+gOtWKDdnflLsqtiQJCbe78LKdG+gdSo192lHaQG6WEcaY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774415918; c=relaxed/simple;
-	bh=1M0nJmFTScNHwMtYF08ehKjSh6gmwxwOpth64QH/dKg=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uTFhmKw8ibvm8SAlgkab0x5NtXchxLH6Zb6Y620QXV7ZTMeU+8gH9/jgNflb3l+Lg0JNh0OW8ypd/QBuG89AX1ZDYSRXLekEoiNd+5Hkw9DrWpbqX9oSzyo1+kkeQUMFRlH5L1NAv8GXaY5E1vhCpAT3Ki3Y5iODs2TxZYBHD58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=dDIEx7yS; arc=none smtp.client-ip=79.135.106.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02E20322A1C;
+	Wed, 25 Mar 2026 05:53:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774418014; cv=fail; b=QbORbshZ+1fHxKFMlULl8jwnZ0J5KJyriVRpX8AUSXMxZ0avoFmj10TCluE1UAmn58KuSPbLwdxnI6jyRQWWDSO3sfKEnjyhR4cCRVmscx1MJ+OEqHXX5uWp3ntcGLiJEOTOeKiffcWxNvw9b574LfUjcK4zc0cWGEJ3AJPkCMc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774418014; c=relaxed/simple;
+	bh=2F8WZmvcHqPy/OzzPCxtr5gFQg2yaQ5+0okFyrzzz9c=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=NaDHWsG1i59gDV3HwzuBAZTl+h6tTxLADLMndaaELbkwmkwsHt2bTy3nCQDIH1Nhk2MX7WlRmAg+tWBwXyTgmW3DR2Ljka6n6yILTdEu0uNIQn6jI/NCqT1w8ENSlJcqvB1GMsMHnxjAhNY4wTgH7q/r7LDxdC6Eodtg1iC4ZYw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=lLS9UrNg; arc=fail smtp.client-ip=40.93.201.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="dDIEx7yS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1774415907; x=1774675107;
-	bh=qHmLk4Tgb19/N3vXmqwwPWWdp2pOoFTugeb3iP0Ybj0=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=dDIEx7ySnla48xB8tnv0e+rjcCmezsMJX8QaJeSr3CMubzDS927/UQS2Le6RST379
-	 YTMZGFdQu12bbAE8RWciqHBer5IL7YEyejD5RRLYJeuO7TsOmPTFf3K5QWIO4vgSWu
-	 4+MJa/jM/bI5o1qNJOAvfb/m+ZlIpTrMj60MrozQGs8XEqw0Q6AGrhprGDhWFECsj1
-	 iOfKXBn+6yDKFBVkDlcOqwRLO7kPJrbuy5eCv1PG1cgM+pKD6NxemJicp/13Ry8uRv
-	 dXurUNrtkzSgNrkzNUSj6FPYJvspb7lMvYgPT4l8Uik3xlPnB7TyvDxe5Q07tA8Aa3
-	 CZl0HYYZj5A4Q==
-Date: Wed, 25 Mar 2026 05:18:22 +0000
-To: =?utf-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-From: mx2pg@pm.me
-Cc: Bjorn Helgaas <helgaas@kernel.org>, Lukas Wunner <lukas@wunner.de>, Jonathan Corbet <corbet@lwn.net>, linux-pci@vger.kernel.org, linux-doc@vger.kernel.org, Mika Westerberg <mika.westerberg@linux.intel.com>, Kai-Heng Feng <kaihengf@nvidia.com>
-Subject: Re: [PATCH] Documentation: PCI: Document decoding of TLP Header in AER messages
-Message-ID: <qThoJTmv00RudWODUQ5g4z3mWX5_Axa-Wa8h8hEr6jwleKuBrXUMEkvzNhvThpsySu9wsnKLuK6XedmboMzDFOZqj_uMFmAOKMb6jgHQciQ=@pm.me>
-In-Reply-To: <0ca0e817-7c28-011d-5738-f5856d267337@linux.intel.com>
-References: <20260323165038.GA830530@bhelgaas> <jlpBGxAZL6_8dQI417NowB0RVfrnwcnuaNvBlTN035buqP4dRBJaaX3fwqtYxZu2evmcNCAJVzj2suZKDA5iriUSrpj_ziWQVWxZS3nEkEg=@pm.me> <0ca0e817-7c28-011d-5738-f5856d267337@linux.intel.com>
-Feedback-ID: 168671048:user:proton
-X-Pm-Message-ID: 955b9558e4c5a760401e1c8a10bd254827ea8cad
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="lLS9UrNg"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=rPAW1f9LhuRawPN4Vtrk52HOqp1uBa1rgm8HyrXIm9/Wtk7Vzbl5uUVlPaauUm/9LzRYSrF8KxwUcgO6Krf14a4b+6yo9fAULCnUFAYyqlpFhCZirm8raYyFbGv+udpjEaBNT4gZfcQAPNsFhDXufW7tRk7pmwXA4XkGqUOIeRMlHxFf85do52dF21/Lx6+2Yry4fKZt6otW5wFmQ2hXl3VxHCHuQDZUIHxCNqZbbqnAhrNv7hjiqoQA7x3VvEFPhYH7bjwXoDKsNb1fXEPUHgeEykjmksFOBGNTcDA5b88AWropOnhUQHwDMhUnIb2Oyma9d2VY/OWI2UJMbPeSZw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=n7ma0TFlaonhs0DxONlL1ZI+vvfVMINp6ueDmA++YnE=;
+ b=ZY9mgEX4sxD7ORsAhoh/mBmQX41cPf9mOUoTGYOF/wIY7VxVBlKIHPzo2MLFXB5ZGzvVfBtol3xPTdcaMIme5NRhZr4bPYlWPBpY5ITpw/3bC3wlxvX+y2yO0AQDRwMhZzV8MSXBWl11pwmGH+Q3Zpp1KlY30ynIcKrGReMqvl+y4RFQ3AXxY0XaAQO7GgwZAkdz97qiORTM7/J7ZY5qJa8dJPszWgU9w9duDkXuMDGrSRV6j5jEfldqWMvTX8Zm0vl8s2UcprpZHBaFAq7X4CK/IgtxFEFz19AV1WwpQFbBWVbbHT+EAv/6ZKt1if6ZSpK2+zd8i/xdGwF15OYZFQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=n7ma0TFlaonhs0DxONlL1ZI+vvfVMINp6ueDmA++YnE=;
+ b=lLS9UrNgr9A+s475nPClopNd73sKzH2vApnj1O+1iePMTtFL8J21nZdWKJExFDQZnbwO3O2AzI4djfa+L2RsbK3tzD6Ltb3EEC0aeNgmvCkTTGwY9DfW1sJMKGropS2yrC1tS53j88ejmJ8MJSbVUD+GZo9Lqs9tUVo/JCRGOn+JI5WEgYPXpmL1SeOaRyN4gWVe8NS2m3igNMBV/1XmSVzWiLNKMF4AiknutuzQ63QM1WENauq6vJV1by6+kCnNSPfTZu0qftSbwaDylXGlDTkdYRW9YZRuDO36pLsf5kEO6EQMtXkBuKedi1BbKPnhTWiOrIxptrGNWJizPk7TpQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
+ by IA4PR12MB9811.namprd12.prod.outlook.com (2603:10b6:208:54e::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.20; Wed, 25 Mar
+ 2026 05:53:30 +0000
+Received: from CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
+ ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9769.004; Wed, 25 Mar 2026
+ 05:53:30 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 25 Mar 2026 14:53:24 +0900
+Message-Id: <DHBMOQ3E1OSL.2VG7175ZI563R@nvidia.com>
+Cc: "John Hubbard" <jhubbard@nvidia.com>, "Alistair Popple"
+ <apopple@nvidia.com>, "Joel Fernandes" <joelagnelf@nvidia.com>, "Timur
+ Tabi" <ttabi@nvidia.com>, "Zhi Wang" <zhiw@nvidia.com>, "Eliot Courtney"
+ <ecourtney@nvidia.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+ <linux-doc@vger.kernel.org>, <rust-for-linux@vger.kernel.org>, "Alexandre
+ Courbot" <acourbot@nvidia.com>
+Subject: Re: [PATCH v4 08/10] gpu: nova-core: convert falcon registers to
+ kernel register macro
+From: "Alexandre Courbot" <acourbot@nvidia.com>
+To: "Danilo Krummrich" <dakr@kernel.org>, "Alice Ryhl"
+ <aliceryhl@google.com>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
+ <simona@ffwll.ch>, "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Maxime Ripard" <mripard@kernel.org>, "Thomas Zimmermann"
+ <tzimmermann@suse.de>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng"
+ <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
+ Gross" <tmgross@umich.edu>
+References: <20260325-b4-nova-register-v4-0-bdf172f0f6ca@nvidia.com>
+ <20260325-b4-nova-register-v4-8-bdf172f0f6ca@nvidia.com>
+In-Reply-To: <20260325-b4-nova-register-v4-8-bdf172f0f6ca@nvidia.com>
+X-ClientProxiedBy: TYWP286CA0023.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:262::10) To CH2PR12MB3990.namprd12.prod.outlook.com
+ (2603:10b6:610:28::18)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|IA4PR12MB9811:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0ae3f9c4-829d-4202-c98b-08de8a32d724
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|7416014|376014|10070799003|366016|921020|56012099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	xcedhEAmdBXNb+LMfORQCeK8mp4b/YAs2uhxptgI1nSmrLYOfhFREtPxsLEclYcbOZQ3hIXnYtbjXMFZ2hGyugX5F1ilTmvi7vobW3KirSjuytZSnoHF4bHA5PGa2jrmYzRilVOmqcO40T7MRN0R+ZEvQmdGQMc41G5pL/Tirvpz8A8aIFe39Wlg3OGoufEAw1i0G7UZfN3dIM+/xNsdIf1sKF06gGgvGb0UoV046pRmZlPd1PT3Nwe32DpRdXEduWDU5bNlpLqva2jYnxZS0M1acKAU3yWBYKHXpRo4y7Z07164FtrhwxAluykJS79ioIerogkiopiyNSGWY8iEE+hl3bDg3OHEGU4tR22fkUJlCWlrvwwZ3imr8y6scsMA0QkQyRN0F3JmzmlRJlv+iOv8k5rB2fL5lDinscaXbOeqTumVOkmWdD+kS+H0BA5H0utXMrfIbsaVaB/YPUm1Gz7RXIMdUT+TXvOozYhbIVIVVn+8TkZwEgI+Wf5lExMPVr2J8t9gJV2f7nrAF2zMP+wU+gnTCp+K2Uri2Vw+dRAgRwavTQDuVtCQ/QItaHuEK0tcilG12atdyixh9+3+7U8w1exikTGlfuXYRZoDtscY8Dm3SPAOOhmhN8RD0Ms4Szc2ppX50p5FhMCmXDs+Kxj7ucbvbEQz4urS+7/Y0cMOD7lJ+SSCGk6jBk3W2K6cuu9ezsH1NkgKulifC/9BbnThGUJSPydkL+1hJuVishoykn7oc01E4DWw4KsaHV2UqdBobLcOqknaPXwXWX6B3A==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(10070799003)(366016)(921020)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?M1Z4QzhDVkhRMEowUitJVklxWmhCSzJNSmt4RDdYME5ER29od0JmZ1ExdzN6?=
+ =?utf-8?B?Qkp5S3pESkxqaU1hNmwzN0ZsZXkyTTJSVHNjdnpEK2kvd0xhTy9xUkJsTEM1?=
+ =?utf-8?B?SjdxR05aT2FBNFBLWVNPWmZWck5ib0p4U3lkV3F5K0pxb25XdjJ1Qmp0T29w?=
+ =?utf-8?B?VThCQU1pdElMbys4TDk1c3NEblpyUU5yTlNMRTl0c1Z4a0xrN1pZSWEzbmJl?=
+ =?utf-8?B?RDM2S0ZaUFB0aWN4UjVraEh1MzFzQml0OGMvV2pBUUZSdmhLQ1NBeHJpVWVq?=
+ =?utf-8?B?TGNpcW5GRUxhTmY3RVl2akhnendZSXdqY2hRZ3ZYVTJwUU5MamFHckpYc0ZX?=
+ =?utf-8?B?dUxXSXVWQ2lXQXI0ZGM5dHdZc2NMVk1lWUs4SXJvQndLeElROGppRENtemhl?=
+ =?utf-8?B?bmJTMEZ1bzRDZ1hjRi9PUWZiZFRWWDZMSWM5UDZHUWJxV2lOM0Iwelc1NTNj?=
+ =?utf-8?B?QzhoVG1HSXFad0FVUm5oc3Z1bWRCd3hOaEQ3enl0b3RiZlhIUWdIMWlJUGdG?=
+ =?utf-8?B?Qm5zeStLZW9YOWpnRjVJR3R5dTduNlVneHpYU1IrUmVCa2hLSzd6Zk5jMWo2?=
+ =?utf-8?B?UDdabFREZEZsRmxPR1JmZ3Y4Q04wWlZwV1doaCt1V1MvOTdKbFFBR2NQTnY3?=
+ =?utf-8?B?VmxLZDlSaWdJeGVONFJNTEU0OGQwZ2dRRXJyM2pnZXFyc04vMklMeUR3Ry9V?=
+ =?utf-8?B?R1dvcUR4TUJ2UDdPeDM0Z2FITU82YUJPY1gxMTArK0pQWDI2cWZza2Q4cGNi?=
+ =?utf-8?B?NWtuWFowNndVcXU5MjcrM042bk1GM3V0UzVIajdRQ1dQZmJJcHp6a202Z0pJ?=
+ =?utf-8?B?eVNGVU01cEljTXF2WEVFaHlqb1ZMVm96em1nWEVCZUZxNDNOeDdsbFZybWh2?=
+ =?utf-8?B?dUg5R1BWViszTWNPekplT2kwVW1McEFTRGJKZklWOGtIS21zRG9WaDNjVytH?=
+ =?utf-8?B?SGpjRU50aDZqY1FWWUN3bzJWc0l0NWRSMjFiWXVLQ1NycXE1OURLVVVNdWtp?=
+ =?utf-8?B?Z3J0ZnZkTXRjMGo1NFVQcUVaQlYxWWZYeG1xZkhsMGF2UzRRRmg1cWlmMGlY?=
+ =?utf-8?B?d1Fvb3JDdU13YVlOSWloTThVNTMybDFQM2FHeXNOdXM5VVVwV25acmpvM3Vi?=
+ =?utf-8?B?YmNaT3lpeEk1ZCtHNXZrdnN5S3lLeitGRm1zN0thbWNhRlFXenBhQzFJSm9E?=
+ =?utf-8?B?K05Mc2xuamY3cGszY29lc3dCeUg1d2RCSEk2QjB5M2F1YkdmN0ZBazJ4ZlBN?=
+ =?utf-8?B?VFBpdUxZeHRkdHdnZEpuU3JOU0o3V042Wm0wclJWZys4L3ZIemEySjdoMHRr?=
+ =?utf-8?B?RkpZNmc2UExvbkVtc3hpa0x6ZnpXQ2Q5eXhZK2Z4WWhScXFwT2xueXFOSzVC?=
+ =?utf-8?B?Y24xR3dLOUVCZHg1SGNJWFpoc1VHclRHUk9TQ0xxK3diSHZTUkQvTFFud0Rp?=
+ =?utf-8?B?TFlReXZ6SlJwSFhWOVBzckxsN1BDWHd3U2Z3WWZDUzMvUFBrTzI5Szc1cjdp?=
+ =?utf-8?B?TlA5SVVGQlREMlQ5dStEYVhKK0VJL3hpMlYzU2E1Ky9CeDZ4RXl2Qmd5Tmtw?=
+ =?utf-8?B?b1NTOFRPbFFMNmwzNDk3bkswYjNKSkwwSE1yTnJDendINXZLQTdBWStOWStk?=
+ =?utf-8?B?WjhvSytHM0FGSjhmOGVLQ2dTTjFZbnd0cVVROVRLMkhod1hndXozKzMrU1Jl?=
+ =?utf-8?B?VTcwOXNXVDFpNVo4UzBOcGZxK0pJZW4wVHp1cHpCeUdvaEpQMitaL3hYdEJi?=
+ =?utf-8?B?N3hyRjdxREZZck1XNVF1WmdzVUNsc1hZSEI2enFPeHdUSDdtT1hkbTJGekV3?=
+ =?utf-8?B?T3EvUVQzajJBMUxzejZoZy9nOTUwZ2luL1gwOHdwbHViZjBUTTA1K1pRUjJo?=
+ =?utf-8?B?eGFsU25GSlhMeElpVTkxeDFHN25qYllidWNaTlprd1FaWjFmOWdLM1lvT0h0?=
+ =?utf-8?B?b1c1V05yM0QrV0lrUkRCYS8xNm01Y3FyRVByS2JvNXlxTWRlQVYwVDlZQWh0?=
+ =?utf-8?B?RS9KMXkyMkh4WC9QWWZOQ2h5bEZkdHU0SWRQUVJqQkt5U0dBbmJGMDRkZlpy?=
+ =?utf-8?B?T2NqQzFvUXlXVm5vSW4zajBsMDl1Z1FPYXFmVWJuRWNza3VQOEpuOFEzRTlu?=
+ =?utf-8?B?Nzg1OFB1QlYwblM3Z1UyR3pwSlB5RUlGeWE0dXlIL29obGpiemMyT3Y4ZHlP?=
+ =?utf-8?B?K0wvZElNeVZROW44cW1vdHN4L05TaEVHR0MranBCZnd1Qyt0WjNjLzZodkti?=
+ =?utf-8?B?QWU2dzdZMGJucHhSendHNkJMclppdVA5U3RyeHVjOHVlREZ6djlWZEpoMXFS?=
+ =?utf-8?B?M000aldSUDM2aFA0Mk9ZQ3hYYkx0SVN0NjZwQlQ1bVAzeXYxRXFkZi92V1lx?=
+ =?utf-8?Q?GklYkgOuxxpoPfRETGPRmd3IqCN8uHUe4f0D52cinSUxn?=
+X-MS-Exchange-AntiSpam-MessageData-1: CZ4zdKZVEhez/A==
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0ae3f9c4-829d-4202-c98b-08de8a32d724
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2026 05:53:29.9773
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: O/jiWP9lQxMzN7zhiH+seo4hKsHrjCmfoNHKx83buJWwo0NDP7efEfpU1BHd6EYCpI7ibi+8TGtIzdRN4OFSIw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR12MB9811
 
-Thanks Lukas for the suggestion and Ilpo for the caveat on
-Link Status 2.
+On Wed Mar 25, 2026 at 11:46 AM JST, Alexandre Courbot wrote:
+> Convert all PFALCON, PFALCON2 and PRISCV registers to use the kernel's
+> register macro and update the code accordingly.
+>
+> Because they rely on the same types to implement relative registers,
+> they need to be updated in lockstep.
+>
+> nova-core's local register macro is now unused, so remove it.
+>
+> Reviewed-by: Gary Guo <gary@garyguo.net>
+> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+> ---
+>  drivers/gpu/nova-core/falcon.rs                    | 521 ++++++---------
+>  drivers/gpu/nova-core/falcon/gsp.rs                |  22 +-
+>  drivers/gpu/nova-core/falcon/hal/ga102.rs          |  55 +-
+>  drivers/gpu/nova-core/falcon/hal/tu102.rs          |  12 +-
+>  drivers/gpu/nova-core/falcon/sec2.rs               |  17 +-
+>  drivers/gpu/nova-core/firmware/fwsec/bootloader.rs |  19 +-
+>  drivers/gpu/nova-core/regs.rs                      | 353 +++++-----
+>  drivers/gpu/nova-core/regs/macros.rs               | 739 ---------------=
+------
+>  8 files changed, 457 insertions(+), 1281 deletions(-)
+>
+> diff --git a/drivers/gpu/nova-core/falcon.rs b/drivers/gpu/nova-core/falc=
+on.rs
+> index 123de6c55b45..f3c0ee4d82a6 100644
+> --- a/drivers/gpu/nova-core/falcon.rs
+> +++ b/drivers/gpu/nova-core/falcon.rs
+> @@ -15,14 +15,20 @@
+>      },
+>      io::{
+>          poll::read_poll_timeout,
+> -        Io, //
+> +        register::{
+> +            RegisterBase,
+> +            WithBase, //
+> +        },
+> +        Io,
+>      },
+> +    num::Bounded,
 
-I'll add auto-detection of the (Flit) suffix (7e077e6707b3,
-v6.15+) to --aer mode so mixed flit / non-flit TLPs in the same
-log are each parsed with the correct framing -- no --flit needed.
-For --lspci I'll also pick up Flit+ from LnkSta2: per device.
+Apologies, I just realized this is a leftover which triggers the following =
+error:
 
-The --flit flag stays as a global override for inputs without
-auto-detection markers.  This will be a patch release (v0.5.1) --
-fully backward compatible.
+warning: unused import: `num::Bounded`
+  --> ../drivers/gpu/nova-core/falcon.rs:24:5
+   |
+24 |     num::Bounded,
+   |     ^^^^^^^^^^^^
+   |
+   =3D note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by de=
+fault
 
-Maciej
+Not sure how it slipped in as I build each patch individually in my
+checklist script. Thankfully this is easily fixed.
 
-
-
-On Tuesday, March 24th, 2026 at 4:18 AM, Ilpo J=C3=A4rvinen <ilpo.jarvinen@=
-linux.intel.com> wrote:
-
-> On Tue, 24 Mar 2026, mx2pg@pm.me wrote:
->=20
-> >   One thing worth calling out: starting with PCIe 6.0, Flit Mode is
-> >   mandatory at 64.0 GT/s and supported at all PCIe link speeds, so a
-> >   Flit-capable PCIe 6.x link may operate below 64.0 GT/s and still be
-> >   in Flit Mode.  The raw TLP Header bytes do not encode the framing =
-=E2=80=94
-> >   the same four bytes decode to entirely different packet types in
-> >   non-Flit vs Flit framing.  The negotiated mode can be read from the
-> >   Flit Mode Status bit in Link Status 2, or via lspci -vv on a recent
-> >   pciutils build.
->=20
-> There's one caveat in using Link Status 2 Flit Mode Status bit, it can
-> only be used as the indicator when the Link is Up, which may come into
-> picture in troubleshooting scenarios.
->=20
-> The kernel code tries to hide that by indicating the Flit mode explicitly
-> in the log message it prints out.
->=20
-> Sadly, TLP Logging on DPC side was botched in the PCIe spec so it doesn't
-> indicate the Flit/non-Flit mode information explicitly (in contrast to AE=
-R
-> that has a flag that tells in which mode the TLP Log was captured). To
-> workaround that limitation, kernel has to save of the Link Status 2
-> contents and hope the information is not stale when DPC has brought the
-> Link Down (it seems relatively likely to remain valid but it's still
-> fundamentally racy way to get the Flit/non-Flit information).
->=20
-> --
->  i.
->=20
-> >   tlp-tool defaults to non-Flit, which is correct for the vast majority
-> >   of hardware deployed today.  That will change: as PCIe 6.x adoption
-> >   grows, a significant share of TLP debugging will involve Flit Mode
-> >   links, and this is already a concern among switch and device vendors
-> >   working through the transition.  Users on Flit Mode links must pass
-> >   --flit:
-> >
-> >     # non-Flit link (default, most common today)
-> >     curl -L https://git.kernel.org/linus/2ca1c94ce0b6 | rtlp-tool --aer
-> >
-> >     # Flit Mode link
-> >     curl -L https://git.kernel.org/linus/2ca1c94ce0b6 | rtlp-tool --aer=
- --flit
-> >
-> >   It may be worth a one-liner in the Documentation patch:
-> >
-> >     For PCIe 6.x links with Flit Mode negotiated (check Flit Mode Statu=
-s
-> >     in Link Status 2, or lspci -vv), pass --flit to rtlp-tool.
-> >
-> >   Maciej
-> >
-> >
-> >
-> > On Monday, March 23rd, 2026 at 9:50 AM, Bjorn Helgaas <helgaas@kernel.o=
-rg> wrote:
-> >
-> > > On Mon, Mar 23, 2026 at 07:52:39AM +0100, Lukas Wunner wrote:
-> > > > The prefix/header of the TLP that caused an error is recorded by th=
-e Root
-> > > > Complex and emitted to the kernel log in raw hex format.  Document =
-the
-> > > > existence and usage of tlp-tool, which allows decoding the TLP Head=
-er
-> > > > into human-readable form.
-> > > >
-> > > > The TLP Header hints at the root cause of an error, yet is often ig=
-nored
-> > > > because of its seeming opaqueness.  Instead, PCIe errors are freque=
-ntly
-> > > > worked around by a change in the kernel without fully understanding=
- the
-> > > > actual source of the problem.  With more documentation on available=
- tools
-> > > > we'll hopefully come up with better solutions.
-> > > >
-> > > > There are also wireshark dissectors for TLPs, but it seems they exp=
-ect a
-> > > > complete TLP, not just the header, and they cannot grok the hex for=
-mat
-> > > > emitted by the kernel directly.  tlp-tool appears to be the most cu=
-t and
-> > > > dried solution out there.
-> > > >
-> > > > Signed-off-by: Lukas Wunner <lukas@wunner.de>
-> > > > Cc: Maciej Grochowski <mx2pg@pm.me>
-> > >
-> > > Applied to pci/for-linus for v7.0, thanks!
-> > >
-> > > I tweaked the commit log to note that the Header Log is in the AER
-> > > Capability, which may be in any PCIe function.
-> > >
-> > > > ---
-> > > > We could also go one step further and point users to this tool
-> > > > in a printk_once() message when the first error occurs.
-> > > > For now, just amending the documentation is probably sufficient.
-> > > >
-> > > >  Documentation/PCI/pcieaer-howto.rst | 10 ++++++++++
-> > > >  1 file changed, 10 insertions(+)
-> > > >
-> > > > diff --git a/Documentation/PCI/pcieaer-howto.rst b/Documentation/PC=
-I/pcieaer-howto.rst
-> > > > index 3210c47..90fdfdd 100644
-> > > > --- a/Documentation/PCI/pcieaer-howto.rst
-> > > > +++ b/Documentation/PCI/pcieaer-howto.rst
-> > > > @@ -85,6 +85,16 @@ In the example, 'Requester ID' means the ID of t=
-he device that sent
-> > > >  the error message to the Root Port. Please refer to PCIe specs for=
- other
-> > > >  fields.
-> > > >
-> > > > +The 'TLP Header' is the prefix/header of the TLP that caused the e=
-rror
-> > > > +in raw hex format. To decode the TLP Header into human-readable fo=
-rm
-> > > > +one may use tlp-tool:
-> > > > +
-> > > > +https://github.com/mmpg-x86/tlp-tool
-> > > > +
-> > > > +Example usage::
-> > > > +
-> > > > +  curl -L https://git.kernel.org/linus/2ca1c94ce0b6 | rtlp-tool --=
-aer
-> > > > +
-> > > >  AER Ratelimits
-> > > >  --------------
-> > > >
-> > > > --
-> > > > 2.51.0
-> > > >
-> > >
-> >
+The silver lining is that this shows that despite the heavy reliance on
+`Bounded` for register bitfields, this heavy user does not need to
+create a single one explicitly. :)
