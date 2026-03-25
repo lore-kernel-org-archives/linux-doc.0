@@ -1,81 +1,121 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EED6A234964;
-	Wed, 25 Mar 2026 19:33:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95ED0346774
+	for <linux-doc@vger.kernel.org>; Wed, 25 Mar 2026 19:39:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774467195; cv=none; b=rlBOuFee7GZFLAH85ncnwCL+wT600ZjKVOVcsnPgKK2o5NL2rl2SpBYfcOwg3fWubPDRxkef33n4b60UBDWWp6Jl/IecHAKBvmdQptWXHESrhc/atIC0G8Gu010qRnaQ2nlmsVr0Yfkpmuw/msZZK+J+ZMHgmA+hEUcn78TRtU8=
+	t=1774467569; cv=none; b=nPdaOiD0YECkgAJf/ip72k15JXYBaytItw7PpmDz3d+A97DkPQ54NW9HeBpIYk6d255eMFIvjC3n2nMgqZH88UwV6L6yYOvQS1CxFxic1+3oPtMoSzD/WUqhlJ0nZ+4w7hHXUBW6JTzmVgHf0KTyA6JGsVsD314KqDLCvWAGQpk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774467195; c=relaxed/simple;
-	bh=sZggBEhesX3W/rJRhqRA3mSKFQktBAvrUIwXGli50Yw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=UOEqFhLgfcUp861ZgYtdnhrP3Przj/jSavHyUXLJ5C5Iw28o2lsYQ7PxToP/fuSxo1s63zC4mYgBuauVgMP5cCOFsghI4w3J8lKwoP0dOuLFmI7wxoeLKSGgVVKTRlA3pvLl7lEEeE42csyUVKjwYlZTtLOV3E/Cx/kOeisOi7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=ElXqQXbc; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1774467569; c=relaxed/simple;
+	bh=59OAXgMlCD0McRBaNkU2QmS1Je3lTiCQddJMoA12x1E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AqJkScBvjy7uplguBDOkLlOYk4T1cafvxspnuVybvA6XEk/+XViaJlpKU0OsNBW88fvGnuYgtG1bbNO7CKyCfa/qB0HE1QvXLHkQIkcS+wybt9faJ0mdPlmndRkQ5gKgBHL9mgHnLPZLgLbAbrj+TPtVH0RxBtnC8qxPdHTEOjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=F/95TNwc; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="ElXqQXbc"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3D9E840C6F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1774467194; bh=TheRULhZ85skRQP6hmmE0EveQG0qqiDhsUyL70rwqE0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=ElXqQXbcPkGgm4+kQfwCTQBNcR2+g1axRxQwREpE087OhrfoYRK52r/mkvMzmWSfZ
-	 RuX1Tq4kUuvBPEAReHNZlkZro8H6AFW95IeDsnUSuFXMss1H6ENv/fqxCHycRrCQtT
-	 B06ZmhBnegorwJrO0q4Ut08FCf2bGjg66iT+HMY8NxK5wIe0X60CEn3DMp0MPpxIXK
-	 KJN+bVWFKtObHvXikjOnW5oaFvXZAcEbqhP5DY7JKYdya1ilPGFLVh3AhNGlHsvuF2
-	 +ud+3Rk4TwQupvKHv7jKWRU9EZazfKzQGXLMqGgAB3lUGyZQEtbduKlmtPvC2yYaJG
-	 CclEws39o/4cA==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="F/95TNwc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1774467566;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=tD6g6arGh6ZkVTmfd5lNdWtfQqJ85M2hvfdIUn4iV0k=;
+	b=F/95TNwczP0EiyrLDtdL5WgNpUkj1CTqAvY/zTLQObLY6w6te/l2LIztX/NKcNYj/q41JB
+	FFNeDKNsu68TCWTwzI9BYSKQ6hrfX19M6KN1DWqXQ3sns4pJU4V3pkppvBfS34mzHAVlT4
+	euCGpe90hiYHIxooM+O/J/1FSXKN1bs=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-647-aBK317bUP-qQkKNp2CvK-A-1; Wed,
+ 25 Mar 2026 15:39:23 -0400
+X-MC-Unique: aBK317bUP-qQkKNp2CvK-A-1
+X-Mimecast-MFC-AGG-ID: aBK317bUP-qQkKNp2CvK-A_1774467561
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 3D9E840C6F;
-	Wed, 25 Mar 2026 19:33:14 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Mauro Carvalho Chehab
- <mchehab@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Aleksandr
- Loktionov <aleksandr.loktionov@intel.com>, Randy Dunlap
- <rdunlap@infradead.org>, Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH 0/7] More kernel-doc unit tests
-In-Reply-To: <cover.1773841456.git.mchehab+huawei@kernel.org>
-References: <cover.1773841456.git.mchehab+huawei@kernel.org>
-Date: Wed, 25 Mar 2026 13:33:13 -0600
-Message-ID: <874im3g0w6.fsf@trenco.lwn.net>
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3210B1944F01;
+	Wed, 25 Mar 2026 19:39:21 +0000 (UTC)
+Received: from p16v.redhat.com (unknown [10.44.32.254])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 79EA43000223;
+	Wed, 25 Mar 2026 19:39:15 +0000 (UTC)
+From: Ivan Vecera <ivecera@redhat.com>
+To: netdev@vger.kernel.org
+Cc: Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+	Jiri Pirko <jiri@resnulli.us>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Prathosh Satish <Prathosh.Satish@microchip.com>,
+	Petr Oros <poros@redhat.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH net-next 0/3] dpll: add actual frequency monitoring feature
+Date: Wed, 25 Mar 2026 20:39:11 +0100
+Message-ID: <20260325193914.124898-1-ivecera@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+This series adds support for monitoring the actual (measured) input
+frequency of DPLL input pins via the DPLL netlink interface.
 
-> Hi Jon,
->
-> This series comes after
->         https://lore.kernel.org/linux-doc/20260318104321.53065c27@foz.lan/T/#t
->
-> and contains the remaining patches I have ready to be merged.
->
-> Its focus is primarly on adding unit tests for some corner
-> cases. Several of such tests came from Randy, and were already
-> previously submitted on some old series.
->
-> I added a couple of extra tests there to check if tables and code
-> blocks will be properly producing rst and man content.
->
-> Due to such test, I ended discovering one bug, fixed on the last
-> patch on this series.
->
-> On this series, the actual tests are not part of the unit test
-> source code. Instead, they're loaded from an yaml file that
-> uses a properly defined schema. One of the tests check if the
-> file follows such schema.
+Some DPLL devices can measure the actual frequency being received on
+input pins. Previously, the ZL3073x driver exposed this through the
+hwmon interface using custom sysfs attributes, but this was rejected
+as frequency is not a valid hwmon attribute. This series implements the
+feature properly through the DPLL netlink interface instead.
 
-I've applied these, thanks.
+The approach mirrors the existing phase-offset-monitor feature:
+a device-level attribute (DPLL_A_FREQUENCY_MONITOR) enables or
+disables monitoring, and a per-pin attribute (DPLL_A_PIN_ACTUAL_FREQUENCY)
+exposes the measured frequency in Hz when monitoring is enabled.
 
-jon
+Patch 1 adds the new attributes to the DPLL netlink spec (dpll.yaml),
+regenerates the auto-generated UAPI header and netlink policy, and
+updates Documentation/driver-api/dpll.rst.
+
+Patch 2 adds the callback operations (freq_monitor_get/set for
+devices, actual_freq_get for pins) and the corresponding netlink GET/SET
+handlers in the DPLL core. The core only invokes actual_freq_get when
+the frequency monitor is enabled on the parent device.
+
+Patch 3 implements the feature in the ZL3073x driver by extracting
+a common measurement latch helper from the existing FFO update path,
+adding a frequency measurement function, and wiring up the new
+callbacks.
+
+Signed-off-by: Ivan Vecera <ivecera@redhat.com>
+
+Ivan Vecera (3):
+  dpll: add actual frequency monitoring to netlink spec
+  dpll: add actual frequency monitoring callback ops
+  dpll: zl3073x: implement actual frequency monitoring
+
+ Documentation/driver-api/dpll.rst     | 18 ++++++
+ Documentation/netlink/specs/dpll.yaml | 17 +++++
+ drivers/dpll/dpll_netlink.c           | 90 +++++++++++++++++++++++++++
+ drivers/dpll/dpll_nl.c                |  5 +-
+ drivers/dpll/zl3073x/core.c           | 88 ++++++++++++++++++++++----
+ drivers/dpll/zl3073x/dpll.c           | 88 +++++++++++++++++++++++++-
+ drivers/dpll/zl3073x/dpll.h           |  2 +
+ drivers/dpll/zl3073x/ref.h            | 14 +++++
+ include/linux/dpll.h                  | 12 ++++
+ include/uapi/linux/dpll.h             |  2 +
+ 10 files changed, 320 insertions(+), 16 deletions(-)
+
+-- 
+2.52.0
+
