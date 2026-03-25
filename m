@@ -1,45 +1,47 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95ED0346774
-	for <linux-doc@vger.kernel.org>; Wed, 25 Mar 2026 19:39:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA9673346AF
+	for <linux-doc@vger.kernel.org>; Wed, 25 Mar 2026 19:39:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774467569; cv=none; b=nPdaOiD0YECkgAJf/ip72k15JXYBaytItw7PpmDz3d+A97DkPQ54NW9HeBpIYk6d255eMFIvjC3n2nMgqZH88UwV6L6yYOvQS1CxFxic1+3oPtMoSzD/WUqhlJ0nZ+4w7hHXUBW6JTzmVgHf0KTyA6JGsVsD314KqDLCvWAGQpk=
+	t=1774467574; cv=none; b=G+EUILV1H42pBzHEpcx2Me18qqTrQvC4crnz/P7f6TBGq1J6fXhdz8Zq8+bpIKrf/ZrO3qJiF8Ep0dj17uetL1L1tISb0aJe4Wbdy+5JhFiIw7zU6ekxSqsWp8pknUuqpv7aTz1RESbphtD/G62MPGZyGr9Jxxg+Hh6RqK+/NBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774467569; c=relaxed/simple;
-	bh=59OAXgMlCD0McRBaNkU2QmS1Je3lTiCQddJMoA12x1E=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AqJkScBvjy7uplguBDOkLlOYk4T1cafvxspnuVybvA6XEk/+XViaJlpKU0OsNBW88fvGnuYgtG1bbNO7CKyCfa/qB0HE1QvXLHkQIkcS+wybt9faJ0mdPlmndRkQ5gKgBHL9mgHnLPZLgLbAbrj+TPtVH0RxBtnC8qxPdHTEOjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=F/95TNwc; arc=none smtp.client-ip=170.10.129.124
+	s=arc-20240116; t=1774467574; c=relaxed/simple;
+	bh=Lw5FWm9bpNH4RVjPd2+H5CvNX9j41gLuyeNk4y0uL1c=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=eWYr3xxO93IOZRWKo0/lqE29ARtV9c5GxV02NM0JVxgmwhhvJMXXOF8ECocBiCywbvMmk8KNAzBM1VjqjyAAiWchRYmKwzKt07DMgPqXVO1CCVXgo0qXSaTxuRiJ+zC4zuntbNl+9hXJ9n+knuG61s1bDE0Zwg0+Q5bQ/llqoAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MjIoVSsM; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="F/95TNwc"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MjIoVSsM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1774467566;
+	s=mimecast20190719; t=1774467571;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=tD6g6arGh6ZkVTmfd5lNdWtfQqJ85M2hvfdIUn4iV0k=;
-	b=F/95TNwczP0EiyrLDtdL5WgNpUkj1CTqAvY/zTLQObLY6w6te/l2LIztX/NKcNYj/q41JB
-	FFNeDKNsu68TCWTwzI9BYSKQ6hrfX19M6KN1DWqXQ3sns4pJU4V3pkppvBfS34mzHAVlT4
-	euCGpe90hiYHIxooM+O/J/1FSXKN1bs=
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=e5GESph4X6iX7AMmPOWj2uQ8opjfaPxbiqOMrrOZgqo=;
+	b=MjIoVSsMWx2QObMN5eKHBACfMEBHveb+dlvEsLwszrCef57V0YBvBdYMr5QepIvLwol5+9
+	LeSl5u8jR/kWWx0AvXFKJ4rIbJTR/D6Ir+Fuoul193cJzWJUwN37CikKWO4opy7eMaL8Z0
+	CoNYpQE5kQiJLi4HpZ5hYZM+Hx7AEdg=
 Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-647-aBK317bUP-qQkKNp2CvK-A-1; Wed,
- 25 Mar 2026 15:39:23 -0400
-X-MC-Unique: aBK317bUP-qQkKNp2CvK-A-1
-X-Mimecast-MFC-AGG-ID: aBK317bUP-qQkKNp2CvK-A_1774467561
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-438-QpQOGRGGN8q-wS4PtFlFng-1; Wed,
+ 25 Mar 2026 15:39:28 -0400
+X-MC-Unique: QpQOGRGGN8q-wS4PtFlFng-1
+X-Mimecast-MFC-AGG-ID: QpQOGRGGN8q-wS4PtFlFng_1774467566
 Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3210B1944F01;
-	Wed, 25 Mar 2026 19:39:21 +0000 (UTC)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3D9211955DDB;
+	Wed, 25 Mar 2026 19:39:26 +0000 (UTC)
 Received: from p16v.redhat.com (unknown [10.44.32.254])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 79EA43000223;
-	Wed, 25 Mar 2026 19:39:15 +0000 (UTC)
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 9607A3000223;
+	Wed, 25 Mar 2026 19:39:21 +0000 (UTC)
 From: Ivan Vecera <ivecera@redhat.com>
 To: netdev@vger.kernel.org
 Cc: Vadim Fedorenko <vadim.fedorenko@linux.dev>,
@@ -57,9 +59,11 @@ Cc: Vadim Fedorenko <vadim.fedorenko@linux.dev>,
 	Petr Oros <poros@redhat.com>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH net-next 0/3] dpll: add actual frequency monitoring feature
-Date: Wed, 25 Mar 2026 20:39:11 +0100
-Message-ID: <20260325193914.124898-1-ivecera@redhat.com>
+Subject: [PATCH net-next 1/3] dpll: add actual frequency monitoring to netlink spec
+Date: Wed, 25 Mar 2026 20:39:12 +0100
+Message-ID: <20260325193914.124898-2-ivecera@redhat.com>
+In-Reply-To: <20260325193914.124898-1-ivecera@redhat.com>
+References: <20260325193914.124898-1-ivecera@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,53 +73,161 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-This series adds support for monitoring the actual (measured) input
-frequency of DPLL input pins via the DPLL netlink interface.
+Add DPLL_A_FREQUENCY_MONITOR device attribute to allow control over
+the frequency monitor feature. The attribute uses the existing
+dpll_feature_state enum (enable/disable) and is present in both
+device-get reply and device-set request.
 
-Some DPLL devices can measure the actual frequency being received on
-input pins. Previously, the ZL3073x driver exposed this through the
-hwmon interface using custom sysfs attributes, but this was rejected
-as frequency is not a valid hwmon attribute. This series implements the
-feature properly through the DPLL netlink interface instead.
-
-The approach mirrors the existing phase-offset-monitor feature:
-a device-level attribute (DPLL_A_FREQUENCY_MONITOR) enables or
-disables monitoring, and a per-pin attribute (DPLL_A_PIN_ACTUAL_FREQUENCY)
-exposes the measured frequency in Hz when monitoring is enabled.
-
-Patch 1 adds the new attributes to the DPLL netlink spec (dpll.yaml),
-regenerates the auto-generated UAPI header and netlink policy, and
-updates Documentation/driver-api/dpll.rst.
-
-Patch 2 adds the callback operations (freq_monitor_get/set for
-devices, actual_freq_get for pins) and the corresponding netlink GET/SET
-handlers in the DPLL core. The core only invokes actual_freq_get when
-the frequency monitor is enabled on the parent device.
-
-Patch 3 implements the feature in the ZL3073x driver by extracting
-a common measurement latch helper from the existing FFO update path,
-adding a frequency measurement function, and wiring up the new
-callbacks.
+Add DPLL_A_PIN_ACTUAL_FREQUENCY pin attribute to expose the measured
+input frequency in Hz. The attribute is present in the pin-get reply.
 
 Signed-off-by: Ivan Vecera <ivecera@redhat.com>
+---
+ Documentation/driver-api/dpll.rst     | 18 ++++++++++++++++++
+ Documentation/netlink/specs/dpll.yaml | 17 +++++++++++++++++
+ drivers/dpll/dpll_nl.c                |  5 +++--
+ include/uapi/linux/dpll.h             |  2 ++
+ 4 files changed, 40 insertions(+), 2 deletions(-)
 
-Ivan Vecera (3):
-  dpll: add actual frequency monitoring to netlink spec
-  dpll: add actual frequency monitoring callback ops
-  dpll: zl3073x: implement actual frequency monitoring
-
- Documentation/driver-api/dpll.rst     | 18 ++++++
- Documentation/netlink/specs/dpll.yaml | 17 +++++
- drivers/dpll/dpll_netlink.c           | 90 +++++++++++++++++++++++++++
- drivers/dpll/dpll_nl.c                |  5 +-
- drivers/dpll/zl3073x/core.c           | 88 ++++++++++++++++++++++----
- drivers/dpll/zl3073x/dpll.c           | 88 +++++++++++++++++++++++++-
- drivers/dpll/zl3073x/dpll.h           |  2 +
- drivers/dpll/zl3073x/ref.h            | 14 +++++
- include/linux/dpll.h                  | 12 ++++
- include/uapi/linux/dpll.h             |  2 +
- 10 files changed, 320 insertions(+), 16 deletions(-)
-
+diff --git a/Documentation/driver-api/dpll.rst b/Documentation/driver-api/dpll.rst
+index 83118c728ed90..5634111e651df 100644
+--- a/Documentation/driver-api/dpll.rst
++++ b/Documentation/driver-api/dpll.rst
+@@ -250,6 +250,22 @@ in the ``DPLL_A_PIN_PHASE_OFFSET`` attribute.
+   ``DPLL_A_PHASE_OFFSET_MONITOR`` attr state of a feature
+   =============================== ========================
+ 
++Frequency monitor
++=================
++
++Some DPLL devices may offer the capability to measure the actual
++frequency of all available input pins. The attribute and current feature state
++shall be included in the response message of the ``DPLL_CMD_DEVICE_GET``
++command for supported DPLL devices. In such cases, users can also control
++the feature using the ``DPLL_CMD_DEVICE_SET`` command by setting the
++``enum dpll_feature_state`` values for the attribute.
++Once enabled the measured input frequency for each input pin shall be
++returned in the ``DPLL_A_PIN_ACTUAL_FREQUENCY`` attribute.
++
++  =============================== ========================
++  ``DPLL_A_FREQUENCY_MONITOR``    attr state of a feature
++  =============================== ========================
++
+ Embedded SYNC
+ =============
+ 
+@@ -411,6 +427,8 @@ according to attribute purpose.
+       ``DPLL_A_PIN_STATE``             attr state of pin on the parent
+                                        pin
+     ``DPLL_A_PIN_CAPABILITIES``        attr bitmask of pin capabilities
++    ``DPLL_A_PIN_ACTUAL_FREQUENCY``    attr measured actual frequency of
++                                       an input pin in Hz
+   ==================================== ==================================
+ 
+   ==================================== =================================
+diff --git a/Documentation/netlink/specs/dpll.yaml b/Documentation/netlink/specs/dpll.yaml
+index 3dd48a32f7837..84ccc686db4dd 100644
+--- a/Documentation/netlink/specs/dpll.yaml
++++ b/Documentation/netlink/specs/dpll.yaml
+@@ -319,6 +319,13 @@ attribute-sets:
+         name: phase-offset-avg-factor
+         type: u32
+         doc: Averaging factor applied to calculation of reported phase offset.
++      -
++        name: frequency-monitor
++        type: u32
++        enum: feature-state
++        doc: Receive or request state of frequency monitor feature.
++          If enabled, dpll device shall monitor all currently available
++          inputs for their actual (measured) input frequency.
+   -
+     name: pin
+     enum-name: dpll_a_pin
+@@ -456,6 +463,13 @@ attribute-sets:
+           Value is in PPT (parts per trillion, 10^-12).
+           Note: This attribute provides higher resolution than the standard
+           fractional-frequency-offset (which is in PPM).
++      -
++        name: actual-frequency
++        type: u64
++        doc: |
++          The actual (measured) frequency of the input pin in Hz.
++          This is the actual frequency being received on the pin,
++          as measured by the dpll device hardware.
+ 
+   -
+     name: pin-parent-device
+@@ -544,6 +558,7 @@ operations:
+             - type
+             - phase-offset-monitor
+             - phase-offset-avg-factor
++            - frequency-monitor
+ 
+       dump:
+         reply: *dev-attrs
+@@ -563,6 +578,7 @@ operations:
+             - mode
+             - phase-offset-monitor
+             - phase-offset-avg-factor
++            - frequency-monitor
+     -
+       name: device-create-ntf
+       doc: Notification about device appearing
+@@ -643,6 +659,7 @@ operations:
+             - esync-frequency-supported
+             - esync-pulse
+             - reference-sync
++            - actual-frequency
+ 
+       dump:
+         request:
+diff --git a/drivers/dpll/dpll_nl.c b/drivers/dpll/dpll_nl.c
+index a2b22d4921142..1e652340a5d73 100644
+--- a/drivers/dpll/dpll_nl.c
++++ b/drivers/dpll/dpll_nl.c
+@@ -43,11 +43,12 @@ static const struct nla_policy dpll_device_get_nl_policy[DPLL_A_ID + 1] = {
+ };
+ 
+ /* DPLL_CMD_DEVICE_SET - do */
+-static const struct nla_policy dpll_device_set_nl_policy[DPLL_A_PHASE_OFFSET_AVG_FACTOR + 1] = {
++static const struct nla_policy dpll_device_set_nl_policy[DPLL_A_FREQUENCY_MONITOR + 1] = {
+ 	[DPLL_A_ID] = { .type = NLA_U32, },
+ 	[DPLL_A_MODE] = NLA_POLICY_RANGE(NLA_U32, 1, 2),
+ 	[DPLL_A_PHASE_OFFSET_MONITOR] = NLA_POLICY_MAX(NLA_U32, 1),
+ 	[DPLL_A_PHASE_OFFSET_AVG_FACTOR] = { .type = NLA_U32, },
++	[DPLL_A_FREQUENCY_MONITOR] = NLA_POLICY_MAX(NLA_U32, 1),
+ };
+ 
+ /* DPLL_CMD_PIN_ID_GET - do */
+@@ -115,7 +116,7 @@ static const struct genl_split_ops dpll_nl_ops[] = {
+ 		.doit		= dpll_nl_device_set_doit,
+ 		.post_doit	= dpll_post_doit,
+ 		.policy		= dpll_device_set_nl_policy,
+-		.maxattr	= DPLL_A_PHASE_OFFSET_AVG_FACTOR,
++		.maxattr	= DPLL_A_FREQUENCY_MONITOR,
+ 		.flags		= GENL_ADMIN_PERM | GENL_CMD_CAP_DO,
+ 	},
+ 	{
+diff --git a/include/uapi/linux/dpll.h b/include/uapi/linux/dpll.h
+index de0005f28e5c5..f7be0b4c123e9 100644
+--- a/include/uapi/linux/dpll.h
++++ b/include/uapi/linux/dpll.h
+@@ -218,6 +218,7 @@ enum dpll_a {
+ 	DPLL_A_CLOCK_QUALITY_LEVEL,
+ 	DPLL_A_PHASE_OFFSET_MONITOR,
+ 	DPLL_A_PHASE_OFFSET_AVG_FACTOR,
++	DPLL_A_FREQUENCY_MONITOR,
+ 
+ 	__DPLL_A_MAX,
+ 	DPLL_A_MAX = (__DPLL_A_MAX - 1)
+@@ -254,6 +255,7 @@ enum dpll_a_pin {
+ 	DPLL_A_PIN_REFERENCE_SYNC,
+ 	DPLL_A_PIN_PHASE_ADJUST_GRAN,
+ 	DPLL_A_PIN_FRACTIONAL_FREQUENCY_OFFSET_PPT,
++	DPLL_A_PIN_ACTUAL_FREQUENCY,
+ 
+ 	__DPLL_A_PIN_MAX,
+ 	DPLL_A_PIN_MAX = (__DPLL_A_PIN_MAX - 1)
 -- 
 2.52.0
 
