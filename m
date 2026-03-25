@@ -1,223 +1,169 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EDCE3D5248
-	for <linux-doc@vger.kernel.org>; Wed, 25 Mar 2026 17:29:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2914406272
+	for <linux-doc@vger.kernel.org>; Wed, 25 Mar 2026 17:35:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774459799; cv=none; b=VNdbQ4Q7XnAqENHjZVmBkgKW8TH2H77zQtLQ+f4hJ6GybxJ5DM7xjgiFvztLg6BpEpFgUpkz85g1Zq0z2lA0mgHVbKpvyWDQ0PXXe7thSfEN98U1guFDHGZyb4krE6mPLWhz/tb6T4TmgvuuFUSI9DcWwEssebfxyAapVod4m4w=
+	t=1774460103; cv=none; b=IsnrmFHZv8gERtRTEVIw8wLMNh/cc0swsS9dyCqFWIQfDmTveZw0CEQKylzaaYKvoaUSk3n1ygaTM7bxyLbHocEwcf2wITnuobzcifMB8wWkIKd3VFYwD/Hbo0nfx3CtceQ4zCVRncxNtwNNk+1ICKA9iHcfWP9a/nEuhudWF6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774459799; c=relaxed/simple;
-	bh=Ge78tCqMrPenY4229b2DeTQfzrN0V80ePxURbyViTOg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y49eAxM8x/WR0VDVXGmABEdsWe0E+cXLcZbMex0Y+ESHaX87/5doF/SVjTjao8yQBVOKlSVSydXEq7IAhjntibK1gIrp4lP5XHv+uPZTLEU60MRsfWgZzvxWZ25a9U3amnhM62ob9R1d2/qKfCbtxTu4dtkmUc8Ieon1UbLvlHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZcfVtINd; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1774460103; c=relaxed/simple;
+	bh=clM9+UyXrzN9nEW43pJpghdXSx89Puh9hjZlPMWv+hI=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aSzAZdbEH+uNygyItZyQGBL2u28j5CW4qXAU+gAaXIQya9ivzUKMd8QdrJVDNP64kK5bQSeyGnpI85MsPGFgcAkqUUuipT3kMhnrHs8SbvICsxaLaMpjJd5khb06g6Q3p03KcEIHSV6KBo/DvygZ34Y4Haw2211cLwYE1C5uaec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QeVKCRrA; arc=none smtp.client-ip=74.125.82.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZcfVtINd"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-82c68339cf0so860923b3a.0
-        for <linux-doc@vger.kernel.org>; Wed, 25 Mar 2026 10:29:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QeVKCRrA"
+Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-2ba9c484e5eso109452eec.1
+        for <linux-doc@vger.kernel.org>; Wed, 25 Mar 2026 10:35:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1774459795; x=1775064595; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Tqtdz49F1thS+8gpmqv2HF5sNOiFchZq7BXU6+8jf4U=;
-        b=ZcfVtINdY7rke7WeAEXjMFboeUlX11JyZVmeRInnH7z+UJ8w6B3ZPtQumB5LJc6ypQ
-         eTF74EFhlsXEhyyIt7ko5kvNShCpkSCArfnrA4pqHxi6u/bb0m2g5DngPv/t3zMEjsji
-         YvlxKFFijIaRXHaAM3P7NkkfbtD7SxjEcGfoZiH23j5Q9HvGJqnRRgmsPwsNMF1tbTtr
-         vh3TaKUKfv1+8fku9mK0VXEQ2/GjXtnITCBWRGG9/EfD0iNJu9pCoAfz3GU977Yik9q3
-         e/ZT86NIiP4rJW+QQNs52DI8aPfrSqTm5gvyOWXTMO3XR2m8KvA2nBmdsOvXLru6Db3X
-         UrTA==
+        d=gmail.com; s=20251104; t=1774460100; x=1775064900; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=6LvfhXxnMpqu+8Jaxmf8YnU74NbO72vJex03sq4AEB4=;
+        b=QeVKCRrA7qO9pYLUdqR1gtTQMaq7b4+caHjFbI6fiixPD/pY+8y9ybm+LLCw4NWDI1
+         XfEz5wUmjp4l9ZuMW9af0hIoo1FVD6Y7tstrV8I54xOZq8kGQ9vNkj9R1lDTItwMnX9X
+         wXWMrD5zYRWX5O27k7mJHEEyMswoz9/BOe4NiBhGEaICvInXumrp4CB3YFFzunUkrGIi
+         gB5RRVGgnF2Rzoves4aXDT1zLz22i13dQFZkYFvwxZoAxjWi4uopQp6k0JfS7Ldbarrt
+         jcCdVGVP2mkC3dfDJ98SoAq+UbXDFqXKdLxUa5NOWlgAyUXPOguSpEzAvYfOMCcjuCLy
+         iZ8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774459795; x=1775064595;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Tqtdz49F1thS+8gpmqv2HF5sNOiFchZq7BXU6+8jf4U=;
-        b=lvYG0xrBXm0AGKXO6hzrXsbrvlWEmHUGsZObFyIv6NjsZpT6laZBEFPp192py5X6nz
-         JDdDtaR+vn4x7F0wp1iGFUPnJSNYHe0rRLrzu3KvE0qsz/V9tLW+RcoiW1klwa1+KpXf
-         Xu1bvuWDTa7dySE27thbo1LunudqU9wgK6pHKe7yI55LtTKNdtGGRSvxnB4ndBRHIw7J
-         oiaQdZK5rAaJvq6YZERXwbN/SLv9xQD44DGL/IFaoHMJ3UcCrYWPYFvYN6UapBbat+rs
-         l/nh3ujNL+8PnztsCOzXLEfs/tl/+rhy09S1YisSU993fApevUqyBOkZN1zuNztVqX9H
-         0NRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVk7I48toHbeJkz1wsL8LIBeVaKUotYsWIcQhPufEIIhUjwaKudxmaoU5dI1QjymkGTUpi0cpVKAvc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzX8OMG6YyUP0dDJym97v+g4yFKIvtGrTByorpq77MAZ7XwkAwN
-	xsziiIkeOx/uWkJM9IAlPKgNz6LSdwxfxoYIukLC5wCVwii+lzEZrk2SKXeXkFDusA==
-X-Gm-Gg: ATEYQzxtMW4RHDKZVKEDNAkLnHR9XONacYjuxBVuNi4yGS5pn9mzYBxfmcOQDNdfRMH
-	p0HyA8YaHzSwikXQ6wpD4N2I+G8wCfczSEI2XH3hm653JvOSKJiy56gnhaOEbyoyQ12H6e6+Ye3
-	I4XaLeUXl3myEqb0zCSRPos7rjr5Jm1l2rRFvFbsNR5Soi0KabiRqOyJiVVW6vtHIxs3zZ/w/9H
-	h6rY8ubyJsXd98cqja7FZMTNb9t3oOrBTy9f5SAUdXNhAXuObNjCFptTByi0vmgUvwac0AI+HP4
-	rdaPisgCAZDdRNKMgE0wLTZK/iB+EKXVZ4P8WcNZfX4kYXk2whyDFjUIZAkqXjCuNTvrja4EY30
-	AfMtsb5oQJRhxMI4yK1xfe6G5csF5qG0thCBLyA1pD65pbGIZ/9DcP+DypUEmkGcfq/379rCB+H
-	AVciXHKLjUbWQiU29rI9F7Id929UnEJCuw/Pmub0C7iuy/Yj4Bh5U++rN1xsEiIg==
-X-Received: by 2002:a05:6a00:1826:b0:827:2dff:7116 with SMTP id d2e1a72fcca58-82c6d99ac23mr4021492b3a.13.1774459794263;
-        Wed, 25 Mar 2026 10:29:54 -0700 (PDT)
-Received: from google.com (239.23.105.34.bc.googleusercontent.com. [34.105.23.239])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82c7d216a0esm312308b3a.17.2026.03.25.10.29.52
+        d=1e100.net; s=20251104; t=1774460100; x=1775064900;
+        h=in-reply-to:content-disposition:mime-version:references
+         :mail-followup-to:message-id:subject:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6LvfhXxnMpqu+8Jaxmf8YnU74NbO72vJex03sq4AEB4=;
+        b=HAOybO7oNA2OFUwnLxfL4/Yr3fh4vvTdpCyuAenNOjcdhyCRWh9zLO4VqQHu3T87wM
+         SPncqeXzeY1GVO23AR02Z8nWJay3dYCsckmGK5gT+t/PXtneDkvweN1pJecgbYjpy5ba
+         8IH14uujDahnE3jxFK4QCtfQSlEVg94MW3Gle3m603m2tPKGAWugmabupz2PLD908QyG
+         XnycYfbg4CXCSg/FbzzRjV2wXe57CGo5Rvl0li7jzqq8GrpcvWmAf1jcHI8E5XEiuFZF
+         ZcjHbCdCoGd38gBpOU+w/aEtZSSPk6ASePwQ2AlIDIhin4h1yyOW5+1XProC4qtO/QNm
+         +qXg==
+X-Forwarded-Encrypted: i=1; AJvYcCV0L4Rs9zMKzFv1tuOlwEysMPiWEpllD4YtK+kDYYhEyue1zeiGoUGgQE2W2j/o1+yn78CdJO0FztA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwWLqc3QOUgH/MWddLDMbyZMso4uU3U4ko4lnV90qNulHluDdnU
+	2NTjCZXMqA1wCYmYA+HiDgaYju7uI6Kq4euRWg/JNRX6YD60xOUGqcQ=
+X-Gm-Gg: ATEYQzytdu/20uSuMBoK75eyjsfhvVqW7TGEWcmIF7Uod5ioJmlgMhDDDmTrflaOiTZ
+	mm2Z1hyE6zhOIxE5kXdt2HQ9QeX+nDsO4/cwyO5lz30slgDft10WJqMtU5v5qA50L+L5J3mBMpt
+	U1S9HMDoVhvfUHxMV4X+f7RlLL7WTMT50fg5mwDUV4mtL/sOxp5pPj09+ioT0SonIZ6D1zcXADp
+	SuwkzFtnzMbXQvbrMz70eu2yFbbWx1gtbr9xhqR65p2vk2eYRE/y49LnGs0ehDNx4rrOui27P7U
+	jjtbuBHI8vmnBZ9PV0DjmTGGVejlumLeUbKh8vQDj7uBJUpn+O7Cn9Mn/OL3o2TE23dPbGod5dk
+	A2E209MAfDw77c3pTw5jd0W85G7QDJkWWxFYSK+vS2APhqWZNxrBepDOUXTxKsyq31WP2Y+Cxg7
+	UftN43Z6AKlOuLrpnJL7V/onlhVGdPRjp+wCMwcKlnUHkh8tVBnwcD+drs3ny7oZUEru7/p/6im
+	6bKkx4TILlHV759Ag==
+X-Received: by 2002:a05:7301:1e91:b0:2b7:1d38:3596 with SMTP id 5a478bee46e88-2c15d32adfamr1794122eec.4.1774460099374;
+        Wed, 25 Mar 2026 10:34:59 -0700 (PDT)
+Received: from localhost (c-76-102-12-149.hsd1.ca.comcast.net. [76.102.12.149])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c16ee01373sm211727eec.26.2026.03.25.10.34.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Mar 2026 10:29:52 -0700 (PDT)
-Date: Wed, 25 Mar 2026 17:29:48 +0000
-From: David Matlack <dmatlack@google.com>
-To: Yi Liu <yi.l.liu@intel.com>
-Cc: Alex Williamson <alex@shazbot.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Adithya Jayachandran <ajayachandra@nvidia.com>,
-	Alexander Graf <graf@amazon.com>, Alex Mastro <amastro@fb.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Ankit Agrawal <ankita@nvidia.com>, Arnd Bergmann <arnd@arndb.de>,
-	Askar Safin <safinaskar@gmail.com>,
-	"Borislav Petkov (AMD)" <bp@alien8.de>,
-	Chris Li <chrisl@kernel.org>,
-	Dapeng Mi <dapeng1.mi@linux.intel.com>,
-	David Rientjes <rientjes@google.com>,
-	Feng Tang <feng.tang@linux.alibaba.com>,
-	Jacob Pan <jacob.pan@linux.microsoft.com>,
-	Jason Gunthorpe <jgg@nvidia.com>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>,
-	Kees Cook <kees@kernel.org>, Kevin Tian <kevin.tian@intel.com>,
-	kexec@lists.infradead.org, kvm@vger.kernel.org,
-	Leon Romanovsky <leon@kernel.org>,
-	Leon Romanovsky <leonro@nvidia.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-mm@kvack.org, linux-pci@vger.kernel.org,
-	Li RongQing <lirongqing@baidu.com>, Lukas Wunner <lukas@wunner.de>,
-	Marco Elver <elver@google.com>,
-	=?utf-8?Q?Micha=C5=82?= Winiarski <michal.winiarski@intel.com>,
-	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-	"Peter Zijlstra (Intel)" <peterz@infradead.org>,
-	Pranjal Shrivastava <praan@google.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Raghavendra Rao Ananta <rananta@google.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Samiullah Khawaja <skhawaja@google.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Vipin Sharma <vipinsh@google.com>,
-	Vivek Kasireddy <vivek.kasireddy@intel.com>,
-	William Tu <witu@nvidia.com>, Zhu Yanjun <yanjun.zhu@linux.dev>
-Subject: Re: [PATCH v3 03/24] PCI: Require Live Update preserved devices are
- in singleton iommu_groups
-Message-ID: <acQbjF53aIzv7Ieq@google.com>
-References: <20260323235817.1960573-1-dmatlack@google.com>
- <20260323235817.1960573-4-dmatlack@google.com>
- <376910fa-4232-4e58-bf87-0504202866a5@intel.com>
- <acLRICLAP5Ccqt9I@google.com>
- <b16f93af-1ec6-43f5-b4d0-b1d390e3c23c@intel.com>
+        Wed, 25 Mar 2026 10:34:58 -0700 (PDT)
+Date: Wed, 25 Mar 2026 10:34:57 -0700
+From: Stanislav Fomichev <stfomichev@gmail.com>
+To: Jakub Kicinski <kuba@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
+	netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
+	pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
+	skhan@linuxfoundation.org, andrew+netdev@lunn.ch,
+	michael.chan@broadcom.com, pavan.chebbi@broadcom.com,
+	anthony.l.nguyen@intel.com, przemyslaw.kitszel@intel.com,
+	saeedm@nvidia.com, tariqt@nvidia.com, mbloch@nvidia.com,
+	alexanderduyck@fb.com, kernel-team@meta.com,
+	johannes@sipsolutions.net, sd@queasysnail.net, jianbol@nvidia.com,
+	dtatulea@nvidia.com, mohsin.bashr@gmail.com,
+	jacob.e.keller@intel.com, willemb@google.com, skhawaja@google.com,
+	bestswngs@gmail.com, aleksandr.loktionov@intel.com, kees@kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	intel-wired-lan@lists.osuosl.org, linux-rdma@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	leon@kernel.org
+Subject: Re: [PATCH net-next v3 03/13] net: introduce ndo_set_rx_mode_async
+ and dev_rx_mode_work
+Message-ID: <acQcwZOXJjPlVpP6@mini-arch>
+Mail-Followup-To: Stanislav Fomichev <stfomichev@gmail.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Stanislav Fomichev <sdf@fomichev.me>, netdev@vger.kernel.org,
+	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+	horms@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
+	andrew+netdev@lunn.ch, michael.chan@broadcom.com,
+	pavan.chebbi@broadcom.com, anthony.l.nguyen@intel.com,
+	przemyslaw.kitszel@intel.com, saeedm@nvidia.com, tariqt@nvidia.com,
+	mbloch@nvidia.com, alexanderduyck@fb.com, kernel-team@meta.com,
+	johannes@sipsolutions.net, sd@queasysnail.net, jianbol@nvidia.com,
+	dtatulea@nvidia.com, mohsin.bashr@gmail.com,
+	jacob.e.keller@intel.com, willemb@google.com, skhawaja@google.com,
+	bestswngs@gmail.com, aleksandr.loktionov@intel.com, kees@kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	intel-wired-lan@lists.osuosl.org, linux-rdma@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	leon@kernel.org
+References: <20260320012501.2033548-1-sdf@fomichev.me>
+ <20260320012501.2033548-4-sdf@fomichev.me>
+ <20260323162003.0d155055@kernel.org>
+ <acLUMN1BYkIVyOk8@mini-arch>
+ <20260324142114.216fcb01@kernel.org>
+ <acMU93XN02PHmAGi@mini-arch>
+ <20260324204440.1752423d@kernel.org>
+ <acP59NM6HZhV9oAe@mini-arch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <b16f93af-1ec6-43f5-b4d0-b1d390e3c23c@intel.com>
+In-Reply-To: <acP59NM6HZhV9oAe@mini-arch>
 
-On 2026-03-25 07:12 PM, Yi Liu wrote:
-> 
-> 
-> On 3/25/26 02:00, David Matlack wrote:
-> > On 2026-03-24 09:07 PM, Yi Liu wrote:
-> > > On 3/24/26 07:57, David Matlack wrote:
-> > > > Require that Live Update preserved devices are in singleton iommu_groups
-> > > > during preservation (outgoing kernel) and retrieval (incoming kernel).
+On 03/25, Stanislav Fomichev wrote:
+> On 03/24, Jakub Kicinski wrote:
+> > On Tue, 24 Mar 2026 15:49:27 -0700 Stanislav Fomichev wrote:
+> > > > > Not sure why cancel+release, maybe you're thinking about the unregister
+> > > > > path? This is rtnl_unlock -> netdev_run_todo -> __rtnl_unlock + some
+> > > > > extras.
+> > > > > 
+> > > > > And the flush is here to plumb the addresses to the real devices
+> > > > > before we return to the callers. Mostly because of the following
+> > > > > things we have in the tests:
+> > > > > 
+> > > > > # TEST: team cleanup mode lacp                                        [FAIL]
+> > > > > #       macvlan unicast address not found on a slave
+> > > > > 
+> > > > > Can you explain a bit more on the suggestion?  
 > > > > 
-> > > > PCI devices preserved across Live Update will be allowed to perform
-> > > > memory transactions throughout the Live Update. Thus IOMMU groups for
-> > > > preserved devices must remain fixed. Since all current use cases for
-> > > > Live Update are for PCI devices in singleton iommu_groups, require that
-> > > > as a starting point. This avoids the complexity of needing to enforce
-> > > > arbitrary iommu_group topologies while still allowing all current use
-> > > > cases.
-> > > > 
-> > > > Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
-> > > > Signed-off-by: David Matlack <dmatlack@google.com>
-> > > > ---
-> > > >    drivers/pci/liveupdate.c | 34 +++++++++++++++++++++++++++++++++-
-> > > >    1 file changed, 33 insertions(+), 1 deletion(-)
-> > > > 
-> > > > diff --git a/drivers/pci/liveupdate.c b/drivers/pci/liveupdate.c
-> > > > index bec7b3500057..a3dbe06650ff 100644
-> > > > --- a/drivers/pci/liveupdate.c
-> > > > +++ b/drivers/pci/liveupdate.c
-> > > > @@ -75,6 +75,8 @@
-> > > >     *
-> > > >     *  * The device must not be a Physical Function (PF).
-> > > >     *
-> > > > + *  * The device must be the only device in its IOMMU group.
-> > > > + *
-> > > >     * Preservation Behavior
-> > > >     * =====================
-> > > >     *
-> > > > @@ -105,6 +107,7 @@
-> > > >    #include <linux/bsearch.h>
-> > > >    #include <linux/io.h>
-> > > > +#include <linux/iommu.h>
-> > > >    #include <linux/kexec_handover.h>
-> > > >    #include <linux/kho/abi/pci.h>
-> > > >    #include <linux/liveupdate.h>
-> > > > @@ -222,6 +225,31 @@ static void pci_ser_delete(struct pci_ser *ser, struct pci_dev *dev)
-> > > >    	ser->nr_devices--;
-> > > >    }
-> > > > +static int count_devices(struct device *dev, void *__nr_devices)
-> > > > +{
-> > > > +	(*(int *)__nr_devices)++;
-> > > > +	return 0;
-> > > > +}
-> > > > +
+> > > > Oh, I thought it's here for unregister! Feels like it'd be cleaner to
+> > > > add the flush in dev_*c_add() and friends? How hard would it be to
+> > > > identify the callers in atomic context?  
 > > > 
-> > > there was a related discussion on the singleton group check. have you
-> > > considered the device_group_immutable_singleton() in below link?
-> > > 
-> > > https://lore.kernel.org/linux-iommu/20220421052121.3464100-4-baolu.lu@linux.intel.com/
+> > > Not sure we can do it in dev_xc_add because it runs under rtnl :-(
+> > > I currently do flush in netdev_run_todo because that's the place that
+> > > doesn't hold rtnl. Otherwise flush will get stuck because the work
+> > > handler grabs it...
 > > 
-> > Thanks for the link.
-> > 
-> > Based on the discussion in the follow-up threads, I think the only check
-> > in that function that is needed on top of what is in this patch to
-> > ensure group immutability is this one:
-> > 
-> > 	/*
-> > 	 * The device could be considered to be fully isolated if
-> > 	 * all devices on the path from the device to the host-PCI
-> > 	 * bridge are protected from peer-to-peer DMA by ACS.
-> > 	 */
-> > 	if (!pci_acs_path_enabled(pdev, NULL, REQ_ACS_FLAGS))
-> > 		return false;
-> > 
-> > However, this would restrict Live Update support to only device
-> > topologies that have these flags enabled. I am not yet sure if this
-> > would be overly restrictive for the scenarios we care about supporting.
+> > I was thinking of something a'la linkwatch. We can "steal" / "flush"
+> > the pending work inline. I guess linkwatch is a major source of races
+> > over the years...
+> >
+> > Does the macvlan + team problem still happens with the current
+> > implementation minus the flush? We are only flushing once so only
+> > pushing the addresses thru one layer of async callbacks.
 > 
-> yes. It's a bit different from that thread in which not only require
-> singleton group but also need to be immutable.
-> 
-> > An alternative way to ensure immutability would be to block adding
-> > devices at probe time. i.e. Fail pci_device_group() if the device being
-> > added has liveupdate_incoming=True, or if the group already contains a
-> > device with liveupdate_{incoming,outgoing}=True. We would still need the
-> > check in pci_liveupdate_preserve() to pretect against setting
-> > liveupdate_outgoing=True on a device in a multi-device group.
-> 
-> this looks good to me. But you'll disallow hotplug-in during liveupdate.
-> not sure about if any decision w.r.t. hotplug. is it acceptable?
+> Yes, it does happen consistently when I remove the flush. It also
+> happens with my internal v4, so I need to look again at what's going on.
+> Not sure whether it's my internal regression or I was just sloppy/lucky
+> (since you're correct in pointing out that we flush only once).
 
-Anyone doing hotplug during the middle of a Live Update is asking for
-trouble IMO. And it would only prevent a hot-plugged device from coming
-up if it were to be added to the iommu_group as an existing preserved
-device. I think that is reasonable.
+Hmm, the test does 'team -d' in the background. That's why it works for
+bonding, but not the teaming. I'll update the test to a bunch of
+'ip' commands instead of starting a daemon..
 
-> BTW. A question not specific to this patch. If failure happens after
-> executing kexec, is there any chance to fallback to the prior kernel?
+> Before I went down the workqueue route, I had a simple
+> net_todo_list-like approach: `list_add_tail` on enqueue and
+> `while(!list_empty) run_work()` on rtnl_unlock. This had a nice properly of
+> tracking re-submissions (by checking whether the device's list_head is
+> linked into the list or not) and it was relatively easy to do the
+> recursive flush. Let me try get back to this approach and see whether
+> it solves the flush? Not sure what wq buys us at this point.
 
-There are many failure paths during the reboot() syscall that can return
-back to userspace, and then userspace can figure out how to bring the
-system (e.g. VMs) back online on the current kernel.
-
-But otherwise, kexec is currently a one way door. Once you kexec, into
-the new kernel, you would have to do another Live Update to get back
-into the previous kernel.
+Will still look into that, maybe something similar to the linkwatch as
+you mentioned.
