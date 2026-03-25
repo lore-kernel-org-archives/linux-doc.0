@@ -1,156 +1,72 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF99135F170
-	for <linux-doc@vger.kernel.org>; Wed, 25 Mar 2026 19:41:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0A403FBEDC
+	for <linux-doc@vger.kernel.org>; Wed, 25 Mar 2026 19:43:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774467714; cv=none; b=C41I+OTDHm1f/ub+Mg2dMDe34ksaesE7cE7JRiCQmV9KIE+v47JVlHY23Gx76AbOlP8uoJ7rNL1L1vl2KUjv2sDRLmlHHi1xg6fPYUXaSwaTZ0iMq0EGKCjIN9pRiDumB7dPDAJ4KeJHKfR0TSk44cEUtbTai3E2CqWCohL1DzA=
+	t=1774467818; cv=none; b=QaZgP5TsusNIx34kuS4eoGy199/ZkLSxEgnmDZpTI4aUD3+56eYLJ/CBfd5TGX8XDzqtmRHKFsTN0ZM+Gm2YjZ7RKXw+80c25NGSU1ZYj7/GtWaKj0nUNHjfzYLPHv+TrCKONXhptyX7sD8SYAZ+XLSWd822L72fQQlpl0IsfMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774467714; c=relaxed/simple;
-	bh=d+nfjMfEVHf7jtz1MIQh+squ9QrgehK0qZ/mTLc/EZw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tueWMPpC660+DuH3/K3tPBgXs/eSJJdT+rjXfHTy36V1usiBDFlVLLH0buqQw09KrawgqxMOMVqfpskBSVxFp9N59kQ/wSziYbicnfBlDDT/XwQeq7BegvBu4TxzzDy8a7FWptMaNvr/srAzT5IapSNzuEANgj5qWgDPeUBXwjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D8Zm4OEg; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774467818; c=relaxed/simple;
+	bh=0FWytUlLZxdzmLAbn1u/KjJV7TjY5YNyggrdPd7IdfU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Ho/RNsf+I/3IjV7tzSfhb1jwesFIM+BRv7+tRnygIoqqN12YpKcaW9vutPBqjFeTEC+GDXMlh2ZpLKdlXXU5Vj4I+fhOnyKR/ZBwmS3ZCUysTux6bdVATW7XvDLFMTbxRZRtxmgw5HpLfs1Q21JUAOkyIaDmHVLnGTQJZ0jaXi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Xo1LD9H7; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D8Zm4OEg"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-48541edecf9so2782965e9.1
-        for <linux-doc@vger.kernel.org>; Wed, 25 Mar 2026 12:41:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774467711; x=1775072511; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5agou4BHmM67c6SSsDwlj7qtFxZ2/CyU4qlcqH2Z8DI=;
-        b=D8Zm4OEgE7zuhMoO+TLA6zFkoCvrIu6Zulcl82z1eiQnUVxOyFpLzEDJ237N96a63L
-         q+ghLzhGjUVdtJnfPtk7wsAP1ykwBAmNJlRKmggQNUTHhMPdcqaYhrP7YYTLu7QwPU7E
-         GaN3y5XNr27D8BOGXzhOvOU8idIz+YpoSyZfo7jO4SjvekAgsJzLKIjJWXMm0/q4xdtC
-         R6M7fMSu/bc3U1VVmsE0QnTRmki7frlt9B+QlFeLeRPkftJTygbzwIyQ0sCjLn/MWkI9
-         LIcPpOgUvglVrXHmspUF2S0XPWXnf0yu54sjnr0l2jWGbRVq3qgGH7hrpA16cU+ymnpf
-         r9mA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774467711; x=1775072511;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=5agou4BHmM67c6SSsDwlj7qtFxZ2/CyU4qlcqH2Z8DI=;
-        b=dw19hQYklAM1PeerO4lsLULV5k7MWNDpq3bkWKjpwGu9HayS2eTOek2j3T+tON4c1L
-         s1IEMdX9WjaIwAQJQKa8KtN4SHJD0Ydl4GjZc4FKfpJyWTxC7pUy44KSVzjbKFr7JnHZ
-         SqNrT1qDsnPx74JCybY3AnXAO8Id7ML3hoZn9QjcMTk8oDuiq1EyZPMg8O5a09W0ETkJ
-         miAGZB82s2nX1VJId9ZZHAUYEERhzW2zh/thpoft+nzpwXH1jvGr+24sxRSYGGK3/gCU
-         2+f8zIjxPpnvVbuX/JnK18N30SJ+IJblRimUJW7o2/txeDfMN4WYGb5S9VFaSwB1+JFP
-         QO5g==
-X-Forwarded-Encrypted: i=1; AJvYcCVzzdiV+C2HLGn061hKYqB5y971HZY2yCI3DDahePkCpCUKYfTFDso/2fpCGiIJPe6ytHET1TlE7f8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwG4FlUYS7Uz7viNv5QNTNaUViWaPlyY5Q6TJi4TWl78aYrftbO
-	UH73p31gCZ/HzgbhkLUGiNj26yM0smHpPPxfWyQ9Kxmt7uztEj0a+tDf
-X-Gm-Gg: ATEYQzxrzAP5BZr4mjWP6SXqu7kzMg0l6EQTsPjE1xDpKo3QCzJf2mI/l9Dvw2v3LaG
-	k3rpMxQe4QMP3XKpVUunHiJ01tKRWnhImAAXlmnwq5P3gIf2HPyJ7VOgGN03WRFudm7Qfvrjm3f
-	LkjRlTqhf7SqNCz/fjcf7dPL6xrqndORUFP6I1Ds8/PFW3lxfp4jnkuC+CqQC7+nVG6nyOv8Byz
-	7M4AHtYPGI5pBOio2lOG+0f1+Zc4Qts7ZYu/A+jbcDAk2T95wBVeJeJCrunwdtVsQ334Ws2hUQX
-	k0MUR5ZONZqjWhes0j7ocTN7Iu3AXAzWh8lKgsogipGhfZalCX88aUszFtg6I3N2Q0b0JGiqWo9
-	G0j66VK5Jt2A5mXgXyKoliYKZ/5W+8Des9h7deRM14UfHRMxv6wA5vJZzDSyMhkgPzlsyZTsTON
-	+lD6s4I0+hf0Zva0voHcwEJ2PxWrPfJanoaWxi/IwJH7XNOuowY9adr4s1h8l8zUBu
-X-Received: by 2002:a05:600c:1c22:b0:480:20f1:7aa6 with SMTP id 5b1f17b1804b1-4871604c8e1mr76733195e9.21.1774467710858;
-        Wed, 25 Mar 2026 12:41:50 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4871fbb58a0sm688705e9.23.2026.03.25.12.41.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Mar 2026 12:41:50 -0700 (PDT)
-Date: Wed, 25 Mar 2026 19:41:46 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: Jim Mattson <jmattson@google.com>
-Cc: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, x86@kernel.org, Jon
- Kohler <jon@nutanix.com>, Nikolay Borisov <nik.borisov@suse.com>, "H. Peter
- Anvin" <hpa@zytor.com>, Josh Poimboeuf <jpoimboe@kernel.org>, David Kaplan
- <david.kaplan@amd.com>, Sean Christopherson <seanjc@google.com>, Borislav
- Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, Peter
- Zijlstra <peterz@infradead.org>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko
- <andrii@kernel.org>, KP Singh <kpsingh@kernel.org>, Jiri Olsa
- <jolsa@kernel.org>, "David S. Miller" <davem@davemloft.net>, Andy
- Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@kernel.org>, Ingo
- Molnar <mingo@redhat.com>, David Ahern <dsahern@kernel.org>, Martin KaFai
- Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu
- <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John Fastabend
- <john.fastabend@gmail.com>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo
- <haoluo@google.com>, Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet
- <corbet@lwn.net>, linux-kernel@vger.kernel.org, kvm@vger.kernel.org, Asit
- Mallick <asit.k.mallick@intel.com>, Tao Zhang <tao1.zhang@intel.com>,
- bpf@vger.kernel.org, netdev@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v8 02/10] x86/bhi: Make clear_bhb_loop() effective on
- newer CPUs
-Message-ID: <20260325194146.29c91953@pumpkin>
-In-Reply-To: <CALMp9eTZRucL+CUSp1yUPG0aSTpyQ=po1EmurZhX9+R+vxgbPA@mail.gmail.com>
-References: <20260324-vmscape-bhb-v8-0-68bb524b3ab9@linux.intel.com>
-	<20260324-vmscape-bhb-v8-2-68bb524b3ab9@linux.intel.com>
-	<CALMp9eTZRucL+CUSp1yUPG0aSTpyQ=po1EmurZhX9+R+vxgbPA@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Xo1LD9H7"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B599040C6F
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1774467815; bh=cn4JGNeZ6LqlNDfX6HXtV/V4yCbYO9MKnjlV4YW6BjM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=Xo1LD9H78fsLrn0YDY1K45xBvFBjJOwdaisitqpxhYKErLt6YKpFQFgbJbwZ7nrSt
+	 4CDDnSs3rYo9y4VaiYYehiBg8qPBy6SyUkJnhRI7MPiNi430xgSxoWRadBtpKli3nJ
+	 biKfKIuMQXSKFIKTkmClIKpvLsWyw+IixQKoW4lbdS4QWTsnaomOVqwOIebAXehT6R
+	 ndKcueNYTITmMIh9XG0BqVzLcSej5uirNw2A3d0pBa8vWPEGfQzscGyC+4/u+26GMh
+	 2ItlzZGJqx4jku+sZ0zi+cSDc7okjFc/ZhJBtYS4hDNH95ZW/dO3sjc0Jpo9EjFeVc
+	 z6nAku8eGnmeg==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id B599040C6F;
+	Wed, 25 Mar 2026 19:43:35 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Daniel Pereira <danielmaraboo@gmail.com>
+Cc: linux-doc@vger.kernel.org, Daniel Pereira <danielmaraboo@gmail.com>
+Subject: Re: [PATCH 0/2] docs: pt_BR: Add translations for KVM x86 and Conclave
+In-Reply-To: <20260323171133.88074-1-danielmaraboo@gmail.com>
+References: <20260323171133.88074-1-danielmaraboo@gmail.com>
+Date: Wed, 25 Mar 2026 13:43:34 -0600
+Message-ID: <87y0jfeluh.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Wed, 25 Mar 2026 10:50:58 -0700
-Jim Mattson <jmattson@google.com> wrote:
+Daniel Pereira <danielmaraboo@gmail.com> writes:
 
-> On Tue, Mar 24, 2026 at 11:19=E2=80=AFAM Pawan Gupta
-> <pawan.kumar.gupta@linux.intel.com> wrote:
-> >
-> > As a mitigation for BHI, clear_bhb_loop() executes branches that overwr=
-ites
-> > the Branch History Buffer (BHB). On Alder Lake and newer parts this
-> > sequence is not sufficient because it doesn't clear enough entries. This
-> > was not an issue because these CPUs have a hardware control (BHI_DIS_S)
-> > that mitigates BHI in kernel.
-> >
-> > BHI variant of VMSCAPE requires isolating branch history between guests=
- and
-> > userspace. Note that there is no equivalent hardware control for usersp=
-ace.
-> > To effectively isolate branch history on newer CPUs, clear_bhb_loop()
-> > should execute sufficient number of branches to clear a larger BHB.
-> >
-> > Dynamically set the loop count of clear_bhb_loop() such that it is
-> > effective on newer CPUs too. Use the hardware control enumeration
-> > X86_FEATURE_BHI_CTRL to select the appropriate loop count.
-> >
-> > Suggested-by: Dave Hansen <dave.hansen@linux.intel.com>
-> > Reviewed-by: Nikolay Borisov <nik.borisov@suse.com>
-> > Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-> > ---
-> >  arch/x86/entry/entry_64.S   | 21 ++++++++++++++++-----
-> >  arch/x86/net/bpf_jit_comp.c |  7 -------
-> >  2 files changed, 16 insertions(+), 12 deletions(-)
-> >
-> > diff --git a/arch/x86/entry/entry_64.S b/arch/x86/entry/entry_64.S
-> > index 3a180a36ca0e..8128e00ca73f 100644
-> > --- a/arch/x86/entry/entry_64.S
-> > +++ b/arch/x86/entry/entry_64.S
-> > @@ -1535,8 +1535,17 @@ SYM_CODE_END(rewind_stack_and_make_dead)
-> >  SYM_FUNC_START(clear_bhb_loop)
-> >         ANNOTATE_NOENDBR
-> >         push    %rbp
-> > +       /* BPF caller may require %rax to be preserved */
+> This series adds Portuguese (pt_BR) translations for two documents in 
+> the process and subsystem-specific documentation.
+>
+> The first patch translates the KVM x86 maintainer guidelines, and the 
+> second one adds the translation for the conclave documentation, which 
+> covers project continuity.
+>
+> Both files were validated with sphinx-build and checkpatch.pl.
+>
+> Daniel Pereira (2):
+>   docs: pt_BR: Add translation for process/conclave.rst
+>   docs: pt_BR: Add translation for KVM x86 maintainer guide
+>
+> Documentation/translations/pt_BR/index.rst             | 2 +
+> Documentation/translations/pt_BR/process/conclave.rst  | (linhas)
+> Documentation/translations/pt_BR/process/maintainer-kvm-x86.rst | (linhas)
 
-Since you need a new version change that to 'all registers preserved'.
+I've applied the set, thanks.
 
-> > +       push    %rax =20
->=20
-> Shouldn't the "push %rax" come after "mov %rsp, %rbp"?
-
-Or delete the stack frame :-)
-It is only there for the stack trace-back code.
-
-	David
-
-
->=20
-> >         mov     %rsp, %rbp
-> > -       movl    $5, %ecx =20
-
+jon
