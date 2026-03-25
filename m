@@ -1,137 +1,158 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6829F33C182;
-	Wed, 25 Mar 2026 18:45:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAB432580D7;
+	Wed, 25 Mar 2026 18:53:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774464302; cv=none; b=H2N2PLRIvGiuXjMIkwpLQpUTRDsvz8pCaMTgV0Qf+QO7gr6lh1r7oTZJArLJvL80mmXNIRe1tWbPm2ife/brLwvgngJSeaSLaMnm8hPWPFE+baqJ0qm8ILrMecTp7AYViDkkV+/XX3MWs8mNzmHFrTasxi6RFg4dE24Orbkgc3I=
+	t=1774464792; cv=none; b=e476D5EfwtpDlMk352oPPArbzdH3ZsvKYR9Oc6au5Mdij1BAyL9BAdQxQJ5W4B95dDXgBENm+TIpiienBafbq6OuuqCWfNmk8TzChoP36LfYzA1vovxMiD/JizI8fVPz1t8zqZY6/3oijKZTK8SvKNNUiosSOu5R3Y0zbs7t/08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774464302; c=relaxed/simple;
-	bh=zalW9eqZ+xlnOVkgVJJnOnpqxej4tDRqBlTwGTbwGXA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IlaBvwouzLJs0g0dOoebn5fxGE0PEefhaPEbhzqVobPfxQAPVgComqV6jC1ugYgyB/wqeKuKOY8lZNKHtGx5n+pUXSg3hyWfG8w/2+IFntBqPVSN7AX0mALGavXktcumgjRP17Ter/ABBPblBiEmtL2op6yiHfLu3hYxX21dTIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WUt5dQSU; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1774464792; c=relaxed/simple;
+	bh=gMGnsXXt+pIAumvO3ZSYn5TDwYZG38VX9jfs+DG4dOY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=IZVd/RStKirYDPUdcGhqZeCYFguis7Fw1oEVBz8ZV5MKnyv5mYaP1la2oA3sBIdqZNA8/RAhkuOZ1fPw9j/V+ksYtks9YZw32Gg/CCUsKrm2b4QlUdbUpGzPpCCAmkTftiVmpEjrsvdGFLPQv+UIcQQroxFK2t6WVi8CviFmptg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=MGLpdPND; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WUt5dQSU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774464300; x=1806000300;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=zalW9eqZ+xlnOVkgVJJnOnpqxej4tDRqBlTwGTbwGXA=;
-  b=WUt5dQSUwdhnKs5f+h1FzxGDpfYfDWJa1X4PQEwkaf2qnvLLM6kzyHCY
-   CiT8i04cYGVxHLT7wB5KmbiqcrBDauqLaFvCHzk0SiiR0wgWKiBL4PjMz
-   rsSmnHMcqV6wb8usbtXNmHcQvmwdeTUfQPCk1bAiXez+70qq8Ys0g6IOb
-   /FN4rcog65ao6R5XolTysD6YFPGB16Wlj1dDAtHOrShsmerPEp6uXK4dQ
-   k9g0kgRRlzpUthUulVboohDVgm8ItN+bBJb7cAYjX2xtrI21BaB6b0DMr
-   vv8cX/5oUah1FS9eJjpp5f3qPEpJcUEw9DiWKwMvB3l7v1cX1it1b+2sr
-   w==;
-X-CSE-ConnectionGUID: JcA/kONdRI+RQpXrVNditQ==
-X-CSE-MsgGUID: JrbVpbSHToqLMsQQq6viww==
-X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="75229053"
-X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="75229053"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 11:44:59 -0700
-X-CSE-ConnectionGUID: mrpuvO0tQcSc5PUPJGSn3w==
-X-CSE-MsgGUID: Rm90cqjAREWRCqh81LoaDg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="229541708"
-Received: from guptapa-desk.jf.intel.com (HELO desk) ([10.165.239.46])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 11:44:59 -0700
-Date: Wed, 25 Mar 2026 11:44:53 -0700
-From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-To: Jim Mattson <jmattson@google.com>
-Cc: x86@kernel.org, Jon Kohler <jon@nutanix.com>,
-	Nikolay Borisov <nik.borisov@suse.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	David Kaplan <david.kaplan@amd.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>, KP Singh <kpsingh@kernel.org>,
-	Jiri Olsa <jolsa@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	David Laight <david.laight.linux@gmail.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	David Ahern <dsahern@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org, Asit Mallick <asit.k.mallick@intel.com>,
-	Tao Zhang <tao1.zhang@intel.com>, bpf@vger.kernel.org,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v8 02/10] x86/bhi: Make clear_bhb_loop() effective on
- newer CPUs
-Message-ID: <20260325184453.njfyuhqdamu7ihzi@desk>
-References: <20260324-vmscape-bhb-v8-0-68bb524b3ab9@linux.intel.com>
- <20260324-vmscape-bhb-v8-2-68bb524b3ab9@linux.intel.com>
- <CALMp9eTZRucL+CUSp1yUPG0aSTpyQ=po1EmurZhX9+R+vxgbPA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="MGLpdPND"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0A44B40C79
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1774464791; bh=21S0a0oTj8kfsTKp3HFsAz9eX/did/akAbT6PM1D/aU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=MGLpdPNDT27Yf9FkPwWfIrOoUcGorgauH8Xz3C28J91uEYqkJ0LLIo9tfN6WIwRs8
+	 4h/IcBIyNUz4x4LGjdxD06o4WYPuYXtvIy6XATiwtDp1tpmEFTg66KsCNYyKPMy2Yo
+	 IyrhuKnhDchcoeQ1AAwBey5la5w49LTr/MMQh7sU2QrYOC3dwSIvL8KQXoh0obkNEx
+	 xhGJkkUAFlestX87tbxfGfhG8Tf+OJ6yYi5xwFQELY/Zs4AaeMp59KNdZLGvTNVfB2
+	 LUiYEJ8IVfZ73JJlGIdBJ7JrN5ThQLyUzjylaUuXvgzGcYOEdgV7u4tsUC39V0RK95
+	 +etnBXyKxNIKw==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 0A44B40C79;
+	Wed, 25 Mar 2026 18:53:10 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Rito Rhymes <rito@ritovision.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, linux-doc@vger.kernel.org
+Cc: Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ rdunlap@infradead.org, Rito Rhymes <rito@ritovision.com>
+Subject: Re: [PATCH v3] docs: wrap generated tables to contain small-screen
+ overflow
+In-Reply-To: <20260323153723.34735-1-rito@ritovision.com>
+References: <20260321133811.17854-1-rito@ritovision.com>
+ <20260323153723.34735-1-rito@ritovision.com>
+Date: Wed, 25 Mar 2026 12:53:10 -0600
+Message-ID: <87mrzvg2qx.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CALMp9eTZRucL+CUSp1yUPG0aSTpyQ=po1EmurZhX9+R+vxgbPA@mail.gmail.com>
+Content-Type: text/plain
 
-On Wed, Mar 25, 2026 at 10:50:58AM -0700, Jim Mattson wrote:
-> On Tue, Mar 24, 2026 at 11:19 AM Pawan Gupta
-> <pawan.kumar.gupta@linux.intel.com> wrote:
-> >
-> > As a mitigation for BHI, clear_bhb_loop() executes branches that overwrites
-> > the Branch History Buffer (BHB). On Alder Lake and newer parts this
-> > sequence is not sufficient because it doesn't clear enough entries. This
-> > was not an issue because these CPUs have a hardware control (BHI_DIS_S)
-> > that mitigates BHI in kernel.
-> >
-> > BHI variant of VMSCAPE requires isolating branch history between guests and
-> > userspace. Note that there is no equivalent hardware control for userspace.
-> > To effectively isolate branch history on newer CPUs, clear_bhb_loop()
-> > should execute sufficient number of branches to clear a larger BHB.
-> >
-> > Dynamically set the loop count of clear_bhb_loop() such that it is
-> > effective on newer CPUs too. Use the hardware control enumeration
-> > X86_FEATURE_BHI_CTRL to select the appropriate loop count.
-> >
-> > Suggested-by: Dave Hansen <dave.hansen@linux.intel.com>
-> > Reviewed-by: Nikolay Borisov <nik.borisov@suse.com>
-> > Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-> > ---
-> >  arch/x86/entry/entry_64.S   | 21 ++++++++++++++++-----
-> >  arch/x86/net/bpf_jit_comp.c |  7 -------
-> >  2 files changed, 16 insertions(+), 12 deletions(-)
-> >
-> > diff --git a/arch/x86/entry/entry_64.S b/arch/x86/entry/entry_64.S
-> > index 3a180a36ca0e..8128e00ca73f 100644
-> > --- a/arch/x86/entry/entry_64.S
-> > +++ b/arch/x86/entry/entry_64.S
-> > @@ -1535,8 +1535,17 @@ SYM_CODE_END(rewind_stack_and_make_dead)
-> >  SYM_FUNC_START(clear_bhb_loop)
-> >         ANNOTATE_NOENDBR
-> >         push    %rbp
-> > +       /* BPF caller may require %rax to be preserved */
-> > +       push    %rax
-> 
-> Shouldn't the "push %rax" come after "mov %rsp, %rbp"?
+Rito Rhymes <rito@ritovision.com> writes:
 
-Right, thanks for catching that.
+> Some documentation tables exceed the fixed-width main content column.
+> On desktop this is usually acceptable because they can overflow the
+> 800px body without harming readability, but on smaller screens the
+> same tables create page-wide horizontal scroll overflow that breaks the
+> layout.
+>
+> Wrap generated HTML tables in a dedicated container. Above
+> Alabaster's existing 65em breakpoint, the wrapper uses
+> `display: contents` to preserve current desktop rendering. At and
+> below that width, it becomes a horizontal scroll container so table
+> overflow is contained locally instead of breaking page layout.
+>
+> Examples:
+>   https://docs.kernel.org/6.15/kernel-hacking/locking.html
+>   https://docs.kernel.org/6.15/arch/arc/features.html
+>
+> Signed-off-by: Rito Rhymes <rito@ritovision.com>
+> Assisted-by: Codex:GPT-5.4
 
-> >         mov     %rsp, %rbp
-> > -       movl    $5, %ecx
+[...]
+
+> diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
+> index db24f4344..d7c8c4f18 100644
+> --- a/Documentation/sphinx-static/custom.css
+> +++ b/Documentation/sphinx-static/custom.css
+> @@ -23,6 +23,13 @@ div.document {
+>      margin: 20px 10px 0 10px;
+>      width: auto;
+>  }
+> +/*
+> + * Wrap generated tables in a container that preserves desktop overflow
+> + * while allowing contained scrolling on smaller screens.
+> + */
+> +div.body div.table-overflow {
+> +    display: contents;
+> +}
+>  
+>  /* Size the logo appropriately */
+>  img.logo {
+> @@ -96,6 +103,15 @@ input.kernel-toc-toggle { display: none; }
+>      div.kerneltoc a { color: black; }
+>  }
+>  
+> +@media screen and (max-width: 65em) {
+> +    div.body div.table-overflow {
+> +        display: block;
+> +        max-width: 100%;
+> +        overflow-x: auto;
+> +        overflow-y: hidden;
+> +    }
+> +}
+> +
+>  /* Language selection menu */
+
+So this CSS perhaps makes sense, but..
+
+>  div.admonition {
+> diff --git a/Documentation/sphinx/table_wrapper.py b/Documentation/sphinx/table_wrapper.py
+> new file mode 100644
+> index 000000000..dfe8c139b
+> --- /dev/null
+> +++ b/Documentation/sphinx/table_wrapper.py
+> @@ -0,0 +1,30 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +#
+> +"""Wrap generated HTML tables in a responsive overflow container."""
+> +
+> +from sphinx.writers.html5 import HTML5Translator
+> +
+> +__version__ = "1.0"
+> +
+> +
+> +class TableWrapperHTMLTranslator(HTML5Translator):
+> +    """Add a wrapper around tables so CSS can control overflow behavior."""
+> +
+> +    def visit_table(self, node):
+> +        self.body.append('<div class="table-overflow">\n')
+> +        super().visit_table(node)
+> +
+> +    def depart_table(self, node):
+> +        super().depart_table(node)
+> +        self.body.append("</div>\n")
+> +
+> +
+> +def setup(app):
+> +    for builder in ("html", "dirhtml", "singlehtml"):
+> +        app.set_translator(builder, TableWrapperHTMLTranslator, override=True)
+> +
+> +    return dict(
+> +        version=__version__,
+> +        parallel_read_safe=True,
+> +        parallel_write_safe=True,
+> +    )
+
+But why do you need to inject another <div>, creating a whole new
+extension to do so, rather than just applying the CSS directly to the
+<table> elements?  I just gave that a try, and it would appear to work
+just fine.
+
+Thanks,
+
+jon
