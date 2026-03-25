@@ -1,151 +1,151 @@
-Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D99E53D0900;
-	Wed, 25 Mar 2026 12:44:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9313018D636;
+	Wed, 25 Mar 2026 12:46:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774442654; cv=none; b=Wr10y539rqNUgYuGFO4LO2+aRZVKqpzzO51DWGjv2j5zXZjsOAlVrjwFJM+tDXuhMjmj/TC9EZvaxabJDtyABCjUS27LNGdn6BHT8jqGNHoR0Wx9OxKSr/7URfbyuWsvraVt3e45OFMOKr7z5frRHmnUqCWEMPWUj7hP2q0QmSQ=
+	t=1774442760; cv=none; b=OY9W2Xq0rP9kcAz0B871g5gVzl0vMy295Hl3mEYrRvmQ3uZsrZEhzWZH5u40QGyTvWCljmIqrANvHZRScsaIm87Vj5xlUdByprwzBUaHVxSbTfOrfp191yhybNvxGN4FbJR4vh8vGoC6rBpygn+O9yLYy8l9XGcqDw1swTOCEyg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774442654; c=relaxed/simple;
-	bh=bzYdfF1spGMVjwl4NTjaat4YQrXVriJ+IaIcJqcKJlo=;
+	s=arc-20240116; t=1774442760; c=relaxed/simple;
+	bh=7ttRJXbfw+Yv4qAT4gpjMx4T7NHp7xtdESE4jaBbZxE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m3fqR1q7rXHoAFJevHCZBkHQWr4tD0+wJyH6UdWee3Ek7HfX2x809Zx18NGPGl+7478u3jwGRkAtOgzBjiy/iN/QoRhK356hKYmcgfC3a2GNJQ3PxYZkfUnHwGDH2dOwU01PtKiyRNPin/WJ+qyGjgO+zJKV+sFWIEZmatCTTWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
-Received: from omf12.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay04.hostedemail.com (Postfix) with ESMTP id 0D0DC1A082D;
-	Wed, 25 Mar 2026 12:44:07 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf12.hostedemail.com (Postfix) with ESMTPA id EC85817;
-	Wed, 25 Mar 2026 12:43:54 +0000 (UTC)
-Date: Wed, 25 Mar 2026 07:43:53 -0500
-From: John Groves <John@groves.net>
-To: Jonathan Cameron <jonathan.cameron@huawei.com>
-Cc: John Groves <john@jagalactic.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
-	Amir Goldstein <amir73il@gmail.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
-	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH V9 3/8] dax: add fsdev.c driver for fs-dax on character
- dax
-Message-ID: <acPX9T2ZF7xTCHtZ@groves.net>
-References: <0100019d1d463523-617e8165-a084-4d91-aa5e-13778264d5d4-000000@email.amazonses.com>
- <20260324003818.5009-1-john@jagalactic.com>
- <0100019d1d476420-6b0bf60e-3b3a-4868-8f5f-484cd55d4709-000000@email.amazonses.com>
- <20260324143927.000024c3@huawei.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=sxTj6qcxn1LbSzldUTvjShs6m5zeUOJZPgBB6Z3oVmekiZG27cRSDL/FsLyCFqqP4nFbhHhuW34i+zuTc0ydfJarWe2+oYiSiCbFvPf+XITdFh2KbCAz3zENW6MAytxe1oxsq5MOm6DeDRLnBp5xeexR7tJjaj9RKQ/kU8j57VE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PG3bMsLh; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PG3bMsLh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEEA9C4CEF7;
+	Wed, 25 Mar 2026 12:45:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774442760;
+	bh=7ttRJXbfw+Yv4qAT4gpjMx4T7NHp7xtdESE4jaBbZxE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PG3bMsLh6HCQxQcKJrfEnzOoZhP82Xjrda7S/eNCVSEBNZvxdm2YZqh2m9sA3CULn
+	 XWgljFRwXq8kUexSTlQTO7mKgnQ7jtUBvM57pSozyG6fy2vtqkYwD9oWC2h6SyMJBR
+	 PZ5lsIw7hJsDyZpu8mSfoilJOwnvIwoMI0THH8LfvoWFeW47xrJ4rlx/EriraMBJSm
+	 I5jT61QOiR70EAG1wmLbuQ3byPymfOHZiFk6Z2EgOBeDCaeHsN2RVHV+piagZQGyH9
+	 y4XG2CdpJ0Uz8OFnEIDW8rQBquMakxznVFPTbX8nX8W2R0T6e5sY7RfHLZKUfClXOQ
+	 Wnu7TLF5BDnmQ==
+Date: Wed, 25 Mar 2026 13:45:57 +0100
+From: Frederic Weisbecker <frederic@kernel.org>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: LKML <linux-kernel@vger.kernel.org>,
+	Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	Gabriele Monaco <gmonaco@redhat.com>,
+	Ingo Molnar <mingo@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Marcelo Tosatti <mtosatti@redhat.com>,
+	Marco Crivellari <marco.crivellari@suse.com>,
+	Michal Hocko <mhocko@kernel.org>,
+	"Paul E . McKenney" <paulmck@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>, Phil Auld <pauld@redhat.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Vlastimil Babka <vbabka@suse.cz>, Waiman Long <longman@redhat.com>,
+	linux-doc@vger.kernel.org, John Ogness <john.ogness@linutronix.de>
+Subject: Re: [PATCH] doc: Add CPU Isolation documentation
+Message-ID: <acPZBRThz7g_6EXe@localhost.localdomain>
+References: <20250809094247.8384-1-frederic@kernel.org>
+ <20260320151036.v_Sn93P-@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260324143927.000024c3@huawei.com>
-X-Rspamd-Server: rspamout07
-X-Rspamd-Queue-Id: EC85817
-X-Stat-Signature: 1qn3h5nx7pwds75jfk33psjwun8sh14w
-X-Session-Marker: 6A6F686E4067726F7665732E6E6574
-X-Session-ID: U2FsdGVkX180+af1YWzvaZ59D8sxBuIZxxdYmwQ05wU=
-X-HE-Tag: 1774442634-3402
-X-HE-Meta: U2FsdGVkX1+N9RTW+cU2f//6uhWp/3cA7dyMyvWeDd14EPQJZCrLvO2FgAJa+U+AGXznyUFgoxwG7AiMQ+J/iWcIVhQQqjxL1Z1RBdHi7SMWGXxvholXJsbRJ7vA1tkB3wxhjoXOxImeBTrsGQt9/7Tpp6hu5bpxC8vUZzPCdhLasDGEzMljNdt9S1isvnb85mEOf8EvVD10dWxj0viJRjlot+qh6PxDSWGpwiqSI4Id/V716hBLFkZU2PJKtkMZEvT+NOPFfaUKwAoYWvS8+akdil0Am4UPyiRJV2Beuw1sRneBBtupIg2CLdv3qvibJFNqftrJyNxX2BKVkUCKsJns4hilBfJx4CQoTuzSNGekZWyMLXDjcsyFUruSvcYbRMlzkimElgnyOZSmJF9cIoj/+qluE3dG3Nf34vqLyfe1vFHoQB6CDD7KNpzs5lQuvRnQGs+7W3q8fuDEKMy21SHulDUoAINg0oNWKAEMAr9chD3y6qNx3cS0nujP4+Mm9yiujzZVF/f0QBeo3IX6fKJ3/QdsWCK/Kz56z3DwuO4=
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260320151036.v_Sn93P-@linutronix.de>
 
-On 26/03/24 02:39PM, Jonathan Cameron wrote:
-> On Tue, 24 Mar 2026 00:38:31 +0000
-> John Groves <john@jagalactic.com> wrote:
+Le Fri, Mar 20, 2026 at 04:10:36PM +0100, Sebastian Andrzej Siewior a écrit :
+> On 2025-08-09 11:42:47 [+0200], Frederic Weisbecker wrote:
+> > --- /dev/null
+> > +++ b/Documentation/admin-guide/cpu-isolation.rst
+> > @@ -0,0 +1,338 @@
+> You could start with
 > 
-> > From: John Groves <john@groves.net>
-> > 
-> > The new fsdev driver provides pages/folios initialized compatibly with
-> > fsdax - normal rather than devdax-style refcounting, and starting out
-> > with order-0 folios.
-> > 
-> > When fsdev binds to a daxdev, it is usually (always?) switching from the
-> > devdax mode (device.c), which pre-initializes compound folios according
-> > to its alignment. Fsdev uses fsdev_clear_folio_state() to switch the
-> > folios into a fsdax-compatible state.
-> > 
-> > A side effect of this is that raw mmap doesn't (can't?) work on an fsdev
-> > dax instance. Accordingly, The fsdev driver does not provide raw mmap -
-> > devices must be put in 'devdax' mode (drivers/dax/device.c) to get raw
-> > mmap capability.
-> > 
-> > In this commit is just the framework, which remaps pages/folios compatibly
-> > with fsdax.
-> > 
-> > Enabling dax changes:
-> > 
-> > - bus.h: add DAXDRV_FSDEV_TYPE driver type
-> > - bus.c: allow DAXDRV_FSDEV_TYPE drivers to bind to daxdevs
-> > - dax.h: prototype inode_dax(), which fsdev needs
-> > 
-> > Suggested-by: Dan Williams <dan.j.williams@intel.com>
-> > Suggested-by: Gregory Price <gourry@gourry.net>
-> > Signed-off-by: John Groves <john@groves.net>
+> .. SPDX-License-Identifier: GPL-2.0
 > 
-> I was kind of thinking you'd go with a hidden KCONFIG option with default
-> magic to do the same build condition to you had in the Makefil, but one the
-> user can opt in or out for is also fine.
+> at the top.
+
+Ok.
+
 > 
-> Comments on that below. Meh, I think this is better anyway :)
-> 
-> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
-> 
-> 
-> 
-> > diff --git a/drivers/dax/Kconfig b/drivers/dax/Kconfig
-> > index d656e4c0eb84..7051b70980d5 100644
-> > --- a/drivers/dax/Kconfig
-> > +++ b/drivers/dax/Kconfig
-> > @@ -61,6 +61,17 @@ config DEV_DAX_HMEM_DEVICES
-> >  	depends on DEV_DAX_HMEM && DAX
-> >  	def_bool y
-> >  
-> > +config DEV_DAX_FSDEV
-> > +	tristate "FSDEV DAX: fs-dax compatible devdax driver"
-> > +	depends on DEV_DAX && FS_DAX
-> > +	help
-> > +	  Support fs-dax access to DAX devices via a character device
-> > +	  interface. Unlike device_dax (which pre-initializes compound folios
-> > +	  based on device alignment), this driver leaves folios at order-0 so
-> > +	  that fs-dax filesystems can manage folio order dynamically.
+> > +=============
+> > +CPU Isolation
+> > +=============
+> …
+> > +Interface
+> > +~~~~~~~~~
 > > +
-> > +	  Say M if unsure.
-> Fine like this, but if you wanted to hide it in interests of not
-> confusing users...
+> > +- :ref:`Documentation/admin-guide/cgroup-v2.rst <Cpuset v2 "isolated"
+> > +  partitions>`
 > 
-> config DEV_DAX_FSDEV
-> 	tristate
-> 	depends on DEV_DAX && FS_DAX
-> 	default DEV_DAX
+> I've been told by Jonathan once to just use the .rst file without
+> anything around it and the HTML render will make the link on its own.
+> 
+> …
 
-I like this better. I see no reason not to default to including fsdev.
-It does nothing other than frustrating famfs users if it's off - since
-building it still has no effect unless you put a daxdev in famfs mode.
+Hmm, how would that look like? Just this?
 
-Ira, it's kinda in your hands at the moment. Do you feel like making this
-change?
++- Documentation/admin-guide/cgroup-v2.rst
 
 > 
+> > +Tradeoffs
+> > +~~~~~~~~~
 > > +
-> >  config DEV_DAX_KMEM
-> >  	tristate "KMEM DAX: map dax-devices as System-RAM"
-> >  	default DEV_DAX
+> > +In terms of cost, this is the most invasive isolation feature. It is
+> > +assumed to be used when the workload spends most of its time in
+> > +userspace and doesn't rely on the kernel except for preparatory
+> > +work because:
+> > +
+> > +- RCU is slower due to the locked, offloaded and threaded callbacks
+> > +  processing (the same that would be obtained with "rcu_nocb=" boot
+> > +  parameter).
 > 
-> > +}
+> You mean the callback invocation is delayed? It shouldn't affect grace
+> period handling and so on.
 > 
+> …
+
+Right.
+
+> 
+> > +Checklist
+> > +=========
+> > +
+> > +You have set up each of the above isolation features but you still
+> > +observe jitters that trash your workload? Make sure to check a few
+> > +elements before proceeding.
+> > +
+> > +Some of these checklist items are similar to those of real time
+> > +workloads:
+> > +
+> > +- Use mlock() to prevent your pages from being swapped away. Page
+> > +  faults are usually not compatible with jitter sensitive workloads.
+> > +
+> > +- Avoid SMT to prevent your hardware thread from being "preempted"
+> > +  by another one.
+> > +
+> > +- CPU frequency changes may induce subtle sorts of jitter in a
+> > +  workload. Cpufreq should be used and tuned with caution.
+> > +
+> > +- Deep C-states may result in latency issues upon wake-up. If this
+> > +  happens to be a problem, C-states can be limited via kernel boot
+> > +  parameters such as processor.max_cstate or intel_idle.max_cstate.
+> > +
+> 
+> I intended to make a similar list similar to this for the real time part
+> but it somehow faded away. There is now the idea to identify kernel
+> options which are not so optimal which include CPU frequency for
+> instance. The requirements here are should be the same.
+
+We should probably have this to a seperate file that both isolation and rt could
+link to?
+
+Thanks.
+
+-- 
+Frederic Weisbecker
+SUSE Labs
