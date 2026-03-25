@@ -1,115 +1,471 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EACEC2EC081
-	for <linux-doc@vger.kernel.org>; Wed, 25 Mar 2026 12:49:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774442973; cv=none; b=eT9+N57M/PxpBUjiU5nICqRNaqPdwO7HyYnTa+Gfm/hhOG4vv33tXbO+SBr3vkVPDNrDbAdUgzWhh5KmQpyEjiPkbt8Y8C3220ctX3EqlY8c84xaAPJz8TgTNptB+KiuvcDDELu4F/GIYMAjxCigMdX5AtIPoFldgx1DydvBvAo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774442973; c=relaxed/simple;
-	bh=0jbWB3FjVQp+P8Ybiw1JdATIo1RfpVsEkcvfvEH0fIQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cdi9rQmP6okhycaXqcUbZH5UM6K9DS46djxiqaf120pdKnbaeHnCfj2OO90B+a+Na2UQ1e28fLpwEtsbDgJp/p+eEUvHAva/0MgzQj5SwwOtymEFwcFsLa0chVVQlQKAZi9gq9Sa25/KPL17QSjxymsBnbDiNA7HmNrSR7jSD44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=QsQTBQ2R; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D86AB3D565E
+	for <linux-doc@vger.kernel.org>; Wed, 25 Mar 2026 12:49:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.171
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774442979; cv=pass; b=FqrVIGbTEzZhZKgpGiBZBD4r6qYrzQGsf8DItCocAaCmXK8CcgKevt0WUA5ljbjSs46immfjCwqYCuPa/qFtIe85BcU5aCaYZDw2luGASPW6I1//GT3bX2PQTOCA4bhwTHOktIYPWpqxFHprwgStO1J1h5p0Eq5H7NNGziu0Xlc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774442979; c=relaxed/simple;
+	bh=CfFa9LvyBmMdb87pAFmv1Mba2Nlbu6j1jfOuPj2cRDM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AcNtcJK7s2KmkumYlMpEQsWeHP3z7ofpTixAXTQLsIWt2Cv5Y1e8Vi9wOPaogd4Bbv7KdhqyLPvdWDcojOGnMUcmRd3qcHOnQ7T++iPAHHiyafwKoEoaz2RKsuunyWoCOfoT7BfPDOIxIl215NYqvremVGMa5CAlkWHZGDzdiaw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=FmHvnv3Q; arc=pass smtp.client-ip=209.85.128.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="QsQTBQ2R"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-43b3d9d0695so789235f8f.0
-        for <linux-doc@vger.kernel.org>; Wed, 25 Mar 2026 05:49:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="FmHvnv3Q"
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-793fdbb8d3aso66205997b3.3
+        for <linux-doc@vger.kernel.org>; Wed, 25 Mar 2026 05:49:36 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774442976; cv=none;
+        d=google.com; s=arc-20240605;
+        b=jfdTOP1Qb2fmUZRSrcQLlvALRN4yAzGT+pjWnByj2kufJi26AIuwEnie1YZDzW9Q1E
+         UcBsHblYztz6lB8DefciR99PfWDkLIDIDiMaSTAYGjx4/AvdMF5Js61YqqWjAk0r6DXx
+         e3MOTY3OCW0fwiCK8KNox66TmuPv1eLJC3aeDToiYD2o+hanT5KByhmkE4ISm9W9SAPH
+         jAoSrXfExCOi1/jR1rE4ziGKlj+jKfGGDE80GIniM26KmseeKCZCnIvOWi+6fP7eDUOX
+         Jy0ZcDRqhID50qWOtQuaVAV1f6tculWDebADq042+3FGI8kBgQuFZmlYXOQfbONOWrPY
+         lw2Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=VWVGdaROJEe59syGTJd027THFEoFG9QuDQ9XIoXDqcI=;
+        fh=5cpgA7q0dJJMM2vwdoJhUnAx3bmjnX01XU+X4jyer3Y=;
+        b=NGLWP9ZCJBPaKdmm5tgfpAopuM/aziqtZ6KPRhhJJAVC1rTMVpwNvuK4yS8F31bIju
+         riHGJVQQ5gW8qHA9NdO771g4O1dgc7+iBF7TzAzjredY4s7Dk/UtIMWKgHaK0V7V5rLi
+         f4DNjKZScvZJl24p5XLHWW0Rgo7Dz94wJ8MvGty56dIQe12xjzRrrrDR7/LZ/FvxP16D
+         Jg11sWqQnoHoF76ZhTNbO6fEj2z+RIpftIqo+YmfShIsFo4uMTqylKytqlqeNUgXtjRd
+         vLhgjmwoj3cPSdu7tgQILtQG6OU7Um1o8QQg+W3Gw3Tz7ofCo5s0/u7nTM7aDl4KphAl
+         ikzQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1774442970; x=1775047770; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BJ4RwDdYC7l5LX4+kxPiqchKwdT0zRAfuYVx8dHTGTI=;
-        b=QsQTBQ2RkrQE7IMnUQFMVZf91MzfH5VhYOdj1f6Kc0qHkUjbpodcFhfNqvP7j00lIL
-         7+0NS3ce2sJFLeV0zP1vFfjxIhzEfBOaUThEj56njyTJBz08hVYC3GsWPreyMX0/s+SI
-         bqiSjb8e/MteSBDYDfZ88BtS+5N4oP3+lCjFDol0aDha2po5mM/macY7Gqc9+Qj7BF1Q
-         Q9kC8G6jUxbYVPT/E3pXanzVD1QenpTOeoh5HahyBpCrlKLC34dPfa3dBGd4ozO0YZsi
-         7nw+Vgi2bbhvnadrOePJ2jhdU86tkN+eJJiNDLdUr890bBTyvTbkDcI5FEOSvJZkri2v
-         oHGw==
+        d=raspberrypi.com; s=google; t=1774442976; x=1775047776; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=VWVGdaROJEe59syGTJd027THFEoFG9QuDQ9XIoXDqcI=;
+        b=FmHvnv3QCdfgOXa+V/vAk2N8x2z828NCNdn6mJPa6PnywwtrcEl8U+LXwiyfmbSdcv
+         UIgyd38aHfR48K2yyDfWcjN8zQIFoMv1cnErWhrma8WpfQTDGILZSrr5S0iO+EhPEXCd
+         muNAEV0ZIT4IJKyJ9lYxdNCxSv7vBdIWoDS/c9tYQtQwYYA7q6lBHswu8rePv88wch4J
+         uW90Rmuy8MKwp4L33RPII8WFrVDuI8DfqHWY6lboOfpNTdms9/jfsK70smKQ0ljMItsf
+         oJ1dXmHucUzY+reSctppq7rK4dYydIVK3wSrLAuC3+sEZkbUdoJanzAbl8YW+ZE3jaMT
+         j1wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774442970; x=1775047770;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BJ4RwDdYC7l5LX4+kxPiqchKwdT0zRAfuYVx8dHTGTI=;
-        b=bMeQzk4b1jzwxFxafIRpKnuTINJBuB/lqHvldurxepIhhs+nnUst/+xi6HXCEfTeWm
-         x2SstTScyYBshqKuiihnQXDVXh4/zkw1rQS177+IIjYHCQQ2gT5RQqNtjYLRu/Q8LOkp
-         rkwpUZ3rVbN55/GBky1Ylbvv0H4dG4mbib10P6SZHLbYR6jGBm8TRkHQBb8DU8sHalOB
-         SP3hrUv4QwA9QbPJErnqxMtS7ZepN07QzBb0AoBEQzS1M2h9tWDW2uv/kdDLeC3zGQlB
-         UB7EjJMFa+Y3lpwKAcs/w36s/oMnFrvkQHNlv9EYKLjCPyfSCplco5wzGUhH4GxFFZg6
-         Tuhw==
-X-Forwarded-Encrypted: i=1; AJvYcCVDLNTyAIEdnpbGJNntaTXtRRn5YRb5PAA5owPf2aXF+/YxmYnNlf7YfR5tqPSx7FBWgCwWlHZ6Fe0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyoQDa6ZDNIkk3q0TCUTjd0O0gm+BMErCW511GFtWJ9NhzMdyJr
-	+RRjTy6M7w2bYYw7QZqnUYloWNM2TH7v0f9dl+Juhk3moZnOVJX7l0OFfmRf3EpULwU=
-X-Gm-Gg: ATEYQzzyV/ZTmYQOaN4cTZHbdqRhtuIB8qNNcfrZ6iaMswh3rvxq5W1gZplrUNJWIN3
-	prcMwbLwv3Dab2nKj1i9RcJ7nKhZxMouAO4o3F4S94k0jo+A4Lb8QJ0Wpofc0q9dnI7PR49KPMh
-	9S0XfgTRc1CPFX0b7OeFqyF9HyI+iFAWAXSV7MmTi4gOhwwFkWcncH+BfI9tfUjCiKSRNylq6PQ
-	pd/mZn1bWXV9tyvqVMuzuxEy6NLV3NyKCmUn3VYvrM7mFTKf5e/EyZWEK7M8yraS8APIT0tUBL9
-	rHZ2ImagsKodZsMHA+knnYdz64B+RSQT300w6YteW4t1nVdNaeQ0mFTKUycjehd6Eo/Jx2jEGx6
-	6DztjMgHGtwWVt5xLuI4EQiTXBjzZMhSmtGKex/qOcHjq4LwKaqrHwVTGsp+THHgfbB++la+RMu
-	zrs9oV68hYEUYBndSiBI4l2mfV0jXy+xKteFhb7jtEJPeD
-X-Received: by 2002:a05:6000:228a:b0:43b:4909:203c with SMTP id ffacd0b85a97d-43b883c881dmr5791312f8f.21.1774442970332;
-        Wed, 25 Mar 2026 05:49:30 -0700 (PDT)
-Received: from [10.100.51.209] (nat2.prg.suse.com. [195.250.132.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b8508285esm13445921f8f.19.2026.03.25.05.49.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Mar 2026 05:49:30 -0700 (PDT)
-Message-ID: <b83c9524-13df-47dd-a597-bebab93288d8@suse.com>
-Date: Wed, 25 Mar 2026 13:49:29 +0100
+        d=1e100.net; s=20251104; t=1774442976; x=1775047776;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VWVGdaROJEe59syGTJd027THFEoFG9QuDQ9XIoXDqcI=;
+        b=iygEWxvNEv/4w35l25WVI4TD/0mY+36p4MSHO9J4KZQVm/OPUhrDWRCSXJcHNHaCwS
+         f1T6FXVIgFLGRYqdHyjAY2Tg4h7zFDJ9B13VvrJUvx9uyzBbcJg5nR5o0Pg1TaRhusfw
+         fOsbO1Rl2zBS0ypOXfX527ug5DFbL7AGSmNo8XetaVSQV3in78ChF4JvHOkoGEVcNL5u
+         OC52cQis/xrZHuGxkkiibL+fY8VFwqb5TPYG8jPJvtBUJJ/JErMH/oUesVoiooCwVIgw
+         mTHlUUkmv6FwTNV/fOQFJD9hiMKg8aYcrrlwrqoFoP/bbasHd79STwvUYUU7O7nCmG8V
+         1vOQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX4HhmYr1dmoMsKW6HWZRvqQr/+ZlpR/SVuubG4jqgDtRhR8OZIcY5NLvfbxOwitGZdjWzAaiuzPA8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywj9tVLP68YT6KXU7npl3R8pX3Y/JKhWNl4MRxIIDy1DgmpKqVu
+	mH/R/L7ZwDFe/u2IxBackqWa1VQCPfzKmUBMaKa7uyVb6+fBKRXLUac5X8xMaMy3o/nMfWM801o
+	jZ1aPYGup3Kt1+56yVth09Uxi3mYg7Tjph38tFtFIzQ==
+X-Gm-Gg: ATEYQzxvriLr2M73tIwZBRbZq4CwZKRN1M6enYXLBqIUCTLg1EnxHEvZ1nYptcmuvQz
+	Ckw0sDg2z32hM3nz4e7WvxuzK8mc3PQLcP/m2rgPGpqKh7H/r9f3ZxYkmuG4GhWzwC1Q2hQkrN4
+	TXK/8P0tsbX7nQd6DZgrF6AAp6VG7Uo1lAZG6duIy6pvDowbQ/7yeRMZmX9PL8dt9NqiLrkwx3J
+	mEiENKLR+eiHBjGfxFuSWm8n2aSM/lGCrs5/4LtOxFCQPj2YxDv8ZABqo2EKpTIR/adcDHfji3X
+	5qO+M4rY5rm1+aYkAdKXjaaPHTAhI7stp5cdJA==
+X-Received: by 2002:a05:690c:e3cf:b0:79a:b71c:9c18 with SMTP id
+ 00721157ae682-79acf6d3fafmr34648757b3.54.1774442975702; Wed, 25 Mar 2026
+ 05:49:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/8] scalable symbol flags with __kflagstab
-To: Siddharth Nayyar <sidnayyar@google.com>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, Daniel Gomez <da.gomez@kernel.org>,
- Sami Tolvanen <samitolvanen@google.com>, Aaron Tomlin <atomlin@atomlin.com>,
- Arnd Bergmann <arnd@arndb.de>, Nathan Chancellor <nathan@kernel.org>,
- Nicolas Schier <nsc@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, linux-modules@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
- maennich@google.com, gprocida@google.com
-References: <20260305-kflagstab-v4-0-6a76bf8b83c7@google.com>
-Content-Language: en-US
-From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <20260305-kflagstab-v4-0-6a76bf8b83c7@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260324-color-format-v11-0-605559af4fb4@collabora.com> <20260324-color-format-v11-3-605559af4fb4@collabora.com>
+In-Reply-To: <20260324-color-format-v11-3-605559af4fb4@collabora.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Wed, 25 Mar 2026 12:49:19 +0000
+X-Gm-Features: AaiRm50VNDDjWfwK37zgUxzAmL4en6__7Zy6-AnLTnIOsCvoTh1nsZLCZm3Xzfc
+Message-ID: <CAPY8ntB9f_=f5kru=8w9BpTuqQR+93maGpT61EKU28Uay2vq8Q@mail.gmail.com>
+Subject: Re: [PATCH v11 03/22] drm: Add new general DRM property "color format"
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+	Rodrigo Siqueira <siqueira@igalia.com>, Alex Deucher <alexander.deucher@amd.com>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Sandy Huang <hjc@rock-chips.com>, 
+	=?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+	Andy Yan <andy.yan@rock-chips.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+	Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, kernel@collabora.com, 
+	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-rockchip@lists.infradead.org, intel-gfx@lists.freedesktop.org, 
+	intel-xe@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+	Werner Sembach <wse@tuxedocomputers.com>, Andri Yngvason <andri@yngvason.is>, 
+	Marius Vlad <marius.vlad@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 3/5/26 5:55 PM, Siddharth Nayyar wrote:
-> This patch series implements a mechanism for scalable exported symbol
-> flags using a separate section called __kflagstab. The series introduces
-> __kflagstab support, removes *_gpl sections in favor of a GPL flag,
-> simplifies symbol resolution during module loading.
+On Tue, 24 Mar 2026 at 16:02, Nicolas Frattaroli
+<nicolas.frattaroli@collabora.com> wrote:
+>
+> Add a new general DRM property named "color format" which can be used by
+> userspace to request the display driver to output a particular color
+> format.
+>
+> Possible options are:
+>     - auto (setup by default, driver internally picks the color format)
+>     - rgb
+>     - ycbcr444
+>     - ycbcr422
+>     - ycbcr420
+>
+> Drivers should advertise from this list which formats they support.
+> Together with this list and EDID data from the sink we should be able
+> to relay a list of usable color formats to users to pick from.
+>
+> Co-developed-by: Werner Sembach <wse@tuxedocomputers.com>
+> Signed-off-by: Werner Sembach <wse@tuxedocomputers.com>
+> Co-developed-by: Andri Yngvason <andri@yngvason.is>
+> Signed-off-by: Andri Yngvason <andri@yngvason.is>
+> Signed-off-by: Marius Vlad <marius.vlad@collabora.com>
+> Reviewed-by: Maxime Ripard <mripard@kernel.org>
+> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> ---
+>  drivers/gpu/drm/drm_atomic_helper.c |   5 ++
+>  drivers/gpu/drm/drm_atomic_uapi.c   |  11 ++++
+>  drivers/gpu/drm/drm_connector.c     | 108 ++++++++++++++++++++++++++++++++++++
+>  include/drm/drm_connector.h         | 104 ++++++++++++++++++++++++++++++++++
+>  4 files changed, 228 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+> index 26953ed6b53e..b7753454b777 100644
+> --- a/drivers/gpu/drm/drm_atomic_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_helper.c
+> @@ -737,6 +737,11 @@ drm_atomic_helper_check_modeset(struct drm_device *dev,
+>                         if (old_connector_state->max_requested_bpc !=
+>                             new_connector_state->max_requested_bpc)
+>                                 new_crtc_state->connectors_changed = true;
+> +
+> +                       if (old_connector_state->color_format !=
+> +                           new_connector_state->color_format)
+> +                               new_crtc_state->connectors_changed = true;
+> +
+>                 }
+>
+>                 if (funcs->atomic_check)
+> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+> index 5bd5bf6661df..dee510c85e59 100644
+> --- a/drivers/gpu/drm/drm_atomic_uapi.c
+> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+> @@ -935,6 +935,15 @@ static int drm_atomic_connector_set_property(struct drm_connector *connector,
+>                 state->privacy_screen_sw_state = val;
+>         } else if (property == connector->broadcast_rgb_property) {
+>                 state->hdmi.broadcast_rgb = val;
+> +       } else if (property == connector->color_format_property) {
+> +               if (val > INT_MAX || !drm_connector_color_format_valid(val)) {
+> +                       drm_dbg_atomic(connector->dev,
+> +                                      "[CONNECTOR:%d:%s] unknown color format %llu\n",
+> +                                      connector->base.id, connector->name, val);
+> +                       return -EINVAL;
+> +               }
+> +
+> +               state->color_format = val;
+>         } else if (connector->funcs->atomic_set_property) {
+>                 return connector->funcs->atomic_set_property(connector,
+>                                 state, property, val);
+> @@ -1020,6 +1029,8 @@ drm_atomic_connector_get_property(struct drm_connector *connector,
+>                 *val = state->privacy_screen_sw_state;
+>         } else if (property == connector->broadcast_rgb_property) {
+>                 *val = state->hdmi.broadcast_rgb;
+> +       } else if (property == connector->color_format_property) {
+> +               *val = state->color_format;
+>         } else if (connector->funcs->atomic_get_property) {
+>                 return connector->funcs->atomic_get_property(connector,
+>                                 state, property, val);
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+> index 47dc53c4a738..e848374dee0b 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -1388,6 +1388,18 @@ static const u32 hdmi_colorspaces =
+>         BIT(DRM_MODE_COLORIMETRY_DCI_P3_RGB_D65) |
+>         BIT(DRM_MODE_COLORIMETRY_DCI_P3_RGB_THEATER);
+>
+> +static const u32 hdmi_colorformats =
+> +       BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444) |
+> +       BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444) |
+> +       BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422) |
+> +       BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR420);
+> +
+> +static const u32 dp_colorformats =
+> +       BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444) |
+> +       BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444) |
+> +       BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR422) |
+> +       BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR420);
+> +
+>  /*
+>   * As per DP 1.4a spec, 2.2.5.7.5 VSC SDP Payload for Pixel Encoding/Colorimetry
+>   * Format Table 2-120
+> @@ -2940,6 +2952,102 @@ int drm_connector_attach_colorspace_property(struct drm_connector *connector)
+>  }
+>  EXPORT_SYMBOL(drm_connector_attach_colorspace_property);
+>
+> +/**
+> + * drm_connector_attach_color_format_property - create and attach color format property
+> + * @connector: connector to create the color format property on
+> + * @supported_color_formats: bitmask of bit-shifted &enum drm_output_color_format
+> + *                           values the connector supports
+> + *
+> + * Called by a driver to create a color format property. The property is
+> + * attached to the connector automatically on success.
+> + *
+> + * @supported_color_formats should only include color formats the connector
+> + * type can actually support.
+> + *
+> + * Returns:
+> + * 0 on success, negative errno on error
+> + */
+> +int drm_connector_attach_color_format_property(struct drm_connector *connector,
+> +                                              unsigned long supported_color_formats)
+> +{
+> +       struct drm_device *dev = connector->dev;
+> +       struct drm_prop_enum_list enum_list[DRM_CONNECTOR_COLOR_FORMAT_COUNT];
+> +       unsigned int i = 0;
+> +       unsigned long fmt;
+> +
+> +       if (connector->color_format_property)
+> +               return 0;
+> +
+> +       if (!supported_color_formats) {
+> +               drm_err(dev, "No supported color formats provided on [CONNECTOR:%d:%s]\n",
+> +                       connector->base.id, connector->name);
+> +               return -EINVAL;
+> +       }
+> +
+> +       if (supported_color_formats & ~GENMASK(DRM_OUTPUT_COLOR_FORMAT_COUNT - 1, 0)) {
+> +               drm_err(dev, "Unknown color formats provided on [CONNECTOR:%d:%s]\n",
+> +                       connector->base.id, connector->name);
+> +               return -EINVAL;
+> +       }
+> +
+> +       switch (connector->connector_type) {
+> +       case DRM_MODE_CONNECTOR_HDMIA:
+> +       case DRM_MODE_CONNECTOR_HDMIB:
+> +               if (supported_color_formats & ~hdmi_colorformats) {
+> +                       drm_err(dev, "Color formats not allowed for HDMI on [CONNECTOR:%d:%s]\n",
+> +                               connector->base.id, connector->name);
+> +                       return -EINVAL;
+> +               }
+> +               break;
+> +       case DRM_MODE_CONNECTOR_DisplayPort:
+> +       case DRM_MODE_CONNECTOR_eDP:
+> +               if (supported_color_formats & ~dp_colorformats) {
+> +                       drm_err(dev, "Color formats not allowed for DP on [CONNECTOR:%d:%s]\n",
+> +                               connector->base.id, connector->name);
+> +                       return -EINVAL;
+> +               }
+> +               break;
+> +       }
+> +
+> +       enum_list[0].name = "AUTO";
+> +       enum_list[0].type = DRM_CONNECTOR_COLOR_FORMAT_AUTO;
+> +
+> +       for_each_set_bit(fmt, &supported_color_formats, DRM_OUTPUT_COLOR_FORMAT_COUNT) {
+> +               switch (fmt) {
+> +               case DRM_OUTPUT_COLOR_FORMAT_RGB444:
+> +                       enum_list[++i].type = DRM_CONNECTOR_COLOR_FORMAT_RGB444;
+> +                       break;
+> +               case DRM_OUTPUT_COLOR_FORMAT_YCBCR444:
+> +                       enum_list[++i].type = DRM_CONNECTOR_COLOR_FORMAT_YCBCR444;
+> +                       break;
+> +               case DRM_OUTPUT_COLOR_FORMAT_YCBCR422:
+> +                       enum_list[++i].type = DRM_CONNECTOR_COLOR_FORMAT_YCBCR422;
+> +                       break;
+> +               case DRM_OUTPUT_COLOR_FORMAT_YCBCR420:
+> +                       enum_list[++i].type = DRM_CONNECTOR_COLOR_FORMAT_YCBCR420;
+> +                       break;
+> +               default:
+> +                       drm_warn(dev, "Unknown supported format %ld on [CONNECTOR:%d:%s]\n",
+> +                                fmt, connector->base.id, connector->name);
+> +                       continue;
+> +               }
+> +               enum_list[i].name = drm_hdmi_connector_get_output_format_name(fmt);
+> +       }
+> +
+> +       connector->color_format_property =
+> +               drm_property_create_enum(dev, DRM_MODE_PROP_ENUM, "color format",
+> +                                        enum_list, i + 1);
+> +
+> +       if (!connector->color_format_property)
+> +               return -ENOMEM;
+> +
+> +       drm_object_attach_property(&connector->base, connector->color_format_property,
+> +                                  DRM_CONNECTOR_COLOR_FORMAT_AUTO);
+> +
+> +       return 0;
+> +}
+> +EXPORT_SYMBOL(drm_connector_attach_color_format_property);
+> +
+>  /**
+>   * drm_connector_atomic_hdr_metadata_equal - checks if the hdr metadata changed
+>   * @old_state: old connector state to compare
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> index af8b92d2d5b7..bd549f912b76 100644
+> --- a/include/drm/drm_connector.h
+> +++ b/include/drm/drm_connector.h
+> @@ -571,14 +571,102 @@ enum drm_colorspace {
+>   *   YCbCr 4:2:2 output format (ie. with horizontal subsampling)
+>   * @DRM_OUTPUT_COLOR_FORMAT_YCBCR420:
+>   *   YCbCr 4:2:0 output format (ie. with horizontal and vertical subsampling)
+> + * @DRM_OUTPUT_COLOR_FORMAT_COUNT:
+> + *   Number of valid output color format values in this enum
+>   */
+>  enum drm_output_color_format {
+>         DRM_OUTPUT_COLOR_FORMAT_RGB444 = 0,
+>         DRM_OUTPUT_COLOR_FORMAT_YCBCR444,
+>         DRM_OUTPUT_COLOR_FORMAT_YCBCR422,
+>         DRM_OUTPUT_COLOR_FORMAT_YCBCR420,
+> +       DRM_OUTPUT_COLOR_FORMAT_COUNT,
+>  };
+>
+> +/**
+> + * enum drm_connector_color_format - Connector Color Format Request
+> + *
+> + * This enum, unlike &enum drm_output_color_format, is used to specify requests
+> + * for a specific color format on a connector through the DRM "color format"
+> + * property. The difference is that it has an "AUTO" value to specify that
+> + * no specific choice has been made.
+> + */
+> +enum drm_connector_color_format {
+> +       /**
+> +        * @DRM_CONNECTOR_COLOR_FORMAT_AUTO: The driver or display protocol
+> +        * helpers should pick a suitable color format. All implementations of a
+> +        * specific display protocol must behave the same way with "AUTO", but
+> +        * different display protocols do not necessarily have the same "AUTO"
+> +        * semantics.
+> +        *
+> +        * For HDMI, "AUTO" picks RGB, but falls back to YCbCr 4:2:0 if the
+> +        * bandwidth required for full-scale RGB is not available, or the mode
+> +        * is YCbCr 4:2:0-only, as long as the mode and output both support
+> +        * YCbCr 4:2:0.
 
-I noticed that the series has a bisecting issue. The module loader
-doesn't see any GPL-only exports after patch #4. I think you'll need to
-squash patches #4 and #5 to fix this. Alternatively, the patches could
-be swapped, with the caveat that GPL-only symbols would lose their GPL
-property for one commit.
+Is there a reason you propose dropping back to YCbCr 4:2:0 without
+trying YCbCr 4:2:2 first? Minimising the subsampling is surely
+beneficial, and vc4 for one can do 4:2:2 but not 4:2:0.
 
-Nit: Please use simply the "module" prefix in commit subjects:
+  Dave
 
-#1: module: define ksym_flags enumeration to represent kernel symbol flags
-#2: module: add kflagstab section to vmlinux and modules
-#4: module: use kflagstab instead of *_gpl sections
-#6: module: deprecate usage of *_gpl sections
-#7: module: remove *_gpl sections from vmlinux and modules
-
-The changes look otherwise ok to me. With the above fixed, feel free to
-add:
-
-Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
-
--- 
-Thanks,
-Petr
+> +        *
+> +        * For display protocols other than HDMI, the recursive bridge chain
+> +        * format selection picks the first chain of bridge formats that works,
+> +        * as has already been the case before the introduction of the "color
+> +        * format" property. Non-HDMI bridges should therefore either sort their
+> +        * bus output formats by preference, or agree on a unified auto format
+> +        * selection logic that's implemented in a common state helper (like
+> +        * how HDMI does it).
+> +        */
+> +       DRM_CONNECTOR_COLOR_FORMAT_AUTO = 0,
+> +
+> +       /**
+> +        * @DRM_CONNECTOR_COLOR_FORMAT_RGB444: RGB output format
+> +        */
+> +       DRM_CONNECTOR_COLOR_FORMAT_RGB444,
+> +
+> +       /**
+> +        * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR444: YCbCr 4:4:4 output format (ie.
+> +        * not subsampled)
+> +        */
+> +       DRM_CONNECTOR_COLOR_FORMAT_YCBCR444,
+> +
+> +       /**
+> +        * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR422: YCbCr 4:2:2 output format (ie.
+> +        * with horizontal subsampling)
+> +        */
+> +       DRM_CONNECTOR_COLOR_FORMAT_YCBCR422,
+> +
+> +       /**
+> +        * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR420: YCbCr 4:2:0 output format (ie.
+> +        * with horizontal and vertical subsampling)
+> +        */
+> +       DRM_CONNECTOR_COLOR_FORMAT_YCBCR420,
+> +
+> +       /**
+> +        * @DRM_CONNECTOR_COLOR_FORMAT_COUNT: Number of valid connector color
+> +        * format values in this enum
+> +        */
+> +       DRM_CONNECTOR_COLOR_FORMAT_COUNT,
+> +};
+> +
+> +/**
+> + * drm_connector_color_format_valid - Validate drm_connector_color_format value
+> + * @fmt: value to check against all values of &enum drm_connector_color_format
+> + *
+> + * Checks whether the passed in value of @fmt is one of the allowable values in
+> + * &enum drm_connector_color_format.
+> + *
+> + * Returns: %true if it's a valid value for the enum, %false otherwise.
+> + */
+> +static inline bool __pure
+> +drm_connector_color_format_valid(enum drm_connector_color_format fmt)
+> +{
+> +       switch (fmt) {
+> +       case DRM_CONNECTOR_COLOR_FORMAT_AUTO:
+> +       case DRM_CONNECTOR_COLOR_FORMAT_RGB444:
+> +       case DRM_CONNECTOR_COLOR_FORMAT_YCBCR444:
+> +       case DRM_CONNECTOR_COLOR_FORMAT_YCBCR422:
+> +       case DRM_CONNECTOR_COLOR_FORMAT_YCBCR420:
+> +               return true;
+> +       default:
+> +               return false;
+> +       }
+> +}
+> +
+>  const char *
+>  drm_hdmi_connector_get_output_format_name(enum drm_output_color_format fmt);
+>
+> @@ -1129,6 +1217,13 @@ struct drm_connector_state {
+>          */
+>         enum drm_colorspace colorspace;
+>
+> +       /**
+> +        * @color_format: State variable for Connector property to request
+> +        * color format change on Sink. This is most commonly used to switch
+> +        * between RGB to YUV and vice-versa.
+> +        */
+> +       enum drm_connector_color_format color_format;
+> +
+>         /**
+>          * @writeback_job: Writeback job for writeback connectors
+>          *
+> @@ -2127,6 +2222,12 @@ struct drm_connector {
+>          */
+>         struct drm_property *colorspace_property;
+>
+> +       /**
+> +        * @color_format_property: Connector property to set the suitable
+> +        * color format supported by the sink.
+> +        */
+> +       struct drm_property *color_format_property;
+> +
+>         /**
+>          * @path_blob_ptr:
+>          *
+> @@ -2610,6 +2711,9 @@ bool drm_connector_has_possible_encoder(struct drm_connector *connector,
+>                                         struct drm_encoder *encoder);
+>  const char *drm_get_colorspace_name(enum drm_colorspace colorspace);
+>
+> +int drm_connector_attach_color_format_property(struct drm_connector *connector,
+> +                                              unsigned long supported_color_formats);
+> +
+>  /**
+>   * drm_for_each_connector_iter - connector_list iterator macro
+>   * @connector: &struct drm_connector pointer used as cursor
+>
+> --
+> 2.53.0
+>
