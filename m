@@ -1,22 +1,23 @@
-Received: from out198-17.us.a.mail.aliyun.com (out198-17.us.a.mail.aliyun.com [47.90.198.17])
+Received: from out28-196.mail.aliyun.com (out28-196.mail.aliyun.com [115.124.28.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F2372E9ED8;
-	Wed, 25 Mar 2026 04:01:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=47.90.198.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB87D2EB10;
+	Wed, 25 Mar 2026 04:01:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774411275; cv=none; b=QtjwSZYejVTuoXCf8+LtsKw/DgwCAEC1O5FVRFCnPc94BMW9UGgFdvlrjgmL3OHHzpj3Z6qsBNSS9jIuomd8YqXtQraln1U0uM+uu/gsDZ+KMHck4/lKO0yW4RBHtcNRkJrmN8FdVa4tR+vyUaSXjf67kg3dWHPcUyh8+KAwYf0=
+	t=1774411276; cv=none; b=Gc3VpG394CcVRBJEP8RF4oYj5hNFK1WasP+8xiQQVlXrTgRhlAKgJQbX5VAL7PIBYkKC0ZwugM/tr8rQo2SrixuStdr6cx7kZnWCGGvTGfoeoRYqYXFXhf1Y22mqqvCJ5NnecFAEn+2IAcW4IHog6u0VNNBjtOUDHJ6COEN6tkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774411275; c=relaxed/simple;
-	bh=p8YlDlgKwKT32enU1gPDYQ/H4JJbA2fcMtYTvAuY/Dc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=KTIUIdP1KFdNtmvdOpeQFOnRqvj2syE2Z9J2BZfhH0h6eTSQkvZ1KUpGaFnppRgyYJkpIVDTV+7NZugxigKwR96MsRfINQM/4HeJmCKsTBuzt7b5cgyvXey9i8UY4nlXEvPufNI1QZv4LdZtCWO1A4jmzjirj0Ct4pcBWuqsbwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com; spf=pass smtp.mailfrom=nebula-matrix.com; arc=none smtp.client-ip=47.90.198.17
+	s=arc-20240116; t=1774411276; c=relaxed/simple;
+	bh=+SolOSIP26XqbnN9w6NLq0zG3f0ZNA4GRIGfk0H5T9Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=F7bItnejqDBO6dFj2NK0lPVuMLhT8iWJmqhhK7iOnMraKkLJz96y49EhGa+lytyF8TxHhQU2lUrrxDl0HUX+qjUiYhFqcf5sdJipazBhfXR6zJV6trIERl6KlFDVohLjSRkvsZVk6KB85GYi+Ii3kk5LfNH0rNFKz05NjsH5eD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com; spf=pass smtp.mailfrom=nebula-matrix.com; arc=none smtp.client-ip=115.124.28.196
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nebula-matrix.com
-X-Alimail-AntiSpam:AC=CONTINUE;BC=0.8364356|0.08951011;CH=green;DM=|AD|false|;DS=CONTINUE|ham_alarm|0.114224-0.0105365-0.87524;FP=5076624236572317234|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033037071049;MF=illusion.wang@nebula-matrix.com;NM=1;PH=DS;RN=16;RT=16;SR=0;TI=SMTPD_---.gzTMET5_1774411251;
-Received: from localhost.localdomain(mailfrom:illusion.wang@nebula-matrix.com fp:SMTPD_---.gzTMET5_1774411251 cluster:ay29)
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.06712908|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_alarm|0.00656462-0.000511196-0.992924;FP=14588670049930337810|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033037022039;MF=illusion.wang@nebula-matrix.com;NM=1;PH=DS;RN=16;RT=16;SR=0;TI=SMTPD_---.gzTMEiP_1774411264;
+Received: from localhost.localdomain(mailfrom:illusion.wang@nebula-matrix.com fp:SMTPD_---.gzTMEiP_1774411264 cluster:ay29)
           by smtp.aliyun-inc.com;
-          Wed, 25 Mar 2026 12:00:53 +0800
+          Wed, 25 Mar 2026 12:01:04 +0800
 From: "illusion.wang" <illusion.wang@nebula-matrix.com>
 To: dimon.zhao@nebula-matrix.com,
 	illusion.wang@nebula-matrix.com,
@@ -34,173 +35,269 @@ Cc: andrew+netdev@lunn.ch,
 	lukas.bulwahn@redhat.com,
 	edumazet@google.com,
 	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v9 net-next 00/11] nbl driver for Nebulamatrix NICs
-Date: Wed, 25 Mar 2026 12:00:32 +0800
-Message-ID: <20260325040048.2313-1-illusion.wang@nebula-matrix.com>
+Subject: [PATCH v9 net-next 10/11] net/nebula-matrix: add common/ctrl dev init/reinit operation
+Date: Wed, 25 Mar 2026 12:00:42 +0800
+Message-ID: <20260325040048.2313-11-illusion.wang@nebula-matrix.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260325040048.2313-1-illusion.wang@nebula-matrix.com>
+References: <20260325040048.2313-1-illusion.wang@nebula-matrix.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This patch series represents the first phase. We plan to integrate it in
-two phases: the first phase covers mailbox and chip configuration,
-while the second phase involves net dev configuration.
-Together, they will provide basic PF-based Ethernet port transmission and
-reception capabilities.
+Common Device Setup: nbl_dev_setup_common_dev configures mailbox queues,
+registers cleanup tasks, and MSI-X interrupt counter initialization.
+Control Device Setup (optional): nbl_dev_setup_ctrl_dev initializes
+the chip and configures all channel queues.
 
-After that, we will consider other features, such as ethtool support,
-flow management, adminq messaging, VF support, debugfs support, etc.
+Signed-off-by: illusion.wang <illusion.wang@nebula-matrix.com>
+---
+ .../nebula-matrix/nbl/nbl_core/nbl_dev.c      | 169 ++++++++++++++++++
+ .../nebula-matrix/nbl/nbl_core/nbl_dev.h      |  31 ++++
+ 2 files changed, 200 insertions(+)
 
-changes v8->v9
-Link to v8:https://lore.kernel.org/netdev/20260317034533.5600-1-illusion.wang@nebula-matrix.com/
-1.Issues found by Jakub
-2.AI review issue
-Changes v7→v8
-Link to v7:https://lore.kernel.org/netdev/20260310120959.22015-1-illusion.wang@nebula-matrix.com/
-1.Issues found by Paolo
-Changes v6->v7
-Link to v6:https://lore.kernel.org/netdev/20260306033451.5196-1-illusion.wang@nebula-matrix.com/
-1.Issue found by Jakub
-2.AI review issue
-Changes v5->v6
-Link to V5:https://lore.kernel.org/netdev/20260226073840.3222-1-illusion.wang@nebula-matrix.com/
-1.put all standard linux includes files the .c file which needs it & others
---Andrew
-2.AI review issue
-Changes v4->v5
-Link to V4:https://lore.kernel.org/netdev/20260206021608.85381-1-illusion.wang@nebula-matrix.com/
-1.change nbl_core to nbl & change ** pointers to *pointers & others
---Andrew
-2.AI review issue
-Changes v3->v4
-Link to v3: https://lore.kernel.org/netdev/20260123011804.31263-1-illusion.wang@nebula-matrix.com
-1.cut down to part of a mini driver(mailbox and chip init)
---Jakub Kicinski Simon Horman(some sort of staged approached)
-2.modify issues found by ai.
-3. Reverse Christmas tree/nbl_err/devm_kfree/remove some macros/
-void type to real type/others
---Andrew Lunn
-4.change deprecated pci_enable_msix_range to pci_alloc_irq_vectors
-5.delete service layer
-6.the style of kconfig---Randy Dunlap
-7.add to Documentation/networking/device_drivers/ethernet/index.rst
---Simon Horman
-Changes v2 →v3
-Link to v2: https://lore.kernel.org/netdev/20260109100146.63569-1-illusion.wang@nebula-matrix.com/
-1.cut down to a mini driver:
-    delete vf support
-    use promisc mode to cut down flow management
-    drop patch15 in v2
-    delete adminq msg
-    delete abnormal handling
-    delete some unimportant interfaces
-2.modify issues found by ai review
-Changes v1->v2
-Link to v1: https://lore.kernel.org/netdev/20251223035113.31122-1-illusion.wang@nebula-matrix.com/
-1.Format Issues and Compilation Issues
-- Paolo Abeni
-2.add sysfs patch and drop coexisting patch
-- Andrew Lunn
-3.delete some unimportant ndo operations
-4.add machine generated headers patch
-5.Modify the issues found in patch1-2 and apply the same fixes to other
-patches
-6.modify issues found by nipa
-
-illusion.wang (11):
-  net/nebula-matrix: add minimum nbl build framework
-  net/nebula-matrix: add our driver architecture
-  net/nebula-matrix: add chip related definitions
-  net/nebula-matrix: channel msg value and msg struct
-  net/nebula-matrix: add channel layer
-  net/nebula-matrix: add common resource implementation
-  net/nebula-matrix: add intr resource implementation
-  net/nebula-matrix: add vsi resource implementation
-  net/nebula-matrix: add Dispatch layer implementation
-  net/nebula-matrix: add common/ctrl dev init/reinit operation
-  net/nebula-matrix: add common dev start/stop operation
-
- .../device_drivers/ethernet/index.rst         |    1 +
- .../ethernet/nebula-matrix/nbl.rst            |   27 +
- MAINTAINERS                                   |   10 +
- drivers/net/ethernet/Kconfig                  |    1 +
- drivers/net/ethernet/Makefile                 |    1 +
- drivers/net/ethernet/nebula-matrix/Kconfig    |   34 +
- drivers/net/ethernet/nebula-matrix/Makefile   |    6 +
- .../net/ethernet/nebula-matrix/nbl/Makefile   |   16 +
- .../nbl/nbl_channel/nbl_channel.c             |  853 +++++
- .../nbl/nbl_channel/nbl_channel.h             |  158 +
- .../nebula-matrix/nbl/nbl_common/nbl_common.c |  209 ++
- .../nebula-matrix/nbl/nbl_common/nbl_common.h |   34 +
- .../net/ethernet/nebula-matrix/nbl/nbl_core.h |   47 +
- .../nebula-matrix/nbl/nbl_core/nbl_dev.c      |  438 +++
- .../nebula-matrix/nbl/nbl_core/nbl_dev.h      |   58 +
- .../nebula-matrix/nbl/nbl_core/nbl_dispatch.c |  486 +++
- .../nebula-matrix/nbl/nbl_core/nbl_dispatch.h |   56 +
- .../nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c  |  815 +++++
- .../nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h  |  493 +++
- .../nbl_hw/nbl_hw_leonis/nbl_hw_leonis_regs.c | 2901 +++++++++++++++++
- .../nbl_hw/nbl_hw_leonis/nbl_hw_leonis_regs.h |   11 +
- .../nbl_hw_leonis/nbl_resource_leonis.c       |  256 ++
- .../nbl_hw_leonis/nbl_resource_leonis.h       |   10 +
- .../nebula-matrix/nbl/nbl_hw/nbl_hw_reg.h     |   68 +
- .../nebula-matrix/nbl/nbl_hw/nbl_interrupt.c  |  243 ++
- .../nebula-matrix/nbl/nbl_hw/nbl_interrupt.h  |   12 +
- .../nebula-matrix/nbl/nbl_hw/nbl_resource.c   |  135 +
- .../nebula-matrix/nbl/nbl_hw/nbl_resource.h   |  118 +
- .../nebula-matrix/nbl/nbl_hw/nbl_vsi.c        |   51 +
- .../nebula-matrix/nbl/nbl_hw/nbl_vsi.h        |   11 +
- .../nbl/nbl_include/nbl_def_channel.h         |  361 ++
- .../nbl/nbl_include/nbl_def_common.h          |   76 +
- .../nbl/nbl_include/nbl_def_dev.h             |   14 +
- .../nbl/nbl_include/nbl_def_dispatch.h        |   42 +
- .../nbl/nbl_include/nbl_def_hw.h              |   54 +
- .../nbl/nbl_include/nbl_def_resource.h        |   36 +
- .../nbl/nbl_include/nbl_include.h             |   79 +
- .../nbl/nbl_include/nbl_product_base.h        |   18 +
- .../net/ethernet/nebula-matrix/nbl/nbl_main.c |  321 ++
- 39 files changed, 8560 insertions(+)
- create mode 100644 Documentation/networking/device_drivers/ethernet/nebula-matrix/nbl.rst
- create mode 100644 drivers/net/ethernet/nebula-matrix/Kconfig
- create mode 100644 drivers/net/ethernet/nebula-matrix/Makefile
- create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/Makefile
- create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.c
- create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.h
- create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_common.c
- create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_common.h
- create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h
- create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.c
- create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.h
- create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dispatch.c
- create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dispatch.h
- create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c
- create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h
- create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis_regs.c
- create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis_regs.h
- create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.c
- create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.h
- create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_reg.h
- create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_interrupt.c
- create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_interrupt.h
- create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_resource.c
- create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_resource.h
- create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_vsi.c
- create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_vsi.h
- create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_channel.h
- create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_common.h
- create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_dev.h
- create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_dispatch.h
- create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_hw.h
- create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_resource.h
- create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h
- create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_product_base.h
- create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c
-
+diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.c
+index 5deb21e35f8e..e1090c56d3e1 100644
+--- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.c
++++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.c
+@@ -6,6 +6,156 @@
+ #include <linux/pci.h>
+ #include "nbl_dev.h"
+ 
++static void nbl_dev_init_msix_cnt(struct nbl_dev_mgt *dev_mgt)
++{
++	struct nbl_dev_common *dev_common = dev_mgt->common_dev;
++	struct nbl_msix_info *msix_info = &dev_common->msix_info;
++
++	msix_info->serv_info[NBL_MSIX_MAILBOX_TYPE].num = 1;
++}
++
++/* ----------  Channel config  ---------- */
++static int nbl_dev_setup_chan_qinfo(struct nbl_dev_mgt *dev_mgt, u8 chan_type)
++{
++	struct nbl_channel_ops *chan_ops = dev_mgt->chan_ops_tbl->ops;
++	struct nbl_channel_mgt *priv = dev_mgt->chan_ops_tbl->priv;
++	struct device *dev = dev_mgt->common->dev;
++	int ret;
++
++	if (!chan_ops->check_queue_exist(priv, chan_type))
++		return 0;
++
++	ret = chan_ops->cfg_chan_qinfo_map_table(priv, chan_type);
++	if (ret)
++		dev_err(dev, "setup chan:%d, qinfo map table failed\n",
++			chan_type);
++
++	return ret;
++}
++
++static int nbl_dev_setup_chan_queue(struct nbl_dev_mgt *dev_mgt, u8 chan_type)
++{
++	struct nbl_channel_ops *chan_ops = dev_mgt->chan_ops_tbl->ops;
++	struct nbl_channel_mgt *priv = dev_mgt->chan_ops_tbl->priv;
++	int ret = 0;
++
++	if (chan_ops->check_queue_exist(priv, chan_type))
++		ret = chan_ops->setup_queue(priv, chan_type);
++
++	return ret;
++}
++
++static int nbl_dev_remove_chan_queue(struct nbl_dev_mgt *dev_mgt, u8 chan_type)
++{
++	struct nbl_channel_ops *chan_ops = dev_mgt->chan_ops_tbl->ops;
++	struct nbl_channel_mgt *priv = dev_mgt->chan_ops_tbl->priv;
++	int ret = 0;
++
++	if (chan_ops->check_queue_exist(priv, chan_type))
++		ret = chan_ops->teardown_queue(priv, chan_type);
++
++	return ret;
++}
++
++static void nbl_dev_register_chan_task(struct nbl_dev_mgt *dev_mgt,
++				       u8 chan_type, struct work_struct *task)
++{
++	struct nbl_channel_ops *chan_ops = dev_mgt->chan_ops_tbl->ops;
++
++	if (chan_ops->check_queue_exist(dev_mgt->chan_ops_tbl->priv, chan_type))
++		chan_ops->register_chan_task(dev_mgt->chan_ops_tbl->priv,
++					     chan_type, task);
++}
++
++/* ----------  Tasks config  ---------- */
++static void nbl_dev_clean_mailbox_task(struct work_struct *work)
++{
++	struct nbl_dev_common *common_dev =
++		container_of(work, struct nbl_dev_common, clean_mbx_task);
++	struct nbl_dev_mgt *dev_mgt = common_dev->dev_mgt;
++	struct nbl_channel_ops *chan_ops = dev_mgt->chan_ops_tbl->ops;
++
++	chan_ops->clean_queue_subtask(dev_mgt->chan_ops_tbl->priv,
++				      NBL_CHAN_TYPE_MAILBOX);
++}
++
++/* ----------  Dev init process  ---------- */
++static int nbl_dev_setup_common_dev(struct nbl_adapter *adapter)
++{
++	struct nbl_dev_mgt *dev_mgt = adapter->core.dev_mgt;
++	struct nbl_dispatch_ops *disp_ops = dev_mgt->disp_ops_tbl->ops;
++	struct nbl_dispatch_mgt *priv = dev_mgt->disp_ops_tbl->priv;
++	struct nbl_common_info *common = dev_mgt->common;
++	struct nbl_dev_common *common_dev;
++	int ret;
++
++	common_dev = devm_kzalloc(&adapter->pdev->dev,
++				  sizeof(struct nbl_dev_common), GFP_KERNEL);
++	if (!common_dev)
++		return -ENOMEM;
++	common_dev->dev_mgt = dev_mgt;
++
++	ret = nbl_dev_setup_chan_queue(dev_mgt, NBL_CHAN_TYPE_MAILBOX);
++	if (ret)
++		return ret;
++
++	INIT_WORK(&common_dev->clean_mbx_task, nbl_dev_clean_mailbox_task);
++	common->vsi_id = disp_ops->get_vsi_id(priv, 0, NBL_VSI_DATA);
++	disp_ops->get_eth_id(priv, common->vsi_id, &common->eth_mode,
++			     &common->eth_id, &common->logic_eth_id);
++
++	nbl_dev_register_chan_task(dev_mgt, NBL_CHAN_TYPE_MAILBOX,
++				   &common_dev->clean_mbx_task);
++
++	dev_mgt->common_dev = common_dev;
++	nbl_dev_init_msix_cnt(dev_mgt);
++	return 0;
++}
++
++static void nbl_dev_remove_common_dev(struct nbl_adapter *adapter)
++{
++	struct nbl_dev_mgt *dev_mgt = adapter->core.dev_mgt;
++	struct nbl_dev_common *common_dev = dev_mgt->common_dev;
++
++	if (!common_dev)
++		return;
++
++	nbl_dev_register_chan_task(dev_mgt, NBL_CHAN_TYPE_MAILBOX, NULL);
++	cancel_work_sync(&common_dev->clean_mbx_task);
++	nbl_dev_remove_chan_queue(dev_mgt, NBL_CHAN_TYPE_MAILBOX);
++}
++
++static int nbl_dev_setup_ctrl_dev(struct nbl_adapter *adapter)
++{
++	struct nbl_dev_mgt *dev_mgt = adapter->core.dev_mgt;
++	struct nbl_dispatch_ops *disp_ops = dev_mgt->disp_ops_tbl->ops;
++	int i, ret;
++
++	ret = disp_ops->init_chip_module(dev_mgt->disp_ops_tbl->priv);
++	if (ret)
++		goto chip_init_fail;
++
++	for (i = 0; i < NBL_CHAN_TYPE_MAX; i++) {
++		ret = nbl_dev_setup_chan_qinfo(dev_mgt, i);
++		if (ret)
++			goto setup_chan_q_fail;
++	}
++
++	return 0;
++setup_chan_q_fail:
++	disp_ops->deinit_chip_module(dev_mgt->disp_ops_tbl->priv);
++chip_init_fail:
++	return ret;
++}
++
++static void nbl_dev_remove_ctrl_dev(struct nbl_adapter *adapter)
++{
++	struct nbl_dev_mgt *dev_mgt = adapter->core.dev_mgt;
++	struct nbl_dispatch_ops *disp_ops = dev_mgt->disp_ops_tbl->ops;
++
++	disp_ops->deinit_chip_module(dev_mgt->disp_ops_tbl->priv);
++}
++
+ static struct nbl_dev_mgt *nbl_dev_setup_dev_mgt(struct nbl_common_info *common)
+ {
+ 	struct nbl_dev_mgt *dev_mgt;
+@@ -38,11 +188,30 @@ int nbl_dev_init(struct nbl_adapter *adapter)
+ 	dev_mgt->chan_ops_tbl = chan_ops_tbl;
+ 	adapter->core.dev_mgt = dev_mgt;
+ 
++	ret = nbl_dev_setup_common_dev(adapter);
++	if (ret)
++		return ret;
++
++	if (common->is_ctrl) {
++		ret = nbl_dev_setup_ctrl_dev(adapter);
++		if (ret)
++			goto setup_ctrl_dev_fail;
++	}
++
+ 	return 0;
++
++setup_ctrl_dev_fail:
++	nbl_dev_remove_common_dev(adapter);
++	return ret;
+ }
+ 
+ void nbl_dev_remove(struct nbl_adapter *adapter)
+ {
++	struct nbl_common_info *common = &adapter->common;
++
++	if (common->is_ctrl)
++		nbl_dev_remove_ctrl_dev(adapter);
++	nbl_dev_remove_common_dev(adapter);
+ }
+ 
+ /* ----------  Dev start process  ---------- */
+diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.h
+index 9b71092b99a0..b51c8a4424c5 100644
+--- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.h
++++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.h
+@@ -18,10 +18,41 @@
+ #include "../nbl_include/nbl_def_common.h"
+ #include "../nbl_core.h"
+ 
++#define NBL_STRING_NAME_LEN			32
++
++enum nbl_msix_serv_type {
++	/* virtio_dev has a config vector_id, and the vector_id need is 0 */
++	NBL_MSIX_VIRTIO_TYPE = 0,
++	NBL_MSIX_NET_TYPE,
++	NBL_MSIX_MAILBOX_TYPE,
++	NBL_MSIX_TYPE_MAX
++};
++
++struct nbl_msix_serv_info {
++	char irq_name[NBL_STRING_NAME_LEN];
++	u16 num;
++	u16 base_vector_id;
++	/* true: hw report msix, hw need to mask actively */
++	bool hw_self_mask_en;
++};
++
++struct nbl_msix_info {
++	struct nbl_msix_serv_info serv_info[NBL_MSIX_TYPE_MAX];
++};
++
++struct nbl_dev_common {
++	struct nbl_dev_mgt *dev_mgt;
++	struct nbl_msix_info msix_info;
++	char mailbox_name[NBL_STRING_NAME_LEN];
++	/* for ctrl-dev/net-dev mailbox recv msg */
++	struct work_struct clean_mbx_task;
++};
++
+ struct nbl_dev_mgt {
+ 	struct nbl_common_info *common;
+ 	struct nbl_dispatch_ops_tbl *disp_ops_tbl;
+ 	struct nbl_channel_ops_tbl *chan_ops_tbl;
++	struct nbl_dev_common *common_dev;
+ };
+ 
+ #endif
 -- 
 2.47.3
 
