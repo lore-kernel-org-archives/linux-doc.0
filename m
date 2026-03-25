@@ -1,46 +1,87 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55DB6308F38
-	for <linux-doc@vger.kernel.org>; Wed, 25 Mar 2026 20:23:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2471C3537C9;
+	Wed, 25 Mar 2026 20:38:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774470236; cv=none; b=HTQ1TlidqTyub5QdjO6WXqGyliNMhJcXZZ/Zy6HTUQbCcO+de4o+bxJG5POLscYD2FNZdnoSqLdUwKvSW9jQUYOA9DoBXqSsukm2IH/8X4zQQTXPCBSm06PkavuWU+H7S22fhYfNLmKOQfnT+G9joov7Edh2mOCd0s5W3hzsUQA=
+	t=1774471137; cv=none; b=uPBrPGsZcdW0bFTcQ0bPgMF1Sk4rqDgJx7UnIg5XtEpSQSRkN9HyoFyyx7UleTCeTg+mcA8K0Bt2qHithU/wLzLAL+j6trfYwc9pLlJu/M1JI21V+k4gWq7AvebHNu8mYmAnVbWcsiojKXYttOQ15wb7TX8ZhSZwCJIE0kH5wUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774470236; c=relaxed/simple;
-	bh=gyZIZccWJd1+RoPkBEpdblxcP/K2Wyaw0OsXDDGeef0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=i6rwaYTWNylF/y2YA/oW0yg+HVw/ib8+gFSRYfxrMo/Ln1lI/zMjlsnfZVQFvCs5iDK4XFz8/NXLZEmxDeRwF+pBUV8gfbG4rtXWKEQzVrq7KjFyXLMLvpdVypQchDQJFH3LFIz7j4CtHj2L297N9oOrv7h00t0fOOY/LZKILTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Me96fmCK; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1774471137; c=relaxed/simple;
+	bh=3qQOfI80TwhWA6qJISPfKRiQ49oBnJvL0Uq6Ke3mv2Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Tms7MfR1Z/vnoDKbiia/XWHXA13ZSKgQjYc2EmJEt/UZ85HYDc6zuAW0BAahEUxLUMo7fg7+stxTEn1Vx0WHlIgOU/qBr5BJLM3n5Grmu0+VlhQDp4QdmOG35MswGCxLrDPFA/eoM4+OuvC+s08/Q1liRxpjjU4bGX8/8sTHmBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=BgBBResu; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Me96fmCK"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net ADB2740C6F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1774470234; bh=bxZXftWEtQm5fbCg6/jjJHTKniH3z3qxAtdIC32b2Ys=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Me96fmCKavc7BjCrca0QayhdceyLSTP7YBS7pCOoy1XuW6DuKEJYcYSge/ROSHmeV
-	 vhJi8zr+Tmh7jioa8faWFS5Pg3C9KzwgYylVOjoaakVPHxmHBd4IL0UVqw5bW0unhG
-	 j8QMBTL5qzDIL/LhLbE23XYJpmKfxTNVCGrkICZxlzdXlGwTe4RFyYtb0HCLn8cs+f
-	 e/4QcpYW5k/0Ivy7ouhHlDHM+MVM2T5khftceM6pKHosQuSAGZhz/vG2uPWdvM7uiK
-	 Rx1655AEy1joobYKiNa0lcH7G3JXIfjWPZWjiEYIWKEp8Nj2FShs8J6azc4fLhmqqh
-	 c93fnUhxfwoqQ==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="BgBBResu"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id A553F40E0174;
+	Wed, 25 Mar 2026 20:38:45 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id ys0G2Hjfo8ez; Wed, 25 Mar 2026 20:38:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1774471122; bh=Kfl+/u8o55KrunJlXJFoR6X6kWZP2WOLZYeH9eXsClU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BgBBResu9KUlmSMB0AlDnOVskhxO1vQosnIJ0o+a1HseLE9jTycdz62N/5wuHykqZ
+	 r4vyZAjxIxb1ytUHeFWqbHNMJYUfLgLplzJ1KugiC1Emys6FYKlm/nUPOgUO4pfM9a
+	 tUxAhJthc7YAR9CIliL2mgVVqRsDkWjwBi/4jKEVVhiORDNXmUw7ZdvVBytqWYjb7v
+	 glspvfPjFJo1oQb7cXPojfG1qZUO0Ufk4g+RXGjPC0te3TI3qoEdv9gLisuRL7vD0I
+	 psEWsk016ZBd2LWaD05kWo0PBPXgrdPI4jVyKp0lwLcPygt8oNHLEPBLO1qKgKyY7x
+	 zahRc6MYvgv0Yc1aBUPJ0KrKEappyZ63ZigC3LRW2BZMa/jiVnMwC12ozh+I4WeE3i
+	 x9eR/gBVHkN+Jtwm5nCY2jT1SIt/IqoE2i7E6L3nxzle21THCT+NVo+6xVKRmgE5Kk
+	 O32BlK31p6qCxEybh9gs5ik8C7PiM3CTi/lilqNKuwV2mYOwsb2qq1/NFi7iuYtTq0
+	 BLsLUnEnw++SCenos0qik95nxuehLpYB5olExeB9i2chG9j9a5+xAGnVrd3LAInyiM
+	 eYD31FXqpqEiofiu7R+J7BxV4YMFOAti/ouIFm4DY2MN8poNCycA4fc3wZTNvg5y1w
+	 4edxwwWMF2fcaEHXZtMMOzcI=
+Received: from zn.tnic (p5de8e020.dip0.t-ipconnect.de [93.232.224.32])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id ADB2740C6F;
-	Wed, 25 Mar 2026 20:23:54 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Kevin Brodsky <kevin.brodsky@arm.com>, linux-doc@vger.kernel.org
-Cc: Shuah Khan <skhan@linuxfoundation.org>, Konstantin Ryabitsev
- <mricon@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: Invalid link generation for equations
-In-Reply-To: <9b320e77-9acf-4f0d-8c52-6e1fc3a8cf53@arm.com>
-References: <9b320e77-9acf-4f0d-8c52-6e1fc3a8cf53@arm.com>
-Date: Wed, 25 Mar 2026 14:23:53 -0600
-Message-ID: <87se9nejza.fsf@trenco.lwn.net>
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 872D740E0031;
+	Wed, 25 Mar 2026 20:38:04 +0000 (UTC)
+Date: Wed, 25 Mar 2026 21:37:59 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+Cc: x86@kernel.org, Jon Kohler <jon@nutanix.com>,
+	Nikolay Borisov <nik.borisov@suse.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	David Kaplan <david.kaplan@amd.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>, KP Singh <kpsingh@kernel.org>,
+	Jiri Olsa <jolsa@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	David Laight <david.laight.linux@gmail.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	David Ahern <dsahern@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+	kvm@vger.kernel.org, Asit Mallick <asit.k.mallick@intel.com>,
+	Tao Zhang <tao1.zhang@intel.com>, bpf@vger.kernel.org,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v8 02/10] x86/bhi: Make clear_bhb_loop() effective on
+ newer CPUs
+Message-ID: <20260325203759.GCacRHp2t8a7c4Bp6E@fat_crate.local>
+References: <20260324-vmscape-bhb-v8-0-68bb524b3ab9@linux.intel.com>
+ <20260324-vmscape-bhb-v8-2-68bb524b3ab9@linux.intel.com>
+ <20260324205930.GQacL7Mp7vwGBKX1W7@fat_crate.local>
+ <20260324221308.7sh6afdy6r6tsf4w@desk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -48,56 +89,35 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+In-Reply-To: <20260324221308.7sh6afdy6r6tsf4w@desk>
 
-[Adding Konstantin and Mauro, in case anybody has any thoughts...]
+On Tue, Mar 24, 2026 at 03:13:08PM -0700, Pawan Gupta wrote:
+> This is cleaner. A few things to consider are, CLEAR_BRANCH_HISTORY that
+> calls clear_bhb_loop() would be calling into C code very early during the
+> kernel entry. The code generated here may vary based on the compiler. Any
+> indirect branch here would be security risk. This needs to be noinstr so
+> that it can't be hijacked by probes and ftraces.
+> 
+> At kernel entry, calling into C before mitigations are applied is risky.
 
-Kevin Brodsky <kevin.brodsky@arm.com> writes:
+You can write the above function in asm if you prefer - should still be
+easier.
 
-> Hi,
->
-> I have noticed that links to equation images are not generated correctly
-> on docs.kernel.org. For instance, Documentation/mm/memory-model.rst has:
->
-> =C2=A0 =C2=A0 .. math::
-> =C2=A0 =C2=A0=C2=A0
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0NR\_MEM\_SECTIONS =3D 2 ^ {(MAX\_PHYSMEM\_BITS=
- - SECTION\_SIZE\_BITS)}
->
-> The generated HTML [1] shows the source code instead of the rendered
-> equation because the link to the image [2] is broken. [3] does however
-> exist. The issue seems to be that the link is relative to the root, even
-> though we are in a subfolder (mm/ here).
->
-> Given my non-existent knowledge of Sphinx I have no idea what the fix
-> might be, but I thought I'd report this at least :)
->
-> - Kevin
->
-> [1] https://docs.kernel.org/mm/memory-model.html#sparsemem
-> [2]
-> https://docs.kernel.org/mm/_images/math/d99368220bfdedf1a888b1c09eb7236a8=
-c87d079.png
-> [3]
-> https://docs.kernel.org/_images/math/d99368220bfdedf1a888b1c09eb7236a8c87=
-d079.png
+> Although call to clear_bhb_loop() will be inserted at the end of the BPF
+> program before it returns, I am not sure if it is safe to assume that
+> trashing registers in the path clear_bhb_loop() -> __clear_bhb_loop() is
+> okay? Especially, when we don't know what code compiler generated for
+> clear_bhb_loop(). BPF experts would know better?
 
-OK, so this is more than passing strange...I can't reproduce that
-problem locally.  The HTML I get is:
+The compiler would preserve the regs. If you write it in asm and you adhere to
+the C ABI, you could preserve them too. Shouldn't be too many.
 
-  <img src=3D"../_images/math/d9936822[...]
+Thx.
 
-On docs.kernel.org, instead:
 
-  <img src=3D"_images/math/d9936822[...]
+-- 
+Regards/Gruss,
+    Boris.
 
-Note the missing "../".
-
-I will confess that I don't have a great understanding of how imgmath
-works and how that link gets set.  We could "fix" the problem generally
-by setting imgmath_embed=3DTrue, but it would be good to understand what's
-actually happening here.
-
-Thanks,
-
-jon
+https://people.kernel.org/tglx/notes-about-netiquette
