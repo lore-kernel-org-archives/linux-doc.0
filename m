@@ -1,174 +1,153 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail-m49233.qiye.163.com (mail-m49233.qiye.163.com [45.254.49.233])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2DD91DE3DB;
-	Wed, 25 Mar 2026 01:30:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 736262797AC;
+	Wed, 25 Mar 2026 01:58:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774402201; cv=none; b=UzjF9Wtlca0ywLZarlHXxj+cPjB72meRF79YJK173GlmJvdW3KAmRsf4KrHO9VGl43Fiybh69z1BGAyarWL+aDVmNm6VFU+bTmyfgCftFt21dOhOZVnFcCYC61LDqchvpGsnUaC1LsebkeiPP2vzmlVj7TFky1K7Th2qLmaHzrI=
+	t=1774403933; cv=none; b=AIN9Qi1KgLgwBfUJAnPVOyHH8MQakh7OsmhTqxLbwcHKimhLixaLvb9Sf9AEOosPa/qkDUgoSOpazr5vDowO2GbimuhLg5d1u1LxoJpekm+bC7poklb73y4u8kRdbq++jZg0QrKdx53X+eQ4nNjSDTeCAvt4dFzuKZZwSZYM7fg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774402201; c=relaxed/simple;
-	bh=5SbBFDgIR67bL1d5NEGk//PNELzmL89PM+jsBTcyznw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=T7wZojKPysznIVSghyZIcFv427RN1z9/yRAEaR5OU1LfPcCK7iTuxQYjpXpvXbWQmNm/rpPc0fF/yyxS7n4WmmLobWvay5FpqIg8by5HKPkRCYW4SRm77JnAYNFU91ngpWPUD6lc1EyxklA/7FEdQRHI/LCGEiXyCF0uq+Gi2pw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a757H79L; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774403933; c=relaxed/simple;
+	bh=A8l/YdodJU5BcEQaXnFIAnwZZI+l41tuMYRSg+bDics=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=LBp/kp0mq5F8SuIU4IU1WFS0NBVNDtfv23XO8iMQKD8PpPgFl35PYM84v9lSGNLdmMehe5kZ1LD4xzldcYwvw+1B48ujGDV8/zM8n/iQMCtYKzOjjI9mfuIubUfqMeQwEpIq719RsOfguff1EeD4ioPLspYQREuR8H5Zkd232OU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com; spf=pass smtp.mailfrom=rock-chips.com; dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b=LMJDq85h; arc=none smtp.client-ip=45.254.49.233
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a757H79L"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0F3EC19424;
-	Wed, 25 Mar 2026 01:30:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774402201;
-	bh=5SbBFDgIR67bL1d5NEGk//PNELzmL89PM+jsBTcyznw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=a757H79Li4IBGL1ALHzdgXLsUTHiTqglD9EdIalBAY+hP+BAUeddSjXsAlrkiFi13
-	 EIggSReE8akulpv/CyWmPxpcf7tpSOkE+B1FP6fXiX9qUXTPSEzpb6GG/zIYhBdUq6
-	 vNEFD2neVHf+Xl5mrjiJ+LZc5IlVzWIjNeKOxGGOJY9K8JvxYfPEBL/CqoIrgt3JT/
-	 TwnAorebRYKCIOguye8khPH5fWqF7aD689ZtIJrnMjOy4Q4GYpSs9u/4Nam8dxtXMx
-	 1JL7bErJSHbzRP1/zaNtgG1YFEL1qIxpAjf4GPM+BedeMPhk+L+oPO9Fpa+sIbinrD
-	 ZXjDhTc7H5feQ==
-From: SeongJae Park <sj@kernel.org>
-To: Gutierrez Asier <gutierrez.asier@huawei-partners.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	artem.kuzin@huawei.com,
-	stepanov.anatoly@huawei.com,
-	wangkefeng.wang@huawei.com,
-	yanquanmin1@huawei.com,
-	zuoze1@huawei.com,
-	damon@lists.linux.dev,
-	akpm@linux-foundation.org,
-	ljs@kernel.org,
-	Liam.Howlett@oracle.com,
-	vbabka@kernel.org,
-	rppt@kernel.org,
-	surenb@google.com,
-	mhocko@suse.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
+	dkim=pass (1024-bit key) header.d=rock-chips.com header.i=@rock-chips.com header.b="LMJDq85h"
+Received: from localhost.localdomain (unknown [58.22.7.114])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 382e59d50;
+	Wed, 25 Mar 2026 09:58:38 +0800 (GMT+08:00)
+From: Shawn Lin <shawn.lin@rock-chips.com>
+To: Manivannan Sadhasivam <mani@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>
+Cc: linux-rockchip@lists.infradead.org,
+	linux-pci@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v1 1/1] This patch set introces a new action: DAMOS_COLLAPSE.
-Date: Tue, 24 Mar 2026 18:29:53 -0700
-Message-ID: <20260325012954.85785-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <6a07479d-0ddb-442e-bc1b-027f4c6d3b77@huawei-partners.com>
-References: 
+	Steven Rostedt <rostedt@goodmis.org>,
+	Shawn Lin <shawn.lin@rock-chips.com>
+Subject: [PATCH v5 0/3] PCI Controller event and LTSSM tracepoint support
+Date: Wed, 25 Mar 2026 09:58:29 +0800
+Message-Id: <1774403912-210670-1-git-send-email-shawn.lin@rock-chips.com>
+X-Mailer: git-send-email 2.7.4
+X-HM-Tid: 0a9d22b717fc09cckunm61c156f0a55845
+X-HM-MType: 1
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFDSUNOT01LS0k3V1ktWUFJV1kPCRoVCBIfWUFZQx0aTlYdHUpIThoaTkwaH0tWFRQJFh
+	oXVRMBExYaEhckFA4PWVdZGBILWUFZTkNVSUlVTFVKSk9ZV1kWGg8SFR0UWUFZT0tIVUpLSU9PT0
+	hVSktLVUpCS0tZBg++
+DKIM-Signature: a=rsa-sha256;
+	b=LMJDq85hB549w4GkDDs7h1WRqkUJJQA763ivP6GKIpLJI4qb/QwHo3g43pKIMjrX88G/INoElzOCsriu+8EVO0dZa0t8H0i1qfk3x8P3tlOW6cFADUH8vQFgrFM/eKPdqQYu7Mro732FYz+nVKnFK+SVQHpcvsA9ylfyYDDR/wI=; s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
+	bh=iL3uRr9ioLVWGXzImJsgsnPLVa9xILg7XkTqZ91to80=;
+	h=date:mime-version:subject:message-id:from;
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-
-On Tue, 24 Mar 2026 18:01:23 +0300 Gutierrez Asier <gutierrez.asier@huawei-partners.com> wrote:
-
-> 
-> 
-> On 3/24/2026 5:12 PM, SeongJae Park wrote:
-> > On Tue, 24 Mar 2026 16:57:22 +0300 Gutierrez Asier <gutierrez.asier@huawei-partners.com> wrote:
-> > 
-> >>
-> >>
-> >> On 3/24/2026 3:39 AM, SeongJae Park wrote:
-> >>> Hello Asier,
-> >>>
-> >>> On Mon, 23 Mar 2026 14:56:45 +0000 <gutierrez.asier@huawei-partners.com> wrote:
-> >>>
-> >>>> From: Asier Gutierrez <gutierrez.asier@huawei-partners.com>
-> >>>>
-> >>>> For DAMOS_HUGEPAGE and DAMOS_NOHUGEPAGE to work, khugepaged should be
-> >>>> working, since it relies on hugepage_madvise to add a new slot. This
-> >>>> slot should be picked up by khugepaged and eventually collapse (or
-> >>>> not, if we are using DAMOS_NOHUGEPAGE) the pages. If THP is not
-> >>>> enabled, khugepaged will not be working, and therefore no collapse
-> >>>> will happen.
-> >>>>
-> >>>> DAMOS_COLLAPSE eventually calls madvise_collapse, which will collapse
-> >>>> the address range synchronously.
-> >>>>
-> >>>> This new action may be required to support autotuning with hugepage as
-> >>>> a goal[1].
-> >>>>
-> >>>> [1]: https://lore.kernel.org/damon/20260313000816.79933-1-sj@kernel.org/
-> >>>>
-> >>>> ---------
-> >>>> Benchmarks:
-> >>>>
-> >>>> T n: THP never
-> >>>> T m: THP madvise
-> >>>> D h: DAMON action hugepage
-> >>>> D c: DAMON action collapse
-> >>>>
-> >>>> +------------------+----------+----------+----------+
-> >>>> |                  | T n, D h | T m, D h | T n, D c |
-> >>>> +------------------+----------+----------+----------+
-> >>>> | Total memory use | 2.07     | 2.09     | 2.07     |
-> >>>> | Huge pages       | 0        | 1.3      | 1.25     |
-> >>>> +------------------+----------+----------+----------+
-> >>>
-> >>> Thank you for sharing the benchmark results!  But, I'm having a hard time to
-> >>> understand what this really means.  Could you please further clarify the setup
-> >>> of the benchmarks and interpretation of the results?
-> >> I will fix the cover in the next version, which I will submit soon.
-> >>
-> >> I tested the patch in a physical server with MariaDB 10.5. I run
-> >> sysbench to load the server.
-> >>
-> >> I check 3 scenarios:
-> >> - DAMON action hugepage for the database task, THP as never
-> >> - DAMON action hugepage, THP madvise
-> >> - DAMON action collapse, THP never
-> >>
-> >> I compared the memory consumption, both in overall in the server and
-> >> anonymous huge page consumption. The results are in the table
-> >>
-> >> T n: THP never
-> >> T m: THP madvise
-> >> D h: DAMON action hugepage
-> >> D c: DAMON action collapse
-> > 
-> > Thank you for sharing the details of the setup, Asier.
-> > 
-> >>
-> >> +------------------+----------+----------+----------+
-> >> |                  | T n, D h | T m, D h | T n, D c |
-> >> +------------------+----------+----------+----------+
-> >> | Total memory use | 2.07     | 2.09     | 2.07     |
-> >> | Huge pages       | 0        | 1.3      | 1.25     |
-> >> +------------------+----------+----------+----------+
-> > 
-> > Could you please further share interpretation of the results?  What these
-> > results mean?  Does it show some benefit of DAMOS_COLLAPSE?
-> 
-> In the first row is the total memory consumption in GB by the server
-> and in the second row the huge page consumption.
-> 
-> What this table shows is that DAMON action "hugepage" doesn't lead
-> to any hugepage collapse unless THP is set to madvise. If DAMON
-> action is set to "collapse", hugepage collapses happen, even when
-> THP is disabled. The memory consumption for DAMON "collapse" is
-> slightly lower than with "hugepage", since madvise applies to the
-> entire server and other application may request to collapse pages
-> through madvise.
-> 
-> Regarding the performance, I saw improvement from no hugepage at all
-> to use of hugepages. No significant difference between "hugepage" and 
-> "collapse" actions. I will have a look to the logs and publish it a bit
-> later.
-
-Makes sense, thank you for clarification Asier!
-
-So this result shows the functionality well.  Meanwhile, it doesn't clearly
-show performance gain.  Given the small size of the change and rationale of
-MADV_COLLAPSE that I believe explored when it was introduced, I think this test
-result is also good.  I wouldn't strongly require more tests for this patch.
-
-That said, if you find some more interesting thing from logs, please share, by
-or after the next version of this patch.
 
 
-Thanks,
-SJ
+This patch-set adds new pci controller event and LTSSM tracepoint used by host drivers
+which provide LTSSM trace functionality. The first user is pcie-dw-rockchip with a 256
+Bytes FIFO for recording LTSSM transition.
 
-[...]
+Testing
+=========
+
+This series was tested on RK3588/RK3588s EVB1 with NVMe SSD connected to PCIe3 and PCIe2
+root ports.
+
+echo 1 > /sys/kernel/debug/tracing/events/pci_controller/pcie_ltssm_state_transition/enable
+cat /sys/kernel/debug/tracing/trace_pipe
+
+ # tracer: nop
+ #
+ # entries-in-buffer/entries-written: 64/64   #P:8
+ #
+ #                                _-----=> irqs-off/BH-disabled
+ #                               / _----=> need-resched
+ #                              | / _---=> hardirq/softirq
+ #                              || / _--=> preempt-depth
+ #                              ||| / _-=> migrate-disable
+ #                              |||| /     delay
+ #           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
+ #              | |         |   |||||     |         |
+      kworker/0:0-9       [000] .....     5.600194: pcie_ltssm_state_transition: dev: a40000000.pcie state: DETECT_ACT rate: Unknown
+      kworker/0:0-9       [000] .....     5.600198: pcie_ltssm_state_transition: dev: a40000000.pcie state: DETECT_WAIT rate: Unknown
+      kworker/0:0-9       [000] .....     5.600199: pcie_ltssm_state_transition: dev: a40000000.pcie state: DETECT_ACT rate: Unknown
+      kworker/0:0-9       [000] .....     5.600201: pcie_ltssm_state_transition: dev: a40000000.pcie state: POLL_ACTIVE rate: Unknown
+      kworker/0:0-9       [000] .....     5.600202: pcie_ltssm_state_transition: dev: a40000000.pcie state: POLL_CONFIG rate: Unknown
+      kworker/0:0-9       [000] .....     5.600204: pcie_ltssm_state_transition: dev: a40000000.pcie state: CFG_LINKWD_START rate: Unknown
+      kworker/0:0-9       [000] .....     5.600206: pcie_ltssm_state_transition: dev: a40000000.pcie state: CFG_LINKWD_ACEPT rate: Unknown
+      kworker/0:0-9       [000] .....     5.600207: pcie_ltssm_state_transition: dev: a40000000.pcie state: CFG_LANENUM_WAI rate: Unknown
+      kworker/0:0-9       [000] .....     5.600208: pcie_ltssm_state_transition: dev: a40000000.pcie state: CFG_LANENUM_ACEPT rate: Unknown
+      kworker/0:0-9       [000] .....     5.600210: pcie_ltssm_state_transition: dev: a40000000.pcie state: CFG_COMPLETE rate: Unknown
+      kworker/0:0-9       [000] .....     5.600212: pcie_ltssm_state_transition: dev: a40000000.pcie state: CFG_IDLE rate: Unknown
+      kworker/0:0-9       [000] .....     5.600213: pcie_ltssm_state_transition: dev: a40000000.pcie state: L0 rate: 2.5 GT/s
+      kworker/0:0-9       [000] .....     5.600214: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_LOCK rate: Unknown
+      kworker/0:0-9       [000] .....     5.600216: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_RCVRCFG rate: Unknown
+      kworker/0:0-9       [000] .....     5.600217: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_SPEED rate: Unknown
+      kworker/0:0-9       [000] .....     5.600218: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_LOCK rate: Unknown
+      kworker/0:0-9       [000] .....     5.600220: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_EQ1 rate: Unknown
+      kworker/0:0-9       [000] .....     5.600221: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_EQ2 rate: 8.0 GT/s
+      kworker/0:0-9       [000] .....     5.600222: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_EQ3 rate: 8.0 GT/s
+      kworker/0:0-9       [000] .....     5.600224: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_LOCK rate: 8.0 GT/s
+      kworker/0:0-9       [000] .....     5.600225: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_RCVRCFG rate: 8.0 GT/s
+      kworker/0:0-9       [000] .....     5.600226: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_IDLE rate: 8.0 GT/s
+      kworker/0:0-9       [000] .....     5.600227: pcie_ltssm_state_transition: dev: a40000000.pcie state: L0 rate: 8.0 GT/s
+      kworker/0:0-9       [000] .....     5.600228: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_LOCK rate: 8.0 GT/s
+      kworker/0:0-9       [000] .....     5.600229: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_RCVRCFG rate: 8.0 GT/s
+      kworker/0:0-9       [000] .....     5.600231: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_IDLE rate: 8.0 GT/s
+      kworker/0:0-9       [000] .....     5.600232: pcie_ltssm_state_transition: dev: a40000000.pcie state: L0 rate: 8.0 GT/s
+      kworker/0:0-9       [000] .....     5.600233: pcie_ltssm_state_transition: dev: a40000000.pcie state: L123_SEND_EIDLE rate: 8.0 GT/s
+      kworker/0:0-9       [000] .....     5.600234: pcie_ltssm_state_transition: dev: a40000000.pcie state: L1_IDLE rate: 8.0 GT/s
+      kworker/0:0-9       [000] .....     5.600236: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_LOCK rate: 8.0 GT/s
+      kworker/0:0-9       [000] .....     5.600237: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_RCVRCFG rate: 8.0 GT/s
+      kworker/0:0-9       [000] .....     5.600238: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_IDLE rate: 8.0 GT/s
+      kworker/0:0-9       [000] .....     5.600239: pcie_ltssm_state_transition: dev: a40000000.pcie state: L0 rate: 8.0 GT/s
+
+
+Changes in v5:
+- rebase
+- use EM/EMe instead
+- remove reg/unreg function and back to use TRACE_EVENT
+- use trace_pcie_ltssm_state_transition_enabled()
+
+Changes in v4:
+- use TRACE_EVENT_FN to notify when to start and stop the tracepoint,
+  and export pci_ltssm_tp_enabled() for host drivers to use
+- skip trace if pci_ltssm_tp_enabled() is false.(Steven)
+- wrap into 80 columns(Bjorn)
+
+Changes in v3:
+- add TRACE_DEFINE_ENUM for all enums(Steven Rostedt)
+- Add toctree entry in Documentation/trace/index.rst(Bagas Sanjaya)
+- fix mismatch section underline length(Bagas Sanjaya)
+- Make example snippets in code block(Bagas Sanjaya)
+- warp context into 80 columns and fix the file name(Bjorn)
+- reorder variables(Mani)
+- rename loop to i; rename en to enable(Mani)
+- use FIELD_GET(Mani)
+- add comment about how the FIFO works(Mani)
+
+Changes in v2:
+- use tracepoint
+
+Shawn Lin (3):
+  PCI: trace: Add PCI controller LTSSM transition tracepoint
+  Documentation: tracing: Add PCI controller event documentation
+  PCI: dw-rockchip: Add pcie_ltssm_state_transition trace support
+
+ Documentation/trace/events-pci-controller.rst |  42 ++++++++++
+ Documentation/trace/index.rst                 |   1 +
+ drivers/pci/controller/dwc/pcie-dw-rockchip.c | 111 ++++++++++++++++++++++++++
+ drivers/pci/trace.c                           |   1 +
+ include/trace/events/pci_controller.h         |  58 ++++++++++++++
+ 5 files changed, 213 insertions(+)
+ create mode 100644 Documentation/trace/events-pci-controller.rst
+ create mode 100644 include/trace/events/pci_controller.h
+
+-- 
+2.7.4
+
