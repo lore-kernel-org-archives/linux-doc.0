@@ -1,224 +1,147 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C65E332919;
-	Wed, 25 Mar 2026 11:50:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D454E332919;
+	Wed, 25 Mar 2026 11:55:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774439450; cv=none; b=lETBgtj0kmm92uR2Ldd+mx5SYKW37BKUgP01USdUYlkdedESyyxAeUMKEbaNu28zGYsE/ZdD7AnYEZ7MZCx1xZgcxR3ppOe3I+DJCJFsON/QnYUPrrAmkKZuqBCmyETEX5pg57BiW5zivbsFtUeQSboqXn3QY6sAb2P8Wn9Gh/U=
+	t=1774439749; cv=none; b=KxonWw+RITRpK8uQ57yxtoM4UOHCasxkGff4NSKuY1LN9uwdOTrEQNftac4rfVQb/7n5mw/ELgB1Ty1P4iGrOhhGc85Znn2DcE9WckEe0bdOstEUE5tV4gwEdLo//SmSxr49fMc6Y0O8EX3AZwRX7VmU3bU+g4M20dhBFIcVRn8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774439450; c=relaxed/simple;
-	bh=dAC+WHcAdAWz9iJR6CXbXNrDKvcmgbjixQSj7+RodpA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PQRiK/eUivrIvmeCqhnstfhaRoUxYl/2D7RhdTaP65NMSknGjFUOdztsvTnBVTz/zLMO2gJ5n+ozYtimcDj4F3dtMaHN9xnIzrPg1LB81mFZVJhM7oa351MXcqdASCXsDZK+SzQJtS+rQjGLdqQseJnyN5Cg7i+BIvP2tiNZL5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BuiV8LBc; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BuiV8LBc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3D44C4CEF7;
-	Wed, 25 Mar 2026 11:50:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774439450;
-	bh=dAC+WHcAdAWz9iJR6CXbXNrDKvcmgbjixQSj7+RodpA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=BuiV8LBcTXlRdQKHVnPLoSuHOPpKXnrh/OX/zgtfF4WjAPRAp/LTfyrPSeSf3a86Z
-	 LHVR7Wklf255l3t9b77mDFs65Z9JXDhxQnRFAhk+fiHaDmWP2cTHwlatfgS1r3fUPQ
-	 MXXSJDPntu5d1lRsKgS4b5ZjRGzFasgIeaCFUVEytKC/BK50uwBJq3c+g8OZOAyZ8O
-	 nHa1V/TfSPHakalUi7zYP7hmGBxe71D+x9aUdTStXiyRONhx5TLkicXVNDyQ/uBen7
-	 XMvr5CeJ1L1+dQAmfK0Mz0SaerT7C3BanF0BhvTcxPFerFKPlXzesgAkz9ARaU/zB8
-	 wn9vB5Q3cuYWw==
-Received: from localhost ([::1])
-	by mail.kernel.org with esmtp (Exim 4.99.1)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1w5Ml5-0000000Fsf8-3Lq8;
-	Wed, 25 Mar 2026 12:50:47 +0100
-Date: Wed, 25 Mar 2026 12:50:46 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jacob Keller <jacob.e.keller@intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Linux Doc Mailing List
- <linux-doc@vger.kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, "Randy
- Dunlap" <rdunlap@infradead.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>
-Subject: Re: kernel-doc overly verbose with V=0
-Message-ID: <20260325125020.533f2042@localhost>
-In-Reply-To: <9367d899-53af-4d9c-9320-22fc4dbadca5@intel.com>
-References: <9367d899-53af-4d9c-9320-22fc4dbadca5@intel.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1774439749; c=relaxed/simple;
+	bh=ys6PuOWdFe0qxokKIbVNj5WZJc8jhMK2HslSsFknON8=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OQe3DvG6bMp+/Xc0XjoPQvmV2AxUpo6OGqViwux/bjZD9PTLuTWz71jGLjnOE47BORfPkJrp3z8ilm3+rQVm8FAwjUegKtJN6yBMY43Aj6oyqET0QkuNQjr/91JUR2nVs2CgMQ+4xU/sXC/H72pdXAaCRK2OxESAHMjzNg/drUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.107])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fglhW5P1vzHnGfQ;
+	Wed, 25 Mar 2026 19:55:07 +0800 (CST)
+Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
+	by mail.maildlp.com (Postfix) with ESMTPS id 07E6F40587;
+	Wed, 25 Mar 2026 19:55:43 +0800 (CST)
+Received: from localhost (10.203.177.15) by dubpeml500005.china.huawei.com
+ (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Wed, 25 Mar
+ 2026 11:55:41 +0000
+Date: Wed, 25 Mar 2026 11:55:40 +0000
+From: Jonathan Cameron <jonathan.cameron@huawei.com>
+To: Ira Weiny <ira.weiny@intel.com>
+CC: John Groves <john@jagalactic.com>, John Groves <John@groves.net>, "Miklos
+ Szeredi" <miklos@szeredi.hu>, Dan Williams <dan.j.williams@intel.com>, "Bernd
+ Schubert" <bschubert@ddn.com>, Alison Schofield <alison.schofield@intel.com>,
+	John Groves <jgroves@micron.com>, "Jonathan Corbet" <corbet@lwn.net>, Shuah
+ Khan <skhan@linuxfoundation.org>, "Vishal Verma" <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan
+ Kara <jack@suse.cz>, "Alexander Viro" <viro@zeniv.linux.org.uk>, David
+ Hildenbrand <david@kernel.org>, Christian Brauner <brauner@kernel.org>,
+	"Darrick J . Wong" <djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, Stefan
+ Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, Josef
+ Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Chen
+ Linxuan <chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>, Fuad
+ Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>, Shivank
+ Garg <shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>, Gregory Price
+	<gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>, Ajay Joshi
+	<ajayjoshi@micron.com>, "venkataravis@micron.com" <venkataravis@micron.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH V9 1/8] dax: move dax_pgoff_to_phys from [drivers/dax/]
+ device.c to bus.c
+Message-ID: <20260325115540.000047f2@huawei.com>
+In-Reply-To: <69c321d5e7195_e9d8d10040@iweiny-mobl.notmuch>
+References: <0100019d1d463523-617e8165-a084-4d91-aa5e-13778264d5d4-000000@email.amazonses.com>
+	<20260324003743.4973-1-john@jagalactic.com>
+	<0100019d1d46d094-cc0a4b79-3bd2-43e8-a08d-ab8cd21266a6-000000@email.amazonses.com>
+	<20260324141806.000003f7@huawei.com>
+	<69c321d5e7195_e9d8d10040@iweiny-mobl.notmuch>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml500010.china.huawei.com (7.191.174.240) To
+ dubpeml500005.china.huawei.com (7.214.145.207)
 
-On Tue, 24 Mar 2026 13:37:39 -0700
-Jacob Keller <jacob.e.keller@intel.com> wrote:
+On Tue, 24 Mar 2026 18:44:21 -0500
+Ira Weiny <ira.weiny@intel.com> wrote:
 
-> Hi,
+> Jonathan Cameron wrote:
+> > On Tue, 24 Mar 2026 00:37:53 +0000
+> > John Groves <john@jagalactic.com> wrote:
+> >   
+> > > From: John Groves <john@groves.net>
+> > > 
+> > > This function will be used by both device.c and fsdev.c, but both are
+> > > loadable modules. Moving to bus.c puts it in core and makes it available
+> > > to both.
+> > > 
+> > > No code changes - just relocated.
+> > > 
+> > > Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+> > > Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+> > > Signed-off-by: John Groves <john@groves.net>  
+> > Obviously this is a straight forward code move... But I can't resist
+> > commenting on what is moving  (feel free to ignore! or maybe a follow
+> > up patch if you agree.
+> > 
+> > Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>  
 > 
-> I recently saw some strange behavior with the Python kernel-doc. I was
-> seeing the verbose info lines from the kernel-doc script, i.e.:
+> Added this to the series.  LMK if I missed something.
+LGTM.
+
+Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+(don't bother adding it unless you are touching the tree for some other reason!)
+
 > 
-> > Info: ice_ptp_hw.c:5377 Scanning doc for function ice_cgu_get_pin_freq_supp
-> > Info: ice_ptp_hw.c:5406 Scanning doc for function ice_cgu_get_pin_name
-> > Info: ice_ptp_hw.c:5441 Scanning doc for function ice_cgu_state_to_name
-> > Info: ice_ptp_hw.c:5463 Scanning doc for function ice_get_dpll_ref_sw_status
-> > Info: ice_ptp_hw.c:5505 Scanning doc for function ice_set_dpll_ref_sw_status
-> > Info: ice_ptp_hw.c:5544 Scanning doc for function ice_get_cgu_state
-> > Info: ice_ptp_hw.c:5612 Scanning doc for function ice_get_cgu_rclk_pin_info
-> > Info: ice_ptp_hw.c:5671 Scanning doc for function ice_cgu_get_output_pin_state_caps
-> > Info: ice_ptp_hw.c:5733 Scanning doc for function ice_ptp_lock
-> > Info: ice_ptp_hw.c:5770 Scanning doc for function ice_ptp_unlock
-> > Info: ice_ptp_hw.c:5782 Scanning doc for function ice_ptp_init_hw
-> > Info: ice_ptp_hw.c:5811 Scanning doc for function ice_ptp_write_port_cmd
-> > Info: ice_ptp_hw.c:5834 Scanning doc for function ice_ptp_one_port_cmd
-> > Info: ice_ptp_hw.c:5866 Scanning doc for function ice_ptp_port_cmd
-> > Info: ice_ptp_hw.c:5901 Scanning doc for function ice_ptp_tmr_cmd
-> > Info: ice_ptp_hw.c:5934 Scanning doc for function ice_ptp_init_time
-> > Info: ice_ptp_hw.c:5986 Scanning doc for function ice_ptp_write_incval
-> > Info: ice_ptp_hw.c:6035 Scanning doc for function ice_ptp_write_incval_locked
-> > Info: ice_ptp_hw.c:6056 Scanning doc for function ice_ptp_adj_clock
-> > Info: ice_ptp_hw.c:6107 Scanning doc for function ice_read_phy_tstamp
-> > Info: ice_ptp_hw.c:6134 Scanning doc for function ice_clear_phy_tstamp
-> > Info: ice_ptp_hw.c:6164 Scanning doc for function ice_ptp_reset_ts_memory
-> > Info: ice_ptp_hw.c:6183 Scanning doc for function ice_ptp_init_phc
-> > Info: ice_ptp_hw.c:6215 Scanning doc for function ice_get_phy_tx_tstamp_ready
-> > Info: ice_ptp_hw.c:6247 Scanning doc for function ice_check_phy_tx_tstamp_ready
-> > Info: ice_ptp_hw.c:6273 Scanning doc for function ice_ptp_config_sfd
-> > Info: ice_ptp_hw.c:6293 Scanning doc for function refsync_pin_id_valid  
+> Ira
 > 
-> I didn't understand why I was seeing this as it should only be happening
-> if running kernel-doc in verbose mode. Then I discovered I had set
-> KBUILD_VERBOSE=0 in my environment.
+> ---
+> commit ccc1878ab00178e82108bdd1ece497388a24290b (HEAD -> nvdimm-famfs-dax)
+> Author: Ira Weiny <ira.weiny@intel.com>
+> Date:   Tue Mar 24 12:36:19 2026 -0500
 > 
-> The python kernel-doc implementation reads this in the __init__ for
-> KernelFiles() on line 165:
+>     dax: Modernize dax_pgoff_to_phys()
 > 
-> >         if not verbose:
-> >             verbose = bool(os.environ.get("KBUILD_VERBOSE", 0))  
+>     The patch to move dax_pgoff_to_phys() to bus.c revealed that the
+>     function could be improved with more modern style and the newer
+>     in_range() utility function.
 > 
-> After some debugging, I realized this reads KBUILD_VERBOSE as a string,
-> then converts it to a boolean using python's standard rules, so "0"
-> becomes true, which enables the verbose output.
-
-Looking at tools/docs/sphinx-build-wrapper, it implements verbosity
-by doing:
-
-	verbose = bool(os.environ.get("KBUILD_VERBOSE", "") != "")
-
-which will also have the same problem as the one you detected.
-
-Perhaps the right fix would be to first convert to int then to bool
-on both places, in a way that "" will also be handled properly.
-Perhaps with:
-
-	try:
-	    verbose = bool(int(os.environ.get("KBUILD_VERBOSE", 0)))
-	except ValueError:
-	    # Handles an eventual case where verbosity is not a number
-	    # like KBUILD_VERBOSE=""
-	    verbose = False
-
-> This is in contrast to the (now removed) kernel-doc.pl script which
-> checked the value for a 1:
+>     Update it while we are moving it around.
 > 
-> >  if (defined($ENV{'KBUILD_VERBOSE'}) && $ENV{'KBUILD_VERBOSE'} =~ '1')   
-> The same behavior happens if you assign V=0 on the command line or to
-> any other non-empty string, since when V is set on the command line it
-> sets KBUILD_VERBOSE.
-
-That's funny... we did test make V=0 htmldocs / make V=1 htmldocs 
-
-It sounds that the problem is only if you explicitly set it without
-relying on gnu make.
-
-> Of course, I can remove KBUILD_VERBOSE from my environment, I'm not
-> entirely sure when or why I added it.
+>     Link: https://lore.kernel.org/all/20260324141806.000003f7@huawei.com/
+>     Suggested-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+>     Signed-off-by: Ira Weiny <ira.weiny@intel.com>
 > 
-> Would think it would make sense to update the kdoc_files.py script to
-> check and interpret the string value the same way the perl script used
-> to? It seems reasonable to me that users might set "V=0" thinking that
-> it disables the verbosity. Other verbosity checks are based on the
-> string containing a 1,
-
-kernel-doc has a set of "-W" flags to control its verbosity. Direct
-support for KBUILD_VERBOSE was added there just to make it bug-compatible
-with kernel-doc.pl when building via Makefile.
-
-Yet, as using it via "make htmldocs" don't use "-W", IMO it makes
-sense to ensure that "-Wall" is enabled if V=1.
-
-> (some even use 2 for even more printing).
-
-Documentation had support for V=2, but this was dropped on this
-commit:
-	c0d3b83100c8 ("kbuild: do not print extra logs for V=2")
-
-> I'm not entirely sure what the best implementation for python is to
-> avoid this misinterpretation, so I haven't drafted a proper patch yet.
-
-Perhaps something like the patch below (untested).
-
--- 
-Thanks,
-Mauro
-
-[PATCH] doc tools: better handle KBUILD_VERBOSE
-
-As reported by Jacob, there are troubles when KBUILD_VERBOSE is
-set at the environment.
-
-Fix it on both kernel-doc and sphinx-build-wrapper.
-
-Reported-by: Jacob Keller <jacob.e.keller@intel.com>
-Closes: https://lore.kernel.org/linux-doc/9367d899-53af-4d9c-9320-22fc4dbadca5@intel.com/
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-diff --git a/tools/docs/sphinx-build-wrapper b/tools/docs/sphinx-build-wrapper
-index 2c63d28f639d..1bb962202784 100755
---- a/tools/docs/sphinx-build-wrapper
-+++ b/tools/docs/sphinx-build-wrapper
-@@ -238,7 +238,12 @@ class SphinxBuilder:
-             self.latexopts = os.environ.get("LATEXOPTS", "")
- 
-         if not verbose:
--            verbose = bool(os.environ.get("KBUILD_VERBOSE", "") != "")
-+            try:
-+                verbose = bool(int(os.environ.get("KBUILD_VERBOSE", 0)))
-+            except ValueError:
-+                # Handles an eventual case where verbosity is not a number
-+                # like KBUILD_VERBOSE=""
-+                verbose = False
- 
-         if verbose is not None:
-             self.verbose = verbose
-diff --git a/tools/lib/python/kdoc/kdoc_files.py b/tools/lib/python/kdoc/kdoc_files.py
-index 2428cfc4e843..40984ea78f12 100644
---- a/tools/lib/python/kdoc/kdoc_files.py
-+++ b/tools/lib/python/kdoc/kdoc_files.py
-@@ -238,7 +238,22 @@ class KernelFiles():
-         """
- 
-         if not verbose:
--            verbose = bool(os.environ.get("KBUILD_VERBOSE", 0))
-+            try:
-+                verbose = bool(int(os.environ.get("KBUILD_VERBOSE", 0)))
-+            except ValueError:
-+                # Handles an eventual case where verbosity is not a number
-+                # like KBUILD_VERBOSE=""
-+                verbose = False
-+
-+            #
-+            # kernel-doc logic was likelly called via Sphinx.
-+            # Enable all warnings.
-+            #
-+            if verbose:
-+                werror=True
-+                wreturn=True
-+                wshort_desc=True
-+                wcontents_before_sections=True
- 
-         if out_style is None:
-             out_style = OutputFormat()
+> diff --git a/drivers/dax/bus.c b/drivers/dax/bus.c
+> index e4bd5c9f006c..1b412264bb36 100644
+> --- a/drivers/dax/bus.c
+> +++ b/drivers/dax/bus.c
+> @@ -1421,16 +1421,12 @@ static const struct device_type dev_dax_type = {
+>  __weak phys_addr_t dax_pgoff_to_phys(struct dev_dax *dev_dax, pgoff_t pgoff,
+>                               unsigned long size)
+>  {
+> -       int i;
+> -
+> -       for (i = 0; i < dev_dax->nr_range; i++) {
+> +       for (int i = 0; i < dev_dax->nr_range; i++) {
+>                 struct dev_dax_range *dax_range = &dev_dax->ranges[i];
+>                 struct range *range = &dax_range->range;
+> -               unsigned long long pgoff_end;
+>                 phys_addr_t phys;
+> 
+> -               pgoff_end = dax_range->pgoff + PHYS_PFN(range_len(range)) - 1;
+> -               if (pgoff < dax_range->pgoff || pgoff > pgoff_end)
+> +               if (!in_range(pgoff, dax_range->pgoff, PHYS_PFN(range_len(range))))
+>                         continue;
+>                 phys = PFN_PHYS(pgoff - dax_range->pgoff) + range->start;
+>                 if (phys + size - 1 <= range->end)
+> 
 
