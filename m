@@ -1,86 +1,151 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDD903CCFC4;
-	Wed, 25 Mar 2026 12:18:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D99E53D0900;
+	Wed, 25 Mar 2026 12:44:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774441116; cv=none; b=jsQzbBN+8gwC0sgoY4Je577OFjDEOg8ZjmJYRTwL77FfocpiWxXkGZ8P8ew2TWt4ihGWhrKt4gcYO4yoQyRdSNmoA04IE+rxBfkAEXIcssHSWeXt9qLX9DyfoezHehGNqdxOcHu/oqnRTPpnqGNpnLhJRGq5nxuZIqDRD38bhlA=
+	t=1774442654; cv=none; b=Wr10y539rqNUgYuGFO4LO2+aRZVKqpzzO51DWGjv2j5zXZjsOAlVrjwFJM+tDXuhMjmj/TC9EZvaxabJDtyABCjUS27LNGdn6BHT8jqGNHoR0Wx9OxKSr/7URfbyuWsvraVt3e45OFMOKr7z5frRHmnUqCWEMPWUj7hP2q0QmSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774441116; c=relaxed/simple;
-	bh=JGE39YxQ0nxW3TreMOoAiPOjtCFSRAiNbRwjPQ5P61o=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=KFFFaBPzhShqINhhd9f4pC6ebh5ORw2V1yxGaWhw6tKi78E8KCRM0Td1AD8HqeJEVxj5MojhVdnEVldA5Iv4wvYg2U+Thynu0dIxyEsoO86mseqmyZOv4I/LnWvWS2lZgj2jEES1Q75Z94jyxXGCLGCVozNHix4cbPZKxSetzIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g/lxbSXU; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g/lxbSXU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774441114; x=1805977114;
-  h=date:from:to:cc:subject:message-id;
-  bh=JGE39YxQ0nxW3TreMOoAiPOjtCFSRAiNbRwjPQ5P61o=;
-  b=g/lxbSXUBEMyvIMTffAgI34Q+1po330M54gKLePXSkLoxguQ1eSfm5J0
-   6Kd/RSkwFj6ikPMFAiRJdWBe8bEpfiNTbajqfa6dByAL182COWM3x/jY3
-   BCGLAt9N4Ff5yKU0jjNeR/qTiv4jxP6xQBHXHa20AA0mk8cNdz7icj3YX
-   4y05WrzLSFIn2Ha+f0TPs7uGQpdU3JBR9CHmknkSFFG9IWrOkGONgHg6e
-   nlQZ8PJQ9QgG1U3ZXHSit4f6s2kxlMJF3uUpFN2wIdMLSE+Rgq6Wz6RGK
-   vIIyZ0ptE5SHqyFkKT6TMptBkPf3Z/pPWq0lgmVOGzm0rrYN5F4XDUEOX
-   Q==;
-X-CSE-ConnectionGUID: Y/lncvXYTV+qd1oYrPKZCQ==
-X-CSE-MsgGUID: KGcHv+69QwGITDdHZjVHTw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="86553464"
-X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="86553464"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 05:18:34 -0700
-X-CSE-ConnectionGUID: dDxz0SJ/RZmOF9+kCWoxoA==
-X-CSE-MsgGUID: zYe+N82fTC+djKnhNXPqgA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="248183384"
-Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 25 Mar 2026 05:18:32 -0700
-Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w5NBt-000000006nJ-3xpa;
-	Wed, 25 Mar 2026 12:18:29 +0000
-Date: Wed, 25 Mar 2026 20:18:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: Harald Freudenberger <freude@linux.ibm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-s390@vger.kernel.org, Vasily Gorbik <gor@linux.ibm.com>,
- Holger Dengler <dengler@linux.ibm.com>,
- Anthony Krowiak <akrowiak@linux.ibm.com>, linux-doc@vger.kernel.org
-Subject: [s390:features 6/11] Warning:
- drivers/s390/crypto/zcrypt_msgtype6.c:1253 This comment starts with '/**',
- but isn't a kernel-doc comment. Refer to
- Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202603252022.vEojGo3V-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1774442654; c=relaxed/simple;
+	bh=bzYdfF1spGMVjwl4NTjaat4YQrXVriJ+IaIcJqcKJlo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=m3fqR1q7rXHoAFJevHCZBkHQWr4tD0+wJyH6UdWee3Ek7HfX2x809Zx18NGPGl+7478u3jwGRkAtOgzBjiy/iN/QoRhK356hKYmcgfC3a2GNJQ3PxYZkfUnHwGDH2dOwU01PtKiyRNPin/WJ+qyGjgO+zJKV+sFWIEZmatCTTWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
+Received: from omf12.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay04.hostedemail.com (Postfix) with ESMTP id 0D0DC1A082D;
+	Wed, 25 Mar 2026 12:44:07 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf12.hostedemail.com (Postfix) with ESMTPA id EC85817;
+	Wed, 25 Mar 2026 12:43:54 +0000 (UTC)
+Date: Wed, 25 Mar 2026 07:43:53 -0500
+From: John Groves <John@groves.net>
+To: Jonathan Cameron <jonathan.cameron@huawei.com>
+Cc: John Groves <john@jagalactic.com>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
+	Amir Goldstein <amir73il@gmail.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
+	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH V9 3/8] dax: add fsdev.c driver for fs-dax on character
+ dax
+Message-ID: <acPX9T2ZF7xTCHtZ@groves.net>
+References: <0100019d1d463523-617e8165-a084-4d91-aa5e-13778264d5d4-000000@email.amazonses.com>
+ <20260324003818.5009-1-john@jagalactic.com>
+ <0100019d1d476420-6b0bf60e-3b3a-4868-8f5f-484cd55d4709-000000@email.amazonses.com>
+ <20260324143927.000024c3@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260324143927.000024c3@huawei.com>
+X-Rspamd-Server: rspamout07
+X-Rspamd-Queue-Id: EC85817
+X-Stat-Signature: 1qn3h5nx7pwds75jfk33psjwun8sh14w
+X-Session-Marker: 6A6F686E4067726F7665732E6E6574
+X-Session-ID: U2FsdGVkX180+af1YWzvaZ59D8sxBuIZxxdYmwQ05wU=
+X-HE-Tag: 1774442634-3402
+X-HE-Meta: U2FsdGVkX1+N9RTW+cU2f//6uhWp/3cA7dyMyvWeDd14EPQJZCrLvO2FgAJa+U+AGXznyUFgoxwG7AiMQ+J/iWcIVhQQqjxL1Z1RBdHi7SMWGXxvholXJsbRJ7vA1tkB3wxhjoXOxImeBTrsGQt9/7Tpp6hu5bpxC8vUZzPCdhLasDGEzMljNdt9S1isvnb85mEOf8EvVD10dWxj0viJRjlot+qh6PxDSWGpwiqSI4Id/V716hBLFkZU2PJKtkMZEvT+NOPFfaUKwAoYWvS8+akdil0Am4UPyiRJV2Beuw1sRneBBtupIg2CLdv3qvibJFNqftrJyNxX2BKVkUCKsJns4hilBfJx4CQoTuzSNGekZWyMLXDjcsyFUruSvcYbRMlzkimElgnyOZSmJF9cIoj/+qluE3dG3Nf34vqLyfe1vFHoQB6CDD7KNpzs5lQuvRnQGs+7W3q8fuDEKMy21SHulDUoAINg0oNWKAEMAr9chD3y6qNx3cS0nujP4+Mm9yiujzZVF/f0QBeo3IX6fKJ3/QdsWCK/Kz56z3DwuO4=
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/s390/linux.git features
-head:   2a0a1db5081df02d6753deb1826fd3932a1ab168
-commit: 23a4757d6d699e602b358808359149d0e8be6db9 [6/11] s390/zcrypt: Move inline function rng_type6cprb_msgx from header to code
-config: s390-randconfig-001-20260325 (https://download.01.org/0day-ci/archive/20260325/202603252022.vEojGo3V-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 054e11d1a17e5ba88bb1a8ef32fad3346e80b186)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260325/202603252022.vEojGo3V-lkp@intel.com/reproduce)
+On 26/03/24 02:39PM, Jonathan Cameron wrote:
+> On Tue, 24 Mar 2026 00:38:31 +0000
+> John Groves <john@jagalactic.com> wrote:
+> 
+> > From: John Groves <john@groves.net>
+> > 
+> > The new fsdev driver provides pages/folios initialized compatibly with
+> > fsdax - normal rather than devdax-style refcounting, and starting out
+> > with order-0 folios.
+> > 
+> > When fsdev binds to a daxdev, it is usually (always?) switching from the
+> > devdax mode (device.c), which pre-initializes compound folios according
+> > to its alignment. Fsdev uses fsdev_clear_folio_state() to switch the
+> > folios into a fsdax-compatible state.
+> > 
+> > A side effect of this is that raw mmap doesn't (can't?) work on an fsdev
+> > dax instance. Accordingly, The fsdev driver does not provide raw mmap -
+> > devices must be put in 'devdax' mode (drivers/dax/device.c) to get raw
+> > mmap capability.
+> > 
+> > In this commit is just the framework, which remaps pages/folios compatibly
+> > with fsdax.
+> > 
+> > Enabling dax changes:
+> > 
+> > - bus.h: add DAXDRV_FSDEV_TYPE driver type
+> > - bus.c: allow DAXDRV_FSDEV_TYPE drivers to bind to daxdevs
+> > - dax.h: prototype inode_dax(), which fsdev needs
+> > 
+> > Suggested-by: Dan Williams <dan.j.williams@intel.com>
+> > Suggested-by: Gregory Price <gourry@gourry.net>
+> > Signed-off-by: John Groves <john@groves.net>
+> 
+> I was kind of thinking you'd go with a hidden KCONFIG option with default
+> magic to do the same build condition to you had in the Makefil, but one the
+> user can opt in or out for is also fine.
+> 
+> Comments on that below. Meh, I think this is better anyway :)
+> 
+> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+> 
+> 
+> 
+> > diff --git a/drivers/dax/Kconfig b/drivers/dax/Kconfig
+> > index d656e4c0eb84..7051b70980d5 100644
+> > --- a/drivers/dax/Kconfig
+> > +++ b/drivers/dax/Kconfig
+> > @@ -61,6 +61,17 @@ config DEV_DAX_HMEM_DEVICES
+> >  	depends on DEV_DAX_HMEM && DAX
+> >  	def_bool y
+> >  
+> > +config DEV_DAX_FSDEV
+> > +	tristate "FSDEV DAX: fs-dax compatible devdax driver"
+> > +	depends on DEV_DAX && FS_DAX
+> > +	help
+> > +	  Support fs-dax access to DAX devices via a character device
+> > +	  interface. Unlike device_dax (which pre-initializes compound folios
+> > +	  based on device alignment), this driver leaves folios at order-0 so
+> > +	  that fs-dax filesystems can manage folio order dynamically.
+> > +
+> > +	  Say M if unsure.
+> Fine like this, but if you wanted to hide it in interests of not
+> confusing users...
+> 
+> config DEV_DAX_FSDEV
+> 	tristate
+> 	depends on DEV_DAX && FS_DAX
+> 	default DEV_DAX
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603252022.vEojGo3V-lkp@intel.com/
+I like this better. I see no reason not to default to including fsdev.
+It does nothing other than frustrating famfs users if it's off - since
+building it still has no effect unless you put a daxdev in famfs mode.
 
-All warnings (new ones prefixed by >>):
+Ira, it's kinda in your hands at the moment. Do you feel like making this
+change?
 
->> Warning: drivers/s390/crypto/zcrypt_msgtype6.c:1253 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Prepare a type6 CPRB message for random number generation
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> > +
+> >  config DEV_DAX_KMEM
+> >  	tristate "KMEM DAX: map dax-devices as System-RAM"
+> >  	default DEV_DAX
+> 
+> > +}
+> 
