@@ -1,147 +1,86 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D454E332919;
-	Wed, 25 Mar 2026 11:55:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDD903CCFC4;
+	Wed, 25 Mar 2026 12:18:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774439749; cv=none; b=KxonWw+RITRpK8uQ57yxtoM4UOHCasxkGff4NSKuY1LN9uwdOTrEQNftac4rfVQb/7n5mw/ELgB1Ty1P4iGrOhhGc85Znn2DcE9WckEe0bdOstEUE5tV4gwEdLo//SmSxr49fMc6Y0O8EX3AZwRX7VmU3bU+g4M20dhBFIcVRn8=
+	t=1774441116; cv=none; b=jsQzbBN+8gwC0sgoY4Je577OFjDEOg8ZjmJYRTwL77FfocpiWxXkGZ8P8ew2TWt4ihGWhrKt4gcYO4yoQyRdSNmoA04IE+rxBfkAEXIcssHSWeXt9qLX9DyfoezHehGNqdxOcHu/oqnRTPpnqGNpnLhJRGq5nxuZIqDRD38bhlA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774439749; c=relaxed/simple;
-	bh=ys6PuOWdFe0qxokKIbVNj5WZJc8jhMK2HslSsFknON8=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OQe3DvG6bMp+/Xc0XjoPQvmV2AxUpo6OGqViwux/bjZD9PTLuTWz71jGLjnOE47BORfPkJrp3z8ilm3+rQVm8FAwjUegKtJN6yBMY43Aj6oyqET0QkuNQjr/91JUR2nVs2CgMQ+4xU/sXC/H72pdXAaCRK2OxESAHMjzNg/drUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.224.107])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fglhW5P1vzHnGfQ;
-	Wed, 25 Mar 2026 19:55:07 +0800 (CST)
-Received: from dubpeml500005.china.huawei.com (unknown [7.214.145.207])
-	by mail.maildlp.com (Postfix) with ESMTPS id 07E6F40587;
-	Wed, 25 Mar 2026 19:55:43 +0800 (CST)
-Received: from localhost (10.203.177.15) by dubpeml500005.china.huawei.com
- (7.214.145.207) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Wed, 25 Mar
- 2026 11:55:41 +0000
-Date: Wed, 25 Mar 2026 11:55:40 +0000
-From: Jonathan Cameron <jonathan.cameron@huawei.com>
-To: Ira Weiny <ira.weiny@intel.com>
-CC: John Groves <john@jagalactic.com>, John Groves <John@groves.net>, "Miklos
- Szeredi" <miklos@szeredi.hu>, Dan Williams <dan.j.williams@intel.com>, "Bernd
- Schubert" <bschubert@ddn.com>, Alison Schofield <alison.schofield@intel.com>,
-	John Groves <jgroves@micron.com>, "Jonathan Corbet" <corbet@lwn.net>, Shuah
- Khan <skhan@linuxfoundation.org>, "Vishal Verma" <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan
- Kara <jack@suse.cz>, "Alexander Viro" <viro@zeniv.linux.org.uk>, David
- Hildenbrand <david@kernel.org>, Christian Brauner <brauner@kernel.org>,
-	"Darrick J . Wong" <djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
-	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, Stefan
- Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, Josef
- Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Chen
- Linxuan <chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>, Fuad
- Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>, Shivank
- Garg <shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>, Gregory Price
-	<gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>, Ajay Joshi
-	<ajayjoshi@micron.com>, "venkataravis@micron.com" <venkataravis@micron.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH V9 1/8] dax: move dax_pgoff_to_phys from [drivers/dax/]
- device.c to bus.c
-Message-ID: <20260325115540.000047f2@huawei.com>
-In-Reply-To: <69c321d5e7195_e9d8d10040@iweiny-mobl.notmuch>
-References: <0100019d1d463523-617e8165-a084-4d91-aa5e-13778264d5d4-000000@email.amazonses.com>
-	<20260324003743.4973-1-john@jagalactic.com>
-	<0100019d1d46d094-cc0a4b79-3bd2-43e8-a08d-ab8cd21266a6-000000@email.amazonses.com>
-	<20260324141806.000003f7@huawei.com>
-	<69c321d5e7195_e9d8d10040@iweiny-mobl.notmuch>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1774441116; c=relaxed/simple;
+	bh=JGE39YxQ0nxW3TreMOoAiPOjtCFSRAiNbRwjPQ5P61o=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=KFFFaBPzhShqINhhd9f4pC6ebh5ORw2V1yxGaWhw6tKi78E8KCRM0Td1AD8HqeJEVxj5MojhVdnEVldA5Iv4wvYg2U+Thynu0dIxyEsoO86mseqmyZOv4I/LnWvWS2lZgj2jEES1Q75Z94jyxXGCLGCVozNHix4cbPZKxSetzIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g/lxbSXU; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g/lxbSXU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774441114; x=1805977114;
+  h=date:from:to:cc:subject:message-id;
+  bh=JGE39YxQ0nxW3TreMOoAiPOjtCFSRAiNbRwjPQ5P61o=;
+  b=g/lxbSXUBEMyvIMTffAgI34Q+1po330M54gKLePXSkLoxguQ1eSfm5J0
+   6Kd/RSkwFj6ikPMFAiRJdWBe8bEpfiNTbajqfa6dByAL182COWM3x/jY3
+   BCGLAt9N4Ff5yKU0jjNeR/qTiv4jxP6xQBHXHa20AA0mk8cNdz7icj3YX
+   4y05WrzLSFIn2Ha+f0TPs7uGQpdU3JBR9CHmknkSFFG9IWrOkGONgHg6e
+   nlQZ8PJQ9QgG1U3ZXHSit4f6s2kxlMJF3uUpFN2wIdMLSE+Rgq6Wz6RGK
+   vIIyZ0ptE5SHqyFkKT6TMptBkPf3Z/pPWq0lgmVOGzm0rrYN5F4XDUEOX
+   Q==;
+X-CSE-ConnectionGUID: Y/lncvXYTV+qd1oYrPKZCQ==
+X-CSE-MsgGUID: KGcHv+69QwGITDdHZjVHTw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11739"; a="86553464"
+X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
+   d="scan'208";a="86553464"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 05:18:34 -0700
+X-CSE-ConnectionGUID: dDxz0SJ/RZmOF9+kCWoxoA==
+X-CSE-MsgGUID: zYe+N82fTC+djKnhNXPqgA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
+   d="scan'208";a="248183384"
+Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 25 Mar 2026 05:18:32 -0700
+Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w5NBt-000000006nJ-3xpa;
+	Wed, 25 Mar 2026 12:18:29 +0000
+Date: Wed, 25 Mar 2026 20:18:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: Harald Freudenberger <freude@linux.ibm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-s390@vger.kernel.org, Vasily Gorbik <gor@linux.ibm.com>,
+ Holger Dengler <dengler@linux.ibm.com>,
+ Anthony Krowiak <akrowiak@linux.ibm.com>, linux-doc@vger.kernel.org
+Subject: [s390:features 6/11] Warning:
+ drivers/s390/crypto/zcrypt_msgtype6.c:1253 This comment starts with '/**',
+ but isn't a kernel-doc comment. Refer to
+ Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202603252022.vEojGo3V-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500010.china.huawei.com (7.191.174.240) To
- dubpeml500005.china.huawei.com (7.214.145.207)
 
-On Tue, 24 Mar 2026 18:44:21 -0500
-Ira Weiny <ira.weiny@intel.com> wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/s390/linux.git features
+head:   2a0a1db5081df02d6753deb1826fd3932a1ab168
+commit: 23a4757d6d699e602b358808359149d0e8be6db9 [6/11] s390/zcrypt: Move inline function rng_type6cprb_msgx from header to code
+config: s390-randconfig-001-20260325 (https://download.01.org/0day-ci/archive/20260325/202603252022.vEojGo3V-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 054e11d1a17e5ba88bb1a8ef32fad3346e80b186)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260325/202603252022.vEojGo3V-lkp@intel.com/reproduce)
 
-> Jonathan Cameron wrote:
-> > On Tue, 24 Mar 2026 00:37:53 +0000
-> > John Groves <john@jagalactic.com> wrote:
-> >   
-> > > From: John Groves <john@groves.net>
-> > > 
-> > > This function will be used by both device.c and fsdev.c, but both are
-> > > loadable modules. Moving to bus.c puts it in core and makes it available
-> > > to both.
-> > > 
-> > > No code changes - just relocated.
-> > > 
-> > > Reviewed-by: Ira Weiny <ira.weiny@intel.com>
-> > > Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-> > > Signed-off-by: John Groves <john@groves.net>  
-> > Obviously this is a straight forward code move... But I can't resist
-> > commenting on what is moving  (feel free to ignore! or maybe a follow
-> > up patch if you agree.
-> > 
-> > Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>  
-> 
-> Added this to the series.  LMK if I missed something.
-LGTM.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603252022.vEojGo3V-lkp@intel.com/
 
-Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
-(don't bother adding it unless you are touching the tree for some other reason!)
+All warnings (new ones prefixed by >>):
 
-> 
-> Ira
-> 
-> ---
-> commit ccc1878ab00178e82108bdd1ece497388a24290b (HEAD -> nvdimm-famfs-dax)
-> Author: Ira Weiny <ira.weiny@intel.com>
-> Date:   Tue Mar 24 12:36:19 2026 -0500
-> 
->     dax: Modernize dax_pgoff_to_phys()
-> 
->     The patch to move dax_pgoff_to_phys() to bus.c revealed that the
->     function could be improved with more modern style and the newer
->     in_range() utility function.
-> 
->     Update it while we are moving it around.
-> 
->     Link: https://lore.kernel.org/all/20260324141806.000003f7@huawei.com/
->     Suggested-by: Jonathan Cameron <jonathan.cameron@huawei.com>
->     Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-> 
-> diff --git a/drivers/dax/bus.c b/drivers/dax/bus.c
-> index e4bd5c9f006c..1b412264bb36 100644
-> --- a/drivers/dax/bus.c
-> +++ b/drivers/dax/bus.c
-> @@ -1421,16 +1421,12 @@ static const struct device_type dev_dax_type = {
->  __weak phys_addr_t dax_pgoff_to_phys(struct dev_dax *dev_dax, pgoff_t pgoff,
->                               unsigned long size)
->  {
-> -       int i;
-> -
-> -       for (i = 0; i < dev_dax->nr_range; i++) {
-> +       for (int i = 0; i < dev_dax->nr_range; i++) {
->                 struct dev_dax_range *dax_range = &dev_dax->ranges[i];
->                 struct range *range = &dax_range->range;
-> -               unsigned long long pgoff_end;
->                 phys_addr_t phys;
-> 
-> -               pgoff_end = dax_range->pgoff + PHYS_PFN(range_len(range)) - 1;
-> -               if (pgoff < dax_range->pgoff || pgoff > pgoff_end)
-> +               if (!in_range(pgoff, dax_range->pgoff, PHYS_PFN(range_len(range))))
->                         continue;
->                 phys = PFN_PHYS(pgoff - dax_range->pgoff) + range->start;
->                 if (phys + size - 1 <= range->end)
-> 
+>> Warning: drivers/s390/crypto/zcrypt_msgtype6.c:1253 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
+    * Prepare a type6 CPRB message for random number generation
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
