@@ -1,169 +1,154 @@
-Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2914406272
-	for <linux-doc@vger.kernel.org>; Wed, 25 Mar 2026 17:35:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.173
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774460103; cv=none; b=IsnrmFHZv8gERtRTEVIw8wLMNh/cc0swsS9dyCqFWIQfDmTveZw0CEQKylzaaYKvoaUSk3n1ygaTM7bxyLbHocEwcf2wITnuobzcifMB8wWkIKd3VFYwD/Hbo0nfx3CtceQ4zCVRncxNtwNNk+1ICKA9iHcfWP9a/nEuhudWF6k=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774460103; c=relaxed/simple;
-	bh=clM9+UyXrzN9nEW43pJpghdXSx89Puh9hjZlPMWv+hI=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aSzAZdbEH+uNygyItZyQGBL2u28j5CW4qXAU+gAaXIQya9ivzUKMd8QdrJVDNP64kK5bQSeyGnpI85MsPGFgcAkqUUuipT3kMhnrHs8SbvICsxaLaMpjJd5khb06g6Q3p03KcEIHSV6KBo/DvygZ34Y4Haw2211cLwYE1C5uaec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QeVKCRrA; arc=none smtp.client-ip=74.125.82.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4785828C869
+	for <linux-doc@vger.kernel.org>; Wed, 25 Mar 2026 17:51:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774461075; cv=pass; b=JVuNVQv14z6C4fgLKr2UzqlrrilXnzRzKt3G17IrxrHXLqnFvAXwnXMhOXXhFL/+K3oUosI4W+gbdDpE0/rSmC1ZJSAD2Db8FP4p1Oycs20v1k4QOd2P2BkcJgrrLF6Qfuj40X7JEQwZ3ArSsU9pkx+BqtVz5RuKXU8AiZIZ2Cg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774461075; c=relaxed/simple;
+	bh=LfOHx404KK+zENd5k0iKvf2df8c1QUv6Mhd4nnrA2k0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZBwaJLkNYHJV5YEuxevIJXaON4NaAibN8ReSTa8QYqP4PbtGrI+QyZM86x2ztryzd1n5RwI+8VJDXzIpCZDvTXM3wM+BbWtFiQ3WX2LGOXcIUF2JCq5CjCx1gCHJ1kqcNRk+SHDueAQz8ED342ej2mthZLQ2puxR5UysrJ70I7o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dfl+pF2P; arc=pass smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QeVKCRrA"
-Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-2ba9c484e5eso109452eec.1
-        for <linux-doc@vger.kernel.org>; Wed, 25 Mar 2026 10:35:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dfl+pF2P"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-661ce258878so1278a12.0
+        for <linux-doc@vger.kernel.org>; Wed, 25 Mar 2026 10:51:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774461073; cv=none;
+        d=google.com; s=arc-20240605;
+        b=NeCi+nz45oOT9y2SVcmCpg6PnRI6z1rowjyfPABXq+jE1iyBDQrKtfJXe+wjaJMPH3
+         xQ3lLsS+yX+s6Z5vxXqNHCSkZVQqbIeV0+535naA1e79G4PBfZaPMZVYdxF8jlMnZwCE
+         q+H+4vnk7kh/AE+ggoAopZI9ZK2ZqqXHTva849ADBMlDRpH0EGrZUV4xpSdAlO64EcAv
+         9tWx6VuWc//GhZ4FAENHh6uc33XvRopHNcrxybx7IQ3TnjIXdYjSEjl3YaoDLflYlHbc
+         ykaZXKh30W/GKE3Hqg4fvdb9NF/Pq++KI1y/znPOkEDsHprHUuyMpAQCyYTp1WEBJE24
+         svEg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=lcdS5CNtdEsSElOVQqwojbHt2Qxr4nffxvoalO1pdQk=;
+        fh=c/CXBmGE5Nh+e7uJREFWecO+/r83vzy2WHttYxGTZRE=;
+        b=U8l+l87+KhyI5g2i/aBQLM/WdjW5lJbe02utar6GZLlVP1H6UOHQvft5QaSxBW/nAS
+         InGYyoJtwdaJA73V+w6udSq7qGW3SIEPkcd5SJDTQDaHk2uPfjrtWhBXmPnISlyGq7H7
+         ZdjqvNX94T32G1j3xs0Mnv9FFnite9yXCi18m3fw49SMJnpzM6M/eTXtBPAE+IsM0YCG
+         RT6SOAbEMT5sUdpMSwUyFE2tRujrbdCxLJlR6uKEdXwQFzzwmDrfPnGGN64phrMaxc+5
+         Sf6Q0AuvNpeXjctd4IItzvhV0kVE4PDSaK8iMGNs/+kY/j5yFrS05b6G9yIRIMMGLD4m
+         tQjQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774460100; x=1775064900; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=6LvfhXxnMpqu+8Jaxmf8YnU74NbO72vJex03sq4AEB4=;
-        b=QeVKCRrA7qO9pYLUdqR1gtTQMaq7b4+caHjFbI6fiixPD/pY+8y9ybm+LLCw4NWDI1
-         XfEz5wUmjp4l9ZuMW9af0hIoo1FVD6Y7tstrV8I54xOZq8kGQ9vNkj9R1lDTItwMnX9X
-         wXWMrD5zYRWX5O27k7mJHEEyMswoz9/BOe4NiBhGEaICvInXumrp4CB3YFFzunUkrGIi
-         gB5RRVGgnF2Rzoves4aXDT1zLz22i13dQFZkYFvwxZoAxjWi4uopQp6k0JfS7Ldbarrt
-         jcCdVGVP2mkC3dfDJ98SoAq+UbXDFqXKdLxUa5NOWlgAyUXPOguSpEzAvYfOMCcjuCLy
-         iZ8w==
+        d=google.com; s=20251104; t=1774461073; x=1775065873; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lcdS5CNtdEsSElOVQqwojbHt2Qxr4nffxvoalO1pdQk=;
+        b=dfl+pF2PhlOSL6iG9cI/eNprk8ZTDAdh7yZPvVJoiii8dnxP4ffSAoPzCHcSK8l8xi
+         g0SjFdBtNEhLpHKEoRwNjhffIvM9las8rkTkHvziL3Mxi5e1lewylzMVKDJptAQt9qKF
+         yKSbWprn1zK4Ptp3sa6mcVOjhNuayGDqID88GN2qORDF6SlDDTCZlv83St0i0wMlOVtl
+         4jd4feuZ0cdJBu2OlnDgnMkCKcM6u7ks/NDFcfkKmvuBTHbQs5uNFwbD5kNqiIHp9ZOR
+         Xlv/jMtwtqM8d7p+tAHHgPxCuUIE1rkRhRt07M/Xbaxrew+Hveo7Vc9Is77855Lr6mhN
+         JlLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774460100; x=1775064900;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6LvfhXxnMpqu+8Jaxmf8YnU74NbO72vJex03sq4AEB4=;
-        b=HAOybO7oNA2OFUwnLxfL4/Yr3fh4vvTdpCyuAenNOjcdhyCRWh9zLO4VqQHu3T87wM
-         SPncqeXzeY1GVO23AR02Z8nWJay3dYCsckmGK5gT+t/PXtneDkvweN1pJecgbYjpy5ba
-         8IH14uujDahnE3jxFK4QCtfQSlEVg94MW3Gle3m603m2tPKGAWugmabupz2PLD908QyG
-         XnycYfbg4CXCSg/FbzzRjV2wXe57CGo5Rvl0li7jzqq8GrpcvWmAf1jcHI8E5XEiuFZF
-         ZcjHbCdCoGd38gBpOU+w/aEtZSSPk6ASePwQ2AlIDIhin4h1yyOW5+1XProC4qtO/QNm
-         +qXg==
-X-Forwarded-Encrypted: i=1; AJvYcCV0L4Rs9zMKzFv1tuOlwEysMPiWEpllD4YtK+kDYYhEyue1zeiGoUGgQE2W2j/o1+yn78CdJO0FztA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwWLqc3QOUgH/MWddLDMbyZMso4uU3U4ko4lnV90qNulHluDdnU
-	2NTjCZXMqA1wCYmYA+HiDgaYju7uI6Kq4euRWg/JNRX6YD60xOUGqcQ=
-X-Gm-Gg: ATEYQzytdu/20uSuMBoK75eyjsfhvVqW7TGEWcmIF7Uod5ioJmlgMhDDDmTrflaOiTZ
-	mm2Z1hyE6zhOIxE5kXdt2HQ9QeX+nDsO4/cwyO5lz30slgDft10WJqMtU5v5qA50L+L5J3mBMpt
-	U1S9HMDoVhvfUHxMV4X+f7RlLL7WTMT50fg5mwDUV4mtL/sOxp5pPj09+ioT0SonIZ6D1zcXADp
-	SuwkzFtnzMbXQvbrMz70eu2yFbbWx1gtbr9xhqR65p2vk2eYRE/y49LnGs0ehDNx4rrOui27P7U
-	jjtbuBHI8vmnBZ9PV0DjmTGGVejlumLeUbKh8vQDj7uBJUpn+O7Cn9Mn/OL3o2TE23dPbGod5dk
-	A2E209MAfDw77c3pTw5jd0W85G7QDJkWWxFYSK+vS2APhqWZNxrBepDOUXTxKsyq31WP2Y+Cxg7
-	UftN43Z6AKlOuLrpnJL7V/onlhVGdPRjp+wCMwcKlnUHkh8tVBnwcD+drs3ny7oZUEru7/p/6im
-	6bKkx4TILlHV759Ag==
-X-Received: by 2002:a05:7301:1e91:b0:2b7:1d38:3596 with SMTP id 5a478bee46e88-2c15d32adfamr1794122eec.4.1774460099374;
-        Wed, 25 Mar 2026 10:34:59 -0700 (PDT)
-Received: from localhost (c-76-102-12-149.hsd1.ca.comcast.net. [76.102.12.149])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c16ee01373sm211727eec.26.2026.03.25.10.34.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Mar 2026 10:34:58 -0700 (PDT)
-Date: Wed, 25 Mar 2026 10:34:57 -0700
-From: Stanislav Fomichev <stfomichev@gmail.com>
-To: Jakub Kicinski <kuba@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
-	netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
-	pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
-	skhan@linuxfoundation.org, andrew+netdev@lunn.ch,
-	michael.chan@broadcom.com, pavan.chebbi@broadcom.com,
-	anthony.l.nguyen@intel.com, przemyslaw.kitszel@intel.com,
-	saeedm@nvidia.com, tariqt@nvidia.com, mbloch@nvidia.com,
-	alexanderduyck@fb.com, kernel-team@meta.com,
-	johannes@sipsolutions.net, sd@queasysnail.net, jianbol@nvidia.com,
-	dtatulea@nvidia.com, mohsin.bashr@gmail.com,
-	jacob.e.keller@intel.com, willemb@google.com, skhawaja@google.com,
-	bestswngs@gmail.com, aleksandr.loktionov@intel.com, kees@kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	intel-wired-lan@lists.osuosl.org, linux-rdma@vger.kernel.org,
-	linux-wireless@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	leon@kernel.org
-Subject: Re: [PATCH net-next v3 03/13] net: introduce ndo_set_rx_mode_async
- and dev_rx_mode_work
-Message-ID: <acQcwZOXJjPlVpP6@mini-arch>
-Mail-Followup-To: Stanislav Fomichev <stfomichev@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Stanislav Fomichev <sdf@fomichev.me>, netdev@vger.kernel.org,
-	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
-	horms@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
-	andrew+netdev@lunn.ch, michael.chan@broadcom.com,
-	pavan.chebbi@broadcom.com, anthony.l.nguyen@intel.com,
-	przemyslaw.kitszel@intel.com, saeedm@nvidia.com, tariqt@nvidia.com,
-	mbloch@nvidia.com, alexanderduyck@fb.com, kernel-team@meta.com,
-	johannes@sipsolutions.net, sd@queasysnail.net, jianbol@nvidia.com,
-	dtatulea@nvidia.com, mohsin.bashr@gmail.com,
-	jacob.e.keller@intel.com, willemb@google.com, skhawaja@google.com,
-	bestswngs@gmail.com, aleksandr.loktionov@intel.com, kees@kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	intel-wired-lan@lists.osuosl.org, linux-rdma@vger.kernel.org,
-	linux-wireless@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	leon@kernel.org
-References: <20260320012501.2033548-1-sdf@fomichev.me>
- <20260320012501.2033548-4-sdf@fomichev.me>
- <20260323162003.0d155055@kernel.org>
- <acLUMN1BYkIVyOk8@mini-arch>
- <20260324142114.216fcb01@kernel.org>
- <acMU93XN02PHmAGi@mini-arch>
- <20260324204440.1752423d@kernel.org>
- <acP59NM6HZhV9oAe@mini-arch>
+        d=1e100.net; s=20251104; t=1774461073; x=1775065873;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=lcdS5CNtdEsSElOVQqwojbHt2Qxr4nffxvoalO1pdQk=;
+        b=rnn6Ng7fPsISCQeG3LpHQvTT/NlLBhlZAmu4bp5wJLAO/tG+GW+Y/6hOvdXUtbXUc4
+         7yKII6+HetF8q1unmB4PSWkVL6l6uW5hOnXCANyT5bbvkCKK1RXxmWL6E1iQDhWLznS6
+         hOdLOkAketiUDVIQhh3fhymcPk4v/H1yN988L/Ke2072Lm2GziuMocNMuQc3hqoaIiHq
+         xhvUO20Go5z9WDFOwYFRkUMgBqNzIhrGCa6qV+tbYgSbpq/8ogMKAOZUE1qZROfViLk6
+         iPRlFt+TTETjwaE4/hzvlee9efWT8WQXXmCbZDcGqavC0293gGMJVF29s/1cYH2hiWBe
+         rnJA==
+X-Forwarded-Encrypted: i=1; AJvYcCVKWyqMaMbfUQTy55UGCjKbr9mlufRYK14YCL96g3F9i+yGtyCWIhMhU37hDYPDd8UJ7cNnIciwqXQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyDzaKh/Jk1PO21v+Cr0bOqvjXddJKU8O5Z4jl4VBZDfxI0EGVC
+	BF6BkboBSfmHz2xcMDOzJUaP+Ulu4uwv2IolcqdF2ogQlspvwtc4O3mSVRVnrg/VuKEPdxSiMnf
+	cFEQ1A7weoQpWAqbz5HtqkKroR9I8ky6HAPHl+/AN
+X-Gm-Gg: ATEYQzzIJKs8SKjsqU4GUrcueNxDoxgRwZpDfXkVh+O/DmNsxZRyEqx6q7jrdTLoRE3
+	540DXiA3WZOMJ/xS1oxkztQIHOTcsBFjJpZDSB7FrGlXKAJ27JPaXyCQ7Wpo3E/WwkaiejJ9r1D
+	O6KPklJrIkRLXzJmtnkiOUVz3F38zwho0AtrQPp4fJjeCQnw+SRwVF1ERAmBK2RYGMUg7b0+eme
+	cu+iWi/HL40/ZbagOiBv6hstaTSrqNabZSM1Mo/GX1yrGZYMXrgJrXJSxFNEIL3V6vM3PkZ7Qfz
+	6IBJ6Fs=
+X-Received: by 2002:a05:6402:1451:b0:668:c2b6:9fa2 with SMTP id
+ 4fb4d7f45d1cf-66ad9575059mr2781a12.7.1774461072029; Wed, 25 Mar 2026 10:51:12
+ -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <acP59NM6HZhV9oAe@mini-arch>
+References: <20260324-vmscape-bhb-v8-0-68bb524b3ab9@linux.intel.com> <20260324-vmscape-bhb-v8-2-68bb524b3ab9@linux.intel.com>
+In-Reply-To: <20260324-vmscape-bhb-v8-2-68bb524b3ab9@linux.intel.com>
+From: Jim Mattson <jmattson@google.com>
+Date: Wed, 25 Mar 2026 10:50:58 -0700
+X-Gm-Features: AQROBzDwHlJH5nkrozA8k_jCaaxMY2azgH1uzVE_N9olWzdVjI8yDoxoWPHYtxY
+Message-ID: <CALMp9eTZRucL+CUSp1yUPG0aSTpyQ=po1EmurZhX9+R+vxgbPA@mail.gmail.com>
+Subject: Re: [PATCH v8 02/10] x86/bhi: Make clear_bhb_loop() effective on
+ newer CPUs
+To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+Cc: x86@kernel.org, Jon Kohler <jon@nutanix.com>, Nikolay Borisov <nik.borisov@suse.com>, 
+	"H. Peter Anvin" <hpa@zytor.com>, Josh Poimboeuf <jpoimboe@kernel.org>, David Kaplan <david.kaplan@amd.com>, 
+	Sean Christopherson <seanjc@google.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, KP Singh <kpsingh@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
+	"David S. Miller" <davem@davemloft.net>, David Laight <david.laight.linux@gmail.com>, 
+	Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	David Ahern <dsahern@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
+	Asit Mallick <asit.k.mallick@intel.com>, Tao Zhang <tao1.zhang@intel.com>, bpf@vger.kernel.org, 
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 03/25, Stanislav Fomichev wrote:
-> On 03/24, Jakub Kicinski wrote:
-> > On Tue, 24 Mar 2026 15:49:27 -0700 Stanislav Fomichev wrote:
-> > > > > Not sure why cancel+release, maybe you're thinking about the unregister
-> > > > > path? This is rtnl_unlock -> netdev_run_todo -> __rtnl_unlock + some
-> > > > > extras.
-> > > > > 
-> > > > > And the flush is here to plumb the addresses to the real devices
-> > > > > before we return to the callers. Mostly because of the following
-> > > > > things we have in the tests:
-> > > > > 
-> > > > > # TEST: team cleanup mode lacp                                        [FAIL]
-> > > > > #       macvlan unicast address not found on a slave
-> > > > > 
-> > > > > Can you explain a bit more on the suggestion?  
-> > > > 
-> > > > Oh, I thought it's here for unregister! Feels like it'd be cleaner to
-> > > > add the flush in dev_*c_add() and friends? How hard would it be to
-> > > > identify the callers in atomic context?  
-> > > 
-> > > Not sure we can do it in dev_xc_add because it runs under rtnl :-(
-> > > I currently do flush in netdev_run_todo because that's the place that
-> > > doesn't hold rtnl. Otherwise flush will get stuck because the work
-> > > handler grabs it...
-> > 
-> > I was thinking of something a'la linkwatch. We can "steal" / "flush"
-> > the pending work inline. I guess linkwatch is a major source of races
-> > over the years...
-> >
-> > Does the macvlan + team problem still happens with the current
-> > implementation minus the flush? We are only flushing once so only
-> > pushing the addresses thru one layer of async callbacks.
-> 
-> Yes, it does happen consistently when I remove the flush. It also
-> happens with my internal v4, so I need to look again at what's going on.
-> Not sure whether it's my internal regression or I was just sloppy/lucky
-> (since you're correct in pointing out that we flush only once).
+On Tue, Mar 24, 2026 at 11:19=E2=80=AFAM Pawan Gupta
+<pawan.kumar.gupta@linux.intel.com> wrote:
+>
+> As a mitigation for BHI, clear_bhb_loop() executes branches that overwrit=
+es
+> the Branch History Buffer (BHB). On Alder Lake and newer parts this
+> sequence is not sufficient because it doesn't clear enough entries. This
+> was not an issue because these CPUs have a hardware control (BHI_DIS_S)
+> that mitigates BHI in kernel.
+>
+> BHI variant of VMSCAPE requires isolating branch history between guests a=
+nd
+> userspace. Note that there is no equivalent hardware control for userspac=
+e.
+> To effectively isolate branch history on newer CPUs, clear_bhb_loop()
+> should execute sufficient number of branches to clear a larger BHB.
+>
+> Dynamically set the loop count of clear_bhb_loop() such that it is
+> effective on newer CPUs too. Use the hardware control enumeration
+> X86_FEATURE_BHI_CTRL to select the appropriate loop count.
+>
+> Suggested-by: Dave Hansen <dave.hansen@linux.intel.com>
+> Reviewed-by: Nikolay Borisov <nik.borisov@suse.com>
+> Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+> ---
+>  arch/x86/entry/entry_64.S   | 21 ++++++++++++++++-----
+>  arch/x86/net/bpf_jit_comp.c |  7 -------
+>  2 files changed, 16 insertions(+), 12 deletions(-)
+>
+> diff --git a/arch/x86/entry/entry_64.S b/arch/x86/entry/entry_64.S
+> index 3a180a36ca0e..8128e00ca73f 100644
+> --- a/arch/x86/entry/entry_64.S
+> +++ b/arch/x86/entry/entry_64.S
+> @@ -1535,8 +1535,17 @@ SYM_CODE_END(rewind_stack_and_make_dead)
+>  SYM_FUNC_START(clear_bhb_loop)
+>         ANNOTATE_NOENDBR
+>         push    %rbp
+> +       /* BPF caller may require %rax to be preserved */
+> +       push    %rax
 
-Hmm, the test does 'team -d' in the background. That's why it works for
-bonding, but not the teaming. I'll update the test to a bunch of
-'ip' commands instead of starting a daemon..
+Shouldn't the "push %rax" come after "mov %rsp, %rbp"?
 
-> Before I went down the workqueue route, I had a simple
-> net_todo_list-like approach: `list_add_tail` on enqueue and
-> `while(!list_empty) run_work()` on rtnl_unlock. This had a nice properly of
-> tracking re-submissions (by checking whether the device's list_head is
-> linked into the list or not) and it was relatively easy to do the
-> recursive flush. Let me try get back to this approach and see whether
-> it solves the flush? Not sure what wq buys us at this point.
-
-Will still look into that, maybe something similar to the linkwatch as
-you mentioned.
+>         mov     %rsp, %rbp
+> -       movl    $5, %ecx
