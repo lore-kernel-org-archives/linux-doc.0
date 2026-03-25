@@ -1,48 +1,49 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7D9C2459EA;
-	Wed, 25 Mar 2026 19:23:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 136E93563EB;
+	Wed, 25 Mar 2026 19:28:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774466616; cv=none; b=EpqzF2FVjOi1W++G2H0HGeRBdrd0y/l1M53QJGY6oulcv7mWGzFGLWfxwccym6jZOvxHsILvAMKD/f5WifGJuJP9YwCR4F2PpImTAyrKqPw8ssmlCH3bjSoveoJdNiuaCflVTSJmDhnT1PVAdpAO2vElfgrn7h2lL5lFP1GXWDE=
+	t=1774466908; cv=none; b=VAV26XoKFKk9zC8w5xVyOM4YHkW1sAnlilZynGaOEmtKV+FW0lL7dUFBaUFRhlEpOaRitoDmNtJo6Cxzfxh4c/mDhiFtVR9zIDRO+FpRq5kik2yITrvtmHJUhbMBr58w8XB66yj06Ox8rwet7bA+wfIyG1kvyyCmSAmtLQdIoc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774466616; c=relaxed/simple;
-	bh=+L8wi6kyHthm4KaOrAYDops3HeciAMFCYqrPNjpJA+s=;
+	s=arc-20240116; t=1774466908; c=relaxed/simple;
+	bh=PzomcxIefy5eLh3Iy5AxyZ9qV6grwjsW2Hwl0wlx42g=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=hG9w/xgaaOq1rhgi/i2MpMJV/NVMeiZesdk/QRKzHmeHIOVNZXGEyCCZNhryUX7LxZ6BJ1H6jfbM47Lja8tTazkd9ukeaebr+bMhWDsXU9xgcFhSnCTUUdX6w0Sf9Ayvvimm2ZjJGge8RNeCbEpGMvikLePjz2ResgP2OCyHnXA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=AykulBIK; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=rAjgu1lSXRvmmUlNZKmcTW+4thlwMc6etN4/ReMcE8mHUc7XoHhPDSecdfIro/VBl5IRaTukwOAKqrouMUecUnxGdPFLFHkdWVNNXKvOY2i8sXDVvyMD+8AJ8GivIdPWbdmKUZ7jdYseDuRTZtshTSp8ZK+ZF8IbPz/5adaglzo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=LEq1ZQ16; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="AykulBIK"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2FFF540C6F
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="LEq1ZQ16"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 598F840C6F
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1774466614; bh=wieBmyn6zy83Upz01fxLFWq9zlqS4iXUVwJYPV21W3I=;
+	t=1774466906; bh=xjA1oGVajNdXmFwuxKxYDw0YbuuPfDT5I/CYEO55Fv8=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=AykulBIKbNjUr1f/OH9ffsmp57nDta8YJsqT6QQ9AC17XQZHMt6V7pql2ZNshAxk4
-	 F4ayDgBm+Zj84UKjMl5BtTG+rqtQTVuZw/dPHYqi4TNWx3Fol9x0fB+L1iG3FgEoAo
-	 wpv87AARr/hexQWbEQEL8lpWipqp7M61FZ6oIzAJgRqyY0y73I7ESOqRJWJPyGJD9T
-	 XQwZzHSFZZPGUJtEnywx2RPocYXq87F+UTEXr2hFECrk4557B6P30nnz3V8fv71i1b
-	 8qV8nyHfvNaKBWz5zkUWtt/cn5Ri4Hf+U0u7MhPF+w/4HBFs1PlkW/qaLUE/KyrrUe
-	 ZamQ7NiRrpImQ==
+	b=LEq1ZQ16LlvCOEDR6OTCnCv+K+TVYOnC+o8n8NlCtF6vOGf0a+JggbgvF5IbUzFUb
+	 Q3/YygWoxdr2dBD49afu5JoAXgnZe1dAbki06fy7sPu5eZBRJdkBP/zrn1nGOzp83L
+	 88y6q8IcAhXjWjzyQ54KlSeLJultSuAFTiI33mpbYKq94PWuXycMDuq/xSi0UhNLH+
+	 ild/gcf1Vcvah7eVegOYbYGC19+0rLrfGgFbH6As5gEqZiBRcP7dzwXvrwN1KrXy4Z
+	 v+tVU10thkRDe8bw/i9Jwt2gsIa4z6B5ToVQOMmmjYL+HyV/4ViIsWhTwVwZ1pXnRz
+	 sNq/zs1Pv+P8g==
 Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 2FFF540C6F;
-	Wed, 25 Mar 2026 19:23:34 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 598F840C6F;
+	Wed, 25 Mar 2026 19:28:26 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Rito Rhymes <rito@ritovision.com>, linux-doc@vger.kernel.org
+To: Rito Rhymes <rito@ritovision.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, linux-doc@vger.kernel.org
 Cc: Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- rdunlap@infradead.org, Rito Rhymes <rito@ritovision.com>
-Subject: Re: [PATCH v3] docs: allow inline literals in paragraphs to wrap to
- prevent overflow
-In-Reply-To: <20260323151401.27415-1-rito@ritovision.com>
-References: <20260321141118.23828-1-rito@ritovision.com>
- <20260323151401.27415-1-rito@ritovision.com>
-Date: Wed, 25 Mar 2026 13:23:33 -0600
-Message-ID: <87bjgbg1ca.fsf@trenco.lwn.net>
+ Rito Rhymes <rito@ritovision.com>
+Subject: Re: [PATCH v2] docs: rework footer with semantic markup and
+ responsive layout
+In-Reply-To: <20260322182251.49484-1-rito@ritovision.com>
+References: <20260321131857.14166-1-rito@ritovision.com>
+ <20260322182251.49484-1-rito@ritovision.com>
+Date: Wed, 25 Mar 2026 13:28:25 -0600
+Message-ID: <877bqzg146.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -53,30 +54,34 @@ Content-Type: text/plain
 
 Rito Rhymes <rito@ritovision.com> writes:
 
-> Some documentation pages contain long inline literals in paragraph
-> text that can force page-wide horizontal scroll overflow and break
-> layout on smaller screens.
+> The current Alabaster footer uses a generic `div` container, is
+> hidden entirely at the theme's small-screen breakpoint, and does
+> not provide a responsive layout for narrower viewports.
 >
-> Override the default `span.pre` white-space behavior for inline
-> literals and use `overflow-wrap: anywhere` so they can wrap when
-> needed. For code used as part of a paragraph, wrapping is appropriate
-> because it is stylistically part of the surrounding text. Code blocks,
-> by contrast, are meant to preserve formatting fidelity and are better
-> served by contained horizontal scrolling.
+> Rework the Alabaster footer to use semantic markup while
+> preserving its existing content, including the copyright notice,
+> theme attribution, and Page source link. Structure it with a
+> responsive flexbox so those items remain visible and orderly on
+> smaller screens.
 >
-> Examples:
->   https://docs.kernel.org/6.15/userspace-api/futex2.html
->   https://docs.kernel.org/6.15/security/IMA-templates.html
+> Scope the change to Alabaster so other supported themes remain
+> unaffected.
 >
 > Signed-off-by: Rito Rhymes <rito@ritovision.com>
 > Assisted-by: Codex:GPT-5.4
 > ---
-> v3: add latest public versioned URL examples to the patchlog
+> v2: add Assisted-by attribution
 >
->  Documentation/sphinx-static/custom.css | 9 +++++++++
->  1 file changed, 9 insertions(+)
+>  Documentation/conf.py                      |  6 ++++
+>  Documentation/sphinx-static/custom.css     | 25 ++++++++++++++++
+>  Documentation/sphinx/templates/layout.html | 33 ++++++++++++++++++++++
+>  3 files changed, 64 insertions(+)
+>  create mode 100644 Documentation/sphinx/templates/layout.html
 
-I have applied this one as well.
+So the footer disappears because there is an explicit display:none in
+the Alabaster CSS.  That is indeed a bit weird, I wonder why they would
+do that.  That said, why not just override the CSS rather than adding
+all of this complexity?
 
 Thanks,
 
