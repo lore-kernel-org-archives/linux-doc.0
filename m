@@ -1,222 +1,160 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 676AB3E3149;
-	Wed, 25 Mar 2026 14:57:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B184A3DB644;
+	Wed, 25 Mar 2026 14:58:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774450621; cv=none; b=R0y/I4OSbigBpHrYr5kFAcd0z9e++mnEdgH1TVjZl73s7j0gbnizV+6Wv3KZ4Gs4IyhUREhxdSrVLripScwH14a9gkcKqrq0WwlMe2TKLyUGYYhUU47JQTC13quZd0Nw9BXH/xXoNQfiQYO9ep1+hcboWzNjG4YTbQcZIPzYG3g=
+	t=1774450733; cv=none; b=W5uYcEVAXxKUif13HKcKci4cTIy/Cfl1lBwneabpOBHC1SgRu8dRHb4moIFAqyRNqZb84775rB/JsyDbgeT0QnO4Ne2VXjt3qmaqKDE7NG0W4ClHBYdOxf/iCgjjRdmsDSRuQM0ADXqmvEZXFfYbzt6/IvEfKsfEQhZhspfsJ+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774450621; c=relaxed/simple;
-	bh=kODB/4Odan0TLyX1+H2rGTJ1SkOip0pPH/GqtThBgFg=;
+	s=arc-20240116; t=1774450733; c=relaxed/simple;
+	bh=Q7Y7TIr5LpH0Ie+lGeQIaP4vsrzzTVRfvln8R9Xm3mI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Lkx2OwLlanL11dp84E4JCnTeF46RlMmad25yuTWrDEdp0uFTY88VU6N86jz/krC/YZ0E4H25ntltvjYyoABPZrWHVCc4UuGYTpvNDOKRnndQm5R0h+CrX/iU9VCvFySgHJ/1HIzzpPMydTEELxkuVkoPRWXw2mGkRaWYnVlshRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lveoloIP; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=I11kNrDO0GcefvY2qyu6X5qOZBGc9sgyDX6N0j6+fzm/UaSFy0rsuC85uvNrpGI3frY3sb8Qa5XhorV44aI3lNUWrNYSP6uR2y45MReq6F7z8nY5tQliIh+m/uFfJF27nLDL3GP+CoCUfIctn3+ubvZJ/1P/onxd30yFp6kXiGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I43VyWvU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lveoloIP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BAB7C4CEF7;
-	Wed, 25 Mar 2026 14:57:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I43VyWvU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF3FFC2BCB2;
+	Wed, 25 Mar 2026 14:58:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774450621;
-	bh=kODB/4Odan0TLyX1+H2rGTJ1SkOip0pPH/GqtThBgFg=;
+	s=k20201202; t=1774450733;
+	bh=Q7Y7TIr5LpH0Ie+lGeQIaP4vsrzzTVRfvln8R9Xm3mI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lveoloIP8+97OC9m2l5bBmtBw6c3CSQdSICZGVMCZbaVAtz/7499RlssUCIk3l9al
-	 BWGtZaB/Gwx87SRUYZ4cMxnfQOw/wFD3DxPoaz6ZMwVdXpkyx08nrQ9XGu9iAX/z5D
-	 dXQvJWfV6yPc172xpKNvXzEkN0NwwG2R1phfqiDxfT8sDpBvBgM+V2xyA1LtHBt10T
-	 rerF3gSEDkGf6dqX15xt8IzhWyiX9IARja5LRQxUZ3+w4ei87vSIWEb3ti0JiuO53z
-	 NhJjjPjGV9Y3DR3hKAwYyg+sRfCMTELoq9pie6SsHbeivGmpPiJrLsmd6IyREGDtzg
-	 sr4f14070acsA==
-Date: Wed, 25 Mar 2026 15:56:58 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
-	Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
-	Rodrigo Siqueira <siqueira@igalia.com>, Alex Deucher <alexander.deucher@amd.com>, 
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Sandy Huang <hjc@rock-chips.com>, 
-	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, 
-	Jani Nikula <jani.nikula@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
-	Dmitry Baryshkov <lumag@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Rob Herring <robh@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, kernel@collabora.com, amd-gfx@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
-	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	Werner Sembach <wse@tuxedocomputers.com>, Andri Yngvason <andri@yngvason.is>, 
-	Marius Vlad <marius.vlad@collabora.com>
-Subject: Re: [PATCH v11 03/22] drm: Add new general DRM property "color
- format"
-Message-ID: <20260325-magnificent-ultraviolet-oarfish-baefbc@houat>
-References: <20260324-color-format-v11-0-605559af4fb4@collabora.com>
- <20260324-color-format-v11-3-605559af4fb4@collabora.com>
- <acLDPYuaVI2-12JX@intel.com>
- <23910073.EfDdHjke4D@workhorse>
- <acLrv5hLyNss-Px5@intel.com>
- <20260325-neat-elegant-raven-ebc9ab@houat>
- <acPA60Ci3n_t__xF@intel.com>
+	b=I43VyWvUYyWmv/3FJuYZZsdDxXr19VOjCy5ldO7lQsh/kprsrY7EQrRXKkIPuPDxN
+	 r5hdgtYKSRO6UPhQk34MwMvPTzofuTvelcJd8MxQwrBjFccKrPAIJGqR7xC5kUBACS
+	 8/tXY6iBXcLjJUHIlld31norhL65jSQgz+Z1lz5Nwsce7VuibNsI3vSK+zyZPVI+Sn
+	 GYzSOqo96sH4DobOhWAsSmiqhLZVKtxCOoR44wbfXKNpqz1C0PwONeSdZGrb8UG/2j
+	 1Pz3AsEEdo3ywSYu3nIjEGpaUzXhSzX5gSyUkWFeW9UN3qvn3RadOZUPp+hRqdURW9
+	 0MAt1fcMbAusg==
+Date: Wed, 25 Mar 2026 14:58:45 +0000
+From: Lee Jones <lee@kernel.org>
+To: Kaustabh Chakraborty <kauschluss@disroot.org>
+Cc: Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	MyungJoo Ham <myungjoo.ham@samsung.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	Sebastian Reichel <sre@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	=?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Nam Tran <trannamatk@gmail.com>, linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+	linux-rtc@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 09/13] leds: flash: add support for Samsung S2M series
+ PMIC flash LED device
+Message-ID: <20260325145845.GC1141718@google.com>
+References: <20260225-s2mu005-pmic-v3-0-b4afee947603@disroot.org>
+ <20260225-s2mu005-pmic-v3-9-b4afee947603@disroot.org>
+ <20260310113835.GG183676@google.com>
+ <DH1XVOS6IIOE.HGIH6JQRHNAM@disroot.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="mhdva7e7vsga4kjf"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <acPA60Ci3n_t__xF@intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <DH1XVOS6IIOE.HGIH6JQRHNAM@disroot.org>
 
+On Sat, 14 Mar 2026, Kaustabh Chakraborty wrote:
 
---mhdva7e7vsga4kjf
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v11 03/22] drm: Add new general DRM property "color
- format"
-MIME-Version: 1.0
+> On 2026-03-10 11:38 +00:00, Lee Jones wrote:
+> > On Wed, 25 Feb 2026, Kaustabh Chakraborty wrote:
+> >
+> >> Add support for flash LEDs found in certain Samsung S2M series PMICs.
+> >> The device has two channels for LEDs, typically for the back and front
+> >> cameras in mobile devices. Both channels can be independently
+> >> controlled, and can be operated in torch or flash modes.
+> >> 
+> >> The driver includes initial support for the S2MU005 PMIC flash LEDs.
+> >> 
+> >> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
+> >> ---
+> >>  drivers/leds/flash/Kconfig          |  12 +
+> >>  drivers/leds/flash/Makefile         |   1 +
+> >>  drivers/leds/flash/leds-s2m-flash.c | 429 ++++++++++++++++++++++++++++++++++++
+> >>  3 files changed, 442 insertions(+)
+> >> 
+> >> diff --git a/drivers/leds/flash/Kconfig b/drivers/leds/flash/Kconfig
+> >> index 5e08102a67841..be62e05277429 100644
+> >> --- a/drivers/leds/flash/Kconfig
+> >> +++ b/drivers/leds/flash/Kconfig
+> >> @@ -114,6 +114,18 @@ config LEDS_RT8515
+> >>  	  To compile this driver as a module, choose M here: the module
+> >>  	  will be called leds-rt8515.
+> >>  
+> >> +config LEDS_S2M_FLASH
+> >> +	tristate "Samsung S2M series PMICs flash/torch LED support"
+> >> +	depends on LEDS_CLASS
+> >> +	depends on MFD_SEC_CORE
+> >> +	depends on V4L2_FLASH_LED_CLASS || !V4L2_FLASH_LED_CLASS
+> >> +	select REGMAP_IRQ
+> >> +	help
+> >> +	  This option enables support for the flash/torch LEDs found in
+> >> +	  certain Samsung S2M series PMICs, such as the S2MU005. It has
+> >> +	  a LED channel dedicated for every physical LED. The LEDs can
+> >> +	  be controlled in flash and torch modes.
+> >> +
+> >>  config LEDS_SGM3140
+> >>  	tristate "LED support for the SGM3140"
+> >>  	depends on V4L2_FLASH_LED_CLASS || !V4L2_FLASH_LED_CLASS
+> >> diff --git a/drivers/leds/flash/Makefile b/drivers/leds/flash/Makefile
+> >> index 712fb737a428e..44e6c1b4beb37 100644
+> >> --- a/drivers/leds/flash/Makefile
+> >> +++ b/drivers/leds/flash/Makefile
+> >> @@ -10,6 +10,7 @@ obj-$(CONFIG_LEDS_MAX77693)	+= leds-max77693.o
+> >>  obj-$(CONFIG_LEDS_QCOM_FLASH)	+= leds-qcom-flash.o
+> >>  obj-$(CONFIG_LEDS_RT4505)	+= leds-rt4505.o
+> >>  obj-$(CONFIG_LEDS_RT8515)	+= leds-rt8515.o
+> >> +obj-$(CONFIG_LEDS_S2M_FLASH)	+= leds-s2m-flash.o
+> >>  obj-$(CONFIG_LEDS_SGM3140)	+= leds-sgm3140.o
+> >>  obj-$(CONFIG_LEDS_SY7802)	+= leds-sy7802.o
+> >>  obj-$(CONFIG_LEDS_TPS6131X)	+= leds-tps6131x.o
 
-On Wed, Mar 25, 2026 at 01:03:07PM +0200, Ville Syrj=E4l=E4 wrote:
-> On Wed, Mar 25, 2026 at 09:24:27AM +0100, Maxime Ripard wrote:
-> > On Tue, Mar 24, 2026 at 09:53:35PM +0200, Ville Syrj=E4l=E4 wrote:
-> > > On Tue, Mar 24, 2026 at 08:10:11PM +0100, Nicolas Frattaroli wrote:
-> > > > On Tuesday, 24 March 2026 18:00:45 Central European Standard Time V=
-ille Syrj=E4l=E4 wrote:
-> > > > > On Tue, Mar 24, 2026 at 05:01:07PM +0100, Nicolas Frattaroli wrot=
-e:
-> > > > > > +enum drm_connector_color_format {
-> > > > > > +	/**
-> > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_AUTO: The driver or display pr=
-otocol
-> > > > > > +	 * helpers should pick a suitable color format. All implement=
-ations of a
-> > > > > > +	 * specific display protocol must behave the same way with "A=
-UTO", but
-> > > > > > +	 * different display protocols do not necessarily have the sa=
-me "AUTO"
-> > > > > > +	 * semantics.
-> > > > > > +	 *
-> > > > > > +	 * For HDMI, "AUTO" picks RGB, but falls back to YCbCr 4:2:0 =
-if the
-> > > > > > +	 * bandwidth required for full-scale RGB is not available, or=
- the mode
-> > > > > > +	 * is YCbCr 4:2:0-only, as long as the mode and output both s=
-upport
-> > > > > > +	 * YCbCr 4:2:0.
-> > > > > > +	 *
-> > > > > > +	 * For display protocols other than HDMI, the recursive bridg=
-e chain
-> > > > > > +	 * format selection picks the first chain of bridge formats t=
-hat works,
-> > > > > > +	 * as has already been the case before the introduction of th=
-e "color
-> > > > > > +	 * format" property. Non-HDMI bridges should therefore either=
- sort their
-> > > > > > +	 * bus output formats by preference, or agree on a unified au=
-to format
-> > > > > > +	 * selection logic that's implemented in a common state helpe=
-r (like
-> > > > > > +	 * how HDMI does it).
-> > > > > > +	 */
-> > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_AUTO =3D 0,
-> > > > > > +
-> > > > > > +	/**
-> > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_RGB444: RGB output format
-> > > > > > +	 */
-> > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_RGB444,
-> > > > > > +
-> > > > > > +	/**
-> > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR444: YCbCr 4:4:4 output f=
-ormat (ie.
-> > > > > > +	 * not subsampled)
-> > > > > > +	 */
-> > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR444,
-> > > > > > +
-> > > > > > +	/**
-> > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR422: YCbCr 4:2:2 output f=
-ormat (ie.
-> > > > > > +	 * with horizontal subsampling)
-> > > > > > +	 */
-> > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR422,
-> > > > > > +
-> > > > > > +	/**
-> > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR420: YCbCr 4:2:0 output f=
-ormat (ie.
-> > > > > > +	 * with horizontal and vertical subsampling)
-> > > > > > +	 */
-> > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR420,
-> > > > >=20
-> > > > > Seems like this should document what the quantization range
-> > > > > should be for each format.
-> > > > >=20
-> > > >=20
-> > > > I don't think so? If you want per-component bit depth values,
-> > > > DRM_FORMAT_* defines would be the appropriate values to use. This
-> > > > enum is more abstract than that, and is there to communicate
-> > > > YUV vs. RGB and chroma subsampling, with bit depth being handled
-> > > > by other properties.
-> > > >=20
-> > > > If you mean the factor used for subsampling, then that'd only be
-> > > > relevant if YCBCR410 was supported where one chroma plane isn't
-> > > > halved but quartered in resolution. I suspect 4:1:0 will never
-> > > > be added; no digital display protocol standard supports it to my
-> > > > knowledge, and hopefully none ever will.
-> > >=20
-> > > No, I mean the quantization range (16-235 vs. 0-255 etc).
-> > >=20
-> > > The i915 behaviour is that YCbCr is always limited range,
-> > > RGB can either be full or limited range depending on the=20
-> > > "Broadcast RGB" property and other related factors.
-> >=20
-> > So far the HDMI state has both the format and quantization range as
-> > different fields. I'm not sure we need to document the range in the
-> > format field, maybe only mention it's not part of the format but has a
-> > field of its own?
->=20
-> I think we only have it for RGB (on some drivers only?). For YCbCr
-> I think the assumption is limited range everywhere.
->=20
-> But I'm not really concerned about documenting struct members.
-> What I'm talking about is the *uapi* docs. Surely userspace
-> will want to know what the new property actually does so the
-> uapi needs to be documented properly. And down the line some
-> new driver might also implement the wrong behaviour if there
-> is no clear specification.
+[...]
 
-Ack
+> >> +static int s2mu005_fled_torch_brightness_set(struct led_classdev *cdev,
+> >> +					     enum led_brightness value)
+> >> +{
+> >> +	struct s2m_fled *priv = to_led_priv(to_cdev_flash(cdev));
+> >> +	struct regmap *regmap = priv->regmap;
+> >> +	int ret;
+> >> +
+> >> +	mutex_lock(&priv->lock);
+> >> +
+> >> +	if (value == LED_OFF) {
+> >
+> > These defines are deprecated.
+> >
+> > From include/linux/leds.h:
+> >
+> > /* This is obsolete/useless. We now support variable maximum brightness. */
+> > enum led_brightness {
+> >         LED_OFF         = 0,
+> >         LED_ON          = 1,
+> >         LED_HALF        = 127,
+> >         LED_FULL        = 255,
+> > };
+> >
+> 
+> Let me know what am I supposed to use then. The
+> brightness_set_blocking() function is defined as such:
+> 
+> 	int (*brightness_set_blocking)(struct led_classdev *led_cdev,
+> 				       enum led_brightness brightness);
+> 
+> Which has enum led_brightness as one of its params.
+> 
+> Do I just ignore the 'obsolete' param for now and replace ` == LED_OFF`
+> with a logical NOT?
 
-> So I'm thinking (or perhaps hoping) the rule might be something like:
-> - YCbCr limited range=20
-> - RGB full range if "Broadcast RGB" property is not present
+I'm pretty sure most places just treat this as a u8 these days.
 
-Isn't it much more complicated than that for HDMI though? My
-recollection was that any VIC but VIC1 would be limited range, and
-anything else full range?
-
-> - RGB full or limited range based on the "Broadcast RGB" property
->   if it's present
->=20
-> I think the "Broadcast RGB" property itself might also be lacking
-> proper uapi docs, so that may need to be remedied as well.
-
-I took care of documenting it when merging the HDMI helpers:
-https://docs.kernel.org/gpu/drm-kms.html#hdmi-specific-connector-properties
-
-Maxime
-
---mhdva7e7vsga4kjf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCacP3tQAKCRAnX84Zoj2+
-dqD6AX9ruA9VQEK32t44/SErwn8ouTAnQA9K9i0WTlcaidv+2oyLtolh4CEvzUcR
-Knh9fq4Bfjj/Wa5dcOSnIESCkqTRH/yo4UCESrmghwhyznX8ffjBrkE/aWSPhI2B
-5bfXV1iang==
-=9m7S
------END PGP SIGNATURE-----
-
---mhdva7e7vsga4kjf--
+-- 
+Lee Jones [李琼斯]
