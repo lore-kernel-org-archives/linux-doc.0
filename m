@@ -1,49 +1,50 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45B5C2857F6
-	for <linux-doc@vger.kernel.org>; Wed, 25 Mar 2026 21:11:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 437BA3491DB;
+	Wed, 25 Mar 2026 21:14:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774473120; cv=none; b=PRIQhNuEIfbl7uRdn6L6c+ttXhYZfyPxiiz+wYNJ4fBYcu5TaNtXPpHXh2OMw9eyCAL0DhJAkX7k3JMtmpDndYYyYs7K+Tt2jN6rcPFsVwtLKZlviAX2IgZVAXbHyPZarSL9h29eDNjTDpSpfZlo+SqEbAeDPDsb8EvmAaYdxWE=
+	t=1774473289; cv=none; b=P1BrVru9zvCfF+W7/U5TPwzZ3vMjlp37y6NsA6urzyZut8JMI4O2zrvVdk+/jw1CPf7OS5mJpl3d/5SR1koUruVKMOXNQToHz0R3JIpL9/y7uLx4+dZOOw/3j8aFrLYT0RTiDvjxpXFT+AkY4TzmgtjC+4Dh+HsZRs+eb1/pqN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774473120; c=relaxed/simple;
-	bh=v0QwLRg4FnYQMO4HS2Q6uUfpD6zisS1dEZz98dZtcwQ=;
+	s=arc-20240116; t=1774473289; c=relaxed/simple;
+	bh=yeTzRZfL+dEr6m1S/lDAsZClO2vAqlZlNBvWnyMw/+k=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=gAFRP54NJ9+oh2CFdk5cvNjOqQr5SclThREJIulRwRQU/Pg4RPLpNbI4J/5rO1OGEcfXv3hxa9urwVPHMwoJk9mKa6tTTbUHuNy0Lm8oEYaR31EQDWlCZvLBP1sM8o3Vt0m7uUcWCd8SGyGbSW75+kbTmPvLYSsniIIqvz5Bbw8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=jvTPvtWm; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=Xo5widUdA84XMeCYpHC+5e1pTUWeex2W6A6OPyphE1qdxrK2hmFs7zSTnDcxHXnEnSB5hMOmt04zE8kx1uhVH6lB/VDXi5rT4/lloT+jtDaz5a+4KkVlvfb533zcl7pyWXR1TmJsC4EO83JNyxR/CCch1Ypwvi3TysX8AeOGl98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=CfKYx0Yu; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="jvTPvtWm"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 866C0411D3
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="CfKYx0Yu"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 72A71411D3
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1774473118; bh=iXvHBVsrVOXj+oIfuFWotAZNnxdTB7SghW5lb3OsGSc=;
+	t=1774473286; bh=u1vGk2CYKnV2eJF4XeiSIS1x6jXbf8xmqUdZH6aaZw4=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=jvTPvtWmUc9OJRjoddcAk0PqVV1Q8mU8RIxrAVwLxJNIWsi+oK1DHZ73rDUDU65Bq
-	 dgV5YB7dLCSsYM0vsubCf6Jrx5JVWxIc9C2jDzHJNzDqPl02W4SDTuOhd7yrd0wTsk
-	 /M+cI4dzYrQEwrAxRh3HCWBj0mIS74ZN63Vw80yWABuy1rgDjEkfbx+xDEDXirGYB9
-	 HL0Y9LPPJif190zUniaiAgeU3yjn2+imkP7ZDqJL19T334dUUJmZW5eZ8JdaqDhxtr
-	 JaFJKqCnL2PU05pKlunxvdLxdOB7V/tho+NL1iHBoGfJQHHak1wajqO9IBFWa6wVpW
-	 1jdhLCzHIZroA==
+	b=CfKYx0YutFswU90qad4RJwdv9SXaSBmNLGN4M+SmyxBx3Hno9VSGF3yG1DxWDPZDU
+	 fKr3RGs73IgbE1vCFthNMikpfEzmGecbQ1lhW32UJL7ORW9wm9SO6YyVqujogX5lu/
+	 DnQhfCYdUFanTp4JPXFMBSFb5iHvEAHHsxEGP3WQxUKzM45HrO9OIW3EtjYbIUtJHX
+	 LVRng2Vg8/Q5GidKwJ/A/HS183v5dsSNFv3BJfZ4vOpDg/MmQFY2gzhcGL5q72pqaM
+	 uORSJZbpBvbmR0e3VuZ2T8OfclF36jFEEjwjzsSXtlUTeGIrV81iCDMMk+Mjs7LCOk
+	 agqXuva1Zfy3g==
 Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 866C0411D3;
-	Wed, 25 Mar 2026 21:11:58 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 72A71411D3;
+	Wed, 25 Mar 2026 21:14:46 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Shuah Khan <skhan@linuxfoundation.org>, Kevin Brodsky
- <kevin.brodsky@arm.com>, linux-doc@vger.kernel.org
-Cc: Konstantin Ryabitsev <mricon@kernel.org>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: Invalid link generation for equations
-In-Reply-To: <501de93f-65f2-4a45-a84b-d38560cd9e22@linuxfoundation.org>
-References: <9b320e77-9acf-4f0d-8c52-6e1fc3a8cf53@arm.com>
- <87se9nejza.fsf@trenco.lwn.net>
- <501de93f-65f2-4a45-a84b-d38560cd9e22@linuxfoundation.org>
-Date: Wed, 25 Mar 2026 15:11:57 -0600
-Message-ID: <87o6kbehr6.fsf@trenco.lwn.net>
+To: Rito Rhymes <rito@ritovision.com>, Rito Rhymes <rito@ritovision.com>,
+ linux-doc@vger.kernel.org
+Cc: Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ rdunlap@infradead.org
+Subject: Re: [PATCH v3] docs: contain horizontal overflow in C API descriptions
+In-Reply-To: <DHC5RBUT88C0.2OACW6VS3CYF2@ritovision.com>
+References: <20260321142559.26005-2-rito@ritovision.com>
+ <20260323153342.33447-1-rito@ritovision.com>
+ <87jyuzg2fi.fsf@trenco.lwn.net>
+ <DHC5RBUT88C0.2OACW6VS3CYF2@ritovision.com>
+Date: Wed, 25 Mar 2026 15:14:45 -0600
+Message-ID: <87jyuzehmi.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,40 +53,13 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Shuah Khan <skhan@linuxfoundation.org> writes:
+"Rito Rhymes" <rito@ritovision.com> writes:
 
->> OK, so this is more than passing strange...I can't reproduce that
->> problem locally.  The HTML I get is:
->> 
->>    <img src="../_images/math/d9936822[...]
->> 
->> On docs.kernel.org, instead:
->> 
->>    <img src="_images/math/d9936822[...]
->> 
->> Note the missing "../".
->> 
->> I will confess that I don't have a great understanding of how imgmath
->> works and how that link gets set.  We could "fix" the problem generally
->> by setting imgmath_embed=True, but it would be good to understand what's
->> actually happening here.
->
-> Respect SPHINX_IMGMATH (for html docs only) in Documentation/conf.py
-> might explain why imgmath_embed=True works?
->
-> # Load math renderer:
-> # For html builder, load imgmath only when its dependencies are met.
-> # mathjax is the default math renderer since Sphinx 1.8.
-> have_latex = have_command("latex")
-> have_dvipng = have_command("dvipng")
-> load_imgmath = have_latex and have_dvipng
->
-> Without setting imgmath_embed=true, math_renderer is mathjax which is
-> default since Sphinx 1.8
+> If you could imagine an optimal solution, what would it look like?
+> Can you describe the layout and/or behavior?
 
-We default to imgmath if the requisite utilities (latex, dvipng) are
-installed on the system; perhaps that's not ideal, but it's what we have
-done for a while.  It all seems to be working as expected, except that
-the <img> element has the wrong URI in it.  Strange.
+It should wrap so that the entire prototype is visible, but the way that
+happens on small screens is definitely ugly.  The trick would be to have
+it wrap the way it would for an overly long line in the source.
 
 jon
