@@ -1,262 +1,272 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD25423507C;
-	Wed, 25 Mar 2026 16:01:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.21
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774454474; cv=fail; b=JUW+7ENd/v7zqjMK7IlpO2+zIBjW9Wv2JsArUrKTRNIF09vW/rZwF8YAFZK8KdJKpzjA4bC2styem9ACGUTcEDr0EKDVgpe6V27gEf5UGNcwU3NML3nsxl3sduKto0BYqSD0mCO5DfYBgCJWQmlEqR07Tw5ZaI3wTrfEIo2G6nM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774454474; c=relaxed/simple;
-	bh=zm9ygH9qFniUJm17KkdY5/gbP/A7DIdac5s53f9/S1Y=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=a0hyk75T2TdzteuVJu9Tg4Qc+D+yHyyKrQdGKvSIjZCORCVmO9zzWHzsrf1I+GIGUBVjMyrv4h+14Yldfq//gRQrKrB+R39UkiHrj5AoethV5G8oaYs5aXkmnuBb32BxogbpefhzjMHiinWPdh9H0gdsN7l0dfvRabhHgT+oVFY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gpAfa/ZI; arc=fail smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gpAfa/ZI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774454473; x=1805990473;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=zm9ygH9qFniUJm17KkdY5/gbP/A7DIdac5s53f9/S1Y=;
-  b=gpAfa/ZI6nCvYyTbZ4HcEM17YO6UPEFONFWLJk/YdAUkXrryrgOi8PWy
-   stBr5hj8+ZFSthPRk5M6IXCK5WDD08mHNY5SaJNeNW08+RjdjPYqBdlOP
-   fypwjRMvg0K0Ep4tca0SvBhxK8Vugct6mHSe5XGNryqhA9IZSoOIVA1dZ
-   J/P4xbYCGwJ4HFW1HkZ8zWBg3yaR4jc4vagjNlKKBk/ao7d4RC1Yx3hlS
-   jdklE7PNp9G7Q3DPe/AAr1hrBbngo4c0ZlLCSWfMTCJ6g2rkfFGGCVPMB
-   1RoMiZ3jb+581fswaXCX3fAPc62cUd9sg5P0RFxN/3qIxhjyQVDxAhFS8
-   w==;
-X-CSE-ConnectionGUID: 6pqXcRJaQfKH4dt6k03CQw==
-X-CSE-MsgGUID: HxyBJKXDQdykapxA+QbeuQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="75383426"
-X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="75383426"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 09:00:57 -0700
-X-CSE-ConnectionGUID: sXuPjBL6SMyGaEYgXX1Y5w==
-X-CSE-MsgGUID: Gc9e5mFxSOCOcqUzWa4USw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,140,1770624000"; 
-   d="scan'208";a="229178629"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
-  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2026 09:00:52 -0700
-Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C7213FBED8;
+	Wed, 25 Mar 2026 16:57:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774457868; cv=none; b=p5W2GES4U21KntJHxJgRjzMwxTHPjZZS0yoS6/iJZ2o+UgJzeEm3YanBTAihQqWiI/8ig0zL3Nce7AFDIlywUfWmtCyf1ajuxnHgtzrlKYhibOhriUC7kcBQxH6932et+rBV3sHj/dSVhQbxEpiPWFRq+8jZhlk3FzlQjEPqtto=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774457868; c=relaxed/simple;
+	bh=RupdfelhB0eMjmDSTiDeb9JkxjcK939km6Byps5nYas=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=tKXOORg2woIltGgMRoPRn3TzADznJHAQeD0RbZyZEfRWhA04bQAw9jk1AnJDn0KbFqtjeg0qQJeGKa6KDXViogDGi5o5QAvOXWHHzc5fOoBNjVwQ1dabBgEihefX2hZ0RhnRc7k34Jg9wzlBs8wHCnYcfRPq4CHq896rpwZYBXQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.107])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4fgtPQ3WKBzJ46F1;
+	Thu, 26 Mar 2026 00:57:30 +0800 (CST)
+Received: from dubpeml500008.china.huawei.com (unknown [7.214.146.94])
+	by mail.maildlp.com (Postfix) with ESMTPS id 4ED5640584;
+	Thu, 26 Mar 2026 00:57:39 +0800 (CST)
+Received: from P_UKIT01-A7bmah.china.huawei.com (10.48.146.71) by
+ dubpeml500008.china.huawei.com (7.214.146.94) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Wed, 25 Mar 2026 09:00:51 -0700
-Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
- FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Wed, 25 Mar 2026 09:00:51 -0700
-Received: from BN1PR04CU002.outbound.protection.outlook.com (52.101.56.58) by
- edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Wed, 25 Mar 2026 09:00:50 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=IEjdDK5tKShJ6CFTOD5KX8i0q9aH/N6n9O7+0fkKajYcKk8NbpbaY3YDNY0nnm8sim/V8HnfXyaURs5aX4SU82iEdC7KhrP5i5yjQsCjWca4fxSw0VpgHaXPncbhRl3BcoeVs5TTdvyvLNo0Lls4Qc18Vo6lh9TJRsVUGtqo5Xhd+YsUajDSXtYphRn89uZVACtV5LtnlOG14ALL/s7j4VCxdNZdqfVEmQa+ujuHcS1myklQn6+FdYfFysXorT0W3hRrkYpcLWZwH5OE/GklY8HFgm3nO1Ss8irkLbp1jRpFkcgvBRqqy3nIrg/0UcesLyU0uRMS7YncseAQcPhJIg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=S2jHGJt89Mp6CyVLBEtm86qLTc9s8wGYUln59SO3ymk=;
- b=ea/aDXM+aKmneLp0b5/XlnMQjsQuSpFA7vOeY6WaNI+dMUNyT2JqGQPeDJ/WOsOj6/+9+Hjf1ymigDueGoM8akEuSTyH0+mp9UzPKJIKDPUYVva3nYXzvAS0yPDDAVuJJwlPzakwTsMyePRaNsttUOvq9DOEd63pt01drwFmNY2l01xGjJwIIsJAP789ijXKr8nlwDsTmmP8j01yGAhTPYCdQAQGn62J1ISQB6I/kVYN0eU47JWnPYO41tajlQ0PJM7rP+gDbjPdXYbKSLoFihti/ad6aUAvQHya2gq6Rx67TdiPSNcyN1qrkrCbG4S8mfUNAcgzGv6i4nj1B0iSOg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH3PPF9E162731D.namprd11.prod.outlook.com
- (2603:10b6:518:1::d3c) by BL1PR11MB5978.namprd11.prod.outlook.com
- (2603:10b6:208:385::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.7; Wed, 25 Mar
- 2026 16:00:46 +0000
-Received: from PH3PPF9E162731D.namprd11.prod.outlook.com
- ([fe80::7d4b:a049:aed5:d2b0]) by PH3PPF9E162731D.namprd11.prod.outlook.com
- ([fe80::7d4b:a049:aed5:d2b0%8]) with mapi id 15.20.9723.018; Wed, 25 Mar 2026
- 16:00:46 +0000
-Date: Wed, 25 Mar 2026 11:04:32 -0500
-From: Ira Weiny <ira.weiny@intel.com>
-To: John Groves <John@groves.net>, Jonathan Cameron
-	<jonathan.cameron@huawei.com>
-CC: John Groves <john@jagalactic.com>, Miklos Szeredi <miklos@szeredi.hu>,
-	"Dan Williams" <dan.j.williams@intel.com>, Bernd Schubert
-	<bschubert@ddn.com>, Alison Schofield <alison.schofield@intel.com>, John
- Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
-	<skhan@linuxfoundation.org>, Vishal Verma <vishal.l.verma@intel.com>, "Dave
- Jiang" <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara
-	<jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand
-	<david@kernel.org>, Christian Brauner <brauner@kernel.org>, "Darrick J .
- Wong" <djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, Jeff Layton
-	<jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, Stefan Hajnoczi
-	<shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, Josef Bacik
-	<josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan
-	<chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>, Fuad Tabba
-	<tabba@google.com>, Sean Christopherson <seanjc@google.com>, Shivank Garg
-	<shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>, Gregory Price
-	<gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>, Ajay Joshi
-	<ajayjoshi@micron.com>, "venkataravis@micron.com" <venkataravis@micron.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH V9 3/8] dax: add fsdev.c driver for fs-dax on character
- dax
-Message-ID: <69c407903b54c_130d6e1007a@iweiny-mobl.notmuch>
-References: <0100019d1d463523-617e8165-a084-4d91-aa5e-13778264d5d4-000000@email.amazonses.com>
- <20260324003818.5009-1-john@jagalactic.com>
- <0100019d1d476420-6b0bf60e-3b3a-4868-8f5f-484cd55d4709-000000@email.amazonses.com>
- <20260324143927.000024c3@huawei.com>
- <acPX9T2ZF7xTCHtZ@groves.net>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <acPX9T2ZF7xTCHtZ@groves.net>
-X-ClientProxiedBy: MW4PR04CA0299.namprd04.prod.outlook.com
- (2603:10b6:303:89::34) To PH3PPF9E162731D.namprd11.prod.outlook.com
- (2603:10b6:518:1::d3c)
+ 15.2.1544.11; Wed, 25 Mar 2026 16:57:37 +0000
+From: <shiju.jose@huawei.com>
+To: <rafael@kernel.org>, <bp@alien8.de>, <akpm@linux-foundation.org>,
+	<rppt@kernel.org>, <dferguson@amperecomputing.com>,
+	<linux-edac@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
+	<linux-mm@kvack.org>, <linux-doc@vger.kernel.org>, <tony.luck@intel.com>,
+	<lenb@kernel.org>, <leo.duran@amd.com>, <Yazen.Ghannam@amd.com>,
+	<mchehab@kernel.org>
+CC: <jonathan.cameron@huawei.com>, <linuxarm@huawei.com>,
+	<rientjes@google.com>, <jiaqiyan@google.com>, <Jon.Grimm@amd.com>,
+	<dave.hansen@linux.intel.com>, <naoya.horiguchi@nec.com>,
+	<james.morse@arm.com>, <jthoughton@google.com>, <somasundaram.a@hpe.com>,
+	<erdemaktas@google.com>, <pgonda@google.com>, <duenwen@google.com>,
+	<gthelen@google.com>, <wschwartz@amperecomputing.com>,
+	<wbs@os.amperecomputing.com>, <nifan.cxl@gmail.com>, <tanxiaofei@huawei.com>,
+	<prime.zeng@hisilicon.com>, <roberto.sassu@huawei.com>,
+	<kangkang.shen@futurewei.com>, <wanghuiqiang@huawei.com>,
+	<shiju.jose@huawei.com>
+Subject: [PATCH v18 0/2] ACPI: Add support for ACPI RAS2 feature table
+Date: Wed, 25 Mar 2026 16:57:10 +0000
+Message-ID: <20260325165714.294-1-shiju.jose@huawei.com>
+X-Mailer: git-send-email 2.43.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH3PPF9E162731D:EE_|BL1PR11MB5978:EE_
-X-MS-Office365-Filtering-Correlation-Id: bc633a7f-384e-4950-a0a2-08de8a87ad1b
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016|7053199007|22082099003|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info: JUEd3PYXJIXouiv5h19q4fhbVycRjLSZxNhn7qcigxMJAqH6lEcYhRN+7H7hGEDgQxImhwgLcT5DNuXwGgRDIWu/GzaxVZORGajHYFTUc/ExnaVMIeOdxhkiYOIYFuoIA00hUysMCq21Um43wzwNjhmnKNT/bgyecD49e6SqQ9wKyYClSO84IaeP9iWwP9LAiy2NFJz4Dmc2OFBgwi9eo0gj/QCapOPVLIKqgx7A667gJ97VDLti5zO+UQ0xyM0nHu9PojihNTJYHh7hQbYOYauH3kXblFiUnrdTTLGE6zq8bf1OVKb9DyUfvTyXGvh1BYKJyYYhX6WmUAQzQivivQOgRHTRtROCGKvliXp3OntcvAZoCr2v1e2ueoBC2LNJfEJbyMs4BI6ijLiBd0qI37hvogiPl/RFmOdNCYql5beo1Bnw0CLTGMWO9lf6hYdNjP5iEVL/FadeXLHfDHMb9n2/5cWOC60+GNNSFWrSPhRg+mg2gdQsPclNxwXsH71Y3jbDfGTEsEn9wkVeo4Cp8L1AzcjVsvSdgQ8ggTz3c2wr4G8JaBkPJ2/wZTZoaUIehMOmZvYVqBi8x71ssADRnqLjhuL3wowGQ4VIg6eP80cOaECvzvSAH38G0TN7rhOCsvix1ldoLwjQOoPb2Ktr/ebOnKOs3bkqdN0POFG3q/wcCtdWtvaIVNPLEQuwM4bD3cSC47u4AUpUskK4+hjtAp6FTMaK1VMZGzvRno3u05Y=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH3PPF9E162731D.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(7053199007)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?UCw8irnTZnnoE2+CjIP/unxsJhf4lxOEiwLNKbg5qJbxLEt1TmrLOUm9/8ke?=
- =?us-ascii?Q?PXsU1lNnkod3C4dZcV0osQ4m5m5+krVIEM52xHwwMbZOngCBdEBoIZVeJXlN?=
- =?us-ascii?Q?/mOMfOvo8bYp32EnPZYGDTSkqk2wXPK/qRf0Cqq1mQQxJNL4VJtqSkpDLayt?=
- =?us-ascii?Q?T3NGw1gIa+bSCl/+Dw6rOpVu/3vwSRmIrGJpSE108HFd+TOnZnaPPPRK0vpE?=
- =?us-ascii?Q?Mnu+ohqBB/IDWZhL09cRL1DCkK1LtK+XoSFDbHmNh5hJgSh+YgJmtrxE3Zcz?=
- =?us-ascii?Q?bGGM9Vpzlkd+8r98fzuBJcDzCBSQaF49JBtoolQwWjRzslZNWMEY5Zw+Xfdz?=
- =?us-ascii?Q?chfY1UJoH1qCTwYsYtUpFqgl3NQoZv5ogXqMf0KNs/MxTQECpm1RI2lDZYg+?=
- =?us-ascii?Q?ttPOiu4gs5rLL//vZrDTFBKyHoP+ILNEVFQr9SXrqW8pUHDVZQYM6wPgmhKt?=
- =?us-ascii?Q?fTriyzGSsFnPBtYET9cXOd7drDazvqwpvMnXTJ+Dxm6jFSUKaV4mTC01gc6Q?=
- =?us-ascii?Q?6FXF1rktCt7n05DDmJsbiMMo5CIYNrsopxDHfAGGFAsfctOpuZx28ELUv/nb?=
- =?us-ascii?Q?erF4kKUde6CQn3qZ4WAT32WvSTGiGY5Ir76FabZd0H6Aq8Y+GQXBiVEcLTxs?=
- =?us-ascii?Q?5BCm25jhHUNwRtr9O2wf5k/HX/6Uc256jgvuT91JjPEWWS6Ikp3l8XvIeek0?=
- =?us-ascii?Q?BIQfsNajKfIbJr0Vl2p0D8PKtKCO9WpB0ykQFCMyj2W3oYmf0Gh6c+nnDZfN?=
- =?us-ascii?Q?2iGl/3G7SWWNrKDBTijjJLjzQD/+yDY8DF+yfB9hWIZi0teF/rYz0yOq9OUT?=
- =?us-ascii?Q?V4LY2YKj2lyuhBG9gW9h5oLrsdIRreJc87KKw7jahOdLGAxAvaB2PnX3TPgN?=
- =?us-ascii?Q?zZgPtu8vFU+DJKG2/8j/NC1FkL7ytvYnT3qDY6iwVzV/BNxo6hOOjmhS2JsL?=
- =?us-ascii?Q?TmRBW5qfDB89g365wlw63VnswhdFvG7wynS1a+kAw301pXy3Zd6+xl2ML/hJ?=
- =?us-ascii?Q?VFYlyD5KH89UbleuP5TdWWzOmCX1s6ZQHhMZnViT6rrM7gVCYVBnCrFw+bYf?=
- =?us-ascii?Q?OonFBRf2AuVC9wFO5qDySWY0jv5puAXD/khA9P2xRPZKcy8pQ8SfESOfLH5l?=
- =?us-ascii?Q?zyy9guHMeIV/gdEJ48fgdXecGfAhng02nmbdtJkmVGrw3qgFjR/YbCAhD21d?=
- =?us-ascii?Q?pFONnSAtOP4eCDUg29HenZtLjoUf3mbb77Meu20p1Nr5mMDN8xzk79zSPaqg?=
- =?us-ascii?Q?LOCgN4+NPObVM3S866O78A52W2B9VHULBBaaUKbXh6grQFqAWJejngGvow5R?=
- =?us-ascii?Q?Pu4ABCso4L/jeROMLY9lQJh/ycqX6Gd/48n0yB8k4uxgIP2sADBk0kDa7YCV?=
- =?us-ascii?Q?BVixqgz3gFy8MmbuO/OV+kGYCM/TwrjkwMd4vxKZTtGulXF1aHY6JXGJYpvB?=
- =?us-ascii?Q?XWDtGriuQwfrdYPCC2LjSUXw/ztek1cwnEDYUNcVGSNdB5GcgSlDbxvwBHuM?=
- =?us-ascii?Q?OQiT1ZbL6EDC3qkn7xEIq59D3ZxQQikq4H3+hs4wUUseffMGXtiCvj3vpZhW?=
- =?us-ascii?Q?bWIKB5l4uF8JaTl6TVKrdoBEv2OPbNLOGxcvHi6fQTkS+18lXbyxmxkquvlw?=
- =?us-ascii?Q?iDvwFxzOy2XnjAO3ypbO5tXNGkcZ/r4zXGjVeYr5sCKOPYx/6Ulzqu/QRlIk?=
- =?us-ascii?Q?V/7Rseb3TQUATb61HUWWT2lYdP7ct+L1+DSGgRNC6ucUBHAmWvKS3GsPcYh5?=
- =?us-ascii?Q?f3yI8uHIyA=3D=3D?=
-X-Exchange-RoutingPolicyChecked: Y7kqY+4W7cOFTR+7gge/40SqPf7xamrEOJLAJ11vdUuVGddbTNENzxHSEbGfKhVCxvxMO8+g1WD8zS2IiaZPCMneuuNPhR29ObFh58NIspHw/tMlZbyGcmod1fzel8Hcc4ynI+zhBjBL/oNeQIvnJv4U8Vl2fAOU1yrt31k19Z60FBH/su+MlUez8MgYkJA8W++ovGaPotmAuL6C+kNZQw5qxzAluUy9S7pg/NXWlA3uQMy09b9oOZdzmLcl+SiZ+0WzGZaL/fBkCYYBk6BjxXzWU6rwCNeuk158kZnc0OvDTbYir+TQCDphY0sp85ux7D9zt+BZZ13nBrrXbvR5ng==
-X-MS-Exchange-CrossTenant-Network-Message-Id: bc633a7f-384e-4950-a0a2-08de8a87ad1b
-X-MS-Exchange-CrossTenant-AuthSource: PH3PPF9E162731D.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2026 16:00:46.4782
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Xp7PoC09q0ylEnn8CTeV9cDSqpofSU7U0xUzW+wE+U3nrAwY+VNpCxPWRVaMkeWmVlKFD2DwDwIwWkOgDQPUVw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5978
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: lhrpeml500010.china.huawei.com (7.191.174.240) To
+ dubpeml500008.china.huawei.com (7.214.146.94)
 
-John Groves wrote:
-> On 26/03/24 02:39PM, Jonathan Cameron wrote:
-> > On Tue, 24 Mar 2026 00:38:31 +0000
-> > John Groves <john@jagalactic.com> wrote:
-> > 
-> > > From: John Groves <john@groves.net>
-> > > 
-> > > The new fsdev driver provides pages/folios initialized compatibly with
-> > > fsdax - normal rather than devdax-style refcounting, and starting out
-> > > with order-0 folios.
-> > > 
-> > > When fsdev binds to a daxdev, it is usually (always?) switching from the
-> > > devdax mode (device.c), which pre-initializes compound folios according
-> > > to its alignment. Fsdev uses fsdev_clear_folio_state() to switch the
-> > > folios into a fsdax-compatible state.
-> > > 
-> > > A side effect of this is that raw mmap doesn't (can't?) work on an fsdev
-> > > dax instance. Accordingly, The fsdev driver does not provide raw mmap -
-> > > devices must be put in 'devdax' mode (drivers/dax/device.c) to get raw
-> > > mmap capability.
-> > > 
-> > > In this commit is just the framework, which remaps pages/folios compatibly
-> > > with fsdax.
-> > > 
-> > > Enabling dax changes:
-> > > 
-> > > - bus.h: add DAXDRV_FSDEV_TYPE driver type
-> > > - bus.c: allow DAXDRV_FSDEV_TYPE drivers to bind to daxdevs
-> > > - dax.h: prototype inode_dax(), which fsdev needs
-> > > 
-> > > Suggested-by: Dan Williams <dan.j.williams@intel.com>
-> > > Suggested-by: Gregory Price <gourry@gourry.net>
-> > > Signed-off-by: John Groves <john@groves.net>
-> > 
-> > I was kind of thinking you'd go with a hidden KCONFIG option with default
-> > magic to do the same build condition to you had in the Makefil, but one the
-> > user can opt in or out for is also fine.
-> > 
-> > Comments on that below. Meh, I think this is better anyway :)
-> > 
-> > Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
-> > 
-> > 
-> > 
-> > > diff --git a/drivers/dax/Kconfig b/drivers/dax/Kconfig
-> > > index d656e4c0eb84..7051b70980d5 100644
-> > > --- a/drivers/dax/Kconfig
-> > > +++ b/drivers/dax/Kconfig
-> > > @@ -61,6 +61,17 @@ config DEV_DAX_HMEM_DEVICES
-> > >  	depends on DEV_DAX_HMEM && DAX
-> > >  	def_bool y
-> > >  
-> > > +config DEV_DAX_FSDEV
-> > > +	tristate "FSDEV DAX: fs-dax compatible devdax driver"
-> > > +	depends on DEV_DAX && FS_DAX
-> > > +	help
-> > > +	  Support fs-dax access to DAX devices via a character device
-> > > +	  interface. Unlike device_dax (which pre-initializes compound folios
-> > > +	  based on device alignment), this driver leaves folios at order-0 so
-> > > +	  that fs-dax filesystems can manage folio order dynamically.
-> > > +
-> > > +	  Say M if unsure.
-> > Fine like this, but if you wanted to hide it in interests of not
-> > confusing users...
-> > 
-> > config DEV_DAX_FSDEV
-> > 	tristate
-> > 	depends on DEV_DAX && FS_DAX
-> > 	default DEV_DAX
-> 
-> I like this better. I see no reason not to default to including fsdev.
-> It does nothing other than frustrating famfs users if it's off - since
-> building it still has no effect unless you put a daxdev in famfs mode.
-> 
-> Ira, it's kinda in your hands at the moment. Do you feel like making this
-> change?
+From: Shiju Jose <shiju.jose@huawei.com>
 
-I don't mind making this change.  But we have to deal with the breakage to
-current device dax users.
+Add support for ACPI RAS2 feature table (RAS2) defined in the
+ACPI 6.5 specification, section 5.2.21 and RAS2 HW based memory
+scrubbing feature.
 
-https://lore.kernel.org/all/69c36921255b6_e9d8d1009b@iweiny-mobl.notmuch/
+ACPI RAS2 patches were part of the EDAC series [1] and
+this is the 38th version (20 + 18) of RAS2 patches sending
+in last 3 years.
 
-What am I missing?
+The code is based on linux.git v7.0-rc3 [2].
 
-Ira
+1. https://lore.kernel.org/linux-cxl/20250212143654.1893-1-shiju.jose@huawei.com/
+2. https://github.com/torvalds/linux.git
+
+Changes
+=======
+v17 -> v18:
+1. Fixed few AI tool reported issues shared by Borislav. Thanks.
+https://lore.kernel.org/all/20260312165247.GSabLvX5DjzhDtmyuh@fat_crate.local/
+2. Re-add support for user setting scrub address range for Daniel's 
+   reply in v16, which was removed in v13 because of request to simplify the code and
+   with the expectation that the firmware will do the full node demand scrubbing and
+    may enable these attributes later in the follow-up patches.
+   https://lore.kernel.org/all/df5fe0ed-3483-4ac5-8096-447e4e560816@os.amperecomputing.com/
+
+v16 -> v17:
+1. Merged all changes suggested by Borislav.
+https://lore.kernel.org/all/20260126171552.GJaXehSJp33nFnpvVd@fat_crate.local/
+2. Changes for Borislav's feedback "Add remove_aux_device() which unwinds everything
+   add_aux_device() does for all those devices".
+
+v15 -> v16:
+Attempt to modify throughout the code and logs for the below comments from Borislav.
+Thanks for the comments.
+https://lore.kernel.org/all/20251125073627.GLaSVce7hBqGH1a3ni@fat_crate.local/
+https://lore.kernel.org/all/20251231131512.GBaVUh4NSWqvr2xhbM@fat_crate.local/
+https://lore.kernel.org/all/20260119111701.GBaW4Sres045xnfkpz@fat_crate.local/
+
+v14 -> v15:
+1. Incorporated new changes suggested by Borislav on v13.
+   https://lore.kernel.org/all/20251231131512.GBaVUh4NSWqvr2xhbM@fat_crate.local/
+   
+2. Rebase to v6.19-rc5.
+
+v13 -> v14:
+1. Modifications for changes wanted by Borislav.
+   https://lore.kernel.org/all/20251125073627.GLaSVce7hBqGH1a3ni@fat_crate.local/
+
+2. Changes for the comments from Randy Dunlap 
+   https://lore.kernel.org/all/4807417b-a8f7-47a3-b38a-94ea7bdbf775@infradead.org/
+   https://lore.kernel.org/all/af7b6cdc-c0a7-4896-ba6b-6bb933898d37@infradead.org/
+   https://lore.kernel.org/all/26083ba9-1979-4d14-8465-3f54f2f96d23@infradead.org/
+   
+v12 -> v13:
+1. Fixed some bugs reported and changes wanted by Borislav.
+   https://lore.kernel.org/all/20250910192707.GAaMHRCxWx37XitN3t@fat_crate.local/ 
+
+2. Tried modifying the patch header as commented by Borislav.
+
+3. Fixed a bug reported by Yazen.
+   https://lore.kernel.org/all/20250909162434.GB11602@yaz-khff2.amd.com/
+
+4. Changed setting 'Requested Address Range' for GET_PATROL_PARAMETERS
+   command to meet the requirements from Daniel for Ampere Computing
+   platform. 
+   https://lore.kernel.org/all/7a211c5c-174c-438b-9a98-fd47b057ea4a@os.amperecomputing.com/
+
+5. In RAS2 driver, removed support for scrub control attributes 'addr' and
+   'size' for the time being with the expectation that a firmware will do
+   the full node demand scrubbing and may enable these attributes in the
+   future.
+   
+6. Add 'enable_demand' attribute to the EDAC scrub interface to start/stop
+   the demand scrub, which is used for the RAS2 demand scrub control.
+
+v11 -> v12:
+1. Modified logic for finding the lowest contiguous phy memory addr range for
+NUMA domain using node_start_pfn() and node_spanned_pages() according to the
+feedback from Mike Rapoport in v11.
+https://lore.kernel.org/all/aKsIlFTkBsAF5sqD@kernel.org/
+
+2. Rebase to 6.17-rc4.
+
+v10 -> v11:
+1. Simplified code by removing workarounds previously added to support
+   non-compliant case of single PCC channel shared across all proximity
+   domains (which is no longer required). 
+   https://lore.kernel.org/all/f5b28977-0b80-4c39-929b-cf02ab1efb97@os.amperecomputing.com/
+
+2. Fix for the comments from Borislav (Thanks).
+   https://lore.kernel.org/all/20250811152805.GQaJoMBecC4DSDtTAu@fat_crate.local/
+
+3. Rebase to 6.17-rc1.
+
+v9 -> v10:
+1. Use pcc_chan->shmem instead of 
+   acpi_os_ioremap(pcc_chan->shmem_base_addr,...) as it was
+   acpi_os_ioremap internally by the PCC driver to pcc_chan->shmem.
+   
+2. Changes required for the Ampere Computing system where uses a single
+   PCC channel for RAS2 memory features across all NUMA domains. Based on the
+   requirements from by Daniel on V9
+   https://lore.kernel.org/all/547ed8fb-d6b7-4b6b-a38b-bf13223971b1@os.amperecomputing.com/
+   and discussion with Jonathan.
+2.1 Add node_to_range lookup facility to numa_memblks. This is to retrieve the lowest
+    physical continuous memory range of the memory associated with a NUMA domain.
+2.2. Set requested addr range to the memory region's base addr and size
+   while send RAS2 cmd GET_PATROL_PARAMETER 
+   in functions ras2_update_patrol_scrub_params_cache() &
+   ras2_get_patrol_scrub_running().
+2.3. Split struct ras2_mem_ctx into struct ras2_mem_ctx_hdr and struct ras2_pxm_domain
+   to support cases, uses a single PCC channel for RAS2 scrubbers across all NUMA
+   domains and PCC channel per RAS2 scrub instance. Provided ACPI spec define single
+   memory scrub per NUMA domain.
+2.4. EDAC feature sysfs folder for RAS2 changed from "acpi_ras_memX" to  "acpi_ras_mem_idX"
+   because memory scrub instances across all NUMA domains would present under
+   "acpi_ras_mem_id0" when a system uses a single PCC channel for RAS2 scrubbers across
+   all NUMA domains etc.
+2.5. Removed Acked-by: Rafael from patch [2], because of the several above changes from v9.
+
+v8 -> v9:
+1. Added following changes for feedback from Yazen.
+ 1.1 In ras2_check_pcc_chan(..) function
+    - u32 variables moved to the same line.
+    - Updated error log for readw_relaxed_poll_timeout()
+    - Added error log for if (status & PCC_STATUS_ERROR), error condition.
+    - Removed an impossible condition check.
+  1.2. Added guard for ras2_pc_list_lock in ras2_get_pcc_subspace().
+        
+2. Rebased to linux.git v6.16-rc2 [2].
+
+v7 -> v8:
+1. Rebased to linux.git v6.16-rc1 [2].
+
+v6 -> v7:
+1. Fix for the issue reported by Daniel,
+   In ras2_check_pcc_chan(), add read, clear and check RAS2 set_cap_status outside
+   if (status & PCC_STATUS_ERROR) check. 
+   https://lore.kernel.org/all/51bcb52c-4132-4daf-8903-29b121c485a1@os.amperecomputing.com/
+
+v5 -> v6:
+1. Fix for the issue reported by Daniel, in start scrubbing with correct addr and size
+   after firmware return INVALID DATA error for scrub request with invalid addr or size.
+   https://lore.kernel.org/all/8cdf7885-31b3-4308-8a7c-f4e427486429@os.amperecomputing.com/
+   
+v4 -> v5:
+1. Fix for the build warnings reported by kernel test robot.
+   https://patchwork.kernel.org/project/linux-edac/patch/20250423163511.1412-3-shiju.jose@huawei.com/
+2. Removed patch "ACPI: ACPI 6.5: RAS2: Rename RAS2 table structure and field names"
+   from the series as the patch was merged to linux-pm.git : branch linux-next
+3. Rebased to ras.git: edac-for-next branch merged with linux-pm.git : linux-next branch.
+      
+v3 -> v4:
+1.  Changes for feedbacks from Yazen on v3.
+    https://lore.kernel.org/all/20250415210504.GA854098@yaz-khff2.amd.com/
+
+v2 -> v3:
+1. Rename RAS2 table structure and field names in 
+   include/acpi/actbl2.h limited to only necessary
+   for RAS2 scrub feature.
+2. Changes for feedbacks from Jonathan on v2.
+3. Daniel reported a known behaviour: when readback 'size' attribute after
+   setting in, returns 0 before starting scrubbing via 'addr' attribute.
+   Changes added to fix this.
+4. Daniel reported that firmware cannot update status of demand scrubbing
+   via the 'Actual Address Range (OUTPUT)', thus add workaround in the
+   kernel to update sysfs 'addr' attribute with the status of demand
+   scrubbing.
+5. Optimized logic in ras2_check_pcc_chan() function
+   (patch - ACPI:RAS2: Add ACPI RAS2 driver).
+6. Add PCC channel lock to struct ras2_pcc_subspace and change
+   lock in ras2_mem_ctx as a pointer to pcc channel lock to make sure
+   writing to PCC subspace shared memory is protected from race conditions.
+   
+v1 -> v2:
+1.  Changes for feedbacks from Borislav.
+    - Shorten ACPI RAS2 structures and variables names.
+    - Shorten some of the other variables in the RAS2 drivers.
+    - Fixed few CamelCases.
+
+2.  Changes for feedbacks from Yazen.
+    - Added newline after number of '}' and return statements.
+    - Changed return type for "ras2_add_aux_device() to 'int'.
+    - Deleted a duplication of acpi_get_table("RAS2",...) in the ras2_acpi_parse_table().
+    - Add "FW_WARN" to few error logs in the ras2_acpi_parse_table().
+    - Rename ras2_acpi_init() to acpi_ras2_init() and modified to call acpi_ras2_init()
+      function from the acpi_init().
+    - Moved scrub related variables from the struct ras2_mem_ctx from  patch
+      "ACPI:RAS2: Add ACPI RAS2 driver" to "ras: mem: Add memory ACPI RAS2 driver".
+
+Shiju Jose (2):
+  ACPI:RAS2: Add driver for the ACPI RAS2 feature table
+  ras: mem: Add ACPI RAS2 memory driver
+
+ Documentation/ABI/testing/sysfs-edac-scrub |  13 +-
+ Documentation/edac/scrub.rst               |  70 +++
+ drivers/acpi/Kconfig                       |  11 +
+ drivers/acpi/Makefile                      |   1 +
+ drivers/acpi/bus.c                         |   3 +
+ drivers/acpi/ras2.c                        | 428 +++++++++++++++++
+ drivers/edac/scrub.c                       |  12 +
+ drivers/ras/Kconfig                        |  13 +
+ drivers/ras/Makefile                       |   1 +
+ drivers/ras/acpi_ras2.c                    | 504 +++++++++++++++++++++
+ include/acpi/ras2.h                        |  80 ++++
+ include/linux/edac.h                       |   4 +
+ 12 files changed, 1135 insertions(+), 5 deletions(-)
+ create mode 100644 drivers/acpi/ras2.c
+ create mode 100644 drivers/ras/acpi_ras2.c
+ create mode 100644 include/acpi/ras2.h
+
+-- 
+2.43.0
+
