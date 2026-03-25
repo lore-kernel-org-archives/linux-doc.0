@@ -1,158 +1,122 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from lgeamrelo07.lge.com (lgeamrelo07.lge.com [156.147.51.103])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAB432580D7;
-	Wed, 25 Mar 2026 18:53:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87124340A7D
+	for <linux-doc@vger.kernel.org>; Wed, 25 Mar 2026 18:53:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.147.51.103
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774464792; cv=none; b=e476D5EfwtpDlMk352oPPArbzdH3ZsvKYR9Oc6au5Mdij1BAyL9BAdQxQJ5W4B95dDXgBENm+TIpiienBafbq6OuuqCWfNmk8TzChoP36LfYzA1vovxMiD/JizI8fVPz1t8zqZY6/3oijKZTK8SvKNNUiosSOu5R3Y0zbs7t/08=
+	t=1774464831; cv=none; b=mZbYukS6qJoRzfWHb9TXZRTKgrbgCQIh48empaaB8iWr+Oxws0QwEzAy3ltEFXREWbySNVIcBZB1ntoYmT6f0HeLJnUSvQKjXYuT+ATy5q7pM9DsR6/odMZB3AZZ7m00AFVdPYnfKWvINOgA6fymfnb4krnwTxBLpj2h+LB2GUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774464792; c=relaxed/simple;
-	bh=gMGnsXXt+pIAumvO3ZSYn5TDwYZG38VX9jfs+DG4dOY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=IZVd/RStKirYDPUdcGhqZeCYFguis7Fw1oEVBz8ZV5MKnyv5mYaP1la2oA3sBIdqZNA8/RAhkuOZ1fPw9j/V+ksYtks9YZw32Gg/CCUsKrm2b4QlUdbUpGzPpCCAmkTftiVmpEjrsvdGFLPQv+UIcQQroxFK2t6WVi8CviFmptg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=MGLpdPND; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="MGLpdPND"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0A44B40C79
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1774464791; bh=21S0a0oTj8kfsTKp3HFsAz9eX/did/akAbT6PM1D/aU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=MGLpdPNDT27Yf9FkPwWfIrOoUcGorgauH8Xz3C28J91uEYqkJ0LLIo9tfN6WIwRs8
-	 4h/IcBIyNUz4x4LGjdxD06o4WYPuYXtvIy6XATiwtDp1tpmEFTg66KsCNYyKPMy2Yo
-	 IyrhuKnhDchcoeQ1AAwBey5la5w49LTr/MMQh7sU2QrYOC3dwSIvL8KQXoh0obkNEx
-	 xhGJkkUAFlestX87tbxfGfhG8Tf+OJ6yYi5xwFQELY/Zs4AaeMp59KNdZLGvTNVfB2
-	 LUiYEJ8IVfZ73JJlGIdBJ7JrN5ThQLyUzjylaUuXvgzGcYOEdgV7u4tsUC39V0RK95
-	 +etnBXyKxNIKw==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 0A44B40C79;
-	Wed, 25 Mar 2026 18:53:10 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Rito Rhymes <rito@ritovision.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, linux-doc@vger.kernel.org
-Cc: Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- rdunlap@infradead.org, Rito Rhymes <rito@ritovision.com>
-Subject: Re: [PATCH v3] docs: wrap generated tables to contain small-screen
- overflow
-In-Reply-To: <20260323153723.34735-1-rito@ritovision.com>
-References: <20260321133811.17854-1-rito@ritovision.com>
- <20260323153723.34735-1-rito@ritovision.com>
-Date: Wed, 25 Mar 2026 12:53:10 -0600
-Message-ID: <87mrzvg2qx.fsf@trenco.lwn.net>
+	s=arc-20240116; t=1774464831; c=relaxed/simple;
+	bh=UEoTyIJYna8viJe9xzaww5o+VrPLcSrda7wcuEf6C3k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bToVfXcDkAFMHuqgDNyRMM+0iOnh86dx7WY+AJIfzBlLcLZRZY5dEhyu6bzYT63x9pHbGEHrpeYiDbaMLskUzHGP1eO0sNC5rONeAHCY0ZUw3QajiON41wNFS/SVFkY9dPO3jgaDEiMmGAzP4dO03TxOtW2du5Vs0nDisdlU6y0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lge.com; spf=pass smtp.mailfrom=lge.com; arc=none smtp.client-ip=156.147.51.103
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lge.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lge.com
+Received: from unknown (HELO yjaykim-PowerEdge-T330) (10.177.112.156)
+	by 156.147.51.103 with ESMTP; 26 Mar 2026 03:53:41 +0900
+X-Original-SENDERIP: 10.177.112.156
+X-Original-MAILFROM: youngjun.park@lge.com
+Date: Thu, 26 Mar 2026 03:53:41 +0900
+From: YoungJun Park <youngjun.park@lge.com>
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: Kairui Song <ryncsn@gmail.com>, Liam.Howlett@oracle.com,
+	akpm@linux-foundation.org, apopple@nvidia.com,
+	axelrasmussen@google.com, baohua@kernel.org,
+	baolin.wang@linux.alibaba.com, bhe@redhat.com, byungchul@sk.com,
+	cgroups@vger.kernel.org, chengming.zhou@linux.dev,
+	chrisl@kernel.org, corbet@lwn.net, david@kernel.org,
+	dev.jain@arm.com, gourry@gourry.net, hannes@cmpxchg.org,
+	hughd@google.com, jannh@google.com, joshua.hahnjy@gmail.com,
+	lance.yang@linux.dev, lenb@kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-pm@vger.kernel.org, lorenzo.stoakes@oracle.com,
+	matthew.brost@intel.com, mhocko@suse.com, muchun.song@linux.dev,
+	npache@redhat.com, pavel@kernel.org, peterx@redhat.com,
+	peterz@infradead.org, pfalcato@suse.de, rafael@kernel.org,
+	rakie.kim@sk.com, roman.gushchin@linux.dev, rppt@kernel.org,
+	ryan.roberts@arm.com, shakeel.butt@linux.dev,
+	shikemeng@huaweicloud.com, surenb@google.com, tglx@kernel.org,
+	vbabka@suse.cz, weixugc@google.com, ying.huang@linux.alibaba.com,
+	yosry.ahmed@linux.dev, yuanchu@google.com,
+	zhengqi.arch@bytedance.com, ziy@nvidia.com, kernel-team@meta.com,
+	riel@surriel.com
+Subject: Re: [PATCH v5 00/21] Virtual Swap Space
+Message-ID: <acQvNRLpHwnHt7i+@yjaykim-PowerEdge-T330>
+References: <20260320192735.748051-1-nphamcs@gmail.com>
+ <CAMgjq7AiUr_Ntj51qoqvV+=XbEATjr7S4MH+rgD32T5pHfF7mg@mail.gmail.com>
+ <CAKEwX=PBjMVfMvKkNfqbgiw7o10NFyZBSB62ODzsqogv-WDYKQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKEwX=PBjMVfMvKkNfqbgiw7o10NFyZBSB62ODzsqogv-WDYKQ@mail.gmail.com>
 
-Rito Rhymes <rito@ritovision.com> writes:
+On Mon, Mar 23, 2026 at 11:32:57AM -0400, Nhat Pham wrote:
 
-> Some documentation tables exceed the fixed-width main content column.
-> On desktop this is usually acceptable because they can overflow the
-> 800px body without harming readability, but on smaller screens the
-> same tables create page-wide horizontal scroll overflow that breaks the
-> layout.
->
-> Wrap generated HTML tables in a dedicated container. Above
-> Alabaster's existing 65em breakpoint, the wrapper uses
-> `display: contents` to preserve current desktop rendering. At and
-> below that width, it becomes a horizontal scroll container so table
-> overflow is contained locally instead of breaking page layout.
->
-> Examples:
->   https://docs.kernel.org/6.15/kernel-hacking/locking.html
->   https://docs.kernel.org/6.15/arch/arc/features.html
->
-> Signed-off-by: Rito Rhymes <rito@ritovision.com>
-> Assisted-by: Codex:GPT-5.4
+> Interesting. Normally "lots of zero-filled page" is a very beneficial
+> case for vswap. You don't need a swapfile, or any zram/zswap metadata
+> overhead - it's a native swap backend. If production workload has this
+> many zero-filled pages, I think the numbers of vswap would be much
+> less alarming - perhaps even matching memory overhead because you
+> don't need to maintain a zram entry metadata (it's at least 2 words
+> per zram entry right?), while there's no reverse map overhead induced
+> (so it's 24 bytes on both side), and no need to do zram-side locking
+> :)
+> 
+> So I was surprised to see that it's not working out very well here. I
+> checked the implementation of memhog - let me know if this is wrong
+> place to look:
+> 
+> https://man7.org/linux/man-pages/man8/memhog.8.html
+> https://github.com/numactl/numactl/blob/master/memhog.c#L52
+> 
+> I think this is what happened here: memhog was populating the memory
+> 0xff, which triggers the full overhead of a swapfile-backed swap entry
+> because even though it's "same-filled" it's not zero-filled! I was
+> following Usama's observation - "less than 1% of the same-filled pages
+> were non-zero" - and so I only handled the zero-filled case here:
+> 
+> https://lore.kernel.org/all/20240530102126.357438-1-usamaarif642@gmail.com/
+> 
+> This sounds a bit artificial IMHO - as Usama pointed out above, I
+> think most samefilled pages are zero pages, in real production
+> workloads. However, if you think there are real use cases with a lot
+> of non-zero samefilled pages, please let me know I can fix this real
+> quick. We can support this in vswap with zero extra metadata overhead
+> - change the VSWAP_ZERO swap entry type to VSWAP_SAME_FILLED, then use
+> the backend field to store that value. I can send you a patch if
+> you're interested.
 
-[...]
-
-> diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
-> index db24f4344..d7c8c4f18 100644
-> --- a/Documentation/sphinx-static/custom.css
-> +++ b/Documentation/sphinx-static/custom.css
-> @@ -23,6 +23,13 @@ div.document {
->      margin: 20px 10px 0 10px;
->      width: auto;
->  }
-> +/*
-> + * Wrap generated tables in a container that preserves desktop overflow
-> + * while allowing contained scrolling on smaller screens.
-> + */
-> +div.body div.table-overflow {
-> +    display: contents;
-> +}
->  
->  /* Size the logo appropriately */
->  img.logo {
-> @@ -96,6 +103,15 @@ input.kernel-toc-toggle { display: none; }
->      div.kerneltoc a { color: black; }
->  }
->  
-> +@media screen and (max-width: 65em) {
-> +    div.body div.table-overflow {
-> +        display: block;
-> +        max-width: 100%;
-> +        overflow-x: auto;
-> +        overflow-y: hidden;
-> +    }
-> +}
-> +
->  /* Language selection menu */
-
-So this CSS perhaps makes sense, but..
-
->  div.admonition {
-> diff --git a/Documentation/sphinx/table_wrapper.py b/Documentation/sphinx/table_wrapper.py
-> new file mode 100644
-> index 000000000..dfe8c139b
-> --- /dev/null
-> +++ b/Documentation/sphinx/table_wrapper.py
-> @@ -0,0 +1,30 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +#
-> +"""Wrap generated HTML tables in a responsive overflow container."""
-> +
-> +from sphinx.writers.html5 import HTML5Translator
-> +
-> +__version__ = "1.0"
-> +
-> +
-> +class TableWrapperHTMLTranslator(HTML5Translator):
-> +    """Add a wrapper around tables so CSS can control overflow behavior."""
-> +
-> +    def visit_table(self, node):
-> +        self.body.append('<div class="table-overflow">\n')
-> +        super().visit_table(node)
-> +
-> +    def depart_table(self, node):
-> +        super().depart_table(node)
-> +        self.body.append("</div>\n")
-> +
-> +
-> +def setup(app):
-> +    for builder in ("html", "dirhtml", "singlehtml"):
-> +        app.set_translator(builder, TableWrapperHTMLTranslator, override=True)
-> +
-> +    return dict(
-> +        version=__version__,
-> +        parallel_read_safe=True,
-> +        parallel_write_safe=True,
-> +    )
-
-But why do you need to inject another <div>, creating a whole new
-extension to do so, rather than just applying the CSS directly to the
-<table> elements?  I just gave that a try, and it would appear to work
-just fine.
-
+This brings back memories -- I'm pretty sure we talked about
+exactly this at LPC. Our custom swap device already handles both
+zero-filled and same-filled pages on its own, so what we really
+wanted was a way to tell the swap layer "just skip the detection
+and let it through."
+ 
+I looked at two approaches back then but never submitted either:
+ 
+  - A per-swap_info flag to opt out of zero/same-filled handling.
+    But this felt wrong from vswap's perspective -- if even one
+    device opts out of the zeromap, the model gets messy.
+ 
+  - Revisiting Usama's patch 2 approach.
+    Sounded good in theory, but as you said,
+    it's not as simple to verify in practice. And it is more clean design
+    swapout time zero check as I see. So,  I gave up on it.
+ 
+Seeing this come up again is actually kind of nice :)
+ 
+One thought -- maybe a compile-time CONFIG or a boot param to
+control the scope? e.g. zero-only, same-filled, or disabled.
+That way vendors like us just turn it off, and setups like
+Kairui's can opt into broader detection. Just an idea though --
+open to other approaches if you have something in mind.
+ 
 Thanks,
-
-jon
+Youngjun Park
