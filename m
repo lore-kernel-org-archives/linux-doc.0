@@ -1,169 +1,264 @@
-Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010003.outbound.protection.outlook.com [52.101.85.3])
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011034.outbound.protection.outlook.com [40.93.194.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D78C83B3BEB;
-	Thu, 26 Mar 2026 06:27:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C980533A9C1;
+	Thu, 26 Mar 2026 07:00:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.34
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774506461; cv=fail; b=dlbHakPv42tPM3hiTBzW3S+2kExWv8h70TNkBCPoAERLwZjzV8kzQA7Hwa0V6J0I8I5mqSoz72mrnVGFZNBlwijuNrrkKb5YxFM8INgL2l9jt2h/bRCYIltyiAfevYiN3kUfsv1JjhPjqI40AXYrEMZ8PaxkwGQTuSWtl4H3tdY=
+	t=1774508447; cv=fail; b=Mx0iTdrx8NXSupeg/SZMGVZNoc6EkomN6n2Y1sZ2b6FxihstauaLD6cJybw7WB66nQwUrUshdfukGtQQwSAOERAd6UWXTmdPoGSjQmZxjfmbvQugs+7uYGqLMGIvQbymk2c2WgcLGpOzJDanESU4R4PN5NxrUfpGFIuQJsC+c/Q=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774506461; c=relaxed/simple;
-	bh=hAxpekvi2sCPvA7o2y7Ee50F43WImFJSPMYna/VM7sI=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=dT0swGH3R3GW6Laprc1wDUFRuq+AER43wunqAfqNetFikxzAYcZkMf2jtQS0gauEc20vb/is+wYb6sX2cdxbkYsghyI8X0cK81/yf27nAgBHD2U+pFSNY9Lsof6Fb7irqQ/frk7H9u0valkN6Tla1MAQPljPe0Abzg3F6N6rlrc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=WoKgx5hQ; arc=fail smtp.client-ip=52.101.85.3
+	s=arc-20240116; t=1774508447; c=relaxed/simple;
+	bh=AF+rXBNJCEGaeOcrBp1rygTdfKLZXLAJj0SMfEoJkrs=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=RntKTXG8TwSOPAQ2uh6oRoMp7D8La6zFFPEFY46RgxV0mQbOOmvyppGamfouoxByfUxw5gtqPq8klTNIqqTLJ7zS+zbtgYfUuX44CTnhorQu/IcIfrhgzqVVR3gQw46PKrbEItT2CEMRzB0fBGo31Ale+cY16gGR5OfMBXhl4os=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=CC4ymfQf; arc=fail smtp.client-ip=40.93.194.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="WoKgx5hQ"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="CC4ymfQf"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=e2RQHiFN2jSx3ZOJ2HfQOKnbeUIwYL51v7FOs2B4m1sKKQgfWwMFssx7Wq+PYmWYn0TW5RGlCLSFSmwbpkVoiiuOVGrZTp2dp9PF/d74ZYijVBW5lbd/kCk1D46OK/hwlppiun3pVo3IM/pznsMKjwGgxPVzAEKEtgIBaIhQnlLQoGKYrWghXDuRpfOEoq1RlJCO1h8GQ0wXysmeQgiCinE9t6YH+AjoWUIH5IDNBoGlyhutxAR2ILo93o98N+BRMjnXi0HWSagevEj3Vq7go83Rq4aW6sQGptTZHf+MKmXhg4ZE1hldlO3eozhSzb+zkGqcb+unOSKIeUBXezMgqA==
+ b=k8AHU4c8gop+R8Gj6EqpR4r8dbDXiVANThoAizIsu7TwMIWbUdXN3E4aX9jRCHDlnD4k/U02wBnxrEOFX8osXb8C1FWb+RO9Ny+7MElzBlyhWgyWRbBlnw9DCymFCK/brCghstuLNannCIjADljIXRqtB7XbGgFaFp1v31B9wuAYFdXSWneSjnYLy4TuV+bOaySuyrV/vqyNUvWH1Nrm8RS37GtX3zvPGroj4yiGODoQn7eEkYZY3mXVCZLed8FAzaG1iakLcqYEsW8qCa5GLCgks5avlo5G4mxu7b8F/cq9zE0Em4HnfmNgTtGufmHvK6s7HOuO6gxnYwkiyYoTWA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hAxpekvi2sCPvA7o2y7Ee50F43WImFJSPMYna/VM7sI=;
- b=JiOE8dtJpbH3BrvdxlngptUubgcZefjRb1yNR/tPlraf1pNbLBD0IO8P8FFjQ1F1/Jx4j+7W23BtwhM15HEWD7dpXxNSwoSsIK4bxEOig+oqJda013bkBwv+acjYzu7vDUz6ysFgWYE8SHcqNFPYhuzORUM2WZXFPA7JAEkGGRvjMJwzS7uQndXwy87mA85v+/wEs7wryYmtLZ2RyLddLb89PzLtNXUdvoaQCfGCFmZIOU4hET036006suBXRXmp4ac0Afq+91PEEGgYM+4Yv6JnO0BSlJiuJR8S4uvJXZMIEBuJDNcaU7QHVbah9YUyRfS1GfIyOGwtjBBW7GpYag==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
+ bh=n2Y/xTOP3cqDCioIX1RY6OTb7tSyXY+I1aIVKQUePP4=;
+ b=hSw8Fgp0t5S5hy70q8cYx8D8iDVNlNm/D5c4wccFtUc78XE17f1AsYcILT4mRMhbL6mtPAk5vcvZ7Gw4a358at8SoxOGq0T8U/BKhw0af7n1hgAVYrwcoIYKg06V42cBQ8bDEjX2FqWunuCBoaBhNWRGSUSA/1WbvC+EFIF9T870bCQJeYYwuoYz2ZFScBVT5f0BSQi5qv7eRBXHP43GyQe5JKbLYeTaiN4ia226x4hqS/AS2NbxZ0NfnIZBz8gM/9TAfHSI/sJ9NjyVIcKP6drgHc4klNmT8X78PDBNHm2dCTts3JcUum+GZoRJZl5cSVKuE4a80jvWA2wlxLfeKQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.232) smtp.rcpttodomain=google.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hAxpekvi2sCPvA7o2y7Ee50F43WImFJSPMYna/VM7sI=;
- b=WoKgx5hQA7yuTolnHXnE50XKmRcfpQF5RZggfAaY4Uy1/6ZaLYc3jnQ36Qed0R+/RvVUe+XF9x0W/H5mqQiuFwDm83jyhSZgz4ZTGZCVrZZ9ENCZQdliHa7syKUTrHy4JI1NWaSgqdvvzTZpstCGUAXFciUBHEerI4zSSKvgwxTypPR2sQL8cQTjZLsO2MTmyPeT37IRfv7FT4ZcJrnOI9qXqAgMf8ZHhl4nwrEcLC9wz71pe061BClyl6FF9GidNvH+3H6ZIEcDfsm2cTWJhEtgEZbQIX+LdBO7fnbPVdCa6w++XS27Ag18qQvv79JZcH9yJAYod5sMPgqU3DSSCA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by LV3PR12MB9167.namprd12.prod.outlook.com (2603:10b6:408:196::19) with
+ bh=n2Y/xTOP3cqDCioIX1RY6OTb7tSyXY+I1aIVKQUePP4=;
+ b=CC4ymfQfxVTbC6CM2tytxIr3joCtfW1r70ELRQbB/HuYUVbqLaj4efogsuw+rTHrBEjgWzYaE3/+A/8qgFLYW77dL8BCe+r04D81mHfr+gvCrx/EZNfVib0ZZLoHv+AD3KZAfhwuwDPcfejysp9HiFFzBVZcHOlrz1LzP3QLT9t7+mhLmcmg2AzygOJjc0iQsdaljYXQmgtk5iFdIbkFIIqnYGxVYlchYrn+E+U4GCWca7rAmsyLIbzzp4UB2EiXSwB+ORrfVgyNgoVti3g4r+f4UqUYvtD4by3b853aVpFGxWtsEsM0/fKtKCC7Nkqu20Ewrtv5o1bs+evNjczyow==
+Received: from DS7PR05CA0031.namprd05.prod.outlook.com (2603:10b6:8:2f::6) by
+ IA0PPF6E99B1BC1.namprd12.prod.outlook.com (2603:10b6:20f:fc04::bd1) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.7; Thu, 26 Mar
- 2026 06:27:31 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989%6]) with mapi id 15.20.9769.004; Thu, 26 Mar 2026
- 06:27:31 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 26 Mar 2026 15:27:27 +0900
-Message-Id: <DHCI1C0Y1YR4.3F2S7J2D03FQZ@nvidia.com>
-Cc: "John Hubbard" <jhubbard@nvidia.com>, "Alistair Popple"
- <apopple@nvidia.com>, "Joel Fernandes" <joelagnelf@nvidia.com>, "Timur
- Tabi" <ttabi@nvidia.com>, "Zhi Wang" <zhiw@nvidia.com>, "Eliot Courtney"
- <ecourtney@nvidia.com>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
- <linux-doc@vger.kernel.org>, <rust-for-linux@vger.kernel.org>, "Alexandre
- Courbot" <acourbot@nvidia.com>
-Subject: Re: [PATCH v4 00/10] gpu: nova-core: convert registers to use the
- kernel register macro
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-To: "Danilo Krummrich" <dakr@kernel.org>, "Alice Ryhl"
- <aliceryhl@google.com>, "David Airlie" <airlied@gmail.com>, "Simona Vetter"
- <simona@ffwll.ch>, "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
- "Maxime Ripard" <mripard@kernel.org>, "Thomas Zimmermann"
- <tzimmermann@suse.de>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng"
- <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Trevor
- Gross" <tmgross@umich.edu>
-References: <20260325-b4-nova-register-v4-0-bdf172f0f6ca@nvidia.com>
-In-Reply-To: <20260325-b4-nova-register-v4-0-bdf172f0f6ca@nvidia.com>
-X-ClientProxiedBy: TYWPR01CA0027.jpnprd01.prod.outlook.com
- (2603:1096:400:aa::14) To CH2PR12MB3990.namprd12.prod.outlook.com
- (2603:10b6:610:28::18)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.8; Thu, 26 Mar
+ 2026 07:00:37 +0000
+Received: from CY4PEPF0000E9CD.namprd03.prod.outlook.com
+ (2603:10b6:8:2f:cafe::c7) by DS7PR05CA0031.outlook.office365.com
+ (2603:10b6:8:2f::6) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9745.20 via Frontend Transport; Thu,
+ 26 Mar 2026 07:00:37 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.232) by
+ CY4PEPF0000E9CD.mail.protection.outlook.com (10.167.241.132) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9745.21 via Frontend Transport; Thu, 26 Mar 2026 07:00:37 +0000
+Received: from drhqmail201.nvidia.com (10.126.190.180) by mail.nvidia.com
+ (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 26 Mar
+ 2026 00:00:19 -0700
+Received: from drhqmail202.nvidia.com (10.126.190.181) by
+ drhqmail201.nvidia.com (10.126.190.180) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.20; Thu, 26 Mar 2026 00:00:18 -0700
+Received: from vdi.nvidia.com (10.127.8.10) by mail.nvidia.com
+ (10.126.190.181) with Microsoft SMTP Server id 15.2.2562.20 via Frontend
+ Transport; Thu, 26 Mar 2026 00:00:08 -0700
+From: Tariq Toukan <tariqt@nvidia.com>
+To: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David
+ S. Miller" <davem@davemloft.net>
+CC: Donald Hunter <donald.hunter@gmail.com>, Simon Horman <horms@kernel.org>,
+	Jiri Pirko <jiri@resnulli.us>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+	<skhan@linuxfoundation.org>, Saeed Mahameed <saeedm@nvidia.com>, "Leon
+ Romanovsky" <leon@kernel.org>, Tariq Toukan <tariqt@nvidia.com>, Mark Bloch
+	<mbloch@nvidia.com>, Shuah Khan <shuah@kernel.org>, Chuck Lever
+	<chuck.lever@oracle.com>, "Matthieu Baerts (NGI0)" <matttbe@kernel.org>,
+	Carolina Jubran <cjubran@nvidia.com>, Cosmin Ratiu <cratiu@nvidia.com>,
+	Dragos Tatulea <dtatulea@nvidia.com>, Jacob Keller
+	<jacob.e.keller@intel.com>, Shahar Shitrit <shshitrit@nvidia.com>, "Daniel
+ Zahka" <daniel.zahka@gmail.com>, Parav Pandit <parav@nvidia.com>, "Adithya
+ Jayachandran" <ajayachandra@nvidia.com>, Kees Cook <kees@kernel.org>, "Shay
+ Drori" <shayd@nvidia.com>, Daniel Jurgens <danielj@nvidia.com>, Moshe Shemesh
+	<moshe@nvidia.com>, Willem de Bruijn <willemb@google.com>, David Wei
+	<dw@davidwei.uk>, Petr Machata <petrm@nvidia.com>, Stanislav Fomichev
+	<sdf@fomichev.me>, Daniel Borkmann <daniel@iogearbox.net>, Joe Damato
+	<joe@dama.to>, Nikolay Aleksandrov <razor@blackwall.org>, Vadim Fedorenko
+	<vadim.fedorenko@linux.dev>, "Michael S. Tsirkin" <mst@redhat.com>, "Antonio
+ Quartulli" <antonio@openvpn.net>, Allison Henderson
+	<allison.henderson@oracle.com>, Bui Quang Minh <minhquangbui99@gmail.com>,
+	Nimrod Oren <noren@nvidia.com>, <netdev@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-rdma@vger.kernel.org>, <linux-kselftest@vger.kernel.org>, Gal Pressman
+	<gal@nvidia.com>, Jiri Pirko <jiri@nvidia.com>
+Subject: [PATCH net-next V9 00/14] devlink and mlx5: Support cross-function rate scheduling
+Date: Thu, 26 Mar 2026 08:59:35 +0200
+Message-ID: <20260326065949.44058-1-tariqt@nvidia.com>
+X-Mailer: git-send-email 2.44.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|LV3PR12MB9167:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2c9657d8-8455-40df-511f-08de8b00c247
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000E9CD:EE_|IA0PPF6E99B1BC1:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3f76615a-cc4e-4cbf-1774-08de8b05627f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|1800799024|10070799003|366016|56012099003|22082099003|18002099003|921020;
+	BCL:0;ARA:13230040|82310400026|1800799024|7416014|376014|36860700016|30052699003|13003099007|56012099003|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	dbaVikYnapmtQm6PAtRmjijA1oeGT+6KuSNX0wEyyLO7lXbfHB45XDbntAmaSZkzSCHn80lSCqdf/p5yOK2gDGe5u1hEL5tntY/FuqUspZmZtDD7rb5lnTq2RoTG6t+T84/pOPWQqZQdIOoOAxJET/8DqUy2JpNtCHkDr/267dazQVUTyqshh1onSVXnTs+D/o5R1Z3FVavsOrkrER9tyCnJNmNhm1LweJGTtJzwGYgN/13PDx2JZsihiQVYDlNMvl+cKmEUMN6m6iT3tXoGPIhEvyq7mahiARTZ+XSD9qdexAeN33sMzVF3vYSzHKn5U5Wq06JQHK3CqRuvzlHzHT0mr4qFZmNC8N6lJOMynTnpvAivaxOF64WqwrTD9oQOiboO/o/awaw+6ZZHY+K1ve8EOKXQsc82abcQ2vkuZwwGOduUywre/wx9wnW8ij42n8EU+MS/p1ZY58gcVphg9hm4QbQI/3+QMrzBqz1wILu3DUrYh95EGkmlt0RvbQ/dDolkfdamBSOWIqDXczQFQEcEUVgoFFtG2EHVges8kT5ANoMPalNllWw5eBvfB/hOIMjwAS/efswBuQ7Vx5OwGATuLAtIr4+WjjeM6qQQ8y3IhQxD5zsYt74zjpMTOscl4fk7E+z6zA8eXjF44/T9VyeFkAMQfhINMyEQhSksu4Syq+w9KBD5n8T5AYf5/nwYvm6X8R27d1G1gXRmIbCOjOp14oiniz8M2yfZvfzDonK4dSAU37IYEtTmLvntiR4AJ8vkQ+2QkpqU+Y1EoYahoQ==
+	YbZ/WQF04EdmPRABdi18hZrBJCy3dn1I2tQslrRJ1/kPNSFb2AOI+kU/rJ5Q59jmeJ++1kW2+jOlcK/oDX5ctq0HfowgnRrJpXhSSXhcOjHZfFbNDZZ673nYEjtNjXHEJ5JdhS8JYAr8ouT2NK70BFUTRduCeR3QlpZM1O36Pkf3+JuDc53SQJDDF4fsV4NbpUA4rovhcfe0RRBcYHyRjmiv/NRr8RroTNZUD/9tN/zz7Fm1Kud/tms9r3wGL5TKJYeqjuRlCDDmLgbpggRi1f7OVP+nm/ucGWz8maDmMtqs/XPWlvZMBC9iUsmbLATxzIDQbT6eHfS5EUbjBwWmUXTd8cNe8jFuECkXpjRsNiyIPeTfIcl/Tx2NATLaNvC6SCLPiyjzrLmX4K9em3uk88q+rPzQNIqsosx+Ovu6kAWSoLWrkZkJVNfnyssy9yWmBrJrhm2rWGP2cPAoh/Hib2djREXBZsFtXlzSOSp9gAjzXXrH0LOa+KesElLLkVuemTA9gmepy2SFWFIRGqsaQpq5FzmgUAoPRZ6cqYqEWmALm6SIC139lxWRCnxiWZy+2N0d/+QQxFFH3V52ONXAZD6HJrkuDDxuISaorkQtDA4xHAbkQsop3a41JknC5FNIuPVh1IugYlcL9bZnRl+uthTrqdNUOPuOpk9mNoIESybAQ8peNLiPEnn6COcpCj0ntIoI/HsamlbTwj2kEO2BJg9+U7/uJaK9Bh7hQzg7vgzVv2esb2Astl91AJONF6KuMlIcqudfAkO2MwB7DnWLWQ==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(10070799003)(366016)(56012099003)(22082099003)(18002099003)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+	CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(7416014)(376014)(36860700016)(30052699003)(13003099007)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UFNsRDZZaW5TbFZCVlI0YUM1WkIvWVYzVXJJVTFuYUlKTi9udGtRd1haKzNB?=
- =?utf-8?B?U256MGhhbytvU3R5a2p2TUZwZjdnUSsvblhPbGhXMC9vTGdRSjVYY1JQTUV0?=
- =?utf-8?B?NFNxNUxiaEYwdEFndjM4dTVlZEdxd3B3R1NzaHN0YUJqRkJ6RmhsYlNCQnkx?=
- =?utf-8?B?YXpGbkVxYk5FaHZXQ0xFUHJZL0g4dDM2a3JyTDRTanlkQmxveENsdHQ3QVcv?=
- =?utf-8?B?Y1hOc3dOM3Q0WWtwejhabmJaNkpzeGdVejNxa3FkM2MxYmlCd0tLdk5vbTJi?=
- =?utf-8?B?NUtzMTRGdkxDNDlPOE5QL1RuVkRkTDRENm81cHVoT3VyZVJqY1Joay9xT0c0?=
- =?utf-8?B?aTB1K3JyZVN6QnAxWUlsMGYrNG5hc0FqQVNJamV5azJvdFFiWGxxVC9CNEZR?=
- =?utf-8?B?MGRkZjdjUC9ScmZ4TmtkVjBCYjVFai9iT05naWhlYzdMNXVGWDBPOUorRkZS?=
- =?utf-8?B?V3hjZFdnY0lnSE4xcG1pd0k1aWw4c2VVQ0VwS3hZb08wZmdsWlY3eGZmTUhD?=
- =?utf-8?B?ZWJYR0NJNDFLcHRleDJKTFZUZTNvdXU5RVBna09ubTZaWU8rRkpWVTYzY2Qx?=
- =?utf-8?B?c09UMXdZOWVBeGtRMVU2cElDaHN2OUJyWXJBdElYVjJPei9vUU5kcEk2dG94?=
- =?utf-8?B?L2lreFpaL0hWRFVIaEo2NmdUeVc2ZVkzdUl1YjJWYjM2MDYwakRTaUZWbTd6?=
- =?utf-8?B?N2VZQll2OFFQL3ZoTnZwVWNpa25zU1AwUndKQkNCVFBjcDNPbXdaVlNCOGFp?=
- =?utf-8?B?K0hQTWRZS0RMRHM1VHZqdGxManlmMDVIcGlOdFl6TEh6S2kyd001NSsrZ2do?=
- =?utf-8?B?c28wM0tTdWx2NGVuNmhkL3NXMXo0L1BkZGlscjMrZnZPdGZCckZQYWVrZ2xT?=
- =?utf-8?B?V1djdGEvMWpWRkpPcWh2cDZrejJjMWV1OEVDQ01BZUlwcURnbzFaVUlyVkpY?=
- =?utf-8?B?QUZ4WkRoaVBkWGdUOTU2WEsrTnNEdzlPdkZJM1lhTlZZOEd5NlY5dnB6THUy?=
- =?utf-8?B?c0ZWWE51VzhUdDJVcWwzR0RxMGhlQXhSb1d3N1dHYm1IUmUwdWZPMEtSRUZG?=
- =?utf-8?B?MTJhbFQzcEIyYXUrSjkyR0hOMkJDZWJrWDN3b3MyeG9NckZ6ZGhJQmJ5d0Fp?=
- =?utf-8?B?MUttelEwNk5mVFBlNjk0UWUyZ3Z0a0JmdTBacFhtbS96WmRBOHN4dU05a1NR?=
- =?utf-8?B?ZDVmWjE3U0JnSHFIUXIyMDA3TmFZRTRqS1pRWUpsN3ZNaytwNnJSMGlSQkhD?=
- =?utf-8?B?VG1nYWhrVUdTaFoyUUYva25xTEp0UDVkbStPUXV5SnBlL0lUTGJwSHFPdFhr?=
- =?utf-8?B?RFRqclp4RjJaNHRwYWExSGtaUzQzZnphK3lGRGMwNlFhTTRuYzNnSDRnaGhH?=
- =?utf-8?B?ZmdldWVCYTJTaVR1VlEwdjVJL0ZzWmZvaUVCaWkrYi9QLzhKZFlFYXVqSWh1?=
- =?utf-8?B?MzBuL2ZYUHFOek1iT2JhRE52M0RCNS9QcVBveWxLaHhLUFpNQWFTTWVWYnpE?=
- =?utf-8?B?bDNaQmRlM3ZUMFZncmNJT2FqSnVsNUdzTmlCcklVQWhyZk5UTDFaWHlMYWNR?=
- =?utf-8?B?TFRPY2RZQUlEb1VZUVhYUDkrc2VNMWxSb29sdmp5Y0N6dWFHUXVtSlhzb0tY?=
- =?utf-8?B?ODNUNWxUUHVCdDIvaU15VkNYbyt4bGZqUHRFZ3BnbWhYZm1DQWVCUE1Lc1ds?=
- =?utf-8?B?YW8vV3pLeTVQTEhkYUNtOWVNYUw2RW1pRnVPb3dsRm1tc1RHTGxFWTdwUzB1?=
- =?utf-8?B?cGEwczR1TUVOcXBhYmYvUnpaVGh6aW1JWnhvbkRoOEhYeEVXQWJGc21ldUI2?=
- =?utf-8?B?cnpHcEFIVUJXYThlVUdqQk96ZWNqbmlBQkdKOXFJRE5xb3lUMnM2M1prdUFO?=
- =?utf-8?B?dHk0KytXOE9aRUM3Z0NvdEpCaTZvVjZ1b1NwUGNNUXlmZUpDU0p6UnZxN0ZV?=
- =?utf-8?B?blVYTC9tRU1ybGJhMzg4TUNITlRUVlo3d3Jwa3RTaU5uR0JkYjRRTzd6VDlq?=
- =?utf-8?B?Wkk5bnhIR2lWclVPK2tHR0dVcnRNTW1pc3F1dVNRd01jUGtpUi9sSWhKaC9r?=
- =?utf-8?B?MkZRR3R1NW9uOXpkSStmeERBOTRYSnZlRjkrQ1JqcEI1UFBqNWRZQTJ0Mkt1?=
- =?utf-8?B?YVhIbUtSL0tYK0x5OFBVTitoV3lHRDZqaEhFS1E5VUI3RVNlNXIxWk1reVlx?=
- =?utf-8?B?ZFdtVzE5K0FJbzI3RFZjNG4wUjJQM0hMRFlxNFB1RkdScEQ0Z1RZcDhRdXFv?=
- =?utf-8?B?TCtzczduVTViWVZ1VndQSktET3FHdW5LY3lMWHZkT2hvU3BDdkdnaEEzYTJo?=
- =?utf-8?B?dlFLV1F4YktocHVYbkgrSldiVFRPaVRtem1TVnFmUUdDYTdCQ2VPbUVpZ0VC?=
- =?utf-8?Q?DVWBUmlZhLXQLkQyMGM7uqnZqVdAHag7C9vOFBey0/HTC?=
-X-MS-Exchange-AntiSpam-MessageData-1: YHVrDBj3enTbQQ==
+	fBA13JxmHXShplGLIcNtABYasJKnvfPJe2++97HiJeMx6VI6VLwTg6BmKx4aYj+12LdI+xBlYLDbNhfMIVLa021Xtsb8OIOpU1emSa+WQ7+QsOcDs53EJ1aehtSGTmn0WsRC19VbonSTVogHuMwfxpB/OqcKD8F0fPem89m8CqqAYK2XmtNqtXGHHTWKdZIy3hUtFNzanzYCPLgzMPzO3OljYFPhdQGXiVAgCHwggCn0bGU8oVtiLXuo3raRkZutel4O90jgCIV0bnX4jNVkYSiNDf5I5UufYn5LANAWtsn0zxF1hFT8XcHBjPm9lBBz0CYPXVj7fOk781DjwKzqm3syOjYbOeyaI3OBQxXgju3+CozPorW4ujq5CLZVedWWSTypzLY6dONJc0SoBHfI2g+YoLxpz2LBcroDoAyFQ2s6Wjbp1B13MupILdDsJwbF
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2c9657d8-8455-40df-511f-08de8b00c247
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2026 06:27:31.2218
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2026 07:00:37.5824
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3f76615a-cc4e-4cbf-1774-08de8b05627f
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Hga1OnuMlkO3gTTnfyeFCZlo2McgLI60oFuW+R25kRbJrfWNG/1WGfb0WwkpKPrUbZe3efIyp6DPDlPFOzaaaQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR12MB9167
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CY4PEPF0000E9CD.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PPF6E99B1BC1
 
-On Wed Mar 25, 2026 at 11:46 AM JST, Alexandre Courbot wrote:
-> nova-core carried its own helper macro to declare register types. Its
-> purpose was to be temporary since the beginning, and to serve as a
-> testbed to develop an equivalent that could be used kernel-wide.
->
-> That equivalent has now been merged, so it is time to retire the
-> nova-core local version.
->
-> The kernel register macro has evolved into something significantly
-> different from the one in nova-core, so it cannot be used as a drop-in
-> replacement. All declarations and sites using registers need to be
-> updated. No semantic change should happen as a result.
->
-> All the patches in this series could also be squashed into a single one
-> without altering their reviewability significantly.
->
-> I hope to be able to merge this quickly so we can rebase in-flight
-> series to use the updated register syntax.
->
-> This series is based on drm-rust-next as of 2026-03-25 and has been
-> tested on Turing.
->
-> Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+Hi,
 
-Pushed to drm-rust-next, thanks!
+This series by Cosmin adds support for cross-function rate scheduling in
+devlink and mlx5.
+See detailed explanation by Cosmin below [0].
+
+Regards,
+Tariq
+
+[0]
+devlink objects support rate management for TX scheduling, which
+involves maintaining a tree of rate nodes that corresponds to TX
+schedulers in hardware. 'man devlink-rate' has the full details.
+
+The tree of rate nodes is maintained per devlink object, protected by
+the devlink lock.
+
+There exists hardware capable of instantiating TX scheduling trees
+spanning multiple functions of the same physical device (and thus
+devlink objects) and therefore the current API and locking scheme is
+insufficient.
+
+This patch series changes the devlink rate implementation and API to
+allow supporting such hardware and managing TX scheduling trees across
+multiple functions of a physical device.
+
+Modeling this requires having devlink rate nodes with parents in other
+devlink objects. A naive approach that relies on the current
+one-lock-per-devlink model is impossible, as it would require in some
+cases acquiring multiple devlink locks in the correct order.
+
+The solution proposed in this patch series makes use of the recently
+introduced shared devlink instance [1] to manage rate hierarchy changes
+across multiple functions.
+
+V1 of this patch series was sent a long time ago [2], using a different
+approach of storing rates in a shared rate domain with special locking
+rules. This new approach uses standard devlink instances and nesting.
+
+The first part of the series adds support to devlink rates for
+maintaining the rate tree across multiple functions.
+
+The second part changes the mlx5 implementation to make use of this (and
+cleans up remnants of the previous approach, involving rate domains).
+
+The neat part about using the shared devlink object is that it works for
+SFs as well, which are already nested in their parent PF instances. So
+with this series, complex scheduling trees spanning multiple SFs across
+multiple PFs of the same NIC can now be supported.
+
+Patches:
+
+devlink rate changes for cross-device TX scheduling:
+devlink: Add helpers to lock nested-in instances
+devlink: Migrate from info->user_ptr to info->ctx
+devlink: Decouple rate storage from associated devlink object
+devlink: Add parent dev to devlink API
+devlink: Allow parent dev for rate-set and rate-new
+devlink: Allow rate node parents from other devlinks
+
+mlx5 support for cross-device TX scheduling:
+net/mlx5: qos: Use mlx5_lag_query_bond_speed to query LAG speed
+net/mlx5: qos: Expose a function to clear a vport's parent
+net/mlx5: qos: Model the root node in the scheduling hierarchy
+net/mlx5: qos: Remove qos domains and use shd lock
+net/mlx5: qos: Support cross-device tx scheduling
+selftests: drv-net: Add test for cross-esw rate scheduling
+net/mlx5: Document devlink rates
+
+[1] https://lore.kernel.org/all/20260312100407.551173-1-jiri@resnulli.us/T/#u
+[2] https://lore.kernel.org/netdev/20250213180134.323929-1-tariqt@nvidia.com/
+
+V9:
+- Link to V8:
+  https://lore.kernel.org/all/20260324122848.36731-1-tariqt@nvidia.com/
+- Updated netlink_gen.c policy related to index, missed during a rebase.
+- Fixed off-by-one error in devlink_get_parent_from_attrs_lock.
+- Fixed crash in qos.c when setting a parent to NULL.
+
+Cosmin Ratiu (14):
+  devlink: Update nested instance locking comment
+  devlink: Add helpers to lock nested-in instances
+  devlink: Migrate from info->user_ptr to info->ctx
+  devlink: Decouple rate storage from associated devlink object
+  devlink: Add parent dev to devlink API
+  devlink: Allow parent dev for rate-set and rate-new
+  devlink: Allow rate node parents from other devlinks
+  net/mlx5: qos: Use mlx5_lag_query_bond_speed to query LAG speed
+  net/mlx5: qos: Expose a function to clear a vport's parent
+  net/mlx5: qos: Model the root node in the scheduling hierarchy
+  net/mlx5: qos: Remove qos domains and use shd lock
+  net/mlx5: qos: Support cross-device tx scheduling
+  selftests: drv-net: Add test for cross-esw rate scheduling
+  net/mlx5: Document devlink rates
+
+ Documentation/netlink/specs/devlink.yaml      |  24 +-
+ .../networking/devlink/devlink-port.rst       |   2 +
+ Documentation/networking/devlink/index.rst    |   4 +-
+ Documentation/networking/devlink/mlx5.rst     |  33 ++
+ .../net/ethernet/mellanox/mlx5/core/devlink.c |   1 +
+ .../mellanox/mlx5/core/esw/devlink_port.c     |   2 +-
+ .../net/ethernet/mellanox/mlx5/core/esw/qos.c | 532 +++++++-----------
+ .../net/ethernet/mellanox/mlx5/core/esw/qos.h |   3 -
+ .../net/ethernet/mellanox/mlx5/core/eswitch.c |   8 -
+ .../net/ethernet/mellanox/mlx5/core/eswitch.h |  15 +-
+ include/net/devlink.h                         |   5 +
+ include/uapi/linux/devlink.h                  |   2 +
+ net/devlink/core.c                            |  42 ++
+ net/devlink/dev.c                             |  16 +-
+ net/devlink/devl_internal.h                   |  19 +
+ net/devlink/dpipe.c                           |  14 +-
+ net/devlink/health.c                          |  12 +-
+ net/devlink/linecard.c                        |   4 +-
+ net/devlink/netlink.c                         |  82 ++-
+ net/devlink/netlink_gen.c                     |  24 +-
+ net/devlink/netlink_gen.h                     |   8 +
+ net/devlink/param.c                           |   4 +-
+ net/devlink/port.c                            |  18 +-
+ net/devlink/rate.c                            | 290 ++++++++--
+ net/devlink/region.c                          |   6 +-
+ net/devlink/resource.c                        |   6 +-
+ net/devlink/sb.c                              |  22 +-
+ net/devlink/trap.c                            |  12 +-
+ .../testing/selftests/drivers/net/hw/Makefile |   1 +
+ .../drivers/net/hw/devlink_rate_cross_esw.py  | 300 ++++++++++
+ 30 files changed, 1032 insertions(+), 479 deletions(-)
+ create mode 100755 tools/testing/selftests/drivers/net/hw/devlink_rate_cross_esw.py
+
+
+base-commit: b50a48b65cb0c955728894b24ba5ecc3cd4b8c7d
+-- 
+2.44.0
+
