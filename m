@@ -1,66 +1,33 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA3AC345CBD
-	for <linux-doc@vger.kernel.org>; Thu, 26 Mar 2026 09:30:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ED28322A1F;
+	Thu, 26 Mar 2026 09:34:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774517456; cv=none; b=MwZ/PWsY+ehkxX4s1k7fQSxT4uf2tyiKWtJ4SV0yNq5erQ5DvsC81a7viPq78ik/At+YNHz0J17JuXEwb14BHptVhdgKS7lvW5CShVtPtlCqdD3xatCN2Q8CnjKHIOTPUoAtorw9JCZf5s+0Dp21SohZHo1tx9PgZKKG18gQD5Q=
+	t=1774517661; cv=none; b=BIM6qrwaBNFpYoUfKxKc/UGjYX5qX76jcVNbP20lfhsG4Rf83UZwNPjv2nUya2Afw4N6cytDLw66frEs3UXbSExQlh2PzPct27kLcYWLtcMhmdvHjPjuwf4FgZsZapSpEb0imp8bB7g1BwgAL2K/IG9M3tELnwW3Q2shT5DFzEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774517456; c=relaxed/simple;
-	bh=QtWyKbyv1CaScLyOexN3V+lc8j75HC9FePRDvJfW3Vc=;
+	s=arc-20240116; t=1774517661; c=relaxed/simple;
+	bh=V9q54ZnSVprkFCQ1RUiRK/7gkbMQKMf3RzsF/ICu1cs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VcZhct+h/id1Xa+Ev4GYLFG28fRqKCXZJKW7Lvp0lnp8BpOGl08Z7DH/VNwyO9CqQ/vKbCK9+Qp3X6s+pjeEEhlYm7vI9y/9nLL66XOA4AM0gTPgNcwXbIWKwzRV1xAfJ0Lo5BF1wimdRjRAnwwod6trwb78B9S0Xq/DOtSmQQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=porNKcjM; arc=none smtp.client-ip=209.85.216.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=XjsJ9Tf0AsUkGfXHnLU5aveDx8D6B1ySwa7hH6Rph31O5KTyc9XhHDvLF5nI9dJR5ykfAfQZfAIiD3UOLKNUvSr/EzgGaTA68JxT40nJRh8lkmOjpnO9D23+AHXTYDIQQdVsjUCEOa95kpgQhgRzYjWSdFFdjIkF+2IdEorfI/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XqETISa8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="porNKcjM"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-358e3cc5e7eso416973a91.0
-        for <linux-doc@vger.kernel.org>; Thu, 26 Mar 2026 02:30:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774517454; x=1775122254; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=P1YKl4kPmmFXUtashtw2qUNBPJ06qzjJcKZ47z7Er3c=;
-        b=porNKcjMXmSD6QRy05xbIgsuan1A76i+Te+yHDSTawMOyk/jWNAeVJSracgZOG0RbM
-         f8TVMjN7xYQDZayMn8yvTQ3OjPlg6Nt9P6XxfVIETfxMVJE6cedMI3lJdNmSC3nbsQOd
-         qf39FMDAl8lKt77m8jRV4aulHa2eL3a4PBouZigXixC1XtdQFqP07wTX/8d/H4kqMfqe
-         jk3vXamWUr883lRuz2Frz6LRKgGDYVobg8QSQOPntUlfUtM76tH7t0gLMkb878vS13bK
-         XYxDLx1MbWEtULa5W+yS0HmM8lrn60v+EzHUaNbphNDYGgfhxJbccZAtx4hrQ/raFcvS
-         wI+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774517454; x=1775122254;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=P1YKl4kPmmFXUtashtw2qUNBPJ06qzjJcKZ47z7Er3c=;
-        b=AQ7qtGwZo05KJUouGrB44vrE0YfiK0XmUCFhwvX8jiiUiYp+nw92aURZDFbR6j2xXD
-         FuHSIPGKvh4Esi1CAeVdJ/Z8v7zWiRUwfsM1xUf/liT4tTDYH0waYWTkYmU0eaGfsuIW
-         dJRLPF5I8A+KEulldMghRGZCEQeYNkMYjef44fvWR3TE+knpKvzHXBykdF+cEhZ3pSpP
-         EumGDxbqLDxPg7mt934HH4XETPfv3oP0aCgkdyT/649KH0UhA6CHhkq34Bu0LMKzMgEo
-         G0z4wjGFNThc94+kneGgV43S+QbEn1ZwgLwIizX93Hv4pNzvNjNeIyq2Evr+XY0E1acV
-         A8vg==
-X-Forwarded-Encrypted: i=1; AJvYcCVHz2V2HdxUGJKJIjWNr1SqcPXwg9gfhXqnP1LcAFjHdsrTs9U5txr9lau/G6OBV5VqjTl+bglHkXY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzS139lbTWo02tTS83b9TCtwrM2TKGMP507LCGssRVEci/mTTSC
-	pQnLNr/BdDeUmkFwqyGXCzwXnvu2qulmUdNUXv4i/NPy247f8XEmFdKeTKBOrg==
-X-Gm-Gg: ATEYQzyfHOkwa54bTWvMHfGTfUJxv47Gh0lMXaMO5umte2v32jNMnChaZy+5rCHQ/65
-	Mm4UfWpqq2aAi7GvFoGDRCPQlcpRceOKcpv8DkHA3oVxuDBfTDqOF7eiCiKKBAW2R6Xc/3aihby
-	HbDLYhT4bTdeV+5UnY/kzye3WXSc7pVsSUBE0HjYg8dCvw2GwCAQ3Rw3JXH4OPMZ6UXJYDqrSwd
-	hgzK8KgTXQgRGR/UACJmmiu8P+qNUxRchZoK+IYhJWLjFFTF7u+iPYx8igp6l4O9/nzrVdzQFfu
-	gyEFUp2aAoI9jq9JiekTplzQ/eOTHKxqVyHRUg60yyf162lWM8gkKp+DGceGaeVSTr72uArGKlw
-	Q+GFrjCwpBgU4wws3Q+Cqysf4A48gPkNlsAeWcC1TDGP6PhsyajaiP1Jftx25NDzr27bimIPzpw
-	83c1J14+PZu/LwsURclMUJEsMR5JLUv5NW0Sm+vOBb2MfWgk88TtxPxJRa0GJ3ajngTcuR
-X-Received: by 2002:a17:90b:3fcd:b0:35b:e4f8:7ac2 with SMTP id 98e67ed59e1d1-35c0ddf6e95mr6079956a91.32.1774517453978;
-        Thu, 26 Mar 2026 02:30:53 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35c22a7b110sm1456822a91.5.2026.03.26.02.30.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Mar 2026 02:30:53 -0700 (PDT)
-Message-ID: <7713fa4b-3bec-403b-b59c-50f23196c7ab@gmail.com>
-Date: Thu, 26 Mar 2026 18:30:52 +0900
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XqETISa8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A495C116C6;
+	Thu, 26 Mar 2026 09:34:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774517661;
+	bh=V9q54ZnSVprkFCQ1RUiRK/7gkbMQKMf3RzsF/ICu1cs=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=XqETISa8yQrZtJu5qKKzYzIEN3MnRrSYdcoK4PVBNAczJQt/2BtWbHtbizJDFBJ7F
+	 5nwle+ytmRDaMlHxMPRD/8FSjmzsHzp3SRA9bSgPwPzfs8mu3vIaE1+k5yDXwg1JXG
+	 TaZAzi6V1XzDkuE6c3BA+ID7Qte88S+mlbwacy5/ZX/nekFqaVuncFtobF2dn9Bin7
+	 eM4RI+zZaGXRSWkbCex8x+wijVR5nMmOAaSKVWSuvNPKMMHqr9e2/hmazdntWBDpvD
+	 23h78OcGf3vwvIwmSgsPc6Lh9G2u/N9PoLRDJIztZvvePPdjhGCOVkhqCoWx72hq4B
+	 /YYdAc9Vsuh6w==
+Message-ID: <f204211d-270c-47be-86c5-970cec55d94c@kernel.org>
+Date: Thu, 26 Mar 2026 10:34:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,49 +35,99 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: Invalid link generation for equations
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
- Kevin Brodsky <kevin.brodsky@arm.com>, linux-doc@vger.kernel.org,
- Konstantin Ryabitsev <mricon@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <9b320e77-9acf-4f0d-8c52-6e1fc3a8cf53@arm.com>
- <87se9nejza.fsf@trenco.lwn.net>
- <501de93f-65f2-4a45-a84b-d38560cd9e22@linuxfoundation.org>
- <87o6kbehr6.fsf@trenco.lwn.net> <20260325224015.1ba54eda@foz.lan>
+Subject: Re: [PATCH v3] docs: driver-api: fix 6 spelling typos in
+ Documentation/driver-api
+To: Josh Law <objecting@objecting.org>, Jonathan Corbet <corbet@lwn.net>,
+ =?UTF-8?Q?Tom=C3=A1s_Pando?= <tovictakamine@gmail.com>
+Cc: skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>
+References: <20260324163604.5710-1-tovictakamine@gmail.com>
+ <2F84DD09-2880-45E0-AA98-204F10848F85@objecting.org>
+ <87a4vxtaqa.fsf@trenco.lwn.net>
+ <A54D6856-52DB-4914-BE50-A86EA76733CD@objecting.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20260325224015.1ba54eda@foz.lan>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <A54D6856-52DB-4914-BE50-A86EA76733CD@objecting.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi,
+On 24/03/2026 18:19, Josh Law wrote:
+> 
+> 
+> On 24 March 2026 17:10:05 GMT, Jonathan Corbet <corbet@lwn.net> wrote:
+>> Josh Law <objecting@objecting.org> writes:
+>>
+>>> Acked-By: Josh Law <objecting@objecting.org>
+>>>
+>>> Patches like these are good clarification 
+>>>
+>>> Keep it up!
+>>
+>> I'm all for encouraging contributors, but an Acked-by from a random
+>> contributor to a typo-fix patch, without having even bothered to trim
+>> 100 lines of stuff, is not particularly helpful for maintainers.  What
+>> is your purpose here?
+>>
+>> Thanks,
+>>
+>> jon
+>>
+> 
+> 
+> 
+> Apologies Jon, I just like patches that fix typos, because when maintainers (or others..) have to read the code in let's say, 10 years, they will be able to understand the code easier.
+> 
 
-[...]
+You have been asked like 10 or 20 times already to adjust to mailing
+list style of replies. No improvements.
 
-I think I found out what is happening.
+You did not get the point here about your Ack. You answered why the
+patch is right, but that was not the question. Question was what is the
+purpose of your Ack?
 
-Sphinx version at https://www.kernel.org/doc/html/latest/ is 5.3.0.
 
-Sphinx version at https://www.kernel.org/doc/html/next/ is 7.4.7, where
-math expressions are rendered as expected.
-
-Sphinx 6.0.1, whose changelog at:
-
-  https://www.sphinx-doc.org/en/master/changes/6.0.html#release-6-0-1-released-jan-05-2023
-
-says:
-
-  Bugs fixed
-
-    #10944: imgmath: Fix resolving image paths for files in nested
-            folders.
-
-The bug was introduced in Sphinix 5.3.0.
-
-This means Sphinx at https://www.kernel.org/doc/html/latest/ wants an
-upgrade.
-
-Thanks, Akira
-
+Best regards,
+Krzysztof
