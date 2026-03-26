@@ -1,184 +1,231 @@
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16D02421886;
-	Thu, 26 Mar 2026 17:00:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774544437; cv=pass; b=kWS4i2/YdR6fbVEq/kkGtO8TqFz2GvxAML+9d6a/Qsc/STZUro8tbN+29vw2LePBYVWwODDEzDV45QU5bGdUbYAXgcqSlfQ57dS71DssvIOqn6rD3Lsz3Bzu4RPwxyINLE5Y61txI//3xSYE+Di4w3G8bVm8p/tghpjXx0iN/Js=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774544437; c=relaxed/simple;
-	bh=QZjo8HWzUfwgvYueznW0n3l/KDYV+6fhsd+uDKs861E=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:From:To:
-	 References:In-Reply-To; b=ppCe/feg3VugH9w6q/prFIAaSSehySE11ViacWdfGur8XIQvAaCZmi4Eg/ETTlAglsB4pXgPz7OW04n+Y+ADyAmHACa/2qXHnGV21EC+oy5U2s+qWuQt8njF9GN04uWcWSGJ2M+Qe6NiGCs7rhjA/4pCxu6539DGxWdWwuxt79U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com; spf=pass smtp.mailfrom=ritovision.com; dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b=iff09bLG; arc=pass smtp.client-ip=136.143.188.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ritovision.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B8C537C106;
+	Thu, 26 Mar 2026 17:02:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774544570; cv=none; b=Usxuz6j4QugvQhiGd+ywCtp9F+La+uy2udqTVWnqZIG1TQsQw6eV81MZpdL5q++yHoVMN9/jOFXaqE7DOpjuuvc9YILoGD1z3a9FHJdcI0pXMGyP/a+PNq3lApaLo/uda4coMV0vrcg1IC4QyfaXHhcP5amoDIcacc8WaBrpCbU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774544570; c=relaxed/simple;
+	bh=IQI/txVcFLr4SQuaJ4+73DkdYZEcK7MrNDOrGnm30ww=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ACbAM/Qn/ZHfc01FU4MFFTxzen1rfCdK/9b2MA8b1NHjgEVahJe70A9Vc1K1V+0rAF0Hwq9pyH9c1fdEP+k5tD6aoq3+x+JpbMq5LYU3Fhxm5lxbNjORK36BMsch66dB+1RlXXAtaxv9HNSTvUFZXdaYZncM8dlS0vvbTXae7ws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SYJhxnrS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b="iff09bLG"
-ARC-Seal: i=1; a=rsa-sha256; t=1774544423; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=AmhNdUtRvEi4VrLDuaEnygT/xo4zFO5ZeE5iCBAiaw+d6bUD87wFqyWN5cAvw1UibFtUz/av5L16S9aykh4J622fEeD8xNASlLLRNbsJGxDTEwub8xZ/o4O4TWRc/ET/88wEt8B8qR7Hk7EbzsUzGe9Oy3CDsQbECupUhnVVH1k=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1774544423; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=9yuIDVbZHrmfv+OrF6229B+oMFmyZWA4UL/B68TqFC0=; 
-	b=TC28W6A9wFYc5sfeNywuFdBBMUKPiIyZxv+SjECAjfh5DftIXXdxxFZz0jeTqFA7124IzLFmsJ7htBK9VW6HDFGWssyoW7WtdmikTJoRgQcOJr3dhcLa1qZDLQnr6e2vDOb4Tholmq1z6qczrilP0ioYjKesft5V1TKpMEinYzc=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=ritovision.com;
-	spf=pass  smtp.mailfrom=rito@ritovision.com;
-	dmarc=pass header.from=<rito@ritovision.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774544423;
-	s=zmail; d=ritovision.com; i=rito@ritovision.com;
-	h=Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Date:Message-Id:Message-Id:Subject:Subject:Cc:Cc:From:From:To:To:References:In-Reply-To:Reply-To;
-	bh=9yuIDVbZHrmfv+OrF6229B+oMFmyZWA4UL/B68TqFC0=;
-	b=iff09bLGFxeUDuZO05dtxIM6wMdm8PXnMrC1KwtIsMLKGceVNLL7Be7a/xLWcRq5
-	MTioU4ppw2vfhDRxRf241zVx6wmNMRJTxvr9eHdZg32mjqAvzzSMelciRs1EgBufOfc
-	4PJvYN5zRm63iFIT8QJj0lpo/6mzAj3XH9kgtYnE=
-Received: by mx.zohomail.com with SMTPS id 1774544421815353.293292512418;
-	Thu, 26 Mar 2026 10:00:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SYJhxnrS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CE36C19423;
+	Thu, 26 Mar 2026 17:02:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774544570;
+	bh=IQI/txVcFLr4SQuaJ4+73DkdYZEcK7MrNDOrGnm30ww=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SYJhxnrSJGjkl2DyA0SD6tr3Iuz0bmP56WdE8RujYhI0+szob6l5AX+KDdb1uJX5g
+	 ayYGOuKmnnqNtTpD+gwuEgLkSwVTdiqOD3P3kQ4J6ebtlrxK4E1kT/SqQjKPwLHh1g
+	 3l2e+KWgNDsIb/C6n6qhwsAht2eaRryQtwqf6TdjCjAiINMNwxjPFU5ZXyZpVXQ0P7
+	 yTHU2YwuPXXMv43NjDqgU/t/BKP8UGUJUjCl8oqNCTZdN4LjRSY7ANts9vZVHgq+h/
+	 7WKFP+UzgELQY0w4DeN+tXHLPpVLp7KV7jeeV1a8rS2xXcroys7LJ8CugsHLgy1d7W
+	 1BxMu+CyO6M+A==
+Date: Thu, 26 Mar 2026 18:02:47 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Cc: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
+	Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+	Rodrigo Siqueira <siqueira@igalia.com>, Alex Deucher <alexander.deucher@amd.com>, 
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Sandy Huang <hjc@rock-chips.com>, 
+	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>, 
+	Jani Nikula <jani.nikula@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
+	Dmitry Baryshkov <lumag@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Rob Herring <robh@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, kernel@collabora.com, amd-gfx@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+	Werner Sembach <wse@tuxedocomputers.com>, Andri Yngvason <andri@yngvason.is>, 
+	Marius Vlad <marius.vlad@collabora.com>
+Subject: Re: [PATCH v11 03/22] drm: Add new general DRM property "color
+ format"
+Message-ID: <20260326-pumpkin-goshawk-of-stamina-0ccb84@houat>
+References: <20260324-color-format-v11-0-605559af4fb4@collabora.com>
+ <20260324-color-format-v11-3-605559af4fb4@collabora.com>
+ <acLDPYuaVI2-12JX@intel.com>
+ <23910073.EfDdHjke4D@workhorse>
+ <acLrv5hLyNss-Px5@intel.com>
+ <20260325-neat-elegant-raven-ebc9ab@houat>
+ <acPA60Ci3n_t__xF@intel.com>
+ <20260325-magnificent-ultraviolet-oarfish-baefbc@houat>
+ <acQsw3Wi_xVlBZ8d@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="sztu7fljo7ruak3p"
+Content-Disposition: inline
+In-Reply-To: <acQsw3Wi_xVlBZ8d@intel.com>
+
+
+--sztu7fljo7ruak3p
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 26 Mar 2026 13:00:19 -0400
-Message-Id: <DHCVHVXD0SCR.S4H4JOLN7KEV@ritovision.com>
-Subject: Re: [PATCH v3] docs: allow long unbroken headings to wrap and
- prevent overflow
-Cc: "Shuah Khan" <skhan@linuxfoundation.org>,
- <linux-kernel@vger.kernel.org>, <rdunlap@infradead.org>
-From: "Rito Rhymes" <rito@ritovision.com>
-To: "Jonathan Corbet" <corbet@lwn.net>, "Rito Rhymes" <rito@ritovision.com>,
- <linux-doc@vger.kernel.org>
-X-Mailer: aerc 0.21.0
-References: <20260321144855.30429-1-rito@ritovision.com>
- <20260323153024.32317-1-rito@ritovision.com>
- <87h5q3g288.fsf@trenco.lwn.net> <DHC6NJM3JZJC.3EIT3YD7O8CDW@ritovision.com>
- <87fr5nefat.fsf@trenco.lwn.net>
-In-Reply-To: <87fr5nefat.fsf@trenco.lwn.net>
-X-ZohoMailClient: External
+Subject: Re: [PATCH v11 03/22] drm: Add new general DRM property "color
+ format"
+MIME-Version: 1.0
 
-I tested the issues in the following environments:
+On Wed, Mar 25, 2026 at 08:43:15PM +0200, Ville Syrj=E4l=E4 wrote:
+> On Wed, Mar 25, 2026 at 03:56:58PM +0100, Maxime Ripard wrote:
+> > On Wed, Mar 25, 2026 at 01:03:07PM +0200, Ville Syrj=E4l=E4 wrote:
+> > > On Wed, Mar 25, 2026 at 09:24:27AM +0100, Maxime Ripard wrote:
+> > > > On Tue, Mar 24, 2026 at 09:53:35PM +0200, Ville Syrj=E4l=E4 wrote:
+> > > > > On Tue, Mar 24, 2026 at 08:10:11PM +0100, Nicolas Frattaroli wrot=
+e:
+> > > > > > On Tuesday, 24 March 2026 18:00:45 Central European Standard Ti=
+me Ville Syrj=E4l=E4 wrote:
+> > > > > > > On Tue, Mar 24, 2026 at 05:01:07PM +0100, Nicolas Frattaroli =
+wrote:
+> > > > > > > > +enum drm_connector_color_format {
+> > > > > > > > +	/**
+> > > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_AUTO: The driver or displa=
+y protocol
+> > > > > > > > +	 * helpers should pick a suitable color format. All imple=
+mentations of a
+> > > > > > > > +	 * specific display protocol must behave the same way wit=
+h "AUTO", but
+> > > > > > > > +	 * different display protocols do not necessarily have th=
+e same "AUTO"
+> > > > > > > > +	 * semantics.
+> > > > > > > > +	 *
+> > > > > > > > +	 * For HDMI, "AUTO" picks RGB, but falls back to YCbCr 4:=
+2:0 if the
+> > > > > > > > +	 * bandwidth required for full-scale RGB is not available=
+, or the mode
+> > > > > > > > +	 * is YCbCr 4:2:0-only, as long as the mode and output bo=
+th support
+> > > > > > > > +	 * YCbCr 4:2:0.
+> > > > > > > > +	 *
+> > > > > > > > +	 * For display protocols other than HDMI, the recursive b=
+ridge chain
+> > > > > > > > +	 * format selection picks the first chain of bridge forma=
+ts that works,
+> > > > > > > > +	 * as has already been the case before the introduction o=
+f the "color
+> > > > > > > > +	 * format" property. Non-HDMI bridges should therefore ei=
+ther sort their
+> > > > > > > > +	 * bus output formats by preference, or agree on a unifie=
+d auto format
+> > > > > > > > +	 * selection logic that's implemented in a common state h=
+elper (like
+> > > > > > > > +	 * how HDMI does it).
+> > > > > > > > +	 */
+> > > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_AUTO =3D 0,
+> > > > > > > > +
+> > > > > > > > +	/**
+> > > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_RGB444: RGB output format
+> > > > > > > > +	 */
+> > > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_RGB444,
+> > > > > > > > +
+> > > > > > > > +	/**
+> > > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR444: YCbCr 4:4:4 outp=
+ut format (ie.
+> > > > > > > > +	 * not subsampled)
+> > > > > > > > +	 */
+> > > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR444,
+> > > > > > > > +
+> > > > > > > > +	/**
+> > > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR422: YCbCr 4:2:2 outp=
+ut format (ie.
+> > > > > > > > +	 * with horizontal subsampling)
+> > > > > > > > +	 */
+> > > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR422,
+> > > > > > > > +
+> > > > > > > > +	/**
+> > > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR420: YCbCr 4:2:0 outp=
+ut format (ie.
+> > > > > > > > +	 * with horizontal and vertical subsampling)
+> > > > > > > > +	 */
+> > > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR420,
+> > > > > > >=20
+> > > > > > > Seems like this should document what the quantization range
+> > > > > > > should be for each format.
+> > > > > > >=20
+> > > > > >=20
+> > > > > > I don't think so? If you want per-component bit depth values,
+> > > > > > DRM_FORMAT_* defines would be the appropriate values to use. Th=
+is
+> > > > > > enum is more abstract than that, and is there to communicate
+> > > > > > YUV vs. RGB and chroma subsampling, with bit depth being handled
+> > > > > > by other properties.
+> > > > > >=20
+> > > > > > If you mean the factor used for subsampling, then that'd only be
+> > > > > > relevant if YCBCR410 was supported where one chroma plane isn't
+> > > > > > halved but quartered in resolution. I suspect 4:1:0 will never
+> > > > > > be added; no digital display protocol standard supports it to my
+> > > > > > knowledge, and hopefully none ever will.
+> > > > >=20
+> > > > > No, I mean the quantization range (16-235 vs. 0-255 etc).
+> > > > >=20
+> > > > > The i915 behaviour is that YCbCr is always limited range,
+> > > > > RGB can either be full or limited range depending on the=20
+> > > > > "Broadcast RGB" property and other related factors.
+> > > >=20
+> > > > So far the HDMI state has both the format and quantization range as
+> > > > different fields. I'm not sure we need to document the range in the
+> > > > format field, maybe only mention it's not part of the format but ha=
+s a
+> > > > field of its own?
+> > >=20
+> > > I think we only have it for RGB (on some drivers only?). For YCbCr
+> > > I think the assumption is limited range everywhere.
+> > >=20
+> > > But I'm not really concerned about documenting struct members.
+> > > What I'm talking about is the *uapi* docs. Surely userspace
+> > > will want to know what the new property actually does so the
+> > > uapi needs to be documented properly. And down the line some
+> > > new driver might also implement the wrong behaviour if there
+> > > is no clear specification.
+> >=20
+> > Ack
+> >=20
+> > > So I'm thinking (or perhaps hoping) the rule might be something like:
+> > > - YCbCr limited range=20
+> > > - RGB full range if "Broadcast RGB" property is not present
+> >=20
+> > Isn't it much more complicated than that for HDMI though? My
+> > recollection was that any VIC but VIC1 would be limited range, and
+> > anything else full range?
+>=20
+> Do we have some driver that implements the CTA-861 CE vs. IT mode
+> logic but doesn't expose the "Broadcast RGB" property? I was hoping
+> those would always go hand in hand now.
 
-Windows 10 desktop:
-- Chrome
-- Firefox
-- Edge
+I'm not sure. i915 and the HDMI state helpers handle it properly (I
+think?) but it looks like only vc4 registers the Broadcast RGB property
+and uses the HDMI state helpers.
 
-Kali Linux under WSL2:
-- Chromium
-- Firefox
+And it looks like amdgpu registers Broadcast RGB but doesn't use
+drm_default_rgb_quant_range() which seems suspicious?
 
-Android 16 mobile:
-- Chrome
-- Firefox
-- Edge
+Maxime
 
-I put together a screenshot catalog of my test results in each
-environment, the images are hosted in a GitHub issue and referenced
-here. Note that on mobile, when horizontal scroll overflow occurred,
-I zoomed out to show the full page width exceeding the header width
-to demonstrate the broken layout it caused.
+--sztu7fljo7ruak3p
+Content-Type: application/pgp-signature; name="signature.asc"
 
-The two cases I used were:
+-----BEGIN PGP SIGNATURE-----
 
-Long slash-delimited string:
-https://docs.kernel.org/6.15/userspace-api/sysfs-platform_profile.html
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCacVmrwAKCRAnX84Zoj2+
+djmKAXsEmUptwl0y0uTt0hUtaZxnRjjESVJQSddNJJtwkngvSvLKrVU57NG4oOLY
+OT9kC7ABgJp0yaEoRAtymIjzcn0p0cg7ukDU4WiKAyXKh4xAWn3poLiUScARRszO
+IyTM52RBAA==
+=jTyX
+-----END PGP SIGNATURE-----
 
-Long underscore-delimited string:
-https://docs.kernel.org/6.15/userspace-api/gpio/gpio-v2-line-get-values-ioc=
-tl.html
-
-Results by environment:
-
-Windows 10
-
-Chrome:
-- slashes: horizontal overflow
-  https://github.com/user-attachments/assets/2189783c-0328-4079-a1f0-8aead0=
-3e4041
-- underscores: horizontal overflow
-  https://github.com/user-attachments/assets/d351eb45-44bb-4ae3-8e2c-055a92=
-9c776b
-
-Firefox:
-- slashes: wraps normally
-  https://github.com/user-attachments/assets/fe6667d2-1559-4a50-a1e8-feada0=
-dadd3b
-- underscores: horizontal overflow
-  https://github.com/user-attachments/assets/b7ee8a66-0c41-457d-b699-9b825f=
-b8b5a1
-
-Edge:
-- slashes: horizontal overflow
-  https://github.com/user-attachments/assets/703c4e0a-ad0c-42a1-bda6-356a2b=
-c9c609
-- underscores: horizontal overflow
-  https://github.com/user-attachments/assets/08fa2762-22c4-48b7-aaa4-d418bc=
-c83b62
-
-Kali Linux under WSL2
-
-Chromium:
-- slashes: horizontal overflow
-  https://github.com/user-attachments/assets/5a25a590-fb84-4445-9bb0-baf069=
-498e41
-- underscores: horizontal overflow
-  https://github.com/user-attachments/assets/dfa38ba2-2c2b-49af-bd39-318521=
-57e82f
-
-Firefox:
-- slashes: wraps normally
-  https://github.com/user-attachments/assets/cd736918-4f48-48fe-b18d-822dd2=
-e6727b
-- underscores: horizontal overflow
-  https://github.com/user-attachments/assets/6ff9e12f-f0b6-445b-a372-aebc93=
-e4a951
-
-Android 16 mobile
-
-Chrome:
-- slashes: horizontal overflow
-  https://github.com/user-attachments/assets/ea05ef9f-b7ba-4d18-8828-fd3ec7=
-a3db49
-- underscores: horizontal overflow
-  https://github.com/user-attachments/assets/a4d088ee-d385-499d-bc05-03b8e1=
-9870ef
-
-Firefox:
-- slashes: wraps normally
-  https://github.com/user-attachments/assets/84018ee9-8c87-4d00-99dc-c4569b=
-d16e2c
-- underscores: horizontal overflow
-  https://github.com/user-attachments/assets/c694acae-18d7-48a1-abcd-a2ae20=
-8cfa73
-
-Edge:
-- slashes: horizontal overflow
-  https://github.com/user-attachments/assets/c5f110f8-3ee8-4490-89f4-d8da33=
-e4f37d
-- underscores: horizontal overflow
-  https://github.com/user-attachments/assets/4486cb0a-53c1-4d5f-bcc6-d61680=
-133a2c
-
-So the pattern I saw was:
-
-- Long slash-delimited strings wrapped normally only in Firefox, on
-  all three environments I tested. In every other browser/environment,
-  they caused page-wide horizontal scroll overflow.
-- Long underscore-delimited strings caused page-wide horizontal
-  scroll overflow in every browser/environment I tested.
-
-If it is easier to review the screenshots in one place,
-I collected them in this GitHub issue with environment
-headings:
-
-https://github.com/ritovision/linux-kernel-docs/issues/2
-
-That issue may also be a convenient place to add your own
-screenshots to host and reference here for comparison.
-
-Rito
+--sztu7fljo7ruak3p--
