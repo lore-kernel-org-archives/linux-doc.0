@@ -1,441 +1,238 @@
-Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 096DD426691
-	for <linux-doc@vger.kernel.org>; Thu, 26 Mar 2026 17:50:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59EFA3191CE;
+	Thu, 26 Mar 2026 17:58:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774547423; cv=none; b=qNLdu2Qey5yh/jhS7zoB/pIqmMC8M/gUN9oebMXrhQnr0uO7WcOETeyLrMnzfGRKRzh07kvQ9KVzQnLqBUKfdeil9vlH+BxMvtOfvaFoy85XurOi6QPFnTFMtpGHGWAJPzfXuf2vPReoAxlDotQiBFL8jpNYzuMC0tk7hXyZxu8=
+	t=1774547924; cv=none; b=jtEHUOfwAZI1ayF7+nCcVgCTBWcnMzzONO2HwC2LUbUzA7yzXscsUwPk8SZeSsuLgWSs/AG1TDtNnCfrqGKQMoBvQU8RcfL+GX1d4nMmEc4TLP4SBHr1EI6RIBolGC43wvGbvLJ1A9BvzPVAmmxR2sk1SgatuB7BY8MidDrqSnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774547423; c=relaxed/simple;
-	bh=J6e0QheWsV205OBFE1w2/3od2KuiGQ8chN9jIhmli0w=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=A7uqqXSluEB8ITHKX1AHQ5h+8gqaYpOsjEOg4JnK7cSiqNa+aD/FDTOmo6NkT38tgNO4+6bvgzwkzEMQ4UnPrmKFzo6oNoaHdEw+kLajStBWdOV+QZkL5s3ixuAlQOTccKOpejDaVyyzGTNDTc8Yk6Kn/NvPCgg7Iol1GeNR+js=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jmattson.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=SNR9Rr9v; arc=none smtp.client-ip=209.85.216.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jmattson.bounces.google.com
+	s=arc-20240116; t=1774547924; c=relaxed/simple;
+	bh=ZN1iuzw8T8W2bRviqNraUbLOrITrSm5KwXD+jmeiWWg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FaDHmUsL84G7TuDngy52BM686FgpM5vqb7De+oPy2hbvA9BbB1kbJ5jTMnbu7xb+NXGVNqe2h+QTKYbEROdwqnl5EmrsXTz9yVix9jhnF2Ye7jrd8NZs44jdSjaG8wbWY089a44u4oys5r6vWH66RYvUtrnVxXotjjK2utDKD3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gsic5omW; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SNR9Rr9v"
-Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-35c1107da15so1839988a91.2
-        for <linux-doc@vger.kernel.org>; Thu, 26 Mar 2026 10:50:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1774547416; x=1775152216; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=PZ/TyFghnFVNjOubdAxCNj3tm5pGnzmt2n9T/T2hdlg=;
-        b=SNR9Rr9vscO78dkw+hcfv0NpOut1eBJbp6gA8SHWwanFStYxvln+ZRDDlILoUinPpq
-         duaCHktttwdkriIWLSruxsq8p8d01wl942RBCEOqYNjv3EJpJlFuz2oX1p31WKU+o5wI
-         680hc15Zn3aR+ltEDKU7iT8gQnOkXNPnrgnaESaLGWZna7Oqk/HKDRFfg+dIc/8T2nLm
-         yRpnvY0YQiSerrv2fVcufEKDcva8IY/HoSh9HJXDu2yrYWADEF4LZPqvLapRO5WgA37N
-         8+IjEKYMaEYvL/9EonLox6q4wNDcO8MQhjXJRSFrlGtsfbiMwrswQWRCuoVU906s0zeC
-         5/FA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774547416; x=1775152216;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PZ/TyFghnFVNjOubdAxCNj3tm5pGnzmt2n9T/T2hdlg=;
-        b=jvlSQHQPPItalqQfDCUdqY4uqY16G+EBPGmbK1DAkVcavA7CC42OKx10Ae+dFwMszb
-         w1luz4sdBzHet9hl70mcj3nEH8V3PrLR4vHmfmH3lMKDEs16K5slAjHBOOlofwSdCgQQ
-         VWsRQN1afGyJ3A0FXu0hNPVmjKSw2XlcDlVzi1JLW+PN2EELfqiFY5nX1nbBLmqg+uNr
-         T3PlNtvzXHpDvYtsTqYhs6+8IElny3ZdE6D15TAh5RLD0yhb4Arb3wxgQBOWrQdcFKBc
-         RX7RoDUSgXDoBFVThbh78xsCGHG5yQqr4HyZqLmOkNuvQs+LTHm6R9Pb43N9tQr4t5JB
-         Sv6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWPViL9OgqdGLVSrbkxriz8uSM3IQrlftUDVSvLwsrbVLUWAOQz6h6uF5pdPczR+lCnkmmd9GSqVRc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzcNn7bWcHk973ngVMjUTbqsIKo5e/Wy+vbb6pUDXL3ijqBozCz
-	RBGMDeoKUeUXGCzEMiix20uT0Ln8fC8cJjgHTWrkvHQtRZFnAcc4+zP7wesCjZ0q3sMrslOw8OJ
-	mUaWMXAljYk2e6w==
-X-Received: from pjbsl12.prod.google.com ([2002:a17:90b:2e0c:b0:35c:e2c:6921])
- (user=jmattson job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90b:3c0c:b0:354:a332:1a61 with SMTP id 98e67ed59e1d1-35c0dc8143emr8104477a91.5.1774547416255;
- Thu, 26 Mar 2026 10:50:16 -0700 (PDT)
-Date: Thu, 26 Mar 2026 10:49:28 -0700
-In-Reply-To: <20260326174944.3820245-1-jmattson@google.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gsic5omW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774547919; x=1806083919;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=ZN1iuzw8T8W2bRviqNraUbLOrITrSm5KwXD+jmeiWWg=;
+  b=Gsic5omWbfN9vAOnZT90AXlevTB93606VBmep2g4E2lFGHfZJvrJ9BIH
+   VumbUf+2FVnSy5rKOroMaZpWD6p9V+7huAXxwRQ04zTgpDzvopv36cYBG
+   92uioXz3NAeuJnandfzbx/CYtco4e+DgifWWhzo5vNK+GOxdZtEDKElYn
+   nn3bIubfzCbspkIBPKnce8CJP5yj2nKFuxSPp+nVEu+nNXAvEk7SxTuM/
+   nUCDWHekzUT8jiL4eXDTgTQQ9mRSqk3bhwc/DfnrL+Nf0LtTB67cesI6S
+   bMHu8N/34eeU1QUXO9+EOS7l6/L1IA5XV51U1Ws0cCFjSjxeHIqCXh74/
+   w==;
+X-CSE-ConnectionGUID: tvjRYxfoTNm42rlShBfxQw==
+X-CSE-MsgGUID: C4QP/aRvRq+MZIhiVIi9zA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="85923281"
+X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
+   d="scan'208";a="85923281"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 10:58:38 -0700
+X-CSE-ConnectionGUID: QU8QSqOhQfqCPL3kMJ994A==
+X-CSE-MsgGUID: aPEZ8FAXSXOHe3ZqlAl2hA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
+   d="scan'208";a="229145609"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.14])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 10:58:30 -0700
+Date: Thu, 26 Mar 2026 19:58:25 +0200
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+	Harry Wentland <harry.wentland@amd.com>,
+	Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira <siqueira@igalia.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Sandy Huang <hjc@rock-chips.com>,
+	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+	Andy Yan <andy.yan@rock-chips.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Rob Herring <robh@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, kernel@collabora.com,
+	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org, linux-doc@vger.kernel.org,
+	Werner Sembach <wse@tuxedocomputers.com>,
+	Andri Yngvason <andri@yngvason.is>,
+	Marius Vlad <marius.vlad@collabora.com>
+Subject: Re: [PATCH v11 03/22] drm: Add new general DRM property "color
+ format"
+Message-ID: <acVzwRyk_J24GrJ4@intel.com>
+References: <20260324-color-format-v11-0-605559af4fb4@collabora.com>
+ <20260324-color-format-v11-3-605559af4fb4@collabora.com>
+ <acLDPYuaVI2-12JX@intel.com>
+ <23910073.EfDdHjke4D@workhorse>
+ <acLrv5hLyNss-Px5@intel.com>
+ <20260325-neat-elegant-raven-ebc9ab@houat>
+ <acPA60Ci3n_t__xF@intel.com>
+ <20260325-magnificent-ultraviolet-oarfish-baefbc@houat>
+ <acQsw3Wi_xVlBZ8d@intel.com>
+ <20260326-pumpkin-goshawk-of-stamina-0ccb84@houat>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260326174944.3820245-1-jmattson@google.com>
-X-Mailer: git-send-email 2.53.0.1018.g2bb0e51243-goog
-Message-ID: <20260326174944.3820245-11-jmattson@google.com>
-Subject: [PATCH v6 10/10] KVM: selftests: nSVM: Add svm_nested_pat test
-From: Jim Mattson <jmattson@google.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Sean Christopherson <seanjc@google.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	Yosry Ahmed <yosry@kernel.org>
-Cc: Jim Mattson <jmattson@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260326-pumpkin-goshawk-of-stamina-0ccb84@houat>
+X-Patchwork-Hint: comment
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
 
-When KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT is disabled, verify that KVM
-correctly virtualizes the host PAT MSR and the guest PAT register for
-nested SVM guests.
+On Thu, Mar 26, 2026 at 06:02:47PM +0100, Maxime Ripard wrote:
+> On Wed, Mar 25, 2026 at 08:43:15PM +0200, Ville Syrjälä wrote:
+> > On Wed, Mar 25, 2026 at 03:56:58PM +0100, Maxime Ripard wrote:
+> > > On Wed, Mar 25, 2026 at 01:03:07PM +0200, Ville Syrjälä wrote:
+> > > > On Wed, Mar 25, 2026 at 09:24:27AM +0100, Maxime Ripard wrote:
+> > > > > On Tue, Mar 24, 2026 at 09:53:35PM +0200, Ville Syrjälä wrote:
+> > > > > > On Tue, Mar 24, 2026 at 08:10:11PM +0100, Nicolas Frattaroli wrote:
+> > > > > > > On Tuesday, 24 March 2026 18:00:45 Central European Standard Time Ville Syrjälä wrote:
+> > > > > > > > On Tue, Mar 24, 2026 at 05:01:07PM +0100, Nicolas Frattaroli wrote:
+> > > > > > > > > +enum drm_connector_color_format {
+> > > > > > > > > +	/**
+> > > > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_AUTO: The driver or display protocol
+> > > > > > > > > +	 * helpers should pick a suitable color format. All implementations of a
+> > > > > > > > > +	 * specific display protocol must behave the same way with "AUTO", but
+> > > > > > > > > +	 * different display protocols do not necessarily have the same "AUTO"
+> > > > > > > > > +	 * semantics.
+> > > > > > > > > +	 *
+> > > > > > > > > +	 * For HDMI, "AUTO" picks RGB, but falls back to YCbCr 4:2:0 if the
+> > > > > > > > > +	 * bandwidth required for full-scale RGB is not available, or the mode
+> > > > > > > > > +	 * is YCbCr 4:2:0-only, as long as the mode and output both support
+> > > > > > > > > +	 * YCbCr 4:2:0.
+> > > > > > > > > +	 *
+> > > > > > > > > +	 * For display protocols other than HDMI, the recursive bridge chain
+> > > > > > > > > +	 * format selection picks the first chain of bridge formats that works,
+> > > > > > > > > +	 * as has already been the case before the introduction of the "color
+> > > > > > > > > +	 * format" property. Non-HDMI bridges should therefore either sort their
+> > > > > > > > > +	 * bus output formats by preference, or agree on a unified auto format
+> > > > > > > > > +	 * selection logic that's implemented in a common state helper (like
+> > > > > > > > > +	 * how HDMI does it).
+> > > > > > > > > +	 */
+> > > > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_AUTO = 0,
+> > > > > > > > > +
+> > > > > > > > > +	/**
+> > > > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_RGB444: RGB output format
+> > > > > > > > > +	 */
+> > > > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_RGB444,
+> > > > > > > > > +
+> > > > > > > > > +	/**
+> > > > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR444: YCbCr 4:4:4 output format (ie.
+> > > > > > > > > +	 * not subsampled)
+> > > > > > > > > +	 */
+> > > > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR444,
+> > > > > > > > > +
+> > > > > > > > > +	/**
+> > > > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR422: YCbCr 4:2:2 output format (ie.
+> > > > > > > > > +	 * with horizontal subsampling)
+> > > > > > > > > +	 */
+> > > > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR422,
+> > > > > > > > > +
+> > > > > > > > > +	/**
+> > > > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR420: YCbCr 4:2:0 output format (ie.
+> > > > > > > > > +	 * with horizontal and vertical subsampling)
+> > > > > > > > > +	 */
+> > > > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR420,
+> > > > > > > > 
+> > > > > > > > Seems like this should document what the quantization range
+> > > > > > > > should be for each format.
+> > > > > > > > 
+> > > > > > > 
+> > > > > > > I don't think so? If you want per-component bit depth values,
+> > > > > > > DRM_FORMAT_* defines would be the appropriate values to use. This
+> > > > > > > enum is more abstract than that, and is there to communicate
+> > > > > > > YUV vs. RGB and chroma subsampling, with bit depth being handled
+> > > > > > > by other properties.
+> > > > > > > 
+> > > > > > > If you mean the factor used for subsampling, then that'd only be
+> > > > > > > relevant if YCBCR410 was supported where one chroma plane isn't
+> > > > > > > halved but quartered in resolution. I suspect 4:1:0 will never
+> > > > > > > be added; no digital display protocol standard supports it to my
+> > > > > > > knowledge, and hopefully none ever will.
+> > > > > > 
+> > > > > > No, I mean the quantization range (16-235 vs. 0-255 etc).
+> > > > > > 
+> > > > > > The i915 behaviour is that YCbCr is always limited range,
+> > > > > > RGB can either be full or limited range depending on the 
+> > > > > > "Broadcast RGB" property and other related factors.
+> > > > > 
+> > > > > So far the HDMI state has both the format and quantization range as
+> > > > > different fields. I'm not sure we need to document the range in the
+> > > > > format field, maybe only mention it's not part of the format but has a
+> > > > > field of its own?
+> > > > 
+> > > > I think we only have it for RGB (on some drivers only?). For YCbCr
+> > > > I think the assumption is limited range everywhere.
+> > > > 
+> > > > But I'm not really concerned about documenting struct members.
+> > > > What I'm talking about is the *uapi* docs. Surely userspace
+> > > > will want to know what the new property actually does so the
+> > > > uapi needs to be documented properly. And down the line some
+> > > > new driver might also implement the wrong behaviour if there
+> > > > is no clear specification.
+> > > 
+> > > Ack
+> > > 
+> > > > So I'm thinking (or perhaps hoping) the rule might be something like:
+> > > > - YCbCr limited range 
+> > > > - RGB full range if "Broadcast RGB" property is not present
+> > > 
+> > > Isn't it much more complicated than that for HDMI though? My
+> > > recollection was that any VIC but VIC1 would be limited range, and
+> > > anything else full range?
+> > 
+> > Do we have some driver that implements the CTA-861 CE vs. IT mode
+> > logic but doesn't expose the "Broadcast RGB" property? I was hoping
+> > those would always go hand in hand now.
+> 
+> I'm not sure. i915 and the HDMI state helpers handle it properly (I
+> think?) but it looks like only vc4 registers the Broadcast RGB property
+> and uses the HDMI state helpers.
+> 
+> And it looks like amdgpu registers Broadcast RGB but doesn't use
+> drm_default_rgb_quant_range() which seems suspicious?
 
-With nested NPT disabled:
- * L1 and L2 share the same PAT
- * The vmcb12.g_pat is ignored
+If they want just manual full vs. limited then they should
+limit the property to not expose the "auto" option at all.
 
-With nested NPT enabled:
- * An invalid g_pat in vmcb12 causes VMEXIT_INVALID
- * RDMSR(IA32_PAT) from L2 returns the value of the guest PAT register
- * WRMSR(IA32_PAT) from L2 is reflected in vmcb12's g_pat on VMEXIT
- * RDMSR(IA32_PAT) from L1 returns the value of the host PAT MSR
- * Save/restore with the vCPU in guest mode preserves both hPAT and gPAT
+amdgpu also ties this in with the "colorspace" property, which
+originally in i915 only controlled the infoframes/etc. But on
+amdgpu it now controls various aspects of output color
+transformation. The end result is that the property is a complete
+mess with most of the values making no sense. And for whatever
+reason everyone involved refused to remove/deprecate the
+nonsensical values :/
 
-Signed-off-by: Jim Mattson <jmattson@google.com>
----
- tools/arch/x86/include/uapi/asm/kvm.h         |   2 +
- tools/testing/selftests/kvm/Makefile.kvm      |   1 +
- .../selftests/kvm/x86/svm_nested_pat_test.c   | 304 ++++++++++++++++++
- 3 files changed, 307 insertions(+)
- create mode 100644 tools/testing/selftests/kvm/x86/svm_nested_pat_test.c
+Looks like this series should make sure the documentation for
+the "colorspace" property is in sync with the new property
+as well. Currently now it's giving conflicting information.
 
-diff --git a/tools/arch/x86/include/uapi/asm/kvm.h b/tools/arch/x86/include/uapi/asm/kvm.h
-index 7ceff6583652..be6f428a79aa 100644
---- a/tools/arch/x86/include/uapi/asm/kvm.h
-+++ b/tools/arch/x86/include/uapi/asm/kvm.h
-@@ -476,6 +476,7 @@ struct kvm_sync_regs {
- #define KVM_X86_QUIRK_SLOT_ZAP_ALL		(1 << 7)
- #define KVM_X86_QUIRK_STUFF_FEATURE_MSRS	(1 << 8)
- #define KVM_X86_QUIRK_IGNORE_GUEST_PAT		(1 << 9)
-+#define KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT	(1 << 11)
- 
- #define KVM_STATE_NESTED_FORMAT_VMX	0
- #define KVM_STATE_NESTED_FORMAT_SVM	1
-@@ -530,6 +531,7 @@ struct kvm_svm_nested_state_data {
- 
- struct kvm_svm_nested_state_hdr {
- 	__u64 vmcb_pa;
-+	__u64 gpat;
- };
- 
- /* for KVM_CAP_NESTED_STATE */
-diff --git a/tools/testing/selftests/kvm/Makefile.kvm b/tools/testing/selftests/kvm/Makefile.kvm
-index 3d372d78a275..88871572ee9d 100644
---- a/tools/testing/selftests/kvm/Makefile.kvm
-+++ b/tools/testing/selftests/kvm/Makefile.kvm
-@@ -113,6 +113,7 @@ TEST_GEN_PROGS_x86 += x86/svm_vmcall_test
- TEST_GEN_PROGS_x86 += x86/svm_int_ctl_test
- TEST_GEN_PROGS_x86 += x86/svm_nested_clear_efer_svme
- TEST_GEN_PROGS_x86 += x86/svm_nested_invalid_vmcb12_gpa
-+TEST_GEN_PROGS_x86 += x86/svm_nested_pat_test
- TEST_GEN_PROGS_x86 += x86/svm_nested_shutdown_test
- TEST_GEN_PROGS_x86 += x86/svm_nested_soft_inject_test
- TEST_GEN_PROGS_x86 += x86/svm_lbr_nested_state
-diff --git a/tools/testing/selftests/kvm/x86/svm_nested_pat_test.c b/tools/testing/selftests/kvm/x86/svm_nested_pat_test.c
-new file mode 100644
-index 000000000000..704f31a079a9
---- /dev/null
-+++ b/tools/testing/selftests/kvm/x86/svm_nested_pat_test.c
-@@ -0,0 +1,304 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * KVM nested SVM PAT test
-+ *
-+ * Copyright (C) 2026, Google LLC.
-+ *
-+ * Test that KVM correctly virtualizes the PAT MSR and VMCB g_pat field
-+ * for nested SVM guests:
-+ *
-+ * o With nested NPT disabled:
-+ *     - L1 and L2 share the same PAT
-+ *     - The vmcb12.g_pat is ignored
-+ * o With nested NPT enabled:
-+ *     - Invalid g_pat in vmcb12 should cause VMEXIT_INVALID
-+ *     - L2 should see vmcb12.g_pat via RDMSR, not L1's PAT
-+ *     - L2's writes to PAT should be saved to vmcb12 on exit
-+ *     - L1's PAT should be restored after #VMEXIT from L2
-+ *     - State save/restore should preserve both L1's and L2's PAT values
-+ */
-+#include <fcntl.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+
-+#include "test_util.h"
-+#include "kvm_util.h"
-+#include "processor.h"
-+#include "svm_util.h"
-+
-+#define L2_GUEST_STACK_SIZE 256
-+
-+#define PAT_DEFAULT		0x0007040600070406ULL
-+#define L1_PAT_VALUE		0x0007040600070404ULL  /* Change PA0 to WT */
-+#define L2_VMCB12_PAT		0x0606060606060606ULL  /* All WB */
-+#define L2_PAT_MODIFIED		0x0606060606060604ULL  /* Change PA0 to WT */
-+#define INVALID_PAT_VALUE	0x0808080808080808ULL  /* 8 is reserved */
-+
-+/*
-+ * Shared state between L1 and L2 for verification.
-+ */
-+struct pat_test_data {
-+	uint64_t l2_pat_read;
-+	uint64_t l2_pat_after_write;
-+	uint64_t l1_pat_after_vmexit;
-+	uint64_t vmcb12_gpat_after_exit;
-+	bool l2_done;
-+};
-+
-+static struct pat_test_data *pat_data;
-+
-+static void l2_guest_code(void)
-+{
-+	pat_data->l2_pat_read = rdmsr(MSR_IA32_CR_PAT);
-+	wrmsr(MSR_IA32_CR_PAT, L2_PAT_MODIFIED);
-+	pat_data->l2_pat_after_write = rdmsr(MSR_IA32_CR_PAT);
-+	pat_data->l2_done = true;
-+	vmmcall();
-+}
-+
-+static void l2_guest_code_saverestoretest(void)
-+{
-+	pat_data->l2_pat_read = rdmsr(MSR_IA32_CR_PAT);
-+
-+	GUEST_SYNC(1);
-+	GUEST_ASSERT_EQ(rdmsr(MSR_IA32_CR_PAT), pat_data->l2_pat_read);
-+
-+	wrmsr(MSR_IA32_CR_PAT, L2_PAT_MODIFIED);
-+	pat_data->l2_pat_after_write = rdmsr(MSR_IA32_CR_PAT);
-+
-+	GUEST_SYNC(2);
-+	GUEST_ASSERT_EQ(rdmsr(MSR_IA32_CR_PAT), L2_PAT_MODIFIED);
-+
-+	pat_data->l2_done = true;
-+	vmmcall();
-+}
-+
-+static void l2_guest_code_multi_vmentry(void)
-+{
-+	pat_data->l2_pat_read = rdmsr(MSR_IA32_CR_PAT);
-+	wrmsr(MSR_IA32_CR_PAT, L2_PAT_MODIFIED);
-+	pat_data->l2_pat_after_write = rdmsr(MSR_IA32_CR_PAT);
-+	vmmcall();
-+
-+	pat_data->l2_pat_read = rdmsr(MSR_IA32_CR_PAT);
-+	pat_data->l2_done = true;
-+	vmmcall();
-+}
-+
-+static struct vmcb *l1_common_setup(struct svm_test_data *svm,
-+				    struct pat_test_data *data,
-+				    void *l2_guest_code,
-+				    void *l2_guest_stack)
-+{
-+	struct vmcb *vmcb = svm->vmcb;
-+
-+	pat_data = data;
-+
-+	wrmsr(MSR_IA32_CR_PAT, L1_PAT_VALUE);
-+	GUEST_ASSERT_EQ(rdmsr(MSR_IA32_CR_PAT), L1_PAT_VALUE);
-+
-+	generic_svm_setup(svm, l2_guest_code, l2_guest_stack);
-+
-+	vmcb->save.g_pat = L2_VMCB12_PAT;
-+	vmcb->control.intercept &= ~(1ULL << INTERCEPT_MSR_PROT);
-+
-+	return vmcb;
-+}
-+
-+static void l1_assert_l2_state(struct pat_test_data *data, uint64_t expected_pat_read)
-+{
-+	GUEST_ASSERT(data->l2_done);
-+	GUEST_ASSERT_EQ(data->l2_pat_read, expected_pat_read);
-+	GUEST_ASSERT_EQ(data->l2_pat_after_write, L2_PAT_MODIFIED);
-+}
-+
-+static void l1_svm_code_npt_disabled(struct svm_test_data *svm,
-+				     struct pat_test_data *data)
-+{
-+	unsigned long l2_guest_stack[L2_GUEST_STACK_SIZE];
-+	struct vmcb *vmcb;
-+
-+	vmcb = l1_common_setup(svm, data, l2_guest_code,
-+			       &l2_guest_stack[L2_GUEST_STACK_SIZE]);
-+
-+	run_guest(vmcb, svm->vmcb_gpa);
-+
-+	GUEST_ASSERT_EQ(vmcb->control.exit_code, SVM_EXIT_VMMCALL);
-+	l1_assert_l2_state(data, L1_PAT_VALUE);
-+
-+	data->l1_pat_after_vmexit = rdmsr(MSR_IA32_CR_PAT);
-+	GUEST_ASSERT_EQ(data->l1_pat_after_vmexit, L2_PAT_MODIFIED);
-+
-+	GUEST_DONE();
-+}
-+
-+static void l1_svm_code_invalid_gpat(struct svm_test_data *svm,
-+				     struct pat_test_data *data)
-+{
-+	unsigned long l2_guest_stack[L2_GUEST_STACK_SIZE];
-+	struct vmcb *vmcb;
-+
-+	vmcb = l1_common_setup(svm, data, l2_guest_code,
-+			       &l2_guest_stack[L2_GUEST_STACK_SIZE]);
-+
-+	vmcb->save.g_pat = INVALID_PAT_VALUE;
-+
-+	run_guest(vmcb, svm->vmcb_gpa);
-+
-+	GUEST_ASSERT_EQ(vmcb->control.exit_code, SVM_EXIT_ERR);
-+	GUEST_ASSERT(!data->l2_done);
-+
-+	GUEST_DONE();
-+}
-+
-+static void l1_svm_code_npt_enabled(struct svm_test_data *svm,
-+				    struct pat_test_data *data)
-+{
-+	unsigned long l2_guest_stack[L2_GUEST_STACK_SIZE];
-+	struct vmcb *vmcb;
-+
-+	vmcb = l1_common_setup(svm, data, l2_guest_code,
-+			       &l2_guest_stack[L2_GUEST_STACK_SIZE]);
-+
-+	run_guest(vmcb, svm->vmcb_gpa);
-+
-+	GUEST_ASSERT_EQ(vmcb->control.exit_code, SVM_EXIT_VMMCALL);
-+	l1_assert_l2_state(data, L2_VMCB12_PAT);
-+
-+	data->vmcb12_gpat_after_exit = vmcb->save.g_pat;
-+	GUEST_ASSERT_EQ(data->vmcb12_gpat_after_exit, L2_PAT_MODIFIED);
-+
-+	data->l1_pat_after_vmexit = rdmsr(MSR_IA32_CR_PAT);
-+	GUEST_ASSERT_EQ(data->l1_pat_after_vmexit, L1_PAT_VALUE);
-+
-+	GUEST_DONE();
-+}
-+
-+static void l1_svm_code_saverestore(struct svm_test_data *svm,
-+				    struct pat_test_data *data)
-+{
-+	unsigned long l2_guest_stack[L2_GUEST_STACK_SIZE];
-+	struct vmcb *vmcb;
-+
-+	vmcb = l1_common_setup(svm, data, l2_guest_code_saverestoretest,
-+			       &l2_guest_stack[L2_GUEST_STACK_SIZE]);
-+
-+	run_guest(vmcb, svm->vmcb_gpa);
-+
-+	GUEST_ASSERT_EQ(vmcb->control.exit_code, SVM_EXIT_VMMCALL);
-+	GUEST_ASSERT(data->l2_done);
-+
-+	GUEST_ASSERT_EQ(rdmsr(MSR_IA32_CR_PAT), L1_PAT_VALUE);
-+	GUEST_ASSERT_EQ(vmcb->save.g_pat, L2_PAT_MODIFIED);
-+
-+	GUEST_DONE();
-+}
-+
-+static void l1_svm_code_multi_vmentry(struct svm_test_data *svm,
-+				      struct pat_test_data *data)
-+{
-+	unsigned long l2_guest_stack[L2_GUEST_STACK_SIZE];
-+	struct vmcb *vmcb;
-+
-+	vmcb = l1_common_setup(svm, data, l2_guest_code_multi_vmentry,
-+			       &l2_guest_stack[L2_GUEST_STACK_SIZE]);
-+
-+	run_guest(vmcb, svm->vmcb_gpa);
-+	GUEST_ASSERT_EQ(vmcb->control.exit_code, SVM_EXIT_VMMCALL);
-+
-+	GUEST_ASSERT_EQ(data->l2_pat_after_write, L2_PAT_MODIFIED);
-+	GUEST_ASSERT_EQ(vmcb->save.g_pat, L2_PAT_MODIFIED);
-+	GUEST_ASSERT_EQ(rdmsr(MSR_IA32_CR_PAT), L1_PAT_VALUE);
-+
-+	vmcb->save.rip += 3;  /* vmmcall */
-+	run_guest(vmcb, svm->vmcb_gpa);
-+
-+	GUEST_ASSERT_EQ(vmcb->control.exit_code, SVM_EXIT_VMMCALL);
-+	GUEST_ASSERT(data->l2_done);
-+	GUEST_ASSERT_EQ(data->l2_pat_read, L2_PAT_MODIFIED);
-+	GUEST_ASSERT_EQ(rdmsr(MSR_IA32_CR_PAT), L1_PAT_VALUE);
-+
-+	GUEST_DONE();
-+}
-+
-+static void run_test(void *l1_code, const char *test_name, bool npt_enabled,
-+		     bool do_save_restore)
-+{
-+	struct pat_test_data *data_hva;
-+	vm_vaddr_t svm_gva, data_gva;
-+	struct kvm_x86_state *state;
-+	struct kvm_vcpu *vcpu;
-+	struct kvm_vm *vm;
-+	struct ucall uc;
-+
-+	pr_info("Testing: %s\n", test_name);
-+
-+	vm = vm_create_with_one_vcpu(&vcpu, l1_code);
-+	vm_enable_cap(vm, KVM_CAP_DISABLE_QUIRKS2,
-+		      KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT);
-+	if (npt_enabled)
-+		vm_enable_npt(vm);
-+
-+	vcpu_alloc_svm(vm, &svm_gva);
-+
-+	data_gva = vm_vaddr_alloc_page(vm);
-+	data_hva = addr_gva2hva(vm, data_gva);
-+	memset(data_hva, 0, sizeof(*data_hva));
-+
-+	if (npt_enabled)
-+		tdp_identity_map_default_memslots(vm);
-+
-+	vcpu_args_set(vcpu, 2, svm_gva, data_gva);
-+
-+	for (;;) {
-+		vcpu_run(vcpu);
-+		TEST_ASSERT_KVM_EXIT_REASON(vcpu, KVM_EXIT_IO);
-+
-+		switch (get_ucall(vcpu, &uc)) {
-+		case UCALL_ABORT:
-+			REPORT_GUEST_ASSERT(uc);
-+			/* NOT REACHED */
-+		case UCALL_SYNC:
-+			if (do_save_restore) {
-+				pr_info("  Save/restore at sync point %ld\n",
-+					uc.args[1]);
-+				state = vcpu_save_state(vcpu);
-+				kvm_vm_release(vm);
-+				vcpu = vm_recreate_with_one_vcpu(vm);
-+				vm_enable_cap(vm, KVM_CAP_DISABLE_QUIRKS2,
-+					      KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT);
-+				vcpu_load_state(vcpu, state);
-+				kvm_x86_state_cleanup(state);
-+			}
-+			break;
-+		case UCALL_DONE:
-+			pr_info("  PASSED\n");
-+			kvm_vm_free(vm);
-+			return;
-+		default:
-+			TEST_FAIL("Unknown ucall %lu", uc.cmd);
-+		}
-+	}
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+	TEST_REQUIRE(kvm_cpu_has(X86_FEATURE_SVM));
-+	TEST_REQUIRE(kvm_cpu_has(X86_FEATURE_NPT));
-+	TEST_REQUIRE(kvm_has_cap(KVM_CAP_NESTED_STATE));
-+	TEST_REQUIRE(kvm_check_cap(KVM_CAP_DISABLE_QUIRKS2) &
-+		     KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT);
-+
-+	run_test(l1_svm_code_npt_disabled, "nested NPT disabled", false, false);
-+
-+	run_test(l1_svm_code_invalid_gpat, "invalid g_pat", true, false);
-+
-+	run_test(l1_svm_code_npt_enabled, "nested NPT enabled", true, false);
-+
-+	run_test(l1_svm_code_saverestore, "save/restore", true, true);
-+
-+	run_test(l1_svm_code_multi_vmentry, "multiple entries", true, false);
-+
-+	return 0;
-+}
 -- 
-2.53.0.1018.g2bb0e51243-goog
-
+Ville Syrjälä
+Intel
