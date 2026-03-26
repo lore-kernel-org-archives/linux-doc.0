@@ -1,211 +1,134 @@
-Received: from frasgout12.his.huawei.com (frasgout12.his.huawei.com [14.137.139.154])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f202.google.com (mail-pg1-f202.google.com [209.85.215.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F1DD2EBB9E;
-	Thu, 26 Mar 2026 17:49:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10439395260
+	for <linux-doc@vger.kernel.org>; Thu, 26 Mar 2026 17:49:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774547358; cv=none; b=js6n3PPKWKiId7Sur8ejfQReaa+z5HzDTprQC0M7oYDaGMYKO23oC1BVVCuSVwPmpBtfV/Dsk03Esn6s4bJzWX5IbElmNELcQq2atu198eLJihEeJnLq6Ziy+X63Ys9VGCdp/QE1YrpRbWgLtihslChTlwKjeI9VpX4p00cCYGQ=
+	t=1774547401; cv=none; b=FjuYy46efyKwfzzyIlsveHHuTY0sH04dvtut+d+OCO5Rt0hXa5BQX8SPizWSSU8ii52Gl5qPIE4bKAnZbxDNdbArLaEnSd6t8QUJl21IV1dhct6yKZyDAw+JZNo084CFYUnolCKFP0GvSixGtCJCOewbUDrkTA47VL9IEk9DODg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774547358; c=relaxed/simple;
-	bh=GVe9VZI4XjXsHiC6X8FNOyRI3MHUito5y2dGYWl8jTw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=q7mwhyDCKKNdP8vTJ9bBjTkaJRv/jH/GDGg4rw16010l1BOwDYmqdsNuhtq7fETYv/j9WYnK/UHqda2OWq8I5L+uit5ASn/TsiBReidm48xwYAYahOBgMHDo/YSi1FEIRvJLwSQR8i8xieOTDYdLtd0hJ+8I2WfkUQ5ZadcWcdQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=none smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.18.224.196])
-	by frasgout12.his.huawei.com (SkyGuard) with ESMTPS id 4fhW1611QJztKL9;
-	Fri, 27 Mar 2026 01:27:06 +0800 (CST)
-Received: from mail02.huawei.com (unknown [7.182.16.47])
-	by mail.maildlp.com (Postfix) with ESMTP id 8E28A4056B;
-	Fri, 27 Mar 2026 01:30:42 +0800 (CST)
-Received: from huaweicloud.com (unknown [10.204.63.22])
-	by APP1 (Coremail) with SMTP id LxC2BwB3Yu84bcVppGUvAQ--.1881S2;
-	Thu, 26 Mar 2026 18:30:42 +0100 (CET)
-From: Roberto Sassu <roberto.sassu@huaweicloud.com>
-To: corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	zohar@linux.ibm.com,
-	dmitry.kasatkin@gmail.com,
-	eric.snowberg@oracle.com,
-	paul@paul-moore.com,
-	jmorris@namei.org,
-	serge@hallyn.com
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-integrity@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	gregorylumen@linux.microsoft.com,
-	chenste@linux.microsoft.com,
-	nramas@linux.microsoft.com,
-	Roberto Sassu <roberto.sassu@huawei.com>
-Subject: [PATCH v4 00/13] ima: Introduce staging mechanism
-Date: Thu, 26 Mar 2026 18:29:58 +0100
-Message-ID: <20260326173011.1191815-1-roberto.sassu@huaweicloud.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1774547401; c=relaxed/simple;
+	bh=l8QKpcWhgVaRPMp0Grt7jMkGaRRUNYzD8ApjjeDSTM8=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=TnX9YAMIH7SrJEMUL8AZvoDaRECUeJrqdF9wX5y7hOhpMz6+46ydS+a1ReqIoEzjKm9wePDmuMEXvya/0QQ5HkNsgmSoSEEvQXHU74mXqjzSsMYmXYS2Xd5DE2Ms7S/vFPFeqSGCVZtyRtCGawydHFsIVV8uDPKIn0laksymR7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jmattson.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=N3RD1w10; arc=none smtp.client-ip=209.85.215.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jmattson.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="N3RD1w10"
+Received: by mail-pg1-f202.google.com with SMTP id 41be03b00d2f7-c709551ec08so2322484a12.3
+        for <linux-doc@vger.kernel.org>; Thu, 26 Mar 2026 10:49:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1774547399; x=1775152199; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=uhMNHLLPw8xzN2gryz51qIO039+o2PRpATjMLrZic2c=;
+        b=N3RD1w105kIvebt6Dd0AyNI/u4mi+f0qS7OCl8Hh/7MLV5GIecxhTCIL+z3XfAzZiy
+         GcMupOajg9Cqe15ULxi7OBcb7INWx4/2MFQmfeinwHBOwVYdMPiy3C9rb12wYEAeTiYZ
+         GeI5DrzviB8Kv1dAKt8+OjsjcbrxkR5CkToX1ce8QIsi7pZwPEKazcy7dQVEuWV8PWan
+         71+ds7r+UhPXHiGkan9O/nI+29uvz4IakTw579T5bRMhO0gvmzWcNG59+8/wh4cQNimV
+         qlKrBFxQNVeOu7nRaWffM9PIi1wz2NMKVD3/Vr3j80NuO6fsEA3C0NKy5tW+dnVMnFXv
+         nJMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774547399; x=1775152199;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=uhMNHLLPw8xzN2gryz51qIO039+o2PRpATjMLrZic2c=;
+        b=Mb4OAvgGur2rkkkxq2rWrEM1DS5tr1L7tfzhyoG53hmu2Gk9P5PQ9vKXfrTTGNcLmh
+         UqYlbdLaX039Fn2/ZTo4+rlDviGqU3Eieh/G0266EmiNePnaOMZJ4qyVijw9W6NCl/H6
+         VpqUMTKUKFBMadxKFsY3UudJMpwtGdPN/LOx8ZAz19jIlLr289+SvObmcAKrL63jkMWO
+         AJO7yH0Z91ykLO7afcry4eBK5Q18W7RJGFkurwu2uX09LXkNzHkgKdFmeXiVp9GWUX3c
+         nJh9ST4LRqQz7F81cTGlBigXvvEPDjhsxY8GqZCfVTQmCe/Jja5e32GUcpL9d6jr81yt
+         Sk9g==
+X-Forwarded-Encrypted: i=1; AJvYcCVUdcgskkaSH16ForlS4FqWz5HpIr7rmrFwSd0xxFPp6SMFrJUzJ2f84LIxHyZaWxJYsGkVqWu4eGQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzlwjTGNJZ2V+t3JfBXcxuF09VOL1APvFQ8O5A2bEyOBiSdUN/k
+	nGyENKqCR3jbwhRUsZk6rPFiKY9NZQuLzbLPPZauq/Cfzv8a56yoZQc18q73OlaKtjSUh8vEIPL
+	QKNn+WOpO5roWDw==
+X-Received: from pgww8.prod.google.com ([2002:a05:6a02:2c88:b0:c76:6c38:1009])
+ (user=jmattson job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6a20:3948:b0:39c:250:2db8 with SMTP id adf61e73a8af0-39c4ab915b5mr8993052637.17.1774547399236;
+ Thu, 26 Mar 2026 10:49:59 -0700 (PDT)
+Date: Thu, 26 Mar 2026 10:49:18 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:LxC2BwB3Yu84bcVppGUvAQ--.1881S2
-X-Coremail-Antispam: 1UD129KBjvJXoW3XF1rCry5KrWfJryDtr4fKrg_yoWxJry8pa
-	9ag34xCwn5Ja4Ikrn3Jw17CrsY9393Ka1UGrn3J34xtF15WFyvvr4Yk3yavFsxKr1Fqr1j
-	y3ZIqrs8Can0yFJanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvvb4IE77IF4wAFF20E14v26ryj6rWUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26r4j6F4UM28EF7xvwVC2z280aVCY1x
-	0267AKxVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02
-	F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4I
-	kC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7Cj
-	xVAaw2AFwI0_Wrv_ZF1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2
-	IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v2
-	6r4a6rW5MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Gr0_Xr1lIxAIcVC0I7IYx2
-	IY6xkF7I0E14v26r4UJVWxJr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2
-	jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa73Uj
-	IFyTuYvjxUVHqcUUUUU
-X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAgAEBGnEnS4TtgAEs9
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.53.0.1018.g2bb0e51243-goog
+Message-ID: <20260326174944.3820245-1-jmattson@google.com>
+Subject: [PATCH v6 00/10] KVM: x86: nSVM: Improve PAT virtualization
+From: Jim Mattson <jmattson@google.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Sean Christopherson <seanjc@google.com>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	Yosry Ahmed <yosry@kernel.org>
+Cc: Jim Mattson <jmattson@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Roberto Sassu <roberto.sassu@huawei.com>
+Currently, KVM's implementation of nested SVM treats the PAT MSR the same
+way whether or not nested NPT is enabled: L1 and L2 share a single
+PAT. However, the AMD APM specifies that when nested NPT is enabled, the host
+(L1) and the guest (L2) should have independent PATs: hPAT for L1 and gPAT
+for L2.
 
-Introduction
-============
+This patch series implements independent PATs for L1 and L2 when nested NPT
+is enabled, but only when a new quirk, KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT,
+is disabled. By default, the quirk is enabled, preserving KVM's legacy
+behavior. When the quirk is disabled, KVM correctly virtualizes a separate
+PAT register for L2, using the g_pat field in the VMCB.
 
-The IMA measurements list is currently stored in the kernel memory. Memory
-occupation grows linearly with the number of entries, and can become a
-problem especially in environments with reduced resources.
+Guest accesses to the IA32_PAT MSR are redirected to either hPAT or gPAT
+depending on the current mode and whether nested NPT is enabled. All other
+accesses, including userspace accesses via KVM_{GET,SET}_MSRS, continue to
+reference hPAT. L2's gPAT is saved and restored via a new 'gpat' field in
+kvm_svm_nested_state_hdr, which is within the existing padding of the header
+to maintain ABI compatibility.
 
-While there is an advantage in keeping the IMA measurements list in kernel
-memory, so that it is always available for reading from the securityfs
-interfaces, storing it elsewhere would make it possible to free precious
-memory for other kernel components.
+v1: https://lore.kernel.org/kvm/20260113003016.3511895-1-jmattson@google.com/
+v2: https://lore.kernel.org/kvm/20260115232154.3021475-1-jmattson@google.com/
+v3: https://lore.kernel.org/kvm/20260205214326.1029278-1-jmattson@google.com/
+v4: https://lore.kernel.org/kvm/20260212155905.3448571-1-jmattson@google.com/
+v5: https://lore.kernel.org/kvm/20260224005500.1471972-1-jmattson@google.com/
 
-Storing the IMA measurements list outside the kernel does not introduce
-security issues, since its integrity is anyway protected by the TPM.
+  v5 -> v6:
+  * Drop the patch to remove vmcb_is_dirty() [already accepted]
+  * Introduce a new x86 quirk, KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT
+  * Drop forward and backward compatibility. Save/restore across
+    a quirk change is now the responsibility of userspace
+  * Document the kvm_svm_nested_state_hdr change
+  * Update the selftest to use the new quirk
 
-Hence, the new IMA staging mechanism is introduced to allow user space
-to remove the desired portion of the measurements list from the kernel.
+Jim Mattson (10):
+  KVM: x86: Define KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT
+  KVM: x86: nSVM: Clear VMCB_NPT clean bit when updating hPAT from guest
+    mode
+  KVM: x86: nSVM: Cache and validate vmcb12 g_pat
+  KVM: x86: nSVM: Set vmcb02.g_pat correctly for nested NPT
+  KVM: x86: nSVM: Redirect IA32_PAT accesses to either hPAT or gPAT
+  KVM: x86: Remove common handling of MSR_IA32_CR_PAT
+  KVM: x86: nSVM: Save gPAT to vmcb12.g_pat on VMEXIT
+  KVM: Documentation: document KVM_{GET,SET}_NESTED_STATE for SVM
+  KVM: x86: nSVM: Save/restore gPAT with KVM_{GET,SET}_NESTED_STATE
+  KVM: selftests: nSVM: Add svm_nested_pat test
 
-The IMA staging mechanism can be enabled from the kernel configuration with
-the CONFIG_IMA_STAGING option.
+ Documentation/virt/kvm/api.rst                |  26 ++
+ arch/x86/include/asm/kvm_host.h               |   3 +-
+ arch/x86/include/uapi/asm/kvm.h               |   2 +
+ arch/x86/kvm/svm/nested.c                     |  55 +++-
+ arch/x86/kvm/svm/svm.c                        |  54 +++-
+ arch/x86/kvm/svm/svm.h                        |  15 +-
+ arch/x86/kvm/vmx/vmx.c                        |   9 +-
+ arch/x86/kvm/x86.c                            |   9 -
+ tools/arch/x86/include/uapi/asm/kvm.h         |   2 +
+ tools/testing/selftests/kvm/Makefile.kvm      |   1 +
+ .../selftests/kvm/x86/svm_nested_pat_test.c   | 304 ++++++++++++++++++
+ 11 files changed, 443 insertions(+), 37 deletions(-)
+ create mode 100644 tools/testing/selftests/kvm/x86/svm_nested_pat_test.c
 
-If it is enabled, IMA duplicates the current measurements interfaces (both
-binary and ASCII), by adding the ``_staged`` file suffix. Unlike the
-existing counterparts, the ``_staged`` interfaces have write permission for
-the root user and group, and require the process to have CAP_SYS_ADMIN set.
-
-The staging mechanism supports two flavors.
-
-Staging with prompt:
-
- 1. ``echo A > <_staged interface>``: the user requests IMA to stage the
-    entire measurements list;
- 2. ``cat <_staged interface>``: the user reads the staged measurements;
- 3. ``echo D > <_staged interface>`` : the user request IMA to delete
-    staged measurements.
-
-Staging and deleting:
-
- 1. ``cat <_non_staged interface>``: the user reads the current
-    measurements list and determines what the value N for staging should
-    be;
- 2. ``echo N > <_staged interface>``: the user requests IMA to delete N
-    measurements from the current measurements list.
-
-Since with the staging mechanism measurements entries are removed from the
-kernel, the user needs to save the staged ones in a storage and concatenate
-them together, so that it can present them to remote attestation agents as
-if staging was never done.
-
-
-Patch set content
-=================
-
-Patches 1-8 are preparatory patches to quickly replace the hash table,
-maintain separate counters for the different measurements list types,
-mediate access to the measurements list interface, and simplify the staging
-patches.
-
-Patch 9 introduces the staging with prompt flavor. Patch 10 makes it
-possible to flush the hash table when deleting all the staged measurements.
-Patch 11 introduces the staging and deleting flavor. Patch 12 avoids staged
-measurements entries to be stored twice if there is contention between the
-measurements interfaces and kexec. Patch 13 adds the documentation of the
-staging mechanism.
-
-
-Changelog
-=========
-
-v3:
- - Add Kconfig option to enable the staging mechanism (suggested by Mimi)
- - Change the meaning of BINARY_STAGED to be just the staged measurements
- - Separate the two staging flavors in two different functions:
-   ima_queue_staged_delete_all() for staging with prompt,
-   ima_queue_staged_delete_partial() for staging and deleting
- - Delete N entries without staging first (suggested by Mimi)
- - Avoid duplicate staged entries if there is contention between the
-   measurements list interfaces and kexec
-
-v2:
- - New patch to move measurements and violation counters outside the
-   ima_h_table structure
- - New patch to quickly replace the hash table
- - Forbid partial deletion when flushing hash table (suggested by Mimi)
- - Ignore ima_flush_htable if CONFIG_IMA_DISABLE_HTABLE is enabled
- - BINARY_SIZE_* renamed to BINARY_* for better clarity
- - Removed ima_measurements_staged_exist and testing list empty instead
- - ima_queue_stage_trim() and ima_queue_delete_staged_trimmed() renamed to
-   ima_queue_stage() and ima_queue_delete_staged()
- - New delete interval [1, ULONG_MAX - 1]
- - Rename ima_measure_lock to ima_measure_mutex
- - Move seq_open() and seq_release() outside the ima_measure_mutex lock
- - Drop ima_measurements_staged_read() and use seq_read() instead
- - Optimize create_securityfs_measurement_lists() changes
- - New file name format with _staged suffix at the end of the file name
- - Use _rcu list variant in ima_dump_measurement_list()
- - Remove support for direct trimming and splice the remaining entries to
-   the active list (suggested by Mimi)
- - Hot swap the hash table if flushing is requested
-
-v1:
- - Support for direct trimming without staging
- - Support unstaging on kexec (requested by Gregory Lumen)
-
-Roberto Sassu (13):
-  ima: Remove ima_h_table structure
-  ima: Replace static htable queue with dynamically allocated array
-  ima: Introduce per binary measurements list type ima_num_entries
-    counter
-  ima: Introduce per binary measurements list type binary_runtime_size
-    value
-  ima: Introduce _ima_measurements_start() and _ima_measurements_next()
-  ima: Mediate open/release method of the measurements list
-  ima: Use snprintf() in create_securityfs_measurement_lists
-  ima: Introduce ima_dump_measurement()
-  ima: Add support for staging measurements with prompt
-  ima: Add support for flushing the hash table when staging measurements
-  ima: Support staging and deleting N measurements entries
-  ima: Return error on deleting staged measurements after kexec
-  doc: security: Add documentation of the IMA staging mechanism
-
- .../admin-guide/kernel-parameters.txt         |   4 +
- Documentation/security/IMA-staging.rst        | 159 +++++++++
- Documentation/security/index.rst              |   1 +
- MAINTAINERS                                   |   2 +
- security/integrity/ima/Kconfig                |  16 +
- security/integrity/ima/ima.h                  |  28 +-
- security/integrity/ima/ima_api.c              |   2 +-
- security/integrity/ima/ima_fs.c               | 302 +++++++++++++++--
- security/integrity/ima/ima_init.c             |   5 +
- security/integrity/ima/ima_kexec.c            |  47 ++-
- security/integrity/ima/ima_queue.c            | 310 ++++++++++++++++--
- 11 files changed, 803 insertions(+), 73 deletions(-)
- create mode 100644 Documentation/security/IMA-staging.rst
-
+base-commit: 3d6cdcc8883b5726513d245eef0e91cabfc397f7
 -- 
-2.43.0
+2.53.0.1018.g2bb0e51243-goog
 
