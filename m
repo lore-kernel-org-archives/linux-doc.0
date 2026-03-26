@@ -1,62 +1,81 @@
-Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com [216.40.44.17])
+Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35B7834C9AC;
-	Thu, 26 Mar 2026 23:10:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEAB7396B8D;
+	Thu, 26 Mar 2026 23:16:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774566617; cv=none; b=U6KmWEUWC8TGGOqVMfoazgy55IRYOYOLOaTOq9P5THtwt171cTVOn1vPKE9Qj04n/BDtWXA4zQAtcYEVBKxjPNbVOf/EyeVFHB8dXbZqaMSnsO2dwsl60hbzub/bU/YyD7N9N7lJ/vs9XEx0MNphsYS55Qq3hq2vtdRiWlgt3M4=
+	t=1774566967; cv=none; b=Ni56gytJZt4dUl97MiZKnmBQdqDUO0dZPtp+ZCqApEzBxHdF0C6M5I2qnnwKcEomtQ0kXVoXnhRT34WLG2OOPMvroPUBruyIzLTh5LfKraApcnddzPUv7zC9bTPseYPq0BCWSXlWZd5If3kVZ5XngHi9r1w2gEl8IzpVsgF4ZlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774566617; c=relaxed/simple;
-	bh=ct0ieeD5W7ZarpmxM6pq13ptlhUiF5jltr2a7IxXyXg=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=mst59EjlVcRJpiTnJrqdjl8G8EV2VUxaEzV4Xhfs7TlkwBfYnQ+Xl64/D1212RgJvdsqdEFADKVFXN1yurlIPZzbP9yzK4WfjkI5Uc6VhSXfP3tIFP5bmvD0TY5UdcQnqoEBDIMtepIeFNrhAmTftMuf4/gsvw03NItrHsnlz7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
-Received: from omf15.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay07.hostedemail.com (Postfix) with ESMTP id 9058516072F;
-	Thu, 26 Mar 2026 23:10:08 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf15.hostedemail.com (Postfix) with ESMTPA id F23A721;
-	Thu, 26 Mar 2026 23:10:05 +0000 (UTC)
-Message-ID: <3217a61e50f7b9fd387b908c0907bd0bf889bebb.camel@perches.com>
-Subject: Re: [PATCH] checkpatch: allow correctly handle full files on stdin
-From: Joe Perches <joe@perches.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn	
- <lukas.bulwahn@gmail.com>, Andy Whitcroft <apw@canonical.com>, Jonathan
- Corbet	 <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Date: Thu, 26 Mar 2026 16:10:05 -0700
-In-Reply-To: <acW6Iar6XOzO9IfN@google.com>
-References: <acTPXMJfkHLeItrK@google.com>
-	 <bb47800754aa3279e88c9d88c380bcfe6263fb2d.camel@perches.com>
-	 <acVIBseRrqJI8Uwb@google.com>
-	 <117b6a4c164a9f0ce348044152d00ac22b31b81b.camel@perches.com>
-	 <acWnbG3nGjfYeYXh@google.com>
-	 <34318752a257b0f6b530eacf53d565de1ac84485.camel@perches.com>
-	 <acW6Iar6XOzO9IfN@google.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+	s=arc-20240116; t=1774566967; c=relaxed/simple;
+	bh=PdMBOjibiBWj1bEXT5J7wJCcxTCVZtar1l+Z04TThgU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fsIhqN9BYLxDrcRM2+5fGuKycCfS1/U1Uv5FA+O1cPaoen1GIKpYaIV1d0sZwlJhK4Sls8pDFofE4GN3Kwb3cKvS0IemfnT3LF13N9oAOCNlP7wpLb/B05qiCG7yogfbLsIM9ZG/qZ84rtc/qkVKGMYzo/SpBtB++WPYLTnPQGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf13.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay10.hostedemail.com (Postfix) with ESMTP id CABEAC44C6;
+	Thu, 26 Mar 2026 23:16:02 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf13.hostedemail.com (Postfix) with ESMTPA id 018AD20012;
+	Thu, 26 Mar 2026 23:15:58 +0000 (UTC)
+Date: Thu, 26 Mar 2026 19:16:46 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Frederic Weisbecker <frederic@kernel.org>, LKML
+ <linux-kernel@vger.kernel.org>, Anna-Maria Behnsen
+ <anna-maria@linutronix.de>, Gabriele Monaco <gmonaco@redhat.com>, Ingo
+ Molnar <mingo@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Marcelo
+ Tosatti <mtosatti@redhat.com>, Marco Crivellari
+ <marco.crivellari@suse.com>, Michal Hocko <mhocko@kernel.org>, "Paul E .
+ McKenney" <paulmck@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Phil
+ Auld <pauld@redhat.com>, Thomas Gleixner <tglx@linutronix.de>, Valentin
+ Schneider <vschneid@redhat.com>, Vlastimil Babka <vbabka@suse.cz>, Waiman
+ Long <longman@redhat.com>, linux-doc@vger.kernel.org, Sebastian Andrzej
+ Siewior <bigeasy@linutronix.de>, Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: Re: [PATCH v2] doc: Add CPU Isolation documentation
+Message-ID: <20260326191646.16fe726f@gandalf.local.home>
+In-Reply-To: <17c061f5-b864-4652-b4a2-356c7534d42b@infradead.org>
+References: <20260326140055.41555-1-frederic@kernel.org>
+	<6d113021-6208-4dcc-a209-a2317d680e3f@infradead.org>
+	<20260326190022.4b249f94@gandalf.local.home>
+	<b5e6c518-c7c8-46f7-928c-d4be5a8365dd@infradead.org>
+	<20260326190644.4b7c2b5f@gandalf.local.home>
+	<17c061f5-b864-4652-b4a2-356c7534d42b@infradead.org>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Rspamd-Server: rspamout07
-X-Rspamd-Queue-Id: F23A721
-X-Stat-Signature: eshd43t9zifrxnx8n4dtciku6htopx6y
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX19rHKmjHMUI4NZLoMSyqR6PoG01n2Mdhfk=
-X-HE-Tag: 1774566605-175688
-X-HE-Meta: U2FsdGVkX18hiqbBK1B546emCqjbdgEEWNMGZHaHWYqnaq7BWUy3ENM7Y5gHovk9jhWeopnxQFmQ71NH0HCZP+4Mv28cDlqgjvunuvNk/KLZPdlQhpZIkGAUJRvJs0VYqTpa1jc1RcIgQYAPeVq2Zq6f7c77EpCVNKucKg8WMRy8VvvaKdcwihXT5OPuCYSxoZNKiABzoqZ+QN+0+lrqYIV69czZ8BVxCC0ppHk7tv7CMkJIkAYb8PtCSlBs97Qk0mgplWcmTxiOV3cKaYgBhpKAsMym9YpVGfDNK/kCpo97HRadgmF63kcZBQPktgmJ
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 018AD20012
+X-Stat-Signature: f3zq7cm695f57ajj96mtf9jdajau6c7b
+X-Rspamd-Server: rspamout03
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1/JfFpHT2G/XTGPy3O9Na9zG73rsRTo3KI=
+X-HE-Tag: 1774566958-838668
+X-HE-Meta: U2FsdGVkX1+U2PKG6WzRS5xFNCKP8xZ0dSbgpkNfb6kiNlNNLTN6z/tr6XnE/X6sMZOaYG+pupvN3/JMQQvNXFWqKY7WjSYdIaVPJK63oSXfedg7kIHbjsaW9LHOyKjZkKCDezLeJokxsnCfZjXD5wtZRmPAcWSlpkAch8woDSsvGgSfJvVSNQuh8Qs4YwBQVss+6amE5XMbrccX+aPjWl0GaFgsbJag6lYnfc1dOSjJSDPWtrkn115f7VzsTael/BqjEXa7QOu60S6aczxhYklXR88qhdNWjWyj28KS8sPb+qxTf8TWoYq6IYsKYEiDwkxwxKBYxl5eMpexSmPhhUC78Msz0fyu4FMoLO1PW3wjMuxxvU2tJBj0DuxtiZdPgcIfS7IBMoTnLwcA0+oC0g==
 
-On Thu, 2026-03-26 at 16:04 -0700, Dmitry Torokhov wrote:
-> On Thu, Mar 26, 2026 at 03:56:27PM -0700, Joe Perches wrote:
-> > I gave you feedback.  You elided it.
-> Could you please point me to it? All I saw is "just save it"
+On Thu, 26 Mar 2026 16:09:15 -0700
+Randy Dunlap <rdunlap@infradead.org> wrote:
 
-Seems constructive to me.
+> On 3/26/26 4:06 PM, Steven Rostedt wrote:
+> > On Thu, 26 Mar 2026 16:03:18 -0700
+> > Randy Dunlap <rdunlap@infradead.org> wrote:
+> >   
+> >> Stephen, all I can do is make recommendations. If it hurts your eyes, tough. ;)  
+> > 
+> > Who's this "Stephen" you are talking to?  
+> 
+> Oops. I guess it's the one who accidentally wrote "he" instead of "the".
+>                                        (Do you like where that period  ^ is,
+>                                         even though it's incorrect? :)
+> 
+
+Yes, Randi, I like where that period is. I also need to fix my 't' on my
+keyboard as it seems to act shy sometimes.
+
+-- Steve
