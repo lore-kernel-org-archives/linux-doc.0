@@ -1,119 +1,437 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45F343DA7E0;
-	Thu, 26 Mar 2026 10:02:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBFE238E5D3
+	for <linux-doc@vger.kernel.org>; Thu, 26 Mar 2026 10:09:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774519337; cv=none; b=i48molvcGsAOMoqsgYwkZRQ2mP/hLb7a+1Sl0DXjR74+Q8D76l4Cpus7/2vV26UAyHoxnyieBNoybmofev0b8BV3FelY1DMn5tyV4b6AYRJowoUWW/YzDyacjQxP7cI3Q9e+0/WdAultYkN5m0syEh9fP/WMnyrGHObX26ooBGg=
+	t=1774519787; cv=none; b=faN6/7omifpX8n2mY7rqvejHJiB2O7wng5NrxHpdgHJLXLxnjVGH4I7JGYMSTJRFqJXJoaBzZx588/NhkKT3u8Lh7pTsdy6gQl3VKV6hB6gyJNLhM6uIigdx/Cckl9AwlLGygnlgoQdrQ+ME4RTv0uuNoqubIt6yvrKbKcLZ+Eo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774519337; c=relaxed/simple;
-	bh=UXJmkilgCUI/u+gPAR4mHLGMXteOiBgjgCWr/Gty7iQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NjLNwmb5JR2YXoMK5ZWIwmBuq7cpiBJ1Ya8OD3hrBPaSqfglZHPh6kKkUUcJ+fjz+qSPPj6BSXTeeDmLcMwog9vkNNPnW5la3ibw+P/irrLFPHsuyK54yc4ZK/mEzokr+xPrf9yX5LOGCrG5BcR9gROUd03cAqrRt3gXgJPwvak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=ijMJ9dSk; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1774519787; c=relaxed/simple;
+	bh=ZMUh7JYRgBI25LGo61FqYSZJ+cJ+osgt0mSNBCcjoqY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=BgdGArEStvoKwlnvp9bfRTwj3+QZx8mjoiVSRu/fGw+QFLw/TO/JVvJvTq/Yb79n/mS5Cv0oh746IsT1g1Uhb0mkZk0Xm0B95MVsKFxI4QOQW7rd7yVU9JmA8PWNLtCQKHExq1IXlsJ9zfd5w0q0X7fsIUaNv7BtyZBIcbpsEdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d2SgmQK4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="ijMJ9dSk"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 8492640E015B;
-	Thu, 26 Mar 2026 10:02:10 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id MsheAMuzPrx7; Thu, 26 Mar 2026 10:02:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1774519325; bh=C2mWFe1qNi3PMZA4pOcAbJW8lmILDzuIi8XH3/XIOf4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ijMJ9dSk7+FFkbX12jIwy02uXnJL10wiFXoCPlwyUqT13WtlMZYKjbxhSv6iYc2V8
-	 nUsd00ftkQEUSwaK2E8alb0ef0/Xupyc18HwfYLnMtaijlwsn+75oPXw9IfCKIFI83
-	 RHVX7eE26VoJ5RkSC25P344LGu7gvbWuaxieYQirZGWgh6SzurTshnpHRQ00s4d5nj
-	 CNbq3g4A7hcApqUVqYTdPUzLrN8f8Yz97R8rmza03yD0SKlewWB23DacOnI3rnbs+e
-	 OfLHcLTgKyi0xISxpH6ZxdE0XoT4Tg98OsWAocu4lxrtE/noMbsP00NjCt77wGW0BM
-	 LlodWonuMOXUtG/PQwiUnR84xAs9n8OB5RedkQC/v7W6YTECWY+QjdAXmMiwddEYnS
-	 HckdK7FGeZtdMD5SWlmZ7HEIyCFn5WEHYx0OEe94m7OecMA0vBubPauJQrCQFzxUHm
-	 c2kAHHiOlnKIdCpDEFfvGX15hQ/NbwV5R4yxFdmd7+RLQSbY19hvOVAXwGQrz3SDbn
-	 ioNRWPdf69PAI3UX7KuhcQ63egfggLs8jKUJfW5mx7c445PFGK1T3Eud9r2pJisEWG
-	 /xTdFmPl3sUGISDldtEsZehMg3aiW1BhxxDgHb4cJUS1Oc+kD8NmUhVFtMLfP+6SlB
-	 XQ4dP5hDqOLsb+WVplWrz9TE=
-Received: from zn.tnic (p5de8e020.dip0.t-ipconnect.de [93.232.224.32])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id BF59740E0140;
-	Thu, 26 Mar 2026 10:01:27 +0000 (UTC)
-Date: Thu, 26 Mar 2026 11:01:20 +0100
-From: Borislav Petkov <bp@alien8.de>
-To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-Cc: x86@kernel.org, Jon Kohler <jon@nutanix.com>,
-	Nikolay Borisov <nik.borisov@suse.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	David Kaplan <david.kaplan@amd.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>, KP Singh <kpsingh@kernel.org>,
-	Jiri Olsa <jolsa@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	David Laight <david.laight.linux@gmail.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	David Ahern <dsahern@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org, Asit Mallick <asit.k.mallick@intel.com>,
-	Tao Zhang <tao1.zhang@intel.com>, bpf@vger.kernel.org,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v8 02/10] x86/bhi: Make clear_bhb_loop() effective on
- newer CPUs
-Message-ID: <20260326100120.GAacUD8BVziYzLxZHB@fat_crate.local>
-References: <20260324-vmscape-bhb-v8-0-68bb524b3ab9@linux.intel.com>
- <20260324-vmscape-bhb-v8-2-68bb524b3ab9@linux.intel.com>
- <20260324205930.GQacL7Mp7vwGBKX1W7@fat_crate.local>
- <20260324221308.7sh6afdy6r6tsf4w@desk>
- <20260325203759.GCacRHp2t8a7c4Bp6E@fat_crate.local>
- <20260326083934.fk4wyhe6rgiss34z@desk>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d2SgmQK4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F6E6C2BC87;
+	Thu, 26 Mar 2026 10:09:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774519786;
+	bh=ZMUh7JYRgBI25LGo61FqYSZJ+cJ+osgt0mSNBCcjoqY=;
+	h=From:Subject:Date:To:Cc:From;
+	b=d2SgmQK4+xx3YDCfoC2FTwgrp49Y/2Ost8A7/FzFT0FRSPUjFcgPoTICxInGsw/gi
+	 0cHypdUctxK8CoZOGMMSqD0uuzuDI+77mRQisRLkK48lpTaklW4p6K9fmvlFZlfUX1
+	 9PxgCRyiVYWgjb26dMdeWjPAewo/1DXKifiov53Ean6xLF8OeU75Bmu9k1xaceC6dT
+	 lZogFa8JvmJsFCbzMBGkOhQLB9GyJiM15nOWHhqVc6zx3ZfF/9HljMy48BvOPatIF4
+	 73C+5c0wRm4f7AV2FtR23h+bsB88NgMvFs9MkFOV1IXCF5zmBeN/jj4AS3KpDAIHCp
+	 QCHyEo9JefEmg==
+From: Maxime Ripard <mripard@kernel.org>
+Subject: [PATCH 0/2] drm: Rename drm_atomic_state
+Date: Thu, 26 Mar 2026 11:09:37 +0100
+Message-Id: <20260326-drm-drm-atomic-update-v1-0-2f7af5f4ad02@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260326083934.fk4wyhe6rgiss34z@desk>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x2MQQqAIBQFrxJ/nVCGEl0lWpi+6i+00IpAunvSY
+ hazmMmUEBmJhipTxM2J91CkrSuymwkrBLviJBupm05q4aL/Mefu2YrrcOaEkFgUWoVZm55Ke0Q
+ s/PzfcXrfD4P4R1pnAAAA
+X-Change-ID: 20260326-drm-drm-atomic-update-2ef5e15eb6a8
+To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>
+Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+ Maxime Ripard <mripard@kernel.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=22759; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=ZMUh7JYRgBI25LGo61FqYSZJ+cJ+osgt0mSNBCcjoqY=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJlHWZ8d/jP5c1DflSixN/n7jOPy111qPb9uO6dMsqXqj
+ LUnNY/ydUxlYRDmZJAVU2R5IhN2enn74ioH+5U/YOawMoEMYeDiFICJpD1hbJj8OELhi4zWgq6Y
+ iXZbZ/nnT7VUfMq2Ya7S3bKojzlT2gMfFc3aoiExrd2Jd/Xa2Wy3Yxkb1rp/WG1qa3crfmLJEbc
+ PDYv3fKuJybX2ajq8v/Pmg+tPIsWWXY5a0xRa19HoZaH6hk8KAA==
+X-Developer-Key: i=mripard@kernel.org; a=openpgp;
+ fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
-On Thu, Mar 26, 2026 at 01:39:34AM -0700, Pawan Gupta wrote:
-> I believe the equivalent for cpu_feature_enabled() in asm is the
-> ALTERNATIVE. Please let me know if I am missing something.
+We've been discussing for a long time about renaming drm_atomic_state
+to a better suited name, since the current one is a source of confusion
+and bugs.
 
-Yes, you are.
+To minimize the impact, this should probably go through drm-next
+directly.
 
-The point is that you don't want to stick those alternative calls inside some
-magic bhb_loop function but hand them in from the outside, as function
-arguments.
+Let me know what you think,
+Maxime
 
-Basically what I did.
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
+---
+Maxime Ripard (2):
+      drm: Rename drm_atomic_state
+      Documentation: drm: Remove drm_atomic_state rename entry
 
-Then you were worried about this being C code and it had to be noinstr... So
-that outer function can be rewritten in asm, I think, and still keep it well
-separate.
+ Documentation/gpu/drm-kms.rst                      |  14 +-
+ Documentation/gpu/komeda-kms.rst                   |   8 +-
+ Documentation/gpu/todo.rst                         |  23 ---
+ drivers/gpu/drm/adp/adp_drv.c                      |  12 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vkms.c           |  10 +-
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  |  62 ++++----
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h  |   6 +-
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_color.c    |  12 +-
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_crtc.c |   4 +-
+ .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    |  22 +--
+ .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.h    |   4 +-
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_plane.c    |   6 +-
+ .../drm/amd/display/amdgpu_dm/amdgpu_dm_trace.h    |  20 +--
+ drivers/gpu/drm/arm/display/komeda/komeda_crtc.c   |   8 +-
+ drivers/gpu/drm/arm/display/komeda/komeda_kms.c    |  10 +-
+ .../gpu/drm/arm/display/komeda/komeda_pipeline.h   |  14 +-
+ .../drm/arm/display/komeda/komeda_pipeline_state.c |  28 ++--
+ drivers/gpu/drm/arm/display/komeda/komeda_plane.c  |   4 +-
+ drivers/gpu/drm/arm/hdlcd_crtc.c                   |  10 +-
+ drivers/gpu/drm/arm/malidp_crtc.c                  |   6 +-
+ drivers/gpu/drm/arm/malidp_drv.c                   |   4 +-
+ drivers/gpu/drm/arm/malidp_mw.c                    |   2 +-
+ drivers/gpu/drm/arm/malidp_mw.h                    |   2 +-
+ drivers/gpu/drm/arm/malidp_planes.c                |   6 +-
+ drivers/gpu/drm/armada/armada_crtc.c               |  10 +-
+ drivers/gpu/drm/armada/armada_overlay.c            |  10 +-
+ drivers/gpu/drm/armada/armada_plane.c              |   6 +-
+ drivers/gpu/drm/armada/armada_plane.h              |   2 +-
+ drivers/gpu/drm/ast/ast_cursor.c                   |   6 +-
+ drivers/gpu/drm/ast/ast_dp.c                       |   4 +-
+ drivers/gpu/drm/ast/ast_dp501.c                    |   4 +-
+ drivers/gpu/drm/ast/ast_mode.c                     |  18 +--
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_crtc.c     |  10 +-
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c       |   2 +-
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.h       |   2 +-
+ drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_plane.c    |   6 +-
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c       |   4 +-
+ drivers/gpu/drm/bridge/analogix/analogix_dp_core.c |  14 +-
+ drivers/gpu/drm/bridge/analogix/anx7625.c          |   4 +-
+ drivers/gpu/drm/bridge/cadence/cdns-dsi-core.c     |   4 +-
+ .../gpu/drm/bridge/cadence/cdns-mhdp8546-core.c    |   6 +-
+ drivers/gpu/drm/bridge/chipone-icn6211.c           |   6 +-
+ drivers/gpu/drm/bridge/fsl-ldb.c                   |   4 +-
+ drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pvi.c       |   4 +-
+ drivers/gpu/drm/bridge/imx/imx8qm-ldb.c            |   4 +-
+ drivers/gpu/drm/bridge/imx/imx8qxp-ldb.c           |   6 +-
+ .../gpu/drm/bridge/imx/imx8qxp-pixel-combiner.c    |   2 +-
+ drivers/gpu/drm/bridge/imx/imx8qxp-pixel-link.c    |   4 +-
+ drivers/gpu/drm/bridge/imx/imx8qxp-pxl2dpi.c       |   2 +-
+ drivers/gpu/drm/bridge/inno-hdmi.c                 |   6 +-
+ drivers/gpu/drm/bridge/ite-it6263.c                |   4 +-
+ drivers/gpu/drm/bridge/ite-it6505.c                |   8 +-
+ drivers/gpu/drm/bridge/ite-it66121.c               |   4 +-
+ drivers/gpu/drm/bridge/lontium-lt9211.c            |   4 +-
+ drivers/gpu/drm/bridge/lontium-lt9611.c            |   8 +-
+ drivers/gpu/drm/bridge/nwl-dsi.c                   |   4 +-
+ drivers/gpu/drm/bridge/panel.c                     |   8 +-
+ drivers/gpu/drm/bridge/parade-ps8640.c             |   4 +-
+ drivers/gpu/drm/bridge/samsung-dsim.c              |   8 +-
+ drivers/gpu/drm/bridge/sii902x.c                   |   4 +-
+ drivers/gpu/drm/bridge/ssd2825.c                   |   6 +-
+ drivers/gpu/drm/bridge/synopsys/dw-dp.c            |   4 +-
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi-qp.c       |   4 +-
+ drivers/gpu/drm/bridge/synopsys/dw-hdmi.c          |   6 +-
+ drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c      |   6 +-
+ drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c     |   6 +-
+ drivers/gpu/drm/bridge/tc358762.c                  |   6 +-
+ drivers/gpu/drm/bridge/tc358767.c                  |   8 +-
+ drivers/gpu/drm/bridge/tc358768.c                  |   8 +-
+ drivers/gpu/drm/bridge/tc358775.c                  |   6 +-
+ drivers/gpu/drm/bridge/ti-dlpc3433.c               |   6 +-
+ drivers/gpu/drm/bridge/ti-sn65dsi83.c              |   6 +-
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c              |  22 +--
+ drivers/gpu/drm/bridge/ti-tdp158.c                 |   4 +-
+ drivers/gpu/drm/ci/xfails/vkms-none-skips.txt      |  20 +--
+ drivers/gpu/drm/display/drm_bridge_connector.c     |   2 +-
+ drivers/gpu/drm/display/drm_dp_mst_topology.c      |  26 ++--
+ drivers/gpu/drm/display/drm_dp_tunnel.c            |  14 +-
+ drivers/gpu/drm/display/drm_hdmi_state_helper.c    |   6 +-
+ drivers/gpu/drm/drm_atomic.c                       | 128 +++++++--------
+ drivers/gpu/drm/drm_atomic_helper.c                | 172 ++++++++++-----------
+ drivers/gpu/drm/drm_atomic_state_helper.c          |   2 +-
+ drivers/gpu/drm/drm_atomic_uapi.c                  |  28 ++--
+ drivers/gpu/drm/drm_blend.c                        |   8 +-
+ drivers/gpu/drm/drm_bridge.c                       |  14 +-
+ drivers/gpu/drm/drm_client_modeset.c               |   8 +-
+ drivers/gpu/drm/drm_color_mgmt.c                   |   6 +-
+ drivers/gpu/drm/drm_crtc_helper.c                  |   2 +-
+ drivers/gpu/drm/drm_crtc_internal.h                |  10 +-
+ drivers/gpu/drm/drm_damage_helper.c                |  10 +-
+ drivers/gpu/drm/drm_fb_helper.c                    |   8 +-
+ drivers/gpu/drm/drm_framebuffer.c                  |   8 +-
+ drivers/gpu/drm/drm_mode_object.c                  |   8 +-
+ drivers/gpu/drm/drm_modeset_helper.c               |   2 +-
+ drivers/gpu/drm/drm_self_refresh_helper.c          |  12 +-
+ drivers/gpu/drm/drm_simple_kms_helper.c            |  10 +-
+ drivers/gpu/drm/drm_vblank_helper.c                |   6 +-
+ drivers/gpu/drm/exynos/exynos_drm_crtc.c           |  10 +-
+ drivers/gpu/drm/exynos/exynos_drm_plane.c          |   6 +-
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_crtc.c         |   6 +-
+ drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_plane.c        |   6 +-
+ drivers/gpu/drm/gud/gud_connector.c                |  10 +-
+ drivers/gpu/drm/gud/gud_internal.h                 |   8 +-
+ drivers/gpu/drm/gud/gud_pipe.c                     |   8 +-
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_de.c     |  12 +-
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_dp.c     |   4 +-
+ drivers/gpu/drm/hisilicon/kirin/kirin_drm_ade.c    |  14 +-
+ drivers/gpu/drm/hyperv/hyperv_drm_modeset.c        |   6 +-
+ drivers/gpu/drm/i915/display/g4x_hdmi.c            |   2 +-
+ drivers/gpu/drm/i915/display/g4x_hdmi.h            |   6 +-
+ drivers/gpu/drm/i915/display/i9xx_wm.c             |  10 +-
+ drivers/gpu/drm/i915/display/intel_atomic.c        |  16 +-
+ drivers/gpu/drm/i915/display/intel_atomic.h        |  12 +-
+ drivers/gpu/drm/i915/display/intel_audio.c         |   8 +-
+ drivers/gpu/drm/i915/display/intel_crt.c           |   2 +-
+ drivers/gpu/drm/i915/display/intel_display.c       |  22 +--
+ drivers/gpu/drm/i915/display/intel_display.h       |   6 +-
+ drivers/gpu/drm/i915/display/intel_display_core.h  |   2 +-
+ .../gpu/drm/i915/display/intel_display_driver.c    |   8 +-
+ .../gpu/drm/i915/display/intel_display_driver.h    |   4 +-
+ drivers/gpu/drm/i915/display/intel_display_reset.c |   8 +-
+ drivers/gpu/drm/i915/display/intel_display_types.h |   2 +-
+ drivers/gpu/drm/i915/display/intel_dp.c            |   2 +-
+ drivers/gpu/drm/i915/display/intel_dp_mst.c        |   6 +-
+ drivers/gpu/drm/i915/display/intel_dpll_mgr.c      |   2 +-
+ drivers/gpu/drm/i915/display/intel_fdi.c           |   2 +-
+ drivers/gpu/drm/i915/display/intel_hdmi.c          |   2 +-
+ drivers/gpu/drm/i915/display/intel_load_detect.c   |  20 +--
+ drivers/gpu/drm/i915/display/intel_load_detect.h   |   6 +-
+ drivers/gpu/drm/i915/display/intel_modeset_lock.c  |   2 +-
+ drivers/gpu/drm/i915/display/intel_modeset_setup.c |   6 +-
+ drivers/gpu/drm/i915/display/intel_pipe_crc.c      |   8 +-
+ drivers/gpu/drm/i915/display/intel_plane.c         |   2 +-
+ drivers/gpu/drm/i915/display/intel_psr.c           |   8 +-
+ drivers/gpu/drm/i915/display/intel_sdvo.c          |   2 +-
+ drivers/gpu/drm/i915/display/intel_sprite_uapi.c   |   8 +-
+ drivers/gpu/drm/i915/display/intel_tc.c            |   6 +-
+ drivers/gpu/drm/i915/display/intel_tv.c            |   4 +-
+ drivers/gpu/drm/imx/dc/dc-crtc.c                   |  10 +-
+ drivers/gpu/drm/imx/dc/dc-plane.c                  |   6 +-
+ drivers/gpu/drm/imx/dcss/dcss-crtc.c               |   8 +-
+ drivers/gpu/drm/imx/dcss/dcss-plane.c              |   6 +-
+ drivers/gpu/drm/imx/ipuv3/imx-drm-core.c           |   4 +-
+ drivers/gpu/drm/imx/ipuv3/imx-drm.h                |   2 +-
+ drivers/gpu/drm/imx/ipuv3/ipuv3-crtc.c             |  10 +-
+ drivers/gpu/drm/imx/ipuv3/ipuv3-plane.c            |   8 +-
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c          |  24 +--
+ drivers/gpu/drm/ingenic/ingenic-ipu.c              |  10 +-
+ drivers/gpu/drm/kmb/kmb_crtc.c                     |  10 +-
+ drivers/gpu/drm/kmb/kmb_drv.h                      |   2 +-
+ drivers/gpu/drm/kmb/kmb_dsi.c                      |   4 +-
+ drivers/gpu/drm/kmb/kmb_dsi.h                      |   2 +-
+ drivers/gpu/drm/kmb/kmb_plane.c                    |   6 +-
+ drivers/gpu/drm/logicvc/logicvc_crtc.c             |   6 +-
+ drivers/gpu/drm/logicvc/logicvc_layer.c            |   6 +-
+ drivers/gpu/drm/loongson/lsdc_crtc.c               |   8 +-
+ drivers/gpu/drm/loongson/lsdc_output_7a1000.c      |   2 +-
+ drivers/gpu/drm/loongson/lsdc_output_7a2000.c      |   6 +-
+ drivers/gpu/drm/loongson/lsdc_plane.c              |  22 +--
+ drivers/gpu/drm/mediatek/mtk_crtc.c                |  12 +-
+ drivers/gpu/drm/mediatek/mtk_crtc.h                |   2 +-
+ drivers/gpu/drm/mediatek/mtk_dp.c                  |   4 +-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h             |   2 +-
+ drivers/gpu/drm/mediatek/mtk_dsi.c                 |   8 +-
+ drivers/gpu/drm/mediatek/mtk_hdmi.c                |   8 +-
+ drivers/gpu/drm/mediatek/mtk_hdmi_v2.c             |   8 +-
+ drivers/gpu/drm/mediatek/mtk_plane.c               |  10 +-
+ drivers/gpu/drm/meson/meson_crtc.c                 |  12 +-
+ drivers/gpu/drm/meson/meson_encoder_cvbs.c         |   4 +-
+ drivers/gpu/drm/meson/meson_encoder_dsi.c          |   4 +-
+ drivers/gpu/drm/meson/meson_encoder_hdmi.c         |   4 +-
+ drivers/gpu/drm/meson/meson_overlay.c              |   6 +-
+ drivers/gpu/drm/meson/meson_plane.c                |   6 +-
+ drivers/gpu/drm/mgag200/mgag200_drv.h              |  26 ++--
+ drivers/gpu/drm/mgag200/mgag200_g200.c             |   4 +-
+ drivers/gpu/drm/mgag200/mgag200_g200eh.c           |   4 +-
+ drivers/gpu/drm/mgag200/mgag200_g200eh3.c          |   2 +-
+ drivers/gpu/drm/mgag200/mgag200_g200eh5.c          |   2 +-
+ drivers/gpu/drm/mgag200/mgag200_g200er.c           |   6 +-
+ drivers/gpu/drm/mgag200/mgag200_g200ev.c           |   6 +-
+ drivers/gpu/drm/mgag200/mgag200_g200ew3.c          |   2 +-
+ drivers/gpu/drm/mgag200/mgag200_g200se.c           |  10 +-
+ drivers/gpu/drm/mgag200/mgag200_g200wb.c           |   4 +-
+ drivers/gpu/drm/mgag200/mgag200_mode.c             |  18 +--
+ drivers/gpu/drm/mgag200/mgag200_vga_bmc.c          |   4 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c           |  12 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c        |   8 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.h        |   4 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            |   4 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h            |   2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c          |  12 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h          |   2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_writeback.c      |   2 +-
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_crtc.c          |  10 +-
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c         |   4 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c          |  10 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c           |   4 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.h           |   4 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_mixer.c         |   4 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_mixer.h         |   4 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.c          |   4 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_pipe.h          |   4 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c         |   8 +-
+ drivers/gpu/drm/msm/disp/msm_disp_snapshot.h       |   2 +-
+ drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c  |   2 +-
+ drivers/gpu/drm/msm/dp/dp_display.c                |   6 +-
+ drivers/gpu/drm/msm/dp/dp_drm.c                    |   6 +-
+ drivers/gpu/drm/msm/dp/dp_drm.h                    |   6 +-
+ drivers/gpu/drm/msm/hdmi/hdmi_bridge.c             |   4 +-
+ drivers/gpu/drm/msm/msm_atomic.c                   |   8 +-
+ drivers/gpu/drm/msm/msm_drv.h                      |   6 +-
+ drivers/gpu/drm/msm/msm_kms.h                      |   4 +-
+ drivers/gpu/drm/mxsfb/lcdif_kms.c                  |  12 +-
+ drivers/gpu/drm/mxsfb/mxsfb_kms.c                  |  16 +-
+ drivers/gpu/drm/nouveau/dispnv50/atom.h            |   6 +-
+ drivers/gpu/drm/nouveau/dispnv50/crc.c             |  16 +-
+ drivers/gpu/drm/nouveau/dispnv50/crc.h             |  16 +-
+ drivers/gpu/drm/nouveau/dispnv50/disp.c            |  68 ++++----
+ drivers/gpu/drm/nouveau/dispnv50/head.c            |   2 +-
+ drivers/gpu/drm/nouveau/dispnv50/wndw.c            |   2 +-
+ drivers/gpu/drm/nouveau/nouveau_connector.c        |   2 +-
+ drivers/gpu/drm/nouveau/nouveau_display.h          |   2 +-
+ drivers/gpu/drm/nouveau/nouveau_encoder.h          |   4 +-
+ drivers/gpu/drm/omapdrm/dss/hdmi4.c                |   4 +-
+ drivers/gpu/drm/omapdrm/dss/hdmi5.c                |   4 +-
+ drivers/gpu/drm/omapdrm/omap_crtc.c                |  10 +-
+ drivers/gpu/drm/omapdrm/omap_drv.c                 |  14 +-
+ drivers/gpu/drm/omapdrm/omap_drv.h                 |   2 +-
+ drivers/gpu/drm/omapdrm/omap_overlay.c             |   4 +-
+ drivers/gpu/drm/omapdrm/omap_overlay.h             |   4 +-
+ drivers/gpu/drm/omapdrm/omap_plane.c               |   6 +-
+ drivers/gpu/drm/qxl/qxl_display.c                  |  16 +-
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_crtc.c     |  18 +--
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_kms.c      |   4 +-
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.c    |   6 +-
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_plane.h    |   2 +-
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c      |   4 +-
+ drivers/gpu/drm/renesas/rcar-du/rcar_lvds.c        |   6 +-
+ drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c    |   6 +-
+ drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.h    |   6 +-
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_crtc.c      |   6 +-
+ drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c       |   4 +-
+ drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c     |   8 +-
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c  |   6 +-
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c |   6 +-
+ drivers/gpu/drm/rockchip/analogix_dp-rockchip.c    |   6 +-
+ drivers/gpu/drm/rockchip/cdn-dp-core.c             |   4 +-
+ drivers/gpu/drm/rockchip/dw-mipi-dsi2-rockchip.c   |   2 +-
+ drivers/gpu/drm/rockchip/dw_dp-rockchip.c          |   2 +-
+ drivers/gpu/drm/rockchip/rk3066_hdmi.c             |   6 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.c        |  22 +--
+ drivers/gpu/drm/rockchip/rockchip_drm_vop2.c       |  18 +--
+ drivers/gpu/drm/sitronix/st7571.c                  |  10 +-
+ drivers/gpu/drm/sitronix/st7920.c                  |  12 +-
+ drivers/gpu/drm/solomon/ssd130x.c                  |  32 ++--
+ drivers/gpu/drm/sprd/sprd_dpu.c                    |  12 +-
+ drivers/gpu/drm/sti/sti_crtc.c                     |   6 +-
+ drivers/gpu/drm/sti/sti_cursor.c                   |   6 +-
+ drivers/gpu/drm/sti/sti_gdp.c                      |   6 +-
+ drivers/gpu/drm/sti/sti_hqvdp.c                    |   6 +-
+ drivers/gpu/drm/stm/drv.c                          |   2 +-
+ drivers/gpu/drm/stm/ltdc.c                         |  12 +-
+ drivers/gpu/drm/stm/ltdc.h                         |   2 +-
+ drivers/gpu/drm/stm/lvds.c                         |   6 +-
+ drivers/gpu/drm/sun4i/sun4i_backend.c              |   4 +-
+ drivers/gpu/drm/sun4i/sun4i_crtc.c                 |  10 +-
+ drivers/gpu/drm/sun4i/sun4i_framebuffer.c          |   2 +-
+ drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c             |   4 +-
+ drivers/gpu/drm/sun4i/sun4i_layer.c                |   4 +-
+ drivers/gpu/drm/sun4i/sun4i_tv.c                   |   4 +-
+ drivers/gpu/drm/sun4i/sun8i_mixer.c                |   2 +-
+ drivers/gpu/drm/sun4i/sun8i_ui_layer.c             |   4 +-
+ drivers/gpu/drm/sun4i/sun8i_vi_layer.c             |   4 +-
+ drivers/gpu/drm/sun4i/sunxi_engine.h               |   4 +-
+ drivers/gpu/drm/sysfb/drm_sysfb_helper.h           |   8 +-
+ drivers/gpu/drm/sysfb/drm_sysfb_modeset.c          |   8 +-
+ drivers/gpu/drm/sysfb/ofdrm.c                      |   2 +-
+ drivers/gpu/drm/sysfb/vesadrm.c                    |   4 +-
+ drivers/gpu/drm/tegra/dc.c                         |  32 ++--
+ drivers/gpu/drm/tegra/dc.h                         |   2 +-
+ drivers/gpu/drm/tegra/drm.c                        |   6 +-
+ drivers/gpu/drm/tegra/hub.c                        |  12 +-
+ drivers/gpu/drm/tegra/hub.h                        |   4 +-
+ drivers/gpu/drm/tests/Makefile                     |   2 +-
+ ...tomic_state_test.c => drm_atomic_update_test.c} |  12 +-
+ drivers/gpu/drm/tests/drm_bridge_test.c            |   8 +-
+ drivers/gpu/drm/tests/drm_hdmi_state_helper_test.c |  88 +++++------
+ drivers/gpu/drm/tests/drm_kunit_helpers.c          |  18 +--
+ drivers/gpu/drm/tidss/tidss_crtc.c                 |  10 +-
+ drivers/gpu/drm/tidss/tidss_kms.c                  |   4 +-
+ drivers/gpu/drm/tidss/tidss_oldi.c                 |   4 +-
+ drivers/gpu/drm/tidss/tidss_plane.c                |   8 +-
+ drivers/gpu/drm/tilcdc/tilcdc_crtc.c               |   8 +-
+ drivers/gpu/drm/tilcdc/tilcdc_drv.c                |   2 +-
+ drivers/gpu/drm/tilcdc/tilcdc_plane.c              |   4 +-
+ drivers/gpu/drm/tiny/appletbdrm.c                  |   6 +-
+ drivers/gpu/drm/tiny/bochs.c                       |  10 +-
+ drivers/gpu/drm/tiny/cirrus-qemu.c                 |   8 +-
+ drivers/gpu/drm/tiny/pixpaper.c                    |  10 +-
+ drivers/gpu/drm/tiny/sharp-memory.c                |  10 +-
+ drivers/gpu/drm/udl/udl_modeset.c                  |   8 +-
+ drivers/gpu/drm/vboxvideo/vbox_mode.c              |  18 +--
+ drivers/gpu/drm/vc4/tests/vc4_mock.h               |   4 +-
+ drivers/gpu/drm/vc4/tests/vc4_mock_output.c        |   4 +-
+ drivers/gpu/drm/vc4/tests/vc4_test_pv_muxing.c     |  50 +++---
+ drivers/gpu/drm/vc4/vc4_crtc.c                     |  10 +-
+ drivers/gpu/drm/vc4/vc4_drv.h                      |  28 ++--
+ drivers/gpu/drm/vc4/vc4_dsi.c                      |   8 +-
+ drivers/gpu/drm/vc4/vc4_hdmi.c                     |  12 +-
+ drivers/gpu/drm/vc4/vc4_hvs.c                      |  10 +-
+ drivers/gpu/drm/vc4/vc4_kms.c                      |  30 ++--
+ drivers/gpu/drm/vc4/vc4_plane.c                    |   8 +-
+ drivers/gpu/drm/vc4/vc4_txp.c                      |  10 +-
+ drivers/gpu/drm/vc4/vc4_vec.c                      |   4 +-
+ drivers/gpu/drm/verisilicon/vs_bridge.c            |   6 +-
+ drivers/gpu/drm/verisilicon/vs_crtc.c              |   4 +-
+ drivers/gpu/drm/verisilicon/vs_primary_plane.c     |   8 +-
+ drivers/gpu/drm/virtio/virtgpu_display.c           |   8 +-
+ drivers/gpu/drm/virtio/virtgpu_plane.c             |   6 +-
+ drivers/gpu/drm/vkms/vkms_crtc.c                   |   6 +-
+ drivers/gpu/drm/vkms/vkms_drv.c                    |   4 +-
+ drivers/gpu/drm/vkms/vkms_plane.c                  |   4 +-
+ drivers/gpu/drm/vkms/vkms_writeback.c              |   4 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_cursor_plane.c       |   4 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_cursor_plane.h       |   4 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.h                |   2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.c                |  18 +--
+ drivers/gpu/drm/vmwgfx/vmwgfx_kms.h                |   6 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_ldu.c                |   2 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_scrn.c               |   4 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_stdu.c               |   8 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_vkms.c               |   8 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_vkms.h               |  10 +-
+ drivers/gpu/drm/xlnx/zynqmp_dp.c                   |   6 +-
+ drivers/gpu/drm/xlnx/zynqmp_kms.c                  |  16 +-
+ include/drm/display/drm_dp_mst_helper.h            |  32 ++--
+ include/drm/display/drm_dp_tunnel.h                |  24 +--
+ include/drm/display/drm_hdmi_state_helper.h        |   6 +-
+ include/drm/drm_atomic.h                           | 158 +++++++++----------
+ include/drm/drm_atomic_helper.h                    |  78 +++++-----
+ include/drm/drm_atomic_state_helper.h              |   4 +-
+ include/drm/drm_blend.h                            |   4 +-
+ include/drm/drm_bridge.h                           |  16 +-
+ include/drm/drm_colorop.h                          |   4 +-
+ include/drm/drm_connector.h                        |   6 +-
+ include/drm/drm_crtc.h                             |  10 +-
+ include/drm/drm_crtc_helper.h                      |   4 +-
+ include/drm/drm_damage_helper.h                    |   2 +-
+ include/drm/drm_kunit_helpers.h                    |   2 +-
+ include/drm/drm_mode_config.h                      |  38 ++---
+ include/drm/drm_modeset_helper_vtables.h           |  44 +++---
+ include/drm/drm_plane.h                            |   6 +-
+ include/drm/drm_self_refresh_helper.h              |   6 +-
+ include/drm/drm_vblank_helper.h                    |   8 +-
+ 354 files changed, 1724 insertions(+), 1747 deletions(-)
+---
+base-commit: 66ba480978ce390e631e870b740a3406e3eb6b01
+change-id: 20260326-drm-drm-atomic-update-2ef5e15eb6a8
 
-I'll try to rewrite it once I get a free minute, and see how it looks.
-
+Best regards,
 -- 
-Regards/Gruss,
-    Boris.
+Maxime Ripard <mripard@kernel.org>
 
-https://people.kernel.org/tglx/notes-about-netiquette
