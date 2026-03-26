@@ -1,186 +1,291 @@
-Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F32773382C5
-	for <linux-doc@vger.kernel.org>; Thu, 26 Mar 2026 22:06:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACBF933B6EA
+	for <linux-doc@vger.kernel.org>; Thu, 26 Mar 2026 22:17:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774562808; cv=none; b=V24lIKLhLhtL+XsPtlmdqOA++NmmG91nHJ9gtSrnHy7BcYfH8gwoCRjs5yEXGVU0Ko7B8U8L52qVmj5RjJutPYd6Hr7bkwelklvRuhbXRxNjpA9718CZwHQVed4EGBpqcIT+BlqEAdeiauMScEUOOsdEU/t9Y3sms/Bwr7aAGSA=
+	t=1774563434; cv=none; b=utMHoflSxrrign2gdxp3GKlqFieanOWuJIGhZtJxgswDllkjGKkMLFLtiRVu0y8F9jVEQzc9u2YJ/O3hX+1L474peWps74x+MDxseGtHg3DgBYmBmVtESzlXvSodJxgotiUbWSdKY3rq82tTzpku1RQu3dtLS7ApAZefgGGHiK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774562808; c=relaxed/simple;
-	bh=VHcxuzCD6goD5XgHUp8HZt3sVRcSxxWJZeFmpBM71Qo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IYrXAuEDoUQ4o/fT1sRTBtk4EeLZTcPp/P0U0VnxaGpXrtq/jFiRJiXbinuyFrwKbsmG6f/fR0fpEjHyiZePQzIYaryDTb4zX8DE24WhP8R9XbKetQKIaeXoUZ+jTO24bYb53nhHcvgKBhD1eeCNRKCynmiN9HEcJUCfTyfh14w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Dvzw7op5; arc=none smtp.client-ip=95.215.58.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1774563434; c=relaxed/simple;
+	bh=o0NNJZQmA7YSvMaDXUylaHWHIONgEf1XH+8v6twnySs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pESYTumoApctA5QMUl3W0k0W2xiN2br2x4odW2sKPJqDaSbxwcYY7UCkh5I8/oARGcOWbiq3Z3SeRic7LN+fVngsrx7lH6I/h8dZ/sC3vMNLWF6yIcEhX467z9tkiBlenuv76W5ENKHm7pBhHpk7VvFeFHoO69sRDpEOnXsNA3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TwEwYcRH; arc=none smtp.client-ip=209.85.216.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Dvzw7op5"
-Message-ID: <e0ca748d-3204-4160-b37d-0f76cbac8c6c@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1774562795;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ap4HZuU3Kp/MebHLlBMt2MHPRPf8GdkWOr2FuBBdAdU=;
-	b=Dvzw7op5c5X6VP5abajNjvoHkIBJxJAk2lEJ2Li2ge9tGe5TSNF4qSaJEHnCf2tfm2yunU
-	B44Q4XghGrB5JB1dEYr4rEDjchocp6YetnTDiU9SclLTdxbAwpgfdOEPlJalxX4Y07vpys
-	wPX98H7qZLiOX8iAYf1WNC2Y0kW/9GE=
-Date: Thu, 26 Mar 2026 15:06:28 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TwEwYcRH"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-35c0e7b751aso1450759a91.2
+        for <linux-doc@vger.kernel.org>; Thu, 26 Mar 2026 15:17:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774563431; x=1775168231; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=glFjKxjAo1VGzHup/HsXziAyDLKn89fs6Fyq68wQjAU=;
+        b=TwEwYcRHfEno7hv7ClbSdVz8CL7Vh1PcVPdnz47ICDchMBeNo43Uqf7+TxuNrGS8+O
+         1Kq8sEuUNmdUvcT2cOsToYUyuDJughaexk+BZB1nedpbaICAODDjxDozvLH24IILCa1l
+         vw4zXIZDMTWFFQods2NE5NP6ikIbmsC/Utuin3YXm+D+Z3YpSmp+MUzeIpmESKXT2cSO
+         FcCwfYodU5BYwJFA19fmQT08rmHO94/bgQOeawEUj/CMIonqMG5PgoLBoUSm3zr4YbKv
+         RdO8zphQ87KMUJC7BPKarEYKUjvKzLAzhm4RqyJMBQGFKpZmyrXZDrg7pIwkA6G7IukJ
+         zZSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774563431; x=1775168231;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=glFjKxjAo1VGzHup/HsXziAyDLKn89fs6Fyq68wQjAU=;
+        b=XcFpO1uGIJ8dRlqa1XkApHGyMb9Lz29UNGuuD7duPK40/ty4RifgFnbi6KLrGhhYUg
+         q2DI6gn/SYkinhaUfRBOMqLXXy6vGobKp8v7QbKAImAMYhAV05f2ZnfFmv9en8o/a9ag
+         94cV2reM0mjWnTI4m7BMFKk6cv8XhQkljt1y7Y9+M/lN25V5b33z79kfqtuDYzZ7cyK2
+         GdWNvUCoinejfhHN4PqIj9HQ5DKM8c5RfwC24QSKbpmxm/jJXI8QREfKb2Jq9xZhnSBp
+         5Nrb9nSPBxdH7a6tY31Po8YoadNGEG6jWHKDkkNP3w/h1CABfp9zoc1BSiTewQDE7/hz
+         wJIA==
+X-Forwarded-Encrypted: i=1; AJvYcCVQeuzF7BxBenfZ1KWX2Y2W1r+06agIrd+CGxh30547l0i0YZruZ0VJe4nL2QRKYrNGxJXLLMP/x+s=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+BS1eWpgP57/WFU5QMMfsOLOvEK2gv8y0t+7pWoGPTA42JsbU
+	6xklVJlmGX2UbR2Vg+D9i6o+LaTzbCtedjIvIqrpN0vMF+DU2XWWukik
+X-Gm-Gg: ATEYQzzPyArF2kwBokv8i7eCYcT6ry/3luD7KkSRrLVUQCbUU6wb+/xFo6ZlVRTavk5
+	DoaFiGAIZWCi1OUgfZLAHu6NRRwNnrpSwHBD66Gr9PXQfcvQTCyUHH1y6lO8L1BI1cnxbpHuoiU
+	8jKYFxEOt+sp4TYIecQ+NY1vwPgfKxLD23fp2sGPD7VS2iSsR7m/2254UDpL4VutdouTV2xEUDx
+	k1oraI7nXi4OEuYZcvXIoF359IKgFHQWNIMgSRk8TIeCVf9DwhM2rmRCIo/In1xgHq1gSmV2zSv
+	477MuZ5mfP+aTsl2PquUsyOCkeLcVxnTfZ5SITX2M0I7TWM18LkjR9PTvDvqa21TXHE3y6MeFxc
+	lYEukS7nKFSXwltK4wC5OBPRiDrvFHxwHJZAysJNYm0DXNKBtZ39wAGKrzZIazwwreSIrZ7OF9d
+	X+CTQSTZ2B8NLETfe463qQNr8HB4H2CRllr6bQC84KCkYh/dzF9suU3INGJO6NM7WBuM++sA==
+X-Received: by 2002:a17:90b:5383:b0:35b:e4d5:dc6f with SMTP id 98e67ed59e1d1-35c2fff1691mr193223a91.10.1774563430637;
+        Thu, 26 Mar 2026 15:17:10 -0700 (PDT)
+Received: from li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com ([106.51.160.14])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35c2d8d47c6sm199900a91.1.2026.03.26.15.17.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Mar 2026 15:17:09 -0700 (PDT)
+Date: Fri, 27 Mar 2026 03:46:58 +0530
+From: Mukesh Kumar Chaurasiya <mkchauras@gmail.com>
+To: Madhavan Srinivasan <maddy@linux.ibm.com>, ojeda@kernel.org, 
+	aliceryhl@google.com
+Cc: linkmauve@linkmauve.fr, ojeda@kernel.org, boqun.feng@gmail.com, 
+	gary@garyguo.net, bjorn3_gh@protonmail.com, lossin@kernel.org, 
+	a.hindborg@kernel.org, aliceryhl@google.com, tmgross@umich.edu, dakr@kernel.org, 
+	corbet@lwn.net, mpe@ellerman.id.au, npiggin@gmail.com, chleroy@kernel.org, 
+	peterz@infradead.org, jpoimboe@kernel.org, jbaron@akamai.com, rostedt@goodmis.org, 
+	ardb@kernel.org, rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH V6 0/3] Rust support for powerpc
+Message-ID: <acWugN2jUVK0e314@li-1a3e774c-28e4-11b2-a85c-acc9f2883e29.ibm.com>
+References: <20260210090023.2587534-1-mkchauras@gmail.com>
+ <51269463-8538-4149-a3f3-156a5c4d49b4@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] docs: Document pahole v1.26 requirement for
- KF_IMPLICIT_ARGS kfuncs
-To: zhidao su <soolaugust@gmail.com>,
- Alexei Starovoitov <alexei.starovoitov@gmail.com>, Tejun Heo <tj@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, sched-ext@lists.linux.dev, bpf@vger.kernel.org
-References: <20260324062028.2479059-1-suzhidao@xiaomi.com>
- <CAADnVQLbtuD=7mtGZFR25ULhjZ-3ifBpkyRcqu9jPSd2Mt3fBw@mail.gmail.com>
- <69c2dbe8.170a0220.226f48.721e@mx.google.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Ihor Solodrai <ihor.solodrai@linux.dev>
-In-Reply-To: <69c2dbe8.170a0220.226f48.721e@mx.google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <51269463-8538-4149-a3f3-156a5c4d49b4@linux.ibm.com>
 
-On 3/24/26 11:46 AM, zhidao su wrote:
-> On Tue, 24 Mar 2026 08:12:12 -0700, Alexei Starovoitov wrote:
->> I don't think that's true.
->> At least when implicit args were designed the goal was to avoid
->> pahole dependencies.
->> Please share exact steps to reproduce.
+On Wed, Mar 25, 2026 at 01:59:55PM +0530, Madhavan Srinivasan wrote:
 > 
-> Here are the exact reproduction steps and code path analysis.
-
-Hi everyone, sorry I'm late to the party.
-
-First of all, a *Nack* to the doc change in isolation, I agree with
-Alexei here. Tejun, I suggest to revert it.
-
-Doc change is insufficient and will make things only more confusing.
-
-Kconfig checks for pahole version, as well as Makefile.btf. If we set
-a new minimum version then it makes sense to assume it in the kernel
-build code, and *disable CONFIG_DEBUG_INFO_BTF* if the version is not
-recent enough. Also remove any flags/conditions that depend on pahole
-being less than target minimum version. For reference see a patch
-where I bumped the minimum version to 1.22 (903922cfa0e6):
-https://lore.kernel.org/bpf/20251219181825.1289460-1-ihor.solodrai@linux.dev/
-
-More importantly, the reported problem is real, but the actual fix is
-a bump to v1.27, not v1.26. As usual AI got it about 80% right in the
-analysis below (I assume this is AI output, it certainly looks like
-one). Although to be fair AI was misled by a human error.
-
+> On 2/10/26 2:30 PM, Mukesh Kumar Chaurasiya (IBM) wrote:
+> > Enable experimental rust support for ppc64le and ppc32be. The patch for
+> > ppc32 has been provided by Link Mauve[1] and ppc64le support[2] has been
+> > merged over it. ppc32 needs some toolchain fixes mentioned in the patch
+> > `rust: Add PowerPC support` and the discussion for that is done here[1].
+> > 
+> > This has been tested on powernv9 hardware and power10 pseries qemu. I
+> > I request Link to test the ppc32 part as i don't have a hardware to test
+> > it out.
+> > 
+> > [1] https://lore.kernel.org/all/20260204030507.8203-1-linkmauve@linkmauve.fr
+> > [2] https://lore.kernel.org/all/20260204042417.83903-1-mkchauras@gmail.com
 > 
-> Reproduction (Ubuntu 24.04, pahole v1.25):
+> Could see these build issues with the Rust patchset in the compilation of
+> powerpc-next-test
+> This happens when compilation happens only with few threads
 > 
->   $ git clone https://github.com/sched-ext/sched_ext.git
->   $ cd sched_ext && make -j$(nproc) LOCALVERSION=-test
->   $ make -C tools/testing/selftests/sched_ext
->   $ vng --run arch/x86/boot/bzImage --cpus 4 --memory 4G -- \
->       tools/testing/selftests/sched_ext/build/runner 2>&1 | grep "func_proto"
+> # rustc --version
+> rustc 1.94.0 (4a4ef493e 2026-03-02)
 > 
-> Result: 23/30 tests fail with:
->   libbpf: extern (func ksym) 'scx_bpf_create_dsq': func_proto [382]
->           incompatible with vmlinux [53813]
-
-This is indeed an error you may get if BTF for kfuncs with
-KF_IMPLICIT_ARGS is wrong.
-
+> ....
+>   EXPORTS rust/exports_core_generated.h
+>   BINDGEN rust/bindings/bindings_generated.rs
+>   BINDGEN rust/bindings/bindings_helpers_generated.rs
+>   CC      rust/helpers/helpers.o
+>   EXPORTS rust/exports_helpers_generated.h
+>   RUSTC L rust/compiler_builtins.o
+>   RUSTC L rust/ffi.o
+>   RUSTC PL rust/libproc_macro2.rlib
+> error[E0464]: multiple candidates for `rmeta` dependency `core` found
+>  --> rust/proc-macro2/marker.rs:4:5
+>   |
+> 4 | use core::marker::PhantomData;
+>   |     ^^^^
+>   |
+>   = note: candidate #1: /root/.rustup/toolchains/nightly-powerpc64le-unknown-linux-gnu/lib/rustlib/powerpc64le-unknown-linux-gnu/lib/libcore-951759db375eea0c.rmeta
+>   = note: candidate #2: ./rust/libcore.rmeta
 > 
-> Root cause:
+> error[E0119]: conflicting implementations of trait `PartialEq` for type
+> `fallback::Ident`
+>    --> rust/proc-macro2/fallback.rs:875:1
+>     |
+> 869 |   impl PartialEq for Ident {
+>     |   ------------------------ first implementation here
+> ...
+> 875 | / impl<T> PartialEq<T> for Ident
+> 876 | | where
+> 877 | |     T: ?Sized + AsRef<str>,
+>     | |___________________________^ conflicting implementation for
+> `fallback::Ident`
 > 
-> The KF_IMPLICIT_ARGS mechanism requires pahole v1.26 for the DECL_TAG
-> generation step that enables resolve_btfids to do its btf2btf work:
+> error[E0277]: `LexError` doesn't implement `std::fmt::Display`
+>    --> rust/proc-macro2/lib.rs:347:16
+>     |
+> 347 | impl Error for LexError {}
+>     |                ^^^^^^^^ unsatisfied trait bound
+>     |
+> help: the trait `std::fmt::Display` is not implemented for `LexError`
+>    --> rust/proc-macro2/lib.rs:204:1
+>     |
+> 204 | pub struct LexError {
+>     | ^^^^^^^^^^^^^^^^^^^
+> note: required by a bound in `std::error::Error`
+>    --> /root/.rustup/toolchains/nightly-powerpc64le-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/error.rs:59:26
+>     |
+>  59 | pub trait Error: Debug + Display {
+>     |                          ^^^^^^^ required by this bound in `Error`
 > 
-> 1. scripts/Makefile.btf gates decl_tag_kfuncs on pahole >= 1.26:
+> error[E0277]: `LexError` doesn't implement `Debug`
+>    --> rust/proc-macro2/lib.rs:347:16
+>     |
+> 347 | impl Error for LexError {}
+>     |                ^^^^^^^^ unsatisfied trait bound
+>     |
+> help: the trait `Debug` is not implemented for `LexError`
+>    --> rust/proc-macro2/lib.rs:204:1
+>     |
+> 204 | pub struct LexError {
+>     | ^^^^^^^^^^^^^^^^^^^
+>     = note: add `#[derive(Debug)]` to `LexError` or manually `impl Debug for
+> LexError`
+> note: required by a bound in `std::error::Error`
+>    --> /root/.rustup/toolchains/nightly-powerpc64le-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/error.rs:59:18
+>     |
+>  59 | pub trait Error: Debug + Display {
+>     |                  ^^^^^ required by this bound in `Error`
 > 
->      pahole-flags-$(call test-ge, $(pahole-ver), 126) = ... decl_tag_kfuncs
-
-This is correct in that resolve_btfids expects that pahole ran with
-decl_tag_kfuncs, but the version check is and was wrong.
-
-decl_tag_kfuncs was implemented in pahole commit 72e88f29c [1], which
-was released in v1.27. But on the kernel build side, the new feature
-was simply appended (ebb79e96f1ea [2]) to the list of features under
-1.26 check.
-
-[1] https://git.kernel.org/pub/scm/devel/pahole/pahole.git/commit/?id=72e88f29c6f7e14201756e65bd66157427a61aaf
-[2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?h=v7.0-rc5&id=ebb79e96f1ea454fbcc8fe27dfe44e751bd74b4b
-
+> error: aborting due to 4 previous errors
 > 
-> 2. Without decl_tag_kfuncs, pahole does not emit DECL_TAG BTF entries
->    for __bpf_kfunc-annotated functions.
+> ......
+> But when parallelized with more threads (-j 128) compilation passes with out
+> any error
+> There is some ordering of libcore is messing up I guess (I could be wrong)
+> (I have removed the warning of unstable features messages here for cleaner
+> output)
 > 
-> 3. resolve_btfids/main.c::collect_kfuncs() (line 1002) early-returns
->    when nr_decl_tags == 0:
+> ....
+>   VDSO64SYM include/generated/vdso64-offsets.h
+>   RUSTC L rust/core.o
+>   BINDGEN rust/bindings/bindings_generated.rs
+>   BINDGEN rust/bindings/bindings_helpers_generated.rs
+>   CC      rust/helpers/helpers.o
+>   RUSTC PL rust/libproc_macro2.rlib
+>   BINDGEN rust/uapi/uapi_generated.rs
+>   RSCPP     rust/kernel/generated_arch_static_branch_asm.rs
+>   RSCPP     rust/kernel/generated_arch_warn_asm.rs
+>   RSCPP     rust/kernel/generated_arch_reachable_asm.rs
+> clang diag: ./arch/powerpc/include/uapi/asm/ioctl.h:5:9: warning:
+> '_IOC_SIZEBITS' macro redefined [-Wmacro-redefined]
+> clang diag: ./arch/powerpc/include/uapi/asm/ioctl.h:6:9: warning:
+> '_IOC_DIRBITS' macro redefined [-Wmacro-redefined]
+> clang diag: ./arch/powerpc/include/uapi/asm/ioctl.h:8:9: warning:
+> '_IOC_NONE' macro redefined [-Wmacro-redefined]
+> clang diag: ./arch/powerpc/include/uapi/asm/ioctl.h:10:9: warning:
+> '_IOC_WRITE' macro redefined [-Wmacro-redefined]
+>   EXPORTS rust/exports_helpers_generated.h
+>   RUSTC PL rust/libquote.rlib
+>   RUSTC PL rust/libsyn.rlib
+>   RUSTC P rust/libpin_init_internal.so
+>   RUSTC P rust/libmacros.so
+>   EXPORTS rust/exports_core_generated.h
+>   RUSTC L rust/compiler_builtins.o
+>   RUSTC L rust/ffi.o
+>   RUSTC L rust/pin_init.o
+>   RUSTC L rust/build_error.o
+>   RUSTC L rust/bindings.o
+>   RUSTC L rust/uapi.o
+>   EXPORTS rust/exports_bindings_generated.h
+>   RUSTC L rust/kernel.o
+>   EXPORTS rust/exports_kernel_generated.h
+>   LDS     scripts/module.lds
+>   HOSTCC  usr/gen_init_cpio
+>   CC      init/main.o
+> ....
 > 
->      if (!link->nr_decl_tags)
->          return 0;
+> Also I see some errors when compiling modules. I am looking at these and any
+> help is welcome.
+> I will pull out Rust patches for now from powerpc-linux next-test branch and
+> once this is
+> restored I will add these patches back to branch for the merge.
 > 
-> 4. With no bpf_kfunc DECL_TAGs, btf2btf() never calls
->    process_kfunc_with_implicit_args() to create _impl variants and
->    strip 'aux' from the original proto.
+> Maddy
 > 
-> 5. Result: vmlinux retains the 3-param proto (with 'aux') for all
->    KF_IMPLICIT_ARGS kfuncs.
-> 
-> BTF evidence from our pahole v1.25-compiled vmlinux:
-> 
->   $ bpftool btf dump file vmlinux | grep -A5 '[53813]'
->   [53813] FUNC_PROTO '(anon)' ret_type_id=... vlen=3
->       'dsq_id' type_id=...
->       'node'   type_id=...
->       'aux'    type_id=...    <-- implicit arg still present, 3-param
->   (no scx_bpf_create_dsq_impl exists)
+Aah this happens because core.o is compiled before libproc_macro2.rlib
+starts compiling. Once the core.o is compiled it generates the
+libcore.rmeta, leading to conflict in two libcore.rmeta available.
 
-So far so good.
+I can think of 2 solutions here for this,
 
-> 
-> With pahole v1.26, resolve_btfids creates scx_bpf_create_dsq_impl
-> (3-param, for verifier's find_kfunc_impl_proto) and rewrites
-> scx_bpf_create_dsq to 2-param (for libbpf ksym matching).
+1. We can make the libproc_macro2.rlib libquote.rlib libsyn.rlib compile
+befor the core.o is compiled OR
+2. We can force these to use the toolchain core's metadata and not look
+into the kernel's rust directory.
 
-And this is bullshit. The kernel build with pahole v1.26 has the same
-problem:
+I am still not able to figure out why this is not happening for x86.
 
-  # Notice that 'bpf_wq_set_callback_impl' is absent from BTF
-  $ bpftool btf dump file vmlinux | grep 'bpf_wq_set'
-  [63890] FUNC 'bpf_wq_set_callback' type_id=9991 linkage=static
-          'KF_bpf_wq_set_callback' val=29
+What should we do in this case?
 
-vs expected (v1.27, v1.31):
+Regards,
+Mukesh
 
-  $ bpftool btf dump vmlinux | grep 'bpf_wq_set'
-  [64253] FUNC 'bpf_wq_set_callback' type_id=51033 linkage=static
-  [64254] FUNC 'bpf_wq_set_callback_impl' type_id=34861 linkage=static
-          'KF_bpf_wq_set_callback' val=29
-
-One could've figured this out if they tried to actually run the build.
-
-> 
-> You're right that the design goal was to avoid pahole dependencies -
-> the implementation could be fixed in resolve_btfids to handle the
-> no-DECL_TAG case. But until such a fix lands, the dependency exists
-> in practice. Jonathan Corbet suggested raising the minimum version in
-> the requirements table to 1.26, which seems the cleanest fix.
-> 
-> Signed-off-by: zhidao su <suzhidao@xiaomi.com>
-
-
-zhidao su, I suggest you prepare a proper "minimum pahole version
-bump" patch, modifying kconfig checks, Makefile.btf and the
-documentation. Please route it through the BPF tree and add me to cc.
-
-Thanks.
-
-
+> > Changelog:
+> > V5 -> V6:
+> > - Added a missing Tested by from Venkat which got missed since V3
+> > - Support is marked as Maintained instead of experimental
+> > V5: https://lore.kernel.org/all/20260210053756.2088302-1-mkchauras@gmail.com
+> > 
+> > V4 -> V5:
+> > - Removed a nested ifdef from PPC64 for Little endian toolchain
+> > V4: https://lore.kernel.org/all/20260209105456.1551677-1-mkchauras@gmail.com
+> > 
+> > V3 -> V4:
+> > - Co-developed-by header added in patch 1
+> > V3: https://lore.kernel.org/all/20260205180429.3280657-1-mkchauras@gmail.com
+> > 
+> > V2 -> V3:
+> > - Splited HAVE_RUST in 2 lines
+> > - BINDGEN_TARGET_powerpc initialized before assigning the same to
+> >    BINDGEN_TARGET
+> > V2: https://lore.kernel.org/all/20260204210125.613350-1-mkchauras@gmail.com
+> > 
+> > V1 -> V2:
+> > - jump label fix for rust has been moved to a separate patch
+> > - PPC32 support has been taken
+> > - rust support has been marked experimental
+> > - target.json dependency has been removed
+> > - HAVE_RUST now depends on CPU_LITTLE_ENDIAN for PPC64
+> > 
+> > 
+> > Link Mauve (1):
+> >    rust: Add PowerPC support
+> > 
+> > Mukesh Kumar Chaurasiya (IBM) (2):
+> >    powerpc/jump_label: adjust inline asm to be consistent
+> >    powerpc: Enable Rust for ppc64le
+> > 
+> >   Documentation/rust/arch-support.rst   |  1 +
+> >   arch/powerpc/Kconfig                  |  2 ++
+> >   arch/powerpc/Makefile                 |  7 +++++++
+> >   arch/powerpc/include/asm/jump_label.h | 23 +++++++++++++----------
+> >   rust/Makefile                         | 10 +++++++++-
+> >   5 files changed, 32 insertions(+), 11 deletions(-)
+> > 
