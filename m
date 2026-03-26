@@ -1,312 +1,636 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0044289E06;
-	Thu, 26 Mar 2026 22:42:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774564978; cv=fail; b=b+VfUl+CaK0/eIe4a2bsiDaJnWsmW55EDOhlvxbGjce6Dbh0ksZI4Ml23RLszvqNWR2SwQ32JfJEqJ8uG5a8BUc1GIcD11yXQ94jV8z+/h5xHPyfXupRjQRGfJZUiawoFazs1Poqxd4rmT58OhAVYksYCXqixMuUGTO7sdOmO9o=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774564978; c=relaxed/simple;
-	bh=QV6fvvlcxNxVo4wlVjzu3BQt24SPuQT5pshhIcum3DU=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=VcsgxxglIG3MVrezRpTmAr5JGT2Y/eXXvsSsLSSeDOkrABpEaLwz9AaEWJyWQlZH0dv7y2/rMo2mHHGkgY4D8O9a6eYtD0xziIMEBO5uTLsigYmnhy5v2g8v6tFyHiwb61uI1OPI9EbENFJlfgtuUxTzeNhfHZDQPLwoiTMMpxY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e9wJF7IL; arc=fail smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 994512F9DA1;
+	Thu, 26 Mar 2026 22:44:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774565076; cv=none; b=qUr3yr9qkjH35XPujH5n7Sq/09dP/87vw7f7Yme4AE7JfT6KHe95b24DcfDB0o7VPAJj8tK9oZwgRAr1bPkx+Wa8209u9FLrLVeIRN+kknttmXqQ9cH3k2GBgf91hpWB2Fak99Llxhs1f1kPCtXLMT6eby6FTTkgWQ8/kK/IirU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774565076; c=relaxed/simple;
+	bh=F/iK6qjsaJq7yreKhzo9JYCr7o17IfC0TcqrMepcfO4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=n/F7dkUoOjGhurTUb3rSHaPIiup/fZtndCe8CYwaQyCVxG6A7wodUOq/1rgoU/n81a9bzx+Axg+HL+IW/zeBs820xVHVt229KPOzxLT1HgbvOGtvTmoDtwXENPIvS+/HSQGeJP0Hna1Khilwof5+R4pIH4sP2oJXli9U1A60qBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=DLvGGVcD; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e9wJF7IL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774564974; x=1806100974;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=QV6fvvlcxNxVo4wlVjzu3BQt24SPuQT5pshhIcum3DU=;
-  b=e9wJF7ILlSW153kWxLqQNsTjhfAvT2/fsoYyiDuuET35BZj7FmGJ4peP
-   emOv3FfePd2dfH/cSsXyZdwjpUCzd7x3OXS+685SsvKTvwyilwYlDN0tg
-   WNjYOh9/7tgy05Pd0/Ed3X07qIXUMKRtx1du6YyeU4X+OTNnT2HFkoiWd
-   6ervjtfsyqZ/f0jDbeGWVX3yY5z7uo7AE/jgLuxOwqRZoWTMun4O7FEJb
-   1YUAwN4RJet5959hGU7BNU1GyBgEj/uBBWrCJ5BGzWiPV9qaOaNywzcFg
-   Kb6kEvQoTXQnjihaQao8kxecDwZQTaTb74/CJTvtxHA2bp18NOrInhRL0
-   g==;
-X-CSE-ConnectionGUID: QrdjmAQZQW+2UzURoHcDEQ==
-X-CSE-MsgGUID: Ug8FIiUgQD64jjv+kyUxxA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="86258185"
-X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
-   d="scan'208";a="86258185"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 15:42:47 -0700
-X-CSE-ConnectionGUID: 3USkW1mqSVSNMQ2bmXPG3Q==
-X-CSE-MsgGUID: fusTJb0HShWSg7PpO9sFMw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
-   d="scan'208";a="255633625"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
-  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 15:42:46 -0700
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Thu, 26 Mar 2026 15:42:46 -0700
-Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Thu, 26 Mar 2026 15:42:46 -0700
-Received: from CH4PR04CU002.outbound.protection.outlook.com (40.107.201.63) by
- edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Thu, 26 Mar 2026 15:42:45 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=obq/SDfpyyiFzi+8W9xK3oj5l0WIXDsgb+DtQCZBN7xPtcjTmkr0aDyWxIIOQ8z7gBn7zSGUsfyu8kYjO+zO8tsfviu6UvWSRP9UnZ4jfNLqmAvJ2J2S/zn4J6hQtBmvzDh+Eth8HPfVnIVkhiCNfWofwCwn1dw9G5p5Kgm40L6T8xu0rVfoSLC5TyaCcvym6myks1UK0Z9BP8vut2nxnD8X4rSg94RhBQlAwjMJ5H3L0mw6nRaw3ejRSjyUuGJwUwVVF4PYoOb5vVEz5BOetpdzlfCu4XCu7edy2+dap2gbJa1lCZyoAdWq9Gc8fJegmxYQ6TH9hYJt7iU56SGyQQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=p+pDlRSnQPEKLtzNeDWHCSUkO7SH6AY9lD6+Q51QuOc=;
- b=kVRWsjV3ubHn8fa8wkTeN86b3prjet7Zz0iW3GzdJTFFvTqyzGLsn93TP8qfj1cQz0v1ot3Os/6rT5RWDT/h8KmctOQtWXqD3ZgscCE4jszpMDJ5tGz33SgUfOj/+8pugm0xjX2uwVeeTiHl+Xk9A2BBm0dEv0jGAy0Hg96AjCjL581KyOUr1eqoE74JTFobLTv3D3FP/+ofNyf2kLee3FQz8uhTgLPypHPga0CoWtESoeqHqp+knE/x8BXpU0Y39pl8ylJHKkcAEuv6PKgKXb7tElxqZ4eo11IO5zpPkIOG6NFTvnH2d9QqLw7RjjdvMi54arQ+Iw5IlS3OWmnMIQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH3PPF9E162731D.namprd11.prod.outlook.com
- (2603:10b6:518:1::d3c) by IA0PR11MB7185.namprd11.prod.outlook.com
- (2603:10b6:208:432::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.8; Thu, 26 Mar
- 2026 22:42:39 +0000
-Received: from PH3PPF9E162731D.namprd11.prod.outlook.com
- ([fe80::7d4b:a049:aed5:d2b0]) by PH3PPF9E162731D.namprd11.prod.outlook.com
- ([fe80::7d4b:a049:aed5:d2b0%8]) with mapi id 15.20.9723.018; Thu, 26 Mar 2026
- 22:42:39 +0000
-Date: Thu, 26 Mar 2026 17:46:25 -0500
-From: Ira Weiny <ira.weiny@intel.com>
-To: John Groves <John@groves.net>, Ira Weiny <ira.weiny@intel.com>
-CC: Jonathan Cameron <jonathan.cameron@huawei.com>, John Groves
-	<john@jagalactic.com>, Miklos Szeredi <miklos@szeredi.hu>, Dan Williams
-	<dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, "Alison
- Schofield" <alison.schofield@intel.com>, John Groves <jgroves@micron.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, Alexander Viro
-	<viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, "Christian
- Brauner" <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, "Randy
- Dunlap" <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, "Amir
- Goldstein" <amir73il@gmail.com>, Stefan Hajnoczi <shajnocz@redhat.com>,
-	"Joanne Koong" <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>,
-	"Bagas Sanjaya" <bagasdotme@gmail.com>, Chen Linxuan
-	<chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>, Fuad Tabba
-	<tabba@google.com>, "Sean Christopherson" <seanjc@google.com>, Shivank Garg
-	<shivankg@amd.com>, "Ackerley Tng" <ackerleytng@google.com>, Gregory Price
-	<gourry@gourry.net>, "Aravind Ramesh" <arramesh@micron.com>, Ajay Joshi
-	<ajayjoshi@micron.com>, "venkataravis@micron.com" <venkataravis@micron.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH V9 3/8] dax: add fsdev.c driver for fs-dax on character
- dax
-Message-ID: <69c5b7411999c_14003310089@iweiny-mobl.notmuch>
-References: <0100019d1d463523-617e8165-a084-4d91-aa5e-13778264d5d4-000000@email.amazonses.com>
- <20260324003818.5009-1-john@jagalactic.com>
- <0100019d1d476420-6b0bf60e-3b3a-4868-8f5f-484cd55d4709-000000@email.amazonses.com>
- <20260324143927.000024c3@huawei.com>
- <acPX9T2ZF7xTCHtZ@groves.net>
- <69c407903b54c_130d6e1007a@iweiny-mobl.notmuch>
- <acVDCKeolpJM9qg6@groves.net>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <acVDCKeolpJM9qg6@groves.net>
-X-ClientProxiedBy: MW4PR03CA0256.namprd03.prod.outlook.com
- (2603:10b6:303:b4::21) To PH3PPF9E162731D.namprd11.prod.outlook.com
- (2603:10b6:518:1::d3c)
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="DLvGGVcD"
+Received: from [10.14.72.19] (unknown [131.107.1.147])
+	by linux.microsoft.com (Postfix) with ESMTPSA id A1E1E20B6F08;
+	Thu, 26 Mar 2026 15:44:33 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A1E1E20B6F08
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1774565073;
+	bh=ghqJ3wWdHdF6SahKRHnszHRCjc3tHqU17My7vAFkRjA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=DLvGGVcDAAUuU2DbSxOVU4HHtKT2nCP5mNfvESxBiHn3rY2RCnDEeTW2iLf2Yhm8w
+	 TDRcZKcR2Q5Or2YtwO6lT5daWPUoXoFJiMxvXOAE+N1gbshWRC8lv96k1RLI1nIVP1
+	 UPudQS9AOghP/Gwp6oEm1YiJxWJf2kR5JPwzyIa4=
+Message-ID: <ef9c296a-940a-4bb5-a0b9-184532cf4bb6@linux.microsoft.com>
+Date: Thu, 26 Mar 2026 15:44:31 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH3PPF9E162731D:EE_|IA0PR11MB7185:EE_
-X-MS-Office365-Filtering-Correlation-Id: 08fe05bd-5ad7-4467-716b-08de8b88fba2
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014|22082099003|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info: tkldoXTv4zSI/d6jrMBvujj29neub23mjswNdSlIEWcErabcBc/otuZkRR+jXvqfIBmKjhoKDZ2FoUSB4nBcItWJor8k7e+5FDhRY2EqSkVngdyDyYdrB35YAzGZ5CY/nIQ+lXqGexcFnLv9yrAeNaMlpKQcz1vce6AXhoDX4Uxh+2HEpsBiJchCHQ1dKBE4r0qKlmAPdrtK+6eeumCOjBcz7cxb+SDvETr6aqz+ohoqEKla4YlbcvHu6WCU6Q+hip2gEXpYhDi4qBBz1FhGVhrpXxAgv73wn1jevX7Z3NOjbg7VkUjgDqsuXlmhoDJu+AsUhPdqicCWW9Inv3qLFSQWRmtB77tHhojF2zfh0pseGdkX1RJdxf9Rw0G3dV7SJwf03FcLnHrclrT3vHhD846zLx+JGhDkGyAfUF8IjU4I2h18TqUSVCexOk/xoZzUwWpQN/toTU0SCRodhEp935P/mOGLqs46ARoTJlEXnj9u5Xpo0V7JcojvUUf1CZTbH6Z/8Atzmi9AU9yBSdmdrxRoP97ZctGNICimSk163MxoqRULebVlgzuKOpQaaZ+N/K8krhSf+B7RcFIMyzH8wWVvu1LLPAO6B1gbC6oTT/aNl68nK3A7cCFhf3tfXw2oLs1Y4TNyfWXAeLYDmF1CnXhJVdC1c1Es6SDNyadHSNG5dXpzCGGEzGLCoWSkLXkgW+rYsJ8SBY54ne0JXh+a1VgCzGNhJTeTxarlNy/HhPQ=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH3PPF9E162731D.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ohjOMx9wdX3Sq+9JIalqouLWFuEM6ooGIchmh7VAbPXrq60YPnNALMoWtB4m?=
- =?us-ascii?Q?MMDqkl0VbBU+7ZzppCvqqF0Kj8bwdpvyJiKc68FcqaRFNN61K3eT3wE13llb?=
- =?us-ascii?Q?VJfQSA8hd7AOJcaAArI93k6zDleB1Q8gmULf8be4lqHqiOL5PtlM9BPjnBxv?=
- =?us-ascii?Q?cq7txZRlrDhik1Lj2oDgHrELA0hBAbUtglB/44ynRf2MyfsKmPf/4IuEubGJ?=
- =?us-ascii?Q?GDVxRhykamUuiKYGiIeBenbfA8nVLvUtBNLtJBkgf08er0XB7gcPJBCniSaJ?=
- =?us-ascii?Q?+5iSMCXzMn9YQgR82l064Sr9cD9/f7MHajz0jjnKxr8M41BLbpTkGlepBoOu?=
- =?us-ascii?Q?M/Lp+fVh0dtrCiBAYUKmkGtltG+b2zyGk92Da04NG2JF7iiqss3qkUfF8seq?=
- =?us-ascii?Q?ayetJS5K8ZUZ52ITEjnxptBvr6+KJyP0ap+dKGan63SxXDEITEQfhMtcY194?=
- =?us-ascii?Q?a+FaMhFGIClaroZO9Oj2loQ98CXCgiWwoQaVqeTuLPyEQjMgkG+Enz7EqkfO?=
- =?us-ascii?Q?JUtP4bjodtR9PyPlX38jCw3v5OSqeV3TyCdteH5XfO8w8XEc1UgwoQe6tdzh?=
- =?us-ascii?Q?LKV8PfcZEh5nGXaFTDWwr2iscPCF+XYo8rzIwkPJ5DPXB4H0LWMD5DVNOAtD?=
- =?us-ascii?Q?Kix76BCjfrXONK+01XQWYdtdyMAqZsSPhd1bnYmKniKcOLD0M3lyvSSl9i0m?=
- =?us-ascii?Q?R0vyTGSIekotxgxHSH/Rtgv+700rzYMGQvQkM34c93xkPvtqz5XjHIK33pCv?=
- =?us-ascii?Q?GB1d+ZUq6RQDTsQNM+HJ+JLVg8slzHj9RBOEHgwsALigm72ECY/FyPZuaqtr?=
- =?us-ascii?Q?MPcduXenT9DXH8Zf+s97vbHa0VpyjGN19H8K9k+2OyhdWUEaxThGJlV5fbWp?=
- =?us-ascii?Q?1aeFvw9QCco4VNGolTbTnXHpVNbjbCMnjOf2FmiIA4jxqIVPv7GLM0SMxqo5?=
- =?us-ascii?Q?V7u6JPdG7VFSwR/JYpPDv9kRKdUqC/JKb3Z2tymivZbaOvMe1HYAEK+64/to?=
- =?us-ascii?Q?lcahqfWC3+oZ8yxTZ84sqL/Flp2mqxlas18sb1kr3yn3vRQIsiHXw93NkC6P?=
- =?us-ascii?Q?IVaKqpb3X7+NGBQQ49jVlc1cwI1nOVWBENT1hzFqN71CkVzu3Qu/1mRdtZUH?=
- =?us-ascii?Q?apI4nw+IOA1RCg7LSq/S+2W6TOKUQLQuwH4krqKfCUchoMI0R+7ZwKM+WXgS?=
- =?us-ascii?Q?E3286X5Xl5/dRlvyuIpTotDzPn1tZLH+2CDHsR98xSf0hgj9+2jOmbIpMRM/?=
- =?us-ascii?Q?zoapXYNUH4EVm5ooq0ftpCF+iXtLm3m357zpkq7eABcnqelAYnkKUNPebwyK?=
- =?us-ascii?Q?RH5NBC4INda7ioMoWMkQ3jCMm8Lv9eMKCIaFuUwnHOnxltivJRZWR9TYTMq0?=
- =?us-ascii?Q?nymxqCvAWUbtz3e6y82QFprMMKPF0C5TNaUHBBHr35bfZpW2SUFxpNh+dOa9?=
- =?us-ascii?Q?TMG0+3nhafnk3AJaL+eNEPUlXqkRdwrtXWDAGL78Q5zAVRVNNz1oUP5RUwvI?=
- =?us-ascii?Q?y1ef1KCom19VM/P7PIm7lT3bOIzPbv2/fiHipSeYXxsnL4620jYXinwK5TK/?=
- =?us-ascii?Q?L2YiGRHNgsnndg2Pygy2aI0Gntlpbz28VtSrzFjE1ihvkxctMfeGPcao+S6i?=
- =?us-ascii?Q?eH8LtEU+YrkPIIXkNeETkElod4MsCJw6OzuEgJaHPzRJ3YjzC9FMDe8AUj5a?=
- =?us-ascii?Q?GWXJryGbrmxN57aRaSeY7n/wqkusD7qih/4kPSUtqcfolLi9sU3zaleixdFk?=
- =?us-ascii?Q?dxgzAo6bPw=3D=3D?=
-X-Exchange-RoutingPolicyChecked: A9SJMyrdOZ8DuHhgZYt4TzjvMPglSvDlZKozM+NsJm7PQK6smlnt4315m5y1KyG6vfKpMlpjuuo62uZmahAmlvHsAdBAfsLfL54nCG+Pbaaalp3EmoRzikHUzspb7o8rJo4IGdl7keVonKcUQ5IStnWWUXmt34Tos2dU40CH5wGQUZiiMweKZfgSy9z5uUMmE3kmSV/jldt8Np/+NhuZiVYmQwtHQfUCC/cmaavrTuYnkaNC9cyiGsSXcLh+Ruw8khYd07aMN0c8PwXYDwSTlZm0hZMW1xw1/5xTSZGMgrNi3xNjeQJOQvqbteuhT1WMogT5O7dmA/qXfVhf00cf8g==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 08fe05bd-5ad7-4467-716b-08de8b88fba2
-X-MS-Exchange-CrossTenant-AuthSource: PH3PPF9E162731D.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2026 22:42:38.8712
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: snY9tuh5hkJGPMO2Hp97tYkRQmTl2MRAB21mQOtWiig5xYUmAH0T4nI4UDdWohrXDcJDLOKwwTX2q//uVGaGbw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7185
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 09/13] ima: Add support for staging measurements with
+ prompt
+To: Roberto Sassu <roberto.sassu@huaweicloud.com>, corbet@lwn.net,
+ skhan@linuxfoundation.org, zohar@linux.ibm.com, dmitry.kasatkin@gmail.com,
+ eric.snowberg@oracle.com, paul@paul-moore.com, jmorris@namei.org,
+ serge@hallyn.com
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
+ gregorylumen@linux.microsoft.com, nramas@linux.microsoft.com,
+ Roberto Sassu <roberto.sassu@huawei.com>,
+ steven chen <chenste@linux.microsoft.com>
+References: <20260326173011.1191815-1-roberto.sassu@huaweicloud.com>
+ <20260326173011.1191815-10-roberto.sassu@huaweicloud.com>
+Content-Language: en-US
+From: steven chen <chenste@linux.microsoft.com>
+In-Reply-To: <20260326173011.1191815-10-roberto.sassu@huaweicloud.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-John Groves wrote:
-> On 26/03/25 11:04AM, Ira Weiny wrote:
-> > John Groves wrote:
-> > > On 26/03/24 02:39PM, Jonathan Cameron wrote:
-> > > > On Tue, 24 Mar 2026 00:38:31 +0000
-> > > > John Groves <john@jagalactic.com> wrote:
-> > > > 
-> > > > > From: John Groves <john@groves.net>
-> > > > > 
-> > > > > The new fsdev driver provides pages/folios initialized compatibly with
-> > > > > fsdax - normal rather than devdax-style refcounting, and starting out
-> > > > > with order-0 folios.
-> > > > > 
-> > > > > When fsdev binds to a daxdev, it is usually (always?) switching from the
-> > > > > devdax mode (device.c), which pre-initializes compound folios according
-> > > > > to its alignment. Fsdev uses fsdev_clear_folio_state() to switch the
-> > > > > folios into a fsdax-compatible state.
-> > > > > 
-> > > > > A side effect of this is that raw mmap doesn't (can't?) work on an fsdev
-> > > > > dax instance. Accordingly, The fsdev driver does not provide raw mmap -
-> > > > > devices must be put in 'devdax' mode (drivers/dax/device.c) to get raw
-> > > > > mmap capability.
-> > > > > 
-> > > > > In this commit is just the framework, which remaps pages/folios compatibly
-> > > > > with fsdax.
-> > > > > 
-> > > > > Enabling dax changes:
-> > > > > 
-> > > > > - bus.h: add DAXDRV_FSDEV_TYPE driver type
-> > > > > - bus.c: allow DAXDRV_FSDEV_TYPE drivers to bind to daxdevs
-> > > > > - dax.h: prototype inode_dax(), which fsdev needs
-> > > > > 
-> > > > > Suggested-by: Dan Williams <dan.j.williams@intel.com>
-> > > > > Suggested-by: Gregory Price <gourry@gourry.net>
-> > > > > Signed-off-by: John Groves <john@groves.net>
-> > > > 
-> > > > I was kind of thinking you'd go with a hidden KCONFIG option with default
-> > > > magic to do the same build condition to you had in the Makefil, but one the
-> > > > user can opt in or out for is also fine.
-> > > > 
-> > > > Comments on that below. Meh, I think this is better anyway :)
-> > > > 
-> > > > Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
-> > > > 
-> > > > 
-> > > > 
-> > > > > diff --git a/drivers/dax/Kconfig b/drivers/dax/Kconfig
-> > > > > index d656e4c0eb84..7051b70980d5 100644
-> > > > > --- a/drivers/dax/Kconfig
-> > > > > +++ b/drivers/dax/Kconfig
-> > > > > @@ -61,6 +61,17 @@ config DEV_DAX_HMEM_DEVICES
-> > > > >  	depends on DEV_DAX_HMEM && DAX
-> > > > >  	def_bool y
-> > > > >  
-> > > > > +config DEV_DAX_FSDEV
-> > > > > +	tristate "FSDEV DAX: fs-dax compatible devdax driver"
-> > > > > +	depends on DEV_DAX && FS_DAX
-> > > > > +	help
-> > > > > +	  Support fs-dax access to DAX devices via a character device
-> > > > > +	  interface. Unlike device_dax (which pre-initializes compound folios
-> > > > > +	  based on device alignment), this driver leaves folios at order-0 so
-> > > > > +	  that fs-dax filesystems can manage folio order dynamically.
-> > > > > +
-> > > > > +	  Say M if unsure.
-> > > > Fine like this, but if you wanted to hide it in interests of not
-> > > > confusing users...
-> > > > 
-> > > > config DEV_DAX_FSDEV
-> > > > 	tristate
-> > > > 	depends on DEV_DAX && FS_DAX
-> > > > 	default DEV_DAX
-> > > 
-> > > I like this better. I see no reason not to default to including fsdev.
-> > > It does nothing other than frustrating famfs users if it's off - since
-> > > building it still has no effect unless you put a daxdev in famfs mode.
-> > > 
-> > > Ira, it's kinda in your hands at the moment. Do you feel like making this
-> > > change?
-> > 
-> > I don't mind making this change.  But we have to deal with the breakage to
-> > current device dax users.
-> > 
-> > https://lore.kernel.org/all/69c36921255b6_e9d8d1009b@iweiny-mobl.notmuch/
-> > 
-> > What am I missing?
-> > 
-> > Ira
-> 
-> OK, I can reproduce that failure with kernel 7.0.0-rc5 and 
-> straight ndctl v84. So it's not famfs.
+On 3/26/2026 10:30 AM, Roberto Sassu wrote:
+> From: Roberto Sassu <roberto.sassu@huawei.com>
+>
+> Introduce the ability of staging the IMA measurement list and deleting them
+> with a prompt.
+>
+> Staging means moving the current content of the measurement list to a
+> separate location, and allowing users to read and delete it. This causes
+> the measurement list to be atomically truncated before new measurements can
+> be added. Staging can be done only once at a time. In the event of kexec(),
+> staging is reverted and staged entries will be carried over to the new
+> kernel.
+>
+> Introduce ascii_runtime_measurements_<algo>_staged and
+> binary_runtime_measurements_<algo>_staged interfaces to stage and delete
+> the measurements. Use 'echo A > <IMA interface>' and
+> 'echo D > <IMA interface>' to respectively stage and delete the entire
+> measurements list. Locking of these interfaces is also mediated with a call
+> to _ima_measurements_open() and with ima_measurements_release().
+>
+> Implement the staging functionality by introducing the new global
+> measurements list ima_measurements_staged, and ima_queue_stage() and
+> ima_queue_delete_staged_all() to respectively move measurements from the
+> current measurements list to the staged one, and to move staged
+> measurements to the ima_measurements_trim list for deletion. Introduce
+> ima_queue_delete() to delete the measurements.
+>
+> Finally, introduce the BINARY_STAGED AND BINARY_FULL binary measurements
+> list types, to maintain the counters and the binary size of staged
+> measurements and the full measurements list (including entries that were
+> staged). BINARY still represents the current binary measurements list.
+>
+> Use the binary size for the BINARY + BINARY_STAGED types in
+> ima_add_kexec_buffer(), since both measurements list types are copied to
+> the secondary kernel during kexec. Use BINARY_FULL in
+> ima_measure_kexec_event(), to generate a critical data record.
+>
+> It should be noted that the BINARY_FULL counter is not passed through
+> kexec. Thus, the number of entries included in the kexec critical data
+> records refers to the entries since the previous kexec records.
+>
+> Note: This code derives from the Alt-IMA Huawei project, whose license is
+>        GPL-2.0 OR MIT.
+>
+> Link: https://github.com/linux-integrity/linux/issues/1
+> Suggested-by: Gregory Lumen <gregorylumen@linux.microsoft.com> (staging revert)
+> Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
+> ---
+>   security/integrity/ima/Kconfig     |  13 +++
+>   security/integrity/ima/ima.h       |   8 +-
+>   security/integrity/ima/ima_fs.c    | 167 ++++++++++++++++++++++++++---
+>   security/integrity/ima/ima_kexec.c |  22 +++-
+>   security/integrity/ima/ima_queue.c |  97 ++++++++++++++++-
+>   5 files changed, 286 insertions(+), 21 deletions(-)
+>
+> diff --git a/security/integrity/ima/Kconfig b/security/integrity/ima/Kconfig
+> index 976e75f9b9ba..e714726f3384 100644
+> --- a/security/integrity/ima/Kconfig
+> +++ b/security/integrity/ima/Kconfig
+> @@ -332,4 +332,17 @@ config IMA_KEXEC_EXTRA_MEMORY_KB
+>   	  If set to the default value of 0, an extra half page of memory for those
+>   	  additional measurements will be allocated.
+>   
+> +config IMA_STAGING
+> +	bool "Support for staging the measurements list"
+> +	default y
+> +	help
+> +	  Add support for staging the measurements list.
+> +
+> +	  It allows user space to stage the measurements list for deletion and
+> +	  to delete the staged measurements after confirmation.
+> +
+> +	  On kexec, staging is reverted and staged measurements are prepended
+> +	  to the current measurements list when measurements are copied to the
+> +	  secondary kernel.
+> +
+>   endif
+> diff --git a/security/integrity/ima/ima.h b/security/integrity/ima/ima.h
+> index 97b7d6024b5d..65db152a0a24 100644
+> --- a/security/integrity/ima/ima.h
+> +++ b/security/integrity/ima/ima.h
+> @@ -30,9 +30,11 @@ enum tpm_pcrs { TPM_PCR0 = 0, TPM_PCR8 = 8, TPM_PCR10 = 10 };
+>   
+>   /*
+>    * BINARY: current binary measurements list
+> + * BINARY_STAGED: staged binary measurements list
+> + * BINARY_FULL: binary measurements list since IMA init (lost after kexec)
+>    */
+>   enum binary_lists {
+> -	BINARY, BINARY__LAST
+> +	BINARY, BINARY_STAGED, BINARY_FULL, BINARY__LAST
+>   };
+>   
+>   /* digest size for IMA, fits SHA1 or MD5 */
+> @@ -125,6 +127,7 @@ struct ima_queue_entry {
+>   	struct ima_template_entry *entry;
+>   };
+>   extern struct list_head ima_measurements;	/* list of all measurements */
+> +extern struct list_head ima_measurements_staged; /* list of staged meas. */
+>   
+>   /* Some details preceding the binary serialized measurement list */
+>   struct ima_kexec_hdr {
+> @@ -314,6 +317,8 @@ struct ima_template_desc *ima_template_desc_current(void);
+>   struct ima_template_desc *ima_template_desc_buf(void);
+>   struct ima_template_desc *lookup_template_desc(const char *name);
+>   bool ima_template_has_modsig(const struct ima_template_desc *ima_template);
+> +int ima_queue_stage(void);
+> +int ima_queue_staged_delete_all(void);
+>   int ima_restore_measurement_entry(struct ima_template_entry *entry);
+>   int ima_restore_measurement_list(loff_t bufsize, void *buf);
+>   int ima_measurements_show(struct seq_file *m, void *v);
+> @@ -334,6 +339,7 @@ extern spinlock_t ima_queue_lock;
+>   extern atomic_long_t ima_num_entries[BINARY__LAST];
+>   extern atomic_long_t ima_num_violations;
+>   extern struct hlist_head __rcu *ima_htable;
+> +extern struct mutex ima_extend_list_mutex;
+>   
+>   static inline unsigned int ima_hash_key(u8 *digest)
+>   {
+> diff --git a/security/integrity/ima/ima_fs.c b/security/integrity/ima/ima_fs.c
+> index 7709a4576322..39d9128e9f22 100644
+> --- a/security/integrity/ima/ima_fs.c
+> +++ b/security/integrity/ima/ima_fs.c
+> @@ -24,6 +24,13 @@
+>   
+>   #include "ima.h"
+>   
+> +/*
+> + * Requests:
+> + * 'A\n': stage the entire measurements list
+> + * 'D\n': delete all staged measurements
+> + */
+> +#define STAGED_REQ_LENGTH 21
+> +
+>   static DEFINE_MUTEX(ima_write_mutex);
+>   static DEFINE_MUTEX(ima_measure_mutex);
+>   static long ima_measure_users;
+> @@ -97,6 +104,11 @@ static void *ima_measurements_start(struct seq_file *m, loff_t *pos)
+>   	return _ima_measurements_start(m, pos, &ima_measurements);
+>   }
+>   
+> +static void *ima_measurements_staged_start(struct seq_file *m, loff_t *pos)
+> +{
+> +	return _ima_measurements_start(m, pos, &ima_measurements_staged);
+> +}
+> +
+>   static void *_ima_measurements_next(struct seq_file *m, void *v, loff_t *pos,
+>   				    struct list_head *head)
+>   {
+> @@ -118,6 +130,12 @@ static void *ima_measurements_next(struct seq_file *m, void *v, loff_t *pos)
+>   	return _ima_measurements_next(m, v, pos, &ima_measurements);
+>   }
+>   
+> +static void *ima_measurements_staged_next(struct seq_file *m, void *v,
+> +					  loff_t *pos)
+> +{
+> +	return _ima_measurements_next(m, v, pos, &ima_measurements_staged);
+> +}
+> +
+>   static void ima_measurements_stop(struct seq_file *m, void *v)
+>   {
+>   }
+> @@ -283,6 +301,68 @@ static const struct file_operations ima_measurements_ops = {
+>   	.release = ima_measurements_release,
+>   };
+>   
+> +static const struct seq_operations ima_measurments_staged_seqops = {
+> +	.start = ima_measurements_staged_start,
+> +	.next = ima_measurements_staged_next,
+> +	.stop = ima_measurements_stop,
+> +	.show = ima_measurements_show
+> +};
+> +
+> +static int ima_measurements_staged_open(struct inode *inode, struct file *file)
+> +{
+> +	return _ima_measurements_open(inode, file,
+> +				      &ima_measurments_staged_seqops);
+> +}
+> +
+> +static ssize_t ima_measurements_staged_write(struct file *file,
+> +					     const char __user *buf,
+> +					     size_t datalen, loff_t *ppos)
+> +{
+> +	char req[STAGED_REQ_LENGTH];
+> +	int ret;
+> +
+> +	if (*ppos > 0 || datalen < 2 || datalen > STAGED_REQ_LENGTH)
+> +		return -EINVAL;
+> +
+> +	if (copy_from_user(req, buf, datalen) != 0)
+> +		return -EFAULT;
+> +
+> +	if (req[datalen - 1] != '\n')
+> +		return -EINVAL;
+> +
+> +	req[datalen - 1] = '\0';
+> +
+> +	switch (req[0]) {
+> +	case 'A':
+> +		if (datalen != 2)
+> +			return -EINVAL;
+> +
+> +		ret = ima_queue_stage();
+> +		break;
+> +	case 'D':
+> +		if (datalen != 2)
+> +			return -EINVAL;
+> +
+> +		ret = ima_queue_staged_delete_all();
+> +		break;
 
-No it is the fsdev_dax driver which causes the issue.
+I think the following two steps may not work because of race condition:
 
-I can reload the driver and effectively change the order the drivers are
-searched.
+step1: ret = ima_queue_stage(); //this will put all logs in active list into staged list;
+step2: ret = ima_queue_staged_delete_all(); //this will delete all logs in staged list;
 
-I can prove this with a simple print.  With my test system (where
-fsdev_dax _happens_ to be the first driver searched) the failure happens.
+The following is the step of race condition:
+     1. current active log list LA1;
+     2. user agent read the TPM quote QA1 match list LA1;
+     3. new event NewLog is added into active log list LA1+NewLog
+     4. user agent call ima_queue_stage() and generated staged list
+        including LA1+NewLog.
+     5. user agent call ima_queue_staged_delete_all();
+        The new log NewLog in step 3 is also deleted
 
-[  526.564232] IKW searching drv type 0 ; type 1
-[  526.564515] IKW searching drv type 2 ; type 1
+Next time the attestation will fail if using the active log list in the 
+kernel.
 
-If I remove your driver (modprobe -r fsdev_dax) prior to running the test
-I get.
+Thanks,
 
-[   59.748171] IKW searching drv type 0 ; type 1
-[   59.749127] IKW searching drv type 1 ; type 1
+Steven
 
-And it passes.  I can continue by loading fsdev_dax back and it will
-continue to work.  If you are getting this to pass it must be because in
-your system that driver gets loaded first...  not sure how.
+> +	default:
+> +		ret = -EINVAL;
+> +	}
+> +
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	return datalen;
+> +}
+> +
+> +static const struct file_operations ima_measurements_staged_ops = {
+> +	.open = ima_measurements_staged_open,
+> +	.read = seq_read,
+> +	.write = ima_measurements_staged_write,
+> +	.llseek = seq_lseek,
+> +	.release = ima_measurements_release,
+> +};
+> +
+>   void ima_print_digest(struct seq_file *m, u8 *digest, u32 size)
+>   {
+>   	u32 i;
+> @@ -356,6 +436,28 @@ static const struct file_operations ima_ascii_measurements_ops = {
+>   	.release = ima_measurements_release,
+>   };
+>   
+> +static const struct seq_operations ima_ascii_measurements_staged_seqops = {
+> +	.start = ima_measurements_staged_start,
+> +	.next = ima_measurements_staged_next,
+> +	.stop = ima_measurements_stop,
+> +	.show = ima_ascii_measurements_show
+> +};
+> +
+> +static int ima_ascii_measurements_staged_open(struct inode *inode,
+> +					      struct file *file)
+> +{
+> +	return _ima_measurements_open(inode, file,
+> +				      &ima_ascii_measurements_staged_seqops);
+> +}
+> +
+> +static const struct file_operations ima_ascii_measurements_staged_ops = {
+> +	.open = ima_ascii_measurements_staged_open,
+> +	.read = seq_read,
+> +	.write = ima_measurements_staged_write,
+> +	.llseek = seq_lseek,
+> +	.release = ima_measurements_release,
+> +};
+> +
+>   static ssize_t ima_read_policy(char *path)
+>   {
+>   	void *data = NULL;
+> @@ -459,10 +561,21 @@ static const struct seq_operations ima_policy_seqops = {
+>   };
+>   #endif
+>   
+> -static int __init create_securityfs_measurement_lists(void)
+> +static int __init create_securityfs_measurement_lists(bool staging)
+>   {
+> +	const struct file_operations *ascii_ops = &ima_ascii_measurements_ops;
+> +	const struct file_operations *binary_ops = &ima_measurements_ops;
+> +	mode_t permissions = S_IRUSR | S_IRGRP;
+> +	const char *file_suffix = "";
+>   	int count = NR_BANKS(ima_tpm_chip);
+>   
+> +	if (staging) {
+> +		ascii_ops = &ima_ascii_measurements_staged_ops;
+> +		binary_ops = &ima_measurements_staged_ops;
+> +		file_suffix = "_staged";
+> +		permissions |= (S_IWUSR | S_IWGRP);
+> +	}
+> +
+>   	if (ima_sha1_idx >= NR_BANKS(ima_tpm_chip))
+>   		count++;
+>   
+> @@ -473,29 +586,32 @@ static int __init create_securityfs_measurement_lists(void)
+>   
+>   		if (algo == HASH_ALGO__LAST)
+>   			snprintf(file_name, sizeof(file_name),
+> -				 "ascii_runtime_measurements_tpm_alg_%x",
+> -				 ima_tpm_chip->allocated_banks[i].alg_id);
+> +				 "ascii_runtime_measurements_tpm_alg_%x%s",
+> +				 ima_tpm_chip->allocated_banks[i].alg_id,
+> +				 file_suffix);
+>   		else
+>   			snprintf(file_name, sizeof(file_name),
+> -				 "ascii_runtime_measurements_%s",
+> -				 hash_algo_name[algo]);
+> -		dentry = securityfs_create_file(file_name, S_IRUSR | S_IRGRP,
+> +				 "ascii_runtime_measurements_%s%s",
+> +				 hash_algo_name[algo], file_suffix);
+> +		dentry = securityfs_create_file(file_name, permissions,
+>   						ima_dir, (void *)(uintptr_t)i,
+> -						&ima_ascii_measurements_ops);
+> +						ascii_ops);
+>   		if (IS_ERR(dentry))
+>   			return PTR_ERR(dentry);
+>   
+>   		if (algo == HASH_ALGO__LAST)
+>   			snprintf(file_name, sizeof(file_name),
+> -				 "binary_runtime_measurements_tpm_alg_%x",
+> -				 ima_tpm_chip->allocated_banks[i].alg_id);
+> +				 "binary_runtime_measurements_tpm_alg_%x%s",
+> +				 ima_tpm_chip->allocated_banks[i].alg_id,
+> +				 file_suffix);
+>   		else
+>   			snprintf(file_name, sizeof(file_name),
+> -				 "binary_runtime_measurements_%s",
+> -				 hash_algo_name[algo]);
+> -		dentry = securityfs_create_file(file_name, S_IRUSR | S_IRGRP,
+> +				 "binary_runtime_measurements_%s%s",
+> +				 hash_algo_name[algo], file_suffix);
+> +
+> +		dentry = securityfs_create_file(file_name, permissions,
+>   						ima_dir, (void *)(uintptr_t)i,
+> -						&ima_measurements_ops);
+> +						binary_ops);
+>   		if (IS_ERR(dentry))
+>   			return PTR_ERR(dentry);
+>   	}
+> @@ -503,6 +619,23 @@ static int __init create_securityfs_measurement_lists(void)
+>   	return 0;
+>   }
+>   
+> +static int __init create_securityfs_staging_links(void)
+> +{
+> +	struct dentry *dentry;
+> +
+> +	dentry = securityfs_create_symlink("binary_runtime_measurements_staged",
+> +		ima_dir, "binary_runtime_measurements_sha1_staged", NULL);
+> +	if (IS_ERR(dentry))
+> +		return PTR_ERR(dentry);
+> +
+> +	dentry = securityfs_create_symlink("ascii_runtime_measurements_staged",
+> +		ima_dir, "ascii_runtime_measurements_sha1_staged", NULL);
+> +	if (IS_ERR(dentry))
+> +		return PTR_ERR(dentry);
+> +
+> +	return 0;
+> +}
+> +
+>   /*
+>    * ima_open_policy: sequentialize access to the policy file
+>    */
+> @@ -595,7 +728,13 @@ int __init ima_fs_init(void)
+>   		goto out;
+>   	}
+>   
+> -	ret = create_securityfs_measurement_lists();
+> +	ret = create_securityfs_measurement_lists(false);
+> +	if (ret == 0 && IS_ENABLED(CONFIG_IMA_STAGING)) {
+> +		ret = create_securityfs_measurement_lists(true);
+> +		if (ret == 0)
+> +			ret = create_securityfs_staging_links();
+> +	}
+> +
+>   	if (ret != 0)
+>   		goto out;
+>   
+> diff --git a/security/integrity/ima/ima_kexec.c b/security/integrity/ima/ima_kexec.c
+> index d7d0fb639d99..d5503dd5cc9b 100644
+> --- a/security/integrity/ima/ima_kexec.c
+> +++ b/security/integrity/ima/ima_kexec.c
+> @@ -42,8 +42,8 @@ void ima_measure_kexec_event(const char *event_name)
+>   	long len;
+>   	int n;
+>   
+> -	buf_size = ima_get_binary_runtime_size(BINARY);
+> -	len = atomic_long_read(&ima_num_entries[BINARY]);
+> +	buf_size = ima_get_binary_runtime_size(BINARY_FULL);
+> +	len = atomic_long_read(&ima_num_entries[BINARY_FULL]);
+>   
+>   	n = scnprintf(ima_kexec_event, IMA_KEXEC_EVENT_LEN,
+>   		      "kexec_segment_size=%lu;ima_binary_runtime_size=%lu;"
+> @@ -106,13 +106,26 @@ static int ima_dump_measurement_list(unsigned long *buffer_size, void **buffer,
+>   
+>   	memset(&khdr, 0, sizeof(khdr));
+>   	khdr.version = 1;
+> -	/* This is an append-only list, no need to hold the RCU read lock */
+> -	list_for_each_entry_rcu(qe, &ima_measurements, later, true) {
+> +	/* It can race with ima_queue_stage() and ima_queue_delete_staged(). */
+> +	mutex_lock(&ima_extend_list_mutex);
+> +
+> +	list_for_each_entry_rcu(qe, &ima_measurements_staged, later,
+> +				lockdep_is_held(&ima_extend_list_mutex)) {
+>   		ret = ima_dump_measurement(&khdr, qe);
+>   		if (ret < 0)
+>   			break;
+>   	}
+>   
+> +	list_for_each_entry_rcu(qe, &ima_measurements, later,
+> +				lockdep_is_held(&ima_extend_list_mutex)) {
+> +		if (!ret)
+> +			ret = ima_dump_measurement(&khdr, qe);
+> +		if (ret < 0)
+> +			break;
+> +	}
+> +
+> +	mutex_unlock(&ima_extend_list_mutex);
+> +
+>   	/*
+>   	 * fill in reserved space with some buffer details
+>   	 * (eg. version, buffer size, number of measurements)
+> @@ -167,6 +180,7 @@ void ima_add_kexec_buffer(struct kimage *image)
+>   		extra_memory = CONFIG_IMA_KEXEC_EXTRA_MEMORY_KB * 1024;
+>   
+>   	binary_runtime_size = ima_get_binary_runtime_size(BINARY) +
+> +			      ima_get_binary_runtime_size(BINARY_STAGED) +
+>   			      extra_memory;
+>   
+>   	if (binary_runtime_size >= ULONG_MAX - PAGE_SIZE)
+> diff --git a/security/integrity/ima/ima_queue.c b/security/integrity/ima/ima_queue.c
+> index b6d10dceb669..50519ed837d4 100644
+> --- a/security/integrity/ima/ima_queue.c
+> +++ b/security/integrity/ima/ima_queue.c
+> @@ -26,6 +26,7 @@
+>   static struct tpm_digest *digests;
+>   
+>   LIST_HEAD(ima_measurements);	/* list of all measurements */
+> +LIST_HEAD(ima_measurements_staged); /* list of staged measurements */
+>   #ifdef CONFIG_IMA_KEXEC
+>   static unsigned long binary_runtime_size[BINARY__LAST];
+>   #else
+> @@ -45,11 +46,11 @@ atomic_long_t ima_num_violations = ATOMIC_LONG_INIT(0);
+>   /* key: inode (before secure-hashing a file) */
+>   struct hlist_head __rcu *ima_htable;
+>   
+> -/* mutex protects atomicity of extending measurement list
+> +/* mutex protects atomicity of extending and staging measurement list
+>    * and extending the TPM PCR aggregate. Since tpm_extend can take
+>    * long (and the tpm driver uses a mutex), we can't use the spinlock.
+>    */
+> -static DEFINE_MUTEX(ima_extend_list_mutex);
+> +DEFINE_MUTEX(ima_extend_list_mutex);
+>   
+>   /*
+>    * Used internally by the kernel to suspend measurements.
+> @@ -174,12 +175,16 @@ static int ima_add_digest_entry(struct ima_template_entry *entry,
+>   				lockdep_is_held(&ima_extend_list_mutex));
+>   
+>   	atomic_long_inc(&ima_num_entries[BINARY]);
+> +	atomic_long_inc(&ima_num_entries[BINARY_FULL]);
+> +
+>   	if (update_htable) {
+>   		key = ima_hash_key(entry->digests[ima_hash_algo_idx].digest);
+>   		hlist_add_head_rcu(&qe->hnext, &htable[key]);
+>   	}
+>   
+>   	ima_update_binary_runtime_size(entry, BINARY);
+> +	ima_update_binary_runtime_size(entry, BINARY_FULL);
+> +
+>   	return 0;
+>   }
+>   
+> @@ -280,6 +285,94 @@ int ima_add_template_entry(struct ima_template_entry *entry, int violation,
+>   	return result;
+>   }
+>   
+> +int ima_queue_stage(void)
+> +{
+> +	int ret = 0;
+> +
+> +	mutex_lock(&ima_extend_list_mutex);
+> +	if (!list_empty(&ima_measurements_staged)) {
+> +		ret = -EEXIST;
+> +		goto out_unlock;
+> +	}
+> +
+> +	if (list_empty(&ima_measurements)) {
+> +		ret = -ENOENT;
+> +		goto out_unlock;
+> +	}
+> +
+> +	list_replace(&ima_measurements, &ima_measurements_staged);
+> +	INIT_LIST_HEAD(&ima_measurements);
+> +
+> +	atomic_long_set(&ima_num_entries[BINARY_STAGED],
+> +			atomic_long_read(&ima_num_entries[BINARY]));
+> +	atomic_long_set(&ima_num_entries[BINARY], 0);
+> +
+> +	if (IS_ENABLED(CONFIG_IMA_KEXEC)) {
+> +		binary_runtime_size[BINARY_STAGED] =
+> +					binary_runtime_size[BINARY];
+> +		binary_runtime_size[BINARY] = 0;
+> +	}
+> +out_unlock:
+> +	mutex_unlock(&ima_extend_list_mutex);
+> +	return ret;
+> +}
+> +
+> +static void ima_queue_delete(struct list_head *head);
+> +
+> +int ima_queue_staged_delete_all(void)
+> +{
+> +	LIST_HEAD(ima_measurements_trim);
+> +
+> +	mutex_lock(&ima_extend_list_mutex);
+> +	if (list_empty(&ima_measurements_staged)) {
+> +		mutex_unlock(&ima_extend_list_mutex);
+> +		return -ENOENT;
+> +	}
+> +
+> +	list_replace(&ima_measurements_staged, &ima_measurements_trim);
+> +	INIT_LIST_HEAD(&ima_measurements_staged);
+> +
+> +	atomic_long_set(&ima_num_entries[BINARY_STAGED], 0);
+> +
+> +	if (IS_ENABLED(CONFIG_IMA_KEXEC))
+> +		binary_runtime_size[BINARY_STAGED] = 0;
+> +
+> +	mutex_unlock(&ima_extend_list_mutex);
+> +
+> +	ima_queue_delete(&ima_measurements_trim);
+> +	return 0;
+> +}
+> +
+> +static void ima_queue_delete(struct list_head *head)
+> +{
+> +	struct ima_queue_entry *qe, *qe_tmp;
+> +	unsigned int i;
+> +
+> +	list_for_each_entry_safe(qe, qe_tmp, head, later) {
+> +		/*
+> +		 * Safe to free template_data here without synchronize_rcu()
+> +		 * because the only htable reader, ima_lookup_digest_entry(),
+> +		 * accesses only entry->digests, not template_data. If new
+> +		 * htable readers are added that access template_data, a
+> +		 * synchronize_rcu() is required here.
+> +		 */
+> +		for (i = 0; i < qe->entry->template_desc->num_fields; i++) {
+> +			kfree(qe->entry->template_data[i].data);
+> +			qe->entry->template_data[i].data = NULL;
+> +			qe->entry->template_data[i].len = 0;
+> +		}
+> +
+> +		list_del(&qe->later);
+> +
+> +		/* No leak if condition is false, referenced by ima_htable. */
+> +		if (IS_ENABLED(CONFIG_IMA_DISABLE_HTABLE)) {
+> +			kfree(qe->entry->digests);
+> +			kfree(qe->entry);
+> +			kfree(qe);
+> +		}
+> +	}
+> +}
+> +
+>   int ima_restore_measurement_entry(struct ima_template_entry *entry)
+>   {
+>   	int result = 0;
 
-This is with the same exact kernel just with your module removed at run
-time.
 
-dax_match_type() needs some other way of matching when the fsdev_dax
-driver should be used.
-
-I'm not seeing a clear path ATM.
-
-> 
-> I also studied the verbose logs trying to figure out if famfs
-> could cause it (while running a famfs kernel and ndctl), but
-> I don't see it.
-> 
-> Then I tried non-famfs kernel and ndctl and it's the same with
-> or without famfs kernel and famfs ndctl.
-
-:-/  I'm not seeing any failures with rc5.
-
-Also I'm not running with famfs.  Just the dax changes.
-
-Ira
