@@ -1,492 +1,110 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 657BE344D8D
-	for <linux-doc@vger.kernel.org>; Thu, 26 Mar 2026 19:17:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774552683; cv=none; b=NVQAY8i2V7vJnhjU2ht08BaAZTcmuk60/qzMnGyc1WPglHZ4vvHACyEvAs+F5qjgW1kBFtzB2llPeffieyWh/dfu8C2kFErI3vMp2/6JGaFEpHzCZB9Ya7sVO4/jHGExMsrbgmEB8tnQF9SQaTW2AzOOh9SNlpwj3p1U0ohpec8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774552683; c=relaxed/simple;
-	bh=hGyp+QwilLd1w5whw/DpjUvHFc3mtZzYY7VhrEAmWyk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=A8sjYhieKfq9IHPYKaQNIFbu7KIsDQgIaZvSzihc4wTha30iFmDVEnAo4HV5ShGs+JWpG1px+0DmYNE//eH5jP83/aaKdlOA0EDLEDVWgsu6HO52fKaKFoYL0yCFmEpxNLDSlqhdKYbrZ2jbB3P69NHvhunCT9vocpvzICP4CKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=AbKtfFRK; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E32A834F48E;
+	Thu, 26 Mar 2026 19:22:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774552965; cv=pass; b=MQeR7xnldvokTHU8p5b9aXy/WjQDfKxHr2EWHvEAcEc26kTCFhN/1r2Z6zzzpTI7G4ButVPxPPYpvd7OawOEQUdL+L3EGwKuzbG2FnzpIM0hdqXgbQudwY/ahtmuA1b7W4yAXd38CJiBwUzPASdFQf4MSfU+poj/Px3oBx4kgr0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774552965; c=relaxed/simple;
+	bh=HbYZ60qrLzqhafhDhXmS9+prkP2azgHQMIHNCWQ3yjo=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=kokM5250jWuTEHUpycBrsc6JL/NLQVDsg+S3loR+H/zKGad8F+kp+xibECMAOJbnHlmpuik8nND3Rh969fstWtsRou+Vm7TARrKeeRWg3gMO99iAMBk7ZO24y4yKXhtp2lzUQviSgRib0mtz0hbJ+MQ9zqmkMmne+D5UuOI714U=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=KgDVsZiH; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="AbKtfFRK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1774552677;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oIrE/0n/QpMIT5FDuISFdYoE49rv15Fgf+SUwUXiam4=;
-	b=AbKtfFRKnhYj8Y95LznZypfuCJ0kV2Ch9Au7HLpvQ8JWQGPXUWPIhnz9LpWDENDJxZ2Y4L
-	LRNrz5pw5ZtVRU/mpnk8fll4dMlMT2w8hhjQ63uhlaauTCNYwKRBGcAnFnhjNw0ynNfEAx
-	CVfkrnUGMZ2BVTk8zIKlyccpUgM2YV4=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-577-y0L5wEJaPzOpaw_H4JLhoQ-1; Thu,
- 26 Mar 2026 15:17:56 -0400
-X-MC-Unique: y0L5wEJaPzOpaw_H4JLhoQ-1
-X-Mimecast-MFC-AGG-ID: y0L5wEJaPzOpaw_H4JLhoQ_1774552674
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E09341956056;
-	Thu, 26 Mar 2026 19:17:52 +0000 (UTC)
-Received: from [10.22.80.199] (unknown [10.22.80.199])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 9B9523000223;
-	Thu, 26 Mar 2026 19:17:49 +0000 (UTC)
-Message-ID: <90a6512f-5b6b-4781-87f3-4580ac426c37@redhat.com>
-Date: Thu, 26 Mar 2026 15:17:48 -0400
+	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="KgDVsZiH"
+ARC-Seal: i=1; a=rsa-sha256; t=1774552946; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=YDewQ7Eisoq1w7ICnXrDNiGW1xG7q6WKfDNGaduCX7NteTcqc52vfb9G5YZ6gkVRIIe37v62WHKImyFnrfIPqNEIhCtfRWeadndLSu+WnwB2SptZxxV3MvYqUKeqT34Uhdmt6o4eFb+EJs7BlitLLevK8Wuy+9Mxy2N4grwNvHo=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1774552946; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=5+utr8pYKvO3ZMksOXxs+qfptcs+4xumv9piq8O1JzY=; 
+	b=bVHElHwmwFkMQfTZ8WpuYN8L8AXULXu+xSejaULizpPNvpfjJzwXuMHR4wBRcCjphsRi6IZD+xRc//0vd8s+xTcFtItmnIQfdUiFr69yD5TpvAUiB81z5SmHl6TvbnMdVk2DaEs7OOmd8DQHxA7HqbyjkSYcO5zH9vz/Srkck2U=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=rong.moe;
+	spf=pass  smtp.mailfrom=i@rong.moe;
+	dmarc=pass header.from=<i@rong.moe>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774552946;
+	s=zmail2048; d=rong.moe; i=i@rong.moe;
+	h=From:From:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:To:To:Cc:Cc:Reply-To;
+	bh=5+utr8pYKvO3ZMksOXxs+qfptcs+4xumv9piq8O1JzY=;
+	b=KgDVsZiHVKncVMFSI1Y+pNbSyE9f/nZhEJ/QWwb7LBtNJ6Y/qjYnVueTwoiOPRcI
+	HGRZDluJiYNXdkSTvSBA8EEAXKZf6Qk1/L93yH4KEXLtyeNrVBI+e1BPZLwbA0URCfd
+	daj+sB8j7fcZMdwK/K54rHItq0KHbEkgn+yp++/Ltt02fHpWpD4tLChqa/UaQ2XUZE/
+	KSjg5PdgYuIks1k2t3Ih+SJN1TUVm2emwzDfpbd8T7FtGYJBn2O4A4DBHhiiwLRFoGz
+	qUPMJOzcsw8614nXcUfmJV4wELbY35OBRrKc1xwsbHLvYnELF99flxgAARSKYbpxyto
+	9OKayk2Qeg==
+Received: by mx.zohomail.com with SMTPS id 1774552944999543.6591470391733;
+	Thu, 26 Mar 2026 12:22:24 -0700 (PDT)
+From: Rong Zhang <i@rong.moe>
+Subject: [PATCH 0/4] hwmon: Add WITRN USB tester driver
+Date: Fri, 27 Mar 2026 03:19:49 +0800
+Message-Id: <20260327-b4-hwmon-witrn-v1-0-8d2f1896c045@rong.moe>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] doc: Add CPU Isolation documentation
-To: Frederic Weisbecker <frederic@kernel.org>,
- LKML <linux-kernel@vger.kernel.org>
-Cc: Anna-Maria Behnsen <anna-maria@linutronix.de>,
- Gabriele Monaco <gmonaco@redhat.com>, Ingo Molnar <mingo@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Marcelo Tosatti <mtosatti@redhat.com>,
- Marco Crivellari <marco.crivellari@suse.com>,
- Michal Hocko <mhocko@kernel.org>, "Paul E . McKenney" <paulmck@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>, Phil Auld <pauld@redhat.com>,
- Steven Rostedt <rostedt@goodmis.org>, Thomas Gleixner <tglx@linutronix.de>,
- Valentin Schneider <vschneid@redhat.com>, Vlastimil Babka <vbabka@suse.cz>,
- linux-doc@vger.kernel.org, Sebastian Andrzej Siewior
- <bigeasy@linutronix.de>, Bagas Sanjaya <bagasdotme@gmail.com>
-References: <20260326140055.41555-1-frederic@kernel.org>
-Content-Language: en-US
-From: Waiman Long <longman@redhat.com>
-In-Reply-To: <20260326140055.41555-1-frederic@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+X-B4-Tracking: v=1; b=H4sIANWGxWkC/yXMwQ5DQBCA4VeROZtkOpTwKuJgdVojsWQXKxHvb
+ tsev8P/n+DFqXiokxOc7Op1thGPNIF+6OxHUF/RwMQFZVyiyXEI02wx6OosdgVXpqKc+EkQo8X
+ JW4/fsGn/9psZpV+/F7iuG0ZJcYNyAAAA
+X-Change-ID: 20260327-b4-hwmon-witrn-a629b9040250
+To: Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Rong Zhang <i@rong.moe>
+X-Mailer: b4 0.16-dev-ad80c
+X-ZohoMailClient: External
 
-On 3/26/26 10:00 AM, Frederic Weisbecker wrote:
-> nohz_full was introduced in v3.10 in 2013, which means this
-> documentation is overdue for 13 years.
->
-> Fortunately Paul wrote a part of the needed documentation a while ago,
-> especially concerning nohz_full in Documentation/timers/no_hz.rst and
-> also about per-CPU kthreads in
-> Documentation/admin-guide/kernel-per-CPU-kthreads.rst
->
-> Introduce a new page that gives an overview of CPU isolation in general.
->
-> Signed-off-by: Frederic Weisbecker <frederic@kernel.org>
-> ---
-> v2:
->     - Fix links and code blocks (Bagas and Sebastian)
->     - Isolation is not only about userspace, rephrase accordingly (Valentin)
->     - Paste BIOS issues suggestion from Valentin
->     - Include the whole rtla suite (Valentin)
->     - Rephrase a few details (Waiman)
->     - Talk about RCU induced overhead rather than slower RCU (Sebastian)
->
->   Documentation/admin-guide/cpu-isolation.rst | 357 ++++++++++++++++++++
->   Documentation/admin-guide/index.rst         |   1 +
->   2 files changed, 358 insertions(+)
->   create mode 100644 Documentation/admin-guide/cpu-isolation.rst
->
-> diff --git a/Documentation/admin-guide/cpu-isolation.rst b/Documentation/admin-guide/cpu-isolation.rst
-> new file mode 100644
-> index 000000000000..886dec79b056
-> --- /dev/null
-> +++ b/Documentation/admin-guide/cpu-isolation.rst
-> @@ -0,0 +1,357 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=============
-> +CPU Isolation
-> +=============
-> +
-> +Introduction
-> +============
-> +
-> +"CPU Isolation" means leaving a CPU exclusive to a given workload
-> +without any undesired code interference from the kernel.
-> +
-> +Those interferences, commonly pointed out as "noise", can be triggered
-> +by asynchronous events (interrupts, timers, scheduler preemption by
-> +workqueues and kthreads, ...) or synchronous events (syscalls and page
-> +faults).
-> +
-> +Such noise usually goes unnoticed. After all synchronous events are a
-> +component of the requested kernel service. And asynchronous events are
-> +either sufficiently well distributed by the scheduler when executed
-> +as tasks or reasonably fast when executed as interrupt. The timer
-> +interrupt can even execute 1024 times per seconds without a significant
-> +and measurable impact most of the time.
-> +
-> +However some rare and extreme workloads can be quite sensitive to
-> +those kinds of noise. This is the case, for example, with high
-> +bandwidth network processing that can't afford losing a single packet
-> +or very low latency network processing. Typically those usecases
-> +involve DPDK, bypassing the kernel networking stack and performing
-> +direct access to the networking device from userscace.
+WITRN produces a series of devices to monitor power characteristics of
+USB connections and display those on a on-device display. Most of them
+contain an additional port which exposes the measurements via USB HID.
 
-As also pointed by by Sashiko, there is a typo "userscace" -> 
-"userspace". There are also typos reported in
+These devices report sensor values in IEEE-754 float (binary32) format.
+The driver must perform floating-point number to integer conversions to
+provide hwmon channels. Meanwhile, they also report accumulative float
+values, and simple division or multiplication turns them into useful
+hwmon channels.
 
-https://sashiko.dev/#/patchset/20260326140055.41555-1-frederic%40kernel.org
+Patch 1 adds label support for 64-bit energy attributes, as the driver
+needs it.
 
-> +
-> +In order to run a CPU without or with limited kernel noise, the
-> +related housekeeping work needs to be either shutdown, migrated or
-> +offloaded.
-> +
-> +Housekeeping
-> +============
-> +
-> +In the CPU isolation terminology, housekeeping is the work, often
-> +asynchronous, that the kernel needs to process in order to maintain
-> +all its services. It matches the noises and disturbances enumerated
-> +above except when at least one CPU is isolated. Then housekeeping may
-> +make use of further coping mechanisms if CPU-tied work must be
-> +offloaded.
-> +
-> +Housekeeping CPUs are the non-isolated CPUs where the kernel noise
-> +is moved away from isolated CPUs.
-> +
-> +The isolation can be implemented in several ways depending on the
-> +nature of the noise:
-> +
-> +- Unbound work, where "unbound" means not tied to any CPU, can be
-> +  simply migrated away from isolated CPUs to housekeeping CPUs.
-> +  This is the case of unbound workqueues, kthreads and timers.
-> +
-> +- Bound work, where "bound" means tied to a specific CPU, usually
-> +  can't be moved away as-is by nature. Either:
-> +
-> +	- The work must switch to a locked implementation. Eg: This is
-> +	  the case of RCU with CONFIG_RCU_NOCB_CPU.
-> +
-> +	- The related feature must be shutdown and considered
-> +	  incompatible with isolated CPUs. Eg: Lockup watchdog,
-> +	  unreliable clocksources, etc...
-> +
-> +	- An elaborated and heavyweight coping mechanism stands as a
-> +	  replacement. Eg: the timer tick is shutdown on nohz_full but
+Patch 2 adds a helper module for floating-point to integer conversions,
+so that the conversion, multification and division methods can be used
+in this driver as well as other drivers (I am also working on another
+USB tester driver that needs it).
 
-"shutdown" should be 2 words as "shutdown" isn't a verb. Should we add 
-CPU after "nohz_full" to make it more clear?
+Patch 3 adds a barebone HID driver for WITRN K2.
 
+Patch 4 adds hwmon channels and attributes to the driver.
 
-> +	  with the constraint of running a single task on the CPU. A
-> +	  significant cost penalty is added on kernel entry/exit and
-> +	  a residual 1Hz scheduler tick is offloaded to housekeeping
-> +	  CPUs.
-> +
-> +In any case, housekeeping work has to be handled, which is why there
-> +must be at least one housekeeping CPU in the system, preferrably more
-> +if the machine runs a lot of CPUs. For example one per node on NUMA
-> +systems.
-> +
-> +Also CPU isolation often means a tradeoff between noise-free isolated
-> +CPUs and added overhead on housekeeping CPUs, sometimes even on
-> +isolated CPUs entering the kernel.
-> +
-> +Isolation features
-> +==================
-> +
-> +Different levels of isolation can be configured in the kernel, each of
-> +which having their own drawbacks and tradeoffs.
-> +
-> +Scheduler domain isolation
-> +--------------------------
-> +
-> +This feature isolates a CPU from the scheduler topology. As a result,
-> +the target isn't part of the load balancing. Tasks won't migrate
-> +neither from nor to it unless affined explicitly.
-> +
-> +As a side effect the CPU is also isolated from unbound workqueues and
-> +unbound kthreads.
-> +
-> +Requirements
-> +~~~~~~~~~~~~
-> +
-> +- CONFIG_CPUSETS=y for the cpusets based interface
-> +
-> +Tradeoffs
-> +~~~~~~~~~
-> +
-> +By nature, the system load is overall less distributed since some CPUs
-> +are extracted from the global load balancing.
-> +
-> +Interface
-> +~~~~~~~~~
-> +
-> +- Documentation/admin-guide/cgroup-v2.rst cpuset isolated partitions are recommended
-> +  because they are tunable at runtime.
-> +
-> +- The 'isolcpus=' kernel boot parameter with the 'domain' flag is a
-> +  less flexible alternative that doesn't allow for runtime
-> +  reconfiguration.
-> +
-> +IRQs isolation
-> +--------------
-> +
-> +Isolate the IRQs whenever possible, so that they don't fire on the
-> +target CPUs.
-> +
-> +Interface
-> +~~~~~~~~~
-> +
-> +- The file /proc/irq/\*/smp_affinity as explained in detail in
-> +  Documentation/core-api/irq/irq-affinity.rst page.
-> +
-> +- The "irqaffinity=" kernel boot parameter for a default setting.
-> +
-> +- The "managed_irq" flag in the "isolcpus=" kernel boot parameter
-> +  tries a best effort affinity override for managed IRQs.
-> +
-> +Full Dynticks (aka nohz_full)
-> +-----------------------------
-> +
-> +Full dynticks extends the dynticks idle mode, which stop the tick when
-> +the CPU is idle, to CPUs running a single task in userspace. That is,
-> +the timer tick is stopped if the environment allows it.
-> +
-> +Global timer callbacks are also isolated from the nohz_full CPUs.
-> +
-> +Requirements
-> +~~~~~~~~~~~~
-> +
-> +- CONFIG_NO_HZ_FULL=y
-> +
-> +Constraints
-> +~~~~~~~~~~~
-> +
-> +- The isolated CPUs must run a single task only. Multitask requires
-> +  the tick to maintain preemption. This is usually fine since the
-> +  workload usually can't stand the latency of random context switches.
-> +
-> +- No call to the kernel from isolated CPUs, at the risk of triggering
-> +  random noise.
-> +
-> +- No use of posix CPU timers on isolated CPUs.
-> +
-> +- Architecture must have a stable and reliable clocksource (no
-> +  unreliable TSC that requires the watchdog).
-> +
-> +
-> +Tradeoffs
-> +~~~~~~~~~
-> +
-> +In terms of cost, this is the most invasive isolation feature. It is
-> +assumed to be used when the workload spends most of its time in
-> +userspace and doesn't rely on the kernel except for preparatory
-> +work because:
-> +
-> +- RCU adds more overhead due to the locked, offloaded and threaded
-> +  callbacks processing (the same that would be obtained with "rcu_nocb"
-> +  boot parameter).
-It should be "rcu_nocbs".
-> +
-> +- Kernel entry/exit through syscalls, exceptions and IRQs are more
-> +  costly due to fully ordered RmW operations that maintain userspace
-> +  as RCU extended quiescent state. Also the CPU time is accounted on
-> +  kernel boundaries instead of periodically from the tick.
-> +
-> +- Housekeeping CPUs must run a 1Hz residual remote scheduler tick
-> +  on behalf of the isolated CPUs.
-> +
-> +Checklist
-> +=========
-> +
-> +You have set up each of the above isolation features but you still
-> +observe jitters that trash your workload? Make sure to check a few
-> +elements before proceeding.
-> +
-> +Some of these checklist items are similar to those of real time
-> +workloads:
-> +
-> +- Use mlock() to prevent your pages from being swapped away. Page
-> +  faults are usually not compatible with jitter sensitive workloads.
-> +
-> +- Avoid SMT to prevent your hardware thread from being "preempted"
-> +  by another one.
-> +
-> +- CPU frequency changes may induce subtle sorts of jitter in a
-> +  workload. Cpufreq should be used and tuned with caution.
-> +
-> +- Deep C-states may result in latency issues upon wake-up. If this
-> +  happens to be a problem, C-states can be limited via kernel boot
-> +  parameters such as processor.max_cstate or intel_idle.max_cstate.
-> +  More finegrained tunings are described in
-> +  Documentation/admin-guide/pm/cpuidle.rst page
-> +
-> +- Your system may be subject to firmware-originating interrupts - x86 has
-> +  System Management Interrupts (SMIs) for example. Check your system BIOS
-> +  to disable such interference, and with some luck your vendor will have
-> +  a BIOS tuning guidance for low-latency operations.
-> +
-> +
-> +Full isolation example
-> +======================
-> +
-> +In this example, the system has 8 CPUs and the 8th is to be fully
-> +isolated. Since CPUs start from 0, the 8th CPU is CPU 7.
-> +
-> +Kernel parameters
-> +-----------------
-> +
-> +Set the following kernel boot parameters to disable SMT and setup tick
-> +and IRQ isolation:
-> +
-> +- Full dynticks: nohz_full=7
-> +
-> +- IRQs isolation: irqaffinity=0-6
-> +
-> +- Managed IRQs isolation: isolcpus=managed_irq,7
-> +
-> +- Prevent from SMT: nosmt
-> +
-> +The full command line is then:
-> +
-> +  nohz_full=7 irqaffinity=0-6 isolcpus=managed_irq,7 nosmt
-> +
-> +CPUSET configuration (cgroup v2)
-> +--------------------------------
-> +
-> +Assuming cgroup v2 is mounted to /sys/fs/cgroup, the following script
-> +isolates CPU 7 from scheduler domains.
-> +
-> +::
-> +
-> +  cd /sys/fs/cgroup
-> +  # Activate the cpuset subsystem
-> +  echo +cpuset > cgroup.subtree_control
-> +  # Create partition to be isolated
-> +  mkdir test
-> +  cd test
-> +  echo +cpuset > cgroup.subtree_control
-> +  # Isolate CPU 7
-> +  echo 7 > cpuset.cpus
-> +  echo "isolated" > cpuset.cpus.partition
-> +
-> +The userspace workload
-> +----------------------
-> +
-> +Fake a pure userspace workload, the below program runs a dummy
-> +userspace loop on the isolated CPU 7.
-> +
-> +::
-> +
-> +  #include <stdio.h>
-> +  #include <fcntl.h>
-> +  #include <unistd.h>
-> +  #include <errno.h>
-> +  int main(void)
-> +  {
-> +      // Move the current task to the isolated cpuset (bind to CPU 7)
-> +      int fd = open("/sys/fs/cgroup/test/cgroup.procs", O_WRONLY);
-> +      if (fd < 0) {
-> +          perror("Can't open cpuset file...\n");
-> +          return 0;
-> +      }
-> +
-> +      write(fd, "0\n", 2);
-> +      close(fd);
-> +
-> +      // Run an endless dummy loop until the launcher kills us
-> +      while (1)
-> +      ;
-> +
-> +      return 0;
-> +  }
-> +
-> +Build it and save for later step:
-> +
-> +::
-> +
-> +  # gcc user_loop.c -o user_loop
-> +
-> +The launcher
-> +------------
-> +
-> +The below launcher runs the above program for 10 seconds and traces
-> +the noise resulting from preempting tasks and IRQs.
-> +
-> +::
-> +
-> +  TRACING=/sys/kernel/tracing/
-> +  # Make sure tracing is off for now
-> +  echo 0 > $TRACING/tracing_on
-> +  # Flush previous traces
-> +  echo > $TRACING/trace
-> +  # Record disturbance from other tasks
-> +  echo 1 > $TRACING/events/sched/sched_switch/enable
-> +  # Record disturbance from interrupts
-> +  echo 1 > $TRACING/events/irq_vectors/enable
-> +  # Now we can start tracing
-> +  echo 1 > $TRACING/tracing_on
-> +  # Run the dummy user_loop for 10 seconds on CPU 7
-> +  ./user_loop &
-> +  USER_LOOP_PID=$!
-> +  sleep 10
-> +  kill $USER_LOOP_PID
-> +  # Disable tracing and save traces from CPU 7 in a file
-> +  echo 0 > $TRACING/tracing_on
-> +  cat $TRACING/per_cpu/cpu7/trace > trace.7
-> +
-> +If no specific problem arose, the output of trace.7 should look like
-> +the following:
-> +
-> +::
-> +
-> +  <idle>-0 [007] d..2. 1980.976624: sched_switch: prev_comm=swapper/7 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=user_loop next_pid=1553 next_prio=120
-> +  user_loop-1553 [007] d.h.. 1990.946593: reschedule_entry: vector=253
-> +  user_loop-1553 [007] d.h.. 1990.946593: reschedule_exit: vector=253
-> +
-> +That is, no specific noise triggered between the first trace and the
-> +second during 10 seconds when user_loop was running.
-> +
-> +Debugging
-> +=========
-> +
-> +Of course things are never so easy, especially on this matter.
-> +Chances are that actual noise will be observed in the aforementioned
-> +trace.7 file.
-> +
-> +The best way to investigate further is to enable finer grained
-> +tracepoints such as those of subsystems producing asynchronous
-> +events: workqueue, timer, irq_vector, etc... It also can be
-> +interesting to enable the tick_stop event to diagnose why the tick is
-> +retained when that happens.
-> +
-> +Some tools may also be useful for higher level analysis:
-> +
-> +- Documentation/tools/rtla/rtla.rst provides a suite of tools to analyze
-> +  latency and noise in the system. For example Documentation/tools/rtla/rtla-osnoise.rst
-> +  runs a kernel tracer that analyzes and output a summary of the noises.
-> +
-> +- dynticks-testing does something similar to rtla-osnoise but in userspace. It is available
-> +  at git://git.kernel.org/pub/scm/linux/kernel/git/frederic/dynticks-testing.git
-> diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
-> index b734f8a2a2c4..cd28dfe91b06 100644
-> --- a/Documentation/admin-guide/index.rst
-> +++ b/Documentation/admin-guide/index.rst
-> @@ -94,6 +94,7 @@ likely to be of interest on almost any system.
->   
->      cgroup-v2
->      cgroup-v1/index
-> +   cpu-isolation
->      cpu-load
->      mm/index
->      module-signing
+Signed-off-by: Rong Zhang <i@rong.moe>
+---
+Rong Zhang (4):
+      hwmon: Add label support for 64-bit energy attributes
+      hwmon: New helper module for floating-point to integer conversions
+      hwmon: Add barebone HID driver for WITRN
+      hwmon: (witrn) Add monitoring support
 
-Other than the minor nits mentioned above,
+ Documentation/hwmon/index.rst |   1 +
+ Documentation/hwmon/witrn.rst |  53 ++++
+ MAINTAINERS                   |   7 +
+ drivers/hwmon/Kconfig         |  14 +
+ drivers/hwmon/Makefile        |   2 +
+ drivers/hwmon/hwmon-fp.c      | 262 ++++++++++++++++
+ drivers/hwmon/hwmon-fp.h      | 212 +++++++++++++
+ drivers/hwmon/hwmon.c         |   1 +
+ drivers/hwmon/witrn.c         | 691 ++++++++++++++++++++++++++++++++++++++++++
+ 9 files changed, 1243 insertions(+)
+---
+base-commit: 0138af2472dfdef0d56fc4697416eaa0ff2589bd
+change-id: 20260327-b4-hwmon-witrn-a629b9040250
 
-Acked-by: Waiman Long <longman@redhat.com>
+Thanks,
+Rong
 
