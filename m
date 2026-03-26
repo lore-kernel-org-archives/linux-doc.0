@@ -1,146 +1,122 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E2F13FFAA8;
-	Thu, 26 Mar 2026 15:24:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B7633FD145;
+	Thu, 26 Mar 2026 16:07:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774538680; cv=none; b=qyu1Pwtnyl+UouyU3/CtVgpOF8z/QCvMrz1q+KwbynbObpk3f/99Ah338fsU+UPmWSTi+yHT3X7wkCYnvZKvctpjcHjJjzK+/fSa4t0NaACnFUYKqmVDELfyVA7tJuyYPfCjumfbpSt+ISVC7ejNE7PbtV/2SreApXbAZuo0+zA=
+	t=1774541269; cv=none; b=qMnaItCyBObiwuc3YH7o8lh9s1rzcn/U9ywcAz6SVZeU7oUXQn5yGHXFc9OsKU1JD+y6aUQNgyZCddtllAqIBzmp/xv85QvkG+3lELn0DzNQMeDjcJDm3I4YbMFTUJJhBoWEd9yv5mWSTZGJMCHQWnWIYFZzn59GUNYEaCh91L0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774538680; c=relaxed/simple;
-	bh=VC8lDUeLQaF89olSSrKq5JgPweNUCYlwAaUQYICMSVc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A7fmLGpL0kqkmEA1U3qaMOW3m6tFN5WUIMmWsWZoWCeQKyYkq6/wd4xvm2eZbqR1zD6E0z8rdK1hg/m7J4ItiTbZFYBEWHOtyTH/cVkPHA9yctOgXEvnjhjvF8ji5ex6Z6wAq8sZbll5zkiJWkFxt56b5EgrrgzmeizfptGmtR4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kaAEnN52; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774541269; c=relaxed/simple;
+	bh=szH3MY0WiQYpFTFxIiIbtNZTi78H3y/b2AdjBwwM2DU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=gkSET4uvYPRw7KdQt2FdB9yHt4O1ZG9zUunEOmU1a//1V5U5buw8MiCgF4nVHaOjLb/ygAZdpe7spfW8oems42Zk2G2QdEGA0oegGYKi+d/cC+Psdji8j+O9laWD9uyp3LMS4+cITg9B84un+f9KOc0e54s4y9iQpsClE0prEU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=tj0Lm22N; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kaAEnN52"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8768C19423;
-	Thu, 26 Mar 2026 15:24:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774538680;
-	bh=VC8lDUeLQaF89olSSrKq5JgPweNUCYlwAaUQYICMSVc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kaAEnN52eATLIBzXKxWYkAjEQF54lvKDkYc4MOirqFrd5bD5DAIMQRi7Z6XFDonBb
-	 WKa61FlMkBcd/iXQJ6NVvj56BLrUfSeujVI4srqkrjEo0YNkS+P6/Xr/rSzIa4TTE8
-	 2nnxiSlLoWZ9fwxqX9ylNk7h2LFe47bb/mfRrR6P0j9DmK3EzFipJ7bxp5c8xm2TuS
-	 NiMdnWVRBzuXH1POPXiMkAnG50ifQBOXsOongqLa/bTPgKB4QNBbt70yCIYs0d7SRq
-	 J1Ih9mzFlDLWUDBMRSL14ekNbotN/3lElMlAvI5lwEmHOwIOUc4QCgy+qNYqG3bT9G
-	 pKTZSBiYPPjOg==
-Date: Thu, 26 Mar 2026 10:24:36 -0500
-From: Rob Herring <robh@kernel.org>
-To: Ahmed Tiba <ahmed.tiba@arm.com>
-Cc: linux-acpi@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-cxl@vger.kernel.org, Michael.Zhao2@arm.com,
-	linux-arm-kernel@lists.infradead.org, Dmitry.Lamerov@arm.com,
-	rafael@kernel.org, conor@kernel.org, will@kernel.org, bp@alien8.de,
-	catalin.marinas@arm.com, krzk+dt@kernel.org,
-	linux-doc@vger.kernel.org, mchehab+huawei@kernel.org,
-	tony.luck@intel.com
-Subject: Re: [PATCH v3 09/10] dt-bindings: firmware: add arm,ras-cper
-Message-ID: <20260326152436.GA2484010-robh@kernel.org>
-References: <20260318-topics-ahmtib01-ras_ffh_arm_internal_review-v3-0-48e6a1c249ef@arm.com>
- <20260318-topics-ahmtib01-ras_ffh_arm_internal_review-v3-9-48e6a1c249ef@arm.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="tj0Lm22N"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
+	bh=c98lXZB1Lb6d6N5rkPaniwodh24QfrFl1Dqq3UC0kyE=; b=tj0Lm22NQAa98n4A4mwWWreMIw
+	zeM1fF88CE+5JYuR5xmu4b/CGaElb5lSYZ1rPa3s16XZpwNKwE6WWW0KFZfe2NID2XUadkGqHz6uV
+	jxhpV3er/xtMOa6wEZfRRKlr+q8KUL3L5nUtkKv1t3xFYldKGztyN6xDkRqtWwn+pmfmcnOgEn6TU
+	2AeoFSGamqL+eKjUQLwLsXbMxzR2WdZcoDrkWjsQqsbs8HcFncN/VBrjlPpNPUc3Gky9O7szs+R/X
+	ZTu87ABpJKobDeTTnoH7yNK7wLpdfDYH5W4c/7yLeHYecHl5To35UVPqUNIM8zCGYmcht4xQB141w
+	7f/Qcs0w==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1w5nFC-00000005pAP-0AdO;
+	Thu, 26 Mar 2026 16:07:38 +0000
+Message-ID: <b72c938d-1690-49f4-b617-916f24c3c53c@infradead.org>
+Date: Thu, 26 Mar 2026 09:07:37 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260318-topics-ahmtib01-ras_ffh_arm_internal_review-v3-9-48e6a1c249ef@arm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: kernel-parameters: fix architecture alignment for
+ pt, nopt, and nobypass
+To: lirongqing <lirongqing@baidu.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Borislav Petkov <bp@alien8.de>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Feng Tang <feng.tang@linux.alibaba.com>,
+ Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+ Dapeng Mi <dapeng1.mi@linux.intel.com>, Kees Cook <kees@kernel.org>,
+ Marco Elver <elver@google.com>, "Paul E . McKenney" <paulmck@kernel.org>,
+ Askar Safin <safinaskar@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Sohil Mehta <sohil.mehta@intel.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260326074658.1899-1-lirongqing@baidu.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260326074658.1899-1-lirongqing@baidu.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Mar 18, 2026 at 08:48:06PM +0000, Ahmed Tiba wrote:
-> Describe the DeviceTree node that exposes the Arm firmware-first
-> CPER provider and hook the file into MAINTAINERS so the
-> binding has an owner.
+Hi,
+
+On 3/26/26 12:46 AM, lirongqing wrote:
+> From: Li RongQing <lirongqing@baidu.com>
 > 
-> Signed-off-by: Ahmed Tiba <ahmed.tiba@arm.com>
+> Commit ab0e7f20768a ("Documentation: Merge x86-specific boot options doc
+> into kernel-parameters.txt") introduced a formatting regression where
+> architecture tags were placed on separate lines with broken indentation.
+> This caused the 'nopt' [X86] parameter to appear as if it belonged to
+> the [PPC/POWERNV] section.
+> 
+> Fix the formatting by placing the architecture tags on the same line as
+> their respective parameters ('pt', 'nopt', and 'nobypass') and restoring
+> proper indentation.
+> 
+> Fixes: ab0e7f20768a ("Documentation: Merge x86-specific boot options doc into kernel-parameters.txt")
+> Signed-off-by: Li RongQing <lirongqing@baidu.com>
 > ---
->  .../devicetree/bindings/firmware/arm,ras-cper.yaml | 71 ++++++++++++++++++++++
->  MAINTAINERS                                        |  5 ++
->  2 files changed, 76 insertions(+)
+>  Documentation/admin-guide/kernel-parameters.txt | 9 +++------
+>  1 file changed, 3 insertions(+), 6 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/firmware/arm,ras-cper.yaml b/Documentation/devicetree/bindings/firmware/arm,ras-cper.yaml
-> new file mode 100644
-> index 000000000000..bd93cfb8d222
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/firmware/arm,ras-cper.yaml
-> @@ -0,0 +1,71 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/firmware/arm,ras-cper.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Arm RAS CPER provider
-> +
-> +maintainers:
-> +  - Ahmed Tiba <ahmed.tiba@arm.com>
-> +
-> +description: |
-> +  Arm Reliability, Availability and Serviceability (RAS) firmware can expose
-> +  a firmware-first CPER error source directly via DeviceTree. Firmware
-> +  provides the CPER Generic Error Status block and notifies the OS through
-> +  an interrupt.
-> +
-> +properties:
-> +  compatible:
-> +    const: arm,ras-cper
-> +
-> +  reg:
-> +    minItems: 1
-> +    items:
-> +      - description:
-> +          CPER Generic Error Status block exposed by firmware
-> +      - description:
-> +          Optional 32- or 64-bit doorbell register used on platforms
-> +          where firmware needs an explicit "ack" handshake before overwriting
-> +          the CPER buffer. Firmware watches bit 0 and expects the OS to set it
-> +          once the current status block has been consumed.
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +    description:
-> +      Interrupt used to signal that a new status record is ready.
-> +
-> +  memory-region:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 03a5506..dc1c5bd 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -2615,12 +2615,9 @@ Kernel parameters
+>  			Intel machines). This can be used to prevent the usage
+>  			of an available hardware IOMMU.
+>  
+> -			[X86]
+> -		pt
+> -			[X86]
+> -		nopt
+> -			[PPC/POWERNV]
+> -		nobypass
+> +		pt  	[X86]
+> +		nopt	[X86]
+> +		nobypass	[PPC/POWERNV]
+>  			Disable IOMMU bypass, using IOMMU for PCI devices.
+>  
+>  		[X86]
 
-memory-region already has a defined type. You just need to define how 
-many entries (maxItems: 1).
+This looks good as far as it goes, but there are still some problems IMO.
 
-> +    description:
-> +      Optional phandle to the reserved-memory entry that backs the status
-> +      buffer so firmware and the OS use the same carved-out region.
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +    reserved-memory {
-> +      #address-cells = <2>;
-> +      #size-cells = <2>;
-> +      ras_cper_buffer: cper@fe800000 {
-> +        reg = <0x0 0xfe800000 0x0 0x1000>;
-> +        no-map;
-> +      };
-> +    };
-> +
-> +    error-handler@fe800000 {
-> +      compatible = "arm,ras-cper";
-> +      reg = <0xfe800000 0x1000>,
+These are all iommu= options, but iommu says that it's for [X86,EARLY].
+No PPC/POWERNV mentioned there.
 
-Wait! Why is the reserved address here? There's 2 problems with that. 
-There shouldn't be same address in 2 places in the DT. The 2nd is 
-reserved memory should only be regions within DRAM (or whatever is 
-system memory).
+Then immediately following nobypass, there is this:
+		[X86]
+		AMD Gart HW IOMMU-specific options:
 
-Rob
+which is also in questionable format. The [X86] isn't needed at all IMO,
+or if it's desirable, those 2 lines should be on one line.
+
+Anyway, for this patch:
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks.
+
+-- 
+~Randy
