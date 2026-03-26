@@ -1,577 +1,169 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4FF232720C;
-	Thu, 26 Mar 2026 16:22:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774542127; cv=none; b=A5Sy/JHruhDnkjMTyutVjL9oylS6yM8XM70JxMbvphmghYsKI/rxBNFW6HodRzZ5kkQ4cMP72t2WXlleEvLWfZM5a3VysuHUMfr7TWBbo+nN+SvcYjjgsaoOnfs186RFHWULLfm4m6sNqLqFoBClyhk2P6YGqHW59mAUjc5+WCg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774542127; c=relaxed/simple;
-	bh=592QBUZGL/JQcJK5kIpLRy9mh/dTMrd9H3kywePe958=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ScNZWBVAp3mp5l+Iw15Zoa2GG+3nMCuddH9wetE5ry9IbMABRravJOgJNi70DMmkIUbMJGM9vQ1sF24Sk2xWJFVl/hdimJx9+0ZcwTjRmevh/WccKQxbF4Edooa5EqUK4sY699yrOX/ZzF+KZ+g3LVjm3nZ3Rv0Cen/tOM1u9lo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bZCUtxDs; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79D2F3FFAA8
+	for <linux-doc@vger.kernel.org>; Thu, 26 Mar 2026 16:40:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774543249; cv=pass; b=cr5v6j4nFKqxlGANmKpoHmVlhrTxHrzgddKSzZBI8O39a4ht+VfTTQXElwv7TPN3e+I3CXw7MwVVBxLpTQjSiuLipUm5ST8hB762bWZKXutK9GHjKXq8Um4wC9xz5CSRQMJYlpczxhzbt+3l9xlt5FsjlD8thRqSq0V7Z59cTBA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774543249; c=relaxed/simple;
+	bh=tE43au3MN9i7zVkoHbSeIrHMfvxep/BhBPt5IbVLNu8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MkZ4Wx/uP4unUMLWO8bRbIdi8qNpVFQwr84Iq+noqKWZP1VeHAC3NOOK2PXGrMZu8MgCZPac4FaQSUXNJHOBmTuAh6tpuEfCX1owsIko3+fC2hw1ybB/23EaoDG4WCw/vIZjNOD5B3WZYmySIadpFr1f0cTNlQDXnlURFpargC0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fooishbar.org; spf=pass smtp.mailfrom=fooishbar.org; dkim=pass (2048-bit key) header.d=fooishbar.org header.i=@fooishbar.org header.b=m2LHRoOz; arc=pass smtp.client-ip=209.85.219.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fooishbar.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fooishbar.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bZCUtxDs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36E97C19423;
-	Thu, 26 Mar 2026 16:22:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774542127;
-	bh=592QBUZGL/JQcJK5kIpLRy9mh/dTMrd9H3kywePe958=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=bZCUtxDss57fZ4GT9ESBr+28BQVa79qHWetEB8dqOxMybuTFTGP5T7kjpvH/tRQ00
-	 Hz+B7ndUiWagUotxBCnWjBnXzx8PHSvT/nUvglk8IScomNNQD2sR2P9ehbEN623lyP
-	 TLupPUIoEoMBUPCoM1jDhmXkcmNNIISglPcEmWtNWiUrP3RHcMSnM4uP3u6OmuOOEq
-	 EJSLBmBmtXdQpi2BMfS8w/RslKulqmI40mzB86+6j3kMmD6yxTY0z3NRDVriNWEq0H
-	 oxsrJ0IyCXkS6ch/2Q7asHsWc6Td0kXO7JuLHCURu5YLPeeiumXAEMhQfzNTQMwK90
-	 N/lCdodykAwyw==
-Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1w5nTB-0000000AtfP-0bMu;
-	Thu, 26 Mar 2026 17:22:05 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH 1/1] docs: kdoc_diff: add a helper tool to help checking kdoc regressions
-Date: Thu, 26 Mar 2026 17:22:00 +0100
-Message-ID: <0eac43761d447c18d6686662a2d61ae726b02379.1774541999.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <cover.1774541999.git.mchehab+huawei@kernel.org>
-References: <cover.1774541999.git.mchehab+huawei@kernel.org>
+	dkim=pass (2048-bit key) header.d=fooishbar.org header.i=@fooishbar.org header.b="m2LHRoOz"
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-89a14be4733so13694086d6.2
+        for <linux-doc@vger.kernel.org>; Thu, 26 Mar 2026 09:40:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774543246; cv=none;
+        d=google.com; s=arc-20240605;
+        b=KjMLlPj3TS4OEGEXsFrli/ddlLjia2hnuXzFW+njYQWAYiaeriRHiSrtnXP7jp3P97
+         2q5pu5Z7pCVd/DztZqDawd9sNGDHMz+4H09KXIWb9JaXzEltnaMUOmMFWmqQeD9npgz5
+         jhRYpA4m6LUuD1OryujgLkd2XzHwAbrCQrlo/GwuDUWw/tpDxyLhX1a+GSg8NNWpSCYp
+         dlcI9yN2kmblBguGXVAMahn11cHO5mxy92FIeZ4lOgJb0G/PKCJmzV1h9oBfiRGIiAXJ
+         428CkIJwjNdRpVlYiJ+/1N9UgvXBllk1tMuxH2G1+aDxpLsWQTHn2mxTAMcLkFXxxM0a
+         MZsw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=lMVh41/flJhHXUmskY74HI0cHDnV8XVUzcIyI3Tc5Ws=;
+        fh=ZMHBtayKvnQAg0ad2vfvNW9WZ9A7UglJciW2F8ZeuxU=;
+        b=DoIVSmDf6HanTZT53iqulWkbiv3RIIvQO96Fr2PJ7lVscI4Qz9RfSDMRTcYEZ7xSsI
+         sg1tqry+0ztsKMRJIkwjM+/emMBfK758GS4jkq3/EzSstS1x2unFLBW+cPSJy+UhqLqq
+         l+9Gd4VQDLP0wdL2xTOvTnvb+lmNzoI2eiFRqKcEVEsYNBOA9+Mnh/W8XQMiK/vvmUkM
+         r44oxqljxMceBuhdM9c1wXKtfqPu1WZkAVshIRQlxHfrdqyYbFPfnQ9bbVXxW4zBt5OH
+         0YrUmC9xWbLSgaG2D5sxdMR5vv9frCH+RhfxWuCw9ciEXxMzl5A4YtxTlaw5eQWbkYIS
+         gswQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fooishbar.org; s=google; t=1774543246; x=1775148046; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lMVh41/flJhHXUmskY74HI0cHDnV8XVUzcIyI3Tc5Ws=;
+        b=m2LHRoOzgYAgxtD/N4zhAIFwLORmEqEQCLMKW/1cpOORMgQKi3PubQFj/UiA+56/bo
+         wWr/MgyjdsCGqXbOCkwEkFhXOPas0iNYBEnOQ+9C19mFAI7py8to4qqKXOY4DrZGDcut
+         2RGz/EPHIPnmmOp1VL36AIGpvVUu9k/2eVab3n6mob6pbFvCDdjDaRjP6ihCVKEt/iIY
+         G7UMinyYa51BJ85vi4fvcowhjcuzL4XJsjPA78JysCCwZ8jIJWkjmj6LEB2JhflNHVH6
+         WAhFiCbRKzcyQPnmXih8uxRbCYuRGZKAMNSz1BpZcxXNfYhnwBcobOu1jJ41mgTZBfMO
+         OmoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774543246; x=1775148046;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=lMVh41/flJhHXUmskY74HI0cHDnV8XVUzcIyI3Tc5Ws=;
+        b=dzZ8XNQ8LlAAhh5q3FPoR+a/Z7p4BvXK1VnH2Zw6EkMtClAR+ZEO65Vc+gznvLFUkP
+         nT/tO2XO+sEeo70I8DqiiPt2NsMwwp81kjkHskh8xG/0L0uUMHd+AjxexUFa8j7q5VKR
+         Rtvr64rd9AkPVHQxfNYaPar90aGZ7aW+lUtMRGw38DnicPLoP798hXG1cdluN42gGcXq
+         o0BGtrziALNCF9cgXrvfcJK2tCeaPObaAnBoDOYdp71QGIy08AE7ovPo7+SVYYNvjS7L
+         heuuej0iUHeyl24jFROl5YwqXjCj6+Q8oH1dZKheD1QstJ2ljD70UP2J67mDDgKUgU13
+         jq+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCULpxujv9tovJpJTrQFEph/LvMFO28FIhbveM5imEng2biWlhVrUzYT980oHpUQvHjTYrfEKNhkxhM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YylsnVkHk92nN5BDpUXFp6e+r9Rk8duERYAmHfrUl474/2bmOdw
+	DwC8jZ3p8qMY8Nm+WiI2GD92aEPuD/Aa+s9xsaoVChnyho/fZelU0lq4/crZ8+7uY0JTCLa0gDd
+	vH2fpZqfpKk8Q6ls0Jir7HBaoZoWWfjF/3jXZsnLn8g==
+X-Gm-Gg: ATEYQzzlvqXuukQamJUURQz/bXlxdkcFwaP0mNqxCPHJISdrkoPDxwkXTGYSvkgJIWd
+	tCu1AfO9/F8E2TabWFH41E64DrvIMsbaQVBtLcUJ/w2fc1Oh+eWcbw0o+g2H4Y1cTPE2WA/o+xi
+	CapNwIrJ9iocg6iTxKEjfgMFqPpugOwsbVv6sj1k0zNFvgiyziRO9gBMGR7njkyLhnQuFPC+2Vb
+	WoPmhkajdqEY1/qsN8ykRimc47PbVxljkMTbYJ4U13E+sCrS2olfD0IXJHk2D9TXknPG0Rxerl2
+	WZ+gHIk=
+X-Received: by 2002:a05:6214:d6f:b0:89c:866d:15c9 with SMTP id
+ 6a1803df08f44-89cc4b07bc2mr122325186d6.56.1774543244239; Thu, 26 Mar 2026
+ 09:40:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+References: <20260324-color-format-v11-0-605559af4fb4@collabora.com>
+ <20260325-neat-elegant-raven-ebc9ab@houat> <acPA60Ci3n_t__xF@intel.com> <3979783.tdWV9SEqCh@workhorse>
+In-Reply-To: <3979783.tdWV9SEqCh@workhorse>
+From: Daniel Stone <daniel@fooishbar.org>
+Date: Thu, 26 Mar 2026 16:40:32 +0000
+X-Gm-Features: AQROBzB2J1rLcK9oOY95uN7pO5Y8iJWro7kBrTyJSKQV06IZlwAC79afqJRLPi8
+Message-ID: <CAPj87rMpu-ZL45_uNPcZe3gu8Eqn2ALp3r0zRgghvT08-6RGVg@mail.gmail.com>
+Subject: Re: [PATCH v11 03/22] drm: Add new general DRM property "color format"
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: Maxime Ripard <mripard@kernel.org>, =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
+	Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+	Rodrigo Siqueira <siqueira@igalia.com>, Alex Deucher <alexander.deucher@amd.com>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+	Andy Yan <andy.yan@rock-chips.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+	Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, kernel@collabora.com, 
+	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-rockchip@lists.infradead.org, intel-gfx@lists.freedesktop.org, 
+	intel-xe@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+	Werner Sembach <wse@tuxedocomputers.com>, Andri Yngvason <andri@yngvason.is>, 
+	Marius Vlad <marius.vlad@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Checking for regressions at kernel-doc can be hard. Add a helper
-tool to make such task easier.
+Hi there,
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- tools/docs/kdoc_diff | 504 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 504 insertions(+)
- create mode 100755 tools/docs/kdoc_diff
+On Thu, 26 Mar 2026 at 12:44, Nicolas Frattaroli
+<nicolas.frattaroli@collabora.com> wrote:
+> On Wednesday, 25 March 2026 12:03:07 Central European Standard Time Ville=
+ Syrj=C3=A4l=C3=A4 wrote:
+> > But I'm not really concerned about documenting struct members.
+> > What I'm talking about is the *uapi* docs. Surely userspace
+> > will want to know what the new property actually does so the
+> > uapi needs to be documented properly. And down the line some
+> > new driver might also implement the wrong behaviour if there
+> > is no clear specification.
+> >
+> > So I'm thinking (or perhaps hoping) the rule might be something like:
+> > - YCbCr limited range
+> > - RGB full range if "Broadcast RGB" property is not present
+> > - RGB full or limited range based on the "Broadcast RGB" property
+> >   if it's present
+> >
+> > I think the "Broadcast RGB" property itself might also be lacking
+> > proper uapi docs, so that may need to be remedied as well.
+>
+> Alright, so in v12 I'll do the following:
+>
+> - Add a line to all YCBCR connector formats that specifies they're
+>   limited range as long as Broadcast RGB is limited. Whether it's limited
+>   range when Broadcast RGB is full is purposefully left undefined.
+>   In the future, we can expand this to state they're limited range by
+>   default unless some other property is set. If we're not re-using
+>   Broadcast RGB for that, this will work out fine, because users who
+>   don't know about the eventual new property won't have this behaviour
+>   changed. If we do re-use "Broadcast RGB" for that, then only users
+>   relying on things we explicitly left undefined will get surprise
+>   full range YCBCR.
+> - Add a line to the RGB connector format that specifies its range
+>   depends on the "Broadcast RGB" property
+>
+> This is a bit of a mess, because it's entirely reasonable that a
+> future YCBCR range property would want to default to full range
+> so that users get the most color out of their monitors. But with
+> this description of the connector color formats, we can't do that.
+>
+> If there are alternate suggestions, I'm open for them. We can't
+> really rename "Broadcast RGB" but if I had a time machine, that'd
+> be my first choice.
 
-diff --git a/tools/docs/kdoc_diff b/tools/docs/kdoc_diff
-new file mode 100755
-index 000000000000..5edd9b46a825
---- /dev/null
-+++ b/tools/docs/kdoc_diff
-@@ -0,0 +1,504 @@
-+#!/usr/bin/env python3
-+# SPDX-License-Identifier: GPL-2.0
-+# Copyright(c) 2026: Mauro Carvalho Chehab <mchehab@kernel.org>.
-+#
-+# pylint: disable=R0903,R0912,R0913,R0914,R0915,R0917
-+
-+"""
-+docdiff - Check differences between kernel‑doc output between two different
-+commits.
-+
-+Examples
-+--------
-+
-+Compare the kernel‑doc output between the last two 5.15 releases::
-+
-+    $ kdoc_diff v6.18..v6.19
-+
-+Both outputs are cached
-+
-+Force a complete documentation scan and clean any previous cache from
-+6.19 to the current HEAD::
-+
-+    $ kdoc_diff 6.19.. --full --clean
-+
-+Check differences only on a single driver since origin/main::
-+
-+    $ kdoc_diff origin/main drivers/media
-+
-+Generate an YAML file and use it to check for regressions::
-+
-+    $ kdoc_diff HEAD~ drivers/media --regression
-+
-+
-+"""
-+
-+import os
-+import sys
-+import argparse
-+import subprocess
-+import shutil
-+import re
-+import signal
-+
-+from glob import iglob
-+
-+
-+SRC_DIR = os.path.dirname(os.path.realpath(__file__))
-+WORK_DIR = os.path.abspath(os.path.join(SRC_DIR, "../.."))
-+
-+KDOC_BINARY = os.path.join(SRC_DIR, "kernel-doc")
-+KDOC_PARSER_TEST = os.path.join(WORK_DIR, "tools/unittests/test_kdoc_parser.py")
-+
-+CACHE_DIR = ".doc_diff_cache"
-+
-+DIR_NAME = {
-+    "full": os.path.join(CACHE_DIR, "full"),
-+    "partial": os.path.join(CACHE_DIR, "partial"),
-+    "no-cache": os.path.join(CACHE_DIR, "no_cache"),
-+    "tmp": os.path.join(CACHE_DIR, "__tmp__"),
-+}
-+
-+class GitHelper:
-+    """Handles all Git operations"""
-+
-+    def __init__(self, work_dir=None):
-+        self.work_dir = work_dir
-+
-+    def is_inside_repository(self):
-+        """Check if we're inside a Git repository"""
-+        try:
-+            output = subprocess.check_output(["git", "rev-parse",
-+                                              "--is-inside-work-tree"],
-+                                             cwd=self.work_dir,
-+                                             stderr=subprocess.STDOUT,
-+                                             universal_newlines=True)
-+
-+            return output.strip() == "true"
-+        except subprocess.CalledProcessError:
-+            return False
-+
-+    def is_valid_commit(self, commit_hash):
-+        """
-+        Validate that a ref (branch, tag, commit hash, etc.) can be
-+        resolved to a commit.
-+        """
-+        try:
-+            subprocess.check_output(["git", "rev-parse", commit_hash],
-+                                    cwd=self.work_dir,
-+                                    stderr=subprocess.STDOUT)
-+            return True
-+        except subprocess.CalledProcessError:
-+            return False
-+
-+    def get_short_hash(self, commit_hash):
-+        """Get short commit hash"""
-+        try:
-+            return subprocess.check_output(["git", "rev-parse", "--short",
-+                                            commit_hash],
-+                                           cwd=self.work_dir,
-+                                           stderr=subprocess.STDOUT,
-+                                           universal_newlines=True).strip()
-+        except subprocess.CalledProcessError:
-+            return ""
-+
-+    def has_uncommitted_changes(self):
-+        """Check for uncommitted changes"""
-+        try:
-+            subprocess.check_output(["git", "diff-index",
-+                                     "--quiet", "HEAD", "--"],
-+                                    cwd=self.work_dir,
-+                                    stderr=subprocess.STDOUT)
-+            return False
-+        except subprocess.CalledProcessError:
-+            return True
-+
-+    def get_current_branch(self):
-+        """Get current branch name"""
-+        return subprocess.check_output(["git", "branch", "--show-current"],
-+                                        cwd=self.work_dir,
-+                                        universal_newlines=True).strip()
-+
-+    def checkout_commit(self, commit_hash, quiet=True):
-+        """Checkout a commit safely"""
-+        args = ["git", "checkout", "-f"]
-+        if quiet:
-+            args.append("-q")
-+        args.append(commit_hash)
-+        try:
-+            subprocess.check_output(args, cwd=self.work_dir,
-+                                    stderr=subprocess.STDOUT)
-+
-+            # Double-check if branch actually switched
-+            branch = self.get_short_hash("HEAD")
-+            if commit_hash != branch:
-+                raise RuntimeError(f"Branch changed to '{branch}' instead of '{commit_hash}'")
-+
-+            return True
-+        except subprocess.CalledProcessError as e:
-+            print(f"ERROR: Failed to checkout {commit_hash}: {e}",
-+                  file=sys.stderr)
-+            return False
-+
-+
-+class CacheManager:
-+    """Manages persistent cache directories"""
-+
-+    def __init__(self, work_dir):
-+        self.work_dir = work_dir
-+
-+    def initialize(self):
-+        """Create cache directories if they don't exist"""
-+        for dir_path in DIR_NAME.values():
-+            abs_path = os.path.join(self.work_dir, dir_path)
-+            if not os.path.exists(abs_path):
-+                os.makedirs(abs_path, exist_ok=True, mode=0o755)
-+
-+    def get_commit_cache(self, commit_hash, path):
-+        """Generate cache path for a commit"""
-+        hash_short = GitHelper(self.work_dir).get_short_hash(commit_hash)
-+        if not hash_short:
-+            hash_short = commit_hash
-+
-+        return os.path.join(path, hash_short)
-+
-+class KernelDocRunner:
-+    """Runs kernel-doc documentation generator"""
-+
-+    def __init__(self, work_dir, kdoc_binary):
-+        self.work_dir = work_dir
-+        self.kdoc_binary = kdoc_binary
-+        self.kdoc_files = None
-+
-+    def find_kdoc_references(self):
-+        """Find all files marked with kernel-doc:: directives"""
-+        if self.kdoc_files:
-+            print("Using cached Kdoc refs")
-+            return self.kdoc_files
-+
-+        print("Finding kernel-doc entries in Documentation...")
-+
-+        files = os.path.join(self.work_dir, 'Documentation/**/*.rst')
-+        pattern = re.compile(r"^\.\.\s+kernel-doc::\s*(\S+)")
-+        kdoc_files = set()
-+
-+        for file_path in iglob(files, recursive=True):
-+            try:
-+                with open(file_path, 'r', encoding='utf-8') as fp:
-+                    for line in fp:
-+                        match = pattern.match(line.strip())
-+                        if match:
-+                            kdoc_files.add(match.group(1))
-+
-+            except OSError:
-+                continue
-+
-+        self.kdoc_files = list(kdoc_files)
-+
-+        return self.kdoc_files
-+
-+    def gen_yaml(self, yaml_file, kdoc_files):
-+        """Runs kernel-doc to generate a yaml file with man and rst."""
-+        cmd = [self.kdoc_binary, "--man", "--rst", "--yaml", yaml_file]
-+        cmd += kdoc_files
-+
-+        try:
-+            subprocess.check_call(cmd, cwd=self.work_dir,
-+                                  stdout=subprocess.DEVNULL,
-+                                  stderr=subprocess.DEVNULL)
-+        except subprocess.CalledProcessError:
-+            return False
-+
-+        return True
-+
-+    def run_unittest(self, yaml_file):
-+        """Run unit tests with the generated yaml file"""
-+        try:
-+            subprocess.check_call([KDOC_PARSER_TEST, "--yaml", yaml_file],
-+                                  cwd=self.work_dir)
-+        except subprocess.CalledProcessError:
-+            return False
-+
-+        return True
-+
-+    def normal_run(self, tmp_dir, output_dir, kdoc_files):
-+        """Generate man, rst and errors, storing them at tmp_dir."""
-+        os.makedirs(tmp_dir, exist_ok=True)
-+
-+        try:
-+            with open(os.path.join(tmp_dir, "man.log"), "w", encoding="utf-8") as out:
-+                subprocess.check_call([self.kdoc_binary, "--man"] + kdoc_files,
-+                                      cwd=self.work_dir,
-+                                      stdout=out, stderr=subprocess.DEVNULL)
-+
-+            with open(os.path.join(tmp_dir, "rst.log"), "w", encoding="utf-8") as out:
-+                with open(os.path.join(tmp_dir, "err.log"), "w", encoding="utf-8") as err:
-+                    subprocess.check_call([self.kdoc_binary, "--rst"] + kdoc_files,
-+                                          cwd=self.work_dir,
-+                                          stdout=out, stderr=err)
-+        except subprocess.CalledProcessError:
-+            return False
-+
-+        if output_dir:
-+            os.replace(tmp_dir, output_dir)
-+
-+        return True
-+
-+    def run(self, commit_hash, tmp_dir, output_dir, kdoc_files, is_regression,
-+            is_end):
-+        """Run kernel-doc on its several ways"""
-+        if not kdoc_files:
-+            raise RuntimeError("No kernel-doc references found")
-+
-+        git_helper = GitHelper(self.work_dir)
-+        if not git_helper.checkout_commit(commit_hash, quiet=True):
-+            raise RuntimeError(f"ERROR: can't checkout commit {commit_hash}")
-+
-+        print(f"Processing {commit_hash}...")
-+
-+        if not is_regression:
-+            return self.normal_run(tmp_dir, output_dir, kdoc_files)
-+
-+        yaml_file = os.path.join(tmp_dir, "out.yaml")
-+
-+        if not is_end:
-+            return self.gen_yaml(yaml_file, kdoc_files)
-+
-+        return self.run_unittest(yaml_file)
-+
-+class DiffManager:
-+    """Compare documentation output directories with an external diff."""
-+    def __init__(self, diff_tool="diff", diff_args=None):
-+        self.diff_tool = diff_tool
-+        # default: unified, no context, ignore whitespace changes
-+        self.diff_args = diff_args or ["-u0", "-w"]
-+
-+    def diff_directories(self, dir1, dir2):
-+        """Compare two directories using an external diff."""
-+        print(f"\nDiffing {dir1} and {dir2}:")
-+
-+        dir1_files = set()
-+        dir2_files = set()
-+        has_diff = False
-+
-+        for root, _, files in os.walk(dir1):
-+            for file in files:
-+                dir1_files.add(os.path.relpath(os.path.join(root, file), dir1))
-+        for root, _, files in os.walk(dir2):
-+            for file in files:
-+                dir2_files.add(os.path.relpath(os.path.join(root, file), dir2))
-+
-+        common_files = sorted(dir1_files & dir2_files)
-+        for file in common_files:
-+            f1 = os.path.join(dir1, file)
-+            f2 = os.path.join(dir2, file)
-+
-+            cmd = [self.diff_tool] + self.diff_args + [f1, f2]
-+            try:
-+                result = subprocess.run(
-+                    cmd, capture_output=True, text=True, check=False
-+                )
-+                if result.stdout:
-+                    has_diff = True
-+                    print(f"\n{file}")
-+                    print(result.stdout, end="")
-+            except FileNotFoundError:
-+                print(f"ERROR: {self.diff_tool} not found")
-+                sys.exit(1)
-+
-+        # Show files that exist only in one directory
-+        only_in_dir1 = dir1_files - dir2_files
-+        only_in_dir2 = dir2_files - dir1_files
-+        if only_in_dir1 or only_in_dir2:
-+            has_diff = True
-+            print("\nDifferential files:")
-+            for f in sorted(only_in_dir1):
-+                print(f"  - {f} (only in {dir1})")
-+            for f in sorted(only_in_dir2):
-+                print(f"  + {f} (only in {dir2})")
-+
-+        if not has_diff:
-+            print("\nNo differences between those two commits")
-+
-+
-+class SignalHandler():
-+    """Signal handler class."""
-+
-+    def restore(self, force_exit=False):
-+        """Restore original HEAD state."""
-+        if self.restored:
-+            return
-+
-+        print(f"Restoring original branch: {self.original_head}")
-+        try:
-+            subprocess.check_call(
-+                ["git", "checkout", "-f", self.original_head],
-+                cwd=self.git_helper.work_dir,
-+                stderr=subprocess.STDOUT,
-+            )
-+        except subprocess.CalledProcessError as e:
-+            print(f"Failed to restore: {e}", file=sys.stderr)
-+
-+        for sig, handler in self.old_handler.items():
-+            signal.signal(sig, handler)
-+
-+        self.restored = True
-+
-+        if force_exit:
-+            sys.exit(1)
-+
-+    def signal_handler(self, sig, _):
-+        """Handle interrupt signals."""
-+        print(f"\nSignal {sig} received. Restoring original state...")
-+
-+        self.restore(force_exit=True)
-+
-+    def __enter__(self):
-+        """Allow using it via with command."""
-+        for sig in [signal.SIGINT, signal.SIGTERM]:
-+            self.old_handler[sig] = signal.getsignal(sig)
-+            signal.signal(sig, self.signal_handler)
-+
-+        return self
-+
-+    def __exit__(self, *args):
-+        """Restore signals at the end of with block."""
-+        self.restore()
-+
-+    def __init__(self, git_helper, original_head):
-+        self.git_helper = git_helper
-+        self.original_head = original_head
-+        self.old_handler = {}
-+        self.restored = False
-+
-+def parse_commit_range(value):
-+    """Handle a commit range."""
-+    if ".." not in value:
-+        begin = value
-+        end = "HEAD"
-+    else:
-+        begin, _, end = value.partition("..")
-+        if not end:
-+            end = "HEAD"
-+
-+    if not begin:
-+        raise argparse.ArgumentTypeError("Need a commit begginning")
-+
-+
-+    print(f"Range: {begin} to {end}")
-+
-+    return begin, end
-+
-+
-+def main():
-+    """Main code"""
-+    parser = argparse.ArgumentParser(description="Compare kernel documentation between commits")
-+    parser.add_argument("commits", type=parse_commit_range,
-+                        help="commit range like old..new")
-+    parser.add_argument("files", nargs="*",
-+                        help="files to process – if supplied the --full flag is ignored")
-+
-+    parser.add_argument("--full", "-f", action="store_true",
-+                        help="Force a full scan of Documentation/*")
-+
-+    parser.add_argument("--regression", "-r", action="store_true",
-+                        help="Use YAML format to check for regressions")
-+
-+    parser.add_argument("--work-dir", "-w", default=WORK_DIR,
-+                        help="work dir (default: %(default)s)")
-+
-+    parser.add_argument("--clean", "-c", action="store_true",
-+                        help="Clean caches")
-+
-+    args = parser.parse_args()
-+
-+    if args.files and args.full:
-+        raise argparse.ArgumentError(args.full,
-+                                     "cannot combine '--full' with an explicit file list")
-+
-+    work_dir = os.path.abspath(args.work_dir)
-+
-+    # Initialize cache
-+    cache = CacheManager(work_dir)
-+    cache.initialize()
-+
-+    # Validate git repository
-+    git_helper = GitHelper(work_dir)
-+    if not git_helper.is_inside_repository():
-+        raise RuntimeError("Must run inside Git repository")
-+
-+    old_commit, new_commit = args.commits
-+
-+    old_commit = git_helper.get_short_hash(old_commit)
-+    new_commit = git_helper.get_short_hash(new_commit)
-+
-+    # Validate commits
-+    for commit in [old_commit, new_commit]:
-+        if not git_helper.is_valid_commit(commit):
-+            raise RuntimeError(f"Commit '{commit}' does not exist")
-+
-+    # Check for uncommitted changes
-+    if git_helper.has_uncommitted_changes():
-+        raise RuntimeError("Uncommitted changes present. Commit or stash first.")
-+
-+    runner = KernelDocRunner(git_helper.work_dir, KDOC_BINARY)
-+
-+    # Get files to be parsed
-+    cache_msg = " (results will be cached)"
-+    if args.full:
-+        kdoc_files = ["."]
-+        diff_type = "full"
-+        print(f"Parsing all files at {work_dir}")
-+    if not args.files:
-+        diff_type = "partial"
-+        kdoc_files = runner.find_kdoc_references()
-+        print(f"Parsing files with kernel-doc markups at {work_dir}/Documentation")
-+    else:
-+        diff_type = "no-cache"
-+        cache_msg = ""
-+        kdoc_files = args.files
-+
-+    if args.regression:
-+        cache_msg = ""
-+
-+    out_path = DIR_NAME[diff_type]
-+    print(f"Output will be stored at: {out_path}{cache_msg}")
-+
-+    # Just in case - should never happen in practice
-+    if not kdoc_files:
-+        raise argparse.ArgumentError(args.files,
-+                                        "No kernel-doc references found")
-+
-+    original_head = git_helper.get_current_branch()
-+    tmp_dir = DIR_NAME["tmp"]
-+
-+    old_cache = cache.get_commit_cache(old_commit, out_path)
-+    new_cache = cache.get_commit_cache(new_commit, out_path)
-+
-+    with SignalHandler(git_helper, original_head):
-+        if args.clean or diff_type == "no-cache":
-+            for cache_dir in [old_cache, new_cache]:
-+                if cache_dir and os.path.exists(cache_dir):
-+                    shutil.rmtree(cache_dir)
-+
-+        if args.regression or not os.path.exists(old_cache):
-+            old_success = runner.run(old_commit, tmp_dir, old_cache, kdoc_files,
-+                                    args.regression, False)
-+        else:
-+            old_success = True
-+
-+        if args.regression or not os.path.exists(new_cache):
-+            new_success = runner.run(new_commit, tmp_dir, new_cache, kdoc_files,
-+                                    args.regression, True)
-+        else:
-+            new_success = True
-+
-+    if not (old_success and new_success):
-+        raise RuntimeError("Failed to generate documentation")
-+
-+    if not args.regression:
-+        diff_manager = DiffManager()
-+        diff_manager.diff_directories(old_cache, new_cache)
-+
-+if __name__ == "__main__":
-+    main()
--- 
-2.52.0
+'Broadcast RGB' isn't what you want even if it could handle YUV, since
+it also sets up colour transforms to modify the data ... so we need a
+separate, orthogonal, property which only affects the HDMI infoframe,
+rather than applying any transforms.
 
+Cheers,
+Daniel
