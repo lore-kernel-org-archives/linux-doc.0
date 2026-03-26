@@ -1,581 +1,232 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011025.outbound.protection.outlook.com [52.101.57.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 726A9364E88;
-	Thu, 26 Mar 2026 19:09:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774552188; cv=none; b=Fs9fujT48Yitjr974DaWGgA25W/kAEv/F/wDVnUXb/94M0L5rAhw3Nl9iyCi6+GFjm++ByYZOOsUnaZZgN/JWTIEH67ySTBHdcxQuO2YRUDL/g10BRKVQUlptVhvLtQRVsFLgX/0zt1BQFV1sjkv9SyTTFLjiJc4tHmVhOAVqJs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774552188; c=relaxed/simple;
-	bh=vgoF3lTenRbRS/o8zK2i6ASV0ovH4IdXADFxqkiSCAM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pt+JaHJyt1Y8IbE6fu/oeK6X6H0KgQ0UTezNmETtyk4sdETG2z5m6rZ1YmRUzq6i9LL7csaHJ5Ude7zkGwnqI7iQ1UG9x6hveWSDqcDmcIaLIHJdUhTCFlCQqsls1VLR0u43BYBacZRnX+0nS+h1sP815K2TSy0VX5r04+GdktM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fdFrnFI7; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D9E7312815;
+	Thu, 26 Mar 2026 19:10:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.25
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774552257; cv=fail; b=ptdssEjDx2e8YxPPFRyh4cAW94isAIZyiv60NUW1/JxA4ePazIZ9twLTTXXSlbLVfHgUhgL4LhsfpjJi3DEKdpZjtYWtLxoIh3SagW7bNDtu+rfIQmuvxbMp2PFsUPM71i1M7TE4tpepkHG4h/j2x4HAX5l2pimEYuYpZfRD25I=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774552257; c=relaxed/simple;
+	bh=EzFgYl8dhLQlSQD3c6xJazQoRKhIA9M4UPn7HXw2aBc=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=GveIOLGcJRtfGDqk7YAvViUWGVOBENcW/gW4ClviP+JKzky6VEn2inK2B1OoLtFYfOMnbT6b+32yV6vQQyMdRicctdscngFs79/WfGhAeoR+l5F95h503i5qYrNLXxvCDeb2IX665J+5tasQkaeNvD6mXndHkpLx61E21a6CZn0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ZWpD8YVG; arc=fail smtp.client-ip=52.101.57.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fdFrnFI7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0082BC2BCB1;
-	Thu, 26 Mar 2026 19:09:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774552188;
-	bh=vgoF3lTenRbRS/o8zK2i6ASV0ovH4IdXADFxqkiSCAM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fdFrnFI7PnpriWJXlAaVo7tX2TAqs7yz6sOoAHxI37ktwHFS98y45z0k+w9sUJ5u8
-	 aTp0ghBWvSVWy7G3+PRyGhQetXqaO/juNhzJ6Vl7TW7XL0KTI5C/129wrFN2ZHjHuh
-	 Nk/BBlH0IpnCc1U1yl/iiVlf/alo+HIVIybc+rc9CdBJ4l+X+zvRKwTW3ENWTJuIIa
-	 2h8eALKdr9xjPTAYGWXKFJLDnCsJ7ZV+Af/LyPV+0QdJZtHBg0zvI6yTjSvpGEUqs8
-	 +TYmPuhg5+y4hKzNyK8soUCrFoYOePPE6itthCo/fBe14Znodla++brk5FqLEQPbqB
-	 axJmu/8P1TGVw==
-Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1w5q5R-0000000BH8S-41AY;
-	Thu, 26 Mar 2026 20:09:45 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH v2 2/2] docs: kdoc_diff: add a helper tool to help checking kdoc regressions
-Date: Thu, 26 Mar 2026 20:09:43 +0100
-Message-ID: <24b3116a78348b13a74d1ff5e141160ef9705dd3.1774551940.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <cover.1774551940.git.mchehab+huawei@kernel.org>
-References: <cover.1774551940.git.mchehab+huawei@kernel.org>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ZWpD8YVG"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fwqFQVXroUAjJhvgfz6FQY+pP0amjqh6HRoUBblb4dlBsYkI/RUGgyf4w8cUhmBokHWUzSeg2NjLbor+kkIsKmPW1yfVc19b5WavvSKPXi4GhqOeL/wed2Pn4FzL6BfQLBvQGXTDtL1xU3N7O6b5aP/nIFc3zZbsMgQ6pi4vRdd2l01kdkFTanJloLVdEyvMhPDzLpizKy6QQWCVosNQMTImnx7jgN2NT9+znnyttIsSygvugVtgAmbqA6Mt2auezr/IJqeI7aaktJekfgOl3xYHL0TRT15Gb2lIGpp/kAdj9oUtRzykZnBaaYLczDiGMq4kfrjBbEU7X1sJ0+rxzA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UaIv2RWCKTeJgtalFRXFZ8b+nFsVCnNgOu5figTpBaQ=;
+ b=ZVRAXkNPCnN/IKHFWpBZNT6KE9L6chyGoRP8Kssf1HXg3HUYt9buslRz+43OdKJ+tJAeJeVf9MjvFdlWnIf5F8R192NWCC2GjifGE9iR90eKUcv5b3h+km/VEpjn0tCTybncltwKEOEVx/YrsRCjAkJqKCJ/WBBmG31t1l43O85BJ2eqO00zGgT7k5PUQmIBNszx6Y7W8i/20uKf8au9vs8FB/O3bgfx+e0T3JD4sJa1LQwl5ERtA+KKWVDedad1U2DZc4aaHBEm0TsE/FEVFsb9pvOZV6olWpHPfUbBi7rOW2Smhy+m9jGiOXcZ6rpvQpnsQLmWknJYoRfKWSqMCg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UaIv2RWCKTeJgtalFRXFZ8b+nFsVCnNgOu5figTpBaQ=;
+ b=ZWpD8YVGIEqe/jOtGKlVqXMWSnOuG0QyHjk98qP3oWq4VXijCa/+IOFOJfl5jSWaMJmCDC9xAUUgJ9BIarkXjUv7hfskX5V71GGlj2gnTmFkcS0CL4Btr5eLbMjatFB++3Uj7GuCQ7NFaFz4hf2dOUurNz3B1tg+MDUjTYJSFqA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ (2603:10b6:20f:fc04::bdc) by PH7PR12MB7259.namprd12.prod.outlook.com
+ (2603:10b6:510:207::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.20; Thu, 26 Mar
+ 2026 19:10:50 +0000
+Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ ([fe80::e192:692b:abba:8c88]) by IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ ([fe80::e192:692b:abba:8c88%3]) with mapi id 15.20.9769.004; Thu, 26 Mar 2026
+ 19:10:49 +0000
+Message-ID: <e769f655-6aad-4f00-b978-868ec3a9cc42@amd.com>
+Date: Thu, 26 Mar 2026 14:10:45 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 02/16] fs, x86/resctrl: Add architecture routines for
+ kernel mode initialization
+To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
+ tony.luck@intel.com, Dave.Martin@arm.com, james.morse@arm.com,
+ tglx@kernel.org, mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com
+Cc: skhan@linuxfoundation.org, x86@kernel.org, hpa@zytor.com,
+ peterz@infradead.org, juri.lelli@redhat.com, vincent.guittot@linaro.org,
+ dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
+ mgorman@suse.de, vschneid@redhat.com, kas@kernel.org,
+ rick.p.edgecombe@intel.com, akpm@linux-foundation.org, pmladek@suse.com,
+ rdunlap@infradead.org, dapeng1.mi@linux.intel.com, kees@kernel.org,
+ elver@google.com, paulmck@kernel.org, lirongqing@baidu.com,
+ safinaskar@gmail.com, fvdl@google.com, seanjc@google.com,
+ pawan.kumar.gupta@linux.intel.com, xin@zytor.com, tiala@microsoft.com,
+ Neeraj.Upadhyay@amd.com, chang.seok.bae@intel.com, thomas.lendacky@amd.com,
+ elena.reshetova@intel.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-coco@lists.linux.dev,
+ kvm@vger.kernel.org, eranian@google.com, peternewman@google.com
+References: <cover.1773347820.git.babu.moger@amd.com>
+ <72315f83ddf35b0de53fb911f46623782d95f507.1773347820.git.babu.moger@amd.com>
+ <3ef56c9c-cfe4-4e3c-8598-f2217e538c8c@intel.com>
+Content-Language: en-US
+From: Babu Moger <babu.moger@amd.com>
+In-Reply-To: <3ef56c9c-cfe4-4e3c-8598-f2217e538c8c@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SN7PR04CA0169.namprd04.prod.outlook.com
+ (2603:10b6:806:125::24) To IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+ (2603:10b6:20f:fc04::bdc)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA0PPF9A76BB3A6:EE_|PH7PR12MB7259:EE_
+X-MS-Office365-Filtering-Correlation-Id: 60deef3e-f822-4d49-cb26-08de8b6b6472
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|7416014|376014|1800799024|18002099003|22082099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	yKkUqcqF/USO0bgbDot0+IJAte5Yb/LlNzwpt0nWfriFgsP22XmT+Q+DdbAkwEt83NuUZJX06gBKSFuVQ3p9HqpP402fbHBid8hePEHFVwf2sVuSM3nr2E2Obm6kCW+MLV4no9ihKp0xB0JkUHtS/jMG4p+HPmVtQqLIWD84NkdZEJQdi5tHos1k36paId9T+lsp2UwPsNnyVGxD09FgNsUOj+OuCkglVIA7gUqshyqClJISnrI/3O+Hs3yA4r5ozh/LVHwthIz/iRd+Ab4cmVO3Vu2gyddGnBaS2EAL0/rISrqT5h+AvdjLCOySHE5uvGLuW/uok2Re0j/lHUPHiPTUgAUafV8nFEbv84IMAdLVQmem04bN2/NE63lGSWIsPNBwvEBMaGwdCEuF0T38U/hLSlQeNZMBiE3uO9VrHLSOgjijC9AdDz4sewFDEu4NuIHTdCz44iDD5rJ03/qegb7ZbTm0RnYBSrPZHtU2r731rEe8IETyQo5GGbCr16EBXUgyOCf8O00Ck6QT7+uaVK8S8mIyCugswIhDwUK6YSwbex/gl5B6+PjjiupkPp2XkdUyEHaCe6gMTHLTt+0n8bEp65wTOrpzJkYfj5grX+LTo1LtrVJkb4lcXJkbW0vrB0ufT4Shmbexrv66FeIpHvxhJlqM/qjwt8RxflZ1a13vfpgyEJAvE7sxi8pY7+1i
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PPF9A76BB3A6.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?cGJKa1ZhRVRPRjBiMVNLK3NIMkVTUjNseFU1ZS90YzVxdzZkSG1uWGFiaWli?=
+ =?utf-8?B?Qk5PMzZiSHBCb2hHRzZXS0VWMUJJNFp3aVU4ZS9rdzlDTTRxdlBvTXdKR3lS?=
+ =?utf-8?B?c3E3MmxIQ3VMRVc4aFhFTm9OeVJvRkVYTTU2dmFWbXZybGV2NkpFRkFPUFRZ?=
+ =?utf-8?B?RjRQVTRJL0xVdHdKRlpHQ015bitmL1AwVkM5Y3BNRENzUmc4NUhjYStMWFkv?=
+ =?utf-8?B?OURYQzEweEYzTGlEdERRd1N4WnlaUVRnRjlBOGlvMisyR0ZkbGJub3greGov?=
+ =?utf-8?B?aU1iazFqRURqZ0x1UXJ4UnVlS2tFelhGRGE3RDFtbHI1VGZzMTdKQTlhQWpo?=
+ =?utf-8?B?VzB2VkZFTFVVZXIxKy9hT0ZoSE9ua25FTCthZ2I1T0JaYXZrVkxxZDhlMkw4?=
+ =?utf-8?B?Z2FUUWNHVk8rRUJCYUpuUEtkOVZZNDd0eUJPMUhJWUtZdUhTMjE2YmtEck9a?=
+ =?utf-8?B?RjRZbFJTSUI4Z01UL2c3THVDbzJMOUR5SDgrdWU4MXhMWkJuZ0JuNzlNdDc3?=
+ =?utf-8?B?dWVMcWJhM1czenVteTdmMnRrWG1XSGRnaDB6ZWVBVXprem1Xdm0zb2tiNFY4?=
+ =?utf-8?B?YjBZcHl6VGtvUlJvZ3UxT2s0UHl0emFIS0pRV29STzRwUzF3ZW11aU05Ymp2?=
+ =?utf-8?B?N0syYlFjTUFSM0FUUlhaa2JJMUdZU1hpTjF6bUxLNUJkVkRxVUtLRVh6dUVn?=
+ =?utf-8?B?MlV3dHRCZ1hKZVYxbmM0VHhyZlR2am9BR2ZIekdVa0hWZ0lrQVg3UjRjS29N?=
+ =?utf-8?B?MXpaaU1TV3VRd1VqQm52VHM5RzJSRytma1NnZ0UrSlVlUTJtdVJzY0pHcXAz?=
+ =?utf-8?B?ZE9hMVZsbTNvbUFZbzIvVDIwZzF1V0QwTm9pS3BjLzhrN0lQUS9BUXdwazVi?=
+ =?utf-8?B?Z2d2VkVaeVYyaFNkTW1oQmpPdldBS0drZDM4U1RucjkwUnE3TSthbS9KUXFn?=
+ =?utf-8?B?V0hsYWM4MEFIWStJWmJkUlFmVHR6b3RRNWRQYyszd1I0SXdUamRPRm1TMTY4?=
+ =?utf-8?B?M05NL1BseDJpblR0U1ZIZFNJaW5BUk5Ka2Y1VUpUR3hoOU8wcllxK1hFL0Rp?=
+ =?utf-8?B?RGdXTmFoeDhmektiTDByL3pOWUIrdlV1ejUrQVFYZU9IYTE5VDF2RVNCOVEr?=
+ =?utf-8?B?ZWU3TEFqVEpQSGtHUnRiVVAydzJQRkRoSnEyR1c5QkdRaFFlS0cvemcyUGRS?=
+ =?utf-8?B?OG5UOEdGMDZSYW1NbVB2cGFjSHNrSk4wZURrSUlzZlc0YU9wTkJPRkk4dEVZ?=
+ =?utf-8?B?bWYrKzJVU3Ayb3UxUW5GYkg3bWhKT0U1NWlFWngwTG9QZGRnTGNlcVQrMmNa?=
+ =?utf-8?B?QjRLeWQxVGdISDRGZytveUxrTWxoR3daaCtQTXNrTi9FSEI4alZEOTNDTlR0?=
+ =?utf-8?B?Z2dsckp4WnFkVDRtRzRvaUg1RW5BTzFvM1ZSQkk0VGhwSnJwTnNqUnJzaTg4?=
+ =?utf-8?B?azBHNnA2SXdFeEpzeDliaysvbFpUQm1WY2lyaVBLczQvYlc5UEhKV3h4enhY?=
+ =?utf-8?B?clFYUUtmOW5tVitSTmwyQWhYVmVSeUZYRFBlUjJoVzVabG0yODgxamZNRWIz?=
+ =?utf-8?B?N2xJTlZuZHQrOWhnbnM5NEd5NDlXK21HdVpDUi93Z3RUbmR1VFNhVHE0VDFO?=
+ =?utf-8?B?aFU4VVZYOE04OEdTbmQ1SFRhN1NGTDlyRDNyMGo2a2doK1ExTHB2QXAyS0k1?=
+ =?utf-8?B?RkY4UXhUc1NTQ0NEOVJ3SVhZamN4aXRTeHZYVlB3UlVjNE4zbTE4V2s4a0hZ?=
+ =?utf-8?B?WFQ3S2tYb1oyTnJ3MzRkK0ZxY044bUZTcE5zdHRlZEQyeXlycjNkZVVoZ2hI?=
+ =?utf-8?B?WjJmdUZIV3J3cmZndURmczZyck1POThlU1pVdGViMHZXSWNCVEM1QU1UaVVO?=
+ =?utf-8?B?WGZwSEhrd3h2bjl3ZWZyNFdiSWwzZzFZWGZsSW4xVjF4NThSaVNFa0hWWGtU?=
+ =?utf-8?B?YUxVTjY5KytvcDRpMC8zN3FqNGdrbnBBUk52Z3U4eEQzYzlacFc5QmVRcDJm?=
+ =?utf-8?B?dW4vaElPMUNXcHIrUkpjVVJiQmtpaVFMNVJBVWxvc05ZbmtpNDNHVTViNkR6?=
+ =?utf-8?B?VXlkdGNhblhOU1l3aG5XWUhwdTBlWXhaZlUwUGJLRnB5ek1LQkNYNWgzdmdl?=
+ =?utf-8?B?RURxcHJrNnhoN25nbkU4VE9DL2JnTmV3T1JJU080UEErWVJ4cXFBdWRqUGQx?=
+ =?utf-8?B?MXVXUk5OcGp3VkFFeUpGSWpjR2xraUlRVlpsNWhrMFNPeURLaXUvVGVPL1hI?=
+ =?utf-8?B?TFRkM3JpZFNwNTNhYlJVTmpQTG9BNnVZbndhdjUyL1dOTEZheTVyeVhMRnlL?=
+ =?utf-8?Q?o726SqYbShy1xdizw1?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 60deef3e-f822-4d49-cb26-08de8b6b6472
+X-MS-Exchange-CrossTenant-AuthSource: IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2026 19:10:49.7828
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: yy+VhXusILnQosy9mquBLxHewCGC5p9UwBCOnYHGoEAQTou418pUCuhn8II7B2Mi
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7259
 
-Checking for regressions at kernel-doc can be hard. Add a helper
-tool to make such task easier.
+Hi Reinette,
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- tools/docs/kdoc_diff | 508 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 508 insertions(+)
- create mode 100755 tools/docs/kdoc_diff
+On 3/24/26 17:53, Reinette Chatre wrote:
+> Hi Babu,
+>
+> On 3/12/26 1:36 PM, Babu Moger wrote:
+>> Implement the resctrl kernel mode (kmode) arch initialization.
+>>
+>> - Add resctrl_arch_get_kmode_cfg() to fill the default kernel mode
+>>    (INHERIT_CTRL_AND_MON). This can be extended later (e.g. for PLZA) to set
+>>    additional modes.
+> I do not think this is something that the architecture should set, at least
+> at this time. Every mode has different requirements and this just lets the arch set
+> it without any support for what configurations it implies. For example, if
+> arch sets a different default mode than INHERIT_CTRL_AND_MON then PQR_PLZA_ASSOC
+> needs to be programmed as the CPUs come online and this does not seem to
+> accommodate this. This implementation appears to have significant assumptions on
+> what architecture will end up setting since it is only considering PLZA.
 
-diff --git a/tools/docs/kdoc_diff b/tools/docs/kdoc_diff
-new file mode 100755
-index 000000000000..1aa16bdccaa3
---- /dev/null
-+++ b/tools/docs/kdoc_diff
-@@ -0,0 +1,508 @@
-+#!/usr/bin/env python3
-+# SPDX-License-Identifier: GPL-2.0
-+# Copyright(c) 2026: Mauro Carvalho Chehab <mchehab@kernel.org>.
-+#
-+# pylint: disable=R0903,R0912,R0913,R0914,R0915,R0917
-+
-+"""
-+docdiff - Check differences between kernel‑doc output between two different
-+commits.
-+
-+Examples
-+--------
-+
-+Compare the kernel‑doc output between the last two 5.15 releases::
-+
-+    $ kdoc_diff v6.18..v6.19
-+
-+Both outputs are cached
-+
-+Force a complete documentation scan and clean any previous cache from
-+6.19 to the current HEAD::
-+
-+    $ kdoc_diff 6.19.. --full --clean
-+
-+Check differences only on a single driver since origin/main::
-+
-+    $ kdoc_diff origin/main drivers/media
-+
-+Generate an YAML file and use it to check for regressions::
-+
-+    $ kdoc_diff HEAD~ drivers/media --regression
-+
-+
-+"""
-+
-+import os
-+import sys
-+import argparse
-+import subprocess
-+import shutil
-+import re
-+import signal
-+
-+from glob import iglob
-+
-+
-+SRC_DIR = os.path.dirname(os.path.realpath(__file__))
-+WORK_DIR = os.path.abspath(os.path.join(SRC_DIR, "../.."))
-+
-+KDOC_BINARY = os.path.join(SRC_DIR, "kernel-doc")
-+KDOC_PARSER_TEST = os.path.join(WORK_DIR, "tools/unittests/test_kdoc_parser.py")
-+
-+CACHE_DIR = ".doc_diff_cache"
-+YAML_NAME = "out.yaml"
-+
-+DIR_NAME = {
-+    "full": os.path.join(CACHE_DIR, "full"),
-+    "partial": os.path.join(CACHE_DIR, "partial"),
-+    "no-cache": os.path.join(CACHE_DIR, "no_cache"),
-+    "tmp": os.path.join(CACHE_DIR, "__tmp__"),
-+}
-+
-+class GitHelper:
-+    """Handles all Git operations"""
-+
-+    def __init__(self, work_dir=None):
-+        self.work_dir = work_dir
-+
-+    def is_inside_repository(self):
-+        """Check if we're inside a Git repository"""
-+        try:
-+            output = subprocess.check_output(["git", "rev-parse",
-+                                              "--is-inside-work-tree"],
-+                                             cwd=self.work_dir,
-+                                             stderr=subprocess.STDOUT,
-+                                             universal_newlines=True)
-+
-+            return output.strip() == "true"
-+        except subprocess.CalledProcessError:
-+            return False
-+
-+    def is_valid_commit(self, commit_hash):
-+        """
-+        Validate that a ref (branch, tag, commit hash, etc.) can be
-+        resolved to a commit.
-+        """
-+        try:
-+            subprocess.check_output(["git", "rev-parse", commit_hash],
-+                                    cwd=self.work_dir,
-+                                    stderr=subprocess.STDOUT)
-+            return True
-+        except subprocess.CalledProcessError:
-+            return False
-+
-+    def get_short_hash(self, commit_hash):
-+        """Get short commit hash"""
-+        try:
-+            return subprocess.check_output(["git", "rev-parse", "--short",
-+                                            commit_hash],
-+                                           cwd=self.work_dir,
-+                                           stderr=subprocess.STDOUT,
-+                                           universal_newlines=True).strip()
-+        except subprocess.CalledProcessError:
-+            return ""
-+
-+    def has_uncommitted_changes(self):
-+        """Check for uncommitted changes"""
-+        try:
-+            subprocess.check_output(["git", "diff-index",
-+                                     "--quiet", "HEAD", "--"],
-+                                    cwd=self.work_dir,
-+                                    stderr=subprocess.STDOUT)
-+            return False
-+        except subprocess.CalledProcessError:
-+            return True
-+
-+    def get_current_branch(self):
-+        """Get current branch name"""
-+        return subprocess.check_output(["git", "branch", "--show-current"],
-+                                        cwd=self.work_dir,
-+                                        universal_newlines=True).strip()
-+
-+    def checkout_commit(self, commit_hash, quiet=True):
-+        """Checkout a commit safely"""
-+        args = ["git", "checkout", "-f"]
-+        if quiet:
-+            args.append("-q")
-+        args.append(commit_hash)
-+        try:
-+            subprocess.check_output(args, cwd=self.work_dir,
-+                                    stderr=subprocess.STDOUT)
-+
-+            # Double-check if branch actually switched
-+            branch = self.get_short_hash("HEAD")
-+            if commit_hash != branch:
-+                raise RuntimeError(f"Branch changed to '{branch}' instead of '{commit_hash}'")
-+
-+            return True
-+        except subprocess.CalledProcessError as e:
-+            print(f"ERROR: Failed to checkout {commit_hash}: {e}",
-+                  file=sys.stderr)
-+            return False
-+
-+
-+class CacheManager:
-+    """Manages persistent cache directories"""
-+
-+    def __init__(self, work_dir):
-+        self.work_dir = work_dir
-+
-+    def initialize(self):
-+        """Create cache directories if they don't exist"""
-+        for dir_path in DIR_NAME.values():
-+            abs_path = os.path.join(self.work_dir, dir_path)
-+            if not os.path.exists(abs_path):
-+                os.makedirs(abs_path, exist_ok=True, mode=0o755)
-+
-+    def get_commit_cache(self, commit_hash, path):
-+        """Generate cache path for a commit"""
-+        hash_short = GitHelper(self.work_dir).get_short_hash(commit_hash)
-+        if not hash_short:
-+            hash_short = commit_hash
-+
-+        return os.path.join(path, hash_short)
-+
-+class KernelDocRunner:
-+    """Runs kernel-doc documentation generator"""
-+
-+    def __init__(self, work_dir, kdoc_binary):
-+        self.work_dir = work_dir
-+        self.kdoc_binary = kdoc_binary
-+        self.kdoc_files = None
-+
-+    def find_kdoc_references(self):
-+        """Find all files marked with kernel-doc:: directives"""
-+        if self.kdoc_files:
-+            print("Using cached Kdoc refs")
-+            return self.kdoc_files
-+
-+        print("Finding kernel-doc entries in Documentation...")
-+
-+        files = os.path.join(self.work_dir, 'Documentation/**/*.rst')
-+        pattern = re.compile(r"^\.\.\s+kernel-doc::\s*(\S+)")
-+        kdoc_files = set()
-+
-+        for file_path in iglob(files, recursive=True):
-+            try:
-+                with open(file_path, 'r', encoding='utf-8') as fp:
-+                    for line in fp:
-+                        match = pattern.match(line.strip())
-+                        if match:
-+                            kdoc_files.add(match.group(1))
-+
-+            except OSError:
-+                continue
-+
-+        self.kdoc_files = list(kdoc_files)
-+
-+        return self.kdoc_files
-+
-+    def gen_yaml(self, yaml_file, kdoc_files):
-+        """Runs kernel-doc to generate a yaml file with man and rst."""
-+        cmd = [self.kdoc_binary, "--man", "--rst", "--yaml", yaml_file]
-+        cmd += kdoc_files
-+
-+        print(f"YAML regression test file will be stored at: {yaml_file}")
-+
-+        try:
-+            subprocess.check_call(cmd, cwd=self.work_dir,
-+                                  stdout=subprocess.DEVNULL,
-+                                  stderr=subprocess.DEVNULL)
-+        except subprocess.CalledProcessError:
-+            return False
-+
-+        return True
-+
-+    def run_unittest(self, yaml_file):
-+        """Run unit tests with the generated yaml file"""
-+        cmd = [KDOC_PARSER_TEST, "-q", "--yaml", yaml_file]
-+        result = subprocess.run(cmd, cwd=self.work_dir)
-+
-+        if result.returncode:
-+            print("To check for problems, try to run it again with -v\n")
-+            print("Use -k <regex> to filter results\n\n\t$", end="")
-+            print(" ".join(cmd) + "\n")
-+
-+        return True
-+
-+    def normal_run(self, tmp_dir, output_dir, kdoc_files):
-+        """Generate man, rst and errors, storing them at tmp_dir."""
-+        os.makedirs(tmp_dir, exist_ok=True)
-+
-+        try:
-+            with open(os.path.join(tmp_dir, "man.log"), "w", encoding="utf-8") as out:
-+                subprocess.check_call([self.kdoc_binary, "--man"] + kdoc_files,
-+                                      cwd=self.work_dir,
-+                                      stdout=out, stderr=subprocess.DEVNULL)
-+
-+            with open(os.path.join(tmp_dir, "rst.log"), "w", encoding="utf-8") as out:
-+                with open(os.path.join(tmp_dir, "err.log"), "w", encoding="utf-8") as err:
-+                    subprocess.check_call([self.kdoc_binary, "--rst"] + kdoc_files,
-+                                          cwd=self.work_dir,
-+                                          stdout=out, stderr=err)
-+        except subprocess.CalledProcessError:
-+            return False
-+
-+        if output_dir:
-+            os.replace(tmp_dir, output_dir)
-+
-+        return True
-+
-+    def run(self, commit_hash, tmp_dir, output_dir, kdoc_files, is_regression,
-+            is_end):
-+        """Run kernel-doc on its several ways"""
-+        if not kdoc_files:
-+            raise RuntimeError("No kernel-doc references found")
-+
-+        git_helper = GitHelper(self.work_dir)
-+        if not git_helper.checkout_commit(commit_hash, quiet=True):
-+            raise RuntimeError(f"ERROR: can't checkout commit {commit_hash}")
-+
-+        print(f"Processing {commit_hash}...")
-+
-+        if not is_regression:
-+            return self.normal_run(tmp_dir, output_dir, kdoc_files)
-+
-+        yaml_file = os.path.join(tmp_dir, YAML_NAME)
-+
-+        if not is_end:
-+            return self.gen_yaml(yaml_file, kdoc_files)
-+
-+        return self.run_unittest(yaml_file)
-+
-+class DiffManager:
-+    """Compare documentation output directories with an external diff."""
-+    def __init__(self, diff_tool="diff", diff_args=None):
-+        self.diff_tool = diff_tool
-+        # default: unified, no context, ignore whitespace changes
-+        self.diff_args = diff_args or ["-u0", "-w"]
-+
-+    def diff_directories(self, dir1, dir2):
-+        """Compare two directories using an external diff."""
-+        print(f"\nDiffing {dir1} and {dir2}:")
-+
-+        dir1_files = set()
-+        dir2_files = set()
-+        has_diff = False
-+
-+        for root, _, files in os.walk(dir1):
-+            for file in files:
-+                dir1_files.add(os.path.relpath(os.path.join(root, file), dir1))
-+        for root, _, files in os.walk(dir2):
-+            for file in files:
-+                dir2_files.add(os.path.relpath(os.path.join(root, file), dir2))
-+
-+        common_files = sorted(dir1_files & dir2_files)
-+        for file in common_files:
-+            f1 = os.path.join(dir1, file)
-+            f2 = os.path.join(dir2, file)
-+
-+            cmd = [self.diff_tool] + self.diff_args + [f1, f2]
-+            try:
-+                result = subprocess.run(
-+                    cmd, capture_output=True, text=True, check=False
-+                )
-+                if result.stdout:
-+                    has_diff = True
-+                    print(f"\n{file}")
-+                    print(result.stdout, end="")
-+            except FileNotFoundError:
-+                print(f"ERROR: {self.diff_tool} not found")
-+                sys.exit(1)
-+
-+        # Show files that exist only in one directory
-+        only_in_dir1 = dir1_files - dir2_files
-+        only_in_dir2 = dir2_files - dir1_files
-+        if only_in_dir1 or only_in_dir2:
-+            has_diff = True
-+            print("\nDifferential files:")
-+            for f in sorted(only_in_dir1):
-+                print(f"  - {f} (only in {dir1})")
-+            for f in sorted(only_in_dir2):
-+                print(f"  + {f} (only in {dir2})")
-+
-+        if not has_diff:
-+            print("\nNo differences between those two commits")
-+
-+
-+class SignalHandler():
-+    """Signal handler class."""
-+
-+    def restore(self, force_exit=False):
-+        """Restore original HEAD state."""
-+        if self.restored:
-+            return
-+
-+        print(f"Restoring original branch: {self.original_head}")
-+        try:
-+            subprocess.check_call(
-+                ["git", "checkout", "-f", self.original_head],
-+                cwd=self.git_helper.work_dir,
-+                stderr=subprocess.STDOUT,
-+            )
-+        except subprocess.CalledProcessError as e:
-+            print(f"Failed to restore: {e}", file=sys.stderr)
-+
-+        for sig, handler in self.old_handler.items():
-+            signal.signal(sig, handler)
-+
-+        self.restored = True
-+
-+        if force_exit:
-+            sys.exit(1)
-+
-+    def signal_handler(self, sig, _):
-+        """Handle interrupt signals."""
-+        print(f"\nSignal {sig} received. Restoring original state...")
-+
-+        self.restore(force_exit=True)
-+
-+    def __enter__(self):
-+        """Allow using it via with command."""
-+        for sig in [signal.SIGINT, signal.SIGTERM]:
-+            self.old_handler[sig] = signal.getsignal(sig)
-+            signal.signal(sig, self.signal_handler)
-+
-+        return self
-+
-+    def __exit__(self, *args):
-+        """Restore signals at the end of with block."""
-+        self.restore()
-+
-+    def __init__(self, git_helper, original_head):
-+        self.git_helper = git_helper
-+        self.original_head = original_head
-+        self.old_handler = {}
-+        self.restored = False
-+
-+def parse_commit_range(value):
-+    """Handle a commit range."""
-+    if ".." not in value:
-+        begin = value
-+        end = "HEAD"
-+    else:
-+        begin, _, end = value.partition("..")
-+        if not end:
-+            end = "HEAD"
-+
-+    if not begin:
-+        raise argparse.ArgumentTypeError("Need a commit begginning")
-+
-+
-+    print(f"Range: {begin} to {end}")
-+
-+    return begin, end
-+
-+
-+def main():
-+    """Main code"""
-+    parser = argparse.ArgumentParser(description="Compare kernel documentation between commits")
-+    parser.add_argument("commits", type=parse_commit_range,
-+                        help="commit range like old..new")
-+    parser.add_argument("files", nargs="*",
-+                        help="files to process – if supplied the --full flag is ignored")
-+
-+    parser.add_argument("--full", "-f", action="store_true",
-+                        help="Force a full scan of Documentation/*")
-+
-+    parser.add_argument("--regression", "-r", action="store_true",
-+                        help="Use YAML format to check for regressions")
-+
-+    parser.add_argument("--work-dir", "-w", default=WORK_DIR,
-+                        help="work dir (default: %(default)s)")
-+
-+    parser.add_argument("--clean", "-c", action="store_true",
-+                        help="Clean caches")
-+
-+    args = parser.parse_args()
-+
-+    if args.files and args.full:
-+        raise argparse.ArgumentError(args.full,
-+                                     "cannot combine '--full' with an explicit file list")
-+
-+    work_dir = os.path.abspath(args.work_dir)
-+
-+    # Initialize cache
-+    cache = CacheManager(work_dir)
-+    cache.initialize()
-+
-+    # Validate git repository
-+    git_helper = GitHelper(work_dir)
-+    if not git_helper.is_inside_repository():
-+        raise RuntimeError("Must run inside Git repository")
-+
-+    old_commit, new_commit = args.commits
-+
-+    old_commit = git_helper.get_short_hash(old_commit)
-+    new_commit = git_helper.get_short_hash(new_commit)
-+
-+    # Validate commits
-+    for commit in [old_commit, new_commit]:
-+        if not git_helper.is_valid_commit(commit):
-+            raise RuntimeError(f"Commit '{commit}' does not exist")
-+
-+    # Check for uncommitted changes
-+    if git_helper.has_uncommitted_changes():
-+        raise RuntimeError("Uncommitted changes present. Commit or stash first.")
-+
-+    runner = KernelDocRunner(git_helper.work_dir, KDOC_BINARY)
-+
-+    # Get files to be parsed
-+    cache_msg = " (results will be cached)"
-+    if args.full:
-+        kdoc_files = ["."]
-+        diff_type = "full"
-+        print(f"Parsing all files at {work_dir}")
-+    if not args.files:
-+        diff_type = "partial"
-+        kdoc_files = runner.find_kdoc_references()
-+        print(f"Parsing files with kernel-doc markups at {work_dir}/Documentation")
-+    else:
-+        diff_type = "no-cache"
-+        cache_msg = ""
-+        kdoc_files = args.files
-+
-+    tmp_dir = DIR_NAME["tmp"]
-+    out_path = DIR_NAME[diff_type]
-+
-+    if not args.regression:
-+        print(f"Output will be stored at: {out_path}{cache_msg}")
-+
-+    # Just in case - should never happen in practice
-+    if not kdoc_files:
-+        raise argparse.ArgumentError(args.files,
-+                                        "No kernel-doc references found")
-+
-+    original_head = git_helper.get_current_branch()
-+
-+    old_cache = cache.get_commit_cache(old_commit, out_path)
-+    new_cache = cache.get_commit_cache(new_commit, out_path)
-+
-+    with SignalHandler(git_helper, original_head):
-+        if args.clean or diff_type == "no-cache":
-+            for cache_dir in [old_cache, new_cache]:
-+                if cache_dir and os.path.exists(cache_dir):
-+                    shutil.rmtree(cache_dir)
-+
-+        if args.regression or not os.path.exists(old_cache):
-+            old_success = runner.run(old_commit, tmp_dir, old_cache, kdoc_files,
-+                                    args.regression, False)
-+        else:
-+            old_success = True
-+
-+        if args.regression or not os.path.exists(new_cache):
-+            new_success = runner.run(new_commit, tmp_dir, new_cache, kdoc_files,
-+                                    args.regression, True)
-+        else:
-+            new_success = True
-+
-+    if not (old_success and new_success):
-+        raise RuntimeError("Failed to generate documentation")
-+
-+    if not args.regression:
-+        diff_manager = DiffManager()
-+        diff_manager.diff_directories(old_cache, new_cache)
-+
-+if __name__ == "__main__":
-+    main()
--- 
-2.53.0
+Sure.  Let the arch report what is supported. Will change it to set the 
+default in fs code.
 
+Users can change change modes from FS code.
+
+
+>
+>> - Add global resctrl_kcfg and resctrl_kmode_init() to initialize default
+>>    values.
+>>
+>> Signed-off-by: Babu Moger <babu.moger@amd.com>
+>> ---
+>> v2: New patch to handle PLZA interfaces with /sys/fs/resctrl/info/ directory.
+>>      https://lore.kernel.org/lkml/2ab556af-095b-422b-9396-f845c6fd0342@intel.com/
+>> ---
+>>   arch/x86/kernel/cpu/resctrl/core.c |  7 +++++++
+>>   fs/resctrl/rdtgroup.c              | 10 ++++++++++
+>>   2 files changed, 17 insertions(+)
+>>
+>> diff --git a/arch/x86/kernel/cpu/resctrl/core.c b/arch/x86/kernel/cpu/resctrl/core.c
+>> index 7667cf7c4e94..4c3ab2d93909 100644
+>> --- a/arch/x86/kernel/cpu/resctrl/core.c
+>> +++ b/arch/x86/kernel/cpu/resctrl/core.c
+>> @@ -892,6 +892,13 @@ bool resctrl_arch_is_evt_configurable(enum resctrl_event_id evt)
+>>   	}
+>>   }
+>>   
+>> +void resctrl_arch_get_kmode_cfg(struct resctrl_kmode_cfg *kcfg)
+>> +{
+>> +	kcfg->kmode = INHERIT_CTRL_AND_MON;
+>> +	kcfg->kmode_cur = INHERIT_CTRL_AND_MON;
+>> +	kcfg->k_rdtgrp = NULL;
+>> +}
+> I already commented on the arch vs filesystem settings.
+>
+> When using an arch helper this forces all architectures to support this helper. Is a
+> helper required? Is it perhaps possible for arch to set a property instead? For example,
+> how enumeration is handled?
+> I think the assumption here is that INHERIT_CTRL_AND_MON is the default and expected to
+> be supported by all architectures. I do not see why arch should set this as default but
+> instead this should be from resctrl fs. At the same time it is expected that the
+> architecture supports this mode so there needs to be a failure if an architecture does
+> not support this mode?
+
+I will change. Arch sets the supported modes.  FS sets the default. 
+Users can change it to required mode later.
+
+
+>
+> I'm going to stop here. I think the comments so far may result in major changes already
+> making further detailed review of patches unnecessary.
+
+
+Based on my comments below you may need to re-look at the some of the 
+patches.
+
+https://lore.kernel.org/lkml/47c0db32-d0e0-4c53-90bd-b74863d233dc@amd.com/
+
+I am fine otherwise also. Let continue that discussion.
+
+Thanks
+
+Babu
+
+
+>
+> Reinette
+>
