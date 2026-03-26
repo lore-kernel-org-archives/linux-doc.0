@@ -1,79 +1,194 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9371034B1A3;
-	Thu, 26 Mar 2026 05:04:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80BAD1B652E;
+	Thu, 26 Mar 2026 06:07:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774501481; cv=none; b=c5Tz0TM7Um/fbVbx3wZr1jbFmdk6wLWaNWfhHUMV5Z5+rNniVKHF2+bs/WTP9tNCLIXOovDPZg6bD3gCOiiaH4rrPe4HylrBn9TEwULfrvv/gJPSlswoicVq1iHghMnC8/koi2M8QTh8V+xkh0Lq39+cq0kRNK5UTFiQw6gS3lk=
+	t=1774505226; cv=none; b=avTiYjEmytga8zbG7DOl8he+8AHAaZR6Rgp6lNe0xCmk/E/EGUyr89cJpYfQdWEpP+55JD9COi3spVRrRf/5TZFlD44cN7CL5fNze6s/PzNL8Q+XDd1Wt7DKaYck1u5JjIGMQOcaBiqRV1D6dFcJh4E6zLQVfHEpHRspK47iMwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774501481; c=relaxed/simple;
-	bh=DWfDep4TYYhYNNj9Xc28QoDbJutlj/1mbmBuvOiQH48=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OtMkgGY1I5Tt03CoHahgdEcKMFNNJB5cKt/VoMOjGpl3Pmv7Nz216EscGX9iK3t70BAfcdYnnO6EDptwNVrRakhYjRDKEZDVcLwBrv5HCwy3YHxh43lblZVpzCGZvuhHpKHBGiDrFlvAn1M3w1om1N0VI8LMqfe2PWwldjlk0l8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=cwFb7HXu; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1774505226; c=relaxed/simple;
+	bh=dsRKlQ6StyNYi0NsZiZx01VLNjQffu9uPWWLTvauzUQ=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nGp0ZCJz3GM9jlJ7jIuBNROP3y//KO3RpC/uPYlvQW6xlBjAIwr7wKjhPuaks7EnEIiUkzBHpuZ94FmdAPGtywXxiinwcUGOq4N4AM8fYpA3krmc1P2xTUJePR/YumNfMFajjuMA5lwHzrxgca9uom7iybIgyuTX7AvjoPnud1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=JWnNu4El; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="cwFb7HXu"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=Y/Y3zLLFpoApavNpmljNRDb9ckQyx6wTnbS1a6SPxZE=; b=cwFb7HXuyXD6K4Iugi7xipOHdJ
-	Wc+atYmpAdubg3O+4NSQpsTjN+SsIjnteHsyy3T+0L2dHVAuNaDOi+zaYYSva5lJ1U5xdAVjPJ3VQ
-	LrKQRvSrjO5pJISPnL/tKQyOt8U5Ekq1VnN2BQgddk0pFoOK8DjtKsn/1aA/EzvPoHwkeXD479fU6
-	iQgNALWh/Rh8PM3PPJVQqLwG3OckAgpmAfRx6o+FnV9hQJq5zzh1DppU7We7cAKD20MSGcljqjLz0
-	Yya2kTTTN4EnnTCfZfn1sTcXGW7mWwlNBMxbpUG3lKGOwI4yTUNadfu5X9fBQzfNNQZbI+Yj3x6dJ
-	fTJZGryg==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w5ctZ-00000004hwq-0fjT;
-	Thu, 26 Mar 2026 05:04:37 +0000
-Message-ID: <96824619-dd36-46bf-a43c-6230cecb5670@infradead.org>
-Date: Wed, 25 Mar 2026 22:04:36 -0700
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="JWnNu4El"
+Received: from narnia.corp.microsoft.com (unknown [40.78.13.173])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 4EFBD20B710C;
+	Wed, 25 Mar 2026 23:07:02 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 4EFBD20B710C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1774505224;
+	bh=BaLuYb9PTVO3oIP+w1se3osljrg8I7DZ52eU1PadejA=;
+	h=From:To:Subject:Date:From;
+	b=JWnNu4Elpa7SnqQ1ZlRJTJohEIqyoWTp8I+hZJ768LIDSZQbjAp/+9Ny6Agp2vIlj
+	 2Ab0jhL4VQYsrR7f0CY+WjF9ePUTXz8MSSn8EAtqCY4jc9f2x9xc0xN2F5F0mP6PgE
+	 ngP/MyZPOhNRyOSFMEO/V485f6WyQK5bGaTVaNJ4=
+From: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
+To: Blaise Boscaccy <bboscaccy@linux.microsoft.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Paul Moore <paul@paul-moore.com>,
+	James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	=?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
+	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack@google.com>,
+	"Dr. David Alan Gilbert" <linux@treblig.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	James.Bottomley@HansenPartnership.com,
+	dhowells@redhat.com,
+	Fan Wu <wufan@kernel.org>,
+	Ryan Foster <foster.ryan.r@gmail.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-security-module@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	bpf@vger.kernel.org
+Subject: [PATCH v3 0/9] Reintrodce Hornet LSM
+Date: Wed, 25 Mar 2026 23:06:29 -0700
+Message-ID: <20260326060655.2550595-1-bboscaccy@linux.microsoft.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] clk: move core flags into a new enum for kernel
- docs
-To: Brian Masney <bmasney@redhat.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Maxime Ripard <mripard@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20260325-clk-docs-v2-0-bcf660e1ceb5@redhat.com>
- <20260325-clk-docs-v2-1-bcf660e1ceb5@redhat.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260325-clk-docs-v2-1-bcf660e1ceb5@redhat.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+
+This patch series introduces the next iteration of the Hornet LSM.
+Hornet’s goal is to provide a secure and extensible in-kernel
+signature verification mechanism for eBPF programs.
+
+Hornet addresses concerns from users who require strict audit trails and
+verification guarantees for eBPF programs, especially in
+security-sensitive environments. Many production systems need assurance
+that only authorized, unmodified eBPF programs are loaded into the
+kernel. Hornet provides this assurance through cryptographic signature
+verification.
+
+The currently accepted loader-plus-map signature verification scheme,
+mandated by Alexei and KP, is simple to implement and generally
+acceptable if users and administrators are satisfied with it. However,
+verifying both the loader and the maps offers additional benefits
+beyond verifying the loader alone:
+
+1. Security and Audit Integrity
+
+A key advantage is that the LSM hook for authorizing BPF program loads
+can operate after signature verification. This ensures:
+
+* Access control decisions are based on verified signature status.
+* Accurate system state measurement and logging.
+* Log entries claiming a verified signature are truthful, avoiding
+  misleading records where only the loader was verified while the actual
+  BPF program verification occurs later without logging.
+
+2. TOCTOU Attack Prevention
+
+The current map hash implementation may be vulnerable to a TOCTOU
+attack because it allows unfrozen maps to cache a previously
+calculated hash. The accepted “trusted loader” scheme cannot detect
+this and may permit loading altered maps.
+
+3. Supply Chain Integrity
+
+Verify that eBPF programs and their associated map data have not been
+modified since they were built and signed, in the kernel proper, may
+aid in protecting against supply chain attacks.
+
+This approach addresses concerns from users who require strict audit
+trails and verification guarantees, especially in security-sensitive
+environments. Map hashes for extended verification are passed via the
+existing PKCS#7 UAPI and verified by the crypto subsystem. Hornet then
+calculates the program’s verification state.  Hornet itself does not
+enforce a policy on whether unsigned or partially signed programs
+should be rejected. It delegates that decision to downstream LSMs
+hook, making it a composable building block in a larger security
+architecture.
+
+Changes in V3:
+- Updated for signed attribute patch series changes
+- Added some new result enum values
+- Minor documentation clarification
+- Misc style fixes
+- Added missing signed-off-by tags
+
+Link to V2: https://lore.kernel.org/linux-security-module/20260227233930.2418522-1-bboscaccy@linux.microsoft.com/
+
+Changes in V2:
+- Addressed possible TocTou races in hash verification
+- Improved documentation and tooling
+- Added Alexie's nack
+
+Link to RFC: https://lore.kernel.org/linux-security-module/20251211021257.1208712-1-bboscaccy@linux.microsoft.com/
 
 
+Blaise Boscaccy (5):
+  lsm: security: Add additional enum values for bpf integrity checks
+  security: Hornet LSM
+  hornet: Introduce gen_sig
+  hornet: Add a light skeleton data extractor scripts
+  selftests/hornet: Add a selftest for the Hornet LSM
 
-On 3/25/26 4:52 PM, Brian Masney wrote:
-> Let's move all of the existing clk flags into a new enum so that all of
-> the flags can be easily referenced in the kernel documentation. Note
-> that I went with name clk_core_flags for the enum since the name
-> clk_flags is already in use in clk.c for the debugfs interface.
-> 
-> Note: The comment about "Please update clk_flags..." is included as a
-> separate comment so it doesn't show up in the generated documents.
-> 
-> Signed-off-by: Brian Masney <bmasney@redhat.com>
-> ---
->  include/linux/clk-provider.h | 55 +++++++++++++++++++++++++++-----------------
->  1 file changed, 34 insertions(+), 21 deletions(-)
+James Bottomley (3):
+  crypto: pkcs7: add flag for validated trust on a signed info block
+  crypto: pkcs7: add ability to extract signed attributes by OID
+  crypto: pkcs7: add tests for pkcs7_get_authattr
 
-LGTM. Thanks.
+Paul Moore (1):
+  lsm: framework for BPF integrity verification
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
+ Documentation/admin-guide/LSM/Hornet.rst     | 321 +++++++++++++++
+ Documentation/admin-guide/LSM/index.rst      |   1 +
+ MAINTAINERS                                  |   9 +
+ certs/system_keyring.c                       |   1 +
+ crypto/asymmetric_keys/Makefile              |   4 +-
+ crypto/asymmetric_keys/pkcs7_aa.asn1         |  18 +
+ crypto/asymmetric_keys/pkcs7_key_type.c      |  44 ++-
+ crypto/asymmetric_keys/pkcs7_parser.c        |  81 ++++
+ crypto/asymmetric_keys/pkcs7_parser.h        |   1 +
+ crypto/asymmetric_keys/pkcs7_trust.c         |   1 +
+ include/crypto/pkcs7.h                       |   4 +
+ include/linux/lsm_hook_defs.h                |   5 +
+ include/linux/oid_registry.h                 |   3 +
+ include/linux/security.h                     |  28 ++
+ include/uapi/linux/lsm.h                     |   1 +
+ scripts/Makefile                             |   1 +
+ scripts/hornet/Makefile                      |   5 +
+ scripts/hornet/extract-insn.sh               |  27 ++
+ scripts/hornet/extract-map.sh                |  27 ++
+ scripts/hornet/extract-skel.sh               |  27 ++
+ scripts/hornet/gen_sig.c                     | 392 +++++++++++++++++++
+ scripts/hornet/write-sig.sh                  |  27 ++
+ security/Kconfig                             |   3 +-
+ security/Makefile                            |   1 +
+ security/hornet/Kconfig                      |  11 +
+ security/hornet/Makefile                     |   7 +
+ security/hornet/hornet.asn1                  |  13 +
+ security/hornet/hornet_lsm.c                 | 333 ++++++++++++++++
+ security/security.c                          |  75 +++-
+ tools/testing/selftests/Makefile             |   1 +
+ tools/testing/selftests/hornet/Makefile      |  63 +++
+ tools/testing/selftests/hornet/loader.c      |  21 +
+ tools/testing/selftests/hornet/trivial.bpf.c |  33 ++
+ 33 files changed, 1583 insertions(+), 6 deletions(-)
+ create mode 100644 Documentation/admin-guide/LSM/Hornet.rst
+ create mode 100644 crypto/asymmetric_keys/pkcs7_aa.asn1
+ create mode 100644 scripts/hornet/Makefile
+ create mode 100755 scripts/hornet/extract-insn.sh
+ create mode 100755 scripts/hornet/extract-map.sh
+ create mode 100755 scripts/hornet/extract-skel.sh
+ create mode 100644 scripts/hornet/gen_sig.c
+ create mode 100755 scripts/hornet/write-sig.sh
+ create mode 100644 security/hornet/Kconfig
+ create mode 100644 security/hornet/Makefile
+ create mode 100644 security/hornet/hornet.asn1
+ create mode 100644 security/hornet/hornet_lsm.c
+ create mode 100644 tools/testing/selftests/hornet/Makefile
+ create mode 100644 tools/testing/selftests/hornet/loader.c
+ create mode 100644 tools/testing/selftests/hornet/trivial.bpf.c
 
 -- 
-~Randy
+2.53.0
+
