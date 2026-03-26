@@ -1,137 +1,186 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56468330B3B
-	for <linux-doc@vger.kernel.org>; Thu, 26 Mar 2026 22:04:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F32773382C5
+	for <linux-doc@vger.kernel.org>; Thu, 26 Mar 2026 22:06:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774562699; cv=none; b=XZVWEB06PE4kO1EgSOjDpf3FhBz8v9znI3JR9hFJf+VFPDbZD97BZGmB5gRqIcR/oIsWa1PtrHSZXiNcBK/hcbuwBypEFdNPvUU8TcjiMXSXssxPnCi3Kn9LSjFajdlzI2mZoPxjhXjpd/n6+Tu8P1dZ+6SZ4INBt4r2zulCaAM=
+	t=1774562808; cv=none; b=V24lIKLhLhtL+XsPtlmdqOA++NmmG91nHJ9gtSrnHy7BcYfH8gwoCRjs5yEXGVU0Ko7B8U8L52qVmj5RjJutPYd6Hr7bkwelklvRuhbXRxNjpA9718CZwHQVed4EGBpqcIT+BlqEAdeiauMScEUOOsdEU/t9Y3sms/Bwr7aAGSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774562699; c=relaxed/simple;
-	bh=GBY4i+7n97Blol+zZDLhEwkVkvlwAP0FnHiMpSo+3uE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pCVRar8CxxiPRL6TJW6/Fr330WQnwc/vg8c2dBfLiQRIyrC/Ost3gsSGcPnwLu/LbrzIp27fok0tFdPUBxLjQb391n1Y11NyViPyObzJgfYyEw0MgC84cv3OzLi5VLkbOk/89OQdvhjikt4xySB5ms/EX7Gg8ej9vgGA5wC6J8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GDhSiVDp; arc=none smtp.client-ip=209.85.160.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774562808; c=relaxed/simple;
+	bh=VHcxuzCD6goD5XgHUp8HZt3sVRcSxxWJZeFmpBM71Qo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IYrXAuEDoUQ4o/fT1sRTBtk4EeLZTcPp/P0U0VnxaGpXrtq/jFiRJiXbinuyFrwKbsmG6f/fR0fpEjHyiZePQzIYaryDTb4zX8DE24WhP8R9XbKetQKIaeXoUZ+jTO24bYb53nhHcvgKBhD1eeCNRKCynmiN9HEcJUCfTyfh14w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Dvzw7op5; arc=none smtp.client-ip=95.215.58.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GDhSiVDp"
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-506251815a3so13107971cf.0
-        for <linux-doc@vger.kernel.org>; Thu, 26 Mar 2026 15:04:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774562697; x=1775167497; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6RrKHhCFI1+fxT243Y633zvQyWdh9GMd1zgxuWpoC3M=;
-        b=GDhSiVDpiYWK1JY6gSIOea8QanGOiHJaeDQhXmLuNTljg9Q5gO5xe8y+uHogeo8lD8
-         mEvdQ+0TIAaGW+gZVm8dokt+eMNaE7zPU2CRqTeA8+6tXypZkeemywyOgbizyB3U2Z6d
-         m1NFUuFVmGgMNLtEtyi86K9eaebECvXL4cBLW8J8YlEtPflpEZ0BCDmQwr48OGxVU/Hy
-         77Nlc7zCF2cgy2jzWR+RBnf18ye1NRn3m2SG6XaAOKpXJgxuZQ8JGzRoZvXTNeEV1MSX
-         ty3i6GDNhRK8TuKIUGX3+Ng+h2BclM/0yZKf1Rvj1UOZ3JNZpu+XMb+esgEVr5/NT1Ud
-         QIRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774562697; x=1775167497;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6RrKHhCFI1+fxT243Y633zvQyWdh9GMd1zgxuWpoC3M=;
-        b=X1M0VTyLrqTY6jdB6+KgIBSgA7kerx4e65VnrvXlV/Foxf3X67YpLDsfpZNqwOq2iH
-         YvmKXiTEB6vVI9galGC3L+cMj9Bzl/2i7B7pd88bU9gWzs51FN7UWehmpjXivaa4KDC3
-         OfzI3wZKfX+Zw+FRN7Bx2jEcHjMGPtrGG+9TOeSpZzjlelre+QrZNW2PGa8d5og7EzB2
-         K9xwJ00mp+CyD5o8L5z6LUDByyplWRZf/Ymqqs5vHcukgkyM+zAzNj62rEY7AEIVKVAM
-         pOtdcHfT10cV1C+ASnwbHt4tYehllvadxifAxxtNPuxEjqc8hHQs64zq/iPZbJz0wwSh
-         pi7A==
-X-Forwarded-Encrypted: i=1; AJvYcCVeH8SaFBibscqURHrtzU0tJMIIfbIQW09nqks70DI1vJwBz5TYBAL6a0nXSO2OinMbj3FRHhhqZ6s=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzmKQNmDeUU57GAk3CdsSq7Wsdo3Xy+uDb1FMzhqHY+eYnM5HCC
-	FG8ZwzaI9M8vUsGIwXlvMwpWRmEaPzbmBgtLMTGA/WgNYXWukRJRH89h
-X-Gm-Gg: ATEYQzwXslqEmma+OEdV0xPzd+VN/NPeD57vBS8ZN0rgNrDoq6svxQVzqQGJbEJVm/T
-	3RBR5INK4KLDGYK47dbd25Tz/G4eCZRjogiTr5r4fdWttpOHXFQawdAOMaz8EHITAvwI5etSqYm
-	Ah/FMYpeHgdBmjPOyUAIBofQHcoz98vQH1LZtZ7pVBdTdwmv9z1Dw76MvRJvABZWGNMdwpqYjZH
-	Yu7Dq2f7PNLx9KzvkLMvgac346w7OjOD60N/tKUK8FNm5rG4CjPPaT3Fp+X0D7l7+AFg4xYg1P+
-	60qx7//4GV/WTR6KbatHQbdUC9IRtwLk80OACZvcjsjq8a1pwovjD01ICkURWVkm2ryInt6hA3k
-	aUxCMU+4i/M/SCmT86Cq4WXf4vLVXwF+z1CQL3+5+/P1XQ1Qf2qeJZbtm1hTJoEi7yLoGII4yV3
-	uGvIA11H5LJRudwk47+eQUwX21KzKJiqjgzb2oKNFbem3Hm9JuONtP8zyhftrWCysWZPEcMAVu0
-	Huz6kiJR4BZ4bdpFlyCGijX/5/67ltca2SRYdfeyXvpSYAeKJ6Z
-X-Received: by 2002:a05:622a:99b:b0:509:34df:4f03 with SMTP id d75a77b69052e-50ba380a874mr3457191cf.15.1774562697200;
-        Thu, 26 Mar 2026 15:04:57 -0700 (PDT)
-Received: from TARS ([207.219.48.239])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-89cd5aaf0cesm36120126d6.47.2026.03.26.15.04.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Mar 2026 15:04:56 -0700 (PDT)
-Date: Thu, 26 Mar 2026 18:04:53 -0400
-From: Ammar Mustafa <ammarmustafa34@gmail.com>
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Andy Shevchenko <andriy.shevchenko@intel.com>,
-	Alisa-Dariana Roman <alisa.roman@analog.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] Docs: iio: ad7191 Correct clock configuration
-Message-ID: <acWthfEL_HGtVykN@TARS>
-References: <aaHrsTS9iG-PEfue@ammar-VM2>
- <aaLIhgJjrNlp3oTy@ashevche-desk.local>
- <20260322121314.0143bda3@jic23-huawei>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Dvzw7op5"
+Message-ID: <e0ca748d-3204-4160-b37d-0f76cbac8c6c@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1774562795;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ap4HZuU3Kp/MebHLlBMt2MHPRPf8GdkWOr2FuBBdAdU=;
+	b=Dvzw7op5c5X6VP5abajNjvoHkIBJxJAk2lEJ2Li2ge9tGe5TSNF4qSaJEHnCf2tfm2yunU
+	B44Q4XghGrB5JB1dEYr4rEDjchocp6YetnTDiU9SclLTdxbAwpgfdOEPlJalxX4Y07vpys
+	wPX98H7qZLiOX8iAYf1WNC2Y0kW/9GE=
+Date: Thu, 26 Mar 2026 15:06:28 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260322121314.0143bda3@jic23-huawei>
+Subject: Re: [PATCH] docs: Document pahole v1.26 requirement for
+ KF_IMPLICIT_ARGS kfuncs
+To: zhidao su <soolaugust@gmail.com>,
+ Alexei Starovoitov <alexei.starovoitov@gmail.com>, Tejun Heo <tj@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, sched-ext@lists.linux.dev, bpf@vger.kernel.org
+References: <20260324062028.2479059-1-suzhidao@xiaomi.com>
+ <CAADnVQLbtuD=7mtGZFR25ULhjZ-3ifBpkyRcqu9jPSd2Mt3fBw@mail.gmail.com>
+ <69c2dbe8.170a0220.226f48.721e@mx.google.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Ihor Solodrai <ihor.solodrai@linux.dev>
+In-Reply-To: <69c2dbe8.170a0220.226f48.721e@mx.google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Sun, Mar 22, 2026 at 12:13:14PM +0000, Jonathan Cameron wrote:
-> On Sat, 28 Feb 2026 12:50:46 +0200
-> Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
+On 3/24/26 11:46 AM, zhidao su wrote:
+> On Tue, 24 Mar 2026 08:12:12 -0700, Alexei Starovoitov wrote:
+>> I don't think that's true.
+>> At least when implicit args were designed the goal was to avoid
+>> pahole dependencies.
+>> Please share exact steps to reproduce.
 > 
-> > On Fri, Feb 27, 2026 at 02:08:33PM -0500, Ammar Mustafa wrote:
-> > > Correct the ad7191 documentation to match the datasheet:
-> > > - Fix inverted CLKSEL pin logic: device uses external clock when pin is
-> > >   inactive, and internal CMOS/crystal when high.  
-> > 
-> > high --> active
-> > 
-> > Thanks, this part looks good in the below documentation update.
-> > 
-> > > - Correct CMOS-compatible clock pin from MCLK2 to MCLK1.  
-> > 
-> > I haven't checked driver yet, but is it only for a single component?
-> > Can you double check that _all_ supported by the driver have the same
-> > in their datasheet(s)?
-> > 
-> > ...
-> 
-> Hi Ammar,
-> 
-> Just a quick note to say I'm going to mark this one in patchwork
-> as needing a new version given Andy's questions have been here a while.
-> 
-> Thanks,
-> 
-> Jonathan
-> 
-> > 
-> > > +- When CLKSEL pin is ACTIVE: Uses internal 4.92MHz clock (no clock property
-> > >    needed)
-> > > -- When CLKSEL pin is tied HIGH: Requires external clock source
-> > > +- When CLKSEL pin is INACTIVE: Requires external clock source
-> > >    - Can be a crystal between MCLK1 and MCLK2 pins
-> > > -  - Or a CMOS-compatible clock driving MCLK2 pin
-> > > +  - Or a CMOS-compatible clock driving MCLK1 pin and MCLK2 left unconnected
-> > >    - Must specify the "clocks" property in device tree when using external clock  
-> > 
-> 
+> Here are the exact reproduction steps and code path analysis.
 
-Hi Jonathon, 
+Hi everyone, sorry I'm late to the party.
 
-I replied to Andy's questionm not sure if I can attach it in mutt for you,
-but we found that this driver only supports the AD7191 so no other 
-documentation needs to be updated or check for this issue. 
-Let me know if I need to do anything else to have this patch merged.
+First of all, a *Nack* to the doc change in isolation, I agree with
+Alexei here. Tejun, I suggest to revert it.
 
-Thank you,
+Doc change is insufficient and will make things only more confusing.
 
-Ammar Mustafa
+Kconfig checks for pahole version, as well as Makefile.btf. If we set
+a new minimum version then it makes sense to assume it in the kernel
+build code, and *disable CONFIG_DEBUG_INFO_BTF* if the version is not
+recent enough. Also remove any flags/conditions that depend on pahole
+being less than target minimum version. For reference see a patch
+where I bumped the minimum version to 1.22 (903922cfa0e6):
+https://lore.kernel.org/bpf/20251219181825.1289460-1-ihor.solodrai@linux.dev/
+
+More importantly, the reported problem is real, but the actual fix is
+a bump to v1.27, not v1.26. As usual AI got it about 80% right in the
+analysis below (I assume this is AI output, it certainly looks like
+one). Although to be fair AI was misled by a human error.
+
+> 
+> Reproduction (Ubuntu 24.04, pahole v1.25):
+> 
+>   $ git clone https://github.com/sched-ext/sched_ext.git
+>   $ cd sched_ext && make -j$(nproc) LOCALVERSION=-test
+>   $ make -C tools/testing/selftests/sched_ext
+>   $ vng --run arch/x86/boot/bzImage --cpus 4 --memory 4G -- \
+>       tools/testing/selftests/sched_ext/build/runner 2>&1 | grep "func_proto"
+> 
+> Result: 23/30 tests fail with:
+>   libbpf: extern (func ksym) 'scx_bpf_create_dsq': func_proto [382]
+>           incompatible with vmlinux [53813]
+
+This is indeed an error you may get if BTF for kfuncs with
+KF_IMPLICIT_ARGS is wrong.
+
+> 
+> Root cause:
+> 
+> The KF_IMPLICIT_ARGS mechanism requires pahole v1.26 for the DECL_TAG
+> generation step that enables resolve_btfids to do its btf2btf work:
+> 
+> 1. scripts/Makefile.btf gates decl_tag_kfuncs on pahole >= 1.26:
+> 
+>      pahole-flags-$(call test-ge, $(pahole-ver), 126) = ... decl_tag_kfuncs
+
+This is correct in that resolve_btfids expects that pahole ran with
+decl_tag_kfuncs, but the version check is and was wrong.
+
+decl_tag_kfuncs was implemented in pahole commit 72e88f29c [1], which
+was released in v1.27. But on the kernel build side, the new feature
+was simply appended (ebb79e96f1ea [2]) to the list of features under
+1.26 check.
+
+[1] https://git.kernel.org/pub/scm/devel/pahole/pahole.git/commit/?id=72e88f29c6f7e14201756e65bd66157427a61aaf
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?h=v7.0-rc5&id=ebb79e96f1ea454fbcc8fe27dfe44e751bd74b4b
+
+> 
+> 2. Without decl_tag_kfuncs, pahole does not emit DECL_TAG BTF entries
+>    for __bpf_kfunc-annotated functions.
+> 
+> 3. resolve_btfids/main.c::collect_kfuncs() (line 1002) early-returns
+>    when nr_decl_tags == 0:
+> 
+>      if (!link->nr_decl_tags)
+>          return 0;
+> 
+> 4. With no bpf_kfunc DECL_TAGs, btf2btf() never calls
+>    process_kfunc_with_implicit_args() to create _impl variants and
+>    strip 'aux' from the original proto.
+> 
+> 5. Result: vmlinux retains the 3-param proto (with 'aux') for all
+>    KF_IMPLICIT_ARGS kfuncs.
+> 
+> BTF evidence from our pahole v1.25-compiled vmlinux:
+> 
+>   $ bpftool btf dump file vmlinux | grep -A5 '[53813]'
+>   [53813] FUNC_PROTO '(anon)' ret_type_id=... vlen=3
+>       'dsq_id' type_id=...
+>       'node'   type_id=...
+>       'aux'    type_id=...    <-- implicit arg still present, 3-param
+>   (no scx_bpf_create_dsq_impl exists)
+
+So far so good.
+
+> 
+> With pahole v1.26, resolve_btfids creates scx_bpf_create_dsq_impl
+> (3-param, for verifier's find_kfunc_impl_proto) and rewrites
+> scx_bpf_create_dsq to 2-param (for libbpf ksym matching).
+
+And this is bullshit. The kernel build with pahole v1.26 has the same
+problem:
+
+  # Notice that 'bpf_wq_set_callback_impl' is absent from BTF
+  $ bpftool btf dump file vmlinux | grep 'bpf_wq_set'
+  [63890] FUNC 'bpf_wq_set_callback' type_id=9991 linkage=static
+          'KF_bpf_wq_set_callback' val=29
+
+vs expected (v1.27, v1.31):
+
+  $ bpftool btf dump vmlinux | grep 'bpf_wq_set'
+  [64253] FUNC 'bpf_wq_set_callback' type_id=51033 linkage=static
+  [64254] FUNC 'bpf_wq_set_callback_impl' type_id=34861 linkage=static
+          'KF_bpf_wq_set_callback' val=29
+
+One could've figured this out if they tried to actually run the build.
+
+> 
+> You're right that the design goal was to avoid pahole dependencies -
+> the implementation could be fixed in resolve_btfids to handle the
+> no-DECL_TAG case. But until such a fix lands, the dependency exists
+> in practice. Jonathan Corbet suggested raising the minimum version in
+> the requirements table to 1.26, which seems the cleanest fix.
+> 
+> Signed-off-by: zhidao su <suzhidao@xiaomi.com>
+
+
+zhidao su, I suggest you prepare a proper "minimum pahole version
+bump" patch, modifying kconfig checks, Makefile.btf and the
+documentation. Please route it through the BPF tree and add me to cc.
+
+Thanks.
+
+
