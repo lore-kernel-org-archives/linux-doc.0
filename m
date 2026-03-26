@@ -1,54 +1,54 @@
-Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
+Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CABB3E3142
-	for <linux-doc@vger.kernel.org>; Thu, 26 Mar 2026 22:25:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 773DB3E3C67
+	for <linux-doc@vger.kernel.org>; Thu, 26 Mar 2026 22:25:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774563954; cv=none; b=op17tDDxfP41RumSHu1fd0NPQ3GPe2Lkvc6xf7QvSnwxp0bsYdAQ4UsfuK22r7SzE2/xmDWtwZMSxRVVlo1HdlbQodY2XIdiWsNlC7iJmZq611misuMXqJAznjfBnEE/I6MUKYE4foUoVE+BrcmPDCHBpNpYYxiztLa0Jj5kLNA=
+	t=1774563956; cv=none; b=AA0mDEsMh2cNEkMdLDV8nr7eDi2DDC5xloCV7T22WgKFR5+mVgju0SYiVKqf/ypA9jnN0QZRzTa0cQyK53AK2Y1T6PHYJIJrV/CI8EqbQxiCXWRO+Kk/WanUURa50mNCnZWT3n37v8jTSlIdCWab4M7obi6/512D1Y06mB68uX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774563954; c=relaxed/simple;
-	bh=NOYvJCvJhjhVLEq2W9a+wwzkL2/hh8Nje+0OmjG092o=;
+	s=arc-20240116; t=1774563956; c=relaxed/simple;
+	bh=ZhM8xOm5+doKADQlrumIE2RLmxJeg0RcHplnkyjK7i8=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=MZGOscdsXn6WeSuKDyfCcJOI9g6Dd3CeHK1kv6YtHt13EFt5O+mDDIsp2w+ZNeC3IHPTIv1mlrYhRqv5sZG9Y2nkA6kaJ/98LRjt3RmvhQ7x/SefqlGfO/TbeqdiG7UqR/6jwXPA5aV5Kdo6eLnG1Yqidb9NuAGoCB3qZXvtbUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--ackerleytng.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=P1W4cBpG; arc=none smtp.client-ip=209.85.216.74
+	 To:Cc:Content-Type; b=L4kIBgv8mFM0lbEYixnq9+m3Eq+hM6a54Oen/FLI+v/LjzfL0kkT38FdF4mYWAp5ZH8AvEaC/W+p7odmMjdE/BmN1qUqWNI0sVbuiM/e1Iu0B1iceVA8QXFszX54407wZpoLerEeXu4uv5g7qrnzdXYTcORJuMbmn+hs32kVtZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--ackerleytng.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=O/p9iK6F; arc=none smtp.client-ip=209.85.214.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--ackerleytng.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="P1W4cBpG"
-Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-354c44bf176so1902543a91.0
-        for <linux-doc@vger.kernel.org>; Thu, 26 Mar 2026 15:25:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="O/p9iK6F"
+Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-2adef9d486bso27639525ad.2
+        for <linux-doc@vger.kernel.org>; Thu, 26 Mar 2026 15:25:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1774563953; x=1775168753; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1774563955; x=1775168755; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=K5T3ttFXBFTFqoigTPXjqr+RtWpyGmHMkCotHkIzhdo=;
-        b=P1W4cBpGvJ3FWit2IevugYuMNELdcYbFGFRM4l5QN5xQKiTJCmQJtBwjXKJXHkYvLX
-         AH8SX+OLH8vX4RF6eXC6AMqFUWszi9mmO0oVphy5cITNW6Zcp1ZB4EkaMy3M72d6U8kp
-         LVjvbCJEJ09r5n9fsVU/ul8V4EVkjmV5p3izJKF47ZZCjDGx+gHduC+IQjKNkQy6/2a/
-         qAEuoerpkRUBmbuHZroYbj2HA32KkTx/SnmO+cBQt0J2IBZzg1FIJ8eYFv5bv6xvAZ4T
-         yAxW60Fr6zJNbbcD/lolKWh3BGtsUKGvSRyAtiwuVxvaj0hUyOESbS7eqgExfcJayG4q
-         B7og==
+        bh=HYq3s+F9mgPwmWrETdAju7b1wzJHYtnrsY9IbvdmqE0=;
+        b=O/p9iK6FUUUjsmcIGFyX+3MexKMppjm614iNBml3tIr+yiB0RLkBcJQD6MIrCr69FS
+         8FeRFfclcPETMHdmrwupP7aTdXWJIredVdSEwp4an1JgHYddB4NjLW+sFqMPSiwlJjgM
+         pjECbPsDeTUf1bLmYaVbueY3pMuUyxnJoRks3UYa3Q2BeYSQ2QB26385Ewes0jOJGrQF
+         TY+O8L0NmJyd6H4QWOe2F4gx6vTycii4ZygbzhDvTXAPeJgkZfqfGxmKFqLEUDy7wUG/
+         1ZmnwOGHGfheBShB3t0aspteIqswcDQbNIfHLmlVebcaiBSqBogBsxDxTscd8FPTAvoF
+         FGKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774563953; x=1775168753;
+        d=1e100.net; s=20251104; t=1774563955; x=1775168755;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=K5T3ttFXBFTFqoigTPXjqr+RtWpyGmHMkCotHkIzhdo=;
-        b=PbcvacCzK/E/aOa+OqIQNlkWmFysaXujxWOrchBlqQI8kdadFvNTeWQ863oe8XWhDW
-         TLxtHLxV00fvnME2lJ+pOR5NfOgYWRIXZoLcJJhKxEx7jnVVLw0BNDRqP9PzEpQMddN9
-         8psfxnb8QC6ujRL9drOODDpogs8DLb4Y/AkG65HklqFwsRI5UOtOKZkyCaRDcKY30m/S
-         juAJ/kSyywYcJfU5AVhq0fnUzrF6Y99frWFSPG4iSXWjOb3hxFnil7YyITJXoKca8mze
-         qsujwjRTKUAD2HDmssb1PYEP5upIuUCCdDwtr4m7EXpPxOKBVNk2CfE4riiI57l8F/Ux
-         HYRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWpQLDNS5vQgNQ78P9M7EhxYge7qEVztOj6IGwt3cDkoCl969yqZsPxrR1pEnGQtJM3p5CHxSODaiQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxbZjmGIyjbhjHVRCvX4oP1/JjdleZapsDXuejOixYD3NzAewDn
-	MuQaDDi0f4d6/0LScbFKder1ZLd6PoVA/d4nkBO6yNyWc9AFlRCF2qy8Dz7+gg0il9Eh3wbUPDQ
-	uY6m/7xG0qYbzNH2e85EkSZGKPQ==
-X-Received: from pgac11.prod.google.com ([2002:a05:6a02:294b:b0:c6d:c043:2cb4])
+        bh=HYq3s+F9mgPwmWrETdAju7b1wzJHYtnrsY9IbvdmqE0=;
+        b=acnSMwNA4SdZ/4XaBhVooLu7qEhncwgi7W4jUi5CV5hKvBH8sidVOKv4LT7pbhdbr5
+         jnRIY2oqfi1A6wHEF1gjZuJC2sQbTAyB//7j1wrPp/13FFmiUATROFShpW/rppIk5a8K
+         +Ls4vfDorb4IERONGhpB44ZiWnr2fVrIcKkj0GDBokmPdqYdfnozWOJ5onKT8iPbhKiX
+         6G/c0Mn/bnqBcfhbOECTyMBXX0EEN7ymLXf0tDgbp29J00wwBp5rJolscJY8aaJ5ZTSz
+         KcpxuMZRR4E0pJ7pilYPpmhEq0vpgmoFSAM37Y7HVi4AVRp3zHDIV25UsRoYu7To39Ee
+         yYcg==
+X-Forwarded-Encrypted: i=1; AJvYcCW6NxNvQu+tBUnRAtoDbwG79a2KdELXPII1aWrVsKRn475QAkqoQET69aSIbv9iY7bVXi1wXIaSwkA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyGVIaxGZxQlBFkgLo7j5G64RE0MWxk91r2yHxfujNtPdQlael5
+	PM6dlK1/GKSAr+r/X8+VOpzQDA4+6bLZNs/ZekeB3+Mc/ioWXqWm1I14AcxAJe0VU1LqSthPCp/
+	JstA6kPjz3a+Zx5IfnuKd9fhRgQ==
+X-Received: from plpw13.prod.google.com ([2002:a17:902:9a8d:b0:2b0:6121:c2d1])
  (user=ackerleytng job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90b:4e88:b0:35b:a7be:ae47 with SMTP id 98e67ed59e1d1-35c30056d6dmr246000a91.21.1774563952777;
- Thu, 26 Mar 2026 15:25:52 -0700 (PDT)
-Date: Thu, 26 Mar 2026 15:24:52 -0700
+ 2002:a17:902:ccd2:b0:2b0:5520:f497 with SMTP id d9443c01a7336-2b0cdc0f454mr2752855ad.9.1774563954612;
+ Thu, 26 Mar 2026 15:25:54 -0700 (PDT)
+Date: Thu, 26 Mar 2026 15:24:53 -0700
 In-Reply-To: <20260326-gmem-inplace-conversion-v4-0-e202fe950ffd@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -58,14 +58,14 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20260326-gmem-inplace-conversion-v4-0-e202fe950ffd@google.com>
 X-Developer-Key: i=ackerleytng@google.com; a=ed25519; pk=sAZDYXdm6Iz8FHitpHeFlCMXwabodTm7p8/3/8xUxuU=
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1774563861; l=1225;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1774563861; l=3745;
  i=ackerleytng@google.com; s=20260225; h=from:subject:message-id;
- bh=/YIcGPcW7wZJhSlI+0RZdLWi/pX7t9Ru6z34+pKDs+U=; b=nilaAfO0iV6blJ3/Lyvhk7nxY4Fc9srAhxHYkSRRNw5e5PdyvPo5CFKL2qtZRMYmb7vAg9rSY
- 2VuzYa5m/+5CmT3FIb6yGX1IS4Jrr+PUe0wpNjgsMrimNMuC1aNLWIo
+ bh=ZGSq+gTFZDY/anw9T28+HYi6HmGJV6iDHsC4BSDh08w=; b=bl10NJA+tRza4190u7kAzLQjI0OEISMmC1hhtBIOQpOao11zciKPixnzxzkJzUPyjzD9rwpIj
+ X6HVw8GptTzD9pYDEM6AtX43w8wyaJLsoqTW8KTBj/fh9MfJfpHu8EW
 X-Mailer: b4 0.14.3
-Message-ID: <20260326-gmem-inplace-conversion-v4-43-e202fe950ffd@google.com>
-Subject: [PATCH RFC v4 43/44] KVM: selftests: Update pre-fault test to work
- with per-guest_memfd attributes
+Message-ID: <20260326-gmem-inplace-conversion-v4-44-e202fe950ffd@google.com>
+Subject: [PATCH RFC v4 44/44] KVM: selftests: Update private memory exits test
+ to work with per-gmem attributes
 From: Ackerley Tng <ackerleytng@google.com>
 To: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
 	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
@@ -95,30 +95,87 @@ Content-Type: text/plain; charset="utf-8"
 
 From: Sean Christopherson <seanjc@google.com>
 
-Skip setting memory to private in the pre-fault memory test when using
+Skip setting memory to private in the private memory exits test when using
 per-gmem memory attributes, as memory is initialized to private by default
 for guest_memfd, and using vm_mem_set_private() on a guest_memfd instance
 requires creating guest_memfd with GUEST_MEMFD_FLAG_MMAP (which is totally
 doable, but would need to be conditional and is ultimately unnecessary).
 
+Expect an emulated MMIO instead of a memory fault exit when attributes are
+per-gmem, as deleting the memslot effectively drops the private status,
+i.e. the GPA becomes shared and thus supports emulated MMIO.
+
+Skip the "memslot not private" test entirely, as private vs. shared state
+for x86 software-protected VMs comes from the memory attributes themselves,
+and so when doing in-place conversions there can never be a disconnect
+between the expected and actual states.
+
 Signed-off-by: Sean Christopherson <seanjc@google.com>
 ---
- tools/testing/selftests/kvm/pre_fault_memory_test.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../selftests/kvm/x86/private_mem_kvm_exits_test.c | 36 ++++++++++++++++++----
+ 1 file changed, 30 insertions(+), 6 deletions(-)
 
-diff --git a/tools/testing/selftests/kvm/pre_fault_memory_test.c b/tools/testing/selftests/kvm/pre_fault_memory_test.c
-index 3b2c4179d42ee..7b7352487fe12 100644
---- a/tools/testing/selftests/kvm/pre_fault_memory_test.c
-+++ b/tools/testing/selftests/kvm/pre_fault_memory_test.c
-@@ -187,7 +187,7 @@ static void __test_pre_fault_memory(unsigned long vm_type, bool private)
- 				    TEST_NPAGES, private ? KVM_MEM_GUEST_MEMFD : 0);
- 	virt_map(vm, gva, gpa, TEST_NPAGES);
+diff --git a/tools/testing/selftests/kvm/x86/private_mem_kvm_exits_test.c b/tools/testing/selftests/kvm/x86/private_mem_kvm_exits_test.c
+index cbcb5d6d04436..ed1bf27d149dc 100644
+--- a/tools/testing/selftests/kvm/x86/private_mem_kvm_exits_test.c
++++ b/tools/testing/selftests/kvm/x86/private_mem_kvm_exits_test.c
+@@ -62,8 +62,9 @@ static void test_private_access_memslot_deleted(void)
  
--	if (private)
-+	if (!kvm_has_gmem_attributes && private)
- 		vm_mem_set_private(vm, gpa, TEST_SIZE, 0);
+ 	virt_map(vm, EXITS_TEST_GVA, EXITS_TEST_GPA, EXITS_TEST_NPAGES);
  
- 	pre_fault_memory(vcpu, gpa, 0, SZ_2M, 0, private);
+-	/* Request to access page privately */
+-	vm_mem_set_private(vm, EXITS_TEST_GPA, EXITS_TEST_SIZE, 0);
++	/* Request to access page privately. */
++	if (!kvm_has_gmem_attributes)
++		vm_mem_set_private(vm, EXITS_TEST_GPA, EXITS_TEST_SIZE, 0);
+ 
+ 	pthread_create(&vm_thread, NULL,
+ 		       (void *(*)(void *))run_vcpu_get_exit_reason,
+@@ -74,10 +75,26 @@ static void test_private_access_memslot_deleted(void)
+ 	pthread_join(vm_thread, &thread_return);
+ 	exit_reason = (uint32_t)(uint64_t)thread_return;
+ 
+-	TEST_ASSERT_EQ(exit_reason, KVM_EXIT_MEMORY_FAULT);
+-	TEST_ASSERT_EQ(vcpu->run->memory_fault.flags, KVM_MEMORY_EXIT_FLAG_PRIVATE);
+-	TEST_ASSERT_EQ(vcpu->run->memory_fault.gpa, EXITS_TEST_GPA);
+-	TEST_ASSERT_EQ(vcpu->run->memory_fault.size, EXITS_TEST_SIZE);
++	/*
++	 * If attributes are tracked per-gmem, deleting the memslot that points
++	 * at the gmem instance effectively makes the memory shared, and so the
++	 * read should trigger emulated MMIO.
++	 *
++	 * If attributes are tracked per-VM, deleting the memslot shouldn't
++	 * affect the private attribute, and so KVM should generate a memory
++	 * fault exit (emulated MMIO on private GPAs is disallowed).
++	 */
++	if (kvm_has_gmem_attributes) {
++		TEST_ASSERT_EQ(exit_reason, KVM_EXIT_MMIO);
++		TEST_ASSERT_EQ(vcpu->run->mmio.phys_addr, EXITS_TEST_GPA);
++		TEST_ASSERT_EQ(vcpu->run->mmio.len, sizeof(uint64_t));
++		TEST_ASSERT_EQ(vcpu->run->mmio.is_write, false);
++	} else {
++		TEST_ASSERT_EQ(exit_reason, KVM_EXIT_MEMORY_FAULT);
++		TEST_ASSERT_EQ(vcpu->run->memory_fault.flags, KVM_MEMORY_EXIT_FLAG_PRIVATE);
++		TEST_ASSERT_EQ(vcpu->run->memory_fault.gpa, EXITS_TEST_GPA);
++		TEST_ASSERT_EQ(vcpu->run->memory_fault.size, EXITS_TEST_SIZE);
++	}
+ 
+ 	kvm_vm_free(vm);
+ }
+@@ -88,6 +105,13 @@ static void test_private_access_memslot_not_private(void)
+ 	struct kvm_vcpu *vcpu;
+ 	uint32_t exit_reason;
+ 
++	/*
++	 * Accessing non-private memory as private with a software-protected VM
++	 * isn't possible when doing in-place conversions.
++	 */
++	if (kvm_has_gmem_attributes)
++		return;
++
+ 	vm = vm_create_shape_with_one_vcpu(protected_vm_shape, &vcpu,
+ 					   guest_repeatedly_read);
+ 
 
 -- 
 2.53.0.1018.g2bb0e51243-goog
