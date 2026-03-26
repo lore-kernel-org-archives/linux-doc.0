@@ -1,206 +1,253 @@
-Received: from canpmsgout04.his.huawei.com (canpmsgout04.his.huawei.com [113.46.200.219])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44F5B2D0622;
-	Thu, 26 Mar 2026 13:09:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.219
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774530576; cv=none; b=K8F5p9ISKzXaHLMotPIpnrrPtwrBlclrLbMmxtiYy8VU+a6atuCwKILoEjLgQTkxhxwM1uV+X6bkZVx9NuvPlOtZGA4FAabtxWggNkGo9Vl9y4ILlcA2UuwMhuQGaj4z8JaM0TzhyrwmEB8cCyb+yfCsvPctB6w5DGQATOPFq2w=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774530576; c=relaxed/simple;
-	bh=cJ+6s4wtZuyu1fPN5SKZQHdBVTRbaK7BNHXrHI3+FsY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=G4YGbperMlaImw5Wb8lUfzSjB0jfLa22ULi4EXBWrRdLglqmk7BUV7EuYlKsprP43W6bX2ktrSJ1leVxstKVA7JuEdOIH0IbTQ+SMcPH5HXHUlMY2DbcD1kw47d7JPgU125Rn0IrmkunxchmGT7sMywYkp4WPKYU2lH4CUyVSVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=r27NhnWJ; arc=none smtp.client-ip=113.46.200.219
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB3E32750ED;
+	Thu, 26 Mar 2026 13:27:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774531677; cv=pass; b=IsnkfI2hNz7yGtk0viAd4ak13aIfo2sYWly35bEVc2WE6oEp3gfe4y+UcRPNeBzscx1yvGlhK0Z1m4YskkhdMaPVk/KuAGNI8lostgCpC+WD2yAaJDGC3dw3VJOvoGwoImvvE2X3WfZf2HkbBK0bIRI5lUduH80gRnsn6zUAcZ4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774531677; c=relaxed/simple;
+	bh=URbnvOU4XWMaEODbwa9bdtOm/eHI5PHILMdLCECcA+s=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=YqN9TpoWDQLX/FLeaFcmUpRmy5UhRPIsMo7+wG8RQfv+dwzL/RQseFKNTLKnOr6zpxnharnVqO3SZYY5rUvIMOEfuZYEVAoJ/PZJtq8QCDekySZD3vyAn7IVQ7UsMkW3a4GiNWQ4NgdIV2IrShtW3mXR9lWfhmIwC2Ek/kQ7Om4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=HBcXyV1a; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="r27NhnWJ"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=jLyfKSEzGPeE1dJtR15Kc0eOwoYz6wTxdsqltUK1s+8=;
-	b=r27NhnWJDoBRU0BLviPWrzC48eoWH2aXc39RU0NNg9RfVmkYMPQAakNbwupG9o1vLSlUZgi3I
-	9q6pjI1LWhogcfA3FIhnuqdaqvSt3N0ef5hNY4GTFUKrfjR9jw+KWWzREvNA4nYdsjVC61P8MMl
-	7eCWHr3D/yJXJKgUr+I5ku0=
-Received: from mail.maildlp.com (unknown [172.19.163.104])
-	by canpmsgout04.his.huawei.com (SkyGuard) with ESMTPS id 4fhP8j2swwz1prmY;
-	Thu, 26 Mar 2026 21:03:17 +0800 (CST)
-Received: from dggpemf500011.china.huawei.com (unknown [7.185.36.131])
-	by mail.maildlp.com (Postfix) with ESMTPS id 757E14056A;
-	Thu, 26 Mar 2026 21:09:26 +0800 (CST)
-Received: from [10.67.109.254] (10.67.109.254) by
- dggpemf500011.china.huawei.com (7.185.36.131) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Thu, 26 Mar 2026 21:09:22 +0800
-Message-ID: <b82f26e6-adac-e921-6547-94d3284d2678@huawei.com>
-Date: Thu, 26 Mar 2026 21:09:16 +0800
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="HBcXyV1a"
+ARC-Seal: i=1; a=rsa-sha256; t=1774531618; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=inF8c0T9S04BCFBJF/AFqs0QQE1fnL6+L0KLfp2qflAKOoeaNF7POilnvsA4ogT6zDYEJzs/DCseE80aWKaUz95nmU2U1FPPkxmNHr6fa9tAABj6/T0/YzxGOEfjkI2vE7iix4wdHGsYY+jGCIIpca2Is5cbPETQB2cW49W/Z1Q=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1774531618; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=AMrMoDyMoCm1J1RqpO4nLs9/wPH8TbeR8ZH8ieMqM3M=; 
+	b=F/uVOgmOl/+m0cjgsZP2y8CQcCEJp7/Yg24rmTHvQeop6slol6pRNfz33yzdJwytMxRzBykwUO1UZRD6U1RSUHwIQfw2LwMYGCPCK7s0zi3sF3kvj1eLwMbFVG/l1Kolu1GsIta26G2M2I0EuRjqkDbRVtjCfe7IrS/JP9zacG8=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774531618;
+	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+	bh=AMrMoDyMoCm1J1RqpO4nLs9/wPH8TbeR8ZH8ieMqM3M=;
+	b=HBcXyV1aOElHJrP/+ER67nmCR0XxtxLBZgcVosoR2oun5PXk84eq4XCERgt0txCj
+	n1btqz4DhdJsscJVr/Z3XksBjfuJCDRFbqPwSO1mPImfxdfB188suw3+SZnrbcmpGbo
+	LUMkv9IiZsZn/W4s/g4yu3jAGvxeNMghnaVP+9zg=
+Received: by mx.zohomail.com with SMTPS id 177453161763075.0968772878656;
+	Thu, 26 Mar 2026 06:26:57 -0700 (PDT)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ kernel@collabora.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, Werner Sembach <wse@tuxedocomputers.com>,
+ Andri Yngvason <andri@yngvason.is>, Marius Vlad <marius.vlad@collabora.com>
+Subject:
+ Re: [PATCH v11 03/22] drm: Add new general DRM property "color format"
+Date: Thu, 26 Mar 2026 14:26:47 +0100
+Message-ID: <16004581.uLZWGnKmhe@workhorse>
+In-Reply-To: <acUvg3Y7kMf2qioK@intel.com>
+References:
+ <20260324-color-format-v11-0-605559af4fb4@collabora.com>
+ <3979783.tdWV9SEqCh@workhorse> <acUvg3Y7kMf2qioK@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH v10 0/8] arm64/riscv: Add support for crashkernel CMA
- reservation
-Content-Language: en-US
-To: Andrew Morton <akpm@linux-foundation.org>
-CC: <corbet@lwn.net>, <skhan@linuxfoundation.org>, <catalin.marinas@arm.com>,
-	<will@kernel.org>, <chenhuacai@kernel.org>, <kernel@xen0n.name>,
-	<maddy@linux.ibm.com>, <mpe@ellerman.id.au>, <npiggin@gmail.com>,
-	<chleroy@kernel.org>, <pjw@kernel.org>, <palmer@dabbelt.com>,
-	<aou@eecs.berkeley.edu>, <alex@ghiti.fr>, <tglx@kernel.org>,
-	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
-	<hpa@zytor.com>, <robh@kernel.org>, <saravanak@kernel.org>, <bhe@redhat.com>,
-	<vgoyal@redhat.com>, <dyoung@redhat.com>, <rdunlap@infradead.org>,
-	<peterz@infradead.org>, <pawan.kumar.gupta@linux.intel.com>,
-	<feng.tang@linux.alibaba.com>, <dapeng1.mi@linux.intel.com>,
-	<kees@kernel.org>, <elver@google.com>, <paulmck@kernel.org>,
-	<lirongqing@baidu.com>, <rppt@kernel.org>, <ardb@kernel.org>,
-	<leitao@debian.org>, <osandov@fb.com>, <cfsworks@gmail.com>,
-	<tangyouling@kylinos.cn>, <sourabhjain@linux.ibm.com>,
-	<ritesh.list@gmail.com>, <eajames@linux.ibm.com>,
-	<songshuaishuai@tinylab.org>, <kevin.brodsky@arm.com>,
-	<samuel.holland@sifive.com>, <vishal.moola@gmail.com>,
-	<junhui.liu@pigmoral.tech>, <coxu@redhat.com>, <liaoyuanhong@vivo.com>,
-	<jbohac@suse.cz>, <fuqiang.wang@easystack.cn>, <guoren@kernel.org>,
-	<chenjiahao16@huawei.com>, <hbathini@linux.ibm.com>, <james.morse@arm.com>,
-	<takahiro.akashi@linaro.org>, <lizhengyu3@huawei.com>, <x86@kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <loongarch@lists.linux.dev>,
-	<linuxppc-dev@lists.ozlabs.org>, <linux-riscv@lists.infradead.org>,
-	<devicetree@vger.kernel.org>, <kexec@lists.infradead.org>
-References: <20260325025904.2811960-1-ruanjinjie@huawei.com>
- <20260325210049.28cca592a001e745954b3241@linux-foundation.org>
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-In-Reply-To: <20260325210049.28cca592a001e745954b3241@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
- dggpemf500011.china.huawei.com (7.185.36.131)
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+
+On Thursday, 26 March 2026 14:07:15 Central European Standard Time Ville Sy=
+rj=C3=A4l=C3=A4 wrote:
+> On Thu, Mar 26, 2026 at 01:44:03PM +0100, Nicolas Frattaroli wrote:
+> > On Wednesday, 25 March 2026 12:03:07 Central European Standard Time Vil=
+le Syrj=C3=A4l=C3=A4 wrote:
+> > > On Wed, Mar 25, 2026 at 09:24:27AM +0100, Maxime Ripard wrote:
+> > > > On Tue, Mar 24, 2026 at 09:53:35PM +0200, Ville Syrj=C3=A4l=C3=A4 w=
+rote:
+> > > > > On Tue, Mar 24, 2026 at 08:10:11PM +0100, Nicolas Frattaroli wrot=
+e:
+> > > > > > On Tuesday, 24 March 2026 18:00:45 Central European Standard Ti=
+me Ville Syrj=C3=A4l=C3=A4 wrote:
+> > > > > > > On Tue, Mar 24, 2026 at 05:01:07PM +0100, Nicolas Frattaroli =
+wrote:
+> > > > > > > > +enum drm_connector_color_format {
+> > > > > > > > +	/**
+> > > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_AUTO: The driver or displa=
+y protocol
+> > > > > > > > +	 * helpers should pick a suitable color format. All imple=
+mentations of a
+> > > > > > > > +	 * specific display protocol must behave the same way wit=
+h "AUTO", but
+> > > > > > > > +	 * different display protocols do not necessarily have th=
+e same "AUTO"
+> > > > > > > > +	 * semantics.
+> > > > > > > > +	 *
+> > > > > > > > +	 * For HDMI, "AUTO" picks RGB, but falls back to YCbCr 4:=
+2:0 if the
+> > > > > > > > +	 * bandwidth required for full-scale RGB is not available=
+, or the mode
+> > > > > > > > +	 * is YCbCr 4:2:0-only, as long as the mode and output bo=
+th support
+> > > > > > > > +	 * YCbCr 4:2:0.
+> > > > > > > > +	 *
+> > > > > > > > +	 * For display protocols other than HDMI, the recursive b=
+ridge chain
+> > > > > > > > +	 * format selection picks the first chain of bridge forma=
+ts that works,
+> > > > > > > > +	 * as has already been the case before the introduction o=
+f the "color
+> > > > > > > > +	 * format" property. Non-HDMI bridges should therefore ei=
+ther sort their
+> > > > > > > > +	 * bus output formats by preference, or agree on a unifie=
+d auto format
+> > > > > > > > +	 * selection logic that's implemented in a common state h=
+elper (like
+> > > > > > > > +	 * how HDMI does it).
+> > > > > > > > +	 */
+> > > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_AUTO =3D 0,
+> > > > > > > > +
+> > > > > > > > +	/**
+> > > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_RGB444: RGB output format
+> > > > > > > > +	 */
+> > > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_RGB444,
+> > > > > > > > +
+> > > > > > > > +	/**
+> > > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR444: YCbCr 4:4:4 outp=
+ut format (ie.
+> > > > > > > > +	 * not subsampled)
+> > > > > > > > +	 */
+> > > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR444,
+> > > > > > > > +
+> > > > > > > > +	/**
+> > > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR422: YCbCr 4:2:2 outp=
+ut format (ie.
+> > > > > > > > +	 * with horizontal subsampling)
+> > > > > > > > +	 */
+> > > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR422,
+> > > > > > > > +
+> > > > > > > > +	/**
+> > > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR420: YCbCr 4:2:0 outp=
+ut format (ie.
+> > > > > > > > +	 * with horizontal and vertical subsampling)
+> > > > > > > > +	 */
+> > > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR420,
+> > > > > > >=20
+> > > > > > > Seems like this should document what the quantization range
+> > > > > > > should be for each format.
+> > > > > > >=20
+> > > > > >=20
+> > > > > > I don't think so? If you want per-component bit depth values,
+> > > > > > DRM_FORMAT_* defines would be the appropriate values to use. Th=
+is
+> > > > > > enum is more abstract than that, and is there to communicate
+> > > > > > YUV vs. RGB and chroma subsampling, with bit depth being handled
+> > > > > > by other properties.
+> > > > > >=20
+> > > > > > If you mean the factor used for subsampling, then that'd only be
+> > > > > > relevant if YCBCR410 was supported where one chroma plane isn't
+> > > > > > halved but quartered in resolution. I suspect 4:1:0 will never
+> > > > > > be added; no digital display protocol standard supports it to my
+> > > > > > knowledge, and hopefully none ever will.
+> > > > >=20
+> > > > > No, I mean the quantization range (16-235 vs. 0-255 etc).
+> > > > >=20
+> > > > > The i915 behaviour is that YCbCr is always limited range,
+> > > > > RGB can either be full or limited range depending on the=20
+> > > > > "Broadcast RGB" property and other related factors.
+> > > >=20
+> > > > So far the HDMI state has both the format and quantization range as
+> > > > different fields. I'm not sure we need to document the range in the
+> > > > format field, maybe only mention it's not part of the format but ha=
+s a
+> > > > field of its own?
+> > >=20
+> > > I think we only have it for RGB (on some drivers only?). For YCbCr
+> > > I think the assumption is limited range everywhere.
+> > >=20
+> > > But I'm not really concerned about documenting struct members.
+> > > What I'm talking about is the *uapi* docs. Surely userspace
+> > > will want to know what the new property actually does so the
+> > > uapi needs to be documented properly. And down the line some
+> > > new driver might also implement the wrong behaviour if there
+> > > is no clear specification.
+> > >=20
+> > > So I'm thinking (or perhaps hoping) the rule might be something like:
+> > > - YCbCr limited range=20
+> > > - RGB full range if "Broadcast RGB" property is not present
+> > > - RGB full or limited range based on the "Broadcast RGB" property
+> > >   if it's present
+> > >=20
+> > > I think the "Broadcast RGB" property itself might also be lacking
+> > > proper uapi docs, so that may need to be remedied as well.
+> > >=20
+> > >=20
+> >=20
+> > Alright, so in v12 I'll do the following:
+> >=20
+> > - Add a line to all YCBCR connector formats that specifies they're
+> >   limited range as long as Broadcast RGB is limited. Whether it's limit=
+ed
+> >   range when Broadcast RGB is full is purposefully left undefined.
+>=20
+> "Broadcast RGB", as the name implies, only affects RGB output.
+
+Alright, I'll scratch the overcomplicated undefined behaviour thing
+and just say it's limited range, and in the future, we can extend it
+to limited range by default but full range if another new property is
+set.
+
+>=20
+> >   In the future, we can expand this to state they're limited range by
+> >   default unless some other property is set. If we're not re-using
+> >   Broadcast RGB for that, this will work out fine, because users who
+> >   don't know about the eventual new property won't have this behaviour
+> >   changed. If we do re-use "Broadcast RGB" for that, then only users
+> >   relying on things we explicitly left undefined will get surprise
+> >   full range YCBCR.
+> > - Add a line to the RGB connector format that specifies its range
+> >   depends on the "Broadcast RGB" property
+> >=20
+> > This is a bit of a mess, because it's entirely reasonable that a
+> > future YCBCR range property would want to default to full range
+> > so that users get the most color out of their monitors. But with
+> > this description of the connector color formats, we can't do that.
+> >=20
+> > If there are alternate suggestions, I'm open for them. We can't
+> > really rename "Broadcast RGB" but if I had a time machine, that'd
+> > be my first choice.
+> >=20
+> > Kind regards,
+> > Nicolas Frattaroli
+> >=20
+>=20
+>=20
 
 
 
-On 2026/3/26 12:00, Andrew Morton wrote:
-> On Wed, 25 Mar 2026 10:58:56 +0800 Jinjie Ruan <ruanjinjie@huawei.com> wrote:
-> 
->> The crash memory allocation, and the exclude of crashk_res, crashk_low_res
->> and crashk_cma memory are almost identical across different architectures,
->> This patch set handle them in crash core in a general way, which eliminate
->> a lot of duplication code.
->>
->> And add support for crashkernel CMA reservation for arm64 and riscv.
-> 
-> So who is patchmonkey for this.
-> 
->>  .../admin-guide/kernel-parameters.txt         |  16 +--
->>  arch/arm64/kernel/machine_kexec_file.c        |  39 ++-----
->>  arch/arm64/mm/init.c                          |   5 +-
->>  arch/loongarch/kernel/machine_kexec_file.c    |  39 ++-----
->>  arch/powerpc/include/asm/kexec_ranges.h       |   1 -
->>  arch/powerpc/kexec/crash.c                    |   7 +-
->>  arch/powerpc/kexec/ranges.c                   | 101 +----------------
->>  arch/riscv/kernel/machine_kexec_file.c        |  38 ++-----
->>  arch/riscv/mm/init.c                          |   5 +-
->>  arch/x86/kernel/crash.c                       |  89 ++-------------
->>  drivers/of/fdt.c                              |   9 +-
->>  drivers/of/kexec.c                            |   9 ++
->>  include/linux/crash_core.h                    |   9 ++
->>  kernel/crash_core.c                           | 105 +++++++++++++++++-
-> 
-> Me, I guess, with as many arch acks as I can gather, please.
-> 
-> I'm seriously trying to slow things down now, but I guess I can make an
-> exception for non-MM material.
-> 
-> AI review asks a few questions:
-> 	https://sashiko.dev/#/patchset/20260325025904.2811960-1-ruanjinjie@huawei.com
-> 
-> Can you please check these?  And I'm interested in learning how many of
-> these are valid.  Thanks.
 
-Thanks for the feedback. At the very least, the issue highlighted below
-remains valid and needs to be addressed, which can be fixed with below
-fixed number usable ranges.
-
-+#define MAX_USABLE_RANGES		(6)
-
-"
-> */
-> -#define MAX_USABLE_RANGES		2
-> +#define MAX_USABLE_RANGES		(2 + CRASHKERNEL_CMA_RANGES_MAX)
-Could this silently drop crash memory if the crash kernel is built without
-CONFIG_CMA?
-If the main kernel is compiled with CONFIG_CMA, it might append up to 6
-regions to the linux,usable-memory-range property (2 standard + 4 CMA).
-If the crash kernel is compiled without CONFIG_CMA,
-CRASHKERNEL_CMA_RANGES_MAX
-evaluates to 0. During boot, the crash kernel's FDT parsing logic limits the
-ranges to MAX_USABLE_RANGES (which would be 2). This truncates the ranges
-and drops all the CMA-backed crash memory.
-Since the crash kernel only registers these regions as normal RAM, it
-doesn't
-require CONFIG_CMA to use them. Should MAX_USABLE_RANGES unconditionally
-accommodate the maximum possible ranges any sender might provide?"
-
-
-
-Regarding the concurrency issue mentioned below, as noted in my v9
-response, could we confirm if this is indeed a bug? If so, I believe
-each affected architecture might need a separate fix, as this issue
-already exists in the current code and likely requires a more
-comprehensive solution. Does anyone have thoughts on whether this is a
-valid concern or suggestions on how to address it?
-
-
-Link:
-https://lore.kernel.org/all/4cfde40c-673a-12b0-dfc5-703d582d6ea9@huawei.com/
-
-
-"
-> --- a/kernel/crash_core.c
-> +++ b/kernel/crash_core.c
-> @@ -326,15 +326,25 @@ int crash_prepare_headers(int need_kernel_map,
-void **addr, unsigned long *sz,
->  	struct crash_mem *cmem;
->  	int ret;
->
-> +	if (IS_ENABLED(CONFIG_MEMORY_HOTPLUG))
-> +		lock_device_hotplug();
-Can this cause a self-deadlock during memory hotplug?
-When memory is onlined or offlined via sysfs (for example, in state_store()
-calling lock_device_hotplug_sysfs()), the device_hotplug_lock is already
-acquired before initiating the hotplug sequence.
-Since crash_prepare_headers() can be invoked by the crash_memhp_notifier
-during these memory hotplug operations, acquiring device_hotplug_lock again
-here would cause a recursive mutex acquisition.
-> +
->  	max_nr_ranges = arch_get_system_nr_ranges();
-> -	if (!max_nr_ranges)
-> -		return -ENOMEM;
-> +	if (!max_nr_ranges) {
-> +		ret = -ENOMEM;
-> +		goto unlock;
-> +	}
->
->  	cmem = alloc_cmem(max_nr_ranges);
-> -	if (!cmem)
-> -		return -ENOMEM;
-> +	if (!cmem) {
-> +		ret = -ENOMEM;
-> +		goto unlock;
-> +	}
->
->  	ret = arch_crash_populate_cmem(cmem);
-While the locking attempts to address the race, is it possible that the
-architecture specific population callbacks could still write out of bounds?
-The callbacks appear to unconditionally write to
-cmem->ranges[cmem->nr_ranges]
-without verifying if cmem->nr_ranges >= cmem->max_nr_ranges.
-Would it be safer to also add explicit bounds checking inside the populate
-callbacks to return an error like -ENOMEM when the array capacity is
-exceeded?"
-
-> 
