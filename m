@@ -1,159 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53BA53C871E;
-	Thu, 26 Mar 2026 08:45:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 954E925776;
+	Thu, 26 Mar 2026 08:46:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774514752; cv=none; b=KLjVAp+Mg2Lbfh/cZOtHehFJvdQxg+QpX9mHBErTH/HiUeVW2wKaS+eOjV6shQLGq2aEaL8lsoG7ThBe+nZ1gax7B65QTKAzjKofI+hKKizZu3+W3H/8uxHFi8RJC8ex9Z14ScQlfCKKw8k59KT8fhxhITtlSVGL8AVnF/IQR68=
+	t=1774514815; cv=none; b=c9YvvYwjAuzSgIimfazumVdYpbjzPVP3QZuKcWbPm+p2A/B/eaZYg5EDyChAPv/PUWHSlUeNg5N5y4R6ECfz3KDcad6LZXHMyuo6ivQvWT3E1APMvvYYj8gQMmCxbDyFpIPhTq0IHzASJMe78F5pFEPyjXBO4FdA1R92pHiXFWk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774514752; c=relaxed/simple;
-	bh=aVM8yfRe32o0so7njMI++v91VUY7qPNEsBCIft9QDz0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KU4u0VIbTh2lKki9zMbB4nJ0vI36DuAvuJ7qjry0hMrfBExTfYlBvVN6/EPzX0KQXRQYwdtfRv3Rg0MTFlS7OBS7mpJ91l8bl3oaXFirwMehYNnHMk5UZkIKLEwI04Ab+ZPPh7lZ4gB4uZGLygx2xDbjCmgVg0VBWa3+Ulj4z6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WFHhF1v3; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WFHhF1v3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774514749; x=1806050749;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=aVM8yfRe32o0so7njMI++v91VUY7qPNEsBCIft9QDz0=;
-  b=WFHhF1v3/AvSHwhxIap+l62BNuXNKdOE+wNDWDaoTg56nyy4DEGpxxHs
-   SU9G9j0vzAFO0BVG9YLX8SjHGbu7yXARJG4ab+fU1LJqIVHKYcQO5Aihq
-   wWhcUp6lUoMj9Qg4P2MIKdf9+lmyyb1HPMLlIcTY4P2RMTverVvm8tqxX
-   a3u/Q/dVp4KoEBLDtTozv//jCC+eHlF2XsPST92jC2ClC3T/eNX2clxDZ
-   aoChcwgKIQuIinmc+8E9wkmsCA9PvOePQwkkXc2IX38JpvMnyHYUjdg3v
-   QLmYMQU6GDUkwhNpTUnGKmuGaZEW9fdkrg1u4awXGMtV8QQgygYsq9W4G
-   A==;
-X-CSE-ConnectionGUID: VObluEQHQbye1TLGtSR9pg==
-X-CSE-MsgGUID: FfPsZe2ARoKHnbOt2d6AfA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11740"; a="86644777"
-X-IronPort-AV: E=Sophos;i="6.23,141,1770624000"; 
-   d="scan'208";a="86644777"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 01:45:27 -0700
-X-CSE-ConnectionGUID: 4kcaJInwQuGuwWVIRUS1hw==
-X-CSE-MsgGUID: q00bgPNDQIidTmXj2rFZtQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,141,1770624000"; 
-   d="scan'208";a="224967258"
-Received: from 984fee019967.jf.intel.com ([10.23.153.244])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 01:45:27 -0700
-From: Chao Gao <chao.gao@intel.com>
-To: linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-coco@lists.linux.dev,
-	kvm@vger.kernel.org
-Cc: binbin.wu@linux.intel.com,
-	dan.j.williams@intel.com,
-	dave.hansen@linux.intel.com,
-	ira.weiny@intel.com,
-	kai.huang@intel.com,
-	kas@kernel.org,
-	nik.borisov@suse.com,
-	paulmck@kernel.org,
-	pbonzini@redhat.com,
-	reinette.chatre@intel.com,
-	rick.p.edgecombe@intel.com,
-	sagis@google.com,
-	seanjc@google.com,
-	tony.lindgren@linux.intel.com,
-	vannapurve@google.com,
-	vishal.l.verma@intel.com,
-	yilun.xu@linux.intel.com,
-	xiaoyao.li@intel.com,
-	yan.y.zhao@intel.com,
-	Chao Gao <chao.gao@intel.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH v6 21/22] x86/virt/tdx: Document TDX module update
-Date: Thu, 26 Mar 2026 01:44:12 -0700
-Message-ID: <20260326084448.29947-22-chao.gao@intel.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260326084448.29947-1-chao.gao@intel.com>
-References: <20260326084448.29947-1-chao.gao@intel.com>
+	s=arc-20240116; t=1774514815; c=relaxed/simple;
+	bh=28x2Z0y5SxzWoHFh4GPWVrmyi25ie2jkjgA/cpSn3Ug=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=AKeeFx5ChdWeaw7FvWFjL9JK+m3g2SKDbCy69AmHC0ZUH2UlZ+qjPlTQWKtC96HvyTxbJCMP5DqhVqb120CvyH+4kBpMKESncMmh+jNgT3kkKfj5L/gg4SbE9mg7tTuFCi2d30gM+Tv46UVJgM5H3L0AljcNPdeFJP9urirHKA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
+Received: from omf15.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay05.hostedemail.com (Postfix) with ESMTP id E409F5B8E5;
+	Thu, 26 Mar 2026 08:46:52 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf15.hostedemail.com (Postfix) with ESMTPA id 569241A;
+	Thu, 26 Mar 2026 08:46:50 +0000 (UTC)
+Message-ID: <bb47800754aa3279e88c9d88c380bcfe6263fb2d.camel@perches.com>
+Subject: Re: [PATCH] checkpatch: allow correctly handle full files on stdin
+From: Joe Perches <joe@perches.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Dwaipayan Ray
+	 <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, Andy
+ Whitcroft <apw@canonical.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, 	workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, 	linux-kernel@vger.kernel.org
+Date: Thu, 26 Mar 2026 01:46:49 -0700
+In-Reply-To: <acTPXMJfkHLeItrK@google.com>
+References: <acTPXMJfkHLeItrK@google.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Stat-Signature: 8w5r5dxhuxow4x46zrht5ni4tefh1reg
+X-Rspamd-Server: rspamout04
+X-Rspamd-Queue-Id: 569241A
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1+rWZ2HbPnD9UiQsnSJ0r0hgNGXqzpa9WY=
+X-HE-Tag: 1774514810-249581
+X-HE-Meta: U2FsdGVkX1/xQ+Tt5ghHWe4IuwPyO7C8y1CBlDSnpUm+JkgbX3+t/A6xiffKjVA3pij619aBbf6P3UW1xFKIkYIM9BDrvKZSehQscw4RKdwx6ytbP2QMVi06+IpzxpYht7uNYk9R1F1zuUmJ85sYUckfyfkdBIfE+FBb/OIdaeszAyZY2eaeoK9jbFhWUHUaF/nmL93xtXl/F1XOIZzG9w+w6KkQSxOm0mprYwavYfUb1vcY2AQqPg6MS8NI7XJRXixbUtNZ/rTS48Hz7WutcL64sz/B+IAKpzPVNM8v3eFTxLEcowvR2ESuzAwbAeVo
 
-Document TDX module update as a subsection of "TDX Host Kernel Support" to
-provide background information and cover key points that developers and
-users may need to know, for example:
+On Wed, 2026-03-25 at 23:20 -0700, Dmitry Torokhov wrote:
+> checkpatch does not handle full files well when they are passed on
+> stdin, because it does not know how to treat the text, and whether it is
+> a C file, or a DTS file, or something else, and so it assumes that when
+> it works with stdin it should be a unified diff. For full files it
+> expects to have a file name as an argument and read the contents from
+> disk. Unfortunately this does not well when trying to use checkpatch as
+> an online linter and feed it contents of an editor buffer that have not
+> made it to the disk yet.
 
- - update is done in stop_machine() context
- - update instructions and results
- - update policy and tooling
-
-Signed-off-by: Chao Gao <chao.gao@intel.com>
-Reviewed-by: Kai Huang <kai.huang@intel.com>
-Reviewed-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
----
-v5:
- - use "update" when refer to the update feature/concept [Kai]
----
- Documentation/arch/x86/tdx.rst | 36 ++++++++++++++++++++++++++++++++++
- 1 file changed, 36 insertions(+)
-
-diff --git a/Documentation/arch/x86/tdx.rst b/Documentation/arch/x86/tdx.rst
-index 61670e7df2f7..d4e257542d4c 100644
---- a/Documentation/arch/x86/tdx.rst
-+++ b/Documentation/arch/x86/tdx.rst
-@@ -99,6 +99,42 @@ initialize::
- 
-   [..] virt/tdx: module initialization failed ...
- 
-+TDX module Runtime Update
-+-------------------------
-+
-+The TDX architecture includes a persistent SEAM loader (P-SEAMLDR) that
-+runs in SEAM mode separately from the TDX module. The kernel can
-+communicate with P-SEAMLDR to perform runtime updates of the TDX module.
-+
-+During update, the TDX module becomes unresponsive to other TDX operations.
-+To prevent components using TDX (such as KVM) from experiencing unexpected
-+errors during updates, updates are performed in stop_machine() context.
-+
-+TDX module update has complex compatibility requirements; the new module
-+must be compatible with the current CPU, P-SEAMLDR, and running TDX module.
-+Rather than implementing complex module selection and policy enforcement
-+logic in the kernel, userspace is responsible for auditing and selecting
-+appropriate updates.
-+
-+Updates use the standard firmware upload interface. See
-+Documentation/driver-api/firmware/fw_upload.rst for detailed instructions
-+
-+Successful updates are logged in dmesg:
-+  [..] virt/tdx: version 1.5.20 -> 1.5.24
-+
-+If updates failed, running TDs may be killed and further TDX operations may
-+be not possible until reboot. For detailed error information, see
-+Documentation/ABI/testing/sysfs-devices-faux-tdx-host.
-+
-+Given the risk of losing existing TDs, userspace should verify that the
-+update is compatible with the current system and properly validated before
-+applying it.
-+
-+A reference userspace tool that implements necessary checks is available
-+at:
-+
-+  https://github.com/intel/tdx-module-binaries
-+
- TDX Interaction to Other Kernel Components
- ------------------------------------------
- 
--- 
-2.47.3
-
+Why is this useful?
+Why not save the buffer and then feed the file?
