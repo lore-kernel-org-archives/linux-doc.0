@@ -1,503 +1,249 @@
-Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11013041.outbound.protection.outlook.com [40.107.201.41])
+Received: from frasgout13.his.huawei.com (frasgout13.his.huawei.com [14.137.139.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45B8230E85D;
-	Thu, 26 Mar 2026 17:12:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.201.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774545149; cv=fail; b=cK8oco+rTOzFrf8CyllrqMrc+vE1Ij1+9ZrnUBnQ57v2hu9pO8HyLhjiPvt37RFuYEp1Hx4ax9gdFWgBCT/1vNA4QscwONvrKyIPWsAf6JYZhByGy6P7lfOkXTF+AcLkEJwkWxKxZvRqXgiXJG0wjXbQzJ/qh3hnYieuA5YACPw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774545149; c=relaxed/simple;
-	bh=sGcRwVy7C9gkeMfaz5nnnfgKlhcty64HgF60O2hOA9Y=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=m4qbeKwUmlC051RN1nN4tsQPBYL03CHK6/EeX2ul9FAm+KxheIpM1U+nIpUHOOtBkOwB2R2hsuBgE90QSjGEQkS77iurOJBvM+WW0zti3uVFf6U00FmE9njwlNZM2kxki2xwwXk+42bgrX4aJTDA05NBh3BNyLlCUhcfOnT8fU0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=cKKPXVUU; arc=fail smtp.client-ip=40.107.201.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="cKKPXVUU"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RDZi/eE3TIdRmApVT+/mbQoYy4nx8GO30O29s6kFM54bdn4VWqbqxGsUbl0Zj+oulDsuqGeVbr09vYkPczueA8sOfPwdEBEP5zL67eW7BCOuTRFkvhZyOoew8eeZeSsViZ5O4hXv/npA0Xl3XA1OGMAAuTcQ/d5MrosGVcUDeazWX8UDUTrdFMc6QKl2xTA2NrxlAbcip9ElIs8URQy9Xy3y2Iry8wlfL3fp077UsNS3N+1LQbCY6jhg4eNz8lqkxoDaqTGqPATu0cYBgDR5uk4AfPxWbURPc5c3EclmsztJX0nuNFk+BxGxyNnD+3i68ZthJWrC04dT7+plrXxqKg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5L9ZUDQvO4BHcoJLuf5Mp0i2ABP/IA87K+jHiGKz454=;
- b=ftX0HaH+ubRnXo0pcpExBuX7RaeVrcmv0IwWjELjH2IBIrsFiz8pifSSQFlGZcin0deRCrChVlPHfnjo4TwU04dTORQXyciFWpcMwsfNhd3lWnbQ6Ag1u4R2XEaMH9nI1RUr8JTsU56GUhKHNTEB+YV7EcXi2R54HsnMSiHurYIpcluu9kFVsj4VhSL46ViwPaawR8jHJnQTfpzH5hpEvnmf1iG4lhMGVn+ivDThI2sthKkKjh8/WM6fZ47MR+GjnQE5K98L7PliKGI/gWFx4U34R4GH/nlKcXVf81jRS5TcioUgYSLypoYOVHPZIxTyrqGUwdP2MgIc9v5dUW1fZg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5L9ZUDQvO4BHcoJLuf5Mp0i2ABP/IA87K+jHiGKz454=;
- b=cKKPXVUUImdDkQSwlQWPU5RlU0AT5MqIFAjcBST6U+9Vfg/UmsgB00Ag6LvClGy5WQknu4Jcj5nHcybkBPnKYLhE5E+1S9LSkFnhe5ahdONMgwsqgxw4iEwzEdBS+BCf7hikFKz92ld0qUTDvwrszyawSrytm1XwoDbaccURqkw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- (2603:10b6:20f:fc04::bdc) by IA1PR12MB6211.namprd12.prod.outlook.com
- (2603:10b6:208:3e5::5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.6; Thu, 26 Mar
- 2026 17:12:22 +0000
-Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- ([fe80::e192:692b:abba:8c88]) by IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- ([fe80::e192:692b:abba:8c88%3]) with mapi id 15.20.9769.004; Thu, 26 Mar 2026
- 17:12:22 +0000
-Message-ID: <47c0db32-d0e0-4c53-90bd-b74863d233dc@amd.com>
-Date: Thu, 26 Mar 2026 12:12:17 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/16] fs,x86/resctrl: Add kernel-mode (e.g., PLZA)
- support to the resctrl subsystem
-To: Reinette Chatre <reinette.chatre@intel.com>, corbet@lwn.net,
- tony.luck@intel.com, Dave.Martin@arm.com, james.morse@arm.com,
- tglx@kernel.org, mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com
-Cc: skhan@linuxfoundation.org, x86@kernel.org, hpa@zytor.com,
- peterz@infradead.org, juri.lelli@redhat.com, vincent.guittot@linaro.org,
- dietmar.eggemann@arm.com, rostedt@goodmis.org, bsegall@google.com,
- mgorman@suse.de, vschneid@redhat.com, kas@kernel.org,
- rick.p.edgecombe@intel.com, akpm@linux-foundation.org, pmladek@suse.com,
- rdunlap@infradead.org, dapeng1.mi@linux.intel.com, kees@kernel.org,
- elver@google.com, paulmck@kernel.org, lirongqing@baidu.com,
- safinaskar@gmail.com, fvdl@google.com, seanjc@google.com,
- pawan.kumar.gupta@linux.intel.com, xin@zytor.com, tiala@microsoft.com,
- Neeraj.Upadhyay@amd.com, chang.seok.bae@intel.com, thomas.lendacky@amd.com,
- elena.reshetova@intel.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-coco@lists.linux.dev,
- kvm@vger.kernel.org, eranian@google.com, peternewman@google.com
-References: <cover.1773347820.git.babu.moger@amd.com>
- <14a8ad0a-e842-4268-871a-0762f1169e03@intel.com>
-Content-Language: en-US
-From: Babu Moger <babu.moger@amd.com>
-In-Reply-To: <14a8ad0a-e842-4268-871a-0762f1169e03@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SA9PR13CA0074.namprd13.prod.outlook.com
- (2603:10b6:806:23::19) To IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- (2603:10b6:20f:fc04::bdc)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD331423A77;
+	Thu, 26 Mar 2026 17:31:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=14.137.139.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774546268; cv=none; b=Tnp7xrMChQKkjHMBaEeLGhpGMhYMis0K8m7puRIy0twV9fB8dAatTjazuXE78d89qgWtWcFAwBsALj+UtEI8b5XnhAbcFGblfgD8jU3fVv1Bb8cKNIL3Ly1zgi5JXFMuJ4jrHHwVB22Jl4GGQ/ZVgHm75D3r+v2kMCvDSUOH45Q=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774546268; c=relaxed/simple;
+	bh=GVA+pRSUc8z9qjax4x44siGnI0py36BZBiWSsjLmxJM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=co+IqDSo9lAvWvWDEpOjp+JQUKiZy03ZdB7QAAOscfATr4RtuWk0qZavvS1aJYaDBm4tUSAbu/9hEP3LGEZYYFI8TQVER4y0w0GyMxjUmr6LOudPyP6f21g9CndCscedumIc2XFoL49oJSyr13Aj+gM7biPXZN/+8jaiudR7aJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=none smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=14.137.139.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.18.224.196])
+	by frasgout13.his.huawei.com (SkyGuard) with ESMTPS id 4fhW124LvJzpVVw;
+	Fri, 27 Mar 2026 01:27:02 +0800 (CST)
+Received: from mail02.huawei.com (unknown [7.182.16.47])
+	by mail.maildlp.com (Postfix) with ESMTP id D24DE4056C;
+	Fri, 27 Mar 2026 01:30:50 +0800 (CST)
+Received: from huaweicloud.com (unknown [10.204.63.22])
+	by APP1 (Coremail) with SMTP id LxC2BwB3Yu84bcVppGUvAQ--.1881S3;
+	Thu, 26 Mar 2026 18:30:50 +0100 (CET)
+From: Roberto Sassu <roberto.sassu@huaweicloud.com>
+To: corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	zohar@linux.ibm.com,
+	dmitry.kasatkin@gmail.com,
+	eric.snowberg@oracle.com,
+	paul@paul-moore.com,
+	jmorris@namei.org,
+	serge@hallyn.com
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-integrity@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	gregorylumen@linux.microsoft.com,
+	chenste@linux.microsoft.com,
+	nramas@linux.microsoft.com,
+	Roberto Sassu <roberto.sassu@huawei.com>
+Subject: [PATCH v4 01/13] ima: Remove ima_h_table structure
+Date: Thu, 26 Mar 2026 18:29:59 +0100
+Message-ID: <20260326173011.1191815-2-roberto.sassu@huaweicloud.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260326173011.1191815-1-roberto.sassu@huaweicloud.com>
+References: <20260326173011.1191815-1-roberto.sassu@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PPF9A76BB3A6:EE_|IA1PR12MB6211:EE_
-X-MS-Office365-Filtering-Correlation-Id: c802c3a3-baa6-42e7-7702-08de8b5ad7cd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|7416014|376014|56012099003|18092099006|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	ehR7AG7wL32zqzASPpcO6CEziOK0Yg/Ip+jzMDTiRlNq50BAqYtzXUsWsjJ06r9Rb8qZ/DQ5P7roovGK1wHuvEgRFaPfe8n8molmTzl64WsVJYI+DPQWnTIRv+kaO/ph4h8kXtQ4ScfR9ipKCV5Y6PRWVEFEc9xnug0r0uqZuYGwp2gGoE2fBWyfLjrFsKcAmfcc0hw/I21eEysf9eQi6nHXcDhJv4t1ag69NG0XXYCphNh6ICCvKHBNcXBtjlu9ha/UmLbL3+ll/ZR6Fs6bOWcJg9rFmRlPUN9pUJDFKJC6s/C9FG6eq4jKrYD/GDuX6DHMdfYCXf05pwT8bmecMbrKCqYmm72exOPOBjfbY6g2TlO3KmOCSw7EZToVygMLPwxGxSUY0zZAh0PI8oBjv6PD9OLjM+tCKe9S2+NVDcSAX64sPlG0FOZVE/FCrJJVIZqrsv8gyCHO/B+djDWAjZFKkz7kNrG9zZXkKxMLkf9K2CN7031/H4atBV7JV/cFNi3KxTQANp4b96UEMD4gf/mSdeiZcFNUZrao6L8Pa7j5t7NZdKxp9SlWS71vGZISUCPgj2MiEBAprXFWb4zQmt0sqAe1TlKJO42DBwnOJV2hfqmCSk/J124+h6CCNNXXk+rSu8almLQrtLfLyo9wFJ4jXLZSL6HqFSRoMvYzWqNdwXQCpZgjqg+ALyNGNWLn
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PPF9A76BB3A6.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(56012099003)(18092099006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?VHRPUUpWQ2dkSVBSekorMzRJOEFmL3JzVDJ5STV4R0p6KzNUOExpMjNwb1k0?=
- =?utf-8?B?QnRaSTFtOTlhalRjQmRHTGZXcGxScEdCWjZsSlVWTW9Hd0tWa05lM3Jlei9I?=
- =?utf-8?B?SE9aZjU1aG5xRkNOekl5MjZZajFTd28rT0JnRUN3Qkx2dFl3dnFoVE81eGVq?=
- =?utf-8?B?TDdBd1dLU1FyWHArUkdBUExnTmhpUy9lRk1mRXR2Y1NTZUM3aWtGaThFWlNq?=
- =?utf-8?B?bTNCUEVuNlF1VWdTeTNoWGIxb3FyeEt2MVp2RGlxZjZKWkIxTEhhNUo4OEJJ?=
- =?utf-8?B?cWRhbVg5UHFPWCs3RmhXRERyZnd3VHFUUTIyZVUzUFdlZ1RhRmdkOGo3MGlJ?=
- =?utf-8?B?VDVlMUJGTytkcDdxa1kraG91R1hINUxSV0FDaXp4aXozUm5Qc01CaFd0T0ov?=
- =?utf-8?B?UjBOaGtyS2Q4WWg1UEwrcHRPalRpQ2VxNFBFWkVIeUtPRUpDSjVoTlF5ZDRy?=
- =?utf-8?B?OEl1a0M2RXIvaWpFUFBxb1FjZ3JFTkFlNW83VUxxeVVSSVpUdFg3N2JTRllt?=
- =?utf-8?B?R09BSTlUSnN2dXcvUzhUT0FvdThkMnh4RHQvMjU2d3JVUnpsZGdUOEtuWG51?=
- =?utf-8?B?aDZ2Qkl3QUh5QXVjRm9wZEd1N3dCZUhIQzZNM3VrZXNIcDBGV0cyY2NqQkxJ?=
- =?utf-8?B?cGR6Tyt4NWdlZWw3dWI3eDFERDNDVUpRR0tNaU1YTktBWmtVdlNrMmJQNUhM?=
- =?utf-8?B?d2d2SmpjLytwVDhjVjBtRG1RWVh3Tmx6UEtpMzRNeWZyYWdUc2MyRTNiMkxM?=
- =?utf-8?B?YkZzYUxBNGI2c2M2N01IK2dIY2daVms1UGJpM0szTXJLSTlGZFRqOGUzcytu?=
- =?utf-8?B?V2tZSnJrK0tHWGFJanIxVld2S1hzVlQ4T29qd0RIUDE3cHkzWUlDSGxWNUl2?=
- =?utf-8?B?TjQxSEFSK2lta2hHUEQyVFpwbjFyT3g5MjlZRmFHbVlWV1Bjd1JacmxpalF5?=
- =?utf-8?B?RnowTW9hdS95U0wzU090eWRHYlpCdDBJdmVnZ0VUaHBNeEhHSDk0QUEvYm9z?=
- =?utf-8?B?aUhzZ3NsMGdZSEZMMlAzREtLYjlNMnRqTzBWVS9QeGFHOFQzNVVkY3FZODBw?=
- =?utf-8?B?dWJUTHhPNVphZ1JSbWVwSTZUSFpuVXIxcTY4U3cvZUwyMzJhVFVuV2YxTG9m?=
- =?utf-8?B?bU9NT1dRdzB3NnQzRVpOYVhKckp6dXNDbHhRY1YvanU2NzZ2MDBjYTVSVzdW?=
- =?utf-8?B?TWVicmNLc3JmODVJaXpBOHdQU1VhZUxuMm9FVXNlOElLSmtZYXdHdDNSRHpQ?=
- =?utf-8?B?Rkl4ak96QjhBZjhzK083WGdHd05tTVBzVng0VlcxL0tWd29GZzdUY3RuYi82?=
- =?utf-8?B?aDNoZkNqd2RpUmJiVjZkdFBHYnVONVN0QS9IaVVQcTQ5RGV1YWRkT0tWWHdB?=
- =?utf-8?B?clVuelpXSGRHN0dmSDFwRG8rbzFIUTJDYjA4SlVybVc3dWlDY2VWNGk3cmpV?=
- =?utf-8?B?ZnZZL2lpMlJXVkNQMndHSW1DVENOVDQ4VU51eFBpaG9ibTBBUjhCOHcyQnpR?=
- =?utf-8?B?R2poNk8rZTI0VFd0YTByVE1naHRBOU50OTZOUE93WnI1V1Fvd1ZZTjc0M2ha?=
- =?utf-8?B?emRuTDdHZnVVNCtETUZ0S1pORm9DWTk2ODdTbHROWE9uYzJmNGpjT3JKa1U5?=
- =?utf-8?B?L2tYYlpCZlpUQ0hxVnFiT1VETm5Ccy9nY1lqa3B1bmJmcmRsdHBrL0loY2E0?=
- =?utf-8?B?SFgzWTk5bVYwb2Y3eGh3YWIxYVJZSHV5SGNGazdDZ0htd05sSDRoWk5SZVBo?=
- =?utf-8?B?Ky85ZXUvYUdSQmRzOTUzd1oyVGdsRnk2QjFoT0ZIWjNzRWowdHZ6NCt5NDYr?=
- =?utf-8?B?ZmhMT2pMWnJabng0S0VnRlJHNDVYZkZNSTgyRFJXM1pmVUpOMzgxbEgvZ0Zx?=
- =?utf-8?B?eVppSTUwbTgyQU0ySWhNVnRFMkNDaHdTekkwTVl6T2hYbGRuRy9MZWhoY3g1?=
- =?utf-8?B?N3ZSdTkvTThQY0FIZVp5c3NKQW1pVDNYMUcwZHZJSkNkSlBSa0N2SmNzUDRv?=
- =?utf-8?B?Y3Qzak5oYVVZVVptejd5T1JGcTZnSklzR1BSMDBKbnFRSzg1Y2NmU2JsKzI1?=
- =?utf-8?B?eHIwWmFNTGZpRURWbHRsOFVZdCtETUg4Z01pVlkrQjVZMVpiRERaN0FPYitr?=
- =?utf-8?B?clFFNE95ZFhJRHdIVXNBd1VzbHVhOGR0ZGpkeUZMMGJ5SVJBeUUzT2p4RXl3?=
- =?utf-8?B?MlRwT0NtNnVEbG9QY0ZDTmFUNUJnRFJROFBNK0RHUjF4Y25MRUZUL1NYMnpI?=
- =?utf-8?B?Ymd5aTk1REQ5Sk4reStDc3EvZWN5bXR0YnlNRi9tNEpyOHdHT3lWV2VYZUJj?=
- =?utf-8?Q?FLCsmQMLiwfK0C3dZm?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c802c3a3-baa6-42e7-7702-08de8b5ad7cd
-X-MS-Exchange-CrossTenant-AuthSource: IA0PPF9A76BB3A6.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2026 17:12:21.8872
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: uVosQgc997KI1VMlKFRkhxufWKG4O2tX+lp4HcSQuO9tWCDAd0FzpME3zs/Jcmuw
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6211
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:LxC2BwB3Yu84bcVppGUvAQ--.1881S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxtw4rXFW5Zw1fXr1DCry7trb_yoWxtw1kpa
+	nFga42kF48XFyI9ryDAayqkrWrW3yUKr17Wws8Gw1Fk3ZrXr12gF15AFy2kFyfGFZYyF1I
+	qrs0qr1YkwsYyrJanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUPqb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUGw
+	A2048vs2IY020Ec7CjxVAFwI0_Gr0_Xr1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
+	w2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
+	W8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E14v2
+	6r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2
+	WlYx0E2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkE
+	bVWUJVW8JwACjcxG0xvY0x0EwIxGrwACI402YVCY1x02628vn2kIc2xKxwCY1x0262kKe7
+	AKxVWrXVW3AwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02
+	F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_Wr
+	ylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVW8JVW5JwCI42IY6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr1j6F4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI
+	0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x
+	07jQ4SrUUUUU=
+X-CM-SenderInfo: purev21wro2thvvxqx5xdzvxpfor3voofrz/1tbiAgAEBGnEnS4TtgAFs8
 
-Hi Reinette,
+From: Roberto Sassu <roberto.sassu@huawei.com>
 
-Thanks for the review comments. Will address one by one.
+With the upcoming change of dynamically allocating and replacing the hash
+table, the ima_h_table structure would have been replaced with a new one.
 
-On 3/24/26 17:51, Reinette Chatre wrote:
-> Hi Babu,
->
-> On 3/12/26 1:36 PM, Babu Moger wrote:
->> This series adds support for Privilege-Level Zero Association (PLZA) to the
->> resctrl subsystem. PLZA is an AMD feature that allows specifying a CLOSID
->> and/or RMID for execution in kernel mode (privilege level zero), so that
->> kernel work is not subject to the same resource constrains as the current
->> user-space task. This avoids kernel operations being aggressively throttled
->> when a task's memory bandwidth is heavily limited.
->>
->> The feature documentation is not yet publicly available, but it is expected
->> to be released in the next few weeks. In the meantime, a brief description
->> of the features is provided below.
->>
->> Privilege Level Zero Association (PLZA)
->>
->> Privilege Level Zero Association (PLZA) allows the hardware to
->> automatically associate execution in Privilege Level Zero (CPL=0) with a
->> specific COS (Class of Service) and/or RMID (Resource Monitoring
->> Identifier). The QoS feature set already has a mechanism to associate
->> execution on each logical processor with an RMID or COS. PLZA allows the
->> system to override this per-thread association for a thread that is
->> executing with CPL=0.
->> ------------------------------------------------------------------------
->>
->> The series introduces the feature in a way that supports the interface in
->> a generic manner to accomodate MPAM or other vendor specific implimentation.
->>
->> Below is the detailed requirements provided by Reinette:
->> https://lore.kernel.org/lkml/2ab556af-095b-422b-9396-f845c6fd0342@intel.com/
-> Our discussion considered how resctrl could support PLZA in a generic way while
-> also preparing to support MPAM's variants and how PLZA may evolve to have similar
-> capabilities when considering the capabilities of its registers.
->
-> This does not mean that your work needs to implement everything that was discussed.
-> Instead, this work is expected to just support what PLZA is capable of today but
-> do so in a way that the future enhancements could be added to.
->
-> This series is quite difficult to follow since it appears to implement a full
-> featured generic interface while PLZA cannot take advantage of it.
->
-> Could you please simplify this work to focus on just enabling PLZA and only
-> add interfaces needed to do so?
-Sure. Will try. Lets continue the discussion.
->
->> Summary:
->> 1. Kernel-mode/PLZA controls and status should be exposed under the resctrl
->>     info directory:/sys/fs/resctrl/info/, not as a separate or arch-specific path.
->>
->> 2. Add two info files
->>
->>   a. kernel_mode
->>      Purpose: Control how resource allocation and monitoring apply in kernel mode
->>      (e.g. inherit from task vs global assign).
->>
->>      Read: List supported modes and show current one (e.g. with [brackets]).
->>      Write: Set current mode by name (e.g. inherit_ctrl_and_mon, global_assign_ctrl_assign_mon).
->>
->> b. kernel_mode_assignment
->>
->>     Purpose: When a “global assign” kernel mode is active, specify which resctrl group
->>     (CLOSID/RMID) is used for kernel work.
->>
->>     Read: Show the assigned group in a path-like form (e.g. //, ctrl1//, ctrl1/mon1/).
->>     Write: Assign or clear the group used for kernel mode (and optionally clear with an empty write).
->>
->> The patches are based on top of commit (v7.0.0-rc3)
->> 839e91ce3f41b (tip/master) Merge branch into tip/master: 'x86/tdx'
->> ------------------------------------------------------------------------
->>
->> Examples: kernel_mode and kernel_mode_assignment
->>
->> All paths below are under /sys/fs/resctrl/ (e.g. info/kernel_mode means
->> /sys/fs/resctrl/info/kernel_mode). Resctrl must be mounted and the platform
->> must support the relevant modes (e.g. AMD with PLZA).
->>
->> 1) kernel_mode — show and set the current kernel mode
->>
->>     Read supported modes and which one is active (current in brackets):
->>
->>       $ cat info/kernel_mode
->>       [inherit_ctrl_and_mon]
->>       global_assign_ctrl_inherit_mon
->>       global_assign_ctrl_assign_mon
->>
->>     Set the active mode (e.g. use one CLOSID+RMID for all kernel work):
->>
->>       $ echo "global_assign_ctrl_assign_mon" > info/kernel_mode
->>       $ cat info/kernel_mode
->>       inherit_ctrl_and_mon
->>       global_assign_ctrl_inherit_mon
->>       [global_assign_ctrl_assign_mon]
->>
->>     Mode meanings:
->>     - inherit_ctrl_and_mon: kernel uses same CLOSID/RMID as the current task (default).
->>     - global_assign_ctrl_inherit_mon: one CLOSID for all kernel work; RMID inherited from user.
->>     - global_assign_ctrl_assign_mon: one resource group (CLOSID+RMID) for all kernel work.
->>
->> 2) kernel_mode_assignment — show and set which group is used for kernel work
->>
->>     Only relevant when kernel_mode is not "inherit_ctrl_and_mon". Read the
-> To help with future usages please connect visibility of this file with the mode in
-> info/kernel_mode. This helps us to support future modes with other resctrl files, possible
-> within each resource group.
-> Specifically, kernel_mode_assignment is not visible to user space if mode is "inherit_ctrl_and_mon",
-> while it is visible when mode is global_assign_ctrl_inherit_mon or global_assign_ctrl_assign_mon.
+However, since the ima_h_table structure contains also the counters for
+number of measurements entries and violations, we would have needed to
+preserve their values in the new ima_h_table structure.
 
-Sure. Will do.
+Instead, separate those counters from the hash table, remove the
+ima_h_table structure, and just replace the hash table pointer.
 
->
->>     currently assigned group (path format is "CTRL_MON/MON/"):
-> The format depends on the mode, right? If the mode is "global_assign_ctrl_inherit_mon"
-> then it should only contain a control group, alternatively, if the mode is
-> "global_assign_ctrl_assign_mon" then it contains control and mon group. This gives
-> resctrl future flexibility to change format for future modes.
+Finally, rename ima_show_htable_value(), ima_show_htable_violations()
+and ima_htable_violations_ops respectively to ima_show_counter(),
+ima_show_num_violations() and ima_num_violations_ops.
 
-This can be done both ways.  Whole purpose of these groups is to get 
-CLOSID and RMID to enable PLZA. User can echo CTRL_MON or MON group to 
-kernel_mode_assignment in any of the modes.  We can decide what needs to 
-be updated in MSR (PQR_PLZA_ASSOC) based on what kernel mode is selected.
+Link: https://github.com/linux-integrity/linux/issues/1
+Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
+---
+ security/integrity/ima/ima.h       |  9 +++------
+ security/integrity/ima/ima_api.c   |  2 +-
+ security/integrity/ima/ima_fs.c    | 19 +++++++++----------
+ security/integrity/ima/ima_kexec.c |  2 +-
+ security/integrity/ima/ima_queue.c | 17 ++++++++++-------
+ 5 files changed, 24 insertions(+), 25 deletions(-)
 
+diff --git a/security/integrity/ima/ima.h b/security/integrity/ima/ima.h
+index 0eea02ff04df..d759988fde45 100644
+--- a/security/integrity/ima/ima.h
++++ b/security/integrity/ima/ima.h
+@@ -323,12 +323,9 @@ int ima_lsm_policy_change(struct notifier_block *nb, unsigned long event,
+  */
+ extern spinlock_t ima_queue_lock;
+ 
+-struct ima_h_table {
+-	atomic_long_t len;	/* number of stored measurements in the list */
+-	atomic_long_t violations;
+-	struct hlist_head queue[IMA_MEASURE_HTABLE_SIZE];
+-};
+-extern struct ima_h_table ima_htable;
++extern atomic_long_t ima_num_entries;
++extern atomic_long_t ima_num_violations;
++extern struct hlist_head ima_htable[IMA_MEASURE_HTABLE_SIZE];
+ 
+ static inline unsigned int ima_hash_key(u8 *digest)
+ {
+diff --git a/security/integrity/ima/ima_api.c b/security/integrity/ima/ima_api.c
+index 0916f24f005f..122d127e108d 100644
+--- a/security/integrity/ima/ima_api.c
++++ b/security/integrity/ima/ima_api.c
+@@ -146,7 +146,7 @@ void ima_add_violation(struct file *file, const unsigned char *filename,
+ 	int result;
+ 
+ 	/* can overflow, only indicator */
+-	atomic_long_inc(&ima_htable.violations);
++	atomic_long_inc(&ima_num_violations);
+ 
+ 	result = ima_alloc_init_template(&event_data, &entry, NULL);
+ 	if (result < 0) {
+diff --git a/security/integrity/ima/ima_fs.c b/security/integrity/ima/ima_fs.c
+index ca4931a95098..aaa460d70ff7 100644
+--- a/security/integrity/ima/ima_fs.c
++++ b/security/integrity/ima/ima_fs.c
+@@ -38,8 +38,8 @@ __setup("ima_canonical_fmt", default_canonical_fmt_setup);
+ 
+ static int valid_policy = 1;
+ 
+-static ssize_t ima_show_htable_value(char __user *buf, size_t count,
+-				     loff_t *ppos, atomic_long_t *val)
++static ssize_t ima_show_counter(char __user *buf, size_t count, loff_t *ppos,
++				atomic_long_t *val)
+ {
+ 	char tmpbuf[32];	/* greater than largest 'long' string value */
+ 	ssize_t len;
+@@ -48,15 +48,14 @@ static ssize_t ima_show_htable_value(char __user *buf, size_t count,
+ 	return simple_read_from_buffer(buf, count, ppos, tmpbuf, len);
+ }
+ 
+-static ssize_t ima_show_htable_violations(struct file *filp,
+-					  char __user *buf,
+-					  size_t count, loff_t *ppos)
++static ssize_t ima_show_num_violations(struct file *filp, char __user *buf,
++				       size_t count, loff_t *ppos)
+ {
+-	return ima_show_htable_value(buf, count, ppos, &ima_htable.violations);
++	return ima_show_counter(buf, count, ppos, &ima_num_violations);
+ }
+ 
+-static const struct file_operations ima_htable_violations_ops = {
+-	.read = ima_show_htable_violations,
++static const struct file_operations ima_num_violations_ops = {
++	.read = ima_show_num_violations,
+ 	.llseek = generic_file_llseek,
+ };
+ 
+@@ -64,7 +63,7 @@ static ssize_t ima_show_measurements_count(struct file *filp,
+ 					   char __user *buf,
+ 					   size_t count, loff_t *ppos)
+ {
+-	return ima_show_htable_value(buf, count, ppos, &ima_htable.len);
++	return ima_show_counter(buf, count, ppos, &ima_num_entries);
+ 
+ }
+ 
+@@ -545,7 +544,7 @@ int __init ima_fs_init(void)
+ 	}
+ 
+ 	dentry = securityfs_create_file("violations", S_IRUSR | S_IRGRP,
+-				   ima_dir, NULL, &ima_htable_violations_ops);
++				   ima_dir, NULL, &ima_num_violations_ops);
+ 	if (IS_ERR(dentry)) {
+ 		ret = PTR_ERR(dentry);
+ 		goto out;
+diff --git a/security/integrity/ima/ima_kexec.c b/security/integrity/ima/ima_kexec.c
+index 36a34c54de58..5801649fbbef 100644
+--- a/security/integrity/ima/ima_kexec.c
++++ b/security/integrity/ima/ima_kexec.c
+@@ -43,7 +43,7 @@ void ima_measure_kexec_event(const char *event_name)
+ 	int n;
+ 
+ 	buf_size = ima_get_binary_runtime_size();
+-	len = atomic_long_read(&ima_htable.len);
++	len = atomic_long_read(&ima_num_entries);
+ 
+ 	n = scnprintf(ima_kexec_event, IMA_KEXEC_EVENT_LEN,
+ 		      "kexec_segment_size=%lu;ima_binary_runtime_size=%lu;"
+diff --git a/security/integrity/ima/ima_queue.c b/security/integrity/ima/ima_queue.c
+index 319522450854..1f6515f7d015 100644
+--- a/security/integrity/ima/ima_queue.c
++++ b/security/integrity/ima/ima_queue.c
+@@ -32,11 +32,14 @@ static unsigned long binary_runtime_size;
+ static unsigned long binary_runtime_size = ULONG_MAX;
+ #endif
+ 
++/* num of stored measurements in the list */
++atomic_long_t ima_num_entries = ATOMIC_LONG_INIT(0);
++/* num of violations in the list */
++atomic_long_t ima_num_violations = ATOMIC_LONG_INIT(0);
++
+ /* key: inode (before secure-hashing a file) */
+-struct ima_h_table ima_htable = {
+-	.len = ATOMIC_LONG_INIT(0),
+-	.violations = ATOMIC_LONG_INIT(0),
+-	.queue[0 ... IMA_MEASURE_HTABLE_SIZE - 1] = HLIST_HEAD_INIT
++struct hlist_head ima_htable[IMA_MEASURE_HTABLE_SIZE] = {
++	[0 ... IMA_MEASURE_HTABLE_SIZE - 1] = HLIST_HEAD_INIT
+ };
+ 
+ /* mutex protects atomicity of extending measurement list
+@@ -61,7 +64,7 @@ static struct ima_queue_entry *ima_lookup_digest_entry(u8 *digest_value,
+ 
+ 	key = ima_hash_key(digest_value);
+ 	rcu_read_lock();
+-	hlist_for_each_entry_rcu(qe, &ima_htable.queue[key], hnext) {
++	hlist_for_each_entry_rcu(qe, &ima_htable[key], hnext) {
+ 		rc = memcmp(qe->entry->digests[ima_hash_algo_idx].digest,
+ 			    digest_value, hash_digest_size[ima_hash_algo]);
+ 		if ((rc == 0) && (qe->entry->pcr == pcr)) {
+@@ -113,10 +116,10 @@ static int ima_add_digest_entry(struct ima_template_entry *entry,
+ 	INIT_LIST_HEAD(&qe->later);
+ 	list_add_tail_rcu(&qe->later, &ima_measurements);
+ 
+-	atomic_long_inc(&ima_htable.len);
++	atomic_long_inc(&ima_num_entries);
+ 	if (update_htable) {
+ 		key = ima_hash_key(entry->digests[ima_hash_algo_idx].digest);
+-		hlist_add_head_rcu(&qe->hnext, &ima_htable.queue[key]);
++		hlist_add_head_rcu(&qe->hnext, &ima_htable[key]);
+ 	}
+ 
+ 	if (binary_runtime_size != ULONG_MAX) {
+-- 
+2.43.0
 
->
-> We should also consider the scenario when it is a "monitoring only" system, which can
-> happen independent from what hardware actually supports, for example, if user boots
-> with "rdt=!l3cat,!l2cat,!mba,!smba". In this case I assume CLOS should just always be
-> zero and thus only "default control group" is accepted?
-
-Yes.  It depends on how we want to implement like we mentioned above.
-
-
->
->>       $ cat info/kernel_mode_assignment
->>       //
->>
->>     "//" means the default CTRL_MON group is assigned. Assign a specific
->>     group instead (e.g. a CTRL_MON group "ctrl1", or a MON group "mon1" under it):
->>
->>       $ echo "ctrl1//" > info/kernel_mode_assignment
->>       $ cat info/kernel_mode_assignment
->>       ctrl1//
->>
->>       $ echo "ctrl1/mon1/" > info/kernel_mode_assignment
->>       $ cat info/kernel_mode_assignment
->>       ctrl1/mon1/
->>
->>     Clear the assignment (no dedicated group for kernel work):
->>
->>       $ echo >> info/kernel_mode_assignment
->>       $ cat info/kernel_mode_assignment
->>       Kmode is not configured
-> This does not look right. Would this not create a conflict between info/kernel_mode
-> and info/kernel_mode_assignment about what the current mode is? The way I see it
-> info/kernel_mode_assignment must always contain a valid group.
-Yes.  We can do that.
->
->>     Errors (e.g. invalid group name or unsupported mode) are reported in
->>     info/last_cmd_status.
->>
->> ---
->>
->> v2:
->>       This is similar to RFC with new proposal. Names of the some interfaces
->>       are not final. Lets fix that later as we move forward.
->>
->>       Separated the two features: Global Bandwidth Enforcement (GLBE) and
->>       Privilege Level Zero Association (PLZA).
->>   
->>       This series only adds support for PLZA.
->>
->>       Used the name of the feature as kmode instead of PLZA. That can be changed as well.
->>
->>       Tony suggested using global variables to store the kernel mode
->>       CLOSID and RMID. However, the kernel mode CLOSID and RMID are
->>       coming from rdtgroup structure with the new interface. Accessing
->>       them requires holding the associated lock, which would make the
->>       context switch path unnecessarily expensive. So, dropped the idea.
->>       https://lore.kernel.org/lkml/aXuxVSbk1GR2ttzF@agluck-desk3/
->>       Let me know if there are other ways to optimize this.
-> I do not see why the context switch path needs to be touched at all with this
-> implementation. Since PLZA only supports global assignment does it not mean that resctrl
-> only needs to update PQR_PLZA_ASSOC when user writes to info/kernel_mode and
-> info/kernel_mode_assignment?
-
-Each thread has an MSR to configure whether to associate privilege level 
-zero execution with a separate COS and/or RMID, and the value of the COS 
-and/or RMID.  PLZA may be enabled or disabled on a per-thread 
-basis. However, the COS and RMID association and configuration must be 
-the same for all threads in the QOS Domain.
-
-So, PQR_PLZA_ASSOC is a per thread MSR just like PQR_ASSOC.
-
-Privilege-Level Zero Association (PLZA) allows the user to specify a COS 
-and/or RMID associated with execution in Privilege-Level Zero. When 
-enabled on a HW thread, when that thread enters Privilige-Level Zero, 
-transactions associated with that thread will be associated with the 
-PLZA COS and/or RMID. Otherwise, the HW thread will be associated with 
-the COS and RMID identified by  PQR_ASSOC.
-
-More below.
-
->
-> Consider some of the scenarios:
->
-> resctrl mount with default state:
->
-> 	# cat info/kernel_mode
-> 	[inherit_ctrl_and_mon]
-> 	global_assign_ctrl_inherit_mon
-> 	global_assign_ctrl_assign_mon
-> 	# ls info/kernel_mode_assignment
-> 	ls: cannot access 'info/kernel_mode_assignment': No such file or directory
->
-> enable global_assign_ctrl_assign_mon mode:
-> 	# echo "global_assign_ctrl_assign_mon" > info/kernel_mode
->
-> Expectation here is that when user space sets this mode as above then resctrl would
-> in turn program MSR_IA32_PQR_PLZA_ASSOC on all CPUs to be:
-> 	MSR_IA32_PQR_PLZA_ASSOC.rmid=0
-> 	MSR_IA32_PQR_PLZA_ASSOC.rmid_en=1
-> 	MSR_IA32_PQR_PLZA_ASSOC.closid=0
-> 	MSR_IA32_PQR_PLZA_ASSOC.closid_en=1
-> 	MSR_IA32_PQR_PLZA_ASSOC.plza_en=1
->
-> I do not see why it is necessary to maintain any per-CPU or per-task state or needing
-> to touch the context switch code. Since PLZA only supports global could it not
-> just set MSR_IA32_PQR_PLZA_ASSOC on all online CPUs and be done with it?
-> Only caveat is that if a CPU is offline then this setting needs to be stashed
-> so that MSR_IA32_PQR_PLZA_ASSOC can be set when new CPU comes online.
->
-> The way that rdtgroup_config_kmode() introduced in patch #11 assumes it is dealing
-> with RDT_RESOURCE_L3 and traverses the resource domain list and resource group
-> CPU mask seems unnecessary to me as well as error prone since the system may only
-> have, for example, RDT_RESOURCE_MBA enabled or even just monitoring. Why not just set
-> MSR_IA32_PQR_PLZA_ASSOC on all CPUs and be done?
->
-> To continue the scenarios ...
->
-> After user's setting above related files read:
-> 	# cat info/kernel_mode
-> 	inherit_ctrl_and_mon
-> 	global_assign_ctrl_inherit_mon
-> 	[global_assign_ctrl_assign_mon]
-> 	# cat info/kernel_mode_assignment
-> 	//
->
-> Modify group used by global_assign_ctrl_assign_mon mode:
-> 	# echo 'ctrl1/mon1/' > info/kernel_mode_assignment
->
-> Expectation here is that when user space sets this then resctrl would
-> program MSR_IA32_PQR_PLZA_ASSOC on all CPUs to be:
-> 	MSR_IA32_PQR_PLZA_ASSOC.rmid=<rmid of mon1>
-> 	MSR_IA32_PQR_PLZA_ASSOC.rmid_en=1
-> 	MSR_IA32_PQR_PLZA_ASSOC.closid=<closid of ctrl1>
-> 	MSR_IA32_PQR_PLZA_ASSOC.closid_en=1
-> 	MSR_IA32_PQR_PLZA_ASSOC.plza_en=1
-
-
-This works correctly when PLZA associations are defined by per CPU. For 
-example, lets assume that *ctrl1* is assigned *CLOSID 1*.
-
-In this scenario, every task in the system running on a any CPU will use 
-the limits associated with *CLOSID 1* whenever it enters Privilege-Level 
-Zero, because the CPU's *PQR_PLZA_ASSOC* register has PLZA enabled and 
-CLOSID is 1.
-
-Now consider task-based association:
-
-We have two resctrl groups:
-
-  * *ctrl1 -> CLOSID 1 -> task1.plza = 1   : *User wants PLZA be enabled
-    for this task.
-  * *ctrl2 -> CLOSID 2 -> task2.plza = 0   : *User wants PLZA
-    disabled for this task.
-
-Suppose *task1* is first scheduled on *CPU 0*. This behaves as expected: 
-since CPU 0 's *PQR_PLZA_ASSOC* contains *CLOSID 1, plza_en =1*, task1 
-will use the limits from CLOSID 1 when it enters Privilege-Level Zero.
-
-However, if *task2* later runs on *CPU 0*, we expect it to use *CLOSID 
-2* in both user mode and kernel mode, because user has PLZA disabled for 
-this task. But CPU 0 still has *CLOSID 1, **plza_en =1* in its 
-PQR_PLZA_ASSOC register.
-
-As a result, task2 will incorrectly run with *CLOSID 1* when entering 
-Privilege-Level Zero something we explicitly want to avoid.
-
-At that point, PLZA must be disabled on CPU 0 to prevent the unintended 
-association. Hope this explanation makes the issue clear.
-
-Thanks
-
-Babu
-
->
-> Enable global_assign_ctrl_inherit_mon mode:
-> 	# echo "global_assign_ctrl_inherit_mon" > info/kernel_mode
->
-> Expectation here is that when user space sets this mode then resctrl would
-> program MSR_IA32_PQR_PLZA_ASSOC on all CPUs to be:
-> 	MSR_IA32_PQR_PLZA_ASSOC.rmid=0
-> 	MSR_IA32_PQR_PLZA_ASSOC.rmid_en=0
-> 	MSR_IA32_PQR_PLZA_ASSOC.closid=0
-> 	MSR_IA32_PQR_PLZA_ASSOC.closid_en=1
-> 	MSR_IA32_PQR_PLZA_ASSOC.plza_en=1
->
-> 	# cat info/kernel_mode
-> 	inherit_ctrl_and_mon
-> 	[global_assign_ctrl_inherit_mon]
-> 	global_assign_ctrl_assign_mon
-> 	# cat info/kernel_mode_assignment <==== returns just a ctrl group
-> 	/
->
-> Modify group used by global_assign_ctrl_inherit_mon mode:
-> 	# echo ctrl1 > info/kernel_mode_assignment
->
-> Expectation here is that when user space sets this then resctrl would
-> program MSR_IA32_PQR_PLZA_ASSOC on all CPUs to be:
-> 	MSR_IA32_PQR_PLZA_ASSOC.rmid=0
-> 	MSR_IA32_PQR_PLZA_ASSOC.rmid_en=0
-> 	MSR_IA32_PQR_PLZA_ASSOC.closid=<closid of ctrl1>
-> 	MSR_IA32_PQR_PLZA_ASSOC.closid_en=1
-> 	MSR_IA32_PQR_PLZA_ASSOC.plza_en=1
->
-> 	# cat info/kernel_mode_assignment <==== returns just a ctrl group
-> 	ctrl/
->
-> Enable inherit_ctrl_and_mon mode:
-> 	# echo "inherit_ctrl_and_mon" > info/kernel_mode
->
-> Expectation here is that when user space sets this mode then resctrl would
-> program MSR_IA32_PQR_PLZA_ASSOC on all CPUs to be:
-> 	MSR_IA32_PQR_PLZA_ASSOC.rmid=0
-> 	MSR_IA32_PQR_PLZA_ASSOC.rmid_en=0
-> 	MSR_IA32_PQR_PLZA_ASSOC.closid=0
-> 	MSR_IA32_PQR_PLZA_ASSOC.closid_en=0
-> 	MSR_IA32_PQR_PLZA_ASSOC.plza_en=0
->
-> At this point info/kernel_mode_assignment is not visible anymore:
->
-> 	# ls info/kernel_mode_assignment
-> 	ls: cannot access 'info/kernel_mode_assignment': No such file or directory
->
-> >From what I understand above exposes and enables full capability of PLZA. All the other
-> per-task and per-cpu handling in this series is not something that PLZA can benefit from.
-> If this is not the case, what am I missing? Could this series be simplified to just support
-> PLZA today? When next hardware with more capability needs to be supported resctrl could be
-> enhanced to support it by using the more accurate information about what the hardware is
-> capable of.
->
-> We also do not really know what use cases users prefer. This may even be sufficient.
->
-> Reinette
->
