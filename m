@@ -1,146 +1,137 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D77863A6B90;
-	Thu, 26 Mar 2026 20:29:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774556980; cv=none; b=sG61CWVnfmslxN3FOUXv4M5rLe58BKW8LsCGD72cKXjVE95hS5Yc3hdn9AETDCzkd8TqypXkkHeUxTLLQ4tFh1X6cFpRgehi+06jIgJMeFbqmHEYYCCdbYZwhFNUPQ1Rd9yoUyboUIiYWMhCxUj5po592plU0+WOVE+cKTXeEv4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774556980; c=relaxed/simple;
-	bh=aAIMJ/1z/qST3QgwsF0GkMDgrYgNDrgudxyXalQJ5bo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Snx/nYh52OV1Z6ZyOfmKLism2rueFTGPjkZa1riO3HQSmVYiZ3Tt/tzGvto7Px8U9nXBCuc0qX7oSLqqrRd4Acqbb8qmYtlHQK2ydxqLy993Wn2b/tg36uRac+2U2Y0MAcvOVwLufHlaMgeIsN/IXwz3Kw92mp05dwuMv+seUnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WLU30aJq; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C2573A6EE6
+	for <linux-doc@vger.kernel.org>; Thu, 26 Mar 2026 20:43:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774557841; cv=pass; b=jwDuAhZv4nQ3Q8ObrIRZwVv6BNslnXzDuh9V0aWwBzDSFCsKCD4flnvyU3wJ9u6MSYX0Si4sp5pjH7WAnRGfQrNiSK455t4SWvHDduve+srFkRlEkZWNxZztsUk0KjX3R/ywd62jA6Cr+DVxiJmG8dHRGkXS3qJePtg4ZTFwHUc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774557841; c=relaxed/simple;
+	bh=PeaSOVbGjvcbPrM1ej8GhDm0pQojiKvmqm8K/+z+B5I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bRfdsfWqkKPeoakbfWPJUkSkNHVIqSXApQm9BIakK79J1D1QiXGzvsWeMNlzhUoUqFK/yc7TAd6Tk0htopMS97XrKXwSP4DqP5oNmSLZo8tgcdGdqhiGFiamHLFdzOyqSVGTr6ZR+zwlKGe1cHuNMg/9lTgGYNZ6ImIZ6hJGh0A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=piX9Xtl3; arc=pass smtp.client-ip=209.85.167.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WLU30aJq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774556978; x=1806092978;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=aAIMJ/1z/qST3QgwsF0GkMDgrYgNDrgudxyXalQJ5bo=;
-  b=WLU30aJqgqyNijoJqI/luKcprNoBvNryzZN9DEvWH/Ij0EA+yPzoe9sU
-   IaKhhNjPpBrD4KK09KcDZ4VhP7V9Ye2YLte6jCOYKmbjyGypK6KVRzx5h
-   fEP5TMuvIChmzL0J5ik0ImnUsN6AiPCRsOuhnI41EF4dQZggVMG1SMaxS
-   LM1kbVLztQVey25V6gaSBjzPog4b6Plpdn/SlMm2wm9/khgrGtVbY3atH
-   JKYPX5piNbAwmIBRDy/Hl6BXAx4vWW9JWAvdKhnGxU+RQhNuD92TxNqze
-   LOGulvQFQPcj6g1mM6bcgZnGdLHTjqSpQU2isTeeu8squ5DxskM68NWLB
-   A==;
-X-CSE-ConnectionGUID: KVTRRahWTvC0qHuQd0yHGQ==
-X-CSE-MsgGUID: Ow4Rs4vXRbK9EY6to8Q6KA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="75698752"
-X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
-   d="scan'208";a="75698752"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 13:29:37 -0700
-X-CSE-ConnectionGUID: //VhLxX2RO2956o8C0C0Eg==
-X-CSE-MsgGUID: a4nqmHl9RgG4KgUSsBkRpA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,142,1770624000"; 
-   d="scan'208";a="225044148"
-Received: from guptapa-desk.jf.intel.com (HELO desk) ([10.165.239.46])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2026 13:29:36 -0700
-Date: Thu, 26 Mar 2026 13:29:31 -0700
-From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-To: David Laight <david.laight.linux@gmail.com>
-Cc: Borislav Petkov <bp@alien8.de>, x86@kernel.org,
-	Jon Kohler <jon@nutanix.com>,
-	Nikolay Borisov <nik.borisov@suse.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	David Kaplan <david.kaplan@amd.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>, KP Singh <kpsingh@kernel.org>,
-	Jiri Olsa <jolsa@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	David Ahern <dsahern@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org, Asit Mallick <asit.k.mallick@intel.com>,
-	Tao Zhang <tao1.zhang@intel.com>, bpf@vger.kernel.org,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v8 02/10] x86/bhi: Make clear_bhb_loop() effective on
- newer CPUs
-Message-ID: <20260326202931.wlggnd3nfj6hngpb@desk>
-References: <20260324-vmscape-bhb-v8-0-68bb524b3ab9@linux.intel.com>
- <20260324-vmscape-bhb-v8-2-68bb524b3ab9@linux.intel.com>
- <20260324205930.GQacL7Mp7vwGBKX1W7@fat_crate.local>
- <20260324221308.7sh6afdy6r6tsf4w@desk>
- <20260325203759.GCacRHp2t8a7c4Bp6E@fat_crate.local>
- <20260326083934.fk4wyhe6rgiss34z@desk>
- <20260326100120.GAacUD8BVziYzLxZHB@fat_crate.local>
- <20260326104557.24295cbb@pumpkin>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="piX9Xtl3"
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-5a2a8abac7dso211298e87.3
+        for <linux-doc@vger.kernel.org>; Thu, 26 Mar 2026 13:43:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774557838; cv=none;
+        d=google.com; s=arc-20240605;
+        b=TT7Gkj9B7WMgx+O50Ip95e1C2dT55fPdNrJbfGO5irif17rh3nBNAfibpHTXcljAou
+         oJYZvGTRjGK9L0OujKsrPV8fC2hlTQVtK/8bcPweNH6REeGwWlsGApPXA34TBj2OH247
+         AI3gxh4R6fVCeutzdMGOShcnADl9gg/FaYlwxo1LG7qNW9Hs28Ys3YmDmQnhudUG8E+U
+         2Nuvkq/UrRAgJvWT+NE2YHX/7HWM0xRJ2e/1WAYh7vbJffs2Ezk2pGIc6hP8Gcp+YcW+
+         Ga58eGzsm8eWC570+5NrMVd5I5AOa17ZtNZXnm3R3hOs0aNbOhEtmba2c35Cr9rSYfC5
+         jDyg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=CnD4wGwZvJQvR/a6rbd+FFqGbZMJuBdhvv8TVCrH3ik=;
+        fh=iTmHfC+qmxev3of9GA6WmVM2tTAH01CP9kNa7DS3buI=;
+        b=bOaWEaDt6erXKcQakTHUEQ6ARsnCz4Xg8gujoWUq3AkinLSZXvdZe2T1DrYCmAT7N/
+         oF44r1BlwmGFA+WCvEVGPOiaDSrDEcWcvEEASyR7luMND0qAUNIa+JPM+5g7YknbbzX9
+         2h51qDZlTwi7w4j88oa+2RJnhPtsakXNyFnfYdOrs2DmNrBF2VizD+90O1jUIL3aQ0kD
+         hm1XsPx9W0a/CZYfaqA54zxvegesURPRBGJ056OSADMYAHJ8E5Dw8qFiRp/nJp1cxtx0
+         I9VdC6SBqeRQw1FRGxsKEOxwEtLSAIEy0hhUe/jFk7zAnbochx1AslvQ8OFk+IdKQypg
+         j1Dg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1774557838; x=1775162638; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CnD4wGwZvJQvR/a6rbd+FFqGbZMJuBdhvv8TVCrH3ik=;
+        b=piX9Xtl3iaNv8uRfxNguwwZybMuQycDIDPJDH0KJMJLN8uO4MO9qljp+6Um2fxBy0W
+         DvbbxR72etHfe2JSvVkW43pq0jujJGTwdK6ZIn9fYJxI0JEyQIpzWNhFE+UPxqAXCFOx
+         muZ4ven/Q02Rnfe0TNN5n2BfIDJfc0qu7dlulBOX+4IMwpRmLZHE4SKf/IolDO2ZGwry
+         SzjXwCdA4gxJYubVTk+stqy1YCCmBeW+ZAgNmOUYeO3y2mXlphgmGYGEPOoUqpKw5HpR
+         Ie5nuyrjnlTAW7NHJdpmZrOjV/IfjDvFPmsknTUTQ/VJT8MbysYMuKN1aoCVotxvyED7
+         uSNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774557838; x=1775162638;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=CnD4wGwZvJQvR/a6rbd+FFqGbZMJuBdhvv8TVCrH3ik=;
+        b=heKZZhHPg0OBUAn4XZaBwcHBYwrW2U5lXYBBXr3/wtDqIPoeOacIHer0tofyUnwegJ
+         BQGKvl07l7eI3KRGwUq2gLdMdCE3f7myH7ghkwRnSAfGNhb7Qe7DlKQTaYZQrO2jnfhX
+         xTGwxK3axAkw0KfltlRlbDh6fcTPw65+yCLipugZLl+zhUaKBLPIvJ3DtTJ8UIlnIYYe
+         jT2M8O23tqpQSEEUKm9pp0d5fyMiXFNqiuITjlqZi+MrDm973nhhwWr6XFt6/FG2ZKAN
+         ww79oBREMp2zsAg8KRrJ9ZtBhOgR7dsRrnoApzKbqtXqV6RktwmW4WwlfFNbqUkLaQ/X
+         sSAQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVUeT0UTlBN/1p+4u+ycG7xerLfXIfJ2TpViC6oxrM7OS+d5I3DeFo6mXehYvXScixzIKUMooBcKE0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyZTgYPp64rLcLcioFW4A8ctul4TobBUKR2mHqXxzoEefmWVrGn
+	lNHoxoDjdPJBchnDfr5lr0jZvAaGHQjgrKXNhxkfPX0pTUWCqI33vbcdytQM+las8ylviltVvFJ
+	ypNYjWOj4YQ8C2h/KFIcDSkHIW79Qn8ua//lAhaLQ
+X-Gm-Gg: ATEYQzw8ccm04E8zGbCgPw2DbuoNujT4TXR0o1TV+Nc5k5LCCWfVqXrkuQ7UwhB4Ny5
+	LGqeBDrGgx82jLStKtkIAu0JyTvIaIRYU9jBr48XwXMQmJQn08CYEaONJ0fTktBoQdGWJh+esOM
+	MwfD120RzNKCRRWDDiGFQS41YLJR1aFnUx00BwL8qtsnbF1rM6sexLoQjeOOozwV/FF2oTWcO8O
+	iDaZ0F3KGmE1xNjKoGWg6dW5MO04n7umOe4DUeH4RFEsLbtzDHgoq/Xsbv6juJWF4MqOhd6Imk2
+	rmzc92lH
+X-Received: by 2002:a05:6512:10c6:b0:5a2:a5e0:2da2 with SMTP id
+ 2adb3069b0e04-5a2a5e02ec7mr1094413e87.8.1774557837156; Thu, 26 Mar 2026
+ 13:43:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260326104557.24295cbb@pumpkin>
+References: <20260323235817.1960573-1-dmatlack@google.com>
+In-Reply-To: <20260323235817.1960573-1-dmatlack@google.com>
+From: David Matlack <dmatlack@google.com>
+Date: Thu, 26 Mar 2026 13:43:29 -0700
+X-Gm-Features: AQROBzDv95n65Jfr7km6DKOoUBuRrbrSOHrGu-gele9pXf1C5O1laHd_UCbivjU
+Message-ID: <CALzav=f4--Kp5vXz5zrxZR3WVsa9T1GF4NFFtuf_Q5ESMHmWwQ@mail.gmail.com>
+Subject: Re: [PATCH v3 00/24] vfio/pci: Base Live Update support for VFIO
+ device files
+To: Alex Williamson <alex@shazbot.org>, Bjorn Helgaas <bhelgaas@google.com>
+Cc: Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.com>, 
+	Alex Mastro <amastro@fb.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Ankit Agrawal <ankita@nvidia.com>, Arnd Bergmann <arnd@arndb.de>, Askar Safin <safinaskar@gmail.com>, 
+	"Borislav Petkov (AMD)" <bp@alien8.de>, Chris Li <chrisl@kernel.org>, Dapeng Mi <dapeng1.mi@linux.intel.com>, 
+	David Rientjes <rientjes@google.com>, Feng Tang <feng.tang@linux.alibaba.com>, 
+	Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, 
+	Kees Cook <kees@kernel.org>, Kevin Tian <kevin.tian@intel.com>, kexec@lists.infradead.org, 
+	kvm@vger.kernel.org, Leon Romanovsky <leon@kernel.org>, Leon Romanovsky <leonro@nvidia.com>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	linux-pci@vger.kernel.org, Li RongQing <lirongqing@baidu.com>, 
+	Lukas Wunner <lukas@wunner.de>, Marco Elver <elver@google.com>, 
+	=?UTF-8?Q?Micha=C5=82_Winiarski?= <michal.winiarski@intel.com>, 
+	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>, "Paul E. McKenney" <paulmck@kernel.org>, 
+	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, 
+	"Peter Zijlstra (Intel)" <peterz@infradead.org>, Pranjal Shrivastava <praan@google.com>, 
+	Pratyush Yadav <pratyush@kernel.org>, Raghavendra Rao Ananta <rananta@google.com>, 
+	Randy Dunlap <rdunlap@infradead.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+	Saeed Mahameed <saeedm@nvidia.com>, Samiullah Khawaja <skhawaja@google.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Vipin Sharma <vipinsh@google.com>, 
+	Vivek Kasireddy <vivek.kasireddy@intel.com>, William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>, 
+	Zhu Yanjun <yanjun.zhu@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 26, 2026 at 10:45:57AM +0000, David Laight wrote:
-> On Thu, 26 Mar 2026 11:01:20 +0100
-> Borislav Petkov <bp@alien8.de> wrote:
-> 
-> > On Thu, Mar 26, 2026 at 01:39:34AM -0700, Pawan Gupta wrote:
-> > > I believe the equivalent for cpu_feature_enabled() in asm is the
-> > > ALTERNATIVE. Please let me know if I am missing something.  
-> > 
-> > Yes, you are.
-> > 
-> > The point is that you don't want to stick those alternative calls inside some
-> > magic bhb_loop function but hand them in from the outside, as function
-> > arguments.
-> > 
-> > Basically what I did.
-> > 
-> > Then you were worried about this being C code and it had to be noinstr... So
-> > that outer function can be rewritten in asm, I think, and still keep it well
-> > separate.
-> > 
-> > I'll try to rewrite it once I get a free minute, and see how it looks.
-> > 
-> 
-> I think someone tried getting C code to write the values to global data
-> and getting the asm to read them.
-> That got discounted because it spilt things between two largely unrelated files.
+On Mon, Mar 23, 2026 at 4:58=E2=80=AFPM David Matlack <dmatlack@google.com>=
+ wrote:
+>
+> This series can be found on GitHub:
+>
+>   https://github.com/dmatlack/linux/tree/liveupdate/vfio/cdev/v3
+>
+> This series adds the base support to preserve a VFIO device file across
+> a Live Update. "Base support" means that this allows userspace to
+> safely preserve a VFIO device file with LIVEUPDATE_SESSION_PRESERVE_FD
+> and retrieve it with  LIVEUPDATE_SESSION_RETRIEVE_FD, but the device
+> itself is not preserved in a fully running state across Live Update.
 
-
-The implementation with global variables wasn't that bad, let me revive it.
-
-This part which ties sequence to BHI mitigation, which is not ideal,
-(because VMSCAPE also uses it) it does seems a cleaner option.
-
---- a/arch/x86/kernel/cpu/bugs.c
-+++ b/arch/x86/kernel/cpu/bugs.c
-@@ -2095,6 +2095,11 @@ static void __init bhi_select_mitigation(void)
-
- static void __init bhi_update_mitigation(void)
- {
-+   if (!cpu_feature_enabled(X86_FEATURE_BHI_CTRL)) {
-+       bhi_seq_outer_loop = 5;
-+       bhi_seq_inner_loop = 5;
-+   }
-+
-
-I believe this can be moved to somewhere common to all mitigations.
-
-> I think the BPF code would need significant refactoring to call a C function.
-
-Ya, true. Will use globals and keep clear_bhb_loop() in asm.
+Apologies for the large number of people who got added to the CC list
+on this version of the patchset. The changes to
+Documentation/admin-guide/kernel-parameters.txt in patch 4 caused
+scripts/get_maintainer.pl to CC a number of additional people due to
+--git-fallback. I'll fix that in the next version.
