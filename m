@@ -1,181 +1,135 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 714133290B9
-	for <linux-doc@vger.kernel.org>; Thu, 26 Mar 2026 19:03:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BCF11EEA31;
+	Thu, 26 Mar 2026 19:09:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774551813; cv=none; b=JldkbEVZ6d/awtVLBBVoW7Z3tGd9vMYJHGxyqthSZSAQ/PLxrZI2aC+Ev1QkJViDM5Ii004ZAUTe3vdAU0EhXNWdnaU1412sX5opuchxGV1CWeBFiuIDW28tBPjji9PtuVXgXofnu0jaxSCPbxb+FgNDnUbPytfzzhSQT+eVUlQ=
+	t=1774552188; cv=none; b=MIufwNZlDjjgWeyDBzZ30IcBnKuSJXkRRiAh1iq2uubQsluBmEluHirBCOCKEox1CVyc98lAJd43qeJu9B1JmOsZWXhPGnH2X5tQpeb4U4qFAqOLJqBX5vMJ7DAsOOrHRI+LvzAeryan2HY6fsMXO5rBcriaGFmPMjFBPuXpz1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774551813; c=relaxed/simple;
-	bh=H3ZANKprj/TgNWGd+SUawc9wkwCTzwy1BeR8pADdSwI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kVbsQd2JAJYLIOonRRHsgXQzmal2L25qmwq4yul3zWFDvG71RDxuxBYCj9gddDzogSt5rXDUNr9vZLHZaJSKVDmHy+TfQlETzDo3IJONv7gdqItvwjbfiFe5P/dfC+6V0yygvXSVIErl6AnFeuS80KfVdqzb+KM1YveSAeawg2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u97SDTgX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774552188; c=relaxed/simple;
+	bh=czihQRIEm15OTD1+oh6youh5BQM2dQxCYTXOhgP6lZA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=B5Yykho/btwNo3FF34m+X5nMnMxa95P27NAB91UwAIW+SILgPNMhKkyUjzb8C9YXn4DuCEDknT79Vzfh0Vv2qmMudgTDIqFKd3yJbbU89FMU5rS3Wo7BFBC7Hol+Rm3Yza8bIXv1sYISQwntjlpP1JNyvbR3/r7VXGmAKjgL5O8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cDlrZyzJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u97SDTgX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F209C2BCB5
-	for <linux-doc@vger.kernel.org>; Thu, 26 Mar 2026 19:03:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cDlrZyzJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE72CC116C6;
+	Thu, 26 Mar 2026 19:09:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774551813;
-	bh=H3ZANKprj/TgNWGd+SUawc9wkwCTzwy1BeR8pADdSwI=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=u97SDTgXTlzOMF+8m1DUlWk5+B5s05tTe7VXmdb8L06wfedBUbsvunVUdI1pLXAzP
-	 u/5gAQ51s8CvSpqkgsWM+xtJvxJqtCelDJpqQPqlGIVbfigHsQGzSE8DyRKaZdEEic
-	 MqAWh97TXPg85OTGbFuiYiJM4Fg09HdJKyHbj3yiX9OFwyEUX61+oCHbMkPhbWejzn
-	 97Nm3UXaYQweEB92yACV3iJEajEF0rsOrDA6bYKpau5O74ICgPCb78frC1dlO7gWjj
-	 NwbwBn3AzOuDAV/K270aDl+DHRcr32J2redoGF5me47guJvt+kff4HN+ctYAK64HR7
-	 TEvk2bhrf6E1A==
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-66b18af8c88so479353a12.3
-        for <linux-doc@vger.kernel.org>; Thu, 26 Mar 2026 12:03:33 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWjVWX/5C10xyd7kbmfpCROL5mdUBdvvkIJ8OIxbeb9vPJyZDzDsW+Ge51U5071ikWUOYgy7RY1MOA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzRu+5uMWU9j1cpNpGhKr31S8oIg/SCWMrlQRjD2EJovr2m7pMD
-	Guzg0lCFm56OTdY/O64druh5IAkxpadIJZGuUp9AzsMTI9RF7u/flnwQylZC7MZTymABhi4suYM
-	KuLc5h2p/lI4nyJIkCzi/+BuOmhKDqsA=
-X-Received: by 2002:a17:906:eecd:b0:b98:36cd:7e0e with SMTP id
- a640c23a62f3a-b9a542737camr610146966b.45.1774551811888; Thu, 26 Mar 2026
- 12:03:31 -0700 (PDT)
+	s=k20201202; t=1774552188;
+	bh=czihQRIEm15OTD1+oh6youh5BQM2dQxCYTXOhgP6lZA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=cDlrZyzJGJlDjK3He5wcU+aIVy8cqxG/wrACgvcFUWp4GiifpgBCgw8D+Gi9FNc2t
+	 pU9VdtMQd5mqfOfjBu6GbR40YZUIAjEbDCuEiuPik0z5qWKHRT1U1vEWtyeSSVYr8E
+	 s5Il6PWYrxbTUzN+WWLXSTBSbQpTj+GgECZMHf45oqVG5Gd044u5q46Qwjxi4HrxwZ
+	 AihTUpz3My4FLaTub2gjyYOQdNGIQzEQyet0swKvrom0S2konQeiynLMQqRpHHRKda
+	 lH2ryBXvrG/PPx0FmjyjQA8ZU/LXBrOfYQduR02kxrCqAHppTO1y5mO+bD+d8PtkBX
+	 XXAgLnHoGYnDg==
+Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1w5q5R-0000000BH8O-3uLc;
+	Thu, 26 Mar 2026 20:09:45 +0100
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: [PATCH v2 1/2] tools: unittest_helper: add a quiet mode
+Date: Thu, 26 Mar 2026 20:09:42 +0100
+Message-ID: <27556792ff70e6267ecd19c258149d380db8d423.1774551940.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <cover.1774551940.git.mchehab+huawei@kernel.org>
+References: <cover.1774551940.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260326174944.3820245-1-jmattson@google.com> <20260326174944.3820245-2-jmattson@google.com>
-In-Reply-To: <20260326174944.3820245-2-jmattson@google.com>
-From: Yosry Ahmed <yosry@kernel.org>
-Date: Thu, 26 Mar 2026 12:03:20 -0700
-X-Gmail-Original-Message-ID: <CAO9r8zMYdLjH8BuN_GWsS_BNrdE+Kbz=d6Y-Cxt3GTXMpdEM+w@mail.gmail.com>
-X-Gm-Features: AQROBzDXNpZkaYQ2rFx8prlIgRpDL-u1SWDMIRceFjxW53ZNgIHOU49tyDb09oo
-Message-ID: <CAO9r8zMYdLjH8BuN_GWsS_BNrdE+Kbz=d6Y-Cxt3GTXMpdEM+w@mail.gmail.com>
-Subject: Re: [PATCH v6 01/10] KVM: x86: Define KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT
-To: Jim Mattson <jmattson@google.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Sean Christopherson <seanjc@google.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-On Thu, Mar 26, 2026 at 10:50=E2=80=AFAM Jim Mattson <jmattson@google.com> =
-wrote:
->
-> Define a quirk to control whether nested SVM shares L1's PAT with L2
-> (legacy behavior) or gives L2 its own independent gPAT (correct behavior
-> per the APM).
->
-> When the quirk is enabled (default), L2 shares L1's PAT, preserving the
-> legacy KVM behavior. When userspace disables the quirk, KVM correctly
-> virtualizes the PAT for nested SVM guests, giving L2 a separate gPAT as
-> specified in the AMD architecture.
->
-> Signed-off-by: Jim Mattson <jmattson@google.com>
-> ---
->  Documentation/virt/kvm/api.rst  | 14 ++++++++++++++
->  arch/x86/include/asm/kvm_host.h |  3 ++-
->  arch/x86/include/uapi/asm/kvm.h |  1 +
->  arch/x86/kvm/svm/svm.h          |  7 +++++++
->  4 files changed, 24 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.=
-rst
-> index 032516783e96..2d56f17e3760 100644
-> --- a/Documentation/virt/kvm/api.rst
-> +++ b/Documentation/virt/kvm/api.rst
-> @@ -8551,6 +8551,20 @@ KVM_X86_QUIRK_VMCS12_ALLOW_FREEZE_IN_SMM   By defa=
-ult, KVM relaxes the consisten
->                                             bit to be cleared.  Note that=
- the vmcs02
->                                             bit is still completely contr=
-olled by the
->                                             host, regardless of the quirk=
- setting.
-> +
-> +KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT        By default, KVM for nested SV=
-M guests
-> +                                           shares the IA32_PAT MSR betwe=
-en L1 and
-> +                                           L2. This is legacy behavior a=
-nd does
-> +                                           not match the AMD architectur=
-e
-> +                                           specification. When this quir=
-k is
-> +                                           disabled and nested paging (N=
-PT) is
-> +                                           enabled for L2, KVM correctly
-> +                                           virtualizes a separate guest =
-PAT
-> +                                           register for L2, using the g_=
-pat
-> +                                           field in the VMCB. When NPT i=
-s
-> +                                           disabled for L2, L1 and L2 co=
-ntinue
-> +                                           to share the IA32_PAT MSR reg=
-ardless
-> +                                           of the quirk setting.
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D   =3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
->  7.32 KVM_CAP_MAX_VCPU_ID
-> diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_h=
-ost.h
-> index d3bdc9828133..0809d8f28208 100644
-> --- a/arch/x86/include/asm/kvm_host.h
-> +++ b/arch/x86/include/asm/kvm_host.h
-> @@ -2511,7 +2511,8 @@ int memslot_rmap_alloc(struct kvm_memory_slot *slot=
-, unsigned long npages);
->          KVM_X86_QUIRK_SLOT_ZAP_ALL |           \
->          KVM_X86_QUIRK_STUFF_FEATURE_MSRS |     \
->          KVM_X86_QUIRK_IGNORE_GUEST_PAT |       \
-> -        KVM_X86_QUIRK_VMCS12_ALLOW_FREEZE_IN_SMM)
-> +        KVM_X86_QUIRK_VMCS12_ALLOW_FREEZE_IN_SMM       \
+On quiet mode, only report errors.
 
-There is a missing "|" here, it's fixed in patch 3, but I think it
-should be fixed up here (maybe when applied).
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ tools/lib/python/unittest_helper.py | 22 ++++++++++++++++------
+ 1 file changed, 16 insertions(+), 6 deletions(-)
 
-> +        KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT)
->
->  #define KVM_X86_CONDITIONAL_QUIRKS             \
->         (KVM_X86_QUIRK_CD_NW_CLEARED |          \
-> diff --git a/arch/x86/include/uapi/asm/kvm.h b/arch/x86/include/uapi/asm/=
-kvm.h
-> index 5f2b30d0405c..3ada2fa9ca86 100644
-> --- a/arch/x86/include/uapi/asm/kvm.h
-> +++ b/arch/x86/include/uapi/asm/kvm.h
-> @@ -477,6 +477,7 @@ struct kvm_sync_regs {
->  #define KVM_X86_QUIRK_STUFF_FEATURE_MSRS       (1 << 8)
->  #define KVM_X86_QUIRK_IGNORE_GUEST_PAT         (1 << 9)
->  #define KVM_X86_QUIRK_VMCS12_ALLOW_FREEZE_IN_SMM (1 << 10)
-> +#define KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT    (1 << 11)
->
->  #define KVM_STATE_NESTED_FORMAT_VMX    0
->  #define KVM_STATE_NESTED_FORMAT_SVM    1
-> diff --git a/arch/x86/kvm/svm/svm.h b/arch/x86/kvm/svm/svm.h
-> index ff1e4b4dc998..67aa5d34332e 100644
-> --- a/arch/x86/kvm/svm/svm.h
-> +++ b/arch/x86/kvm/svm/svm.h
-> @@ -616,6 +616,13 @@ static inline bool nested_npt_enabled(struct vcpu_sv=
-m *svm)
->         return svm->nested.ctl.misc_ctl & SVM_MISC_ENABLE_NP;
->  }
->
-> +static inline bool l2_has_separate_pat(struct vcpu_svm *svm)
-> +{
-> +       return nested_npt_enabled(svm) &&
-> +               !kvm_check_has_quirk(svm->vcpu.kvm,
-> +                                    KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT)=
-;
-> +}
-> +
->  static inline bool nested_vnmi_enabled(struct vcpu_svm *svm)
->  {
->         return guest_cpu_cap_has(&svm->vcpu, X86_FEATURE_VNMI) &&
-> --
-> 2.53.0.1018.g2bb0e51243-goog
->
+diff --git a/tools/lib/python/unittest_helper.py b/tools/lib/python/unittest_helper.py
+index 55d444cd73d4..f3cba5120401 100755
+--- a/tools/lib/python/unittest_helper.py
++++ b/tools/lib/python/unittest_helper.py
+@@ -141,7 +141,7 @@ class Summary(unittest.TestResult):
+         super().addSkip(test, reason)
+         self._record_test(test, f"SKIP ({reason})")
+ 
+-    def printResults(self):
++    def printResults(self, verbose):
+         """
+         Print results using colors if tty.
+         """
+@@ -174,10 +174,15 @@ class Summary(unittest.TestResult):
+ 
+         # Print results
+         for module_name, classes in self.test_results.items():
+-            print(f"{module_name}:")
++            if verbose:
++                print(f"{module_name}:")
+             for class_name, tests in classes.items():
+-                print(f"    {class_name}:")
++                if verbose:
++                    print(f"    {class_name}:")
+                 for test_name, status in tests:
++                    if not verbose and status in [ "OK", "EXPECTED_FAIL" ]:
++                        continue
++
+                     # Get base status without reason for SKIP
+                     if status.startswith("SKIP"):
+                         status_code = status.split()[0]
+@@ -187,7 +192,8 @@ class Summary(unittest.TestResult):
+                     print(
+                         f"        {test_name + ':':<{max_length}}{color}{status}{COLORS['reset']}"
+                     )
+-            print()
++            if verbose:
++                print()
+ 
+         # Print summary
+         print(f"\nRan {self.testsRun} tests", end="")
+@@ -230,6 +236,7 @@ class TestUnits:
+         """Returns a parser for command line arguments."""
+         parser = argparse.ArgumentParser(description="Test runner with regex filtering")
+         parser.add_argument("-v", "--verbose", action="count", default=1)
++        parser.add_argument("-q", "--quiet", action="store_true")
+         parser.add_argument("-f", "--failfast", action="store_true")
+         parser.add_argument("-k", "--keyword",
+                             help="Regex pattern to filter test methods")
+@@ -279,7 +286,10 @@ class TestUnits:
+         if not caller_file and not suite:
+             raise TypeError("Either caller_file or suite is needed at TestUnits")
+ 
+-        verbose = args.verbose
++        if args.quiet:
++            verbose = 0
++        else:
++            verbose = args.verbose
+ 
+         if not env:
+             env = os.environ.copy()
+@@ -334,7 +344,7 @@ class TestUnits:
+                                             failfast=args.failfast)
+         result = runner.run(suite)
+         if resultclass:
+-            result.printResults()
++            result.printResults(verbose)
+ 
+         sys.exit(not result.wasSuccessful())
+ 
+-- 
+2.53.0
+
