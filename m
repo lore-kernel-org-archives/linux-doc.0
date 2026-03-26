@@ -1,110 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D29333E4C91;
-	Thu, 26 Mar 2026 10:46:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76A6137754B;
+	Thu, 26 Mar 2026 10:53:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774522018; cv=none; b=f3OR+FrvjFbeYDNGBH6b/ecWNB7jRyDwx+Fex/c1njD/ZhzryoZnXOT62J+AsSYdlR5A9zyEYgMsstvvgNaszwHYHADDUZOc7Jll5XrANGjqaJlJQI3l7q0e3b39sROpzEjcz3pIvrVBN4wPvoKUr6pCNDn6rDXh87yAKmz9/R0=
+	t=1774522409; cv=none; b=n1zgUzOrTLKhnFiLE1qEmnqzgnlRkEAk+WO26cdqwEdudDxDl7ov1/xBc36toWCb/1NXV6mAdcU0xY+YF1SPLGufkZv0ShFDEXl+CqYo7MKa92iWLkwnr7iLMHaAz/DrGGFNo54DN4ettuJZb2LAECHOLEcdTCLx/aofc4nlrrg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774522018; c=relaxed/simple;
-	bh=jz4QKqDvyuc0OVYL41YLkI+2R+GPNLQTDLA2i1KuuD8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Tg24KoTU4QOeHXr9Y4pF/N3cRg6MxRF3KNEvIUMuGzpbQ3jxjliU4o0GpviPHUvU2u3NXR8wSYOlQU0zN7HDnfE6zv0GqSw3eZZ/d9ABoz4ou+uWbvam5jkvxmytlupZ7uqSnwNCHcfjl2Fw/N0Dpuo/YAOaVoD690blpTpY6Os=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uouhDF4Q; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774522409; c=relaxed/simple;
+	bh=TbxaIif3p8WQ6+e44Bzl22FNO5C/zwaxFLGv4rhnrAI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ACFB1BXf+AC92LjPauiF7ngPURuBmB3W+a0tlS/b9MGbz3WdC9AR3ge1ScLMhTnKk99ppEPcvZPRIHbUH0k6aPMultvmjELIcw7zv1PvtnR2Vjx5CjFQXsRkCU3Yw+pSXm+vfrDCr2rkGlat1BO3B25b4ICkrHOzhxxX+CBvzMs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=b4O8r4Jq; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uouhDF4Q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72E84C19423;
-	Thu, 26 Mar 2026 10:46:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774522018;
-	bh=jz4QKqDvyuc0OVYL41YLkI+2R+GPNLQTDLA2i1KuuD8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=uouhDF4Qa318/Z9nX9Ws4mHmW4Xj1lUe3ecVX69vddoTww6TykXBFcfxzgLsjsVUr
-	 uKEecElGaHwHYwRB5sfVpD/OA8X8sVBjVkid9cXNQoz/6KSifPhScJyeqBMrEDo8oX
-	 kXSsXRIlElj4UylHMzwh3I8/YWYRmOgzn/Fvk8BThWe7Ed5I2HEPkk2q0o6tM260d/
-	 VEgQAHNg8pmhJezXZ4OK7g48WOO1fuI9Upi7y7U9026H/AmdcAXA4lLqumD439oT/M
-	 Pzl4dym+ApN3Z6gmLabe7ExmLvPanhPpcuvksSt4QNF6HwEvXMWbKjIEqggYMGlpNw
-	 iwwZm3ig9pXBA==
-Message-ID: <171549fc-8d65-41d8-9343-7fcaeeda25b1@kernel.org>
-Date: Thu, 26 Mar 2026 11:46:48 +0100
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="b4O8r4Jq"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EC4611AED;
+	Thu, 26 Mar 2026 03:53:20 -0700 (PDT)
+Received: from arm.com (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5BEE03FB90;
+	Thu, 26 Mar 2026 03:53:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1774522406; bh=TbxaIif3p8WQ6+e44Bzl22FNO5C/zwaxFLGv4rhnrAI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=b4O8r4Jq2CFcar+ykaYubGzY5y5qXmjwpctKmzjtCbYrCy7ZWRYDuVV6rw/K5YRYE
+	 cFU8FIDuxcRiwzgg6ypdQsF6ZJHHAtZPQCtyFE9nn5+FJpKL3uUn2slYkKqObCNZpl
+	 vTALvEOciub+LB3zvVDl3q8MoMa8BSfaYZ27RjFc=
+Date: Thu, 26 Mar 2026 10:53:16 +0000
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Jinjie Ruan <ruanjinjie@huawei.com>
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, will@kernel.org,
+	chenhuacai@kernel.org, kernel@xen0n.name, maddy@linux.ibm.com,
+	mpe@ellerman.id.au, npiggin@gmail.com, chleroy@kernel.org,
+	pjw@kernel.org, palmer@dabbelt.com, aou@eecs.berkeley.edu,
+	alex@ghiti.fr, tglx@kernel.org, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, hpa@zytor.com, robh@kernel.org,
+	saravanak@kernel.org, akpm@linux-foundation.org, bhe@redhat.com,
+	vgoyal@redhat.com, dyoung@redhat.com, rdunlap@infradead.org,
+	peterz@infradead.org, pawan.kumar.gupta@linux.intel.com,
+	feng.tang@linux.alibaba.com, dapeng1.mi@linux.intel.com,
+	kees@kernel.org, elver@google.com, paulmck@kernel.org,
+	lirongqing@baidu.com, rppt@kernel.org, ardb@kernel.org,
+	leitao@debian.org, osandov@fb.com, cfsworks@gmail.com,
+	tangyouling@kylinos.cn, sourabhjain@linux.ibm.com,
+	ritesh.list@gmail.com, eajames@linux.ibm.com,
+	songshuaishuai@tinylab.org, kevin.brodsky@arm.com,
+	samuel.holland@sifive.com, vishal.moola@gmail.com,
+	junhui.liu@pigmoral.tech, coxu@redhat.com, liaoyuanhong@vivo.com,
+	jbohac@suse.cz, fuqiang.wang@easystack.cn, guoren@kernel.org,
+	chenjiahao16@huawei.com, hbathini@linux.ibm.com,
+	james.morse@arm.com, takahiro.akashi@linaro.org,
+	lizhengyu3@huawei.com, x86@kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	loongarch@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+	kexec@lists.infradead.org
+Subject: Re: [PATCH v10 4/8] crash: Exclude crash kernel memory in crash core
+Message-ID: <acUQHCETMXaEtdK5@arm.com>
+References: <20260325025904.2811960-1-ruanjinjie@huawei.com>
+ <20260325025904.2811960-5-ruanjinjie@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 21/21] mm: on remap assert that input range within the
- proposed VMA
-Content-Language: en-US
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Clemens Ladisch <clemens@ladisch.de>,
- Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "K . Y . Srinivasan" <kys@microsoft.com>,
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
- Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Bodo Stroesser <bostroesser@gmail.com>,
- "Martin K . Petersen" <martin.petersen@oracle.com>,
- David Howells <dhowells@redhat.com>, Marc Dionne <marc.dionne@auristor.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
- David Hildenbrand <david@kernel.org>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
- <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
- Pedro Falcato <pfalcato@suse.de>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-mtd@lists.infradead.org,
- linux-staging@lists.linux.dev, linux-scsi@vger.kernel.org,
- target-devel@vger.kernel.org, linux-afs@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- Ryan Roberts <ryan.roberts@arm.com>
-References: <cover.1774045440.git.ljs@kernel.org>
- <0fc1092f4b74f3f673a58e4e3942dc83f336dd85.1774045440.git.ljs@kernel.org>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-In-Reply-To: <0fc1092f4b74f3f673a58e4e3942dc83f336dd85.1774045440.git.ljs@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260325025904.2811960-5-ruanjinjie@huawei.com>
 
-On 3/20/26 23:39, Lorenzo Stoakes (Oracle) wrote:
-> Now we have range_in_vma_desc(), update remap_pfn_range_prepare() to check
-> whether the input range in contained within the specified VMA, so we can
-> fail at prepare time if an invalid range is specified.
+On Wed, Mar 25, 2026 at 10:59:00AM +0800, Jinjie Ruan wrote:
+> The crash memory alloc, and the exclude of crashk_res, crashk_low_res
+> and crashk_cma memory are almost identical across different architectures,
+> handling them in the crash core would eliminate a lot of duplication, so
+> do them in the common code.
 > 
-> This covers the I/O remap mmap actions also which ultimately call into
-> this function, and other mmap action types either already span the full
-> VMA or check this already.
+> To achieve the above goal, three architecture-specific functions are
+> introduced:
 > 
-> Reviewed-by: Suren Baghdasaryan <surenb@google.com>
-> Signed-off-by: Lorenzo Stoakes (Oracle) <ljs@kernel.org>
-
-Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
-
-> ---
->  mm/memory.c | 3 +++
->  1 file changed, 3 insertions(+)
+> - arch_get_system_nr_ranges(). Pre-counts the max number of memory ranges.
 > 
-> diff --git a/mm/memory.c b/mm/memory.c
-> index 53ef8ef3d04a..68cc592ff0ba 100644
-> --- a/mm/memory.c
-> +++ b/mm/memory.c
-> @@ -3142,6 +3142,9 @@ int remap_pfn_range_prepare(struct vm_area_desc *desc)
->  	const bool is_cow = vma_desc_is_cow_mapping(desc);
->  	int err;
->  
-> +	if (!range_in_vma_desc(desc, start, end))
-> +		return -EFAULT;
-> +
->  	err = get_remap_pgoff(is_cow, start, end, desc->start, desc->end, pfn,
->  			      &desc->pgoff);
->  	if (err)
+> - arch_crash_populate_cmem(). Collects the memory ranges and fills them
+>   into cmem.
+> 
+> - arch_crash_exclude_ranges(). Architecture's additional crash memory
+>   ranges exclusion, defaulting to empty.
+> 
+> Reviewed-by: Sourabh Jain <sourabhjain@linux.ibm.com>
+> Acked-by: Baoquan He <bhe@redhat.com>
+> Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 
+For arm64:
+
+Acked-by: Catalin Marinas <catalin.marinas@arm.com>
