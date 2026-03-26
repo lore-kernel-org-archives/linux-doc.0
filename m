@@ -1,133 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ED28322A1F;
-	Thu, 26 Mar 2026 09:34:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45F343DA7E0;
+	Thu, 26 Mar 2026 10:02:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774517661; cv=none; b=BIM6qrwaBNFpYoUfKxKc/UGjYX5qX76jcVNbP20lfhsG4Rf83UZwNPjv2nUya2Afw4N6cytDLw66frEs3UXbSExQlh2PzPct27kLcYWLtcMhmdvHjPjuwf4FgZsZapSpEb0imp8bB7g1BwgAL2K/IG9M3tELnwW3Q2shT5DFzEU=
+	t=1774519337; cv=none; b=i48molvcGsAOMoqsgYwkZRQ2mP/hLb7a+1Sl0DXjR74+Q8D76l4Cpus7/2vV26UAyHoxnyieBNoybmofev0b8BV3FelY1DMn5tyV4b6AYRJowoUWW/YzDyacjQxP7cI3Q9e+0/WdAultYkN5m0syEh9fP/WMnyrGHObX26ooBGg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774517661; c=relaxed/simple;
-	bh=V9q54ZnSVprkFCQ1RUiRK/7gkbMQKMf3RzsF/ICu1cs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XjsJ9Tf0AsUkGfXHnLU5aveDx8D6B1ySwa7hH6Rph31O5KTyc9XhHDvLF5nI9dJR5ykfAfQZfAIiD3UOLKNUvSr/EzgGaTA68JxT40nJRh8lkmOjpnO9D23+AHXTYDIQQdVsjUCEOa95kpgQhgRzYjWSdFFdjIkF+2IdEorfI/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XqETISa8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774519337; c=relaxed/simple;
+	bh=UXJmkilgCUI/u+gPAR4mHLGMXteOiBgjgCWr/Gty7iQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NjLNwmb5JR2YXoMK5ZWIwmBuq7cpiBJ1Ya8OD3hrBPaSqfglZHPh6kKkUUcJ+fjz+qSPPj6BSXTeeDmLcMwog9vkNNPnW5la3ibw+P/irrLFPHsuyK54yc4ZK/mEzokr+xPrf9yX5LOGCrG5BcR9gROUd03cAqrRt3gXgJPwvak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=ijMJ9dSk; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XqETISa8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A495C116C6;
-	Thu, 26 Mar 2026 09:34:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774517661;
-	bh=V9q54ZnSVprkFCQ1RUiRK/7gkbMQKMf3RzsF/ICu1cs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=XqETISa8yQrZtJu5qKKzYzIEN3MnRrSYdcoK4PVBNAczJQt/2BtWbHtbizJDFBJ7F
-	 5nwle+ytmRDaMlHxMPRD/8FSjmzsHzp3SRA9bSgPwPzfs8mu3vIaE1+k5yDXwg1JXG
-	 TaZAzi6V1XzDkuE6c3BA+ID7Qte88S+mlbwacy5/ZX/nekFqaVuncFtobF2dn9Bin7
-	 eM4RI+zZaGXRSWkbCex8x+wijVR5nMmOAaSKVWSuvNPKMMHqr9e2/hmazdntWBDpvD
-	 23h78OcGf3vwvIwmSgsPc6Lh9G2u/N9PoLRDJIztZvvePPdjhGCOVkhqCoWx72hq4B
-	 /YYdAc9Vsuh6w==
-Message-ID: <f204211d-270c-47be-86c5-970cec55d94c@kernel.org>
-Date: Thu, 26 Mar 2026 10:34:17 +0100
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="ijMJ9dSk"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 8492640E015B;
+	Thu, 26 Mar 2026 10:02:10 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id MsheAMuzPrx7; Thu, 26 Mar 2026 10:02:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1774519325; bh=C2mWFe1qNi3PMZA4pOcAbJW8lmILDzuIi8XH3/XIOf4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ijMJ9dSk7+FFkbX12jIwy02uXnJL10wiFXoCPlwyUqT13WtlMZYKjbxhSv6iYc2V8
+	 nUsd00ftkQEUSwaK2E8alb0ef0/Xupyc18HwfYLnMtaijlwsn+75oPXw9IfCKIFI83
+	 RHVX7eE26VoJ5RkSC25P344LGu7gvbWuaxieYQirZGWgh6SzurTshnpHRQ00s4d5nj
+	 CNbq3g4A7hcApqUVqYTdPUzLrN8f8Yz97R8rmza03yD0SKlewWB23DacOnI3rnbs+e
+	 OfLHcLTgKyi0xISxpH6ZxdE0XoT4Tg98OsWAocu4lxrtE/noMbsP00NjCt77wGW0BM
+	 LlodWonuMOXUtG/PQwiUnR84xAs9n8OB5RedkQC/v7W6YTECWY+QjdAXmMiwddEYnS
+	 HckdK7FGeZtdMD5SWlmZ7HEIyCFn5WEHYx0OEe94m7OecMA0vBubPauJQrCQFzxUHm
+	 c2kAHHiOlnKIdCpDEFfvGX15hQ/NbwV5R4yxFdmd7+RLQSbY19hvOVAXwGQrz3SDbn
+	 ioNRWPdf69PAI3UX7KuhcQ63egfggLs8jKUJfW5mx7c445PFGK1T3Eud9r2pJisEWG
+	 /xTdFmPl3sUGISDldtEsZehMg3aiW1BhxxDgHb4cJUS1Oc+kD8NmUhVFtMLfP+6SlB
+	 XQ4dP5hDqOLsb+WVplWrz9TE=
+Received: from zn.tnic (p5de8e020.dip0.t-ipconnect.de [93.232.224.32])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id BF59740E0140;
+	Thu, 26 Mar 2026 10:01:27 +0000 (UTC)
+Date: Thu, 26 Mar 2026 11:01:20 +0100
+From: Borislav Petkov <bp@alien8.de>
+To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+Cc: x86@kernel.org, Jon Kohler <jon@nutanix.com>,
+	Nikolay Borisov <nik.borisov@suse.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	David Kaplan <david.kaplan@amd.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>, KP Singh <kpsingh@kernel.org>,
+	Jiri Olsa <jolsa@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	David Laight <david.laight.linux@gmail.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	David Ahern <dsahern@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+	kvm@vger.kernel.org, Asit Mallick <asit.k.mallick@intel.com>,
+	Tao Zhang <tao1.zhang@intel.com>, bpf@vger.kernel.org,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v8 02/10] x86/bhi: Make clear_bhb_loop() effective on
+ newer CPUs
+Message-ID: <20260326100120.GAacUD8BVziYzLxZHB@fat_crate.local>
+References: <20260324-vmscape-bhb-v8-0-68bb524b3ab9@linux.intel.com>
+ <20260324-vmscape-bhb-v8-2-68bb524b3ab9@linux.intel.com>
+ <20260324205930.GQacL7Mp7vwGBKX1W7@fat_crate.local>
+ <20260324221308.7sh6afdy6r6tsf4w@desk>
+ <20260325203759.GCacRHp2t8a7c4Bp6E@fat_crate.local>
+ <20260326083934.fk4wyhe6rgiss34z@desk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] docs: driver-api: fix 6 spelling typos in
- Documentation/driver-api
-To: Josh Law <objecting@objecting.org>, Jonathan Corbet <corbet@lwn.net>,
- =?UTF-8?Q?Tom=C3=A1s_Pando?= <tovictakamine@gmail.com>
-Cc: skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>
-References: <20260324163604.5710-1-tovictakamine@gmail.com>
- <2F84DD09-2880-45E0-AA98-204F10848F85@objecting.org>
- <87a4vxtaqa.fsf@trenco.lwn.net>
- <A54D6856-52DB-4914-BE50-A86EA76733CD@objecting.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJoF1BKBQkWlnSaAAoJEBuTQ307
- QWKbHukP/3t4tRp/bvDnxJfmNdNVn0gv9ep3L39IntPalBFwRKytqeQkzAju0whYWg+R/rwp
- +r2I1Fzwt7+PTjsnMFlh1AZxGDmP5MFkzVsMnfX1lGiXhYSOMP97XL6R1QSXxaWOpGNCDaUl
- ajorB0lJDcC0q3xAdwzRConxYVhlgmTrRiD8oLlSCD5baEAt5Zw17UTNDnDGmZQKR0fqLpWy
- 786Lm5OScb7DjEgcA2PRm17st4UQ1kF0rQHokVaotxRM74PPDB8bCsunlghJl1DRK9s1aSuN
- hL1Pv9VD8b4dFNvCo7b4hfAANPU67W40AaaGZ3UAfmw+1MYyo4QuAZGKzaP2ukbdCD/DYnqi
- tJy88XqWtyb4UQWKNoQqGKzlYXdKsldYqrLHGoMvj1UN9XcRtXHST/IaLn72o7j7/h/Ac5EL
- 8lSUVIG4TYn59NyxxAXa07Wi6zjVL1U11fTnFmE29ALYQEXKBI3KUO1A3p4sQWzU7uRmbuxn
- naUmm8RbpMcOfa9JjlXCLmQ5IP7Rr5tYZUCkZz08LIfF8UMXwH7OOEX87Y++EkAB+pzKZNNd
- hwoXulTAgjSy+OiaLtuCys9VdXLZ3Zy314azaCU3BoWgaMV0eAW/+gprWMXQM1lrlzvwlD/k
- whyy9wGf0AEPpLssLVt9VVxNjo6BIkt6d1pMg6mHsUEVzsFNBFVDXDQBEADNkrQYSREUL4D3
- Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
- MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
- OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
- GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
- 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
- YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
- 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
- BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
- JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
- 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
- YpsFAmgXUF8FCRaWWyoACgkQG5NDfTtBYptO0w//dlXJs5/42hAXKsk+PDg3wyEFb4NpyA1v
- qmx7SfAzk9Hf6lWwU1O6AbqNMbh6PjEwadKUk1m04S7EjdQLsj/MBSgoQtCT3MDmWUUtHZd5
- RYIPnPq3WVB47GtuO6/u375tsxhtf7vt95QSYJwCB+ZUgo4T+FV4hquZ4AsRkbgavtIzQisg
- Dgv76tnEv3YHV8Jn9mi/Bu0FURF+5kpdMfgo1sq6RXNQ//TVf8yFgRtTUdXxW/qHjlYURrm2
- H4kutobVEIxiyu6m05q3e9eZB/TaMMNVORx+1kM3j7f0rwtEYUFzY1ygQfpcMDPl7pRYoJjB
- dSsm0ZuzDaCwaxg2t8hqQJBzJCezTOIkjHUsWAK+tEbU4Z4SnNpCyM3fBqsgYdJxjyC/tWVT
- AQ18NRLtPw7tK1rdcwCl0GFQHwSwk5pDpz1NH40e6lU+NcXSeiqkDDRkHlftKPV/dV+lQXiu
- jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
- zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
- XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <A54D6856-52DB-4914-BE50-A86EA76733CD@objecting.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260326083934.fk4wyhe6rgiss34z@desk>
 
-On 24/03/2026 18:19, Josh Law wrote:
-> 
-> 
-> On 24 March 2026 17:10:05 GMT, Jonathan Corbet <corbet@lwn.net> wrote:
->> Josh Law <objecting@objecting.org> writes:
->>
->>> Acked-By: Josh Law <objecting@objecting.org>
->>>
->>> Patches like these are good clarification 
->>>
->>> Keep it up!
->>
->> I'm all for encouraging contributors, but an Acked-by from a random
->> contributor to a typo-fix patch, without having even bothered to trim
->> 100 lines of stuff, is not particularly helpful for maintainers.  What
->> is your purpose here?
->>
->> Thanks,
->>
->> jon
->>
-> 
-> 
-> 
-> Apologies Jon, I just like patches that fix typos, because when maintainers (or others..) have to read the code in let's say, 10 years, they will be able to understand the code easier.
-> 
+On Thu, Mar 26, 2026 at 01:39:34AM -0700, Pawan Gupta wrote:
+> I believe the equivalent for cpu_feature_enabled() in asm is the
+> ALTERNATIVE. Please let me know if I am missing something.
 
-You have been asked like 10 or 20 times already to adjust to mailing
-list style of replies. No improvements.
+Yes, you are.
 
-You did not get the point here about your Ack. You answered why the
-patch is right, but that was not the question. Question was what is the
-purpose of your Ack?
+The point is that you don't want to stick those alternative calls inside some
+magic bhb_loop function but hand them in from the outside, as function
+arguments.
 
+Basically what I did.
 
-Best regards,
-Krzysztof
+Then you were worried about this being C code and it had to be noinstr... So
+that outer function can be rewritten in asm, I think, and still keep it well
+separate.
+
+I'll try to rewrite it once I get a free minute, and see how it looks.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
