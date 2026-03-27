@@ -1,121 +1,224 @@
-Received: from canpmsgout05.his.huawei.com (canpmsgout05.his.huawei.com [113.46.200.220])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CC0C3C6A25;
-	Fri, 27 Mar 2026 07:40:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.220
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9949E3D9045
+	for <linux-doc@vger.kernel.org>; Fri, 27 Mar 2026 08:45:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774597239; cv=none; b=stt2CHHa1cAt5bsfN7njvQ2Z3dmY1onu2nLgKDXheRzYj3sdjsJAxP1e37RXZwAxcn4FGobHHdRFFIJS2cazdrWczrs5oDIOpTFqhs7qP0KdtOOJBxLn0AnV3yqfvw3aW6ou++DiTs30/Rxx6NBpWqnaNjBPHENkqQlK68Swp4E=
+	t=1774601125; cv=none; b=ObS6y7oc8r0IchdkZfgTO+Fgf/njezBGAjw7vCQzm+s3PjFkDqRi6QhuQi74jd3z7qDBltQJ6UCVsQachMXV1uLjzUadcwsgxmxOY36fZDTE8ZkR6MJ/ZK0DfrtDLBtI+Tk8LzC5iopVf1xb2I80URxADup215Tr8WiDtq5ctyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774597239; c=relaxed/simple;
-	bh=/L6AmJg74azI6rrEuQ5w93kRN5/h8LtEgS9vkE6amJM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=r3Pi692WJj8TPD2deF5pT9lY4EH+YOozAkRrqo/FEbRN6Pi+hjZ+CMyvUEQjBscl4ve7tGwy0eun8xXCp3bS3TmED4dLIFHZQtGJY9KTNayA0HR5reobDNFd/maYC8lC7irHgVx5j6wPjmCiUhWqzz39YHQMC+l9zsg05A+olV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=YlJSh+sD; arc=none smtp.client-ip=113.46.200.220
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1774601125; c=relaxed/simple;
+	bh=VT5vONTAqXfveP+7n1Y8mynBHHypWw9Psl6PRU3IHMU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=J1btaDHVoubRAQxIyQR2s5jmuR0SH5hrdNZawNXcF43jifZHEIEBZwxTttxHhDvAKnEKffajO79KmWQvQNqUXWJMcu/IyrJqLgLOIXhshpMZK7kED/WZnMWSlrdBjpDdJvtLT1lQRBDX7UbIVt1N+3KKkoXrvhgkrirBYpoR2ks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=btA7hp/m; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="YlJSh+sD"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=m/TnutpGNNQMeOJaVLkcKsGuB+WWTz76WYqB2NYpJI0=;
-	b=YlJSh+sD9R73qfN4YoYK35Z5sLwd4T4rTya15zQ6nnbzaxs1AM8MqCvdiBt5Khson6g0EaUdS
-	ukF/jBaQHn3UL2erIrEMyYxbMs5l59TdRtynYSuI1mZAASkQUc+dOOZK2Kov2SPPWOnDJ91pSTC
-	+6YM29BkZYu04sndbmuTu8g=
-Received: from mail.maildlp.com (unknown [172.19.162.223])
-	by canpmsgout05.his.huawei.com (SkyGuard) with ESMTPS id 4fhsqY1NG8z12Ljr;
-	Fri, 27 Mar 2026 15:35:05 +0800 (CST)
-Received: from kwepemr100010.china.huawei.com (unknown [7.202.195.125])
-	by mail.maildlp.com (Postfix) with ESMTPS id 695A140561;
-	Fri, 27 Mar 2026 15:40:31 +0800 (CST)
-Received: from [10.67.120.103] (10.67.120.103) by
- kwepemr100010.china.huawei.com (7.202.195.125) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.36; Fri, 27 Mar 2026 15:40:30 +0800
-Message-ID: <6cce203f-89d9-4e9d-8b28-9629eb53b180@huawei.com>
-Date: Fri, 27 Mar 2026 15:40:30 +0800
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="btA7hp/m"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-486ff3a0fc1so18097555e9.2
+        for <linux-doc@vger.kernel.org>; Fri, 27 Mar 2026 01:45:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1774601121; x=1775205921; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=zirj6VF39WLLrUARx3OP13uKy+Totnoyb4r1iN1GWX0=;
+        b=btA7hp/mENuZh3BaxfL54LVKy5O9j5p2O6idUVLXQRBzPEhykrhYdDaCo0jf8uleXb
+         9cQBygFJQ/WyaeJWxtGqQhdihrOhJcPCk8LCEAND+OlXr23p6FF56oxQ7EHBu+6uXdcS
+         cWNLND+L8MD/LyhjTPqaLM9DfAEIWmnLlThgzfm6Pyrk3uTkeUUP1MkApG+GGyyZM/Ky
+         hSXFfKFFbuzdSllbrMJQdzNzpQ+5fxFKFY0pAcqPSfIw5EVQU/oGq7RddHyzuS1KtZp6
+         FiUCa7VGMbIuAhbeR1jX9GXywUWytvCiud1tQJer2FC5e0cITX/64NWPQbh0A3dMaWHn
+         rdHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774601121; x=1775205921;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zirj6VF39WLLrUARx3OP13uKy+Totnoyb4r1iN1GWX0=;
+        b=ZYX4WIQDC8CqqMMqm8wk/f63F12gkVIZnCKWkkaSYQzi2qGnuNPy3s+S/4Wsx3vG8W
+         iirZ120ceakmib4pd1XnztbkArWHzw1eTc9KIb5OXhcSH1+30aVF3b1jT+FNBshVsWKF
+         QAYJY+t7dc8Jwi2ZwMT9WHVzCV3fdB58FHuAHbpuMqQwD0oWuD+3gMMq+CxQQoer+oKv
+         vDfWJvpnHfHwCSJjIetLqpn8YeRSvyfY8wzGNNolCtMoUrGTR1avOgmRCe40C9TvZaD5
+         Jt+WXosybKxuzLoVR1PkvXNXaGHIVBQBvYsouGhRYlbwfOmb0dTe0u4Ssg+1TZrb6gXD
+         8l/w==
+X-Forwarded-Encrypted: i=1; AJvYcCVr3CKOK81a7QpuvWdw7AoVwPjs41inNxsK1gu6I8VVobr5qPqUT074gjIgI9P/OjOiydIho/D5GwQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyBicKCqfPq3/MepGfI3qiqmG1huo/zJkIDhJy4LLnNW5eHi7mc
+	z7OQoChmZkPSduVDq96Bgp5y/wLrE3ZKhDLHe7BFN7R26mLo0PBBTZuok8u6slLAfhI=
+X-Gm-Gg: ATEYQzzTrmxbp32gJQUFxDHGl7wq9r67g4i0O7LCn4s8SZayr0AnQTTwmYXlyb3CNil
+	Pxb9irCsfHhbjs9VRw1PfGkbvEIiZplFuSGCwi5k34O+fvq+rMRn8zW3rXQf9EaZL3vEWAr6cdS
+	vhKp0YBCxJa++v2D/vEe95uNjX9lro5FuVHQZNU/hCNnYXFkkIUfkVDM9+qbsAqFWJXqRSBMhOn
+	puLchEtt1DkloWixjCwLjiOSK2q0Ub5PSdhGw3rNzKlhX8toA/+gAE8QzwAUQzWPrW0YpkP3Djl
+	roLwmaoodpa8Nsv5Muq9wsrYac/8x5y/8/khCtGm1hzUxAGKt3kdzmo/i3ay+v5MuaPqSArdVTq
+	ufW8fUnNP165qy7T/Vuif7dEHqjKnh8fqESis5zJCa7LwqEXukUhyPmj3LCX27uWE3lR5MAcqfN
+	6vsAR1HmLtt9w0n4PYB8xOA/e7mw==
+X-Received: by 2002:a05:600c:4f53:b0:485:3692:e8f7 with SMTP id 5b1f17b1804b1-48727ede47amr23215565e9.25.1774601120896;
+        Fri, 27 Mar 2026 01:45:20 -0700 (PDT)
+Received: from pathway.suse.cz ([176.114.240.130])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4872717c3dcsm11415075e9.28.2026.03.27.01.45.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Mar 2026 01:45:20 -0700 (PDT)
+Date: Fri, 27 Mar 2026 09:45:17 +0100
+From: Petr Mladek <pmladek@suse.com>
+To: rodrigo.alencar@analog.com
+Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH v9 2/9] lib: vsprintf: export simple_strntoull() in a
+ safe prototype
+Message-ID: <acZDneLrIPOmU5ci@pathway.suse.cz>
+References: <20260320-adf41513-iio-driver-v9-0-132f0d076374@analog.com>
+ <20260320-adf41513-iio-driver-v9-2-132f0d076374@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] arm64/kvm: Enable eager hugepage splitting if HDBSS is
- available
-To: Leonardo Bras <leo.bras@arm.com>
-CC: <maz@kernel.org>, <oupton@kernel.org>, <catalin.marinas@arm.com>,
-	<corbet@lwn.net>, <pbonzini@redhat.com>, <will@kernel.org>,
-	<yuzenghui@huawei.com>, <wangzhou1@hisilicon.com>, <liuyonglong@huawei.com>,
-	<Jonathan.Cameron@huawei.com>, <yezhenyu2@huawei.com>, <linuxarm@huawei.com>,
-	<joey.gouly@arm.com>, <kvmarm@lists.linux.dev>, <kvm@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <skhan@linuxfoundation.org>,
-	<suzuki.poulose@arm.com>
-References: <20260225040421.2683931-1-zhengtian10@huawei.com>
- <20260225040421.2683931-5-zhengtian10@huawei.com>
- <acQj5grOdZT8LUGp@devkitleo> <acQna2hLwdr1juTN@devkitleo>
-From: Tian Zheng <zhengtian10@huawei.com>
-In-Reply-To: <acQna2hLwdr1juTN@devkitleo>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
- kwepemr100010.china.huawei.com (7.202.195.125)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260320-adf41513-iio-driver-v9-2-132f0d076374@analog.com>
+
+On Fri 2026-03-20 16:27:27, Rodrigo Alencar via B4 Relay wrote:
+> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> 
+> Expose simple_strntoull(), by addressing its FIXME, i.e. its prototype is
+> slightly changed so that -ERANGE or -EINVAL can be evaluated by the user.
+> Flow of the function is not changed and error value is returned in the
+> end. Unsafe internal wrapper is created to reduce amount of changes.
+> 
+> --- a/include/linux/kstrtox.h
+> +++ b/include/linux/kstrtox.h
+> @@ -148,4 +148,8 @@ extern long simple_strtol(const char *,char **,unsigned int);
+>  extern unsigned long long simple_strtoull(const char *,char **,unsigned int);
+>  extern long long simple_strtoll(const char *,char **,unsigned int);
+>  
+> +extern ssize_t __must_check simple_strntoull(const char *startp, const char **endp,
+> +					     unsigned int base, size_t max_chars,
+> +					     unsigned long long *res);
+
+Sigh, naming is hard. I personally find it a bit confusing that the
+name is too similar to the unsafe API.
+
+IMHO, the semantic of the new API is closer to kstrtoull().
+It just limits the size, so I would call it kstrntoull().
+
+Also I would use int as the return parameter, see below.
 
 
-On 3/26/2026 2:20 AM, Leonardo Bras wrote:
-> FEAT_HDBSS speeds up guest memory dirty tracking by avoiding a page fault
-> and saving the entry in a tracking structure.
->
-> That may be a problem when we have guest memory backed by hugepages or
-> transparent huge pages, as it's not possible to do on-demand hugepage
-> splitting, relying only on eager hugepage splitting.
->
-> So, at stage2 initialization, enable eager hugepage splitting with
-> chunk = PAGE_SIZE if the system supports HDBSS.
->
-> Signed-off-by: Leonardo Bras <leo.bras@arm.com>
-> ---
->   arch/arm64/kvm/mmu.c | 8 ++++++--
->   1 file changed, 6 insertions(+), 2 deletions(-)
->
-> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
-> index 070a01e53fcb..bdfa72b7c073 100644
-> --- a/arch/arm64/kvm/mmu.c
-> +++ b/arch/arm64/kvm/mmu.c
-> @@ -993,22 +993,26 @@ int kvm_init_stage2_mmu(struct kvm *kvm, struct kvm_s2_mmu *mmu, unsigned long t
->   
->   	mmu->last_vcpu_ran = alloc_percpu(typeof(*mmu->last_vcpu_ran));
->   	if (!mmu->last_vcpu_ran) {
->   		err = -ENOMEM;
->   		goto out_destroy_pgtable;
->   	}
->   
->   	for_each_possible_cpu(cpu)
->   		*per_cpu_ptr(mmu->last_vcpu_ran, cpu) = -1;
->   
-> -	 /* The eager page splitting is disabled by default */
-> -	mmu->split_page_chunk_size = KVM_ARM_EAGER_SPLIT_CHUNK_SIZE_DEFAULT;
-> +	 /* The eager page splitting is disabled by default if system has no HDBSS */
-> +	if (system_supports_hacdbs())
-> +		mmu->split_page_chunk_size = PAGE_SIZE;
-> +	else
-> +		mmu->split_page_chunk_size = KVM_ARM_EAGER_SPLIT_CHUNK_SIZE_DEFAULT;
+>  #endif	/* _LINUX_KSTRTOX_H */
+> diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+> index 800b8ac49f53..6fb880f4013b 100644
+> --- a/lib/vsprintf.c
+> +++ b/lib/vsprintf.c
+> @@ -75,25 +75,66 @@ enum hash_pointers_policy {
+>  };
+>  static enum hash_pointers_policy hash_pointers_mode __initdata;
+>  
+> +/**
+> + * simple_strntoull - convert a string to an unsigned long long with a character limit
+> + *
+> + * @startp: The start of the string
+> + * @endp: A pointer to the end of the parsed string will be placed here
+
+I would write:
+
+  * @endp: A pointer to the end of the parsed string (output)
+
+> + * @base: The number base to use
+> + * @max_chars: The maximum number of characters to parse
+> + * @res: Where to write the result of the conversion on success
+
+Nit: I would omit "on success" *res value is set to 0 on failure.
+     Instead, I would write:
+
+  * @res: Result of the conversion (output)
+
+> + *
+> + * Returns amount of processed characters on success, -ERANGE on overflow and
+> + * -EINVAL on parsing error.
+> + */
+>  noinline
+> -static unsigned long long simple_strntoull(const char *startp, char **endp, unsigned int base, size_t max_chars)
+> +ssize_t simple_strntoull(const char *startp, const char **endp,
+> +			 unsigned int base, size_t max_chars,
+> +			 unsigned long long *res)
+
+It might be enoungh to use "int" for the return value. The number
+of proceed characters is pretty limited by definition. And it
+would be similar to vsnprintf(), kstrtoull(), ...
+
+I guess that you wanted to match the "size_t max_chars" parameter.
+It makes some sense as well.
+
+Please, use "int" especially if we agreed to call the new API
+kstrntoull().
+
+>  {
+>  	const char *cp;
+> -	unsigned long long result = 0ULL;
+>  	size_t prefix_chars;
+>  	unsigned int rv;
+> +	ssize_t ret;
+>  
+>  	cp = _parse_integer_fixup_radix(startp, &base);
+>  	prefix_chars = cp - startp;
+>  	if (prefix_chars < max_chars) {
+> -		rv = _parse_integer_limit(cp, base, &result, max_chars - prefix_chars);
+> -		/* FIXME */
+> +		rv = _parse_integer_limit(cp, base, res, max_chars - prefix_chars);
+> +		if (rv & KSTRTOX_OVERFLOW)
+> +			ret = -ERANGE;
+> +		else if (rv == 0)
+> +			ret = -EINVAL;
+> +		else
+> +			ret = rv + prefix_chars;
+>  		cp += (rv & ~KSTRTOX_OVERFLOW);
+>  	} else {
+>  		/* Field too short for prefix + digit, skip over without converting */
+>  		cp = startp + max_chars;
+> +		ret = -EINVAL;
+> +		*res = 0ULL;
+>  	}
+>  
+> +	if (endp)
+> +		*endp = cp;
 > +
->   	mmu->split_page_cache.gfp_zero = __GFP_ZERO;
->   
->   	mmu->pgd_phys = __pa(pgt->pgd);
->   
->   	if (kvm_is_nested_s2_mmu(kvm, mmu))
->   		kvm_init_nested_s2_mmu(mmu);
->   
->   	return 0;
->   
->   out_destroy_pgtable:
+> +	return ret;
+> +}
+> +EXPORT_SYMBOL(simple_strntoull);
+> +
+> +/* unsafe_strntoull ignores simple_strntoull() return value and endp const qualifier */
+> +inline
+> +static unsigned long long unsafe_strntoull(const char *startp, char **endp,
+> +					   unsigned int base, size_t max_chars)
+> +{
+> +	unsigned long long result;
+> +	const char *cp;
+> +
+> +#pragma GCC diagnostic push
+> +#pragma GCC diagnostic ignored "-Wunused-result"
+> +	simple_strntoull(startp, &cp, base, max_chars, &result);
+> +#pragma GCC diagnostic pop
+> +
+>  	if (endp)
+>  		*endp = (char *)cp;
 
+IMHO, we do not need local "cp". We could simply pass the endp
+to the new simple_strntoull. Or do I miss anything?
 
-Thanks again for sending this patch. I'll integrate it into the next 
-version and run some tests.
-
-
+Best Regards,
+Petr
