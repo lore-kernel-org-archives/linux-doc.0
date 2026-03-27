@@ -1,142 +1,213 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEB2E3E716B
-	for <linux-doc@vger.kernel.org>; Fri, 27 Mar 2026 13:28:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69AA42F6184
+	for <linux-doc@vger.kernel.org>; Fri, 27 Mar 2026 13:30:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774618088; cv=none; b=Ybl0XhuoZO4LNgbQkrp1QNNRwgPyGqNLFWIl0RFkUqg9bteXBZPR4Hv0KbQBP7cv8/lLwuddlPJc/beMvZLcZw+lOmJ+iliwPOTL9Rk8uqr0OQYzMifR8N7XdFCOEUvppm47fQX/uke29TOHAzmsaAvOXQXyBDS6IImr+El/1gU=
+	t=1774618255; cv=none; b=T9mcYdQWHFhbGgB5sbiBl89femQKUjgq/Kh792s7Sl1YciJEDGodMiG5brijzr7x+4TbywsfczTq16DK5k8TnoIr/u9SZrk6uDM7OrylFkN4g1srkyp7k5zJAlsgwsHlz7GoenNi5LyeljgHHQlMWFcXmcSSEZtRpfE0atJnM+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774618088; c=relaxed/simple;
-	bh=++hkBnIAEvloFIQ575XrWS1bjaaVT6AJ+ILFSO/cg2M=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dJPHCl03rVGdWuHala9lr0GI6j8KHNg/0X2EBxnn/XMhUj8YqBwpHCvdlc7W+V3t9Zl+qbUQfhoO7wMoUOG5dXSwMeHmvwZKofBZg3p9snUzA62vgd88MsQ2LQxeijxIspz6OmLIx86AJA4EAkocPnGEqmc3tJVPIDEBjohzTTg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Is/EO2DQ; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1774618255; c=relaxed/simple;
+	bh=sghX4PphvCW7X0zgsIy5ejmBRZP/ntzeJagmmu1/j2g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qg33JEaRNo9wy4qOnVp00IgX154E0pTxQLkj+oxkrWpEMWPq4JwFgkOS/jcwUAFC3Z+1j/aiD3j7HVqyzVoSa4rx9p5d89knEmQOq+IIxPbNWciJOXXwI7+EHgscADT3dWQIoS/wlttmM0YkNNZuFb25ykzn0/7m2J7ALBgHmTs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PCtppmWE; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=m1zuoVUQ; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Is/EO2DQ"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-48702d51cd0so24324825e9.2
-        for <linux-doc@vger.kernel.org>; Fri, 27 Mar 2026 06:28:06 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PCtppmWE";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="m1zuoVUQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1774618253;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wp4gmpeShrxSfN4R+47KecY7fqn2WEuVtUlQVVvdg1Y=;
+	b=PCtppmWEkGSLOs5DfJdrnNU3FRPSIlCYbwJuFuT7XJ+obNiqcpUkxjC5FXqTteQFUJZ3Od
+	ZWzQv//m+namoVAoalAnsgqxeWwOu16l1JpWDeLDXubixMPox/X/k9nH3QUz8jIOKnqP4E
+	pAbkZQWXIxgHIX/aprxnmRiHY3Dlevw=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-458-cHv8MGZWNWyLJwJ5yctDQQ-1; Fri, 27 Mar 2026 09:30:51 -0400
+X-MC-Unique: cHv8MGZWNWyLJwJ5yctDQQ-1
+X-Mimecast-MFC-AGG-ID: cHv8MGZWNWyLJwJ5yctDQQ_1774618251
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-8cfc5294894so673610685a.1
+        for <linux-doc@vger.kernel.org>; Fri, 27 Mar 2026 06:30:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774618085; x=1775222885; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
+        d=redhat.com; s=google; t=1774618251; x=1775223051; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
          :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8sojWPfL6Z8AVWMTcumjRgckMPGB7q4CLXGUVSk+dCo=;
-        b=Is/EO2DQQ//4BrvGojf1/76xa0kisca2CRPn2ftxmwgsmsM3Q9h60V3+pZvobea+cF
-         DBU30isrXdsznWBv7koPYVcT6s+d6807190EpC5idJ3gR6CX0hvP+ZPylsSwJnWd0hDa
-         8qGkH49b6iOAAkwzbiiqOn145pwSYSSH5jHRhdcNe4BlGHbRL+GC7Yr2370sD2LB7f53
-         4uflbX9p0dpCHU2saK3GLmg3Vj6hahyLC3lKmu52sdMmpEpMEjE8Z06ihDiiLwjV1NrU
-         tE35bqlKWMmDx/BVGHWoEm5Krk4b+TMPI0RbD+/e4ERuhnslvErCNeJB+gKppFfDmyK/
-         8f2w==
+        bh=wp4gmpeShrxSfN4R+47KecY7fqn2WEuVtUlQVVvdg1Y=;
+        b=m1zuoVUQTQEbtgHXErYPLubyfOS7lDcl9FCpxOHSvqpUPAZmRZZPUB50j/E3/FVVwh
+         wBYIqlKnIhwm5vEluJw3OrWmRgjcTpMEA8s1NfAj5McAoePs0y8GsR3bhq9PYm2WhRR+
+         gFG8jq0qzGbiC6BTxajqBuLDsBBg3Og9Py38ZbvwidZdvdFWV9UJNTYrHqURrh/tnqTq
+         gj2OThnlQ3AVBVsUsSMQRE9WdAxcTNlRHl48i8socNitTq4HPP/RL7czoi3PJns9EGJl
+         hfDP00ftfi2/wFbnPM+7Whmn+Tcs4u5qsBMmahTlKvFg9DQao0JW/evRQQC9zjllTPn+
+         cCog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774618085; x=1775222885;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
+        d=1e100.net; s=20251104; t=1774618251; x=1775223051;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
          :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=8sojWPfL6Z8AVWMTcumjRgckMPGB7q4CLXGUVSk+dCo=;
-        b=lk3a2a707/J9S/5lIwLko6/RLk0b5x2JPjOdC6drMcwEvBIzniJpBVDOrFhJV/YGtc
-         sglRHfkqKPwZb/IUAxiVXI2FgHSPbDhM0VckDIbROjiQMgsN0UJyG12wXifQ4wR8caOj
-         Z0IFjat2cTHjwi0cK7nnwnb4GDMioM0JoQ5LK5FOI6oHP1vVvzxQXJzWQcdV+QgvEt8J
-         AJohq4zkgkTeISS6Z6N5Au4jWUUrksETMMiJRES39YkIr/x65gliGvYbX0vySgycwnA5
-         o/2/b3snejN+usk52/s+ZZ2yll+V0yTaQ6U2ihb+fr7B9Zr9p4Xg9T9R3f6r2NPHM28B
-         T6eA==
-X-Forwarded-Encrypted: i=1; AJvYcCXH+2q+i1WL9r+vBU0oKnzwRJB2Z4rszbaA4fAArZK6uBh2RE6L2AeENgSmgkpNq1IsSdVM+OJyfxI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxTO4zP5dyGA+K4IZZWeq4HEL5paX503EXu0kI149xdDPC26uvA
-	Tfl2+LwYdP2C/1eYRhDBD7L16AUC635EAMpeeBm02gWGyNCtaVww+nuI
-X-Gm-Gg: ATEYQzzSPpuVk1CbZiPtM2hG+u8CQ0akAu+L5s2vrCXI+UsR+0xg9OdE7bZO9zYT3R8
-	ZORJfZNZdQo6JX8n/uqY5H1CvMN2aCFEyLxZXom5fYz0xLO0afCj62ESA5Jri/NIgJhMjn48Mvr
-	gGfIyhp7CEbfweMMMi+6dmTfJadhbI56yDSujEJEBhCgepFV6VPz6R3NL61QkOQniTLDseWOvKH
-	ubOuSLjVT9v0MytdO9XoOVLijJXFHWcH8tuD29cw+yzP2gEpCrqoV09XmWufcE9WvCRI4T9nozT
-	3vGkNrNUULTluLkiChy2+MjMNpUJLP+dv1VOSM1Xm9DL0HASLoMKyXI6VF2kBkFVvZyU5QRkI6P
-	Yf2hGylLNnMZhhUFriD6lQgPJmW2tch/8w6acCRveE74vA3niIJS1S1c2uxSCeRi8lPYga+Z2Ox
-	YNIbnDqGPximnjEzNQ3O3Pt6ZVsqe3uv+jPi/iIU8LKHqJ3nl7Kb3ioCJgEhHjltpB
-X-Received: by 2002:a05:600c:4f53:b0:485:481c:e7bb with SMTP id 5b1f17b1804b1-48727ee9b89mr42168595e9.20.1774618084923;
-        Fri, 27 Mar 2026 06:28:04 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48722d2366dsm87955895e9.10.2026.03.27.06.28.04
+        bh=wp4gmpeShrxSfN4R+47KecY7fqn2WEuVtUlQVVvdg1Y=;
+        b=KuPOIj7+PHFk3VA6DvUEg8/qfABRvw0VbHURCqwg2ASNXJdwHQy48oA9tWigcHBY9V
+         HDsRilV9We7LHPxh4cyHngL9K2YQlqfLAHAeISSjMlCFuq410kXWF2fJtP3aw9uKvku9
+         YT5+5oJUiPcmniHDwmFrITZTM3vOadV9ce52YxsoNipL4WJGaVlNNPlSALRnxGuEbpu2
+         KaNXSYqHFMT/vvyGPOPmnpRO0hijpmw+9PuWk9DaT3ED5DpbNhEelSGX2nXqSibQ3j6Z
+         qGuAG2EsitbQEqsZOJgwsGhbRT/l/shSOXCh3hEJJUdxoo7+sNUrvsfETHcEKfMf44do
+         xoZA==
+X-Forwarded-Encrypted: i=1; AJvYcCVTSxb5WA519wooHUfifJFxY45OymhktAYGvawHIKxqYc6rTHpbUtYAm1PgXk+Nks4paqKZPgjyGd0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzTsOXoneuTWvh9rUxTudpx2LIv0/NX7CTogezeb8Xdwlz/Jzh8
+	uawbPD3JQtM54WWkJ+IPZI/LYwVoGbjm6e+fx5Hs7T1ujFkIt/Ok5a7tk7IWVjJN1CgTMAkBitQ
+	zkJ6MaL/MwquXrSIrQbPqeIW9F9xGLtggEdWGwwRYqcH/RaDZ3Xx1F8CMSR6J+A==
+X-Gm-Gg: ATEYQzyOAXp+fSKCLXolGntChATMswcs9fLxi9UFJieTkpi0xyNNAuNiDsI1roeESyD
+	B6R16BM9RPIgNKtChG6IM/e0Nch4LwfM76MBok4ThZbpQxZQR0GCQOqqmdHuthSdjyIO+Ha7i2e
+	w6DIQ7xv3D+95P1S3ejkTQ0h/jL6mupR1qqIJYMazy45LoR4BePHhymKc3jCQdrhP3aQbftXeVp
+	A1HBwWQ0NB0mw8bkVvVxWT620Kft4hUzFGK/SpSZ+5fQF8vjzVNP2OZFpJcaBin2BiFl0w9lay5
+	yZmIe1z3+gg1wJGSFNpPgpTj4aganAGwWI6LpEvTLs29ZAM3Cy2EkiX8RtTWI3R8bGUxI1EF4E1
+	lac9F1EqSkqXM0y7sp2fJnZQFE0eyAhTZy3/bJRGZD9RyLonBK0aUqUZt
+X-Received: by 2002:a05:620a:468c:b0:8cd:a76d:6305 with SMTP id af79cd13be357-8d01c7bd635mr314485185a.49.1774618244658;
+        Fri, 27 Mar 2026 06:30:44 -0700 (PDT)
+X-Received: by 2002:a05:620a:468c:b0:8cd:a76d:6305 with SMTP id af79cd13be357-8d01c7bd635mr314431985a.49.1774618239539;
+        Fri, 27 Mar 2026 06:30:39 -0700 (PDT)
+Received: from redhat.com (c-73-183-52-120.hsd1.pa.comcast.net. [73.183.52.120])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8d00e4cf112sm500417285a.23.2026.03.27.06.30.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Mar 2026 06:28:04 -0700 (PDT)
-Date: Fri, 27 Mar 2026 13:28:03 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Petr Mladek <pmladek@suse.com>, rodrigo.alencar@analog.com,
- linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org, Jonathan Cameron
- <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, Andy Shevchenko
- <andy@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Andrew Morton
- <akpm@linux-foundation.org>, Steven Rostedt <rostedt@goodmis.org>, Rasmus
- Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky
- <senozhatsky@chromium.org>, Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v9 2/9] lib: vsprintf: export simple_strntoull() in a
- safe prototype
-Message-ID: <20260327132803.1fe51253@pumpkin>
-In-Reply-To: <acZitENbWQF7cmDA@ashevche-desk.local>
-References: <20260320-adf41513-iio-driver-v9-0-132f0d076374@analog.com>
-	<20260320-adf41513-iio-driver-v9-2-132f0d076374@analog.com>
-	<acZDneLrIPOmU5ci@pathway.suse.cz>
-	<acZLHAT5qJyjKTsp@ashevche-desk.local>
-	<20260327104440.079343c9@pumpkin>
-	<acZitENbWQF7cmDA@ashevche-desk.local>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+        Fri, 27 Mar 2026 06:30:38 -0700 (PDT)
+Date: Fri, 27 Mar 2026 09:30:37 -0400
+From: Brian Masney <bmasney@redhat.com>
+To: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] clk: move core flags into a new enum for kernel
+ docs
+Message-ID: <acaGfUueAm7lb_2x@redhat.com>
+References: <20260325-clk-docs-v2-0-bcf660e1ceb5@redhat.com>
+ <20260325-clk-docs-v2-1-bcf660e1ceb5@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260325-clk-docs-v2-1-bcf660e1ceb5@redhat.com>
+User-Agent: Mutt/2.3.0 (2026-01-25)
 
-On Fri, 27 Mar 2026 12:57:56 +0200
-Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+Hi Stephen,
 
-> On Fri, Mar 27, 2026 at 10:44:40AM +0000, David Laight wrote:
-,,,
-> > > but also wants to have the fraction part be limited in some cases to =
-s32
-> > > or so:
-> > >=20
-> > > 	struct float
-> > > 	{
-> > > 		s64 integer;
-> > > 		s32 fraction; // precision may be lost if input is longer
-> > > 	} =20
-> >=20
-> > Are those 'fraction' counts of (say) 10^-6 (like times in seconds+usecs)
-> > or true binary values where the value could be treated as a u64 (or u12=
-8)
-> > for addition and subtraction. =20
->=20
-> It depends. IIO has scale on top of that, so the fraction part can be 10=
-=E2=81=BB=C2=B3,
-> 10=E2=81=BB=E2=81=B6, 10=E2=81=BB=E2=81=B9. I don't remember by heart if =
-the ABI requires all digits to be
-> placed, I think we don't require that.
+On Wed, Mar 25, 2026 at 07:52:10PM -0400, Brian Masney wrote:
+> Let's move all of the existing clk flags into a new enum so that all of
+> the flags can be easily referenced in the kernel documentation. Note
+> that I went with name clk_core_flags for the enum since the name
+> clk_flags is already in use in clk.c for the debugfs interface.
+> 
+> Note: The comment about "Please update clk_flags..." is included as a
+> separate comment so it doesn't show up in the generated documents.
+> 
+> Signed-off-by: Brian Masney <bmasney@redhat.com>
+> ---
+>  include/linux/clk-provider.h | 55 +++++++++++++++++++++++++++-----------------
+>  1 file changed, 34 insertions(+), 21 deletions(-)
+> 
+> diff --git a/include/linux/clk-provider.h b/include/linux/clk-provider.h
+> index 630705a47129453c241f1b1755f2c2f2a7ed8f77..cb167c17c4f79cf438a26bb113b4968d0f223468 100644
+> --- a/include/linux/clk-provider.h
+> +++ b/include/linux/clk-provider.h
+> @@ -9,29 +9,42 @@
+>  #include <linux/of.h>
+>  #include <linux/of_clk.h>
+>  
+> -/*
+> - * flags used across common struct clk.  these flags should only affect the
+> - * top-level framework.  custom flags for dealing with hardware specifics
+> - * belong in struct clk_foo
+> +/* Please update clk_flags[] in drivers/clk/clk.c when making changes here! */
+> +/**
+> + * enum clk_core_flags - framework-level clock flags
+>   *
+> - * Please update clk_flags[] in drivers/clk/clk.c when making changes here!
+> + * These flags should only affect the top-level framework. Custom flags for
+> + * dealing with hardware specifics belong in struct clk_foo.
+> + *
+> + * @CLK_SET_RATE_GATE: must be gated across rate change
+> + * @CLK_SET_PARENT_GATE: must be gated across re-parent
+> + * @CLK_SET_RATE_PARENT: propagate rate change up one level
+> + * @CLK_IGNORE_UNUSED: do not gate even if unused
+> + * @CLK_GET_RATE_NOCACHE: do not use the cached clk rate
+> + * @CLK_SET_RATE_NO_REPARENT: don't re-parent on rate change
+> + * @CLK_GET_ACCURACY_NOCACHE: do not use the cached clk accuracy
+> + * @CLK_RECALC_NEW_RATES: recalc rates after notifications
+> + * @CLK_SET_RATE_UNGATE: clock needs to run to set rate
+> + * @CLK_IS_CRITICAL: do not gate, ever
+> + * @CLK_OPS_PARENT_ENABLE: parents need enable during gate/ungate, set rate and re-parent
+> + * @CLK_DUTY_CYCLE_PARENT: duty cycle call may be forwarded to the parent clock
+>   */
+> -#define CLK_SET_RATE_GATE	BIT(0) /* must be gated across rate change */
+> -#define CLK_SET_PARENT_GATE	BIT(1) /* must be gated across re-parent */
+> -#define CLK_SET_RATE_PARENT	BIT(2) /* propagate rate change up one level */
+> -#define CLK_IGNORE_UNUSED	BIT(3) /* do not gate even if unused */
+> -				/* unused */
+> -				/* unused */
+> -#define CLK_GET_RATE_NOCACHE	BIT(6) /* do not use the cached clk rate */
+> -#define CLK_SET_RATE_NO_REPARENT BIT(7) /* don't re-parent on rate change */
+> -#define CLK_GET_ACCURACY_NOCACHE BIT(8) /* do not use the cached clk accuracy */
+> -#define CLK_RECALC_NEW_RATES	BIT(9) /* recalc rates after notifications */
+> -#define CLK_SET_RATE_UNGATE	BIT(10) /* clock needs to run to set rate */
+> -#define CLK_IS_CRITICAL		BIT(11) /* do not gate, ever */
+> -/* parents need enable during gate/ungate, set rate and re-parent */
+> -#define CLK_OPS_PARENT_ENABLE	BIT(12)
+> -/* duty cycle call may be forwarded to the parent clock */
+> -#define CLK_DUTY_CYCLE_PARENT	BIT(13)
+> +enum clk_core_flags {
+> +	CLK_SET_RATE_GATE		= BIT(0),
+> +	CLK_SET_PARENT_GATE		= BIT(1),
+> +	CLK_SET_RATE_PARENT		= BIT(2),
+> +	CLK_IGNORE_UNUSED		= BIT(3),
+> +	/* unused */
+> +	/* unused */
+> +	CLK_GET_RATE_NOCACHE		= BIT(6),
+> +	CLK_SET_RATE_NO_REPARENT	= BIT(7),
+> +	CLK_GET_ACCURACY_NOCACHE	= BIT(8),
+> +	CLK_RECALC_NEW_RATES		= BIT(9),
+> +	CLK_SET_RATE_UNGATE		= BIT(10),
+> +	CLK_IS_CRITICAL			= BIT(11),
+> +	CLK_OPS_PARENT_ENABLE		= BIT(12),
+> +	CLK_DUTY_CYCLE_PARENT		= BIT(13),
+> +};
 
-Seems like you want this function (untested):
-u64 strtofrac(const char *buf, const char **end, unsigned int len)
-{
-	u64 val =3D 0;
-	unsigned int digit;
+I just checked Sashiko [1] for this series and it has this comment:
 
-	while (len--) {
-		digit =3D *buf - '0';
-		if (digit <=3D 9) {
-			buf++;
-			val +=3D digit;
-		}
-		val *=3D 10;
-	}
-	while (*buf - '0' <=3D 9u)
-		buf++;
-	*end =3D buf;
-	return val;
-}
+    Could converting these unsigned long bitmasks to an enum create a silent
+    type-safety trap if flags ever reach BIT(31)?
+    
+    The flags fields in the clock framework are explicitly designed to be 64-bit
+    on 64-bit architectures (unsigned long). The BIT() macro evaluates to an
+    unsigned long. When defined as macros, operations like clearing flags
+    produce a 64-bit inverted mask, perfectly preserving the upper 32 bits.
+    
+    By moving these flags into an enum, their types are implicitly downgraded to
+    int, since the current maximum flag BIT(13) fits in a 32-bit signed integer.
+    If the flags ever grow to include BIT(31), the enumerator value will overflow
+    a signed 32-bit int, causing the compiler to type it as an unsigned int.
+    
+    Applying a bitwise NOT to this unsigned int will produce an unsigned int.
+    When this is bitwise ANDed with the 64-bit unsigned long flags variable,
+    the unsigned mask will zero-extend to 64 bits, silently clearing all upper
+    32 bits (bits 32-63) of the flags field.
+    
+    Would it be safer to keep them as #define macros and use a DOC: block
+    to properly document the flags using kernel-doc without breaking type safety?
 
-	David
+It's up to you how we should proceed with this.
+
+[1] https://sashiko.dev/#/patchset/20260325-clk-docs-v2-0-bcf660e1ceb5%40redhat.com
+
+Brian
 
