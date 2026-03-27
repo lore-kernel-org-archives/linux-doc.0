@@ -1,35 +1,54 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out30-113.freemail.mail.aliyun.com (out30-113.freemail.mail.aliyun.com [115.124.30.113])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA053263C8C;
-	Fri, 27 Mar 2026 01:40:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8BD3292936;
+	Fri, 27 Mar 2026 01:55:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.113
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774575618; cv=none; b=cATu2+ACAUtlh9ylGrrHb6ru6s5EGnr1EgPh4axWTVykV//Cr0YSvz4oEiauyMfDuUhrOcBSSUq0YgnfRkZkqWNKM7JuIp0MrhCJUsRjaOCD+hVuT7Bor1lUxC0d2+1no2IyXl5Icil18nZrBiIiCPRKahI1VTLB0+ecJYRAHZY=
+	t=1774576525; cv=none; b=drZS/Gas2NGzYrEjOoBLWFlkvXZJoTTwwhE0zg/nMTIUAmqxtLk0+pP4Thv31omr7bvf+xS5IbXQl6UIAjjsqvUNU1QAB3taggFlDwCNavcOC5UFNJxqRhUASU6ebhibtxbhw1E0re2GFd2QlHGMZqQItc2tzwr70ovAbUI+YvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774575618; c=relaxed/simple;
-	bh=4FOTs+6l+UT/nKawd4uwnXzAXxh8/VcJzsblUpeTwNc=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=Wm6nj3WjSbSBthVHp4pvf8S0GNqYKF0JNpHJgCat4iorY7Svg2Zx21aDW6gW4Ri+B0LY1vzgMgn9PVSFu+joGp4qV05wy8HsDtcN49cg25AtXyM0VaLwpV9mmDL46fsnbT20u5tqGiNUWz5IGQYXAxqIy1DgmjtY72mk/9ct71k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b/nVBcdK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774576525; c=relaxed/simple;
+	bh=gmWHcK0itBJflslaMey9sIx8Sa4CGA6KauodlmEmpyU=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=uzTRtwTXirxZ1i1zLOpymODM1FlbRu5cDh5NBp0aXPPHHPf3ldTGWL9xUt4aNzKVG0lCXdIaNLgx/zLsVEl+yFN97t52KHZ6mwS2ao3O8TAMb8yxXJXUjiCiCotwevbmBKDJFYIbzXqWd5MMgnC20L5MRfaLinUzGwCRZzN2rZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=jWrjE0pW; arc=none smtp.client-ip=115.124.30.113
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b/nVBcdK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B013BC116C6;
-	Fri, 27 Mar 2026 01:40:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774575618;
-	bh=4FOTs+6l+UT/nKawd4uwnXzAXxh8/VcJzsblUpeTwNc=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=b/nVBcdKaZ5Tmmalf/4K/52Zx9zmn3r5umaRB+pEIZLYflqgdlggvXJdNQhlv3tiA
-	 UeCP7QgeKr6obrHILK5s3yPQkNSvLWmS/oT0856ukyCEHDma8MgK74KOiuNlPYv4tp
-	 yzpeS/tjViU5ANPOkdLYf4fhCyB4h7LOVwZPAsgDaqZ+4bIQPnG++vhkgYpJAWQ4sA
-	 NQnJrU0RP211pR9nxnS9vkorfbOgWixdemTn/pZcS0tSftwR2VQ9TwKGmZmL/brFdk
-	 kpXmW6R6SBT/fuFGji/7hKSKaY+NhkiwBrnhQmkpnpscmwqmhXhOLp6S30XRwFebia
-	 xP5eNLzIRwQSQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 3FD013809A07;
-	Fri, 27 Mar 2026 01:40:06 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="jWrjE0pW"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1774576513; h=From:To:Subject:Date:Message-Id:MIME-Version;
+	bh=2uLbyltTDfwJ1fVF2fuBWPNnUybJwtx0WCtLyELmNt4=;
+	b=jWrjE0pWJ4cIlazPFmbgrtcGGVMJIL9vWDugyBefcv4MW0QO3LUL1cBQ19e1Mz+tnwfGdarNB98uB3ox7xUlAN4RIj4g+FmqN6f5YFoSZVbibbFsKG6dad+Zup7zpNc3JymBr80CfIgEk9CimWX4SozGtWC2MHyFBwK8/5mWUt8=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R221e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037033178;MF=fangyu.yu@linux.alibaba.com;NM=1;PH=DS;RN=17;SR=0;TI=SMTPD_---0X.mTcjL_1774576510;
+Received: from localhost.localdomain(mailfrom:fangyu.yu@linux.alibaba.com fp:SMTPD_---0X.mTcjL_1774576510 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Fri, 27 Mar 2026 09:55:11 +0800
+From: fangyu.yu@linux.alibaba.com
+To: anup@brainfault.org
+Cc: alex@ghiti.fr,
+	andrew.jones@oss.qualcomm.com,
+	aou@eecs.berkeley.edu,
+	atish.patra@linux.dev,
+	corbet@lwn.net,
+	fangyu.yu@linux.alibaba.com,
+	guoren@kernel.org,
+	kvm-riscv@lists.infradead.org,
+	kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	palmer@dabbelt.com,
+	pbonzini@redhat.com,
+	pjw@kernel.org,
+	radim.krcmar@oss.qualcomm.com
+Subject: Re: Re: [PATCH v5 1/3] RISC-V: KVM: Support runtime configuration for per-VM's HGATP mode 
+Date: Fri, 27 Mar 2026 09:55:06 +0800
+Message-Id: <20260327015506.79079-1-fangyu.yu@linux.alibaba.com>
+X-Mailer: git-send-email 2.39.3 (Apple Git-146)
+In-Reply-To: <CAAhSdy059XmTckHrX8xjk44pR=1BkaUuPQ-Cf+4BRTBoigBZ+g@mail.gmail.com>
+References: <CAAhSdy059XmTckHrX8xjk44pR=1BkaUuPQ-Cf+4BRTBoigBZ+g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -37,42 +56,34 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v2] docs/mlx5: Fix typo subfuction
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <177457560504.3253381.2020688164175380475.git-patchwork-notify@kernel.org>
-Date: Fri, 27 Mar 2026 01:40:05 +0000
-References: <20260324053416.70166-1-ryohei.kinugawa@gmail.com>
-In-Reply-To: <20260324053416.70166-1-ryohei.kinugawa@gmail.com>
-To: Ryohei Kinugawa <ryohei.kinugawa@gmail.com>
-Cc: rrameshbabu@nvidia.com, saeedm@nvidia.com, leon@kernel.org,
- tariqt@nvidia.com, mbloch@nvidia.com, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
- corbet@lwn.net, skhan@linuxfoundation.org, netdev@vger.kernel.org,
- linux-rdma@vger.kernel.org, linux-doc@vger.kernel.org, joe@dama.to
 
-Hello:
+>> diff --git a/arch/riscv/kvm/vmid.c b/arch/riscv/kvm/vmid.c
+>> index cf34d448289d..c15bdb1dd8be 100644
+>> --- a/arch/riscv/kvm/vmid.c
+>> +++ b/arch/riscv/kvm/vmid.c
+>> @@ -26,7 +26,8 @@ static DEFINE_SPINLOCK(vmid_lock);
+>>  void __init kvm_riscv_gstage_vmid_detect(void)
+>>  {
+>>         /* Figure-out number of VMID bits in HW */
+>> -       csr_write(CSR_HGATP, (kvm_riscv_gstage_mode << HGATP_MODE_SHIFT) | HGATP_VMID);
+>> +       csr_write(CSR_HGATP, (kvm_riscv_gstage_mode(kvm_riscv_gstage_max_pgd_levels) <<
+>> +                             HGATP_MODE_SHIFT) | HGATP_VMID);
+>>         vmid_bits = csr_read(CSR_HGATP);
+>>         vmid_bits = (vmid_bits & HGATP_VMID) >> HGATP_VMID_SHIFT;
+>>         vmid_bits = fls_long(vmid_bits);
+>> --
+>> 2.50.1
+>>
+>>
+>
+>Regards,
+>Anup
 
-This patch was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+Hi Anup:
 
-On Tue, 24 Mar 2026 14:34:10 +0900 you wrote:
-> Fix two typos:
->  - 'Subfunctons' -> 'Subfunctions'
->  - 'subfuction' -> 'subfunction'
-> 
-> Reviewed-by: Joe Damato <joe@dama.to>
-> Signed-off-by: Ryohei Kinugawa <ryohei.kinugawa@gmail.com>
-> 
-> [...]
+Thanks for the review.
 
-Here is the summary with links:
-  - [net-next,v2] docs/mlx5: Fix typo subfuction
-    https://git.kernel.org/netdev/net-next/c/ed8edcd47529
+I'll incorporate all of the above changes and post an updated version (v6) shortly.
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Thanks,
+Fangyu
