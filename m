@@ -1,165 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87F5F2ED154
-	for <linux-doc@vger.kernel.org>; Fri, 27 Mar 2026 14:05:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF1233A5E87;
+	Fri, 27 Mar 2026 14:07:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774620301; cv=none; b=uX7OMB0c4l8DmmbfWZqKVy+J5UMlh1t5o5h/1BAZbtzAY/m8bMGo8RiSPBBuiAj+pw6XEGOLgYcgqei2D3NyjlvKOnMUzbO6FfCwET+W8hBEepL/1e8St0+okTgGWzYx3yav6BoEIXbJHqTokpuw2THsUIR3dXhusjOVjZkHE9w=
+	t=1774620440; cv=none; b=YpFSvT2OIWg3zntm+de3/XBcaZOdrznYho6TUtT1XD8uwunDYfBI5HqMeS7WotdsHRs/YLFsGHACIM57gBMvMrExJ5pX2c950l8FFfx11pSWtwWokLoB66kXGVrxwyEYYVIVmbEBUcbRH+DvJvSKbkEoXFSlkAqhrVZfa3a/ThU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774620301; c=relaxed/simple;
-	bh=lRWr4C2pnQh1xgkdJ5Cr7CoacJPx+KOgD4rFq7MBhss=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=caSx84gpAFPfwYxVkQ1cVmdZuCY2dClYYzXb63aU7EA2MH0s52MQsf8UJ03rMcZY0HqgZCy05si3JivPkaenbUddg3bAFqwKgt6OkBoc1v36sMavPIUG751Zr0NCvc3DL/i1hMMKTIKMAXVrOcAlIciYZ34CwIEwHtcgNfhiEus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lUTgXvOz; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lUTgXvOz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 503AAC19423;
-	Fri, 27 Mar 2026 14:05:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774620301;
-	bh=lRWr4C2pnQh1xgkdJ5Cr7CoacJPx+KOgD4rFq7MBhss=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=lUTgXvOzyWu9j5Au1FhkLU7l+8Lm90ipHUBk8XCfj+X/zSCgeHFf+tkMBVPUoudsJ
-	 z9vxbjwvUA15B2d6iKwxj8MYGBwPaQYc289jH/f5rQ/F0hAi2MWnUEGDorCeizWcRs
-	 iOUgdw+RxL+Xo1fyQrqzx+pHk19d6MK+OlWoLbyD1JciwLJr5ElhBrfvsVtxRTUvYm
-	 VM8woUzJhkpVBgSYSH8SR0rOWcf00zAp63gtAFJZeRdRX2V2eXfumbit0Re88V0azw
-	 KZRhftFEQomaPt8H9kA1bG0uhqw49so+GaC2DTFfIPlxSQc7yAnG6usJ2bKd6BSz2L
-	 Pyc+Co7RFtPOQ==
-Received: from localhost ([::1])
-	by mail.kernel.org with esmtp (Exim 4.99.1)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1w67o3-00000002hbs-0lm1;
-	Fri, 27 Mar 2026 15:04:59 +0100
-Date: Fri, 27 Mar 2026 15:04:58 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Daniel Pereira <danielmaraboo@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/5] docs: pt_BR: start translation of the PGP
- maintainer guide
-Message-ID: <20260327150458.4ae9c695@localhost>
-In-Reply-To: <20260327125538.581064-3-danielmaraboo@gmail.com>
-References: <20260327125538.581064-1-danielmaraboo@gmail.com>
-	<20260327125538.581064-3-danielmaraboo@gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1774620440; c=relaxed/simple;
+	bh=AggJWbzXgAJW8nJRhQGxWDobjA7ATMqWYFMZpxSl+TA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EeOLm3ztkI/xhaP/T4Cfe5txkqUICeO7v2MKXD69tVdjuxA+22RD/tD+5rZjuNt+LXW77uw7eXTPnB5V02Lg/Q/Voh/lT42Mxq1qIXR3cHXd/M7hhqAYouY0rbOHx+UNwH8QZCBHuBuVkk9E0ZqZeudbce5Vb7J18/cU7OvqVHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
+Received: from omf06.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay01.hostedemail.com (Postfix) with ESMTP id 1FF49E0F30;
+	Fri, 27 Mar 2026 14:07:08 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf06.hostedemail.com (Postfix) with ESMTPA id D41B82000F;
+	Fri, 27 Mar 2026 14:06:55 +0000 (UTC)
+Date: Fri, 27 Mar 2026 09:06:53 -0500
+From: John Groves <John@groves.net>
+To: Dave Jiang <dave.jiang@intel.com>
+Cc: John Groves <john@jagalactic.com>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
+	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
+	Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, 
+	Josef Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
+	Chen Linxuan <chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH V9 5/8] dax: Add dax_operations for use by fs-dax on
+ fsdev dax
+Message-ID: <acaOzmCYOZHr_Ia1@groves.net>
+References: <0100019d1d463523-617e8165-a084-4d91-aa5e-13778264d5d4-000000@email.amazonses.com>
+ <20260324003851.5045-1-john@jagalactic.com>
+ <0100019d1d47e459-48f2a4e6-edab-4002-bde3-2ba642deccaf-000000@email.amazonses.com>
+ <593b2b5c-779b-4e29-8b03-12ce743b10b4@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <593b2b5c-779b-4e29-8b03-12ce743b10b4@intel.com>
+X-Stat-Signature: 7dqy4jynbesstz9697ot4cz4cexh86pu
+X-Rspamd-Server: rspamout02
+X-Rspamd-Queue-Id: D41B82000F
+X-Session-Marker: 6A6F686E4067726F7665732E6E6574
+X-Session-ID: U2FsdGVkX19u88rI/RZbOnBIHfsRi86A2mDPG8VKxsA=
+X-HE-Tag: 1774620415-652695
+X-HE-Meta: U2FsdGVkX1+FrBjZnrpIbH0kvez85SGTcc2xxECCcDS+nAaDETophnfrphfd5mO9QQhYEdXOx92QLbEWRoJ9nDerbKGHUDtoN6YOsp7jWLzV7JSuDVRjE9A0MCbpn2Khfo5hWKqQiiTbEVX6AdSqGR2bRTk7OUuaByYUZz87MIOrwNJOhx0cn4b79EikkIiwmb+rJrYWJzPe5qRFV23oiY2dfKw1Anv3CmCHgBuMsQ/u4t5n5dwjt5d6SGNbPQTtnGHdoaSqLW6mO4xqMEAMhO3CFDaqGw3eQWKEQUX4xUcyefn0zqY+lXxLNiuUeL1+MpKiV07znBajEkTfCZ37KHMxl5M/SKjM4wW8yo1/nxVslThUrFIeDiyokY3c/6GG
 
-Hi Daniel,
+On 26/03/25 02:28PM, Dave Jiang wrote:
+> 
+> 
+> On 3/23/26 5:39 PM, John Groves wrote:
+> > From: John Groves <John@Groves.net>
+> > 
+> > fsdev: Add dax_operations for use by famfs.
+> > 
+> > This replicates the functionality from drivers/nvdimm/pmem.c that
+> > conventional fs-dax file systems (e.g. xfs) use to support dax
+> > read/write/mmap to a daxdev - without which famfs can't sit atop a
+> > daxdev.
+> > 
+> > - These methods are based on pmem_dax_ops from drivers/nvdimm/pmem.c
+> > - fsdev_dax_direct_access() returns the hpa, pfn and kva. The kva was
+> >   newly stored as dev_dax->virt_addr by dev_dax_probe().
+> > - The hpa/pfn are used for mmap (dax_iomap_fault()), and the kva is used
+> >   for read/write (dax_iomap_rw())
+> > - fsdev_dax_recovery_write() and dev_dax_zero_page_range() have not been
+> >   tested yet. I'm looking for suggestions as to how to test those.
+> > - dax-private.h: add dev_dax->cached_size, which fsdev needs to
+> >   remember. The dev_dax size cannot change while a driver is bound
+> >   (dev_dax_resize returns -EBUSY if dev->driver is set). Caching the size
+> >   at probe time allows fsdev's direct_access path can use it without
+> >   acquiring dax_dev_rwsem (which isn't exported anyway).
+> > 
+> > Signed-off-by: John Groves <john@groves.net>
+> > ---
+> >  drivers/dax/dax-private.h |  1 +
+> >  drivers/dax/fsdev.c       | 84 +++++++++++++++++++++++++++++++++++++++
+> >  2 files changed, 85 insertions(+)
+> > 
+> > diff --git a/drivers/dax/dax-private.h b/drivers/dax/dax-private.h
+> > index 7a3727d76a68..ee8f3af8387f 100644
+> > --- a/drivers/dax/dax-private.h
+> > +++ b/drivers/dax/dax-private.h
+> > @@ -85,6 +85,7 @@ struct dev_dax {
+> >  	struct dax_region *region;
+> >  	struct dax_device *dax_dev;
+> >  	void *virt_addr;
+> > +	u64 cached_size;
+> 
+> Just caught this. Need a kdoc entry.
+> 
+> DJ
 
-On Fri, 27 Mar 2026 09:55:33 -0300
-Daniel Pereira <danielmaraboo@gmail.com> wrote:
+Thank you! Added for v10
 
-> Translate the initial sections of the Kernel Maintainer PGP guide
-> into Brazilian Portuguese.
+John
 
-While I don't intend to review those translations, I ended reading
-this one for curiosity and found one issue ;-)
-
->=20
-> This first part covers:
-> - The role of PGP in Linux kernel development.
-> - The principle of trusting developers instead of infrastructure.
-> - GnuPG tool requirements and gpg-agent configuration.
-> - Understanding PGP subkeys and their specific capabilities (S, E, A, C).
-> - Guidelines for strong passphrases and creating separate signing subkeys.
->=20
-> The translation maintains the 80-column limit and adheres to the
-> standard cryptographic terminology used in the Portuguese documentation
-> subsystem.
->=20
-> Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
-> ---
->  Documentation/translations/pt_BR/index.rst    |   1 +
->  .../pt_BR/process/maintainer-pgp-guide.rst    | 202 ++++++++++++++++++
->  2 files changed, 203 insertions(+)
->  create mode 100644 Documentation/translations/pt_BR/process/maintainer-p=
-gp-guide.rst
->=20
-> diff --git a/Documentation/translations/pt_BR/index.rst b/Documentation/t=
-ranslations/pt_BR/index.rst
-> index 4a094d8b7..3d3d42388 100644
-> --- a/Documentation/translations/pt_BR/index.rst
-> +++ b/Documentation/translations/pt_BR/index.rst
-> @@ -75,3 +75,4 @@ kernel e sobre como ver seu trabalho integrado.
->     Processo do subsistema SoC <process/maintainer-soc>
->     Conformidade de DTS para SoC <process/maintainer-soc-clean-dts>
->     Processo do subsistema KVM x86 <process/maintainer-kvm-x86>
-> +   Guia de PGP para mantenedores <process/maintainer-pgp-guide>
-> diff --git a/Documentation/translations/pt_BR/process/maintainer-pgp-guid=
-e.rst b/Documentation/translations/pt_BR/process/maintainer-pgp-guide.rst
-> new file mode 100644
-> index 000000000..e10336a12
-> --- /dev/null
-> +++ b/Documentation/translations/pt_BR/process/maintainer-pgp-guide.rst
-> @@ -0,0 +1,202 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +Guia de PGP para Mantenedores do Kernel Linux
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +:Autor: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-> +
-> +Este documento =C3=A9 voltado para desenvolvedores do kernel Linux, e es=
-pecialmente
-> +para mantenedores de subsistemas. Ele cont=C3=A9m um subconjunto das inf=
-orma=C3=A7=C3=B5es
-> +discutidas no guia mais geral "`Protegendo a Integridade do C=C3=B3digo`=
-_" publicado pela
-> +Linux Foundation. Leia esse documento para uma discuss=C3=A3o mais aprof=
-undada sobre
-> +alguns dos t=C3=B3picos mencionados neste guia.
-> +
-> +.. _`Protegendo a Integridade do C=C3=B3digo`: https://github.com/lfit/i=
-tpol/blob/master/protecting-code-integrity.md
-> +
-> +O papel do PGP no desenvolvimento do Kernel Linux
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +O PGP ajuda a garantir a integridade do c=C3=B3digo que =C3=A9 produzido=
- pela comunidade
-> +de desenvolvimento do kernel Linux e, em menor grau, a estabelecer canai=
-s de
-> +comunica=C3=A7=C3=A3o confi=C3=A1veis entre desenvolvedores por meio da =
-troca de e-mails
-> +assinados com PGP.
-> +
-> +O c=C3=B3digo-fonte do kernel Linux est=C3=A1 dispon=C3=ADvel em dois fo=
-rmatos principais:
-> +
-> +- Reposit=C3=B3rios de fontes distribu=C3=ADdos (git)
-
-> +- Snapshots de lan=C3=A7amentos peri=C3=B3dicos (tarballs)
-Here, the original text is:
-	- Periodic release snapshots (tarballs)
-
-Which is OK on English, but the translation itself sounded
-meaningless to my eyes. Also, IMO "release" should not be translated
-to plural. Ok, this one is hard as there's no equivalent on Portuguese
-to "snapshots" or "tarballs".
-
-Maybe:
-
-	Arquivos de release peri=C3=B3dicos (tarballs)
-
-or:
-
-	Arquivos de release (tarballs)
-
-or, maybe even clearer:
-
-	Arquivos tarballs por release
-=09
---=20
-Thanks,
-Mauro
