@@ -1,47 +1,84 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 034D228D8D1;
-	Fri, 27 Mar 2026 10:07:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBAB632C942
+	for <linux-doc@vger.kernel.org>; Fri, 27 Mar 2026 10:12:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774606024; cv=none; b=pm4vvB0GaZnwTWkPMOHmt8EtdLjjCGdMoqev4fs43c/cW0CdXYDOoJzpaXaqqgY4ftRngAgG75bY0kEE0BPp9fEXKNNxTYf5e+9QQBsAuXkIGfAomjlLJ+nEPf4BfyVCoc0K8qSx+Ir2tIanFOkMmP1fYtEnSjwL258tXbvJJIM=
+	t=1774606326; cv=none; b=HOySh32W12ik89dr+QnOu5zDbfrI/ij+mT8Twh2MF25hy1ZFKTlLdmgFnh8azVRdfUbJzSQkHX9dN/8BreuoEs4xCOo0Z8YweUTqnwgEdHba7DkNEADYc2kLxaGCJ2rlG1rHKm3MmnxD+yDQfpwMeWilQ2+ZALCxDrkdcUcYRwI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774606024; c=relaxed/simple;
-	bh=9hoqf8836qUkHCGwSuoanrTdy8WBwzbnZSoL6IVkKiA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q5iER1eOCU7zDnWPQJh1TeSYaX5eXDgZMl8nzgHv39sUJM03RzXMnaN4rIdCTvhgGe3JRtP+5cbPwghlaiDSeJPi3oFOXZyCXhwPqfZy7YdYLVF21gji8kd+VjPT5K5DvotULy+xBtJ8iiqjQ29CZ4RGOmpLDbavMg860HKXegE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=V3evrK8Q; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
+	s=arc-20240116; t=1774606326; c=relaxed/simple;
+	bh=emZndTB0StSeiKPV9wKo4qME2pfL/NkV8yDQkFW/He0=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SwEVFlybR8deTpAGFKjAt3kDReYWHouYGcMSd3qyrEmLDCnFZufF3xjLk2CY9H0eDsBXXzh/N1OMJ0SVs9yDX3cPXq7GH1dDWrzehB70RixTG2drpI7XhUUIMvpp/B/wMqsKfalROh3/91n6xPhh77RRsWczhNtwHCuBg8JQ7pM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FfDd8+E7; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="V3evrK8Q"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=T5M5vU1ThQjnLaTGimKygXppER6xPWGVctbXzovZmnQ=; b=V3evrK8QsRWoHKUc2Vpt0X+j0c
-	jUlztjZb8QlzR1CZ2xnkyBML9NrZHevWxmsPPbZ9AvVDNqe4EshgwF+PIwr3S7oixI/06tMBkIe1z
-	iSF0xz56SUBvp1aRXovTIyNnTlNy00xNRJ3OlYJ06DdtHGpxVtDY3eI0EiU0XNt1G2qTnp3Fus+OH
-	fOOBbIiwbSXwmQi4ccekOLHzRq5xnS0k4Lo5oLcse42qe+GaoIlZuX5u0PEb13fBq4ca49kLyUZ2n
-	dqC3Z5P8+z8r53LEqj9I7DcLp5cxTt6tRFkZZ2LaDoqqk6oTddvvPzYOSd+bJgEpzhiCUCzA5RqsG
-	XEu3t7vg==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.94.2)
-	(envelope-from <leitao@debian.org>)
-	id 1w645X-00AY6o-CS; Fri, 27 Mar 2026 10:06:47 +0000
-Date: Fri, 27 Mar 2026 03:06:41 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Masami Hiramatsu <mhiramat@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, oss@malat.biz, paulmck@kernel.org, rostedt@goodmis.org, 
-	kernel-team@meta.com
-Subject: Re: [PATCH v2] bootconfig: Apply early options from embedded config
-Message-ID: <acZPZ4XKy4QynznK@gmail.com>
-References: <20260325-early_bootconfig-v2-1-6b05a36fbfb5@debian.org>
- <20260325232204.05edbb21c7602b6408ca007b@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FfDd8+E7"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-439b97a8a8cso1959051f8f.1
+        for <linux-doc@vger.kernel.org>; Fri, 27 Mar 2026 03:12:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774606323; x=1775211123; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4ebKOUFGrIuktoxI72r0hHEVIqHTRxRm4Xw0zTvSKkQ=;
+        b=FfDd8+E73w01cSEaWXKEpHhExjQm1JDvKrpUnim+J8GFpkkfbtTw4eGSrtBXwkbqpp
+         RFADnvHLoCjCg1eE8puvNINDkKMCsxLJY3LB3l9GQZuv+ZCNzgppp9Nzgvm/DW9BS0Bw
+         DN6JEx78/jEQxWLquJqQS8xJd8Xg0i31qWdh2Jrm80jEOrOKMNkAvM6qkRVvNaXHENAP
+         i0NAfCfDBtclqMsmjxhS+bOpTwKVD846d3GYhhGYrHZF4sWLEbgSvVsVtJ+3ANGF6xwQ
+         opyROm0hW4eBB2T4atx7oBYXKGTXzkE8s0fuI2gK5HXtFb47ktqsrC1MdDh4cj2L+6na
+         zmew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774606323; x=1775211123;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4ebKOUFGrIuktoxI72r0hHEVIqHTRxRm4Xw0zTvSKkQ=;
+        b=UHob2tIIWLJPPDmWqNSHvXpBJetP/h6qkdW0PMGM3tXvzrJndoaqADum1jVGLsurFf
+         6D6USJ0sYl2EGlRQSFH9AqIz3VAjkO2tE2V3pj1ld2HDkdhaBStNqvkiVzGmXvSHc2Ch
+         EhxfAu8T6f/8CZAcocR8sS09Kyp8pOlBtrgP/avPmq26muG8jSZpjr8pLf1In6Y6yPNr
+         Y9hHa4H+R3slAydhn4Q2OqvCO4Dw7xxJCsyrUMv1Id1puJjDRnBOZv7RWyrSrNYzzrBB
+         ui2DMYCfSV4HiNKoyZJ56bFELE8wZ7XqHyWxAK6feznyXwuvbXE+G7DHR6a2+WYMEepC
+         IgIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVtZYEse0fsZA/iP3yE6gKZMJIAqAur6PBDIy2LUDUj4yxct2vjWpX79feOdEMPV+NJ4OdYiLdkZwA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwOiZOZ2L/GWG2GFjDXhsewM+YXiFgj2iUotwUaIm7eyt9gqiED
+	P4ik8f2GLyGw4FFSGJTPUlqTukEqHO4maeEeaDC3qw/wGa9ve+fo/hoUkpXhcrkhORU=
+X-Gm-Gg: ATEYQzxLteJs/4AcjIyCVMPy+oR2b3r0JSQB+mg9Bmub+S158K7vL/7F5jyIketVbnJ
+	jynLepTnpL3+K6SS8qWd5i+Jo5JdZUVY30KP0Ced4V5v2dZdMcl58VoN2QqWCMWXKYUtuHNop3x
+	noDyukZMk9Bu8v/1XiqPke4RfCt0VDn49mScC+yJxhk0e+12zW1sQv20CG6chTzRf5OaCcw2cIT
+	YMHjgUvmdaq38lHcEDogXlxUPjuLEZsePzIKbBfH/ehIFF/UErGRhIT/sXa+z+p1LLIOEX4RaVn
+	RQJzyB79+75qQKbRH9t6rTi5OfjJ9OLDGW3i0mGE9MoqPahDJQedjoPLYy2p/P+lE2l5QeRxiAF
+	0rosazguEDTJ/o9p+9SvSEypkOWKLKp/etswJu/R6ZfSv344femVrb7hJITJSub0VPQIBe92Rp7
+	snmKMnNZGY/pC4mICCteCFKX7vE3C+6PA7ue6UZM/psjGQ50dO7XyRoJG60CAGeWAE82vW1oqzG
+	7xS5JnTEjeaGOgurLT4i/eoChAfrGnb9WUcKwVlwWS5ahxYimQ=
+X-Received: by 2002:a05:6000:26c1:b0:43b:3a65:8c9d with SMTP id ffacd0b85a97d-43b9e9e90b8mr2968134f8f.19.1774606322974;
+        Fri, 27 Mar 2026 03:12:02 -0700 (PDT)
+Received: from RDEALENC-L01.ad.analog.com (24.206.116.131.netskope-rdns.com. [24.206.116.131])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43b9192e35esm12777550f8f.6.2026.03.27.03.12.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Mar 2026 03:12:02 -0700 (PDT)
+From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
+Date: Fri, 27 Mar 2026 10:11:56 +0000
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Petr Mladek <pmladek@suse.com>
+Cc: rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org, 
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
+	Andy Shevchenko <andy@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+	Sergey Senozhatsky <senozhatsky@chromium.org>, Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH v9 2/9] lib: vsprintf: export simple_strntoull() in a
+ safe prototype
+Message-ID: <4uijfg4efzaapu3esobez55hfwqzszwagpeb4lxej2ybmifu76@s3c57fmnsme6>
+References: <20260320-adf41513-iio-driver-v9-0-132f0d076374@analog.com>
+ <20260320-adf41513-iio-driver-v9-2-132f0d076374@analog.com>
+ <acZDneLrIPOmU5ci@pathway.suse.cz>
+ <acZLHAT5qJyjKTsp@ashevche-desk.local>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,68 +87,104 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260325232204.05edbb21c7602b6408ca007b@kernel.org>
-X-Debian-User: leitao
+In-Reply-To: <acZLHAT5qJyjKTsp@ashevche-desk.local>
 
-Hi Masami,
+On 26/03/27 11:17AM, Andy Shevchenko wrote:
+> On Fri, Mar 27, 2026 at 09:45:17AM +0100, Petr Mladek wrote:
+> > On Fri 2026-03-20 16:27:27, Rodrigo Alencar via B4 Relay wrote:
+> 
+> ...
+> 
+> > > +extern ssize_t __must_check simple_strntoull(const char *startp, const char **endp,
+> > > +					     unsigned int base, size_t max_chars,
+> > > +					     unsigned long long *res);
+> > 
+> > Sigh, naming is hard. I personally find it a bit confusing that the
+> > name is too similar to the unsafe API.
+> > 
+> > IMHO, the semantic of the new API is closer to kstrtoull().
+> > It just limits the size, so I would call it kstrntoull().
+> 
+> It's not. kstrto*() quite strict about the input, this one is actually relaxed
+> variant, so I wouldn't mix these two groups.
+> 
+> > Also I would use int as the return parameter, see below.
+> 
+> ...
+> 
+> TBH, I am skeptical about this approach. My main objection is max_chars
+> parameter. If we want to limit the input strictly to the given number of
+> characters, we have to copy the string and then just use kstrto*() in a normal
+> way. The whole idea of that parameter is to be able to parse the fractional
+> part of the float number as 'iiiii.fffff', where 'i' is for integer part, and
+> 'f' for the fractional. Since we have *endp, we may simply check that.
 
-On Wed, Mar 25, 2026 at 11:22:04PM +0900, Masami Hiramatsu wrote:
-> On Wed, 25 Mar 2026 03:05:38 -0700
-> Breno Leitao <leitao@debian.org> wrote:
+A max_chars would not be only useful for that. It can prevent out-of-bounds
+reads when the input isn't NUL-terminated (like buffers, file chunks,
+network packets, memory-mapped data, ....). Even if there is a NUL later in
+memory, a regular strtoull() function may consume characters that are outside
+the field one intends to parse.
+ 
+> In case if we want to parse only, say, 6 digits and input is longer there are
+> a few options (in my personal preferences, the first is the better):
+> - consider the input invalid
+> - parse it as is up to the maximum and then do ceil() or floor() on top of that
+> - copy only necessary amount of the (sub)string and parse that.
 
-> > +/*
-> > + * bootconfig_apply_early_params - dispatch kernel.* keys from the embedded
-> > + * bootconfig as early_param() calls.
-> > + *
-> > + * early_param() handlers must run before most of the kernel initialises
-> > + * (e.g. before the GIC driver reads irqchip.gicv3_pseudo_nmi).  A bootconfig
-> > + * attached to the initrd arrives too late for this because the initrd is not
-> > + * mapped yet when early params are processed.  The embedded bootconfig lives
-> > + * in the kernel image itself (.init.data), so it is always reachable.
-> > + *
-> > + * This function is called from setup_boot_config() which runs in
-> > + * start_kernel() before parse_early_param(), making the timing correct.
-> > + */
-> > +static void __init bootconfig_apply_early_params(void)
->
-> [sashiko comment]
-> | Does this run early enough for architectural parameters?
-> | While setup_boot_config() runs before parse_early_param() in start_kernel(),
-> | it runs after setup_arch(). setup_boot_config() relies on xbc_init() which
-> | uses the memblock allocator, requiring setup_arch() to have already
-> | initialized it.
-> | However, the kernel expects many early parameters (like mem=, earlycon,
-> | noapic, and iommu) to be parsed during setup_arch() via the architecture's
-> | call to parse_early_param(). Since setup_arch() completes before
-> | setup_boot_config() runs, will these architectural early parameters be
-> | silently ignored because the decisions they influence were already
-> | finalized?
->
-> This is the major reason that I did not support early parameter
-> in bootconfig. Some archs initialize kernel_cmdline in setup_arch()
-> and setup early parameters in it.
+Yes, my use case is the fixed point parsing, but I suppose we are implementing
+things here for reuse. Also, the default behavior of the previous fixed point
+parsing in IIO is flooring the result, which leads to the same result as
+ignoring further digits.
 
-Would it be feasible to document which parameters are architecture-specific
-and must be processed during setup_arch()?
+> The problem with precision is that we need to also consider floor() or ceil()
+> and I don't think this should be burden of the library as it's individual
+> preference of each of the callers (users). At least for the starter, we will
+> see if it's only one approach is used, we may incorporate it into the library
+> code.
+> 
+> The easiest way out is to just consider the input invalid if it overflows the
+> given type (s32 or s64).
+> 
+> But we need to have an agreement what will be the representation of the
+> fixed-width float numbers in the kernel? Currently IIO uses
+> 	struct float // name is crafted for simplicity
+> 	{
+> 		int integer;
+> 		int fraction;
+> 	}
 
-We could potentially introduce a third parameter category alongside the
-existing early_param() and __setup():
+Yes, but to represent things like that, an assumption is made to the precision that
+"fraction" carries.
 
-	* early_param()
-	* __setup()
-	* early_arch_param() (New)
+> 
+> This parser wants AFAIU to have at the end of the day something like
+> 
+> 	struct float
+> 	{
+> 		s64 integer;
+> 		s64 fraction;
+> 	}
+> 
+> but also wants to have the fraction part be limited in some cases to s32
+> or so:
+> 
+> 	struct float
+> 	{
+> 		s64 integer;
+> 		s32 fraction; // precision may be lost if input is longer
+> 	}
+> 
+> Maybe we want to have kstrtof32() and kstrtof64() for these two cases?
+> 
+> With that we will always consider the fraction part as 32- or 64-bit,
+> imply floor() on the fraction for the sake of simplicity and require
+> it to be NUL-terminated with possible trailing '\n'.
 
-This would allow bootconfig to support __setup() and early_param() while
-explicitly excluding early_arch_param() from bootconfig processing.
+I think this is a good idea, but calling it float or fixed point itself
+is a bit confusing as float often refers to the IEEE 754 standard and
+fixed point types is often expressed in Q-format.
 
-This would move break down the early parameters in those that can be
-easily handled.
+-- 
+Kind regards,
 
-> To fix this, we need to change setup_arch() for each architecture so
-> that it calls this bootconfig_apply_early_params().
-
-Could we instead integrate this into parse_early_param() itself? That
-approach would avoid the need to modify each architecture individually.
-
-Thanks for looking at it,
---breno
+Rodrigo Alencar
