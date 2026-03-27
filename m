@@ -1,90 +1,99 @@
-Received: from mail.mindbit.ro (xs1.mindbit.ro [80.86.107.70])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2E843FEB0A;
-	Fri, 27 Mar 2026 17:50:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.86.107.70
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A19F33F8B1;
+	Fri, 27 Mar 2026 17:54:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774633852; cv=none; b=P3z5tPxzGnW9wCCdbHPKrStVZ3vloDjm9A32P7pOqh5OVYx6pl/N5vx4yrcM2UpbxrLLhln7of3Tvq6lWn6fHD0rXzCu8TZIyKSYAZHzBQulGa7Abl2ZmiGtl9cenG6oszzFy6cJ/DXNBekQXJRYCfLtDVsWndHTuFlD/TDQGIk=
+	t=1774634065; cv=none; b=QRljlCpuje2Qr7y4NpRXUM2advWiN1UO2fVs2V8BwNK8gnedxAuFqArqgf1+RwC/gkxcd2ehI6NoIHlY2VKTTwGn2ulIecmwCZPgowPs3j1tGd7i0+SwfFvuZCjgEvEtyWw5ObYFBcQSjVzvqq26S6HncTaXd0VGHVBYk9UUvMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774633852; c=relaxed/simple;
-	bh=H3RfsWcUrYoRiP74KmVwi9np1J49j2FEdsIbERIawYM=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=q2lDRjnBweWkJ3zRAb8D8LRWhrEy/edtFZmaF/6rYyAS7gxL+JUTekvVsC2jZhflezmT9Ag7ngApsQHMPEhb1NAgq8JXnNhYDMw66QJwrDlf26/fOysAT7usivJRzXExv5ANeF0wa8bvH1nL7SndtmG/Jlj1zWV4RsVr/KyWZSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rendec.net; spf=pass smtp.mailfrom=rendec.net; dkim=pass (2048-bit key) header.d=rendec.net header.i=@rendec.net header.b=QFpY46HZ; arc=none smtp.client-ip=80.86.107.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=rendec.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rendec.net
+	s=arc-20240116; t=1774634065; c=relaxed/simple;
+	bh=xT1Z1Xf1nId1mNV7McJTlqqXVZzT5JJypn9FsrQ2Sgk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=h9mtSb6xgxRqT8b9i2gMYkpm/Fd2qND+5IMF9HF+kuUVYxqpxe+Ee2TcNl69WkxTxqeTpqGGQO7SrRv/dZuToczjWHaRIpV+WF/yQWj5NRQ3TcL5DSMfYwfT5rsCSV2G8S1RHb8Vw9cyH0H6L8aKbfV8N+7q5aLKFUz6mbXExEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=NVItzwWY; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rendec.net header.i=@rendec.net header.b="QFpY46HZ"
-Received: from dog.kanata.rendec.net (pool-174-112-193-187.cpe.net.cable.rogers.com [174.112.193.187])
-	by mail.mindbit.ro (Postfix) with ESMTPSA id 2A095C24D0;
-	Fri, 27 Mar 2026 19:50:40 +0200 (EET)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.mindbit.ro 2A095C24D0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rendec.net;
-	s=default; t=1774633841;
-	bh=H3RfsWcUrYoRiP74KmVwi9np1J49j2FEdsIbERIawYM=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=QFpY46HZwzMNmWn1FHg37wfuUfXdj2KjoinAqrexFNgpebV4+V2JQelElm4+bhLBw
-	 ljhjl+KIRyAVdn5IyBu3uwaYcFp7E0FssVV+YGaIrjE4emkfcsN+JtuhbYydjx7LUj
-	 FM2FDBjwoLXncDRv5GZXZi/2yaSX30rdc1QfG02VVLvDL1lm4Jpx49VdJTNQKFHmm9
-	 VT2ob16+Am4DWB8FMEXm1/hFrHyh6gkg3a30Jv+aeW5O8LL4cmYcdjDXKvTtYbL3vj
-	 5CajcFD8nR0OyprJ4yJMmvAyuqQOoDXabpSUn8kHtxTZadpSRk0K5iX8tqfjdq+0ZO
-	 UT1+wdvxVdrjg==
-Message-ID: <fd94d5148035d2672da568077ae4d5e7061e1162.camel@rendec.net>
-Subject: Re: [PATCH] Documentation: Provide hints on how to debug Python GDB
- scripts
-From: Radu Rendec <radu@rendec.net>
-To: Florian Fainelli <florian.fainelli@broadcom.com>, 
-	linux-kernel@vger.kernel.org, akpm@linux-foundation.org
-Cc: tglx@kernel.org, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
-	 <skhan@linuxfoundation.org>, Illia Ostapyshyn <illia@yshyn.com>, "open
- list:DOCUMENTATION PROCESS"
-	 <workflows@vger.kernel.org>, "open list:DOCUMENTATION"
-	 <linux-doc@vger.kernel.org>
-Date: Fri, 27 Mar 2026 13:50:38 -0400
-In-Reply-To: <20260326233226.2248817-1-florian.fainelli@broadcom.com>
-References: <20260326233226.2248817-1-florian.fainelli@broadcom.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="NVItzwWY"
+Received: from narnia (unknown [20.236.11.29])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 1209F20B710C;
+	Fri, 27 Mar 2026 10:54:18 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 1209F20B710C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1774634058;
+	bh=p1OrZTY/b5umyuYKNTIPKtE8SHUxFqRbAaccKYQolvg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=NVItzwWYYnXqhvhWgOG/iUkc3jaID3YT+OmGT50Uvokju1zf+EtUkzzmbD2Ixy/TI
+	 SJ0UafXZpAQdWEfJlziYubNtu/71f0XTmLM90y03wfNO1NR/zExjX+z32rSi8AzArT
+	 kzhuZybx6aX0xb77l8lqd79uzOAdJSdAhlpETy2c=
+From: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
+To: Song Liu <song@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Paul Moore <paul@paul-moore.com>,
+ James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
+ =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, =?utf-8?Q?G=C3=BC?=
+ =?utf-8?Q?nther?= Noack <gnoack@google.com>, "Dr.
+ David Alan Gilbert" <linux@treblig.org>, Andrew Morton
+ <akpm@linux-foundation.org>, James.Bottomley@hansenpartnership.com,
+ dhowells@redhat.com, Fan Wu <wufan@kernel.org>, Ryan Foster
+ <foster.ryan.r@gmail.com>, Randy Dunlap <rdunlap@infradead.org>,
+ linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, bpf@vger.kernel.org
+Subject: Re: [PATCH v3 4/9] lsm: framework for BPF integrity verification
+In-Reply-To: <CAPhsuW6P-K=nTPxBk0_Wd0E1wDCBqb=uUQzmzpEg2NJub=L+dg@mail.gmail.com>
+References: <20260326060655.2550595-1-bboscaccy@linux.microsoft.com>
+ <20260326060655.2550595-5-bboscaccy@linux.microsoft.com>
+ <CAPhsuW6P-K=nTPxBk0_Wd0E1wDCBqb=uUQzmzpEg2NJub=L+dg@mail.gmail.com>
+Date: Fri, 27 Mar 2026 10:54:16 -0700
+Message-ID: <871ph5f99z.fsf@microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2026-03-26 at 16:32 -0700, Florian Fainelli wrote:
-> By default GDB does not print a full stack of its integrated Python
-> interpreter, thus making the debugging of GDB scripts more painful than
-> it has to be.
->=20
-> Suggested-by: Radu Rendec <radu@rendec.net>
-> Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
-> ---
-> =C2=A0Documentation/process/debugging/gdb-kernel-debugging.rst | 9 ++++++=
-+++
-> =C2=A01 file changed, 9 insertions(+)
->=20
-> diff --git a/Documentation/process/debugging/gdb-kernel-debugging.rst b/D=
-ocumentation/process/debugging/gdb-kernel-debugging.rst
-> index 9475c759c722..53e225760a4d 100644
-> --- a/Documentation/process/debugging/gdb-kernel-debugging.rst
-> +++ b/Documentation/process/debugging/gdb-kernel-debugging.rst
-> @@ -173,3 +173,12 @@ this is just a snapshot of the initial version::
-> =C2=A0
-> =C2=A0Detailed help can be obtained via "help <command-name>" for command=
-s and "help
-> =C2=A0function <function-name>" for convenience functions.
-> +
-> +Debugging GDB scripts
-> +---------------------
-> +
-> +GDB does not enable a full Python backtrace which can make debugging GDB
-> +scripts more difficult than necessary. The following will allow for prin=
-ting a
-> +full backtrace of the python environment::
-> +
-> + (gdb) set python print-stack full
+Song Liu <song@kernel.org> writes:
 
-Reviewed-by: Radu Rendec <radu@rendec.net>
+> On Wed, Mar 25, 2026 at 11:07=E2=80=AFPM Blaise Boscaccy
+> <bboscaccy@linux.microsoft.com> wrote:
+> [...]
+>> The first new callback, bpf_prog_load_integrity(), located within the
+>> security_bpf_prog_load() hook, is necessary to ensure that the integrity
+>> verification callbacks are executed before any of the existing LSMs
+>> are executed via the bpf_prog_load() callback.  Reusing the existing
+>> bpf_prog_load() callback for integrity verification could result in LSMs
+>> not having access to the integrity verification results when asked to
+>> authorize the BPF program load in the bpf_prog_load() callback.
+>>
+>> The new LSM hook, security_bpf_prog_load_post_integrity(), is intended
+>> to be called from within LSMs performing BPF program integrity
+>> verification.  It is used to report the verdict of the integrity
+>> verification to other LSMs enforcing access control policy on BPF
+>> program loads.  LSMs enforcing such access controls should register a
+>> bpf_prog_load_post_integrity() callback to receive integrity verdicts.
+>
+> bpf_prog_load_post_integrity() is weird. Some questions about it:
+>
+> 1. Is it possible to call it from other LSMs (not hornet)? Specifically, =
+is it
+>    possible to call it from BPF LSM?
+
+There is nothing hornet exclusive about that security hook. If the BPF
+LSM folks wanted to use it they would probably need to implement a
+kfunc to invoke it.=20=20
+
+> 2. This set does not include any LSMs that attach functions to
+>    bpf_prog_load_post_integrity. This is against the new LSM hook policy.
+>    I guess the plan is to add LSM users in follow up patches? Could you
+>    please include at least some of such code in this patchset? This will
+>    help folks understand the use case.
+>
+
+Sure thing. I will be sending out a v4 with additional patches that has
+a concrete user of bpf_prog_load_post_integrity.
+
+> Thanks,
+> Song
+>
+> [...]
