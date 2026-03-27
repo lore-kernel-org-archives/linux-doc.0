@@ -1,233 +1,295 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC4D931ED93
-	for <linux-doc@vger.kernel.org>; Fri, 27 Mar 2026 15:17:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5237531717C
+	for <linux-doc@vger.kernel.org>; Fri, 27 Mar 2026 15:42:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774624635; cv=none; b=YwKAVMpOinWiFZmwZPr3Og3tOAzUcGjOELBkhET5Ph06kPalmCFylGCHHW97uyjeYhV9O2Sxox8sqlHvXGJP0PKeBRMGkAWj/SOoW1ewgzSvFBc4qnhUWFlnRVBAmXEsK2RyR9ujB16n0cWLfpkbXuP4d7Vx/HYgxJcZkJ08H0g=
+	t=1774626153; cv=none; b=KOH3AmRhUwG7A9/kt9j55xMVYg4T0/tHpE8TxyGONJSzVSMnRsoSnKa0W3H1eOi6yR+zs7R4CC5iff0Q9XROJDHGA4AC5/9/0vb+1WP5GJ4nnUywEYMQURIRXzQ1ou0ycr87jVj8bJ1dDYxs5LQw+MS9Uf18mfBp51qAW55RnVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774624635; c=relaxed/simple;
-	bh=YhMY8m8lhMloOdkQJ/lFVmybXo6krCBolUEHpLOX6vo=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YJpu36ov8VpbaZ19d7c9f2Z88TDjHbmiNeXnpTWhkVpKbDlmDgPOxGWQ0u0lqWaHRvSKJKayadixUumXzybdBbcON1DMehF/m8tvwCIzpf+00+SjO9aKVl62Q8HsvCIVCzZC9lebj2swAjC49dzEoQce6zNGDSwK1zH36Et1Dew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MuRefvmF; arc=none smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1774626153; c=relaxed/simple;
+	bh=wHClqSYMk00dSTT8QPLbIwzBEr1/LNNGBDfrcYSBl74=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QS1534LMxauYCJPXoRU4qTLD2Qnkz1jWUO9plT4X0aMj9/CjUOmTsvSSE2NgaI2toVY5w2m0eDLjssPjX27EVlMCA1T4hIUc7zVcrZ7yAX+1VopMmdQF/IhXl11HDmO90ccHPDWSEwN+/O69xSYvu+vETm6NrHHwCm7D6TRQWmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B21bnswd; arc=none smtp.client-ip=74.125.82.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MuRefvmF"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-661b16ac011so4120595a12.2
-        for <linux-doc@vger.kernel.org>; Fri, 27 Mar 2026 08:17:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B21bnswd"
+Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-2c175635a33so1534611eec.0
+        for <linux-doc@vger.kernel.org>; Fri, 27 Mar 2026 08:42:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774624632; x=1775229432; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gUuubS1+3njuAPGTqHH6+3IW1O4jcFu6Ae6+Wh76UDs=;
-        b=MuRefvmFC6lNyhIodxUchXClrn0ez7PkcDlif1BIOAfrYLV/eHpg9yLMaWtKEoVJHE
-         ed1KhaDxJlQ99qqLcmccZYgLEIcetf67o4wUc/7rQXFK5RhKdjyG95DjhbxUAYZQaqaQ
-         DgcDCaHOZ+90dntL42/U4TiMlQF0XT3/LeHFrYBLErOu0T3n8LsSBjJlQARSA+dcVNQF
-         1vtTjJYJ4DIIeEh7lZQ2Ie0LE9nrJwu4omDzLY4Rpy5NHBzmtMGvuXgeYLxuOyp73okp
-         34qpzljvLv3ajr+sd9/4yyJFl4mjE5AigmnMJmApbs5wYLMeWbrLjDREkrQK4885wZUF
-         FizA==
+        d=gmail.com; s=20251104; t=1774626149; x=1775230949; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=PlGnbqGG5xeLchwn0WE7eEoM2zOVzOibg54QmCQ/Nyk=;
+        b=B21bnswdivCVyVZjfuDW5pI+VrLIn1g6YXXzknxP1FOdntNiZGtvUPzB6zDjPI8KWv
+         YJ+7S2r9dNmn79QzcxT9lFcVyjFNaK9cwGiFarMZuYSEpl+0+jFCdw+etuqbB22dJJ4B
+         stohiSw7T60bf/AGYTkNk+ZKeDgcVEW5G+QStD0FH1/zwO7kNzInZ+Vg/yQPznDkFEgD
+         vEQBvaglPl4+U2Tapmws4CFsIpsu4y9FpM2qDqcQjWLEtFHMIUqHlmWg8xHRbc2AMcqZ
+         wX6x6owiblfzwvicHuSsFR5hdqjLcj2jIccGdqAvusErOa8buhy6cECbX9zFvVcIaTxZ
+         zubg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774624632; x=1775229432;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20251104; t=1774626149; x=1775230949;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=gUuubS1+3njuAPGTqHH6+3IW1O4jcFu6Ae6+Wh76UDs=;
-        b=TroOJlShCEb1D++ukdN1YscJ+C1+Ga42HHTBO5RnufUF9JGgTJqp9d8Lz4h77KNEEt
-         BDWsVavV2ASQFh7BjpPq0+qCCvPXcF5fXGdqLOrOgm5ecLFTJe0C7cgE+ddzIeMcXknp
-         Gj9Uk5nI6alIPqc7VS1HQcTwq3o4S0Z5PkzzcxzwJ/GoOGGOXQeq4kFgxnIqgfuwf3hq
-         yxtiiZXbfebtlOHg8fbHcisTSyQb73tnZc43rYYkBjbk7mU5aRXjOWxjEdfGnHRIgE97
-         /LtRPtcbg7k2mYKNEzfke8NUztBLmGHk05LW+v2B5OL8vaQ4xwKNOYH7Vc/Y0/eXckY5
-         43Zg==
-X-Forwarded-Encrypted: i=1; AJvYcCWedtRN59UD1d15piEwsjOI3K1bPZ8WjBe64SZFlDkCTkMEjJBBI7vC1XPAP2/s38SoVT+gnwiHU80=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyNP6uHQBiZ3Z60rNxhapnukSbWdyy8EL1+SHbREa3PkU3Li7CA
-	6DlO1EaT3FSkFZ/DyvmXVV25QPj2yAM5BZpPsD+o6TdQ7kzLDd0340vl
-X-Gm-Gg: ATEYQzxp0lznIXW1V0MiJpQuIN9toToXaAJ1CuRzdQO9pH4WhGl816k2miSE2e9z5MD
-	ng8ifgohJAYDzFunLvCAl4FqHzT9zaL1bVyJTNH+CQbNtpFDy8YLePUAQ2HxBCf0aZm7m1WISV0
-	7sn4TideAb13wU/SPBd/TU6DE9fqH6gRe6qPkg00LJPmou2LdbNvXcgMPDdrmH06hvvjNIOAhrq
-	EP2Pl5GA01vkhueHmR/AqfAolE5LoVExHCWEsZixEfO3bueHg8lElAU7S/LoIXmGf2jsVYRAj0Y
-	rugsr5gmVbJdB0eQpAdMPTwU/Fd5f1AzutluIFG47qEnALa2ZCBo+D5I295uJULBrwIly+aUv34
-	5iiwh/7jMimYWVQJ6l5lB8kGrmwkudb3YGnnn6qUbs5hEfiUJb5t/ySwWLp5GKeJB4W6AUctY8D
-	FgaNNKWvJrKCsCsguCPY8KqxpZowWm137JF5DRs2mmsj9jXGdRD/MFqJ+TxTP7UwJHlZ5mUdwzq
-	OyW7/cTplZ8uOSqmflvxM935cfjZ5UD1qBlEINrDC92TTwFkuA=
-X-Received: by 2002:a17:907:944c:b0:b98:45fc:241d with SMTP id a640c23a62f3a-b9b507b0b37mr184899266b.37.1774624631951;
-        Fri, 27 Mar 2026 08:17:11 -0700 (PDT)
-Received: from RDEALENC-L01.ad.analog.com (24.206.116.131.netskope-rdns.com. [24.206.116.131])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9b20219193sm265402866b.9.2026.03.27.08.17.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Mar 2026 08:17:11 -0700 (PDT)
-From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
-Date: Fri, 27 Mar 2026 15:17:05 +0000
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-Cc: Petr Mladek <pmladek@suse.com>, rodrigo.alencar@analog.com, 
-	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>, 
-	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v9 2/9] lib: vsprintf: export simple_strntoull() in a
- safe prototype
-Message-ID: <x34d7jz7be4ommjh6efx5mcq5pbpellykwuyrqayr4ske3lywf@wh46mu3anmcz>
-References: <20260320-adf41513-iio-driver-v9-0-132f0d076374@analog.com>
- <20260320-adf41513-iio-driver-v9-2-132f0d076374@analog.com>
- <acZDneLrIPOmU5ci@pathway.suse.cz>
- <acZLHAT5qJyjKTsp@ashevche-desk.local>
- <4uijfg4efzaapu3esobez55hfwqzszwagpeb4lxej2ybmifu76@s3c57fmnsme6>
- <acZaGUV0MwuHNDru@ashevche-desk.local>
+        bh=PlGnbqGG5xeLchwn0WE7eEoM2zOVzOibg54QmCQ/Nyk=;
+        b=jIHf1bVG7O2umTs1tNSBjIYFyfVgkE5ywpRzCxFCXA9NdteP1xz9mCAx9fvZxLJdP3
+         AiHrYtU6nd6NiDyeyiw/BoxJM8D4zGyRHzLyiiimzEdg5bzJX/DLy3nbaZ1TMwCEH8zu
+         XGSYj8rIHREHFoIczRf5gQn/3srjw5V0xHGnDCCcBWNKNfgrOyQj6lkdWEXD0Q8hPldR
+         VYqOqwtjhB5ChrTgVeVAuN1E8xOuD5Upn0DRZfM9kpjvayuqcd7f3saoPl3bcmfcMwyc
+         27J2o0IrIDswKNOnGSkh5Eim0jxBe/wEeb+a3om57mfX/AlrbSSVHxzMjskJSnB15xry
+         viHw==
+X-Forwarded-Encrypted: i=1; AJvYcCUSqYUZdNhTXuV7jrkCFwwC+wXeEPE0HFU9gZaRsa8fy+/18ApK3J9CrFqM3IjoS2dMSlcpLM2ge4I=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxECuLwLhGwVFWuz029s25+vRnqvotwloHXWYdS1Qx1PpmkoEsW
+	ldURGulJqjdJpR2gDaxEqJ22CE3oBCdZaZG0lws8WF15U7UpD+3WTZZs
+X-Gm-Gg: ATEYQzwg/gtHC5z04QDVA+NmOpf9QtkbpoRtnPQa2rRIQJepDY7mL4YFsxwnKtaemdF
+	Z7TYW7YGUXcvgVXWy45p5XqrpT/HcH/tNrBltrusyesR50GmsMgxfLlqhz86ZNYm1UYMXkPCDnX
+	axPuECHxFPQDUYYfBWj4bZ8SWiyDLZgBWTfy811ZDX6TshD9Mi5inOPgibdnDOUa9Qlqfab8MSf
+	CDjYBtVXn9OVosBnnrfXSciE0KZKqY86IIe/lwUyjbvYtPBwhMSqVI+7Vt/PRbSQGWwo+btD4NI
+	GIrpKc/7gcw2Fd1TFyoT3ZGzxbZdyCzWozpGouY6mAJwFGhvyAioNHlCMxbq5E184VxXwvJ/5GD
+	2+KAsTD6BwsN+ROLgChex6JQhemqYe743E3h3LltOHjFYT8v/wN0Vdqu6vnSYBMwVOb9HriqGeK
+	vMl4NcdYWwggf194qWT/Rar3jbnPNLpgE4YpgZ7yIdJAGJJGUJoopExjMqaPCkrxePz1hxRjGp
+X-Received: by 2002:a05:7300:ac8a:b0:2c0:c754:cd86 with SMTP id 5a478bee46e88-2c185a762c8mr1592883eec.0.1774626149202;
+        Fri, 27 Mar 2026 08:42:29 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c16ea7bde3sm5316665eec.0.2026.03.27.08.42.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Mar 2026 08:42:28 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <cc67f9e5-9f6d-40cd-bb89-9de0b084d42c@roeck-us.net>
+Date: Fri, 27 Mar 2026 08:42:26 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <acZaGUV0MwuHNDru@ashevche-desk.local>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/4] hwmon: Add WITRN USB tester driver
+To: Rong Zhang <i@rong.moe>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20260327-b4-hwmon-witrn-v1-0-8d2f1896c045@rong.moe>
+ <a3a8eb58-b2fa-411b-81be-eb70dac86b4f@roeck-us.net>
+ <5ee967a8a4dca6f70e50c7fac382d4f91b6620aa.camel@rong.moe>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <5ee967a8a4dca6f70e50c7fac382d4f91b6620aa.camel@rong.moe>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 26/03/27 12:21PM, Andy Shevchenko wrote:
-> On Fri, Mar 27, 2026 at 10:11:56AM +0000, Rodrigo Alencar wrote:
-> > On 26/03/27 11:17AM, Andy Shevchenko wrote:
-> > > On Fri, Mar 27, 2026 at 09:45:17AM +0100, Petr Mladek wrote:
-> > > > On Fri 2026-03-20 16:27:27, Rodrigo Alencar via B4 Relay wrote:
+On 3/27/26 05:01, Rong Zhang wrote:
+> Hi Guenter,
 > 
-> ...
+> Thanks a lot for your review and applying patch 1 :-)
 > 
-> > > > > +extern ssize_t __must_check simple_strntoull(const char *startp, const char **endp,
-> > > > > +					     unsigned int base, size_t max_chars,
-> > > > > +					     unsigned long long *res);
-> > > > 
-> > > > Sigh, naming is hard. I personally find it a bit confusing that the
-> > > > name is too similar to the unsafe API.
-> > > > 
-> > > > IMHO, the semantic of the new API is closer to kstrtoull().
-> > > > It just limits the size, so I would call it kstrntoull().
-> > > 
-> > > It's not. kstrto*() quite strict about the input, this one is actually relaxed
-> > > variant, so I wouldn't mix these two groups.
-> > > 
-> > > > Also I would use int as the return parameter, see below.
+> On Thu, 2026-03-26 at 17:05 -0700, Guenter Roeck wrote:
+>> On 3/26/26 12:19, Rong Zhang wrote:
+>>> WITRN produces a series of devices to monitor power characteristics of
+>>> USB connections and display those on a on-device display. Most of them
+>>> contain an additional port which exposes the measurements via USB HID.
+>>>
+>>> These devices report sensor values in IEEE-754 float (binary32) format.
+>>> The driver must perform floating-point number to integer conversions to
+>>> provide hwmon channels. Meanwhile, they also report accumulative float
+>>> values, and simple division or multiplication turns them into useful
+>>> hwmon channels.
+>>>
+>>> Patch 1 adds label support for 64-bit energy attributes, as the driver
+>>> needs it.
+>>>
+>>> Patch 2 adds a helper module for floating-point to integer conversions,
+>>> so that the conversion, multification and division methods can be used
+>>> in this driver as well as other drivers (I am also working on another
+>>> USB tester driver that needs it).
+>>>
+>>> Patch 3 adds a barebone HID driver for WITRN K2.
+>>>
+>>> Patch 4 adds hwmon channels and attributes to the driver.
+>>>
+>>> Signed-off-by: Rong Zhang <i@rong.moe>
+>>> ---
+>>> Rong Zhang (4):
+>>>         hwmon: Add label support for 64-bit energy attributes
+>>>         hwmon: New helper module for floating-point to integer conversions
+>>
+>> Nack. This is not a hwmon problem and should reside in a driver or in lib/
+>> (if it is needed by multiple drivers).
 > 
-> ...
+> Makes sense. I will try.
 > 
-> > > TBH, I am skeptical about this approach. My main objection is max_chars
-> > > parameter. If we want to limit the input strictly to the given number of
-> > > characters, we have to copy the string and then just use kstrto*() in a normal
-> > > way. The whole idea of that parameter is to be able to parse the fractional
-> > > part of the float number as 'iiiii.fffff', where 'i' is for integer part, and
-> > > 'f' for the fractional. Since we have *endp, we may simply check that.
-> > 
-> > A max_chars would not be only useful for that. It can prevent out-of-bounds
-> > reads when the input isn't NUL-terminated (like buffers, file chunks,
-> > network packets, memory-mapped data, ....). Even if there is a NUL later in
-> > memory, a regular strtoull() function may consume characters that are outside
-> > the field one intends to parse.
+>>
+>>>         hwmon: Add barebone HID driver for WITRN
+>>
+>> Nack. This is the wrong place for such a driver. It should reside somewhere
+>> in drivers/usb, or maybe in drivers/misc/.
 > 
-> Okay, but is it the current case or just an attempt to solve the problem that
-> doesn't exist (yet)?
+> Hmm, I decided to place it here because:
+> 
+> - It's not a hid_ll_driver but a dumb hid_driver, i.e., does no low
+> level things but just receives hid event from the HID core. It doesn't
+> even send any HID report to the device.
+> 
+> - There has been numerous hid_driver in drivers/hwmon/.
+> 
+> - There has been a similar USB tester driver in drivers/hwmon/, i.e.,
+> powerz. That's the major reason of my decision.
+> 
 
-The current case can be seen as such. Copying the string and use regular ksrto*()
-requires an unecessary scan of string from the user side, which is something that
-_parse_integer_limit() already does, mostly because it checks for digits and stops
-at any non-digit character. In the IIO case, we also want control over the consumed
-characters because there are weird terminations like "dB", so having an implementation
-like this ends up with a cleaner sequence of steps. 
+powerz is a pure hwmon driver, nothing else. It does not claim to be a
+"pure hid driver". If your driver _only_ provides a hwmon ABI, it would
+be acceptable. But then this and the next patch should be one patch,
+and it should only provide the hwmon ABI, nothing else (except maybe
+debugfs entries or sysfs entries attached directly to the HID device
+to display information such as serial number etc). Reading ROM/RAM addresses,
+as mentioned below, would be outside that scope.
 
-> > > In case if we want to parse only, say, 6 digits and input is longer there are
-> > > a few options (in my personal preferences, the first is the better):
-> > > - consider the input invalid
-> > > - parse it as is up to the maximum and then do ceil() or floor() on top of that
-> > > - copy only necessary amount of the (sub)string and parse that.
-> > 
-> > Yes, my use case is the fixed point parsing, but I suppose we are implementing
-> > things here for reuse.
+The entire powerz driver is 269 lines of code. Your driver has well above
+1,000 LOC. Your code has separate source files plus an include file.
+That suggests that it does more than just reporting hardware monitoring
+attributes.
+
+I have not looked further into the code itself. My response is based purely
+on the subjects and code organization, which suggests that this is a HID
+driver with attached hardware monitoring.
+
+I am not sure I understand what all that would have to do with UCSI. UCSI
+support is implemented in drivers/usb/typec/ucsi. Anything associated
+with that protocol should be implemented there if it is part of the
+protocol.
+
+> Could you kindly explain what kinds of driver can be accepted into
+> drivers/hwmon/?
 > 
-> Yes, I'm full for reuse, but I want to have it balanced between complexity,
-> existing use cases and possible reuse in the future.
-
-Not seeing complexity here as in this case I am just exposing something
-that already exists! No need for a completely different implementation.
-I just want to get an agreement on the naming and interface prototype.
-
-Bringing back the discussion again just because I suppose Petr havent even
-seen the v8 of this patch series. If kstrtox.h is the right place for this,
-kstrntoull() sounds like ideal. Specially because simple_strto*() is already
-labeled as unsafe and kstrnto*() != kstrto*().
-
-> > Also, the default behavior of the previous fixed point
-> > parsing in IIO is flooring the result, which leads to the same result as
-> > ignoring further digits.
+>>
+>>>         hwmon: (witrn) Add monitoring support
+>>
+>> This should be implemented as auxiliary driver.
 > 
-> Correct, I also lean to implying floor() (as you can read below).
+> Could you kindly elaborate? Did you mean that if the device supports
+> multiple functionalities they should be implemented as multiple
+> auxiliary drivers in different subsystems?
 > 
-> > > The problem with precision is that we need to also consider floor() or ceil()
-> > > and I don't think this should be burden of the library as it's individual
-> > > preference of each of the callers (users). At least for the starter, we will
-> > > see if it's only one approach is used, we may incorporate it into the library
-> > > code.
-> > > 
-> > > The easiest way out is to just consider the input invalid if it overflows the
-> > > given type (s32 or s64).
-> > > 
-> > > But we need to have an agreement what will be the representation of the
-> > > fixed-width float numbers in the kernel? Currently IIO uses
-> > > 	struct float // name is crafted for simplicity
-> > > 	{
-> > > 		int integer;
-> > > 		int fraction;
-> > > 	}
-> > 
-> > Yes, but to represent things like that, an assumption is made to the precision that
-> > "fraction" carries.
+
+Correct. Your series suggests that this would be the case.
+
+> FYI, the USB tester doesn't provide any other meaningful feature that
+> fits other subsystems. The tester only provides two features through USB
+> HID: power measurements (this series), and raw PD packets sniffing.
 > 
-> Correct.
+
+Again, support for raw PD packets sniffing would be outside the scope
+of the hardware monitoring subsystem.
+
+Thanks,
+Guenter
+
+> As for the latter, the USB tester can sniff raw PD packets between the
+> source and sink if enabled in the device menu. It doesn't provide the
+> parsed result for packets, and the PC cannot ask the tester to send PD
+> packets. This doesn't fit UCSI at all, as a UCSI device operates at a
+> higher level and must accept commands. AFAIK such a dumb sniffer won't
+> fit any subsystem in the kernel. Hence, the only thing fits a subsystem
+> is its power measurements.
 > 
-> > > This parser wants AFAIU to have at the end of the day something like
-> > > 
-> > > 	struct float
-> > > 	{
-> > > 		s64 integer;
-> > > 		s64 fraction;
-> > > 	}
-> > > 
-> > > but also wants to have the fraction part be limited in some cases to s32
-> > > or so:
-> > > 
-> > > 	struct float
-> > > 	{
-> > > 		s64 integer;
-> > > 		s32 fraction; // precision may be lost if input is longer
-> > > 	}
-> > > 
-> > > Maybe we want to have kstrtof32() and kstrtof64() for these two cases?
-> > > 
-> > > With that we will always consider the fraction part as 32- or 64-bit,
-> > > imply floor() on the fraction for the sake of simplicity and require
-> > > it to be NUL-terminated with possible trailing '\n'.
-> > 
-> > I think this is a good idea, but calling it float or fixed point itself
-> > is a bit confusing as float often refers to the IEEE 754 standard and
-> > fixed point types is often expressed in Q-format.
+> All measurements supported by the official utility for Windows can be
+> found in `struct witrn_sensor'. Other than that, all extra features
+> provided by the utility are implemented in software and I didn't see any
+> extra USB packets other than querying the serial number [1] when I was
+> randomly messing around with the utility [2].
 > 
-> Yeah... I am lack of better naming.
+> I separated patch 3 and 4 just for easier review. If you are not in
+> favor of such a style, I will squash them.
+> 
+> [1]: In fact, the utility directly asks the device to return the content
+> on several specific ROM/RAM addresses, and then the utility calculates
+> the serial number with an unknown algorithm. Reading a ROM/RAM address
+> seems to be the only command that the device accepts from the USB host.
+> 
+> [2]: Yeah, their utility does not support PD packet capturing or
+> parsing. It seems that the manufacturer provides the PD sniffing feature
+> as is and expects users to capture it via hidraw or libusb and parse it
+> themselves.
+> 
+>>
+>> Sashiko has a lot of feedback that you might want to address before
+>> resubmitting.
+>>
+>> https://sashiko.dev/#/patchset/20260327-b4-hwmon-witrn-v1-0-8d2f1896c045%40rong.moe
+> 
+> Sashiko's feedback helps a lot. Thanks.
+> 
+> Thanks,
+> Rong
+> 
+>>
+>> Thanks,
+>> Guenter
+>>
+>>>
+>>>    Documentation/hwmon/index.rst |   1 +
+>>>    Documentation/hwmon/witrn.rst |  53 ++++
+>>>    MAINTAINERS                   |   7 +
+>>>    drivers/hwmon/Kconfig         |  14 +
+>>>    drivers/hwmon/Makefile        |   2 +
+>>>    drivers/hwmon/hwmon-fp.c      | 262 ++++++++++++++++
+>>>    drivers/hwmon/hwmon-fp.h      | 212 +++++++++++++
+>>>    drivers/hwmon/hwmon.c         |   1 +
+>>>    drivers/hwmon/witrn.c         | 691 ++++++++++++++++++++++++++++++++++++++++++
+>>>    9 files changed, 1243 insertions(+)
+>>> ---
+>>> base-commit: 0138af2472dfdef0d56fc4697416eaa0ff2589bd
+>>> change-id: 20260327-b4-hwmon-witrn-a629b9040250
+>>>
+>>> Thanks,
+>>> Rong
+>>>
 
-decimals is the name, but they are often represented as:
-
-	DECIMAL = INT * 10^X + FRAC
-
-in a single 64-bit number, which would be fine for my end use case.
-However IIO decimal fixed point parsing is out there for quite some time a
-lot of drivers use that. The interface often relies on breaking parsed values
-into an integer array (for standard attributes int val and int val2 are expected).
-
--- 
-Kind regards,
-
-Rodrigo Alencar
