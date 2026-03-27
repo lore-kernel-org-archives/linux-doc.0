@@ -1,60 +1,53 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50B803F7875;
-	Fri, 27 Mar 2026 14:37:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from relay.hostedemail.com (smtprelay0010.hostedemail.com [216.40.44.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AD5128313D;
+	Fri, 27 Mar 2026 14:46:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774622272; cv=none; b=s5tZlK2HxtOx9UmrpGPJ0E0t+11/RnSQMeaKkt2olr6UsV0jLnQQdMKIZwtD3ocT+mp+yiJziqqvZwSC0/n5ISWknUww+kK+YAP2kN+P2YEegFvQA7GQLfJdyQ1h4P81wMZ4pfJkevKtLgdge0jk3mbXv92RFeEpePgxnEglHTc=
+	t=1774622769; cv=none; b=EBYCqYNY7olGmm6VtbHpRlhGdoQOvcxY8glBDsdBmLj73DF+7TVM6K2etKdb4NmEENWBqWhZrH/FvOQFoZSD+Hb04AISRrZkL89UkwP+jpbMbdSFI4K8NXJCUdvTtCTkxRTjyQ1E3HavcjTCEgT7pgklXc1qlnB3ZZfU07f+wmc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774622272; c=relaxed/simple;
-	bh=rBaosBE0xHnpR4CfpExm5lZKwHweHdm8x+3Ll2q+xvc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Disposition; b=LiC4hIIO8r42X1RIqHHaBqlHM8CqAi0WuL87HdiT3h2UiYlnkAfGs7PDQSgWGtpvLS85t+OuibL1SskNlMJ3AYak4vzhA1TmY1Xgidvt732zpTuCXPtBUWLaS3wa/dLlot/R6HvnUporXx8D6Taxpl65FwEH6QE6JrLBlYXzMnM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=VVSUr77H; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="VVSUr77H"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8A7C035B1;
-	Fri, 27 Mar 2026 07:37:43 -0700 (PDT)
-Received: from devkitleo.cambridge.arm.com (devkitleo.cambridge.arm.com [10.1.196.90])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CE4EA3F905;
-	Fri, 27 Mar 2026 07:37:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1774622269; bh=rBaosBE0xHnpR4CfpExm5lZKwHweHdm8x+3Ll2q+xvc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=VVSUr77HEC3cZ3e8mCoZA+3RLhgaRRNOUCuGTX6S559KKiuhtB6vxpOV40N48ssFM
-	 tRX1PBw05CUIVrknE5F+TWpeG6ixsYLwHJkHNF71t4MqaBoqOnKwggWDvL44kkeAZy
-	 UMFtNdDxN0UrjL202wp0PPAieLzEmHevI+2cMZLs=
-From: Leonardo Bras <leo.bras@arm.com>
-To: Tian Zheng <zhengtian10@huawei.com>
-Cc: Leonardo Bras <leo.bras@arm.com>,
-	maz@kernel.org,
-	oupton@kernel.org,
-	catalin.marinas@arm.com,
-	corbet@lwn.net,
-	pbonzini@redhat.com,
-	will@kernel.org,
-	yuzenghui@huawei.com,
-	wangzhou1@hisilicon.com,
-	liuyonglong@huawei.com,
-	Jonathan.Cameron@huawei.com,
-	yezhenyu2@huawei.com,
-	linuxarm@huawei.com,
-	joey.gouly@arm.com,
-	kvmarm@lists.linux.dev,
-	kvm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	suzuki.poulose@arm.com
-Subject: Re: [PATCH] arm64/kvm: Enable eager hugepage splitting if HDBSS is available
-Date: Fri, 27 Mar 2026 14:37:39 +0000
-Message-ID: <acaWMwB2emS7HrHW@devkitleo>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <6cce203f-89d9-4e9d-8b28-9629eb53b180@huawei.com>
-References: <20260225040421.2683931-1-zhengtian10@huawei.com> <20260225040421.2683931-5-zhengtian10@huawei.com> <acQj5grOdZT8LUGp@devkitleo> <acQna2hLwdr1juTN@devkitleo> <6cce203f-89d9-4e9d-8b28-9629eb53b180@huawei.com>
+	s=arc-20240116; t=1774622769; c=relaxed/simple;
+	bh=4abyi0QFJA+ENtgPePryoxoJ/65jZXwGxdGsYQGWJ/c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EkNuNKejReyjGHY686ptQzwCtdRBMXYF29aOluIWz1QLGQQiGNVrCvdJ7qVDrmZtVvVhSF4967ES81g2dXMU8et/d26l4QzG5PhSDw/8iOGVnUVfl8ItUggk3EXQAVtomgaTvgGK7c4EZC8MgiiMp7LXEPP/EwGVx8tzVcmolr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
+Received: from omf09.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay08.hostedemail.com (Postfix) with ESMTP id 10F391411DB;
+	Fri, 27 Mar 2026 14:45:57 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf09.hostedemail.com (Postfix) with ESMTPA id F1F552003B;
+	Fri, 27 Mar 2026 14:45:44 +0000 (UTC)
+Date: Fri, 27 Mar 2026 09:45:42 -0500
+From: John Groves <John@groves.net>
+To: Jonathan Cameron <jonathan.cameron@huawei.com>
+Cc: John Groves <john@jagalactic.com>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
+	Amir Goldstein <amir73il@gmail.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
+	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH V9 7/8] dax: Add fs_dax_get() func to prepare dax for
+ fs-dax usage
+Message-ID: <acaX5fMhxSl0aD5h@groves.net>
+References: <0100019d1d463523-617e8165-a084-4d91-aa5e-13778264d5d4-000000@email.amazonses.com>
+ <20260324003919.5106-1-john@jagalactic.com>
+ <0100019d1d484ddc-2487f887-7ecd-49a3-abfe-9dabec28873f-000000@email.amazonses.com>
+ <20260324150526.000047b6@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -63,58 +56,72 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260324150526.000047b6@huawei.com>
+X-Rspamd-Server: rspamout07
+X-Rspamd-Queue-Id: F1F552003B
+X-Stat-Signature: 9bfz1px3crt5gbbbqfyugqsepybdznwf
+X-Session-Marker: 6A6F686E4067726F7665732E6E6574
+X-Session-ID: U2FsdGVkX1+2XQXA8LG1Z1gPhCVVcUDiPnAuvqEAEUE=
+X-HE-Tag: 1774622744-193271
+X-HE-Meta: U2FsdGVkX19uXYBvOa/PdwyxV5VkzlppzyKL/FKiMhfYbCosuJ3ekwr2xWqOqHs4tqX7vVS7EiXaXpsof09wXFdRoEjmq9VNuHMhM8phOJUeE0vCyScTnyWAeORd/3AxPJ5mJHamRkQlNMfJXgl5lOO7xivNG/Mz+6ntwciRcug7cJeTCaSE+O8TRrootHB37g+aziwAwI4V4JqD8cMWsTSbOhrlBJGF3gkleT16yA7gHUOWdDDPcdoHp3DyZTHHWs081bo2h8s6Xtd+yfwPKih/8Tda1Is1l0DxR5HYGyDHF1UgsvrMc1fCY21fv56XdaaRBtMgRdPvAUXdP/g+sveuQ7Qb+x6YpXk1RHw98opI/sgNXmgTUfaZ8mNUiZjKMAH7z+VjvDkZ55zfJQ7aLVPrwKeebgq+tKC89Djw3Trjl/RgfRAQNC+84i+IGPMwtYVRBLrvSMt+sXZCrsdbXw==
 
-On Fri, Mar 27, 2026 at 03:40:30PM +0800, Tian Zheng wrote:
+On 26/03/24 03:05PM, Jonathan Cameron wrote:
+> On Tue, 24 Mar 2026 00:39:31 +0000
+> John Groves <john@jagalactic.com> wrote:
 > 
-> On 3/26/2026 2:20 AM, Leonardo Bras wrote:
-> > FEAT_HDBSS speeds up guest memory dirty tracking by avoiding a page fault
-> > and saving the entry in a tracking structure.
+> > From: John Groves <john@groves.net>
 > > 
-> > That may be a problem when we have guest memory backed by hugepages or
-> > transparent huge pages, as it's not possible to do on-demand hugepage
-> > splitting, relying only on eager hugepage splitting.
+> > The fs_dax_get() function should be called by fs-dax file systems after
+> > opening a fsdev dax device. This adds holder_operations, which provides
+> > a memory failure callback path and effects exclusivity between callers
+> > of fs_dax_get().
 > > 
-> > So, at stage2 initialization, enable eager hugepage splitting with
-> > chunk = PAGE_SIZE if the system supports HDBSS.
+> > fs_dax_get() is specific to fsdev_dax, so it checks the driver type
+> > (which required touching bus.[ch]). fs_dax_get() fails if fsdev_dax is
+> > not bound to the memory.
 > > 
-> > Signed-off-by: Leonardo Bras <leo.bras@arm.com>
-> > ---
-> >   arch/arm64/kvm/mmu.c | 8 ++++++--
-> >   1 file changed, 6 insertions(+), 2 deletions(-)
+> > This function serves the same role as fs_dax_get_by_bdev(), which dax
+> > file systems call after opening the pmem block device.
 > > 
-> > diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
-> > index 070a01e53fcb..bdfa72b7c073 100644
-> > --- a/arch/arm64/kvm/mmu.c
-> > +++ b/arch/arm64/kvm/mmu.c
-> > @@ -993,22 +993,26 @@ int kvm_init_stage2_mmu(struct kvm *kvm, struct kvm_s2_mmu *mmu, unsigned long t
-> >   	mmu->last_vcpu_ran = alloc_percpu(typeof(*mmu->last_vcpu_ran));
-> >   	if (!mmu->last_vcpu_ran) {
-> >   		err = -ENOMEM;
-> >   		goto out_destroy_pgtable;
-> >   	}
-> >   	for_each_possible_cpu(cpu)
-> >   		*per_cpu_ptr(mmu->last_vcpu_ran, cpu) = -1;
-> > -	 /* The eager page splitting is disabled by default */
-> > -	mmu->split_page_chunk_size = KVM_ARM_EAGER_SPLIT_CHUNK_SIZE_DEFAULT;
-> > +	 /* The eager page splitting is disabled by default if system has no HDBSS */
-> > +	if (system_supports_hacdbs())
-> > +		mmu->split_page_chunk_size = PAGE_SIZE;
-> > +	else
-> > +		mmu->split_page_chunk_size = KVM_ARM_EAGER_SPLIT_CHUNK_SIZE_DEFAULT;
-> > +
-> >   	mmu->split_page_cache.gfp_zero = __GFP_ZERO;
-> >   	mmu->pgd_phys = __pa(pgt->pgd);
-> >   	if (kvm_is_nested_s2_mmu(kvm, mmu))
-> >   		kvm_init_nested_s2_mmu(mmu);
-> >   	return 0;
-> >   out_destroy_pgtable:
+> > This can't be located in fsdev.c because struct dax_device is opaque
+> > there.
+> > 
+> > This will be called by fs/fuse/famfs.c in a subsequent commit.
+> > 
+> > Signed-off-by: John Groves <john@groves.net>
+> Hi John,
 > 
+> Looks like a stray header change  - see inline.
 > 
-> Thanks again for sending this patch. I'll integrate it into the next version
-> and run some tests.
+> With that tidied up.
+> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
 > 
+> >  #define dax_driver_register(driver) \
+> > diff --git a/drivers/dax/super.c b/drivers/dax/super.c
+> > index ba0b4cd18a77..d4ab60c406bf 100644
+> > --- a/drivers/dax/super.c
+> > +++ b/drivers/dax/super.c
 > 
+> > diff --git a/include/linux/dax.h b/include/linux/dax.h
+> > index b19bfe0c2fd1..bf37b9a982f3 100644
+> > --- a/include/linux/dax.h
+> > +++ b/include/linux/dax.h
+> 
+> >  #if IS_ENABLED(CONFIG_FS_DAX)
+> > +void fs_put_dax(struct dax_device *dax_dev, void *holder);
+> > +int fs_dax_get(struct dax_device *dax_dev, void *holder,
+> > +	       const struct dax_holder_operations *hops);
+> > +struct dax_device *inode_dax(struct inode *inode);
+> 
+> What's this? Not used in this patch and not stubbed.
+> It's in drivers/dax/dax-private.h already and given I assume code builds
+> before this patch (and it's not used in patch 8) then presumably it doesn't
+> need to be here.
+> 
+> I got suspicious due to the lack of stub rather indicating something differnt
+> form the other two.
 
-Awesome, thanks!
-Leo
+Dropped, thanks!
+
+John
+
