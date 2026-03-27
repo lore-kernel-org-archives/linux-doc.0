@@ -1,124 +1,97 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE79D37B03A
-	for <linux-doc@vger.kernel.org>; Fri, 27 Mar 2026 11:43:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43A5634F26F
+	for <linux-doc@vger.kernel.org>; Fri, 27 Mar 2026 11:50:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774611809; cv=none; b=t/DTa39DqSRarElYi0Fhk32niLIbWmwHfOrzQc6DIUcMtG7oOsKUJUMcN8XcwWPoFN6ITVxgbgXJsN5NteBdjrDEQw5BNAdVoubQhJNfWeuAk7H/DOyXZbuJ/kDnq/HZeO6o1gOL8lreI7jBgagETc8edYSk4rBPCSNEpM1S8kk=
+	t=1774612249; cv=none; b=dHv2Z70azt/LohM8ssE+FtkCitvxBtdIvm5Q9Rkl26pNHI1yK2p0SLSIQeF7A8ayfA/PvCawubltvZERwFNWgQWQB8tMeQd6eykF6s6RCI+x75OdZgp9UuHLXAP+TbknMTnTXWmoWTPeJsgEWpEZdmn/LLpQLl7uLAk8ygwldqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774611809; c=relaxed/simple;
-	bh=uYAApojvLTIkmyKoZpYwJZCokmKbnpF9c6WhaIacVG4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X3c5AhTLaXrL6v94EY7O0RuHSygOCdqhsxLWQx0gju3iPvMiPNHBnWUCDws+GkVvZdyadh2ht2VPsENQ8gyRAtpwD85xZG5cN1fZb2WD2JTi2Y4VcxZps7LLVitjAJqH5CYCqXTPXqndDypJ2MNUD/IfV7248/PLQ8jJPOLaBVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=k4QvSzox; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	s=arc-20240116; t=1774612249; c=relaxed/simple;
+	bh=yUJryAc78QywzKxvy9s5/gwJBGvfK/H8iwrIrSa5vK8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=dx20Iao9NU2p94B/WcjgWIYP8H9W6yX/ut3LytRksgJnXpc22Z1lC301ieqMCbVHyOavv5HXZ6oEcadPoYEVUymylOjbY6fPoSjbzOx/d4CNIj3/u0hIsCABbeBsjOdWFPfI8uP5scM2GuM9rSe47/rXIoXUGd9KeVzvUfDngIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JesR0hCu; arc=none smtp.client-ip=209.85.210.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="k4QvSzox"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=H/mm
-	EvjF+xhmn9Wns9betMD2C6MNmROj8DyAiLE02zM=; b=k4QvSzox0bVkfsfDjzFG
-	LGuc3RY6Nc4A01kHbyNKckXguVBwpBOKFgCosfhLsRsjq4eDoNRYZpMIVCJ0O3hr
-	gfeanKsyTEOWbah1eONyp6cI2lvZTWiinFUqQ1+gY2hdjjx+hPdnLjDCYK70TUJ4
-	aFc/YaBf28GDjSGd7mxe254RWqDfD9attVFCtj8ikS1PeMOzQ7Wq1WpZ9OE7cTEW
-	LWHjg90xTnSXm5laQso2Th3BJmrtN84wxdyQWCBE0l/PveVIj91/BXi11wFJWf4A
-	0Ik6WG0aYRHLixjG/wpRM3UOW+oQhTX4llCiif+gTG5sUZ6tFSGGFUkiiWl6Oq3N
-	Rg==
-Received: (qmail 174700 invoked from network); 27 Mar 2026 12:43:25 +0100
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 27 Mar 2026 12:43:25 +0100
-X-UD-Smtp-Session: l3s3148p1@m9s6AgBO++RUhsJN
-Date: Fri, 27 Mar 2026 12:43:24 +0100
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: linux-renesas-soc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Antonio Borneo <antonio.borneo@foss.st.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Boqun Feng <boqun@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	David Lechner <dlechner@baylibre.com>, driver-core@lists.linux.dev,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Konrad Dybcio <konradybcio@kernel.org>, Lee Jones <lee@kernel.org>,
-	Linus Walleij <linusw@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-iio@vger.kernel.org, linux-omap@vger.kernel.org,
-	linux-remoteproc@vger.kernel.org, linux-spi@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev, Mark Brown <broonie@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Waiman Long <longman@redhat.com>,
-	Wilken Gottwalt <wilken.gottwalt@posteo.net>,
-	Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v5 00/15] hwspinlock: move device alloc into core and
- refactor includes
-Message-ID: <acZtXL7OiM0ceyMe@shikoro>
-References: <20260319105947.6237-1-wsa+renesas@sang-engineering.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JesR0hCu"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-8296d553142so1080831b3a.3
+        for <linux-doc@vger.kernel.org>; Fri, 27 Mar 2026 04:50:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774612247; x=1775217047; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BJMnSBAlfPyJiWYWvGUXnllg08hGZfO99VU+MtZ1rZ0=;
+        b=JesR0hCuOPkfJQAbJ3K9Bl1lK3R6h52dmk2wsib28RQfJls4dsTT8KEkqLLxwEUjqo
+         2jveJOYDmhhg4JwbuAdG+IBc5dSIT8o0vAYmgMedE6AX9mAwNUzZr/xkUhqjS3TsOevA
+         H363411SUxf6uzC0Yfbg1+vTxoRRYiNxd6dEBPrjY9NRq3gOrV9w0Tx7jPN0UA4Qb/mC
+         k7wl0M0kjgymkwKaItEe3xTmTNMDZHNSHAu5DARPk2kpbjm/soFUJhId9WLUtNBpNEvD
+         cx49SPs8W1j60ahkW+5RFx1vxZI9yEevH7x4jLYdBlc7qOjPPBC6qLW33/7x6dVDW/Is
+         DSPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774612247; x=1775217047;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BJMnSBAlfPyJiWYWvGUXnllg08hGZfO99VU+MtZ1rZ0=;
+        b=jRDXFGeBIlj4o8ZNwwrq5ie4jbAr5CgRzgoJgGGO3q1Evs+4/64aZ4amK9FlNmH6cV
+         8+R22RSPdluajau2/GJttef59xwwhofkSSlryy+5QX38XUqXMHxFdJ9umjxP0tAakBTk
+         IAb4w6jY9ZQRgk019ZtZdNQQJBG34xgoQnjUMgtYd1paXdq5Fg4e0cG6aAd1vjsDf0BT
+         q0IpzTpEpMEtv+CN1fWQQDrFJ5wouIfQtEurxenHN+D4WDb8vY46E7A9QYHNV+he85+t
+         Xhp1QgIEZnCLLRa9df6CyjMZGzZBZ7QaK7TXGkPdQGyAiRhZu6VEE8LjIZ4ma/FtZBzo
+         XdiQ==
+X-Gm-Message-State: AOJu0Ywe0MsrzEywWW34iLi8davbuq8UQI0x4Q9RRLSbxY/qBYY5a2dR
+	WZUKNRpFQ80cFmeXkH/TRE2CKW1RGaDzEXxtQxKX5TPMTI0p+3GpCzMRtc4jkYdG
+X-Gm-Gg: ATEYQzx4CXQyrAIhY0VFK7ic4OEiX3PMvGiBKOhkMTShfuiW56w2gWAsjrLpWVHRrBt
+	gGgMWaj54gf02+bbpOBxCzMZf+PwQSMwY/7tFfclBm7poQDLtYba2yBIjjIU6tdxMAkvh7GVhFW
+	jY2JF7AQmmv9E1rMN0hYeHUqf17czQEVdGHeEoiHLDGnUicuSagMAjo7fzb1UJ9TciyCxJLlRpP
+	svLkL18+YSnUIvr7CMJ7LafQs3rejoINHR9vWhG77T9d7Z+sugPvIYgGDCzfMewiz9TbfQastGy
+	Rrf+NskVsPrmcEmwlxCHhIHUCKnLZR4/rtHEyfKJRGUUsjD6eO/Os6HRO0FxrnD5nyueFLN2stg
+	l1kypKwFULaOn3H8MY04JH88XJjfyQ5lK4YXy1DjfDIytY/zX4xLgYzKl1p9ojZAVi0d0RtchrG
+	TaVGMJAzN8ABPGxvjhwSTiOHjTjc0Eg0fFwcc=
+X-Received: by 2002:a05:6a20:3d06:b0:398:7808:10f6 with SMTP id adf61e73a8af0-39c87c2e998mr2650844637.63.1774612247299;
+        Fri, 27 Mar 2026 04:50:47 -0700 (PDT)
+Received: from localhost ([220.247.131.21])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82c7d400f62sm4961307b3a.55.2026.03.27.04.50.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Mar 2026 04:50:47 -0700 (PDT)
+From: Ariful Islam Shoikot <islamarifulshoikat@gmail.com>
+To: linux-doc@vger.kernel.org
+Cc: Ariful Islam Shoikot <islamarifulshoikat@gmail.com>
+Subject: [PATCH] docs: fix grammar in contribution maturity model
+Date: Fri, 27 Mar 2026 17:49:40 +0600
+Message-ID: <20260327115014.2210-1-islamarifulshoikat@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260319105947.6237-1-wsa+renesas@sang-engineering.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Mar 19, 2026 at 11:59:22AM +0100, Wolfram Sang wrote:
-> Changes since v4:
-> 
-> * update Documentation, too, when ABI gets changed (Thanks Antonio!)
-> * rebased to 7.0-rc4
-> * added more tags (Thanks!)
-> 
-> My ultimate goal is to allow hwspinlock provider drivers outside of the
-> subsystem directory. It turned out that a simple split of the headers
-> files into a public provider and a public consumer header file is not
-> enough because core internal structures need to stay hidden. Even more,
-> their opaqueness could and should even be increased. That would also
-> allow the core to handle the de-/allocation of the hwspinlock device
-> itself.
-> 
-> This series does all that. Patches 1-2 remove the meanwhile unused
-> platform_data to ease further refactoring. Patches 3-9 abstract access
-> to internal structures away using helpers. Patch 10 then moves
-> hwspinlock device handling to the core, simplifying drivers. The
-> remaining patches refactor the headers until the internal one is gone
-> and the public ones are divided into provider and consumer parts. More
-> details are given in the patch descriptions.
-> 
-> One note about using a callback to initialize hwspinlock priv: I also
-> experimented with a dedicated 'set_priv' helper function. It felt a bit
-> clumsy to me. Drivers would need to save the 'bank' pointer again and
-> iterate over it. Because most drivers will only have a simple callback
-> anyhow, it looked leaner to me.
-> 
-> This series has been tested on a Renesas SparrowHawk board (R-Car V4H)
-> with a yet-to-be-upstreamed hwspinlock driver for the MFIS IP core. A
-> branch can be found here (without the MFIS driver currently):
-> 
-> git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/hwspinlock/refactor-alloc-buildtest
-> 
-> Build bots reported success.
+Replace the incorrect phrase "such those" with "such as those" to
+improve clarity in the documentation.
 
-Sashiko found some valid issues[1], so I am already working on a v6.
+Signed-off-by: Ariful Islam Shoikot <islamarifulshoikat@gmail.com>
+---
+ Documentation/process/contribution-maturity-model.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-[1] https://sashiko.dev/#/patchset/20260319105947.6237-1-wsa%2Brenesas%40sang-engineering.com
+diff --git a/Documentation/process/contribution-maturity-model.rst b/Documentation/process/contribution-maturity-model.rst
+index b87ab34de22c..798d1d9dd8b8 100644
+--- a/Documentation/process/contribution-maturity-model.rst
++++ b/Documentation/process/contribution-maturity-model.rst
+@@ -65,7 +65,7 @@ Level 3
+   authored by engineers from other companies) as part of their job
+   responsibilities
+ * Contributing presentations or papers to Linux-related or academic
+-  conferences (such those organized by the Linux Foundation, Usenix,
++  conferences (such as those organized by the Linux Foundation, Usenix,
+   ACM, etc.), are considered part of an engineer’s work.
+ * A Software Engineer’s community contributions will be considered in
+   promotion and performance reviews.
+-- 
+2.43.0
 
