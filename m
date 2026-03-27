@@ -1,249 +1,283 @@
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CCD33914E1
-	for <linux-doc@vger.kernel.org>; Fri, 27 Mar 2026 12:56:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774616186; cv=none; b=dDK+jfelHMnqE+92WvADpysnztY2IJ8Sd7rVIUSzSU4lGeMJ/vdJwt78K9uB8ZIWyiPpboM6Aecp0AF3ag0atFj2Udy95y64gSfh+d3kU0OsyI93t7VVpr+RF3IEAlTWWYpCLBhBkhf9lfCdcNtXCunxz1Qx8vmw5Axp4yXnz8s=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774616186; c=relaxed/simple;
-	bh=v+rcOZU6/y/dm5EL68DNhcvdTYMZMJXFEUu4mR5WTpo=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F62F3BA25B;
+	Fri, 27 Mar 2026 12:57:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774616242; cv=pass; b=lWteOpBQSZG2RYUExs84XOcmuhDuRaCwu8R3L2S/Y8afmqYQJryW76D/5jqBZGWG5eD4U2iN6duFktSF/+7S389NFUhc6Ri5SgQzVfGUwFMj8ai680lP0mlARnZjlHDS0InWlKu/T8d4dXG3ePJuDVMW+S3JPTQSd3/QM6Q7BVw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774616242; c=relaxed/simple;
+	bh=mUiNKKtH4IxIOX8k0iZ0tYPK5HJufPt/3AwG2+TRCf0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=c78I+3u7KPNLeZ2/yTk1CT54OsTmG6vA/NwrJeiPZdEweiCNlRd8l9XTG7c2ac79gBL2A2qGE3LJUmVFaw9FlmMs75zMhred0Kzyp1uOBjrLhW5wdVgNWG2rzzz6ytf6VIu9QdJUI45IpFbiCCibg2mUGVXQhejG3jfXUw5CfAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YmZplRtx; arc=none smtp.client-ip=209.85.217.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 MIME-Version:Content-Type; b=q7QtCzLZlTu0i3/UxQnX67tXN/NFwUPKTQrkEedyCrLb5dOnTFYWEb3tElbb9lexJa782U2pao4xWtE8XvN2Gy9jCK11o8yhF3Z1iMdnWInDhmE3xYK1JMYNa1bmNUyYe3H90fAJ+5jl3nMtUG6e1Phg5803zglanBqSIi3j9Ng=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=hYU4MBjk; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YmZplRtx"
-Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-604f1bfed92so1077928137.0
-        for <linux-doc@vger.kernel.org>; Fri, 27 Mar 2026 05:56:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774616183; x=1775220983; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=htRARZf/jZjtnx4EpviwDS+534yLQjARZGHEP1UbWwM=;
-        b=YmZplRtx4jGg2ls0ESlukj394PB6IFqircT7FTtW8r8p3/O+G39WuBTVjxJcavKWCC
-         Xn6pqcbuDxgI04lDePLH4z4ZNOs83Llu8EBr3lWcE+K4vuHpU/grtvCOxuJo8Fgr3D63
-         9xYBg5+dmPFfx6FcLHUPsmKCAJysW8xw4KjwdvnDmlMJtZuCKxpUETlZxcAjWUvvc9yG
-         +qwQmkYr9gvJSqPIfdZTUaHPk0WIT0lwK7UEG4/GtQ96+jDfFdvFni3rpAJepzFaMg1a
-         4dj9KKLQLogySsY1ql4ZEMZu7CNjVGb3T7R2Y19MwkPfWb9D5+et1tWoBYnUy/vSRy7/
-         +FgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774616183; x=1775220983;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=htRARZf/jZjtnx4EpviwDS+534yLQjARZGHEP1UbWwM=;
-        b=cfWAieaOpQykS5pTj4pWOk5SB2pF7rvVHp0YzRNqecCPvQ8Wvo48Vd8BXM9wXQeaX1
-         BbZF3ZR/5C5fLfg4ub24uE/gZIq5+3TD1h5/kpPSL64z4GwGHfdJzngOtxT6qORgpIAm
-         Z8PFOy3rLcUEFRYWaN4/ALT8aLzoOhw7/5IXrb1M+TxikshS3b3ZOQaBDVMlxVRc7FYm
-         ZiCfmUe/5zgojv2GoVEMNvdwTj7rKlro8AN+mvow2EsdAdBkdyLT757g7InMp3/obf3w
-         T63Pjkp+prviLthHy9vC5SYczzmFtNnb/klet0WjcO4c8XDckZbRQmiPVbh8JkNeo69E
-         Z5Gw==
-X-Gm-Message-State: AOJu0YzLF0h+A08z0Qu9+dy09ZPZTaUnCIW+l9STU9jmk39+MnF+32Xl
-	BOL//AWjBwKdHz6Oc4GJPW0OKzcLhRs/wcekFoU3xKcutdVT7hUXLpZCphj8gaOM
-X-Gm-Gg: ATEYQzx9q7za594GhZsXKWTo+1V2ZiiEQYo+TnOvV4QkxDOMUPVpxm52R6YyuS7eF2a
-	L/zfkUPSp6lbbzvsgMllnyjxEcbp+WQnjz8VwTG49oD7HmVrc+EO6U+8TH2Ubzgyhbl93vYkQz/
-	mwX1butllMZeD1QnWbdMsmGy3F9HUKRwTJFC2ywDnFev++YAuEMUR4ZMLt4M6baybbooFcYN9wy
-	e/L/nO0b+PgS8PQplSsOzVr8cBRyRkrZEocXZYYcpuI1UvHeN5vJfmJZ2Urnv+Ffv1B/QIMFLiv
-	6TMD0/1WAo3j6GUeF25v5qRfX2NduMCp8Re1Jq5iu8o6IpNd5Pz/2qwOqON6Pv414yuEcXsLx/+
-	xpVblTeQS4WxAyt5eoWKQx7iJaUHfrMa7vwt60BrjXqlBsHVUbpJQ89o3+/PAveg5pBwzTPcBrE
-	W8hdBZo0tc7JG5kI+iEDKYvcnJCSt3nUUQzufNjIk4P/4ioD0S8uIWyM38rY0KzX49EAbMgN9Ai
-	g==
-X-Received: by 2002:a05:6102:41aa:b0:602:7acd:ab2e with SMTP id ada2fe7eead31-604f9055d94mr1081598137.1.1774616183017;
-        Fri, 27 Mar 2026 05:56:23 -0700 (PDT)
-Received: from parrot.dimenoc.com ([2804:29b8:512d:4c55:1868:543f:1aeb:fd26])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-604d50c928asm6259318137.5.2026.03.27.05.56.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Mar 2026 05:56:22 -0700 (PDT)
-From: Daniel Pereira <danielmaraboo@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org,
-	Daniel Pereira <danielmaraboo@gmail.com>
-Subject: [PATCH 5/5] docs: pt_BR: complete PGP guide translation
-Date: Fri, 27 Mar 2026 09:55:36 -0300
-Message-ID: <20260327125538.581064-6-danielmaraboo@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260327125538.581064-1-danielmaraboo@gmail.com>
-References: <20260327125538.581064-1-danielmaraboo@gmail.com>
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="hYU4MBjk"
+ARC-Seal: i=1; a=rsa-sha256; t=1774616179; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=nrhJQcNU2St85zr7KW0VW77O0rvjPuIFsgi0f3RHLuq01R3pXJEeYUsQDtcuvZr/SlAD7bJYG7OMKTL4t3i+m69bvvJ0u6NAKpW5UThs9vJTi8fkJXOVZL+Ksgw1SoeMmFgLMRKb+jM0TiSiMgaEhVZ76X0O23g+O5H3UxXtIHA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1774616179; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=9rZk3O9XtcgvBcy00N+ORbUqxZBMTrdkFnBuRIM06bI=; 
+	b=RiLu1f6xF46lhFrMPIJ8+LCZP1DjvY7YUR7IZQhn/d4AGGFfV/BeaO9+hlrlA4IkTc8AXYUHbrQKNC7Y9aWT+WS2A7rYiZO9tL/y7PLslKQJjeerZf3m4BARf7anBe/OG+EWt9IstJe+QY9KexW0GVTgr0q/bvBYlCGzHE58fpA=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774616179;
+	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+	bh=9rZk3O9XtcgvBcy00N+ORbUqxZBMTrdkFnBuRIM06bI=;
+	b=hYU4MBjkdSfxJmH/kKO/j7MNFTk9XtBpm41ookcZAIDnG353SOU0DAWhw/FagFR0
+	AmxyXQ1E79tKhpvXNtkgVz3GMmzGSc6UZOkL0HpMdPVL9MIhCTOB6f/U1SJ+liOwLpg
+	72BpbX2lR1jnhNBoBY+RhPXNy5J6gyEHCB9y3feQ=
+Received: by mx.zohomail.com with SMTPS id 17746161764209.309822167866628;
+	Fri, 27 Mar 2026 05:56:16 -0700 (PDT)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Maxime Ripard <mripard@kernel.org>,
+ Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ kernel@collabora.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, Werner Sembach <wse@tuxedocomputers.com>,
+ Andri Yngvason <andri@yngvason.is>, Marius Vlad <marius.vlad@collabora.com>
+Subject:
+ Re: [PATCH v11 03/22] drm: Add new general DRM property "color format"
+Date: Fri, 27 Mar 2026 13:56:06 +0100
+Message-ID: <4153041.tdWV9SEqCh@workhorse>
+In-Reply-To: <acVzwRyk_J24GrJ4@intel.com>
+References:
+ <20260324-color-format-v11-0-605559af4fb4@collabora.com>
+ <20260326-pumpkin-goshawk-of-stamina-0ccb84@houat>
+ <acVzwRyk_J24GrJ4@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=y
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-Finish the translation of the PGP maintainer guide into Brazilian
-Portuguese, covering advanced tools and identity verification.
+On Thursday, 26 March 2026 18:58:25 Central European Standard Time Ville Sy=
+rj=C3=A4l=C3=A4 wrote:
+> On Thu, Mar 26, 2026 at 06:02:47PM +0100, Maxime Ripard wrote:
+> > On Wed, Mar 25, 2026 at 08:43:15PM +0200, Ville Syrj=C3=A4l=C3=A4 wrote:
+> > > On Wed, Mar 25, 2026 at 03:56:58PM +0100, Maxime Ripard wrote:
+> > > > On Wed, Mar 25, 2026 at 01:03:07PM +0200, Ville Syrj=C3=A4l=C3=A4 w=
+rote:
+> > > > > On Wed, Mar 25, 2026 at 09:24:27AM +0100, Maxime Ripard wrote:
+> > > > > > On Tue, Mar 24, 2026 at 09:53:35PM +0200, Ville Syrj=C3=A4l=C3=
+=A4 wrote:
+> > > > > > > On Tue, Mar 24, 2026 at 08:10:11PM +0100, Nicolas Frattaroli =
+wrote:
+> > > > > > > > On Tuesday, 24 March 2026 18:00:45 Central European Standar=
+d Time Ville Syrj=C3=A4l=C3=A4 wrote:
+> > > > > > > > > On Tue, Mar 24, 2026 at 05:01:07PM +0100, Nicolas Frattar=
+oli wrote:
+> > > > > > > > > > +enum drm_connector_color_format {
+> > > > > > > > > > +	/**
+> > > > > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_AUTO: The driver or di=
+splay protocol
+> > > > > > > > > > +	 * helpers should pick a suitable color format. All i=
+mplementations of a
+> > > > > > > > > > +	 * specific display protocol must behave the same way=
+ with "AUTO", but
+> > > > > > > > > > +	 * different display protocols do not necessarily hav=
+e the same "AUTO"
+> > > > > > > > > > +	 * semantics.
+> > > > > > > > > > +	 *
+> > > > > > > > > > +	 * For HDMI, "AUTO" picks RGB, but falls back to YCbC=
+r 4:2:0 if the
+> > > > > > > > > > +	 * bandwidth required for full-scale RGB is not avail=
+able, or the mode
+> > > > > > > > > > +	 * is YCbCr 4:2:0-only, as long as the mode and outpu=
+t both support
+> > > > > > > > > > +	 * YCbCr 4:2:0.
+> > > > > > > > > > +	 *
+> > > > > > > > > > +	 * For display protocols other than HDMI, the recursi=
+ve bridge chain
+> > > > > > > > > > +	 * format selection picks the first chain of bridge f=
+ormats that works,
+> > > > > > > > > > +	 * as has already been the case before the introducti=
+on of the "color
+> > > > > > > > > > +	 * format" property. Non-HDMI bridges should therefor=
+e either sort their
+> > > > > > > > > > +	 * bus output formats by preference, or agree on a un=
+ified auto format
+> > > > > > > > > > +	 * selection logic that's implemented in a common sta=
+te helper (like
+> > > > > > > > > > +	 * how HDMI does it).
+> > > > > > > > > > +	 */
+> > > > > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_AUTO =3D 0,
+> > > > > > > > > > +
+> > > > > > > > > > +	/**
+> > > > > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_RGB444: RGB output for=
+mat
+> > > > > > > > > > +	 */
+> > > > > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_RGB444,
+> > > > > > > > > > +
+> > > > > > > > > > +	/**
+> > > > > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR444: YCbCr 4:4:4 =
+output format (ie.
+> > > > > > > > > > +	 * not subsampled)
+> > > > > > > > > > +	 */
+> > > > > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR444,
+> > > > > > > > > > +
+> > > > > > > > > > +	/**
+> > > > > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR422: YCbCr 4:2:2 =
+output format (ie.
+> > > > > > > > > > +	 * with horizontal subsampling)
+> > > > > > > > > > +	 */
+> > > > > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR422,
+> > > > > > > > > > +
+> > > > > > > > > > +	/**
+> > > > > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR420: YCbCr 4:2:0 =
+output format (ie.
+> > > > > > > > > > +	 * with horizontal and vertical subsampling)
+> > > > > > > > > > +	 */
+> > > > > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR420,
+> > > > > > > > >=20
+> > > > > > > > > Seems like this should document what the quantization ran=
+ge
+> > > > > > > > > should be for each format.
+> > > > > > > > >=20
+> > > > > > > >=20
+> > > > > > > > I don't think so? If you want per-component bit depth value=
+s,
+> > > > > > > > DRM_FORMAT_* defines would be the appropriate values to use=
+=2E This
+> > > > > > > > enum is more abstract than that, and is there to communicate
+> > > > > > > > YUV vs. RGB and chroma subsampling, with bit depth being ha=
+ndled
+> > > > > > > > by other properties.
+> > > > > > > >=20
+> > > > > > > > If you mean the factor used for subsampling, then that'd on=
+ly be
+> > > > > > > > relevant if YCBCR410 was supported where one chroma plane i=
+sn't
+> > > > > > > > halved but quartered in resolution. I suspect 4:1:0 will ne=
+ver
+> > > > > > > > be added; no digital display protocol standard supports it =
+to my
+> > > > > > > > knowledge, and hopefully none ever will.
+> > > > > > >=20
+> > > > > > > No, I mean the quantization range (16-235 vs. 0-255 etc).
+> > > > > > >=20
+> > > > > > > The i915 behaviour is that YCbCr is always limited range,
+> > > > > > > RGB can either be full or limited range depending on the=20
+> > > > > > > "Broadcast RGB" property and other related factors.
+> > > > > >=20
+> > > > > > So far the HDMI state has both the format and quantization rang=
+e as
+> > > > > > different fields. I'm not sure we need to document the range in=
+ the
+> > > > > > format field, maybe only mention it's not part of the format bu=
+t has a
+> > > > > > field of its own?
+> > > > >=20
+> > > > > I think we only have it for RGB (on some drivers only?). For YCbCr
+> > > > > I think the assumption is limited range everywhere.
+> > > > >=20
+> > > > > But I'm not really concerned about documenting struct members.
+> > > > > What I'm talking about is the *uapi* docs. Surely userspace
+> > > > > will want to know what the new property actually does so the
+> > > > > uapi needs to be documented properly. And down the line some
+> > > > > new driver might also implement the wrong behaviour if there
+> > > > > is no clear specification.
+> > > >=20
+> > > > Ack
+> > > >=20
+> > > > > So I'm thinking (or perhaps hoping) the rule might be something l=
+ike:
+> > > > > - YCbCr limited range=20
+> > > > > - RGB full range if "Broadcast RGB" property is not present
+> > > >=20
+> > > > Isn't it much more complicated than that for HDMI though? My
+> > > > recollection was that any VIC but VIC1 would be limited range, and
+> > > > anything else full range?
+> > >=20
+> > > Do we have some driver that implements the CTA-861 CE vs. IT mode
+> > > logic but doesn't expose the "Broadcast RGB" property? I was hoping
+> > > those would always go hand in hand now.
+> >=20
+> > I'm not sure. i915 and the HDMI state helpers handle it properly (I
+> > think?) but it looks like only vc4 registers the Broadcast RGB property
+> > and uses the HDMI state helpers.
+> >=20
+> > And it looks like amdgpu registers Broadcast RGB but doesn't use
+> > drm_default_rgb_quant_range() which seems suspicious?
+>=20
+> If they want just manual full vs. limited then they should
+> limit the property to not expose the "auto" option at all.
+>=20
+> amdgpu also ties this in with the "colorspace" property, which
+> originally in i915 only controlled the infoframes/etc. But on
+> amdgpu it now controls various aspects of output color
+> transformation. The end result is that the property is a complete
+> mess with most of the values making no sense. And for whatever
+> reason everyone involved refused to remove/deprecate the
+> nonsensical values :/
+>=20
+> Looks like this series should make sure the documentation for
+> the "colorspace" property is in sync with the new property
+> as well. Currently now it's giving conflicting information.
+>=20
 
-This final part adds:
-- Detailed configuration for the patatt patch attestation tool.
-- Integration of gpg-agent with SSH for remote signing.
-- Procedures for verifying kernel developer identities.
-- Technical overview of WOT (Web of Trust) vs. TOFU models.
-- Automated key discovery via WKD and DANE (DNSSEC/TLS).
-- Usage of the kernel.org PGP keyring repository.
+I take it the problematic information is in
 
-All internal cross-references and labels were updated with the '_pt'
-suffix to maintain a clean namespace during the Sphinx build.
+    * DOC: standard connector properties
+    *
+    * Colorspace:
 
-The document passes checkpatch.pl with 0 errors/warnings and builds
-perfectly with 'make htmldocs'.
+and probably specifically BT2020_YCC's (and BT2020_RGB's?) insistence
+that they "produce RGB content".
 
-Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
----
- .../pt_BR/process/maintainer-pgp-guide.rst    | 135 +++++++++++++++++-
- 1 file changed, 134 insertions(+), 1 deletion(-)
+I think we probably just have to change the statement "The variants
+BT2020_RGB and BT2020_YCC are equivalent and the driver chooses between
+RGB and YCbCr on its own."
 
-diff --git a/Documentation/translations/pt_BR/process/maintainer-pgp-guide.rst b/Documentation/translations/pt_BR/process/maintainer-pgp-guide.rst
-index e4cc9211b..78cc393e0 100644
---- a/Documentation/translations/pt_BR/process/maintainer-pgp-guide.rst
-+++ b/Documentation/translations/pt_BR/process/maintainer-pgp-guide.rst
-@@ -777,4 +777,137 @@ criptográfica nos cabeçalhos das mensagens (estilo DKIM):
- 
- - `Atestação de Patch Patatt (pt)`_
- 
--.. _`Atestação de Patch Patatt (pt)`: https://pypi.org/project/patatt/
-\ No newline at end of file
-+.. _`Atestação de Patch Patatt (pt)`: https://pypi.org/project/patatt/
-+
-+Instalando e configurando o patatt
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+.. note::
-+
-+    Se você usa o B4 para enviar seus patches, o patatt já está instalado
-+    e integrado ao seu fluxo de trabalho.
-+
-+O patatt já está empacotado para muitas distribuições, portanto, verifique-as
-+primeiro. Você também pode instalá-lo a partir do pypi usando
-+"``pip install patatt``".
-+
-+Se você já tem sua chave PGP configurada com o git (via o parâmetro de
-+configuração ``user.signingKey``), o patatt não requer nenhuma configuração
-+adicional. Você pode começar a assinar seus patches instalando o hook do
-+git-send-email no repositório que desejar::
-+
-+    patatt install-hook
-+
-+Agora, quaisquer patches que você enviar com ``git send-email`` serão
-+automaticamente assinados com sua assinatura criptográfica.
-+
-+Verificando assinaturas do patatt
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Se você estiver usando o ``b4`` para recuperar e aplicar patches, ele tentará
-+verificar automaticamente todas as assinaturas DKIM e patatt que encontrar,
-+por exemplo::
-+
-+    $ b4 am 20220720205013.890942-1-broonie@kernel.org
-+    [...]
-+    Checking attestation on all messages, may take a moment...
-+    ---
-+      ✓ [PATCH v1 1/3] kselftest/arm64: Correct buffer allocation for SVE Z registers
-+      ✓ [PATCH v1 2/3] arm64/sve: Document our actual ABI for clearing registers on syscall
-+      ✓ [PATCH v1 3/3] kselftest/arm64: Enforce actual ABI for SVE syscalls
-+      ---
-+      ✓ Signed: openpgp/broonie@kernel.org
-+      ✓ Signed: DKIM/kernel.org
-+
-+.. note::
-+
-+    O patatt e o b4 ainda estão em desenvolvimento ativo e você deve consultar
-+    a documentação mais recente desses projetos para quaisquer recursos novos
-+    ou atualizados.
-+
-+Como verificar identidades de desenvolvedores do kernel
-+=======================================================
-+
-+Assinar tags e commits é simples, mas como verificar se a chave usada para
-+assinar algo pertence ao desenvolvedor real do kernel e não a um impostor
-+mal-intencionado?
-+
-+Configurar a recuperação automática de chaves usando WKD e DANE
-+---------------------------------------------------------------
-+
-+Se você ainda não possui uma vasta coleção de chaves públicas de outros
-+desenvolvedores, pode dar um pontapé inicial em seu chaveiro confiando na
-+autodescoberta e recuperação automática de chaves. O GnuPG pode se apoiar em
-+outras tecnologias de confiança delegada, especificamente DNSSEC e TLS, para
-+ajudá-lo se a perspectiva de começar sua própria teia de confiança (Web of Trust)
-+do zero for muito desanimadora.
-+
-+Adicione o seguinte ao seu ``~/.gnupg/gpg.conf``::
-+
-+    auto-key-locate wkd,dane,local
-+    auto-key-retrieve
-+
-+O DANE (DNS-Based Authentication of Named Entities) é um método para publicar
-+chaves públicas no DNS e protegê-las usando zonas assinadas por DNSSEC. O WKD
-+(Web Key Directory) é o método alternativo que usa consultas https para o mesmo
-+propósito. Ao usar DANE ou WKD para buscar chaves públicas, o GnuPG validará o
-+DNSSEC ou os certificados TLS, respectivamente, antes de adicionar as chaves
-+públicas recuperadas automaticamente ao seu chaveiro local.
-+
-+O Kernel.org publica o WKD para todos os desenvolvedores que possuem contas
-+kernel.org. Uma vez que você tenha as alterações acima em seu ``gpg.conf``, você
-+poderá recuperar automaticamente as chaves de Linus Torvalds e Greg
-+Kroah-Hartman (caso ainda não as tenha)::
-+
-+    $ gpg --locate-keys torvalds@kernel.org gregkh@kernel.org
-+
-+Se você tem uma conta kernel.org, deve `adicionar o UID do kernel.org à sua chave (pt)`_
-+para tornar o WKD mais útil para outros desenvolvedores do kernel.
-+
-+.. _`adicionar o UID do kernel.org à sua chave (pt)`: https://korg.docs.kernel.org/mail.html#adding-a-kernel-org-uid-to-your-pgp-key
-+
-+Web of Trust (WOT) vs. Trust on First Use (TOFU)
-+------------------------------------------------
-+
-+O PGP incorpora um mecanismo de delegação de confiança conhecido como "Teia de
-+Confiança" (Web of Trust - WOT). Em sua essência, trata-se de uma tentativa de
-+substituir a necessidade de Autoridades de Certificação centralizadas do mundo
-+HTTPS/TLS. Em vez de vários fabricantes de software ditarem quem deve ser sua
-+entidade certificadora de confiança, o PGP deixa essa responsabilidade para cada
-+usuário.
-+
-+Infelizmente, pouquíssimas pessoas entendem como a Teia de Confiança funciona.
-+Embora ainda seja uma parte importante da especificação OpenPGP, as versões
-+recentes do GnuPG (2.2 e superiores) implementaram um mecanismo alternativo
-+chamado "Confiança no Primeiro Uso" (Trust on First Use - TOFU). Você pode
-+pensar no TOFU como "a abordagem de confiança estilo SSH". Com o SSH, na primeira
-+vez que você se conecta a um sistema remoto, o fingerprint da chave dele é
-+gravado e lembrado. Se a chave mudar no futuro, o cliente SSH o alertará e se
-+recusará a conectar, forçando-o a tomar uma decisão sobre confiar ou não na
-+chave alterada. Da mesma forma, na primeira vez que você importa a chave PGP de
-+alguém, assume-se que ela é válida. Se em algum momento no futuro o GnuPG se
-+deparar com outra chave com a mesma identidade, tanto a chave importada
-+anteriormente quanto a nova chave serão marcadas para verificação, e você
-+precisará descobrir manualmente qual delas manter.
-+
-+Recomendamos que você use o modelo de confiança combinado TOFU+PGP (que é o novo
-+padrão no GnuPG v2). Para configurá-lo, adicione (ou modifique) a configuração
-+``trust-model`` em ``~/.gnupg/gpg.conf``::
-+
-+    trust-model tofu+pgp
-+
-+Usando o repositório Web of Trust do kernel.org
-+-----------------------------------------------
-+
-+O kernel.org mantém um repositório git com as chaves públicas dos
-+desenvolvedores como um substituto para as redes de servidores de chaves
-+(keyservers) que ficaram em grande parte inativas nos últimos anos. A
-+documentação completa sobre como configurar esse repositório como sua fonte de
-+chaves públicas pode ser encontrada aqui:
-+
-+- `Chaveiro PGP de desenvolvedores do Kernel (pt)`_
-+
-+Se você é um desenvolvedor do kernel, considere enviar sua chave para inclusão
-+nesse chaveiro.
-+
-+.. _`Chaveiro PGP de desenvolvedores do Kernel (pt)`: https://korg.docs.kernel.org/pgpkeys.html
-\ No newline at end of file
--- 
-2.47.3
+The "on its own" here would get turned into "based on the color format
+property".
+
+Speaking of i915, that patch is one of the very few (5) patches in
+this series still lacking a review (hint hint nudge nudge). I'd like
+to get some more feedback on the remaining patches before I send out
+another revision, so that it's hopefully not just docs changes (I
+know better than to think those patches must be perfect and won't
+need revision.)
+
+If `drm/bridge: Act on the DRM color format property` and
+`drm/atomic-helper: Add HDMI bridge output bus formats helper` get a
+reviewed-by/acked-by and it's still crickets on the amdgpu and i915
+front, then I will just drop the amdgpu/i915 implementations so that
+they don't block this from landing.
+
+Kind regards,
+Nicolas Frattaroli
+
 
