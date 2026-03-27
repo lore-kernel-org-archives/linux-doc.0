@@ -1,271 +1,162 @@
-Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB9FF3D9040
-	for <linux-doc@vger.kernel.org>; Fri, 27 Mar 2026 09:00:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.161.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774602037; cv=pass; b=lbkcppn0cAlSlFuoBQ2/xN2rDi+eQ3WKbTGoCr6UHM+uOWx5dwJ6G16cdUl6Mr9Fw0P6p1i9Bx4EwZIjuIzvjw7amoCqaqxRXS2Jug0W+In+JhP4u9jNC4jLbh7Gc2pa7OOaeScPz9NLS6qoSwgxZsE9nmOZTwGrOSKeLckcI7E=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774602037; c=relaxed/simple;
-	bh=PQErMo2tH3t2XnWR73yPMCnulOQrwgjmdWJIjwxRxuo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gac2XXfcJalhlPFN0a5EsKrboikUBrgKyhVoI6bQjsZ2DXfzolMNFfKsNEkz0RMG/xf2H6rj0s8fFBUir16OuyoVWbdvfjCFNuGpIOc7ejuEG0yvYPtNOtm8VRc8++Itrdwod5gxi4KyzQshltZOzr04syG4t0dim4dk4/d5udw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=brainfault.org; spf=none smtp.mailfrom=brainfault.org; dkim=pass (2048-bit key) header.d=brainfault-org.20230601.gappssmtp.com header.i=@brainfault-org.20230601.gappssmtp.com header.b=rC5XyFvB; arc=pass smtp.client-ip=209.85.161.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=brainfault.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=brainfault.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3E523DBD60;
+	Fri, 27 Mar 2026 09:17:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774603077; cv=none; b=KW6gAxNI6oo2WA8e5wpNFy23nKzJCy2hgBnV7RPsIEVi13DQlOnX2IkpTcW0gqUj7A2cYP9IfFZsPt0R2TsJ4JUt22yXhDT0URG86+evz068egu62DD/sKqFO7w009aEXa11NTEXCLxUnBnVwYn8rHrtpgUxTRYtG6hnDFP3EEg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774603077; c=relaxed/simple;
+	bh=9xnqu2U78yxsRU0eiXXKO5PGtS5N+f/3OEQ7NZl2GBk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=blp4UFeO64vowknMRrda5RnVDoRmi7qJi6MDA9q3e3cPV7XrPRtTnLG0m+Dqm65vQdQMu9FCgXdv8zfmeg9litwYj6k9RI12srlprhmf0la967hdiWytB+UJp2hxDSn8jSVYkXc96jeZtBR2rG7ZHAlqK7FLy9GkZbUdribPtt8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TsqK+uwa; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=brainfault-org.20230601.gappssmtp.com header.i=@brainfault-org.20230601.gappssmtp.com header.b="rC5XyFvB"
-Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-67bad873c3eso1208665eaf.3
-        for <linux-doc@vger.kernel.org>; Fri, 27 Mar 2026 02:00:35 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774602035; cv=none;
-        d=google.com; s=arc-20240605;
-        b=YDwHX5dCkRw2wqfGd6ivOUvxyisbf4qbCKpI19uKvp0re3I67mVhFq0Um/bo+cDyJD
-         7nqMYU4bU9O8OLdsXtXmDJpUxJ2WG0fq13/8OzNLEn/pgL5iBmggTdknUCLCcvJ0LkS7
-         hgi8WPxYEqf6mjCApPIh5YpSKe/lDCkSKqh1ZN2sF4GItcqabyOUPZoGAyJl0J6S/+2P
-         xD+6i471jW9xxvdX+XA6lPIxCuHg4JA2uXDFA/WpBXFqkklQHKLl3TaWP6XZNKkiCTaP
-         X8MEsaem4EtCq/FEAC+c2+69hF7UzrQMHnJmsPA8jRlnDwf/D1PjD3eY7CL8Hj/ElPMi
-         U6uw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=8iPzBqHCfL3LcH+hQY6MvdDgBGLsYlEG1twB6MOAX5Q=;
-        fh=B8Chp11eg6esydVPs0r2JbDdJlECvkfCkOz1Mw507E8=;
-        b=SOhM+qZw25oYikEef+lb/aR2PwY+tU6fjtOyuHA3Y2PpYmb7WITf049dbmVGap0kBh
-         qmeCthGoozphAzxen3P+A7D9A1Q+VlQyJ63k8LRuvc/PTZkfNn+FzGB87+INHsud/ntS
-         RSD407HeINKI7FhqM3krCowYmCZgzoKP4/Wt0f678fTeTCFmQPpiTsit7FCzTivHEMcW
-         gpGQfoy6vfCjORE6yFMbP5lqc4kG0h/D1/JQ6vGY/dg/qa8Z1rFPii2lN2TbCaY8mxSP
-         y9LHJxui5D3GCyggyrd6SOXN03BxCwxpNkRNRsObBrctOaFd8WRmmSMmB4nsSFDXgBl3
-         Fb6A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brainfault-org.20230601.gappssmtp.com; s=20230601; t=1774602034; x=1775206834; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8iPzBqHCfL3LcH+hQY6MvdDgBGLsYlEG1twB6MOAX5Q=;
-        b=rC5XyFvB6halYYr2Xc6y0mSKd8qgatl/uzNfA3fYLvJXk5Houtq/J6zhw2W97OZfKj
-         JMRRSHYTLth0kvb811stxtCKLtfLaapjrPO87uCPMRycT+Fxn41RK+R+uUsRgyLZ6f5i
-         fqE8a+L+XfhzMc/lf4ZbCo3xPo1IHAowu4vYOcab1u5hwqfqII3J7MNuvYL4oYZ/3ipS
-         ooDoPgdQ1l+RRsJ/FI6RnyJIxVmu2eEAKd2eeRS3cotIUeEOSerNTqrHv9nD1ZDB8iPk
-         jghRPOz5ePdM09WoFu/xtcNbBURdiuUin1hVrb6S3vHfmCX/hE5W3U0/R+n02whiMce2
-         iHOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774602035; x=1775206835;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=8iPzBqHCfL3LcH+hQY6MvdDgBGLsYlEG1twB6MOAX5Q=;
-        b=DZ5wA5I4wzXCbgQMFUCTsQ/zRo8GCjkCmzBSubTvCMj0CrJQRTlkQRrKWNFixo/WQt
-         iF/CtuE/eHThlQPNO11Owm9wWyhg3p1A83Dp6s6CGzZdvQg1XudsqW8yuetIMxlSZL/l
-         sGEJZmx2ezirY9uu8sSdCOLb6LtSe8qTYFkxzkj9Zss34v3Li8MdsLb8lqmG2V6YRvO8
-         OPHLKM+ojI1MqOyaqZGXYrqeOGV9DdALW8xyef+c75AoaY1gBkEFlucRQOnoBVH712iJ
-         LUa2kydR7WMJpGk0Af4rdG3vv9+fWEhuHsSDzNEIoDjvCIRL7SxTfLLURlvXMBsK3wI4
-         lm7g==
-X-Forwarded-Encrypted: i=1; AJvYcCVuSfmysUxIKtnM0PMBIEef62b/iinQegFnXavs3KO2ah22e0e7COeQV6zzXHm/QGTLP8t18xlKpAE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz3qvrTLA3i9okCie7neUnGF9/vRtNOrQgEYUQ4ZtO4gEAfKmTu
-	XlpGmxHQZH1DBU0x/VkLsTsHvAdC9t28ADasKtcL65qcg74qtRqN8y3ynva3qE8FrLT302LMvax
-	MLD1DOP5qJuoAUtg47jst3egoI/2LBH8DTWCuA3I8ww==
-X-Gm-Gg: ATEYQzzZUjEEzRgIoi1b1n4VyQdh33wu6oMPa63Hp4R5nY6ihfvoqpLxX4vySOAfgGi
-	cRo2xq23TPSl5Ozi6vLdOu7YO2YChLV8tzFbkwEUvDimmQIkTL5HM30+zv1n9hbWByvsfuwwu7A
-	NMXS2USEtz+CeDvbv2blabC83alZSAhOSy015PkxM1XiT6MhRFU3nsb1f1LHlbiskbWUL8KpcpW
-	ZmBYIIpdoLY++pnH0qnJUWjGkSdedi2CbjxQw1mF5nyLwP+/K/u3VRs1deSsSdj68tKLWaISYmi
-	NHmC/lDVKdOVYuq/xsQU3anPZTLLZs/3YOeiPk0o8Pfi2mljG63ilFA1XPmBHkewAoI1WxnmXAR
-	U1pFk/jebnIOA+8lDPyzqZtbT7A==
-X-Received: by 2002:a05:6820:2294:b0:67c:2ad5:2b39 with SMTP id
- 006d021491bc7-67e18641ffdmr874008eaf.23.1774602034585; Fri, 27 Mar 2026
- 02:00:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TsqK+uwa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774603073; x=1806139073;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9xnqu2U78yxsRU0eiXXKO5PGtS5N+f/3OEQ7NZl2GBk=;
+  b=TsqK+uwa6BvzaN5D/K9dVqp4NhmWDvdDk3Ekjzk+naS1S3ss8XFrSn7P
+   Hwrh8jH+qeaBdYC9KhtdPFQgHVgD5j3rVc3MRfRcGizI0yn34WFW5h648
+   egrexH4/pr7M5c45dSs3zkn5DQm5GOWujxoSwEr5UVcnpLahU0Bg+haRI
+   p0p9VzwhGpUIrAr52KzogyBmMqTOU9N021DtynN9FYkdstc2yLIkx1kk/
+   gBmY00b4T5rAT9475D3WRvI4f6NaJWoqITuG4Q8e1F6FJxJHhBvLjKXvv
+   7dZqNGXUg8LzxBXxIzxTFDDDO7PVmUGJZjQIcUsBQ08mfpQxe6WpGuH8R
+   A==;
+X-CSE-ConnectionGUID: 7TTk/09ZRAmFYiDfqIXfXA==
+X-CSE-MsgGUID: aVjMHnQnQQiDE79GrXjuAQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11741"; a="79577066"
+X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
+   d="scan'208";a="79577066"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 02:17:25 -0700
+X-CSE-ConnectionGUID: 4HWi7vfyT8eKdVXZB3VlOg==
+X-CSE-MsgGUID: tsARdpr2SEWYEr1ISoA7Mg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,143,1770624000"; 
+   d="scan'208";a="230190503"
+Received: from vpanait-mobl.ger.corp.intel.com (HELO localhost) ([10.245.244.127])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2026 02:17:18 -0700
+Date: Fri, 27 Mar 2026 11:17:16 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Petr Mladek <pmladek@suse.com>
+Cc: rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH v9 2/9] lib: vsprintf: export simple_strntoull() in a
+ safe prototype
+Message-ID: <acZLHAT5qJyjKTsp@ashevche-desk.local>
+References: <20260320-adf41513-iio-driver-v9-0-132f0d076374@analog.com>
+ <20260320-adf41513-iio-driver-v9-2-132f0d076374@analog.com>
+ <acZDneLrIPOmU5ci@pathway.suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAAhSdy2uMY+-9W34G3QJ3m9XWg2dq_PeNB_9j9B3viZaRg=SUQ@mail.gmail.com>
- <20260327015555.79223-1-fangyu.yu@linux.alibaba.com>
-In-Reply-To: <20260327015555.79223-1-fangyu.yu@linux.alibaba.com>
-From: Anup Patel <anup@brainfault.org>
-Date: Fri, 27 Mar 2026 14:30:21 +0530
-X-Gm-Features: AQROBzB6k39KBSA1bOcm2FYN_Hf1EsV9UtH0iPUVwF6t7ZS-vmzIB0bn1mfZeas
-Message-ID: <CAAhSdy1-OPSaigBarUGmNWfcDBqjine+Hm+Urdinv1nLooQMNA@mail.gmail.com>
-Subject: Re: Re: [PATCH v5 2/3] RISC-V: KVM: Detect and expose supported HGATP
- G-stage modes
-To: fangyu.yu@linux.alibaba.com
-Cc: alex@ghiti.fr, andrew.jones@oss.qualcomm.com, aou@eecs.berkeley.edu, 
-	atish.patra@linux.dev, corbet@lwn.net, guoren@kernel.org, 
-	kvm-riscv@lists.infradead.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	palmer@dabbelt.com, pbonzini@redhat.com, pjw@kernel.org, 
-	radim.krcmar@oss.qualcomm.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <acZDneLrIPOmU5ci@pathway.suse.cz>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Fri, Mar 27, 2026 at 7:26=E2=80=AFAM <fangyu.yu@linux.alibaba.com> wrote=
-:
->
-> >> From: Fangyu Yu <fangyu.yu@linux.alibaba.com>
-> >>
-> >> Extend kvm_riscv_gstage_mode_detect() to probe all HGATP.MODE values
-> >> supported by the host and record them in a bitmask. Keep tracking the
-> >> maximum supported G-stage page table level for existing internal users=
-.
-> >>
-> >> Also provide lightweight helpers to retrieve the supported-mode bitmas=
-k
-> >> and validate a requested HGATP.MODE against it.
-> >>
-> >> Signed-off-by: Fangyu Yu <fangyu.yu@linux.alibaba.com>
-> >> ---
-> >>  arch/riscv/include/asm/kvm_gstage.h | 11 ++++++++
-> >>  arch/riscv/kvm/gstage.c             | 43 +++++++++++++++-------------=
--
-> >>  2 files changed, 34 insertions(+), 20 deletions(-)
-> >>
-> >> diff --git a/arch/riscv/include/asm/kvm_gstage.h b/arch/riscv/include/=
-asm/kvm_gstage.h
-> >> index b12605fbca44..76c37b5dc02d 100644
-> >> --- a/arch/riscv/include/asm/kvm_gstage.h
-> >> +++ b/arch/riscv/include/asm/kvm_gstage.h
-> >> @@ -30,6 +30,7 @@ struct kvm_gstage_mapping {
-> >>  #endif
-> >>
-> >>  extern unsigned long kvm_riscv_gstage_max_pgd_levels;
-> >> +extern u32 kvm_riscv_gstage_mode_mask;
-> >
-> >s/u32/unsigned long/
-> >s/kvm_riscv_gstage_mode_mask/kvm_riscv_gstage_supported_mode_mask/
-> >
->
-> Ack, will switch the type to unsigned long and rename it to
-> kvm_riscv_gstage_supported_mode_mask in the next revision.
->
-> >>
-> >>  #define kvm_riscv_gstage_pgd_xbits     2
-> >>  #define kvm_riscv_gstage_pgd_size      (1UL << (HGATP_PAGE_SHIFT + kv=
-m_riscv_gstage_pgd_xbits))
-> >> @@ -75,4 +76,14 @@ void kvm_riscv_gstage_wp_range(struct kvm_gstage *g=
-stage, gpa_t start, gpa_t end
-> >>
-> >>  void kvm_riscv_gstage_mode_detect(void);
-> >>
-> >> +static inline u32 kvm_riscv_get_hgatp_mode_mask(void)
-> >> +{
-> >> +       return kvm_riscv_gstage_mode_mask;
-> >> +}
-> >> +
-> >> +static inline bool kvm_riscv_hgatp_mode_is_valid(unsigned long mode)
-> >> +{
-> >> +       return kvm_riscv_gstage_mode_mask & BIT(mode);
-> >> +}
-> >> +
-> >>  #endif
-> >> diff --git a/arch/riscv/kvm/gstage.c b/arch/riscv/kvm/gstage.c
-> >> index 2d0045f502d1..328d4138f162 100644
-> >> --- a/arch/riscv/kvm/gstage.c
-> >> +++ b/arch/riscv/kvm/gstage.c
-> >> @@ -16,6 +16,8 @@ unsigned long kvm_riscv_gstage_max_pgd_levels __ro_a=
-fter_init =3D 3;
-> >>  #else
-> >>  unsigned long kvm_riscv_gstage_max_pgd_levels __ro_after_init =3D 2;
-> >>  #endif
-> >> +/* Bitmask of supported HGATP.MODE encodings (BIT(HGATP_MODE_*)). */
-> >> +u32 kvm_riscv_gstage_mode_mask __ro_after_init;
-> >>
-> >>  #define gstage_pte_leaf(__ptep)        \
-> >>         (pte_val(*(__ptep)) & (_PAGE_READ | _PAGE_WRITE | _PAGE_EXEC))
-> >> @@ -315,42 +317,43 @@ void kvm_riscv_gstage_wp_range(struct kvm_gstage=
- *gstage, gpa_t start, gpa_t end
-> >>         }
-> >>  }
-> >>
-> >> +static bool __init kvm_riscv_hgatp_mode_supported(unsigned long mode)
-> >> +{
-> >> +       csr_write(CSR_HGATP, mode << HGATP_MODE_SHIFT);
-> >> +       return ((csr_read(CSR_HGATP) >> HGATP_MODE_SHIFT) =3D=3D mode)=
-;
-> >> +}
-> >> +
-> >>  void __init kvm_riscv_gstage_mode_detect(void)
-> >>  {
-> >> +       kvm_riscv_gstage_mode_mask =3D 0;
-> >> +       kvm_riscv_gstage_max_pgd_levels =3D 0;
-> >> +
-> >>  #ifdef CONFIG_64BIT
-> >> -       /* Try Sv57x4 G-stage mode */
-> >> -       csr_write(CSR_HGATP, HGATP_MODE_SV57X4 << HGATP_MODE_SHIFT);
-> >> -       if ((csr_read(CSR_HGATP) >> HGATP_MODE_SHIFT) =3D=3D HGATP_MOD=
-E_SV57X4) {
-> >> -               kvm_riscv_gstage_max_pgd_levels =3D 5;
-> >> -               goto done;
-> >> +       /* Try Sv39x4 G-stage mode */
-> >> +       if (kvm_riscv_hgatp_mode_supported(HGATP_MODE_SV39X4)) {
-> >> +               kvm_riscv_gstage_mode_mask |=3D BIT(HGATP_MODE_SV39X4)=
-;
-> >> +               kvm_riscv_gstage_max_pgd_levels =3D 3;
-> >>         }
-> >>
-> >>         /* Try Sv48x4 G-stage mode */
-> >> -       csr_write(CSR_HGATP, HGATP_MODE_SV48X4 << HGATP_MODE_SHIFT);
-> >> -       if ((csr_read(CSR_HGATP) >> HGATP_MODE_SHIFT) =3D=3D HGATP_MOD=
-E_SV48X4) {
-> >> +       if (kvm_riscv_hgatp_mode_supported(HGATP_MODE_SV48X4)) {
-> >> +               kvm_riscv_gstage_mode_mask |=3D BIT(HGATP_MODE_SV48X4)=
-;
-> >>                 kvm_riscv_gstage_max_pgd_levels =3D 4;
-> >> -               goto done;
-> >>         }
-> >>
-> >> -       /* Try Sv39x4 G-stage mode */
-> >> -       csr_write(CSR_HGATP, HGATP_MODE_SV39X4 << HGATP_MODE_SHIFT);
-> >> -       if ((csr_read(CSR_HGATP) >> HGATP_MODE_SHIFT) =3D=3D HGATP_MOD=
-E_SV39X4) {
-> >> -               kvm_riscv_gstage_max_pgd_levels =3D 3;
-> >> -               goto done;
-> >> +       /* Try Sv57x4 G-stage mode */
-> >> +       if (kvm_riscv_hgatp_mode_supported(HGATP_MODE_SV57X4)) {
-> >> +               kvm_riscv_gstage_mode_mask |=3D BIT(HGATP_MODE_SV57X4)=
-;
-> >> +               kvm_riscv_gstage_max_pgd_levels =3D 5;
-> >>         }
-> >>  #else /* CONFIG_32BIT */
-> >>         /* Try Sv32x4 G-stage mode */
-> >> -       csr_write(CSR_HGATP, HGATP_MODE_SV32X4 << HGATP_MODE_SHIFT);
-> >> -       if ((csr_read(CSR_HGATP) >> HGATP_MODE_SHIFT) =3D=3D HGATP_MOD=
-E_SV32X4) {
-> >> +       if (kvm_riscv_hgatp_mode_supported(HGATP_MODE_SV32X4)) {
-> >> +               kvm_riscv_gstage_mode_mask |=3D BIT(HGATP_MODE_SV32X4)=
-;
-> >>                 kvm_riscv_gstage_max_pgd_levels =3D 2;
-> >> -               goto done;
-> >>         }
-> >>  #endif
-> >>
-> >> -       /* KVM depends on !HGATP_MODE_OFF */
-> >> -       kvm_riscv_gstage_max_pgd_levels =3D 0;
-> >> -
-> >> -done:
-> >
-> >Here are some statements from RISC-V privilege specification:
-> >"Implementations that support Sv48 must also support Sv39."
-> >"Implementations that support Sv57 must also support Sv48."
-> >"The conversion of an Sv32x4, Sv39x4, Sv48x4, or Sv57x4 guest physical
-> >address is accomplished with the
-> >same algorithm used for Sv32, Sv39, Sv48, or Sv57, as presented in
-> >Section 12.3.2, except that:"
-> >"hgatp substitutes for the usual satp;"
-> >
-> >Based on above it is a waste to try each and every mode.
-> >For example: if mode Sv48x4 is supported then Sv39x4 is also supported.
-> >
->
-> Radmi and I discussed this topic before; please refer to the following li=
-nk:
-> https://lore.kernel.org/linux-riscv/20260131061238.52708-1-fangyu.yu@linu=
-x.alibaba.com/
+On Fri, Mar 27, 2026 at 09:45:17AM +0100, Petr Mladek wrote:
+> On Fri 2026-03-20 16:27:27, Rodrigo Alencar via B4 Relay wrote:
 
-Privilege spec mandates Sv48 and Sv39 when Sv57 is supported
-so the current approach is not based on any assumption.
+...
 
-Regards,
-Anup
+> > +extern ssize_t __must_check simple_strntoull(const char *startp, const char **endp,
+> > +					     unsigned int base, size_t max_chars,
+> > +					     unsigned long long *res);
+> 
+> Sigh, naming is hard. I personally find it a bit confusing that the
+> name is too similar to the unsafe API.
+> 
+> IMHO, the semantic of the new API is closer to kstrtoull().
+> It just limits the size, so I would call it kstrntoull().
+
+It's not. kstrto*() quite strict about the input, this one is actually relaxed
+variant, so I wouldn't mix these two groups.
+
+> Also I would use int as the return parameter, see below.
+
+...
+
+TBH, I am skeptical about this approach. My main objection is max_chars
+parameter. If we want to limit the input strictly to the given number of
+characters, we have to copy the string and then just use kstrto*() in a normal
+way. The whole idea of that parameter is to be able to parse the fractional
+part of the float number as 'iiiii.fffff', where 'i' is for integer part, and
+'f' for the fractional. Since we have *endp, we may simply check that.
+
+In case if we want to parse only, say, 6 digits and input is longer there are
+a few options (in my personal preferences, the first is the better):
+- consider the input invalid
+- parse it as is up to the maximum and then do ceil() or floor() on top of that
+- copy only necessary amount of the (sub)string and parse that.
+
+The problem with precision is that we need to also consider floor() or ceil()
+and I don't think this should be burden of the library as it's individual
+preference of each of the callers (users). At least for the starter, we will
+see if it's only one approach is used, we may incorporate it into the library
+code.
+
+The easiest way out is to just consider the input invalid if it overflows the
+given type (s32 or s64).
+
+But we need to have an agreement what will be the representation of the
+fixed-width float numbers in the kernel? Currently IIO uses
+	struct float // name is crafted for simplicity
+	{
+		int integer;
+		int fraction;
+	}
+
+This parser wants AFAIU to have at the end of the day something like
+
+	struct float
+	{
+		s64 integer;
+		s64 fraction;
+	}
+
+but also wants to have the fraction part be limited in some cases to s32
+or so:
+
+	struct float
+	{
+		s64 integer;
+		s32 fraction; // precision may be lost if input is longer
+	}
+
+Maybe we want to have kstrtof32() and kstrtof64() for these two cases?
+
+With that we will always consider the fraction part as 32- or 64-bit,
+imply floor() on the fraction for the sake of simplicity and require
+it to be NUL-terminated with possible trailing '\n'.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
