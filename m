@@ -1,33 +1,33 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 000BD70809;
-	Fri, 27 Mar 2026 15:44:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A6B62745E;
+	Fri, 27 Mar 2026 15:44:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774626243; cv=none; b=B85liKEYiSqhIG1uHerprJmdDN+NeutxvSZkO+sOPg8udfNBKp8zc6kTE9Hmds3quMTd5bM8+DKW4s5vMhugygzCqrA5B/6mSOzNp73WtODrqrc0rBJHyvTnCxXC52ebpOBDzUY6Z1hBM13jzKJ9fAsLVeJGtJubXheW2wm06Ts=
+	t=1774626265; cv=none; b=h/CWIlowLduYyXsXjpp9NXpz0KO9GVsktZYjAK/Sg3HkD5MwFG6PlQxQ64PZ/ePeTBuppF32iuTZOYkHdga/yobL/MVWBZMsr4iEhP4MXgS6FNZ7VLcxI/ouuulTSgCfJwK0WF/2hO2ZEST7RaSZIOaAI92SNg+oJYwEqJOqSME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774626243; c=relaxed/simple;
-	bh=fXE/MMx0uspFWIA7+vc5yZepzmHZLk/t7ZU20s4vGXU=;
+	s=arc-20240116; t=1774626265; c=relaxed/simple;
+	bh=ktCsuITkeBYilevOVUYsMJKfPzlsaPL+Amy1bQke5kQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QLTbJidoEiAtM9iaWH7pBKvUzkXrFSo/MQHql+UngNjhiKXkO/EpR4PW9qH5wD/thkEfksguDUmGKMlyWlzl/+aTJvPRsrPKGfBzc3aZ2Qw+V9UmrXfTPdQsYUr6CKbajEphOu0NGWDXXtR4ANrHYaiTXnlYcjwX92T2MAdOE+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=pQwBST6p; arc=none smtp.client-ip=217.140.110.172
+	 In-Reply-To:Content-Type; b=giVp4Ns3gS6IWAlSWboiQTPcNS7V7QVg6em4fw0sIT1OyvglpMd1dbphxvIhdG4zHeDGcDErjeEjJ7pZjfgOrcZhcV5elxs4TpHcF9LYrG70lnuuYASSJpHhevqX6J+z/9WC44/YMYJ3nm9sPFK02DpxY36K17U+dr68kq5jppI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=QyKOD02a; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="pQwBST6p"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="QyKOD02a"
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6F7D635DA;
-	Fri, 27 Mar 2026 08:43:54 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id ABB1535E4;
+	Fri, 27 Mar 2026 08:44:16 -0700 (PDT)
 Received: from [10.1.196.96] (eglon.cambridge.arm.com [10.1.196.96])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8FC413F99C;
-	Fri, 27 Mar 2026 08:43:54 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3C4633F99C;
+	Fri, 27 Mar 2026 08:44:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1774626240; bh=fXE/MMx0uspFWIA7+vc5yZepzmHZLk/t7ZU20s4vGXU=;
+	t=1774626262; bh=ktCsuITkeBYilevOVUYsMJKfPzlsaPL+Amy1bQke5kQ=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=pQwBST6pz7nGtDPhVdMnNALUQEZ94wtULP23dBhrMtku0oTJxCUoWxhDttFy/aGE2
-	 4oj1qXg2dySXUmgwRgjjvOMc2PuLIs7RKPl6khpDGBGuQnUwLX9OtCHiTAN6laLIet
-	 EHbCSPeejkvicgScGMfBbJwRB8MQwjD+v70FvM6k=
-Message-ID: <f310e638-900e-42ec-adcf-6b42c30d9caf@arm.com>
-Date: Fri, 27 Mar 2026 15:43:51 +0000
+	b=QyKOD02ap3u6W0HbwKNpGZxnINnj6qVEp2p7uv3a3Fbsc95R3+VymLXigUBrkseEP
+	 66iVYo4HbjOhXgWFZUmxrbCmpWhzgHdUBm7zivEV1qoyHRTqLfG3l+e4yKoJj/eRen
+	 vbE+gNflv7Hy7rdOr8+juVXYGnqeX8keDHaqzW5I=
+Message-ID: <4be15244-f39e-45ba-86c2-a447d98fe1c4@arm.com>
+Date: Fri, 27 Mar 2026 15:44:12 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,7 +35,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 08/40] arm64: mpam: Drop the CONFIG_EXPERT restriction
+Subject: Re: [PATCH v6 11/40] arm64: mpam: Initialise and context switch the
+ MPAMSM_EL1 register
 To: Ben Horgan <ben.horgan@arm.com>
 Cc: amitsinght@marvell.com, baisheng.gao@unisoc.com,
  baolin.wang@linux.alibaba.com, carl@os.amperecomputing.com,
@@ -52,27 +53,52 @@ Cc: amitsinght@marvell.com, baisheng.gao@unisoc.com,
  zengheng4@huawei.com, linux-doc@vger.kernel.org,
  Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
 References: <20260313144617.3420416-1-ben.horgan@arm.com>
- <20260313144617.3420416-9-ben.horgan@arm.com>
+ <20260313144617.3420416-12-ben.horgan@arm.com>
 Content-Language: en-GB
 From: James Morse <james.morse@arm.com>
-In-Reply-To: <20260313144617.3420416-9-ben.horgan@arm.com>
+In-Reply-To: <20260313144617.3420416-12-ben.horgan@arm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 Hi Ben,
 
 On 13/03/2026 14:45, Ben Horgan wrote:
-> In anticipation of MPAM being useful remove the CONFIG_EXPERT restriction.
-
-Useful - ha! I've added a second paragraph describing why this was done, just
-so it doesn't look odd in 5 years time.
-
-| This was done to prevent the driver being enabled before the user-space
-| interface was wired up.
-
-
+> The MPAMSM_EL1 sets the MPAM labels, PMG and PARTID, for loads and stores
+> generated by a shared SMCU. Disable the traps so the kernel can use it and
+> set it to the same configuration as the per-EL cpu MPAM configuration.
+> 
+> If an SMCU is not shared with other cpus then it is implementation
+> defined whether the configuration from MPAMSM_EL1 is used or that from
+> the appropriate MPAMy_ELx. As we set the same, PMG_D and PARTID_D,
+> configuration for MPAM0_EL1, MPAM1_EL1 and MPAMSM_EL1 the resulting
+> configuration is the same regardless.
+> 
+> The range of valid configurations for the PARTID and PMG in MPAMSM_EL1 is
+> not currently specified in Arm Architectural Reference Manual but the
+> architect has confirmed that it is intended to be the same as that for the
+> cpu configuration in the MPAMy_ELx registers.
 
 Reviewed-by: James Morse <james.morse@arm.com>
+
+
+> diff --git a/arch/arm64/include/asm/mpam.h b/arch/arm64/include/asm/mpam.h
+> index 0747e0526927..6bccbfdccb87 100644
+> --- a/arch/arm64/include/asm/mpam.h
+> +++ b/arch/arm64/include/asm/mpam.h
+> @@ -53,6 +53,8 @@ static inline void mpam_thread_switch(struct task_struct *tsk)
+>  		return;
+>  
+>  	write_sysreg_s(regval | MPAM1_EL1_MPAMEN, SYS_MPAM1_EL1);
+> +	if (system_supports_sme())
+> +		write_sysreg_s(regval & (MPAMSM_EL1_PARTID_D | MPAMSM_EL1_PMG_D), SYS_MPAMSM_EL1);
+
+Doing it here saves a surprise later.
+
+
+>  	isb();
+>  	/* Synchronising the EL0 write is left until the ERET to EL0 */
+
+(down here would have been the alternative)
 
 
 Thanks,
