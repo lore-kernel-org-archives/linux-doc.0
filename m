@@ -1,200 +1,108 @@
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com [209.85.217.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28219391E79;
-	Fri, 27 Mar 2026 12:07:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774613226; cv=pass; b=WrPn39/S8d2ohkaWF5Ogn5sHRliMw008KuRU5AmpaYE+JKxK/fmnLlyQCsujeUZlWUykfcq/TBFOtxWc3jyCoeUGPnAbF350JxBDRDdFahZ0M8NsE//ZL/LigwGuEpKzkQ4rVAla5Ydlaq7sxDT/u8qE+xSvpM6YZ23OhmYOrG8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774613226; c=relaxed/simple;
-	bh=ZBSzJYq6p5ibjTibx7DgOlLzHL9i8XOZtl2V5NQftiI=;
-	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=W3FfvpTqSqSoKj2KerLkB5z4Gya3rKMeRaGRg82tcJ+uGFyRW4FgHYZSxfqTxri9UuAZzTA1tHr2DyyTEzgfB6oSxf2j27m7+pPg+OGb0eWRki2xXGsiWdtZWqlfCn4wXKMKXfwlMJraMPhTXnIOuC0K+nA+Wzc1+Nb5uP8b9XE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=HiXM2gRd; arc=pass smtp.client-ip=136.143.188.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3C583BA224
+	for <linux-doc@vger.kernel.org>; Fri, 27 Mar 2026 12:56:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774616172; cv=none; b=Vj42cOGYg9RH0LliQb5NxAmGSynYQ0xEBo0HGh1XXsQzZmihDbqbcVlBh42xE7ruGSp08irOvAL5aAexxcar6wnHi8ySzTJ78t7orfRqqR/fhFNtqbaqrFL5+DIq9SZDUNCC5wHZhjz/zPOcpJFXw80SgA5yzyx4kT9b9pJ8Yq4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774616172; c=relaxed/simple;
+	bh=halkSlRhlLJ1NSvKUwca1p/N62zePEVNNeHX5CtEDX8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JezyLhUF5ZWsVPGd7ceenS0uW/V1iiDP3k1u/U6R4CzInDZNQT8LZetIAJRvnlNqtWUAAwYjtN6E1XV7HQawvG+vlNqYUUA7jjsBP4tcU+mOXPQ7/zhJCumykO5207XA9b0/diK3K53c0bB4/7RAWib1Efgy9IU7P8g8lQ/Bk0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Lv3iXti6; arc=none smtp.client-ip=209.85.217.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="HiXM2gRd"
-ARC-Seal: i=1; a=rsa-sha256; t=1774613208; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=G965FRQo/Ap+5Y7M8sEJhLfgaBh200qxfAHC1IHJtL30BzuOZZHXEyUQAkR5nFRFQfL37cTb1aVu9EFgQm3keV+qxtLfGggdcwcCf/p4llTQ2Iu21MDWGCZh1u0vCh9i5gEqnOqskwRdumhGwuR7oCjpQQ5PMLw3gOwqaOg2Jx4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1774613208; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=jGSaN0Dnjg5CiJC57jK57Rw/xvasQeyZv3lb3s/NOeg=; 
-	b=laP1k9JxHMLqHQu863H3de8XGbkGds2OmTkEIbOcI7FfrXpfnRXTwJVUuTSvyCriaKigqcun4rlCcFt/evwXkZOa4Jh/sMv+llfKyl8ujFb3GggNiAS3z5r7KjN1JIQAhUIPHYqwxoTxfRO6CET8CfJcD75xgIt4s0zSG3o8rhQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=rong.moe;
-	spf=pass  smtp.mailfrom=i@rong.moe;
-	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774613208;
-	s=zmail2048; d=rong.moe; i=i@rong.moe;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date:Date:MIME-Version:Message-Id:Reply-To;
-	bh=jGSaN0Dnjg5CiJC57jK57Rw/xvasQeyZv3lb3s/NOeg=;
-	b=HiXM2gRdG2fMBEyPCK1bBU5D7RuL6gZIIPq0t480AXfjauRJTnu7kqn5nilKsJGd
-	Z4maS5wMBfWXd5Zv9xddBAO+CoGanbpSaqTqb39EUFu1Gncj+g4DgVdSLVLfBPrZrmy
-	GfuIlpKajdof3t4FRDKnzAHiIMZ63QRRLWS7YsHin/6ofCT7T55JxxSbnV6nVdq5IPX
-	II+yXyKmQ+jxDwX2S7udG0vgS6WytWQShzCvDEP9WkYjyov72uYWYKC/cKMTR7nzGcx
-	eBGyzD0HlTomi4zmUR1iznnl6YDo3yYE2JazC7TPQEw4wIQBji/ZI5Irjahs1OQFlmo
-	Y9C0qYMKxQ==
-Received: by mx.zohomail.com with SMTPS id 1774613206111618.082637661207;
-	Fri, 27 Mar 2026 05:06:46 -0700 (PDT)
-Message-ID: <5ee967a8a4dca6f70e50c7fac382d4f91b6620aa.camel@rong.moe>
-Subject: Re: [PATCH 0/4] hwmon: Add WITRN USB tester driver
-From: Rong Zhang <i@rong.moe>
-To: Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-In-Reply-To: <a3a8eb58-b2fa-411b-81be-eb70dac86b4f@roeck-us.net>
-References: <20260327-b4-hwmon-witrn-v1-0-8d2f1896c045@rong.moe>
-		 <a3a8eb58-b2fa-411b-81be-eb70dac86b4f@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 27 Mar 2026 20:01:40 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lv3iXti6"
+Received: by mail-vs1-f46.google.com with SMTP id ada2fe7eead31-5ffe9a5b128so688667137.2
+        for <linux-doc@vger.kernel.org>; Fri, 27 Mar 2026 05:56:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774616171; x=1775220971; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4tSQA+KxtAfLxrXVNO7xwB0Cx2WNGXy/J6suzTmYdGQ=;
+        b=Lv3iXti62IAbWeZdZ8WqIYuLsQinSeF7wCckYkhG6aR0YkfJ6UXCh3aUcArqsXvmrw
+         UzZ28D7Yrr9wVoDDxZQy5iGavMQKr45Qyr9BlRHeptWvmaJFFOMwcfSrX9fB7GHlin1Q
+         AOwXCuW6r/kQPFqMAJUQN4FoyPxCGRKMqUudQ2dNwrzr3ajxmASAM0P+bnxXgjahRZG9
+         y5mf77rHWIdhUN4xCNT/yMWBAZ/jW837gDgRf7AkcgYJR29ns5nUhzsvBpJgjwyL0TRe
+         AWXFwvdkILI/TH/FOlKfVGCNLNKvortu/d/uwJKHP/gyKYaiJJ+J6nP6EP+Mxk9lUA0x
+         zqPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774616171; x=1775220971;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4tSQA+KxtAfLxrXVNO7xwB0Cx2WNGXy/J6suzTmYdGQ=;
+        b=YkauCwuXs1nt0mVNJ5o6HiyQnecHnQjFQ8IAMbBQouj8gWzkO464Onrjj96Loylr+V
+         d/kda6IvMQvVz73LfcV7HmGIT38CwBWjT0+zaMe3Upgr03VoTBnH60GE6tXvVp5CLxIm
+         LrF59lN2kJNWE9g9kQvdMX2FQeCdlsTphy3hU9xrtNngVAFHH0dXGXI1hWHqTLhtXf9C
+         ce4g8/RXvhPAj5UK+m7WC8PCd3CDw0+1DAjwUUOPoSOzUxLBpL8VPVdPQuBcSxzx2AkJ
+         h+J/lK8rxqJ5uS1rOAc9wdbZslmdBX968q+z2DVPn4xQap6Dv0H4OkkYxThbBKg7lMnd
+         Wmig==
+X-Gm-Message-State: AOJu0Yw9GrNffndUK0zzGUrOK6N6h9G7K4G8JAeS+nyoNwYgVvuCLudS
+	78ASmq5EXlwR1uAg6H/kG94UlU0rp04mxnnsvh9YUqBpLU7YTcousCfg9VX5egw4
+X-Gm-Gg: ATEYQzzL5q9fqz8Sse1vTOJr0JABYOGDrcWD9CKehpNYwlwNap2HkN1gbPM33iOISHy
+	MGzRpCMvnfzgYK48rHgptiB9O0fkZ+Y6anC8AF3Dju0097k6A6U/qoUQmYNvQ2iwm+aQ6S8mJMm
+	ABUvlOxgHHdrsTTZp55hxPfLpTSkGrFskKPCROd0MKmvbxRQe9W761dpkTMLQLjtod6tuUA4xI8
+	0SoKTjntvVy1bP8PlvQ7hSo4DW1nmms5Af17ZNWrD9xD0F6MLEO7FasAO9l8Ph9MZafhshunM8A
+	5SV4B75sdNKSxZAq344y2XHnH3pyzb3jLzMJjIVi3ZqqduN2/HcGc9BrtzzmAmT5oGAPw8A63Wh
+	/r/kaTvB6O2KpUO88C6BbTeTBKortB7nJG3PDZqej3g1dQoLnx7qJ4ZlPz6b78DOZwJqTPcsqvU
+	SCKncbgzLdRyexbhtjF686+f5H65r2KQnGmOVcFbJw7vTaySEL8ABTbKsc6X/KGncdBODpS1fRi
+	Q==
+X-Received: by 2002:a05:6102:e09:b0:604:f849:462e with SMTP id ada2fe7eead31-604f92e88camr926603137.25.1774616170476;
+        Fri, 27 Mar 2026 05:56:10 -0700 (PDT)
+Received: from parrot.dimenoc.com ([2804:29b8:512d:4c55:1868:543f:1aeb:fd26])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-604d50c928asm6259318137.5.2026.03.27.05.56.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Mar 2026 05:56:09 -0700 (PDT)
+From: Daniel Pereira <danielmaraboo@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org,
+	Daniel Pereira <danielmaraboo@gmail.com>
+Subject: [PATCH 0/5] docs: pt_BR: Complete PGP maintainer guide translation
+Date: Fri, 27 Mar 2026 09:55:31 -0300
+Message-ID: <20260327125538.581064-1-danielmaraboo@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Evolution 3.56.2-9 
-X-ZohoMailClient: External
+Content-Transfer-Encoding: 8bit
 
-Hi Guenter,
+This series provides the complete Brazilian Portuguese (pt_BR) translation 
+of the Maintainer PGP guide. The translation was performed in stages to 
+ensure technical consistency and proper review of cryptographic terminology.
 
-Thanks a lot for your review and applying patch 1 :-)
+In addition to the translation, the first patch includes a minor update 
+to the maintainer-handbooks index to properly include the KVM x86 
+subsystem development process notes.
 
-On Thu, 2026-03-26 at 17:05 -0700, Guenter Roeck wrote:
-> On 3/26/26 12:19, Rong Zhang wrote:
-> > WITRN produces a series of devices to monitor power characteristics of
-> > USB connections and display those on a on-device display. Most of them
-> > contain an additional port which exposes the measurements via USB HID.
-> >=20
-> > These devices report sensor values in IEEE-754 float (binary32) format.
-> > The driver must perform floating-point number to integer conversions to
-> > provide hwmon channels. Meanwhile, they also report accumulative float
-> > values, and simple division or multiplication turns them into useful
-> > hwmon channels.
-> >=20
-> > Patch 1 adds label support for 64-bit energy attributes, as the driver
-> > needs it.
-> >=20
-> > Patch 2 adds a helper module for floating-point to integer conversions,
-> > so that the conversion, multification and division methods can be used
-> > in this driver as well as other drivers (I am also working on another
-> > USB tester driver that needs it).
-> >=20
-> > Patch 3 adds a barebone HID driver for WITRN K2.
-> >=20
-> > Patch 4 adds hwmon channels and attributes to the driver.
-> >=20
-> > Signed-off-by: Rong Zhang <i@rong.moe>
-> > ---
-> > Rong Zhang (4):
-> >        hwmon: Add label support for 64-bit energy attributes
-> >        hwmon: New helper module for floating-point to integer conversio=
-ns
->=20
-> Nack. This is not a hwmon problem and should reside in a driver or in lib=
-/
-> (if it is needed by multiple drivers).
+Key highlights of this series:
+- Complete translation of the GnuPG setup, smartcard usage, and 
+  Git/Patatt integration.
+- Sphinx labels were updated with the '_pt' suffix to ensure unique 
+  namespaces and avoid warnings during the HTML documentation build.
+- Adherence to the 80-column line limit for better readability in 
+  plain text.
+- Verified with checkpatch.pl (0 errors, 0 warnings).
+- Verified with 'make htmldocs' to ensure a clean build.
 
-Makes sense. I will try.
+Daniel Pereira (5):
+  docs: add maintainer-kvm-x86 to maintainer-handbooks index
+  docs: pt_BR: start translation of the PGP maintainer guide
+  docs: pt_BR: continue PGP guide translation
+  docs: pt_BR: continue PGP guide: Git and maintenance
+  docs: pt_BR: complete PGP guide translation
 
->=20
-> >        hwmon: Add barebone HID driver for WITRN
->=20
-> Nack. This is the wrong place for such a driver. It should reside somewhe=
-re
-> in drivers/usb, or maybe in drivers/misc/.
+ Documentation/translations/pt_BR/index.rst    |   1 +
+ .../pt_BR/process/maintainer-handbooks.rst    |   1 +
+ .../pt_BR/process/maintainer-pgp-guide.rst    | 913 ++++++++++++++++++
+ 3 files changed, 915 insertions(+)
+ create mode 100644 Documentation/translations/pt_BR/process/maintainer-pgp-guide.rst
 
-Hmm, I decided to place it here because:
+-- 
+2.47.3
 
-- It's not a hid_ll_driver but a dumb hid_driver, i.e., does no low
-level things but just receives hid event from the HID core. It doesn't
-even send any HID report to the device.
-
-- There has been numerous hid_driver in drivers/hwmon/.
-
-- There has been a similar USB tester driver in drivers/hwmon/, i.e.,
-powerz. That's the major reason of my decision.
-
-Could you kindly explain what kinds of driver can be accepted into
-drivers/hwmon/?
-
->=20
-> >        hwmon: (witrn) Add monitoring support
->=20
-> This should be implemented as auxiliary driver.
-
-Could you kindly elaborate? Did you mean that if the device supports
-multiple functionalities they should be implemented as multiple
-auxiliary drivers in different subsystems?
-
-FYI, the USB tester doesn't provide any other meaningful feature that
-fits other subsystems. The tester only provides two features through USB
-HID: power measurements (this series), and raw PD packets sniffing.
-
-As for the latter, the USB tester can sniff raw PD packets between the
-source and sink if enabled in the device menu. It doesn't provide the
-parsed result for packets, and the PC cannot ask the tester to send PD
-packets. This doesn't fit UCSI at all, as a UCSI device operates at a
-higher level and must accept commands. AFAIK such a dumb sniffer won't
-fit any subsystem in the kernel. Hence, the only thing fits a subsystem
-is its power measurements.
-
-All measurements supported by the official utility for Windows can be
-found in `struct witrn_sensor'. Other than that, all extra features
-provided by the utility are implemented in software and I didn't see any
-extra USB packets other than querying the serial number [1] when I was
-randomly messing around with the utility [2].
-
-I separated patch 3 and 4 just for easier review. If you are not in
-favor of such a style, I will squash them.
-
-[1]: In fact, the utility directly asks the device to return the content
-on several specific ROM/RAM addresses, and then the utility calculates
-the serial number with an unknown algorithm. Reading a ROM/RAM address
-seems to be the only command that the device accepts from the USB host.
-
-[2]: Yeah, their utility does not support PD packet capturing or
-parsing. It seems that the manufacturer provides the PD sniffing feature
-as is and expects users to capture it via hidraw or libusb and parse it
-themselves.
-
->=20
-> Sashiko has a lot of feedback that you might want to address before
-> resubmitting.
->=20
-> https://sashiko.dev/#/patchset/20260327-b4-hwmon-witrn-v1-0-8d2f1896c045%=
-40rong.moe
-
-Sashiko's feedback helps a lot. Thanks.
-
-Thanks,
-Rong
-
->=20
-> Thanks,
-> Guenter
->=20
-> >=20
-> >   Documentation/hwmon/index.rst |   1 +
-> >   Documentation/hwmon/witrn.rst |  53 ++++
-> >   MAINTAINERS                   |   7 +
-> >   drivers/hwmon/Kconfig         |  14 +
-> >   drivers/hwmon/Makefile        |   2 +
-> >   drivers/hwmon/hwmon-fp.c      | 262 ++++++++++++++++
-> >   drivers/hwmon/hwmon-fp.h      | 212 +++++++++++++
-> >   drivers/hwmon/hwmon.c         |   1 +
-> >   drivers/hwmon/witrn.c         | 691 +++++++++++++++++++++++++++++++++=
-+++++++++
-> >   9 files changed, 1243 insertions(+)
-> > ---
-> > base-commit: 0138af2472dfdef0d56fc4697416eaa0ff2589bd
-> > change-id: 20260327-b4-hwmon-witrn-a629b9040250
-> >=20
-> > Thanks,
-> > Rong
-> >=20
