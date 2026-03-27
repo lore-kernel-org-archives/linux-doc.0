@@ -1,153 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 588083F7A99;
-	Fri, 27 Mar 2026 14:16:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50B803F7875;
+	Fri, 27 Mar 2026 14:37:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774620994; cv=none; b=f73L4nNmI9/05aqiAOlOxEcJKjFaFwTd8oxJ+jI0cDSw3KsR2b46VfpLqOhLCkl7QlzNqtrMqH/k+QWtrQ2v7FlyfSftZ9Z7vAa3jvg8goSw3vIsWYB43CZGrYgn+pTadozLFJ3D11egl+TaTC/I2FAT8X0YEYhhsnfFQbApYtQ=
+	t=1774622272; cv=none; b=s5tZlK2HxtOx9UmrpGPJ0E0t+11/RnSQMeaKkt2olr6UsV0jLnQQdMKIZwtD3ocT+mp+yiJziqqvZwSC0/n5ISWknUww+kK+YAP2kN+P2YEegFvQA7GQLfJdyQ1h4P81wMZ4pfJkevKtLgdge0jk3mbXv92RFeEpePgxnEglHTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774620994; c=relaxed/simple;
-	bh=35cGEaNcbPb451YamWMiFjEsrnJqgA06YeeGl6bu7EM=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=Y0UVbQFlEkl3GgcBb0B1OUfzl6H3DaDzXCmyuNUyawK4VvXFlSvhq1X5FxI1a6YCS3EIvZlHBsXkby3SiVMat/IwuVhwPDvfUNcj8stGLb5O0w9BFxih9ffiP2Hu2MUWK9OKaXWYuwC0WtEPd1dHQ5BJpIpeSpmhtiu6faPChEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h1HP9IwA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774622272; c=relaxed/simple;
+	bh=rBaosBE0xHnpR4CfpExm5lZKwHweHdm8x+3Ll2q+xvc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Disposition; b=LiC4hIIO8r42X1RIqHHaBqlHM8CqAi0WuL87HdiT3h2UiYlnkAfGs7PDQSgWGtpvLS85t+OuibL1SskNlMJ3AYak4vzhA1TmY1Xgidvt732zpTuCXPtBUWLaS3wa/dLlot/R6HvnUporXx8D6Taxpl65FwEH6QE6JrLBlYXzMnM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=VVSUr77H; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h1HP9IwA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34363C2BC9E;
-	Fri, 27 Mar 2026 14:16:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774620993;
-	bh=35cGEaNcbPb451YamWMiFjEsrnJqgA06YeeGl6bu7EM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=h1HP9IwAGuGI01k1YFTFyCwYaWnoCTyhbklGOApwxFW6lpLuF4cVjs9B2JYRLKoZT
-	 ihkNytV5P8CIgRUY6FkydPeg3irU4+wK+ck95RYi+duT3n9mudvLC5qf6NCV/80yMU
-	 5xTDu22EzzAfXIE+892Uj35AxEs/q6fboKYMWk02qpq2V2KFlbOHI3am9LeKif6U7i
-	 ovs4DObn3Z1Lw5BUVVyP8zhDHLDB8mD4u+Z2uDla9aw2Udj5UPIClfm56RHqXuuedu
-	 Z3jaEoXCnS+8D+EUJe8eiGETKcedRD+2Y7Wd9gYtdwiYq9QJkthg9jQeiqaauWvTbZ
-	 GEKI4JcEh0jGw==
-Date: Fri, 27 Mar 2026 23:16:30 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: Breno Leitao <leitao@debian.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- oss@malat.biz, paulmck@kernel.org, rostedt@goodmis.org,
- kernel-team@meta.com
-Subject: Re: [PATCH v2] bootconfig: Apply early options from embedded config
-Message-Id: <20260327231630.2d6f4273b7d615bda4b51053@kernel.org>
-In-Reply-To: <acZX_IXQiGwMMi5e@gmail.com>
-References: <20260325-early_bootconfig-v2-1-6b05a36fbfb5@debian.org>
-	<20260325232204.05edbb21c7602b6408ca007b@kernel.org>
-	<20260326233042.f52cfc127ec934d52713bce1@kernel.org>
-	<acZX_IXQiGwMMi5e@gmail.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="VVSUr77H"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8A7C035B1;
+	Fri, 27 Mar 2026 07:37:43 -0700 (PDT)
+Received: from devkitleo.cambridge.arm.com (devkitleo.cambridge.arm.com [10.1.196.90])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CE4EA3F905;
+	Fri, 27 Mar 2026 07:37:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1774622269; bh=rBaosBE0xHnpR4CfpExm5lZKwHweHdm8x+3Ll2q+xvc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=VVSUr77HEC3cZ3e8mCoZA+3RLhgaRRNOUCuGTX6S559KKiuhtB6vxpOV40N48ssFM
+	 tRX1PBw05CUIVrknE5F+TWpeG6ixsYLwHJkHNF71t4MqaBoqOnKwggWDvL44kkeAZy
+	 UMFtNdDxN0UrjL202wp0PPAieLzEmHevI+2cMZLs=
+From: Leonardo Bras <leo.bras@arm.com>
+To: Tian Zheng <zhengtian10@huawei.com>
+Cc: Leonardo Bras <leo.bras@arm.com>,
+	maz@kernel.org,
+	oupton@kernel.org,
+	catalin.marinas@arm.com,
+	corbet@lwn.net,
+	pbonzini@redhat.com,
+	will@kernel.org,
+	yuzenghui@huawei.com,
+	wangzhou1@hisilicon.com,
+	liuyonglong@huawei.com,
+	Jonathan.Cameron@huawei.com,
+	yezhenyu2@huawei.com,
+	linuxarm@huawei.com,
+	joey.gouly@arm.com,
+	kvmarm@lists.linux.dev,
+	kvm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	suzuki.poulose@arm.com
+Subject: Re: [PATCH] arm64/kvm: Enable eager hugepage splitting if HDBSS is available
+Date: Fri, 27 Mar 2026 14:37:39 +0000
+Message-ID: <acaWMwB2emS7HrHW@devkitleo>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <6cce203f-89d9-4e9d-8b28-9629eb53b180@huawei.com>
+References: <20260225040421.2683931-1-zhengtian10@huawei.com> <20260225040421.2683931-5-zhengtian10@huawei.com> <acQj5grOdZT8LUGp@devkitleo> <acQna2hLwdr1juTN@devkitleo> <6cce203f-89d9-4e9d-8b28-9629eb53b180@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-On Fri, 27 Mar 2026 03:18:31 -0700
-Breno Leitao <leitao@debian.org> wrote:
-
-> On Thu, Mar 26, 2026 at 11:30:42PM +0900, Masami Hiramatsu wrote:
-> > On Wed, 25 Mar 2026 23:22:04 +0900
-> > Masami Hiramatsu (Google) <mhiramat@kernel.org> wrote:
-> >
-> > > > +	/*
-> > > > +	 * Keys that do not match any early_param() handler are silently
-> > > > +	 * ignored — do_early_param() always returns 0.
-> > > > +	 */
-> > > > +	xbc_node_for_each_key_value(root, knode, val) {
-> > >
-> > > [sashiko comment]
-> > > | Does this loop handle array values correctly?
-> > > | xbc_node_for_each_key_value() only assigns the first value of an array to
-> > > | the val pointer before advancing to the next key. It does not iterate over
-> > > | the child nodes of the array.
-> > > | If the bootconfig contains a multi-value key like
-> > > | kernel.console = "ttyS0", "tty0", will the subsequent values in the array
-> > > | be silently dropped instead of passed to the early_param handlers?
-> > >
-> > > Also, good catch :) we need to use xbc_node_for_each_array_value()
-> > > for inner loop.
-> >
-> > FYI, xbc_snprint_cmdline() translates the arraied parameter as
-> > multiple parameters. For example,
-> >
-> > foo = bar, buz;
-> >
-> > will be converted to
-> >
-> > foo=bar foo=buz
-> >
-> > Thus, I think we should do the same thing below;
-> >
-> > >
-> > > > +		if (xbc_node_compose_key_after(root, knode, xbc_namebuf, XBC_KEYLEN_MAX) < 0)
-> > > > +			continue;
-> > > > +
-> > > > +		/*
-> > > > +		 * We need to copy const char *val to a char pointer,
-> > > > +		 * which is what do_early_param() need, given it might
-> > > > +		 * call strsep(), strtok() later.
-> > > > +		 */
-> > > > +		ret = strscpy(val_buf, val, sizeof(val_buf));
-> > > > +		if (ret < 0) {
-> > > > +			pr_warn("ignoring bootconfig value '%s', too long\n",
-> > > > +				xbc_namebuf);
-> > > > +			continue;
-> > > > +		}
-> > > > +		do_early_param(xbc_namebuf, val_buf, NULL, NULL);
-> >
-> > So instead of this;
-> >
-> > xbc_array_for_each_value(vnode, val) {
-> > 	do_early_param(xbc_namebuf, val, NULL, NULL);
-> > }
-> >
-> > Maybe it is a good timing to recondier unifying kernel cmdline and bootconfig
-> > from API viewpoint.
+On Fri, Mar 27, 2026 at 03:40:30PM +0800, Tian Zheng wrote:
 > 
-> I'm not familiar with the history on this topic. Has unifying the APIs been
-> previously considered and set aside?
-
-Previously I considered but I found some early parameters must be composed by
-bootloaders, and they does not support bootconfig. Thus, I introduced
-setup_boot_config() to compose kernel.* parameters into cmdline buffer.
-
+> On 3/26/2026 2:20 AM, Leonardo Bras wrote:
+> > FEAT_HDBSS speeds up guest memory dirty tracking by avoiding a page fault
+> > and saving the entry in a tracking structure.
+> > 
+> > That may be a problem when we have guest memory backed by hugepages or
+> > transparent huge pages, as it's not possible to do on-demand hugepage
+> > splitting, relying only on eager hugepage splitting.
+> > 
+> > So, at stage2 initialization, enable eager hugepage splitting with
+> > chunk = PAGE_SIZE if the system supports HDBSS.
+> > 
+> > Signed-off-by: Leonardo Bras <leo.bras@arm.com>
+> > ---
+> >   arch/arm64/kvm/mmu.c | 8 ++++++--
+> >   1 file changed, 6 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
+> > index 070a01e53fcb..bdfa72b7c073 100644
+> > --- a/arch/arm64/kvm/mmu.c
+> > +++ b/arch/arm64/kvm/mmu.c
+> > @@ -993,22 +993,26 @@ int kvm_init_stage2_mmu(struct kvm *kvm, struct kvm_s2_mmu *mmu, unsigned long t
+> >   	mmu->last_vcpu_ran = alloc_percpu(typeof(*mmu->last_vcpu_ran));
+> >   	if (!mmu->last_vcpu_ran) {
+> >   		err = -ENOMEM;
+> >   		goto out_destroy_pgtable;
+> >   	}
+> >   	for_each_possible_cpu(cpu)
+> >   		*per_cpu_ptr(mmu->last_vcpu_ran, cpu) = -1;
+> > -	 /* The eager page splitting is disabled by default */
+> > -	mmu->split_page_chunk_size = KVM_ARM_EAGER_SPLIT_CHUNK_SIZE_DEFAULT;
+> > +	 /* The eager page splitting is disabled by default if system has no HDBSS */
+> > +	if (system_supports_hacdbs())
+> > +		mmu->split_page_chunk_size = PAGE_SIZE;
+> > +	else
+> > +		mmu->split_page_chunk_size = KVM_ARM_EAGER_SPLIT_CHUNK_SIZE_DEFAULT;
+> > +
+> >   	mmu->split_page_cache.gfp_zero = __GFP_ZERO;
+> >   	mmu->pgd_phys = __pa(pgt->pgd);
+> >   	if (kvm_is_nested_s2_mmu(kvm, mmu))
+> >   		kvm_init_nested_s2_mmu(mmu);
+> >   	return 0;
+> >   out_destroy_pgtable:
 > 
-> Given all the feedback on this series, I see three types of issues to address:
 > 
-> 1) Minor patch improvements
-> 2) Architecture-specific super early parameters being parsed before bootconfig
->    is available
-> 3) Unifying kernel cmdline and bootconfig interfaces
-
-I think we can start with 1) for embedded bootconfig for this series
-with using bootconfig in parse_early_param().
-
-For 2), I think it needs to check which parameters are expected to
-be passed by bootloaders, which does not care bootconfig currently.
-
-For 3), eventually it may be need to change how kernel handle the
-parameters. I think I need to introduce CONFIG_BOOT_CONFIG_EXPOSED
-option which keeps the xbc_*() API and parsed data accessible after
-boot (Remove __init) and exposed to modules, so that all modules
-can use xbc_* to get parameters from bootconfig directly.
-
-Thanks,
-
+> Thanks again for sending this patch. I'll integrate it into the next version
+> and run some tests.
 > 
-> Which of these areas would you recommend I prioritize?
 > 
-> Thanks for the guidance,
-> --breno
 
-
--- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+Awesome, thanks!
+Leo
