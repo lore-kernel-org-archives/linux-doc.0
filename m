@@ -1,350 +1,70 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B60819E819;
-	Sat, 28 Mar 2026 19:41:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D9CF36BCC3;
+	Sat, 28 Mar 2026 20:58:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774726875; cv=pass; b=YJrU+o98VPZiIkM4RB2uFWFTbA1J7fwSw32rsMzoY/QFjsy/elPgYblgtgOipvXBI1Jhmawpu8JXbQTvCbtsILSbUKkKu3UppirqP602B2uzsrm+rv6FCvSZi3vxjoPa+TSsodvZYcEDpHHSiCvoFdYynnRKanezYem5+5VhsDc=
+	t=1774731505; cv=pass; b=La0bzSDbdjtEwqBWl1gPjH7x0AIRQSy9KbadFP1a9Qg7FjVRVL1+W4tpVwsuJZHTHdprg7W2Yq5WIfTCyegM3R/wlGeZbSpgg/G9OxweGCu94oyHSCeiabuP83GnZZhYH+1DX/ZSC2m7sDNkUtbCuequcDelx2GYEtgHPtjBnqQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774726875; c=relaxed/simple;
-	bh=kXI0dUf3ZkryPUhituStMy//UQvqfDGqy1b4CrdSb7Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=V0wninz+EV9sr4zBurPDZtfTw+Mk0XfpXS2qLCazm5sR0aoYhCvhtsfjnuapJYV7Hbt2Ki380fCkJLm5Q9svmpQf/tSC59lKEVhrP4buWl2oEghReBBvqItDLZJP1+8dAqswaGdGNsx0n6S2Us9XlqGH2edua5MKtVHjCx13UjA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=SE9Xuq5d; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1774731505; c=relaxed/simple;
+	bh=lmCilbAJMd+cOa+m8z1c+d+7EFO+SOQEVOS6L0Lz0Ic=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:From:To:
+	 References:In-Reply-To; b=qK9ifmVd4xR0aecaRM/ih82ntq5+VgQxWLFHjVdGly6uRcUs7RSOcjNmWYCZcDmwb+rM6allAxNanW6mvp87NyqY2bSTqvVFtgED06t5g9IRul7XiDkD4B9rOjY8kCM16IS2e76aOFe5EfejJf7c4NZ09n6N1C62IJdVUy8PYNk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com; spf=pass smtp.mailfrom=ritovision.com; dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b=FuvqOKAe; arc=pass smtp.client-ip=136.143.188.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ritovision.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="SE9Xuq5d"
-ARC-Seal: i=1; a=rsa-sha256; t=1774726812; cv=none; 
+	dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b="FuvqOKAe"
+ARC-Seal: i=1; a=rsa-sha256; t=1774731334; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=VyiBhaL8z+R8TAgKUzbDXS2jBswyED8y8hp3JdGrRupgmz21/Fs/PCy7G/9T2C4zxXOlTL2onQOMMBVyotiRs8sZb+cB/Zkf5bHJV4gcY6p4Xit7utWuMr9w/sNjrqIhttAYRk8EAwDstFdgNR2lQNmxBD+ng8oJKpqqMsz5MY0=
+	b=aDc/hWRay29k5VPvnXNMz9zl3nOBDvmXl+cau80vRULOWLE2tQ9MIHOlFRB8E8ZCS6V4Y2O8RjMgE+LgUv0lIqC3dS8nhHf47PYKcgc+R6YHHocxM32PbIlJHXqbbAkpc5GNmQ4Tkw9pYLzjdJfao2Hy7OG+3NMk5YUbvow42fA=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1774726812; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=PFrJVdx7TP+3ufkrzt6rx/Teondi1ItY87jcEzomtRQ=; 
-	b=OezzVhMsXmri4ABA1ad54GUmxQ3n6X3/R9vKcXIi/yEDBO32jGpe41uaw9ddqAxoZ05Id+P+UnZ35BqD6aIrZ8D24pUtJnDSP1XmL14ygzsi0i9UxY6CsgFindQMKOtCdzwK1mMpvkN2ZdgOceiI4pyEZKFsHpPWt5m0ivKnyEM=
+	t=1774731334; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=lmCilbAJMd+cOa+m8z1c+d+7EFO+SOQEVOS6L0Lz0Ic=; 
+	b=mlQwJLUlU49nYcBWjeDR2v1GEkAcU12SZVS/kCstuAG0VOA6HmjEy/6Y6+wHxuJQyWd4RtuRs3RJ5tEpWUvBlSDZp0w0wqYvoFS2olU8+tvu+BfJ77B8+njgPh4B6Zamn87tpld88vuw00NFTEntg7xNIEIIeOb/MK86I+BCHDU=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
-	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774726812;
-	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
-	bh=PFrJVdx7TP+3ufkrzt6rx/Teondi1ItY87jcEzomtRQ=;
-	b=SE9Xuq5dcOPcB5d1g54/8MzQv3XQSqdrXi1ejQ6p8Y5CBXxR6EYZq9bpv0KEHbTl
-	WT9vyliLkzIh53LBFPKPNQ7eUZqoK77+JFMYVhV7cDiyseDlPjTIJPfoSQTgyCrkXuf
-	zoq4x9v5OoaaJHWby/U017gb7xcrrNKyPPSKf9Ik=
-Received: by mx.zohomail.com with SMTPS id 1774726809682347.74041559485704;
-	Sat, 28 Mar 2026 12:40:09 -0700 (PDT)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-To: Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Sandy Huang <hjc@rock-chips.com>,
- Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- kernel@collabora.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-doc@vger.kernel.org, Werner Sembach <wse@tuxedocomputers.com>,
- Andri Yngvason <andri@yngvason.is>, Marius Vlad <marius.vlad@collabora.com>
-Subject:
- Re: [PATCH v11 03/22] drm: Add new general DRM property "color format"
-Date: Sat, 28 Mar 2026 20:39:59 +0100
-Message-ID: <7430347.GXAFRqVoOG@workhorse>
-In-Reply-To: <acclgID7lSVNten2@intel.com>
-References:
- <20260324-color-format-v11-0-605559af4fb4@collabora.com>
- <4153041.tdWV9SEqCh@workhorse> <acclgID7lSVNten2@intel.com>
+	dkim=pass  header.i=ritovision.com;
+	spf=pass  smtp.mailfrom=rito@ritovision.com;
+	dmarc=pass header.from=<rito@ritovision.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774731334;
+	s=zmail; d=ritovision.com; i=rito@ritovision.com;
+	h=Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Date:Message-Id:Message-Id:Subject:Subject:Cc:Cc:From:From:To:To:References:In-Reply-To:Reply-To;
+	bh=lmCilbAJMd+cOa+m8z1c+d+7EFO+SOQEVOS6L0Lz0Ic=;
+	b=FuvqOKAegRUKyyRNfkOnNuUkOCSydoRI+d7YfwZOk9uqV48PlembJpNClcFwDsu2
+	KH0UwA6nOY5XAvMvhZET08BrO1hDTYPMDAjM3Oe2uChsx0b5HLVZxWbfVL7UzTAUatg
+	7foI0RFL3qPZtQMUVdyaDehctKvp3eeWgaC6pYyI=
+Received: by mx.zohomail.com with SMTPS id 1774731318003649.0065012998886;
+	Sat, 28 Mar 2026 13:55:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 28 Mar 2026 16:55:16 -0400
+Message-Id: <DHEPQVGLQKFM.5A8IWSUM3GTS@ritovision.com>
+Subject: Re: [PATCH] docs: add advanced search for kernel documentation
+Cc: "Shuah Khan" <skhan@linuxfoundation.org>, <linux-kernel@vger.kernel.org>
+From: "Rito Rhymes" <rito@ritovision.com>
+To: "Randy Dunlap" <rdunlap@infradead.org>, "Rito Rhymes"
+ <rito@ritovision.com>, "Jonathan Corbet" <corbet@lwn.net>, "Mauro Carvalho
+ Chehab" <mchehab@kernel.org>, <linux-doc@vger.kernel.org>
+X-Mailer: aerc 0.21.0
+References: <20260321181511.11706-1-rito@ritovision.com>
+ <621b43a5-256b-4a82-b179-3cefe43d419f@infradead.org>
+ <DH8UC6DVQE4P.13E9XDIRGJ645@ritovision.com>
+ <6cbf9940-0146-4b4d-bf74-4142b18602df@infradead.org>
+ <DH8WUB5VFIDH.B2WQGIM3163@ritovision.com>
+ <4620a35c-5293-4973-aa71-49046fae9911@infradead.org>
+ <DHAJ2FE2Z4OL.ZUA8AQEMPC01@ritovision.com>
+ <04294157-7833-4dfa-b41a-457cbd8750a5@infradead.org>
+In-Reply-To: <04294157-7833-4dfa-b41a-457cbd8750a5@infradead.org>
+X-ZohoMailClient: External
 
-On Saturday, 28 March 2026 01:49:04 Central European Standard Time Ville Sy=
-rj=C3=A4l=C3=A4 wrote:
-> On Fri, Mar 27, 2026 at 01:56:06PM +0100, Nicolas Frattaroli wrote:
-> > On Thursday, 26 March 2026 18:58:25 Central European Standard Time Vill=
-e Syrj=C3=A4l=C3=A4 wrote:
-> > > On Thu, Mar 26, 2026 at 06:02:47PM +0100, Maxime Ripard wrote:
-> > > > On Wed, Mar 25, 2026 at 08:43:15PM +0200, Ville Syrj=C3=A4l=C3=A4 w=
-rote:
-> > > > > On Wed, Mar 25, 2026 at 03:56:58PM +0100, Maxime Ripard wrote:
-> > > > > > On Wed, Mar 25, 2026 at 01:03:07PM +0200, Ville Syrj=C3=A4l=C3=
-=A4 wrote:
-> > > > > > > On Wed, Mar 25, 2026 at 09:24:27AM +0100, Maxime Ripard wrote:
-> > > > > > > > On Tue, Mar 24, 2026 at 09:53:35PM +0200, Ville Syrj=C3=A4l=
-=C3=A4 wrote:
-> > > > > > > > > On Tue, Mar 24, 2026 at 08:10:11PM +0100, Nicolas Frattar=
-oli wrote:
-> > > > > > > > > > On Tuesday, 24 March 2026 18:00:45 Central European Sta=
-ndard Time Ville Syrj=C3=A4l=C3=A4 wrote:
-> > > > > > > > > > > On Tue, Mar 24, 2026 at 05:01:07PM +0100, Nicolas Fra=
-ttaroli wrote:
-> > > > > > > > > > > > +enum drm_connector_color_format {
-> > > > > > > > > > > > +	/**
-> > > > > > > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_AUTO: The driver o=
-r display protocol
-> > > > > > > > > > > > +	 * helpers should pick a suitable color format. A=
-ll implementations of a
-> > > > > > > > > > > > +	 * specific display protocol must behave the same=
- way with "AUTO", but
-> > > > > > > > > > > > +	 * different display protocols do not necessarily=
- have the same "AUTO"
-> > > > > > > > > > > > +	 * semantics.
-> > > > > > > > > > > > +	 *
-> > > > > > > > > > > > +	 * For HDMI, "AUTO" picks RGB, but falls back to =
-YCbCr 4:2:0 if the
-> > > > > > > > > > > > +	 * bandwidth required for full-scale RGB is not a=
-vailable, or the mode
-> > > > > > > > > > > > +	 * is YCbCr 4:2:0-only, as long as the mode and o=
-utput both support
-> > > > > > > > > > > > +	 * YCbCr 4:2:0.
-> > > > > > > > > > > > +	 *
-> > > > > > > > > > > > +	 * For display protocols other than HDMI, the rec=
-ursive bridge chain
-> > > > > > > > > > > > +	 * format selection picks the first chain of brid=
-ge formats that works,
-> > > > > > > > > > > > +	 * as has already been the case before the introd=
-uction of the "color
-> > > > > > > > > > > > +	 * format" property. Non-HDMI bridges should ther=
-efore either sort their
-> > > > > > > > > > > > +	 * bus output formats by preference, or agree on =
-a unified auto format
-> > > > > > > > > > > > +	 * selection logic that's implemented in a common=
- state helper (like
-> > > > > > > > > > > > +	 * how HDMI does it).
-> > > > > > > > > > > > +	 */
-> > > > > > > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_AUTO =3D 0,
-> > > > > > > > > > > > +
-> > > > > > > > > > > > +	/**
-> > > > > > > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_RGB444: RGB output=
- format
-> > > > > > > > > > > > +	 */
-> > > > > > > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_RGB444,
-> > > > > > > > > > > > +
-> > > > > > > > > > > > +	/**
-> > > > > > > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR444: YCbCr 4:=
-4:4 output format (ie.
-> > > > > > > > > > > > +	 * not subsampled)
-> > > > > > > > > > > > +	 */
-> > > > > > > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR444,
-> > > > > > > > > > > > +
-> > > > > > > > > > > > +	/**
-> > > > > > > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR422: YCbCr 4:=
-2:2 output format (ie.
-> > > > > > > > > > > > +	 * with horizontal subsampling)
-> > > > > > > > > > > > +	 */
-> > > > > > > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR422,
-> > > > > > > > > > > > +
-> > > > > > > > > > > > +	/**
-> > > > > > > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR420: YCbCr 4:=
-2:0 output format (ie.
-> > > > > > > > > > > > +	 * with horizontal and vertical subsampling)
-> > > > > > > > > > > > +	 */
-> > > > > > > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR420,
-> > > > > > > > > > >=20
-> > > > > > > > > > > Seems like this should document what the quantization=
- range
-> > > > > > > > > > > should be for each format.
-> > > > > > > > > > >=20
-> > > > > > > > > >=20
-> > > > > > > > > > I don't think so? If you want per-component bit depth v=
-alues,
-> > > > > > > > > > DRM_FORMAT_* defines would be the appropriate values to=
- use. This
-> > > > > > > > > > enum is more abstract than that, and is there to commun=
-icate
-> > > > > > > > > > YUV vs. RGB and chroma subsampling, with bit depth bein=
-g handled
-> > > > > > > > > > by other properties.
-> > > > > > > > > >=20
-> > > > > > > > > > If you mean the factor used for subsampling, then that'=
-d only be
-> > > > > > > > > > relevant if YCBCR410 was supported where one chroma pla=
-ne isn't
-> > > > > > > > > > halved but quartered in resolution. I suspect 4:1:0 wil=
-l never
-> > > > > > > > > > be added; no digital display protocol standard supports=
- it to my
-> > > > > > > > > > knowledge, and hopefully none ever will.
-> > > > > > > > >=20
-> > > > > > > > > No, I mean the quantization range (16-235 vs. 0-255 etc).
-> > > > > > > > >=20
-> > > > > > > > > The i915 behaviour is that YCbCr is always limited range,
-> > > > > > > > > RGB can either be full or limited range depending on the=
-=20
-> > > > > > > > > "Broadcast RGB" property and other related factors.
-> > > > > > > >=20
-> > > > > > > > So far the HDMI state has both the format and quantization =
-range as
-> > > > > > > > different fields. I'm not sure we need to document the rang=
-e in the
-> > > > > > > > format field, maybe only mention it's not part of the forma=
-t but has a
-> > > > > > > > field of its own?
-> > > > > > >=20
-> > > > > > > I think we only have it for RGB (on some drivers only?). For =
-YCbCr
-> > > > > > > I think the assumption is limited range everywhere.
-> > > > > > >=20
-> > > > > > > But I'm not really concerned about documenting struct members.
-> > > > > > > What I'm talking about is the *uapi* docs. Surely userspace
-> > > > > > > will want to know what the new property actually does so the
-> > > > > > > uapi needs to be documented properly. And down the line some
-> > > > > > > new driver might also implement the wrong behaviour if there
-> > > > > > > is no clear specification.
-> > > > > >=20
-> > > > > > Ack
-> > > > > >=20
-> > > > > > > So I'm thinking (or perhaps hoping) the rule might be somethi=
-ng like:
-> > > > > > > - YCbCr limited range=20
-> > > > > > > - RGB full range if "Broadcast RGB" property is not present
-> > > > > >=20
-> > > > > > Isn't it much more complicated than that for HDMI though? My
-> > > > > > recollection was that any VIC but VIC1 would be limited range, =
-and
-> > > > > > anything else full range?
-> > > > >=20
-> > > > > Do we have some driver that implements the CTA-861 CE vs. IT mode
-> > > > > logic but doesn't expose the "Broadcast RGB" property? I was hopi=
-ng
-> > > > > those would always go hand in hand now.
-> > > >=20
-> > > > I'm not sure. i915 and the HDMI state helpers handle it properly (I
-> > > > think?) but it looks like only vc4 registers the Broadcast RGB prop=
-erty
-> > > > and uses the HDMI state helpers.
-> > > >=20
-> > > > And it looks like amdgpu registers Broadcast RGB but doesn't use
-> > > > drm_default_rgb_quant_range() which seems suspicious?
-> > >=20
-> > > If they want just manual full vs. limited then they should
-> > > limit the property to not expose the "auto" option at all.
-> > >=20
-> > > amdgpu also ties this in with the "colorspace" property, which
-> > > originally in i915 only controlled the infoframes/etc. But on
-> > > amdgpu it now controls various aspects of output color
-> > > transformation. The end result is that the property is a complete
-> > > mess with most of the values making no sense. And for whatever
-> > > reason everyone involved refused to remove/deprecate the
-> > > nonsensical values :/
-> > >=20
-> > > Looks like this series should make sure the documentation for
-> > > the "colorspace" property is in sync with the new property
-> > > as well. Currently now it's giving conflicting information.
-> > >=20
-> >=20
-> > I take it the problematic information is in
-> >=20
-> >     * DOC: standard connector properties
-> >     *
-> >     * Colorspace:
-> >=20
-> > and probably specifically BT2020_YCC's (and BT2020_RGB's?) insistence
-> > that they "produce RGB content".
-> >=20
-> > I think we probably just have to change the statement "The variants
-> > BT2020_RGB and BT2020_YCC are equivalent and the driver chooses between
-> > RGB and YCbCr on its own."
-> >=20
-> > The "on its own" here would get turned into "based on the color format
-> > property".
-> >=20
-> > Speaking of i915, that patch is one of the very few (5) patches in
-> > this series still lacking a review (hint hint nudge nudge). I'd like
-> > to get some more feedback on the remaining patches before I send out
-> > another revision, so that it's hopefully not just docs changes (I
-> > know better than to think those patches must be perfect and won't
-> > need revision.)
->=20
-> The i915 code around this is already a big mess, and I don't really
-> adding to that mess. So I think we'll need to do some refactoring before
-> we add anything there. I already started typing something and so far
-> it looks fairly straightforward, so I should have something soon.
->=20
-> While doing that several questions came to my mind though:
->=20
-> * More interactions with the colorspace property, but I sent
->   a separate mail already about that
->=20
-> * Which conversion matrix to use, and the answer I suspect
->   should be "ask the colorspace property", as mentioned in the
->   other mail
->=20
-> * Should we flat out reject color formats (and I suppose also
->   colorspace prop values) the sink doesn't claim to support?
+I'm still working on the advanced search reroll. It's turned into a more
+substantial update than I first expected.
 
-That is currently the intention, yes. In the common HDMI state
-helper, hdmi_try_format_bpc will return false if a format isn't
-supported by the sink at a certain bpc, and ultimately, make its
-caller return -EINVAL if it's not supported at any bpc.
-
-Userspace asking for something impossible will result in userspace
-being told so during atomic check, or at least that's the intention.
-=20
->   If yes, then I think we'll have to forget about adding anything=20
->   to i915 MST code. The way the MST stuff works is that if one
->   stream needs a modeset then all the related streams get modeset
->   as well. Thus if the user replaces a monitor getting fed with a
->   YCbCr stream just as another stream is being modeset, then the
->   entire atomic commit could fail due to the YCbCr stream getting
->   rejected.
-
-Yeah, my patch has an MST implementation for i915 and it does "work"
-for the simple case where monitors don't have different sets of
-supported formats, but I think it's better we make MST just not
-have the property. May also drop it from amdgpu as a consequence.
-
->   I think eventually we might have to invent some mechanism where
->   all the input into the modeset computation is cached somehow,
->   and said cache updated only on explicit userspace modesets.
->   Either that or we have to come up  with a way to skip some of
->   the calculations that depend on external factors. Either way
->   it's going to be a pain.
->=20
->   OTOH if we don't mind feeding the sink with stuff it can't
->   understand, then I suppose we might add YCbCr 4:4:4 support
->   for MST. It shouldn't be any different from RGB apart from
->   the RGB->YCbCr conversion, which is handled elsewhere. But
->   YCbCr 4:2:0 is definitely out either way, the MST code has
->   no support for that currently.
-
-My general approach so far has been that we should never feed
-the sink anything it can't handle. This results in some fun edge
-cases, e.g. my primary monitor (ASUS XG27AQDMG) does support
-YCbCr 4:2:0 on all modes, but since I'm talking to it from an
-HDMI 1.4b device, it only exposes the two modes in the EDID it
-sends the device as YCbCr 4:2:0 that need it. In that case, the
-kernel is stricter than the sink because it takes it by its word.
-I think forcing userspace to make safer choices is preferable over
-having the monitor lose its picture. If people want to be
-adventurous, they can always override the EDID, and thus get away
-with such things.
-
-Kind regards,
-Nicolas Frattaroli
-
-
+Rito
