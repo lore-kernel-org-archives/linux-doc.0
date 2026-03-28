@@ -1,101 +1,212 @@
-Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5901E1B6D08
-	for <linux-doc@vger.kernel.org>; Sat, 28 Mar 2026 07:48:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2375437C939
+	for <linux-doc@vger.kernel.org>; Sat, 28 Mar 2026 10:08:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774684119; cv=none; b=kj4v1m6IP5URvYqB3nWrSBKRcTf0x9DzUmjXu/4mAOLsIJ3e1KnPmjlQhnLkUo1TIdpaNRZDBMJQzJJ2WEJEdByvIr4eXG1mXXSPKn69ho90qyEyvJ2dDl9ZLHSjhkhyA5gHy5jGPulYeBXsvT3bqmdcX+plmwbMeQGFopjbDPI=
+	t=1774692524; cv=none; b=oKWMWaY69ulUPJj+Bi29qXIjSk50ZPxPTVaXQvl2FLpO3GxgB4cLXnHQnoTP+3AMl+qmC7dURryibOo03QrCRaH/OYLELl9bBHF3ovij+VBZO9YstBvluEP5iXnGwPoO4rMP8ABb78puCeIImgIycncmVVoPBRBFYl2QC/NRZSo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774684119; c=relaxed/simple;
-	bh=dAMuMyhtsRPnxRv4ojblqSNFrdw1vw9bcev0LsRTLCA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=g7lg//j5siumJ+eVJCvQD0yrsKGWFPgSjXDRE1+/BLg4B3rO4HG39L0hD9z++du5FZWe5r2ZHFIrtyZ0Clgj+t9EJPEnXqyCNCopUgLJ2tK9suYU6qnwHPzzhiiEwjAXwjUO/i3TQnPkfJkgCHhjBT1j84dI6oanI1Cjg+Gc4Kc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DmvJ505Q; arc=none smtp.client-ip=74.125.224.53
+	s=arc-20240116; t=1774692524; c=relaxed/simple;
+	bh=/GEXZkmKX4s9b/SmUpPLX93M0m6mbEsjeCZUiizWuRs=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Mo4cj4nBcZkWj+N5VdFeA5UlbLlWK2laMRilXkc93wb4034d10WVuRvOE9VYteW+bCb75IL78aBqW8eqQj3KX8ghfXTEPNmtE6AfQBaLROCaQRrzZ+Y3cZJxje6GD5Xyuvsa9VSH9eC9Jlr2QM1cJ7lXYDsk3dmjOPU9C+5vyOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VXKh4vHy; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DmvJ505Q"
-Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-64e8ae85700so3305689d50.1
-        for <linux-doc@vger.kernel.org>; Sat, 28 Mar 2026 00:48:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VXKh4vHy"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-486fd5360d4so37336185e9.1
+        for <linux-doc@vger.kernel.org>; Sat, 28 Mar 2026 03:08:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774684117; x=1775288917; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=RFoQZa2dmnnD+JGA9WJFHJi0YQNPX0KSTuaC/bKeOTE=;
-        b=DmvJ505QuxRvAnXclvLx1Ryb5/4kspiOIBmKE3FrUjaJfptWKTy23vGmHrFYocMEAF
-         Zyktupf2YuOofVVDPVVlPdJNWP8AYKUmfsVJ/NwnzuNtPecl4HNZQCiYB1TjHTIYtyoe
-         oD1Gx1hv85BboGqqP+kKLxWKTDWpP48NTKrzgOpyUp8OLCNOSFsIh8NRizKJnSINq0Tc
-         39mMExxB7i7p8W2G/wubEzB7uuc63QXLsJpq2Aij9VyYjHBVOKySpCRbGNtaum+21ggw
-         Y5BqwxrdiS0vm3feoSCaQ1i11ZFPHalosJHC3rwEfd2V1AwDxuReML7pdobgMFR0lwgT
-         d8AA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774684117; x=1775288917;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1774692520; x=1775297320; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=RFoQZa2dmnnD+JGA9WJFHJi0YQNPX0KSTuaC/bKeOTE=;
-        b=O7omREfsOWULGPklFnXjr7LO5BmWnvwxdkrjtZP7Lq1ZYLhmWnMeFEM8zwb58Bo0tu
-         KuLx5+SSxWusx7TGUVaqhw6yh6MwulZiRp3FGJ+NrFBUkx1SU+T2+MnOhZFJ1sOQKDJw
-         2I78Nr+VYgAHXU+EULe3UXivBIUJXzLp7DoV8NdVTeQfaP5X6T/uS8kcKZdqPSEK0tXL
-         jQ5JkMS0xyj7yEbAfOLnAo0gcOyvXpJAV2c2ZCnnloW/W+CDxOm7CGBU6XIxKB3vqkqM
-         XL1D9p1VHyL2ry8fspaMNz2zvD2KcDbAcI3965MUxfiLzXI1uAKkyKentNAHP7zJS3g7
-         f/rg==
-X-Forwarded-Encrypted: i=1; AJvYcCWsTlwUcwKon26+L5A67ITmISZ7k29lEZ7AZEv04rRM2jzh3JcdaZUNjNpCRZV/hW9iD1Hnc4qDJ/Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx4GB1d7zpPHpubbBT2Z3gT97RtU+iSaDGwjjEgAtJrs0MDzx6/
-	GU2/rhGIH9UvUVWdhF4hCCZKYEmjzlFUiu5PWH+noyJhAAKgFbUTybtW
-X-Gm-Gg: ATEYQzyJ9jQ7o4hjR/yQx3WrGWiRotMd67O5R1WG4j+ctI0PWu58lgKVbzBHFNJiZyk
-	LHaYTAKhquby8sBdzyjjITpXMIuoJeaWNlJJ8qd/I+KR1TR4mcgHEf0FxpwWWRaGPIrGNv4sYdg
-	/6snu6rsENEh2BuMXKu08A6dIXEn1G26RIC76g+KK6CH+j/og+2nWC/fPF/8jh7Vmhj0A600U/f
-	uDsIBPFQdj8BBfRQIsk1vadgIeEOpeHTNX4EbFqNAXITAs/g4Tv97dcjKfbxT2IUvipCyrO8G8s
-	IYlkHvzF//5JkyXe/B9ND5Dx0libMqwMOMf2Qc7xQck/HByfpth3hiDCQEGG26dIRDytUxQTE7t
-	a+y6onwZgXWnLCH0oN14MyMgiULdKKbF8xid0BNp4o2Hp5oFLyG2/TzLu3TQEB52Smt4DKq0nkY
-	TO2aF4kIvglGxNg7O/5Q==
-X-Received: by 2002:a05:690c:38b:b0:79b:dafd:d23 with SMTP id 00721157ae682-79bddcb8e60mr51218457b3.13.1774684117457;
-        Sat, 28 Mar 2026 00:48:37 -0700 (PDT)
-Received: from Gentoo ([158.173.25.82])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-79cb9a8f2f3sm6554557b3.30.2026.03.28.00.48.32
+        bh=A/VNplDWWCZzS7/n5RiNsPZoo6NH5P9/pGe+zWFZeD0=;
+        b=VXKh4vHy6GAB3MDAETpapsMLNSeEEI/SjAlASozLXqkIbA9Stbbus9jENadBAJ8+Fe
+         RJT/VCOtkJUYcWE/9vCosHtBFXjus576W0Npe/oR+ciQBuij2yZG963TNb7GTSwKID3C
+         B2X27cYlmncM2qZQ4zVAJvNYBrEfFTUPLmcxihxjytKOPbLIc5TXRqaitc3ivtpN4rZP
+         SXxX5ZYjeH5mzv+EeZcXCe4Zi8z98FlR31QdScwWu/kqP4ip1o/sGkIwuTFKvtRyy2G9
+         trtVzN6BjGZ3ptBXFJCYTDSGJ+Mnvdyr072x4WX4P0tcsr8GvxB7IXkEi1pFmI63TjBp
+         iDLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774692520; x=1775297320;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=A/VNplDWWCZzS7/n5RiNsPZoo6NH5P9/pGe+zWFZeD0=;
+        b=RuSvi3r4DHmIZfXsjPCZFg0VQGDAuA3diEqZSYKPFlbBxAZPY9d4b/a+TGG8ksR25j
+         w55vEPFZlUbL/GYWcM5JSxN+3D7FT9guNTH3ks8PXTKH7nVXn60pJ/06YDgt/uf5vqeW
+         r+y27nsgw6hTO9yyYLS6085Kq5PLs1Blmiq0+yMFwg0a2iNbC1smfcWvIvktjAzMBYec
+         GJaz+pVB0+cH2EoR2jVKqVAyzJ8voaqSHhhd/loVLytzJESvQ7ueN6JN/AF6vLLRllSp
+         hc8FWBmLuuqeEVtNovXUQoY7vsN/MWHu7AdkQJW/+6PLJy6f4+ODQg06YtzMBtvjaK7P
+         O6gQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXQ++9nqHFOxtyc6vHvqbCKZtPpVbYZ0qZfx2RaElEvMkjKZ6JG1c0kfKLbqDEDwtqCNml96sAVKIQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyerh1nOiqTxigTdLetfSk1A3LlyP8F/OkwiTl3+piEqWAG/8Po
+	79lLVQ01YSfKTKkT0agDJuUrZ3+AHcINe0XJ6dzVrjEfsRHPIxjwgXck
+X-Gm-Gg: ATEYQzxh68IXSoQ99rNi3gGp4VGzPVZ39gy3BzTRZ1D72yk9bCQaZ4rhYotuBzlk3D5
+	xkoJKfshGQknXDAQZ0D2eSBGNCLkfx5U5VCLRVt/aXrTD2ZFt30iuz581CiuXCBd+VBKToY+wgL
+	mI0blZOz3r85rm0RsRDq63m7TgkPrCLZSSXF7Nwn9DHe+lrpR9/scQZmwb4TjzE9XqkxUmwbNTp
+	biVixNDOAuxU+kHiK6mlIckuz0lIOsBZm190iBweEm6lgI9yJ9c3X2sBhh7dx5ZWuCZ7GMoUsjN
+	pJgDz/P7pmpfjbIHod3MPcDtJQiwV8Y1NB5bRZCxp5E8See0KdV7XCWnrdJMUPR1YOfdbeejWFw
+	oTdietYD9fcWi5RA2KuE0PMBtei5PLUMJaYcMnl208qhQtFVV1hFp5EOIlFzd6hgSCOw6Koojmn
+	y1VGQdZCgHXsDNyRUPmSaHOMqPt276akQCNp9W/SWpgrwylhbZtZXpnFk0f2WqzkFU
+X-Received: by 2002:a05:600c:828a:b0:487:338:b4df with SMTP id 5b1f17b1804b1-48727d8818cmr86841645e9.15.1774692519962;
+        Sat, 28 Mar 2026 03:08:39 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4872716799dsm32314725e9.25.2026.03.28.03.08.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Mar 2026 00:48:36 -0700 (PDT)
-From: Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To: corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Bhaskar Chowdhury <unixbhaskar@gmail.com>
-Subject: [PATCH] Doc: process: Added two important books for Linux Kernel programming and development
-Date: Sat, 28 Mar 2026 13:10:42 +0530
-Message-ID: <20260328074745.2309736-1-unixbhaskar@gmail.com>
-X-Mailer: git-send-email 2.52.0
+        Sat, 28 Mar 2026 03:08:39 -0700 (PDT)
+Date: Sat, 28 Mar 2026 10:08:37 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+Cc: Borislav Petkov <bp@alien8.de>, x86@kernel.org, Jon Kohler
+ <jon@nutanix.com>, Nikolay Borisov <nik.borisov@suse.com>, "H. Peter Anvin"
+ <hpa@zytor.com>, Josh Poimboeuf <jpoimboe@kernel.org>, David Kaplan
+ <david.kaplan@amd.com>, Sean Christopherson <seanjc@google.com>, Dave
+ Hansen <dave.hansen@linux.intel.com>, Peter Zijlstra
+ <peterz@infradead.org>, Alexei Starovoitov <ast@kernel.org>, Daniel
+ Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, KP
+ Singh <kpsingh@kernel.org>, Jiri Olsa <jolsa@kernel.org>, "David S. Miller"
+ <davem@davemloft.net>, Andy Lutomirski <luto@kernel.org>, Thomas Gleixner
+ <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, David Ahern
+ <dsahern@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, Eduard
+ Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, Yonghong Song
+ <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>,
+ Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, Paolo
+ Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-kernel@vger.kernel.org, kvm@vger.kernel.org, Asit Mallick
+ <asit.k.mallick@intel.com>, Tao Zhang <tao1.zhang@intel.com>,
+ bpf@vger.kernel.org, netdev@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v8 02/10] x86/bhi: Make clear_bhb_loop() effective on
+ newer CPUs
+Message-ID: <20260328100837.7e6dc7fe@pumpkin>
+In-Reply-To: <20260328004256.mm2ttj5iwvu5kdpa@desk>
+References: <20260324-vmscape-bhb-v8-0-68bb524b3ab9@linux.intel.com>
+	<20260324-vmscape-bhb-v8-2-68bb524b3ab9@linux.intel.com>
+	<20260324205930.GQacL7Mp7vwGBKX1W7@fat_crate.local>
+	<20260324221308.7sh6afdy6r6tsf4w@desk>
+	<20260325203759.GCacRHp2t8a7c4Bp6E@fat_crate.local>
+	<20260326083934.fk4wyhe6rgiss34z@desk>
+	<20260326100120.GAacUD8BVziYzLxZHB@fat_crate.local>
+	<20260326104557.24295cbb@pumpkin>
+	<20260326202931.wlggnd3nfj6hngpb@desk>
+	<20260328004256.mm2ttj5iwvu5kdpa@desk>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-These books are very well written and enhance the understanding of the process.
+On Fri, 27 Mar 2026 17:42:56 -0700
+Pawan Gupta <pawan.kumar.gupta@linux.intel.com> wrote:
 
-Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
----
- Documentation/process/howto.rst | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+> On Thu, Mar 26, 2026 at 01:29:31PM -0700, Pawan Gupta wrote:
+> > On Thu, Mar 26, 2026 at 10:45:57AM +0000, David Laight wrote:  
+> > > On Thu, 26 Mar 2026 11:01:20 +0100
+> > > Borislav Petkov <bp@alien8.de> wrote:
+> > >   
+> > > > On Thu, Mar 26, 2026 at 01:39:34AM -0700, Pawan Gupta wrote:  
+> > > > > I believe the equivalent for cpu_feature_enabled() in asm is the
+> > > > > ALTERNATIVE. Please let me know if I am missing something.    
+> > > > 
+> > > > Yes, you are.
+> > > > 
+> > > > The point is that you don't want to stick those alternative calls inside some
+> > > > magic bhb_loop function but hand them in from the outside, as function
+> > > > arguments.
+> > > > 
+> > > > Basically what I did.
+> > > > 
+> > > > Then you were worried about this being C code and it had to be noinstr... So
+> > > > that outer function can be rewritten in asm, I think, and still keep it well
+> > > > separate.
+> > > > 
+> > > > I'll try to rewrite it once I get a free minute, and see how it looks.
+> > > >   
+> > > 
+> > > I think someone tried getting C code to write the values to global data
+> > > and getting the asm to read them.
+> > > That got discounted because it spilt things between two largely unrelated files.  
+> > 
+> > 
+> > The implementation with global variables wasn't that bad, let me revive it.
+> > 
+> > This part which ties sequence to BHI mitigation, which is not ideal,
+> > (because VMSCAPE also uses it) it does seems a cleaner option.
+> > 
+> > --- a/arch/x86/kernel/cpu/bugs.c
+> > +++ b/arch/x86/kernel/cpu/bugs.c
+> > @@ -2095,6 +2095,11 @@ static void __init bhi_select_mitigation(void)
+> > 
+> >  static void __init bhi_update_mitigation(void)
+> >  {
+> > +   if (!cpu_feature_enabled(X86_FEATURE_BHI_CTRL)) {
+> > +       bhi_seq_outer_loop = 5;
+> > +       bhi_seq_inner_loop = 5;
+> > +   }
+> > +
+> > 
+> > I believe this can be moved to somewhere common to all mitigations.
+> >   
+> > > I think the BPF code would need significant refactoring to call a C function.  
+> > 
+> > Ya, true. Will use globals and keep clear_bhb_loop() in asm.  
+> 
+> While testing this approach, I noticed that syscalls were suffering an 8%
+> regression on ICX for Native BHI mitigation:
+> 
+>   $ perf bench syscall basic -l 100000000
+> 
+> Bisection pointed to the change for using 8-bit registers (al/ah replacing
+> eax/ecx) as the main contributor to the regression. (Global variables added
+> a bit, but within noise).
+> 
+> Further digging revealed a strange behavior, using %ah for the inner loop
+> was causing the regression, interchanging %al and %ah in the loops
+> (for movb and sub) eliminated the regression.
+> 
+> <clear_bhb_loop_nofence>:
+> 
+> 	movb	bhb_seq_outer_loop(%rip), %al
+> 
+> 	call	1f
+> 	jmp	5f
+> 1:	call	2f
+> .Lret1:	RET
+> 2:	movb	bhb_seq_inner_loop(%rip), %ah
+> 3:	jmp	4f
+> 	nop
+> 4:	sub	$1, %ah <---- No regression with %al here
+> 	jnz	3b
+> 	sub	$1, %al
+> 	jnz	1b
+> 
+> My guess is, "sub $1, %al" is faster than "sub $1, %ah". Using %al in the
+> inner loop, which is executed more number of times is likely making the
+> difference. A perf profile is needed to confirm this.
 
-diff --git a/Documentation/process/howto.rst b/Documentation/process/howto.rst
-index 9438e03d6f50..c5164a27fc1a 100644
---- a/Documentation/process/howto.rst
-+++ b/Documentation/process/howto.rst
-@@ -34,7 +34,8 @@ experience, the following books are good for, if anything, reference:
-  - "The C Programming Language" by Kernighan and Ritchie [Prentice Hall]
-  - "Practical C Programming" by Steve Oualline [O'Reilly]
-  - "C:  A Reference Manual" by Harbison and Steele [Prentice Hall]
--
-+ - "Linux System Programming" by Robert Love [O'Reilly]
-+ - "Linux Kernel Development" By Robert Love [Pearson]
- The kernel is written using GNU C and the GNU toolchain.  While it
- adheres to the ISO C11 standard, it uses a number of extensions that are
- not featured in the standard.  The kernel is a freestanding C
---
-2.52.0
+I bet it is also CPU dependant - it is quite likely that there isn't
+any special hardware to support partial writes of %ah so it ends up taking
+a slow path (possibly even a microcoded one to get an 8% regression).
+
+As well as swapping %al <-> %ah try changing the outer loop decrement to
+	sub $0x100, %ax
+since %al is zero that will set the z flag the same.
+
+I've just hacked a test into some test code I've got.
+I'm not seeing an unexpected costs on either zen-5 or haswell.
+So it may be more subtle.
+
+	David
+
+
+> 
+> Never imagined a register selection can make an 8% difference in
+> performance! Anyways, will update the patch with this finding.
 
