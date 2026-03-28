@@ -1,71 +1,72 @@
-Received: from canpmsgout06.his.huawei.com (canpmsgout06.his.huawei.com [113.46.200.221])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A775937472B;
-	Sat, 28 Mar 2026 07:41:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.221
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5901E1B6D08
+	for <linux-doc@vger.kernel.org>; Sat, 28 Mar 2026 07:48:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774683717; cv=none; b=LojZ3e3KApsGn2lpYAix9gwc+04sZYhIIuYOlspZYAjxlKtMde5ku+PrdCplRZhBz3nQ3T48HiwcryWQreY4b1uRisqK6gTu5osvwoMYbO7GXu7UsrZD+J8rqxbn4Wi54EFYG0O3wy176z8UEfpE+2pBTtGYD1ZRBx8B1RAwW6g=
+	t=1774684119; cv=none; b=kj4v1m6IP5URvYqB3nWrSBKRcTf0x9DzUmjXu/4mAOLsIJ3e1KnPmjlQhnLkUo1TIdpaNRZDBMJQzJJ2WEJEdByvIr4eXG1mXXSPKn69ho90qyEyvJ2dDl9ZLHSjhkhyA5gHy5jGPulYeBXsvT3bqmdcX+plmwbMeQGFopjbDPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774683717; c=relaxed/simple;
-	bh=zPC4UChpHItkGILT01djk2NPO+E6YZt49PJmOw6hEuk=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dnpLSZurVbm/eBbjLBxeZAAQzZH1HecoTQjfM/2bI11X/bW/3bh5EnzHdy9sREGKrjvQGh6Mio3ir2ytcWNSAUlldI60qoTJU207nZkBDBv6vIGWeauOnRxYHFq4zZf/ggm3E/xRqJhOX95OD/dD1D1eZVrwfOa7D2a54eeOeWI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=ODuxTM6r; arc=none smtp.client-ip=113.46.200.221
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1774684119; c=relaxed/simple;
+	bh=dAMuMyhtsRPnxRv4ojblqSNFrdw1vw9bcev0LsRTLCA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=g7lg//j5siumJ+eVJCvQD0yrsKGWFPgSjXDRE1+/BLg4B3rO4HG39L0hD9z++du5FZWe5r2ZHFIrtyZ0Clgj+t9EJPEnXqyCNCopUgLJ2tK9suYU6qnwHPzzhiiEwjAXwjUO/i3TQnPkfJkgCHhjBT1j84dI6oanI1Cjg+Gc4Kc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DmvJ505Q; arc=none smtp.client-ip=74.125.224.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="ODuxTM6r"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=T0HTdTsJ+BRaIWohYMOarISe4cVfTmplkqDtATfGkBY=;
-	b=ODuxTM6rNDcxKL1IWVWcxiwFKTYgYF7HTYnYTpH580zh0m3kpH7EHNFSvZudPJPoMd/ugO47l
-	FIchmYINX0OEzfNWdBy21PVgkoD7dDhvj3wt31XGUJ+2Dimxi3jc0bCwMwALPzcier/FEOTcv3P
-	KO9JG/TfHGdLVtAbtqInrbg=
-Received: from mail.maildlp.com (unknown [172.19.162.197])
-	by canpmsgout06.his.huawei.com (SkyGuard) with ESMTPS id 4fjTnm2QmwzRhRx;
-	Sat, 28 Mar 2026 15:35:40 +0800 (CST)
-Received: from dggpemf500011.china.huawei.com (unknown [7.185.36.131])
-	by mail.maildlp.com (Postfix) with ESMTPS id A925140575;
-	Sat, 28 Mar 2026 15:41:47 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by dggpemf500011.china.huawei.com
- (7.185.36.131) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Sat, 28 Mar
- 2026 15:41:44 +0800
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-To: <corbet@lwn.net>, <skhan@linuxfoundation.org>, <catalin.marinas@arm.com>,
-	<will@kernel.org>, <chenhuacai@kernel.org>, <kernel@xen0n.name>,
-	<maddy@linux.ibm.com>, <mpe@ellerman.id.au>, <npiggin@gmail.com>,
-	<chleroy@kernel.org>, <pjw@kernel.org>, <palmer@dabbelt.com>,
-	<aou@eecs.berkeley.edu>, <alex@ghiti.fr>, <tglx@kernel.org>,
-	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
-	<hpa@zytor.com>, <robh@kernel.org>, <saravanak@kernel.org>,
-	<akpm@linux-foundation.org>, <bhe@redhat.com>, <vgoyal@redhat.com>,
-	<dyoung@redhat.com>, <rdunlap@infradead.org>, <peterz@infradead.org>,
-	<feng.tang@linux.alibaba.com>, <pawan.kumar.gupta@linux.intel.com>,
-	<dapeng1.mi@linux.intel.com>, <kees@kernel.org>, <elver@google.com>,
-	<paulmck@kernel.org>, <lirongqing@baidu.com>, <rppt@kernel.org>,
-	<leitao@debian.org>, <ardb@kernel.org>, <cfsworks@gmail.com>,
-	<osandov@fb.com>, <jbohac@suse.cz>, <tangyouling@kylinos.cn>,
-	<sourabhjain@linux.ibm.com>, <ritesh.list@gmail.com>,
-	<eajames@linux.ibm.com>, <songshuaishuai@tinylab.org>,
-	<kevin.brodsky@arm.com>, <vishal.moola@gmail.com>,
-	<junhui.liu@pigmoral.tech>, <coxu@redhat.com>, <fuqiang.wang@easystack.cn>,
-	<liaoyuanhong@vivo.com>, <guoren@kernel.org>, <chenjiahao16@huawei.com>,
-	<hbathini@linux.ibm.com>, <takahiro.akashi@linaro.org>,
-	<james.morse@arm.com>, <lizhengyu3@huawei.com>, <x86@kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <loongarch@lists.linux.dev>,
-	<linuxppc-dev@lists.ozlabs.org>, <linux-riscv@lists.infradead.org>,
-	<devicetree@vger.kernel.org>, <kexec@lists.infradead.org>
-CC: <ruanjinjie@huawei.com>
-Subject: [PATCH v11 11/11] riscv: kexec: Add support for crashkernel CMA reservation
-Date: Sat, 28 Mar 2026 15:40:13 +0800
-Message-ID: <20260328074013.3589544-12-ruanjinjie@huawei.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260328074013.3589544-1-ruanjinjie@huawei.com>
-References: <20260328074013.3589544-1-ruanjinjie@huawei.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DmvJ505Q"
+Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-64e8ae85700so3305689d50.1
+        for <linux-doc@vger.kernel.org>; Sat, 28 Mar 2026 00:48:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774684117; x=1775288917; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=RFoQZa2dmnnD+JGA9WJFHJi0YQNPX0KSTuaC/bKeOTE=;
+        b=DmvJ505QuxRvAnXclvLx1Ryb5/4kspiOIBmKE3FrUjaJfptWKTy23vGmHrFYocMEAF
+         Zyktupf2YuOofVVDPVVlPdJNWP8AYKUmfsVJ/NwnzuNtPecl4HNZQCiYB1TjHTIYtyoe
+         oD1Gx1hv85BboGqqP+kKLxWKTDWpP48NTKrzgOpyUp8OLCNOSFsIh8NRizKJnSINq0Tc
+         39mMExxB7i7p8W2G/wubEzB7uuc63QXLsJpq2Aij9VyYjHBVOKySpCRbGNtaum+21ggw
+         Y5BqwxrdiS0vm3feoSCaQ1i11ZFPHalosJHC3rwEfd2V1AwDxuReML7pdobgMFR0lwgT
+         d8AA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774684117; x=1775288917;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RFoQZa2dmnnD+JGA9WJFHJi0YQNPX0KSTuaC/bKeOTE=;
+        b=O7omREfsOWULGPklFnXjr7LO5BmWnvwxdkrjtZP7Lq1ZYLhmWnMeFEM8zwb58Bo0tu
+         KuLx5+SSxWusx7TGUVaqhw6yh6MwulZiRp3FGJ+NrFBUkx1SU+T2+MnOhZFJ1sOQKDJw
+         2I78Nr+VYgAHXU+EULe3UXivBIUJXzLp7DoV8NdVTeQfaP5X6T/uS8kcKZdqPSEK0tXL
+         jQ5JkMS0xyj7yEbAfOLnAo0gcOyvXpJAV2c2ZCnnloW/W+CDxOm7CGBU6XIxKB3vqkqM
+         XL1D9p1VHyL2ry8fspaMNz2zvD2KcDbAcI3965MUxfiLzXI1uAKkyKentNAHP7zJS3g7
+         f/rg==
+X-Forwarded-Encrypted: i=1; AJvYcCWsTlwUcwKon26+L5A67ITmISZ7k29lEZ7AZEv04rRM2jzh3JcdaZUNjNpCRZV/hW9iD1Hnc4qDJ/Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx4GB1d7zpPHpubbBT2Z3gT97RtU+iSaDGwjjEgAtJrs0MDzx6/
+	GU2/rhGIH9UvUVWdhF4hCCZKYEmjzlFUiu5PWH+noyJhAAKgFbUTybtW
+X-Gm-Gg: ATEYQzyJ9jQ7o4hjR/yQx3WrGWiRotMd67O5R1WG4j+ctI0PWu58lgKVbzBHFNJiZyk
+	LHaYTAKhquby8sBdzyjjITpXMIuoJeaWNlJJ8qd/I+KR1TR4mcgHEf0FxpwWWRaGPIrGNv4sYdg
+	/6snu6rsENEh2BuMXKu08A6dIXEn1G26RIC76g+KK6CH+j/og+2nWC/fPF/8jh7Vmhj0A600U/f
+	uDsIBPFQdj8BBfRQIsk1vadgIeEOpeHTNX4EbFqNAXITAs/g4Tv97dcjKfbxT2IUvipCyrO8G8s
+	IYlkHvzF//5JkyXe/B9ND5Dx0libMqwMOMf2Qc7xQck/HByfpth3hiDCQEGG26dIRDytUxQTE7t
+	a+y6onwZgXWnLCH0oN14MyMgiULdKKbF8xid0BNp4o2Hp5oFLyG2/TzLu3TQEB52Smt4DKq0nkY
+	TO2aF4kIvglGxNg7O/5Q==
+X-Received: by 2002:a05:690c:38b:b0:79b:dafd:d23 with SMTP id 00721157ae682-79bddcb8e60mr51218457b3.13.1774684117457;
+        Sat, 28 Mar 2026 00:48:37 -0700 (PDT)
+Received: from Gentoo ([158.173.25.82])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-79cb9a8f2f3sm6554557b3.30.2026.03.28.00.48.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 Mar 2026 00:48:36 -0700 (PDT)
+From: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To: corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Subject: [PATCH] Doc: process: Added two important books for Linux Kernel programming and development
+Date: Sat, 28 Mar 2026 13:10:42 +0530
+Message-ID: <20260328074745.2309736-1-unixbhaskar@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -73,109 +74,28 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
- dggpemf500011.china.huawei.com (7.185.36.131)
 
-Commit 35c18f2933c5 ("Add a new optional ",cma" suffix to the
-crashkernel= command line option") and commit ab475510e042 ("kdump:
-implement reserve_crashkernel_cma") added CMA support for kdump
-crashkernel reservation. This allows the kernel to dynamically allocate
-contiguous memory for crash dumping when needed, rather than permanently
-reserving a fixed region at boot time.
+These books are very well written and enhance the understanding of the process.
 
-So extend crashkernel CMA reservation support to riscv. The following
-changes are made to enable CMA reservation:
-
-- Parse and obtain the CMA reservation size along with other crashkernel
-  parameters.
-- Call reserve_crashkernel_cma() to allocate the CMA region for kdump.
-- Include the CMA-reserved ranges for kdump kernel to use, which was
-  already done in of_kexec_alloc_and_setup_fdt().
-- Exclude the CMA-reserved ranges from the crash kernel memory to
-  prevent them from being exported through /proc/vmcore, which was
-  already done in the crash core.
-
-Update kernel-parameters.txt to document CMA support for crashkernel on
-riscv architecture.
-
-Acked-by: Baoquan He <bhe@redhat.com>
-Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-Acked-by: Paul Walmsley <pjw@kernel.org> # arch/riscv
-Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 ---
- Documentation/admin-guide/kernel-parameters.txt | 16 ++++++++--------
- arch/riscv/kernel/machine_kexec_file.c          |  2 +-
- arch/riscv/mm/init.c                            |  5 +++--
- 3 files changed, 12 insertions(+), 11 deletions(-)
+ Documentation/process/howto.rst | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index a7055cead40f..13ced9ea42f4 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1122,14 +1122,14 @@ Kernel parameters
- 			It will be ignored when crashkernel=X,high is not used
- 			or memory reserved is below 4G.
- 	crashkernel=size[KMG],cma
--			[KNL, X86, ARM64, PPC] Reserve additional crash kernel memory from
--			CMA. This reservation is usable by the first system's
--			userspace memory and kernel movable allocations (memory
--			balloon, zswap). Pages allocated from this memory range
--			will not be included in the vmcore so this should not
--			be used if dumping of userspace memory is intended and
--			it has to be expected that some movable kernel pages
--			may be missing from the dump.
-+			[KNL, X86, ARM64, RISCV, PPC] Reserve additional crash
-+			kernel memory from CMA. This reservation is usable by
-+			the first system's userspace memory and kernel movable
-+			allocations (memory balloon, zswap). Pages allocated
-+			from this memory range will not be included in the vmcore
-+			so this should not be used if dumping of userspace memory
-+			is intended and it has to be expected that some movable
-+			kernel pages may be missing from the dump.
- 
- 			A standard crashkernel reservation, as described above,
- 			is still needed to hold the crash kernel and initrd.
-diff --git a/arch/riscv/kernel/machine_kexec_file.c b/arch/riscv/kernel/machine_kexec_file.c
-index bea818f75dd6..c79cd86d5713 100644
---- a/arch/riscv/kernel/machine_kexec_file.c
-+++ b/arch/riscv/kernel/machine_kexec_file.c
-@@ -46,7 +46,7 @@ static int get_nr_ram_ranges_callback(struct resource *res, void *arg)
- 
- unsigned int arch_get_system_nr_ranges(void)
- {
--	unsigned int nr_ranges = 2; /* For exclusion of crashkernel region */
-+	unsigned int nr_ranges = 2 + crashk_cma_cnt; /* For exclusion of crashkernel region */
- 
- 	walk_system_ram_res(0, -1, &nr_ranges, get_nr_ram_ranges_callback);
- 
-diff --git a/arch/riscv/mm/init.c b/arch/riscv/mm/init.c
-index 811e03786c56..4cd49afa9077 100644
---- a/arch/riscv/mm/init.c
-+++ b/arch/riscv/mm/init.c
-@@ -1398,7 +1398,7 @@ static inline void setup_vm_final(void)
-  */
- static void __init arch_reserve_crashkernel(void)
- {
--	unsigned long long low_size = 0;
-+	unsigned long long low_size = 0, cma_size = 0;
- 	unsigned long long crash_base, crash_size;
- 	bool high = false;
- 	int ret;
-@@ -1408,11 +1408,12 @@ static void __init arch_reserve_crashkernel(void)
- 
- 	ret = parse_crashkernel(boot_command_line, memblock_phys_mem_size(),
- 				&crash_size, &crash_base,
--				&low_size, NULL, &high);
-+				&low_size, &cma_size, &high);
- 	if (ret)
- 		return;
- 
- 	reserve_crashkernel_generic(crash_size, crash_base, low_size, high);
-+	reserve_crashkernel_cma(cma_size);
- }
- 
- void __init paging_init(void)
--- 
-2.34.1
+diff --git a/Documentation/process/howto.rst b/Documentation/process/howto.rst
+index 9438e03d6f50..c5164a27fc1a 100644
+--- a/Documentation/process/howto.rst
++++ b/Documentation/process/howto.rst
+@@ -34,7 +34,8 @@ experience, the following books are good for, if anything, reference:
+  - "The C Programming Language" by Kernighan and Ritchie [Prentice Hall]
+  - "Practical C Programming" by Steve Oualline [O'Reilly]
+  - "C:  A Reference Manual" by Harbison and Steele [Prentice Hall]
+-
++ - "Linux System Programming" by Robert Love [O'Reilly]
++ - "Linux Kernel Development" By Robert Love [Pearson]
+ The kernel is written using GNU C and the GNU toolchain.  While it
+ adheres to the ISO C11 standard, it uses a number of extensions that are
+ not featured in the standard.  The kernel is a freestanding C
+--
+2.52.0
 
