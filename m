@@ -1,78 +1,50 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6546824B28
-	for <linux-doc@vger.kernel.org>; Sat, 28 Mar 2026 21:32:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774733564; cv=none; b=YqbcV+LKECvrRt/QgRwKD42GT0cyiQZsHdLE5qU8s1Oq0gJsrFe87sd/+TVqydG4ZVl1jdDq4BqqQ89QtXYadJW8ErT7vwPZ93+S6Jm7Hfwh3wy6InZrQatypJYyM145pvG7wCOC0YBkzMG9YEjiWB5chCme9+L9YkJmmsp/L7s=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774733564; c=relaxed/simple;
-	bh=p9nKXCnB6qgsDcC8CnnwgOuqSJeVhPxO7RZCp/8yaHg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ACq4p5z1ebyOALqiuOLuerZvZDo8z41uv3W0cbm4LbHw+OzApMgFwPb6eSNgm8CLaFbUL/pYumXI0rKn7g5441BoK2pq0ZA7/GiAeU0/0iYD7PbrD15AW5kqpXR9joOjbyQrtydT3hIiEPNHFisPWs1EzEYMMlFwHFFTHjnD/s8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=coyEed6n; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0246119CD03;
+	Sun, 29 Mar 2026 02:31:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774751474; cv=pass; b=VR0Kxjr/qWi5GWG6fhiqxudDBQOFkrz99006B+yHlJJdwwmibCo+PD2f4C5uCnSEcrPEAUG00YKMIOdHjlwfMqiFsupYkQX/LRoyY3LvjUBrg3Z7UQ8n9zaFz+JcJ0UmGktbyT4PbxBFOnPnz/8fMpNVe+xIxPO43Z3xUHSC+KM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774751474; c=relaxed/simple;
+	bh=s1k2yRYaf/Ff8S7z942mGII+qoP0LKBJA8ZWmUeF+Os=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rn5Jk2WlS4XF/BubAAa/1iyfRdopxX1gKs9un/+/qeE7Vi6INARoM2jmyJ4H79Io8ahokF4ZVYiR/4SfYcvGcNpjToPAIYbOzj8q5XcVMEXJ2rXdnxz3tNqww9ifQhocjTQHKKqbJhyYEV10cRWeT2Lo+3eQ6pvhv302iAVOeAs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com; spf=pass smtp.mailfrom=ritovision.com; dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b=iHgZuYdO; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ritovision.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="coyEed6n"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-48704db565eso44169855e9.1
-        for <linux-doc@vger.kernel.org>; Sat, 28 Mar 2026 14:32:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774733561; x=1775338361; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/BJ0N9r5LqYCwMEFbnoh31TQxYmD0rO7Mhn/V1aoiaA=;
-        b=coyEed6n6oG14T8RqAB1JKnW+ttBbhxQCI0/IbYkCZMjOcmMib0DkRbp5MqLosFD5w
-         dgMC2gsWvXRRzdhd+q6Qj+Mdqr2yLlxayFJUezCStXpawqfEuyx8uDpfMaKS4QrxeolL
-         KTtrbPWEu4sK/jcukwBOZr8ZsBYdZ+xd5plV+EoqOVUSlZYXSPgKrP4mUsLa6j8uFIje
-         CcNm3XXBs/9XNc1mebW11K43LFwmSG/NEdWsyg5HS5FdAtIxZK6H8YxhWfe37IkAIZfR
-         BF509CBUMAk5Q/JyAoDMGKBAUtrZt0SCYUJibj5ISJaQ8C6d7ENE/MqJ7jXi1wbwG+pJ
-         ed3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774733561; x=1775338361;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/BJ0N9r5LqYCwMEFbnoh31TQxYmD0rO7Mhn/V1aoiaA=;
-        b=W/j3CuBfQRZb0zufLfjFFuR0MqofK6VeuxY68hZaoBx//Sx61sgSW03bKH3pPD8JWs
-         mCLvuZuyYwWfVYc5uUpC7WpYLoh2+L8DHH+YAh/HjJQTRso7sC2CaM6mbLy7BrbV3Zqx
-         Y+EiwM3Ou9+Q8F8DkdiVK9mrvXc/wAN7PRoOhdz030TDBlpTOShORMNSEz0GtCTqV+4y
-         IE6bMhUgDNJduvChbspucD9Rbt3FWN3KZeI4QfyWUCMbGXrHUsEV5ahdvtF6J5lEU7X7
-         C2Xu42gFtvEmtLD88XF0MfI/li2yIOKUaI5d8DwGmOdlakhwRue7myiwNx5AkiNambTa
-         GnqA==
-X-Forwarded-Encrypted: i=1; AJvYcCXjtYXW/wZ9Tbt0MGsT/e7PI6n5lL3zDGmBhTfOyadTEmdFm6gJnW5QvxLFr8w3+7L66tsmGLkUqFk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyTx99Ll1uFfyUBCB3vadtzMl19hjBTzhr2Yvd4ZFoKpW/+9Q76
-	IFsYCMSU35L9I4+ns8qqW+rzQCmIqyEVK+p7N3BGzv/bAe0DcFU8z9jh
-X-Gm-Gg: ATEYQzz8/nFcEatQuEw/gfZuzS9xmNRuTm7iHQwgjN/+W7VuBLQFEiAkg/XeE6ymiqA
-	6H3eDQxiYJoJGGYXtqEnS169fzFHKGAD7TUuTcTmBaOrPJNhGG762H3Z+WSbBVa7Jzh73Dmqn/Q
-	7/xnacsq1XOVDKFwjucWEog7aR2Y8TlLdmc6FzTF1OEaG8n3ifhHmuKYr3PoG9S5IO6Q8BezA1B
-	j7b7bY3DTsQqwOwECWPsK0adJ+AmLuB7d3fLAiqE0rcfxkUf7Rm/f8ia6WJoggndTkZbPeNPNVH
-	QbZFUXamZWTkrSt3zpi2PuZREcbhqbAh3KyqXw7QYKY4ecXVTwp3u8zBOQyL6pvk58Ka3qgwjVr
-	u8kl/xVmsxjKVd45MBEzgvYGzW0l8dGYHMGA8PYTuMNZtKs6vkT6T8LfYnjTJIGIOVOSXVrU3oE
-	hN97+vxszFqQhXcSaA2Zvb6lIc68b3c488Ca/S8/AMZn5YL24Th+DjrzFM8eHl1BByjQzg3AdKl
-	OjtJfhqvklcydE2KYC9vF9T7ow1k/oxciU5BYpdgomt2QPwStBfnhOpftE5pZUci7jzhhzDdPuS
-	KtJmD7WIB0yI47vSXoRzd6nOPv+YFgmwCN2W6vswiVf/kpJE2uiMtMZ7U/E=
-X-Received: by 2002:a05:600c:5303:b0:487:2439:6266 with SMTP id 5b1f17b1804b1-48727ee5445mr119932975e9.30.1774733560373;
-        Sat, 28 Mar 2026 14:32:40 -0700 (PDT)
-Received: from archlinux.kangaroo-newton.ts.net ([185.213.155.209])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48725da0333sm64002595e9.2.2026.03.28.14.32.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Mar 2026 14:32:40 -0700 (PDT)
-From: Christos Longros <chris.longros@gmail.com>
-To: Joerg Roedel <joro@8bytes.org>
-Cc: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	iommu@lists.linux.dev,
-	linux-doc@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b="iHgZuYdO"
+ARC-Seal: i=1; a=rsa-sha256; t=1774751467; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=SWpczzhxi3URXIDh9Ca9wMxbhkgtUh9K5VOaU4Jh4m13ahGMcwwP3/ZF3yd98bg6GqJNGM2vOZfl8pIQd/jKA/Y35SM3dSC5V85DNrLbL4PhNK3/hdkcgW+U+0BLmxW5Yi9mlpnpJJcU+qpWyca/w1GuA88xLYpi5GzoiewQfpw=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1774751467; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=PRbO+lfztsyXnj32cqQ5a8hjDpu/ZblsXOk7PsvvG5c=; 
+	b=NecFzJVr6mkKocwNjPDPl+qSiZZqukpt+348PvVsc5FQKx0MpE6UN3MaDjDCKeKYbUFGOx8UG9STK373ADOfqigGpCyJE5so4wGymd6YMbJn/1AX3WkTqHHRTc1GOQLrczdKhDI5It0e1Sp/4H85ZZw4Ne1I8nOqweqmeGmSWlY=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=ritovision.com;
+	spf=pass  smtp.mailfrom=rito@ritovision.com;
+	dmarc=pass header.from=<rito@ritovision.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774751467;
+	s=zmail; d=ritovision.com; i=rito@ritovision.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=PRbO+lfztsyXnj32cqQ5a8hjDpu/ZblsXOk7PsvvG5c=;
+	b=iHgZuYdOh7BBkF0R8DhxMlwqSC69xTjB0zjN1sQbTmMKNsMvKxN4M5tYDbwTbRxU
+	hQ5Ulvn4akgb9DE0rOyKFPNS1uecTnWLt6fOHDngKFfkTyCE7L+V7JU2MjFeqLPRdJG
+	Vw4mUpLkjTIOzK9FjRLV7EfOAPV4aG5jdaUHuN7s=
+Received: by mx.zohomail.com with SMTPS id 1774751464812485.37680891896264;
+	Sat, 28 Mar 2026 19:31:04 -0700 (PDT)
+From: Rito Rhymes <rito@ritovision.com>
+To: corbet@lwn.net,
+	skhan@linuxfoundation.org
+Cc: linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Christos Longros <chris.longros@gmail.com>
-Subject: [PATCH] iommu/amd: add amd_iommu=relax_unity option for VFIO passthrough
-Date: Sat, 28 Mar 2026 22:32:28 +0100
-Message-ID: <20260328213228.12084-1-chris.longros@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	rito@ritovision.com
+Subject: [PATCH] docs: reduce unnecessary mobile page side spacing
+Date: Sat, 28 Mar 2026 22:30:59 -0400
+Message-ID: <20260329023059.30547-1-rito@ritovision.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -80,121 +52,156 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-On some AMD motherboards (Gigabyte B650 Gaming X AX V2, X870E and
-others), VFIO passthrough of any PCI device fails with:
+Keep more content visible on screen and reduce vertical scrolling on
+mobile by cutting excess side spacing.
 
-  "Firmware has requested this device have a 1:1 IOMMU mapping,
-   rejecting configuring the device without a 1:1 mapping."
+On small screens, the existing padding wastes horizontal space and
+forces content to wrap earlier than necessary. Remove the inner body
+padding on small screens and reduce the outer body side padding from
+30px to 15px, which still leaves sufficient spacing at the page
+edges.
 
-These boards' IVRS tables include IVMD type 0x22 (range) entries
-spanning wide device ranges (e.g. devid 0x0000 to 0x0FFF, covering
-PCI buses 0-15).  The entries exist for platform devices like IOAPIC
-and HPET, but they get applied to nearly every IOMMU group on the
-system.  Since commit a48ce36e2786 ("iommu: Prevent RESV_DIRECT
-devices from blocking domains"), any device with IOMMU_RESV_DIRECT
-regions has require_direct=1 set, which prevents VFIO from claiming
-DMA ownership.
+On mobile, these spacing changes cause the sidebar to span the full
+page width instead of keeping left and right breathing room against the
+page margins, so pull it back in with matching 15px side offsets. They
+also cause the sidebar search control to expand to the full width of
+its wrapper, so cap it with a max width to keep it contained, as it
+already is on desktop.
 
-No PCI device can be passed through on affected boards -- not just
-the platform devices that need the identity mappings, but also
-endpoint devices like network adapters and GPUs.
+That same containment work also fixes two pre-existing mobile issues in
+the same area: the sidebar spacing is now symmetrical instead of
+leaving noticeably more whitespace on the right, and the search submit
+button no longer grows awkwardly with the viewport while the rest of
+the search control stays roughly fixed-width.
 
-Intel handles a similar firmware over-specification with
-device_rmrr_is_relaxable(), which marks certain RMRR entries as
-IOMMU_RESV_DIRECT_RELAXABLE so VFIO can claim them.  AMD has no
-equivalent.
-
-Add an opt-in amd_iommu=relax_unity boot parameter.  When set, IVRS
-unity map entries are reported as IOMMU_RESV_DIRECT_RELAXABLE instead
-of IOMMU_RESV_DIRECT.  The IOMMU still creates the identity mappings,
-preserving DMA for platform devices, but VFIO can take ownership of
-individual devices for passthrough.
-
-Tested by passing through an RTL8852CE WiFi adapter to a FreeBSD
-QEMU/KVM guest via vfio-pci.  Without the option, vfio_iommu_type1
-fails to set up the container.  With amd_iommu=relax_unity,
-passthrough works.
-
-Signed-off-by: Christos Longros <chris.longros@gmail.com>
+Signed-off-by: Rito Rhymes <rito@ritovision.com>
+Assisted-by: Codex:GPT-5.4
 ---
- Documentation/admin-guide/kernel-parameters.txt | 6 ++++++
- drivers/iommu/amd/amd_iommu_types.h             | 1 +
- drivers/iommu/amd/init.c                        | 6 ++++++
- drivers/iommu/amd/iommu.c                       | 7 ++++++-
- 4 files changed, 19 insertions(+), 1 deletion(-)
+This change has a broad impact, so I want to be clear about scope
+and regression risk.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 03a550630..974506ad9 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -441,6 +441,12 @@ Kernel parameters
- 			force_enable    - Force enable the IOMMU on platforms known
- 				          to be buggy with IOMMU enabled. Use this
- 				          option with care.
-+			relax_unity     - Mark IVRS unity map entries as relaxable,
-+				          allowing VFIO to claim devices that have
-+				          firmware-declared identity mappings. Required
-+				          on some AMD motherboards where global unity
-+				          maps prevent any device passthrough. Use this
-+				          option with care.
- 			pgtbl_v1        - Use v1 page table for DMA-API (Default).
- 			pgtbl_v2        - Use v2 page table for DMA-API.
- 			irtcachedis     - Disable Interrupt Remapping Table (IRT) caching.
-diff --git a/drivers/iommu/amd/amd_iommu_types.h b/drivers/iommu/amd/amd_iommu_types.h
-index c685d3771..bc35d5016 100644
---- a/drivers/iommu/amd/amd_iommu_types.h
-+++ b/drivers/iommu/amd/amd_iommu_types.h
-@@ -907,6 +907,7 @@ struct unity_map_entry {
-  */
+The primary goal is to recover horizontal space for general body
+content on small screens, where the current side spacing causes
+earlier wrapping than necessary and makes inefficient use of the
+viewport height by forcing extra scrolling to read the same
+amount of content.
+
+I did not make changes to the desktop layout. The existing
+desktop layout would not benefit from this spacing fix; I think
+it is fine as is in keeping the main content from sitting too
+close to the sidebar. This patch is for the small-screen/mobile
+layout only, where the sidebar is effectively a menu header
+instead of an actual sidebar column.
+
+Because the body padding changes directly caused regressions in
+the mobile sidebar, I had to include a stabilizing fix there.
+That part is not a separate redesign goal. It is bundled here
+because the sidebar is part of the same global page structure,
+so keeping it stable is in scope with the primary body-spacing
+change.
+
+That stabilizing work also incidentally fixes a few pre-existing
+sidebar peculiarities on mobile, but those are not the purpose
+of the patch.
+
+I perused a variety of page types to smoke test for regressions
+and did not see any. Though the change is global, I do not think
+it has a high regression risk given the element hierarchy here.
+Desktop already gives the content more room to fill naturally,
+and this change mostly nudges small screens in that same
+direction rather than introducing something new to build around.
+
+I also put up a demo site with only this patch applied, with no
+other changes mixed in, so the behavior can be checked directly.
+
+Demo site:
+https://kernel-docs-1.ritovision.com
+
+Before/after screenshots
+
+Issue collecting the before/after screenshots:
+https://github.com/ritovision/linux-kernel-docs/issues/3
+
+Images were taken on an Android chrome browser about 400px
+viewport width.
+
+If it is more convenient for discussion, anyone is welcome to
+add an image in that GitHub issue for hosting then use it here
+in the mailing list.
+
+Homepage text
+
+This pair is meant to show the main effect of the patch. On a
+small screen, the reduced side spacing lets the body text wrap
+later, so materially more content is visible before scrolling.
+In practice it recovers roughly a fifth of the vertical screen
+area that was previously being spent on premature wrapping in
+areas with significant text content, as seen below on the homepage.
+
+Homepage text - before:
+https://github.com/user-attachments/assets/0f220b1f-2a44-4caf-b38e-6dd30714a345
+
+Homepage text - after:
+https://github.com/user-attachments/assets/e810de63-0473-426c-a94a-ca0c48b03bda
+
+Mobile Sidebar
+
+This pair is mainly meant to show the corrected symmetry in the
+mobile sidebar after the stabilizing fix that was needed to
+support the body spacing change.
+
+Mobile Sidebar - before:
+https://github.com/user-attachments/assets/e57560db-9bd0-4c39-8ac5-90bfb0ac696b
+
+Mobile Sidebar - after:
+https://github.com/user-attachments/assets/830f6385-64f2-4846-922d-2b20e7042819
+
+Separately from the screenshot pair, the sidebar stabilization
+also keeps the search control from behaving inconsistently
+across viewport widths. Without this patch, the submit button
+width expands while the search field stays roughly fixed-width.
+With this patch, the button remains stable. That is incidental to
+the stabilization work, not the primary intent of the patch.
+
+Documentation/sphinx-static/custom.css | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
+
+diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
+index db24f4344..04987b0e3 100644
+--- a/Documentation/sphinx-static/custom.css
++++ b/Documentation/sphinx-static/custom.css
+@@ -24,6 +24,30 @@ div.document {
+     width: auto;
+ }
  
- extern bool amd_iommu_force_isolation;
-+extern bool amd_iommu_unity_relaxed;
- 
- /* Max levels of glxval supported */
- extern int amd_iommu_max_glx_val;
-diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
-index f3fd7f39e..a89120700 100644
---- a/drivers/iommu/amd/init.c
-+++ b/drivers/iommu/amd/init.c
-@@ -173,6 +173,9 @@ u64 amd_iommu_efr2;
- /* Host (v1) page table is not supported*/
- bool amd_iommu_hatdis;
- 
-+/* Relax unity map entries for VFIO passthrough */
-+bool amd_iommu_unity_relaxed __read_mostly;
++/* Reduce excess mobile side spacing and rebalance the sidebar offset
++ * to match.
++ */
++@media screen and (max-width: 65em) {
++    body {
++        padding: 20px 15px;
++    }
 +
- /* SNP is enabled on the system? */
- bool amd_iommu_snp_en;
- EXPORT_SYMBOL(amd_iommu_snp_en);
-@@ -3676,6 +3679,9 @@ static int __init parse_amd_iommu_options(char *str)
- 			amd_iommu_pgtable = PD_MODE_V2;
- 		} else if (strncmp(str, "irtcachedis", 11) == 0) {
- 			amd_iommu_irtcachedis = true;
-+		} else if (strncmp(str, "relax_unity", 11) == 0) {
-+			amd_iommu_unity_relaxed = true;
-+			pr_warn("AMD IOMMU: unity map relaxation enabled\n");
- 		} else if (strncmp(str, "nohugepages", 11) == 0) {
- 			pr_info("Restricting V1 page-sizes to 4KiB");
- 			amd_iommu_pgsize_bitmap = AMD_IOMMU_PGSIZES_4K;
-diff --git a/drivers/iommu/amd/iommu.c b/drivers/iommu/amd/iommu.c
-index 760d5f462..4606fa6a4 100644
---- a/drivers/iommu/amd/iommu.c
-+++ b/drivers/iommu/amd/iommu.c
-@@ -3070,7 +3070,12 @@ static void amd_iommu_get_resv_regions(struct device *dev,
- 		if (devid < entry->devid_start || devid > entry->devid_end)
- 			continue;
- 
--		type   = IOMMU_RESV_DIRECT;
-+		/*
-+		 * When relax_unity is set, mark unity map entries as
-+		 * relaxable so VFIO can claim devices for passthrough.
-+		 */
-+		type = amd_iommu_unity_relaxed ?
-+			IOMMU_RESV_DIRECT_RELAXABLE : IOMMU_RESV_DIRECT;
- 		length = entry->address_end - entry->address_start;
- 		if (entry->prot & IOMMU_PROT_IR)
- 			prot |= IOMMU_READ;
++    div.body {
++        padding: 0;
++    }
++
++    div.sphinxsidebar {
++        margin: -20px -15px 20px -15px;
++    }
++
++    /* Keep the sidebar search control from stretching wider than intended
++     * and prevent the submit button from scaling unnecessarily.
++     */
++    div.sphinxsidebar #searchbox {
++        max-width: 300px;
++    }
++}
++
+ /* Size the logo appropriately */
+ img.logo {
+     width: 104px;
 -- 
-2.53.0
-
+2.51.0
