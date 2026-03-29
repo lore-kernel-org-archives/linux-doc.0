@@ -1,207 +1,209 @@
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010014.outbound.protection.outlook.com [52.101.85.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0246119CD03;
-	Sun, 29 Mar 2026 02:31:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDB0F1DDC3F;
+	Sun, 29 Mar 2026 02:59:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.14
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774751474; cv=pass; b=VR0Kxjr/qWi5GWG6fhiqxudDBQOFkrz99006B+yHlJJdwwmibCo+PD2f4C5uCnSEcrPEAUG00YKMIOdHjlwfMqiFsupYkQX/LRoyY3LvjUBrg3Z7UQ8n9zaFz+JcJ0UmGktbyT4PbxBFOnPnz/8fMpNVe+xIxPO43Z3xUHSC+KM=
+	t=1774753147; cv=fail; b=C4Vn+kJvsk0bfkCQ/CWfR534S9B5qeql1yg5M/R8v/K8XyFHsAD8yiX9Mdneo7zp1oJyMASKkofh+xVLEVO0SLV60Yfl1sUzAghzhn8AcgWIeasAvA8H4en+yJ7zxlb9AafK0Fc7/OjHzdUAWgZ3VGcyYOjMhebo7Ze78j1YCSU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774751474; c=relaxed/simple;
-	bh=s1k2yRYaf/Ff8S7z942mGII+qoP0LKBJA8ZWmUeF+Os=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rn5Jk2WlS4XF/BubAAa/1iyfRdopxX1gKs9un/+/qeE7Vi6INARoM2jmyJ4H79Io8ahokF4ZVYiR/4SfYcvGcNpjToPAIYbOzj8q5XcVMEXJ2rXdnxz3tNqww9ifQhocjTQHKKqbJhyYEV10cRWeT2Lo+3eQ6pvhv302iAVOeAs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com; spf=pass smtp.mailfrom=ritovision.com; dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b=iHgZuYdO; arc=pass smtp.client-ip=136.143.188.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ritovision.com
+	s=arc-20240116; t=1774753147; c=relaxed/simple;
+	bh=OPzf4kmOeK7Y9EBsnB0iEHExN0u1cF4zypXbQjGLO7s=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=mqeZk6F8HxsfRUTZ9VkhrV7avdDsyaDy0ZRt9HVipG56boj/VA0pSR/ONcxT7l9d2VKXq2F6xMwl28NPXMFUmXPLmbbSG1pfqbAifB+LtVDSvtvq4W0HWwfzeM08F2XdTVdACHQRwulXHsBYfyPntEkow6ZxQxm3jJ6TeqQxmgA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=bX4pXgof; arc=fail smtp.client-ip=52.101.85.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b="iHgZuYdO"
-ARC-Seal: i=1; a=rsa-sha256; t=1774751467; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=SWpczzhxi3URXIDh9Ca9wMxbhkgtUh9K5VOaU4Jh4m13ahGMcwwP3/ZF3yd98bg6GqJNGM2vOZfl8pIQd/jKA/Y35SM3dSC5V85DNrLbL4PhNK3/hdkcgW+U+0BLmxW5Yi9mlpnpJJcU+qpWyca/w1GuA88xLYpi5GzoiewQfpw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1774751467; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=PRbO+lfztsyXnj32cqQ5a8hjDpu/ZblsXOk7PsvvG5c=; 
-	b=NecFzJVr6mkKocwNjPDPl+qSiZZqukpt+348PvVsc5FQKx0MpE6UN3MaDjDCKeKYbUFGOx8UG9STK373ADOfqigGpCyJE5so4wGymd6YMbJn/1AX3WkTqHHRTc1GOQLrczdKhDI5It0e1Sp/4H85ZZw4Ne1I8nOqweqmeGmSWlY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=ritovision.com;
-	spf=pass  smtp.mailfrom=rito@ritovision.com;
-	dmarc=pass header.from=<rito@ritovision.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774751467;
-	s=zmail; d=ritovision.com; i=rito@ritovision.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=PRbO+lfztsyXnj32cqQ5a8hjDpu/ZblsXOk7PsvvG5c=;
-	b=iHgZuYdOh7BBkF0R8DhxMlwqSC69xTjB0zjN1sQbTmMKNsMvKxN4M5tYDbwTbRxU
-	hQ5Ulvn4akgb9DE0rOyKFPNS1uecTnWLt6fOHDngKFfkTyCE7L+V7JU2MjFeqLPRdJG
-	Vw4mUpLkjTIOzK9FjRLV7EfOAPV4aG5jdaUHuN7s=
-Received: by mx.zohomail.com with SMTPS id 1774751464812485.37680891896264;
-	Sat, 28 Mar 2026 19:31:04 -0700 (PDT)
-From: Rito Rhymes <rito@ritovision.com>
-To: corbet@lwn.net,
-	skhan@linuxfoundation.org
-Cc: linux-doc@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="bX4pXgof"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=GQ3PcNCKWcFZdiQPgSrMhLBkBfzE8frMibHojKsZ3XqbaBjURLMTlDcv7bTiAFAI2Rz0k6QrQjRPxusWN09EyCXPzw69oUuXwCRWjctm84HlbZaPMygVosLW6EKin38adTBUIXNT/HLJ6ie5FLtMdxnwAo4VrIYW9dtN9WlQjexdenvOT9oJWXn5ADdY3bDYNvSFrWzFe15SSyTOg08YKG36tcDpNjDd3xCqAfPVdya0v+C1vWiI5UMOzKSkbK35d/ca3u8iZlnuFahK0Wf0tuY7Pt9mOkAzPH42Y9uQSTnUFcnaot3cHdQISy+Iq7Lc7fAURc7Z/Hq17sqDRVp0Ww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wj5zI5g5IKZbHy2CdhBgPokIfhnOnlA6t4+An22EnnE=;
+ b=or8ZkQPGtIGc9/bQw+cCJMp19uPIKsfQk9AunWrfwyTAnGmLLvi4O5YSNhddnOTMP7T8Nc/q5nIY4yOMIxBO9Rtm3esHZLZDX5WUqAtA2EQGI6sTjUepQ0m0+cbSCyV//wCMu6Aihhm3OOU9m4cfvtEG237pS0P57AijFSAgytS1OJQ7oAtixu0H3tffGSOOKumA3qBWkbF8fHhjmf7j5wb7TPDO1hXT3X0l1C/WbIlqYzYN7mb6zlfEAU6opsY7XqH3iGvYZqlhuFnIuydF9+aW4OLEUE3SaItGgGwVqncWirhLh1rademqK30x2e/Bi/fs6OYqxT4MHvH4/KptIg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wj5zI5g5IKZbHy2CdhBgPokIfhnOnlA6t4+An22EnnE=;
+ b=bX4pXgofOEuCLbsRnSnvII//HeTdSI4sMnvQ00xt1d6wt+A/162rO/w/i+jjUASq+tysv5NIDqm+jub7u9fmdJwlRIwg1DHw9wF5EwYcSJzyL9gc23JHenYHhMaVhDzPTeLc627/Rd3sszAHQiiZk3vJ/b8/OYV5PMm0VKMJy2sxeBWzjEzwsiFRBby3T+PxBiHnuiRQw9DgKVcfssRbQnrJVQ06qdzxmGWl04/cjNaoAU8uoX4RhEJ6c0THPdIlw+2Ld/gjb9ynLwUue3gLYVI8OHEo2JPCx9RKU7Y1lJjdZcAx02kMFc1q89fEhfU6OCJODRRN+IuMGXofHhHi0Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS7PR12MB8202.namprd12.prod.outlook.com (2603:10b6:8:e1::13) by
+ DS2PR12MB9752.namprd12.prod.outlook.com (2603:10b6:8:270::17) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9769.14; Sun, 29 Mar 2026 02:59:00 +0000
+Received: from DS7PR12MB8202.namprd12.prod.outlook.com
+ ([fe80::38fd:4146:aea:639e]) by DS7PR12MB8202.namprd12.prod.outlook.com
+ ([fe80::38fd:4146:aea:639e%6]) with mapi id 15.20.9769.014; Sun, 29 Mar 2026
+ 02:59:00 +0000
+From: Andy Roulin <aroulin@nvidia.com>
+To: netdev@vger.kernel.org
+Cc: bridge@lists.linux.dev,
+	Nikolay Aleksandrov <razor@blackwall.org>,
+	Ido Schimmel <idosch@nvidia.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>,
+	Petr Machata <petrm@nvidia.com>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Jonas Gorski <jonas.gorski@gmail.com>,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	rito@ritovision.com
-Subject: [PATCH] docs: reduce unnecessary mobile page side spacing
-Date: Sat, 28 Mar 2026 22:30:59 -0400
-Message-ID: <20260329023059.30547-1-rito@ritovision.com>
-X-Mailer: git-send-email 2.51.0
+	Andy Roulin <aroulin@nvidia.com>
+Subject: [PATCH net-next v2 0/3] net: bridge: add stp_mode attribute for STP mode selection
+Date: Sat, 28 Mar 2026 19:58:55 -0700
+Message-ID: <20260329025858.330620-1-aroulin@nvidia.com>
+X-Mailer: git-send-email 2.43.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BY3PR03CA0006.namprd03.prod.outlook.com
+ (2603:10b6:a03:39a::11) To DS7PR12MB8202.namprd12.prod.outlook.com
+ (2603:10b6:8:e1::13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR12MB8202:EE_|DS2PR12MB9752:EE_
+X-MS-Office365-Filtering-Correlation-Id: 93008a11-9403-4068-55c9-08de8d3f203f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|7416014|376014|366016|18002099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	y+Sm3XfoKGzMkitEO95V9yezcyU0E5e15iDktWfojPA/sTLSMBMzDBhSuLO3ZFhNLYVXbdy3veyXkRw6jIXyH0ypKB+waSKsYhun0X2ac74ihDWtyQ5iSQhbzSyooJKzkOXHykNTYcNx8KvlEgJNowOaBGtaDurSMF58ZlInupZD51U6qyKJeBF5KF8XqFge7NRe06Kb4qsv1X8z0AfwEZHPaUNj/aRlqtZWB1OVuQFjXSmhryIXBF2FPOkicMxCo6QkwZhXyy3Pn2wBMwmYqo7Ny2A9pLcMKWp5PKXSCvhoRCh/tIVgVWNTYCqky413HBXQ6sVToY3rWRKlnzY9SL6Dv1+2RiRodxADCi5jdh6ijd9oaKwFRROV9eSNHV5nmJ4OvwJlNKfmwMZrGRTb5Cyea+aWG03z3wgs51xjluio6xWqOSQmAm5Fcn/QbGAfHoII+QfQxZ2K3xVFpqNcbTIQEc5ox6pkucol5Qq7EsnL6nhP5BLbj/8pHQEbwtukG6uUBhZmWBvdq8rluD5ft9s3VQMz6VDvrb0+7JqnSGurGGokOFqWbyYqvF/HonEZNog77fDo3MSrN0N62BQHmeuXbo4zQEYdyOZK38lcyrnUVtpFlwFmrWEK1ep2CO5hL8fk58ADbFH+xAulfCexat2voWie3Q7GNHFyPg+MpCTvEoe2VCXGTrS30zYOiFbNROHXsD94YtFpIr5lrKSLV5Dswxouh2Lm76BchgHI+WZaRutweUo+UzmfLxsTvk8H
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB8202.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?cdg0yDL4s8fUTia/NPweyNZ3nPZrXbE0qj2VHdv5MEtsYFBsBcWo/YQ1AyJ7?=
+ =?us-ascii?Q?+4CWybDz3fGknH+ww3COJl/yoTF3XAhfDN0bPJWy+lkgmo9wheHD4u5rijj5?=
+ =?us-ascii?Q?7B5ORmpnptE6ivNVhPcPZPZDJn9Sk/6rvyV3qIxgC2C/IxvSTa5F1msy9mAt?=
+ =?us-ascii?Q?5HHa2aSXzfLh7Zw7Wgv7EN1QvwxYCBp2aNPXi753Z9WzH6vGmxNsvTkAsAnN?=
+ =?us-ascii?Q?9nFmJaYKu2fhmOkgv73I8z0XQ8K15z3df1uikgEIso/xMvP0/07gVXme2iWt?=
+ =?us-ascii?Q?OsUb+VpOiqdF/6Z1pTIJo0XpP2LNhFlelrgCHE3PogQIFfrY67z2nxW6J9n2?=
+ =?us-ascii?Q?BgzoPeWsfqDwH6DPMQSnFatb8nXvkLTAVFO1CGcTt0DoLxyI//elyN1V4RbI?=
+ =?us-ascii?Q?gXOfgBgkkRFQNK62sQLPbqYB+ox9m8QJgmsduUsCgsiZLiGprjQ7YTFVo9cn?=
+ =?us-ascii?Q?7gl5xs9hpZcxClZUOq1ziHXmitE1KcVENfFTsaXLkO8o1MxjsZSrhoKVTYF1?=
+ =?us-ascii?Q?YhRknQOwIfIMmN3/43GE588T352WKMMTfl8/+lhe4gmZpDZBAQ/qTYjiAyTp?=
+ =?us-ascii?Q?vvKUCSUBBIn6b7aEkBgBSOm2v8xq8jb1X720LPLwrIrb4beniDlCmDOCj4uB?=
+ =?us-ascii?Q?RYOG3SGCx6MwvdAADkvX29ncNtjUF/iWJWdKMUGW45d3lauCrqqWQUcf7GnM?=
+ =?us-ascii?Q?EhcflItdqo2KOwlHLRd9qxkcjuJfxD68Pl5/zq7ODlfwVqR4EqKXAqxcS9Tj?=
+ =?us-ascii?Q?hIJNYBAbmdQKMc98FAuSgLZE2jefe/2U0LAOzjhwqb2ecGEyn3GyPsgtMSgJ?=
+ =?us-ascii?Q?tJ5GurWCWNhVbQfZB6DS0rBjuvKiAURfWSHdZHGpFJHsT5fDqrDgaj2cCVsQ?=
+ =?us-ascii?Q?AEbg4z7iaiTWxKquiBVhthRyAiCEX71hXw81oiOuBd8b8iChYg+OXRxb5rE+?=
+ =?us-ascii?Q?InMVRfxFRPkQvssNxfIwLVaQ64mjYXxyjn6hsrNokkLL2PdBHCoaNYlDUrPP?=
+ =?us-ascii?Q?vnhR/DU9GiR92HqyPqjR61rzbZQlJCZDVuX9FID0L8TUA4ACk54SX47Je4E6?=
+ =?us-ascii?Q?7EsIysosRrfxRRfbqNWdkomjUPunKj9gwgxJ7OIOi6evCB+IA10K6Y+wqjZU?=
+ =?us-ascii?Q?4KZFs5P+1yABTTyUWt0F/yblHkZagkqASzF6nHkHRQwPshZHD4q8BPtmOaOV?=
+ =?us-ascii?Q?37qW2SwJQ/C9e0iSnuQr17k0ywPrCNBYVjGgLG15rCjRJIOczk0x5BS2AeBw?=
+ =?us-ascii?Q?lPb2+vqB9B0alzwgco3gmAi9gzqD1lSruT6+dO+WbVXliqOCJC2UJuef/1cC?=
+ =?us-ascii?Q?9V65M3lM4zprz4VWbz4y5TjaG1a0pmmlWCB2eOqCTn6+FnswMySJi7RpCPuc?=
+ =?us-ascii?Q?56KAwgn+b4Law5wHq503rKEGwuDhjCBiIbc7oE9hZ5L8E3mGaX3lCRPjDY4r?=
+ =?us-ascii?Q?p30dqHup6B8vm/HDSq0CgitYIlBsK24oZKo7W+ZDc8yIa2Xhf+O7YwvwJDhI?=
+ =?us-ascii?Q?K5Qqq5OLx3QgJYEHxAxxlrozrHoKnJTqgm14jtjldktsAqzgfIQoaa8rvR/C?=
+ =?us-ascii?Q?oldA7imp0a280H0Fz3BtNaAB0KJNFWtEhG6ZJQ2TM5MtW4wy4wzw3cri9IDd?=
+ =?us-ascii?Q?90LNrK4so69+igIt8RdpBwEzEKMSKgSS3I2dNPF/YgJfRMTDY1X6EOYJbBpU?=
+ =?us-ascii?Q?Uxyn0+n5mayblOcGGF3TESv2ZMJmqlOeV6aIJxMqWypBIuPwGKzBCMClBxju?=
+ =?us-ascii?Q?R/fRqNLvGg=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 93008a11-9403-4068-55c9-08de8d3f203f
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB8202.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2026 02:58:59.9226
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: uIETa39rJhD+Otlshaq1zyOjzkR/lq2Hgv/MYaULBPrxb2Rl2ssNevAm3cCcnrwyKFjK/i7QEH88A9/73AnawQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS2PR12MB9752
 
-Keep more content visible on screen and reduce vertical scrolling on
-mobile by cutting excess side spacing.
+The bridge-stp usermode helper is currently restricted to the initial
+network namespace, preventing userspace STP daemons like mstpd from
+operating on bridges in other namespaces. Since commit ff62198553e4
+("bridge: Only call /sbin/bridge-stp for the initial network
+namespace"), bridges in non-init namespaces silently fall back to
+kernel STP with no way to request userspace STP.
 
-On small screens, the existing padding wastes horizontal space and
-forces content to wrap earlier than necessary. Remove the inner body
-padding on small screens and reduce the outer body side padding from
-30px to 15px, which still leaves sufficient spacing at the page
-edges.
+This series adds a new IFLA_BR_STP_MODE bridge attribute that allows
+explicit per-bridge control over STP mode selection. Three modes are
+supported:
 
-On mobile, these spacing changes cause the sidebar to span the full
-page width instead of keeping left and right breathing room against the
-page margins, so pull it back in with matching 15px side offsets. They
-also cause the sidebar search control to expand to the full width of
-its wrapper, so cap it with a max width to keep it contained, as it
-already is on desktop.
+  - auto (default): existing behavior, try /sbin/bridge-stp in
+    init_net, fall back to kernel STP otherwise
+  - user: directly enable BR_USER_STP without invoking the helper,
+    works in any network namespace
+  - kernel: directly enable BR_KERNEL_STP without invoking the helper
 
-That same containment work also fixes two pre-existing mobile issues in
-the same area: the sidebar spacing is now symmetrical instead of
-leaving noticeably more whitespace on the right, and the search submit
-button no longer grows awkwardly with the viewport while the rest of
-the search control stays roughly fixed-width.
+The user and kernel modes bypass call_usermodehelper() entirely,
+addressing the security concerns discussed at [1]. Userspace is
+responsible for ensuring an STP daemon manages the bridge, rather
+than relying on the kernel to invoke /sbin/bridge-stp.
 
-Signed-off-by: Rito Rhymes <rito@ritovision.com>
-Assisted-by: Codex:GPT-5.4
----
-This change has a broad impact, so I want to be clear about scope
-and regression risk.
+Patch 1 adds the kernel support. The mode can only be changed while
+STP is disabled and is processed before IFLA_BR_STP_STATE in
+br_changelink() so both can be set atomically in a single netlink
+message.
 
-The primary goal is to recover horizontal space for general body
-content on small screens, where the current side spacing causes
-earlier wrapping than necessary and makes inefficient use of the
-viewport height by forcing extra scrolling to read the same
-amount of content.
+Patch 2 adds documentation for the new attribute in the bridge docs.
 
-I did not make changes to the desktop layout. The existing
-desktop layout would not benefit from this spacing fix; I think
-it is fine as is in keeping the main content from sitting too
-close to the sidebar. This patch is for the small-screen/mobile
-layout only, where the sidebar is effectively a menu header
-instead of an actual sidebar column.
+Patch 3 adds a selftest with 9 test cases. The test requires iproute2
+with IFLA_BR_STP_MODE support and can be run with virtme-ng:
 
-Because the body padding changes directly caused regressions in
-the mobile sidebar, I had to include a stabilizing fix there.
-That part is not a separate redesign goal. It is bundled here
-because the sidebar is part of the same global page structure,
-so keeping it stable is in scope with the primary body-spacing
-change.
+  vng --run arch/x86/boot/bzImage --skip-modules \
+      --overlay-rwdir /sbin --overlay-rwdir /tmp --overlay-rwdir /bin \
+      --exec 'cp /path/to/iproute2-next/ip/ip /bin/ip && \
+              cd tools/testing/selftests/net && \
+              bash bridge_stp_mode.sh'
 
-That stabilizing work also incidentally fixes a few pre-existing
-sidebar peculiarities on mobile, but those are not the purpose
-of the patch.
+iproute2 support can be found here [2].
 
-I perused a variety of page types to smoke test for regressions
-and did not see any. Though the change is global, I do not think
-it has a high regression risk given the element hierarchy here.
-Desktop already gives the content more room to fill naturally,
-and this change mostly nudges small screens in that same
-direction rather than introducing something new to build around.
+[1] https://lore.kernel.org/netdev/565B7F7D.80208@nod.at/
+[2] https://github.com/aroulin/iproute2-next/tree/bridge-stp-mode
 
-I also put up a demo site with only this patch applied, with no
-other changes mixed in, so the behavior can be checked directly.
+v2:
+        Patch #1:
+                * Add rt-link.yaml netlink spec update.
+                * Allow idempotent stp_mode set while STP is active.
+                * Move stp_mode next to root_port to fill a struct
+                  hole.
+                * Rephrase BR_STP_MODE_USER doc.
+        Patch #3:
+                * Fix shellcheck CI: add SC2329 suppression.
+                * Add idempotent stp_mode test.
 
-Demo site:
-https://kernel-docs-1.ritovision.com
+Suggested-by: Ido Schimmel <idosch@nvidia.com>
+Signed-off-by: Andy Roulin <aroulin@nvidia.com>
 
-Before/after screenshots
+Andy Roulin (3):
+  net: bridge: add stp_mode attribute for STP mode selection
+  docs: net: bridge: document stp_mode attribute
+  selftests: net: add bridge STP mode selection test
 
-Issue collecting the before/after screenshots:
-https://github.com/ritovision/linux-kernel-docs/issues/3
+ Documentation/netlink/specs/rt-link.yaml      |  11 +
+ Documentation/networking/bridge.rst           |  22 ++
+ include/uapi/linux/if_link.h                  |  39 +++
+ net/bridge/br_device.c                        |   1 +
+ net/bridge/br_netlink.c                       |  18 +-
+ net/bridge/br_private.h                       |   1 +
+ net/bridge/br_stp_if.c                        |  17 +-
+ tools/testing/selftests/net/Makefile          |   1 +
+ .../testing/selftests/net/bridge_stp_mode.sh  | 281 ++++++++++++++++++
+ 9 files changed, 383 insertions(+), 8 deletions(-)
+ create mode 100755 tools/testing/selftests/net/bridge_stp_mode.sh
 
-Images were taken on an Android chrome browser about 400px
-viewport width.
+--
+2.43.0
 
-If it is more convenient for discussion, anyone is welcome to
-add an image in that GitHub issue for hosting then use it here
-in the mailing list.
-
-Homepage text
-
-This pair is meant to show the main effect of the patch. On a
-small screen, the reduced side spacing lets the body text wrap
-later, so materially more content is visible before scrolling.
-In practice it recovers roughly a fifth of the vertical screen
-area that was previously being spent on premature wrapping in
-areas with significant text content, as seen below on the homepage.
-
-Homepage text - before:
-https://github.com/user-attachments/assets/0f220b1f-2a44-4caf-b38e-6dd30714a345
-
-Homepage text - after:
-https://github.com/user-attachments/assets/e810de63-0473-426c-a94a-ca0c48b03bda
-
-Mobile Sidebar
-
-This pair is mainly meant to show the corrected symmetry in the
-mobile sidebar after the stabilizing fix that was needed to
-support the body spacing change.
-
-Mobile Sidebar - before:
-https://github.com/user-attachments/assets/e57560db-9bd0-4c39-8ac5-90bfb0ac696b
-
-Mobile Sidebar - after:
-https://github.com/user-attachments/assets/830f6385-64f2-4846-922d-2b20e7042819
-
-Separately from the screenshot pair, the sidebar stabilization
-also keeps the search control from behaving inconsistently
-across viewport widths. Without this patch, the submit button
-width expands while the search field stays roughly fixed-width.
-With this patch, the button remains stable. That is incidental to
-the stabilization work, not the primary intent of the patch.
-
-Documentation/sphinx-static/custom.css | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
-
-diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
-index db24f4344..04987b0e3 100644
---- a/Documentation/sphinx-static/custom.css
-+++ b/Documentation/sphinx-static/custom.css
-@@ -24,6 +24,30 @@ div.document {
-     width: auto;
- }
- 
-+/* Reduce excess mobile side spacing and rebalance the sidebar offset
-+ * to match.
-+ */
-+@media screen and (max-width: 65em) {
-+    body {
-+        padding: 20px 15px;
-+    }
-+
-+    div.body {
-+        padding: 0;
-+    }
-+
-+    div.sphinxsidebar {
-+        margin: -20px -15px 20px -15px;
-+    }
-+
-+    /* Keep the sidebar search control from stretching wider than intended
-+     * and prevent the submit button from scaling unnecessarily.
-+     */
-+    div.sphinxsidebar #searchbox {
-+        max-width: 300px;
-+    }
-+}
-+
- /* Size the logo appropriately */
- img.logo {
-     width: 104px;
--- 
-2.51.0
