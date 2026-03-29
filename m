@@ -1,70 +1,70 @@
-Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182])
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4572440DFC2
-	for <linux-doc@vger.kernel.org>; Sun, 29 Mar 2026 16:51:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7C7140DFC2
+	for <linux-doc@vger.kernel.org>; Sun, 29 Mar 2026 16:51:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774803072; cv=none; b=Fhjx3ReW4EWcK9EWfwiOqZEJKeFBGHnObEpohOR4EOeenlCToHW04qJNaIZ5VVyc37Xi7p6f5skFb+W4MrV4zTy1vViny5nm7oS/chK9lPmaWalurpBtf7t/3J7C+vRR6xrSluScuB5pQ+1ueuFP0ceb+SBQCIxz/lFaANS8/T4=
+	t=1774803074; cv=none; b=LWcDsb0ze90U3CYcIzAf2pJt2U3KeVm4Kl6TwyLPAEG+4FNbUqYi5p/ClB1UUWEwMjSLr4UQmeJLdoIGlvlHOc8Vx1wahXrjtp1gbL+nk/mQqqrhjTAw6S8q5D4e6e68LVPXsFtP5Enj7i2tdlhyNfgkdoyjZeyAch+LYfwqwbk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774803072; c=relaxed/simple;
-	bh=oVp4TCi9h/gBEVictdrlb+D20PwX4geH1vnYfs6fY30=;
+	s=arc-20240116; t=1774803074; c=relaxed/simple;
+	bh=Ds9pOIeFsGbeJIjzp/0yZju5RUdimR9fVA6CW4Sjsy8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GbCCXj82PZHwi3Ynt2+eBtslTKY6NTGwtAAoaA2OctYTlOXgWu7qw3qI3OzNd8hKNxri/yOz8S7hB/b221pg5TVNjFk7UqnDF0OXMiIUYd7h0wNnHukbEg3WA4997WFoxwPt6+YDbrlZD4h1zE4AZdePEYvjfBlWUQ1bopvDlKQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Uw+m9vHK; arc=none smtp.client-ip=209.85.221.182
+	 MIME-Version:Content-Type; b=RMhAl6uOgijPg2pytWjbJB9TBTFFbFLoRcTVg5L3Kj3fPOrqaYfol6WMdESl75QBEWfQX+wkZLqimviKw6l7goDgTXMIIgrnMMvUOhq2j2IXc+jWFMzKmByyBr0jyZ+GQu6y1KSNaGPmKyE07NRrBm+CoBeq5xmVOzuS6A6jYnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rw93gJIk; arc=none smtp.client-ip=209.85.221.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Uw+m9vHK"
-Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-56a9a7e762bso4249974e0c.3
-        for <linux-doc@vger.kernel.org>; Sun, 29 Mar 2026 09:51:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rw93gJIk"
+Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-56adf76631cso1748908e0c.1
+        for <linux-doc@vger.kernel.org>; Sun, 29 Mar 2026 09:51:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774803069; x=1775407869; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1774803072; x=1775407872; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9jO6adsJU01rdPqMn+zDIA0pLKFTggvZoQIYrm/Kcc0=;
-        b=Uw+m9vHKnNPNtBTLjQRuczfsPwQjR3Sxh2ZoiHSLWgfqQs2mJOpaP1n2r5RcN/aQwk
-         WGNwJUwmR5+CThkaXLLkj6/GzuoG4yHBCGeUnEhZh0IU1wVbmSc+K1ShzVeU3wGZzXFw
-         Jngf1yskVohfsEzj6g4JgC4HV7lnaAhrjj9FIYJChUNor+QYw7fe10bWKKrf5Bt+9r+4
-         PL6P/8RZd4SDgmJAjG3NLGiD7gEUTfcnbY/8N6D4+cV31BsgXZtyLLkQWsFBuIoSf+WN
-         Ds6zQ0P31d6nGI4RIRC/Rq9n2wCYihKjeat/RJoLH6J9Os6bwb8reH+gnOvI7tdpSFNv
-         0GQQ==
+        bh=iweSTs0a6mUlergXdqMpfSJyRYIZ3pzdWyqNMZbAlhk=;
+        b=Rw93gJIkrje4rh772C8BXPGEgKpHKINNMS/gFyhXS4aMtCLtdhzWqAyZq9yzC9TILJ
+         bCnGsCAZAv9nKut4LaW2AnYHBrVLWLNYXIRC/SMlWRPOsvj+vzgHR7rlhY9Ig0NacabF
+         AzMsX+f2dHGryhes2BjNK2uPaZdQ67W9+yNDmA5J2/dgAOk2pwQNc0F3BAddF6yvOPjk
+         P0cw/N7RRVX1WABVSZHphzeP8vUzGcYidFYqSSLIErLyKcDjNTcHUXot9Ol4TcqkJ9t3
+         KWJToEzLbuikyuJPFQpDMKEPfRzTxPQqKUezTlHeaNvheY0w65cfLU5OWmRxBAF5dGsG
+         kxXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774803069; x=1775407869;
+        d=1e100.net; s=20251104; t=1774803072; x=1775407872;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=9jO6adsJU01rdPqMn+zDIA0pLKFTggvZoQIYrm/Kcc0=;
-        b=YkDNoRelzHPGCAKREBEGOVCClntSFg7TwBpompoCO20RQTE0J7emvXUZZpwHpArl8O
-         o/n23eBLZDUxqDfVoBHKk66kvyL0mogSrx2/21x5UfVD7YOK7mr+Tb+8VvAKQmww3A/y
-         ZzhiKOsgUu/dw28d+lPfRGX61uUQA0rhU6vKNeu5hLcl2+ZN+wqeh8eFxWUatTnr8kgK
-         wu3rR4ldFUU5rK1tk4B2MLI3Qq3ZQ/cB4pLXCXeiKDYqRaj683m4e8cyOFslKzDPbvql
-         Wpaj4xjtrcGE6g8j9Mu20tPpVJlsYxAkLvSmC0p7PHJqZdZrJ7xhV9suGNoQhmuQe+s+
-         EnvQ==
-X-Gm-Message-State: AOJu0Yy+P/Bsxsveg34M3nYEe7mkHeZzFM69h7nIfvE3Q1bvnrsoVmFp
-	HhWuYk/LTibbuun/vlS0oYH6PeFICacB839KKCm/Jf1uh2HquJxU8dgg
-X-Gm-Gg: ATEYQzwOu8pqS/i+QrICpzud0JLsdR70Evo7ScKCA1HqgfyCTvcb9AB0gM+Z71nEBd0
-	DVusImuJEHPvMcQVmAyVOF63/eKr2+iYLQaq26Vz8XjR+71RueWoerd2BSNdGjiNI//7QF7K2Cf
-	FuCgye4erN5C5CXmZQJ48ecPhY+oQV/plP3gOQweQj5Cy1jk0riyGPSc6jmpsTNCZpz4W4OMOPe
-	xe5srR4/GeZmZy2eEGcqtSlRzRHQXcjDoR5zeB0NpZxw1N/RVSuf6omtYn7u2RZugSiSXF+Pt5e
-	1R8sdgZ91yYLMOf96H7a8dJhpdDVvaYONAQeFMNYqea1jLc7M7SsjWSgJFuk78G+MlGeZR781h9
-	E8aN15xTzDNsp/9s0xp3Wkio/f4ENpocTit1S9SeRVjUVY0FiW8NFDLmw8mNPJUJITpAec/QcDK
-	vMvoaDSNiYCnCdo85YjP+pCv+n+66SnDUEfmt7P6brm1Daw1COZwoqNweim57W2a2vfLTeHLDJM
-	bPG
-X-Received: by 2002:a05:6122:e253:b0:56c:d6f1:d742 with SMTP id 71dfb90a1353d-56d4a556aebmr3720764e0c.8.1774803068660;
-        Sun, 29 Mar 2026 09:51:08 -0700 (PDT)
+        bh=iweSTs0a6mUlergXdqMpfSJyRYIZ3pzdWyqNMZbAlhk=;
+        b=WrxtV/hu9CqfajeEXo+m632mxmOewHKJVJMdhBummJdLn0CKPcBKDBzWazcAXegzm+
+         U0DJ9EzdH0W+3SQmuvjDdwEgW2n/CIu1bqMfxylsV+b4PSYPpe4dCYD2y7aU86FIR+um
+         4hxhKf5so6aTlZ5POmZVlE1f+qStOpsYniKEu3unQs4+z74UiFHxU972jD9I8SMrc+KV
+         hEUm04wx0eXTPrJvypbi+dzfLhTvvhAy9uXG9yfFs+frCdds0/uI5OmixkZ0cqto73lS
+         BR8OYvxGbxHAWoUX8+/5rgiPrdH3HfEQcZQfLpdNprXCuMSoAjbCZuJ/brlKCRn/baLD
+         zWyA==
+X-Gm-Message-State: AOJu0YxGDpzpkvG0Sn8QwFy8cWBbYZfsNL9rQk4gGP+s6VzrlvKstW0K
+	sim4udIhtcYb6jj4KxxWWWu5+38/XJIQ9JDr0WiiVlVI/l+Se1Z3bmQEF58otA==
+X-Gm-Gg: ATEYQzyR96imItOaXm0mcPubNzM6+Qspe95eU27UI/VWH3xTtW0vCJcbemLNkD/DuHf
+	Fq/EpeWsVmCN/bhwVD0Dttr0YVgkazb2jzmGWzJKpexvCo5/cTvsv+c0MxviTX9tv/5JYGjoRX/
+	eoyddh9Fw4F5YIaRKNDSxo4cYbKlu7XraqWBRxeHdlLu1WOuniVcaOUlVU/j58nySz5Ailtel+o
+	EvGJzVX68C3BcEPxpVS4SZdhJknQwHQ67MXgC/tsUukc8/6Tl1ZWb2XDSjqg7eGwSNQ+t0dFytW
+	sLsMQUpyMHvkSgHMPH0pvFadvcn8p7MrV64pT51SOujXhJwl4JqMSC7jIiHdmgL3JN0yXcPSaNb
+	NYgcQscTMX3GqcjhdR6zJqyp8zy82cRQ8Cc1ogNrnZBLsZmDKFH7ybZVxOexPbgr5AlH4cw3BEQ
+	vQkex64TOCEAqkgvaJvmI91DF3wtnK3BUsTI4cpn4REdCG9JUjHB6kQChnLDS/g3dzruNRn8NKs
+	N0v
+X-Received: by 2002:a05:6122:1b0c:b0:56a:e25f:fc87 with SMTP id 71dfb90a1353d-56d4a531acdmr3434422e0c.7.1774803071513;
+        Sun, 29 Mar 2026 09:51:11 -0700 (PDT)
 Received: from localhost.localdomain ([2804:1690:81f:ccbb:2e4d:21dc:8ad9:527c])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56d58a7ba96sm5549740e0c.17.2026.03.29.09.51.05
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56d58a7ba96sm5549740e0c.17.2026.03.29.09.51.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Mar 2026 09:51:08 -0700 (PDT)
+        Sun, 29 Mar 2026 09:51:10 -0700 (PDT)
 From: Daniel Pereira <danielmaraboo@gmail.com>
 To: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org,
 	Daniel Pereira <danielmaraboo@gmail.com>
-Subject: [PATCH v2 3/5] docs: pt_BR: continue PGP guide translation
-Date: Sun, 29 Mar 2026 13:50:37 -0300
-Message-ID: <20260329165041.831369-4-danielmaraboo@gmail.com>
+Subject: [PATCH v2 4/5] docs: pt_BR: continue PGP guide: Git and maintenance
+Date: Sun, 29 Mar 2026 13:50:38 -0300
+Message-ID: <20260329165041.831369-5-danielmaraboo@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260329165041.831369-1-danielmaraboo@gmail.com>
 References: <20260329165041.831369-1-danielmaraboo@gmail.com>
@@ -77,18 +77,21 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Translate the backup and smartcard-related sections of the PGP
-maintainer guide into Brazilian Portuguese.
+Continue the PGP guide translation covering Git integration,
+key maintenance, and the use of the patatt tool.
 
 This update includes:
-- Procedures for paperkey and full GnuPG directory backups.
-- Guide for identifying keygrips and removing the Certify key from
-  the local workstation for offline storage.
-- Smartcard benefits, hardware options, and initial configuration.
+- Procedures for moving subkeys to hardware (keytocard) and verifying
+  the transfer.
+- PGP maintenance tasks: extending expiration dates and working with
+  offline backups.
+- Git configuration for signing tags and commits automatically.
+- Introduction to agent forwarding over SSH and the patatt patch
+  attestation tool.
 
-The internal label 'smartcards' was renamed to 'smartcards_pt' to
-avoid a global namespace conflict with the original English document
-during the Sphinx build.
+Internal Sphinx labels (e.g., 'pgp_with_git', 'verify_identities') were
+renamed with a '_pt' suffix to ensure a unique namespace and avoid
+build warnings.
 
 The file was verified with checkpatch.pl and passes with 0 errors
 and 0 warnings.
@@ -99,302 +102,302 @@ Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
  1 file changed, 289 insertions(+)
 
 diff --git a/Documentation/translations/pt_BR/process/maintainer-pgp-guide.rst b/Documentation/translations/pt_BR/process/maintainer-pgp-guide.rst
-index 93f0759e9..f7b312014 100644
+index f7b312014..3501756fd 100644
 --- a/Documentation/translations/pt_BR/process/maintainer-pgp-guide.rst
 +++ b/Documentation/translations/pt_BR/process/maintainer-pgp-guide.rst
-@@ -200,3 +200,292 @@ offline; portanto, se você tiver apenas uma chave **[SC]** combinada, você dev
- criar uma subchave de assinatura separada::
- 
-     $ gpg --quick-addkey [fpr] ed25519 sign
+@@ -489,3 +489,292 @@ maioria das operações::
+ Usar ``--edit-key`` nos coloca no modo de menu novamente, e você notará que a
+ listagem das chaves é um pouco diferente. De aqui em diante, todos os comandos
+ são feitos de dentro deste modo de menu, conforme indicado por ``gpg>``.
 +
-+Faça backup da sua chave de Certificação para recuperação de desastres
-+----------------------------------------------------------------------
++Primeiro, vamos selecionar a chave que colocaremos no cartão -- você faz isso
++digitando ``key 1`` (é a primeira na listagem, a subchave **[E]**)::
 +
-+Quanto mais assinaturas de outros desenvolvedores você tiver em sua chave PGP,
-+mais motivos você terá para criar uma versão de backup que resida em algo que
-+não seja mídia digital, por razões de recuperação de desastres.
++    gpg> key 1
 +
-+Uma boa maneira de criar uma cópia impressa da sua chave privada é usando o
-+software ``paperkey``, escrito para este propósito específico. Veja
-+``man paperkey`` para mais detalhes sobre o formato de saída e seus benefícios
-+em relação a outras soluções. O Paperkey já deve estar empacotado para a
-+maioria das distribuições.
++Na saída, você deverá ver agora ``ssb*`` na chave **[E]**. O ``*`` indica qual
++chave está atualmente "selecionada". Ele funciona como uma *alternância*
++(toggle), o que significa que se você digitar ``key 1`` novamente, o ``*``
++desaparecerá e a chave não estará mais selecionada.
 +
-+Execute o seguinte comando para criar um backup impresso da sua chave privada::
++Agora, vamos mover essa chave para o smartcard::
 +
-+    $ gpg --export-secret-key [fpr] | paperkey -o /tmp/key-backup.txt
++    gpg> keytocard
++    Please select where to store the key:
++       (2) Encryption key
++    Your selection? 2
 +
-+Imprima esse arquivo, pegue uma caneta e escreva sua frase secreta na margem do
-+papel. **Isso é fortemente recomendado** porque a impressão da chave ainda
-+está criptografada com essa frase secreta e, se você algum dia alterá-la, você
-+não se lembrará de qual era quando criou o backup -- *garantido*.
++Como é a nossa chave **[E]**, faz sentido colocá-la no slot de Criptografia
++(Encryption). Quando você enviar sua seleção, será solicitada primeiro a frase
++secreta da sua chave PGP e, em seguida, o PIN de administrador. Se o comando
++retornar sem erros, sua chave foi movida.
 +
-+Coloque a cópia impressa resultante e a frase secreta escrita à mão em um
-+envelope e guarde-os em um local seguro e bem protegido, de preferência longe
-+de sua casa, como o cofre de um banco.
++**Importante**: Agora digite ``key 1`` novamente para desmarcar a primeira chave
++e ``key 2`` para selecionar a chave **[S]**::
 +
-+.. note::
++    gpg> key 1
++    gpg> key 2
++    gpg> keytocard
++    Please select where to store the key:
++       (1) Signature key
++       (3) Authentication key
++    Your selection? 1
 +
-+    A chave ainda está criptografada com sua frase secreta, portanto, imprimir
-+    mesmo em impressoras modernas "integradas à nuvem" deve continuar sendo uma
-+    operação relativamente segura.
++Você pode usar a chave **[S]** tanto para Assinatura quanto para Autenticação,
++mas queremos garantir que ela esteja no slot de Assinatura, então escolha (1).
++Mais uma vez, se o seu comando retornar sem erros, a operação foi
++bem-sucedida::
 +
-+Faça backup de todo o seu diretório GnuPG
-+-----------------------------------------
++    gpg> q
++    Save changes? (y/N) y
 +
-+.. warning::
++Salvar as alterações excluirá as chaves que você moveu para o cartão de seu
++diretório pessoal (mas não há problema, pois as temos em nossos backups caso
++precisemos fazer isso novamente para um smartcard de substituição).
 +
-+    **!!!Não pule esta etapa!!!**
++Verificando se as chaves foram movidas
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+É importante ter um backup prontamente disponível de suas chaves PGP caso
-+precise recuperá-las. Isso é diferente da preparação para nível de desastre que
-+fizemos com o ``paperkey``. Você também dependerá dessas cópias externas sempre
-+que precisar usar sua chave de Certificação -- como ao fazer alterações em sua
-+própria chave ou assinar as chaves de outras pessoas após conferências e
-+encontros.
-+
-+Comece obtendo um cartão de mídia externa (de preferência dois!) que você usará
-+para fins de backup. Você precisará criar uma partição criptografada neste
-+dispositivo usando LUKS -- consulte a documentação de sua distribuição sobre
-+como fazer isso.
-+
-+Para a frase secreta de criptografia, você pode usar a mesma de sua chave PGP.
-+
-+Assim que o processo de criptografia terminar, insira novamente o dispositivo e
-+certifique-se de que ele foi montado corretamente. Copie todo o seu diretório
-+``.gnupg`` para o armazenamento criptografado::
-+
-+    $ cp -a ~/.gnupg /media/disk/foo/gnupg-backup
-+
-+Você deve agora testar para garantir que tudo ainda funciona::
-+
-+    $ gpg --homedir=/media/disk/foo/gnupg-backup --list-key [fpr]
-+
-+Se você não receber nenhum erro, então está tudo pronto. Desmonte o
-+dispositivo, identifique-o claramente para não sobrescrevê-lo por acidente e
-+guarde-o em um lugar seguro -- mas não muito longe, pois você precisará
-+usá-lo de vez em quando para tarefas como editar identidades, adicionar ou
-+revogar subchaves, ou assinar as chaves de outras pessoas.
-+
-+Remova a chave de Certificação de seu diretório pessoal
-+-------------------------------------------------------
-+
-+Os arquivos em nosso diretório pessoal não estão tão bem protegidos quanto
-+gostaríamos de pensar. Eles podem ser vazados ou roubados por meio de muitos
-+meios diferentes:
-+
-+- por acidente ao fazer cópias rápidas do diretório pessoal para configurar
-+  uma nova estação de trabalho
-+- por negligência ou malícia do administrador de sistemas
-+- por meio de backups mal protegidos
-+- por meio de malware em aplicativos de desktop (navegadores, visualizadores
-+  de PDF, etc.)
-+- por meio de coação ao cruzar fronteiras internacionais
-+
-+Proteger sua chave com uma boa frase secreta ajuda muito a reduzir o risco
-+de qualquer um dos itens acima, mas as frases secretas podem ser descobertas
-+por meio de keyloggers, shoulder-surfing (observação direta) ou qualquer número
-+de outros meios. Por este motivo, a configuração recomendada é remover sua
-+chave de Certificação de seu diretório pessoal e armazená-la em um
-+armazenamento offline.
-+
-+.. warning::
-+
-+    Consulte a seção anterior e certifique-se de que você fez o backup do seu
-+    diretório GnuPG em sua totalidade. O que estamos prestes a fazer tornará
-+    sua chave inútil se você não tiver um backup utilizável!
-+
-+Primeiro, identifique o "keygrip" da sua chave de Certificação::
-+
-+    $ gpg --with-keygrip --list-key [fpr]
-+
-+A saída será algo como isto::
-+
-+    pub   ed25519 2022-12-20 [SC] [expires: 2022-12-19]
-+          000000000000000000000000AAAABBBBCCCCDDDD
-+          Keygrip = 1111000000000000000000000000000000000000
-+    uid           [ultimate] Alice Dev <adev@kernel.org>
-+    sub   cv25519 2022-12-20 [E] [expires: 2022-12-19]
-+          Keygrip = 2222000000000000000000000000000000000000
-+    sub   ed25519 2022-12-20 [S]
-+          Keygrip = 3333000000000000000000000000000000000000
-+
-+Encontre a entrada keygrip que está abaixo da linha ``pub`` (logo abaixo da
-+impressão digital da chave de Certificação). Isso corresponderá diretamente a
-+um arquivo em seu diretório ``~/.gnupg``::
-+
-+    $ cd ~/.gnupg/private-keys-v1.d
-+    $ ls
-+    1111000000000000000000000000000000000000.key
-+    2222000000000000000000000000000000000000.key
-+    3333000000000000000000000000000000000000.key
-+
-+É suficiente remover o arquivo .key que corresponde ao keygrip da chave de
-+Certificação::
-+
-+    $ cd ~/.gnupg/private-keys-v1.d
-+    $ rm 1111000000000000000000000000000000000000.key
-+
-+Agora, se você executar o comando ``--list-secret-keys``, ele mostrará que a
-+chave de Certificação está faltando (o símbolo ``#`` indica que ela não está
-+disponível)::
++Se você executar ``--list-secret-keys`` agora, verá uma diferença sutil na
++saída::
 +
 +    $ gpg --list-secret-keys
 +    sec#  ed25519 2022-12-20 [SC] [expires: 2024-12-19]
 +          000000000000000000000000AAAABBBBCCCCDDDD
 +    uid           [ultimate] Alice Dev <adev@kernel.org>
-+    ssb   cv25519 2022-12-20 [E] [expires: 2024-12-19]
-+    ssb   ed25519 2022-12-20 [S]
++    ssb>  cv25519 2022-12-20 [E] [expires: 2024-12-19]
++    ssb>  ed25519 2022-12-20 [S]
 +
-+Você também deve remover quaisquer arquivos ``secring.gpg`` no diretório
-+``~/.gnupg``, que podem ser remanescentes de versões anteriores do GnuPG.
++O ``>`` na saída ``ssb>`` indica que a subchave está disponível apenas no
++smartcard. Se você voltar ao diretório de chaves secretas e observar o
++conteúdo, notará que os arquivos ``.key`` foram substituídos por stubs::
 +
-+Se você não tiver o diretório "private-keys-v1.d"
++    $ cd ~/.gnupg/private-keys-v1.d
++    $ strings *.key | grep 'private-key'
++
++A saída deve conter ``shadowed-private-key`` para indicar que esses arquivos
++são apenas stubs e o conteúdo real está no smartcard.
++
++Verificando se o smartcard está funcionando
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++Para verificar se o smartcard está funcionando conforme o esperado, você pode
++criar uma assinatura::
++
++    $ echo "Hello world" | gpg --clearsign > /tmp/test.asc
++    $ gpg --verify /tmp/test.asc
++
++Isso deve solicitar o PIN do seu smartcard no primeiro comando e, em seguida,
++mostrar "Good signature" após você executar ``gpg --verify``.
++
++Parabéns, você conseguiu tornar extremamente difícil o roubo da sua identidade
++digital de desenvolvedor!
++
++Outras operações comuns do GnuPG
++--------------------------------
++
++Aqui está uma referência rápida para algumas operações comuns que você
++precisará realizar com sua chave PGP.
++
++Montando seu armazenamento offline seguro
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++Você precisará da sua chave de Certificação para qualquer uma das operações
++abaixo, portanto, primeiro precisará montar seu armazenamento offline de backup
++e dizer ao GnuPG para usá-lo::
++
++    $ export GNUPGHOME=/media/disk/foo/gnupg-backup
++    $ gpg --list-secret-keys
++
++Certifique-se de ver ``sec`` e não ``sec#`` na saída (o símbolo ``#``
++significa que a chave não está disponível e você ainda está usando o local
++padrão do seu diretório pessoal).
++
++Estendendo a data de expiração da chave
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++A chave de Certificação tem uma data de expiração padrão de 2 anos a partir da
++data de criação. Isso é feito tanto por razões de segurança quanto para fazer
++com que chaves obsoletas eventualmente desapareçam dos servidores de chaves
++(keyservers).
++
++Para estender a expiração da sua chave em um ano a partir da data atual, basta
++executar::
++
++    $ gpg --quick-set-expire [fpr] 1y
++
++Você também pode usar uma data específica se for mais fácil de lembrar (por
++exemplo, seu aniversário ou 1º de janeiro)::
++
++    $ gpg --quick-set-expire [fpr] 2038-07-01
++
++Lembre-se de enviar a chave atualizada de volta para os servidores de chaves::
++
++    $ gpg --send-key [fpr]
++
++Atualizando seu diretório de trabalho após alterações
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++Depois de fazer qualquer alteração em sua chave usando o armazenamento offline,
++você desejará importar essas alterações de volta para o seu diretório de
++trabalho normal::
++
++    $ gpg --export | gpg --homedir ~/.gnupg --import
++    $ unset GNUPGHOME
++
++Usando gpg-agent sobre SSH
++~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++Você pode encaminhar seu gpg-agent sobre SSH se precisar assinar tags ou
++commits em um sistema remoto. Por favor, consulte as instruções fornecidas
++na wiki do GnuPG:
++
++- `Encaminhamento de Agent sobre SSH (pt)`_
++
++Funciona de forma mais fluida se você puder modificar as configurações do
++servidor sshd na extremidade remota.
++
++.. _`Encaminhamento de Agent sobre SSH (pt)`: https://wiki.gnupg.org/AgentForwarding
++
++Usando PGP com Git
++==================
++
++Uma das principais características do Git é sua natureza descentralizada --
++uma vez que um repositório é clonado em seu sistema, você tem o histórico
++completo do projeto, incluindo todas as suas tags, commits e branches. No
++entanto, com centenas de repositórios clonados por aí, como alguém verifica
++se sua cópia do linux.git não foi adulterada por um terceiro mal-intencionado?
++
++Ou o que acontece se um código malicioso for descoberto no kernel e a linha
++"Author" no commit disser que foi feito por você, enquanto você tem certeza
++de que `não teve relação com isso (pt)`_?
++
++Para resolver ambas as questões, o Git introduziu a integração com PGP. Tags
++assinadas provam a integridade do repositório, garantindo que seu conteúdo é
++exatamente o mesmo que estava na estação de trabalho do desenvolvedor que
++criou a tag, enquanto commits assinados tornam quase impossível para alguém
++se passar por você sem ter acesso às suas chaves PGP.
++
++.. _`não teve relação com isso (pt)`: https://github.com/jayphelps/git-blame-someone-else
++
++Configure o git para usar sua chave PGP
++---------------------------------------
++
++Se você tiver apenas uma chave secreta em seu chaveiro, não precisará fazer
++nada extra, pois ela se torna sua chave padrão. No entanto, se você tiver
++várias chaves secretas, poderá informar ao git qual chave deve ser usada
++(``[fpr]`` é a impressão digital da sua chave)::
++
++    $ git config --global user.signingKey [fpr]
++
++Como trabalhar com tags assinadas
++---------------------------------
++
++Para criar uma tag assinada, passe a opção ``-s`` para o comando tag::
++
++    $ git tag -s [tagname]
++
++Nossa recomendação é sempre assinar as tags do git, pois isso permite que outros
++desenvolvedores garantam que o repositório git do qual estão baixando não foi
++alterado de forma maliciosa.
++
++Como verificar tags assinadas
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++Para verificar uma tag assinada, use o comando ``verify-tag``::
++
++    $ git verify-tag [tagname]
++
++Se você estiver baixando (pulling) uma tag de outro fork do repositório do
++projeto, o git deve verificar automaticamente a assinatura na ponta (tip) que
++você está baixando e mostrar os resultados durante a operação de merge::
++
++    $ git pull [url] tags/sometag
++
++A mensagem de merge conterá algo como isto::
++
++    Merge tag 'sometag' of [url]
++
++    [Tag message]
++
++    # gpg: Signature made [...]
++    # gpg: Good signature from [...]
++
++Se você estiver verificando a tag git de outra pessoa, primeiro precisará
++importar a chave PGP dela. Por favor, consulte a seção
++":ref:`verificar_identidades_pt`" abaixo.
++
++Configure o git para sempre assinar tags anotadas
 +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+Se você não tiver um diretório ``~/.gnupg/private-keys-v1.d``, então suas
-+chaves secretas ainda estão armazenadas no arquivo legado ``secring.gpg`` usado
-+pelo GnuPG v1. Fazer qualquer alteração em sua chave, como mudar a frase
-+secreta ou adicionar uma subchave, deve converter automaticamente o formato
-+antigo ``secring.gpg`` para usar o ``private-keys-v1.d``.
++É provável que, se você estiver criando uma tag anotada, você desejará
++assiná-la. Para forçar o git a sempre assinar tags anotadas, você pode definir
++uma opção de configuração global::
 +
-+Assim que concluir isso, certifique-se de excluir o arquivo ``secring.gpg``
-+obsoleto, que ainda contém suas chaves privadas.
++    $ git config --global tag.forceSignAnnotated true
 +
-+Mova as subchaves para um dispositivo criptográfico dedicado
-+============================================================
++Como trabalhar com commits assinados
++------------------------------------
 +
-+Embora a chave de Certificação agora esteja protegida contra vazamentos ou
-+roubos, as subchaves ainda estão em seu diretório pessoal. Qualquer pessoa que
-+consiga colocar as mãos nelas poderá descriptografar sua comunicação ou forjar
-+suas assinaturas (se souberem a frase secreta). Além disso, cada vez que uma
-+operação do GnuPG é realizada, as chaves são carregadas na memória do sistema e
-+podem ser roubadas por malware suficientemente avançado (pense em Meltdown e
-+Spectre).
++Também é possível criar commits assinados, mas eles têm utilidade limitada no
++desenvolvimento do kernel Linux. O fluxo de trabalho de contribuição do kernel
++depende do envio de patches, e a conversão de commits em patches não preserva
++as assinaturas de commit do git. Além disso, ao fazer o rebase do seu próprio
++repositório em um upstream mais recente, as assinaturas PGP de commit acabarão
++sendo descartadas. Por esse motivo, a maioria dos desenvolvedores do kernel não
++se preocupa em assinar seus commits e ignorará commits assinados em quaisquer
++repositórios externos nos quais dependam para o seu trabalho.
 +
-+Uma boa maneira de proteger completamente suas chaves é movê-las para um
-+dispositivo de hardware especializado que seja capaz de realizar operações de
-+smartcard.
++Dito isso, se você tem sua árvore git de trabalho disponível publicamente em
++algum serviço de hospedagem git (kernel.org, infradead.org, ozlabs.org ou
++outros), a recomendação é que você assine todos os seus commits do git, mesmo
++que os desenvolvedores upstream não se beneficiem diretamente dessa prática.
 +
-+Os benefícios dos smartcards
-+----------------------------
++Recomendamos isso pelos seguintes motivos:
 +
-+Um smartcard contém um chip criptográfico capaz de armazenar chaves privadas e
-+realizar operações criptográficas diretamente no próprio cartão. Como o
-+conteúdo da chave nunca sai do smartcard, o sistema operacional do computador
-+no qual você conecta o dispositivo de hardware não é capaz de recuperar as
-+próprias chaves privadas. Isso é muito diferente do dispositivo de
-+armazenamento de mídia criptografado que usamos anteriormente para fins de
-+backup -- enquanto esse dispositivo estiver conectado e montado, o sistema
-+operacional poderá acessar o conteúdo da chave privada.
++1. Caso haja necessidade de realizar uma análise forense de código ou rastrear a
++   proveniência do código, mesmo as árvores mantidas externamente contendo
++   assinaturas PGP de commit serão valiosas para tais fins.
++2. Se você precisar clonar novamente seu repositório local (por exemplo, após
++   reinstalar seu sistema), isso permite verificar a integridade do repositório
++   antes de retomar seu trabalho.
++3. Se alguém precisar fazer o cherry-pick dos seus commits, isso permite que
++   verifiquem rapidamente a integridade deles antes de aplicá-los.
 +
-+O uso de mídia criptografada externa não substitui o uso de um dispositivo
-+compatível com smartcard.
++Criando commits assinados
++~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+Dispositivos smartcard disponíveis
-+----------------------------------
++Para criar um commit assinado, passe a flag ``-S`` para o comando
++``git commit`` (é um ``-S`` maiúsculo devido à colisão com outra flag)::
 +
-+A menos que todos os seus laptops e estações de trabalho tenham leitores de
-+smartcard, o mais fácil é obter um dispositivo USB especializado que implemente
-+a funcionalidade de smartcard. Existem várias opções disponíveis:
++    $ git commit -S
 +
-+- `Nitrokey Start (pt)`_: Hardware aberto e Software Livre, baseado no `Gnuk_pt`_ da FSI
-+  Japan. Uma das opções mais baratas, mas oferece menos recursos de segurança
-+  (como resistência a violações ou alguns ataques de canal lateral).
-+- `Nitrokey 3 (pt)`_: Semelhante ao Nitrokey Start, mas mais resistente a violações
-+  e oferece mais recursos de segurança e formatos USB. Suporta criptografia ECC
-+  (ED25519 e NISTP).
-+- `Yubikey 5 (pt)`_: Hardware e software proprietários, mas mais barato que o
-+  Nitrokey com um conjunto semelhante de recursos. Suporta criptografia ECC
-+  (ED25519 e NISTP).
++Configure o git para sempre assinar commits
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+Sua escolha dependerá do custo, da disponibilidade de envio em sua região
-+geográfica e de considerações sobre hardware aberto ou proprietário.
++Você pode informar ao git para sempre assinar os commits::
++
++    git config --global commit.gpgSign true
 +
 +.. note::
 +
-+    Se você estiver listado em uma entrada `M:` no arquivo MAINTAINERS ou tiver
-+    uma conta no kernel.org, você `se qualifica para um Nitrokey Start gratuito`_
-+    cortesia da Linux Foundation.
++    Certifique-se de configurar o ``gpg-agent`` antes de ativar esta opção.
 +
-+.. _`Nitrokey Start (pt)`: https://www.nitrokey.com/products/nitrokeys
-+.. _`Nitrokey 3 (pt)`: https://www.nitrokey.com/products/nitrokeys
-+.. _`Yubikey 5 (pt)`: https://www.yubico.com/products/yubikey-5-overview/
-+.. _Gnuk_pt: https://www.fsij.org/doc-gnuk/
-+.. _`se qualifica para um Nitrokey Start gratuito`: https://www.kernel.org/nitrokey-digital-tokens-for-kernel-developers.html
++.. _verificar_identidades_pt:
 +
-+Configure seu dispositivo smartcard
-+-----------------------------------
++Como trabalhar com patches assinados
++------------------------------------
 +
-+Seu dispositivo smartcard deve simplesmente funcionar (Just Work - TM) no
-+momento em que você o conecta em qualquer estação de trabalho Linux moderna.
-+Você pode verificar executando::
++É possível usar sua chave PGP para assinar patches enviados para as listas de
++discussão de desenvolvedores do kernel. Como os mecanismos existentes de
++assinatura de e-mail (PGP-Mime ou PGP-inline) tendem a causar problemas com as
++tarefas regulares de revisão de código, você deve usar a ferramenta que o
++kernel.org criou para este fim, que coloca assinaturas de atestação
++criptográfica nos cabeçalhos das mensagens (estilo DKIM):
 +
-+    $ gpg --card-status
++- `Atestação de Patch Patatt (pt)`_
 +
-+Se você vir os detalhes completos do smartcard, então está tudo pronto.
-+Infelizmente, solucionar todos os possíveis motivos pelos quais as coisas
-+podem não estar funcionando para você está muito além do escopo deste guia.
-+Se você estiver tendo problemas para fazer a placa funcionar com o GnuPG,
-+procure ajuda por meio dos canais usuais de suporte.
-+
-+Para configurar seu smartcard, você precisará usar o sistema de menus do GnuPG,
-+pois não existem opções de linha de comando convenientes::
-+
-+    $ gpg --card-edit
-+    [...omitido...]
-+    gpg/card> admin
-+    Comandos de administração são permitidos
-+    gpg/card> passwd
-+
-+Você deve configurar o PIN de usuário (1), o PIN de Administrador (3) e o
-+Código de Redefinição (4). Por favor, certifique-se de registrar e armazenar
-+estes em um local seguro -- especialmente o PIN de Administrador e o Código de
-+Redefinição (que permite limpar completamente o smartcard). Você raramente
-+precisará usar o PIN de Administrador, de modo que inevitavelmente esquecerá
-+o que é se não o registrar.
-+
-+Voltando ao menu principal do cartão, você também pode definir outros valores
-+(como nome, gênero, dados de login, etc.), mas não é necessário e irá,
-+adicionalmente, vazar informações sobre o seu smartcard caso você o perca.
-+
-+.. note::
-+
-+    Apesar de ter o nome "PIN", nem o PIN de usuário nem o PIN de administrador
-+    no cartão precisam ser apenas números.
-+
-+.. warning::
-+
-+    Alguns dispositivos podem exigir que você mova as subchaves para o
-+    dispositivo antes de poder alterar a frase secreta. Por favor, verifique a
-+    documentação fornecida pelo fabricante do dispositivo.
-+
-+Mova as subchaves para o seu smartcard
-+--------------------------------------
-+
-+Saia do menu do cartão (usando "q") e salve todas as alterações. Em seguida,
-+vamos mover suas subchaves para o smartcard. Você precisará tanto da sua
-+frase secreta da chave PGP quanto do PIN de administrador do cartão para a
-+maioria das operações::
-+
-+    $ gpg --edit-key [fpr]
-+
-+    Secret subkeys are available.
-+
-+    pub  ed25519/AAAABBBBCCCCDDDD
-+         created: 2022-12-20  expires: 2024-12-19  usage: SC
-+         trust: ultimate      validity: ultimate
-+    ssb  cv25519/1111222233334444
-+         created: 2022-12-20  expires: never       usage: E
-+    ssb  ed25519/5555666677778888
-+         created: 2017-12-07  expires: never       usage: S
-+    [ultimate] (1). Alice Dev <adev@kernel.org>
-+
-+    gpg>
-+
-+Usar ``--edit-key`` nos coloca no modo de menu novamente, e você notará que a
-+listagem das chaves é um pouco diferente. De aqui em diante, todos os comandos
-+são feitos de dentro deste modo de menu, conforme indicado por ``gpg>``.
++.. _`Atestação de Patch Patatt (pt)`: https://pypi.org/project/patatt/
 -- 
 2.47.3
 
