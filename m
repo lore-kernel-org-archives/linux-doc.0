@@ -1,59 +1,69 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 979D938756E;
-	Sun, 29 Mar 2026 16:35:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com [209.85.221.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 428D140DFC2
+	for <linux-doc@vger.kernel.org>; Sun, 29 Mar 2026 16:51:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774802135; cv=none; b=jrUKtxDvgBXtaxNL6VfEk3gjZrHjhama/hu8N3DFmwglcVaRzSxakf6ZtU2HaKtoNLQ3Xh239S2vYPkyV0yUrd5icgERj1O2qyFiXm+OjmHMQSHwfJUPxC8Yg7b/aubvoGNJDiJicTrTEnMdlIjFJHcj3DD6cQlmHPjsJdqOKfU=
+	t=1774803062; cv=none; b=PNN4vdnGtOCCTChSZg3kXEWR2FSEm1cGyKiiYycN7/QFDjKEC0cnYuhtL4RPYGdBot5eeO1335waHRW2k8arg602QRIUK14rwZGIS0+b1A942DH2lagzISs34VOcgmMYOGVgMNRC5GqEXHnPWaSurdqyf0QadeMpScn61F9B4MM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774802135; c=relaxed/simple;
-	bh=bJDX5jTPLT0+E4UVmPQzxmDTibi7qO5F1i66dXIB7qA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=u3ESVLccHagYsGSQDBAo40N3KUypz6a6y9fPXsN5ZBRUOHqx6U9W62jz8FJ2T2SrA7zseEFKpe1MscyKfzgzWl2e7F0/MtP3/2m6lp2lUVsACWiL3ycCnvCKxUjx46Zx3zdeo3h6DmyvCP60RHhzAqSGrzv8uIBQpiDXDCbAlzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=c805feBp; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1774803062; c=relaxed/simple;
+	bh=Y4775iUE777RnDFkEtIrWMC+RHWSYDwrq4n2Xmvddlk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FLewl2Dufo26r1H1ALfancua9iTYJWCz2V5+JKY7SeQ2kzIH+U+PMJ+ZyBL7JdHOLBCUC+C8WJKzO0CFnk/DJUl/girOkiNBrSNxLZGEud/+9ZPr1nOiKZE0dqLoVjSOVXOkb5jHGEtfO2ivd08lz+7xtyW7Bas228rIpD1A4E8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hY2uUFsK; arc=none smtp.client-ip=209.85.221.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="c805feBp"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 132764521;
-	Sun, 29 Mar 2026 09:35:27 -0700 (PDT)
-Received: from pluto.fritz.box (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0469D3F915;
-	Sun, 29 Mar 2026 09:35:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1774802132; bh=bJDX5jTPLT0+E4UVmPQzxmDTibi7qO5F1i66dXIB7qA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=c805feBpZnIGMF0crobty5TjdyJ0MgqY9xhuMUwbekmyk/xWpinhpE5BbengG7mrj
-	 QpQXWcn6eauBo0vD8HSFBFLkuoiC0idN/27trzG2xjcxqVHTuSDPVnwoYsogcvsdDj
-	 P+1Wv633mzcjZGZlSvUAzMz5eJ3gKpK/jnsgRBaw=
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: sudeep.holla@kernel.org,
-	james.quinlan@broadcom.com,
-	f.fainelli@gmail.com,
-	vincent.guittot@linaro.org,
-	etienne.carriere@st.com,
-	peng.fan@oss.nxp.com,
-	michal.simek@amd.com,
-	dan.carpenter@linaro.org,
-	d-gole@ti.com,
-	jonathan.cameron@huawei.com,
-	elif.topuz@arm.com,
-	lukasz.luba@arm.com,
-	philip.radford@arm.com,
-	brauner@kernel.org,
-	souvik.chakravarty@arm.com,
-	Cristian Marussi <cristian.marussi@arm.com>
-Subject: [PATCH v3 24/24] [RFC] tools/scmi: Add SCMI Telemetry testing tool
-Date: Sun, 29 Mar 2026 17:33:35 +0100
-Message-ID: <20260329163337.637393-25-cristian.marussi@arm.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260329163337.637393-1-cristian.marussi@arm.com>
-References: <20260329163337.637393-1-cristian.marussi@arm.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hY2uUFsK"
+Received: by mail-vk1-f169.google.com with SMTP id 71dfb90a1353d-56a9076813bso1941566e0c.3
+        for <linux-doc@vger.kernel.org>; Sun, 29 Mar 2026 09:51:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774803060; x=1775407860; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WoQRb1H/uSt+9c9P9/8nshSYnEGgHPwE70oqeEqUClI=;
+        b=hY2uUFsKvL7OH9uGpeadmosT4TLxk5TG2tQCE7h+g5lkej+YQSrp0sYy3CdtYCURQr
+         qNhQDIIifXUyGbsuFb2Sgg5z2R8pSax4s/r/ujM8oHhtJizixl4+9J3oMng6VzqyxPkh
+         KfIRHyejGU1OcP2QHqLrWc6bvj+inxP7ysjLxKDPpBzqYkj3VlStM5UlFgoZb3+uK1mo
+         kz4hFviDtD9GWcejQVnQn7QavZ5Kgv8192tBvpWG9zsi08G8jwH+t9zKFbj1bWPHVvLB
+         HQ+z9uvjA3z6iNOLtJXPMWLMObBU7QyAWnT7qQ5MByTHgMshpuI+wtrF7ucavACbXl0I
+         J97g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774803060; x=1775407860;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WoQRb1H/uSt+9c9P9/8nshSYnEGgHPwE70oqeEqUClI=;
+        b=JnN+PKHPWxtKjXZFkDT1bFxPMWT9PIRfJDCi/rao4CtTeCBIysyge+Mx1nKtJDsr+8
+         MxKb4vLU9sYJMyq+fO8s4kANcMG4PxVxUgxWh7yOY0se9lZSf3P2avkX81UmAUHZ/B+k
+         pY4485uHCZAfLnaOr6ScLJTmZErei4LZAvWtyR5FKeKAgYov4M1BzRfynheJ3WvLyzFY
+         cVjuoNJvtt4e6hR0GFjHonsRg6K4hWIfagktT+SUJkG0Ulr8nNZIKYOFgaQYODGtqqSN
+         l2lQR7QHhSnxfAOMN+3/cWwiB98+oxsi/o3LWeqRuzRMQi89LP92QwT6xrf2bYk3IWiI
+         a1UA==
+X-Gm-Message-State: AOJu0YzAnLVnEmb19JWO3xxDTN3Ky0gUNohloQ53LN+FJp3jWFEAKk07
+	UnDo1T/B8SxA84VmEoewru9aFt94GHgmPEioEExsk0nHs7nso0MYNvmi
+X-Gm-Gg: ATEYQzyKlUpbr0ztMkowjOpU/iAHM9Pxh/a5yvHuO4+UqgycnMwzphoIk1chomOK7lK
+	9eW2p2sA+Wi6XswsCb5Noyo84AMD5QQa9eLZYdEHMJC1SjlsgMahyJy5S38aAq+rNDNJckaHukt
+	yrdNHLhODupAJr+BIMnWVQMzyHlF9hlyrL2tbP9FBdyIbYLBzS+OVQlHzsL5x73acn4b8fre9/j
+	ZFIPnPAhZhxDLp9W1HYrVB1oOrZAWN6C2UMBEH4roulffORjArCDOYVu9fMQH7z0O82SEtBDhdP
+	D7Avw4d4yOnAgviCKUgz0WUy/rRP3uREvhqV0QxNZACl6F2hd3NT+c601emgXhZH2J9Y42JaPeE
+	xlN/w70+mZJbqRBEwTEvm3yfFwDtug/45LH36r0Dk8dnE2jp6brSHARefNiP+ruwWWMQJoe3yjp
+	rfFsBCInqN/3GyLTZ7XpTJldN8u4O0GCrmVKzJqCnyscSsAfYtDHTaGsh+4gVpAgvgIyiSkVJSH
+	m0Y
+X-Received: by 2002:a05:6122:3704:b0:56b:982f:1265 with SMTP id 71dfb90a1353d-56d4a52033cmr3605150e0c.7.1774803059958;
+        Sun, 29 Mar 2026 09:50:59 -0700 (PDT)
+Received: from localhost.localdomain ([2804:1690:81f:ccbb:2e4d:21dc:8ad9:527c])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56d58a7ba96sm5549740e0c.17.2026.03.29.09.50.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 29 Mar 2026 09:50:59 -0700 (PDT)
+From: Daniel Pereira <danielmaraboo@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org,
+	Daniel Pereira <danielmaraboo@gmail.com>
+Subject: [PATCH v2 0/5] docs: pt_BR: Complete PGP maintainer guide translation
+Date: Sun, 29 Mar 2026 13:50:34 -0300
+Message-ID: <20260329165041.831369-1-danielmaraboo@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,444 +72,27 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a testing tool that exercises the SCMI ioctls UAPI interface: as of
-now the tool simply queries the initial state of the SCMI Telemetry
-subsystem, tries to enable all the existent Data Events and dumps all
-the Telemetry data.
 
-Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
----
-Basic implementation just to exercise a few IOCTls: to be refined and
-extended to support a more interactive usage.
----
- tools/testing/scmi/Makefile |  25 +++
- tools/testing/scmi/stlm.c   | 385 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 410 insertions(+)
- create mode 100644 tools/testing/scmi/Makefile
- create mode 100644 tools/testing/scmi/stlm.c
+This series provides the complete Brazilian Portuguese translation for
+the Kernel Maintainer PGP guide. The translation was divided into 
+subsequent patches to facilitate review, covering PGP basics, hardware
+tokens (smartcards), Git integration, and identity verification.
 
-diff --git a/tools/testing/scmi/Makefile b/tools/testing/scmi/Makefile
-new file mode 100644
-index 000000000000..a6a101f8398b
---- /dev/null
-+++ b/tools/testing/scmi/Makefile
-@@ -0,0 +1,25 @@
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+
-+CC?=$(CROSS_COMPILE)gcc
-+OBJS = stlm.o
-+
-+CFLAGS=-Wall -static -std=gnu11 -I ../../../include/uapi/
-+ifneq ($(DEBUG), )
-+	CFLAGS+=-O0 -g -ggdb
-+else
-+	CFLAGS+=-static
-+endif
-+
-+all: stlm
-+
-+stlm: $(OBJS)
-+	$(CC) $(CFLAGS) $^ -o $@
-+
-+%.o: %.c
-+	$(CC) $(CFLAGS) -c $<
-+
-+clean:
-+	rm -f *.o
-+	rm -f stlm
-+
-+.PHONY: clean
-diff --git a/tools/testing/scmi/stlm.c b/tools/testing/scmi/stlm.c
-new file mode 100644
-index 000000000000..0c1ad6ad7afe
---- /dev/null
-+++ b/tools/testing/scmi/stlm.c
-@@ -0,0 +1,385 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+#include <errno.h>
-+#include <fcntl.h>
-+#include <stddef.h>
-+#include <stdint.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <string.h>
-+#include <sys/ioctl.h>
-+
-+#include <unistd.h>
-+
-+#include <linux/scmi.h>
-+
-+#define SLEEP_MS	3000
-+#define DEF_TLM_ROOT	"/sys/fs/arm_telemetry/"
-+
-+#define IOCTL_ERR_STR(_ioctl)	"IOCTL:" #_ioctl
-+
-+struct tlm_de {
-+	struct scmi_tlm_de_info *info;
-+	struct scmi_tlm_de_config cfg;
-+	struct scmi_tlm_de_sample sample;
-+};
-+
-+struct tlm_group {
-+	int fd;
-+	struct scmi_tlm_grp_info *info;
-+	struct scmi_tlm_grp_desc *desc;
-+	struct scmi_tlm_intervals *ivs;
-+};
-+
-+struct tlm_state {
-+	int dfd;
-+	int fd;
-+	int g_dfd;
-+	const char *path;
-+	struct scmi_tlm_base_info info;
-+	struct scmi_tlm_config cfg;
-+	struct scmi_tlm_intervals *ivs;
-+	unsigned int num_des;
-+	struct tlm_de *des;
-+	unsigned int num_groups;
-+	struct tlm_group *grps;
-+};
-+
-+static inline void dump_state(struct tlm_state *st)
-+{
-+	uint32_t *uuid32 = st->info.de_impl_version;
-+	uint16_t *uuid16 = (uint16_t *)&st->info.de_impl_version[1];
-+
-+	fprintf(stdout, "- SYSTEM TELEMETRY @instance: %s\n\n", st->path);
-+	fprintf(stdout, "+ Version: 0x%08X\n", st->info.version);
-+	fprintf(stdout, "+ DEs#: %d\n", st->info.num_des);
-+	fprintf(stdout, "+ GRPS#: %d\n", st->info.num_groups);
-+	fprintf(stdout, "+ INTRV#: %d\n", st->info.num_intervals);
-+
-+	fprintf(stdout, "+ UUID: ");
-+	fprintf(stdout, "%X-", uuid32[0]);
-+	fprintf(stdout, "%X-", uuid16[0]);
-+	fprintf(stdout, "%X-", uuid16[1]);
-+	fprintf(stdout, "%X", uuid16[2]);
-+	fprintf(stdout, "%X\n", uuid32[3]);
-+
-+	fprintf(stdout, "\n+ TLM_ENABLED: %d\n", st->cfg.enable);
-+	fprintf(stdout, "+ CURRENT_UPDATE_INTERVAL: %d\n",
-+		st->cfg.current_update_interval);
-+
-+	fprintf(stdout, "+ Found #%u Global Update Intervals\n",
-+		st->info.num_intervals);
-+	for (int i = 0; i < st->ivs->num_intervals; i++)
-+		fprintf(stdout, "\t[%d]::%u\n", i, st->ivs->update_intervals[i]);
-+
-+	if (st->info.num_des != st->num_des) {
-+		fprintf(stdout, "\n++++++ DES NOT FULLY_ENUMERATED ++++++\n");
-+		fprintf(stdout, "+++ DECLARED:%u  ENUMERATED:%u +++\n",
-+			st->info.num_des, st->num_des);
-+	}
-+
-+	fprintf(stdout, "\n+ Found #%d DEs:\n", st->num_des);
-+	for (int i = 0; i < st->num_des; i++)
-+		fprintf(stdout, "\t0x%08X %s %s -- TS:%16llu %016llX\n",
-+			st->des[i].info->id,
-+			st->des[i].cfg.enable ? "ON" : "--",
-+			st->des[i].cfg.t_enable ? "TS_ON" : "-----",
-+			st->des[i].sample.tstamp, st->des[i].sample.val);
-+	fprintf(stdout, "\n");
-+
-+	fprintf(stdout, "+ Found %d GRPs: ", st->num_groups);
-+	for (int i = 0; i < st->num_groups; i++) {
-+		fprintf(stdout, "\n\tGRP_ID:%d  DES#:%d  INTRVS#:%d\n",
-+			st->grps[i].info->id, st->grps[i].info->num_des,
-+			st->grps[i].info->num_intervals);
-+
-+		fprintf(stdout, "\tCOMPOSING_DES:");
-+		for (int j = 0; j < st->grps[i].desc->num_des; j++)
-+			fprintf(stdout, "0x%08X ",
-+				st->grps[i].desc->composing_des[j]);
-+		fprintf(stdout, "\n");
-+	}
-+}
-+
-+static int discover_base_info(int fd, struct scmi_tlm_base_info *info)
-+{
-+	int ret;
-+
-+	ret = ioctl(fd, SCMI_TLM_GET_INFO, info);
-+	if (ret) {
-+		perror(IOCTL_ERR_STR(SCMI_TLM_GET_INFO));
-+		return ret;
-+	}
-+
-+	return ret;
-+}
-+
-+static struct scmi_tlm_des_list *scmi_get_des_list(int fd, int num_des)
-+{
-+	struct scmi_tlm_des_list *dsl;
-+	size_t size = sizeof(*dsl) + num_des * sizeof(dsl->des[0]);
-+	int ret;
-+
-+	dsl = malloc(size);
-+	if (!dsl)
-+		return NULL;
-+
-+	bzero(dsl, size);
-+	dsl->num_des = num_des;
-+	ret = ioctl(fd, SCMI_TLM_GET_DE_LIST, dsl);
-+	if (ret) {
-+		perror(IOCTL_ERR_STR(SCMI_TLM_GET_DE_LIST));
-+		return NULL;
-+	}
-+
-+	return dsl;
-+}
-+
-+static struct tlm_de *enumerate_des(struct tlm_state *st)
-+{
-+	struct scmi_tlm_des_list *dsl;
-+	struct tlm_de *des;
-+
-+	dsl = scmi_get_des_list(st->fd, st->info.num_des);
-+	if (!dsl)
-+		return NULL;
-+
-+	st->num_des = dsl->num_des;
-+	des = malloc(sizeof(*des) * st->num_des);
-+	if (!des)
-+		return NULL;
-+
-+	bzero(des, sizeof(*des) * st->num_des);
-+	for (int i = 0; i < st->num_des; i++) {
-+		struct tlm_de *de = &des[i];
-+		int ret;
-+
-+		de->info = &dsl->des[i];
-+		de->cfg.id = de->info->id;
-+		ret = ioctl(st->fd, SCMI_TLM_GET_DE_CFG, &de->cfg);
-+		if (ret) {
-+			perror(IOCTL_ERR_STR(SCMI_TLM_GET_DE_CFG));
-+			continue;
-+		}
-+
-+		if (!de->cfg.enable)
-+			continue;
-+
-+		/* Collect initial sample */
-+		de->sample.id = de->info->id;
-+		ret = ioctl(st->fd, SCMI_TLM_GET_DE_VALUE, &de->sample);
-+		if (ret) {
-+			perror(IOCTL_ERR_STR(SCMI_TLM_GET_DE_VALUE));
-+			continue;
-+		}
-+	}
-+
-+	return des;
-+}
-+
-+static int get_current_config(int fd, struct scmi_tlm_config *cfg)
-+{
-+	int ret;
-+
-+	ret = ioctl(fd, SCMI_TLM_GET_CFG, cfg);
-+	if (ret) {
-+		perror(IOCTL_ERR_STR(SCMI_TLM_GET_CFG));
-+		return ret;
-+	}
-+
-+	return ret;
-+}
-+
-+static struct scmi_tlm_grps_list *scmi_get_grps_list(int fd, int num_groups)
-+{
-+	struct scmi_tlm_grps_list *gsl;
-+	size_t size = sizeof(*gsl) + num_groups * sizeof(gsl->grps[0]);
-+	int ret;
-+
-+	gsl = malloc(size);
-+	if (!gsl)
-+		return NULL;
-+
-+	bzero(gsl, size);
-+	gsl->num_grps = num_groups;
-+	ret = ioctl(fd, SCMI_TLM_GET_GRP_LIST, gsl);
-+	if (ret) {
-+		perror(IOCTL_ERR_STR(SCMI_TLM_GET_GRP_LIST));
-+		return NULL;
-+	}
-+
-+	return gsl;
-+}
-+
-+static struct scmi_tlm_intervals *enumerate_intervals(int fd, int num_intervals)
-+{
-+	struct scmi_tlm_intervals *ivs;
-+	size_t sz;
-+	int ret;
-+
-+	sz = sizeof(*ivs) + sizeof(*ivs->update_intervals) * num_intervals;
-+	ivs = malloc(sz);
-+	if (!ivs)
-+		return NULL;
-+
-+	memset(ivs, 0, sz);
-+
-+	ivs->num_intervals = num_intervals;
-+	ret = ioctl(fd, SCMI_TLM_GET_INTRVS, ivs);
-+	if (ret) {
-+		perror(IOCTL_ERR_STR(SCMI_TLM_GET_INTRVS));
-+		free(ivs);
-+		return NULL;
-+	}
-+
-+	return ivs;
-+}
-+
-+static struct tlm_group *enumerate_groups(struct tlm_state *st)
-+{
-+	struct scmi_tlm_grps_list *gsl;
-+	struct tlm_group *grps;
-+
-+	gsl = scmi_get_grps_list(st->fd, st->info.num_groups);
-+	if (!gsl)
-+		return NULL;
-+
-+	st->g_dfd = openat(st->dfd, "groups", O_RDONLY);
-+	if (st->g_dfd < 0)
-+		return NULL;
-+
-+	st->num_groups = gsl->num_grps;
-+	grps = malloc(sizeof(*grps) * st->num_groups);
-+	if (!grps)
-+		return NULL;
-+
-+	bzero(grps, sizeof(*grps) * st->num_groups);
-+	for (int i = 0; i < st->num_groups; i++) {
-+		struct tlm_group *grp = &grps[i];
-+		char gctrl[32];
-+		size_t size;
-+		int ret;
-+
-+		snprintf(gctrl, 32, "%d/control", i);
-+		grp->fd = openat(st->g_dfd, gctrl, O_RDWR);
-+		if (grp->fd < 0)
-+			return NULL;
-+
-+		grp->info = &gsl->grps[i];
-+		size = sizeof(*grp->desc) + sizeof(uint32_t) * grp->info->num_des;
-+		grp->desc = malloc(size);
-+		if (!grp->desc)
-+			return NULL;
-+
-+		bzero(grp->desc, size);
-+		grp->desc->num_des = grp->info->num_des;
-+		ret = ioctl(grp->fd, SCMI_TLM_GET_GRP_DESC, grp->desc);
-+		if (ret) {
-+			perror(IOCTL_ERR_STR(SCMI_TLM_GET_GRP_DESC));
-+			continue;
-+		}
-+
-+		grp->ivs = enumerate_intervals(grp->fd, grp->info->num_intervals);
-+	}
-+
-+	return grps;
-+}
-+
-+static int get_tlm_state(const char *path, struct tlm_state *st)
-+{
-+	int ret;
-+
-+	st->dfd = open(path, O_RDONLY);
-+	if (st->dfd < 0) {
-+		perror("open");
-+		return st->dfd;
-+	}
-+
-+	st->fd = openat(st->dfd, "control", O_RDWR);
-+	if (st->fd < 0) {
-+		perror("openat");
-+		return st->fd;
-+	}
-+
-+	ret = discover_base_info(st->fd, &st->info);
-+	if (ret)
-+		return ret;
-+
-+	st->ivs = enumerate_intervals(st->fd, st->info.num_intervals);
-+	if (!st->ivs)
-+		return -1;
-+
-+	ret = get_current_config(st->fd, &st->cfg);
-+	if (ret)
-+		return ret;
-+
-+	if (st->info.num_des)
-+		st->des = enumerate_des(st);
-+
-+	if (st->info.num_groups)
-+		st->grps = enumerate_groups(st);
-+
-+	st->path = path;
-+
-+	return 0;
-+}
-+
-+int main(int argc, char **argv)
-+{
-+	const char *tlm_root_instance = DEF_TLM_ROOT "tlm_0/";
-+	struct scmi_tlm_data_read *bulk;
-+	struct scmi_tlm_de_config de_cfg = {};
-+	struct tlm_state st = {};
-+	size_t bulk_sz;
-+	int ret;
-+
-+	ret = get_tlm_state(tlm_root_instance, &st);
-+	if (ret)
-+		return ret;
-+
-+	dump_state(&st);
-+
-+	bulk_sz = sizeof(*bulk) + sizeof(bulk->samples[0]) * st.info.num_des;
-+	bulk = malloc(bulk_sz);
-+	if (!bulk)
-+		return -1;
-+
-+	bzero(bulk, bulk_sz);
-+	bulk->num_samples = st.info.num_des;
-+	ret = ioctl(st.fd, SCMI_TLM_SINGLE_SAMPLE, bulk);
-+	if (ret) {
-+		perror(IOCTL_ERR_STR(SCMI_TLM_SINGLE_SAMPLE));
-+		return -1;
-+	}
-+
-+	fprintf(stdout, "\n--- Enabling ALL DEs with timestamp...\n");
-+	de_cfg.enable = 1;
-+	de_cfg.t_enable = 1;
-+	ret = ioctl(st.fd, SCMI_TLM_SET_ALL_CFG, &de_cfg);
-+	if (ret) {
-+		perror(IOCTL_ERR_STR(SCMI_TLM_SET_ALL_CFG));
-+		return ret;
-+	}
-+
-+	fprintf(stdout, "\n- Single ASYNC read -\n-------------------\n");
-+	for (int i = 0; i < bulk->num_samples; i++)
-+		fprintf(stdout, "0x%08X %016llu %016llX\n",
-+			bulk->samples[i].id, bulk->samples[i].tstamp,
-+			bulk->samples[i].val);
-+
-+	bzero(bulk, bulk_sz);
-+	bulk->num_samples = st.info.num_des;
-+	ret = ioctl(st.fd, SCMI_TLM_BULK_READ, bulk);
-+	if (ret) {
-+		perror(IOCTL_ERR_STR(SCMI_TLM_BULK_READ));
-+		return -1;
-+	}
-+
-+	fprintf(stdout, "\n- BULK read -\n-------------------\n");
-+	for (int i = 0; i < bulk->num_samples; i++)
-+		fprintf(stdout, "0x%08X %016llu %016llX\n",
-+			bulk->samples[i].id, bulk->samples[i].tstamp,
-+			bulk->samples[i].val);
-+
-+	return 0;
-+}
--- 
-2.53.0
+All internal cross-references were updated to ensure a clean Sphinx 
+build, and terminology aligns with the existing pt_BR documentation.
 
+Changes in v2:
+- Fixed translation of "Periodic release snapshots" to "Arquivos 
+  tarballs por release" as suggested by Mauro Carvalho Chehab.
+- Corrected a double-hyphen formatting error in the first translation 
+  patch.
+- Added missing Signed-off-by and fixed line wrapping in the 
+  KVM index patch (1/5).
+- Rebased onto the latest docs-next branch.
+
+Daniel Pereira (5):
+  docs: add maintainer-kvm-x86 to maintainer-handbooks index
+  docs: pt_BR: start translation of the PGP maintainer guide
+  docs: pt_BR: continue PGP guide translation
+  docs: pt_BR: continue PGP guide: Git and maintenance
+  docs: pt_BR: complete PGP guide translation
