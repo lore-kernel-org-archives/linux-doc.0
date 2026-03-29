@@ -1,106 +1,264 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9C4C386C26;
-	Sun, 29 Mar 2026 18:01:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774807270; cv=none; b=Us8QLFLecgECcM893iRlY6LzbfTnuNMHh39qCX4SItp42z7PsHhp/ijVZCD76CJBXsZtF5U15PLhD4FxD8x2I6pIpsOWU1VY3E6LFW3TA3Ssew3aspm7K/JANdAwbluP6UZa0/CMyZvGy98smAQO+EtAdFUE7h8Qzsc2hD6ivc0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774807270; c=relaxed/simple;
-	bh=HKatBNWBO7yrOGYf1pOvBsP48x6K9AIg6H3XVc/TJbI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SgxP+Nnw26Iz9EA+GRrLsE9bszyYV7qzfKz8mmV0O6zqJG6trYoAmievu95QRKnAU0RQiEHgifHLz/c2rGvnMSWiUnw3psaNnl6KTFCwnSf6e9IbsJi81o3m+1fi2o9Qs9rgMPPce9pyT9xKQSs5byglLnColbcPUeIPMTaaTMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=YCwOPgcZ; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 632C9385528;
+	Sun, 29 Mar 2026 18:05:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774807505; cv=pass; b=g7RzZMHdlBTVa97bStm7xH6g5m8n+fIYIC+gwlNrWSVquCssz+Zsu6ud2GN45ulscdkSu+wGbqYAgyH9LlxddstpYNSznIqBByQsoTVt1TgwgEQ7v/cgLwFK/G5Wmo1Fur04Mrfiy+ryRZ8ZcvS/GK2WuclehlrMPybf/2KNEao=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774807505; c=relaxed/simple;
+	bh=fFYmbTXxvFc8VX1L+0x+x/bgwh0HDs2OE0cH9hRYnpo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QyPqqM1D/8GomWr8V+UMhBlTLEEJHCRctcsTWUUv1PIKna3cga7zyXJo+k5J83ehDKQ49Q2GmkYL3mXzj8ooEx0QU+Z8RddEOPPkZIQfNdt0KbVgLwAe0kpUos1kTe2v19vReo/ocZr3abS/FWlmOnaTTtKwbK2Tzst29E8e2kQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com; spf=pass smtp.mailfrom=ritovision.com; dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b=X0a/1clL; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ritovision.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="YCwOPgcZ"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1379A1595;
-	Sun, 29 Mar 2026 11:00:59 -0700 (PDT)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8A8BA3F7D8;
-	Sun, 29 Mar 2026 11:01:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1774807264; bh=HKatBNWBO7yrOGYf1pOvBsP48x6K9AIg6H3XVc/TJbI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YCwOPgcZIVYs3aDQ0ppSMQfkYBYlGucjp7xkJ5OFSjnc9K/ooxAme9pTzGioZXxsv
-	 4y2ctyjetjwvKVc+2YlDF1AEb+p7VdsB7ICiSxpHIZiADz1MhL8stn2jTBscXBKW9i
-	 v84HJwGTet3zeESOelw+I13CF6GhWbUH8++3TEB4=
-Date: Sun, 29 Mar 2026 19:00:54 +0100
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Cristian Marussi <cristian.marussi@arm.com>, etienne.carriere@st.com,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, d-gole@ti.com,
-	linux-fsdevel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
-	linux-doc@vger.kernel.org, f.fainelli@gmail.com,
-	vincent.guittot@linaro.org, philip.radford@arm.com,
-	souvik.chakravarty@arm.com, peng.fan@oss.nxp.com,
-	dan.carpenter@linaro.org, lukasz.luba@arm.com,
-	arm-scmi@vger.kernel.org, sudeep.holla@kernel.org,
-	michal.simek@amd.com, linux-kernel@vger.kernel.org,
-	jonathan.cameron@huawei.com, elif.topuz@arm.com,
-	linux-arm-kernel@lists.infradead.org, james.quinlan@broadcom.com,
-	devicetree@vger.kernel.org, brauner@kernel.org
-Subject: Re: [PATCH v3 06/24] dt-bindings: firmware: arm,scmi: Add support
- for telemetry protocol
-Message-ID: <aclo1laTrsQFSan6@pluto>
-References: <20260329163337.637393-1-cristian.marussi@arm.com>
- <20260329163337.637393-7-cristian.marussi@arm.com>
- <177480549380.3925363.5137815678176793743.robh@kernel.org>
+	dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b="X0a/1clL"
+ARC-Seal: i=1; a=rsa-sha256; t=1774807496; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=ZdD0yQPlbSw8PISiU9V8J8EYAE6mXFIYcdhSRkSdKkGKJlOYrhI5iPgEoh7QOka7nTKnGu5DX1uk5PqtROkcwDzlPd4t59iRwxsgSNxpBFkoWA1DmnZrTCWN2cjaIVRGTt4q0qfZ6voxVnxOUYmfyaFQUzYHqCzkvOampVie33s=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1774807496; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=ADG7IOicePgt7pQb54xbvTjvQh+NYSMvhfrdIAvZ3VI=; 
+	b=Fo4e1IXVnqDL+/C8Jx52N1nRNcGw4N/DQ/Jj//nw9m/uhhi/q12TzVmkYz1fdqHCaLqDEgaqdbSWQBVedMrhPs307Ek+2SH/3/5foXj+8jjcDfpz/kTQhVimiX3KzHN76J/6qoJHGeB0TyHLuIZLJNbKqOJIsl+PBfQTHTHGkTQ=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=ritovision.com;
+	spf=pass  smtp.mailfrom=rito@ritovision.com;
+	dmarc=pass header.from=<rito@ritovision.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774807496;
+	s=zmail; d=ritovision.com; i=rito@ritovision.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=ADG7IOicePgt7pQb54xbvTjvQh+NYSMvhfrdIAvZ3VI=;
+	b=X0a/1clLkk98IvTVP9sLYo89PEdFur8U7dJyRnKY5gGjLJhO5kQt4fzid+LXk6YL
+	S2Vxe20CywS53ds5rMn32y9dSCfEclzmzK/VUu7wS2r8nqocjhS912RWAvAM94kUqoF
+	N+QG+Vs9nJvvVcL00ai8xwsPtHOdPi71SeXW96lY=
+Received: by mx.zohomail.com with SMTPS id 1774807493610522.0861230864004;
+	Sun, 29 Mar 2026 11:04:53 -0700 (PDT)
+From: Rito Rhymes <rito@ritovision.com>
+To: corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	mchehab@kernel.org
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Rito Rhymes <rito@ritovision.com>
+Subject: [PATCH] docs: generate a static 404 page
+Date: Sun, 29 Mar 2026 14:04:48 -0400
+Message-ID: <20260329180448.24614-1-rito@ritovision.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260329152047.5736-1-rito@ritovision.com>
+References: <20260329152047.5736-1-rito@ritovision.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <177480549380.3925363.5137815678176793743.robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-On Sun, Mar 29, 2026 at 12:31:33PM -0500, Rob Herring (Arm) wrote:
-> 
-> On Sun, 29 Mar 2026 17:33:17 +0100, Cristian Marussi wrote:
-> > Add new SCMI v4.0 Telemetry protocol bindings definitions.
-> > 
-> > Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
-> > ---
-> > Cc: Rob Herring <robh@kernel.org>
-> > Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>
-> > Cc: Conor Dooley <conor+dt@kernel.org>
-> > Cc: devicetree@vger.kernel.org
-> > ---
-> >  Documentation/devicetree/bindings/firmware/arm,scmi.yaml | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
-> > 
-> 
-> My bot found errors running 'make dt_binding_check' on your patch:
-> 
-> yamllint warnings/errors:
-> 
-> dtschema/dtc warnings/errors:
-> /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/firmware/arm,scmi.example.dtb: scmi (arm,scmi): protocol@19: Unevaluated properties are not allowed ('i2c2-pins', 'keys-pins', 'mdio-pins' were unexpected)
-> 	from schema $id: http://devicetree.org/schemas/firmware/arm,scmi.yaml
-> 
-> doc reference errors (make refcheckdocs):
-> 
-> See https://patchwork.kernel.org/project/devicetree/patch/20260329163337.637393-7-cristian.marussi@arm.com
-> 
-> The base for the series is generally the latest rc1. A different dependency
-> should be noted in *this* patch.
-> 
-> If you already ran 'make dt_binding_check' and didn't see the above
-> error(s), then make sure 'yamllint' is installed and dt-schema is up to
-> date:
-> 
-> pip3 install dtschema --upgrade
-> 
+Broken links in static deployments currently fall back to a
+generic web server 404 page, which leaves users on an orphaned
+error page with no direct way to continue navigating the
+documentation site. Add a dedicated not-found page so deployments
+can serve a project-specific 404 instead.
 
-Yes...the new protocol block definition ended up intermixed with the
-previous protocol block...totally wrong.
+It keeps the normal documentation layout around the error state so
+users still have the search box, table of contents, footer links,
+and a clear route back to the documentation root. The penguin
+logo makes it less generic and adds character to what is
+otherwise a frustrating page to encounter.
 
-My bad.
+For translated documentation, generate 404 pages whose return
+link keeps users inside the current translation instead of always
+sending them back to the English root documentation.
 
-I will fix in V4.
+Actual 404 handling remains a web server concern.
 
-Thanks,
-Cristian
+Signed-off-by: Rito Rhymes <rito@ritovision.com>
+Assisted-by: Codex:GPT-5.4
+---
+V2 adds multi-language routing support.
+
+For 404 handling to work in nginx, point the site root at the
+built documentation tree and route missing paths to the
+generated 404 pages, for example:
+
+    location / {
+        error_page 404 /404.html;
+        try_files $uri $uri/ =404;
+    }
+
+For translated documentation subtrees, add matching location
+blocks that serve the subtree-specific 404 page, for example:
+
+    location /translations/zh_CN/ {
+        error_page 404 /translations/zh_CN/404.html;
+        try_files $uri $uri/ =404;
+    }
+
+Repeat that pattern for the other translation subtrees so missing
+translated pages keep users inside the current translation
+instead of sending them back to the English root documentation.
+
+I've tested the setup locally with nginx for all present translations
+and the routing works fine.
+
+These screenshots show the generated 404 page being served live in
+Chrome on desktop and mobile.
+
+Desktop screenshot:
+https://github.com/user-attachments/assets/085eff0b-8661-4919-a651-6109e505ff05
+
+Mobile screenshot:
+https://github.com/user-attachments/assets/85a171f7-c2ff-483d-bc35-6719202a70e1
+
+The screenshots above are hosted in a GitHub issue. For
+convenience, anyone is welcome to post additional screenshots
+there and reference them from the mailing list for discussion of
+this patch:
+https://github.com/ritovision/linux-kernel-docs/issues/4
+
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index 679861503..32f3aa698 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -130,6 +130,17 @@ def config_init(app, config):
+                                     "The kernel development community",
+                                     "manual"))
+ 
++    # Generate the root 404 page and per-translation copies for full-doc builds.
++    config.html_additional_pages = {"404": "404.html"}
++    if os.path.samefile(kern_doc_dir, app.srcdir):
++        translations_dir = os.path.join(kern_doc_dir, "translations")
++        for lang in sorted(os.listdir(translations_dir)):
++            full = os.path.join(translations_dir, lang)
++            if not os.path.isdir(full):
++                continue
++
++            config.html_additional_pages[f"translations/{lang}/404"] = "404.html"
++
+ # helper
+ # ------
+ 
+@@ -437,6 +448,10 @@ sys.stderr.write("Using %s theme\n" % html_theme)
+ # so a file named "default.css" will overwrite the builtin "default.css".
+ html_static_path = ["sphinx-static"]
+ 
++# Generate a simple static 404 page. Serving it for missing paths is left to
++# the web server configuration.
++html_additional_pages = {}
++
+ # If true, Docutils "smart quotes" will be used to convert quotes and dashes
+ # to typographically correct entities.  However, conversion of "--" to "—"
+ # is not always what we want, so enable only quotes.
+diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
+index db24f4344..c4d28e1d4 100644
+--- a/Documentation/sphinx-static/custom.css
++++ b/Documentation/sphinx-static/custom.css
+@@ -169,3 +169,72 @@ a.manpage {
+ 	font-weight: bold;
+ 	font-family: "Courier New", Courier, monospace;
+ }
++
++/* Center the 404 body copy without affecting normal pages.
++ * This minimum height ensures the footer remains positioned
++ * visibly at the bottom of the page despite most of the page
++ * being empty.
++ * 100% width allows for contained centering of inner contents */
++div.kernel-404-page {
++    align-items: center;
++    box-sizing: border-box;
++    display: flex;
++    justify-content: center;
++    min-height: 90vh;
++    padding: 2rem 1rem;
++    width: 100%;
++}
++
++/* Group the content as a vertical stack */
++div.kernel-404-content {
++    display: flex;
++    flex-direction: column;
++    gap: 0.75rem;
++    max-width: 28rem;
++}
++
++a.kernel-404-logo-link {
++    align-self: stretch;
++    border-bottom: none;
++}
++
++a.kernel-404-logo-link:hover {
++    border-bottom: none;
++}
++
++img.kernel-404-logo {
++    display: block;
++    height: auto;
++    margin-inline: auto;
++}
++
++div.kernel-404-content h1,
++div.kernel-404-content p {
++    margin: 0;
++}
++
++/* Make the header larger and more prominent. */
++div.kernel-404-content h1 {
++    font-size: 300%;
++}
++
++p.kernel-404-home {
++    margin-top: 0.5rem;
++    text-align: center;
++}
++
++@media screen and (max-width: 65em) {
++    /* Less viewport height because the mobile sidebar is taking
++     * up large chunk of the screen already */
++    div.kernel-404-page {
++        min-height: 40vh;
++    }
++
++    img.kernel-404-logo {
++        width: 70%;
++    }
++
++    div.kernel-404-content h1 {
++        font-size: 240%;
++    }
++}
+diff --git a/Documentation/sphinx/templates/404.html b/Documentation/sphinx/templates/404.html
+new file mode 100644
+index 000000000..1222f3fe1
+--- /dev/null
++++ b/Documentation/sphinx/templates/404.html
+@@ -0,0 +1,22 @@
++{# SPDX-License-Identifier: GPL-2.0-only #}
++{% extends "layout.html" %}
++{% set path_parts = pagename.split('/') %}
++{% set home_doc = master_doc %}
++{% if path_parts|length >= 2 and path_parts[0] == 'translations' %}
++  {% set home_doc = path_parts[0] ~ '/' ~ path_parts[1] ~ '/index' %}
++{% endif %}
++{% set title = "404 Not Found" %}
++
++{% block body %}
++  <div class="kernel-404-page">
++    <div class="kernel-404-content">
++      <a class="kernel-404-logo-link" href="{{ pathto(home_doc) }}"
++         aria-label="Return home">
++        <img class="kernel-404-logo" src="{{ pathto('_static/logo.svg', 1) }}" alt="" />
++      </a>
++      <h1>404 Not Found</h1>
++      <p>The page you are searching for doesn't exist.</p>
++      <p class="kernel-404-home"><a href="{{ pathto(home_doc) }}">Return home</a></p>
++    </div>
++  </div>
++{% endblock %}
+-- 
+2.51.0
+
