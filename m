@@ -1,124 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC8F624B28;
-	Sun, 29 Mar 2026 08:04:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9083B175A7D;
+	Sun, 29 Mar 2026 11:52:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774771490; cv=none; b=iFEOxWIPc+xa169opxKQq/djwvi8S91hC78l1iLU1hdgoLU1KR+LPvcYItkgu9nrNwRd8S+haBsFLlaNO5LJDLEZj7DHeYa+B5g/psS+zkw1P82YfYEI+gkulB4swQEGhipt+FEta6KYkIk/1JUEvE48iDWJ11SfhC+1d9xY8Ww=
+	t=1774785173; cv=none; b=XXUhYdB3+vDA8da2p59uYB0hqqbFVtTxdVTT+ePy8wjn/4bDgIXN4mYhylfjmrKD1A9q5/bYVdGvfcgdwxzAFHfz6uCCNE9BnOl9pwpGQOTHCjVFIih3Cf9XN24C0k5LlZ9Nql6nSUW3oApvDhNEHfu4C+iQzMmCAYbcP9TQNgs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774771490; c=relaxed/simple;
-	bh=i6SF/XNHOmRD3nw7Nr4/q/gJ9IwKNLMR8vrL1INFa/w=;
+	s=arc-20240116; t=1774785173; c=relaxed/simple;
+	bh=3c1zQGqevZbMkkqPPq3SzsklV8eKwzMaHogP/8yJ9K4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ftOFPiDowGoN7zLJF3dhSjsnBYmKlqwlfjdMRL1nJXnwZaIoj+efUyf61/RsFd3fjjfz9d8DTyFf3OydviVAHldMe6VZugK+aJn1I4AEER+HPoYP7r1k3t/sFU5VpPKlM0J3LHIy9QzPZIT9e9vj3OKN2INMJWEM+QooLv2Dkaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LUNOBC6W; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=rslaHBF4NNmPAGbObOQvWvbu27gps6534QETunJsBEV4zZmv3/olGTmdiAAbYBOY51OnUl3IOZeqeQsMbJsscqk0cgfxTHXCWl+F4WN3P1manYEI9uDSpdSeWlhwhTE1RRLLfIGDqUjFGCh9Bngac7B2ELroZTZPSxTd4xKZWrs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JuXfNxqY; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LUNOBC6W"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF8ACC116C6;
-	Sun, 29 Mar 2026 08:04:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774771490;
-	bh=i6SF/XNHOmRD3nw7Nr4/q/gJ9IwKNLMR8vrL1INFa/w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LUNOBC6W3siRz3O/MJUXFqKvWhmKuFuVTeOiEgUSLMA2Q2OTfOfA5bVnT1v5+G8K5
-	 yzq4CbMUnkIO4kaIVauW0xPyEhCaWxh5lzDDXtjNYdmhRqEcpJWdx1G3bvuzk1esjc
-	 NZ7buNMOsoYgX0CR9UHlehhrDlTD0GHPAQqkUFnKaAeEYJvuJ8qhMsBTTe+ZOz6opN
-	 ++9tkipFX0uRMDjx4vBhN/WYGlHkFj2zjAYTWJt9ucMQXBWCFqFDFnAlp6lKa4AgZr
-	 Yhhknt4ih4Nryxkg1ZK0/Zulz7YIGf0Q0SByyU8KV7OL4RoJlXNi04rH3+TKUIqhXD
-	 I0dE71BfmCX6Q==
-Date: Sun, 29 Mar 2026 10:04:47 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>
-To: radu.sabau@analog.com
-Cc: Lars-Peter Clausen <lars@metafoo.de>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, Jonathan Cameron <jic23@kernel.org>, 
-	David Lechner <dlechner@baylibre.com>, Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, 
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
-	Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 3/4] iio: adc: ad4691: add triggered buffer support
-Message-ID: <acjaqByQo0C2Msjo@monoceros>
-References: <20260327-ad4692-multichannel-sar-adc-driver-v5-0-11f789de47b8@analog.com>
- <20260327-ad4692-multichannel-sar-adc-driver-v5-3-11f789de47b8@analog.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JuXfNxqY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774785170; x=1806321170;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3c1zQGqevZbMkkqPPq3SzsklV8eKwzMaHogP/8yJ9K4=;
+  b=JuXfNxqYAE2IEbFTDxiXnZ8IOrvjSRBSlfJIIKhsaJN/2oFc5jTcR+Ce
+   8PTyPDCNtqps3GIwVwFcTXaAfcAmmFpyqZPZ6yC4XaBVV2I9+vB6dlyrr
+   2k1iKUdQG/LH4Vzzld0LwWIE2h+6bEPIn/Gv3wvo4tGb1LAl8yNGjqfgc
+   z99s2tnRos5PR7xdtmZ3idImW5iPoI+wgj3Am45tmzXYhA1cBj9TtBvuH
+   a4FaaaKjVkYMEqr7g57uWejRx8SApZCmUaWkau76oeehS9FgCctJas5qp
+   VSFPYVhyRgsBm4Adj5EwKupADhsojo+pPeY2yW5OdWCTl9oqu/NcaBfq7
+   w==;
+X-CSE-ConnectionGUID: TfGAeVIBSK6Y722X5lL8wg==
+X-CSE-MsgGUID: lGWtPhduSly8b3lbGZeJng==
+X-IronPort-AV: E=McAfee;i="6800,10657,11742"; a="87182685"
+X-IronPort-AV: E=Sophos;i="6.23,148,1770624000"; 
+   d="scan'208";a="87182685"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2026 04:52:50 -0700
+X-CSE-ConnectionGUID: 3/vRv02JS7SbS8EXIkg0+g==
+X-CSE-MsgGUID: O2OgY6tNQxGmrvNc1BgQGg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,148,1770624000"; 
+   d="scan'208";a="222476326"
+Received: from lkp-server01.sh.intel.com (HELO 3905d212be1b) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 29 Mar 2026 04:52:48 -0700
+Received: from kbuild by 3905d212be1b with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w6ohB-00000000CKv-3C6N;
+	Sun, 29 Mar 2026 11:52:45 +0000
+Date: Sun, 29 Mar 2026 19:52:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: Rong Zhang <i@rong.moe>, Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Rong Zhang <i@rong.moe>
+Subject: Re: [PATCH 4/4] hwmon: (witrn) Add monitoring support
+Message-ID: <202603291947.CoxzmTCo-lkp@intel.com>
+References: <20260327-b4-hwmon-witrn-v1-4-8d2f1896c045@rong.moe>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="5etpnf3qopr55utl"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260327-ad4692-multichannel-sar-adc-driver-v5-3-11f789de47b8@analog.com>
+In-Reply-To: <20260327-b4-hwmon-witrn-v1-4-8d2f1896c045@rong.moe>
 
+Hi Rong,
 
---5etpnf3qopr55utl
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Subject: Re: [PATCH v5 3/4] iio: adc: ad4691: add triggered buffer support
-MIME-Version: 1.0
+kernel test robot noticed the following build errors:
 
-On Fri, Mar 27, 2026 at 01:07:59PM +0200, Radu Sabau via B4 Relay wrote:
-> +static const char * const ad4691_gp_names[] = { "gp0", "gp1", "gp2", "gp3" };
-> +
-> +/*
-> + * Valid ACC_DEPTH values where the effective divisor equals the count.
-> + * From Table 13: ACC_DEPTH = 2^N yields right-shift = N, divisor = 2^N.
-> + */
-> +static const int ad4691_oversampling_ratios[] = { 1, 2, 4, 8, 16, 32 };
-> [...]
-> +static int ad4691_set_oversampling_ratio(struct iio_dev *indio_dev,
-> +					 const struct iio_chan_spec *chan,
-> +					 int osr)
-> +{
-> +	struct ad4691_state *st = iio_priv(indio_dev);
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(ad4691_oversampling_ratios); i++) {
-> +		if (ad4691_oversampling_ratios[i] != osr)
-> +			continue;
+[auto build test ERROR on 0138af2472dfdef0d56fc4697416eaa0ff2589bd]
 
-Given that ad4691_oversampling_ratios[i] is 1 << i; you can get rid of
-the loop using something like:
+url:    https://github.com/intel-lab-lkp/linux/commits/Rong-Zhang/hwmon-Add-label-support-for-64-bit-energy-attributes/20260329-030139
+base:   0138af2472dfdef0d56fc4697416eaa0ff2589bd
+patch link:    https://lore.kernel.org/r/20260327-b4-hwmon-witrn-v1-4-8d2f1896c045%40rong.moe
+patch subject: [PATCH 4/4] hwmon: (witrn) Add monitoring support
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20260329/202603291947.CoxzmTCo-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260329/202603291947.CoxzmTCo-lkp@intel.com/reproduce)
 
-	if (osr < 1 || osr > 32 || !is_power_of_2(osr))
-		return -EINVAL;
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603291947.CoxzmTCo-lkp@intel.com/
 
-	i = ilog2(osr);
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-> +
-> +		IIO_DEV_ACQUIRE_DIRECT_MODE(indio_dev, claim);
-> +		if (IIO_DEV_ACQUIRE_FAILED(claim))
-> +			return -EBUSY;
-> +
-> +		st->osr[chan->scan_index] = osr;
-> +		return regmap_write(st->regmap,
-> +				    AD4691_ACC_DEPTH_IN(chan->scan_index), osr);
-> +	}
-> +
-> +	return -EINVAL;
-> +}
+ERROR: modpost: "__udivdi3" [drivers/hwmon/hwmon-fp.ko] undefined!
+>> ERROR: modpost: "__divdi3" [drivers/hwmon/hwmon-fp.ko] undefined!
+ERROR: modpost: "__divdi3" [drivers/hwmon/witrn.ko] undefined!
 
-Best regards
-Uwe
-
---5etpnf3qopr55utl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmnI3RwACgkQj4D7WH0S
-/k6zzAf+J/7TqFHxQOCCHdUOD0oRn8btWZ2pH95is3fxAKrwDQtngFy3M4CULsCg
-GqYyEx+As2PJ1gq8S4Sy8jGMn7um3xjGe/WP82wePbJ1ZnYbfyiGFGRd8Ra5IgV2
-rujUIVQnvkbiwWnvg9IYUQmkwOl3aGa+dS13XzG9FO/9hrS/SnxaBdt+rKZrPTD3
-GTFcSRG2f8op0gwLh+7uUEOQbos+jI5DhXxujrs56oEJxatRLP/0EKmz6VRVUc1f
-8h38ZNXNJP1JlEwYK4HH3PiIF7zDC4i8VFqzph2t1rKkzGwueaUDi72C1HThYl/9
-1Nc/iQRpQneT8ikWVpjN8yWMsd5pCQ==
-=0mMc
------END PGP SIGNATURE-----
-
---5etpnf3qopr55utl--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
