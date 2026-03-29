@@ -1,346 +1,106 @@
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8BD32E7F3A;
-	Sun, 29 Mar 2026 21:48:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774820908; cv=pass; b=cDepJLQbHlO/n/x+ecXWDEVKeZPj77pBqlaS1tRSIlzEoeskeYghlVkJgkiYTfNcMYCFqwn9dcwh3phl1koqjkV3U6MlgoBLw6/h7OGHx6+9CmsStmDb2ntfpHrE+qufLysa6NQlwjHBNneMhfKY/YSa3UYJfH45OWHoqtip4/0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774820908; c=relaxed/simple;
-	bh=d8R6/4dVbOCXRByIKijW4Y1+CW+caYPnKNTIzEgiDKI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=olUTAfD/mRWbEZmNff+vr22poIlq4Y6wCJmKzHXy4P4LDJ71AYd7OmT+RUKuoh/ITNlYDF+UqFByFBOWE2zprdwjKXTtP3sgf1r0PYB9MIEpDtv8CHV+xICsmUyI9NAFI+AMmVBrbu4eQEohVMARfNjw626WGErSEAy0USvPa8A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com; spf=pass smtp.mailfrom=ritovision.com; dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b=OSOVVAFu; arc=pass smtp.client-ip=136.143.188.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ritovision.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E114130F92D
+	for <linux-doc@vger.kernel.org>; Sun, 29 Mar 2026 22:57:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774825078; cv=none; b=aK7o8FIBeR1N1wvkH+yUuTZ1jcztDbYE3ltPVjCrkC/h11AQMNLsLX/MkmnxL7NW77bAgfKC7NqSO4krRhGRLXROluxO0Mn8H3Hf6gHVn+O9SQBTO9fuCdkx13wobw+tR6cUuhP6vohYnBh1kiIcypO6xuu9sVRQIVqYW6N8zEM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774825078; c=relaxed/simple;
+	bh=DkXLUmcpu+vp7QMomsKqeu+nj8dpLA67HJln8CiZhFw=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jTUPSYXjDxTE+iYT7E7TuivyqGKL1KCBE4x5DP460wRima+a9UiLwfV/fVmWnflBZCGss35KJ9TUh0V5Es6dHbEbaU6ZVGhTqAzeFjAo9SoMmYRqjXml68MdTlyIq1HEiavMMui8CotNDahJ9aeL/71c5hWYxzRqBDxl/wvtORo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=code406.com; spf=pass smtp.mailfrom=code406.com; dkim=pass (1024-bit key) header.d=code406.com header.i=@code406.com header.b=Fbh9/3k5; arc=none smtp.client-ip=74.125.82.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=code406.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=code406.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b="OSOVVAFu"
-ARC-Seal: i=1; a=rsa-sha256; t=1774820903; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=R8kN6S8Afh6PaTWFNpfJDC0F4ApVR3nwHvVIJmnP6Ly/f8vBVhZfHm4/qA5OHt9btCFpfN9Pemt09Us89m5zExRopygGd3pivjCATwwLwUVlLCKHyIieu8lC0oUtPxNcI1wQgdgPBzv3j+yeEaAnOUeIhWr1zklLCCEtvJ+E90Y=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1774820903; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=+ZA4/u6ZrfwuWP2Ph9ju9tOMYFUf5iL/rIFqbjWwC90=; 
-	b=RZmfhfYoGUusFT6Go0czbkuS1vlooW10y9Zf190eBmErRisuIIPSJuQKTh+xuD81Sezj7LbnLE2wEVCrAUrN4BcZntfI7agpQNAIvQJgWPf9oOpvKtrWq5F7CVLExPpwBtlTxU5/jK3oKpacClFTzyqXHB+CLVVgaCz+MRGMpfU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=ritovision.com;
-	spf=pass  smtp.mailfrom=rito@ritovision.com;
-	dmarc=pass header.from=<rito@ritovision.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774820903;
-	s=zmail; d=ritovision.com; i=rito@ritovision.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=+ZA4/u6ZrfwuWP2Ph9ju9tOMYFUf5iL/rIFqbjWwC90=;
-	b=OSOVVAFuY5pQ/QdYDOXi3eMLSdNlls4A/CPWuUF1OdnMzx5+t6KeUx7ppB7SHn7j
-	KYMHMVnvtYVppW81L31Om9Cj43HXKdba3R8S+sr8WDZOt+5dvOAotPnRMAosr8n3fu9
-	p5WWqpuy9VgPE0iSVgfcPss/XskhzNXXsde2DYZY=
-Received: by mx.zohomail.com with SMTPS id 1774820900903460.598804283806;
-	Sun, 29 Mar 2026 14:48:20 -0700 (PDT)
-From: Rito Rhymes <rito@ritovision.com>
-To: corbet@lwn.net,
-	skhan@linuxfoundation.org
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Rito Rhymes <rito@ritovision.com>
-Subject: [PATCH] docs: add copy buttons for code blocks
-Date: Sun, 29 Mar 2026 17:48:16 -0400
-Message-ID: <20260329214816.10553-1-rito@ritovision.com>
-X-Mailer: git-send-email 2.51.0
+	dkim=pass (1024-bit key) header.d=code406.com header.i=@code406.com header.b="Fbh9/3k5"
+Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-12732e6a123so1807214c88.1
+        for <linux-doc@vger.kernel.org>; Sun, 29 Mar 2026 15:57:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=code406.com; s=google; t=1774825076; x=1775429876; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=EmjkZkbbVjjgaCUxuu5+nE0xjPd5gN1qT4GlMrecGi4=;
+        b=Fbh9/3k5YE4y04oqhexqsWQeQ2Y6SKUKF3WuZwp0/6sj4phYuWiRBU/C08fCMQ2EHr
+         BTyUJU8glTj+XLWy4pSTzGR2CL+smGXsOx1wY2z0jpGncGQmq+hfW8XyZbnfVMVXViUl
+         GswqzKhrEh+7vquNe+fGCoklacbwOR0ccnIpI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774825076; x=1775429876;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EmjkZkbbVjjgaCUxuu5+nE0xjPd5gN1qT4GlMrecGi4=;
+        b=oeDCZfVNBbrAlldd7ESosmrYHngm0OIGfTazzNtjz3Udx58hyV5747b+z+Vzju8JjE
+         +79f815+6qvjgaAzxtG6PvTPEAz3OLxsYxSXodfV1rsRU+c+EP8P9+HL0IwTxaDxMkUu
+         3XkdmEScfIxPy1Aj/ZibyDQwZ4oubjrlFbEbXLUZ9DB62kesvgiOrhqbXNSLQmFEwtv8
+         8UnoOxx8VeyK1oOLBJaCQOV25KOD/IgRmpiVHUkkRFsNut56xNIjdRTBkx8k5Q5vdOEs
+         e4hLNQGRyXLsUKmASRSG2IOKzPIOXt5n9xs9oM+2DFnuMcZOEinHCEQAg+zThN/UooK6
+         PwLA==
+X-Forwarded-Encrypted: i=1; AJvYcCUI/60pFSdSg2PYdisgf/2G9gz1MR1qOhTCxrv6VOh06ghaZwisbIIr6C9CizjiAxNjuQ81OkryZuo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyNCVtBHo2hhFYslObZqZ9sTrrnYz4c5frrKQ8aQiNuPq+69rqn
+	szbEB+TBEBBhz1prIr5qekteViIkJ5cIaGLKcJh9T8ctVVnnva8NbssTHZorbHqzBA==
+X-Gm-Gg: ATEYQzygjIGe0R8HBAiVJAi8a8X3I5nCupPHu1CA//RmQjWzgWqGYMKjayhzY1Ly6yY
+	loVvCEFFOJ6SLgSCm6jl3vpx9yVro8sNrdPtWjnOnOP2SEv8YOFxOFroSL0ZnDFIujRSNqSzyIo
+	+YPd8X1gpGiecPRZ3GReu2Npd9IRLSt35WoOrdvRXO2Q4YkOoGSdaQ3WMmLMCDdFYQ6c9D9Ean9
+	8bXdgwSFb27g7osrlcwfOa9t8Q0mbZJhb4MxLHl0En9GgwyUp2PVhYPg1a+Ex2CS9HV0F2XiDs1
+	gtDF4OLg0A8e0fQQxr18NJVVJuj4vlLL06VK0ngFMgpFRJ/i2vQoVJEszqTFgS1quoW6spTN+/m
+	+6tAxgVN4/DSCHYU7OWQHbuKDsXiyt5ti1GGX+LxHQMf+fdTNRneWs5GXO5XUB0rZ35bQ25j6mx
+	Az48Bjlh7fNGcFIkIl8dV5WEcVdfEf/TsHDRmWjw+0wRzvVeZdNZge580e4HVxSki/6kWwLvjYw
+	vtT4x1N/mhaYNzzxDxlsfBNgD8P
+X-Received: by 2002:a05:7022:2209:b0:11d:f89d:85a0 with SMTP id a92af1059eb24-12ab2912740mr5861569c88.27.1774825075962;
+        Sun, 29 Mar 2026 15:57:55 -0700 (PDT)
+Received: from ubuntu ([2601:645:8a00:6e44:958e:90e9:e30b:7ecc])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12ab970da7fsm6096026c88.0.2026.03.29.15.57.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 29 Mar 2026 15:57:55 -0700 (PDT)
+From: Josh Snyder <josh@code406.com>
+X-Google-Original-From: Josh Snyder <josh@cod406.com>
+Date: Sun, 29 Mar 2026 15:57:51 -0700
+To: Ross Philipson <ross.philipson@oracle.com>
+Cc: linux-kernel@vger.kernel.org, x86@kernel.org, 
+	linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org, linux-crypto@vger.kernel.org, 
+	kexec@lists.infradead.org, linux-efi@vger.kernel.org, iommu@lists.linux.dev, 
+	dpsmith@apertussolutions.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	hpa@zytor.com, dave.hansen@linux.intel.com, ardb@kernel.org, 
+	mjg59@srcf.ucam.org, James.Bottomley@hansenpartnership.com, peterhuewe@gmx.de, 
+	jarkko@kernel.org, jgg@ziepe.ca, luto@amacapital.net, nivedita@alum.mit.edu, 
+	herbert@gondor.apana.org.au, davem@davemloft.net, corbet@lwn.net, ebiederm@xmission.com, 
+	dwmw2@infradead.org, baolu.lu@linux.intel.com, kanth.ghatraju@oracle.com, 
+	andrew.cooper3@citrix.com, trenchboot-devel@googlegroups.com
+Subject: Re: [PATCH v15 08/28] tpm/tpm_tis: Close all localities
+Message-ID: <v2l4v5imh2lmsayevxz3palyjeglpxo3qu475gjpchitgfzil2@l24ax4vevjp7>
+References: <20251215233316.1076248-1-ross.philipson@oracle.com>
+ <20251215233316.1076248-9-ross.philipson@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251215233316.1076248-9-ross.philipson@oracle.com>
 
-Add a copy button to highlighted code blocks in the documentation
-that copies the full contents of the code block to the clipboard.
+On Mon, Dec 15, 2025 at 03:32:56PM -0800, Ross Philipson wrote:
+> From: "Daniel P. Smith" <dpsmith@apertussolutions.com>
+> +		if (check_locality(chip, i))
+> +			tpm_tis_relinquish_locality(chip, i);
 
-This is faster and less error-prone than manually selecting and
-copying code from the page, especially for longer examples where
-part of the block can be accidentally missed.
+When I applied this patch locally, tpm_chip's locality_count underflowed to -1
+and no IO was performed. That is because tpm_tis_relinquish_locality is
+implemented like so:
 
-Keep the control hidden until the user interacts with the block so
-it stays out of the way during normal reading. Reveal it on hover,
-focus, and touch interaction, then copy the block contents to the
-clipboard with a small success or failure state.
+  struct tpm_tis_data *priv = dev_get_drvdata(&chip->dev);
 
-Signed-off-by: Rito Rhymes <rito@ritovision.com>
-Assisted-by: Codex:GPT-5.4
-Assisted-by: Claude Opus 4.6
----
-Live demo:
-https://kernel-docs-cp.ritovision.com/accounting/delay-accounting.html
+  mutex_lock(&priv->locality_count_mutex);
+  priv->locality_count--;
+  if (priv->locality_count == 0)
+	  __tpm_tis_relinquish_locality(priv, l);
 
-I am willing to maintain this small feature and handle follow-up
-fixes if problems come up. I do not expect it to expand
-significantly beyond its current scope.
+I was able to work around the issue by calling __tpm_tis_relinquish_locality
+instead.
 
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 679861503..ac63a3448 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -376,6 +376,7 @@ highlight_language = "none"
- # Default theme
- html_theme = "alabaster"
- html_css_files = []
-+html_js_files = ["copy-code.js"]
- 
- if "DOCS_THEME" in os.environ:
-     html_theme = os.environ["DOCS_THEME"]
-diff --git a/Documentation/sphinx-static/copy-code.js b/Documentation/sphinx-static/copy-code.js
-new file mode 100644
-index 000000000..2684e9855
---- /dev/null
-+++ b/Documentation/sphinx-static/copy-code.js
-@@ -0,0 +1,147 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+(function () {
-+    const BUTTON_LABEL = "Copy code";
-+    const COPIED_LABEL = "Copied";
-+    const FAILED_LABEL = "Copy failed";
-+    const RESET_DELAY_MS = 2000;
-+
-+    const COPY_ICON = `
-+        <svg viewBox="0 0 24 24" aria-hidden="true" fill="none"
-+             stroke="currentColor" stroke-width="2"
-+             stroke-linecap="round" stroke-linejoin="round">
-+            <g transform="translate(24 0) scale(-1 1)">
-+                <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
-+                <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
-+            </g>
-+        </svg>`;
-+
-+    const COPIED_ICON = '<span aria-hidden="true">✓</span>';
-+    const FAILED_ICON = '<span aria-hidden="true">×</span>';
-+
-+    function resetButtonState(button, status) {
-+        button.dataset.copyState = "idle";
-+        button.setAttribute("aria-label", BUTTON_LABEL);
-+        button.setAttribute("title", BUTTON_LABEL);
-+        button.innerHTML = COPY_ICON;
-+        status.textContent = "";
-+    }
-+
-+    function setButtonState(button, status, state, label, icon) {
-+        button.dataset.copyState = state;
-+        button.setAttribute("aria-label", label);
-+        button.setAttribute("title", label);
-+        button.innerHTML = icon;
-+        status.textContent = label;
-+
-+        if (button.resetTimer) {
-+            window.clearTimeout(button.resetTimer);
-+        }
-+
-+        button.resetTimer = window.setTimeout(function () {
-+            resetButtonState(button, status);
-+        }, RESET_DELAY_MS);
-+    }
-+
-+    async function copyText(text) {
-+        if (navigator.clipboard && navigator.clipboard.writeText) {
-+            try {
-+                await navigator.clipboard.writeText(text);
-+                return true;
-+            } catch (error) {
-+                /* Fall back to execCommand below. */
-+            }
-+        }
-+
-+        /* Fall back for browsers where the async clipboard API is unavailable. */
-+        const textarea = document.createElement("textarea");
-+        textarea.value = text;
-+        textarea.setAttribute("readonly", "");
-+        textarea.style.position = "fixed";
-+        textarea.style.left = "-9999px";
-+        document.body.appendChild(textarea);
-+        textarea.select();
-+
-+        try {
-+            return document.execCommand("copy");
-+        } catch (error) {
-+            return false;
-+        } finally {
-+            document.body.removeChild(textarea);
-+        }
-+    }
-+
-+    function hideVisibleButtons(exceptWrapper) {
-+        document
-+            .querySelectorAll("div.highlight.kernel-copy-visible")
-+            .forEach(function (wrapper) {
-+                if (wrapper !== exceptWrapper) {
-+                    wrapper.classList.remove("kernel-copy-visible");
-+                }
-+            });
-+    }
-+
-+    function addCopyButton(wrapper) {
-+        const pre = wrapper.querySelector("pre");
-+
-+        if (!pre || wrapper.querySelector(":scope > button.kernel-copy-button")) {
-+            return;
-+        }
-+
-+        const button = document.createElement("button");
-+        const status = document.createElement("span");
-+
-+        button.className = "kernel-copy-button";
-+        button.type = "button";
-+        button.innerHTML = COPY_ICON;
-+        resetButtonState(button, status);
-+
-+        status.className = "kernel-visually-hidden";
-+        status.setAttribute("aria-live", "polite");
-+        status.setAttribute("aria-atomic", "true");
-+
-+        button.addEventListener("click", async function () {
-+            const ok = await copyText(pre.textContent || "");
-+
-+            if (ok) {
-+                setButtonState(button, status, "copied", COPIED_LABEL, COPIED_ICON);
-+            } else {
-+                setButtonState(button, status, "error", FAILED_LABEL, FAILED_ICON);
-+            }
-+        });
-+
-+        wrapper.appendChild(button);
-+        wrapper.appendChild(status);
-+        wrapper.classList.add("kernel-copy-block");
-+    }
-+
-+    function initCopyButtons() {
-+        document.querySelectorAll("div.highlight").forEach(addCopyButton);
-+
-+        document.addEventListener("pointerdown", function (event) {
-+            /* Hover already handles mouse users; this is for touch-style reveal. */
-+            if (event.pointerType === "mouse") {
-+                return;
-+            }
-+
-+            const wrapper = event.target.closest("div.highlight.kernel-copy-block");
-+            hideVisibleButtons(wrapper);
-+
-+            if (wrapper) {
-+                wrapper.classList.add("kernel-copy-visible");
-+            }
-+        });
-+
-+        document.addEventListener("keydown", function (event) {
-+            if (event.key === "Escape") {
-+                hideVisibleButtons(null);
-+            }
-+        });
-+    }
-+
-+    if (document.readyState === "loading") {
-+        document.addEventListener("DOMContentLoaded", initCopyButtons, { once: true });
-+    } else {
-+        initCopyButtons();
-+    }
-+})();
-diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
-index db24f4344..57c6d5327 100644
---- a/Documentation/sphinx-static/custom.css
-+++ b/Documentation/sphinx-static/custom.css
-@@ -169,3 +169,76 @@ a.manpage {
- 	font-weight: bold;
- 	font-family: "Courier New", Courier, monospace;
- }
-+
-+/* Copy button for code blocks */
-+/* Anchor the copy button to the highlighted code block. */
-+div.highlight {
-+    position: relative;
-+}
-+
-+/* Hide the control until interaction so it stays out of the way and
-+ * cannot be clicked while invisible.
-+ */
-+button.kernel-copy-button {
-+    align-items: center;
-+    background: #fafafa;
-+    border: 1px solid #cccccc;
-+    border-radius: 4px;
-+    color: #333333;
-+    cursor: pointer;
-+    display: inline-flex;
-+    height: 2rem;
-+    justify-content: center;
-+    opacity: 0;
-+    padding: 0;
-+    pointer-events: none;
-+    position: absolute;
-+    right: 0.5rem;
-+    top: 0.5rem;
-+    transition: opacity 0.12s ease-in-out, color 0.12s ease-in-out,
-+                border-color 0.12s ease-in-out,
-+                background-color 0.12s ease-in-out;
-+    width: 2rem;
-+    z-index: 1;
-+}
-+
-+/* Reveal on hover/focus, or when JS marks the block visible for touch. */
-+div.highlight:hover > button.kernel-copy-button,
-+div.highlight:focus-within > button.kernel-copy-button,
-+div.highlight.kernel-copy-visible > button.kernel-copy-button {
-+    opacity: 1;
-+    pointer-events: auto;
-+}
-+
-+button.kernel-copy-button:hover,
-+button.kernel-copy-button:focus-visible {
-+    background: #eeeeee;
-+    border-color: #cccccc;
-+    color: #333333;
-+}
-+
-+button.kernel-copy-button svg {
-+    height: 1rem;
-+    width: 1rem;
-+}
-+
-+button.kernel-copy-button span {
-+    font-size: 1.2rem;
-+    font-weight: bold;
-+    line-height: 1;
-+}
-+
-+/* Keep live status text available to assistive technology without
-+ * showing it visually.
-+ */
-+.kernel-visually-hidden {
-+    border: 0;
-+    clip: rect(0 0 0 0);
-+    height: 1px;
-+    margin: -1px;
-+    overflow: hidden;
-+    padding: 0;
-+    position: absolute;
-+    white-space: nowrap;
-+    width: 1px;
-+}
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 96ea84948..84b0cdd39 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7652,6 +7652,12 @@ X:	Documentation/power/
- X:	Documentation/spi/
- X:	Documentation/userspace-api/media/
- 
-+DOCUMENTATION COPY CODE BUTTON
-+R:	Rito Rhymes <rito@ritovision.com>
-+L:	linux-doc@vger.kernel.org
-+S:	Supported
-+F:	Documentation/sphinx-static/copy-code.js
-+
- DOCUMENTATION PROCESS
- M:	Jonathan Corbet <corbet@lwn.net>
- R:	Shuah Khan <skhan@linuxfoundation.org>
--- 
-2.51.0
-
+Thanks,
+Josh
