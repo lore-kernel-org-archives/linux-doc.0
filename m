@@ -1,123 +1,128 @@
-Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECF1A2874E3
-	for <linux-doc@vger.kernel.org>; Sun, 29 Mar 2026 17:21:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.161.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774804913; cv=pass; b=EqQ8yCeKhCJgz2qpC2on9wVLxPY76+Ez1NVEE7d/74nUV5UtDZBIxmNWToDYI+h9BgQh+sWMB0ByqRCR7hFEonjr18I0YcYvi1B4CxhnPSq7wCbteyvTasP/Isb4fWr9M4xqI6diJ10AqzLF1lUQq4LvNJxVMZGvaMvxNz3eY6g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774804913; c=relaxed/simple;
-	bh=4Pumdozvsyi9KvTfAByTcnF+TKEeR3p1fRX/av2CKYk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=F9dGHFPE+NlctJco0xXCXlmJMNdV5kn+dhci/NX9RysneaUyTUW6E0CLrApbbL3tbxcFqbM14Jla9Sy6QNNDE8hXA1mJAcAl8RAvaKzFLQzRnnlSczlFpudLYdE9VZVl7H/oIZRa3I5pgmyYfxd9Xlc4lAdhzj9/EmM4bGVF3LQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d4yfflk8; arc=pass smtp.client-ip=209.85.161.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 649591DF755;
+	Sun, 29 Mar 2026 17:27:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774805245; cv=none; b=pC9rOVsQQ2xBPTU8xMHG6Ew4kXSG5oa6jPb0hK0bivB/4BFwX/fl3JPRuCLMDbnCId5IdW5Ug8QOct6gLDd/yn6ct3gsz6Kkbgy92g5PaFTwuRChfwhTdTfmIQIfIVfQ+x4b0WFIQJaimEitxqAspx6NThi+pZKzcdDfNcJ71qA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774805245; c=relaxed/simple;
+	bh=oRo9AfWD0ibf1zkOrI0Ku+/mzW8yApTc/cIMV3R1Alk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RJ/OYCsV12pfARYDSVfNrGWE2mnM+zNWcfY8efnvSNWAtUWHURG/zWrSRSMoImw3PRp1kl6aI46e/iwgrUYC+/+u0A6jRLg33tswuTBEPD1mCJSnh0fKNrbktJN9uRoy350o4A6iLFCWkIkb0kBEag573m2Bdek2nqmQxUvEXhM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mQPJH8Lc; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d4yfflk8"
-Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-67bb19ac35aso2692059eaf.1
-        for <linux-doc@vger.kernel.org>; Sun, 29 Mar 2026 10:21:51 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774804911; cv=none;
-        d=google.com; s=arc-20240605;
-        b=XwnhkheRRZ0PoCeCT5jUBv9N2d80Rz/OU/JFfmR9ReGV+aSyTa4Oe//pHSYxLRQTZb
-         WiG4DCwdDBNTrgpkEtijwbt+FQKKGhcm7OJoYzQnzyi38Dog3UJRwqo420bgXnJZ6Ia9
-         DqurXn5RN2ACbCNjVxGXQ0/IH4pp3mvAmjbQ0gGWviv4+y54XDwkn3Kp2hxlq0sfQW+/
-         sWQ3zNDE+U02R7iIKycwTcCcZyIPIJUgJc4sb8JgRbKyW8gujeS9R/tS8HfjJZVzJpLQ
-         Km7GjJD6VqFKkmO5L1TywNk0qjr6BHDKj4Dxe4rQB8F2lk0ZSLuh00kk9bQEM22XDWgZ
-         K6gw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=4Pumdozvsyi9KvTfAByTcnF+TKEeR3p1fRX/av2CKYk=;
-        fh=f+XCR+tSZBaSdQuaEfeto/v6pqDFUv7J8tOlS38xRzg=;
-        b=gC4bgFMhQXNAJo3ZBw02Trivyi3ljPiZUr2/2YMZzPqOuDobB/Zh81dh1A4Jv0liyM
-         SMX4wJBQprylK50Qcf4iHvh2elckEYpelJ90sCs66de4zVN99B25fivVNM0JzIud6nGp
-         ZjVEBzY1eKZvGpfg5chww0J2LcWqWCFAsBcxB4jfiFqNQrTZvCyfPE6F3ZMR27TINW0K
-         YMONjqWlC8slR9DmZMtGzjmVzFvvNqW2PYi5TeZbqCOIJIOvCcN4LAGr44Is3nau0KBc
-         +Odsg5b8R8/g2P4f+vEHWK9bRh0q6EjDEW3uojakW2DOgl44vZPsPqIKxPY/OEEO7pG3
-         uKKw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774804911; x=1775409711; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4Pumdozvsyi9KvTfAByTcnF+TKEeR3p1fRX/av2CKYk=;
-        b=d4yfflk8KlMmP0kW/a4FxAnDdwuDqJ5mowKy/BHhakfSdpuippEhX9p+4XbnxeT4wC
-         x5pHweAsfoaDlT48WbUcIvgF11o9HrMZ1RmNDRwcZhK8rXGNpyg8Z8KqeZAuHYUrhVmW
-         Axc2CluZsQL6h568yrOUFrmH6p1ona3k9ZgayFgBDBZcxrHEwaMzgDMSFkgLJCST4jE2
-         zl3a2vo60iQgFMjRAgLmZJxoNSPfUs1sTzng6KmRx0Lv55FD5gkr2T9xb8hIPY4FPwdA
-         asBw3hLrYzhrjNjalZvnN6ZLDQeBX5za6BhRSF9n0dimHMeQAprKeHcTa9YnzE1fq+9l
-         8hxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774804911; x=1775409711;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=4Pumdozvsyi9KvTfAByTcnF+TKEeR3p1fRX/av2CKYk=;
-        b=MpmbigrSCONTYIzGHvfLNQ7C0JwRvaM4W2aqp6PYwYCg99/ZnjtDTBbJBmju4Rs+wX
-         9vXrPuBw7AK7KXqWJV8UNWw3YOml+rHpfTpEgajmLJR9TpjjHnpEa/DukeBJDJu1TYlV
-         ZfpduvJ+DyPsTxINbfbWQOilu3XplQ4vDqfL1//mJjcGV2+tddmyAU1disjfFVlmGoRM
-         yPWaqFcUiyq0Ra36awQ3+2kTlcGKu3vkFmr8TCCTwqt5MMRai1K3FO/78FSmb/gAqQL6
-         celWj1OswwNmgXYqkz2TtsfKD2ZF+YSd8IO/+ip7xlYpx6DpPtcipLLWhZ4CP2kCtJxG
-         +d4Q==
-X-Forwarded-Encrypted: i=1; AJvYcCW+TaVOk4fW0dpy/pBBTfYyqb7X2t74xlI/G+5N2ptrEEvUrjx+NX84yCd++sEQIlSjs4lHheXivyQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywv4mZfZ8glUMtHOJ/zgGYAeeGqddhlzVFUQFuEFfhN2ewH1Vpt
-	8HKWLmqGs4sENCugtJKMGCmWyDH0D5zPG9ssyDIGAAR4K+65Xikz7rShBJ/KTdE/5mlcHl2pCKQ
-	Uda5ugoOkTRvMcf5slkHjsu44Cpet1cM=
-X-Gm-Gg: ATEYQzyJqXF4n1G5VPYO1a2zxD1Yo2GA4qCFBLTWVTx7hBDn8rgvMWJAvBBGHDTZZGs
-	/Fg8JGWM9OO3tjF9YYlVGLLAyefOYy9PxMPyCLVHwbTaLDusrGYnovumn8+VkfSOXIKtcS0g+OC
-	4Zu3xGhrz9FHo7xmS+yJ6R2PB6CW5DXMokUbvaYrlLw9kRLLqmQw8kOaVGgMCk89L+OHflwB9Bz
-	b3o2G+dkdIVKZ9gwkiCbFfucp4S+V8acQ+BZwxZd2UgL4ANQBFfz9M+anqVZOscacDXEozV5PuY
-	os3tpllceLr0yK3tMjSWAcwcHuRNGCvB1CGY2YlcAcF+FzFj8GR816r3SqGU+FGyfl/lGPs=
-X-Received: by 2002:a05:6820:4de4:b0:67e:2c9b:54f7 with SMTP id
- 006d021491bc7-67e2c9b5ce9mr1564285eaf.33.1774804910698; Sun, 29 Mar 2026
- 10:21:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mQPJH8Lc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774805244; x=1806341244;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=oRo9AfWD0ibf1zkOrI0Ku+/mzW8yApTc/cIMV3R1Alk=;
+  b=mQPJH8LcovFKr24whCfLGae7jISzXzJAVO1kO6xAF4vLhr1//GEq8/us
+   tN03hmQIVX3j0u4zI/rm/6G2BL/LFi7yJVkEqatlgMx1yH6doPQTd/IKy
+   kztDJOHyzkmOApEwioFaSKkuqvGzeHc5jtts/TRt4VyAEe0qdvVAddKOx
+   GFEnDfinP3uDPp0YiM4QyGUEC1u8+XHbPDI8M6Rz8wyZe1SV6zjPmofDC
+   lfBoa3JimzL5MKTrVGWX+/6kRXSndqT2UBIEOJFiOejm/qH5lZbE08wdA
+   KBKcSmy0hJJpqDHReZ5lqdBvzBoqlrBqheExpMX9y+Yx46yaE4DXcsxqR
+   Q==;
+X-CSE-ConnectionGUID: naKGGsHmTZCLeDExmqRU5w==
+X-CSE-MsgGUID: 9C5CMSOjQi6swYAlnLn5rg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11743"; a="78404906"
+X-IronPort-AV: E=Sophos;i="6.23,148,1770624000"; 
+   d="scan'208";a="78404906"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2026 10:27:24 -0700
+X-CSE-ConnectionGUID: xIstTLZTSVK5nsGGqHCrVA==
+X-CSE-MsgGUID: qIyfDA3HRYWSkvZBpAJ9bg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,148,1770624000"; 
+   d="scan'208";a="256342706"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa002.jf.intel.com with ESMTP; 29 Mar 2026 10:27:20 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w6tuu-000000007wf-2i8K;
+	Sun, 29 Mar 2026 17:27:16 +0000
+Date: Sun, 29 Mar 2026 19:26:20 +0200
+From: kernel test robot <lkp@intel.com>
+To: Andy Roulin <aroulin@nvidia.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, bridge@lists.linux.dev,
+	Nikolay Aleksandrov <razor@blackwall.org>,
+	Ido Schimmel <idosch@nvidia.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Petr Machata <petrm@nvidia.com>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Jonas Gorski <jonas.gorski@gmail.com>, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Andy Roulin <aroulin@nvidia.com>
+Subject: Re: [PATCH net-next v2 1/3] net: bridge: add stp_mode attribute for
+ STP mode selection
+Message-ID: <202603291905.TUiTIocs-lkp@intel.com>
+References: <20260329025858.330620-2-aroulin@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260327181755.58540-1-arantescastro@gmail.com>
-In-Reply-To: <20260327181755.58540-1-arantescastro@gmail.com>
-From: Daniel Pereira <danielmaraboo@gmail.com>
-Date: Sun, 29 Mar 2026 14:21:38 -0300
-X-Gm-Features: AQROBzDzOHzzQU_4tz3PLxl1vgtGqiXhctbxcCfWpP_OHUsCPtK_8myDovuS2lw
-Message-ID: <CAMAsx6f7c49s1F3BoRK5rj8X49k8Y3Av4ybsoFOrVxmQ89GGwA@mail.gmail.com>
-Subject: Re: [PATCH] docs: pt_BR: translate process/2.Process.rst
-To: Daniel Castro <arantescastro@gmail.com>
-Cc: corbet@lwn.net, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260329025858.330620-2-aroulin@nvidia.com>
 
-HI Daniel.
+Hi Andy,
 
-> +Segue-se um procedimento relativamente simples quanto =C3=A0 integra=C3=
-=A7=C3=A3o de
-> +patches para cada lan=C3=A7amento. No in=C3=ADcio de cada ciclo de desen=
-volvimento, a
-> +janela de fus=C3=A3o ("merge window") =C3=A9 considerada aberta. Nesse m=
-omento, o c=C3=B3digo
-> +que =C3=A9 considerado suficientemente est=C3=A1vel (e que =C3=A9 aceito=
- pela comunidade de
-> +desenvolvimento) =C3=A9 integrado ao kernel principal. A maior parte das
-> +altera=C3=A7=C3=B5es para
-> +um novo ciclo de desenvolvimento (e todas as principais altera=C3=A7=C3=
-=B5es) ser=C3=A1
-> +integrada durante esse per=C3=ADodo, a uma taxa pr=C3=B3xima de 1.000 al=
-tera=C3=A7=C3=B5es
-> +("patches" ou "conjuntos de altera=C3=A7=C3=B5es") por dia.
+kernel test robot noticed the following build errors:
 
+[auto build test ERROR on net-next/main]
 
-> +(Vale observar que as altera=C3=A7=C3=B5es integradas durante a
-> +janela de merge n=C3=A3o surgem do nada; elas foram coletadas, testadas =
-e
-> +preparadas com
-> +anteced=C3=AAncia. O funcionamento desse processo ser=C3=A1 descrito em =
-detalhes mais
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Roulin/net-bridge-add-stp_mode-attribute-for-STP-mode-selection/20260329-191152
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20260329025858.330620-2-aroulin%40nvidia.com
+patch subject: [PATCH net-next v2 1/3] net: bridge: add stp_mode attribute for STP mode selection
+config: s390-allnoconfig-bpf (https://download.01.org/0day-ci/archive/20260329/202603291905.TUiTIocs-lkp@intel.com/config)
+compiler: s390x-linux-gnu-gcc (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260329/202603291905.TUiTIocs-lkp@intel.com/reproduce)
 
- I noticed there are some stray line breaks that don't follow the
-pattern of the others. Is there a specific reason for this?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603291905.TUiTIocs-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+   In file included from rt-link-user.c:9:
+>> rt-link-user.h:38:42: warning: 'enum rt_link_br_stp_mode' declared inside parameter list will not be visible outside of this definition or declaration
+      38 | const char *rt_link_br_stp_mode_str(enum rt_link_br_stp_mode value);
+         |                                          ^~~~~~~~~~~~~~~~~~~
+>> rt-link-user.h:245:34: error: field 'stp_mode' has incomplete type
+     245 |         enum rt_link_br_stp_mode stp_mode;
+         |                                  ^~~~~~~~
+>> rt-link-user.h:2164:80: error: parameter 2 ('stp_mode') has incomplete type
+    2164 |                                                       enum rt_link_br_stp_mode stp_mode)
+         |                                                       ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
+   rt-link-user.h:6234:85: error: parameter 2 ('stp_mode') has incomplete type
+    6234 |                                                            enum rt_link_br_stp_mode stp_mode)
+         |                                                            ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
+   rt-link-user.h:10089:80: error: parameter 2 ('stp_mode') has incomplete type
+   10089 |                                                       enum rt_link_br_stp_mode stp_mode)
+         |                                                       ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
+>> rt-link-user.c:352:62: error: parameter 1 ('value') has incomplete type
+     352 | const char *rt_link_br_stp_mode_str(enum rt_link_br_stp_mode value)
+         |                                     ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+   rt-link-user.c: In function 'rt_link_br_stp_mode_str':
+>> rt-link-user.c:357:1: warning: control reaches end of non-void function [-Wreturn-type]
+     357 | }
+         | ^
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
