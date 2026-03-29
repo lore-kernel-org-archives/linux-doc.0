@@ -1,54 +1,59 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCEA0225775;
-	Sun, 29 Mar 2026 16:31:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E5C336EA8F;
+	Sun, 29 Mar 2026 16:34:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774801863; cv=none; b=c+4MYbYxlLInE+iXWMzmQppwtao84cuon9G9ycHLKoxT9Mcw5OK05f2xJZSzNazkJlSagcDtJTe/7Z+dWIbLFHj2GwlEv8+hDXgQnfr9Dm9x2lSbYRfvWJrhWMfwsSrLajFixp6YAcc4gsDK5x4BvtL3QpJucZq5QoBPsJPCBUg=
+	t=1774802062; cv=none; b=FEEjy4mxjG8PwcXOl18U/47itHMJJc4LyXIJdkKB74NoxbJDqDOfCMRY3qN7DGBOFHn0+W+r/1FrUIStyT4dXL/Q734NMCxUlIOZ6jmaUWtXikudFlND8ehvdxXyqBWyYwgAzmjSiLG/oHdTUpYgELBuxQJpqzi0JNcz/9eK3Lc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774801863; c=relaxed/simple;
-	bh=jfomB9Uz3yQOLGJFFYlU4E/h6qSYhn0UQnLbpdiUXjE=;
+	s=arc-20240116; t=1774802062; c=relaxed/simple;
+	bh=Ag7HfN/sgVc3bbbOya8yLcKEKW6cVwh7BkFYxrWVnNE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mAi6M4si8C/rE8wn0c3XMIHnoPz2y3aZb0+4B/m4V1QEIBLr0SLTxaNUa9AWoHN9me6yyZMcw15WkH8/CBkCSCrPdETwcTIiQ1dmWf/rO3KmAyX/OkE+J/CavOJ2QZGl74glu9DiTl0Ni+Di2TM9FyOoz/0qyunbbNsyX4rgXDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dHG7ShdT; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=gMVL3AkeZ6fclIPs8gOIcBdb83Yu79S+WwW2FxIgwkEyYmLDBjO6jEgkhxPbG+XTfaG3KgoAtdOvlWdIvA5I/6bwJ6/6S7lxwobuKQwxXx7lP69QQBUkQ+XCM59Pb27BBOsAoOYjoq2i8u7jMlSZT5A6u/b3+U6Dqd7bqHBatvI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=KF6yt0JD; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dHG7ShdT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AD00C116C6;
-	Sun, 29 Mar 2026 16:31:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774801863;
-	bh=jfomB9Uz3yQOLGJFFYlU4E/h6qSYhn0UQnLbpdiUXjE=;
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="KF6yt0JD"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E39E64456;
+	Sun, 29 Mar 2026 09:34:13 -0700 (PDT)
+Received: from pluto.fritz.box (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EB6E03F915;
+	Sun, 29 Mar 2026 09:34:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1774802059; bh=Ag7HfN/sgVc3bbbOya8yLcKEKW6cVwh7BkFYxrWVnNE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=dHG7ShdTq4l3d6sHIW1dKby7NFGmjqzGd+TXp57D8BVzl/iJVCDKDzB0LI1tnyGxl
-	 siLf+hTFcVFIh/pMHqOdC1PcYNjRxbXsDjrf+6njnToTCRJp7j5DP/ghiyhDYQvQtR
-	 zjNa8XKhNh5twdNNd1cOdEGd8n0YLYgz8OFG0QuFx54mB+avi4B1uVaiuji9EKRmKQ
-	 OMcPOhhHK/BawZLeRvMH3KSoRRwM10J3FAyFsjCmCr7NRPUlw8qCTU03efBkaKpbkn
-	 figLIapySep2Ym99cd7Z8BkaK4EzHJVp+GHr6IEL82cg1Ptj7Mc/v1257RdRhn7C49
-	 XDfuDmqdwwvaQ==
-From: SeongJae Park <sj@kernel.org>
-To: SeongJae Park <sj@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	"# 5 . 19 . x" <stable@vger.kernel.org>,
-	David Hildenbrand <david@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	damon@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: Re: (sashiko status) [PATCH 0/2] Docs/admin-guide/mm/damon: warn commit_inputs vs other params race
-Date: Sun, 29 Mar 2026 09:31:01 -0700
-Message-ID: <20260329163102.58683-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260329154917.47598-1-sj@kernel.org>
-References: 
+	b=KF6yt0JDNsyke0Oa1S5cK9K7mw7Eus0AStDWeywFUv5oLK3U/sl+f25ABxnp62S3x
+	 MZtP98hQFT/9yYJqsl5Qwtr4YkoV3cAyusfxesJ7hE6YiIg8uiJTXFT02T3ZmzNcYw
+	 hoITN7LGw7e5uwhbdm1inWsspmAGVxwPsdyJ9aTE=
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: sudeep.holla@kernel.org,
+	james.quinlan@broadcom.com,
+	f.fainelli@gmail.com,
+	vincent.guittot@linaro.org,
+	etienne.carriere@st.com,
+	peng.fan@oss.nxp.com,
+	michal.simek@amd.com,
+	dan.carpenter@linaro.org,
+	d-gole@ti.com,
+	jonathan.cameron@huawei.com,
+	elif.topuz@arm.com,
+	lukasz.luba@arm.com,
+	philip.radford@arm.com,
+	brauner@kernel.org,
+	souvik.chakravarty@arm.com,
+	Cristian Marussi <cristian.marussi@arm.com>
+Subject: [PATCH v3 02/24] firmware: arm_scmi: Reduce the scope of protocols mutex
+Date: Sun, 29 Mar 2026 17:33:13 +0100
+Message-ID: <20260329163337.637393-3-cristian.marussi@arm.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260329163337.637393-1-cristian.marussi@arm.com>
+References: <20260329163337.637393-1-cristian.marussi@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -57,23 +62,123 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Sun, 29 Mar 2026 08:49:16 -0700 SeongJae Park <sj@kernel.org> wrote:
+Currently the mutex dedicated to the protection of the list of registered
+protocols is held during all the protocol initialization phase.
 
-> Forwarding sashiko.dev review status for this thread.
-> 
-> # review url: https://sashiko.dev/#/patchset/20260329153052.46657-1-sj@kernel.org
-> 
-> - [PATCH 1/2] Docs/admin-guide/mm/damon/reclaim: warn commit_inputs vs param updates race
->   - status: Reviewed
->   - review: ISSUES MAY FOUND
-> - [PATCH 2/2] Docs/admin-guide/mm/damon/lru_sort: warn commit_inputs vs param updates race
->   - status: Reviewed
->   - review: ISSUES MAY FOUND
+Such a wide locking region is not needed and causes problem when trying to
+initialize notifications from within a protocol initialization routine.
 
-TL; DR: I believe those are not issues.
+Reduce the scope of the protocol mutex.
 
+Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
+---
+v1-->v2
+ - Fixed improper mixed usage of cleanup and goto constructs
+---
+ drivers/firmware/arm_scmi/driver.c | 50 ++++++++++++++----------------
+ 1 file changed, 24 insertions(+), 26 deletions(-)
 
-Thanks,
-SJ
+diff --git a/drivers/firmware/arm_scmi/driver.c b/drivers/firmware/arm_scmi/driver.c
+index 3e76a3204ba4..26f192b8d7a9 100644
+--- a/drivers/firmware/arm_scmi/driver.c
++++ b/drivers/firmware/arm_scmi/driver.c
+@@ -17,6 +17,7 @@
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+ 
+ #include <linux/bitmap.h>
++#include <linux/cleanup.h>
+ #include <linux/debugfs.h>
+ #include <linux/device.h>
+ #include <linux/export.h>
+@@ -2190,7 +2191,6 @@ static void scmi_protocol_version_initialize(struct device *dev,
+  * all resources management is handled via a dedicated per-protocol devres
+  * group.
+  *
+- * Context: Assumes to be called with @protocols_mtx already acquired.
+  * Return: A reference to a freshly allocated and initialized protocol instance
+  *	   or ERR_PTR on failure. On failure the @proto reference is at first
+  *	   put using @scmi_protocol_put() before releasing all the devres group.
+@@ -2236,8 +2236,10 @@ scmi_alloc_init_protocol_instance(struct scmi_info *info,
+ 	if (ret)
+ 		goto clean;
+ 
+-	ret = idr_alloc(&info->protocols, pi, proto->id, proto->id + 1,
+-			GFP_KERNEL);
++	/* Finally register the initialized protocol */
++	mutex_lock(&info->protocols_mtx);
++	ret = idr_alloc(&info->protocols, pi, proto->id, proto->id + 1, GFP_KERNEL);
++	mutex_unlock(&info->protocols_mtx);
+ 	if (ret != proto->id)
+ 		goto clean;
+ 
+@@ -2284,27 +2286,25 @@ scmi_alloc_init_protocol_instance(struct scmi_info *info,
+ static struct scmi_protocol_instance * __must_check
+ scmi_get_protocol_instance(const struct scmi_handle *handle, u8 protocol_id)
+ {
+-	struct scmi_protocol_instance *pi;
+ 	struct scmi_info *info = handle_to_scmi_info(handle);
++	const struct scmi_protocol *proto;
+ 
+-	mutex_lock(&info->protocols_mtx);
+-	pi = idr_find(&info->protocols, protocol_id);
+-
+-	if (pi) {
+-		refcount_inc(&pi->users);
+-	} else {
+-		const struct scmi_protocol *proto;
++	scoped_guard(mutex, &info->protocols_mtx) {
++		struct scmi_protocol_instance *pi;
+ 
+-		/* Fails if protocol not registered on bus */
+-		proto = scmi_protocol_get(protocol_id, &info->version);
+-		if (proto)
+-			pi = scmi_alloc_init_protocol_instance(info, proto);
+-		else
+-			pi = ERR_PTR(-EPROBE_DEFER);
++		pi = idr_find(&info->protocols, protocol_id);
++		if (pi) {
++			refcount_inc(&pi->users);
++			return pi;
++		}
+ 	}
+-	mutex_unlock(&info->protocols_mtx);
+ 
+-	return pi;
++	/* Fails if protocol not registered on bus */
++	proto = scmi_protocol_get(protocol_id, &info->version);
++	if (!proto)
++		return ERR_PTR(-EPROBE_DEFER);
++
++	return scmi_alloc_init_protocol_instance(info, proto);
+ }
+ 
+ /**
+@@ -2335,10 +2335,11 @@ void scmi_protocol_release(const struct scmi_handle *handle, u8 protocol_id)
+ 	struct scmi_info *info = handle_to_scmi_info(handle);
+ 	struct scmi_protocol_instance *pi;
+ 
+-	mutex_lock(&info->protocols_mtx);
+-	pi = idr_find(&info->protocols, protocol_id);
+-	if (WARN_ON(!pi))
+-		goto out;
++	scoped_guard(mutex, &info->protocols_mtx) {
++		pi = idr_find(&info->protocols, protocol_id);
++		if (WARN_ON(!pi))
++			return;
++	}
+ 
+ 	if (refcount_dec_and_test(&pi->users)) {
+ 		void *gid = pi->gid;
+@@ -2357,9 +2358,6 @@ void scmi_protocol_release(const struct scmi_handle *handle, u8 protocol_id)
+ 		dev_dbg(handle->dev, "De-Initialized protocol: 0x%X\n",
+ 			protocol_id);
+ 	}
+-
+-out:
+-	mutex_unlock(&info->protocols_mtx);
+ }
+ 
+ void scmi_setup_protocol_implemented(const struct scmi_protocol_handle *ph,
+-- 
+2.53.0
 
-[...]
