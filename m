@@ -1,100 +1,180 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 697053859C5
-	for <linux-doc@vger.kernel.org>; Mon, 30 Mar 2026 07:49:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A1583A7F4C
+	for <linux-doc@vger.kernel.org>; Mon, 30 Mar 2026 07:50:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774856940; cv=none; b=VLhL89PalZsDdAKy3zTIlOh4i7r1Y7QFclsbxVzM//7+zB6fjkfuByBHigTtmitX32MSxVFVhdvwD4xnSiGGQH6UAIKEpWPhdFUWaUML4ftLffB/rdLlgOHGPy80Qfn+ssRnow9dZ1rjXL6b9nJCO6lM65ck554h0Xw76LENPTo=
+	t=1774857003; cv=none; b=CE8/4alkC9mmojykRGYhHoR9VEEzi59GH22gSLCDYARyJInxB1HOgcOf8cZa1pKqK5HEDsZewi2lGb1NacJnQGmJOFde1qumVi/GJacwsb6yDNNyvK9v2YqFELkN6iGCVPVYb8y2vj3bGpjnX9eBjJaPKmJVhP7LkqbJPJZCkjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774856940; c=relaxed/simple;
-	bh=lD2Z6zQIgevKi2IqTHqInMxXV0jeIeXVIIwGCfGmDSU=;
+	s=arc-20240116; t=1774857003; c=relaxed/simple;
+	bh=6kNN1RP6hfrxfLPYE0OI9tP3SvLOgSwkQmqyXhzTfyQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OKAvJtdLtL1g22IeGJVCEgOGDXBHpfxY1lr1TOqVZJjvsGe1xp3nHGzI7kMN8alehjRXILIxWgbf77bDI31JkoWxNhgYExFHyrwfGZEbUIp6y3dZzbc9lwgO8JXDpqYYDdJ55tECMoCXRAQCksZWN/oTCAq3ApVXrZIKqZvjRoM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kf+NQfW6; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=r2Cz97mmfpEznwhRr/IbOG40lZih94+zERuhib1icLg++Q/zxIsgUpVSvkgQCdyjDbYa2AqhrslZAF+Ep14M7zryVfDcEm9+rqdwAd3BoHglGGjAFG2DynHajs0/IiB9o/L9/JhxGjX37tprbo24N4quIVe1v2yPy4O/rYzPcFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EMLHc9RR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kf+NQfW6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 139CEC2BCB5
-	for <linux-doc@vger.kernel.org>; Mon, 30 Mar 2026 07:49:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EMLHc9RR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 713D8C2BCC9
+	for <linux-doc@vger.kernel.org>; Mon, 30 Mar 2026 07:50:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774856940;
-	bh=lD2Z6zQIgevKi2IqTHqInMxXV0jeIeXVIIwGCfGmDSU=;
+	s=k20201202; t=1774857003;
+	bh=6kNN1RP6hfrxfLPYE0OI9tP3SvLOgSwkQmqyXhzTfyQ=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=kf+NQfW6DdHb+ZdGOOxI66nekPvZ1tzokGCWXtUurIGyRdYRJL1CKQkzf5u3ByNwV
-	 ANh/jdCwHDpbELE6GzHv0jIG4u0x4pi5ZHEVM9L5lu/A4ijVABN5c2iYxLdGBqSQ4u
-	 Qrz5RiC2/+/hdjDDWIiWDjmb6ADBS0V2gFjbCU8Ur4QY9FLtJl5Cyo7dn5UQ3WOSfa
-	 9cRNCj3T4O9BsG1Pm6RgTACFucHUzU89MMsde5HgzDACeDjpY3PD0u5dYw2eCL9EFA
-	 fmMGrO59NYDrNhHRlxhXgqbxsTsDuwhQiaIyczRh0cQHsHi6PX7e2xN+h4recSULVJ
-	 nwJC44BpFaE3Q==
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-38a32d36396so37814111fa.0
-        for <linux-doc@vger.kernel.org>; Mon, 30 Mar 2026 00:49:00 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXan7984p970UrEhyOZmYO8w4JKKodsWaGKT94qoaQVJy5PY9qS9DCawzrCL5KGj4MCVjjeULBd4NI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxopvdJh3TyDlYRK1G55FdoGuXn4XL0Z++7StBZvMM3+q/DyCNL
-	pm0+ISLRRHsHR4M7Zt29/BGuVVKsg1JzIbtVX26hCMF35KESPo1Ng0CwdazTFmdQgJQim2X/rMF
-	iA+1iGJy9Su4RQfSxobz6EIBVd1ZXX4+qQOMdsigi7Q==
-X-Received: by 2002:a2e:8a87:0:b0:38b:f838:dcd0 with SMTP id
- 38308e7fff4ca-38c756d2050mr31367251fa.3.1774856938701; Mon, 30 Mar 2026
- 00:48:58 -0700 (PDT)
+	b=EMLHc9RRxxgF/q9IZFv1dePuIbnzTXNBuB6kVaoFukkr1ucrR8VtgGKJZxfHAPeda
+	 NoOd5dNf4iw60IKhVuiihGzS20d2asneYTQFmIOPC+oibw6j5mB26gshymPA5cOnQU
+	 8GwY3XAP/WUOAwUMhNJWulE7D51LKZLfsJ9jYrL2MWSm1AILniv6msGhMHwB2u72wL
+	 NV3ZtFjq+6XUwCBsWxZDTcToYuFN8/MCoIOLkqqGR2/HpQGpyQ0uABqlI4zp2AJnVK
+	 Rx/alDJqKvr0Bm4U2x6vI4IQVFXpJjTEyE984Dy+/l4J9Tk2CuS6GlGU6iWDdxPTfe
+	 2ky4e5ATIv/aQ==
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-43d01d6b50cso289488f8f.1
+        for <linux-doc@vger.kernel.org>; Mon, 30 Mar 2026 00:50:03 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXJKYIyrGZpAbVsDMFbEXjviL0sGdJfhIl6iS7YXYcY+okM0PBxt9gHdHqNw+PtxUtqDrnZOT6EKlU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwHS7OCR0wwok+yihz+bjC5AEeVrTis5ShHlTh/xyuAjbKWAens
+	oFnq+FxDOPzDw65SK2+2OwUR4EGTetxwEIgCVBWHbWW3Xiq59hFQ/uA+n9ATAqM8iCjZRz0xGcR
+	h/Y6Y4wmsT/cnzol7r4fZ0HHhKue5FSY=
+X-Received: by 2002:a05:6000:2409:b0:43b:447a:11b8 with SMTP id
+ ffacd0b85a97d-43b9e9d6050mr19116932f8f.6.1774857000398; Mon, 30 Mar 2026
+ 00:50:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260323-qcom-qce-cmd-descr-v14-0-f323af411274@oss.qualcomm.com>
-In-Reply-To: <20260323-qcom-qce-cmd-descr-v14-0-f323af411274@oss.qualcomm.com>
-From: Bartosz Golaszewski <brgl@kernel.org>
-Date: Mon, 30 Mar 2026 09:48:47 +0200
-X-Gmail-Original-Message-ID: <CAMRc=Mek-OrzG5B6cJnz0ZVRn1paUYVdgf67LAJC_GKCzfU6qg@mail.gmail.com>
-X-Gm-Features: AQROBzDctCw49nI4ZpKxOYPIv3NwI9Us8xjc3cHh8fG92eva9b9SctdyfBh_Ryc
-Message-ID: <CAMRc=Mek-OrzG5B6cJnz0ZVRn1paUYVdgf67LAJC_GKCzfU6qg@mail.gmail.com>
-Subject: Re: [PATCH v14 00/12] crypto/dmaengine: qce: introduce BAM locking
- and use DMA for register I/O
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Thara Gopinath <thara.gopinath@gmail.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	"David S. Miller" <davem@davemloft.net>, Udit Tiwari <quic_utiwari@quicinc.com>, 
-	Md Sadre Alam <mdalam@qti.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Stephan Gerhold <stephan.gerhold@linaro.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Peter Ujfalusi <peter.ujfalusi@gmail.com>, 
-	Michal Simek <michal.simek@amd.com>, Frank Li <Frank.Li@kernel.org>, dmaengine@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-crypto@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+References: <20260328074013.3589544-1-ruanjinjie@huawei.com>
+ <20260328074013.3589544-2-ruanjinjie@huawei.com> <CAJF2gTRN=RpgzQsQ7QDbwjDmyQZP9anQZ+CaK2r-Mrz9dQbohQ@mail.gmail.com>
+ <baa90080-9e6e-c1e5-13a1-b17496c690b4@huawei.com>
+In-Reply-To: <baa90080-9e6e-c1e5-13a1-b17496c690b4@huawei.com>
+From: Guo Ren <guoren@kernel.org>
+Date: Mon, 30 Mar 2026 15:49:48 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTQE58ooXwyPSztDHbrxMRWCWhJNMKcRJZJsmKznBD12wA@mail.gmail.com>
+X-Gm-Features: AQROBzBd-gKOewl3PX_5GW7wfDT6ZMEcMbV186WYHO9lbJECvy1QYs-DBc7P3MM
+Message-ID: <CAJF2gTQE58ooXwyPSztDHbrxMRWCWhJNMKcRJZJsmKznBD12wA@mail.gmail.com>
+Subject: Re: [PATCH v11 01/11] riscv: kexec_file: Fix crashk_low_res not
+ exclude bug
+To: Jinjie Ruan <ruanjinjie@huawei.com>
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, catalin.marinas@arm.com, 
+	will@kernel.org, chenhuacai@kernel.org, kernel@xen0n.name, 
+	maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com, 
+	chleroy@kernel.org, pjw@kernel.org, palmer@dabbelt.com, aou@eecs.berkeley.edu, 
+	alex@ghiti.fr, tglx@kernel.org, mingo@redhat.com, bp@alien8.de, 
+	dave.hansen@linux.intel.com, hpa@zytor.com, robh@kernel.org, 
+	saravanak@kernel.org, akpm@linux-foundation.org, bhe@redhat.com, 
+	vgoyal@redhat.com, dyoung@redhat.com, rdunlap@infradead.org, 
+	peterz@infradead.org, feng.tang@linux.alibaba.com, 
+	pawan.kumar.gupta@linux.intel.com, dapeng1.mi@linux.intel.com, 
+	kees@kernel.org, elver@google.com, paulmck@kernel.org, lirongqing@baidu.com, 
+	rppt@kernel.org, leitao@debian.org, ardb@kernel.org, cfsworks@gmail.com, 
+	osandov@fb.com, jbohac@suse.cz, tangyouling@kylinos.cn, 
+	sourabhjain@linux.ibm.com, ritesh.list@gmail.com, eajames@linux.ibm.com, 
+	songshuaishuai@tinylab.org, kevin.brodsky@arm.com, vishal.moola@gmail.com, 
+	junhui.liu@pigmoral.tech, coxu@redhat.com, fuqiang.wang@easystack.cn, 
+	liaoyuanhong@vivo.com, chenjiahao16@huawei.com, hbathini@linux.ibm.com, 
+	takahiro.akashi@linaro.org, james.morse@arm.com, lizhengyu3@huawei.com, 
+	x86@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, loongarch@lists.linux.dev, 
+	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, 
+	devicetree@vger.kernel.org, kexec@lists.infradead.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 23, 2026 at 4:17=E2=80=AFPM Bartosz Golaszewski
-<bartosz.golaszewski@oss.qualcomm.com> wrote:
+On Mon, Mar 30, 2026 at 3:11=E2=80=AFPM Jinjie Ruan <ruanjinjie@huawei.com>=
+ wrote:
 >
-> This iteration is quite similar to v12 but uses the BAM's NWD bit on
-> data descriptors as suggested by Stephan. To that end, there are some
-> more changes like reversing the order of command and data descriptors
-> queuedy by the QCE driver.
 >
-> Currently the QCE crypto driver accesses the crypto engine registers
-> directly via CPU. Trust Zone may perform crypto operations simultaneously
-> resulting in a race condition. To remedy that, let's introduce support
-> for BAM locking/unlocking to the driver. The BAM driver will now wrap
-> any existing issued descriptor chains with additional descriptors
-> performing the locking when the client starts the transaction
-> (dmaengine_issue_pending()). The client wanting to profit from locking
-> needs to switch to performing register I/O over DMA and communicate the
-> address to which to perform the dummy writes via a call to
-> dmaengine_desc_attach_metadata().
 >
-> In the specific case of the BAM DMA this translates to sending command
-> descriptors performing dummy writes with the relevant flags set. The BAM
-> will then lock all other pipes not related to the current pipe group, and
-> keep handling the current pipe only until it sees the the unlock bit.
+> On 2026/3/30 11:49, Guo Ren wrote:
+> > On Sat, Mar 28, 2026 at 3:41=E2=80=AFPM Jinjie Ruan <ruanjinjie@huawei.=
+com> wrote:
+> >>
+> >> As done in commit 944a45abfabc ("arm64: kdump: Reimplement crashkernel=
+=3DX")
+> >> and commit 4831be702b95 ("arm64/kexec: Fix missing extra range for
+> >> crashkres_low.") for arm64, while implementing crashkernel=3DX,[high,l=
+ow],
+> >> riscv should have excluded the "crashk_low_res" reserved ranges from
+> >> the crash kernel memory to prevent them from being exported through
+> >> /proc/vmcore, and the exclusion would need an extra crash_mem range.
+> >>
+> >> Cc: Guo Ren <guoren@kernel.org>
+> >> Cc: Baoquan He <bhe@redhat.com>
+> >> Fixes: 5882e5acf18d ("riscv: kdump: Implement crashkernel=3DX,[high,lo=
+w]")
+> >> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+> >> ---
+> >>  arch/riscv/kernel/machine_kexec_file.c | 14 +++++++++++---
+> >>  1 file changed, 11 insertions(+), 3 deletions(-)
+> >>
+> >> diff --git a/arch/riscv/kernel/machine_kexec_file.c b/arch/riscv/kerne=
+l/machine_kexec_file.c
+> >> index 54e2d9552e93..3f7766057cac 100644
+> >> --- a/arch/riscv/kernel/machine_kexec_file.c
+> >> +++ b/arch/riscv/kernel/machine_kexec_file.c
+> >> @@ -61,7 +61,7 @@ static int prepare_elf_headers(void **addr, unsigned=
+ long *sz)
+> >>         unsigned int nr_ranges;
+> >>         int ret;
+> >>
+> >> -       nr_ranges =3D 1; /* For exclusion of crashkernel region */
+> >> +       nr_ranges =3D 2; /* For exclusion of crashkernel region */
+> >>         walk_system_ram_res(0, -1, &nr_ranges, get_nr_ram_ranges_callb=
+ack);
+> >>
+> >>         cmem =3D kmalloc_flex(*cmem, ranges, nr_ranges);
+> >> @@ -76,8 +76,16 @@ static int prepare_elf_headers(void **addr, unsigne=
+d long *sz)
+> >>
+> >>         /* Exclude crashkernel region */
+> >>         ret =3D crash_exclude_mem_range(cmem, crashk_res.start, crashk=
+_res.end);
+> >> -       if (!ret)
+> >> -               ret =3D crash_prepare_elf64_headers(cmem, true, addr, =
+sz);
+> >> +       if (ret)
+> >> +               goto out;
+> >> +
+> >> +       if (crashk_low_res.end) {
+> >> +               ret =3D crash_exclude_mem_range(cmem, crashk_low_res.s=
+tart, crashk_low_res.end);
+> > Exclude crashk_low_res is reasonable, but have you tested this?
 >
+> Just simply tested on qemu with crashkernel=3D4G with following kexec
+> mentioned in
+> https://lore.kernel.org/all/20230726175000.2536220-1-chenjiahao16@huawei.=
+com/.
+> And the second kernel can be started normally.
+>
+> https://github.com/chenjh005/kexec-tools/tree/build-test-riscv-v2
+>
+> # dmesg | grep crash
+> [    0.000000] crashkernel low memory reserved: 0xf8000000 - 0x100000000
+> (128 MB)
+> [    0.000000] crashkernel reserved: 0x000000017fe00000 -
+> 0x000000027fe00000 (4096 MB)
+Adding a test log to the commit log makes the patch more trustworthy.
 
-Hi Vinod et al!
+Reviewed-by: Guo Ren <guoren@kernel.org>
 
-Any chance of this making v7.1? Stephan, Mani: any objections to the
-current approach?
+>
+>
+>
+> >
+> >> +               if (ret)
+> >> +                       goto out;
+> >> +       }
+> >> +
+> >> +       ret =3D crash_prepare_elf64_headers(cmem, true, addr, sz);
+> >>
+> >>  out:
+> >>         kfree(cmem);
+> >> --
+> >> 2.34.1
+> >>
+> >
+> >
 
-Bart
+
+
+--=20
+Best Regards
+ Guo Ren
