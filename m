@@ -1,206 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3840A3CFF6E
-	for <linux-doc@vger.kernel.org>; Mon, 30 Mar 2026 13:21:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 394673D47BD;
+	Mon, 30 Mar 2026 13:45:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774876889; cv=none; b=oetX++XH3n8BgnOHsPSbeMbAJi9lI1f/EDvxM3p4PkMk8qQkiodpy89AZs4wssad/IqHP6ML27/j/VWWVN/iofoo6tSbep39fMyOoPXD1Jx8aThxQd8efD5dmVpeY2zHNucr7/Wjhft7a+QXxo2R+k56giYYlSCL0TTdXcpBZTk=
+	t=1774878337; cv=none; b=J+/G1bAWu6nWSgmT1cQ092lQyxUZuhMIRyKk5BaWeuPIjHj7Jy+8XUTUCQeyqJkD8z6yQ1+44YdyRnTTICUbzhS+FufPZUb2An6n0Z6Cp/1gcm2gztgRoDtQnydpYUeQlZWb8mAkDfQcd3cba5kPrr4dunc2BtuRIN6A+L+ci6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774876889; c=relaxed/simple;
-	bh=K4enoH1uIcNth7px2S+L5509RwnVd2D+aJPB9WyfjFM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gbok5xZt/F99GdfSZ5mB1zS1wROnTZE8IJc+QeaaBt7GekpPaxCcEEUWaYFwYLRnchaU065yzXN9Nz6DJhzAmCoHcnB+UgkqEEoNg4e3r9a8SyHQy8F2YssJZF9RrQWSn7i0g+D2t47bjngcFRngU+tCBTg1VWQTcRRMOWvuW9g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HefN63re; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774878337; c=relaxed/simple;
+	bh=oh3LJd+IVAspxFz+oZWd84Iw0XA0l52J4QuwSg5VRbw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EeLd2WWsSY8HWvxUMjqIpf5WQTLuqlSUr553x259onsug+iV0grsVGJLNu9Vz0rbN6Yl0wba66P2ccCii481Z9cH2NeOsERGFVRgOtlbBT3w2o90egClI+hwGGLssHFCMiOdylYuaL3ZvUemxWdk0jUv741Z665nXzM6151NTqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=rxgfIOcX; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HefN63re"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CD1FC2BCB7
-	for <linux-doc@vger.kernel.org>; Mon, 30 Mar 2026 13:21:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774876889;
-	bh=K4enoH1uIcNth7px2S+L5509RwnVd2D+aJPB9WyfjFM=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=HefN63reBDUroRaB84JsKdEvsHZs8ioqV69APV8LG17ChAd9djVTsfxGKuVb+sxyG
-	 MkmvvxJlEuk5faCR8O4DR6majxBvVFvikhQbNhW1lrVq+RivBqAVAsnBiKiRAHFChK
-	 SHxQacqFB5CXZLnJuCcljU4yavfJqBPEQORfE/GZKF2aNxeHEavVzHrdq4cSmunuOi
-	 x+r1IUYUwIYZjTEyVbjVEXTh60inV59LityQOFAzp3L2zEclZxRLbHq3V7SO1zaCox
-	 AZ/952v2JHlUFQagAaf/LVrJPknSgxpq853beiqloKm4a1UEMd4teQzByB7uFOt/6n
-	 ZWl3+ZtCmr27A==
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b98133bdc4bso544469166b.0
-        for <linux-doc@vger.kernel.org>; Mon, 30 Mar 2026 06:21:29 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUrMKcxhhAOXEeZDjZDnptL9ipf3B5X9V7zp5t29IoM2IZU8cogdBwCASDekJeh5zooUl/JjrT4tRc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxxP6yB3U776uZVLQnlATo90iMdCon9Teq5mv78rNYkUo58NO2V
-	gj8oVQQn/Kog9vaGzWc6PwVUVwZF3oe6PR66MX0SLJWuAjDIt7KbYfUAhGMboJ0jbRIJ4TUbuGK
-	dfHpfaWtoNsaszlMokFTLPci1EnLTkno=
-X-Received: by 2002:a17:907:c297:b0:b97:a9ac:5e05 with SMTP id
- a640c23a62f3a-b9b507b43d6mr736865366b.35.1774876887624; Mon, 30 Mar 2026
- 06:21:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="rxgfIOcX"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=0/9KOg+FUezNUc5b2A1UkvHRKClpiuB0wSxuomQh7PQ=; b=rxgfIOcXW2uGO6FG+cl1uANevR
+	LmT/g4+LAMvmNA+HyxD7DRYA+vX4AlvMQdjepsRkfb4SbO8V5S5WyrQCfGF2//mnVoalX6wvPl70q
+	DoeDrca5dZzxJEdeL335SVcX2F1DeXXQAP11kNtTKL6IrV9QaBDRP5e4dxRfiYFhLMkmRKuLDrF5k
+	Dhg8Vn2PgUJxLj/98swn3w3Hzznf6SLl2x4aEYAcnURDk4/6aflrNliE8YpUkV1HIeJJyakLESgdV
+	rRpkFqCJAUG6mWTgS9UJ22WD8m25lfqC2pCYXqLc3gZ36/mkmk6x/z4ESyI09irPXAiBmrAQo5HAp
+	+8CJaSfg==;
+Received: from authenticated user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1w7Cvn-001UJL-0a;
+	Mon, 30 Mar 2026 13:45:26 +0000
+Date: Mon, 30 Mar 2026 06:45:21 -0700
+From: Breno Leitao <leitao@debian.org>
+To: Miaohe Lin <linmiaohe@huawei.com>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, kernel-team@meta.com, Naoya Horiguchi <nao.horiguchi@gmail.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH 1/2] mm/memory-failure: add
+ panic_on_unrecoverable_memory_failure sysctl
+Message-ID: <acp8wYLHDGAfhzI5@gmail.com>
+References: <20260323-ecc_panic-v1-0-72a1921726c5@debian.org>
+ <20260323-ecc_panic-v1-1-72a1921726c5@debian.org>
+ <a88d62ee-530c-1a6e-c05f-de324f940b8f@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260330122601.22140-1-fangyu.yu@linux.alibaba.com> <20260330122601.22140-4-fangyu.yu@linux.alibaba.com>
-In-Reply-To: <20260330122601.22140-4-fangyu.yu@linux.alibaba.com>
-From: Guo Ren <guoren@kernel.org>
-Date: Mon, 30 Mar 2026 21:21:15 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTQRQdu58N8SbHw1k-FdYLPv1-441_8Kiscpm=QzF9ON=w@mail.gmail.com>
-X-Gm-Features: AQROBzBGER0O9wkoHk1qED601JRkO-2es9K6oo1W-s6w41ltrFuST3jQ8Q_MsPU
-Message-ID: <CAJF2gTQRQdu58N8SbHw1k-FdYLPv1-441_8Kiscpm=QzF9ON=w@mail.gmail.com>
-Subject: Re: [PATCH v6 3/4] RISC-V: KVM: Detect and expose supported HGATP
- G-stage modes
-To: fangyu.yu@linux.alibaba.com
-Cc: pbonzini@redhat.com, corbet@lwn.net, anup@brainfault.org, 
-	atish.patra@linux.dev, pjw@kernel.org, palmer@dabbelt.com, 
-	aou@eecs.berkeley.edu, alex@ghiti.fr, skhan@linuxfoundation.org, 
-	radim.krcmar@oss.qualcomm.com, andrew.jones@oss.qualcomm.com, 
-	linux-doc@vger.kernel.org, kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, 
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a88d62ee-530c-1a6e-c05f-de324f940b8f@huawei.com>
+X-Debian-User: leitao
 
-On Mon, Mar 30, 2026 at 8:26=E2=80=AFPM <fangyu.yu@linux.alibaba.com> wrote=
-:
+On Mon, Mar 30, 2026 at 03:55:00PM +0800, Miaohe Lin wrote:
+> On 2026/3/23 23:29, Breno Leitao wrote:
 >
-> From: Fangyu Yu <fangyu.yu@linux.alibaba.com>
->
-> Extend kvm_riscv_gstage_mode_detect() to probe all HGATP.MODE values
-> supported by the host and record them in a bitmask. Keep tracking the
-> maximum supported G-stage page table level for existing internal users.
->
-> Also provide lightweight helpers to retrieve the supported-mode bitmask
-> and validate a requested HGATP.MODE against it.
->
-> Signed-off-by: Fangyu Yu <fangyu.yu@linux.alibaba.com>
-> Reviewed-by: Andrew Jones <andrew.jones@oss.qualcomm.com>
-> ---
->  arch/riscv/include/asm/kvm_gstage.h | 11 ++++++++
->  arch/riscv/kvm/gstage.c             | 43 +++++++++++++++--------------
->  2 files changed, 34 insertions(+), 20 deletions(-)
->
-> diff --git a/arch/riscv/include/asm/kvm_gstage.h b/arch/riscv/include/asm=
-/kvm_gstage.h
-> index 70d9d483365e..bbf8f45c6563 100644
-> --- a/arch/riscv/include/asm/kvm_gstage.h
-> +++ b/arch/riscv/include/asm/kvm_gstage.h
-> @@ -31,6 +31,7 @@ struct kvm_gstage_mapping {
->  #endif
->
->  extern unsigned long kvm_riscv_gstage_max_pgd_levels;
-> +extern u32 kvm_riscv_gstage_supported_mode_mask;
->
->  #define kvm_riscv_gstage_pgd_xbits     2
->  #define kvm_riscv_gstage_pgd_size      (1UL << (HGATP_PAGE_SHIFT + kvm_r=
-iscv_gstage_pgd_xbits))
-> @@ -102,4 +103,14 @@ static inline void kvm_riscv_gstage_init(struct kvm_=
-gstage *gstage, struct kvm *
->         gstage->pgd_levels =3D kvm->arch.pgd_levels;
->  }
->
-> +static inline u32 kvm_riscv_get_hgatp_mode_mask(void)
-> +{
-> +       return kvm_riscv_gstage_supported_mode_mask;
-> +}
-> +
-> +static inline bool kvm_riscv_hgatp_mode_is_valid(unsigned long mode)
-> +{
-> +       return kvm_riscv_gstage_supported_mode_mask & BIT(mode);
-> +}
-> +
->  #endif
-> diff --git a/arch/riscv/kvm/gstage.c b/arch/riscv/kvm/gstage.c
-> index 7c4c34bc191b..459041255c14 100644
-> --- a/arch/riscv/kvm/gstage.c
-> +++ b/arch/riscv/kvm/gstage.c
-> @@ -16,6 +16,8 @@ unsigned long kvm_riscv_gstage_max_pgd_levels __ro_afte=
-r_init =3D 3;
->  #else
->  unsigned long kvm_riscv_gstage_max_pgd_levels __ro_after_init =3D 2;
->  #endif
-> +/* Bitmask of supported HGATP.MODE encodings (BIT(HGATP_MODE_*)). */
-> +u32 kvm_riscv_gstage_supported_mode_mask __ro_after_init;
->
->  #define gstage_pte_leaf(__ptep)        \
->         (pte_val(*(__ptep)) & (_PAGE_READ | _PAGE_WRITE | _PAGE_EXEC))
-> @@ -315,42 +317,43 @@ void kvm_riscv_gstage_wp_range(struct kvm_gstage *g=
-stage, gpa_t start, gpa_t end
->         }
->  }
->
-> +static bool __init kvm_riscv_hgatp_mode_supported(unsigned long mode)
-> +{
-> +       csr_write(CSR_HGATP, mode << HGATP_MODE_SHIFT);
-> +       return ((csr_read(CSR_HGATP) >> HGATP_MODE_SHIFT) =3D=3D mode);
-> +}
-> +
->  void __init kvm_riscv_gstage_mode_detect(void)
->  {
-> +       kvm_riscv_gstage_supported_mode_mask =3D 0;
-> +       kvm_riscv_gstage_max_pgd_levels =3D 0;
-> +
->  #ifdef CONFIG_64BIT
-> -       /* Try Sv57x4 G-stage mode */
-> -       csr_write(CSR_HGATP, HGATP_MODE_SV57X4 << HGATP_MODE_SHIFT);
-> -       if ((csr_read(CSR_HGATP) >> HGATP_MODE_SHIFT) =3D=3D HGATP_MODE_S=
-V57X4) {
-> -               kvm_riscv_gstage_max_pgd_levels =3D 5;
-> -               goto done;
-> +       /* Try Sv39x4 G-stage mode */
-> +       if (kvm_riscv_hgatp_mode_supported(HGATP_MODE_SV39X4)) {
-> +               kvm_riscv_gstage_supported_mode_mask |=3D BIT(HGATP_MODE_=
-SV39X4);
-> +               kvm_riscv_gstage_max_pgd_levels =3D 3;
->         }
->
->         /* Try Sv48x4 G-stage mode */
-> -       csr_write(CSR_HGATP, HGATP_MODE_SV48X4 << HGATP_MODE_SHIFT);
-> -       if ((csr_read(CSR_HGATP) >> HGATP_MODE_SHIFT) =3D=3D HGATP_MODE_S=
-V48X4) {
-> +       if (kvm_riscv_hgatp_mode_supported(HGATP_MODE_SV48X4)) {
-> +               kvm_riscv_gstage_supported_mode_mask |=3D BIT(HGATP_MODE_=
-SV48X4);
->                 kvm_riscv_gstage_max_pgd_levels =3D 4;
-> -               goto done;
->         }
->
-> -       /* Try Sv39x4 G-stage mode */
-> -       csr_write(CSR_HGATP, HGATP_MODE_SV39X4 << HGATP_MODE_SHIFT);
-> -       if ((csr_read(CSR_HGATP) >> HGATP_MODE_SHIFT) =3D=3D HGATP_MODE_S=
-V39X4) {
-> -               kvm_riscv_gstage_max_pgd_levels =3D 3;
-> -               goto done;
-> +       /* Try Sv57x4 G-stage mode */
-> +       if (kvm_riscv_hgatp_mode_supported(HGATP_MODE_SV57X4)) {
-> +               kvm_riscv_gstage_supported_mode_mask |=3D BIT(HGATP_MODE_=
-SV57X4);
-> +               kvm_riscv_gstage_max_pgd_levels =3D 5;
->         }
->  #else /* CONFIG_32BIT */
->         /* Try Sv32x4 G-stage mode */
-> -       csr_write(CSR_HGATP, HGATP_MODE_SV32X4 << HGATP_MODE_SHIFT);
-> -       if ((csr_read(CSR_HGATP) >> HGATP_MODE_SHIFT) =3D=3D HGATP_MODE_S=
-V32X4) {
-> +       if (kvm_riscv_hgatp_mode_supported(HGATP_MODE_SV32X4)) {
-> +               kvm_riscv_gstage_supported_mode_mask |=3D BIT(HGATP_MODE_=
-SV32X4);
->                 kvm_riscv_gstage_max_pgd_levels =3D 2;
-> -               goto done;
->         }
->  #endif
->
-> -       /* KVM depends on !HGATP_MODE_OFF */
-> -       kvm_riscv_gstage_max_pgd_levels =3D 0;
-> -
-> -done:
->         csr_write(CSR_HGATP, 0);
->         kvm_riscv_local_hfence_gvma_all();
->  }
-> --
-> 2.50.1
->
-Reviewed-by: Guo Ren <guoren@kernel.org>
+> > @@ -1298,6 +1309,10 @@ static int action_result(unsigned long pfn, enum mf_action_page_type type,
+> >  	pr_err("%#lx: recovery action for %s: %s\n",
+> >  		pfn, action_page_types[type], action_name[result]);
+> >  
+> > +	if (sysctl_panic_on_unrecoverable_mf &&
+> > +	    type == MF_MSG_GET_HWPOISON && result == MF_IGNORED)
+> > +		panic("Memory failure: %#lx: unrecoverable page", pfn);
+> 
+> MF_MSG_GET_HWPOISON contains some other scenarios. For example, an isolated folio will
+> make get_hwpoison_page return -EIO so we will see MF_MSG_GET_HWPOISON and MF_IGNORED in
+> action_result. But that's recoverable if folio is used by userspace thus panic will be
+> unacceptable.
+> Will it better to check type against MF_MSG_KERNEL_HIGH_ORDER?
 
---=20
-Best Regards
- Guo Ren
+Yes, I was discussing this with akpm, and maybe the better
+approach would be to panic for types MF_MSG_KERNEL_HIGH_ORDER and MF_MSG_KERNEL.
+
+In both cases, it seems that, the page would not be able to migrate. What do
+you think about a change like this:
+
+
+@@ -1298,6 +1309,10 @@ static int action_result(unsigned long pfn, enum mf_action_page_type type,
+        pr_err("%#lx: recovery action for %s: %s\n",
+                pfn, action_page_types[type], action_name[result]);
+
++       if (sysctl_panic_on_unrecoverable_mf && result == MF_IGNORED &&
++           (type == MF_MSG_KERNEL || type == MF_MSG_KERNEL_HIGH_ORDER))
++               panic("Memory failure: %#lx: unrecoverable page", pfn);
++
+        return (result == MF_RECOVERED || result == MF_DELAYED) ? 0 : -EBUSY;
+ }
+
