@@ -1,148 +1,145 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from canpmsgout12.his.huawei.com (canpmsgout12.his.huawei.com [113.46.200.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D9493A7F74;
-	Mon, 30 Mar 2026 07:50:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADA961EB5C2;
+	Mon, 30 Mar 2026 07:55:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.227
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774857042; cv=none; b=L4Dx3jLQCInqYWu2r4iG1xVwHe7Vj5m5HSAnpH7FhQ+D5DFqrVAymrfvZXGfhAhBMO9UYzD/HR/r0Ue1apBsoo/ioEpVas4nnbkq2SMe+hEq01Y3UoPCPT562EZqU5azBwo9Uw7mA+urHfeY+3BOhauETy1DNGagxYTaAWrAFGA=
+	t=1774857307; cv=none; b=uL9qKedryFIvS3FHUYwc70h87hF1MO+J9lEw7ojaBZykyGAoIdjvn3r5GVlqufiHw1/xdU21SncGzMG/kgcRsK27QIgBIV/J8HTpkHEpDSRruDlq3uTYK++puLynXN16TUG5XgMYe5h9vN65cbynMioGPCiFk/0ZDiXjYBzlmio=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774857042; c=relaxed/simple;
-	bh=PiqY889LgWIFkgy64QEXf0fNl10xIm5k8j8z4gckHog=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XSZsND132PrfHodL9y/ta1vYs/ABsD4YDAB0zMPoU1FAEMsmBfPpTqmyJbIeEWLgczRcWme+1ztcpRILO5O5N/E/c0KMb2p05x3l/2uHpkuRv9b9L2Pa+XJuDbroxeFkGymi5OpEGn8J2Jr4FBsK1f/EuauB12KFtzyXCkQ3MJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KPK+V+ee; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1774857307; c=relaxed/simple;
+	bh=c2v402NYvCzdZ276PSOrOAneL4XWK44QnJnzK0i0j8c=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=IZJROvhVsqtn5rrOGQbU3oJuE1wForkr8je82ZzJpLfZH30RFcTLLKTeHq84OxPI936/wBshYlR9Vc1cYNglSMNVA2z/ip9G7Dm4k11qzelIMuga907BxdUbXDirWmhQOLMNdlTc3uUymOU2lbn6SFOUzYZA07zzfQchSvLvaUw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=kdRyhgPo; arc=none smtp.client-ip=113.46.200.227
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KPK+V+ee"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774857040; x=1806393040;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PiqY889LgWIFkgy64QEXf0fNl10xIm5k8j8z4gckHog=;
-  b=KPK+V+ee4XD39KoTlzjnkP8DYv7aTkcJzIsEq1GfpvoMNQJdclOLx8Xx
-   GMaF9IdTHqGcCJcD/Uku6ZCG5CUbq1skFor/wC+q6Mxr4339TboXPhNPf
-   y3X1Z39oh62wk3UKy9wz3429KEyyzm+nMy+MqF8JRmBH7URqKQcS3NGZy
-   IzYTBR/BRV/C7mbdKKWf49GPwcVbUhp4cEecz6hwlnmZS9z2XYgvVbxAf
-   SQYYWLy+TJNZG5leui0co9K6uh5FJgnJwbNsVKjb2vpS7LwGdnJXlPUgR
-   CTudDE8JJjLIc/f4QStsK49j8zR05MRyU+anAp8a1GnB+z0e4kAWef5FV
-   w==;
-X-CSE-ConnectionGUID: r0+1M4wARfCEXk01WAplVw==
-X-CSE-MsgGUID: SdaLfyDbRT2YqQBOBiygdg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11743"; a="86535292"
-X-IronPort-AV: E=Sophos;i="6.23,149,1770624000"; 
-   d="scan'208";a="86535292"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 00:50:40 -0700
-X-CSE-ConnectionGUID: bKF/FAIKQWWW1FZgYCMAFQ==
-X-CSE-MsgGUID: siJjBhNRTiWlFjG6FstUpw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,149,1770624000"; 
-   d="scan'208";a="263912729"
-Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 30 Mar 2026 00:50:36 -0700
-Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w77OK-000000000pd-3V3D;
-	Mon, 30 Mar 2026 07:50:32 +0000
-Date: Mon, 30 Mar 2026 15:49:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jim Mattson <jmattson@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Sean Christopherson <seanjc@google.com>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, Yosry Ahmed <yosry@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Jim Mattson <jmattson@google.com>
-Subject: Re: [PATCH v7 1/9] KVM: x86: Define
- KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT
-Message-ID: <202603301501.N2sdlIQ9-lkp@intel.com>
-References: <20260327234023.2659476-2-jmattson@google.com>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="kdRyhgPo"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=gxL/nLHtk8yzJElgrCWa2G5swCzIh9KhW/8g+WYobqw=;
+	b=kdRyhgPoF6ynd8J8zQDabTun7D67+34eRkJ+/9iQPVyI8ywedL6hVtwVCtLr2aJawq8obtW0M
+	fDXTp5Rn5dZSgRVNcskaQDvbTVawHpsxDvrQs271E4xMZiR5R3hQYnqv74YWERC1dGFxW6JJJaR
+	yw7yOw1NLjkcMAarT8N7KUg=
+Received: from mail.maildlp.com (unknown [172.19.163.163])
+	by canpmsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4fkk0x160sznTW1;
+	Mon, 30 Mar 2026 15:49:37 +0800 (CST)
+Received: from dggemv705-chm.china.huawei.com (unknown [10.3.19.32])
+	by mail.maildlp.com (Postfix) with ESMTPS id 00A104048B;
+	Mon, 30 Mar 2026 15:55:02 +0800 (CST)
+Received: from kwepemq500010.china.huawei.com (7.202.194.235) by
+ dggemv705-chm.china.huawei.com (10.3.19.32) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Mon, 30 Mar 2026 15:55:01 +0800
+Received: from [10.173.124.160] (10.173.124.160) by
+ kwepemq500010.china.huawei.com (7.202.194.235) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Mon, 30 Mar 2026 15:55:01 +0800
+Subject: Re: [PATCH 1/2] mm/memory-failure: add
+ panic_on_unrecoverable_memory_failure sysctl
+To: Breno Leitao <leitao@debian.org>
+CC: <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <kernel-team@meta.com>, Naoya Horiguchi
+	<nao.horiguchi@gmail.com>, Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+References: <20260323-ecc_panic-v1-0-72a1921726c5@debian.org>
+ <20260323-ecc_panic-v1-1-72a1921726c5@debian.org>
+From: Miaohe Lin <linmiaohe@huawei.com>
+Message-ID: <a88d62ee-530c-1a6e-c05f-de324f940b8f@huawei.com>
+Date: Mon, 30 Mar 2026 15:55:00 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260327234023.2659476-2-jmattson@google.com>
+In-Reply-To: <20260323-ecc_panic-v1-1-72a1921726c5@debian.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
+ kwepemq500010.china.huawei.com (7.202.194.235)
 
-Hi Jim,
+On 2026/3/23 23:29, Breno Leitao wrote:
+> When memory_failure() encounters an in-use kernel page that cannot be
+> recovered (slab, page tables, kernel stacks, reserved, vmalloc, etc.),
+> it currently logs MF_IGNORED and continues. This leaves corrupted data
+> accessible to the kernel, risking silent data corruption or a delayed
+> crash when the poisoned cache line is next accessed.
+> 
+> For example, a multi-bit ECC error on a dentry cache slab page was
+> ignored by memory_failure(), and 67 seconds later d_lookup() accessed
+> the poisoned cache line, causing a synchronous external abort:
+> 
+>   [88690.479680] [Hardware Error]: error_type: 3, multi-bit ECC
+>   [88690.498473] Memory failure: 0x40272d: unhandlable page.
+>   [88690.498619] Memory failure: 0x40272d: recovery action for
+>                  get hwpoison page: Ignored
+>   ...
+>   [88757.847126] Internal error: synchronous external abort:
+>                  0000000096000410 [#1] SMP
+>   [88758.061075] pc : d_lookup+0x5c/0x220
+> 
+> Add a new sysctl vm.panic_on_unrecoverable_memory_failure (default 0)
+> that, when set to 1, panics immediately on unrecoverable memory
+> failures. This provides a clean crash dump at the time of the error
+> rather than a delayed crash with potential silent corruption in between.
+> 
+> The panic is placed in action_result() so that all call sites that log
+> MF_MSG_GET_HWPOISON with MF_IGNORED are covered, including the hugetlb
+> path in try_memory_failure_hugetlb().
+> 
+> Signed-off-by: Breno Leitao <leitao@debian.org>
+> ---
+>  mm/memory-failure.c | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+> 
+> diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+> index ee42d43613097..25bd043497195 100644
+> --- a/mm/memory-failure.c
+> +++ b/mm/memory-failure.c
+> @@ -74,6 +74,8 @@ static int sysctl_memory_failure_recovery __read_mostly = 1;
+>  
+>  static int sysctl_enable_soft_offline __read_mostly = 1;
+>  
+> +static int sysctl_panic_on_unrecoverable_mf __read_mostly;
+> +
+>  atomic_long_t num_poisoned_pages __read_mostly = ATOMIC_LONG_INIT(0);
+>  
+>  static bool hw_memory_failure __read_mostly = false;
+> @@ -155,6 +157,15 @@ static const struct ctl_table memory_failure_table[] = {
+>  		.proc_handler	= proc_dointvec_minmax,
+>  		.extra1		= SYSCTL_ZERO,
+>  		.extra2		= SYSCTL_ONE,
+> +	},
+> +	{
+> +		.procname	= "panic_on_unrecoverable_memory_failure",
+> +		.data		= &sysctl_panic_on_unrecoverable_mf,
+> +		.maxlen		= sizeof(sysctl_panic_on_unrecoverable_mf),
+> +		.mode		= 0644,
+> +		.proc_handler	= proc_dointvec_minmax,
+> +		.extra1		= SYSCTL_ZERO,
+> +		.extra2		= SYSCTL_ONE,
+>  	}
+>  };
+>  
+> @@ -1298,6 +1309,10 @@ static int action_result(unsigned long pfn, enum mf_action_page_type type,
+>  	pr_err("%#lx: recovery action for %s: %s\n",
+>  		pfn, action_page_types[type], action_name[result]);
+>  
+> +	if (sysctl_panic_on_unrecoverable_mf &&
+> +	    type == MF_MSG_GET_HWPOISON && result == MF_IGNORED)
+> +		panic("Memory failure: %#lx: unrecoverable page", pfn);
 
-kernel test robot noticed the following build errors:
+MF_MSG_GET_HWPOISON contains some other scenarios. For example, an isolated folio will
+make get_hwpoison_page return -EIO so we will see MF_MSG_GET_HWPOISON and MF_IGNORED in
+action_result. But that's recoverable if folio is used by userspace thus panic will be
+unacceptable.
+Will it better to check type against MF_MSG_KERNEL_HIGH_ORDER?
 
-[auto build test ERROR on 3d6cdcc8883b5726513d245eef0e91cabfc397f7]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jim-Mattson/KVM-x86-Define-KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT/20260328-110805
-base:   3d6cdcc8883b5726513d245eef0e91cabfc397f7
-patch link:    https://lore.kernel.org/r/20260327234023.2659476-2-jmattson%40google.com
-patch subject: [PATCH v7 1/9] KVM: x86: Define KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT
-config: x86_64-randconfig-016-20260330 (https://download.01.org/0day-ci/archive/20260330/202603301501.N2sdlIQ9-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260330/202603301501.N2sdlIQ9-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202603301501.N2sdlIQ9-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from arch/x86/kvm/svm/svm_onhyperv.c:11:
-   arch/x86/kvm/svm/svm.h: In function 'l2_has_separate_pat':
->> arch/x86/kvm/svm/svm.h:626:18: error: implicit declaration of function 'kvm_check_has_quirk'; did you mean 'kvm_check_request'? [-Wimplicit-function-declaration]
-     626 |                 !kvm_check_has_quirk(svm->vcpu.kvm,
-         |                  ^~~~~~~~~~~~~~~~~~~
-         |                  kvm_check_request
-   In file included from arch/x86/kvm/svm/svm_ops.h:7,
-                    from arch/x86/kvm/svm/svm_onhyperv.c:12:
-   arch/x86/kvm/x86.h: At top level:
->> arch/x86/kvm/x86.h:429:20: error: conflicting types for 'kvm_check_has_quirk'; have 'bool(struct kvm *, u64)' {aka '_Bool(struct kvm *, long long unsigned int)'}
-     429 | static inline bool kvm_check_has_quirk(struct kvm *kvm, u64 quirk)
-         |                    ^~~~~~~~~~~~~~~~~~~
-   arch/x86/kvm/svm/svm.h:626:18: note: previous implicit declaration of 'kvm_check_has_quirk' with type 'int()'
-     626 |                 !kvm_check_has_quirk(svm->vcpu.kvm,
-         |                  ^~~~~~~~~~~~~~~~~~~
---
-   In file included from kvm/svm/svm_onhyperv.c:11:
-   kvm/svm/svm.h: In function 'l2_has_separate_pat':
-   kvm/svm/svm.h:626:18: error: implicit declaration of function 'kvm_check_has_quirk'; did you mean 'kvm_check_request'? [-Wimplicit-function-declaration]
-     626 |                 !kvm_check_has_quirk(svm->vcpu.kvm,
-         |                  ^~~~~~~~~~~~~~~~~~~
-         |                  kvm_check_request
-   In file included from kvm/svm/svm_ops.h:7,
-                    from kvm/svm/svm_onhyperv.c:12:
-   arch/x86/kvm/x86.h: At top level:
->> arch/x86/kvm/x86.h:429:20: error: conflicting types for 'kvm_check_has_quirk'; have 'bool(struct kvm *, u64)' {aka '_Bool(struct kvm *, long long unsigned int)'}
-     429 | static inline bool kvm_check_has_quirk(struct kvm *kvm, u64 quirk)
-         |                    ^~~~~~~~~~~~~~~~~~~
-   kvm/svm/svm.h:626:18: note: previous implicit declaration of 'kvm_check_has_quirk' with type 'int()'
-     626 |                 !kvm_check_has_quirk(svm->vcpu.kvm,
-         |                  ^~~~~~~~~~~~~~~~~~~
-
-
-vim +626 arch/x86/kvm/svm/svm.h
-
-   618	
-   619	static inline bool l2_has_separate_pat(struct vcpu_svm *svm)
-   620	{
-   621		/*
-   622		 * If KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT is disabled while a vCPU
-   623		 * is running, the L2 IA32_PAT semantics for that vCPU are undefined.
-   624		 */
-   625		return nested_npt_enabled(svm) &&
- > 626			!kvm_check_has_quirk(svm->vcpu.kvm,
-   627					     KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT);
-   628	}
-   629	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks.
+.
