@@ -1,148 +1,199 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EFA320E030
-	for <linux-doc@vger.kernel.org>; Mon, 30 Mar 2026 03:49:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FF95390C98;
+	Mon, 30 Mar 2026 04:18:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774842589; cv=none; b=YyBAXL9BNO4zQ2UzPAusityDvUd2J+Uof9IVAC6IJl78ogTIqGPb0+InZOcmNFSEm8j554RBxqIw5DUG1yFfpXJN70eVWZllV2Wfr6zWiPD32aLd8ZU+9Nz11b6zBCkN/wOq3VKCsCBNTyQgegTf55XNld9eIXxKEMb9hRIFnGA=
+	t=1774844312; cv=none; b=KR8XspKlO5IgB8DTdyMO5jWcdtShGVDhSFwWrarGg+zDQdk6zqjSIzJHiXZn7ZMEDX+gUTwNdUnyEPBXaCVd31YFBvjWjnQrFChHl4JYNxQ2ve7TyZ6rKVzMD0jzWUGbR/6IhM1tdVyyTlXWRpzM1UPPWexiBQxsKSB4xl1geLU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774842589; c=relaxed/simple;
-	bh=obCDFOyxCbjX0f8M408do6wNaHwmsZQneN83knIeC68=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=N9wom0Z7mIrC+RH6/h8vdcCWX7R8P3y8BWD9sI6nFMJrS/Q2jug915eP8UfBDg6Sag3gUhUmu5RGZIjtUNJrPVRLqnWZOrP9VqueJrwMiwebCqXTHBsvs2lLxHVsBWpMP2KKR+JiDBpLFbSsUZPrHbdEjvoY/5CbpvQAZzvAYjM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eoZ8B/st; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774844312; c=relaxed/simple;
+	bh=BeOtCXTMCB7YaaO1WBZF71yVhqEr3ar112uNfVOk5Cw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=N84qNr4mCqGsABCuqwLH2Ie/CmEixrcrC+mq8I7jRtDcjRoJRSVRqLH2vAMd2Ds971MEkiJLWfosSX8kvhfcR/01Nki0BHArLz9O6+f/+6trY9o2fr3BPF0wlwdp6jMpAa7MxTXKKDFyQCXTqa9XK+PCFVKadOtAiTxRqPOiyEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=J8kcADn4; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eoZ8B/st"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47097C2BCF6
-	for <linux-doc@vger.kernel.org>; Mon, 30 Mar 2026 03:49:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774842589;
-	bh=obCDFOyxCbjX0f8M408do6wNaHwmsZQneN83knIeC68=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=eoZ8B/stmhNenV55/GZwaY1J2F6+Mdl80yqD9NRcEWBOsoYl+9c7bLnMbhuDm8UCy
-	 /HdFRjzUQbmAk/UyPSD+aNwyk+7+AXRsactruboxv4TBhmx7ZVUw3PnXCFXHbt/2Tv
-	 8gPyg7oqfxDRPwPwOxonENTYb7rY2pfqtB3H6lN+8wTRbtHFo5byuP+ppf4WRnAd5Y
-	 XciAnSMYuc3D6bWIB/pXvfsgHa26rnCnF4gtv6axbQIdyVpVlSoEdBsZ3ZtXIwQJfW
-	 magEl9/ciAmyJ46LOqRQucXon3Rz5vlKU6TS+JdRCMl0FTU+kXQTbAQM34dEaStji4
-	 KbhEz4mM9Fraw==
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-43cfac48bc7so402578f8f.0
-        for <linux-doc@vger.kernel.org>; Sun, 29 Mar 2026 20:49:49 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCX1ylF8FbfL1U4Tc+uTemBrM2UvmDRZz9pEWTbrYYU/15V1mQUtUsynBuKxNLhCmV3fXzygWhxcq+w=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxbrdWb7J8xBZSuhQdDIOvdh0apqyBNp/3BwIEdnuwuol2wIrAj
-	4NgwDRmrUJWrYSXx3ypA5uYjdM64p2Ma6tzKulgCzNYyGMK45nB/P21GFMItsSZWbDx7jQPm8XN
-	gi0eSorVnFUEwWOMrO+chZ705ozDEnWA=
-X-Received: by 2002:a05:6000:250f:b0:43c:f4df:923c with SMTP id
- ffacd0b85a97d-43cf4dfaca4mr10913170f8f.49.1774842587366; Sun, 29 Mar 2026
- 20:49:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="J8kcADn4"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
+	bh=sgEMrjrD66wL+BwansuR9C1q0Xf/+QldV+6TTBn3FIw=; b=J8kcADn4FJBooep86FOm/F03ej
+	iUppKOu28L4LhSL+8+X3P5b/QPYw8NrtH/Plj65cjjLeuf1+b8Y7Bm9PAJ5M118HINjH0G1nGgYEw
+	K5wi+1jcvPDHUssDRsZw82ecZbIbZUiqiLZ5SuAKk2DX2az3CY9ygKwV0qEtE4JU7AM13e5mrxh4K
+	UGrmaZQcqZXRcOVxbtZyU7ni1Kd0SgfrxK7vGkJVgoYaVKpJXPA8fpi3WNkDnTD2tSPAIZWgkn/yF
+	3LVHlfrqujkqXCsy/S6hwy+tJxhxEe5pI8n9CcTlo5ZYzVLmtjIlx71ZsI34WtvH9bpCNH8PAerpw
+	wHOrpikA==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1w744m-0000000AaxX-25OI;
+	Mon, 30 Mar 2026 04:18:08 +0000
+Message-ID: <a62ba774-dda4-4852-9a56-6bb9267feda9@infradead.org>
+Date: Sun, 29 Mar 2026 21:18:06 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260328074013.3589544-1-ruanjinjie@huawei.com> <20260328074013.3589544-2-ruanjinjie@huawei.com>
-In-Reply-To: <20260328074013.3589544-2-ruanjinjie@huawei.com>
-From: Guo Ren <guoren@kernel.org>
-Date: Mon, 30 Mar 2026 11:49:33 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTRN=RpgzQsQ7QDbwjDmyQZP9anQZ+CaK2r-Mrz9dQbohQ@mail.gmail.com>
-X-Gm-Features: AQROBzDiH9EGqvtsmkvuTI8F_a_MxhnUfiDn46oBgBr7JyKcMW8nH_9Y5zS6MkE
-Message-ID: <CAJF2gTRN=RpgzQsQ7QDbwjDmyQZP9anQZ+CaK2r-Mrz9dQbohQ@mail.gmail.com>
-Subject: Re: [PATCH v11 01/11] riscv: kexec_file: Fix crashk_low_res not
- exclude bug
-To: Jinjie Ruan <ruanjinjie@huawei.com>
-Cc: corbet@lwn.net, skhan@linuxfoundation.org, catalin.marinas@arm.com, 
-	will@kernel.org, chenhuacai@kernel.org, kernel@xen0n.name, 
-	maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com, 
-	chleroy@kernel.org, pjw@kernel.org, palmer@dabbelt.com, aou@eecs.berkeley.edu, 
-	alex@ghiti.fr, tglx@kernel.org, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, hpa@zytor.com, robh@kernel.org, 
-	saravanak@kernel.org, akpm@linux-foundation.org, bhe@redhat.com, 
-	vgoyal@redhat.com, dyoung@redhat.com, rdunlap@infradead.org, 
-	peterz@infradead.org, feng.tang@linux.alibaba.com, 
-	pawan.kumar.gupta@linux.intel.com, dapeng1.mi@linux.intel.com, 
-	kees@kernel.org, elver@google.com, paulmck@kernel.org, lirongqing@baidu.com, 
-	rppt@kernel.org, leitao@debian.org, ardb@kernel.org, cfsworks@gmail.com, 
-	osandov@fb.com, jbohac@suse.cz, tangyouling@kylinos.cn, 
-	sourabhjain@linux.ibm.com, ritesh.list@gmail.com, eajames@linux.ibm.com, 
-	songshuaishuai@tinylab.org, kevin.brodsky@arm.com, vishal.moola@gmail.com, 
-	junhui.liu@pigmoral.tech, coxu@redhat.com, fuqiang.wang@easystack.cn, 
-	liaoyuanhong@vivo.com, chenjiahao16@huawei.com, hbathini@linux.ibm.com, 
-	takahiro.akashi@linaro.org, james.morse@arm.com, lizhengyu3@huawei.com, 
-	x86@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, loongarch@lists.linux.dev, 
-	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, 
-	devicetree@vger.kernel.org, kexec@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Sat, Mar 28, 2026 at 3:41=E2=80=AFPM Jinjie Ruan <ruanjinjie@huawei.com>=
- wrote:
->
-> As done in commit 944a45abfabc ("arm64: kdump: Reimplement crashkernel=3D=
-X")
-> and commit 4831be702b95 ("arm64/kexec: Fix missing extra range for
-> crashkres_low.") for arm64, while implementing crashkernel=3DX,[high,low]=
-,
-> riscv should have excluded the "crashk_low_res" reserved ranges from
-> the crash kernel memory to prevent them from being exported through
-> /proc/vmcore, and the exclusion would need an extra crash_mem range.
->
-> Cc: Guo Ren <guoren@kernel.org>
-> Cc: Baoquan He <bhe@redhat.com>
-> Fixes: 5882e5acf18d ("riscv: kdump: Implement crashkernel=3DX,[high,low]"=
-)
-> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
-> ---
->  arch/riscv/kernel/machine_kexec_file.c | 14 +++++++++++---
->  1 file changed, 11 insertions(+), 3 deletions(-)
->
-> diff --git a/arch/riscv/kernel/machine_kexec_file.c b/arch/riscv/kernel/m=
-achine_kexec_file.c
-> index 54e2d9552e93..3f7766057cac 100644
-> --- a/arch/riscv/kernel/machine_kexec_file.c
-> +++ b/arch/riscv/kernel/machine_kexec_file.c
-> @@ -61,7 +61,7 @@ static int prepare_elf_headers(void **addr, unsigned lo=
-ng *sz)
->         unsigned int nr_ranges;
->         int ret;
->
-> -       nr_ranges =3D 1; /* For exclusion of crashkernel region */
-> +       nr_ranges =3D 2; /* For exclusion of crashkernel region */
->         walk_system_ram_res(0, -1, &nr_ranges, get_nr_ram_ranges_callback=
-);
->
->         cmem =3D kmalloc_flex(*cmem, ranges, nr_ranges);
-> @@ -76,8 +76,16 @@ static int prepare_elf_headers(void **addr, unsigned l=
-ong *sz)
->
->         /* Exclude crashkernel region */
->         ret =3D crash_exclude_mem_range(cmem, crashk_res.start, crashk_re=
-s.end);
-> -       if (!ret)
-> -               ret =3D crash_prepare_elf64_headers(cmem, true, addr, sz)=
-;
-> +       if (ret)
-> +               goto out;
-> +
-> +       if (crashk_low_res.end) {
-> +               ret =3D crash_exclude_mem_range(cmem, crashk_low_res.star=
-t, crashk_low_res.end);
-Exclude crashk_low_res is reasonable, but have you tested this?
-
-> +               if (ret)
-> +                       goto out;
-> +       }
-> +
-> +       ret =3D crash_prepare_elf64_headers(cmem, true, addr, sz);
->
->  out:
->         kfree(cmem);
-> --
-> 2.34.1
->
+User-Agent: Mozilla Thunderbird
+Subject: =?UTF-8?B?UmU6IOetlOWkjTogW+WklumDqOmCruS7tl0gUmU6IFtQQVRDSF0gZG9j?=
+ =?UTF-8?Q?s=3A_kernel-parameters=3A_fix_architecture_alignment_for_pt=2C_no?=
+ =?UTF-8?Q?pt=2C_and_nobypass?=
+To: "Li,Rongqing(ACG CCN)" <lirongqing@baidu.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Borislav Petkov <bp@alien8.de>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Feng Tang <feng.tang@linux.alibaba.com>,
+ Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+ Dapeng Mi <dapeng1.mi@linux.intel.com>, Kees Cook <kees@kernel.org>,
+ Marco Elver <elver@google.com>, "Paul E . McKenney" <paulmck@kernel.org>,
+ Askar Safin <safinaskar@gmail.com>, Bjorn Helgaas <bhelgaas@google.com>,
+ Sohil Mehta <sohil.mehta@intel.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20260326074658.1899-1-lirongqing@baidu.com>
+ <b72c938d-1690-49f4-b617-916f24c3c53c@infradead.org>
+ <16386e7715284b22b5f72e7106ed5619@baidu.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <16386e7715284b22b5f72e7106ed5619@baidu.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 
---=20
-Best Regards
- Guo Ren
+
+On 3/29/26 8:08 PM, Li,Rongqing(ACG CCN) wrote:
+> 
+> 
+>> -----邮件原件-----
+>> 发件人: Randy Dunlap <rdunlap@infradead.org>
+>> 发送时间: 2026年3月27日 0:08
+>> 收件人: Li,Rongqing(ACG CCN) <lirongqing@baidu.com>; Jonathan Corbet
+>> <corbet@lwn.net>; Shuah Khan <skhan@linuxfoundation.org>; Andrew Morton
+>> <akpm@linux-foundation.org>; Borislav Petkov <bp@alien8.de>; Peter Zijlstra
+>> <peterz@infradead.org>; Feng Tang <feng.tang@linux.alibaba.com>; Pawan
+>> Gupta <pawan.kumar.gupta@linux.intel.com>; Dapeng Mi
+>> <dapeng1.mi@linux.intel.com>; Kees Cook <kees@kernel.org>; Marco Elver
+>> <elver@google.com>; Paul E . McKenney <paulmck@kernel.org>; Askar Safin
+>> <safinaskar@gmail.com>; Bjorn Helgaas <bhelgaas@google.com>; Sohil Mehta
+>> <sohil.mehta@intel.com>; linux-doc@vger.kernel.org;
+>> linux-kernel@vger.kernel.org
+>> 主题: [外部邮件] Re: [PATCH] docs: kernel-parameters: fix architecture
+>> alignment for pt, nopt, and nobypass
+>>
+>> Hi,
+>>
+>> On 3/26/26 12:46 AM, lirongqing wrote:
+>>> From: Li RongQing <lirongqing@baidu.com>
+>>>
+>>> Commit ab0e7f20768a ("Documentation: Merge x86-specific boot options
+>>> doc into kernel-parameters.txt") introduced a formatting regression
+>>> where architecture tags were placed on separate lines with broken
+>> indentation.
+>>> This caused the 'nopt' [X86] parameter to appear as if it belonged to
+>>> the [PPC/POWERNV] section.
+>>>
+>>> Fix the formatting by placing the architecture tags on the same line
+>>> as their respective parameters ('pt', 'nopt', and 'nobypass') and
+>>> restoring proper indentation.
+>>>
+>>> Fixes: ab0e7f20768a ("Documentation: Merge x86-specific boot options
+>>> doc into kernel-parameters.txt")
+>>> Signed-off-by: Li RongQing <lirongqing@baidu.com>
+>>> ---
+>>>  Documentation/admin-guide/kernel-parameters.txt | 9 +++------
+>>>  1 file changed, 3 insertions(+), 6 deletions(-)
+>>>
+>>> diff --git a/Documentation/admin-guide/kernel-parameters.txt
+>>> b/Documentation/admin-guide/kernel-parameters.txt
+>>> index 03a5506..dc1c5bd 100644
+>>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>>> @@ -2615,12 +2615,9 @@ Kernel parameters
+>>>  			Intel machines). This can be used to prevent the usage
+>>>  			of an available hardware IOMMU.
+>>>
+>>> -			[X86]
+>>> -		pt
+>>> -			[X86]
+>>> -		nopt
+>>> -			[PPC/POWERNV]
+>>> -		nobypass
+>>> +		pt  	[X86]
+>>> +		nopt	[X86]
+>>> +		nobypass	[PPC/POWERNV]
+>>>  			Disable IOMMU bypass, using IOMMU for PCI devices.
+>>>
+>>>  		[X86]
+>>
+>> This looks good as far as it goes, but there are still some problems IMO.
+>>
+>> These are all iommu= options, but iommu says that it's for [X86,EARLY].
+>> No PPC/POWERNV mentioned there.
+> 
+> I think [PPC/POWERNV] should not be added to the main iommu= header. Since that header is already tagged as [X86, EARLY], adding PowerPC there would imply all subsequent options are cross-platform. Instead, it is cleaner to keep the main header as X86-specific and explicitly tag the individual nobypass option for [PPC/POWERNV]. This avoids the need to redundantly label every other X86-only option (like pt or nopt) within the section.
+> 
+>>
+>> Then immediately following nobypass, there is this:
+>> 		[X86]
+>> 		AMD Gart HW IOMMU-specific options:
+>>
+>> which is also in questionable format. The [X86] isn't needed at all IMO, or if it's
+>> desirable, those 2 lines should be on one line.
+>>
+> You are right , [X86] isn't needed , How about to remove the [X86], like below 
+> 
+>     Documentation/kernel-parameters: fix architecture alignment for pt, nopt, and nobypass
+> 
+>     Commit ab0e7f20768a ("Documentation: Merge x86-specific boot options doc
+>     into kernel-parameters.txt") introduced a formatting regression where
+>     architecture tags were placed on separate lines with broken indentation.
+>     This caused the 'nopt' [X86] parameter to appear as if it belonged to
+>     the [PPC/POWERNV] section.
+> 
+>     Furthermore, since the main 'iommu=' parameter heading already specifies
+>     it is for [X86, EARLY], the subsequent standalone [X86] tags for 'pt',
+>     'nopt', and the AMD GART options are redundant and clutter the
+>     documentation.
+> 
+>     Clean up the formatting by removing these redundant tags and properly
+>     attributing the 'nobypass' option to [PPC/POWERNV].
+> 
+>     Fixes: ab0e7f20768a ("Documentation: Merge x86-specific boot options doc into kernel-parameters.txt")
+>     Signed-off-by: Li RongQing <lirongqing@baidu.com>
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 03a5506..5253c23 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -2615,15 +2615,11 @@ Kernel parameters
+>                         Intel machines). This can be used to prevent the usage
+>                         of an available hardware IOMMU.
+> 
+> -                       [X86]
+>                 pt
+> -                       [X86]
+>                 nopt
+> -                       [PPC/POWERNV]
+> -               nobypass
+> +               nobypass        [PPC/POWERNV]
+>                         Disable IOMMU bypass, using IOMMU for PCI devices.
+> 
+> -               [X86]
+>                 AMD Gart HW IOMMU-specific options:
+> 
+>                 <size>
+> [Li,Rongqing] 
+> 
+
+Yes, LGTM. Thanks.
+
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+
+
+-- 
+~Randy
+
