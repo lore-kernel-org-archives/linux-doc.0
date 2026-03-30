@@ -1,174 +1,217 @@
-Received: from out30-118.freemail.mail.aliyun.com (out30-118.freemail.mail.aliyun.com [115.124.30.118])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D83FA3CD8D7;
-	Mon, 30 Mar 2026 12:26:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.118
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F35C3D16EB
+	for <linux-doc@vger.kernel.org>; Mon, 30 Mar 2026 12:49:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774873605; cv=none; b=UByQ/M/2D1hd7z/irJZ6wKoJbXR9+CCUpL1IAtO3eNtLRCBWyQtNXzeuF3cPetYhTZ/2aoRAUAxIzfEk1hMsYTycPy8mbzVXjRZ8sFIzeatG9C0yy9CeY5R8YChtDEM66d0mdgSz6z8eSzEsCjryWJR7wN3HGNfctjuXRnDKZp0=
+	t=1774874998; cv=none; b=PZUdWb0xvl1+syItvl7gzAzcfCfbdo4kx48r9PHUMpS+2wkXPHQadstUHS3vi1SIrQY255YbqK4CJ1C9GuRdetU5YnQjLOwpssfYAeBdon5fKc4GLP0hx9mLu7kcrM05Nlo56BkojPUBriLyr05m3TmYxhLi8g+AZEqxnyGV3fU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774873605; c=relaxed/simple;
-	bh=t+nBbtYRRgP5iBScihFqmbDfpM8X25wYYMjt+qeUvm0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=iV6ID3GE38bLNeFjCujc0arlznsl61D+OV1qmv3dXViX/6cWvoog4k57gSgpn0SLC80oGALeouqLVpejRisLzoIxJeYrvPtQBVxGSCebscFvuXxqKd/TVD8SKSGe4nLjhF2iKALlzShSVdMyiyfafhhsadKD1+PiNjI0PQaLkrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=gAgl0YHo; arc=none smtp.client-ip=115.124.30.118
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1774874998; c=relaxed/simple;
+	bh=WWyTk+NtT7VBydiBDCtThdwfOouiS0kGioG4tnTS5wg=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=I+bG+YRGGXSthd9xt+HuubFvmtXTdBalZPDJUecdQW4rwEu4sRKBMwO6tXP10SBp3rPFI04yutW8Uebri8gLRHDaXBP5Zd+cpPryEYqWjNh43IE0413LPIV/M33fDh+15K33q32RvzD9eMbZ4SwS+VuvI3VfLc+otT8Bgted8yY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cxGNkqDU; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="gAgl0YHo"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1774873595; h=From:To:Subject:Date:Message-Id:MIME-Version;
-	bh=hFPV9OZsT6eJowdta/xFZt6DIyl+vW5qGVBuswXMeAQ=;
-	b=gAgl0YHoRXUI4fqRUUraqNR7gl5evH2jb92yTK3Zo72XiGqGp3L7jU5oUdX1wrauvmb75qSXROgnS5d9vsElxXNMTfFFjxBF/AOg2SXRYas1CBYQ0JDwNllD1Kmfu6oOBc/kaHqLNuWdLqLd8Nz2Y4btnAIYFUwvgKiUZ0RCiSE=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R141e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037033178;MF=fangyu.yu@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0X.zfcJd_1774873592;
-Received: from localhost.localdomain(mailfrom:fangyu.yu@linux.alibaba.com fp:SMTPD_---0X.zfcJd_1774873592 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Mon, 30 Mar 2026 20:26:33 +0800
-From: fangyu.yu@linux.alibaba.com
-To: pbonzini@redhat.com,
-	corbet@lwn.net,
-	anup@brainfault.org,
-	atish.patra@linux.dev,
-	pjw@kernel.org,
-	palmer@dabbelt.com,
-	aou@eecs.berkeley.edu,
-	alex@ghiti.fr,
-	skhan@linuxfoundation.org
-Cc: guoren@kernel.org,
-	radim.krcmar@oss.qualcomm.com,
-	andrew.jones@oss.qualcomm.com,
-	linux-doc@vger.kernel.org,
-	kvm@vger.kernel.org,
-	kvm-riscv@lists.infradead.org,
-	linux-riscv@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Fangyu Yu <fangyu.yu@linux.alibaba.com>
-Subject: [PATCH v6 4/4] RISC-V: KVM: add KVM_CAP_RISCV_SET_HGATP_MODE
-Date: Mon, 30 Mar 2026 20:26:01 +0800
-Message-Id: <20260330122601.22140-5-fangyu.yu@linux.alibaba.com>
-X-Mailer: git-send-email 2.39.3 (Apple Git-146)
-In-Reply-To: <20260330122601.22140-1-fangyu.yu@linux.alibaba.com>
-References: <20260330122601.22140-1-fangyu.yu@linux.alibaba.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cxGNkqDU"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-43b41b545d9so4852535f8f.2
+        for <linux-doc@vger.kernel.org>; Mon, 30 Mar 2026 05:49:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774874995; x=1775479795; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vIPxU8NPiUBkc7/lauG310zB4DTmb8xB6TYqBKHKduU=;
+        b=cxGNkqDUsgdinQZCDnxI7wYeprLxwOOUKHW3nvHU/WStsBT0kwRF9+xP2wge840F1M
+         FF472gNa6SYjWypywlg96mm3YqKaPi7RkXx7GNdgDybDh4F75WDZRyYDoAqszwUkQALd
+         dphxPSLlGaiIwom8lSQo0zZCEL5PUPjT3BGNIPK+IA0/SwOAeWJvE931gpPsuF9doxR8
+         vAca3J/bAjBFoilSo2W+mPEREDUbMOhPkHTgQVgkpVBGlJuAWAFzPYOMUfB085eKV9xk
+         3mIFHTLAyhIesCPypKg68hGRagOgsKV0CcCR5PQHxjjilsRFl2J9mhzA/NnOs6DSMiBW
+         5qZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774874995; x=1775479795;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vIPxU8NPiUBkc7/lauG310zB4DTmb8xB6TYqBKHKduU=;
+        b=ohFqDUEEqfVuritWN+B9MvK9eNP9ffKxYV5VXtu0B4BPqI4S/ydUyPbIPJ0f9aRzUp
+         z+Y1nCfzxc/bk6hzRAAVuIxohdUqstldLXidZ2utb54WVZWVDZfiYI3g0NbT6irP+DNE
+         +RaQtEv6Nd3JECJWXHLwsyD/XU52u39wl2s0Yf/PY3VCeP74c1TySnz/UnosKYhghKLx
+         IEDNxaAlP+EFwZnD1UCeAU5smpdRexS73VbR8euFremQFllVc3+lR1fqsjzkmKy0KZUr
+         TAF4WdoIeljYZOK1p8eistKjF2dfl381ixOXmOavcSo7eon+q5L02aCm5lb9KEV60fXw
+         t/Dg==
+X-Forwarded-Encrypted: i=1; AJvYcCVXQ1FVQveGVIhmMjqH0kHIoZ4pMm5caPXCBS+msHaxlJT0Nyo+hyplLowOhckEpNqrYdnajEuGbN8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzaFa4RkVw1+YLajrbCA5PuZpjtPbwGN8Q5TF0RbFrxGezkxfG6
+	wlwTt31crz4jr4meZGdPdM8s+zLvJHsbdSfrlt7D77vqYwnTltJVniAS
+X-Gm-Gg: ATEYQzzRJ4du0oBABBJDeLN4vHcEYF6I+327wAjaG6H7XmGQKUKcwUcQHIntN+j0p52
+	t5XiRLMJhXeh6veP5o1MW6M/6zCMOGKm6lcjj0ihIh7VE4L2B9aI2nYTp7zHtHSO72P9/ObIK5w
+	iwiKyj8dNbtHrzfbp2U2iBjIamdEnhlKWYxJ2fN+5MXVEn4K9Z6tsOnKNlCW/PbN97fYjTV/bHs
+	96ZaOZbtVkE0aHJzljWqdZ899amYxjXNKtCpdG6uA32sVCf0Ao5vdVjclPmNzxx0zldEb+JGEgj
+	yAKMc62MzoLc40criC3eeIoQPi6eHuJ/S+C6rXaE+245lUt6IL1Gz8k6Tx9CCTBPxKMgdIVZG5U
+	A9MR+w4YYiI/CdFgydf1yVZ6JdeW0/KzNJlxZXB32XYO2qVjY79S473CuVy0+Af55W5M6CjVSz6
+	7ZmpG4cSxDgOl/e2IcDOVs5IgNIsFwXY/LNdhVWbMwJYSfvn5kLQ53b23E3rviX+exUMNie+sBl
+	6z9ABit5ArXujf8+oCyr2uQc+G3Tzm86DB6pJWMEMs2ptzWWhg=
+X-Received: by 2002:a05:6000:2003:b0:43b:45d1:f438 with SMTP id ffacd0b85a97d-43b9e9da653mr20627980f8f.3.1774874995133;
+        Mon, 30 Mar 2026 05:49:55 -0700 (PDT)
+Received: from RDEALENC-L01.ad.analog.com (24.206.116.131.netskope-rdns.com. [24.206.116.131])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf2471ee2sm17842031f8f.29.2026.03.30.05.49.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Mar 2026 05:49:54 -0700 (PDT)
+From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
+Date: Mon, 30 Mar 2026 13:49:48 +0100
+To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Petr Mladek <pmladek@suse.com>, rodrigo.alencar@analog.com, 
+	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>, 
+	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH v9 2/9] lib: vsprintf: export simple_strntoull() in a
+ safe prototype
+Message-ID: <qnb3ozrhrq5n4zkh2luitkpwr5oj4omgcuo5vnvy2gatdfdqlg@cgsgux7etcql>
+References: <20260320-adf41513-iio-driver-v9-0-132f0d076374@analog.com>
+ <20260320-adf41513-iio-driver-v9-2-132f0d076374@analog.com>
+ <acZDneLrIPOmU5ci@pathway.suse.cz>
+ <acZLHAT5qJyjKTsp@ashevche-desk.local>
+ <4uijfg4efzaapu3esobez55hfwqzszwagpeb4lxej2ybmifu76@s3c57fmnsme6>
+ <acZaGUV0MwuHNDru@ashevche-desk.local>
+ <x34d7jz7be4ommjh6efx5mcq5pbpellykwuyrqayr4ske3lywf@wh46mu3anmcz>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <x34d7jz7be4ommjh6efx5mcq5pbpellykwuyrqayr4ske3lywf@wh46mu3anmcz>
 
-From: Fangyu Yu <fangyu.yu@linux.alibaba.com>
+On 26/03/27 03:17PM, Rodrigo Alencar wrote:
+> On 26/03/27 12:21PM, Andy Shevchenko wrote:
+> > On Fri, Mar 27, 2026 at 10:11:56AM +0000, Rodrigo Alencar wrote:
+> > > On 26/03/27 11:17AM, Andy Shevchenko wrote:
+> > > > On Fri, Mar 27, 2026 at 09:45:17AM +0100, Petr Mladek wrote:
+> > > > > On Fri 2026-03-20 16:27:27, Rodrigo Alencar via B4 Relay wrote:
 
-Add a VM capability that allows userspace to select the G-stage page table
-format by setting HGATP.MODE on a per-VM basis.
+...
 
-Userspace enables the capability via KVM_ENABLE_CAP, passing the requested
-HGATP.MODE in args[0]. The request is rejected with -EINVAL if the mode is
-not supported by the host, and with -EBUSY if the VM has already been
-committed (e.g. vCPUs have been created or any memslot is populated).
+> > > > Maybe we want to have kstrtof32() and kstrtof64() for these two cases?
+> > > > 
+> > > > With that we will always consider the fraction part as 32- or 64-bit,
+> > > > imply floor() on the fraction for the sake of simplicity and require
+> > > > it to be NUL-terminated with possible trailing '\n'.
+> > > 
+> > > I think this is a good idea, but calling it float or fixed point itself
+> > > is a bit confusing as float often refers to the IEEE 754 standard and
+> > > fixed point types is often expressed in Q-format.
+> > 
+> > Yeah... I am lack of better naming.
+> 
+> decimals is the name, but they are often represented as:
+> 
+> 	DECIMAL = INT * 10^X + FRAC
+> 
+> in a single 64-bit number, which would be fine for my end use case.
+> However IIO decimal fixed point parsing is out there for quite some time a
+> lot of drivers use that. The interface often relies on breaking parsed values
+> into an integer array (for standard attributes int val and int val2 are expected).
 
-KVM_CHECK_EXTENSION(KVM_CAP_RISCV_SET_HGATP_MODE) returns a bitmask of the
-HGATP.MODE formats supported by the host.
+Thinking about this again and in IIO drivers we end up doing something like:
 
-Signed-off-by: Fangyu Yu <fangyu.yu@linux.alibaba.com>
-Reviewed-by: Andrew Jones <andrew.jones@oss.qualcomm.com>
----
- Documentation/virt/kvm/api.rst | 27 +++++++++++++++++++++++++++
- arch/riscv/kvm/vm.c            | 18 ++++++++++++++++--
- include/uapi/linux/kvm.h       |  1 +
- 3 files changed, 44 insertions(+), 2 deletions(-)
+val64 = (u64)val * MICRO + val2;
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index 032516783e96..9d7f6958fa81 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -8902,6 +8902,33 @@ helpful if user space wants to emulate instructions which are not
- This capability can be enabled dynamically even if VCPUs were already
- created and are running.
- 
-+7.47 KVM_CAP_RISCV_SET_HGATP_MODE
-+---------------------------------
-+
-+:Architectures: riscv
-+:Type: VM
-+:Parameters: args[0] contains the requested HGATP mode
-+:Returns:
-+  - 0 on success.
-+  - -EINVAL if args[0] is outside the range of HGATP modes supported by the
-+    hardware.
-+  - -EBUSY if vCPUs have already been created for the VM, if the VM has any
-+    non-empty memslots.
-+
-+This capability allows userspace to explicitly select the HGATP mode for
-+the VM. The selected mode must be supported by both KVM and hardware. This
-+capability must be enabled before creating any vCPUs or memslots.
-+
-+If this capability is not enabled, KVM will select the default HGATP mode
-+automatically. The default is the highest HGATP.MODE value supported by
-+hardware.
-+
-+``KVM_CHECK_EXTENSION(KVM_CAP_RISCV_SET_HGATP_MODE)`` returns a bitmask of
-+HGATP.MODE values supported by the host. A return value of 0 indicates that
-+the capability is not supported. Supported-mode bitmask use HGATP.MODE
-+encodings as defined by the RISC-V privileged specification, such as Sv39x4
-+corresponds to HGATP.MODE=8, so userspace should test bitmask & BIT(8).
-+
- 8. Other capabilities.
- ======================
- 
-diff --git a/arch/riscv/kvm/vm.c b/arch/riscv/kvm/vm.c
-index 4d82a886102c..5e82a3ad3ad0 100644
---- a/arch/riscv/kvm/vm.c
-+++ b/arch/riscv/kvm/vm.c
-@@ -201,6 +201,9 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
- 	case KVM_CAP_VM_GPA_BITS:
- 		r = kvm_riscv_gstage_gpa_bits(kvm->arch.pgd_levels);
- 		break;
-+	case KVM_CAP_RISCV_SET_HGATP_MODE:
-+		r = kvm_riscv_get_hgatp_mode_mask();
-+		break;
- 	default:
- 		r = 0;
- 		break;
-@@ -211,12 +214,23 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
- 
- int kvm_vm_ioctl_enable_cap(struct kvm *kvm, struct kvm_enable_cap *cap)
- {
-+	if (cap->flags)
-+		return -EINVAL;
-+
- 	switch (cap->cap) {
- 	case KVM_CAP_RISCV_MP_STATE_RESET:
--		if (cap->flags)
--			return -EINVAL;
- 		kvm->arch.mp_state_reset = true;
- 		return 0;
-+	case KVM_CAP_RISCV_SET_HGATP_MODE:
-+		if (!kvm_riscv_hgatp_mode_is_valid(cap->args[0]))
-+			return -EINVAL;
-+
-+		if (kvm->created_vcpus || !kvm_are_all_memslots_empty(kvm))
-+			return -EBUSY;
-+#ifdef CONFIG_64BIT
-+		kvm->arch.pgd_levels = 3 + cap->args[0] - HGATP_MODE_SV39X4;
-+#endif
-+		return 0;
- 	default:
- 		return -EINVAL;
- 	}
-diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-index 80364d4dbebb..a74a80fd4046 100644
---- a/include/uapi/linux/kvm.h
-+++ b/include/uapi/linux/kvm.h
-@@ -989,6 +989,7 @@ struct kvm_enable_cap {
- #define KVM_CAP_ARM_SEA_TO_USER 245
- #define KVM_CAP_S390_USER_OPEREXEC 246
- #define KVM_CAP_S390_KEYOP 247
-+#define KVM_CAP_RISCV_SET_HGATP_MODE 248
- 
- struct kvm_irq_routing_irqchip {
- 	__u32 irqchip;
+so that drivers often work with scaled versions of the decimal value.
+then, would it make sense to have a function that already outputs such value?
+That would allow to have more freedom over the 64-bit split between integer
+and fractional parts.
+As a draft:
+
+static int _kstrtodec64(const char *s, unsigned int scale, u64 *res)
+{
+	u64 _res = 0, _frac = 0;
+	unsigned int rv;
+
+	if (*s != '.') {
+		rv = _parse_integer(s, 10, &_res);
+		if (rv & KSTRTOX_OVERFLOW)
+			return -ERANGE;
+		if (rv == 0)
+			return -EINVAL;
+		s += rv;
+	}
+
+	if (*s == '.') {
+		s++;
+		rv = _parse_integer_limit(s, 10, &_frac, scale);
+		if (rv & KSTRTOX_OVERFLOW)
+			return -ERANGE;
+		if (rv == 0)
+			return -EINVAL;
+		s += rv;
+		if (rv < scale)
+			_frac *= int_pow(10, scale - rv);
+		while (isdigit(*s)) /* truncate */
+			s++;
+	}
+
+	if (*s == '\n')
+		s++;
+	if (*s)
+		return -EINVAL;
+
+	if (check_mul_overflow(_res, int_pow(10, scale), &_res) ||
+	    check_add_overflow(_res, _frac, &_res))
+		return -ERANGE;
+
+	*res = _res;
+	return 0;
+}
+
+noinline
+int kstrtoudec64(const char *s, unsigned int scale, u64 *res)
+{
+	if (s[0] == '+')
+		s++;
+	return _kstrtodec64(s, scale, res);
+}
+EXPORT_SYMBOL(kstrtoudec64);
+
+noinline
+int kstrtosdec64(const char *s, unsigned int scale, s64 *res)
+{
+	u64 tmp;
+	int rv;
+
+	if (s[0] == '-') {
+		rv = _kstrtodec64(s + 1, scale, &tmp);
+		if (rv < 0)
+			return rv;
+		if ((s64)-tmp > 0)
+			return -ERANGE;
+		*res = -tmp;
+	} else {
+		rv = kstrtoudec64(s, scale, &tmp);
+		if (rv < 0)
+			return rv;
+		if ((s64)tmp < 0)
+			return -ERANGE;
+		*res = tmp;
+	}
+	return 0;
+}
+EXPORT_SYMBOL(kstrtosdec64);
+
+e.g., kstrtosdec64() or kstrtoudec64() parses "3.1415" with scale 3 into 3141
+
+
 -- 
-2.50.1
+Kind regards,
 
+Rodrigo Alencar
