@@ -1,88 +1,117 @@
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2303392C3C;
-	Mon, 30 Mar 2026 05:22:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774848144; cv=pass; b=svJV783EG40bgICMNjT4vKpMDTl4eLPDrVIXqnJ52jqYoa0l89vKnG+exBOqewfHGRI0GNXVfmfaG6MGS9TLNeqnylGpEcJM9Hx9bYR1XsWxtQJ2HVx9Pc4h+/Ft23kXUiqc5iaEn/kiuPX7y0koohqrBXKuCfSDD4Zo4GUtx+k=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774848144; c=relaxed/simple;
-	bh=qu4rm+Ks2o34Kpj/nd1Ujsn82vestoF+hHUzBOpnI/E=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Y1SpQe+fs19IOoOdpU2lzDw0OblUq/gE9h8G4zK3Z20bt9k1q7bYTfS1pa3HKNXSfBAQ5XrC5u/MCLhUBmGfxqOcPs6lfMaNPah1vBSgwtb/N7vQISovtomWjCI9VJn0EQIsEw/Za83GCNy6BtOTWGYrfmjanLqgfEeyVf5qqew=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com; spf=pass smtp.mailfrom=ritovision.com; dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b=CfhuKjUh; arc=pass smtp.client-ip=136.143.188.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ritovision.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3069D131E49;
+	Mon, 30 Mar 2026 05:47:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774849678; cv=none; b=gEEGvS+01GpYyAxGw4ETVJ0hhDVhUj9KJZ5OnEFeAiPbZvGgIt93XJkNQ2pqV8RjbYIaKWV2mZDS8VFartWRmaukJn7U+sWGnopwU7dH6EcFxSz7+R27Of+PF+FZamjAi1giJiZ9KvYs0b8IlPADJ+WzVqXNfUigNu7WiIQXTn0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774849678; c=relaxed/simple;
+	bh=qyDqUEOyuGKVWNwH/c11TUyv3guz+h7W/2xYEx83qdg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A7TLM+Kapzail2d1H7Cc6K00SYbfzlIxf+j2wkZUguj2nc2a0EPvsMg9XeN/Uh7odbPE/zfO/0wfa/DyaFDHHkjmQ2uZBR+I41VsvdNl7mBtEEu3qTBxtDMSKekpI4TndEVUCRJacCrPOADpViGJVk1mu1ZVLcDY6MfnnJe/bQI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=s6CxoxH0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b="CfhuKjUh"
-ARC-Seal: i=1; a=rsa-sha256; t=1774848135; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=A9mBtuqZShUaYpR7nvUqVnCuNDdNiqZ25bsbSNINSg6o3fL5YfMuTWK5o3UGAg80T1sZxHO+Po97DQatB0QgixxkEDkwFiaWzzhLmCvRLIZJB7aaVmf6nm/mbJ4o8c/Dm4W4uFiOSNfBhAAs1I2miH8v88ZXU0YqQrVCgbLw7zc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1774848135; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=AnCI6klqqwA1JusfEK/RMJc1BBcuMfjifqR23IwVIqE=; 
-	b=Jz4tAGVwRiUrpTDN//Zhux5v2kkQS6iURtMy/V6joYPR/WNaE5vxPx7YZVEhPlLwzjx2CWoFtckKy85o3Wb11KpbMnPf8cVPpRr5/Prj0VYg4jkpkOIK2MtMZ2a5PoFrwtwwoeAgCnPB6j+ryD2Ovs88/iGvg3qYRjidRuNuFgU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=ritovision.com;
-	spf=pass  smtp.mailfrom=rito@ritovision.com;
-	dmarc=pass header.from=<rito@ritovision.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774848135;
-	s=zmail; d=ritovision.com; i=rito@ritovision.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=AnCI6klqqwA1JusfEK/RMJc1BBcuMfjifqR23IwVIqE=;
-	b=CfhuKjUhBNnnTAcanfICC5ZpFvFWzilaqw5si7OawBLgzmrjONEaOIDRJfx/Uj7/
-	bejYcnzMpXSzZ8+7/rIMBtsC/aO8rVb/xj3nVv8DIgtSHRyUOJ3RNYwcMcO3/kcdiZ4
-	AnUE1izrD36LZh7pFAshHeiqq+jOIN4Ejzfu2jj8=
-Received: by mx.zohomail.com with SMTPS id 1774848133603642.6330771192052;
-	Sun, 29 Mar 2026 22:22:13 -0700 (PDT)
-From: Rito Rhymes <rito@ritovision.com>
-To: corbet@lwn.net,
-	skhan@linuxfoundation.org
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Rito Rhymes <rito@ritovision.com>
-Subject: [PATCH 3/3] docs: add left padding to C API signature rows
-Date: Mon, 30 Mar 2026 01:21:59 -0400
-Message-ID: <20260330052159.11284-4-rito@ritovision.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260330052159.11284-1-rito@ritovision.com>
-References: <20260330052159.11284-1-rito@ritovision.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="s6CxoxH0"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63F97C4CEF7;
+	Mon, 30 Mar 2026 05:47:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1774849678;
+	bh=qyDqUEOyuGKVWNwH/c11TUyv3guz+h7W/2xYEx83qdg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=s6CxoxH0HeeGjkoRHRYMsUCMx1bmeebfIP/QXjBDYhu3WBZcQ3seFDg7iH3ojeAsx
+	 NwHNs5oe8IiLJHe8it1Exk6k4SJArLYUlsGy9Lap4JOq4U0kUr1qApjqCXRPo0fClg
+	 /PzekReHjwvzt9G5P1YnFoF9TSvZqY3xrNKx1id0=
+Date: Mon, 30 Mar 2026 07:47:54 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: SeongJae Park <sj@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	"# 5 . 19 . x" <stable@vger.kernel.org>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Lorenzo Stoakes <ljs@kernel.org>,
+	Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>, damon@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, Roman Gushchin <roman.gushchin@linux.dev>
+Subject: Re: (sashiko status) [PATCH 0/2] Docs/admin-guide/mm/damon: warn
+ commit_inputs vs other params race
+Message-ID: <2026033013-drainage-stylized-43d6@gregkh>
+References: <2026032915-library-embolism-b48c@gregkh>
+ <20260329193226.59025-1-sj@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260329193226.59025-1-sj@kernel.org>
 
-Add a small amount of left padding to rendered C API signature
-rows.
+On Sun, Mar 29, 2026 at 12:32:26PM -0700, SeongJae Park wrote:
+> + Roman for a case he has any opinion about my sashiko usage.
+> 
+> Hello Greg,
+> 
+> On Sun, 29 Mar 2026 20:05:53 +0200 Greg KH <gregkh@linuxfoundation.org> wrote:
+> 
+> > On Sun, Mar 29, 2026 at 08:49:16AM -0700, SeongJae Park wrote:
+> > > Forwarding sashiko.dev review status for this thread.
+> > > 
+> > > # review url: https://sashiko.dev/#/patchset/20260329153052.46657-1-sj@kernel.org
+> > 
+> > Why are you doing this?  If we want to see the review, can't we just go
+> > and look at the tool itself?
+> 
+> We can.  But it is bit cumbersome to opening web browser and moving my focus to
+> there.  Reading everything on the mailing tool is easier for some people like
+> me.  Like some test bots send reports are replying to patches, or we sometimes
+> forwarding bugzilla reports to mailing lists in a form of a plain text mail.
 
-This improves readability because the signature row and its
-container use different background colors, and when the first
-character sits too close to that contrasting edge it is harder to
-read.
+Sure, but are you going to now forward all random tool reviews that are
+run on your subsystem to all of these lists (your distribution cc: is
+quite large here)?
 
-Signed-off-by: Rito Rhymes <rito@ritovision.com>
-Assisted-by: Codex:GPT-5.4
----
- Documentation/sphinx-static/custom.css | 1 +
- 1 file changed, 1 insertion(+)
+> Secondly, I have to share my opinions about the reviews, as many times AI
+> reviews need human's opinions.  There is no good way to do that on the web ui
+> of the tool (sashiko) for now, and I think this mail based flow is the best.
 
-diff --git a/Documentation/sphinx-static/custom.css b/Documentation/sphinx-static/custom.css
-index 64ea94879..41413b683 100644
---- a/Documentation/sphinx-static/custom.css
-+++ b/Documentation/sphinx-static/custom.css
-@@ -40,6 +40,7 @@ li { text-indent: 0em; }
- dl.function, dl.struct, dl.enum { margin-top: 2em; background-color: #ecf0f3; }
- /* indent lines 2+ of multi-line function prototypes */
- dl.function dt { margin-left: 10em; text-indent: -10em; }
-+dl.c > dt { padding-left: 10px; }
- dt.sig-object { font-size: larger; }
- div.kernelindent { margin-left: 2em; margin-right: 4em; }
- 
--- 
-2.51.0
+That is assuming that you can fix up the AI reviews, is that happening
+here?
 
+> And anyway I'm supposed to share at least my review of AI reviews, in mm
+> community.  If I ignore, I will only make Andrew have to reply asking that.
+> 
+> I used to share only my review of the AI reviews as replies, instead of
+> forwarding AI reviews and then replies to those.  But it was
+> 1. cumbersome for me (should summarize AI review and then my review; feeling
+>    doing work twice), and
+> 2. feeling not optimal at sharing all concerning comments with others.  My
+>    summary might miss some points of AI review but other reviewers might just
+>    believe me and don't read the full review due to the additional web browser
+>    opening work.  Also some other reivewers might kindly review AI reviews
+>    before I do, and save my (or their) time.
+> 
+> Hence I ended up to do this bit odd workflow:  Forwarding the full AI review on
+> the mailing list first, then reply my responses.
+> 
+> > sending it back to all of us feels odd,
+> 
+> If this is polluting your inbox and/or distract you, I'm so sorry for that.
+> Please let me know if this is distracting you.  Maybe I can filtering people
+> who don't want this kind of replies out of the recipients for the forwarding
+> mails.  Or, if you have a suggestion about what need to be changed, please let
+> me know.
+
+It just seemed odd, and might get crazy over time if this happens for
+all random AI tools that happen to be popping up now, right?  If this is
+the "official" one for -mm, that's fine, but consider the distribution
+and intended audience a bit please.
+
+thanks,
+
+greg k-h
