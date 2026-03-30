@@ -1,116 +1,121 @@
-Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD70F3B52E0;
-	Mon, 30 Mar 2026 10:27:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 245893B47FC
+	for <linux-doc@vger.kernel.org>; Mon, 30 Mar 2026 10:55:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774866458; cv=none; b=VeWmj+OhrDiQnGK+V7b9pxk32Lw7hVw6SBqv99BHUjIbQsyvWSTHFCKqvait8vj8FOgdx7KESTWKe3W1NmfReZRSgGF+FJ20ZPqDl3dJ7SOsGLs2CUKuU9aD2Fv0rGV84+/sGKxNiOk77fwdD5W/3hjGbDL9U17csFHw1IdGVN4=
+	t=1774868122; cv=none; b=C9mB4c4g6EBUOvT3BINkM8pdEHRclPgBs/PlNp4mW3xTn/9hGguaYCb0UWseEoYiLD4ucluAwjO8KEJYHdXBn3iyLFsQ8SO8d2Bh9KoycSJtcg94pgAUsXUo+FWhxdLZW93oBwKCErcZp5KdoiyA9g6QG6Jc7iFX0E/0VGD07I8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774866458; c=relaxed/simple;
-	bh=+Qteq5dPyhbY15tJRt3TuJmErEIzgLhr1XV4UIcwuoo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=L6dQHnWN9cYTq3LLFo+XjgNaFCQvVwc/Ff34hlCSX9rk9myiU7yjRH4XlD4LgkZGAZPPpRWUoRRivd01Jb9ppsagdaK2Hib2QB9gdgN/TTbx9gt0j3PYq7V0JX0du/SLNNz17sD1+Ol38BBrLWhEqbkVXRwOHbHBgAFP5vpRmBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=SzMLjlBB; arc=none smtp.client-ip=91.218.175.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1774868122; c=relaxed/simple;
+	bh=7kN4ilpjSi9336S5CQj/K+/jiOQNBm30qLzcIisLOzQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BZTN0QRTLjgsheTXAafOfAEl0ONSah2nhzKWSAoMV1PsXQot0Zfz7zNvDclFsbm4siqklUjsrgpGtJe2POhjqsLsXsTQn3Ukmkrv8l8MYNExHSKu4OQUmfk4VsObv+0kAep6I6sSfzmbmHDl3F6g52E+WAEMX3iOT7IlRkD/5Ec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WX6Lv7Cd; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="SzMLjlBB"
-Message-ID: <447c9ec1-2f3e-4da6-bcd0-febce271ae6f@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1774866454;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WX6Lv7Cd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1774868120;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nUQgRzqepPeMNaAgLk7AwaLDULRzH/pnHtqpTNEISBs=;
-	b=SzMLjlBB+PjsuuLHyVZ/zuy1uGb/2ASld9OBG6zvgqhznPEtkHaByJk3pawZdIk3/Ej/Ip
-	C1dHEx9DpU/ABODUw2aCem3p9GWv7TcdMAqMQdV61HGo+twJ+n7/tAMLGRcox+RHE/XC/w
-	lffWMqSFZ/6zwYfFh7J7DLYaoRBeaDI=
-Date: Mon, 30 Mar 2026 11:27:30 +0100
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=KYfPGZrErX1DdGRwup2PVT48zU16idFZG47YSus0fQg=;
+	b=WX6Lv7CdS1Rn4+ukPVIcanNiiZjsbExZSi6sTHtonk/awin2iaO2XI/ZYCmzgl6VZnUZkv
+	ApP3iTaSxzX7uniavr5tAF5GsLnEpXdpJ4ztjeP/aSwoiTBwO0jVvNLxlKtyhynBdODlyU
+	bpo1ze/imWXZkfFzxKtUjqgkWDmBoYE=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-674-6K1K1H1UNMK8urJB0zJP0A-1; Mon,
+ 30 Mar 2026 06:55:14 -0400
+X-MC-Unique: 6K1K1H1UNMK8urJB0zJP0A-1
+X-Mimecast-MFC-AGG-ID: 6K1K1H1UNMK8urJB0zJP0A_1774868113
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 608AA19560AA;
+	Mon, 30 Mar 2026 10:55:12 +0000 (UTC)
+Received: from p16v.redhat.com (unknown [10.44.33.70])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 4989830001A1;
+	Mon, 30 Mar 2026 10:55:07 +0000 (UTC)
+From: Ivan Vecera <ivecera@redhat.com>
+To: netdev@vger.kernel.org
+Cc: Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+	Jiri Pirko <jiri@resnulli.us>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Prathosh Satish <Prathosh.Satish@microchip.com>,
+	Petr Oros <poros@redhat.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH net-next v2 0/3] dpll: add frequency monitoring feature
+Date: Mon, 30 Mar 2026 12:55:02 +0200
+Message-ID: <20260330105505.715099-1-ivecera@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH net-next 2/3] dpll: add actual frequency monitoring
- callback ops
-To: Ivan Vecera <ivecera@redhat.com>, netdev@vger.kernel.org
-Cc: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
- Jiri Pirko <jiri@resnulli.us>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Donald Hunter <donald.hunter@gmail.com>,
- Prathosh Satish <Prathosh.Satish@microchip.com>, Petr Oros
- <poros@redhat.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260325193914.124898-1-ivecera@redhat.com>
- <20260325193914.124898-3-ivecera@redhat.com>
- <d0a6d302-c5af-4ad1-87e2-fa017bdd96a8@linux.dev>
- <e4372a58-13ba-4581-af4e-28d0c880c7bc@redhat.com>
- <a341fd52-3682-473f-8116-a8323bf846ee@redhat.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Vadim Fedorenko <vadim.fedorenko@linux.dev>
-In-Reply-To: <a341fd52-3682-473f-8116-a8323bf846ee@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-On 30/03/2026 09:52, Ivan Vecera wrote:
-> On 3/26/26 6:48 PM, Ivan Vecera wrote:
->> On 3/26/26 12:21 PM, Vadim Fedorenko wrote:
->>> On 25/03/2026 19:39, Ivan Vecera wrote:
->>>
->>>> +static int dpll_msg_add_actual_freq(struct sk_buff *msg, struct 
->>>> dpll_pin *pin,
->>>> +                    struct dpll_pin_ref *ref,
->>>> +                    struct netlink_ext_ack *extack)
->>>> +{
->>>> +    const struct dpll_device_ops *dev_ops = dpll_device_ops(ref- 
->>>> >dpll);
->>>> +    const struct dpll_pin_ops *ops = dpll_pin_ops(ref);
->>>> +    struct dpll_device *dpll = ref->dpll;
->>>> +    enum dpll_feature_state state;
->>>> +    u64 actual_freq;
->>>> +    int ret;
->>>> +
->>>> +    if (!ops->actual_freq_get)
->>>> +        return 0;
->>>> +    if (dev_ops->freq_monitor_get) {
->>>> +        ret = dev_ops->freq_monitor_get(dpll, dpll_priv(dpll),
->>>> +                        &state, extack);
->>>> +        if (ret)
->>>> +            return ret;
->>>> +        if (state == DPLL_FEATURE_STATE_DISABLE)
->>>> +            return 0;
->>>
->>> I think we have to signal back to user that frequency monitoring is
->>> disabled via extack.
->>
->> Hi Vadim,
->>
->> This would break pin-get operation... Do or dump pin-get operation would
->> fail with this extack message.
->>
->> Here we can check if the freq-monitoring is enabled and conditionally
->> call actual_freq_get() or measured_freq_get()
+This series adds support for monitoring the measured input frequency
+of DPLL input pins via the DPLL netlink interface.
 
-Let's make it this way, we don't want to waste even small amount of
-resources for useless call.
+Some DPLL devices can measure the actual frequency being received on
+input pins. The approach mirrors the existing phase-offset-monitor
+feature: a device-level attribute (DPLL_A_FREQUENCY_MONITOR) enables
+or disables monitoring, and a per-pin attribute
+(DPLL_A_PIN_MEASURED_FREQUENCY) exposes the measured frequency in Hz
+when monitoring is enabled.
 
->>
->> -or-
->>
->> Call this callback unconditionally and check for return code and if a
->> driver returns e.g. -ENODATA then skip nla_put_64bit() but return
->> success.
->>
->> WDYT?
-> 
-> Vadim?
+Patch 1 adds the new attributes to the DPLL netlink spec (dpll.yaml),
+regenerates the auto-generated UAPI header and netlink policy, and
+updates Documentation/driver-api/dpll.rst.
 
-Sorry, was AFK this Friday/weekend
+Patch 2 adds the callback operations (freq_monitor_get/set for
+devices, measured_freq_get for pins) and the corresponding netlink
+GET/SET handlers in the DPLL core. The core only invokes
+measured_freq_get when the frequency monitor is enabled on the parent
+device.
 
+Patch 3 implements the feature in the ZL3073x driver by extracting
+a common measurement latch helper from the existing FFO update path,
+adding a frequency measurement function, and wiring up the new
+callbacks.
+
+Changes v1 -> v2:
+- Renamed actual-frequency to measured-frequency (Vadim)
+
+Signed-off-by: Ivan Vecera <ivecera@redhat.com>
+
+Ivan Vecera (3):
+  dpll: add frequency monitoring to netlink spec
+  dpll: add frequency monitoring callback ops
+  dpll: zl3073x: implement frequency monitoring
+
+ Documentation/driver-api/dpll.rst     | 18 ++++++
+ Documentation/netlink/specs/dpll.yaml | 17 +++++
+ drivers/dpll/dpll_netlink.c           | 90 +++++++++++++++++++++++++++
+ drivers/dpll/dpll_nl.c                |  5 +-
+ drivers/dpll/zl3073x/core.c           | 88 ++++++++++++++++++++++----
+ drivers/dpll/zl3073x/dpll.c           | 88 +++++++++++++++++++++++++-
+ drivers/dpll/zl3073x/dpll.h           |  2 +
+ drivers/dpll/zl3073x/ref.h            | 14 +++++
+ include/linux/dpll.h                  | 10 +++
+ include/uapi/linux/dpll.h             |  2 +
+ 10 files changed, 318 insertions(+), 16 deletions(-)
+
+-- 
+2.52.0
 
