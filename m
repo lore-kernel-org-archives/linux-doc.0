@@ -1,43 +1,51 @@
-Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EFD92FE59C;
-	Mon, 30 Mar 2026 14:34:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 970EB333727;
+	Mon, 30 Mar 2026 15:04:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774881285; cv=none; b=EujF81kPNYsnNpPUUFlwST8FE8nzTmzZRaRlTBufNTK8zUZisQk5UqU5h/3iu9x1F8HHAyfiOz79q1GMBzZ42p/bcXisOnC8WbflF1xWxMIJdKnicvoIGSJ50++zabBDv1blZPfS28citpR+k8AXjWf6pH+Ab/WIsKXL69ZpzhE=
+	t=1774883080; cv=none; b=kS3WwUrDKcxMchWI4NutLQA6Da8Kar6SC9NIidjrsdNoKtPsHrBwfIzj7bdVQ50PJEiYjJ59cfZIRdaesIp0YQHYqYj3GE7PcoSGIxgWLe730LX3JXiYi5/GfYgUTZ3t8h0aCFxb3/fFn/PyPLcDDqz+Cd/uRZ0F+appFFaucUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774881285; c=relaxed/simple;
-	bh=j3RO6GN6DceqVgbfJifPD7Mr4hXFOiKjw/TNqZPOPe0=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kU048OOof5BUkq/phMlWu2rXvWBIZtpVtKqweBIp+SyY4MG4M3OkeIjiganm+r373S5ugjtFzJmBLdSWv4nJctpB85QWBeXqkv2CYAgu9S/LHZ+mehU/Y0SWS3Cpby1fZIG2VcO8f+PT1+DDczyx9Srobyt80mQr0jql8sY8eq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=c7Tp3bYU; arc=none smtp.client-ip=185.70.43.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
+	s=arc-20240116; t=1774883080; c=relaxed/simple;
+	bh=utft/jT/5Uf3Y/3tYz29MuMXqk4gH6p2izBHP9AMsco=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T7+dC432EvIGYsBeN9pLtNB/bKgLMFQmNe81WK3ZvI9WlnAhDKc9PFplcjzdJQvLZJ2kgjxcMCp4Qwen0PutUlWHCPt96vEMpkFSDmMCPHRPFCFsw9T5I9szA5JHzzkaa79eeUj18AQ5d07beCfi9b1hBKMfkTpQqMAnHaKTQ50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=o17xX1bM; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="c7Tp3bYU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1774881281; x=1775140481;
-	bh=sI6qR0mJYdxFmMNIqBBXQAz3LXcRYa0zIgeJz3FHVi8=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=c7Tp3bYUuClM1sU2w9QzL2EoPaAcizdQb7LbZZMbNA2LGaXAC9Z7eKTNEJtRxFaJu
-	 Gn4NT2JjHES7LGElLAaBsZL7KIrbrOs6LDc62bVRvP4kPSAqTNfEEV6cRXq4R7MYhK
-	 2aAU4Vl5/ZiMYg8UaSBik/7HF4Ne4oxG4w5FYeqFZ9ys7tesY0O1v9/EagR8/52ZhB
-	 K4+EQIZ/aEWgFYJiZjGrA2oRz8R7CMkVte9dV1n4Ht4xRO0WQ+covM+NIuA3Yu3sE+
-	 Ft9hYMmrddYGsMe4V7br0rtvs3EDBn05zwuL8vf4Sl7kxblDprh8RANScRCeSxes+F
-	 Q5eBIT7vWrqZg==
-Date: Mon, 30 Mar 2026 14:34:37 +0000
-To: Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, Alexander Potapenko <glider@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, Vincenzo Frascino <vincenzo.frascino@arm.com>
-From: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
-Cc: m.wieczorretman@pm.me, Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kasan-dev@googlegroups.com, workflows@vger.kernel.org
-Subject: [PATCH v12 15/15] docs: Update KASAN and x86 memory map documentations
-Message-ID: <f30f39552da7651ec99a4c8c5b0a2822ca78ac37.1774872838.git.m.wieczorretman@pm.me>
-In-Reply-To: <cover.1774872838.git.m.wieczorretman@pm.me>
-References: <cover.1774872838.git.m.wieczorretman@pm.me>
-Feedback-ID: 164464600:user:proton
-X-Pm-Message-ID: b24a4a44216345a8c35f780b91587fa32f629bc6
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="o17xX1bM"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Reply-To:Content-ID:Content-Description;
+	bh=S1m4QJOLmIukrx77lO00CBi/Eg4ZklDsW9se5USx8x4=; b=o17xX1bM9hFTETAc1WZeFy2SUX
+	7w3RW2s0+ailEEtm7RO2Fp9egxP93WyGTId+bta6u50MVmZQm/VX0TnuftxWVnbkRyHeOyz9UkQ59
+	2sYmOBd4J0xFUT5RI1Xy6GMVwmsHsgnMqULYbBIQ69rb2dtL3D6+hIhFx+PjS62zC3waF/Vt7oYMM
+	yc30CwZiH+plou52jv6hHgmCyyWppsHMngZL7ibn97i3fB5Dn7CP+Cm+rX4So48cim9zkS1vYgf0Q
+	rgBl3i7XakgrqlbIzQ19CVMC0EpSxQ1TO7jNOdU1TBoJMmd/sGD6sLbeIM8qv8gXdx/k/l6k+tQJH
+	32QVKTQg==;
+Received: from authenticated user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1w7EAH-001Wqv-32;
+	Mon, 30 Mar 2026 15:04:28 +0000
+Date: Mon, 30 Mar 2026 08:04:23 -0700
+From: Breno Leitao <leitao@debian.org>
+To: Masami Hiramatsu <mhiramat@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, oss@malat.biz, paulmck@kernel.org, rostedt@goodmis.org, 
+	kernel-team@meta.com
+Subject: Re: [PATCH v2] bootconfig: Apply early options from embedded config
+Message-ID: <acqJk-zbyjIiy6hJ@gmail.com>
+References: <20260325-early_bootconfig-v2-1-6b05a36fbfb5@debian.org>
+ <20260325232204.05edbb21c7602b6408ca007b@kernel.org>
+ <acZPZ4XKy4QynznK@gmail.com>
+ <20260327223744.f246150adc1671f7605a4f0a@kernel.org>
+ <acpzhCBEPh-tKVqg@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -45,227 +53,262 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <acpzhCBEPh-tKVqg@gmail.com>
+X-Debian-User: leitao
 
-From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+On Mon, Mar 30, 2026 at 06:15:17AM -0700, Breno Leitao wrote:
+> On Fri, Mar 27, 2026 at 10:37:44PM +0900, Masami Hiramatsu wrote:
+> > On Fri, 27 Mar 2026 03:06:41 -0700
+> > Breno Leitao <leitao@debian.org> wrote:
+>
+> > > > To fix this, we need to change setup_arch() for each architecture so
+> > > > that it calls this bootconfig_apply_early_params().
+> > >
+> > > Could we instead integrate this into parse_early_param() itself? That
+> > > approach would avoid the need to modify each architecture individually.
+> >
+> > Ah, indeed.
+>
+> I investigated integrating bootconfig into parse_early_param() and hit a
+> blocker: xbc_init() and xbc_make_cmdline() depend on memblock_alloc(), but on
+> most architectures (x86, arm64, arm, s390, riscv) parse_early_param() is called
+> from setup_arch() _before_ memblock is initialized.
 
-Update the documentation concerning changes to x86's memory address
-space and new architecture addition to KASAN's software tag-based mode.
+That said, I'd like to propose a simpler approach as a first step:
 
-Redo paragraphs in KASAN's documentation on hardware and software
-implementation details to allow better extensibility.
+1) Keep calling bootconfig_apply_early_params() from setup_boot_config().
+   This is the least intrusive approach and expands bootconfig support to
+   additional early boot parameters.
 
-Signed-off-by: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
----
-Changelog v11:
-- Split off the documentation portion of v10's patch 13.
-- Apply Dave's suggestions to reformat the footer explaining alternate
-  ranges for KASAN shadow memory, put arch hardware implementation in a
-  separate paragraph and make a table to hold various implementation
-  details.
+2) Document that architecture-specific early parameters might be ignored.
+   If a parameter is consumed early enough (during setup_arch()), it will
+   not see the bootconfig value.
 
- Documentation/arch/x86/x86_64/mm.rst | 21 +++++++++-
- Documentation/dev-tools/kasan.rst    | 61 ++++++++++++++++++++--------
- 2 files changed, 62 insertions(+), 20 deletions(-)
-
-diff --git a/Documentation/arch/x86/x86_64/mm.rst b/Documentation/arch/x86/=
-x86_64/mm.rst
-index a6cf05d51bd8..3c78ab1afd8d 100644
---- a/Documentation/arch/x86/x86_64/mm.rst
-+++ b/Documentation/arch/x86/x86_64/mm.rst
-@@ -60,7 +60,7 @@ Complete virtual memory map with 4-level page tables
-    ffffe90000000000 |  -23    TB | ffffe9ffffffffff |    1 TB | ... unused=
- hole
-    ffffea0000000000 |  -22    TB | ffffeaffffffffff |    1 TB | virtual me=
-mory map (vmemmap_base)
-    ffffeb0000000000 |  -21    TB | ffffebffffffffff |    1 TB | ... unused=
- hole
--   ffffec0000000000 |  -20    TB | fffffbffffffffff |   16 TB | KASAN shad=
-ow memory
-+   ffffec0000000000 |  -20    TB | fffffbffffffffff |   16 TB | KASAN shad=
-ow memory[1]
-   __________________|____________|__________________|_________|___________=
-_________________________________________________
-                                                               |
-                                                               | Identical =
-layout to the 56-bit one from here on:
-@@ -130,7 +130,7 @@ Complete virtual memory map with 5-level page tables
-    ffd2000000000000 |  -11.5  PB | ffd3ffffffffffff |  0.5 PB | ... unused=
- hole
-    ffd4000000000000 |  -11    PB | ffd5ffffffffffff |  0.5 PB | virtual me=
-mory map (vmemmap_base)
-    ffd6000000000000 |  -10.5  PB | ffdeffffffffffff | 2.25 PB | ... unused=
- hole
--   ffdf000000000000 |   -8.25 PB | fffffbffffffffff |   ~8 PB | KASAN shad=
-ow memory
-+   ffdf000000000000 |   -8.25 PB | fffffbffffffffff |   ~8 PB | KASAN shad=
-ow memory[1]
-   __________________|____________|__________________|_________|___________=
-_________________________________________________
-                                                               |
-                                                               | Identical =
-layout to the 47-bit one from here on:
-@@ -178,3 +178,20 @@ correct as KASAN disables KASLR.
-=20
- For both 4- and 5-level layouts, the KSTACK_ERASE_POISON value in the last=
- 2MB
- hole: ffffffffffff4111
-+
-+1. The range is different based on what KASAN mode is used and what paging=
- level
-+   is used:
-+
-+::
-+
-+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+      Start addr    |   Offset   |     End addr     |  Size   | VM area de=
-scription
-+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+                    |            |                  |         | 4-level pa=
-ging:
-+   ffffec0000000000 |  -20    TB | fffffbffffffffff |   16 TB | KASAN shad=
-ow memory (generic mode)
-+   fffff40000000000 |   -8    TB | fffffbffffffffff |    8 TB | KASAN shad=
-ow memory (software tag-based mode)
-+  __________________|____________|__________________|_________|___________=
-____________________________________
-+                    |            |                  |         | 5-level pa=
-ging:
-+   ffdf000000000000 |   -8.25 PB | fffffbffffffffff |   ~8 PB | KASAN shad=
-ow memory (generic mode)
-+   ffeffc0000000000 |   -6    PB | fffffbffffffffff |    4 PB | KASAN shad=
-ow memory (software tag-based mode)
-+  __________________|____________|__________________|_________|___________=
-____________________________________
-diff --git a/Documentation/dev-tools/kasan.rst b/Documentation/dev-tools/ka=
-san.rst
-index b11c1be8dff4..d42d80e9fcf1 100644
---- a/Documentation/dev-tools/kasan.rst
-+++ b/Documentation/dev-tools/kasan.rst
-@@ -22,8 +22,8 @@ architectures, but it has significant performance and mem=
-ory overheads.
-=20
- Software Tag-Based KASAN or SW_TAGS KASAN, enabled with CONFIG_KASAN_SW_TA=
-GS,
- can be used for both debugging and dogfood testing, similar to userspace H=
-WASan.
--This mode is only supported for arm64, but its moderate memory overhead al=
-lows
--using it for testing on memory-restricted devices with real workloads.
-+This mode is only supported for arm64 and x86, but its moderate memory ove=
-rhead
-+allows using it for testing on memory-restricted devices with real workloa=
-ds.
-=20
- Hardware Tag-Based KASAN or HW_TAGS KASAN, enabled with CONFIG_KASAN_HW_TA=
-GS,
- is the mode intended to be used as an in-field memory bug detector or as a
-@@ -346,16 +346,21 @@ Software Tag-Based KASAN
- ~~~~~~~~~~~~~~~~~~~~~~~~
-=20
- Software Tag-Based KASAN uses a software memory tagging approach to checki=
-ng
--access validity. It is currently only implemented for the arm64 architectu=
-re.
--
--Software Tag-Based KASAN uses the Top Byte Ignore (TBI) feature of arm64 C=
-PUs
--to store a pointer tag in the top byte of kernel pointers. It uses shadow =
-memory
--to store memory tags associated with each 16-byte memory cell (therefore, =
-it
--dedicates 1/16th of the kernel memory for shadow memory).
--
--On each memory allocation, Software Tag-Based KASAN generates a random tag=
-, tags
--the allocated memory with this tag, and embeds the same tag into the retur=
-ned
--pointer.
-+access validity. It is currently only implemented for the arm64 and x86
-+architectures. To function, special hardware CPU features* are needed for
-+repurposing space inside the kernel pointers to store pointer tags.
-+
-+Software Tag-Based mode uses shadow memory to store memory tags associated=
- with
-+each 16-byte memory cell (therefore, it dedicates 1/16th of the kernel mem=
-ory
-+for shadow memory). On each memory allocation, Software Tag-Based KASAN
-+generates a random tag, tags the allocated memory with this tag, and embed=
-s the
-+same tag into the returned pointer.
-+
-+Two special tag values can be distinguished. A match-all pointer tag (othe=
-rwise
-+called the 'kernel tag' because it's supposed to be equal to the value nor=
-mally
-+present in the same bits of the linear address when KASAN is disabled) -
-+accesses through such pointers are not checked. Another value is also rese=
-rved
-+to tag freed memory regions.
-=20
- Software Tag-Based KASAN uses compile-time instrumentation to insert check=
-s
- before each memory access. These checks make sure that the tag of the memo=
-ry
-@@ -367,12 +372,32 @@ Software Tag-Based KASAN also has two instrumentation=
- modes (outline, which
- emits callbacks to check memory accesses; and inline, which performs the s=
-hadow
- memory checks inline). With outline instrumentation mode, a bug report is
- printed from the function that performs the access check. With inline
--instrumentation, a ``brk`` instruction is emitted by the compiler, and a
--dedicated ``brk`` handler is used to print bug reports.
--
--Software Tag-Based KASAN uses 0xFF as a match-all pointer tag (accesses th=
-rough
--pointers with the 0xFF pointer tag are not checked). The value 0xFE is cur=
-rently
--reserved to tag freed memory regions.
-+instrumentation, the compiler emits a specific arch-dependent instruction =
-with a
-+dedicated handler to print bug reports.
-+
-+Architecture specific details:
-+
-+::
-+
-+  +-----------------------+--------+---------------------+
-+  | detail \ architecture | arm64  | x86                 |
-+  +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=
-=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D+
-+  | Hardware feature      | TBI    | LAM                 |
-+  +-----------------------+--------+---------------------+
-+  | Kernel tag            | 0xFF   | 0x0F                |
-+  +-----------------------+--------+---------------------+
-+  | Freed memory tag      | 0xFE   | 0x0E                |
-+  +-----------------------+--------+---------------------+
-+  | Tag width             | 8 bits | 4 bits              |
-+  +-----------------------+--------+---------------------+
-+  | Inline instruction    | brk    | no compiler support |
-+  +-----------------------+--------+---------------------+
-+
-+* Different architectures implement different hardware features to mask an=
-d
-+  repurpose linear address bits. arm64 utilizes Top Byte Ignore (TBI) to m=
-ask
-+  out and allow storing tags in the top byte of the pointer. x86 uses Line=
-ar
-+  Address Masking (LAM) to store tags in the four bits of the kernel point=
-er's
-+  top byte.
-=20
- Hardware Tag-Based KASAN
- ~~~~~~~~~~~~~~~~~~~~~~~~
---=20
-2.53.0
+3) Ensure that early bootconfig parameters don't overwrite the boot command
+   line. For example, if the boot command line has foo=bar and bootconfig
+   later has foo=baz, the command line value should take precedence.
+   This prevents early boot code (in setup_arch()) from seeing a parameter
+   value that will be changed later.
 
 
+If that is OK, that is what I have right now:
+
+commit dd6e00e41c381e5fef9d22dda02b104aa8f83101
+Author: Breno Leitao <leitao@debian.org>
+Date:   Mon Mar 30 06:50:28 2026 -0700
+
+    bootconfig: Apply early options from embedded config
+    
+    Bootconfig currently cannot apply early kernel parameters. For example,
+    the "mitigations=" parameter must be passed through traditional boot
+    methods because bootconfig parsing happens after these early parameters
+    need to be processed.
+    
+    Add bootconfig_apply_early_params() which walks all kernel.* keys in the
+    parsed XBC tree and calls do_early_param() for each one. It is called
+    from setup_boot_config() immediately after a successful xbc_init() on
+    the embedded data, which happens before parse_early_param() runs in
+    start_kernel().
+    
+    This allows early options such as:
+    
+      kernel.mitigations = off
+    
+    to be placed in the embedded bootconfig and take effect, without
+    requiring them on the kernel command line.
+    
+    If the same parameter appears on both the kernel command line and in
+    the embedded bootconfig, the command-line value takes precedence:
+    bootconfig_apply_early_params() checks boot_command_line and skips
+    any parameter already present there.
+    
+    Known limitations are documented:
+    - Early options in initrd bootconfig are still silently ignored, as the
+      initrd is only available after the early param window has closed.
+    - Arch-specific early params consumed during setup_arch() (e.g. mem=,
+      earlycon, noapic) may not take effect from bootconfig.
+    
+    Signed-off-by: Breno Leitao <leitao@debian.org>
+
+diff --git a/Documentation/admin-guide/bootconfig.rst b/Documentation/admin-guide/bootconfig.rst
+index f712758472d5c..6ed852a0c66d8 100644
+--- a/Documentation/admin-guide/bootconfig.rst
++++ b/Documentation/admin-guide/bootconfig.rst
+@@ -169,6 +169,15 @@ Boot Kernel With a Boot Config
+ There are two options to boot the kernel with bootconfig: attaching the
+ bootconfig to the initrd image or embedding it in the kernel itself.
+ 
++Early options (those registered with ``early_param()``) may only be
++specified in the embedded bootconfig, because the initrd is not yet
++available when early parameters are processed.
++
++Note that embedded bootconfig is parsed after ``setup_arch()``, so
++early options that are consumed during architecture initialization
++(e.g., ``mem=``, ``memmap=``, ``earlycon``, ``noapic``, ``nolapic``,
++``acpi=``, ``numa=``, ``iommu=``) may not take effect from bootconfig.
++
+ Attaching a Boot Config to Initrd
+ ---------------------------------
+ 
+diff --git a/init/Kconfig b/init/Kconfig
+index 7484cd703bc1a..34adcc1feb9b6 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -1525,6 +1525,16 @@ config BOOT_CONFIG_EMBED
+ 	  image. But if the system doesn't support initrd, this option will
+ 	  help you by embedding a bootconfig file while building the kernel.
+ 
++	  Unlike bootconfig attached to initrd, the embedded bootconfig also
++	  supports early options (those registered with early_param()). Any
++	  kernel.* key in the embedded bootconfig is applied before
++	  parse_early_param() runs.  Early options in initrd bootconfig will
++	  not be applied.  Early options consumed during setup_arch() (e.g.
++	  mem=, memmap=, earlycon, noapic, acpi=, numa=, iommu=) may not
++	  take effect.  If the same early option
++	  appears in both bootconfig and the kernel command line, the
++	  command line value takes precedence.
++
+ 	  If unsure, say N.
+ 
+ config BOOT_CONFIG_EMBED_FILE
+diff --git a/init/main.c b/init/main.c
+index 1cb395dd94e43..487fe86ab5c09 100644
+--- a/init/main.c
++++ b/init/main.c
+@@ -414,10 +414,112 @@ static int __init warn_bootconfig(char *str)
+ 	return 0;
+ }
+ 
++/*
++ * do_early_param() is defined later in this file but called from
++ * bootconfig_apply_early_params() below, so we need a forward declaration.
++ */
++static int __init do_early_param(char *param, char *val,
++				 const char *unused, void *arg);
++
++/*
++ * Check if a parameter name appears on the kernel command line.
++ * Returns true if the parameter was explicitly passed by the bootloader.
++ */
++static bool __init cmdline_has_param(const char *param)
++{
++	const char *p = boot_command_line;
++	int len = strlen(param);
++
++	while ((p = strstr(p, param)) != NULL) {
++		/* Check it's a whole-word match: preceded by space/start */
++		if (p != boot_command_line && *(p - 1) != ' ') {
++			p += len;
++			continue;
++		}
++		/* Followed by =, space, or end of string */
++		if (p[len] == '=' || p[len] == ' ' || p[len] == '\0')
++			return true;
++		p += len;
++	}
++	return false;
++}
++
++/*
++ * bootconfig_apply_early_params - apply kernel.* keys from the embedded
++ * bootconfig as early_param() calls.
++ *
++ * early_param() handlers run before most of the kernel initialises.
++ * A bootconfig attached to initrd arrives too late because the initrd is
++ * not mapped when early params are processed.  The embedded bootconfig
++ * lives in the kernel image itself (.init.data), so it is always
++ * reachable.
++ *
++ * Called from setup_boot_config() which runs before parse_early_param()
++ * in start_kernel(), but after setup_arch().  Arch-specific early params
++ * parsed during setup_arch() will not see bootconfig values.
++ */
++static void __init bootconfig_apply_early_params(void)
++{
++	struct xbc_node *knode, *vnode, *root;
++	const char *val;
++	char *val_copy;
++
++	root = xbc_find_node("kernel");
++	if (!root)
++		return;
++
++	xbc_node_for_each_key_value(root, knode, val) {
++		if (xbc_node_compose_key_after(root, knode,
++					       xbc_namebuf,
++					       XBC_KEYLEN_MAX) < 0)
++			continue;
++
++		/* Command-line values take precedence over bootconfig */
++		if (cmdline_has_param(xbc_namebuf)) {
++			pr_info("bootconfig: skipping '%s', already on command line\n",
++				xbc_namebuf);
++			continue;
++		}
++
++		/* Boolean key with no value — pass NULL like parse_args() */
++		if (!xbc_node_get_child(knode)) {
++			do_early_param(xbc_namebuf, NULL, NULL, NULL);
++			continue;
++		}
++
++		/*
++		 * Iterate array values: "foo = bar, buz" becomes two
++		 * calls: do_early_param("foo", "bar") and
++		 * do_early_param("foo", "buz").
++		 */
++		vnode = xbc_node_get_child(knode);
++		xbc_array_for_each_value(vnode, val) {
++			/*
++			 * Some early_param handlers save the pointer to
++			 * val, so each value needs its own persistent
++			 * copy.  memblock is available here since we run
++			 * after setup_arch().  These allocations are
++			 * intentionally never freed because the handlers
++			 * may retain references indefinitely.
++			 */
++			val_copy = memblock_alloc(strlen(val) + 1,
++						  SMP_CACHE_BYTES);
++			if (!val_copy) {
++				pr_err("Failed to allocate bootconfig value for '%s'\n",
++				       xbc_namebuf);
++				continue;
++			}
++			strcpy(val_copy, val);
++			do_early_param(xbc_namebuf, val_copy, NULL, NULL);
++		}
++	}
++}
++
+ static void __init setup_boot_config(void)
+ {
+ 	static char tmp_cmdline[COMMAND_LINE_SIZE] __initdata;
+ 	const char *msg, *data;
++	bool embedded = false;
+ 	int pos, ret;
+ 	size_t size;
+ 	char *err;
+@@ -425,8 +527,11 @@ static void __init setup_boot_config(void)
+ 	/* Cut out the bootconfig data even if we have no bootconfig option */
+ 	data = get_boot_config_from_initrd(&size);
+ 	/* If there is no bootconfig in initrd, try embedded one. */
+-	if (!data)
++	if (!data) {
+ 		data = xbc_get_embedded_bootconfig(&size);
++		/* tag we have embedded data */
++		embedded = !!data;
++	}
+ 
+ 	strscpy(tmp_cmdline, boot_command_line, COMMAND_LINE_SIZE);
+ 	err = parse_args("bootconfig", tmp_cmdline, NULL, 0, 0, 0, NULL,
+@@ -464,6 +569,8 @@ static void __init setup_boot_config(void)
+ 	} else {
+ 		xbc_get_info(&ret, NULL);
+ 		pr_info("Load bootconfig: %ld bytes %d nodes\n", (long)size, ret);
++		if (embedded)
++			bootconfig_apply_early_params();
+ 		/* keys starting with "kernel." are passed via cmdline */
+ 		extra_command_line = xbc_make_cmdline("kernel");
+ 		/* Also, "init." keys are init arguments */
