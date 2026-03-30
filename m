@@ -1,91 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C395434166B
-	for <linux-doc@vger.kernel.org>; Mon, 30 Mar 2026 15:17:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6B19344DAB;
+	Mon, 30 Mar 2026 15:40:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774883844; cv=none; b=nxqf77dPn9PLBEQF4t4vA/Lr88C6nXDVnoZgKiAbnz2jxZjhggETt5iOCApBD5QhU1pHOiTSad7DMd/PzCoVxJPVvlnRd5GqEYGrHgUAahdbDQ+RHtDusVQaWc3Xe5aE8Fu4WSN1/l4iKWm1xDBzsBxC07MLyzLbF+XaoXwL+VA=
+	t=1774885215; cv=none; b=kA0/We9+q9IviKH+0fTMupoEy+HfDnnLlAMda7PUzU+/stL3kJL1Vxtwv4EK2OPem/Nez813l1Oi8w2OPCuL4qDXEOfjNWRM6kxYB5AZOTQJvCeOb1Etu+bq8OP6aBvAX+6aSVHqgyjRVX1+4lDUxw/aHO8UHr8uWAUbxIek8Ao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774883844; c=relaxed/simple;
-	bh=QMKxWdTh5e+2/lSCw7OlzcqQctceKv/Ta25Nn96KSWE=;
-	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
-	 References:Date:Message-Id; b=qEYj9nIiAXQWBESvdsTMWGHzXAhgHM9bK5lWmi5nlewJN/5Tdzv8uY4p4jG1gzB/VfKlx3dcqw8INVkI2KMKmgihmjH/PvbRZIHougv3ZfTWMRKsjkzf+UxKRw4EahV4/iVwTAH6fzP6kOkoK4ZfawXv9bxw1vHnvBja59i529o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=h2XB+Wv7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774885215; c=relaxed/simple;
+	bh=bdsgzQtV41Zs+VPpdv60be1H9wzXuIDkfzZYg5/0H9U=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=sPX0Fa2Rf365LErjgcV4mzF8xo8VMgEqifMs6x2/GTb0+PjYsB3x5ssX1HZiB6E9jDxyWQBE+ude4bMl/RNQZEvfdEfp1nuhBOuB23M7Yoxqn7QdVpnYvSzKXc8aASMT81QBIxJYrq2xcrVeJAFP18n6qRJwkNDhDXq3KooGShU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=L5Q8fnEj; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="h2XB+Wv7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7188EC4CEF7;
-	Mon, 30 Mar 2026 15:17:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1774883844;
-	bh=QMKxWdTh5e+2/lSCw7OlzcqQctceKv/Ta25Nn96KSWE=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date:From;
-	b=h2XB+Wv7EnpiwYeCShpiXXh33tSKx9jbnq3v7EMz0TgW3UTaKZTtEw95ijfE+xIq9
-	 sf9uXu+VEYbynNUdQ4OSIeq6T8YNcXr7nPV+lsnFOaNLDhppznGRvKwiKxA5qhp/Ic
-	 P1ZqhMuZ9X8W6aWl0rVHOwpTd3/5TTUvoh53kXX0=
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="L5Q8fnEj"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net DF7CC411C2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1774885207; bh=sUy2YmTM17zVDMYrxPXXQ25jeIeeRTgVwXb4rNLD1Bo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=L5Q8fnEjrgCC1EpHUTuMo18B0VjqQcuFv8KSBfa+JVCHx13cU8UFRGaFFxnDwTL0S
+	 6LqrdzMfEu9a3VHhD8o+7Wa/2u2rKrVtUI9yzt9oqygReXgjT62eqfGlC7NSrBygeH
+	 1SkFRsvoG1x9056cPN2JHcp1d9yTWoZMfV7QXe/ki12WjZtMs3d3C+TNBu7dQlDJuz
+	 Up3zO7cJDu0MFqI7IuIMHq9Lz/Kt9PkkcK/zFTaqj0xK8OlEW+8J6W1CDhTTO+P87D
+	 cWTP+a2DBmpLUsIvncHvqRONtxT5N47ZnCRue9jMKS3Fzrxzk1HmfBM56zroFDR8Ym
+	 MYPnwVBZURpbQ==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id DF7CC411C2;
+	Mon, 30 Mar 2026 15:40:06 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Rito Rhymes <rito@ritovision.com>, skhan@linuxfoundation.org
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Rito Rhymes
+ <rito@ritovision.com>
+Subject: Re: [PATCH] docs: add copy buttons for code blocks
+In-Reply-To: <20260329214816.10553-1-rito@ritovision.com>
+References: <20260329214816.10553-1-rito@ritovision.com>
+Date: Mon, 30 Mar 2026 09:40:05 -0600
+Message-ID: <874ilxpbqi.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2 5/5] docs: pt_BR: complete PGP guide translation
-From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To: Daniel Pereira <danielmaraboo@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-In-Reply-To: <20260329165041.831369-6-danielmaraboo@gmail.com>
-References: <20260329165041.831369-1-danielmaraboo@gmail.com>
- <20260329165041.831369-6-danielmaraboo@gmail.com>
-Date: Mon, 30 Mar 2026 11:17:19 -0400
-Message-Id: <177488383995.1817745.4339812333811008887.b4-review@b4>
-X-Mailer: b4 0.16-dev-5738b
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1774883842; l=1799;
- i=konstantin@linuxfoundation.org; s=20260105; h=from:subject:message-id;
- bh=QMKxWdTh5e+2/lSCw7OlzcqQctceKv/Ta25Nn96KSWE=;
- b=Haen/W5LZ8fMcPdibiy273PEX2eKXEN2vQ01ak/vRTYqepbhg7OtRvNCO99HSMjA6v1vJELNu
- PVEZU6ysuptBIeoOxa5/2zuG/SieITnt4c7/ACiLE4QhzhswzUHRNVr
-X-Developer-Key: i=konstantin@linuxfoundation.org; a=ed25519;
- pk=vcENxA6AQz/AmPXVH3DSZUftK7lCXJz/mUonEPEcInI=
+Content-Type: text/plain
 
-On Sun, 29 Mar 2026 13:50:39 -0300, Daniel Pereira <danielmaraboo@gmail.com> wrote:
-> diff --git a/Documentation/translations/pt_BR/process/maintainer-pgp-guide.rst b/Documentation/translations/pt_BR/process/maintainer-pgp-guide.rst
-> index 3501756fda52..fd19fd4c9eda 100644
-> --- a/Documentation/translations/pt_BR/process/maintainer-pgp-guide.rst
-> +++ b/Documentation/translations/pt_BR/process/maintainer-pgp-guide.rst
-> @@ -778,3 +778,136 @@ criptográfica nos cabeçalhos das mensagens (estilo DKIM):
-> [ ... skip 46 lines ... ]
-> +    O patatt e o b4 ainda estão em desenvolvimento ativo e você deve consultar
-> +    a documentação mais recente desses projetos para quaisquer recursos novos
-> +    ou atualizados.
-> +
-> +Como verificar identidades de desenvolvedores do kernel
-> +=======================================================
+Rito Rhymes <rito@ritovision.com> writes:
 
-Needs the _kernel_identities_pt: label here as well.
+> Add a copy button to highlighted code blocks in the documentation
+> that copies the full contents of the code block to the clipboard.
+>
+> This is faster and less error-prone than manually selecting and
+> copying code from the page, especially for longer examples where
+> part of the block can be accidentally missed.
+>
+> Keep the control hidden until the user interacts with the block so
+> it stays out of the way during normal reading. Reveal it on hover,
+> focus, and touch interaction, then copy the block contents to the
+> clipboard with a small success or failure state.
+>
+> Signed-off-by: Rito Rhymes <rito@ritovision.com>
+> Assisted-by: Codex:GPT-5.4
+> Assisted-by: Claude Opus 4.6
+> ---
+> Live demo:
+> https://kernel-docs-cp.ritovision.com/accounting/delay-accounting.html
 
-> [ ... skip 22 lines ... ]
-> +(Web Key Directory) é o método alternativo que usa consultas https para o mesmo
-> +propósito. Ao usar DANE ou WKD para buscar chaves públicas, o GnuPG validará o
-> +DNSSEC ou os certificados TLS, respectivamente, antes de adicionar as chaves
-> +públicas recuperadas automaticamente ao seu chaveiro local.
-> +
-> +O Kernel.org publica o WKD para todos os desenvolvedores que possuem contas
+Honestly, I don't think so.
 
-I think just "O kernel.org" without capital K.
+Rito, who is asking for this feature?  What is the use case?  Does it
+really justify adding a blob of JavaScript code to every view of the
+kernel documentation - JavaScript that we will have to maintain going
+forward?
 
-> [ ... skip 50 lines ... ]
-> +- `Chaveiro PGP de desenvolvedores do Kernel (pt)`_
-> +
-> +Se você é um desenvolvedor do kernel, considere enviar sua chave para inclusão
-> +nesse chaveiro.
-> +
-> +.. _`Chaveiro PGP de desenvolvedores do Kernel (pt)`: https://korg.docs.kernel.org/pgpkeys.html
+Our goal here is to make the kernel documentation better, not to shovel
+lots of code into the repository.
 
-I suggest you switch all (pt) disambiguated links to just anonymous 
-hyperlinks.
+If you can get some acks from established kernel developers saying that
+they want this change, I will reconsider - but only after the merge
+window.  But I really think that, again, this is something you might
+want to discuss with the Sphinx developers, then turn it into something
+without hard-coded colors that will work with whatever theme people
+might choose to build their docs with.
 
--- 
-KR
-
+jon
