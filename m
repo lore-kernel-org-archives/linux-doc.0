@@ -1,106 +1,119 @@
-Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout12.his.huawei.com (canpmsgout12.his.huawei.com [113.46.200.227])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E114130F92D
-	for <linux-doc@vger.kernel.org>; Sun, 29 Mar 2026 22:57:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2686519F40B;
+	Mon, 30 Mar 2026 01:03:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.227
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774825078; cv=none; b=aK7o8FIBeR1N1wvkH+yUuTZ1jcztDbYE3ltPVjCrkC/h11AQMNLsLX/MkmnxL7NW77bAgfKC7NqSO4krRhGRLXROluxO0Mn8H3Hf6gHVn+O9SQBTO9fuCdkx13wobw+tR6cUuhP6vohYnBh1kiIcypO6xuu9sVRQIVqYW6N8zEM=
+	t=1774832621; cv=none; b=Rh6zFUaszc0WnQtqZimiHzZj1B4UUT/5z9IdJfDGtfgXDBjV4nW6L9h7qAOJfZR+GFXtsyLBvRThG4tgdAE7nM/ei3Dx7fKfHTztvCy8Bc32PNSo+ed/wCc0+ah+RKC/X2dMH0noMXKBG7q3K35Z/4Vggj6cWnwuZZKbYTEFjIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774825078; c=relaxed/simple;
-	bh=DkXLUmcpu+vp7QMomsKqeu+nj8dpLA67HJln8CiZhFw=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jTUPSYXjDxTE+iYT7E7TuivyqGKL1KCBE4x5DP460wRima+a9UiLwfV/fVmWnflBZCGss35KJ9TUh0V5Es6dHbEbaU6ZVGhTqAzeFjAo9SoMmYRqjXml68MdTlyIq1HEiavMMui8CotNDahJ9aeL/71c5hWYxzRqBDxl/wvtORo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=code406.com; spf=pass smtp.mailfrom=code406.com; dkim=pass (1024-bit key) header.d=code406.com header.i=@code406.com header.b=Fbh9/3k5; arc=none smtp.client-ip=74.125.82.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=code406.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=code406.com
+	s=arc-20240116; t=1774832621; c=relaxed/simple;
+	bh=TzRZsuYrHMTvIHY9v4/+KA6xIA7OtYEcJKYeWJxMSus=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=WAA4yGdyN5dvZzhPj2ZvurqK9b8cA4WUKuYkwi2rD0Mpjc3m/k8aqIKP54013Qo9hqLvbWghdfTK8Nt+Zrtyf8v8D6ROZVwNvhl9h/ArWQ/JdWyxvVKplVCbXmUyFVsSyx07MW51hrcwPbL/CcVCBBEa4+vch8PNaKVUkGGQlI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=a1FPFToK; arc=none smtp.client-ip=113.46.200.227
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=code406.com header.i=@code406.com header.b="Fbh9/3k5"
-Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-12732e6a123so1807214c88.1
-        for <linux-doc@vger.kernel.org>; Sun, 29 Mar 2026 15:57:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=code406.com; s=google; t=1774825076; x=1775429876; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=EmjkZkbbVjjgaCUxuu5+nE0xjPd5gN1qT4GlMrecGi4=;
-        b=Fbh9/3k5YE4y04oqhexqsWQeQ2Y6SKUKF3WuZwp0/6sj4phYuWiRBU/C08fCMQ2EHr
-         BTyUJU8glTj+XLWy4pSTzGR2CL+smGXsOx1wY2z0jpGncGQmq+hfW8XyZbnfVMVXViUl
-         GswqzKhrEh+7vquNe+fGCoklacbwOR0ccnIpI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774825076; x=1775429876;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=EmjkZkbbVjjgaCUxuu5+nE0xjPd5gN1qT4GlMrecGi4=;
-        b=oeDCZfVNBbrAlldd7ESosmrYHngm0OIGfTazzNtjz3Udx58hyV5747b+z+Vzju8JjE
-         +79f815+6qvjgaAzxtG6PvTPEAz3OLxsYxSXodfV1rsRU+c+EP8P9+HL0IwTxaDxMkUu
-         3XkdmEScfIxPy1Aj/ZibyDQwZ4oubjrlFbEbXLUZ9DB62kesvgiOrhqbXNSLQmFEwtv8
-         8UnoOxx8VeyK1oOLBJaCQOV25KOD/IgRmpiVHUkkRFsNut56xNIjdRTBkx8k5Q5vdOEs
-         e4hLNQGRyXLsUKmASRSG2IOKzPIOXt5n9xs9oM+2DFnuMcZOEinHCEQAg+zThN/UooK6
-         PwLA==
-X-Forwarded-Encrypted: i=1; AJvYcCUI/60pFSdSg2PYdisgf/2G9gz1MR1qOhTCxrv6VOh06ghaZwisbIIr6C9CizjiAxNjuQ81OkryZuo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyNCVtBHo2hhFYslObZqZ9sTrrnYz4c5frrKQ8aQiNuPq+69rqn
-	szbEB+TBEBBhz1prIr5qekteViIkJ5cIaGLKcJh9T8ctVVnnva8NbssTHZorbHqzBA==
-X-Gm-Gg: ATEYQzygjIGe0R8HBAiVJAi8a8X3I5nCupPHu1CA//RmQjWzgWqGYMKjayhzY1Ly6yY
-	loVvCEFFOJ6SLgSCm6jl3vpx9yVro8sNrdPtWjnOnOP2SEv8YOFxOFroSL0ZnDFIujRSNqSzyIo
-	+YPd8X1gpGiecPRZ3GReu2Npd9IRLSt35WoOrdvRXO2Q4YkOoGSdaQ3WMmLMCDdFYQ6c9D9Ean9
-	8bXdgwSFb27g7osrlcwfOa9t8Q0mbZJhb4MxLHl0En9GgwyUp2PVhYPg1a+Ex2CS9HV0F2XiDs1
-	gtDF4OLg0A8e0fQQxr18NJVVJuj4vlLL06VK0ngFMgpFRJ/i2vQoVJEszqTFgS1quoW6spTN+/m
-	+6tAxgVN4/DSCHYU7OWQHbuKDsXiyt5ti1GGX+LxHQMf+fdTNRneWs5GXO5XUB0rZ35bQ25j6mx
-	Az48Bjlh7fNGcFIkIl8dV5WEcVdfEf/TsHDRmWjw+0wRzvVeZdNZge580e4HVxSki/6kWwLvjYw
-	vtT4x1N/mhaYNzzxDxlsfBNgD8P
-X-Received: by 2002:a05:7022:2209:b0:11d:f89d:85a0 with SMTP id a92af1059eb24-12ab2912740mr5861569c88.27.1774825075962;
-        Sun, 29 Mar 2026 15:57:55 -0700 (PDT)
-Received: from ubuntu ([2601:645:8a00:6e44:958e:90e9:e30b:7ecc])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12ab970da7fsm6096026c88.0.2026.03.29.15.57.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Mar 2026 15:57:55 -0700 (PDT)
-From: Josh Snyder <josh@code406.com>
-X-Google-Original-From: Josh Snyder <josh@cod406.com>
-Date: Sun, 29 Mar 2026 15:57:51 -0700
-To: Ross Philipson <ross.philipson@oracle.com>
-Cc: linux-kernel@vger.kernel.org, x86@kernel.org, 
-	linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org, linux-crypto@vger.kernel.org, 
-	kexec@lists.infradead.org, linux-efi@vger.kernel.org, iommu@lists.linux.dev, 
-	dpsmith@apertussolutions.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
-	hpa@zytor.com, dave.hansen@linux.intel.com, ardb@kernel.org, 
-	mjg59@srcf.ucam.org, James.Bottomley@hansenpartnership.com, peterhuewe@gmx.de, 
-	jarkko@kernel.org, jgg@ziepe.ca, luto@amacapital.net, nivedita@alum.mit.edu, 
-	herbert@gondor.apana.org.au, davem@davemloft.net, corbet@lwn.net, ebiederm@xmission.com, 
-	dwmw2@infradead.org, baolu.lu@linux.intel.com, kanth.ghatraju@oracle.com, 
-	andrew.cooper3@citrix.com, trenchboot-devel@googlegroups.com
-Subject: Re: [PATCH v15 08/28] tpm/tpm_tis: Close all localities
-Message-ID: <v2l4v5imh2lmsayevxz3palyjeglpxo3qu475gjpchitgfzil2@l24ax4vevjp7>
-References: <20251215233316.1076248-1-ross.philipson@oracle.com>
- <20251215233316.1076248-9-ross.philipson@oracle.com>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="a1FPFToK"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=1MM1BNsLVTt5dtBUaUIUrDkNqAsAUo52wg7CAdMZ7Ic=;
+	b=a1FPFToKukzPFYSQID16nuHoj+vH4OVjy4eLOh8bpc3tnZC+/9HHiNJmIW8UtT4o27fY+xiKJ
+	geqGmzON5sikYDhLdDgEx7Y4vn+DO8/ELJo349Jj9DQbbdCt026L590wMDRF63yB5eIL0Wl+E6M
+	ORlLPLa/IENiGXSedutf14I=
+Received: from mail.maildlp.com (unknown [172.19.162.92])
+	by canpmsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4fkXt42J8fznV4W;
+	Mon, 30 Mar 2026 08:58:04 +0800 (CST)
+Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
+	by mail.maildlp.com (Postfix) with ESMTPS id 4CB8740565;
+	Mon, 30 Mar 2026 09:03:29 +0800 (CST)
+Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.189.124) by
+ kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.36; Mon, 30 Mar 2026 09:03:28 +0800
+From: Fan Gong <gongfan1@huawei.com>
+To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>,
+	<netdev@vger.kernel.org>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Andrew Lunn
+	<andrew+netdev@lunn.ch>, Ioana Ciornei <ioana.ciornei@nxp.com>
+CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, luosifu
+	<luosifu@huawei.com>, Xin Guo <guoxin09@huawei.com>, Zhou Shuai
+	<zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, Shi Jing
+	<shijing34@huawei.com>, Zheng Jiezhen <zhengjiezhen@h-partners.com>, Maxime
+ Chevallier <maxime.chevallier@bootlin.com>
+Subject: [PATCH net-next v02 0/6] net: hinic3: PF initialization
+Date: Mon, 30 Mar 2026 09:03:17 +0800
+Message-ID: <cover.1774684571.git.zhuyikai1@h-partners.com>
+X-Mailer: git-send-email 2.51.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20251215233316.1076248-9-ross.philipson@oracle.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
+ kwepemf100013.china.huawei.com (7.202.181.12)
 
-On Mon, Dec 15, 2025 at 03:32:56PM -0800, Ross Philipson wrote:
-> From: "Daniel P. Smith" <dpsmith@apertussolutions.com>
-> +		if (check_locality(chip, i))
-> +			tpm_tis_relinquish_locality(chip, i);
+This is [3/3] part of hinic3 Ethernet driver second submission.
+With this patch hinic3 becomes a complete Ethernet driver with
+pf and vf.
 
-When I applied this patch locally, tpm_chip's locality_count underflowed to -1
-and no IO was performed. That is because tpm_tis_relinquish_locality is
-implemented like so:
+Add 20 ethtool ops for information of queue, rss, coalesce and eth data.
+Add MTU size validation
+Config netdev watchdog timeout.
+Remove unneed coalesce parameters.
 
-  struct tpm_tis_data *priv = dev_get_drvdata(&chip->dev);
+Changes:
 
-  mutex_lock(&priv->locality_count_mutex);
-  priv->locality_count--;
-  if (priv->locality_count == 0)
-	  __tpm_tis_relinquish_locality(priv, l);
+PATCH 03 V01: https://lore.kernel.org/netdev/cover.1773387649.git.zhuyikai1@h-partners.com/
+* Add rmon/pause/phy/mac/ctrl stats (Ioana Ciornei)
 
-I was able to work around the issue by calling __tpm_tis_relinquish_locality
-instead.
+PATCH 03 V02:
+* Modify "return -EINVAL" intension problem (AI review)
+* Use le16_to_cpu for rss_indir pair.out->buf (AI review)
+* Use u32 instead of int in coalesce_limits to avoid overflow (AI review)
+* Remove redundant u64_stats_update_begin/end when reading stats without
+  concurrent reader (AI review)
+* Modify nic_dev->stats.syncp logic (AI review)
+* Complete rxq/txq stats stats fileds in hinic3_rx/txq_get_stats (AI review)
+* Remove statistics values in rtnl_link_stats64 from ethtool statistics
+  values (AI review)
+* Add channel_cfg_lock & channel_res_lock to protect resources access (AI review)
+* Remove OutOfRangeLengthField, FrameToolong and InRangeLengthErrors (Ioana Ciornei)
+* Remove redundant mtu commit (Maxime Chevialler)
 
-Thanks,
-Josh
+Fan Gong (6):
+  hinic3: Add ethtool queue ops
+  hinic3: Add ethtool statistic ops
+  hinic3: Add ethtool coalesce ops
+  hinic3: Add ethtool rss ops
+  hinic3: Configure netdev->watchdog_timeo to set nic tx timeout
+  hinic3: Remove unneed coalesce parameters
+
+ .../ethernet/huawei/hinic3/hinic3_ethtool.c   | 878 +++++++++++++++++-
+ .../ethernet/huawei/hinic3/hinic3_hw_intf.h   |  13 +-
+ .../net/ethernet/huawei/hinic3/hinic3_irq.c   |  16 +-
+ .../net/ethernet/huawei/hinic3/hinic3_main.c  |  16 +
+ .../huawei/hinic3/hinic3_mgmt_interface.h     |  39 +
+ .../huawei/hinic3/hinic3_netdev_ops.c         | 101 +-
+ .../ethernet/huawei/hinic3/hinic3_nic_cfg.c   |  64 ++
+ .../ethernet/huawei/hinic3/hinic3_nic_cfg.h   | 109 +++
+ .../ethernet/huawei/hinic3/hinic3_nic_dev.h   |  24 +
+ .../ethernet/huawei/hinic3/hinic3_nic_io.h    |   4 +
+ .../net/ethernet/huawei/hinic3/hinic3_rss.c   | 487 +++++++++-
+ .../net/ethernet/huawei/hinic3/hinic3_rss.h   |  19 +
+ .../net/ethernet/huawei/hinic3/hinic3_rx.c    |  61 +-
+ .../net/ethernet/huawei/hinic3/hinic3_rx.h    |  17 +-
+ .../net/ethernet/huawei/hinic3/hinic3_tx.c    |  80 +-
+ .../net/ethernet/huawei/hinic3/hinic3_tx.h    |   2 +
+ 16 files changed, 1904 insertions(+), 26 deletions(-)
+
+
+base-commit: 8e7adcf81564a3fe886a6270eea7558f063e5538
+-- 
+2.43.0
+
