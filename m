@@ -1,145 +1,102 @@
-Received: from canpmsgout12.his.huawei.com (canpmsgout12.his.huawei.com [113.46.200.227])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADA961EB5C2;
-	Mon, 30 Mar 2026 07:55:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.227
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66AFF3A1A28
+	for <linux-doc@vger.kernel.org>; Mon, 30 Mar 2026 08:09:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774857307; cv=none; b=uL9qKedryFIvS3FHUYwc70h87hF1MO+J9lEw7ojaBZykyGAoIdjvn3r5GVlqufiHw1/xdU21SncGzMG/kgcRsK27QIgBIV/J8HTpkHEpDSRruDlq3uTYK++puLynXN16TUG5XgMYe5h9vN65cbynMioGPCiFk/0ZDiXjYBzlmio=
+	t=1774858183; cv=none; b=eeRzhRa6W9aWPYuK/pVDs7smdWynOcCflYBP11TY0hMMhdYVGKXfeE7SFNfD1ciPWNOCcst0EqhatSDrfjNkTKGZ1mlA+5knolwyGJNRyJSWd/AN6bd53d8T9E4YurpHaE+ssSsCh9R153iYYLplxtZbe6bSJ8EkweqgZNo5sF8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774857307; c=relaxed/simple;
-	bh=c2v402NYvCzdZ276PSOrOAneL4XWK44QnJnzK0i0j8c=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=IZJROvhVsqtn5rrOGQbU3oJuE1wForkr8je82ZzJpLfZH30RFcTLLKTeHq84OxPI936/wBshYlR9Vc1cYNglSMNVA2z/ip9G7Dm4k11qzelIMuga907BxdUbXDirWmhQOLMNdlTc3uUymOU2lbn6SFOUzYZA07zzfQchSvLvaUw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=kdRyhgPo; arc=none smtp.client-ip=113.46.200.227
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="kdRyhgPo"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=gxL/nLHtk8yzJElgrCWa2G5swCzIh9KhW/8g+WYobqw=;
-	b=kdRyhgPoF6ynd8J8zQDabTun7D67+34eRkJ+/9iQPVyI8ywedL6hVtwVCtLr2aJawq8obtW0M
-	fDXTp5Rn5dZSgRVNcskaQDvbTVawHpsxDvrQs271E4xMZiR5R3hQYnqv74YWERC1dGFxW6JJJaR
-	yw7yOw1NLjkcMAarT8N7KUg=
-Received: from mail.maildlp.com (unknown [172.19.163.163])
-	by canpmsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4fkk0x160sznTW1;
-	Mon, 30 Mar 2026 15:49:37 +0800 (CST)
-Received: from dggemv705-chm.china.huawei.com (unknown [10.3.19.32])
-	by mail.maildlp.com (Postfix) with ESMTPS id 00A104048B;
-	Mon, 30 Mar 2026 15:55:02 +0800 (CST)
-Received: from kwepemq500010.china.huawei.com (7.202.194.235) by
- dggemv705-chm.china.huawei.com (10.3.19.32) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Mon, 30 Mar 2026 15:55:01 +0800
-Received: from [10.173.124.160] (10.173.124.160) by
- kwepemq500010.china.huawei.com (7.202.194.235) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Mon, 30 Mar 2026 15:55:01 +0800
-Subject: Re: [PATCH 1/2] mm/memory-failure: add
- panic_on_unrecoverable_memory_failure sysctl
-To: Breno Leitao <leitao@debian.org>
-CC: <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <kernel-team@meta.com>, Naoya Horiguchi
-	<nao.horiguchi@gmail.com>, Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-References: <20260323-ecc_panic-v1-0-72a1921726c5@debian.org>
- <20260323-ecc_panic-v1-1-72a1921726c5@debian.org>
-From: Miaohe Lin <linmiaohe@huawei.com>
-Message-ID: <a88d62ee-530c-1a6e-c05f-de324f940b8f@huawei.com>
-Date: Mon, 30 Mar 2026 15:55:00 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+	s=arc-20240116; t=1774858183; c=relaxed/simple;
+	bh=tW/INbpmXJVg5bz2Qnv9IGM49uAG3MWpQtvcviWEy7k=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=huyIM6H9RR/iDUJ4L1/u2yu63uwrtVG/XowE46Jl4RvJvUY9aqcYdt7WAYw/CvFBwqNMAIPIccP2bUii92p/dnM1TEmwPfEICMI7pWEdMAS8T+7rJo78oWS4/Mb15ahhu393jhOOfJqtMlKUts24MxLX84QfYOrKTUmM735iSms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-5637886c92aso1975862e0c.0
+        for <linux-doc@vger.kernel.org>; Mon, 30 Mar 2026 01:09:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774858181; x=1775462981;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XIsXweoHuxY7XSIOhAMab+JXNuNNW1YEPO1/VtWzLsQ=;
+        b=p0jboFaxcRWNVQLx7B67iev2xmf2qz3lIspiQnFT6jhkPjQJb3+zZKxt1idJaZ3sn6
+         5e5aCqFV5SXfUOVUtzSk2x55H2bSRdm6MdVbUIB/49X7qyFJ3X52DeLU265fVr1dLh34
+         S1ViWlkMrwey/33uPrGM5LWVA1SM9j+tZ6aTYAiw+rczhsaUddveW9RR9/9y2W7W5ggH
+         iU2ImFouSS24GHL5o2A/OnlRa67un3WZiLdsy/5sAhiYTxJ/FuXbGS5lpLxpF/BSpcYz
+         F/Jn+srr6hB+xLrM/wf49lqzN0R2Kz5ZVU1orebQ3hNE1YlINYeb0LMvLnCJ1XJORb+8
+         QYVQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVQyYh0tIfG5kLaOVliQ+DiubWg6G/Zu/1Vn4/NZdyLfmZWT85/ppNmfke7CETAhTJae+U5814Kq4o=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwkzaTJnpO9JnHM33i5b31a+djflYPnRy1C+V77BS+H7bkkLJ03
+	GcEqaESfgGE8nkG3Q0r6dxzYVoedtxsnxs+ULo8CZtRAViWd+N+GT5EYsNUNk/PI
+X-Gm-Gg: ATEYQzy5wir3/85X1/qB+KouDKl7Wn3I3oJuk3QGK/YlBjuA6rJqkNLHMASre2ukph/
+	90PFT+0NAAmbCax8X1HXizTUuq9dozKolCKX0thPKrcvf+NTTh4SBDxcGeHfHDABiVwq8VbqaBl
+	7L9MhJUqVMfcwRudrDEAjVBmNbVHJYQNEOC+kJ1F3VgpiWqqVGqv0crSwkApxPpCohiGuTDsz0m
+	YhBwFEPMCNHRZnMj5yp1p8YBYX8noIGzYN8otZq6wslntctR1KX7RUhGsN28ZIaN2V83+sM1dZe
+	GxGT+XTUvGQQ4kEfcyXzAB4D/UtlLHYQ0HqDpr2ymNGvGjhnVBn2RSffBLw+eUrBtf1EIVuZ8Rz
+	2E46lVIRAP+A5uGFqACgF3aDJyX/COiwa/CSx4UVd9/f0u5ZaUURxE4DEoXwjpbir4Ta9fjpeTD
+	F80cm6TfBVJr8gf0JMheDvXaMtASpPRpF2e1E4Uw6DqYNtrmUukDqNymj+hxjk
+X-Received: by 2002:a05:6122:311b:b0:56d:3c26:20a8 with SMTP id 71dfb90a1353d-56d4a4d2c9dmr3822319e0c.3.1774858181309;
+        Mon, 30 Mar 2026 01:09:41 -0700 (PDT)
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com. [209.85.222.49])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-56d58a46f4dsm7733055e0c.15.2026.03.30.01.09.40
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 30 Mar 2026 01:09:40 -0700 (PDT)
+Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-94dd01deb53so999765241.0
+        for <linux-doc@vger.kernel.org>; Mon, 30 Mar 2026 01:09:40 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXD4ksorsP7BRy78+OSCPbCreLo2ItpdToCn8UC95D1QnMixeqflLixh4D54JFTuljlZ2RZSayt9AY=@vger.kernel.org
+X-Received: by 2002:a05:6102:8028:b0:604:f29d:84b1 with SMTP id
+ ada2fe7eead31-604f92960b5mr3654837137.20.1774858180376; Mon, 30 Mar 2026
+ 01:09:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20260323-ecc_panic-v1-1-72a1921726c5@debian.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
- kwepemq500010.china.huawei.com (7.202.194.235)
+References: <aaHrsTS9iG-PEfue@ammar-VM2> <aaLIhgJjrNlp3oTy@ashevche-desk.local>
+In-Reply-To: <aaLIhgJjrNlp3oTy@ashevche-desk.local>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 30 Mar 2026 10:09:28 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUcDrDR-1f5eXjdyDR3-HcTFFeGsmYU2whV=fQhzsCNtg@mail.gmail.com>
+X-Gm-Features: AQROBzCLuIVPTTxt7k5F4tDK5RHqMB9Fn11dB6AR3oeM1joJzuqZmax22uYJ_WA
+Message-ID: <CAMuHMdUcDrDR-1f5eXjdyDR3-HcTFFeGsmYU2whV=fQhzsCNtg@mail.gmail.com>
+Subject: Re: [PATCH v2] Docs: iio: ad7191 Correct clock configuration
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Ammar Mustafa <ammarmustafa34@gmail.com>, Alisa-Dariana Roman <alisa.roman@analog.com>, 
+	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
+	=?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	Andy Shevchenko <andy@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	linux-iio@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 2026/3/23 23:29, Breno Leitao wrote:
-> When memory_failure() encounters an in-use kernel page that cannot be
-> recovered (slab, page tables, kernel stacks, reserved, vmalloc, etc.),
-> it currently logs MF_IGNORED and continues. This leaves corrupted data
-> accessible to the kernel, risking silent data corruption or a delayed
-> crash when the poisoned cache line is next accessed.
-> 
-> For example, a multi-bit ECC error on a dentry cache slab page was
-> ignored by memory_failure(), and 67 seconds later d_lookup() accessed
-> the poisoned cache line, causing a synchronous external abort:
-> 
->   [88690.479680] [Hardware Error]: error_type: 3, multi-bit ECC
->   [88690.498473] Memory failure: 0x40272d: unhandlable page.
->   [88690.498619] Memory failure: 0x40272d: recovery action for
->                  get hwpoison page: Ignored
->   ...
->   [88757.847126] Internal error: synchronous external abort:
->                  0000000096000410 [#1] SMP
->   [88758.061075] pc : d_lookup+0x5c/0x220
-> 
-> Add a new sysctl vm.panic_on_unrecoverable_memory_failure (default 0)
-> that, when set to 1, panics immediately on unrecoverable memory
-> failures. This provides a clean crash dump at the time of the error
-> rather than a delayed crash with potential silent corruption in between.
-> 
-> The panic is placed in action_result() so that all call sites that log
-> MF_MSG_GET_HWPOISON with MF_IGNORED are covered, including the hugetlb
-> path in try_memory_failure_hugetlb().
-> 
-> Signed-off-by: Breno Leitao <leitao@debian.org>
-> ---
->  mm/memory-failure.c | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
-> 
-> diff --git a/mm/memory-failure.c b/mm/memory-failure.c
-> index ee42d43613097..25bd043497195 100644
-> --- a/mm/memory-failure.c
-> +++ b/mm/memory-failure.c
-> @@ -74,6 +74,8 @@ static int sysctl_memory_failure_recovery __read_mostly = 1;
->  
->  static int sysctl_enable_soft_offline __read_mostly = 1;
->  
-> +static int sysctl_panic_on_unrecoverable_mf __read_mostly;
-> +
->  atomic_long_t num_poisoned_pages __read_mostly = ATOMIC_LONG_INIT(0);
->  
->  static bool hw_memory_failure __read_mostly = false;
-> @@ -155,6 +157,15 @@ static const struct ctl_table memory_failure_table[] = {
->  		.proc_handler	= proc_dointvec_minmax,
->  		.extra1		= SYSCTL_ZERO,
->  		.extra2		= SYSCTL_ONE,
-> +	},
-> +	{
-> +		.procname	= "panic_on_unrecoverable_memory_failure",
-> +		.data		= &sysctl_panic_on_unrecoverable_mf,
-> +		.maxlen		= sizeof(sysctl_panic_on_unrecoverable_mf),
-> +		.mode		= 0644,
-> +		.proc_handler	= proc_dointvec_minmax,
-> +		.extra1		= SYSCTL_ZERO,
-> +		.extra2		= SYSCTL_ONE,
->  	}
->  };
->  
-> @@ -1298,6 +1309,10 @@ static int action_result(unsigned long pfn, enum mf_action_page_type type,
->  	pr_err("%#lx: recovery action for %s: %s\n",
->  		pfn, action_page_types[type], action_name[result]);
->  
-> +	if (sysctl_panic_on_unrecoverable_mf &&
-> +	    type == MF_MSG_GET_HWPOISON && result == MF_IGNORED)
-> +		panic("Memory failure: %#lx: unrecoverable page", pfn);
+On Sat, 28 Feb 2026 at 11:51, Andy Shevchenko
+<andriy.shevchenko@intel.com> wrote:
+> On Fri, Feb 27, 2026 at 02:08:33PM -0500, Ammar Mustafa wrote:
+> > Correct the ad7191 documentation to match the datasheet:
+> > - Fix inverted CLKSEL pin logic: device uses external clock when pin is
+> >   inactive, and internal CMOS/crystal when high.
+>
+> high --> active
 
-MF_MSG_GET_HWPOISON contains some other scenarios. For example, an isolated folio will
-make get_hwpoison_page return -EIO so we will see MF_MSG_GET_HWPOISON and MF_IGNORED in
-action_result. But that's recoverable if folio is used by userspace thus panic will be
-unacceptable.
-Will it better to check type against MF_MSG_KERNEL_HIGH_ORDER?
+Thanks for your patch, which is now commit d2a4ec19d2a2e54c ("Docs:
+iio: ad7191 Correct clock configuration") in char-misc-next and
+iio/togreg.
 
-Thanks.
-.
+That commit message still says "inactive" and "high", thus adding to
+the confustion.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
