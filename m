@@ -1,180 +1,148 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A1583A7F4C
-	for <linux-doc@vger.kernel.org>; Mon, 30 Mar 2026 07:50:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D9493A7F74;
+	Mon, 30 Mar 2026 07:50:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774857003; cv=none; b=CE8/4alkC9mmojykRGYhHoR9VEEzi59GH22gSLCDYARyJInxB1HOgcOf8cZa1pKqK5HEDsZewi2lGb1NacJnQGmJOFde1qumVi/GJacwsb6yDNNyvK9v2YqFELkN6iGCVPVYb8y2vj3bGpjnX9eBjJaPKmJVhP7LkqbJPJZCkjQ=
+	t=1774857042; cv=none; b=L4Dx3jLQCInqYWu2r4iG1xVwHe7Vj5m5HSAnpH7FhQ+D5DFqrVAymrfvZXGfhAhBMO9UYzD/HR/r0Ue1apBsoo/ioEpVas4nnbkq2SMe+hEq01Y3UoPCPT562EZqU5azBwo9Uw7mA+urHfeY+3BOhauETy1DNGagxYTaAWrAFGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774857003; c=relaxed/simple;
-	bh=6kNN1RP6hfrxfLPYE0OI9tP3SvLOgSwkQmqyXhzTfyQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=r2Cz97mmfpEznwhRr/IbOG40lZih94+zERuhib1icLg++Q/zxIsgUpVSvkgQCdyjDbYa2AqhrslZAF+Ep14M7zryVfDcEm9+rqdwAd3BoHglGGjAFG2DynHajs0/IiB9o/L9/JhxGjX37tprbo24N4quIVe1v2yPy4O/rYzPcFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EMLHc9RR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774857042; c=relaxed/simple;
+	bh=PiqY889LgWIFkgy64QEXf0fNl10xIm5k8j8z4gckHog=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XSZsND132PrfHodL9y/ta1vYs/ABsD4YDAB0zMPoU1FAEMsmBfPpTqmyJbIeEWLgczRcWme+1ztcpRILO5O5N/E/c0KMb2p05x3l/2uHpkuRv9b9L2Pa+XJuDbroxeFkGymi5OpEGn8J2Jr4FBsK1f/EuauB12KFtzyXCkQ3MJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KPK+V+ee; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EMLHc9RR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 713D8C2BCC9
-	for <linux-doc@vger.kernel.org>; Mon, 30 Mar 2026 07:50:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774857003;
-	bh=6kNN1RP6hfrxfLPYE0OI9tP3SvLOgSwkQmqyXhzTfyQ=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=EMLHc9RRxxgF/q9IZFv1dePuIbnzTXNBuB6kVaoFukkr1ucrR8VtgGKJZxfHAPeda
-	 NoOd5dNf4iw60IKhVuiihGzS20d2asneYTQFmIOPC+oibw6j5mB26gshymPA5cOnQU
-	 8GwY3XAP/WUOAwUMhNJWulE7D51LKZLfsJ9jYrL2MWSm1AILniv6msGhMHwB2u72wL
-	 NV3ZtFjq+6XUwCBsWxZDTcToYuFN8/MCoIOLkqqGR2/HpQGpyQ0uABqlI4zp2AJnVK
-	 Rx/alDJqKvr0Bm4U2x6vI4IQVFXpJjTEyE984Dy+/l4J9Tk2CuS6GlGU6iWDdxPTfe
-	 2ky4e5ATIv/aQ==
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-43d01d6b50cso289488f8f.1
-        for <linux-doc@vger.kernel.org>; Mon, 30 Mar 2026 00:50:03 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXJKYIyrGZpAbVsDMFbEXjviL0sGdJfhIl6iS7YXYcY+okM0PBxt9gHdHqNw+PtxUtqDrnZOT6EKlU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwHS7OCR0wwok+yihz+bjC5AEeVrTis5ShHlTh/xyuAjbKWAens
-	oFnq+FxDOPzDw65SK2+2OwUR4EGTetxwEIgCVBWHbWW3Xiq59hFQ/uA+n9ATAqM8iCjZRz0xGcR
-	h/Y6Y4wmsT/cnzol7r4fZ0HHhKue5FSY=
-X-Received: by 2002:a05:6000:2409:b0:43b:447a:11b8 with SMTP id
- ffacd0b85a97d-43b9e9d6050mr19116932f8f.6.1774857000398; Mon, 30 Mar 2026
- 00:50:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KPK+V+ee"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774857040; x=1806393040;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PiqY889LgWIFkgy64QEXf0fNl10xIm5k8j8z4gckHog=;
+  b=KPK+V+ee4XD39KoTlzjnkP8DYv7aTkcJzIsEq1GfpvoMNQJdclOLx8Xx
+   GMaF9IdTHqGcCJcD/Uku6ZCG5CUbq1skFor/wC+q6Mxr4339TboXPhNPf
+   y3X1Z39oh62wk3UKy9wz3429KEyyzm+nMy+MqF8JRmBH7URqKQcS3NGZy
+   IzYTBR/BRV/C7mbdKKWf49GPwcVbUhp4cEecz6hwlnmZS9z2XYgvVbxAf
+   SQYYWLy+TJNZG5leui0co9K6uh5FJgnJwbNsVKjb2vpS7LwGdnJXlPUgR
+   CTudDE8JJjLIc/f4QStsK49j8zR05MRyU+anAp8a1GnB+z0e4kAWef5FV
+   w==;
+X-CSE-ConnectionGUID: r0+1M4wARfCEXk01WAplVw==
+X-CSE-MsgGUID: SdaLfyDbRT2YqQBOBiygdg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11743"; a="86535292"
+X-IronPort-AV: E=Sophos;i="6.23,149,1770624000"; 
+   d="scan'208";a="86535292"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2026 00:50:40 -0700
+X-CSE-ConnectionGUID: bKF/FAIKQWWW1FZgYCMAFQ==
+X-CSE-MsgGUID: siJjBhNRTiWlFjG6FstUpw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,149,1770624000"; 
+   d="scan'208";a="263912729"
+Received: from lkp-server01.sh.intel.com (HELO 283bf2e1b94a) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 30 Mar 2026 00:50:36 -0700
+Received: from kbuild by 283bf2e1b94a with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w77OK-000000000pd-3V3D;
+	Mon, 30 Mar 2026 07:50:32 +0000
+Date: Mon, 30 Mar 2026 15:49:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jim Mattson <jmattson@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Sean Christopherson <seanjc@google.com>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, Yosry Ahmed <yosry@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Jim Mattson <jmattson@google.com>
+Subject: Re: [PATCH v7 1/9] KVM: x86: Define
+ KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT
+Message-ID: <202603301501.N2sdlIQ9-lkp@intel.com>
+References: <20260327234023.2659476-2-jmattson@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260328074013.3589544-1-ruanjinjie@huawei.com>
- <20260328074013.3589544-2-ruanjinjie@huawei.com> <CAJF2gTRN=RpgzQsQ7QDbwjDmyQZP9anQZ+CaK2r-Mrz9dQbohQ@mail.gmail.com>
- <baa90080-9e6e-c1e5-13a1-b17496c690b4@huawei.com>
-In-Reply-To: <baa90080-9e6e-c1e5-13a1-b17496c690b4@huawei.com>
-From: Guo Ren <guoren@kernel.org>
-Date: Mon, 30 Mar 2026 15:49:48 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTQE58ooXwyPSztDHbrxMRWCWhJNMKcRJZJsmKznBD12wA@mail.gmail.com>
-X-Gm-Features: AQROBzBd-gKOewl3PX_5GW7wfDT6ZMEcMbV186WYHO9lbJECvy1QYs-DBc7P3MM
-Message-ID: <CAJF2gTQE58ooXwyPSztDHbrxMRWCWhJNMKcRJZJsmKznBD12wA@mail.gmail.com>
-Subject: Re: [PATCH v11 01/11] riscv: kexec_file: Fix crashk_low_res not
- exclude bug
-To: Jinjie Ruan <ruanjinjie@huawei.com>
-Cc: corbet@lwn.net, skhan@linuxfoundation.org, catalin.marinas@arm.com, 
-	will@kernel.org, chenhuacai@kernel.org, kernel@xen0n.name, 
-	maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com, 
-	chleroy@kernel.org, pjw@kernel.org, palmer@dabbelt.com, aou@eecs.berkeley.edu, 
-	alex@ghiti.fr, tglx@kernel.org, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, hpa@zytor.com, robh@kernel.org, 
-	saravanak@kernel.org, akpm@linux-foundation.org, bhe@redhat.com, 
-	vgoyal@redhat.com, dyoung@redhat.com, rdunlap@infradead.org, 
-	peterz@infradead.org, feng.tang@linux.alibaba.com, 
-	pawan.kumar.gupta@linux.intel.com, dapeng1.mi@linux.intel.com, 
-	kees@kernel.org, elver@google.com, paulmck@kernel.org, lirongqing@baidu.com, 
-	rppt@kernel.org, leitao@debian.org, ardb@kernel.org, cfsworks@gmail.com, 
-	osandov@fb.com, jbohac@suse.cz, tangyouling@kylinos.cn, 
-	sourabhjain@linux.ibm.com, ritesh.list@gmail.com, eajames@linux.ibm.com, 
-	songshuaishuai@tinylab.org, kevin.brodsky@arm.com, vishal.moola@gmail.com, 
-	junhui.liu@pigmoral.tech, coxu@redhat.com, fuqiang.wang@easystack.cn, 
-	liaoyuanhong@vivo.com, chenjiahao16@huawei.com, hbathini@linux.ibm.com, 
-	takahiro.akashi@linaro.org, james.morse@arm.com, lizhengyu3@huawei.com, 
-	x86@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, loongarch@lists.linux.dev, 
-	linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, 
-	devicetree@vger.kernel.org, kexec@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260327234023.2659476-2-jmattson@google.com>
 
-On Mon, Mar 30, 2026 at 3:11=E2=80=AFPM Jinjie Ruan <ruanjinjie@huawei.com>=
- wrote:
->
->
->
-> On 2026/3/30 11:49, Guo Ren wrote:
-> > On Sat, Mar 28, 2026 at 3:41=E2=80=AFPM Jinjie Ruan <ruanjinjie@huawei.=
-com> wrote:
-> >>
-> >> As done in commit 944a45abfabc ("arm64: kdump: Reimplement crashkernel=
-=3DX")
-> >> and commit 4831be702b95 ("arm64/kexec: Fix missing extra range for
-> >> crashkres_low.") for arm64, while implementing crashkernel=3DX,[high,l=
-ow],
-> >> riscv should have excluded the "crashk_low_res" reserved ranges from
-> >> the crash kernel memory to prevent them from being exported through
-> >> /proc/vmcore, and the exclusion would need an extra crash_mem range.
-> >>
-> >> Cc: Guo Ren <guoren@kernel.org>
-> >> Cc: Baoquan He <bhe@redhat.com>
-> >> Fixes: 5882e5acf18d ("riscv: kdump: Implement crashkernel=3DX,[high,lo=
-w]")
-> >> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
-> >> ---
-> >>  arch/riscv/kernel/machine_kexec_file.c | 14 +++++++++++---
-> >>  1 file changed, 11 insertions(+), 3 deletions(-)
-> >>
-> >> diff --git a/arch/riscv/kernel/machine_kexec_file.c b/arch/riscv/kerne=
-l/machine_kexec_file.c
-> >> index 54e2d9552e93..3f7766057cac 100644
-> >> --- a/arch/riscv/kernel/machine_kexec_file.c
-> >> +++ b/arch/riscv/kernel/machine_kexec_file.c
-> >> @@ -61,7 +61,7 @@ static int prepare_elf_headers(void **addr, unsigned=
- long *sz)
-> >>         unsigned int nr_ranges;
-> >>         int ret;
-> >>
-> >> -       nr_ranges =3D 1; /* For exclusion of crashkernel region */
-> >> +       nr_ranges =3D 2; /* For exclusion of crashkernel region */
-> >>         walk_system_ram_res(0, -1, &nr_ranges, get_nr_ram_ranges_callb=
-ack);
-> >>
-> >>         cmem =3D kmalloc_flex(*cmem, ranges, nr_ranges);
-> >> @@ -76,8 +76,16 @@ static int prepare_elf_headers(void **addr, unsigne=
-d long *sz)
-> >>
-> >>         /* Exclude crashkernel region */
-> >>         ret =3D crash_exclude_mem_range(cmem, crashk_res.start, crashk=
-_res.end);
-> >> -       if (!ret)
-> >> -               ret =3D crash_prepare_elf64_headers(cmem, true, addr, =
-sz);
-> >> +       if (ret)
-> >> +               goto out;
-> >> +
-> >> +       if (crashk_low_res.end) {
-> >> +               ret =3D crash_exclude_mem_range(cmem, crashk_low_res.s=
-tart, crashk_low_res.end);
-> > Exclude crashk_low_res is reasonable, but have you tested this?
->
-> Just simply tested on qemu with crashkernel=3D4G with following kexec
-> mentioned in
-> https://lore.kernel.org/all/20230726175000.2536220-1-chenjiahao16@huawei.=
-com/.
-> And the second kernel can be started normally.
->
-> https://github.com/chenjh005/kexec-tools/tree/build-test-riscv-v2
->
-> # dmesg | grep crash
-> [    0.000000] crashkernel low memory reserved: 0xf8000000 - 0x100000000
-> (128 MB)
-> [    0.000000] crashkernel reserved: 0x000000017fe00000 -
-> 0x000000027fe00000 (4096 MB)
-Adding a test log to the commit log makes the patch more trustworthy.
+Hi Jim,
 
-Reviewed-by: Guo Ren <guoren@kernel.org>
+kernel test robot noticed the following build errors:
 
->
->
->
-> >
-> >> +               if (ret)
-> >> +                       goto out;
-> >> +       }
-> >> +
-> >> +       ret =3D crash_prepare_elf64_headers(cmem, true, addr, sz);
-> >>
-> >>  out:
-> >>         kfree(cmem);
-> >> --
-> >> 2.34.1
-> >>
-> >
-> >
+[auto build test ERROR on 3d6cdcc8883b5726513d245eef0e91cabfc397f7]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jim-Mattson/KVM-x86-Define-KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT/20260328-110805
+base:   3d6cdcc8883b5726513d245eef0e91cabfc397f7
+patch link:    https://lore.kernel.org/r/20260327234023.2659476-2-jmattson%40google.com
+patch subject: [PATCH v7 1/9] KVM: x86: Define KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT
+config: x86_64-randconfig-016-20260330 (https://download.01.org/0day-ci/archive/20260330/202603301501.N2sdlIQ9-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260330/202603301501.N2sdlIQ9-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202603301501.N2sdlIQ9-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from arch/x86/kvm/svm/svm_onhyperv.c:11:
+   arch/x86/kvm/svm/svm.h: In function 'l2_has_separate_pat':
+>> arch/x86/kvm/svm/svm.h:626:18: error: implicit declaration of function 'kvm_check_has_quirk'; did you mean 'kvm_check_request'? [-Wimplicit-function-declaration]
+     626 |                 !kvm_check_has_quirk(svm->vcpu.kvm,
+         |                  ^~~~~~~~~~~~~~~~~~~
+         |                  kvm_check_request
+   In file included from arch/x86/kvm/svm/svm_ops.h:7,
+                    from arch/x86/kvm/svm/svm_onhyperv.c:12:
+   arch/x86/kvm/x86.h: At top level:
+>> arch/x86/kvm/x86.h:429:20: error: conflicting types for 'kvm_check_has_quirk'; have 'bool(struct kvm *, u64)' {aka '_Bool(struct kvm *, long long unsigned int)'}
+     429 | static inline bool kvm_check_has_quirk(struct kvm *kvm, u64 quirk)
+         |                    ^~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/svm/svm.h:626:18: note: previous implicit declaration of 'kvm_check_has_quirk' with type 'int()'
+     626 |                 !kvm_check_has_quirk(svm->vcpu.kvm,
+         |                  ^~~~~~~~~~~~~~~~~~~
+--
+   In file included from kvm/svm/svm_onhyperv.c:11:
+   kvm/svm/svm.h: In function 'l2_has_separate_pat':
+   kvm/svm/svm.h:626:18: error: implicit declaration of function 'kvm_check_has_quirk'; did you mean 'kvm_check_request'? [-Wimplicit-function-declaration]
+     626 |                 !kvm_check_has_quirk(svm->vcpu.kvm,
+         |                  ^~~~~~~~~~~~~~~~~~~
+         |                  kvm_check_request
+   In file included from kvm/svm/svm_ops.h:7,
+                    from kvm/svm/svm_onhyperv.c:12:
+   arch/x86/kvm/x86.h: At top level:
+>> arch/x86/kvm/x86.h:429:20: error: conflicting types for 'kvm_check_has_quirk'; have 'bool(struct kvm *, u64)' {aka '_Bool(struct kvm *, long long unsigned int)'}
+     429 | static inline bool kvm_check_has_quirk(struct kvm *kvm, u64 quirk)
+         |                    ^~~~~~~~~~~~~~~~~~~
+   kvm/svm/svm.h:626:18: note: previous implicit declaration of 'kvm_check_has_quirk' with type 'int()'
+     626 |                 !kvm_check_has_quirk(svm->vcpu.kvm,
+         |                  ^~~~~~~~~~~~~~~~~~~
 
 
+vim +626 arch/x86/kvm/svm/svm.h
 
---=20
-Best Regards
- Guo Ren
+   618	
+   619	static inline bool l2_has_separate_pat(struct vcpu_svm *svm)
+   620	{
+   621		/*
+   622		 * If KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT is disabled while a vCPU
+   623		 * is running, the L2 IA32_PAT semantics for that vCPU are undefined.
+   624		 */
+   625		return nested_npt_enabled(svm) &&
+ > 626			!kvm_check_has_quirk(svm->vcpu.kvm,
+   627					     KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT);
+   628	}
+   629	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
