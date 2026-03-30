@@ -1,122 +1,110 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 732853AEF24
-	for <linux-doc@vger.kernel.org>; Mon, 30 Mar 2026 08:52:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAC713815C0;
+	Mon, 30 Mar 2026 09:15:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774860770; cv=none; b=jzIAmPiu/Q99l+MdyB4PGDF7SgnZ+kQoGb2ydpS566FwustX6CUzJHp8FO/cmOjqrVNcHCkbhQrSkLRyn2z7lISmu2J4fzJFHfOL/oX2smCoEQ+MD2hQRnSB3TtTEUb1x3dRpSrBOgJaXpXqyRenUMxUul9tPz+D/nzWef9y3l8=
+	t=1774862152; cv=none; b=PLTk+PFgh2ybrS9A3jIttQmNewOOqxxKDZflY2R8zjUuYn41iZxZghv7492poZT7of7SjlaRPLgDxHU6H743wp2NLL0//kg8WIUg3IgoHXvjRVlULyPG3xRNmUBZAxzaQ7kMdUnTPOn2YUqFCMFUu9aWjuCPROd3/5Bq4OIli0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774860770; c=relaxed/simple;
-	bh=AA2BdMUW7VfEiqAUAzVMsm0H/MPU3SGAH/WOlBUEhSw=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=GsJ30ngAqks7b0aO7IEw4YtmWPWXa72KjAHR5GXLa7ZB0dhQn+LGZU7XeLExZHd0EF2hZGkpOzWP7UXXBuomRhQHaGYceBgTycjYx4LS93spsPu/32QG6Kz6ic83qJ5q+Mu0yxnj+F4bYxZAOupZ778cEyKho+HXFBsNNzrxlLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gaXT2rAb; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1774862152; c=relaxed/simple;
+	bh=nSAMhAy2NHmQUPSXPLIcBAWN1McDpN+/e2HfgQZTDIE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lDsyslaMDVAkgZhZMCA/zgu/F/nXgiNLh/6SrqYxAvkPjXfL1rKVdqEvQRbvHcEI4zTSyAJHx9UqHewG1HjANEDNNJu1dA9cITtofRWcY9wO0TNMUmmlS6l1Bp7Iwc6ze+ObGYSQguVd7d/oEVw+gjjUNcQMcRO45yzsvU+Zips=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=IjoUdYg7; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gaXT2rAb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1774860768;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=or/KOdTHYhj19Ns3SWZkcQKqCJUJy40IjMw5ydB3GXk=;
-	b=gaXT2rAb7CengjQhcQal0jhd1gWyE1wOGiIVdUGyHlkei7Wj9wKI8HJmoSJo3amW6+yPbS
-	5pSnJ6miHr2YeJTeylrRwoluMLJosovA391qkeY1X9SY+1C6xa+k7dzGkvU4cuOhixK4pF
-	wHweXfLDnMHA5vwLV66z0ipVoHVUNl8=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-548-PbSe9W_gOB-x8qrN-X81PA-1; Mon,
- 30 Mar 2026 04:52:45 -0400
-X-MC-Unique: PbSe9W_gOB-x8qrN-X81PA-1
-X-Mimecast-MFC-AGG-ID: PbSe9W_gOB-x8qrN-X81PA_1774860763
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 873F51800610;
-	Mon, 30 Mar 2026 08:52:42 +0000 (UTC)
-Received: from [10.44.33.70] (unknown [10.44.33.70])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1E5FC1800107;
-	Mon, 30 Mar 2026 08:52:37 +0000 (UTC)
-Message-ID: <a341fd52-3682-473f-8116-a8323bf846ee@redhat.com>
-Date: Mon, 30 Mar 2026 10:52:36 +0200
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="IjoUdYg7"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Reply-To:Content-ID:Content-Description;
+	bh=WO1vn6Tln5KFquM2TJaKxzbEqp7cPSRmlLOOnQm4DBk=; b=IjoUdYg7H5HjzhmD9Ya8KzCZED
+	MOdt/f/iybG0j7ZLGmiC7aJOgf9EGEZ5AT6v30A7lr8C+eX+qUGhl5lLwhUy7Ag2vW87+rI4cKgR0
+	IreKmv/ogatlCLSyoDgJQL/Bm0oZPTC3Ph6N6bEB8K2FbqIE9a2RJzwF5rC3QyiVtqaFsRExlbFnq
+	w6kBr9fPUeAdfZ2RsOnmOj6jLS7FgdEY+TwNyaPu3c4DAiLI7ICVb5EP/dox4qH2GHtCEzV9jz6MU
+	LmEcDrV31BMlEKYMm8KfrbhCwKfgUBdd6N399NiMCtz+aDHCvorriy5EW4hCaA9xT6qUKgk0TT0qt
+	Qm7u5jxA==;
+Received: from authenticated user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1w78hH-001L8R-10;
+	Mon, 30 Mar 2026 09:14:10 +0000
+Date: Mon, 30 Mar 2026 02:13:57 -0700
+From: Breno Leitao <leitao@debian.org>
+To: Jinjie Ruan <ruanjinjie@huawei.com>
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, catalin.marinas@arm.com, 
+	will@kernel.org, chenhuacai@kernel.org, kernel@xen0n.name, maddy@linux.ibm.com, 
+	mpe@ellerman.id.au, npiggin@gmail.com, chleroy@kernel.org, pjw@kernel.org, 
+	palmer@dabbelt.com, aou@eecs.berkeley.edu, alex@ghiti.fr, tglx@kernel.org, 
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, hpa@zytor.com, 
+	robh@kernel.org, saravanak@kernel.org, akpm@linux-foundation.org, bhe@redhat.com, 
+	vgoyal@redhat.com, dyoung@redhat.com, rdunlap@infradead.org, peterz@infradead.org, 
+	feng.tang@linux.alibaba.com, pawan.kumar.gupta@linux.intel.com, dapeng1.mi@linux.intel.com, 
+	kees@kernel.org, elver@google.com, paulmck@kernel.org, lirongqing@baidu.com, 
+	rppt@kernel.org, ardb@kernel.org, cfsworks@gmail.com, osandov@fb.com, 
+	jbohac@suse.cz, tangyouling@kylinos.cn, sourabhjain@linux.ibm.com, 
+	ritesh.list@gmail.com, eajames@linux.ibm.com, songshuaishuai@tinylab.org, 
+	kevin.brodsky@arm.com, vishal.moola@gmail.com, junhui.liu@pigmoral.tech, 
+	coxu@redhat.com, fuqiang.wang@easystack.cn, liaoyuanhong@vivo.com, 
+	guoren@kernel.org, chenjiahao16@huawei.com, hbathini@linux.ibm.com, 
+	takahiro.akashi@linaro.org, james.morse@arm.com, lizhengyu3@huawei.com, x86@kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, loongarch@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, kexec@lists.infradead.org
+Subject: Re: [PATCH v11 10/11] arm64: kexec: Add support for crashkernel CMA
+ reservation
+Message-ID: <aco-v4BuRSiZx7yy@gmail.com>
+References: <20260328074013.3589544-1-ruanjinjie@huawei.com>
+ <20260328074013.3589544-11-ruanjinjie@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 2/3] dpll: add actual frequency monitoring
- callback ops
-From: Ivan Vecera <ivecera@redhat.com>
-To: Vadim Fedorenko <vadim.fedorenko@linux.dev>, netdev@vger.kernel.org
-Cc: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
- Jiri Pirko <jiri@resnulli.us>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Donald Hunter <donald.hunter@gmail.com>,
- Prathosh Satish <Prathosh.Satish@microchip.com>, Petr Oros
- <poros@redhat.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260325193914.124898-1-ivecera@redhat.com>
- <20260325193914.124898-3-ivecera@redhat.com>
- <d0a6d302-c5af-4ad1-87e2-fa017bdd96a8@linux.dev>
- <e4372a58-13ba-4581-af4e-28d0c880c7bc@redhat.com>
-Content-Language: en-US
-In-Reply-To: <e4372a58-13ba-4581-af4e-28d0c880c7bc@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+In-Reply-To: <20260328074013.3589544-11-ruanjinjie@huawei.com>
+X-Debian-User: leitao
 
-On 3/26/26 6:48 PM, Ivan Vecera wrote:
-> On 3/26/26 12:21 PM, Vadim Fedorenko wrote:
->> On 25/03/2026 19:39, Ivan Vecera wrote:
->>
->>> +static int dpll_msg_add_actual_freq(struct sk_buff *msg, struct 
->>> dpll_pin *pin,
->>> +                    struct dpll_pin_ref *ref,
->>> +                    struct netlink_ext_ack *extack)
->>> +{
->>> +    const struct dpll_device_ops *dev_ops = dpll_device_ops(ref->dpll);
->>> +    const struct dpll_pin_ops *ops = dpll_pin_ops(ref);
->>> +    struct dpll_device *dpll = ref->dpll;
->>> +    enum dpll_feature_state state;
->>> +    u64 actual_freq;
->>> +    int ret;
->>> +
->>> +    if (!ops->actual_freq_get)
->>> +        return 0;
->>> +    if (dev_ops->freq_monitor_get) {
->>> +        ret = dev_ops->freq_monitor_get(dpll, dpll_priv(dpll),
->>> +                        &state, extack);
->>> +        if (ret)
->>> +            return ret;
->>> +        if (state == DPLL_FEATURE_STATE_DISABLE)
->>> +            return 0;
->>
->> I think we have to signal back to user that frequency monitoring is
->> disabled via extack.
+On Sat, Mar 28, 2026 at 03:40:12PM +0800, Jinjie Ruan wrote:
+> Commit 35c18f2933c5 ("Add a new optional ",cma" suffix to the
+> crashkernel= command line option") and commit ab475510e042 ("kdump:
+> implement reserve_crashkernel_cma") added CMA support for kdump
+> crashkernel reservation.
 > 
-> Hi Vadim,
+> Crash kernel memory reservation wastes production resources if too
+> large, risks kdump failure if too small, and faces allocation difficulties
+> on fragmented systems due to contiguous block constraints. The new
+> CMA-based crashkernel reservation scheme splits the "large fixed
+> reservation" into a "small fixed region + large CMA dynamic region": the
+> CMA memory is available to userspace during normal operation to avoid
+> waste, and is reclaimed for kdump upon crash—saving memory while
+> improving reliability.
 > 
-> This would break pin-get operation... Do or dump pin-get operation would
-> fail with this extack message.
+> So extend crashkernel CMA reservation support to arm64. The following
+> changes are made to enable CMA reservation:
 > 
-> Here we can check if the freq-monitoring is enabled and conditionally
-> call actual_freq_get() or measured_freq_get()
+> - Parse and obtain the CMA reservation size along with other crashkernel
+>   parameters.
+> - Call reserve_crashkernel_cma() to allocate the CMA region for kdump.
+> - Include the CMA-reserved ranges for kdump kernel to use.
+> - Exclude the CMA-reserved ranges from the crash kernel memory to
+>   prevent them from being exported through /proc/vmcore, which is already
+>   done in the crash core.
 > 
-> -or-
+> Update kernel-parameters.txt to document CMA support for crashkernel on
+> arm64 architecture.
 > 
-> Call this callback unconditionally and check for return code and if a
-> driver returns e.g. -ENODATA then skip nla_put_64bit() but return
-> success.
-> 
-> WDYT?
+> Acked-by: Catalin Marinas <catalin.marinas@arm.com>
+> Acked-by: Rob Herring (Arm) <robh@kernel.org>
+> Acked-by: Baoquan He <bhe@redhat.com>
+> Acked-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> Acked-by: Ard Biesheuvel <ardb@kernel.org>
+> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 
-Vadim?
-
+Tested-by: Breno Leitao <leitao@debian.org>
