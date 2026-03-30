@@ -1,135 +1,89 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9391F3CCA19;
-	Mon, 30 Mar 2026 13:08:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84C682248A3;
+	Mon, 30 Mar 2026 13:15:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774876139; cv=none; b=jA5lU0eqhxICY8ywS3Wbvn242VyUfaoovX9THpbwiFdyHJcIIHwp4pnHtzl3hDUd2XzvHKCaLeWbCcFWJf4nvAq6EvYqcIyIcweRzHJYcdpZ/5O6AE3REA/pxyPLgJZgkLxu6VBiabOpzojob6kp5myzX77GosJT9GgGZnAlpV4=
+	t=1774876531; cv=none; b=GhUH0V1V1K0Z6or4wJvXGb0Kcn77L6emIlom7Ql0DgqFS3WqnNKrh1l8p4YCKtiSOoGDoJqZiFBhYs2Rwuahkqh6+8oDZncg+SPXbxzIGIEsb1e3NTcyuWDCzS8Cx6BEdcCEqSoJZGVwTUAcg4hJLCjPC2vJjhdkyPUrII8a+v8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774876139; c=relaxed/simple;
-	bh=P1BpTbax6M73OF8zBNBNgT5xJc7xmzDy4nLO8K3ghYg=;
+	s=arc-20240116; t=1774876531; c=relaxed/simple;
+	bh=Xgj9cc6h07bIyibv0AcQP4GG4xG/7JDImGZF1lph/lA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r+gWIXdHw/4AiL70vispAulOjWR8TVltAanBlaseeujTqD0dAvhv2LM3QsaOaVU2guSzxnc6RMk/kEZJfc4G3+QfV4WUyj853UtN4P6nKG8VR0VGb2UVoW1XO6eTdOVPHVugFW8x905MvRboyf6LlW9cbUfEeDdEIZRN1Sfb/Q8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=td4OboJY; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wd1TGrBRnyzFKT1uN6kdMxGrKIAfjwV8bGWvI67qyfTR8rENkUgEPlQkkSVsEsndfip1A2qV3jwJQ2JiUV+/GxENLhBKJlccHdmN4p9wbrXxLc1JEJlQ8eGm/erd/QwW1BeKurgPPBj/K58A2J7sEgIYhQMR7k8GliZDylRiqjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=CB1PUKSB; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="td4OboJY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4B45C4CEF7;
-	Mon, 30 Mar 2026 13:08:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774876139;
-	bh=P1BpTbax6M73OF8zBNBNgT5xJc7xmzDy4nLO8K3ghYg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=td4OboJY+ln55L4NUvUODmhBu39Dimkrrq4qJnQPPyVlo4pZgunTMbNlewXD7OSLr
-	 xMjBanH41pEHlZET1+PrkS1eFIOrzhNQntvEDLo4bjsTY+gaNK9zsWuAtFIMD8D1pY
-	 hDkaCQqjJ+DsxbxBg11HXCeneLdXtvKiVbUX6vkQLdk80M460PuzorTKAPax2ajPwQ
-	 jCEM4dZUyD3oYT9PieAihlA4TkpCr8UmGJsIL8DqAbcNW5GK7Vg+GFIc4s38OxVpSG
-	 G1st0jI7Op4Gno/QH8c28BJXKQaitnqX6/uJ7ehzU+LK5/8iGoTdwKFCQpru6rUqtE
-	 QnI3GS83xtMSg==
-Date: Mon, 30 Mar 2026 18:38:45 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Thara Gopinath <thara.gopinath@gmail.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	"David S. Miller" <davem@davemloft.net>, Udit Tiwari <quic_utiwari@quicinc.com>, 
-	Md Sadre Alam <mdalam@qti.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
-	Stephan Gerhold <stephan.gerhold@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Peter Ujfalusi <peter.ujfalusi@gmail.com>, Michal Simek <michal.simek@amd.com>, 
-	Frank Li <Frank.Li@kernel.org>, dmaengine@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-crypto@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, brgl@kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: Re: [PATCH v14 12/12] crypto: qce - Communicate the base physical
- address to the dmaengine
-Message-ID: <ulhiioxcb5opf4ab2qqqs7lkekkfv6nmmywq2gwbrxl6vgmx36@k3iwiw4cxl4x>
-References: <20260323-qcom-qce-cmd-descr-v14-0-f323af411274@oss.qualcomm.com>
- <20260323-qcom-qce-cmd-descr-v14-12-f323af411274@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="CB1PUKSB"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=doXlkuwocQiCVhAJbOMIc8Opqf2z6NTVXIz6lc5zrls=; b=CB1PUKSBplwnPdjpF7qm8x0GS5
+	TRbuQu1kOniDkYYE2kWWYS6+XfkFTYrd0b2bTc4sPISK54Axdjr+kmYtWZldu+V5ZEhU7DRJD2YdO
+	hm8Tk9zeLfpxvXTSpObajsF+P5a4M9TUjn6adJ5cbG5+S6GVyTboJHr4PUB0xKw+LG/sNBUmBpNec
+	0rgxhcC7qTEmjGQ8F0a+GuesDSJjAkJoVl7VVtOnWxOV7VJXUUE5vnY6ToS/dP6iu2/a3aGzQaWg3
+	DWu3po6FCPiVMvR4kdYCzATQj23Uy0U+MYUA0U/p5sEXosoT1VG0iBJyWBCZBWryQZWzENSCmS8XA
+	gBG9tbUQ==;
+Received: from authenticated user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1w7CSh-001TLj-14;
+	Mon, 30 Mar 2026 13:15:22 +0000
+Date: Mon, 30 Mar 2026 06:15:17 -0700
+From: Breno Leitao <leitao@debian.org>
+To: Masami Hiramatsu <mhiramat@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, oss@malat.biz, paulmck@kernel.org, rostedt@goodmis.org, 
+	kernel-team@meta.com
+Subject: Re: [PATCH v2] bootconfig: Apply early options from embedded config
+Message-ID: <acpzhCBEPh-tKVqg@gmail.com>
+References: <20260325-early_bootconfig-v2-1-6b05a36fbfb5@debian.org>
+ <20260325232204.05edbb21c7602b6408ca007b@kernel.org>
+ <acZPZ4XKy4QynznK@gmail.com>
+ <20260327223744.f246150adc1671f7605a4f0a@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260323-qcom-qce-cmd-descr-v14-12-f323af411274@oss.qualcomm.com>
+In-Reply-To: <20260327223744.f246150adc1671f7605a4f0a@kernel.org>
+X-Debian-User: leitao
 
-On Mon, Mar 23, 2026 at 04:17:18PM +0100, Bartosz Golaszewski wrote:
-> In order to communicate to the BAM DMA engine which address should be
-> used as a scratchpad for dummy writes related to BAM pipe locking,
-> fill out and attach the provided metadata struct to the descriptor as
-> well as mark the RX channel as such using the slave config struct.
+On Fri, Mar 27, 2026 at 10:37:44PM +0900, Masami Hiramatsu wrote:
+> On Fri, 27 Mar 2026 03:06:41 -0700
+> Breno Leitao <leitao@debian.org> wrote:
+
+> > > To fix this, we need to change setup_arch() for each architecture so
+> > > that it calls this bootconfig_apply_early_params().
+> > 
+> > Could we instead integrate this into parse_early_param() itself? That
+> > approach would avoid the need to modify each architecture individually.
 > 
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-> ---
->  drivers/crypto/qce/dma.c | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
-> 
-> diff --git a/drivers/crypto/qce/dma.c b/drivers/crypto/qce/dma.c
-> index 5c42fc7ddf01e11a6562d272ba7c90c906e0e312..635208947668667765e6accf9ef02100746c0f9a 100644
-> --- a/drivers/crypto/qce/dma.c
-> +++ b/drivers/crypto/qce/dma.c
-> @@ -11,6 +11,7 @@
->  
->  #include "core.h"
->  #include "dma.h"
-> +#include "regs-v5.h"
->  
->  #define QCE_IGNORE_BUF_SZ		(2 * QCE_BAM_BURST_SIZE)
->  #define QCE_BAM_CMD_SGL_SIZE		128
-> @@ -43,6 +44,7 @@ void qce_clear_bam_transaction(struct qce_device *qce)
->  
->  int qce_submit_cmd_desc(struct qce_device *qce)
->  {
-> +	struct bam_desc_metadata meta = { .scratchpad_addr = qce->base_phys + REG_VERSION };
->  	struct qce_desc_info *qce_desc = qce->dma.bam_txn->desc;
->  	struct qce_bam_transaction *bam_txn = qce->dma.bam_txn;
->  	struct dma_async_tx_descriptor *dma_desc;
-> @@ -64,6 +66,12 @@ int qce_submit_cmd_desc(struct qce_device *qce)
->  		return -ENOMEM;
->  	}
->  
-> +	ret = dmaengine_desc_attach_metadata(dma_desc, &meta, 0);
-> +	if (ret) {
-> +		dma_unmap_sg(qce->dev, bam_txn->wr_sgl, bam_txn->wr_sgl_cnt, DMA_TO_DEVICE);
-> +		return ret;
-> +	}
-> +
->  	qce_desc->dma_desc = dma_desc;
->  	cookie = dmaengine_submit(qce_desc->dma_desc);
->  
-> @@ -107,7 +115,9 @@ void qce_write_dma(struct qce_device *qce, unsigned int offset, u32 val)
->  int devm_qce_dma_request(struct qce_device *qce)
->  {
->  	struct qce_dma_data *dma = &qce->dma;
-> +	struct dma_slave_config cfg = { };
->  	struct device *dev = qce->dev;
-> +	int ret;
->  
->  	dma->txchan = devm_dma_request_chan(dev, "tx");
->  	if (IS_ERR(dma->txchan))
-> @@ -119,6 +129,11 @@ int devm_qce_dma_request(struct qce_device *qce)
->  		return dev_err_probe(dev, PTR_ERR(dma->rxchan),
->  				     "Failed to get RX DMA channel\n");
->  
-> +	cfg.direction = DMA_MEM_TO_DEV;
-> +	ret = dmaengine_slave_config(dma->rxchan, &cfg);
-> +	if (ret)
-> +		return ret;
-> +
+> Ah, indeed. 
 
-I don't think this part is necessary. You are already passing the metadata above
-and that should be sufficient for the BAM DMA driver to get the scratchpad
-address. If any client drivers call dmaengine_slave_config() without
-dmaengine_desc_attach_metadata(), and if the BAM DMA supports locking, then the
-BAM driver should fail. Otherwise, continuing so would cause race conditions
-among the BAM clients, which we are seeing right now on Qcom SDX targets with
-both NAND driver in Linux and Modem trying to access NAND memory over BAM.
+I investigated integrating bootconfig into parse_early_param() and hit a
+blocker: xbc_init() and xbc_make_cmdline() depend on memblock_alloc(), but on
+most architectures (x86, arm64, arm, s390, riscv) parse_early_param() is called
+from setup_arch() _before_ memblock is initialized.
 
-So please drop this and just use dmaengine_desc_attach_metadata().
+So, bootconfig will not be available as early as parse_early_param(). 
 
-- Mani
+An alternative is replace memblock allocations in lib/bootconfig.c with static
+__initdata buffers, similar to Petr's approach in 2023:
 
--- 
-மணிவண்ணன் சதாசிவம்
+	https://lore.kernel.org/all/20231121231342.193646-3-oss@malat.biz/
+
+But, there was concerns about the allocation size:
+
+	Petr Malat <oss@malat.biz> wrote: 
+	> To allow handling of early options, it's necessary to eliminate allocations
+	> from embedded bootconfig handling
+
+	"Hm, my concern is that this can introduce some sort of overhead to parse the bootconfig."
