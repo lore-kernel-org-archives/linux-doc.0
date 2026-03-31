@@ -1,477 +1,393 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FF9E3E7166
-	for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2026 13:39:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7989336EC5;
+	Tue, 31 Mar 2026 13:52:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774964344; cv=none; b=mUuMHB/7JU/RF2aMGFn76ZWoho99o2Kj3lCj0c00B3GzEuHoUmCCpTdfrD45BN4a/ZmwPHEj4GfLHsBEZIB8IbQJBF+AGAck/PXMd3VmY2jBs9G6lbi4os4XqjqZ4T5SeTlFGVwSog36qYPNbMiQitpcscHRroZ3v0VVmAHO6ns=
+	t=1774965156; cv=none; b=Vd/9zWTPZDD8tv6hh1TzLfH03U3oJZbUVAETZLtQuiSFzcbjW0xfdx02jyB0hz1tF53k+qUvz3zZPaW2SOdDZwCTm3jv/HO7bvATK9YnHXYpdYX9CSz6cvDg3BARM2Bx0Fj1l74tfQCdm91HXw/EoTcTVIStjg1kYWYpkrmzOBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774964344; c=relaxed/simple;
-	bh=/qV1oizXs9DrkTpowvOcpyReSZHXQDeT1xnWf5exPMA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oLM5hK1tdarlWUb5etPt/8sEemyp2iw/XjsaXv0Wg/T4Cve/0QjUAbXHyoNH9CKp0twmOrxBdXKALvIEyE9ogR1c1Tw+8OeFbANW/GvLGvXbVVPtszCOj2cG/Hsq813CCf+GVevXt7C56MhD8KPjt/ylhndlQZTMMmyDAEbKgwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TK14IG5G; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=cyv9octS; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1774965156; c=relaxed/simple;
+	bh=XYVYqXCJ1Dbzl2BCR+UrXAQuUmvTJy7A7k5GRda7KSQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=iqYDgyZuNnXzgR7OzJZCVXctJgw8Oma+t14s9nAPvw8AToxMkpPEzt0i8chn0ZMd/YsuIT/NrMPNfPPkB6pE8l4c9rObLiRAonVRoj1b3TC4Yf+2WcLAfrDtLVQxGtoazRvuOuhxoPSEanyIkk77PjPT0jrxxhLBHtcp/9yMDKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=bi248at1; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TK14IG5G";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="cyv9octS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1774964339;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5li/zUMcE6IoZ/VrzdPjGC/N6h9X7akGJY8N5FwtTh0=;
-	b=TK14IG5G8QYdO/r0003gI2PjDLIon7C9YKi5KfeNaMdhAr974VxoTpUjikS1pSURA6wA0g
-	paFLXdtzU7QoMD7bxApAyZlOKVY4XjPbrHG+YCepOswC0Nts6SN0PCg/fzX255XqFpyJcw
-	F2Ejy5aIbM7rNco2I+eBEhmoW0JFyvY=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-516-rguk59H1Oqmy730CH8N_UA-1; Tue, 31 Mar 2026 09:38:57 -0400
-X-MC-Unique: rguk59H1Oqmy730CH8N_UA-1
-X-Mimecast-MFC-AGG-ID: rguk59H1Oqmy730CH8N_UA_1774964336
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-43b99add7f3so2868672f8f.1
-        for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2026 06:38:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1774964335; x=1775569135; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5li/zUMcE6IoZ/VrzdPjGC/N6h9X7akGJY8N5FwtTh0=;
-        b=cyv9octSri0w9U03hJk+d3O7Cf6s+1O5cvcX/oiU/R652r1qLRrUYQG/Cr60LYKFdR
-         HYI+BatjDwJg15X6ebXZdwH4ypOG+IvMW+CnvJpsiHY06UsMl58N9oM3ZBo6nTBiiSj+
-         65uAJ6Ut1t/7caN0yrWYJXgBi1GOKVCiEI1I0nHBRTLoOBMph5bknBKOmqqVVx4uTXvc
-         Gz1DsIMdq5aa4RZ58QEtj/xReE1ca8RjsArlJYBibT3lJEZP7rSOKbcAsXYwDVPYoRDx
-         nKP4ZxZ5NJILWANgtTobXcFg3t4qAy6DR8h72tGeED8WNqXCUnO1Ewx0WbEMNd0OL41x
-         nPfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774964335; x=1775569135;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5li/zUMcE6IoZ/VrzdPjGC/N6h9X7akGJY8N5FwtTh0=;
-        b=Mb+Tvc2c5blitF7ou9HZOUjyY7x2BhVaRhZDdLh1QA2fcCD9u1mo6IImWFoscokkgw
-         ECYAT2MDfpHyNenuQza/9cgK8VX74eue4i75HsFjHDbVwA7suH+Zlc2hPwqVRxNC0pZ7
-         SB+F91cfNPQNnlBiM5GZRRY7JKUBeT05T0Wu/ibSp26vEgfAPB3aCAvn0UjCOIZ+fCd8
-         NqjGEYErEyKRy0m1/PGMtVmHxYR/Vw9kJJB01QVUPt8JzIosM99mB4FV8Xan5Gd34X3+
-         v7pg2J8yqfhrADEZq1ACYIs19Jiq3aQ5ywPYgnNJyoFwD/FDIXFPQmy+IwFjbLQuv4Gh
-         5A9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWYupX3uoHRYK6fIK1eVfbPJAMp+ighw4SwtDaX+Uej5rISv2U6a0pwfwqIM9kjEp5DlQNe8RGoxDg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzxYVrkrGj0Nx5+XMtOLMp4oytMRRjC4IOZuXzH42DrXs1mmalJ
-	j2MDdSC4ryNWbKrgcARiRT5ngvGEAA7wwNnv28Cko8Wo8khxU7HZ2qx3twQYMSzd9goyzjQuwM+
-	vahNWMsXM/Ohamom0gRc5CBhqsyufX0USEnj5FZTF/lwLIc9A9Igo7W4191Y+hF7gmY2jSXqi
-X-Gm-Gg: ATEYQzyANpEpUoZ3OfDIhYrVMPtOZWyEjW5JNeAnEV7Ngw3pfwNz0LVUWjD8Vd0wG2J
-	u+NaUNuqIQwteY1RUztm2S86x65W5g1t9CiY7xRG6uKiS5qI4CzYBY9hgax3SHx+sMk8qR+QDPV
-	Ct6MqeaGdQDfUjxVz1fVWL+r0HiZj3692DhO9VEMioCWMqefxGHa2sbk657WCeLRn5TcujbvrlT
-	62ZAaGY4d7jsVwT52g33+85b+OXiQjZA5Ms1G+mJvKthzGaN1RV0EOU9fOEk2Zd8TuDj+93NCS/
-	jmIlGy1qcirG5sLJG3Bp4pQBkobseXAEHpp2xXpgjVe6lFtgrW7eX2TLaRiqVqPhj82rlYBoRT/
-	MxJvOA8ky
-X-Received: by 2002:a05:6000:18a9:b0:437:7719:ca82 with SMTP id ffacd0b85a97d-43d0818f223mr6994355f8f.3.1774964334536;
-        Tue, 31 Mar 2026 06:38:54 -0700 (PDT)
-X-Received: by 2002:a05:6000:18a9:b0:437:7719:ca82 with SMTP id ffacd0b85a97d-43d0818f223mr6994223f8f.3.1774964333580;
-        Tue, 31 Mar 2026 06:38:53 -0700 (PDT)
-Received: from [10.43.3.161] ([213.175.37.14])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf21f279bsm24708753f8f.16.2026.03.31.06.38.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 31 Mar 2026 06:38:52 -0700 (PDT)
-Message-ID: <4748d347-1964-4323-b52f-e9d4ccd7cc00@redhat.com>
-Date: Tue, 31 Mar 2026 15:38:51 +0200
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="bi248at1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1774965152;
+	bh=XYVYqXCJ1Dbzl2BCR+UrXAQuUmvTJy7A7k5GRda7KSQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=bi248at1IoRZHdobgE2WSIfEdpEIUeKp+Na1jam/dN396FtSE2ArsaVfESWD4/PAu
+	 P47X23Smqlq6HwJVki39PTlIeiJsUes7lLrLJG1wmY7ZJ9cEMA2zGLkgzYNuk/ctn4
+	 8lY3GQSXAIyuRbO5tpGxDAXV76mHZSqLx5+Pgm3htfQETE/4cNh0KzQ113O8CCqgbQ
+	 oiCdMoUHLs7UPYajkvuMQmNnwPmeFxx+AyuxgzMtIGWHz/vTpDyOccC7K8P04YrvKz
+	 GTcvPpW59SvHCZCTJHPSEigYt7d6yHb8YJsk3tfZe41qqe//54qDVxuF9WHm0aPsCk
+	 cAeBPbFaVqFKg==
+Received: from fluorite (unknown [194.136.85.206])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: pq)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 607AE17E64CE;
+	Tue, 31 Mar 2026 15:52:30 +0200 (CEST)
+Date: Tue, 31 Mar 2026 16:52:24 +0300
+From: Pekka Paalanen <pekka.paalanen@collabora.com>
+To: Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Nicolas Frattaroli
+ <nicolas.frattaroli@collabora.com>, Harry Wentland
+ <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, Rodrigo Siqueira
+ <siqueira@igalia.com>, Alex Deucher <alexander.deucher@amd.com>, Christian
+ =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Andrzej Hajda <andrzej.hajda@intel.com>, Neil
+ Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Sandy Huang
+ <hjc@rock-chips.com>, Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ kernel@collabora.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, Werner Sembach <wse@tuxedocomputers.com>, Andri
+ Yngvason <andri@yngvason.is>, Marius Vlad <marius.vlad@collabora.com>
+Subject: Re: [PATCH v11 03/22] drm: Add new general DRM property "color
+ format"
+Message-ID: <20260331165224.602f840f@fluorite>
+In-Reply-To: <accfKbYPbH7EgAMc@intel.com>
+References: <20260324-color-format-v11-3-605559af4fb4@collabora.com>
+	<acLDPYuaVI2-12JX@intel.com>
+	<23910073.EfDdHjke4D@workhorse>
+	<acLrv5hLyNss-Px5@intel.com>
+	<20260325-neat-elegant-raven-ebc9ab@houat>
+	<acPA60Ci3n_t__xF@intel.com>
+	<20260325-magnificent-ultraviolet-oarfish-baefbc@houat>
+	<acQsw3Wi_xVlBZ8d@intel.com>
+	<20260326-pumpkin-goshawk-of-stamina-0ccb84@houat>
+	<acVzwRyk_J24GrJ4@intel.com>
+	<accfKbYPbH7EgAMc@intel.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 3/3] dpll: zl3073x: implement frequency
- monitoring
-To: Ivan Vecera <ivecera@redhat.com>, netdev@vger.kernel.org
-Cc: Vadim Fedorenko <vadim.fedorenko@linux.dev>,
- Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
- Jiri Pirko <jiri@resnulli.us>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Donald Hunter <donald.hunter@gmail.com>,
- Prathosh Satish <Prathosh.Satish@microchip.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260330105505.715099-1-ivecera@redhat.com>
- <20260330105505.715099-4-ivecera@redhat.com>
-Content-Language: en-US
-From: Petr Oros <poros@redhat.com>
-In-Reply-To: <20260330105505.715099-4-ivecera@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="Sig_/Z9vd7qNP90QhQD=w6cW_nRl";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-> Extract common measurement latch logic from zl3073x_ref_ffo_update()
-> into a new zl3073x_ref_freq_meas_latch() helper and add
-> zl3073x_ref_freq_meas_update() that uses it to latch and read absolute
-> input reference frequencies in Hz.
->
-> Add meas_freq field to struct zl3073x_ref and the corresponding
-> zl3073x_ref_meas_freq_get() accessor. The measured frequencies are
-> updated periodically alongside the existing FFO measurements.
->
-> Add freq_monitor boolean to struct zl3073x_dpll and implement the
-> freq_monitor_set/get device callbacks to enable/disable frequency
-> monitoring via the DPLL netlink interface.
->
-> Implement measured_freq_get pin callback for input pins that returns the
-> measured input frequency in Hz.
->
-> Signed-off-by: Ivan Vecera <ivecera@redhat.com>
-> ---
->   drivers/dpll/zl3073x/core.c | 88 +++++++++++++++++++++++++++++++------
->   drivers/dpll/zl3073x/dpll.c | 88 ++++++++++++++++++++++++++++++++++++-
->   drivers/dpll/zl3073x/dpll.h |  2 +
->   drivers/dpll/zl3073x/ref.h  | 14 ++++++
->   4 files changed, 178 insertions(+), 14 deletions(-)
->
-> diff --git a/drivers/dpll/zl3073x/core.c b/drivers/dpll/zl3073x/core.c
-> index 6363002d48d46..320c199637efa 100644
-> --- a/drivers/dpll/zl3073x/core.c
-> +++ b/drivers/dpll/zl3073x/core.c
-> @@ -632,22 +632,21 @@ int zl3073x_ref_phase_offsets_update(struct zl3073x_dev *zldev, int channel)
->   }
->   
->   /**
-> - * zl3073x_ref_ffo_update - update reference fractional frequency offsets
-> + * zl3073x_ref_freq_meas_latch - latch reference frequency measurements
->    * @zldev: pointer to zl3073x_dev structure
-> + * @type: measurement type (ZL_REF_FREQ_MEAS_CTRL_*)
->    *
-> - * The function asks device to update fractional frequency offsets latch
-> - * registers the latest measured values, reads and stores them into
-> + * The function waits for the previous measurement to finish, selects all
-> + * references and requests a new measurement of the given type.
->    *
->    * Return: 0 on success, <0 on error
->    */
->   static int
-> -zl3073x_ref_ffo_update(struct zl3073x_dev *zldev)
-> +zl3073x_ref_freq_meas_latch(struct zl3073x_dev *zldev, u8 type)
->   {
-> -	int i, rc;
-> +	int rc;
->   
-> -	/* Per datasheet we have to wait for 'ref_freq_meas_ctrl' to be zero
-> -	 * to ensure that the measured data are coherent.
-> -	 */
-> +	/* Wait for previous measurement to finish */
->   	rc = zl3073x_poll_zero_u8(zldev, ZL_REG_REF_FREQ_MEAS_CTRL,
->   				  ZL_REF_FREQ_MEAS_CTRL);
->   	if (rc)
-> @@ -663,15 +662,64 @@ zl3073x_ref_ffo_update(struct zl3073x_dev *zldev)
->   	if (rc)
->   		return rc;
->   
-> -	/* Request frequency offset measurement */
-> -	rc = zl3073x_write_u8(zldev, ZL_REG_REF_FREQ_MEAS_CTRL,
-> -			      ZL_REF_FREQ_MEAS_CTRL_REF_FREQ_OFF);
-> +	/* Request measurement */
-> +	rc = zl3073x_write_u8(zldev, ZL_REG_REF_FREQ_MEAS_CTRL, type);
->   	if (rc)
->   		return rc;
->   
->   	/* Wait for finish */
-> -	rc = zl3073x_poll_zero_u8(zldev, ZL_REG_REF_FREQ_MEAS_CTRL,
-> -				  ZL_REF_FREQ_MEAS_CTRL);
-> +	return zl3073x_poll_zero_u8(zldev, ZL_REG_REF_FREQ_MEAS_CTRL,
-> +				    ZL_REF_FREQ_MEAS_CTRL);
-> +}
-> +
-> +/**
-> + * zl3073x_ref_freq_meas_update - update measured input reference frequencies
-> + * @zldev: pointer to zl3073x_dev structure
-> + *
-> + * The function asks device to latch measured input reference frequencies
-> + * and stores the results in the ref state.
-> + *
-> + * Return: 0 on success, <0 on error
-> + */
-> +static int
-> +zl3073x_ref_freq_meas_update(struct zl3073x_dev *zldev)
-> +{
-> +	int i, rc;
-> +
-> +	rc = zl3073x_ref_freq_meas_latch(zldev, ZL_REF_FREQ_MEAS_CTRL_REF_FREQ);
-> +	if (rc)
-> +		return rc;
-> +
-> +	/* Read measured frequencies in Hz (unsigned 32-bit, LSB = 1 Hz) */
-> +	for (i = 0; i < ZL3073X_NUM_REFS; i++) {
-> +		u32 value;
-> +
-> +		rc = zl3073x_read_u32(zldev, ZL_REG_REF_FREQ(i), &value);
-> +		if (rc)
-> +			return rc;
-> +
-> +		zldev->ref[i].meas_freq = value;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +/**
-> + * zl3073x_ref_ffo_update - update reference fractional frequency offsets
-> + * @zldev: pointer to zl3073x_dev structure
-> + *
-> + * The function asks device to update fractional frequency offsets latch
-> + * registers the latest measured values, reads and stores them into
-> + *
-> + * Return: 0 on success, <0 on error
-> + */
-> +static int
-> +zl3073x_ref_ffo_update(struct zl3073x_dev *zldev)
-> +{
-> +	int i, rc;
-> +
-> +	rc = zl3073x_ref_freq_meas_latch(zldev,
-> +					 ZL_REF_FREQ_MEAS_CTRL_REF_FREQ_OFF);
->   	if (rc)
->   		return rc;
->   
-> @@ -714,6 +762,20 @@ zl3073x_dev_periodic_work(struct kthread_work *work)
->   		dev_warn(zldev->dev, "Failed to update phase offsets: %pe\n",
->   			 ERR_PTR(rc));
->   
-> +	/* Update measured input reference frequencies if any DPLL has
-> +	 * frequency monitoring enabled.
-> +	 */
-> +	list_for_each_entry(zldpll, &zldev->dplls, list) {
-> +		if (zldpll->freq_monitor) {
-> +			rc = zl3073x_ref_freq_meas_update(zldev);
-> +			if (rc)
-> +				dev_warn(zldev->dev,
-> +					 "Failed to update measured frequencies: %pe\n",
-> +					 ERR_PTR(rc));
-> +			break;
-> +		}
-> +	}
-> +
->   	/* Update references' fractional frequency offsets */
->   	rc = zl3073x_ref_ffo_update(zldev);
->   	if (rc)
-> diff --git a/drivers/dpll/zl3073x/dpll.c b/drivers/dpll/zl3073x/dpll.c
-> index a29f606318f6d..c44bfecf2c265 100644
-> --- a/drivers/dpll/zl3073x/dpll.c
-> +++ b/drivers/dpll/zl3073x/dpll.c
-> @@ -39,6 +39,7 @@
->    * @pin_state: last saved pin state
->    * @phase_offset: last saved pin phase offset
->    * @freq_offset: last saved fractional frequency offset
-> + * @measured_freq: last saved measured frequency
->    */
->   struct zl3073x_dpll_pin {
->   	struct list_head	list;
-> @@ -54,6 +55,7 @@ struct zl3073x_dpll_pin {
->   	enum dpll_pin_state	pin_state;
->   	s64			phase_offset;
->   	s64			freq_offset;
-> +	u32			measured_freq;
->   };
->   
->   /*
-> @@ -202,6 +204,20 @@ zl3073x_dpll_input_pin_ffo_get(const struct dpll_pin *dpll_pin, void *pin_priv,
->   	return 0;
->   }
->   
-> +static int
-> +zl3073x_dpll_input_pin_measured_freq_get(const struct dpll_pin *dpll_pin,
-> +					 void *pin_priv,
-> +					 const struct dpll_device *dpll,
-> +					 void *dpll_priv, u64 *measured_freq,
-> +					 struct netlink_ext_ack *extack)
-> +{
-> +	struct zl3073x_dpll_pin *pin = pin_priv;
-> +
-> +	*measured_freq = pin->measured_freq;
-> +
-> +	return 0;
-> +}
-> +
->   static int
->   zl3073x_dpll_input_pin_frequency_get(const struct dpll_pin *dpll_pin,
->   				     void *pin_priv,
-> @@ -1116,6 +1132,35 @@ zl3073x_dpll_phase_offset_monitor_set(const struct dpll_device *dpll,
->   	return 0;
->   }
->   
-> +static int
-> +zl3073x_dpll_freq_monitor_get(const struct dpll_device *dpll,
-> +			      void *dpll_priv,
-> +			      enum dpll_feature_state *state,
-> +			      struct netlink_ext_ack *extack)
-> +{
-> +	struct zl3073x_dpll *zldpll = dpll_priv;
-> +
-> +	if (zldpll->freq_monitor)
-> +		*state = DPLL_FEATURE_STATE_ENABLE;
-> +	else
-> +		*state = DPLL_FEATURE_STATE_DISABLE;
-> +
-> +	return 0;
-> +}
-> +
-> +static int
-> +zl3073x_dpll_freq_monitor_set(const struct dpll_device *dpll,
-> +			      void *dpll_priv,
-> +			      enum dpll_feature_state state,
-> +			      struct netlink_ext_ack *extack)
-> +{
-> +	struct zl3073x_dpll *zldpll = dpll_priv;
-> +
-> +	zldpll->freq_monitor = (state == DPLL_FEATURE_STATE_ENABLE);
-> +
-> +	return 0;
-> +}
-> +
->   static const struct dpll_pin_ops zl3073x_dpll_input_pin_ops = {
->   	.direction_get = zl3073x_dpll_pin_direction_get,
->   	.esync_get = zl3073x_dpll_input_pin_esync_get,
-> @@ -1123,6 +1168,7 @@ static const struct dpll_pin_ops zl3073x_dpll_input_pin_ops = {
->   	.ffo_get = zl3073x_dpll_input_pin_ffo_get,
->   	.frequency_get = zl3073x_dpll_input_pin_frequency_get,
->   	.frequency_set = zl3073x_dpll_input_pin_frequency_set,
-> +	.measured_freq_get = zl3073x_dpll_input_pin_measured_freq_get,
->   	.phase_offset_get = zl3073x_dpll_input_pin_phase_offset_get,
->   	.phase_adjust_get = zl3073x_dpll_input_pin_phase_adjust_get,
->   	.phase_adjust_set = zl3073x_dpll_input_pin_phase_adjust_set,
-> @@ -1151,6 +1197,8 @@ static const struct dpll_device_ops zl3073x_dpll_device_ops = {
->   	.phase_offset_avg_factor_set = zl3073x_dpll_phase_offset_avg_factor_set,
->   	.phase_offset_monitor_get = zl3073x_dpll_phase_offset_monitor_get,
->   	.phase_offset_monitor_set = zl3073x_dpll_phase_offset_monitor_set,
-> +	.freq_monitor_get = zl3073x_dpll_freq_monitor_get,
-> +	.freq_monitor_set = zl3073x_dpll_freq_monitor_set,
->   	.supported_modes_get = zl3073x_dpll_supported_modes_get,
->   };
->   
-> @@ -1593,6 +1641,39 @@ zl3073x_dpll_pin_ffo_check(struct zl3073x_dpll_pin *pin)
->   	return false;
->   }
->   
-> +/**
-> + * zl3073x_dpll_pin_measured_freq_check - check for pin measured frequency change
-> + * @pin: pin to check
-> + *
-> + * Check for the given pin's measured frequency change.
-> + *
-> + * Return: true on measured frequency change, false otherwise
-> + */
-> +static bool
-> +zl3073x_dpll_pin_measured_freq_check(struct zl3073x_dpll_pin *pin)
-> +{
-> +	struct zl3073x_dpll *zldpll = pin->dpll;
-> +	struct zl3073x_dev *zldev = zldpll->dev;
-> +	const struct zl3073x_ref *ref;
-> +	u8 ref_id;
-> +
-> +	if (!zldpll->freq_monitor)
-> +		return false;
-> +
-> +	ref_id = zl3073x_input_pin_ref_get(pin->id);
-> +	ref = zl3073x_ref_state_get(zldev, ref_id);
-> +
-> +	if (pin->measured_freq != ref->meas_freq) {
-> +		dev_dbg(zldev->dev, "%s measured freq changed: %u -> %u\n",
-> +			pin->label, pin->measured_freq, ref->meas_freq);
-> +		pin->measured_freq = ref->meas_freq;
-> +
-> +		return true;
-> +	}
-> +
-> +	return false;
-> +}
-> +
->   /**
->    * zl3073x_dpll_changes_check - check for changes and send notifications
->    * @zldpll: pointer to zl3073x_dpll structure
-> @@ -1677,13 +1758,18 @@ zl3073x_dpll_changes_check(struct zl3073x_dpll *zldpll)
->   			pin_changed = true;
->   		}
->   
-> -		/* Check for phase offset and ffo change once per second */
-> +		/* Check for phase offset, ffo, and measured freq change
-> +		 * once per second.
-> +		 */
->   		if (zldpll->check_count % 2 == 0) {
->   			if (zl3073x_dpll_pin_phase_offset_check(pin))
->   				pin_changed = true;
->   
->   			if (zl3073x_dpll_pin_ffo_check(pin))
->   				pin_changed = true;
-> +
-> +			if (zl3073x_dpll_pin_measured_freq_check(pin))
-> +				pin_changed = true;
->   		}
->   
->   		if (pin_changed)
-> diff --git a/drivers/dpll/zl3073x/dpll.h b/drivers/dpll/zl3073x/dpll.h
-> index 115ee4f67e7ab..434c32a7db123 100644
-> --- a/drivers/dpll/zl3073x/dpll.h
-> +++ b/drivers/dpll/zl3073x/dpll.h
-> @@ -15,6 +15,7 @@
->    * @id: DPLL index
->    * @check_count: periodic check counter
->    * @phase_monitor: is phase offset monitor enabled
-> + * @freq_monitor: is frequency monitor enabled
->    * @ops: DPLL device operations for this instance
->    * @dpll_dev: pointer to registered DPLL device
->    * @tracker: tracking object for the acquired reference
-> @@ -28,6 +29,7 @@ struct zl3073x_dpll {
->   	u8				id;
->   	u8				check_count;
->   	bool				phase_monitor;
-> +	bool				freq_monitor;
->   	struct dpll_device_ops		ops;
->   	struct dpll_device		*dpll_dev;
->   	dpll_tracker			tracker;
-> diff --git a/drivers/dpll/zl3073x/ref.h b/drivers/dpll/zl3073x/ref.h
-> index 06d8d4d97ea26..be16be20dbc7e 100644
-> --- a/drivers/dpll/zl3073x/ref.h
-> +++ b/drivers/dpll/zl3073x/ref.h
-> @@ -23,6 +23,7 @@ struct zl3073x_dev;
->    * @sync_ctrl: reference sync control
->    * @config: reference config
->    * @ffo: current fractional frequency offset
-> + * @meas_freq: measured input frequency in Hz
->    * @mon_status: reference monitor status
->    */
->   struct zl3073x_ref {
-> @@ -40,6 +41,7 @@ struct zl3073x_ref {
->   	);
->   	struct_group(stat, /* Status */
->   		s64	ffo;
-> +		u32	meas_freq;
->   		u8	mon_status;
->   	);
->   };
-> @@ -68,6 +70,18 @@ zl3073x_ref_ffo_get(const struct zl3073x_ref *ref)
->   	return ref->ffo;
->   }
->   
-> +/**
-> + * zl3073x_ref_meas_freq_get - get measured input frequency
-> + * @ref: pointer to ref state
-> + *
-> + * Return: measured input frequency in Hz
-> + */
-> +static inline u32
-> +zl3073x_ref_meas_freq_get(const struct zl3073x_ref *ref)
-> +{
-> +	return ref->meas_freq;
-> +}
-> +
->   /**
->    * zl3073x_ref_freq_get - get given input reference frequency
->    * @ref: pointer to ref state
+--Sig_/Z9vd7qNP90QhQD=w6cW_nRl
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-LGTM
+On Sat, 28 Mar 2026 02:22:01 +0200
+Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com> wrote:
 
-Reviewed-by: Petr Oros <poros@redhat.com>
+> On Thu, Mar 26, 2026 at 07:58:25PM +0200, Ville Syrj=C3=A4l=C3=A4 wrote:
+> > On Thu, Mar 26, 2026 at 06:02:47PM +0100, Maxime Ripard wrote: =20
+> > > On Wed, Mar 25, 2026 at 08:43:15PM +0200, Ville Syrj=C3=A4l=C3=A4 wro=
+te: =20
+> > > > On Wed, Mar 25, 2026 at 03:56:58PM +0100, Maxime Ripard wrote: =20
+> > > > > On Wed, Mar 25, 2026 at 01:03:07PM +0200, Ville Syrj=C3=A4l=C3=A4=
+ wrote: =20
+> > > > > > On Wed, Mar 25, 2026 at 09:24:27AM +0100, Maxime Ripard wrote: =
+=20
+> > > > > > > On Tue, Mar 24, 2026 at 09:53:35PM +0200, Ville Syrj=C3=A4l=
+=C3=A4 wrote: =20
+> > > > > > > > On Tue, Mar 24, 2026 at 08:10:11PM +0100, Nicolas Frattarol=
+i wrote: =20
+> > > > > > > > > On Tuesday, 24 March 2026 18:00:45 Central European Stand=
+ard Time Ville Syrj=C3=A4l=C3=A4 wrote: =20
+> > > > > > > > > > On Tue, Mar 24, 2026 at 05:01:07PM +0100, Nicolas Fratt=
+aroli wrote: =20
+> > > > > > > > > > > +enum drm_connector_color_format {
+> > > > > > > > > > > +	/**
+> > > > > > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_AUTO: The driver or =
+display protocol
+> > > > > > > > > > > +	 * helpers should pick a suitable color format. All=
+ implementations of a
+> > > > > > > > > > > +	 * specific display protocol must behave the same w=
+ay with "AUTO", but
+> > > > > > > > > > > +	 * different display protocols do not necessarily h=
+ave the same "AUTO"
+> > > > > > > > > > > +	 * semantics.
+> > > > > > > > > > > +	 *
+> > > > > > > > > > > +	 * For HDMI, "AUTO" picks RGB, but falls back to YC=
+bCr 4:2:0 if the
+> > > > > > > > > > > +	 * bandwidth required for full-scale RGB is not ava=
+ilable, or the mode
+> > > > > > > > > > > +	 * is YCbCr 4:2:0-only, as long as the mode and out=
+put both support
+> > > > > > > > > > > +	 * YCbCr 4:2:0.
+> > > > > > > > > > > +	 *
+> > > > > > > > > > > +	 * For display protocols other than HDMI, the recur=
+sive bridge chain
+> > > > > > > > > > > +	 * format selection picks the first chain of bridge=
+ formats that works,
+> > > > > > > > > > > +	 * as has already been the case before the introduc=
+tion of the "color
+> > > > > > > > > > > +	 * format" property. Non-HDMI bridges should theref=
+ore either sort their
+> > > > > > > > > > > +	 * bus output formats by preference, or agree on a =
+unified auto format
+> > > > > > > > > > > +	 * selection logic that's implemented in a common s=
+tate helper (like
+> > > > > > > > > > > +	 * how HDMI does it).
+> > > > > > > > > > > +	 */
+> > > > > > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_AUTO =3D 0,
+> > > > > > > > > > > +
+> > > > > > > > > > > +	/**
+> > > > > > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_RGB444: RGB output f=
+ormat
+> > > > > > > > > > > +	 */
+> > > > > > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_RGB444,
+> > > > > > > > > > > +
+> > > > > > > > > > > +	/**
+> > > > > > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR444: YCbCr 4:4:=
+4 output format (ie.
+> > > > > > > > > > > +	 * not subsampled)
+> > > > > > > > > > > +	 */
+> > > > > > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR444,
+> > > > > > > > > > > +
+> > > > > > > > > > > +	/**
+> > > > > > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR422: YCbCr 4:2:=
+2 output format (ie.
+> > > > > > > > > > > +	 * with horizontal subsampling)
+> > > > > > > > > > > +	 */
+> > > > > > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR422,
+> > > > > > > > > > > +
+> > > > > > > > > > > +	/**
+> > > > > > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR420: YCbCr 4:2:=
+0 output format (ie.
+> > > > > > > > > > > +	 * with horizontal and vertical subsampling)
+> > > > > > > > > > > +	 */
+> > > > > > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR420, =20
+> > > > > > > > > >=20
+> > > > > > > > > > Seems like this should document what the quantization r=
+ange
+> > > > > > > > > > should be for each format.
+> > > > > > > > > >  =20
+> > > > > > > > >=20
+> > > > > > > > > I don't think so? If you want per-component bit depth val=
+ues,
+> > > > > > > > > DRM_FORMAT_* defines would be the appropriate values to u=
+se. This
+> > > > > > > > > enum is more abstract than that, and is there to communic=
+ate
+> > > > > > > > > YUV vs. RGB and chroma subsampling, with bit depth being =
+handled
+> > > > > > > > > by other properties.
+> > > > > > > > >=20
+> > > > > > > > > If you mean the factor used for subsampling, then that'd =
+only be
+> > > > > > > > > relevant if YCBCR410 was supported where one chroma plane=
+ isn't
+> > > > > > > > > halved but quartered in resolution. I suspect 4:1:0 will =
+never
+> > > > > > > > > be added; no digital display protocol standard supports i=
+t to my
+> > > > > > > > > knowledge, and hopefully none ever will. =20
+> > > > > > > >=20
+> > > > > > > > No, I mean the quantization range (16-235 vs. 0-255 etc).
+> > > > > > > >=20
+> > > > > > > > The i915 behaviour is that YCbCr is always limited range,
+> > > > > > > > RGB can either be full or limited range depending on the=20
+> > > > > > > > "Broadcast RGB" property and other related factors. =20
+> > > > > > >=20
+> > > > > > > So far the HDMI state has both the format and quantization ra=
+nge as
+> > > > > > > different fields. I'm not sure we need to document the range =
+in the
+> > > > > > > format field, maybe only mention it's not part of the format =
+but has a
+> > > > > > > field of its own? =20
+> > > > > >=20
+> > > > > > I think we only have it for RGB (on some drivers only?). For YC=
+bCr
+> > > > > > I think the assumption is limited range everywhere.
+> > > > > >=20
+> > > > > > But I'm not really concerned about documenting struct members.
+> > > > > > What I'm talking about is the *uapi* docs. Surely userspace
+> > > > > > will want to know what the new property actually does so the
+> > > > > > uapi needs to be documented properly. And down the line some
+> > > > > > new driver might also implement the wrong behaviour if there
+> > > > > > is no clear specification. =20
+> > > > >=20
+> > > > > Ack
+> > > > >  =20
+> > > > > > So I'm thinking (or perhaps hoping) the rule might be something=
+ like:
+> > > > > > - YCbCr limited range=20
+> > > > > > - RGB full range if "Broadcast RGB" property is not present =20
+> > > > >=20
+> > > > > Isn't it much more complicated than that for HDMI though? My
+> > > > > recollection was that any VIC but VIC1 would be limited range, and
+> > > > > anything else full range? =20
+> > > >=20
+> > > > Do we have some driver that implements the CTA-861 CE vs. IT mode
+> > > > logic but doesn't expose the "Broadcast RGB" property? I was hoping
+> > > > those would always go hand in hand now. =20
+> > >=20
+> > > I'm not sure. i915 and the HDMI state helpers handle it properly (I
+> > > think?) but it looks like only vc4 registers the Broadcast RGB proper=
+ty
+> > > and uses the HDMI state helpers.
+> > >=20
+> > > And it looks like amdgpu registers Broadcast RGB but doesn't use
+> > > drm_default_rgb_quant_range() which seems suspicious? =20
+> >=20
+> > If they want just manual full vs. limited then they should
+> > limit the property to not expose the "auto" option at all.
+> >=20
+> > amdgpu also ties this in with the "colorspace" property, which
+> > originally in i915 only controlled the infoframes/etc. But on
+> > amdgpu it now controls various aspects of output color
+> > transformation. The end result is that the property is a complete
+> > mess with most of the values making no sense. And for whatever
+> > reason everyone involved refused to remove/deprecate the
+> > nonsensical values :/
+> >=20
+> > Looks like this series should make sure the documentation for
+> > the "colorspace" property is in sync with the new property
+> > as well. Currently now it's giving conflicting information. =20
+>=20
+> After pondering about this a bit more I guess we could actually
+> use this to make all the values of the colorspace property make
+> some sense.
+>=20
+> Since we won't have to worry about that RGB->YCbCr 4:2:0
+> fallback when using and explicit color format, all we'd have
+> to do is explicitly reject the nonsensical combinations:
+>=20
+> color_format_and_colorspace_ok()
+> {
+> 	switch (color_format) {
+> 	case DRM_CONNECTOR_COLOR_FORMAT_YCBCR444:
+> 	case DRM_CONNECTOR_COLOR_FORMAT_YCBCR422:
+> 	case DRM_CONNECTOR_COLOR_FORMAT_YCBCR420:
+> 		switch (colorspace) {
+> 		case DRM_MODE_COLORIMETRY_NO_DATA:
+> 		case DRM_MODE_COLORIMETRY_SMPTE_170M_YCC:
+> 		case DRM_MODE_COLORIMETRY_BT601_YCC:
+> 		case DRM_MODE_COLORIMETRY_BT709_YCC:
+> 		case DRM_MODE_COLORIMETRY_XVYCC_601:
+> 		case DRM_MODE_COLORIMETRY_XVYCC_709:
+> 		case DRM_MODE_COLORIMETRY_SYCC_601:
+> 		case DRM_MODE_COLORIMETRY_OPYCC_601:
+> 		case DRM_MODE_COLORIMETRY_BT2020_CYCC:
+> 		case DRM_MODE_COLORIMETRY_BT2020_YCC:
+> 		case DRM_MODE_COLORIMETRY_BT709_YCC:
+> 			return true;
+> 		default:
+> 			return false;
+> 		}
+> 		break;
+> 	case DRM_CONNECTOR_COLOR_FORMAT_RGB444:
+> 		switch (colorspace) {
+> 		case DRM_MODE_COLORIMETRY_NO_DATA:
+> 		case DRM_MODE_COLORIMETRY_OPRGB:
+> 		case DRM_MODE_COLORIMETRY_BT2020_RGB:
+> 		case DRM_MODE_COLORIMETRY_DCI_P3_RGB_D65:
+> 		case DRM_MODE_COLORIMETRY_DCI_P3_RGB_THEATER:
+> 		case DRM_MODE_COLORIMETRY_RGB_WIDE_FIXED:
+> 		case DRM_MODE_COLORIMETRY_RGB_WIDE_FLOAT:
+> 		case DRM_MODE_COLORIMETRY_OPRGB:
+> 		case DRM_MODE_COLORIMETRY_DCI_P3_RGB_D65:
+> 		case DRM_MODE_COLORIMETRY_BT2020_RGB:
+> 			return true;
+> 		default
+> 			return false;
+> 		}
+> 		break;
+> 	case DRM_CONNECTOR_COLOR_FORMAT_AUTO:
+> 		switch (colorspace) {
+> 		case DRM_MODE_COLORIMETRY_NO_DATA:
+> 		case DRM_MODE_COLORIMETRY_BT2020_RGB:
+> 		case DRM_MODE_COLORIMETRY_BT2020_YCC:
+> 			return true;
+> 		default:
+> 			return false;
+> 		}
+> 	default:
+> 		bad;
+> 	}
+> }
+>=20
+> And then presumably the colorspace property is the thing that should
+> dictate which conversion matrix to use. So something like this:
+>=20
+> csc_matrix()
+> {
+> 	switch (colorspace) {
+> 	case DRM_MODE_COLORIMETRY_SMPTE_170M_YCC:
+> 	case DRM_MODE_COLORIMETRY_BT601_YCC:
+> 	case DRM_MODE_COLORIMETRY_XVYCC_601:
+> 	case DRM_MODE_COLORIMETRY_SYCC_601:
+> 	case DRM_MODE_COLORIMETRY_OPYCC_601:
+> 		return 601;
+> 	case DRM_MODE_COLORIMETRY_BT709_YCC:
+> 	case DRM_MODE_COLORIMETRY_XVYCC_709:
+> 		return 709;
+> 	case DRM_MODE_COLORIMETRY_BT2020_YCC:
+> 	case DRM_MODE_COLORIMETRY_BT2020_RGB:
+> 		return 2020;
+> 	case DRM_MODE_COLORIMETRY_BT2020_CYCC:
+> 		return 2020_const;
+> 	case DRM_MODE_COLORIMETRY_NO_DATA:
+> 		return vdisplay >=3D 720 ? 709 : 601;
+> 	default:
+> 		bad;
+> 	}
+> }
+>=20
+
+Hi Ville,
+
+I believe the RGB-to-YCbCr matrix choice belongs in a colorop in the
+CRTC color pipeline. It would be really nice to let go of the
+requirement that the KMS color pipeline can be only in full-range RGB.
+
+I imagine being able to scan out a YCbCr limited range buffer as-is
+would be really useful for professional broadcasting industry and
+particularly PLUGE testing which relies on being able to send the
+sub-black and super-white YCbCr values for monitor calibration.
+
+However, if there is an "auto" value in the colorop (implies the
+input to the colorop must be full-range RGB) or the colorop is missing,
+then your proposal could be used there.
 
 
+Thanks,
+pq
+
+--Sig_/Z9vd7qNP90QhQD=w6cW_nRl
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmnL0ZgACgkQI1/ltBGq
+qqcQXRAAk537VpzaLk6JptQFZZC+yWq3R7PPR4QT9azf+7XBONUhkwSc+GHslxaY
+G/GN1Yp+ULNnLZs2CYuJEHXbL0Sb8LI/kMdxvMgWpkQsL3eZL6QdpQUxD5+mMvMi
+hboB2wCy+i/nSdHx9TekifPgKPSxtypqlOaJcnYJnPouAJ631ukaezrIe4x4/d7+
+e8qrkNq/sekMkwKdMpnbu9srnQ+mvWG9mZAhWfG5GfUdNNYP6tZ55BAjMBrqAdzo
+ln8JlhSTwh8J/qxPNfhotQkDSm4aoMxoUQBE08aqdQX5VJuWcESgVy9NQiI624nv
+g62s5wyxPf5VOKLfRAW11oAgSXwJKoNNxozVaQqFFWDfs/AmFjs2Y1hU5k0MWpkK
+8sD30brwIwpYNVcSQJ+E5cx5iD5NvAd0vQgp2GhOrOn9tOoAz2OjiT6Le6JNe6Rs
+uFtt0Wr6uL5/AsBw+Bg3SjtwXDHHTY/Vgd3jSEm0LXSkD3n3PJL2bqkuuZdpT9Wx
+S2LrtYrru10WUpC18YynXLi8Nt2Sqot4R++V6DhyQfnDhFoLsiIs7RU+nsKKFCVB
+uFybvcs51NyZI/Q3Kf5YGREmh20K4XS1NzY5dASlGgZSdyyMcxooGCihm1YLZTwC
+CbTrUxRsPu5uS8GdkVxwn25+ezSTBChxUXU33ZEkxltq0eJT0Po=
+=g/43
+-----END PGP SIGNATURE-----
+
+--Sig_/Z9vd7qNP90QhQD=w6cW_nRl--
