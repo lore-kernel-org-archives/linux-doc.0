@@ -1,267 +1,338 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4815C3E3D99
-	for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2026 13:01:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01556330317
+	for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2026 13:32:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774962075; cv=none; b=cwJi/y/O92NyBGHQcE48gBlWhC/WaBmR4hHW1uMpLgmXzFy1nkKRRRDIL1uEOdlOfnqSTDCeR5jUGj9ecs7SYWpe0n07zzP04HeIjkkWbrxBWFxcfcqHQ9UkF3VSriM02tKmW3O2KO5Myabqf0YRXpX2eL1/BDNACo1pMOxKoBw=
+	t=1774963925; cv=none; b=DLtf5a87VYEtLdfEEiYQ/R7lYUTa4oOdfU9djMKr300DTCM/3xcsPD6DZKIBsGioVMtFiG21RMJQ/yc4hs5bwMg1DQdAZZeVTLFYTVgo3YktqtuidNcQsykZfIhQpS3X9iPj2aFiSRVUIEjiUEtW9gbEMov9hzpfYJbIapqy+dY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774962075; c=relaxed/simple;
-	bh=NWy6jF7tG5rVJozMzWzReQbDo/jcHM0/Ev1INEDWe+0=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wds9J1zc5YUWHPq/XFY14zcFBLcgk8lC8qDp2gehMZqjwsJiU4MawUoZh5SEJ/q9n/hcWTV1cDVsp1b0xGMbe2zl3kZJYBzEZZlyVAMfNgiNi92bU5kVt7/ul86pCwD8yPekU2L960FRGmX49X2boDNJqYYIuKJBDJiwFggio4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lUkSYTEf; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1774963925; c=relaxed/simple;
+	bh=dkwJd/RXway5nEOu9TRrDtfrsVoJlFdieW2eF9hmTPM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=g7QPTisgUteJS18h9xpZbQ+PeM2cCaglfR0nL74XeEVXQWPdgiSf/tY3y7FLKxelOF34q+BXyxpaZr8qD2/oY1lkgTNLr0N4vbXV5bk8gEAAV2rHD3ngrgf09s6f9USXHfkoSdsurjFXuRzmTKHdY98BslOpHZMlvbcetUH9eto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JlqVHIAO; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lUkSYTEf"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-b9358dd7f79so2157766b.1
-        for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2026 06:01:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JlqVHIAO"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-35c1d101355so2402340a91.1
+        for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2026 06:32:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774962072; x=1775566872; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=eGzN6mgCDgiU/jVdvBBBVzTIEeR9WyAbTd7AEaibUjU=;
-        b=lUkSYTEf6lWf55VPjKrGk2W9FnEV5GPGD5zdpiWo14Ir4y4/+D95q2wlx5Zgn4AZuA
-         v3DSGNqTb4nicn+wxRC0ntsiDmWBCtONTpy9bWcSoOE8FxmG3PAwCb7AjEO7ultm8RZG
-         jN+rdgHvoGDmOnCqERaUuaQ91YrIkZ4P2clsBpD8sZaT0bMKYZH6w4ehv300RbhMJf8y
-         7U0OQp/QDGJLlNf9YhZ7ZRIm8PEfNj9WCyoGNtGGY3lHUPK+RNos8Na/OuJ1JBy1DlMq
-         U7il1iCkg4eG1hFOMoFX0ddnnvKjbAX0Jw5BE1DyAERkrD27UWmhYBtTHmB7dAif3DrB
-         f6DA==
+        d=gmail.com; s=20251104; t=1774963922; x=1775568722; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=HsQ7tsEX1bMlsKuZvXvkHSxJKbLz0c4rqG2pBfziwfs=;
+        b=JlqVHIAObt9W5ugR3cNZsyxGmc8Y/rV6cJy0W4a7ii8mKLS93mWq+d8C+I3kOUp7lm
+         aoPLcGSkXSmvIolSoyNN/OQ9mtGciJOvG5h34a4z5hwM1DoCZfiM6R36QkQblS5mynaL
+         aev+JkwE1Nv5AebjkSrjubeF73XIjI1ZEo3AvL308oEHKtWcZvgLkv2ZBGoA8GEucbG4
+         VLMdCfrIzxpToC3jRF9Gn0nusI55bklA0owpvBnrcL3adt0jek2+E+lCkaRrtfP7674T
+         znHyNEl0GDjhFfdEy58XE3FmiPqivu07/m7GnkKWrF+Srje15FmbahsbJaAB3x5RzcgC
+         WvRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774962072; x=1775566872;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20251104; t=1774963922; x=1775568722;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eGzN6mgCDgiU/jVdvBBBVzTIEeR9WyAbTd7AEaibUjU=;
-        b=OEQp1dOhuuL4OpJmLcVeJ7t7hhrbQlbF7JPfWSDPO2HTjFBrl7kNQSZbflHBrm2Be8
-         039XUhoZ9Kwzz0Nsa8U4jQBbvJPPb98Qjm4ESvNx4NG4W/B8Bq3H0maiDlYD75dSZpES
-         Ta1DbfaNDw6pahc4Eypjx7qveB9spi5SYfsc6Rs7utgwaV6BfUlReWQao2aZXJyY8Wav
-         WHxBSRlajRUzhuaiesJFeDLHV6H68sPWPuGhURar3nq/YO6QOh9kQhmqyMpqfw8OSDxI
-         zBcElRkGJm1fNq0w3lPj/M4UEIcPIYc4EfMiI+oEIMvgprOjQn0elblQs12Hvpe+0ZAj
-         5S+w==
-X-Forwarded-Encrypted: i=1; AJvYcCV6N/reikDKi71yj28/4vaz40T66e1Kv2UMNylMFMYveeyyehYkqnaNlX7TwBAdZz1T3a3wEihzpkI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwUEzcsxSGBFnj+ZWk0GrzpTTGtHSfSkC49KHLcNBBb6imoxW5I
-	xQ6AFVGAyRr8OuBYoVy1GPl3NiArGhF+7ZuH16Mq6ZprHfZGs0IdQxXb
-X-Gm-Gg: ATEYQzyGejm9CruQMfCgeLqN5I+9hTdNKnydLPYAhXwsv0qt24fXRXxHWGQwlIe3pFh
-	oaW3zcTOJxnrs+PF5E1C//EN2spVEBUN7IiiopaqxBygoIKDEcOWGIXAG67+39yVd4lFDyR84RL
-	QiQBWB6RF8cJ4Qy0AZ5K4FQ1in/fnDqTWPZCwrvEKqDmNzhZMZcShMCR8KkJZczBWZ8Zi/wUrQr
-	eVgS3aqUeYHlmku08hyDgOjN2InWJ+F/Lb9fZ0gBAuNCLa6MiDw/o1iVB6Jj/4pJtkyk6sh/wWJ
-	5ZyexjZXS3BOakxo5XrRL15RMAlYqDRtbsV7FHJCX2ar31m3ch58xdmm/1U1eIQJ0pRRSabKL04
-	7xm5por5nsq7DWQ9nv6l47Ocp3oMpXyzTLPZdtWjLT55qvIHBXkJlZcO+WE7gLAwfOKT/FJtIK2
-	biCWQZwwr51NZjOMKtw/O0izIxH/PnnV4KWxzpEFJ+pBD2l63LVTrUjrYs0i572cesc6H/M34ML
-	w5dZ+58F8U7TK4ARzGo5NFzPVxieO5dabNjB3eAeu0w0VeDhoI=
-X-Received: by 2002:a17:906:6a29:b0:b9b:fa57:d5bb with SMTP id a640c23a62f3a-b9bfa57d970mr128126466b.46.1774962070994;
-        Tue, 31 Mar 2026 06:01:10 -0700 (PDT)
-Received: from RDEALENC-L01.ad.analog.com (24.206.116.131.netskope-rdns.com. [24.206.116.131])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9b7b1a5dddsm411266366b.35.2026.03.31.06.01.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Mar 2026 06:01:10 -0700 (PDT)
-From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
-Date: Tue, 31 Mar 2026 14:01:04 +0100
-To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Petr Mladek <pmladek@suse.com>, rodrigo.alencar@analog.com, 
-	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>, 
-	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v9 2/9] lib: vsprintf: export simple_strntoull() in a
- safe prototype
-Message-ID: <mnz7d2zd27x6h2qa24rajgrbhkhsypybadkqz2fi43rg7bvjvj@oufys7xs25t4>
-References: <20260320-adf41513-iio-driver-v9-0-132f0d076374@analog.com>
- <20260320-adf41513-iio-driver-v9-2-132f0d076374@analog.com>
- <acZDneLrIPOmU5ci@pathway.suse.cz>
- <acZLHAT5qJyjKTsp@ashevche-desk.local>
- <4uijfg4efzaapu3esobez55hfwqzszwagpeb4lxej2ybmifu76@s3c57fmnsme6>
- <acZaGUV0MwuHNDru@ashevche-desk.local>
- <x34d7jz7be4ommjh6efx5mcq5pbpellykwuyrqayr4ske3lywf@wh46mu3anmcz>
- <qnb3ozrhrq5n4zkh2luitkpwr5oj4omgcuo5vnvy2gatdfdqlg@cgsgux7etcql>
+        bh=HsQ7tsEX1bMlsKuZvXvkHSxJKbLz0c4rqG2pBfziwfs=;
+        b=CAN7T1ja+jlJPI2pqUOnXpJubyuvI6XLZBm/sY6b3g2n3teJrm27OHYy+FGnJPAJg7
+         qhlPVh5U+IYZWIWuUjW4HRbJd6Rw8eJ9cVNv2ebs7RZTiL8IwE1/j6hxm59b1JhI7hr7
+         bqre69VgUSGU2oHM6as8OrpbTvTlNPX/d+N7Y/0evE4bkjAHmHqsMFI1I4ky7J0zOHvT
+         TLdXX+QeDzMtrAERgWs0uN3uoaM43okkGHlAQjHFymWjXxu/llVWiA6CejAmU0/p+/7z
+         aDxENutG3cLguT+QauXe/zKy8q7Q4/mJe5YUvyZ/WW5EHi7UT1CFd6ZRD2Pl/G3JTDOr
+         10qQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWMrKP6qHHqofhQDPriagNmA28jeuaYcqVl5Nar8PRNulyOiFMlCJ+L1cgOPQWEOvvXm5Zwt8hfXTE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyDT7snbOzaJIWDTMnZ8SYkqNcr3MtW5LG/HywUHZ7a2/WvCCM+
+	r25yaOPNBxf2xAHYLeoYpkhu4P8lMa8lNdvwP1SZKs13rKDlXXLjRpPJ
+X-Gm-Gg: ATEYQzzBtv+/W+ki6/KHrM4JAP3OSl3Y880rBXfEhTTWd8VZ/kqaUA26bTOd7ZSc6rC
+	Tq+/Q1lXajd62DDqRD6LXTCnOi1HZ95EEMaUxDsF6QpEBbKa0dVvtjkgsJQiLO1SigPsgNd5gCb
+	NT2d9E4Dqp0gnuwLm5vAgXBONCDd4tj33a0V6afZ8j8WrVSJbLRhs4HWTzhJLxpi/tGUYKQm2Kq
+	S1XYAaAG2kufvS3bGjV+AMEmMgJjbM2FaaSK2t4f7jw3AkusWqoCQ7+t+Jegr6516M7nEtYraJM
+	kzSEnJKqvTSHGYn9UpvcdDY4RIar49or5iTTKSA32ZvztHzArU4mr1IA/cKcThV7fSQTtbX06Fw
+	8M3RQo8asEz3EiAe7cYs9/erWAvtAhiHFL5V0tt8Kj4AR0+h1qLwOC6/yGwk8fe8vqz06ePs4wi
+	hGKf8qhaNWdWpJpZC34pD+4iiXqzI3Ke3WCX8EFcF+jzhcp503CUWijmQVj86NwKJ92E7qZkjb
+X-Received: by 2002:a17:902:ef4c:b0:2b0:6b98:59ec with SMTP id d9443c01a7336-2b0cdd3ed8emr167424765ad.34.1774963922192;
+        Tue, 31 Mar 2026 06:32:02 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b24264292asm117475855ad.4.2026.03.31.06.32.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 31 Mar 2026 06:32:01 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <32c4c4dc-91db-4286-82e5-1d3269c76a74@roeck-us.net>
+Date: Tue, 31 Mar 2026 06:31:59 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <qnb3ozrhrq5n4zkh2luitkpwr5oj4omgcuo5vnvy2gatdfdqlg@cgsgux7etcql>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 2/3] hwmon: ltc4283: Add support for the LTC4283 Swap
+ Controller
+To: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>
+Cc: =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
+ linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>
+References: <20260327-ltc4283-support-v8-0-471de255d728@analog.com>
+ <20260327-ltc4283-support-v8-2-471de255d728@analog.com>
+ <aco5L_6SZIB2DdpF@nsa> <e0c96f38-6742-4b86-8938-64e4e6063119@roeck-us.net>
+ <acuLynb1hRFJRcEf@nsa>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <acuLynb1hRFJRcEf@nsa>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 26/03/30 01:49PM, Rodrigo Alencar wrote:
-> On 26/03/27 03:17PM, Rodrigo Alencar wrote:
-> > On 26/03/27 12:21PM, Andy Shevchenko wrote:
-> > > On Fri, Mar 27, 2026 at 10:11:56AM +0000, Rodrigo Alencar wrote:
-> > > > On 26/03/27 11:17AM, Andy Shevchenko wrote:
-> > > > > On Fri, Mar 27, 2026 at 09:45:17AM +0100, Petr Mladek wrote:
-> > > > > > On Fri 2026-03-20 16:27:27, Rodrigo Alencar via B4 Relay wrote:
+On 3/31/26 02:48, Nuno Sá wrote:
+> On Mon, Mar 30, 2026 at 08:47:32AM -0700, Guenter Roeck wrote:
+>> On 3/30/26 02:28, Nuno Sá wrote:
+>>> Hi Guenter, Regarding AI review, I think most of the points were
+>>> discussed in previous revisions, but there are two valid.
+>>>
+>>> On Fri, Mar 27, 2026 at 05:26:15PM +0000, Nuno Sá wrote:
+>>>> Support the LTC4283 Hot Swap Controller. The device features programmable
+>>>> current limit with foldback and independently adjustable inrush current to
+>>>> optimize the MOSFET safe operating area (SOA). The SOA timer limits MOSFET
+>>>> temperature rise for reliable protection against overstresses.
+>>>>
+>>>> An I2C interface and onboard ADC allow monitoring of board current,
+>>>> voltage, power, energy, and fault status.
+>>>>
+>>>> Signed-off-by: Nuno Sá <nuno.sa@analog.com>
+>>>> ---
+>>>>    Documentation/hwmon/index.rst   |    1 +
+>>>>    Documentation/hwmon/ltc4283.rst |  266 ++++++
+>>>>    MAINTAINERS                     |    1 +
+>>>>    drivers/hwmon/Kconfig           |   12 +
+>>>>    drivers/hwmon/Makefile          |    1 +
+>>>>    drivers/hwmon/ltc4283.c         | 1796 +++++++++++++++++++++++++++++++++++++++
+>>>>    6 files changed, 2077 insertions(+)
+>>>>
+>>>
+>>> ...
+>>>
+>>>> +static int ltc4283_read_in_alarm(struct ltc4283_hwmon *st, u32 channel,
+>>>> +				 bool max_alm, long *val)
+>>>> +{
+>>>> +	if (channel == LTC4283_VPWR)
+>>>> +		return ltc4283_read_alarm(st, LTC4283_ADC_ALM_LOG_1,
+>>>> +					  BIT(2 + max_alm), val);
+>>>> +
+>>>> +	if (channel >= LTC4283_CHAN_ADI_1 && channel <= LTC4283_CHAN_ADI_4) {
+>>>> +		u32 bit = (channel - LTC4283_CHAN_ADI_1) * 2;
+>>>> +		/*
+>>>> +		 * Lower channels go to higher bits. We also want to go +1 down
+>>>> +		 * in the min_alarm case.
+>>>> +		 */
+>>>> +		return ltc4283_read_alarm(st, LTC4283_ADC_ALM_LOG_2,
+>>>> +					  BIT(7 - bit - !max_alm), val);
+>>>> +	}
+>>>> +
+>>>> +	if (channel >= LTC4283_CHAN_ADIO_1 && channel <= LTC4283_CHAN_ADIO_4) {
+>>>> +		u32 bit = (channel - LTC4283_CHAN_ADIO_1) * 2;
+>>>> +
+>>>> +		return ltc4283_read_alarm(st, LTC4283_ADC_ALM_LOG_3,
+>>>> +					  BIT(7 - bit - !max_alm), val);
+>>>> +	}
+>>>> +
+>>>> +	if (channel >= LTC4283_CHAN_ADIN12 && channel <= LTC4283_CHAN_ADIN34) {
+>>>> +		u32 bit = (channel - LTC4283_CHAN_ADIN12) * 2;
+>>>> +
+>>>> +		return ltc4283_read_alarm(st, LTC4283_ADC_ALM_LOG_5,
+>>>> +					  BIT(7 - bit - !max_alm), val);
+>>>> +	}
+>>>
+>>> "Will this condition handle the ADIO12 and ADIO34 differential channels?
+>>> It looks like channels 14 and 15 fall through to the default return intended
+>>> for the DRAIN channel. Since reading the alarm implicitly clears the register
+>>> bits, could reading these ADIO alarms unintentionally clear actual DRAIN
+>>> alarms? Should the upper bound be LTC4283_CHAN_ADIO34?"
+>>>
+>>> Good catch and should be:
+>>>
+>>> -       if (channel >= LTC4283_CHAN_ADIN12 && channel <= LTC4283_CHAN_ADIN34) {
+>>> +       if (channel >= LTC4283_CHAN_ADIN12 && channel <= LTC4283_CHAN_ADIO34) {
+>>>
+>>>> +
+>>>> +	if (channel == LTC4283_CHAN_DRNS)
+>>>> +		return ltc4283_read_alarm(st, LTC4283_ADC_ALM_LOG_4,
+>>>> +					  BIT(6 + max_alm), val);
+>>>> +
+>>>> +	return ltc4283_read_alarm(st, LTC4283_ADC_ALM_LOG_4, BIT(4 + max_alm),
+>>>> +				  val);
+>>>> +}
+>>>
+>>> ...
+>>>
+>>>> +
+>>>> +static int ltc4283_probe(struct i2c_client *client)
+>>>> +{
+>>>> +	struct device *dev = &client->dev, *hwmon;
+>>>> +	struct auxiliary_device *adev;
+>>>> +	struct ltc4283_hwmon *st;
+>>>> +	int ret;
+>>>> +
+>>>> +	st = devm_kzalloc(dev, sizeof(*st), GFP_KERNEL);
+>>>> +	if (!st)
+>>>> +		return -ENOMEM;
+>>>> +
+>>>> +	if (!i2c_check_functionality(client->adapter,
+>>>> +				     I2C_FUNC_SMBUS_BYTE_DATA |
+>>>> +				     I2C_FUNC_SMBUS_WORD_DATA |
+>>>> +				     I2C_FUNC_SMBUS_READ_I2C_BLOCK))
+>>>> +		return -EOPNOTSUPP;
+>>>> +
+>>>> +	st->client = client;
+>>>> +	st->map = devm_regmap_init(dev, &ltc4283_regmap_bus, client,
+>>>> +				   &ltc4283_regmap_config);
+>>>> +	if (IS_ERR(st->map))
+>>>> +		return dev_err_probe(dev, PTR_ERR(st->map),
+>>>> +				     "Failed to create regmap\n");
+>>>> +
+>>>> +	ret = ltc4283_setup(st, dev);
+>>>> +	if (ret)
+>>>> +		return ret;
+>>>> +
+>>>> +	hwmon = devm_hwmon_device_register_with_info(dev, "ltc4283", st,
+>>>> +						     &ltc4283_chip_info, NULL);
+>>>> +
+>>>> +	if (IS_ERR(hwmon))
+>>>> +		return PTR_ERR(hwmon);
+>>>> +
+>>>> +	ltc4283_debugfs_init(st, client);
+>>>> +
+>>>> +	if (!st->gpio_mask)
+>>>> +		return 0;
+>>>> +
+>>>> +	adev = devm_auxiliary_device_create(dev, "gpio", &st->gpio_mask);
+>>>> +	if (!adev)
+>>>> +		return dev_err_probe(dev, -ENODEV, "Failed to add GPIO device\n");
+>>>
+>>> "Does this allow multiple LTC4283 chips to probe successfully?
+>>> Without allocating a unique ID per I2C instance, it seems the first probed
+>>> chip takes the generic name. If a second chip is present, it might attempt
+>>> to register with the exact same name, resulting in a failure in device_add()
+>>> and aborting the probe."
+>>>
+>>> Also looks valid and I suspect is one of those that a quick look will
+>>> find more "offenders". I would purpose:
+>>>
+>>> -       adev = devm_auxiliary_device_create(dev, "gpio", &st->gpio_mask);
+>>> +       adev = __devm_auxiliary_device_create(dev, KBUILD_MODNAME, "gpio",
+>>> +                                             &st->gpio_mask, client->addr);
+>>>
+>>
+>> That would still fail if there are multiple chips at the same I2C address
+>> on multiple I2C busses. Check drivers/gpu/drm/bridge/ti-sn65dsi86.c which has
+>> the same problem.
 > 
-> ...
+> I did looked at that one but totally forgot the multiple busses
+> scenario.
 > 
-> > > > > Maybe we want to have kstrtof32() and kstrtof64() for these two cases?
-> > > > > 
-> > > > > With that we will always consider the fraction part as 32- or 64-bit,
-> > > > > imply floor() on the fraction for the sake of simplicity and require
-> > > > > it to be NUL-terminated with possible trailing '\n'.
-> > > > 
-> > > > I think this is a good idea, but calling it float or fixed point itself
-> > > > is a bit confusing as float often refers to the IEEE 754 standard and
-> > > > fixed point types is often expressed in Q-format.
-> > > 
-> > > Yeah... I am lack of better naming.
-> > 
-> > decimals is the name, but they are often represented as:
-> > 
-> > 	DECIMAL = INT * 10^X + FRAC
-> > 
-> > in a single 64-bit number, which would be fine for my end use case.
-> > However IIO decimal fixed point parsing is out there for quite some time a
-> > lot of drivers use that. The interface often relies on breaking parsed values
-> > into an integer array (for standard attributes int val and int val2 are expected).
+>>
+>>> If there's nothing else and you agree with the above, is this something
+>>> you can tweak while applying or should I spin a new version?
+>>>
+>>
+>> Please respin. Also, regarding the other concerns:
+>>
+>>    Can BIT(8) * st->rsense wrap to zero on 32-bit architectures?
+>>    BIT(8) is a 32-bit unsigned long and st->rsense is a u32. If a user sets a
+>>    very large sense resistor value via the device tree, the multiplication could
+>>    wrap to 0, causing a division-by-zero kernel panic. Should the divisor use
+>>    BIT_ULL(8)?
+>>
+>> Unless I am missing something, this _can_ overflow. Try to provide a sense
+>> resistor value of 1677721600. Yes, it is unreasonable to specify such large
+>> rsense values, but why not just limit it such that it does not overflow ?
 > 
-> Thinking about this again and in IIO drivers we end up doing something like:
+> Yes, that's pretty much my reasoning (regarding the unreasonable
+> rsense). I could just make BIT_ULL() and be done with it. I can also
+> also cap rsense to a max value but i'm not 100% what that value would
+> be. Maybe 1 ohm is already more than reasonable. I can also ask internally. Any
+> preference on this one?
 > 
-> val64 = (u64)val * MICRO + val2;
-> 
-> so that drivers often work with scaled versions of the decimal value.
-> then, would it make sense to have a function that already outputs such value?
-> That would allow to have more freedom over the 64-bit split between integer
-> and fractional parts.
-> As a draft:
-> 
-> static int _kstrtodec64(const char *s, unsigned int scale, u64 *res)
-> {
-> 	u64 _res = 0, _frac = 0;
-> 	unsigned int rv;
-> 
-> 	if (*s != '.') {
-> 		rv = _parse_integer(s, 10, &_res);
-> 		if (rv & KSTRTOX_OVERFLOW)
-> 			return -ERANGE;
-> 		if (rv == 0)
-> 			return -EINVAL;
-> 		s += rv;
-> 	}
-> 
-> 	if (*s == '.') {
-> 		s++;
-> 		rv = _parse_integer_limit(s, 10, &_frac, scale);
-> 		if (rv & KSTRTOX_OVERFLOW)
-> 			return -ERANGE;
-> 		if (rv == 0)
-> 			return -EINVAL;
-> 		s += rv;
-> 		if (rv < scale)
-> 			_frac *= int_pow(10, scale - rv);
-> 		while (isdigit(*s)) /* truncate */
-> 			s++;
-> 	}
-> 
-> 	if (*s == '\n')
-> 		s++;
-> 	if (*s)
-> 		return -EINVAL;
-> 
-> 	if (check_mul_overflow(_res, int_pow(10, scale), &_res) ||
-> 	    check_add_overflow(_res, _frac, &_res))
-> 		return -ERANGE;
-> 
-> 	*res = _res;
-> 	return 0;
-> }
-> 
-> noinline
-> int kstrtoudec64(const char *s, unsigned int scale, u64 *res)
-> {
-> 	if (s[0] == '+')
-> 		s++;
-> 	return _kstrtodec64(s, scale, res);
-> }
-> EXPORT_SYMBOL(kstrtoudec64);
-> 
-> noinline
-> int kstrtosdec64(const char *s, unsigned int scale, s64 *res)
-> {
-> 	u64 tmp;
-> 	int rv;
-> 
-> 	if (s[0] == '-') {
-> 		rv = _kstrtodec64(s + 1, scale, &tmp);
-> 		if (rv < 0)
-> 			return rv;
-> 		if ((s64)-tmp > 0)
-> 			return -ERANGE;
-> 		*res = -tmp;
-> 	} else {
-> 		rv = kstrtoudec64(s, scale, &tmp);
-> 		if (rv < 0)
-> 			return rv;
-> 		if ((s64)tmp < 0)
-> 			return -ERANGE;
-> 		*res = tmp;
-> 	}
-> 	return 0;
-> }
-> EXPORT_SYMBOL(kstrtosdec64);
-> 
-> e.g., kstrtosdec64() or kstrtoudec64() parses "3.1415" with scale 3 into 3141
 
-Hi Jonathan,
+I'd suggest to reject large (unreasonable) values. In this case, rejecting rsense
+values >= 1677721600 should solve the problem.
 
-developing more on that, I wouldn't need to create a iio_str_to_fixpoint64(),
-what do you think on new format types:
+>>
+>> Also, for the overflow concerns, if you are sure they can not happen, I'll
+>> really need to write the unit test code to make sure that this is indeed
+>> the case.
+>>
+> 
+> Hmm, for the val * MILLI case, well it should not happen but given it
+> depends on user input, better if I clamp it before passing the
+> value to ltc4283_write_in_byte(). Yes, we clamp again inside the
+> write_bytes() API but not a big deal.
+> 
+> For the st->power_max is again one of those cases where the values would
+> not make sense (I think - the combination of vsense_max and rsense). Just looking
+> at the code, it can overflow but this one I'm not really sure how we could handle it.
+> Maybe clamp power_max to U8_MAX and have a warning message in ltc4283_read_power_byte() if
+> we overflow long in which case we need a power64 attr?
+> 
+> But even clamping does not make much sense here. The power limit register
+> is 8 bits, so if our design (rsense + vsense_max) overflows that,
+> there's nothing we can do other that erroring out.
+> 
 
-#define IIO_VAL_DECIMAL64_1 101
-#define IIO_VAL_DECIMAL64_2 102
-#define IIO_VAL_DECIMAL64_3 103
-#define IIO_VAL_DECIMAL64_4 104
-#define IIO_VAL_DECIMAL64_5 105
-#define IIO_VAL_DECIMAL64_6 106
-#define IIO_VAL_DECIMAL64_7 107
-#define IIO_VAL_DECIMAL64_8 108
-#define IIO_VAL_DECIMAL64_9 109
-#define IIO_VAL_DECIMAL64_10 110
-#define IIO_VAL_DECIMAL64_11 111
-#define IIO_VAL_DECIMAL64_12 112
-#define IIO_VAL_DECIMAL64_13 113
-#define IIO_VAL_DECIMAL64_14 114
-#define IIO_VAL_DECIMAL64_15 115
+Again, why not just reject unreasonable values such that calculations
+can not overflow ?
 
-#define IIO_VAL_DECIMAL64_MILLI IIO_VAL_DECIMAL64_3
-#define IIO_VAL_DECIMAL64_MICRO IIO_VAL_DECIMAL64_6
-#define IIO_VAL_DECIMAL64_NANO IIO_VAL_DECIMAL64_9
-#define IIO_VAL_DECIMAL64_PICO IIO_VAL_DECIMAL64_12
-#define IIO_VAL_DECIMAL64_FEMTO IIO_VAL_DECIMAL64_15
+In other drivers, the common approach is to reject unreeasonable values if
+provided through devicetree and to clamp them if provided through sysfs.
+I don't see why that would not work here.
 
-which gets stored as 64-bit, and represent the decimal scaled value.
-That would also work for the PLL driver (using IIO_VAL_DECIMAL64_MICRO):
-  - It supports frequency range from 1 to 26 GHz with micro Hz resolution
-  - In the driver a 64-bit value: (val * MICRO + val2) is already created
-  anyways.
-I would leverage something like kstrtodec64() in iio_write_channel_info().
+Thanks,
+Guenter
 
-That way, I would drop the changes on the iio fixpoint parse, which I think
-it would do better with something like kstrntoull() to be able to handle that
-"dB" suffix.
-
-So for now, I may have the following approaches:
-- new kstrntoull() function: to have control over the parsing, whithout
-  requiring NUL-termination, avoiding unecessary string scanning or copying.
-  covered in v8.
-- expose a "safe" simple_strntoull(): minimal changes to vsprintf.c, this
-  is covered by this patch series (v9), and it similar solution to kstrntoull().
-- new kstrtodec64() function: parse decimal numbers as 64-bit with NUL-termination.
-  Might be covered in a v10, if it is a good idea.
-
-let me know your thoughts.
-
--- 
-Kind regards,
-
-Rodrigo Alencar
