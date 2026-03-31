@@ -1,368 +1,357 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 960B1346FB5;
-	Tue, 31 Mar 2026 10:34:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774953260; cv=pass; b=kYv/cdwzdhjYaY5wtch7bx+BJG8LwZx8kz7D6JwqCbRX/+BNVrxNmJlQS26hsNes6UAgw7ZP96N/rWmc1LOTgXeyR4hk1WZZ/zEhcxtSFleNK4h4NVTqcuIc3dwLsRJrzME0HM8+CGqnIK5RjVsyJkr8qBSYAYpHD1c3tB0Tj2k=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774953260; c=relaxed/simple;
-	bh=mCV2SZpUK6sWJdM3cUU8IOdk/5G5tTsUpxdUhak3lrg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uol2E4dgnriWuZkLAzH/YRePa/kVg/kx2JSqvxQONkUUFEnA5NO7DkwOnYrXYTzAzel37Z6c3z1gHw2JK9HTJipjQ6B4aXrlh1MHlCljEGBUJub0pzGQyajvJzt2+mCanbzQsR01XjYY3elPzjkmx7ke6gtCP8/4WnFDtokqk6s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=V3L9lwL5; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AAC43A7843;
+	Tue, 31 Mar 2026 10:38:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774953508; cv=none; b=a4x3vguWW9zsz01zt5QPgSUtIkGg0VgsBNeH8TLQ1A1kB1DUbJ3Ik6pCYhnA89upoz4KxTY6XTJn8EAJzEodc54jJmylCOTd8JDc6v5jK7UE7UEOWb5RlvQrVX9GGe+V95924iQzhFFOBPFlQcU1OpA7F8gScew/YKSkVBFRTeQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774953508; c=relaxed/simple;
+	bh=YQ1wgAT21b+Y+NGX2w1NxAJy18OZSro6z+KWEVTYz9Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pvHmDOaBA+XiCXlef+GCH1lPecoue4sqz4R02G2BlvR8sz9q8Zms0YhIYKVHhzWvofJ4szFDvVqDvbU4CerwqRprf7hXcpC0K/MIKrSaqSE74Ir1lZ4Etx2cwLpORd80A7l9cNQt+niPYUVDnlZkGYsmb1P3euK5kc1A/V0PsLQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GBQQmPNd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="V3L9lwL5"
-ARC-Seal: i=1; a=rsa-sha256; t=1774953194; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=iq7d+EpWYAvrctcfxZoQjNJuhB62URk7xlbwaLsDMTNXTWCyQ4LwDyZ6I27wYYHAMP4YPM0hYR/rK8AWX1jqBcjhxQf8J51b99OQ+VF9yVDhEqMQMfzMcWZJUV2pGlG6D+JYKcdc63sYSJlX24pWsFdQZX2jKMN+WnVHhppSgRQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1774953194; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=WONs+triHAG3oxKIDY5u6sC91+pizMI0mnGHgeGpMWA=; 
-	b=Vh9zaiChMYD6vskfjYkgIBkCpQIQmnxaqlBcmk8+El0hVORrkZFIntq9a8X6fTa7guKBYxcQC8K42tY0FIF9ir+fsdg58kFS9D0UjA9+cfr6iNC4IkwitdRA9MKj5MscyrlksfUfeV18AJAKMPFxt2cNzDqpvvQDy/G0UyUF4yQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
-	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774953194;
-	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
-	bh=WONs+triHAG3oxKIDY5u6sC91+pizMI0mnGHgeGpMWA=;
-	b=V3L9lwL5t+B5HbtOLDaYfqYdeaZCN8rQT1mGU46AB79OOrvLI8lwlaGUlxYG0lKq
-	G6V26eWcMkIy5x3/sgiT2LdI+GDuyPfzNDQ6VB5oOYteJoe+EnPXzgWeohswEwhMpkq
-	0cS3rPBVWJ25PctJ4X+Zp9Z74BEt6x2M/ZP7K/Yo=
-Received: by mx.zohomail.com with SMTPS id 1774953193153170.1511210439279;
-	Tue, 31 Mar 2026 03:33:13 -0700 (PDT)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-To: Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Sandy Huang <hjc@rock-chips.com>,
- Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
- Andy Yan <andy.yan@rock-chips.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- kernel@collabora.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-doc@vger.kernel.org, Werner Sembach <wse@tuxedocomputers.com>,
- Andri Yngvason <andri@yngvason.is>, Marius Vlad <marius.vlad@collabora.com>
-Subject:
- Re: [PATCH v11 03/22] drm: Add new general DRM property "color format"
-Date: Tue, 31 Mar 2026 12:33:00 +0200
-Message-ID: <5583906.GXAFRqVoOG@workhorse>
-In-Reply-To: <acsNoCDsPtEhtkRn@intel.com>
-References:
- <20260324-color-format-v11-0-605559af4fb4@collabora.com>
- <acclgID7lSVNten2@intel.com> <acsNoCDsPtEhtkRn@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GBQQmPNd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57427C19423;
+	Tue, 31 Mar 2026 10:38:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1774953507;
+	bh=YQ1wgAT21b+Y+NGX2w1NxAJy18OZSro6z+KWEVTYz9Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GBQQmPNd3CfO+3hk42g4K6a8MUiLTC30MxXWXjwPScsT9+zYVFUkXnyyIOX3H9+Df
+	 UZNtC7jsGfz3BkGPIZSZgFz7GUV/I+wYx/Tta0+35Pnb4QLHGWqhRkYqwgw6AC6nB8
+	 mhM/nmckm+jvdkivIuVngz6klU1prjimE1LszIV7lQnvK3tU0c0YcVf/vjrjIrtloL
+	 cyShOShwA9OeZx+4SjiZ1xqZI8/+MU5HCr5aDt34CjQju5QXXhcBZLKrDv8bpVb4pa
+	 Jj/7r3/Cx8c852P+HKl2n2bJgqBozo6b6YgkPyfANwFwlOt03QjoNZKfKZ/hDF8s1s
+	 Y9ENC1yYCkgvQ==
+Date: Tue, 31 Mar 2026 11:38:22 +0100
+From: Lee Jones <lee@kernel.org>
+To: Armin Wolf <W_Armin@gmx.de>
+Cc: pavel@kernel.org, linux-kernel@vger.kernel.org, corbet@lwn.net,
+	skhan@linuxfoundation.org, linux-leds@vger.kernel.org,
+	linux-doc@vger.kernel.org, wse@tuxedocomputers.com,
+	jacek.anaszewski@gmail.com, pobrn@protonmail.com,
+	m.tretter@pengutronix.de
+Subject: Re: [PATCH 1/1] leds: Introduce the multi_max_intensity sysfs
+ attribute
+Message-ID: <20260331103822.GC3795166@google.com>
+References: <20260324202751.6486-1-W_Armin@gmx.de>
+ <20260324202751.6486-2-W_Armin@gmx.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260324202751.6486-2-W_Armin@gmx.de>
 
-On Tuesday, 31 March 2026 01:56:16 Central European Summer Time Ville Syrj=
-=C3=A4l=C3=A4 wrote:
-> On Sat, Mar 28, 2026 at 02:49:04AM +0200, Ville Syrj=C3=A4l=C3=A4 wrote:
-> > On Fri, Mar 27, 2026 at 01:56:06PM +0100, Nicolas Frattaroli wrote:
-> > > On Thursday, 26 March 2026 18:58:25 Central European Standard Time Vi=
-lle Syrj=C3=A4l=C3=A4 wrote:
-> > > > On Thu, Mar 26, 2026 at 06:02:47PM +0100, Maxime Ripard wrote:
-> > > > > On Wed, Mar 25, 2026 at 08:43:15PM +0200, Ville Syrj=C3=A4l=C3=A4=
- wrote:
-> > > > > > On Wed, Mar 25, 2026 at 03:56:58PM +0100, Maxime Ripard wrote:
-> > > > > > > On Wed, Mar 25, 2026 at 01:03:07PM +0200, Ville Syrj=C3=A4l=
-=C3=A4 wrote:
-> > > > > > > > On Wed, Mar 25, 2026 at 09:24:27AM +0100, Maxime Ripard wro=
-te:
-> > > > > > > > > On Tue, Mar 24, 2026 at 09:53:35PM +0200, Ville Syrj=C3=
-=A4l=C3=A4 wrote:
-> > > > > > > > > > On Tue, Mar 24, 2026 at 08:10:11PM +0100, Nicolas Fratt=
-aroli wrote:
-> > > > > > > > > > > On Tuesday, 24 March 2026 18:00:45 Central European S=
-tandard Time Ville Syrj=C3=A4l=C3=A4 wrote:
-> > > > > > > > > > > > On Tue, Mar 24, 2026 at 05:01:07PM +0100, Nicolas F=
-rattaroli wrote:
-> > > > > > > > > > > > > +enum drm_connector_color_format {
-> > > > > > > > > > > > > +	/**
-> > > > > > > > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_AUTO: The driver=
- or display protocol
-> > > > > > > > > > > > > +	 * helpers should pick a suitable color format.=
- All implementations of a
-> > > > > > > > > > > > > +	 * specific display protocol must behave the sa=
-me way with "AUTO", but
-> > > > > > > > > > > > > +	 * different display protocols do not necessari=
-ly have the same "AUTO"
-> > > > > > > > > > > > > +	 * semantics.
-> > > > > > > > > > > > > +	 *
-> > > > > > > > > > > > > +	 * For HDMI, "AUTO" picks RGB, but falls back t=
-o YCbCr 4:2:0 if the
-> > > > > > > > > > > > > +	 * bandwidth required for full-scale RGB is not=
- available, or the mode
-> > > > > > > > > > > > > +	 * is YCbCr 4:2:0-only, as long as the mode and=
- output both support
-> > > > > > > > > > > > > +	 * YCbCr 4:2:0.
-> > > > > > > > > > > > > +	 *
-> > > > > > > > > > > > > +	 * For display protocols other than HDMI, the r=
-ecursive bridge chain
-> > > > > > > > > > > > > +	 * format selection picks the first chain of br=
-idge formats that works,
-> > > > > > > > > > > > > +	 * as has already been the case before the intr=
-oduction of the "color
-> > > > > > > > > > > > > +	 * format" property. Non-HDMI bridges should th=
-erefore either sort their
-> > > > > > > > > > > > > +	 * bus output formats by preference, or agree o=
-n a unified auto format
-> > > > > > > > > > > > > +	 * selection logic that's implemented in a comm=
-on state helper (like
-> > > > > > > > > > > > > +	 * how HDMI does it).
-> > > > > > > > > > > > > +	 */
-> > > > > > > > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_AUTO =3D 0,
-> > > > > > > > > > > > > +
-> > > > > > > > > > > > > +	/**
-> > > > > > > > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_RGB444: RGB outp=
-ut format
-> > > > > > > > > > > > > +	 */
-> > > > > > > > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_RGB444,
-> > > > > > > > > > > > > +
-> > > > > > > > > > > > > +	/**
-> > > > > > > > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR444: YCbCr =
-4:4:4 output format (ie.
-> > > > > > > > > > > > > +	 * not subsampled)
-> > > > > > > > > > > > > +	 */
-> > > > > > > > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR444,
-> > > > > > > > > > > > > +
-> > > > > > > > > > > > > +	/**
-> > > > > > > > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR422: YCbCr =
-4:2:2 output format (ie.
-> > > > > > > > > > > > > +	 * with horizontal subsampling)
-> > > > > > > > > > > > > +	 */
-> > > > > > > > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR422,
-> > > > > > > > > > > > > +
-> > > > > > > > > > > > > +	/**
-> > > > > > > > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR420: YCbCr =
-4:2:0 output format (ie.
-> > > > > > > > > > > > > +	 * with horizontal and vertical subsampling)
-> > > > > > > > > > > > > +	 */
-> > > > > > > > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR420,
-> > > > > > > > > > > >=20
-> > > > > > > > > > > > Seems like this should document what the quantizati=
-on range
-> > > > > > > > > > > > should be for each format.
-> > > > > > > > > > > >=20
-> > > > > > > > > > >=20
-> > > > > > > > > > > I don't think so? If you want per-component bit depth=
- values,
-> > > > > > > > > > > DRM_FORMAT_* defines would be the appropriate values =
-to use. This
-> > > > > > > > > > > enum is more abstract than that, and is there to comm=
-unicate
-> > > > > > > > > > > YUV vs. RGB and chroma subsampling, with bit depth be=
-ing handled
-> > > > > > > > > > > by other properties.
-> > > > > > > > > > >=20
-> > > > > > > > > > > If you mean the factor used for subsampling, then tha=
-t'd only be
-> > > > > > > > > > > relevant if YCBCR410 was supported where one chroma p=
-lane isn't
-> > > > > > > > > > > halved but quartered in resolution. I suspect 4:1:0 w=
-ill never
-> > > > > > > > > > > be added; no digital display protocol standard suppor=
-ts it to my
-> > > > > > > > > > > knowledge, and hopefully none ever will.
-> > > > > > > > > >=20
-> > > > > > > > > > No, I mean the quantization range (16-235 vs. 0-255 etc=
-).
-> > > > > > > > > >=20
-> > > > > > > > > > The i915 behaviour is that YCbCr is always limited rang=
-e,
-> > > > > > > > > > RGB can either be full or limited range depending on th=
-e=20
-> > > > > > > > > > "Broadcast RGB" property and other related factors.
-> > > > > > > > >=20
-> > > > > > > > > So far the HDMI state has both the format and quantizatio=
-n range as
-> > > > > > > > > different fields. I'm not sure we need to document the ra=
-nge in the
-> > > > > > > > > format field, maybe only mention it's not part of the for=
-mat but has a
-> > > > > > > > > field of its own?
-> > > > > > > >=20
-> > > > > > > > I think we only have it for RGB (on some drivers only?). Fo=
-r YCbCr
-> > > > > > > > I think the assumption is limited range everywhere.
-> > > > > > > >=20
-> > > > > > > > But I'm not really concerned about documenting struct membe=
-rs.
-> > > > > > > > What I'm talking about is the *uapi* docs. Surely userspace
-> > > > > > > > will want to know what the new property actually does so the
-> > > > > > > > uapi needs to be documented properly. And down the line some
-> > > > > > > > new driver might also implement the wrong behaviour if there
-> > > > > > > > is no clear specification.
-> > > > > > >=20
-> > > > > > > Ack
-> > > > > > >=20
-> > > > > > > > So I'm thinking (or perhaps hoping) the rule might be somet=
-hing like:
-> > > > > > > > - YCbCr limited range=20
-> > > > > > > > - RGB full range if "Broadcast RGB" property is not present
-> > > > > > >=20
-> > > > > > > Isn't it much more complicated than that for HDMI though? My
-> > > > > > > recollection was that any VIC but VIC1 would be limited range=
-, and
-> > > > > > > anything else full range?
-> > > > > >=20
-> > > > > > Do we have some driver that implements the CTA-861 CE vs. IT mo=
-de
-> > > > > > logic but doesn't expose the "Broadcast RGB" property? I was ho=
-ping
-> > > > > > those would always go hand in hand now.
-> > > > >=20
-> > > > > I'm not sure. i915 and the HDMI state helpers handle it properly =
-(I
-> > > > > think?) but it looks like only vc4 registers the Broadcast RGB pr=
-operty
-> > > > > and uses the HDMI state helpers.
-> > > > >=20
-> > > > > And it looks like amdgpu registers Broadcast RGB but doesn't use
-> > > > > drm_default_rgb_quant_range() which seems suspicious?
-> > > >=20
-> > > > If they want just manual full vs. limited then they should
-> > > > limit the property to not expose the "auto" option at all.
-> > > >=20
-> > > > amdgpu also ties this in with the "colorspace" property, which
-> > > > originally in i915 only controlled the infoframes/etc. But on
-> > > > amdgpu it now controls various aspects of output color
-> > > > transformation. The end result is that the property is a complete
-> > > > mess with most of the values making no sense. And for whatever
-> > > > reason everyone involved refused to remove/deprecate the
-> > > > nonsensical values :/
-> > > >=20
-> > > > Looks like this series should make sure the documentation for
-> > > > the "colorspace" property is in sync with the new property
-> > > > as well. Currently now it's giving conflicting information.
-> > > >=20
-> > >=20
-> > > I take it the problematic information is in
-> > >=20
-> > >     * DOC: standard connector properties
-> > >     *
-> > >     * Colorspace:
-> > >=20
-> > > and probably specifically BT2020_YCC's (and BT2020_RGB's?) insistence
-> > > that they "produce RGB content".
-> > >=20
-> > > I think we probably just have to change the statement "The variants
-> > > BT2020_RGB and BT2020_YCC are equivalent and the driver chooses betwe=
-en
-> > > RGB and YCbCr on its own."
-> > >=20
-> > > The "on its own" here would get turned into "based on the color format
-> > > property".
-> > >=20
-> > > Speaking of i915, that patch is one of the very few (5) patches in
-> > > this series still lacking a review (hint hint nudge nudge). I'd like
-> > > to get some more feedback on the remaining patches before I send out
-> > > another revision, so that it's hopefully not just docs changes (I
-> > > know better than to think those patches must be perfect and won't
-> > > need revision.)
-> >=20
-> > The i915 code around this is already a big mess, and I don't really
-> > adding to that mess. So I think we'll need to do some refactoring before
-> > we add anything there. I already started typing something and so far
-> > it looks fairly straightforward, so I should have something soon.
->=20
-> OK, posted something
-> https://lore.kernel.org/intel-gfx/20260330235339.29479-1-ville.syrjala@li=
-nux.intel.com/T/#m7c349478ca6c856fbc68d5e2178f1aa31678a05f
+On Tue, 24 Mar 2026, Armin Wolf wrote:
 
-Thanks! I'll take a look at this today to get a more solid idea of
-where the pain points you highlighted are.
+> Some multicolor LEDs support global brightness control in hardware,
+> meaning that the maximum intensity of the color components is not
+> connected to the maximum global brightness. Such LEDs cannot be
+> described properly by the current multicolor LED class interface,
+> because it assumes that the maximum intensity of each color component
+> is described by the maximum global brightness of the LED.
+> 
+> Fix this by introducing a new sysfs attribute called
+> "multi_max_intensity" holding the maximum intensity values for the
+> color components of a multicolor LED class device. Drivers can use
+> the new max_intensity field inside struct mc_subled to tell the
+> multicolor LED class code about those values. Intensity values written
+> by userspace applications will be limited to this maximum value.
+> 
+> Drivers for multicolor LEDs that do not support global brightness
+> control in hardware might still want to use the maximum global LED
+> brightness supplied via devicetree as the maximum intensity of each
+> individual color component. Such drivers should set max_intensity
+> to 0 so that the multicolor LED core can act accordingly.
+> 
+> The lp50xx and ncp5623 LED drivers already use hardware-based control
+> for the global LED brightness. Modify those drivers to correctly
+> initalize .max_intensity to avoid being limited to the maximum global
+> brightness supplied via devicetree.
+> 
+> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
+> ---
+>  .../ABI/testing/sysfs-class-led-multicolor    | 19 ++++++--
+>  Documentation/leds/leds-class-multicolor.rst  | 21 ++++++++-
+>  drivers/leds/led-class-multicolor.c           | 47 ++++++++++++++++++-
+>  drivers/leds/leds-lp50xx.c                    |  1 +
+>  drivers/leds/rgb/leds-ncp5623.c               |  4 +-
+>  include/linux/led-class-multicolor.h          | 30 +++++++++++-
+>  6 files changed, 113 insertions(+), 9 deletions(-)
+> 
+> diff --git a/Documentation/ABI/testing/sysfs-class-led-multicolor b/Documentation/ABI/testing/sysfs-class-led-multicolor
+> index 16fc827b10cb..197da3e775b4 100644
+> --- a/Documentation/ABI/testing/sysfs-class-led-multicolor
+> +++ b/Documentation/ABI/testing/sysfs-class-led-multicolor
+> @@ -16,9 +16,22 @@ Date:		March 2020
+>  KernelVersion:	5.9
+>  Contact:	Dan Murphy <dmurphy@ti.com>
+>  Description:	read/write
+> -		This file contains array of integers. Order of components is
+> -		described by the multi_index array. The maximum intensity should
+> -		not exceed /sys/class/leds/<led>/max_brightness.
+> +		This file contains an array of integers. The order of components
+> +		is described by the multi_index array. The maximum intensity value
+> +		supported by each color component is described by the multi_max_intensity
+> +		file. Writing intensity values larger than the maximum value of a
+> +		given color component will result in those values being clamped.
+> +
+> +		For additional details please refer to
+> +		Documentation/leds/leds-class-multicolor.rst.
+> +
+> +What:		/sys/class/leds/<led>/multi_max_intensity
+> +Date:		March 2026
+> +KernelVersion:	7.1
+> +Contact:	Armin Wolf <W_Armin@gmx.de>
+> +Description:	read
+> +		This file contains an array of integers describing the maximum
+> +		intensity value for each intensity component.
+>  		For additional details please refer to
+>  		Documentation/leds/leds-class-multicolor.rst.
+> diff --git a/Documentation/leds/leds-class-multicolor.rst b/Documentation/leds/leds-class-multicolor.rst
+> index c6b47b4093c4..8f42f10078ad 100644
+> --- a/Documentation/leds/leds-class-multicolor.rst
+> +++ b/Documentation/leds/leds-class-multicolor.rst
+> @@ -25,10 +25,14 @@ color name to indexed value.
+>  The ``multi_index`` file is an array that contains the string list of the colors as
+>  they are defined in each ``multi_*`` array file.
+>  
+> -The ``multi_intensity`` is an array that can be read or written to for the
+> +The ``multi_intensity`` file is an array that can be read or written to for the
+>  individual color intensities.  All elements within this array must be written in
+>  order for the color LED intensities to be updated.
+>  
+> +The ``multi_max_intensity`` file is an array that contains the maximum intensity
+> +value supported by each color intensity. Intensity values above this will be
+> +automatically clamped into the supported range.
+> +
+>  Directory Layout Example
+>  ========================
+>  .. code-block:: console
+> @@ -38,6 +42,7 @@ Directory Layout Example
+>      -r--r--r--    1 root     root          4096 Oct 19 16:16 max_brightness
+>      -r--r--r--    1 root     root          4096 Oct 19 16:16 multi_index
+>      -rw-r--r--    1 root     root          4096 Oct 19 16:16 multi_intensity
+> +    -r--r--r--    1 root     root          4096 OCt 19 16:16 multi_max_intensity
 
-I'll also rebase/reimplement my i915 color format implementation
-(sans the DP-MST part, as discussed) on top of this on the next
-revision. I was never fully happy with the current one due to the
-logic being shoehorned into the already existing i915 fallback
-format logic, so I'm quite happy to have another opportunity to
-implement it with less historic baggage.
+Nit: Oct
 
-> Are the wayland/compositor/color management folks on board with
-> these new properties? I don't think I see the usual suspects on
-> the cc list.
+>  
+>  ..
+>  
+> @@ -104,3 +109,17 @@ the color LED group.
+>      128
+>  
+>  ..
+> +
+> +Writing intensity values larger than the maximum specified in ``multi_max_intensity``
+> +will result in those values being clamped into the supported range.
+> +
+> +.. code-block:: console
+> +
+> +   # cat /sys/class/leds/multicolor:status/multi_max_intensity
+> +   255 255 255
+> +
+> +   # echo 512 512 512 > /sys/class/leds/multicolor:status/multi_intensity
+> +   # cat /sys/class/leds/multicolor:status/multi_intensity
+> +   255 255 255
+> +
+> +..
+> diff --git a/drivers/leds/led-class-multicolor.c b/drivers/leds/led-class-multicolor.c
+> index 6b671f3f9c61..13a35e6a28df 100644
+> --- a/drivers/leds/led-class-multicolor.c
+> +++ b/drivers/leds/led-class-multicolor.c
+> @@ -7,10 +7,28 @@
+>  #include <linux/init.h>
+>  #include <linux/led-class-multicolor.h>
+>  #include <linux/math.h>
+> +#include <linux/minmax.h>
+>  #include <linux/module.h>
+>  #include <linux/slab.h>
+>  #include <linux/uaccess.h>
+>  
+> +static unsigned int led_mc_get_max_intensity(struct led_classdev_mc *mcled_cdev, size_t index)
+> +{
+> +	unsigned int max_intensity;
+> +
+> +	/* The maximum global brightness value might still be changed by
+> +	 * led_classdev_register_ext() using devicetree properties. This
+> +	 * prevents us from changing subled_info[X].max_intensity when
+> +	 * registering a multicolor LED class device, so we have to do
+> +	 * this during runtime.
+> +	 */
+> +	max_intensity = mcled_cdev->subled_info[index].max_intensity;
+> +	if (max_intensity)
+> +		return max_intensity;
+> +
+> +	return mcled_cdev->led_cdev.max_brightness;
+> +}
+> +
+>  int led_mc_calc_color_components(struct led_classdev_mc *mcled_cdev,
+>  				 enum led_brightness brightness)
+>  {
+> @@ -27,6 +45,27 @@ int led_mc_calc_color_components(struct led_classdev_mc *mcled_cdev,
+>  }
+>  EXPORT_SYMBOL_GPL(led_mc_calc_color_components);
+>  
+> +static ssize_t multi_max_intensity_show(struct device *dev,
+> +					struct device_attribute *intensity_attr, char *buf)
+> +{
+> +	struct led_classdev *led_cdev = dev_get_drvdata(dev);
+> +	struct led_classdev_mc *mcled_cdev = lcdev_to_mccdev(led_cdev);
+> +	unsigned int max_intensity;
+> +	int len = 0;
+> +	int i;
+> +
+> +	for (i = 0; i < mcled_cdev->num_colors; i++) {
+> +		max_intensity = led_mc_get_max_intensity(mcled_cdev, i);
+> +		len += sprintf(buf + len, "%u", max_intensity);
+> +		if (i < mcled_cdev->num_colors - 1)
+> +			len += sprintf(buf + len, " ");
+> +	}
 
-I don't know which precise group of people you refer to, but at
-least from the Collabora side of things, the userspace Wayland
-people are on board with these new properties. In Weston, we use
-it to implement the Weston frontend's "color-format" option in a
-WIP branch at
+This should be 'sysfs_emit_at()'.
 
-https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/1859
+> +
+> +	buf[len++] = '\n';
+> +	return len;
+> +}
+> +static DEVICE_ATTR_RO(multi_max_intensity);
+> +
+>  static ssize_t multi_intensity_store(struct device *dev,
+>  				struct device_attribute *intensity_attr,
+>  				const char *buf, size_t size)
+> @@ -35,6 +74,7 @@ static ssize_t multi_intensity_store(struct device *dev,
+>  	struct led_classdev_mc *mcled_cdev = lcdev_to_mccdev(led_cdev);
+>  	int nrchars, offset = 0;
+>  	unsigned int intensity_value[LED_COLOR_ID_MAX];
+> +	unsigned int max_intensity;
+>  	int i;
+>  	ssize_t ret;
+>  
+> @@ -56,8 +96,10 @@ static ssize_t multi_intensity_store(struct device *dev,
+>  		goto err_out;
+>  	}
+>  
+> -	for (i = 0; i < mcled_cdev->num_colors; i++)
+> -		mcled_cdev->subled_info[i].intensity = intensity_value[i];
+> +	for (i = 0; i < mcled_cdev->num_colors; i++) {
+> +		max_intensity = led_mc_get_max_intensity(mcled_cdev, i);
+> +		mcled_cdev->subled_info[i].intensity = min(intensity_value[i], max_intensity);
+> +	}
+>  
+>  	if (!test_bit(LED_BLINK_SW, &led_cdev->work_flags))
+>  		led_set_brightness(led_cdev, led_cdev->brightness);
+> @@ -111,6 +153,7 @@ static ssize_t multi_index_show(struct device *dev,
+>  static DEVICE_ATTR_RO(multi_index);
+>  
+>  static struct attribute *led_multicolor_attrs[] = {
+> +	&dev_attr_multi_max_intensity.attr,
+>  	&dev_attr_multi_intensity.attr,
+>  	&dev_attr_multi_index.attr,
+>  	NULL,
+> diff --git a/drivers/leds/leds-lp50xx.c b/drivers/leds/leds-lp50xx.c
+> index e2a9c8592953..69c3550f1a31 100644
+> --- a/drivers/leds/leds-lp50xx.c
+> +++ b/drivers/leds/leds-lp50xx.c
+> @@ -525,6 +525,7 @@ static int lp50xx_probe_dt(struct lp50xx *priv)
+>  			}
+>  
+>  			mc_led_info[multi_index].color_index = color_id;
+> +			mc_led_info[multi_index].max_intensity = 255;
+>  			num_colors++;
+>  		}
+>  
+> diff --git a/drivers/leds/rgb/leds-ncp5623.c b/drivers/leds/rgb/leds-ncp5623.c
+> index 85d6be6fff2b..f2528f06507d 100644
+> --- a/drivers/leds/rgb/leds-ncp5623.c
+> +++ b/drivers/leds/rgb/leds-ncp5623.c
+> @@ -56,8 +56,7 @@ static int ncp5623_brightness_set(struct led_classdev *cdev,
+>  	for (int i = 0; i < mc_cdev->num_colors; i++) {
+>  		ret = ncp5623_write(ncp->client,
+>  				    NCP5623_PWM_REG(mc_cdev->subled_info[i].channel),
+> -				    min(mc_cdev->subled_info[i].intensity,
+> -					NCP5623_MAX_BRIGHTNESS));
+> +				    mc_cdev->subled_info[i].intensity);
+>  		if (ret)
+>  			return ret;
+>  	}
+> @@ -190,6 +189,7 @@ static int ncp5623_probe(struct i2c_client *client)
+>  			goto release_led_node;
+>  
+>  		subled_info[ncp->mc_dev.num_colors].channel = reg;
+> +		subled_info[ncp->mc_dev.num_colors].max_intensity = NCP5623_MAX_BRIGHTNESS;
+>  		subled_info[ncp->mc_dev.num_colors++].color_index = color_index;
+>  	}
+>  
+> diff --git a/include/linux/led-class-multicolor.h b/include/linux/led-class-multicolor.h
+> index db9f34c6736e..26f6d20b887d 100644
+> --- a/include/linux/led-class-multicolor.h
+> +++ b/include/linux/led-class-multicolor.h
+> @@ -9,10 +9,31 @@
+>  #include <linux/leds.h>
+>  #include <dt-bindings/leds/common.h>
+>  
+> +/**
+> + * struct mc_subled - Color component description.
+> + * @color_index: Color ID.
+> + * @brightness: Scaled intensity.
+> + * @intensity: Current intensity.
+> + * @max_intensity: Maximum supported intensity value.
+> + * @channel: Channel index.
+> + *
+> + * Describes a color component of a multicolor LED. Many multicolor LEDs
+> + * do no support gobal brightness control in hardware, so they use
+> + * the brightness field in connection with led_mc_calc_color_components()
+> + * to perform the intensity scaling in software.
+> + * Such drivers should set max_intensity to 0 to signal the multicolor LED core
+> + * that the maximum global brightness of the LED class device should be used for
+> + * limiting incoming intensity values.
+> + *
+> + * Multicolor LEDs that do support global brightness control in hardware
+> + * should instead set max_intensity to the maximum intensity value supported
+> + * by the hardware for a given color component.
+> + */
+>  struct mc_subled {
+>  	unsigned int color_index;
+>  	unsigned int brightness;
+>  	unsigned int intensity;
+> +	unsigned int max_intensity;
+>  	unsigned int channel;
+>  };
+>  
+> @@ -53,7 +74,14 @@ int led_classdev_multicolor_register_ext(struct device *parent,
+>   */
+>  void led_classdev_multicolor_unregister(struct led_classdev_mc *mcled_cdev);
+>  
+> -/* Calculate brightness for the monochrome LED cluster */
+> +/**
+> + * led_mc_calc_color_components() - Calculates component brightness values of a LED cluster.
+> + * @mcled_cdev - Multicolor LED class device of the LED cluster.
+> + * @led_brightness - Global brightness of the LED cluster.
 
-I've also been made aware that LibreELEC is aware, and will look
-into making use of it rather than their own kernel patches.
+The header comment does not match the parameters.
 
-Kind regards,
-Nicolas Frattaroli
+Make sure you compile with W=1 to catch kernel-doc issues.
 
-> >=20
-> > While doing that several questions came to my mind though:
-> >=20
-> > * More interactions with the colorspace property, but I sent
-> >   a separate mail already about that
-> >=20
-> > * Which conversion matrix to use, and the answer I suspect
-> >   should be "ask the colorspace property", as mentioned in the
-> >   other mail
-> >=20
-> > * Should we flat out reject color formats (and I suppose also
-> >   colorspace prop values) the sink doesn't claim to support?
-> >=20
-> >   If yes, then I think we'll have to forget about adding anything=20
-> >   to i915 MST code. The way the MST stuff works is that if one
-> >   stream needs a modeset then all the related streams get modeset
-> >   as well. Thus if the user replaces a monitor getting fed with a
-> >   YCbCr stream just as another stream is being modeset, then the
-> >   entire atomic commit could fail due to the YCbCr stream getting
-> >   rejected.
-> >=20
-> >   I think eventually we might have to invent some mechanism where
-> >   all the input into the modeset computation is cached somehow,
-> >   and said cache updated only on explicit userspace modesets.
-> >   Either that or we have to come up  with a way to skip some of
-> >   the calculations that depend on external factors. Either way
-> >   it's going to be a pain.
-> >=20
-> >   OTOH if we don't mind feeding the sink with stuff it can't
-> >   understand, then I suppose we might add YCbCr 4:4:4 support
-> >   for MST. It shouldn't be any different from RGB apart from
-> >   the RGB->YCbCr conversion, which is handled elsewhere. But
-> >   YCbCr 4:2:0 is definitely out either way, the MST code has
-> >   no support for that currently.
-> >=20
->=20
->=20
+> + * Calculates the brightness values for each color component of a monochrome LED cluster,
+> + * see Documentation/leds/leds-class-multicolor.rst for details.
+> + */
+>  int led_mc_calc_color_components(struct led_classdev_mc *mcled_cdev,
+>  				 enum led_brightness brightness);
+>  
+> -- 
+> 2.39.5
+> 
+> 
 
-
-
-
+-- 
+Lee Jones [李琼斯]
