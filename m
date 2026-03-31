@@ -1,220 +1,317 @@
-Received: from a48-181.smtp-out.amazonses.com (a48-181.smtp-out.amazonses.com [54.240.48.181])
-	(using TLSv1.2 with cipher AES128-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C3D32BD59C;
-	Tue, 31 Mar 2026 12:39:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.240.48.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB2191A6806;
+	Tue, 31 Mar 2026 12:43:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774960797; cv=none; b=tpIBs0Lo6A4TVqDpBmpi8eqvVgBqZEZEk1slBEKIXwO3ZMEypeKadyjbtsWTBEXnTIMdJ4DHzbIP1Sw8Ea04lBsfP0/5oLzj1+aKi1hbxQOQhAV4a/gelL7GChleFl0bzeJCX9FKz+JikEe5VBomoSeMKyzw6MTvPtpboi7IbYA=
+	t=1774961007; cv=none; b=L37uChWPkD9OvmvcSPSoCEhEKwG6W7S5UZeH9MTVhEdskrRACPs+rxt85gdayJpSbQ4m584ZYjTefQH6ZnKNrBK1eWzqiKH0iMVEUnYh07UX7jl0vxXxA+OCETII3x8brU6jWdXVzCHXKYQS0gQDvS4+etY5VJevWatm1MEWWS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774960797; c=relaxed/simple;
-	bh=UWJrLX9CAMwzcYus/kRz5lyJzPtm88Tt+77VC3p1iNs=;
-	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:In-Reply-To:
-	 References:Message-ID; b=dlX8u/Tb/jn1D9dT7p+Tm4bCQMBZ0xtYcubbxRUz5dlSqRTC8AIcjrorgWej3ehQaT1FT44XmQo3dd2jopLpzvm91nU1j8LZOj6d+OCcSvrhjLLu8mj1B/x9X2M11+HlN8gz28SzrCw7G6E+j1jeUB4Ii68Er/xJ41IWMxxnpW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jagalactic.com; spf=pass smtp.mailfrom=amazonses.com; dkim=pass (1024-bit key) header.d=jagalactic.com header.i=@jagalactic.com header.b=JI3VcEqy; dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b=PtTCa7A/; arc=none smtp.client-ip=54.240.48.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jagalactic.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazonses.com
+	s=arc-20240116; t=1774961007; c=relaxed/simple;
+	bh=dYuo0JHU26XNwZMXq7fw/G7Hf02Vz1E1GQFgQKKjCqc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=BMRKRLRSfLnD1YFrLy4hXCpiQJBsSTVPRb3RDWKE07CCGXhV4aHMQTHc/MLD2f1fJ1PB0IN7g0XEDpI/J2Tth37E0cVZJopVlybJSiEeiirHQpk33aYqNpWCtwdyHWO8f9A0o/CLX0OKp6hz+ZadePNrfDtxHv85HG4IWtkGdfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N7RxQl2j; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=jagalactic.com header.i=@jagalactic.com header.b="JI3VcEqy";
-	dkim=pass (1024-bit key) header.d=amazonses.com header.i=@amazonses.com header.b="PtTCa7A/"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=o25mqk5iffcfzgc3wo2zjhkohcyjzsoq; d=jagalactic.com; t=1774960795;
-	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:References:Message-Id;
-	bh=UWJrLX9CAMwzcYus/kRz5lyJzPtm88Tt+77VC3p1iNs=;
-	b=JI3VcEqyNA0hC1YOk+gfRNzqkgk2YATCWx2PCan3tgCwhtjdf+VeoDXKvyqgAD4T
-	hUMnz/DcOpavoKzkOsV43pFqxQ7SF+bCUmWwGEBXvf82YgXGGf3FFCI/ZS5UA+DEyRN
-	U19kEzHQEvOeOlYKrHLA2p9AOWWCvuKaxKGxMUZM=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=224i4yxa5dv7c2xz3womw6peuasteono; d=amazonses.com; t=1774960795;
-	h=Subject:From:To:Cc:Date:Mime-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:References:Message-Id:Feedback-ID;
-	bh=UWJrLX9CAMwzcYus/kRz5lyJzPtm88Tt+77VC3p1iNs=;
-	b=PtTCa7A/o5EhcydpUAGDrtMVDUmxWIS0TgGel2YzqVBc8HGZnMKBWWAmLpOsjkxA
-	n1eeeG802AVcanEdigRQsxhO7CV8bzl4o6/mp7oXdq4QWJvm8lbDfxmJOlewWqOOI14
-	7w1oaXyBz2r4PwXFi+qMcOryZmYnWTWG7cI+UB1U=
-Subject: [PATCH V10 10/10] famfs_fuse: Add documentation
-From: =?UTF-8?Q?John_Groves?= <john@jagalactic.com>
-To: =?UTF-8?Q?John_Groves?= <John@Groves.net>, 
-	=?UTF-8?Q?Miklos_Szeredi?= <miklos@szeredi.hu>, 
-	=?UTF-8?Q?Dan_Williams?= <dan.j.williams@intel.com>, 
-	=?UTF-8?Q?Bernd_Schubert?= <bschubert@ddn.com>, 
-	=?UTF-8?Q?Alison_Schofiel?= =?UTF-8?Q?d?= <alison.schofield@intel.com>
-Cc: =?UTF-8?Q?John_Groves?= <jgroves@micron.com>, 
-	=?UTF-8?Q?Jonathan_Corbe?= =?UTF-8?Q?t?= <corbet@lwn.net>, 
-	=?UTF-8?Q?Shuah_Khan?= <skhan@linuxfoundation.org>, 
-	=?UTF-8?Q?Vishal_Verma?= <vishal.l.verma@intel.com>, 
-	=?UTF-8?Q?Dave_Jiang?= <dave.jiang@intel.com>, 
-	=?UTF-8?Q?Matthew_Wilcox?= <willy@infradead.org>, 
-	=?UTF-8?Q?Jan_Kara?= <jack@suse.cz>, 
-	=?UTF-8?Q?Alexander_Viro?= <viro@zeniv.linux.org.uk>, 
-	=?UTF-8?Q?David_Hildenbrand?= <david@kernel.org>, 
-	=?UTF-8?Q?Christian_Bra?= =?UTF-8?Q?uner?= <brauner@kernel.org>, 
-	=?UTF-8?Q?Darrick_J_=2E_Wong?= <djwong@kernel.org>, 
-	=?UTF-8?Q?Randy_Dunlap?= <rdunlap@infradead.org>, 
-	=?UTF-8?Q?Jeff_Layton?= <jlayton@kernel.org>, 
-	=?UTF-8?Q?Amir_Goldstein?= <amir73il@gmail.com>, 
-	=?UTF-8?Q?Jonathan_Cameron?= <Jonathan.Cameron@huawei.com>, 
-	=?UTF-8?Q?Stefan_Hajnoczi?= <shajnocz@redhat.com>, 
-	=?UTF-8?Q?Joanne_Koong?= <joannelkoong@gmail.com>, 
-	=?UTF-8?Q?Josef_Bacik?= <josef@toxicpanda.com>, 
-	=?UTF-8?Q?Bagas_Sanjaya?= <bagasdotme@gmail.com>, 
-	=?UTF-8?Q?Chen_Linxuan?= <chenlinxuan@uniontech.com>, 
-	=?UTF-8?Q?James_Morse?= <james.morse@arm.com>, 
-	=?UTF-8?Q?Fuad_Tabba?= <tabba@google.com>, 
-	=?UTF-8?Q?Sean_Christopherson?= <seanjc@google.com>, 
-	=?UTF-8?Q?Shivank_Garg?= <shivankg@amd.com>, 
-	=?UTF-8?Q?Ackerley_Tng?= <ackerleytng@google.com>, 
-	=?UTF-8?Q?Gregory_Pric?= =?UTF-8?Q?e?= <gourry@gourry.net>, 
-	=?UTF-8?Q?Aravind_Ramesh?= <arramesh@micron.com>, 
-	=?UTF-8?Q?Ajay_Joshi?= <ajayjoshi@micron.com>, 
-	=?UTF-8?Q?venkataravis=40micron=2Ecom?= <venkataravis@micron.com>, 
-	=?UTF-8?Q?linux-doc=40vger=2Ekernel=2Eorg?= <linux-doc@vger.kernel.org>, 
-	=?UTF-8?Q?linux-kernel=40vger=2Ekernel=2Eorg?= <linux-kernel@vger.kernel.org>, 
-	=?UTF-8?Q?nvdimm=40lists=2Elinux=2Edev?= <nvdimm@lists.linux.dev>, 
-	=?UTF-8?Q?linux-cxl=40vger=2Ekernel=2Eorg?= <linux-cxl@vger.kernel.org>, 
-	=?UTF-8?Q?linux-fsdevel=40vger=2Ekernel=2Eorg?= <linux-fsdevel@vger.kernel.org>, 
-	=?UTF-8?Q?John_Groves?= <john@groves.net>, 
-	=?UTF-8?Q?Jonathan_Cameron?= <jonathan.cameron@huawei.com>
-Date: Tue, 31 Mar 2026 12:39:55 +0000
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N7RxQl2j"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774961005; x=1806497005;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=dYuo0JHU26XNwZMXq7fw/G7Hf02Vz1E1GQFgQKKjCqc=;
+  b=N7RxQl2jVFCaW1lA+TkpA/Kfx9wppaMst5EKR0feBfev1M1sPnqd/mEH
+   H5MVFEez3SGtQWbShL6mIJNw6079kK4RKb52yQr2KGWDdVWZnotvLQMcE
+   ShJpab9jWFnqL5rtaTD5XG+jXFO5ejbpyWTLzmwuWGfpvPn5JUo7eOV39
+   8kX1o4oPnNp9dyey1DMtp04Qz2k0ED4ljSkd7pLjOcUB36MsZBnaLnmDa
+   UKPAdX9NiVVZbV3veH6UAznh+P2PMhw+R80vs+kbtEAszQFsuAsr+29EO
+   iYY5Onn9fHqQfgG/yI8LtacbBYvQI9xD0B7fpPx4s1cg/yJRdVW3Npefy
+   g==;
+X-CSE-ConnectionGUID: Lh9XLj5vR12Eh4iY0AlGPg==
+X-CSE-MsgGUID: PcuqlvG4TU6fViL57X5jkQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11745"; a="76084404"
+X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
+   d="scan'208";a="76084404"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 05:43:15 -0700
+X-CSE-ConnectionGUID: Ogm76+p+Tp6j9DA+Jz8giQ==
+X-CSE-MsgGUID: iOQSja9jSWOyDcZKUPGqAw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
+   d="scan'208";a="221492076"
+Received: from 984fee019967.jf.intel.com ([10.23.153.244])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 05:43:14 -0700
+From: Chao Gao <chao.gao@intel.com>
+To: kvm@vger.kernel.org,
+	linux-coco@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	x86@kernel.org
+Cc: binbin.wu@linux.intel.com,
+	dan.j.williams@intel.com,
+	dave.hansen@linux.intel.com,
+	ira.weiny@intel.com,
+	kai.huang@intel.com,
+	kas@kernel.org,
+	nik.borisov@suse.com,
+	paulmck@kernel.org,
+	pbonzini@redhat.com,
+	reinette.chatre@intel.com,
+	rick.p.edgecombe@intel.com,
+	sagis@google.com,
+	seanjc@google.com,
+	tony.lindgren@linux.intel.com,
+	vannapurve@google.com,
+	vishal.l.verma@intel.com,
+	yilun.xu@linux.intel.com,
+	xiaoyao.li@intel.com,
+	yan.y.zhao@intel.com,
+	Chao Gao <chao.gao@intel.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Thomas Gleixner <tglx@kernel.org>
+Subject: [PATCH v7 00/22] Runtime TDX module update support
+Date: Tue, 31 Mar 2026 05:41:13 -0700
+Message-ID: <20260331124214.117808-1-chao.gao@intel.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: 
- <0100019d43e5f632-f5862a3e-361c-4b54-a9a6-96c242a8f17a-000000@email.amazonses.com>
-References: 
- <0100019d43e5f632-f5862a3e-361c-4b54-a9a6-96c242a8f17a-000000@email.amazonses.com> 
- <20260331123941.35259-1-john@jagalactic.com>
-X-Mailer: Amazon WorkMail
-Thread-Index: AQHcwQsa9c5CQiOAQiO0uvZd0I9uvwAAF75Y
-Thread-Topic: [PATCH V10 10/10] famfs_fuse: Add documentation
-X-Wm-Sent-Timestamp: 1774960794
-X-Original-Mailer: git-send-email 2.52.0
-Message-ID: <0100019d43e85e43-a275df00-3e8d-4a93-8091-73ea6394a325-000000@email.amazonses.com>
-Feedback-ID: ::1.us-east-1.LF00NED762KFuBsfzrtoqw+Brn/qlF9OYdxWukAhsl8=:AmazonSES
-X-SES-Outgoing: 2026.03.31-54.240.48.181
+Content-Transfer-Encoding: 8bit
 
-From: John Groves <john@groves.net>=0D=0A=0D=0AAdd Documentation/filesyst=
-ems/famfs.rst and update MAINTAINERS=0D=0A=0D=0AReviewed-by: Randy Dunlap=
- <rdunlap@infradead.org>=0D=0ATested-by: Randy Dunlap <rdunlap@infradead.=
-org>=0D=0AReviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>=0D=0A=
-Signed-off-by: John Groves <john@groves.net>=0D=0A---=0D=0A Documentation=
-/filesystems/famfs.rst | 142 ++++++++++++++++++++++++++++=0D=0A Documenta=
-tion/filesystems/index.rst |   1 +=0D=0A MAINTAINERS                     =
-    |   1 +=0D=0A 3 files changed, 144 insertions(+)=0D=0A create mode 10=
-0644 Documentation/filesystems/famfs.rst=0D=0A=0D=0Adiff --git a/Document=
-ation/filesystems/famfs.rst b/Documentation/filesystems/famfs.rst=0D=0Ane=
-w file mode 100644=0D=0Aindex 000000000000..d90ce96d6fda=0D=0A--- /dev/nu=
-ll=0D=0A+++ b/Documentation/filesystems/famfs.rst=0D=0A@@ -0,0 +1,142 @@=0D=
-=0A+.. SPDX-License-Identifier: GPL-2.0=0D=0A+=0D=0A+.. _famfs_index:=0D=0A=
-+=0D=0A+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=0D=0A+famfs: Th=
-e fabric-attached memory file system=0D=0A+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=0D=0A+=0D=0A+- Copyright (C) 2024-2026 Micron Technolo=
-gy, Inc.=0D=0A+=0D=0A+Introduction=0D=0A+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=0D=0A+Compute Express Link (CXL) provides a mechanism for disaggregat=
-ed or=0D=0A+fabric-attached memory (FAM). This creates opportunities for =
-data sharing;=0D=0A+clustered apps that would otherwise have to shard or =
-replicate data can=0D=0A+share one copy in disaggregated memory.=0D=0A+=0D=
-=0A+Famfs, which is not CXL-specific in any way, provides a mechanism for=
-=0D=0A+multiple hosts to concurrently access data in shared memory, by gi=
-ving it=0D=0A+a file system interface. With famfs, any app that understan=
-ds files can=0D=0A+access data sets in shared memory. Although famfs supp=
-orts read and write,=0D=0A+the real point is to support mmap, which provi=
-des direct (dax) access to=0D=0A+the memory - either writable or read-onl=
-y.=0D=0A+=0D=0A+Shared memory can pose complex coherency and synchronizat=
-ion issues, but=0D=0A+there are also simple cases. Two simple and eminent=
-ly useful patterns that=0D=0A+occur frequently in data analytics and AI a=
-re:=0D=0A+=0D=0A+* Serial Sharing - Only one host or process at a time ha=
-s access to a file=0D=0A+* Read-only Sharing - Multiple hosts or processe=
-s share read-only access=0D=0A+  to a file=0D=0A+=0D=0A+The famfs fuse fi=
-le system is part of the famfs framework; user space=0D=0A+components [1]=
- handle metadata allocation and distribution, and provide a=0D=0A+low-lev=
-el fuse server to expose files that map directly to [presumably=0D=0A+sha=
-red] memory.=0D=0A+=0D=0A+The famfs framework manages coherency of its ow=
-n metadata and structures,=0D=0A+but does not attempt to manage coherency=
- for applications.=0D=0A+=0D=0A+Famfs also provides data isolation betwee=
-n files. That is, even though=0D=0A+the host has access to an entire memo=
-ry "device" (as a devdax device), apps=0D=0A+cannot write to memory for w=
-hich the file is read-only, and mapping one=0D=0A+file provides isolation=
- from the memory of all other files. This is pretty=0D=0A+basic, but some=
- experimental shared memory usage patterns provide no such=0D=0A+isolatio=
-n.=0D=0A+=0D=0A+Principles of Operation=0D=0A+=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=0D=0A+=0D=0A+Famfs is a file s=
-ystem with one or more devdax devices as a first-class=0D=0A+backing devi=
-ce(s). Metadata maintenance and query operations happen=0D=0A+entirely in=
- user space.=0D=0A+=0D=0A+The famfs low-level fuse server daemon provides=
- file maps (fmaps) and=0D=0A+devdax device info to the fuse/famfs kernel =
-component so that=0D=0A+read/write/mapping faults can be handled without =
-up-calls for all active=0D=0A+files.=0D=0A+=0D=0A+The famfs user space is=
- responsible for maintaining and distributing=0D=0A+consistent metadata. =
-This is currently handled via an append-only=0D=0A+metadata log within th=
-e memory, but this is orthogonal to the fuse/famfs=0D=0A+kernel code.=0D=0A=
-+=0D=0A+Once instantiated, "the same file" on each host points to the sam=
-e shared=0D=0A+memory, but in-memory metadata (inodes, etc.) is ephemeral=
- on each host=0D=0A+that has a famfs instance mounted. Use cases are free=
- to allow or not=0D=0A+allow mutations to data on a file-by-file basis.=0D=
-=0A+=0D=0A+When an app accesses a data object in a famfs file, there is n=
-o page cache=0D=0A+involvement. The CPU cache is loaded directly from the=
- shared memory. In=0D=0A+some use cases, this is an enormous reduction in=
- read amplification=0D=0A+compared to loading an entire page into the pag=
-e cache.=0D=0A+=0D=0A+=0D=0A+Famfs is Not a Conventional File System=0D=0A=
-+---------------------------------------=0D=0A+=0D=0A+Famfs files can be =
-accessed by conventional means, but there are=0D=0A+limitations. The kern=
-el component of fuse/famfs is not involved in the=0D=0A+allocation of bac=
-king memory for files at all; the famfs user space=0D=0A+creates files an=
-d responds as a low-level fuse server with fmaps and=0D=0A+devdax device =
-info upon request.=0D=0A+=0D=0A+Famfs differs in some important ways from=
- conventional file systems:=0D=0A+=0D=0A+* Files must be pre-allocated by=
- the famfs framework; allocation is never=0D=0A+  performed on (or after)=
- write.=0D=0A+* Any operation that changes a file's size is considered to=
- put the file=0D=0A+  in an invalid state, disabling access to the data. =
-It may be possible to=0D=0A+  revisit this in the future. (Typically the =
-famfs user space can restore=0D=0A+  files to a valid state by replaying =
-the famfs metadata log.)=0D=0A+=0D=0A+Famfs exists to apply the existing =
-file system abstractions to shared=0D=0A+memory so applications and workf=
-lows can more easily adapt to an=0D=0A+environment with disaggregated sha=
-red memory.=0D=0A+=0D=0A+Memory Error Handling=0D=0A+=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=0D=0A+=0D=0A+Possible memory e=
-rrors include timeouts, poison, and unexpected=0D=0A+reconfiguration of a=
-n underlying dax device. In all of these cases, famfs=0D=0A+receives a ca=
-ll from the devdax layer via its iomap_ops->notify_failure()=0D=0A+functi=
-on. If any memory errors have been detected, access to the affected=0D=0A=
-+daxdev is disabled to avoid further errors or corruption.=0D=0A+=0D=0A+I=
-n all known cases, famfs can be unmounted cleanly. In most cases errors=0D=
-=0A+can be cleared by re-initializing the memory - at which point a new f=
-amfs=0D=0A+file system can be created.=0D=0A+=0D=0A+Key Requirements=0D=0A=
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=0D=0A+=0D=0A+The primar=
-y requirements for famfs are:=0D=0A+=0D=0A+1. Must support a file system =
-abstraction backed by sharable devdax memory=0D=0A+2. Files must efficien=
-tly handle VMA faults=0D=0A+3. Must support metadata distribution in a sh=
-arable way=0D=0A+4. Must handle clients with a stale copy of metadata=0D=0A=
-+=0D=0A+The famfs kernel component takes care of 1-2 above by caching eac=
-h file's=0D=0A+mapping metadata in the kernel.=0D=0A+=0D=0A+Requirements =
-3 and 4 are handled by the user space components, and are=0D=0A+largely o=
-rthogonal to the functionality of the famfs kernel module.=0D=0A+=0D=0A+R=
-equirements 3 and 4 cannot be met by conventional fs-dax file systems=0D=0A=
-+(e.g. xfs) because they use write-back metadata; it is not valid to moun=
-t=0D=0A+such a file system on two hosts from the same in-memory image.=0D=
-=0A+=0D=0A+=0D=0A+Famfs Usage=0D=0A+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=0D=0A=
-+=0D=0A+Famfs usage is documented at [1].=0D=0A+=0D=0A+=0D=0A+References=0D=
-=0A+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=0D=0A+=0D=0A+- [1] Famfs user space re=
-pository and documentation=0D=0A+      https://github.com/cxl-micron-resk=
-it/famfs=0D=0Adiff --git a/Documentation/filesystems/index.rst b/Document=
-ation/filesystems/index.rst=0D=0Aindex f4873197587d..e6fb467c1680 100644=0D=
-=0A--- a/Documentation/filesystems/index.rst=0D=0A+++ b/Documentation/fil=
-esystems/index.rst=0D=0A@@ -89,6 +89,7 @@ Documentation for filesystem im=
-plementations.=0D=0A    ext3=0D=0A    ext4/index=0D=0A    f2fs=0D=0A+   f=
-amfs=0D=0A    gfs2/index=0D=0A    hfs=0D=0A    hfsplus=0D=0Adiff --git a/=
-MAINTAINERS b/MAINTAINERS=0D=0Aindex 4edb56afb947..739388d290c1 100644=0D=
-=0A--- a/MAINTAINERS=0D=0A+++ b/MAINTAINERS=0D=0A@@ -10529,6 +10529,7 @@ =
-M:=09John Groves <John@Groves.net>=0D=0A L:=09linux-cxl@vger.kernel.org=0D=
-=0A L:=09linux-fsdevel@vger.kernel.org=0D=0A S:=09Supported=0D=0A+F:=09Do=
-cumentation/filesystems/famfs.rst=0D=0A F:=09fs/fuse/famfs.c=0D=0A F:=09f=
-s/fuse/famfs_kfmap.h=0D=0A=20=0D=0A--=20=0D=0A2.53.0=0D=0A=0D=0A
+Hi Reviewers,
+
+This v7 is mainly to fix a few valid issues identified by Sashiko
+(https://sashiko.dev/#/patchset/20260326084448.29947-1-chao.gao%40intel.com)
+
+Patch 06/12/17 need a second review. All other patches have a few RBs.
+
+I believe this series is quite mature and self-contained — it has no impact
+on the rest of the kernel unless an update is triggered through the dedicated
+sysfs ABIs. I'm hoping it can be merged for 7.1.
+
+Changelog:
+v6->v7:
+ - rebase onto the latest tip/x86/tdx branch
+ - move TDX_VERSION_FMT to <asm/tdx.h> and use it in all version prints
+ - only refresh update_version post-update since major/minor don't change
+   across updates
+ - use TDX_MODULE_ERROR instead of TDX_MODULE_UNINITIALIZED after shutdown
+   to prevent re-initialization
+ - add error logging for TDH_SYS_SHUTDOWN failure
+ - hold cpus_read_lock() before updates to prevent CPU hotplug race
+ - validate blob signature, reserved fields, and 4KB alignment
+ - fix documentation typos
+ - other minor comment and changelog improvements
+ - collect review tags from Kiryl/Xiaoyao
+ - v6: https://lore.kernel.org/kvm/20260326084448.29947-1-chao.gao@intel.com/
+
+(For transparency, note that I used AI tools to help proofread this
+cover-letter and commit messages)
+
+This series adds support for runtime TDX module updates that preserve
+running TDX guests. It is also available at:
+
+  https://github.com/gaochaointel/linux-dev/commits/tdx-module-updates-v7/
+
+== Background ==
+
+Intel TDX isolates Trusted Domains (TDs), or confidential guests, from the
+host. A key component of Intel TDX is the TDX module, which enforces
+security policies to protect the memory and CPU states of TDs from the
+host. However, the TDX module is software that requires updates.
+
+== Problems ==
+
+Currently, the TDX module is loaded by the BIOS at boot time, and the only
+way to update it is through a reboot, which results in significant system
+downtime. Users expect the TDX module to be updatable at runtime without
+disrupting TDX guests.
+
+== Solution ==
+
+On TDX platforms, P-SEAMLDR[1] is a component within the protected SEAM
+range. It is loaded by the BIOS and provides the host with functions to
+install a TDX module at runtime.
+
+Implement a TDX module update facility via the fw_upload mechanism. Given
+that there is variability in which module update to load based on features,
+fix levels, and potentially reloading the same version for error recovery
+scenarios, the explicit userspace chosen payload flexibility of fw_upload
+is attractive.
+
+This design allows the kernel to accept a bitstream instead of loading a
+named file from the filesystem, as the module selection and policy
+enforcement for TDX modules are quite complex (see patch "coco/tdx-host:
+Implement firmware upload sysfs ABI for TDX module updates"). By doing
+so, much of this complexity is shifted out of the kernel. The kernel
+needs to expose information, such as the TDX module version, to
+userspace.  Userspace must understand the TDX module versioning scheme
+and update policy to select the appropriate TDX module (see "TDX module
+Versioning" below).
+
+In the unlikely event the update fails, for example userspace picks an
+incompatible update image, or the image is otherwise corrupted, all TDs
+will experience SEAMCALL failures and be killed. The recovery of TD
+operation from that event requires a reboot.
+
+Given there is no mechanism to quiesce SEAMCALLs, the TDs themselves must
+pause execution over an update. The most straightforward way to meet the
+'pause TDs while update executes' constraint is to run the update in
+stop_machine() context. All other evaluated solutions export more
+complexity to KVM, or exports more fragility to userspace.
+
+== How to test this series ==
+
+First, load kvm-intel.ko and tdx-host.ko if they haven't been loaded:
+
+ # modprobe -r kvm_intel
+ # modprobe kvm_intel tdx=1
+ # modprobe tdx-host
+
+Then, use the userspace tool below to select the appropriate TDX module and
+install it via the interfaces exposed by this series:
+
+ # git clone https://github.com/intel/tdx-module-binaries
+ # cd tdx-module-binaries
+ # python version_select_and_load.py --update
+
+this version changes the firmware directory name from seamldr_upload to
+tdx_module, so, below change should be applied to version_select_and_load.py:
+
+diff --git a/version_select_and_load.py b/version_select_and_load.py
+index 2193bd8..6a3b604 100644
+--- a/version_select_and_load.py
++++ b/version_select_and_load.py
+@@ -38,7 +38,7 @@ except ImportError:
+     print("Error: cpuid module is not installed. Please install it using 'pip install cpuid'")
+     sys.exit(1)
+
+-FIRMWARE_PATH = "/sys/class/firmware/seamldr_upload"
++FIRMWARE_PATH = "/sys/class/firmware/tdx_module"
+ MODULE_PATH = "/sys/devices/faux/tdx_host"
+ SEAMLDR_PATH = "/sys/devices/faux/tdx_host/seamldr"
+ allow_debug = False
+
+
+== Other information relevant to Runtime TDX module updates ==
+
+=== TDX module versioning ===
+
+Each TDX module is assigned a version number x.y.z, where x represents the
+"major" version, y the "minor" version, and z the "update" version.
+
+Runtime TDX module updates are restricted to Z-stream releases.
+
+Note that Z-stream releases do not necessarily guarantee compatibility. A
+new release may not be compatible with all previous versions. To address this,
+Intel provides a separate file containing compatibility information, which
+specifies the minimum module version required for a particular update. This
+information is referenced by the tool to determine if two modules are
+compatible.
+
+=== TCB Stability ===
+
+Updates change the TCB as viewed by attestation reports. In TDX there is
+a distinction between launch-time version and current version where
+runtime TDX module updates cause that latter version number to change,
+subject to Z-stream constraints.
+
+The concern that a malicious host may attack confidential VMs by loading
+insecure updates was addressed by Alex in [3]. Similarly, the scenario
+where some "theoretical paranoid tenant" in the cloud wants to audit
+updates and stop trusting the host after updates until audit completion
+was also addressed in [4]. Users not in the cloud control the host machine
+and can manage updates themselves, so they don't have these concerns.
+
+See more about the implications of current TCB version changes in
+attestation as summarized by Dave in [5].
+
+=== TDX module Distribution Model ===
+
+At a high level, Intel publishes all TDX modules on the github [2], along
+with a mapping_file.json which documents the compatibility information
+about each TDX module and a userspace tool to install the TDX module. OS
+vendors can package these modules and distribute them. Administrators
+install the package and use the tool to select the appropriate TDX module
+and install it via the interfaces exposed by this series.
+
+[1]: https://cdrdv2.intel.com/v1/dl/getContent/733584
+[2]: https://github.com/intel/tdx-module-binaries
+[3]: https://lore.kernel.org/all/665c5ae0-4b7c-4852-8995-255adf7b3a2f@amazon.com/
+[4]: https://lore.kernel.org/all/5d1da767-491b-4077-b472-2cc3d73246d6@amazon.com/
+[5]: https://lore.kernel.org/all/94d6047e-3b7c-4bc1-819c-85c16ff85abf@intel.com/
+
+
+Chao Gao (21):
+  coco/tdx-host: Introduce a "tdx_host" device
+  coco/tdx-host: Expose TDX module version
+  x86/virt/seamldr: Introduce a wrapper for P-SEAMLDR SEAMCALLs
+  x86/virt/seamldr: Add a helper to retrieve P-SEAMLDR information
+  coco/tdx-host: Expose P-SEAMLDR information via sysfs
+  coco/tdx-host: Implement firmware upload sysfs ABI for TDX module
+    updates
+  x86/virt/seamldr: Allocate and populate a module update request
+  x86/virt/seamldr: Introduce skeleton for TDX module updates
+  x86/virt/seamldr: Abort updates if errors occurred midway
+  x86/virt/seamldr: Shut down the current TDX module
+  x86/virt/tdx: Reset software states during TDX module shutdown
+  x86/virt/seamldr: Install a new TDX module
+  x86/virt/seamldr: Do TDX per-CPU initialization after updates
+  x86/virt/tdx: Restore TDX module state
+  x86/virt/tdx: Update tdx_sysinfo and check features post-update
+  x86/virt/tdx: Avoid updates during update-sensitive operations
+  coco/tdx-host: Don't expose P-SEAMLDR features on CPUs with erratum
+  x86/virt/tdx: Enable TDX module runtime updates
+  coco/tdx-host: Document TDX module update compatibility criteria
+  x86/virt/tdx: Document TDX module update
+  x86/virt/seamldr: Log TDX module update failures
+
+Kai Huang (1):
+  x86/virt/tdx: Move low level SEAMCALL helpers out of <asm/tdx.h>
+
+ .../ABI/testing/sysfs-devices-faux-tdx-host   |  75 ++++
+ Documentation/arch/x86/tdx.rst                |  36 ++
+ arch/x86/include/asm/cpufeatures.h            |   1 +
+ arch/x86/include/asm/seamldr.h                |  37 ++
+ arch/x86/include/asm/tdx.h                    |  70 +---
+ arch/x86/include/asm/tdx_global_metadata.h    |   5 +
+ arch/x86/include/asm/vmx.h                    |   1 +
+ arch/x86/kvm/vmx/tdx_errno.h                  |   2 -
+ arch/x86/virt/vmx/tdx/Makefile                |   2 +-
+ arch/x86/virt/vmx/tdx/seamcall_internal.h     | 109 ++++++
+ arch/x86/virt/vmx/tdx/seamldr.c               | 359 ++++++++++++++++++
+ arch/x86/virt/vmx/tdx/tdx.c                   | 173 ++++++---
+ arch/x86/virt/vmx/tdx/tdx.h                   |  11 +-
+ arch/x86/virt/vmx/tdx/tdx_global_metadata.c   |  22 +-
+ drivers/virt/coco/Kconfig                     |   2 +
+ drivers/virt/coco/Makefile                    |   1 +
+ drivers/virt/coco/tdx-host/Kconfig            |  12 +
+ drivers/virt/coco/tdx-host/Makefile           |   1 +
+ drivers/virt/coco/tdx-host/tdx-host.c         | 244 ++++++++++++
+ 19 files changed, 1059 insertions(+), 104 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-devices-faux-tdx-host
+ create mode 100644 arch/x86/include/asm/seamldr.h
+ create mode 100644 arch/x86/virt/vmx/tdx/seamcall_internal.h
+ create mode 100644 arch/x86/virt/vmx/tdx/seamldr.c
+ create mode 100644 drivers/virt/coco/tdx-host/Kconfig
+ create mode 100644 drivers/virt/coco/tdx-host/Makefile
+ create mode 100644 drivers/virt/coco/tdx-host/tdx-host.c
+
+
+base-commit: 87d034b5b9f36c66bf02af587fb6935af88ffbf1
+-- 
+2.47.3
+
