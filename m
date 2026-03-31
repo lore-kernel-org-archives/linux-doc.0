@@ -1,214 +1,332 @@
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A70027456
-	for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2026 23:49:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775000971; cv=none; b=dHYOV8z76H/TDAcfV7NR7lQvZbh1rStmLFmeVaKdnyZLauZUqLbZdPcNSzbE5HMy+K3x0xFYHNHBPu5YkS9mME8srbdcU33uShJXItbf1qXRB6KJ6ERWl+RrTeRh5P4E++laGvcb/9OvD1vfNPDmEjnsOW8so1VhJSsz8TNLO94=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775000971; c=relaxed/simple;
-	bh=b6F5Wol1rmdIAxCBSR/1o0L6e0zkmGyQDRLJXJLm1hU=;
-	h=Date:Message-ID:MIME-Version:Content-Type:From:To:Subject:
-	 References:In-Reply-To; b=bCbL+nKrtCef/7dwHP+yS19BV/DWMP3w3jj4chPJi1x3+FjIH9vgULBK43v+wZ/nMLSiaBa2duBl1PlZ8S/BQZZZtWF0cFdj5Zj1Mm1pzRpJf7uDI5qKjjYWHHU+/ORQ8Hq8hyr6dibbyZp37CRii7x487EjXXI/o5vAJ9uT574=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=gHZGo6lb; arc=none smtp.client-ip=209.85.160.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70B2A2F60CC;
+	Tue, 31 Mar 2026 23:55:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.21
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775001345; cv=fail; b=TDbiuxfOIAH1T+cf/sTOtu6MgA3UokbNTW9r2ClC1lqlAj013fWg1bhMA/io9sRNZPyciJrv+iL0xvEgnPWsDBMFXEZKJ8WNUNlZ4rRTicNSIIys0E1uOPQuC4Rvh56a8TIKOcsZ7dXY5H2yse8b1bOUJV93enhQzWSp3nVEmTY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775001345; c=relaxed/simple;
+	bh=T5F1FVPgQs+H2nZq9NMNj01Vv6pmhDAeyahzGRvPwRk=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=EHAL57wocD4pUCSK8nL32rOIBcSvMTiKuMOFm2nJ8lfidms3bmUYZVWEVcBYGJft+kn3jdCFxpuVvMTzMOiVOI3H4ZywMbJbzUQSGDFNMTjd0YH7q5DP2yyGOxrsMWX7y4BuY7qDLP0YBuGyLrN4Gnji5MiSH9kLBGw6avIph74=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IgJ9o4xA; arc=fail smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="gHZGo6lb"
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-506a747448dso48655151cf.0
-        for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2026 16:49:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1775000969; x=1775605769; darn=vger.kernel.org;
-        h=in-reply-to:references:subject:to:from:content-transfer-encoding
-         :mime-version:message-id:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FYbvdnLCMnXdYzHfn2HH+3PkoNRX+uMbCDYvoiIgkxg=;
-        b=gHZGo6lbZiKz7X5sTNABvDHfU6h7W3mQT8CQgjlXVIWsi3bGaD6daAjUE4VaSLj6Bb
-         huHSGF5LhKgtDgIP4SiCbHP/4EolqyPQuJDzAUgKjNWpuWbs+hMC+cr88mqkNqtLQhf6
-         Kho3KK1vSTuJzfOEqLobBtGRE7TMEsmxJTEcFFmFLR57iNFPv6Lk4UHcTdkVpeoP6EJ/
-         GHGG3X/2uAEiCGSWYdG+avjDURQql4o/AXzLLAk/DxO676KAvDUaNT0u5ZjkrkMDqqE/
-         m7fn3F6i5pYqOjtfuEXO7eVy3/xgDEjv5RL6XZmjIx3rfKFOrYspKoXzXh386q47C3GK
-         MNLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775000969; x=1775605769;
-        h=in-reply-to:references:subject:to:from:content-transfer-encoding
-         :mime-version:message-id:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FYbvdnLCMnXdYzHfn2HH+3PkoNRX+uMbCDYvoiIgkxg=;
-        b=NyzqYOMFw7mA7ojMVIm20M/zdHykq/AXUSbvnk7asy+nVhTtQVlJxyx+RvwrAfBOPO
-         eT34XMY3299+qfWc/OkcayoyXOmEXqm9+OtuQSgW4gucsVbigxHMX/dyNO0+inxqQjXj
-         Xj7P5zscrWnOChwMG86LOAqDs6LLnQ8ZXNWOoUZ9jcWPYMWCiRZ23oUWHfhDStF6OPGA
-         nstjyCwlrbq4glR9G6r0K8scUr1ezHQjfQyImUOW212pochmCBLfvO2nyeRhZEst+1SI
-         wQ/AQRyA2ciGEpxRfcGa1K9xZl+KxVeLQpgJTEgqLMnIgbLs+l2eyv1gVMEe41KQ+mm1
-         jgWQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVKv0nZZsBvkwuQUFkt4Ez1giyrNjWf5LnRgRQwjZIXyspXIm+uXYyZfhvZi28DONQRmrxxA+FJ/F8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx767YEvQmATITfgRB2pgSe1XYQqzFT5pM3H474OsLOsEwINHDV
-	+xkytuIKVdjcpcT/sKw2a70rnTidrA5Z2YGXkAvERUuU/fzyZnX+xOSUIYkv2Q1RaQ==
-X-Gm-Gg: ATEYQzz/a9pW74VIBDZelSCkteeMu1K9nFDwljoWqA4eAkBim6p/jhxGujPh1Zmpgb8
-	jD13VAdQaG0urOC1qIAt47qBsdVyFBuvLKsPbur5AJkebVoZxk6klpzt3pbyD43jzJKnfLEM9Y1
-	9Tc+zQXCjW7L4XytDLCrDG/7VbEiHLeQeqJ5fWYtdZ6Feq7BA4A+Whv6AHpq59mNIGb9IgcHs/3
-	TUe8vmGnqvliv34aqf4obpT7z8DKFlkEBUE0aScRyeOBCIK8zrepM5AmnbICnoDX53dDsoxIfHN
-	UWGv+eD+J40Jj8y0UFHddocnPQd41/9NCRcUsLiKlsPGzqp4ZvRT3pPZ0MTxFAsqpFRmtgsq7MI
-	6RhTstJgUNBlyUcUA0GiRpxdtLZhhqNI0zoEsGvNax6X4tRAQh1/J0ebYaRBAQFhFDKdPMsu2o5
-	8sbC531JeW8uDc+kJib7grwlzq6Uz0dK1PqrJQYRaXY9dPysHnESZVOUScDom6Lj6SiXxq
-X-Received: by 2002:ac8:5e10:0:b0:501:3ccd:cb3e with SMTP id d75a77b69052e-50d3bd6369emr22793691cf.66.1775000969032;
-        Tue, 31 Mar 2026 16:49:29 -0700 (PDT)
-Received: from localhost (pool-71-126-255-178.bstnma.fios.verizon.net. [71.126.255.178])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50bb2c96a5asm97285841cf.10.2026.03.31.16.49.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Mar 2026 16:49:27 -0700 (PDT)
-Date: Tue, 31 Mar 2026 19:49:26 -0400
-Message-ID: <667eb53aa7425c115055e354a6df2bdb@paul-moore.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IgJ9o4xA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1775001342; x=1806537342;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=T5F1FVPgQs+H2nZq9NMNj01Vv6pmhDAeyahzGRvPwRk=;
+  b=IgJ9o4xA2zpnI0HgaZPtRgojmVtn3ZaTWrLUMTQc8SmkQ8opE/JPTxBR
+   PBFqbQRsDH+Nv2tjh/hAIi7J1nCkRLsixwyLiqTFy3vNgo9DqV/s4/Oja
+   K3QWP4B6WSA5qVYYE72mJLPF+kUHTRIwv1VooStycqJYTNysG66btBMOB
+   yS/PJk9LTWQQgNK0Azct2QYL524fqsTI39yWZu7SCIKxi6jfRO8gfjWuO
+   O7pYgk2BZMUL/SFzD+Pot0YPcw2GwQwL0V0j0r4XHig8Rz7pP0Z98Gxyi
+   FyTR+zZkIl3WG2YPxjkWwL3rYxDtjYr0JFBhBG6nQD7GhAQaKLX6HZndD
+   A==;
+X-CSE-ConnectionGUID: QVEqCpjiSEa3+mjXe65THQ==
+X-CSE-MsgGUID: Booa6oo+QQ2M7q0phQUriA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11745"; a="75916181"
+X-IronPort-AV: E=Sophos;i="6.23,152,1770624000"; 
+   d="scan'208";a="75916181"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 16:55:41 -0700
+X-CSE-ConnectionGUID: ZPYBpPGiTRSFKm2aQ4zB5Q==
+X-CSE-MsgGUID: LiPwAty7QCG6kEzhQTxdvA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,152,1770624000"; 
+   d="scan'208";a="223205599"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 16:55:40 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Tue, 31 Mar 2026 16:55:39 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Tue, 31 Mar 2026 16:55:39 -0700
+Received: from BL2PR02CU003.outbound.protection.outlook.com (52.101.52.41) by
+ edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Tue, 31 Mar 2026 16:55:38 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=D3zpPEI05ENrR35JTl8G6Kvl3OggXfhs3O5jnocAFeP1u2io9uyVwbezDpvubM391qhREwxUBlv2GJngi5xjJHZS9GYgx5IzRvH5k5PUKxnVK4ZyiFj3e7MySJoNzGhiIvPZTLgYqwL5d/643GZVEKxTWvQnt262ymqZlXOocPG04lCwOe0BIi9mBSfqDroZd6OB4TO9mgIY41kySOIOnIOm/nWIOqrcnoLRjarfqpxVnL4jN+BBRvGzOoXDjT8yd7w8/fa40bh2A5XxvUBJULTSZAm972cCGn9rrejeU5lfoD4aabAPF2IAaitoMeTM5RNSloQZcqPmJDu/yJOf8g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UIhzDEIsELRq55NF4SFyhJD1s5f1RDL5GAmWWNjcWAU=;
+ b=ZdlsHu9Dms2j84ulJT8ec5TWNmNWVj9rjYHlbViW+uNkwUNhL5nju6aTK//tNSGj5gfmQmupU/ild6KXeaPXXbdB5vMn10QF6T2TGgYvmKuElUKlOphfFLleyHAyaAzF6ztBQJJGN9Jc8vfAJ7KW2os8OYs0v1h52F61dwd+0Z8njwq+awCbB3Du8gUYyxoASQX4O3l46jnJ//9q87m02aj+cvPDYs5RiCwmt+kDmkYzWVrmhGkOsSg49s74AzEwrkTw1oSYmNm+ZWAHvm3xuBt2PALG3ODNXV/a6W/lnMX+9g2ZJXwiwzIAyt+7unfK5nCRTuGWPDAThHQDjPLp0Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DS0PR11MB7579.namprd11.prod.outlook.com (2603:10b6:8:14d::5) by
+ CY8PR11MB7169.namprd11.prod.outlook.com (2603:10b6:930:90::14) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9769.14; Tue, 31 Mar 2026 23:55:25 +0000
+Received: from DS0PR11MB7579.namprd11.prod.outlook.com
+ ([fe80::4199:4cb5:cf88:e79e]) by DS0PR11MB7579.namprd11.prod.outlook.com
+ ([fe80::4199:4cb5:cf88:e79e%5]) with mapi id 15.20.9769.016; Tue, 31 Mar 2026
+ 23:55:25 +0000
+Message-ID: <c547be19-adaf-4442-be2b-debcbafa4191@intel.com>
+Date: Tue, 31 Mar 2026 16:55:20 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next V9 02/14] devlink: Add helpers to lock nested-in
+ instances
+To: Cosmin Ratiu <cratiu@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>,
+	"kuba@kernel.org" <kuba@kernel.org>
+CC: "allison.henderson@oracle.com" <allison.henderson@oracle.com>, "Moshe
+ Shemesh" <moshe@nvidia.com>, "jiri@resnulli.us" <jiri@resnulli.us>,
+	"davem@davemloft.net" <davem@davemloft.net>, "daniel.zahka@gmail.com"
+	<daniel.zahka@gmail.com>, "donald.hunter@gmail.com"
+	<donald.hunter@gmail.com>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"matttbe@kernel.org" <matttbe@kernel.org>, "pabeni@redhat.com"
+	<pabeni@redhat.com>, "horms@kernel.org" <horms@kernel.org>, Parav Pandit
+	<parav@nvidia.com>, "corbet@lwn.net" <corbet@lwn.net>, "kees@kernel.org"
+	<kees@kernel.org>, "willemb@google.com" <willemb@google.com>, Dragos Tatulea
+	<dtatulea@nvidia.com>, "razor@blackwall.org" <razor@blackwall.org>, "Adithya
+ Jayachandran" <ajayachandra@nvidia.com>, Dan Jurgens <danielj@nvidia.com>,
+	"leon@kernel.org" <leon@kernel.org>, "vadim.fedorenko@linux.dev"
+	<vadim.fedorenko@linux.dev>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, Saeed Mahameed <saeedm@nvidia.com>,
+	"shuah@kernel.org" <shuah@kernel.org>, "andrew+netdev@lunn.ch"
+	<andrew+netdev@lunn.ch>, Mark Bloch <mbloch@nvidia.com>, Jiri Pirko
+	<jiri@nvidia.com>, Carolina Jubran <cjubran@nvidia.com>, Shahar Shitrit
+	<shshitrit@nvidia.com>, "daniel@iogearbox.net" <daniel@iogearbox.net>,
+	"minhquangbui99@gmail.com" <minhquangbui99@gmail.com>, Nimrod Oren
+	<noren@nvidia.com>, "dw@davidwei.uk" <dw@davidwei.uk>,
+	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>, Petr Machata
+	<petrm@nvidia.com>, "edumazet@google.com" <edumazet@google.com>,
+	"antonio@openvpn.net" <antonio@openvpn.net>, "mst@redhat.com"
+	<mst@redhat.com>, "linux-kselftest@vger.kernel.org"
+	<linux-kselftest@vger.kernel.org>, "linux-rdma@vger.kernel.org"
+	<linux-rdma@vger.kernel.org>, Shay Drori <shayd@nvidia.com>,
+	"sdf@fomichev.me" <sdf@fomichev.me>, "chuck.lever@oracle.com"
+	<chuck.lever@oracle.com>, Gal Pressman <gal@nvidia.com>, "joe@dama.to"
+	<joe@dama.to>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+References: <20260326065949.44058-3-tariqt@nvidia.com>
+ <20260331020807.3524811-1-kuba@kernel.org>
+ <ff5b2ec46d6cb639872318bdde429c46cac77f5b.camel@nvidia.com>
+From: Jacob Keller <jacob.e.keller@intel.com>
+Content-Language: en-US
+In-Reply-To: <ff5b2ec46d6cb639872318bdde429c46cac77f5b.camel@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4P220CA0023.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:303:115::28) To DS0PR11MB7579.namprd11.prod.outlook.com
+ (2603:10b6:8:14d::5)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 
-Content-Type: text/plain; charset=UTF-8 
-Content-Transfer-Encoding: 8bit 
-X-Mailer: pstg-pwork:20260331_1732/pstg-lib:20260331_1626/pstg-pwork:20260331_1732
-From: Paul Moore <paul@paul-moore.com>
-To: Blaise Boscaccy <bboscaccy@linux.microsoft.com>, Blaise Boscaccy <bboscaccy@linux.microsoft.com>, Jonathan Corbet <corbet@lwn.net>, James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>, =?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack@google.com>, "Dr. David Alan Gilbert" <linux@treblig.org>, Andrew Morton <akpm@linux-foundation.org>, James.Bottomley@HansenPartnership.com, dhowells@redhat.com, Fan Wu <wufan@kernel.org>, Ryan Foster <foster.ryan.r@gmail.com>, Randy Dunlap <rdunlap@infradead.org>, linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, bpf@vger.kernel.org
-Subject: Re: [PATCH v3 6/9] security: Hornet LSM
-References: <20260326060655.2550595-7-bboscaccy@linux.microsoft.com>
-In-Reply-To: <20260326060655.2550595-7-bboscaccy@linux.microsoft.com>
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB7579:EE_|CY8PR11MB7169:EE_
+X-MS-Office365-Filtering-Correlation-Id: 576a11da-cfa0-417f-11f7-08de8f80fa4d
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024|22082099003|18002099003|56012099003;
+X-Microsoft-Antispam-Message-Info: mG6412DrF1LkQsrxCsxfnLVOvwaD9dgQKZjes+3PuB6/7Sk5nd6sCP/fbcT8nu2nsJdln+HopyqYHRQ99mSk5sz4bPmcCuXlWlOZ8TTW2Ub0yO5IojX+9XY4vzgqWc1W3fxJdCDz2z9rXBuiDObtU2FjidQ2nq4VniwvRgP65XdEPN8pHiHUPDICfdu+sesOu1495ro1PH9mIbscvnk1HfVZPxhXh7HtYWxEz8rkaBj57Ik/65TGdp2IsIRaaSLgMn+Yp1rD+Rfj5f8zwsM5J5Q0SB18QJxbOlm10URK+O3Xcu1MnwSPMV3kK6PunVbmh7R9b4bM9KSoQe5WkGGBgQGV+ofzmlhjIDmmOxjvghmJVCx7YHnP8u+OiKPlwNpFMSYTEgm6VRXpIuqCZSltOEEJ5CVN9rT4RdgXRFTvkqiIuLJJXv5mL/6qLwxJzY0XdMZkzDJ//L7ZVfBY2vndcGMHp5JkPZn1vQlu0j4v8MK0427rJd0FLDjloLiVr9CjuZj1KMNCRHeCYhxhbbIrn2+DRa+P1hntyrS3npmaDYIpc+s8jT6kLemhvbIf0AyiES3spI/W6qlsBmG++iWJzXM/AEiegIqIYtjNgkemgiSz741pPPhnwBmmgGYQ4ntkwYmld9uKL/KKkGqzUtwpZowA7BmOKYI530aQmKI9Xfgo84thOA49iOcZDLqIV4VBUFr+HKAvTEGinckjzq5VIVE5F3wirs2pESIBpzcqO+I=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7579.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dHVUTEkwNm9RcmlEUUlMSVlhdDE0UlBlL0dhY3VFZzhzM1NBQjEzMklJOTFM?=
+ =?utf-8?B?OVdnSlRGQis5eURaTE5LWWU4ZWl2cktmaTNOci9HUEUyZkN5MDE1b2NPWjla?=
+ =?utf-8?B?VkJjUGVUTHMyRTBVdGNZOXZlS1hZTzloOFRyd0FTYmUzS0JqeDBkSDhHOXNH?=
+ =?utf-8?B?bmZPaW92UG0wN25tMGNrUElKQWFDcVBkdmtCVFFSQU5sYzNIYVZBdHF1S0Qz?=
+ =?utf-8?B?RHJpc05WbzdYbUxMMURDc2dYU0p2ekF6UllCNE1SWmExd1RGZmwvM1ZDU3k0?=
+ =?utf-8?B?ck9Rb01Zb0ZLNFQ2dG12SWxUbmRJWUp5QW9UKzRXaGJSYVFXVTc4ZnFkczJO?=
+ =?utf-8?B?S0ZoM3FMbjFLem85S2JuUlZGa3JWK1JRaDc1SU14czN3b1RFV1ovYnNPQ0ZX?=
+ =?utf-8?B?cnJpWmlvS1pUcjZ3a3dOd0gwL0VYUk1KYU5XMllaZ2dDNmdrTzdWcWdJWlN5?=
+ =?utf-8?B?b3VKSzdXaEtEdlBFdG1pTlg4MVp0bmo5Yld3MUNVbjhQVWo1UTh4TGw0N2I4?=
+ =?utf-8?B?MjBKTGV5bFkvMERIZ1ZrdTd2Z1puaURqTkNtbkRTN3BtdDJEanY4blhQWGZD?=
+ =?utf-8?B?Znk5SXNod21lUjZNMnJLSTloUk5OU1hCLzJJNHg5ckdoMWErb05KNUFBcTFV?=
+ =?utf-8?B?WDdwRGN2emsvNmxxTENUeGRWcEdYbjcwODREdndQOWszREZ6UktRMjJQUzZP?=
+ =?utf-8?B?anQwRVMzS3cyKzZVUExGeWpacnMyalowckNhaWh2VlFvQ2tWSnhhbHJ6Q0tQ?=
+ =?utf-8?B?TVhTZXgrQ2h4dk1KcTdobHNqTjdhMnN4U2pKd25XcU02N29OU2pHNWJpT3k5?=
+ =?utf-8?B?eTUzdTlHSDIrWWZJejNjUnZIcGQxdEdSNHlPUG43MTZ2Z2k5U2FaZTdURFps?=
+ =?utf-8?B?dXlZZnV6R2VhdGN5QVpCSkN2UHRhOFZtbTFhcXN0MVU3ZWd1bUlVUy9Ga3RW?=
+ =?utf-8?B?TEJMcytXR21QYmgyZjFsYlJOUE1qZjZxdXJZSFRabG1QQmd4MUxWa0N1T0JC?=
+ =?utf-8?B?VUo5N3pvaW1Pd2VXVTZjci9OWUR4Z09zUkpHeWdlckNKOUNINHVMK1hnUkpX?=
+ =?utf-8?B?bHNqUExzZmZqQ1pTUSs5d2tmREo0ai94V29GN0NMeko4N21ENnc5aEYrUkZ4?=
+ =?utf-8?B?anRYSCs5dGRTZlRONU4zbHZRdXJUNU5FSkFpN3YrN2pkQUUxT3h1MjZHYnVX?=
+ =?utf-8?B?ckM4YysvRWN0VDRBQ0tvU1RrbFVIMFJNQzNHQ2lDR1JrdmhYeWpvQzdBc04y?=
+ =?utf-8?B?Q1cxaVM3cmdnODNNcGQya2MxcGxEUHQ4ZG9CNEMxRThTWDM1V1pUd1h1Y2VF?=
+ =?utf-8?B?WHZzVG9LUXB3OERrSDQ0SitxK2hPaXJOdHJ0T1dNOXFhQ25xUjFOamdIR3ND?=
+ =?utf-8?B?MWIvelY1SjFTQ2hqYmJwOThzb2lCUndOUkh2VnNhRFROeWc2aTNjQUJTdVJm?=
+ =?utf-8?B?V1QzdG1HLzhIMFd0TVhkaXlMTVRweGp3dkN2OENrdVFSOFo0RzRoTkswREtB?=
+ =?utf-8?B?bndCM3NUSVZVTkVWSXZEZ0hTWGx0djU4TUZ0UDU5dXpnSGwxWXp0YmlDb0JT?=
+ =?utf-8?B?b3RLV3Bmd0tUelNkbG1PZStnSVUvYVNqdzFWdkZrVjN4eXJINWR2STNGbHJ2?=
+ =?utf-8?B?RXVvTy9CY2RpS3hkZFRQUWpCa29uNC9yaENHNEFuTmFYZmd4R3NyK21CeFZ1?=
+ =?utf-8?B?VVhubG9KcFlGVXBLWjdGQ3ROT0xCRVYxMW5FdHpqRVN2d01VRTA3VkhGZTQr?=
+ =?utf-8?B?MkNXeVZIQ1lLbk02VzROcG44UkVWZkJmeEdxSHFUMHNrRHdvcm1hd2V4K1NV?=
+ =?utf-8?B?RTQxZTAxL3c5UGRrQlM3ajRXVUhvN1liVnRhTUF2M092V1EzaXpRZ0JTUHhB?=
+ =?utf-8?B?TS90UG8yTmtMSEtIZm5oblZkQkRQWGh6MlM1UVVMQ2pkOEFOV0Z6VHE4L3Ay?=
+ =?utf-8?B?VE9CdEpwR2htUGxrRHc2ZWlhZ3Z2b0xCWHFwd1dNV2pDZUxCQThpUE05dktl?=
+ =?utf-8?B?cDNjNk1sZkRhTkNBR0lVZDdpWmUzY0ZPK3dIWWRHbHpKZEllUkMxd3RLY0Nn?=
+ =?utf-8?B?aUIxWGgzZFljSUxNa2dHZ0o0WGdBZzVHZWJRS0xuemEvbmtreHlGcFNhZ2w3?=
+ =?utf-8?B?MG9BQlBmcUtvTnRZcTJodWVnL2dYM3VyczFZQ0dHM2hRc1ZVa0tWOW5oNUx0?=
+ =?utf-8?B?VGFCdUZXMDhuK0UwK2RlWHJDVmRRVURHT3JOckdPM0xWcFNUZERad0hrc0RG?=
+ =?utf-8?B?Y0hMcmxnY3VZWTlrMllBZ1lZeTFHbFVHK1Jtd0JVNWpielZrbHBaQXVOQllT?=
+ =?utf-8?B?NjNYLzVtVksrY2pUOUZUK2dlMEV0bzFXOUdoZ2xwcktYTFBjbU9FcDd3TVZE?=
+ =?utf-8?Q?Ymy7qL40AT7HuV5M=3D?=
+X-Exchange-RoutingPolicyChecked: PW2qzZ3mUyetpz1LLNHr8R/x/Y/YhHZUe+q0sb0lmS38vTaOTnp8EVv8TdNWYzM/4tmC6BVvi24Oznkt8PMfMpMiI4hiFi5tEk45NaSUTvk47FDUxCb5g+1/oVzktfPPL78HzCG2wmQPycNw5XkyfOQ1q4FDR824rm8xUmuck93IkV2lztqrX31tB67y9lQFKtrkD1u421OZnwrLHlz5op0M4jt9T9cdtNglGtVvjxmD165q/GUHPIU/DLmRga3oSUJkOCHUXgX9k4fMUQn1ZaptGal42iKnXb3JQdWNCAi2CP93HcrugKDdCdLKyzD7ob2r+4dtC3fUbKTOg70q5g==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 576a11da-cfa0-417f-11f7-08de8f80fa4d
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7579.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2026 23:55:25.2804
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OsgRdiNx/9jTBFTa/iHTvidTVBziR6ri0RtXvgxd7Ytnu7PjnZrmrl1iZwAn5rGnZAvRp7UjHRLzhOQiQkyaxBsjXPHNJXzf3cQ2tUkRLgQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7169
+X-OriginatorOrg: intel.com
 
-On Mar 26, 2026 Blaise Boscaccy <bboscaccy@linux.microsoft.com> wrote:
+On 3/31/2026 5:20 AM, Cosmin Ratiu wrote:
+> On Mon, 2026-03-30 at 19:08 -0700, Jakub Kicinski wrote:
+>> This is an AI-generated review of your patch. The human sending this
+>> email has considered the AI review valid, or at least plausible.
+>> ---
+>> devlink: Add helpers to lock nested-in instances
+>>
+>> Upcoming code will need to obtain a reference to locked nested-in
+>> devlink instances. Add helpers to lock, obtain an already locked
+>> reference and unlock/unref the nested-in instance.
+>>
+>>> diff --git a/net/devlink/core.c b/net/devlink/core.c
+>>> index eeb6a71f5f56e..db11248df7120 100644
+>>> --- a/net/devlink/core.c
+>>> +++ b/net/devlink/core.c
+>>
+>> [ ... ]
+>>
+>>> +/* Returns the nested in devlink object and validates its lock is
+>>> held. */
+>>> +struct devlink *devlink_nested_in_get_locked(struct devlink_rel
+>>> *rel)
+>>> +{
+>>> +	struct devlink *devlink;
+>>> +	unsigned long index;
+>>> +
+>>> +	if (!rel)
+>>> +		return NULL;
+>>> +	index = rel->nested_in.devlink_index;
+>>> +	devlink = xa_find(&devlinks, &index, index,
+>>> DEVLINK_REGISTERED);
+>>> +	if (devlink)
+>>> +		devl_assert_locked(devlink);
+>>
+>> Can this dereference a freed pointer if the lock is not actually
+>> held?
+>>
+>> xa_find() acquires and releases the RCU read lock internally. When it
+>> returns,
+>> the devlink pointer is no longer protected by RCU or a reference
+>> count.
+>>
+>> If a caller invokes this helper without holding the devlink lock
+>> (which is the
+>> exact scenario the assertion is designed to detect), another thread
+>> could
+>> concurrently unregister and free the devlink.
+>>
+>> If the RCU grace period expires before the assertion executes,
+>> devl_assert_locked() would dereference freed memory. Should the
+>> lookup and
+>> assertion be enclosed within an explicit rcu_read_lock() block to
+>> safely
+>> assert the lock?
 > 
-> This adds the Hornet Linux Security Module which provides enhanced
-> signature verification and data validation for eBPF programs. This
-> allows users to continue to maintain an invariant that all code
-> running inside of the kernel has actually been signed and verified, by
-> the kernel.
+> This function is meant to be invoked by callers already holding all
+> locks from a given instance up the nesting tree. Calling it outside
+> this context could indeed lead to a race as described, where another
+> entity unregisters a devlink about-to-be-asserted on.
 > 
-> This effort builds upon the currently excepted upstream solution. It
-> further hardens it by providing deterministic, in-kernel checking of
-> map hashes to solidify auditing along with preventing TOCTOU attacks
-> against lskel map hashes.
+
+Hmm. I'm struggling to follow this. If you already expect the parent to
+hold the nested devlink's lock, it must have a pointer to this devlink
+instance. In that case, why would you even need
+devlink_nested_in_get_locked in the first place?
+
+> All current callers hold the locks, but to make it more robust, I will
+> add the rcu_read_lock/unlock section around the find+assert.
 > 
-> Target map hashes are passed in via PKCS#7 signed attributes. Hornet
-> determines the extent which the eBFP program is signed and defers to
-> other LSMs for policy decisions.
+
+You should at least do that. It is the correct pattern when dealing with
+reference counting data structures from the xarray. That's already how
+devlinks_xa_get() is implemented.
+
+>>
+>>> +	return devlink;
+>>> +}
+>>> +
+>>> +void devlink_nested_in_put_unlock(struct devlink_rel *rel)
+>>> +{
+>>> +	struct devlink *devlink =
+>>> devlink_nested_in_get_locked(rel);
+>>
+>> Could this corrupt the mutex state and cause a refcount underflow?
+>>
+>> This helper takes a devlink_rel pointer instead of the devlink
+>> pointer
+>> acquired by devlink_nested_in_get_lock(), and performs a secondary
+>> global
+>> lookup to find the devlink.
+>>
+>> If a caller mistakenly calls this in an error cleanup path where they
+>> did not
+>> actually acquire the lock, the global xa_find() will still locate the
+>> registered devlink. This would execute devl_unlock() and
+>> devlink_put() on a
+>> devlink the current thread does not own.
+>>
+
+If the caller already held the lock, why is devlink_nested_in_put_unlock
+calling the devl_unlock instead of the caller anyways? That seems
+confusing. Wouldn't the normal pattern be to
+devlink_nested_in_get_lock()? Oh, that is a separate function. Ok I see.
+
+>> Would it be safer for unlock/put helpers to take the exact pointer
+>> returned by
+>> the lock/get helper to ensure safe resource cleanup?
 > 
-> Signed-off-by: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
-> Nacked-by: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-> ---
->  Documentation/admin-guide/LSM/Hornet.rst | 321 ++++++++++++++++++++++
->  Documentation/admin-guide/LSM/index.rst  |   1 +
->  MAINTAINERS                              |   9 +
->  include/linux/oid_registry.h             |   3 +
->  include/uapi/linux/lsm.h                 |   1 +
->  security/Kconfig                         |   3 +-
->  security/Makefile                        |   1 +
->  security/hornet/Kconfig                  |  11 +
->  security/hornet/Makefile                 |   7 +
->  security/hornet/hornet.asn1              |  13 +
->  security/hornet/hornet_lsm.c             | 333 +++++++++++++++++++++++
->  11 files changed, 702 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/admin-guide/LSM/Hornet.rst
->  create mode 100644 security/hornet/Kconfig
->  create mode 100644 security/hornet/Makefile
->  create mode 100644 security/hornet/hornet.asn1
->  create mode 100644 security/hornet/hornet_lsm.c
+> 2 issues here:
+> 1) Mistakenly calling this without having acquired the lock. This is
+> akin to saying mutex_unlock is dangerous if the lock isn't held.
+> Technically true, but moot.
+> 2) The rel argument: It is intentional, so that all 3 functions are
+> symmetrical.
+> 
 
-...
+IMO it would make more sense for the put version to be a put on the
+returned devlink pointer. I guess its not symmetrical, but it removes
+the need to perform the second lookup and it makes it easier to reason
+about the pointer you're releasing being the same one.
 
-> +static int hornet_check_program(struct bpf_prog *prog, union bpf_attr *attr,
-> +				struct bpf_token *token, bool is_kernel,
-> +				enum lsm_integrity_verdict *verdict)
-> +{
-> +	struct hornet_maps maps = {0};
-> +	bpfptr_t usig = make_bpfptr(attr->signature, is_kernel);
-> +	struct pkcs7_message *msg;
-> +	struct hornet_parse_context *ctx;
-> +	void *sig;
-> +	int err;
-> +	const void *authattrs;
-> +	size_t authattrs_len;
-> +
-> +	if (!attr->signature) {
-> +		*verdict = LSM_INT_VERDICT_UNSIGNED;
-> +		return 0;
-> +	}
-> +
-> +	ctx = kzalloc(sizeof(struct hornet_parse_context), GFP_KERNEL);
-> +	if (!ctx)
-> +		return -ENOMEM;
-> +
-> +	maps.fd_array = make_bpfptr(attr->fd_array, is_kernel);
-> +	sig = kzalloc(attr->signature_size, GFP_KERNEL);
-> +	if (!sig) {
-> +		err = -ENOMEM;
-> +		goto out;
-> +	}
-> +	err = copy_from_bpfptr(sig, usig, attr->signature_size);
-> +	if (err != 0)
-> +		goto cleanup_sig;
-> +
-> +	msg = pkcs7_parse_message(sig, attr->signature_size);
-> +	if (IS_ERR(msg)) {
-> +		err = LSM_INT_VERDICT_BADSIG;
-> +		goto cleanup_sig;
-> +	}
-> +
-> +	if (verify_pkcs7_message_sig(prog->insnsi, prog->len * sizeof(struct bpf_insn), msg,
-> +				     VERIFY_USE_SECONDARY_KEYRING,
-> +				     VERIFYING_BPF_SIGNATURE,
-> +				     NULL, NULL)) {
-> +		err = LSM_INT_VERDICT_UNKNOWNKEY;
-> +		goto cleanup_msg;
-> +	}
+Having put take different arguments from get is the usual pattern for
+such a behavior.
 
-Given that kernel module signatures are verified with
-VERIFY_USE_SECONDARY_KEYRING it's reasonable to do the same here in
-Hornet.  I suspect most users concerned about code integrity, especially
-code running in the kernel's context, will likely want to verify BPF
-programs with the secondary keyring.
+Also devlink_nested_in_get_locked() doesn't increase the ref count so it
+is sort of "relying" on the caller already having a reference to it,
+which makes me think its not very useful. The only valid way to call
+this function as it exists now safely is to already hold a reference to
+the object, which also already requires you to have a valid pointer
+making me wonder why you'd ever need to call it in the first place.
 
-However, as we've seen from prior discussions, there is a desire among
-some users to support arbitrary keyrings, and we should find a way to
-support that in some configuration.
+The only example you have is to make devlink_nested_in_put_unlock() take
+a devlink_rel pointer as its argument instead of just calling it on the
+pointer returned by devlink_nested_in_get_lock().
 
-If we take a similar approach to bpf_verify_pkcs7_signature() and take
-the keyring from attr->keyring_id, LSMs that provide enforcement via the
-bpf_prog_load_post_integrity callback should be able to check the
-keyring_id as part of their decision making and respond accordingly.  Do
-we need to worry about a malicious userspace modifying attr at this
-point?  I think the answer is "no", but I didn't chase it through the
-code to be sure.
+This implementation seems confusing and likely to lead to errors.
 
-I suppose there might be a need for a yama-esque LSM which only provides
-a bpf_prog_load_post_integrity callback and ensures a valid signature
-verified against the VERIFY_USE_SECONDARY_KEYRING without the need for
-any other policy or tunables, but let's see what the v4 revision looks
-like first.  We can always add this later if needed, and it could live
-within the Hornet dir (similar to how the integrity directory hosts
-both the IMA and EVM LSMs).
-
-> +	if (pkcs7_get_authattr(msg, OID_hornet_data,
-> +			       &authattrs, &authattrs_len) == -ENODATA) {
-> +		err = LSM_INT_VERDICT_PARTIALSIG;
-> +		goto cleanup_msg;
-> +	}
-> +
-> +	err = asn1_ber_decoder(&hornet_decoder, ctx, authattrs, authattrs_len);
-> +	if (err < 0 || authattrs == NULL) {
-> +		err = LSM_INT_VERDICT_BADSIG;
-> +		goto cleanup_msg;
-> +	}
-> +
-> +	err = hornet_verify_hashes(&maps, ctx, prog);
-> +
-> +cleanup_msg:
-> +	pkcs7_free_message(msg);
-> +cleanup_sig:
-> +	kfree(sig);
-> +out:
-> +	kfree(ctx);
-> +	return err;
-> +}
-
---
-paul-moore.com
+Thanks,
+Jake
