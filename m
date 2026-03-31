@@ -1,155 +1,303 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C901364EA3
-	for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2026 12:24:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 542C239A7F2
+	for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2026 12:28:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774959880; cv=none; b=Uc6MFX9F8ZSwbbhOtwRgbsWoQRLJzy4WS/pOWLom0taGg836+y23xaKDYtyvPuqd4lNK+FdjdXepNICDZ7SP+HEg06I1RdcBjdrhYQI6d+vURpPnS1lvo2cpK38M7eKRrOptCtShG5p8qBupJ0HLPw70bJ2fW+dQ69Doo5bzHlg=
+	t=1774960124; cv=none; b=dRnrq+Xcfqbk9brA02jplaLqw6SgvKG7h5won6b9zBvr8nA9HwrjWRkpTbpy4awMHr3+AF9BGtDweb0JwYEKqWUjyCHUeEo3kDFpC6agQqWepfMeLxC1ZosZEnmfUru2AeuqDXdX6y7m1TWEb0/5HRQLkJkHCR7H8sp8a89zFCo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774959880; c=relaxed/simple;
-	bh=+v0lsG31lmz9yOKp4sThWdLD00iDG9mSDxn4BdCze+s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=r7nFIa/BlFwGuy/BkleI2ZF6lIeEeFktIHX0sqB6RSTzSJlzvIE5JcnPvIPY/rY4Q73lICKZrhRivy+x2v0snXj8tx//Ltx1Y00xH1LNu8IdGZNZoso4XeQMb/YjFMzUFfExjyVYP0iYGhIiPqxskA7hCXtD6NtnC8uMcfVfJkc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RJZmO7Tv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774960124; c=relaxed/simple;
+	bh=mi7memNQJCzeEutC0WFVeI6fKKTMYzxTIJkiFRVVWSA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=gcR2pyTnnw6NNSBN7CQ2OS9AKeBwx1/++yjp4LUn8JPNUa5A8P7NYVydICMpsfs6bMH8tfTEj6/zah8+5zT/NPUXgOpQChiNgJUFD08HTnkEgwD9/++dIeHw+1gL70Fh77giRV+H/TpLAGn5Ab0wgCud15Q5ldHknJ34n04q2Oo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=JCLuRbpI; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=AodhZJVb; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RJZmO7Tv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B54DC2BCB5
-	for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2026 12:24:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774959880;
-	bh=+v0lsG31lmz9yOKp4sThWdLD00iDG9mSDxn4BdCze+s=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=RJZmO7TvhY88kQe3eU7xRIwnSJdkZvyh60WN8MrF2rST5eqYT7Si7twWZg/DT2ZoX
-	 YzqUgPxfYDwdo0IEdVVzbGnpMkc2xEIEQWtZG/kOBKnlwvP5OBf9k5ABA9qJOS+Ukj
-	 eOekVrlTQVDRLMnCElfoE+fONsncPPw1jhKXxukkxEyJi7dEXS+heu/pZUzPng526Q
-	 fQrEJ4DiG53+M4yOJk7Zh135J6HBPJuwoHDZrzQcHd3EDgZteWUMcAVKR5sOaepyV5
-	 f2xbf4yCO62QwUTSWKNB376JIzJj0sbMnh6R7hTd0WRb04t6xyHnCnYuuXajw89d5X
-	 Ti2a3xJRDsK2w==
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-40423dbe98bso2162288fac.2
-        for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2026 05:24:40 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUHt7Iu4KKfkTpicvVLISiyXG884k8sJD7h3TsLUgv0Adsm7PU487BCm7ZXs91Nyszy91XkhBgrZlw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx02CvhNSWd67S0JONyE9I+DthVoO6Y8ZiC7HFGaTWtZZPTa0de
-	T2SmYS96kr0sUO8Umz5bSA5pxbMYAcFVBUYLN0xlj0uGtzg8yAa9DYdzZcILrSgq8r45u601TAN
-	TfqccZ0TX/i/qfNu0CCHdE4jRgcrJc/8=
-X-Received: by 2002:a05:6870:3212:b0:41c:5212:2c7e with SMTP id
- 586e51a60fabf-41cec149624mr8736242fac.20.1774959878527; Tue, 31 Mar 2026
- 05:24:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="JCLuRbpI";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="AodhZJVb"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 62VAGO1a1090544
+	for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2026 12:28:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=k8hUEnYut0k71ljUpIpx01
+	nVp9CKF2EbzDfYFhXRuzY=; b=JCLuRbpIqzs57buzkCa/31s/O4DrRqOy3aKwmy
+	rbQIfmSefPdkBpHaWzCQtDTc/ZYrNCBss46H8Eim8aPGWql5JYreeVKMZj4Za+nb
+	po3uGRfhYiqp0tKR0GB68/wSQrhh8qrYVASWopT0cxf6ffpBSJQpGueh7fSPydzs
+	aQA+fA5tTV80Rff7qQMlEcd6fcEsGzKTqfWdmIxjf9NMJ1BTuscEjVBbrj5saPPq
+	UM5UDyth52AstheFvgIgWQEsFpjGJ3rE3uQRG/r9b2wR4QMKA7D4MFosSRNKeSxL
+	UckoNXPtxO2faG0Ue+TtuNWbhIAdIaLEIDe5ulJ5vkpmGLAw==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d7trd4psb-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2026 12:28:41 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-50b6f869676so115166251cf.2
+        for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2026 05:28:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1774960120; x=1775564920; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=k8hUEnYut0k71ljUpIpx01nVp9CKF2EbzDfYFhXRuzY=;
+        b=AodhZJVbRWGNasnENFR4SANnNZWqkLxQ9fDU/8ougZEE9ACxYLicPUXQzWFNJlKmaU
+         tGHH+0ps0Iec3CJqEn89fsWLWHHk4S9nkTh9FX2FbGBgDZw6dy6bxRtuOOFLoQUfbxNn
+         TU48DGBmRdsk+ipLwt0MebolpL73lIDDf/Xmjq3Bm+NPo+bBIpy1SW/9pdcdZKjIsxf6
+         kG8x/KDN3I/xs0Zm5acwn1QuVEogh/xKVTDmajxekNIWZjZQNYhGrlHOLioR/145Z3pf
+         gygllTE/je9zSbKnisF46ZsNwT+4ii6VBqt+FysDlVnLHK/JHfUf8rOdjnQHJ4Gdy8aQ
+         jdxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774960120; x=1775564920;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=k8hUEnYut0k71ljUpIpx01nVp9CKF2EbzDfYFhXRuzY=;
+        b=ZLJ1vHlVrJJpFnA+iuR8Y68w50VYgv3+2RxmKIsAHDsj6u4IkGHaKHXpS5Yne8cqye
+         Y5Igr19D2zkBwdsK9COUztWnjj2lE1mdDJZN2p+pzw3MB4d+rHw+umwUD7lemM1ijdHP
+         CdBXgF4Id85UycJMWdMlcPl0T/hdGyud+9HbpGTpMoD7epyA2HOyKqOXLpf0JQqsn0mA
+         JrZh2QEPMEZvcTUUHTB2Ne/AXIInNbCIFhlW611G4tfGObFb5M9ABx8itkZUtV1Ml6iu
+         8FdlQmGOTEZ+Cv9SttesL5G0la8bimlWXSzNqDJdQduargYGDIad0B1HY8/Ok1k+5VJr
+         ZlKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVazUl2g1Je17crl7qBBNUBrbI7+GoQ9lgzv+jObLLrH/vmPM499yyKa01/6e39xmvc0fX24czhm14=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx7TEt7uz/bg5FlPKMvBtREYpCpCuznjHHwNrEhKzj3iZWgrKMK
+	uF3d15g/GXaoOccaUFR0R5qwh0usGs5y9LSKVpeLsBy1Mpp6983oKg++7NsdbBXPI5fUPirxduw
+	eFwy+P1G/UaxXTC3GdQfjs6S27wylnqi4Uul2RXVHIlRoEsYEAta/Q/trA/rP3tc=
+X-Gm-Gg: ATEYQzzZZS3++/GdXU32hXVuHnbNL6JVs4KLcKJL0j0Q9TZbG0P8X4e1sqqAxcydlgz
+	hC2x73GDg719mkals0rErJgs65Ph4Qc091J2DC7XkJgyIC76JtqP3o2xn9bS57hiv8sMI2Mj1hj
+	05DETMJHy+Fzp5ZJxAZkcoVhGNir3kPnfEuMc+QYq/rjmEWxW1wxKx0XZfiJpD0Rnj74Byr2cA/
+	WDA8L/cODyxnttNMaMRtLdzwd5M8FEJbsBi+cpo9QelKgC0Paus5hvRs9OvhqrS6JI93adSfbZl
+	UvVimOxjauAGdWKU0yJJpV5h8kXoNJkUbTYFYGM/m55I4NQl7+E+B14/dPybJGYt5/x7GYl3wz0
+	Xtm7szfpEqd8W9zrCIDx5hNinHkq3LCKepoKfdtoRFuPozYjMLSPR
+X-Received: by 2002:ac8:7d0f:0:b0:509:2fa5:741 with SMTP id d75a77b69052e-50ba3818bfamr208064741cf.4.1774960120426;
+        Tue, 31 Mar 2026 05:28:40 -0700 (PDT)
+X-Received: by 2002:ac8:7d0f:0:b0:509:2fa5:741 with SMTP id d75a77b69052e-50ba3818bfamr208064301cf.4.1774960119921;
+        Tue, 31 Mar 2026 05:28:39 -0700 (PDT)
+Received: from brgl-qcom.local ([2a01:cb1d:dc:7e00:977e:e16b:6244:a86f])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4887c77df84sm23343405e9.4.2026.03.31.05.28.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 Mar 2026 05:28:38 -0700 (PDT)
+From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Date: Tue, 31 Mar 2026 14:28:29 +0200
+Subject: [PATCH] Documentation: gpio: update the preferred method for using
+ software node lookup
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260320031737.35048-1-fengchengwen@huawei.com>
-In-Reply-To: <20260320031737.35048-1-fengchengwen@huawei.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Tue, 31 Mar 2026 14:24:26 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0gO1VSPs58JeupaiTZBkP3i_-H2bEQpfU-6k2TXjdiaOQ@mail.gmail.com>
-X-Gm-Features: AQROBzDL-JtY7QC0BpuyBPGCuLquO5-Gf9GrQy5Yvy_4yGsymDKEHbc8tb9l0x0
-Message-ID: <CAJZ5v0gO1VSPs58JeupaiTZBkP3i_-H2bEQpfU-6k2TXjdiaOQ@mail.gmail.com>
-Subject: Re: [PATCH v10 0/8] ACPI: Unify CPU UID interface and fix ARM64 TPH
- steer-tag issue
-To: Chengwen Feng <fengchengwen@huawei.com>
-Cc: Bjorn Helgaas <bhelgaas@google.com>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Palmer Dabbelt <palmer@dabbelt.com>, 
-	Borislav Petkov <bp@alien8.de>, "H . Peter Anvin" <hpa@zytor.com>, Juergen Gross <jgross@suse.com>, 
-	Boris Ostrovsky <boris.ostrovsky@oracle.com>, Sunil V L <sunilvl@ventanamicro.com>, 
-	Mark Rutland <mark.rutland@arm.com>, Jonathan Cameron <jonathan.cameron@huawei.com>, 
-	Kees Cook <kees@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, 
-	Sean Christopherson <seanjc@google.com>, Kai Huang <kai.huang@intel.com>, 
-	Tom Lendacky <thomas.lendacky@amd.com>, Thomas Huth <thuth@redhat.com>, 
-	Thorsten Blum <thorsten.blum@linux.dev>, Kevin Loughlin <kevinloughlin@google.com>, 
-	Zheyun Shen <szy0127@sjtu.edu.cn>, Peter Zijlstra <peterz@infradead.org>, 
-	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, Xin Li <xin@zytor.com>, 
-	"Ahmed S . Darwish" <darwi@linutronix.de>, Sohil Mehta <sohil.mehta@intel.com>, 
-	Ilkka Koskinen <ilkka@os.amperecomputing.com>, Robin Murphy <robin.murphy@arm.com>, 
-	James Clark <james.clark@linaro.org>, Besar Wicaksono <bwicaksono@nvidia.com>, 
-	Ma Ke <make24@iscas.ac.cn>, Wei Huang <wei.huang2@amd.com>, 
-	Andy Gospodarek <andrew.gospodarek@broadcom.com>, Somnath Kotur <somnath.kotur@broadcom.com>, 
-	punit.agrawal@oss.qualcomm.com, guohanjun@huawei.com, suzuki.poulose@arm.com, 
-	ryan.roberts@arm.com, chenl311@chinatelecom.cn, masahiroy@kernel.org, 
-	wangyuquan1236@phytium.com.cn, anshuman.khandual@arm.com, 
-	heinrich.schuchardt@canonical.com, Eric.VanTassell@amd.com, 
-	wangzhou1@hisilicon.com, wanghuiqiang@huawei.com, liuyonglong@huawei.com, 
-	linux-pci@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	loongarch@lists.linux.dev, linux-riscv@lists.infradead.org, 
-	xen-devel@lists.xenproject.org, linux-acpi@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260331-doc-gpio-swnodes-v1-1-3f84c268999b@oss.qualcomm.com>
+X-B4-Tracking: v=1; b=H4sIAOy9y2kC/x3MMQqAMAxA0atIZgPVoqhXEQdt0pqllQZUEO9uc
+ XzD/w8oZ2GFqXog8ykqKRY0dQVuX2NgFCqG1rS9sbZBSg7DIQn1iolY0TtL5LtxG8hByY7MXu5
+ /OS/v+wEVGQ6BYgAAAA==
+X-Change-ID: 20260331-doc-gpio-swnodes-fc3ddf59b8dc
+To: Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7215;
+ i=bartosz.golaszewski@oss.qualcomm.com; h=from:subject:message-id;
+ bh=mi7memNQJCzeEutC0WFVeI6fKKTMYzxTIJkiFRVVWSA=;
+ b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBpy73xKHeRRU1aQQdygxLpzMfekpEucmYmPOgkS
+ VL7hWz7EzmJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCacu98QAKCRAFnS7L/zaE
+ wwF+D/46dCxYO+SuyTketuhK+O+1wRtn5kdjnz/jPuKg2DdWYAdfvcAvjlec9tnVc+FMP4Bc5db
+ LXJ9qYXVcAiJzCJOicc14u55mS3sTUulgSnVrY+0omciBww8Hj1t7CqFd4qkEQsK3qQNm1FaLqt
+ JWftGhUjOnYmg7c3ARUtElVjJ80jBNvncFMZCyR59OpPeC30GrjGrRV+vfXZkZe2bb4Wmnn5qIT
+ HbmfyA+fR/TZwjEvRipfEex0HsmAyWH2GxMgU9UsiKf6BwBEC4aFh8WYE4si+s62VAnoaXXU/6j
+ X9fuFtBa24T0PfTCWn+6PC75AGwy77EJqJiE2jl/U91X5bPzZ2JHPk2m9n2EE1aU4YBjFQ6yq8Q
+ fw3iYfMWB7ahvmRLDIS/6zLIoYEWve+wUnEkBry5D7O6udDWn1VeGgSCvaTjOsWbOR2pbcUXySC
+ goBRamUVuQD7BaRlMKRPZ8aLAXQ3kF7Gwe3WzCVEHJ1JE6wpBG3HZObXM+AiNYSwvW7N/V/eZ3n
+ 6k5zuZLdu+qmoR5RQAZckbVI2BU67Nf0FnT/OORSgPTR5GV0sB67t6BkQuy0sVWx5/XXRJ+12rj
+ FonNTl2SFGBf/Eu3itJDPpq/pZY7GSwOrqpi0s/VmZitGLYpSB2BopxL5DbZaLnHYZqu+nFLUHm
+ 2OBkzahr32qKiww==
+X-Developer-Key: i=bartosz.golaszewski@oss.qualcomm.com; a=openpgp;
+ fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
+X-Proofpoint-GUID: KTqQ-b0p_OwHHAYCRAULxB7WyEgXE6VA
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwMzMxMDEyMCBTYWx0ZWRfX8zFlpzWy5Iii
+ ZkXiTW/5mRVhHkqQkazrfGqlizP7rcqwPAxoS6YBlq5nBC94osTRCffLdKIY8Pet4leJ/7c1ObJ
+ jAcddpB1TvbJD2CLaCf6wNqB+1G85NuTp9esHjy51XCUl3U7IJtQnJYkEuJ9Zw9OnX2cIqni6vm
+ 4iXtUe+CgSfMR1koBdzbG4Apg+IXfqnEq9bFBh0nLdwEq4pfbgDcElRHPFksLqwyu4b5fde/UDC
+ gdCnqJu0GUyXaS2NKVRjLm7oQDEIcSQ7gynQobuWhWCS5JTjEUZD1oyXlLHlwViFKw1e5RZ1mQ3
+ 2m/CguiISzSYLZDSMy+2+u1tyZdblF0qZhNQmHpSlrGjfscDYG1/8fxnVkf3x6gqW4J+JIlXGmO
+ dHWi7cAioD5aOuxo5Jj4kSmuPny7i8/Etbm44ZnOqtFu2/DZx+o/Lj39QIhjI9gZhAFkT4lN9R2
+ yhy9lw/oLSrNDEYs2MQ==
+X-Proofpoint-ORIG-GUID: KTqQ-b0p_OwHHAYCRAULxB7WyEgXE6VA
+X-Authority-Analysis: v=2.4 cv=H8/WAuYi c=1 sm=1 tr=0 ts=69cbbdf9 cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=VHV1bxSRZQlKidfD:21 a=xqWC_Br6kY4A:10
+ a=IkcTkHD0fZMA:10 a=Yq5XynenixoA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
+ a=EUspDBNiAAAA:8 a=KH8R8Eao7PwcOq8sAqYA:9 a=QEXdDO2ut3YA:10
+ a=dawVfQjAaf238kedN5IG:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-03-31_02,2026-03-31_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 priorityscore=1501 bulkscore=0 spamscore=0 lowpriorityscore=0
+ clxscore=1015 impostorscore=0 phishscore=0 suspectscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2603310120
 
-On Fri, Mar 20, 2026 at 4:17=E2=80=AFAM Chengwen Feng <fengchengwen@huawei.=
-com> wrote:
->
-> This patchset unifies ACPI Processor UID retrieval across
-> arm64/loongarch/riscv/x86 via acpi_get_cpu_uid() (with input validation)
-> and fixes ARM64 CPU steer-tag retrieval failure in PCI/TPH:
->
-> 1-4: Add acpi_get_cpu_uid() for arm64/loongarch/riscv/x86 (update
->      respective users)
-> 5: Centralize acpi_get_cpu_uid() declaration in include/linux/acpi.h
-> 6: Clean up perf/arm_cspmu
-> 7: Clean up ACPI/PPTT and remove unused get_acpi_id_for_cpu()
-> 8: Pass ACPI Processor UID to Cache Locality _DSM
->
-> The interface refactor ensures consistent CPU UID retrieval across
-> architectures (no functional changes for valid inputs) and provides the
-> unified interface required for the ARM64 TPH fix.
->
-> ---
-> Changes in v10:
-> - Refine commit header&log according to Punit's and Bjorn's review
-> - Split perf/arm_cspmu as a separate commit which address Punit's
->   review
->
-> Changes in v9:
-> - Address Bjorn's review: split commits to each platform so that make
->   them easy to review
->
-> Changes in v8:
-> - Moving arm64's get_cpu_for_acpi_id() to kernel/acpi.c which address
->   Jeremy's review
->
-> Chengwen Feng (8):
->   arm64: acpi: Add acpi_get_cpu_uid() for unified ACPI CPU UID retrieval
->   LoongArch: Add acpi_get_cpu_uid() for unified ACPI CPU UID retrieval
->   RISC-V: ACPI: Add acpi_get_cpu_uid() for unified ACPI CPU UID
->     retrieval
->   x86/acpi: Add acpi_get_cpu_uid() for unified ACPI CPU UID retrieval
->   ACPI: Centralize acpi_get_cpu_uid() declaration in
->     include/linux/acpi.h
->   perf: arm_cspmu: Switch to acpi_get_cpu_uid() from
->     get_acpi_id_for_cpu()
->   ACPI: PPTT: Use acpi_get_cpu_uid() and remove get_acpi_id_for_cpu()
->   PCI/TPH: Pass ACPI Processor UID to Cache Locality _DSM
->
->  Documentation/PCI/tph.rst          |  4 +--
->  arch/arm64/include/asm/acpi.h      | 17 +---------
->  arch/arm64/kernel/acpi.c           | 30 ++++++++++++++++++
->  arch/loongarch/include/asm/acpi.h  |  5 ---
->  arch/loongarch/kernel/acpi.c       |  9 ++++++
->  arch/riscv/include/asm/acpi.h      |  4 ---
->  arch/riscv/kernel/acpi.c           | 16 ++++++++++
->  arch/riscv/kernel/acpi_numa.c      |  9 ++++--
->  arch/x86/include/asm/cpu.h         |  1 -
->  arch/x86/include/asm/smp.h         |  1 -
->  arch/x86/kernel/acpi/boot.c        | 20 ++++++++++++
->  arch/x86/xen/enlighten_hvm.c       |  5 +--
->  drivers/acpi/pptt.c                | 50 ++++++++++++++++++++++--------
->  drivers/acpi/riscv/rhct.c          |  7 ++++-
->  drivers/pci/tph.c                  | 16 +++++++---
->  drivers/perf/arm_cspmu/arm_cspmu.c |  6 ++--
->  include/linux/acpi.h               | 11 +++++++
->  include/linux/pci-tph.h            |  4 +--
->  18 files changed, 158 insertions(+), 57 deletions(-)
->
-> --
+In its current version, the manual for converting of board files from
+using GPIO lookup tables to software nodes recommends leaving the
+software nodes representing GPIO controllers as "free-floating", not
+attached objects and relying on the matching of their names against the
+GPIO controller's name. This is an abuse of the software node API and
+makes it impossible to create fw_devlinks between GPIO suppliers and
+consumers in this case. We want to remove this behavior from GPIOLIB and
+to this end, work on converting all existing drivers to using "attached"
+software nodes.
 
-It doesn't look like anyone has a particular heartburn related to this
-series, so I could apply it in principle, but I'd appreciate some ACKs
-from arch maintainers.
+Except for a few corner-cases where board files define consumers
+depending on GPIO controllers described in firmware - where we need to
+reference a real firmware node from a software node - which requires a
+more complex approach, most board files can easily be converted to using
+propert firmware node lookup.
 
-Why don't you resend it with all of the tags collected so far (and
-please add x86@kernel.org to the CC list)?
+Update the documentation to recommend attaching the GPIO chip's software
+nodes to the actual platform devices and show how to do it.
+
+Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+---
+ Documentation/driver-api/gpio/board.rst         | 15 +++++++++---
+ Documentation/driver-api/gpio/legacy-boards.rst | 32 ++++++++++++++++++-------
+ 2 files changed, 36 insertions(+), 11 deletions(-)
+
+diff --git a/Documentation/driver-api/gpio/board.rst b/Documentation/driver-api/gpio/board.rst
+index 0993cac891fb5e4887a1aee6deae273197c6aae1..c2880533742b1b55108f28853a3903cb273fe791 100644
+--- a/Documentation/driver-api/gpio/board.rst
++++ b/Documentation/driver-api/gpio/board.rst
+@@ -108,9 +108,8 @@ macro, which ties a software node representing the GPIO controller with
+ consumer device. It allows consumers to use regular gpiolib APIs, such as
+ gpiod_get(), gpiod_get_optional().
+ 
+-The software node representing a GPIO controller need not be attached to the
+-GPIO controller device. The only requirement is that the node must be
+-registered and its name must match the GPIO controller's label.
++The software node representing a GPIO controller must be attached to the
++GPIO controller device - either as the primary or the secondary firmware node.
+ 
+ For example, here is how to describe a single GPIO-connected LED. This is an
+ alternative to using platform_data on legacy systems.
+@@ -153,6 +152,16 @@ alternative to using platform_data on legacy systems.
+ 	};
+ 	software_node_register_node_group(swnodes);
+ 
++	/*
++	 * 5. Attach the GPIO controller's software node to the device and
++	 *    register it.
++	 */
++	 static void gpio_foo_register(void)
++	 {
++		gpio_foo_pdev.dev.fwnode = software_node_fwnode(&gpio_controller_node);
++		platform_device_register(&gpio_foo_pdev);
++	 }
++
+ 	// Then register a platform_device for "leds-gpio" and associate
+ 	// it with &led_device_swnode via .fwnode.
+ 
+diff --git a/Documentation/driver-api/gpio/legacy-boards.rst b/Documentation/driver-api/gpio/legacy-boards.rst
+index 46e3a26dba772e5e5117866b5d202e76c8e2adf2..fac63dd38d5b71c3bf43b5286a432f6449f422d0 100644
+--- a/Documentation/driver-api/gpio/legacy-boards.rst
++++ b/Documentation/driver-api/gpio/legacy-boards.rst
+@@ -36,12 +36,10 @@ Requirements for GPIO Properties
+ When using software nodes to describe GPIO connections, the following
+ requirements must be met for the GPIO core to correctly resolve the reference:
+ 
+-1.  **The GPIO controller's software node "name" must match the controller's
+-    "label".** The gpiolib core uses this name to find the corresponding
+-    struct gpio_chip at runtime.
+-    This software node has to be registered, but need not be attached to the
+-    device representing the GPIO controller that is providing the GPIO in
+-    question. It may be left as a "free floating" node.
++1.  **The GPIO controller's software node must be registered and attached to
++    the controller's ``struct device`` either as its primary or secondary
++    firmware node.** The gpiolib core uses the address of the firmware node to
++    find the corresponding ``struct gpio_chip`` at runtime.
+ 
+ 2.  **The GPIO property must be a reference.** The ``PROPERTY_ENTRY_GPIO()``
+     macro handles this as it is an alias for ``PROPERTY_ENTRY_REF()``.
+@@ -75,6 +73,11 @@ A typical legacy board file might look like this:
+ 
+   #define MYBOARD_GPIO_CONTROLLER "gpio-foo"
+ 
++  static struct platform_device myboard_gpio = {
++        .name = MYBOARD_GPIO_CONTROLLER,
++        .id = PLATFORM_DEVID_NONE,
++  };
++
+   /* LED setup */
+   static const struct gpio_led myboard_leds[] = {
+   	{
+@@ -124,6 +127,7 @@ A typical legacy board file might look like this:
+   	gpiod_add_lookup_table(&myboard_leds_gpios);
+   	gpiod_add_lookup_table(&myboard_buttons_gpios);
+ 
++        platform_device_register(&myboard_gpio);
+   	platform_device_register_data(NULL, "leds-gpio", -1,
+   				      &myboard_leds_pdata, sizeof(myboard_leds_pdata));
+   	platform_device_register_data(NULL, "gpio-keys", -1,
+@@ -141,8 +145,7 @@ Step 1: Define the GPIO Controller Node
+ ***************************************
+ 
+ First, define a software node that represents the GPIO controller that the
+-LEDs and buttons are connected to. The ``name`` of this node must match the
+-name of the driver for the GPIO controller (e.g., "gpio-foo").
++LEDs and buttons are connected to. The ``name`` of this node is optional.
+ 
+ .. code-block:: c
+ 
+@@ -257,6 +260,16 @@ software nodes using the ``fwnode`` field in struct platform_device_info.
+   	if (error)
+   		return error;
+ 
++  	memset(&pdev_info, 0, sizeof(pdev_info));
++  	pdev_info.name = MYBOARD_GPIO_CONTROLLER;
++  	pdev_info.id = PLATFORM_DEVID_NONE;
++  	pdev_info.fwnode = software_node_fwnode(&myboard_gpio_controller_node);
++  	gpio_pdev = platform_device_register_full(&pdev_info);
++  	if (IS_ERR(gpio_pdev)) {
++  		error = PTR_ERR(gpio_pdev);
++  		goto err_unregister_nodes;
++  	}
++
+   	memset(&pdev_info, 0, sizeof(pdev_info));
+   	pdev_info.name = "leds-gpio";
+   	pdev_info.id = PLATFORM_DEVID_NONE;
+@@ -264,6 +277,7 @@ software nodes using the ``fwnode`` field in struct platform_device_info.
+   	leds_pdev = platform_device_register_full(&pdev_info);
+   	if (IS_ERR(leds_pdev)) {
+   		error = PTR_ERR(leds_pdev);
++  		platform_device_unregister(gpio_pdev);
+   		goto err_unregister_nodes;
+   	}
+ 
+@@ -274,6 +288,7 @@ software nodes using the ``fwnode`` field in struct platform_device_info.
+   	keys_pdev = platform_device_register_full(&pdev_info);
+   	if (IS_ERR(keys_pdev)) {
+   		error = PTR_ERR(keys_pdev);
++  		platform_device_unregister(gpio_pdev);
+   		platform_device_unregister(leds_pdev);
+   		goto err_unregister_nodes;
+   	}
+@@ -289,6 +304,7 @@ software nodes using the ``fwnode`` field in struct platform_device_info.
+   {
+   	platform_device_unregister(keys_pdev);
+   	platform_device_unregister(leds_pdev);
++	platform_device_unregister(gpio_pdev);
+   	software_node_unregister_node_group(myboard_swnodes);
+   }
+ 
+
+---
+base-commit: 3b058d1aeeeff27a7289529c4944291613b364e9
+change-id: 20260331-doc-gpio-swnodes-fc3ddf59b8dc
+
+Best regards,
+-- 
+Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+
