@@ -1,139 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from canpmsgout01.his.huawei.com (canpmsgout01.his.huawei.com [113.46.200.216])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E961036826D;
-	Tue, 31 Mar 2026 02:08:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 900F626AE5;
+	Tue, 31 Mar 2026 02:27:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.216
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774922904; cv=none; b=cBogbtRWyqTMpYGIcbUNhhv4AnS4ZVYHgRG6Utr2t9+rZJaltBc93k1k8HIPomzzjLNeDIuGHlP/3VU89FDYwoQVUPh5eRtgce23XOC2AkXiXuY76fbugRfqGYYjMjAG5DwM2hNnVmh1UKUkRRyC26f+0YxhX7fnhAnVj2S7JYk=
+	t=1774924066; cv=none; b=lrz4TMNq7QCLRnvvwEVFpmp3PgqWtvxH6nkUsigAfVL6OeDNr4YlccEhkaq44eFGD79p6ZmR9jwhcwmS9f2dMeLRJCr8GzwBUa57XCtlkVyF8LrSa+Fn9MoD42dOhDqgHMlt3qWPU5xwYuKSBcLnM70nCQaJh1qdJyKzTI3LSXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774922904; c=relaxed/simple;
-	bh=Ti2rwlshDR79ZI/BGbAVD6CjcN6oVYO5Ai7SaqZamXk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mNLaDul7WptmxNAVeY5NPcA3A6KdDiSlMQRoCJh6P4f/5Yy+rDrHEktMdL+Hr4f1/J5Ce0cYyq5R8RsOkgvyyhFMRsB5Is0QLDaoJLcz0DGNmGV6RRxbwsR+tnIONvUSU+HQ7UOz6dEZPHapYpe66kNGp6c8A6Sg6Yi7j4Sbr50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U7eLPna2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774924066; c=relaxed/simple;
+	bh=pyGyXPTOpVD9pAnfXN8vhfr31ToJKH4GEt9/K/Z0fuo=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=AFYV7mvU8/n3msBJH0cofzoCfQsbtLqt6VHb+ll//IZ6aF4UIB/DKYiPG6P3kkXdI1w74eJv6hR17aYASW0zEn31I3Zk6KLixr/p2LHhiNcvRa1G0Kyae32HOeVg6cHDJ34AFLJT++o7en98+20/bPDfjMp8QaHorWoY2IYv9hI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=hW57cjof; arc=none smtp.client-ip=113.46.200.216
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U7eLPna2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84B8FC19423;
-	Tue, 31 Mar 2026 02:08:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774922903;
-	bh=Ti2rwlshDR79ZI/BGbAVD6CjcN6oVYO5Ai7SaqZamXk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=U7eLPna2zLPQvleiKAUeNeTyNuhbmXZy6joPxF+meNPF0vuJq0MP7KczjS5CMpASR
-	 XjUxBemZlQu8OMqjojw8eVLh2Z+fWu++qcCB2q2fsM2PmUhbsznMl9/bUOgsv4AuLZ
-	 9yS0IjOuMWJyrRNr+I5rDK1RWlwH24ISao6FdTlK2ol+I5FW20vb5kLL3Zv3+dDtZ+
-	 IyKPUzKevuDXOj+cGRrv8+PsmMVb0P86T08oXiP5/dtOiwor8ewxi17EQRCG5bF91l
-	 VA4Wd1CekwLXgI868pwSzAGrXVNu3/cf+EW6gv5EZ73fQxT4aV/wONbDKHT1rVBIb9
-	 PEUVRy4ipgjkA==
-From: Jakub Kicinski <kuba@kernel.org>
-To: tariqt@nvidia.com
-Cc: Jakub Kicinski <kuba@kernel.org>,
-	edumazet@google.com,
-	pabeni@redhat.com,
-	andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	donald.hunter@gmail.com,
-	horms@kernel.org,
-	jiri@resnulli.us,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	saeedm@nvidia.com,
-	leon@kernel.org,
-	mbloch@nvidia.com,
-	shuah@kernel.org,
-	chuck.lever@oracle.com,
-	matttbe@kernel.org,
-	cjubran@nvidia.com,
-	cratiu@nvidia.com,
-	dtatulea@nvidia.com,
-	jacob.e.keller@intel.com,
-	shshitrit@nvidia.com,
-	daniel.zahka@gmail.com,
-	parav@nvidia.com,
-	ajayachandra@nvidia.com,
-	kees@kernel.org,
-	shayd@nvidia.com,
-	danielj@nvidia.com,
-	moshe@nvidia.com,
-	willemb@google.com,
-	dw@davidwei.uk,
-	petrm@nvidia.com,
-	sdf@fomichev.me,
-	daniel@iogearbox.net,
-	joe@dama.to,
-	razor@blackwall.org,
-	vadim.fedorenko@linux.dev,
-	mst@redhat.com,
-	antonio@openvpn.net,
-	allison.henderson@oracle.com,
-	minhquangbui99@gmail.com,
-	noren@nvidia.com,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-rdma@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	gal@nvidia.com,
-	jiri@nvidia.com
-Subject: Re: [PATCH net-next V9 12/14] net/mlx5: qos: Support cross-device tx scheduling
-Date: Mon, 30 Mar 2026 19:08:20 -0700
-Message-ID: <20260331020820.3525138-1-kuba@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260326065949.44058-13-tariqt@nvidia.com>
-References: <20260326065949.44058-13-tariqt@nvidia.com>
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="hW57cjof"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=YnMiibA4W4Ig7F76dyLFhn4fKhWlo5n8E1B42uPMv6U=;
+	b=hW57cjofNyt2Z8cfky5nD0k3qupiKnrd769HNDVr4A3bIgeIsfIKeLWlqkHuWqzRPTn2AfcQV
+	USdejPQSAK0bUdVRoJzGYDvEUGDw50qMtIzt08JubSyyUz0hypD6PR45EJEIZzhErx4Nfqvtc6O
+	MnXUDQSJtgCIyERZJXpiVGc=
+Received: from mail.maildlp.com (unknown [172.19.162.144])
+	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4flBhN0PSJz1T4Hm;
+	Tue, 31 Mar 2026 10:21:56 +0800 (CST)
+Received: from dggemv706-chm.china.huawei.com (unknown [10.3.19.33])
+	by mail.maildlp.com (Postfix) with ESMTPS id 2A33C4056D;
+	Tue, 31 Mar 2026 10:27:35 +0800 (CST)
+Received: from kwepemq500010.china.huawei.com (7.202.194.235) by
+ dggemv706-chm.china.huawei.com (10.3.19.33) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Tue, 31 Mar 2026 10:27:34 +0800
+Received: from [10.173.124.160] (10.173.124.160) by
+ kwepemq500010.china.huawei.com (7.202.194.235) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Tue, 31 Mar 2026 10:27:34 +0800
+Subject: Re: [PATCH 1/2] mm/memory-failure: add
+ panic_on_unrecoverable_memory_failure sysctl
+To: Breno Leitao <leitao@debian.org>
+CC: <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <kernel-team@meta.com>, Naoya Horiguchi
+	<nao.horiguchi@gmail.com>, Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+References: <20260323-ecc_panic-v1-0-72a1921726c5@debian.org>
+ <20260323-ecc_panic-v1-1-72a1921726c5@debian.org>
+ <a88d62ee-530c-1a6e-c05f-de324f940b8f@huawei.com>
+ <acp8wYLHDGAfhzI5@gmail.com>
+From: Miaohe Lin <linmiaohe@huawei.com>
+Message-ID: <d8d2a5ad-9b8a-f0e2-3eb0-ee820eb7a148@huawei.com>
+Date: Tue, 31 Mar 2026 10:27:33 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <acp8wYLHDGAfhzI5@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
+ kwepemq500010.china.huawei.com (7.202.194.235)
 
-This is an AI-generated review of your patch. The human sending this
-email has considered the AI review valid, or at least plausible.
----
-net/mlx5: qos: Support cross-device tx scheduling
-
-This commit relaxes the restriction that rate groups can only contain vports
-from the same E-Switch. It enables cross-device TX scheduling if the hardware
-supports it, LAG is enabled, and the E-Switches share a devlink device.
-
-> diff --git a/drivers/net/ethernet/mellanox/mlx5/core/esw/qos.c b/drivers/net/ethernet/mellanox/mlx5/core/esw/qos.c
-> --- a/drivers/net/ethernet/mellanox/mlx5/core/esw/qos.c
-> +++ b/drivers/net/ethernet/mellanox/mlx5/core/esw/qos.c
-
-[ ... ]
-
-> @@ -1738,18 +1761,44 @@ int mlx5_esw_devlink_rate_node_del(struct devlink_rate *rate_node, void *priv,
->  	return 0;
->  }
->  
-> +static int
-> +mlx5_esw_validate_cross_esw_scheduling(struct mlx5_eswitch *esw,
-> +				       struct mlx5_esw_sched_node *parent,
-> +				       struct netlink_ext_ack *extack)
-> +{
-
-[ ... ]
-
-> +	if (!mlx5_lag_is_active(esw->dev)) {
-> +		NL_SET_ERR_MSG_MOD(extack,
-> +				   "Cross E-Switch scheduling requires LAG to be activated");
-> +		return -EOPNOTSUPP;
-> +	}
-
-What happens to the cross-device rate scheduling if LAG is deactivated
-after the configuration is applied?
-
-When LAG is deactivated, the LAG state is torn down in hardware, but there
-does not appear to be a corresponding cleanup or update triggered for the
-cross-eswitch QoS scheduling elements.
-
-Could this result in a regression where the hardware TSAR tree and devlink
-rate configuration remain pointing to a now-invalid VHCA association,
-bypassing the state validation and causing traffic drops or firmware errors?
-
+On 2026/3/30 21:45, Breno Leitao wrote:
+> On Mon, Mar 30, 2026 at 03:55:00PM +0800, Miaohe Lin wrote:
+>> On 2026/3/23 23:29, Breno Leitao wrote:
+>>
+>>> @@ -1298,6 +1309,10 @@ static int action_result(unsigned long pfn, enum mf_action_page_type type,
+>>>  	pr_err("%#lx: recovery action for %s: %s\n",
+>>>  		pfn, action_page_types[type], action_name[result]);
+>>>  
+>>> +	if (sysctl_panic_on_unrecoverable_mf &&
+>>> +	    type == MF_MSG_GET_HWPOISON && result == MF_IGNORED)
+>>> +		panic("Memory failure: %#lx: unrecoverable page", pfn);
+>>
+>> MF_MSG_GET_HWPOISON contains some other scenarios. For example, an isolated folio will
+>> make get_hwpoison_page return -EIO so we will see MF_MSG_GET_HWPOISON and MF_IGNORED in
+>> action_result. But that's recoverable if folio is used by userspace thus panic will be
+>> unacceptable.
+>> Will it better to check type against MF_MSG_KERNEL_HIGH_ORDER?
+> 
+> Yes, I was discussing this with akpm, and maybe the better
+> approach would be to panic for types MF_MSG_KERNEL_HIGH_ORDER and MF_MSG_KERNEL.
+> 
+> In both cases, it seems that, the page would not be able to migrate. What do
+> you think about a change like this:
+> 
+> 
+> @@ -1298,6 +1309,10 @@ static int action_result(unsigned long pfn, enum mf_action_page_type type,
+>         pr_err("%#lx: recovery action for %s: %s\n",
+>                 pfn, action_page_types[type], action_name[result]);
+> 
+> +       if (sysctl_panic_on_unrecoverable_mf && result == MF_IGNORED &&
+> +           (type == MF_MSG_KERNEL || type == MF_MSG_KERNEL_HIGH_ORDER))
+> +               panic("Memory failure: %#lx: unrecoverable page", pfn);
 > +
-> +	return 0;
-> +}
+>         return (result == MF_RECOVERED || result == MF_DELAYED) ? 0 : -EBUSY;
+>  }
+> 
+
+Maybe MF_MSG_UNKNOWN can also be considered? Kernel can't do anything further
+for those folios.
+BTW I think current code can't reach to MF_MSG_KERNEL and MF_MSG_UNKNOWN cases
+bacause there is always a (PageHuge() || HWPoisonHandlable()) check before calling
+identify_page_state.
+
+Thanks.
+.
