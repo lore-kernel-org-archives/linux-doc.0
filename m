@@ -1,139 +1,178 @@
-Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBDBA4219EA
-	for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2026 21:36:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.161.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7663451071
+	for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2026 21:50:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.217.43
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774993017; cv=pass; b=lDRvzBS5HsgGMRMKi+a/+BBGR1Y/ocrbg7MWK6p0MidsO+nALeldooyj7ZW4PwHZMwvjvXZPjpShdsw5PqJSsIIfaA4apJnGgcA2GGKMt3/Iyh7BC0eiLgtkLr7VfX71VKeGsgKj4cK3YLhLbLhpB5MhqXcAA6UY5OqASEkYHWQ=
+	t=1774993854; cv=pass; b=VaI9TL0vk9R1KyYvxre/0TFcgZ/Lp6hTuMEJxWEUYBDiiCXB8g5tG5LztlygIxKHppNAMb3uEaExbLKEnjxfg5evRhJ2FYNmQkWkslecP1y0U/MCLk0mrJY2ol5E4z4git0PjW9doHuKorCKueb/5PBF583zY4T4JiDWlFlGtYQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774993017; c=relaxed/simple;
-	bh=RmiaURoFL//soo0SanqCZuTXN38oST47l9Q+aEKkfLU=;
+	s=arc-20240116; t=1774993854; c=relaxed/simple;
+	bh=wV2XHf4d1mRiH6xWNqUuoF9pM1xd5tcDK3VA/1dQDZ0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PtO8woIJqh8g6sDhcbSlUs1EQnpZE7IzCNQxot1CBkoLTDpkxFuQteDF1WcG2BmKxkg30xFH5foBND2pqycTn+RS31tmljfo0DAAXgGq5SslbxPZ832KQvRKqOvGHmaCCg0oRMi09g6WaZwHqiZsNHQI9ZJ+oL3ob98VqV3LTbw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HiyzFk6D; arc=pass smtp.client-ip=209.85.161.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=EUJsg19P7u1nXqXxJKfxCHrdXB6v5BeC7qr4MecJ0n9a4fwpcXvPGs/Xo4sdK4CIeXcJgEX9mY0+1wXdgjcawS+Imci+hrtMQ8sWe9GtHXYKWZxcisPM1/GJzNvocsOG1z5ZRfs+KxDcw695n8yr/al18mMG1shnv+vnUHumTyo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ULwZTnZw; arc=pass smtp.client-ip=209.85.217.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HiyzFk6D"
-Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-67cf1bfc73eso2146393eaf.2
-        for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2026 14:36:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774993015; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ULwZTnZw"
+Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-60291b2cd89so1861291137.1
+        for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2026 14:50:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1774993852; cv=none;
         d=google.com; s=arc-20240605;
-        b=TPVxLTh50G43tsonRaaL/RSy+v7i7uWcbnCUGknyH3g/0z5eSxMRaCb/7zRdwH/lfq
-         uelOKyKCzpxPYK6B1ax0fUjXizGkR2B/JCaY/5b/Ptucf6FFGp+PN/EL/U2VjCS0YSe4
-         1lWghfJAIBDN3ITOmSUNhJCXTAhLC1fhKDms1NypdyhgEcqrJ+xOau5BFnw4a01f9bOn
-         xToE0Hc0RWnIN3zpxT90Nz7bEkzNYdmiIcwcw2wUwXKnO8E511SNh0cA5YRQjq3ExFOh
-         oPydi5USZR7gN+BNmXtyVxukYRHAhnA1cOE3rj/I7zvHW9IhAVgbNzl/HTptOlUf7h/7
-         bD/Q==
+        b=bnyO56z6IQap3ibc+9eOtJVdG3K0w7s38wtINyEKnFZtvrxc3hT465j93ql3+cnIVt
+         EM44qctsXIMFZSMEZFmZYYLYix+uCdXLa3r0w+fzsQktys3Pu0789TA5uTPzOfJnLhk6
+         O9+SpHjCVHcGtgK3Ol3CyJRV0Ey+Sp3TzhldpX9fZB9T4mmsPOhtpRSbEcJS0pY8Ytyf
+         C5olSWgvjrZxIhJyd5JwLvH7sUrZBmDcbeC9Q8vbp6LqzVWXLfSqni3mSkbE0MQ4W0RX
+         ajFdCV0qr5BLtnv60RoOFRyVhZPKvT6AbxxHElsNICpwprwubBIIyDye51+1+hS8Wuu0
+         0MQQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=RmiaURoFL//soo0SanqCZuTXN38oST47l9Q+aEKkfLU=;
-        fh=1SYEjB9j/adrIBLDvOXb4dLKP1HBSEiCJwTCA6izj80=;
-        b=LOxVw5Dvll5W1pbe9wMXjHvgYhsUsoqI406/zDc0UtKn9RaKdLEqhKCPKw7M+tuciT
-         cFl03+AAAODvFTxgEtwUTZsblw6idnyW1hK+QX88Ou9zd8XpckqSsSqQXU4EAoZ+LbYx
-         vqYvzt23O4P65T73Qv8YM6Y/eJ70DY0XVN/hoLqYCbrbFqLSsLHUVvhPMQcFENXRXmvT
-         BgTJU+8Fhtjjel9zBKuUv3bWseQ1SJSQCNNKA3Q9yucHl827uuxXjbV6mknH7ufAiYvU
-         YO5oWYPDJwd+2F61sDaVDXea4TpK/1oiqow5RKLDi3yBDY6bTYG420QL6bqG3sQMrkru
-         Zxvw==;
+        bh=fvGGAAIkJYXYlK2HRa+mui/7ZxP8IFY7+ERdHeXnYJQ=;
+        fh=SEdkovomn5z6Tw4wGCT67i969reETOfRPSfBnIUuSIs=;
+        b=PgSHFbSbEvooDtXDrKqzDBXfIVkexv6J7kQIucH7obDOgLqJKVvM6upw44fsF7dukb
+         /abPcXLnaQvIMneF4CnSM1ciGGSkcNUpQHsesvune/ecCavZjaFxll8ZV/XHjPb8E6j6
+         Juwifelm7DVQtxTpblNjxTTa1CLMjIKAxureB0Om3e2crHw/3Y24ZJhVwcxs+h5e9jAj
+         bAXLaFr0eM/sma1sDqeEDQM26Ru8PBGNi7rs8LJe1UjqOcaZYhnWysclBGkOC3Hb4e0w
+         79Qg3xuDAVbukoCfgMGA9P31D8azCYwhMZC5OD9kuhrtXvjtrdGx6vsT04RnMAxWTUCc
+         /dmg==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774993015; x=1775597815; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1774993852; x=1775598652; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=RmiaURoFL//soo0SanqCZuTXN38oST47l9Q+aEKkfLU=;
-        b=HiyzFk6Dgn7i0zGhqIAZHSOKi0upaKyQ1+KfU47VXbFW469v3C/xWXlS6+RDvVm5GT
-         9H23tNYDJM0OPhADd1eb4YF3M+qvV4DsO66R0XpbyGHQBEii5WLr+IludX4N8Zl7x1oe
-         WdkK+XTUNe+Bs3L+MEqedmz/PVjaZDNlMiIUd6sCfTyBJCCg5ZGo+vVDws1boU2gAg32
-         vWIoj4vflf+zBG0VVULKf6vvV0nRl3AkK87qhyoFghB/Vxi0CxpFqgWjoojyXbvNbTAL
-         eDKuGgtCTNoAMmFnW1j6jMv1pmy8zC9JbIcH3CdUETixGKsYGPaVoryWMGCyJl8x05pO
-         tk1A==
+        bh=fvGGAAIkJYXYlK2HRa+mui/7ZxP8IFY7+ERdHeXnYJQ=;
+        b=ULwZTnZwYpEALX6nYfAZF+FT/TisjHVclbRPF18BSgBSej64+DQ91M+9Bw8kEootcv
+         EKnB/kCkqPVag1udxVN1dXVt3PDmt4LlyctpUdpZ+bzfGwWhNXD+qpjSpHVGEx+udmZr
+         kYVX5FPfL8GKwkLr9fkbk/kzF/HsXC4zkbqgGHIcxAACsr5r3Iqx7rWTGBG/8UjKtk2N
+         9jTv0A6N8cCJSO0KuHhQq+Dg1fWk89vvnYBYn0Z61TOxGDqO7yLfnuHVTDg7/2zdzoLs
+         cn6+piLytbtRb9XiHAUBz1RK14sB1/tWNHV+luKZRT7PuPzSG0jv0/dnYNDSef1+8aJD
+         b+rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774993015; x=1775597815;
+        d=1e100.net; s=20251104; t=1774993852; x=1775598652;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=RmiaURoFL//soo0SanqCZuTXN38oST47l9Q+aEKkfLU=;
-        b=glEJKm6ZT+2JlAULH2i/8WaRj6W7mVCB2nWQPLuIbiwDs90FQouV7oimbgy+JBFf9j
-         UKgHmA13FnOfoDYujOnve1+VV9gAUA4oo2Xoi2qnCLlFxl77ZVOpxLXlObQ2J7eKClu2
-         NSMeuB9YrBaIOM6sJ5lx3u3okVXHQvLcAZuAm4UWXLMOut1IctyHLy3drxZqbaHoqU1k
-         MY3p6VDNTaa+B+V0d3slgbiDmdStSXT5PX8mLfyk4PfiNV0bJnUtRGfGLBA6GWgwytNc
-         pDnapVqMDp0Q+PmcN2S4x9HDMdRP5L7xxaFrvD+GvxjqNynepwCmb8uouR3a7OMHWV0q
-         cFaw==
-X-Forwarded-Encrypted: i=1; AJvYcCViU2Dk0PzYemvHEGTrWPeRORctSwaaBRB9MG/69zS4CrLzEuBlOIHwvDAn8AUn/fbQ1d7YUDdA2uQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwFvDNQJdMOGvBDhjkqYU6qAT6W8mWU2CcC5LPAAhJ/ubRwU24I
-	l6tX3h2Y1fHYSIpqSGjV1qvXg0f3DW3kY4Q8V2Fq0dUYnKBDQanciM9iZf/Ay80MeQCaK6MbSvY
-	9Drv3h0QMpoNp/PjT1g4rchZxMYnxNCM=
-X-Gm-Gg: ATEYQzzmYdqSimIt94K/aabqw89ygJCkIp5S3exfQVb4bVszXfTMgiOhvipJDYlkADN
-	uC3wXqynWwST7FNwVo/a71QU9rFMCM2oHS8q+/4Q3WDq5hQAoRbAyQ+mPLFehP+w3iSdBg8cuwi
-	Ya815itLEKYN2h2QlCV0KgEYIwsRt0PMluqKQRQaNO+iH5zsRoXyjzgsWroQpGFeQdR0dI+n6Ju
-	VQ6L1+5vjI+jkJ7MYZL4B3+FAAPjTIrwhNyty/J+Q9rVg/KOV3xfTbKW8uI+KFoAnchwx84MYFR
-	IowR2aMuWDeNYs4tEYEgtNiHWOE3ZocqyoAqJpDa9QzO2bVmGatOxLv5Fd8c9BABlT+35B4APw=
-	=
-X-Received: by 2002:a05:6820:80f:b0:67e:447e:d1a with SMTP id
- 006d021491bc7-67fabbd5b04mr535153eaf.6.1774993014482; Tue, 31 Mar 2026
- 14:36:54 -0700 (PDT)
+        bh=fvGGAAIkJYXYlK2HRa+mui/7ZxP8IFY7+ERdHeXnYJQ=;
+        b=ISWv+lzMVOFDsU6YKyMw4q/XI5YdpUmafPJeNFIHzHk2hfsQ7RjY8r8bzaD/limY3f
+         CSrP9PUuggzYwBruc7akz0RHZfz3m5AQsOYO2UtrrkXJDfDtrbGY6f8TQ4mRmLKclrKB
+         SnCgvBld0jDF/6pg+Xz8Ti3Ip+5uUSiLwWpMo0aHhIMdGhdImPtSHvk5o453smOsG6iT
+         tlsO/LEqiJvRE210A0gG2r3XGrXQEUf9s7sCW5PmiPpksDqFHkvH/bBUymbJAWr7YK9F
+         qZCIgHHwe9bl9veTGTJNWN6ZuZA86gqhjLd150OHiP6o9ihuBI6zQNBxWcUMUEDZwvmP
+         s1/A==
+X-Forwarded-Encrypted: i=1; AJvYcCXXgHQ64dBf5PNEXF4McVFto8tz+Vq85JiAnNTs7hen9FeIv5x6nztA2vsI97SduwLf06wp2LRChG4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz8Tp8I0BvSpsSnHWzVj8LqpOqdGxAIZrLVaAs9lLIa7Uq4qvfw
+	wEKKzvxm5hdLVW+5ApYizQS9cNPPU68uctmA5lcx1HycgBhIaFvosSLDyddYHukdsS7Sydft3xa
+	1gxjxZOhw/gw9l5fZlAQPPhun54zuI1SewBN3iN3X
+X-Gm-Gg: ATEYQzxW4JVTRJSS8YsWw2hjOjcGia05lwX5SWW4I06kwtYhCCGx5od5bDPksxneuk0
+	IHPyX5flGie/PczlEkiWKA7q3Loe8ba+070ttxCbloW4WyiDejxrp1tsk7b7qXtR5ZD94j2HnNp
+	QoWdxcmsb+rzGIPzthtQICtyTNDjc36cgIl9pvVHF1WN7puNZP1DRfc6QL4pZWYbiB221dDY3y0
+	28S8Lxlda2qk5KEwmnfuypu5JITaVKhLcbTde1HfyXRiTrvRWzRIVG5QBrxvhGoEz11ExFe/GeN
+	7h9vVoE=
+X-Received: by 2002:a05:6102:2920:b0:5f5:40ab:2d65 with SMTP id
+ ada2fe7eead31-60567fb080emr381935137.22.1774993851331; Tue, 31 Mar 2026
+ 14:50:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260329165041.831369-1-danielmaraboo@gmail.com>
- <20260329165041.831369-3-danielmaraboo@gmail.com> <177488383990.1817745.13341460240426478773.b4-review@b4>
-In-Reply-To: <177488383990.1817745.13341460240426478773.b4-review@b4>
-From: Daniel Pereira <danielmaraboo@gmail.com>
-Date: Tue, 31 Mar 2026 18:36:43 -0300
-X-Gm-Features: AQROBzAihIvYo5OWMbhelQtMqcKwyOzogv9lj0NPVePrEXpm7juUnYOpc0Skq3E
-Message-ID: <CAMAsx6fHPWV3iqUvVjsez_0GgnwYv+E4umuD22Ro8t6PZTsk-A@mail.gmail.com>
-Subject: Re: [PATCH v2 2/5] docs: pt_BR: start translation of the PGP
- maintainer guide
-To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+References: <20260331163716.work.696-kees@kernel.org> <20260331163725.2765789-5-kees@kernel.org>
+ <CAHk-=wiJ6Q_qMHSe-hs+QvqKVZphvDZjvFP_gQLw1eaWimv8+w@mail.gmail.com>
+ <202603311253.95C54588E@keescook> <CAHk-=wjSOGaausLeTD13yAqso7qM09EnkDFiN7wF15kH0VWmZQ@mail.gmail.com>
+ <202603311321.4EE9FEA@keescook> <CAHk-=wj9pWsgsbrLDOk7ipKnHbz3JvuqsmQ3DhGg-OKgKS9DUA@mail.gmail.com>
+In-Reply-To: <CAHk-=wj9pWsgsbrLDOk7ipKnHbz3JvuqsmQ3DhGg-OKgKS9DUA@mail.gmail.com>
+From: Justin Stitt <justinstitt@google.com>
+Date: Tue, 31 Mar 2026 14:50:39 -0700
+X-Gm-Features: AQROBzCZD3X4CkUD9sEd-qirDA1mrMa-OH7YNrOM0p4tLkqwVMQeCLGoKwyIRLE
+Message-ID: <CAFhGd8rE+ggYghcwUphSRc2ftQMaX7LbKKPwQZzsw43bg9VVmA@mail.gmail.com>
+Subject: Re: [PATCH 5/5] types: Add standard __ob_trap and __ob_wrap scalar types
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Kees Cook <kees@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+	Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Mark Rutland <mark.rutland@arm.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Thomas Gleixner <tglx@kernel.org>, Finn Thain <fthain@linux-m68k.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, 
+	=?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
+	llvm@lists.linux.dev, Marco Elver <elver@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Nicolas Schier <nsc@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, 
+	linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-> The "para download" jumped out at me. Like I said, I'm not very well
-> versed in pt_BR, but shouldn't this be "baixar"? Looking at other docs
-> in the pt_BR translation, I think they use "baixar/baixando" there. I do
-> realize that technical jargon is normal, though.
+Hi,
 
-Hello Konstantin,
-
-Thank you for your feedback.
-
-
-Regarding the translation of "para download" versus "baixar," we use
-both terms in Brazil. In the context of technology, the word
-"download" is extremely common and, in many cases, the most used.
-"Baixar" would also work, but I prefer to keep "download" as it fits
-well within the technical jargon of the area.
-
-Regards,
-
-Daniel Pereira
-
-
-> > [ ... skip 80 lines ... ]
-> > +
-> > +Voc=C3=AA tamb=C3=A9m deve criar uma nova chave se a sua atual for inf=
-erior a 2048
-> > +bits (RSA).
-> > +
-> > +Voc=C3=AA tamb=C3=A9m deve criar uma nova chave se a sua atual for inf=
-erior a 2048
-> > +bits (RSA).
+On Tue, Mar 31, 2026 at 2:05=E2=80=AFPM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
 >
-> Looks like this got duplicated.
+> On Tue, 31 Mar 2026 at 13:31, Kees Cook <kees@kernel.org> wrote:
+> >
+> > (Isn't this just an implicit "try"?)
+>
+> Yes. And I think that's ok.
+>
+> I think try/catch is broken for a few reasons, but the fact that catch
+> and try are tied together so closely is the main one. You can't "try"
+> inside a scope without having the "catch" inside the same scope.
+>
+> So then the solution is to just move the try to the outermost layer,
+> and I think that's pretty much what everybody does.
+>
+> But at that point, why not just move it *all* the way out, and make it
+> implicit and invisible?
+
+How do we feel about type-defined labels? We can specify sane default
+handlers where we define the types:
+
+        typedef int __attribute__((overflow_behavior(trap, __handle_me)));
+
+... and define specialized handlers later on
+
+int func()
+{
+        ...
+        u8 __attribute__((overflow_behavior(trap, __BOOOOM))) product =3D 5=
+;
+        ...
+        product =3D a * b; // if store is truncated, goto __overflow
+        ...
+        return product;
+
+__BOOOOM:
+        pr_info("%u\n", product); // shows "5"
+        return -1;
+}
+
+We would then probably want a kernel shorthand to avoid long type definitio=
+ns.
+
+        #define __TRAP(handler) __attribute__((overflow_behavior(trap,
+handler)))
 
 
-You are correct about the duplication in the section:
+At least this way the label is always defined somewhere in-source
+rather than by a magic -fhandle-my-overflow-at=3D__overflow
 
-Voc=C3=AA tamb=C3=A9m deve criar uma nova chave se a sua atual for inferior=
- a 2048
-+bits (RSA).
 
-This was indeed a mistake and will be fixed in v3 of the patch.
+>
+> Which is kind of exactly what your suggestion is all about, and that's
+> why I like it so much.
+>
+> It *literally* fixes try/catch. It makes the only really valid usage
+> model just work better.
+>
+> (There are other reasons I dislike try/catch too, the whole
+> "exceptions across function boundaries" being another one that your
+> model avoids).
+>
+>                 Linus
+
+Justin
