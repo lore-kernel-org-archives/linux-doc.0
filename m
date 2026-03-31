@@ -1,208 +1,267 @@
-Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012035.outbound.protection.outlook.com [52.101.53.35])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 158503E274D;
-	Tue, 31 Mar 2026 12:57:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.35
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774961848; cv=fail; b=hPGzUn671d5cApu9SwA/MRr/QiaVzkyZb4BB9qQZPl0qWeZXUa1puxA6o0cswfNN/9zv2friZuFQGf1yn+S8AJANTC7MWhAkmyt0ltkwgCP9Oj3ymctxsx6VLxvIEBGpCuZjzUcqENJTTfSaN/ZV9+2NowpgvpXCviBgAAGPmrg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774961848; c=relaxed/simple;
-	bh=Nroa6LVpL+McKXCPdjvZmvLYQCewQCQtHFS8s5nVoVI=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=ojyWM5SP5+471DqM6KrZqrrrhpdOvVzK+lkWtc8n1MW2eBKMVNWVf/O7cNiUXmeZ4RfaOBj2YCm/+NIzfUlyQpiyJ/vwhMIyL3jRTOE6KAV045apKqrvwMzbuA1mbpRC2CC04wQrqiOAx09KkZzQ99BxC4ReK446tVmG8a+HijQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=W31VwgIX; arc=fail smtp.client-ip=52.101.53.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4815C3E3D99
+	for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2026 13:01:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774962075; cv=none; b=cwJi/y/O92NyBGHQcE48gBlWhC/WaBmR4hHW1uMpLgmXzFy1nkKRRRDIL1uEOdlOfnqSTDCeR5jUGj9ecs7SYWpe0n07zzP04HeIjkkWbrxBWFxcfcqHQ9UkF3VSriM02tKmW3O2KO5Myabqf0YRXpX2eL1/BDNACo1pMOxKoBw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774962075; c=relaxed/simple;
+	bh=NWy6jF7tG5rVJozMzWzReQbDo/jcHM0/Ev1INEDWe+0=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wds9J1zc5YUWHPq/XFY14zcFBLcgk8lC8qDp2gehMZqjwsJiU4MawUoZh5SEJ/q9n/hcWTV1cDVsp1b0xGMbe2zl3kZJYBzEZZlyVAMfNgiNi92bU5kVt7/ul86pCwD8yPekU2L960FRGmX49X2boDNJqYYIuKJBDJiwFggio4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lUkSYTEf; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="W31VwgIX"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RBp+LC3rdx+ZeMunqXlUnwQz74uZ5CjhkE5hPa6SZ7au6ta08oGflRkqJ03CX+o1cEv+KkbPmSlOXEon87c0tUrqhu41oiAB0KiTJ0FwIfvdGfihCCEZCQKfi6AJnILJuZN69Ugg8QqVhwyZcGCJy5wdlEmiuZQOfVqxnevcq56pHWadySQ6vt8TB5RNzx9p17N7IybekhuU0VMxG/njfgy1F5YI5OdLfqC8tyqHgZ1IX3V+ZSBYOVCNIPg5yPr5qGfjEVd1+KYbWyuaFhpW2E62II2I5oMUCCkGYgyVqUcOiV24Y/yDWE79+DQeDxQvMTO4wFY7XEoZ0hUJ0fNOyg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Nroa6LVpL+McKXCPdjvZmvLYQCewQCQtHFS8s5nVoVI=;
- b=JwqdYGYBCEm2jZpTKVBf9uxyO1Nm4AhI3Nn7B4xkFtJ3J/ntDSzwZNpmOwETl7OUvdIolK+pzGb7MF0S0BzdL8vNeMIT0/CWNr0M5CcHPmU2BM7Qeb5SZ0mkvRrXR2o2T7G3FAURVgMq3URTMRMs9BnAyLmnBex5evkbDvbdDZKcdngvp0L1dpKGWujULggZQjL36i36JWfMr/EvjLC0niTYuBcXUHe81gumsttmu8AnNmQVGAw8pzVEKL/jTsg6V64Ov3x4RGwfa7wCqUrEPasN0XlspcRamUzyjrg+kGgIHif1BWMuSTuuJGGCrvsXH9fTTWk2ULV+w6XpVFkNtg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Nroa6LVpL+McKXCPdjvZmvLYQCewQCQtHFS8s5nVoVI=;
- b=W31VwgIXm/mGnRQNfLEIVKnVCbMFpFcKRTZvPNCFphMg4mvdu+E7CYgsJHUaTk7zF73h6N/UB+wP0At9S47vG77YtP/GN+PbyaK9+pkpQVr8dBzCt4nzYlDbxSnP1pHGVnkkjqBQKp9+meV0v70KlSiSpipGx5BsZJz2grsJ0JFvkkSqfZVLzVJt5Arm2aUkxICTOO2GfCB8IUNGcb7g6QMMAdP3T0MHKzElCoKB9HeUgVOWjHIF/lJet1+qnNJjS4ePM6Eu2MhQCA0hSniZwsUFOopfCUoBkwNc0kcVPJcqn9SItPyofIGvFufJl/Gj3j1d4OsSjtXwT7Y8lFnUjw==
-Received: from DS5PPF266051432.namprd12.prod.outlook.com
- (2603:10b6:f:fc00::648) by DS0PR12MB8217.namprd12.prod.outlook.com
- (2603:10b6:8:f1::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.16; Tue, 31 Mar
- 2026 12:57:17 +0000
-Received: from DS5PPF266051432.namprd12.prod.outlook.com
- ([fe80::d8b5:cf72:3e36:3701]) by DS5PPF266051432.namprd12.prod.outlook.com
- ([fe80::d8b5:cf72:3e36:3701%7]) with mapi id 15.20.9769.006; Tue, 31 Mar 2026
- 12:57:16 +0000
-From: Cosmin Ratiu <cratiu@nvidia.com>
-To: Tariq Toukan <tariqt@nvidia.com>, "kuba@kernel.org" <kuba@kernel.org>
-CC: "allison.henderson@oracle.com" <allison.henderson@oracle.com>, Moshe
- Shemesh <moshe@nvidia.com>, "jiri@resnulli.us" <jiri@resnulli.us>,
-	"davem@davemloft.net" <davem@davemloft.net>, "daniel.zahka@gmail.com"
-	<daniel.zahka@gmail.com>, "donald.hunter@gmail.com"
-	<donald.hunter@gmail.com>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"matttbe@kernel.org" <matttbe@kernel.org>, "pabeni@redhat.com"
-	<pabeni@redhat.com>, "horms@kernel.org" <horms@kernel.org>, Parav Pandit
-	<parav@nvidia.com>, "corbet@lwn.net" <corbet@lwn.net>, "kees@kernel.org"
-	<kees@kernel.org>, "willemb@google.com" <willemb@google.com>, Dragos Tatulea
-	<dtatulea@nvidia.com>, "razor@blackwall.org" <razor@blackwall.org>, Adithya
- Jayachandran <ajayachandra@nvidia.com>, Dan Jurgens <danielj@nvidia.com>,
-	"leon@kernel.org" <leon@kernel.org>, "vadim.fedorenko@linux.dev"
-	<vadim.fedorenko@linux.dev>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, Saeed Mahameed <saeedm@nvidia.com>,
-	"shuah@kernel.org" <shuah@kernel.org>, "andrew+netdev@lunn.ch"
-	<andrew+netdev@lunn.ch>, Mark Bloch <mbloch@nvidia.com>, Jiri Pirko
-	<jiri@nvidia.com>, Carolina Jubran <cjubran@nvidia.com>, Shahar Shitrit
-	<shshitrit@nvidia.com>, "daniel@iogearbox.net" <daniel@iogearbox.net>,
-	"minhquangbui99@gmail.com" <minhquangbui99@gmail.com>, Nimrod Oren
-	<noren@nvidia.com>, "dw@davidwei.uk" <dw@davidwei.uk>,
-	"jacob.e.keller@intel.com" <jacob.e.keller@intel.com>,
-	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>, Petr Machata
-	<petrm@nvidia.com>, "edumazet@google.com" <edumazet@google.com>,
-	"antonio@openvpn.net" <antonio@openvpn.net>, "mst@redhat.com"
-	<mst@redhat.com>, "linux-kselftest@vger.kernel.org"
-	<linux-kselftest@vger.kernel.org>, "linux-rdma@vger.kernel.org"
-	<linux-rdma@vger.kernel.org>, Shay Drori <shayd@nvidia.com>,
-	"sdf@fomichev.me" <sdf@fomichev.me>, "chuck.lever@oracle.com"
-	<chuck.lever@oracle.com>, Gal Pressman <gal@nvidia.com>, "joe@dama.to"
-	<joe@dama.to>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH net-next V9 12/14] net/mlx5: qos: Support cross-device tx
- scheduling
-Thread-Topic: [PATCH net-next V9 12/14] net/mlx5: qos: Support cross-device tx
- scheduling
-Thread-Index: AQHcvO6IvJA9XXDxIkG79e0auTqdFLXH7KAAgAC1ToA=
-Date: Tue, 31 Mar 2026 12:57:16 +0000
-Message-ID: <825a4d417827cb7cd2ce896ee9e32b4108a21ed0.camel@nvidia.com>
-References: <20260326065949.44058-13-tariqt@nvidia.com>
-	 <20260331020820.3525138-1-kuba@kernel.org>
-In-Reply-To: <20260331020820.3525138-1-kuba@kernel.org>
-Reply-To: Cosmin Ratiu <cratiu@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DS5PPF266051432:EE_|DS0PR12MB8217:EE_
-x-ms-office365-filtering-correlation-id: bd2408dd-6e59-4b94-7918-08de8f250974
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|366016|7416014|376014|38070700021|18002099003|56012099003|22082099003;
-x-microsoft-antispam-message-info:
- LfRo5s4d4N94TMyIHhOY/2680thTXws/YW6/on5r0TxPzCEmJF49YlOwmPLMyusCclR01mNMJW/WlcOFDJyv5xhXSnS2BQnEeJEk2TK639596IX7o/JwPfyZ5xTZcqP79Snco5CLp6gPWlLCNk/i4QZEaji4D+XRVwMJ5ipm36ajLflxWV1SOBC+TTPJ1dXsbHm94SaFjjsbYHpgiQYyWW+0RTyL9naskTUTZ0Lw6jR1siZyhJDtreo1DsurcQQHZjvdH2SCSmAGLI8UvPOM6WVRmPwxWraRjrGrDYh13hf5mJZM67evUEwsi+jiB630dQVXH3FvLubY1jKfDb6Sjli33QG4bId3ZtfWZAdPEHkfyyZCJ0FOhTWe1PaJN/jGs1CP7//MwmM15wBOaEk9PLpuTrel2Px8Kdp61EHglflOM43DPW/Yqni6pRS7aDjALbfNyII5R2himGjx/vkyaFb3LIRWC5R85ykvOM1JMZEP9pRF75bH5hxQd45pzHVE6FsW3v4wDvs64rCAwaOLdHy1i06xQYOUBdh/Zw9Y23PaP2IE9EPH8lB7yyic++Bw3jmgJu7OgCuUS1TKik0pcK84aPmzqbyZ30qLKb3OCMOsI0uh+QLL/2isvpTq6JeiPMAqNUaOCZ8KQbU8Ar15MeQQnVObkybBIHJgGlAqobshAM4sY7J35UpUhZE/xoLRooAZfn1Ues/CB98iROnfJVuETwOFr9YiSQHBz84tWFtT/wdAsZM49QEsNVFdBoc51RC2eFwLSyjesli7R6IE3ILAa4zB0WPSceT/lZsRD/Q=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS5PPF266051432.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(38070700021)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?TnlKeU44b095ME00NzJRL28rcWhzSldTMUpydEd3UjFBc2xOcEl2Sm5jbjB5?=
- =?utf-8?B?THV1cUNaWlNSNlhiNnlvL0c1akdMU2RuWCtBblhFVytlYTgxYUhUS1JUa0tk?=
- =?utf-8?B?WXV0ZFRCMTc3MG52YTlJbjYvWHlETHpCdFVhRGRmUHV5RDhDZXBMM3BUNllh?=
- =?utf-8?B?K2hadHU1VlBXdUlqa28wUG51NkZ2N2h0Zm5tZTVXMUh0YWtDZTRldmFsVGFI?=
- =?utf-8?B?SjV6YnhhdjNpbU15eTFnYStMSndrUGxuc3hNOXpLNWRGdDlUcW1EWk1VdGJ0?=
- =?utf-8?B?bG10SysvTzEyTVpFb1F3cUhQeTFCTUE5NG5VRkl6S1dFT0M0RmtqMk5KMTFJ?=
- =?utf-8?B?UHg1elI5NFR2TXFjK250WHNMSW54TzZQR0xldGVoalJXNzdDV3V0OHBoTXl0?=
- =?utf-8?B?U1pPajRBSThmRjAzTlZod1hzQ2gvN2JqOHlLWkpsME5XY3FFcTJ5OXNYRVcy?=
- =?utf-8?B?dllkVGRFOTVrZ3hRQ1VYbXR6c2xlbC9laHFJWWtnODF6MnZleFdpbEpqdmVy?=
- =?utf-8?B?UmFzNHA1QmdIOGxHME9XTzRrM3A1dFhjU2p0TkNtVlhKZktoK24yakpVZllV?=
- =?utf-8?B?cEhQeFoxSFhSeWkwZWRsVFdZelZsV1lCcHhkbmJlQXQxSkQ2di9xSXZSK3Zr?=
- =?utf-8?B?VWJ2b0lTY1JOcjU5S3A4OWQzaVJyNWlWY3MyVG4rck9mSk9CbGE0TDlRWWRS?=
- =?utf-8?B?MGxhVFN6SFhqZzJod2E4UkhIcTVEYWp6bW9UREVJVE5XYkhxcUlPcGI1MG1y?=
- =?utf-8?B?alpBVTZNVDhDVm0vWktzc1QvZE5qUVFwbTVQV2Q4VEltMm1LYnBxYUw4b1g5?=
- =?utf-8?B?OTdhSUxCcnkybUNPSDlvb3Z5aHJEaDRDbjRmMGJ1bTJYY3FpdTR2eTR3RVkx?=
- =?utf-8?B?Zk40RUtsbThwZUxYTDY3aTVOWFZVKzJ6UmJ1WmpCbGRoRUNtY1FYd2VLMXNi?=
- =?utf-8?B?azM1QW1GeWtERFd4dDMyWUMzQ2VHOWxPaDJSaGxLTjI5TVNaVXltRTk0YmV0?=
- =?utf-8?B?MnVVSjJ6MnZya0tKMlNiaGVPRmVLUWVONW1FMkI5dEswZlZGMnRaY3EranRk?=
- =?utf-8?B?ckVIbmRvZU16ZnV3Zks2eWpSRDlBeVFuQURqci85b2luQmVqcWo3WS9jU0xT?=
- =?utf-8?B?NXF3eFgrYWRDZi9Fd0Y2Y2hoTlpySHlPbmRIV05pVjg0Wmw5WTluM3BtWloz?=
- =?utf-8?B?TU03VFJDWEV2Z1BXYVFZYTZWRFBoK2FYUnBoZUlXM2dNa3JFaWI0UUZyTTRz?=
- =?utf-8?B?OS9HeFh1ZHlmbnNIemdlQzdaK0QyWXlTWUE3L3dlNG5MeXVJV25KcEJYY2Zk?=
- =?utf-8?B?SlpYYWRkSkNqK21kS2ZlN0g3MElPUThCRGR0NnNjalE0NDhGdW1iVHQzMDlt?=
- =?utf-8?B?UlpFUUUvdXdqVlNSaHRxSXg5R3NLVkpkb1h0KzRFT2cwcG9uZ0pMblFtNTU0?=
- =?utf-8?B?eWlrUlJIeVpEUXFJOXAwYWV5OWRCdTdmakxLT3NwQ3NMOFJDZDdPdE13Misv?=
- =?utf-8?B?WmJHdFlKOGJNeHRuRFBYemUrWkZvNFZoVFlwZkNWMk5ESGp0K1AweVR3bFRk?=
- =?utf-8?B?WHU5YWdQcHZySDYyNUh4VjBjWE16M2ZzcmVtV1JvWGlXdnRhY0ZrUHQ5N1lz?=
- =?utf-8?B?cm0vZmZhQnV3RnE1dFRaUjZEQmJaQzVTQWl2ZkNOVDdOSXp4WU1PcFBQRHNQ?=
- =?utf-8?B?UHFESVRlbC9Xc1Z2UHlteEtUT1ZNejVjV003VFRRSnVjMmtBVUhlT2FhMTF6?=
- =?utf-8?B?NzZIM2FBcWswa2VFcU02a3NJaVd1dU9OU2FwVDJvbk13K2l3M2ZoeEw5STgr?=
- =?utf-8?B?SUVqZlpqd1pwQ3loNmQ4TzdKTEp1WG40MFcwbk1CeWFXeVVzTzRrYUR1ZTU5?=
- =?utf-8?B?TENGSW1lVEFuM1EvVjI1dk80Ri9GeUZrTnZoS1VCOEUwY1hxTGFDR2wydThL?=
- =?utf-8?B?SXhYaUxmZTlMZWdSaTVROXFwZGJnYnF3WmF2Rmh3Mmhlbi9uV1VyNHJjOFhN?=
- =?utf-8?B?ZFhsWFlBaWhXMzl2Y1FFMC8vNCtubEU4RU1kMjU2SEJJU0J3R2M2VHZBMDdk?=
- =?utf-8?B?dWVtVHFSUWMvZ2ZTSFlEYzAvbTVMS2kvVXd2Z1h1Sk8wV0J0MzVNaXdpOTBl?=
- =?utf-8?B?dnFhenRDbkhmYnNuRkRzeFZELzhyMzVjbzNSdysvTnhyWDEwcTVybnpuNnQ4?=
- =?utf-8?B?VzgxaHJSa1NxdG8zSDFjcmJsL3NLTmcxb0tMdzhSbWtYcmpEYWorL1ZoTWhL?=
- =?utf-8?B?eWRHMFVHN3NYYjdCZnJlVlZSR21zN1N0d3J6S1FmTjd6TFZ0WTJpZTUyUEpr?=
- =?utf-8?B?Vk9oTzlZQUl6aVRabzVMVkczMUNvOWxhRXJMQ0FpOFpkYURhWm0rZz09?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <E303EB70AF92534E86534CD20B854F8E@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lUkSYTEf"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-b9358dd7f79so2157766b.1
+        for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2026 06:01:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774962072; x=1775566872; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=eGzN6mgCDgiU/jVdvBBBVzTIEeR9WyAbTd7AEaibUjU=;
+        b=lUkSYTEf6lWf55VPjKrGk2W9FnEV5GPGD5zdpiWo14Ir4y4/+D95q2wlx5Zgn4AZuA
+         v3DSGNqTb4nicn+wxRC0ntsiDmWBCtONTpy9bWcSoOE8FxmG3PAwCb7AjEO7ultm8RZG
+         jN+rdgHvoGDmOnCqERaUuaQ91YrIkZ4P2clsBpD8sZaT0bMKYZH6w4ehv300RbhMJf8y
+         7U0OQp/QDGJLlNf9YhZ7ZRIm8PEfNj9WCyoGNtGGY3lHUPK+RNos8Na/OuJ1JBy1DlMq
+         U7il1iCkg4eG1hFOMoFX0ddnnvKjbAX0Jw5BE1DyAERkrD27UWmhYBtTHmB7dAif3DrB
+         f6DA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774962072; x=1775566872;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=eGzN6mgCDgiU/jVdvBBBVzTIEeR9WyAbTd7AEaibUjU=;
+        b=OEQp1dOhuuL4OpJmLcVeJ7t7hhrbQlbF7JPfWSDPO2HTjFBrl7kNQSZbflHBrm2Be8
+         039XUhoZ9Kwzz0Nsa8U4jQBbvJPPb98Qjm4ESvNx4NG4W/B8Bq3H0maiDlYD75dSZpES
+         Ta1DbfaNDw6pahc4Eypjx7qveB9spi5SYfsc6Rs7utgwaV6BfUlReWQao2aZXJyY8Wav
+         WHxBSRlajRUzhuaiesJFeDLHV6H68sPWPuGhURar3nq/YO6QOh9kQhmqyMpqfw8OSDxI
+         zBcElRkGJm1fNq0w3lPj/M4UEIcPIYc4EfMiI+oEIMvgprOjQn0elblQs12Hvpe+0ZAj
+         5S+w==
+X-Forwarded-Encrypted: i=1; AJvYcCV6N/reikDKi71yj28/4vaz40T66e1Kv2UMNylMFMYveeyyehYkqnaNlX7TwBAdZz1T3a3wEihzpkI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwUEzcsxSGBFnj+ZWk0GrzpTTGtHSfSkC49KHLcNBBb6imoxW5I
+	xQ6AFVGAyRr8OuBYoVy1GPl3NiArGhF+7ZuH16Mq6ZprHfZGs0IdQxXb
+X-Gm-Gg: ATEYQzyGejm9CruQMfCgeLqN5I+9hTdNKnydLPYAhXwsv0qt24fXRXxHWGQwlIe3pFh
+	oaW3zcTOJxnrs+PF5E1C//EN2spVEBUN7IiiopaqxBygoIKDEcOWGIXAG67+39yVd4lFDyR84RL
+	QiQBWB6RF8cJ4Qy0AZ5K4FQ1in/fnDqTWPZCwrvEKqDmNzhZMZcShMCR8KkJZczBWZ8Zi/wUrQr
+	eVgS3aqUeYHlmku08hyDgOjN2InWJ+F/Lb9fZ0gBAuNCLa6MiDw/o1iVB6Jj/4pJtkyk6sh/wWJ
+	5ZyexjZXS3BOakxo5XrRL15RMAlYqDRtbsV7FHJCX2ar31m3ch58xdmm/1U1eIQJ0pRRSabKL04
+	7xm5por5nsq7DWQ9nv6l47Ocp3oMpXyzTLPZdtWjLT55qvIHBXkJlZcO+WE7gLAwfOKT/FJtIK2
+	biCWQZwwr51NZjOMKtw/O0izIxH/PnnV4KWxzpEFJ+pBD2l63LVTrUjrYs0i572cesc6H/M34ML
+	w5dZ+58F8U7TK4ARzGo5NFzPVxieO5dabNjB3eAeu0w0VeDhoI=
+X-Received: by 2002:a17:906:6a29:b0:b9b:fa57:d5bb with SMTP id a640c23a62f3a-b9bfa57d970mr128126466b.46.1774962070994;
+        Tue, 31 Mar 2026 06:01:10 -0700 (PDT)
+Received: from RDEALENC-L01.ad.analog.com (24.206.116.131.netskope-rdns.com. [24.206.116.131])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9b7b1a5dddsm411266366b.35.2026.03.31.06.01.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 Mar 2026 06:01:10 -0700 (PDT)
+From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
+Date: Tue, 31 Mar 2026 14:01:04 +0100
+To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Petr Mladek <pmladek@suse.com>, rodrigo.alencar@analog.com, 
+	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>, 
+	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH v9 2/9] lib: vsprintf: export simple_strntoull() in a
+ safe prototype
+Message-ID: <mnz7d2zd27x6h2qa24rajgrbhkhsypybadkqz2fi43rg7bvjvj@oufys7xs25t4>
+References: <20260320-adf41513-iio-driver-v9-0-132f0d076374@analog.com>
+ <20260320-adf41513-iio-driver-v9-2-132f0d076374@analog.com>
+ <acZDneLrIPOmU5ci@pathway.suse.cz>
+ <acZLHAT5qJyjKTsp@ashevche-desk.local>
+ <4uijfg4efzaapu3esobez55hfwqzszwagpeb4lxej2ybmifu76@s3c57fmnsme6>
+ <acZaGUV0MwuHNDru@ashevche-desk.local>
+ <x34d7jz7be4ommjh6efx5mcq5pbpellykwuyrqayr4ske3lywf@wh46mu3anmcz>
+ <qnb3ozrhrq5n4zkh2luitkpwr5oj4omgcuo5vnvy2gatdfdqlg@cgsgux7etcql>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DS5PPF266051432.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bd2408dd-6e59-4b94-7918-08de8f250974
-X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Mar 2026 12:57:16.8165
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Xx6Os3mzBQF3qJJxp5+ftF8e24MT9qvGCQLt2VzViB2dszudMhjWJ8AQn7riUOCfyyGxCgZvrK99R+8xuABI0w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8217
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <qnb3ozrhrq5n4zkh2luitkpwr5oj4omgcuo5vnvy2gatdfdqlg@cgsgux7etcql>
 
-T24gTW9uLCAyMDI2LTAzLTMwIGF0IDE5OjA4IC0wNzAwLCBKYWt1YiBLaWNpbnNraSB3cm90ZToN
-Cj4gVGhpcyBpcyBhbiBBSS1nZW5lcmF0ZWQgcmV2aWV3IG9mIHlvdXIgcGF0Y2guIFRoZSBodW1h
-biBzZW5kaW5nIHRoaXMNCj4gZW1haWwgaGFzIGNvbnNpZGVyZWQgdGhlIEFJIHJldmlldyB2YWxp
-ZCwgb3IgYXQgbGVhc3QgcGxhdXNpYmxlLg0KPiAtLS0NCj4gbmV0L21seDU6IHFvczogU3VwcG9y
-dCBjcm9zcy1kZXZpY2UgdHggc2NoZWR1bGluZw0KPiANCj4gVGhpcyBjb21taXQgcmVsYXhlcyB0
-aGUgcmVzdHJpY3Rpb24gdGhhdCByYXRlIGdyb3VwcyBjYW4gb25seSBjb250YWluDQo+IHZwb3J0
-cw0KPiBmcm9tIHRoZSBzYW1lIEUtU3dpdGNoLiBJdCBlbmFibGVzIGNyb3NzLWRldmljZSBUWCBz
-Y2hlZHVsaW5nIGlmIHRoZQ0KPiBoYXJkd2FyZQ0KPiBzdXBwb3J0cyBpdCwgTEFHIGlzIGVuYWJs
-ZWQsIGFuZCB0aGUgRS1Td2l0Y2hlcyBzaGFyZSBhIGRldmxpbmsNCj4gZGV2aWNlLg0KPiANCj4g
-PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9uZXQvZXRoZXJuZXQvbWVsbGFub3gvbWx4NS9jb3JlL2Vz
-dy9xb3MuYw0KPiA+IGIvZHJpdmVycy9uZXQvZXRoZXJuZXQvbWVsbGFub3gvbWx4NS9jb3JlL2Vz
-dy9xb3MuYw0KPiA+IC0tLSBhL2RyaXZlcnMvbmV0L2V0aGVybmV0L21lbGxhbm94L21seDUvY29y
-ZS9lc3cvcW9zLmMNCj4gPiArKysgYi9kcml2ZXJzL25ldC9ldGhlcm5ldC9tZWxsYW5veC9tbHg1
-L2NvcmUvZXN3L3Fvcy5jDQo+IA0KPiBbIC4uLiBdDQo+IA0KPiA+IEBAIC0xNzM4LDE4ICsxNzYx
-LDQ0IEBAIGludCBtbHg1X2Vzd19kZXZsaW5rX3JhdGVfbm9kZV9kZWwoc3RydWN0DQo+ID4gZGV2
-bGlua19yYXRlICpyYXRlX25vZGUsIHZvaWQgKnByaXYsDQo+ID4gwqAJcmV0dXJuIDA7DQo+ID4g
-wqB9DQo+ID4gwqANCj4gPiArc3RhdGljIGludA0KPiA+ICttbHg1X2Vzd192YWxpZGF0ZV9jcm9z
-c19lc3dfc2NoZWR1bGluZyhzdHJ1Y3QgbWx4NV9lc3dpdGNoICplc3csDQo+ID4gKwkJCQnCoMKg
-wqDCoMKgwqAgc3RydWN0IG1seDVfZXN3X3NjaGVkX25vZGUNCj4gPiAqcGFyZW50LA0KPiA+ICsJ
-CQkJwqDCoMKgwqDCoMKgIHN0cnVjdCBuZXRsaW5rX2V4dF9hY2sNCj4gPiAqZXh0YWNrKQ0KPiA+
-ICt7DQo+IA0KPiBbIC4uLiBdDQo+IA0KPiA+ICsJaWYgKCFtbHg1X2xhZ19pc19hY3RpdmUoZXN3
-LT5kZXYpKSB7DQo+ID4gKwkJTkxfU0VUX0VSUl9NU0dfTU9EKGV4dGFjaywNCj4gPiArCQkJCcKg
-wqAgIkNyb3NzIEUtU3dpdGNoIHNjaGVkdWxpbmcNCj4gPiByZXF1aXJlcyBMQUcgdG8gYmUgYWN0
-aXZhdGVkIik7DQo+ID4gKwkJcmV0dXJuIC1FT1BOT1RTVVBQOw0KPiA+ICsJfQ0KPiANCj4gV2hh
-dCBoYXBwZW5zIHRvIHRoZSBjcm9zcy1kZXZpY2UgcmF0ZSBzY2hlZHVsaW5nIGlmIExBRyBpcw0K
-PiBkZWFjdGl2YXRlZA0KPiBhZnRlciB0aGUgY29uZmlndXJhdGlvbiBpcyBhcHBsaWVkPw0KPiAN
-Cj4gV2hlbiBMQUcgaXMgZGVhY3RpdmF0ZWQsIHRoZSBMQUcgc3RhdGUgaXMgdG9ybiBkb3duIGlu
-IGhhcmR3YXJlLCBidXQNCj4gdGhlcmUNCj4gZG9lcyBub3QgYXBwZWFyIHRvIGJlIGEgY29ycmVz
-cG9uZGluZyBjbGVhbnVwIG9yIHVwZGF0ZSB0cmlnZ2VyZWQgZm9yDQo+IHRoZQ0KPiBjcm9zcy1l
-c3dpdGNoIFFvUyBzY2hlZHVsaW5nIGVsZW1lbnRzLg0KPiANCj4gQ291bGQgdGhpcyByZXN1bHQg
-aW4gYSByZWdyZXNzaW9uIHdoZXJlIHRoZSBoYXJkd2FyZSBUU0FSIHRyZWUgYW5kDQo+IGRldmxp
-bmsNCj4gcmF0ZSBjb25maWd1cmF0aW9uIHJlbWFpbiBwb2ludGluZyB0byBhIG5vdy1pbnZhbGlk
-IFZIQ0EgYXNzb2NpYXRpb24sDQo+IGJ5cGFzc2luZyB0aGUgc3RhdGUgdmFsaWRhdGlvbiBhbmQg
-Y2F1c2luZyB0cmFmZmljIGRyb3BzIG9yIGZpcm13YXJlDQo+IGVycm9ycz8NCg0KVGhpcyBoYXMg
-YmVlbiBjb25zaWRlcmVkLCBhbmQgRlcgcmVqZWN0cyBMQUcgZGVhY3RpdmF0aW9uIHdoaWxlIHRo
-ZXJlDQphcmUgVkZzIHByZXNlbnQgb24gYW55IG9mIHRoZSBwb3J0cy4gVkZzIG5lZWQgdG8gYmUg
-cmVtb3ZlZCBmaXJzdCwgYW5kDQpyZW1vdmluZyBhbGwgVkYgd2lsbCBhbHNvIHJlbW92ZSB0aGUg
-UW9TIHRyZWUgZW50aXJlbHkuDQoNClNXIGNvdWxkIHBlcmhhcHMgbWFrZSB0aGlzIG5pY2VyIGJ5
-IGRldGVjdGluZyB0aGF0IHRoZSBRb1MgdHJlZSBzcGFucw0KbXVsdGlwbGUgZGV2aWNlcyBhbmQg
-aXNzdWluZyBhIHdhcm5pbmcgYmVmb3JlIGF0dGVtcHRpbmcgdG8gaW52b2tlIHRoZQ0KREVTVFJP
-WV9MQUcgRlcgY29tbWFuZC4gQnV0IHRoaXMgYXBwZWFycyB0byBiZSBhIHNpZ25pZmljYW50IGVm
-Zm9ydA0KY3VycmVudGx5LCBzaW5jZSB0aGUgTEFHIGNvZGUgaXNuJ3Qgc3RydWN0dXJlZCBpbiBh
-IHdheSB0aGF0IHdvdWxkIG1ha2UNCnRoaXMgZWFzeS4NCg0KPiANCj4gPiArDQo+ID4gKwlyZXR1
-cm4gMDsNCj4gPiArfQ0KDQpDb3NtaW4uDQo=
+On 26/03/30 01:49PM, Rodrigo Alencar wrote:
+> On 26/03/27 03:17PM, Rodrigo Alencar wrote:
+> > On 26/03/27 12:21PM, Andy Shevchenko wrote:
+> > > On Fri, Mar 27, 2026 at 10:11:56AM +0000, Rodrigo Alencar wrote:
+> > > > On 26/03/27 11:17AM, Andy Shevchenko wrote:
+> > > > > On Fri, Mar 27, 2026 at 09:45:17AM +0100, Petr Mladek wrote:
+> > > > > > On Fri 2026-03-20 16:27:27, Rodrigo Alencar via B4 Relay wrote:
+> 
+> ...
+> 
+> > > > > Maybe we want to have kstrtof32() and kstrtof64() for these two cases?
+> > > > > 
+> > > > > With that we will always consider the fraction part as 32- or 64-bit,
+> > > > > imply floor() on the fraction for the sake of simplicity and require
+> > > > > it to be NUL-terminated with possible trailing '\n'.
+> > > > 
+> > > > I think this is a good idea, but calling it float or fixed point itself
+> > > > is a bit confusing as float often refers to the IEEE 754 standard and
+> > > > fixed point types is often expressed in Q-format.
+> > > 
+> > > Yeah... I am lack of better naming.
+> > 
+> > decimals is the name, but they are often represented as:
+> > 
+> > 	DECIMAL = INT * 10^X + FRAC
+> > 
+> > in a single 64-bit number, which would be fine for my end use case.
+> > However IIO decimal fixed point parsing is out there for quite some time a
+> > lot of drivers use that. The interface often relies on breaking parsed values
+> > into an integer array (for standard attributes int val and int val2 are expected).
+> 
+> Thinking about this again and in IIO drivers we end up doing something like:
+> 
+> val64 = (u64)val * MICRO + val2;
+> 
+> so that drivers often work with scaled versions of the decimal value.
+> then, would it make sense to have a function that already outputs such value?
+> That would allow to have more freedom over the 64-bit split between integer
+> and fractional parts.
+> As a draft:
+> 
+> static int _kstrtodec64(const char *s, unsigned int scale, u64 *res)
+> {
+> 	u64 _res = 0, _frac = 0;
+> 	unsigned int rv;
+> 
+> 	if (*s != '.') {
+> 		rv = _parse_integer(s, 10, &_res);
+> 		if (rv & KSTRTOX_OVERFLOW)
+> 			return -ERANGE;
+> 		if (rv == 0)
+> 			return -EINVAL;
+> 		s += rv;
+> 	}
+> 
+> 	if (*s == '.') {
+> 		s++;
+> 		rv = _parse_integer_limit(s, 10, &_frac, scale);
+> 		if (rv & KSTRTOX_OVERFLOW)
+> 			return -ERANGE;
+> 		if (rv == 0)
+> 			return -EINVAL;
+> 		s += rv;
+> 		if (rv < scale)
+> 			_frac *= int_pow(10, scale - rv);
+> 		while (isdigit(*s)) /* truncate */
+> 			s++;
+> 	}
+> 
+> 	if (*s == '\n')
+> 		s++;
+> 	if (*s)
+> 		return -EINVAL;
+> 
+> 	if (check_mul_overflow(_res, int_pow(10, scale), &_res) ||
+> 	    check_add_overflow(_res, _frac, &_res))
+> 		return -ERANGE;
+> 
+> 	*res = _res;
+> 	return 0;
+> }
+> 
+> noinline
+> int kstrtoudec64(const char *s, unsigned int scale, u64 *res)
+> {
+> 	if (s[0] == '+')
+> 		s++;
+> 	return _kstrtodec64(s, scale, res);
+> }
+> EXPORT_SYMBOL(kstrtoudec64);
+> 
+> noinline
+> int kstrtosdec64(const char *s, unsigned int scale, s64 *res)
+> {
+> 	u64 tmp;
+> 	int rv;
+> 
+> 	if (s[0] == '-') {
+> 		rv = _kstrtodec64(s + 1, scale, &tmp);
+> 		if (rv < 0)
+> 			return rv;
+> 		if ((s64)-tmp > 0)
+> 			return -ERANGE;
+> 		*res = -tmp;
+> 	} else {
+> 		rv = kstrtoudec64(s, scale, &tmp);
+> 		if (rv < 0)
+> 			return rv;
+> 		if ((s64)tmp < 0)
+> 			return -ERANGE;
+> 		*res = tmp;
+> 	}
+> 	return 0;
+> }
+> EXPORT_SYMBOL(kstrtosdec64);
+> 
+> e.g., kstrtosdec64() or kstrtoudec64() parses "3.1415" with scale 3 into 3141
+
+Hi Jonathan,
+
+developing more on that, I wouldn't need to create a iio_str_to_fixpoint64(),
+what do you think on new format types:
+
+#define IIO_VAL_DECIMAL64_1 101
+#define IIO_VAL_DECIMAL64_2 102
+#define IIO_VAL_DECIMAL64_3 103
+#define IIO_VAL_DECIMAL64_4 104
+#define IIO_VAL_DECIMAL64_5 105
+#define IIO_VAL_DECIMAL64_6 106
+#define IIO_VAL_DECIMAL64_7 107
+#define IIO_VAL_DECIMAL64_8 108
+#define IIO_VAL_DECIMAL64_9 109
+#define IIO_VAL_DECIMAL64_10 110
+#define IIO_VAL_DECIMAL64_11 111
+#define IIO_VAL_DECIMAL64_12 112
+#define IIO_VAL_DECIMAL64_13 113
+#define IIO_VAL_DECIMAL64_14 114
+#define IIO_VAL_DECIMAL64_15 115
+
+#define IIO_VAL_DECIMAL64_MILLI IIO_VAL_DECIMAL64_3
+#define IIO_VAL_DECIMAL64_MICRO IIO_VAL_DECIMAL64_6
+#define IIO_VAL_DECIMAL64_NANO IIO_VAL_DECIMAL64_9
+#define IIO_VAL_DECIMAL64_PICO IIO_VAL_DECIMAL64_12
+#define IIO_VAL_DECIMAL64_FEMTO IIO_VAL_DECIMAL64_15
+
+which gets stored as 64-bit, and represent the decimal scaled value.
+That would also work for the PLL driver (using IIO_VAL_DECIMAL64_MICRO):
+  - It supports frequency range from 1 to 26 GHz with micro Hz resolution
+  - In the driver a 64-bit value: (val * MICRO + val2) is already created
+  anyways.
+I would leverage something like kstrtodec64() in iio_write_channel_info().
+
+That way, I would drop the changes on the iio fixpoint parse, which I think
+it would do better with something like kstrntoull() to be able to handle that
+"dB" suffix.
+
+So for now, I may have the following approaches:
+- new kstrntoull() function: to have control over the parsing, whithout
+  requiring NUL-termination, avoiding unecessary string scanning or copying.
+  covered in v8.
+- expose a "safe" simple_strntoull(): minimal changes to vsprintf.c, this
+  is covered by this patch series (v9), and it similar solution to kstrntoull().
+- new kstrtodec64() function: parse decimal numbers as 64-bit with NUL-termination.
+  Might be covered in a v10, if it is a good idea.
+
+let me know your thoughts.
+
+-- 
+Kind regards,
+
+Rodrigo Alencar
