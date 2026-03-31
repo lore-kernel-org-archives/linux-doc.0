@@ -1,186 +1,252 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B7453806B2
-	for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2026 18:32:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11CCC38F941
+	for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2026 18:41:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774981955; cv=none; b=hKqv4Ss5on6Z0kecJQbrAttWdawTo763zKK1X4PQQx7RancoRirdqKDr1b77T503uBcsO04A0XdunCQ13eHQp93heYA1iNFd08LxoaOorS9glBxSpOglrtLnKih0Z4q9/zDY5zvbVkSQT/Ewkm120wOAO6MTVXg0m7Vl3PDVTt4=
+	t=1774982487; cv=none; b=TP17NzIO3SDdLCJbVn6EkCDS6u84gvtBYZolC3BJHegbsi61DnW/21mZYhYLobXn83qAp9IoHfYgd2kJ2azt8Vfo74iKtjDDK9zEGNJAXVnyMZc37z5HbkcFKADMFqmBnmFpkUV4C6y0s/xRJkL4E46eXDTcptgGGBlYtYKsbVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774981955; c=relaxed/simple;
-	bh=ox6OjjUW3Qe6xBaqwUnJk6bmk2llYCPNtvoc4SxKSSA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Fp9nZJ2xYLPhtLuqei/d7EXmhfVyo9gUnmD+pEdyOu6la3aTm8/0j2+ELqPdu5ZP/qfcqCpczyKgGuoqbxWZBnt7RnqlQUyQJ4vsLrAzXz/Lu9YSuXeH4hY449+nyiYzjUkl9v+2CHRGZYDjSO4w9X/2dJg84b0ixaqlak5ydhU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=QNI3NuAo; arc=none smtp.client-ip=209.85.167.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1774982487; c=relaxed/simple;
+	bh=b4oOB+cE1UN5ardHWDCwv58C52n9br6YeW2dOw5y/Y0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=O8/ONPl2F6OQJu0xf6IH5XNe7gBuInpxZ4BWqbiqAC3mtaLluWIPTVYR3FJFbEu2VF0oGnxWky1oLr+JA1cCXQUX3bR4LgWPtKAb7v/lfVh/5AEYme8QNQIp0sK+seM06qJOQiDBGpgV6RlsEiZlzX8eDM2ZwHimMwC1TCjypv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=asqKZeq3; arc=none smtp.client-ip=74.125.82.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="QNI3NuAo"
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5a2a8abac7dso4586760e87.3
-        for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2026 11:32:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="asqKZeq3"
+Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-127380532eeso1319554c88.1
+        for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2026 11:41:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1774981951; x=1775586751; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ag9HU1BRKwZOnlae6UtSCfLk/g8PIJV9tSPEI30VDdc=;
-        b=QNI3NuAoGdjluVb/oIJOKjJmuFw6JF+PL7V0NHl0XEB+ho0PuUEYDtdddJ+s0/Cg76
-         VaAyW7tvu+GeWusBoNnolxSyYGUnQxAXtj+dEblymHSFYMtU7Y5dixpT1IouPB89SMtM
-         rMKLDV9DG56I6heKU0yEEWOg0Dh9FdSdeKqj0=
+        d=gmail.com; s=20251104; t=1774982484; x=1775587284; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=LiDEkkSBUbqq8xRSZm9VbsPNXKLV08haEOOr6RCuwFA=;
+        b=asqKZeq3xeLkeBZPlIVT76okaYZFV5G3Dip6aNHVPXphWfb1zJYBUrd2zxqnpuMxbH
+         C3gt/WPv42+tYZP4uMSxLYaisjNAHyJJjwqTmEp1p2jpxV6Y5V7csv7+hKgfP9Oum9Ng
+         UhB9PchbBgy5jLaf/X2kYYKDG7hMOayo0fGyuA6reTFidwr2g7GirF4efGWtyAix6GCz
+         PfTC7SmzfO4brJcqs6w3IjkofGfyV01LtIHpCSJN9hhyVzSntrzAXtKWgyt7WzZyUf6p
+         Ny43XhogXb5230yqMw3Gcl0Mlz0cTrCN4jd2nu8P2Hu3vKDIhywlKvPUOPgT/kwWPQYu
+         GV5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774981951; x=1775586751;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ag9HU1BRKwZOnlae6UtSCfLk/g8PIJV9tSPEI30VDdc=;
-        b=rr4Iea8axd0N9jpwKYN35byLLjHTewx3hfxa1GK6K9FRfFspSg4+BSg1WPM3MisxcA
-         Mb8iAW1d0VCyaDusktXHi6mnB75UrUX0LvnV2Ag0IOZ9VPmzgkW+Hz5lk/ZwUMtggolp
-         HsH8YhpUD4Lxpoi9Zd35PIHdoZ3Zpu9E0JgQjK9E5N/Ev3NMQYVvuuevVuSUeEV2gqYH
-         21vechk0X+ECzRJSsbNd2Q3Kt9g+ZqZzD8MU3ZKxcEjnRul7jSVCALSxmoU+XquofxNK
-         ie0ANmbx+uIQqEbdq7D0ClwfQfBDhD4yZoVuWW0KFRjjghmEHTk+9h72K2hjCZVb5Gof
-         kSmQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWNH/KsHyczvPRDvvZCpGQnq8UtaHZXSl1qH89qkmWL0l+cHwgarh1a5XlauXGrV5aQcHjRm63rGLw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwHWiQST3X9bYzhEZEt54hm8Tmsim/QfIOeddBYIgXu0Ex49x7G
-	IzUQBIaBnZv/i9y6hhWbRzvA7irong6qbz1c2fj/uFtwPfVvvuOhfiTo4UYylJ2oH35BXVOLSLO
-	z+Ktd6YoK1Q==
-X-Gm-Gg: ATEYQzyu0NW2O4W7RhURrIpehuw5vGdx6zse1RIpZUJZ58L+IXVqJTGhxZiMhP9zUYV
-	twNBxH7byO02FVPLtGLqnAvH2msEdddBXHECIEivbDJClTyNNXrxSZjqJBR1of+A+NEdcN6CZQG
-	0LQiIMYdOgYPj8EBkVq4T/YBM77AJ/6a94Pl0jqK6agaeFJDdqfYF9GVBgMZ6XQAku5P3OOR8dT
-	ghuTDpBNKFVEA7dGUm1nJafx8qEi+T4wTjVCT9nLPmx2Ezdbds7jIoszkIReLLvXoVXhCTen4Lp
-	YVIF2NTDm1QF+XGhuYAvjtWobLCOOPG5EcXKERtGsCTW7s6ncfzCJU3JZP0UXk2Mqar+UssfxLr
-	e+6tsgO96olGL4eTYd9e97EKwvajL3/mjgexi97RHBHcGVk5x/jLHEshF6tDzBTRdIiYaAvBzAg
-	/VXMUzCcigVoBnFhsUj1K3S0ndQvTfPL5juKZiJNoTC924wRMkqoYFvZ3ZIrfLFI5rAKN7qa/yC
-	Ec1
-X-Received: by 2002:a05:6512:3b12:b0:5a2:9605:d053 with SMTP id 2adb3069b0e04-5a2c1ee9b19mr185645e87.7.1774981951286;
-        Tue, 31 Mar 2026 11:32:31 -0700 (PDT)
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com. [209.85.208.173])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a2b13fd008sm2676773e87.19.2026.03.31.11.32.31
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 31 Mar 2026 11:32:31 -0700 (PDT)
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-38a2f196cbaso43733721fa.1
-        for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2026 11:32:31 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXzx5CRug1yJa7iti7ogfUbwHpbtXujSABmIEL2HqCqFcJXdna5kSnp/88JMoWsBjDrmfc5XS32dqM=@vger.kernel.org
-X-Received: by 2002:a17:907:8b8a:b0:b98:51d6:8843 with SMTP id
- a640c23a62f3a-b9c13b17382mr46677666b.28.1774981536085; Tue, 31 Mar 2026
- 11:25:36 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1774982484; x=1775587284;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LiDEkkSBUbqq8xRSZm9VbsPNXKLV08haEOOr6RCuwFA=;
+        b=Ff9j7TKipCS/IzA0qsyryx7X/WqqyLkk94TUTGS5efwLkCIPN9+NxDphqZN6EmreJb
+         pWZoyXNEWRTnGwGApJzgKdfFcA6Rqf/RMztLQ+pJ7sp7zQAv7NqaXQ7YodNeGOJoJfKk
+         u0xE7XDbqsAKJDGhSlAmQe4ss1uwvCVeylGC8gYpGUm275VBcJfQIF5gU/6uCXCg+hK9
+         qL1aoWLJDZ4KtBJTLMOK/MYSEI2fhFFj/EtsU5XdsK/Ch6f0arR5+0/+T5/dzTyMQ1l2
+         qd23GJ9nQhMHt10KD6/WZ0oIRYIj1uuETmReAV6vpaReMcRTkfKh1lKw12NU4w5VeT+Q
+         gKYg==
+X-Forwarded-Encrypted: i=1; AJvYcCX9IdU4iv2MljrHdnMCx2vCLaAn2KdadEo0PWIWhnF6ynf80OSdWd1l+DWv7BUy2hGdL4p2djSo8O0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx/kSUVouyUwZjj7Cn75NQz49/JW4EoFkqhPjEttuRBG7YMl+mY
+	8ynjTA9nyAy2g4gRrx6nIYEYPjt+nY6LxhqVkvP7wE8G/dwgKAG2z4qB
+X-Gm-Gg: ATEYQzzuNaT+F4CVDAMiIfmrVOXvhP8VgvkOE7+hXqOSOHO8qSdDoOcSzaHV+/L5miX
+	yBNE3+rfIyxqwZdlCF6or+bX/lfKdJSYoFiTr/6+egWTPT8sFqrLChZQ7ZmqEvrk/Ec9negh437
+	Rb/oZalMtF5SsapMasTKMrJW/e7Q5F/NGcTaemL1ySXqP4X/Uqfkeuh1JheK10sXpUDuU8g6F20
+	f2EwtZNb0AQ1h27NFut0P0vSxMpLM0CepZiTavVLKwywrMZKV4CwlbOBVphHKH950XpC6zPVtVf
+	AqLqxoPle4bBYMmHJyvlFcWHIfCFa6+CZJSvXvPlXqr1u6+ki/aKWsemW2kHfToAuX7Vh2e648d
+	eu2Cd3DowvTWp7fQk+FsRjanET1lfyYtBbk7alTc51Hc+bIlma8zALde5zMgBtPjvuPjnD3OyUO
+	82nWBWBUD9/IR+YVAwUgrIDypgYJu+E6BizAQci4UsPYBbMD0FASfG0BAfCUgOF+2k
+X-Received: by 2002:a05:693c:2c88:b0:2c6:cdb3:bd8d with SMTP id 5a478bee46e88-2c930c766d0mr221901eec.7.1774982483694;
+        Tue, 31 Mar 2026 11:41:23 -0700 (PDT)
+Received: from google.com ([2a00:79e0:2ebe:8:1dbf:b0e0:8ad0:5a2e])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c3c4cbbc1fsm10368963eec.13.2026.03.31.11.41.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 Mar 2026 11:41:23 -0700 (PDT)
+Date: Tue, 31 Mar 2026 11:41:19 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: Linus Walleij <linusw@kernel.org>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: gpio: update the preferred method for
+ using software node lookup
+Message-ID: <acwTkgJ3BFAYIoLV@google.com>
+References: <20260331-doc-gpio-swnodes-v1-1-3f84c268999b@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260331163716.work.696-kees@kernel.org> <20260331163725.2765789-5-kees@kernel.org>
- <CAHk-=wiJ6Q_qMHSe-hs+QvqKVZphvDZjvFP_gQLw1eaWimv8+w@mail.gmail.com>
- <CANiq72kL3rTKyDNYmD7wXiKCVJSfa1bnp2L8NShXU7OPmWjJ4w@mail.gmail.com> <CAHk-=whjwHjmB0_2yXsOjDa7Mi_yFSx3AMd3vGk5r70WocvZZg@mail.gmail.com>
-In-Reply-To: <CAHk-=whjwHjmB0_2yXsOjDa7Mi_yFSx3AMd3vGk5r70WocvZZg@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Tue, 31 Mar 2026 11:25:20 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wgKB5f3MM40FGGUWUm_9eyESe2PAqCa6uZ=YTi0CdPwDg@mail.gmail.com>
-X-Gm-Features: AQROBzBMzOVzd6q58CfNv9Gmf6_GDcPc6oKe55iXDcY89snM0DHbCtfJXA4J_DE
-Message-ID: <CAHk-=wgKB5f3MM40FGGUWUm_9eyESe2PAqCa6uZ=YTi0CdPwDg@mail.gmail.com>
-Subject: Re: [PATCH 5/5] types: Add standard __ob_trap and __ob_wrap scalar types
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Kees Cook <kees@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Justin Stitt <justinstitt@google.com>, Miguel Ojeda <ojeda@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Mark Rutland <mark.rutland@arm.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Thomas Gleixner <tglx@kernel.org>, Finn Thain <fthain@linux-m68k.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, 
-	=?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
-	llvm@lists.linux.dev, Marco Elver <elver@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Nicolas Schier <nsc@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, 
-	linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260331-doc-gpio-swnodes-v1-1-3f84c268999b@oss.qualcomm.com>
 
-On Tue, 31 Mar 2026 at 11:02, Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> The other is saying "overflow needs special handling"
+Hi Bartosz,
 
-Btw, this is why I also completely despise the current overflow builtins.
+On Tue, Mar 31, 2026 at 02:28:29PM +0200, Bartosz Golaszewski wrote:
+> In its current version, the manual for converting of board files from
+> using GPIO lookup tables to software nodes recommends leaving the
+> software nodes representing GPIO controllers as "free-floating", not
+> attached objects and relying on the matching of their names against the
+> GPIO controller's name. This is an abuse of the software node API and
+> makes it impossible to create fw_devlinks between GPIO suppliers and
+> consumers in this case. We want to remove this behavior from GPIOLIB and
+> to this end, work on converting all existing drivers to using "attached"
+> software nodes.
+> 
+> Except for a few corner-cases where board files define consumers
+> depending on GPIO controllers described in firmware - where we need to
+> reference a real firmware node from a software node - which requires a
+> more complex approach, most board files can easily be converted to using
+> propert firmware node lookup.
+> 
+> Update the documentation to recommend attaching the GPIO chip's software
+> nodes to the actual platform devices and show how to do it.
+> 
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> ---
+>  Documentation/driver-api/gpio/board.rst         | 15 +++++++++---
+>  Documentation/driver-api/gpio/legacy-boards.rst | 32 ++++++++++++++++++-------
+>  2 files changed, 36 insertions(+), 11 deletions(-)
+> 
+> diff --git a/Documentation/driver-api/gpio/board.rst b/Documentation/driver-api/gpio/board.rst
+> index 0993cac891fb5e4887a1aee6deae273197c6aae1..c2880533742b1b55108f28853a3903cb273fe791 100644
+> --- a/Documentation/driver-api/gpio/board.rst
+> +++ b/Documentation/driver-api/gpio/board.rst
+> @@ -108,9 +108,8 @@ macro, which ties a software node representing the GPIO controller with
+>  consumer device. It allows consumers to use regular gpiolib APIs, such as
+>  gpiod_get(), gpiod_get_optional().
+>  
+> -The software node representing a GPIO controller need not be attached to the
+> -GPIO controller device. The only requirement is that the node must be
+> -registered and its name must match the GPIO controller's label.
+> +The software node representing a GPIO controller must be attached to the
+> +GPIO controller device - either as the primary or the secondary firmware node.
+>  
+>  For example, here is how to describe a single GPIO-connected LED. This is an
+>  alternative to using platform_data on legacy systems.
+> @@ -153,6 +152,16 @@ alternative to using platform_data on legacy systems.
+>  	};
+>  	software_node_register_node_group(swnodes);
+>  
+> +	/*
+> +	 * 5. Attach the GPIO controller's software node to the device and
+> +	 *    register it.
+> +	 */
+> +	 static void gpio_foo_register(void)
+> +	 {
+> +		gpio_foo_pdev.dev.fwnode = software_node_fwnode(&gpio_controller_node);
+> +		platform_device_register(&gpio_foo_pdev);
 
-Yes, they handle overflow. But they don't treat it as some *special*
-thing. They are garbage that forces code that uses them to be garbage.
+Maybe nudge people towards platform_device_register_full() with
+info.swnode set to the software node? The change adding swnode to
+platform_device_info is already in an immutable branch in driver core
+tree and will be merged in the next release.
 
-If you want to use the overflow builtins (or our wrappers aorund
-them), you can't just do the math. You have to do crazy crap like
+> +	 }
+> +
+>  	// Then register a platform_device for "leds-gpio" and associate
+>  	// it with &led_device_swnode via .fwnode.
+>  
+> diff --git a/Documentation/driver-api/gpio/legacy-boards.rst b/Documentation/driver-api/gpio/legacy-boards.rst
+> index 46e3a26dba772e5e5117866b5d202e76c8e2adf2..fac63dd38d5b71c3bf43b5286a432f6449f422d0 100644
+> --- a/Documentation/driver-api/gpio/legacy-boards.rst
+> +++ b/Documentation/driver-api/gpio/legacy-boards.rst
+> @@ -36,12 +36,10 @@ Requirements for GPIO Properties
+>  When using software nodes to describe GPIO connections, the following
+>  requirements must be met for the GPIO core to correctly resolve the reference:
+>  
+> -1.  **The GPIO controller's software node "name" must match the controller's
+> -    "label".** The gpiolib core uses this name to find the corresponding
+> -    struct gpio_chip at runtime.
+> -    This software node has to be registered, but need not be attached to the
+> -    device representing the GPIO controller that is providing the GPIO in
+> -    question. It may be left as a "free floating" node.
+> +1.  **The GPIO controller's software node must be registered and attached to
+> +    the controller's ``struct device`` either as its primary or secondary
+> +    firmware node.** The gpiolib core uses the address of the firmware node to
+> +    find the corresponding ``struct gpio_chip`` at runtime.
+>  
+>  2.  **The GPIO property must be a reference.** The ``PROPERTY_ENTRY_GPIO()``
+>      macro handles this as it is an alias for ``PROPERTY_ENTRY_REF()``.
+> @@ -75,6 +73,11 @@ A typical legacy board file might look like this:
+>  
+>    #define MYBOARD_GPIO_CONTROLLER "gpio-foo"
+>  
+> +  static struct platform_device myboard_gpio = {
+> +        .name = MYBOARD_GPIO_CONTROLLER,
+> +        .id = PLATFORM_DEVID_NONE,
+> +  };
 
-     int end;
-     if (check_add_overflow(start, len, &end))
-        ... handle overflow ...
-     do_something(start, end);
+Same here, let's use platform_device_info.
 
-which obviously no sane person will do, when they can just write
+> +
+>    /* LED setup */
+>    static const struct gpio_led myboard_leds[] = {
+>    	{
+> @@ -124,6 +127,7 @@ A typical legacy board file might look like this:
+>    	gpiod_add_lookup_table(&myboard_leds_gpios);
+>    	gpiod_add_lookup_table(&myboard_buttons_gpios);
+>  
+> +        platform_device_register(&myboard_gpio);
 
-   do_something(start, start+len);
+Use tabs.
 
-instead (particularly since usually that "start+len" is just a tiny
-detail in the code anyway).
+>    	platform_device_register_data(NULL, "leds-gpio", -1,
+>    				      &myboard_leds_pdata, sizeof(myboard_leds_pdata));
+>    	platform_device_register_data(NULL, "gpio-keys", -1,
+> @@ -141,8 +145,7 @@ Step 1: Define the GPIO Controller Node
+>  ***************************************
+>  
+>  First, define a software node that represents the GPIO controller that the
+> -LEDs and buttons are connected to. The ``name`` of this node must match the
+> -name of the driver for the GPIO controller (e.g., "gpio-foo").
+> +LEDs and buttons are connected to. The ``name`` of this node is optional.
+>  
+>  .. code-block:: c
+>  
+> @@ -257,6 +260,16 @@ software nodes using the ``fwnode`` field in struct platform_device_info.
+>    	if (error)
+>    		return error;
+>  
+> +  	memset(&pdev_info, 0, sizeof(pdev_info));
+> +  	pdev_info.name = MYBOARD_GPIO_CONTROLLER;
+> +  	pdev_info.id = PLATFORM_DEVID_NONE;
+> +  	pdev_info.fwnode = software_node_fwnode(&myboard_gpio_controller_node);
 
-Notice how it breaks up the code logic, and also requires you to add
-random intermediate variables etc. It's bad, it makes the code look
-bad, and people don't use it as a result.
+	pdev_info.swnode = ...
 
-The reason people like exception handling is that you can make the
-fixup be done elsewhere, and you *don't* have to deal with it at the
-point where you just want to use the result and with silly
-intermediate variables etc.
+> +  	gpio_pdev = platform_device_register_full(&pdev_info);
+> +  	if (IS_ERR(gpio_pdev)) {
+> +  		error = PTR_ERR(gpio_pdev);
+> +  		goto err_unregister_nodes;
+> +  	}
+> +
+>    	memset(&pdev_info, 0, sizeof(pdev_info));
+>    	pdev_info.name = "leds-gpio";
+>    	pdev_info.id = PLATFORM_DEVID_NONE;
+> @@ -264,6 +277,7 @@ software nodes using the ``fwnode`` field in struct platform_device_info.
+>    	leds_pdev = platform_device_register_full(&pdev_info);
+>    	if (IS_ERR(leds_pdev)) {
+>    		error = PTR_ERR(leds_pdev);
+> +  		platform_device_unregister(gpio_pdev);
+>    		goto err_unregister_nodes;
+>    	}
+>  
+> @@ -274,6 +288,7 @@ software nodes using the ``fwnode`` field in struct platform_device_info.
+>    	keys_pdev = platform_device_register_full(&pdev_info);
+>    	if (IS_ERR(keys_pdev)) {
+>    		error = PTR_ERR(keys_pdev);
+> +  		platform_device_unregister(gpio_pdev);
+>    		platform_device_unregister(leds_pdev);
+>    		goto err_unregister_nodes;
+>    	}
+> @@ -289,6 +304,7 @@ software nodes using the ``fwnode`` field in struct platform_device_info.
+>    {
+>    	platform_device_unregister(keys_pdev);
+>    	platform_device_unregister(leds_pdev);
+> +	platform_device_unregister(gpio_pdev);
+>    	software_node_unregister_node_group(myboard_swnodes);
+>    }
 
-IOW, exception handling means that you can continue to use the normal
-flow of code for the normal case, and you deal with errors separately.
+Thanks.
 
-That is good. Much better than the "check_sub_overflow()" kind of crazy thing.
-
-So I very much understand why all modern languages do it - but at the
-same time most exception handling is complete garbage, because almost
-everybody ends up thinking that it should nest syntactically, which is
-completely wrong.
-
-Error handling does not nest: it exits. If you have two different
-exceptional cases in the same expression or statement, they have no
-inherent nesting, and the order isn't even someting you should care
-about. But they can cause different error codes or different fixups,
-and they need *separate* handling.
-
-This is why the kernel user space exception handling ended up with a
-"label" model the moment the compilers could deal with it (in fact, I
-very much asked for that interface, and compilers finally gave it to
-me after years).
-
-It means that you can move the exception handling out of line, without
-having to interrupt the actual normal code flow. And youc an do it
-without the bogus nesting that makes no sense.
-
-So I think overflow handling should do the same. Instead of the bad
-"check_sub_overflow()" model we have now, we should have
-
-     res = add_overflow(a,b,label);
-
-and now you can use a trapping operation *without* having to break the
-normal flow of code, ie you can do
-
-      do_something(start, add_overflow(start, len, overflow))
-      ...
-  overflow:
-      // Maybe needs to release locks, who knows
-      return -EINVAL;
-
-notice?
-
-Wrapping does not need this kind of thing. Wrapping is literally a "I
-know I don't need to care", while trapping is a "I know I need to
-handle it".
-
-It's just that handling the trapping should not need to be done right
-where the operation is done.
-
-And in C, that means "goto". And I actualyl will claim that "goto" is
-superior to most crazy language models with some "try()" block that
-nests.
-
-Language designers have been corrupted by "things must nest". BS.
-
-             Linus
+-- 
+Dmitry
