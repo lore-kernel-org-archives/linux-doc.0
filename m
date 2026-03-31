@@ -1,356 +1,124 @@
-Received: from mail.tuxedocomputers.com (mail.tuxedocomputers.com [157.90.84.7])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D031B24728F;
-	Tue, 31 Mar 2026 20:38:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=157.90.84.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28BC13E6391
+	for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2026 20:58:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774989509; cv=none; b=T4ci8/esmYyh6KokNphQIDy5SWuB3T243/E4keGM8iLlY9Nyg3/z9m/i1v0Ans/GY1NG3vi3cOarDy3P8cN2Kl+hYeYeHz/jz4nIBsv5CQmKBteTg+Cp09oZg3PxucX5meHV25JuXsMzP8f2XI3vU7Nh4i6xDMvo3dkjkZLNsSQ=
+	t=1774990738; cv=none; b=aVP+lnVWzQiaoZ3nEjEKDr+YZHjz1BxU2nbQeHDbcietKSFQgoLt8fIkRM6uNocxWEKb0MZRRO4mA9A+uoqhcvNY//CtpGDwwhwaD1LiUjT/XObhKonvAtLpsokgVH/ZwSn+y007whPPfmlf5gM1kMfgsG6kf5/LL52wQKXWgoc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774989509; c=relaxed/simple;
-	bh=09oynIkf/ul7uGmXCfgZs+pFvynRBgw3FgFV5V9uCpQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NGLxFYln86izg83oak20LYMYr2+cqeX5mQW6Rtp71wFNNZWzyOPaFN6ZXlwpFKvOoNfpirOg5sXuO94fj+ubYjLjXPTGom1tAeLbi8CF20sNlaaGLitoOWDzc0Wt/J+6RgaMeFSIFPGpwo/QRB85N/60RXLfEc0uzuKNT747WKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com; spf=pass smtp.mailfrom=tuxedocomputers.com; dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b=HKXSj+63; arc=none smtp.client-ip=157.90.84.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tuxedocomputers.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tuxedocomputers.com
+	s=arc-20240116; t=1774990738; c=relaxed/simple;
+	bh=JdtX1HxX10vKkEIJTgN8UNt8Jx8wkMFYsFGA9S+Pp3s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bcIIw9ec4adehziKaM0qy6pvmZJTAxEDm754efqvjgzwe7U0Fp5jXI8Ij2wkDH+rh9RcOn0yW2ekS7ONKoNJUDxY6Y9wwcXjwc8ltNH+sVKLnXNB9OGOILWTbRryDrPnm/MdxJ6qel2/lFODReagTRtj32dIOeKAIaZj+QzO+rs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=JPHA9xih; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=tuxedocomputers.com header.i=@tuxedocomputers.com header.b="HKXSj+63"
-Received: from [192.168.178.25] (i5C75F65A.versanet.de [92.117.246.90])
-	(Authenticated sender: wse@tuxedocomputers.com)
-	by mail.tuxedocomputers.com (Postfix) with ESMTPSA id B28212FC0057;
-	Tue, 31 Mar 2026 22:38:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tuxedocomputers.com;
-	s=default; t=1774989498;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KtyAzynuSGbYAq0uC7s8RjAvxvriLQ/RfZWfKCbcI5A=;
-	b=HKXSj+63kU1TLlNemN2La8GK/hLdS1wPWswdKhZdHaKMwTghqfRstBkbjwO22XDh8ASmIt
-	5tC7aypDy9/afVoVaYbdYZn2Adr759ZDfZ/T5f2ZO1FhXtiJpPkc4U/O4VvYgKyf+Hf+wH
-	voil5E/3SeQi+AnbRRaz6aHXK14HMFg=
-Authentication-Results: mail.tuxedocomputers.com;
-	auth=pass smtp.auth=wse@tuxedocomputers.com smtp.mailfrom=wse@tuxedocomputers.com
-Message-ID: <f4f19b88-226c-4720-8375-52e37b36370d@tuxedocomputers.com>
-Date: Tue, 31 Mar 2026 22:38:16 +0200
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="JPHA9xih"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-66a851e62c6so6414786a12.1
+        for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2026 13:58:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1774990735; x=1775595535; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=dPaiD4OsZpalA+NXE9JYeLKvQIkP47+Rdll9Ghzi+s0=;
+        b=JPHA9xih9iMNe3xHHeJOjNgBAXSu7rlK0sFPkOtlDr60cs2NxrA8oiJLsqiAS3C1D6
+         a6zM5et4dlMh18uKfKp8cdFNxHLiCmxStOgaG4kvft8eBytgAdiOJgfsMlVuBO7TLPhR
+         lUfUdmYIV0X3tl27afGzCiHm/1gloprN+U+jU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774990735; x=1775595535;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dPaiD4OsZpalA+NXE9JYeLKvQIkP47+Rdll9Ghzi+s0=;
+        b=HH5vAWBDbF5cMeZJJVQkX0bCqWMIca0+1A01QFxpd2Spi3/1jurHkX7tjm0dESl8kB
+         Nobx4SvzxaR1qjQ8F3ZdDxf/3SHvVgFS1qVkGVAJDP9UX6eJQraeh1Bb/zda24PVv9oH
+         8HKxTg6PWce0vz3IrK07N91f1B/1AJmZsx/gV46NFE4/3l56te0oWfe4BrUzY0ny3pBO
+         v9VzoJYPv8/RQQpnfkgpnQ1ChY97y+jqRs27fikshn4xtNly719kkc8E/oWLm2b3Aiom
+         N3Pm9bscKgzNJHMh0vsLRz/i+X5l3U0iYU0JZ80BqAWGzq17Ek8CT4TW9q677l0sBxZX
+         tNIg==
+X-Forwarded-Encrypted: i=1; AJvYcCU2Q8rmDy7VmcGUoAJmjcfx8XAvILAW1+EeWPSAm1tXRmdEEbek7yeLP7jQuBX9oOg2wuvU2/XDXe4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzrYu4+uhLr0EnrpeeDBuKoCuYzKH5UGhLbzn6E4IIfSJOGgvCh
+	1xeHPu5bn279JnleDZKMhNxoR13EhgyPZ4FhTenU3xAnBcVuUiLfG0Z71z7EfVuEm/rsZKGHdGs
+	fbeDWEuOjeA==
+X-Gm-Gg: ATEYQzxL6BfSiUfeemstV/gOdfapN/vLwaumV7207UJoMmejKhd/3SSxDrSoZxk/xpj
+	QD4Txtgck0zoweBeBqoWT2fEFjWsB0dPA7iiQhp7CcgxWj2F+qqyei4j50HbTg9X4PulOIZy64L
+	wyZZucX4qavDhYV5IZhArqNb+shPqwCNc+QnuKDC+lOlVN08Tlb/9ngrCm84bBBQPjzMuBPaGgl
+	8V8t2jWbRHf8Nb1DoVzNuv5sYvoPZwlGV5c99gjcj5lLICA4j8cnthFM/JC44koYMH4OVhNLqeb
+	HDFAVBydOtlcNMSoU1CkgKdZnIUFEV6WOPvwUWUjuSxBO7PMIMwFqBf1BYoKLy4KyIou/We3oHX
+	CRlvXVQjXEo4uVY8vpL6ObcmBdMx18QcavDj7ZHVfWryLfWWkG1eJtCB4xdQh1RPHjg8e11rd6V
+	CyQ0J49KM4DBsN7S3BH+WWr3q6yRShopqxZSh0CeDqlgCNjoGqi7Arc+9zVr1KSLfR7XerM64W
+X-Received: by 2002:a17:906:3750:b0:b98:528b:845b with SMTP id a640c23a62f3a-b9c13ca906bmr57797766b.52.1774990735064;
+        Tue, 31 Mar 2026 13:58:55 -0700 (PDT)
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com. [209.85.218.52])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9c0219ed95sm77564366b.29.2026.03.31.13.58.53
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 31 Mar 2026 13:58:54 -0700 (PDT)
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b9825ba7e8dso845768166b.3
+        for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2026 13:58:53 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVLq4l7UOmJ/2Fc+ia34s2IutqlDghutjkmdVKVHF/p0d+8XnqDKhhqVjOlbNoqXYlw+7FzBrF1Ah4=@vger.kernel.org
+X-Received: by 2002:a17:907:84d1:b0:b9b:1b9f:8397 with SMTP id
+ a640c23a62f3a-b9c13b0a2a8mr62577666b.31.1774990733647; Tue, 31 Mar 2026
+ 13:58:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/1] leds: Introduce the multi_max_intensity sysfs
- attribute
-To: Armin Wolf <W_Armin@gmx.de>, lee@kernel.org, pavel@kernel.org
-Cc: linux-kernel@vger.kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
- linux-leds@vger.kernel.org, linux-doc@vger.kernel.org,
- jacek.anaszewski@gmail.com, pobrn@protonmail.com, m.tretter@pengutronix.de
-References: <20260331191619.3729-1-W_Armin@gmx.de>
- <20260331191619.3729-2-W_Armin@gmx.de>
-Content-Language: en-US
-From: Werner Sembach <wse@tuxedocomputers.com>
-In-Reply-To: <20260331191619.3729-2-W_Armin@gmx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20260331163716.work.696-kees@kernel.org> <20260331163725.2765789-5-kees@kernel.org>
+ <CAHk-=wiJ6Q_qMHSe-hs+QvqKVZphvDZjvFP_gQLw1eaWimv8+w@mail.gmail.com>
+ <202603311253.95C54588E@keescook> <CAHk-=wjSOGaausLeTD13yAqso7qM09EnkDFiN7wF15kH0VWmZQ@mail.gmail.com>
+ <202603311321.4EE9FEA@keescook>
+In-Reply-To: <202603311321.4EE9FEA@keescook>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Tue, 31 Mar 2026 13:58:37 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wj9pWsgsbrLDOk7ipKnHbz3JvuqsmQ3DhGg-OKgKS9DUA@mail.gmail.com>
+X-Gm-Features: AQROBzDlSIWhA3UXAi4kJQxb1nvYqS4u6S5fbtJpBgdW6doJTV11HfE6t_3dlps
+Message-ID: <CAHk-=wj9pWsgsbrLDOk7ipKnHbz3JvuqsmQ3DhGg-OKgKS9DUA@mail.gmail.com>
+Subject: Re: [PATCH 5/5] types: Add standard __ob_trap and __ob_wrap scalar types
+To: Kees Cook <kees@kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>, Justin Stitt <justinstitt@google.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Mark Rutland <mark.rutland@arm.com>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Thomas Gleixner <tglx@kernel.org>, Finn Thain <fthain@linux-m68k.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, 
+	=?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
+	llvm@lists.linux.dev, Marco Elver <elver@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Nicolas Schier <nsc@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, 
+	linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Am 31.03.26 um 21:16 schrieb Armin Wolf:
-> Some multicolor LEDs support global brightness control in hardware,
-> meaning that the maximum intensity of the color components is not
-> connected to the maximum global brightness. Such LEDs cannot be
-> described properly by the current multicolor LED class interface,
-> because it assumes that the maximum intensity of each color component
-> is described by the maximum global brightness of the LED.
+On Tue, 31 Mar 2026 at 13:31, Kees Cook <kees@kernel.org> wrote:
 >
-> Fix this by introducing a new sysfs attribute called
-> "multi_max_intensity" holding the maximum intensity values for the
-> color components of a multicolor LED class device. Drivers can use
-> the new max_intensity field inside struct mc_subled to tell the
-> multicolor LED class code about those values. Intensity values written
-> by userspace applications will be limited to this maximum value.
->
-> Drivers for multicolor LEDs that do not support global brightness
-> control in hardware might still want to use the maximum global LED
-> brightness supplied via devicetree as the maximum intensity of each
-> individual color component. Such drivers should set max_intensity
-> to 0 so that the multicolor LED core can act accordingly.
->
-> The lp50xx and ncp5623 LED drivers already use hardware-based control
-> for the global LED brightness. Modify those drivers to correctly
-> initalize .max_intensity to avoid being limited to the maximum global
-> brightness supplied via devicetree.
+> (Isn't this just an implicit "try"?)
 
-same as v1:
+Yes. And I think that's ok.
 
-lgtm
+I think try/catch is broken for a few reasons, but the fact that catch
+and try are tied together so closely is the main one. You can't "try"
+inside a scope without having the "catch" inside the same scope.
 
-Reviewed-by: Werner Sembach <wse@tuxedocomputers.com>
+So then the solution is to just move the try to the outermost layer,
+and I think that's pretty much what everybody does.
 
-Best regards,
+But at that point, why not just move it *all* the way out, and make it
+implicit and invisible?
 
-Werner
+Which is kind of exactly what your suggestion is all about, and that's
+why I like it so much.
 
->
-> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
-> ---
->   .../ABI/testing/sysfs-class-led-multicolor    | 19 ++++++--
->   Documentation/leds/leds-class-multicolor.rst  | 21 ++++++++-
->   drivers/leds/led-class-multicolor.c           | 47 ++++++++++++++++++-
->   drivers/leds/leds-lp50xx.c                    |  1 +
->   drivers/leds/rgb/leds-ncp5623.c               |  4 +-
->   include/linux/led-class-multicolor.h          | 30 +++++++++++-
->   6 files changed, 113 insertions(+), 9 deletions(-)
->
-> diff --git a/Documentation/ABI/testing/sysfs-class-led-multicolor b/Documentation/ABI/testing/sysfs-class-led-multicolor
-> index 16fc827b10cb..197da3e775b4 100644
-> --- a/Documentation/ABI/testing/sysfs-class-led-multicolor
-> +++ b/Documentation/ABI/testing/sysfs-class-led-multicolor
-> @@ -16,9 +16,22 @@ Date:		March 2020
->   KernelVersion:	5.9
->   Contact:	Dan Murphy <dmurphy@ti.com>
->   Description:	read/write
-> -		This file contains array of integers. Order of components is
-> -		described by the multi_index array. The maximum intensity should
-> -		not exceed /sys/class/leds/<led>/max_brightness.
-> +		This file contains an array of integers. The order of components
-> +		is described by the multi_index array. The maximum intensity value
-> +		supported by each color component is described by the multi_max_intensity
-> +		file. Writing intensity values larger than the maximum value of a
-> +		given color component will result in those values being clamped.
-> +
-> +		For additional details please refer to
-> +		Documentation/leds/leds-class-multicolor.rst.
-> +
-> +What:		/sys/class/leds/<led>/multi_max_intensity
-> +Date:		March 2026
-> +KernelVersion:	7.1
-> +Contact:	Armin Wolf <W_Armin@gmx.de>
-> +Description:	read
-> +		This file contains an array of integers describing the maximum
-> +		intensity value for each intensity component.
->   
->   		For additional details please refer to
->   		Documentation/leds/leds-class-multicolor.rst.
-> diff --git a/Documentation/leds/leds-class-multicolor.rst b/Documentation/leds/leds-class-multicolor.rst
-> index c6b47b4093c4..68340644f80b 100644
-> --- a/Documentation/leds/leds-class-multicolor.rst
-> +++ b/Documentation/leds/leds-class-multicolor.rst
-> @@ -25,10 +25,14 @@ color name to indexed value.
->   The ``multi_index`` file is an array that contains the string list of the colors as
->   they are defined in each ``multi_*`` array file.
->   
-> -The ``multi_intensity`` is an array that can be read or written to for the
-> +The ``multi_intensity`` file is an array that can be read or written to for the
->   individual color intensities.  All elements within this array must be written in
->   order for the color LED intensities to be updated.
->   
-> +The ``multi_max_intensity`` file is an array that contains the maximum intensity
-> +value supported by each color intensity. Intensity values above this will be
-> +automatically clamped into the supported range.
-> +
->   Directory Layout Example
->   ========================
->   .. code-block:: console
-> @@ -38,6 +42,7 @@ Directory Layout Example
->       -r--r--r--    1 root     root          4096 Oct 19 16:16 max_brightness
->       -r--r--r--    1 root     root          4096 Oct 19 16:16 multi_index
->       -rw-r--r--    1 root     root          4096 Oct 19 16:16 multi_intensity
-> +    -r--r--r--    1 root     root          4096 Oct 19 16:16 multi_max_intensity
->   
->   ..
->   
-> @@ -104,3 +109,17 @@ the color LED group.
->       128
->   
->   ..
-> +
-> +Writing intensity values larger than the maximum specified in ``multi_max_intensity``
-> +will result in those values being clamped into the supported range.
-> +
-> +.. code-block:: console
-> +
-> +   # cat /sys/class/leds/multicolor:status/multi_max_intensity
-> +   255 255 255
-> +
-> +   # echo 512 512 512 > /sys/class/leds/multicolor:status/multi_intensity
-> +   # cat /sys/class/leds/multicolor:status/multi_intensity
-> +   255 255 255
-> +
-> +..
-> diff --git a/drivers/leds/led-class-multicolor.c b/drivers/leds/led-class-multicolor.c
-> index 6b671f3f9c61..8d763b1ae76f 100644
-> --- a/drivers/leds/led-class-multicolor.c
-> +++ b/drivers/leds/led-class-multicolor.c
-> @@ -7,10 +7,28 @@
->   #include <linux/init.h>
->   #include <linux/led-class-multicolor.h>
->   #include <linux/math.h>
-> +#include <linux/minmax.h>
->   #include <linux/module.h>
->   #include <linux/slab.h>
->   #include <linux/uaccess.h>
->   
-> +static unsigned int led_mc_get_max_intensity(struct led_classdev_mc *mcled_cdev, size_t index)
-> +{
-> +	unsigned int max_intensity;
-> +
-> +	/* The maximum global brightness value might still be changed by
-> +	 * led_classdev_register_ext() using devicetree properties. This
-> +	 * prevents us from changing subled_info[X].max_intensity when
-> +	 * registering a multicolor LED class device, so we have to do
-> +	 * this during runtime.
-> +	 */
-> +	max_intensity = mcled_cdev->subled_info[index].max_intensity;
-> +	if (max_intensity)
-> +		return max_intensity;
-> +
-> +	return mcled_cdev->led_cdev.max_brightness;
-> +}
-> +
->   int led_mc_calc_color_components(struct led_classdev_mc *mcled_cdev,
->   				 enum led_brightness brightness)
->   {
-> @@ -27,6 +45,27 @@ int led_mc_calc_color_components(struct led_classdev_mc *mcled_cdev,
->   }
->   EXPORT_SYMBOL_GPL(led_mc_calc_color_components);
->   
-> +static ssize_t multi_max_intensity_show(struct device *dev,
-> +					struct device_attribute *intensity_attr, char *buf)
-> +{
-> +	struct led_classdev *led_cdev = dev_get_drvdata(dev);
-> +	struct led_classdev_mc *mcled_cdev = lcdev_to_mccdev(led_cdev);
-> +	unsigned int max_intensity;
-> +	int len = 0;
-> +	int i;
-> +
-> +	for (i = 0; i < mcled_cdev->num_colors; i++) {
-> +		max_intensity = led_mc_get_max_intensity(mcled_cdev, i);
-> +		len += sysfs_emit_at(buf, len, "%u", max_intensity);
-> +		if (i < mcled_cdev->num_colors - 1)
-> +			len += sprintf(buf + len, " ");
-> +	}
-> +
-> +	buf[len++] = '\n';
-> +	return len;
-> +}
-> +static DEVICE_ATTR_RO(multi_max_intensity);
-> +
->   static ssize_t multi_intensity_store(struct device *dev,
->   				struct device_attribute *intensity_attr,
->   				const char *buf, size_t size)
-> @@ -35,6 +74,7 @@ static ssize_t multi_intensity_store(struct device *dev,
->   	struct led_classdev_mc *mcled_cdev = lcdev_to_mccdev(led_cdev);
->   	int nrchars, offset = 0;
->   	unsigned int intensity_value[LED_COLOR_ID_MAX];
-> +	unsigned int max_intensity;
->   	int i;
->   	ssize_t ret;
->   
-> @@ -56,8 +96,10 @@ static ssize_t multi_intensity_store(struct device *dev,
->   		goto err_out;
->   	}
->   
-> -	for (i = 0; i < mcled_cdev->num_colors; i++)
-> -		mcled_cdev->subled_info[i].intensity = intensity_value[i];
-> +	for (i = 0; i < mcled_cdev->num_colors; i++) {
-> +		max_intensity = led_mc_get_max_intensity(mcled_cdev, i);
-> +		mcled_cdev->subled_info[i].intensity = min(intensity_value[i], max_intensity);
-> +	}
->   
->   	if (!test_bit(LED_BLINK_SW, &led_cdev->work_flags))
->   		led_set_brightness(led_cdev, led_cdev->brightness);
-> @@ -111,6 +153,7 @@ static ssize_t multi_index_show(struct device *dev,
->   static DEVICE_ATTR_RO(multi_index);
->   
->   static struct attribute *led_multicolor_attrs[] = {
-> +	&dev_attr_multi_max_intensity.attr,
->   	&dev_attr_multi_intensity.attr,
->   	&dev_attr_multi_index.attr,
->   	NULL,
-> diff --git a/drivers/leds/leds-lp50xx.c b/drivers/leds/leds-lp50xx.c
-> index e2a9c8592953..69c3550f1a31 100644
-> --- a/drivers/leds/leds-lp50xx.c
-> +++ b/drivers/leds/leds-lp50xx.c
-> @@ -525,6 +525,7 @@ static int lp50xx_probe_dt(struct lp50xx *priv)
->   			}
->   
->   			mc_led_info[multi_index].color_index = color_id;
-> +			mc_led_info[multi_index].max_intensity = 255;
->   			num_colors++;
->   		}
->   
-> diff --git a/drivers/leds/rgb/leds-ncp5623.c b/drivers/leds/rgb/leds-ncp5623.c
-> index 85d6be6fff2b..f2528f06507d 100644
-> --- a/drivers/leds/rgb/leds-ncp5623.c
-> +++ b/drivers/leds/rgb/leds-ncp5623.c
-> @@ -56,8 +56,7 @@ static int ncp5623_brightness_set(struct led_classdev *cdev,
->   	for (int i = 0; i < mc_cdev->num_colors; i++) {
->   		ret = ncp5623_write(ncp->client,
->   				    NCP5623_PWM_REG(mc_cdev->subled_info[i].channel),
-> -				    min(mc_cdev->subled_info[i].intensity,
-> -					NCP5623_MAX_BRIGHTNESS));
-> +				    mc_cdev->subled_info[i].intensity);
->   		if (ret)
->   			return ret;
->   	}
-> @@ -190,6 +189,7 @@ static int ncp5623_probe(struct i2c_client *client)
->   			goto release_led_node;
->   
->   		subled_info[ncp->mc_dev.num_colors].channel = reg;
-> +		subled_info[ncp->mc_dev.num_colors].max_intensity = NCP5623_MAX_BRIGHTNESS;
->   		subled_info[ncp->mc_dev.num_colors++].color_index = color_index;
->   	}
->   
-> diff --git a/include/linux/led-class-multicolor.h b/include/linux/led-class-multicolor.h
-> index db9f34c6736e..6f89d92566b2 100644
-> --- a/include/linux/led-class-multicolor.h
-> +++ b/include/linux/led-class-multicolor.h
-> @@ -9,10 +9,31 @@
->   #include <linux/leds.h>
->   #include <dt-bindings/leds/common.h>
->   
-> +/**
-> + * struct mc_subled - Color component description.
-> + * @color_index: Color ID.
-> + * @brightness: Scaled intensity.
-> + * @intensity: Current intensity.
-> + * @max_intensity: Maximum supported intensity value.
-> + * @channel: Channel index.
-> + *
-> + * Describes a color component of a multicolor LED. Many multicolor LEDs
-> + * do no support gobal brightness control in hardware, so they use
-> + * the brightness field in connection with led_mc_calc_color_components()
-> + * to perform the intensity scaling in software.
-> + * Such drivers should set max_intensity to 0 to signal the multicolor LED core
-> + * that the maximum global brightness of the LED class device should be used for
-> + * limiting incoming intensity values.
-> + *
-> + * Multicolor LEDs that do support global brightness control in hardware
-> + * should instead set max_intensity to the maximum intensity value supported
-> + * by the hardware for a given color component.
-> + */
->   struct mc_subled {
->   	unsigned int color_index;
->   	unsigned int brightness;
->   	unsigned int intensity;
-> +	unsigned int max_intensity;
->   	unsigned int channel;
->   };
->   
-> @@ -53,7 +74,14 @@ int led_classdev_multicolor_register_ext(struct device *parent,
->    */
->   void led_classdev_multicolor_unregister(struct led_classdev_mc *mcled_cdev);
->   
-> -/* Calculate brightness for the monochrome LED cluster */
-> +/**
-> + * led_mc_calc_color_components() - Calculates component brightness values of a LED cluster.
-> + * @mcled_cdev - Multicolor LED class device of the LED cluster.
-> + * @brightness - Global brightness of the LED cluster.
-> + *
-> + * Calculates the brightness values for each color component of a monochrome LED cluster,
-> + * see Documentation/leds/leds-class-multicolor.rst for details.
-> + */
->   int led_mc_calc_color_components(struct led_classdev_mc *mcled_cdev,
->   				 enum led_brightness brightness);
->   
+It *literally* fixes try/catch. It makes the only really valid usage
+model just work better.
+
+(There are other reasons I dislike try/catch too, the whole
+"exceptions across function boundaries" being another one that your
+model avoids).
+
+                Linus
