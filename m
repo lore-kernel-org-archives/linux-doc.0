@@ -1,357 +1,217 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010016.outbound.protection.outlook.com [40.93.198.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AAC43A7843;
-	Tue, 31 Mar 2026 10:38:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774953508; cv=none; b=a4x3vguWW9zsz01zt5QPgSUtIkGg0VgsBNeH8TLQ1A1kB1DUbJ3Ik6pCYhnA89upoz4KxTY6XTJn8EAJzEodc54jJmylCOTd8JDc6v5jK7UE7UEOWb5RlvQrVX9GGe+V95924iQzhFFOBPFlQcU1OpA7F8gScew/YKSkVBFRTeQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774953508; c=relaxed/simple;
-	bh=YQ1wgAT21b+Y+NGX2w1NxAJy18OZSro6z+KWEVTYz9Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pvHmDOaBA+XiCXlef+GCH1lPecoue4sqz4R02G2BlvR8sz9q8Zms0YhIYKVHhzWvofJ4szFDvVqDvbU4CerwqRprf7hXcpC0K/MIKrSaqSE74Ir1lZ4Etx2cwLpORd80A7l9cNQt+niPYUVDnlZkGYsmb1P3euK5kc1A/V0PsLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GBQQmPNd; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B23203A6400;
+	Tue, 31 Mar 2026 10:46:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774953996; cv=fail; b=IOMAita9NX/tJ1zsoISfWPewF3tTqf4Dnbc2ml55LgSi4DH21ESyfI4bHHsNttm9qsZPYFU0EgGtQCJeS23LCoTOkltcqGg1T5akA+ZcRaN+xnKW1xJHP9dpcDArL5qL9MzzJm0L1gt15+r3LtBNqZi2dat+ezSiXqvabp54lCM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774953996; c=relaxed/simple;
+	bh=ffXS8ici44jOeQ9njRMSkxhEid95rou3Qt4rhLhPUL8=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=frp2RfLcQKfnCqfvq6PuQjZ7OUlqkkswI8iTtWVYDe2DVBcpgCxzMte4hC9L1w3r0fGZL1PrGB1IqeJzDB4YpBKr3QNn7bbL34KFsX3eM7VqHyBMALVaHb6eFI7BFNvmR/6VKwavBdmdfPJUx+HVcTFF0F9Hq6MxAA6J7wysoIM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=BG9zvLYl; arc=fail smtp.client-ip=40.93.198.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GBQQmPNd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57427C19423;
-	Tue, 31 Mar 2026 10:38:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774953507;
-	bh=YQ1wgAT21b+Y+NGX2w1NxAJy18OZSro6z+KWEVTYz9Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GBQQmPNd3CfO+3hk42g4K6a8MUiLTC30MxXWXjwPScsT9+zYVFUkXnyyIOX3H9+Df
-	 UZNtC7jsGfz3BkGPIZSZgFz7GUV/I+wYx/Tta0+35Pnb4QLHGWqhRkYqwgw6AC6nB8
-	 mhM/nmckm+jvdkivIuVngz6klU1prjimE1LszIV7lQnvK3tU0c0YcVf/vjrjIrtloL
-	 cyShOShwA9OeZx+4SjiZ1xqZI8/+MU5HCr5aDt34CjQju5QXXhcBZLKrDv8bpVb4pa
-	 Jj/7r3/Cx8c852P+HKl2n2bJgqBozo6b6YgkPyfANwFwlOt03QjoNZKfKZ/hDF8s1s
-	 Y9ENC1yYCkgvQ==
-Date: Tue, 31 Mar 2026 11:38:22 +0100
-From: Lee Jones <lee@kernel.org>
-To: Armin Wolf <W_Armin@gmx.de>
-Cc: pavel@kernel.org, linux-kernel@vger.kernel.org, corbet@lwn.net,
-	skhan@linuxfoundation.org, linux-leds@vger.kernel.org,
-	linux-doc@vger.kernel.org, wse@tuxedocomputers.com,
-	jacek.anaszewski@gmail.com, pobrn@protonmail.com,
-	m.tretter@pengutronix.de
-Subject: Re: [PATCH 1/1] leds: Introduce the multi_max_intensity sysfs
- attribute
-Message-ID: <20260331103822.GC3795166@google.com>
-References: <20260324202751.6486-1-W_Armin@gmx.de>
- <20260324202751.6486-2-W_Armin@gmx.de>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="BG9zvLYl"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tpkPrlQmah/2QmtzZFHSIk6tUV07/IRGAZTR3xoSbgNHCVK+vgrCq86esCh/DO+xxRRUseP9zI3IDFHE01HtVuOypZBAFWP6BJ/cdaQDcuMaMIaO5xyeOc/LoMDQBWKH11xbBjPiB8MbdBCUxzjmVvYPmM0K6YAbSavvmX/GEztGEhzxG4Ffyd4AexEPt7tcGOdbbRFi47S3IhOdlq/iObj8/WAZOtqputlobgt0/LBhUe9Ubm6tjvk8GqKfLTXZ3tJUFzKfB66FNwWSfp2h2bF3D2lXbpXUn9W7Ehfcd049gsFzZlTjKC7+XW2st12tuI7t1Sy3xDZLfYGr7gjthg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DyreGbr6inYYURNjVgEE9wGw2NqosNXQqDHeVBHEOWM=;
+ b=d17MQngs3SsjtPuXln1uW1Q1IkWR97BnyWlXWjEVadyDPskkSRoD3FlaJtzQ/Qkkm0CCHkgUyHFaVcWlPjuOpL1ROpT5b4ERdzjzr14oM6zZZAN5MCjliMZfa/x7/Oa+PZa0zJjrTSBeyYu/+H5i2a8ab/A+S4w9Vt5M4+69QrnwaArkDTgltko7MQ5xBAkEL5wL/I/LEkmQfx5hriuHpfvnQlwX11QqBvjCMrDw3LyhcwaQNiyrgYiJc2hlEBlP1PnOkhhl54LwZSoVgTeILZy7t9m3OCK8odycwJiB5lvSCmMzeR6MOJF0D+LbDbS9RkLXpoTUX8vBOw4X084+jw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DyreGbr6inYYURNjVgEE9wGw2NqosNXQqDHeVBHEOWM=;
+ b=BG9zvLYl0WtiZ9AArSPS/WlBQdjmo6l/R36nD4aMuauN3/fP59m7rfi6nGRhCEWA6B3h4QFlSuZF5yM5RymbLCeRampCpCgAI71eO/Wl/Yd2IOuEsqpcjvL7CnBz+5XbH4Fs5bzsGPaIBMLZmWYs5ZYh8K7OeQDgJDN2OBzkeB0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3023.namprd12.prod.outlook.com (2603:10b6:208:c8::26)
+ by SA1PR12MB6919.namprd12.prod.outlook.com (2603:10b6:806:24e::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.15; Tue, 31 Mar
+ 2026 10:46:31 +0000
+Received: from MN2PR12MB3023.namprd12.prod.outlook.com
+ ([fe80::dc22:f915:3ddd:11fa]) by MN2PR12MB3023.namprd12.prod.outlook.com
+ ([fe80::dc22:f915:3ddd:11fa%7]) with mapi id 15.20.9769.014; Tue, 31 Mar 2026
+ 10:46:31 +0000
+Message-ID: <c82e0025-d5ed-48e3-8017-aac9c270a6de@amd.com>
+Date: Tue, 31 Mar 2026 16:16:21 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/6] hwmon/misc: amd-sbi: Move core SBTSI support from
+ hwmon to misc
+To: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+ Guenter Roeck <linux@roeck-us.net>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "corbet@lwn.net" <corbet@lwn.net>,
+ "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
+ "arnd@arndb.de" <arnd@arndb.de>, "L k, Prathima" <Prathima.Lk@amd.com>,
+ "Chatradhi, Naveen Krishna" <NaveenKrishna.Chatradhi@amd.com>,
+ "Umarji, Anand" <Anand.Umarji@amd.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+ "kunyi@google.com" <kunyi@google.com>
+References: <20260323110811.2898997-1-Akshay.Gupta@amd.com>
+ <20260323110811.2898997-2-Akshay.Gupta@amd.com>
+ <86ec222b-d252-4586-a1cc-2a7a5674e1b4@roeck-us.net>
+ <d0ed96aa-529d-42fb-a680-917c325998ee@amd.com>
+ <91e527b8-f753-411b-bdf5-7439edb48c34@roeck-us.net>
+ <9e05e255-6245-415c-8c74-ee4f1809976c@amd.com>
+ <60ab1803-accb-4ac3-91bd-f6d24354c19a@roeck-us.net>
+ <2026032744-humble-festival-0943@gregkh>
+Content-Language: en-US
+From: "Gupta, Akshay" <Akshay.Gupta@amd.com>
+In-Reply-To: <2026032744-humble-festival-0943@gregkh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MA5PR01CA0077.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:1ad::14) To MN2PR12MB3023.namprd12.prod.outlook.com
+ (2603:10b6:208:c8::26)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260324202751.6486-2-W_Armin@gmx.de>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3023:EE_|SA1PR12MB6919:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0a3fb687-600a-4c64-5fb5-08de8f12c4eb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|1800799024|18002099003|22082099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	ZisUQTJFe9e9zQANdT+ryQ8UaDPAS9Sc9KhSCk1BB1FRYO9aPFmhmgNnL7mdcKa45ufbbX+YwCTmEDTaGlfqevFJCS25Pwm44xj4nOwZiiF8L4u4SEUDgg23P8QV2I6ILC7YdRiRSyBJKWu1NWLN3nf2oTggpg5Wu1iJK+PNYNkFSpPnKeWEr9XkKNxDO4zx/O97j5+6pmhMoHO46Qg99gH92oDGx+cuIBFM/6O4ZxQlDtkqeBd91Is4vPQsmeDPuL1gtZzBfpM6sTZopwDCwJ4BP5H176ulRsVvps2tPRewNxTjalzeTr2CMfYrrW5tAa20ux2bLYMoQyqbSMzBFCOgqYvT16JLMeiipsovkvWD+OzMP8PJ1Fchpwd6hr2Geki0I0Q8MxW1NYGW4z9BnBM3JfIJkzCw8t/iqE1EnbzrvhsYKzCyVMWpaEQcOYQghGCb6QV0Ezy+udS54qTpKh3eI0oOHNuyMjmdoqSzOKfQnwjLSobbZrPabpISJFXDHBHSNCvUsrnCIOoXgjE4GUEMRIPTd6Ow4P0YCeIw69G8mwI7dovwmT3Os1Oxz/B0aeEPxpixj7cFO3K2OZLkLSwk88i1W2soV5zFXy0iyMwTrEu2SlXg93KyhBdzzmM8p247R/4dqAul8bF3bPKcXThIO5qhlP3Rx7c0m8y1mznUaYCTCIHioKmjewDlSK/Mi73IHsqJaqksOpLKwBozeQ==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3023.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?eldRMjYvTnlNb1ZRUDNod1BJa2RZTWM0bndlQkduZnNNSGhvR0JSWGFFSERG?=
+ =?utf-8?B?Mksva0xOY2dPbDQ2OG1JcmlwNEYvR0NsNXFOelBFTTdNS1hrMnNGUHgwcTZq?=
+ =?utf-8?B?ejBEVnNsM0toODBqeXhtcXhPKzFlZFg3REkyR0tSNmdkMjM4ZTdkaW5idjdq?=
+ =?utf-8?B?dXAyWkFMWkZkcWFLMkVNOXYzZ1JHRnF5clJVOFE1VDhzV2NKSlVNME42R20z?=
+ =?utf-8?B?WlZ3cWs0T0hTWXBlQVl1SVMvWDBpZ1kxWWdURUt4YUFScGpEUFBFVTVab1Vs?=
+ =?utf-8?B?RkNGckorY1pXWGFjLzFkQ3ZlVDExcDRTczhqcUM0b2hkN25LZW9ldEoxVXJG?=
+ =?utf-8?B?bUpreDBWLy9CMUlmNUNCenNWRWdkYmllNzVNR0UrL2ZqcVA0WmVsM0pnQ1Bv?=
+ =?utf-8?B?ZHBjU1JtWjQ5SFlXTlhyZ2Y1WGZ5Z3pBck1pTm9KVndZblY2eWJ1ekZNeEcz?=
+ =?utf-8?B?SHNodDBvOXNxd09qcFRxTmYvR2NpSlJZeU1SRkxYVDYzcDJlckdPSVkyaEZB?=
+ =?utf-8?B?M0dhYm5ZdWpQWGUxeFVINTUxbngyWjhjMElhbFBNOFdPdG5CSGswL1Fqc0J3?=
+ =?utf-8?B?WEZOL0I4NW5ETkdMMDdFY3ZNU1N3U0ZtbDJjTlpWYzBwbG1adVdNNHU2Sk1F?=
+ =?utf-8?B?QmxYTWluT3FPcUwwVU42Q0VVNmZmOXRLUEdYR3duVFV2ZFI5VTNsb3pxeGhj?=
+ =?utf-8?B?cnIydEh6c3FrajBTZkhTbzBNRUtLYnZ4aW5vRGFyL0RtNjU4amlIOHhaUEp3?=
+ =?utf-8?B?bHlCU0x6b3Y1NHRFd0huVm9uL3VnaXIyOVU2OWtrOGRtWnp6M3ZLL3lINGRK?=
+ =?utf-8?B?amZDbHd1allzaWsreGVubFh4V1RDZnNCTm03UndBN0t4QW9ZVC81VVgrb3N2?=
+ =?utf-8?B?aG5UczVCNGhxRStlOHVLV0Q0VnJSTUpvczl6QllPdDVPaXovQW9VZ05LUndT?=
+ =?utf-8?B?Z1dVUEFTbHA5QUtNR01JbTFyVUl6T1QrK1JHNGd4NTBEMDZuUUNMRzVRTE43?=
+ =?utf-8?B?VjF5TkhtZUQwSVNUWlBibktSdFJ5aG42M3pkQ3BldGdxZ2NocDFxTjY3Q2FG?=
+ =?utf-8?B?OVd4TFNXTHJLNHZicjV2blorcWJoWWczUiszNGx6cEkvVElhSGhxbFJmN3RS?=
+ =?utf-8?B?YkpWa3htcy9KbEhHY0R4OWNOU3R4cWtEY1JSMnBtcUtBdHd3U2VQT0tSOTRl?=
+ =?utf-8?B?VzdkZGd3YS9lbm9mbG4xQ3hoUWdYcWxsTGFuRzZMTXNGbkJYTzFITjBrWmp5?=
+ =?utf-8?B?QWI2OUJhZ01NZUttSDhuMlJERmRPdURmbUwyUWdrckt1eTdLT0pMZ2RmNGw4?=
+ =?utf-8?B?RTcxWjV4T3dMSHhMYU8yY1pXY0F3TG81aTdsL0F4UHVKemY5dzJURGd6Z3g1?=
+ =?utf-8?B?OFFhZng0Sk93UlgxSytXRmUzQWZ3NVAzZVpETTdlbUtaRzBKclNMc3ZtUUZl?=
+ =?utf-8?B?UTRxQ2VLaExRK2JDWGpZcXY1SnF0T0dNUU9zbHVvV05Odm5kQWFZbkxkT2tT?=
+ =?utf-8?B?dlM4NFU4MGhRWE5TOVJWbFh5d1MrRzJPMGlBTVYrUURDTTZYQ3QwU0tZUjFn?=
+ =?utf-8?B?aDdiMkR5cVEwQUwrMUJIRTZRZEJmYUgyMHJSeVd1aHJuVXllK1I2LzAvbFVM?=
+ =?utf-8?B?eFhaQnB0c3pKTUtsN1Q3dDFiNlRjdFlEemxTOG9WYWljSVc4YTNQNU1ZY3Fz?=
+ =?utf-8?B?dzdBMjNRSUlDODZxL3l3bzUvU1VpcVBWSit5ckNDSHhlc2pLZlE3UDFGK0Rv?=
+ =?utf-8?B?MGNtcWRNOGREMHRGb1FzWWJHMDhIUXlvMllyMVRjSlFTaWwwRlowSDVveTVF?=
+ =?utf-8?B?M3JjNUp4dmdaTWlrcjM0eUxPcGx3bUhyS2lKYnorU2FvK2pDQzBHR3BleWZp?=
+ =?utf-8?B?TXJuQkg3T2pGNjRlTzJDZVhTck1RRmdSZ3p3RFJGMWxycTBWQWFyemcrbzFL?=
+ =?utf-8?B?ampYSS95ZlNoUXJvZXVlK29KOGQ4Ny9vSGFoY0V5UkV0ZWtRV1BpN3d1Y2x4?=
+ =?utf-8?B?WU5rOHh6RnlOb014RzdyTXhKLythM3piZFZFTWZoRXRWZE9HQUJkbXV2UlFp?=
+ =?utf-8?B?TXRvWkQzRFZrKzU3T3l3cU5pNjNiY2VjT3hoNEtiOGREYWNJdTRkR0ZhWkx1?=
+ =?utf-8?B?ZjdyR2l6Q2J6MkVvMG5aNHdYK2VlcUttTitXbnRnMUt1dVphWHBycDZPb0to?=
+ =?utf-8?B?WFRVZWVBTlZGWTJQRndoZ29oQllVUkkrVHJ5QW5QeE10UlpscWVROTdSZUNl?=
+ =?utf-8?B?V2hQVFhZNWNGd2Ztc0t6WDZla0RZN1p2TW9iSllCZ1lFcU5Tb1B2WWFFZVAv?=
+ =?utf-8?B?Qkp5Wjl4NWNPOHI2TFJiRVl3d2JadUx1d2pSVUtKOENqak9DVFVNZz09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0a3fb687-600a-4c64-5fb5-08de8f12c4eb
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3023.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2026 10:46:31.1579
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kecrbS5mJ8RvSDWm5vH3fiBiHrmH2UjnowhEsQzv1Sl8jQbsScPPkm5KaM19PQrTZiEu6FOXHCOFc7oMmZBVdQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6919
 
-On Tue, 24 Mar 2026, Armin Wolf wrote:
 
-> Some multicolor LEDs support global brightness control in hardware,
-> meaning that the maximum intensity of the color components is not
-> connected to the maximum global brightness. Such LEDs cannot be
-> described properly by the current multicolor LED class interface,
-> because it assumes that the maximum intensity of each color component
-> is described by the maximum global brightness of the LED.
-> 
-> Fix this by introducing a new sysfs attribute called
-> "multi_max_intensity" holding the maximum intensity values for the
-> color components of a multicolor LED class device. Drivers can use
-> the new max_intensity field inside struct mc_subled to tell the
-> multicolor LED class code about those values. Intensity values written
-> by userspace applications will be limited to this maximum value.
-> 
-> Drivers for multicolor LEDs that do not support global brightness
-> control in hardware might still want to use the maximum global LED
-> brightness supplied via devicetree as the maximum intensity of each
-> individual color component. Such drivers should set max_intensity
-> to 0 so that the multicolor LED core can act accordingly.
-> 
-> The lp50xx and ncp5623 LED drivers already use hardware-based control
-> for the global LED brightness. Modify those drivers to correctly
-> initalize .max_intensity to avoid being limited to the maximum global
-> brightness supplied via devicetree.
-> 
-> Signed-off-by: Armin Wolf <W_Armin@gmx.de>
-> ---
->  .../ABI/testing/sysfs-class-led-multicolor    | 19 ++++++--
->  Documentation/leds/leds-class-multicolor.rst  | 21 ++++++++-
->  drivers/leds/led-class-multicolor.c           | 47 ++++++++++++++++++-
->  drivers/leds/leds-lp50xx.c                    |  1 +
->  drivers/leds/rgb/leds-ncp5623.c               |  4 +-
->  include/linux/led-class-multicolor.h          | 30 +++++++++++-
->  6 files changed, 113 insertions(+), 9 deletions(-)
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-class-led-multicolor b/Documentation/ABI/testing/sysfs-class-led-multicolor
-> index 16fc827b10cb..197da3e775b4 100644
-> --- a/Documentation/ABI/testing/sysfs-class-led-multicolor
-> +++ b/Documentation/ABI/testing/sysfs-class-led-multicolor
-> @@ -16,9 +16,22 @@ Date:		March 2020
->  KernelVersion:	5.9
->  Contact:	Dan Murphy <dmurphy@ti.com>
->  Description:	read/write
-> -		This file contains array of integers. Order of components is
-> -		described by the multi_index array. The maximum intensity should
-> -		not exceed /sys/class/leds/<led>/max_brightness.
-> +		This file contains an array of integers. The order of components
-> +		is described by the multi_index array. The maximum intensity value
-> +		supported by each color component is described by the multi_max_intensity
-> +		file. Writing intensity values larger than the maximum value of a
-> +		given color component will result in those values being clamped.
-> +
-> +		For additional details please refer to
-> +		Documentation/leds/leds-class-multicolor.rst.
-> +
-> +What:		/sys/class/leds/<led>/multi_max_intensity
-> +Date:		March 2026
-> +KernelVersion:	7.1
-> +Contact:	Armin Wolf <W_Armin@gmx.de>
-> +Description:	read
-> +		This file contains an array of integers describing the maximum
-> +		intensity value for each intensity component.
->  		For additional details please refer to
->  		Documentation/leds/leds-class-multicolor.rst.
-> diff --git a/Documentation/leds/leds-class-multicolor.rst b/Documentation/leds/leds-class-multicolor.rst
-> index c6b47b4093c4..8f42f10078ad 100644
-> --- a/Documentation/leds/leds-class-multicolor.rst
-> +++ b/Documentation/leds/leds-class-multicolor.rst
-> @@ -25,10 +25,14 @@ color name to indexed value.
->  The ``multi_index`` file is an array that contains the string list of the colors as
->  they are defined in each ``multi_*`` array file.
->  
-> -The ``multi_intensity`` is an array that can be read or written to for the
-> +The ``multi_intensity`` file is an array that can be read or written to for the
->  individual color intensities.  All elements within this array must be written in
->  order for the color LED intensities to be updated.
->  
-> +The ``multi_max_intensity`` file is an array that contains the maximum intensity
-> +value supported by each color intensity. Intensity values above this will be
-> +automatically clamped into the supported range.
-> +
->  Directory Layout Example
->  ========================
->  .. code-block:: console
-> @@ -38,6 +42,7 @@ Directory Layout Example
->      -r--r--r--    1 root     root          4096 Oct 19 16:16 max_brightness
->      -r--r--r--    1 root     root          4096 Oct 19 16:16 multi_index
->      -rw-r--r--    1 root     root          4096 Oct 19 16:16 multi_intensity
-> +    -r--r--r--    1 root     root          4096 OCt 19 16:16 multi_max_intensity
+On 3/27/2026 12:53 PM, gregkh@linuxfoundation.org wrote:
+> Caution: This message originated from an External Source. Use proper caution when opening attachments, clicking links, or responding.
+>
+>
+> On Thu, Mar 26, 2026 at 10:52:29PM -0700, Guenter Roeck wrote:
+>> On 3/26/26 22:07, Gupta, Akshay wrote:
+>>> On 3/24/2026 5:03 PM, Guenter Roeck wrote:
+>>>> Caution: This message originated from an External Source. Use proper caution when opening attachments, clicking links, or responding.
+>>>>
+>>>>
+>>>> On 3/24/26 03:36, Gupta, Akshay wrote:
+>>>>> On 3/23/2026 7:45 PM, Guenter Roeck wrote:
+>>>>>> Caution: This message originated from an External Source. Use proper caution when opening attachments, clicking links, or responding.
+>>>>>>
+>>>>>>
+>>>>>> On 3/23/26 04:08, Akshay Gupta wrote:
+>>>>>>> From: Prathima <Prathima.Lk@amd.com>
+>>>>>>>
+>>>>>>> Move SBTSI core functionality out of the hwmon-only path and into
+>>>>>>> drivers/misc/amd-sbi so it can be reused by non-hwmon consumers.
+>>>>>>>
+>>>>>>> This split prepares the driver for additional interfaces while keeping
+>>>>>>> hwmon support as an optional layer on top of common SBTSI core logic.
+>>>>>>>
+>>>>>> This moves the driver out of hwmon space into misc/amd-sbi which,
+>>>>>> in my opinion, is completely unnecessary to accomplish the stated goals.
+>>>>>>
+>>>>>> I assume this is to be able to make changes which do not follow
+>>>>>> the hwmon ABI and/or to bypass hwmon subsystem review, similar
+>>>>>> to what has been done by others.
+>>>>>>
+>>>>>> Obviously, I think this is a bad idea. I won't give it a NACK,
+>>>>>> but I won't approve (nor review) it either.
+>>>>>>
+>>>>>> Guenter
+>>>>> Hi Guenter,
+>>>>>
+>>>>> Thank you for your quick response.
+>>>>>
+>>>>> At present, TSI supports a range of functionalities that cannot be exposed through hwmon. Additionally, a new protocol leveraging the TSI endpoint in hardware has been introduced, which, to our understanding, cannot be accommodated within the hwmon subsystem.
+>>>>>
+>>>>> Since we already support the RMI interface via misc/amd-sbi, we believe this remains the appropriate place to continue AMD's out-of-band support.
+>>>>>
+>>>>> I will update the commit message and cover letter to clearly articulate the rationale behind this change.
+>>>>>
+>>>>> Thank you
+>>>>>
+>>>> That is neither a reason or an argument for moving _hwmon_ part of the code
+>>>> out of the hwmon subsystem.
+>>> Following feedback from the Greg and MFD subsystem maintainers, we introduced an sb-rmi driver under misc/ that calls devm_hwmon_device_register_with_info(). We are considering the same approach for the sb-tsi driver. Would you recommend a more suitable alternative?
+>> I would have suggested to use an auxiliary driver, similar to PECI,
+>> but who am I to argue if senior maintainers suggest otherwise.
+> Sounds like an aux driver makes sense to me too, I don't remember saying
+> that you HAD to call devm_hwmon_device_register_with_info(), where was
+> that stated in previous reviews?
+>
+> thanks,
+>
+> greg k-h
 
-Nit: Oct
+Thank you Greg and Guenter for the feedback. I will explore auxiliary 
+driver and submit the changes as part of next version.
 
->  
->  ..
->  
-> @@ -104,3 +109,17 @@ the color LED group.
->      128
->  
->  ..
-> +
-> +Writing intensity values larger than the maximum specified in ``multi_max_intensity``
-> +will result in those values being clamped into the supported range.
-> +
-> +.. code-block:: console
-> +
-> +   # cat /sys/class/leds/multicolor:status/multi_max_intensity
-> +   255 255 255
-> +
-> +   # echo 512 512 512 > /sys/class/leds/multicolor:status/multi_intensity
-> +   # cat /sys/class/leds/multicolor:status/multi_intensity
-> +   255 255 255
-> +
-> +..
-> diff --git a/drivers/leds/led-class-multicolor.c b/drivers/leds/led-class-multicolor.c
-> index 6b671f3f9c61..13a35e6a28df 100644
-> --- a/drivers/leds/led-class-multicolor.c
-> +++ b/drivers/leds/led-class-multicolor.c
-> @@ -7,10 +7,28 @@
->  #include <linux/init.h>
->  #include <linux/led-class-multicolor.h>
->  #include <linux/math.h>
-> +#include <linux/minmax.h>
->  #include <linux/module.h>
->  #include <linux/slab.h>
->  #include <linux/uaccess.h>
->  
-> +static unsigned int led_mc_get_max_intensity(struct led_classdev_mc *mcled_cdev, size_t index)
-> +{
-> +	unsigned int max_intensity;
-> +
-> +	/* The maximum global brightness value might still be changed by
-> +	 * led_classdev_register_ext() using devicetree properties. This
-> +	 * prevents us from changing subled_info[X].max_intensity when
-> +	 * registering a multicolor LED class device, so we have to do
-> +	 * this during runtime.
-> +	 */
-> +	max_intensity = mcled_cdev->subled_info[index].max_intensity;
-> +	if (max_intensity)
-> +		return max_intensity;
-> +
-> +	return mcled_cdev->led_cdev.max_brightness;
-> +}
-> +
->  int led_mc_calc_color_components(struct led_classdev_mc *mcled_cdev,
->  				 enum led_brightness brightness)
->  {
-> @@ -27,6 +45,27 @@ int led_mc_calc_color_components(struct led_classdev_mc *mcled_cdev,
->  }
->  EXPORT_SYMBOL_GPL(led_mc_calc_color_components);
->  
-> +static ssize_t multi_max_intensity_show(struct device *dev,
-> +					struct device_attribute *intensity_attr, char *buf)
-> +{
-> +	struct led_classdev *led_cdev = dev_get_drvdata(dev);
-> +	struct led_classdev_mc *mcled_cdev = lcdev_to_mccdev(led_cdev);
-> +	unsigned int max_intensity;
-> +	int len = 0;
-> +	int i;
-> +
-> +	for (i = 0; i < mcled_cdev->num_colors; i++) {
-> +		max_intensity = led_mc_get_max_intensity(mcled_cdev, i);
-> +		len += sprintf(buf + len, "%u", max_intensity);
-> +		if (i < mcled_cdev->num_colors - 1)
-> +			len += sprintf(buf + len, " ");
-> +	}
+This way hwmon sensor will remain in hwmon subsytem and new 
+implementation can be part of misc.
 
-This should be 'sysfs_emit_at()'.
+Following the discussions at 
+https://lore.kernel.org/all/01c95139-dfeb-6983-77d2-4382ffb50896@amd.com/, 
+https://lore.kernel.org/all/8aa17f38-a6f6-4ba9-b38c-767ed39c1c92@roeck-us.net/, 
+we plan to adopt the same approach for the TSI driver.
 
-> +
-> +	buf[len++] = '\n';
-> +	return len;
-> +}
-> +static DEVICE_ATTR_RO(multi_max_intensity);
-> +
->  static ssize_t multi_intensity_store(struct device *dev,
->  				struct device_attribute *intensity_attr,
->  				const char *buf, size_t size)
-> @@ -35,6 +74,7 @@ static ssize_t multi_intensity_store(struct device *dev,
->  	struct led_classdev_mc *mcled_cdev = lcdev_to_mccdev(led_cdev);
->  	int nrchars, offset = 0;
->  	unsigned int intensity_value[LED_COLOR_ID_MAX];
-> +	unsigned int max_intensity;
->  	int i;
->  	ssize_t ret;
->  
-> @@ -56,8 +96,10 @@ static ssize_t multi_intensity_store(struct device *dev,
->  		goto err_out;
->  	}
->  
-> -	for (i = 0; i < mcled_cdev->num_colors; i++)
-> -		mcled_cdev->subled_info[i].intensity = intensity_value[i];
-> +	for (i = 0; i < mcled_cdev->num_colors; i++) {
-> +		max_intensity = led_mc_get_max_intensity(mcled_cdev, i);
-> +		mcled_cdev->subled_info[i].intensity = min(intensity_value[i], max_intensity);
-> +	}
->  
->  	if (!test_bit(LED_BLINK_SW, &led_cdev->work_flags))
->  		led_set_brightness(led_cdev, led_cdev->brightness);
-> @@ -111,6 +153,7 @@ static ssize_t multi_index_show(struct device *dev,
->  static DEVICE_ATTR_RO(multi_index);
->  
->  static struct attribute *led_multicolor_attrs[] = {
-> +	&dev_attr_multi_max_intensity.attr,
->  	&dev_attr_multi_intensity.attr,
->  	&dev_attr_multi_index.attr,
->  	NULL,
-> diff --git a/drivers/leds/leds-lp50xx.c b/drivers/leds/leds-lp50xx.c
-> index e2a9c8592953..69c3550f1a31 100644
-> --- a/drivers/leds/leds-lp50xx.c
-> +++ b/drivers/leds/leds-lp50xx.c
-> @@ -525,6 +525,7 @@ static int lp50xx_probe_dt(struct lp50xx *priv)
->  			}
->  
->  			mc_led_info[multi_index].color_index = color_id;
-> +			mc_led_info[multi_index].max_intensity = 255;
->  			num_colors++;
->  		}
->  
-> diff --git a/drivers/leds/rgb/leds-ncp5623.c b/drivers/leds/rgb/leds-ncp5623.c
-> index 85d6be6fff2b..f2528f06507d 100644
-> --- a/drivers/leds/rgb/leds-ncp5623.c
-> +++ b/drivers/leds/rgb/leds-ncp5623.c
-> @@ -56,8 +56,7 @@ static int ncp5623_brightness_set(struct led_classdev *cdev,
->  	for (int i = 0; i < mc_cdev->num_colors; i++) {
->  		ret = ncp5623_write(ncp->client,
->  				    NCP5623_PWM_REG(mc_cdev->subled_info[i].channel),
-> -				    min(mc_cdev->subled_info[i].intensity,
-> -					NCP5623_MAX_BRIGHTNESS));
-> +				    mc_cdev->subled_info[i].intensity);
->  		if (ret)
->  			return ret;
->  	}
-> @@ -190,6 +189,7 @@ static int ncp5623_probe(struct i2c_client *client)
->  			goto release_led_node;
->  
->  		subled_info[ncp->mc_dev.num_colors].channel = reg;
-> +		subled_info[ncp->mc_dev.num_colors].max_intensity = NCP5623_MAX_BRIGHTNESS;
->  		subled_info[ncp->mc_dev.num_colors++].color_index = color_index;
->  	}
->  
-> diff --git a/include/linux/led-class-multicolor.h b/include/linux/led-class-multicolor.h
-> index db9f34c6736e..26f6d20b887d 100644
-> --- a/include/linux/led-class-multicolor.h
-> +++ b/include/linux/led-class-multicolor.h
-> @@ -9,10 +9,31 @@
->  #include <linux/leds.h>
->  #include <dt-bindings/leds/common.h>
->  
-> +/**
-> + * struct mc_subled - Color component description.
-> + * @color_index: Color ID.
-> + * @brightness: Scaled intensity.
-> + * @intensity: Current intensity.
-> + * @max_intensity: Maximum supported intensity value.
-> + * @channel: Channel index.
-> + *
-> + * Describes a color component of a multicolor LED. Many multicolor LEDs
-> + * do no support gobal brightness control in hardware, so they use
-> + * the brightness field in connection with led_mc_calc_color_components()
-> + * to perform the intensity scaling in software.
-> + * Such drivers should set max_intensity to 0 to signal the multicolor LED core
-> + * that the maximum global brightness of the LED class device should be used for
-> + * limiting incoming intensity values.
-> + *
-> + * Multicolor LEDs that do support global brightness control in hardware
-> + * should instead set max_intensity to the maximum intensity value supported
-> + * by the hardware for a given color component.
-> + */
->  struct mc_subled {
->  	unsigned int color_index;
->  	unsigned int brightness;
->  	unsigned int intensity;
-> +	unsigned int max_intensity;
->  	unsigned int channel;
->  };
->  
-> @@ -53,7 +74,14 @@ int led_classdev_multicolor_register_ext(struct device *parent,
->   */
->  void led_classdev_multicolor_unregister(struct led_classdev_mc *mcled_cdev);
->  
-> -/* Calculate brightness for the monochrome LED cluster */
-> +/**
-> + * led_mc_calc_color_components() - Calculates component brightness values of a LED cluster.
-> + * @mcled_cdev - Multicolor LED class device of the LED cluster.
-> + * @led_brightness - Global brightness of the LED cluster.
-
-The header comment does not match the parameters.
-
-Make sure you compile with W=1 to catch kernel-doc issues.
-
-> + * Calculates the brightness values for each color component of a monochrome LED cluster,
-> + * see Documentation/leds/leds-class-multicolor.rst for details.
-> + */
->  int led_mc_calc_color_components(struct led_classdev_mc *mcled_cdev,
->  				 enum led_brightness brightness);
->  
-> -- 
-> 2.39.5
-> 
-> 
-
--- 
-Lee Jones [李琼斯]
