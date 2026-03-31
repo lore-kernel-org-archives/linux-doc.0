@@ -1,138 +1,280 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C0092989B7;
-	Tue, 31 Mar 2026 08:58:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2966B3ED5DE
+	for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2026 09:48:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774947536; cv=none; b=kyJzDJalOpN1RRL+9ic+I+RiQ8LtXpPvAo9lfkwf07T+GDwqYdMY19Bn2OWDOBP6ItwZ3VADZkx6p32zcTh21ijgrBA2vfqibqslAtNz8Pt6rhArfVTaP+GHWlhmrNSmKAHVTSu76esOSOugwUHUDOJPLgAVzUQzTRnXfDkR344=
+	t=1774950481; cv=none; b=jQxgdk8i1pWukNf7fBJQNCdl2zwoTBHaGtpVi3TY/xdDmkaqAM+AM88yp0koFx6RLi1Lo/ercgXn7rq2us5AnZHrZdt1NNzG9J5P6HZlW6tzlLonwGHwQlo4sgEnhWxUpLBRwAyDJ8sL0MDKoEs3qz6ILz+SV8v8E80xgJuOy9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774947536; c=relaxed/simple;
-	bh=FUPUgjK8/+PvpwggJPyEhrpAfXGX6f/ynqW5/FOp1v4=;
+	s=arc-20240116; t=1774950481; c=relaxed/simple;
+	bh=enjXq1IaosHLxnBgQhk2lHI8aL7+jqMUWCiR5kNvnlI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h8bI6y6UI1HW4jUf2Z7uvq1T40ZdwExcU2mwk+wO0tqfbDQJ1IbItXE6/tyVZBnweuYaFl1Rnj0D624k7uBPv0vbPQTaoP3xhfNnGYBeM5R6uUmj3pqNerKQSJbXBXkltU8RlsLDqp0wgiZwKcZl54kNsB3slRsZ5LysVySnsSI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XfiMuoyV; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=s4549poaGNIN9W6AdUwBWqrkacyGROjN4k8CQgjzNXQyFbNkFt6qnECorj/gqbNvF3ko5TdwbPjFn8ogE3F1PxpbUVerULRq2D5vMlQdVEhpdd/88DFcoouneeq6d5HBybmFhhLbh17GZUqXf+SYiHsgqNA8Q0MCd1/O1QbJWAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=adzEQltm; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XfiMuoyV"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1774947534; x=1806483534;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FUPUgjK8/+PvpwggJPyEhrpAfXGX6f/ynqW5/FOp1v4=;
-  b=XfiMuoyV4Qjg5rojr5boMK1ojcFkCYD0ylX3/dybqy0MOZTTPYpUc0ux
-   HsIt7zYDUe3x4QMQ1H1hAW4rwOcQBNlM/TVxwg5qZbUlNAvd7P+3utiXA
-   w/ZcFvBjdFUjJhGOxXrep2WrIqvvmAp7fF8lpS6Bzd3dME0utlVU+X5nh
-   t2SXKmjiHdSgKpTqLzR+WfClkohl38iBCYMokTwzGQeVPPQCgRIcQXiSo
-   0jqTvsbazba8XN6MEOts/HJJqk9ugxsWrqo861ytcGNO5h7F/G+NFZ0DP
-   pO27chUZG8lbtMDt66lC1rxMoZTTDrPiGYkXif66Kjfu0SPctmDVMegDG
-   A==;
-X-CSE-ConnectionGUID: 83d4g1I1RuK6cPT7MKcd7w==
-X-CSE-MsgGUID: Am2LcPXNTT+r8y26gSOl3Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11744"; a="93536866"
-X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
-   d="scan'208";a="93536866"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 01:58:53 -0700
-X-CSE-ConnectionGUID: DuuIgLTxRZyRcp5clt1jOA==
-X-CSE-MsgGUID: yoig1j+TR9SmrTbrMrvCTQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,151,1770624000"; 
-   d="scan'208";a="231120906"
-Received: from rvuia-mobl.ger.corp.intel.com (HELO localhost) ([10.245.245.209])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 01:58:48 -0700
-Date: Tue, 31 Mar 2026 11:58:46 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: "Sabau, Radu bogdan" <Radu.Sabau@analog.com>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	"Hennerich, Michael" <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	"Sa, Nuno" <Nuno.Sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	"linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
-	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v5 2/4] iio: adc: ad4691: add initial driver for AD4691
- family
-Message-ID: <acuMxjX_rsfsJvMp@ashevche-desk.local>
-References: <20260327-ad4692-multichannel-sar-adc-driver-v5-0-11f789de47b8@analog.com>
- <20260327-ad4692-multichannel-sar-adc-driver-v5-2-11f789de47b8@analog.com>
- <acZrthJYQX-h_9p5@ashevche-desk.local>
- <LV9PR03MB84143540CE505514E1CD84B4F752A@LV9PR03MB8414.namprd03.prod.outlook.com>
- <CAHp75VcUCM8aeUpNaFEXnS+Cm08Mq5j+Qp2gYqWP9vCO+9CtQA@mail.gmail.com>
- <LV9PR03MB8414CB05EB794F6974584C2AF753A@LV9PR03MB8414.namprd03.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="adzEQltm"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4887fd35e60so1535755e9.2
+        for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2026 02:47:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1774950478; x=1775555278; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=HmEtPoEG1EUMKwQsf4OvvafgJCsYzJUriFfog6MNbws=;
+        b=adzEQltmPRXJzxV64O8v8A+IFV8kFJoXexFbIIoSwvYutmRN9qZaOwWysUZkM+Hpa2
+         NFdcRYQvUnuySWJA5DAtHYaAdoMx5E7FCodw2oF8kgxAdPzzk29snueyyQ79FIARaPl4
+         EEvzQDnvDw8MKn8YhJkvQSVehu0Tkr8OslqT+iLoFWY9JAiIya9UYTaG/kZyE1qYVhJB
+         cp6dLe9D3s6p83aCu/nqnsQ1MeZ2BTjLItlXL+FN7HUNm2NVc5r2V/CjDb3TyGzKf81q
+         vNZNACzlI+r3W7FDtZgVfewB8jfTZRBP767CO+Hk1fOWwdEaFM0ev8oqY0N1P8JG4P70
+         eMRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1774950478; x=1775555278;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HmEtPoEG1EUMKwQsf4OvvafgJCsYzJUriFfog6MNbws=;
+        b=BMLrU++bzFpngnrzwCGw+WSEUU/c6b9l5UpwHtaaA9LCan29LF29ZPtr7ueq67Shc8
+         fMvt5MbHimp7A7bGN37ZXQsz+aK1p2D4PVhAVI/lqG17UgSbZ9mrWpvm63gNbkIejP+t
+         RDhWD8kIQQNpltz8SZ5iW5JQUhWy4i0AHFMV4Tz1+Ndi9LGizzKWcI1wwP0iaEyhoBeS
+         mWU4QZ4YOarfJlZIG/CKwNaK/g082ID6MFMpAdmraoJ2gTjPrMut6XpLhUj6qAiG/olr
+         T549N0iYNm6jkMUN+zbClk2bHGIjcT1RPsMMk58FxcWpeq7OOpd/guLbEXNgnML4Cosh
+         NKag==
+X-Forwarded-Encrypted: i=1; AJvYcCW7ibJTgQAaOOvRv4rrwa2ahRbhdEgBjt7eWJJNf/ZNH3nzc5/h96uOgD9wHOgXqzkvsRr8uScEwv4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw3CKtlP1psWZImCAnubWToINH/7jzF52QUYSc0dMUsqSoqgEGF
+	D+D/NZCZoFryHZfasgX5l9zy7YmNMkpzzej/Fvm4E/Z5uigPjU1Znne3
+X-Gm-Gg: ATEYQzwDbd/EBnJOQ+HwtWh4ZrZ/5pNjcTNmYdEC9iH07IJfgw7v1GtrNeOJpijMx+p
+	eqS6wQI52sdpLZKON6H2qBwKdgycU8rMokPKspcHcoPXQO/hnBifb1v+g2XnETBT97A/R5e8bhK
+	8/7yiJIMxqKptyFAk2rpGegGDeXoQl3GrQeA82gHx/bbhgMqiBVOTCz4Vv7s+1jwsj9x72JpKP0
+	pedAwJkpqzUA2rbaq5Vbh67k8vjgnkcNtKD2XBrbWyQPJBT2YtRNVapcdt8k20OnptrESF7mOYC
+	eKi4yA73RGN41wUE4oD4jFtK8/Bf4Gy3Am/BldgpyMrORrX1RbG50Zn2+30uk/61L8IsGSWUtj3
+	wlew8JuuC/LVCw74yocYzjmuh/2jVECYO09/JnGskzJoRAEuWt2Ws+COl5Rgd7vqXw+geC08Deq
+	EW/tWloQrIw1BZ
+X-Received: by 2002:a05:600c:b95:b0:485:5c6e:8a38 with SMTP id 5b1f17b1804b1-48727f63664mr250648925e9.17.1774950478236;
+        Tue, 31 Mar 2026 02:47:58 -0700 (PDT)
+Received: from nsa ([185.128.9.53])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4887aacb8d0sm14105285e9.3.2026.03.31.02.47.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 Mar 2026 02:47:57 -0700 (PDT)
+Date: Tue, 31 Mar 2026 10:48:43 +0100
+From: Nuno =?utf-8?B?U8Oh?= <noname.nuno@gmail.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, linux-gpio@vger.kernel.org, 
+	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>
+Subject: Re: [PATCH v8 2/3] hwmon: ltc4283: Add support for the LTC4283 Swap
+ Controller
+Message-ID: <acuLynb1hRFJRcEf@nsa>
+References: <20260327-ltc4283-support-v8-0-471de255d728@analog.com>
+ <20260327-ltc4283-support-v8-2-471de255d728@analog.com>
+ <aco5L_6SZIB2DdpF@nsa>
+ <e0c96f38-6742-4b86-8938-64e4e6063119@roeck-us.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <LV9PR03MB8414CB05EB794F6974584C2AF753A@LV9PR03MB8414.namprd03.prod.outlook.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <e0c96f38-6742-4b86-8938-64e4e6063119@roeck-us.net>
 
-On Tue, Mar 31, 2026 at 08:36:42AM +0000, Sabau, Radu bogdan wrote:
-> > -----Original Message-----
-> > From: Andy Shevchenko <andy.shevchenko@gmail.com>
-> > Sent: Monday, March 30, 2026 8:24 PM
-
-...
-
-> > > > > +#include <linux/bitfield.h>
-> > > > > +#include <linux/bitops.h>
-> > > > > +#include <linux/cleanup.h>
-> > > > > +#include <linux/delay.h>
-> > > > > +#include <linux/device.h>
-> > > >
-> > > > Hmm... Is it used? Or perhaps you need only
-> > > > dev_printk.h
-> > > > device/devres.h
-> > > > ?
+On Mon, Mar 30, 2026 at 08:47:32AM -0700, Guenter Roeck wrote:
+> On 3/30/26 02:28, Nuno Sá wrote:
+> > Hi Guenter, Regarding AI review, I think most of the points were
+> > discussed in previous revisions, but there are two valid.
 > > 
-> > > I have checked this out and it seems device.h doesn't actually need
-> > > to be included anyway since spi.h directly includes device.h, and since
-> > > this is a SPI driver that's never going away, it's covered. Will drop it!
+> > On Fri, Mar 27, 2026 at 05:26:15PM +0000, Nuno Sá wrote:
+> > > Support the LTC4283 Hot Swap Controller. The device features programmable
+> > > current limit with foldback and independently adjustable inrush current to
+> > > optimize the MOSFET safe operating area (SOA). The SOA timer limits MOSFET
+> > > temperature rise for reliable protection against overstresses.
+> > > 
+> > > An I2C interface and onboard ADC allow monitoring of board current,
+> > > voltage, power, energy, and fault status.
+> > > 
+> > > Signed-off-by: Nuno Sá <nuno.sa@analog.com>
+> > > ---
+> > >   Documentation/hwmon/index.rst   |    1 +
+> > >   Documentation/hwmon/ltc4283.rst |  266 ++++++
+> > >   MAINTAINERS                     |    1 +
+> > >   drivers/hwmon/Kconfig           |   12 +
+> > >   drivers/hwmon/Makefile          |    1 +
+> > >   drivers/hwmon/ltc4283.c         | 1796 +++++++++++++++++++++++++++++++++++++++
+> > >   6 files changed, 2077 insertions(+)
+> > > 
 > > 
-> > No, this is the wrong justification. IWYU principle is about exact
-> > match between what is used and included in a file (module). spi.h is
-> > not dev_*() provider and may not be considered for that.
+> > ...
+> > 
+> > > +static int ltc4283_read_in_alarm(struct ltc4283_hwmon *st, u32 channel,
+> > > +				 bool max_alm, long *val)
+> > > +{
+> > > +	if (channel == LTC4283_VPWR)
+> > > +		return ltc4283_read_alarm(st, LTC4283_ADC_ALM_LOG_1,
+> > > +					  BIT(2 + max_alm), val);
+> > > +
+> > > +	if (channel >= LTC4283_CHAN_ADI_1 && channel <= LTC4283_CHAN_ADI_4) {
+> > > +		u32 bit = (channel - LTC4283_CHAN_ADI_1) * 2;
+> > > +		/*
+> > > +		 * Lower channels go to higher bits. We also want to go +1 down
+> > > +		 * in the min_alarm case.
+> > > +		 */
+> > > +		return ltc4283_read_alarm(st, LTC4283_ADC_ALM_LOG_2,
+> > > +					  BIT(7 - bit - !max_alm), val);
+> > > +	}
+> > > +
+> > > +	if (channel >= LTC4283_CHAN_ADIO_1 && channel <= LTC4283_CHAN_ADIO_4) {
+> > > +		u32 bit = (channel - LTC4283_CHAN_ADIO_1) * 2;
+> > > +
+> > > +		return ltc4283_read_alarm(st, LTC4283_ADC_ALM_LOG_3,
+> > > +					  BIT(7 - bit - !max_alm), val);
+> > > +	}
+> > > +
+> > > +	if (channel >= LTC4283_CHAN_ADIN12 && channel <= LTC4283_CHAN_ADIN34) {
+> > > +		u32 bit = (channel - LTC4283_CHAN_ADIN12) * 2;
+> > > +
+> > > +		return ltc4283_read_alarm(st, LTC4283_ADC_ALM_LOG_5,
+> > > +					  BIT(7 - bit - !max_alm), val);
+> > > +	}
+> > 
+> > "Will this condition handle the ADIO12 and ADIO34 differential channels?
+> > It looks like channels 14 and 15 fall through to the default return intended
+> > for the DRAIN channel. Since reading the alarm implicitly clears the register
+> > bits, could reading these ADIO alarms unintentionally clear actual DRAIN
+> > alarms? Should the upper bound be LTC4283_CHAN_ADIO34?"
+> > 
+> > Good catch and should be:
+> > 
+> > -       if (channel >= LTC4283_CHAN_ADIN12 && channel <= LTC4283_CHAN_ADIN34) {
+> > +       if (channel >= LTC4283_CHAN_ADIN12 && channel <= LTC4283_CHAN_ADIO34) {
+> > 
+> > > +
+> > > +	if (channel == LTC4283_CHAN_DRNS)
+> > > +		return ltc4283_read_alarm(st, LTC4283_ADC_ALM_LOG_4,
+> > > +					  BIT(6 + max_alm), val);
+> > > +
+> > > +	return ltc4283_read_alarm(st, LTC4283_ADC_ALM_LOG_4, BIT(4 + max_alm),
+> > > +				  val);
+> > > +}
+> > 
+> > ...
+> > 
+> > > +
+> > > +static int ltc4283_probe(struct i2c_client *client)
+> > > +{
+> > > +	struct device *dev = &client->dev, *hwmon;
+> > > +	struct auxiliary_device *adev;
+> > > +	struct ltc4283_hwmon *st;
+> > > +	int ret;
+> > > +
+> > > +	st = devm_kzalloc(dev, sizeof(*st), GFP_KERNEL);
+> > > +	if (!st)
+> > > +		return -ENOMEM;
+> > > +
+> > > +	if (!i2c_check_functionality(client->adapter,
+> > > +				     I2C_FUNC_SMBUS_BYTE_DATA |
+> > > +				     I2C_FUNC_SMBUS_WORD_DATA |
+> > > +				     I2C_FUNC_SMBUS_READ_I2C_BLOCK))
+> > > +		return -EOPNOTSUPP;
+> > > +
+> > > +	st->client = client;
+> > > +	st->map = devm_regmap_init(dev, &ltc4283_regmap_bus, client,
+> > > +				   &ltc4283_regmap_config);
+> > > +	if (IS_ERR(st->map))
+> > > +		return dev_err_probe(dev, PTR_ERR(st->map),
+> > > +				     "Failed to create regmap\n");
+> > > +
+> > > +	ret = ltc4283_setup(st, dev);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	hwmon = devm_hwmon_device_register_with_info(dev, "ltc4283", st,
+> > > +						     &ltc4283_chip_info, NULL);
+> > > +
+> > > +	if (IS_ERR(hwmon))
+> > > +		return PTR_ERR(hwmon);
+> > > +
+> > > +	ltc4283_debugfs_init(st, client);
+> > > +
+> > > +	if (!st->gpio_mask)
+> > > +		return 0;
+> > > +
+> > > +	adev = devm_auxiliary_device_create(dev, "gpio", &st->gpio_mask);
+> > > +	if (!adev)
+> > > +		return dev_err_probe(dev, -ENODEV, "Failed to add GPIO device\n");
+> > 
+> > "Does this allow multiple LTC4283 chips to probe successfully?
+> > Without allocating a unique ID per I2C instance, it seems the first probed
+> > chip takes the generic name. If a second chip is present, it might attempt
+> > to register with the exact same name, resulting in a failure in device_add()
+> > and aborting the probe."
+> > 
+> > Also looks valid and I suspect is one of those that a quick look will
+> > find more "offenders". I would purpose:
+> > 
+> > -       adev = devm_auxiliary_device_create(dev, "gpio", &st->gpio_mask);
+> > +       adev = __devm_auxiliary_device_create(dev, KBUILD_MODNAME, "gpio",
+> > +                                             &st->gpio_mask, client->addr);
 > > 
 > 
-> You are right, my justification was incorrect. Under IWYU, relying on
-> spi.h's transitive pull of device.h is not valid. However, I think device.h
-> is still needed in this case since struct device is used directly in the code
-> both as local variables and in the regmap callbacks.
+> That would still fail if there are multiple chips at the same I2C address
+> on multiple I2C busses. Check drivers/gpu/drm/bridge/ti-sn65dsi86.c which has
+> the same problem.
 
-Really? I can't see that.
-(Hint: use of the data type and use of its pointer is a huge difference.)
+I did looked at that one but totally forgot the multiple busses
+scenario.
 
-> Also dev_err_probe() is called directly and lives in device.h.
+> 
+> > If there's nothing else and you agree with the above, is this something
+> > you can tweak while applying or should I spin a new version?
+> > 
+> 
+> Please respin. Also, regarding the other concerns:
+> 
+>   Can BIT(8) * st->rsense wrap to zero on 32-bit architectures?
+>   BIT(8) is a 32-bit unsigned long and st->rsense is a u32. If a user sets a
+>   very large sense resistor value via the device tree, the multiplication could
+>   wrap to 0, causing a division-by-zero kernel panic. Should the divisor use
+>   BIT_ULL(8)?
+> 
+> Unless I am missing something, this _can_ overflow. Try to provide a sense
+> resistor value of 1677721600. Yes, it is unreasonable to specify such large
+> rsense values, but why not just limit it such that it does not overflow ?
 
-No, as I started with my replies. The proper header that provides it is
-dev_printk.h.
+Yes, that's pretty much my reasoning (regarding the unreasonable
+rsense). I could just make BIT_ULL() and be done with it. I can also
+also cap rsense to a max value but i'm not 100% what that value would
+be. Maybe 1 ohm is already more than reasonable. I can also ask internally. Any
+preference on this one?
 
-> What's your take on this?
+> 
+> Also, for the overflow concerns, if you are sure they can not happen, I'll
+> really need to write the unit test code to make sure that this is indeed
+> the case.
+>
 
--- 
-With Best Regards,
-Andy Shevchenko
+Hmm, for the val * MILLI case, well it should not happen but given it
+depends on user input, better if I clamp it before passing the
+value to ltc4283_write_in_byte(). Yes, we clamp again inside the
+write_bytes() API but not a big deal.
 
+For the st->power_max is again one of those cases where the values would
+not make sense (I think - the combination of vsense_max and rsense). Just looking
+at the code, it can overflow but this one I'm not really sure how we could handle it.
+Maybe clamp power_max to U8_MAX and have a warning message in ltc4283_read_power_byte() if
+we overflow long in which case we need a power64 attr?
 
+But even clamping does not make much sense here. The power limit register
+is 8 bits, so if our design (rsense + vsense_max) overflows that,
+there's nothing we can do other that erroring out.
+
+- Nuno Sá
+
+> Thanks,
+> Guenter
+> 
