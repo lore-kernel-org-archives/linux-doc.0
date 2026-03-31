@@ -1,101 +1,164 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D33A3B774B;
-	Tue, 31 Mar 2026 00:00:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF55A364930;
+	Tue, 31 Mar 2026 02:08:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774915203; cv=none; b=rkG3Ik/dDeOppOQ/zDebhC3rTMudiuCDkdqe96m4fn2OCQ6lzi/MO0NmYdXu7SZQYIgc31itV58zOei4m2sWg6T3uHfm9orSWmcyet48ix6uMVi82gXA4EP0d2vIGGu6gjnhNkohnzzDIfYFkggWeWGBO1C/8JeUZ16byaGYjDY=
+	t=1774922890; cv=none; b=ciuwcchhZOhevK/TgEgapeaAREnxnVY52aHvh/rt5OXeWu5z0FhB4ynFeYuEuDmDIFyC5PTrBElL4L0qUr8OGkLFYAkTIjX+1kCu+CPj8q4c4ZXgzrWFPe+RT7T7CPc5xE5LxINOzmnFuUCstr9wK0i7dqgPXL/6Ie3B+LG8arw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774915203; c=relaxed/simple;
-	bh=nflDkOq0Zqwb58YzrdiSqpPIhkpTAzBKnu8Q3SFxf+0=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=g5809decs2VR/ZFq4ZrQS0fUWYyyEa7Lj9Uhi0Rxc8rFOEGTFk//YWKz7dRPeV0hDyv0vFxN2Xdwzwp8BG18L+bWESdZN6QfjCreIocN6DrpsOkqlCdcl/A5IBl9iRr5QGVT5FJqXIs388kGtbfo1onexqumfM2lQxKAxq24J2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gdh4IsN4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1774922890; c=relaxed/simple;
+	bh=jDFlpr+6/4jIivPkrjpKtCcAqx2kOVDbPkhzYMq73PE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=USeeg3u1E5Zepxvy/nh44FJl20p5aY3Mhdpq1J2P036ICmqB2Dw2SqxvvPGSDCC/hIqQ4AWHxFBaJEbREFqcMMDKdujsMWYtelYWAnIZYRkB/Pai2DyPuG+HmejHxdIhKCrDnrk4h4mX5SyjvuSWqH2bi1nYXJQW35oqK5ButMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dLh6tvlv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gdh4IsN4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D48C1C4CEF7;
-	Tue, 31 Mar 2026 00:00:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dLh6tvlv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FDCCC4CEF7;
+	Tue, 31 Mar 2026 02:08:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774915203;
-	bh=nflDkOq0Zqwb58YzrdiSqpPIhkpTAzBKnu8Q3SFxf+0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Gdh4IsN45OLC64JvdICWSUZT4Z14Unu57CJZxKMY+CdC4C9BmJdY/OsHZ5zxYSmIp
-	 /3PWmy6D+VyDBIZMSv0RJGR5UCtQjAw8ZtsBUHFGYZZLi5q5hf+oeWWQR/ReMgEpbf
-	 DwLxfkFDh2nntt76+0f9BmjWYeLDoscGpmVCVXXiJMjJsVYSrAnKTXXgJk+kSjFG/p
-	 fjrwknbCsLDbeRDlELhsyK114qmvlAaMTUi+bM4MaoNk+D8T724fRWXcw/GG5NMboK
-	 Z5z7TkuUYMPpuUwAMUSBjTQ7+UGxRpmAxt0vZ/3+OGt4mhWlwSHNHkXRcLHGUOi47u
-	 a27FDQBgzQX+A==
-Date: Tue, 31 Mar 2026 09:00:00 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: Breno Leitao <leitao@debian.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- oss@malat.biz, paulmck@kernel.org, rostedt@goodmis.org,
- kernel-team@meta.com
-Subject: Re: [PATCH v2] bootconfig: Apply early options from embedded config
-Message-Id: <20260331090000.b3be159bb7655449e6c4d230@kernel.org>
-In-Reply-To: <acpzhCBEPh-tKVqg@gmail.com>
-References: <20260325-early_bootconfig-v2-1-6b05a36fbfb5@debian.org>
-	<20260325232204.05edbb21c7602b6408ca007b@kernel.org>
-	<acZPZ4XKy4QynznK@gmail.com>
-	<20260327223744.f246150adc1671f7605a4f0a@kernel.org>
-	<acpzhCBEPh-tKVqg@gmail.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=k20201202; t=1774922890;
+	bh=jDFlpr+6/4jIivPkrjpKtCcAqx2kOVDbPkhzYMq73PE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=dLh6tvlvSB/3cWNTAzkpl6luGHm4IglfcTGHxCRNMHEcb0RZaoydhTudMSrsNQg/I
+	 cH/XUSf+j4gfYtzVoqjbIlQu5NxG8K6sMddXG0RKhtoP7CvAWSP3CHEVlWz6HhO3Rn
+	 9XI96zMK0CCUd/QXviCBmyC//JXcZqtxa6hwdM5puEWQSSjAdfmn7SV8i92Z0ibYci
+	 Qf3zsi0p+f3zovxsmKyIWh2Q7oKNKVs8ecko/L6lRs++Agx7+eGdS87q7YP8Uk/M3+
+	 LsOUKBxJ2WyRNvRUhILHpacMR98OFsPAcwYcSgSOZcQjy4y7epK9fPpTW/JvWRvoJk
+	 y4l0DuKuku9Rg==
+From: Jakub Kicinski <kuba@kernel.org>
+To: tariqt@nvidia.com
+Cc: Jakub Kicinski <kuba@kernel.org>,
+	edumazet@google.com,
+	pabeni@redhat.com,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	donald.hunter@gmail.com,
+	horms@kernel.org,
+	jiri@resnulli.us,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	saeedm@nvidia.com,
+	leon@kernel.org,
+	mbloch@nvidia.com,
+	shuah@kernel.org,
+	chuck.lever@oracle.com,
+	matttbe@kernel.org,
+	cjubran@nvidia.com,
+	cratiu@nvidia.com,
+	dtatulea@nvidia.com,
+	jacob.e.keller@intel.com,
+	shshitrit@nvidia.com,
+	daniel.zahka@gmail.com,
+	parav@nvidia.com,
+	ajayachandra@nvidia.com,
+	kees@kernel.org,
+	shayd@nvidia.com,
+	danielj@nvidia.com,
+	moshe@nvidia.com,
+	willemb@google.com,
+	dw@davidwei.uk,
+	petrm@nvidia.com,
+	sdf@fomichev.me,
+	daniel@iogearbox.net,
+	joe@dama.to,
+	razor@blackwall.org,
+	vadim.fedorenko@linux.dev,
+	mst@redhat.com,
+	antonio@openvpn.net,
+	allison.henderson@oracle.com,
+	minhquangbui99@gmail.com,
+	noren@nvidia.com,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	gal@nvidia.com,
+	jiri@nvidia.com
+Subject: Re: [PATCH net-next V9 02/14] devlink: Add helpers to lock nested-in instances
+Date: Mon, 30 Mar 2026 19:08:06 -0700
+Message-ID: <20260331020807.3524811-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260326065949.44058-3-tariqt@nvidia.com>
+References: <20260326065949.44058-3-tariqt@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Mon, 30 Mar 2026 06:15:17 -0700
-Breno Leitao <leitao@debian.org> wrote:
+This is an AI-generated review of your patch. The human sending this
+email has considered the AI review valid, or at least plausible.
+---
+devlink: Add helpers to lock nested-in instances
 
-> On Fri, Mar 27, 2026 at 10:37:44PM +0900, Masami Hiramatsu wrote:
-> > On Fri, 27 Mar 2026 03:06:41 -0700
-> > Breno Leitao <leitao@debian.org> wrote:
-> 
-> > > > To fix this, we need to change setup_arch() for each architecture so
-> > > > that it calls this bootconfig_apply_early_params().
-> > > 
-> > > Could we instead integrate this into parse_early_param() itself? That
-> > > approach would avoid the need to modify each architecture individually.
-> > 
-> > Ah, indeed. 
-> 
-> I investigated integrating bootconfig into parse_early_param() and hit a
-> blocker: xbc_init() and xbc_make_cmdline() depend on memblock_alloc(), but on
-> most architectures (x86, arm64, arm, s390, riscv) parse_early_param() is called
-> from setup_arch() _before_ memblock is initialized.
+Upcoming code will need to obtain a reference to locked nested-in
+devlink instances. Add helpers to lock, obtain an already locked
+reference and unlock/unref the nested-in instance.
 
-Yeah, that's right.
+> diff --git a/net/devlink/core.c b/net/devlink/core.c
+> index eeb6a71f5f56e..db11248df7120 100644
+> --- a/net/devlink/core.c
+> +++ b/net/devlink/core.c
 
-> 
-> So, bootconfig will not be available as early as parse_early_param(). 
-> 
-> An alternative is replace memblock allocations in lib/bootconfig.c with static
-> __initdata buffers, similar to Petr's approach in 2023:
-> 
-> 	https://lore.kernel.org/all/20231121231342.193646-3-oss@malat.biz/
-> 
-> But, there was concerns about the allocation size:
-> 
-> 	Petr Malat <oss@malat.biz> wrote: 
-> 	> To allow handling of early options, it's necessary to eliminate allocations
-> 	> from embedded bootconfig handling
-> 
-> 	"Hm, my concern is that this can introduce some sort of overhead to parse the bootconfig."
-> 
+[ ... ]
 
-As far as we can correctly handle the early params and it is limited only
-with the embedded bootconfig, I think it is OK to allocate it statically.
+> +/* Returns the nested in devlink object and validates its lock is held. */
+> +struct devlink *devlink_nested_in_get_locked(struct devlink_rel *rel)
+> +{
+> +	struct devlink *devlink;
+> +	unsigned long index;
+> +
+> +	if (!rel)
+> +		return NULL;
+> +	index = rel->nested_in.devlink_index;
+> +	devlink = xa_find(&devlinks, &index, index, DEVLINK_REGISTERED);
+> +	if (devlink)
+> +		devl_assert_locked(devlink);
 
-Thank you,
+Can this dereference a freed pointer if the lock is not actually held?
 
+xa_find() acquires and releases the RCU read lock internally. When it returns,
+the devlink pointer is no longer protected by RCU or a reference count.
 
+If a caller invokes this helper without holding the devlink lock (which is the
+exact scenario the assertion is designed to detect), another thread could
+concurrently unregister and free the devlink.
+
+If the RCU grace period expires before the assertion executes,
+devl_assert_locked() would dereference freed memory. Should the lookup and
+assertion be enclosed within an explicit rcu_read_lock() block to safely
+assert the lock?
+
+> +	return devlink;
+> +}
+> +
+> +void devlink_nested_in_put_unlock(struct devlink_rel *rel)
+> +{
+> +	struct devlink *devlink = devlink_nested_in_get_locked(rel);
+
+Could this corrupt the mutex state and cause a refcount underflow?
+
+This helper takes a devlink_rel pointer instead of the devlink pointer
+acquired by devlink_nested_in_get_lock(), and performs a secondary global
+lookup to find the devlink.
+
+If a caller mistakenly calls this in an error cleanup path where they did not
+actually acquire the lock, the global xa_find() will still locate the
+registered devlink. This would execute devl_unlock() and devlink_put() on a
+devlink the current thread does not own.
+
+Would it be safer for unlock/put helpers to take the exact pointer returned by
+the lock/get helper to ensure safe resource cleanup?
+
+> +
+> +	if (devlink) {
+> +		devl_unlock(devlink);
+> +		devlink_put(devlink);
+> +	}
+> +}
 -- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+pw-bot: cr
