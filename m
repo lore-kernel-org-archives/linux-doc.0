@@ -1,114 +1,368 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5DD43EE1D8;
-	Tue, 31 Mar 2026 10:25:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774952728; cv=none; b=mV3hnVjFcbvxF/sYE79YJfSVfF898JJ02ZLsEHA6gz+PUgplmNygAOi0rmSeDFUCjOjCJZIo4KkiLGtLWznE3dfC5mweaQ3sFIObb9SY4VUACXM+JoEeKfEhZuCDjTJr1tqSNxmNLgonJzu705dIHDFOC3keIcIluKKt/ntwsBM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774952728; c=relaxed/simple;
-	bh=Or0MsLAUgZRD9KP2/ag734x42p0Csbll1jWn9v6NCbs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qzJqpJUDd5lawayM9kksNutde8cdbVRP1hiGUy3f2jrzQ74IK5OQsRQ0kFVJBLYW8h4lCUfJc74BlXSStZxmwz1g3NYU9bhHa5XvH8BjMobF9LZ5XCmXyJSISOspivB5xwB2JMid5UtPsKshlyr9DbBGsxtrdeJdNnnQwL6bfeQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=Hwn6F+Z4; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 960B1346FB5;
+	Tue, 31 Mar 2026 10:34:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774953260; cv=pass; b=kYv/cdwzdhjYaY5wtch7bx+BJG8LwZx8kz7D6JwqCbRX/+BNVrxNmJlQS26hsNes6UAgw7ZP96N/rWmc1LOTgXeyR4hk1WZZ/zEhcxtSFleNK4h4NVTqcuIc3dwLsRJrzME0HM8+CGqnIK5RjVsyJkr8qBSYAYpHD1c3tB0Tj2k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774953260; c=relaxed/simple;
+	bh=mCV2SZpUK6sWJdM3cUU8IOdk/5G5tTsUpxdUhak3lrg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uol2E4dgnriWuZkLAzH/YRePa/kVg/kx2JSqvxQONkUUFEnA5NO7DkwOnYrXYTzAzel37Z6c3z1gHw2JK9HTJipjQ6B4aXrlh1MHlCljEGBUJub0pzGQyajvJzt2+mCanbzQsR01XjYY3elPzjkmx7ke6gtCP8/4WnFDtokqk6s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=V3L9lwL5; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="Hwn6F+Z4"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=wS0B7N8hTDMx34nsv1RGAeGiy66uMx39VPwXLEOqJc8=; b=Hwn6F+Z4RVWedrnbTn8XXv+KmF
-	5AeftYsSUV+CpcKV8Dhh/f9dxZvvhDwV8TLXHhWIZ85ubtLv7V+dzW+Ag0UptxBYGS+m9wb6YftTI
-	B5fFXXN/QC0DXIlf4d/xt4/rVFitE1jXpCJLb30QRn2PZW9adUoRaItFrM42JA/TBUOXR2gIbOPo9
-	r53K28YM6LRlxBHGZP4IJ5d33vb0xH9lUZFE4T0aChDOX267xz7zI9ZcF8k7lI/K03CexBxpH2SM8
-	M4kwg6kdgypyxMps6gjHM00AAsjlCxlXsh+OvLKm8W4AcXUgep2yodTI/H4sGPtvvwNme3gnpsBgr
-	lRm7yyFw==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1w7WHW-0029LL-1u;
-	Tue, 31 Mar 2026 10:25:09 +0000
-Date: Tue, 31 Mar 2026 03:25:03 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Miaohe Lin <linmiaohe@huawei.com>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, kernel-team@meta.com, Naoya Horiguchi <nao.horiguchi@gmail.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH 1/2] mm/memory-failure: add
- panic_on_unrecoverable_memory_failure sysctl
-Message-ID: <acugba9zIDYTjp0a@gmail.com>
-References: <20260323-ecc_panic-v1-0-72a1921726c5@debian.org>
- <20260323-ecc_panic-v1-1-72a1921726c5@debian.org>
- <a88d62ee-530c-1a6e-c05f-de324f940b8f@huawei.com>
- <acp8wYLHDGAfhzI5@gmail.com>
- <d8d2a5ad-9b8a-f0e2-3eb0-ee820eb7a148@huawei.com>
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="V3L9lwL5"
+ARC-Seal: i=1; a=rsa-sha256; t=1774953194; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=iq7d+EpWYAvrctcfxZoQjNJuhB62URk7xlbwaLsDMTNXTWCyQ4LwDyZ6I27wYYHAMP4YPM0hYR/rK8AWX1jqBcjhxQf8J51b99OQ+VF9yVDhEqMQMfzMcWZJUV2pGlG6D+JYKcdc63sYSJlX24pWsFdQZX2jKMN+WnVHhppSgRQ=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1774953194; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=WONs+triHAG3oxKIDY5u6sC91+pizMI0mnGHgeGpMWA=; 
+	b=Vh9zaiChMYD6vskfjYkgIBkCpQIQmnxaqlBcmk8+El0hVORrkZFIntq9a8X6fTa7guKBYxcQC8K42tY0FIF9ir+fsdg58kFS9D0UjA9+cfr6iNC4IkwitdRA9MKj5MscyrlksfUfeV18AJAKMPFxt2cNzDqpvvQDy/G0UyUF4yQ=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1774953194;
+	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+	bh=WONs+triHAG3oxKIDY5u6sC91+pizMI0mnGHgeGpMWA=;
+	b=V3L9lwL5t+B5HbtOLDaYfqYdeaZCN8rQT1mGU46AB79OOrvLI8lwlaGUlxYG0lKq
+	G6V26eWcMkIy5x3/sgiT2LdI+GDuyPfzNDQ6VB5oOYteJoe+EnPXzgWeohswEwhMpkq
+	0cS3rPBVWJ25PctJ4X+Zp9Z74BEt6x2M/ZP7K/Yo=
+Received: by mx.zohomail.com with SMTPS id 1774953193153170.1511210439279;
+	Tue, 31 Mar 2026 03:33:13 -0700 (PDT)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>,
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ kernel@collabora.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, Werner Sembach <wse@tuxedocomputers.com>,
+ Andri Yngvason <andri@yngvason.is>, Marius Vlad <marius.vlad@collabora.com>
+Subject:
+ Re: [PATCH v11 03/22] drm: Add new general DRM property "color format"
+Date: Tue, 31 Mar 2026 12:33:00 +0200
+Message-ID: <5583906.GXAFRqVoOG@workhorse>
+In-Reply-To: <acsNoCDsPtEhtkRn@intel.com>
+References:
+ <20260324-color-format-v11-0-605559af4fb4@collabora.com>
+ <acclgID7lSVNten2@intel.com> <acsNoCDsPtEhtkRn@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d8d2a5ad-9b8a-f0e2-3eb0-ee820eb7a148@huawei.com>
-X-Debian-User: leitao
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-Hi Miaohe,
+On Tuesday, 31 March 2026 01:56:16 Central European Summer Time Ville Syrj=
+=C3=A4l=C3=A4 wrote:
+> On Sat, Mar 28, 2026 at 02:49:04AM +0200, Ville Syrj=C3=A4l=C3=A4 wrote:
+> > On Fri, Mar 27, 2026 at 01:56:06PM +0100, Nicolas Frattaroli wrote:
+> > > On Thursday, 26 March 2026 18:58:25 Central European Standard Time Vi=
+lle Syrj=C3=A4l=C3=A4 wrote:
+> > > > On Thu, Mar 26, 2026 at 06:02:47PM +0100, Maxime Ripard wrote:
+> > > > > On Wed, Mar 25, 2026 at 08:43:15PM +0200, Ville Syrj=C3=A4l=C3=A4=
+ wrote:
+> > > > > > On Wed, Mar 25, 2026 at 03:56:58PM +0100, Maxime Ripard wrote:
+> > > > > > > On Wed, Mar 25, 2026 at 01:03:07PM +0200, Ville Syrj=C3=A4l=
+=C3=A4 wrote:
+> > > > > > > > On Wed, Mar 25, 2026 at 09:24:27AM +0100, Maxime Ripard wro=
+te:
+> > > > > > > > > On Tue, Mar 24, 2026 at 09:53:35PM +0200, Ville Syrj=C3=
+=A4l=C3=A4 wrote:
+> > > > > > > > > > On Tue, Mar 24, 2026 at 08:10:11PM +0100, Nicolas Fratt=
+aroli wrote:
+> > > > > > > > > > > On Tuesday, 24 March 2026 18:00:45 Central European S=
+tandard Time Ville Syrj=C3=A4l=C3=A4 wrote:
+> > > > > > > > > > > > On Tue, Mar 24, 2026 at 05:01:07PM +0100, Nicolas F=
+rattaroli wrote:
+> > > > > > > > > > > > > +enum drm_connector_color_format {
+> > > > > > > > > > > > > +	/**
+> > > > > > > > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_AUTO: The driver=
+ or display protocol
+> > > > > > > > > > > > > +	 * helpers should pick a suitable color format.=
+ All implementations of a
+> > > > > > > > > > > > > +	 * specific display protocol must behave the sa=
+me way with "AUTO", but
+> > > > > > > > > > > > > +	 * different display protocols do not necessari=
+ly have the same "AUTO"
+> > > > > > > > > > > > > +	 * semantics.
+> > > > > > > > > > > > > +	 *
+> > > > > > > > > > > > > +	 * For HDMI, "AUTO" picks RGB, but falls back t=
+o YCbCr 4:2:0 if the
+> > > > > > > > > > > > > +	 * bandwidth required for full-scale RGB is not=
+ available, or the mode
+> > > > > > > > > > > > > +	 * is YCbCr 4:2:0-only, as long as the mode and=
+ output both support
+> > > > > > > > > > > > > +	 * YCbCr 4:2:0.
+> > > > > > > > > > > > > +	 *
+> > > > > > > > > > > > > +	 * For display protocols other than HDMI, the r=
+ecursive bridge chain
+> > > > > > > > > > > > > +	 * format selection picks the first chain of br=
+idge formats that works,
+> > > > > > > > > > > > > +	 * as has already been the case before the intr=
+oduction of the "color
+> > > > > > > > > > > > > +	 * format" property. Non-HDMI bridges should th=
+erefore either sort their
+> > > > > > > > > > > > > +	 * bus output formats by preference, or agree o=
+n a unified auto format
+> > > > > > > > > > > > > +	 * selection logic that's implemented in a comm=
+on state helper (like
+> > > > > > > > > > > > > +	 * how HDMI does it).
+> > > > > > > > > > > > > +	 */
+> > > > > > > > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_AUTO =3D 0,
+> > > > > > > > > > > > > +
+> > > > > > > > > > > > > +	/**
+> > > > > > > > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_RGB444: RGB outp=
+ut format
+> > > > > > > > > > > > > +	 */
+> > > > > > > > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_RGB444,
+> > > > > > > > > > > > > +
+> > > > > > > > > > > > > +	/**
+> > > > > > > > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR444: YCbCr =
+4:4:4 output format (ie.
+> > > > > > > > > > > > > +	 * not subsampled)
+> > > > > > > > > > > > > +	 */
+> > > > > > > > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR444,
+> > > > > > > > > > > > > +
+> > > > > > > > > > > > > +	/**
+> > > > > > > > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR422: YCbCr =
+4:2:2 output format (ie.
+> > > > > > > > > > > > > +	 * with horizontal subsampling)
+> > > > > > > > > > > > > +	 */
+> > > > > > > > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR422,
+> > > > > > > > > > > > > +
+> > > > > > > > > > > > > +	/**
+> > > > > > > > > > > > > +	 * @DRM_CONNECTOR_COLOR_FORMAT_YCBCR420: YCbCr =
+4:2:0 output format (ie.
+> > > > > > > > > > > > > +	 * with horizontal and vertical subsampling)
+> > > > > > > > > > > > > +	 */
+> > > > > > > > > > > > > +	DRM_CONNECTOR_COLOR_FORMAT_YCBCR420,
+> > > > > > > > > > > >=20
+> > > > > > > > > > > > Seems like this should document what the quantizati=
+on range
+> > > > > > > > > > > > should be for each format.
+> > > > > > > > > > > >=20
+> > > > > > > > > > >=20
+> > > > > > > > > > > I don't think so? If you want per-component bit depth=
+ values,
+> > > > > > > > > > > DRM_FORMAT_* defines would be the appropriate values =
+to use. This
+> > > > > > > > > > > enum is more abstract than that, and is there to comm=
+unicate
+> > > > > > > > > > > YUV vs. RGB and chroma subsampling, with bit depth be=
+ing handled
+> > > > > > > > > > > by other properties.
+> > > > > > > > > > >=20
+> > > > > > > > > > > If you mean the factor used for subsampling, then tha=
+t'd only be
+> > > > > > > > > > > relevant if YCBCR410 was supported where one chroma p=
+lane isn't
+> > > > > > > > > > > halved but quartered in resolution. I suspect 4:1:0 w=
+ill never
+> > > > > > > > > > > be added; no digital display protocol standard suppor=
+ts it to my
+> > > > > > > > > > > knowledge, and hopefully none ever will.
+> > > > > > > > > >=20
+> > > > > > > > > > No, I mean the quantization range (16-235 vs. 0-255 etc=
+).
+> > > > > > > > > >=20
+> > > > > > > > > > The i915 behaviour is that YCbCr is always limited rang=
+e,
+> > > > > > > > > > RGB can either be full or limited range depending on th=
+e=20
+> > > > > > > > > > "Broadcast RGB" property and other related factors.
+> > > > > > > > >=20
+> > > > > > > > > So far the HDMI state has both the format and quantizatio=
+n range as
+> > > > > > > > > different fields. I'm not sure we need to document the ra=
+nge in the
+> > > > > > > > > format field, maybe only mention it's not part of the for=
+mat but has a
+> > > > > > > > > field of its own?
+> > > > > > > >=20
+> > > > > > > > I think we only have it for RGB (on some drivers only?). Fo=
+r YCbCr
+> > > > > > > > I think the assumption is limited range everywhere.
+> > > > > > > >=20
+> > > > > > > > But I'm not really concerned about documenting struct membe=
+rs.
+> > > > > > > > What I'm talking about is the *uapi* docs. Surely userspace
+> > > > > > > > will want to know what the new property actually does so the
+> > > > > > > > uapi needs to be documented properly. And down the line some
+> > > > > > > > new driver might also implement the wrong behaviour if there
+> > > > > > > > is no clear specification.
+> > > > > > >=20
+> > > > > > > Ack
+> > > > > > >=20
+> > > > > > > > So I'm thinking (or perhaps hoping) the rule might be somet=
+hing like:
+> > > > > > > > - YCbCr limited range=20
+> > > > > > > > - RGB full range if "Broadcast RGB" property is not present
+> > > > > > >=20
+> > > > > > > Isn't it much more complicated than that for HDMI though? My
+> > > > > > > recollection was that any VIC but VIC1 would be limited range=
+, and
+> > > > > > > anything else full range?
+> > > > > >=20
+> > > > > > Do we have some driver that implements the CTA-861 CE vs. IT mo=
+de
+> > > > > > logic but doesn't expose the "Broadcast RGB" property? I was ho=
+ping
+> > > > > > those would always go hand in hand now.
+> > > > >=20
+> > > > > I'm not sure. i915 and the HDMI state helpers handle it properly =
+(I
+> > > > > think?) but it looks like only vc4 registers the Broadcast RGB pr=
+operty
+> > > > > and uses the HDMI state helpers.
+> > > > >=20
+> > > > > And it looks like amdgpu registers Broadcast RGB but doesn't use
+> > > > > drm_default_rgb_quant_range() which seems suspicious?
+> > > >=20
+> > > > If they want just manual full vs. limited then they should
+> > > > limit the property to not expose the "auto" option at all.
+> > > >=20
+> > > > amdgpu also ties this in with the "colorspace" property, which
+> > > > originally in i915 only controlled the infoframes/etc. But on
+> > > > amdgpu it now controls various aspects of output color
+> > > > transformation. The end result is that the property is a complete
+> > > > mess with most of the values making no sense. And for whatever
+> > > > reason everyone involved refused to remove/deprecate the
+> > > > nonsensical values :/
+> > > >=20
+> > > > Looks like this series should make sure the documentation for
+> > > > the "colorspace" property is in sync with the new property
+> > > > as well. Currently now it's giving conflicting information.
+> > > >=20
+> > >=20
+> > > I take it the problematic information is in
+> > >=20
+> > >     * DOC: standard connector properties
+> > >     *
+> > >     * Colorspace:
+> > >=20
+> > > and probably specifically BT2020_YCC's (and BT2020_RGB's?) insistence
+> > > that they "produce RGB content".
+> > >=20
+> > > I think we probably just have to change the statement "The variants
+> > > BT2020_RGB and BT2020_YCC are equivalent and the driver chooses betwe=
+en
+> > > RGB and YCbCr on its own."
+> > >=20
+> > > The "on its own" here would get turned into "based on the color format
+> > > property".
+> > >=20
+> > > Speaking of i915, that patch is one of the very few (5) patches in
+> > > this series still lacking a review (hint hint nudge nudge). I'd like
+> > > to get some more feedback on the remaining patches before I send out
+> > > another revision, so that it's hopefully not just docs changes (I
+> > > know better than to think those patches must be perfect and won't
+> > > need revision.)
+> >=20
+> > The i915 code around this is already a big mess, and I don't really
+> > adding to that mess. So I think we'll need to do some refactoring before
+> > we add anything there. I already started typing something and so far
+> > it looks fairly straightforward, so I should have something soon.
+>=20
+> OK, posted something
+> https://lore.kernel.org/intel-gfx/20260330235339.29479-1-ville.syrjala@li=
+nux.intel.com/T/#m7c349478ca6c856fbc68d5e2178f1aa31678a05f
 
-On Tue, Mar 31, 2026 at 10:27:33AM +0800, Miaohe Lin wrote:
-> On 2026/3/30 21:45, Breno Leitao wrote:
-> > On Mon, Mar 30, 2026 at 03:55:00PM +0800, Miaohe Lin wrote:
-> >> On 2026/3/23 23:29, Breno Leitao wrote:
-> >>
-> >>> @@ -1298,6 +1309,10 @@ static int action_result(unsigned long pfn, enum mf_action_page_type type,
-> >>>  	pr_err("%#lx: recovery action for %s: %s\n",
-> >>>  		pfn, action_page_types[type], action_name[result]);
-> >>>
-> >>> +	if (sysctl_panic_on_unrecoverable_mf &&
-> >>> +	    type == MF_MSG_GET_HWPOISON && result == MF_IGNORED)
-> >>> +		panic("Memory failure: %#lx: unrecoverable page", pfn);
-> >>
-> >> MF_MSG_GET_HWPOISON contains some other scenarios. For example, an isolated folio will
-> >> make get_hwpoison_page return -EIO so we will see MF_MSG_GET_HWPOISON and MF_IGNORED in
-> >> action_result. But that's recoverable if folio is used by userspace thus panic will be
-> >> unacceptable.
-> >> Will it better to check type against MF_MSG_KERNEL_HIGH_ORDER?
-> >
-> > Yes, I was discussing this with akpm, and maybe the better
-> > approach would be to panic for types MF_MSG_KERNEL_HIGH_ORDER and MF_MSG_KERNEL.
-> >
-> > In both cases, it seems that, the page would not be able to migrate. What do
-> > you think about a change like this:
-> >
-> >
-> > @@ -1298,6 +1309,10 @@ static int action_result(unsigned long pfn, enum mf_action_page_type type,
-> >         pr_err("%#lx: recovery action for %s: %s\n",
-> >                 pfn, action_page_types[type], action_name[result]);
-> >
-> > +       if (sysctl_panic_on_unrecoverable_mf && result == MF_IGNORED &&
-> > +           (type == MF_MSG_KERNEL || type == MF_MSG_KERNEL_HIGH_ORDER))
-> > +               panic("Memory failure: %#lx: unrecoverable page", pfn);
-> > +
-> >         return (result == MF_RECOVERED || result == MF_DELAYED) ? 0 : -EBUSY;
-> >  }
-> >
->
-> Maybe MF_MSG_UNKNOWN can also be considered? Kernel can't do anything further
-> for those folios.
+Thanks! I'll take a look at this today to get a more solid idea of
+where the pain points you highlighted are.
 
-Agreed, I'll incorporate that change.
+I'll also rebase/reimplement my i915 color format implementation
+(sans the DP-MST part, as discussed) on top of this on the next
+revision. I was never fully happy with the current one due to the
+logic being shoehorned into the already existing i915 fallback
+format logic, so I'm quite happy to have another opportunity to
+implement it with less historic baggage.
 
-> BTW I think current code can't reach to MF_MSG_KERNEL and MF_MSG_UNKNOWN cases
-> bacause there is always a (PageHuge() || HWPoisonHandlable()) check before calling
-> identify_page_state.
+> Are the wayland/compositor/color management folks on board with
+> these new properties? I don't think I see the usual suspects on
+> the cc list.
 
-You're absolutely right. I'd like to address this observation as well in the
-updated patch.
+I don't know which precise group of people you refer to, but at
+least from the Collabora side of things, the userspace Wayland
+people are on board with these new properties. In Weston, we use
+it to implement the Weston frontend's "color-format" option in a
+WIP branch at
 
-Thanks,
---breno
+https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/1859
+
+I've also been made aware that LibreELEC is aware, and will look
+into making use of it rather than their own kernel patches.
+
+Kind regards,
+Nicolas Frattaroli
+
+> >=20
+> > While doing that several questions came to my mind though:
+> >=20
+> > * More interactions with the colorspace property, but I sent
+> >   a separate mail already about that
+> >=20
+> > * Which conversion matrix to use, and the answer I suspect
+> >   should be "ask the colorspace property", as mentioned in the
+> >   other mail
+> >=20
+> > * Should we flat out reject color formats (and I suppose also
+> >   colorspace prop values) the sink doesn't claim to support?
+> >=20
+> >   If yes, then I think we'll have to forget about adding anything=20
+> >   to i915 MST code. The way the MST stuff works is that if one
+> >   stream needs a modeset then all the related streams get modeset
+> >   as well. Thus if the user replaces a monitor getting fed with a
+> >   YCbCr stream just as another stream is being modeset, then the
+> >   entire atomic commit could fail due to the YCbCr stream getting
+> >   rejected.
+> >=20
+> >   I think eventually we might have to invent some mechanism where
+> >   all the input into the modeset computation is cached somehow,
+> >   and said cache updated only on explicit userspace modesets.
+> >   Either that or we have to come up  with a way to skip some of
+> >   the calculations that depend on external factors. Either way
+> >   it's going to be a pain.
+> >=20
+> >   OTOH if we don't mind feeding the sink with stuff it can't
+> >   understand, then I suppose we might add YCbCr 4:4:4 support
+> >   for MST. It shouldn't be any different from RGB apart from
+> >   the RGB->YCbCr conversion, which is handled elsewhere. But
+> >   YCbCr 4:2:0 is definitely out either way, the MST code has
+> >   no support for that currently.
+> >=20
+>=20
+>=20
+
+
+
+
