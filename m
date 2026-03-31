@@ -1,67 +1,85 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01556330317
-	for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2026 13:32:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FF9E3E7166
+	for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2026 13:39:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774963925; cv=none; b=DLtf5a87VYEtLdfEEiYQ/R7lYUTa4oOdfU9djMKr300DTCM/3xcsPD6DZKIBsGioVMtFiG21RMJQ/yc4hs5bwMg1DQdAZZeVTLFYTVgo3YktqtuidNcQsykZfIhQpS3X9iPj2aFiSRVUIEjiUEtW9gbEMov9hzpfYJbIapqy+dY=
+	t=1774964344; cv=none; b=mUuMHB/7JU/RF2aMGFn76ZWoho99o2Kj3lCj0c00B3GzEuHoUmCCpTdfrD45BN4a/ZmwPHEj4GfLHsBEZIB8IbQJBF+AGAck/PXMd3VmY2jBs9G6lbi4os4XqjqZ4T5SeTlFGVwSog36qYPNbMiQitpcscHRroZ3v0VVmAHO6ns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774963925; c=relaxed/simple;
-	bh=dkwJd/RXway5nEOu9TRrDtfrsVoJlFdieW2eF9hmTPM=;
+	s=arc-20240116; t=1774964344; c=relaxed/simple;
+	bh=/qV1oizXs9DrkTpowvOcpyReSZHXQDeT1xnWf5exPMA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=g7QPTisgUteJS18h9xpZbQ+PeM2cCaglfR0nL74XeEVXQWPdgiSf/tY3y7FLKxelOF34q+BXyxpaZr8qD2/oY1lkgTNLr0N4vbXV5bk8gEAAV2rHD3ngrgf09s6f9USXHfkoSdsurjFXuRzmTKHdY98BslOpHZMlvbcetUH9eto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JlqVHIAO; arc=none smtp.client-ip=209.85.216.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=oLM5hK1tdarlWUb5etPt/8sEemyp2iw/XjsaXv0Wg/T4Cve/0QjUAbXHyoNH9CKp0twmOrxBdXKALvIEyE9ogR1c1Tw+8OeFbANW/GvLGvXbVVPtszCOj2cG/Hsq813CCf+GVevXt7C56MhD8KPjt/ylhndlQZTMMmyDAEbKgwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TK14IG5G; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=cyv9octS; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JlqVHIAO"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-35c1d101355so2402340a91.1
-        for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2026 06:32:02 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TK14IG5G";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="cyv9octS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1774964339;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5li/zUMcE6IoZ/VrzdPjGC/N6h9X7akGJY8N5FwtTh0=;
+	b=TK14IG5G8QYdO/r0003gI2PjDLIon7C9YKi5KfeNaMdhAr974VxoTpUjikS1pSURA6wA0g
+	paFLXdtzU7QoMD7bxApAyZlOKVY4XjPbrHG+YCepOswC0Nts6SN0PCg/fzX255XqFpyJcw
+	F2Ejy5aIbM7rNco2I+eBEhmoW0JFyvY=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-516-rguk59H1Oqmy730CH8N_UA-1; Tue, 31 Mar 2026 09:38:57 -0400
+X-MC-Unique: rguk59H1Oqmy730CH8N_UA-1
+X-Mimecast-MFC-AGG-ID: rguk59H1Oqmy730CH8N_UA_1774964336
+Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-43b99add7f3so2868672f8f.1
+        for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2026 06:38:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1774963922; x=1775568722; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=HsQ7tsEX1bMlsKuZvXvkHSxJKbLz0c4rqG2pBfziwfs=;
-        b=JlqVHIAObt9W5ugR3cNZsyxGmc8Y/rV6cJy0W4a7ii8mKLS93mWq+d8C+I3kOUp7lm
-         aoPLcGSkXSmvIolSoyNN/OQ9mtGciJOvG5h34a4z5hwM1DoCZfiM6R36QkQblS5mynaL
-         aev+JkwE1Nv5AebjkSrjubeF73XIjI1ZEo3AvL308oEHKtWcZvgLkv2ZBGoA8GEucbG4
-         VLMdCfrIzxpToC3jRF9Gn0nusI55bklA0owpvBnrcL3adt0jek2+E+lCkaRrtfP7674T
-         znHyNEl0GDjhFfdEy58XE3FmiPqivu07/m7GnkKWrF+Srje15FmbahsbJaAB3x5RzcgC
-         WvRw==
+        d=redhat.com; s=google; t=1774964335; x=1775569135; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5li/zUMcE6IoZ/VrzdPjGC/N6h9X7akGJY8N5FwtTh0=;
+        b=cyv9octSri0w9U03hJk+d3O7Cf6s+1O5cvcX/oiU/R652r1qLRrUYQG/Cr60LYKFdR
+         HYI+BatjDwJg15X6ebXZdwH4ypOG+IvMW+CnvJpsiHY06UsMl58N9oM3ZBo6nTBiiSj+
+         65uAJ6Ut1t/7caN0yrWYJXgBi1GOKVCiEI1I0nHBRTLoOBMph5bknBKOmqqVVx4uTXvc
+         Gz1DsIMdq5aa4RZ58QEtj/xReE1ca8RjsArlJYBibT3lJEZP7rSOKbcAsXYwDVPYoRDx
+         nKP4ZxZ5NJILWANgtTobXcFg3t4qAy6DR8h72tGeED8WNqXCUnO1Ewx0WbEMNd0OL41x
+         nPfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774963922; x=1775568722;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HsQ7tsEX1bMlsKuZvXvkHSxJKbLz0c4rqG2pBfziwfs=;
-        b=CAN7T1ja+jlJPI2pqUOnXpJubyuvI6XLZBm/sY6b3g2n3teJrm27OHYy+FGnJPAJg7
-         qhlPVh5U+IYZWIWuUjW4HRbJd6Rw8eJ9cVNv2ebs7RZTiL8IwE1/j6hxm59b1JhI7hr7
-         bqre69VgUSGU2oHM6as8OrpbTvTlNPX/d+N7Y/0evE4bkjAHmHqsMFI1I4ky7J0zOHvT
-         TLdXX+QeDzMtrAERgWs0uN3uoaM43okkGHlAQjHFymWjXxu/llVWiA6CejAmU0/p+/7z
-         aDxENutG3cLguT+QauXe/zKy8q7Q4/mJe5YUvyZ/WW5EHi7UT1CFd6ZRD2Pl/G3JTDOr
-         10qQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWMrKP6qHHqofhQDPriagNmA28jeuaYcqVl5Nar8PRNulyOiFMlCJ+L1cgOPQWEOvvXm5Zwt8hfXTE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyDT7snbOzaJIWDTMnZ8SYkqNcr3MtW5LG/HywUHZ7a2/WvCCM+
-	r25yaOPNBxf2xAHYLeoYpkhu4P8lMa8lNdvwP1SZKs13rKDlXXLjRpPJ
-X-Gm-Gg: ATEYQzzBtv+/W+ki6/KHrM4JAP3OSl3Y880rBXfEhTTWd8VZ/kqaUA26bTOd7ZSc6rC
-	Tq+/Q1lXajd62DDqRD6LXTCnOi1HZ95EEMaUxDsF6QpEBbKa0dVvtjkgsJQiLO1SigPsgNd5gCb
-	NT2d9E4Dqp0gnuwLm5vAgXBONCDd4tj33a0V6afZ8j8WrVSJbLRhs4HWTzhJLxpi/tGUYKQm2Kq
-	S1XYAaAG2kufvS3bGjV+AMEmMgJjbM2FaaSK2t4f7jw3AkusWqoCQ7+t+Jegr6516M7nEtYraJM
-	kzSEnJKqvTSHGYn9UpvcdDY4RIar49or5iTTKSA32ZvztHzArU4mr1IA/cKcThV7fSQTtbX06Fw
-	8M3RQo8asEz3EiAe7cYs9/erWAvtAhiHFL5V0tt8Kj4AR0+h1qLwOC6/yGwk8fe8vqz06ePs4wi
-	hGKf8qhaNWdWpJpZC34pD+4iiXqzI3Ke3WCX8EFcF+jzhcp503CUWijmQVj86NwKJ92E7qZkjb
-X-Received: by 2002:a17:902:ef4c:b0:2b0:6b98:59ec with SMTP id d9443c01a7336-2b0cdd3ed8emr167424765ad.34.1774963922192;
-        Tue, 31 Mar 2026 06:32:02 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b24264292asm117475855ad.4.2026.03.31.06.32.00
+        d=1e100.net; s=20251104; t=1774964335; x=1775569135;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5li/zUMcE6IoZ/VrzdPjGC/N6h9X7akGJY8N5FwtTh0=;
+        b=Mb+Tvc2c5blitF7ou9HZOUjyY7x2BhVaRhZDdLh1QA2fcCD9u1mo6IImWFoscokkgw
+         ECYAT2MDfpHyNenuQza/9cgK8VX74eue4i75HsFjHDbVwA7suH+Zlc2hPwqVRxNC0pZ7
+         SB+F91cfNPQNnlBiM5GZRRY7JKUBeT05T0Wu/ibSp26vEgfAPB3aCAvn0UjCOIZ+fCd8
+         NqjGEYErEyKRy0m1/PGMtVmHxYR/Vw9kJJB01QVUPt8JzIosM99mB4FV8Xan5Gd34X3+
+         v7pg2J8yqfhrADEZq1ACYIs19Jiq3aQ5ywPYgnNJyoFwD/FDIXFPQmy+IwFjbLQuv4Gh
+         5A9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWYupX3uoHRYK6fIK1eVfbPJAMp+ighw4SwtDaX+Uej5rISv2U6a0pwfwqIM9kjEp5DlQNe8RGoxDg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzxYVrkrGj0Nx5+XMtOLMp4oytMRRjC4IOZuXzH42DrXs1mmalJ
+	j2MDdSC4ryNWbKrgcARiRT5ngvGEAA7wwNnv28Cko8Wo8khxU7HZ2qx3twQYMSzd9goyzjQuwM+
+	vahNWMsXM/Ohamom0gRc5CBhqsyufX0USEnj5FZTF/lwLIc9A9Igo7W4191Y+hF7gmY2jSXqi
+X-Gm-Gg: ATEYQzyANpEpUoZ3OfDIhYrVMPtOZWyEjW5JNeAnEV7Ngw3pfwNz0LVUWjD8Vd0wG2J
+	u+NaUNuqIQwteY1RUztm2S86x65W5g1t9CiY7xRG6uKiS5qI4CzYBY9hgax3SHx+sMk8qR+QDPV
+	Ct6MqeaGdQDfUjxVz1fVWL+r0HiZj3692DhO9VEMioCWMqefxGHa2sbk657WCeLRn5TcujbvrlT
+	62ZAaGY4d7jsVwT52g33+85b+OXiQjZA5Ms1G+mJvKthzGaN1RV0EOU9fOEk2Zd8TuDj+93NCS/
+	jmIlGy1qcirG5sLJG3Bp4pQBkobseXAEHpp2xXpgjVe6lFtgrW7eX2TLaRiqVqPhj82rlYBoRT/
+	MxJvOA8ky
+X-Received: by 2002:a05:6000:18a9:b0:437:7719:ca82 with SMTP id ffacd0b85a97d-43d0818f223mr6994355f8f.3.1774964334536;
+        Tue, 31 Mar 2026 06:38:54 -0700 (PDT)
+X-Received: by 2002:a05:6000:18a9:b0:437:7719:ca82 with SMTP id ffacd0b85a97d-43d0818f223mr6994223f8f.3.1774964333580;
+        Tue, 31 Mar 2026 06:38:53 -0700 (PDT)
+Received: from [10.43.3.161] ([213.175.37.14])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43cf21f279bsm24708753f8f.16.2026.03.31.06.38.52
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 31 Mar 2026 06:32:01 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <32c4c4dc-91db-4286-82e5-1d3269c76a74@roeck-us.net>
-Date: Tue, 31 Mar 2026 06:31:59 -0700
+        Tue, 31 Mar 2026 06:38:52 -0700 (PDT)
+Message-ID: <4748d347-1964-4323-b52f-e9d4ccd7cc00@redhat.com>
+Date: Tue, 31 Mar 2026 15:38:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,270 +87,391 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 2/3] hwmon: ltc4283: Add support for the LTC4283 Swap
- Controller
-To: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>
-Cc: =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org,
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>
-References: <20260327-ltc4283-support-v8-0-471de255d728@analog.com>
- <20260327-ltc4283-support-v8-2-471de255d728@analog.com>
- <aco5L_6SZIB2DdpF@nsa> <e0c96f38-6742-4b86-8938-64e4e6063119@roeck-us.net>
- <acuLynb1hRFJRcEf@nsa>
+Subject: Re: [PATCH net-next v2 3/3] dpll: zl3073x: implement frequency
+ monitoring
+To: Ivan Vecera <ivecera@redhat.com>, netdev@vger.kernel.org
+Cc: Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+ Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+ Jiri Pirko <jiri@resnulli.us>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Donald Hunter <donald.hunter@gmail.com>,
+ Prathosh Satish <Prathosh.Satish@microchip.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260330105505.715099-1-ivecera@redhat.com>
+ <20260330105505.715099-4-ivecera@redhat.com>
 Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <acuLynb1hRFJRcEf@nsa>
+From: Petr Oros <poros@redhat.com>
+In-Reply-To: <20260330105505.715099-4-ivecera@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 3/31/26 02:48, Nuno Sá wrote:
-> On Mon, Mar 30, 2026 at 08:47:32AM -0700, Guenter Roeck wrote:
->> On 3/30/26 02:28, Nuno Sá wrote:
->>> Hi Guenter, Regarding AI review, I think most of the points were
->>> discussed in previous revisions, but there are two valid.
->>>
->>> On Fri, Mar 27, 2026 at 05:26:15PM +0000, Nuno Sá wrote:
->>>> Support the LTC4283 Hot Swap Controller. The device features programmable
->>>> current limit with foldback and independently adjustable inrush current to
->>>> optimize the MOSFET safe operating area (SOA). The SOA timer limits MOSFET
->>>> temperature rise for reliable protection against overstresses.
->>>>
->>>> An I2C interface and onboard ADC allow monitoring of board current,
->>>> voltage, power, energy, and fault status.
->>>>
->>>> Signed-off-by: Nuno Sá <nuno.sa@analog.com>
->>>> ---
->>>>    Documentation/hwmon/index.rst   |    1 +
->>>>    Documentation/hwmon/ltc4283.rst |  266 ++++++
->>>>    MAINTAINERS                     |    1 +
->>>>    drivers/hwmon/Kconfig           |   12 +
->>>>    drivers/hwmon/Makefile          |    1 +
->>>>    drivers/hwmon/ltc4283.c         | 1796 +++++++++++++++++++++++++++++++++++++++
->>>>    6 files changed, 2077 insertions(+)
->>>>
->>>
->>> ...
->>>
->>>> +static int ltc4283_read_in_alarm(struct ltc4283_hwmon *st, u32 channel,
->>>> +				 bool max_alm, long *val)
->>>> +{
->>>> +	if (channel == LTC4283_VPWR)
->>>> +		return ltc4283_read_alarm(st, LTC4283_ADC_ALM_LOG_1,
->>>> +					  BIT(2 + max_alm), val);
->>>> +
->>>> +	if (channel >= LTC4283_CHAN_ADI_1 && channel <= LTC4283_CHAN_ADI_4) {
->>>> +		u32 bit = (channel - LTC4283_CHAN_ADI_1) * 2;
->>>> +		/*
->>>> +		 * Lower channels go to higher bits. We also want to go +1 down
->>>> +		 * in the min_alarm case.
->>>> +		 */
->>>> +		return ltc4283_read_alarm(st, LTC4283_ADC_ALM_LOG_2,
->>>> +					  BIT(7 - bit - !max_alm), val);
->>>> +	}
->>>> +
->>>> +	if (channel >= LTC4283_CHAN_ADIO_1 && channel <= LTC4283_CHAN_ADIO_4) {
->>>> +		u32 bit = (channel - LTC4283_CHAN_ADIO_1) * 2;
->>>> +
->>>> +		return ltc4283_read_alarm(st, LTC4283_ADC_ALM_LOG_3,
->>>> +					  BIT(7 - bit - !max_alm), val);
->>>> +	}
->>>> +
->>>> +	if (channel >= LTC4283_CHAN_ADIN12 && channel <= LTC4283_CHAN_ADIN34) {
->>>> +		u32 bit = (channel - LTC4283_CHAN_ADIN12) * 2;
->>>> +
->>>> +		return ltc4283_read_alarm(st, LTC4283_ADC_ALM_LOG_5,
->>>> +					  BIT(7 - bit - !max_alm), val);
->>>> +	}
->>>
->>> "Will this condition handle the ADIO12 and ADIO34 differential channels?
->>> It looks like channels 14 and 15 fall through to the default return intended
->>> for the DRAIN channel. Since reading the alarm implicitly clears the register
->>> bits, could reading these ADIO alarms unintentionally clear actual DRAIN
->>> alarms? Should the upper bound be LTC4283_CHAN_ADIO34?"
->>>
->>> Good catch and should be:
->>>
->>> -       if (channel >= LTC4283_CHAN_ADIN12 && channel <= LTC4283_CHAN_ADIN34) {
->>> +       if (channel >= LTC4283_CHAN_ADIN12 && channel <= LTC4283_CHAN_ADIO34) {
->>>
->>>> +
->>>> +	if (channel == LTC4283_CHAN_DRNS)
->>>> +		return ltc4283_read_alarm(st, LTC4283_ADC_ALM_LOG_4,
->>>> +					  BIT(6 + max_alm), val);
->>>> +
->>>> +	return ltc4283_read_alarm(st, LTC4283_ADC_ALM_LOG_4, BIT(4 + max_alm),
->>>> +				  val);
->>>> +}
->>>
->>> ...
->>>
->>>> +
->>>> +static int ltc4283_probe(struct i2c_client *client)
->>>> +{
->>>> +	struct device *dev = &client->dev, *hwmon;
->>>> +	struct auxiliary_device *adev;
->>>> +	struct ltc4283_hwmon *st;
->>>> +	int ret;
->>>> +
->>>> +	st = devm_kzalloc(dev, sizeof(*st), GFP_KERNEL);
->>>> +	if (!st)
->>>> +		return -ENOMEM;
->>>> +
->>>> +	if (!i2c_check_functionality(client->adapter,
->>>> +				     I2C_FUNC_SMBUS_BYTE_DATA |
->>>> +				     I2C_FUNC_SMBUS_WORD_DATA |
->>>> +				     I2C_FUNC_SMBUS_READ_I2C_BLOCK))
->>>> +		return -EOPNOTSUPP;
->>>> +
->>>> +	st->client = client;
->>>> +	st->map = devm_regmap_init(dev, &ltc4283_regmap_bus, client,
->>>> +				   &ltc4283_regmap_config);
->>>> +	if (IS_ERR(st->map))
->>>> +		return dev_err_probe(dev, PTR_ERR(st->map),
->>>> +				     "Failed to create regmap\n");
->>>> +
->>>> +	ret = ltc4283_setup(st, dev);
->>>> +	if (ret)
->>>> +		return ret;
->>>> +
->>>> +	hwmon = devm_hwmon_device_register_with_info(dev, "ltc4283", st,
->>>> +						     &ltc4283_chip_info, NULL);
->>>> +
->>>> +	if (IS_ERR(hwmon))
->>>> +		return PTR_ERR(hwmon);
->>>> +
->>>> +	ltc4283_debugfs_init(st, client);
->>>> +
->>>> +	if (!st->gpio_mask)
->>>> +		return 0;
->>>> +
->>>> +	adev = devm_auxiliary_device_create(dev, "gpio", &st->gpio_mask);
->>>> +	if (!adev)
->>>> +		return dev_err_probe(dev, -ENODEV, "Failed to add GPIO device\n");
->>>
->>> "Does this allow multiple LTC4283 chips to probe successfully?
->>> Without allocating a unique ID per I2C instance, it seems the first probed
->>> chip takes the generic name. If a second chip is present, it might attempt
->>> to register with the exact same name, resulting in a failure in device_add()
->>> and aborting the probe."
->>>
->>> Also looks valid and I suspect is one of those that a quick look will
->>> find more "offenders". I would purpose:
->>>
->>> -       adev = devm_auxiliary_device_create(dev, "gpio", &st->gpio_mask);
->>> +       adev = __devm_auxiliary_device_create(dev, KBUILD_MODNAME, "gpio",
->>> +                                             &st->gpio_mask, client->addr);
->>>
->>
->> That would still fail if there are multiple chips at the same I2C address
->> on multiple I2C busses. Check drivers/gpu/drm/bridge/ti-sn65dsi86.c which has
->> the same problem.
-> 
-> I did looked at that one but totally forgot the multiple busses
-> scenario.
-> 
->>
->>> If there's nothing else and you agree with the above, is this something
->>> you can tweak while applying or should I spin a new version?
->>>
->>
->> Please respin. Also, regarding the other concerns:
->>
->>    Can BIT(8) * st->rsense wrap to zero on 32-bit architectures?
->>    BIT(8) is a 32-bit unsigned long and st->rsense is a u32. If a user sets a
->>    very large sense resistor value via the device tree, the multiplication could
->>    wrap to 0, causing a division-by-zero kernel panic. Should the divisor use
->>    BIT_ULL(8)?
->>
->> Unless I am missing something, this _can_ overflow. Try to provide a sense
->> resistor value of 1677721600. Yes, it is unreasonable to specify such large
->> rsense values, but why not just limit it such that it does not overflow ?
-> 
-> Yes, that's pretty much my reasoning (regarding the unreasonable
-> rsense). I could just make BIT_ULL() and be done with it. I can also
-> also cap rsense to a max value but i'm not 100% what that value would
-> be. Maybe 1 ohm is already more than reasonable. I can also ask internally. Any
-> preference on this one?
-> 
+> Extract common measurement latch logic from zl3073x_ref_ffo_update()
+> into a new zl3073x_ref_freq_meas_latch() helper and add
+> zl3073x_ref_freq_meas_update() that uses it to latch and read absolute
+> input reference frequencies in Hz.
+>
+> Add meas_freq field to struct zl3073x_ref and the corresponding
+> zl3073x_ref_meas_freq_get() accessor. The measured frequencies are
+> updated periodically alongside the existing FFO measurements.
+>
+> Add freq_monitor boolean to struct zl3073x_dpll and implement the
+> freq_monitor_set/get device callbacks to enable/disable frequency
+> monitoring via the DPLL netlink interface.
+>
+> Implement measured_freq_get pin callback for input pins that returns the
+> measured input frequency in Hz.
+>
+> Signed-off-by: Ivan Vecera <ivecera@redhat.com>
+> ---
+>   drivers/dpll/zl3073x/core.c | 88 +++++++++++++++++++++++++++++++------
+>   drivers/dpll/zl3073x/dpll.c | 88 ++++++++++++++++++++++++++++++++++++-
+>   drivers/dpll/zl3073x/dpll.h |  2 +
+>   drivers/dpll/zl3073x/ref.h  | 14 ++++++
+>   4 files changed, 178 insertions(+), 14 deletions(-)
+>
+> diff --git a/drivers/dpll/zl3073x/core.c b/drivers/dpll/zl3073x/core.c
+> index 6363002d48d46..320c199637efa 100644
+> --- a/drivers/dpll/zl3073x/core.c
+> +++ b/drivers/dpll/zl3073x/core.c
+> @@ -632,22 +632,21 @@ int zl3073x_ref_phase_offsets_update(struct zl3073x_dev *zldev, int channel)
+>   }
+>   
+>   /**
+> - * zl3073x_ref_ffo_update - update reference fractional frequency offsets
+> + * zl3073x_ref_freq_meas_latch - latch reference frequency measurements
+>    * @zldev: pointer to zl3073x_dev structure
+> + * @type: measurement type (ZL_REF_FREQ_MEAS_CTRL_*)
+>    *
+> - * The function asks device to update fractional frequency offsets latch
+> - * registers the latest measured values, reads and stores them into
+> + * The function waits for the previous measurement to finish, selects all
+> + * references and requests a new measurement of the given type.
+>    *
+>    * Return: 0 on success, <0 on error
+>    */
+>   static int
+> -zl3073x_ref_ffo_update(struct zl3073x_dev *zldev)
+> +zl3073x_ref_freq_meas_latch(struct zl3073x_dev *zldev, u8 type)
+>   {
+> -	int i, rc;
+> +	int rc;
+>   
+> -	/* Per datasheet we have to wait for 'ref_freq_meas_ctrl' to be zero
+> -	 * to ensure that the measured data are coherent.
+> -	 */
+> +	/* Wait for previous measurement to finish */
+>   	rc = zl3073x_poll_zero_u8(zldev, ZL_REG_REF_FREQ_MEAS_CTRL,
+>   				  ZL_REF_FREQ_MEAS_CTRL);
+>   	if (rc)
+> @@ -663,15 +662,64 @@ zl3073x_ref_ffo_update(struct zl3073x_dev *zldev)
+>   	if (rc)
+>   		return rc;
+>   
+> -	/* Request frequency offset measurement */
+> -	rc = zl3073x_write_u8(zldev, ZL_REG_REF_FREQ_MEAS_CTRL,
+> -			      ZL_REF_FREQ_MEAS_CTRL_REF_FREQ_OFF);
+> +	/* Request measurement */
+> +	rc = zl3073x_write_u8(zldev, ZL_REG_REF_FREQ_MEAS_CTRL, type);
+>   	if (rc)
+>   		return rc;
+>   
+>   	/* Wait for finish */
+> -	rc = zl3073x_poll_zero_u8(zldev, ZL_REG_REF_FREQ_MEAS_CTRL,
+> -				  ZL_REF_FREQ_MEAS_CTRL);
+> +	return zl3073x_poll_zero_u8(zldev, ZL_REG_REF_FREQ_MEAS_CTRL,
+> +				    ZL_REF_FREQ_MEAS_CTRL);
+> +}
+> +
+> +/**
+> + * zl3073x_ref_freq_meas_update - update measured input reference frequencies
+> + * @zldev: pointer to zl3073x_dev structure
+> + *
+> + * The function asks device to latch measured input reference frequencies
+> + * and stores the results in the ref state.
+> + *
+> + * Return: 0 on success, <0 on error
+> + */
+> +static int
+> +zl3073x_ref_freq_meas_update(struct zl3073x_dev *zldev)
+> +{
+> +	int i, rc;
+> +
+> +	rc = zl3073x_ref_freq_meas_latch(zldev, ZL_REF_FREQ_MEAS_CTRL_REF_FREQ);
+> +	if (rc)
+> +		return rc;
+> +
+> +	/* Read measured frequencies in Hz (unsigned 32-bit, LSB = 1 Hz) */
+> +	for (i = 0; i < ZL3073X_NUM_REFS; i++) {
+> +		u32 value;
+> +
+> +		rc = zl3073x_read_u32(zldev, ZL_REG_REF_FREQ(i), &value);
+> +		if (rc)
+> +			return rc;
+> +
+> +		zldev->ref[i].meas_freq = value;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +/**
+> + * zl3073x_ref_ffo_update - update reference fractional frequency offsets
+> + * @zldev: pointer to zl3073x_dev structure
+> + *
+> + * The function asks device to update fractional frequency offsets latch
+> + * registers the latest measured values, reads and stores them into
+> + *
+> + * Return: 0 on success, <0 on error
+> + */
+> +static int
+> +zl3073x_ref_ffo_update(struct zl3073x_dev *zldev)
+> +{
+> +	int i, rc;
+> +
+> +	rc = zl3073x_ref_freq_meas_latch(zldev,
+> +					 ZL_REF_FREQ_MEAS_CTRL_REF_FREQ_OFF);
+>   	if (rc)
+>   		return rc;
+>   
+> @@ -714,6 +762,20 @@ zl3073x_dev_periodic_work(struct kthread_work *work)
+>   		dev_warn(zldev->dev, "Failed to update phase offsets: %pe\n",
+>   			 ERR_PTR(rc));
+>   
+> +	/* Update measured input reference frequencies if any DPLL has
+> +	 * frequency monitoring enabled.
+> +	 */
+> +	list_for_each_entry(zldpll, &zldev->dplls, list) {
+> +		if (zldpll->freq_monitor) {
+> +			rc = zl3073x_ref_freq_meas_update(zldev);
+> +			if (rc)
+> +				dev_warn(zldev->dev,
+> +					 "Failed to update measured frequencies: %pe\n",
+> +					 ERR_PTR(rc));
+> +			break;
+> +		}
+> +	}
+> +
+>   	/* Update references' fractional frequency offsets */
+>   	rc = zl3073x_ref_ffo_update(zldev);
+>   	if (rc)
+> diff --git a/drivers/dpll/zl3073x/dpll.c b/drivers/dpll/zl3073x/dpll.c
+> index a29f606318f6d..c44bfecf2c265 100644
+> --- a/drivers/dpll/zl3073x/dpll.c
+> +++ b/drivers/dpll/zl3073x/dpll.c
+> @@ -39,6 +39,7 @@
+>    * @pin_state: last saved pin state
+>    * @phase_offset: last saved pin phase offset
+>    * @freq_offset: last saved fractional frequency offset
+> + * @measured_freq: last saved measured frequency
+>    */
+>   struct zl3073x_dpll_pin {
+>   	struct list_head	list;
+> @@ -54,6 +55,7 @@ struct zl3073x_dpll_pin {
+>   	enum dpll_pin_state	pin_state;
+>   	s64			phase_offset;
+>   	s64			freq_offset;
+> +	u32			measured_freq;
+>   };
+>   
+>   /*
+> @@ -202,6 +204,20 @@ zl3073x_dpll_input_pin_ffo_get(const struct dpll_pin *dpll_pin, void *pin_priv,
+>   	return 0;
+>   }
+>   
+> +static int
+> +zl3073x_dpll_input_pin_measured_freq_get(const struct dpll_pin *dpll_pin,
+> +					 void *pin_priv,
+> +					 const struct dpll_device *dpll,
+> +					 void *dpll_priv, u64 *measured_freq,
+> +					 struct netlink_ext_ack *extack)
+> +{
+> +	struct zl3073x_dpll_pin *pin = pin_priv;
+> +
+> +	*measured_freq = pin->measured_freq;
+> +
+> +	return 0;
+> +}
+> +
+>   static int
+>   zl3073x_dpll_input_pin_frequency_get(const struct dpll_pin *dpll_pin,
+>   				     void *pin_priv,
+> @@ -1116,6 +1132,35 @@ zl3073x_dpll_phase_offset_monitor_set(const struct dpll_device *dpll,
+>   	return 0;
+>   }
+>   
+> +static int
+> +zl3073x_dpll_freq_monitor_get(const struct dpll_device *dpll,
+> +			      void *dpll_priv,
+> +			      enum dpll_feature_state *state,
+> +			      struct netlink_ext_ack *extack)
+> +{
+> +	struct zl3073x_dpll *zldpll = dpll_priv;
+> +
+> +	if (zldpll->freq_monitor)
+> +		*state = DPLL_FEATURE_STATE_ENABLE;
+> +	else
+> +		*state = DPLL_FEATURE_STATE_DISABLE;
+> +
+> +	return 0;
+> +}
+> +
+> +static int
+> +zl3073x_dpll_freq_monitor_set(const struct dpll_device *dpll,
+> +			      void *dpll_priv,
+> +			      enum dpll_feature_state state,
+> +			      struct netlink_ext_ack *extack)
+> +{
+> +	struct zl3073x_dpll *zldpll = dpll_priv;
+> +
+> +	zldpll->freq_monitor = (state == DPLL_FEATURE_STATE_ENABLE);
+> +
+> +	return 0;
+> +}
+> +
+>   static const struct dpll_pin_ops zl3073x_dpll_input_pin_ops = {
+>   	.direction_get = zl3073x_dpll_pin_direction_get,
+>   	.esync_get = zl3073x_dpll_input_pin_esync_get,
+> @@ -1123,6 +1168,7 @@ static const struct dpll_pin_ops zl3073x_dpll_input_pin_ops = {
+>   	.ffo_get = zl3073x_dpll_input_pin_ffo_get,
+>   	.frequency_get = zl3073x_dpll_input_pin_frequency_get,
+>   	.frequency_set = zl3073x_dpll_input_pin_frequency_set,
+> +	.measured_freq_get = zl3073x_dpll_input_pin_measured_freq_get,
+>   	.phase_offset_get = zl3073x_dpll_input_pin_phase_offset_get,
+>   	.phase_adjust_get = zl3073x_dpll_input_pin_phase_adjust_get,
+>   	.phase_adjust_set = zl3073x_dpll_input_pin_phase_adjust_set,
+> @@ -1151,6 +1197,8 @@ static const struct dpll_device_ops zl3073x_dpll_device_ops = {
+>   	.phase_offset_avg_factor_set = zl3073x_dpll_phase_offset_avg_factor_set,
+>   	.phase_offset_monitor_get = zl3073x_dpll_phase_offset_monitor_get,
+>   	.phase_offset_monitor_set = zl3073x_dpll_phase_offset_monitor_set,
+> +	.freq_monitor_get = zl3073x_dpll_freq_monitor_get,
+> +	.freq_monitor_set = zl3073x_dpll_freq_monitor_set,
+>   	.supported_modes_get = zl3073x_dpll_supported_modes_get,
+>   };
+>   
+> @@ -1593,6 +1641,39 @@ zl3073x_dpll_pin_ffo_check(struct zl3073x_dpll_pin *pin)
+>   	return false;
+>   }
+>   
+> +/**
+> + * zl3073x_dpll_pin_measured_freq_check - check for pin measured frequency change
+> + * @pin: pin to check
+> + *
+> + * Check for the given pin's measured frequency change.
+> + *
+> + * Return: true on measured frequency change, false otherwise
+> + */
+> +static bool
+> +zl3073x_dpll_pin_measured_freq_check(struct zl3073x_dpll_pin *pin)
+> +{
+> +	struct zl3073x_dpll *zldpll = pin->dpll;
+> +	struct zl3073x_dev *zldev = zldpll->dev;
+> +	const struct zl3073x_ref *ref;
+> +	u8 ref_id;
+> +
+> +	if (!zldpll->freq_monitor)
+> +		return false;
+> +
+> +	ref_id = zl3073x_input_pin_ref_get(pin->id);
+> +	ref = zl3073x_ref_state_get(zldev, ref_id);
+> +
+> +	if (pin->measured_freq != ref->meas_freq) {
+> +		dev_dbg(zldev->dev, "%s measured freq changed: %u -> %u\n",
+> +			pin->label, pin->measured_freq, ref->meas_freq);
+> +		pin->measured_freq = ref->meas_freq;
+> +
+> +		return true;
+> +	}
+> +
+> +	return false;
+> +}
+> +
+>   /**
+>    * zl3073x_dpll_changes_check - check for changes and send notifications
+>    * @zldpll: pointer to zl3073x_dpll structure
+> @@ -1677,13 +1758,18 @@ zl3073x_dpll_changes_check(struct zl3073x_dpll *zldpll)
+>   			pin_changed = true;
+>   		}
+>   
+> -		/* Check for phase offset and ffo change once per second */
+> +		/* Check for phase offset, ffo, and measured freq change
+> +		 * once per second.
+> +		 */
+>   		if (zldpll->check_count % 2 == 0) {
+>   			if (zl3073x_dpll_pin_phase_offset_check(pin))
+>   				pin_changed = true;
+>   
+>   			if (zl3073x_dpll_pin_ffo_check(pin))
+>   				pin_changed = true;
+> +
+> +			if (zl3073x_dpll_pin_measured_freq_check(pin))
+> +				pin_changed = true;
+>   		}
+>   
+>   		if (pin_changed)
+> diff --git a/drivers/dpll/zl3073x/dpll.h b/drivers/dpll/zl3073x/dpll.h
+> index 115ee4f67e7ab..434c32a7db123 100644
+> --- a/drivers/dpll/zl3073x/dpll.h
+> +++ b/drivers/dpll/zl3073x/dpll.h
+> @@ -15,6 +15,7 @@
+>    * @id: DPLL index
+>    * @check_count: periodic check counter
+>    * @phase_monitor: is phase offset monitor enabled
+> + * @freq_monitor: is frequency monitor enabled
+>    * @ops: DPLL device operations for this instance
+>    * @dpll_dev: pointer to registered DPLL device
+>    * @tracker: tracking object for the acquired reference
+> @@ -28,6 +29,7 @@ struct zl3073x_dpll {
+>   	u8				id;
+>   	u8				check_count;
+>   	bool				phase_monitor;
+> +	bool				freq_monitor;
+>   	struct dpll_device_ops		ops;
+>   	struct dpll_device		*dpll_dev;
+>   	dpll_tracker			tracker;
+> diff --git a/drivers/dpll/zl3073x/ref.h b/drivers/dpll/zl3073x/ref.h
+> index 06d8d4d97ea26..be16be20dbc7e 100644
+> --- a/drivers/dpll/zl3073x/ref.h
+> +++ b/drivers/dpll/zl3073x/ref.h
+> @@ -23,6 +23,7 @@ struct zl3073x_dev;
+>    * @sync_ctrl: reference sync control
+>    * @config: reference config
+>    * @ffo: current fractional frequency offset
+> + * @meas_freq: measured input frequency in Hz
+>    * @mon_status: reference monitor status
+>    */
+>   struct zl3073x_ref {
+> @@ -40,6 +41,7 @@ struct zl3073x_ref {
+>   	);
+>   	struct_group(stat, /* Status */
+>   		s64	ffo;
+> +		u32	meas_freq;
+>   		u8	mon_status;
+>   	);
+>   };
+> @@ -68,6 +70,18 @@ zl3073x_ref_ffo_get(const struct zl3073x_ref *ref)
+>   	return ref->ffo;
+>   }
+>   
+> +/**
+> + * zl3073x_ref_meas_freq_get - get measured input frequency
+> + * @ref: pointer to ref state
+> + *
+> + * Return: measured input frequency in Hz
+> + */
+> +static inline u32
+> +zl3073x_ref_meas_freq_get(const struct zl3073x_ref *ref)
+> +{
+> +	return ref->meas_freq;
+> +}
+> +
+>   /**
+>    * zl3073x_ref_freq_get - get given input reference frequency
+>    * @ref: pointer to ref state
 
-I'd suggest to reject large (unreasonable) values. In this case, rejecting rsense
-values >= 1677721600 should solve the problem.
+LGTM
 
->>
->> Also, for the overflow concerns, if you are sure they can not happen, I'll
->> really need to write the unit test code to make sure that this is indeed
->> the case.
->>
-> 
-> Hmm, for the val * MILLI case, well it should not happen but given it
-> depends on user input, better if I clamp it before passing the
-> value to ltc4283_write_in_byte(). Yes, we clamp again inside the
-> write_bytes() API but not a big deal.
-> 
-> For the st->power_max is again one of those cases where the values would
-> not make sense (I think - the combination of vsense_max and rsense). Just looking
-> at the code, it can overflow but this one I'm not really sure how we could handle it.
-> Maybe clamp power_max to U8_MAX and have a warning message in ltc4283_read_power_byte() if
-> we overflow long in which case we need a power64 attr?
-> 
-> But even clamping does not make much sense here. The power limit register
-> is 8 bits, so if our design (rsense + vsense_max) overflows that,
-> there's nothing we can do other that erroring out.
-> 
+Reviewed-by: Petr Oros <poros@redhat.com>
 
-Again, why not just reject unreasonable values such that calculations
-can not overflow ?
-
-In other drivers, the common approach is to reject unreeasonable values if
-provided through devicetree and to clamp them if provided through sysfs.
-I don't see why that would not work here.
-
-Thanks,
-Guenter
 
