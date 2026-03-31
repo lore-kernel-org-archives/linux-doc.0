@@ -1,63 +1,84 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 758092FD7D3;
-	Tue, 31 Mar 2026 18:59:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A17E938CFE7;
+	Tue, 31 Mar 2026 19:04:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774983564; cv=none; b=l6hEi88h1S4FFkDhDnY7xnSOOglCpseEwKFO5Xl4NRo0G2aoay0e9opxWCdLqNLmQzmM3cwJ0ixNuOfFrnVDdgB/QOSDdZMQNR60TFvKIi7wv99CM7zW2J8f149QoeuUtDkTiVh/o+cTd511iFUZTjy5IqQmWAdYQ/trCDExgdc=
+	t=1774983861; cv=none; b=MsRkhcNZjPqBsWfpNjwDwZ6uklk5GjxmxJSOgmp8c6v8t7HrhoKuHKabA+oalrGoG330QPHAT+M5n+O+/2YoCvpQjSyMM7/rsM7tEF7/EED7vtRQ5u0MoIZBLuoiGYa8lubFIqnaF2eq3UZyrGCiUKomq5I4fUXMNRRldhnhxT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774983564; c=relaxed/simple;
-	bh=/LcFsAPWr4vpR7F0s+PhS8Ug1TtQHOIiG1TmD9cEq8w=;
+	s=arc-20240116; t=1774983861; c=relaxed/simple;
+	bh=vl9bPdAnhZOB7e2rN8a7bQ/OUcqdayO0Mnx+F9C5UVE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Zreba6QXhiMkaSRHbXihVsQbpiwpztIvN6rXwl7gI4PBa/rPSxOkGcoRIn5TZhHWCH7swj+XzRlATxiizNKbkBSN30cS25gfeQvRE4E0vxIGOMx7ydM4jyq4fJ1HVRPWJ5uYkULAwziy/LTyeO9E4PKgHFNzKpGsvm6zHb1NkG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CBHUdc0h; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=jBpzkgmAEKMZagl0ZYb4ge7spSPVf6jNM46IB9B/8Pd989XxngGVqow2w1yXkvhgAAcq4uNldgKKnoisWeqfAcUkkpiAk5YJXxLPOY6bMsd3o86sXPnX8Rd8FioPEKgpu5qhwEYArcifK/s85ooHXjaE5P3mY+/4iV44zJcS9Xs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dPSUDz8g; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CBHUdc0h"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A616C19423;
-	Tue, 31 Mar 2026 18:59:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1774983564;
-	bh=/LcFsAPWr4vpR7F0s+PhS8Ug1TtQHOIiG1TmD9cEq8w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CBHUdc0hKQTF+V47GObNWJvkfUXJ99HyfWKY/m2zPASDSNrKk/r4vKy3U+TWDYoyb
-	 L41KstOQwhjmWH0PDH4ch6IZuoHxSTehxI3mo49/GaUL8vyl9BLd7cI7oOqmbbyLZw
-	 VYESz5NX857M4RZATPDthfn9tB+FfAAGG3uBc3nqrXyGfe/Ticjp2JzEBQUk4ea0j/
-	 B5zCmHurEz6AJbGAvfGWem48EKB9NNpE9iL4UJZ0zlylalFIIVMhdoPxfswyncvBnd
-	 3iUboU/7bKhB3eeGNozov4jE6RtbUZCktwjOdaEor7lsPORc7r7Vxq7X02SguhgJ2+
-	 H9/jwm4UIHEhg==
-Date: Tue, 31 Mar 2026 11:59:23 -0700
-From: Kees Cook <kees@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Justin Stitt <justinstitt@google.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Arnd Bergmann <arnd@arndb.de>, Mark Rutland <mark.rutland@arm.com>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Finn Thain <fthain@linux-m68k.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
-	llvm@lists.linux.dev, Marco Elver <elver@google.com>,
-	Jonathan Corbet <corbet@lwn.net>, Nicolas Schier <nsc@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-	linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH 5/5] types: Add standard __ob_trap and __ob_wrap scalar
- types
-Message-ID: <202603311155.503B3DA5B@keescook>
-References: <20260331163716.work.696-kees@kernel.org>
- <20260331163725.2765789-5-kees@kernel.org>
- <CAHk-=wiJ6Q_qMHSe-hs+QvqKVZphvDZjvFP_gQLw1eaWimv8+w@mail.gmail.com>
- <CANiq72kL3rTKyDNYmD7wXiKCVJSfa1bnp2L8NShXU7OPmWjJ4w@mail.gmail.com>
- <CAHk-=whjwHjmB0_2yXsOjDa7Mi_yFSx3AMd3vGk5r70WocvZZg@mail.gmail.com>
- <CAHk-=wgKB5f3MM40FGGUWUm_9eyESe2PAqCa6uZ=YTi0CdPwDg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dPSUDz8g"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1774983860; x=1806519860;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vl9bPdAnhZOB7e2rN8a7bQ/OUcqdayO0Mnx+F9C5UVE=;
+  b=dPSUDz8gpbUl+njiYFq4wKJ7wPhxShlp9VvqUunMYPWlm98R+X2vk/rL
+   ZZPYlUDPDbJ2t9LAys5Nu1fwn5DoB4PXY0zd+QJ/3dexulNZdsQdflZ1J
+   5mBsmLHPa5/cGwjV0xHEpkqF2tHa/CEdkmEkvvZC9d2zBCWrzayX6up/g
+   /16yJeROZoUHkArocQXQ3qu3xfRMasVW/xR7PnOBo2Y9YHLX/9UC63+Zj
+   wZ6HJr0fzu8T26oszLfzbFsS27F8FuQUV0aRbGgWjbEbublhdvkFfIjNR
+   ykT2Xw/HUtPrzBYHQU5qo/scuK82uiHJDwSn3SVz0cOPQypt1LX4PBooL
+   Q==;
+X-CSE-ConnectionGUID: xQePCVYPTq6wEnDy8w9jrg==
+X-CSE-MsgGUID: LRz1/7uSQ5abtNZLfho0sw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11745"; a="76070831"
+X-IronPort-AV: E=Sophos;i="6.23,152,1770624000"; 
+   d="scan'208";a="76070831"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 12:04:19 -0700
+X-CSE-ConnectionGUID: wSpzeWmCTYC99op37aHAhA==
+X-CSE-MsgGUID: SCK12xPFRo2r1F1cB/xtbw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,152,1770624000"; 
+   d="scan'208";a="225626681"
+Received: from rvuia-mobl.ger.corp.intel.com (HELO localhost) ([10.245.245.209])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2026 12:04:13 -0700
+Date: Tue, 31 Mar 2026 22:04:10 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: "Sabau, Radu bogdan" <Radu.Sabau@analog.com>
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	"Hennerich, Michael" <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	"Sa, Nuno" <Nuno.Sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	"linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v5 2/4] iio: adc: ad4691: add initial driver for AD4691
+ family
+Message-ID: <acwaqrSMXR36KqVR@ashevche-desk.local>
+References: <20260327-ad4692-multichannel-sar-adc-driver-v5-0-11f789de47b8@analog.com>
+ <20260327-ad4692-multichannel-sar-adc-driver-v5-2-11f789de47b8@analog.com>
+ <acZrthJYQX-h_9p5@ashevche-desk.local>
+ <LV9PR03MB84143540CE505514E1CD84B4F752A@LV9PR03MB8414.namprd03.prod.outlook.com>
+ <CAHp75VcUCM8aeUpNaFEXnS+Cm08Mq5j+Qp2gYqWP9vCO+9CtQA@mail.gmail.com>
+ <LV9PR03MB8414CB05EB794F6974584C2AF753A@LV9PR03MB8414.namprd03.prod.outlook.com>
+ <acuMxjX_rsfsJvMp@ashevche-desk.local>
+ <LV9PR03MB841477521DF5AB809D0184FAF753A@LV9PR03MB8414.namprd03.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -66,54 +87,65 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAHk-=wgKB5f3MM40FGGUWUm_9eyESe2PAqCa6uZ=YTi0CdPwDg@mail.gmail.com>
+In-Reply-To: <LV9PR03MB841477521DF5AB809D0184FAF753A@LV9PR03MB8414.namprd03.prod.outlook.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Tue, Mar 31, 2026 at 11:25:20AM -0700, Linus Torvalds wrote:
-> If you want to use the overflow builtins (or our wrappers aorund
-> them), you can't just do the math. You have to do crazy crap like
-> 
->      int end;
->      if (check_add_overflow(start, len, &end))
->         ... handle overflow ...
->      do_something(start, end);
-> 
-> which obviously no sane person will do, when they can just write
-> 
->    do_something(start, start+len);
-> [...]
-> So I think overflow handling should do the same. Instead of the bad
-> "check_sub_overflow()" model we have now, we should have
-> 
->      res = add_overflow(a,b,label);
-> 
-> and now you can use a trapping operation *without* having to break the
-> normal flow of code, ie you can do
-> 
->       do_something(start, add_overflow(start, len, overflow))
->       ...
->   overflow:
->       // Maybe needs to release locks, who knows
->       return -EINVAL;
-> 
-> notice?
+On Tue, Mar 31, 2026 at 05:05:32PM +0000, Sabau, Radu bogdan wrote:
+> > -----Original Message-----
+> > From: Andy Shevchenko <andriy.shevchenko@intel.com>
+> > Sent: Tuesday, March 31, 2026 11:59 AM
+> > On Tue, Mar 31, 2026 at 08:36:42AM +0000, Sabau, Radu bogdan wrote:
+> > > > -----Original Message-----
+> > > > From: Andy Shevchenko <andy.shevchenko@gmail.com>
+> > > > Sent: Monday, March 30, 2026 8:24 PM
 
-The syntax problem (as made clear by many other people, and even you
-here in the first half of this email) is that no one will use function
-based math primitives. Everyone absolutely hates it. I would have gone
-this route (as it is the design of the user-access code), but everyone
-so violently rejected functional math that it seemed not even worth the
-attempt.
+...
 
-> Wrapping does not need this kind of thing. Wrapping is literally a "I
-> know I don't need to care", while trapping is a "I know I need to
-> handle it".
+> > > > > > > +#include <linux/bitfield.h>
+> > > > > > > +#include <linux/bitops.h>
+> > > > > > > +#include <linux/cleanup.h>
+> > > > > > > +#include <linux/delay.h>
+> > > > > > > +#include <linux/device.h>
+> > > > > >
+> > > > > > Hmm... Is it used? Or perhaps you need only
+> > > > > > dev_printk.h
+> > > > > > device/devres.h
+> > > > > > ?
+> > > >
+> > > > > I have checked this out and it seems device.h doesn't actually need
+> > > > > to be included anyway since spi.h directly includes device.h, and since
+> > > > > this is a SPI driver that's never going away, it's covered. Will drop it!
+> > > >
+> > > > No, this is the wrong justification. IWYU principle is about exact
+> > > > match between what is used and included in a file (module). spi.h is
+> > > > not dev_*() provider and may not be considered for that.
+> > > >
+> > >
+> > > You are right, my justification was incorrect. Under IWYU, relying on
+> > > spi.h's transitive pull of device.h is not valid. However, I think device.h
+> > > is still needed in this case since struct device is used directly in the code
+> > > both as local variables and in the regmap callbacks.
+> > 
+> > Really? I can't see that.
+> > (Hint: use of the data type and use of its pointer is a huge difference.)
+> > 
+> > > Also dev_err_probe() is called directly and lives in device.h.
+> > 
+> > No, as I started with my replies. The proper header that provides it is
+> > dev_printk.h.
 > 
-> It's just that handling the trapping should not need to be done right
-> where the operation is done.
+> Yep, my bad... device.h can be removed and devres and dev_printk be
+> used instead. Sorry for the confusion from my end, I thought I was
+> looking at device.h, but was instead looking at dev_printk.h.
 
-I agree completely. The trouble is how to build that into the existing
-arithmetic statement syntax of C. This has been an unsolved problem for
-50 years. :(
+No problem. Headers in Linux kernel is a mess. Mostly historically,
+maintainers' preferences and neglecting the foreseeing the future of
+the dependency hell.
+
 
 -- 
-Kees Cook
+With Best Regards,
+Andy Shevchenko
+
+
